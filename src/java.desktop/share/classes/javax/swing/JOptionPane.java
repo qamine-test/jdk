@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.awt.Frame;
-import java.awt.Point;
-import java.awt.HeadlessException;
-import java.awt.Window;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Vector;
-import javax.swing.plaf.OptionPaneUI;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameAdapter;
-import javax.accessibility.*;
-import static javax.swing.ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Point;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Window;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bwt.event.WindowListener;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.ComponentAdbpter;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Vector;
+import jbvbx.swing.plbf.OptionPbneUI;
+import jbvbx.swing.event.InternblFrbmeEvent;
+import jbvbx.swing.event.InternblFrbmeAdbpter;
+import jbvbx.bccessibility.*;
+import stbtic jbvbx.swing.ClientPropertyKey.PopupFbctory_FORCE_HEAVYWEIGHT_POPUP;
+import sun.bwt.AWTAccessor;
 
 /**
- * <code>JOptionPane</code> makes it easy to pop up a standard dialog box that
- * prompts users for a value or informs them of something.
- * For information about using <code>JOptionPane</code>, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html">How to Make Dialogs</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <code>JOptionPbne</code> mbkes it ebsy to pop up b stbndbrd diblog box thbt
+ * prompts users for b vblue or informs them of something.
+ * For informbtion bbout using <code>JOptionPbne</code>, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/diblog.html">How to Mbke Diblogs</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
  *
- * While the <code>JOptionPane</code>
- * class may appear complex because of the large number of methods, almost
- * all uses of this class are one-line calls to one of the static
- * <code>showXxxDialog</code> methods shown below:
+ * While the <code>JOptionPbne</code>
+ * clbss mby bppebr complex becbuse of the lbrge number of methods, blmost
+ * bll uses of this clbss bre one-line cblls to one of the stbtic
+ * <code>showXxxDiblog</code> methods shown below:
  * <blockquote>
  *
  *
- * <table border=1 summary="Common JOptionPane method names and their descriptions">
+ * <tbble border=1 summbry="Common JOptionPbne method nbmes bnd their descriptions">
  * <tr>
- *    <th>Method Name</th>
+ *    <th>Method Nbme</th>
  *    <th>Description</th>
  * </tr>
  * <tr>
- *    <td>showConfirmDialog</td>
- *    <td>Asks a confirming question, like yes/no/cancel.</td>
+ *    <td>showConfirmDiblog</td>
+ *    <td>Asks b confirming question, like yes/no/cbncel.</td>
  * </tr>
  * <tr>
- *    <td>showInputDialog</td>
+ *    <td>showInputDiblog</td>
  *    <td>Prompt for some input.</td>
  * </tr>
  * <tr>
- *   <td>showMessageDialog</td>
- *   <td>Tell the user about something that has happened.</td>
+ *   <td>showMessbgeDiblog</td>
+ *   <td>Tell the user bbout something thbt hbs hbppened.</td>
  * </tr>
  * <tr>
- *   <td>showOptionDialog</td>
- *   <td>The Grand Unification of the above three.</td>
+ *   <td>showOptionDiblog</td>
+ *   <td>The Grbnd Unificbtion of the bbove three.</td>
  * </tr>
- * </table>
+ * </tbble>
  *
  * </blockquote>
- * Each of these methods also comes in a <code>showInternalXXX</code>
- * flavor, which uses an internal frame to hold the dialog box (see
- * {@link JInternalFrame}).
- * Multiple convenience methods have also been defined -- overloaded
- * versions of the basic methods that use different parameter lists.
+ * Ebch of these methods blso comes in b <code>showInternblXXX</code>
+ * flbvor, which uses bn internbl frbme to hold the diblog box (see
+ * {@link JInternblFrbme}).
+ * Multiple convenience methods hbve blso been defined -- overlobded
+ * versions of the bbsic methods thbt use different pbrbmeter lists.
  * <p>
- * All dialogs are modal. Each <code>showXxxDialog</code> method blocks
- * the caller until the user's interaction is complete.
+ * All diblogs bre modbl. Ebch <code>showXxxDiblog</code> method blocks
+ * the cbller until the user's interbction is complete.
  *
- * <table cellspacing=6 cellpadding=4 border=0 style="float:right" summary="layout">
+ * <tbble cellspbcing=6 cellpbdding=4 border=0 style="flobt:right" summbry="lbyout">
  * <tr>
- *  <td style="background-color:#FFe0d0" rowspan=2>icon</td>
- *  <td style="background-color:#FFe0d0">message</td>
+ *  <td style="bbckground-color:#FFe0d0" rowspbn=2>icon</td>
+ *  <td style="bbckground-color:#FFe0d0">messbge</td>
  * </tr>
  * <tr>
- *  <td style="background-color:#FFe0d0">input value</td>
+ *  <td style="bbckground-color:#FFe0d0">input vblue</td>
  * </tr>
  * <tr>
- *   <td style="background-color:#FFe0d0" colspan=2>option buttons</td>
+ *   <td style="bbckground-color:#FFe0d0" colspbn=2>option buttons</td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * The basic appearance of one of these dialog boxes is generally
- * similar to the picture at the right, although the various
- * look-and-feels are
- * ultimately responsible for the final result.  In particular, the
- * look-and-feels will adjust the layout to accommodate the option pane's
- * <code>ComponentOrientation</code> property.
- * <br style="clear:all">
+ * The bbsic bppebrbnce of one of these diblog boxes is generblly
+ * similbr to the picture bt the right, blthough the vbrious
+ * look-bnd-feels bre
+ * ultimbtely responsible for the finbl result.  In pbrticulbr, the
+ * look-bnd-feels will bdjust the lbyout to bccommodbte the option pbne's
+ * <code>ComponentOrientbtion</code> property.
+ * <br style="clebr:bll">
  * <p>
- * <b>Parameters:</b><br>
- * The parameters to these methods follow consistent patterns:
+ * <b>Pbrbmeters:</b><br>
+ * The pbrbmeters to these methods follow consistent pbtterns:
  * <blockquote>
  * <dl>
- * <dt>parentComponent<dd>
- * Defines the <code>Component</code> that is to be the parent of this
- * dialog box.
- * It is used in two ways: the <code>Frame</code> that contains
- * it is used as the <code>Frame</code>
- * parent for the dialog box, and its screen coordinates are used in
- * the placement of the dialog box. In general, the dialog box is placed
- * just below the component. This parameter may be <code>null</code>,
- * in which case a default <code>Frame</code> is used as the parent,
- * and the dialog will be
- * centered on the screen (depending on the {@literal L&F}).
- * <dt><a name=message>message</a><dd>
- * A descriptive message to be placed in the dialog box.
- * In the most common usage, message is just a <code>String</code> or
- * <code>String</code> constant.
- * However, the type of this parameter is actually <code>Object</code>. Its
- * interpretation depends on its type:
+ * <dt>pbrentComponent<dd>
+ * Defines the <code>Component</code> thbt is to be the pbrent of this
+ * diblog box.
+ * It is used in two wbys: the <code>Frbme</code> thbt contbins
+ * it is used bs the <code>Frbme</code>
+ * pbrent for the diblog box, bnd its screen coordinbtes bre used in
+ * the plbcement of the diblog box. In generbl, the diblog box is plbced
+ * just below the component. This pbrbmeter mby be <code>null</code>,
+ * in which cbse b defbult <code>Frbme</code> is used bs the pbrent,
+ * bnd the diblog will be
+ * centered on the screen (depending on the {@literbl L&F}).
+ * <dt><b nbme=messbge>messbge</b><dd>
+ * A descriptive messbge to be plbced in the diblog box.
+ * In the most common usbge, messbge is just b <code>String</code> or
+ * <code>String</code> constbnt.
+ * However, the type of this pbrbmeter is bctublly <code>Object</code>. Its
+ * interpretbtion depends on its type:
  * <dl>
- * <dt>Object[]<dd>An array of objects is interpreted as a series of
- *                 messages (one per object) arranged in a vertical stack.
- *                 The interpretation is recursive -- each object in the
- *                 array is interpreted according to its type.
- * <dt>Component<dd>The <code>Component</code> is displayed in the dialog.
- * <dt>Icon<dd>The <code>Icon</code> is wrapped in a <code>JLabel</code>
- *               and displayed in the dialog.
- * <dt>others<dd>The object is converted to a <code>String</code> by calling
- *               its <code>toString</code> method. The result is wrapped in a
- *               <code>JLabel</code> and displayed.
+ * <dt>Object[]<dd>An brrby of objects is interpreted bs b series of
+ *                 messbges (one per object) brrbnged in b verticbl stbck.
+ *                 The interpretbtion is recursive -- ebch object in the
+ *                 brrby is interpreted bccording to its type.
+ * <dt>Component<dd>The <code>Component</code> is displbyed in the diblog.
+ * <dt>Icon<dd>The <code>Icon</code> is wrbpped in b <code>JLbbel</code>
+ *               bnd displbyed in the diblog.
+ * <dt>others<dd>The object is converted to b <code>String</code> by cblling
+ *               its <code>toString</code> method. The result is wrbpped in b
+ *               <code>JLbbel</code> bnd displbyed.
  * </dl>
- * <dt>messageType<dd>Defines the style of the message. The Look and Feel
- * manager may lay out the dialog differently depending on this value, and
- * will often provide a default icon. The possible values are:
+ * <dt>messbgeType<dd>Defines the style of the messbge. The Look bnd Feel
+ * mbnbger mby lby out the diblog differently depending on this vblue, bnd
+ * will often provide b defbult icon. The possible vblues bre:
  * <ul>
  * <li><code>ERROR_MESSAGE</code>
  * <li><code>INFORMATION_MESSAGE</code>
@@ -172,47 +172,47 @@ import sun.awt.AWTAccessor;
  * <li><code>QUESTION_MESSAGE</code>
  * <li><code>PLAIN_MESSAGE</code>
  * </ul>
- * <dt>optionType<dd>Defines the set of option buttons that appear at
- * the bottom of the dialog box:
+ * <dt>optionType<dd>Defines the set of option buttons thbt bppebr bt
+ * the bottom of the diblog box:
  * <ul>
  * <li><code>DEFAULT_OPTION</code>
  * <li><code>YES_NO_OPTION</code>
  * <li><code>YES_NO_CANCEL_OPTION</code>
  * <li><code>OK_CANCEL_OPTION</code>
  * </ul>
- * You aren't limited to this set of option buttons.  You can provide any
- * buttons you want using the options parameter.
- * <dt>options<dd>A more detailed description of the set of option buttons
- * that will appear at the bottom of the dialog box.
- * The usual value for the options parameter is an array of
+ * You bren't limited to this set of option buttons.  You cbn provide bny
+ * buttons you wbnt using the options pbrbmeter.
+ * <dt>options<dd>A more detbiled description of the set of option buttons
+ * thbt will bppebr bt the bottom of the diblog box.
+ * The usubl vblue for the options pbrbmeter is bn brrby of
  * <code>String</code>s. But
- * the parameter type is an array of <code>Objects</code>.
- * A button is created for each object depending on its type:
+ * the pbrbmeter type is bn brrby of <code>Objects</code>.
+ * A button is crebted for ebch object depending on its type:
  * <dl>
- * <dt>Component<dd>The component is added to the button row directly.
- * <dt>Icon<dd>A <code>JButton</code> is created with this as its label.
- * <dt>other<dd>The <code>Object</code> is converted to a string using its
- *              <code>toString</code> method and the result is used to
- *              label a <code>JButton</code>.
+ * <dt>Component<dd>The component is bdded to the button row directly.
+ * <dt>Icon<dd>A <code>JButton</code> is crebted with this bs its lbbel.
+ * <dt>other<dd>The <code>Object</code> is converted to b string using its
+ *              <code>toString</code> method bnd the result is used to
+ *              lbbel b <code>JButton</code>.
  * </dl>
- * <dt>icon<dd>A decorative icon to be placed in the dialog box. A default
- * value for this is determined by the <code>messageType</code> parameter.
- * <dt>title<dd>The title for the dialog box.
- * <dt>initialValue<dd>The default selection (input value).
+ * <dt>icon<dd>A decorbtive icon to be plbced in the diblog box. A defbult
+ * vblue for this is determined by the <code>messbgeType</code> pbrbmeter.
+ * <dt>title<dd>The title for the diblog box.
+ * <dt>initiblVblue<dd>The defbult selection (input vblue).
  * </dl>
  * </blockquote>
  * <p>
- * When the selection is changed, <code>setValue</code> is invoked,
- * which generates a <code>PropertyChangeEvent</code>.
+ * When the selection is chbnged, <code>setVblue</code> is invoked,
+ * which generbtes b <code>PropertyChbngeEvent</code>.
  * <p>
- * If a <code>JOptionPane</code> has configured to all input
- * <code>setWantsInput</code>
- * the bound property <code>JOptionPane.INPUT_VALUE_PROPERTY</code>
- *  can also be listened
- * to, to determine when the user has input or selected a value.
+ * If b <code>JOptionPbne</code> hbs configured to bll input
+ * <code>setWbntsInput</code>
+ * the bound property <code>JOptionPbne.INPUT_VALUE_PROPERTY</code>
+ *  cbn blso be listened
+ * to, to determine when the user hbs input or selected b vblue.
  * <p>
- * When one of the <code>showXxxDialog</code> methods returns an integer,
- * the possible values are:
+ * When one of the <code>showXxxDiblog</code> methods returns bn integer,
+ * the possible vblues bre:
  * <ul>
  * <li><code>YES_OPTION</code>
  * <li><code>NO_OPTION</code>
@@ -220,192 +220,192 @@ import sun.awt.AWTAccessor;
  * <li><code>OK_OPTION</code>
  * <li><code>CLOSED_OPTION</code>
  * </ul>
- * <b>Examples:</b>
+ * <b>Exbmples:</b>
  * <dl>
- * <dt>Show an error dialog that displays the message, 'alert':
+ * <dt>Show bn error diblog thbt displbys the messbge, 'blert':
  * <dd><code>
- * JOptionPane.showMessageDialog(null, "alert", "alert", JOptionPane.ERROR_MESSAGE);
+ * JOptionPbne.showMessbgeDiblog(null, "blert", "blert", JOptionPbne.ERROR_MESSAGE);
  * </code>
- * <dt>Show an internal information dialog with the message, 'information':
+ * <dt>Show bn internbl informbtion diblog with the messbge, 'informbtion':
  * <dd><pre>
- * JOptionPane.showInternalMessageDialog(frame, "information",
- *             "information", JOptionPane.INFORMATION_MESSAGE);
+ * JOptionPbne.showInternblMessbgeDiblog(frbme, "informbtion",
+ *             "informbtion", JOptionPbne.INFORMATION_MESSAGE);
  * </pre>
- * <dt>Show an information panel with the options yes/no and message 'choose one':
- * <dd><pre>JOptionPane.showConfirmDialog(null,
- *             "choose one", "choose one", JOptionPane.YES_NO_OPTION);
+ * <dt>Show bn informbtion pbnel with the options yes/no bnd messbge 'choose one':
+ * <dd><pre>JOptionPbne.showConfirmDiblog(null,
+ *             "choose one", "choose one", JOptionPbne.YES_NO_OPTION);
  * </pre>
- * <dt>Show an internal information dialog with the options yes/no/cancel and
- * message 'please choose one' and title information:
- * <dd><pre>JOptionPane.showInternalConfirmDialog(frame,
- *             "please choose one", "information",
- *             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+ * <dt>Show bn internbl informbtion diblog with the options yes/no/cbncel bnd
+ * messbge 'plebse choose one' bnd title informbtion:
+ * <dd><pre>JOptionPbne.showInternblConfirmDiblog(frbme,
+ *             "plebse choose one", "informbtion",
+ *             JOptionPbne.YES_NO_CANCEL_OPTION, JOptionPbne.INFORMATION_MESSAGE);
  * </pre>
- * <dt>Show a warning dialog with the options OK, CANCEL, title 'Warning', and
- * message 'Click OK to continue':
+ * <dt>Show b wbrning diblog with the options OK, CANCEL, title 'Wbrning', bnd
+ * messbge 'Click OK to continue':
  * <dd><pre>
  * Object[] options = { "OK", "CANCEL" };
- * JOptionPane.showOptionDialog(null, "Click OK to continue", "Warning",
- *             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+ * JOptionPbne.showOptionDiblog(null, "Click OK to continue", "Wbrning",
+ *             JOptionPbne.DEFAULT_OPTION, JOptionPbne.WARNING_MESSAGE,
  *             null, options, options[0]);
  * </pre>
- * <dt>Show a dialog asking the user to type in a String:
+ * <dt>Show b diblog bsking the user to type in b String:
  * <dd><code>
- * String inputValue = JOptionPane.showInputDialog("Please input a value");
+ * String inputVblue = JOptionPbne.showInputDiblog("Plebse input b vblue");
  * </code>
- * <dt>Show a dialog asking the user to select a String:
+ * <dt>Show b diblog bsking the user to select b String:
  * <dd><pre>
- * Object[] possibleValues = { "First", "Second", "Third" };<br>
- * Object selectedValue = JOptionPane.showInputDialog(null,
+ * Object[] possibleVblues = { "First", "Second", "Third" };<br>
+ * Object selectedVblue = JOptionPbne.showInputDiblog(null,
  *             "Choose one", "Input",
- *             JOptionPane.INFORMATION_MESSAGE, null,
- *             possibleValues, possibleValues[0]);
+ *             JOptionPbne.INFORMATION_MESSAGE, null,
+ *             possibleVblues, possibleVblues[0]);
  * </pre>
  * </dl>
  * <b>Direct Use:</b><br>
- * To create and use an <code>JOptionPane</code> directly, the
- * standard pattern is roughly as follows:
+ * To crebte bnd use bn <code>JOptionPbne</code> directly, the
+ * stbndbrd pbttern is roughly bs follows:
  * <pre>
- *     JOptionPane pane = new JOptionPane(<i>arguments</i>);
- *     pane.set<i>.Xxxx(...); // Configure</i>
- *     JDialog dialog = pane.createDialog(<i>parentComponent, title</i>);
- *     dialog.show();
- *     Object selectedValue = pane.getValue();
- *     if(selectedValue == null)
+ *     JOptionPbne pbne = new JOptionPbne(<i>brguments</i>);
+ *     pbne.set<i>.Xxxx(...); // Configure</i>
+ *     JDiblog diblog = pbne.crebteDiblog(<i>pbrentComponent, title</i>);
+ *     diblog.show();
+ *     Object selectedVblue = pbne.getVblue();
+ *     if(selectedVblue == null)
  *       return CLOSED_OPTION;
- *     <i>//If there is <b>not</b> an array of option buttons:</i>
+ *     <i>//If there is <b>not</b> bn brrby of option buttons:</i>
  *     if(options == null) {
- *       if(selectedValue instanceof Integer)
- *          return ((Integer)selectedValue).intValue();
+ *       if(selectedVblue instbnceof Integer)
+ *          return ((Integer)selectedVblue).intVblue();
  *       return CLOSED_OPTION;
  *     }
- *     <i>//If there is an array of option buttons:</i>
- *     for(int counter = 0, maxCounter = options.length;
- *        counter &lt; maxCounter; counter++) {
- *        if(options[counter].equals(selectedValue))
+ *     <i>//If there is bn brrby of option buttons:</i>
+ *     for(int counter = 0, mbxCounter = options.length;
+ *        counter &lt; mbxCounter; counter++) {
+ *        if(options[counter].equbls(selectedVblue))
  *        return counter;
  *     }
  *     return CLOSED_OPTION;
  * </pre>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JInternalFrame
+ * @see JInternblFrbme
  *
- * @beaninfo
- *      attribute: isContainer true
- *    description: A component which implements standard dialog box controls.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *    description: A component which implements stbndbrd diblog box controls.
  *
- * @author James Gosling
- * @author Scott Violet
+ * @buthor Jbmes Gosling
+ * @buthor Scott Violet
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JOptionPane extends JComponent implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JOptionPbne extends JComponent implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "OptionPaneUI";
+    privbte stbtic finbl String uiClbssID = "OptionPbneUI";
 
     /**
-     * Indicates that the user has not yet selected a value.
+     * Indicbtes thbt the user hbs not yet selected b vblue.
      */
-    public static final Object      UNINITIALIZED_VALUE = "uninitializedValue";
+    public stbtic finbl Object      UNINITIALIZED_VALUE = "uninitiblizedVblue";
 
     //
     // Option types
     //
 
     /**
-     * Type meaning Look and Feel should not supply any options -- only
-     * use the options from the <code>JOptionPane</code>.
+     * Type mebning Look bnd Feel should not supply bny options -- only
+     * use the options from the <code>JOptionPbne</code>.
      */
-    public static final int         DEFAULT_OPTION = -1;
-    /** Type used for <code>showConfirmDialog</code>. */
-    public static final int         YES_NO_OPTION = 0;
-    /** Type used for <code>showConfirmDialog</code>. */
-    public static final int         YES_NO_CANCEL_OPTION = 1;
-    /** Type used for <code>showConfirmDialog</code>. */
-    public static final int         OK_CANCEL_OPTION = 2;
+    public stbtic finbl int         DEFAULT_OPTION = -1;
+    /** Type used for <code>showConfirmDiblog</code>. */
+    public stbtic finbl int         YES_NO_OPTION = 0;
+    /** Type used for <code>showConfirmDiblog</code>. */
+    public stbtic finbl int         YES_NO_CANCEL_OPTION = 1;
+    /** Type used for <code>showConfirmDiblog</code>. */
+    public stbtic finbl int         OK_CANCEL_OPTION = 2;
 
     //
-    // Return values.
+    // Return vblues.
     //
-    /** Return value from class method if YES is chosen. */
-    public static final int         YES_OPTION = 0;
-    /** Return value from class method if NO is chosen. */
-    public static final int         NO_OPTION = 1;
-    /** Return value from class method if CANCEL is chosen. */
-    public static final int         CANCEL_OPTION = 2;
-    /** Return value form class method if OK is chosen. */
-    public static final int         OK_OPTION = 0;
-    /** Return value from class method if user closes window without selecting
-     * anything, more than likely this should be treated as either a
+    /** Return vblue from clbss method if YES is chosen. */
+    public stbtic finbl int         YES_OPTION = 0;
+    /** Return vblue from clbss method if NO is chosen. */
+    public stbtic finbl int         NO_OPTION = 1;
+    /** Return vblue from clbss method if CANCEL is chosen. */
+    public stbtic finbl int         CANCEL_OPTION = 2;
+    /** Return vblue form clbss method if OK is chosen. */
+    public stbtic finbl int         OK_OPTION = 0;
+    /** Return vblue from clbss method if user closes window without selecting
+     * bnything, more thbn likely this should be trebted bs either b
      * <code>CANCEL_OPTION</code> or <code>NO_OPTION</code>. */
-    public static final int         CLOSED_OPTION = -1;
+    public stbtic finbl int         CLOSED_OPTION = -1;
 
     //
-    // Message types. Used by the UI to determine what icon to display,
-    // and possibly what behavior to give based on the type.
+    // Messbge types. Used by the UI to determine whbt icon to displby,
+    // bnd possibly whbt behbvior to give bbsed on the type.
     //
-    /** Used for error messages. */
-    public static final int  ERROR_MESSAGE = 0;
-    /** Used for information messages. */
-    public static final int  INFORMATION_MESSAGE = 1;
-    /** Used for warning messages. */
-    public static final int  WARNING_MESSAGE = 2;
+    /** Used for error messbges. */
+    public stbtic finbl int  ERROR_MESSAGE = 0;
+    /** Used for informbtion messbges. */
+    public stbtic finbl int  INFORMATION_MESSAGE = 1;
+    /** Used for wbrning messbges. */
+    public stbtic finbl int  WARNING_MESSAGE = 2;
     /** Used for questions. */
-    public static final int  QUESTION_MESSAGE = 3;
+    public stbtic finbl int  QUESTION_MESSAGE = 3;
     /** No icon is used. */
-    public static final int   PLAIN_MESSAGE = -1;
+    public stbtic finbl int   PLAIN_MESSAGE = -1;
 
-    /** Bound property name for <code>icon</code>. */
-    public static final String      ICON_PROPERTY = "icon";
-    /** Bound property name for <code>message</code>. */
-    public static final String      MESSAGE_PROPERTY = "message";
-    /** Bound property name for <code>value</code>. */
-    public static final String      VALUE_PROPERTY = "value";
-    /** Bound property name for <code>option</code>. */
-    public static final String      OPTIONS_PROPERTY = "options";
-    /** Bound property name for <code>initialValue</code>. */
-    public static final String      INITIAL_VALUE_PROPERTY = "initialValue";
-    /** Bound property name for <code>type</code>. */
-    public static final String      MESSAGE_TYPE_PROPERTY = "messageType";
-    /** Bound property name for <code>optionType</code>. */
-    public static final String      OPTION_TYPE_PROPERTY = "optionType";
-    /** Bound property name for <code>selectionValues</code>. */
-    public static final String      SELECTION_VALUES_PROPERTY = "selectionValues";
-    /** Bound property name for <code>initialSelectionValue</code>. */
-    public static final String      INITIAL_SELECTION_VALUE_PROPERTY = "initialSelectionValue";
-    /** Bound property name for <code>inputValue</code>. */
-    public static final String      INPUT_VALUE_PROPERTY = "inputValue";
-    /** Bound property name for <code>wantsInput</code>. */
-    public static final String      WANTS_INPUT_PROPERTY = "wantsInput";
+    /** Bound property nbme for <code>icon</code>. */
+    public stbtic finbl String      ICON_PROPERTY = "icon";
+    /** Bound property nbme for <code>messbge</code>. */
+    public stbtic finbl String      MESSAGE_PROPERTY = "messbge";
+    /** Bound property nbme for <code>vblue</code>. */
+    public stbtic finbl String      VALUE_PROPERTY = "vblue";
+    /** Bound property nbme for <code>option</code>. */
+    public stbtic finbl String      OPTIONS_PROPERTY = "options";
+    /** Bound property nbme for <code>initiblVblue</code>. */
+    public stbtic finbl String      INITIAL_VALUE_PROPERTY = "initiblVblue";
+    /** Bound property nbme for <code>type</code>. */
+    public stbtic finbl String      MESSAGE_TYPE_PROPERTY = "messbgeType";
+    /** Bound property nbme for <code>optionType</code>. */
+    public stbtic finbl String      OPTION_TYPE_PROPERTY = "optionType";
+    /** Bound property nbme for <code>selectionVblues</code>. */
+    public stbtic finbl String      SELECTION_VALUES_PROPERTY = "selectionVblues";
+    /** Bound property nbme for <code>initiblSelectionVblue</code>. */
+    public stbtic finbl String      INITIAL_SELECTION_VALUE_PROPERTY = "initiblSelectionVblue";
+    /** Bound property nbme for <code>inputVblue</code>. */
+    public stbtic finbl String      INPUT_VALUE_PROPERTY = "inputVblue";
+    /** Bound property nbme for <code>wbntsInput</code>. */
+    public stbtic finbl String      WANTS_INPUT_PROPERTY = "wbntsInput";
 
-    /** Icon used in pane. */
-    transient protected Icon                  icon;
-    /** Message to display. */
-    transient protected Object                message;
-    /** Options to display to the user. */
-    transient protected Object[]              options;
-    /** Value that should be initially selected in <code>options</code>. */
-    transient protected Object                initialValue;
-    /** Message type. */
-    protected int                   messageType;
+    /** Icon used in pbne. */
+    trbnsient protected Icon                  icon;
+    /** Messbge to displby. */
+    trbnsient protected Object                messbge;
+    /** Options to displby to the user. */
+    trbnsient protected Object[]              options;
+    /** Vblue thbt should be initiblly selected in <code>options</code>. */
+    trbnsient protected Object                initiblVblue;
+    /** Messbge type. */
+    protected int                   messbgeType;
     /**
      * Option type, one of <code>DEFAULT_OPTION</code>,
      * <code>YES_NO_OPTION</code>,
@@ -413,932 +413,932 @@ public class JOptionPane extends JComponent implements Accessible
      * <code>OK_CANCEL_OPTION</code>.
      */
     protected int                   optionType;
-    /** Currently selected value, will be a valid option, or
+    /** Currently selected vblue, will be b vblid option, or
      * <code>UNINITIALIZED_VALUE</code> or <code>null</code>. */
-    transient protected Object                value;
-    /** Array of values the user can choose from. Look and feel will
+    trbnsient protected Object                vblue;
+    /** Arrby of vblues the user cbn choose from. Look bnd feel will
      * provide the UI component to choose this from. */
-    protected transient Object[]              selectionValues;
-    /** Value the user has input. */
-    protected transient Object                inputValue;
-    /** Initial value to select in <code>selectionValues</code>. */
-    protected transient Object                initialSelectionValue;
-    /** If true, a UI widget will be provided to the user to get input. */
-    protected boolean                         wantsInput;
+    protected trbnsient Object[]              selectionVblues;
+    /** Vblue the user hbs input. */
+    protected trbnsient Object                inputVblue;
+    /** Initibl vblue to select in <code>selectionVblues</code>. */
+    protected trbnsient Object                initiblSelectionVblue;
+    /** If true, b UI widget will be provided to the user to get input. */
+    protected boolebn                         wbntsInput;
 
 
     /**
-     * Shows a question-message dialog requesting input from the user. The
-     * dialog uses the default frame, which usually means it is centered on
+     * Shows b question-messbge diblog requesting input from the user. The
+     * diblog uses the defbult frbme, which usublly mebns it is centered on
      * the screen.
      *
-     * @param message the <code>Object</code> to display
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
      * @return user's input
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static String showInputDialog(Object message)
-        throws HeadlessException {
-        return showInputDialog(null, message);
+    public stbtic String showInputDiblog(Object messbge)
+        throws HebdlessException {
+        return showInputDiblog(null, messbge);
     }
 
     /**
-     * Shows a question-message dialog requesting input from the user, with
-     * the input value initialized to <code>initialSelectionValue</code>. The
-     * dialog uses the default frame, which usually means it is centered on
+     * Shows b question-messbge diblog requesting input from the user, with
+     * the input vblue initiblized to <code>initiblSelectionVblue</code>. The
+     * diblog uses the defbult frbme, which usublly mebns it is centered on
      * the screen.
      *
-     * @param message the <code>Object</code> to display
-     * @param initialSelectionValue the value used to initialize the input
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm initiblSelectionVblue the vblue used to initiblize the input
      *                 field
      * @return user's input
      * @since 1.4
      */
-    public static String showInputDialog(Object message, Object initialSelectionValue) {
-        return showInputDialog(null, message, initialSelectionValue);
+    public stbtic String showInputDiblog(Object messbge, Object initiblSelectionVblue) {
+        return showInputDiblog(null, messbge, initiblSelectionVblue);
     }
 
     /**
-     * Shows a question-message dialog requesting input from the user
-     * parented to <code>parentComponent</code>.
-     * The dialog is displayed on top of the <code>Component</code>'s
-     * frame, and is usually positioned below the <code>Component</code>.
+     * Shows b question-messbge diblog requesting input from the user
+     * pbrented to <code>pbrentComponent</code>.
+     * The diblog is displbyed on top of the <code>Component</code>'s
+     * frbme, bnd is usublly positioned below the <code>Component</code>.
      *
-     * @param parentComponent  the parent <code>Component</code> for the
-     *          dialog
-     * @param message  the <code>Object</code> to display
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code> for the
+     *          diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
+     * @exception HebdlessException if
+     *    <code>GrbphicsEnvironment.isHebdless</code> returns
      *    <code>true</code>
      * @return user's input
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static String showInputDialog(Component parentComponent,
-        Object message) throws HeadlessException {
-        return showInputDialog(parentComponent, message, UIManager.getString(
-            "OptionPane.inputDialogTitle", parentComponent), QUESTION_MESSAGE);
+    public stbtic String showInputDiblog(Component pbrentComponent,
+        Object messbge) throws HebdlessException {
+        return showInputDiblog(pbrentComponent, messbge, UIMbnbger.getString(
+            "OptionPbne.inputDiblogTitle", pbrentComponent), QUESTION_MESSAGE);
     }
 
     /**
-     * Shows a question-message dialog requesting input from the user and
-     * parented to <code>parentComponent</code>. The input value will be
-     * initialized to <code>initialSelectionValue</code>.
-     * The dialog is displayed on top of the <code>Component</code>'s
-     * frame, and is usually positioned below the <code>Component</code>.
+     * Shows b question-messbge diblog requesting input from the user bnd
+     * pbrented to <code>pbrentComponent</code>. The input vblue will be
+     * initiblized to <code>initiblSelectionVblue</code>.
+     * The diblog is displbyed on top of the <code>Component</code>'s
+     * frbme, bnd is usublly positioned below the <code>Component</code>.
      *
-     * @param parentComponent  the parent <code>Component</code> for the
-     *          dialog
-     * @param message the <code>Object</code> to display
-     * @param initialSelectionValue the value used to initialize the input
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code> for the
+     *          diblog
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm initiblSelectionVblue the vblue used to initiblize the input
      *                 field
      * @return user's input
      * @since 1.4
      */
-    public static String showInputDialog(Component parentComponent, Object message,
-                                         Object initialSelectionValue) {
-        return (String)showInputDialog(parentComponent, message,
-                      UIManager.getString("OptionPane.inputDialogTitle",
-                      parentComponent), QUESTION_MESSAGE, null, null,
-                      initialSelectionValue);
+    public stbtic String showInputDiblog(Component pbrentComponent, Object messbge,
+                                         Object initiblSelectionVblue) {
+        return (String)showInputDiblog(pbrentComponent, messbge,
+                      UIMbnbger.getString("OptionPbne.inputDiblogTitle",
+                      pbrentComponent), QUESTION_MESSAGE, null, null,
+                      initiblSelectionVblue);
     }
 
     /**
-     * Shows a dialog requesting input from the user parented to
-     * <code>parentComponent</code> with the dialog having the title
-     * <code>title</code> and message type <code>messageType</code>.
+     * Shows b diblog requesting input from the user pbrented to
+     * <code>pbrentComponent</code> with the diblog hbving the title
+     * <code>title</code> bnd messbge type <code>messbgeType</code>.
      *
-     * @param parentComponent  the parent <code>Component</code> for the
-     *                  dialog
-     * @param message  the <code>Object</code> to display
-     * @param title    the <code>String</code> to display in the dialog
-     *                  title bar
-     * @param messageType the type of message that is to be displayed:
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code> for the
+     *                  diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
+     * @pbrbm title    the <code>String</code> to displby in the diblog
+     *                  title bbr
+     * @pbrbm messbgeType the type of messbge thbt is to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
      * @return user's input
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static String showInputDialog(Component parentComponent,
-        Object message, String title, int messageType)
-        throws HeadlessException {
-        return (String)showInputDialog(parentComponent, message, title,
-                                       messageType, null, null, null);
+    public stbtic String showInputDiblog(Component pbrentComponent,
+        Object messbge, String title, int messbgeType)
+        throws HebdlessException {
+        return (String)showInputDiblog(pbrentComponent, messbge, title,
+                                       messbgeType, null, null, null);
     }
 
     /**
-     * Prompts the user for input in a blocking dialog where the
-     * initial selection, possible selections, and all other options can
-     * be specified. The user will able to choose from
-     * <code>selectionValues</code>, where <code>null</code> implies the
-     * user can input
-     * whatever they wish, usually by means of a <code>JTextField</code>.
-     * <code>initialSelectionValue</code> is the initial value to prompt
+     * Prompts the user for input in b blocking diblog where the
+     * initibl selection, possible selections, bnd bll other options cbn
+     * be specified. The user will bble to choose from
+     * <code>selectionVblues</code>, where <code>null</code> implies the
+     * user cbn input
+     * whbtever they wish, usublly by mebns of b <code>JTextField</code>.
+     * <code>initiblSelectionVblue</code> is the initibl vblue to prompt
      * the user with. It is up to the UI to decide how best to represent
-     * the <code>selectionValues</code>, but usually a
+     * the <code>selectionVblues</code>, but usublly b
      * <code>JComboBox</code>, <code>JList</code>, or
      * <code>JTextField</code> will be used.
      *
-     * @param parentComponent  the parent <code>Component</code> for the
-     *                  dialog
-     * @param message  the <code>Object</code> to display
-     * @param title    the <code>String</code> to display in the
-     *                  dialog title bar
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code> for the
+     *                  diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
+     * @pbrbm title    the <code>String</code> to displby in the
+     *                  diblog title bbr
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param icon     the <code>Icon</code> image to display
-     * @param selectionValues an array of <code>Object</code>s that
+     * @pbrbm icon     the <code>Icon</code> imbge to displby
+     * @pbrbm selectionVblues bn brrby of <code>Object</code>s thbt
      *                  gives the possible selections
-     * @param initialSelectionValue the value used to initialize the input
+     * @pbrbm initiblSelectionVblue the vblue used to initiblize the input
      *                 field
-     * @return user's input, or <code>null</code> meaning the user
-     *                  canceled the input
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @return user's input, or <code>null</code> mebning the user
+     *                  cbnceled the input
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static Object showInputDialog(Component parentComponent,
-        Object message, String title, int messageType, Icon icon,
-        Object[] selectionValues, Object initialSelectionValue)
-        throws HeadlessException {
-        JOptionPane    pane = new JOptionPane(message, messageType,
+    public stbtic Object showInputDiblog(Component pbrentComponent,
+        Object messbge, String title, int messbgeType, Icon icon,
+        Object[] selectionVblues, Object initiblSelectionVblue)
+        throws HebdlessException {
+        JOptionPbne    pbne = new JOptionPbne(messbge, messbgeType,
                                               OK_CANCEL_OPTION, icon,
                                               null, null);
 
-        pane.setWantsInput(true);
-        pane.setSelectionValues(selectionValues);
-        pane.setInitialSelectionValue(initialSelectionValue);
-        pane.setComponentOrientation(((parentComponent == null) ?
-            getRootFrame() : parentComponent).getComponentOrientation());
+        pbne.setWbntsInput(true);
+        pbne.setSelectionVblues(selectionVblues);
+        pbne.setInitiblSelectionVblue(initiblSelectionVblue);
+        pbne.setComponentOrientbtion(((pbrentComponent == null) ?
+            getRootFrbme() : pbrentComponent).getComponentOrientbtion());
 
-        int style = styleFromMessageType(messageType);
-        JDialog dialog = pane.createDialog(parentComponent, title, style);
+        int style = styleFromMessbgeType(messbgeType);
+        JDiblog diblog = pbne.crebteDiblog(pbrentComponent, title, style);
 
-        pane.selectInitialValue();
-        dialog.show();
-        dialog.dispose();
+        pbne.selectInitiblVblue();
+        diblog.show();
+        diblog.dispose();
 
-        Object value = pane.getInputValue();
+        Object vblue = pbne.getInputVblue();
 
-        if (value == UNINITIALIZED_VALUE) {
+        if (vblue == UNINITIALIZED_VALUE) {
             return null;
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Brings up an information-message dialog titled "Message".
+     * Brings up bn informbtion-messbge diblog titled "Messbge".
      *
-     * @param parentComponent determines the <code>Frame</code> in
-     *          which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in
+     *          which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static void showMessageDialog(Component parentComponent,
-        Object message) throws HeadlessException {
-        showMessageDialog(parentComponent, message, UIManager.getString(
-                    "OptionPane.messageDialogTitle", parentComponent),
+    public stbtic void showMessbgeDiblog(Component pbrentComponent,
+        Object messbge) throws HebdlessException {
+        showMessbgeDiblog(pbrentComponent, messbge, UIMbnbger.getString(
+                    "OptionPbne.messbgeDiblogTitle", pbrentComponent),
                     INFORMATION_MESSAGE);
     }
 
     /**
-     * Brings up a dialog that displays a message using a default
-     * icon determined by the <code>messageType</code> parameter.
+     * Brings up b diblog thbt displbys b messbge using b defbult
+     * icon determined by the <code>messbgeType</code> pbrbmeter.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static void showMessageDialog(Component parentComponent,
-        Object message, String title, int messageType)
-        throws HeadlessException {
-        showMessageDialog(parentComponent, message, title, messageType, null);
+    public stbtic void showMessbgeDiblog(Component pbrentComponent,
+        Object messbge, String title, int messbgeType)
+        throws HebdlessException {
+        showMessbgeDiblog(pbrentComponent, messbge, title, messbgeType, null);
     }
 
     /**
-     * Brings up a dialog displaying a message, specifying all parameters.
+     * Brings up b diblog displbying b messbge, specifying bll pbrbmeters.
      *
-     * @param parentComponent determines the <code>Frame</code> in which the
-     *                  dialog is displayed; if <code>null</code>,
-     *                  or if the <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in which the
+     *                  diblog is displbyed; if <code>null</code>,
+     *                  or if the <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param icon      an icon to display in the dialog that helps the user
-     *                  identify the kind of message that is being displayed
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm icon      bn icon to displby in the diblog thbt helps the user
+     *                  identify the kind of messbge thbt is being displbyed
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static void showMessageDialog(Component parentComponent,
-        Object message, String title, int messageType, Icon icon)
-        throws HeadlessException {
-        showOptionDialog(parentComponent, message, title, DEFAULT_OPTION,
-                         messageType, icon, null, null);
+    public stbtic void showMessbgeDiblog(Component pbrentComponent,
+        Object messbge, String title, int messbgeType, Icon icon)
+        throws HebdlessException {
+        showOptionDiblog(pbrentComponent, messbge, title, DEFAULT_OPTION,
+                         messbgeType, icon, null, null);
     }
 
     /**
-     * Brings up a dialog with the options <i>Yes</i>,
-     * <i>No</i> and <i>Cancel</i>; with the
-     * title, <b>Select an Option</b>.
+     * Brings up b diblog with the options <i>Yes</i>,
+     * <i>No</i> bnd <i>Cbncel</i>; with the
+     * title, <b>Select bn Option</b>.
      *
-     * @param parentComponent determines the <code>Frame</code> in which the
-     *                  dialog is displayed; if <code>null</code>,
-     *                  or if the <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @return an integer indicating the option selected by the user
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in which the
+     *                  diblog is displbyed; if <code>null</code>,
+     *                  or if the <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @return bn integer indicbting the option selected by the user
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static int showConfirmDialog(Component parentComponent,
-        Object message) throws HeadlessException {
-        return showConfirmDialog(parentComponent, message,
-                                 UIManager.getString("OptionPane.titleText"),
+    public stbtic int showConfirmDiblog(Component pbrentComponent,
+        Object messbge) throws HebdlessException {
+        return showConfirmDiblog(pbrentComponent, messbge,
+                                 UIMbnbger.getString("OptionPbne.titleText"),
                                  YES_NO_CANCEL_OPTION);
     }
 
     /**
-     * Brings up a dialog where the number of choices is determined
-     * by the <code>optionType</code> parameter.
+     * Brings up b diblog where the number of choices is determined
+     * by the <code>optionType</code> pbrbmeter.
      *
-     * @param parentComponent determines the <code>Frame</code> in which the
-     *                  dialog is displayed; if <code>null</code>,
-     *                  or if the <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param optionType an int designating the options available on the dialog:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in which the
+     *                  diblog is displbyed; if <code>null</code>,
+     *                  or if the <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn int designbting the options bvbilbble on the diblog:
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  or <code>OK_CANCEL_OPTION</code>
-     * @return an int indicating the option selected by the user
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @return bn int indicbting the option selected by the user
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static int showConfirmDialog(Component parentComponent,
-        Object message, String title, int optionType)
-        throws HeadlessException {
-        return showConfirmDialog(parentComponent, message, title, optionType,
+    public stbtic int showConfirmDiblog(Component pbrentComponent,
+        Object messbge, String title, int optionType)
+        throws HebdlessException {
+        return showConfirmDiblog(pbrentComponent, messbge, title, optionType,
                                  QUESTION_MESSAGE);
     }
 
     /**
-     * Brings up a dialog where the number of choices is determined
-     * by the <code>optionType</code> parameter, where the
-     * <code>messageType</code>
-     * parameter determines the icon to display.
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the Look and Feel.
+     * Brings up b diblog where the number of choices is determined
+     * by the <code>optionType</code> pbrbmeter, where the
+     * <code>messbgeType</code>
+     * pbrbmeter determines the icon to displby.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the Look bnd Feel.
      *
-     * @param parentComponent determines the <code>Frame</code> in
-     *                  which the dialog is displayed; if <code>null</code>,
-     *                  or if the <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used.
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options available
-     *                   on the dialog: <code>YES_NO_OPTION</code>,
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in
+     *                  which the diblog is displbyed; if <code>null</code>,
+     *                  or if the <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used.
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options bvbilbble
+     *                   on the diblog: <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  or <code>OK_CANCEL_OPTION</code>
-     * @param messageType an integer designating the kind of message this is;
-     *                  primarily used to determine the icon from the pluggable
-     *                  Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn integer designbting the kind of messbge this is;
+     *                  primbrily used to determine the icon from the pluggbble
+     *                  Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @return an integer indicating the option selected by the user
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @return bn integer indicbting the option selected by the user
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static int showConfirmDialog(Component parentComponent,
-        Object message, String title, int optionType, int messageType)
-        throws HeadlessException {
-        return showConfirmDialog(parentComponent, message, title, optionType,
-                                messageType, null);
+    public stbtic int showConfirmDiblog(Component pbrentComponent,
+        Object messbge, String title, int optionType, int messbgeType)
+        throws HebdlessException {
+        return showConfirmDiblog(pbrentComponent, messbge, title, optionType,
+                                messbgeType, null);
     }
 
     /**
-     * Brings up a dialog with a specified icon, where the number of
-     * choices is determined by the <code>optionType</code> parameter.
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the look and feel.
+     * Brings up b diblog with b specified icon, where the number of
+     * choices is determined by the <code>optionType</code> pbrbmeter.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the look bnd feel.
      *
-     * @param parentComponent determines the <code>Frame</code> in which the
-     *                  dialog is displayed; if <code>null</code>,
-     *                  or if the <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used
-     * @param message   the Object to display
-     * @param title     the title string for the dialog
-     * @param optionType an int designating the options available on the dialog:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in which the
+     *                  diblog is displbyed; if <code>null</code>,
+     *                  or if the <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the Object to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn int designbting the options bvbilbble on the diblog:
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  or <code>OK_CANCEL_OPTION</code>
-     * @param messageType an int designating the kind of message this is,
-     *                  primarily used to determine the icon from the pluggable
-     *                  Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn int designbting the kind of messbge this is,
+     *                  primbrily used to determine the icon from the pluggbble
+     *                  Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param icon      the icon to display in the dialog
-     * @return an int indicating the option selected by the user
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm icon      the icon to displby in the diblog
+     * @return bn int indicbting the option selected by the user
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static int showConfirmDialog(Component parentComponent,
-        Object message, String title, int optionType,
-        int messageType, Icon icon) throws HeadlessException {
-        return showOptionDialog(parentComponent, message, title, optionType,
-                                messageType, icon, null, null);
+    public stbtic int showConfirmDiblog(Component pbrentComponent,
+        Object messbge, String title, int optionType,
+        int messbgeType, Icon icon) throws HebdlessException {
+        return showOptionDiblog(pbrentComponent, messbge, title, optionType,
+                                messbgeType, icon, null, null);
     }
 
     /**
-     * Brings up a dialog with a specified icon, where the initial
-     * choice is determined by the <code>initialValue</code> parameter and
+     * Brings up b diblog with b specified icon, where the initibl
+     * choice is determined by the <code>initiblVblue</code> pbrbmeter bnd
      * the number of choices is determined by the <code>optionType</code>
-     * parameter.
+     * pbrbmeter.
      * <p>
      * If <code>optionType</code> is <code>YES_NO_OPTION</code>,
      * or <code>YES_NO_CANCEL_OPTION</code>
-     * and the <code>options</code> parameter is <code>null</code>,
-     * then the options are
-     * supplied by the look and feel.
+     * bnd the <code>options</code> pbrbmeter is <code>null</code>,
+     * then the options bre
+     * supplied by the look bnd feel.
      * <p>
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the look and feel.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the look bnd feel.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *                  in which the dialog is displayed;  if
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *                  in which the diblog is displbyed;  if
      *                  <code>null</code>, or if the
-     *                  <code>parentComponent</code> has no
-     *                  <code>Frame</code>, a
-     *                  default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options available on the
-     *                  dialog: <code>DEFAULT_OPTION</code>,
+     *                  <code>pbrentComponent</code> hbs no
+     *                  <code>Frbme</code>, b
+     *                  defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options bvbilbble on the
+     *                  diblog: <code>DEFAULT_OPTION</code>,
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  or <code>OK_CANCEL_OPTION</code>
-     * @param messageType an integer designating the kind of message this is,
-     *                  primarily used to determine the icon from the
-     *                  pluggable Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn integer designbting the kind of messbge this is,
+     *                  primbrily used to determine the icon from the
+     *                  pluggbble Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param icon      the icon to display in the dialog
-     * @param options   an array of objects indicating the possible choices
-     *                  the user can make; if the objects are components, they
-     *                  are rendered properly; non-<code>String</code>
-     *                  objects are
+     * @pbrbm icon      the icon to displby in the diblog
+     * @pbrbm options   bn brrby of objects indicbting the possible choices
+     *                  the user cbn mbke; if the objects bre components, they
+     *                  bre rendered properly; non-<code>String</code>
+     *                  objects bre
      *                  rendered using their <code>toString</code> methods;
-     *                  if this parameter is <code>null</code>,
-     *                  the options are determined by the Look and Feel
-     * @param initialValue the object that represents the default selection
-     *                  for the dialog; only meaningful if <code>options</code>
-     *                  is used; can be <code>null</code>
-     * @return an integer indicating the option chosen by the user,
+     *                  if this pbrbmeter is <code>null</code>,
+     *                  the options bre determined by the Look bnd Feel
+     * @pbrbm initiblVblue the object thbt represents the defbult selection
+     *                  for the diblog; only mebningful if <code>options</code>
+     *                  is used; cbn be <code>null</code>
+     * @return bn integer indicbting the option chosen by the user,
      *                  or <code>CLOSED_OPTION</code> if the user closed
-     *                  the dialog
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     *                  the diblog
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static int showOptionDialog(Component parentComponent,
-        Object message, String title, int optionType, int messageType,
-        Icon icon, Object[] options, Object initialValue)
-        throws HeadlessException {
-        JOptionPane             pane = new JOptionPane(message, messageType,
+    public stbtic int showOptionDiblog(Component pbrentComponent,
+        Object messbge, String title, int optionType, int messbgeType,
+        Icon icon, Object[] options, Object initiblVblue)
+        throws HebdlessException {
+        JOptionPbne             pbne = new JOptionPbne(messbge, messbgeType,
                                                        optionType, icon,
-                                                       options, initialValue);
+                                                       options, initiblVblue);
 
-        pane.setInitialValue(initialValue);
-        pane.setComponentOrientation(((parentComponent == null) ?
-            getRootFrame() : parentComponent).getComponentOrientation());
+        pbne.setInitiblVblue(initiblVblue);
+        pbne.setComponentOrientbtion(((pbrentComponent == null) ?
+            getRootFrbme() : pbrentComponent).getComponentOrientbtion());
 
-        int style = styleFromMessageType(messageType);
-        JDialog dialog = pane.createDialog(parentComponent, title, style);
+        int style = styleFromMessbgeType(messbgeType);
+        JDiblog diblog = pbne.crebteDiblog(pbrentComponent, title, style);
 
-        pane.selectInitialValue();
-        dialog.show();
-        dialog.dispose();
+        pbne.selectInitiblVblue();
+        diblog.show();
+        diblog.dispose();
 
-        Object        selectedValue = pane.getValue();
+        Object        selectedVblue = pbne.getVblue();
 
-        if(selectedValue == null)
+        if(selectedVblue == null)
             return CLOSED_OPTION;
         if(options == null) {
-            if(selectedValue instanceof Integer)
-                return ((Integer)selectedValue).intValue();
+            if(selectedVblue instbnceof Integer)
+                return ((Integer)selectedVblue).intVblue();
             return CLOSED_OPTION;
         }
-        for(int counter = 0, maxCounter = options.length;
-            counter < maxCounter; counter++) {
-            if(options[counter].equals(selectedValue))
+        for(int counter = 0, mbxCounter = options.length;
+            counter < mbxCounter; counter++) {
+            if(options[counter].equbls(selectedVblue))
                 return counter;
         }
         return CLOSED_OPTION;
     }
 
     /**
-     * Creates and returns a new <code>JDialog</code> wrapping
-     * <code>this</code> centered on the <code>parentComponent</code>
-     * in the <code>parentComponent</code>'s frame.
-     * <code>title</code> is the title of the returned dialog.
-     * The returned <code>JDialog</code> will not be resizable by the
-     * user, however programs can invoke <code>setResizable</code> on
-     * the <code>JDialog</code> instance to change this property.
-     * The returned <code>JDialog</code> will be set up such that
+     * Crebtes bnd returns b new <code>JDiblog</code> wrbpping
+     * <code>this</code> centered on the <code>pbrentComponent</code>
+     * in the <code>pbrentComponent</code>'s frbme.
+     * <code>title</code> is the title of the returned diblog.
+     * The returned <code>JDiblog</code> will not be resizbble by the
+     * user, however progrbms cbn invoke <code>setResizbble</code> on
+     * the <code>JDiblog</code> instbnce to chbnge this property.
+     * The returned <code>JDiblog</code> will be set up such thbt
      * once it is closed, or the user clicks on one of the buttons,
-     * the optionpane's value property will be set accordingly and
-     * the dialog will be closed.  Each time the dialog is made visible,
-     * it will reset the option pane's value property to
-     * <code>JOptionPane.UNINITIALIZED_VALUE</code> to ensure the
-     * user's subsequent action closes the dialog properly.
+     * the optionpbne's vblue property will be set bccordingly bnd
+     * the diblog will be closed.  Ebch time the diblog is mbde visible,
+     * it will reset the option pbne's vblue property to
+     * <code>JOptionPbne.UNINITIALIZED_VALUE</code> to ensure the
+     * user's subsequent bction closes the diblog properly.
      *
-     * @param parentComponent determines the frame in which the dialog
-     *          is displayed; if the <code>parentComponent</code> has
-     *          no <code>Frame</code>, a default <code>Frame</code> is used
-     * @param title     the title string for the dialog
-     * @return a new <code>JDialog</code> containing this instance
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm pbrentComponent determines the frbme in which the diblog
+     *          is displbyed; if the <code>pbrentComponent</code> hbs
+     *          no <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm title     the title string for the diblog
+     * @return b new <code>JDiblog</code> contbining this instbnce
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public JDialog createDialog(Component parentComponent, String title)
-        throws HeadlessException {
-        int style = styleFromMessageType(getMessageType());
-        return createDialog(parentComponent, title, style);
+    public JDiblog crebteDiblog(Component pbrentComponent, String title)
+        throws HebdlessException {
+        int style = styleFromMessbgeType(getMessbgeType());
+        return crebteDiblog(pbrentComponent, title, style);
     }
 
     /**
-     * Creates and returns a new parentless <code>JDialog</code>
+     * Crebtes bnd returns b new pbrentless <code>JDiblog</code>
      * with the specified title.
-     * The returned <code>JDialog</code> will not be resizable by the
-     * user, however programs can invoke <code>setResizable</code> on
-     * the <code>JDialog</code> instance to change this property.
-     * The returned <code>JDialog</code> will be set up such that
+     * The returned <code>JDiblog</code> will not be resizbble by the
+     * user, however progrbms cbn invoke <code>setResizbble</code> on
+     * the <code>JDiblog</code> instbnce to chbnge this property.
+     * The returned <code>JDiblog</code> will be set up such thbt
      * once it is closed, or the user clicks on one of the buttons,
-     * the optionpane's value property will be set accordingly and
-     * the dialog will be closed.  Each time the dialog is made visible,
-     * it will reset the option pane's value property to
-     * <code>JOptionPane.UNINITIALIZED_VALUE</code> to ensure the
-     * user's subsequent action closes the dialog properly.
+     * the optionpbne's vblue property will be set bccordingly bnd
+     * the diblog will be closed.  Ebch time the diblog is mbde visible,
+     * it will reset the option pbne's vblue property to
+     * <code>JOptionPbne.UNINITIALIZED_VALUE</code> to ensure the
+     * user's subsequent bction closes the diblog properly.
      *
-     * @param title     the title string for the dialog
-     * @return a new <code>JDialog</code> containing this instance
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm title     the title string for the diblog
+     * @return b new <code>JDiblog</code> contbining this instbnce
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.6
      */
-    public JDialog createDialog(String title) throws HeadlessException {
-        int style = styleFromMessageType(getMessageType());
-        JDialog dialog = new JDialog((Dialog) null, title, true);
-        initDialog(dialog, style, null);
-        return dialog;
+    public JDiblog crebteDiblog(String title) throws HebdlessException {
+        int style = styleFromMessbgeType(getMessbgeType());
+        JDiblog diblog = new JDiblog((Diblog) null, title, true);
+        initDiblog(diblog, style, null);
+        return diblog;
     }
 
-    private JDialog createDialog(Component parentComponent, String title,
+    privbte JDiblog crebteDiblog(Component pbrentComponent, String title,
             int style)
-            throws HeadlessException {
+            throws HebdlessException {
 
-        final JDialog dialog;
+        finbl JDiblog diblog;
 
-        Window window = JOptionPane.getWindowForComponent(parentComponent);
-        if (window instanceof Frame) {
-            dialog = new JDialog((Frame)window, title, true);
+        Window window = JOptionPbne.getWindowForComponent(pbrentComponent);
+        if (window instbnceof Frbme) {
+            diblog = new JDiblog((Frbme)window, title, true);
         } else {
-            dialog = new JDialog((Dialog)window, title, true);
+            diblog = new JDiblog((Diblog)window, title, true);
         }
-        if (window instanceof SwingUtilities.SharedOwnerFrame) {
+        if (window instbnceof SwingUtilities.ShbredOwnerFrbme) {
             WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            dialog.addWindowListener(ownerShutdownListener);
+                    SwingUtilities.getShbredOwnerFrbmeShutdownListener();
+            diblog.bddWindowListener(ownerShutdownListener);
         }
-        initDialog(dialog, style, parentComponent);
-        return dialog;
+        initDiblog(diblog, style, pbrentComponent);
+        return diblog;
     }
 
-    private void initDialog(final JDialog dialog, int style, Component parentComponent) {
-        dialog.setComponentOrientation(this.getComponentOrientation());
-        Container contentPane = dialog.getContentPane();
+    privbte void initDiblog(finbl JDiblog diblog, int style, Component pbrentComponent) {
+        diblog.setComponentOrientbtion(this.getComponentOrientbtion());
+        Contbiner contentPbne = diblog.getContentPbne();
 
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(this, BorderLayout.CENTER);
-        dialog.setResizable(false);
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-              UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                dialog.setUndecorated(true);
-                getRootPane().setWindowDecorationStyle(style);
+        contentPbne.setLbyout(new BorderLbyout());
+        contentPbne.bdd(this, BorderLbyout.CENTER);
+        diblog.setResizbble(fblse);
+        if (JDiblog.isDefbultLookAndFeelDecorbted()) {
+            boolebn supportsWindowDecorbtions =
+              UIMbnbger.getLookAndFeel().getSupportsWindowDecorbtions();
+            if (supportsWindowDecorbtions) {
+                diblog.setUndecorbted(true);
+                getRootPbne().setWindowDecorbtionStyle(style);
             }
         }
-        dialog.pack();
-        dialog.setLocationRelativeTo(parentComponent);
+        diblog.pbck();
+        diblog.setLocbtionRelbtiveTo(pbrentComponent);
 
-        final PropertyChangeListener listener = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                // Let the defaultCloseOperation handle the closing
-                // if the user closed the window without selecting a button
-                // (newValue = null in that case).  Otherwise, close the dialog.
-                if (dialog.isVisible() && event.getSource() == JOptionPane.this &&
-                        (event.getPropertyName().equals(VALUE_PROPERTY)) &&
-                        event.getNewValue() != null &&
-                        event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
-                    dialog.setVisible(false);
+        finbl PropertyChbngeListener listener = new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent event) {
+                // Let the defbultCloseOperbtion hbndle the closing
+                // if the user closed the window without selecting b button
+                // (newVblue = null in thbt cbse).  Otherwise, close the diblog.
+                if (diblog.isVisible() && event.getSource() == JOptionPbne.this &&
+                        (event.getPropertyNbme().equbls(VALUE_PROPERTY)) &&
+                        event.getNewVblue() != null &&
+                        event.getNewVblue() != JOptionPbne.UNINITIALIZED_VALUE) {
+                    diblog.setVisible(fblse);
                 }
             }
         };
 
-        WindowAdapter adapter = new WindowAdapter() {
-            private boolean gotFocus = false;
+        WindowAdbpter bdbpter = new WindowAdbpter() {
+            privbte boolebn gotFocus = fblse;
             public void windowClosing(WindowEvent we) {
-                setValue(null);
+                setVblue(null);
             }
 
             public void windowClosed(WindowEvent e) {
-                removePropertyChangeListener(listener);
-                dialog.getContentPane().removeAll();
+                removePropertyChbngeListener(listener);
+                diblog.getContentPbne().removeAll();
             }
 
-            public void windowGainedFocus(WindowEvent we) {
-                // Once window gets focus, set initial focus
+            public void windowGbinedFocus(WindowEvent we) {
+                // Once window gets focus, set initibl focus
                 if (!gotFocus) {
-                    selectInitialValue();
+                    selectInitiblVblue();
                     gotFocus = true;
                 }
             }
         };
-        dialog.addWindowListener(adapter);
-        dialog.addWindowFocusListener(adapter);
-        dialog.addComponentListener(new ComponentAdapter() {
+        diblog.bddWindowListener(bdbpter);
+        diblog.bddWindowFocusListener(bdbpter);
+        diblog.bddComponentListener(new ComponentAdbpter() {
             public void componentShown(ComponentEvent ce) {
-                // reset value to ensure closing works properly
-                setValue(JOptionPane.UNINITIALIZED_VALUE);
+                // reset vblue to ensure closing works properly
+                setVblue(JOptionPbne.UNINITIALIZED_VALUE);
             }
         });
 
-        addPropertyChangeListener(listener);
+        bddPropertyChbngeListener(listener);
     }
 
 
     /**
-     * Brings up an internal confirmation dialog panel. The dialog
-     * is a information-message dialog titled "Message".
+     * Brings up bn internbl confirmbtion diblog pbnel. The diblog
+     * is b informbtion-messbge diblog titled "Messbge".
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the object to display
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the object to displby
      */
-    public static void showInternalMessageDialog(Component parentComponent,
-                                                 Object message) {
-        showInternalMessageDialog(parentComponent, message, UIManager.
-                                 getString("OptionPane.messageDialogTitle",
-                                 parentComponent), INFORMATION_MESSAGE);
+    public stbtic void showInternblMessbgeDiblog(Component pbrentComponent,
+                                                 Object messbge) {
+        showInternblMessbgeDiblog(pbrentComponent, messbge, UIMbnbger.
+                                 getString("OptionPbne.messbgeDiblogTitle",
+                                 pbrentComponent), INFORMATION_MESSAGE);
     }
 
     /**
-     * Brings up an internal dialog panel that displays a message
-     * using a default icon determined by the <code>messageType</code>
-     * parameter.
+     * Brings up bn internbl diblog pbnel thbt displbys b messbge
+     * using b defbult icon determined by the <code>messbgeType</code>
+     * pbrbmeter.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
      */
-    public static void showInternalMessageDialog(Component parentComponent,
-                                                 Object message, String title,
-                                                 int messageType) {
-        showInternalMessageDialog(parentComponent, message, title, messageType,null);
+    public stbtic void showInternblMessbgeDiblog(Component pbrentComponent,
+                                                 Object messbge, String title,
+                                                 int messbgeType) {
+        showInternblMessbgeDiblog(pbrentComponent, messbge, title, messbgeType,null);
     }
 
     /**
-     * Brings up an internal dialog panel displaying a message,
-     * specifying all parameters.
+     * Brings up bn internbl diblog pbnel displbying b messbge,
+     * specifying bll pbrbmeters.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @param title     the title string for the dialog
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param icon      an icon to display in the dialog that helps the user
-     *                  identify the kind of message that is being displayed
+     * @pbrbm icon      bn icon to displby in the diblog thbt helps the user
+     *                  identify the kind of messbge thbt is being displbyed
      */
-    public static void showInternalMessageDialog(Component parentComponent,
-                                         Object message,
-                                         String title, int messageType,
+    public stbtic void showInternblMessbgeDiblog(Component pbrentComponent,
+                                         Object messbge,
+                                         String title, int messbgeType,
                                          Icon icon){
-        showInternalOptionDialog(parentComponent, message, title, DEFAULT_OPTION,
-                                 messageType, icon, null, null);
+        showInternblOptionDiblog(pbrentComponent, messbge, title, DEFAULT_OPTION,
+                                 messbgeType, icon, null, null);
     }
 
     /**
-     * Brings up an internal dialog panel with the options <i>Yes</i>, <i>No</i>
-     * and <i>Cancel</i>; with the title, <b>Select an Option</b>.
+     * Brings up bn internbl diblog pbnel with the options <i>Yes</i>, <i>No</i>
+     * bnd <i>Cbncel</i>; with the title, <b>Select bn Option</b>.
      *
-     * @param parentComponent determines the <code>Frame</code> in
-     *          which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the <code>Object</code> to display
-     * @return an integer indicating the option selected by the user
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in
+     *          which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the <code>Object</code> to displby
+     * @return bn integer indicbting the option selected by the user
      */
-    public static int showInternalConfirmDialog(Component parentComponent,
-                                                Object message) {
-        return showInternalConfirmDialog(parentComponent, message,
-                                 UIManager.getString("OptionPane.titleText"),
+    public stbtic int showInternblConfirmDiblog(Component pbrentComponent,
+                                                Object messbge) {
+        return showInternblConfirmDiblog(pbrentComponent, messbge,
+                                 UIMbnbger.getString("OptionPbne.titleText"),
                                  YES_NO_CANCEL_OPTION);
     }
 
     /**
-     * Brings up a internal dialog panel where the number of choices
-     * is determined by the <code>optionType</code> parameter.
+     * Brings up b internbl diblog pbnel where the number of choices
+     * is determined by the <code>optionType</code> pbrbmeter.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the object to display in the dialog; a
-     *          <code>Component</code> object is rendered as a
-     *          <code>Component</code>; a <code>String</code>
-     *          object is rendered as a string; other objects
-     *          are converted to a <code>String</code> using the
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the object to displby in the diblog; b
+     *          <code>Component</code> object is rendered bs b
+     *          <code>Component</code>; b <code>String</code>
+     *          object is rendered bs b string; other objects
+     *          bre converted to b <code>String</code> using the
      *          <code>toString</code> method
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options
-     *          available on the dialog: <code>YES_NO_OPTION</code>,
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options
+     *          bvbilbble on the diblog: <code>YES_NO_OPTION</code>,
      *          or <code>YES_NO_CANCEL_OPTION</code>
-     * @return an integer indicating the option selected by the user
+     * @return bn integer indicbting the option selected by the user
      */
-    public static int showInternalConfirmDialog(Component parentComponent,
-                                                Object message, String title,
+    public stbtic int showInternblConfirmDiblog(Component pbrentComponent,
+                                                Object messbge, String title,
                                                 int optionType) {
-        return showInternalConfirmDialog(parentComponent, message, title, optionType,
+        return showInternblConfirmDiblog(pbrentComponent, messbge, title, optionType,
                                          QUESTION_MESSAGE);
     }
 
     /**
-     * Brings up an internal dialog panel where the number of choices
-     * is determined by the <code>optionType</code> parameter, where
-     * the <code>messageType</code> parameter determines the icon to display.
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the Look and Feel.
+     * Brings up bn internbl diblog pbnel where the number of choices
+     * is determined by the <code>optionType</code> pbrbmeter, where
+     * the <code>messbgeType</code> pbrbmeter determines the icon to displby.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the Look bnd Feel.
      *
-     * @param parentComponent determines the <code>Frame</code> in
-     *          which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the object to display in the dialog; a
-     *          <code>Component</code> object is rendered as a
-     *          <code>Component</code>; a <code>String</code>
-     *          object is rendered as a string; other objects are
-     *          converted to a <code>String</code> using the
+     * @pbrbm pbrentComponent determines the <code>Frbme</code> in
+     *          which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the object to displby in the diblog; b
+     *          <code>Component</code> object is rendered bs b
+     *          <code>Component</code>; b <code>String</code>
+     *          object is rendered bs b string; other objects bre
+     *          converted to b <code>String</code> using the
      *          <code>toString</code> method
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options
-     *          available on the dialog:
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options
+     *          bvbilbble on the diblog:
      *          <code>YES_NO_OPTION</code>, or <code>YES_NO_CANCEL_OPTION</code>
-     * @param messageType an integer designating the kind of message this is,
-     *          primarily used to determine the icon from the
-     *          pluggable Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn integer designbting the kind of messbge this is,
+     *          primbrily used to determine the icon from the
+     *          pluggbble Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *          <code>INFORMATION_MESSAGE</code>,
      *          <code>WARNING_MESSAGE</code>, <code>QUESTION_MESSAGE</code>,
      *          or <code>PLAIN_MESSAGE</code>
-     * @return an integer indicating the option selected by the user
+     * @return bn integer indicbting the option selected by the user
      */
-    public static int showInternalConfirmDialog(Component parentComponent,
-                                        Object message,
+    public stbtic int showInternblConfirmDiblog(Component pbrentComponent,
+                                        Object messbge,
                                         String title, int optionType,
-                                        int messageType) {
-        return showInternalConfirmDialog(parentComponent, message, title, optionType,
-                                         messageType, null);
+                                        int messbgeType) {
+        return showInternblConfirmDiblog(pbrentComponent, messbge, title, optionType,
+                                         messbgeType, null);
     }
 
     /**
-     * Brings up an internal dialog panel with a specified icon, where
+     * Brings up bn internbl diblog pbnel with b specified icon, where
      * the number of choices is determined by the <code>optionType</code>
-     * parameter.
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the look and feel.
+     * pbrbmeter.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the look bnd feel.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the parentComponent has no Frame, a
-     *          default <code>Frame</code> is used
-     * @param message   the object to display in the dialog; a
-     *          <code>Component</code> object is rendered as a
-     *          <code>Component</code>; a <code>String</code>
-     *          object is rendered as a string; other objects are
-     *          converted to a <code>String</code> using the
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the pbrentComponent hbs no Frbme, b
+     *          defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the object to displby in the diblog; b
+     *          <code>Component</code> object is rendered bs b
+     *          <code>Component</code>; b <code>String</code>
+     *          object is rendered bs b string; other objects bre
+     *          converted to b <code>String</code> using the
      *          <code>toString</code> method
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options available
-     *          on the dialog:
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options bvbilbble
+     *          on the diblog:
      *          <code>YES_NO_OPTION</code>, or
      *          <code>YES_NO_CANCEL_OPTION</code>.
-     * @param messageType an integer designating the kind of message this is,
-     *          primarily used to determine the icon from the pluggable
-     *          Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn integer designbting the kind of messbge this is,
+     *          primbrily used to determine the icon from the pluggbble
+     *          Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *          <code>INFORMATION_MESSAGE</code>,
      *          <code>WARNING_MESSAGE</code>, <code>QUESTION_MESSAGE</code>,
      *          or <code>PLAIN_MESSAGE</code>
-     * @param icon      the icon to display in the dialog
-     * @return an integer indicating the option selected by the user
+     * @pbrbm icon      the icon to displby in the diblog
+     * @return bn integer indicbting the option selected by the user
      */
-    public static int showInternalConfirmDialog(Component parentComponent,
-                                        Object message,
+    public stbtic int showInternblConfirmDiblog(Component pbrentComponent,
+                                        Object messbge,
                                         String title, int optionType,
-                                        int messageType, Icon icon) {
-        return showInternalOptionDialog(parentComponent, message, title, optionType,
-                                        messageType, icon, null, null);
+                                        int messbgeType, Icon icon) {
+        return showInternblOptionDiblog(pbrentComponent, messbge, title, optionType,
+                                        messbgeType, icon, null, null);
     }
 
     /**
-     * Brings up an internal dialog panel with a specified icon, where
-     * the initial choice is determined by the <code>initialValue</code>
-     * parameter and the number of choices is determined by the
-     * <code>optionType</code> parameter.
+     * Brings up bn internbl diblog pbnel with b specified icon, where
+     * the initibl choice is determined by the <code>initiblVblue</code>
+     * pbrbmeter bnd the number of choices is determined by the
+     * <code>optionType</code> pbrbmeter.
      * <p>
      * If <code>optionType</code> is <code>YES_NO_OPTION</code>, or
      * <code>YES_NO_CANCEL_OPTION</code>
-     * and the <code>options</code> parameter is <code>null</code>,
-     * then the options are supplied by the Look and Feel.
+     * bnd the <code>options</code> pbrbmeter is <code>null</code>,
+     * then the options bre supplied by the Look bnd Feel.
      * <p>
-     * The <code>messageType</code> parameter is primarily used to supply
-     * a default icon from the look and feel.
+     * The <code>messbgeType</code> pbrbmeter is primbrily used to supply
+     * b defbult icon from the look bnd feel.
      *
-     * @param parentComponent determines the <code>Frame</code>
-     *          in which the dialog is displayed; if <code>null</code>,
-     *          or if the <code>parentComponent</code> has no
-     *          <code>Frame</code>, a default <code>Frame</code> is used
-     * @param message   the object to display in the dialog; a
-     *          <code>Component</code> object is rendered as a
-     *          <code>Component</code>; a <code>String</code>
-     *          object is rendered as a string. Other objects are
-     *          converted to a <code>String</code> using the
+     * @pbrbm pbrentComponent determines the <code>Frbme</code>
+     *          in which the diblog is displbyed; if <code>null</code>,
+     *          or if the <code>pbrentComponent</code> hbs no
+     *          <code>Frbme</code>, b defbult <code>Frbme</code> is used
+     * @pbrbm messbge   the object to displby in the diblog; b
+     *          <code>Component</code> object is rendered bs b
+     *          <code>Component</code>; b <code>String</code>
+     *          object is rendered bs b string. Other objects bre
+     *          converted to b <code>String</code> using the
      *          <code>toString</code> method
-     * @param title     the title string for the dialog
-     * @param optionType an integer designating the options available
-     *          on the dialog: <code>YES_NO_OPTION</code>,
+     * @pbrbm title     the title string for the diblog
+     * @pbrbm optionType bn integer designbting the options bvbilbble
+     *          on the diblog: <code>YES_NO_OPTION</code>,
      *          or <code>YES_NO_CANCEL_OPTION</code>
-     * @param messageType an integer designating the kind of message this is;
-     *          primarily used to determine the icon from the
-     *          pluggable Look and Feel: <code>ERROR_MESSAGE</code>,
+     * @pbrbm messbgeType bn integer designbting the kind of messbge this is;
+     *          primbrily used to determine the icon from the
+     *          pluggbble Look bnd Feel: <code>ERROR_MESSAGE</code>,
      *          <code>INFORMATION_MESSAGE</code>,
      *          <code>WARNING_MESSAGE</code>, <code>QUESTION_MESSAGE</code>,
      *          or <code>PLAIN_MESSAGE</code>
-     * @param icon      the icon to display in the dialog
-     * @param options   an array of objects indicating the possible choices
-     *          the user can make; if the objects are components, they
-     *          are rendered properly; non-<code>String</code>
-     *          objects are rendered using their <code>toString</code>
-     *          methods; if this parameter is <code>null</code>,
-     *          the options are determined by the Look and Feel
-     * @param initialValue the object that represents the default selection
-     *          for the dialog; only meaningful if <code>options</code>
-     *          is used; can be <code>null</code>
-     * @return an integer indicating the option chosen by the user,
-     *          or <code>CLOSED_OPTION</code> if the user closed the Dialog
+     * @pbrbm icon      the icon to displby in the diblog
+     * @pbrbm options   bn brrby of objects indicbting the possible choices
+     *          the user cbn mbke; if the objects bre components, they
+     *          bre rendered properly; non-<code>String</code>
+     *          objects bre rendered using their <code>toString</code>
+     *          methods; if this pbrbmeter is <code>null</code>,
+     *          the options bre determined by the Look bnd Feel
+     * @pbrbm initiblVblue the object thbt represents the defbult selection
+     *          for the diblog; only mebningful if <code>options</code>
+     *          is used; cbn be <code>null</code>
+     * @return bn integer indicbting the option chosen by the user,
+     *          or <code>CLOSED_OPTION</code> if the user closed the Diblog
      */
-    public static int showInternalOptionDialog(Component parentComponent,
-                                       Object message,
+    public stbtic int showInternblOptionDiblog(Component pbrentComponent,
+                                       Object messbge,
                                        String title, int optionType,
-                                       int messageType, Icon icon,
-                                       Object[] options, Object initialValue) {
-        JOptionPane pane = new JOptionPane(message, messageType,
-                optionType, icon, options, initialValue);
-        pane.putClientProperty(PopupFactory_FORCE_HEAVYWEIGHT_POPUP,
-                Boolean.TRUE);
-        Component fo = KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                                       int messbgeType, Icon icon,
+                                       Object[] options, Object initiblVblue) {
+        JOptionPbne pbne = new JOptionPbne(messbge, messbgeType,
+                optionType, icon, options, initiblVblue);
+        pbne.putClientProperty(PopupFbctory_FORCE_HEAVYWEIGHT_POPUP,
+                Boolebn.TRUE);
+        Component fo = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                 getFocusOwner();
 
-        pane.setInitialValue(initialValue);
+        pbne.setInitiblVblue(initiblVblue);
 
-        JInternalFrame dialog =
-            pane.createInternalFrame(parentComponent, title);
-        pane.selectInitialValue();
-        dialog.setVisible(true);
+        JInternblFrbme diblog =
+            pbne.crebteInternblFrbme(pbrentComponent, title);
+        pbne.selectInitiblVblue();
+        diblog.setVisible(true);
 
-        /* Since all input will be blocked until this dialog is dismissed,
-         * make sure its parent containers are visible first (this component
-         * is tested below).  This is necessary for JApplets, because
-         * because an applet normally isn't made visible until after its
-         * start() method returns -- if this method is called from start(),
-         * the applet will appear to hang while an invisible modal frame
-         * waits for input.
+        /* Since bll input will be blocked until this diblog is dismissed,
+         * mbke sure its pbrent contbiners bre visible first (this component
+         * is tested below).  This is necessbry for JApplets, becbuse
+         * becbuse bn bpplet normblly isn't mbde visible until bfter its
+         * stbrt() method returns -- if this method is cblled from stbrt(),
+         * the bpplet will bppebr to hbng while bn invisible modbl frbme
+         * wbits for input.
          */
-        if (dialog.isVisible() && !dialog.isShowing()) {
-            Container parent = dialog.getParent();
-            while (parent != null) {
-                if (parent.isVisible() == false) {
-                    parent.setVisible(true);
+        if (diblog.isVisible() && !diblog.isShowing()) {
+            Contbiner pbrent = diblog.getPbrent();
+            while (pbrent != null) {
+                if (pbrent.isVisible() == fblse) {
+                    pbrent.setVisible(true);
                 }
-                parent = parent.getParent();
+                pbrent = pbrent.getPbrent();
             }
         }
 
-        AWTAccessor.getContainerAccessor().startLWModal(dialog);
+        AWTAccessor.getContbinerAccessor().stbrtLWModbl(diblog);
 
-        if (parentComponent instanceof JInternalFrame) {
+        if (pbrentComponent instbnceof JInternblFrbme) {
             try {
-                ((JInternalFrame)parentComponent).setSelected(true);
-            } catch (java.beans.PropertyVetoException e) {
+                ((JInternblFrbme)pbrentComponent).setSelected(true);
+            } cbtch (jbvb.bebns.PropertyVetoException e) {
             }
         }
 
-        Object selectedValue = pane.getValue();
+        Object selectedVblue = pbne.getVblue();
 
         if (fo != null && fo.isShowing()) {
             fo.requestFocus();
         }
-        if (selectedValue == null) {
+        if (selectedVblue == null) {
             return CLOSED_OPTION;
         }
         if (options == null) {
-            if (selectedValue instanceof Integer) {
-                return ((Integer)selectedValue).intValue();
+            if (selectedVblue instbnceof Integer) {
+                return ((Integer)selectedVblue).intVblue();
             }
             return CLOSED_OPTION;
         }
-        for(int counter = 0, maxCounter = options.length;
-            counter < maxCounter; counter++) {
-            if (options[counter].equals(selectedValue)) {
+        for(int counter = 0, mbxCounter = options.length;
+            counter < mbxCounter; counter++) {
+            if (options[counter].equbls(selectedVblue)) {
                 return counter;
             }
         }
@@ -1346,583 +1346,583 @@ public class JOptionPane extends JComponent implements Accessible
     }
 
     /**
-     * Shows an internal question-message dialog requesting input from
-     * the user parented to <code>parentComponent</code>. The dialog
-     * is displayed in the <code>Component</code>'s frame,
-     * and is usually positioned below the <code>Component</code>.
+     * Shows bn internbl question-messbge diblog requesting input from
+     * the user pbrented to <code>pbrentComponent</code>. The diblog
+     * is displbyed in the <code>Component</code>'s frbme,
+     * bnd is usublly positioned below the <code>Component</code>.
      *
-     * @param parentComponent  the parent <code>Component</code>
-     *          for the dialog
-     * @param message  the <code>Object</code> to display
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code>
+     *          for the diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
      * @return user's input
      */
-    public static String showInternalInputDialog(Component parentComponent,
-                                                 Object message) {
-        return showInternalInputDialog(parentComponent, message, UIManager.
-               getString("OptionPane.inputDialogTitle", parentComponent),
+    public stbtic String showInternblInputDiblog(Component pbrentComponent,
+                                                 Object messbge) {
+        return showInternblInputDiblog(pbrentComponent, messbge, UIMbnbger.
+               getString("OptionPbne.inputDiblogTitle", pbrentComponent),
                QUESTION_MESSAGE);
     }
 
     /**
-     * Shows an internal dialog requesting input from the user parented
-     * to <code>parentComponent</code> with the dialog having the title
-     * <code>title</code> and message type <code>messageType</code>.
+     * Shows bn internbl diblog requesting input from the user pbrented
+     * to <code>pbrentComponent</code> with the diblog hbving the title
+     * <code>title</code> bnd messbge type <code>messbgeType</code>.
      *
-     * @param parentComponent the parent <code>Component</code> for the dialog
-     * @param message  the <code>Object</code> to display
-     * @param title    the <code>String</code> to display in the
-     *          dialog title bar
-     * @param messageType the type of message that is to be displayed:
+     * @pbrbm pbrentComponent the pbrent <code>Component</code> for the diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
+     * @pbrbm title    the <code>String</code> to displby in the
+     *          diblog title bbr
+     * @pbrbm messbgeType the type of messbge thbt is to be displbyed:
      *                    ERROR_MESSAGE, INFORMATION_MESSAGE, WARNING_MESSAGE,
      *                    QUESTION_MESSAGE, or PLAIN_MESSAGE
      * @return user's input
      */
-    public static String showInternalInputDialog(Component parentComponent,
-                             Object message, String title, int messageType) {
-        return (String)showInternalInputDialog(parentComponent, message, title,
-                                       messageType, null, null, null);
+    public stbtic String showInternblInputDiblog(Component pbrentComponent,
+                             Object messbge, String title, int messbgeType) {
+        return (String)showInternblInputDiblog(pbrentComponent, messbge, title,
+                                       messbgeType, null, null, null);
     }
 
     /**
-     * Prompts the user for input in a blocking internal dialog where
-     * the initial selection, possible selections, and all other
-     * options can be specified. The user will able to choose from
-     * <code>selectionValues</code>, where <code>null</code>
-     * implies the user can input
-     * whatever they wish, usually by means of a <code>JTextField</code>.
-     * <code>initialSelectionValue</code> is the initial value to prompt
+     * Prompts the user for input in b blocking internbl diblog where
+     * the initibl selection, possible selections, bnd bll other
+     * options cbn be specified. The user will bble to choose from
+     * <code>selectionVblues</code>, where <code>null</code>
+     * implies the user cbn input
+     * whbtever they wish, usublly by mebns of b <code>JTextField</code>.
+     * <code>initiblSelectionVblue</code> is the initibl vblue to prompt
      * the user with. It is up to the UI to decide how best to represent
-     * the <code>selectionValues</code>, but usually a
+     * the <code>selectionVblues</code>, but usublly b
      * <code>JComboBox</code>, <code>JList</code>, or
      * <code>JTextField</code> will be used.
      *
-     * @param parentComponent the parent <code>Component</code> for the dialog
-     * @param message  the <code>Object</code> to display
-     * @param title    the <code>String</code> to display in the dialog
-     *          title bar
-     * @param messageType the type of message to be displayed:
+     * @pbrbm pbrentComponent the pbrent <code>Component</code> for the diblog
+     * @pbrbm messbge  the <code>Object</code> to displby
+     * @pbrbm title    the <code>String</code> to displby in the diblog
+     *          title bbr
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>, <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>, or <code>PLAIN_MESSAGE</code>
-     * @param icon     the <code>Icon</code> image to display
-     * @param selectionValues an array of <code>Objects</code> that
+     * @pbrbm icon     the <code>Icon</code> imbge to displby
+     * @pbrbm selectionVblues bn brrby of <code>Objects</code> thbt
      *                  gives the possible selections
-     * @param initialSelectionValue the value used to initialize the input
+     * @pbrbm initiblSelectionVblue the vblue used to initiblize the input
      *                  field
-     * @return user's input, or <code>null</code> meaning the user
-     *          canceled the input
+     * @return user's input, or <code>null</code> mebning the user
+     *          cbnceled the input
      */
-    public static Object showInternalInputDialog(Component parentComponent,
-            Object message, String title, int messageType, Icon icon,
-            Object[] selectionValues, Object initialSelectionValue) {
-        JOptionPane pane = new JOptionPane(message, messageType,
+    public stbtic Object showInternblInputDiblog(Component pbrentComponent,
+            Object messbge, String title, int messbgeType, Icon icon,
+            Object[] selectionVblues, Object initiblSelectionVblue) {
+        JOptionPbne pbne = new JOptionPbne(messbge, messbgeType,
                 OK_CANCEL_OPTION, icon, null, null);
-        pane.putClientProperty(PopupFactory_FORCE_HEAVYWEIGHT_POPUP,
-                Boolean.TRUE);
-        Component fo = KeyboardFocusManager.getCurrentKeyboardFocusManager().
+        pbne.putClientProperty(PopupFbctory_FORCE_HEAVYWEIGHT_POPUP,
+                Boolebn.TRUE);
+        Component fo = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                 getFocusOwner();
 
-        pane.setWantsInput(true);
-        pane.setSelectionValues(selectionValues);
-        pane.setInitialSelectionValue(initialSelectionValue);
+        pbne.setWbntsInput(true);
+        pbne.setSelectionVblues(selectionVblues);
+        pbne.setInitiblSelectionVblue(initiblSelectionVblue);
 
-        JInternalFrame dialog =
-            pane.createInternalFrame(parentComponent, title);
+        JInternblFrbme diblog =
+            pbne.crebteInternblFrbme(pbrentComponent, title);
 
-        pane.selectInitialValue();
-        dialog.setVisible(true);
+        pbne.selectInitiblVblue();
+        diblog.setVisible(true);
 
-        /* Since all input will be blocked until this dialog is dismissed,
-         * make sure its parent containers are visible first (this component
-         * is tested below).  This is necessary for JApplets, because
-         * because an applet normally isn't made visible until after its
-         * start() method returns -- if this method is called from start(),
-         * the applet will appear to hang while an invisible modal frame
-         * waits for input.
+        /* Since bll input will be blocked until this diblog is dismissed,
+         * mbke sure its pbrent contbiners bre visible first (this component
+         * is tested below).  This is necessbry for JApplets, becbuse
+         * becbuse bn bpplet normblly isn't mbde visible until bfter its
+         * stbrt() method returns -- if this method is cblled from stbrt(),
+         * the bpplet will bppebr to hbng while bn invisible modbl frbme
+         * wbits for input.
          */
-        if (dialog.isVisible() && !dialog.isShowing()) {
-            Container parent = dialog.getParent();
-            while (parent != null) {
-                if (parent.isVisible() == false) {
-                    parent.setVisible(true);
+        if (diblog.isVisible() && !diblog.isShowing()) {
+            Contbiner pbrent = diblog.getPbrent();
+            while (pbrent != null) {
+                if (pbrent.isVisible() == fblse) {
+                    pbrent.setVisible(true);
                 }
-                parent = parent.getParent();
+                pbrent = pbrent.getPbrent();
             }
         }
 
-        AWTAccessor.getContainerAccessor().startLWModal(dialog);
+        AWTAccessor.getContbinerAccessor().stbrtLWModbl(diblog);
 
-        if (parentComponent instanceof JInternalFrame) {
+        if (pbrentComponent instbnceof JInternblFrbme) {
             try {
-                ((JInternalFrame)parentComponent).setSelected(true);
-            } catch (java.beans.PropertyVetoException e) {
+                ((JInternblFrbme)pbrentComponent).setSelected(true);
+            } cbtch (jbvb.bebns.PropertyVetoException e) {
             }
         }
 
         if (fo != null && fo.isShowing()) {
             fo.requestFocus();
         }
-        Object value = pane.getInputValue();
+        Object vblue = pbne.getInputVblue();
 
-        if (value == UNINITIALIZED_VALUE) {
+        if (vblue == UNINITIALIZED_VALUE) {
             return null;
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Creates and returns an instance of <code>JInternalFrame</code>.
-     * The internal frame is created with the specified title,
-     * and wrapping the <code>JOptionPane</code>.
-     * The returned <code>JInternalFrame</code> is
-     * added to the <code>JDesktopPane</code> ancestor of
-     * <code>parentComponent</code>, or components
-     * parent if one its ancestors isn't a <code>JDesktopPane</code>,
-     * or if <code>parentComponent</code>
-     * doesn't have a parent then a <code>RuntimeException</code> is thrown.
+     * Crebtes bnd returns bn instbnce of <code>JInternblFrbme</code>.
+     * The internbl frbme is crebted with the specified title,
+     * bnd wrbpping the <code>JOptionPbne</code>.
+     * The returned <code>JInternblFrbme</code> is
+     * bdded to the <code>JDesktopPbne</code> bncestor of
+     * <code>pbrentComponent</code>, or components
+     * pbrent if one its bncestors isn't b <code>JDesktopPbne</code>,
+     * or if <code>pbrentComponent</code>
+     * doesn't hbve b pbrent then b <code>RuntimeException</code> is thrown.
      *
-     * @param parentComponent  the parent <code>Component</code> for
-     *          the internal frame
-     * @param title    the <code>String</code> to display in the
-     *          frame's title bar
-     * @return a <code>JInternalFrame</code> containing a
-     *          <code>JOptionPane</code>
-     * @exception RuntimeException if <code>parentComponent</code> does
-     *          not have a valid parent
+     * @pbrbm pbrentComponent  the pbrent <code>Component</code> for
+     *          the internbl frbme
+     * @pbrbm title    the <code>String</code> to displby in the
+     *          frbme's title bbr
+     * @return b <code>JInternblFrbme</code> contbining b
+     *          <code>JOptionPbne</code>
+     * @exception RuntimeException if <code>pbrentComponent</code> does
+     *          not hbve b vblid pbrent
      */
-    public JInternalFrame createInternalFrame(Component parentComponent,
+    public JInternblFrbme crebteInternblFrbme(Component pbrentComponent,
                                  String title) {
-        Container parent =
-                JOptionPane.getDesktopPaneForComponent(parentComponent);
+        Contbiner pbrent =
+                JOptionPbne.getDesktopPbneForComponent(pbrentComponent);
 
-        if (parent == null && (parentComponent == null ||
-                (parent = parentComponent.getParent()) == null)) {
-            throw new RuntimeException("JOptionPane: parentComponent does " +
-                    "not have a valid parent");
+        if (pbrent == null && (pbrentComponent == null ||
+                (pbrent = pbrentComponent.getPbrent()) == null)) {
+            throw new RuntimeException("JOptionPbne: pbrentComponent does " +
+                    "not hbve b vblid pbrent");
         }
 
-        // Option dialogs should be closable only
-        final JInternalFrame  iFrame = new JInternalFrame(title, false, true,
-                                                           false, false);
+        // Option diblogs should be closbble only
+        finbl JInternblFrbme  iFrbme = new JInternblFrbme(title, fblse, true,
+                                                           fblse, fblse);
 
-        iFrame.putClientProperty("JInternalFrame.frameType", "optionDialog");
-        iFrame.putClientProperty("JInternalFrame.messageType",
-                                 Integer.valueOf(getMessageType()));
+        iFrbme.putClientProperty("JInternblFrbme.frbmeType", "optionDiblog");
+        iFrbme.putClientProperty("JInternblFrbme.messbgeType",
+                                 Integer.vblueOf(getMessbgeType()));
 
-        iFrame.addInternalFrameListener(new InternalFrameAdapter() {
-            public void internalFrameClosing(InternalFrameEvent e) {
-                if (getValue() == UNINITIALIZED_VALUE) {
-                    setValue(null);
+        iFrbme.bddInternblFrbmeListener(new InternblFrbmeAdbpter() {
+            public void internblFrbmeClosing(InternblFrbmeEvent e) {
+                if (getVblue() == UNINITIALIZED_VALUE) {
+                    setVblue(null);
                 }
             }
         });
-        addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                // Let the defaultCloseOperation handle the closing
-                // if the user closed the iframe without selecting a button
-                // (newValue = null in that case).  Otherwise, close the dialog.
-                if (iFrame.isVisible() &&
-                        event.getSource() == JOptionPane.this &&
-                        event.getPropertyName().equals(VALUE_PROPERTY)) {
-                    AWTAccessor.getContainerAccessor().stopLWModal(iFrame);
+        bddPropertyChbngeListener(new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent event) {
+                // Let the defbultCloseOperbtion hbndle the closing
+                // if the user closed the ifrbme without selecting b button
+                // (newVblue = null in thbt cbse).  Otherwise, close the diblog.
+                if (iFrbme.isVisible() &&
+                        event.getSource() == JOptionPbne.this &&
+                        event.getPropertyNbme().equbls(VALUE_PROPERTY)) {
+                    AWTAccessor.getContbinerAccessor().stopLWModbl(iFrbme);
 
                 try {
-                    iFrame.setClosed(true);
+                    iFrbme.setClosed(true);
                 }
-                catch (java.beans.PropertyVetoException e) {
+                cbtch (jbvb.bebns.PropertyVetoException e) {
                 }
 
-                iFrame.setVisible(false);
+                iFrbme.setVisible(fblse);
                 }
             }
         });
-        iFrame.getContentPane().add(this, BorderLayout.CENTER);
-        if (parent instanceof JDesktopPane) {
-            parent.add(iFrame, JLayeredPane.MODAL_LAYER);
+        iFrbme.getContentPbne().bdd(this, BorderLbyout.CENTER);
+        if (pbrent instbnceof JDesktopPbne) {
+            pbrent.bdd(iFrbme, JLbyeredPbne.MODAL_LAYER);
         } else {
-            parent.add(iFrame, BorderLayout.CENTER);
+            pbrent.bdd(iFrbme, BorderLbyout.CENTER);
         }
-        Dimension iFrameSize = iFrame.getPreferredSize();
-        Dimension rootSize = parent.getSize();
-        Dimension parentSize = parentComponent.getSize();
+        Dimension iFrbmeSize = iFrbme.getPreferredSize();
+        Dimension rootSize = pbrent.getSize();
+        Dimension pbrentSize = pbrentComponent.getSize();
 
-        iFrame.setBounds((rootSize.width - iFrameSize.width) / 2,
-                         (rootSize.height - iFrameSize.height) / 2,
-                         iFrameSize.width, iFrameSize.height);
-        // We want dialog centered relative to its parent component
-        Point iFrameCoord =
-          SwingUtilities.convertPoint(parentComponent, 0, 0, parent);
-        int x = (parentSize.width - iFrameSize.width) / 2 + iFrameCoord.x;
-        int y = (parentSize.height - iFrameSize.height) / 2 + iFrameCoord.y;
+        iFrbme.setBounds((rootSize.width - iFrbmeSize.width) / 2,
+                         (rootSize.height - iFrbmeSize.height) / 2,
+                         iFrbmeSize.width, iFrbmeSize.height);
+        // We wbnt diblog centered relbtive to its pbrent component
+        Point iFrbmeCoord =
+          SwingUtilities.convertPoint(pbrentComponent, 0, 0, pbrent);
+        int x = (pbrentSize.width - iFrbmeSize.width) / 2 + iFrbmeCoord.x;
+        int y = (pbrentSize.height - iFrbmeSize.height) / 2 + iFrbmeCoord.y;
 
-        // If possible, dialog should be fully visible
-        int ovrx = x + iFrameSize.width - rootSize.width;
-        int ovry = y + iFrameSize.height - rootSize.height;
-        x = Math.max((ovrx > 0? x - ovrx: x), 0);
-        y = Math.max((ovry > 0? y - ovry: y), 0);
-        iFrame.setBounds(x, y, iFrameSize.width, iFrameSize.height);
+        // If possible, diblog should be fully visible
+        int ovrx = x + iFrbmeSize.width - rootSize.width;
+        int ovry = y + iFrbmeSize.height - rootSize.height;
+        x = Mbth.mbx((ovrx > 0? x - ovrx: x), 0);
+        y = Mbth.mbx((ovry > 0? y - ovry: y), 0);
+        iFrbme.setBounds(x, y, iFrbmeSize.width, iFrbmeSize.height);
 
-        parent.validate();
+        pbrent.vblidbte();
         try {
-            iFrame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
+            iFrbme.setSelected(true);
+        } cbtch (jbvb.bebns.PropertyVetoException e) {}
 
-        return iFrame;
+        return iFrbme;
     }
 
     /**
-     * Returns the specified component's <code>Frame</code>.
+     * Returns the specified component's <code>Frbme</code>.
      *
-     * @param parentComponent the <code>Component</code> to check for a
-     *          <code>Frame</code>
-     * @return the <code>Frame</code> that contains the component,
-     *          or <code>getRootFrame</code>
+     * @pbrbm pbrentComponent the <code>Component</code> to check for b
+     *          <code>Frbme</code>
+     * @return the <code>Frbme</code> thbt contbins the component,
+     *          or <code>getRootFrbme</code>
      *          if the component is <code>null</code>,
-     *          or does not have a valid <code>Frame</code> parent
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     *          or does not hbve b vblid <code>Frbme</code> pbrent
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see #getRootFrame
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see #getRootFrbme
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static Frame getFrameForComponent(Component parentComponent)
-        throws HeadlessException {
-        if (parentComponent == null)
-            return getRootFrame();
-        if (parentComponent instanceof Frame)
-            return (Frame)parentComponent;
-        return JOptionPane.getFrameForComponent(parentComponent.getParent());
+    public stbtic Frbme getFrbmeForComponent(Component pbrentComponent)
+        throws HebdlessException {
+        if (pbrentComponent == null)
+            return getRootFrbme();
+        if (pbrentComponent instbnceof Frbme)
+            return (Frbme)pbrentComponent;
+        return JOptionPbne.getFrbmeForComponent(pbrentComponent.getPbrent());
     }
 
     /**
-     * Returns the specified component's toplevel <code>Frame</code> or
-     * <code>Dialog</code>.
+     * Returns the specified component's toplevel <code>Frbme</code> or
+     * <code>Diblog</code>.
      *
-     * @param parentComponent the <code>Component</code> to check for a
-     *          <code>Frame</code> or <code>Dialog</code>
-     * @return the <code>Frame</code> or <code>Dialog</code> that
-     *          contains the component, or the default
-     *          frame if the component is <code>null</code>,
-     *          or does not have a valid
-     *          <code>Frame</code> or <code>Dialog</code> parent
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm pbrentComponent the <code>Component</code> to check for b
+     *          <code>Frbme</code> or <code>Diblog</code>
+     * @return the <code>Frbme</code> or <code>Diblog</code> thbt
+     *          contbins the component, or the defbult
+     *          frbme if the component is <code>null</code>,
+     *          or does not hbve b vblid
+     *          <code>Frbme</code> or <code>Diblog</code> pbrent
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    static Window getWindowForComponent(Component parentComponent)
-        throws HeadlessException {
-        if (parentComponent == null)
-            return getRootFrame();
-        if (parentComponent instanceof Frame || parentComponent instanceof Dialog)
-            return (Window)parentComponent;
-        return JOptionPane.getWindowForComponent(parentComponent.getParent());
+    stbtic Window getWindowForComponent(Component pbrentComponent)
+        throws HebdlessException {
+        if (pbrentComponent == null)
+            return getRootFrbme();
+        if (pbrentComponent instbnceof Frbme || pbrentComponent instbnceof Diblog)
+            return (Window)pbrentComponent;
+        return JOptionPbne.getWindowForComponent(pbrentComponent.getPbrent());
     }
 
 
     /**
-     * Returns the specified component's desktop pane.
+     * Returns the specified component's desktop pbne.
      *
-     * @param parentComponent the <code>Component</code> to check for a
+     * @pbrbm pbrentComponent the <code>Component</code> to check for b
      *          desktop
-     * @return the <code>JDesktopPane</code> that contains the component,
+     * @return the <code>JDesktopPbne</code> thbt contbins the component,
      *          or <code>null</code> if the component is <code>null</code>
-     *          or does not have an ancestor that is a
-     *          <code>JInternalFrame</code>
+     *          or does not hbve bn bncestor thbt is b
+     *          <code>JInternblFrbme</code>
      */
-    public static JDesktopPane getDesktopPaneForComponent(Component parentComponent) {
-        if(parentComponent == null)
+    public stbtic JDesktopPbne getDesktopPbneForComponent(Component pbrentComponent) {
+        if(pbrentComponent == null)
             return null;
-        if(parentComponent instanceof JDesktopPane)
-            return (JDesktopPane)parentComponent;
-        return getDesktopPaneForComponent(parentComponent.getParent());
+        if(pbrentComponent instbnceof JDesktopPbne)
+            return (JDesktopPbne)pbrentComponent;
+        return getDesktopPbneForComponent(pbrentComponent.getPbrent());
     }
 
-    private static final Object sharedFrameKey = JOptionPane.class;
+    privbte stbtic finbl Object shbredFrbmeKey = JOptionPbne.clbss;
 
     /**
-     * Sets the frame to use for class methods in which a frame is
+     * Sets the frbme to use for clbss methods in which b frbme is
      * not provided.
      * <p>
      * <strong>Note:</strong>
-     * It is recommended that rather than using this method you supply a valid parent.
+     * It is recommended thbt rbther thbn using this method you supply b vblid pbrent.
      *
-     * @param newRootFrame the default <code>Frame</code> to use
+     * @pbrbm newRootFrbme the defbult <code>Frbme</code> to use
      */
-    public static void setRootFrame(Frame newRootFrame) {
-        if (newRootFrame != null) {
-            SwingUtilities.appContextPut(sharedFrameKey, newRootFrame);
+    public stbtic void setRootFrbme(Frbme newRootFrbme) {
+        if (newRootFrbme != null) {
+            SwingUtilities.bppContextPut(shbredFrbmeKey, newRootFrbme);
         } else {
-            SwingUtilities.appContextRemove(sharedFrameKey);
+            SwingUtilities.bppContextRemove(shbredFrbmeKey);
         }
     }
 
     /**
-     * Returns the <code>Frame</code> to use for the class methods in
-     * which a frame is not provided.
+     * Returns the <code>Frbme</code> to use for the clbss methods in
+     * which b frbme is not provided.
      *
-     * @return the default <code>Frame</code> to use
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @return the defbult <code>Frbme</code> to use
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see #setRootFrame
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see #setRootFrbme
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public static Frame getRootFrame() throws HeadlessException {
-        Frame sharedFrame =
-            (Frame)SwingUtilities.appContextGet(sharedFrameKey);
-        if (sharedFrame == null) {
-            sharedFrame = SwingUtilities.getSharedOwnerFrame();
-            SwingUtilities.appContextPut(sharedFrameKey, sharedFrame);
+    public stbtic Frbme getRootFrbme() throws HebdlessException {
+        Frbme shbredFrbme =
+            (Frbme)SwingUtilities.bppContextGet(shbredFrbmeKey);
+        if (shbredFrbme == null) {
+            shbredFrbme = SwingUtilities.getShbredOwnerFrbme();
+            SwingUtilities.bppContextPut(shbredFrbmeKey, shbredFrbme);
         }
-        return sharedFrame;
+        return shbredFrbme;
     }
 
     /**
-     * Creates a <code>JOptionPane</code> with a test message.
+     * Crebtes b <code>JOptionPbne</code> with b test messbge.
      */
-    public JOptionPane() {
-        this("JOptionPane message");
+    public JOptionPbne() {
+        this("JOptionPbne messbge");
     }
 
     /**
-     * Creates a instance of <code>JOptionPane</code> to display a
-     * message using the
-     * plain-message message type and the default options delivered by
+     * Crebtes b instbnce of <code>JOptionPbne</code> to displby b
+     * messbge using the
+     * plbin-messbge messbge type bnd the defbult options delivered by
      * the UI.
      *
-     * @param message the <code>Object</code> to display
+     * @pbrbm messbge the <code>Object</code> to displby
      */
-    public JOptionPane(Object message) {
-        this(message, PLAIN_MESSAGE);
+    public JOptionPbne(Object messbge) {
+        this(messbge, PLAIN_MESSAGE);
     }
 
     /**
-     * Creates an instance of <code>JOptionPane</code> to display a message
-     * with the specified message type and the default options,
+     * Crebtes bn instbnce of <code>JOptionPbne</code> to displby b messbge
+     * with the specified messbge type bnd the defbult options,
      *
-     * @param message the <code>Object</code> to display
-     * @param messageType the type of message to be displayed:
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
      */
-    public JOptionPane(Object message, int messageType) {
-        this(message, messageType, DEFAULT_OPTION);
+    public JOptionPbne(Object messbge, int messbgeType) {
+        this(messbge, messbgeType, DEFAULT_OPTION);
     }
 
     /**
-     * Creates an instance of <code>JOptionPane</code> to display a message
-     * with the specified message type and options.
+     * Crebtes bn instbnce of <code>JOptionPbne</code> to displby b messbge
+     * with the specified messbge type bnd options.
      *
-     * @param message the <code>Object</code> to display
-     * @param messageType the type of message to be displayed:
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param optionType the options to display in the pane:
+     * @pbrbm optionType the options to displby in the pbne:
      *                  <code>DEFAULT_OPTION</code>, <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  <code>OK_CANCEL_OPTION</code>
      */
-    public JOptionPane(Object message, int messageType, int optionType) {
-        this(message, messageType, optionType, null);
+    public JOptionPbne(Object messbge, int messbgeType, int optionType) {
+        this(messbge, messbgeType, optionType, null);
     }
 
     /**
-     * Creates an instance of <code>JOptionPane</code> to display a message
-     * with the specified message type, options, and icon.
+     * Crebtes bn instbnce of <code>JOptionPbne</code> to displby b messbge
+     * with the specified messbge type, options, bnd icon.
      *
-     * @param message the <code>Object</code> to display
-     * @param messageType the type of message to be displayed:
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param optionType the options to display in the pane:
+     * @pbrbm optionType the options to displby in the pbne:
      *                  <code>DEFAULT_OPTION</code>, <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  <code>OK_CANCEL_OPTION</code>
-     * @param icon the <code>Icon</code> image to display
+     * @pbrbm icon the <code>Icon</code> imbge to displby
      */
-    public JOptionPane(Object message, int messageType, int optionType,
+    public JOptionPbne(Object messbge, int messbgeType, int optionType,
                        Icon icon) {
-        this(message, messageType, optionType, icon, null);
+        this(messbge, messbgeType, optionType, icon, null);
     }
 
     /**
-     * Creates an instance of <code>JOptionPane</code> to display a message
-     * with the specified message type, icon, and options.
-     * None of the options is initially selected.
+     * Crebtes bn instbnce of <code>JOptionPbne</code> to displby b messbge
+     * with the specified messbge type, icon, bnd options.
+     * None of the options is initiblly selected.
      * <p>
-     * The options objects should contain either instances of
-     * <code>Component</code>s, (which are added directly) or
-     * <code>Strings</code> (which are wrapped in a <code>JButton</code>).
-     * If you provide <code>Component</code>s, you must ensure that when the
-     * <code>Component</code> is clicked it messages <code>setValue</code>
-     * in the created <code>JOptionPane</code>.
+     * The options objects should contbin either instbnces of
+     * <code>Component</code>s, (which bre bdded directly) or
+     * <code>Strings</code> (which bre wrbpped in b <code>JButton</code>).
+     * If you provide <code>Component</code>s, you must ensure thbt when the
+     * <code>Component</code> is clicked it messbges <code>setVblue</code>
+     * in the crebted <code>JOptionPbne</code>.
      *
-     * @param message the <code>Object</code> to display
-     * @param messageType the type of message to be displayed:
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param optionType the options to display in the pane:
+     * @pbrbm optionType the options to displby in the pbne:
      *                  <code>DEFAULT_OPTION</code>,
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  <code>OK_CANCEL_OPTION</code>
-     * @param icon the <code>Icon</code> image to display
-     * @param options  the choices the user can select
+     * @pbrbm icon the <code>Icon</code> imbge to displby
+     * @pbrbm options  the choices the user cbn select
      */
-    public JOptionPane(Object message, int messageType, int optionType,
+    public JOptionPbne(Object messbge, int messbgeType, int optionType,
                        Icon icon, Object[] options) {
-        this(message, messageType, optionType, icon, options, null);
+        this(messbge, messbgeType, optionType, icon, options, null);
     }
 
     /**
-     * Creates an instance of <code>JOptionPane</code> to display a message
-     * with the specified message type, icon, and options, with the
-     * initially-selected option specified.
+     * Crebtes bn instbnce of <code>JOptionPbne</code> to displby b messbge
+     * with the specified messbge type, icon, bnd options, with the
+     * initiblly-selected option specified.
      *
-     * @param message the <code>Object</code> to display
-     * @param messageType the type of message to be displayed:
+     * @pbrbm messbge the <code>Object</code> to displby
+     * @pbrbm messbgeType the type of messbge to be displbyed:
      *                  <code>ERROR_MESSAGE</code>,
      *                  <code>INFORMATION_MESSAGE</code>,
      *                  <code>WARNING_MESSAGE</code>,
      *                  <code>QUESTION_MESSAGE</code>,
      *                  or <code>PLAIN_MESSAGE</code>
-     * @param optionType the options to display in the pane:
+     * @pbrbm optionType the options to displby in the pbne:
      *                  <code>DEFAULT_OPTION</code>,
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  <code>OK_CANCEL_OPTION</code>
-     * @param icon the Icon image to display
-     * @param options  the choices the user can select
-     * @param initialValue the choice that is initially selected; if
-     *                  <code>null</code>, then nothing will be initially selected;
-     *                  only meaningful if <code>options</code> is used
+     * @pbrbm icon the Icon imbge to displby
+     * @pbrbm options  the choices the user cbn select
+     * @pbrbm initiblVblue the choice thbt is initiblly selected; if
+     *                  <code>null</code>, then nothing will be initiblly selected;
+     *                  only mebningful if <code>options</code> is used
      */
-    public JOptionPane(Object message, int messageType, int optionType,
-                       Icon icon, Object[] options, Object initialValue) {
+    public JOptionPbne(Object messbge, int messbgeType, int optionType,
+                       Icon icon, Object[] options, Object initiblVblue) {
 
-        this.message = message;
+        this.messbge = messbge;
         this.options = options;
-        this.initialValue = initialValue;
+        this.initiblVblue = initiblVblue;
         this.icon = icon;
-        setMessageType(messageType);
+        setMessbgeType(messbgeType);
         setOptionType(optionType);
-        value = UNINITIALIZED_VALUE;
-        inputValue = UNINITIALIZED_VALUE;
-        updateUI();
+        vblue = UNINITIALIZED_VALUE;
+        inputVblue = UNINITIALIZED_VALUE;
+        updbteUI();
     }
 
     /**
-     * Sets the UI object which implements the {@literal L&F} for this component.
+     * Sets the UI object which implements the {@literbl L&F} for this component.
      *
-     * @param ui  the <code>OptionPaneUI</code> {@literal L&F} object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>OptionPbneUI</code> {@literbl L&F} object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *       bound: true
      *      hidden: true
-     * description: The UI object that implements the optionpane's LookAndFeel
+     * description: The UI object thbt implements the optionpbne's LookAndFeel
      */
-    public void setUI(OptionPaneUI ui) {
+    public void setUI(OptionPbneUI ui) {
         if (this.ui != ui) {
             super.setUI(ui);
-            invalidate();
+            invblidbte();
         }
     }
 
     /**
-     * Returns the UI object which implements the {@literal L&F} for this component.
+     * Returns the UI object which implements the {@literbl L&F} for this component.
      *
-     * @return the <code>OptionPaneUI</code> object
+     * @return the <code>OptionPbneUI</code> object
      */
-    public OptionPaneUI getUI() {
-        return (OptionPaneUI)ui;
+    public OptionPbneUI getUI() {
+        return (OptionPbneUI)ui;
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the {@literal L&F} has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the {@literbl L&F} hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((OptionPaneUI)UIManager.getUI(this));
-    }
-
-
-    /**
-     * Returns the name of the UI class that implements the
-     * {@literal L&F} for this component.
-     *
-     * @return the string "OptionPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     */
-    public String getUIClassID() {
-        return uiClassID;
+    public void updbteUI() {
+        setUI((OptionPbneUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Sets the option pane's message-object.
-     * @param newMessage the <code>Object</code> to display
-     * @see #getMessage
+     * Returns the nbme of the UI clbss thbt implements the
+     * {@literbl L&F} for this component.
      *
-     * @beaninfo
+     * @return the string "OptionPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     */
+    public String getUIClbssID() {
+        return uiClbssID;
+    }
+
+
+    /**
+     * Sets the option pbne's messbge-object.
+     * @pbrbm newMessbge the <code>Object</code> to displby
+     * @see #getMessbge
+     *
+     * @bebninfo
      *   preferred: true
      *   bound: true
-     * description: The optionpane's message object.
+     * description: The optionpbne's messbge object.
      */
-    public void setMessage(Object newMessage) {
-        Object           oldMessage = message;
+    public void setMessbge(Object newMessbge) {
+        Object           oldMessbge = messbge;
 
-        message = newMessage;
-        firePropertyChange(MESSAGE_PROPERTY, oldMessage, message);
+        messbge = newMessbge;
+        firePropertyChbnge(MESSAGE_PROPERTY, oldMessbge, messbge);
     }
 
     /**
-     * Returns the message-object this pane displays.
-     * @see #setMessage
+     * Returns the messbge-object this pbne displbys.
+     * @see #setMessbge
      *
-     * @return the <code>Object</code> that is displayed
+     * @return the <code>Object</code> thbt is displbyed
      */
-    public Object getMessage() {
-        return message;
+    public Object getMessbge() {
+        return messbge;
     }
 
     /**
-     * Sets the icon to display. If non-<code>null</code>, the look and feel
-     * does not provide an icon.
-     * @param newIcon the <code>Icon</code> to display
+     * Sets the icon to displby. If non-<code>null</code>, the look bnd feel
+     * does not provide bn icon.
+     * @pbrbm newIcon the <code>Icon</code> to displby
      *
      * @see #getIcon
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's type icon.
+     * description: The option pbne's type icon.
      */
     public void setIcon(Icon newIcon) {
         Object              oldIcon = icon;
 
         icon = newIcon;
-        firePropertyChange(ICON_PROPERTY, oldIcon, icon);
+        firePropertyChbnge(ICON_PROPERTY, oldIcon, icon);
     }
 
     /**
-     * Returns the icon this pane displays.
-     * @return the <code>Icon</code> that is displayed
+     * Returns the icon this pbne displbys.
+     * @return the <code>Icon</code> thbt is displbyed
      *
      * @see #setIcon
      */
@@ -1931,65 +1931,65 @@ public class JOptionPane extends JComponent implements Accessible
     }
 
     /**
-     * Sets the value the user has chosen.
-     * @param newValue  the chosen value
+     * Sets the vblue the user hbs chosen.
+     * @pbrbm newVblue  the chosen vblue
      *
-     * @see #getValue
-     * @beaninfo
+     * @see #getVblue
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's value object.
+     * description: The option pbne's vblue object.
      */
-    public void setValue(Object newValue) {
-        Object               oldValue = value;
+    public void setVblue(Object newVblue) {
+        Object               oldVblue = vblue;
 
-        value = newValue;
-        firePropertyChange(VALUE_PROPERTY, oldValue, value);
+        vblue = newVblue;
+        firePropertyChbnge(VALUE_PROPERTY, oldVblue, vblue);
     }
 
     /**
-     * Returns the value the user has selected. <code>UNINITIALIZED_VALUE</code>
-     * implies the user has not yet made a choice, <code>null</code> means the
-     * user closed the window with out choosing anything. Otherwise
-     * the returned value will be one of the options defined in this
+     * Returns the vblue the user hbs selected. <code>UNINITIALIZED_VALUE</code>
+     * implies the user hbs not yet mbde b choice, <code>null</code> mebns the
+     * user closed the window with out choosing bnything. Otherwise
+     * the returned vblue will be one of the options defined in this
      * object.
      *
      * @return the <code>Object</code> chosen by the user,
      *         <code>UNINITIALIZED_VALUE</code>
-     *         if the user has not yet made a choice, or <code>null</code> if
-     *         the user closed the window without making a choice
+     *         if the user hbs not yet mbde b choice, or <code>null</code> if
+     *         the user closed the window without mbking b choice
      *
-     * @see #setValue
+     * @see #setVblue
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
     /**
-     * Sets the options this pane displays. If an element in
-     * <code>newOptions</code> is a <code>Component</code>
-     * it is added directly to the pane,
-     * otherwise a button is created for the element.
+     * Sets the options this pbne displbys. If bn element in
+     * <code>newOptions</code> is b <code>Component</code>
+     * it is bdded directly to the pbne,
+     * otherwise b button is crebted for the element.
      *
-     * @param newOptions an array of <code>Objects</code> that create the
-     *          buttons the user can click on, or arbitrary
-     *          <code>Components</code> to add to the pane
+     * @pbrbm newOptions bn brrby of <code>Objects</code> thbt crebte the
+     *          buttons the user cbn click on, or brbitrbry
+     *          <code>Components</code> to bdd to the pbne
      *
      * @see #getOptions
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: The option pane's options objects.
+     * description: The option pbne's options objects.
      */
     public void setOptions(Object[] newOptions) {
         Object[]           oldOptions = options;
 
         options = newOptions;
-        firePropertyChange(OPTIONS_PROPERTY, oldOptions, options);
+        firePropertyChbnge(OPTIONS_PROPERTY, oldOptions, options);
     }
 
     /**
-     * Returns the choices the user can make.
-     * @return the array of <code>Objects</code> that give the user's choices
+     * Returns the choices the user cbn mbke.
+     * @return the brrby of <code>Objects</code> thbt give the user's choices
      *
      * @see #setOptions
      */
@@ -1998,119 +1998,119 @@ public class JOptionPane extends JComponent implements Accessible
             int             optionCount = options.length;
             Object[]        retOptions = new Object[optionCount];
 
-            System.arraycopy(options, 0, retOptions, 0, optionCount);
+            System.brrbycopy(options, 0, retOptions, 0, optionCount);
             return retOptions;
         }
         return options;
     }
 
     /**
-     * Sets the initial value that is to be enabled -- the
+     * Sets the initibl vblue thbt is to be enbbled -- the
      * <code>Component</code>
-     * that has the focus when the pane is initially displayed.
+     * thbt hbs the focus when the pbne is initiblly displbyed.
      *
-     * @param newInitialValue the <code>Object</code> that gets the initial
-     *                         keyboard focus
+     * @pbrbm newInitiblVblue the <code>Object</code> thbt gets the initibl
+     *                         keybobrd focus
      *
-     * @see #getInitialValue
-     * @beaninfo
+     * @see #getInitiblVblue
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's initial value object.
+     * description: The option pbne's initibl vblue object.
      */
-    public void setInitialValue(Object newInitialValue) {
-        Object            oldIV = initialValue;
+    public void setInitiblVblue(Object newInitiblVblue) {
+        Object            oldIV = initiblVblue;
 
-        initialValue = newInitialValue;
-        firePropertyChange(INITIAL_VALUE_PROPERTY, oldIV, initialValue);
+        initiblVblue = newInitiblVblue;
+        firePropertyChbnge(INITIAL_VALUE_PROPERTY, oldIV, initiblVblue);
     }
 
     /**
-     * Returns the initial value.
+     * Returns the initibl vblue.
      *
-     * @return the <code>Object</code> that gets the initial keyboard focus
+     * @return the <code>Object</code> thbt gets the initibl keybobrd focus
      *
-     * @see #setInitialValue
+     * @see #setInitiblVblue
      */
-    public Object getInitialValue() {
-        return initialValue;
+    public Object getInitiblVblue() {
+        return initiblVblue;
     }
 
     /**
-     * Sets the option pane's message type.
-     * The message type is used by the Look and Feel to determine the
-     * icon to display (if not supplied) as well as potentially how to
-     * lay out the <code>parentComponent</code>.
-     * @param newType an integer specifying the kind of message to display:
+     * Sets the option pbne's messbge type.
+     * The messbge type is used by the Look bnd Feel to determine the
+     * icon to displby (if not supplied) bs well bs potentiblly how to
+     * lby out the <code>pbrentComponent</code>.
+     * @pbrbm newType bn integer specifying the kind of messbge to displby:
      *                <code>ERROR_MESSAGE</code>, <code>INFORMATION_MESSAGE</code>,
      *                <code>WARNING_MESSAGE</code>,
      *                <code>QUESTION_MESSAGE</code>, or <code>PLAIN_MESSAGE</code>
      * @exception RuntimeException if <code>newType</code> is not one of the
-     *          legal values listed above
+     *          legbl vblues listed bbove
 
-     * @see #getMessageType
-     * @beaninfo
+     * @see #getMessbgeType
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's message type.
+     * description: The option pbne's messbge type.
      */
-    public void setMessageType(int newType) {
+    public void setMessbgeType(int newType) {
         if(newType != ERROR_MESSAGE && newType != INFORMATION_MESSAGE &&
            newType != WARNING_MESSAGE && newType != QUESTION_MESSAGE &&
            newType != PLAIN_MESSAGE)
-            throw new RuntimeException("JOptionPane: type must be one of JOptionPane.ERROR_MESSAGE, JOptionPane.INFORMATION_MESSAGE, JOptionPane.WARNING_MESSAGE, JOptionPane.QUESTION_MESSAGE or JOptionPane.PLAIN_MESSAGE");
+            throw new RuntimeException("JOptionPbne: type must be one of JOptionPbne.ERROR_MESSAGE, JOptionPbne.INFORMATION_MESSAGE, JOptionPbne.WARNING_MESSAGE, JOptionPbne.QUESTION_MESSAGE or JOptionPbne.PLAIN_MESSAGE");
 
-        int           oldType = messageType;
+        int           oldType = messbgeType;
 
-        messageType = newType;
-        firePropertyChange(MESSAGE_TYPE_PROPERTY, oldType, messageType);
+        messbgeType = newType;
+        firePropertyChbnge(MESSAGE_TYPE_PROPERTY, oldType, messbgeType);
     }
 
     /**
-     * Returns the message type.
+     * Returns the messbge type.
      *
-     * @return an integer specifying the message type
+     * @return bn integer specifying the messbge type
      *
-     * @see #setMessageType
+     * @see #setMessbgeType
      */
-    public int getMessageType() {
-        return messageType;
+    public int getMessbgeType() {
+        return messbgeType;
     }
 
     /**
-     * Sets the options to display.
-     * The option type is used by the Look and Feel to
-     * determine what buttons to show (unless options are supplied).
-     * @param newType an integer specifying the options the {@literal L&F} is to display:
+     * Sets the options to displby.
+     * The option type is used by the Look bnd Feel to
+     * determine whbt buttons to show (unless options bre supplied).
+     * @pbrbm newType bn integer specifying the options the {@literbl L&F} is to displby:
      *                  <code>DEFAULT_OPTION</code>,
      *                  <code>YES_NO_OPTION</code>,
      *                  <code>YES_NO_CANCEL_OPTION</code>,
      *                  or <code>OK_CANCEL_OPTION</code>
      * @exception RuntimeException if <code>newType</code> is not one of
-     *          the legal values listed above
+     *          the legbl vblues listed bbove
      *
      * @see #getOptionType
      * @see #setOptions
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's option type.
+     * description: The option pbne's option type.
       */
     public void setOptionType(int newType) {
         if(newType != DEFAULT_OPTION && newType != YES_NO_OPTION &&
            newType != YES_NO_CANCEL_OPTION && newType != OK_CANCEL_OPTION)
-            throw new RuntimeException("JOptionPane: option type must be one of JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_CANCEL_OPTION or JOptionPane.OK_CANCEL_OPTION");
+            throw new RuntimeException("JOptionPbne: option type must be one of JOptionPbne.DEFAULT_OPTION, JOptionPbne.YES_NO_OPTION, JOptionPbne.YES_NO_CANCEL_OPTION or JOptionPbne.OK_CANCEL_OPTION");
 
         int            oldType = optionType;
 
         optionType = newType;
-        firePropertyChange(OPTION_TYPE_PROPERTY, oldType, optionType);
+        firePropertyChbnge(OPTION_TYPE_PROPERTY, oldType, optionType);
     }
 
     /**
-     * Returns the type of options that are displayed.
+     * Returns the type of options thbt bre displbyed.
      *
-     * @return an integer specifying the user-selectable options
+     * @return bn integer specifying the user-selectbble options
      *
      * @see #setOptionType
      */
@@ -2119,357 +2119,357 @@ public class JOptionPane extends JComponent implements Accessible
     }
 
     /**
-     * Sets the input selection values for a pane that provides the user
-     * with a list of items to choose from. (The UI provides a widget
-     * for choosing one of the values.)  A <code>null</code> value
-     * implies the user can input whatever they wish, usually by means
-     * of a <code>JTextField</code>.
+     * Sets the input selection vblues for b pbne thbt provides the user
+     * with b list of items to choose from. (The UI provides b widget
+     * for choosing one of the vblues.)  A <code>null</code> vblue
+     * implies the user cbn input whbtever they wish, usublly by mebns
+     * of b <code>JTextField</code>.
      * <p>
-     * Sets <code>wantsInput</code> to true. Use
-     * <code>setInitialSelectionValue</code> to specify the initially-chosen
-     * value. After the pane as been enabled, <code>inputValue</code> is
-     * set to the value the user has selected.
-     * @param newValues an array of <code>Objects</code> the user to be
-     *                  displayed
-     *                  (usually in a list or combo-box) from which
-     *                  the user can make a selection
-     * @see #setWantsInput
-     * @see #setInitialSelectionValue
-     * @see #getSelectionValues
-     * @beaninfo
+     * Sets <code>wbntsInput</code> to true. Use
+     * <code>setInitiblSelectionVblue</code> to specify the initiblly-chosen
+     * vblue. After the pbne bs been enbbled, <code>inputVblue</code> is
+     * set to the vblue the user hbs selected.
+     * @pbrbm newVblues bn brrby of <code>Objects</code> the user to be
+     *                  displbyed
+     *                  (usublly in b list or combo-box) from which
+     *                  the user cbn mbke b selection
+     * @see #setWbntsInput
+     * @see #setInitiblSelectionVblue
+     * @see #getSelectionVblues
+     * @bebninfo
      *       bound: true
-     * description: The option pane's selection values.
+     * description: The option pbne's selection vblues.
      */
-    public void setSelectionValues(Object[] newValues) {
-        Object[]           oldValues = selectionValues;
+    public void setSelectionVblues(Object[] newVblues) {
+        Object[]           oldVblues = selectionVblues;
 
-        selectionValues = newValues;
-        firePropertyChange(SELECTION_VALUES_PROPERTY, oldValues, newValues);
-        if(selectionValues != null)
-            setWantsInput(true);
+        selectionVblues = newVblues;
+        firePropertyChbnge(SELECTION_VALUES_PROPERTY, oldVblues, newVblues);
+        if(selectionVblues != null)
+            setWbntsInput(true);
     }
 
     /**
-     * Returns the input selection values.
+     * Returns the input selection vblues.
      *
-     * @return the array of <code>Objects</code> the user can select
-     * @see #setSelectionValues
+     * @return the brrby of <code>Objects</code> the user cbn select
+     * @see #setSelectionVblues
      */
-    public Object[] getSelectionValues() {
-        return selectionValues;
+    public Object[] getSelectionVblues() {
+        return selectionVblues;
     }
 
     /**
-     * Sets the input value that is initially displayed as selected to the user.
-     * Only used if <code>wantsInput</code> is true.
-     * @param newValue the initially selected value
-     * @see #setSelectionValues
-     * @see #getInitialSelectionValue
-     * @beaninfo
+     * Sets the input vblue thbt is initiblly displbyed bs selected to the user.
+     * Only used if <code>wbntsInput</code> is true.
+     * @pbrbm newVblue the initiblly selected vblue
+     * @see #setSelectionVblues
+     * @see #getInitiblSelectionVblue
+     * @bebninfo
      *       bound: true
-     * description: The option pane's initial selection value object.
+     * description: The option pbne's initibl selection vblue object.
      */
-    public void setInitialSelectionValue(Object newValue) {
-        Object          oldValue = initialSelectionValue;
+    public void setInitiblSelectionVblue(Object newVblue) {
+        Object          oldVblue = initiblSelectionVblue;
 
-        initialSelectionValue = newValue;
-        firePropertyChange(INITIAL_SELECTION_VALUE_PROPERTY, oldValue,
-                           newValue);
+        initiblSelectionVblue = newVblue;
+        firePropertyChbnge(INITIAL_SELECTION_VALUE_PROPERTY, oldVblue,
+                           newVblue);
     }
 
     /**
-     * Returns the input value that is displayed as initially selected to the user.
+     * Returns the input vblue thbt is displbyed bs initiblly selected to the user.
      *
-     * @return the initially selected value
-     * @see #setInitialSelectionValue
-     * @see #setSelectionValues
+     * @return the initiblly selected vblue
+     * @see #setInitiblSelectionVblue
+     * @see #setSelectionVblues
      */
-    public Object getInitialSelectionValue() {
-        return initialSelectionValue;
+    public Object getInitiblSelectionVblue() {
+        return initiblSelectionVblue;
     }
 
     /**
-     * Sets the input value that was selected or input by the user.
-     * Only used if <code>wantsInput</code> is true.  Note that this method
-     * is invoked internally by the option pane (in response to user action)
-     * and should generally not be called by client programs.  To set the
-     * input value initially displayed as selected to the user, use
-     * <code>setInitialSelectionValue</code>.
+     * Sets the input vblue thbt wbs selected or input by the user.
+     * Only used if <code>wbntsInput</code> is true.  Note thbt this method
+     * is invoked internblly by the option pbne (in response to user bction)
+     * bnd should generblly not be cblled by client progrbms.  To set the
+     * input vblue initiblly displbyed bs selected to the user, use
+     * <code>setInitiblSelectionVblue</code>.
      *
-     * @param newValue the <code>Object</code> used to set the
-     *          value that the user specified (usually in a text field)
-     * @see #setSelectionValues
-     * @see #setInitialSelectionValue
-     * @see #setWantsInput
-     * @see #getInputValue
-     * @beaninfo
+     * @pbrbm newVblue the <code>Object</code> used to set the
+     *          vblue thbt the user specified (usublly in b text field)
+     * @see #setSelectionVblues
+     * @see #setInitiblSelectionVblue
+     * @see #setWbntsInput
+     * @see #getInputVblue
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: The option pane's input value object.
+     * description: The option pbne's input vblue object.
      */
-    public void setInputValue(Object newValue) {
-        Object              oldValue = inputValue;
+    public void setInputVblue(Object newVblue) {
+        Object              oldVblue = inputVblue;
 
-        inputValue = newValue;
-        firePropertyChange(INPUT_VALUE_PROPERTY, oldValue, newValue);
+        inputVblue = newVblue;
+        firePropertyChbnge(INPUT_VALUE_PROPERTY, oldVblue, newVblue);
     }
 
     /**
-     * Returns the value the user has input, if <code>wantsInput</code>
+     * Returns the vblue the user hbs input, if <code>wbntsInput</code>
      * is true.
      *
      * @return the <code>Object</code> the user specified,
-     *          if it was one of the objects, or a
-     *          <code>String</code> if it was a value typed into a
+     *          if it wbs one of the objects, or b
+     *          <code>String</code> if it wbs b vblue typed into b
      *          field
-     * @see #setSelectionValues
-     * @see #setWantsInput
-     * @see #setInputValue
+     * @see #setSelectionVblues
+     * @see #setWbntsInput
+     * @see #setInputVblue
      */
-    public Object getInputValue() {
-        return inputValue;
+    public Object getInputVblue() {
+        return inputVblue;
     }
 
     /**
-     * Returns the maximum number of characters to place on a line in a
-     * message. Default is to return <code>Integer.MAX_VALUE</code>.
-     * The value can be
-     * changed by overriding this method in a subclass.
+     * Returns the mbximum number of chbrbcters to plbce on b line in b
+     * messbge. Defbult is to return <code>Integer.MAX_VALUE</code>.
+     * The vblue cbn be
+     * chbnged by overriding this method in b subclbss.
      *
-     * @return an integer giving the maximum number of characters on a line
+     * @return bn integer giving the mbximum number of chbrbcters on b line
      */
-    public int getMaxCharactersPerLineCount() {
+    public int getMbxChbrbctersPerLineCount() {
         return Integer.MAX_VALUE;
     }
 
     /**
-     * Sets the <code>wantsInput</code> property.
-     * If <code>newValue</code> is true, an input component
-     * (such as a text field or combo box) whose parent is
-     * <code>parentComponent</code> is provided to
-     * allow the user to input a value. If <code>getSelectionValues</code>
-     * returns a non-<code>null</code> array, the input value is one of the
-     * objects in that array. Otherwise the input value is whatever
+     * Sets the <code>wbntsInput</code> property.
+     * If <code>newVblue</code> is true, bn input component
+     * (such bs b text field or combo box) whose pbrent is
+     * <code>pbrentComponent</code> is provided to
+     * bllow the user to input b vblue. If <code>getSelectionVblues</code>
+     * returns b non-<code>null</code> brrby, the input vblue is one of the
+     * objects in thbt brrby. Otherwise the input vblue is whbtever
      * the user inputs.
      * <p>
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param newValue if true, an input component whose parent is {@code parentComponent}
-     *                 is provided to allow the user to input a value.
-     * @see #setSelectionValues
-     * @see #setInputValue
-     * @beaninfo
+     * @pbrbm newVblue if true, bn input component whose pbrent is {@code pbrentComponent}
+     *                 is provided to bllow the user to input b vblue.
+     * @see #setSelectionVblues
+     * @see #setInputVblue
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     * description: Flag which allows the user to input a value.
+     * description: Flbg which bllows the user to input b vblue.
      */
-    public void setWantsInput(boolean newValue) {
-        boolean            oldValue = wantsInput;
+    public void setWbntsInput(boolebn newVblue) {
+        boolebn            oldVblue = wbntsInput;
 
-        wantsInput = newValue;
-        firePropertyChange(WANTS_INPUT_PROPERTY, oldValue, newValue);
+        wbntsInput = newVblue;
+        firePropertyChbnge(WANTS_INPUT_PROPERTY, oldVblue, newVblue);
     }
 
     /**
-     * Returns the value of the <code>wantsInput</code> property.
+     * Returns the vblue of the <code>wbntsInput</code> property.
      *
-     * @return true if an input component will be provided
-     * @see #setWantsInput
+     * @return true if bn input component will be provided
+     * @see #setWbntsInput
      */
-    public boolean getWantsInput() {
-        return wantsInput;
+    public boolebn getWbntsInput() {
+        return wbntsInput;
     }
 
     /**
-     * Requests that the initial value be selected, which will set
-     * focus to the initial value. This method
-     * should be invoked after the window containing the option pane
-     * is made visible.
+     * Requests thbt the initibl vblue be selected, which will set
+     * focus to the initibl vblue. This method
+     * should be invoked bfter the window contbining the option pbne
+     * is mbde visible.
      */
-    public void selectInitialValue() {
-        OptionPaneUI         ui = getUI();
+    public void selectInitiblVblue() {
+        OptionPbneUI         ui = getUI();
         if (ui != null) {
-            ui.selectInitialValue(this);
+            ui.selectInitiblVblue(this);
         }
     }
 
 
-    private static int styleFromMessageType(int messageType) {
-        switch (messageType) {
-        case ERROR_MESSAGE:
-            return JRootPane.ERROR_DIALOG;
-        case QUESTION_MESSAGE:
-            return JRootPane.QUESTION_DIALOG;
-        case WARNING_MESSAGE:
-            return JRootPane.WARNING_DIALOG;
-        case INFORMATION_MESSAGE:
-            return JRootPane.INFORMATION_DIALOG;
-        case PLAIN_MESSAGE:
-        default:
-            return JRootPane.PLAIN_DIALOG;
+    privbte stbtic int styleFromMessbgeType(int messbgeType) {
+        switch (messbgeType) {
+        cbse ERROR_MESSAGE:
+            return JRootPbne.ERROR_DIALOG;
+        cbse QUESTION_MESSAGE:
+            return JRootPbne.QUESTION_DIALOG;
+        cbse WARNING_MESSAGE:
+            return JRootPbne.WARNING_DIALOG;
+        cbse INFORMATION_MESSAGE:
+            return JRootPbne.INFORMATION_DIALOG;
+        cbse PLAIN_MESSAGE:
+        defbult:
+            return JRootPbne.PLAIN_DIALOG;
         }
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Vector<Object> values = new Vector<Object>();
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Vector<Object> vblues = new Vector<Object>();
 
-        s.defaultWriteObject();
-        // Save the icon, if its Serializable.
-        if(icon != null && icon instanceof Serializable) {
-            values.addElement("icon");
-            values.addElement(icon);
+        s.defbultWriteObject();
+        // Sbve the icon, if its Seriblizbble.
+        if(icon != null && icon instbnceof Seriblizbble) {
+            vblues.bddElement("icon");
+            vblues.bddElement(icon);
         }
-        // Save the message, if its Serializable.
-        if(message != null && message instanceof Serializable) {
-            values.addElement("message");
-            values.addElement(message);
+        // Sbve the messbge, if its Seriblizbble.
+        if(messbge != null && messbge instbnceof Seriblizbble) {
+            vblues.bddElement("messbge");
+            vblues.bddElement(messbge);
         }
-        // Save the treeModel, if its Serializable.
+        // Sbve the treeModel, if its Seriblizbble.
         if(options != null) {
             Vector<Object> serOptions = new Vector<Object>();
 
-            for(int counter = 0, maxCounter = options.length;
-                counter < maxCounter; counter++)
-                if(options[counter] instanceof Serializable)
-                    serOptions.addElement(options[counter]);
+            for(int counter = 0, mbxCounter = options.length;
+                counter < mbxCounter; counter++)
+                if(options[counter] instbnceof Seriblizbble)
+                    serOptions.bddElement(options[counter]);
             if(serOptions.size() > 0) {
                 int             optionCount = serOptions.size();
-                Object[]        arrayOptions = new Object[optionCount];
+                Object[]        brrbyOptions = new Object[optionCount];
 
-                serOptions.copyInto(arrayOptions);
-                values.addElement("options");
-                values.addElement(arrayOptions);
+                serOptions.copyInto(brrbyOptions);
+                vblues.bddElement("options");
+                vblues.bddElement(brrbyOptions);
             }
         }
-        // Save the initialValue, if its Serializable.
-        if(initialValue != null && initialValue instanceof Serializable) {
-            values.addElement("initialValue");
-            values.addElement(initialValue);
+        // Sbve the initiblVblue, if its Seriblizbble.
+        if(initiblVblue != null && initiblVblue instbnceof Seriblizbble) {
+            vblues.bddElement("initiblVblue");
+            vblues.bddElement(initiblVblue);
         }
-        // Save the value, if its Serializable.
-        if(value != null && value instanceof Serializable) {
-            values.addElement("value");
-            values.addElement(value);
+        // Sbve the vblue, if its Seriblizbble.
+        if(vblue != null && vblue instbnceof Seriblizbble) {
+            vblues.bddElement("vblue");
+            vblues.bddElement(vblue);
         }
-        // Save the selectionValues, if its Serializable.
-        if(selectionValues != null) {
-            boolean            serialize = true;
+        // Sbve the selectionVblues, if its Seriblizbble.
+        if(selectionVblues != null) {
+            boolebn            seriblize = true;
 
-            for(int counter = 0, maxCounter = selectionValues.length;
-                counter < maxCounter; counter++) {
-                if(selectionValues[counter] != null &&
-                   !(selectionValues[counter] instanceof Serializable)) {
-                    serialize = false;
-                    break;
+            for(int counter = 0, mbxCounter = selectionVblues.length;
+                counter < mbxCounter; counter++) {
+                if(selectionVblues[counter] != null &&
+                   !(selectionVblues[counter] instbnceof Seriblizbble)) {
+                    seriblize = fblse;
+                    brebk;
                 }
             }
-            if(serialize) {
-                values.addElement("selectionValues");
-                values.addElement(selectionValues);
+            if(seriblize) {
+                vblues.bddElement("selectionVblues");
+                vblues.bddElement(selectionVblues);
             }
         }
-        // Save the inputValue, if its Serializable.
-        if(inputValue != null && inputValue instanceof Serializable) {
-            values.addElement("inputValue");
-            values.addElement(inputValue);
+        // Sbve the inputVblue, if its Seriblizbble.
+        if(inputVblue != null && inputVblue instbnceof Seriblizbble) {
+            vblues.bddElement("inputVblue");
+            vblues.bddElement(inputVblue);
         }
-        // Save the initialSelectionValue, if its Serializable.
-        if(initialSelectionValue != null &&
-           initialSelectionValue instanceof Serializable) {
-            values.addElement("initialSelectionValue");
-            values.addElement(initialSelectionValue);
+        // Sbve the initiblSelectionVblue, if its Seriblizbble.
+        if(initiblSelectionVblue != null &&
+           initiblSelectionVblue instbnceof Seriblizbble) {
+            vblues.bddElement("initiblSelectionVblue");
+            vblues.bddElement(initiblSelectionVblue);
         }
-        s.writeObject(values);
+        s.writeObject(vblues);
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        Vector<?>       values = (Vector)s.readObject();
+        Vector<?>       vblues = (Vector)s.rebdObject();
         int             indexCounter = 0;
-        int             maxCounter = values.size();
+        int             mbxCounter = vblues.size();
 
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("icon")) {
-            icon = (Icon)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("icon")) {
+            icon = (Icon)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("message")) {
-            message = values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("messbge")) {
+            messbge = vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("options")) {
-            options = (Object[])values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("options")) {
+            options = (Object[])vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("initialValue")) {
-            initialValue = values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("initiblVblue")) {
+            initiblVblue = vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("value")) {
-            value = values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("vblue")) {
+            vblue = vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("selectionValues")) {
-            selectionValues = (Object[])values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("selectionVblues")) {
+            selectionVblues = (Object[])vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("inputValue")) {
-            inputValue = values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("inputVblue")) {
+            inputVblue = vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("initialSelectionValue")) {
-            initialSelectionValue = values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("initiblSelectionVblue")) {
+            initiblSelectionVblue = vblues.elementAt(++indexCounter);
             indexCounter++;
         }
-        if (getUIClassID().equals(uiClassID)) {
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JOptionPane</code>.
+     * Returns b string representbtion of this <code>JOptionPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JOptionPane</code>
+     * @return  b string representbtion of this <code>JOptionPbne</code>
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String iconString = (icon != null ?
                              icon.toString() : "");
-        String initialValueString = (initialValue != null ?
-                                     initialValue.toString() : "");
-        String messageString = (message != null ?
-                                message.toString() : "");
-        String messageTypeString;
-        if (messageType == ERROR_MESSAGE) {
-            messageTypeString = "ERROR_MESSAGE";
-        } else if (messageType == INFORMATION_MESSAGE) {
-            messageTypeString = "INFORMATION_MESSAGE";
-        } else if (messageType == WARNING_MESSAGE) {
-            messageTypeString = "WARNING_MESSAGE";
-        } else if (messageType == QUESTION_MESSAGE) {
-            messageTypeString = "QUESTION_MESSAGE";
-        } else if (messageType == PLAIN_MESSAGE)  {
-            messageTypeString = "PLAIN_MESSAGE";
-        } else messageTypeString = "";
+        String initiblVblueString = (initiblVblue != null ?
+                                     initiblVblue.toString() : "");
+        String messbgeString = (messbge != null ?
+                                messbge.toString() : "");
+        String messbgeTypeString;
+        if (messbgeType == ERROR_MESSAGE) {
+            messbgeTypeString = "ERROR_MESSAGE";
+        } else if (messbgeType == INFORMATION_MESSAGE) {
+            messbgeTypeString = "INFORMATION_MESSAGE";
+        } else if (messbgeType == WARNING_MESSAGE) {
+            messbgeTypeString = "WARNING_MESSAGE";
+        } else if (messbgeType == QUESTION_MESSAGE) {
+            messbgeTypeString = "QUESTION_MESSAGE";
+        } else if (messbgeType == PLAIN_MESSAGE)  {
+            messbgeTypeString = "PLAIN_MESSAGE";
+        } else messbgeTypeString = "";
         String optionTypeString;
         if (optionType == DEFAULT_OPTION) {
             optionTypeString = "DEFAULT_OPTION";
@@ -2480,16 +2480,16 @@ public class JOptionPane extends JComponent implements Accessible
         } else if (optionType == OK_CANCEL_OPTION) {
             optionTypeString = "OK_CANCEL_OPTION";
         } else optionTypeString = "";
-        String wantsInputString = (wantsInput ?
-                                   "true" : "false");
+        String wbntsInputString = (wbntsInput ?
+                                   "true" : "fblse");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",icon=" + iconString +
-        ",initialValue=" + initialValueString +
-        ",message=" + messageString +
-        ",messageType=" + messageTypeString +
+        ",initiblVblue=" + initiblVblueString +
+        ",messbge=" + messbgeString +
+        ",messbgeType=" + messbgeTypeString +
         ",optionType=" + optionTypeString +
-        ",wantsInput=" + wantsInputString;
+        ",wbntsInput=" + wbntsInputString;
     }
 
 ///////////////////
@@ -2497,59 +2497,59 @@ public class JOptionPane extends JComponent implements Accessible
 ///////////////////
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with this JOptionPane.
-     * For option panes, the <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJOptionPane</code>.
-     * A new <code>AccessibleJOptionPane</code> instance is created if necessary.
+     * Returns the <code>AccessibleContext</code> bssocibted with this JOptionPbne.
+     * For option pbnes, the <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleJOptionPbne</code>.
+     * A new <code>AccessibleJOptionPbne</code> instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJOptionPane that serves as the
-     *         AccessibleContext of this AccessibleJOptionPane
-     * @beaninfo
+     * @return bn AccessibleJOptionPbne thbt serves bs the
+     *         AccessibleContext of this AccessibleJOptionPbne
+     * @bebninfo
      *       expert: true
-     *  description: The AccessibleContext associated with this option pane
+     *  description: The AccessibleContext bssocibted with this option pbne
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJOptionPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJOptionPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JOptionPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to option pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JOptionPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to option pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJOptionPane extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJOptionPbne extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the object
+         * @return bn instbnce of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
-            switch (messageType) {
-            case ERROR_MESSAGE:
-            case INFORMATION_MESSAGE:
-            case WARNING_MESSAGE:
+            switch (messbgeType) {
+            cbse ERROR_MESSAGE:
+            cbse INFORMATION_MESSAGE:
+            cbse WARNING_MESSAGE:
                 return AccessibleRole.ALERT;
 
-            default:
+            defbult:
                 return AccessibleRole.OPTION_PANE;
             }
         }
 
-    } // inner class AccessibleJOptionPane
+    } // inner clbss AccessibleJOptionPbne
 }

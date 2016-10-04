@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageConvKernelConvert - Convert convolution kernel from
- *                                    floating point version to integer
+ *      mlib_ImbgeConvKernelConvert - Convert convolution kernel from
+ *                                    flobting point version to integer
  *                                    version.
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageConvKernelConvert(mlib_s32       *ikernel,
- *                                              mlib_s32       *iscale,
+ *      mlib_stbtus mlib_ImbgeConvKernelConvert(mlib_s32       *ikernel,
+ *                                              mlib_s32       *iscble,
  *                                              const mlib_d64 *fkernel,
  *                                              mlib_s32       m,
  *                                              mlib_s32       n,
@@ -40,28 +40,28 @@
  *
  * ARGUMENT
  *      ikernel  integer kernel
- *      iscale   scaling factor of the integer kernel
- *      fkernel  floating-point kernel
+ *      iscble   scbling fbctor of the integer kernel
+ *      fkernel  flobting-point kernel
  *      m        width of the convolution kernel
  *      n        height of the convolution kernel
- *      type     image type
+ *      type     imbge type
  *
  * DESCRIPTION
- *      Convert a floating point convolution kernel to integer kernel
- *      with scaling factor. The result integer kernel and scaling factor
- *      can be used in convolution functions directly without overflow.
+ *      Convert b flobting point convolution kernel to integer kernel
+ *      with scbling fbctor. The result integer kernel bnd scbling fbctor
+ *      cbn be used in convolution functions directly without overflow.
  *
  * RESTRICTION
- *      The type can be MLIB_BYTE, MLIB_SHORT, MLIB_USHORT or MLIB_INT.
+ *      The type cbn be MLIB_BYTE, MLIB_SHORT, MLIB_USHORT or MLIB_INT.
  */
 
 #include <stdlib.h>
-#include "mlib_image.h"
-#include "mlib_SysMath.h"
-#include "mlib_ImageConv.h"
+#include "mlib_imbge.h"
+#include "mlib_SysMbth.h"
+#include "mlib_ImbgeConv.h"
 
 /***************************************************************/
-#ifdef __sparc
+#ifdef __spbrc
 
 #define CLAMP_S32(dst, src)                                     \
   dst = (mlib_s32)(src)
@@ -75,21 +75,21 @@
   dst = (mlib_s32)s0;                                           \
 }
 
-#endif /* __sparc */
+#endif /* __spbrc */
 
 /***************************************************************/
-mlib_status mlib_ImageConvKernelConvert(mlib_s32       *ikernel,
-                                        mlib_s32       *iscale,
+mlib_stbtus mlib_ImbgeConvKernelConvert(mlib_s32       *ikernel,
+                                        mlib_s32       *iscble,
                                         const mlib_d64 *fkernel,
                                         mlib_s32       m,
                                         mlib_s32       n,
                                         mlib_type      type)
 {
-  mlib_d64 sum_pos, sum_neg, sum, norm, max, f;
+  mlib_d64 sum_pos, sum_neg, sum, norm, mbx, f;
   mlib_s32 isum_pos, isum_neg, isum, test;
-  mlib_s32 i, scale, scale1, chk_flag;
+  mlib_s32 i, scble, scble1, chk_flbg;
 
-  if (ikernel == NULL || iscale == NULL || fkernel == NULL || m < 1 || n < 1) {
+  if (ikernel == NULL || iscble == NULL || fkernel == NULL || m < 1 || n < 1) {
     return MLIB_FAILURE;
   }
 
@@ -107,40 +107,40 @@ mlib_status mlib_ImageConvKernelConvert(mlib_s32       *ikernel,
       }
 
       sum = (sum_pos > sum_neg) ? sum_pos : sum_neg;
-      scale = mlib_ilogb(sum);
-      scale++;
+      scble = mlib_ilogb(sum);
+      scble++;
 
-      scale = 31 - scale;
+      scble = 31 - scble;
     }
     else {                                  /* MLIB_SHORT */
       sum = 0;
-      max = 0;
+      mbx = 0;
 
       for (i = 0; i < m * n; i++) {
-        f = mlib_fabs(fkernel[i]);
+        f = mlib_fbbs(fkernel[i]);
         sum += f;
-        max = (max > f) ? max : f;
+        mbx = (mbx > f) ? mbx : f;
       }
 
-      scale1 = mlib_ilogb(max) + 1;
-      scale = mlib_ilogb(sum);
-      scale = (scale > scale1) ? scale : scale1;
-      scale++;
+      scble1 = mlib_ilogb(mbx) + 1;
+      scble = mlib_ilogb(sum);
+      scble = (scble > scble1) ? scble : scble1;
+      scble++;
 
-      scale = 32 - scale;
+      scble = 32 - scble;
     }
 
-    if (scale <= 16)
+    if (scble <= 16)
       return MLIB_FAILURE;
-    if (scale > 31)
-      scale = 31;
+    if (scble > 31)
+      scble = 31;
 
-    *iscale = scale;
+    *iscble = scble;
 
-    chk_flag = mlib_ImageConvVersion(m, n, scale, type);
+    chk_flbg = mlib_ImbgeConvVersion(m, n, scble, type);
 
-    if (!chk_flag) {
-      norm = (1u << scale);
+    if (!chk_flbg) {
+      norm = (1u << scble);
       for (i = 0; i < m * n; i++) {
         CLAMP_S32(ikernel[i], fkernel[i] * norm);
       }
@@ -149,16 +149,16 @@ mlib_status mlib_ImageConvKernelConvert(mlib_s32       *ikernel,
     }
 
     /* try to round coefficients */
-#ifdef __sparc
-    scale1 = 16;                            /* shift of coefficients is 16 */
+#ifdef __spbrc
+    scble1 = 16;                            /* shift of coefficients is 16 */
 #else
 
-    if (chk_flag == 3)
-      scale1 = 16;                          /* MMX */
+    if (chk_flbg == 3)
+      scble1 = 16;                          /* MMX */
     else
-      scale1 = (type == MLIB_BYTE) ? 8 : 16;
-#endif /* __sparc */
-    norm = (1u << (scale - scale1));
+      scble1 = (type == MLIB_BYTE) ? 8 : 16;
+#endif /* __spbrc */
+    norm = (1u << (scble - scble1));
 
     for (i = 0; i < m * n; i++) {
       if (fkernel[i] > 0)
@@ -181,57 +181,57 @@ mlib_status mlib_ImageConvKernelConvert(mlib_s32       *ikernel,
     if (type == MLIB_BYTE || type == MLIB_USHORT) {
       isum = (isum_pos > isum_neg) ? isum_pos : isum_neg;
 
-      if (isum >= (1 << (31 - scale1)))
+      if (isum >= (1 << (31 - scble1)))
         test = 1;
     }
     else {
       isum = isum_pos + isum_neg;
 
-      if (isum >= (1 << (32 - scale1)))
+      if (isum >= (1 << (32 - scble1)))
         test = 1;
       for (i = 0; i < m * n; i++) {
-        if (abs(ikernel[i]) >= (1 << (31 - scale1)))
+        if (bbs(ikernel[i]) >= (1 << (31 - scble1)))
           test = 1;
       }
     }
 
-    if (test == 1) {                        /* rounding according scale1 cause overflow, truncate instead of round */
+    if (test == 1) {                        /* rounding bccording scble1 cbuse overflow, truncbte instebd of round */
       for (i = 0; i < m * n; i++)
-        ikernel[i] = (mlib_s32) (fkernel[i] * norm) << scale1;
+        ikernel[i] = (mlib_s32) (fkernel[i] * norm) << scble1;
     }
     else {                                  /* rounding is Ok */
       for (i = 0; i < m * n; i++)
-        ikernel[i] = ikernel[i] << scale1;
+        ikernel[i] = ikernel[i] << scble1;
     }
 
     return MLIB_SUCCESS;
   }
   else if ((type == MLIB_INT) || (type == MLIB_BIT)) {
-    max = 0;
+    mbx = 0;
 
     for (i = 0; i < m * n; i++) {
-      f = mlib_fabs(fkernel[i]);
-      max = (max > f) ? max : f;
+      f = mlib_fbbs(fkernel[i]);
+      mbx = (mbx > f) ? mbx : f;
     }
 
-    scale = mlib_ilogb(max);
+    scble = mlib_ilogb(mbx);
 
-    if (scale > 29)
+    if (scble > 29)
       return MLIB_FAILURE;
 
-    if (scale < -100)
-      scale = -100;
+    if (scble < -100)
+      scble = -100;
 
-    *iscale = 29 - scale;
-    scale = 29 - scale;
+    *iscble = 29 - scble;
+    scble = 29 - scble;
 
     norm = 1.0;
-    while (scale > 30) {
+    while (scble > 30) {
       norm *= (1 << 30);
-      scale -= 30;
+      scble -= 30;
     }
 
-    norm *= (1 << scale);
+    norm *= (1 << scble);
 
     for (i = 0; i < m * n; i++) {
       if (fkernel[i] > 0) {

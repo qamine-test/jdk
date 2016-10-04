@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.Polygon;
-import java.io.Serializable;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import javax.swing.text.AttributeSet;
+import jbvb.bwt.Polygon;
+import jbvb.io.Seriblizbble;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvbx.swing.text.AttributeSet;
 
 /**
- * Map is used to represent a map element that is part of an HTML document.
- * Once a Map has been created, and any number of areas have been added,
- * you can test if a point falls inside the map via the contains method.
+ * Mbp is used to represent b mbp element thbt is pbrt of bn HTML document.
+ * Once b Mbp hbs been crebted, bnd bny number of brebs hbve been bdded,
+ * you cbn test if b point fblls inside the mbp vib the contbins method.
  *
- * @author  Scott Violet
+ * @buthor  Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class Map implements Serializable {
-    /** Name of the Map. */
-    private String           name;
-    /** An array of AttributeSets. */
-    private Vector<AttributeSet>           areaAttributes;
-    /** An array of RegionContainments, will slowly grow to match the
-     * length of areaAttributes as needed. */
-    private Vector<RegionContainment>           areas;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss Mbp implements Seriblizbble {
+    /** Nbme of the Mbp. */
+    privbte String           nbme;
+    /** An brrby of AttributeSets. */
+    privbte Vector<AttributeSet>           brebAttributes;
+    /** An brrby of RegionContbinments, will slowly grow to mbtch the
+     * length of brebAttributes bs needed. */
+    privbte Vector<RegionContbinment>           brebs;
 
-    public Map() {
+    public Mbp() {
     }
 
-    public Map(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of the Map.
-     */
-    public String getName() {
-        return name;
+    public Mbp(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Defines a region of the Map, based on the passed in AttributeSet.
+     * Returns the nbme of the Mbp.
      */
-    public void addArea(AttributeSet as) {
-        if (as == null) {
+    public String getNbme() {
+        return nbme;
+    }
+
+    /**
+     * Defines b region of the Mbp, bbsed on the pbssed in AttributeSet.
+     */
+    public void bddAreb(AttributeSet bs) {
+        if (bs == null) {
             return;
         }
-        if (areaAttributes == null) {
-            areaAttributes = new Vector<AttributeSet>(2);
+        if (brebAttributes == null) {
+            brebAttributes = new Vector<AttributeSet>(2);
         }
-        areaAttributes.addElement(as.copyAttributes());
+        brebAttributes.bddElement(bs.copyAttributes());
     }
 
     /**
-     * Removes the previously created area.
+     * Removes the previously crebted breb.
      */
-    public void removeArea(AttributeSet as) {
-        if (as != null && areaAttributes != null) {
-            int numAreas = (areas != null) ? areas.size() : 0;
-            for (int counter = areaAttributes.size() - 1; counter >= 0;
+    public void removeAreb(AttributeSet bs) {
+        if (bs != null && brebAttributes != null) {
+            int numArebs = (brebs != null) ? brebs.size() : 0;
+            for (int counter = brebAttributes.size() - 1; counter >= 0;
                  counter--) {
-                if (areaAttributes.elementAt(counter).isEqual(as)){
-                    areaAttributes.removeElementAt(counter);
-                    if (counter < numAreas) {
-                        areas.removeElementAt(counter);
+                if (brebAttributes.elementAt(counter).isEqubl(bs)){
+                    brebAttributes.removeElementAt(counter);
+                    if (counter < numArebs) {
+                        brebs.removeElementAt(counter);
                     }
                 }
             }
@@ -93,44 +93,44 @@ class Map implements Serializable {
     }
 
     /**
-     * Returns the AttributeSets representing the differet areas of the Map.
+     * Returns the AttributeSets representing the differet brebs of the Mbp.
      */
-    public AttributeSet[] getAreas() {
-        int numAttributes = (areaAttributes != null) ? areaAttributes.size() :
+    public AttributeSet[] getArebs() {
+        int numAttributes = (brebAttributes != null) ? brebAttributes.size() :
                             0;
         if (numAttributes != 0) {
-            AttributeSet[]    retValue = new AttributeSet[numAttributes];
+            AttributeSet[]    retVblue = new AttributeSet[numAttributes];
 
-            areaAttributes.copyInto(retValue);
-            return retValue;
+            brebAttributes.copyInto(retVblue);
+            return retVblue;
         }
         return null;
     }
 
     /**
-     * Returns the AttributeSet that contains the passed in location,
+     * Returns the AttributeSet thbt contbins the pbssed in locbtion,
      * <code>x</code>, <code>y</code>. <code>width</code>, <code>height</code>
-     * gives the size of the region the map is defined over. If a matching
-     * area is found, the AttribueSet for it is returned.
+     * gives the size of the region the mbp is defined over. If b mbtching
+     * breb is found, the AttribueSet for it is returned.
      */
-    public AttributeSet getArea(int x, int y, int width, int height) {
-        int      numAttributes = (areaAttributes != null) ?
-                                 areaAttributes.size() : 0;
+    public AttributeSet getAreb(int x, int y, int width, int height) {
+        int      numAttributes = (brebAttributes != null) ?
+                                 brebAttributes.size() : 0;
 
         if (numAttributes > 0) {
-            int      numAreas = (areas != null) ? areas.size() : 0;
+            int      numArebs = (brebs != null) ? brebs.size() : 0;
 
-            if (areas == null) {
-                areas = new Vector<RegionContainment>(numAttributes);
+            if (brebs == null) {
+                brebs = new Vector<RegionContbinment>(numAttributes);
             }
             for (int counter = 0; counter < numAttributes; counter++) {
-                if (counter >= numAreas) {
-                    areas.addElement(createRegionContainment
-                            (areaAttributes.elementAt(counter)));
+                if (counter >= numArebs) {
+                    brebs.bddElement(crebteRegionContbinment
+                            (brebAttributes.elementAt(counter)));
                 }
-                RegionContainment rc = areas.elementAt(counter);
-                if (rc != null && rc.contains(x, y, width, height)) {
-                    return areaAttributes.elementAt(counter);
+                RegionContbinment rc = brebs.elementAt(counter);
+                if (rc != null && rc.contbins(x, y, width, height)) {
+                    return brebAttributes.elementAt(counter);
                 }
             }
         }
@@ -138,35 +138,35 @@ class Map implements Serializable {
     }
 
     /**
-     * Creates and returns an instance of RegionContainment that can be
-     * used to test if a particular point lies inside a region.
+     * Crebtes bnd returns bn instbnce of RegionContbinment thbt cbn be
+     * used to test if b pbrticulbr point lies inside b region.
      */
-    protected RegionContainment createRegionContainment
-                                  (AttributeSet attributes) {
-        Object     shape = attributes.getAttribute(HTML.Attribute.SHAPE);
+    protected RegionContbinment crebteRegionContbinment
+                                  (AttributeSet bttributes) {
+        Object     shbpe = bttributes.getAttribute(HTML.Attribute.SHAPE);
 
-        if (shape == null) {
-            shape = "rect";
+        if (shbpe == null) {
+            shbpe = "rect";
         }
-        if (shape instanceof String) {
-            String                shapeString = ((String)shape).toLowerCase();
-            RegionContainment     rc = null;
+        if (shbpe instbnceof String) {
+            String                shbpeString = ((String)shbpe).toLowerCbse();
+            RegionContbinment     rc = null;
 
             try {
-                if (shapeString.equals("rect")) {
-                    rc = new RectangleRegionContainment(attributes);
+                if (shbpeString.equbls("rect")) {
+                    rc = new RectbngleRegionContbinment(bttributes);
                 }
-                else if (shapeString.equals("circle")) {
-                    rc = new CircleRegionContainment(attributes);
+                else if (shbpeString.equbls("circle")) {
+                    rc = new CircleRegionContbinment(bttributes);
                 }
-                else if (shapeString.equals("poly")) {
-                    rc = new PolygonRegionContainment(attributes);
+                else if (shbpeString.equbls("poly")) {
+                    rc = new PolygonRegionContbinment(bttributes);
                 }
-                else if (shapeString.equals("default")) {
-                    rc = DefaultRegionContainment.sharedInstance();
+                else if (shbpeString.equbls("defbult")) {
+                    rc = DefbultRegionContbinment.shbredInstbnce();
                 }
-            } catch (RuntimeException re) {
-                // Something wrong with attributes.
+            } cbtch (RuntimeException re) {
+                // Something wrong with bttributes.
                 rc = null;
             }
             return rc;
@@ -175,86 +175,86 @@ class Map implements Serializable {
     }
 
     /**
-     * Creates and returns an array of integers from the String
-     * <code>stringCoords</code>. If one of the values represents a
-     * % the returned value with be negative. If a parse error results
-     * from trying to parse one of the numbers null is returned.
+     * Crebtes bnd returns bn brrby of integers from the String
+     * <code>stringCoords</code>. If one of the vblues represents b
+     * % the returned vblue with be negbtive. If b pbrse error results
+     * from trying to pbrse one of the numbers null is returned.
      */
-    static protected int[] extractCoords(Object stringCoords) {
-        if (stringCoords == null || !(stringCoords instanceof String)) {
+    stbtic protected int[] extrbctCoords(Object stringCoords) {
+        if (stringCoords == null || !(stringCoords instbnceof String)) {
             return null;
         }
 
         StringTokenizer    st = new StringTokenizer((String)stringCoords,
                                                     ", \t\n\r");
-        int[]              retValue = null;
+        int[]              retVblue = null;
         int                numCoords = 0;
 
-        while(st.hasMoreElements()) {
+        while(st.hbsMoreElements()) {
             String         token = st.nextToken();
-            int            scale;
+            int            scble;
 
             if (token.endsWith("%")) {
-                scale = -1;
+                scble = -1;
                 token = token.substring(0, token.length() - 1);
             }
             else {
-                scale = 1;
+                scble = 1;
             }
             try {
-                int       intValue = Integer.parseInt(token);
+                int       intVblue = Integer.pbrseInt(token);
 
-                if (retValue == null) {
-                    retValue = new int[4];
+                if (retVblue == null) {
+                    retVblue = new int[4];
                 }
-                else if(numCoords == retValue.length) {
-                    int[]    temp = new int[retValue.length * 2];
+                else if(numCoords == retVblue.length) {
+                    int[]    temp = new int[retVblue.length * 2];
 
-                    System.arraycopy(retValue, 0, temp, 0, retValue.length);
-                    retValue = temp;
+                    System.brrbycopy(retVblue, 0, temp, 0, retVblue.length);
+                    retVblue = temp;
                 }
-                retValue[numCoords++] = intValue * scale;
-            } catch (NumberFormatException nfe) {
+                retVblue[numCoords++] = intVblue * scble;
+            } cbtch (NumberFormbtException nfe) {
                 return null;
             }
         }
-        if (numCoords > 0 && numCoords != retValue.length) {
+        if (numCoords > 0 && numCoords != retVblue.length) {
             int[]    temp = new int[numCoords];
 
-            System.arraycopy(retValue, 0, temp, 0, numCoords);
-            retValue = temp;
+            System.brrbycopy(retVblue, 0, temp, 0, numCoords);
+            retVblue = temp;
         }
-        return retValue;
+        return retVblue;
     }
 
 
     /**
-     * Defines the interface used for to check if a point is inside a
+     * Defines the interfbce used for to check if b point is inside b
      * region.
      */
-    interface RegionContainment {
+    interfbce RegionContbinment {
         /**
-         * Returns true if the location <code>x</code>, <code>y</code>
-         * falls inside the region defined in the receiver.
+         * Returns true if the locbtion <code>x</code>, <code>y</code>
+         * fblls inside the region defined in the receiver.
          * <code>width</code>, <code>height</code> is the size of
          * the enclosing region.
          */
-        public boolean contains(int x, int y, int width, int height);
+        public boolebn contbins(int x, int y, int width, int height);
     }
 
 
     /**
-     * Used to test for containment in a rectangular region.
+     * Used to test for contbinment in b rectbngulbr region.
      */
-    static class RectangleRegionContainment implements RegionContainment {
-        /** Will be non-null if one of the values is a percent, and any value
-         * that is non null indicates it is a percent
+    stbtic clbss RectbngleRegionContbinment implements RegionContbinment {
+        /** Will be non-null if one of the vblues is b percent, bnd bny vblue
+         * thbt is non null indicbtes it is b percent
          * (order is x, y, width, height). */
-        float[]       percents;
-        /** Last value of width passed in. */
-        int           lastWidth;
-        /** Last value of height passed in. */
-        int           lastHeight;
+        flobt[]       percents;
+        /** Lbst vblue of width pbssed in. */
+        int           lbstWidth;
+        /** Lbst vblue of height pbssed in. */
+        int           lbstHeight;
         /** Top left. */
         int           x0;
         int           y0;
@@ -262,13 +262,13 @@ class Map implements Serializable {
         int           x1;
         int           y1;
 
-        public RectangleRegionContainment(AttributeSet as) {
-            int[]    coords = Map.extractCoords(as.getAttribute(HTML.
+        public RectbngleRegionContbinment(AttributeSet bs) {
+            int[]    coords = Mbp.extrbctCoords(bs.getAttribute(HTML.
                                                            Attribute.COORDS));
 
             percents = null;
             if (coords == null || coords.length != 4) {
-                throw new RuntimeException("Unable to parse rectangular area");
+                throw new RuntimeException("Unbble to pbrse rectbngulbr breb");
             }
             else {
                 x0 = coords[0];
@@ -276,11 +276,11 @@ class Map implements Serializable {
                 x1 = coords[2];
                 y1 = coords[3];
                 if (x0 < 0 || y0 < 0 || x1 < 0 || y1 < 0) {
-                    percents = new float[4];
-                    lastWidth = lastHeight = -1;
+                    percents = new flobt[4];
+                    lbstWidth = lbstHeight = -1;
                     for (int counter = 0; counter < 4; counter++) {
                         if (coords[counter] < 0) {
-                            percents[counter] = Math.abs
+                            percents[counter] = Mbth.bbs
                                         (coords[counter]) / 100.0f;
                         }
                         else {
@@ -291,13 +291,13 @@ class Map implements Serializable {
             }
         }
 
-        public boolean contains(int x, int y, int width, int height) {
+        public boolebn contbins(int x, int y, int width, int height) {
             if (percents == null) {
-                return contains(x, y);
+                return contbins(x, y);
             }
-            if (lastWidth != width || lastHeight != height) {
-                lastWidth = width;
-                lastHeight = height;
+            if (lbstWidth != width || lbstHeight != height) {
+                lbstWidth = width;
+                lbstHeight = height;
                 if (percents[0] != -1.0f) {
                     x0 = (int)(percents[0] * width);
                 }
@@ -311,10 +311,10 @@ class Map implements Serializable {
                     y1 = (int)(percents[3] * height);
                 }
             }
-            return contains(x, y);
+            return contbins(x, y);
         }
 
-        public boolean contains(int x, int y) {
+        public boolebn contbins(int x, int y) {
             return ((x >= x0 && x <= x1) &&
                     (y >= y0 && y <= y1));
         }
@@ -322,31 +322,31 @@ class Map implements Serializable {
 
 
     /**
-     * Used to test for containment in a polygon region.
+     * Used to test for contbinment in b polygon region.
      */
-    static class PolygonRegionContainment extends Polygon implements
-                 RegionContainment {
-        /** If any value is a percent there will be an entry here for the
-         * percent value. Use percentIndex to find out the index for it. */
-        float[]           percentValues;
+    stbtic clbss PolygonRegionContbinment extends Polygon implements
+                 RegionContbinment {
+        /** If bny vblue is b percent there will be bn entry here for the
+         * percent vblue. Use percentIndex to find out the index for it. */
+        flobt[]           percentVblues;
         int[]             percentIndexs;
-        /** Last value of width passed in. */
-        int               lastWidth;
-        /** Last value of height passed in. */
-        int               lastHeight;
+        /** Lbst vblue of width pbssed in. */
+        int               lbstWidth;
+        /** Lbst vblue of height pbssed in. */
+        int               lbstHeight;
 
-        public PolygonRegionContainment(AttributeSet as) {
-            int[]    coords = Map.extractCoords(as.getAttribute(HTML.Attribute.
+        public PolygonRegionContbinment(AttributeSet bs) {
+            int[]    coords = Mbp.extrbctCoords(bs.getAttribute(HTML.Attribute.
                                                                 COORDS));
 
             if (coords == null || coords.length == 0 ||
                 coords.length % 2 != 0) {
-                throw new RuntimeException("Unable to parse polygon area");
+                throw new RuntimeException("Unbble to pbrse polygon breb");
             }
             else {
                 int        numPercents = 0;
 
-                lastWidth = lastHeight = -1;
+                lbstWidth = lbstHeight = -1;
                 for (int counter = coords.length - 1; counter >= 0;
                      counter--) {
                     if (coords[counter] < 0) {
@@ -356,11 +356,11 @@ class Map implements Serializable {
 
                 if (numPercents > 0) {
                     percentIndexs = new int[numPercents];
-                    percentValues = new float[numPercents];
+                    percentVblues = new flobt[numPercents];
                     for (int counter = coords.length - 1, pCounter = 0;
                          counter >= 0; counter--) {
                         if (coords[counter] < 0) {
-                            percentValues[pCounter] = coords[counter] /
+                            percentVblues[pCounter] = coords[counter] /
                                                       -100.0f;
                             percentIndexs[pCounter] = counter;
                             pCounter++;
@@ -369,7 +369,7 @@ class Map implements Serializable {
                 }
                 else {
                     percentIndexs = null;
-                    percentValues = null;
+                    percentVblues = null;
                 }
                 npoints = coords.length / 2;
                 xpoints = new int[npoints];
@@ -382,122 +382,122 @@ class Map implements Serializable {
             }
         }
 
-        public boolean contains(int x, int y, int width, int height) {
-            if (percentValues == null || (lastWidth == width &&
-                                          lastHeight == height)) {
-                return contains(x, y);
+        public boolebn contbins(int x, int y, int width, int height) {
+            if (percentVblues == null || (lbstWidth == width &&
+                                          lbstHeight == height)) {
+                return contbins(x, y);
             }
-            // Force the bounding box to be recalced.
+            // Force the bounding box to be recblced.
             bounds = null;
-            lastWidth = width;
-            lastHeight = height;
-            float fWidth = (float)width;
-            float fHeight = (float)height;
-            for (int counter = percentValues.length - 1; counter >= 0;
+            lbstWidth = width;
+            lbstHeight = height;
+            flobt fWidth = (flobt)width;
+            flobt fHeight = (flobt)height;
+            for (int counter = percentVblues.length - 1; counter >= 0;
                  counter--) {
                 if (percentIndexs[counter] % 2 == 0) {
                     // x
                     xpoints[percentIndexs[counter] / 2] =
-                            (int)(percentValues[counter] * fWidth);
+                            (int)(percentVblues[counter] * fWidth);
                 }
                 else {
                     // y
                     ypoints[percentIndexs[counter] / 2] =
-                            (int)(percentValues[counter] * fHeight);
+                            (int)(percentVblues[counter] * fHeight);
                 }
             }
-            return contains(x, y);
+            return contbins(x, y);
         }
     }
 
 
     /**
-     * Used to test for containment in a circular region.
+     * Used to test for contbinment in b circulbr region.
      */
-    static class CircleRegionContainment implements RegionContainment {
+    stbtic clbss CircleRegionContbinment implements RegionContbinment {
         /** X origin of the circle. */
         int           x;
         /** Y origin of the circle. */
         int           y;
-        /** Radius of the circle. */
-        int           radiusSquared;
-        /** Non-null indicates one of the values represents a percent. */
-        float[]       percentValues;
-        /** Last value of width passed in. */
-        int           lastWidth;
-        /** Last value of height passed in. */
-        int           lastHeight;
+        /** Rbdius of the circle. */
+        int           rbdiusSqubred;
+        /** Non-null indicbtes one of the vblues represents b percent. */
+        flobt[]       percentVblues;
+        /** Lbst vblue of width pbssed in. */
+        int           lbstWidth;
+        /** Lbst vblue of height pbssed in. */
+        int           lbstHeight;
 
-        public CircleRegionContainment(AttributeSet as) {
-            int[]    coords = Map.extractCoords(as.getAttribute(HTML.Attribute.
+        public CircleRegionContbinment(AttributeSet bs) {
+            int[]    coords = Mbp.extrbctCoords(bs.getAttribute(HTML.Attribute.
                                                                 COORDS));
 
             if (coords == null || coords.length != 3) {
-                throw new RuntimeException("Unable to parse circular area");
+                throw new RuntimeException("Unbble to pbrse circulbr breb");
             }
             x = coords[0];
             y = coords[1];
-            radiusSquared = coords[2] * coords[2];
+            rbdiusSqubred = coords[2] * coords[2];
             if (coords[0] < 0 || coords[1] < 0 || coords[2] < 0) {
-                lastWidth = lastHeight = -1;
-                percentValues = new float[3];
+                lbstWidth = lbstHeight = -1;
+                percentVblues = new flobt[3];
                 for (int counter = 0; counter < 3; counter++) {
                     if (coords[counter] < 0) {
-                        percentValues[counter] = coords[counter] /
+                        percentVblues[counter] = coords[counter] /
                                                  -100.0f;
                     }
                     else {
-                        percentValues[counter] = -1.0f;
+                        percentVblues[counter] = -1.0f;
                     }
                 }
             }
             else {
-                percentValues = null;
+                percentVblues = null;
             }
         }
 
-        public boolean contains(int x, int y, int width, int height) {
-            if (percentValues != null && (lastWidth != width ||
-                                          lastHeight != height)) {
-                int      newRad = Math.min(width, height) / 2;
+        public boolebn contbins(int x, int y, int width, int height) {
+            if (percentVblues != null && (lbstWidth != width ||
+                                          lbstHeight != height)) {
+                int      newRbd = Mbth.min(width, height) / 2;
 
-                lastWidth = width;
-                lastHeight = height;
-                if (percentValues[0] != -1.0f) {
-                    this.x = (int)(percentValues[0] * width);
+                lbstWidth = width;
+                lbstHeight = height;
+                if (percentVblues[0] != -1.0f) {
+                    this.x = (int)(percentVblues[0] * width);
                 }
-                if (percentValues[1] != -1.0f) {
-                    this.y = (int)(percentValues[1] * height);
+                if (percentVblues[1] != -1.0f) {
+                    this.y = (int)(percentVblues[1] * height);
                 }
-                if (percentValues[2] != -1.0f) {
-                    radiusSquared = (int)(percentValues[2] *
-                                   Math.min(width, height));
-                    radiusSquared *= radiusSquared;
+                if (percentVblues[2] != -1.0f) {
+                    rbdiusSqubred = (int)(percentVblues[2] *
+                                   Mbth.min(width, height));
+                    rbdiusSqubred *= rbdiusSqubred;
                 }
             }
             return (((x - this.x) * (x - this.x) +
-                     (y - this.y) * (y - this.y)) <= radiusSquared);
+                     (y - this.y) * (y - this.y)) <= rbdiusSqubred);
         }
     }
 
 
     /**
-     * An implementation that will return true if the x, y location is
-     * inside a rectangle defined by origin 0, 0, and width equal to
-     * width passed in, and height equal to height passed in.
+     * An implementbtion thbt will return true if the x, y locbtion is
+     * inside b rectbngle defined by origin 0, 0, bnd width equbl to
+     * width pbssed in, bnd height equbl to height pbssed in.
      */
-    static class DefaultRegionContainment implements RegionContainment {
-        /** A global shared instance. */
-        static DefaultRegionContainment  si = null;
+    stbtic clbss DefbultRegionContbinment implements RegionContbinment {
+        /** A globbl shbred instbnce. */
+        stbtic DefbultRegionContbinment  si = null;
 
-        public static DefaultRegionContainment sharedInstance() {
+        public stbtic DefbultRegionContbinment shbredInstbnce() {
             if (si == null) {
-                si = new DefaultRegionContainment();
+                si = new DefbultRegionContbinment();
             }
             return si;
         }
 
-        public boolean contains(int x, int y, int width, int height) {
+        public boolebn contbins(int x, int y, int width, int height) {
             return (x <= width && x >= 0 && y >= 0 && y <= width);
         }
     }

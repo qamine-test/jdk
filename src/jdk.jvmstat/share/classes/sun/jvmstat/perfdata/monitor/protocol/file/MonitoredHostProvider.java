@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.file;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.file;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.HostListener;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.net.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.HostListener;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.net.*;
 
 /**
- * Concrete implementation of the MonitoredHost interface for the
- * <em>file:</em> protocol of the HotSpot PerfData monitoring implementation.
+ * Concrete implementbtion of the MonitoredHost interfbce for the
+ * <em>file:</em> protocol of the HotSpot PerfDbtb monitoring implementbtion.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class MonitoredHostProvider extends MonitoredHost {
+public clbss MonitoredHostProvider extends MonitoredHost {
 
     /**
-     * The default polling interval. Not used by the <em>file:</em> protocol.
+     * The defbult polling intervbl. Not used by the <em>file:</em> protocol.
      */
-    public static final int DEFAULT_POLLING_INTERVAL = 0;
+    public stbtic finbl int DEFAULT_POLLING_INTERVAL = 0;
 
     /**
-     * Create a MonitoredHostProvider instance using the given HostIdentifier.
+     * Crebte b MonitoredHostProvider instbnce using the given HostIdentifier.
      *
-     * @param hostId the host identifier for this MonitoredHost
+     * @pbrbm hostId the host identifier for this MonitoredHost
      */
     public MonitoredHostProvider(HostIdentifier hostId) {
         this.hostId = hostId;
@@ -66,51 +66,51 @@ public class MonitoredHostProvider extends MonitoredHost {
      * {@inheritDoc}.
      * <p>
      * Note - the <em>file:</em> protocol silently ignores the
-     * <tt>interval</tt> parameter.
+     * <tt>intervbl</tt> pbrbmeter.
      */
-    public MonitoredVm getMonitoredVm(VmIdentifier vmid, int interval)
+    public MonitoredVm getMonitoredVm(VmIdentifier vmid, int intervbl)
                        throws MonitorException {
-        // don't attempt to resolve 'file:' based vmid
-        return new FileMonitoredVm(vmid, interval);
+        // don't bttempt to resolve 'file:' bbsed vmid
+        return new FileMonitoredVm(vmid, intervbl);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void detach(MonitoredVm vm) {
-        vm.detach();
+    public void detbch(MonitoredVm vm) {
+        vm.detbch();
     }
 
     /**
      * {@inheritDoc}.
      * <p>
      * Note - the <em>file:</em> protocol currenly does not support
-     * registration or notification of event listeners. This method
-     * silently ignores the add request.
+     * registrbtion or notificbtion of event listeners. This method
+     * silently ignores the bdd request.
      */
-    public void addHostListener(HostListener listener) {
-        // no HostListener support for 'file:' based VmIdentifiers
+    public void bddHostListener(HostListener listener) {
+        // no HostListener support for 'file:' bbsed VmIdentifiers
     }
 
     /**
      * {@inheritDoc}.
      * <p>
      * Note - the <em>file:</em> protocol currenly does not support
-     * registration or notification of event listeners. This method
+     * registrbtion or notificbtion of event listeners. This method
      * silently ignores the remove request.
      */
     public void removeHostListener(HostListener listener) {
-        // no HostListener support for 'file:' based VmIdentifiers
+        // no HostListener support for 'file:' bbsed VmIdentifiers
     }
 
     /**
      * {@inheritDoc}.
      * <p>
      * Note - the <em>file:</em> protocol currently does not support the
-     * notion of tracking active or inactive Java Virtual Machines. This
-     * method currently returns an empty set.
+     * notion of trbcking bctive or inbctive Jbvb Virtubl Mbchines. This
+     * method currently returns bn empty set.
      */
-    public Set<Integer> activeVms() {
-        return new HashSet<Integer>(0);
+    public Set<Integer> bctiveVms() {
+        return new HbshSet<Integer>(0);
     }
 }

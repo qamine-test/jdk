@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
-import java.util.concurrent.Callable;
+import jbvb.bwt.Component;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.util.concurrent.Cbllbble;
 
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.accessibility.AccessibleEditableText;
-import javax.accessibility.AccessibleText;
-import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
+import jbvbx.bccessibility.Accessible;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvbx.bccessibility.AccessibleEditbbleText;
+import jbvbx.bccessibility.AccessibleText;
+import jbvbx.swing.text.Element;
+import jbvbx.swing.text.JTextComponent;
 
-class CAccessibleText {
-    static AccessibleEditableText getAccessibleEditableText(final Accessible a, final Component c) {
-        if (a == null) return null;
+clbss CAccessibleText {
+    stbtic AccessibleEditbbleText getAccessibleEditbbleText(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return CAccessibility.invokeAndWait(new Callable<AccessibleEditableText>() {
-            public AccessibleEditableText call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleEditableText();
+        return CAccessibility.invokeAndWbit(new Cbllbble<AccessibleEditbbleText>() {
+            public AccessibleEditbbleText cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                return bc.getAccessibleEditbbleText();
             }
         }, c);
     }
 
-    static String getSelectedText(final Accessible a, final Component c) {
-        if (a == null) return null;
+    stbtic String getSelectedText(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
 
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        return CAccessibility.invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return null;
+                finbl AccessibleText bt = bc.getAccessibleText();
+                if (bt == null) return null;
 
-                return at.getSelectedText();
+                return bt.getSelectedText();
             }
         }, c);
     }
 
-    // replace the currently selected text with newText
-    static void setSelectedText(final Accessible a, final Component c, final String newText) {
-        if (a == null) return;
+    // replbce the currently selected text with newText
+    stbtic void setSelectedText(finbl Accessible b, finbl Component c, finbl String newText) {
+        if (b == null) return;
 
-        CAccessibility.invokeLater(new Runnable() {
+        CAccessibility.invokeLbter(new Runnbble() {
             public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return;
+                finbl AccessibleEditbbleText bet = bc.getAccessibleEditbbleText();
+                if (bet == null) return;
 
-                final int selectionStart = aet.getSelectionStart();
-                final int selectionEnd = aet.getSelectionEnd();
-                aet.replaceText(selectionStart, selectionEnd, newText);
+                finbl int selectionStbrt = bet.getSelectionStbrt();
+                finbl int selectionEnd = bet.getSelectionEnd();
+                bet.replbceText(selectionStbrt, selectionEnd, newText);
             }
         }, c);
     }
 
-    static void setSelectedTextRange(final Accessible a, final Component c, final int startIndex, final int endIndex) {
-        if (a == null) return;
+    stbtic void setSelectedTextRbnge(finbl Accessible b, finbl Component c, finbl int stbrtIndex, finbl int endIndex) {
+        if (b == null) return;
 
-        CAccessibility.invokeLater(new Runnable() {
+        CAccessibility.invokeLbter(new Runnbble() {
             public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return;
+                finbl AccessibleEditbbleText bet = bc.getAccessibleEditbbleText();
+                if (bet == null) return;
 
-                final boolean validRange = (startIndex >= 0) && (endIndex >= startIndex) && (endIndex <= aet.getCharCount());
-                if (!validRange) return;
+                finbl boolebn vblidRbnge = (stbrtIndex >= 0) && (endIndex >= stbrtIndex) && (endIndex <= bet.getChbrCount());
+                if (!vblidRbnge) return;
 
-                aet.selectText(startIndex, endIndex);
+                bet.selectText(stbrtIndex, endIndex);
             }
         }, c);
     }
 
-    static String getTextRange(final AccessibleEditableText aet, final int start, final int stop, final Component c) {
-        if (aet == null) return null;
+    stbtic String getTextRbnge(finbl AccessibleEditbbleText bet, finbl int stbrt, finbl int stop, finbl Component c) {
+        if (bet == null) return null;
 
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                return aet.getTextRange(start, stop);
+        return CAccessibility.invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                return bet.getTextRbnge(stbrt, stop);
             }
         }, c);
     }
 
-    static int getCharacterIndexAtPosition(final Accessible a, final Component c, final int x, final int y) {
-        if (a == null) return 0;
+    stbtic int getChbrbcterIndexAtPosition(finbl Accessible b, finbl Component c, finbl int x, finbl int y) {
+        if (b == null) return 0;
 
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return null;
-                // (x, y) passed in as java screen coords - (0, 0) at upper-left corner of screen.
-                // Convert to java component-local coords
-                final Point componentLocation = ac.getAccessibleComponent().getLocationOnScreen();
-                final int localX = x - (int)componentLocation.getX();
-                final int localY = y - (int)componentLocation.getY();
+        return CAccessibility.invokeAndWbit(new Cbllbble<Integer>() {
+            public Integer cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
+                finbl AccessibleText bt = bc.getAccessibleText();
+                if (bt == null) return null;
+                // (x, y) pbssed in bs jbvb screen coords - (0, 0) bt upper-left corner of screen.
+                // Convert to jbvb component-locbl coords
+                finbl Point componentLocbtion = bc.getAccessibleComponent().getLocbtionOnScreen();
+                finbl int locblX = x - (int)componentLocbtion.getX();
+                finbl int locblY = y - (int)componentLocbtion.getY();
 
-                return at.getIndexAtPoint(new Point(localX, localY));
+                return bt.getIndexAtPoint(new Point(locblX, locblY));
             }
         }, c);
     }
 
-    static int[] getSelectedTextRange(final Accessible a, final Component c) {
-        if (a == null) return new int[2];
+    stbtic int[] getSelectedTextRbnge(finbl Accessible b, finbl Component c) {
+        if (b == null) return new int[2];
 
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return new int[2];
+        return CAccessibility.invokeAndWbit(new Cbllbble<int[]>() {
+            public int[] cbll() {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return new int[2];
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return new int[2];
+                finbl AccessibleText bt = bc.getAccessibleText();
+                if (bt == null) return new int[2];
 
-                final int[] ret = new int[2];
-                ret[0] = at.getSelectionStart();
-                ret[1] = at.getSelectionEnd();
+                finbl int[] ret = new int[2];
+                ret[0] = bt.getSelectionStbrt();
+                ret[1] = bt.getSelectionEnd();
                 return ret;
             }
         }, c);
     }
 
 
-    static int[] getVisibleCharacterRange(final Accessible a, final Component c) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                return getVisibleCharacterRange(a);
+    stbtic int[] getVisibleChbrbcterRbnge(finbl Accessible b, finbl Component c) {
+        if (b == null) return null;
+        return CAccessibility.invokeAndWbit(new Cbllbble<int[]>() {
+            public int[] cbll() {
+                return getVisibleChbrbcterRbnge(b);
             }
         }, c);
     }
 
-    static int getLineNumberForIndex(final Accessible a, final Component c, final int index) {
-        if (a == null) return 0;
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() {
-                return Integer.valueOf(getLineNumberForIndex(a, index));
+    stbtic int getLineNumberForIndex(finbl Accessible b, finbl Component c, finbl int index) {
+        if (b == null) return 0;
+        return CAccessibility.invokeAndWbit(new Cbllbble<Integer>() {
+            public Integer cbll() {
+                return Integer.vblueOf(getLineNumberForIndex(b, index));
             }
         }, c);
     }
 
-    static int getLineNumberForInsertionPoint(final Accessible a, final Component c) {
-        if (a == null) return 0;
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() {
-                return Integer.valueOf(getLineNumberForInsertionPoint(a));
+    stbtic int getLineNumberForInsertionPoint(finbl Accessible b, finbl Component c) {
+        if (b == null) return 0;
+        return CAccessibility.invokeAndWbit(new Cbllbble<Integer>() {
+            public Integer cbll() {
+                return Integer.vblueOf(getLineNumberForInsertionPoint(b));
             }
         }, c);
     }
 
-    static int[] getRangeForLine(final Accessible a, final Component c, final int line) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                return getRangeForLine(a, line);
+    stbtic int[] getRbngeForLine(finbl Accessible b, finbl Component c, finbl int line) {
+        if (b == null) return null;
+        return CAccessibility.invokeAndWbit(new Cbllbble<int[]>() {
+            public int[] cbll() {
+                return getRbngeForLine(b, line);
             }
         }, c);
     }
 
-    static int[] getRangeForIndex(final Accessible a, final Component c, final int index) {
-        if (a == null) return new int[2];
+    stbtic int[] getRbngeForIndex(finbl Accessible b, finbl Component c, finbl int index) {
+        if (b == null) return new int[2];
 
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return new int[2];
+        return CAccessibility.invokeAndWbit(new Cbllbble<int[]>() {
+            public int[] cbll() {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return new int[2];
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return new int[2];
+                finbl AccessibleEditbbleText bet = bc.getAccessibleEditbbleText();
+                if (bet == null) return new int[2];
 
-                final int charCount = aet.getCharCount();
-                if (index >= charCount) return new int[2];
+                finbl int chbrCount = bet.getChbrCount();
+                if (index >= chbrCount) return new int[2];
 
-                final String foundWord = aet.getAtIndex(AccessibleText.WORD, index);
-                final int foundWordLength = foundWord.length();
-                final String wholeString = aet.getTextRange(0, charCount - 1);
+                finbl String foundWord = bet.getAtIndex(AccessibleText.WORD, index);
+                finbl int foundWordLength = foundWord.length();
+                finbl String wholeString = bet.getTextRbnge(0, chbrCount - 1);
 
-                // now we need to find the index of the foundWord in wholeString. It's somewhere pretty close to the passed-in index,
-                // but we don't know if it's before or after the passed-in index. So, look behind and ahead of the passed-in index
+                // now we need to find the index of the foundWord in wholeString. It's somewhere pretty close to the pbssed-in index,
+                // but we don't know if it's before or bfter the pbssed-in index. So, look behind bnd bhebd of the pbssed-in index
                 int foundWordIndex = -1;
                 int offset = 0;
                 while ((foundWordIndex == -1) && (offset < foundWordLength)) {
-                    if (wholeString.regionMatches(true, index - offset, foundWord, 0, foundWordLength)) {
-                        // is the index of foundWord to the left of the passed-in index?
+                    if (wholeString.regionMbtches(true, index - offset, foundWord, 0, foundWordLength)) {
+                        // is the index of foundWord to the left of the pbssed-in index?
                         foundWordIndex = index - offset;
                     }
-                    if (wholeString.regionMatches(true, index + offset, foundWord, 0, foundWordLength)) {
-                        // is the index of the foundWord to the right of the passed-in index?
+                    if (wholeString.regionMbtches(true, index + offset, foundWord, 0, foundWordLength)) {
+                        // is the index of the foundWord to the right of the pbssed-in index?
                         foundWordIndex = index + offset;
                     }
                     offset++;
                 }
 
-                final int[] ret = new int[2];
+                finbl int[] ret = new int[2];
                 ret[0] = foundWordIndex;
                 ret[1] = foundWordIndex + foundWordLength;
                 return ret;
@@ -233,42 +233,42 @@ class CAccessibleText {
         }, c);
     }
 
-    // cmcnote: this method does not currently work for JLabels. JLabels, for some reason unbeknownst to me, do not
-    // return a value from getAccessibleText. According to the javadocs, AccessibleJLabels implement AccessibleText,
-    // so this doesn't really make sense. Perhaps a sun bug? Investigate. We currently get the text value out of labels
-    // via "getAccessibleName". This just returns a String - so we don't know it's position, etc, as we do for
+    // cmcnote: this method does not currently work for JLbbels. JLbbels, for some rebson unbeknownst to me, do not
+    // return b vblue from getAccessibleText. According to the jbvbdocs, AccessibleJLbbels implement AccessibleText,
+    // so this doesn't reblly mbke sense. Perhbps b sun bug? Investigbte. We currently get the text vblue out of lbbels
+    // vib "getAccessibleNbme". This just returns b String - so we don't know it's position, etc, bs we do for
     // AccessibleText.
-    static double[] getBoundsForRange(final Accessible a, final Component c, final int location, final int length) {
-        final double[] ret = new double[4];
-        if (a == null) return ret;
+    stbtic double[] getBoundsForRbnge(finbl Accessible b, finbl Component c, finbl int locbtion, finbl int length) {
+        finbl double[] ret = new double[4];
+        if (b == null) return ret;
 
-        return CAccessibility.invokeAndWait(new Callable<double[]>() {
-            public double[] call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return ret;
+        return CAccessibility.invokeAndWbit(new Cbllbble<double[]>() {
+            public double[] cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return ret;
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) {
-                    ac.getAccessibleName();
-                    ac.getAccessibleEditableText();
+                finbl AccessibleText bt = bc.getAccessibleText();
+                if (bt == null) {
+                    bc.getAccessibleNbme();
+                    bc.getAccessibleEditbbleText();
                     return ret;
                 }
 
-                final Rectangle2D boundsStart = at.getCharacterBounds(location);
-                final Rectangle2D boundsEnd = at.getCharacterBounds(location + length - 1);
-                if (boundsEnd == null || boundsStart == null) return ret;
-                final Rectangle2D boundsUnion = boundsStart.createUnion(boundsEnd);
+                finbl Rectbngle2D boundsStbrt = bt.getChbrbcterBounds(locbtion);
+                finbl Rectbngle2D boundsEnd = bt.getChbrbcterBounds(locbtion + length - 1);
+                if (boundsEnd == null || boundsStbrt == null) return ret;
+                finbl Rectbngle2D boundsUnion = boundsStbrt.crebteUnion(boundsEnd);
                 if (boundsUnion.isEmpty()) return ret;
 
-                final double localX = boundsUnion.getX();
-                final double localY = boundsUnion.getY();
+                finbl double locblX = boundsUnion.getX();
+                finbl double locblY = boundsUnion.getY();
 
-                final Point componentLocation = ac.getAccessibleComponent().getLocationOnScreen();
-                final double screenX = componentLocation.getX() + localX;
-                final double screenY = componentLocation.getY() + localY;
+                finbl Point componentLocbtion = bc.getAccessibleComponent().getLocbtionOnScreen();
+                finbl double screenX = componentLocbtion.getX() + locblX;
+                finbl double screenY = componentLocbtion.getY() + locblY;
 
                 ret[0] = screenX;
-                ret[1] = screenY; // in java screen coords (from top-left corner of screen)
+                ret[1] = screenY; // in jbvb screen coords (from top-left corner of screen)
                 ret[2] = boundsUnion.getWidth();
                 ret[3] = boundsUnion.getHeight();
                 return ret;
@@ -276,66 +276,66 @@ class CAccessibleText {
         }, c);
     }
 
-    static String getStringForRange(final Accessible a, final Component c, final int location, final int length) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+    stbtic String getStringForRbnge(finbl Accessible b, finbl Component c, finbl int locbtion, finbl int length) {
+        if (b == null) return null;
+        return CAccessibility.invokeAndWbit(new Cbllbble<String>() {
+            public String cbll() throws Exception {
+                finbl AccessibleContext bc = b.getAccessibleContext();
+                if (bc == null) return null;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return null;
+                finbl AccessibleEditbbleText bet = bc.getAccessibleEditbbleText();
+                if (bet == null) return null;
 
-                return aet.getTextRange(location, location + length);
+                return bet.getTextRbnge(locbtion, locbtion + length);
             }
         }, c);
     }
 
-    static int[] getVisibleCharacterRange(final Accessible a) {
-        final Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return null;
+    stbtic int[] getVisibleChbrbcterRbnge(finbl Accessible b) {
+        finbl Accessible sb = CAccessible.getSwingAccessible(b);
+        if (!(sb instbnceof JTextComponent)) return null;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Rectangle rect = jc.getVisibleRect();
-        final Point topLeft = new Point(rect.x, rect.y);
-        final Point topRight = new Point(rect.x + rect.width, rect.y);
-        final Point bottomLeft = new Point(rect.x, rect.y + rect.height);
-        final Point bottomRight = new Point(rect.x + rect.width, rect.y + rect.height);
+        finbl JTextComponent jc = (JTextComponent) sb;
+        finbl Rectbngle rect = jc.getVisibleRect();
+        finbl Point topLeft = new Point(rect.x, rect.y);
+        finbl Point topRight = new Point(rect.x + rect.width, rect.y);
+        finbl Point bottomLeft = new Point(rect.x, rect.y + rect.height);
+        finbl Point bottomRight = new Point(rect.x + rect.width, rect.y + rect.height);
 
-        int start = Math.min(jc.viewToModel(topLeft), jc.viewToModel(topRight));
-        int end = Math.max(jc.viewToModel(bottomLeft), jc.viewToModel(bottomRight));
-        if (start < 0) start = 0;
+        int stbrt = Mbth.min(jc.viewToModel(topLeft), jc.viewToModel(topRight));
+        int end = Mbth.mbx(jc.viewToModel(bottomLeft), jc.viewToModel(bottomRight));
+        if (stbrt < 0) stbrt = 0;
         if (end < 0) end = 0;
-        return new int[] { start, end };
+        return new int[] { stbrt, end };
     }
 
-    static int getLineNumberForIndex(final Accessible a, int index) {
-        final Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return -1;
+    stbtic int getLineNumberForIndex(finbl Accessible b, int index) {
+        finbl Accessible sb = CAccessible.getSwingAccessible(b);
+        if (!(sb instbnceof JTextComponent)) return -1;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Element root = jc.getDocument().getDefaultRootElement();
+        finbl JTextComponent jc = (JTextComponent) sb;
+        finbl Element root = jc.getDocument().getDefbultRootElement();
 
-        // treat -1 special, returns the current caret position
-        if (index == -1) index = jc.getCaretPosition();
+        // trebt -1 specibl, returns the current cbret position
+        if (index == -1) index = jc.getCbretPosition();
 
-        // Determine line number (can be -1)
+        // Determine line number (cbn be -1)
         return root.getElementIndex(index);
     }
 
-    static int getLineNumberForInsertionPoint(final Accessible a) {
-        return getLineNumberForIndex(a, -1); // uses special -1 for above
+    stbtic int getLineNumberForInsertionPoint(finbl Accessible b) {
+        return getLineNumberForIndex(b, -1); // uses specibl -1 for bbove
     }
 
-    static int[] getRangeForLine(final Accessible a, final int lineIndex) {
-        Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return null;
+    stbtic int[] getRbngeForLine(finbl Accessible b, finbl int lineIndex) {
+        Accessible sb = CAccessible.getSwingAccessible(b);
+        if (!(sb instbnceof JTextComponent)) return null;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Element root = jc.getDocument().getDefaultRootElement();
-        final Element line = root.getElement(lineIndex);
+        finbl JTextComponent jc = (JTextComponent) sb;
+        finbl Element root = jc.getDocument().getDefbultRootElement();
+        finbl Element line = root.getElement(lineIndex);
         if (line == null) return null;
 
-        return new int[] { line.getStartOffset(), line.getEndOffset() };
+        return new int[] { line.getStbrtOffset(), line.getEndOffset() };
     }
 }

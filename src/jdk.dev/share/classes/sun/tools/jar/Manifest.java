@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jar;
+pbckbge sun.tools.jbr;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
 
-import sun.net.www.MessageHeader;
-import java.util.Base64;
+import sun.net.www.MessbgeHebder;
+import jbvb.util.Bbse64;
 
 /**
- * This is OBSOLETE. DO NOT USE THIS. Use java.util.jar.Manifest
- * instead. It has to stay here because some apps (namely HJ and HJV)
- * call directly into it.
+ * This is OBSOLETE. DO NOT USE THIS. Use jbvb.util.jbr.Mbnifest
+ * instebd. It hbs to stby here becbuse some bpps (nbmely HJ bnd HJV)
+ * cbll directly into it.
  *
- * @author David Brown
- * @author Benjamin Renaud
+ * @buthor Dbvid Brown
+ * @buthor Benjbmin Renbud
  */
 
-public class Manifest {
+public clbss Mbnifest {
 
-    /* list of headers that all pertain to a particular
-     * file in the archive
+    /* list of hebders thbt bll pertbin to b pbrticulbr
+     * file in the brchive
      */
-    private Vector<MessageHeader> entries = new Vector<>();
-    private byte[] tmpbuf = new byte[512];
-    /* a hashtable of entries, for fast lookup */
-    private Hashtable<String, MessageHeader> tableEntries = new Hashtable<>();
+    privbte Vector<MessbgeHebder> entries = new Vector<>();
+    privbte byte[] tmpbuf = new byte[512];
+    /* b hbshtbble of entries, for fbst lookup */
+    privbte Hbshtbble<String, MessbgeHebder> tbbleEntries = new Hbshtbble<>();
 
-    static final String[] hashes = {"SHA"};
-    static final byte[] EOL = {(byte)'\r', (byte)'\n'};
+    stbtic finbl String[] hbshes = {"SHA"};
+    stbtic finbl byte[] EOL = {(byte)'\r', (byte)'\n'};
 
-    static final boolean debug = false;
-    static final String VERSION = "1.0";
-    static final void debug(String s) {
+    stbtic finbl boolebn debug = fblse;
+    stbtic finbl String VERSION = "1.0";
+    stbtic finbl void debug(String s) {
         if (debug)
-            System.out.println("man> " + s);
+            System.out.println("mbn> " + s);
     }
 
-    public Manifest() {}
+    public Mbnifest() {}
 
-    public Manifest(byte[] bytes) throws IOException {
-        this(new ByteArrayInputStream(bytes), false);
+    public Mbnifest(byte[] bytes) throws IOException {
+        this(new ByteArrbyInputStrebm(bytes), fblse);
     }
 
-    public Manifest(InputStream is) throws IOException {
+    public Mbnifest(InputStrebm is) throws IOException {
         this(is, true);
     }
 
     /**
-     * Parse a manifest from a stream, optionally computing hashes
+     * Pbrse b mbnifest from b strebm, optionblly computing hbshes
      * for the files.
      */
-    public Manifest(InputStream is, boolean compute) throws IOException {
-        if (!is.markSupported()) {
-            is = new BufferedInputStream(is);
+    public Mbnifest(InputStrebm is, boolebn compute) throws IOException {
+        if (!is.mbrkSupported()) {
+            is = new BufferedInputStrebm(is);
         }
-        /* do not rely on available() here! */
+        /* do not rely on bvbilbble() here! */
         while (true) {
-            is.mark(1);
-            if (is.read() == -1) { // EOF
-                break;
+            is.mbrk(1);
+            if (is.rebd() == -1) { // EOF
+                brebk;
             }
             is.reset();
-            MessageHeader m = new MessageHeader(is);
+            MessbgeHebder m = new MessbgeHebder(is);
             if (compute) {
-                doHashes(m);
+                doHbshes(m);
             }
-            addEntry(m);
+            bddEntry(m);
         }
     }
 
-    /* recursively generate manifests from directory tree */
-    public Manifest(String[] files) throws IOException {
-        MessageHeader globals = new MessageHeader();
-        globals.add("Manifest-Version", VERSION);
-        String jdkVersion = System.getProperty("java.version");
-        globals.add("Created-By", "Manifest JDK "+jdkVersion);
-        addEntry(globals);
-        addFiles(null, files);
+    /* recursively generbte mbnifests from directory tree */
+    public Mbnifest(String[] files) throws IOException {
+        MessbgeHebder globbls = new MessbgeHebder();
+        globbls.bdd("Mbnifest-Version", VERSION);
+        String jdkVersion = System.getProperty("jbvb.version");
+        globbls.bdd("Crebted-By", "Mbnifest JDK "+jdkVersion);
+        bddEntry(globbls);
+        bddFiles(null, files);
     }
 
-    public void addEntry(MessageHeader entry) {
-        entries.addElement(entry);
-        String name = entry.findValue("Name");
-        debug("addEntry for name: "+name);
-        if (name != null) {
-            tableEntries.put(name, entry);
+    public void bddEntry(MessbgeHebder entry) {
+        entries.bddElement(entry);
+        String nbme = entry.findVblue("Nbme");
+        debug("bddEntry for nbme: "+nbme);
+        if (nbme != null) {
+            tbbleEntries.put(nbme, entry);
         }
     }
 
-    public MessageHeader getEntry(String name) {
-        return tableEntries.get(name);
+    public MessbgeHebder getEntry(String nbme) {
+        return tbbleEntries.get(nbme);
     }
 
-    public MessageHeader entryAt(int i) {
+    public MessbgeHebder entryAt(int i) {
         return entries.elementAt(i);
     }
 
-    public Enumeration<MessageHeader> entries() {
+    public Enumerbtion<MessbgeHebder> entries() {
         return entries.elements();
     }
 
-    public void addFiles(File dir, String[] files) throws IOException {
+    public void bddFiles(File dir, String[] files) throws IOException {
         if (files == null)
             return;
         for (int i = 0; i < files.length; i++) {
@@ -136,123 +136,123 @@ public class Manifest {
                 file = new File(dir, files[i]);
             }
             if (file.isDirectory()) {
-                addFiles(file, file.list());
+                bddFiles(file, file.list());
             } else {
-                addFile(file);
+                bddFile(file);
             }
         }
     }
 
     /**
-     * File names are represented internally using "/";
-     * they are converted to the local format for anything else
+     * File nbmes bre represented internblly using "/";
+     * they bre converted to the locbl formbt for bnything else
      */
 
-    private final String stdToLocal(String name) {
-        return name.replace('/', java.io.File.separatorChar);
+    privbte finbl String stdToLocbl(String nbme) {
+        return nbme.replbce('/', jbvb.io.File.sepbrbtorChbr);
     }
 
-    private final String localToStd(String name) {
-        name = name.replace(java.io.File.separatorChar, '/');
-        if (name.startsWith("./"))
-            name = name.substring(2);
-        else if (name.startsWith("/"))
-            name = name.substring(1);
-        return name;
+    privbte finbl String locblToStd(String nbme) {
+        nbme = nbme.replbce(jbvb.io.File.sepbrbtorChbr, '/');
+        if (nbme.stbrtsWith("./"))
+            nbme = nbme.substring(2);
+        else if (nbme.stbrtsWith("/"))
+            nbme = nbme.substring(1);
+        return nbme;
     }
 
-    public void addFile(File f) throws IOException {
-        String stdName = localToStd(f.getPath());
-        if (tableEntries.get(stdName) == null) {
-            MessageHeader mh = new MessageHeader();
-            mh.add("Name", stdName);
-            addEntry(mh);
+    public void bddFile(File f) throws IOException {
+        String stdNbme = locblToStd(f.getPbth());
+        if (tbbleEntries.get(stdNbme) == null) {
+            MessbgeHebder mh = new MessbgeHebder();
+            mh.bdd("Nbme", stdNbme);
+            bddEntry(mh);
         }
     }
 
-    public void doHashes(MessageHeader mh) throws IOException {
-        // If unnamed or is a directory return immediately
-        String name = mh.findValue("Name");
-        if (name == null || name.endsWith("/")) {
+    public void doHbshes(MessbgeHebder mh) throws IOException {
+        // If unnbmed or is b directory return immedibtely
+        String nbme = mh.findVblue("Nbme");
+        if (nbme == null || nbme.endsWith("/")) {
             return;
         }
 
 
-        /* compute hashes, write over any other "Hash-Algorithms" (?) */
-        for (int j = 0; j < hashes.length; ++j) {
-            InputStream is = new FileInputStream(stdToLocal(name));
+        /* compute hbshes, write over bny other "Hbsh-Algorithms" (?) */
+        for (int j = 0; j < hbshes.length; ++j) {
+            InputStrebm is = new FileInputStrebm(stdToLocbl(nbme));
             try {
-                MessageDigest dig = MessageDigest.getInstance(hashes[j]);
+                MessbgeDigest dig = MessbgeDigest.getInstbnce(hbshes[j]);
 
                 int len;
-                while ((len = is.read(tmpbuf, 0, tmpbuf.length)) != -1) {
-                    dig.update(tmpbuf, 0, len);
+                while ((len = is.rebd(tmpbuf, 0, tmpbuf.length)) != -1) {
+                    dig.updbte(tmpbuf, 0, len);
                 }
-                mh.set(hashes[j] + "-Digest", Base64.getMimeEncoder().encodeToString(dig.digest()));
-            } catch (NoSuchAlgorithmException e) {
-                throw new JarException("Digest algorithm " + hashes[j] +
-                                       " not available.");
-            } finally {
+                mh.set(hbshes[j] + "-Digest", Bbse64.getMimeEncoder().encodeToString(dig.digest()));
+            } cbtch (NoSuchAlgorithmException e) {
+                throw new JbrException("Digest blgorithm " + hbshes[j] +
+                                       " not bvbilbble.");
+            } finblly {
                 is.close();
             }
         }
     }
 
-    /* Add a manifest file at current position in a stream
+    /* Add b mbnifest file bt current position in b strebm
      */
-    public void stream(OutputStream os) throws IOException {
+    public void strebm(OutputStrebm os) throws IOException {
 
-        PrintStream ps;
-        if (os instanceof PrintStream) {
-            ps = (PrintStream) os;
+        PrintStrebm ps;
+        if (os instbnceof PrintStrebm) {
+            ps = (PrintStrebm) os;
         } else {
-            ps = new PrintStream(os);
+            ps = new PrintStrebm(os);
         }
 
-        /* the first header in the file should be the global one.
-         * It should say "Manifest-Version: x.x"; if not add it
+        /* the first hebder in the file should be the globbl one.
+         * It should sby "Mbnifest-Version: x.x"; if not bdd it
          */
-        MessageHeader globals = entries.elementAt(0);
+        MessbgeHebder globbls = entries.elementAt(0);
 
-        if (globals.findValue("Manifest-Version") == null) {
-            /* Assume this is a user-defined manifest.  If it has a Name: <..>
-             * field, then it is not global, in which case we just add our own
-             * global Manifest-version: <version>
-             * If the first MessageHeader has no Name: <..>, we assume it
-             * is a global header and so prepend Manifest to it.
+        if (globbls.findVblue("Mbnifest-Version") == null) {
+            /* Assume this is b user-defined mbnifest.  If it hbs b Nbme: <..>
+             * field, then it is not globbl, in which cbse we just bdd our own
+             * globbl Mbnifest-version: <version>
+             * If the first MessbgeHebder hbs no Nbme: <..>, we bssume it
+             * is b globbl hebder bnd so prepend Mbnifest to it.
              */
-            String jdkVersion = System.getProperty("java.version");
+            String jdkVersion = System.getProperty("jbvb.version");
 
-            if (globals.findValue("Name") == null) {
-                globals.prepend("Manifest-Version", VERSION);
-                globals.add("Created-By", "Manifest JDK "+jdkVersion);
+            if (globbls.findVblue("Nbme") == null) {
+                globbls.prepend("Mbnifest-Version", VERSION);
+                globbls.bdd("Crebted-By", "Mbnifest JDK "+jdkVersion);
             } else {
-                ps.print("Manifest-Version: "+VERSION+"\r\n"+
-                         "Created-By: "+jdkVersion+"\r\n\r\n");
+                ps.print("Mbnifest-Version: "+VERSION+"\r\n"+
+                         "Crebted-By: "+jdkVersion+"\r\n\r\n");
             }
             ps.flush();
         }
 
-        globals.print(ps);
+        globbls.print(ps);
 
         for (int i = 1; i < entries.size(); ++i) {
-            MessageHeader mh = entries.elementAt(i);
+            MessbgeHebder mh = entries.elementAt(i);
             mh.print(ps);
         }
     }
 
-    public static boolean isManifestName(String name) {
+    public stbtic boolebn isMbnifestNbme(String nbme) {
 
-        // remove leading /
-        if (name.charAt(0) == '/') {
-            name = name.substring(1, name.length());
+        // remove lebding /
+        if (nbme.chbrAt(0) == '/') {
+            nbme = nbme.substring(1, nbme.length());
         }
-        // case insensitive
-        name = name.toUpperCase();
+        // cbse insensitive
+        nbme = nbme.toUpperCbse();
 
-        if (name.equals("META-INF/MANIFEST.MF")) {
+        if (nbme.equbls("META-INF/MANIFEST.MF")) {
             return true;
         }
-        return false;
+        return fblse;
     }
 }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.util.Vector;
-import javax.swing.event.*;
-import javax.swing.SizeRequirements;
+import jbvb.bwt.*;
+import jbvb.util.Vector;
+import jbvbx.swing.event.*;
+import jbvbx.swing.SizeRequirements;
 
 /**
- * A View that tries to flow it's children into some
- * partially constrained space.  This can be used to
- * build things like paragraphs, pages, etc.  The
- * flow is made up of the following pieces of functionality.
+ * A View thbt tries to flow it's children into some
+ * pbrtiblly constrbined spbce.  This cbn be used to
+ * build things like pbrbgrbphs, pbges, etc.  The
+ * flow is mbde up of the following pieces of functionblity.
  * <ul>
- * <li>A logical set of child views, which as used as a
- * layout pool from which a physical view is formed.
- * <li>A strategy for translating the logical view to
- * a physical (flowed) view.
- * <li>Constraints for the strategy to work against.
- * <li>A physical structure, that represents the flow.
- * The children of this view are where the pieces of
- * of the logical views are placed to create the flow.
+ * <li>A logicbl set of child views, which bs used bs b
+ * lbyout pool from which b physicbl view is formed.
+ * <li>A strbtegy for trbnslbting the logicbl view to
+ * b physicbl (flowed) view.
+ * <li>Constrbints for the strbtegy to work bgbinst.
+ * <li>A physicbl structure, thbt represents the flow.
+ * The children of this view bre where the pieces of
+ * of the logicbl views bre plbced to crebte the flow.
  * </ul>
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     View
  * @since 1.3
  */
-public abstract class FlowView extends BoxView {
+public bbstrbct clbss FlowView extends BoxView {
 
     /**
-     * Constructs a FlowView for the given element.
+     * Constructs b FlowView for the given element.
      *
-     * @param elem the element that this view is responsible for
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm elem the element thbt this view is responsible for
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
      */
-    public FlowView(Element elem, int axis) {
-        super(elem, axis);
-        layoutSpan = Integer.MAX_VALUE;
-        strategy = new FlowStrategy();
+    public FlowView(Element elem, int bxis) {
+        super(elem, bxis);
+        lbyoutSpbn = Integer.MAX_VALUE;
+        strbtegy = new FlowStrbtegy();
     }
 
     /**
-     * Fetches the axis along which views should be
-     * flowed.  By default, this will be the axis
-     * orthogonal to the axis along which the flow
-     * rows are tiled (the axis of the default flow
-     * rows themselves).  This is typically used
-     * by the <code>FlowStrategy</code>.
+     * Fetches the bxis blong which views should be
+     * flowed.  By defbult, this will be the bxis
+     * orthogonbl to the bxis blong which the flow
+     * rows bre tiled (the bxis of the defbult flow
+     * rows themselves).  This is typicblly used
+     * by the <code>FlowStrbtegy</code>.
      */
     public int getFlowAxis() {
         if (getAxis() == Y_AXIS) {
@@ -79,83 +79,83 @@ public abstract class FlowView extends BoxView {
     }
 
     /**
-     * Fetch the constraining span to flow against for
-     * the given child index.  This is called by the
-     * FlowStrategy while it is updating the flow.
-     * A flow can be shaped by providing different values
-     * for the row constraints.  By default, the entire
-     * span inside of the insets along the flow axis
+     * Fetch the constrbining spbn to flow bgbinst for
+     * the given child index.  This is cblled by the
+     * FlowStrbtegy while it is updbting the flow.
+     * A flow cbn be shbped by providing different vblues
+     * for the row constrbints.  By defbult, the entire
+     * spbn inside of the insets blong the flow bxis
      * is returned.
      *
-     * @param index the index of the row being updated.
-     *   This should be a value &gt;= 0 and &lt; getViewCount().
-     * @see #getFlowStart
+     * @pbrbm index the index of the row being updbted.
+     *   This should be b vblue &gt;= 0 bnd &lt; getViewCount().
+     * @see #getFlowStbrt
      */
-    public int getFlowSpan(int index) {
-        return layoutSpan;
+    public int getFlowSpbn(int index) {
+        return lbyoutSpbn;
     }
 
     /**
-     * Fetch the location along the flow axis that the
-     * flow span will start at.  This is called by the
-     * FlowStrategy while it is updating the flow.
-     * A flow can be shaped by providing different values
-     * for the row constraints.
+     * Fetch the locbtion blong the flow bxis thbt the
+     * flow spbn will stbrt bt.  This is cblled by the
+     * FlowStrbtegy while it is updbting the flow.
+     * A flow cbn be shbped by providing different vblues
+     * for the row constrbints.
 
-     * @param index the index of the row being updated.
-     *   This should be a value &gt;= 0 and &lt; getViewCount().
-     * @see #getFlowSpan
+     * @pbrbm index the index of the row being updbted.
+     *   This should be b vblue &gt;= 0 bnd &lt; getViewCount().
+     * @see #getFlowSpbn
      */
-    public int getFlowStart(int index) {
+    public int getFlowStbrt(int index) {
         return 0;
     }
 
     /**
-     * Create a View that should be used to hold a
-     * a rows worth of children in a flow.  This is
-     * called by the FlowStrategy when new children
-     * are added or removed (i.e. rows are added or
-     * removed) in the process of updating the flow.
+     * Crebte b View thbt should be used to hold b
+     * b rows worth of children in b flow.  This is
+     * cblled by the FlowStrbtegy when new children
+     * bre bdded or removed (i.e. rows bre bdded or
+     * removed) in the process of updbting the flow.
      */
-    protected abstract View createRow();
+    protected bbstrbct View crebteRow();
 
     // ---- BoxView methods -------------------------------------
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the <code>setParent</code> method.
-     * This is reimplemented to not load any children directly
-     * (as they are created in the process of formatting).
-     * If the layoutPool variable is null, an instance of
-     * LogicalView is created to represent the logical view
-     * that is used in the process of formatting.
+     * Lobds bll of the children to initiblize the view.
+     * This is cblled by the <code>setPbrent</code> method.
+     * This is reimplemented to not lobd bny children directly
+     * (bs they bre crebted in the process of formbtting).
+     * If the lbyoutPool vbribble is null, bn instbnce of
+     * LogicblView is crebted to represent the logicbl view
+     * thbt is used in the process of formbtting.
      *
-     * @param f the view factory
+     * @pbrbm f the view fbctory
      */
-    protected void loadChildren(ViewFactory f) {
-        if (layoutPool == null) {
-            layoutPool = new LogicalView(getElement());
+    protected void lobdChildren(ViewFbctory f) {
+        if (lbyoutPool == null) {
+            lbyoutPool = new LogicblView(getElement());
         }
-        layoutPool.setParent(this);
+        lbyoutPool.setPbrent(this);
 
-        // This synthetic insertUpdate call gives the strategy a chance
-        // to initialize.
-        strategy.insertUpdate(this, null, null);
+        // This synthetic insertUpdbte cbll gives the strbtegy b chbnce
+        // to initiblize.
+        strbtegy.insertUpdbte(this, null, null);
     }
 
     /**
      * Fetches the child view index representing the given position in
      * the model.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      */
     protected int getViewIndexAtPosition(int pos) {
-        if (pos >= getStartOffset() && (pos < getEndOffset())) {
+        if (pos >= getStbrtOffset() && (pos < getEndOffset())) {
             for (int counter = 0; counter < getViewCount(); counter++) {
                 View v = getView(counter);
-                if(pos >= v.getStartOffset() &&
+                if(pos >= v.getStbrtOffset() &&
                    pos < v.getEndOffset()) {
                     return counter;
                 }
@@ -165,721 +165,721 @@ public abstract class FlowView extends BoxView {
     }
 
     /**
-     * Lays out the children.  If the span along the flow
-     * axis has changed, layout is marked as invalid which
-     * which will cause the superclass behavior to recalculate
-     * the layout along the box axis.  The FlowStrategy.layout
-     * method will be called to rebuild the flow rows as
-     * appropriate.  If the height of this view changes
-     * (determined by the preferred size along the box axis),
-     * a preferenceChanged is called.  Following all of that,
-     * the normal box layout of the superclass is performed.
+     * Lbys out the children.  If the spbn blong the flow
+     * bxis hbs chbnged, lbyout is mbrked bs invblid which
+     * which will cbuse the superclbss behbvior to recblculbte
+     * the lbyout blong the box bxis.  The FlowStrbtegy.lbyout
+     * method will be cblled to rebuild the flow rows bs
+     * bppropribte.  If the height of this view chbnges
+     * (determined by the preferred size blong the box bxis),
+     * b preferenceChbnged is cblled.  Following bll of thbt,
+     * the normbl box lbyout of the superclbss is performed.
      *
-     * @param width  the width to lay out against &gt;= 0.  This is
-     *   the width inside of the inset area.
-     * @param height the height to lay out against &gt;= 0 This
-     *   is the height inside of the inset area.
+     * @pbrbm width  the width to lby out bgbinst &gt;= 0.  This is
+     *   the width inside of the inset breb.
+     * @pbrbm height the height to lby out bgbinst &gt;= 0 This
+     *   is the height inside of the inset breb.
      */
-    protected void layout(int width, int height) {
-        final int faxis = getFlowAxis();
-        int newSpan;
-        if (faxis == X_AXIS) {
-            newSpan = width;
+    protected void lbyout(int width, int height) {
+        finbl int fbxis = getFlowAxis();
+        int newSpbn;
+        if (fbxis == X_AXIS) {
+            newSpbn = width;
         } else {
-            newSpan = height;
+            newSpbn = height;
         }
-        if (layoutSpan != newSpan) {
-            layoutChanged(faxis);
-            layoutChanged(getAxis());
-            layoutSpan = newSpan;
+        if (lbyoutSpbn != newSpbn) {
+            lbyoutChbnged(fbxis);
+            lbyoutChbnged(getAxis());
+            lbyoutSpbn = newSpbn;
         }
 
-        // repair the flow if necessary
-        if (! isLayoutValid(faxis)) {
-            final int heightAxis = getAxis();
+        // repbir the flow if necessbry
+        if (! isLbyoutVblid(fbxis)) {
+            finbl int heightAxis = getAxis();
             int oldFlowHeight = (heightAxis == X_AXIS)? getWidth() : getHeight();
-            strategy.layout(this);
-            int newFlowHeight = (int) getPreferredSpan(heightAxis);
+            strbtegy.lbyout(this);
+            int newFlowHeight = (int) getPreferredSpbn(heightAxis);
             if (oldFlowHeight != newFlowHeight) {
-                View p = getParent();
+                View p = getPbrent();
                 if (p != null) {
-                    p.preferenceChanged(this, (heightAxis == X_AXIS), (heightAxis == Y_AXIS));
+                    p.preferenceChbnged(this, (heightAxis == X_AXIS), (heightAxis == Y_AXIS));
                 }
 
-                // PENDING(shannonh)
-                // Temporary fix for 4250847
-                // Can be removed when TraversalContext is added
-                Component host = getContainer();
+                // PENDING(shbnnonh)
+                // Temporbry fix for 4250847
+                // Cbn be removed when TrbversblContext is bdded
+                Component host = getContbiner();
                 if (host != null) {
-                    //nb idk 12/12/2001 host should not be equal to null. We need to add assertion here
-                    host.repaint();
+                    //nb idk 12/12/2001 host should not be equbl to null. We need to bdd bssertion here
+                    host.repbint();
                 }
             }
         }
 
-        super.layout(width, height);
+        super.lbyout(width, height);
     }
 
     /**
-     * Calculate requirements along the minor axis.  This
-     * is implemented to forward the request to the logical
-     * view by calling getMinimumSpan, getPreferredSpan, and
-     * getMaximumSpan on it.
+     * Cblculbte requirements blong the minor bxis.  This
+     * is implemented to forwbrd the request to the logicbl
+     * view by cblling getMinimumSpbn, getPreferredSpbn, bnd
+     * getMbximumSpbn on it.
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
+    protected SizeRequirements cblculbteMinorAxisRequirements(int bxis, SizeRequirements r) {
         if (r == null) {
             r = new SizeRequirements();
         }
-        float pref = layoutPool.getPreferredSpan(axis);
-        float min = layoutPool.getMinimumSpan(axis);
-        // Don't include insets, Box.getXXXSpan will include them.
+        flobt pref = lbyoutPool.getPreferredSpbn(bxis);
+        flobt min = lbyoutPool.getMinimumSpbn(bxis);
+        // Don't include insets, Box.getXXXSpbn will include them.
         r.minimum = (int)min;
-        r.preferred = Math.max(r.minimum, (int) pref);
-        r.maximum = Integer.MAX_VALUE;
-        r.alignment = 0.5f;
+        r.preferred = Mbth.mbx(r.minimum, (int) pref);
+        r.mbximum = Integer.MAX_VALUE;
+        r.blignment = 0.5f;
         return r;
     }
 
     // ---- View methods ----------------------------------------------------
 
     /**
-     * Gives notification that something was inserted into the document
-     * in a location that this view is responsible for.
+     * Gives notificbtion thbt something wbs inserted into the document
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm chbnges the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#insertUpdbte
      */
-    public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.insertUpdate(changes, a, f);
-        strategy.insertUpdate(this, changes, getInsideAllocation(a));
+    public void insertUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+        lbyoutPool.insertUpdbte(chbnges, b, f);
+        strbtegy.insertUpdbte(this, chbnges, getInsideAllocbtion(b));
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
+     * Gives notificbtion thbt something wbs removed from the document
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm chbnges the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#removeUpdbte
      */
-    public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.removeUpdate(changes, a, f);
-        strategy.removeUpdate(this, changes, getInsideAllocation(a));
+    public void removeUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+        lbyoutPool.removeUpdbte(chbnges, b, f);
+        strbtegy.removeUpdbte(this, chbnges, getInsideAllocbtion(b));
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm chbnges the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.changedUpdate(changes, a, f);
-        strategy.changedUpdate(this, changes, getInsideAllocation(a));
+    public void chbngedUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+        lbyoutPool.chbngedUpdbte(chbnges, b, f);
+        strbtegy.chbngedUpdbte(this, chbnges, getInsideAllocbtion(b));
     }
 
     /** {@inheritDoc} */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if (parent == null
-                && layoutPool != null ) {
-            layoutPool.setParent(null);
+    public void setPbrent(View pbrent) {
+        super.setPbrent(pbrent);
+        if (pbrent == null
+                && lbyoutPool != null ) {
+            lbyoutPool.setPbrent(null);
         }
     }
 
-    // --- variables -----------------------------------------------
+    // --- vbribbles -----------------------------------------------
 
     /**
-     * Default constraint against which the flow is
-     * created against.
+     * Defbult constrbint bgbinst which the flow is
+     * crebted bgbinst.
      */
-    protected int layoutSpan;
+    protected int lbyoutSpbn;
 
     /**
-     * These are the views that represent the child elements
-     * of the element this view represents (The logical view
-     * to translate to a physical view).  These are not
-     * directly children of this view.  These are either
-     * placed into the rows directly or used for the purpose
-     * of breaking into smaller chunks, to form the physical
+     * These bre the views thbt represent the child elements
+     * of the element this view represents (The logicbl view
+     * to trbnslbte to b physicbl view).  These bre not
+     * directly children of this view.  These bre either
+     * plbced into the rows directly or used for the purpose
+     * of brebking into smbller chunks, to form the physicbl
      * view.
      */
-    protected View layoutPool;
+    protected View lbyoutPool;
 
     /**
-     * The behavior for keeping the flow updated.  By
-     * default this is a singleton shared by all instances
-     * of FlowView (FlowStrategy is stateless).  Subclasses
-     * can create an alternative strategy, which might keep
-     * state.
+     * The behbvior for keeping the flow updbted.  By
+     * defbult this is b singleton shbred by bll instbnces
+     * of FlowView (FlowStrbtegy is stbteless).  Subclbsses
+     * cbn crebte bn blternbtive strbtegy, which might keep
+     * stbte.
      */
-    protected FlowStrategy strategy;
+    protected FlowStrbtegy strbtegy;
 
     /**
-     * Strategy for maintaining the physical form
-     * of the flow.  The default implementation is
-     * completely stateless, and recalculates the
-     * entire flow if the layout is invalid on the
-     * given FlowView.  Alternative strategies can
-     * be implemented by subclassing, and might
-     * perform incremental repair to the layout
-     * or alternative breaking behavior.
+     * Strbtegy for mbintbining the physicbl form
+     * of the flow.  The defbult implementbtion is
+     * completely stbteless, bnd recblculbtes the
+     * entire flow if the lbyout is invblid on the
+     * given FlowView.  Alternbtive strbtegies cbn
+     * be implemented by subclbssing, bnd might
+     * perform incrementbl repbir to the lbyout
+     * or blternbtive brebking behbvior.
      * @since 1.3
      */
-    public static class FlowStrategy {
-        Position damageStart = null;
+    public stbtic clbss FlowStrbtegy {
+        Position dbmbgeStbrt = null;
         Vector<View> viewBuffer;
 
-        void addDamage(FlowView fv, int offset) {
-            if (offset >= fv.getStartOffset() && offset < fv.getEndOffset()) {
-                if (damageStart == null || offset < damageStart.getOffset()) {
+        void bddDbmbge(FlowView fv, int offset) {
+            if (offset >= fv.getStbrtOffset() && offset < fv.getEndOffset()) {
+                if (dbmbgeStbrt == null || offset < dbmbgeStbrt.getOffset()) {
                     try {
-                        damageStart = fv.getDocument().createPosition(offset);
-                    } catch (BadLocationException e) {
-                        // shouldn't happen since offset is inside view bounds
-                        assert(false);
+                        dbmbgeStbrt = fv.getDocument().crebtePosition(offset);
+                    } cbtch (BbdLocbtionException e) {
+                        // shouldn't hbppen since offset is inside view bounds
+                        bssert(fblse);
                     }
                 }
             }
         }
 
-        void unsetDamage() {
-            damageStart = null;
+        void unsetDbmbge() {
+            dbmbgeStbrt = null;
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that the given flow view is responsible for.  The
-         * strategy should update the appropriate changed region (which
-         * depends upon the strategy used for repair).
+         * Gives notificbtion thbt something wbs inserted into the document
+         * in b locbtion thbt the given flow view is responsible for.  The
+         * strbtegy should updbte the bppropribte chbnged region (which
+         * depends upon the strbtegy used for repbir).
          *
-         * @param e the change information from the associated document
-         * @param alloc the current allocation of the view inside of the insets.
-         *   This value will be null if the view has not yet been displayed.
-         * @see View#insertUpdate
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm blloc the current bllocbtion of the view inside of the insets.
+         *   This vblue will be null if the view hbs not yet been displbyed.
+         * @see View#insertUpdbte
          */
-        public void insertUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            // FlowView.loadChildren() makes a synthetic call into this,
-            // passing null as e
+        public void insertUpdbte(FlowView fv, DocumentEvent e, Rectbngle blloc) {
+            // FlowView.lobdChildren() mbkes b synthetic cbll into this,
+            // pbssing null bs e
             if (e != null) {
-                addDamage(fv, e.getOffset());
+                bddDbmbge(fv, e.getOffset());
             }
 
-            if (alloc != null) {
-                Component host = fv.getContainer();
+            if (blloc != null) {
+                Component host = fv.getContbiner();
                 if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                    host.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
                 }
             } else {
-                fv.preferenceChanged(null, true, true);
+                fv.preferenceChbnged(null, true, true);
             }
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that the given flow view is responsible for.
+         * Gives notificbtion thbt something wbs removed from the document
+         * in b locbtion thbt the given flow view is responsible for.
          *
-         * @param e the change information from the associated document
-         * @param alloc the current allocation of the view inside of the insets.
-         * @see View#removeUpdate
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm blloc the current bllocbtion of the view inside of the insets.
+         * @see View#removeUpdbte
          */
-        public void removeUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            addDamage(fv, e.getOffset());
-            if (alloc != null) {
-                Component host = fv.getContainer();
+        public void removeUpdbte(FlowView fv, DocumentEvent e, Rectbngle blloc) {
+            bddDbmbge(fv, e.getOffset());
+            if (blloc != null) {
+                Component host = fv.getContbiner();
                 if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                    host.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
                 }
             } else {
-                fv.preferenceChanged(null, true, true);
+                fv.preferenceChbnged(null, true, true);
             }
         }
 
         /**
-         * Gives notification from the document that attributes were changed
-         * in a location that this view is responsible for.
+         * Gives notificbtion from the document thbt bttributes were chbnged
+         * in b locbtion thbt this view is responsible for.
          *
-         * @param fv     the <code>FlowView</code> containing the changes
-         * @param e      the <code>DocumentEvent</code> describing the changes
+         * @pbrbm fv     the <code>FlowView</code> contbining the chbnges
+         * @pbrbm e      the <code>DocumentEvent</code> describing the chbnges
          *               done to the Document
-         * @param alloc  Bounds of the View
-         * @see View#changedUpdate
+         * @pbrbm blloc  Bounds of the View
+         * @see View#chbngedUpdbte
          */
-        public void changedUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            addDamage(fv, e.getOffset());
-            if (alloc != null) {
-                Component host = fv.getContainer();
+        public void chbngedUpdbte(FlowView fv, DocumentEvent e, Rectbngle blloc) {
+            bddDbmbge(fv, e.getOffset());
+            if (blloc != null) {
+                Component host = fv.getContbiner();
                 if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                    host.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
                 }
             } else {
-                fv.preferenceChanged(null, true, true);
+                fv.preferenceChbnged(null, true, true);
             }
         }
 
         /**
-         * This method gives flow strategies access to the logical
+         * This method gives flow strbtegies bccess to the logicbl
          * view of the FlowView.
          */
-        protected View getLogicalView(FlowView fv) {
-            return fv.layoutPool;
+        protected View getLogicblView(FlowView fv) {
+            return fv.lbyoutPool;
         }
 
         /**
-         * Update the flow on the given FlowView.  By default, this causes
-         * all of the rows (child views) to be rebuilt to match the given
-         * constraints for each row.  This is called by a FlowView.layout
-         * to update the child views in the flow.
+         * Updbte the flow on the given FlowView.  By defbult, this cbuses
+         * bll of the rows (child views) to be rebuilt to mbtch the given
+         * constrbints for ebch row.  This is cblled by b FlowView.lbyout
+         * to updbte the child views in the flow.
          *
-         * @param fv the view to reflow
+         * @pbrbm fv the view to reflow
          */
-        public void layout(FlowView fv) {
-            View pool = getLogicalView(fv);
+        public void lbyout(FlowView fv) {
+            View pool = getLogicblView(fv);
             int rowIndex, p0;
             int p1 = fv.getEndOffset();
 
-            if (fv.majorAllocValid) {
-                if (damageStart == null) {
+            if (fv.mbjorAllocVblid) {
+                if (dbmbgeStbrt == null) {
                     return;
                 }
-                // In some cases there's no view at position damageStart, so
-                // step back and search again. See 6452106 for details.
-                int offset = damageStart.getOffset();
+                // In some cbses there's no view bt position dbmbgeStbrt, so
+                // step bbck bnd sebrch bgbin. See 6452106 for detbils.
+                int offset = dbmbgeStbrt.getOffset();
                 while ((rowIndex = fv.getViewIndexAtPosition(offset)) < 0) {
                     offset--;
                 }
                 if (rowIndex > 0) {
                     rowIndex--;
                 }
-                p0 = fv.getView(rowIndex).getStartOffset();
+                p0 = fv.getView(rowIndex).getStbrtOffset();
             } else {
                 rowIndex = 0;
-                p0 = fv.getStartOffset();
+                p0 = fv.getStbrtOffset();
             }
-            reparentViews(pool, p0);
+            repbrentViews(pool, p0);
 
             viewBuffer = new Vector<View>(10, 10);
             int rowCount = fv.getViewCount();
             while (p0 < p1) {
                 View row;
                 if (rowIndex >= rowCount) {
-                    row = fv.createRow();
-                    fv.append(row);
+                    row = fv.crebteRow();
+                    fv.bppend(row);
                 } else {
                     row = fv.getView(rowIndex);
                 }
-                p0 = layoutRow(fv, rowIndex, p0);
+                p0 = lbyoutRow(fv, rowIndex, p0);
                 rowIndex++;
             }
             viewBuffer = null;
 
             if (rowIndex < rowCount) {
-                fv.replace(rowIndex, rowCount - rowIndex, null);
+                fv.replbce(rowIndex, rowCount - rowIndex, null);
             }
-            unsetDamage();
+            unsetDbmbge();
         }
 
         /**
-         * Creates a row of views that will fit within the
-         * layout span of the row.  This is called by the layout method.
-         * This is implemented to fill the row by repeatedly calling
-         * the createView method until the available span has been
-         * exhausted, a forced break was encountered, or the createView
-         * method returned null.  If the remaining span was exhausted,
-         * the adjustRow method will be called to perform adjustments
-         * to the row to try and make it fit into the given span.
+         * Crebtes b row of views thbt will fit within the
+         * lbyout spbn of the row.  This is cblled by the lbyout method.
+         * This is implemented to fill the row by repebtedly cblling
+         * the crebteView method until the bvbilbble spbn hbs been
+         * exhbusted, b forced brebk wbs encountered, or the crebteView
+         * method returned null.  If the rembining spbn wbs exhbusted,
+         * the bdjustRow method will be cblled to perform bdjustments
+         * to the row to try bnd mbke it fit into the given spbn.
          *
-         * @param rowIndex the index of the row to fill in with views.  The
-         *   row is assumed to be empty on entry.
-         * @param pos  The current position in the children of
-         *   this views element from which to start.
-         * @return the position to start the next row
+         * @pbrbm rowIndex the index of the row to fill in with views.  The
+         *   row is bssumed to be empty on entry.
+         * @pbrbm pos  The current position in the children of
+         *   this views element from which to stbrt.
+         * @return the position to stbrt the next row
          */
-        protected int layoutRow(FlowView fv, int rowIndex, int pos) {
+        protected int lbyoutRow(FlowView fv, int rowIndex, int pos) {
             View row = fv.getView(rowIndex);
-            float x = fv.getFlowStart(rowIndex);
-            float spanLeft = fv.getFlowSpan(rowIndex);
+            flobt x = fv.getFlowStbrt(rowIndex);
+            flobt spbnLeft = fv.getFlowSpbn(rowIndex);
             int end = fv.getEndOffset();
-            TabExpander te = (fv instanceof TabExpander) ? (TabExpander)fv : null;
-            final int flowAxis = fv.getFlowAxis();
+            TbbExpbnder te = (fv instbnceof TbbExpbnder) ? (TbbExpbnder)fv : null;
+            finbl int flowAxis = fv.getFlowAxis();
 
-            int breakWeight = BadBreakWeight;
-            float breakX = 0f;
-            float breakSpan = 0f;
-            int breakIndex = -1;
+            int brebkWeight = BbdBrebkWeight;
+            flobt brebkX = 0f;
+            flobt brebkSpbn = 0f;
+            int brebkIndex = -1;
             int n = 0;
 
-            viewBuffer.clear();
-            while (pos < end && spanLeft >= 0) {
-                View v = createView(fv, pos, (int)spanLeft, rowIndex);
+            viewBuffer.clebr();
+            while (pos < end && spbnLeft >= 0) {
+                View v = crebteView(fv, pos, (int)spbnLeft, rowIndex);
                 if (v == null) {
-                    break;
+                    brebk;
                 }
 
-                int bw = v.getBreakWeight(flowAxis, x, spanLeft);
-                if (bw >= ForcedBreakWeight) {
-                    View w = v.breakView(flowAxis, pos, x, spanLeft);
+                int bw = v.getBrebkWeight(flowAxis, x, spbnLeft);
+                if (bw >= ForcedBrebkWeight) {
+                    View w = v.brebkView(flowAxis, pos, x, spbnLeft);
                     if (w != null) {
-                        viewBuffer.add(w);
+                        viewBuffer.bdd(w);
                     } else if (n == 0) {
-                        // if the view does not break, and it is the only view
-                        // in a row, use the whole view
-                        viewBuffer.add(v);
+                        // if the view does not brebk, bnd it is the only view
+                        // in b row, use the whole view
+                        viewBuffer.bdd(v);
                     }
-                    break;
-                } else if (bw >= breakWeight && bw > BadBreakWeight) {
-                    breakWeight = bw;
-                    breakX = x;
-                    breakSpan = spanLeft;
-                    breakIndex = n;
+                    brebk;
+                } else if (bw >= brebkWeight && bw > BbdBrebkWeight) {
+                    brebkWeight = bw;
+                    brebkX = x;
+                    brebkSpbn = spbnLeft;
+                    brebkIndex = n;
                 }
 
-                float chunkSpan;
-                if (flowAxis == X_AXIS && v instanceof TabableView) {
-                    chunkSpan = ((TabableView)v).getTabbedSpan(x, te);
+                flobt chunkSpbn;
+                if (flowAxis == X_AXIS && v instbnceof TbbbbleView) {
+                    chunkSpbn = ((TbbbbleView)v).getTbbbedSpbn(x, te);
                 } else {
-                    chunkSpan = v.getPreferredSpan(flowAxis);
+                    chunkSpbn = v.getPreferredSpbn(flowAxis);
                 }
 
-                if (chunkSpan > spanLeft && breakIndex >= 0) {
-                    // row is too long, and we may break
-                    if (breakIndex < n) {
-                        v = viewBuffer.get(breakIndex);
+                if (chunkSpbn > spbnLeft && brebkIndex >= 0) {
+                    // row is too long, bnd we mby brebk
+                    if (brebkIndex < n) {
+                        v = viewBuffer.get(brebkIndex);
                     }
-                    for (int i = n - 1; i >= breakIndex; i--) {
+                    for (int i = n - 1; i >= brebkIndex; i--) {
                         viewBuffer.remove(i);
                     }
-                    v = v.breakView(flowAxis, v.getStartOffset(), breakX, breakSpan);
+                    v = v.brebkView(flowAxis, v.getStbrtOffset(), brebkX, brebkSpbn);
                 }
 
-                spanLeft -= chunkSpan;
-                x += chunkSpan;
-                viewBuffer.add(v);
+                spbnLeft -= chunkSpbn;
+                x += chunkSpbn;
+                viewBuffer.bdd(v);
                 pos = v.getEndOffset();
                 n++;
             }
 
             View[] views = new View[viewBuffer.size()];
-            viewBuffer.toArray(views);
-            row.replace(0, row.getViewCount(), views);
+            viewBuffer.toArrby(views);
+            row.replbce(0, row.getViewCount(), views);
             return (views.length > 0 ? row.getEndOffset() : pos);
         }
 
         /**
          * Adjusts the given row if possible to fit within the
-         * layout span.  By default this will try to find the
-         * highest break weight possible nearest the end of
-         * the row.  If a forced break is encountered, the
-         * break will be positioned there.
+         * lbyout spbn.  By defbult this will try to find the
+         * highest brebk weight possible nebrest the end of
+         * the row.  If b forced brebk is encountered, the
+         * brebk will be positioned there.
          *
-         * @param rowIndex the row to adjust to the current layout
-         *  span.
-         * @param desiredSpan the current layout span &gt;= 0
-         * @param x the location r starts at.
+         * @pbrbm rowIndex the row to bdjust to the current lbyout
+         *  spbn.
+         * @pbrbm desiredSpbn the current lbyout spbn &gt;= 0
+         * @pbrbm x the locbtion r stbrts bt.
          */
-        protected void adjustRow(FlowView fv, int rowIndex, int desiredSpan, int x) {
-            final int flowAxis = fv.getFlowAxis();
+        protected void bdjustRow(FlowView fv, int rowIndex, int desiredSpbn, int x) {
+            finbl int flowAxis = fv.getFlowAxis();
             View r = fv.getView(rowIndex);
             int n = r.getViewCount();
-            int span = 0;
-            int bestWeight = BadBreakWeight;
-            int bestSpan = 0;
+            int spbn = 0;
+            int bestWeight = BbdBrebkWeight;
+            int bestSpbn = 0;
             int bestIndex = -1;
             View v;
             for (int i = 0; i < n; i++) {
                 v = r.getView(i);
-                int spanLeft = desiredSpan - span;
+                int spbnLeft = desiredSpbn - spbn;
 
-                int w = v.getBreakWeight(flowAxis, x + span, spanLeft);
-                if ((w >= bestWeight) && (w > BadBreakWeight)) {
+                int w = v.getBrebkWeight(flowAxis, x + spbn, spbnLeft);
+                if ((w >= bestWeight) && (w > BbdBrebkWeight)) {
                     bestWeight = w;
                     bestIndex = i;
-                    bestSpan = span;
-                    if (w >= ForcedBreakWeight) {
-                        // it's a forced break, so there is
-                        // no point in searching further.
-                        break;
+                    bestSpbn = spbn;
+                    if (w >= ForcedBrebkWeight) {
+                        // it's b forced brebk, so there is
+                        // no point in sebrching further.
+                        brebk;
                     }
                 }
-                span += v.getPreferredSpan(flowAxis);
+                spbn += v.getPreferredSpbn(flowAxis);
             }
             if (bestIndex < 0) {
-                // there is nothing that can be broken, leave
-                // it in it's current state.
+                // there is nothing thbt cbn be broken, lebve
+                // it in it's current stbte.
                 return;
             }
 
-            // Break the best candidate view, and patch up the row.
-            int spanLeft = desiredSpan - bestSpan;
+            // Brebk the best cbndidbte view, bnd pbtch up the row.
+            int spbnLeft = desiredSpbn - bestSpbn;
             v = r.getView(bestIndex);
-            v = v.breakView(flowAxis, v.getStartOffset(), x + bestSpan, spanLeft);
-            View[] va = new View[1];
-            va[0] = v;
-            View lv = getLogicalView(fv);
-            int p0 = r.getView(bestIndex).getStartOffset();
+            v = v.brebkView(flowAxis, v.getStbrtOffset(), x + bestSpbn, spbnLeft);
+            View[] vb = new View[1];
+            vb[0] = v;
+            View lv = getLogicblView(fv);
+            int p0 = r.getView(bestIndex).getStbrtOffset();
             int p1 = r.getEndOffset();
             for (int i = 0; i < lv.getViewCount(); i++) {
                 View tmpView = lv.getView(i);
                 if (tmpView.getEndOffset() > p1) {
-                    break;
+                    brebk;
                 }
-                if (tmpView.getStartOffset() >= p0) {
-                    tmpView.setParent(lv);
+                if (tmpView.getStbrtOffset() >= p0) {
+                    tmpView.setPbrent(lv);
                 }
             }
-            r.replace(bestIndex, n - bestIndex, va);
+            r.replbce(bestIndex, n - bestIndex, vb);
         }
 
-        void reparentViews(View pool, int startPos) {
-            int n = pool.getViewIndex(startPos, Position.Bias.Forward);
+        void repbrentViews(View pool, int stbrtPos) {
+            int n = pool.getViewIndex(stbrtPos, Position.Bibs.Forwbrd);
             if (n >= 0) {
                 for (int i = n; i < pool.getViewCount(); i++) {
-                    pool.getView(i).setParent(pool);
+                    pool.getView(i).setPbrent(pool);
                 }
             }
         }
 
         /**
-         * Creates a view that can be used to represent the current piece
-         * of the flow.  This can be either an entire view from the
-         * logical view, or a fragment of the logical view.
+         * Crebtes b view thbt cbn be used to represent the current piece
+         * of the flow.  This cbn be either bn entire view from the
+         * logicbl view, or b frbgment of the logicbl view.
          *
-         * @param fv the view holding the flow
-         * @param startOffset the start location for the view being created
-         * @param spanLeft the about of span left to fill in the row
-         * @param rowIndex the row the view will be placed into
+         * @pbrbm fv the view holding the flow
+         * @pbrbm stbrtOffset the stbrt locbtion for the view being crebted
+         * @pbrbm spbnLeft the bbout of spbn left to fill in the row
+         * @pbrbm rowIndex the row the view will be plbced into
          */
-        protected View createView(FlowView fv, int startOffset, int spanLeft, int rowIndex) {
-            // Get the child view that contains the given starting position
-            View lv = getLogicalView(fv);
-            int childIndex = lv.getViewIndex(startOffset, Position.Bias.Forward);
+        protected View crebteView(FlowView fv, int stbrtOffset, int spbnLeft, int rowIndex) {
+            // Get the child view thbt contbins the given stbrting position
+            View lv = getLogicblView(fv);
+            int childIndex = lv.getViewIndex(stbrtOffset, Position.Bibs.Forwbrd);
             View v = lv.getView(childIndex);
-            if (startOffset==v.getStartOffset()) {
+            if (stbrtOffset==v.getStbrtOffset()) {
                 // return the entire view
                 return v;
             }
 
-            // return a fragment.
-            v = v.createFragment(startOffset, v.getEndOffset());
+            // return b frbgment.
+            v = v.crebteFrbgment(stbrtOffset, v.getEndOffset());
             return v;
         }
     }
 
     /**
-     * This class can be used to represent a logical view for
-     * a flow.  It keeps the children updated to reflect the state
-     * of the model, gives the logical child views access to the
-     * view hierarchy, and calculates a preferred span.  It doesn't
-     * do any rendering, layout, or model/view translation.
+     * This clbss cbn be used to represent b logicbl view for
+     * b flow.  It keeps the children updbted to reflect the stbte
+     * of the model, gives the logicbl child views bccess to the
+     * view hierbrchy, bnd cblculbtes b preferred spbn.  It doesn't
+     * do bny rendering, lbyout, or model/view trbnslbtion.
      */
-    static class LogicalView extends CompositeView {
+    stbtic clbss LogicblView extends CompositeView {
 
-        LogicalView(Element elem) {
+        LogicblView(Element elem) {
             super(elem);
         }
 
         protected int getViewIndexAtPosition(int pos) {
             Element elem = getElement();
-            if (elem.isLeaf()) {
+            if (elem.isLebf()) {
                 return 0;
             }
             return super.getViewIndexAtPosition(pos);
         }
 
-        protected void loadChildren(ViewFactory f) {
+        protected void lobdChildren(ViewFbctory f) {
             Element elem = getElement();
-            if (elem.isLeaf()) {
-                View v = new LabelView(elem);
-                append(v);
+            if (elem.isLebf()) {
+                View v = new LbbelView(elem);
+                bppend(v);
             } else {
-                super.loadChildren(f);
+                super.lobdChildren(f);
             }
         }
 
         /**
-         * Fetches the attributes to use when rendering.  This view
-         * isn't directly responsible for an element so it returns
-         * the outer classes attributes.
+         * Fetches the bttributes to use when rendering.  This view
+         * isn't directly responsible for bn element so it returns
+         * the outer clbsses bttributes.
          */
         public AttributeSet getAttributes() {
-            View p = getParent();
+            View p = getPbrent();
             return (p != null) ? p.getAttributes() : null;
         }
 
         /**
-         * Determines the preferred span for this view along an
-         * axis.
+         * Determines the preferred spbn for this view blong bn
+         * bxis.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
-         * @return   the span the view would like to be rendered into.
-         *           Typically the view is told to render into the span
-         *           that is returned, although there is no guarantee.
-         *           The parent may choose to resize or break the view.
-         * @see View#getPreferredSpan
+         * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+         * @return   the spbn the view would like to be rendered into.
+         *           Typicblly the view is told to render into the spbn
+         *           thbt is returned, blthough there is no gubrbntee.
+         *           The pbrent mby choose to resize or brebk the view.
+         * @see View#getPreferredSpbn
          */
-        public float getPreferredSpan(int axis) {
-            float maxpref = 0;
-            float pref = 0;
+        public flobt getPreferredSpbn(int bxis) {
+            flobt mbxpref = 0;
+            flobt pref = 0;
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                pref += v.getPreferredSpan(axis);
-                if (v.getBreakWeight(axis, 0, Integer.MAX_VALUE) >= ForcedBreakWeight) {
-                    maxpref = Math.max(maxpref, pref);
+                pref += v.getPreferredSpbn(bxis);
+                if (v.getBrebkWeight(bxis, 0, Integer.MAX_VALUE) >= ForcedBrebkWeight) {
+                    mbxpref = Mbth.mbx(mbxpref, pref);
                     pref = 0;
                 }
             }
-            maxpref = Math.max(maxpref, pref);
-            return maxpref;
+            mbxpref = Mbth.mbx(mbxpref, pref);
+            return mbxpref;
         }
 
         /**
-         * Determines the minimum span for this view along an
-         * axis.  The is implemented to find the minimum unbreakable
-         * span.
+         * Determines the minimum spbn for this view blong bn
+         * bxis.  The is implemented to find the minimum unbrebkbble
+         * spbn.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
-         * @return  the span the view would like to be rendered into.
-         *           Typically the view is told to render into the span
-         *           that is returned, although there is no guarantee.
-         *           The parent may choose to resize or break the view.
-         * @see View#getPreferredSpan
+         * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+         * @return  the spbn the view would like to be rendered into.
+         *           Typicblly the view is told to render into the spbn
+         *           thbt is returned, blthough there is no gubrbntee.
+         *           The pbrent mby choose to resize or brebk the view.
+         * @see View#getPreferredSpbn
          */
-        public float getMinimumSpan(int axis) {
-            float maxmin = 0;
-            float min = 0;
-            boolean nowrap = false;
+        public flobt getMinimumSpbn(int bxis) {
+            flobt mbxmin = 0;
+            flobt min = 0;
+            boolebn nowrbp = fblse;
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                if (v.getBreakWeight(axis, 0, Integer.MAX_VALUE) == BadBreakWeight) {
-                    min += v.getPreferredSpan(axis);
-                    nowrap = true;
-                } else if (nowrap) {
-                    maxmin = Math.max(min, maxmin);
-                    nowrap = false;
+                if (v.getBrebkWeight(bxis, 0, Integer.MAX_VALUE) == BbdBrebkWeight) {
+                    min += v.getPreferredSpbn(bxis);
+                    nowrbp = true;
+                } else if (nowrbp) {
+                    mbxmin = Mbth.mbx(min, mbxmin);
+                    nowrbp = fblse;
                     min = 0;
                 }
-                if (v instanceof ComponentView) {
-                    maxmin = Math.max(maxmin, v.getMinimumSpan(axis));
+                if (v instbnceof ComponentView) {
+                    mbxmin = Mbth.mbx(mbxmin, v.getMinimumSpbn(bxis));
                 }
             }
-            maxmin = Math.max(maxmin, min);
-            return maxmin;
+            mbxmin = Mbth.mbx(mbxmin, min);
+            return mbxmin;
         }
 
         /**
-         * Forward the DocumentEvent to the given child view.  This
-         * is implemented to reparent the child to the logical view
-         * (the children may have been parented by a row in the flow
-         * if they fit without breaking) and then execute the superclass
-         * behavior.
+         * Forwbrd the DocumentEvent to the given child view.  This
+         * is implemented to repbrent the child to the logicbl view
+         * (the children mby hbve been pbrented by b row in the flow
+         * if they fit without brebking) bnd then execute the superclbss
+         * behbvior.
          *
-         * @param v the child view to forward the event to.
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see #forwardUpdate
+         * @pbrbm v the child view to forwbrd the event to.
+         * @pbrbm e the chbnge informbtion from the bssocibted document
+         * @pbrbm b the current bllocbtion of the view
+         * @pbrbm f the fbctory to use to rebuild if the view hbs children
+         * @see #forwbrdUpdbte
          * @since 1.3
          */
-        protected void forwardUpdateToView(View v, DocumentEvent e,
-                                           Shape a, ViewFactory f) {
-            View parent = v.getParent();
-            v.setParent(this);
-            super.forwardUpdateToView(v, e, a, f);
-            v.setParent(parent);
+        protected void forwbrdUpdbteToView(View v, DocumentEvent e,
+                                           Shbpe b, ViewFbctory f) {
+            View pbrent = v.getPbrent();
+            v.setPbrent(this);
+            super.forwbrdUpdbteToView(v, e, b, f);
+            v.setPbrent(pbrent);
         }
 
         /** {@inheritDoc} */
         @Override
-        protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                          DocumentEvent e, Shape a, ViewFactory f) {
-            calculateUpdateIndexes(e);
-            // Send update event to all views followed by the changed place.
-            lastUpdateIndex = Math.max((getViewCount() - 1), 0);
-            for (int i = firstUpdateIndex; i <= lastUpdateIndex; i++) {
+        protected void forwbrdUpdbte(DocumentEvent.ElementChbnge ec,
+                                          DocumentEvent e, Shbpe b, ViewFbctory f) {
+            cblculbteUpdbteIndexes(e);
+            // Send updbte event to bll views followed by the chbnged plbce.
+            lbstUpdbteIndex = Mbth.mbx((getViewCount() - 1), 0);
+            for (int i = firstUpdbteIndex; i <= lbstUpdbteIndex; i++) {
                 View v = getView(i);
                 if (v != null) {
-                    Shape childAlloc = getChildAllocation(i, a);
-                    forwardUpdateToView(v, e, childAlloc, f);
+                    Shbpe childAlloc = getChildAllocbtion(i, b);
+                    forwbrdUpdbteToView(v, e, childAlloc, f);
                 }
             }
         }
 
-        // The following methods don't do anything useful, they
-        // simply keep the class from being abstract.
+        // The following methods don't do bnything useful, they
+        // simply keep the clbss from being bbstrbct.
 
         /**
-         * Renders using the given rendering surface and area on that
-         * surface.  This is implemented to do nothing, the logical
+         * Renders using the given rendering surfbce bnd breb on thbt
+         * surfbce.  This is implemented to do nothing, the logicbl
          * view is never visible.
          *
-         * @param g the rendering surface to use
-         * @param allocation the allocated region to render into
-         * @see View#paint
+         * @pbrbm g the rendering surfbce to use
+         * @pbrbm bllocbtion the bllocbted region to render into
+         * @see View#pbint
          */
-        public void paint(Graphics g, Shape allocation) {
+        public void pbint(Grbphics g, Shbpe bllocbtion) {
         }
 
         /**
-         * Tests whether a point lies before the rectangle range.
-         * Implemented to return false, as hit detection is not
-         * performed on the logical view.
+         * Tests whether b point lies before the rectbngle rbnge.
+         * Implemented to return fblse, bs hit detection is not
+         * performed on the logicbl view.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the rectangle
-         * @return true if the point is before the specified range
+         * @pbrbm x the X coordinbte &gt;= 0
+         * @pbrbm y the Y coordinbte &gt;= 0
+         * @pbrbm blloc the rectbngle
+         * @return true if the point is before the specified rbnge
          */
-        protected boolean isBefore(int x, int y, Rectangle alloc) {
-            return false;
+        protected boolebn isBefore(int x, int y, Rectbngle blloc) {
+            return fblse;
         }
 
         /**
-         * Tests whether a point lies after the rectangle range.
-         * Implemented to return false, as hit detection is not
-         * performed on the logical view.
+         * Tests whether b point lies bfter the rectbngle rbnge.
+         * Implemented to return fblse, bs hit detection is not
+         * performed on the logicbl view.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the rectangle
-         * @return true if the point is after the specified range
+         * @pbrbm x the X coordinbte &gt;= 0
+         * @pbrbm y the Y coordinbte &gt;= 0
+         * @pbrbm blloc the rectbngle
+         * @return true if the point is bfter the specified rbnge
          */
-        protected boolean isAfter(int x, int y, Rectangle alloc) {
-            return false;
+        protected boolebn isAfter(int x, int y, Rectbngle blloc) {
+            return fblse;
         }
 
         /**
-         * Fetches the child view at the given point.
-         * Implemented to return null, as hit detection is not
-         * performed on the logical view.
+         * Fetches the child view bt the given point.
+         * Implemented to return null, bs hit detection is not
+         * performed on the logicbl view.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the parent's allocation on entry, which should
-         *   be changed to the child's allocation on exit
+         * @pbrbm x the X coordinbte &gt;= 0
+         * @pbrbm y the Y coordinbte &gt;= 0
+         * @pbrbm blloc the pbrent's bllocbtion on entry, which should
+         *   be chbnged to the child's bllocbtion on exit
          * @return the child view
          */
-        protected View getViewAtPoint(int x, int y, Rectangle alloc) {
+        protected View getViewAtPoint(int x, int y, Rectbngle blloc) {
             return null;
         }
 
         /**
-         * Returns the allocation for a given child.
-         * Implemented to do nothing, as the logical view doesn't
-         * perform layout on the children.
+         * Returns the bllocbtion for b given child.
+         * Implemented to do nothing, bs the logicbl view doesn't
+         * perform lbyout on the children.
          *
-         * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-         * @param a  the allocation to the interior of the box on entry,
-         *   and the allocation of the child view at the index on exit.
+         * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+         * @pbrbm b  the bllocbtion to the interior of the box on entry,
+         *   bnd the bllocbtion of the child view bt the index on exit.
          */
-        protected void childAllocation(int index, Rectangle a) {
+        protected void childAllocbtion(int index, Rectbngle b) {
         }
     }
 

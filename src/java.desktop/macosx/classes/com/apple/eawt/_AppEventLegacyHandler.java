@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.util.*;
+import jbvb.bwt.Toolkit;
+import jbvb.io.File;
+import jbvb.util.*;
 
-import com.apple.eawt.AppEvent.*;
+import com.bpple.ebwt.AppEvent.*;
 
-@SuppressWarnings("deprecation")
-class _AppEventLegacyHandler implements AboutHandler, PreferencesHandler, _OpenAppHandler, AppReOpenedListener, OpenFilesHandler, PrintFilesHandler, QuitHandler {
-    final _AppEventHandler parent;
-    final Vector<ApplicationListener> legacyAppListeners = new Vector<ApplicationListener>();
-    boolean blockLegacyAPI;
-    boolean initializedParentDispatchers;
+@SuppressWbrnings("deprecbtion")
+clbss _AppEventLegbcyHbndler implements AboutHbndler, PreferencesHbndler, _OpenAppHbndler, AppReOpenedListener, OpenFilesHbndler, PrintFilesHbndler, QuitHbndler {
+    finbl _AppEventHbndler pbrent;
+    finbl Vector<ApplicbtionListener> legbcyAppListeners = new Vector<ApplicbtionListener>();
+    boolebn blockLegbcyAPI;
+    boolebn initiblizedPbrentDispbtchers;
 
-    _AppEventLegacyHandler(final _AppEventHandler parent) {
-        this.parent = parent;
+    _AppEventLegbcyHbndler(finbl _AppEventHbndler pbrent) {
+        this.pbrent = pbrent;
     }
 
-    void blockLegacyAPI() {
-        blockLegacyAPI = true;
+    void blockLegbcyAPI() {
+        blockLegbcyAPI = true;
     }
 
-    void checkIfLegacyAPIBlocked() {
-        if (!blockLegacyAPI) return;
-        throw new IllegalStateException("Cannot add com.apple.eawt.ApplicationListener after installing an app event handler");
+    void checkIfLegbcyAPIBlocked() {
+        if (!blockLegbcyAPI) return;
+        throw new IllegblStbteException("Cbnnot bdd com.bpple.ebwt.ApplicbtionListener bfter instblling bn bpp event hbndler");
     }
 
-    void addLegacyAppListener(final ApplicationListener listener) {
-        checkIfLegacyAPIBlocked();
+    void bddLegbcyAppListener(finbl ApplicbtionListener listener) {
+        checkIfLegbcyAPIBlocked();
 
-        if (!initializedParentDispatchers) {
-            final _AppMenuBarHandler menuBarHandler = Application.getApplication().menuBarHandler;
-            final boolean prefsMenuAlreadyExplicitlySet = menuBarHandler.prefsMenuItemExplicitlySet;
+        if (!initiblizedPbrentDispbtchers) {
+            finbl _AppMenuBbrHbndler menuBbrHbndler = Applicbtion.getApplicbtion().menuBbrHbndler;
+            finbl boolebn prefsMenuAlrebdyExplicitlySet = menuBbrHbndler.prefsMenuItemExplicitlySet;
 
-            parent.aboutDispatcher.setHandler(this);
-            parent.preferencesDispatcher.setHandler(this);
-            if (!prefsMenuAlreadyExplicitlySet) {
-                menuBarHandler.setPreferencesMenuItemVisible(false); // default behavior is not to have a preferences item
+            pbrent.bboutDispbtcher.setHbndler(this);
+            pbrent.preferencesDispbtcher.setHbndler(this);
+            if (!prefsMenuAlrebdyExplicitlySet) {
+                menuBbrHbndler.setPreferencesMenuItemVisible(fblse); // defbult behbvior is not to hbve b preferences item
             }
-            parent.openAppDispatcher.setHandler(this);
-            parent.reOpenAppDispatcher.addListener(this);
-            parent.openFilesDispatcher.setHandler(this);
-            parent.printFilesDispatcher.setHandler(this);
-            parent.quitDispatcher.setHandler(this);
+            pbrent.openAppDispbtcher.setHbndler(this);
+            pbrent.reOpenAppDispbtcher.bddListener(this);
+            pbrent.openFilesDispbtcher.setHbndler(this);
+            pbrent.printFilesDispbtcher.setHbndler(this);
+            pbrent.quitDispbtcher.setHbndler(this);
 
-            initializedParentDispatchers = true;
+            initiblizedPbrentDispbtchers = true;
         }
 
-        synchronized (legacyAppListeners) {
-            legacyAppListeners.addElement(listener);
-        }
-    }
-
-    public void removeLegacyAppListener(final ApplicationListener listener) {
-        checkIfLegacyAPIBlocked();
-
-        synchronized (legacyAppListeners) {
-            legacyAppListeners.removeElement(listener);
+        synchronized (legbcyAppListeners) {
+            legbcyAppListeners.bddElement(listener);
         }
     }
 
-    @Override
-    public void handleAbout(final AboutEvent e) {
-        final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit());
-        sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-            public void dispatchEvent(final ApplicationListener listener) {
-                listener.handleAbout(ae);
-            }
-        });
+    public void removeLegbcyAppListener(finbl ApplicbtionListener listener) {
+        checkIfLegbcyAPIBlocked();
 
-        if (ae.isHandled()) return;
-        parent.openCocoaAboutWindow();
+        synchronized (legbcyAppListeners) {
+            legbcyAppListeners.removeElement(listener);
+        }
     }
 
     @Override
-    public void handlePreferences(final PreferencesEvent e) {
-        final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit());
-        sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-            public void dispatchEvent(final ApplicationListener listener) {
-                listener.handlePreferences(ae);
+    public void hbndleAbout(finbl AboutEvent e) {
+        finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit());
+        sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+            public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                listener.hbndleAbout(be);
             }
         });
+
+        if (be.isHbndled()) return;
+        pbrent.openCocobAboutWindow();
     }
 
     @Override
-    public void handleOpenApp() {
-        final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit());
-        sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-            public void dispatchEvent(final ApplicationListener listener) {
-                listener.handleOpenApplication(ae);
-            }
-        });
-    }
-
-    @Override
-    public void appReOpened(final AppReOpenedEvent e) {
-        final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit());
-        sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-            public void dispatchEvent(final ApplicationListener listener) {
-                listener.handleReOpenApplication(ae);
+    public void hbndlePreferences(finbl PreferencesEvent e) {
+        finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit());
+        sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+            public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                listener.hbndlePreferences(be);
             }
         });
     }
 
     @Override
-    public void openFiles(final OpenFilesEvent e) {
-        final List<File> files = e.getFiles();
-        for (final File file : files) { // legacy ApplicationListeners only understood one file at a time
-            final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit(), file.getAbsolutePath());
-            sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-                public void dispatchEvent(final ApplicationListener listener) {
-                    listener.handleOpenFile(ae);
+    public void hbndleOpenApp() {
+        finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit());
+        sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+            public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                listener.hbndleOpenApplicbtion(be);
+            }
+        });
+    }
+
+    @Override
+    public void bppReOpened(finbl AppReOpenedEvent e) {
+        finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit());
+        sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+            public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                listener.hbndleReOpenApplicbtion(be);
+            }
+        });
+    }
+
+    @Override
+    public void openFiles(finbl OpenFilesEvent e) {
+        finbl List<File> files = e.getFiles();
+        for (finbl File file : files) { // legbcy ApplicbtionListeners only understood one file bt b time
+            finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit(), file.getAbsolutePbth());
+            sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+                public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                    listener.hbndleOpenFile(be);
                 }
             });
         }
@@ -143,45 +143,45 @@ class _AppEventLegacyHandler implements AboutHandler, PreferencesHandler, _OpenA
 
     @Override
     public void printFiles(PrintFilesEvent e) {
-        final List<File> files = e.getFiles();
-        for (final File file : files) { // legacy ApplicationListeners only understood one file at a time
-            final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit(), file.getAbsolutePath());
-            sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-                public void dispatchEvent(final ApplicationListener listener) {
-                    listener.handlePrintFile(ae);
+        finbl List<File> files = e.getFiles();
+        for (finbl File file : files) { // legbcy ApplicbtionListeners only understood one file bt b time
+            finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit(), file.getAbsolutePbth());
+            sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+                public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                    listener.hbndlePrintFile(be);
                 }
             });
         }
     }
 
     @Override
-    public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response) {
-        final ApplicationEvent ae = new ApplicationEvent(Toolkit.getDefaultToolkit());
-        sendEventToEachListenerUntilHandled(ae, new EventDispatcher() {
-            public void dispatchEvent(final ApplicationListener listener) {
-                listener.handleQuit(ae);
+    public void hbndleQuitRequestWith(finbl QuitEvent e, finbl QuitResponse response) {
+        finbl ApplicbtionEvent be = new ApplicbtionEvent(Toolkit.getDefbultToolkit());
+        sendEventToEbchListenerUntilHbndled(be, new EventDispbtcher() {
+            public void dispbtchEvent(finbl ApplicbtionListener listener) {
+                listener.hbndleQuit(be);
             }
         });
 
-        if (ae.isHandled()) {
-            parent.performQuit();
+        if (be.isHbndled()) {
+            pbrent.performQuit();
         } else {
-            parent.cancelQuit();
+            pbrent.cbncelQuit();
         }
     }
 
-    interface EventDispatcher {
-        void dispatchEvent(final ApplicationListener listener);
+    interfbce EventDispbtcher {
+        void dispbtchEvent(finbl ApplicbtionListener listener);
     }
 
-    // helper that cycles through the loop and aborts if the event is handled, or there are no listeners
-    void sendEventToEachListenerUntilHandled(final ApplicationEvent event, final EventDispatcher dispatcher) {
-        synchronized (legacyAppListeners) {
-            if (legacyAppListeners.size() == 0) return;
+    // helper thbt cycles through the loop bnd bborts if the event is hbndled, or there bre no listeners
+    void sendEventToEbchListenerUntilHbndled(finbl ApplicbtionEvent event, finbl EventDispbtcher dispbtcher) {
+        synchronized (legbcyAppListeners) {
+            if (legbcyAppListeners.size() == 0) return;
 
-            final Enumeration<ApplicationListener> e = legacyAppListeners.elements();
-            while (e.hasMoreElements() && !event.isHandled()) {
-                dispatcher.dispatchEvent(e.nextElement());
+            finbl Enumerbtion<ApplicbtionListener> e = legbcyAppListeners.elements();
+            while (e.hbsMoreElements() && !event.isHbndled()) {
+                dispbtcher.dispbtchEvent(e.nextElement());
             }
         }
     }

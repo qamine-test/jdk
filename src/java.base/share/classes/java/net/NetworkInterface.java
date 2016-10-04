@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-import sun.security.action.*;
-import java.security.AccessController;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
+import sun.security.bction.*;
+import jbvb.security.AccessController;
 
 /**
- * This class represents a Network Interface made up of a name,
- * and a list of IP addresses assigned to this interface.
- * It is used to identify the local interface on which a multicast group
+ * This clbss represents b Network Interfbce mbde up of b nbme,
+ * bnd b list of IP bddresses bssigned to this interfbce.
+ * It is used to identify the locbl interfbce on which b multicbst group
  * is joined.
  *
- * Interfaces are normally known by names such as "le0".
+ * Interfbces bre normblly known by nbmes such bs "le0".
  *
  * @since 1.4
  */
-public final class NetworkInterface {
-    private String name;
-    private String displayName;
-    private int index;
-    private InetAddress addrs[];
-    private InterfaceAddress bindings[];
-    private NetworkInterface childs[];
-    private NetworkInterface parent = null;
-    private boolean virtual = false;
-    private static final NetworkInterface defaultInterface;
-    private static final int defaultIndex; /* index of defaultInterface */
+public finbl clbss NetworkInterfbce {
+    privbte String nbme;
+    privbte String displbyNbme;
+    privbte int index;
+    privbte InetAddress bddrs[];
+    privbte InterfbceAddress bindings[];
+    privbte NetworkInterfbce childs[];
+    privbte NetworkInterfbce pbrent = null;
+    privbte boolebn virtubl = fblse;
+    privbte stbtic finbl NetworkInterfbce defbultInterfbce;
+    privbte stbtic finbl int defbultIndex; /* index of defbultInterfbce */
 
-    static {
+    stbtic {
         AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
 
         init();
-        defaultInterface = DefaultInterface.getDefault();
-        if (defaultInterface != null) {
-            defaultIndex = defaultInterface.getIndex();
+        defbultInterfbce = DefbultInterfbce.getDefbult();
+        if (defbultInterfbce != null) {
+            defbultIndex = defbultInterfbce.getIndex();
         } else {
-            defaultIndex = 0;
+            defbultIndex = 0;
         }
     }
 
     /**
-     * Returns an NetworkInterface object with index set to 0 and name to null.
-     * Setting such an interface on a MulticastSocket will cause the
-     * kernel to choose one interface for sending multicast packets.
+     * Returns bn NetworkInterfbce object with index set to 0 bnd nbme to null.
+     * Setting such bn interfbce on b MulticbstSocket will cbuse the
+     * kernel to choose one interfbce for sending multicbst pbckets.
      *
      */
-    NetworkInterface() {
+    NetworkInterfbce() {
     }
 
-    NetworkInterface(String name, int index, InetAddress[] addrs) {
-        this.name = name;
+    NetworkInterfbce(String nbme, int index, InetAddress[] bddrs) {
+        this.nbme = nbme;
         this.index = index;
-        this.addrs = addrs;
+        this.bddrs = bddrs;
     }
 
     /**
-     * Get the name of this network interface.
+     * Get the nbme of this network interfbce.
      *
-     * @return the name of this network interface
+     * @return the nbme of this network interfbce
      */
-    public String getName() {
-            return name;
+    public String getNbme() {
+            return nbme;
     }
 
     /**
-     * Convenience method to return an Enumeration with all or a
-     * subset of the InetAddresses bound to this network interface.
+     * Convenience method to return bn Enumerbtion with bll or b
+     * subset of the InetAddresses bound to this network interfbce.
      * <p>
-     * If there is a security manager, its {@code checkConnect}
-     * method is called for each InetAddress. Only InetAddresses where
-     * the {@code checkConnect} doesn't throw a SecurityException
-     * will be returned in the Enumeration. However, if the caller has the
-     * {@link NetPermission}("getNetworkInformation") permission, then all
-     * InetAddresses are returned.
-     * @return an Enumeration object with all or a subset of the InetAddresses
-     * bound to this network interface
+     * If there is b security mbnbger, its {@code checkConnect}
+     * method is cblled for ebch InetAddress. Only InetAddresses where
+     * the {@code checkConnect} doesn't throw b SecurityException
+     * will be returned in the Enumerbtion. However, if the cbller hbs the
+     * {@link NetPermission}("getNetworkInformbtion") permission, then bll
+     * InetAddresses bre returned.
+     * @return bn Enumerbtion object with bll or b subset of the InetAddresses
+     * bound to this network interfbce
      */
-    public Enumeration<InetAddress> getInetAddresses() {
+    public Enumerbtion<InetAddress> getInetAddresses() {
 
-        class checkedAddresses implements Enumeration<InetAddress> {
+        clbss checkedAddresses implements Enumerbtion<InetAddress> {
 
-            private int i=0, count=0;
-            private InetAddress local_addrs[];
+            privbte int i=0, count=0;
+            privbte InetAddress locbl_bddrs[];
 
             checkedAddresses() {
-                local_addrs = new InetAddress[addrs.length];
-                boolean trusted = true;
+                locbl_bddrs = new InetAddress[bddrs.length];
+                boolebn trusted = true;
 
-                SecurityManager sec = System.getSecurityManager();
+                SecurityMbnbger sec = System.getSecurityMbnbger();
                 if (sec != null) {
                     try {
-                        sec.checkPermission(new NetPermission("getNetworkInformation"));
-                    } catch (SecurityException e) {
-                        trusted = false;
+                        sec.checkPermission(new NetPermission("getNetworkInformbtion"));
+                    } cbtch (SecurityException e) {
+                        trusted = fblse;
                     }
                 }
-                for (int j=0; j<addrs.length; j++) {
+                for (int j=0; j<bddrs.length; j++) {
                     try {
                         if (sec != null && !trusted) {
-                            sec.checkConnect(addrs[j].getHostAddress(), -1);
+                            sec.checkConnect(bddrs[j].getHostAddress(), -1);
                         }
-                        local_addrs[count++] = addrs[j];
-                    } catch (SecurityException e) { }
+                        locbl_bddrs[count++] = bddrs[j];
+                    } cbtch (SecurityException e) { }
                 }
 
             }
 
             public InetAddress nextElement() {
                 if (i < count) {
-                    return local_addrs[i++];
+                    return locbl_bddrs[i++];
                 } else {
                     throw new NoSuchElementException();
                 }
             }
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 return (i < count);
             }
         }
@@ -154,51 +154,51 @@ public final class NetworkInterface {
     }
 
     /**
-     * Get a List of all or a subset of the {@code InterfaceAddresses}
-     * of this network interface.
+     * Get b List of bll or b subset of the {@code InterfbceAddresses}
+     * of this network interfbce.
      * <p>
-     * If there is a security manager, its {@code checkConnect}
-     * method is called with the InetAddress for each InterfaceAddress.
-     * Only InterfaceAddresses where the {@code checkConnect} doesn't throw
-     * a SecurityException will be returned in the List.
+     * If there is b security mbnbger, its {@code checkConnect}
+     * method is cblled with the InetAddress for ebch InterfbceAddress.
+     * Only InterfbceAddresses where the {@code checkConnect} doesn't throw
+     * b SecurityException will be returned in the List.
      *
-     * @return a {@code List} object with all or a subset of the
-     *         InterfaceAddresss of this network interface
+     * @return b {@code List} object with bll or b subset of the
+     *         InterfbceAddresss of this network interfbce
      * @since 1.6
      */
-    public java.util.List<InterfaceAddress> getInterfaceAddresses() {
-        java.util.List<InterfaceAddress> lst = new java.util.ArrayList<InterfaceAddress>(1);
-        SecurityManager sec = System.getSecurityManager();
+    public jbvb.util.List<InterfbceAddress> getInterfbceAddresses() {
+        jbvb.util.List<InterfbceAddress> lst = new jbvb.util.ArrbyList<InterfbceAddress>(1);
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         for (int j=0; j<bindings.length; j++) {
             try {
                 if (sec != null) {
                     sec.checkConnect(bindings[j].getAddress().getHostAddress(), -1);
                 }
-                lst.add(bindings[j]);
-            } catch (SecurityException e) { }
+                lst.bdd(bindings[j]);
+            } cbtch (SecurityException e) { }
         }
         return lst;
     }
 
     /**
-     * Get an Enumeration with all the subinterfaces (also known as virtual
-     * interfaces) attached to this network interface.
+     * Get bn Enumerbtion with bll the subinterfbces (blso known bs virtubl
+     * interfbces) bttbched to this network interfbce.
      * <p>
-     * For instance eth0:1 will be a subinterface to eth0.
+     * For instbnce eth0:1 will be b subinterfbce to eth0.
      *
-     * @return an Enumeration object with all of the subinterfaces
-     * of this network interface
+     * @return bn Enumerbtion object with bll of the subinterfbces
+     * of this network interfbce
      * @since 1.6
      */
-    public Enumeration<NetworkInterface> getSubInterfaces() {
-        class subIFs implements Enumeration<NetworkInterface> {
+    public Enumerbtion<NetworkInterfbce> getSubInterfbces() {
+        clbss subIFs implements Enumerbtion<NetworkInterfbce> {
 
-            private int i=0;
+            privbte int i=0;
 
             subIFs() {
             }
 
-            public NetworkInterface nextElement() {
+            public NetworkInterfbce nextElement() {
                 if (i < childs.length) {
                     return childs[i++];
                 } else {
@@ -206,7 +206,7 @@ public final class NetworkInterface {
                 }
             }
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 return (i < childs.length);
             }
         }
@@ -215,24 +215,24 @@ public final class NetworkInterface {
     }
 
     /**
-     * Returns the parent NetworkInterface of this interface if this is
-     * a subinterface, or {@code null} if it is a physical
-     * (non virtual) interface or has no parent.
+     * Returns the pbrent NetworkInterfbce of this interfbce if this is
+     * b subinterfbce, or {@code null} if it is b physicbl
+     * (non virtubl) interfbce or hbs no pbrent.
      *
-     * @return The {@code NetworkInterface} this interface is attached to.
+     * @return The {@code NetworkInterfbce} this interfbce is bttbched to.
      * @since 1.6
      */
-    public NetworkInterface getParent() {
-        return parent;
+    public NetworkInterfbce getPbrent() {
+        return pbrent;
     }
 
     /**
-     * Returns the index of this network interface. The index is an integer greater
-     * or equal to zero, or {@code -1} for unknown. This is a system specific value
-     * and interfaces with the same name can have different indexes on different
-     * machines.
+     * Returns the index of this network interfbce. The index is bn integer grebter
+     * or equbl to zero, or {@code -1} for unknown. This is b system specific vblue
+     * bnd interfbces with the sbme nbme cbn hbve different indexes on different
+     * mbchines.
      *
-     * @return the index of this network interface or {@code -1} if the index is
+     * @return the index of this network interfbce or {@code -1} if the index is
      *         unknown
      * @see #getByIndex(int)
      * @since 1.7
@@ -242,339 +242,339 @@ public final class NetworkInterface {
     }
 
     /**
-     * Get the display name of this network interface.
-     * A display name is a human readable String describing the network
+     * Get the displby nbme of this network interfbce.
+     * A displby nbme is b humbn rebdbble String describing the network
      * device.
      *
-     * @return a non-empty string representing the display name of this network
-     *         interface, or null if no display name is available.
+     * @return b non-empty string representing the displby nbme of this network
+     *         interfbce, or null if no displby nbme is bvbilbble.
      */
-    public String getDisplayName() {
-        /* strict TCK conformance */
-        return "".equals(displayName) ? null : displayName;
+    public String getDisplbyNbme() {
+        /* strict TCK conformbnce */
+        return "".equbls(displbyNbme) ? null : displbyNbme;
     }
 
     /**
-     * Searches for the network interface with the specified name.
+     * Sebrches for the network interfbce with the specified nbme.
      *
-     * @param   name
-     *          The name of the network interface.
+     * @pbrbm   nbme
+     *          The nbme of the network interfbce.
      *
-     * @return  A {@code NetworkInterface} with the specified name,
-     *          or {@code null} if there is no network interface
-     *          with the specified name.
+     * @return  A {@code NetworkInterfbce} with the specified nbme,
+     *          or {@code null} if there is no network interfbce
+     *          with the specified nbme.
      *
      * @throws  SocketException
-     *          If an I/O error occurs.
+     *          If bn I/O error occurs.
      *
      * @throws  NullPointerException
-     *          If the specified name is {@code null}.
+     *          If the specified nbme is {@code null}.
      */
-    public static NetworkInterface getByName(String name) throws SocketException {
-        if (name == null)
+    public stbtic NetworkInterfbce getByNbme(String nbme) throws SocketException {
+        if (nbme == null)
             throw new NullPointerException();
-        return getByName0(name);
+        return getByNbme0(nbme);
     }
 
     /**
-     * Get a network interface given its index.
+     * Get b network interfbce given its index.
      *
-     * @param index an integer, the index of the interface
-     * @return the NetworkInterface obtained from its index, or {@code null} if
-     *         there is no interface with such an index on the system
-     * @throws  SocketException  if an I/O error occurs.
-     * @throws  IllegalArgumentException if index has a negative value
+     * @pbrbm index bn integer, the index of the interfbce
+     * @return the NetworkInterfbce obtbined from its index, or {@code null} if
+     *         there is no interfbce with such bn index on the system
+     * @throws  SocketException  if bn I/O error occurs.
+     * @throws  IllegblArgumentException if index hbs b negbtive vblue
      * @see #getIndex()
      * @since 1.7
      */
-    public static NetworkInterface getByIndex(int index) throws SocketException {
+    public stbtic NetworkInterfbce getByIndex(int index) throws SocketException {
         if (index < 0)
-            throw new IllegalArgumentException("Interface index can't be negative");
+            throw new IllegblArgumentException("Interfbce index cbn't be negbtive");
         return getByIndex0(index);
     }
 
     /**
-     * Convenience method to search for a network interface that
-     * has the specified Internet Protocol (IP) address bound to
+     * Convenience method to sebrch for b network interfbce thbt
+     * hbs the specified Internet Protocol (IP) bddress bound to
      * it.
      * <p>
-     * If the specified IP address is bound to multiple network
-     * interfaces it is not defined which network interface is
+     * If the specified IP bddress is bound to multiple network
+     * interfbces it is not defined which network interfbce is
      * returned.
      *
-     * @param   addr
-     *          The {@code InetAddress} to search with.
+     * @pbrbm   bddr
+     *          The {@code InetAddress} to sebrch with.
      *
-     * @return  A {@code NetworkInterface}
-     *          or {@code null} if there is no network interface
-     *          with the specified IP address.
+     * @return  A {@code NetworkInterfbce}
+     *          or {@code null} if there is no network interfbce
+     *          with the specified IP bddress.
      *
      * @throws  SocketException
-     *          If an I/O error occurs.
+     *          If bn I/O error occurs.
      *
      * @throws  NullPointerException
-     *          If the specified address is {@code null}.
+     *          If the specified bddress is {@code null}.
      */
-    public static NetworkInterface getByInetAddress(InetAddress addr) throws SocketException {
-        if (addr == null) {
+    public stbtic NetworkInterfbce getByInetAddress(InetAddress bddr) throws SocketException {
+        if (bddr == null) {
             throw new NullPointerException();
         }
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address)) {
-            throw new IllegalArgumentException ("invalid address type");
+        if (!(bddr instbnceof Inet4Address || bddr instbnceof Inet6Address)) {
+            throw new IllegblArgumentException ("invblid bddress type");
         }
-        return getByInetAddress0(addr);
+        return getByInetAddress0(bddr);
     }
 
     /**
-     * Returns all the interfaces on this machine. The {@code Enumeration}
-     * contains at least one element, possibly representing a loopback
-     * interface that only supports communication between entities on
-     * this machine.
+     * Returns bll the interfbces on this mbchine. The {@code Enumerbtion}
+     * contbins bt lebst one element, possibly representing b loopbbck
+     * interfbce thbt only supports communicbtion between entities on
+     * this mbchine.
      *
-     * NOTE: can use getNetworkInterfaces()+getInetAddresses()
-     *       to obtain all IP addresses for this node
+     * NOTE: cbn use getNetworkInterfbces()+getInetAddresses()
+     *       to obtbin bll IP bddresses for this node
      *
-     * @return an Enumeration of NetworkInterfaces found on this machine
-     * @exception  SocketException  if an I/O error occurs.
+     * @return bn Enumerbtion of NetworkInterfbces found on this mbchine
+     * @exception  SocketException  if bn I/O error occurs.
      */
 
-    public static Enumeration<NetworkInterface> getNetworkInterfaces()
+    public stbtic Enumerbtion<NetworkInterfbce> getNetworkInterfbces()
         throws SocketException {
-        final NetworkInterface[] netifs = getAll();
+        finbl NetworkInterfbce[] netifs = getAll();
 
-        // specified to return null if no network interfaces
+        // specified to return null if no network interfbces
         if (netifs == null)
             return null;
 
-        return new Enumeration<NetworkInterface>() {
-            private int i = 0;
-            public NetworkInterface nextElement() {
+        return new Enumerbtion<NetworkInterfbce>() {
+            privbte int i = 0;
+            public NetworkInterfbce nextElement() {
                 if (netifs != null && i < netifs.length) {
-                    NetworkInterface netif = netifs[i++];
+                    NetworkInterfbce netif = netifs[i++];
                     return netif;
                 } else {
                     throw new NoSuchElementException();
                 }
             }
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 return (netifs != null && i < netifs.length);
             }
         };
     }
 
-    private native static NetworkInterface[] getAll()
+    privbte nbtive stbtic NetworkInterfbce[] getAll()
         throws SocketException;
 
-    private native static NetworkInterface getByName0(String name)
+    privbte nbtive stbtic NetworkInterfbce getByNbme0(String nbme)
         throws SocketException;
 
-    private native static NetworkInterface getByIndex0(int index)
+    privbte nbtive stbtic NetworkInterfbce getByIndex0(int index)
         throws SocketException;
 
-    private native static NetworkInterface getByInetAddress0(InetAddress addr)
+    privbte nbtive stbtic NetworkInterfbce getByInetAddress0(InetAddress bddr)
         throws SocketException;
 
     /**
-     * Returns whether a network interface is up and running.
+     * Returns whether b network interfbce is up bnd running.
      *
-     * @return  {@code true} if the interface is up and running.
-     * @exception       SocketException if an I/O error occurs.
+     * @return  {@code true} if the interfbce is up bnd running.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
 
-    public boolean isUp() throws SocketException {
-        return isUp0(name, index);
+    public boolebn isUp() throws SocketException {
+        return isUp0(nbme, index);
     }
 
     /**
-     * Returns whether a network interface is a loopback interface.
+     * Returns whether b network interfbce is b loopbbck interfbce.
      *
-     * @return  {@code true} if the interface is a loopback interface.
-     * @exception       SocketException if an I/O error occurs.
+     * @return  {@code true} if the interfbce is b loopbbck interfbce.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
 
-    public boolean isLoopback() throws SocketException {
-        return isLoopback0(name, index);
+    public boolebn isLoopbbck() throws SocketException {
+        return isLoopbbck0(nbme, index);
     }
 
     /**
-     * Returns whether a network interface is a point to point interface.
-     * A typical point to point interface would be a PPP connection through
-     * a modem.
+     * Returns whether b network interfbce is b point to point interfbce.
+     * A typicbl point to point interfbce would be b PPP connection through
+     * b modem.
      *
-     * @return  {@code true} if the interface is a point to point
-     *          interface.
-     * @exception       SocketException if an I/O error occurs.
+     * @return  {@code true} if the interfbce is b point to point
+     *          interfbce.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
 
-    public boolean isPointToPoint() throws SocketException {
-        return isP2P0(name, index);
+    public boolebn isPointToPoint() throws SocketException {
+        return isP2P0(nbme, index);
     }
 
     /**
-     * Returns whether a network interface supports multicasting or not.
+     * Returns whether b network interfbce supports multicbsting or not.
      *
-     * @return  {@code true} if the interface supports Multicasting.
-     * @exception       SocketException if an I/O error occurs.
+     * @return  {@code true} if the interfbce supports Multicbsting.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
 
-    public boolean supportsMulticast() throws SocketException {
-        return supportsMulticast0(name, index);
+    public boolebn supportsMulticbst() throws SocketException {
+        return supportsMulticbst0(nbme, index);
     }
 
     /**
-     * Returns the hardware address (usually MAC) of the interface if it
-     * has one and if it can be accessed given the current privileges.
-     * If a security manager is set, then the caller must have
-     * the permission {@link NetPermission}("getNetworkInformation").
+     * Returns the hbrdwbre bddress (usublly MAC) of the interfbce if it
+     * hbs one bnd if it cbn be bccessed given the current privileges.
+     * If b security mbnbger is set, then the cbller must hbve
+     * the permission {@link NetPermission}("getNetworkInformbtion").
      *
-     * @return  a byte array containing the address, or {@code null} if
-     *          the address doesn't exist, is not accessible or a security
-     *          manager is set and the caller does not have the permission
-     *          NetPermission("getNetworkInformation")
+     * @return  b byte brrby contbining the bddress, or {@code null} if
+     *          the bddress doesn't exist, is not bccessible or b security
+     *          mbnbger is set bnd the cbller does not hbve the permission
+     *          NetPermission("getNetworkInformbtion")
      *
-     * @exception       SocketException if an I/O error occurs.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
-    public byte[] getHardwareAddress() throws SocketException {
-        SecurityManager sec = System.getSecurityManager();
+    public byte[] getHbrdwbreAddress() throws SocketException {
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             try {
-                sec.checkPermission(new NetPermission("getNetworkInformation"));
-            } catch (SecurityException e) {
-                if (!getInetAddresses().hasMoreElements()) {
-                    // don't have connect permission to any local address
+                sec.checkPermission(new NetPermission("getNetworkInformbtion"));
+            } cbtch (SecurityException e) {
+                if (!getInetAddresses().hbsMoreElements()) {
+                    // don't hbve connect permission to bny locbl bddress
                     return null;
                 }
             }
         }
-        for (InetAddress addr : addrs) {
-            if (addr instanceof Inet4Address) {
-                return getMacAddr0(((Inet4Address)addr).getAddress(), name, index);
+        for (InetAddress bddr : bddrs) {
+            if (bddr instbnceof Inet4Address) {
+                return getMbcAddr0(((Inet4Address)bddr).getAddress(), nbme, index);
             }
         }
-        return getMacAddr0(null, name, index);
+        return getMbcAddr0(null, nbme, index);
     }
 
     /**
-     * Returns the Maximum Transmission Unit (MTU) of this interface.
+     * Returns the Mbximum Trbnsmission Unit (MTU) of this interfbce.
      *
-     * @return the value of the MTU for that interface.
-     * @exception       SocketException if an I/O error occurs.
+     * @return the vblue of the MTU for thbt interfbce.
+     * @exception       SocketException if bn I/O error occurs.
      * @since 1.6
      */
     public int getMTU() throws SocketException {
-        return getMTU0(name, index);
+        return getMTU0(nbme, index);
     }
 
     /**
-     * Returns whether this interface is a virtual interface (also called
-     * subinterface).
-     * Virtual interfaces are, on some systems, interfaces created as a child
-     * of a physical interface and given different settings (like address or
-     * MTU). Usually the name of the interface will the name of the parent
-     * followed by a colon (:) and a number identifying the child since there
-     * can be several virtual interfaces attached to a single physical
-     * interface.
+     * Returns whether this interfbce is b virtubl interfbce (blso cblled
+     * subinterfbce).
+     * Virtubl interfbces bre, on some systems, interfbces crebted bs b child
+     * of b physicbl interfbce bnd given different settings (like bddress or
+     * MTU). Usublly the nbme of the interfbce will the nbme of the pbrent
+     * followed by b colon (:) bnd b number identifying the child since there
+     * cbn be severbl virtubl interfbces bttbched to b single physicbl
+     * interfbce.
      *
-     * @return {@code true} if this interface is a virtual interface.
+     * @return {@code true} if this interfbce is b virtubl interfbce.
      * @since 1.6
      */
-    public boolean isVirtual() {
-        return virtual;
+    public boolebn isVirtubl() {
+        return virtubl;
     }
 
-    private native static boolean isUp0(String name, int ind) throws SocketException;
-    private native static boolean isLoopback0(String name, int ind) throws SocketException;
-    private native static boolean supportsMulticast0(String name, int ind) throws SocketException;
-    private native static boolean isP2P0(String name, int ind) throws SocketException;
-    private native static byte[] getMacAddr0(byte[] inAddr, String name, int ind) throws SocketException;
-    private native static int getMTU0(String name, int ind) throws SocketException;
+    privbte nbtive stbtic boolebn isUp0(String nbme, int ind) throws SocketException;
+    privbte nbtive stbtic boolebn isLoopbbck0(String nbme, int ind) throws SocketException;
+    privbte nbtive stbtic boolebn supportsMulticbst0(String nbme, int ind) throws SocketException;
+    privbte nbtive stbtic boolebn isP2P0(String nbme, int ind) throws SocketException;
+    privbte nbtive stbtic byte[] getMbcAddr0(byte[] inAddr, String nbme, int ind) throws SocketException;
+    privbte nbtive stbtic int getMTU0(String nbme, int ind) throws SocketException;
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same NetworkInterface
-     * as this object.
+     * Compbres this object bgbinst the specified object.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd it represents the sbme NetworkInterfbce
+     * bs this object.
      * <p>
-     * Two instances of {@code NetworkInterface} represent the same
-     * NetworkInterface if both name and addrs are the same for both.
+     * Two instbnces of {@code NetworkInterfbce} represent the sbme
+     * NetworkInterfbce if both nbme bnd bddrs bre the sbme for both.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.net.InetAddress#getAddress()
+     * @pbrbm   obj   the object to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see     jbvb.net.InetAddress#getAddress()
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof NetworkInterface)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof NetworkInterfbce)) {
+            return fblse;
         }
-        NetworkInterface that = (NetworkInterface)obj;
-        if (this.name != null ) {
-            if (!this.name.equals(that.name)) {
-                return false;
+        NetworkInterfbce thbt = (NetworkInterfbce)obj;
+        if (this.nbme != null ) {
+            if (!this.nbme.equbls(thbt.nbme)) {
+                return fblse;
             }
         } else {
-            if (that.name != null) {
-                return false;
+            if (thbt.nbme != null) {
+                return fblse;
             }
         }
 
-        if (this.addrs == null) {
-            return that.addrs == null;
-        } else if (that.addrs == null) {
-            return false;
+        if (this.bddrs == null) {
+            return thbt.bddrs == null;
+        } else if (thbt.bddrs == null) {
+            return fblse;
         }
 
-        /* Both addrs not null. Compare number of addresses */
+        /* Both bddrs not null. Compbre number of bddresses */
 
-        if (this.addrs.length != that.addrs.length) {
-            return false;
+        if (this.bddrs.length != thbt.bddrs.length) {
+            return fblse;
         }
 
-        InetAddress[] thatAddrs = that.addrs;
-        int count = thatAddrs.length;
+        InetAddress[] thbtAddrs = thbt.bddrs;
+        int count = thbtAddrs.length;
 
         for (int i=0; i<count; i++) {
-            boolean found = false;
+            boolebn found = fblse;
             for (int j=0; j<count; j++) {
-                if (addrs[i].equals(thatAddrs[j])) {
+                if (bddrs[i].equbls(thbtAddrs[j])) {
                     found = true;
-                    break;
+                    brebk;
                 }
             }
             if (!found) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    public int hashCode() {
-        return name == null? 0: name.hashCode();
+    public int hbshCode() {
+        return nbme == null? 0: nbme.hbshCode();
     }
 
     public String toString() {
-        String result = "name:";
-        result += name == null? "null": name;
-        if (displayName != null) {
-            result += " (" + displayName + ")";
+        String result = "nbme:";
+        result += nbme == null? "null": nbme;
+        if (displbyNbme != null) {
+            result += " (" + displbyNbme + ")";
         }
         return result;
     }
 
-    private static native void init();
+    privbte stbtic nbtive void init();
 
     /**
-     * Returns the default network interface of this system
+     * Returns the defbult network interfbce of this system
      *
-     * @return the default interface
+     * @return the defbult interfbce
      */
-    static NetworkInterface getDefault() {
-        return defaultInterface;
+    stbtic NetworkInterfbce getDefbult() {
+        return defbultInterfbce;
     }
 }

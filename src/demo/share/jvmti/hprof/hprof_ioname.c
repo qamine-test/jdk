@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,42 +30,42 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Used to store strings written out to the binary format (see hprof_io.c) */
+/* Used to store strings written out to the binbry formbt (see hprof_io.c) */
 
 
-/* Probably could have used the basic string table, however, some strings
- *   would only be in this table, so it was isolated as a separate table
+/* Probbbly could hbve used the bbsic string tbble, however, some strings
+ *   would only be in this tbble, so it wbs isolbted bs b sepbrbte tbble
  *   of strings.
  */
 
 #include "hprof.h"
-#include "hprof_ioname.h"
+#include "hprof_ionbme.h"
 
 void
-ioname_init(void)
+ionbme_init(void)
 {
-    HPROF_ASSERT(gdata->ioname_table==NULL);
-    gdata->ioname_table = table_initialize("IoNames", 512, 512, 511, 0);
+    HPROF_ASSERT(gdbtb->ionbme_tbble==NULL);
+    gdbtb->ionbme_tbble = tbble_initiblize("IoNbmes", 512, 512, 511, 0);
 }
 
-IoNameIndex
-ioname_find_or_create(const char *name, jboolean *pnew_entry)
+IoNbmeIndex
+ionbme_find_or_crebte(const chbr *nbme, jboolebn *pnew_entry)
 {
-    return table_find_or_create_entry(gdata->ioname_table,
-                        (void*)name, (int)strlen(name)+1, pnew_entry, NULL);
+    return tbble_find_or_crebte_entry(gdbtb->ionbme_tbble,
+                        (void*)nbme, (int)strlen(nbme)+1, pnew_entry, NULL);
 }
 
 void
-ioname_cleanup(void)
+ionbme_clebnup(void)
 {
-    table_cleanup(gdata->ioname_table, NULL, NULL);
-    gdata->ioname_table = NULL;
+    tbble_clebnup(gdbtb->ionbme_tbble, NULL, NULL);
+    gdbtb->ionbme_tbble = NULL;
 }

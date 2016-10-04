@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef NETWORK_INTERFACE_H
 #define NETWORK_INTERFACE_H
 
-#include <iphlpapi.h>
+#include <iphlpbpi.h>
 #include "net_util.h"
 
 /*
- * Structures used when enumerating interfaces and addresses
+ * Structures used when enumerbting interfbces bnd bddresses
  */
-typedef struct _netaddr  {
-    SOCKETADDRESS    addr;                  /* IPv4 or IPv6 address */
-    SOCKETADDRESS    brdcast;
-    short            mask;
-    struct _netaddr *next;
-} netaddr;
+typedef struct _netbddr  {
+    SOCKETADDRESS    bddr;                  /* IPv4 or IPv6 bddress */
+    SOCKETADDRESS    brdcbst;
+    short            mbsk;
+    struct _netbddr *next;
+} netbddr;
 
 typedef struct _netif {
-    char *name;
-    char *displayName;
-    DWORD dwIndex;              /* Internal index */
-    DWORD ifType;               /* Interface type */
+    chbr *nbme;
+    chbr *displbyNbme;
+    DWORD dwIndex;              /* Internbl index */
+    DWORD ifType;               /* Interfbce type */
     int index;                  /* Friendly index */
     struct _netif *next;
 
     /* Following fields used on Windows XP when IPv6 is used only */
-    jboolean hasIpv6Address;    /* true when following fields valid */
-    jboolean dNameIsUnicode;    /* Display Name is Unicode */
-    int naddrs;                 /* Number of addrs */
+    jboolebn hbsIpv6Address;    /* true when following fields vblid */
+    jboolebn dNbmeIsUnicode;    /* Displby Nbme is Unicode */
+    int nbddrs;                 /* Number of bddrs */
     DWORD ipv6Index;
-    struct _netaddr *addrs;     /* addr list for interfaces */
+    struct _netbddr *bddrs;     /* bddr list for interfbces */
 } netif;
 
 extern void free_netif(netif *netifP);
-extern void free_netaddr(netaddr *netaddrP);
+extern void free_netbddr(netbddr *netbddrP);
 
-/* various JNI ids */
-extern jclass ni_class;             /* NetworkInterface */
+/* vbrious JNI ids */
+extern jclbss ni_clbss;             /* NetworkInterfbce */
 
-extern jmethodID ni_ctor;           /* NetworkInterface() */
+extern jmethodID ni_ctor;           /* NetworkInterfbce() */
 
-extern jfieldID ni_indexID;         /* NetworkInterface.index */
-extern jfieldID ni_addrsID;         /* NetworkInterface.addrs */
-extern jfieldID ni_bindsID;         /* NetworkInterface.bindings */
-extern jfieldID ni_nameID;          /* NetworkInterface.name */
-extern jfieldID ni_displayNameID;   /* NetworkInterface.displayName */
-extern jfieldID ni_childsID;        /* NetworkInterface.childs */
+extern jfieldID ni_indexID;         /* NetworkInterfbce.index */
+extern jfieldID ni_bddrsID;         /* NetworkInterfbce.bddrs */
+extern jfieldID ni_bindsID;         /* NetworkInterfbce.bindings */
+extern jfieldID ni_nbmeID;          /* NetworkInterfbce.nbme */
+extern jfieldID ni_displbyNbmeID;   /* NetworkInterfbce.displbyNbme */
+extern jfieldID ni_childsID;        /* NetworkInterfbce.childs */
 
-extern jclass ni_ibcls;             /* InterfaceAddress */
-extern jmethodID ni_ibctrID;        /* InterfaceAddress() */
-extern jfieldID ni_ibaddressID;     /* InterfaceAddress.address */
-extern jfieldID ni_ibbroadcastID;   /* InterfaceAddress.broadcast */
-extern jfieldID ni_ibmaskID;        /* InterfaceAddress.maskLength */
+extern jclbss ni_ibcls;             /* InterfbceAddress */
+extern jmethodID ni_ibctrID;        /* InterfbceAddress() */
+extern jfieldID ni_ibbddressID;     /* InterfbceAddress.bddress */
+extern jfieldID ni_ibbrobdcbstID;   /* InterfbceAddress.brobdcbst */
+extern jfieldID ni_ibmbskID;        /* InterfbceAddress.mbskLength */
 
-int enumInterfaces(JNIEnv *env, netif **netifPP);
+int enumInterfbces(JNIEnv *env, netif **netifPP);
 
-// Windows Visa (and later) only.....
+// Windows Visb (bnd lbter) only.....
 #ifndef IF_TYPE_IEEE80211
 #define IF_TYPE_IEEE80211     71
 #endif

@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
-import java.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Vector;
 
 /**
- * Class SetOfIntegerSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a set of nonnegative
- * integers. This includes attributes whose value is a single range of integers
- * and attributes whose value is a set of ranges of integers.
+ * Clbss SetOfIntegerSyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll bttributes whose vblue is b set of nonnegbtive
+ * integers. This includes bttributes whose vblue is b single rbnge of integers
+ * bnd bttributes whose vblue is b set of rbnges of integers.
  * <P>
- * You can construct an instance of SetOfIntegerSyntax by giving it in "string
- * form." The string consists of zero or more comma-separated integer groups.
- * Each integer group consists of either one integer, two integers separated by
- * a hyphen (<CODE>-</CODE>), or two integers separated by a colon
- * (<CODE>:</CODE>). Each integer consists of one or more decimal digits
- * (<CODE>0</CODE> through <CODE>9</CODE>). Whitespace characters cannot
- * appear within an integer but are otherwise ignored. For example:
+ * You cbn construct bn instbnce of SetOfIntegerSyntbx by giving it in "string
+ * form." The string consists of zero or more commb-sepbrbted integer groups.
+ * Ebch integer group consists of either one integer, two integers sepbrbted by
+ * b hyphen (<CODE>-</CODE>), or two integers sepbrbted by b colon
+ * (<CODE>:</CODE>). Ebch integer consists of one or more decimbl digits
+ * (<CODE>0</CODE> through <CODE>9</CODE>). Whitespbce chbrbcters cbnnot
+ * bppebr within bn integer but bre otherwise ignored. For exbmple:
  * <CODE>""</CODE>, <CODE>"1"</CODE>, <CODE>"5-10"</CODE>, <CODE>"1:2,
  * 4"</CODE>.
  * <P>
- * You can also construct an instance of SetOfIntegerSyntax by giving it in
- * "array form." Array form consists of an array of zero or more integer groups
- * where each integer group is a length-1 or length-2 array of
- * <CODE>int</CODE>s; for example, <CODE>int[0][]</CODE>,
+ * You cbn blso construct bn instbnce of SetOfIntegerSyntbx by giving it in
+ * "brrby form." Arrby form consists of bn brrby of zero or more integer groups
+ * where ebch integer group is b length-1 or length-2 brrby of
+ * <CODE>int</CODE>s; for exbmple, <CODE>int[0][]</CODE>,
  * <CODE>int[][]{{1}}</CODE>, <CODE>int[][]{{5,10}}</CODE>,
  * <CODE>int[][]{{1,2},{4}}</CODE>.
  * <P>
- * In both string form and array form, each successive integer group gives a
- * range of integers to be included in the set. The first integer in each group
- * gives the lower bound of the range; the second integer in each group gives
- * the upper bound of the range; if there is only one integer in the group, the
- * upper bound is the same as the lower bound. If the upper bound is less than
- * the lower bound, it denotes a null range (no values). If the upper bound is
- * equal to the lower bound, it denotes a range consisting of a single value. If
- * the upper bound is greater than the lower bound, it denotes a range
- * consisting of more than one value. The ranges may appear in any order and are
- * allowed to overlap. The union of all the ranges gives the set's contents.
- * Once a SetOfIntegerSyntax instance is constructed, its value is immutable.
+ * In both string form bnd brrby form, ebch successive integer group gives b
+ * rbnge of integers to be included in the set. The first integer in ebch group
+ * gives the lower bound of the rbnge; the second integer in ebch group gives
+ * the upper bound of the rbnge; if there is only one integer in the group, the
+ * upper bound is the sbme bs the lower bound. If the upper bound is less thbn
+ * the lower bound, it denotes b null rbnge (no vblues). If the upper bound is
+ * equbl to the lower bound, it denotes b rbnge consisting of b single vblue. If
+ * the upper bound is grebter thbn the lower bound, it denotes b rbnge
+ * consisting of more thbn one vblue. The rbnges mby bppebr in bny order bnd bre
+ * bllowed to overlbp. The union of bll the rbnges gives the set's contents.
+ * Once b SetOfIntegerSyntbx instbnce is constructed, its vblue is immutbble.
  * <P>
- * The SetOfIntegerSyntax object's value is actually stored in "<I>canonical</I>
- * array form." This is the same as array form, except there are no null ranges;
- * the members of the set are represented in as few ranges as possible (i.e.,
- * overlapping ranges are coalesced); the ranges appear in ascending order; and
- * each range is always represented as a length-two array of <CODE>int</CODE>s
- * in the form {lower bound, upper bound}. An empty set is represented as a
- * zero-length array.
+ * The SetOfIntegerSyntbx object's vblue is bctublly stored in "<I>cbnonicbl</I>
+ * brrby form." This is the sbme bs brrby form, except there bre no null rbnges;
+ * the members of the set bre represented in bs few rbnges bs possible (i.e.,
+ * overlbpping rbnges bre coblesced); the rbnges bppebr in bscending order; bnd
+ * ebch rbnge is blwbys represented bs b length-two brrby of <CODE>int</CODE>s
+ * in the form {lower bound, upper bound}. An empty set is represented bs b
+ * zero-length brrby.
  * <P>
- * Class SetOfIntegerSyntax has operations to return the set's members in
- * canonical array form, to test whether a given integer is a member of the
- * set, and to iterate through the members of the set.
+ * Clbss SetOfIntegerSyntbx hbs operbtions to return the set's members in
+ * cbnonicbl brrby form, to test whether b given integer is b member of the
+ * set, bnd to iterbte through the members of the set.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
+public bbstrbct clbss SetOfIntegerSyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = 3666874174847632203L;
+    privbte stbtic finbl long seriblVersionUID = 3666874174847632203L;
 
     /**
-     * This set's members in canonical array form.
-     * @serial
+     * This set's members in cbnonicbl brrby form.
+     * @seribl
      */
-    private int[][] members;
+    privbte int[][] members;
 
 
     /**
-     * Construct a new set-of-integer attribute with the given members in
+     * Construct b new set-of-integer bttribute with the given members in
      * string form.
      *
-     * @param  members  Set members in string form. If null, an empty set is
+     * @pbrbm  members  Set members in string form. If null, bn empty set is
      *                     constructed.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (Unchecked exception) Thrown if <CODE>members</CODE> does not
-     *    obey  the proper syntax.
+     *    obey  the proper syntbx.
      */
-    protected SetOfIntegerSyntax(String members) {
-        this.members = parse (members);
+    protected SetOfIntegerSyntbx(String members) {
+        this.members = pbrse (members);
     }
 
     /**
-     * Parse the given string, returning canonical array form.
+     * Pbrse the given string, returning cbnonicbl brrby form.
      */
-    private static int[][] parse(String members) {
-        // Create vector to hold int[] elements, each element being one range
-        // parsed out of members.
-        Vector<int[]> theRanges = new Vector<>();
+    privbte stbtic int[][] pbrse(String members) {
+        // Crebte vector to hold int[] elements, ebch element being one rbnge
+        // pbrsed out of members.
+        Vector<int[]> theRbnges = new Vector<>();
 
-        // Run state machine over members.
+        // Run stbte mbchine over members.
         int n = (members == null ? 0 : members.length());
         int i = 0;
-        int state = 0;
+        int stbte = 0;
         int lb = 0;
         int ub = 0;
-        char c;
+        chbr c;
         int digit;
         while (i < n) {
-            c = members.charAt(i ++);
-            switch (state) {
+            c = members.chbrAt(i ++);
+            switch (stbte) {
 
-            case 0: // Before first integer in first group
-                if (Character.isWhitespace(c)) {
-                    state = 0;
+            cbse 0: // Before first integer in first group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 0;
                 }
-                else if ((digit = Character.digit(c, 10)) != -1) {
+                else if ((digit = Chbrbcter.digit(c, 10)) != -1) {
                     lb = digit;
-                    state = 1;
+                    stbte = 1;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 1: // In first integer in a group
-                if (Character.isWhitespace(c)){
-                        state = 2;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            cbse 1: // In first integer in b group
+                if (Chbrbcter.isWhitespbce(c)){
+                        stbte = 2;
+                } else if ((digit = Chbrbcter.digit(c, 10)) != -1) {
                     lb = 10 * lb + digit;
-                    state = 1;
+                    stbte = 1;
                 } else if (c == '-' || c == ':') {
-                    state = 3;
+                    stbte = 3;
                 } else if (c == ',') {
-                    accumulate (theRanges, lb, lb);
-                    state = 6;
+                    bccumulbte (theRbnges, lb, lb);
+                    stbte = 6;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 2: // After first integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 2;
+            cbse 2: // After first integer in b group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 2;
                 }
                 else if (c == '-' || c == ':') {
-                    state = 3;
+                    stbte = 3;
                 }
                 else if (c == ',') {
-                    accumulate(theRanges, lb, lb);
-                    state = 6;
+                    bccumulbte(theRbnges, lb, lb);
+                    stbte = 6;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 3: // Before second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 3;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            cbse 3: // Before second integer in b group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 3;
+                } else if ((digit = Chbrbcter.digit(c, 10)) != -1) {
                     ub = digit;
-                    state = 4;
+                    stbte = 4;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 4: // In second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 5;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            cbse 4: // In second integer in b group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 5;
+                } else if ((digit = Chbrbcter.digit(c, 10)) != -1) {
                     ub = 10 * ub + digit;
-                    state = 4;
+                    stbte = 4;
                 } else if (c == ',') {
-                    accumulate(theRanges, lb, ub);
-                    state = 6;
+                    bccumulbte(theRbnges, lb, ub);
+                    stbte = 6;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 5: // After second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 5;
+            cbse 5: // After second integer in b group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 5;
                 } else if (c == ',') {
-                    accumulate(theRanges, lb, ub);
-                    state = 6;
+                    bccumulbte(theRbnges, lb, ub);
+                    stbte = 6;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
 
-            case 6: // Before first integer in second or later group
-                if (Character.isWhitespace(c)) {
-                    state = 6;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            cbse 6: // Before first integer in second or lbter group
+                if (Chbrbcter.isWhitespbce(c)) {
+                    stbte = 6;
+                } else if ((digit = Chbrbcter.digit(c, 10)) != -1) {
                     lb = digit;
-                    state = 1;
+                    stbte = 1;
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegblArgumentException();
                 }
-                break;
+                brebk;
             }
         }
 
-        // Finish off the state machine.
-        switch (state) {
-        case 0: // Before first integer in first group
-            break;
-        case 1: // In first integer in a group
-        case 2: // After first integer in a group
-            accumulate(theRanges, lb, lb);
-            break;
-        case 4: // In second integer in a group
-        case 5: // After second integer in a group
-            accumulate(theRanges, lb, ub);
-            break;
-        case 3: // Before second integer in a group
-        case 6: // Before first integer in second or later group
-            throw new IllegalArgumentException();
+        // Finish off the stbte mbchine.
+        switch (stbte) {
+        cbse 0: // Before first integer in first group
+            brebk;
+        cbse 1: // In first integer in b group
+        cbse 2: // After first integer in b group
+            bccumulbte(theRbnges, lb, lb);
+            brebk;
+        cbse 4: // In second integer in b group
+        cbse 5: // After second integer in b group
+            bccumulbte(theRbnges, lb, ub);
+            brebk;
+        cbse 3: // Before second integer in b group
+        cbse 6: // Before first integer in second or lbter group
+            throw new IllegblArgumentException();
         }
 
-        // Return canonical array form.
-        return canonicalArrayForm (theRanges);
+        // Return cbnonicbl brrby form.
+        return cbnonicblArrbyForm (theRbnges);
     }
 
     /**
-     * Accumulate the given range (lb .. ub) into the canonical array form
+     * Accumulbte the given rbnge (lb .. ub) into the cbnonicbl brrby form
      * into the given vector of int[] objects.
      */
-    private static void accumulate(Vector<int[]> ranges, int lb,int ub) {
-        // Make sure range is non-null.
+    privbte stbtic void bccumulbte(Vector<int[]> rbnges, int lb,int ub) {
+        // Mbke sure rbnge is non-null.
         if (lb <= ub) {
-            // Stick range at the back of the vector.
-            ranges.add(new int[] {lb, ub});
+            // Stick rbnge bt the bbck of the vector.
+            rbnges.bdd(new int[] {lb, ub});
 
-            // Work towards the front of the vector to integrate the new range
-            // with the existing ranges.
-            for (int j = ranges.size()-2; j >= 0; -- j) {
-            // Get lower and upper bounds of the two ranges being compared.
-                int[] rangea = ranges.elementAt (j);
-                int lba = rangea[0];
-                int uba = rangea[1];
-                int[] rangeb = ranges.elementAt (j+1);
-                int lbb = rangeb[0];
-                int ubb = rangeb[1];
+            // Work towbrds the front of the vector to integrbte the new rbnge
+            // with the existing rbnges.
+            for (int j = rbnges.size()-2; j >= 0; -- j) {
+            // Get lower bnd upper bounds of the two rbnges being compbred.
+                int[] rbngeb = rbnges.elementAt (j);
+                int lbb = rbngeb[0];
+                int ubb = rbngeb[1];
+                int[] rbngeb = rbnges.elementAt (j+1);
+                int lbb = rbngeb[0];
+                int ubb = rbngeb[1];
 
-                /* If the two ranges overlap or are adjacent, coalesce them.
-                 * The two ranges overlap if the larger lower bound is less
-                 * than or equal to the smaller upper bound. The two ranges
-                 * are adjacent if the larger lower bound is one greater
-                 * than the smaller upper bound.
+                /* If the two rbnges overlbp or bre bdjbcent, coblesce them.
+                 * The two rbnges overlbp if the lbrger lower bound is less
+                 * thbn or equbl to the smbller upper bound. The two rbnges
+                 * bre bdjbcent if the lbrger lower bound is one grebter
+                 * thbn the smbller upper bound.
                  */
-                if (Math.max(lba, lbb) - Math.min(uba, ubb) <= 1) {
-                    // The coalesced range is from the smaller lower bound to
-                    // the larger upper bound.
-                    ranges.setElementAt(new int[]
-                                           {Math.min(lba, lbb),
-                                                Math.max(uba, ubb)}, j);
-                    ranges.remove (j+1);
-                } else if (lba > lbb) {
+                if (Mbth.mbx(lbb, lbb) - Mbth.min(ubb, ubb) <= 1) {
+                    // The coblesced rbnge is from the smbller lower bound to
+                    // the lbrger upper bound.
+                    rbnges.setElementAt(new int[]
+                                           {Mbth.min(lbb, lbb),
+                                                Mbth.mbx(ubb, ubb)}, j);
+                    rbnges.remove (j+1);
+                } else if (lbb > lbb) {
 
-                    /* If the two ranges don't overlap and aren't adjacent but
-                     * are out of order, swap them.
+                    /* If the two rbnges don't overlbp bnd bren't bdjbcent but
+                     * bre out of order, swbp them.
                      */
-                    ranges.setElementAt (rangeb, j);
-                    ranges.setElementAt (rangea, j+1);
+                    rbnges.setElementAt (rbngeb, j);
+                    rbnges.setElementAt (rbngeb, j+1);
                 } else {
-                /* If the two ranges don't overlap and aren't adjacent and
-                 * aren't out of order, we're done early.
+                /* If the two rbnges don't overlbp bnd bren't bdjbcent bnd
+                 * bren't out of order, we're done ebrly.
                  */
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Convert the given vector of int[] objects to canonical array form.
+     * Convert the given vector of int[] objects to cbnonicbl brrby form.
      */
-    private static int[][] canonicalArrayForm(Vector<int[]> ranges) {
-        return ranges.toArray (new int[ranges.size()][]);
+    privbte stbtic int[][] cbnonicblArrbyForm(Vector<int[]> rbnges) {
+        return rbnges.toArrby (new int[rbnges.size()][]);
     }
 
     /**
-     * Construct a new set-of-integer attribute with the given members in
-     * array form.
+     * Construct b new set-of-integer bttribute with the given members in
+     * brrby form.
      *
-     * @param  members  Set members in array form. If null, an empty set is
+     * @pbrbm  members  Set members in brrby form. If null, bn empty set is
      *                     constructed.
      *
      * @exception  NullPointerException
-     *     (Unchecked exception) Thrown if any element of
+     *     (Unchecked exception) Thrown if bny element of
      *     <CODE>members</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if any element of
-     *     <CODE>members</CODE> is not a length-one or length-two array or if
-     *     any non-null range in <CODE>members</CODE> has a lower bound less
-     *     than zero.
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if bny element of
+     *     <CODE>members</CODE> is not b length-one or length-two brrby or if
+     *     bny non-null rbnge in <CODE>members</CODE> hbs b lower bound less
+     *     thbn zero.
      */
-    protected SetOfIntegerSyntax(int[][] members) {
-        this.members = parse (members);
+    protected SetOfIntegerSyntbx(int[][] members) {
+        this.members = pbrse (members);
     }
 
     /**
-     * Parse the given array form, returning canonical array form.
+     * Pbrse the given brrby form, returning cbnonicbl brrby form.
      */
-    private static int[][] parse(int[][] members) {
-        // Create vector to hold int[] elements, each element being one range
-        // parsed out of members.
-        Vector<int[]> ranges = new Vector<>();
+    privbte stbtic int[][] pbrse(int[][] members) {
+        // Crebte vector to hold int[] elements, ebch element being one rbnge
+        // pbrsed out of members.
+        Vector<int[]> rbnges = new Vector<>();
 
-        // Process all integer groups in members.
+        // Process bll integer groups in members.
         int n = (members == null ? 0 : members.length);
         for (int i = 0; i < n; ++ i) {
-            // Get lower and upper bounds of the range.
+            // Get lower bnd upper bounds of the rbnge.
             int lb, ub;
             if (members[i].length == 1) {
                 lb = ub = members[i][0];
@@ -335,53 +335,53 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
                 lb = members[i][0];
                 ub = members[i][1];
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
 
-            // Verify valid bounds.
+            // Verify vblid bounds.
             if (lb <= ub && lb < 0) {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
 
-            // Accumulate the range.
-            accumulate(ranges, lb, ub);
+            // Accumulbte the rbnge.
+            bccumulbte(rbnges, lb, ub);
         }
 
-                // Return canonical array form.
-                return canonicalArrayForm (ranges);
+                // Return cbnonicbl brrby form.
+                return cbnonicblArrbyForm (rbnges);
                 }
 
     /**
-     * Construct a new set-of-integer attribute containing a single integer.
+     * Construct b new set-of-integer bttribute contbining b single integer.
      *
-     * @param  member  Set member.
+     * @pbrbm  member  Set member.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if <CODE>member</CODE> is less than
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if <CODE>member</CODE> is less thbn
      *     zero.
      */
-    protected SetOfIntegerSyntax(int member) {
+    protected SetOfIntegerSyntbx(int member) {
         if (member < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         members = new int[][] {{member, member}};
     }
 
     /**
-     * Construct a new set-of-integer attribute containing a single range of
-     * integers. If the lower bound is greater than the upper bound (a null
-     * range), an empty set is constructed.
+     * Construct b new set-of-integer bttribute contbining b single rbnge of
+     * integers. If the lower bound is grebter thbn the upper bound (b null
+     * rbnge), bn empty set is constructed.
      *
-     * @param  lowerBound  Lower bound of the range.
-     * @param  upperBound  Upper bound of the range.
+     * @pbrbm  lowerBound  Lower bound of the rbnge.
+     * @pbrbm  upperBound  Upper bound of the rbnge.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if the range is non-null and
-     *     <CODE>lowerBound</CODE> is less than zero.
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if the rbnge is non-null bnd
+     *     <CODE>lowerBound</CODE> is less thbn zero.
      */
-    protected SetOfIntegerSyntax(int lowerBound, int upperBound) {
+    protected SetOfIntegerSyntbx(int lowerBound, int upperBound) {
         if (lowerBound <= upperBound && lowerBound < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         members = lowerBound <=upperBound ?
             new int[][] {{lowerBound, upperBound}} :
@@ -390,11 +390,11 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
 
 
     /**
-     * Obtain this set-of-integer attribute's members in canonical array form.
-     * The returned array is "safe;" the client may alter it without affecting
-     * this set-of-integer attribute.
+     * Obtbin this set-of-integer bttribute's members in cbnonicbl brrby form.
+     * The returned brrby is "sbfe;" the client mby blter it without bffecting
+     * this set-of-integer bttribute.
      *
-     * @return  This set-of-integer attribute's members in canonical array form.
+     * @return  This set-of-integer bttribute's members in cbnonicbl brrby form.
      */
     public int[][] getMembers() {
         int n = members.length;
@@ -406,64 +406,64 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
     }
 
     /**
-     * Determine if this set-of-integer attribute contains the given value.
+     * Determine if this set-of-integer bttribute contbins the given vblue.
      *
-     * @param  x  Integer value.
+     * @pbrbm  x  Integer vblue.
      *
-     * @return  True if this set-of-integer attribute contains the value
-     *          <CODE>x</CODE>, false otherwise.
+     * @return  True if this set-of-integer bttribute contbins the vblue
+     *          <CODE>x</CODE>, fblse otherwise.
      */
-    public boolean contains(int x) {
-        // Do a linear search to find the range that contains x, if any.
+    public boolebn contbins(int x) {
+        // Do b linebr sebrch to find the rbnge thbt contbins x, if bny.
         int n = members.length;
         for (int i = 0; i < n; ++ i) {
             if (x < members[i][0]) {
-                return false;
+                return fblse;
             } else if (x <= members[i][1]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Determine if this set-of-integer attribute contains the given integer
-     * attribute's value.
+     * Determine if this set-of-integer bttribute contbins the given integer
+     * bttribute's vblue.
      *
-     * @param  attribute  Integer attribute.
+     * @pbrbm  bttribute  Integer bttribute.
      *
-     * @return  True if this set-of-integer attribute contains
-     *          <CODE>theAttribute</CODE>'s value, false otherwise.
+     * @return  True if this set-of-integer bttribute contbins
+     *          <CODE>theAttribute</CODE>'s vblue, fblse otherwise.
      */
-    public boolean contains(IntegerSyntax attribute) {
-        return contains (attribute.getValue());
+    public boolebn contbins(IntegerSyntbx bttribute) {
+        return contbins (bttribute.getVblue());
     }
 
     /**
-     * Determine the smallest integer in this set-of-integer attribute that is
-     * greater than the given value. If there are no integers in this
-     * set-of-integer attribute greater than the given value, <CODE>-1</CODE> is
-     * returned. (Since a set-of-integer attribute can only contain nonnegative
-     * values, <CODE>-1</CODE> will never appear in the set.) You can use the
-     * <CODE>next()</CODE> method to iterate through the integer values in a
-     * set-of-integer attribute in ascending order, like this:
+     * Determine the smbllest integer in this set-of-integer bttribute thbt is
+     * grebter thbn the given vblue. If there bre no integers in this
+     * set-of-integer bttribute grebter thbn the given vblue, <CODE>-1</CODE> is
+     * returned. (Since b set-of-integer bttribute cbn only contbin nonnegbtive
+     * vblues, <CODE>-1</CODE> will never bppebr in the set.) You cbn use the
+     * <CODE>next()</CODE> method to iterbte through the integer vblues in b
+     * set-of-integer bttribute in bscending order, like this:
      * <PRE>
-     *     SetOfIntegerSyntax attribute = . . .;
+     *     SetOfIntegerSyntbx bttribute = . . .;
      *     int i = -1;
-     *     while ((i = attribute.next (i)) != -1)
+     *     while ((i = bttribute.next (i)) != -1)
      *         {
      *         foo (i);
      *         }
      * </PRE>
      *
-     * @param  x  Integer value.
+     * @pbrbm  x  Integer vblue.
      *
-     * @return  The smallest integer in this set-of-integer attribute that is
-     *          greater than <CODE>x</CODE>, or <CODE>-1</CODE> if no integer in
-     *          this set-of-integer attribute is greater than <CODE>x</CODE>.
+     * @return  The smbllest integer in this set-of-integer bttribute thbt is
+     *          grebter thbn <CODE>x</CODE>, or <CODE>-1</CODE> if no integer in
+     *          this set-of-integer bttribute is grebter thbn <CODE>x</CODE>.
      */
     public int next(int x) {
-        // Do a linear search to find the range that contains x, if any.
+        // Do b linebr sebrch to find the rbnge thbt contbins x, if bny.
         int n = members.length;
         for (int i = 0; i < n; ++ i) {
             if (x < members[i][0]) {
@@ -476,52 +476,52 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
     }
 
     /**
-     * Returns whether this set-of-integer attribute is equivalent to the passed
-     * in object. To be equivalent, all of the following conditions must be
+     * Returns whether this set-of-integer bttribute is equivblent to the pbssed
+     * in object. To be equivblent, bll of the following conditions must be
      * true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class SetOfIntegerSyntax.
+     * <CODE>object</CODE> is bn instbnce of clbss SetOfIntegerSyntbx.
      * <LI>
-     * This set-of-integer attribute's members and <CODE>object</CODE>'s
-     * members are the same.
+     * This set-of-integer bttribute's members bnd <CODE>object</CODE>'s
+     * members bre the sbme.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this
-     *          set-of-integer attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this
+     *          set-of-integer bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        if (object != null && object instanceof SetOfIntegerSyntax) {
+    public boolebn equbls(Object object) {
+        if (object != null && object instbnceof SetOfIntegerSyntbx) {
             int[][] myMembers = this.members;
-            int[][] otherMembers = ((SetOfIntegerSyntax) object).members;
+            int[][] otherMembers = ((SetOfIntegerSyntbx) object).members;
             int m = myMembers.length;
             int n = otherMembers.length;
             if (m == n) {
                 for (int i = 0; i < m; ++ i) {
                     if (myMembers[i][0] != otherMembers[i][0] ||
                         myMembers[i][1] != otherMembers[i][1]) {
-                        return false;
+                        return fblse;
                     }
                 }
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns a hash code value for this set-of-integer attribute. The hash
-     * code is the sum of the lower and upper bounds of the ranges in the
-     * canonical array form, or 0 for an empty set.
+     * Returns b hbsh code vblue for this set-of-integer bttribute. The hbsh
+     * code is the sum of the lower bnd upper bounds of the rbnges in the
+     * cbnonicbl brrby form, or 0 for bn empty set.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int result = 0;
         int n = members.length;
         for (int i = 0; i < n; ++ i) {
@@ -531,11 +531,11 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
     }
 
     /**
-     * Returns a string value corresponding to this set-of-integer attribute.
-     * The string value is a zero-length string if this set is empty. Otherwise,
-     * the string value is a comma-separated list of the ranges in the canonical
-     * array form, where each range is represented as <CODE>"<I>i</I>"</CODE> if
-     * the lower bound equals the upper bound or
+     * Returns b string vblue corresponding to this set-of-integer bttribute.
+     * The string vblue is b zero-length string if this set is empty. Otherwise,
+     * the string vblue is b commb-sepbrbted list of the rbnges in the cbnonicbl
+     * brrby form, where ebch rbnge is represented bs <CODE>"<I>i</I>"</CODE> if
+     * the lower bound equbls the upper bound or
      * <CODE>"<I>i</I>-<I>j</I>"</CODE> otherwise.
      */
     public String toString() {
@@ -543,12 +543,12 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
         int n = members.length;
         for (int i = 0; i < n; i++) {
             if (i > 0) {
-                result.append (',');
+                result.bppend (',');
             }
-            result.append (members[i][0]);
+            result.bppend (members[i][0]);
             if (members[i][0] != members[i][1]) {
-                result.append ('-');
-                result.append (members[i][1]);
+                result.bppend ('-');
+                result.bppend (members[i][1]);
             }
         }
         return result.toString();

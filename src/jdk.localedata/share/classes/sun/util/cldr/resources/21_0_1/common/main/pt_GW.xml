@@ -3,9 +3,9 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5798 $"/>
-		<generation date="$Date: 2011-05-02 15:05:34 +0900 (Mon, 02 May 2011) $"/>
-		<language type="pt"/>
+		<generbtion dbte="$Dbte: 2011-05-02 15:05:34 +0900 (Mon, 02 Mby 2011) $"/>
+		<lbngubge type="pt"/>
 		<territory type="GW"/>
 	</identity>
-	<fallback>pt_PT</fallback>
+	<fbllbbck>pt_PT</fbllbbck>
 </ldml>

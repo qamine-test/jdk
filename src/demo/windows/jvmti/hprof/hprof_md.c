@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,21 +30,21 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-// To ensure winsock2.h is used, it has to be included ahead of
-// windows.h, which includes winsock.h by default.
+// To ensure winsock2.h is used, it hbs to be included bhebd of
+// windows.h, which includes winsock.h by defbult.
 #include <winsock2.h>
 #include <windows.h>
 #include <io.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <mmsystem.h>
 #include <fcntl.h>
 #include <process.h>
@@ -55,7 +55,7 @@
 int
 md_getpid(void)
 {
-    static int pid = -1;
+    stbtic int pid = -1;
 
     if ( pid >= 0 ) {
         return pid;
@@ -76,32 +76,32 @@ md_init(void)
 }
 
 int
-md_connect(char *hostname, unsigned short port)
+md_connect(chbr *hostnbme, unsigned short port)
 {
     struct hostent *hentry;
-    struct sockaddr_in s;
+    struct sockbddr_in s;
     int fd;
 
-    /* find remote host's addr from name */
-    if ((hentry = gethostbyname(hostname)) == NULL) {
+    /* find remote host's bddr from nbme */
+    if ((hentry = gethostbynbme(hostnbme)) == NULL) {
         return -1;
     }
-    (void)memset((char *)&s, 0, sizeof(s));
-    /* set remote host's addr; its already in network byte order */
-    (void)memcpy(&s.sin_addr.s_addr, *(hentry->h_addr_list),
-           (int)sizeof(s.sin_addr.s_addr));
+    (void)memset((chbr *)&s, 0, sizeof(s));
+    /* set remote host's bddr; its blrebdy in network byte order */
+    (void)memcpy(&s.sin_bddr.s_bddr, *(hentry->h_bddr_list),
+           (int)sizeof(s.sin_bddr.s_bddr));
     /* set remote host's port */
     s.sin_port = htons(port);
-    s.sin_family = AF_INET;
+    s.sin_fbmily = AF_INET;
 
-    /* create a socket */
+    /* crebte b socket */
     fd = (int)socket(AF_INET, SOCK_STREAM, 0);
     if (INVALID_SOCKET == fd) {
         return 0;
     }
 
     /* now try connecting */
-    if (SOCKET_ERROR == connect(fd, (struct sockaddr*)&s, sizeof(s))) {
+    if (SOCKET_ERROR == connect(fd, (struct sockbddr*)&s, sizeof(s))) {
         closesocket(fd);
         return 0;
     }
@@ -109,7 +109,7 @@ md_connect(char *hostname, unsigned short port)
 }
 
 int
-md_recv(int f, char *buf, int len, int option)
+md_recv(int f, chbr *buf, int len, int option)
 {
     return recv(f, buf, len, option);
 }
@@ -121,28 +121,28 @@ md_shutdown(int filedes, int option)
 }
 
 int
-md_open(const char *filename)
+md_open(const chbr *filenbme)
 {
-    return open(filename, O_RDONLY);
+    return open(filenbme, O_RDONLY);
 }
 
 int
-md_open_binary(const char *filename)
+md_open_binbry(const chbr *filenbme)
 {
-    return open(filename, O_RDONLY|O_BINARY);
+    return open(filenbme, O_RDONLY|O_BINARY);
 }
 
 int
-md_creat(const char *filename)
+md_crebt(const chbr *filenbme)
 {
-    return open(filename, O_CREAT | O_WRONLY | O_TRUNC,
+    return open(filenbme, O_CREAT | O_WRONLY | O_TRUNC,
                              _S_IREAD | _S_IWRITE);
 }
 
 int
-md_creat_binary(const char *filename)
+md_crebt_binbry(const chbr *filenbme)
 {
-    return open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY,
+    return open(filenbme, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY,
                             _S_IREAD | _S_IWRITE);
 }
 
@@ -166,15 +166,15 @@ md_close(int filedes)
 }
 
 int
-md_send(int s, const char *msg, int len, int flags)
+md_send(int s, const chbr *msg, int len, int flbgs)
 {
-    return send(s, msg, len, flags);
+    return send(s, msg, len, flbgs);
 }
 
 int
-md_read(int filedes, void *buf, int nbyte)
+md_rebd(int filedes, void *buf, int nbyte)
 {
-    return read(filedes, buf, nbyte);
+    return rebd(filedes, buf, nbyte);
 }
 
 int
@@ -190,24 +190,24 @@ md_get_microsecs(void)
 }
 
 #define FT2JLONG(ft) \
-        ((jlong)(ft).dwHighDateTime << 32 | (jlong)(ft).dwLowDateTime)
+        ((jlong)(ft).dwHighDbteTime << 32 | (jlong)(ft).dwLowDbteTime)
 
 jlong
 md_get_timemillis(void)
 {
-    static jlong fileTime_1_1_70 = 0;
+    stbtic jlong fileTime_1_1_70 = 0;
     SYSTEMTIME st0;
     FILETIME   ft0;
 
     if (fileTime_1_1_70 == 0) {
-        /* Initialize fileTime_1_1_70 -- the Win32 file time of midnight
+        /* Initiblize fileTime_1_1_70 -- the Win32 file time of midnight
          * 1/1/70.
          */
 
         memset(&st0, 0, sizeof(st0));
-        st0.wYear  = 1970;
+        st0.wYebr  = 1970;
         st0.wMonth = 1;
-        st0.wDay   = 1;
+        st0.wDby   = 1;
         SystemTimeToFileTime(&st0, &ft0);
         fileTime_1_1_70 = FT2JLONG(ft0);
     }
@@ -219,85 +219,85 @@ md_get_timemillis(void)
 }
 
 jlong
-md_get_thread_cpu_timemillis(void)
+md_get_threbd_cpu_timemillis(void)
 {
     return md_get_timemillis();
 }
 
-HINSTANCE hJavaInst;
-static int nError = 0;
+HINSTANCE hJbvbInst;
+stbtic int nError = 0;
 
 BOOL WINAPI
-DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved)
+DllMbin(HINSTANCE hinst, DWORD rebson, LPVOID reserved)
 {
-    WSADATA wsaData;
-    switch (reason) {
-        case DLL_PROCESS_ATTACH:
-            hJavaInst = hinst;
-            nError = WSAStartup(MAKEWORD(2,0), &wsaData);
-            break;
-        case DLL_PROCESS_DETACH:
-            WSACleanup();
-            hJavaInst = NULL;
-        default:
-            break;
+    WSADATA wsbDbtb;
+    switch (rebson) {
+        cbse DLL_PROCESS_ATTACH:
+            hJbvbInst = hinst;
+            nError = WSAStbrtup(MAKEWORD(2,0), &wsbDbtb);
+            brebk;
+        cbse DLL_PROCESS_DETACH:
+            WSAClebnup();
+            hJbvbInst = NULL;
+        defbult:
+            brebk;
     }
     return TRUE;
 }
 
 void
-md_get_prelude_path(char *path, int path_len, char *filename)
+md_get_prelude_pbth(chbr *pbth, int pbth_len, chbr *filenbme)
 {
-    char libdir[FILENAME_MAX+1];
-    char *lastSlash;
+    chbr libdir[FILENAME_MAX+1];
+    chbr *lbstSlbsh;
 
-    GetModuleFileName(hJavaInst, libdir, FILENAME_MAX);
+    GetModuleFileNbme(hJbvbInst, libdir, FILENAME_MAX);
 
-    /* This is actually in the bin directory, so move above bin for lib */
-    lastSlash = strrchr(libdir, '\\');
-    if ( lastSlash != NULL ) {
-        *lastSlash = '\0';
+    /* This is bctublly in the bin directory, so move bbove bin for lib */
+    lbstSlbsh = strrchr(libdir, '\\');
+    if ( lbstSlbsh != NULL ) {
+        *lbstSlbsh = '\0';
     }
-    lastSlash = strrchr(libdir, '\\');
-    if ( lastSlash != NULL ) {
-        *lastSlash = '\0';
+    lbstSlbsh = strrchr(libdir, '\\');
+    if ( lbstSlbsh != NULL ) {
+        *lbstSlbsh = '\0';
     }
-    (void)md_snprintf(path, path_len, "%s\\lib\\%s", libdir, filename);
+    (void)md_snprintf(pbth, pbth_len, "%s\\lib\\%s", libdir, filenbme);
 }
 
 int
-md_vsnprintf(char *s, int n, const char *format, va_list ap)
+md_vsnprintf(chbr *s, int n, const chbr *formbt, vb_list bp)
 {
-    return _vsnprintf(s, n, format, ap);
+    return _vsnprintf(s, n, formbt, bp);
 }
 
 int
-md_snprintf(char *s, int n, const char *format, ...)
+md_snprintf(chbr *s, int n, const chbr *formbt, ...)
 {
     int ret;
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    ret = md_vsnprintf(s, n, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    ret = md_vsnprintf(s, n, formbt, bp);
+    vb_end(bp);
     return ret;
 }
 
 void
-md_system_error(char *buf, int len)
+md_system_error(chbr *buf, int len)
 {
-    long errval;
+    long errvbl;
 
-    errval = GetLastError();
+    errvbl = GetLbstError();
     buf[0] = '\0';
-    if (errval != 0) {
+    if (errvbl != 0) {
         int n;
 
-        n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
+        n = FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, errvbl,
                               0, buf, len, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
@@ -330,21 +330,21 @@ md_ntohl(unsigned l)
     return ntohl(l);
 }
 
-static int
-get_last_error_string(char *buf, int len)
+stbtic int
+get_lbst_error_string(chbr *buf, int len)
 {
-    long errval;
+    long errvbl;
 
-    errval = GetLastError();
-    if (errval != 0) {
+    errvbl = GetLbstError();
+    if (errvbl != 0) {
         /* DOS error */
         int n;
 
-        n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
+        n = FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, errvbl,
                               0, buf, len, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
@@ -354,8 +354,8 @@ get_last_error_string(char *buf, int len)
     }
 
     if (errno != 0) {
-        /* C runtime error that has no corresponding DOS error code */
-        const char *s;
+        /* C runtime error thbt hbs no corresponding DOS error code */
+        const chbr *s;
         int         n;
 
         s = strerror(errno);
@@ -371,80 +371,80 @@ get_last_error_string(char *buf, int len)
     return 0;
 }
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtic void dll_build_nbme(chbr* buffer, size_t buflen,
+                           const chbr* pbths, const chbr* fnbme) {
+    chbr *pbth, *pbths_copy, *next_token;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
+    pbths_copy = strdup(pbths);
+    if (pbths_copy == NULL) {
         return;
     }
 
     next_token = NULL;
-    path = strtok_s(paths_copy, ";", &next_token);
+    pbth = strtok_s(pbths_copy, ";", &next_token);
 
-    while (path != NULL) {
-        _snprintf(buffer, buflen, "%s\\%s.dll", path, fname);
-        if (_access(buffer, 0) == 0) {
-            break;
+    while (pbth != NULL) {
+        _snprintf(buffer, buflen, "%s\\%s.dll", pbth, fnbme);
+        if (_bccess(buffer, 0) == 0) {
+            brebk;
         }
         *buffer = '\0';
-        path = strtok_s(NULL, ";", &next_token);
+        pbth = strtok_s(NULL, ";", &next_token);
     }
 
-    free(paths_copy);
+    free(pbths_copy);
 }
 
-/* Build a machine dependent library name out of a path and file name.  */
+/* Build b mbchine dependent librbry nbme out of b pbth bnd file nbme.  */
 void
-md_build_library_name(char *holder, int holderlen, const char *pname, const char *fname)
+md_build_librbry_nbme(chbr *holder, int holderlen, const chbr *pnbme, const chbr *fnbme)
 {
-    int   pnamelen;
+    int   pnbmelen;
 
-    pnamelen = pname ? (int)strlen(pname) : 0;
+    pnbmelen = pnbme ? (int)strlen(pnbme) : 0;
 
     *holder = '\0';
-    /* Quietly truncates on buffer overflow. Should be an error. */
-    if (pnamelen + strlen(fname) + 10 > (unsigned int)holderlen) {
+    /* Quietly truncbtes on buffer overflow. Should be bn error. */
+    if (pnbmelen + strlen(fnbme) + 10 > (unsigned int)holderlen) {
         return;
     }
 
-    if (pnamelen == 0) {
-        sprintf(holder, "%s.dll", fname);
+    if (pnbmelen == 0) {
+        sprintf(holder, "%s.dll", fnbme);
     } else {
-      dll_build_name(holder, holderlen, pname, fname);
+      dll_build_nbme(holder, holderlen, pnbme, fnbme);
     }
 }
 
 void *
-md_load_library(const char * name, char *err_buf, int err_buflen)
+md_lobd_librbry(const chbr * nbme, chbr *err_buf, int err_buflen)
 {
     void *result;
 
-    result = LoadLibrary(name);
+    result = LobdLibrbry(nbme);
     if (result == NULL) {
-        /* Error message is pretty lame, try to make a better guess. */
+        /* Error messbge is pretty lbme, try to mbke b better guess. */
         long errcode;
 
-        errcode = GetLastError();
+        errcode = GetLbstError();
         if (errcode == ERROR_MOD_NOT_FOUND) {
-            strncpy(err_buf, "Can't find dependent libraries", err_buflen-2);
+            strncpy(err_buf, "Cbn't find dependent librbries", err_buflen-2);
             err_buf[err_buflen-1] = '\0';
         } else {
-            get_last_error_string(err_buf, err_buflen);
+            get_lbst_error_string(err_buf, err_buflen);
         }
     }
     return result;
 }
 
 void
-md_unload_library(void *handle)
+md_unlobd_librbry(void *hbndle)
 {
-    FreeLibrary(handle);
+    FreeLibrbry(hbndle);
 }
 
 void *
-md_find_library_entry(void *handle, const char *name)
+md_find_librbry_entry(void *hbndle, const chbr *nbme)
 {
-    return GetProcAddress(handle, name);
+    return GetProcAddress(hbndle, nbme);
 }

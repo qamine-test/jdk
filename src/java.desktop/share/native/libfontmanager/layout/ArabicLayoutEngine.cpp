@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -33,180 +33,180 @@
 #include "LETypes.h"
 #include "LEScripts.h"
 #include "LEGlyphFilter.h"
-#include "LEGlyphStorage.h"
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
-#include "ArabicLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "CharSubstitutionFilter.h"
+#include "LEGlyphStorbge.h"
+#include "LbyoutEngine.h"
+#include "OpenTypeLbyoutEngine.h"
+#include "ArbbicLbyoutEngine.h"
+#include "ScriptAndLbngubgeTbgs.h"
+#include "ChbrSubstitutionFilter.h"
 
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphPositioningTbbles.h"
 
-#include "GDEFMarkFilter.h"
+#include "GDEFMbrkFilter.h"
 
-#include "ArabicShaping.h"
-#include "CanonShaping.h"
+#include "ArbbicShbping.h"
+#include "CbnonShbping.h"
 
 U_NAMESPACE_BEGIN
 
-le_bool CharSubstitutionFilter::accept(LEGlyphID glyph, LEErrorCode &/*success*/) const
+le_bool ChbrSubstitutionFilter::bccept(LEGlyphID glyph, LEErrorCode &/*success*/) const
 {
-    return fFontInstance->canDisplay((LEUnicode) glyph);
+    return fFontInstbnce->cbnDisplby((LEUnicode) glyph);
 }
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ArabicOpenTypeLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ArbbicOpenTypeLbyoutEngine)
 
-ArabicOpenTypeLayoutEngine::ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode,
-                                                       le_int32 languageCode, le_int32 typoFlags,
-                                                       const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable,
+ArbbicOpenTypeLbyoutEngine::ArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode,
+                                                       le_int32 lbngubgeCode, le_int32 typoFlbgs,
+                                                       const LEReferenceTo<GlyphSubstitutionTbbleHebder> &gsubTbble,
                                                        LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success)
+    : OpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, gsubTbble, success)
 {
-    fFeatureMap = ArabicShaping::getFeatureMap(fFeatureMapCount);
-    fFeatureOrder = TRUE;
+    fFebtureMbp = ArbbicShbping::getFebtureMbp(fFebtureMbpCount);
+    fFebtureOrder = TRUE;
 }
 
-ArabicOpenTypeLayoutEngine::ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode,
-                                                       le_int32 languageCode,
-                                                       le_int32 typoFlags, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success)
+ArbbicOpenTypeLbyoutEngine::ArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode,
+                                                       le_int32 lbngubgeCode,
+                                                       le_int32 typoFlbgs, LEErrorCode &success)
+    : OpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success)
 {
-    fFeatureMap = ArabicShaping::getFeatureMap(fFeatureMapCount);
+    fFebtureMbp = ArbbicShbping::getFebtureMbp(fFebtureMbpCount);
 
-    // NOTE: We don't need to set fFeatureOrder to TRUE here
-    // because this constructor is only called by the constructor
-    // for UnicodeArabicOpenTypeLayoutEngine, which uses a pre-built
-    // GSUB table that has the features in the correct order.
+    // NOTE: We don't need to set fFebtureOrder to TRUE here
+    // becbuse this constructor is only cblled by the constructor
+    // for UnicodeArbbicOpenTypeLbyoutEngine, which uses b pre-built
+    // GSUB tbble thbt hbs the febtures in the correct order.
 
-    //fFeatureOrder = TRUE;
+    //fFebtureOrder = TRUE;
 }
 
-ArabicOpenTypeLayoutEngine::~ArabicOpenTypeLayoutEngine()
+ArbbicOpenTypeLbyoutEngine::~ArbbicOpenTypeLbyoutEngine()
 {
     // nothing to do
 }
 
-// Input: characters
-// Output: characters, char indices, tags
-// Returns: output character count
-le_int32 ArabicOpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count,
-                                                         le_int32 max, le_bool rightToLeft, LEUnicode *&outChars,
-                                                         LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Input: chbrbcters
+// Output: chbrbcters, chbr indices, tbgs
+// Returns: output chbrbcter count
+le_int32 ArbbicOpenTypeLbyoutEngine::chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count,
+                                                         le_int32 mbx, le_bool rightToLeft, LEUnicode *&outChbrs,
+                                                         LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    outChars = LE_NEW_ARRAY(LEUnicode, count);
+    outChbrs = LE_NEW_ARRAY(LEUnicode, count);
 
-    if (outChars == NULL) {
+    if (outChbrs == NULL) {
         success = LE_MEMORY_ALLOCATION_ERROR;
         return 0;
     }
 
-    glyphStorage.allocateGlyphArray(count, rightToLeft, success);
-    glyphStorage.allocateAuxData(success);
+    glyphStorbge.bllocbteGlyphArrby(count, rightToLeft, success);
+    glyphStorbge.bllocbteAuxDbtb(success);
 
     if (LE_FAILURE(success)) {
-        LE_DELETE_ARRAY(outChars);
+        LE_DELETE_ARRAY(outChbrs);
         return 0;
     }
 
-    CanonShaping::reorderMarks(&chars[offset], count, rightToLeft, outChars, glyphStorage);
+    CbnonShbping::reorderMbrks(&chbrs[offset], count, rightToLeft, outChbrs, glyphStorbge);
 
-    // Note: This processes the *original* character array so we can get context
-    // for the first and last characters. This is OK because only the marks
-    // will have been reordered, and they don't contribute to shaping.
-    ArabicShaping::shape(chars, offset, count, max, rightToLeft, glyphStorage);
+    // Note: This processes the *originbl* chbrbcter brrby so we cbn get context
+    // for the first bnd lbst chbrbcters. This is OK becbuse only the mbrks
+    // will hbve been reordered, bnd they don't contribute to shbping.
+    ArbbicShbping::shbpe(chbrs, offset, count, mbx, rightToLeft, glyphStorbge);
 
     return count;
 }
 
-void ArabicOpenTypeLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                                      LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void ArbbicOpenTypeLbyoutEngine::bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse,
+                                                      LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
+    if (chbrs == NULL || offset < 0 || count < 0) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
 
-    if (!fGPOSTable.isEmpty()) {
-        OpenTypeLayoutEngine::adjustGlyphPositions(chars, offset, count, reverse, glyphStorage, success);
-    } else if (!fGDEFTable.isEmpty()) {
-        GDEFMarkFilter filter(fGDEFTable, success);
-        adjustMarkGlyphs(glyphStorage, &filter, success);
+    if (!fGPOSTbble.isEmpty()) {
+        OpenTypeLbyoutEngine::bdjustGlyphPositions(chbrs, offset, count, reverse, glyphStorbge, success);
+    } else if (!fGDEFTbble.isEmpty()) {
+        GDEFMbrkFilter filter(fGDEFTbble, success);
+        bdjustMbrkGlyphs(glyphStorbge, &filter, success);
     } else {
-      LEReferenceTo<GlyphDefinitionTableHeader> gdefTable(LETableReference::kStaticData,
-                                                          CanonShaping::glyphDefinitionTable,
-                                                          CanonShaping::glyphDefinitionTableLen);
-        GDEFMarkFilter filter(gdefTable, success);
+      LEReferenceTo<GlyphDefinitionTbbleHebder> gdefTbble(LETbbleReference::kStbticDbtb,
+                                                          CbnonShbping::glyphDefinitionTbble,
+                                                          CbnonShbping::glyphDefinitionTbbleLen);
+        GDEFMbrkFilter filter(gdefTbble, success);
 
-        adjustMarkGlyphs(&chars[offset], count, reverse, glyphStorage, &filter, success);
+        bdjustMbrkGlyphs(&chbrs[offset], count, reverse, glyphStorbge, &filter, success);
     }
 }
 
-UnicodeArabicOpenTypeLayoutEngine::UnicodeArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags, LEErrorCode &success)
-  : ArabicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags | LE_CHAR_FILTER_FEATURE_FLAG, success)
+UnicodeArbbicOpenTypeLbyoutEngine::UnicodeArbbicOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, le_int32 typoFlbgs, LEErrorCode &success)
+  : ArbbicOpenTypeLbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs | LE_CHAR_FILTER_FEATURE_FLAG, success)
 {
-  fGSUBTable.setTo(LETableReference::kStaticData, (const GlyphSubstitutionTableHeader *) CanonShaping::glyphSubstitutionTable, CanonShaping::glyphSubstitutionTableLen);
-  fGDEFTable.setTo(LETableReference::kStaticData, (const GlyphDefinitionTableHeader *) CanonShaping::glyphDefinitionTable, CanonShaping::glyphDefinitionTableLen);
-  /* OpenTypeLayoutEngine will allocate a substitution filter */
+  fGSUBTbble.setTo(LETbbleReference::kStbticDbtb, (const GlyphSubstitutionTbbleHebder *) CbnonShbping::glyphSubstitutionTbble, CbnonShbping::glyphSubstitutionTbbleLen);
+  fGDEFTbble.setTo(LETbbleReference::kStbticDbtb, (const GlyphDefinitionTbbleHebder *) CbnonShbping::glyphDefinitionTbble, CbnonShbping::glyphDefinitionTbbleLen);
+  /* OpenTypeLbyoutEngine will bllocbte b substitution filter */
 }
 
-UnicodeArabicOpenTypeLayoutEngine::~UnicodeArabicOpenTypeLayoutEngine()
+UnicodeArbbicOpenTypeLbyoutEngine::~UnicodeArbbicOpenTypeLbyoutEngine()
 {
-    /* OpenTypeLayoutEngine will cleanup the substitution filter */
+    /* OpenTypeLbyoutEngine will clebnup the substitution filter */
 }
 
 // "glyphs", "indices" -> glyphs, indices
-le_int32 UnicodeArabicOpenTypeLayoutEngine::glyphPostProcessing(LEGlyphStorage &tempGlyphStorage, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 UnicodeArbbicOpenTypeLbyoutEngine::glyphPostProcessing(LEGlyphStorbge &tempGlyphStorbge, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    // FIXME: we could avoid the memory allocation and copy if we
-    // made a clone of mapCharsToGlyphs which took the fake glyphs
+    // FIXME: we could bvoid the memory bllocbtion bnd copy if we
+    // mbde b clone of mbpChbrsToGlyphs which took the fbke glyphs
     // directly.
-    le_int32 tempGlyphCount = tempGlyphStorage.getGlyphCount();
-    LEUnicode *tempChars = LE_NEW_ARRAY(LEUnicode, tempGlyphCount);
+    le_int32 tempGlyphCount = tempGlyphStorbge.getGlyphCount();
+    LEUnicode *tempChbrs = LE_NEW_ARRAY(LEUnicode, tempGlyphCount);
 
-    if (tempChars == NULL) {
+    if (tempChbrs == NULL) {
         success = LE_MEMORY_ALLOCATION_ERROR;
         return 0;
     }
 
     for (le_int32 i = 0; i < tempGlyphCount; i += 1) {
-        tempChars[i] = (LEUnicode) LE_GET_GLYPH(tempGlyphStorage[i]);
+        tempChbrs[i] = (LEUnicode) LE_GET_GLYPH(tempGlyphStorbge[i]);
     }
 
-    glyphStorage.adoptCharIndicesArray(tempGlyphStorage);
+    glyphStorbge.bdoptChbrIndicesArrby(tempGlyphStorbge);
 
-    ArabicOpenTypeLayoutEngine::mapCharsToGlyphs(tempChars, 0, tempGlyphCount, FALSE, TRUE, glyphStorage, success);
+    ArbbicOpenTypeLbyoutEngine::mbpChbrsToGlyphs(tempChbrs, 0, tempGlyphCount, FALSE, TRUE, glyphStorbge, success);
 
-    LE_DELETE_ARRAY(tempChars);
+    LE_DELETE_ARRAY(tempChbrs);
 
     return tempGlyphCount;
 }
 
-void UnicodeArabicOpenTypeLayoutEngine::mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool /*mirror*/, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void UnicodeArbbicOpenTypeLbyoutEngine::mbpChbrsToGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, le_bool /*mirror*/, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
+    if (chbrs == NULL || offset < 0 || count < 0) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
@@ -218,28 +218,28 @@ void UnicodeArabicOpenTypeLayoutEngine::mapCharsToGlyphs(const LEUnicode chars[]
         dir = -1;
     }
 
-    glyphStorage.allocateGlyphArray(count, reverse, success);
+    glyphStorbge.bllocbteGlyphArrby(count, reverse, success);
 
     for (i = 0; i < count; i += 1, out += dir) {
-        glyphStorage[out] = (LEGlyphID) chars[offset + i];
+        glyphStorbge[out] = (LEGlyphID) chbrs[offset + i];
     }
 }
 
-void UnicodeArabicOpenTypeLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                                      LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void UnicodeArbbicOpenTypeLbyoutEngine::bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse,
+                                                      LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
+    if (chbrs == NULL || offset < 0 || count < 0) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
 
-    GDEFMarkFilter filter(fGDEFTable, success);
+    GDEFMbrkFilter filter(fGDEFTbble, success);
 
-    adjustMarkGlyphs(&chars[offset], count, reverse, glyphStorage, &filter, success);
+    bdjustMbrkGlyphs(&chbrs[offset], count, reverse, glyphStorbge, &filter, success);
 }
 
 U_NAMESPACE_END

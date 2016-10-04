@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.applet;
+pbckbge jbvb.bpplet;
 
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.image.ColorModel;
-import java.net.URL;
-import java.util.Enumeration;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Iterator;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.net.URL;
+import jbvb.util.Enumerbtion;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Iterbtor;
 
 /**
- * This interface corresponds to an applet's environment: the
- * document containing the applet and the other applets in the same
+ * This interfbce corresponds to bn bpplet's environment: the
+ * document contbining the bpplet bnd the other bpplets in the sbme
  * document.
  * <p>
- * The methods in this interface can be used by an applet to obtain
- * information about its environment.
+ * The methods in this interfbce cbn be used by bn bpplet to obtbin
+ * informbtion bbout its environment.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public interface AppletContext {
+public interfbce AppletContext {
     /**
-     * Creates an audio clip.
+     * Crebtes bn budio clip.
      *
-     * @param   url   an absolute URL giving the location of the audio clip.
-     * @return  the audio clip at the specified URL.
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the budio clip.
+     * @return  the budio clip bt the specified URL.
      */
     AudioClip getAudioClip(URL url);
 
     /**
-     * Returns an <code>Image</code> object that can then be painted on
-     * the screen. The <code>url</code> argument that is
-     * passed as an argument must specify an absolute URL.
+     * Returns bn <code>Imbge</code> object thbt cbn then be pbinted on
+     * the screen. The <code>url</code> brgument thbt is
+     * pbssed bs bn brgument must specify bn bbsolute URL.
      * <p>
-     * This method always returns immediately, whether or not the image
-     * exists. When the applet attempts to draw the image on the screen,
-     * the data will be loaded. The graphics primitives that draw the
-     * image will incrementally paint on the screen.
+     * This method blwbys returns immedibtely, whether or not the imbge
+     * exists. When the bpplet bttempts to drbw the imbge on the screen,
+     * the dbtb will be lobded. The grbphics primitives thbt drbw the
+     * imbge will incrementblly pbint on the screen.
      *
-     * @param   url   an absolute URL giving the location of the image.
-     * @return  the image at the specified URL.
-     * @see     java.awt.Image
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the imbge.
+     * @return  the imbge bt the specified URL.
+     * @see     jbvb.bwt.Imbge
      */
-    Image getImage(URL url);
+    Imbge getImbge(URL url);
 
     /**
-     * Finds and returns the applet in the document represented by this
-     * applet context with the given name. The name can be set in the
-     * HTML tag by setting the <code>name</code> attribute.
+     * Finds bnd returns the bpplet in the document represented by this
+     * bpplet context with the given nbme. The nbme cbn be set in the
+     * HTML tbg by setting the <code>nbme</code> bttribute.
      *
-     * @param   name   an applet name.
-     * @return  the applet with the given name, or <code>null</code> if
+     * @pbrbm   nbme   bn bpplet nbme.
+     * @return  the bpplet with the given nbme, or <code>null</code> if
      *          not found.
      */
-    Applet getApplet(String name);
+    Applet getApplet(String nbme);
 
     /**
-     * Finds all the applets in the document represented by this applet
+     * Finds bll the bpplets in the document represented by this bpplet
      * context.
      *
-     * @return  an enumeration of all applets in the document represented by
-     *          this applet context.
+     * @return  bn enumerbtion of bll bpplets in the document represented by
+     *          this bpplet context.
      */
-    Enumeration<Applet> getApplets();
+    Enumerbtion<Applet> getApplets();
 
     /**
-     * Requests that the browser or applet viewer show the Web page
-     * indicated by the <code>url</code> argument. The browser or
-     * applet viewer determines which window or frame to display the
-     * Web page. This method may be ignored by applet contexts that
-     * are not browsers.
+     * Requests thbt the browser or bpplet viewer show the Web pbge
+     * indicbted by the <code>url</code> brgument. The browser or
+     * bpplet viewer determines which window or frbme to displby the
+     * Web pbge. This method mby be ignored by bpplet contexts thbt
+     * bre not browsers.
      *
-     * @param   url   an absolute URL giving the location of the document.
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the document.
      */
     void showDocument(URL url);
 
     /**
-     * Requests that the browser or applet viewer show the Web page
-     * indicated by the <code>url</code> argument. The
-     * <code>target</code> argument indicates in which HTML frame the
-     * document is to be displayed.
-     * The target argument is interpreted as follows:
+     * Requests thbt the browser or bpplet viewer show the Web pbge
+     * indicbted by the <code>url</code> brgument. The
+     * <code>tbrget</code> brgument indicbtes in which HTML frbme the
+     * document is to be displbyed.
+     * The tbrget brgument is interpreted bs follows:
      *
-     * <center><table border="3" summary="Target arguments and their descriptions">
-     * <tr><th>Target Argument</th><th>Description</th></tr>
-     * <tr><td><code>"_self"</code>  <td>Show in the window and frame that
-     *                                   contain the applet.</tr>
-     * <tr><td><code>"_parent"</code><td>Show in the applet's parent frame. If
-     *                                   the applet's frame has no parent frame,
-     *                                   acts the same as "_self".</tr>
-     * <tr><td><code>"_top"</code>   <td>Show in the top-level frame of the applet's
-     *                                   window. If the applet's frame is the
-     *                                   top-level frame, acts the same as "_self".</tr>
-     * <tr><td><code>"_blank"</code> <td>Show in a new, unnamed
+     * <center><tbble border="3" summbry="Tbrget brguments bnd their descriptions">
+     * <tr><th>Tbrget Argument</th><th>Description</th></tr>
+     * <tr><td><code>"_self"</code>  <td>Show in the window bnd frbme thbt
+     *                                   contbin the bpplet.</tr>
+     * <tr><td><code>"_pbrent"</code><td>Show in the bpplet's pbrent frbme. If
+     *                                   the bpplet's frbme hbs no pbrent frbme,
+     *                                   bcts the sbme bs "_self".</tr>
+     * <tr><td><code>"_top"</code>   <td>Show in the top-level frbme of the bpplet's
+     *                                   window. If the bpplet's frbme is the
+     *                                   top-level frbme, bcts the sbme bs "_self".</tr>
+     * <tr><td><code>"_blbnk"</code> <td>Show in b new, unnbmed
      *                                   top-level window.</tr>
-     * <tr><td><i>name</i><td>Show in the frame or window named <i>name</i>. If
-     *                        a target named <i>name</i> does not already exist, a
-     *                        new top-level window with the specified name is created,
-     *                        and the document is shown there.</tr>
-     * </table> </center>
+     * <tr><td><i>nbme</i><td>Show in the frbme or window nbmed <i>nbme</i>. If
+     *                        b tbrget nbmed <i>nbme</i> does not blrebdy exist, b
+     *                        new top-level window with the specified nbme is crebted,
+     *                        bnd the document is shown there.</tr>
+     * </tbble> </center>
      * <p>
-     * An applet viewer or browser is free to ignore <code>showDocument</code>.
+     * An bpplet viewer or browser is free to ignore <code>showDocument</code>.
      *
-     * @param   url   an absolute URL giving the location of the document.
-     * @param   target   a <code>String</code> indicating where to display
-     *                   the page.
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the document.
+     * @pbrbm   tbrget   b <code>String</code> indicbting where to displby
+     *                   the pbge.
      */
-    public void showDocument(URL url, String target);
+    public void showDocument(URL url, String tbrget);
 
     /**
-     * Requests that the argument string be displayed in the
-     * "status window". Many browsers and applet viewers
-     * provide such a window, where the application can inform users of
-     * its current state.
+     * Requests thbt the brgument string be displbyed in the
+     * "stbtus window". Mbny browsers bnd bpplet viewers
+     * provide such b window, where the bpplicbtion cbn inform users of
+     * its current stbte.
      *
-     * @param   status   a string to display in the status window.
+     * @pbrbm   stbtus   b string to displby in the stbtus window.
      */
-    void showStatus(String status);
+    void showStbtus(String stbtus);
 
     /**
-     * Associates the specified stream with the specified key in this
-     * applet context. If the applet context previously contained a mapping
-     * for this key, the old value is replaced.
+     * Associbtes the specified strebm with the specified key in this
+     * bpplet context. If the bpplet context previously contbined b mbpping
+     * for this key, the old vblue is replbced.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For security rebsons, mbpping of strebms bnd keys exists for ebch
+     * codebbse. In other words, bpplet from one codebbse cbnnot bccess
+     * the strebms crebted by bn bpplet from b different codebbse
      *
-     * @param key key with which the specified value is to be associated.
-     * @param stream stream to be associated with the specified key. If this
-     *               parameter is <code>null</code>, the specified key is removed
-     *               in this applet context.
-     * @throws IOException if the stream size exceeds a certain
+     * @pbrbm key key with which the specified vblue is to be bssocibted.
+     * @pbrbm strebm strebm to be bssocibted with the specified key. If this
+     *               pbrbmeter is <code>null</code>, the specified key is removed
+     *               in this bpplet context.
+     * @throws IOException if the strebm size exceeds b certbin
      *         size limit. Size limit is decided by the implementor of this
-     *         interface.
+     *         interfbce.
      * @since 1.4
      */
-    public void setStream(String key, InputStream stream)throws IOException;
+    public void setStrebm(String key, InputStrebm strebm)throws IOException;
 
     /**
-     * Returns the stream to which specified key is associated within this
-     * applet context. Returns <tt>null</tt> if the applet context contains
-     * no stream for this key.
+     * Returns the strebm to which specified key is bssocibted within this
+     * bpplet context. Returns <tt>null</tt> if the bpplet context contbins
+     * no strebm for this key.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For security rebsons, mbpping of strebms bnd keys exists for ebch
+     * codebbse. In other words, bpplet from one codebbse cbnnot bccess
+     * the strebms crebted by bn bpplet from b different codebbse
      *
-     * @return the stream to which this applet context maps the key
-     * @param key key whose associated stream is to be returned.
+     * @return the strebm to which this bpplet context mbps the key
+     * @pbrbm key key whose bssocibted strebm is to be returned.
      * @since 1.4
      */
-    public InputStream getStream(String key);
+    public InputStrebm getStrebm(String key);
 
     /**
-     * Finds all the keys of the streams in this applet context.
+     * Finds bll the keys of the strebms in this bpplet context.
      * <p>
-     * For security reasons, mapping of streams and keys exists for each
-     * codebase. In other words, applet from one codebase cannot access
-     * the streams created by an applet from a different codebase
+     * For security rebsons, mbpping of strebms bnd keys exists for ebch
+     * codebbse. In other words, bpplet from one codebbse cbnnot bccess
+     * the strebms crebted by bn bpplet from b different codebbse
      *
-     * @return  an Iterator of all the names of the streams in this applet
+     * @return  bn Iterbtor of bll the nbmes of the strebms in this bpplet
      *          context.
      * @since 1.4
      */
-    public Iterator<String> getStreamKeys();
+    public Iterbtor<String> getStrebmKeys();
 }

@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.io.IOException;
-import java.util.Objects;
+import jbvb.nio.file.bttribute.BbsicFileAttributes;
+import jbvb.io.IOException;
+import jbvb.util.Objects;
 
 /**
- * A simple visitor of files with default behavior to visit all files and to
+ * A simple visitor of files with defbult behbvior to visit bll files bnd to
  * re-throw I/O errors.
  *
- * <p> Methods in this class may be overridden subject to their general contract.
+ * <p> Methods in this clbss mby be overridden subject to their generbl contrbct.
  *
- * @param   <T>     The type of reference to the files
+ * @pbrbm   <T>     The type of reference to the files
  *
  * @since 1.7
  */
 
-public class SimpleFileVisitor<T> implements FileVisitor<T> {
+public clbss SimpleFileVisitor<T> implements FileVisitor<T> {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
     protected SimpleFileVisitor() {
     }
 
     /**
-     * Invoked for a directory before entries in the directory are visited.
+     * Invoked for b directory before entries in the directory bre visited.
      *
      * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
      * CONTINUE}.
      */
     @Override
-    public FileVisitResult preVisitDirectory(T dir, BasicFileAttributes attrs)
+    public FileVisitResult preVisitDirectory(T dir, BbsicFileAttributes bttrs)
         throws IOException
     {
         Objects.requireNonNull(dir);
-        Objects.requireNonNull(attrs);
+        Objects.requireNonNull(bttrs);
         return FileVisitResult.CONTINUE;
     }
 
     /**
-     * Invoked for a file in a directory.
+     * Invoked for b file in b directory.
      *
      * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
      * CONTINUE}.
      */
     @Override
-    public FileVisitResult visitFile(T file, BasicFileAttributes attrs)
+    public FileVisitResult visitFile(T file, BbsicFileAttributes bttrs)
         throws IOException
     {
         Objects.requireNonNull(file);
-        Objects.requireNonNull(attrs);
+        Objects.requireNonNull(bttrs);
         return FileVisitResult.CONTINUE;
     }
 
     /**
-     * Invoked for a file that could not be visited.
+     * Invoked for b file thbt could not be visited.
      *
-     * <p> Unless overridden, this method re-throws the I/O exception that prevented
+     * <p> Unless overridden, this method re-throws the I/O exception thbt prevented
      * the file from being visited.
      */
     @Override
-    public FileVisitResult visitFileFailed(T file, IOException exc)
+    public FileVisitResult visitFileFbiled(T file, IOException exc)
         throws IOException
     {
         Objects.requireNonNull(file);
@@ -92,13 +92,13 @@ public class SimpleFileVisitor<T> implements FileVisitor<T> {
     }
 
     /**
-     * Invoked for a directory after entries in the directory, and all of their
-     * descendants, have been visited.
+     * Invoked for b directory bfter entries in the directory, bnd bll of their
+     * descendbnts, hbve been visited.
      *
      * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
-     * CONTINUE} if the directory iteration completes without an I/O exception;
-     * otherwise this method re-throws the I/O exception that caused the iteration
-     * of the directory to terminate prematurely.
+     * CONTINUE} if the directory iterbtion completes without bn I/O exception;
+     * otherwise this method re-throws the I/O exception thbt cbused the iterbtion
+     * of the directory to terminbte prembturely.
      */
     @Override
     public FileVisitResult postVisitDirectory(T dir, IOException exc)

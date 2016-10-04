@@ -1,1092 +1,1092 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.rmi.MarshalledObject;
-import java.rmi.Remote;
-import java.util.Set;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.Remote;
+import jbvb.util.Set;
 
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServerConnection;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
 
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.RuntimeMBeanException;
-import javax.management.RuntimeOperationsException;
-import javax.management.remote.NotificationResult;
-import javax.security.auth.Subject;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.RuntimeMBebnException;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.security.buth.Subject;
 
 /**
- * <p>RMI object used to forward an MBeanServer request from a client
- * to its MBeanServer implementation on the server side.  There is one
- * Remote object implementing this interface for each remote client
- * connected to an RMI connector.</p>
+ * <p>RMI object used to forwbrd bn MBebnServer request from b client
+ * to its MBebnServer implementbtion on the server side.  There is one
+ * Remote object implementing this interfbce for ebch remote client
+ * connected to bn RMI connector.</p>
  *
- * <p>User code does not usually refer to this interface.  It is
- * specified as part of the public API so that different
- * implementations of that API will interoperate.</p>
+ * <p>User code does not usublly refer to this interfbce.  It is
+ * specified bs pbrt of the public API so thbt different
+ * implementbtions of thbt API will interoperbte.</p>
  *
- * <p>To ensure that client parameters will be deserialized at the
- * server side with the correct classloader, client parameters such as
- * parameters used to invoke a method are wrapped in a {@link
- * MarshalledObject}.  An implementation of this interface must first
- * get the appropriate class loader for the operation and its target,
- * then deserialize the marshalled parameters with this classloader.
- * Except as noted, a parameter that is a
- * <code>MarshalledObject</code> or <code>MarshalledObject[]</code>
- * must not be null; the behavior is unspecified if it is.</p>
+ * <p>To ensure thbt client pbrbmeters will be deseriblized bt the
+ * server side with the correct clbsslobder, client pbrbmeters such bs
+ * pbrbmeters used to invoke b method bre wrbpped in b {@link
+ * MbrshblledObject}.  An implementbtion of this interfbce must first
+ * get the bppropribte clbss lobder for the operbtion bnd its tbrget,
+ * then deseriblize the mbrshblled pbrbmeters with this clbsslobder.
+ * Except bs noted, b pbrbmeter thbt is b
+ * <code>MbrshblledObject</code> or <code>MbrshblledObject[]</code>
+ * must not be null; the behbvior is unspecified if it is.</p>
  *
- * <p>Class loading aspects are detailed in the
- * <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
- * JMX Specification, version 1.4</a> PDF document.</p>
+ * <p>Clbss lobding bspects bre detbiled in the
+ * <b href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specificbtion.pdf">
+ * JMX Specificbtion, version 1.4</b> PDF document.</p>
  *
- * <p>Most methods in this interface parallel methods in the {@link
- * MBeanServerConnection} interface.  Where an aspect of the behavior
- * of a method is not specified here, it is the same as in the
- * corresponding <code>MBeanServerConnection</code> method.
+ * <p>Most methods in this interfbce pbrbllel methods in the {@link
+ * MBebnServerConnection} interfbce.  Where bn bspect of the behbvior
+ * of b method is not specified here, it is the sbme bs in the
+ * corresponding <code>MBebnServerConnection</code> method.
  *
  * @since 1.5
  */
 /*
- * Notice that we omit the type parameter from MarshalledObject everywhere,
- * even though it would add useful information to the documentation.  The
- * reason is that it was only added in Mustang (Java SE 6), whereas versions
- * 1.4 and 2.0 of the JMX API must be implementable on Tiger per our
- * commitments for JSR 255.  This is also why we suppress rawtypes warnings.
+ * Notice thbt we omit the type pbrbmeter from MbrshblledObject everywhere,
+ * even though it would bdd useful informbtion to the documentbtion.  The
+ * rebson is thbt it wbs only bdded in Mustbng (Jbvb SE 6), wherebs versions
+ * 1.4 bnd 2.0 of the JMX API must be implementbble on Tiger per our
+ * commitments for JSR 255.  This is blso why we suppress rbwtypes wbrnings.
  */
-@SuppressWarnings("rawtypes")
-public interface RMIConnection extends Closeable, Remote {
+@SuppressWbrnings("rbwtypes")
+public interfbce RMIConnection extends Closebble, Remote {
     /**
      * <p>Returns the connection ID.  This string is different for
-     * every open connection to a given RMI connector server.</p>
+     * every open connection to b given RMI connector server.</p>
      *
      * @return the connection ID
      *
      * @see RMIConnector#connect RMIConnector.connect
      *
-     * @throws IOException if a general communication exception occurred.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
     public String getConnectionId() throws IOException;
 
     /**
      * <p>Closes this connection.  On return from this method, the RMI
-     * object implementing this interface is unexported, so further
-     * remote calls to it will fail.</p>
+     * object implementing this interfbce is unexported, so further
+     * remote cblls to it will fbil.</p>
      *
      * @throws IOException if the connection could not be closed,
-     * or the Remote object could not be unexported, or there was a
-     * communication failure when transmitting the remote close
+     * or the Remote object could not be unexported, or there wbs b
+     * communicbtion fbilure when trbnsmitting the remote close
      * request.
      */
     public void close() throws IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName)}.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#crebteMBebn(String,
+     * ObjectNbme)}.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm nbme The object nbme of the MBebn. Mby be null.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @return An <code>ObjectInstbnce</code>, contbining the
+     * <code>ObjectNbme</code> bnd the Jbvb clbss nbme of the newly
+     * instbntibted MBebn.  If the contbined <code>ObjectNbme</code>
+     * is <code>n</code>, the contbined Jbvb clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(n)}.getClbssNbme()</code>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred
-     * when trying to invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.ClbssNotFoundException</code> or b
+     * <code>jbvb.lbng.Exception</code> thbt occurred
+     * when trying to invoke the MBebn's constructor.
+     * @throws InstbnceAlrebdyExistsException The MBebn is blrebdy
+     * under the control of the MBebn server.
+     * @throws MBebnRegistrbtionException The
+     * <code>preRegister</code> (<code>MBebnRegistrbtion</code>
+     * interfbce) method of the MBebn hbs thrown bn exception. The
+     * MBebn will not be registered.
+     * @throws MBebnException The constructor of the MBebn hbs
+     * thrown bn exception.
+     * @throws NotComplibntMBebnException This clbss is not b JMX
+     * complibnt MBebn.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The clbssNbme
+     * pbssed in pbrbmeter is null, the <code>ObjectNbme</code> pbssed
+     * in pbrbmeter contbins b pbttern or no <code>ObjectNbme</code>
+     * is specified for the MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, ObjectName)}.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#crebteMBebn(String,
+     * ObjectNbme, ObjectNbme)}.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param loaderName The object name of the class loader to be used.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm nbme The object nbme of the MBebn. Mby be null.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @return An <code>ObjectInstbnce</code>, contbining the
+     * <code>ObjectNbme</code> bnd the Jbvb clbss nbme of the newly
+     * instbntibted MBebn.  If the contbined <code>ObjectNbme</code>
+     * is <code>n</code>, the contbined Jbvb clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(n)}.getClbssNbme()</code>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.ClbssNotFoundException</code> or b
+     * <code>jbvb.lbng.Exception</code> thbt occurred when trying to
+     * invoke the MBebn's constructor.
+     * @throws InstbnceAlrebdyExistsException The MBebn is blrebdy
+     * under the control of the MBebn server.
+     * @throws MBebnRegistrbtionException The
+     * <code>preRegister</code> (<code>MBebnRegistrbtion</code>
+     * interfbce) method of the MBebn hbs thrown bn exception. The
+     * MBebn will not be registered.
+     * @throws MBebnException The constructor of the MBebn hbs
+     * thrown bn exception.
+     * @throws NotComplibntMBebnException This clbss is not b JMX
+     * complibnt MBebn.
+     * @throws InstbnceNotFoundException The specified clbss lobder
+     * is not registered in the MBebn server.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The clbssNbme
+     * pbssed in pbrbmeter is null, the <code>ObjectNbme</code> pbssed
+     * in pbrbmeter contbins b pbttern or no <code>ObjectNbme</code>
+     * is specified for the MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      ObjectName loaderName,
-                                      Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      ObjectNbme lobderNbme,
+                                      Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, Object[], String[])}.  The <code>Object[]</code>
-     * parameter is wrapped in a <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#crebteMBebn(String,
+     * ObjectNbme, Object[], String[])}.  The <code>Object[]</code>
+     * pbrbmeter is wrbpped in b <code>MbrshblledObject</code>.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm nbme The object nbme of the MBebn. Mby be null.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the
+     * constructor to be invoked, encbpsulbted into b
+     * <code>MbrshblledObject</code>.  The encbpsulbted brrby cbn be
+     * null, equivblent to bn empty brrby.
+     * @pbrbm signbture An brrby contbining the signbture of the
+     * constructor to be invoked.  Cbn be null, equivblent to bn empty
+     * brrby.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @return An <code>ObjectInstbnce</code>, contbining the
+     * <code>ObjectNbme</code> bnd the Jbvb clbss nbme of the newly
+     * instbntibted MBebn.  If the contbined <code>ObjectNbme</code>
+     * is <code>n</code>, the contbined Jbvb clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(n)}.getClbssNbme()</code>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern, or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.ClbssNotFoundException</code> or b
+     * <code>jbvb.lbng.Exception</code> thbt occurred when trying to
+     * invoke the MBebn's constructor.
+     * @throws InstbnceAlrebdyExistsException The MBebn is blrebdy
+     * under the control of the MBebn server.
+     * @throws MBebnRegistrbtionException The
+     * <code>preRegister</code> (<code>MBebnRegistrbtion</code>
+     * interfbce) method of the MBebn hbs thrown bn exception. The
+     * MBebn will not be registered.
+     * @throws MBebnException The constructor of the MBebn hbs
+     * thrown bn exception.
+     * @throws NotComplibntMBebnException This clbss is not b JMX
+     * complibnt MBebn.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The clbssNbme
+     * pbssed in pbrbmeter is null, the <code>ObjectNbme</code> pbssed
+     * in pbrbmeter contbins b pbttern, or no <code>ObjectNbme</code>
+     * is specified for the MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public ObjectInstance createMBean(String className,
-                                ObjectName name,
-                                MarshalledObject params,
-                                String signature[],
-                                Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                ObjectNbme nbme,
+                                MbrshblledObject pbrbms,
+                                String signbture[],
+                                Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, ObjectName, Object[], String[])}.  The
-     * <code>Object[]</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#crebteMBebn(String,
+     * ObjectNbme, ObjectNbme, Object[], String[])}.  The
+     * <code>Object[]</code> pbrbmeter is wrbpped in b
+     * <code>MbrshblledObject</code>.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param loaderName The object name of the class loader to be used.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm clbssNbme The clbss nbme of the MBebn to be instbntibted.
+     * @pbrbm nbme The object nbme of the MBebn. Mby be null.
+     * @pbrbm lobderNbme The object nbme of the clbss lobder to be used.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters of the
+     * constructor to be invoked, encbpsulbted into b
+     * <code>MbrshblledObject</code>.  The encbpsulbted brrby cbn be
+     * null, equivblent to bn empty brrby.
+     * @pbrbm signbture An brrby contbining the signbture of the
+     * constructor to be invoked.  Cbn be null, equivblent to bn empty
+     * brrby.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @return An <code>ObjectInstbnce</code>, contbining the
+     * <code>ObjectNbme</code> bnd the Jbvb clbss nbme of the newly
+     * instbntibted MBebn.  If the contbined <code>ObjectNbme</code>
+     * is <code>n</code>, the contbined Jbvb clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(n)}.getClbssNbme()</code>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern, or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.ClbssNotFoundException</code> or b
+     * <code>jbvb.lbng.Exception</code> thbt occurred when trying to
+     * invoke the MBebn's constructor.
+     * @throws InstbnceAlrebdyExistsException The MBebn is blrebdy
+     * under the control of the MBebn server.
+     * @throws MBebnRegistrbtionException The
+     * <code>preRegister</code> (<code>MBebnRegistrbtion</code>
+     * interfbce) method of the MBebn hbs thrown bn exception. The
+     * MBebn will not be registered.
+     * @throws MBebnException The constructor of the MBebn hbs
+     * thrown bn exception.
+     * @throws NotComplibntMBebnException This clbss is not b JMX
+     * complibnt MBebn.
+     * @throws InstbnceNotFoundException The specified clbss lobder
+     * is not registered in the MBebn server.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The clbssNbme
+     * pbssed in pbrbmeter is null, the <code>ObjectNbme</code> pbssed
+     * in pbrbmeter contbins b pbttern, or no <code>ObjectNbme</code>
+     * is specified for the MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public ObjectInstance createMBean(String className,
-                                ObjectName name,
-                                ObjectName loaderName,
-                                MarshalledObject params,
-                                String signature[],
-                                Subject delegationSubject)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                ObjectNbme nbme,
+                                ObjectNbme lobderNbme,
+                                MbrshblledObject pbrbms,
+                                String signbture[],
+                                Subject delegbtionSubject)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException,
         IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#unregisterMBean(ObjectName)}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#unregisterMBebn(ObjectNbme)}.
      *
-     * @param name The object name of the MBean to be unregistered.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme of the MBebn to be unregistered.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws MBeanRegistrationException The preDeregister
-     * ((<code>MBeanRegistration</code> interface) method of the MBean
-     * has thrown an exception.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the MBean you are when trying to
-     * unregister is the {@link javax.management.MBeanServerDelegate
-     * MBeanServerDelegate} MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws MBebnRegistrbtionException The preDeregister
+     * ((<code>MBebnRegistrbtion</code> interfbce) method of the MBebn
+     * hbs thrown bn exception.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null or the MBebn you bre when trying to
+     * unregister is the {@link jbvbx.mbnbgement.MBebnServerDelegbte
+     * MBebnServerDelegbte} MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public void unregisterMBean(ObjectName name, Subject delegationSubject)
+    public void unregisterMBebn(ObjectNbme nbme, Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
-        MBeanRegistrationException,
+        InstbnceNotFoundException,
+        MBebnRegistrbtionException,
         IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getObjectInstance(ObjectName)}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#getObjectInstbnce(ObjectNbme)}.
      *
-     * @param name The object name of the MBean.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme of the MBebn.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return The <code>ObjectInstance</code> associated with the MBean
-     * specified by <var>name</var>.  The contained <code>ObjectName</code>
-     * is <code>name</code> and the contained class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(name)}.getClassName()</code>.
+     * @return The <code>ObjectInstbnce</code> bssocibted with the MBebn
+     * specified by <vbr>nbme</vbr>.  The contbined <code>ObjectNbme</code>
+     * is <code>nbme</code> bnd the contbined clbss nbme is
+     * <code>{@link #getMBebnInfo getMBebnInfo(nbme)}.getClbssNbme()</code>.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public ObjectInstance getObjectInstance(ObjectName name,
-                                            Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme,
+                                            Subject delegbtionSubject)
+        throws InstbnceNotFoundException, IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#queryMBeans(ObjectName,
-     * QueryExp)}.  The <code>QueryExp</code> is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#queryMBebns(ObjectNbme,
+     * QueryExp)}.  The <code>QueryExp</code> is wrbpped in b
+     * <code>MbrshblledObject</code>.
      *
-     * @param name The object name pattern identifying the MBeans to
-     * be retrieved. If null or no domain and key properties are
-     * specified, all the MBeans registered will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans, encapsulated into a <code>MarshalledObject</code>. If
-     * the <code>MarshalledObject</code> encapsulates a null value no
-     * query expression will be applied for selecting MBeans.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme pbttern identifying the MBebns to
+     * be retrieved. If null or no dombin bnd key properties bre
+     * specified, bll the MBebns registered will be retrieved.
+     * @pbrbm query The query expression to be bpplied for selecting
+     * MBebns, encbpsulbted into b <code>MbrshblledObject</code>. If
+     * the <code>MbrshblledObject</code> encbpsulbtes b null vblue no
+     * query expression will be bpplied for selecting MBebns.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return A set containing the <code>ObjectInstance</code>
-     * objects for the selected MBeans.  If no MBean satisfies the
-     * query an empty list is returned.
+     * @return A set contbining the <code>ObjectInstbnce</code>
+     * objects for the selected MBebns.  If no MBebn sbtisfies the
+     * query bn empty list is returned.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public Set<ObjectInstance>
-        queryMBeans(ObjectName name,
-                    MarshalledObject query,
-                    Subject delegationSubject)
+    public Set<ObjectInstbnce>
+        queryMBebns(ObjectNbme nbme,
+                    MbrshblledObject query,
+                    Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#queryNames(ObjectName,
-     * QueryExp)}.  The <code>QueryExp</code> is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#queryNbmes(ObjectNbme,
+     * QueryExp)}.  The <code>QueryExp</code> is wrbpped in b
+     * <code>MbrshblledObject</code>.
      *
-     * @param name The object name pattern identifying the MBean names
-     * to be retrieved. If null or no domain and key properties are
-     * specified, the name of all registered MBeans will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans, encapsulated into a <code>MarshalledObject</code>. If
-     * the <code>MarshalledObject</code> encapsulates a null value no
-     * query expression will be applied for selecting MBeans.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme pbttern identifying the MBebn nbmes
+     * to be retrieved. If null or no dombin bnd key properties bre
+     * specified, the nbme of bll registered MBebns will be retrieved.
+     * @pbrbm query The query expression to be bpplied for selecting
+     * MBebns, encbpsulbted into b <code>MbrshblledObject</code>. If
+     * the <code>MbrshblledObject</code> encbpsulbtes b null vblue no
+     * query expression will be bpplied for selecting MBebns.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return A set containing the ObjectNames for the MBeans
-     * selected.  If no MBean satisfies the query, an empty list is
+     * @return A set contbining the ObjectNbmes for the MBebns
+     * selected.  If no MBebn sbtisfies the query, bn empty list is
      * returned.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public Set<ObjectName>
-        queryNames(ObjectName name,
-                   MarshalledObject query,
-                   Subject delegationSubject)
+    public Set<ObjectNbme>
+        queryNbmes(ObjectNbme nbme,
+                   MbrshblledObject query,
+                   Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#isRegistered(ObjectName)}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#isRegistered(ObjectNbme)}.
      *
-     * @param name The object name of the MBean to be checked.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme of the MBebn to be checked.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return True if the MBean is already registered in the MBean
-     * server, false otherwise.
+     * @return True if the MBebn is blrebdy registered in the MBebn
+     * server, fblse otherwise.
      *
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public boolean isRegistered(ObjectName name, Subject delegationSubject)
+    public boolebn isRegistered(ObjectNbme nbme, Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getMBeanCount()}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#getMBebnCount()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return the number of MBeans registered.
+     * @return the number of MBebns registered.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public Integer getMBeanCount(Subject delegationSubject)
+    public Integer getMBebnCount(Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#getAttribute(ObjectName,
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#getAttribute(ObjectNbme,
      * String)}.
      *
-     * @param name The object name of the MBean from which the
-     * attribute is to be retrieved.
-     * @param attribute A String specifying the name of the attribute
+     * @pbrbm nbme The object nbme of the MBebn from which the
+     * bttribute is to be retrieved.
+     * @pbrbm bttribute A String specifying the nbme of the bttribute
      * to be retrieved.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return  The value of the retrieved attribute.
+     * @return  The vblue of the retrieved bttribute.
      *
-     * @throws AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's getter.
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown when trying to invoke
+     * @throws AttributeNotFoundException The bttribute specified
+     * is not bccessible in the MBebn.
+     * @throws MBebnException Wrbps bn exception thrown by the
+     * MBebn's getter.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.Exception</code> thrown when trying to invoke
      * the getter.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null or the bttribute in pbrbmeter is
      * null.
-     * @throws RuntimeMBeanException Wraps a runtime exception thrown
-     * by the MBean's getter.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws RuntimeMBebnException Wrbps b runtime exception thrown
+     * by the MBebn's getter.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      *
      * @see #setAttribute
      */
-    public Object getAttribute(ObjectName name,
-                               String attribute,
-                               Subject delegationSubject)
+    public Object getAttribute(ObjectNbme nbme,
+                               String bttribute,
+                               Subject delegbtionSubject)
         throws
-        MBeanException,
+        MBebnException,
         AttributeNotFoundException,
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#getAttributes(ObjectName,
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#getAttributes(ObjectNbme,
      * String[])}.
      *
-     * @param name The object name of the MBean from which the
-     * attributes are retrieved.
-     * @param attributes A list of the attributes to be retrieved.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme of the MBebn from which the
+     * bttributes bre retrieved.
+     * @pbrbm bttributes A list of the bttributes to be retrieved.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return The list of the retrieved attributes.
+     * @return The list of the retrieved bttributes.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
      * @throws ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @throws RuntimeOperationsException Wrap a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * trying to invoke the getAttributes method of b Dynbmic MBebn.
+     * @throws RuntimeOperbtionsException Wrbp b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null or bttributes in pbrbmeter is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      *
      * @see #setAttributes
      */
-    public AttributeList getAttributes(ObjectName name,
-                                       String[] attributes,
-                                       Subject delegationSubject)
+    public AttributeList getAttributes(ObjectNbme nbme,
+                                       String[] bttributes,
+                                       Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#setAttribute(ObjectName,
-     * Attribute)}.  The <code>Attribute</code> parameter is wrapped
-     * in a <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#setAttribute(ObjectNbme,
+     * Attribute)}.  The <code>Attribute</code> pbrbmeter is wrbpped
+     * in b <code>MbrshblledObject</code>.
      *
-     * @param name The name of the MBean within which the attribute is
+     * @pbrbm nbme The nbme of the MBebn within which the bttribute is
      * to be set.
-     * @param attribute The identification of the attribute to be set
-     * and the value it is to be set to, encapsulated into a
-     * <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm bttribute The identificbtion of the bttribute to be set
+     * bnd the vblue it is to be set to, encbpsulbted into b
+     * <code>MbrshblledObject</code>.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @throws InvalidAttributeValueException The value specified
-     * for the attribute is not valid.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's setter.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown when trying to invoke
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws AttributeNotFoundException The bttribute specified
+     * is not bccessible in the MBebn.
+     * @throws InvblidAttributeVblueException The vblue specified
+     * for the bttribute is not vblid.
+     * @throws MBebnException Wrbps bn exception thrown by the
+     * MBebn's setter.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.Exception</code> thrown when trying to invoke
      * the setter.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null or the bttribute in pbrbmeter is
      * null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      *
      * @see #getAttribute
      */
-    public void setAttribute(ObjectName name,
-                             MarshalledObject attribute,
-                             Subject delegationSubject)
+    public void setAttribute(ObjectNbme nbme,
+                             MbrshblledObject bttribute,
+                             Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         AttributeNotFoundException,
-        InvalidAttributeValueException,
-        MBeanException,
+        InvblidAttributeVblueException,
+        MBebnException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#setAttributes(ObjectName,
-     * AttributeList)}.  The <code>AttributeList</code> parameter is
-     * wrapped in a <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#setAttributes(ObjectNbme,
+     * AttributeList)}.  The <code>AttributeList</code> pbrbmeter is
+     * wrbpped in b <code>MbrshblledObject</code>.
      *
-     * @param name The object name of the MBean within which the
-     * attributes are to be set.
-     * @param attributes A list of attributes: The identification of
-     * the attributes to be set and the values they are to be set to,
-     * encapsulated into a <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The object nbme of the MBebn within which the
+     * bttributes bre to be set.
+     * @pbrbm bttributes A list of bttributes: The identificbtion of
+     * the bttributes to be set bnd the vblues they bre to be set to,
+     * encbpsulbted into b <code>MbrshblledObject</code>.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return The list of attributes that were set, with their new
-     * values.
+     * @return The list of bttributes thbt were set, with their new
+     * vblues.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
      * @throws ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * trying to invoke the getAttributes method of b Dynbmic MBebn.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null or bttributes in pbrbmeter is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      *
      * @see #getAttributes
      */
-    public AttributeList setAttributes(ObjectName name,
-                          MarshalledObject attributes,
-                          Subject delegationSubject)
+    public AttributeList setAttributes(ObjectNbme nbme,
+                          MbrshblledObject bttributes,
+                          Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#invoke(ObjectName,
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#invoke(ObjectNbme,
      * String, Object[], String[])}.  The <code>Object[]</code>
-     * parameter is wrapped in a <code>MarshalledObject</code>.
+     * pbrbmeter is wrbpped in b <code>MbrshblledObject</code>.
      *
-     * @param name The object name of the MBean on which the method is
+     * @pbrbm nbme The object nbme of the MBebn on which the method is
      * to be invoked.
-     * @param operationName The name of the operation to be invoked.
-     * @param params An array containing the parameters to be set when
-     * the operation is invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * operation. The class objects will be loaded using the same
-     * class loader as the one used for loading the MBean on which the
-     * operation was invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm operbtionNbme The nbme of the operbtion to be invoked.
+     * @pbrbm pbrbms An brrby contbining the pbrbmeters to be set when
+     * the operbtion is invoked, encbpsulbted into b
+     * <code>MbrshblledObject</code>.  The encbpsulbted brrby cbn be
+     * null, equivblent to bn empty brrby.
+     * @pbrbm signbture An brrby contbining the signbture of the
+     * operbtion. The clbss objects will be lobded using the sbme
+     * clbss lobder bs the one used for lobding the MBebn on which the
+     * operbtion wbs invoked.  Cbn be null, equivblent to bn empty
+     * brrby.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return The object returned by the operation, which represents
-     * the result of invoking the operation on the MBean specified.
+     * @return The object returned by the operbtion, which represents
+     * the result of invoking the operbtion on the MBebn specified.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's invoked method.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown while trying to invoke
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws MBebnException Wrbps bn exception thrown by the
+     * MBebn's invoked method.
+     * @throws ReflectionException Wrbps b
+     * <code>jbvb.lbng.Exception</code> thrown while trying to invoke
      * the method.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
-     * <code>operationName</code> is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps bn {@link
+     * IllegblArgumentException} when <code>nbme</code> or
+     * <code>operbtionNbme</code> is null.
      */
-    public Object invoke(ObjectName name,
-                         String operationName,
-                         MarshalledObject params,
-                         String signature[],
-                         Subject delegationSubject)
+    public Object invoke(ObjectNbme nbme,
+                         String operbtionNbme,
+                         MbrshblledObject pbrbms,
+                         String signbture[],
+                         Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
-        MBeanException,
+        InstbnceNotFoundException,
+        MBebnException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getDefaultDomain()}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#getDefbultDombin()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return the default domain.
+     * @return the defbult dombin.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public String getDefaultDomain(Subject delegationSubject)
+    public String getDefbultDombin(Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getDomains()}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#getDombins()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return the list of domains.
+     * @return the list of dombins.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public String[] getDomains(Subject delegationSubject)
+    public String[] getDombins(Subject delegbtionSubject)
         throws IOException;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getMBeanInfo(ObjectName)}.
+     * Hbndles the method
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#getMBebnInfo(ObjectNbme)}.
      *
-     * @param name The name of the MBean to analyze
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The nbme of the MBebn to bnblyze
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return An instance of <code>MBeanInfo</code> allowing the
-     * retrieval of all attributes and operations of this MBean.
+     * @return An instbnce of <code>MBebnInfo</code> bllowing the
+     * retrievbl of bll bttributes bnd operbtions of this MBebn.
      *
      * @throws IntrospectionException An exception occurred during
      * introspection.
-     * @throws InstanceNotFoundException The MBean specified was
+     * @throws InstbnceNotFoundException The MBebn specified wbs
      * not found.
      * @throws ReflectionException An exception occurred when
-     * trying to invoke the getMBeanInfo of a Dynamic MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
+     * trying to invoke the getMBebnInfo of b Dynbmic MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null.
      */
-    public MBeanInfo getMBeanInfo(ObjectName name, Subject delegationSubject)
+    public MBebnInfo getMBebnInfo(ObjectNbme nbme, Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         IntrospectionException,
         ReflectionException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#isInstanceOf(ObjectName,
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#isInstbnceOf(ObjectNbme,
      * String)}.
      *
-     * @param name The <code>ObjectName</code> of the MBean.
-     * @param className The name of the class.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The <code>ObjectNbme</code> of the MBebn.
+     * @pbrbm clbssNbme The nbme of the clbss.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @return true if the MBean specified is an instance of the
-     * specified class according to the rules above, false otherwise.
+     * @return true if the MBebn specified is bn instbnce of the
+     * specified clbss bccording to the rules bbove, fblse otherwise.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
+     * @throws InstbnceNotFoundException The MBebn specified is not
+     * registered in the MBebn server.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps b
+     * <code>jbvb.lbng.IllegblArgumentException</code>: The object
+     * nbme in pbrbmeter is null.
      */
-    public boolean isInstanceOf(ObjectName name,
-                                String className,
-                                Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    public boolebn isInstbnceOf(ObjectNbme nbme,
+                                String clbssNbme,
+                                Subject delegbtionSubject)
+        throws InstbnceNotFoundException, IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-     * ObjectName, NotificationFilter, Object)}.  The
-     * <code>NotificationFilter</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.  The <code>Object</code>
-     * (handback) parameter is also wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#bddNotificbtionListener(ObjectNbme,
+     * ObjectNbme, NotificbtionFilter, Object)}.  The
+     * <code>NotificbtionFilter</code> pbrbmeter is wrbpped in b
+     * <code>MbrshblledObject</code>.  The <code>Object</code>
+     * (hbndbbck) pbrbmeter is blso wrbpped in b
+     * <code>MbrshblledObject</code>.
      *
-     * @param name The name of the MBean on which the listener should
-     * be added.
-     * @param listener The object name of the listener which will
-     * handle the notifications emitted by the registered MBean.
-     * @param filter The filter object, encapsulated into a
-     * <code>MarshalledObject</code>. If filter encapsulated in the
-     * <code>MarshalledObject</code> has a null value, no filtering
-     * will be performed before handling notifications.
-     * @param handback The context to be sent to the listener when a
-     * notification is emitted, encapsulated into a
-     * <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbme The nbme of the MBebn on which the listener should
+     * be bdded.
+     * @pbrbm listener The object nbme of the listener which will
+     * hbndle the notificbtions emitted by the registered MBebn.
+     * @pbrbm filter The filter object, encbpsulbted into b
+     * <code>MbrshblledObject</code>. If filter encbpsulbted in the
+     * <code>MbrshblledObject</code> hbs b null vblue, no filtering
+     * will be performed before hbndling notificbtions.
+     * @pbrbm hbndbbck The context to be sent to the listener when b
+     * notificbtion is emitted, encbpsulbted into b
+     * <code>MbrshblledObject</code>.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException The MBean name of the
-     * notification listener or of the notification broadcaster does
-     * not match any of the registered MBeans.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException}.  The MBean named by
+     * @throws InstbnceNotFoundException The MBebn nbme of the
+     * notificbtion listener or of the notificbtion brobdcbster does
+     * not mbtch bny of the registered MBebns.
+     * @throws RuntimeOperbtionsException Wrbps bn {@link
+     * IllegblArgumentException}.  The MBebn nbmed by
      * <code>listener</code> exists but does not implement the
-     * {@link javax.management.NotificationListener} interface,
-     * or <code>name</code> or <code>listener</code> is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * {@link jbvbx.mbnbgement.NotificbtionListener} interfbce,
+     * or <code>nbme</code> or <code>listener</code> is null.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
      *
-     * @see #removeNotificationListener(ObjectName, ObjectName, Subject)
-     * @see #removeNotificationListener(ObjectName, ObjectName,
-     * MarshalledObject, MarshalledObject, Subject)
+     * @see #removeNotificbtionListener(ObjectNbme, ObjectNbme, Subject)
+     * @see #removeNotificbtionListener(ObjectNbme, ObjectNbme,
+     * MbrshblledObject, MbrshblledObject, Subject)
      */
-    public void addNotificationListener(ObjectName name,
-                        ObjectName listener,
-                        MarshalledObject filter,
-                        MarshalledObject handback,
-                        Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                        ObjectNbme listener,
+                        MbrshblledObject filter,
+                        MbrshblledObject hbndbbck,
+                        Subject delegbtionSubject)
+        throws InstbnceNotFoundException, IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-     * ObjectName)}.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#removeNotificbtionListener(ObjectNbme,
+     * ObjectNbme)}.
      *
-     * @param name The name of the MBean on which the listener should
+     * @pbrbm nbme The nbme of the MBebn on which the listener should
      * be removed.
-     * @param listener The object name of the listener to be removed.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm listener The object nbme of the listener to be removed.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
+     * @throws InstbnceNotFoundException The MBebn nbme provided
+     * does not mbtch bny of the registered MBebns.
      * @throws ListenerNotFoundException The listener is not
-     * registered in the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
+     * registered in the MBebn.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps bn {@link
+     * IllegblArgumentException} when <code>nbme</code> or
      * <code>listener</code> is null.
      *
-     * @see #addNotificationListener
+     * @see #bddNotificbtionListener
      */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           Subject delegationSubject)
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener,
+                                           Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-     * ObjectName, NotificationFilter, Object)}.  The
-     * <code>NotificationFilter</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.  The <code>Object</code>
-     * parameter is also wrapped in a <code>MarshalledObject</code>.
+     * Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#removeNotificbtionListener(ObjectNbme,
+     * ObjectNbme, NotificbtionFilter, Object)}.  The
+     * <code>NotificbtionFilter</code> pbrbmeter is wrbpped in b
+     * <code>MbrshblledObject</code>.  The <code>Object</code>
+     * pbrbmeter is blso wrbpped in b <code>MbrshblledObject</code>.
      *
-     * @param name The name of the MBean on which the listener should
+     * @pbrbm nbme The nbme of the MBebn on which the listener should
      * be removed.
-     * @param listener A listener that was previously added to this
-     * MBean.
-     * @param filter The filter that was specified when the listener
-     * was added, encapsulated into a <code>MarshalledObject</code>.
-     * @param handback The handback that was specified when the
-     * listener was added, encapsulated into a <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm listener A listener thbt wbs previously bdded to this
+     * MBebn.
+     * @pbrbm filter The filter thbt wbs specified when the listener
+     * wbs bdded, encbpsulbted into b <code>MbrshblledObject</code>.
+     * @pbrbm hbndbbck The hbndbbck thbt wbs specified when the
+     * listener wbs bdded, encbpsulbted into b <code>MbrshblledObject</code>.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
+     * @throws InstbnceNotFoundException The MBebn nbme provided
+     * does not mbtch bny of the registered MBebns.
      * @throws ListenerNotFoundException The listener is not
-     * registered in the MBean, or it is not registered with the given
-     * filter and handback.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
+     * registered in the MBebn, or it is not registered with the given
+     * filter bnd hbndbbck.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to perform this operbtion.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws RuntimeOperbtionsException Wrbps bn {@link
+     * IllegblArgumentException} when <code>nbme</code> or
      * <code>listener</code> is null.
      *
-     * @see #addNotificationListener
+     * @see #bddNotificbtionListener
      */
-    public void removeNotificationListener(ObjectName name,
-                      ObjectName listener,
-                      MarshalledObject filter,
-                      MarshalledObject handback,
-                      Subject delegationSubject)
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                      ObjectNbme listener,
+                      MbrshblledObject filter,
+                      MbrshblledObject hbndbbck,
+                      Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException;
 
-    // Special Handling of Notifications -------------------------------------
+    // Specibl Hbndling of Notificbtions -------------------------------------
 
     /**
-     * <p>Handles the method {@link
-     * javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}.</p>
+     * <p>Hbndles the method {@link
+     * jbvbx.mbnbgement.MBebnServerConnection#bddNotificbtionListener(ObjectNbme,
+     * NotificbtionListener, NotificbtionFilter, Object)}.</p>
      *
-     * <p>Register for notifications from the given MBeans that match
-     * the given filters.  The remote client can subsequently retrieve
-     * the notifications using the {@link #fetchNotifications
-     * fetchNotifications} method.</p>
+     * <p>Register for notificbtions from the given MBebns thbt mbtch
+     * the given filters.  The remote client cbn subsequently retrieve
+     * the notificbtions using the {@link #fetchNotificbtions
+     * fetchNotificbtions} method.</p>
      *
-     * <p>For each listener, the original
-     * <code>NotificationListener</code> and <code>handback</code> are
-     * kept on the client side; in order for the client to be able to
-     * identify them, the server generates and returns a unique
+     * <p>For ebch listener, the originbl
+     * <code>NotificbtionListener</code> bnd <code>hbndbbck</code> bre
+     * kept on the client side; in order for the client to be bble to
+     * identify them, the server generbtes bnd returns b unique
      * <code>listenerID</code>.  This <code>listenerID</code> is
-     * forwarded with the <code>Notifications</code> to the remote
+     * forwbrded with the <code>Notificbtions</code> to the remote
      * client.</p>
      *
-     * <p>If any one of the given (name, filter) pairs cannot be
-     * registered, then the operation fails with an exception, and no
-     * names or filters are registered.</p>
+     * <p>If bny one of the given (nbme, filter) pbirs cbnnot be
+     * registered, then the operbtion fbils with bn exception, bnd no
+     * nbmes or filters bre registered.</p>
      *
-     * @param names the <code>ObjectNames</code> identifying the
-     * MBeans emitting the Notifications.
-     * @param filters an array of marshalled representations of the
-     * <code>NotificationFilters</code>.  Elements of this array can
+     * @pbrbm nbmes the <code>ObjectNbmes</code> identifying the
+     * MBebns emitting the Notificbtions.
+     * @pbrbm filters bn brrby of mbrshblled representbtions of the
+     * <code>NotificbtionFilters</code>.  Elements of this brrby cbn
      * be null.
-     * @param delegationSubjects the <code>Subjects</code> on behalf
-     * of which the listeners are being added.  Elements of this array
-     * can be null.  Also, the <code>delegationSubjects</code>
-     * parameter itself can be null, which is equivalent to an array
-     * of null values with the same size as the <code>names</code> and
-     * <code>filters</code> arrays.
+     * @pbrbm delegbtionSubjects the <code>Subjects</code> on behblf
+     * of which the listeners bre being bdded.  Elements of this brrby
+     * cbn be null.  Also, the <code>delegbtionSubjects</code>
+     * pbrbmeter itself cbn be null, which is equivblent to bn brrby
+     * of null vblues with the sbme size bs the <code>nbmes</code> bnd
+     * <code>filters</code> brrbys.
      *
-     * @return an array of <code>listenerIDs</code> identifying the
-     * local listeners.  This array has the same number of elements as
-     * the parameters.
+     * @return bn brrby of <code>listenerIDs</code> identifying the
+     * locbl listeners.  This brrby hbs the sbme number of elements bs
+     * the pbrbmeters.
      *
-     * @throws IllegalArgumentException if <code>names</code> or
-     * <code>filters</code> is null, or if <code>names</code> contains
-     * a null element, or if the three arrays do not all have the same
+     * @throws IllegblArgumentException if <code>nbmes</code> or
+     * <code>filters</code> is null, or if <code>nbmes</code> contbins
+     * b null element, or if the three brrbys do not bll hbve the sbme
      * size.
-     * @throws ClassCastException if one of the elements of
-     * <code>filters</code> unmarshalls as a non-null object that is
-     * not a <code>NotificationFilter</code>.
-     * @throws InstanceNotFoundException if one of the
-     * <code>names</code> does not correspond to any registered MBean.
-     * @throws SecurityException if, for one of the MBeans, the
-     * client, or the delegated Subject if any, does not have
-     * permission to add a listener.
-     * @throws IOException if a general communication exception occurred.
+     * @throws ClbssCbstException if one of the elements of
+     * <code>filters</code> unmbrshblls bs b non-null object thbt is
+     * not b <code>NotificbtionFilter</code>.
+     * @throws InstbnceNotFoundException if one of the
+     * <code>nbmes</code> does not correspond to bny registered MBebn.
+     * @throws SecurityException if, for one of the MBebns, the
+     * client, or the delegbted Subject if bny, does not hbve
+     * permission to bdd b listener.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public Integer[] addNotificationListeners(ObjectName[] names,
-                    MarshalledObject[] filters,
-                    Subject[] delegationSubjects)
-        throws InstanceNotFoundException, IOException;
+    public Integer[] bddNotificbtionListeners(ObjectNbme[] nbmes,
+                    MbrshblledObject[] filters,
+                    Subject[] delegbtionSubjects)
+        throws InstbnceNotFoundException, IOException;
 
     /**
-     * <p>Handles the
-     * {@link javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,NotificationListener)
-     * removeNotificationListener(ObjectName, NotificationListener)} and
-     * {@link javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,NotificationListener,NotificationFilter,Object)
-     * removeNotificationListener(ObjectName, NotificationListener, NotificationFilter, Object)} methods.</p>
+     * <p>Hbndles the
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#removeNotificbtionListener(ObjectNbme,NotificbtionListener)
+     * removeNotificbtionListener(ObjectNbme, NotificbtionListener)} bnd
+     * {@link jbvbx.mbnbgement.MBebnServerConnection#removeNotificbtionListener(ObjectNbme,NotificbtionListener,NotificbtionFilter,Object)
+     * removeNotificbtionListener(ObjectNbme, NotificbtionListener, NotificbtionFilter, Object)} methods.</p>
      *
      * <p>This method removes one or more
-     * <code>NotificationListener</code>s from a given MBean in the
-     * MBean server.</p>
+     * <code>NotificbtionListener</code>s from b given MBebn in the
+     * MBebn server.</p>
      *
-     * <p>The <code>NotificationListeners</code> are identified by the
+     * <p>The <code>NotificbtionListeners</code> bre identified by the
      * IDs which were returned by the {@link
-     * #addNotificationListeners(ObjectName[], MarshalledObject[],
+     * #bddNotificbtionListeners(ObjectNbme[], MbrshblledObject[],
      * Subject[])} method.</p>
      *
-     * @param name the <code>ObjectName</code> identifying the MBean
-     * emitting the Notifications.
-     * @param listenerIDs the list of the IDs corresponding to the
+     * @pbrbm nbme the <code>ObjectNbme</code> identifying the MBebn
+     * emitting the Notificbtions.
+     * @pbrbm listenerIDs the list of the IDs corresponding to the
      * listeners to remove.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm delegbtionSubject The <code>Subject</code> contbining the
+     * delegbtion principbls or <code>null</code> if the buthenticbtion
+     * principbl is used instebd.
      *
-     * @throws InstanceNotFoundException if the given
-     * <code>name</code> does not correspond to any registered MBean.
-     * @throws ListenerNotFoundException if one of the listeners was
-     * not found on the server side.  This exception can happen if the
-     * MBean discarded a listener for some reason other than a call to
-     * <code>MBeanServer.removeNotificationListener</code>.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to remove the listeners.
-     * @throws IOException if a general communication exception occurred.
-     * @throws IllegalArgumentException if <code>ObjectName</code> or
+     * @throws InstbnceNotFoundException if the given
+     * <code>nbme</code> does not correspond to bny registered MBebn.
+     * @throws ListenerNotFoundException if one of the listeners wbs
+     * not found on the server side.  This exception cbn hbppen if the
+     * MBebn discbrded b listener for some rebson other thbn b cbll to
+     * <code>MBebnServer.removeNotificbtionListener</code>.
+     * @throws SecurityException if the client, or the delegbted Subject
+     * if bny, does not hbve permission to remove the listeners.
+     * @throws IOException if b generbl communicbtion exception occurred.
+     * @throws IllegblArgumentException if <code>ObjectNbme</code> or
      * <code>listenerIds</code> is null or if <code>listenerIds</code>
-     * contains a null element.
+     * contbins b null element.
      */
-    public void removeNotificationListeners(ObjectName name,
+    public void removeNotificbtionListeners(ObjectNbme nbme,
                                             Integer[] listenerIDs,
-                                            Subject delegationSubject)
+                                            Subject delegbtionSubject)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException;
 
     /**
-     * <p>Retrieves notifications from the connector server.  This
-     * method can block until there is at least one notification or
-     * until the specified timeout is reached.  The method can also
-     * return at any time with zero notifications.</p>
+     * <p>Retrieves notificbtions from the connector server.  This
+     * method cbn block until there is bt lebst one notificbtion or
+     * until the specified timeout is rebched.  The method cbn blso
+     * return bt bny time with zero notificbtions.</p>
      *
-     * <p>A notification can be included in the result if its sequence
-     * number is no less than <code>clientSequenceNumber</code> and
-     * this client has registered at least one listener for the MBean
-     * generating the notification, with a filter that accepts the
-     * notification.  Each listener that is interested in the
-     * notification is identified by an Integer ID that was returned
-     * by {@link #addNotificationListeners(ObjectName[],
-     * MarshalledObject[], Subject[])}.</p>
+     * <p>A notificbtion cbn be included in the result if its sequence
+     * number is no less thbn <code>clientSequenceNumber</code> bnd
+     * this client hbs registered bt lebst one listener for the MBebn
+     * generbting the notificbtion, with b filter thbt bccepts the
+     * notificbtion.  Ebch listener thbt is interested in the
+     * notificbtion is identified by bn Integer ID thbt wbs returned
+     * by {@link #bddNotificbtionListeners(ObjectNbme[],
+     * MbrshblledObject[], Subject[])}.</p>
      *
-     * @param clientSequenceNumber the first sequence number that the
-     * client is interested in.  If negative, it is interpreted as
-     * meaning the sequence number that the next notification will
-     * have.
+     * @pbrbm clientSequenceNumber the first sequence number thbt the
+     * client is interested in.  If negbtive, it is interpreted bs
+     * mebning the sequence number thbt the next notificbtion will
+     * hbve.
      *
-     * @param maxNotifications the maximum number of different
-     * notifications to return.  The <code>TargetedNotification</code>
-     * array in the returned <code>NotificationResult</code> can have
-     * more elements than this if the same notification appears more
-     * than once.  The behavior is unspecified if this parameter is
-     * negative.
+     * @pbrbm mbxNotificbtions the mbximum number of different
+     * notificbtions to return.  The <code>TbrgetedNotificbtion</code>
+     * brrby in the returned <code>NotificbtionResult</code> cbn hbve
+     * more elements thbn this if the sbme notificbtion bppebrs more
+     * thbn once.  The behbvior is unspecified if this pbrbmeter is
+     * negbtive.
      *
-     * @param timeout the maximum time in milliseconds to wait for a
-     * notification to arrive.  This can be 0 to indicate that the
-     * method should not wait if there are no notifications, but
-     * should return at once.  It can be <code>Long.MAX_VALUE</code>
-     * to indicate that there is no timeout.  The behavior is
-     * unspecified if this parameter is negative.
+     * @pbrbm timeout the mbximum time in milliseconds to wbit for b
+     * notificbtion to brrive.  This cbn be 0 to indicbte thbt the
+     * method should not wbit if there bre no notificbtions, but
+     * should return bt once.  It cbn be <code>Long.MAX_VALUE</code>
+     * to indicbte thbt there is no timeout.  The behbvior is
+     * unspecified if this pbrbmeter is negbtive.
      *
-     * @return A <code>NotificationResult</code>.
+     * @return A <code>NotificbtionResult</code>.
      *
-     * @throws IOException if a general communication exception occurred.
+     * @throws IOException if b generbl communicbtion exception occurred.
      */
-    public NotificationResult fetchNotifications(long clientSequenceNumber,
-                                                 int maxNotifications,
+    public NotificbtionResult fetchNotificbtions(long clientSequenceNumber,
+                                                 int mbxNotificbtions,
                                                  long timeout)
             throws IOException;
 }

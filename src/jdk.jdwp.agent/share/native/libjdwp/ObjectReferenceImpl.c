@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "ObjectReferenceImpl.h"
 #include "commonRef.h"
-#include "inStream.h"
-#include "outStream.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
 
-static jboolean
-referenceType(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+referenceType(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jobject object;
 
     env = getEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
+    object = inStrebm_rebdObjectRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jbyte tag;
-        jclass clazz;
+        jbyte tbg;
+        jclbss clbzz;
 
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
-        tag = referenceTypeTag(clazz);
+        clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, object);
+        tbg = referenceTypeTbg(clbzz);
 
-        (void)outStream_writeByte(out, tag);
-        (void)outStream_writeObjectRef(env, out, clazz);
+        (void)outStrebm_writeByte(out, tbg);
+        (void)outStrebm_writeObjectRef(env, out, clbzz);
 
     } END_WITH_LOCAL_REFS(env);
 
     return JNI_TRUE;
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+getVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    sharedGetFieldValues(in, out, JNI_FALSE);
+    shbredGetFieldVblues(in, out, JNI_FALSE);
     return JNI_TRUE;
 }
 
 
-static jvmtiError
-readFieldValue(JNIEnv *env, PacketInputStream *in, jclass clazz,
-               jobject object, jfieldID field, char *signature)
+stbtic jvmtiError
+rebdFieldVblue(JNIEnv *env, PbcketInputStrebm *in, jclbss clbzz,
+               jobject object, jfieldID field, chbr *signbture)
 {
-    jvalue value;
+    jvblue vblue;
     jvmtiError error;
 
-    switch (signature[0]) {
-        case JDWP_TAG(ARRAY):
-        case JDWP_TAG(OBJECT):
-            value.l = inStream_readObjectRef(env, in);
-            JNI_FUNC_PTR(env,SetObjectField)(env, object, field, value.l);
-            break;
+    switch (signbture[0]) {
+        cbse JDWP_TAG(ARRAY):
+        cbse JDWP_TAG(OBJECT):
+            vblue.l = inStrebm_rebdObjectRef(env, in);
+            JNI_FUNC_PTR(env,SetObjectField)(env, object, field, vblue.l);
+            brebk;
 
-        case JDWP_TAG(BYTE):
-            value.b = inStream_readByte(in);
-            JNI_FUNC_PTR(env,SetByteField)(env, object, field, value.b);
-            break;
+        cbse JDWP_TAG(BYTE):
+            vblue.b = inStrebm_rebdByte(in);
+            JNI_FUNC_PTR(env,SetByteField)(env, object, field, vblue.b);
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            value.c = inStream_readChar(in);
-            JNI_FUNC_PTR(env,SetCharField)(env, object, field, value.c);
-            break;
+        cbse JDWP_TAG(CHAR):
+            vblue.c = inStrebm_rebdChbr(in);
+            JNI_FUNC_PTR(env,SetChbrField)(env, object, field, vblue.c);
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            value.f = inStream_readFloat(in);
-            JNI_FUNC_PTR(env,SetFloatField)(env, object, field, value.f);
-            break;
+        cbse JDWP_TAG(FLOAT):
+            vblue.f = inStrebm_rebdFlobt(in);
+            JNI_FUNC_PTR(env,SetFlobtField)(env, object, field, vblue.f);
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            value.d = inStream_readDouble(in);
-            JNI_FUNC_PTR(env,SetDoubleField)(env, object, field, value.d);
-            break;
+        cbse JDWP_TAG(DOUBLE):
+            vblue.d = inStrebm_rebdDouble(in);
+            JNI_FUNC_PTR(env,SetDoubleField)(env, object, field, vblue.d);
+            brebk;
 
-        case JDWP_TAG(INT):
-            value.i = inStream_readInt(in);
-            JNI_FUNC_PTR(env,SetIntField)(env, object, field, value.i);
-            break;
+        cbse JDWP_TAG(INT):
+            vblue.i = inStrebm_rebdInt(in);
+            JNI_FUNC_PTR(env,SetIntField)(env, object, field, vblue.i);
+            brebk;
 
-        case JDWP_TAG(LONG):
-            value.j = inStream_readLong(in);
-            JNI_FUNC_PTR(env,SetLongField)(env, object, field, value.j);
-            break;
+        cbse JDWP_TAG(LONG):
+            vblue.j = inStrebm_rebdLong(in);
+            JNI_FUNC_PTR(env,SetLongField)(env, object, field, vblue.j);
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            value.s = inStream_readShort(in);
-            JNI_FUNC_PTR(env,SetShortField)(env, object, field, value.s);
-            break;
+        cbse JDWP_TAG(SHORT):
+            vblue.s = inStrebm_rebdShort(in);
+            JNI_FUNC_PTR(env,SetShortField)(env, object, field, vblue.s);
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            value.z = inStream_readBoolean(in);
-            JNI_FUNC_PTR(env,SetBooleanField)(env, object, field, value.z);
-            break;
+        cbse JDWP_TAG(BOOLEAN):
+            vblue.z = inStrebm_rebdBoolebn(in);
+            JNI_FUNC_PTR(env,SetBoolebnField)(env, object, field, vblue.z);
+            brebk;
     }
 
     error = JVMTI_ERROR_NONE;
@@ -129,8 +129,8 @@ readFieldValue(JNIEnv *env, PacketInputStream *in, jclass clazz,
     return error;
 }
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+setVblues(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jint count;
@@ -139,12 +139,12 @@ setValues(PacketInputStream *in, PacketOutputStream *out)
 
     env = getEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
+    object = inStrebm_rebdObjectRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    count = inStream_readInt(in);
-    if (inStream_error(in)) {
+    count = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
@@ -152,39 +152,39 @@ setValues(PacketInputStream *in, PacketOutputStream *out)
 
     WITH_LOCAL_REFS(env, count + 1) {
 
-        jclass clazz;
+        jclbss clbzz;
 
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
+        clbzz = JNI_FUNC_PTR(env,GetObjectClbss)(env, object);
 
-        if (clazz != NULL ) {
+        if (clbzz != NULL ) {
 
             int i;
 
-            for (i = 0; (i < count) && !inStream_error(in); i++) {
+            for (i = 0; (i < count) && !inStrebm_error(in); i++) {
 
                 jfieldID field;
-                char *signature = NULL;
+                chbr *signbture = NULL;
 
-                field = inStream_readFieldID(in);
-                if (inStream_error(in))
-                    break;
+                field = inStrebm_rebdFieldID(in);
+                if (inStrebm_error(in))
+                    brebk;
 
-                error = fieldSignature(clazz, field, NULL, &signature, NULL);
+                error = fieldSignbture(clbzz, field, NULL, &signbture, NULL);
                 if (error != JVMTI_ERROR_NONE) {
-                    break;
+                    brebk;
                 }
 
-                error = readFieldValue(env, in, clazz, object, field, signature);
-                jvmtiDeallocate(signature);
+                error = rebdFieldVblue(env, in, clbzz, object, field, signbture);
+                jvmtiDebllocbte(signbture);
 
                 if (error != JVMTI_ERROR_NONE) {
-                    break;
+                    brebk;
                 }
             }
         }
 
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         }
 
     } END_WITH_LOCAL_REFS(env);
@@ -192,111 +192,111 @@ setValues(PacketInputStream *in, PacketOutputStream *out)
     return JNI_TRUE;
 }
 
-static jboolean
-monitorInfo(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+monitorInfo(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     JNIEnv *env;
     jobject object;
 
     env = getEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
+    object = inStrebm_rebdObjectRef(env, in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     WITH_LOCAL_REFS(env, 1) {
 
         jvmtiError error;
-        jvmtiMonitorUsage info;
+        jvmtiMonitorUsbge info;
 
         (void)memset(&info, 0, sizeof(info));
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetObjectMonitorUsage)
-                        (gdata->jvmti, object, &info);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetObjectMonitorUsbge)
+                        (gdbtb->jvmti, object, &info);
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
             int i;
-            (void)outStream_writeObjectRef(env, out, info.owner);
-            (void)outStream_writeInt(out, info.entry_count);
-            (void)outStream_writeInt(out, info.waiter_count);
-            for (i = 0; i < info.waiter_count; i++) {
-                (void)outStream_writeObjectRef(env, out, info.waiters[i]);
+            (void)outStrebm_writeObjectRef(env, out, info.owner);
+            (void)outStrebm_writeInt(out, info.entry_count);
+            (void)outStrebm_writeInt(out, info.wbiter_count);
+            for (i = 0; i < info.wbiter_count; i++) {
+                (void)outStrebm_writeObjectRef(env, out, info.wbiters[i]);
             }
         }
 
-        if (info.waiters != NULL )
-            jvmtiDeallocate(info.waiters);
+        if (info.wbiters != NULL )
+            jvmtiDebllocbte(info.wbiters);
 
     } END_WITH_LOCAL_REFS(env);
 
     return JNI_TRUE;
 }
 
-static jboolean
-invokeInstance(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+invokeInstbnce(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    return sharedInvoke(in, out);
+    return shbredInvoke(in, out);
 }
 
-static jboolean
-disableCollection(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+disbbleCollection(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jlong id;
     jvmtiError error;
 
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
+    id = inStrebm_rebdObjectID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     error = commonRef_pin(id);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-enableCollection(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+enbbleCollection(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
     jlong id;
 
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
+    id = inStrebm_rebdObjectID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     error = commonRef_unpin(id);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-isCollected(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+isCollected(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jobject ref;
     jlong id;
     JNIEnv *env;
 
     env = getEnv();
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
+    id = inStrebm_rebdObjectID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     if (id == NULL_OBJECT_ID) {
-        outStream_setError(out, JDWP_ERROR(INVALID_OBJECT));
+        outStrebm_setError(out, JDWP_ERROR(INVALID_OBJECT));
         return JNI_TRUE;
     }
 
     ref = commonRef_idToRef(env, id);
-    (void)outStream_writeBoolean(out, (jboolean)(ref == NULL));
+    (void)outStrebm_writeBoolebn(out, (jboolebn)(ref == NULL));
 
     commonRef_idToRef_delete(env, ref);
 
@@ -304,49 +304,49 @@ isCollected(PacketInputStream *in, PacketOutputStream *out)
 }
 
 
-static jboolean
-referringObjects(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+referringObjects(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jobject object;
-    jint    maxReferrers;
+    jint    mbxReferrers;
     JNIEnv *env;
 
     env = getEnv();
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
+    if (gdbtb->vmDebd) {
+        outStrebm_setError(out, JDWP_ERROR(VM_DEAD));
         return JNI_TRUE;
     }
 
-    object = inStream_readObjectRef(env,in);
-    if (inStream_error(in)) {
+    object = inStrebm_rebdObjectRef(env,in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    maxReferrers = inStream_readInt(in);
-    if (inStream_error(in)) {
+    mbxReferrers = inStrebm_rebdInt(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     WITH_LOCAL_REFS(env, 1) {
         jvmtiError   error;
-        ObjectBatch  referrerBatch;
+        ObjectBbtch  referrerBbtch;
 
-        error = objectReferrers(object, &referrerBatch, maxReferrers);
+        error = objectReferrers(object, &referrerBbtch, mbxReferrers);
         if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+            outStrebm_setError(out, mbp2jdwpError(error));
         } else {
             int kk;
 
-            (void)outStream_writeInt(out, referrerBatch.count);
-            for (kk = 0; kk < referrerBatch.count; kk++) {
+            (void)outStrebm_writeInt(out, referrerBbtch.count);
+            for (kk = 0; kk < referrerBbtch.count; kk++) {
                 jobject ref;
 
-                ref = referrerBatch.objects[kk];
-                (void)outStream_writeByte(out, specificTypeKey(env, ref));
-                (void)outStream_writeObjectRef(env, out, ref);
+                ref = referrerBbtch.objects[kk];
+                (void)outStrebm_writeByte(out, specificTypeKey(env, ref));
+                (void)outStrebm_writeObjectRef(env, out, ref);
             }
-            jvmtiDeallocate(referrerBatch.objects);
+            jvmtiDebllocbte(referrerBbtch.objects);
         }
     } END_WITH_LOCAL_REFS(env);
     return JNI_TRUE;
@@ -354,13 +354,13 @@ referringObjects(PacketInputStream *in, PacketOutputStream *out)
 
 void *ObjectReference_Cmds[] = { (void *)10
     ,(void *)referenceType
-    ,(void *)getValues
-    ,(void *)setValues
+    ,(void *)getVblues
+    ,(void *)setVblues
     ,(void *)NULL      /* no longer used */
     ,(void *)monitorInfo
-    ,(void *)invokeInstance
-    ,(void *)disableCollection
-    ,(void *)enableCollection
+    ,(void *)invokeInstbnce
+    ,(void *)disbbleCollection
+    ,(void *)enbbleCollection
     ,(void *)isCollected
     ,(void *)referringObjects
     };

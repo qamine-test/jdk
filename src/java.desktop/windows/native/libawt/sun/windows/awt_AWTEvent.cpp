@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_AWTEvent.h"
-#include "awt_Component.h"
-#include <java_awt_AWTEvent.h>
+#include "bwt_AWTEvent.h"
+#include "bwt_Component.h"
+#include <jbvb_bwt_AWTEvent.h>
 
 /************************************************************************
  * AwtAWTEvent fields
  */
 
-jfieldID AwtAWTEvent::bdataID;
+jfieldID AwtAWTEvent::bdbtbID;
 jfieldID AwtAWTEvent::idID;
 jfieldID AwtAWTEvent::consumedID;
 
 /************************************************************************
- * AwtAWTEvent static methods
+ * AwtAWTEvent stbtic methods
  */
 
-void AwtAWTEvent::saveMSG(JNIEnv *env, MSG *pMsg, jobject jevent)
+void AwtAWTEvent::sbveMSG(JNIEnv *env, MSG *pMsg, jobject jevent)
 {
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
-    jbyteArray bdata = env->NewByteArray(sizeof(MSG));
-    if(bdata == 0) {
-        throw std::bad_alloc();
+    jbyteArrby bdbtb = env->NewByteArrby(sizeof(MSG));
+    if(bdbtb == 0) {
+        throw std::bbd_blloc();
     }
-    env->SetByteArrayRegion(bdata, 0, sizeof(MSG), (jbyte *)pMsg);
-    DASSERT(AwtAWTEvent::bdataID);
-    env->SetObjectField(jevent, AwtAWTEvent::bdataID,  bdata);
-    env->DeleteLocalRef(bdata);
+    env->SetByteArrbyRegion(bdbtb, 0, sizeof(MSG), (jbyte *)pMsg);
+    DASSERT(AwtAWTEvent::bdbtbID);
+    env->SetObjectField(jevent, AwtAWTEvent::bdbtbID,  bdbtb);
+    env->DeleteLocblRef(bdbtb);
 }
 
 /************************************************************************
- * AwtEvent native methods
+ * AwtEvent nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_AWTEvent
+ * Clbss:     jbvb_bwt_AWTEvent
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_AWTEvent_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_AWTEvent_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtAWTEvent::bdataID = env->GetFieldID(cls, "bdata", "[B");
-    DASSERT(AwtAWTEvent::bdataID != NULL);
-    CHECK_NULL(AwtAWTEvent::bdataID);
+    AwtAWTEvent::bdbtbID = env->GetFieldID(cls, "bdbtb", "[B");
+    DASSERT(AwtAWTEvent::bdbtbID != NULL);
+    CHECK_NULL(AwtAWTEvent::bdbtbID);
 
     AwtAWTEvent::idID = env->GetFieldID(cls, "id", "I");
     DASSERT(AwtAWTEvent::idID != NULL);
@@ -86,11 +86,11 @@ Java_java_awt_AWTEvent_initIDs(JNIEnv *env, jclass cls)
 }
 
 /*
- * Class:     java_awt_AWTEvent
- * Method:    nativeSetSource
- * Signature: (Ljava/awt/peer/ComponentPeer;)V
+ * Clbss:     jbvb_bwt_AWTEvent
+ * Method:    nbtiveSetSource
+ * Signbture: (Ljbvb/bwt/peer/ComponentPeer;)V
  */
-JNIEXPORT void JNICALL Java_java_awt_AWTEvent_nativeSetSource
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_AWTEvent_nbtiveSetSource
     (JNIEnv *env, jobject self, jobject newSource)
 {
     TRY;
@@ -99,21 +99,21 @@ JNIEXPORT void JNICALL Java_java_awt_AWTEvent_nativeSetSource
 
     MSG *pMsg;
 
-    jbyteArray bdata = (jbyteArray)
-        env->GetObjectField(self, AwtAWTEvent::bdataID);
-    if (bdata != NULL) {
-        jboolean dummy;
-        PDATA pData;
+    jbyteArrby bdbtb = (jbyteArrby)
+        env->GetObjectField(self, AwtAWTEvent::bdbtbID);
+    if (bdbtb != NULL) {
+        jboolebn dummy;
+        PDATA pDbtb;
         JNI_CHECK_PEER_RETURN(newSource);
-        AwtComponent *p = (AwtComponent *)pData;
+        AwtComponent *p = (AwtComponent *)pDbtb;
         HWND hwnd = p->GetHWnd();
 
-        pMsg = (MSG *)env->GetPrimitiveArrayCritical(bdata, &dummy);
+        pMsg = (MSG *)env->GetPrimitiveArrbyCriticbl(bdbtb, &dummy);
         if (pMsg == NULL) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
         pMsg->hwnd = hwnd;
-        env->ReleasePrimitiveArrayCritical(bdata, (void *)pMsg, 0);
+        env->RelebsePrimitiveArrbyCriticbl(bdbtb, (void *)pMsg, 0);
     }
 
     CATCH_BAD_ALLOC;

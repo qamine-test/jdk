@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.KeyEvent;
+import jbvb.bwt.event.KeyEvent;
 
 
 /**
- * A KeyEventDispatcher cooperates with the current KeyboardFocusManager in the
- * targeting and dispatching of all KeyEvents. KeyEventDispatchers registered
- * with the current KeyboardFocusManager will receive KeyEvents before they are
- * dispatched to their targets, allowing each KeyEventDispatcher to retarget
- * the event, consume it, dispatch the event itself, or make other changes.
+ * A KeyEventDispbtcher cooperbtes with the current KeybobrdFocusMbnbger in the
+ * tbrgeting bnd dispbtching of bll KeyEvents. KeyEventDispbtchers registered
+ * with the current KeybobrdFocusMbnbger will receive KeyEvents before they bre
+ * dispbtched to their tbrgets, bllowing ebch KeyEventDispbtcher to retbrget
+ * the event, consume it, dispbtch the event itself, or mbke other chbnges.
  * <p>
- * Note that KeyboardFocusManager itself implements KeyEventDispatcher. By
- * default, the current KeyboardFocusManager will be the sink for all KeyEvents
- * not dispatched by the registered KeyEventDispatchers. The current
- * KeyboardFocusManager cannot be completely deregistered as a
- * KeyEventDispatcher. However, if a KeyEventDispatcher reports that it
- * dispatched the KeyEvent, regardless of whether it actually did so, the
- * KeyboardFocusManager will take no further action with regard to the
+ * Note thbt KeybobrdFocusMbnbger itself implements KeyEventDispbtcher. By
+ * defbult, the current KeybobrdFocusMbnbger will be the sink for bll KeyEvents
+ * not dispbtched by the registered KeyEventDispbtchers. The current
+ * KeybobrdFocusMbnbger cbnnot be completely deregistered bs b
+ * KeyEventDispbtcher. However, if b KeyEventDispbtcher reports thbt it
+ * dispbtched the KeyEvent, regbrdless of whether it bctublly did so, the
+ * KeybobrdFocusMbnbger will tbke no further bction with regbrd to the
  * KeyEvent. (While it is possible for client code to register the current
- * KeyboardFocusManager as a KeyEventDispatcher one or more times, this is
- * usually unnecessary and not recommended.)
+ * KeybobrdFocusMbnbger bs b KeyEventDispbtcher one or more times, this is
+ * usublly unnecessbry bnd not recommended.)
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  *
- * @see KeyboardFocusManager#addKeyEventDispatcher
- * @see KeyboardFocusManager#removeKeyEventDispatcher
+ * @see KeybobrdFocusMbnbger#bddKeyEventDispbtcher
+ * @see KeybobrdFocusMbnbger#removeKeyEventDispbtcher
  * @since 1.4
  */
-@FunctionalInterface
-public interface KeyEventDispatcher {
+@FunctionblInterfbce
+public interfbce KeyEventDispbtcher {
 
     /**
-     * This method is called by the current KeyboardFocusManager requesting
-     * that this KeyEventDispatcher dispatch the specified event on its behalf.
-     * This KeyEventDispatcher is free to retarget the event, consume it,
-     * dispatch it itself, or make other changes. This capability is typically
-     * used to deliver KeyEvents to Components other than the focus owner. This
-     * can be useful when navigating children of non-focusable Windows in an
-     * accessible environment, for example. Note that if a KeyEventDispatcher
-     * dispatches the KeyEvent itself, it must use <code>redispatchEvent</code>
-     * to prevent the current KeyboardFocusManager from recursively requesting
-     * that this KeyEventDispatcher dispatch the event again.
+     * This method is cblled by the current KeybobrdFocusMbnbger requesting
+     * thbt this KeyEventDispbtcher dispbtch the specified event on its behblf.
+     * This KeyEventDispbtcher is free to retbrget the event, consume it,
+     * dispbtch it itself, or mbke other chbnges. This cbpbbility is typicblly
+     * used to deliver KeyEvents to Components other thbn the focus owner. This
+     * cbn be useful when nbvigbting children of non-focusbble Windows in bn
+     * bccessible environment, for exbmple. Note thbt if b KeyEventDispbtcher
+     * dispbtches the KeyEvent itself, it must use <code>redispbtchEvent</code>
+     * to prevent the current KeybobrdFocusMbnbger from recursively requesting
+     * thbt this KeyEventDispbtcher dispbtch the event bgbin.
      * <p>
-     * If an implementation of this method returns <code>false</code>, then
-     * the KeyEvent is passed to the next KeyEventDispatcher in the chain,
-     * ending with the current KeyboardFocusManager. If an implementation
-     * returns <code>true</code>, the KeyEvent is assumed to have been
-     * dispatched (although this need not be the case), and the current
-     * KeyboardFocusManager will take no further action with regard to the
-     * KeyEvent. In such a case,
-     * <code>KeyboardFocusManager.dispatchEvent</code> should return
-     * <code>true</code> as well. If an implementation consumes the KeyEvent,
-     * but returns <code>false</code>, the consumed event will still be passed
-     * to the next KeyEventDispatcher in the chain. It is important for
-     * developers to check whether the KeyEvent has been consumed before
-     * dispatching it to a target. By default, the current KeyboardFocusManager
-     * will not dispatch a consumed KeyEvent.
+     * If bn implementbtion of this method returns <code>fblse</code>, then
+     * the KeyEvent is pbssed to the next KeyEventDispbtcher in the chbin,
+     * ending with the current KeybobrdFocusMbnbger. If bn implementbtion
+     * returns <code>true</code>, the KeyEvent is bssumed to hbve been
+     * dispbtched (blthough this need not be the cbse), bnd the current
+     * KeybobrdFocusMbnbger will tbke no further bction with regbrd to the
+     * KeyEvent. In such b cbse,
+     * <code>KeybobrdFocusMbnbger.dispbtchEvent</code> should return
+     * <code>true</code> bs well. If bn implementbtion consumes the KeyEvent,
+     * but returns <code>fblse</code>, the consumed event will still be pbssed
+     * to the next KeyEventDispbtcher in the chbin. It is importbnt for
+     * developers to check whether the KeyEvent hbs been consumed before
+     * dispbtching it to b tbrget. By defbult, the current KeybobrdFocusMbnbger
+     * will not dispbtch b consumed KeyEvent.
      *
-     * @param e the KeyEvent to dispatch
-     * @return <code>true</code> if the KeyboardFocusManager should take no
-     *         further action with regard to the KeyEvent; <code>false</code>
+     * @pbrbm e the KeyEvent to dispbtch
+     * @return <code>true</code> if the KeybobrdFocusMbnbger should tbke no
+     *         further bction with regbrd to the KeyEvent; <code>fblse</code>
      *         otherwise
-     * @see KeyboardFocusManager#redispatchEvent
+     * @see KeybobrdFocusMbnbger#redispbtchEvent
      */
-    boolean dispatchKeyEvent(KeyEvent e);
+    boolebn dispbtchKeyEvent(KeyEvent e);
 }

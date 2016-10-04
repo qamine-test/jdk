@@ -1,75 +1,75 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jstat
-.\" Language: English
-.\" Date: 2011年5月10日
+.\" Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: jstbt
+.\" Lbngubge: English
+.\" Dbte: 2011年5月10日
 .\" SectDesc: モニタリング・ツール
-.\" Software: JDK 8
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "jstat" "1" "2011年5月10日" "JDK 8" "モニタリング・ツール"
+.TH "jstbt" "1" "2011年5月10日" "JDK 8" "モニタリング・ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サポートされていません。
+jstbt \- Jbvb仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サポートされていません。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjstat\fR [ \fIgeneralOption\fR | \fIoutputOptions vmid\fR [ \fIinterval\fR[s|ms] [ \fIcount \fR] ]
+\fIjstbt\fR [ \fIgenerblOption\fR | \fIoutputOptions vmid\fR [ \fIintervbl\fR[s|ms] [ \fIcount \fR] ]
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIgeneralOption\fR
+\fIgenerblOption\fR
 .RS 4
 単独で使用する一般的なコマンドライン・オプションです(\fI\-help\fRまたは\fI\-options\fR)。一般的なオプションを参照してください。
 .RE
 .PP
 \fIoutputOptions\fR
 .RS 4
-単一の\fIstatOption\fRと\fI\-t\fR、\fI\-h\fRおよび\fI\-J\fRのいずれかのオプションで構成される1つ以上の出力オプション。出力オプションを参照してください。
+単一の\fIstbtOption\fRと\fI\-t\fR、\fI\-h\fRおよび\fI\-J\fRのいずれかのオプションで構成される1つ以上の出力オプション。出力オプションを参照してください。
 .RE
 .PP
 \fIvmid\fR
@@ -80,7 +80,7 @@ jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サ
 .RS 4
 .\}
 .nf
-[protocol:][//]lvmid[@hostname[:port]/servername]
+[protocol:][//]lvmid[@hostnbme[:port]/servernbme]
 .fi
 .if n \{\
 .RE
@@ -88,18 +88,18 @@ jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サ
 \fIvmid\fR文字列の構文は、URIの構文に対応しています。\fIvmid\fR文字列は、ローカルJVMを表す単純な整数から、通信プロトコル、ポート番号、および他の実装固有の値を示す複雑な構造まで、様々に異なります。仮想マシン識別子を参照してください。
 .RE
 .PP
-\fIinterval\fR [s|ms]
+\fIintervbl\fR [s|ms]
 .RS 4
-秒(s)またはミリ秒(ms)のうち指定した単位でのサンプリング間隔です。デフォルトの単位はミリ秒です。正の整数にする必要があります。指定した場合、\fIjstat\fRコマンドは各間隔で出力を生成します。
+秒(s)またはミリ秒(ms)のうち指定した単位でのサンプリング間隔です。デフォルトの単位はミリ秒です。正の整数にする必要があります。指定した場合、\fIjstbt\fRコマンドは各間隔で出力を生成します。
 .RE
 .PP
 \fIcount\fR
 .RS 4
-表示するサンプル数です。デフォルト値は無限で、ターゲットJVMが終了するまで、または\fIjstat\fRコマンドが終了するまで、\fIjstat\fRコマンドは統計データを表示します。この値は、正の整数である必要があります。
+表示するサンプル数です。デフォルト値は無限で、ターゲットJVMが終了するまで、または\fIjstbt\fRコマンドが終了するまで、\fIjstbt\fRコマンドは統計データを表示します。この値は、正の整数である必要があります。
 .RE
 .SH "説明"
 .PP
-\fIjstat\fRコマンドは、設置されているJava HotSpot VMのパフォーマンス統計データを表示します。ターゲットJVMは、仮想マシン識別子または\fIvmid\fRオプションによって識別されます。
+\fIjstbt\fRコマンドは、設置されているJbvb HotSpot VMのパフォーマンス統計データを表示します。ターゲットJVMは、仮想マシン識別子または\fIvmid\fRオプションによって識別されます。
 .SH "仮想マシン識別子"
 .PP
 \fIvmid\fR文字列の構文は、URIの構文に対応しています。
@@ -108,7 +108,7 @@ jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サ
 .RS 4
 .\}
 .nf
-[protocol:][//]lvmid[@hostname[:port]/servername]
+[protocol:][//]lvmid[@hostnbme[:port]/servernbme]
 .fi
 .if n \{\
 .RE
@@ -124,23 +124,23 @@ jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サ
 ターゲットJVMのローカル仮想マシン識別子です。\fIlvmid\fRは、システム上のJVMを一意に識別するプラットフォーム固有の値です。\fIlvmid\fRは、仮想マシン識別子の唯一の必須要素です。\fIlvmid\fRは、一般的にはターゲットJVMプロセスに対するオペレーティング・システムのプロセス識別子ですが、必ずしもそうであるとは限りません。\fIjps\fRコマンドを使用して、\fIlvmid\fRを特定できます。また、UNIXプラットフォームでは\fIps\fRコマンドを使用して、WindowsではWindowsタスク・マネージャを使用して、\fIlvmid\fRを特定できます。
 .RE
 .PP
-\fIhostname\fR
+\fIhostnbme\fR
 .RS 4
-ターゲット・ホストを示すホスト名またはIPアドレスです。\fIhostname\fR値が省略されている場合は、ターゲット・ホストはローカル・ホストになります。
+ターゲット・ホストを示すホスト名またはIPアドレスです。\fIhostnbme\fR値が省略されている場合は、ターゲット・ホストはローカル・ホストになります。
 .RE
 .PP
 \fIport\fR
 .RS 4
-リモート・サーバーと通信するためのデフォルト・ポートです。\fIhostname\fR値が省略されているか、最適化されたローカル・プロトコルが\fIprotocol\fR値に指定されている場合、\fIport\fR値は無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの\fIrmi\fRプロトコルの場合、ポート値は、リモート・ホスト上のrmiregistryのポート番号を示します。\fIport\fR値が省略され、\fIprotocol\fR値で\fIrmi\fRが指定されている場合、デフォルトのrmiregistryポート(1099)が使用されます。
+リモート・サーバーと通信するためのデフォルト・ポートです。\fIhostnbme\fR値が省略されているか、最適化されたローカル・プロトコルが\fIprotocol\fR値に指定されている場合、\fIport\fR値は無視されます。それ以外の場合、\fIport\fRパラメータの扱いは、実装によって異なります。デフォルトの\fIrmi\fRプロトコルの場合、ポート値は、リモート・ホスト上のrmiregistryのポート番号を示します。\fIport\fR値が省略され、\fIprotocol\fR値で\fIrmi\fRが指定されている場合、デフォルトのrmiregistryポート(1099)が使用されます。
 .RE
 .PP
-\fIservername\fR
+\fIservernbme\fR
 .RS 4
-\fIservername\fRパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、これは、リモート・ホスト上のRMIリソース・オブジェクトの名前を表します。
+\fIservernbme\fRパラメータの扱いは、実装によって異なります。最適化されたローカル・プロトコルの場合、このフィールドは無視されます。\fIrmi\fRプロトコルの場合、これは、リモート・ホスト上のRMIリソース・オブジェクトの名前を表します。
 .RE
 .SH "オプション"
 .PP
-\fIjstat\fRコマンドは、一般的なオプションと出力オプションの2つのタイプのオプションをサポートしています。一般的なオプションを使用した場合、\fIjstat\fRコマンドは簡単な使用率およびバージョン情報を表示します。出力オプションによって、統計データ出力の内容と形式が決まります。
+\fIjstbt\fRコマンドは、一般的なオプションと出力オプションの2つのタイプのオプションをサポートしています。一般的なオプションを使用した場合、\fIjstbt\fRコマンドは簡単な使用率およびバージョン情報を表示します。出力オプションによって、統計データ出力の内容と形式が決まります。
 .PP
 すべてのオプションとその機能は、将来のリリースで変更または廃止される可能性があります。
 .SS "一般的なオプション"
@@ -154,48 +154,48 @@ jstat \- Java仮想マシン(JVM)の統計を監視します。このコマンドは試験的なもので、サ
 .PP
 \-options
 .RS 4
-Staticオプションのリストを表示します。出力オプションを参照してください。
+Stbticオプションのリストを表示します。出力オプションを参照してください。
 .RE
 .SS "出力オプション"
 .PP
-一般的なオプションを指定しない場合に、出力オプションを指定できます。出力オプションは、\fIjstat\fRコマンドの出力の内容と形式を決定し、単一の\fIstatOption\fRといずれかの出力オプション(\fI\-h\fR、\fI\-t\fRおよび\fI\-J\fR)で構成されます。\fIstatOption\fRは最初に記述する必要があります。
+一般的なオプションを指定しない場合に、出力オプションを指定できます。出力オプションは、\fIjstbt\fRコマンドの出力の内容と形式を決定し、単一の\fIstbtOption\fRといずれかの出力オプション(\fI\-h\fR、\fI\-t\fRおよび\fI\-J\fR)で構成されます。\fIstbtOption\fRは最初に記述する必要があります。
 .PP
 出力は、各列が空白で区切られた表の形式になります。タイトルを含むヘッダー行によって、各列の意味がわかります。ヘッダーの表示頻度を設定するには、\fI\-h\fRオプションを使用します。列のヘッダー名は、様々なオプション間で一貫性が保たれています。一般に、2つのオプションで同じ名前の列が使用されていれば、2つの列のデータ・ソースは同じです。
 .PP
-\fI\-t\fRオプションを使用すると、Timestampというラベルの付いたタイムスタンプの列が、出力の最初の列として表示されます。Timestamp列には、ターゲットJVMの起動からの経過時間が、秒単位で表示されます。タイムスタンプの精度は、様々な要因によって異なり、大量の負荷のかかったシステムでのスレッド・スケジュールの遅延により変動します。
+\fI\-t\fRオプションを使用すると、Timestbmpというラベルの付いたタイムスタンプの列が、出力の最初の列として表示されます。Timestbmp列には、ターゲットJVMの起動からの経過時間が、秒単位で表示されます。タイムスタンプの精度は、様々な要因によって異なり、大量の負荷のかかったシステムでのスレッド・スケジュールの遅延により変動します。
 .PP
-intervalおよびcountパラメータを使用して、\fIjstat\fRコマンドがその出力を表示する頻度と回数をそれぞれ指定します。
+intervblおよびcountパラメータを使用して、\fIjstbt\fRコマンドがその出力を表示する頻度と回数をそれぞれ指定します。
 .PP
 \fB注意:\fR
-将来のリリースでこの形式は変更される可能性があるため、\fIjstat\fRコマンドの出力を解析するスクリプトは作成しなでください。\fIjstat\fRコマンドの出力を解析するスクリプトを作成する場合は、このツールの将来のリリースで、そのスクリプトを変更する必要があることに留意してください。
+将来のリリースでこの形式は変更される可能性があるため、\fIjstbt\fRコマンドの出力を解析するスクリプトは作成しなでください。\fIjstbt\fRコマンドの出力を解析するスクリプトを作成する場合は、このツールの将来のリリースで、そのスクリプトを変更する必要があることに留意してください。
 .PP
-\-\fIstatOption\fR
+\-\fIstbtOption\fR
 .RS 4
-\fIjstat\fRコマンドが表示する統計データ情報を指定します。次に、利用可能なオプションの一覧を示します。特定のプラットフォーム・インストールのオプションを一覧表示するには、一般的なオプションの\fI\-options\fRを使用します。Statオプションおよび出力を参照してください。
+\fIjstbt\fRコマンドが表示する統計データ情報を指定します。次に、利用可能なオプションの一覧を示します。特定のプラットフォーム・インストールのオプションを一覧表示するには、一般的なオプションの\fI\-options\fRを使用します。Stbtオプションおよび出力を参照してください。
 .sp
-\fIclass\fR: クラス・ローダーの動作に関する統計データを表示します。
+\fIclbss\fR: クラス・ローダーの動作に関する統計データを表示します。
 .sp
-\fIcompiler\fR: Java HotSpot VM Just\-in\-Timeコンパイラの動作に関する統計データを表示します。
+\fIcompiler\fR: Jbvb HotSpot VM Just\-in\-Timeコンパイラの動作に関する統計データを表示します。
 .sp
 \fIgc\fR: ガベージ・コレクトされたヒープの動作に関する統計データを表示します。
 .sp
-\fIgccapacity\fR: 世代ごとの容量と対応する領域に関する統計データを表示します。
+\fIgccbpbcity\fR: 世代ごとの容量と対応する領域に関する統計データを表示します。
 .sp
-\fIgccause\fR: ガベージ・コレクション統計データのサマリー(\fI\-gcutil\fRと同じ)と、直前および現在(適用可能な場合)のガベージ・コレクション・イベントの原因を表示します。
+\fIgccbuse\fR: ガベージ・コレクション統計データのサマリー(\fI\-gcutil\fRと同じ)と、直前および現在(適用可能な場合)のガベージ・コレクション・イベントの原因を表示します。
 .sp
 \fIgcnew\fR: New世代の動作に関する統計データを表示します。
 .sp
-\fIgcnewcapacity\fR: New世代のサイズと対応する領域に関する統計データを表示します。
+\fIgcnewcbpbcity\fR: New世代のサイズと対応する領域に関する統計データを表示します。
 .sp
 \fIgcold\fR: Old世代の動作とメタスペースに関する統計データを表示します。
 .sp
-\fIgcoldcapacity\fR: Old世代のサイズに関する統計データを表示します。
+\fIgcoldcbpbcity\fR: Old世代のサイズに関する統計データを表示します。
 .sp
-\fIgcmetacapacity\fR: メタスペースのサイズに関する統計データを表示します。
+\fIgcmetbcbpbcity\fR: メタスペースのサイズに関する統計データを表示します。
 .sp
 \fIgcutil\fR: ガベージ・コレクションのサマリーに関する統計データを表示します。
 .sp
-\fIprintcompilation\fR: Java HotSpot VMコンパイル・メソッドの統計データを表示します。
+\fIprintcompilbtion\fR: Jbvb HotSpot VMコンパイル・メソッドの統計データを表示します。
 .RE
 .PP
 \-h \fIn\fR
@@ -208,23 +208,23 @@ intervalおよびcountパラメータを使用して、\fIjstat\fRコマンドがその出力を表示する
 タイムスタンプ列を出力の最初の列として表示します。タイムスタンプは、ターゲットJVMの起動時からの経過時間です。
 .RE
 .PP
-\-J\fIjavaOption\fR
+\-J\fIjbvbOption\fR
 .RS 4
-\fIjavaOption\fRをJavaアプリケーション起動ツールに渡します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。オプションの完全なリストについては、java(1)を参照してください。
+\fIjbvbOption\fRをJbvbアプリケーション起動ツールに渡します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。オプションの完全なリストについては、jbvb(1)を参照してください。
 .RE
-.SS "Statオプションおよび出力"
+.SS "Stbtオプションおよび出力"
 .PP
-次の情報は、\fIjstat\fRコマンドが各\fIstatOption\fRについて出力する列をまとめたものです。
+次の情報は、\fIjstbt\fRコマンドが各\fIstbtOption\fRについて出力する列をまとめたものです。
 .PP
-\-class \fIoption\fR
+\-clbss \fIoption\fR
 .RS 4
 クラス・ローダーの統計データ。
 .sp
-\fILoaded\fR: ロードされたクラスの数。
+\fILobded\fR: ロードされたクラスの数。
 .sp
 \fIBytes\fR: ロードされたKBの数。
 .sp
-\fIUnloaded\fR: アンロードされたクラスの数。
+\fIUnlobded\fR: アンロードされたクラスの数。
 .sp
 \fIBytes\fR: アンロードされたKBの数。
 .sp
@@ -233,19 +233,19 @@ intervalおよびcountパラメータを使用して、\fIjstat\fRコマンドがその出力を表示する
 .PP
 \-compiler \fIoption\fR
 .RS 4
-Java HotSpot VM Just\-in\-Timeコンパイラの統計データ。
+Jbvb HotSpot VM Just\-in\-Timeコンパイラの統計データ。
 .sp
 \fICompiled\fR: 実行されたコンパイル・タスクの数。
 .sp
-\fIFailed\fR: 失敗したコンパイル・タスクの数。
+\fIFbiled\fR: 失敗したコンパイル・タスクの数。
 .sp
-\fIInvalid\fR: 無効にされたコンパイル・タスクの数。
+\fIInvblid\fR: 無効にされたコンパイル・タスクの数。
 .sp
 \fITime\fR: コンパイル・タスクの実行に要した時間。
 .sp
-\fIFailedType\fR: 最後に失敗したコンパイルのコンパイル・タイプ。
+\fIFbiledType\fR: 最後に失敗したコンパイルのコンパイル・タイプ。
 .sp
-\fIFailedMethod\fR: 最後に失敗したコンパイルのクラス名とメソッド。
+\fIFbiledMethod\fR: 最後に失敗したコンパイルのクラス名とメソッド。
 .RE
 .PP
 \-gc \fIoption\fR
@@ -283,7 +283,7 @@ Java HotSpot VM Just\-in\-Timeコンパイラの統計データ。
 \fIGCT\fR: ガベージ・コレクション総時間。
 .RE
 .PP
-\-gccapacity \fIoption\fR
+\-gccbpbcity \fIoption\fR
 .RS 4
 メモリー・プール世代および領域容量。
 .sp
@@ -318,7 +318,7 @@ Java HotSpot VM Just\-in\-Timeコンパイラの統計データ。
 \fIFGC\fR: フルGCイベント数。
 .RE
 .PP
-\-gccause \fIoption\fR
+\-gccbuse \fIoption\fR
 .RS 4
 このオプションは、\fI\-gcutil\fRオプションと同じガベージ・コレクション統計データのサマリーを表示しますが、最後のガベージ・コレクション・イベントと(適用可能な場合は)現在のガベージ・コレクション・イベントの原因が含まれます。\fI\-gcutil\fRで一覧表示される列のほか、このオプションでは次の列が追加されます。
 .sp
@@ -356,7 +356,7 @@ New世代の統計データ。
 \fIYGCT\fR: 若い世代のガベージ・コレクション時間。
 .RE
 .PP
-\-gcnewcapacity \fIoption\fR
+\-gcnewcbpbcity \fIoption\fR
 .RS 4
 New世代領域サイズの統計データ。
 .sp
@@ -385,7 +385,7 @@ NGCMN: New世代の最小容量(KB)。
 .PP
 \-gcold \fIoption\fR
 .RS 4
-OldおよびPermanent世代の統計データ。
+OldおよびPermbnent世代の統計データ。
 .sp
 \fIMC\fR: メタスペースの容量(KB)。
 .sp
@@ -404,7 +404,7 @@ OldおよびPermanent世代の統計データ。
 \fIGCT\fR: ガベージ・コレクション総時間。
 .RE
 .PP
-\-gcoldcapacity \fIoption\fR
+\-gcoldcbpbcity \fIoption\fR
 .RS 4
 Old世代の統計データ。
 .sp
@@ -425,9 +425,9 @@ Old世代の統計データ。
 \fIGCT\fR: ガベージ・コレクション総時間。
 .RE
 .PP
-\-gcmetacapacity \fIoption\fR
+\-gcmetbcbpbcity \fIoption\fR
 .RS 4
-Permanent世代の統計データ。
+Permbnent世代の統計データ。
 .sp
 \fIMCMN\fR: メタスペースの最小容量(KB)。
 .sp
@@ -469,9 +469,9 @@ Permanent世代の統計データ。
 \fIGCT\fR: ガベージ・コレクション総時間。
 .RE
 .PP
-\-printcompilation \fIoption\fR
+\-printcompilbtion \fIoption\fR
 .RS 4
-Java HotSpot VMコンパイル・メソッドの統計データ。
+Jbvb HotSpot VMコンパイル・メソッドの統計データ。
 .sp
 \fICompiled\fR: 最近コンパイルされたメソッドで実行されたコンパイル・タスクの数。
 .sp
@@ -480,7 +480,7 @@ Java HotSpot VMコンパイル・メソッドの統計データ。
 \fIType\fR: 最近コンパイルされたメソッドのコンパイル・タイプ。
 .sp
 \fIMethod\fR: 最近コンパイルされたメソッドを特定するクラス名とメソッド名。クラス名では、名前空間の区切り文字として、ドット(\&.)のかわりにスラッシュ(/)が使用されます。メソッド名は、指定されたクラス内のメソッドです。これらの2つのフィールドの形式は、HotSpot
-\fI\-XX:+PrintComplation\fRオプションと対応しています。
+\fI\-XX:+PrintComplbtion\fRオプションと対応しています。
 .RE
 .SH "例"
 .PP
@@ -495,7 +495,7 @@ Java HotSpot VMコンパイル・メソッドの統計データ。
 .RS 4
 .\}
 .nf
-jstat \-gcutil 21891 250 7
+jstbt \-gcutil 21891 250 7
   S0     S1     E      O      M       YGC    YGCT    FGC    FGCT     GCT
 0\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124
 0\&.00  99\&.74  13\&.49   7\&.86  95\&.82      3    0\&.124     0    0\&.000    0\&.124
@@ -520,7 +520,7 @@ jstat \-gcutil 21891 250 7
 .RS 4
 .\}
 .nf
-jstat \-gcnew \-h3 21891 250
+jstbt \-gcnew \-h3 21891 250
  S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT
   64\&.0   64\&.0    0\&.0   31\&.7 31  31   32\&.0    512\&.0    178\&.6    249    0\&.203
   64\&.0   64\&.0    0\&.0   31\&.7 31  31   32\&.0    512\&.0    355\&.5    249    0\&.203
@@ -539,13 +539,13 @@ jstat \-gcnew \-h3 21891 250
 .PP
 この例では、lvmid21891へ接続し、250ミリ秒間隔で3つのサンプルを取得しています。\fI\-t\fRオプションを使用して、最初の列にサンプルごとのタイムスタンプを表示しています。
 .PP
-Timestamp列には、ターゲットJVMの起動時からの経過時間が、秒単位でレポートされています。さらに、\fI\-gcoldcapacity\fR出力では、割当リクエストまたは昇格リクエストあるいはその両方を満たすためにヒープが拡張するたびに、Old世代の容量(OGC)とOld領域の容量(OC)とが増加していることがわかります。81番目のフル・ガベージ・コレクション(FGC)の後、Old世代の容量(OGC)は11,696 KBから13820 KBに増加しました。この世代(および領域)の最大容量は、60,544 KB (OGCMX)なので、まだ拡張できる余裕が残されています。
+Timestbmp列には、ターゲットJVMの起動時からの経過時間が、秒単位でレポートされています。さらに、\fI\-gcoldcbpbcity\fR出力では、割当リクエストまたは昇格リクエストあるいはその両方を満たすためにヒープが拡張するたびに、Old世代の容量(OGC)とOld領域の容量(OC)とが増加していることがわかります。81番目のフル・ガベージ・コレクション(FGC)の後、Old世代の容量(OGC)は11,696 KBから13820 KBに増加しました。この世代(および領域)の最大容量は、60,544 KB (OGCMX)なので、まだ拡張できる余裕が残されています。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-Timestamp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT
+Timestbmp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT
           150\&.1   1408\&.0  60544\&.0  11696\&.0  11696\&.0   194    80    2\&.874   3\&.799
           150\&.4   1408\&.0  60544\&.0  13820\&.0  13820\&.0   194    81    2\&.938   3\&.863
           150\&.7   1408\&.0  60544\&.0  13820\&.0  13820\&.0   194    81    2\&.938   3\&.863
@@ -555,15 +555,15 @@ Timestamp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT
 .\}
 .SS "リモートJVMのインストゥルメンテーションの監視"
 .PP
-この例は、\fI\-gcutil\fRオプションを使用して、remote\&.domainというシステム上のlvmid 40496に接続し、サンプルを秒単位で無期限に取得しています。
+この例は、\fI\-gcutil\fRオプションを使用して、remote\&.dombinというシステム上のlvmid 40496に接続し、サンプルを秒単位で無期限に取得しています。
 .PP
-lvmidは、リモート・ホストの名前と結合されて、\fI40496@remote\&.domain\fRの\fIvmid\fRを構成しています。結果として、このvmidは、\fIrmi\fRプロトコルを使用して、リモート・ホスト上のデフォルトの\fIjstatd\fRサーバーと通信します。\fIjstatd\fRサーバーは、rmiregistryを使用して、デフォルトのrmiregistryポート(ポート1099)にバインドされた\fIremote\&.domain\fRに配置されます。
+lvmidは、リモート・ホストの名前と結合されて、\fI40496@remote\&.dombin\fRの\fIvmid\fRを構成しています。結果として、このvmidは、\fIrmi\fRプロトコルを使用して、リモート・ホスト上のデフォルトの\fIjstbtd\fRサーバーと通信します。\fIjstbtd\fRサーバーは、rmiregistryを使用して、デフォルトのrmiregistryポート(ポート1099)にバインドされた\fIremote\&.dombin\fRに配置されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jstat \-gcutil 40496@remote\&.domain 1000
+jstbt \-gcutil 40496@remote\&.dombin 1000
 \fI\&.\&.\&. output omitted\fR
 .fi
 .if n \{\
@@ -579,7 +579,7 @@ jstat \-gcutil 40496@remote\&.domain 1000
 .sp -1
 .IP \(bu 2.3
 .\}
-java(1)
+jbvb(1)
 .RE
 .sp
 .RS 4
@@ -601,7 +601,7 @@ jps(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-jstatd(1)
+jstbtd(1)
 .RE
 .sp
 .RS 4

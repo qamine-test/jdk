@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -28,284 +28,284 @@
  *
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Stroke;
 
-import java.awt.font.TextAttribute;
+import jbvb.bwt.font.TextAttribute;
 
-import java.awt.geom.Area;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.bwt.geom.Areb;
+import jbvb.bwt.geom.Line2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
 
-import static sun.font.AttributeValues.*;
-import static sun.font.EAttribute.*;
+import stbtic sun.font.AttributeVblues.*;
+import stbtic sun.font.EAttribute.*;
 
 /**
- * This class handles underlining, strikethrough, and foreground and
- * background styles on text.  Clients simply acquire instances
- * of this class and hand them off to ExtendedTextLabels or GraphicComponents.
+ * This clbss hbndles underlining, strikethrough, bnd foreground bnd
+ * bbckground styles on text.  Clients simply bcquire instbnces
+ * of this clbss bnd hbnd them off to ExtendedTextLbbels or GrbphicComponents.
  */
-public class Decoration {
+public clbss Decorbtion {
 
     /**
-     * This interface is implemented by clients that use Decoration.
-     * Unfortunately, interface methods have to public;  ideally these
-     * would be package-private.
+     * This interfbce is implemented by clients thbt use Decorbtion.
+     * Unfortunbtely, interfbce methods hbve to public;  ideblly these
+     * would be pbckbge-privbte.
      */
-    public interface Label {
+    public interfbce Lbbel {
         CoreMetrics getCoreMetrics();
-        Rectangle2D getLogicalBounds();
+        Rectbngle2D getLogicblBounds();
 
-        void handleDraw(Graphics2D g2d, float x, float y);
-        Rectangle2D handleGetCharVisualBounds(int index);
-        Rectangle2D handleGetVisualBounds();
-        Shape handleGetOutline(float x, float y);
+        void hbndleDrbw(Grbphics2D g2d, flobt x, flobt y);
+        Rectbngle2D hbndleGetChbrVisublBounds(int index);
+        Rectbngle2D hbndleGetVisublBounds();
+        Shbpe hbndleGetOutline(flobt x, flobt y);
     }
 
-    private Decoration() {
+    privbte Decorbtion() {
     }
 
     /**
-     * Return a Decoration which does nothing.
+     * Return b Decorbtion which does nothing.
      */
-    public static Decoration getPlainDecoration() {
+    public stbtic Decorbtion getPlbinDecorbtion() {
 
         return PLAIN;
     }
 
-    private static final int VALUES_MASK =
-        AttributeValues.getMask(EFOREGROUND, EBACKGROUND, ESWAP_COLORS,
+    privbte stbtic finbl int VALUES_MASK =
+        AttributeVblues.getMbsk(EFOREGROUND, EBACKGROUND, ESWAP_COLORS,
                                 ESTRIKETHROUGH, EUNDERLINE, EINPUT_METHOD_HIGHLIGHT,
                                 EINPUT_METHOD_UNDERLINE);
 
-    public static Decoration getDecoration(AttributeValues values) {
-        if (values == null || !values.anyDefined(VALUES_MASK)) {
+    public stbtic Decorbtion getDecorbtion(AttributeVblues vblues) {
+        if (vblues == null || !vblues.bnyDefined(VALUES_MASK)) {
             return PLAIN;
         }
 
-        values = values.applyIMHighlight();
+        vblues = vblues.bpplyIMHighlight();
 
-        return new DecorationImpl(values.getForeground(),
-                                  values.getBackground(),
-                                  values.getSwapColors(),
-                                  values.getStrikethrough(),
-                                  Underline.getUnderline(values.getUnderline()),
-                                  Underline.getUnderline(values.getInputMethodUnderline()));
+        return new DecorbtionImpl(vblues.getForeground(),
+                                  vblues.getBbckground(),
+                                  vblues.getSwbpColors(),
+                                  vblues.getStrikethrough(),
+                                  Underline.getUnderline(vblues.getUnderline()),
+                                  Underline.getUnderline(vblues.getInputMethodUnderline()));
     }
 
     /**
-     * Return a Decoration appropriate for the the given Map.
-     * @param attributes the Map used to determine the Decoration
+     * Return b Decorbtion bppropribte for the the given Mbp.
+     * @pbrbm bttributes the Mbp used to determine the Decorbtion
      */
-    public static Decoration getDecoration(Map<? extends Attribute, ?> attributes) {
-        if (attributes == null) {
+    public stbtic Decorbtion getDecorbtion(Mbp<? extends Attribute, ?> bttributes) {
+        if (bttributes == null) {
             return PLAIN;
         }
-        return getDecoration(AttributeValues.fromMap(attributes));
+        return getDecorbtion(AttributeVblues.fromMbp(bttributes));
     }
 
-    public void drawTextAndDecorations(Label label,
-                                Graphics2D g2d,
-                                float x,
-                                float y) {
+    public void drbwTextAndDecorbtions(Lbbel lbbel,
+                                Grbphics2D g2d,
+                                flobt x,
+                                flobt y) {
 
-        label.handleDraw(g2d, x, y);
+        lbbel.hbndleDrbw(g2d, x, y);
     }
 
-    public Rectangle2D getVisualBounds(Label label) {
+    public Rectbngle2D getVisublBounds(Lbbel lbbel) {
 
-        return label.handleGetVisualBounds();
+        return lbbel.hbndleGetVisublBounds();
     }
 
-    public Rectangle2D getCharVisualBounds(Label label, int index) {
+    public Rectbngle2D getChbrVisublBounds(Lbbel lbbel, int index) {
 
-        return label.handleGetCharVisualBounds(index);
+        return lbbel.hbndleGetChbrVisublBounds(index);
     }
 
-    Shape getOutline(Label label,
-                     float x,
-                     float y) {
+    Shbpe getOutline(Lbbel lbbel,
+                     flobt x,
+                     flobt y) {
 
-        return label.handleGetOutline(x, y);
+        return lbbel.hbndleGetOutline(x, y);
     }
 
-    private static final Decoration PLAIN = new Decoration();
+    privbte stbtic finbl Decorbtion PLAIN = new Decorbtion();
 
-    private static final class DecorationImpl extends Decoration {
+    privbte stbtic finbl clbss DecorbtionImpl extends Decorbtion {
 
-        private Paint fgPaint = null;
-        private Paint bgPaint = null;
-        private boolean swapColors = false;
-        private boolean strikethrough = false;
-        private Underline stdUnderline = null; // underline from TextAttribute.UNDERLINE_ON
-        private Underline imUnderline = null; // input method underline
+        privbte Pbint fgPbint = null;
+        privbte Pbint bgPbint = null;
+        privbte boolebn swbpColors = fblse;
+        privbte boolebn strikethrough = fblse;
+        privbte Underline stdUnderline = null; // underline from TextAttribute.UNDERLINE_ON
+        privbte Underline imUnderline = null; // input method underline
 
-        DecorationImpl(Paint foreground,
-                       Paint background,
-                       boolean swapColors,
-                       boolean strikethrough,
+        DecorbtionImpl(Pbint foreground,
+                       Pbint bbckground,
+                       boolebn swbpColors,
+                       boolebn strikethrough,
                        Underline stdUnderline,
                        Underline imUnderline) {
 
-            fgPaint = foreground;
-            bgPaint = background;
+            fgPbint = foreground;
+            bgPbint = bbckground;
 
-            this.swapColors = swapColors;
+            this.swbpColors = swbpColors;
             this.strikethrough = strikethrough;
 
             this.stdUnderline = stdUnderline;
             this.imUnderline = imUnderline;
         }
 
-        private static boolean areEqual(Object lhs, Object rhs) {
+        privbte stbtic boolebn breEqubl(Object lhs, Object rhs) {
 
             if (lhs == null) {
                 return rhs == null;
             }
             else {
-                return lhs.equals(rhs);
+                return lhs.equbls(rhs);
             }
         }
 
-        public boolean equals(Object rhs) {
+        public boolebn equbls(Object rhs) {
 
             if (rhs == this) {
                 return true;
             }
             if (rhs == null) {
-                return false;
+                return fblse;
             }
 
-            DecorationImpl other = null;
+            DecorbtionImpl other = null;
             try {
-                other = (DecorationImpl) rhs;
+                other = (DecorbtionImpl) rhs;
             }
-            catch(ClassCastException e) {
-                return false;
+            cbtch(ClbssCbstException e) {
+                return fblse;
             }
 
-            if (!(swapColors == other.swapColors &&
+            if (!(swbpColors == other.swbpColors &&
                         strikethrough == other.strikethrough)) {
-                return false;
+                return fblse;
             }
 
-            if (!areEqual(stdUnderline, other.stdUnderline)) {
-                return false;
+            if (!breEqubl(stdUnderline, other.stdUnderline)) {
+                return fblse;
             }
-            if (!areEqual(fgPaint, other.fgPaint)) {
-                return false;
+            if (!breEqubl(fgPbint, other.fgPbint)) {
+                return fblse;
             }
-            if (!areEqual(bgPaint, other.bgPaint)) {
-                return false;
+            if (!breEqubl(bgPbint, other.bgPbint)) {
+                return fblse;
             }
-            return areEqual(imUnderline, other.imUnderline);
+            return breEqubl(imUnderline, other.imUnderline);
         }
 
-        public int hashCode() {
+        public int hbshCode() {
 
             int hc = 1;
             if (strikethrough) {
                 hc |= 2;
             }
-            if (swapColors) {
+            if (swbpColors) {
                 hc |= 4;
             }
             if (stdUnderline != null) {
-                hc += stdUnderline.hashCode();
+                hc += stdUnderline.hbshCode();
             }
             return hc;
         }
 
         /**
-        * Return the bottom of the Rectangle which encloses pixels
-        * drawn by underlines.
+        * Return the bottom of the Rectbngle which encloses pixels
+        * drbwn by underlines.
         */
-        private float getUnderlineMaxY(CoreMetrics cm) {
+        privbte flobt getUnderlineMbxY(CoreMetrics cm) {
 
-            float maxY = 0;
+            flobt mbxY = 0;
             if (stdUnderline != null) {
 
-                float ulBottom = cm.underlineOffset;
-                ulBottom += stdUnderline.getLowerDrawLimit(cm.underlineThickness);
-                maxY = Math.max(maxY, ulBottom);
+                flobt ulBottom = cm.underlineOffset;
+                ulBottom += stdUnderline.getLowerDrbwLimit(cm.underlineThickness);
+                mbxY = Mbth.mbx(mbxY, ulBottom);
             }
 
             if (imUnderline != null) {
 
-                float ulBottom = cm.underlineOffset;
-                ulBottom += imUnderline.getLowerDrawLimit(cm.underlineThickness);
-                maxY = Math.max(maxY, ulBottom);
+                flobt ulBottom = cm.underlineOffset;
+                ulBottom += imUnderline.getLowerDrbwLimit(cm.underlineThickness);
+                mbxY = Mbth.mbx(mbxY, ulBottom);
             }
 
-            return maxY;
+            return mbxY;
         }
 
-        private void drawTextAndEmbellishments(Label label,
-                                               Graphics2D g2d,
-                                               float x,
-                                               float y) {
+        privbte void drbwTextAndEmbellishments(Lbbel lbbel,
+                                               Grbphics2D g2d,
+                                               flobt x,
+                                               flobt y) {
 
-            label.handleDraw(g2d, x, y);
+            lbbel.hbndleDrbw(g2d, x, y);
 
             if (!strikethrough && stdUnderline == null && imUnderline == null) {
                 return;
             }
 
-            float x1 = x;
-            float x2 = x1 + (float)label.getLogicalBounds().getWidth();
+            flobt x1 = x;
+            flobt x2 = x1 + (flobt)lbbel.getLogicblBounds().getWidth();
 
-            CoreMetrics cm = label.getCoreMetrics();
+            CoreMetrics cm = lbbel.getCoreMetrics();
             if (strikethrough) {
-                Stroke savedStroke = g2d.getStroke();
-                g2d.setStroke(new BasicStroke(cm.strikethroughThickness,
-                                              BasicStroke.CAP_BUTT,
-                                              BasicStroke.JOIN_MITER));
-                float strikeY = y + cm.strikethroughOffset;
-                g2d.draw(new Line2D.Float(x1, strikeY, x2, strikeY));
-                g2d.setStroke(savedStroke);
+                Stroke sbvedStroke = g2d.getStroke();
+                g2d.setStroke(new BbsicStroke(cm.strikethroughThickness,
+                                              BbsicStroke.CAP_BUTT,
+                                              BbsicStroke.JOIN_MITER));
+                flobt strikeY = y + cm.strikethroughOffset;
+                g2d.drbw(new Line2D.Flobt(x1, strikeY, x2, strikeY));
+                g2d.setStroke(sbvedStroke);
             }
 
-            float ulOffset = cm.underlineOffset;
-            float ulThickness = cm.underlineThickness;
+            flobt ulOffset = cm.underlineOffset;
+            flobt ulThickness = cm.underlineThickness;
 
             if (stdUnderline != null) {
-                stdUnderline.drawUnderline(g2d, ulThickness, x1, x2, y + ulOffset);
+                stdUnderline.drbwUnderline(g2d, ulThickness, x1, x2, y + ulOffset);
             }
 
             if (imUnderline != null) {
-                imUnderline.drawUnderline(g2d, ulThickness, x1, x2, y + ulOffset);
+                imUnderline.drbwUnderline(g2d, ulThickness, x1, x2, y + ulOffset);
             }
         }
 
-        public void drawTextAndDecorations(Label label,
-                                    Graphics2D g2d,
-                                    float x,
-                                    float y) {
+        public void drbwTextAndDecorbtions(Lbbel lbbel,
+                                    Grbphics2D g2d,
+                                    flobt x,
+                                    flobt y) {
 
-            if (fgPaint == null && bgPaint == null && swapColors == false) {
-                drawTextAndEmbellishments(label, g2d, x, y);
+            if (fgPbint == null && bgPbint == null && swbpColors == fblse) {
+                drbwTextAndEmbellishments(lbbel, g2d, x, y);
             }
             else {
-                Paint savedPaint = g2d.getPaint();
-                Paint foreground, background;
+                Pbint sbvedPbint = g2d.getPbint();
+                Pbint foreground, bbckground;
 
-                if (swapColors) {
-                    background = fgPaint==null? savedPaint : fgPaint;
-                    if (bgPaint == null) {
-                        if (background instanceof Color) {
-                            Color bg = (Color)background;
-                            // 30/59/11 is standard weights, tweaked a bit
+                if (swbpColors) {
+                    bbckground = fgPbint==null? sbvedPbint : fgPbint;
+                    if (bgPbint == null) {
+                        if (bbckground instbnceof Color) {
+                            Color bg = (Color)bbckground;
+                            // 30/59/11 is stbndbrd weights, twebked b bit
                             int brightness = 33 * bg.getRed()
                                 + 53 * bg.getGreen()
                                 + 14 * bg.getBlue();
@@ -314,130 +314,130 @@ public class Decoration {
                             foreground = Color.WHITE;
                         }
                     } else {
-                        foreground = bgPaint;
+                        foreground = bgPbint;
                     }
                 }
                 else {
-                    foreground = fgPaint==null? savedPaint : fgPaint;
-                    background = bgPaint;
+                    foreground = fgPbint==null? sbvedPbint : fgPbint;
+                    bbckground = bgPbint;
                 }
 
-                if (background != null) {
+                if (bbckground != null) {
 
-                    Rectangle2D bgArea = label.getLogicalBounds();
-                    bgArea = new Rectangle2D.Float(x + (float)bgArea.getX(),
-                                                y + (float)bgArea.getY(),
-                                                (float)bgArea.getWidth(),
-                                                (float)bgArea.getHeight());
+                    Rectbngle2D bgAreb = lbbel.getLogicblBounds();
+                    bgAreb = new Rectbngle2D.Flobt(x + (flobt)bgAreb.getX(),
+                                                y + (flobt)bgAreb.getY(),
+                                                (flobt)bgAreb.getWidth(),
+                                                (flobt)bgAreb.getHeight());
 
-                    g2d.setPaint(background);
-                    g2d.fill(bgArea);
+                    g2d.setPbint(bbckground);
+                    g2d.fill(bgAreb);
                 }
 
-                g2d.setPaint(foreground);
-                drawTextAndEmbellishments(label, g2d, x, y);
-                g2d.setPaint(savedPaint);
+                g2d.setPbint(foreground);
+                drbwTextAndEmbellishments(lbbel, g2d, x, y);
+                g2d.setPbint(sbvedPbint);
             }
         }
 
-        public Rectangle2D getVisualBounds(Label label) {
+        public Rectbngle2D getVisublBounds(Lbbel lbbel) {
 
-            Rectangle2D visBounds = label.handleGetVisualBounds();
+            Rectbngle2D visBounds = lbbel.hbndleGetVisublBounds();
 
-            if (swapColors || bgPaint != null || strikethrough
+            if (swbpColors || bgPbint != null || strikethrough
                         || stdUnderline != null || imUnderline != null) {
 
-                float minX = 0;
-                Rectangle2D lb = label.getLogicalBounds();
+                flobt minX = 0;
+                Rectbngle2D lb = lbbel.getLogicblBounds();
 
-                float minY = 0, maxY = 0;
+                flobt minY = 0, mbxY = 0;
 
-                if (swapColors || bgPaint != null) {
+                if (swbpColors || bgPbint != null) {
 
-                    minY = (float)lb.getY();
-                    maxY = minY + (float)lb.getHeight();
+                    minY = (flobt)lb.getY();
+                    mbxY = minY + (flobt)lb.getHeight();
                 }
 
-                maxY = Math.max(maxY, getUnderlineMaxY(label.getCoreMetrics()));
+                mbxY = Mbth.mbx(mbxY, getUnderlineMbxY(lbbel.getCoreMetrics()));
 
-                Rectangle2D ab = new Rectangle2D.Float(minX, minY, (float)lb.getWidth(), maxY-minY);
-                visBounds.add(ab);
+                Rectbngle2D bb = new Rectbngle2D.Flobt(minX, minY, (flobt)lb.getWidth(), mbxY-minY);
+                visBounds.bdd(bb);
             }
 
             return visBounds;
         }
 
-        Shape getOutline(Label label,
-                         float x,
-                         float y) {
+        Shbpe getOutline(Lbbel lbbel,
+                         flobt x,
+                         flobt y) {
 
             if (!strikethrough && stdUnderline == null && imUnderline == null) {
-                return label.handleGetOutline(x, y);
+                return lbbel.hbndleGetOutline(x, y);
             }
 
-            CoreMetrics cm = label.getCoreMetrics();
+            CoreMetrics cm = lbbel.getCoreMetrics();
 
-            // NOTE:  The performace of the following code may
+            // NOTE:  The performbce of the following code mby
             // be very poor.
-            float ulThickness = cm.underlineThickness;
-            float ulOffset = cm.underlineOffset;
+            flobt ulThickness = cm.underlineThickness;
+            flobt ulOffset = cm.underlineOffset;
 
-            Rectangle2D lb = label.getLogicalBounds();
-            float x1 = x;
-            float x2 = x1 + (float)lb.getWidth();
+            Rectbngle2D lb = lbbel.getLogicblBounds();
+            flobt x1 = x;
+            flobt x2 = x1 + (flobt)lb.getWidth();
 
-            Area area = null;
+            Areb breb = null;
 
             if (stdUnderline != null) {
-                Shape ul = stdUnderline.getUnderlineShape(ulThickness,
+                Shbpe ul = stdUnderline.getUnderlineShbpe(ulThickness,
                                                           x1, x2, y+ulOffset);
-                area = new Area(ul);
+                breb = new Areb(ul);
             }
 
             if (strikethrough) {
-                Stroke stStroke = new BasicStroke(cm.strikethroughThickness,
-                                                  BasicStroke.CAP_BUTT,
-                                                  BasicStroke.JOIN_MITER);
-                float shiftY = y + cm.strikethroughOffset;
-                Line2D line = new Line2D.Float(x1, shiftY, x2, shiftY);
-                Area slArea = new Area(stStroke.createStrokedShape(line));
-                if(area == null) {
-                    area = slArea;
+                Stroke stStroke = new BbsicStroke(cm.strikethroughThickness,
+                                                  BbsicStroke.CAP_BUTT,
+                                                  BbsicStroke.JOIN_MITER);
+                flobt shiftY = y + cm.strikethroughOffset;
+                Line2D line = new Line2D.Flobt(x1, shiftY, x2, shiftY);
+                Areb slAreb = new Areb(stStroke.crebteStrokedShbpe(line));
+                if(breb == null) {
+                    breb = slAreb;
                 } else {
-                    area.add(slArea);
+                    breb.bdd(slAreb);
                 }
             }
 
             if (imUnderline != null) {
-                Shape ul = imUnderline.getUnderlineShape(ulThickness,
+                Shbpe ul = imUnderline.getUnderlineShbpe(ulThickness,
                                                          x1, x2, y+ulOffset);
-                Area ulArea = new Area(ul);
-                if (area == null) {
-                    area = ulArea;
+                Areb ulAreb = new Areb(ul);
+                if (breb == null) {
+                    breb = ulAreb;
                 }
                 else {
-                    area.add(ulArea);
+                    breb.bdd(ulAreb);
                 }
             }
 
-            // area won't be null here, since at least one underline exists.
-            area.add(new Area(label.handleGetOutline(x, y)));
+            // breb won't be null here, since bt lebst one underline exists.
+            breb.bdd(new Areb(lbbel.hbndleGetOutline(x, y)));
 
-            return new GeneralPath(area);
+            return new GenerblPbth(breb);
         }
 
 
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append(super.toString());
-            sb.append("[");
-            if (fgPaint != null) sb.append("fgPaint: " + fgPaint);
-            if (bgPaint != null) sb.append(" bgPaint: " + bgPaint);
-            if (swapColors) sb.append(" swapColors: true");
-            if (strikethrough) sb.append(" strikethrough: true");
-            if (stdUnderline != null) sb.append(" stdUnderline: " + stdUnderline);
-            if (imUnderline != null) sb.append(" imUnderline: " + imUnderline);
-            sb.append("]");
+            sb.bppend(super.toString());
+            sb.bppend("[");
+            if (fgPbint != null) sb.bppend("fgPbint: " + fgPbint);
+            if (bgPbint != null) sb.bppend(" bgPbint: " + bgPbint);
+            if (swbpColors) sb.bppend(" swbpColors: true");
+            if (strikethrough) sb.bppend(" strikethrough: true");
+            if (stdUnderline != null) sb.bppend(" stdUnderline: " + stdUnderline);
+            if (imUnderline != null) sb.bppend(" imUnderline: " + imUnderline);
+            sb.bppend("]");
             return sb.toString();
         }
     }

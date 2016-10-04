@@ -3,257 +3,257 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6610 $"/>
-		<generation date="$Date: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
+		<lbngubge type="en"/>
 		<territory type="HK"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yy GGGGG</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="yM">M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM, y G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="gregorian">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">d/M – d/M</greatestDifference>
-							<greatestDifference id="M">d/M – d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, d/M – E, d/M</greatestDifference>
-							<greatestDifference id="M">E, d/M – E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d–d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM – d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="M">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="y">d/M/yy – d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="M">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="y">E, d/M/yy – E, d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d–d MMM, y</greatestDifference>
-							<greatestDifference id="M">d MMM – d MMM, y</greatestDifference>
-							<greatestDifference id="y">d MMM, y – d MMM, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="y">E, d MMM, y – E, d MMM, y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="buddhist">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yy GGGGG</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMMMEd">E d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y GGGGG</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y GGGGG</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, d/M/y GGGGG</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM, y G</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d MMM, y G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="gregoribn">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMMEd">E, d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d MMM, y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">d/M – d/M</grebtestDifference>
+							<grebtestDifference id="M">d/M – d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, d/M – E, d/M</grebtestDifference>
+							<grebtestDifference id="M">E, d/M – E, d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d–d MMM</grebtestDifference>
+							<grebtestDifference id="M">d MMM – d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">d/M/yy – d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">d/M/yy – d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">d/M/yy – d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, d/M/yy – E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="M">E, d/M/yy – E, d/M/yy</grebtestDifference>
+							<grebtestDifference id="y">E, d/M/yy – E, d/M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d–d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">d MMM – d MMM, y</grebtestDifference>
+							<grebtestDifference id="y">d MMM, y – d MMM, y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="y">E, d MMM, y – E, d MMM, y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="year">
-						<relative type="-1">Last Year</relative>
-						<relative type="0">This Year</relative>
-						<relative type="1">Next Year</relative>
+					<field type="yebr">
+						<relbtive type="-1">Lbst Yebr</relbtive>
+						<relbtive type="0">This Yebr</relbtive>
+						<relbtive type="1">Next Yebr</relbtive>
 					</field>
 					<field type="week">
-						<relative type="1">Next Week</relative>
+						<relbtive type="1">Next Week</relbtive>
 					</field>
 				</fields>
-			</calendar>
-			<calendar type="japanese">
-				<eras>
-					<eraAbbr>
-						<era type="161">Bunchū</era>
-						<era type="165">Genchū</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yy GGGGG</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y G</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM, y G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="roc">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yy GGGGG</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="Europe_Central">
+			</cblendbr>
+			<cblendbr type="jbpbnese">
+				<erbs>
+					<erbAbbr>
+						<erb type="161">Bunchū</erb>
+						<erb type="165">Genchū</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yy GGGGG</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMMMEd">E d MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y GGGGG</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, d/M/y GGGGG</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM, y G</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d MMM, y G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="roc">
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yy GGGGG</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMMEd">E, d MMM</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<metbzone type="Europe_Centrbl">
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Hong_Kong">
+			</metbzone>
+			<metbzone type="Hong_Kong">
 				<short>
 					<generic>HKT</generic>
-					<standard>HKT</standard>
-					<daylight>HKST</daylight>
+					<stbndbrd>HKT</stbndbrd>
+					<dbylight>HKST</dbylight>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="HKD">
 				<symbol>$</symbol>

@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,91 +30,91 @@
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 #include "OpenTypeUtilities.h"
-#include "ClassDefinitionTables.h"
-#include "LESwaps.h"
+#include "ClbssDefinitionTbbles.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-le_int32 ClassDefinitionTable::getGlyphClass(const LETableReference& base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 ClbssDefinitionTbble::getGlyphClbss(const LETbbleReference& bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
-  LEReferenceTo<ClassDefinitionTable> thisRef(base, success);
+  LEReferenceTo<ClbssDefinitionTbble> thisRef(bbse, success);
   if (LE_FAILURE(success)) return 0;
 
-  switch(SWAPW(classFormat)) {
-    case 0:
+  switch(SWAPW(clbssFormbt)) {
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      const LEReferenceTo<ClassDefFormat1Table> f1Table(thisRef, success);
-      return f1Table->getGlyphClass(f1Table, glyphID, success);
+      const LEReferenceTo<ClbssDefFormbt1Tbble> f1Tbble(thisRef, success);
+      return f1Tbble->getGlyphClbss(f1Tbble, glyphID, success);
     }
 
-    case 2:
+    cbse 2:
     {
-      const LEReferenceTo<ClassDefFormat2Table> f2Table(thisRef, success);
-      return  f2Table->getGlyphClass(f2Table, glyphID, success);
+      const LEReferenceTo<ClbssDefFormbt2Tbble> f2Tbble(thisRef, success);
+      return  f2Tbble->getGlyphClbss(f2Tbble, glyphID, success);
     }
 
-    default:
+    defbult:
         return 0;
   }
 }
 
-le_bool ClassDefinitionTable::hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const
+le_bool ClbssDefinitionTbble::hbsGlyphClbss(const LETbbleReference &bbse, le_int32 glyphClbss, LEErrorCode &success) const
 {
-    LEReferenceTo<ClassDefinitionTable> thisRef(base, success);
+    LEReferenceTo<ClbssDefinitionTbble> thisRef(bbse, success);
     if (LE_FAILURE(success)) return 0;
 
-    switch(SWAPW(classFormat)) {
-    case 0:
+    switch(SWAPW(clbssFormbt)) {
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      const LEReferenceTo<ClassDefFormat1Table> f1Table(thisRef, success);
-      return f1Table->hasGlyphClass(f1Table, glyphClass, success);
+      const LEReferenceTo<ClbssDefFormbt1Tbble> f1Tbble(thisRef, success);
+      return f1Tbble->hbsGlyphClbss(f1Tbble, glyphClbss, success);
     }
 
-    case 2:
+    cbse 2:
     {
-      const LEReferenceTo<ClassDefFormat2Table> f2Table(thisRef, success);
-      return f2Table->hasGlyphClass(f2Table, glyphClass, success);
+      const LEReferenceTo<ClbssDefFormbt2Tbble> f2Tbble(thisRef, success);
+      return f2Tbble->hbsGlyphClbss(f2Tbble, glyphClbss, success);
     }
 
-    default:
+    defbult:
         return 0;
     }
 }
 
-le_int32 ClassDefFormat1Table::getGlyphClass(const LETableReference& base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 ClbssDefFormbt1Tbble::getGlyphClbss(const LETbbleReference& bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
     if(LE_FAILURE(success)) return 0;
 
     le_uint16 count = SWAPW(glyphCount);
-    LEReferenceToArrayOf<le_uint16> classValueArrayRef(base, success, &classValueArray[0], count);
+    LEReferenceToArrbyOf<le_uint16> clbssVblueArrbyRef(bbse, success, &clbssVblueArrby[0], count);
     TTGlyphID ttGlyphID  = (TTGlyphID) LE_GET_GLYPH(glyphID);
-    TTGlyphID firstGlyph = SWAPW(startGlyph);
-    TTGlyphID lastGlyph  = firstGlyph + count;
+    TTGlyphID firstGlyph = SWAPW(stbrtGlyph);
+    TTGlyphID lbstGlyph  = firstGlyph + count;
 
-    if (LE_SUCCESS(success) && ttGlyphID >= firstGlyph && ttGlyphID < lastGlyph) {
-      return SWAPW( classValueArrayRef(ttGlyphID - firstGlyph, success) );
+    if (LE_SUCCESS(success) && ttGlyphID >= firstGlyph && ttGlyphID < lbstGlyph) {
+      return SWAPW( clbssVblueArrbyRef(ttGlyphID - firstGlyph, success) );
     }
 
     return 0;
 }
 
-le_bool ClassDefFormat1Table::hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const
+le_bool ClbssDefFormbt1Tbble::hbsGlyphClbss(const LETbbleReference &bbse, le_int32 glyphClbss, LEErrorCode &success) const
 {
     if(LE_FAILURE(success)) return 0;
     le_uint16 count = SWAPW(glyphCount);
-    LEReferenceToArrayOf<le_uint16> classValueArrayRef(base, success, &classValueArray[0], count);
+    LEReferenceToArrbyOf<le_uint16> clbssVblueArrbyRef(bbse, success, &clbssVblueArrby[0], count);
     int i;
 
     for (i = 0; LE_SUCCESS(success)&& (i < count); i += 1) {
-      if (SWAPW(classValueArrayRef(i,success)) == glyphClass) {
+      if (SWAPW(clbssVblueArrbyRef(i,success)) == glyphClbss) {
             return TRUE;
         }
     }
@@ -122,31 +122,31 @@ le_bool ClassDefFormat1Table::hasGlyphClass(const LETableReference &base, le_int
     return FALSE;
 }
 
-le_int32 ClassDefFormat2Table::getGlyphClass(const LETableReference& base, LEGlyphID glyphID, LEErrorCode &success) const
+le_int32 ClbssDefFormbt2Tbble::getGlyphClbss(const LETbbleReference& bbse, LEGlyphID glyphID, LEErrorCode &success) const
 {
     if(LE_FAILURE(success)) return 0;
     TTGlyphID ttGlyph    = (TTGlyphID) LE_GET_GLYPH(glyphID);
-    le_uint16 rangeCount = SWAPW(classRangeCount);
-    LEReferenceToArrayOf<GlyphRangeRecord> classRangeRecordArrayRef(base, success, &classRangeRecordArray[0], rangeCount);
-    le_int32  rangeIndex =
-      OpenTypeUtilities::getGlyphRangeIndex(ttGlyph, classRangeRecordArrayRef, success);
+    le_uint16 rbngeCount = SWAPW(clbssRbngeCount);
+    LEReferenceToArrbyOf<GlyphRbngeRecord> clbssRbngeRecordArrbyRef(bbse, success, &clbssRbngeRecordArrby[0], rbngeCount);
+    le_int32  rbngeIndex =
+      OpenTypeUtilities::getGlyphRbngeIndex(ttGlyph, clbssRbngeRecordArrbyRef, success);
 
-    if (rangeIndex < 0 || LE_FAILURE(success)) {
+    if (rbngeIndex < 0 || LE_FAILURE(success)) {
         return 0;
     }
 
-    return SWAPW(classRangeRecordArrayRef(rangeIndex, success).rangeValue);
+    return SWAPW(clbssRbngeRecordArrbyRef(rbngeIndex, success).rbngeVblue);
 }
 
-le_bool ClassDefFormat2Table::hasGlyphClass(const LETableReference &base, le_int32 glyphClass, LEErrorCode &success) const
+le_bool ClbssDefFormbt2Tbble::hbsGlyphClbss(const LETbbleReference &bbse, le_int32 glyphClbss, LEErrorCode &success) const
 {
     if(LE_FAILURE(success)) return 0;
-    le_uint16 rangeCount = SWAPW(classRangeCount);
-    LEReferenceToArrayOf<GlyphRangeRecord> classRangeRecordArrayRef(base, success, &classRangeRecordArray[0], rangeCount);
+    le_uint16 rbngeCount = SWAPW(clbssRbngeCount);
+    LEReferenceToArrbyOf<GlyphRbngeRecord> clbssRbngeRecordArrbyRef(bbse, success, &clbssRbngeRecordArrby[0], rbngeCount);
     int i;
 
-    for (i = 0; i < rangeCount && LE_SUCCESS(success); i += 1) {
-      if (SWAPW(classRangeRecordArrayRef(i,success).rangeValue) == glyphClass) {
+    for (i = 0; i < rbngeCount && LE_SUCCESS(success); i += 1) {
+      if (SWAPW(clbssRbngeRecordArrbyRef(i,success).rbngeVblue) == glyphClbss) {
             return TRUE;
         }
     }

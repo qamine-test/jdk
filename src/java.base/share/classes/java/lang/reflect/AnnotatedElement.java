@@ -1,344 +1,344 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
-import java.lang.annotation.Repeatable;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.AnnotationType;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.lbng.bnnotbtion.Repebtbble;
+import jbvb.util.Arrbys;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.function.Function;
+import jbvb.util.strebm.Collectors;
+import sun.reflect.bnnotbtion.AnnotbtionSupport;
+import sun.reflect.bnnotbtion.AnnotbtionType;
 
 /**
- * Represents an annotated element of the program currently running in this
- * VM.  This interface allows annotations to be read reflectively.  All
- * annotations returned by methods in this interface are immutable and
- * serializable. The arrays returned by methods of this interface may be modified
- * by callers without affecting the arrays returned to other callers.
+ * Represents bn bnnotbted element of the progrbm currently running in this
+ * VM.  This interfbce bllows bnnotbtions to be rebd reflectively.  All
+ * bnnotbtions returned by methods in this interfbce bre immutbble bnd
+ * seriblizbble. The brrbys returned by methods of this interfbce mby be modified
+ * by cbllers without bffecting the brrbys returned to other cbllers.
  *
- * <p>The {@link #getAnnotationsByType(Class)} and {@link
- * #getDeclaredAnnotationsByType(Class)} methods support multiple
- * annotations of the same type on an element. If the argument to
- * either method is a repeatable annotation type (JLS 9.6), then the
- * method will "look through" a container annotation (JLS 9.7), if
- * present, and return any annotations inside the container. Container
- * annotations may be generated at compile-time to wrap multiple
- * annotations of the argument type.
+ * <p>The {@link #getAnnotbtionsByType(Clbss)} bnd {@link
+ * #getDeclbredAnnotbtionsByType(Clbss)} methods support multiple
+ * bnnotbtions of the sbme type on bn element. If the brgument to
+ * either method is b repebtbble bnnotbtion type (JLS 9.6), then the
+ * method will "look through" b contbiner bnnotbtion (JLS 9.7), if
+ * present, bnd return bny bnnotbtions inside the contbiner. Contbiner
+ * bnnotbtions mby be generbted bt compile-time to wrbp multiple
+ * bnnotbtions of the brgument type.
  *
  * <p>The terms <em>directly present</em>, <em>indirectly present</em>,
- * <em>present</em>, and <em>associated</em> are used throughout this
- * interface to describe precisely which annotations are returned by
+ * <em>present</em>, bnd <em>bssocibted</em> bre used throughout this
+ * interfbce to describe precisely which bnnotbtions bre returned by
  * methods:
  *
  * <ul>
  *
- * <li> An annotation <i>A</i> is <em>directly present</em> on an
- * element <i>E</i> if <i>E</i> has a {@code
- * RuntimeVisibleAnnotations} or {@code
- * RuntimeVisibleParameterAnnotations} or {@code
- * RuntimeVisibleTypeAnnotations} attribute, and the attribute
- * contains <i>A</i>.
+ * <li> An bnnotbtion <i>A</i> is <em>directly present</em> on bn
+ * element <i>E</i> if <i>E</i> hbs b {@code
+ * RuntimeVisibleAnnotbtions} or {@code
+ * RuntimeVisiblePbrbmeterAnnotbtions} or {@code
+ * RuntimeVisibleTypeAnnotbtions} bttribute, bnd the bttribute
+ * contbins <i>A</i>.
  *
- * <li>An annotation <i>A</i> is <em>indirectly present</em> on an
- * element <i>E</i> if <i>E</i> has a {@code RuntimeVisibleAnnotations} or
- * {@code RuntimeVisibleParameterAnnotations} or {@code RuntimeVisibleTypeAnnotations}
- * attribute, and <i>A</i> 's type is repeatable, and the attribute contains
- * exactly one annotation whose value element contains <i>A</i> and whose
- * type is the containing annotation type of <i>A</i> 's type.
+ * <li>An bnnotbtion <i>A</i> is <em>indirectly present</em> on bn
+ * element <i>E</i> if <i>E</i> hbs b {@code RuntimeVisibleAnnotbtions} or
+ * {@code RuntimeVisiblePbrbmeterAnnotbtions} or {@code RuntimeVisibleTypeAnnotbtions}
+ * bttribute, bnd <i>A</i> 's type is repebtbble, bnd the bttribute contbins
+ * exbctly one bnnotbtion whose vblue element contbins <i>A</i> bnd whose
+ * type is the contbining bnnotbtion type of <i>A</i> 's type.
  *
- * <li>An annotation <i>A</i> is present on an element <i>E</i> if either:
+ * <li>An bnnotbtion <i>A</i> is present on bn element <i>E</i> if either:
  *
  * <ul>
  *
  * <li><i>A</i> is directly present on <i>E</i>; or
  *
- * <li>No annotation of <i>A</i> 's type is directly present on
- * <i>E</i>, and <i>E</i> is a class, and <i>A</i> 's type is
- * inheritable, and <i>A</i> is present on the superclass of <i>E</i>.
+ * <li>No bnnotbtion of <i>A</i> 's type is directly present on
+ * <i>E</i>, bnd <i>E</i> is b clbss, bnd <i>A</i> 's type is
+ * inheritbble, bnd <i>A</i> is present on the superclbss of <i>E</i>.
  *
  * </ul>
  *
- * <li>An annotation <i>A</i> is <em>associated</em> with an element <i>E</i>
+ * <li>An bnnotbtion <i>A</i> is <em>bssocibted</em> with bn element <i>E</i>
  * if either:
  *
  * <ul>
  *
  * <li><i>A</i> is directly or indirectly present on <i>E</i>; or
  *
- * <li>No annotation of <i>A</i> 's type is directly or indirectly
- * present on <i>E</i>, and <i>E</i> is a class, and <i>A</i>'s type
- * is inheritable, and <i>A</i> is associated with the superclass of
+ * <li>No bnnotbtion of <i>A</i> 's type is directly or indirectly
+ * present on <i>E</i>, bnd <i>E</i> is b clbss, bnd <i>A</i>'s type
+ * is inheritbble, bnd <i>A</i> is bssocibted with the superclbss of
  * <i>E</i>.
  *
  * </ul>
  *
  * </ul>
  *
- * <p>The table below summarizes which kind of annotation presence
- * different methods in this interface examine.
+ * <p>The tbble below summbrizes which kind of bnnotbtion presence
+ * different methods in this interfbce exbmine.
  *
- * <table border>
- * <caption>Overview of kind of presence detected by different AnnotatedElement methods</caption>
- * <tr><th colspan=2></th><th colspan=4>Kind of Presence</th>
- * <tr><th colspan=2>Method</th><th>Directly Present</th><th>Indirectly Present</th><th>Present</th><th>Associated</th>
- * <tr><td align=right>{@code T}</td><td>{@link #getAnnotation(Class) getAnnotation(Class&lt;T&gt;)}
+ * <tbble border>
+ * <cbption>Overview of kind of presence detected by different AnnotbtedElement methods</cbption>
+ * <tr><th colspbn=2></th><th colspbn=4>Kind of Presence</th>
+ * <tr><th colspbn=2>Method</th><th>Directly Present</th><th>Indirectly Present</th><th>Present</th><th>Associbted</th>
+ * <tr><td blign=right>{@code T}</td><td>{@link #getAnnotbtion(Clbss) getAnnotbtion(Clbss&lt;T&gt;)}
  * <td></td><td></td><td>X</td><td></td>
  * </tr>
- * <tr><td align=right>{@code Annotation[]}</td><td>{@link #getAnnotations getAnnotations()}
+ * <tr><td blign=right>{@code Annotbtion[]}</td><td>{@link #getAnnotbtions getAnnotbtions()}
  * <td></td><td></td><td>X</td><td></td>
  * </tr>
- * <tr><td align=right>{@code T[]}</td><td>{@link #getAnnotationsByType(Class) getAnnotationsByType(Class&lt;T&gt;)}
+ * <tr><td blign=right>{@code T[]}</td><td>{@link #getAnnotbtionsByType(Clbss) getAnnotbtionsByType(Clbss&lt;T&gt;)}
  * <td></td><td></td><td></td><td>X</td>
  * </tr>
- * <tr><td align=right>{@code T}</td><td>{@link #getDeclaredAnnotation(Class) getDeclaredAnnotation(Class&lt;T&gt;)}
+ * <tr><td blign=right>{@code T}</td><td>{@link #getDeclbredAnnotbtion(Clbss) getDeclbredAnnotbtion(Clbss&lt;T&gt;)}
  * <td>X</td><td></td><td></td><td></td>
  * </tr>
- * <tr><td align=right>{@code Annotation[]}</td><td>{@link #getDeclaredAnnotations getDeclaredAnnotations()}
+ * <tr><td blign=right>{@code Annotbtion[]}</td><td>{@link #getDeclbredAnnotbtions getDeclbredAnnotbtions()}
  * <td>X</td><td></td><td></td><td></td>
  * </tr>
- * <tr><td align=right>{@code T[]}</td><td>{@link #getDeclaredAnnotationsByType(Class) getDeclaredAnnotationsByType(Class&lt;T&gt;)}
+ * <tr><td blign=right>{@code T[]}</td><td>{@link #getDeclbredAnnotbtionsByType(Clbss) getDeclbredAnnotbtionsByType(Clbss&lt;T&gt;)}
  * <td>X</td><td>X</td><td></td><td></td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * <p>For an invocation of {@code get[Declared]AnnotationsByType( Class <
- * T >)}, the order of annotations which are directly or indirectly
- * present on an element <i>E</i> is computed as if indirectly present
- * annotations on <i>E</i> are directly present on <i>E</i> in place
- * of their container annotation, in the order in which they appear in
- * the value element of the container annotation.
+ * <p>For bn invocbtion of {@code get[Declbred]AnnotbtionsByType( Clbss <
+ * T >)}, the order of bnnotbtions which bre directly or indirectly
+ * present on bn element <i>E</i> is computed bs if indirectly present
+ * bnnotbtions on <i>E</i> bre directly present on <i>E</i> in plbce
+ * of their contbiner bnnotbtion, in the order in which they bppebr in
+ * the vblue element of the contbiner bnnotbtion.
  *
- * <p>There are several compatibility concerns to keep in mind if an
- * annotation type <i>T</i> is originally <em>not</em> repeatable and
- * later modified to be repeatable.
+ * <p>There bre severbl compbtibility concerns to keep in mind if bn
+ * bnnotbtion type <i>T</i> is originblly <em>not</em> repebtbble bnd
+ * lbter modified to be repebtbble.
  *
- * The containing annotation type for <i>T</i> is <i>TC</i>.
+ * The contbining bnnotbtion type for <i>T</i> is <i>TC</i>.
  *
  * <ul>
  *
- * <li>Modifying <i>T</i> to be repeatable is source and binary
- * compatible with existing uses of <i>T</i> and with existing uses
+ * <li>Modifying <i>T</i> to be repebtbble is source bnd binbry
+ * compbtible with existing uses of <i>T</i> bnd with existing uses
  * of <i>TC</i>.
  *
- * That is, for source compatibility, source code with annotations of
- * type <i>T</i> or of type <i>TC</i> will still compile. For binary
- * compatibility, class files with annotations of type <i>T</i> or of
+ * Thbt is, for source compbtibility, source code with bnnotbtions of
+ * type <i>T</i> or of type <i>TC</i> will still compile. For binbry
+ * compbtibility, clbss files with bnnotbtions of type <i>T</i> or of
  * type <i>TC</i> (or with other kinds of uses of type <i>T</i> or of
- * type <i>TC</i>) will link against the modified version of <i>T</i>
- * if they linked against the earlier version.
+ * type <i>TC</i>) will link bgbinst the modified version of <i>T</i>
+ * if they linked bgbinst the ebrlier version.
  *
- * (An annotation type <i>TC</i> may informally serve as an acting
- * containing annotation type before <i>T</i> is modified to be
- * formally repeatable. Alternatively, when <i>T</i> is made
- * repeatable, <i>TC</i> can be introduced as a new type.)
+ * (An bnnotbtion type <i>TC</i> mby informblly serve bs bn bcting
+ * contbining bnnotbtion type before <i>T</i> is modified to be
+ * formblly repebtbble. Alternbtively, when <i>T</i> is mbde
+ * repebtbble, <i>TC</i> cbn be introduced bs b new type.)
  *
- * <li>If an annotation type <i>TC</i> is present on an element, and
- * <i>T</i> is modified to be repeatable with <i>TC</i> as its
- * containing annotation type then:
- *
- * <ul>
- *
- * <li>The change to <i>T</i> is behaviorally compatible with respect
- * to the {@code get[Declared]Annotation(Class<T>)} (called with an
- * argument of <i>T</i> or <i>TC</i>) and {@code
- * get[Declared]Annotations()} methods because the results of the
- * methods will not change due to <i>TC</i> becoming the containing
- * annotation type for <i>T</i>.
- *
- * <li>The change to <i>T</i> changes the results of the {@code
- * get[Declared]AnnotationsByType(Class<T>)} methods called with an
- * argument of <i>T</i>, because those methods will now recognize an
- * annotation of type <i>TC</i> as a container annotation for <i>T</i>
- * and will "look through" it to expose annotations of type <i>T</i>.
- *
- * </ul>
- *
- * <li>If an annotation of type <i>T</i> is present on an
- * element and <i>T</i> is made repeatable and more annotations of
- * type <i>T</i> are added to the element:
+ * <li>If bn bnnotbtion type <i>TC</i> is present on bn element, bnd
+ * <i>T</i> is modified to be repebtbble with <i>TC</i> bs its
+ * contbining bnnotbtion type then:
  *
  * <ul>
  *
- * <li> The addition of the annotations of type <i>T</i> is both
- * source compatible and binary compatible.
+ * <li>The chbnge to <i>T</i> is behbviorblly compbtible with respect
+ * to the {@code get[Declbred]Annotbtion(Clbss<T>)} (cblled with bn
+ * brgument of <i>T</i> or <i>TC</i>) bnd {@code
+ * get[Declbred]Annotbtions()} methods becbuse the results of the
+ * methods will not chbnge due to <i>TC</i> becoming the contbining
+ * bnnotbtion type for <i>T</i>.
  *
- * <li>The addition of the annotations of type <i>T</i> changes the results
- * of the {@code get[Declared]Annotation(Class<T>)} methods and {@code
- * get[Declared]Annotations()} methods, because those methods will now
- * only see a container annotation on the element and not see an
- * annotation of type <i>T</i>.
+ * <li>The chbnge to <i>T</i> chbnges the results of the {@code
+ * get[Declbred]AnnotbtionsByType(Clbss<T>)} methods cblled with bn
+ * brgument of <i>T</i>, becbuse those methods will now recognize bn
+ * bnnotbtion of type <i>TC</i> bs b contbiner bnnotbtion for <i>T</i>
+ * bnd will "look through" it to expose bnnotbtions of type <i>T</i>.
  *
- * <li>The addition of the annotations of type <i>T</i> changes the
- * results of the {@code get[Declared]AnnotationsByType(Class<T>)}
- * methods, because their results will expose the additional
- * annotations of type <i>T</i> whereas previously they exposed only a
- * single annotation of type <i>T</i>.
+ * </ul>
+ *
+ * <li>If bn bnnotbtion of type <i>T</i> is present on bn
+ * element bnd <i>T</i> is mbde repebtbble bnd more bnnotbtions of
+ * type <i>T</i> bre bdded to the element:
+ *
+ * <ul>
+ *
+ * <li> The bddition of the bnnotbtions of type <i>T</i> is both
+ * source compbtible bnd binbry compbtible.
+ *
+ * <li>The bddition of the bnnotbtions of type <i>T</i> chbnges the results
+ * of the {@code get[Declbred]Annotbtion(Clbss<T>)} methods bnd {@code
+ * get[Declbred]Annotbtions()} methods, becbuse those methods will now
+ * only see b contbiner bnnotbtion on the element bnd not see bn
+ * bnnotbtion of type <i>T</i>.
+ *
+ * <li>The bddition of the bnnotbtions of type <i>T</i> chbnges the
+ * results of the {@code get[Declbred]AnnotbtionsByType(Clbss<T>)}
+ * methods, becbuse their results will expose the bdditionbl
+ * bnnotbtions of type <i>T</i> wherebs previously they exposed only b
+ * single bnnotbtion of type <i>T</i>.
  *
  * </ul>
  *
  * </ul>
  *
- * <p>If an annotation returned by a method in this interface contains
- * (directly or indirectly) a {@link Class}-valued member referring to
- * a class that is not accessible in this VM, attempting to read the class
- * by calling the relevant Class-returning method on the returned annotation
- * will result in a {@link TypeNotPresentException}.
+ * <p>If bn bnnotbtion returned by b method in this interfbce contbins
+ * (directly or indirectly) b {@link Clbss}-vblued member referring to
+ * b clbss thbt is not bccessible in this VM, bttempting to rebd the clbss
+ * by cblling the relevbnt Clbss-returning method on the returned bnnotbtion
+ * will result in b {@link TypeNotPresentException}.
  *
- * <p>Similarly, attempting to read an enum-valued member will result in
- * a {@link EnumConstantNotPresentException} if the enum constant in the
- * annotation is no longer present in the enum type.
+ * <p>Similbrly, bttempting to rebd bn enum-vblued member will result in
+ * b {@link EnumConstbntNotPresentException} if the enum constbnt in the
+ * bnnotbtion is no longer present in the enum type.
  *
- * <p>If an annotation type <i>T</i> is (meta-)annotated with an
- * {@code @Repeatable} annotation whose value element indicates a type
- * <i>TC</i>, but <i>TC</i> does not declare a {@code value()} method
- * with a return type of <i>T</i>{@code []}, then an exception of type
- * {@link java.lang.annotation.AnnotationFormatError} is thrown.
+ * <p>If bn bnnotbtion type <i>T</i> is (metb-)bnnotbted with bn
+ * {@code @Repebtbble} bnnotbtion whose vblue element indicbtes b type
+ * <i>TC</i>, but <i>TC</i> does not declbre b {@code vblue()} method
+ * with b return type of <i>T</i>{@code []}, then bn exception of type
+ * {@link jbvb.lbng.bnnotbtion.AnnotbtionFormbtError} is thrown.
  *
- * <p>Finally, attempting to read a member whose definition has evolved
- * incompatibly will result in a {@link
- * java.lang.annotation.AnnotationTypeMismatchException} or an
- * {@link java.lang.annotation.IncompleteAnnotationException}.
+ * <p>Finblly, bttempting to rebd b member whose definition hbs evolved
+ * incompbtibly will result in b {@link
+ * jbvb.lbng.bnnotbtion.AnnotbtionTypeMismbtchException} or bn
+ * {@link jbvb.lbng.bnnotbtion.IncompleteAnnotbtionException}.
  *
- * @see java.lang.EnumConstantNotPresentException
- * @see java.lang.TypeNotPresentException
- * @see AnnotationFormatError
- * @see java.lang.annotation.AnnotationTypeMismatchException
- * @see java.lang.annotation.IncompleteAnnotationException
+ * @see jbvb.lbng.EnumConstbntNotPresentException
+ * @see jbvb.lbng.TypeNotPresentException
+ * @see AnnotbtionFormbtError
+ * @see jbvb.lbng.bnnotbtion.AnnotbtionTypeMismbtchException
+ * @see jbvb.lbng.bnnotbtion.IncompleteAnnotbtionException
  * @since 1.5
- * @author Josh Bloch
+ * @buthor Josh Bloch
  */
-public interface AnnotatedElement {
+public interfbce AnnotbtedElement {
     /**
-     * Returns true if an annotation for the specified type
-     * is <em>present</em> on this element, else false.  This method
-     * is designed primarily for convenient access to marker annotations.
+     * Returns true if bn bnnotbtion for the specified type
+     * is <em>present</em> on this element, else fblse.  This method
+     * is designed primbrily for convenient bccess to mbrker bnnotbtions.
      *
-     * <p>The truth value returned by this method is equivalent to:
-     * {@code getAnnotation(annotationClass) != null}
+     * <p>The truth vblue returned by this method is equivblent to:
+     * {@code getAnnotbtion(bnnotbtionClbss) != null}
      *
-     * <p>The body of the default method is specified to be the code
-     * above.
+     * <p>The body of the defbult method is specified to be the code
+     * bbove.
      *
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return true if an annotation for the specified annotation
-     *     type is present on this element, else false
-     * @throws NullPointerException if the given annotation class is null
+     * @pbrbm bnnotbtionClbss the Clbss object corresponding to the
+     *        bnnotbtion type
+     * @return true if bn bnnotbtion for the specified bnnotbtion
+     *     type is present on this element, else fblse
+     * @throws NullPointerException if the given bnnotbtion clbss is null
      * @since 1.5
      */
-    default boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return getAnnotation(annotationClass) != null;
+    defbult boolebn isAnnotbtionPresent(Clbss<? extends Annotbtion> bnnotbtionClbss) {
+        return getAnnotbtion(bnnotbtionClbss) != null;
     }
 
    /**
-     * Returns this element's annotation for the specified type if
-     * such an annotation is <em>present</em>, else null.
+     * Returns this element's bnnotbtion for the specified type if
+     * such bn bnnotbtion is <em>present</em>, else null.
      *
-     * @param <T> the type of the annotation to query for and return if present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return this element's annotation for the specified annotation type if
+     * @pbrbm <T> the type of the bnnotbtion to query for bnd return if present
+     * @pbrbm bnnotbtionClbss the Clbss object corresponding to the
+     *        bnnotbtion type
+     * @return this element's bnnotbtion for the specified bnnotbtion type if
      *     present on this element, else null
-     * @throws NullPointerException if the given annotation class is null
+     * @throws NullPointerException if the given bnnotbtion clbss is null
      * @since 1.5
      */
-    <T extends Annotation> T getAnnotation(Class<T> annotationClass);
+    <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss);
 
     /**
-     * Returns annotations that are <em>present</em> on this element.
+     * Returns bnnotbtions thbt bre <em>present</em> on this element.
      *
-     * If there are no annotations <em>present</em> on this element, the return
-     * value is an array of length 0.
+     * If there bre no bnnotbtions <em>present</em> on this element, the return
+     * vblue is bn brrby of length 0.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * The cbller of this method is free to modify the returned brrby; it will
+     * hbve no effect on the brrbys returned to other cbllers.
      *
-     * @return annotations present on this element
+     * @return bnnotbtions present on this element
      * @since 1.5
      */
-    Annotation[] getAnnotations();
+    Annotbtion[] getAnnotbtions();
 
     /**
-     * Returns annotations that are <em>associated</em> with this element.
+     * Returns bnnotbtions thbt bre <em>bssocibted</em> with this element.
      *
-     * If there are no annotations <em>associated</em> with this element, the return
-     * value is an array of length 0.
+     * If there bre no bnnotbtions <em>bssocibted</em> with this element, the return
+     * vblue is bn brrby of length 0.
      *
-     * The difference between this method and {@link #getAnnotation(Class)}
-     * is that this method detects if its argument is a <em>repeatable
-     * annotation type</em> (JLS 9.6), and if so, attempts to find one or
-     * more annotations of that type by "looking through" a container
-     * annotation.
+     * The difference between this method bnd {@link #getAnnotbtion(Clbss)}
+     * is thbt this method detects if its brgument is b <em>repebtbble
+     * bnnotbtion type</em> (JLS 9.6), bnd if so, bttempts to find one or
+     * more bnnotbtions of thbt type by "looking through" b contbiner
+     * bnnotbtion.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * The cbller of this method is free to modify the returned brrby; it will
+     * hbve no effect on the brrbys returned to other cbllers.
      *
-     * @implSpec The default implementation first calls {@link
-     * #getDeclaredAnnotationsByType(Class)} passing {@code
-     * annotationClass} as the argument. If the returned array has
-     * length greater than zero, the array is returned. If the returned
-     * array is zero-length and this {@code AnnotatedElement} is a
-     * class and the argument type is an inheritable annotation type,
-     * and the superclass of this {@code AnnotatedElement} is non-null,
-     * then the returned result is the result of calling {@link
-     * #getAnnotationsByType(Class)} on the superclass with {@code
-     * annotationClass} as the argument. Otherwise, a zero-length
-     * array is returned.
+     * @implSpec The defbult implementbtion first cblls {@link
+     * #getDeclbredAnnotbtionsByType(Clbss)} pbssing {@code
+     * bnnotbtionClbss} bs the brgument. If the returned brrby hbs
+     * length grebter thbn zero, the brrby is returned. If the returned
+     * brrby is zero-length bnd this {@code AnnotbtedElement} is b
+     * clbss bnd the brgument type is bn inheritbble bnnotbtion type,
+     * bnd the superclbss of this {@code AnnotbtedElement} is non-null,
+     * then the returned result is the result of cblling {@link
+     * #getAnnotbtionsByType(Clbss)} on the superclbss with {@code
+     * bnnotbtionClbss} bs the brgument. Otherwise, b zero-length
+     * brrby is returned.
      *
-     * @param <T> the type of the annotation to query for and return if present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return all this element's annotations for the specified annotation type if
-     *     associated with this element, else an array of length zero
-     * @throws NullPointerException if the given annotation class is null
+     * @pbrbm <T> the type of the bnnotbtion to query for bnd return if present
+     * @pbrbm bnnotbtionClbss the Clbss object corresponding to the
+     *        bnnotbtion type
+     * @return bll this element's bnnotbtions for the specified bnnotbtion type if
+     *     bssocibted with this element, else bn brrby of length zero
+     * @throws NullPointerException if the given bnnotbtion clbss is null
      * @since 1.8
      */
-    default <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
+    defbult <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
          /*
-          * Definition of associated: directly or indirectly present OR
+          * Definition of bssocibted: directly or indirectly present OR
           * neither directly nor indirectly present AND the element is
-          * a Class, the annotation type is inheritable, and the
-          * annotation type is associated with the superclass of the
+          * b Clbss, the bnnotbtion type is inheritbble, bnd the
+          * bnnotbtion type is bssocibted with the superclbss of the
           * element.
           */
-         T[] result = getDeclaredAnnotationsByType(annotationClass);
+         T[] result = getDeclbredAnnotbtionsByType(bnnotbtionClbss);
 
          if (result.length == 0 && // Neither directly nor indirectly present
-             this instanceof Class && // the element is a class
-             AnnotationType.getInstance(annotationClass).isInherited()) { // Inheritable
-             Class<?> superClass = ((Class<?>) this).getSuperclass();
-             if (superClass != null) {
-                 // Determine if the annotation is associated with the
-                 // superclass
-                 result = superClass.getAnnotationsByType(annotationClass);
+             this instbnceof Clbss && // the element is b clbss
+             AnnotbtionType.getInstbnce(bnnotbtionClbss).isInherited()) { // Inheritbble
+             Clbss<?> superClbss = ((Clbss<?>) this).getSuperclbss();
+             if (superClbss != null) {
+                 // Determine if the bnnotbtion is bssocibted with the
+                 // superclbss
+                 result = superClbss.getAnnotbtionsByType(bnnotbtionClbss);
              }
          }
 
@@ -346,105 +346,105 @@ public interface AnnotatedElement {
      }
 
     /**
-     * Returns this element's annotation for the specified type if
-     * such an annotation is <em>directly present</em>, else null.
+     * Returns this element's bnnotbtion for the specified type if
+     * such bn bnnotbtion is <em>directly present</em>, else null.
      *
-     * This method ignores inherited annotations. (Returns null if no
-     * annotations are directly present on this element.)
+     * This method ignores inherited bnnotbtions. (Returns null if no
+     * bnnotbtions bre directly present on this element.)
      *
-     * @implSpec The default implementation first performs a null check
-     * and then loops over the results of {@link
-     * #getDeclaredAnnotations} returning the first annotation whose
-     * annotation type matches the argument type.
+     * @implSpec The defbult implementbtion first performs b null check
+     * bnd then loops over the results of {@link
+     * #getDeclbredAnnotbtions} returning the first bnnotbtion whose
+     * bnnotbtion type mbtches the brgument type.
      *
-     * @param <T> the type of the annotation to query for and return if directly present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return this element's annotation for the specified annotation type if
+     * @pbrbm <T> the type of the bnnotbtion to query for bnd return if directly present
+     * @pbrbm bnnotbtionClbss the Clbss object corresponding to the
+     *        bnnotbtion type
+     * @return this element's bnnotbtion for the specified bnnotbtion type if
      *     directly present on this element, else null
-     * @throws NullPointerException if the given annotation class is null
+     * @throws NullPointerException if the given bnnotbtion clbss is null
      * @since 1.8
      */
-    default <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-         Objects.requireNonNull(annotationClass);
-         // Loop over all directly-present annotations looking for a matching one
-         for (Annotation annotation : getDeclaredAnnotations()) {
-             if (annotationClass.equals(annotation.annotationType())) {
-                 // More robust to do a dynamic cast at runtime instead
+    defbult <T extends Annotbtion> T getDeclbredAnnotbtion(Clbss<T> bnnotbtionClbss) {
+         Objects.requireNonNull(bnnotbtionClbss);
+         // Loop over bll directly-present bnnotbtions looking for b mbtching one
+         for (Annotbtion bnnotbtion : getDeclbredAnnotbtions()) {
+             if (bnnotbtionClbss.equbls(bnnotbtion.bnnotbtionType())) {
+                 // More robust to do b dynbmic cbst bt runtime instebd
                  // of compile-time only.
-                 return annotationClass.cast(annotation);
+                 return bnnotbtionClbss.cbst(bnnotbtion);
              }
          }
          return null;
      }
 
     /**
-     * Returns this element's annotation(s) for the specified type if
-     * such annotations are either <em>directly present</em> or
+     * Returns this element's bnnotbtion(s) for the specified type if
+     * such bnnotbtions bre either <em>directly present</em> or
      * <em>indirectly present</em>. This method ignores inherited
-     * annotations.
+     * bnnotbtions.
      *
-     * If there are no specified annotations directly or indirectly
-     * present on this element, the return value is an array of length
+     * If there bre no specified bnnotbtions directly or indirectly
+     * present on this element, the return vblue is bn brrby of length
      * 0.
      *
-     * The difference between this method and {@link
-     * #getDeclaredAnnotation(Class)} is that this method detects if its
-     * argument is a <em>repeatable annotation type</em> (JLS 9.6), and if so,
-     * attempts to find one or more annotations of that type by "looking
-     * through" a container annotation if one is present.
+     * The difference between this method bnd {@link
+     * #getDeclbredAnnotbtion(Clbss)} is thbt this method detects if its
+     * brgument is b <em>repebtbble bnnotbtion type</em> (JLS 9.6), bnd if so,
+     * bttempts to find one or more bnnotbtions of thbt type by "looking
+     * through" b contbiner bnnotbtion if one is present.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * The cbller of this method is free to modify the returned brrby; it will
+     * hbve no effect on the brrbys returned to other cbllers.
      *
-     * @implSpec The default implementation may call {@link
-     * #getDeclaredAnnotation(Class)} one or more times to find a
-     * directly present annotation and, if the annotation type is
-     * repeatable, to find a container annotation. If annotations of
-     * the annotation type {@code annotationClass} are found to be both
-     * directly and indirectly present, then {@link
-     * #getDeclaredAnnotations()} will get called to determine the
-     * order of the elements in the returned array.
+     * @implSpec The defbult implementbtion mby cbll {@link
+     * #getDeclbredAnnotbtion(Clbss)} one or more times to find b
+     * directly present bnnotbtion bnd, if the bnnotbtion type is
+     * repebtbble, to find b contbiner bnnotbtion. If bnnotbtions of
+     * the bnnotbtion type {@code bnnotbtionClbss} bre found to be both
+     * directly bnd indirectly present, then {@link
+     * #getDeclbredAnnotbtions()} will get cblled to determine the
+     * order of the elements in the returned brrby.
      *
-     * <p>Alternatively, the default implementation may call {@link
-     * #getDeclaredAnnotations()} a single time and the returned array
-     * examined for both directly and indirectly present
-     * annotations. The results of calling {@link
-     * #getDeclaredAnnotations()} are assumed to be consistent with the
-     * results of calling {@link #getDeclaredAnnotation(Class)}.
+     * <p>Alternbtively, the defbult implementbtion mby cbll {@link
+     * #getDeclbredAnnotbtions()} b single time bnd the returned brrby
+     * exbmined for both directly bnd indirectly present
+     * bnnotbtions. The results of cblling {@link
+     * #getDeclbredAnnotbtions()} bre bssumed to be consistent with the
+     * results of cblling {@link #getDeclbredAnnotbtion(Clbss)}.
      *
-     * @param <T> the type of the annotation to query for and return
+     * @pbrbm <T> the type of the bnnotbtion to query for bnd return
      * if directly or indirectly present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return all this element's annotations for the specified annotation type if
-     *     directly or indirectly present on this element, else an array of length zero
-     * @throws NullPointerException if the given annotation class is null
+     * @pbrbm bnnotbtionClbss the Clbss object corresponding to the
+     *        bnnotbtion type
+     * @return bll this element's bnnotbtions for the specified bnnotbtion type if
+     *     directly or indirectly present on this element, else bn brrby of length zero
+     * @throws NullPointerException if the given bnnotbtion clbss is null
      * @since 1.8
      */
-    default <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return AnnotationSupport.
-            getDirectlyAndIndirectlyPresent(Arrays.stream(getDeclaredAnnotations()).
-                                            collect(Collectors.toMap(Annotation::annotationType,
+    defbult <T extends Annotbtion> T[] getDeclbredAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return AnnotbtionSupport.
+            getDirectlyAndIndirectlyPresent(Arrbys.strebm(getDeclbredAnnotbtions()).
+                                            collect(Collectors.toMbp(Annotbtion::bnnotbtionType,
                                                                      Function.identity(),
                                                                      ((first,second) -> first),
-                                                                     LinkedHashMap::new)),
-                                            annotationClass);
+                                                                     LinkedHbshMbp::new)),
+                                            bnnotbtionClbss);
     }
 
     /**
-     * Returns annotations that are <em>directly present</em> on this element.
-     * This method ignores inherited annotations.
+     * Returns bnnotbtions thbt bre <em>directly present</em> on this element.
+     * This method ignores inherited bnnotbtions.
      *
-     * If there are no annotations <em>directly present</em> on this element,
-     * the return value is an array of length 0.
+     * If there bre no bnnotbtions <em>directly present</em> on this element,
+     * the return vblue is bn brrby of length 0.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * The cbller of this method is free to modify the returned brrby; it will
+     * hbve no effect on the brrbys returned to other cbllers.
      *
-     * @return annotations directly present on this element
+     * @return bnnotbtions directly present on this element
      * @since 1.5
      */
-    Annotation[] getDeclaredAnnotations();
+    Annotbtion[] getDeclbredAnnotbtions();
 }

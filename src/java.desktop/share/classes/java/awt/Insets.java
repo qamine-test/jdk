@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * An <code>Insets</code> object is a representation of the borders
- * of a container. It specifies the space that a container must leave
- * at each of its edges. The space can be a border, a blank space, or
- * a title.
+ * An <code>Insets</code> object is b representbtion of the borders
+ * of b contbiner. It specifies the spbce thbt b contbiner must lebve
+ * bt ebch of its edges. The spbce cbn be b border, b blbnk spbce, or
+ * b title.
  *
- * @author      Arthur van Hoff
- * @author      Sami Shaio
- * @see         java.awt.LayoutManager
- * @see         java.awt.Container
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Sbmi Shbio
+ * @see         jbvb.bwt.LbyoutMbnbger
+ * @see         jbvb.bwt.Contbiner
  * @since       1.0
  */
-public class Insets implements Cloneable, java.io.Serializable {
+public clbss Insets implements Clonebble, jbvb.io.Seriblizbble {
 
     /**
      * The inset from the top.
-     * This value is added to the Top of the rectangle
-     * to yield a new location for the Top.
+     * This vblue is bdded to the Top of the rectbngle
+     * to yield b new locbtion for the Top.
      *
-     * @serial
+     * @seribl
      * @see #clone()
      */
     public int top;
 
     /**
      * The inset from the left.
-     * This value is added to the Left of the rectangle
-     * to yield a new location for the Left edge.
+     * This vblue is bdded to the Left of the rectbngle
+     * to yield b new locbtion for the Left edge.
      *
-     * @serial
+     * @seribl
      * @see #clone()
      */
     public int left;
 
     /**
      * The inset from the bottom.
-     * This value is subtracted from the Bottom of the rectangle
-     * to yield a new location for the Bottom.
+     * This vblue is subtrbcted from the Bottom of the rectbngle
+     * to yield b new locbtion for the Bottom.
      *
-     * @serial
+     * @seribl
      * @see #clone()
      */
     public int bottom;
 
     /**
      * The inset from the right.
-     * This value is subtracted from the Right of the rectangle
-     * to yield a new location for the Right edge.
+     * This vblue is subtrbcted from the Right of the rectbngle
+     * to yield b new locbtion for the Right edge.
      *
-     * @serial
+     * @seribl
      * @see #clone()
      */
     public int right;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -2272572637695466749L;
+    privbte stbtic finbl long seriblVersionUID = -2272572637695466749L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Creates and initializes a new <code>Insets</code> object with the
-     * specified top, left, bottom, and right insets.
-     * @param       top   the inset from the top.
-     * @param       left   the inset from the left.
-     * @param       bottom   the inset from the bottom.
-     * @param       right   the inset from the right.
+     * Crebtes bnd initiblizes b new <code>Insets</code> object with the
+     * specified top, left, bottom, bnd right insets.
+     * @pbrbm       top   the inset from the top.
+     * @pbrbm       left   the inset from the left.
+     * @pbrbm       bottom   the inset from the bottom.
+     * @pbrbm       right   the inset from the right.
      */
     public Insets(int top, int left, int bottom, int right) {
         this.top = top;
@@ -108,12 +108,12 @@ public class Insets implements Cloneable, java.io.Serializable {
     }
 
     /**
-     * Set top, left, bottom, and right to the specified values
+     * Set top, left, bottom, bnd right to the specified vblues
      *
-     * @param       top   the inset from the top.
-     * @param       left   the inset from the left.
-     * @param       bottom   the inset from the bottom.
-     * @param       right   the inset from the right.
+     * @pbrbm       top   the inset from the top.
+     * @pbrbm       left   the inset from the left.
+     * @pbrbm       bottom   the inset from the bottom.
+     * @pbrbm       right   the inset from the right.
      * @since 1.5
      */
     public void set(int top, int left, int bottom, int right) {
@@ -124,65 +124,65 @@ public class Insets implements Cloneable, java.io.Serializable {
     }
 
     /**
-     * Checks whether two insets objects are equal. Two instances
-     * of <code>Insets</code> are equal if the four integer values
+     * Checks whether two insets objects bre equbl. Two instbnces
+     * of <code>Insets</code> bre equbl if the four integer vblues
      * of the fields <code>top</code>, <code>left</code>,
-     * <code>bottom</code>, and <code>right</code> are all equal.
-     * @return      <code>true</code> if the two insets are equal;
-     *                          otherwise <code>false</code>.
+     * <code>bottom</code>, bnd <code>right</code> bre bll equbl.
+     * @return      <code>true</code> if the two insets bre equbl;
+     *                          otherwise <code>fblse</code>.
      * @since       1.1
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Insets) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Insets) {
             Insets insets = (Insets)obj;
             return ((top == insets.top) && (left == insets.left) &&
                     (bottom == insets.bottom) && (right == insets.right));
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hash code for this Insets.
+     * Returns the hbsh code for this Insets.
      *
-     * @return    a hash code for this Insets.
+     * @return    b hbsh code for this Insets.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int sum1 = left + bottom;
         int sum2 = right + top;
-        int val1 = sum1 * (sum1 + 1)/2 + left;
-        int val2 = sum2 * (sum2 + 1)/2 + top;
-        int sum3 = val1 + val2;
-        return sum3 * (sum3 + 1)/2 + val2;
+        int vbl1 = sum1 * (sum1 + 1)/2 + left;
+        int vbl2 = sum2 * (sum2 + 1)/2 + top;
+        int sum3 = vbl1 + vbl2;
+        return sum3 * (sum3 + 1)/2 + vbl2;
     }
 
     /**
-     * Returns a string representation of this <code>Insets</code> object.
-     * This method is intended to be used only for debugging purposes, and
-     * the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representbtion of this <code>Insets</code> object.
+     * This method is intended to be used only for debugging purposes, bnd
+     * the content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return  a string representation of this <code>Insets</code> object.
+     * @return  b string representbtion of this <code>Insets</code> object.
      */
     public String toString() {
-        return getClass().getName() + "[top="  + top + ",left=" + left + ",bottom=" + bottom + ",right=" + right + "]";
+        return getClbss().getNbme() + "[top="  + top + ",left=" + left + ",bottom=" + bottom + ",right=" + right + "]";
     }
 
     /**
-     * Create a copy of this object.
-     * @return     a copy of this <code>Insets</code> object.
+     * Crebte b copy of this object.
+     * @return     b copy of this <code>Insets</code> object.
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
 }

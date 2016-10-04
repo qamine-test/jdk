@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.charset.spi;
+pbckbge jbvb.nio.chbrset.spi;
 
-import java.nio.charset.Charset;
-import java.util.Iterator;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.util.Iterbtor;
 
 
 /**
- * Charset service-provider class.
+ * Chbrset service-provider clbss.
  *
- * <p> A charset provider is a concrete subclass of this class that has a
- * zero-argument constructor and some number of associated charset
- * implementation classes.  Charset providers may be installed in an instance
- * of the Java platform as extensions, that is, jar files placed into any of
- * the usual extension directories.  Providers may also be made available by
- * adding them to the applet or application class path or by some other
- * platform-specific means.  Charset providers are looked up via the current
- * thread's {@link java.lang.Thread#getContextClassLoader() context class
- * loader}.
+ * <p> A chbrset provider is b concrete subclbss of this clbss thbt hbs b
+ * zero-brgument constructor bnd some number of bssocibted chbrset
+ * implementbtion clbsses.  Chbrset providers mby be instblled in bn instbnce
+ * of the Jbvb plbtform bs extensions, thbt is, jbr files plbced into bny of
+ * the usubl extension directories.  Providers mby blso be mbde bvbilbble by
+ * bdding them to the bpplet or bpplicbtion clbss pbth or by some other
+ * plbtform-specific mebns.  Chbrset providers bre looked up vib the current
+ * threbd's {@link jbvb.lbng.Threbd#getContextClbssLobder() context clbss
+ * lobder}.
  *
- * <p> A charset provider identifies itself with a provider-configuration file
- * named <tt>java.nio.charset.spi.CharsetProvider</tt> in the resource
- * directory <tt>META-INF/services</tt>.  The file should contain a list of
- * fully-qualified concrete charset-provider class names, one per line.  A line
- * is terminated by any one of a line feed (<tt>'\n'</tt>), a carriage return
- * (<tt>'\r'</tt>), or a carriage return followed immediately by a line feed.
- * Space and tab characters surrounding each name, as well as blank lines, are
- * ignored.  The comment character is <tt>'#'</tt> (<tt>'&#92;u0023'</tt>); on
- * each line all characters following the first comment character are ignored.
+ * <p> A chbrset provider identifies itself with b provider-configurbtion file
+ * nbmed <tt>jbvb.nio.chbrset.spi.ChbrsetProvider</tt> in the resource
+ * directory <tt>META-INF/services</tt>.  The file should contbin b list of
+ * fully-qublified concrete chbrset-provider clbss nbmes, one per line.  A line
+ * is terminbted by bny one of b line feed (<tt>'\n'</tt>), b cbrribge return
+ * (<tt>'\r'</tt>), or b cbrribge return followed immedibtely by b line feed.
+ * Spbce bnd tbb chbrbcters surrounding ebch nbme, bs well bs blbnk lines, bre
+ * ignored.  The comment chbrbcter is <tt>'#'</tt> (<tt>'&#92;u0023'</tt>); on
+ * ebch line bll chbrbcters following the first comment chbrbcter bre ignored.
  * The file must be encoded in UTF-8.
  *
- * <p> If a particular concrete charset provider class is named in more than
- * one configuration file, or is named in the same configuration file more than
- * once, then the duplicates will be ignored.  The configuration file naming a
- * particular provider need not be in the same jar file or other distribution
- * unit as the provider itself.  The provider must be accessible from the same
- * class loader that was initially queried to locate the configuration file;
- * this is not necessarily the class loader that loaded the file. </p>
+ * <p> If b pbrticulbr concrete chbrset provider clbss is nbmed in more thbn
+ * one configurbtion file, or is nbmed in the sbme configurbtion file more thbn
+ * once, then the duplicbtes will be ignored.  The configurbtion file nbming b
+ * pbrticulbr provider need not be in the sbme jbr file or other distribution
+ * unit bs the provider itself.  The provider must be bccessible from the sbme
+ * clbss lobder thbt wbs initiblly queried to locbte the configurbtion file;
+ * this is not necessbrily the clbss lobder thbt lobded the file. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  *
- * @see java.nio.charset.Charset
+ * @see jbvb.nio.chbrset.Chbrset
  */
 
-public abstract class CharsetProvider {
+public bbstrbct clbss ChbrsetProvider {
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic Void checkPermission() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("charsetProvider"));
+            sm.checkPermission(new RuntimePermission("chbrsetProvider"));
         return null;
     }
-    private CharsetProvider(Void ignore) { }
+    privbte ChbrsetProvider(Void ignore) { }
 
     /**
-     * Initializes a new charset provider.
+     * Initiblizes b new chbrset provider.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("charsetProvider")</tt>
+     *          If b security mbnbger hbs been instblled bnd it denies
+     *          {@link RuntimePermission}<tt>("chbrsetProvider")</tt>
      */
-    protected CharsetProvider() {
+    protected ChbrsetProvider() {
         this(checkPermission());
     }
 
     /**
-     * Creates an iterator that iterates over the charsets supported by this
-     * provider.  This method is used in the implementation of the {@link
-     * java.nio.charset.Charset#availableCharsets Charset.availableCharsets}
+     * Crebtes bn iterbtor thbt iterbtes over the chbrsets supported by this
+     * provider.  This method is used in the implementbtion of the {@link
+     * jbvb.nio.chbrset.Chbrset#bvbilbbleChbrsets Chbrset.bvbilbbleChbrsets}
      * method.
      *
-     * @return  The new iterator
+     * @return  The new iterbtor
      */
-    public abstract Iterator<Charset> charsets();
+    public bbstrbct Iterbtor<Chbrset> chbrsets();
 
     /**
-     * Retrieves a charset for the given charset name.
+     * Retrieves b chbrset for the given chbrset nbme.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  chbrsetNbme
+     *         The nbme of the requested chbrset; mby be either
+     *         b cbnonicbl nbme or bn blibs
      *
-     * @return  A charset object for the named charset,
-     *          or <tt>null</tt> if the named charset
+     * @return  A chbrset object for the nbmed chbrset,
+     *          or <tt>null</tt> if the nbmed chbrset
      *          is not supported by this provider
      */
-    public abstract Charset charsetForName(String charsetName);
+    public bbstrbct Chbrset chbrsetForNbme(String chbrsetNbme);
 
 }

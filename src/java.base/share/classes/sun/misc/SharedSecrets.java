@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.jar.JarFile;
-import java.io.Console;
-import java.io.FileDescriptor;
-import java.security.ProtectionDomain;
+import jbvb.util.jbr.JbrFile;
+import jbvb.io.Console;
+import jbvb.io.FileDescriptor;
+import jbvb.security.ProtectionDombin;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-/** A repository of "shared secrets", which are a mechanism for
-    calling implementation-private methods in another package without
-    using reflection. A package-private class implements a public
-    interface and provides the ability to call package-private methods
-    within that package; the object implementing that interface is
-    provided through a third package to which access is restricted.
-    This framework avoids the primary disadvantage of using reflection
-    for this purpose, namely the loss of compile-time checking. */
+/** A repository of "shbred secrets", which bre b mechbnism for
+    cblling implementbtion-privbte methods in bnother pbckbge without
+    using reflection. A pbckbge-privbte clbss implements b public
+    interfbce bnd provides the bbility to cbll pbckbge-privbte methods
+    within thbt pbckbge; the object implementing thbt interfbce is
+    provided through b third pbckbge to which bccess is restricted.
+    This frbmework bvoids the primbry disbdvbntbge of using reflection
+    for this purpose, nbmely the loss of compile-time checking. */
 
-public class SharedSecrets {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static JavaUtilJarAccess javaUtilJarAccess;
-    private static JavaLangAccess javaLangAccess;
-    private static JavaLangRefAccess javaLangRefAccess;
-    private static JavaIOAccess javaIOAccess;
-    private static JavaNetAccess javaNetAccess;
-    private static JavaNetHttpCookieAccess javaNetHttpCookieAccess;
-    private static JavaNioAccess javaNioAccess;
-    private static JavaIOFileDescriptorAccess javaIOFileDescriptorAccess;
-    private static JavaSecurityProtectionDomainAccess javaSecurityProtectionDomainAccess;
-    private static JavaSecurityAccess javaSecurityAccess;
-    private static JavaUtilZipFileAccess javaUtilZipFileAccess;
-    private static JavaAWTAccess javaAWTAccess;
-    private static JavaAWTFontAccess javaAWTFontAccess;
-    private static JavaBeansIntrospectorAccess javaBeansIntrospectorAccess;
+public clbss ShbredSecrets {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic JbvbUtilJbrAccess jbvbUtilJbrAccess;
+    privbte stbtic JbvbLbngAccess jbvbLbngAccess;
+    privbte stbtic JbvbLbngRefAccess jbvbLbngRefAccess;
+    privbte stbtic JbvbIOAccess jbvbIOAccess;
+    privbte stbtic JbvbNetAccess jbvbNetAccess;
+    privbte stbtic JbvbNetHttpCookieAccess jbvbNetHttpCookieAccess;
+    privbte stbtic JbvbNioAccess jbvbNioAccess;
+    privbte stbtic JbvbIOFileDescriptorAccess jbvbIOFileDescriptorAccess;
+    privbte stbtic JbvbSecurityProtectionDombinAccess jbvbSecurityProtectionDombinAccess;
+    privbte stbtic JbvbSecurityAccess jbvbSecurityAccess;
+    privbte stbtic JbvbUtilZipFileAccess jbvbUtilZipFileAccess;
+    privbte stbtic JbvbAWTAccess jbvbAWTAccess;
+    privbte stbtic JbvbAWTFontAccess jbvbAWTFontAccess;
+    privbte stbtic JbvbBebnsIntrospectorAccess jbvbBebnsIntrospectorAccess;
 
-    public static JavaUtilJarAccess javaUtilJarAccess() {
-        if (javaUtilJarAccess == null) {
-            // Ensure JarFile is initialized; we know that that class
-            // provides the shared secret
-            unsafe.ensureClassInitialized(JarFile.class);
+    public stbtic JbvbUtilJbrAccess jbvbUtilJbrAccess() {
+        if (jbvbUtilJbrAccess == null) {
+            // Ensure JbrFile is initiblized; we know thbt thbt clbss
+            // provides the shbred secret
+            unsbfe.ensureClbssInitiblized(JbrFile.clbss);
         }
-        return javaUtilJarAccess;
+        return jbvbUtilJbrAccess;
     }
 
-    public static void setJavaUtilJarAccess(JavaUtilJarAccess access) {
-        javaUtilJarAccess = access;
+    public stbtic void setJbvbUtilJbrAccess(JbvbUtilJbrAccess bccess) {
+        jbvbUtilJbrAccess = bccess;
     }
 
-    public static void setJavaLangAccess(JavaLangAccess jla) {
-        javaLangAccess = jla;
+    public stbtic void setJbvbLbngAccess(JbvbLbngAccess jlb) {
+        jbvbLbngAccess = jlb;
     }
 
-    public static JavaLangAccess getJavaLangAccess() {
-        return javaLangAccess;
+    public stbtic JbvbLbngAccess getJbvbLbngAccess() {
+        return jbvbLbngAccess;
     }
 
-    public static void setJavaLangRefAccess(JavaLangRefAccess jlra) {
-        javaLangRefAccess = jlra;
+    public stbtic void setJbvbLbngRefAccess(JbvbLbngRefAccess jlrb) {
+        jbvbLbngRefAccess = jlrb;
     }
 
-    public static JavaLangRefAccess getJavaLangRefAccess() {
-        return javaLangRefAccess;
+    public stbtic JbvbLbngRefAccess getJbvbLbngRefAccess() {
+        return jbvbLbngRefAccess;
     }
 
-    public static void setJavaNetAccess(JavaNetAccess jna) {
-        javaNetAccess = jna;
+    public stbtic void setJbvbNetAccess(JbvbNetAccess jnb) {
+        jbvbNetAccess = jnb;
     }
 
-    public static JavaNetAccess getJavaNetAccess() {
-        return javaNetAccess;
+    public stbtic JbvbNetAccess getJbvbNetAccess() {
+        return jbvbNetAccess;
     }
 
-    public static void setJavaNetHttpCookieAccess(JavaNetHttpCookieAccess a) {
-        javaNetHttpCookieAccess = a;
+    public stbtic void setJbvbNetHttpCookieAccess(JbvbNetHttpCookieAccess b) {
+        jbvbNetHttpCookieAccess = b;
     }
 
-    public static JavaNetHttpCookieAccess getJavaNetHttpCookieAccess() {
-        if (javaNetHttpCookieAccess == null)
-            unsafe.ensureClassInitialized(java.net.HttpCookie.class);
-        return javaNetHttpCookieAccess;
+    public stbtic JbvbNetHttpCookieAccess getJbvbNetHttpCookieAccess() {
+        if (jbvbNetHttpCookieAccess == null)
+            unsbfe.ensureClbssInitiblized(jbvb.net.HttpCookie.clbss);
+        return jbvbNetHttpCookieAccess;
     }
 
-    public static void setJavaNioAccess(JavaNioAccess jna) {
-        javaNioAccess = jna;
+    public stbtic void setJbvbNioAccess(JbvbNioAccess jnb) {
+        jbvbNioAccess = jnb;
     }
 
-    public static JavaNioAccess getJavaNioAccess() {
-        if (javaNioAccess == null) {
-            // Ensure java.nio.ByteOrder is initialized; we know that
-            // this class initializes java.nio.Bits that provides the
-            // shared secret.
-            unsafe.ensureClassInitialized(java.nio.ByteOrder.class);
+    public stbtic JbvbNioAccess getJbvbNioAccess() {
+        if (jbvbNioAccess == null) {
+            // Ensure jbvb.nio.ByteOrder is initiblized; we know thbt
+            // this clbss initiblizes jbvb.nio.Bits thbt provides the
+            // shbred secret.
+            unsbfe.ensureClbssInitiblized(jbvb.nio.ByteOrder.clbss);
         }
-        return javaNioAccess;
+        return jbvbNioAccess;
     }
 
-    public static void setJavaIOAccess(JavaIOAccess jia) {
-        javaIOAccess = jia;
+    public stbtic void setJbvbIOAccess(JbvbIOAccess jib) {
+        jbvbIOAccess = jib;
     }
 
-    public static JavaIOAccess getJavaIOAccess() {
-        if (javaIOAccess == null) {
-            unsafe.ensureClassInitialized(Console.class);
+    public stbtic JbvbIOAccess getJbvbIOAccess() {
+        if (jbvbIOAccess == null) {
+            unsbfe.ensureClbssInitiblized(Console.clbss);
         }
-        return javaIOAccess;
+        return jbvbIOAccess;
     }
 
-    public static void setJavaIOFileDescriptorAccess(JavaIOFileDescriptorAccess jiofda) {
-        javaIOFileDescriptorAccess = jiofda;
+    public stbtic void setJbvbIOFileDescriptorAccess(JbvbIOFileDescriptorAccess jiofdb) {
+        jbvbIOFileDescriptorAccess = jiofdb;
     }
 
-    public static JavaIOFileDescriptorAccess getJavaIOFileDescriptorAccess() {
-        if (javaIOFileDescriptorAccess == null)
-            unsafe.ensureClassInitialized(FileDescriptor.class);
+    public stbtic JbvbIOFileDescriptorAccess getJbvbIOFileDescriptorAccess() {
+        if (jbvbIOFileDescriptorAccess == null)
+            unsbfe.ensureClbssInitiblized(FileDescriptor.clbss);
 
-        return javaIOFileDescriptorAccess;
+        return jbvbIOFileDescriptorAccess;
     }
 
-    public static void setJavaSecurityProtectionDomainAccess
-        (JavaSecurityProtectionDomainAccess jspda) {
-            javaSecurityProtectionDomainAccess = jspda;
+    public stbtic void setJbvbSecurityProtectionDombinAccess
+        (JbvbSecurityProtectionDombinAccess jspdb) {
+            jbvbSecurityProtectionDombinAccess = jspdb;
     }
 
-    public static JavaSecurityProtectionDomainAccess
-        getJavaSecurityProtectionDomainAccess() {
-            if (javaSecurityProtectionDomainAccess == null)
-                unsafe.ensureClassInitialized(ProtectionDomain.class);
-            return javaSecurityProtectionDomainAccess;
+    public stbtic JbvbSecurityProtectionDombinAccess
+        getJbvbSecurityProtectionDombinAccess() {
+            if (jbvbSecurityProtectionDombinAccess == null)
+                unsbfe.ensureClbssInitiblized(ProtectionDombin.clbss);
+            return jbvbSecurityProtectionDombinAccess;
     }
 
-    public static void setJavaSecurityAccess(JavaSecurityAccess jsa) {
-        javaSecurityAccess = jsa;
+    public stbtic void setJbvbSecurityAccess(JbvbSecurityAccess jsb) {
+        jbvbSecurityAccess = jsb;
     }
 
-    public static JavaSecurityAccess getJavaSecurityAccess() {
-        if (javaSecurityAccess == null) {
-            unsafe.ensureClassInitialized(AccessController.class);
+    public stbtic JbvbSecurityAccess getJbvbSecurityAccess() {
+        if (jbvbSecurityAccess == null) {
+            unsbfe.ensureClbssInitiblized(AccessController.clbss);
         }
-        return javaSecurityAccess;
+        return jbvbSecurityAccess;
     }
 
-    public static JavaUtilZipFileAccess getJavaUtilZipFileAccess() {
-        if (javaUtilZipFileAccess == null)
-            unsafe.ensureClassInitialized(java.util.zip.ZipFile.class);
-        return javaUtilZipFileAccess;
+    public stbtic JbvbUtilZipFileAccess getJbvbUtilZipFileAccess() {
+        if (jbvbUtilZipFileAccess == null)
+            unsbfe.ensureClbssInitiblized(jbvb.util.zip.ZipFile.clbss);
+        return jbvbUtilZipFileAccess;
     }
 
-    public static void setJavaUtilZipFileAccess(JavaUtilZipFileAccess access) {
-        javaUtilZipFileAccess = access;
+    public stbtic void setJbvbUtilZipFileAccess(JbvbUtilZipFileAccess bccess) {
+        jbvbUtilZipFileAccess = bccess;
     }
 
-    public static void setJavaAWTAccess(JavaAWTAccess jaa) {
-        javaAWTAccess = jaa;
+    public stbtic void setJbvbAWTAccess(JbvbAWTAccess jbb) {
+        jbvbAWTAccess = jbb;
     }
 
-    public static JavaAWTAccess getJavaAWTAccess() {
-        // this may return null in which case calling code needs to
+    public stbtic JbvbAWTAccess getJbvbAWTAccess() {
+        // this mby return null in which cbse cblling code needs to
         // provision for.
-        return javaAWTAccess;
+        return jbvbAWTAccess;
     }
 
-    public static void setJavaAWTFontAccess(JavaAWTFontAccess jafa) {
-        javaAWTFontAccess = jafa;
+    public stbtic void setJbvbAWTFontAccess(JbvbAWTFontAccess jbfb) {
+        jbvbAWTFontAccess = jbfb;
     }
 
-    public static JavaAWTFontAccess getJavaAWTFontAccess() {
-        // this may return null in which case calling code needs to
+    public stbtic JbvbAWTFontAccess getJbvbAWTFontAccess() {
+        // this mby return null in which cbse cblling code needs to
         // provision for.
-        return javaAWTFontAccess;
+        return jbvbAWTFontAccess;
     }
 
-    public static JavaBeansIntrospectorAccess getJavaBeansIntrospectorAccess() {
-        return javaBeansIntrospectorAccess;
+    public stbtic JbvbBebnsIntrospectorAccess getJbvbBebnsIntrospectorAccess() {
+        return jbvbBebnsIntrospectorAccess;
     }
 
-    public static void setJavaBeansIntrospectorAccess(JavaBeansIntrospectorAccess access) {
-        javaBeansIntrospectorAccess = access;
+    public stbtic void setJbvbBebnsIntrospectorAccess(JbvbBebnsIntrospectorAccess bccess) {
+        jbvbBebnsIntrospectorAccess = bccess;
     }
 }

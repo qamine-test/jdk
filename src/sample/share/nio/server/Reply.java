@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,64 +30,64 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbrset.*;
 
 /**
  * An object used for sending Content to the requestor.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @buthor Mbrk Reinhold
+ * @buthor Brbd R. Wetmore
  */
-class Reply implements Sendable {
+clbss Reply implements Sendbble {
 
     /**
-     * A helper class which define the HTTP response codes
+     * A helper clbss which define the HTTP response codes
      */
-    static class Code {
+    stbtic clbss Code {
 
-        private int number;
-        private String reason;
-        private Code(int i, String r) { number = i; reason = r; }
-        public String toString() { return number + " " + reason; }
+        privbte int number;
+        privbte String rebson;
+        privbte Code(int i, String r) { number = i; rebson = r; }
+        public String toString() { return number + " " + rebson; }
 
-        static Code OK = new Code(200, "OK");
-        static Code BAD_REQUEST = new Code(400, "Bad Request");
-        static Code NOT_FOUND = new Code(404, "Not Found");
-        static Code METHOD_NOT_ALLOWED = new Code(405, "Method Not Allowed");
+        stbtic Code OK = new Code(200, "OK");
+        stbtic Code BAD_REQUEST = new Code(400, "Bbd Request");
+        stbtic Code NOT_FOUND = new Code(404, "Not Found");
+        stbtic Code METHOD_NOT_ALLOWED = new Code(405, "Method Not Allowed");
 
     }
 
-    private Code code;
-    private Content content;
-    private boolean headersOnly;
+    privbte Code code;
+    privbte Content content;
+    privbte boolebn hebdersOnly;
 
     Reply(Code rc, Content c) {
         this(rc, c, null);
     }
 
-    Reply(Code rc, Content c, Request.Action head) {
+    Reply(Code rc, Content c, Request.Action hebd) {
         code = rc;
         content = c;
-        headersOnly = (head == Request.Action.HEAD);
+        hebdersOnly = (hebd == Request.Action.HEAD);
     }
 
-    private static String CRLF = "\r\n";
-    private static Charset ascii = Charset.forName("US-ASCII");
+    privbte stbtic String CRLF = "\r\n";
+    privbte stbtic Chbrset bscii = Chbrset.forNbme("US-ASCII");
 
-    private ByteBuffer hbb = null;
+    privbte ByteBuffer hbb = null;
 
-    private ByteBuffer headers() {
-        CharBuffer cb = CharBuffer.allocate(1024);
+    privbte ByteBuffer hebders() {
+        ChbrBuffer cb = ChbrBuffer.bllocbte(1024);
         for (;;) {
             try {
                 cb.put("HTTP/1.0 ").put(code.toString()).put(CRLF);
@@ -96,44 +96,44 @@ class Reply implements Sendable {
                 cb.put("Content-length: ")
                     .put(Long.toString(content.length())).put(CRLF);
                 cb.put(CRLF);
-                break;
-            } catch (BufferOverflowException x) {
-                assert(cb.capacity() < (1 << 16));
-                cb = CharBuffer.allocate(cb.capacity() * 2);
+                brebk;
+            } cbtch (BufferOverflowException x) {
+                bssert(cb.cbpbcity() < (1 << 16));
+                cb = ChbrBuffer.bllocbte(cb.cbpbcity() * 2);
                 continue;
             }
         }
         cb.flip();
-        return ascii.encode(cb);
+        return bscii.encode(cb);
     }
 
-    public void prepare() throws IOException {
-        content.prepare();
-        hbb = headers();
+    public void prepbre() throws IOException {
+        content.prepbre();
+        hbb = hebders();
     }
 
-    public boolean send(ChannelIO cio) throws IOException {
+    public boolebn send(ChbnnelIO cio) throws IOException {
 
         if (hbb == null)
-            throw new IllegalStateException();
+            throw new IllegblStbteException();
 
-        if (hbb.hasRemaining()) {
+        if (hbb.hbsRembining()) {
             if (cio.write(hbb) <= 0)
                 return true;
         }
 
-        if (!headersOnly) {
+        if (!hebdersOnly) {
             if (content.send(cio))
                 return true;
         }
 
-        if (!cio.dataFlush())
+        if (!cio.dbtbFlush())
             return true;
 
-        return false;
+        return fblse;
     }
 
-    public void release() throws IOException {
-        content.release();
+    public void relebse() throws IOException {
+        content.relebse();
     }
 }

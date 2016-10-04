@@ -1,986 +1,986 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.*;
-import java.lang.reflect.Array;
-import java.util.EventListener;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.util.EventListener;
+import jbvb.bwt.event.*;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.util.EventListener;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.EventListener;
 
 
 /**
- * {@code AWTEventMulticaster} implements efficient and thread-safe multi-cast
- * event dispatching for the AWT events defined in the {@code java.awt.event}
- * package.
+ * {@code AWTEventMulticbster} implements efficient bnd threbd-sbfe multi-cbst
+ * event dispbtching for the AWT events defined in the {@code jbvb.bwt.event}
+ * pbckbge.
  * <p>
- * The following example illustrates how to use this class:
+ * The following exbmple illustrbtes how to use this clbss:
  *
  * <pre><code>
  * public myComponent extends Component {
- *     ActionListener actionListener = null;
+ *     ActionListener bctionListener = null;
  *
- *     public synchronized void addActionListener(ActionListener l) {
- *         actionListener = AWTEventMulticaster.add(actionListener, l);
+ *     public synchronized void bddActionListener(ActionListener l) {
+ *         bctionListener = AWTEventMulticbster.bdd(bctionListener, l);
  *     }
  *     public synchronized void removeActionListener(ActionListener l) {
- *         actionListener = AWTEventMulticaster.remove(actionListener, l);
+ *         bctionListener = AWTEventMulticbster.remove(bctionListener, l);
  *     }
  *     public void processEvent(AWTEvent e) {
- *         // when event occurs which causes "action" semantic
- *         ActionListener listener = actionListener;
+ *         // when event occurs which cbuses "bction" sembntic
+ *         ActionListener listener = bctionListener;
  *         if (listener != null) {
- *             listener.actionPerformed(new ActionEvent());
+ *             listener.bctionPerformed(new ActionEvent());
  *         }
  *     }
  * }
  * </code></pre>
- * The important point to note is the first argument to the {@code
- * add} and {@code remove} methods is the field maintaining the
- * listeners. In addition you must assign the result of the {@code add}
- * and {@code remove} methods to the field maintaining the listeners.
+ * The importbnt point to note is the first brgument to the {@code
+ * bdd} bnd {@code remove} methods is the field mbintbining the
+ * listeners. In bddition you must bssign the result of the {@code bdd}
+ * bnd {@code remove} methods to the field mbintbining the listeners.
  * <p>
- * {@code AWTEventMulticaster} is implemented as a pair of {@code
- * EventListeners} that are set at construction time. {@code
- * AWTEventMulticaster} is immutable. The {@code add} and {@code
- * remove} methods do not alter {@code AWTEventMulticaster} in
- * anyway. If necessary, a new {@code AWTEventMulticaster} is
- * created. In this way it is safe to add and remove listeners during
- * the process of an event dispatching.  However, event listeners
- * added during the process of an event dispatch operation are not
- * notified of the event currently being dispatched.
+ * {@code AWTEventMulticbster} is implemented bs b pbir of {@code
+ * EventListeners} thbt bre set bt construction time. {@code
+ * AWTEventMulticbster} is immutbble. The {@code bdd} bnd {@code
+ * remove} methods do not blter {@code AWTEventMulticbster} in
+ * bnywby. If necessbry, b new {@code AWTEventMulticbster} is
+ * crebted. In this wby it is sbfe to bdd bnd remove listeners during
+ * the process of bn event dispbtching.  However, event listeners
+ * bdded during the process of bn event dispbtch operbtion bre not
+ * notified of the event currently being dispbtched.
  * <p>
- * All of the {@code add} methods allow {@code null} arguments. If the
- * first argument is {@code null}, the second argument is returned. If
- * the first argument is not {@code null} and the second argument is
- * {@code null}, the first argument is returned. If both arguments are
- * {@code non-null}, a new {@code AWTEventMulticaster} is created using
- * the two arguments and returned.
+ * All of the {@code bdd} methods bllow {@code null} brguments. If the
+ * first brgument is {@code null}, the second brgument is returned. If
+ * the first brgument is not {@code null} bnd the second brgument is
+ * {@code null}, the first brgument is returned. If both brguments bre
+ * {@code non-null}, b new {@code AWTEventMulticbster} is crebted using
+ * the two brguments bnd returned.
  * <p>
- * For the {@code remove} methods that take two arguments, the following is
+ * For the {@code remove} methods thbt tbke two brguments, the following is
  * returned:
  * <ul>
- *   <li>{@code null}, if the first argument is {@code null}, or
- *       the arguments are equal, by way of {@code ==}.
- *   <li>the first argument, if the first argument is not an instance of
- *       {@code AWTEventMulticaster}.
+ *   <li>{@code null}, if the first brgument is {@code null}, or
+ *       the brguments bre equbl, by wby of {@code ==}.
+ *   <li>the first brgument, if the first brgument is not bn instbnce of
+ *       {@code AWTEventMulticbster}.
  *   <li>result of invoking {@code remove(EventListener)} on the
- *       first argument, supplying the second argument to the
+ *       first brgument, supplying the second brgument to the
  *       {@code remove(EventListener)} method.
  * </ul>
- * <p>Swing makes use of
- * {@link javax.swing.event.EventListenerList EventListenerList} for
- * similar logic. Refer to it for details.
+ * <p>Swing mbkes use of
+ * {@link jbvbx.swing.event.EventListenerList EventListenerList} for
+ * similbr logic. Refer to it for detbils.
  *
- * @see javax.swing.event.EventListenerList
+ * @see jbvbx.swing.event.EventListenerList
  *
- * @author      John Rose
- * @author      Amy Fowler
+ * @buthor      John Rose
+ * @buthor      Amy Fowler
  * @since       1.1
  */
 
-public class AWTEventMulticaster implements
-    ComponentListener, ContainerListener, FocusListener, KeyListener,
+public clbss AWTEventMulticbster implements
+    ComponentListener, ContbinerListener, FocusListener, KeyListener,
     MouseListener, MouseMotionListener, WindowListener, WindowFocusListener,
-    WindowStateListener, ActionListener, ItemListener, AdjustmentListener,
-    TextListener, InputMethodListener, HierarchyListener,
-    HierarchyBoundsListener, MouseWheelListener {
+    WindowStbteListener, ActionListener, ItemListener, AdjustmentListener,
+    TextListener, InputMethodListener, HierbrchyListener,
+    HierbrchyBoundsListener, MouseWheelListener {
 
     /**
-     * A variable in the event chain (listener-a)
+     * A vbribble in the event chbin (listener-b)
      */
-    protected final EventListener a;
+    protected finbl EventListener b;
 
     /**
-     * A variable in the event chain (listener-b)
+     * A vbribble in the event chbin (listener-b)
      */
-    protected final EventListener b;
+    protected finbl EventListener b;
 
     /**
-     * Creates an event multicaster instance which chains listener-a
-     * with listener-b. Input parameters <code>a</code> and <code>b</code>
-     * should not be <code>null</code>, though implementations may vary in
+     * Crebtes bn event multicbster instbnce which chbins listener-b
+     * with listener-b. Input pbrbmeters <code>b</code> bnd <code>b</code>
+     * should not be <code>null</code>, though implementbtions mby vbry in
      * choosing whether or not to throw <code>NullPointerException</code>
-     * in that case.
-     * @param a listener-a
-     * @param b listener-b
+     * in thbt cbse.
+     * @pbrbm b listener-b
+     * @pbrbm b listener-b
      */
-    protected AWTEventMulticaster(EventListener a, EventListener b) {
-        this.a = a; this.b = b;
+    protected AWTEventMulticbster(EventListener b, EventListener b) {
+        this.b = b; this.b = b;
     }
 
     /**
-     * Removes a listener from this multicaster.
+     * Removes b listener from this multicbster.
      * <p>
-     * The returned multicaster contains all the listeners in this
-     * multicaster with the exception of all occurrences of {@code oldl}.
-     * If the resulting multicaster contains only one regular listener
-     * the regular listener may be returned.  If the resulting multicaster
-     * is empty, then {@code null} may be returned instead.
+     * The returned multicbster contbins bll the listeners in this
+     * multicbster with the exception of bll occurrences of {@code oldl}.
+     * If the resulting multicbster contbins only one regulbr listener
+     * the regulbr listener mby be returned.  If the resulting multicbster
+     * is empty, then {@code null} mby be returned instebd.
      * <p>
      * No exception is thrown if {@code oldl} is {@code null}.
      *
-     * @param oldl the listener to be removed
+     * @pbrbm oldl the listener to be removed
      * @return resulting listener
      */
     protected EventListener remove(EventListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
-        EventListener a2 = removeInternal(a, oldl);
-        EventListener b2 = removeInternal(b, oldl);
-        if (a2 == a && b2 == b) {
+        if (oldl == b)  return b;
+        if (oldl == b)  return b;
+        EventListener b2 = removeInternbl(b, oldl);
+        EventListener b2 = removeInternbl(b, oldl);
+        if (b2 == b && b2 == b) {
             return this;        // it's not here
         }
-        return addInternal(a2, b2);
+        return bddInternbl(b2, b2);
     }
 
     /**
-     * Handles the componentResized event by invoking the
-     * componentResized methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentResized event by invoking the
+     * componentResized methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
     public void componentResized(ComponentEvent e) {
-        ((ComponentListener)a).componentResized(e);
+        ((ComponentListener)b).componentResized(e);
         ((ComponentListener)b).componentResized(e);
     }
 
     /**
-     * Handles the componentMoved event by invoking the
-     * componentMoved methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentMoved event by invoking the
+     * componentMoved methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
     public void componentMoved(ComponentEvent e) {
-        ((ComponentListener)a).componentMoved(e);
+        ((ComponentListener)b).componentMoved(e);
         ((ComponentListener)b).componentMoved(e);
     }
 
     /**
-     * Handles the componentShown event by invoking the
-     * componentShown methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentShown event by invoking the
+     * componentShown methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
     public void componentShown(ComponentEvent e) {
-        ((ComponentListener)a).componentShown(e);
+        ((ComponentListener)b).componentShown(e);
         ((ComponentListener)b).componentShown(e);
     }
 
     /**
-     * Handles the componentHidden event by invoking the
-     * componentHidden methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentHidden event by invoking the
+     * componentHidden methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
     public void componentHidden(ComponentEvent e) {
-        ((ComponentListener)a).componentHidden(e);
+        ((ComponentListener)b).componentHidden(e);
         ((ComponentListener)b).componentHidden(e);
     }
 
     /**
-     * Handles the componentAdded container event by invoking the
-     * componentAdded methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentAdded contbiner event by invoking the
+     * componentAdded methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
-    public void componentAdded(ContainerEvent e) {
-        ((ContainerListener)a).componentAdded(e);
-        ((ContainerListener)b).componentAdded(e);
+    public void componentAdded(ContbinerEvent e) {
+        ((ContbinerListener)b).componentAdded(e);
+        ((ContbinerListener)b).componentAdded(e);
     }
 
     /**
-     * Handles the componentRemoved container event by invoking the
-     * componentRemoved methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndles the componentRemoved contbiner event by invoking the
+     * componentRemoved methods on listener-b bnd listener-b.
+     * @pbrbm e the component event
      */
-    public void componentRemoved(ContainerEvent e) {
-        ((ContainerListener)a).componentRemoved(e);
-        ((ContainerListener)b).componentRemoved(e);
+    public void componentRemoved(ContbinerEvent e) {
+        ((ContbinerListener)b).componentRemoved(e);
+        ((ContbinerListener)b).componentRemoved(e);
     }
 
     /**
-     * Handles the focusGained event by invoking the
-     * focusGained methods on listener-a and listener-b.
-     * @param e the focus event
+     * Hbndles the focusGbined event by invoking the
+     * focusGbined methods on listener-b bnd listener-b.
+     * @pbrbm e the focus event
      */
-    public void focusGained(FocusEvent e) {
-        ((FocusListener)a).focusGained(e);
-        ((FocusListener)b).focusGained(e);
+    public void focusGbined(FocusEvent e) {
+        ((FocusListener)b).focusGbined(e);
+        ((FocusListener)b).focusGbined(e);
     }
 
     /**
-     * Handles the focusLost event by invoking the
-     * focusLost methods on listener-a and listener-b.
-     * @param e the focus event
+     * Hbndles the focusLost event by invoking the
+     * focusLost methods on listener-b bnd listener-b.
+     * @pbrbm e the focus event
      */
     public void focusLost(FocusEvent e) {
-        ((FocusListener)a).focusLost(e);
+        ((FocusListener)b).focusLost(e);
         ((FocusListener)b).focusLost(e);
     }
 
     /**
-     * Handles the keyTyped event by invoking the
-     * keyTyped methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndles the keyTyped event by invoking the
+     * keyTyped methods on listener-b bnd listener-b.
+     * @pbrbm e the key event
      */
     public void keyTyped(KeyEvent e) {
-        ((KeyListener)a).keyTyped(e);
+        ((KeyListener)b).keyTyped(e);
         ((KeyListener)b).keyTyped(e);
     }
 
     /**
-     * Handles the keyPressed event by invoking the
-     * keyPressed methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndles the keyPressed event by invoking the
+     * keyPressed methods on listener-b bnd listener-b.
+     * @pbrbm e the key event
      */
     public void keyPressed(KeyEvent e) {
-        ((KeyListener)a).keyPressed(e);
+        ((KeyListener)b).keyPressed(e);
         ((KeyListener)b).keyPressed(e);
     }
 
     /**
-     * Handles the keyReleased event by invoking the
-     * keyReleased methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndles the keyRelebsed event by invoking the
+     * keyRelebsed methods on listener-b bnd listener-b.
+     * @pbrbm e the key event
      */
-    public void keyReleased(KeyEvent e) {
-        ((KeyListener)a).keyReleased(e);
-        ((KeyListener)b).keyReleased(e);
+    public void keyRelebsed(KeyEvent e) {
+        ((KeyListener)b).keyRelebsed(e);
+        ((KeyListener)b).keyRelebsed(e);
     }
 
     /**
-     * Handles the mouseClicked event by invoking the
-     * mouseClicked methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseClicked event by invoking the
+     * mouseClicked methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
     public void mouseClicked(MouseEvent e) {
-        ((MouseListener)a).mouseClicked(e);
+        ((MouseListener)b).mouseClicked(e);
         ((MouseListener)b).mouseClicked(e);
     }
 
     /**
-     * Handles the mousePressed event by invoking the
-     * mousePressed methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mousePressed event by invoking the
+     * mousePressed methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
     public void mousePressed(MouseEvent e) {
-        ((MouseListener)a).mousePressed(e);
+        ((MouseListener)b).mousePressed(e);
         ((MouseListener)b).mousePressed(e);
     }
 
     /**
-     * Handles the mouseReleased event by invoking the
-     * mouseReleased methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseRelebsed event by invoking the
+     * mouseRelebsed methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
-    public void mouseReleased(MouseEvent e) {
-        ((MouseListener)a).mouseReleased(e);
-        ((MouseListener)b).mouseReleased(e);
+    public void mouseRelebsed(MouseEvent e) {
+        ((MouseListener)b).mouseRelebsed(e);
+        ((MouseListener)b).mouseRelebsed(e);
     }
 
     /**
-     * Handles the mouseEntered event by invoking the
-     * mouseEntered methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseEntered event by invoking the
+     * mouseEntered methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
     public void mouseEntered(MouseEvent e) {
-        ((MouseListener)a).mouseEntered(e);
+        ((MouseListener)b).mouseEntered(e);
         ((MouseListener)b).mouseEntered(e);
     }
 
     /**
-     * Handles the mouseExited event by invoking the
-     * mouseExited methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseExited event by invoking the
+     * mouseExited methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
     public void mouseExited(MouseEvent e) {
-        ((MouseListener)a).mouseExited(e);
+        ((MouseListener)b).mouseExited(e);
         ((MouseListener)b).mouseExited(e);
     }
 
     /**
-     * Handles the mouseDragged event by invoking the
-     * mouseDragged methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseDrbgged event by invoking the
+     * mouseDrbgged methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
-    public void mouseDragged(MouseEvent e) {
-        ((MouseMotionListener)a).mouseDragged(e);
-        ((MouseMotionListener)b).mouseDragged(e);
+    public void mouseDrbgged(MouseEvent e) {
+        ((MouseMotionListener)b).mouseDrbgged(e);
+        ((MouseMotionListener)b).mouseDrbgged(e);
     }
 
     /**
-     * Handles the mouseMoved event by invoking the
-     * mouseMoved methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseMoved event by invoking the
+     * mouseMoved methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      */
     public void mouseMoved(MouseEvent e) {
-        ((MouseMotionListener)a).mouseMoved(e);
+        ((MouseMotionListener)b).mouseMoved(e);
         ((MouseMotionListener)b).mouseMoved(e);
     }
 
     /**
-     * Handles the windowOpened event by invoking the
-     * windowOpened methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowOpened event by invoking the
+     * windowOpened methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
     public void windowOpened(WindowEvent e) {
-        ((WindowListener)a).windowOpened(e);
+        ((WindowListener)b).windowOpened(e);
         ((WindowListener)b).windowOpened(e);
     }
 
     /**
-     * Handles the windowClosing event by invoking the
-     * windowClosing methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowClosing event by invoking the
+     * windowClosing methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
     public void windowClosing(WindowEvent e) {
-        ((WindowListener)a).windowClosing(e);
+        ((WindowListener)b).windowClosing(e);
         ((WindowListener)b).windowClosing(e);
     }
 
     /**
-     * Handles the windowClosed event by invoking the
-     * windowClosed methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowClosed event by invoking the
+     * windowClosed methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
     public void windowClosed(WindowEvent e) {
-        ((WindowListener)a).windowClosed(e);
+        ((WindowListener)b).windowClosed(e);
         ((WindowListener)b).windowClosed(e);
     }
 
     /**
-     * Handles the windowIconified event by invoking the
-     * windowIconified methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowIconified event by invoking the
+     * windowIconified methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
     public void windowIconified(WindowEvent e) {
-        ((WindowListener)a).windowIconified(e);
+        ((WindowListener)b).windowIconified(e);
         ((WindowListener)b).windowIconified(e);
     }
 
     /**
-     * Handles the windowDeiconfied event by invoking the
-     * windowDeiconified methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowDeiconfied event by invoking the
+     * windowDeiconified methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
     public void windowDeiconified(WindowEvent e) {
-        ((WindowListener)a).windowDeiconified(e);
+        ((WindowListener)b).windowDeiconified(e);
         ((WindowListener)b).windowDeiconified(e);
     }
 
     /**
-     * Handles the windowActivated event by invoking the
-     * windowActivated methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowActivbted event by invoking the
+     * windowActivbted methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
-    public void windowActivated(WindowEvent e) {
-        ((WindowListener)a).windowActivated(e);
-        ((WindowListener)b).windowActivated(e);
+    public void windowActivbted(WindowEvent e) {
+        ((WindowListener)b).windowActivbted(e);
+        ((WindowListener)b).windowActivbted(e);
     }
 
     /**
-     * Handles the windowDeactivated event by invoking the
-     * windowDeactivated methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowDebctivbted event by invoking the
+     * windowDebctivbted methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      */
-    public void windowDeactivated(WindowEvent e) {
-        ((WindowListener)a).windowDeactivated(e);
-        ((WindowListener)b).windowDeactivated(e);
+    public void windowDebctivbted(WindowEvent e) {
+        ((WindowListener)b).windowDebctivbted(e);
+        ((WindowListener)b).windowDebctivbted(e);
     }
 
     /**
-     * Handles the windowStateChanged event by invoking the
-     * windowStateChanged methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowStbteChbnged event by invoking the
+     * windowStbteChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      * @since 1.4
      */
-    public void windowStateChanged(WindowEvent e) {
-        ((WindowStateListener)a).windowStateChanged(e);
-        ((WindowStateListener)b).windowStateChanged(e);
+    public void windowStbteChbnged(WindowEvent e) {
+        ((WindowStbteListener)b).windowStbteChbnged(e);
+        ((WindowStbteListener)b).windowStbteChbnged(e);
     }
 
 
     /**
-     * Handles the windowGainedFocus event by invoking the windowGainedFocus
-     * methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowGbinedFocus event by invoking the windowGbinedFocus
+     * methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      * @since 1.4
      */
-    public void windowGainedFocus(WindowEvent e) {
-        ((WindowFocusListener)a).windowGainedFocus(e);
-        ((WindowFocusListener)b).windowGainedFocus(e);
+    public void windowGbinedFocus(WindowEvent e) {
+        ((WindowFocusListener)b).windowGbinedFocus(e);
+        ((WindowFocusListener)b).windowGbinedFocus(e);
     }
 
     /**
-     * Handles the windowLostFocus event by invoking the windowLostFocus
-     * methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndles the windowLostFocus event by invoking the windowLostFocus
+     * methods on listener-b bnd listener-b.
+     * @pbrbm e the window event
      * @since 1.4
      */
     public void windowLostFocus(WindowEvent e) {
-        ((WindowFocusListener)a).windowLostFocus(e);
+        ((WindowFocusListener)b).windowLostFocus(e);
         ((WindowFocusListener)b).windowLostFocus(e);
     }
 
     /**
-     * Handles the actionPerformed event by invoking the
-     * actionPerformed methods on listener-a and listener-b.
-     * @param e the action event
+     * Hbndles the bctionPerformed event by invoking the
+     * bctionPerformed methods on listener-b bnd listener-b.
+     * @pbrbm e the bction event
      */
-    public void actionPerformed(ActionEvent e) {
-        ((ActionListener)a).actionPerformed(e);
-        ((ActionListener)b).actionPerformed(e);
+    public void bctionPerformed(ActionEvent e) {
+        ((ActionListener)b).bctionPerformed(e);
+        ((ActionListener)b).bctionPerformed(e);
     }
 
     /**
-     * Handles the itemStateChanged event by invoking the
-     * itemStateChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the itemStbteChbnged event by invoking the
+     * itemStbteChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      */
-    public void itemStateChanged(ItemEvent e) {
-        ((ItemListener)a).itemStateChanged(e);
-        ((ItemListener)b).itemStateChanged(e);
+    public void itemStbteChbnged(ItemEvent e) {
+        ((ItemListener)b).itemStbteChbnged(e);
+        ((ItemListener)b).itemStbteChbnged(e);
     }
 
     /**
-     * Handles the adjustmentValueChanged event by invoking the
-     * adjustmentValueChanged methods on listener-a and listener-b.
-     * @param e the adjustment event
+     * Hbndles the bdjustmentVblueChbnged event by invoking the
+     * bdjustmentVblueChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the bdjustment event
      */
-    public void adjustmentValueChanged(AdjustmentEvent e) {
-        ((AdjustmentListener)a).adjustmentValueChanged(e);
-        ((AdjustmentListener)b).adjustmentValueChanged(e);
+    public void bdjustmentVblueChbnged(AdjustmentEvent e) {
+        ((AdjustmentListener)b).bdjustmentVblueChbnged(e);
+        ((AdjustmentListener)b).bdjustmentVblueChbnged(e);
     }
-    public void textValueChanged(TextEvent e) {
-        ((TextListener)a).textValueChanged(e);
-        ((TextListener)b).textValueChanged(e);
+    public void textVblueChbnged(TextEvent e) {
+        ((TextListener)b).textVblueChbnged(e);
+        ((TextListener)b).textVblueChbnged(e);
     }
 
     /**
-     * Handles the inputMethodTextChanged event by invoking the
-     * inputMethodTextChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the inputMethodTextChbnged event by invoking the
+     * inputMethodTextChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      */
-    public void inputMethodTextChanged(InputMethodEvent e) {
-       ((InputMethodListener)a).inputMethodTextChanged(e);
-       ((InputMethodListener)b).inputMethodTextChanged(e);
+    public void inputMethodTextChbnged(InputMethodEvent e) {
+       ((InputMethodListener)b).inputMethodTextChbnged(e);
+       ((InputMethodListener)b).inputMethodTextChbnged(e);
     }
 
     /**
-     * Handles the caretPositionChanged event by invoking the
-     * caretPositionChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the cbretPositionChbnged event by invoking the
+     * cbretPositionChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      */
-    public void caretPositionChanged(InputMethodEvent e) {
-       ((InputMethodListener)a).caretPositionChanged(e);
-       ((InputMethodListener)b).caretPositionChanged(e);
+    public void cbretPositionChbnged(InputMethodEvent e) {
+       ((InputMethodListener)b).cbretPositionChbnged(e);
+       ((InputMethodListener)b).cbretPositionChbnged(e);
     }
 
     /**
-     * Handles the hierarchyChanged event by invoking the
-     * hierarchyChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the hierbrchyChbnged event by invoking the
+     * hierbrchyChbnged methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      * @since 1.3
      */
-    public void hierarchyChanged(HierarchyEvent e) {
-        ((HierarchyListener)a).hierarchyChanged(e);
-        ((HierarchyListener)b).hierarchyChanged(e);
+    public void hierbrchyChbnged(HierbrchyEvent e) {
+        ((HierbrchyListener)b).hierbrchyChbnged(e);
+        ((HierbrchyListener)b).hierbrchyChbnged(e);
     }
 
     /**
-     * Handles the ancestorMoved event by invoking the
-     * ancestorMoved methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the bncestorMoved event by invoking the
+     * bncestorMoved methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      * @since 1.3
      */
-    public void ancestorMoved(HierarchyEvent e) {
-        ((HierarchyBoundsListener)a).ancestorMoved(e);
-        ((HierarchyBoundsListener)b).ancestorMoved(e);
+    public void bncestorMoved(HierbrchyEvent e) {
+        ((HierbrchyBoundsListener)b).bncestorMoved(e);
+        ((HierbrchyBoundsListener)b).bncestorMoved(e);
     }
 
     /**
-     * Handles the ancestorResized event by invoking the
-     * ancestorResized methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndles the bncestorResized event by invoking the
+     * bncestorResized methods on listener-b bnd listener-b.
+     * @pbrbm e the item event
      * @since 1.3
      */
-    public void ancestorResized(HierarchyEvent e) {
-        ((HierarchyBoundsListener)a).ancestorResized(e);
-        ((HierarchyBoundsListener)b).ancestorResized(e);
+    public void bncestorResized(HierbrchyEvent e) {
+        ((HierbrchyBoundsListener)b).bncestorResized(e);
+        ((HierbrchyBoundsListener)b).bncestorResized(e);
     }
 
     /**
-     * Handles the mouseWheelMoved event by invoking the
-     * mouseWheelMoved methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndles the mouseWheelMoved event by invoking the
+     * mouseWheelMoved methods on listener-b bnd listener-b.
+     * @pbrbm e the mouse event
      * @since 1.4
      */
     public void mouseWheelMoved(MouseWheelEvent e) {
-        ((MouseWheelListener)a).mouseWheelMoved(e);
+        ((MouseWheelListener)b).mouseWheelMoved(e);
         ((MouseWheelListener)b).mouseWheelMoved(e);
     }
 
     /**
-     * Adds component-listener-a with component-listener-b and
-     * returns the resulting multicast listener.
-     * @param a component-listener-a
-     * @param b component-listener-b
+     * Adds component-listener-b with component-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b component-listener-b
+     * @pbrbm b component-listener-b
      * @return the resulting listener
      */
-    public static ComponentListener add(ComponentListener a, ComponentListener b) {
-        return (ComponentListener)addInternal(a, b);
+    public stbtic ComponentListener bdd(ComponentListener b, ComponentListener b) {
+        return (ComponentListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds container-listener-a with container-listener-b and
-     * returns the resulting multicast listener.
-     * @param a container-listener-a
-     * @param b container-listener-b
+     * Adds contbiner-listener-b with contbiner-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b contbiner-listener-b
+     * @pbrbm b contbiner-listener-b
      * @return the resulting listener
      */
-    public static ContainerListener add(ContainerListener a, ContainerListener b) {
-        return (ContainerListener)addInternal(a, b);
+    public stbtic ContbinerListener bdd(ContbinerListener b, ContbinerListener b) {
+        return (ContbinerListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds focus-listener-a with focus-listener-b and
-     * returns the resulting multicast listener.
-     * @param a focus-listener-a
-     * @param b focus-listener-b
+     * Adds focus-listener-b with focus-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b focus-listener-b
+     * @pbrbm b focus-listener-b
      * @return the resulting listener
      */
-    public static FocusListener add(FocusListener a, FocusListener b) {
-        return (FocusListener)addInternal(a, b);
+    public stbtic FocusListener bdd(FocusListener b, FocusListener b) {
+        return (FocusListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds key-listener-a with key-listener-b and
-     * returns the resulting multicast listener.
-     * @param a key-listener-a
-     * @param b key-listener-b
+     * Adds key-listener-b with key-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b key-listener-b
+     * @pbrbm b key-listener-b
      * @return the resulting listener
      */
-    public static KeyListener add(KeyListener a, KeyListener b) {
-        return (KeyListener)addInternal(a, b);
+    public stbtic KeyListener bdd(KeyListener b, KeyListener b) {
+        return (KeyListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds mouse-listener-a with mouse-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-listener-a
-     * @param b mouse-listener-b
+     * Adds mouse-listener-b with mouse-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b mouse-listener-b
+     * @pbrbm b mouse-listener-b
      * @return the resulting listener
      */
-    public static MouseListener add(MouseListener a, MouseListener b) {
-        return (MouseListener)addInternal(a, b);
+    public stbtic MouseListener bdd(MouseListener b, MouseListener b) {
+        return (MouseListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds mouse-motion-listener-a with mouse-motion-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-motion-listener-a
-     * @param b mouse-motion-listener-b
+     * Adds mouse-motion-listener-b with mouse-motion-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b mouse-motion-listener-b
+     * @pbrbm b mouse-motion-listener-b
      * @return the resulting listener
      */
-    public static MouseMotionListener add(MouseMotionListener a, MouseMotionListener b) {
-        return (MouseMotionListener)addInternal(a, b);
+    public stbtic MouseMotionListener bdd(MouseMotionListener b, MouseMotionListener b) {
+        return (MouseMotionListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds window-listener-a with window-listener-b and
-     * returns the resulting multicast listener.
-     * @param a window-listener-a
-     * @param b window-listener-b
+     * Adds window-listener-b with window-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b window-listener-b
+     * @pbrbm b window-listener-b
      * @return the resulting listener
      */
-    public static WindowListener add(WindowListener a, WindowListener b) {
-        return (WindowListener)addInternal(a, b);
+    public stbtic WindowListener bdd(WindowListener b, WindowListener b) {
+        return (WindowListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds window-state-listener-a with window-state-listener-b
-     * and returns the resulting multicast listener.
-     * @param a window-state-listener-a
-     * @param b window-state-listener-b
+     * Adds window-stbte-listener-b with window-stbte-listener-b
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm b window-stbte-listener-b
+     * @pbrbm b window-stbte-listener-b
      * @return the resulting listener
      * @since 1.4
      */
-    @SuppressWarnings("overloads")
-    public static WindowStateListener add(WindowStateListener a,
-                                          WindowStateListener b) {
-        return (WindowStateListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+    public stbtic WindowStbteListener bdd(WindowStbteListener b,
+                                          WindowStbteListener b) {
+        return (WindowStbteListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds window-focus-listener-a with window-focus-listener-b
-     * and returns the resulting multicast listener.
-     * @param a window-focus-listener-a
-     * @param b window-focus-listener-b
+     * Adds window-focus-listener-b with window-focus-listener-b
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm b window-focus-listener-b
+     * @pbrbm b window-focus-listener-b
      * @return the resulting listener
      * @since 1.4
      */
-    public static WindowFocusListener add(WindowFocusListener a,
+    public stbtic WindowFocusListener bdd(WindowFocusListener b,
                                           WindowFocusListener b) {
-        return (WindowFocusListener)addInternal(a, b);
+        return (WindowFocusListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds action-listener-a with action-listener-b and
-     * returns the resulting multicast listener.
-     * @param a action-listener-a
-     * @param b action-listener-b
+     * Adds bction-listener-b with bction-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b bction-listener-b
+     * @pbrbm b bction-listener-b
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static ActionListener add(ActionListener a, ActionListener b) {
-        return (ActionListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+    public stbtic ActionListener bdd(ActionListener b, ActionListener b) {
+        return (ActionListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds item-listener-a with item-listener-b and
-     * returns the resulting multicast listener.
-     * @param a item-listener-a
-     * @param b item-listener-b
+     * Adds item-listener-b with item-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b item-listener-b
+     * @pbrbm b item-listener-b
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static ItemListener add(ItemListener a, ItemListener b) {
-        return (ItemListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+    public stbtic ItemListener bdd(ItemListener b, ItemListener b) {
+        return (ItemListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds adjustment-listener-a with adjustment-listener-b and
-     * returns the resulting multicast listener.
-     * @param a adjustment-listener-a
-     * @param b adjustment-listener-b
+     * Adds bdjustment-listener-b with bdjustment-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b bdjustment-listener-b
+     * @pbrbm b bdjustment-listener-b
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static AdjustmentListener add(AdjustmentListener a, AdjustmentListener b) {
-        return (AdjustmentListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+    public stbtic AdjustmentListener bdd(AdjustmentListener b, AdjustmentListener b) {
+        return (AdjustmentListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds text-listener-a with text-listener-b and
-     * returns the resulting multicast listener.
+     * Adds text-listener-b with text-listener-b bnd
+     * returns the resulting multicbst listener.
      *
-     * @param  a text-listener-a
-     * @param  b text-listener-b
+     * @pbrbm  b text-listener-b
+     * @pbrbm  b text-listener-b
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static TextListener add(TextListener a, TextListener b) {
-        return (TextListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+    public stbtic TextListener bdd(TextListener b, TextListener b) {
+        return (TextListener)bddInternbl(b, b);
     }
 
     /**
-     * Adds input-method-listener-a with input-method-listener-b and
-     * returns the resulting multicast listener.
-     * @param a input-method-listener-a
-     * @param b input-method-listener-b
+     * Adds input-method-listener-b with input-method-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b input-method-listener-b
+     * @pbrbm b input-method-listener-b
      * @return the resulting listener
      */
-     public static InputMethodListener add(InputMethodListener a, InputMethodListener b) {
-        return (InputMethodListener)addInternal(a, b);
+     public stbtic InputMethodListener bdd(InputMethodListener b, InputMethodListener b) {
+        return (InputMethodListener)bddInternbl(b, b);
      }
 
     /**
-     * Adds hierarchy-listener-a with hierarchy-listener-b and
-     * returns the resulting multicast listener.
-     * @param a hierarchy-listener-a
-     * @param b hierarchy-listener-b
-     * @return the resulting listener
-     * @since 1.3
-     */
-    @SuppressWarnings("overloads")
-     public static HierarchyListener add(HierarchyListener a, HierarchyListener b) {
-        return (HierarchyListener)addInternal(a, b);
-     }
-
-    /**
-     * Adds hierarchy-bounds-listener-a with hierarchy-bounds-listener-b and
-     * returns the resulting multicast listener.
-     * @param a hierarchy-bounds-listener-a
-     * @param b hierarchy-bounds-listener-b
+     * Adds hierbrchy-listener-b with hierbrchy-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b hierbrchy-listener-b
+     * @pbrbm b hierbrchy-listener-b
      * @return the resulting listener
      * @since 1.3
      */
-     public static HierarchyBoundsListener add(HierarchyBoundsListener a, HierarchyBoundsListener b) {
-        return (HierarchyBoundsListener)addInternal(a, b);
+    @SuppressWbrnings("overlobds")
+     public stbtic HierbrchyListener bdd(HierbrchyListener b, HierbrchyListener b) {
+        return (HierbrchyListener)bddInternbl(b, b);
      }
 
     /**
-     * Adds mouse-wheel-listener-a with mouse-wheel-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-wheel-listener-a
-     * @param b mouse-wheel-listener-b
+     * Adds hierbrchy-bounds-listener-b with hierbrchy-bounds-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b hierbrchy-bounds-listener-b
+     * @pbrbm b hierbrchy-bounds-listener-b
+     * @return the resulting listener
+     * @since 1.3
+     */
+     public stbtic HierbrchyBoundsListener bdd(HierbrchyBoundsListener b, HierbrchyBoundsListener b) {
+        return (HierbrchyBoundsListener)bddInternbl(b, b);
+     }
+
+    /**
+     * Adds mouse-wheel-listener-b with mouse-wheel-listener-b bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm b mouse-wheel-listener-b
+     * @pbrbm b mouse-wheel-listener-b
      * @return the resulting listener
      * @since 1.4
      */
-    @SuppressWarnings("overloads")
-    public static MouseWheelListener add(MouseWheelListener a,
+    @SuppressWbrnings("overlobds")
+    public stbtic MouseWheelListener bdd(MouseWheelListener b,
                                          MouseWheelListener b) {
-        return (MouseWheelListener)addInternal(a, b);
+        return (MouseWheelListener)bddInternbl(b, b);
     }
 
     /**
-     * Removes the old component-listener from component-listener-l and
-     * returns the resulting multicast listener.
-     * @param l component-listener-l
-     * @param oldl the component-listener being removed
+     * Removes the old component-listener from component-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l component-listener-l
+     * @pbrbm oldl the component-listener being removed
      * @return the resulting listener
      */
-    public static ComponentListener remove(ComponentListener l, ComponentListener oldl) {
-        return (ComponentListener) removeInternal(l, oldl);
+    public stbtic ComponentListener remove(ComponentListener l, ComponentListener oldl) {
+        return (ComponentListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old container-listener from container-listener-l and
-     * returns the resulting multicast listener.
-     * @param l container-listener-l
-     * @param oldl the container-listener being removed
+     * Removes the old contbiner-listener from contbiner-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l contbiner-listener-l
+     * @pbrbm oldl the contbiner-listener being removed
      * @return the resulting listener
      */
-    public static ContainerListener remove(ContainerListener l, ContainerListener oldl) {
-        return (ContainerListener) removeInternal(l, oldl);
+    public stbtic ContbinerListener remove(ContbinerListener l, ContbinerListener oldl) {
+        return (ContbinerListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old focus-listener from focus-listener-l and
-     * returns the resulting multicast listener.
-     * @param l focus-listener-l
-     * @param oldl the focus-listener being removed
+     * Removes the old focus-listener from focus-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l focus-listener-l
+     * @pbrbm oldl the focus-listener being removed
      * @return the resulting listener
      */
-    public static FocusListener remove(FocusListener l, FocusListener oldl) {
-        return (FocusListener) removeInternal(l, oldl);
+    public stbtic FocusListener remove(FocusListener l, FocusListener oldl) {
+        return (FocusListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old key-listener from key-listener-l and
-     * returns the resulting multicast listener.
-     * @param l key-listener-l
-     * @param oldl the key-listener being removed
+     * Removes the old key-listener from key-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l key-listener-l
+     * @pbrbm oldl the key-listener being removed
      * @return the resulting listener
      */
-    public static KeyListener remove(KeyListener l, KeyListener oldl) {
-        return (KeyListener) removeInternal(l, oldl);
+    public stbtic KeyListener remove(KeyListener l, KeyListener oldl) {
+        return (KeyListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old mouse-listener from mouse-listener-l and
-     * returns the resulting multicast listener.
-     * @param l mouse-listener-l
-     * @param oldl the mouse-listener being removed
+     * Removes the old mouse-listener from mouse-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l mouse-listener-l
+     * @pbrbm oldl the mouse-listener being removed
      * @return the resulting listener
      */
-    public static MouseListener remove(MouseListener l, MouseListener oldl) {
-        return (MouseListener) removeInternal(l, oldl);
+    public stbtic MouseListener remove(MouseListener l, MouseListener oldl) {
+        return (MouseListener) removeInternbl(l, oldl);
     }
 
     /**
      * Removes the old mouse-motion-listener from mouse-motion-listener-l
-     * and returns the resulting multicast listener.
-     * @param l mouse-motion-listener-l
-     * @param oldl the mouse-motion-listener being removed
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm l mouse-motion-listener-l
+     * @pbrbm oldl the mouse-motion-listener being removed
      * @return the resulting listener
      */
-    public static MouseMotionListener remove(MouseMotionListener l, MouseMotionListener oldl) {
-        return (MouseMotionListener) removeInternal(l, oldl);
+    public stbtic MouseMotionListener remove(MouseMotionListener l, MouseMotionListener oldl) {
+        return (MouseMotionListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old window-listener from window-listener-l and
-     * returns the resulting multicast listener.
-     * @param l window-listener-l
-     * @param oldl the window-listener being removed
+     * Removes the old window-listener from window-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l window-listener-l
+     * @pbrbm oldl the window-listener being removed
      * @return the resulting listener
      */
-    public static WindowListener remove(WindowListener l, WindowListener oldl) {
-        return (WindowListener) removeInternal(l, oldl);
+    public stbtic WindowListener remove(WindowListener l, WindowListener oldl) {
+        return (WindowListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old window-state-listener from window-state-listener-l
-     * and returns the resulting multicast listener.
-     * @param l window-state-listener-l
-     * @param oldl the window-state-listener being removed
+     * Removes the old window-stbte-listener from window-stbte-listener-l
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm l window-stbte-listener-l
+     * @pbrbm oldl the window-stbte-listener being removed
      * @return the resulting listener
      * @since 1.4
      */
-    @SuppressWarnings("overloads")
-    public static WindowStateListener remove(WindowStateListener l,
-                                             WindowStateListener oldl) {
-        return (WindowStateListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic WindowStbteListener remove(WindowStbteListener l,
+                                             WindowStbteListener oldl) {
+        return (WindowStbteListener) removeInternbl(l, oldl);
     }
 
     /**
      * Removes the old window-focus-listener from window-focus-listener-l
-     * and returns the resulting multicast listener.
-     * @param l window-focus-listener-l
-     * @param oldl the window-focus-listener being removed
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm l window-focus-listener-l
+     * @pbrbm oldl the window-focus-listener being removed
      * @return the resulting listener
      * @since 1.4
      */
-    public static WindowFocusListener remove(WindowFocusListener l,
+    public stbtic WindowFocusListener remove(WindowFocusListener l,
                                              WindowFocusListener oldl) {
-        return (WindowFocusListener) removeInternal(l, oldl);
+        return (WindowFocusListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old action-listener from action-listener-l and
-     * returns the resulting multicast listener.
-     * @param l action-listener-l
-     * @param oldl the action-listener being removed
+     * Removes the old bction-listener from bction-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l bction-listener-l
+     * @pbrbm oldl the bction-listener being removed
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static ActionListener remove(ActionListener l, ActionListener oldl) {
-        return (ActionListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic ActionListener remove(ActionListener l, ActionListener oldl) {
+        return (ActionListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old item-listener from item-listener-l and
-     * returns the resulting multicast listener.
-     * @param l item-listener-l
-     * @param oldl the item-listener being removed
+     * Removes the old item-listener from item-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l item-listener-l
+     * @pbrbm oldl the item-listener being removed
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static ItemListener remove(ItemListener l, ItemListener oldl) {
-        return (ItemListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic ItemListener remove(ItemListener l, ItemListener oldl) {
+        return (ItemListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old adjustment-listener from adjustment-listener-l and
-     * returns the resulting multicast listener.
-     * @param l adjustment-listener-l
-     * @param oldl the adjustment-listener being removed
+     * Removes the old bdjustment-listener from bdjustment-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l bdjustment-listener-l
+     * @pbrbm oldl the bdjustment-listener being removed
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static AdjustmentListener remove(AdjustmentListener l, AdjustmentListener oldl) {
-        return (AdjustmentListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic AdjustmentListener remove(AdjustmentListener l, AdjustmentListener oldl) {
+        return (AdjustmentListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old text-listener from text-listener-l and
-     * returns the resulting multicast listener.
+     * Removes the old text-listener from text-listener-l bnd
+     * returns the resulting multicbst listener.
      *
-     * @param  l text-listener-l
-     * @param  oldl the text-listener being removed
+     * @pbrbm  l text-listener-l
+     * @pbrbm  oldl the text-listener being removed
      * @return the resulting listener
      */
-    @SuppressWarnings("overloads")
-    public static TextListener remove(TextListener l, TextListener oldl) {
-        return (TextListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic TextListener remove(TextListener l, TextListener oldl) {
+        return (TextListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old input-method-listener from input-method-listener-l and
-     * returns the resulting multicast listener.
-     * @param l input-method-listener-l
-     * @param oldl the input-method-listener being removed
+     * Removes the old input-method-listener from input-method-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l input-method-listener-l
+     * @pbrbm oldl the input-method-listener being removed
      * @return the resulting listener
      */
-    public static InputMethodListener remove(InputMethodListener l, InputMethodListener oldl) {
-        return (InputMethodListener) removeInternal(l, oldl);
+    public stbtic InputMethodListener remove(InputMethodListener l, InputMethodListener oldl) {
+        return (InputMethodListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old hierarchy-listener from hierarchy-listener-l and
-     * returns the resulting multicast listener.
-     * @param l hierarchy-listener-l
-     * @param oldl the hierarchy-listener being removed
+     * Removes the old hierbrchy-listener from hierbrchy-listener-l bnd
+     * returns the resulting multicbst listener.
+     * @pbrbm l hierbrchy-listener-l
+     * @pbrbm oldl the hierbrchy-listener being removed
      * @return the resulting listener
      * @since 1.3
      */
-    @SuppressWarnings("overloads")
-    public static HierarchyListener remove(HierarchyListener l, HierarchyListener oldl) {
-        return (HierarchyListener) removeInternal(l, oldl);
+    @SuppressWbrnings("overlobds")
+    public stbtic HierbrchyListener remove(HierbrchyListener l, HierbrchyListener oldl) {
+        return (HierbrchyListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Removes the old hierarchy-bounds-listener from
-     * hierarchy-bounds-listener-l and returns the resulting multicast
+     * Removes the old hierbrchy-bounds-listener from
+     * hierbrchy-bounds-listener-l bnd returns the resulting multicbst
      * listener.
-     * @param l hierarchy-bounds-listener-l
-     * @param oldl the hierarchy-bounds-listener being removed
+     * @pbrbm l hierbrchy-bounds-listener-l
+     * @pbrbm oldl the hierbrchy-bounds-listener being removed
      * @return the resulting listener
      * @since 1.3
      */
-    public static HierarchyBoundsListener remove(HierarchyBoundsListener l, HierarchyBoundsListener oldl) {
-        return (HierarchyBoundsListener) removeInternal(l, oldl);
+    public stbtic HierbrchyBoundsListener remove(HierbrchyBoundsListener l, HierbrchyBoundsListener oldl) {
+        return (HierbrchyBoundsListener) removeInternbl(l, oldl);
     }
 
     /**
      * Removes the old mouse-wheel-listener from mouse-wheel-listener-l
-     * and returns the resulting multicast listener.
-     * @param l mouse-wheel-listener-l
-     * @param oldl the mouse-wheel-listener being removed
+     * bnd returns the resulting multicbst listener.
+     * @pbrbm l mouse-wheel-listener-l
+     * @pbrbm oldl the mouse-wheel-listener being removed
      * @return the resulting listener
      * @since 1.4
      */
-    @SuppressWarnings("overloads")
-    public static MouseWheelListener remove(MouseWheelListener l,
+    @SuppressWbrnings("overlobds")
+    public stbtic MouseWheelListener remove(MouseWheelListener l,
                                             MouseWheelListener oldl) {
-      return (MouseWheelListener) removeInternal(l, oldl);
+      return (MouseWheelListener) removeInternbl(l, oldl);
     }
 
     /**
-     * Returns the resulting multicast listener from adding listener-a
-     * and listener-b together.
-     * If listener-a is null, it returns listener-b;
-     * If listener-b is null, it returns listener-a
-     * If neither are null, then it creates and returns
-     * a new AWTEventMulticaster instance which chains a with b.
-     * @param a event listener-a
-     * @param b event listener-b
+     * Returns the resulting multicbst listener from bdding listener-b
+     * bnd listener-b together.
+     * If listener-b is null, it returns listener-b;
+     * If listener-b is null, it returns listener-b
+     * If neither bre null, then it crebtes bnd returns
+     * b new AWTEventMulticbster instbnce which chbins b with b.
+     * @pbrbm b event listener-b
+     * @pbrbm b event listener-b
      * @return the resulting listener
      */
-    protected static EventListener addInternal(EventListener a, EventListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
-        return new AWTEventMulticaster(a, b);
+    protected stbtic EventListener bddInternbl(EventListener b, EventListener b) {
+        if (b == null)  return b;
+        if (b == null)  return b;
+        return new AWTEventMulticbster(b, b);
     }
 
     /**
-     * Returns the resulting multicast listener after removing the
+     * Returns the resulting multicbst listener bfter removing the
      * old listener from listener-l.
-     * If listener-l equals the old listener OR listener-l is null,
+     * If listener-l equbls the old listener OR listener-l is null,
      * returns null.
-     * Else if listener-l is an instance of AWTEventMulticaster,
+     * Else if listener-l is bn instbnce of AWTEventMulticbster,
      * then it removes the old listener from it.
      * Else, returns listener l.
-     * @param l the listener being removed from
-     * @param oldl the listener being removed
+     * @pbrbm l the listener being removed from
+     * @pbrbm oldl the listener being removed
      * @return the resulting listener
      */
-    protected static EventListener removeInternal(EventListener l, EventListener oldl) {
+    protected stbtic EventListener removeInternbl(EventListener l, EventListener oldl) {
         if (l == oldl || l == null) {
             return null;
-        } else if (l instanceof AWTEventMulticaster) {
-            return ((AWTEventMulticaster)l).remove(oldl);
+        } else if (l instbnceof AWTEventMulticbster) {
+            return ((AWTEventMulticbster)l).remove(oldl);
         } else {
             return l;           // it's not here
         }
@@ -988,133 +988,133 @@ public class AWTEventMulticaster implements
 
 
    /**
-    * Serialization support. Saves all Serializable listeners
-    * to a serialization stream.
+    * Seriblizbtion support. Sbves bll Seriblizbble listeners
+    * to b seriblizbtion strebm.
     *
-    * @param  s the stream to save to
-    * @param  k a prefix stream to put before each serializable listener
-    * @throws IOException if serialization fails
+    * @pbrbm  s the strebm to sbve to
+    * @pbrbm  k b prefix strebm to put before ebch seriblizbble listener
+    * @throws IOException if seriblizbtion fbils
     */
-    protected void saveInternal(ObjectOutputStream s, String k) throws IOException {
-        if (a instanceof AWTEventMulticaster) {
-            ((AWTEventMulticaster)a).saveInternal(s, k);
+    protected void sbveInternbl(ObjectOutputStrebm s, String k) throws IOException {
+        if (b instbnceof AWTEventMulticbster) {
+            ((AWTEventMulticbster)b).sbveInternbl(s, k);
         }
-        else if (a instanceof Serializable) {
+        else if (b instbnceof Seriblizbble) {
             s.writeObject(k);
-            s.writeObject(a);
+            s.writeObject(b);
         }
 
-        if (b instanceof AWTEventMulticaster) {
-            ((AWTEventMulticaster)b).saveInternal(s, k);
+        if (b instbnceof AWTEventMulticbster) {
+            ((AWTEventMulticbster)b).sbveInternbl(s, k);
         }
-        else if (b instanceof Serializable) {
+        else if (b instbnceof Seriblizbble) {
             s.writeObject(k);
             s.writeObject(b);
         }
     }
 
    /**
-    * Saves a Serializable listener chain to a serialization stream.
+    * Sbves b Seriblizbble listener chbin to b seriblizbtion strebm.
     *
-    * @param  s the stream to save to
-    * @param  k a prefix stream to put before each serializable listener
-    * @param  l the listener chain to save
-    * @throws IOException if serialization fails
+    * @pbrbm  s the strebm to sbve to
+    * @pbrbm  k b prefix strebm to put before ebch seriblizbble listener
+    * @pbrbm  l the listener chbin to sbve
+    * @throws IOException if seriblizbtion fbils
     */
-    protected static void save(ObjectOutputStream s, String k, EventListener l) throws IOException {
+    protected stbtic void sbve(ObjectOutputStrebm s, String k, EventListener l) throws IOException {
       if (l == null) {
           return;
       }
-      else if (l instanceof AWTEventMulticaster) {
-          ((AWTEventMulticaster)l).saveInternal(s, k);
+      else if (l instbnceof AWTEventMulticbster) {
+          ((AWTEventMulticbster)l).sbveInternbl(s, k);
       }
-      else if (l instanceof Serializable) {
+      else if (l instbnceof Seriblizbble) {
            s.writeObject(k);
            s.writeObject(l);
       }
     }
 
     /*
-     * Recursive method which returns a count of the number of listeners in
-     * EventListener, handling the (common) case of l actually being an
-     * AWTEventMulticaster.  Additionally, only listeners of type listenerType
-     * are counted.  Method modified to fix bug 4513402.  -bchristi
+     * Recursive method which returns b count of the number of listeners in
+     * EventListener, hbndling the (common) cbse of l bctublly being bn
+     * AWTEventMulticbster.  Additionblly, only listeners of type listenerType
+     * bre counted.  Method modified to fix bug 4513402.  -bchristi
      */
-    private static int getListenerCount(EventListener l, Class<?> listenerType) {
-        if (l instanceof AWTEventMulticaster) {
-            AWTEventMulticaster mc = (AWTEventMulticaster)l;
-            return getListenerCount(mc.a, listenerType) +
+    privbte stbtic int getListenerCount(EventListener l, Clbss<?> listenerType) {
+        if (l instbnceof AWTEventMulticbster) {
+            AWTEventMulticbster mc = (AWTEventMulticbster)l;
+            return getListenerCount(mc.b, listenerType) +
              getListenerCount(mc.b, listenerType);
         }
         else {
             // Only count listeners of correct type
-            return listenerType.isInstance(l) ? 1 : 0;
+            return listenerType.isInstbnce(l) ? 1 : 0;
         }
     }
 
     /*
-     * Recusive method which populates EventListener array a with EventListeners
-     * from l.  l is usually an AWTEventMulticaster.  Bug 4513402 revealed that
-     * if l differed in type from the element type of a, an ArrayStoreException
-     * would occur.  Now l is only inserted into a if it's of the appropriate
+     * Recusive method which populbtes EventListener brrby b with EventListeners
+     * from l.  l is usublly bn AWTEventMulticbster.  Bug 4513402 revebled thbt
+     * if l differed in type from the element type of b, bn ArrbyStoreException
+     * would occur.  Now l is only inserted into b if it's of the bppropribte
      * type.  -bchristi
      */
-    private static int populateListenerArray(EventListener[] a, EventListener l, int index) {
-        if (l instanceof AWTEventMulticaster) {
-            AWTEventMulticaster mc = (AWTEventMulticaster)l;
-            int lhs = populateListenerArray(a, mc.a, index);
-            return populateListenerArray(a, mc.b, lhs);
+    privbte stbtic int populbteListenerArrby(EventListener[] b, EventListener l, int index) {
+        if (l instbnceof AWTEventMulticbster) {
+            AWTEventMulticbster mc = (AWTEventMulticbster)l;
+            int lhs = populbteListenerArrby(b, mc.b, index);
+            return populbteListenerArrby(b, mc.b, lhs);
         }
-        else if (a.getClass().getComponentType().isInstance(l)) {
-            a[index] = l;
+        else if (b.getClbss().getComponentType().isInstbnce(l)) {
+            b[index] = l;
             return index + 1;
         }
-        // Skip nulls, instances of wrong class
+        // Skip nulls, instbnces of wrong clbss
         else {
             return index;
         }
     }
 
     /**
-     * Returns an array of all the objects chained as
+     * Returns bn brrby of bll the objects chbined bs
      * <code><em>Foo</em>Listener</code>s by the specified
-     * <code>java.util.EventListener</code>.
-     * <code><em>Foo</em>Listener</code>s are chained by the
-     * <code>AWTEventMulticaster</code> using the
-     * <code>add<em>Foo</em>Listener</code> method.
-     * If a <code>null</code> listener is specified, this method returns an
-     * empty array. If the specified listener is not an instance of
-     * <code>AWTEventMulticaster</code>, this method returns an array which
-     * contains only the specified listener. If no such listeners are chained,
-     * this method returns an empty array.
+     * <code>jbvb.util.EventListener</code>.
+     * <code><em>Foo</em>Listener</code>s bre chbined by the
+     * <code>AWTEventMulticbster</code> using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
+     * If b <code>null</code> listener is specified, this method returns bn
+     * empty brrby. If the specified listener is not bn instbnce of
+     * <code>AWTEventMulticbster</code>, this method returns bn brrby which
+     * contbins only the specified listener. If no such listeners bre chbined,
+     * this method returns bn empty brrby.
      *
-     * @param l the specified <code>java.util.EventListener</code>
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects chained as
-     *          <code><em>Foo</em>Listener</code>s by the specified multicast
-     *          listener, or an empty array if no such listeners have been
-     *          chained by the specified multicast listener
+     * @pbrbm l the specified <code>jbvb.util.EventListener</code>
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects chbined bs
+     *          <code><em>Foo</em>Listener</code>s by the specified multicbst
+     *          listener, or bn empty brrby if no such listeners hbve been
+     *          chbined by the specified multicbst listener
      * @exception NullPointerException if the specified
-     *             {@code listenertype} parameter is {@code null}
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *             {@code listenertype} pbrbmeter is {@code null}
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @since 1.4
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends EventListener> T[]
-        getListeners(EventListener l, Class<T> listenerType)
+    @SuppressWbrnings("unchecked")
+    public stbtic <T extends EventListener> T[]
+        getListeners(EventListener l, Clbss<T> listenerType)
     {
         if (listenerType == null) {
             throw new NullPointerException ("Listener type should not be null");
         }
 
         int n = getListenerCount(l, listenerType);
-        T[] result = (T[])Array.newInstance(listenerType, n);
-        populateListenerArray(result, l, 0);
+        T[] result = (T[])Arrby.newInstbnce(listenerType, n);
+        populbteListenerArrby(result, l, 0);
         return result;
     }
 }

@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.SetOfIntegerSyntax;
-import javax.print.attribute.SupportedValuesAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.SetOfIntegerSyntbx;
+import jbvbx.print.bttribute.SupportedVbluesAttribute;
 
 /**
- * Class JobMediaSheetsSupported is a printing attribute class, a set of
- * integers, that gives the supported values for a {@link JobMediaSheets
- * JobMediaSheets} attribute. It is restricted to a single contiguous range of
- * integers; multiple non-overlapping ranges are not allowed. This gives the
- * lower and upper bounds of the total sizes of print jobs in number of media
- * sheets that the printer will accept.
+ * Clbss JobMedibSheetsSupported is b printing bttribute clbss, b set of
+ * integers, thbt gives the supported vblues for b {@link JobMedibSheets
+ * JobMedibSheets} bttribute. It is restricted to b single contiguous rbnge of
+ * integers; multiple non-overlbpping rbnges bre not bllowed. This gives the
+ * lower bnd upper bounds of the totbl sizes of print jobs in number of medib
+ * sheets thbt the printer will bccept.
  * <P>
- * <B>IPP Compatibility:</B> The JobMediaSheetsSupported attribute's canonical
- * array form gives the lower and upper bound for the range of values to be
- * included in an IPP "job-media-sheets-supported" attribute. See class {@link
- * javax.print.attribute.SetOfIntegerSyntax SetOfIntegerSyntax} for an
- * explanation of canonical array form. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The JobMedibSheetsSupported bttribute's cbnonicbl
+ * brrby form gives the lower bnd upper bound for the rbnge of vblues to be
+ * included in bn IPP "job-medib-sheets-supported" bttribute. See clbss {@link
+ * jbvbx.print.bttribute.SetOfIntegerSyntbx SetOfIntegerSyntbx} for bn
+ * explbnbtion of cbnonicbl brrby form. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobMediaSheetsSupported extends SetOfIntegerSyntax
-        implements SupportedValuesAttribute {
+public finbl clbss JobMedibSheetsSupported extends SetOfIntegerSyntbx
+        implements SupportedVbluesAttribute {
 
-    private static final long serialVersionUID = 2953685470388672940L;
+    privbte stbtic finbl long seriblVersionUID = 2953685470388672940L;
 
     /**
-     * Construct a new job media sheets supported attribute containing a single
-     * range of integers. That is, only those values of JobMediaSheets in the
-     * one range are supported.
+     * Construct b new job medib sheets supported bttribute contbining b single
+     * rbnge of integers. Thbt is, only those vblues of JobMedibSheets in the
+     * one rbnge bre supported.
      *
-     * @param  lowerBound  Lower bound of the range.
-     * @param  upperBound  Upper bound of the range.
+     * @pbrbm  lowerBound  Lower bound of the rbnge.
+     * @pbrbm  upperBound  Upper bound of the rbnge.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if a null range is specified or if a
-     *   non-null range is specified with <CODE>lowerBound</CODE> less than
+     * @exception  IllegblArgumentException
+     *  (Unchecked exception) Thrown if b null rbnge is specified or if b
+     *   non-null rbnge is specified with <CODE>lowerBound</CODE> less thbn
      *    0.
      */
-    public JobMediaSheetsSupported(int lowerBound, int upperBound) {
+    public JobMedibSheetsSupported(int lowerBound, int upperBound) {
         super (lowerBound, upperBound);
         if (lowerBound > upperBound) {
-            throw new IllegalArgumentException("Null range specified");
+            throw new IllegblArgumentException("Null rbnge specified");
         } else if (lowerBound < 0) {
-            throw new IllegalArgumentException
-                                ("Job K octets value < 0 specified");
+            throw new IllegblArgumentException
+                                ("Job K octets vblue < 0 specified");
         }
     }
 
     /**
-     * Returns whether this job media sheets supported attribute is equivalent
-     * to the passed in object. To be equivalent, all of the following
+     * Returns whether this job medib sheets supported bttribute is equivblent
+     * to the pbssed in object. To be equivblent, bll of the following
      * conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobMediaSheetsSupported.
+     * <CODE>object</CODE> is bn instbnce of clbss JobMedibSheetsSupported.
      * <LI>
-     * This job media sheets supported attribute's members and
-     * <CODE>object</CODE>'s members are the same.
+     * This job medib sheets supported bttribute's members bnd
+     * <CODE>object</CODE>'s members bre the sbme.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job media
-     *          sheets supported attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job medib
+     *          sheets supported bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof JobMediaSheetsSupported);
+    public boolebn equbls(Object object) {
+        return (super.equbls (object) &&
+                object instbnceof JobMedibSheetsSupported);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobMediaSheetsSupported, the
-     * category is class JobMediaSheetsSupported itself.
+     * For clbss JobMedibSheetsSupported, the
+     * cbtegory is clbss JobMedibSheetsSupported itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobMediaSheetsSupported.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobMedibSheetsSupported.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobMediaSheetsSupported, the
-     * category name is <CODE>"job-media-sheets-supported"</CODE>.
+     * For clbss JobMedibSheetsSupported, the
+     * cbtegory nbme is <CODE>"job-medib-sheets-supported"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "job-media-sheets-supported";
+    public finbl String getNbme() {
+        return "job-medib-sheets-supported";
     }
 
 }

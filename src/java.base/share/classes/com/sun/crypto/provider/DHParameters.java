@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.*;
+import jbvb.io.*;
 import sun.security.util.*;
-import java.math.BigInteger;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.DHParameterSpec;
+import jbvb.mbth.BigInteger;
+import jbvb.security.AlgorithmPbrbmetersSpi;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvbx.crypto.spec.DHPbrbmeterSpec;
 
 /**
- * This class implements the parameter set used by the
- * Diffie-Hellman key agreement as defined in the PKCS #3 standard.
+ * This clbss implements the pbrbmeter set used by the
+ * Diffie-Hellmbn key bgreement bs defined in the PKCS #3 stbndbrd.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
-public final class DHParameters extends AlgorithmParametersSpi {
+public finbl clbss DHPbrbmeters extends AlgorithmPbrbmetersSpi {
 
     // The prime (p).
-    private BigInteger p = BigInteger.ZERO;
+    privbte BigInteger p = BigInteger.ZERO;
 
-    // The base (g).
-    private BigInteger g = BigInteger.ZERO;
+    // The bbse (g).
+    privbte BigInteger g = BigInteger.ZERO;
 
-    // The private-value length (l)
-    private int l = 0;
+    // The privbte-vblue length (l)
+    privbte int l = 0;
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-            if (!(paramSpec instanceof DHParameterSpec)) {
-                throw new InvalidParameterSpecException
-                    ("Inappropriate parameter specification");
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
+            if (!(pbrbmSpec instbnceof DHPbrbmeterSpec)) {
+                throw new InvblidPbrbmeterSpecException
+                    ("Inbppropribte pbrbmeter specificbtion");
             }
-            this.p = ((DHParameterSpec)paramSpec).getP();
-            this.g = ((DHParameterSpec)paramSpec).getG();
-            this.l = ((DHParameterSpec)paramSpec).getL();
+            this.p = ((DHPbrbmeterSpec)pbrbmSpec).getP();
+            this.g = ((DHPbrbmeterSpec)pbrbmSpec).getG();
+            this.l = ((DHPbrbmeterSpec)pbrbmSpec).getL();
     }
 
-    protected void engineInit(byte[] params) throws IOException {
+    protected void engineInit(byte[] pbrbms) throws IOException {
         try {
-            DerValue encodedParams = new DerValue(params);
+            DerVblue encodedPbrbms = new DerVblue(pbrbms);
 
-            if (encodedParams.tag != DerValue.tag_Sequence) {
-                throw new IOException("DH params parsing error");
+            if (encodedPbrbms.tbg != DerVblue.tbg_Sequence) {
+                throw new IOException("DH pbrbms pbrsing error");
             }
 
-            encodedParams.data.reset();
+            encodedPbrbms.dbtb.reset();
 
-            this.p = encodedParams.data.getBigInteger();
-            this.g = encodedParams.data.getBigInteger();
+            this.p = encodedPbrbms.dbtb.getBigInteger();
+            this.g = encodedPbrbms.dbtb.getBigInteger();
 
-            // Private-value length is OPTIONAL
-            if (encodedParams.data.available() != 0) {
-                this.l = encodedParams.data.getInteger();
+            // Privbte-vblue length is OPTIONAL
+            if (encodedPbrbms.dbtb.bvbilbble() != 0) {
+                this.l = encodedPbrbms.dbtb.getInteger();
             }
 
-            if (encodedParams.data.available() != 0) {
+            if (encodedPbrbms.dbtb.bvbilbble() != 0) {
                 throw new IOException
-                    ("DH parameter parsing error: Extra data");
+                    ("DH pbrbmeter pbrsing error: Extrb dbtb");
             }
-        } catch (NumberFormatException e) {
-            throw new IOException("Private-value length too big");
+        } cbtch (NumberFormbtException e) {
+            throw new IOException("Privbte-vblue length too big");
         }
     }
 
-    protected void engineInit(byte[] params, String decodingMethod)
+    protected void engineInit(byte[] pbrbms, String decodingMethod)
         throws IOException {
-            engineInit(params);
+            engineInit(pbrbms);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
+    protected <T extends AlgorithmPbrbmeterSpec>
+        T engineGetPbrbmeterSpec(Clbss<T> pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
 
-        if (DHParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(new DHParameterSpec(this.p, this.g, this.l));
+        if (DHPbrbmeterSpec.clbss.isAssignbbleFrom(pbrbmSpec)) {
+            return pbrbmSpec.cbst(new DHPbrbmeterSpec(this.p, this.g, this.l));
         } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter Specification");
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter Specificbtion");
         }
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm bytes = new DerOutputStrebm();
 
         bytes.putInteger(this.p);
         bytes.putInteger(this.g);
-        // Private-value length is OPTIONAL
+        // Privbte-vblue length is OPTIONAL
         if (this.l > 0) {
             bytes.putInteger(this.l);
         }
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        out.write(DerVblue.tbg_Sequence, bytes);
+        return out.toByteArrby();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
@@ -126,19 +126,19 @@ public final class DHParameters extends AlgorithmParametersSpi {
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      */
     protected String engineToString() {
-        String LINE_SEP = System.getProperty("line.separator");
+        String LINE_SEP = System.getProperty("line.sepbrbtor");
 
         StringBuilder sb
-            = new StringBuilder("SunJCE Diffie-Hellman Parameters:"
+            = new StringBuilder("SunJCE Diffie-Hellmbn Pbrbmeters:"
                                + LINE_SEP + "p:" + LINE_SEP
                                + Debug.toHexString(this.p)
                                + LINE_SEP + "g:" + LINE_SEP
                                + Debug.toHexString(this.g));
         if (this.l != 0)
-            sb.append(LINE_SEP + "l:" + LINE_SEP + "    " + this.l);
+            sb.bppend(LINE_SEP + "l:" + LINE_SEP + "    " + this.l);
         return sb.toString();
     }
 }

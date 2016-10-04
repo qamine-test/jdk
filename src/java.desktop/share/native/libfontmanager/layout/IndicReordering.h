@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,19 +34,19 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-// Characters that get referred to by name...
+// Chbrbcters thbt get referred to by nbme...
 #define C_SIGN_ZWNJ           0x200C
 #define C_SIGN_ZWJ            0x200D
 
-// Character class values
+// Chbrbcter clbss vblues
 #define CC_RESERVED               0U
 #define CC_VOWEL_MODIFIER         1U
 #define CC_STRESS_MARK            2U
@@ -65,7 +65,7 @@ U_NAMESPACE_BEGIN
 #define CC_AL_LAKUNA             15U
 #define CC_COUNT                 16U
 
-// Character class flags
+// Chbrbcter clbss flbgs
 #define CF_CLASS_MASK    0x0000FFFFU
 
 #define CF_CONSONANT     0x80000000U
@@ -86,7 +86,7 @@ U_NAMESPACE_BEGIN
 #define CF_INDEX_MASK    0x000F0000U
 #define CF_INDEX_SHIFT   16
 
-// Script flag bits
+// Script flbg bits
 #define SF_MATRAS_AFTER_BASE     0x80000000U
 #define SF_REPH_AFTER_BELOW      0x40000000U
 #define SF_EYELASH_RA            0x20000000U
@@ -98,13 +98,13 @@ U_NAMESPACE_BEGIN
 
 #define SM_MAX_PIECES 3
 
-typedef LEUnicode SplitMatra[SM_MAX_PIECES];
+typedef LEUnicode SplitMbtrb[SM_MAX_PIECES];
 
-class MPreFixups;
-class LEGlyphStorage;
+clbss MPreFixups;
+clbss LEGlyphStorbge;
 
-// Dynamic Properties ( v2 fonts only )
-typedef le_uint32 DynamicProperties;
+// Dynbmic Properties ( v2 fonts only )
+typedef le_uint32 DynbmicProperties;
 
 #define DP_REPH               0x80000000U
 #define DP_HALF               0x40000000U
@@ -112,272 +112,272 @@ typedef le_uint32 DynamicProperties;
 #define DP_BLWF               0x10000000U
 #define DP_PSTF               0x08000000U
 
-struct IndicClassTable
+struct IndicClbssTbble
 {
-    typedef le_uint32 CharClass;
-    typedef le_uint32 ScriptFlags;
+    typedef le_uint32 ChbrClbss;
+    typedef le_uint32 ScriptFlbgs;
 
-    LEUnicode firstChar;
-    LEUnicode lastChar;
-    le_int32 worstCaseExpansion;
-    ScriptFlags scriptFlags;
-    const CharClass *classTable;
-    const SplitMatra *splitMatraTable;
+    LEUnicode firstChbr;
+    LEUnicode lbstChbr;
+    le_int32 worstCbseExpbnsion;
+    ScriptFlbgs scriptFlbgs;
+    const ChbrClbss *clbssTbble;
+    const SplitMbtrb *splitMbtrbTbble;
 
-    inline le_int32 getWorstCaseExpansion() const;
+    inline le_int32 getWorstCbseExpbnsion() const;
     inline le_bool getFilterZeroWidth() const;
 
-    CharClass getCharClass(LEUnicode ch) const;
+    ChbrClbss getChbrClbss(LEUnicode ch) const;
 
-    inline const SplitMatra *getSplitMatra(CharClass charClass) const;
+    inline const SplitMbtrb *getSplitMbtrb(ChbrClbss chbrClbss) const;
 
     inline le_bool isVowelModifier(LEUnicode ch) const;
-    inline le_bool isStressMark(LEUnicode ch) const;
-    inline le_bool isConsonant(LEUnicode ch) const;
+    inline le_bool isStressMbrk(LEUnicode ch) const;
+    inline le_bool isConsonbnt(LEUnicode ch) const;
     inline le_bool isReph(LEUnicode ch) const;
-    inline le_bool isVirama(LEUnicode ch) const;
-    inline le_bool isAlLakuna(LEUnicode ch) const;
-    inline le_bool isNukta(LEUnicode ch) const;
-    inline le_bool isVattu(LEUnicode ch) const;
-    inline le_bool isMatra(LEUnicode ch) const;
-    inline le_bool isSplitMatra(LEUnicode ch) const;
-    inline le_bool isLengthMark(LEUnicode ch) const;
-    inline le_bool hasPostOrBelowBaseForm(LEUnicode ch) const;
-    inline le_bool hasPostBaseForm(LEUnicode ch) const;
-    inline le_bool hasBelowBaseForm(LEUnicode ch) const;
-    inline le_bool hasAboveBaseForm(LEUnicode ch) const;
-    inline le_bool hasPreBaseForm(LEUnicode ch) const;
+    inline le_bool isVirbmb(LEUnicode ch) const;
+    inline le_bool isAlLbkunb(LEUnicode ch) const;
+    inline le_bool isNuktb(LEUnicode ch) const;
+    inline le_bool isVbttu(LEUnicode ch) const;
+    inline le_bool isMbtrb(LEUnicode ch) const;
+    inline le_bool isSplitMbtrb(LEUnicode ch) const;
+    inline le_bool isLengthMbrk(LEUnicode ch) const;
+    inline le_bool hbsPostOrBelowBbseForm(LEUnicode ch) const;
+    inline le_bool hbsPostBbseForm(LEUnicode ch) const;
+    inline le_bool hbsBelowBbseForm(LEUnicode ch) const;
+    inline le_bool hbsAboveBbseForm(LEUnicode ch) const;
+    inline le_bool hbsPreBbseForm(LEUnicode ch) const;
 
-    inline static le_bool isVowelModifier(CharClass charClass);
-    inline static le_bool isStressMark(CharClass charClass);
-    inline static le_bool isConsonant(CharClass charClass);
-    inline static le_bool isReph(CharClass charClass);
-    inline static le_bool isVirama(CharClass charClass);
-    inline static le_bool isAlLakuna(CharClass charClass);
-    inline static le_bool isNukta(CharClass charClass);
-    inline static le_bool isVattu(CharClass charClass);
-    inline static le_bool isMatra(CharClass charClass);
-    inline static le_bool isSplitMatra(CharClass charClass);
-    inline static le_bool isLengthMark(CharClass charClass);
-    inline static le_bool hasPostOrBelowBaseForm(CharClass charClass);
-    inline static le_bool hasPostBaseForm(CharClass charClass);
-    inline static le_bool hasBelowBaseForm(CharClass charClass);
-    inline static le_bool hasAboveBaseForm(CharClass charClass);
-    inline static le_bool hasPreBaseForm(CharClass charClass);
+    inline stbtic le_bool isVowelModifier(ChbrClbss chbrClbss);
+    inline stbtic le_bool isStressMbrk(ChbrClbss chbrClbss);
+    inline stbtic le_bool isConsonbnt(ChbrClbss chbrClbss);
+    inline stbtic le_bool isReph(ChbrClbss chbrClbss);
+    inline stbtic le_bool isVirbmb(ChbrClbss chbrClbss);
+    inline stbtic le_bool isAlLbkunb(ChbrClbss chbrClbss);
+    inline stbtic le_bool isNuktb(ChbrClbss chbrClbss);
+    inline stbtic le_bool isVbttu(ChbrClbss chbrClbss);
+    inline stbtic le_bool isMbtrb(ChbrClbss chbrClbss);
+    inline stbtic le_bool isSplitMbtrb(ChbrClbss chbrClbss);
+    inline stbtic le_bool isLengthMbrk(ChbrClbss chbrClbss);
+    inline stbtic le_bool hbsPostOrBelowBbseForm(ChbrClbss chbrClbss);
+    inline stbtic le_bool hbsPostBbseForm(ChbrClbss chbrClbss);
+    inline stbtic le_bool hbsBelowBbseForm(ChbrClbss chbrClbss);
+    inline stbtic le_bool hbsAboveBbseForm(ChbrClbss chbrClbss);
+    inline stbtic le_bool hbsPreBbseForm(ChbrClbss chbrClbss);
 
-    static const IndicClassTable *getScriptClassTable(le_int32 scriptCode);
+    stbtic const IndicClbssTbble *getScriptClbssTbble(le_int32 scriptCode);
 };
 
-class IndicReordering /* not : public UObject because all methods are static */ {
+clbss IndicReordering /* not : public UObject becbuse bll methods bre stbtic */ {
 public:
-    static le_int32 getWorstCaseExpansion(le_int32 scriptCode);
+    stbtic le_int32 getWorstCbseExpbnsion(le_int32 scriptCode);
 
-    static le_bool getFilterZeroWidth(le_int32 scriptCode);
+    stbtic le_bool getFilterZeroWidth(le_int32 scriptCode);
 
-    static le_int32 reorder(const LEUnicode *theChars, le_int32 charCount, le_int32 scriptCode,
-        LEUnicode *outChars, LEGlyphStorage &glyphStorage,
+    stbtic le_int32 reorder(const LEUnicode *theChbrs, le_int32 chbrCount, le_int32 scriptCode,
+        LEUnicode *outChbrs, LEGlyphStorbge &glyphStorbge,
         MPreFixups **outMPreFixups, LEErrorCode& success);
 
-    static void adjustMPres(MPreFixups *mpreFixups, LEGlyphStorage &glyphStorage, LEErrorCode& success);
+    stbtic void bdjustMPres(MPreFixups *mpreFixups, LEGlyphStorbge &glyphStorbge, LEErrorCode& success);
 
-    static le_int32 v2process(const LEUnicode *theChars, le_int32 charCount, le_int32 scriptCode,
-        LEUnicode *outChars, LEGlyphStorage &glyphStorage, LEErrorCode& success);
+    stbtic le_int32 v2process(const LEUnicode *theChbrs, le_int32 chbrCount, le_int32 scriptCode,
+        LEUnicode *outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode& success);
 
-    static const FeatureMap *getFeatureMap(le_int32 &count);
+    stbtic const FebtureMbp *getFebtureMbp(le_int32 &count);
 
-        static const FeatureMap *getv2FeatureMap(le_int32 &count);
+        stbtic const FebtureMbp *getv2FebtureMbp(le_int32 &count);
 
-    static void applyPresentationForms(LEGlyphStorage &glyphStorage, le_int32 count);
+    stbtic void bpplyPresentbtionForms(LEGlyphStorbge &glyphStorbge, le_int32 count);
 
-    static void finalReordering(LEGlyphStorage &glyphStorage, le_int32 count);
+    stbtic void finblReordering(LEGlyphStorbge &glyphStorbge, le_int32 count);
 
-    static void getDynamicProperties(DynamicProperties *dProps, const IndicClassTable *classTable);
+    stbtic void getDynbmicProperties(DynbmicProperties *dProps, const IndicClbssTbble *clbssTbble);
 
-private:
-    // do not instantiate
+privbte:
+    // do not instbntibte
     IndicReordering();
 
-    static le_int32 findSyllable(const IndicClassTable *classTable, const LEUnicode *chars, le_int32 prev, le_int32 charCount);
+    stbtic le_int32 findSyllbble(const IndicClbssTbble *clbssTbble, const LEUnicode *chbrs, le_int32 prev, le_int32 chbrCount);
 
 };
 
-inline le_int32 IndicClassTable::getWorstCaseExpansion() const
+inline le_int32 IndicClbssTbble::getWorstCbseExpbnsion() const
 {
-    return worstCaseExpansion;
+    return worstCbseExpbnsion;
 }
 
-inline le_bool IndicClassTable::getFilterZeroWidth() const
+inline le_bool IndicClbssTbble::getFilterZeroWidth() const
 {
-    return (scriptFlags & SF_FILTER_ZERO_WIDTH) != 0;
+    return (scriptFlbgs & SF_FILTER_ZERO_WIDTH) != 0;
 }
 
-inline const SplitMatra *IndicClassTable::getSplitMatra(CharClass charClass) const
+inline const SplitMbtrb *IndicClbssTbble::getSplitMbtrb(ChbrClbss chbrClbss) const
 {
-    le_int32 index = (charClass & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
+    le_int32 index = (chbrClbss & CF_INDEX_MASK) >> CF_INDEX_SHIFT;
 
-    return &splitMatraTable[index - 1];
+    return &splitMbtrbTbble[index - 1];
 }
 
-inline le_bool IndicClassTable::isVowelModifier(CharClass charClass)
+inline le_bool IndicClbssTbble::isVowelModifier(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
+    return (chbrClbss & CF_CLASS_MASK) == CC_VOWEL_MODIFIER;
 }
 
-inline le_bool IndicClassTable::isStressMark(CharClass charClass)
+inline le_bool IndicClbssTbble::isStressMbrk(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CLASS_MASK) == CC_STRESS_MARK;
+    return (chbrClbss & CF_CLASS_MASK) == CC_STRESS_MARK;
 }
 
-inline le_bool IndicClassTable::isConsonant(CharClass charClass)
+inline le_bool IndicClbssTbble::isConsonbnt(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CONSONANT) != 0;
+    return (chbrClbss & CF_CONSONANT) != 0;
 }
 
-inline le_bool IndicClassTable::isReph(CharClass charClass)
+inline le_bool IndicClbssTbble::isReph(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_REPH) != 0;
+    return (chbrClbss & CF_REPH) != 0;
 }
 
-inline le_bool IndicClassTable::isNukta(CharClass charClass)
+inline le_bool IndicClbssTbble::isNuktb(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CLASS_MASK) == CC_NUKTA;
+    return (chbrClbss & CF_CLASS_MASK) == CC_NUKTA;
 }
 
-inline le_bool IndicClassTable::isVirama(CharClass charClass)
+inline le_bool IndicClbssTbble::isVirbmb(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CLASS_MASK) == CC_VIRAMA;
+    return (chbrClbss & CF_CLASS_MASK) == CC_VIRAMA;
 }
 
-inline le_bool IndicClassTable::isAlLakuna(CharClass charClass)
+inline le_bool IndicClbssTbble::isAlLbkunb(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_CLASS_MASK) == CC_AL_LAKUNA;
+    return (chbrClbss & CF_CLASS_MASK) == CC_AL_LAKUNA;
 }
 
-inline le_bool IndicClassTable::isVattu(CharClass charClass)
+inline le_bool IndicClbssTbble::isVbttu(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_VATTU) != 0;
+    return (chbrClbss & CF_VATTU) != 0;
 }
 
-inline le_bool IndicClassTable::isMatra(CharClass charClass)
+inline le_bool IndicClbssTbble::isMbtrb(ChbrClbss chbrClbss)
 {
-    charClass &= CF_CLASS_MASK;
+    chbrClbss &= CF_CLASS_MASK;
 
-    return charClass >= CC_DEPENDENT_VOWEL && charClass <= CC_SPLIT_VOWEL_PIECE_3;
+    return chbrClbss >= CC_DEPENDENT_VOWEL && chbrClbss <= CC_SPLIT_VOWEL_PIECE_3;
 }
 
-inline le_bool IndicClassTable::isSplitMatra(CharClass charClass)
+inline le_bool IndicClbssTbble::isSplitMbtrb(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_INDEX_MASK) != 0;
+    return (chbrClbss & CF_INDEX_MASK) != 0;
 }
 
-inline le_bool IndicClassTable::isLengthMark(CharClass charClass)
+inline le_bool IndicClbssTbble::isLengthMbrk(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_LENGTH_MARK) != 0;
+    return (chbrClbss & CF_LENGTH_MARK) != 0;
 }
 
-inline le_bool IndicClassTable::hasPostOrBelowBaseForm(CharClass charClass)
+inline le_bool IndicClbssTbble::hbsPostOrBelowBbseForm(ChbrClbss chbrClbss)
 {
-    return (charClass & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
+    return (chbrClbss & (CF_POST_BASE | CF_BELOW_BASE)) != 0;
 }
 
-inline le_bool IndicClassTable::hasPostBaseForm(CharClass charClass)
+inline le_bool IndicClbssTbble::hbsPostBbseForm(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_POST_BASE) != 0;
+    return (chbrClbss & CF_POST_BASE) != 0;
 }
 
-inline le_bool IndicClassTable::hasPreBaseForm(CharClass charClass)
+inline le_bool IndicClbssTbble::hbsPreBbseForm(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_PRE_BASE) != 0;
+    return (chbrClbss & CF_PRE_BASE) != 0;
 }
 
-inline le_bool IndicClassTable::hasBelowBaseForm(CharClass charClass)
+inline le_bool IndicClbssTbble::hbsBelowBbseForm(ChbrClbss chbrClbss)
 {
-    return (charClass & CF_BELOW_BASE) != 0;
+    return (chbrClbss & CF_BELOW_BASE) != 0;
 }
 
-inline le_bool IndicClassTable::hasAboveBaseForm(CharClass charClass)
+inline le_bool IndicClbssTbble::hbsAboveBbseForm(ChbrClbss chbrClbss)
 {
-    return ((charClass & CF_POS_MASK) == CF_POS_ABOVE);
+    return ((chbrClbss & CF_POS_MASK) == CF_POS_ABOVE);
 }
 
-inline le_bool IndicClassTable::isVowelModifier(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isVowelModifier(LEUnicode ch) const
 {
-    return isVowelModifier(getCharClass(ch));
+    return isVowelModifier(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isStressMark(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isStressMbrk(LEUnicode ch) const
 {
-    return isStressMark(getCharClass(ch));
+    return isStressMbrk(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isConsonant(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isConsonbnt(LEUnicode ch) const
 {
-    return isConsonant(getCharClass(ch));
+    return isConsonbnt(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isReph(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isReph(LEUnicode ch) const
 {
-    return isReph(getCharClass(ch));
+    return isReph(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isVirama(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isVirbmb(LEUnicode ch) const
 {
-    return isVirama(getCharClass(ch));
+    return isVirbmb(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isAlLakuna(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isAlLbkunb(LEUnicode ch) const
 {
-    return isAlLakuna(getCharClass(ch));
+    return isAlLbkunb(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isNukta(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isNuktb(LEUnicode ch) const
 {
-    return isNukta(getCharClass(ch));
+    return isNuktb(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isVattu(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isVbttu(LEUnicode ch) const
 {
-    return isVattu(getCharClass(ch));
+    return isVbttu(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isMatra(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isMbtrb(LEUnicode ch) const
 {
-    return isMatra(getCharClass(ch));
+    return isMbtrb(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isSplitMatra(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isSplitMbtrb(LEUnicode ch) const
 {
-    return isSplitMatra(getCharClass(ch));
+    return isSplitMbtrb(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::isLengthMark(LEUnicode ch) const
+inline le_bool IndicClbssTbble::isLengthMbrk(LEUnicode ch) const
 {
-    return isLengthMark(getCharClass(ch));
+    return isLengthMbrk(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::hasPostOrBelowBaseForm(LEUnicode ch) const
+inline le_bool IndicClbssTbble::hbsPostOrBelowBbseForm(LEUnicode ch) const
 {
-    return hasPostOrBelowBaseForm(getCharClass(ch));
+    return hbsPostOrBelowBbseForm(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::hasPostBaseForm(LEUnicode ch) const
+inline le_bool IndicClbssTbble::hbsPostBbseForm(LEUnicode ch) const
 {
-    return hasPostBaseForm(getCharClass(ch));
+    return hbsPostBbseForm(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::hasBelowBaseForm(LEUnicode ch) const
+inline le_bool IndicClbssTbble::hbsBelowBbseForm(LEUnicode ch) const
 {
-    return hasBelowBaseForm(getCharClass(ch));
+    return hbsBelowBbseForm(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::hasPreBaseForm(LEUnicode ch) const
+inline le_bool IndicClbssTbble::hbsPreBbseForm(LEUnicode ch) const
 {
-    return hasPreBaseForm(getCharClass(ch));
+    return hbsPreBbseForm(getChbrClbss(ch));
 }
 
-inline le_bool IndicClassTable::hasAboveBaseForm(LEUnicode ch) const
+inline le_bool IndicClbssTbble::hbsAboveBbseForm(LEUnicode ch) const
 {
-    return hasAboveBaseForm(getCharClass(ch));
+    return hbsAboveBbseForm(getChbrClbss(ch));
 }
 U_NAMESPACE_END
 #endif

@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
-import java.util.HashSet;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.io.IOException;
+import jbvb.util.HbshSet;
 
 /**
- * MembershipKey implementation.
+ * MembershipKey implementbtion.
  */
 
-class MembershipKeyImpl
+clbss MembershipKeyImpl
     extends MembershipKey
 {
-    private final MulticastChannel ch;
-    private final InetAddress group;
-    private final NetworkInterface interf;
-    private final InetAddress source;
+    privbte finbl MulticbstChbnnel ch;
+    privbte finbl InetAddress group;
+    privbte finbl NetworkInterfbce interf;
+    privbte finbl InetAddress source;
 
-    // true when key is valid
-    private volatile boolean valid = true;
+    // true when key is vblid
+    privbte volbtile boolebn vblid = true;
 
-    // lock used when creating or accessing blockedSet
-    private Object stateLock = new Object();
+    // lock used when crebting or bccessing blockedSet
+    privbte Object stbteLock = new Object();
 
-    // set of source addresses that are blocked
-    private HashSet<InetAddress> blockedSet;
+    // set of source bddresses thbt bre blocked
+    privbte HbshSet<InetAddress> blockedSet;
 
-    private MembershipKeyImpl(MulticastChannel ch,
+    privbte MembershipKeyImpl(MulticbstChbnnel ch,
                               InetAddress group,
-                              NetworkInterface interf,
+                              NetworkInterfbce interf,
                               InetAddress source)
     {
         this.ch = ch;
@@ -64,16 +64,16 @@ class MembershipKeyImpl
     }
 
     /**
-     * MembershipKey will additional context for IPv4 membership
+     * MembershipKey will bdditionbl context for IPv4 membership
      */
-    static class Type4 extends MembershipKeyImpl {
-        private final int groupAddress;
-        private final int interfAddress;
-        private final int sourceAddress;
+    stbtic clbss Type4 extends MembershipKeyImpl {
+        privbte finbl int groupAddress;
+        privbte finbl int interfAddress;
+        privbte finbl int sourceAddress;
 
-        Type4(MulticastChannel ch,
+        Type4(MulticbstChbnnel ch,
               InetAddress group,
-              NetworkInterface interf,
+              NetworkInterfbce interf,
               InetAddress source,
               int groupAddress,
               int interfAddress,
@@ -89,7 +89,7 @@ class MembershipKeyImpl
             return groupAddress;
         }
 
-        int interfaceAddress() {
+        int interfbceAddress() {
             return interfAddress;
         }
 
@@ -99,16 +99,16 @@ class MembershipKeyImpl
     }
 
     /**
-     * MembershipKey will additional context for IPv6 membership
+     * MembershipKey will bdditionbl context for IPv6 membership
      */
-    static class Type6 extends MembershipKeyImpl {
-        private final byte[] groupAddress;
-        private final int index;
-        private final byte[] sourceAddress;
+    stbtic clbss Type6 extends MembershipKeyImpl {
+        privbte finbl byte[] groupAddress;
+        privbte finbl int index;
+        privbte finbl byte[] sourceAddress;
 
-        Type6(MulticastChannel ch,
+        Type6(MulticbstChbnnel ch,
               InetAddress group,
-              NetworkInterface interf,
+              NetworkInterfbce interf,
               InetAddress source,
               byte[] groupAddress,
               int index,
@@ -133,22 +133,22 @@ class MembershipKeyImpl
         }
     }
 
-    public boolean isValid() {
-        return valid;
+    public boolebn isVblid() {
+        return vblid;
     }
 
-    // package-private
-    void invalidate() {
-        valid = false;
+    // pbckbge-privbte
+    void invblidbte() {
+        vblid = fblse;
     }
 
     public void drop() {
-        // delegate to channel
-        ((DatagramChannelImpl)ch).drop(this);
+        // delegbte to chbnnel
+        ((DbtbgrbmChbnnelImpl)ch).drop(this);
     }
 
     @Override
-    public MulticastChannel channel() {
+    public MulticbstChbnnel chbnnel() {
         return ch;
     }
 
@@ -158,7 +158,7 @@ class MembershipKeyImpl
     }
 
     @Override
-    public NetworkInterface networkInterface() {
+    public NetworkInterfbce networkInterfbce() {
         return interf;
     }
 
@@ -172,31 +172,31 @@ class MembershipKeyImpl
         throws IOException
     {
         if (source != null)
-            throw new IllegalStateException("key is source-specific");
+            throw new IllegblStbteException("key is source-specific");
 
-        synchronized (stateLock) {
-            if ((blockedSet != null) && blockedSet.contains(toBlock)) {
-                // already blocked, nothing to do
+        synchronized (stbteLock) {
+            if ((blockedSet != null) && blockedSet.contbins(toBlock)) {
+                // blrebdy blocked, nothing to do
                 return this;
             }
 
-            ((DatagramChannelImpl)ch).block(this, toBlock);
+            ((DbtbgrbmChbnnelImpl)ch).block(this, toBlock);
 
-            // created blocked set if required and add source address
+            // crebted blocked set if required bnd bdd source bddress
             if (blockedSet == null)
-                blockedSet = new HashSet<InetAddress>();
-            blockedSet.add(toBlock);
+                blockedSet = new HbshSet<InetAddress>();
+            blockedSet.bdd(toBlock);
         }
         return this;
     }
 
     @Override
     public MembershipKey unblock(InetAddress toUnblock) {
-        synchronized (stateLock) {
-            if ((blockedSet == null) || !blockedSet.contains(toUnblock))
-                throw new IllegalStateException("not blocked");
+        synchronized (stbteLock) {
+            if ((blockedSet == null) || !blockedSet.contbins(toUnblock))
+                throw new IllegblStbteException("not blocked");
 
-            ((DatagramChannelImpl)ch).unblock(this, toUnblock);
+            ((DbtbgrbmChbnnelImpl)ch).unblock(this, toUnblock);
 
             blockedSet.remove(toUnblock);
         }
@@ -206,15 +206,15 @@ class MembershipKeyImpl
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(64);
-        sb.append('<');
-        sb.append(group.getHostAddress());
-        sb.append(',');
-        sb.append(interf.getName());
+        sb.bppend('<');
+        sb.bppend(group.getHostAddress());
+        sb.bppend(',');
+        sb.bppend(interf.getNbme());
         if (source != null) {
-            sb.append(',');
-            sb.append(source.getHostAddress());
+            sb.bppend(',');
+            sb.bppend(source.getHostAddress());
         }
-        sb.append('>');
+        sb.bppend('>');
         return sb.toString();
     }
 }

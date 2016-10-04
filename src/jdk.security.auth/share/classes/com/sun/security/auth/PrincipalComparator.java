@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth;
+pbckbge com.sun.security.buth;
 
 /**
- * An object that implements the <code>java.security.Principal</code>
- * interface typically also implements this interface to provide
- * a means for comparing that object to a specified <code>Subject</code>.
+ * An object thbt implements the <code>jbvb.security.Principbl</code>
+ * interfbce typicblly blso implements this interfbce to provide
+ * b mebns for compbring thbt object to b specified <code>Subject</code>.
  *
- * <p> The comparison is achieved via the <code>implies</code> method.
- * The implementation of the <code>implies</code> method determines
+ * <p> The compbrison is bchieved vib the <code>implies</code> method.
+ * The implementbtion of the <code>implies</code> method determines
  * whether this object "implies" the specified <code>Subject</code>.
- * One example application of this method may be for
- * a "group" object to imply a particular <code>Subject</code>
- * if that <code>Subject</code> belongs to the group.
- * Another example application of this method would be for
- * "role" object to imply a particular <code>Subject</code>
- * if that <code>Subject</code> is currently acting in that role.
+ * One exbmple bpplicbtion of this method mby be for
+ * b "group" object to imply b pbrticulbr <code>Subject</code>
+ * if thbt <code>Subject</code> belongs to the group.
+ * Another exbmple bpplicbtion of this method would be for
+ * "role" object to imply b pbrticulbr <code>Subject</code>
+ * if thbt <code>Subject</code> is currently bcting in thbt role.
  *
- * <p> Although classes that implement this interface typically
- * also implement the <code>java.security.Principal</code> interface,
- * it is not required.  In other words, classes may implement the
- * <code>java.security.Principal</code> interface by itself,
- * the <code>PrincipalComparator</code> interface by itself,
- * or both at the same time.
+ * <p> Although clbsses thbt implement this interfbce typicblly
+ * blso implement the <code>jbvb.security.Principbl</code> interfbce,
+ * it is not required.  In other words, clbsses mby implement the
+ * <code>jbvb.security.Principbl</code> interfbce by itself,
+ * the <code>PrincipblCompbrbtor</code> interfbce by itself,
+ * or both bt the sbme time.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @see jbvb.security.Principbl
+ * @see jbvbx.security.buth.Subject
  */
 @jdk.Exported
-public interface PrincipalComparator {
+public interfbce PrincipblCompbrbtor {
     /**
      * Check if the specified <code>Subject</code> is implied by
      * this object.
@@ -59,7 +59,7 @@ public interface PrincipalComparator {
      * <p>
      *
      * @return true if the specified <code>Subject</code> is implied by
-     *          this object, or false otherwise.
+     *          this object, or fblse otherwise.
      */
-    boolean implies(javax.security.auth.Subject subject);
+    boolebn implies(jbvbx.security.buth.Subject subject);
 }

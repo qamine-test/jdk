@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.rmi.MarshalException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.LogStream;
-import java.rmi.server.ObjID;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutput;
+import jbvb.rmi.MbrshblException;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RemoteCbll;
+import jbvb.rmi.server.RemoteServer;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedAction;
 import sun.rmi.runtime.Log;
-import sun.rmi.server.Dispatcher;
-import sun.rmi.server.UnicastServerRef;
+import sun.rmi.server.Dispbtcher;
+import sun.rmi.server.UnicbstServerRef;
 
 /**
- * Transport abstraction for enabling communication between different
+ * Trbnsport bbstrbction for enbbling communicbtion between different
  * VMs.
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-@SuppressWarnings("deprecation")
-public abstract class Transport {
+@SuppressWbrnings("deprecbtion")
+public bbstrbct clbss Trbnsport {
 
-    /** "transport" package log level */
-    static final int logLevel = LogStream.parseLevel(getLogLevel());
+    /** "trbnsport" pbckbge log level */
+    stbtic finbl int logLevel = LogStrebm.pbrseLevel(getLogLevel());
 
-    private static String getLogLevel() {
-        return java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.logLevel"));
+    privbte stbtic String getLogLevel() {
+        return jbvb.security.AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.trbnsport.logLevel"));
     }
 
-    /* transport package log */
-    static final Log transportLog =
-        Log.getLog("sun.rmi.transport.misc", "transport", Transport.logLevel);
+    /* trbnsport pbckbge log */
+    stbtic finbl Log trbnsportLog =
+        Log.getLog("sun.rmi.trbnsport.misc", "trbnsport", Trbnsport.logLevel);
 
-    /** References the current transport when a call is being serviced */
-    private static final ThreadLocal<Transport> currentTransport = new ThreadLocal<>();
+    /** References the current trbnsport when b cbll is being serviced */
+    privbte stbtic finbl ThrebdLocbl<Trbnsport> currentTrbnsport = new ThrebdLocbl<>();
 
     /** ObjID for DGCImpl */
-    private static final ObjID dgcID = new ObjID(ObjID.DGC_ID);
+    privbte stbtic finbl ObjID dgcID = new ObjID(ObjID.DGC_ID);
 
     /**
-     * Returns a <I>Channel</I> that generates connections to the
-     * endpoint <I>ep</I>. A Channel is an object that creates and
-     * manages connections of a particular type to some particular
-     * address space.
-     * @param ep the endpoint to which connections will be generated.
-     * @return the channel or null if the transport cannot
-     * generate connections to this endpoint
+     * Returns b <I>Chbnnel</I> thbt generbtes connections to the
+     * endpoint <I>ep</I>. A Chbnnel is bn object thbt crebtes bnd
+     * mbnbges connections of b pbrticulbr type to some pbrticulbr
+     * bddress spbce.
+     * @pbrbm ep the endpoint to which connections will be generbted.
+     * @return the chbnnel or null if the trbnsport cbnnot
+     * generbte connections to this endpoint
      */
-    public abstract Channel getChannel(Endpoint ep);
+    public bbstrbct Chbnnel getChbnnel(Endpoint ep);
 
     /**
-     * Removes the <I>Channel</I> that generates connections to the
+     * Removes the <I>Chbnnel</I> thbt generbtes connections to the
      * endpoint <I>ep</I>.
      */
-    public abstract void free(Endpoint ep);
+    public bbstrbct void free(Endpoint ep);
 
     /**
-     * Export the object so that it can accept incoming calls.
+     * Export the object so thbt it cbn bccept incoming cblls.
      */
-    public void exportObject(Target target) throws RemoteException {
-        target.setExportedTransport(this);
-        ObjectTable.putTarget(target);
+    public void exportObject(Tbrget tbrget) throws RemoteException {
+        tbrget.setExportedTrbnsport(this);
+        ObjectTbble.putTbrget(tbrget);
     }
 
     /**
-     * Invoked when an object that was exported on this transport has
-     * become unexported, either by being garbage collected or by
+     * Invoked when bn object thbt wbs exported on this trbnsport hbs
+     * become unexported, either by being gbrbbge collected or by
      * being explicitly unexported.
      **/
-    protected void targetUnexported() { }
+    protected void tbrgetUnexported() { }
 
     /**
-     * Returns the current transport if a call is being serviced, otherwise
+     * Returns the current trbnsport if b cbll is being serviced, otherwise
      * returns null.
      **/
-    static Transport currentTransport() {
-        return currentTransport.get();
+    stbtic Trbnsport currentTrbnsport() {
+        return currentTrbnsport.get();
     }
 
     /**
-     * Verify that the current access control context has permission to accept
-     * the connection being dispatched by the current thread.  The current
-     * access control context is passed as a parameter to avoid the overhead of
-     * an additional call to AccessController.getContext.
+     * Verify thbt the current bccess control context hbs permission to bccept
+     * the connection being dispbtched by the current threbd.  The current
+     * bccess control context is pbssed bs b pbrbmeter to bvoid the overhebd of
+     * bn bdditionbl cbll to AccessController.getContext.
      */
-    protected abstract void checkAcceptPermission(AccessControlContext acc);
+    protected bbstrbct void checkAcceptPermission(AccessControlContext bcc);
 
     /**
-     * Service an incoming remote call. When a message arrives on the
-     * connection indicating the beginning of a remote call, the
-     * threads are required to call the <I>serviceCall</I> method of
-     * their transport.  The default implementation of this method
-     * locates and calls the dispatcher object.  Ordinarily a
-     * transport implementation will not need to override this method.
-     * At the entry to <I>tr.serviceCall(conn)</I>, the connection's
-     * input stream is positioned at the start of the incoming
-     * message.  The <I>serviceCall</I> method processes the incoming
-     * remote invocation and sends the result on the connection's
-     * output stream.  If it returns "true", then the remote
-     * invocation was processed without error and the transport can
-     * cache the connection.  If it returns "false", a protocol error
-     * occurred during the call, and the transport should destroy the
+     * Service bn incoming remote cbll. When b messbge brrives on the
+     * connection indicbting the beginning of b remote cbll, the
+     * threbds bre required to cbll the <I>serviceCbll</I> method of
+     * their trbnsport.  The defbult implementbtion of this method
+     * locbtes bnd cblls the dispbtcher object.  Ordinbrily b
+     * trbnsport implementbtion will not need to override this method.
+     * At the entry to <I>tr.serviceCbll(conn)</I>, the connection's
+     * input strebm is positioned bt the stbrt of the incoming
+     * messbge.  The <I>serviceCbll</I> method processes the incoming
+     * remote invocbtion bnd sends the result on the connection's
+     * output strebm.  If it returns "true", then the remote
+     * invocbtion wbs processed without error bnd the trbnsport cbn
+     * cbche the connection.  If it returns "fblse", b protocol error
+     * occurred during the cbll, bnd the trbnsport should destroy the
      * connection.
      */
-    public boolean serviceCall(final RemoteCall call) {
+    public boolebn serviceCbll(finbl RemoteCbll cbll) {
         try {
-            /* read object id */
-            final Remote impl;
+            /* rebd object id */
+            finbl Remote impl;
             ObjID id;
 
             try {
-                id = ObjID.read(call.getInputStream());
-            } catch (java.io.IOException e) {
-                throw new MarshalException("unable to read objID", e);
+                id = ObjID.rebd(cbll.getInputStrebm());
+            } cbtch (jbvb.io.IOException e) {
+                throw new MbrshblException("unbble to rebd objID", e);
             }
 
             /* get the remote object */
-            Transport transport = id.equals(dgcID) ? null : this;
-            Target target =
-                ObjectTable.getTarget(new ObjectEndpoint(id, transport));
+            Trbnsport trbnsport = id.equbls(dgcID) ? null : this;
+            Tbrget tbrget =
+                ObjectTbble.getTbrget(new ObjectEndpoint(id, trbnsport));
 
-            if (target == null || (impl = target.getImpl()) == null) {
-                throw new NoSuchObjectException("no such object in table");
+            if (tbrget == null || (impl = tbrget.getImpl()) == null) {
+                throw new NoSuchObjectException("no such object in tbble");
             }
 
-            final Dispatcher disp = target.getDispatcher();
-            target.incrementCallCount();
+            finbl Dispbtcher disp = tbrget.getDispbtcher();
+            tbrget.incrementCbllCount();
             try {
-                /* call the dispatcher */
-                transportLog.log(Log.VERBOSE, "call dispatcher");
+                /* cbll the dispbtcher */
+                trbnsportLog.log(Log.VERBOSE, "cbll dispbtcher");
 
-                final AccessControlContext acc =
-                    target.getAccessControlContext();
-                ClassLoader ccl = target.getContextClassLoader();
+                finbl AccessControlContext bcc =
+                    tbrget.getAccessControlContext();
+                ClbssLobder ccl = tbrget.getContextClbssLobder();
 
-                Thread t = Thread.currentThread();
-                ClassLoader savedCcl = t.getContextClassLoader();
+                Threbd t = Threbd.currentThrebd();
+                ClbssLobder sbvedCcl = t.getContextClbssLobder();
 
                 try {
-                    t.setContextClassLoader(ccl);
-                    currentTransport.set(this);
+                    t.setContextClbssLobder(ccl);
+                    currentTrbnsport.set(this);
                     try {
-                        java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedExceptionAction<Void>() {
+                        jbvb.security.AccessController.doPrivileged(
+                            new jbvb.security.PrivilegedExceptionAction<Void>() {
                             public Void run() throws IOException {
-                                checkAcceptPermission(acc);
-                                disp.dispatch(impl, call);
+                                checkAcceptPermission(bcc);
+                                disp.dispbtch(impl, cbll);
                                 return null;
                             }
-                        }, acc);
-                    } catch (java.security.PrivilegedActionException pae) {
-                        throw (IOException) pae.getException();
+                        }, bcc);
+                    } cbtch (jbvb.security.PrivilegedActionException pbe) {
+                        throw (IOException) pbe.getException();
                     }
-                } finally {
-                    t.setContextClassLoader(savedCcl);
-                    currentTransport.set(null);
+                } finblly {
+                    t.setContextClbssLobder(sbvedCcl);
+                    currentTrbnsport.set(null);
                 }
 
-            } catch (IOException ex) {
-                transportLog.log(Log.BRIEF,
-                                 "exception thrown by dispatcher: ", ex);
-                return false;
-            } finally {
-                target.decrementCallCount();
+            } cbtch (IOException ex) {
+                trbnsportLog.log(Log.BRIEF,
+                                 "exception thrown by dispbtcher: ", ex);
+                return fblse;
+            } finblly {
+                tbrget.decrementCbllCount();
             }
 
-        } catch (RemoteException e) {
+        } cbtch (RemoteException e) {
 
-            // if calls are being logged, write out exception
-            if (UnicastServerRef.callLog.isLoggable(Log.BRIEF)) {
-                // include client host name if possible
+            // if cblls bre being logged, write out exception
+            if (UnicbstServerRef.cbllLog.isLoggbble(Log.BRIEF)) {
+                // include client host nbme if possible
                 String clientHost = "";
                 try {
                     clientHost = "[" +
                         RemoteServer.getClientHost() + "] ";
-                } catch (ServerNotActiveException ex) {
+                } cbtch (ServerNotActiveException ex) {
                 }
-                String message = clientHost + "exception: ";
-                UnicastServerRef.callLog.log(Log.BRIEF, message, e);
+                String messbge = clientHost + "exception: ";
+                UnicbstServerRef.cbllLog.log(Log.BRIEF, messbge, e);
             }
 
-            /* We will get a RemoteException if either a) the objID is
-             * not readable, b) the target is not in the object table, or
+            /* We will get b RemoteException if either b) the objID is
+             * not rebdbble, b) the tbrget is not in the object tbble, or
              * c) the object is in the midst of being unexported (note:
-             * NoSuchObjectException is thrown by the incrementCallCount
+             * NoSuchObjectException is thrown by the incrementCbllCount
              * method if the object is being unexported).  Here it is
-             * relatively safe to marshal an exception to the client
-             * since the client will not have seen a return value yet.
+             * relbtively sbfe to mbrshbl bn exception to the client
+             * since the client will not hbve seen b return vblue yet.
              */
             try {
-                ObjectOutput out = call.getResultStream(false);
-                UnicastServerRef.clearStackTraces(e);
+                ObjectOutput out = cbll.getResultStrebm(fblse);
+                UnicbstServerRef.clebrStbckTrbces(e);
                 out.writeObject(e);
-                call.releaseOutputStream();
+                cbll.relebseOutputStrebm();
 
-            } catch (IOException ie) {
-                transportLog.log(Log.BRIEF,
-                    "exception thrown marshalling exception: ", ie);
-                return false;
+            } cbtch (IOException ie) {
+                trbnsportLog.log(Log.BRIEF,
+                    "exception thrown mbrshblling exception: ", ie);
+                return fblse;
             }
         }
 

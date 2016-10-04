@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.View;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.View;
 import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
 
 /**
- * RadioButtonUI implementation for BasicRadioButtonUI
+ * RbdioButtonUI implementbtion for BbsicRbdioButtonUI
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class BasicRadioButtonUI extends BasicToggleButtonUI
+public clbss BbsicRbdioButtonUI extends BbsicToggleButtonUI
 {
-    private static final Object BASIC_RADIO_BUTTON_UI_KEY = new Object();
+    privbte stbtic finbl Object BASIC_RADIO_BUTTON_UI_KEY = new Object();
 
     /**
      * The icon.
      */
     protected Icon icon;
 
-    private boolean defaults_initialized = false;
+    privbte boolebn defbults_initiblized = fblse;
 
-    private final static String propertyPrefix = "RadioButton" + ".";
+    privbte finbl stbtic String propertyPrefix = "RbdioButton" + ".";
 
     // ********************************
-    //        Create PLAF
+    //        Crebte PLAF
     // ********************************
 
     /**
-     * Returns an instance of {@code BasicRadioButtonUI}.
+     * Returns bn instbnce of {@code BbsicRbdioButtonUI}.
      *
-     * @param b a component
-     * @return an instance of {@code BasicRadioButtonUI}
+     * @pbrbm b b component
+     * @return bn instbnce of {@code BbsicRbdioButtonUI}
      */
-    public static ComponentUI createUI(JComponent b) {
-        AppContext appContext = AppContext.getAppContext();
-        BasicRadioButtonUI radioButtonUI =
-                (BasicRadioButtonUI) appContext.get(BASIC_RADIO_BUTTON_UI_KEY);
-        if (radioButtonUI == null) {
-            radioButtonUI = new BasicRadioButtonUI();
-            appContext.put(BASIC_RADIO_BUTTON_UI_KEY, radioButtonUI);
+    public stbtic ComponentUI crebteUI(JComponent b) {
+        AppContext bppContext = AppContext.getAppContext();
+        BbsicRbdioButtonUI rbdioButtonUI =
+                (BbsicRbdioButtonUI) bppContext.get(BASIC_RADIO_BUTTON_UI_KEY);
+        if (rbdioButtonUI == null) {
+            rbdioButtonUI = new BbsicRbdioButtonUI();
+            bppContext.put(BASIC_RADIO_BUTTON_UI_KEY, rbdioButtonUI);
         }
-        return radioButtonUI;
+        return rbdioButtonUI;
     }
 
     protected String getPropertyPrefix() {
@@ -79,50 +79,50 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
     }
 
     // ********************************
-    //        Install PLAF
+    //        Instbll PLAF
     // ********************************
-    protected void installDefaults(AbstractButton b){
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            icon = UIManager.getIcon(getPropertyPrefix() + "icon");
-            defaults_initialized = true;
+    protected void instbllDefbults(AbstrbctButton b){
+        super.instbllDefbults(b);
+        if(!defbults_initiblized) {
+            icon = UIMbnbger.getIcon(getPropertyPrefix() + "icon");
+            defbults_initiblized = true;
         }
     }
 
     // ********************************
-    //        Uninstall PLAF
+    //        Uninstbll PLAF
     // ********************************
-    protected void uninstallDefaults(AbstractButton b){
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    protected void uninstbllDefbults(AbstrbctButton b){
+        super.uninstbllDefbults(b);
+        defbults_initiblized = fblse;
     }
 
     /**
-     * Returns the default icon.
+     * Returns the defbult icon.
      *
-     * @return the default icon
+     * @return the defbult icon
      */
-    public Icon getDefaultIcon() {
+    public Icon getDefbultIcon() {
         return icon;
     }
 
 
-    /* These Dimensions/Rectangles are allocated once for all
-     * RadioButtonUI.paint() calls.  Re-using rectangles
-     * rather than allocating them in each paint call substantially
-     * reduced the time it took paint to run.  Obviously, this
-     * method can't be re-entered.
+    /* These Dimensions/Rectbngles bre bllocbted once for bll
+     * RbdioButtonUI.pbint() cblls.  Re-using rectbngles
+     * rbther thbn bllocbting them in ebch pbint cbll substbntiblly
+     * reduced the time it took pbint to run.  Obviously, this
+     * method cbn't be re-entered.
      */
-    private static Dimension size = new Dimension();
-    private static Rectangle viewRect = new Rectangle();
-    private static Rectangle iconRect = new Rectangle();
-    private static Rectangle textRect = new Rectangle();
+    privbte stbtic Dimension size = new Dimension();
+    privbte stbtic Rectbngle viewRect = new Rectbngle();
+    privbte stbtic Rectbngle iconRect = new Rectbngle();
+    privbte stbtic Rectbngle textRect = new Rectbngle();
 
     /**
-     * paint the radio button
+     * pbint the rbdio button
      */
-    public synchronized void paint(Graphics g, JComponent c) {
-        AbstractButton b = (AbstractButton) c;
+    public synchronized void pbint(Grbphics g, JComponent c) {
+        AbstrbctButton b = (AbstrbctButton) c;
         ButtonModel model = b.getModel();
 
         Font f = c.getFont();
@@ -138,115 +138,115 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         iconRect.x = iconRect.y = iconRect.width = iconRect.height = 0;
         textRect.x = textRect.y = textRect.width = textRect.height = 0;
 
-        Icon altIcon = b.getIcon();
+        Icon bltIcon = b.getIcon();
         Icon selectedIcon = null;
-        Icon disabledIcon = null;
+        Icon disbbledIcon = null;
 
-        String text = SwingUtilities.layoutCompoundLabel(
-            c, fm, b.getText(), altIcon != null ? altIcon : getDefaultIcon(),
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
+        String text = SwingUtilities.lbyoutCompoundLbbel(
+            c, fm, b.getText(), bltIcon != null ? bltIcon : getDefbultIcon(),
+            b.getVerticblAlignment(), b.getHorizontblAlignment(),
+            b.getVerticblTextPosition(), b.getHorizontblTextPosition(),
             viewRect, iconRect, textRect,
-            b.getText() == null ? 0 : b.getIconTextGap());
+            b.getText() == null ? 0 : b.getIconTextGbp());
 
-        // fill background
-        if(c.isOpaque()) {
-            g.setColor(b.getBackground());
+        // fill bbckground
+        if(c.isOpbque()) {
+            g.setColor(b.getBbckground());
             g.fillRect(0,0, size.width, size.height);
         }
 
 
-        // Paint the radio button
-        if(altIcon != null) {
+        // Pbint the rbdio button
+        if(bltIcon != null) {
 
-            if(!model.isEnabled()) {
+            if(!model.isEnbbled()) {
                 if(model.isSelected()) {
-                   altIcon = b.getDisabledSelectedIcon();
+                   bltIcon = b.getDisbbledSelectedIcon();
                 } else {
-                   altIcon = b.getDisabledIcon();
+                   bltIcon = b.getDisbbledIcon();
                 }
             } else if(model.isPressed() && model.isArmed()) {
-                altIcon = b.getPressedIcon();
-                if(altIcon == null) {
+                bltIcon = b.getPressedIcon();
+                if(bltIcon == null) {
                     // Use selected icon
-                    altIcon = b.getSelectedIcon();
+                    bltIcon = b.getSelectedIcon();
                 }
             } else if(model.isSelected()) {
-                if(b.isRolloverEnabled() && model.isRollover()) {
-                        altIcon = b.getRolloverSelectedIcon();
-                        if (altIcon == null) {
-                                altIcon = b.getSelectedIcon();
+                if(b.isRolloverEnbbled() && model.isRollover()) {
+                        bltIcon = b.getRolloverSelectedIcon();
+                        if (bltIcon == null) {
+                                bltIcon = b.getSelectedIcon();
                         }
                 } else {
-                        altIcon = b.getSelectedIcon();
+                        bltIcon = b.getSelectedIcon();
                 }
-            } else if(b.isRolloverEnabled() && model.isRollover()) {
-                altIcon = b.getRolloverIcon();
+            } else if(b.isRolloverEnbbled() && model.isRollover()) {
+                bltIcon = b.getRolloverIcon();
             }
 
-            if(altIcon == null) {
-                altIcon = b.getIcon();
+            if(bltIcon == null) {
+                bltIcon = b.getIcon();
             }
 
-            altIcon.paintIcon(c, g, iconRect.x, iconRect.y);
+            bltIcon.pbintIcon(c, g, iconRect.x, iconRect.y);
 
         } else {
-            getDefaultIcon().paintIcon(c, g, iconRect.x, iconRect.y);
+            getDefbultIcon().pbintIcon(c, g, iconRect.x, iconRect.y);
         }
 
 
-        // Draw the Text
+        // Drbw the Text
         if(text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+            View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-                v.paint(g, textRect);
+                v.pbint(g, textRect);
             } else {
-                paintText(g, b, textRect, text);
+                pbintText(g, b, textRect, text);
             }
-            if(b.hasFocus() && b.isFocusPainted() &&
+            if(b.hbsFocus() && b.isFocusPbinted() &&
                textRect.width > 0 && textRect.height > 0 ) {
-                paintFocus(g, textRect, size);
+                pbintFocus(g, textRect, size);
             }
         }
     }
 
     /**
-     * Paints focused radio button.
+     * Pbints focused rbdio button.
      *
-     * @param g an instance of {@code Graphics}
-     * @param textRect bounds
-     * @param size the size of radio button
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm textRect bounds
+     * @pbrbm size the size of rbdio button
      */
-    protected void paintFocus(Graphics g, Rectangle textRect, Dimension size){
+    protected void pbintFocus(Grbphics g, Rectbngle textRect, Dimension size){
     }
 
 
-    /* These Insets/Rectangles are allocated once for all
-     * RadioButtonUI.getPreferredSize() calls.  Re-using rectangles
-     * rather than allocating them in each call substantially
+    /* These Insets/Rectbngles bre bllocbted once for bll
+     * RbdioButtonUI.getPreferredSize() cblls.  Re-using rectbngles
+     * rbther thbn bllocbting them in ebch cbll substbntiblly
      * reduced the time it took getPreferredSize() to run.  Obviously,
-     * this method can't be re-entered.
+     * this method cbn't be re-entered.
      */
-    private static Rectangle prefViewRect = new Rectangle();
-    private static Rectangle prefIconRect = new Rectangle();
-    private static Rectangle prefTextRect = new Rectangle();
-    private static Insets prefInsets = new Insets(0, 0, 0, 0);
+    privbte stbtic Rectbngle prefViewRect = new Rectbngle();
+    privbte stbtic Rectbngle prefIconRect = new Rectbngle();
+    privbte stbtic Rectbngle prefTextRect = new Rectbngle();
+    privbte stbtic Insets prefInsets = new Insets(0, 0, 0, 0);
 
     /**
-     * The preferred size of the radio button
+     * The preferred size of the rbdio button
      */
     public Dimension getPreferredSize(JComponent c) {
         if(c.getComponentCount() > 0) {
             return null;
         }
 
-        AbstractButton b = (AbstractButton) c;
+        AbstrbctButton b = (AbstrbctButton) c;
 
         String text = b.getText();
 
         Icon buttonIcon = b.getIcon();
         if(buttonIcon == null) {
-            buttonIcon = getDefaultIcon();
+            buttonIcon = getDefbultIcon();
         }
 
         Font font = b.getFont();
@@ -258,19 +258,19 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         prefIconRect.x = prefIconRect.y = prefIconRect.width = prefIconRect.height = 0;
         prefTextRect.x = prefTextRect.y = prefTextRect.width = prefTextRect.height = 0;
 
-        SwingUtilities.layoutCompoundLabel(
+        SwingUtilities.lbyoutCompoundLbbel(
             c, fm, text, buttonIcon,
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
+            b.getVerticblAlignment(), b.getHorizontblAlignment(),
+            b.getVerticblTextPosition(), b.getHorizontblTextPosition(),
             prefViewRect, prefIconRect, prefTextRect,
-            text == null ? 0 : b.getIconTextGap());
+            text == null ? 0 : b.getIconTextGbp());
 
-        // find the union of the icon and text rects (from Rectangle.java)
-        int x1 = Math.min(prefIconRect.x, prefTextRect.x);
-        int x2 = Math.max(prefIconRect.x + prefIconRect.width,
+        // find the union of the icon bnd text rects (from Rectbngle.jbvb)
+        int x1 = Mbth.min(prefIconRect.x, prefTextRect.x);
+        int x2 = Mbth.mbx(prefIconRect.x + prefIconRect.width,
                           prefTextRect.x + prefTextRect.width);
-        int y1 = Math.min(prefIconRect.y, prefTextRect.y);
-        int y2 = Math.max(prefIconRect.y + prefIconRect.height,
+        int y1 = Mbth.min(prefIconRect.y, prefTextRect.y);
+        int y2 = Mbth.mbx(prefIconRect.y + prefIconRect.height,
                           prefTextRect.y + prefTextRect.height);
         int width = x2 - x1;
         int height = y2 - y1;

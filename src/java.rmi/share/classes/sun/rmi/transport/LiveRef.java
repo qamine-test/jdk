@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Arrays;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.util.Arrbys;
+import sun.rmi.trbnsport.tcp.TCPEndpoint;
 
 /**
- * NOTE: There is a JDK-internal dependency on the existence of this
- * class and its getClientSocketFactory method in the implementation
- * of javax.management.remote.rmi.RMIConnector.
+ * NOTE: There is b JDK-internbl dependency on the existence of this
+ * clbss bnd its getClientSocketFbctory method in the implementbtion
+ * of jbvbx.mbnbgement.remote.rmi.RMIConnector.
  **/
-public class LiveRef implements Cloneable {
-    /** wire representation for the object*/
-    private final Endpoint ep;
-    private final ObjID id;
+public clbss LiveRef implements Clonebble {
+    /** wire representbtion for the object*/
+    privbte finbl Endpoint ep;
+    privbte finbl ObjID id;
 
-    /** cached connection service for the object */
-    private transient Channel ch;
+    /** cbched connection service for the object */
+    privbte trbnsient Chbnnel ch;
 
-    /** flag to indicate whether this ref specifies a local server or
-     * is a ref for a remote object (surrogate)
+    /** flbg to indicbte whether this ref specifies b locbl server or
+     * is b ref for b remote object (surrogbte)
      */
-    private final boolean isLocal;
+    privbte finbl boolebn isLocbl;
 
     /**
-     * Construct a "well-known" live reference to a remote object
-     * @param isLocalServer If true, indicates this ref specifies a local
-     * server in this address space; if false, the ref is for a remote
-     * object (hence a surrogate or proxy) in another address space.
+     * Construct b "well-known" live reference to b remote object
+     * @pbrbm isLocblServer If true, indicbtes this ref specifies b locbl
+     * server in this bddress spbce; if fblse, the ref is for b remote
+     * object (hence b surrogbte or proxy) in bnother bddress spbce.
      */
-    public LiveRef(ObjID objID, Endpoint endpoint, boolean isLocal) {
+    public LiveRef(ObjID objID, Endpoint endpoint, boolebn isLocbl) {
         ep = endpoint;
         id = objID;
-        this.isLocal = isLocal;
+        this.isLocbl = isLocbl;
     }
 
     /**
-     * Construct a new live reference for a server object in the local
-     * address space.
+     * Construct b new live reference for b server object in the locbl
+     * bddress spbce.
      */
     public LiveRef(int port) {
         this((new ObjID()), port);
     }
 
     /**
-     * Construct a new live reference for a server object in the local
-     * address space, to use sockets of the specified type.
+     * Construct b new live reference for b server object in the locbl
+     * bddress spbce, to use sockets of the specified type.
      */
     public LiveRef(int port,
-                   RMIClientSocketFactory csf,
-                   RMIServerSocketFactory ssf)
+                   RMIClientSocketFbctory csf,
+                   RMIServerSocketFbctory ssf)
     {
         this((new ObjID()), port, csf, ssf);
     }
 
     /**
-     * Construct a new live reference for a "well-known" server object
-     * in the local address space.
+     * Construct b new live reference for b "well-known" server object
+     * in the locbl bddress spbce.
      */
     public LiveRef(ObjID objID, int port) {
-        this(objID, TCPEndpoint.getLocalEndpoint(port), true);
+        this(objID, TCPEndpoint.getLocblEndpoint(port), true);
     }
 
     /**
-     * Construct a new live reference for a "well-known" server object
-     * in the local address space, to use sockets of the specified type.
+     * Construct b new live reference for b "well-known" server object
+     * in the locbl bddress spbce, to use sockets of the specified type.
      */
-    public LiveRef(ObjID objID, int port, RMIClientSocketFactory csf,
-                   RMIServerSocketFactory ssf)
+    public LiveRef(ObjID objID, int port, RMIClientSocketFbctory csf,
+                   RMIServerSocketFbctory ssf)
     {
-        this(objID, TCPEndpoint.getLocalEndpoint(port, csf, ssf), true);
+        this(objID, TCPEndpoint.getLocblEndpoint(port, csf, ssf), true);
     }
 
     /**
-     * Return a shallow copy of this ref.
+     * Return b shbllow copy of this ref.
      */
     public Object clone() {
         try {
             LiveRef newRef = (LiveRef) super.clone();
             return newRef;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e.toString(), e);
         }
     }
 
     /**
-     * Return the port number associated with this ref.
+     * Return the port number bssocibted with this ref.
      */
     public int getPort() {
         return ((TCPEndpoint) ep).getPort();
     }
 
     /**
-     * Return the client socket factory associated with this ref.
+     * Return the client socket fbctory bssocibted with this ref.
      *
-     * NOTE: There is a JDK-internal dependency on the existence of
-     * this method in the implementation of
-     * javax.management.remote.rmi.RMIConnector.
+     * NOTE: There is b JDK-internbl dependency on the existence of
+     * this method in the implementbtion of
+     * jbvbx.mbnbgement.remote.rmi.RMIConnector.
      **/
-    public RMIClientSocketFactory getClientSocketFactory() {
-        return ((TCPEndpoint) ep).getClientSocketFactory();
+    public RMIClientSocketFbctory getClientSocketFbctory() {
+        return ((TCPEndpoint) ep).getClientSocketFbctory();
     }
 
     /**
-     * Return the server socket factory associated with this ref.
+     * Return the server socket fbctory bssocibted with this ref.
      */
-    public RMIServerSocketFactory getServerSocketFactory() {
-        return ((TCPEndpoint) ep).getServerSocketFactory();
+    public RMIServerSocketFbctory getServerSocketFbctory() {
+        return ((TCPEndpoint) ep).getServerSocketFbctory();
     }
 
     /**
-     * Export the object to accept incoming calls.
+     * Export the object to bccept incoming cblls.
      */
-    public void exportObject(Target target) throws RemoteException {
-        ep.exportObject(target);
+    public void exportObject(Tbrget tbrget) throws RemoteException {
+        ep.exportObject(tbrget);
     }
 
-    public Channel getChannel() throws RemoteException {
+    public Chbnnel getChbnnel() throws RemoteException {
         if (ch == null) {
-            ch = ep.getChannel();
+            ch = ep.getChbnnel();
         }
         return ch;
     }
@@ -165,151 +165,151 @@ public class LiveRef implements Cloneable {
     public String toString() {
         String type;
 
-        if (isLocal)
-            type = "local";
+        if (isLocbl)
+            type = "locbl";
         else
             type = "remote";
         return "[endpoint:" + ep + "(" + type + ")," +
             "objID:" + id + "]";
     }
 
-    public int hashCode() {
-        return id.hashCode();
+    public int hbshCode() {
+        return id.hbshCode();
     }
 
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof LiveRef) {
+    public boolebn equbls(Object obj) {
+        if (obj != null && obj instbnceof LiveRef) {
             LiveRef ref = (LiveRef) obj;
 
-            return (ep.equals(ref.ep) && id.equals(ref.id) &&
-                    isLocal == ref.isLocal);
+            return (ep.equbls(ref.ep) && id.equbls(ref.id) &&
+                    isLocbl == ref.isLocbl);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public boolean remoteEquals(Object obj) {
-        if (obj != null && obj instanceof LiveRef) {
+    public boolebn remoteEqubls(Object obj) {
+        if (obj != null && obj instbnceof LiveRef) {
             LiveRef ref = (LiveRef) obj;
 
             TCPEndpoint thisEp = ((TCPEndpoint) ep);
             TCPEndpoint refEp = ((TCPEndpoint) ref.ep);
 
-            RMIClientSocketFactory thisClientFactory =
-                thisEp.getClientSocketFactory();
-            RMIClientSocketFactory refClientFactory =
-                refEp.getClientSocketFactory();
+            RMIClientSocketFbctory thisClientFbctory =
+                thisEp.getClientSocketFbctory();
+            RMIClientSocketFbctory refClientFbctory =
+                refEp.getClientSocketFbctory();
 
             /**
-             * Fix for 4254103: LiveRef.remoteEquals should not fail
-             * if one of the objects in the comparison has a null
-             * server socket.  Comparison should only consider the
-             * following criteria:
+             * Fix for 4254103: LiveRef.remoteEqubls should not fbil
+             * if one of the objects in the compbrison hbs b null
+             * server socket.  Compbrison should only consider the
+             * following criterib:
              *
-             * hosts, ports, client socket factories and object IDs.
+             * hosts, ports, client socket fbctories bnd object IDs.
              */
             if (thisEp.getPort() != refEp.getPort() ||
-                !thisEp.getHost().equals(refEp.getHost()))
+                !thisEp.getHost().equbls(refEp.getHost()))
             {
-                return false;
+                return fblse;
             }
-            if ((thisClientFactory == null) ^ (refClientFactory == null)) {
-                return false;
+            if ((thisClientFbctory == null) ^ (refClientFbctory == null)) {
+                return fblse;
             }
-            if ((thisClientFactory != null) &&
-                !((thisClientFactory.getClass() ==
-                   refClientFactory.getClass()) &&
-                  (thisClientFactory.equals(refClientFactory))))
+            if ((thisClientFbctory != null) &&
+                !((thisClientFbctory.getClbss() ==
+                   refClientFbctory.getClbss()) &&
+                  (thisClientFbctory.equbls(refClientFbctory))))
             {
-                return false;
+                return fblse;
             }
-            return (id.equals(ref.id));
+            return (id.equbls(ref.id));
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public void write(ObjectOutput out, boolean useNewFormat)
+    public void write(ObjectOutput out, boolebn useNewFormbt)
         throws IOException
     {
-        boolean isResultStream = false;
-        if (out instanceof ConnectionOutputStream) {
-            ConnectionOutputStream stream = (ConnectionOutputStream) out;
-            isResultStream = stream.isResultStream();
+        boolebn isResultStrebm = fblse;
+        if (out instbnceof ConnectionOutputStrebm) {
+            ConnectionOutputStrebm strebm = (ConnectionOutputStrebm) out;
+            isResultStrebm = strebm.isResultStrebm();
             /*
-             * Ensure that referential integrity is not broken while
-             * this LiveRef is in transit.  If it is being marshalled
-             * as part of a result, it may not otherwise be strongly
-             * reachable after the remote call has completed; even if
-             * it is being marshalled as part of an argument, the VM
-             * may determine that the reference on the stack is no
-             * longer reachable after marshalling (see 6181943)--
-             * therefore, tell the stream to save a reference until a
-             * timeout expires or, for results, a DGCAck message has
-             * been received from the caller, or for arguments, the
-             * remote call has completed.  For a "local" LiveRef, save
-             * a reference to the impl directly, because the impl is
-             * not reachable from the LiveRef (see 4114579);
-             * otherwise, save a reference to the LiveRef, for the
-             * client-side DGC to watch over.  (Also see 4017232.)
+             * Ensure thbt referentibl integrity is not broken while
+             * this LiveRef is in trbnsit.  If it is being mbrshblled
+             * bs pbrt of b result, it mby not otherwise be strongly
+             * rebchbble bfter the remote cbll hbs completed; even if
+             * it is being mbrshblled bs pbrt of bn brgument, the VM
+             * mby determine thbt the reference on the stbck is no
+             * longer rebchbble bfter mbrshblling (see 6181943)--
+             * therefore, tell the strebm to sbve b reference until b
+             * timeout expires or, for results, b DGCAck messbge hbs
+             * been received from the cbller, or for brguments, the
+             * remote cbll hbs completed.  For b "locbl" LiveRef, sbve
+             * b reference to the impl directly, becbuse the impl is
+             * not rebchbble from the LiveRef (see 4114579);
+             * otherwise, sbve b reference to the LiveRef, for the
+             * client-side DGC to wbtch over.  (Also see 4017232.)
              */
-            if (isLocal) {
+            if (isLocbl) {
                 ObjectEndpoint oe =
-                    new ObjectEndpoint(id, ep.getInboundTransport());
-                Target target = ObjectTable.getTarget(oe);
+                    new ObjectEndpoint(id, ep.getInboundTrbnsport());
+                Tbrget tbrget = ObjectTbble.getTbrget(oe);
 
-                if (target != null) {
-                    Remote impl = target.getImpl();
+                if (tbrget != null) {
+                    Remote impl = tbrget.getImpl();
                     if (impl != null) {
-                        stream.saveObject(impl);
+                        strebm.sbveObject(impl);
                     }
                 }
             } else {
-                stream.saveObject(this);
+                strebm.sbveObject(this);
             }
         }
-        // All together now write out the endpoint, id, and flag
+        // All together now write out the endpoint, id, bnd flbg
 
-        // (need to choose whether or not to use old JDK1.1 endpoint format)
-        if (useNewFormat) {
+        // (need to choose whether or not to use old JDK1.1 endpoint formbt)
+        if (useNewFormbt) {
             ((TCPEndpoint) ep).write(out);
         } else {
-            ((TCPEndpoint) ep).writeHostPortFormat(out);
+            ((TCPEndpoint) ep).writeHostPortFormbt(out);
         }
         id.write(out);
-        out.writeBoolean(isResultStream);
+        out.writeBoolebn(isResultStrebm);
     }
 
-    public static LiveRef read(ObjectInput in, boolean useNewFormat)
-        throws IOException, ClassNotFoundException
+    public stbtic LiveRef rebd(ObjectInput in, boolebn useNewFormbt)
+        throws IOException, ClbssNotFoundException
     {
         Endpoint ep;
         ObjID id;
 
-        // Now read in the endpoint, id, and result flag
-        // (need to choose whether or not to read old JDK1.1 endpoint format)
-        if (useNewFormat) {
-            ep = TCPEndpoint.read(in);
+        // Now rebd in the endpoint, id, bnd result flbg
+        // (need to choose whether or not to rebd old JDK1.1 endpoint formbt)
+        if (useNewFormbt) {
+            ep = TCPEndpoint.rebd(in);
         } else {
-            ep = TCPEndpoint.readHostPortFormat(in);
+            ep = TCPEndpoint.rebdHostPortFormbt(in);
         }
-        id = ObjID.read(in);
-        boolean isResultStream = in.readBoolean();
+        id = ObjID.rebd(in);
+        boolebn isResultStrebm = in.rebdBoolebn();
 
-        LiveRef ref = new LiveRef(id, ep, false);
+        LiveRef ref = new LiveRef(id, ep, fblse);
 
-        if (in instanceof ConnectionInputStream) {
-            ConnectionInputStream stream = (ConnectionInputStream)in;
-            // save ref to send "dirty" call after all args/returns
-            // have been unmarshaled.
-            stream.saveRef(ref);
-            if (isResultStream) {
-                // set flag in stream indicating that remote objects were
-                // unmarshaled.  A DGC ack should be sent by the transport.
-                stream.setAckNeeded();
+        if (in instbnceof ConnectionInputStrebm) {
+            ConnectionInputStrebm strebm = (ConnectionInputStrebm)in;
+            // sbve ref to send "dirty" cbll bfter bll brgs/returns
+            // hbve been unmbrshbled.
+            strebm.sbveRef(ref);
+            if (isResultStrebm) {
+                // set flbg in strebm indicbting thbt remote objects were
+                // unmbrshbled.  A DGC bck should be sent by the trbnsport.
+                strebm.setAckNeeded();
             }
         } else {
-            DGCClient.registerRefs(ep, Arrays.asList(new LiveRef[] { ref }));
+            DGCClient.registerRefs(ep, Arrbys.bsList(new LiveRef[] { ref }));
         }
 
         return ref;

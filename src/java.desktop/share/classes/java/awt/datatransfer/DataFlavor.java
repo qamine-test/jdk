@@ -1,631 +1,631 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import sun.awt.datatransfer.DataTransferer;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
 import sun.reflect.misc.ReflectUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.CharArrayReader;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.OptionalDataException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Objects;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ChbrArrbyRebder;
+import jbvb.io.Externblizbble;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.OptionblDbtbException;
+import jbvb.io.Rebder;
+import jbvb.io.StringRebder;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objects;
 
-import static sun.security.util.SecurityConstants.GET_CLASSLOADER_PERMISSION;
+import stbtic sun.security.util.SecurityConstbnts.GET_CLASSLOADER_PERMISSION;
 
 /**
- * A {@code DataFlavor} provides meta information about data. {@code DataFlavor}
- * is typically used to access data on the clipboard, or during
- * a drag and drop operation.
+ * A {@code DbtbFlbvor} provides metb informbtion bbout dbtb. {@code DbtbFlbvor}
+ * is typicblly used to bccess dbtb on the clipbobrd, or during
+ * b drbg bnd drop operbtion.
  * <p>
- * An instance of {@code DataFlavor} encapsulates a content type as
- * defined in <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
- * and <a href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</a>.
- * A content type is typically referred to as a MIME type.
+ * An instbnce of {@code DbtbFlbvor} encbpsulbtes b content type bs
+ * defined in <b href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</b>
+ * bnd <b href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</b>.
+ * A content type is typicblly referred to bs b MIME type.
  * <p>
- * A content type consists of a media type (referred
- * to as the primary type), a subtype, and optional parameters. See
- * <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
- * for details on the syntax of a MIME type.
+ * A content type consists of b medib type (referred
+ * to bs the primbry type), b subtype, bnd optionbl pbrbmeters. See
+ * <b href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</b>
+ * for detbils on the syntbx of b MIME type.
  * <p>
- * The JRE data transfer implementation interprets the parameter &quot;class&quot;
- * of a MIME type as <B>a representation class</b>.
- * The representation class reflects the class of the object being
- * transferred. In other words, the representation class is the type of
- * object returned by {@link Transferable#getTransferData}.
- * For example, the MIME type of {@link #imageFlavor} is
- * {@code "image/x-java-image;class=java.awt.Image"},
- * the primary type is {@code image}, the subtype is
- * {@code x-java-image}, and the representation class is
- * {@code java.awt.Image}. When {@code getTransferData} is invoked
- * with a {@code DataFlavor} of {@code imageFlavor}, an instance of
- * {@code java.awt.Image} is returned.
- * It's important to note that {@code DataFlavor} does no error checking
- * against the representation class. It is up to consumers of
- * {@code DataFlavor}, such as {@code Transferable}, to honor the representation
- * class.
+ * The JRE dbtb trbnsfer implementbtion interprets the pbrbmeter &quot;clbss&quot;
+ * of b MIME type bs <B>b representbtion clbss</b>.
+ * The representbtion clbss reflects the clbss of the object being
+ * trbnsferred. In other words, the representbtion clbss is the type of
+ * object returned by {@link Trbnsferbble#getTrbnsferDbtb}.
+ * For exbmple, the MIME type of {@link #imbgeFlbvor} is
+ * {@code "imbge/x-jbvb-imbge;clbss=jbvb.bwt.Imbge"},
+ * the primbry type is {@code imbge}, the subtype is
+ * {@code x-jbvb-imbge}, bnd the representbtion clbss is
+ * {@code jbvb.bwt.Imbge}. When {@code getTrbnsferDbtb} is invoked
+ * with b {@code DbtbFlbvor} of {@code imbgeFlbvor}, bn instbnce of
+ * {@code jbvb.bwt.Imbge} is returned.
+ * It's importbnt to note thbt {@code DbtbFlbvor} does no error checking
+ * bgbinst the representbtion clbss. It is up to consumers of
+ * {@code DbtbFlbvor}, such bs {@code Trbnsferbble}, to honor the representbtion
+ * clbss.
  * <br>
- * Note, if you do not specify a representation class when
- * creating a {@code DataFlavor}, the default
- * representation class is used. See appropriate documentation for
- * {@code DataFlavor}'s constructors.
+ * Note, if you do not specify b representbtion clbss when
+ * crebting b {@code DbtbFlbvor}, the defbult
+ * representbtion clbss is used. See bppropribte documentbtion for
+ * {@code DbtbFlbvor}'s constructors.
  * <p>
- * Also, {@code DataFlavor} instances with the &quot;text&quot; primary
- * MIME type may have a &quot;charset&quot; parameter. Refer to
- * <a href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</a> and
- * {@link #selectBestTextFlavor} for details on &quot;text&quot; MIME types
- * and the &quot;charset&quot; parameter.
+ * Also, {@code DbtbFlbvor} instbnces with the &quot;text&quot; primbry
+ * MIME type mby hbve b &quot;chbrset&quot; pbrbmeter. Refer to
+ * <b href="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</b> bnd
+ * {@link #selectBestTextFlbvor} for detbils on &quot;text&quot; MIME types
+ * bnd the &quot;chbrset&quot; pbrbmeter.
  * <p>
- * Equality of {@code DataFlavors} is determined by the primary type,
- * subtype, and representation class. Refer to {@link #equals(DataFlavor)} for
- * details. When determining equality, any optional parameters are ignored.
- * For example, the following produces two {@code DataFlavors} that
- * are considered identical:
+ * Equblity of {@code DbtbFlbvors} is determined by the primbry type,
+ * subtype, bnd representbtion clbss. Refer to {@link #equbls(DbtbFlbvor)} for
+ * detbils. When determining equblity, bny optionbl pbrbmeters bre ignored.
+ * For exbmple, the following produces two {@code DbtbFlbvors} thbt
+ * bre considered identicbl:
  * <pre>
- *   DataFlavor flavor1 = new DataFlavor(Object.class, &quot;X-test/test; class=&lt;java.lang.Object&gt;; foo=bar&quot;);
- *   DataFlavor flavor2 = new DataFlavor(Object.class, &quot;X-test/test; class=&lt;java.lang.Object&gt;; x=y&quot;);
+ *   DbtbFlbvor flbvor1 = new DbtbFlbvor(Object.clbss, &quot;X-test/test; clbss=&lt;jbvb.lbng.Object&gt;; foo=bbr&quot;);
+ *   DbtbFlbvor flbvor2 = new DbtbFlbvor(Object.clbss, &quot;X-test/test; clbss=&lt;jbvb.lbng.Object&gt;; x=y&quot;);
  *   // The following returns true.
- *   flavor1.equals(flavor2);
+ *   flbvor1.equbls(flbvor2);
  * </pre>
- * As mentioned, {@code flavor1} and {@code flavor2} are considered identical.
- * As such, asking a {@code Transferable} for either {@code DataFlavor} returns
- * the same results.
+ * As mentioned, {@code flbvor1} bnd {@code flbvor2} bre considered identicbl.
+ * As such, bsking b {@code Trbnsferbble} for either {@code DbtbFlbvor} returns
+ * the sbme results.
  * <p>
- * For more information on using data transfer with Swing see
- * the <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
- * How to Use Drag and Drop and Data Transfer</a>,
- * section in <em>Java Tutorial</em>.
+ * For more informbtion on using dbtb trbnsfer with Swing see
+ * the <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+ * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>,
+ * section in <em>Jbvb Tutoribl</em>.
  *
- * @author      Blake Sullivan
- * @author      Laurence P. G. Cable
- * @author      Jeff Dunn
+ * @buthor      Blbke Sullivbn
+ * @buthor      Lburence P. G. Cbble
+ * @buthor      Jeff Dunn
  */
-public class DataFlavor implements Externalizable, Cloneable {
+public clbss DbtbFlbvor implements Externblizbble, Clonebble {
 
-    private static final long serialVersionUID = 8367026044764648243L;
-    private static final Class<InputStream> ioInputStreamClass = InputStream.class;
+    privbte stbtic finbl long seriblVersionUID = 8367026044764648243L;
+    privbte stbtic finbl Clbss<InputStrebm> ioInputStrebmClbss = InputStrebm.clbss;
 
     /**
-     * Tries to load a class from: the bootstrap loader, the system loader,
-     * the context loader (if one is present) and finally the loader specified.
+     * Tries to lobd b clbss from: the bootstrbp lobder, the system lobder,
+     * the context lobder (if one is present) bnd finblly the lobder specified.
      *
-     * @param className the name of the class to be loaded
-     * @param fallback the fallback loader
-     * @return the class loaded
-     * @exception ClassNotFoundException if class is not found
+     * @pbrbm clbssNbme the nbme of the clbss to be lobded
+     * @pbrbm fbllbbck the fbllbbck lobder
+     * @return the clbss lobded
+     * @exception ClbssNotFoundException if clbss is not found
      */
-    protected final static Class<?> tryToLoadClass(String className,
-                                                   ClassLoader fallback)
-        throws ClassNotFoundException
+    protected finbl stbtic Clbss<?> tryToLobdClbss(String clbssNbme,
+                                                   ClbssLobder fbllbbck)
+        throws ClbssNotFoundException
     {
-        ReflectUtil.checkPackageAccess(className);
+        ReflectUtil.checkPbckbgeAccess(clbssNbme);
         try {
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkPermission(GET_CLASSLOADER_PERMISSION);
             }
-            ClassLoader loader = ClassLoader.getSystemClassLoader();
+            ClbssLobder lobder = ClbssLobder.getSystemClbssLobder();
             try {
-                // bootstrap class loader and system class loader if present
-                return Class.forName(className, true, loader);
+                // bootstrbp clbss lobder bnd system clbss lobder if present
+                return Clbss.forNbme(clbssNbme, true, lobder);
             }
-            catch (ClassNotFoundException exception) {
-                // thread context class loader if and only if present
-                loader = Thread.currentThread().getContextClassLoader();
-                if (loader != null) {
+            cbtch (ClbssNotFoundException exception) {
+                // threbd context clbss lobder if bnd only if present
+                lobder = Threbd.currentThrebd().getContextClbssLobder();
+                if (lobder != null) {
                     try {
-                        return Class.forName(className, true, loader);
+                        return Clbss.forNbme(clbssNbme, true, lobder);
                     }
-                    catch (ClassNotFoundException e) {
-                        // fallback to user's class loader
+                    cbtch (ClbssNotFoundException e) {
+                        // fbllbbck to user's clbss lobder
                     }
                 }
             }
-        } catch (SecurityException exception) {
-            // ignore secured class loaders
+        } cbtch (SecurityException exception) {
+            // ignore secured clbss lobders
         }
-        return Class.forName(className, true, fallback);
+        return Clbss.forNbme(clbssNbme, true, fbllbbck);
     }
 
     /*
-     * private initializer
+     * privbte initiblizer
      */
-    static private DataFlavor createConstant(Class<?> rc, String prn) {
+    stbtic privbte DbtbFlbvor crebteConstbnt(Clbss<?> rc, String prn) {
         try {
-            return new DataFlavor(rc, prn);
-        } catch (Exception e) {
+            return new DbtbFlbvor(rc, prn);
+        } cbtch (Exception e) {
             return null;
         }
     }
 
     /*
-     * private initializer
+     * privbte initiblizer
      */
-    static private DataFlavor createConstant(String mt, String prn) {
+    stbtic privbte DbtbFlbvor crebteConstbnt(String mt, String prn) {
         try {
-            return new DataFlavor(mt, prn);
-        } catch (Exception e) {
+            return new DbtbFlbvor(mt, prn);
+        } cbtch (Exception e) {
             return null;
         }
     }
 
     /*
-     * private initializer
+     * privbte initiblizer
      */
-    static private DataFlavor initHtmlDataFlavor(String htmlFlavorType) {
+    stbtic privbte DbtbFlbvor initHtmlDbtbFlbvor(String htmlFlbvorType) {
         try {
-            return new DataFlavor ("text/html; class=java.lang.String;document=" +
-                                       htmlFlavorType + ";charset=Unicode");
-        } catch (Exception e) {
+            return new DbtbFlbvor ("text/html; clbss=jbvb.lbng.String;document=" +
+                                       htmlFlbvorType + ";chbrset=Unicode");
+        } cbtch (Exception e) {
             return null;
         }
     }
 
     /**
-     * The <code>DataFlavor</code> representing a Java Unicode String class,
+     * The <code>DbtbFlbvor</code> representing b Jbvb Unicode String clbss,
      * where:
      * <pre>
-     *     representationClass = java.lang.String
-     *     mimeType           = "application/x-java-serialized-object"
+     *     representbtionClbss = jbvb.lbng.String
+     *     mimeType           = "bpplicbtion/x-jbvb-seriblized-object"
      * </pre>
      */
-    public static final DataFlavor stringFlavor = createConstant(java.lang.String.class, "Unicode String");
+    public stbtic finbl DbtbFlbvor stringFlbvor = crebteConstbnt(jbvb.lbng.String.clbss, "Unicode String");
 
     /**
-     * The <code>DataFlavor</code> representing a Java Image class,
+     * The <code>DbtbFlbvor</code> representing b Jbvb Imbge clbss,
      * where:
      * <pre>
-     *     representationClass = java.awt.Image
-     *     mimeType            = "image/x-java-image"
+     *     representbtionClbss = jbvb.bwt.Imbge
+     *     mimeType            = "imbge/x-jbvb-imbge"
      * </pre>
      */
-    public static final DataFlavor imageFlavor = createConstant("image/x-java-image; class=java.awt.Image", "Image");
+    public stbtic finbl DbtbFlbvor imbgeFlbvor = crebteConstbnt("imbge/x-jbvb-imbge; clbss=jbvb.bwt.Imbge", "Imbge");
 
     /**
-     * The <code>DataFlavor</code> representing plain text with Unicode
+     * The <code>DbtbFlbvor</code> representing plbin text with Unicode
      * encoding, where:
      * <pre>
-     *     representationClass = InputStream
-     *     mimeType            = "text/plain; charset=unicode"
+     *     representbtionClbss = InputStrebm
+     *     mimeType            = "text/plbin; chbrset=unicode"
      * </pre>
-     * This <code>DataFlavor</code> has been <b>deprecated</b> because
-     * (1) Its representation is an InputStream, an 8-bit based representation,
-     * while Unicode is a 16-bit character set; and (2) The charset "unicode"
-     * is not well-defined. "unicode" implies a particular platform's
-     * implementation of Unicode, not a cross-platform implementation.
+     * This <code>DbtbFlbvor</code> hbs been <b>deprecbted</b> becbuse
+     * (1) Its representbtion is bn InputStrebm, bn 8-bit bbsed representbtion,
+     * while Unicode is b 16-bit chbrbcter set; bnd (2) The chbrset "unicode"
+     * is not well-defined. "unicode" implies b pbrticulbr plbtform's
+     * implementbtion of Unicode, not b cross-plbtform implementbtion.
      *
-     * @deprecated as of 1.3. Use <code>DataFlavor.getReaderForText(Transferable)</code>
-     *             instead of <code>Transferable.getTransferData(DataFlavor.plainTextFlavor)</code>.
+     * @deprecbted bs of 1.3. Use <code>DbtbFlbvor.getRebderForText(Trbnsferbble)</code>
+     *             instebd of <code>Trbnsferbble.getTrbnsferDbtb(DbtbFlbvor.plbinTextFlbvor)</code>.
      */
-    @Deprecated
-    public static final DataFlavor plainTextFlavor = createConstant("text/plain; charset=unicode; class=java.io.InputStream", "Plain Text");
+    @Deprecbted
+    public stbtic finbl DbtbFlbvor plbinTextFlbvor = crebteConstbnt("text/plbin; chbrset=unicode; clbss=jbvb.io.InputStrebm", "Plbin Text");
 
     /**
-     * A MIME Content-Type of application/x-java-serialized-object represents
-     * a graph of Java object(s) that have been made persistent.
+     * A MIME Content-Type of bpplicbtion/x-jbvb-seriblized-object represents
+     * b grbph of Jbvb object(s) thbt hbve been mbde persistent.
      *
-     * The representation class associated with this <code>DataFlavor</code>
-     * identifies the Java type of an object returned as a reference
-     * from an invocation <code>java.awt.datatransfer.getTransferData</code>.
+     * The representbtion clbss bssocibted with this <code>DbtbFlbvor</code>
+     * identifies the Jbvb type of bn object returned bs b reference
+     * from bn invocbtion <code>jbvb.bwt.dbtbtrbnsfer.getTrbnsferDbtb</code>.
      */
-    public static final String javaSerializedObjectMimeType = "application/x-java-serialized-object";
+    public stbtic finbl String jbvbSeriblizedObjectMimeType = "bpplicbtion/x-jbvb-seriblized-object";
 
     /**
-     * To transfer a list of files to/from Java (and the underlying
-     * platform) a <code>DataFlavor</code> of this type/subtype and
-     * representation class of <code>java.util.List</code> is used.
-     * Each element of the list is required/guaranteed to be of type
-     * <code>java.io.File</code>.
+     * To trbnsfer b list of files to/from Jbvb (bnd the underlying
+     * plbtform) b <code>DbtbFlbvor</code> of this type/subtype bnd
+     * representbtion clbss of <code>jbvb.util.List</code> is used.
+     * Ebch element of the list is required/gubrbnteed to be of type
+     * <code>jbvb.io.File</code>.
      */
-    public static final DataFlavor javaFileListFlavor = createConstant("application/x-java-file-list;class=java.util.List", null);
+    public stbtic finbl DbtbFlbvor jbvbFileListFlbvor = crebteConstbnt("bpplicbtion/x-jbvb-file-list;clbss=jbvb.util.List", null);
 
     /**
-     * To transfer a reference to an arbitrary Java object reference that
-     * has no associated MIME Content-type, across a <code>Transferable</code>
-     * interface WITHIN THE SAME JVM, a <code>DataFlavor</code>
-     * with this type/subtype is used, with a <code>representationClass</code>
-     * equal to the type of the class/interface being passed across the
-     * <code>Transferable</code>.
+     * To trbnsfer b reference to bn brbitrbry Jbvb object reference thbt
+     * hbs no bssocibted MIME Content-type, bcross b <code>Trbnsferbble</code>
+     * interfbce WITHIN THE SAME JVM, b <code>DbtbFlbvor</code>
+     * with this type/subtype is used, with b <code>representbtionClbss</code>
+     * equbl to the type of the clbss/interfbce being pbssed bcross the
+     * <code>Trbnsferbble</code>.
      * <p>
      * The object reference returned from
-     * <code>Transferable.getTransferData</code> for a <code>DataFlavor</code>
+     * <code>Trbnsferbble.getTrbnsferDbtb</code> for b <code>DbtbFlbvor</code>
      * with this MIME Content-Type is required to be
-     * an instance of the representation Class of the <code>DataFlavor</code>.
+     * bn instbnce of the representbtion Clbss of the <code>DbtbFlbvor</code>.
      */
-    public static final String javaJVMLocalObjectMimeType = "application/x-java-jvm-local-objectref";
+    public stbtic finbl String jbvbJVMLocblObjectMimeType = "bpplicbtion/x-jbvb-jvm-locbl-objectref";
 
     /**
-     * In order to pass a live link to a Remote object via a Drag and Drop
-     * <code>ACTION_LINK</code> operation a Mime Content Type of
-     * application/x-java-remote-object should be used,
-     * where the representation class of the <code>DataFlavor</code>
-     * represents the type of the <code>Remote</code> interface to be
-     * transferred.
+     * In order to pbss b live link to b Remote object vib b Drbg bnd Drop
+     * <code>ACTION_LINK</code> operbtion b Mime Content Type of
+     * bpplicbtion/x-jbvb-remote-object should be used,
+     * where the representbtion clbss of the <code>DbtbFlbvor</code>
+     * represents the type of the <code>Remote</code> interfbce to be
+     * trbnsferred.
      */
-    public static final String javaRemoteObjectMimeType = "application/x-java-remote-object";
+    public stbtic finbl String jbvbRemoteObjectMimeType = "bpplicbtion/x-jbvb-remote-object";
 
     /**
-     * Represents a piece of an HTML markup. The markup consists of the part
-     * selected on the source side. Therefore some tags in the markup may be
-     * unpaired. If the flavor is used to represent the data in
-     * a {@link Transferable} instance, no additional changes will be made.
-     * This DataFlavor instance represents the same HTML markup as DataFlavor
-     * instances which content MIME type does not contain document parameter
-     * and representation class is the String class.
+     * Represents b piece of bn HTML mbrkup. The mbrkup consists of the pbrt
+     * selected on the source side. Therefore some tbgs in the mbrkup mby be
+     * unpbired. If the flbvor is used to represent the dbtb in
+     * b {@link Trbnsferbble} instbnce, no bdditionbl chbnges will be mbde.
+     * This DbtbFlbvor instbnce represents the sbme HTML mbrkup bs DbtbFlbvor
+     * instbnces which content MIME type does not contbin document pbrbmeter
+     * bnd representbtion clbss is the String clbss.
      * <pre>
-     *     representationClass = String
+     *     representbtionClbss = String
      *     mimeType           = "text/html"
      * </pre>
      */
-    public static DataFlavor selectionHtmlFlavor = initHtmlDataFlavor("selection");
+    public stbtic DbtbFlbvor selectionHtmlFlbvor = initHtmlDbtbFlbvor("selection");
 
     /**
-     * Represents a piece of an HTML markup. If possible, the markup received
-     * from a native system is supplemented with pair tags to be
-     * a well-formed HTML markup. If the flavor is used to represent the data in
-     * a {@link Transferable} instance, no additional changes will be made.
+     * Represents b piece of bn HTML mbrkup. If possible, the mbrkup received
+     * from b nbtive system is supplemented with pbir tbgs to be
+     * b well-formed HTML mbrkup. If the flbvor is used to represent the dbtb in
+     * b {@link Trbnsferbble} instbnce, no bdditionbl chbnges will be mbde.
      * <pre>
-     *     representationClass = String
+     *     representbtionClbss = String
      *     mimeType           = "text/html"
      * </pre>
      */
-    public static DataFlavor fragmentHtmlFlavor = initHtmlDataFlavor("fragment");
+    public stbtic DbtbFlbvor frbgmentHtmlFlbvor = initHtmlDbtbFlbvor("frbgment");
 
     /**
-     * Represents a piece of an HTML markup. If possible, the markup
-     * received from a native system is supplemented with additional
-     * tags to make up a well-formed HTML document. If the flavor is used to
-     * represent the data in a {@link Transferable} instance,
-     * no additional changes will be made.
+     * Represents b piece of bn HTML mbrkup. If possible, the mbrkup
+     * received from b nbtive system is supplemented with bdditionbl
+     * tbgs to mbke up b well-formed HTML document. If the flbvor is used to
+     * represent the dbtb in b {@link Trbnsferbble} instbnce,
+     * no bdditionbl chbnges will be mbde.
      * <pre>
-     *     representationClass = String
+     *     representbtionClbss = String
      *     mimeType           = "text/html"
      * </pre>
      */
-    public static  DataFlavor allHtmlFlavor = initHtmlDataFlavor("all");
+    public stbtic  DbtbFlbvor bllHtmlFlbvor = initHtmlDbtbFlbvor("bll");
 
     /**
-     * Constructs a new <code>DataFlavor</code>.  This constructor is
+     * Constructs b new <code>DbtbFlbvor</code>.  This constructor is
      * provided only for the purpose of supporting the
-     * <code>Externalizable</code> interface.  It is not
+     * <code>Externblizbble</code> interfbce.  It is not
      * intended for public (client) use.
      *
      * @since 1.2
      */
-    public DataFlavor() {
+    public DbtbFlbvor() {
         super();
     }
 
     /**
-     * Constructs a fully specified <code>DataFlavor</code>.
+     * Constructs b fully specified <code>DbtbFlbvor</code>.
      *
-     * @exception NullPointerException if either <code>primaryType</code>,
-     *            <code>subType</code> or <code>representationClass</code> is null
+     * @exception NullPointerException if either <code>primbryType</code>,
+     *            <code>subType</code> or <code>representbtionClbss</code> is null
      */
-    private DataFlavor(String primaryType, String subType, MimeTypeParameterList params, Class<?> representationClass, String humanPresentableName) {
+    privbte DbtbFlbvor(String primbryType, String subType, MimeTypePbrbmeterList pbrbms, Clbss<?> representbtionClbss, String humbnPresentbbleNbme) {
         super();
-        if (primaryType == null) {
-            throw new NullPointerException("primaryType");
+        if (primbryType == null) {
+            throw new NullPointerException("primbryType");
         }
         if (subType == null) {
             throw new NullPointerException("subType");
         }
-        if (representationClass == null) {
-            throw new NullPointerException("representationClass");
+        if (representbtionClbss == null) {
+            throw new NullPointerException("representbtionClbss");
         }
 
-        if (params == null) params = new MimeTypeParameterList();
+        if (pbrbms == null) pbrbms = new MimeTypePbrbmeterList();
 
-        params.set("class", representationClass.getName());
+        pbrbms.set("clbss", representbtionClbss.getNbme());
 
-        if (humanPresentableName == null) {
-            humanPresentableName = params.get("humanPresentableName");
+        if (humbnPresentbbleNbme == null) {
+            humbnPresentbbleNbme = pbrbms.get("humbnPresentbbleNbme");
 
-            if (humanPresentableName == null)
-                humanPresentableName = primaryType + "/" + subType;
+            if (humbnPresentbbleNbme == null)
+                humbnPresentbbleNbme = primbryType + "/" + subType;
         }
 
         try {
-            mimeType = new MimeType(primaryType, subType, params);
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("MimeType Parse Exception: " + mtpe.getMessage());
+            mimeType = new MimeType(primbryType, subType, pbrbms);
+        } cbtch (MimeTypePbrseException mtpe) {
+            throw new IllegblArgumentException("MimeType Pbrse Exception: " + mtpe.getMessbge());
         }
 
-        this.representationClass  = representationClass;
-        this.humanPresentableName = humanPresentableName;
+        this.representbtionClbss  = representbtionClbss;
+        this.humbnPresentbbleNbme = humbnPresentbbleNbme;
 
-        mimeType.removeParameter("humanPresentableName");
+        mimeType.removePbrbmeter("humbnPresentbbleNbme");
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> that represents a Java class.
+     * Constructs b <code>DbtbFlbvor</code> thbt represents b Jbvb clbss.
      * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
+     * The returned <code>DbtbFlbvor</code> will hbve the following
+     * chbrbcteristics:
      * <pre>
-     *    representationClass = representationClass
-     *    mimeType            = application/x-java-serialized-object
+     *    representbtionClbss = representbtionClbss
+     *    mimeType            = bpplicbtion/x-jbvb-seriblized-object
      * </pre>
-     * @param representationClass the class used to transfer data in this flavor
-     * @param humanPresentableName the human-readable string used to identify
-     *                 this flavor; if this parameter is <code>null</code>
-     *                 then the value of the the MIME Content Type is used
-     * @exception NullPointerException if <code>representationClass</code> is null
+     * @pbrbm representbtionClbss the clbss used to trbnsfer dbtb in this flbvor
+     * @pbrbm humbnPresentbbleNbme the humbn-rebdbble string used to identify
+     *                 this flbvor; if this pbrbmeter is <code>null</code>
+     *                 then the vblue of the the MIME Content Type is used
+     * @exception NullPointerException if <code>representbtionClbss</code> is null
      */
-    public DataFlavor(Class<?> representationClass, String humanPresentableName) {
-        this("application", "x-java-serialized-object", null, representationClass, humanPresentableName);
-        if (representationClass == null) {
-            throw new NullPointerException("representationClass");
+    public DbtbFlbvor(Clbss<?> representbtionClbss, String humbnPresentbbleNbme) {
+        this("bpplicbtion", "x-jbvb-seriblized-object", null, representbtionClbss, humbnPresentbbleNbme);
+        if (representbtionClbss == null) {
+            throw new NullPointerException("representbtionClbss");
         }
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> that represents a
+     * Constructs b <code>DbtbFlbvor</code> thbt represents b
      * <code>MimeType</code>.
      * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
+     * The returned <code>DbtbFlbvor</code> will hbve the following
+     * chbrbcteristics:
      * <p>
      * If the <code>mimeType</code> is
-     * "application/x-java-serialized-object; class=&lt;representation class&gt;",
-     * the result is the same as calling
-     * <code>new DataFlavor(Class.forName(&lt;representation class&gt;)</code>.
+     * "bpplicbtion/x-jbvb-seriblized-object; clbss=&lt;representbtion clbss&gt;",
+     * the result is the sbme bs cblling
+     * <code>new DbtbFlbvor(Clbss.forNbme(&lt;representbtion clbss&gt;)</code>.
      * <p>
      * Otherwise:
      * <pre>
-     *     representationClass = InputStream
+     *     representbtionClbss = InputStrebm
      *     mimeType            = mimeType
      * </pre>
-     * @param mimeType the string used to identify the MIME type for this flavor;
-     *                 if the <code>mimeType</code> does not specify a
-     *                 "class=" parameter, or if the class is not successfully
-     *                 loaded, then an <code>IllegalArgumentException</code>
+     * @pbrbm mimeType the string used to identify the MIME type for this flbvor;
+     *                 if the <code>mimeType</code> does not specify b
+     *                 "clbss=" pbrbmeter, or if the clbss is not successfully
+     *                 lobded, then bn <code>IllegblArgumentException</code>
      *                 is thrown
-     * @param humanPresentableName the human-readable string used to identify
-     *                 this flavor; if this parameter is <code>null</code>
-     *                 then the value of the the MIME Content Type is used
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid or if the class is not successfully loaded
+     * @pbrbm humbnPresentbbleNbme the humbn-rebdbble string used to identify
+     *                 this flbvor; if this pbrbmeter is <code>null</code>
+     *                 then the vblue of the the MIME Content Type is used
+     * @exception IllegblArgumentException if <code>mimeType</code> is
+     *                 invblid or if the clbss is not successfully lobded
      * @exception NullPointerException if <code>mimeType</code> is null
      */
-    public DataFlavor(String mimeType, String humanPresentableName) {
+    public DbtbFlbvor(String mimeType, String humbnPresentbbleNbme) {
         super();
         if (mimeType == null) {
             throw new NullPointerException("mimeType");
         }
         try {
-            initialize(mimeType, humanPresentableName, this.getClass().getClassLoader());
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
-        } catch (ClassNotFoundException cnfe) {
-            throw new IllegalArgumentException("can't find specified class: " + cnfe.getMessage());
+            initiblize(mimeType, humbnPresentbbleNbme, this.getClbss().getClbssLobder());
+        } cbtch (MimeTypePbrseException mtpe) {
+            throw new IllegblArgumentException("fbiled to pbrse:" + mimeType);
+        } cbtch (ClbssNotFoundException cnfe) {
+            throw new IllegblArgumentException("cbn't find specified clbss: " + cnfe.getMessbge());
         }
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> that represents a
+     * Constructs b <code>DbtbFlbvor</code> thbt represents b
      * <code>MimeType</code>.
      * <p>
-     * The returned <code>DataFlavor</code> will have the following
-     * characteristics:
+     * The returned <code>DbtbFlbvor</code> will hbve the following
+     * chbrbcteristics:
      * <p>
      * If the mimeType is
-     * "application/x-java-serialized-object; class=&lt;representation class&gt;",
-     * the result is the same as calling
-     * <code>new DataFlavor(Class.forName(&lt;representation class&gt;)</code>.
+     * "bpplicbtion/x-jbvb-seriblized-object; clbss=&lt;representbtion clbss&gt;",
+     * the result is the sbme bs cblling
+     * <code>new DbtbFlbvor(Clbss.forNbme(&lt;representbtion clbss&gt;)</code>.
      * <p>
      * Otherwise:
      * <pre>
-     *     representationClass = InputStream
+     *     representbtionClbss = InputStrebm
      *     mimeType            = mimeType
      * </pre>
-     * @param mimeType the string used to identify the MIME type for this flavor
-     * @param humanPresentableName the human-readable string used to
-     *          identify this flavor
-     * @param classLoader the class loader to use
-     * @exception ClassNotFoundException if the class is not loaded
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid
+     * @pbrbm mimeType the string used to identify the MIME type for this flbvor
+     * @pbrbm humbnPresentbbleNbme the humbn-rebdbble string used to
+     *          identify this flbvor
+     * @pbrbm clbssLobder the clbss lobder to use
+     * @exception ClbssNotFoundException if the clbss is not lobded
+     * @exception IllegblArgumentException if <code>mimeType</code> is
+     *                 invblid
      * @exception NullPointerException if <code>mimeType</code> is null
      */
-    public DataFlavor(String mimeType, String humanPresentableName, ClassLoader classLoader) throws ClassNotFoundException {
+    public DbtbFlbvor(String mimeType, String humbnPresentbbleNbme, ClbssLobder clbssLobder) throws ClbssNotFoundException {
         super();
         if (mimeType == null) {
             throw new NullPointerException("mimeType");
         }
         try {
-            initialize(mimeType, humanPresentableName, classLoader);
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
+            initiblize(mimeType, humbnPresentbbleNbme, clbssLobder);
+        } cbtch (MimeTypePbrseException mtpe) {
+            throw new IllegblArgumentException("fbiled to pbrse:" + mimeType);
         }
     }
 
     /**
-     * Constructs a <code>DataFlavor</code> from a <code>mimeType</code> string.
-     * The string can specify a "class=&lt;fully specified Java class name&gt;"
-     * parameter to create a <code>DataFlavor</code> with the desired
-     * representation class. If the string does not contain "class=" parameter,
-     * <code>java.io.InputStream</code> is used as default.
+     * Constructs b <code>DbtbFlbvor</code> from b <code>mimeType</code> string.
+     * The string cbn specify b "clbss=&lt;fully specified Jbvb clbss nbme&gt;"
+     * pbrbmeter to crebte b <code>DbtbFlbvor</code> with the desired
+     * representbtion clbss. If the string does not contbin "clbss=" pbrbmeter,
+     * <code>jbvb.io.InputStrebm</code> is used bs defbult.
      *
-     * @param mimeType the string used to identify the MIME type for this flavor;
-     *                 if the class specified by "class=" parameter is not
-     *                 successfully loaded, then an
-     *                 <code>ClassNotFoundException</code> is thrown
-     * @exception ClassNotFoundException if the class is not loaded
-     * @exception IllegalArgumentException if <code>mimeType</code> is
-     *                 invalid
+     * @pbrbm mimeType the string used to identify the MIME type for this flbvor;
+     *                 if the clbss specified by "clbss=" pbrbmeter is not
+     *                 successfully lobded, then bn
+     *                 <code>ClbssNotFoundException</code> is thrown
+     * @exception ClbssNotFoundException if the clbss is not lobded
+     * @exception IllegblArgumentException if <code>mimeType</code> is
+     *                 invblid
      * @exception NullPointerException if <code>mimeType</code> is null
      */
-    public DataFlavor(String mimeType) throws ClassNotFoundException {
+    public DbtbFlbvor(String mimeType) throws ClbssNotFoundException {
         super();
         if (mimeType == null) {
             throw new NullPointerException("mimeType");
         }
         try {
-            initialize(mimeType, null, this.getClass().getClassLoader());
-        } catch (MimeTypeParseException mtpe) {
-            throw new IllegalArgumentException("failed to parse:" + mimeType);
+            initiblize(mimeType, null, this.getClbss().getClbssLobder());
+        } cbtch (MimeTypePbrseException mtpe) {
+            throw new IllegblArgumentException("fbiled to pbrse:" + mimeType);
         }
     }
 
    /**
-    * Common initialization code called from various constructors.
+    * Common initiblizbtion code cblled from vbrious constructors.
     *
-    * @param mimeType the MIME Content Type (must have a class= param)
-    * @param humanPresentableName the human Presentable Name or
+    * @pbrbm mimeType the MIME Content Type (must hbve b clbss= pbrbm)
+    * @pbrbm humbnPresentbbleNbme the humbn Presentbble Nbme or
     *                 <code>null</code>
-    * @param classLoader the fallback class loader to resolve against
+    * @pbrbm clbssLobder the fbllbbck clbss lobder to resolve bgbinst
     *
-    * @throws MimeTypeParseException
-    * @throws ClassNotFoundException
+    * @throws MimeTypePbrseException
+    * @throws ClbssNotFoundException
     * @throws  NullPointerException if <code>mimeType</code> is null
     *
-    * @see #tryToLoadClass
+    * @see #tryToLobdClbss
     */
-    private void initialize(String mimeType, String humanPresentableName, ClassLoader classLoader) throws MimeTypeParseException, ClassNotFoundException {
+    privbte void initiblize(String mimeType, String humbnPresentbbleNbme, ClbssLobder clbssLobder) throws MimeTypePbrseException, ClbssNotFoundException {
         if (mimeType == null) {
             throw new NullPointerException("mimeType");
         }
 
         this.mimeType = new MimeType(mimeType); // throws
 
-        String rcn = getParameter("class");
+        String rcn = getPbrbmeter("clbss");
 
         if (rcn == null) {
-            if ("application/x-java-serialized-object".equals(this.mimeType.getBaseType()))
+            if ("bpplicbtion/x-jbvb-seriblized-object".equbls(this.mimeType.getBbseType()))
 
-                throw new IllegalArgumentException("no representation class specified for:" + mimeType);
+                throw new IllegblArgumentException("no representbtion clbss specified for:" + mimeType);
             else
-                representationClass = java.io.InputStream.class; // default
-        } else { // got a class name
-            representationClass = DataFlavor.tryToLoadClass(rcn, classLoader);
+                representbtionClbss = jbvb.io.InputStrebm.clbss; // defbult
+        } else { // got b clbss nbme
+            representbtionClbss = DbtbFlbvor.tryToLobdClbss(rcn, clbssLobder);
         }
 
-        this.mimeType.setParameter("class", representationClass.getName());
+        this.mimeType.setPbrbmeter("clbss", representbtionClbss.getNbme());
 
-        if (humanPresentableName == null) {
-            humanPresentableName = this.mimeType.getParameter("humanPresentableName");
-            if (humanPresentableName == null)
-                humanPresentableName = this.mimeType.getPrimaryType() + "/" + this.mimeType.getSubType();
+        if (humbnPresentbbleNbme == null) {
+            humbnPresentbbleNbme = this.mimeType.getPbrbmeter("humbnPresentbbleNbme");
+            if (humbnPresentbbleNbme == null)
+                humbnPresentbbleNbme = this.mimeType.getPrimbryType() + "/" + this.mimeType.getSubType();
         }
 
-        this.humanPresentableName = humanPresentableName; // set it.
+        this.humbnPresentbbleNbme = humbnPresentbbleNbme; // set it.
 
-        this.mimeType.removeParameter("humanPresentableName"); // just in case
+        this.mimeType.removePbrbmeter("humbnPresentbbleNbme"); // just in cbse
     }
 
     /**
-     * String representation of this <code>DataFlavor</code> and its
-     * parameters. The resulting <code>String</code> contains the name of
-     * the <code>DataFlavor</code> class, this flavor's MIME type, and its
-     * representation class. If this flavor has a primary MIME type of "text",
-     * supports the charset parameter, and has an encoded representation, the
-     * flavor's charset is also included. See <code>selectBestTextFlavor</code>
-     * for a list of text flavors which support the charset parameter.
+     * String representbtion of this <code>DbtbFlbvor</code> bnd its
+     * pbrbmeters. The resulting <code>String</code> contbins the nbme of
+     * the <code>DbtbFlbvor</code> clbss, this flbvor's MIME type, bnd its
+     * representbtion clbss. If this flbvor hbs b primbry MIME type of "text",
+     * supports the chbrset pbrbmeter, bnd hbs bn encoded representbtion, the
+     * flbvor's chbrset is blso included. See <code>selectBestTextFlbvor</code>
+     * for b list of text flbvors which support the chbrset pbrbmeter.
      *
-     * @return  string representation of this <code>DataFlavor</code>
-     * @see #selectBestTextFlavor
+     * @return  string representbtion of this <code>DbtbFlbvor</code>
+     * @see #selectBestTextFlbvor
      */
     public String toString() {
-        String string = getClass().getName();
-        string += "["+paramString()+"]";
+        String string = getClbss().getNbme();
+        string += "["+pbrbmString()+"]";
         return string;
     }
 
-    private String paramString() {
-        String params = "";
-        params += "mimetype=";
+    privbte String pbrbmString() {
+        String pbrbms = "";
+        pbrbms += "mimetype=";
         if (mimeType == null) {
-            params += "null";
+            pbrbms += "null";
         } else {
-            params += mimeType.getBaseType();
+            pbrbms += mimeType.getBbseType();
         }
-        params += ";representationclass=";
-        if (representationClass == null) {
-           params += "null";
+        pbrbms += ";representbtionclbss=";
+        if (representbtionClbss == null) {
+           pbrbms += "null";
         } else {
-           params += representationClass.getName();
+           pbrbms += representbtionClbss.getNbme();
         }
-        if (DataTransferer.isFlavorCharsetTextType(this) &&
-            (isRepresentationClassInputStream() ||
-             isRepresentationClassByteBuffer() ||
-             byte[].class.equals(representationClass)))
+        if (DbtbTrbnsferer.isFlbvorChbrsetTextType(this) &&
+            (isRepresentbtionClbssInputStrebm() ||
+             isRepresentbtionClbssByteBuffer() ||
+             byte[].clbss.equbls(representbtionClbss)))
         {
-            params += ";charset=" + DataTransferer.getTextCharset(this);
+            pbrbms += ";chbrset=" + DbtbTrbnsferer.getTextChbrset(this);
         }
-        return params;
+        return pbrbms;
     }
 
     /**
-     * Returns a <code>DataFlavor</code> representing plain text with Unicode
+     * Returns b <code>DbtbFlbvor</code> representing plbin text with Unicode
      * encoding, where:
      * <pre>
-     *     representationClass = java.io.InputStream
-     *     mimeType            = "text/plain;
-     *                            charset=&lt;platform default Unicode encoding&gt;"
+     *     representbtionClbss = jbvb.io.InputStrebm
+     *     mimeType            = "text/plbin;
+     *                            chbrset=&lt;plbtform defbult Unicode encoding&gt;"
      * </pre>
-     * Sun's implementation for Microsoft Windows uses the encoding <code>utf-16le</code>.
-     * Sun's implementation for Solaris and Linux uses the encoding
+     * Sun's implementbtion for Microsoft Windows uses the encoding <code>utf-16le</code>.
+     * Sun's implementbtion for Solbris bnd Linux uses the encoding
      * <code>iso-10646-ucs-2</code>.
      *
-     * @return a <code>DataFlavor</code> representing plain text
+     * @return b <code>DbtbFlbvor</code> representing plbin text
      *    with Unicode encoding
      * @since 1.3
      */
-    public static final DataFlavor getTextPlainUnicodeFlavor() {
+    public stbtic finbl DbtbFlbvor getTextPlbinUnicodeFlbvor() {
         String encoding = null;
-        DataTransferer transferer = DataTransferer.getInstance();
-        if (transferer != null) {
-            encoding = transferer.getDefaultUnicodeEncoding();
+        DbtbTrbnsferer trbnsferer = DbtbTrbnsferer.getInstbnce();
+        if (trbnsferer != null) {
+            encoding = trbnsferer.getDefbultUnicodeEncoding();
         }
-        return new DataFlavor(
-            "text/plain;charset="+encoding
-            +";class=java.io.InputStream", "Plain Text");
+        return new DbtbFlbvor(
+            "text/plbin;chbrset="+encoding
+            +";clbss=jbvb.io.InputStrebm", "Plbin Text");
     }
 
     /**
-     * Selects the best text <code>DataFlavor</code> from an array of <code>
-     * DataFlavor</code>s. Only <code>DataFlavor.stringFlavor</code>, and
-     * equivalent flavors, and flavors that have a primary MIME type of "text",
-     * are considered for selection.
+     * Selects the best text <code>DbtbFlbvor</code> from bn brrby of <code>
+     * DbtbFlbvor</code>s. Only <code>DbtbFlbvor.stringFlbvor</code>, bnd
+     * equivblent flbvors, bnd flbvors thbt hbve b primbry MIME type of "text",
+     * bre considered for selection.
      * <p>
-     * Flavors are first sorted by their MIME types in the following order:
+     * Flbvors bre first sorted by their MIME types in the following order:
      * <ul>
      * <li>"text/sgml"
      * <li>"text/xml"
@@ -634,26 +634,26 @@ public class DataFlavor implements Externalizable, Cloneable {
      * <li>"text/enriched"
      * <li>"text/richtext"
      * <li>"text/uri-list"
-     * <li>"text/tab-separated-values"
+     * <li>"text/tbb-sepbrbted-vblues"
      * <li>"text/t140"
-     * <li>"text/rfc822-headers"
-     * <li>"text/parityfec"
+     * <li>"text/rfc822-hebders"
+     * <li>"text/pbrityfec"
      * <li>"text/directory"
      * <li>"text/css"
-     * <li>"text/calendar"
-     * <li>"application/x-java-serialized-object"
-     * <li>"text/plain"
+     * <li>"text/cblendbr"
+     * <li>"bpplicbtion/x-jbvb-seriblized-object"
+     * <li>"text/plbin"
      * <li>"text/&lt;other&gt;"
      * </ul>
-     * <p>For example, "text/sgml" will be selected over
-     * "text/html", and <code>DataFlavor.stringFlavor</code> will be chosen
-     * over <code>DataFlavor.plainTextFlavor</code>.
+     * <p>For exbmple, "text/sgml" will be selected over
+     * "text/html", bnd <code>DbtbFlbvor.stringFlbvor</code> will be chosen
+     * over <code>DbtbFlbvor.plbinTextFlbvor</code>.
      * <p>
-     * If two or more flavors share the best MIME type in the array, then that
-     * MIME type will be checked to see if it supports the charset parameter.
+     * If two or more flbvors shbre the best MIME type in the brrby, then thbt
+     * MIME type will be checked to see if it supports the chbrset pbrbmeter.
      * <p>
-     * The following MIME types support, or are treated as though they support,
-     * the charset parameter:
+     * The following MIME types support, or bre trebted bs though they support,
+     * the chbrset pbrbmeter:
      * <ul>
      * <li>"text/sgml"
      * <li>"text/xml"
@@ -663,131 +663,131 @@ public class DataFlavor implements Externalizable, Cloneable {
      * <li>"text/uri-list"
      * <li>"text/directory"
      * <li>"text/css"
-     * <li>"text/calendar"
-     * <li>"application/x-java-serialized-object"
-     * <li>"text/plain"
+     * <li>"text/cblendbr"
+     * <li>"bpplicbtion/x-jbvb-seriblized-object"
+     * <li>"text/plbin"
      * </ul>
-     * The following MIME types do not support, or are treated as though they
-     * do not support, the charset parameter:
+     * The following MIME types do not support, or bre trebted bs though they
+     * do not support, the chbrset pbrbmeter:
      * <ul>
      * <li>"text/rtf"
-     * <li>"text/tab-separated-values"
+     * <li>"text/tbb-sepbrbted-vblues"
      * <li>"text/t140"
-     * <li>"text/rfc822-headers"
-     * <li>"text/parityfec"
+     * <li>"text/rfc822-hebders"
+     * <li>"text/pbrityfec"
      * </ul>
      * For "text/&lt;other&gt;" MIME types, the first time the JRE needs to
-     * determine whether the MIME type supports the charset parameter, it will
-     * check whether the parameter is explicitly listed in an arbitrarily
-     * chosen <code>DataFlavor</code> which uses that MIME type. If so, the JRE
-     * will assume from that point on that the MIME type supports the charset
-     * parameter and will not check again. If the parameter is not explicitly
-     * listed, the JRE will assume from that point on that the MIME type does
-     * not support the charset parameter and will not check again. Because
-     * this check is performed on an arbitrarily chosen
-     * <code>DataFlavor</code>, developers must ensure that all
-     * <code>DataFlavor</code>s with a "text/&lt;other&gt;" MIME type specify
-     * the charset parameter if it is supported by that MIME type. Developers
-     * should never rely on the JRE to substitute the platform's default
-     * charset for a "text/&lt;other&gt;" DataFlavor. Failure to adhere to this
-     * restriction will lead to undefined behavior.
+     * determine whether the MIME type supports the chbrset pbrbmeter, it will
+     * check whether the pbrbmeter is explicitly listed in bn brbitrbrily
+     * chosen <code>DbtbFlbvor</code> which uses thbt MIME type. If so, the JRE
+     * will bssume from thbt point on thbt the MIME type supports the chbrset
+     * pbrbmeter bnd will not check bgbin. If the pbrbmeter is not explicitly
+     * listed, the JRE will bssume from thbt point on thbt the MIME type does
+     * not support the chbrset pbrbmeter bnd will not check bgbin. Becbuse
+     * this check is performed on bn brbitrbrily chosen
+     * <code>DbtbFlbvor</code>, developers must ensure thbt bll
+     * <code>DbtbFlbvor</code>s with b "text/&lt;other&gt;" MIME type specify
+     * the chbrset pbrbmeter if it is supported by thbt MIME type. Developers
+     * should never rely on the JRE to substitute the plbtform's defbult
+     * chbrset for b "text/&lt;other&gt;" DbtbFlbvor. Fbilure to bdhere to this
+     * restriction will lebd to undefined behbvior.
      * <p>
-     * If the best MIME type in the array does not support the charset
-     * parameter, the flavors which share that MIME type will then be sorted by
-     * their representation classes in the following order:
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * <code>[B</code>, &lt;all others&gt;.
+     * If the best MIME type in the brrby does not support the chbrset
+     * pbrbmeter, the flbvors which shbre thbt MIME type will then be sorted by
+     * their representbtion clbsses in the following order:
+     * <code>jbvb.io.InputStrebm</code>, <code>jbvb.nio.ByteBuffer</code>,
+     * <code>[B</code>, &lt;bll others&gt;.
      * <p>
-     * If two or more flavors share the best representation class, or if no
-     * flavor has one of the three specified representations, then one of those
-     * flavors will be chosen non-deterministically.
+     * If two or more flbvors shbre the best representbtion clbss, or if no
+     * flbvor hbs one of the three specified representbtions, then one of those
+     * flbvors will be chosen non-deterministicblly.
      * <p>
-     * If the best MIME type in the array does support the charset parameter,
-     * the flavors which share that MIME type will then be sorted by their
-     * representation classes in the following order:
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>, &lt;all others&gt;.
+     * If the best MIME type in the brrby does support the chbrset pbrbmeter,
+     * the flbvors which shbre thbt MIME type will then be sorted by their
+     * representbtion clbsses in the following order:
+     * <code>jbvb.io.Rebder</code>, <code>jbvb.lbng.String</code>,
+     * <code>jbvb.nio.ChbrBuffer</code>, <code>[C</code>, &lt;bll others&gt;.
      * <p>
-     * If two or more flavors share the best representation class, and that
-     * representation is one of the four explicitly listed, then one of those
-     * flavors will be chosen non-deterministically. If, however, no flavor has
-     * one of the four specified representations, the flavors will then be
-     * sorted by their charsets. Unicode charsets, such as "UTF-16", "UTF-8",
-     * "UTF-16BE", "UTF-16LE", and their aliases, are considered best. After
-     * them, the platform default charset and its aliases are selected.
-     * "US-ASCII" and its aliases are worst. All other charsets are chosen in
-     * alphabetical order, but only charsets supported by this implementation
-     * of the Java platform will be considered.
+     * If two or more flbvors shbre the best representbtion clbss, bnd thbt
+     * representbtion is one of the four explicitly listed, then one of those
+     * flbvors will be chosen non-deterministicblly. If, however, no flbvor hbs
+     * one of the four specified representbtions, the flbvors will then be
+     * sorted by their chbrsets. Unicode chbrsets, such bs "UTF-16", "UTF-8",
+     * "UTF-16BE", "UTF-16LE", bnd their blibses, bre considered best. After
+     * them, the plbtform defbult chbrset bnd its blibses bre selected.
+     * "US-ASCII" bnd its blibses bre worst. All other chbrsets bre chosen in
+     * blphbbeticbl order, but only chbrsets supported by this implementbtion
+     * of the Jbvb plbtform will be considered.
      * <p>
-     * If two or more flavors share the best charset, the flavors will then
-     * again be sorted by their representation classes in the following order:
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * <code>[B</code>, &lt;all others&gt;.
+     * If two or more flbvors shbre the best chbrset, the flbvors will then
+     * bgbin be sorted by their representbtion clbsses in the following order:
+     * <code>jbvb.io.InputStrebm</code>, <code>jbvb.nio.ByteBuffer</code>,
+     * <code>[B</code>, &lt;bll others&gt;.
      * <p>
-     * If two or more flavors share the best representation class, or if no
-     * flavor has one of the three specified representations, then one of those
-     * flavors will be chosen non-deterministically.
+     * If two or more flbvors shbre the best representbtion clbss, or if no
+     * flbvor hbs one of the three specified representbtions, then one of those
+     * flbvors will be chosen non-deterministicblly.
      *
-     * @param availableFlavors an array of available <code>DataFlavor</code>s
-     * @return the best (highest fidelity) flavor according to the rules
-     *         specified above, or <code>null</code>,
-     *         if <code>availableFlavors</code> is <code>null</code>,
-     *         has zero length, or contains no text flavors
+     * @pbrbm bvbilbbleFlbvors bn brrby of bvbilbble <code>DbtbFlbvor</code>s
+     * @return the best (highest fidelity) flbvor bccording to the rules
+     *         specified bbove, or <code>null</code>,
+     *         if <code>bvbilbbleFlbvors</code> is <code>null</code>,
+     *         hbs zero length, or contbins no text flbvors
      * @since 1.3
      */
-    public static final DataFlavor selectBestTextFlavor(
-                                       DataFlavor[] availableFlavors) {
-        if (availableFlavors == null || availableFlavors.length == 0) {
+    public stbtic finbl DbtbFlbvor selectBestTextFlbvor(
+                                       DbtbFlbvor[] bvbilbbleFlbvors) {
+        if (bvbilbbleFlbvors == null || bvbilbbleFlbvors.length == 0) {
             return null;
         }
 
-        if (textFlavorComparator == null) {
-            textFlavorComparator = new TextFlavorComparator();
+        if (textFlbvorCompbrbtor == null) {
+            textFlbvorCompbrbtor = new TextFlbvorCompbrbtor();
         }
 
-        DataFlavor bestFlavor = Collections.max(Arrays.asList(availableFlavors),
-                                                textFlavorComparator);
+        DbtbFlbvor bestFlbvor = Collections.mbx(Arrbys.bsList(bvbilbbleFlbvors),
+                                                textFlbvorCompbrbtor);
 
-        if (!bestFlavor.isFlavorTextType()) {
+        if (!bestFlbvor.isFlbvorTextType()) {
             return null;
         }
 
-        return bestFlavor;
+        return bestFlbvor;
     }
 
-    private static Comparator<DataFlavor> textFlavorComparator;
+    privbte stbtic Compbrbtor<DbtbFlbvor> textFlbvorCompbrbtor;
 
-    static class TextFlavorComparator
-            extends DataTransferer.DataFlavorComparator {
+    stbtic clbss TextFlbvorCompbrbtor
+            extends DbtbTrbnsferer.DbtbFlbvorCompbrbtor {
 
         /**
-         * Compares two <code>DataFlavor</code> objects. Returns a negative
-         * integer, zero, or a positive integer as the first
-         * <code>DataFlavor</code> is worse than, equal to, or better than the
+         * Compbres two <code>DbtbFlbvor</code> objects. Returns b negbtive
+         * integer, zero, or b positive integer bs the first
+         * <code>DbtbFlbvor</code> is worse thbn, equbl to, or better thbn the
          * second.
          * <p>
-         * <code>DataFlavor</code>s are ordered according to the rules outlined
-         * for <code>selectBestTextFlavor</code>.
+         * <code>DbtbFlbvor</code>s bre ordered bccording to the rules outlined
+         * for <code>selectBestTextFlbvor</code>.
          *
-         * @param flavor1 the first <code>DataFlavor</code> to be compared
-         * @param flavor2 the second <code>DataFlavor</code> to be compared
-         * @return a negative integer, zero, or a positive integer as the first
-         *         argument is worse, equal to, or better than the second
-         * @throws ClassCastException if either of the arguments is not an
-         *         instance of <code>DataFlavor</code>
-         * @throws NullPointerException if either of the arguments is
+         * @pbrbm flbvor1 the first <code>DbtbFlbvor</code> to be compbred
+         * @pbrbm flbvor2 the second <code>DbtbFlbvor</code> to be compbred
+         * @return b negbtive integer, zero, or b positive integer bs the first
+         *         brgument is worse, equbl to, or better thbn the second
+         * @throws ClbssCbstException if either of the brguments is not bn
+         *         instbnce of <code>DbtbFlbvor</code>
+         * @throws NullPointerException if either of the brguments is
          *         <code>null</code>
          *
-         * @see #selectBestTextFlavor
+         * @see #selectBestTextFlbvor
          */
-        public int compare(DataFlavor flavor1, DataFlavor flavor2) {
-            if (flavor1.isFlavorTextType()) {
-                if (flavor2.isFlavorTextType()) {
-                    return super.compare(flavor1, flavor2);
+        public int compbre(DbtbFlbvor flbvor1, DbtbFlbvor flbvor2) {
+            if (flbvor1.isFlbvorTextType()) {
+                if (flbvor2.isFlbvorTextType()) {
+                    return super.compbre(flbvor1, flbvor2);
                 } else {
                     return 1;
                 }
-            } else if (flavor2.isFlavorTextType()) {
+            } else if (flbvor2.isFlbvorTextType()) {
                 return -1;
             } else {
                 return 0;
@@ -796,242 +796,242 @@ public class DataFlavor implements Externalizable, Cloneable {
     }
 
     /**
-     * Gets a Reader for a text flavor, decoded, if necessary, for the expected
-     * charset (encoding). The supported representation classes are
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>,
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>,
-     * and <code>[B</code>.
+     * Gets b Rebder for b text flbvor, decoded, if necessbry, for the expected
+     * chbrset (encoding). The supported representbtion clbsses bre
+     * <code>jbvb.io.Rebder</code>, <code>jbvb.lbng.String</code>,
+     * <code>jbvb.nio.ChbrBuffer</code>, <code>[C</code>,
+     * <code>jbvb.io.InputStrebm</code>, <code>jbvb.nio.ByteBuffer</code>,
+     * bnd <code>[B</code>.
      * <p>
-     * Because text flavors which do not support the charset parameter are
-     * encoded in a non-standard format, this method should not be called for
-     * such flavors. However, in order to maintain backward-compatibility,
-     * if this method is called for such a flavor, this method will treat the
-     * flavor as though it supports the charset parameter and attempt to
-     * decode it accordingly. See <code>selectBestTextFlavor</code> for a list
-     * of text flavors which do not support the charset parameter.
+     * Becbuse text flbvors which do not support the chbrset pbrbmeter bre
+     * encoded in b non-stbndbrd formbt, this method should not be cblled for
+     * such flbvors. However, in order to mbintbin bbckwbrd-compbtibility,
+     * if this method is cblled for such b flbvor, this method will trebt the
+     * flbvor bs though it supports the chbrset pbrbmeter bnd bttempt to
+     * decode it bccordingly. See <code>selectBestTextFlbvor</code> for b list
+     * of text flbvors which do not support the chbrset pbrbmeter.
      *
-     * @param transferable the <code>Transferable</code> whose data will be
-     *        requested in this flavor
+     * @pbrbm trbnsferbble the <code>Trbnsferbble</code> whose dbtb will be
+     *        requested in this flbvor
      *
-     * @return a <code>Reader</code> to read the <code>Transferable</code>'s
-     *         data
+     * @return b <code>Rebder</code> to rebd the <code>Trbnsferbble</code>'s
+     *         dbtb
      *
-     * @exception IllegalArgumentException if the representation class
-     *            is not one of the seven listed above
-     * @exception IllegalArgumentException if the <code>Transferable</code>
-     *            has <code>null</code> data
-     * @exception NullPointerException if the <code>Transferable</code> is
+     * @exception IllegblArgumentException if the representbtion clbss
+     *            is not one of the seven listed bbove
+     * @exception IllegblArgumentException if the <code>Trbnsferbble</code>
+     *            hbs <code>null</code> dbtb
+     * @exception NullPointerException if the <code>Trbnsferbble</code> is
      *            <code>null</code>
-     * @exception UnsupportedEncodingException if this flavor's representation
-     *            is <code>java.io.InputStream</code>,
-     *            <code>java.nio.ByteBuffer</code>, or <code>[B</code> and
-     *            this flavor's encoding is not supported by this
-     *            implementation of the Java platform
-     * @exception UnsupportedFlavorException if the <code>Transferable</code>
-     *            does not support this flavor
-     * @exception IOException if the data cannot be read because of an
+     * @exception UnsupportedEncodingException if this flbvor's representbtion
+     *            is <code>jbvb.io.InputStrebm</code>,
+     *            <code>jbvb.nio.ByteBuffer</code>, or <code>[B</code> bnd
+     *            this flbvor's encoding is not supported by this
+     *            implementbtion of the Jbvb plbtform
+     * @exception UnsupportedFlbvorException if the <code>Trbnsferbble</code>
+     *            does not support this flbvor
+     * @exception IOException if the dbtb cbnnot be rebd becbuse of bn
      *            I/O error
-     * @see #selectBestTextFlavor
+     * @see #selectBestTextFlbvor
      * @since 1.3
      */
-    public Reader getReaderForText(Transferable transferable)
-        throws UnsupportedFlavorException, IOException
+    public Rebder getRebderForText(Trbnsferbble trbnsferbble)
+        throws UnsupportedFlbvorException, IOException
     {
-        Object transferObject = transferable.getTransferData(this);
-        if (transferObject == null) {
-            throw new IllegalArgumentException
-                ("getTransferData() returned null");
+        Object trbnsferObject = trbnsferbble.getTrbnsferDbtb(this);
+        if (trbnsferObject == null) {
+            throw new IllegblArgumentException
+                ("getTrbnsferDbtb() returned null");
         }
 
-        if (transferObject instanceof Reader) {
-            return (Reader)transferObject;
-        } else if (transferObject instanceof String) {
-            return new StringReader((String)transferObject);
-        } else if (transferObject instanceof CharBuffer) {
-            CharBuffer buffer = (CharBuffer)transferObject;
-            int size = buffer.remaining();
-            char[] chars = new char[size];
-            buffer.get(chars, 0, size);
-            return new CharArrayReader(chars);
-        } else if (transferObject instanceof char[]) {
-            return new CharArrayReader((char[])transferObject);
+        if (trbnsferObject instbnceof Rebder) {
+            return (Rebder)trbnsferObject;
+        } else if (trbnsferObject instbnceof String) {
+            return new StringRebder((String)trbnsferObject);
+        } else if (trbnsferObject instbnceof ChbrBuffer) {
+            ChbrBuffer buffer = (ChbrBuffer)trbnsferObject;
+            int size = buffer.rembining();
+            chbr[] chbrs = new chbr[size];
+            buffer.get(chbrs, 0, size);
+            return new ChbrArrbyRebder(chbrs);
+        } else if (trbnsferObject instbnceof chbr[]) {
+            return new ChbrArrbyRebder((chbr[])trbnsferObject);
         }
 
-        InputStream stream = null;
+        InputStrebm strebm = null;
 
-        if (transferObject instanceof InputStream) {
-            stream = (InputStream)transferObject;
-        } else if (transferObject instanceof ByteBuffer) {
-            ByteBuffer buffer = (ByteBuffer)transferObject;
-            int size = buffer.remaining();
+        if (trbnsferObject instbnceof InputStrebm) {
+            strebm = (InputStrebm)trbnsferObject;
+        } else if (trbnsferObject instbnceof ByteBuffer) {
+            ByteBuffer buffer = (ByteBuffer)trbnsferObject;
+            int size = buffer.rembining();
             byte[] bytes = new byte[size];
             buffer.get(bytes, 0, size);
-            stream = new ByteArrayInputStream(bytes);
-        } else if (transferObject instanceof byte[]) {
-            stream = new ByteArrayInputStream((byte[])transferObject);
+            strebm = new ByteArrbyInputStrebm(bytes);
+        } else if (trbnsferObject instbnceof byte[]) {
+            strebm = new ByteArrbyInputStrebm((byte[])trbnsferObject);
         }
 
-        if (stream == null) {
-            throw new IllegalArgumentException("transfer data is not Reader, String, CharBuffer, char array, InputStream, ByteBuffer, or byte array");
+        if (strebm == null) {
+            throw new IllegblArgumentException("trbnsfer dbtb is not Rebder, String, ChbrBuffer, chbr brrby, InputStrebm, ByteBuffer, or byte brrby");
         }
 
-        String encoding = getParameter("charset");
+        String encoding = getPbrbmeter("chbrset");
         return (encoding == null)
-            ? new InputStreamReader(stream)
-            : new InputStreamReader(stream, encoding);
+            ? new InputStrebmRebder(strebm)
+            : new InputStrebmRebder(strebm, encoding);
     }
 
     /**
-     * Returns the MIME type string for this <code>DataFlavor</code>.
-     * @return the MIME type string for this flavor
+     * Returns the MIME type string for this <code>DbtbFlbvor</code>.
+     * @return the MIME type string for this flbvor
      */
     public String getMimeType() {
         return (mimeType != null) ? mimeType.toString() : null;
     }
 
     /**
-     * Returns the <code>Class</code> which objects supporting this
-     * <code>DataFlavor</code> will return when this <code>DataFlavor</code>
+     * Returns the <code>Clbss</code> which objects supporting this
+     * <code>DbtbFlbvor</code> will return when this <code>DbtbFlbvor</code>
      * is requested.
-     * @return the <code>Class</code> which objects supporting this
-     * <code>DataFlavor</code> will return when this <code>DataFlavor</code>
+     * @return the <code>Clbss</code> which objects supporting this
+     * <code>DbtbFlbvor</code> will return when this <code>DbtbFlbvor</code>
      * is requested
      */
-    public Class<?> getRepresentationClass() {
-        return representationClass;
+    public Clbss<?> getRepresentbtionClbss() {
+        return representbtionClbss;
     }
 
     /**
-     * Returns the human presentable name for the data format that this
-     * <code>DataFlavor</code> represents.  This name would be localized
+     * Returns the humbn presentbble nbme for the dbtb formbt thbt this
+     * <code>DbtbFlbvor</code> represents.  This nbme would be locblized
      * for different countries.
-     * @return the human presentable name for the data format that this
-     *    <code>DataFlavor</code> represents
+     * @return the humbn presentbble nbme for the dbtb formbt thbt this
+     *    <code>DbtbFlbvor</code> represents
      */
-    public String getHumanPresentableName() {
-        return humanPresentableName;
+    public String getHumbnPresentbbleNbme() {
+        return humbnPresentbbleNbme;
     }
 
     /**
-     * Returns the primary MIME type for this <code>DataFlavor</code>.
-     * @return the primary MIME type of this <code>DataFlavor</code>
+     * Returns the primbry MIME type for this <code>DbtbFlbvor</code>.
+     * @return the primbry MIME type of this <code>DbtbFlbvor</code>
      */
-    public String getPrimaryType() {
-        return (mimeType != null) ? mimeType.getPrimaryType() : null;
+    public String getPrimbryType() {
+        return (mimeType != null) ? mimeType.getPrimbryType() : null;
     }
 
     /**
-     * Returns the sub MIME type of this <code>DataFlavor</code>.
-     * @return the Sub MIME type of this <code>DataFlavor</code>
+     * Returns the sub MIME type of this <code>DbtbFlbvor</code>.
+     * @return the Sub MIME type of this <code>DbtbFlbvor</code>
      */
     public String getSubType() {
         return (mimeType != null) ? mimeType.getSubType() : null;
     }
 
     /**
-     * Returns the human presentable name for this <code>DataFlavor</code>
-     * if <code>paramName</code> equals "humanPresentableName".  Otherwise
-     * returns the MIME type value associated with <code>paramName</code>.
+     * Returns the humbn presentbble nbme for this <code>DbtbFlbvor</code>
+     * if <code>pbrbmNbme</code> equbls "humbnPresentbbleNbme".  Otherwise
+     * returns the MIME type vblue bssocibted with <code>pbrbmNbme</code>.
      *
-     * @param paramName the parameter name requested
-     * @return the value of the name parameter, or <code>null</code>
-     *  if there is no associated value
+     * @pbrbm pbrbmNbme the pbrbmeter nbme requested
+     * @return the vblue of the nbme pbrbmeter, or <code>null</code>
+     *  if there is no bssocibted vblue
      */
-    public String getParameter(String paramName) {
-        if (paramName.equals("humanPresentableName")) {
-            return humanPresentableName;
+    public String getPbrbmeter(String pbrbmNbme) {
+        if (pbrbmNbme.equbls("humbnPresentbbleNbme")) {
+            return humbnPresentbbleNbme;
         } else {
             return (mimeType != null)
-                ? mimeType.getParameter(paramName) : null;
+                ? mimeType.getPbrbmeter(pbrbmNbme) : null;
         }
     }
 
     /**
-     * Sets the human presentable name for the data format that this
-     * <code>DataFlavor</code> represents. This name would be localized
+     * Sets the humbn presentbble nbme for the dbtb formbt thbt this
+     * <code>DbtbFlbvor</code> represents. This nbme would be locblized
      * for different countries.
-     * @param humanPresentableName the new human presentable name
+     * @pbrbm humbnPresentbbleNbme the new humbn presentbble nbme
      */
-    public void setHumanPresentableName(String humanPresentableName) {
-        this.humanPresentableName = humanPresentableName;
+    public void setHumbnPresentbbleNbme(String humbnPresentbbleNbme) {
+        this.humbnPresentbbleNbme = humbnPresentbbleNbme;
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * The equals comparison for the {@code DataFlavor} class is implemented
-     * as follows: Two <code>DataFlavor</code>s are considered equal if and
-     * only if their MIME primary type and subtype and representation class are
-     * equal. Additionally, if the primary type is "text", the subtype denotes
-     * a text flavor which supports the charset parameter, and the
-     * representation class is not <code>java.io.Reader</code>,
-     * <code>java.lang.String</code>, <code>java.nio.CharBuffer</code>, or
-     * <code>[C</code>, the <code>charset</code> parameter must also be equal.
-     * If a charset is not explicitly specified for one or both
-     * <code>DataFlavor</code>s, the platform default encoding is assumed. See
-     * <code>selectBestTextFlavor</code> for a list of text flavors which
-     * support the charset parameter.
+     * The equbls compbrison for the {@code DbtbFlbvor} clbss is implemented
+     * bs follows: Two <code>DbtbFlbvor</code>s bre considered equbl if bnd
+     * only if their MIME primbry type bnd subtype bnd representbtion clbss bre
+     * equbl. Additionblly, if the primbry type is "text", the subtype denotes
+     * b text flbvor which supports the chbrset pbrbmeter, bnd the
+     * representbtion clbss is not <code>jbvb.io.Rebder</code>,
+     * <code>jbvb.lbng.String</code>, <code>jbvb.nio.ChbrBuffer</code>, or
+     * <code>[C</code>, the <code>chbrset</code> pbrbmeter must blso be equbl.
+     * If b chbrset is not explicitly specified for one or both
+     * <code>DbtbFlbvor</code>s, the plbtform defbult encoding is bssumed. See
+     * <code>selectBestTextFlbvor</code> for b list of text flbvors which
+     * support the chbrset pbrbmeter.
      *
-     * @param o the <code>Object</code> to compare with <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @pbrbm o the <code>Object</code> to compbre with <code>this</code>
+     * @return <code>true</code> if <code>thbt</code> is equivblent to this
+     *         <code>DbtbFlbvor</code>; <code>fblse</code> otherwise
+     * @see #selectBestTextFlbvor
      */
-    public boolean equals(Object o) {
-        return ((o instanceof DataFlavor) && equals((DataFlavor)o));
+    public boolebn equbls(Object o) {
+        return ((o instbnceof DbtbFlbvor) && equbls((DbtbFlbvor)o));
     }
 
     /**
-     * This method has the same behavior as {@link #equals(Object)}.
-     * The only difference being that it takes a {@code DataFlavor} instance
-     * as a parameter.
+     * This method hbs the sbme behbvior bs {@link #equbls(Object)}.
+     * The only difference being thbt it tbkes b {@code DbtbFlbvor} instbnce
+     * bs b pbrbmeter.
      *
-     * @param that the <code>DataFlavor</code> to compare with
+     * @pbrbm thbt the <code>DbtbFlbvor</code> to compbre with
      *        <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @return <code>true</code> if <code>thbt</code> is equivblent to this
+     *         <code>DbtbFlbvor</code>; <code>fblse</code> otherwise
+     * @see #selectBestTextFlbvor
      */
-    public boolean equals(DataFlavor that) {
-        if (that == null) {
-            return false;
+    public boolebn equbls(DbtbFlbvor thbt) {
+        if (thbt == null) {
+            return fblse;
         }
-        if (this == that) {
+        if (this == thbt) {
             return true;
         }
 
-        if (!Objects.equals(this.getRepresentationClass(), that.getRepresentationClass())) {
-            return false;
+        if (!Objects.equbls(this.getRepresentbtionClbss(), thbt.getRepresentbtionClbss())) {
+            return fblse;
         }
 
         if (mimeType == null) {
-            if (that.mimeType != null) {
-                return false;
+            if (thbt.mimeType != null) {
+                return fblse;
             }
         } else {
-            if (!mimeType.match(that.mimeType)) {
-                return false;
+            if (!mimeType.mbtch(thbt.mimeType)) {
+                return fblse;
             }
 
-            if ("text".equals(getPrimaryType())) {
-                if (DataTransferer.doesSubtypeSupportCharset(this)
-                        && representationClass != null
-                        && !isStandardTextRepresentationClass()) {
-                    String thisCharset =
-                            DataTransferer.canonicalName(this.getParameter("charset"));
-                    String thatCharset =
-                            DataTransferer.canonicalName(that.getParameter("charset"));
-                    if (!Objects.equals(thisCharset, thatCharset)) {
-                        return false;
+            if ("text".equbls(getPrimbryType())) {
+                if (DbtbTrbnsferer.doesSubtypeSupportChbrset(this)
+                        && representbtionClbss != null
+                        && !isStbndbrdTextRepresentbtionClbss()) {
+                    String thisChbrset =
+                            DbtbTrbnsferer.cbnonicblNbme(this.getPbrbmeter("chbrset"));
+                    String thbtChbrset =
+                            DbtbTrbnsferer.cbnonicblNbme(thbt.getPbrbmeter("chbrset"));
+                    if (!Objects.equbls(thisChbrset, thbtChbrset)) {
+                        return fblse;
                     }
                 }
 
-                if ("html".equals(getSubType())) {
-                    String thisDocument = this.getParameter("document");
-                    String thatDocument = that.getParameter("document");
-                    if (!Objects.equals(thisDocument, thatDocument)) {
-                        return false;
+                if ("html".equbls(getSubType())) {
+                    String thisDocument = this.getPbrbmeter("document");
+                    String thbtDocument = thbt.getPbrbmeter("document");
+                    if (!Objects.equbls(thisDocument, thbtDocument)) {
+                        return fblse;
                     }
                 }
             }
@@ -1041,425 +1041,425 @@ public class DataFlavor implements Externalizable, Cloneable {
     }
 
     /**
-     * Compares only the <code>mimeType</code> against the passed in
-     * <code>String</code> and <code>representationClass</code> is
-     * not considered in the comparison.
+     * Compbres only the <code>mimeType</code> bgbinst the pbssed in
+     * <code>String</code> bnd <code>representbtionClbss</code> is
+     * not considered in the compbrison.
      *
-     * If <code>representationClass</code> needs to be compared, then
-     * <code>equals(new DataFlavor(s))</code> may be used.
-     * @deprecated As inconsistent with <code>hashCode()</code> contract,
-     *             use <code>isMimeTypeEqual(String)</code> instead.
-     * @param s the {@code mimeType} to compare.
-     * @return true if the String (MimeType) is equal; false otherwise or if
+     * If <code>representbtionClbss</code> needs to be compbred, then
+     * <code>equbls(new DbtbFlbvor(s))</code> mby be used.
+     * @deprecbted As inconsistent with <code>hbshCode()</code> contrbct,
+     *             use <code>isMimeTypeEqubl(String)</code> instebd.
+     * @pbrbm s the {@code mimeType} to compbre.
+     * @return true if the String (MimeType) is equbl; fblse otherwise or if
      *         {@code s} is {@code null}
      */
-    @Deprecated
-    public boolean equals(String s) {
+    @Deprecbted
+    public boolebn equbls(String s) {
         if (s == null || mimeType == null)
-            return false;
-        return isMimeTypeEqual(s);
+            return fblse;
+        return isMimeTypeEqubl(s);
     }
 
     /**
-     * Returns hash code for this <code>DataFlavor</code>.
-     * For two equal <code>DataFlavor</code>s, hash codes are equal.
+     * Returns hbsh code for this <code>DbtbFlbvor</code>.
+     * For two equbl <code>DbtbFlbvor</code>s, hbsh codes bre equbl.
      * For the <code>String</code>
-     * that matches <code>DataFlavor.equals(String)</code>, it is not
-     * guaranteed that <code>DataFlavor</code>'s hash code is equal
-     * to the hash code of the <code>String</code>.
+     * thbt mbtches <code>DbtbFlbvor.equbls(String)</code>, it is not
+     * gubrbnteed thbt <code>DbtbFlbvor</code>'s hbsh code is equbl
+     * to the hbsh code of the <code>String</code>.
      *
-     * @return a hash code for this <code>DataFlavor</code>
+     * @return b hbsh code for this <code>DbtbFlbvor</code>
      */
-    public int hashCode() {
-        int total = 0;
+    public int hbshCode() {
+        int totbl = 0;
 
-        if (representationClass != null) {
-            total += representationClass.hashCode();
+        if (representbtionClbss != null) {
+            totbl += representbtionClbss.hbshCode();
         }
 
         if (mimeType != null) {
-            String primaryType = mimeType.getPrimaryType();
-            if (primaryType != null) {
-                total += primaryType.hashCode();
+            String primbryType = mimeType.getPrimbryType();
+            if (primbryType != null) {
+                totbl += primbryType.hbshCode();
             }
 
-            // Do not add subType.hashCode() to the total. equals uses
-            // MimeType.match which reports a match if one or both of the
-            // subTypes is '*', regardless of the other subType.
+            // Do not bdd subType.hbshCode() to the totbl. equbls uses
+            // MimeType.mbtch which reports b mbtch if one or both of the
+            // subTypes is '*', regbrdless of the other subType.
 
-            if ("text".equals(primaryType)) {
-                if (DataTransferer.doesSubtypeSupportCharset(this)
-                        && representationClass != null
-                        && !isStandardTextRepresentationClass()) {
-                    String charset = DataTransferer.canonicalName(getParameter("charset"));
-                    if (charset != null) {
-                        total += charset.hashCode();
+            if ("text".equbls(primbryType)) {
+                if (DbtbTrbnsferer.doesSubtypeSupportChbrset(this)
+                        && representbtionClbss != null
+                        && !isStbndbrdTextRepresentbtionClbss()) {
+                    String chbrset = DbtbTrbnsferer.cbnonicblNbme(getPbrbmeter("chbrset"));
+                    if (chbrset != null) {
+                        totbl += chbrset.hbshCode();
                     }
                 }
 
-                if ("html".equals(getSubType())) {
-                    String document = this.getParameter("document");
+                if ("html".equbls(getSubType())) {
+                    String document = this.getPbrbmeter("document");
                     if (document != null) {
-                        total += document.hashCode();
+                        totbl += document.hbshCode();
                     }
                 }
             }
         }
 
-        return total;
+        return totbl;
     }
 
     /**
-     * Identical to {@link #equals(DataFlavor)}.
+     * Identicbl to {@link #equbls(DbtbFlbvor)}.
      *
-     * @param that the <code>DataFlavor</code> to compare with
+     * @pbrbm thbt the <code>DbtbFlbvor</code> to compbre with
      *        <code>this</code>
-     * @return <code>true</code> if <code>that</code> is equivalent to this
-     *         <code>DataFlavor</code>; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @return <code>true</code> if <code>thbt</code> is equivblent to this
+     *         <code>DbtbFlbvor</code>; <code>fblse</code> otherwise
+     * @see #selectBestTextFlbvor
      * @since 1.3
      */
-    public boolean match(DataFlavor that) {
-        return equals(that);
+    public boolebn mbtch(DbtbFlbvor thbt) {
+        return equbls(thbt);
     }
 
     /**
-     * Returns whether the string representation of the MIME type passed in
-     * is equivalent to the MIME type of this <code>DataFlavor</code>.
-     * Parameters are not included in the comparison.
+     * Returns whether the string representbtion of the MIME type pbssed in
+     * is equivblent to the MIME type of this <code>DbtbFlbvor</code>.
+     * Pbrbmeters bre not included in the compbrison.
      *
-     * @param mimeType the string representation of the MIME type
-     * @return true if the string representation of the MIME type passed in is
-     *         equivalent to the MIME type of this <code>DataFlavor</code>;
-     *         false otherwise
+     * @pbrbm mimeType the string representbtion of the MIME type
+     * @return true if the string representbtion of the MIME type pbssed in is
+     *         equivblent to the MIME type of this <code>DbtbFlbvor</code>;
+     *         fblse otherwise
      * @throws NullPointerException if mimeType is <code>null</code>
      */
-    public boolean isMimeTypeEqual(String mimeType) {
-        // JCK Test DataFlavor0117: if 'mimeType' is null, throw NPE
+    public boolebn isMimeTypeEqubl(String mimeType) {
+        // JCK Test DbtbFlbvor0117: if 'mimeType' is null, throw NPE
         if (mimeType == null) {
             throw new NullPointerException("mimeType");
         }
         if (this.mimeType == null) {
-            return false;
+            return fblse;
         }
         try {
-            return this.mimeType.match(new MimeType(mimeType));
-        } catch (MimeTypeParseException mtpe) {
-            return false;
+            return this.mimeType.mbtch(new MimeType(mimeType));
+        } cbtch (MimeTypePbrseException mtpe) {
+            return fblse;
         }
     }
 
     /**
-     * Compares the <code>mimeType</code> of two <code>DataFlavor</code>
-     * objects. No parameters are considered.
+     * Compbres the <code>mimeType</code> of two <code>DbtbFlbvor</code>
+     * objects. No pbrbmeters bre considered.
      *
-     * @param dataFlavor the <code>DataFlavor</code> to be compared
-     * @return true if the <code>MimeType</code>s are equal,
-     *  otherwise false
+     * @pbrbm dbtbFlbvor the <code>DbtbFlbvor</code> to be compbred
+     * @return true if the <code>MimeType</code>s bre equbl,
+     *  otherwise fblse
      */
 
-    public final boolean isMimeTypeEqual(DataFlavor dataFlavor) {
-        return isMimeTypeEqual(dataFlavor.mimeType);
+    public finbl boolebn isMimeTypeEqubl(DbtbFlbvor dbtbFlbvor) {
+        return isMimeTypeEqubl(dbtbFlbvor.mimeType);
     }
 
     /**
-     * Compares the <code>mimeType</code> of two <code>DataFlavor</code>
-     * objects.  No parameters are considered.
+     * Compbres the <code>mimeType</code> of two <code>DbtbFlbvor</code>
+     * objects.  No pbrbmeters bre considered.
      *
-     * @return true if the <code>MimeType</code>s are equal,
-     *  otherwise false
+     * @return true if the <code>MimeType</code>s bre equbl,
+     *  otherwise fblse
      */
 
-    private boolean isMimeTypeEqual(MimeType mtype) {
+    privbte boolebn isMimeTypeEqubl(MimeType mtype) {
         if (this.mimeType == null) {
             return (mtype == null);
         }
-        return mimeType.match(mtype);
+        return mimeType.mbtch(mtype);
     }
 
     /**
-     * Checks if the representation class is one of the standard text
-     * representation classes.
+     * Checks if the representbtion clbss is one of the stbndbrd text
+     * representbtion clbsses.
      *
-     * @return true if the representation class is one of the standard text
-     *              representation classes, otherwise false
+     * @return true if the representbtion clbss is one of the stbndbrd text
+     *              representbtion clbsses, otherwise fblse
      */
-    private boolean isStandardTextRepresentationClass() {
-        return isRepresentationClassReader()
-                || String.class.equals(representationClass)
-                || isRepresentationClassCharBuffer()
-                || char[].class.equals(representationClass);
+    privbte boolebn isStbndbrdTextRepresentbtionClbss() {
+        return isRepresentbtionClbssRebder()
+                || String.clbss.equbls(representbtionClbss)
+                || isRepresentbtionClbssChbrBuffer()
+                || chbr[].clbss.equbls(representbtionClbss);
     }
 
    /**
-    * Does the <code>DataFlavor</code> represent a serialized object?
-    * @return whether or not a serialized object is represented
+    * Does the <code>DbtbFlbvor</code> represent b seriblized object?
+    * @return whether or not b seriblized object is represented
     */
-    public boolean isMimeTypeSerializedObject() {
-        return isMimeTypeEqual(javaSerializedObjectMimeType);
+    public boolebn isMimeTypeSeriblizedObject() {
+        return isMimeTypeEqubl(jbvbSeriblizedObjectMimeType);
     }
 
     /**
-     * Returns the default representation class.
-     * @return the default representation class
+     * Returns the defbult representbtion clbss.
+     * @return the defbult representbtion clbss
      */
-    public final Class<?> getDefaultRepresentationClass() {
-        return ioInputStreamClass;
+    public finbl Clbss<?> getDefbultRepresentbtionClbss() {
+        return ioInputStrebmClbss;
     }
 
     /**
-     * Returns the name of the default representation class.
-     * @return the name of the default representation class
+     * Returns the nbme of the defbult representbtion clbss.
+     * @return the nbme of the defbult representbtion clbss
      */
-    public final String getDefaultRepresentationClassAsString() {
-        return getDefaultRepresentationClass().getName();
+    public finbl String getDefbultRepresentbtionClbssAsString() {
+        return getDefbultRepresentbtionClbss().getNbme();
     }
 
    /**
-    * Does the <code>DataFlavor</code> represent a
-    * <code>java.io.InputStream</code>?
-    * @return whether or not this {@code DataFlavor} represent a
-    * {@code java.io.InputStream}
+    * Does the <code>DbtbFlbvor</code> represent b
+    * <code>jbvb.io.InputStrebm</code>?
+    * @return whether or not this {@code DbtbFlbvor} represent b
+    * {@code jbvb.io.InputStrebm}
     */
-    public boolean isRepresentationClassInputStream() {
-        return ioInputStreamClass.isAssignableFrom(representationClass);
+    public boolebn isRepresentbtionClbssInputStrebm() {
+        return ioInputStrebmClbss.isAssignbbleFrom(representbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.io.Reader</code> or a subclass
+     * Returns whether the representbtion clbss for this
+     * <code>DbtbFlbvor</code> is <code>jbvb.io.Rebder</code> or b subclbss
      * thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.io.Reader} or a subclass
+     * @return whether or not the representbtion clbss for this
+     * {@code DbtbFlbvor} is {@code jbvb.io.Rebder} or b subclbss
      * thereof
      *
      * @since 1.4
      */
-    public boolean isRepresentationClassReader() {
-        return java.io.Reader.class.isAssignableFrom(representationClass);
+    public boolebn isRepresentbtionClbssRebder() {
+        return jbvb.io.Rebder.clbss.isAssignbbleFrom(representbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.nio.CharBuffer</code> or a
-     * subclass thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.nio.CharBuffer} or a subclass
+     * Returns whether the representbtion clbss for this
+     * <code>DbtbFlbvor</code> is <code>jbvb.nio.ChbrBuffer</code> or b
+     * subclbss thereof.
+     * @return whether or not the representbtion clbss for this
+     * {@code DbtbFlbvor} is {@code jbvb.nio.ChbrBuffer} or b subclbss
      * thereof
      *
      * @since 1.4
      */
-    public boolean isRepresentationClassCharBuffer() {
-        return java.nio.CharBuffer.class.isAssignableFrom(representationClass);
+    public boolebn isRepresentbtionClbssChbrBuffer() {
+        return jbvb.nio.ChbrBuffer.clbss.isAssignbbleFrom(representbtionClbss);
     }
 
     /**
-     * Returns whether the representation class for this
-     * <code>DataFlavor</code> is <code>java.nio.ByteBuffer</code> or a
-     * subclass thereof.
-     * @return whether or not the representation class for this
-     * {@code DataFlavor} is {@code java.nio.ByteBuffer} or a subclass
+     * Returns whether the representbtion clbss for this
+     * <code>DbtbFlbvor</code> is <code>jbvb.nio.ByteBuffer</code> or b
+     * subclbss thereof.
+     * @return whether or not the representbtion clbss for this
+     * {@code DbtbFlbvor} is {@code jbvb.nio.ByteBuffer} or b subclbss
      * thereof
      *
      * @since 1.4
      */
-    public boolean isRepresentationClassByteBuffer() {
-        return java.nio.ByteBuffer.class.isAssignableFrom(representationClass);
+    public boolebn isRepresentbtionClbssByteBuffer() {
+        return jbvb.nio.ByteBuffer.clbss.isAssignbbleFrom(representbtionClbss);
     }
 
    /**
-    * Returns true if the representation class can be serialized.
-    * @return true if the representation class can be serialized
+    * Returns true if the representbtion clbss cbn be seriblized.
+    * @return true if the representbtion clbss cbn be seriblized
     */
 
-    public boolean isRepresentationClassSerializable() {
-        return java.io.Serializable.class.isAssignableFrom(representationClass);
+    public boolebn isRepresentbtionClbssSeriblizbble() {
+        return jbvb.io.Seriblizbble.clbss.isAssignbbleFrom(representbtionClbss);
     }
 
    /**
-    * Returns true if the representation class is <code>Remote</code>.
-    * @return true if the representation class is <code>Remote</code>
+    * Returns true if the representbtion clbss is <code>Remote</code>.
+    * @return true if the representbtion clbss is <code>Remote</code>
     */
 
-    public boolean isRepresentationClassRemote() {
-        return DataTransferer.isRemote(representationClass);
+    public boolebn isRepresentbtionClbssRemote() {
+        return DbtbTrbnsferer.isRemote(representbtionClbss);
     }
 
    /**
-    * Returns true if the <code>DataFlavor</code> specified represents
-    * a serialized object.
-    * @return true if the <code>DataFlavor</code> specified represents
-    *   a Serialized Object
+    * Returns true if the <code>DbtbFlbvor</code> specified represents
+    * b seriblized object.
+    * @return true if the <code>DbtbFlbvor</code> specified represents
+    *   b Seriblized Object
     */
 
-    public boolean isFlavorSerializedObjectType() {
-        return isRepresentationClassSerializable() && isMimeTypeEqual(javaSerializedObjectMimeType);
+    public boolebn isFlbvorSeriblizedObjectType() {
+        return isRepresentbtionClbssSeriblizbble() && isMimeTypeEqubl(jbvbSeriblizedObjectMimeType);
     }
 
     /**
-     * Returns true if the <code>DataFlavor</code> specified represents
-     * a remote object.
-     * @return true if the <code>DataFlavor</code> specified represents
-     *  a Remote Object
+     * Returns true if the <code>DbtbFlbvor</code> specified represents
+     * b remote object.
+     * @return true if the <code>DbtbFlbvor</code> specified represents
+     *  b Remote Object
      */
 
-    public boolean isFlavorRemoteObjectType() {
-        return isRepresentationClassRemote()
-            && isRepresentationClassSerializable()
-            && isMimeTypeEqual(javaRemoteObjectMimeType);
+    public boolebn isFlbvorRemoteObjectType() {
+        return isRepresentbtionClbssRemote()
+            && isRepresentbtionClbssSeriblizbble()
+            && isMimeTypeEqubl(jbvbRemoteObjectMimeType);
     }
 
 
    /**
-    * Returns true if the <code>DataFlavor</code> specified represents
-    * a list of file objects.
-    * @return true if the <code>DataFlavor</code> specified represents
-    *   a List of File objects
+    * Returns true if the <code>DbtbFlbvor</code> specified represents
+    * b list of file objects.
+    * @return true if the <code>DbtbFlbvor</code> specified represents
+    *   b List of File objects
     */
 
-   public boolean isFlavorJavaFileListType() {
-        if (mimeType == null || representationClass == null)
-            return false;
-        return java.util.List.class.isAssignableFrom(representationClass) &&
-               mimeType.match(javaFileListFlavor.mimeType);
+   public boolebn isFlbvorJbvbFileListType() {
+        if (mimeType == null || representbtionClbss == null)
+            return fblse;
+        return jbvb.util.List.clbss.isAssignbbleFrom(representbtionClbss) &&
+               mimeType.mbtch(jbvbFileListFlbvor.mimeType);
 
    }
 
     /**
-     * Returns whether this <code>DataFlavor</code> is a valid text flavor for
-     * this implementation of the Java platform. Only flavors equivalent to
-     * <code>DataFlavor.stringFlavor</code> and <code>DataFlavor</code>s with
-     * a primary MIME type of "text" can be valid text flavors.
+     * Returns whether this <code>DbtbFlbvor</code> is b vblid text flbvor for
+     * this implementbtion of the Jbvb plbtform. Only flbvors equivblent to
+     * <code>DbtbFlbvor.stringFlbvor</code> bnd <code>DbtbFlbvor</code>s with
+     * b primbry MIME type of "text" cbn be vblid text flbvors.
      * <p>
-     * If this flavor supports the charset parameter, it must be equivalent to
-     * <code>DataFlavor.stringFlavor</code>, or its representation must be
-     * <code>java.io.Reader</code>, <code>java.lang.String</code>,
-     * <code>java.nio.CharBuffer</code>, <code>[C</code>,
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>, or
-     * <code>[B</code>. If the representation is
-     * <code>java.io.InputStream</code>, <code>java.nio.ByteBuffer</code>, or
-     * <code>[B</code>, then this flavor's <code>charset</code> parameter must
-     * be supported by this implementation of the Java platform. If a charset
-     * is not specified, then the platform default charset, which is always
-     * supported, is assumed.
+     * If this flbvor supports the chbrset pbrbmeter, it must be equivblent to
+     * <code>DbtbFlbvor.stringFlbvor</code>, or its representbtion must be
+     * <code>jbvb.io.Rebder</code>, <code>jbvb.lbng.String</code>,
+     * <code>jbvb.nio.ChbrBuffer</code>, <code>[C</code>,
+     * <code>jbvb.io.InputStrebm</code>, <code>jbvb.nio.ByteBuffer</code>, or
+     * <code>[B</code>. If the representbtion is
+     * <code>jbvb.io.InputStrebm</code>, <code>jbvb.nio.ByteBuffer</code>, or
+     * <code>[B</code>, then this flbvor's <code>chbrset</code> pbrbmeter must
+     * be supported by this implementbtion of the Jbvb plbtform. If b chbrset
+     * is not specified, then the plbtform defbult chbrset, which is blwbys
+     * supported, is bssumed.
      * <p>
-     * If this flavor does not support the charset parameter, its
-     * representation must be <code>java.io.InputStream</code>,
-     * <code>java.nio.ByteBuffer</code>, or <code>[B</code>.
+     * If this flbvor does not support the chbrset pbrbmeter, its
+     * representbtion must be <code>jbvb.io.InputStrebm</code>,
+     * <code>jbvb.nio.ByteBuffer</code>, or <code>[B</code>.
      * <p>
-     * See <code>selectBestTextFlavor</code> for a list of text flavors which
-     * support the charset parameter.
+     * See <code>selectBestTextFlbvor</code> for b list of text flbvors which
+     * support the chbrset pbrbmeter.
      *
-     * @return <code>true</code> if this <code>DataFlavor</code> is a valid
-     *         text flavor as described above; <code>false</code> otherwise
-     * @see #selectBestTextFlavor
+     * @return <code>true</code> if this <code>DbtbFlbvor</code> is b vblid
+     *         text flbvor bs described bbove; <code>fblse</code> otherwise
+     * @see #selectBestTextFlbvor
      * @since 1.4
      */
-    public boolean isFlavorTextType() {
-        return (DataTransferer.isFlavorCharsetTextType(this) ||
-                DataTransferer.isFlavorNoncharsetTextType(this));
+    public boolebn isFlbvorTextType() {
+        return (DbtbTrbnsferer.isFlbvorChbrsetTextType(this) ||
+                DbtbTrbnsferer.isFlbvorNonchbrsetTextType(this));
     }
 
    /**
-    * Serializes this <code>DataFlavor</code>.
+    * Seriblizes this <code>DbtbFlbvor</code>.
     */
 
-   public synchronized void writeExternal(ObjectOutput os) throws IOException {
+   public synchronized void writeExternbl(ObjectOutput os) throws IOException {
        if (mimeType != null) {
-           mimeType.setParameter("humanPresentableName", humanPresentableName);
+           mimeType.setPbrbmeter("humbnPresentbbleNbme", humbnPresentbbleNbme);
            os.writeObject(mimeType);
-           mimeType.removeParameter("humanPresentableName");
+           mimeType.removePbrbmeter("humbnPresentbbleNbme");
        } else {
            os.writeObject(null);
        }
 
-       os.writeObject(representationClass);
+       os.writeObject(representbtionClbss);
    }
 
    /**
-    * Restores this <code>DataFlavor</code> from a Serialized state.
+    * Restores this <code>DbtbFlbvor</code> from b Seriblized stbte.
     */
 
-   public synchronized void readExternal(ObjectInput is) throws IOException , ClassNotFoundException {
+   public synchronized void rebdExternbl(ObjectInput is) throws IOException , ClbssNotFoundException {
        String rcn = null;
-        mimeType = (MimeType)is.readObject();
+        mimeType = (MimeType)is.rebdObject();
 
         if (mimeType != null) {
-            humanPresentableName =
-                mimeType.getParameter("humanPresentableName");
-            mimeType.removeParameter("humanPresentableName");
-            rcn = mimeType.getParameter("class");
+            humbnPresentbbleNbme =
+                mimeType.getPbrbmeter("humbnPresentbbleNbme");
+            mimeType.removePbrbmeter("humbnPresentbbleNbme");
+            rcn = mimeType.getPbrbmeter("clbss");
             if (rcn == null) {
-                throw new IOException("no class parameter specified in: " +
+                throw new IOException("no clbss pbrbmeter specified in: " +
                                       mimeType);
             }
         }
 
         try {
-            representationClass = (Class)is.readObject();
-        } catch (OptionalDataException ode) {
+            representbtionClbss = (Clbss)is.rebdObject();
+        } cbtch (OptionblDbtbException ode) {
             if (!ode.eof || ode.length != 0) {
                 throw ode;
             }
-            // Ensure backward compatibility.
-            // Old versions didn't write the representation class to the stream.
+            // Ensure bbckwbrd compbtibility.
+            // Old versions didn't write the representbtion clbss to the strebm.
             if (rcn != null) {
-                representationClass =
-                    DataFlavor.tryToLoadClass(rcn, getClass().getClassLoader());
+                representbtionClbss =
+                    DbtbFlbvor.tryToLobdClbss(rcn, getClbss().getClbssLobder());
             }
         }
    }
 
    /**
-    * Returns a clone of this <code>DataFlavor</code>.
-    * @return a clone of this <code>DataFlavor</code>
+    * Returns b clone of this <code>DbtbFlbvor</code>.
+    * @return b clone of this <code>DbtbFlbvor</code>
     */
 
     public Object clone() throws CloneNotSupportedException {
         Object newObj = super.clone();
         if (mimeType != null) {
-            ((DataFlavor)newObj).mimeType = (MimeType)mimeType.clone();
+            ((DbtbFlbvor)newObj).mimeType = (MimeType)mimeType.clone();
         }
         return newObj;
     } // clone()
 
    /**
-    * Called on <code>DataFlavor</code> for every MIME Type parameter
-    * to allow <code>DataFlavor</code> subclasses to handle special
-    * parameters like the text/plain <code>charset</code>
-    * parameters, whose values are case insensitive.  (MIME type parameter
-    * values are supposed to be case sensitive.
+    * Cblled on <code>DbtbFlbvor</code> for every MIME Type pbrbmeter
+    * to bllow <code>DbtbFlbvor</code> subclbsses to hbndle specibl
+    * pbrbmeters like the text/plbin <code>chbrset</code>
+    * pbrbmeters, whose vblues bre cbse insensitive.  (MIME type pbrbmeter
+    * vblues bre supposed to be cbse sensitive.
     * <p>
-    * This method is called for each parameter name/value pair and should
-    * return the normalized representation of the <code>parameterValue</code>.
+    * This method is cblled for ebch pbrbmeter nbme/vblue pbir bnd should
+    * return the normblized representbtion of the <code>pbrbmeterVblue</code>.
     *
-    * This method is never invoked by this implementation from 1.1 onwards.
+    * This method is never invoked by this implementbtion from 1.1 onwbrds.
     *
-    * @param parameterName the parameter name
-    * @param parameterValue the parameter value
-    * @return the parameter value
-    * @deprecated
+    * @pbrbm pbrbmeterNbme the pbrbmeter nbme
+    * @pbrbm pbrbmeterVblue the pbrbmeter vblue
+    * @return the pbrbmeter vblue
+    * @deprecbted
     */
-    @Deprecated
-    protected String normalizeMimeTypeParameter(String parameterName, String parameterValue) {
-        return parameterValue;
+    @Deprecbted
+    protected String normblizeMimeTypePbrbmeter(String pbrbmeterNbme, String pbrbmeterVblue) {
+        return pbrbmeterVblue;
     }
 
    /**
-    * Called for each MIME type string to give <code>DataFlavor</code> subtypes
-    * the opportunity to change how the normalization of MIME types is
-    * accomplished.  One possible use would be to add default
-    * parameter/value pairs in cases where none are present in the MIME
-    * type string passed in.
+    * Cblled for ebch MIME type string to give <code>DbtbFlbvor</code> subtypes
+    * the opportunity to chbnge how the normblizbtion of MIME types is
+    * bccomplished.  One possible use would be to bdd defbult
+    * pbrbmeter/vblue pbirs in cbses where none bre present in the MIME
+    * type string pbssed in.
     *
-    * This method is never invoked by this implementation from 1.1 onwards.
+    * This method is never invoked by this implementbtion from 1.1 onwbrds.
     *
-    * @param mimeType the mime type
+    * @pbrbm mimeType the mime type
     * @return the mime type
-    * @deprecated
+    * @deprecbted
     */
-    @Deprecated
-    protected String normalizeMimeType(String mimeType) {
+    @Deprecbted
+    protected String normblizeMimeType(String mimeType) {
         return mimeType;
     }
 
@@ -1467,18 +1467,18 @@ public class DataFlavor implements Externalizable, Cloneable {
      * fields
      */
 
-    /* placeholder for caching any platform-specific data for flavor */
+    /* plbceholder for cbching bny plbtform-specific dbtb for flbvor */
 
-    transient int       atom;
+    trbnsient int       btom;
 
-    /* Mime Type of DataFlavor */
+    /* Mime Type of DbtbFlbvor */
 
     MimeType            mimeType;
 
-    private String      humanPresentableName;
+    privbte String      humbnPresentbbleNbme;
 
-    /** Java class of objects this DataFlavor represents **/
+    /** Jbvb clbss of objects this DbtbFlbvor represents **/
 
-    private Class<?>       representationClass;
+    privbte Clbss<?>       representbtionClbss;
 
-} // class DataFlavor
+} // clbss DbtbFlbvor

@@ -3,217 +3,217 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizerSpi;
-import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
-import com.sun.org.apache.xml.internal.security.signature.NodeFilter;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncByteArrayOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizerSpi;
+import com.sun.org.bpbche.xml.internbl.security.c14n.helper.AttrCompbre;
+import com.sun.org.bpbche.xml.internbl.security.signbture.NodeFilter;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.UnsyncByteArrbyOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Abstract base class for canonicalization algorithms.
+ * Abstrbct bbse clbss for cbnonicblizbtion blgorithms.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
+ * @buthor Christibn Geuer-Pollmbnn <geuerp@bpbche.org>
  */
-public abstract class CanonicalizerBase extends CanonicalizerSpi {
-    public static final String XML = "xml";
-    public static final String XMLNS = "xmlns";
+public bbstrbct clbss CbnonicblizerBbse extends CbnonicblizerSpi {
+    public stbtic finbl String XML = "xml";
+    public stbtic finbl String XMLNS = "xmlns";
 
-    protected static final AttrCompare COMPARE = new AttrCompare();
+    protected stbtic finbl AttrCompbre COMPARE = new AttrCompbre();
 
-    // Make sure you clone the following mutable arrays before passing to
-    // potentially untrusted objects such as OutputStreams.
-    private static final byte[] END_PI = {'?','>'};
-    private static final byte[] BEGIN_PI = {'<','?'};
-    private static final byte[] END_COMM = {'-','-','>'};
-    private static final byte[] BEGIN_COMM = {'<','!','-','-'};
-    private static final byte[] XA = {'&','#','x','A',';'};
-    private static final byte[] X9 = {'&','#','x','9',';'};
-    private static final byte[] QUOT = {'&','q','u','o','t',';'};
-    private static final byte[] XD = {'&','#','x','D',';'};
-    private static final byte[] GT = {'&','g','t',';'};
-    private static final byte[] LT = {'&','l','t',';'};
-    private static final byte[] END_TAG = {'<','/'};
-    private static final byte[] AMP = {'&','a','m','p',';'};
-    private static final byte[] EQUALS_STR = {'=','\"'};
+    // Mbke sure you clone the following mutbble brrbys before pbssing to
+    // potentiblly untrusted objects such bs OutputStrebms.
+    privbte stbtic finbl byte[] END_PI = {'?','>'};
+    privbte stbtic finbl byte[] BEGIN_PI = {'<','?'};
+    privbte stbtic finbl byte[] END_COMM = {'-','-','>'};
+    privbte stbtic finbl byte[] BEGIN_COMM = {'<','!','-','-'};
+    privbte stbtic finbl byte[] XA = {'&','#','x','A',';'};
+    privbte stbtic finbl byte[] X9 = {'&','#','x','9',';'};
+    privbte stbtic finbl byte[] QUOT = {'&','q','u','o','t',';'};
+    privbte stbtic finbl byte[] XD = {'&','#','x','D',';'};
+    privbte stbtic finbl byte[] GT = {'&','g','t',';'};
+    privbte stbtic finbl byte[] LT = {'&','l','t',';'};
+    privbte stbtic finbl byte[] END_TAG = {'<','/'};
+    privbte stbtic finbl byte[] AMP = {'&','b','m','p',';'};
+    privbte stbtic finbl byte[] EQUALS_STR = {'=','\"'};
 
-    protected static final int NODE_BEFORE_DOCUMENT_ELEMENT = -1;
-    protected static final int NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT = 0;
-    protected static final int NODE_AFTER_DOCUMENT_ELEMENT = 1;
+    protected stbtic finbl int NODE_BEFORE_DOCUMENT_ELEMENT = -1;
+    protected stbtic finbl int NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT = 0;
+    protected stbtic finbl int NODE_AFTER_DOCUMENT_ELEMENT = 1;
 
-    private List<NodeFilter> nodeFilter;
+    privbte List<NodeFilter> nodeFilter;
 
-    private boolean includeComments;
-    private Set<Node> xpathNodeSet;
+    privbte boolebn includeComments;
+    privbte Set<Node> xpbthNodeSet;
 
     /**
      * The node to be skipped/excluded from the DOM tree
-     * in subtree canonicalizations.
+     * in subtree cbnonicblizbtions.
      */
-    private Node excludeNode;
-    private OutputStream writer = new ByteArrayOutputStream();
+    privbte Node excludeNode;
+    privbte OutputStrebm writer = new ByteArrbyOutputStrebm();
 
     /**
      * The null xmlns definition.
      */
-    private Attr nullNode;
+    privbte Attr nullNode;
 
     /**
-     * Constructor CanonicalizerBase
+     * Constructor CbnonicblizerBbse
      *
-     * @param includeComments
+     * @pbrbm includeComments
      */
-    public CanonicalizerBase(boolean includeComments) {
+    public CbnonicblizerBbse(boolebn includeComments) {
         this.includeComments = includeComments;
     }
 
     /**
-     * Method engineCanonicalizeSubTree
+     * Method engineCbnonicblizeSubTree
      * @inheritDoc
-     * @param rootNode
-     * @throws CanonicalizationException
+     * @pbrbm rootNode
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode)
-        throws CanonicalizationException {
-        return engineCanonicalizeSubTree(rootNode, (Node)null);
+    public byte[] engineCbnonicblizeSubTree(Node rootNode)
+        throws CbnonicblizbtionException {
+        return engineCbnonicblizeSubTree(rootNode, (Node)null);
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Method engineCbnonicblizeXPbthNodeSet
      * @inheritDoc
-     * @param xpathNodeSet
-     * @throws CanonicalizationException
+     * @pbrbm xpbthNodeSet
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet)
-        throws CanonicalizationException {
-        this.xpathNodeSet = xpathNodeSet;
-        return engineCanonicalizeXPathNodeSetInternal(XMLUtils.getOwnerDocument(this.xpathNodeSet));
+    public byte[] engineCbnonicblizeXPbthNodeSet(Set<Node> xpbthNodeSet)
+        throws CbnonicblizbtionException {
+        this.xpbthNodeSet = xpbthNodeSet;
+        return engineCbnonicblizeXPbthNodeSetInternbl(XMLUtils.getOwnerDocument(this.xpbthNodeSet));
     }
 
     /**
-     * Canonicalizes a Subtree node.
-     * @param input the root of the subtree to canicalize
-     * @return The canonicalize stream.
-     * @throws CanonicalizationException
+     * Cbnonicblizes b Subtree node.
+     * @pbrbm input the root of the subtree to cbnicblize
+     * @return The cbnonicblize strebm.
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalize(XMLSignatureInput input) throws CanonicalizationException {
+    public byte[] engineCbnonicblize(XMLSignbtureInput input) throws CbnonicblizbtionException {
         try {
             if (input.isExcludeComments()) {
-                includeComments = false;
+                includeComments = fblse;
             }
-            if (input.isOctetStream()) {
-                return engineCanonicalize(input.getBytes());
+            if (input.isOctetStrebm()) {
+                return engineCbnonicblize(input.getBytes());
             }
             if (input.isElement()) {
-                return engineCanonicalizeSubTree(input.getSubNode(), input.getExcludeNode());
+                return engineCbnonicblizeSubTree(input.getSubNode(), input.getExcludeNode());
             } else if (input.isNodeSet()) {
                 nodeFilter = input.getNodeFilters();
 
                 circumventBugIfNeeded(input);
 
                 if (input.getSubNode() != null) {
-                    return engineCanonicalizeXPathNodeSetInternal(input.getSubNode());
+                    return engineCbnonicblizeXPbthNodeSetInternbl(input.getSubNode());
                 } else {
-                    return engineCanonicalizeXPathNodeSet(input.getNodeSet());
+                    return engineCbnonicblizeXPbthNodeSet(input.getNodeSet());
                 }
             }
             return null;
-        } catch (CanonicalizationException ex) {
-            throw new CanonicalizationException("empty", ex);
-        } catch (ParserConfigurationException ex) {
-            throw new CanonicalizationException("empty", ex);
-        } catch (IOException ex) {
-            throw new CanonicalizationException("empty", ex);
-        } catch (SAXException ex) {
-            throw new CanonicalizationException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
+        } cbtch (PbrserConfigurbtionException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
+        } cbtch (SAXException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
         }
     }
 
     /**
-     * @param writer The writer to set.
+     * @pbrbm writer The writer to set.
      */
-    public void setWriter(OutputStream writer) {
+    public void setWriter(OutputStrebm writer) {
         this.writer = writer;
     }
 
     /**
-     * Canonicalizes a Subtree node.
+     * Cbnonicblizes b Subtree node.
      *
-     * @param rootNode
-     *            the root of the subtree to canonicalize
-     * @param excludeNode
-     *            a node to be excluded from the canonicalize operation
-     * @return The canonicalize stream.
-     * @throws CanonicalizationException
+     * @pbrbm rootNode
+     *            the root of the subtree to cbnonicblize
+     * @pbrbm excludeNode
+     *            b node to be excluded from the cbnonicblize operbtion
+     * @return The cbnonicblize strebm.
+     * @throws CbnonicblizbtionException
      */
-    protected byte[] engineCanonicalizeSubTree(Node rootNode, Node excludeNode)
-        throws CanonicalizationException {
+    protected byte[] engineCbnonicblizeSubTree(Node rootNode, Node excludeNode)
+        throws CbnonicblizbtionException {
         this.excludeNode = excludeNode;
         try {
-            NameSpaceSymbTable ns = new NameSpaceSymbTable();
+            NbmeSpbceSymbTbble ns = new NbmeSpbceSymbTbble();
             int nodeLevel = NODE_BEFORE_DOCUMENT_ELEMENT;
             if (rootNode != null && Node.ELEMENT_NODE == rootNode.getNodeType()) {
-                //Fills the nssymbtable with the definitions of the parent of the root subnode
-                getParentNameSpaces((Element)rootNode, ns);
+                //Fills the nssymbtbble with the definitions of the pbrent of the root subnode
+                getPbrentNbmeSpbces((Element)rootNode, ns);
                 nodeLevel = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
             }
-            this.canonicalizeSubTree(rootNode, ns, rootNode, nodeLevel);
+            this.cbnonicblizeSubTree(rootNode, ns, rootNode, nodeLevel);
             this.writer.flush();
-            if (this.writer instanceof ByteArrayOutputStream) {
-                byte[] result = ((ByteArrayOutputStream)this.writer).toByteArray();
+            if (this.writer instbnceof ByteArrbyOutputStrebm) {
+                byte[] result = ((ByteArrbyOutputStrebm)this.writer).toByteArrby();
                 if (reset) {
-                    ((ByteArrayOutputStream)this.writer).reset();
+                    ((ByteArrbyOutputStrebm)this.writer).reset();
                 } else {
                     this.writer.close();
                 }
                 return result;
-            } else if (this.writer instanceof UnsyncByteArrayOutputStream) {
-                byte[] result = ((UnsyncByteArrayOutputStream)this.writer).toByteArray();
+            } else if (this.writer instbnceof UnsyncByteArrbyOutputStrebm) {
+                byte[] result = ((UnsyncByteArrbyOutputStrebm)this.writer).toByteArrby();
                 if (reset) {
-                    ((UnsyncByteArrayOutputStream)this.writer).reset();
+                    ((UnsyncByteArrbyOutputStrebm)this.writer).reset();
                 } else {
                     this.writer.close();
                 }
@@ -223,119 +223,119 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
             }
             return null;
 
-        } catch (UnsupportedEncodingException ex) {
-            throw new CanonicalizationException("empty", ex);
-        } catch (IOException ex) {
-            throw new CanonicalizationException("empty", ex);
+        } cbtch (UnsupportedEncodingException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
         }
     }
 
 
     /**
-     * Method canonicalizeSubTree, this function is a recursive one.
+     * Method cbnonicblizeSubTree, this function is b recursive one.
      *
-     * @param currentNode
-     * @param ns
-     * @param endnode
-     * @throws CanonicalizationException
+     * @pbrbm currentNode
+     * @pbrbm ns
+     * @pbrbm endnode
+     * @throws CbnonicblizbtionException
      * @throws IOException
      */
-    protected final void canonicalizeSubTree(
-        Node currentNode, NameSpaceSymbTable ns, Node endnode, int documentLevel
-    ) throws CanonicalizationException, IOException {
+    protected finbl void cbnonicblizeSubTree(
+        Node currentNode, NbmeSpbceSymbTbble ns, Node endnode, int documentLevel
+    ) throws CbnonicblizbtionException, IOException {
         if (isVisibleInt(currentNode) == -1) {
             return;
         }
         Node sibling = null;
-        Node parentNode = null;
-        final OutputStream writer = this.writer;
-        final Node excludeNode = this.excludeNode;
-        final boolean includeComments = this.includeComments;
-        Map<String, byte[]> cache = new HashMap<String, byte[]>();
+        Node pbrentNode = null;
+        finbl OutputStrebm writer = this.writer;
+        finbl Node excludeNode = this.excludeNode;
+        finbl boolebn includeComments = this.includeComments;
+        Mbp<String, byte[]> cbche = new HbshMbp<String, byte[]>();
         do {
             switch (currentNode.getNodeType()) {
 
-            case Node.ENTITY_NODE :
-            case Node.NOTATION_NODE :
-            case Node.ATTRIBUTE_NODE :
-                // illegal node type during traversal
-                throw new CanonicalizationException("empty");
+            cbse Node.ENTITY_NODE :
+            cbse Node.NOTATION_NODE :
+            cbse Node.ATTRIBUTE_NODE :
+                // illegbl node type during trbversbl
+                throw new CbnonicblizbtionException("empty");
 
-            case Node.DOCUMENT_FRAGMENT_NODE :
-            case Node.DOCUMENT_NODE :
+            cbse Node.DOCUMENT_FRAGMENT_NODE :
+            cbse Node.DOCUMENT_NODE :
                 ns.outputNodePush();
                 sibling = currentNode.getFirstChild();
-                break;
+                brebk;
 
-            case Node.COMMENT_NODE :
+            cbse Node.COMMENT_NODE :
                 if (includeComments) {
                     outputCommentToWriter((Comment) currentNode, writer, documentLevel);
                 }
-                break;
+                brebk;
 
-            case Node.PROCESSING_INSTRUCTION_NODE :
+            cbse Node.PROCESSING_INSTRUCTION_NODE :
                 outputPItoWriter((ProcessingInstruction) currentNode, writer, documentLevel);
-                break;
+                brebk;
 
-            case Node.TEXT_NODE :
-            case Node.CDATA_SECTION_NODE :
-                outputTextToWriter(currentNode.getNodeValue(), writer);
-                break;
+            cbse Node.TEXT_NODE :
+            cbse Node.CDATA_SECTION_NODE :
+                outputTextToWriter(currentNode.getNodeVblue(), writer);
+                brebk;
 
-            case Node.ELEMENT_NODE :
+            cbse Node.ELEMENT_NODE :
                 documentLevel = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
                 if (currentNode == excludeNode) {
-                    break;
+                    brebk;
                 }
                 Element currentElement = (Element)currentNode;
-                //Add a level to the nssymbtable. So latter can be pop-back.
+                //Add b level to the nssymbtbble. So lbtter cbn be pop-bbck.
                 ns.outputNodePush();
                 writer.write('<');
-                String name = currentElement.getTagName();
-                UtfHelpper.writeByte(name, writer, cache);
+                String nbme = currentElement.getTbgNbme();
+                UtfHelpper.writeByte(nbme, writer, cbche);
 
-                Iterator<Attr> attrs = this.handleAttributesSubtree(currentElement, ns);
-                if (attrs != null) {
-                    //we output all Attrs which are available
-                    while (attrs.hasNext()) {
-                        Attr attr = attrs.next();
-                        outputAttrToWriter(attr.getNodeName(), attr.getNodeValue(), writer, cache);
+                Iterbtor<Attr> bttrs = this.hbndleAttributesSubtree(currentElement, ns);
+                if (bttrs != null) {
+                    //we output bll Attrs which bre bvbilbble
+                    while (bttrs.hbsNext()) {
+                        Attr bttr = bttrs.next();
+                        outputAttrToWriter(bttr.getNodeNbme(), bttr.getNodeVblue(), writer, cbche);
                     }
                 }
                 writer.write('>');
                 sibling = currentNode.getFirstChild();
                 if (sibling == null) {
                     writer.write(END_TAG.clone());
-                    UtfHelpper.writeStringToUtf8(name, writer);
+                    UtfHelpper.writeStringToUtf8(nbme, writer);
                     writer.write('>');
                     //We finished with this level, pop to the previous definitions.
                     ns.outputNodePop();
-                    if (parentNode != null) {
+                    if (pbrentNode != null) {
                         sibling = currentNode.getNextSibling();
                     }
                 } else {
-                    parentNode = currentElement;
+                    pbrentNode = currentElement;
                 }
-                break;
+                brebk;
 
-            case Node.DOCUMENT_TYPE_NODE :
-            default :
-                break;
+            cbse Node.DOCUMENT_TYPE_NODE :
+            defbult :
+                brebk;
             }
-            while (sibling == null && parentNode != null) {
+            while (sibling == null && pbrentNode != null) {
                 writer.write(END_TAG.clone());
-                UtfHelpper.writeByte(((Element)parentNode).getTagName(), writer, cache);
+                UtfHelpper.writeByte(((Element)pbrentNode).getTbgNbme(), writer, cbche);
                 writer.write('>');
                 //We finished with this level, pop to the previous definitions.
                 ns.outputNodePop();
-                if (parentNode == endnode) {
+                if (pbrentNode == endnode) {
                     return;
                 }
-                sibling = parentNode.getNextSibling();
-                parentNode = parentNode.getParentNode();
-                if (parentNode == null || Node.ELEMENT_NODE != parentNode.getNodeType()) {
+                sibling = pbrentNode.getNextSibling();
+                pbrentNode = pbrentNode.getPbrentNode();
+                if (pbrentNode == null || Node.ELEMENT_NODE != pbrentNode.getNodeType()) {
                     documentLevel = NODE_AFTER_DOCUMENT_ELEMENT;
-                    parentNode = null;
+                    pbrentNode = null;
                 }
             }
             if (sibling == null) {
@@ -347,23 +347,23 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
     }
 
 
-    private byte[] engineCanonicalizeXPathNodeSetInternal(Node doc)
-        throws CanonicalizationException {
+    privbte byte[] engineCbnonicblizeXPbthNodeSetInternbl(Node doc)
+        throws CbnonicblizbtionException {
         try {
-            this.canonicalizeXPathNodeSet(doc, doc);
+            this.cbnonicblizeXPbthNodeSet(doc, doc);
             this.writer.flush();
-            if (this.writer instanceof ByteArrayOutputStream) {
-                byte[] sol = ((ByteArrayOutputStream)this.writer).toByteArray();
+            if (this.writer instbnceof ByteArrbyOutputStrebm) {
+                byte[] sol = ((ByteArrbyOutputStrebm)this.writer).toByteArrby();
                 if (reset) {
-                    ((ByteArrayOutputStream)this.writer).reset();
+                    ((ByteArrbyOutputStrebm)this.writer).reset();
                 } else {
                     this.writer.close();
                 }
                 return sol;
-            } else if (this.writer instanceof UnsyncByteArrayOutputStream) {
-                byte[] result = ((UnsyncByteArrayOutputStream)this.writer).toByteArray();
+            } else if (this.writer instbnceof UnsyncByteArrbyOutputStrebm) {
+                byte[] result = ((UnsyncByteArrbyOutputStrebm)this.writer).toByteArrby();
                 if (reset) {
-                    ((UnsyncByteArrayOutputStream)this.writer).reset();
+                    ((UnsyncByteArrbyOutputStrebm)this.writer).reset();
                 } else {
                     this.writer.close();
                 }
@@ -372,108 +372,108 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
                 this.writer.close();
             }
             return null;
-        } catch (UnsupportedEncodingException ex) {
-            throw new CanonicalizationException("empty", ex);
-        } catch (IOException ex) {
-            throw new CanonicalizationException("empty", ex);
+        } cbtch (UnsupportedEncodingException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new CbnonicblizbtionException("empty", ex);
         }
     }
 
     /**
-     * Canonicalizes all the nodes included in the currentNode and contained in the
-     * xpathNodeSet field.
+     * Cbnonicblizes bll the nodes included in the currentNode bnd contbined in the
+     * xpbthNodeSet field.
      *
-     * @param currentNode
-     * @param endnode
-     * @throws CanonicalizationException
+     * @pbrbm currentNode
+     * @pbrbm endnode
+     * @throws CbnonicblizbtionException
      * @throws IOException
      */
-    protected final void canonicalizeXPathNodeSet(Node currentNode, Node endnode)
-        throws CanonicalizationException, IOException {
+    protected finbl void cbnonicblizeXPbthNodeSet(Node currentNode, Node endnode)
+        throws CbnonicblizbtionException, IOException {
         if (isVisibleInt(currentNode) == -1) {
             return;
         }
-        boolean currentNodeIsVisible = false;
-        NameSpaceSymbTable ns = new NameSpaceSymbTable();
+        boolebn currentNodeIsVisible = fblse;
+        NbmeSpbceSymbTbble ns = new NbmeSpbceSymbTbble();
         if (currentNode != null && Node.ELEMENT_NODE == currentNode.getNodeType()) {
-            getParentNameSpaces((Element)currentNode, ns);
+            getPbrentNbmeSpbces((Element)currentNode, ns);
         }
         if (currentNode == null) {
             return;
         }
         Node sibling = null;
-        Node parentNode = null;
-        OutputStream writer = this.writer;
+        Node pbrentNode = null;
+        OutputStrebm writer = this.writer;
         int documentLevel = NODE_BEFORE_DOCUMENT_ELEMENT;
-        Map<String, byte[]> cache = new HashMap<String, byte[]>();
+        Mbp<String, byte[]> cbche = new HbshMbp<String, byte[]>();
         do {
             switch (currentNode.getNodeType()) {
 
-            case Node.ENTITY_NODE :
-            case Node.NOTATION_NODE :
-            case Node.ATTRIBUTE_NODE :
-                // illegal node type during traversal
-                throw new CanonicalizationException("empty");
+            cbse Node.ENTITY_NODE :
+            cbse Node.NOTATION_NODE :
+            cbse Node.ATTRIBUTE_NODE :
+                // illegbl node type during trbversbl
+                throw new CbnonicblizbtionException("empty");
 
-            case Node.DOCUMENT_FRAGMENT_NODE :
-            case Node.DOCUMENT_NODE :
+            cbse Node.DOCUMENT_FRAGMENT_NODE :
+            cbse Node.DOCUMENT_NODE :
                 ns.outputNodePush();
                 sibling = currentNode.getFirstChild();
-                break;
+                brebk;
 
-            case Node.COMMENT_NODE :
+            cbse Node.COMMENT_NODE :
                 if (this.includeComments && (isVisibleDO(currentNode, ns.getLevel()) == 1)) {
                     outputCommentToWriter((Comment) currentNode, writer, documentLevel);
                 }
-                break;
+                brebk;
 
-            case Node.PROCESSING_INSTRUCTION_NODE :
+            cbse Node.PROCESSING_INSTRUCTION_NODE :
                 if (isVisible(currentNode)) {
                     outputPItoWriter((ProcessingInstruction) currentNode, writer, documentLevel);
                 }
-                break;
+                brebk;
 
-            case Node.TEXT_NODE :
-            case Node.CDATA_SECTION_NODE :
+            cbse Node.TEXT_NODE :
+            cbse Node.CDATA_SECTION_NODE :
                 if (isVisible(currentNode)) {
-                    outputTextToWriter(currentNode.getNodeValue(), writer);
+                    outputTextToWriter(currentNode.getNodeVblue(), writer);
                     for (Node nextSibling = currentNode.getNextSibling();
                         (nextSibling != null) && ((nextSibling.getNodeType() == Node.TEXT_NODE)
                             || (nextSibling.getNodeType() == Node.CDATA_SECTION_NODE));
                         nextSibling = nextSibling.getNextSibling()) {
-                        outputTextToWriter(nextSibling.getNodeValue(), writer);
+                        outputTextToWriter(nextSibling.getNodeVblue(), writer);
                         currentNode = nextSibling;
                         sibling = currentNode.getNextSibling();
                     }
                 }
-                break;
+                brebk;
 
-            case Node.ELEMENT_NODE :
+            cbse Node.ELEMENT_NODE :
                 documentLevel = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
                 Element currentElement = (Element) currentNode;
-                //Add a level to the nssymbtable. So latter can be pop-back.
-                String name = null;
+                //Add b level to the nssymbtbble. So lbtter cbn be pop-bbck.
+                String nbme = null;
                 int i = isVisibleDO(currentNode, ns.getLevel());
                 if (i == -1) {
                     sibling = currentNode.getNextSibling();
-                    break;
+                    brebk;
                 }
                 currentNodeIsVisible = (i == 1);
                 if (currentNodeIsVisible) {
                     ns.outputNodePush();
                     writer.write('<');
-                    name = currentElement.getTagName();
-                    UtfHelpper.writeByte(name, writer, cache);
+                    nbme = currentElement.getTbgNbme();
+                    UtfHelpper.writeByte(nbme, writer, cbche);
                 } else {
                     ns.push();
                 }
 
-                Iterator<Attr> attrs = handleAttributes(currentElement,ns);
-                if (attrs != null) {
-                    //we output all Attrs which are available
-                    while (attrs.hasNext()) {
-                        Attr attr = attrs.next();
-                        outputAttrToWriter(attr.getNodeName(), attr.getNodeValue(), writer, cache);
+                Iterbtor<Attr> bttrs = hbndleAttributes(currentElement,ns);
+                if (bttrs != null) {
+                    //we output bll Attrs which bre bvbilbble
+                    while (bttrs.hbsNext()) {
+                        Attr bttr = bttrs.next();
+                        outputAttrToWriter(bttr.getNodeNbme(), bttr.getNodeVblue(), writer, cbche);
                     }
                 }
                 if (currentNodeIsVisible) {
@@ -484,42 +484,42 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
                 if (sibling == null) {
                     if (currentNodeIsVisible) {
                         writer.write(END_TAG.clone());
-                        UtfHelpper.writeByte(name, writer, cache);
+                        UtfHelpper.writeByte(nbme, writer, cbche);
                         writer.write('>');
                         //We finished with this level, pop to the previous definitions.
                         ns.outputNodePop();
                     } else {
                         ns.pop();
                     }
-                    if (parentNode != null) {
+                    if (pbrentNode != null) {
                         sibling = currentNode.getNextSibling();
                     }
                 } else {
-                    parentNode = currentElement;
+                    pbrentNode = currentElement;
                 }
-                break;
+                brebk;
 
-            case Node.DOCUMENT_TYPE_NODE :
-            default :
-                break;
+            cbse Node.DOCUMENT_TYPE_NODE :
+            defbult :
+                brebk;
             }
-            while (sibling == null && parentNode != null) {
-                if (isVisible(parentNode)) {
+            while (sibling == null && pbrentNode != null) {
+                if (isVisible(pbrentNode)) {
                     writer.write(END_TAG.clone());
-                    UtfHelpper.writeByte(((Element)parentNode).getTagName(), writer, cache);
+                    UtfHelpper.writeByte(((Element)pbrentNode).getTbgNbme(), writer, cbche);
                     writer.write('>');
                     //We finished with this level, pop to the previous definitions.
                     ns.outputNodePop();
                 } else {
                     ns.pop();
                 }
-                if (parentNode == endnode) {
+                if (pbrentNode == endnode) {
                     return;
                 }
-                sibling = parentNode.getNextSibling();
-                parentNode = parentNode.getParentNode();
-                if (parentNode == null || Node.ELEMENT_NODE != parentNode.getNodeType()) {
-                    parentNode = null;
+                sibling = pbrentNode.getNextSibling();
+                pbrentNode = pbrentNode.getPbrentNode();
+                if (pbrentNode == null || Node.ELEMENT_NODE != pbrentNode.getNodeType()) {
+                    pbrentNode = null;
                     documentLevel = NODE_AFTER_DOCUMENT_ELEMENT;
                 }
             }
@@ -533,15 +533,15 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
 
     protected int isVisibleDO(Node currentNode, int level) {
         if (nodeFilter != null) {
-            Iterator<NodeFilter> it = nodeFilter.iterator();
-            while (it.hasNext()) {
+            Iterbtor<NodeFilter> it = nodeFilter.iterbtor();
+            while (it.hbsNext()) {
                 int i = (it.next()).isNodeIncludeDO(currentNode, level);
                 if (i != 1) {
                     return i;
                 }
             }
         }
-        if ((this.xpathNodeSet != null) && !this.xpathNodeSet.contains(currentNode)) {
+        if ((this.xpbthNodeSet != null) && !this.xpbthNodeSet.contbins(currentNode)) {
             return 0;
         }
         return 1;
@@ -549,187 +549,187 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
 
     protected int isVisibleInt(Node currentNode) {
         if (nodeFilter != null) {
-            Iterator<NodeFilter> it = nodeFilter.iterator();
-            while (it.hasNext()) {
+            Iterbtor<NodeFilter> it = nodeFilter.iterbtor();
+            while (it.hbsNext()) {
                 int i = (it.next()).isNodeInclude(currentNode);
                 if (i != 1) {
                     return i;
                 }
             }
         }
-        if ((this.xpathNodeSet != null) && !this.xpathNodeSet.contains(currentNode)) {
+        if ((this.xpbthNodeSet != null) && !this.xpbthNodeSet.contbins(currentNode)) {
             return 0;
         }
         return 1;
     }
 
-    protected boolean isVisible(Node currentNode) {
+    protected boolebn isVisible(Node currentNode) {
         if (nodeFilter != null) {
-            Iterator<NodeFilter> it = nodeFilter.iterator();
-            while (it.hasNext()) {
+            Iterbtor<NodeFilter> it = nodeFilter.iterbtor();
+            while (it.hbsNext()) {
                 if (it.next().isNodeInclude(currentNode) != 1) {
-                    return false;
+                    return fblse;
                 }
             }
         }
-        if ((this.xpathNodeSet != null) && !this.xpathNodeSet.contains(currentNode)) {
-            return false;
+        if ((this.xpbthNodeSet != null) && !this.xpbthNodeSet.contbins(currentNode)) {
+            return fblse;
         }
         return true;
     }
 
-    protected void handleParent(Element e, NameSpaceSymbTable ns) {
-        if (!e.hasAttributes() && e.getNamespaceURI() == null) {
+    protected void hbndlePbrent(Element e, NbmeSpbceSymbTbble ns) {
+        if (!e.hbsAttributes() && e.getNbmespbceURI() == null) {
             return;
         }
-        NamedNodeMap attrs = e.getAttributes();
-        int attrsLength = attrs.getLength();
-        for (int i = 0; i < attrsLength; i++) {
-            Attr attribute = (Attr) attrs.item(i);
-            String NName = attribute.getLocalName();
-            String NValue = attribute.getNodeValue();
+        NbmedNodeMbp bttrs = e.getAttributes();
+        int bttrsLength = bttrs.getLength();
+        for (int i = 0; i < bttrsLength; i++) {
+            Attr bttribute = (Attr) bttrs.item(i);
+            String NNbme = bttribute.getLocblNbme();
+            String NVblue = bttribute.getNodeVblue();
 
-            if (Constants.NamespaceSpecNS.equals(attribute.getNamespaceURI())
-                && (!XML.equals(NName) || !Constants.XML_LANG_SPACE_SpecNS.equals(NValue))) {
-                ns.addMapping(NName, NValue, attribute);
+            if (Constbnts.NbmespbceSpecNS.equbls(bttribute.getNbmespbceURI())
+                && (!XML.equbls(NNbme) || !Constbnts.XML_LANG_SPACE_SpecNS.equbls(NVblue))) {
+                ns.bddMbpping(NNbme, NVblue, bttribute);
             }
         }
-        if (e.getNamespaceURI() != null) {
-            String NName = e.getPrefix();
-            String NValue = e.getNamespaceURI();
-            String Name;
-            if (NName == null || NName.equals("")) {
-                NName = XMLNS;
-                Name = XMLNS;
+        if (e.getNbmespbceURI() != null) {
+            String NNbme = e.getPrefix();
+            String NVblue = e.getNbmespbceURI();
+            String Nbme;
+            if (NNbme == null || NNbme.equbls("")) {
+                NNbme = XMLNS;
+                Nbme = XMLNS;
             } else {
-                Name = XMLNS + ":" + NName;
+                Nbme = XMLNS + ":" + NNbme;
             }
-            Attr n = e.getOwnerDocument().createAttributeNS("http://www.w3.org/2000/xmlns/", Name);
-            n.setValue(NValue);
-            ns.addMapping(NName, NValue, n);
+            Attr n = e.getOwnerDocument().crebteAttributeNS("http://www.w3.org/2000/xmlns/", Nbme);
+            n.setVblue(NVblue);
+            ns.bddMbpping(NNbme, NVblue, n);
         }
     }
 
     /**
-     * Adds to ns the definitions from the parent elements of el
-     * @param el
-     * @param ns
+     * Adds to ns the definitions from the pbrent elements of el
+     * @pbrbm el
+     * @pbrbm ns
      */
-    protected final void getParentNameSpaces(Element el, NameSpaceSymbTable ns)  {
-        Node n1 = el.getParentNode();
+    protected finbl void getPbrentNbmeSpbces(Element el, NbmeSpbceSymbTbble ns)  {
+        Node n1 = el.getPbrentNode();
         if (n1 == null || Node.ELEMENT_NODE != n1.getNodeType()) {
             return;
         }
-        //Obtain all the parents of the element
-        List<Element> parents = new ArrayList<Element>();
-        Node parent = n1;
-        while (parent != null && Node.ELEMENT_NODE == parent.getNodeType()) {
-            parents.add((Element)parent);
-            parent = parent.getParentNode();
+        //Obtbin bll the pbrents of the element
+        List<Element> pbrents = new ArrbyList<Element>();
+        Node pbrent = n1;
+        while (pbrent != null && Node.ELEMENT_NODE == pbrent.getNodeType()) {
+            pbrents.bdd((Element)pbrent);
+            pbrent = pbrent.getPbrentNode();
         }
         //Visit them in reverse order.
-        ListIterator<Element> it = parents.listIterator(parents.size());
-        while (it.hasPrevious()) {
+        ListIterbtor<Element> it = pbrents.listIterbtor(pbrents.size());
+        while (it.hbsPrevious()) {
             Element ele = it.previous();
-            handleParent(ele, ns);
+            hbndlePbrent(ele, ns);
         }
-        parents.clear();
+        pbrents.clebr();
         Attr nsprefix;
-        if (((nsprefix = ns.getMappingWithoutRendered(XMLNS)) != null)
-                && "".equals(nsprefix.getValue())) {
-            ns.addMappingAndRender(
+        if (((nsprefix = ns.getMbppingWithoutRendered(XMLNS)) != null)
+                && "".equbls(nsprefix.getVblue())) {
+            ns.bddMbppingAndRender(
                     XMLNS, "", getNullNode(nsprefix.getOwnerDocument()));
         }
     }
 
     /**
-     * Obtain the attributes to output for this node in XPathNodeSet c14n.
+     * Obtbin the bttributes to output for this node in XPbthNodeSet c14n.
      *
-     * @param element
-     * @param ns
-     * @return the attributes nodes to output.
-     * @throws CanonicalizationException
+     * @pbrbm element
+     * @pbrbm ns
+     * @return the bttributes nodes to output.
+     * @throws CbnonicblizbtionException
      */
-    abstract Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException;
+    bbstrbct Iterbtor<Attr> hbndleAttributes(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException;
 
     /**
-     * Obtain the attributes to output for this node in a Subtree c14n.
+     * Obtbin the bttributes to output for this node in b Subtree c14n.
      *
-     * @param element
-     * @param ns
-     * @return the attributes nodes to output.
-     * @throws CanonicalizationException
+     * @pbrbm element
+     * @pbrbm ns
+     * @return the bttributes nodes to output.
+     * @throws CbnonicblizbtionException
      */
-    abstract Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException;
+    bbstrbct Iterbtor<Attr> hbndleAttributesSubtree(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException;
 
-    abstract void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException, IOException, SAXException;
+    bbstrbct void circumventBugIfNeeded(XMLSignbtureInput input)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException, IOException, SAXException;
 
     /**
-     * Outputs an Attribute to the internal Writer.
+     * Outputs bn Attribute to the internbl Writer.
      *
-     * The string value of the node is modified by replacing
+     * The string vblue of the node is modified by replbcing
      * <UL>
-     * <LI>all ampersands (&) with <CODE>&amp;amp;</CODE></LI>
-     * <LI>all open angle brackets (<) with <CODE>&amp;lt;</CODE></LI>
-     * <LI>all quotation mark characters with <CODE>&amp;quot;</CODE></LI>
-     * <LI>and the whitespace characters <CODE>#x9</CODE>, #xA, and #xD, with character
-     * references. The character references are written in uppercase
-     * hexadecimal with no leading zeroes (for example, <CODE>#xD</CODE> is represented
-     * by the character reference <CODE>&amp;#xD;</CODE>)</LI>
+     * <LI>bll bmpersbnds (&) with <CODE>&bmp;bmp;</CODE></LI>
+     * <LI>bll open bngle brbckets (<) with <CODE>&bmp;lt;</CODE></LI>
+     * <LI>bll quotbtion mbrk chbrbcters with <CODE>&bmp;quot;</CODE></LI>
+     * <LI>bnd the whitespbce chbrbcters <CODE>#x9</CODE>, #xA, bnd #xD, with chbrbcter
+     * references. The chbrbcter references bre written in uppercbse
+     * hexbdecimbl with no lebding zeroes (for exbmple, <CODE>#xD</CODE> is represented
+     * by the chbrbcter reference <CODE>&bmp;#xD;</CODE>)</LI>
      * </UL>
      *
-     * @param name
-     * @param value
-     * @param writer
+     * @pbrbm nbme
+     * @pbrbm vblue
+     * @pbrbm writer
      * @throws IOException
      */
-    protected static final void outputAttrToWriter(
-        final String name, final String value,
-        final OutputStream writer, final Map<String, byte[]> cache
+    protected stbtic finbl void outputAttrToWriter(
+        finbl String nbme, finbl String vblue,
+        finbl OutputStrebm writer, finbl Mbp<String, byte[]> cbche
     ) throws IOException {
         writer.write(' ');
-        UtfHelpper.writeByte(name, writer, cache);
+        UtfHelpper.writeByte(nbme, writer, cbche);
         writer.write(EQUALS_STR.clone());
         byte[] toWrite;
-        final int length = value.length();
+        finbl int length = vblue.length();
         int i = 0;
         while (i < length) {
-            char c = value.charAt(i++);
+            chbr c = vblue.chbrAt(i++);
 
             switch (c) {
 
-            case '&' :
+            cbse '&' :
                 toWrite = AMP.clone();
-                break;
+                brebk;
 
-            case '<' :
+            cbse '<' :
                 toWrite = LT.clone();
-                break;
+                brebk;
 
-            case '"' :
+            cbse '"' :
                 toWrite = QUOT.clone();
-                break;
+                brebk;
 
-            case 0x09 :    // '\t'
+            cbse 0x09 :    // '\t'
                 toWrite = X9.clone();
-                break;
+                brebk;
 
-            case 0x0A :    // '\n'
+            cbse 0x0A :    // '\n'
                 toWrite = XA.clone();
-                break;
+                brebk;
 
-            case 0x0D :    // '\r'
+            cbse 0x0D :    // '\r'
                 toWrite = XD.clone();
-                break;
+                brebk;
 
-            default :
+            defbult :
                 if (c < 0x80) {
                     writer.write(c);
                 } else {
-                    UtfHelpper.writeCharToUtf8(c, writer);
+                    UtfHelpper.writeChbrToUtf8(c, writer);
                 }
                 continue;
             }
@@ -740,49 +740,49 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
     }
 
     /**
-     * Outputs a PI to the internal Writer.
+     * Outputs b PI to the internbl Writer.
      *
-     * @param currentPI
-     * @param writer where to write the things
+     * @pbrbm currentPI
+     * @pbrbm writer where to write the things
      * @throws IOException
      */
     protected void outputPItoWriter(
-        ProcessingInstruction currentPI, OutputStream writer, int position
+        ProcessingInstruction currentPI, OutputStrebm writer, int position
     ) throws IOException {
         if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
             writer.write('\n');
         }
         writer.write(BEGIN_PI.clone());
 
-        final String target = currentPI.getTarget();
-        int length = target.length();
+        finbl String tbrget = currentPI.getTbrget();
+        int length = tbrget.length();
 
         for (int i = 0; i < length; i++) {
-            char c = target.charAt(i);
+            chbr c = tbrget.chbrAt(i);
             if (c == 0x0D) {
                 writer.write(XD.clone());
             } else {
                 if (c < 0x80) {
                     writer.write(c);
                 } else {
-                    UtfHelpper.writeCharToUtf8(c, writer);
+                    UtfHelpper.writeChbrToUtf8(c, writer);
                 }
             }
         }
 
-        final String data = currentPI.getData();
+        finbl String dbtb = currentPI.getDbtb();
 
-        length = data.length();
+        length = dbtb.length();
 
         if (length > 0) {
             writer.write(' ');
 
             for (int i = 0; i < length; i++) {
-                char c = data.charAt(i);
+                chbr c = dbtb.chbrAt(i);
                 if (c == 0x0D) {
                     writer.write(XD.clone());
                 } else {
-                    UtfHelpper.writeCharToUtf8(c, writer);
+                    UtfHelpper.writeChbrToUtf8(c, writer);
                 }
             }
         }
@@ -796,30 +796,30 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
     /**
      * Method outputCommentToWriter
      *
-     * @param currentComment
-     * @param writer writer where to write the things
+     * @pbrbm currentComment
+     * @pbrbm writer writer where to write the things
      * @throws IOException
      */
     protected void outputCommentToWriter(
-        Comment currentComment, OutputStream writer, int position
+        Comment currentComment, OutputStrebm writer, int position
     ) throws IOException {
         if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
             writer.write('\n');
         }
         writer.write(BEGIN_COMM.clone());
 
-        final String data = currentComment.getData();
-        final int length = data.length();
+        finbl String dbtb = currentComment.getDbtb();
+        finbl int length = dbtb.length();
 
         for (int i = 0; i < length; i++) {
-            char c = data.charAt(i);
+            chbr c = dbtb.chbrAt(i);
             if (c == 0x0D) {
                 writer.write(XD.clone());
             } else {
                 if (c < 0x80) {
                     writer.write(c);
                 } else {
-                    UtfHelpper.writeCharToUtf8(c, writer);
+                    UtfHelpper.writeChbrToUtf8(c, writer);
                 }
             }
         }
@@ -831,43 +831,43 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
     }
 
     /**
-     * Outputs a Text of CDATA section to the internal Writer.
+     * Outputs b Text of CDATA section to the internbl Writer.
      *
-     * @param text
-     * @param writer writer where to write the things
+     * @pbrbm text
+     * @pbrbm writer writer where to write the things
      * @throws IOException
      */
-    protected static final void outputTextToWriter(
-        final String text, final OutputStream writer
+    protected stbtic finbl void outputTextToWriter(
+        finbl String text, finbl OutputStrebm writer
     ) throws IOException {
-        final int length = text.length();
+        finbl int length = text.length();
         byte[] toWrite;
         for (int i = 0; i < length; i++) {
-            char c = text.charAt(i);
+            chbr c = text.chbrAt(i);
 
             switch (c) {
 
-            case '&' :
+            cbse '&' :
                 toWrite = AMP.clone();
-                break;
+                brebk;
 
-            case '<' :
+            cbse '<' :
                 toWrite = LT.clone();
-                break;
+                brebk;
 
-            case '>' :
+            cbse '>' :
                 toWrite = GT.clone();
-                break;
+                brebk;
 
-            case 0xD :
+            cbse 0xD :
                 toWrite = XD.clone();
-                break;
+                brebk;
 
-            default :
+            defbult :
                 if (c < 0x80) {
                     writer.write(c);
                 } else {
-                    UtfHelpper.writeCharToUtf8(c, writer);
+                    UtfHelpper.writeChbrToUtf8(c, writer);
                 }
                 continue;
             }
@@ -879,11 +879,11 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
     protected Attr getNullNode(Document ownerDocument) {
         if (nullNode == null) {
             try {
-                nullNode = ownerDocument.createAttributeNS(
-                                    Constants.NamespaceSpecNS, XMLNS);
-                nullNode.setValue("");
-            } catch (Exception e) {
-                throw new RuntimeException("Unable to create nullNode: " + e);
+                nullNode = ownerDocument.crebteAttributeNS(
+                                    Constbnts.NbmespbceSpecNS, XMLNS);
+                nullNode.setVblue("");
+            } cbtch (Exception e) {
+                throw new RuntimeException("Unbble to crebte nullNode: " + e);
             }
         }
         return nullNode;

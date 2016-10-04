@@ -1,560 +1,560 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.net.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
+import jbvbx.sound.midi.Instrument;
+import jbvbx.sound.midi.Pbtch;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkResource;
 
 /**
- * A SoundFont 2.04 soundbank reader.
+ * A SoundFont 2.04 soundbbnk rebder.
  *
- * Based on SoundFont 2.04 specification from:
- * <p>  http://developer.creative.com <br>
+ * Bbsed on SoundFont 2.04 specificbtion from:
+ * <p>  http://developer.crebtive.com <br>
  *      http://www.soundfont.com/ ;
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SF2Soundbank implements Soundbank {
+public finbl clbss SF2Soundbbnk implements Soundbbnk {
 
     // version of the Sound Font RIFF file
-    int major = 2;
+    int mbjor = 2;
     int minor = 1;
-    // target Sound Engine
-    String targetEngine = "EMU8000";
-    // Sound Font Bank Name
-    String name = "untitled";
-    // Sound ROM Name
-    String romName = null;
+    // tbrget Sound Engine
+    String tbrgetEngine = "EMU8000";
+    // Sound Font Bbnk Nbme
+    String nbme = "untitled";
+    // Sound ROM Nbme
+    String romNbme = null;
     // Sound ROM Version
-    int romVersionMajor = -1;
+    int romVersionMbjor = -1;
     int romVersionMinor = -1;
-    // Date of Creation of the Bank
-    String creationDate = null;
-    // Sound Designers and Engineers for the Bank
+    // Dbte of Crebtion of the Bbnk
+    String crebtionDbte = null;
+    // Sound Designers bnd Engineers for the Bbnk
     String engineers = null;
-    // Product for which the Bank was intended
+    // Product for which the Bbnk wbs intended
     String product = null;
-    // Copyright message
+    // Copyright messbge
     String copyright = null;
     // Comments
     String comments = null;
-    // The SoundFont tools used to create and alter the bank
+    // The SoundFont tools used to crebte bnd blter the bbnk
     String tools = null;
-    // The Sample Data loaded from the SoundFont
-    private ModelByteBuffer sampleData = null;
-    private ModelByteBuffer sampleData24 = null;
-    private File sampleFile = null;
-    private boolean largeFormat = false;
-    private final List<SF2Instrument> instruments = new ArrayList<SF2Instrument>();
-    private final List<SF2Layer> layers = new ArrayList<SF2Layer>();
-    private final List<SF2Sample> samples = new ArrayList<SF2Sample>();
+    // The Sbmple Dbtb lobded from the SoundFont
+    privbte ModelByteBuffer sbmpleDbtb = null;
+    privbte ModelByteBuffer sbmpleDbtb24 = null;
+    privbte File sbmpleFile = null;
+    privbte boolebn lbrgeFormbt = fblse;
+    privbte finbl List<SF2Instrument> instruments = new ArrbyList<SF2Instrument>();
+    privbte finbl List<SF2Lbyer> lbyers = new ArrbyList<SF2Lbyer>();
+    privbte finbl List<SF2Sbmple> sbmples = new ArrbyList<SF2Sbmple>();
 
-    public SF2Soundbank() {
+    public SF2Soundbbnk() {
     }
 
-    public SF2Soundbank(URL url) throws IOException {
+    public SF2Soundbbnk(URL url) throws IOException {
 
-        InputStream is = url.openStream();
+        InputStrebm is = url.openStrebm();
         try {
-            readSoundbank(is);
-        } finally {
+            rebdSoundbbnk(is);
+        } finblly {
             is.close();
         }
     }
 
-    public SF2Soundbank(File file) throws IOException {
-        largeFormat = true;
-        sampleFile = file;
-        InputStream is = new FileInputStream(file);
+    public SF2Soundbbnk(File file) throws IOException {
+        lbrgeFormbt = true;
+        sbmpleFile = file;
+        InputStrebm is = new FileInputStrebm(file);
         try {
-            readSoundbank(is);
-        } finally {
+            rebdSoundbbnk(is);
+        } finblly {
             is.close();
         }
     }
 
-    public SF2Soundbank(InputStream inputstream) throws IOException {
-        readSoundbank(inputstream);
+    public SF2Soundbbnk(InputStrebm inputstrebm) throws IOException {
+        rebdSoundbbnk(inputstrebm);
     }
 
-    private void readSoundbank(InputStream inputstream) throws IOException {
-        RIFFReader riff = new RIFFReader(inputstream);
-        if (!riff.getFormat().equals("RIFF")) {
-            throw new RIFFInvalidFormatException(
-                    "Input stream is not a valid RIFF stream!");
+    privbte void rebdSoundbbnk(InputStrebm inputstrebm) throws IOException {
+        RIFFRebder riff = new RIFFRebder(inputstrebm);
+        if (!riff.getFormbt().equbls("RIFF")) {
+            throw new RIFFInvblidFormbtException(
+                    "Input strebm is not b vblid RIFF strebm!");
         }
-        if (!riff.getType().equals("sfbk")) {
-            throw new RIFFInvalidFormatException(
-                    "Input stream is not a valid SoundFont!");
+        if (!riff.getType().equbls("sfbk")) {
+            throw new RIFFInvblidFormbtException(
+                    "Input strebm is not b vblid SoundFont!");
         }
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            if (chunk.getFormat().equals("LIST")) {
-                if (chunk.getType().equals("INFO"))
-                    readInfoChunk(chunk);
-                if (chunk.getType().equals("sdta"))
-                    readSdtaChunk(chunk);
-                if (chunk.getType().equals("pdta"))
-                    readPdtaChunk(chunk);
+        while (riff.hbsNextChunk()) {
+            RIFFRebder chunk = riff.nextChunk();
+            if (chunk.getFormbt().equbls("LIST")) {
+                if (chunk.getType().equbls("INFO"))
+                    rebdInfoChunk(chunk);
+                if (chunk.getType().equbls("sdtb"))
+                    rebdSdtbChunk(chunk);
+                if (chunk.getType().equbls("pdtb"))
+                    rebdPdtbChunk(chunk);
             }
         }
     }
 
-    private void readInfoChunk(RIFFReader riff) throws IOException {
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("ifil")) {
-                major = chunk.readUnsignedShort();
-                minor = chunk.readUnsignedShort();
-            } else if (format.equals("isng")) {
-                this.targetEngine = chunk.readString(chunk.available());
-            } else if (format.equals("INAM")) {
-                this.name = chunk.readString(chunk.available());
-            } else if (format.equals("irom")) {
-                this.romName = chunk.readString(chunk.available());
-            } else if (format.equals("iver")) {
-                romVersionMajor = chunk.readUnsignedShort();
-                romVersionMinor = chunk.readUnsignedShort();
-            } else if (format.equals("ICRD")) {
-                this.creationDate = chunk.readString(chunk.available());
-            } else if (format.equals("IENG")) {
-                this.engineers = chunk.readString(chunk.available());
-            } else if (format.equals("IPRD")) {
-                this.product = chunk.readString(chunk.available());
-            } else if (format.equals("ICOP")) {
-                this.copyright = chunk.readString(chunk.available());
-            } else if (format.equals("ICMT")) {
-                this.comments = chunk.readString(chunk.available());
-            } else if (format.equals("ISFT")) {
-                this.tools = chunk.readString(chunk.available());
+    privbte void rebdInfoChunk(RIFFRebder riff) throws IOException {
+        while (riff.hbsNextChunk()) {
+            RIFFRebder chunk = riff.nextChunk();
+            String formbt = chunk.getFormbt();
+            if (formbt.equbls("ifil")) {
+                mbjor = chunk.rebdUnsignedShort();
+                minor = chunk.rebdUnsignedShort();
+            } else if (formbt.equbls("isng")) {
+                this.tbrgetEngine = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("INAM")) {
+                this.nbme = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("irom")) {
+                this.romNbme = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("iver")) {
+                romVersionMbjor = chunk.rebdUnsignedShort();
+                romVersionMinor = chunk.rebdUnsignedShort();
+            } else if (formbt.equbls("ICRD")) {
+                this.crebtionDbte = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("IENG")) {
+                this.engineers = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("IPRD")) {
+                this.product = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("ICOP")) {
+                this.copyright = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("ICMT")) {
+                this.comments = chunk.rebdString(chunk.bvbilbble());
+            } else if (formbt.equbls("ISFT")) {
+                this.tools = chunk.rebdString(chunk.bvbilbble());
             }
 
         }
     }
 
-    private void readSdtaChunk(RIFFReader riff) throws IOException {
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            if (chunk.getFormat().equals("smpl")) {
-                if (!largeFormat) {
-                    byte[] sampleData = new byte[chunk.available()];
+    privbte void rebdSdtbChunk(RIFFRebder riff) throws IOException {
+        while (riff.hbsNextChunk()) {
+            RIFFRebder chunk = riff.nextChunk();
+            if (chunk.getFormbt().equbls("smpl")) {
+                if (!lbrgeFormbt) {
+                    byte[] sbmpleDbtb = new byte[chunk.bvbilbble()];
 
-                    int read = 0;
-                    int avail = chunk.available();
-                    while (read != avail) {
-                        if (avail - read > 65536) {
-                            chunk.readFully(sampleData, read, 65536);
-                            read += 65536;
+                    int rebd = 0;
+                    int bvbil = chunk.bvbilbble();
+                    while (rebd != bvbil) {
+                        if (bvbil - rebd > 65536) {
+                            chunk.rebdFully(sbmpleDbtb, rebd, 65536);
+                            rebd += 65536;
                         } else {
-                            chunk.readFully(sampleData, read, avail - read);
-                            read = avail;
+                            chunk.rebdFully(sbmpleDbtb, rebd, bvbil - rebd);
+                            rebd = bvbil;
                         }
 
                     }
-                    this.sampleData = new ModelByteBuffer(sampleData);
-                    //chunk.read(sampleData);
+                    this.sbmpleDbtb = new ModelByteBuffer(sbmpleDbtb);
+                    //chunk.rebd(sbmpleDbtb);
                 } else {
-                    this.sampleData = new ModelByteBuffer(sampleFile,
-                            chunk.getFilePointer(), chunk.available());
+                    this.sbmpleDbtb = new ModelByteBuffer(sbmpleFile,
+                            chunk.getFilePointer(), chunk.bvbilbble());
                 }
             }
-            if (chunk.getFormat().equals("sm24")) {
-                if (!largeFormat) {
-                    byte[] sampleData24 = new byte[chunk.available()];
-                    //chunk.read(sampleData24);
+            if (chunk.getFormbt().equbls("sm24")) {
+                if (!lbrgeFormbt) {
+                    byte[] sbmpleDbtb24 = new byte[chunk.bvbilbble()];
+                    //chunk.rebd(sbmpleDbtb24);
 
-                    int read = 0;
-                    int avail = chunk.available();
-                    while (read != avail) {
-                        if (avail - read > 65536) {
-                            chunk.readFully(sampleData24, read, 65536);
-                            read += 65536;
+                    int rebd = 0;
+                    int bvbil = chunk.bvbilbble();
+                    while (rebd != bvbil) {
+                        if (bvbil - rebd > 65536) {
+                            chunk.rebdFully(sbmpleDbtb24, rebd, 65536);
+                            rebd += 65536;
                         } else {
-                            chunk.readFully(sampleData24, read, avail - read);
-                            read = avail;
+                            chunk.rebdFully(sbmpleDbtb24, rebd, bvbil - rebd);
+                            rebd = bvbil;
                         }
 
                     }
-                    this.sampleData24 = new ModelByteBuffer(sampleData24);
+                    this.sbmpleDbtb24 = new ModelByteBuffer(sbmpleDbtb24);
                 } else {
-                    this.sampleData24 = new ModelByteBuffer(sampleFile,
-                            chunk.getFilePointer(), chunk.available());
+                    this.sbmpleDbtb24 = new ModelByteBuffer(sbmpleFile,
+                            chunk.getFilePointer(), chunk.bvbilbble());
                 }
 
             }
         }
     }
 
-    private void readPdtaChunk(RIFFReader riff) throws IOException {
+    privbte void rebdPdtbChunk(RIFFRebder riff) throws IOException {
 
-        List<SF2Instrument> presets = new ArrayList<SF2Instrument>();
-        List<Integer> presets_bagNdx = new ArrayList<Integer>();
+        List<SF2Instrument> presets = new ArrbyList<SF2Instrument>();
+        List<Integer> presets_bbgNdx = new ArrbyList<Integer>();
         List<SF2InstrumentRegion> presets_splits_gen
-                = new ArrayList<SF2InstrumentRegion>();
+                = new ArrbyList<SF2InstrumentRegion>();
         List<SF2InstrumentRegion> presets_splits_mod
-                = new ArrayList<SF2InstrumentRegion>();
+                = new ArrbyList<SF2InstrumentRegion>();
 
-        List<SF2Layer> instruments = new ArrayList<SF2Layer>();
-        List<Integer> instruments_bagNdx = new ArrayList<Integer>();
-        List<SF2LayerRegion> instruments_splits_gen
-                = new ArrayList<SF2LayerRegion>();
-        List<SF2LayerRegion> instruments_splits_mod
-                = new ArrayList<SF2LayerRegion>();
+        List<SF2Lbyer> instruments = new ArrbyList<SF2Lbyer>();
+        List<Integer> instruments_bbgNdx = new ArrbyList<Integer>();
+        List<SF2LbyerRegion> instruments_splits_gen
+                = new ArrbyList<SF2LbyerRegion>();
+        List<SF2LbyerRegion> instruments_splits_mod
+                = new ArrbyList<SF2LbyerRegion>();
 
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("phdr")) {
-                // Preset Header / Instrument
-                if (chunk.available() % 38 != 0)
-                    throw new RIFFInvalidDataException();
-                int count = chunk.available() / 38;
+        while (riff.hbsNextChunk()) {
+            RIFFRebder chunk = riff.nextChunk();
+            String formbt = chunk.getFormbt();
+            if (formbt.equbls("phdr")) {
+                // Preset Hebder / Instrument
+                if (chunk.bvbilbble() % 38 != 0)
+                    throw new RIFFInvblidDbtbException();
+                int count = chunk.bvbilbble() / 38;
                 for (int i = 0; i < count; i++) {
                     SF2Instrument preset = new SF2Instrument(this);
-                    preset.name = chunk.readString(20);
-                    preset.preset = chunk.readUnsignedShort();
-                    preset.bank = chunk.readUnsignedShort();
-                    presets_bagNdx.add(chunk.readUnsignedShort());
-                    preset.library = chunk.readUnsignedInt();
-                    preset.genre = chunk.readUnsignedInt();
-                    preset.morphology = chunk.readUnsignedInt();
-                    presets.add(preset);
+                    preset.nbme = chunk.rebdString(20);
+                    preset.preset = chunk.rebdUnsignedShort();
+                    preset.bbnk = chunk.rebdUnsignedShort();
+                    presets_bbgNdx.bdd(chunk.rebdUnsignedShort());
+                    preset.librbry = chunk.rebdUnsignedInt();
+                    preset.genre = chunk.rebdUnsignedInt();
+                    preset.morphology = chunk.rebdUnsignedInt();
+                    presets.bdd(preset);
                     if (i != count - 1)
-                        this.instruments.add(preset);
+                        this.instruments.bdd(preset);
                 }
-            } else if (format.equals("pbag")) {
+            } else if (formbt.equbls("pbbg")) {
                 // Preset Zones / Instruments splits
-                if (chunk.available() % 4 != 0)
-                    throw new RIFFInvalidDataException();
-                int count = chunk.available() / 4;
+                if (chunk.bvbilbble() % 4 != 0)
+                    throw new RIFFInvblidDbtbException();
+                int count = chunk.bvbilbble() / 4;
 
                 // Skip first record
                 {
-                    int gencount = chunk.readUnsignedShort();
-                    int modcount = chunk.readUnsignedShort();
+                    int gencount = chunk.rebdUnsignedShort();
+                    int modcount = chunk.rebdUnsignedShort();
                     while (presets_splits_gen.size() < gencount)
-                        presets_splits_gen.add(null);
+                        presets_splits_gen.bdd(null);
                     while (presets_splits_mod.size() < modcount)
-                        presets_splits_mod.add(null);
+                        presets_splits_mod.bdd(null);
                     count--;
                 }
 
-                int offset = presets_bagNdx.get(0);
-                // Offset should be 0 (but just case)
+                int offset = presets_bbgNdx.get(0);
+                // Offset should be 0 (but just cbse)
                 for (int i = 0; i < offset; i++) {
                     if (count == 0)
-                        throw new RIFFInvalidDataException();
-                    int gencount = chunk.readUnsignedShort();
-                    int modcount = chunk.readUnsignedShort();
+                        throw new RIFFInvblidDbtbException();
+                    int gencount = chunk.rebdUnsignedShort();
+                    int modcount = chunk.rebdUnsignedShort();
                     while (presets_splits_gen.size() < gencount)
-                        presets_splits_gen.add(null);
+                        presets_splits_gen.bdd(null);
                     while (presets_splits_mod.size() < modcount)
-                        presets_splits_mod.add(null);
+                        presets_splits_mod.bdd(null);
                     count--;
                 }
 
-                for (int i = 0; i < presets_bagNdx.size() - 1; i++) {
-                    int zone_count = presets_bagNdx.get(i + 1)
-                                     - presets_bagNdx.get(i);
+                for (int i = 0; i < presets_bbgNdx.size() - 1; i++) {
+                    int zone_count = presets_bbgNdx.get(i + 1)
+                                     - presets_bbgNdx.get(i);
                     SF2Instrument preset = presets.get(i);
                     for (int ii = 0; ii < zone_count; ii++) {
                         if (count == 0)
-                            throw new RIFFInvalidDataException();
-                        int gencount = chunk.readUnsignedShort();
-                        int modcount = chunk.readUnsignedShort();
+                            throw new RIFFInvblidDbtbException();
+                        int gencount = chunk.rebdUnsignedShort();
+                        int modcount = chunk.rebdUnsignedShort();
                         SF2InstrumentRegion split = new SF2InstrumentRegion();
-                        preset.regions.add(split);
+                        preset.regions.bdd(split);
                         while (presets_splits_gen.size() < gencount)
-                            presets_splits_gen.add(split);
+                            presets_splits_gen.bdd(split);
                         while (presets_splits_mod.size() < modcount)
-                            presets_splits_mod.add(split);
+                            presets_splits_mod.bdd(split);
                         count--;
                     }
                 }
-            } else if (format.equals("pmod")) {
-                // Preset Modulators / Split Modulators
+            } else if (formbt.equbls("pmod")) {
+                // Preset Modulbtors / Split Modulbtors
                 for (int i = 0; i < presets_splits_mod.size(); i++) {
-                    SF2Modulator modulator = new SF2Modulator();
-                    modulator.sourceOperator = chunk.readUnsignedShort();
-                    modulator.destinationOperator = chunk.readUnsignedShort();
-                    modulator.amount = chunk.readShort();
-                    modulator.amountSourceOperator = chunk.readUnsignedShort();
-                    modulator.transportOperator = chunk.readUnsignedShort();
+                    SF2Modulbtor modulbtor = new SF2Modulbtor();
+                    modulbtor.sourceOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.destinbtionOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.bmount = chunk.rebdShort();
+                    modulbtor.bmountSourceOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.trbnsportOperbtor = chunk.rebdUnsignedShort();
                     SF2InstrumentRegion split = presets_splits_mod.get(i);
                     if (split != null)
-                        split.modulators.add(modulator);
+                        split.modulbtors.bdd(modulbtor);
                 }
-            } else if (format.equals("pgen")) {
-                // Preset Generators / Split Generators
+            } else if (formbt.equbls("pgen")) {
+                // Preset Generbtors / Split Generbtors
                 for (int i = 0; i < presets_splits_gen.size(); i++) {
-                    int operator = chunk.readUnsignedShort();
-                    short amount = chunk.readShort();
+                    int operbtor = chunk.rebdUnsignedShort();
+                    short bmount = chunk.rebdShort();
                     SF2InstrumentRegion split = presets_splits_gen.get(i);
                     if (split != null)
-                        split.generators.put(operator, amount);
+                        split.generbtors.put(operbtor, bmount);
                 }
-            } else if (format.equals("inst")) {
-                // Instrument Header / Layers
-                if (chunk.available() % 22 != 0)
-                    throw new RIFFInvalidDataException();
-                int count = chunk.available() / 22;
+            } else if (formbt.equbls("inst")) {
+                // Instrument Hebder / Lbyers
+                if (chunk.bvbilbble() % 22 != 0)
+                    throw new RIFFInvblidDbtbException();
+                int count = chunk.bvbilbble() / 22;
                 for (int i = 0; i < count; i++) {
-                    SF2Layer layer = new SF2Layer(this);
-                    layer.name = chunk.readString(20);
-                    instruments_bagNdx.add(chunk.readUnsignedShort());
-                    instruments.add(layer);
+                    SF2Lbyer lbyer = new SF2Lbyer(this);
+                    lbyer.nbme = chunk.rebdString(20);
+                    instruments_bbgNdx.bdd(chunk.rebdUnsignedShort());
+                    instruments.bdd(lbyer);
                     if (i != count - 1)
-                        this.layers.add(layer);
+                        this.lbyers.bdd(lbyer);
                 }
-            } else if (format.equals("ibag")) {
-                // Instrument Zones / Layer splits
-                if (chunk.available() % 4 != 0)
-                    throw new RIFFInvalidDataException();
-                int count = chunk.available() / 4;
+            } else if (formbt.equbls("ibbg")) {
+                // Instrument Zones / Lbyer splits
+                if (chunk.bvbilbble() % 4 != 0)
+                    throw new RIFFInvblidDbtbException();
+                int count = chunk.bvbilbble() / 4;
 
                 // Skip first record
                 {
-                    int gencount = chunk.readUnsignedShort();
-                    int modcount = chunk.readUnsignedShort();
+                    int gencount = chunk.rebdUnsignedShort();
+                    int modcount = chunk.rebdUnsignedShort();
                     while (instruments_splits_gen.size() < gencount)
-                        instruments_splits_gen.add(null);
+                        instruments_splits_gen.bdd(null);
                     while (instruments_splits_mod.size() < modcount)
-                        instruments_splits_mod.add(null);
+                        instruments_splits_mod.bdd(null);
                     count--;
                 }
 
-                int offset = instruments_bagNdx.get(0);
-                // Offset should be 0 (but just case)
+                int offset = instruments_bbgNdx.get(0);
+                // Offset should be 0 (but just cbse)
                 for (int i = 0; i < offset; i++) {
                     if (count == 0)
-                        throw new RIFFInvalidDataException();
-                    int gencount = chunk.readUnsignedShort();
-                    int modcount = chunk.readUnsignedShort();
+                        throw new RIFFInvblidDbtbException();
+                    int gencount = chunk.rebdUnsignedShort();
+                    int modcount = chunk.rebdUnsignedShort();
                     while (instruments_splits_gen.size() < gencount)
-                        instruments_splits_gen.add(null);
+                        instruments_splits_gen.bdd(null);
                     while (instruments_splits_mod.size() < modcount)
-                        instruments_splits_mod.add(null);
+                        instruments_splits_mod.bdd(null);
                     count--;
                 }
 
-                for (int i = 0; i < instruments_bagNdx.size() - 1; i++) {
-                    int zone_count = instruments_bagNdx.get(i + 1) - instruments_bagNdx.get(i);
-                    SF2Layer layer = layers.get(i);
+                for (int i = 0; i < instruments_bbgNdx.size() - 1; i++) {
+                    int zone_count = instruments_bbgNdx.get(i + 1) - instruments_bbgNdx.get(i);
+                    SF2Lbyer lbyer = lbyers.get(i);
                     for (int ii = 0; ii < zone_count; ii++) {
                         if (count == 0)
-                            throw new RIFFInvalidDataException();
-                        int gencount = chunk.readUnsignedShort();
-                        int modcount = chunk.readUnsignedShort();
-                        SF2LayerRegion split = new SF2LayerRegion();
-                        layer.regions.add(split);
+                            throw new RIFFInvblidDbtbException();
+                        int gencount = chunk.rebdUnsignedShort();
+                        int modcount = chunk.rebdUnsignedShort();
+                        SF2LbyerRegion split = new SF2LbyerRegion();
+                        lbyer.regions.bdd(split);
                         while (instruments_splits_gen.size() < gencount)
-                            instruments_splits_gen.add(split);
+                            instruments_splits_gen.bdd(split);
                         while (instruments_splits_mod.size() < modcount)
-                            instruments_splits_mod.add(split);
+                            instruments_splits_mod.bdd(split);
                         count--;
                     }
                 }
 
-            } else if (format.equals("imod")) {
-                // Instrument Modulators / Split Modulators
+            } else if (formbt.equbls("imod")) {
+                // Instrument Modulbtors / Split Modulbtors
                 for (int i = 0; i < instruments_splits_mod.size(); i++) {
-                    SF2Modulator modulator = new SF2Modulator();
-                    modulator.sourceOperator = chunk.readUnsignedShort();
-                    modulator.destinationOperator = chunk.readUnsignedShort();
-                    modulator.amount = chunk.readShort();
-                    modulator.amountSourceOperator = chunk.readUnsignedShort();
-                    modulator.transportOperator = chunk.readUnsignedShort();
-                    SF2LayerRegion split = instruments_splits_gen.get(i);
+                    SF2Modulbtor modulbtor = new SF2Modulbtor();
+                    modulbtor.sourceOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.destinbtionOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.bmount = chunk.rebdShort();
+                    modulbtor.bmountSourceOperbtor = chunk.rebdUnsignedShort();
+                    modulbtor.trbnsportOperbtor = chunk.rebdUnsignedShort();
+                    SF2LbyerRegion split = instruments_splits_gen.get(i);
                     if (split != null)
-                        split.modulators.add(modulator);
+                        split.modulbtors.bdd(modulbtor);
                 }
-            } else if (format.equals("igen")) {
-                // Instrument Generators / Split Generators
+            } else if (formbt.equbls("igen")) {
+                // Instrument Generbtors / Split Generbtors
                 for (int i = 0; i < instruments_splits_gen.size(); i++) {
-                    int operator = chunk.readUnsignedShort();
-                    short amount = chunk.readShort();
-                    SF2LayerRegion split = instruments_splits_gen.get(i);
+                    int operbtor = chunk.rebdUnsignedShort();
+                    short bmount = chunk.rebdShort();
+                    SF2LbyerRegion split = instruments_splits_gen.get(i);
                     if (split != null)
-                        split.generators.put(operator, amount);
+                        split.generbtors.put(operbtor, bmount);
                 }
-            } else if (format.equals("shdr")) {
-                // Sample Headers
-                if (chunk.available() % 46 != 0)
-                    throw new RIFFInvalidDataException();
-                int count = chunk.available() / 46;
+            } else if (formbt.equbls("shdr")) {
+                // Sbmple Hebders
+                if (chunk.bvbilbble() % 46 != 0)
+                    throw new RIFFInvblidDbtbException();
+                int count = chunk.bvbilbble() / 46;
                 for (int i = 0; i < count; i++) {
-                    SF2Sample sample = new SF2Sample(this);
-                    sample.name = chunk.readString(20);
-                    long start = chunk.readUnsignedInt();
-                    long end = chunk.readUnsignedInt();
-                    sample.data = sampleData.subbuffer(start * 2, end * 2, true);
-                    if (sampleData24 != null)
-                        sample.data24 = sampleData24.subbuffer(start, end, true);
+                    SF2Sbmple sbmple = new SF2Sbmple(this);
+                    sbmple.nbme = chunk.rebdString(20);
+                    long stbrt = chunk.rebdUnsignedInt();
+                    long end = chunk.rebdUnsignedInt();
+                    sbmple.dbtb = sbmpleDbtb.subbuffer(stbrt * 2, end * 2, true);
+                    if (sbmpleDbtb24 != null)
+                        sbmple.dbtb24 = sbmpleDbtb24.subbuffer(stbrt, end, true);
                     /*
-                    sample.data = new ModelByteBuffer(sampleData, (int)(start*2),
-                            (int)((end - start)*2));
-                    if (sampleData24 != null)
-                        sample.data24 = new ModelByteBuffer(sampleData24,
-                                (int)start, (int)(end - start));
+                    sbmple.dbtb = new ModelByteBuffer(sbmpleDbtb, (int)(stbrt*2),
+                            (int)((end - stbrt)*2));
+                    if (sbmpleDbtb24 != null)
+                        sbmple.dbtb24 = new ModelByteBuffer(sbmpleDbtb24,
+                                (int)stbrt, (int)(end - stbrt));
                      */
-                    sample.startLoop = chunk.readUnsignedInt() - start;
-                    sample.endLoop = chunk.readUnsignedInt() - start;
-                    if (sample.startLoop < 0)
-                        sample.startLoop = -1;
-                    if (sample.endLoop < 0)
-                        sample.endLoop = -1;
-                    sample.sampleRate = chunk.readUnsignedInt();
-                    sample.originalPitch = chunk.readUnsignedByte();
-                    sample.pitchCorrection = chunk.readByte();
-                    sample.sampleLink = chunk.readUnsignedShort();
-                    sample.sampleType = chunk.readUnsignedShort();
+                    sbmple.stbrtLoop = chunk.rebdUnsignedInt() - stbrt;
+                    sbmple.endLoop = chunk.rebdUnsignedInt() - stbrt;
+                    if (sbmple.stbrtLoop < 0)
+                        sbmple.stbrtLoop = -1;
+                    if (sbmple.endLoop < 0)
+                        sbmple.endLoop = -1;
+                    sbmple.sbmpleRbte = chunk.rebdUnsignedInt();
+                    sbmple.originblPitch = chunk.rebdUnsignedByte();
+                    sbmple.pitchCorrection = chunk.rebdByte();
+                    sbmple.sbmpleLink = chunk.rebdUnsignedShort();
+                    sbmple.sbmpleType = chunk.rebdUnsignedShort();
                     if (i != count - 1)
-                        this.samples.add(sample);
+                        this.sbmples.bdd(sbmple);
                 }
             }
         }
 
-        Iterator<SF2Layer> liter = this.layers.iterator();
-        while (liter.hasNext()) {
-            SF2Layer layer = liter.next();
-            Iterator<SF2LayerRegion> siter = layer.regions.iterator();
-            SF2Region globalsplit = null;
-            while (siter.hasNext()) {
-                SF2LayerRegion split = siter.next();
-                if (split.generators.get(SF2LayerRegion.GENERATOR_SAMPLEID) != null) {
-                    int sampleid = split.generators.get(
-                            SF2LayerRegion.GENERATOR_SAMPLEID);
-                    split.generators.remove(SF2LayerRegion.GENERATOR_SAMPLEID);
-                    split.sample = samples.get(sampleid);
+        Iterbtor<SF2Lbyer> liter = this.lbyers.iterbtor();
+        while (liter.hbsNext()) {
+            SF2Lbyer lbyer = liter.next();
+            Iterbtor<SF2LbyerRegion> siter = lbyer.regions.iterbtor();
+            SF2Region globblsplit = null;
+            while (siter.hbsNext()) {
+                SF2LbyerRegion split = siter.next();
+                if (split.generbtors.get(SF2LbyerRegion.GENERATOR_SAMPLEID) != null) {
+                    int sbmpleid = split.generbtors.get(
+                            SF2LbyerRegion.GENERATOR_SAMPLEID);
+                    split.generbtors.remove(SF2LbyerRegion.GENERATOR_SAMPLEID);
+                    split.sbmple = sbmples.get(sbmpleid);
                 } else {
-                    globalsplit = split;
+                    globblsplit = split;
                 }
             }
-            if (globalsplit != null) {
-                layer.getRegions().remove(globalsplit);
-                SF2GlobalRegion gsplit = new SF2GlobalRegion();
-                gsplit.generators = globalsplit.generators;
-                gsplit.modulators = globalsplit.modulators;
-                layer.setGlobalZone(gsplit);
+            if (globblsplit != null) {
+                lbyer.getRegions().remove(globblsplit);
+                SF2GlobblRegion gsplit = new SF2GlobblRegion();
+                gsplit.generbtors = globblsplit.generbtors;
+                gsplit.modulbtors = globblsplit.modulbtors;
+                lbyer.setGlobblZone(gsplit);
             }
         }
 
 
-        Iterator<SF2Instrument> iiter = this.instruments.iterator();
-        while (iiter.hasNext()) {
+        Iterbtor<SF2Instrument> iiter = this.instruments.iterbtor();
+        while (iiter.hbsNext()) {
             SF2Instrument instrument = iiter.next();
-            Iterator<SF2InstrumentRegion> siter = instrument.regions.iterator();
-            SF2Region globalsplit = null;
-            while (siter.hasNext()) {
+            Iterbtor<SF2InstrumentRegion> siter = instrument.regions.iterbtor();
+            SF2Region globblsplit = null;
+            while (siter.hbsNext()) {
                 SF2InstrumentRegion split = siter.next();
-                if (split.generators.get(SF2LayerRegion.GENERATOR_INSTRUMENT) != null) {
-                    int instrumentid = split.generators.get(
+                if (split.generbtors.get(SF2LbyerRegion.GENERATOR_INSTRUMENT) != null) {
+                    int instrumentid = split.generbtors.get(
                             SF2InstrumentRegion.GENERATOR_INSTRUMENT);
-                    split.generators.remove(SF2LayerRegion.GENERATOR_INSTRUMENT);
-                    split.layer = layers.get(instrumentid);
+                    split.generbtors.remove(SF2LbyerRegion.GENERATOR_INSTRUMENT);
+                    split.lbyer = lbyers.get(instrumentid);
                 } else {
-                    globalsplit = split;
+                    globblsplit = split;
                 }
             }
 
-            if (globalsplit != null) {
-                instrument.getRegions().remove(globalsplit);
-                SF2GlobalRegion gsplit = new SF2GlobalRegion();
-                gsplit.generators = globalsplit.generators;
-                gsplit.modulators = globalsplit.modulators;
-                instrument.setGlobalZone(gsplit);
+            if (globblsplit != null) {
+                instrument.getRegions().remove(globblsplit);
+                SF2GlobblRegion gsplit = new SF2GlobblRegion();
+                gsplit.generbtors = globblsplit.generbtors;
+                gsplit.modulbtors = globblsplit.modulbtors;
+                instrument.setGlobblZone(gsplit);
             }
         }
 
     }
 
-    public void save(String name) throws IOException {
-        writeSoundbank(new RIFFWriter(name, "sfbk"));
+    public void sbve(String nbme) throws IOException {
+        writeSoundbbnk(new RIFFWriter(nbme, "sfbk"));
     }
 
-    public void save(File file) throws IOException {
-        writeSoundbank(new RIFFWriter(file, "sfbk"));
+    public void sbve(File file) throws IOException {
+        writeSoundbbnk(new RIFFWriter(file, "sfbk"));
     }
 
-    public void save(OutputStream out) throws IOException {
-        writeSoundbank(new RIFFWriter(out, "sfbk"));
+    public void sbve(OutputStrebm out) throws IOException {
+        writeSoundbbnk(new RIFFWriter(out, "sfbk"));
     }
 
-    private void writeSoundbank(RIFFWriter writer) throws IOException {
+    privbte void writeSoundbbnk(RIFFWriter writer) throws IOException {
         writeInfo(writer.writeList("INFO"));
-        writeSdtaChunk(writer.writeList("sdta"));
-        writePdtaChunk(writer.writeList("pdta"));
+        writeSdtbChunk(writer.writeList("sdtb"));
+        writePdtbChunk(writer.writeList("pdtb"));
         writer.close();
     }
 
-    private void writeInfoStringChunk(RIFFWriter writer, String name,
-            String value) throws IOException {
-        if (value == null)
+    privbte void writeInfoStringChunk(RIFFWriter writer, String nbme,
+            String vblue) throws IOException {
+        if (vblue == null)
             return;
-        RIFFWriter chunk = writer.writeChunk(name);
-        chunk.writeString(value);
-        int len = value.getBytes("ascii").length;
+        RIFFWriter chunk = writer.writeChunk(nbme);
+        chunk.writeString(vblue);
+        int len = vblue.getBytes("bscii").length;
         chunk.write(0);
         len++;
         if (len % 2 != 0)
             chunk.write(0);
     }
 
-    private void writeInfo(RIFFWriter writer) throws IOException {
-        if (this.targetEngine == null)
-            this.targetEngine = "EMU8000";
-        if (this.name == null)
-            this.name = "";
+    privbte void writeInfo(RIFFWriter writer) throws IOException {
+        if (this.tbrgetEngine == null)
+            this.tbrgetEngine = "EMU8000";
+        if (this.nbme == null)
+            this.nbme = "";
 
         RIFFWriter ifil_chunk = writer.writeChunk("ifil");
-        ifil_chunk.writeUnsignedShort(this.major);
+        ifil_chunk.writeUnsignedShort(this.mbjor);
         ifil_chunk.writeUnsignedShort(this.minor);
-        writeInfoStringChunk(writer, "isng", this.targetEngine);
-        writeInfoStringChunk(writer, "INAM", this.name);
-        writeInfoStringChunk(writer, "irom", this.romName);
-        if (romVersionMajor != -1) {
+        writeInfoStringChunk(writer, "isng", this.tbrgetEngine);
+        writeInfoStringChunk(writer, "INAM", this.nbme);
+        writeInfoStringChunk(writer, "irom", this.romNbme);
+        if (romVersionMbjor != -1) {
             RIFFWriter iver_chunk = writer.writeChunk("iver");
-            iver_chunk.writeUnsignedShort(this.romVersionMajor);
+            iver_chunk.writeUnsignedShort(this.romVersionMbjor);
             iver_chunk.writeUnsignedShort(this.romVersionMinor);
         }
-        writeInfoStringChunk(writer, "ICRD", this.creationDate);
+        writeInfoStringChunk(writer, "ICRD", this.crebtionDbte);
         writeInfoStringChunk(writer, "IENG", this.engineers);
         writeInfoStringChunk(writer, "IPRD", this.product);
         writeInfoStringChunk(writer, "ICOP", this.copyright);
@@ -564,92 +564,92 @@ public final class SF2Soundbank implements Soundbank {
         writer.close();
     }
 
-    private void writeSdtaChunk(RIFFWriter writer) throws IOException {
+    privbte void writeSdtbChunk(RIFFWriter writer) throws IOException {
 
-        byte[] pad = new byte[32];
+        byte[] pbd = new byte[32];
 
         RIFFWriter smpl_chunk = writer.writeChunk("smpl");
-        for (SF2Sample sample : samples) {
-            ModelByteBuffer data = sample.getDataBuffer();
-            data.writeTo(smpl_chunk);
+        for (SF2Sbmple sbmple : sbmples) {
+            ModelByteBuffer dbtb = sbmple.getDbtbBuffer();
+            dbtb.writeTo(smpl_chunk);
             /*
-            smpl_chunk.write(data.array(),
-            data.arrayOffset(),
-            data.capacity());
+            smpl_chunk.write(dbtb.brrby(),
+            dbtb.brrbyOffset(),
+            dbtb.cbpbcity());
              */
-            smpl_chunk.write(pad);
-            smpl_chunk.write(pad);
+            smpl_chunk.write(pbd);
+            smpl_chunk.write(pbd);
         }
-        if (major < 2)
+        if (mbjor < 2)
             return;
-        if (major == 2 && minor < 4)
+        if (mbjor == 2 && minor < 4)
             return;
 
 
-        for (SF2Sample sample : samples) {
-            ModelByteBuffer data24 = sample.getData24Buffer();
-            if (data24 == null)
+        for (SF2Sbmple sbmple : sbmples) {
+            ModelByteBuffer dbtb24 = sbmple.getDbtb24Buffer();
+            if (dbtb24 == null)
                 return;
         }
 
         RIFFWriter sm24_chunk = writer.writeChunk("sm24");
-        for (SF2Sample sample : samples) {
-            ModelByteBuffer data = sample.getData24Buffer();
-            data.writeTo(sm24_chunk);
+        for (SF2Sbmple sbmple : sbmples) {
+            ModelByteBuffer dbtb = sbmple.getDbtb24Buffer();
+            dbtb.writeTo(sm24_chunk);
             /*
-            sm24_chunk.write(data.array(),
-            data.arrayOffset(),
-            data.capacity());*/
-            smpl_chunk.write(pad);
+            sm24_chunk.write(dbtb.brrby(),
+            dbtb.brrbyOffset(),
+            dbtb.cbpbcity());*/
+            smpl_chunk.write(pbd);
         }
     }
 
-    private void writeModulators(RIFFWriter writer, List<SF2Modulator> modulators)
+    privbte void writeModulbtors(RIFFWriter writer, List<SF2Modulbtor> modulbtors)
             throws IOException {
-        for (SF2Modulator modulator : modulators) {
-            writer.writeUnsignedShort(modulator.sourceOperator);
-            writer.writeUnsignedShort(modulator.destinationOperator);
-            writer.writeShort(modulator.amount);
-            writer.writeUnsignedShort(modulator.amountSourceOperator);
-            writer.writeUnsignedShort(modulator.transportOperator);
+        for (SF2Modulbtor modulbtor : modulbtors) {
+            writer.writeUnsignedShort(modulbtor.sourceOperbtor);
+            writer.writeUnsignedShort(modulbtor.destinbtionOperbtor);
+            writer.writeShort(modulbtor.bmount);
+            writer.writeUnsignedShort(modulbtor.bmountSourceOperbtor);
+            writer.writeUnsignedShort(modulbtor.trbnsportOperbtor);
         }
     }
 
-    private void writeGenerators(RIFFWriter writer, Map<Integer, Short> generators)
+    privbte void writeGenerbtors(RIFFWriter writer, Mbp<Integer, Short> generbtors)
             throws IOException {
-        Short keyrange = generators.get(SF2Region.GENERATOR_KEYRANGE);
-        Short velrange = generators.get(SF2Region.GENERATOR_VELRANGE);
-        if (keyrange != null) {
+        Short keyrbnge = generbtors.get(SF2Region.GENERATOR_KEYRANGE);
+        Short velrbnge = generbtors.get(SF2Region.GENERATOR_VELRANGE);
+        if (keyrbnge != null) {
             writer.writeUnsignedShort(SF2Region.GENERATOR_KEYRANGE);
-            writer.writeShort(keyrange);
+            writer.writeShort(keyrbnge);
         }
-        if (velrange != null) {
+        if (velrbnge != null) {
             writer.writeUnsignedShort(SF2Region.GENERATOR_VELRANGE);
-            writer.writeShort(velrange);
+            writer.writeShort(velrbnge);
         }
-        for (Map.Entry<Integer, Short> generator : generators.entrySet()) {
-            if (generator.getKey() == SF2Region.GENERATOR_KEYRANGE)
+        for (Mbp.Entry<Integer, Short> generbtor : generbtors.entrySet()) {
+            if (generbtor.getKey() == SF2Region.GENERATOR_KEYRANGE)
                 continue;
-            if (generator.getKey() == SF2Region.GENERATOR_VELRANGE)
+            if (generbtor.getKey() == SF2Region.GENERATOR_VELRANGE)
                 continue;
-            writer.writeUnsignedShort(generator.getKey());
-            writer.writeShort(generator.getValue());
+            writer.writeUnsignedShort(generbtor.getKey());
+            writer.writeShort(generbtor.getVblue());
         }
     }
 
-    private void writePdtaChunk(RIFFWriter writer) throws IOException {
+    privbte void writePdtbChunk(RIFFWriter writer) throws IOException {
 
         RIFFWriter phdr_chunk = writer.writeChunk("phdr");
         int phdr_zone_count = 0;
         for (SF2Instrument preset : this.instruments) {
-            phdr_chunk.writeString(preset.name, 20);
+            phdr_chunk.writeString(preset.nbme, 20);
             phdr_chunk.writeUnsignedShort(preset.preset);
-            phdr_chunk.writeUnsignedShort(preset.bank);
+            phdr_chunk.writeUnsignedShort(preset.bbnk);
             phdr_chunk.writeUnsignedShort(phdr_zone_count);
-            if (preset.getGlobalRegion() != null)
+            if (preset.getGlobblRegion() != null)
                 phdr_zone_count += 1;
             phdr_zone_count += preset.getRegions().size();
-            phdr_chunk.writeUnsignedInt(preset.library);
+            phdr_chunk.writeUnsignedInt(preset.librbry);
             phdr_chunk.writeUnsignedInt(preset.genre);
             phdr_chunk.writeUnsignedInt(preset.morphology);
         }
@@ -662,51 +662,51 @@ public final class SF2Soundbank implements Soundbank {
         phdr_chunk.writeUnsignedInt(0);
 
 
-        RIFFWriter pbag_chunk = writer.writeChunk("pbag");
-        int pbag_gencount = 0;
-        int pbag_modcount = 0;
+        RIFFWriter pbbg_chunk = writer.writeChunk("pbbg");
+        int pbbg_gencount = 0;
+        int pbbg_modcount = 0;
         for (SF2Instrument preset : this.instruments) {
-            if (preset.getGlobalRegion() != null) {
-                pbag_chunk.writeUnsignedShort(pbag_gencount);
-                pbag_chunk.writeUnsignedShort(pbag_modcount);
-                pbag_gencount += preset.getGlobalRegion().getGenerators().size();
-                pbag_modcount += preset.getGlobalRegion().getModulators().size();
+            if (preset.getGlobblRegion() != null) {
+                pbbg_chunk.writeUnsignedShort(pbbg_gencount);
+                pbbg_chunk.writeUnsignedShort(pbbg_modcount);
+                pbbg_gencount += preset.getGlobblRegion().getGenerbtors().size();
+                pbbg_modcount += preset.getGlobblRegion().getModulbtors().size();
             }
             for (SF2InstrumentRegion region : preset.getRegions()) {
-                pbag_chunk.writeUnsignedShort(pbag_gencount);
-                pbag_chunk.writeUnsignedShort(pbag_modcount);
-                if (layers.indexOf(region.layer) != -1) {
-                    // One generator is used to reference to instrument record
-                    pbag_gencount += 1;
+                pbbg_chunk.writeUnsignedShort(pbbg_gencount);
+                pbbg_chunk.writeUnsignedShort(pbbg_modcount);
+                if (lbyers.indexOf(region.lbyer) != -1) {
+                    // One generbtor is used to reference to instrument record
+                    pbbg_gencount += 1;
                 }
-                pbag_gencount += region.getGenerators().size();
-                pbag_modcount += region.getModulators().size();
+                pbbg_gencount += region.getGenerbtors().size();
+                pbbg_modcount += region.getModulbtors().size();
 
             }
         }
-        pbag_chunk.writeUnsignedShort(pbag_gencount);
-        pbag_chunk.writeUnsignedShort(pbag_modcount);
+        pbbg_chunk.writeUnsignedShort(pbbg_gencount);
+        pbbg_chunk.writeUnsignedShort(pbbg_modcount);
 
         RIFFWriter pmod_chunk = writer.writeChunk("pmod");
         for (SF2Instrument preset : this.instruments) {
-            if (preset.getGlobalRegion() != null) {
-                writeModulators(pmod_chunk,
-                        preset.getGlobalRegion().getModulators());
+            if (preset.getGlobblRegion() != null) {
+                writeModulbtors(pmod_chunk,
+                        preset.getGlobblRegion().getModulbtors());
             }
             for (SF2InstrumentRegion region : preset.getRegions())
-                writeModulators(pmod_chunk, region.getModulators());
+                writeModulbtors(pmod_chunk, region.getModulbtors());
         }
         pmod_chunk.write(new byte[10]);
 
         RIFFWriter pgen_chunk = writer.writeChunk("pgen");
         for (SF2Instrument preset : this.instruments) {
-            if (preset.getGlobalRegion() != null) {
-                writeGenerators(pgen_chunk,
-                        preset.getGlobalRegion().getGenerators());
+            if (preset.getGlobblRegion() != null) {
+                writeGenerbtors(pgen_chunk,
+                        preset.getGlobblRegion().getGenerbtors());
             }
             for (SF2InstrumentRegion region : preset.getRegions()) {
-                writeGenerators(pgen_chunk, region.getGenerators());
-                int ix = layers.indexOf(region.layer);
+                writeGenerbtors(pgen_chunk, region.getGenerbtors());
+                int ix = lbyers.indexOf(region.lbyer);
                 if (ix != -1) {
                     pgen_chunk.writeUnsignedShort(SF2Region.GENERATOR_INSTRUMENT);
                     pgen_chunk.writeShort((short) ix);
@@ -717,10 +717,10 @@ public final class SF2Soundbank implements Soundbank {
 
         RIFFWriter inst_chunk = writer.writeChunk("inst");
         int inst_zone_count = 0;
-        for (SF2Layer instrument : this.layers) {
-            inst_chunk.writeString(instrument.name, 20);
+        for (SF2Lbyer instrument : this.lbyers) {
+            inst_chunk.writeString(instrument.nbme, 20);
             inst_chunk.writeUnsignedShort(inst_zone_count);
-            if (instrument.getGlobalRegion() != null)
+            if (instrument.getGlobblRegion() != null)
                 inst_zone_count += 1;
             inst_zone_count += instrument.getRegions().size();
         }
@@ -728,54 +728,54 @@ public final class SF2Soundbank implements Soundbank {
         inst_chunk.writeUnsignedShort(inst_zone_count);
 
 
-        RIFFWriter ibag_chunk = writer.writeChunk("ibag");
-        int ibag_gencount = 0;
-        int ibag_modcount = 0;
-        for (SF2Layer instrument : this.layers) {
-            if (instrument.getGlobalRegion() != null) {
-                ibag_chunk.writeUnsignedShort(ibag_gencount);
-                ibag_chunk.writeUnsignedShort(ibag_modcount);
-                ibag_gencount
-                        += instrument.getGlobalRegion().getGenerators().size();
-                ibag_modcount
-                        += instrument.getGlobalRegion().getModulators().size();
+        RIFFWriter ibbg_chunk = writer.writeChunk("ibbg");
+        int ibbg_gencount = 0;
+        int ibbg_modcount = 0;
+        for (SF2Lbyer instrument : this.lbyers) {
+            if (instrument.getGlobblRegion() != null) {
+                ibbg_chunk.writeUnsignedShort(ibbg_gencount);
+                ibbg_chunk.writeUnsignedShort(ibbg_modcount);
+                ibbg_gencount
+                        += instrument.getGlobblRegion().getGenerbtors().size();
+                ibbg_modcount
+                        += instrument.getGlobblRegion().getModulbtors().size();
             }
-            for (SF2LayerRegion region : instrument.getRegions()) {
-                ibag_chunk.writeUnsignedShort(ibag_gencount);
-                ibag_chunk.writeUnsignedShort(ibag_modcount);
-                if (samples.indexOf(region.sample) != -1) {
-                    // One generator is used to reference to instrument record
-                    ibag_gencount += 1;
+            for (SF2LbyerRegion region : instrument.getRegions()) {
+                ibbg_chunk.writeUnsignedShort(ibbg_gencount);
+                ibbg_chunk.writeUnsignedShort(ibbg_modcount);
+                if (sbmples.indexOf(region.sbmple) != -1) {
+                    // One generbtor is used to reference to instrument record
+                    ibbg_gencount += 1;
                 }
-                ibag_gencount += region.getGenerators().size();
-                ibag_modcount += region.getModulators().size();
+                ibbg_gencount += region.getGenerbtors().size();
+                ibbg_modcount += region.getModulbtors().size();
 
             }
         }
-        ibag_chunk.writeUnsignedShort(ibag_gencount);
-        ibag_chunk.writeUnsignedShort(ibag_modcount);
+        ibbg_chunk.writeUnsignedShort(ibbg_gencount);
+        ibbg_chunk.writeUnsignedShort(ibbg_modcount);
 
 
         RIFFWriter imod_chunk = writer.writeChunk("imod");
-        for (SF2Layer instrument : this.layers) {
-            if (instrument.getGlobalRegion() != null) {
-                writeModulators(imod_chunk,
-                        instrument.getGlobalRegion().getModulators());
+        for (SF2Lbyer instrument : this.lbyers) {
+            if (instrument.getGlobblRegion() != null) {
+                writeModulbtors(imod_chunk,
+                        instrument.getGlobblRegion().getModulbtors());
             }
-            for (SF2LayerRegion region : instrument.getRegions())
-                writeModulators(imod_chunk, region.getModulators());
+            for (SF2LbyerRegion region : instrument.getRegions())
+                writeModulbtors(imod_chunk, region.getModulbtors());
         }
         imod_chunk.write(new byte[10]);
 
         RIFFWriter igen_chunk = writer.writeChunk("igen");
-        for (SF2Layer instrument : this.layers) {
-            if (instrument.getGlobalRegion() != null) {
-                writeGenerators(igen_chunk,
-                        instrument.getGlobalRegion().getGenerators());
+        for (SF2Lbyer instrument : this.lbyers) {
+            if (instrument.getGlobblRegion() != null) {
+                writeGenerbtors(igen_chunk,
+                        instrument.getGlobblRegion().getGenerbtors());
             }
-            for (SF2LayerRegion region : instrument.getRegions()) {
-                writeGenerators(igen_chunk, region.getGenerators());
-                int ix = samples.indexOf(region.sample);
+            for (SF2LbyerRegion region : instrument.getRegions()) {
+                writeGenerbtors(igen_chunk, region.getGenerbtors());
+                int ix = sbmples.indexOf(region.sbmple);
                 if (ix != -1) {
                     igen_chunk.writeUnsignedShort(SF2Region.GENERATOR_SAMPLEID);
                     igen_chunk.writeShort((short) ix);
@@ -786,40 +786,40 @@ public final class SF2Soundbank implements Soundbank {
 
 
         RIFFWriter shdr_chunk = writer.writeChunk("shdr");
-        long sample_pos = 0;
-        for (SF2Sample sample : samples) {
-            shdr_chunk.writeString(sample.name, 20);
-            long start = sample_pos;
-            sample_pos += sample.data.capacity() / 2;
-            long end = sample_pos;
-            long startLoop = sample.startLoop + start;
-            long endLoop = sample.endLoop + start;
-            if (startLoop < start)
-                startLoop = start;
+        long sbmple_pos = 0;
+        for (SF2Sbmple sbmple : sbmples) {
+            shdr_chunk.writeString(sbmple.nbme, 20);
+            long stbrt = sbmple_pos;
+            sbmple_pos += sbmple.dbtb.cbpbcity() / 2;
+            long end = sbmple_pos;
+            long stbrtLoop = sbmple.stbrtLoop + stbrt;
+            long endLoop = sbmple.endLoop + stbrt;
+            if (stbrtLoop < stbrt)
+                stbrtLoop = stbrt;
             if (endLoop > end)
                 endLoop = end;
-            shdr_chunk.writeUnsignedInt(start);
+            shdr_chunk.writeUnsignedInt(stbrt);
             shdr_chunk.writeUnsignedInt(end);
-            shdr_chunk.writeUnsignedInt(startLoop);
+            shdr_chunk.writeUnsignedInt(stbrtLoop);
             shdr_chunk.writeUnsignedInt(endLoop);
-            shdr_chunk.writeUnsignedInt(sample.sampleRate);
-            shdr_chunk.writeUnsignedByte(sample.originalPitch);
-            shdr_chunk.writeByte(sample.pitchCorrection);
-            shdr_chunk.writeUnsignedShort(sample.sampleLink);
-            shdr_chunk.writeUnsignedShort(sample.sampleType);
-            sample_pos += 32;
+            shdr_chunk.writeUnsignedInt(sbmple.sbmpleRbte);
+            shdr_chunk.writeUnsignedByte(sbmple.originblPitch);
+            shdr_chunk.writeByte(sbmple.pitchCorrection);
+            shdr_chunk.writeUnsignedShort(sbmple.sbmpleLink);
+            shdr_chunk.writeUnsignedShort(sbmple.sbmpleType);
+            sbmple_pos += 32;
         }
         shdr_chunk.writeString("EOS", 20);
         shdr_chunk.write(new byte[26]);
 
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     public String getVersion() {
-        return major + "." + minor;
+        return mbjor + "." + minor;
     }
 
     public String getVendor() {
@@ -830,8 +830,8 @@ public final class SF2Soundbank implements Soundbank {
         return comments;
     }
 
-    public void setName(String s) {
-        name = s;
+    public void setNbme(String s) {
+        nbme = s;
     }
 
     public void setVendor(String s) {
@@ -842,46 +842,46 @@ public final class SF2Soundbank implements Soundbank {
         comments = s;
     }
 
-    public SoundbankResource[] getResources() {
-        SoundbankResource[] resources
-                = new SoundbankResource[layers.size() + samples.size()];
+    public SoundbbnkResource[] getResources() {
+        SoundbbnkResource[] resources
+                = new SoundbbnkResource[lbyers.size() + sbmples.size()];
         int j = 0;
-        for (int i = 0; i < layers.size(); i++)
-            resources[j++] = layers.get(i);
-        for (int i = 0; i < samples.size(); i++)
-            resources[j++] = samples.get(i);
+        for (int i = 0; i < lbyers.size(); i++)
+            resources[j++] = lbyers.get(i);
+        for (int i = 0; i < sbmples.size(); i++)
+            resources[j++] = sbmples.get(i);
         return resources;
     }
 
     public SF2Instrument[] getInstruments() {
-        SF2Instrument[] inslist_array
-                = instruments.toArray(new SF2Instrument[instruments.size()]);
-        Arrays.sort(inslist_array, new ModelInstrumentComparator());
-        return inslist_array;
+        SF2Instrument[] inslist_brrby
+                = instruments.toArrby(new SF2Instrument[instruments.size()]);
+        Arrbys.sort(inslist_brrby, new ModelInstrumentCompbrbtor());
+        return inslist_brrby;
     }
 
-    public SF2Layer[] getLayers() {
-        return layers.toArray(new SF2Layer[layers.size()]);
+    public SF2Lbyer[] getLbyers() {
+        return lbyers.toArrby(new SF2Lbyer[lbyers.size()]);
     }
 
-    public SF2Sample[] getSamples() {
-        return samples.toArray(new SF2Sample[samples.size()]);
+    public SF2Sbmple[] getSbmples() {
+        return sbmples.toArrby(new SF2Sbmple[sbmples.size()]);
     }
 
-    public Instrument getInstrument(Patch patch) {
-        int program = patch.getProgram();
-        int bank = patch.getBank();
-        boolean percussion = false;
-        if (patch instanceof ModelPatch)
-            percussion = ((ModelPatch)patch).isPercussion();
+    public Instrument getInstrument(Pbtch pbtch) {
+        int progrbm = pbtch.getProgrbm();
+        int bbnk = pbtch.getBbnk();
+        boolebn percussion = fblse;
+        if (pbtch instbnceof ModelPbtch)
+            percussion = ((ModelPbtch)pbtch).isPercussion();
         for (Instrument instrument : instruments) {
-            Patch patch2 = instrument.getPatch();
-            int program2 = patch2.getProgram();
-            int bank2 = patch2.getBank();
-            if (program == program2 && bank == bank2) {
-                boolean percussion2 = false;
-                if (patch2 instanceof ModelPatch)
-                    percussion2 = ((ModelPatch) patch2).isPercussion();
+            Pbtch pbtch2 = instrument.getPbtch();
+            int progrbm2 = pbtch2.getProgrbm();
+            int bbnk2 = pbtch2.getBbnk();
+            if (progrbm == progrbm2 && bbnk == bbnk2) {
+                boolebn percussion2 = fblse;
+                if (pbtch2 instbnceof ModelPbtch)
+                    percussion2 = ((ModelPbtch) pbtch2).isPercussion();
                 if (percussion == percussion2)
                     return instrument;
             }
@@ -889,12 +889,12 @@ public final class SF2Soundbank implements Soundbank {
         return null;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public String getCrebtionDbte() {
+        return crebtionDbte;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setCrebtionDbte(String crebtionDbte) {
+        this.crebtionDbte = crebtionDbte;
     }
 
     public String getProduct() {
@@ -905,20 +905,20 @@ public final class SF2Soundbank implements Soundbank {
         this.product = product;
     }
 
-    public String getRomName() {
-        return romName;
+    public String getRomNbme() {
+        return romNbme;
     }
 
-    public void setRomName(String romName) {
-        this.romName = romName;
+    public void setRomNbme(String romNbme) {
+        this.romNbme = romNbme;
     }
 
-    public int getRomVersionMajor() {
-        return romVersionMajor;
+    public int getRomVersionMbjor() {
+        return romVersionMbjor;
     }
 
-    public void setRomVersionMajor(int romVersionMajor) {
-        this.romVersionMajor = romVersionMajor;
+    public void setRomVersionMbjor(int romVersionMbjor) {
+        this.romVersionMbjor = romVersionMbjor;
     }
 
     public int getRomVersionMinor() {
@@ -929,12 +929,12 @@ public final class SF2Soundbank implements Soundbank {
         this.romVersionMinor = romVersionMinor;
     }
 
-    public String getTargetEngine() {
-        return targetEngine;
+    public String getTbrgetEngine() {
+        return tbrgetEngine;
     }
 
-    public void setTargetEngine(String targetEngine) {
-        this.targetEngine = targetEngine;
+    public void setTbrgetEngine(String tbrgetEngine) {
+        this.tbrgetEngine = tbrgetEngine;
     }
 
     public String getTools() {
@@ -945,26 +945,26 @@ public final class SF2Soundbank implements Soundbank {
         this.tools = tools;
     }
 
-    public void addResource(SoundbankResource resource) {
-        if (resource instanceof SF2Instrument)
-            instruments.add((SF2Instrument)resource);
-        if (resource instanceof SF2Layer)
-            layers.add((SF2Layer)resource);
-        if (resource instanceof SF2Sample)
-            samples.add((SF2Sample)resource);
+    public void bddResource(SoundbbnkResource resource) {
+        if (resource instbnceof SF2Instrument)
+            instruments.bdd((SF2Instrument)resource);
+        if (resource instbnceof SF2Lbyer)
+            lbyers.bdd((SF2Lbyer)resource);
+        if (resource instbnceof SF2Sbmple)
+            sbmples.bdd((SF2Sbmple)resource);
     }
 
-    public void removeResource(SoundbankResource resource) {
-        if (resource instanceof SF2Instrument)
+    public void removeResource(SoundbbnkResource resource) {
+        if (resource instbnceof SF2Instrument)
             instruments.remove((SF2Instrument)resource);
-        if (resource instanceof SF2Layer)
-            layers.remove((SF2Layer)resource);
-        if (resource instanceof SF2Sample)
-            samples.remove((SF2Sample)resource);
+        if (resource instbnceof SF2Lbyer)
+            lbyers.remove((SF2Lbyer)resource);
+        if (resource instbnceof SF2Sbmple)
+            sbmples.remove((SF2Sbmple)resource);
     }
 
-    public void addInstrument(SF2Instrument resource) {
-        instruments.add(resource);
+    public void bddInstrument(SF2Instrument resource) {
+        instruments.bdd(resource);
     }
 
     public void removeInstrument(SF2Instrument resource) {

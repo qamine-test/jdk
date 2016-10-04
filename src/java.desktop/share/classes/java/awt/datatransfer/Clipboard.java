@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import java.awt.EventQueue;
+import jbvb.bwt.EventQueue;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Arrbys;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * A class that implements a mechanism to transfer data using
- * cut/copy/paste operations.
+ * A clbss thbt implements b mechbnism to trbnsfer dbtb using
+ * cut/copy/pbste operbtions.
  * <p>
- * {@link FlavorListener}s may be registered on an instance of the
- * Clipboard class to be notified about changes to the set of
- * {@link DataFlavor}s available on this clipboard (see
- * {@link #addFlavorListener}).
+ * {@link FlbvorListener}s mby be registered on bn instbnce of the
+ * Clipbobrd clbss to be notified bbout chbnges to the set of
+ * {@link DbtbFlbvor}s bvbilbble on this clipbobrd (see
+ * {@link #bddFlbvorListener}).
  *
- * @see java.awt.Toolkit#getSystemClipboard
- * @see java.awt.Toolkit#getSystemSelection
+ * @see jbvb.bwt.Toolkit#getSystemClipbobrd
+ * @see jbvb.bwt.Toolkit#getSystemSelection
  *
- * @author      Amy Fowler
- * @author      Alexander Gerasimov
+ * @buthor      Amy Fowler
+ * @buthor      Alexbnder Gerbsimov
  */
-public class Clipboard {
+public clbss Clipbobrd {
 
-    String name;
+    String nbme;
 
     /**
-     * The owner of the clipboard.
+     * The owner of the clipbobrd.
      */
-    protected ClipboardOwner owner;
+    protected ClipbobrdOwner owner;
     /**
-     * Contents of the clipboard.
+     * Contents of the clipbobrd.
      */
-    protected Transferable contents;
+    protected Trbnsferbble contents;
 
     /**
-     * An aggregate of flavor listeners registered on this local clipboard.
+     * An bggregbte of flbvor listeners registered on this locbl clipbobrd.
      *
      * @since 1.5
      */
-    private Set<FlavorListener> flavorListeners;
+    privbte Set<FlbvorListener> flbvorListeners;
 
     /**
-     * A set of <code>DataFlavor</code>s that is available on
-     * this local clipboard. It is used for tracking changes
-     * of <code>DataFlavor</code>s available on this clipboard.
+     * A set of <code>DbtbFlbvor</code>s thbt is bvbilbble on
+     * this locbl clipbobrd. It is used for trbcking chbnges
+     * of <code>DbtbFlbvor</code>s bvbilbble on this clipbobrd.
      *
      * @since 1.5
      */
-    private Set<DataFlavor> currentDataFlavors;
+    privbte Set<DbtbFlbvor> currentDbtbFlbvors;
 
     /**
-     * Creates a clipboard object.
-     * @param name for the clipboard
-     * @see java.awt.Toolkit#getSystemClipboard
+     * Crebtes b clipbobrd object.
+     * @pbrbm nbme for the clipbobrd
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
      */
-    public Clipboard(String name) {
-        this.name = name;
+    public Clipbobrd(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Returns the name of this clipboard object.
-     * @return the name of this clipboard object
+     * Returns the nbme of this clipbobrd object.
+     * @return the nbme of this clipbobrd object
      *
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Sets the current contents of the clipboard to the specified
-     * transferable object and registers the specified clipboard owner
-     * as the owner of the new contents.
+     * Sets the current contents of the clipbobrd to the specified
+     * trbnsferbble object bnd registers the specified clipbobrd owner
+     * bs the owner of the new contents.
      * <p>
-     * If there is an existing owner different from the argument
-     * <code>owner</code>, that owner is notified that it no longer
-     * holds ownership of the clipboard contents via an invocation
-     * of <code>ClipboardOwner.lostOwnership()</code> on that owner.
-     * An implementation of <code>setContents()</code> is free not
+     * If there is bn existing owner different from the brgument
+     * <code>owner</code>, thbt owner is notified thbt it no longer
+     * holds ownership of the clipbobrd contents vib bn invocbtion
+     * of <code>ClipbobrdOwner.lostOwnership()</code> on thbt owner.
+     * An implementbtion of <code>setContents()</code> is free not
      * to invoke <code>lostOwnership()</code> directly from this method.
-     * For example, <code>lostOwnership()</code> may be invoked later on
-     * a different thread. The same applies to <code>FlavorListener</code>s
-     * registered on this clipboard.
+     * For exbmple, <code>lostOwnership()</code> mby be invoked lbter on
+     * b different threbd. The sbme bpplies to <code>FlbvorListener</code>s
+     * registered on this clipbobrd.
      * <p>
-     * The method throws <code>IllegalStateException</code> if the clipboard
-     * is currently unavailable. For example, on some platforms, the system
-     * clipboard is unavailable while it is accessed by another application.
+     * The method throws <code>IllegblStbteException</code> if the clipbobrd
+     * is currently unbvbilbble. For exbmple, on some plbtforms, the system
+     * clipbobrd is unbvbilbble while it is bccessed by bnother bpplicbtion.
      *
-     * @param contents the transferable object representing the
-     *                 clipboard content
-     * @param owner the object which owns the clipboard content
-     * @throws IllegalStateException if the clipboard is currently unavailable
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @pbrbm contents the trbnsferbble object representing the
+     *                 clipbobrd content
+     * @pbrbm owner the object which owns the clipbobrd content
+     * @throws IllegblStbteException if the clipbobrd is currently unbvbilbble
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
      */
-    public synchronized void setContents(Transferable contents, ClipboardOwner owner) {
-        final ClipboardOwner oldOwner = this.owner;
-        final Transferable oldContents = this.contents;
+    public synchronized void setContents(Trbnsferbble contents, ClipbobrdOwner owner) {
+        finbl ClipbobrdOwner oldOwner = this.owner;
+        finbl Trbnsferbble oldContents = this.contents;
 
         this.owner = owner;
         this.contents = contents;
 
         if (oldOwner != null && oldOwner != owner) {
-            EventQueue.invokeLater(() -> oldOwner.lostOwnership(Clipboard.this, oldContents));
+            EventQueue.invokeLbter(() -> oldOwner.lostOwnership(Clipbobrd.this, oldContents));
         }
-        fireFlavorsChanged();
+        fireFlbvorsChbnged();
     }
 
     /**
-     * Returns a transferable object representing the current contents
-     * of the clipboard.  If the clipboard currently has no contents,
-     * it returns <code>null</code>. The parameter Object requestor is
+     * Returns b trbnsferbble object representing the current contents
+     * of the clipbobrd.  If the clipbobrd currently hbs no contents,
+     * it returns <code>null</code>. The pbrbmeter Object requestor is
      * not currently used.  The method throws
-     * <code>IllegalStateException</code> if the clipboard is currently
-     * unavailable.  For example, on some platforms, the system clipboard is
-     * unavailable while it is accessed by another application.
+     * <code>IllegblStbteException</code> if the clipbobrd is currently
+     * unbvbilbble.  For exbmple, on some plbtforms, the system clipbobrd is
+     * unbvbilbble while it is bccessed by bnother bpplicbtion.
      *
-     * @param requestor the object requesting the clip data  (not used)
-     * @return the current transferable object on the clipboard
-     * @throws IllegalStateException if the clipboard is currently unavailable
-     * @see java.awt.Toolkit#getSystemClipboard
+     * @pbrbm requestor the object requesting the clip dbtb  (not used)
+     * @return the current trbnsferbble object on the clipbobrd
+     * @throws IllegblStbteException if the clipbobrd is currently unbvbilbble
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
      */
-    public synchronized Transferable getContents(Object requestor) {
+    public synchronized Trbnsferbble getContents(Object requestor) {
         return contents;
     }
 
 
     /**
-     * Returns an array of <code>DataFlavor</code>s in which the current
-     * contents of this clipboard can be provided. If there are no
-     * <code>DataFlavor</code>s available, this method returns a zero-length
-     * array.
+     * Returns bn brrby of <code>DbtbFlbvor</code>s in which the current
+     * contents of this clipbobrd cbn be provided. If there bre no
+     * <code>DbtbFlbvor</code>s bvbilbble, this method returns b zero-length
+     * brrby.
      *
-     * @return an array of <code>DataFlavor</code>s in which the current
-     *         contents of this clipboard can be provided
+     * @return bn brrby of <code>DbtbFlbvor</code>s in which the current
+     *         contents of this clipbobrd cbn be provided
      *
-     * @throws IllegalStateException if this clipboard is currently unavailable
-     *
-     * @since 1.5
-     */
-    public DataFlavor[] getAvailableDataFlavors() {
-        Transferable cntnts = getContents(null);
-        if (cntnts == null) {
-            return new DataFlavor[0];
-        }
-        return cntnts.getTransferDataFlavors();
-    }
-
-    /**
-     * Returns whether or not the current contents of this clipboard can be
-     * provided in the specified <code>DataFlavor</code>.
-     *
-     * @param flavor the requested <code>DataFlavor</code> for the contents
-     *
-     * @return <code>true</code> if the current contents of this clipboard
-     *         can be provided in the specified <code>DataFlavor</code>;
-     *         <code>false</code> otherwise
-     *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
-     * @throws IllegalStateException if this clipboard is currently unavailable
+     * @throws IllegblStbteException if this clipbobrd is currently unbvbilbble
      *
      * @since 1.5
      */
-    public boolean isDataFlavorAvailable(DataFlavor flavor) {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
-        }
-
-        Transferable cntnts = getContents(null);
+    public DbtbFlbvor[] getAvbilbbleDbtbFlbvors() {
+        Trbnsferbble cntnts = getContents(null);
         if (cntnts == null) {
-            return false;
+            return new DbtbFlbvor[0];
         }
-        return cntnts.isDataFlavorSupported(flavor);
+        return cntnts.getTrbnsferDbtbFlbvors();
     }
 
     /**
-     * Returns an object representing the current contents of this clipboard
-     * in the specified <code>DataFlavor</code>.
-     * The class of the object returned is defined by the representation
-     * class of <code>flavor</code>.
+     * Returns whether or not the current contents of this clipbobrd cbn be
+     * provided in the specified <code>DbtbFlbvor</code>.
      *
-     * @param flavor the requested <code>DataFlavor</code> for the contents
+     * @pbrbm flbvor the requested <code>DbtbFlbvor</code> for the contents
      *
-     * @return an object representing the current contents of this clipboard
-     *         in the specified <code>DataFlavor</code>
+     * @return <code>true</code> if the current contents of this clipbobrd
+     *         cbn be provided in the specified <code>DbtbFlbvor</code>;
+     *         <code>fblse</code> otherwise
      *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
-     * @throws IllegalStateException if this clipboard is currently unavailable
-     * @throws UnsupportedFlavorException if the requested <code>DataFlavor</code>
-     *         is not available
-     * @throws IOException if the data in the requested <code>DataFlavor</code>
-     *         can not be retrieved
-     *
-     * @see DataFlavor#getRepresentationClass
+     * @throws NullPointerException if <code>flbvor</code> is <code>null</code>
+     * @throws IllegblStbteException if this clipbobrd is currently unbvbilbble
      *
      * @since 1.5
      */
-    public Object getData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException {
-        if (flavor == null) {
-            throw new NullPointerException("flavor");
+    public boolebn isDbtbFlbvorAvbilbble(DbtbFlbvor flbvor) {
+        if (flbvor == null) {
+            throw new NullPointerException("flbvor");
         }
 
-        Transferable cntnts = getContents(null);
+        Trbnsferbble cntnts = getContents(null);
         if (cntnts == null) {
-            throw new UnsupportedFlavorException(flavor);
+            return fblse;
         }
-        return cntnts.getTransferData(flavor);
+        return cntnts.isDbtbFlbvorSupported(flbvor);
+    }
+
+    /**
+     * Returns bn object representing the current contents of this clipbobrd
+     * in the specified <code>DbtbFlbvor</code>.
+     * The clbss of the object returned is defined by the representbtion
+     * clbss of <code>flbvor</code>.
+     *
+     * @pbrbm flbvor the requested <code>DbtbFlbvor</code> for the contents
+     *
+     * @return bn object representing the current contents of this clipbobrd
+     *         in the specified <code>DbtbFlbvor</code>
+     *
+     * @throws NullPointerException if <code>flbvor</code> is <code>null</code>
+     * @throws IllegblStbteException if this clipbobrd is currently unbvbilbble
+     * @throws UnsupportedFlbvorException if the requested <code>DbtbFlbvor</code>
+     *         is not bvbilbble
+     * @throws IOException if the dbtb in the requested <code>DbtbFlbvor</code>
+     *         cbn not be retrieved
+     *
+     * @see DbtbFlbvor#getRepresentbtionClbss
+     *
+     * @since 1.5
+     */
+    public Object getDbtb(DbtbFlbvor flbvor)
+        throws UnsupportedFlbvorException, IOException {
+        if (flbvor == null) {
+            throw new NullPointerException("flbvor");
+        }
+
+        Trbnsferbble cntnts = getContents(null);
+        if (cntnts == null) {
+            throw new UnsupportedFlbvorException(flbvor);
+        }
+        return cntnts.getTrbnsferDbtb(flbvor);
     }
 
 
     /**
-     * Registers the specified <code>FlavorListener</code> to receive
-     * <code>FlavorEvent</code>s from this clipboard.
+     * Registers the specified <code>FlbvorListener</code> to receive
+     * <code>FlbvorEvent</code>s from this clipbobrd.
      * If <code>listener</code> is <code>null</code>, no exception
-     * is thrown and no action is performed.
+     * is thrown bnd no bction is performed.
      *
-     * @param listener the listener to be added
+     * @pbrbm listener the listener to be bdded
      *
-     * @see #removeFlavorListener
-     * @see #getFlavorListeners
-     * @see FlavorListener
-     * @see FlavorEvent
+     * @see #removeFlbvorListener
+     * @see #getFlbvorListeners
+     * @see FlbvorListener
+     * @see FlbvorEvent
      * @since 1.5
      */
-    public synchronized void addFlavorListener(FlavorListener listener) {
+    public synchronized void bddFlbvorListener(FlbvorListener listener) {
         if (listener == null) {
             return;
         }
 
-        if (flavorListeners == null) {
-            flavorListeners = new HashSet<>();
-            currentDataFlavors = getAvailableDataFlavorSet();
+        if (flbvorListeners == null) {
+            flbvorListeners = new HbshSet<>();
+            currentDbtbFlbvors = getAvbilbbleDbtbFlbvorSet();
         }
 
-        flavorListeners.add(listener);
+        flbvorListeners.bdd(listener);
     }
 
     /**
-     * Removes the specified <code>FlavorListener</code> so that it no longer
-     * receives <code>FlavorEvent</code>s from this <code>Clipboard</code>.
-     * This method performs no function, nor does it throw an exception, if
-     * the listener specified by the argument was not previously added to this
-     * <code>Clipboard</code>.
+     * Removes the specified <code>FlbvorListener</code> so thbt it no longer
+     * receives <code>FlbvorEvent</code>s from this <code>Clipbobrd</code>.
+     * This method performs no function, nor does it throw bn exception, if
+     * the listener specified by the brgument wbs not previously bdded to this
+     * <code>Clipbobrd</code>.
      * If <code>listener</code> is <code>null</code>, no exception
-     * is thrown and no action is performed.
+     * is thrown bnd no bction is performed.
      *
-     * @param listener the listener to be removed
+     * @pbrbm listener the listener to be removed
      *
-     * @see #addFlavorListener
-     * @see #getFlavorListeners
-     * @see FlavorListener
-     * @see FlavorEvent
+     * @see #bddFlbvorListener
+     * @see #getFlbvorListeners
+     * @see FlbvorListener
+     * @see FlbvorEvent
      * @since 1.5
      */
-    public synchronized void removeFlavorListener(FlavorListener listener) {
-        if (listener == null || flavorListeners == null) {
+    public synchronized void removeFlbvorListener(FlbvorListener listener) {
+        if (listener == null || flbvorListeners == null) {
             return;
         }
-        flavorListeners.remove(listener);
+        flbvorListeners.remove(listener);
     }
 
     /**
-     * Returns an array of all the <code>FlavorListener</code>s currently
-     * registered on this <code>Clipboard</code>.
+     * Returns bn brrby of bll the <code>FlbvorListener</code>s currently
+     * registered on this <code>Clipbobrd</code>.
      *
-     * @return all of this clipboard's <code>FlavorListener</code>s or an empty
-     *         array if no listeners are currently registered
-     * @see #addFlavorListener
-     * @see #removeFlavorListener
-     * @see FlavorListener
-     * @see FlavorEvent
+     * @return bll of this clipbobrd's <code>FlbvorListener</code>s or bn empty
+     *         brrby if no listeners bre currently registered
+     * @see #bddFlbvorListener
+     * @see #removeFlbvorListener
+     * @see FlbvorListener
+     * @see FlbvorEvent
      * @since 1.5
      */
-    public synchronized FlavorListener[] getFlavorListeners() {
-        return flavorListeners == null ? new FlavorListener[0] :
-            flavorListeners.toArray(new FlavorListener[flavorListeners.size()]);
+    public synchronized FlbvorListener[] getFlbvorListeners() {
+        return flbvorListeners == null ? new FlbvorListener[0] :
+            flbvorListeners.toArrby(new FlbvorListener[flbvorListeners.size()]);
     }
 
     /**
-     * Checks change of the <code>DataFlavor</code>s and, if necessary,
-     * notifies all listeners that have registered interest for notification
-     * on <code>FlavorEvent</code>s.
+     * Checks chbnge of the <code>DbtbFlbvor</code>s bnd, if necessbry,
+     * notifies bll listeners thbt hbve registered interest for notificbtion
+     * on <code>FlbvorEvent</code>s.
      *
      * @since 1.5
      */
-    private void fireFlavorsChanged() {
-        if (flavorListeners == null) {
+    privbte void fireFlbvorsChbnged() {
+        if (flbvorListeners == null) {
             return;
         }
 
-        Set<DataFlavor> prevDataFlavors = currentDataFlavors;
-        currentDataFlavors = getAvailableDataFlavorSet();
-        if (Objects.equals(prevDataFlavors, currentDataFlavors)) {
+        Set<DbtbFlbvor> prevDbtbFlbvors = currentDbtbFlbvors;
+        currentDbtbFlbvors = getAvbilbbleDbtbFlbvorSet();
+        if (Objects.equbls(prevDbtbFlbvors, currentDbtbFlbvors)) {
             return;
         }
-        flavorListeners.forEach(listener ->
-                EventQueue.invokeLater(() ->
-                        listener.flavorsChanged(new FlavorEvent(Clipboard.this))));
+        flbvorListeners.forEbch(listener ->
+                EventQueue.invokeLbter(() ->
+                        listener.flbvorsChbnged(new FlbvorEvent(Clipbobrd.this))));
     }
 
     /**
-     * Returns a set of <code>DataFlavor</code>s currently available
-     * on this clipboard.
+     * Returns b set of <code>DbtbFlbvor</code>s currently bvbilbble
+     * on this clipbobrd.
      *
-     * @return a set of <code>DataFlavor</code>s currently available
-     *         on this clipboard
+     * @return b set of <code>DbtbFlbvor</code>s currently bvbilbble
+     *         on this clipbobrd
      *
      * @since 1.5
      */
-    private Set<DataFlavor> getAvailableDataFlavorSet() {
-        Set<DataFlavor> set = new HashSet<>();
-        Transferable contents = getContents(null);
+    privbte Set<DbtbFlbvor> getAvbilbbleDbtbFlbvorSet() {
+        Set<DbtbFlbvor> set = new HbshSet<>();
+        Trbnsferbble contents = getContents(null);
         if (contents != null) {
-            DataFlavor[] flavors = contents.getTransferDataFlavors();
-            if (flavors != null) {
-                set.addAll(Arrays.asList(flavors));
+            DbtbFlbvor[] flbvors = contents.getTrbnsferDbtbFlbvors();
+            if (flbvors != null) {
+                set.bddAll(Arrbys.bsList(flbvors));
             }
         }
         return set;

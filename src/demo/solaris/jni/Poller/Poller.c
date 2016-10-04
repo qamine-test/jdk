@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  **********************************************************************
  * Poller.c :
- * JNI code for use with Poller.java, principally to take advantage
+ * JNI code for use with Poller.jbvb, principblly to tbke bdvbntbge
  * of poll() or /dev/poll multiplexing.
  *
- * One will need Solaris 8 or Solaris 7 with adequate patches to take
- * advantage of the /dev/poll performance enhancements, though any
- * version of Solaris 7 will automatically use the kernel poll()
- * caching.  And poll() will function in 2.5.1 and 2.6 as well, but
- * will not perform well for large numbers of file descriptors.
+ * One will need Solbris 8 or Solbris 7 with bdequbte pbtches to tbke
+ * bdvbntbge of the /dev/poll performbnce enhbncements, though bny
+ * version of Solbris 7 will butombticblly use the kernel poll()
+ * cbching.  And poll() will function in 2.5.1 bnd 2.6 bs well, but
+ * will not perform well for lbrge numbers of file descriptors.
  *
- * Several assumptions have been made to simplify this code :
- *  1> At most MAX_HANDLES (32) separate pollable entities are currently
+ * Severbl bssumptions hbve been mbde to simplify this code :
+ *  1> At most MAX_HANDLES (32) sepbrbte pollbble entities bre currently
  *     supported.
- *  2> Global synchronization from Java is assumed for all init, create
- *     and destroy routines.  Per Object (handle passed in) synchronization
- *     is required for all AddFd, RemoveFd, IsMember, and Wait routines.
- *  3> It is currently up to the user to handle waking up an
- *     existing nativeWait() call to do an addfd or removefd on
- *     that set...could implement that here with an extra pipe, or
- *     with a pair of loopback sockets in Poller.java or user code.
- *     In most cases interruption is not necessary for deletions,
- *     so long as deletions are queued up outside the Poller class
- *     and then executed the next time waitMultiple() returns.
- *  4> /dev/poll performance could be slightly improved by coalescing
- *     adds/removes so that a write() is only done before the ioctl
- *     (DP_POLL), but this complicates exception handling and sees
- *     only modest performance gains so wasn't done.
- *  5> /dev/poll does not report errors on attempts to remove non-
- *     extant fds, but a future bug fix to the /dev/poll device driver
+ *  2> Globbl synchronizbtion from Jbvb is bssumed for bll init, crebte
+ *     bnd destroy routines.  Per Object (hbndle pbssed in) synchronizbtion
+ *     is required for bll AddFd, RemoveFd, IsMember, bnd Wbit routines.
+ *  3> It is currently up to the user to hbndle wbking up bn
+ *     existing nbtiveWbit() cbll to do bn bddfd or removefd on
+ *     thbt set...could implement thbt here with bn extrb pipe, or
+ *     with b pbir of loopbbck sockets in Poller.jbvb or user code.
+ *     In most cbses interruption is not necessbry for deletions,
+ *     so long bs deletions bre queued up outside the Poller clbss
+ *     bnd then executed the next time wbitMultiple() returns.
+ *  4> /dev/poll performbnce could be slightly improved by coblescing
+ *     bdds/removes so thbt b write() is only done before the ioctl
+ *     (DP_POLL), but this complicbtes exception hbndling bnd sees
+ *     only modest performbnce gbins so wbsn't done.
+ *  5> /dev/poll does not report errors on bttempts to remove non-
+ *     extbnt fds, but b future bug fix to the /dev/poll device driver
  *     should solve this problem.
- *  6> Could add simpler code for pre-Solaris 7 releases which will
- *     perform slightly better on those OSs.  But again there
- *     are only modest gains to be had from these new code paths,
+ *  6> Could bdd simpler code for pre-Solbris 7 relebses which will
+ *     perform slightly better on those OSs.  But bgbin there
+ *     bre only modest gbins to be hbd from these new code pbths,
  *     so they've been omitted here.
  *
  * Compile "cc -G -o <dest_dir>/libpoller.so -I ${JAVA_HOME}/include " \
- * -I ${JAVA_HOME}/include/solaris Poller.c" and place the <dest_dir>
+ * -I ${JAVA_HOME}/include/solbris Poller.c" bnd plbce the <dest_dir>
  * in your LD_LIBRARY_PATH
  *
  **********************************************************************
@@ -86,14 +86,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <poll.h>
-#include <malloc.h>
+#include <mblloc.h>
 #include <fcntl.h>
 
 
 /*
- * Remove "_NOT"s to turn on features
- * Append "_NOT" to turn off features.
- * Use of /dev/poll requires both the include file and kernel driver.
+ * Remove "_NOT"s to turn on febtures
+ * Append "_NOT" to turn off febtures.
+ * Use of /dev/poll requires both the include file bnd kernel driver.
  */
 #define DEBUG_NOT
 #define DEVPOLL_NOT
@@ -110,8 +110,8 @@
 #ifdef DEBUG
 #define DBGMSG(x) printf x
 #define ASSERT(x) {if (!(x)) \
-                   printf("assertion(%s) failed at line : %d\n",#x,__LINE__);}
-#define CHECK_HANDLE(x) check_handle(x)
+                   printf("bssertion(%s) fbiled bt line : %d\n",#x,__LINE__);}
+#define CHECK_HANDLE(x) check_hbndle(x)
 #else
 #define DBGMSG(x)
 #define ASSERT(x)
@@ -119,91 +119,91 @@
 #endif
 
 /*
- * Globals ...protect all with a global synchronization object.
+ * Globbls ...protect bll with b globbl synchronizbtion object.
  */
 
-static int Current_handle = 0;
-static int Use_devpoll = 0;
-static int Max_index = 0;
+stbtic int Current_hbndle = 0;
+stbtic int Use_devpoll = 0;
+stbtic int Mbx_index = 0;
 
 /*
- * Per Poller object data.
- * Must be synchronized on a per Poller object basis.
+ * Per Poller object dbtb.
+ * Must be synchronized on b per Poller object bbsis.
  */
 
 typedef struct ioevent {
   int inuse;
   int devpollfd;
-  int last_index;
-  int total_free;
+  int lbst_index;
+  int totbl_free;
   int left_events;
-  int max_index;
+  int mbx_index;
   pollfd_t *pfd;
 } ioevent_t;
 
-static ioevent_t IOE_handles[MAX_HANDLES];
+stbtic ioevent_t IOE_hbndles[MAX_HANDLES];
 
 /*
  * Exceptions to be thrown.
- * Note : assuming all illegal argument and NULL pointer checks
- *        have already been done by the Java calling methods.
+ * Note : bssuming bll illegbl brgument bnd NULL pointer checks
+ *        hbve blrebdy been done by the Jbvb cblling methods.
  */
-static jint throwOutOfMemoryError(JNIEnv *env, const char * cause)
+stbtic jint throwOutOfMemoryError(JNIEnv *env, const chbr * cbuse)
 {
-  (*env)->ThrowNew(env, (*env)->FindClass(env,"java/lang/OutOfMemoryError"),
-                   cause);
+  (*env)->ThrowNew(env, (*env)->FindClbss(env,"jbvb/lbng/OutOfMemoryError"),
+                   cbuse);
   return -1;
 }
-static jint throwInterruptedIOException(JNIEnv *env, const char * cause)
+stbtic jint throwInterruptedIOException(JNIEnv *env, const chbr * cbuse)
 {
   (*env)->ThrowNew(env,
-                   (*env)->FindClass(env,"java/io/InterruptedIOException"),
-                   cause);
+                   (*env)->FindClbss(env,"jbvb/io/InterruptedIOException"),
+                   cbuse);
   return -1;
 }
-static jint throwIllegalStateException(JNIEnv *env, const char * cause)
+stbtic jint throwIllegblStbteException(JNIEnv *env, const chbr * cbuse)
 {
   (*env)->ThrowNew(env,
-                   (*env)->FindClass(env,"java/lang/IllegalStateException"),
-                   cause);
+                   (*env)->FindClbss(env,"jbvb/lbng/IllegblStbteException"),
+                   cbuse);
   return -1;
 }
 
 #define MEMORY_EXCEPTION(str) throwOutOfMemoryError(env, "Poller:" str)
-#define STATE_EXCEPTION(str)  throwIllegalStateException(env, "Poller:" str)
+#define STATE_EXCEPTION(str)  throwIllegblStbteException(env, "Poller:" str)
 #define INTERRUPT_EXCEPTION(str) throwInterruptedIOException(env, \
                                                              "Poller:" str)
-jint addfd(JNIEnv *, ioevent_t *, jint, jshort);
+jint bddfd(JNIEnv *, ioevent_t *, jint, jshort);
 jint removefd(JNIEnv *, ioevent_t *, jint);
 
 /*
- * Class Poller
- * Method: nativeInit
- * Signature: ()I
+ * Clbss Poller
+ * Method: nbtiveInit
+ * Signbture: ()I
  *
- * Only to be called once, right after this library is loaded,
- * so no need to deal with reentrancy here.
- * Could do as a pragma ini, but that isn't as portable.
+ * Only to be cblled once, right bfter this librbry is lobded,
+ * so no need to debl with reentrbncy here.
+ * Could do bs b prbgmb ini, but thbt isn't bs portbble.
  */
-JNIEXPORT jint JNICALL Java_Poller_nativeInit(JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveInit(JNIEnv *env, jclbss cls)
 {
   int testdevpollfd;
   int i;
 
 #ifdef DEVPOLL
   /*
-   * See if we can use this much faster method
-   * Note : must have fix for BUGID # 4223353 or OS can crash!
+   * See if we cbn use this much fbster method
+   * Note : must hbve fix for BUGID # 4223353 or OS cbn crbsh!
    */
   testdevpollfd = open("/dev/poll",O_RDWR);
   if (testdevpollfd >= 0) {
     /*
-     * If Solaris 7, we need a patch
-     * Until we know what string to search for, we'll play it
-     * safe and disable this for Solaris 7.
+     * If Solbris 7, we need b pbtch
+     * Until we know whbt string to sebrch for, we'll plby it
+     * sbfe bnd disbble this for Solbris 7.
      */
 
-    if (!strcmp(name.release,"5.7"))
+    if (!strcmp(nbme.relebse,"5.7"))
       {
         Use_devpoll = 0;
       }
@@ -218,113 +218,113 @@ JNIEXPORT jint JNICALL Java_Poller_nativeInit(JNIEnv *env, jclass cls)
 #endif
 
   /*
-   * For now, we optimize for Solaris 7 if /dev/poll isn't
-   * available, as it is only a small % hit for Solaris < 7.
-   * if ( (Use_devpoll == 0) && !strcmp(name.release,"5.6") )
+   * For now, we optimize for Solbris 7 if /dev/poll isn't
+   * bvbilbble, bs it is only b smbll % hit for Solbris < 7.
+   * if ( (Use_devpoll == 0) && !strcmp(nbme.relebse,"5.6") )
    *      Use_sol7opt = 0;
    */
-  Current_handle = 0;
+  Current_hbndle = 0;
   for (i = 0; i < MAX_HANDLES; i++) {
-    IOE_handles[i].devpollfd = -1;
-    IOE_handles[i].pfd = NULL;
+    IOE_hbndles[i].devpollfd = -1;
+    IOE_hbndles[i].pfd = NULL;
   }
 
   /*
-   * this tells me the max number of open filedescriptors
+   * this tells me the mbx number of open filedescriptors
    */
-  Max_index = sysconf(_SC_OPEN_MAX);
-  if (Max_index < 0) {
-    Max_index = 1024;
+  Mbx_index = sysconf(_SC_OPEN_MAX);
+  if (Mbx_index < 0) {
+    Mbx_index = 1024;
   }
 
-  DBGMSG(("got sysconf(_SC_OPEN_MAX)=%d file desc\n",Max_index));
+  DBGMSG(("got sysconf(_SC_OPEN_MAX)=%d file desc\n",Mbx_index));
 
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_Poller_getNumCPUs(JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_Poller_getNumCPUs(JNIEnv *env, jclbss cls)
 {
   return sysconf(_SC_NPROCESSORS_ONLN);
 }
 
 /*
- * Class:     Poller
- * Method:    nativeCreatePoller
- * Signature: (I)I
- * Note : in the case where /dev/poll doesn't exist,
- *        using more than one poll array could hurt
- *        Solaris 7 performance due to kernel caching.
+ * Clbss:     Poller
+ * Method:    nbtiveCrebtePoller
+ * Signbture: (I)I
+ * Note : in the cbse where /dev/poll doesn't exist,
+ *        using more thbn one poll brrby could hurt
+ *        Solbris 7 performbnce due to kernel cbching.
  */
 
-JNIEXPORT jint JNICALL Java_Poller_nativeCreatePoller
-  (JNIEnv *env, jobject obj, jint maximum_fds)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveCrebtePoller
+  (JNIEnv *env, jobject obj, jint mbximum_fds)
 {
-  int handle, retval, i;
+  int hbndle, retvbl, i;
   ioevent_t *ioeh;
 
-  if (maximum_fds == -1) {
-    maximum_fds = Max_index;
+  if (mbximum_fds == -1) {
+    mbximum_fds = Mbx_index;
   }
-  handle = Current_handle;
-  if (Current_handle >= MAX_HANDLES) {
+  hbndle = Current_hbndle;
+  if (Current_hbndle >= MAX_HANDLES) {
     for (i = 0; i < MAX_HANDLES; i++) {
-      if (IOE_handles[i].inuse == 0) {
-        handle = i;
-        break;
+      if (IOE_hbndles[i].inuse == 0) {
+        hbndle = i;
+        brebk;
       }
     }
-    if (handle >= MAX_HANDLES) {
-      return MEMORY_EXCEPTION("CreatePoller - MAX_HANDLES exceeded");
+    if (hbndle >= MAX_HANDLES) {
+      return MEMORY_EXCEPTION("CrebtePoller - MAX_HANDLES exceeded");
     }
   } else {
-    Current_handle++;
+    Current_hbndle++;
   }
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
 
   ioeh->inuse      = 1;
 
-  ioeh->last_index = 0;
-  ioeh->total_free = 0;
+  ioeh->lbst_index = 0;
+  ioeh->totbl_free = 0;
   ioeh->left_events = 0;
-  ioeh->max_index = maximum_fds;
+  ioeh->mbx_index = mbximum_fds;
 
-  retval = handle;
+  retvbl = hbndle;
   if (Use_devpoll) {
     ioeh->devpollfd = open("/dev/poll",O_RDWR);
     DBGMSG(("Opened /dev/poll, set devpollfd = %d\n",ioeh->devpollfd));
     if (ioeh->devpollfd < 0) {
-      Current_handle--;
-      return MEMORY_EXCEPTION("CreatePoller - can\'t open /dev/poll");
+      Current_hbndle--;
+      return MEMORY_EXCEPTION("CrebtePoller - cbn\'t open /dev/poll");
     }
   }
-  ioeh->pfd = malloc(maximum_fds * sizeof(pollfd_t));
+  ioeh->pfd = mblloc(mbximum_fds * sizeof(pollfd_t));
   if (ioeh->pfd == NULL) {
-    Current_handle--;
-    return MEMORY_EXCEPTION("CreatePoller - malloc failure");
+    Current_hbndle--;
+    return MEMORY_EXCEPTION("CrebtePoller - mblloc fbilure");
   }
 
-  return retval;
+  return retvbl;
 }
 
 /*
- * Class:     Poller
- * Method:    nativeDestroyPoller
- * Signature: (I)V
+ * Clbss:     Poller
+ * Method:    nbtiveDestroyPoller
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_Poller_nativeDestroyPoller
-  (JNIEnv *env, jobject obj, jint handle)
+JNIEXPORT void JNICALL Jbvb_Poller_nbtiveDestroyPoller
+  (JNIEnv *env, jobject obj, jint hbndle)
 {
 
   ioevent_t *ioeh;
 
-  if (handle < 0 || handle >= MAX_HANDLES)
+  if (hbndle < 0 || hbndle >= MAX_HANDLES)
     {
-      STATE_EXCEPTION("DestroyPoller - handle out of range");
+      STATE_EXCEPTION("DestroyPoller - hbndle out of rbnge");
       return;
     }
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
   ioeh->inuse = 0;
   if (Use_devpoll) {
     close(ioeh->devpollfd);
@@ -333,43 +333,43 @@ JNIEXPORT void JNICALL Java_Poller_nativeDestroyPoller
 }
 
 #ifdef DEBUG
-static void check_handle(ioevent_t *ioeh)
+stbtic void check_hbndle(ioevent_t *ioeh)
 {
   int i,used,unused;
 
   used=unused=0;
-  for (i = 0; i < ioeh->last_index; i++)
+  for (i = 0; i < ioeh->lbst_index; i++)
     {
       if (ioeh->pfd[i].fd == -1)
         unused++;
       else
         used++;
     }
-  if (unused != ioeh->total_free)
-    printf("WARNING : found %d free, claimed %d.  Used : %d\n",
-           unused, ioeh->total_free, used);
+  if (unused != ioeh->totbl_free)
+    printf("WARNING : found %d free, clbimed %d.  Used : %d\n",
+           unused, ioeh->totbl_free, used);
 }
 #endif
 
 /*
- * Class:     Poller
- * Method:    nativeAddFd
- * Signature: (IIS)I
+ * Clbss:     Poller
+ * Method:    nbtiveAddFd
+ * Signbture: (IIS)I
  *
- * Currently doesn't check to make sure we aren't adding
- * an fd already added (no problem for /dev/poll...just
- * an array waster for poll()).
+ * Currently doesn't check to mbke sure we bren't bdding
+ * bn fd blrebdy bdded (no problem for /dev/poll...just
+ * bn brrby wbster for poll()).
  */
-JNIEXPORT jint JNICALL Java_Poller_nativeAddFd
-  (JNIEnv *env, jobject obj, jint handle, jint fd, jshort events)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveAddFd
+  (JNIEnv *env, jobject obj, jint hbndle, jint fd, jshort events)
 {
-  int retval;
+  int retvbl;
   ioevent_t *ioeh;
 
-  if (handle < 0 || handle >= MAX_HANDLES)
-    return STATE_EXCEPTION("AddFd - handle out of range");
+  if (hbndle < 0 || hbndle >= MAX_HANDLES)
+    return STATE_EXCEPTION("AddFd - hbndle out of rbnge");
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
 
   CHECK_HANDLE(ioeh);
 
@@ -388,67 +388,67 @@ JNIEXPORT jint JNICALL Java_Poller_nativeAddFd
           sizeof(pollfd_t)) {
         DBGMSG(("write to devpollfd=%d showed %d bytes out of %d\n",
                 ioeh->devpollfd,i,sizeof(pollfd_t)));
-        return STATE_EXCEPTION("AddFd - /dev/poll add failure");
+        return STATE_EXCEPTION("AddFd - /dev/poll bdd fbilure");
       }
     else
       {
-        retval = fd;
+        retvbl = fd;
       }
     }
   else
   #endif
-    { /* no /dev/poll available */
-      retval = addfd(env, ioeh, fd, events);
+    { /* no /dev/poll bvbilbble */
+      retvbl = bddfd(env, ioeh, fd, events);
     }
-  return retval;
+  return retvbl;
 }
 
 /*
- * Addfd to pollfd array...optimized for Solaris 7
+ * Addfd to pollfd brrby...optimized for Solbris 7
  */
-jint addfd(JNIEnv *env, ioevent_t *ioeh, jint fd, jshort events)
+jint bddfd(JNIEnv *env, ioevent_t *ioeh, jint fd, jshort events)
 {
   int idx;
 
-  if (ioeh->total_free)
+  if (ioeh->totbl_free)
     {
       /*
-       * Traversing from end because that's where we pad.
+       * Trbversing from end becbuse thbt's where we pbd.
        */
-      ioeh->total_free--;
-      for (idx = ioeh->last_index - 1; idx >= 0; idx--) {
+      ioeh->totbl_free--;
+      for (idx = ioeh->lbst_index - 1; idx >= 0; idx--) {
         if (ioeh->pfd[idx].fd == -1)
-          break;
+          brebk;
       }
     }
-  else if (ioeh->last_index >= ioeh->max_index)
+  else if (ioeh->lbst_index >= ioeh->mbx_index)
     {
-      return MEMORY_EXCEPTION("AddFd - too many fds");
+      return MEMORY_EXCEPTION("AddFd - too mbny fds");
     }
   else
     {
       int i;
-      int new_total;
+      int new_totbl;
       /*
-       * For Solaris 7, want to add some growth space
-       * and fill extras with fd=-1.  This allows for
-       * kernel poll() implementation to perform optimally.
+       * For Solbris 7, wbnt to bdd some growth spbce
+       * bnd fill extrbs with fd=-1.  This bllows for
+       * kernel poll() implementbtion to perform optimblly.
        */
-      new_total = ioeh->last_index;
-      new_total += (new_total/10) + 1; /* bump size by 10% */
-      if (new_total > ioeh->max_index)
-        new_total = ioeh->max_index;
-      for (i = ioeh->last_index; i <= new_total; i++)
+      new_totbl = ioeh->lbst_index;
+      new_totbl += (new_totbl/10) + 1; /* bump size by 10% */
+      if (new_totbl > ioeh->mbx_index)
+        new_totbl = ioeh->mbx_index;
+      for (i = ioeh->lbst_index; i <= new_totbl; i++)
         {
           ioeh->pfd[i].fd = -1;
         }
-      idx = ioeh->last_index;
-      ioeh->total_free = new_total - ioeh->last_index - 1;
+      idx = ioeh->lbst_index;
+      ioeh->totbl_free = new_totbl - ioeh->lbst_index - 1;
       DBGMSG(("Just grew from %d to %d in size\n",
-              ioeh->last_index, new_total));
-      ioeh->last_index = new_total;
+              ioeh->lbst_index, new_totbl));
+      ioeh->lbst_index = new_totbl;
     }
-  ASSERT((idx >= 0) && (idx <= ioeh->max_index));
+  ASSERT((idx >= 0) && (idx <= ioeh->mbx_index));
   ASSERT(ioeh->pfd[idx].fd == -1);
   ioeh->pfd[idx].fd = fd;
   ioeh->pfd[idx].events = events;
@@ -460,19 +460,19 @@ jint addfd(JNIEnv *env, ioevent_t *ioeh, jint fd, jshort events)
 }
 
 /*
- * Class:     Poller
- * Method:    nativeRemoveFd
- * Signature: (II)I
+ * Clbss:     Poller
+ * Method:    nbtiveRemoveFd
+ * Signbture: (II)I
  */
-JNIEXPORT jint JNICALL Java_Poller_nativeRemoveFd
-  (JNIEnv *env, jobject obj, jint handle, jint fd)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveRemoveFd
+  (JNIEnv *env, jobject obj, jint hbndle, jint fd)
 {
   ioevent_t *ioeh;
 
-  if (handle < 0 || handle >= MAX_HANDLES)
-    return STATE_EXCEPTION("RemoveFd - handle out of range");
+  if (hbndle < 0 || hbndle >= MAX_HANDLES)
+    return STATE_EXCEPTION("RemoveFd - hbndle out of rbnge");
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
 
   #ifdef DEVPOLL
   if (Use_devpoll)
@@ -487,7 +487,7 @@ JNIEXPORT jint JNICALL Java_Poller_nativeRemoveFd
       if (write(ioeh->devpollfd, &pollelt,
                 sizeof(pollfd_t) ) != sizeof(pollfd_t))
         {
-          return STATE_EXCEPTION("RemoveFd - /dev/poll failure");
+          return STATE_EXCEPTION("RemoveFd - /dev/poll fbilure");
         }
     }
   else
@@ -497,7 +497,7 @@ JNIEXPORT jint JNICALL Java_Poller_nativeRemoveFd
     }
 }
 /*
- * remove from pollfd array...optimize for Solaris 7
+ * remove from pollfd brrby...optimize for Solbris 7
  */
 jint removefd(JNIEnv *env, ioevent_t *ioeh, jint fd)
 {
@@ -505,38 +505,38 @@ jint removefd(JNIEnv *env, ioevent_t *ioeh, jint fd)
   int found = 0;
 
     { /* !Use_devpoll */
-      for (i = 0; i < ioeh->last_index; i++)
+      for (i = 0; i < ioeh->lbst_index; i++)
         {
           if (ioeh->pfd[i].fd == fd)
             {
               ioeh->pfd[i].fd = -1;
               found = 1;
-              break;
+              brebk;
             }
         }
       if (!found)
         {
           return STATE_EXCEPTION("RemoveFd - no such fd");
         }
-      ioeh->left_events = 0; /* Have to go back to the kernel */
-      ioeh->total_free++;
+      ioeh->left_events = 0; /* Hbve to go bbck to the kernel */
+      ioeh->totbl_free++;
       /*
        * Shrinking pool if > 33% empty. Just don't do this often!
        */
-      if ( (ioeh->last_index > 100) &&
-           (ioeh->total_free > (ioeh->last_index / 3)) )
+      if ( (ioeh->lbst_index > 100) &&
+           (ioeh->totbl_free > (ioeh->lbst_index / 3)) )
         {
           int j;
           /*
            * we'll just bite the bullet here, since we're > 33% empty.
-           * walk through and eliminate -1 fd values, shrink total
-           * size to still have ~ 10 fd==-1 values at end.
-           * Start at end (since we pad here) and, when we find fd != -1,
-           * swap with an earlier fd == -1 until we have all -1 values
-           * at the end.
+           * wblk through bnd eliminbte -1 fd vblues, shrink totbl
+           * size to still hbve ~ 10 fd==-1 vblues bt end.
+           * Stbrt bt end (since we pbd here) bnd, when we find fd != -1,
+           * swbp with bn ebrlier fd == -1 until we hbve bll -1 vblues
+           * bt the end.
            */
           CHECK_HANDLE(ioeh);
-          for (i = ioeh->last_index - 1, j = 0; i > j; i--)
+          for (i = ioeh->lbst_index - 1, j = 0; i > j; i--)
             {
               if (ioeh->pfd[i].fd != -1)
                 {
@@ -554,9 +554,9 @@ jint removefd(JNIEnv *env, ioevent_t *ioeh, jint fd)
                 }
             }
           DBGMSG(("Just shrunk from %d to %d in size\n",
-                  ioeh->last_index, j+11));
-          ioeh->last_index = j + 11; /* last_index always 1 greater */
-          ioeh->total_free = 10;
+                  ioeh->lbst_index, j+11));
+          ioeh->lbst_index = j + 11; /* lbst_index blwbys 1 grebter */
+          ioeh->totbl_free = 10;
           CHECK_HANDLE(ioeh);
         }
     } /* !Use_devpoll */
@@ -565,28 +565,28 @@ jint removefd(JNIEnv *env, ioevent_t *ioeh, jint fd)
 }
 
 /*
- * Class:     Poller
- * Method:    nativeIsMember
- * Signature: (II)I
+ * Clbss:     Poller
+ * Method:    nbtiveIsMember
+ * Signbture: (II)I
  */
-JNIEXPORT jint JNICALL Java_Poller_nativeIsMember
-  (JNIEnv *env, jobject obj, jint handle, jint fd)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveIsMember
+  (JNIEnv *env, jobject obj, jint hbndle, jint fd)
 {
   int found = 0;
   int i;
   ioevent_t *ioeh;
 
-  if (handle < 0 || handle >= MAX_HANDLES)
-    return STATE_EXCEPTION("IsMember - handle out of range");
+  if (hbndle < 0 || hbndle >= MAX_HANDLES)
+    return STATE_EXCEPTION("IsMember - hbndle out of rbnge");
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
 
   #ifdef DEVPOLL
   if (Use_devpoll)
     {
       pollfd_t pfd;
       /*
-       * DEVPOLL ioctl DP_ISPOLLED call to determine if fd is polled.
+       * DEVPOLL ioctl DP_ISPOLLED cbll to determine if fd is polled.
        */
       pfd.fd = fd;
       pfd.events = 0;
@@ -594,18 +594,18 @@ JNIEXPORT jint JNICALL Java_Poller_nativeIsMember
       found = ioctl(ioeh->devpollfd, DP_ISPOLLED, &pfd);
       if (found == -1)
         {
-          return STATE_EXCEPTION("IsMember - /dev/poll failure");
+          return STATE_EXCEPTION("IsMember - /dev/poll fbilure");
         }
     }
   else
   #endif
     {
-      for (i = 0; i < ioeh->last_index; i++)
+      for (i = 0; i < ioeh->lbst_index; i++)
         {
           if (fd == ioeh->pfd[i].fd)
             {
               found = 1;
-              break;
+              brebk;
             }
         }
     }
@@ -614,27 +614,27 @@ JNIEXPORT jint JNICALL Java_Poller_nativeIsMember
 }
 
 /*
- * Class:     Poller
- * Method:    nativeWait
- * Signature: (II[I[SJ)I
+ * Clbss:     Poller
+ * Method:    nbtiveWbit
+ * Signbture: (II[I[SJ)I
  */
-JNIEXPORT jint JNICALL Java_Poller_nativeWait
-  (JNIEnv *env, jobject obj, jint handle, jint maxEvents,
-   jintArray jfds, jshortArray jrevents, jlong timeout)
+JNIEXPORT jint JNICALL Jbvb_Poller_nbtiveWbit
+  (JNIEnv *env, jobject obj, jint hbndle, jint mbxEvents,
+   jintArrby jfds, jshortArrby jrevents, jlong timeout)
 {
   int useEvents, count, idx;
   short *reventp;
   jint  *fdp;
-  int   retval;
+  int   retvbl;
   ioevent_t *ioeh;
-  jboolean isCopy1,isCopy2;
+  jboolebn isCopy1,isCopy2;
 
-  if (handle < 0 || handle >= MAX_HANDLES)
-    return STATE_EXCEPTION("nativeWait - handle out of range");
+  if (hbndle < 0 || hbndle >= MAX_HANDLES)
+    return STATE_EXCEPTION("nbtiveWbit - hbndle out of rbnge");
 
-  ioeh = &IOE_handles[handle];
+  ioeh = &IOE_hbndles[hbndle];
 
-  if (maxEvents == 0) /* just doing a kernel delay! */
+  if (mbxEvents == 0) /* just doing b kernel delby! */
     {
       useEvents = poll(NULL,0L,timeout);
       return 0;
@@ -645,10 +645,10 @@ JNIEXPORT jint JNICALL Java_Poller_nativeWait
     {
       struct dvpoll dopoll;
       /*
-       * DEVPOLL ioctl DP_POLL call, reading
+       * DEVPOLL ioctl DP_POLL cbll, rebding
        */
       dopoll.dp_timeout = timeout;
-      dopoll.dp_nfds=maxEvents;
+      dopoll.dp_nfds=mbxEvents;
       dopoll.dp_fds=ioeh->pfd;
 
       useEvents = ioctl(ioeh->devpollfd, DP_POLL, &dopoll);
@@ -658,13 +658,13 @@ JNIEXPORT jint JNICALL Java_Poller_nativeWait
       if (useEvents == -1)
         {
           if (errno == EINTR)
-            return INTERRUPT_EXCEPTION("nativeWait - /dev/poll failure EINTR");
+            return INTERRUPT_EXCEPTION("nbtiveWbit - /dev/poll fbilure EINTR");
           else
-            return STATE_EXCEPTION("nativeWait - /dev/poll failure");
+            return STATE_EXCEPTION("nbtiveWbit - /dev/poll fbilure");
         }
 
-      reventp =(*env)->GetShortArrayElements(env,jrevents,&isCopy1);
-      fdp =(*env)->GetIntArrayElements(env,jfds,&isCopy2);
+      reventp =(*env)->GetShortArrbyElements(env,jrevents,&isCopy1);
+      fdp =(*env)->GetIntArrbyElements(env,jfds,&isCopy2);
       for (idx = 0,count = 0; idx < useEvents; idx++)
         {
           if (ioeh->pfd[idx].revents)
@@ -675,12 +675,12 @@ JNIEXPORT jint JNICALL Java_Poller_nativeWait
             }
         }
       if (count < useEvents)
-        return STATE_EXCEPTION("Wait - Corrupted internals");
+        return STATE_EXCEPTION("Wbit - Corrupted internbls");
 
       if (isCopy1 == JNI_TRUE)
-        (*env)->ReleaseShortArrayElements(env,jrevents,reventp,0);
+        (*env)->RelebseShortArrbyElements(env,jrevents,reventp,0);
       if (isCopy2 == JNI_TRUE)
-        (*env)->ReleaseIntArrayElements(env,jfds,fdp,0);
+        (*env)->RelebseIntArrbyElements(env,jfds,fdp,0);
     }
   else
   #endif
@@ -689,50 +689,50 @@ JNIEXPORT jint JNICALL Java_Poller_nativeWait
     /* no leftovers=>go to kernel */
       if (ioeh->left_events == 0)
         {
-          useEvents = poll(ioeh->pfd,ioeh->last_index, timeout);
+          useEvents = poll(ioeh->pfd,ioeh->lbst_index, timeout);
           while ((useEvents == -1) && (errno == EAGAIN))
-            useEvents = poll(ioeh->pfd,ioeh->last_index, timeout);
+            useEvents = poll(ioeh->pfd,ioeh->lbst_index, timeout);
           if (useEvents == -1)
             {
               if (errno == EINTR)
-                return INTERRUPT_EXCEPTION("Wait - poll() failure EINTR-" \
+                return INTERRUPT_EXCEPTION("Wbit - poll() fbilure EINTR-" \
                                            "IO interrupted.");
               else if (errno == EINVAL)
-                return STATE_EXCEPTION("Wait - poll() failure EINVAL-" \
-                                       "invalid args (is fdlim cur < max?)");
+                return STATE_EXCEPTION("Wbit - poll() fbilure EINVAL-" \
+                                       "invblid brgs (is fdlim cur < mbx?)");
               else
-                return STATE_EXCEPTION("Wait - poll() failure");
+                return STATE_EXCEPTION("Wbit - poll() fbilure");
             }
           ioeh->left_events = useEvents;
-          DBGMSG(("waitnative : poll returns : %d\n",useEvents));
+          DBGMSG(("wbitnbtive : poll returns : %d\n",useEvents));
         }
       else
-        {  /* left over from last call */
+        {  /* left over from lbst cbll */
           useEvents = ioeh->left_events;
         }
 
-      if (useEvents > maxEvents)
+      if (useEvents > mbxEvents)
         {
-          useEvents = maxEvents;
+          useEvents = mbxEvents;
         }
 
       ioeh->left_events -= useEvents; /* left to process */
 
-      DBGMSG(("waitnative : left %d, use %d, max %d\n",ioeh->left_events,
-              useEvents,maxEvents));
+      DBGMSG(("wbitnbtive : left %d, use %d, mbx %d\n",ioeh->left_events,
+              useEvents,mbxEvents));
 
       if (useEvents > 0)
         {
-          reventp =(*env)->GetShortArrayElements(env,jrevents,&isCopy1);
-          fdp =(*env)->GetIntArrayElements(env,jfds,&isCopy2);
-          for (idx = 0,count = 0; (idx < ioeh->last_index) &&
+          reventp =(*env)->GetShortArrbyElements(env,jrevents,&isCopy1);
+          fdp =(*env)->GetIntArrbyElements(env,jfds,&isCopy2);
+          for (idx = 0,count = 0; (idx < ioeh->lbst_index) &&
                  (count < useEvents); idx++)
             {
               if (ioeh->pfd[idx].revents)
                 {
                   fdp[count] = ioeh->pfd[idx].fd;
                   reventp[count] = ioeh->pfd[idx].revents;
-                  /* in case of leftover for next walk */
+                  /* in cbse of leftover for next wblk */
                   ioeh->pfd[idx].revents = 0;
                   count++;
                 }
@@ -740,12 +740,12 @@ JNIEXPORT jint JNICALL Java_Poller_nativeWait
           if (count < useEvents)
             {
               ioeh->left_events = 0;
-              return STATE_EXCEPTION("Wait - Corrupted internals");
+              return STATE_EXCEPTION("Wbit - Corrupted internbls");
             }
           if (isCopy1 == JNI_TRUE)
-            (*env)->ReleaseShortArrayElements(env,jrevents,reventp,0);
+            (*env)->RelebseShortArrbyElements(env,jrevents,reventp,0);
           if (isCopy2 == JNI_TRUE)
-            (*env)->ReleaseIntArrayElements(env,jfds,fdp,0);
+            (*env)->RelebseIntArrbyElements(env,jfds,fdp,0);
         }
     } /* !Use_devpoll */
 

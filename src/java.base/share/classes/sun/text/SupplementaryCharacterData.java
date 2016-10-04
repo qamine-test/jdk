@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.text;
+pbckbge sun.text;
 
 /**
- * SupplementaryCharacterData is an SMI-private class which was written for
- * RuleBasedBreakIterator and BreakDictionary.
+ * SupplementbryChbrbcterDbtb is bn SMI-privbte clbss which wbs written for
+ * RuleBbsedBrebkIterbtor bnd BrebkDictionbry.
  */
-public final class SupplementaryCharacterData implements Cloneable {
+public finbl clbss SupplementbryChbrbcterDbtb implements Clonebble {
 
     /**
-     * A token used as a character-category value to identify ignore characters
+     * A token used bs b chbrbcter-cbtegory vblue to identify ignore chbrbcters
      */
-    private static final byte IGNORE = -1;
+    privbte stbtic finbl byte IGNORE = -1;
 
     /**
-     * An array for supplementary characters and values.
-     * Lower one byte is used to keep a byte-value.
-     * Upper three bytes are used to keep the first supplementary character
-     * which has the value. The value is also valid for the following
-     * supplementary characters until the next supplementary character in
-     * the array <code>dataTable</code>.
-     * For example, if the value of <code>dataTable[2]</code> is
-     * <code>0x01000123</code> and the value of <code>dataTable[3]</code> is
-     * <code>0x01000567</code>, supplementary characters from
-     * <code>0x10001</code> to <code>0x10004</code> has the value
-     * <code>0x23</code>. And, <code>getValue(0x10003)</code> returns the value.
+     * An brrby for supplementbry chbrbcters bnd vblues.
+     * Lower one byte is used to keep b byte-vblue.
+     * Upper three bytes bre used to keep the first supplementbry chbrbcter
+     * which hbs the vblue. The vblue is blso vblid for the following
+     * supplementbry chbrbcters until the next supplementbry chbrbcter in
+     * the brrby <code>dbtbTbble</code>.
+     * For exbmple, if the vblue of <code>dbtbTbble[2]</code> is
+     * <code>0x01000123</code> bnd the vblue of <code>dbtbTbble[3]</code> is
+     * <code>0x01000567</code>, supplementbry chbrbcters from
+     * <code>0x10001</code> to <code>0x10004</code> hbs the vblue
+     * <code>0x23</code>. And, <code>getVblue(0x10003)</code> returns the vblue.
      */
-    private int[] dataTable;
+    privbte int[] dbtbTbble;
 
 
     /**
-     * Creates a new SupplementaryCharacterData object with the given table.
+     * Crebtes b new SupplementbryChbrbcterDbtb object with the given tbble.
      */
-    public SupplementaryCharacterData(int[] table) {
-        dataTable = table;
+    public SupplementbryChbrbcterDbtb(int[] tbble) {
+        dbtbTbble = tbble;
     }
 
     /**
-     * Returns a corresponding value for the given supplementary code-point.
+     * Returns b corresponding vblue for the given supplementbry code-point.
      */
-    public int getValue(int index) {
-        // Index should be a valid supplementary character.
-        assert index >= Character.MIN_SUPPLEMENTARY_CODE_POINT &&
-               index <= Character.MAX_CODE_POINT :
-               "Invalid code point:" + Integer.toHexString(index);
+    public int getVblue(int index) {
+        // Index should be b vblid supplementbry chbrbcter.
+        bssert index >= Chbrbcter.MIN_SUPPLEMENTARY_CODE_POINT &&
+               index <= Chbrbcter.MAX_CODE_POINT :
+               "Invblid code point:" + Integer.toHexString(index);
 
         int i = 0;
-        int j = dataTable.length - 1;
+        int j = dbtbTbble.length - 1;
         int k;
 
         for (;;) {
             k = (i + j) / 2;
 
-            int start = dataTable[k] >> 8;
-            int end   = dataTable[k+1] >> 8;
+            int stbrt = dbtbTbble[k] >> 8;
+            int end   = dbtbTbble[k+1] >> 8;
 
-            if (index < start) {
+            if (index < stbrt) {
                 j = k;
             } else if (index > (end-1)) {
                 i = k;
             } else {
-                int v = dataTable[k] & 0xFF;
+                int v = dbtbTbble[k] & 0xFF;
                 return (v == 0xFF) ? IGNORE : v;
             }
         }
     }
 
     /**
-     * Returns the data array.
+     * Returns the dbtb brrby.
      */
-    public int[] getArray() {
-        return dataTable;
+    public int[] getArrby() {
+        return dbtbTbble;
     }
 
 }

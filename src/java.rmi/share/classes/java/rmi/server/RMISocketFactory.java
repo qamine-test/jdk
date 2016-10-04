@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 /**
- * An <code>RMISocketFactory</code> instance is used by the RMI runtime
- * in order to obtain client and server sockets for RMI calls.  An
- * application may use the <code>setSocketFactory</code> method to
- * request that the RMI runtime use its socket factory instance
- * instead of the default implementation.
+ * An <code>RMISocketFbctory</code> instbnce is used by the RMI runtime
+ * in order to obtbin client bnd server sockets for RMI cblls.  An
+ * bpplicbtion mby use the <code>setSocketFbctory</code> method to
+ * request thbt the RMI runtime use its socket fbctory instbnce
+ * instebd of the defbult implementbtion.
  *
- * <p>The default socket factory implementation performs a
- * three-tiered approach to creating client sockets. First, a direct
- * socket connection to the remote VM is attempted.  If that fails
- * (due to a firewall), the runtime uses HTTP with the explicit port
- * number of the server.  If the firewall does not allow this type of
- * communication, then HTTP to a cgi-bin script on the server is used
- * to POST the RMI call. The HTTP tunneling mechanisms are disabled by
- * default. This behavior is controlled by the {@code java.rmi.server.disableHttp}
- * property, whose default value is {@code true}. Setting this property's
- * value to {@code false} will enable the HTTP tunneling mechanisms.
+ * <p>The defbult socket fbctory implementbtion performs b
+ * three-tiered bpprobch to crebting client sockets. First, b direct
+ * socket connection to the remote VM is bttempted.  If thbt fbils
+ * (due to b firewbll), the runtime uses HTTP with the explicit port
+ * number of the server.  If the firewbll does not bllow this type of
+ * communicbtion, then HTTP to b cgi-bin script on the server is used
+ * to POST the RMI cbll. The HTTP tunneling mechbnisms bre disbbled by
+ * defbult. This behbvior is controlled by the {@code jbvb.rmi.server.disbbleHttp}
+ * property, whose defbult vblue is {@code true}. Setting this property's
+ * vblue to {@code fblse} will enbble the HTTP tunneling mechbnisms.
  *
- * <p><strong>Deprecated: HTTP Tunneling.</strong> <em>The HTTP tunneling mechanisms
- * described above, specifically HTTP with an explicit port and HTTP to a
- * cgi-bin script, are deprecated. These HTTP tunneling mechanisms are
- * subject to removal in a future release of the platform.</em>
+ * <p><strong>Deprecbted: HTTP Tunneling.</strong> <em>The HTTP tunneling mechbnisms
+ * described bbove, specificblly HTTP with bn explicit port bnd HTTP to b
+ * cgi-bin script, bre deprecbted. These HTTP tunneling mechbnisms bre
+ * subject to removbl in b future relebse of the plbtform.</em>
  *
- * <p>The default socket factory implementation creates server sockets that
- * are bound to the wildcard address, which accepts requests from all network
- * interfaces.
+ * <p>The defbult socket fbctory implementbtion crebtes server sockets thbt
+ * bre bound to the wildcbrd bddress, which bccepts requests from bll network
+ * interfbces.
  *
  * @implNote
- * <p>You can use the {@code RMISocketFactory} class to create a server socket that
- * is bound to a specific address, restricting the origin of requests. For example,
- * the following code implements a socket factory that binds server sockets to an IPv4
- * loopback address. This restricts RMI to processing requests only from the local host.
+ * <p>You cbn use the {@code RMISocketFbctory} clbss to crebte b server socket thbt
+ * is bound to b specific bddress, restricting the origin of requests. For exbmple,
+ * the following code implements b socket fbctory thbt binds server sockets to bn IPv4
+ * loopbbck bddress. This restricts RMI to processing requests only from the locbl host.
  *
  * <pre>{@code
- *     class LoopbackSocketFactory extends RMISocketFactory {
- *         public ServerSocket createServerSocket(int port) throws IOException {
- *             return new ServerSocket(port, 5, InetAddress.getByName("127.0.0.1"));
+ *     clbss LoopbbckSocketFbctory extends RMISocketFbctory {
+ *         public ServerSocket crebteServerSocket(int port) throws IOException {
+ *             return new ServerSocket(port, 5, InetAddress.getByNbme("127.0.0.1"));
  *         }
  *
- *         public Socket createSocket(String host, int port) throws IOException {
- *             // just call the default client socket factory
- *             return RMISocketFactory.getDefaultSocketFactory()
- *                                    .createSocket(host, port);
+ *         public Socket crebteSocket(String host, int port) throws IOException {
+ *             // just cbll the defbult client socket fbctory
+ *             return RMISocketFbctory.getDefbultSocketFbctory()
+ *                                    .crebteSocket(host, port);
  *         }
  *     }
  *
  *     // ...
  *
- *     RMISocketFactory.setSocketFactory(new LoopbackSocketFactory());
+ *     RMISocketFbctory.setSocketFbctory(new LoopbbckSocketFbctory());
  * }</pre>
  *
- * Set the {@code java.rmi.server.hostname} system property
- * to {@code 127.0.0.1} to ensure that the generated stubs connect to the right
- * network interface.
+ * Set the {@code jbvb.rmi.server.hostnbme} system property
+ * to {@code 127.0.0.1} to ensure thbt the generbted stubs connect to the right
+ * network interfbce.
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  * @since   1.1
  */
-public abstract class RMISocketFactory
-        implements RMIClientSocketFactory, RMIServerSocketFactory
+public bbstrbct clbss RMISocketFbctory
+        implements RMIClientSocketFbctory, RMIServerSocketFbctory
 {
 
-    /** Client/server socket factory to be used by RMI runtime */
-    private static RMISocketFactory factory = null;
-    /** default socket factory used by this RMI implementation */
-    private static RMISocketFactory defaultSocketFactory;
-    /** Handler for socket creation failure */
-    private static RMIFailureHandler handler = null;
+    /** Client/server socket fbctory to be used by RMI runtime */
+    privbte stbtic RMISocketFbctory fbctory = null;
+    /** defbult socket fbctory used by this RMI implementbtion */
+    privbte stbtic RMISocketFbctory defbultSocketFbctory;
+    /** Hbndler for socket crebtion fbilure */
+    privbte stbtic RMIFbilureHbndler hbndler = null;
 
     /**
-     * Constructs an <code>RMISocketFactory</code>.
+     * Constructs bn <code>RMISocketFbctory</code>.
      * @since 1.1
      */
-    public RMISocketFactory() {
+    public RMISocketFbctory() {
         super();
     }
 
     /**
-     * Creates a client socket connected to the specified host and port.
-     * @param  host   the host name
-     * @param  port   the port number
-     * @return a socket connected to the specified host and port.
-     * @exception IOException if an I/O error occurs during socket creation
+     * Crebtes b client socket connected to the specified host bnd port.
+     * @pbrbm  host   the host nbme
+     * @pbrbm  port   the port number
+     * @return b socket connected to the specified host bnd port.
+     * @exception IOException if bn I/O error occurs during socket crebtion
      * @since 1.1
      */
-    public abstract Socket createSocket(String host, int port)
+    public bbstrbct Socket crebteSocket(String host, int port)
         throws IOException;
 
     /**
-     * Create a server socket on the specified port (port 0 indicates
-     * an anonymous port).
-     * @param  port the port number
+     * Crebte b server socket on the specified port (port 0 indicbtes
+     * bn bnonymous port).
+     * @pbrbm  port the port number
      * @return the server socket on the specified port
-     * @exception IOException if an I/O error occurs during server socket
-     * creation
+     * @exception IOException if bn I/O error occurs during server socket
+     * crebtion
      * @since 1.1
      */
-    public abstract ServerSocket createServerSocket(int port)
+    public bbstrbct ServerSocket crebteServerSocket(int port)
         throws IOException;
 
     /**
-     * Set the global socket factory from which RMI gets sockets (if the
-     * remote object is not associated with a specific client and/or server
-     * socket factory). The RMI socket factory can only be set once. Note: The
-     * RMISocketFactory may only be set if the current security manager allows
-     * setting a socket factory; if disallowed, a SecurityException will be
+     * Set the globbl socket fbctory from which RMI gets sockets (if the
+     * remote object is not bssocibted with b specific client bnd/or server
+     * socket fbctory). The RMI socket fbctory cbn only be set once. Note: The
+     * RMISocketFbctory mby only be set if the current security mbnbger bllows
+     * setting b socket fbctory; if disbllowed, b SecurityException will be
      * thrown.
-     * @param fac the socket factory
-     * @exception IOException if the RMI socket factory is already set
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkSetFactory</code> method doesn't allow the operation.
-     * @see #getSocketFactory
-     * @see java.lang.SecurityManager#checkSetFactory()
+     * @pbrbm fbc the socket fbctory
+     * @exception IOException if the RMI socket fbctory is blrebdy set
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkSetFbctory</code> method doesn't bllow the operbtion.
+     * @see #getSocketFbctory
+     * @see jbvb.lbng.SecurityMbnbger#checkSetFbctory()
      * @since 1.1
      */
-    public synchronized static void setSocketFactory(RMISocketFactory fac)
+    public synchronized stbtic void setSocketFbctory(RMISocketFbctory fbc)
         throws IOException
     {
-        if (factory != null) {
-            throw new SocketException("factory already defined");
+        if (fbctory != null) {
+            throw new SocketException("fbctory blrebdy defined");
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        factory = fac;
+        fbctory = fbc;
     }
 
     /**
-     * Returns the socket factory set by the <code>setSocketFactory</code>
-     * method. Returns <code>null</code> if no socket factory has been
+     * Returns the socket fbctory set by the <code>setSocketFbctory</code>
+     * method. Returns <code>null</code> if no socket fbctory hbs been
      * set.
-     * @return the socket factory
-     * @see #setSocketFactory(RMISocketFactory)
+     * @return the socket fbctory
+     * @see #setSocketFbctory(RMISocketFbctory)
      * @since 1.1
      */
-    public synchronized static RMISocketFactory getSocketFactory()
+    public synchronized stbtic RMISocketFbctory getSocketFbctory()
     {
-        return factory;
+        return fbctory;
     }
 
     /**
-     * Returns a reference to the default socket factory used
-     * by this RMI implementation.  This will be the factory used
-     * by the RMI runtime when <code>getSocketFactory</code>
+     * Returns b reference to the defbult socket fbctory used
+     * by this RMI implementbtion.  This will be the fbctory used
+     * by the RMI runtime when <code>getSocketFbctory</code>
      * returns <code>null</code>.
-     * @return the default RMI socket factory
+     * @return the defbult RMI socket fbctory
      * @since 1.1
      */
-    public synchronized static RMISocketFactory getDefaultSocketFactory() {
-        if (defaultSocketFactory == null) {
-            defaultSocketFactory =
-                new sun.rmi.transport.proxy.RMIMasterSocketFactory();
+    public synchronized stbtic RMISocketFbctory getDefbultSocketFbctory() {
+        if (defbultSocketFbctory == null) {
+            defbultSocketFbctory =
+                new sun.rmi.trbnsport.proxy.RMIMbsterSocketFbctory();
         }
-        return defaultSocketFactory;
+        return defbultSocketFbctory;
     }
 
     /**
-     * Sets the failure handler to be called by the RMI runtime if server
-     * socket creation fails.  By default, if no failure handler is installed
-     * and server socket creation fails, the RMI runtime does attempt to
-     * recreate the server socket.
+     * Sets the fbilure hbndler to be cblled by the RMI runtime if server
+     * socket crebtion fbils.  By defbult, if no fbilure hbndler is instblled
+     * bnd server socket crebtion fbils, the RMI runtime does bttempt to
+     * recrebte the server socket.
      *
-     * <p>If there is a security manager, this method first calls
-     * the security manager's <code>checkSetFactory</code> method
-     * to ensure the operation is allowed.
-     * This could result in a <code>SecurityException</code>.
+     * <p>If there is b security mbnbger, this method first cblls
+     * the security mbnbger's <code>checkSetFbctory</code> method
+     * to ensure the operbtion is bllowed.
+     * This could result in b <code>SecurityException</code>.
      *
-     * @param fh the failure handler
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkSetFactory</code> method doesn't allow the
-     *          operation.
-     * @see #getFailureHandler
-     * @see java.rmi.server.RMIFailureHandler#failure(Exception)
+     * @pbrbm fh the fbilure hbndler
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *          <code>checkSetFbctory</code> method doesn't bllow the
+     *          operbtion.
+     * @see #getFbilureHbndler
+     * @see jbvb.rmi.server.RMIFbilureHbndler#fbilure(Exception)
      * @since 1.1
      */
-    public synchronized static void setFailureHandler(RMIFailureHandler fh)
+    public synchronized stbtic void setFbilureHbndler(RMIFbilureHbndler fh)
     {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        handler = fh;
+        hbndler = fh;
     }
 
     /**
-     * Returns the handler for socket creation failure set by the
-     * <code>setFailureHandler</code> method.
-     * @return the failure handler
-     * @see #setFailureHandler(RMIFailureHandler)
+     * Returns the hbndler for socket crebtion fbilure set by the
+     * <code>setFbilureHbndler</code> method.
+     * @return the fbilure hbndler
+     * @see #setFbilureHbndler(RMIFbilureHbndler)
      * @since 1.1
      */
-    public synchronized static RMIFailureHandler getFailureHandler()
+    public synchronized stbtic RMIFbilureHbndler getFbilureHbndler()
     {
-        return handler;
+        return hbndler;
     }
 }

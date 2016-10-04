@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.tree.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tree.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 /**
  * Motif rendition of the tree component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class MotifTreeUI extends BasicTreeUI
+public clbss MotifTreeUI extends BbsicTreeUI
 {
-    static final int HALF_SIZE = 7;
-    static final int SIZE = 14;
+    stbtic finbl int HALF_SIZE = 7;
+    stbtic finbl int SIZE = 14;
 
     /**
-     * creates a UI object to represent a Motif Tree widget
+     * crebtes b UI object to represent b Motif Tree widget
      */
     public MotifTreeUI() {
         super();
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
     }
 
-    // BasicTreeUI overrides
+    // BbsicTreeUI overrides
 
-    protected void paintVerticalLine( Graphics g, JComponent c, int x, int top, int bottom )
+    protected void pbintVerticblLine( Grbphics g, JComponent c, int x, int top, int bottom )
       {
-          if (tree.getComponentOrientation().isLeftToRight()) {
+          if (tree.getComponentOrientbtion().isLeftToRight()) {
               g.fillRect( x, top, 2, bottom - top + 2 );
           } else {
               g.fillRect( x - 1, top, 2, bottom - top + 2 );
           }
       }
 
-    protected void paintHorizontalLine( Graphics g, JComponent c, int y, int left, int right )
+    protected void pbintHorizontblLine( Grbphics g, JComponent c, int y, int left, int right )
       {
           g.fillRect( left, y, right - left + 1, 2 );
       }
@@ -84,46 +84,46 @@ public class MotifTreeUI extends BasicTreeUI
     /**
      * The minus sign button icon.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class MotifExpandedIcon implements Icon, Serializable {
-        static Color bg;
-        static Color fg;
-        static Color highlight;
-        static Color shadow;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss MotifExpbndedIcon implements Icon, Seriblizbble {
+        stbtic Color bg;
+        stbtic Color fg;
+        stbtic Color highlight;
+        stbtic Color shbdow;
 
-        public MotifExpandedIcon() {
-            bg = UIManager.getColor("Tree.iconBackground");
-            fg = UIManager.getColor("Tree.iconForeground");
-            highlight = UIManager.getColor("Tree.iconHighlight");
-            shadow = UIManager.getColor("Tree.iconShadow");
+        public MotifExpbndedIcon() {
+            bg = UIMbnbger.getColor("Tree.iconBbckground");
+            fg = UIMbnbger.getColor("Tree.iconForeground");
+            highlight = UIMbnbger.getColor("Tree.iconHighlight");
+            shbdow = UIMbnbger.getColor("Tree.iconShbdow");
         }
 
-        public static Icon createExpandedIcon() {
-            return new MotifExpandedIcon();
+        public stbtic Icon crebteExpbndedIcon() {
+            return new MotifExpbndedIcon();
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
             g.setColor(highlight);
-            g.drawLine(x, y, x+SIZE-1, y);
-            g.drawLine(x, y+1, x, y+SIZE-1);
+            g.drbwLine(x, y, x+SIZE-1, y);
+            g.drbwLine(x, y+1, x, y+SIZE-1);
 
-            g.setColor(shadow);
-            g.drawLine(x+SIZE-1, y+1, x+SIZE-1, y+SIZE-1);
-            g.drawLine(x+1, y+SIZE-1, x+SIZE-1, y+SIZE-1);
+            g.setColor(shbdow);
+            g.drbwLine(x+SIZE-1, y+1, x+SIZE-1, y+SIZE-1);
+            g.drbwLine(x+1, y+SIZE-1, x+SIZE-1, y+SIZE-1);
 
             g.setColor(bg);
             g.fillRect(x+1, y+1, SIZE-2, SIZE-2);
 
             g.setColor(fg);
-            g.drawLine(x+3, y+HALF_SIZE-1, x+SIZE-4, y+HALF_SIZE-1);
-            g.drawLine(x+3, y+HALF_SIZE, x+SIZE-4, y+HALF_SIZE);
+            g.drbwLine(x+3, y+HALF_SIZE-1, x+SIZE-4, y+HALF_SIZE-1);
+            g.drbwLine(x+3, y+HALF_SIZE, x+SIZE-4, y+HALF_SIZE);
         }
 
         public int getIconWidth() { return SIZE; }
@@ -133,35 +133,35 @@ public class MotifTreeUI extends BasicTreeUI
     /**
      * The plus sign button icon.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases.  The current serialization support is appropriate
-     * for short term storage or RMI between applications running the same
-     * version of Swing.  A future release of Swing will provide support for
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses.  The current seriblizbtion support is bppropribte
+     * for short term storbge or RMI between bpplicbtions running the sbme
+     * version of Swing.  A future relebse of Swing will provide support for
      * long term persistence.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class MotifCollapsedIcon extends MotifExpandedIcon {
-        public static Icon createCollapsedIcon() {
-            return new MotifCollapsedIcon();
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss MotifCollbpsedIcon extends MotifExpbndedIcon {
+        public stbtic Icon crebteCollbpsedIcon() {
+            return new MotifCollbpsedIcon();
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            super.paintIcon(c, g, x, y);
-            g.drawLine(x + HALF_SIZE-1, y + 3, x + HALF_SIZE-1, y + (SIZE - 4));
-            g.drawLine(x + HALF_SIZE, y + 3, x + HALF_SIZE, y + (SIZE - 4));
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            super.pbintIcon(c, g, x, y);
+            g.drbwLine(x + HALF_SIZE-1, y + 3, x + HALF_SIZE-1, y + (SIZE - 4));
+            g.drbwLine(x + HALF_SIZE, y + 3, x + HALF_SIZE, y + (SIZE - 4));
         }
     }
 
-    public static ComponentUI createUI(JComponent x) {
+    public stbtic ComponentUI crebteUI(JComponent x) {
         return new MotifTreeUI();
     }
 
     /**
-     * Returns the default cell renderer that is used to do the
-     * stamping of each node.
+     * Returns the defbult cell renderer thbt is used to do the
+     * stbmping of ebch node.
      */
-    public TreeCellRenderer createDefaultCellRenderer() {
+    public TreeCellRenderer crebteDefbultCellRenderer() {
         return new MotifTreeCellRenderer();
     }
 

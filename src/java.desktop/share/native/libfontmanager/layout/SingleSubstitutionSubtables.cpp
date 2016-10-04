@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -31,53 +31,53 @@
 
 #include "LETypes.h"
 #include "LEGlyphFilter.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "SingleSubstitutionSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "SingleSubstitutionSubtbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 SingleSubstitutionSubtable::process(const LEReferenceTo<SingleSubstitutionSubtable> &base, GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+le_uint32 SingleSubstitutionSubtbble::process(const LEReferenceTo<SingleSubstitutionSubtbble> &bbse, GlyphIterbtor *glyphIterbtor, LEErrorCode &success, const LEGlyphFilter *filter) const
 {
-    switch(SWAPW(subtableFormat))
+    switch(SWAPW(subtbbleFormbt))
     {
-    case 0:
+    cbse 0:
         return 0;
 
-    case 1:
+    cbse 1:
     {
-      const LEReferenceTo<SingleSubstitutionFormat1Subtable> subtable(base, success, (const SingleSubstitutionFormat1Subtable *) this);
+      const LEReferenceTo<SingleSubstitutionFormbt1Subtbble> subtbble(bbse, success, (const SingleSubstitutionFormbt1Subtbble *) this);
 
-      return subtable->process(subtable, glyphIterator, success, filter);
+      return subtbble->process(subtbble, glyphIterbtor, success, filter);
     }
 
-    case 2:
+    cbse 2:
     {
-      const LEReferenceTo<SingleSubstitutionFormat2Subtable> subtable(base, success, (const SingleSubstitutionFormat2Subtable *) this);
+      const LEReferenceTo<SingleSubstitutionFormbt2Subtbble> subtbble(bbse, success, (const SingleSubstitutionFormbt2Subtbble *) this);
 
-      return subtable->process(subtable, glyphIterator, success, filter);
+      return subtbble->process(subtbble, glyphIterbtor, success, filter);
     }
 
-    default:
+    defbult:
         return 0;
     }
 }
 
-le_uint32 SingleSubstitutionFormat1Subtable::process(const LEReferenceTo<SingleSubstitutionFormat1Subtable> &base, GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+le_uint32 SingleSubstitutionFormbt1Subtbble::process(const LEReferenceTo<SingleSubstitutionFormbt1Subtbble> &bbse, GlyphIterbtor *glyphIterbtor, LEErrorCode &success, const LEGlyphFilter *filter) const
 {
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(bbse, glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
-        TTGlyphID substitute = ((TTGlyphID) LE_GET_GLYPH(glyph)) + SWAPW(deltaGlyphID);
+    if (coverbgeIndex >= 0) {
+        TTGlyphID substitute = ((TTGlyphID) LE_GET_GLYPH(glyph)) + SWAPW(deltbGlyphID);
 
-        if (filter == NULL || filter->accept(LE_SET_GLYPH(glyph, substitute), success)) {
-            glyphIterator->setCurrGlyphID(substitute);
+        if (filter == NULL || filter->bccept(LE_SET_GLYPH(glyph, substitute), success)) {
+            glyphIterbtor->setCurrGlyphID(substitute);
         }
 
         return 1;
@@ -86,19 +86,19 @@ le_uint32 SingleSubstitutionFormat1Subtable::process(const LEReferenceTo<SingleS
     return 0;
 }
 
-le_uint32 SingleSubstitutionFormat2Subtable::process(const LEReferenceTo<SingleSubstitutionFormat2Subtable> &base, GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+le_uint32 SingleSubstitutionFormbt2Subtbble::process(const LEReferenceTo<SingleSubstitutionFormbt2Subtbble> &bbse, GlyphIterbtor *glyphIterbtor, LEErrorCode &success, const LEGlyphFilter *filter) const
 {
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, glyph, success);
+    LEGlyphID glyph = glyphIterbtor->getCurrGlyphID();
+    le_int32 coverbgeIndex = getGlyphCoverbge(bbse, glyph, success);
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (coverageIndex >= 0) {
-        TTGlyphID substitute = SWAPW(substituteArray[coverageIndex]);
+    if (coverbgeIndex >= 0) {
+        TTGlyphID substitute = SWAPW(substituteArrby[coverbgeIndex]);
 
-        if (filter == NULL || filter->accept(LE_SET_GLYPH(glyph, substitute), success)) {
-            glyphIterator->setCurrGlyphID(substitute);
+        if (filter == NULL || filter->bccept(LE_SET_GLYPH(glyph, substitute), success)) {
+            glyphIterbtor->setCurrGlyphID(substitute);
         }
 
         return 1;

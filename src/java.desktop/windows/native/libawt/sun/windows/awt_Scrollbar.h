@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_SCROLLBAR_H
 #define AWT_SCROLLBAR_H
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
-#include "java_awt_Scrollbar.h"
-#include "sun_awt_windows_WScrollbarPeer.h"
+#include "jbvb_bwt_Scrollbbr.h"
+#include "sun_bwt_windows_WScrollbbrPeer.h"
 
 
-#define Java_java_awt_Scrollbar_HORIZONTAL    0
-#define Java_java_awt_Scrollbar_VERTICAL      1
+#define Jbvb_jbvb_bwt_Scrollbbr_HORIZONTAL    0
+#define Jbvb_jbvb_bwt_Scrollbbr_VERTICAL      1
 
 
 /************************************************************************
- * AwtScrollbar class
+ * AwtScrollbbr clbss
  */
 
-class AwtScrollbar : public AwtComponent {
+clbss AwtScrollbbr : public AwtComponent {
 public:
 
-    /* java.awt.Scrollbar fields */
-    static jfieldID lineIncrementID;
-    static jfieldID pageIncrementID;
-    static jfieldID orientationID;
+    /* jbvb.bwt.Scrollbbr fields */
+    stbtic jfieldID lineIncrementID;
+    stbtic jfieldID pbgeIncrementID;
+    stbtic jfieldID orientbtionID;
 
-    AwtScrollbar();
-    virtual ~AwtScrollbar();
+    AwtScrollbbr();
+    virtubl ~AwtScrollbbr();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    static AwtScrollbar* Create(jobject self, jobject parent);
+    stbtic AwtScrollbbr* Crebte(jobject self, jobject pbrent);
 
-    void SetValue(int value);
-    void SetLineIncrement(int value) { m_lineIncr = value; }
-    void SetPageIncrement(int value) { m_pageIncr = value; }
+    void SetVblue(int vblue);
+    void SetLineIncrement(int vblue) { m_lineIncr = vblue; }
+    void SetPbgeIncrement(int vblue) { m_pbgeIncr = vblue; }
 
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtubl LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
-    virtual MsgRouting WmHScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
-    virtual MsgRouting WmVScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
+    virtubl MsgRouting WmHScroll(UINT scrollCode, UINT pos, HWND hScrollBbr);
+    virtubl MsgRouting WmVScroll(UINT scrollCode, UINT pos, HWND hScrollBbr);
 
-    // Prevent KB Q102552 race.
-    virtual MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVal);
+    // Prevent KB Q102552 rbce.
+    virtubl MsgRouting WmMouseDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVbl);
 
-    virtual MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    virtubl MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    INLINE virtual BOOL IsScrollbar() { return TRUE; }
+    INLINE virtubl BOOL IsScrollbbr() { return TRUE; }
 
-    // invoked on Toolkit thread
-    static void _SetValues(void *param);
+    // invoked on Toolkit threbd
+    stbtic void _SetVblues(void *pbrbm);
 
-private:
-    UINT          m_orientation; /* SB_HORZ or SB_VERT */
+privbte:
+    UINT          m_orientbtion; /* SB_HORZ or SB_VERT */
 
     int           m_lineIncr;
-    int           m_pageIncr;
+    int           m_pbgeIncr;
 
-    // Work around KB Q73839 bug.
-    void UpdateFocusIndicator();
+    // Work bround KB Q73839 bug.
+    void UpdbteFocusIndicbtor();
 
-    // Don't do redundant callbacks.
-    const char *m_prevCallback;
-    int m_prevCallbackPos;
+    // Don't do redundbnt cbllbbcks.
+    const chbr *m_prevCbllbbck;
+    int m_prevCbllbbckPos;
 
-    static const char * const SbNlineDown;
-    static const char * const SbNlineUp;
-    static const char * const SbNpageDown;
-    static const char * const SbNpageUp;
-    static const char * const SbNdrag;
-    static const char * const SbNdragEnd;
-    static const char * const SbNwarp;
+    stbtic const chbr * const SbNlineDown;
+    stbtic const chbr * const SbNlineUp;
+    stbtic const chbr * const SbNpbgeDown;
+    stbtic const chbr * const SbNpbgeUp;
+    stbtic const chbr * const SbNdrbg;
+    stbtic const chbr * const SbNdrbgEnd;
+    stbtic const chbr * const SbNwbrp;
 
-    static int ms_instanceCounter;
-    static HHOOK ms_hMouseFilter;
-    static BOOL ms_isInsideMouseFilter;
-    static LRESULT CALLBACK MouseFilter(int nCode, WPARAM wParam,
-                                        LPARAM lParam);
+    stbtic int ms_instbnceCounter;
+    stbtic HHOOK ms_hMouseFilter;
+    stbtic BOOL ms_isInsideMouseFilter;
+    stbtic LRESULT CALLBACK MouseFilter(int nCode, WPARAM wPbrbm,
+                                        LPARAM lPbrbm);
 
-    void DoScrollCallbackCoalesce(const char* methodName, int newPos);
+    void DoScrollCbllbbckCoblesce(const chbr* methodNbme, int newPos);
 };
 
 #endif /* AWT_SCROLLBAR_H */

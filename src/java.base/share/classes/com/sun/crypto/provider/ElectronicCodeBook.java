@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.InvalidKeyException;
+import jbvb.security.InvblidKeyException;
 
 /**
- * This class represents ciphers in electronic codebook (ECB) mode.
+ * This clbss represents ciphers in electronic codebook (ECB) mode.
  *
- * <p>This mode is implemented independently of a particular cipher.
- * Ciphers to which this mode should apply (e.g., DES) must be
+ * <p>This mode is implemented independently of b pbrticulbr cipher.
+ * Ciphers to which this mode should bpply (e.g., DES) must be
  * <i>plugged-in</i> using the constructor.
  *
- * <p>NOTE: This class does not deal with buffering or padding.
+ * <p>NOTE: This clbss does not debl with buffering or pbdding.
  *
- * @author Gigi Ankeny
+ * @buthor Gigi Ankeny
  */
 
-final class ElectronicCodeBook extends FeedbackCipher {
+finbl clbss ElectronicCodeBook extends FeedbbckCipher {
 
     ElectronicCodeBook(SymmetricCipher embeddedCipher) {
         super(embeddedCipher);
     }
 
     /**
-     * Gets the name of the feedback mechanism
+     * Gets the nbme of the feedbbck mechbnism
      *
-     * @return the name of the feedback mechanism
+     * @return the nbme of the feedbbck mechbnism
      */
-    String getFeedback() {
+    String getFeedbbck() {
         return "ECB";
     }
 
     /**
-     * Resets the iv to its original value.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original iv).
+     * Resets the iv to its originbl vblue.
+     * This is used when doFinbl is cblled in the Cipher clbss, so thbt the
+     * cipher cbn be reused (with its originbl iv).
      */
     void reset() {
         // empty
     }
 
     /**
-     * Save the current content of this cipher.
+     * Sbve the current content of this cipher.
      */
-    void save() {}
+    void sbve() {}
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Restores the content of this cipher to the previous sbved one.
      */
     void restore() {}
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizes the cipher in the specified mode with the given key
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
+     * @pbrbm decrypting flbg indicbting encryption or decryption
+     * @pbrbm blgorithm the blgorithm nbme
+     * @pbrbm key the key
+     * @pbrbm iv the iv
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
      */
-    void init(boolean decrypting, String algorithm, byte[] key, byte[] iv)
-            throws InvalidKeyException {
+    void init(boolebn decrypting, String blgorithm, byte[] key, byte[] iv)
+            throws InvblidKeyException {
         if ((key == null) || (iv != null)) {
-            throw new InvalidKeyException("Internal error");
+            throw new InvblidKeyException("Internbl error");
         }
-        embeddedCipher.init(decrypting, algorithm, key);
+        embeddedCipher.init(decrypting, blgorithm, key);
     }
 
     /**
-     * Performs encryption operation.
+     * Performs encryption operbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + len - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
+     * <p>The input plbin text <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code> bnd ending bt
+     * <code>(plbinOffset + len - 1)</code>, is encrypted.
+     * The result is stored in <code>cipher</code>, stbrting bt
      * <code>cipherOffset</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>plainLen</code> is a multiple of the embedded cipher's block size,
-     * as any excess bytes are ignored.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>plbinLen</code> is b multiple of the embedded cipher's block size,
+     * bs bny excess bytes bre ignored.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso the bpplicbtion's responsibility to mbke sure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
+     * (This check is omitted here, to bvoid double checking.)
      *
-     * @param in the buffer with the input data to be encrypted
-     * @param inOffset the offset in <code>plain</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOff the offset in <code>cipher</code>
-     * @return the length of the encrypted data
+     * @pbrbm in the buffer with the input dbtb to be encrypted
+     * @pbrbm inOffset the offset in <code>plbin</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the result
+     * @pbrbm outOff the offset in <code>cipher</code>
+     * @return the length of the encrypted dbtb
      */
     int encrypt(byte[] in, int inOff, int len, byte[] out, int outOff) {
         for (int i = len; i >= blockSize; i -= blockSize) {
@@ -127,28 +127,28 @@ final class ElectronicCodeBook extends FeedbackCipher {
     }
 
     /**
-     * Performs decryption operation.
+     * Performs decryption operbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
+     * <p>The input cipher text <code>cipher</code>, stbrting bt
+     * <code>cipherOffset</code> bnd ending bt
      * <code>(cipherOffset + len - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * The result is stored in <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>cipherLen</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>cipherLen</code> is b multiple of the embedded cipher's block
+     * size, bs bny excess bytes bre ignored.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso the bpplicbtion's responsibility to mbke sure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
+     * (This check is omitted here, to bvoid double checking.)
      *
-     * @param in the buffer with the input data to be decrypted
-     * @param inOff the offset in <code>cipherOffset</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOff the offset in <code>plain</code>
-     * @return the length of the decrypted data
+     * @pbrbm in the buffer with the input dbtb to be decrypted
+     * @pbrbm inOff the offset in <code>cipherOffset</code>
+     * @pbrbm len the length of the input dbtb
+     * @pbrbm out the buffer for the result
+     * @pbrbm outOff the offset in <code>plbin</code>
+     * @return the length of the decrypted dbtb
      */
     int decrypt(byte[] in, int inOff, int len, byte[] out, int outOff) {
         for (int i = len; i >= blockSize; i -= blockSize) {

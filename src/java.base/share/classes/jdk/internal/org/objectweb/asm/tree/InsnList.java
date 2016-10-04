@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,39 +56,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import jbvb.util.ListIterbtor;
+import jbvb.util.NoSuchElementException;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
 
 /**
- * A doubly linked list of {@link AbstractInsnNode} objects. <i>This
- * implementation is not thread safe</i>.
+ * A doubly linked list of {@link AbstrbctInsnNode} objects. <i>This
+ * implementbtion is not threbd sbfe</i>.
  */
-public class InsnList {
+public clbss InsnList {
 
     /**
      * The number of instructions in this list.
      */
-    private int size;
+    privbte int size;
 
     /**
-     * The first instruction in this list. May be <tt>null</tt>.
+     * The first instruction in this list. Mby be <tt>null</tt>.
      */
-    private AbstractInsnNode first;
+    privbte AbstrbctInsnNode first;
 
     /**
-     * The last instruction in this list. May be <tt>null</tt>.
+     * The lbst instruction in this list. Mby be <tt>null</tt>.
      */
-    private AbstractInsnNode last;
+    privbte AbstrbctInsnNode lbst;
 
     /**
-     * A cache of the instructions of this list. This cache is used to improve
-     * the performance of the {@link #get} method.
+     * A cbche of the instructions of this list. This cbche is used to improve
+     * the performbnce of the {@link #get} method.
      */
-    AbstractInsnNode[] cache;
+    AbstrbctInsnNode[] cbche;
 
     /**
      * Returns the number of instructions in this list.
@@ -105,53 +105,53 @@ public class InsnList {
      * @return the first instruction in this list, or <tt>null</tt> if the list
      *         is empty.
      */
-    public AbstractInsnNode getFirst() {
+    public AbstrbctInsnNode getFirst() {
         return first;
     }
 
     /**
-     * Returns the last instruction in this list.
+     * Returns the lbst instruction in this list.
      *
-     * @return the last instruction in this list, or <tt>null</tt> if the list
+     * @return the lbst instruction in this list, or <tt>null</tt> if the list
      *         is empty.
      */
-    public AbstractInsnNode getLast() {
-        return last;
+    public AbstrbctInsnNode getLbst() {
+        return lbst;
     }
 
     /**
-     * Returns the instruction whose index is given. This method builds a cache
-     * of the instructions in this list to avoid scanning the whole list each
-     * time it is called. Once the cache is built, this method run in constant
-     * time. This cache is invalidated by all the methods that modify the list.
+     * Returns the instruction whose index is given. This method builds b cbche
+     * of the instructions in this list to bvoid scbnning the whole list ebch
+     * time it is cblled. Once the cbche is built, this method run in constbnt
+     * time. This cbche is invblidbted by bll the methods thbt modify the list.
      *
-     * @param index
-     *            the index of the instruction that must be returned.
+     * @pbrbm index
+     *            the index of the instruction thbt must be returned.
      * @return the instruction whose index is given.
      * @throws IndexOutOfBoundsException
      *             if (index &lt; 0 || index &gt;= size()).
      */
-    public AbstractInsnNode get(final int index) {
+    public AbstrbctInsnNode get(finbl int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        if (cache == null) {
-            cache = toArray();
+        if (cbche == null) {
+            cbche = toArrby();
         }
-        return cache[index];
+        return cbche[index];
     }
 
     /**
      * Returns <tt>true</tt> if the given instruction belongs to this list. This
-     * method always scans the instructions of this list until it finds the
-     * given instruction or reaches the end of the list.
+     * method blwbys scbns the instructions of this list until it finds the
+     * given instruction or rebches the end of the list.
      *
-     * @param insn
-     *            an instruction.
+     * @pbrbm insn
+     *            bn instruction.
      * @return <tt>true</tt> if the given instruction belongs to this list.
      */
-    public boolean contains(final AbstractInsnNode insn) {
-        AbstractInsnNode i = first;
+    public boolebn contbins(finbl AbstrbctInsnNode insn) {
+        AbstrbctInsnNode i = first;
         while (i != null && i != insn) {
             i = i.next;
         }
@@ -160,67 +160,67 @@ public class InsnList {
 
     /**
      * Returns the index of the given instruction in this list. This method
-     * builds a cache of the instruction indexes to avoid scanning the whole
-     * list each time it is called. Once the cache is built, this method run in
-     * constant time. The cache is invalidated by all the methods that modify
+     * builds b cbche of the instruction indexes to bvoid scbnning the whole
+     * list ebch time it is cblled. Once the cbche is built, this method run in
+     * constbnt time. The cbche is invblidbted by bll the methods thbt modify
      * the list.
      *
-     * @param insn
-     *            an instruction <i>of this list</i>.
+     * @pbrbm insn
+     *            bn instruction <i>of this list</i>.
      * @return the index of the given instruction in this list. <i>The result of
      *         this method is undefined if the given instruction does not belong
-     *         to this list</i>. Use {@link #contains contains} to test if an
-     *         instruction belongs to an instruction list or not.
+     *         to this list</i>. Use {@link #contbins contbins} to test if bn
+     *         instruction belongs to bn instruction list or not.
      */
-    public int indexOf(final AbstractInsnNode insn) {
-        if (cache == null) {
-            cache = toArray();
+    public int indexOf(finbl AbstrbctInsnNode insn) {
+        if (cbche == null) {
+            cbche = toArrby();
         }
         return insn.index;
     }
 
     /**
-     * Makes the given visitor visit all of the instructions in this list.
+     * Mbkes the given visitor visit bll of the instructions in this list.
      *
-     * @param mv
-     *            the method visitor that must visit the instructions.
+     * @pbrbm mv
+     *            the method visitor thbt must visit the instructions.
      */
-    public void accept(final MethodVisitor mv) {
-        AbstractInsnNode insn = first;
+    public void bccept(finbl MethodVisitor mv) {
+        AbstrbctInsnNode insn = first;
         while (insn != null) {
-            insn.accept(mv);
+            insn.bccept(mv);
             insn = insn.next;
         }
     }
 
     /**
-     * Returns an iterator over the instructions in this list.
+     * Returns bn iterbtor over the instructions in this list.
      *
-     * @return an iterator over the instructions in this list.
+     * @return bn iterbtor over the instructions in this list.
      */
-    public ListIterator<AbstractInsnNode> iterator() {
-        return iterator(0);
+    public ListIterbtor<AbstrbctInsnNode> iterbtor() {
+        return iterbtor(0);
     }
 
     /**
-     * Returns an iterator over the instructions in this list.
+     * Returns bn iterbtor over the instructions in this list.
      *
-     * @return an iterator over the instructions in this list.
+     * @return bn iterbtor over the instructions in this list.
      */
-    @SuppressWarnings("unchecked")
-    public ListIterator<AbstractInsnNode> iterator(int index) {
-        return new InsnListIterator(index);
+    @SuppressWbrnings("unchecked")
+    public ListIterbtor<AbstrbctInsnNode> iterbtor(int index) {
+        return new InsnListIterbtor(index);
     }
 
     /**
-     * Returns an array containing all of the instructions in this list.
+     * Returns bn brrby contbining bll of the instructions in this list.
      *
-     * @return an array containing all of the instructions in this list.
+     * @return bn brrby contbining bll of the instructions in this list.
      */
-    public AbstractInsnNode[] toArray() {
+    public AbstrbctInsnNode[] toArrby() {
         int i = 0;
-        AbstractInsnNode elem = first;
-        AbstractInsnNode[] insns = new AbstractInsnNode[size];
+        AbstrbctInsnNode elem = first;
+        AbstrbctInsnNode[] insns = new AbstrbctInsnNode[size];
         while (elem != null) {
             insns[i] = elem;
             elem.index = i++;
@@ -230,263 +230,263 @@ public class InsnList {
     }
 
     /**
-     * Replaces an instruction of this list with another instruction.
+     * Replbces bn instruction of this list with bnother instruction.
      *
-     * @param location
-     *            an instruction <i>of this list</i>.
-     * @param insn
-     *            another instruction, <i>which must not belong to any
+     * @pbrbm locbtion
+     *            bn instruction <i>of this list</i>.
+     * @pbrbm insn
+     *            bnother instruction, <i>which must not belong to bny
      *            {@link InsnList}</i>.
      */
-    public void set(final AbstractInsnNode location, final AbstractInsnNode insn) {
-        AbstractInsnNode next = location.next;
+    public void set(finbl AbstrbctInsnNode locbtion, finbl AbstrbctInsnNode insn) {
+        AbstrbctInsnNode next = locbtion.next;
         insn.next = next;
         if (next != null) {
             next.prev = insn;
         } else {
-            last = insn;
+            lbst = insn;
         }
-        AbstractInsnNode prev = location.prev;
+        AbstrbctInsnNode prev = locbtion.prev;
         insn.prev = prev;
         if (prev != null) {
             prev.next = insn;
         } else {
             first = insn;
         }
-        if (cache != null) {
-            int index = location.index;
-            cache[index] = insn;
+        if (cbche != null) {
+            int index = locbtion.index;
+            cbche[index] = insn;
             insn.index = index;
         } else {
-            insn.index = 0; // insn now belongs to an InsnList
+            insn.index = 0; // insn now belongs to bn InsnList
         }
-        location.index = -1; // i no longer belongs to an InsnList
-        location.prev = null;
-        location.next = null;
+        locbtion.index = -1; // i no longer belongs to bn InsnList
+        locbtion.prev = null;
+        locbtion.next = null;
     }
 
     /**
      * Adds the given instruction to the end of this list.
      *
-     * @param insn
-     *            an instruction, <i>which must not belong to any
+     * @pbrbm insn
+     *            bn instruction, <i>which must not belong to bny
      *            {@link InsnList}</i>.
      */
-    public void add(final AbstractInsnNode insn) {
+    public void bdd(finbl AbstrbctInsnNode insn) {
         ++size;
-        if (last == null) {
+        if (lbst == null) {
             first = insn;
-            last = insn;
+            lbst = insn;
         } else {
-            last.next = insn;
-            insn.prev = last;
+            lbst.next = insn;
+            insn.prev = lbst;
         }
-        last = insn;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        lbst = insn;
+        cbche = null;
+        insn.index = 0; // insn now belongs to bn InsnList
     }
 
     /**
      * Adds the given instructions to the end of this list.
      *
-     * @param insns
-     *            an instruction list, which is cleared during the process. This
+     * @pbrbm insns
+     *            bn instruction list, which is clebred during the process. This
      *            list must be different from 'this'.
      */
-    public void add(final InsnList insns) {
+    public void bdd(finbl InsnList insns) {
         if (insns.size == 0) {
             return;
         }
         size += insns.size;
-        if (last == null) {
+        if (lbst == null) {
             first = insns.first;
-            last = insns.last;
+            lbst = insns.lbst;
         } else {
-            AbstractInsnNode elem = insns.first;
-            last.next = elem;
-            elem.prev = last;
-            last = insns.last;
+            AbstrbctInsnNode elem = insns.first;
+            lbst.next = elem;
+            elem.prev = lbst;
+            lbst = insns.lbst;
         }
-        cache = null;
-        insns.removeAll(false);
+        cbche = null;
+        insns.removeAll(fblse);
     }
 
     /**
-     * Inserts the given instruction at the begining of this list.
+     * Inserts the given instruction bt the begining of this list.
      *
-     * @param insn
-     *            an instruction, <i>which must not belong to any
+     * @pbrbm insn
+     *            bn instruction, <i>which must not belong to bny
      *            {@link InsnList}</i>.
      */
-    public void insert(final AbstractInsnNode insn) {
+    public void insert(finbl AbstrbctInsnNode insn) {
         ++size;
         if (first == null) {
             first = insn;
-            last = insn;
+            lbst = insn;
         } else {
             first.prev = insn;
             insn.next = first;
         }
         first = insn;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        cbche = null;
+        insn.index = 0; // insn now belongs to bn InsnList
     }
 
     /**
-     * Inserts the given instructions at the begining of this list.
+     * Inserts the given instructions bt the begining of this list.
      *
-     * @param insns
-     *            an instruction list, which is cleared during the process. This
+     * @pbrbm insns
+     *            bn instruction list, which is clebred during the process. This
      *            list must be different from 'this'.
      */
-    public void insert(final InsnList insns) {
+    public void insert(finbl InsnList insns) {
         if (insns.size == 0) {
             return;
         }
         size += insns.size;
         if (first == null) {
             first = insns.first;
-            last = insns.last;
+            lbst = insns.lbst;
         } else {
-            AbstractInsnNode elem = insns.last;
+            AbstrbctInsnNode elem = insns.lbst;
             first.prev = elem;
             elem.next = first;
             first = insns.first;
         }
-        cache = null;
-        insns.removeAll(false);
+        cbche = null;
+        insns.removeAll(fblse);
     }
 
     /**
-     * Inserts the given instruction after the specified instruction.
+     * Inserts the given instruction bfter the specified instruction.
      *
-     * @param location
-     *            an instruction <i>of this list</i> after which insn must be
+     * @pbrbm locbtion
+     *            bn instruction <i>of this list</i> bfter which insn must be
      *            inserted.
-     * @param insn
+     * @pbrbm insn
      *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link InsnList}</i>.
+     *            bny {@link InsnList}</i>.
      */
-    public void insert(final AbstractInsnNode location,
-            final AbstractInsnNode insn) {
+    public void insert(finbl AbstrbctInsnNode locbtion,
+            finbl AbstrbctInsnNode insn) {
         ++size;
-        AbstractInsnNode next = location.next;
+        AbstrbctInsnNode next = locbtion.next;
         if (next == null) {
-            last = insn;
+            lbst = insn;
         } else {
             next.prev = insn;
         }
-        location.next = insn;
+        locbtion.next = insn;
         insn.next = next;
-        insn.prev = location;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        insn.prev = locbtion;
+        cbche = null;
+        insn.index = 0; // insn now belongs to bn InsnList
     }
 
     /**
-     * Inserts the given instructions after the specified instruction.
+     * Inserts the given instructions bfter the specified instruction.
      *
-     * @param location
-     *            an instruction <i>of this list</i> after which the
+     * @pbrbm locbtion
+     *            bn instruction <i>of this list</i> bfter which the
      *            instructions must be inserted.
-     * @param insns
-     *            the instruction list to be inserted, which is cleared during
+     * @pbrbm insns
+     *            the instruction list to be inserted, which is clebred during
      *            the process. This list must be different from 'this'.
      */
-    public void insert(final AbstractInsnNode location, final InsnList insns) {
+    public void insert(finbl AbstrbctInsnNode locbtion, finbl InsnList insns) {
         if (insns.size == 0) {
             return;
         }
         size += insns.size;
-        AbstractInsnNode ifirst = insns.first;
-        AbstractInsnNode ilast = insns.last;
-        AbstractInsnNode next = location.next;
+        AbstrbctInsnNode ifirst = insns.first;
+        AbstrbctInsnNode ilbst = insns.lbst;
+        AbstrbctInsnNode next = locbtion.next;
         if (next == null) {
-            last = ilast;
+            lbst = ilbst;
         } else {
-            next.prev = ilast;
+            next.prev = ilbst;
         }
-        location.next = ifirst;
-        ilast.next = next;
-        ifirst.prev = location;
-        cache = null;
-        insns.removeAll(false);
+        locbtion.next = ifirst;
+        ilbst.next = next;
+        ifirst.prev = locbtion;
+        cbche = null;
+        insns.removeAll(fblse);
     }
 
     /**
      * Inserts the given instruction before the specified instruction.
      *
-     * @param location
-     *            an instruction <i>of this list</i> before which insn must be
+     * @pbrbm locbtion
+     *            bn instruction <i>of this list</i> before which insn must be
      *            inserted.
-     * @param insn
+     * @pbrbm insn
      *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link InsnList}</i>.
+     *            bny {@link InsnList}</i>.
      */
-    public void insertBefore(final AbstractInsnNode location,
-            final AbstractInsnNode insn) {
+    public void insertBefore(finbl AbstrbctInsnNode locbtion,
+            finbl AbstrbctInsnNode insn) {
         ++size;
-        AbstractInsnNode prev = location.prev;
+        AbstrbctInsnNode prev = locbtion.prev;
         if (prev == null) {
             first = insn;
         } else {
             prev.next = insn;
         }
-        location.prev = insn;
-        insn.next = location;
+        locbtion.prev = insn;
+        insn.next = locbtion;
         insn.prev = prev;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        cbche = null;
+        insn.index = 0; // insn now belongs to bn InsnList
     }
 
     /**
      * Inserts the given instructions before the specified instruction.
      *
-     * @param location
-     *            an instruction <i>of this list</i> before which the
+     * @pbrbm locbtion
+     *            bn instruction <i>of this list</i> before which the
      *            instructions must be inserted.
-     * @param insns
-     *            the instruction list to be inserted, which is cleared during
+     * @pbrbm insns
+     *            the instruction list to be inserted, which is clebred during
      *            the process. This list must be different from 'this'.
      */
-    public void insertBefore(final AbstractInsnNode location,
-            final InsnList insns) {
+    public void insertBefore(finbl AbstrbctInsnNode locbtion,
+            finbl InsnList insns) {
         if (insns.size == 0) {
             return;
         }
         size += insns.size;
-        AbstractInsnNode ifirst = insns.first;
-        AbstractInsnNode ilast = insns.last;
-        AbstractInsnNode prev = location.prev;
+        AbstrbctInsnNode ifirst = insns.first;
+        AbstrbctInsnNode ilbst = insns.lbst;
+        AbstrbctInsnNode prev = locbtion.prev;
         if (prev == null) {
             first = ifirst;
         } else {
             prev.next = ifirst;
         }
-        location.prev = ilast;
-        ilast.next = location;
+        locbtion.prev = ilbst;
+        ilbst.next = locbtion;
         ifirst.prev = prev;
-        cache = null;
-        insns.removeAll(false);
+        cbche = null;
+        insns.removeAll(fblse);
     }
 
     /**
      * Removes the given instruction from this list.
      *
-     * @param insn
-     *            the instruction <i>of this list</i> that must be removed.
+     * @pbrbm insn
+     *            the instruction <i>of this list</i> thbt must be removed.
      */
-    public void remove(final AbstractInsnNode insn) {
+    public void remove(finbl AbstrbctInsnNode insn) {
         --size;
-        AbstractInsnNode next = insn.next;
-        AbstractInsnNode prev = insn.prev;
+        AbstrbctInsnNode next = insn.next;
+        AbstrbctInsnNode prev = insn.prev;
         if (next == null) {
             if (prev == null) {
                 first = null;
-                last = null;
+                lbst = null;
             } else {
                 prev.next = null;
-                last = prev;
+                lbst = prev;
             }
         } else {
             if (prev == null) {
@@ -497,25 +497,25 @@ public class InsnList {
                 next.prev = prev;
             }
         }
-        cache = null;
-        insn.index = -1; // insn no longer belongs to an InsnList
+        cbche = null;
+        insn.index = -1; // insn no longer belongs to bn InsnList
         insn.prev = null;
         insn.next = null;
     }
 
     /**
-     * Removes all of the instructions of this list.
+     * Removes bll of the instructions of this list.
      *
-     * @param mark
-     *            if the instructions must be marked as no longer belonging to
-     *            any {@link InsnList}.
+     * @pbrbm mbrk
+     *            if the instructions must be mbrked bs no longer belonging to
+     *            bny {@link InsnList}.
      */
-    void removeAll(final boolean mark) {
-        if (mark) {
-            AbstractInsnNode insn = first;
+    void removeAll(finbl boolebn mbrk) {
+        if (mbrk) {
+            AbstrbctInsnNode insn = first;
             while (insn != null) {
-                AbstractInsnNode next = insn.next;
-                insn.index = -1; // insn no longer belongs to an InsnList
+                AbstrbctInsnNode next = insn.next;
+                insn.index = -1; // insn no longer belongs to bn InsnList
                 insn.prev = null;
                 insn.next = null;
                 insn = next;
@@ -523,53 +523,53 @@ public class InsnList {
         }
         size = 0;
         first = null;
-        last = null;
-        cache = null;
+        lbst = null;
+        cbche = null;
     }
 
     /**
-     * Removes all of the instructions of this list.
+     * Removes bll of the instructions of this list.
      */
-    public void clear() {
-        removeAll(false);
+    public void clebr() {
+        removeAll(fblse);
     }
 
     /**
-     * Reset all labels in the instruction list. This method should be called
-     * before reusing same instructions list between several
-     * <code>ClassWriter</code>s.
+     * Reset bll lbbels in the instruction list. This method should be cblled
+     * before reusing sbme instructions list between severbl
+     * <code>ClbssWriter</code>s.
      */
-    public void resetLabels() {
-        AbstractInsnNode insn = first;
+    public void resetLbbels() {
+        AbstrbctInsnNode insn = first;
         while (insn != null) {
-            if (insn instanceof LabelNode) {
-                ((LabelNode) insn).resetLabel();
+            if (insn instbnceof LbbelNode) {
+                ((LbbelNode) insn).resetLbbel();
             }
             insn = insn.next;
         }
     }
 
-    // this class is not generified because it will create bridges
-    @SuppressWarnings("rawtypes")
-    private final class InsnListIterator implements ListIterator {
+    // this clbss is not generified becbuse it will crebte bridges
+    @SuppressWbrnings("rbwtypes")
+    privbte finbl clbss InsnListIterbtor implements ListIterbtor {
 
-        AbstractInsnNode next;
+        AbstrbctInsnNode next;
 
-        AbstractInsnNode prev;
+        AbstrbctInsnNode prev;
 
-        AbstractInsnNode remove;
+        AbstrbctInsnNode remove;
 
-        InsnListIterator(int index) {
+        InsnListIterbtor(int index) {
             if (index == size()) {
                 next = null;
-                prev = getLast();
+                prev = getLbst();
             } else {
                 next = get(index);
                 prev = next.prev;
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return next != null;
         }
 
@@ -577,7 +577,7 @@ public class InsnList {
             if (next == null) {
                 throw new NoSuchElementException();
             }
-            AbstractInsnNode result = next;
+            AbstrbctInsnNode result = next;
             prev = result;
             next = result.next;
             remove = result;
@@ -594,16 +594,16 @@ public class InsnList {
                 InsnList.this.remove(remove);
                 remove = null;
             } else {
-                throw new IllegalStateException();
+                throw new IllegblStbteException();
             }
         }
 
-        public boolean hasPrevious() {
+        public boolebn hbsPrevious() {
             return prev != null;
         }
 
         public Object previous() {
-            AbstractInsnNode result = prev;
+            AbstrbctInsnNode result = prev;
             next = result;
             prev = result.prev;
             remove = result;
@@ -614,8 +614,8 @@ public class InsnList {
             if (next == null) {
                 return size();
             }
-            if (cache == null) {
-                cache = toArray();
+            if (cbche == null) {
+                cbche = toArrby();
             }
             return next.index;
         }
@@ -624,21 +624,21 @@ public class InsnList {
             if (prev == null) {
                 return -1;
             }
-            if (cache == null) {
-                cache = toArray();
+            if (cbche == null) {
+                cbche = toArrby();
             }
             return prev.index;
         }
 
-        public void add(Object o) {
-            InsnList.this.insertBefore(next, (AbstractInsnNode) o);
-            prev = (AbstractInsnNode) o;
+        public void bdd(Object o) {
+            InsnList.this.insertBefore(next, (AbstrbctInsnNode) o);
+            prev = (AbstrbctInsnNode) o;
             remove = null;
         }
 
         public void set(Object o) {
-            InsnList.this.set(next.prev, (AbstractInsnNode) o);
-            prev = (AbstractInsnNode) o;
+            InsnList.this.set(next.prev, (AbstrbctInsnNode) o);
+            prev = (AbstrbctInsnNode) o;
         }
     }
 }

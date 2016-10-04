@@ -1,59 +1,59 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* __ieee754_hypot(x,y)
  *
  * Method :
- *      If (assume round-to-nearest) z=x*x+y*y
- *      has error less than sqrt(2)/2 ulp, than
- *      sqrt(z) has error less than 1 ulp (exercise).
+ *      If (bssume round-to-nebrest) z=x*x+y*y
+ *      hbs error less thbn sqrt(2)/2 ulp, thbn
+ *      sqrt(z) hbs error less thbn 1 ulp (exercise).
  *
- *      So, compute sqrt(x*x+y*y) with some care as
+ *      So, compute sqrt(x*x+y*y) with some cbre bs
  *      follows to get the error below 1 ulp:
  *
  *      Assume x>y>0;
- *      (if possible, set rounding to round-to-nearest)
+ *      (if possible, set rounding to round-to-nebrest)
  *      1. if x > 2y  use
  *              x1*x1+(y*y+(x2*(x+x1))) for x*x+y*y
- *      where x1 = x with lower 32 bits cleared, x2 = x-x1; else
+ *      where x1 = x with lower 32 bits clebred, x2 = x-x1; else
  *      2. if x <= 2y use
  *              t1*y1+((x-y)*(x-y)+(t1*y2+t2*y))
- *      where t1 = 2x with lower 32 bits cleared, t2 = 2x-t1,
+ *      where t1 = 2x with lower 32 bits clebred, t2 = 2x-t1,
  *      y1= y with lower 32 bits chopped, y2 = y-y1.
  *
- *      NOTE: scaling may be necessary if some argument is too
- *            large or too tiny
+ *      NOTE: scbling mby be necessbry if some brgument is too
+ *            lbrge or too tiny
  *
- * Special cases:
+ * Specibl cbses:
  *      hypot(x,y) is INF if x or y is +INF or -INF; else
  *      hypot(x,y) is NAN if x or y is NAN.
  *
- * Accuracy:
+ * Accurbcy:
  *      hypot(x,y) returns sqrt(x^2+y^2) with error less
- *      than 1 ulps (units in the last place)
+ *      thbn 1 ulps (units in the lbst plbce)
  */
 
 #include "fdlibm.h"
@@ -65,59 +65,59 @@
         double x, y;
 #endif
 {
-        double a=x,b=y,t1,t2,y1,y2,w;
-        int j,k,ha,hb;
+        double b=x,b=y,t1,t2,y1,y2,w;
+        int j,k,hb,hb;
 
-        ha = __HI(x)&0x7fffffff;        /* high word of  x */
+        hb = __HI(x)&0x7fffffff;        /* high word of  x */
         hb = __HI(y)&0x7fffffff;        /* high word of  y */
-        if(hb > ha) {a=y;b=x;j=ha; ha=hb;hb=j;} else {a=x;b=y;}
-        __HI(a) = ha;   /* a <- |a| */
+        if(hb > hb) {b=y;b=x;j=hb; hb=hb;hb=j;} else {b=x;b=y;}
         __HI(b) = hb;   /* b <- |b| */
-        if((ha-hb)>0x3c00000) {return a+b;} /* x/y > 2**60 */
+        __HI(b) = hb;   /* b <- |b| */
+        if((hb-hb)>0x3c00000) {return b+b;} /* x/y > 2**60 */
         k=0;
-        if(ha > 0x5f300000) {   /* a>2**500 */
-           if(ha >= 0x7ff00000) {       /* Inf or NaN */
-               w = a+b;                 /* for sNaN */
-               if(((ha&0xfffff)|__LO(a))==0) w = a;
+        if(hb > 0x5f300000) {   /* b>2**500 */
+           if(hb >= 0x7ff00000) {       /* Inf or NbN */
+               w = b+b;                 /* for sNbN */
+               if(((hb&0xfffff)|__LO(b))==0) w = b;
                if(((hb^0x7ff00000)|__LO(b))==0) w = b;
                return w;
            }
-           /* scale a and b by 2**-600 */
-           ha -= 0x25800000; hb -= 0x25800000;  k += 600;
-           __HI(a) = ha;
+           /* scble b bnd b by 2**-600 */
+           hb -= 0x25800000; hb -= 0x25800000;  k += 600;
+           __HI(b) = hb;
            __HI(b) = hb;
         }
         if(hb < 0x20b00000) {   /* b < 2**-500 */
-            if(hb <= 0x000fffff) {      /* subnormal b or 0 */
-                if((hb|(__LO(b)))==0) return a;
+            if(hb <= 0x000fffff) {      /* subnormbl b or 0 */
+                if((hb|(__LO(b)))==0) return b;
                 t1=0;
                 __HI(t1) = 0x7fd00000;  /* t1=2^1022 */
                 b *= t1;
-                a *= t1;
+                b *= t1;
                 k -= 1022;
-            } else {            /* scale a and b by 2^600 */
-                ha += 0x25800000;       /* a *= 2^600 */
+            } else {            /* scble b bnd b by 2^600 */
+                hb += 0x25800000;       /* b *= 2^600 */
                 hb += 0x25800000;       /* b *= 2^600 */
                 k -= 600;
-                __HI(a) = ha;
+                __HI(b) = hb;
                 __HI(b) = hb;
             }
         }
-    /* medium size a and b */
-        w = a-b;
+    /* medium size b bnd b */
+        w = b-b;
         if (w>b) {
             t1 = 0;
-            __HI(t1) = ha;
-            t2 = a-t1;
-            w  = sqrt(t1*t1-(b*(-b)-t2*(a+t1)));
+            __HI(t1) = hb;
+            t2 = b-t1;
+            w  = sqrt(t1*t1-(b*(-b)-t2*(b+t1)));
         } else {
-            a  = a+a;
+            b  = b+b;
             y1 = 0;
             __HI(y1) = hb;
             y2 = b - y1;
             t1 = 0;
-            __HI(t1) = ha+0x00100000;
-            t2 = a - t1;
+            __HI(t1) = hb+0x00100000;
+            t2 = b - t1;
             w  = sqrt(t1*y1-(w*(-w)-(t1*y2+t2*b)));
         }
         if(k!=0) {

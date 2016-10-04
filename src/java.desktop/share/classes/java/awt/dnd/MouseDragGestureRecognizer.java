@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Component;
+import jbvb.bwt.Component;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseListener;
+import jbvb.bwt.event.MouseMotionListener;
 
 /**
- * This abstract subclass of <code>DragGestureRecognizer</code>
- * defines a <code>DragGestureRecognizer</code>
- * for mouse-based gestures.
+ * This bbstrbct subclbss of <code>DrbgGestureRecognizer</code>
+ * defines b <code>DrbgGestureRecognizer</code>
+ * for mouse-bbsed gestures.
  *
- * Each platform implements its own concrete subclass of this class,
- * available via the Toolkit.createDragGestureRecognizer() method,
- * to encapsulate
- * the recognition of the platform dependent mouse gesture(s) that initiate
- * a Drag and Drop operation.
+ * Ebch plbtform implements its own concrete subclbss of this clbss,
+ * bvbilbble vib the Toolkit.crebteDrbgGestureRecognizer() method,
+ * to encbpsulbte
+ * the recognition of the plbtform dependent mouse gesture(s) thbt initibte
+ * b Drbg bnd Drop operbtion.
  * <p>
- * Mouse drag gesture recognizers should honor the
- * drag gesture motion threshold, available through
- * {@link DragSource#getDragThreshold}.
- * A drag gesture should be recognized only when the distance
- * in either the horizontal or vertical direction between
- * the location of the latest mouse dragged event and the
- * location of the corresponding mouse button pressed event
- * is greater than the drag gesture motion threshold.
+ * Mouse drbg gesture recognizers should honor the
+ * drbg gesture motion threshold, bvbilbble through
+ * {@link DrbgSource#getDrbgThreshold}.
+ * A drbg gesture should be recognized only when the distbnce
+ * in either the horizontbl or verticbl direction between
+ * the locbtion of the lbtest mouse drbgged event bnd the
+ * locbtion of the corresponding mouse button pressed event
+ * is grebter thbn the drbg gesture motion threshold.
  * <p>
- * Drag gesture recognizers created with
- * {@link DragSource#createDefaultDragGestureRecognizer}
+ * Drbg gesture recognizers crebted with
+ * {@link DrbgSource#crebteDefbultDrbgGestureRecognizer}
  * follow this convention.
  *
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  *
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @see jbvb.bwt.dnd.DrbgGestureListener
+ * @see jbvb.bwt.dnd.DrbgGestureEvent
+ * @see jbvb.bwt.dnd.DrbgSource
  */
 
-public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer implements MouseListener, MouseMotionListener {
+public bbstrbct clbss MouseDrbgGestureRecognizer extends DrbgGestureRecognizer implements MouseListener, MouseMotionListener {
 
-    private static final long serialVersionUID = 6220099344182281120L;
+    privbte stbtic finbl long seriblVersionUID = 6220099344182281120L;
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the
+     * Construct b new <code>MouseDrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> for the
      * <code>Component</code> c, the <code>Component</code>
-     * to observe, the action(s)
-     * permitted for this drag operation, and
-     * the <code>DragGestureListener</code> to
-     * notify when a drag gesture is detected.
+     * to observe, the bction(s)
+     * permitted for this drbg operbtion, bnd
+     * the <code>DrbgGestureListener</code> to
+     * notify when b drbg gesture is detected.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this Drag
-     * @param dgl The DragGestureListener to notify when a gesture is detected
+     * @pbrbm ds  The DrbgSource for the Component c
+     * @pbrbm c   The Component to observe
+     * @pbrbm bct The bctions permitted for this Drbg
+     * @pbrbm dgl The DrbgGestureListener to notify when b gesture is detected
      *
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c, int act, DragGestureListener dgl) {
-        super(ds, c, act, dgl);
+    protected MouseDrbgGestureRecognizer(DrbgSource ds, Component c, int bct, DrbgGestureListener dgl) {
+        super(ds, c, bct, dgl);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for
+     * Construct b new <code>MouseDrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> for
      * the <code>Component</code> c,
-     * the <code>Component</code> to observe, and the action(s)
-     * permitted for this drag operation.
+     * the <code>Component</code> to observe, bnd the bction(s)
+     * permitted for this drbg operbtion.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this drag
+     * @pbrbm ds  The DrbgSource for the Component c
+     * @pbrbm c   The Component to observe
+     * @pbrbm bct The bctions permitted for this drbg
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c, int act) {
-        this(ds, c, act, null);
+    protected MouseDrbgGestureRecognizer(DrbgSource ds, Component c, int bct) {
+        this(ds, c, bct, null);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the
-     * <code>Component</code> c, and the
+     * Construct b new <code>MouseDrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> for the
+     * <code>Component</code> c, bnd the
      * <code>Component</code> to observe.
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
+     * @pbrbm ds  The DrbgSource for the Component c
+     * @pbrbm c   The Component to observe
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds, Component c) {
-        this(ds, c, DnDConstants.ACTION_NONE);
+    protected MouseDrbgGestureRecognizer(DrbgSource ds, Component c) {
+        this(ds, c, DnDConstbnts.ACTION_NONE);
     }
 
     /**
-     * Construct a new <code>MouseDragGestureRecognizer</code>
-     * given the <code>DragSource</code> for the <code>Component</code>.
+     * Construct b new <code>MouseDrbgGestureRecognizer</code>
+     * given the <code>DrbgSource</code> for the <code>Component</code>.
      *
-     * @param ds  The DragSource for the Component
+     * @pbrbm ds  The DrbgSource for the Component
      */
 
-    protected MouseDragGestureRecognizer(DragSource ds) {
+    protected MouseDrbgGestureRecognizer(DrbgSource ds) {
         this(ds, null);
     }
 
     /**
-     * register this DragGestureRecognizer's Listeners with the Component
+     * register this DrbgGestureRecognizer's Listeners with the Component
      */
 
     protected void registerListeners() {
-        component.addMouseListener(this);
-        component.addMouseMotionListener(this);
+        component.bddMouseListener(this);
+        component.bddMouseMotionListener(this);
     }
 
     /**
-     * unregister this DragGestureRecognizer's Listeners with the Component
+     * unregister this DrbgGestureRecognizer's Listeners with the Component
      *
-     * subclasses must override this method
+     * subclbsses must override this method
      */
 
 
@@ -149,59 +149,59 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
     }
 
     /**
-     * Invoked when the mouse has been clicked on a component.
+     * Invoked when the mouse hbs been clicked on b component.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
     public void mouseClicked(MouseEvent e) { }
 
     /**
-     * Invoked when a mouse button has been
-     * pressed on a <code>Component</code>.
+     * Invoked when b mouse button hbs been
+     * pressed on b <code>Component</code>.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
     public void mousePressed(MouseEvent e) { }
 
     /**
-     * Invoked when a mouse button has been released on a component.
+     * Invoked when b mouse button hbs been relebsed on b component.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseRelebsed(MouseEvent e) { }
 
     /**
-     * Invoked when the mouse enters a component.
+     * Invoked when the mouse enters b component.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
     public void mouseEntered(MouseEvent e) { }
 
     /**
-     * Invoked when the mouse exits a component.
+     * Invoked when the mouse exits b component.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
     public void mouseExited(MouseEvent e) { }
 
     /**
-     * Invoked when a mouse button is pressed on a component.
+     * Invoked when b mouse button is pressed on b component.
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
-    public void mouseDragged(MouseEvent e) { }
+    public void mouseDrbgged(MouseEvent e) { }
 
     /**
-     * Invoked when the mouse button has been moved on a component
+     * Invoked when the mouse button hbs been moved on b component
      * (with no buttons no down).
      *
-     * @param e the <code>MouseEvent</code>
+     * @pbrbm e the <code>MouseEvent</code>
      */
 
     public void mouseMoved(MouseEvent e) { }

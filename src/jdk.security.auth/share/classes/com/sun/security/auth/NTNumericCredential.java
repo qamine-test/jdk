@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth;
+pbckbge com.sun.security.buth;
 
 /**
- * <p> This class abstracts an NT security token
- * and provides a mechanism to do same-process security impersonation.
+ * <p> This clbss bbstrbcts bn NT security token
+ * bnd provides b mechbnism to do sbme-process security impersonbtion.
  *
  */
 
 @jdk.Exported
-public class NTNumericCredential {
+public clbss NTNumericCredentibl {
 
-    private long impersonationToken;
+    privbte long impersonbtionToken;
 
     /**
-     * Create an <code>NTNumericCredential</code> with an integer value.
+     * Crebte bn <code>NTNumericCredentibl</code> with bn integer vblue.
      *
      * <p>
      *
-     * @param token the Windows NT security token for this user. <p>
+     * @pbrbm token the Windows NT security token for this user. <p>
      *
      */
-    public NTNumericCredential(long token) {
-        this.impersonationToken = token;
+    public NTNumericCredentibl(long token) {
+        this.impersonbtionToken = token;
     }
 
     /**
-     * Return an integer representation of this
-     * <code>NTNumericCredential</code>.
+     * Return bn integer representbtion of this
+     * <code>NTNumericCredentibl</code>.
      *
      * <p>
      *
-     * @return an integer representation of this
-     *          <code>NTNumericCredential</code>.
+     * @return bn integer representbtion of this
+     *          <code>NTNumericCredentibl</code>.
      */
     public long getToken() {
-        return impersonationToken;
+        return impersonbtionToken;
     }
 
     /**
-     * Return a string representation of this <code>NTNumericCredential</code>.
+     * Return b string representbtion of this <code>NTNumericCredentibl</code>.
      *
      * <p>
      *
-     * @return a string representation of this <code>NTNumericCredential</code>.
+     * @return b string representbtion of this <code>NTNumericCredentibl</code>.
      */
     public String toString() {
-        java.text.MessageFormat form = new java.text.MessageFormat
+        jbvb.text.MessbgeFormbt form = new jbvb.text.MessbgeFormbt
                 (sun.security.util.ResourcesMgr.getString
-                        ("NTNumericCredential.name",
+                        ("NTNumericCredentibl.nbme",
                         "sun.security.util.AuthResources"));
-        Object[] source = {Long.toString(impersonationToken)};
-        return form.format(source);
+        Object[] source = {Long.toString(impersonbtionToken)};
+        return form.formbt(source);
     }
 
     /**
-     * Compares the specified Object with this <code>NTNumericCredential</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>NTNumericCredential</code> and the two NTNumericCredentials
-     * represent the same NT security token.
+     * Compbres the specified Object with this <code>NTNumericCredentibl</code>
+     * for equblity.  Returns true if the given object is blso b
+     * <code>NTNumericCredentibl</code> bnd the two NTNumericCredentibls
+     * represent the sbme NT security token.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>NTNumericCredential</code>.
+     * @pbrbm o Object to be compbred for equblity with this
+     *          <code>NTNumericCredentibl</code>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>NTNumericCredential</code>.
+     * @return true if the specified Object is equbl equbl to this
+     *          <code>NTNumericCredentibl</code>.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == null)
-            return false;
+            return fblse;
 
         if (this == o)
             return true;
 
-        if (!(o instanceof NTNumericCredential))
-            return false;
-        NTNumericCredential that = (NTNumericCredential)o;
+        if (!(o instbnceof NTNumericCredentibl))
+            return fblse;
+        NTNumericCredentibl thbt = (NTNumericCredentibl)o;
 
-        if (impersonationToken == that.getToken())
+        if (impersonbtionToken == thbt.getToken())
             return true;
-        return false;
+        return fblse;
     }
 
     /**
-     * Return a hash code for this <code>NTNumericCredential</code>.
+     * Return b hbsh code for this <code>NTNumericCredentibl</code>.
      *
      * <p>
      *
-     * @return a hash code for this <code>NTNumericCredential</code>.
+     * @return b hbsh code for this <code>NTNumericCredentibl</code>.
      */
-    public int hashCode() {
-        return (int)this.impersonationToken;
+    public int hbshCode() {
+        return (int)this.impersonbtionToken;
     }
 }

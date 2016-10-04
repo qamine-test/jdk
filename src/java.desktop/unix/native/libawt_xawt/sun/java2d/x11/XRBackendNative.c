@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "X11SurfaceData.h"
+#include "X11SurfbceDbtb.h"
 #include <jni.h>
-#include <math.h>
+#include <mbth.h>
 #include "Region.h"
-#include "fontscalerdefs.h"
+#include "fontscblerdefs.h"
 
 #include <X11/extensions/Xrender.h>
 
 #ifdef __linux__
-    #include <sys/utsname.h>
+    #include <sys/utsnbme.h>
 #endif
 
-/* On Solaris 10 updates 8, 9, the render.h file defines these
- * protocol values but does not define the structs in Xrender.h.
- * Thus in order to get these always defined on Solaris 10
- * we will undefine the symbols if we have determined via the
- * makefiles that Xrender.h is lacking the structs. This will
- * trigger providing our own definitions as on earlier updates.
- * We could assume that *all* Solaris 10 update versions will lack the updated
- * Xrender.h and do this based solely on O/S being any 5.10 version, but this
- * could still change and we'd be broken again as we'd be re-defining them.
+/* On Solbris 10 updbtes 8, 9, the render.h file defines these
+ * protocol vblues but does not define the structs in Xrender.h.
+ * Thus in order to get these blwbys defined on Solbris 10
+ * we will undefine the symbols if we hbve determined vib the
+ * mbkefiles thbt Xrender.h is lbcking the structs. This will
+ * trigger providing our own definitions bs on ebrlier updbtes.
+ * We could bssume thbt *bll* Solbris 10 updbte versions will lbck the updbted
+ * Xrender.h bnd do this bbsed solely on O/S being bny 5.10 version, but this
+ * could still chbnge bnd we'd be broken bgbin bs we'd be re-defining them.
  */
 #ifdef SOLARIS10_NO_XRENDER_STRUCTS
-#undef X_RenderCreateLinearGradient
-#undef X_RenderCreateRadialGradient
+#undef X_RenderCrebteLinebrGrbdient
+#undef X_RenderCrebteRbdiblGrbdient
 #endif
 
-#ifndef X_RenderCreateLinearGradient
-typedef struct _XLinearGradient {
+#ifndef X_RenderCrebteLinebrGrbdient
+typedef struct _XLinebrGrbdient {
     XPointFixed p1;
     XPointFixed p2;
-} XLinearGradient;
+} XLinebrGrbdient;
 #endif
 
-#ifndef X_RenderCreateRadialGradient
+#ifndef X_RenderCrebteRbdiblGrbdient
 typedef struct _XCircle {
     XFixed x;
     XFixed y;
-    XFixed radius;
+    XFixed rbdius;
 } XCircle;
 
-typedef struct _XRadialGradient {
+typedef struct _XRbdiblGrbdient {
     XCircle inner;
     XCircle outer;
-} XRadialGradient;
+} XRbdiblGrbdient;
 #endif
 
 #include <dlfcn.h>
 
-#if defined(__solaris__) || defined(_AIX)
-/* Solaris 10 and AIX will not have these symbols at runtime */
+#if defined(__solbris__) || defined(_AIX)
+/* Solbris 10 bnd AIX will not hbve these symbols bt runtime */
 
-typedef Picture (*XRenderCreateLinearGradientFuncType)
-                                     (Display *dpy,
-                                     const XLinearGradient *gradient,
+typedef Picture (*XRenderCrebteLinebrGrbdientFuncType)
+                                     (Displby *dpy,
+                                     const XLinebrGrbdient *grbdient,
                                      const XFixed *stops,
                                      const XRenderColor *colors,
                                      int nstops);
 
-typedef Picture (*XRenderCreateRadialGradientFuncType)
-                                     (Display *dpy,
-                                     const XRadialGradient *gradient,
+typedef Picture (*XRenderCrebteRbdiblGrbdientFuncType)
+                                     (Displby *dpy,
+                                     const XRbdiblGrbdient *grbdient,
                                      const XFixed *stops,
                                      const XRenderColor *colors,
                                      int nstops);
 
-static
-XRenderCreateLinearGradientFuncType XRenderCreateLinearGradientFunc = NULL;
-static
- XRenderCreateRadialGradientFuncType XRenderCreateRadialGradientFunc = NULL;
+stbtic
+XRenderCrebteLinebrGrbdientFuncType XRenderCrebteLinebrGrbdientFunc = NULL;
+stbtic
+ XRenderCrebteRbdiblGrbdientFuncType XRenderCrebteRbdiblGrbdientFunc = NULL;
 #endif
 
 #define BUILD_TRANSFORM_MATRIX(TRANSFORM, M00, M01, M02, M10, M11, M12)                        \
     {                                                                                          \
-      TRANSFORM.matrix[0][0] = M00;                                                            \
-      TRANSFORM.matrix[0][1] = M01;                                                            \
-      TRANSFORM.matrix[0][2] = M02;                                                            \
-      TRANSFORM.matrix[1][0] = M10;                                                            \
-      TRANSFORM.matrix[1][1] = M11;                                                            \
-      TRANSFORM.matrix[1][2] = M12;                                                            \
-      TRANSFORM.matrix[2][0] = 0;                                                              \
-      TRANSFORM.matrix[2][1] = 0;                                                              \
-      TRANSFORM.matrix[2][2] = 1<<16;                                                          \
+      TRANSFORM.mbtrix[0][0] = M00;                                                            \
+      TRANSFORM.mbtrix[0][1] = M01;                                                            \
+      TRANSFORM.mbtrix[0][2] = M02;                                                            \
+      TRANSFORM.mbtrix[1][0] = M10;                                                            \
+      TRANSFORM.mbtrix[1][1] = M11;                                                            \
+      TRANSFORM.mbtrix[1][2] = M12;                                                            \
+      TRANSFORM.mbtrix[2][0] = 0;                                                              \
+      TRANSFORM.mbtrix[2][1] = 0;                                                              \
+      TRANSFORM.mbtrix[2][2] = 1<<16;                                                          \
     }
 
-/* The xrender pipleine requires libXrender.so version 0.9.3 or later. */
+/* The xrender pipleine requires libXrender.so version 0.9.3 or lbter. */
 #define REQUIRED_XRENDER_VER1 0
 #define REQUIRED_XRENDER_VER2 9
 #define REQUIRED_XRENDER_VER3 3
@@ -117,91 +117,91 @@ static
 #define PKGINFO_LINE_CNT_MAX 50
 
 /*
- * X protocol uses (u_int16)length to specify the length in 4 bytes quantities
- * of the whole request.  Both XRenderFillRectangles() and XFillRectangles()
- * have provisions to fragment into several requests if the number of rectangles
+ * X protocol uses (u_int16)length to specify the length in 4 bytes qubntities
+ * of the whole request.  Both XRenderFillRectbngles() bnd XFillRectbngles()
+ * hbve provisions to frbgment into severbl requests if the number of rectbngles
  * plus the current x request does not fit into 65535*4 bytes.  While
- * XRenderCreateLinearGradient() and XRenderCreateRadialGradient() have
- * provisions to gracefully degrade if the resulting request would exceed
+ * XRenderCrebteLinebrGrbdient() bnd XRenderCrebteRbdiblGrbdient() hbve
+ * provisions to grbcefully degrbde if the resulting request would exceed
  * 65535*4 bytes.
  *
- * Below, we define a cap of 65535*4 bytes for the maximum X request payload
- * allowed for Non-(XRenderFillRectangles() or XFillRectangles()) API calls,
- * just to be conservative.  This is offset by the size of our maximum x*Req
- * type in this compilation unit, which is xRenderCreateRadiaGradientReq.
+ * Below, we define b cbp of 65535*4 bytes for the mbximum X request pbylobd
+ * bllowed for Non-(XRenderFillRectbngles() or XFillRectbngles()) API cblls,
+ * just to be conservbtive.  This is offset by the size of our mbximum x*Req
+ * type in this compilbtion unit, which is xRenderCrebteRbdibGrbdientReq.
  *
- * Note that sizeof(xRenderCreateRadiaGradientReq) = 36
+ * Note thbt sizeof(xRenderCrebteRbdibGrbdientReq) = 36
  */
 #define MAX_PAYLOAD (262140u - 36u)
 #define MAXUINT (0xffffffffu)
 
-static jboolean IsXRenderAvailable(jboolean verbose, jboolean ignoreLinuxVersion) {
+stbtic jboolebn IsXRenderAvbilbble(jboolebn verbose, jboolebn ignoreLinuxVersion) {
 
     void *xrenderlib;
 
-    int major_opcode, first_event, first_error;
-    jboolean available = JNI_TRUE;
+    int mbjor_opcode, first_event, first_error;
+    jboolebn bvbilbble = JNI_TRUE;
 
-    if (!XQueryExtension(awt_display, "RENDER",
-                         &major_opcode, &first_event, &first_error)) {
+    if (!XQueryExtension(bwt_displby, "RENDER",
+                         &mbjor_opcode, &first_event, &first_error)) {
         return JNI_FALSE;
     }
 
-#if defined(__solaris__) || defined(_AIX)
+#if defined(__solbris__) || defined(_AIX)
     xrenderlib = dlopen("libXrender.so",RTLD_GLOBAL|RTLD_LAZY);
     if (xrenderlib != NULL) {
 
-      XRenderCreateLinearGradientFunc =
-        (XRenderCreateLinearGradientFuncType)
-        dlsym(xrenderlib, "XRenderCreateLinearGradient");
+      XRenderCrebteLinebrGrbdientFunc =
+        (XRenderCrebteLinebrGrbdientFuncType)
+        dlsym(xrenderlib, "XRenderCrebteLinebrGrbdient");
 
-      XRenderCreateRadialGradientFunc =
-        (XRenderCreateRadialGradientFuncType)
-        dlsym(xrenderlib, "XRenderCreateRadialGradient");
+      XRenderCrebteRbdiblGrbdientFunc =
+        (XRenderCrebteRbdiblGrbdientFuncType)
+        dlsym(xrenderlib, "XRenderCrebteRbdiblGrbdient");
 
-      if (XRenderCreateLinearGradientFunc == NULL ||
-          XRenderCreateRadialGradientFunc == NULL)
+      if (XRenderCrebteLinebrGrbdientFunc == NULL ||
+          XRenderCrebteRbdiblGrbdientFunc == NULL)
       {
-        available = JNI_FALSE;
+        bvbilbble = JNI_FALSE;
       }
       dlclose(xrenderlib);
     } else {
-      available = JNI_FALSE;
+      bvbilbble = JNI_FALSE;
     }
 #else
     Dl_info info;
-    jboolean versionInfoIsFound = JNI_FALSE;
+    jboolebn versionInfoIsFound = JNI_FALSE;
 
     memset(&info, 0, sizeof(Dl_info));
-    if (dladdr(&XRenderChangePicture, &info) && info.dli_fname != NULL) {
-      char pkgInfoPath[FILENAME_MAX];
-      char *pkgFileName = "/pkgconfig/xrender.pc";
-      size_t pkgFileNameLen = strlen(pkgFileName);
-      size_t pos, len = strlen(info.dli_fname);
+    if (dlbddr(&XRenderChbngePicture, &info) && info.dli_fnbme != NULL) {
+      chbr pkgInfoPbth[FILENAME_MAX];
+      chbr *pkgFileNbme = "/pkgconfig/xrender.pc";
+      size_t pkgFileNbmeLen = strlen(pkgFileNbme);
+      size_t pos, len = strlen(info.dli_fnbme);
 
       pos = len;
-      while (pos > 0 && info.dli_fname[pos] != '/') {
+      while (pos > 0 && info.dli_fnbme[pos] != '/') {
         pos -= 1;
       }
 
-      if (pos > 0 && pos < (FILENAME_MAX - pkgFileNameLen - 1)) {
-        struct stat stat_info;
+      if (pos > 0 && pos < (FILENAME_MAX - pkgFileNbmeLen - 1)) {
+        struct stbt stbt_info;
 
-        // compose absolute filename to package config
-        strncpy(pkgInfoPath, info.dli_fname, pos);
+        // compose bbsolute filenbme to pbckbge config
+        strncpy(pkgInfoPbth, info.dli_fnbme, pos);
 
-        strcpy(pkgInfoPath + pos, pkgFileName);
-        pkgInfoPath[pos + pkgFileNameLen] = '\0';
+        strcpy(pkgInfoPbth + pos, pkgFileNbme);
+        pkgInfoPbth[pos + pkgFileNbmeLen] = '\0';
 
-        // check whether the config file exist and is a regular file
-        if ((stat(pkgInfoPath, &stat_info)== 0) &&
-            S_ISREG(stat_info.st_mode))
+        // check whether the config file exist bnd is b regulbr file
+        if ((stbt(pkgInfoPbth, &stbt_info)== 0) &&
+            S_ISREG(stbt_info.st_mode))
         {
-          FILE *fp = fopen(pkgInfoPath, "r");
+          FILE *fp = fopen(pkgInfoPbth, "r");
           if (fp != NULL) {
-            char line[PKGINFO_LINE_LEN_MAX];
+            chbr line[PKGINFO_LINE_LEN_MAX];
             int lineCount = PKGINFO_LINE_CNT_MAX;
-            char *versionPrefix = "Version: ";
+            chbr *versionPrefix = "Version: ";
             size_t versionPrefixLen = strlen(versionPrefix);
 
             // look for version
@@ -213,34 +213,34 @@ static jboolean IsXRenderAvailable(jboolean verbose, jboolean ignoreLinuxVersion
               {
                 int v1 = 0, v2 = 0, v3 = 0;
                 int numNeeded = 3,numProcessed;
-                char* version = line + versionPrefixLen;
-                numProcessed = sscanf(version, "%d.%d.%d", &v1, &v2, &v3);
+                chbr* version = line + versionPrefixLen;
+                numProcessed = sscbnf(version, "%d.%d.%d", &v1, &v2, &v3);
 
                 if (numProcessed == numNeeded) {
-                  // we successfuly read the library version
+                  // we successfuly rebd the librbry version
                   versionInfoIsFound = JNI_TRUE;
 
                   if (REQUIRED_XRENDER_VER1 == v1 &&
                       ((REQUIRED_XRENDER_VER2 > v2) ||
                        ((REQUIRED_XRENDER_VER2 == v2) && (REQUIRED_XRENDER_VER3 > v3))))
                   {
-                    available = JNI_FALSE;
+                    bvbilbble = JNI_FALSE;
 
                     if (verbose) {
                       printf("INFO: the version %d.%d.%d of libXrender.so is "
-                             "not supported.\n\tSee release notes for more details.\n",
+                             "not supported.\n\tSee relebse notes for more detbils.\n",
                              v1, v2, v3);
                       fflush(stdout);
                     }
                   } else {
                     if (verbose) {
                       printf("INFO: The version of libXrender.so "
-                             "is detected as %d.%d%d\n", v1, v2, v3);
+                             "is detected bs %d.%d%d\n", v1, v2, v3);
                       fflush(stdout);
                     }
                   }
                 }
-                break;
+                brebk;
               }
             }
             fclose(fp);
@@ -249,32 +249,32 @@ static jboolean IsXRenderAvailable(jboolean verbose, jboolean ignoreLinuxVersion
       }
     }
     if (verbose && !versionInfoIsFound) {
-      printf("WARNING: The version of libXrender.so cannot be detected.\n,"
-             "The pipe line will be enabled, but note that versions less than 0.9.3\n"
-             "may cause hangs and crashes\n"
-             "\tSee the release notes for more details.\n");
+      printf("WARNING: The version of libXrender.so cbnnot be detected.\n,"
+             "The pipe line will be enbbled, but note thbt versions less thbn 0.9.3\n"
+             "mby cbuse hbngs bnd crbshes\n"
+             "\tSee the relebse notes for more detbils.\n");
       fflush(stdout);
     }
 #endif
 
 #ifdef __linux__
     /*
-     * Check for Linux >= 3.5 (Ubuntu 12.04.02 LTS) to avoid hitting
+     * Check for Linux >= 3.5 (Ubuntu 12.04.02 LTS) to bvoid hitting
      * https://bugs.freedesktop.org/show_bug.cgi?id=48045
      */
-    struct utsname utsbuf;
-    if(uname(&utsbuf) >= 0) {
-        int major, minor, revision;
-        if(sscanf(utsbuf.release, "%i.%i.%i", &major, &minor, &revision) == 3) {
-            if(major < 3 || (major == 3 && minor < 5)) {
+    struct utsnbme utsbuf;
+    if(unbme(&utsbuf) >= 0) {
+        int mbjor, minor, revision;
+        if(sscbnf(utsbuf.relebse, "%i.%i.%i", &mbjor, &minor, &revision) == 3) {
+            if(mbjor < 3 || (mbjor == 3 && minor < 5)) {
                 if(!ignoreLinuxVersion) {
-                    available = JNI_FALSE;
+                    bvbilbble = JNI_FALSE;
                 }
                 else if(verbose) {
                  printf("WARNING: Linux < 3.5 detected.\n"
-                        "The pipeline will be enabled, but graphical "
-                        "artifacts can occur with old graphic drivers.\n"
-                        "See the release notes for more details.\n");
+                        "The pipeline will be enbbled, but grbphicbl "
+                        "brtifbcts cbn occur with old grbphic drivers.\n"
+                        "See the relebse notes for more detbils.\n");
                         fflush(stdout);
                 }
             }
@@ -282,35 +282,35 @@ static jboolean IsXRenderAvailable(jboolean verbose, jboolean ignoreLinuxVersion
     }
 #endif // __linux__
 
-    return available;
+    return bvbilbble;
 }
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
+ * Clbss:     sun_bwt_X11GrbphicsEnvironment
  * Method:    initGLX
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsEnvironment_initXRender
-(JNIEnv *env, jclass x11ge, jboolean verbose, jboolean ignoreLinuxVersion)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_X11GrbphicsEnvironment_initXRender
+(JNIEnv *env, jclbss x11ge, jboolebn verbose, jboolebn ignoreLinuxVersion)
 {
 #ifndef HEADLESS
-    static jboolean xrenderAvailable = JNI_FALSE;
-    static jboolean firstTime = JNI_TRUE;
+    stbtic jboolebn xrenderAvbilbble = JNI_FALSE;
+    stbtic jboolebn firstTime = JNI_TRUE;
 
     if (firstTime) {
 #ifdef DISABLE_XRENDER_BY_DEFAULT
         if (verbose == JNI_FALSE) {
-            xrenderAvailable = JNI_FALSE;
+            xrenderAvbilbble = JNI_FALSE;
             firstTime = JNI_FALSE;
-            return xrenderAvailable;
+            return xrenderAvbilbble;
         }
 #endif
         AWT_LOCK();
-        xrenderAvailable = IsXRenderAvailable(verbose, ignoreLinuxVersion);
+        xrenderAvbilbble = IsXRenderAvbilbble(verbose, ignoreLinuxVersion);
         AWT_UNLOCK();
         firstTime = JNI_FALSE;
     }
-    return xrenderAvailable;
+    return xrenderAvbilbble;
 #else
     return JNI_FALSE;
 #endif /* !HEADLESS */
@@ -318,156 +318,156 @@ Java_sun_awt_X11GraphicsEnvironment_initXRender
 
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_initIDs(JNIEnv *env, jclass cls) {
-    char *maskData;
-    XImage* defaultImg;
-    jfieldID maskImgID;
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_initIDs(JNIEnv *env, jclbss cls) {
+    chbr *mbskDbtb;
+    XImbge* defbultImg;
+    jfieldID mbskImgID;
     jlong fmt8;
     jlong fmt32;
 
-    jfieldID a8ID = (*env)->GetStaticFieldID(env, cls, "FMTPTR_A8", "J");
-    if (a8ID == NULL) {
+    jfieldID b8ID = (*env)->GetStbticFieldID(env, cls, "FMTPTR_A8", "J");
+    if (b8ID == NULL) {
         return;
     }
-    jfieldID argb32ID = (*env)->GetStaticFieldID(env, cls, "FMTPTR_ARGB32", "J");
-    if (argb32ID == NULL) {
-        return;
-    }
-
-    if (awt_display == (Display *)NULL) {
+    jfieldID brgb32ID = (*env)->GetStbticFieldID(env, cls, "FMTPTR_ARGB32", "J");
+    if (brgb32ID == NULL) {
         return;
     }
 
-    fmt8 = ptr_to_jlong(XRenderFindStandardFormat(awt_display, PictStandardA8));
-    fmt32 = ptr_to_jlong(XRenderFindStandardFormat(awt_display, PictStandardARGB32));
+    if (bwt_displby == (Displby *)NULL) {
+        return;
+    }
 
-    (*env)->SetStaticLongField(env, cls, a8ID, fmt8);
-    (*env)->SetStaticLongField(env, cls, argb32ID, fmt32);
+    fmt8 = ptr_to_jlong(XRenderFindStbndbrdFormbt(bwt_displby, PictStbndbrdA8));
+    fmt32 = ptr_to_jlong(XRenderFindStbndbrdFormbt(bwt_displby, PictStbndbrdARGB32));
 
-    maskData = (char *) malloc(32*32);
-    if (maskData == NULL) {
+    (*env)->SetStbticLongField(env, cls, b8ID, fmt8);
+    (*env)->SetStbticLongField(env, cls, brgb32ID, fmt32);
+
+    mbskDbtb = (chbr *) mblloc(32*32);
+    if (mbskDbtb == NULL) {
        return;
     }
 
-    defaultImg = XCreateImage(awt_display, NULL, 8, ZPixmap, 0, maskData, 32, 32, 8, 0);
-    defaultImg->data = maskData; //required?
-    maskImgID = (*env)->GetStaticFieldID(env, cls, "MASK_XIMG", "J");
-    if (maskImgID == NULL) {
+    defbultImg = XCrebteImbge(bwt_displby, NULL, 8, ZPixmbp, 0, mbskDbtb, 32, 32, 8, 0);
+    defbultImg->dbtb = mbskDbtb; //required?
+    mbskImgID = (*env)->GetStbticFieldID(env, cls, "MASK_XIMG", "J");
+    if (mbskImgID == NULL) {
        return;
     }
 
-    (*env)->SetStaticLongField(env, cls, maskImgID, ptr_to_jlong(defaultImg));
+    (*env)->SetStbticLongField(env, cls, mbskImgID, ptr_to_jlong(defbultImg));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_freeGC
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_freeGC
  (JNIEnv *env, jobject this, jlong gc) {
-    XFreeGC(awt_display, (GC) jlong_to_ptr(gc));
+    XFreeGC(bwt_displby, (GC) jlong_to_ptr(gc));
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_xr_XRBackendNative_createGC
- (JNIEnv *env, jobject this, jint drawable) {
-  GC xgc = XCreateGC(awt_display, (Drawable) drawable, 0L, NULL);
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_crebteGC
+ (JNIEnv *env, jobject this, jint drbwbble) {
+  GC xgc = XCrebteGC(bwt_displby, (Drbwbble) drbwbble, 0L, NULL);
   return ptr_to_jlong(xgc);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_xr_XRBackendNative_createPixmap(JNIEnv *env, jobject this,
-                                                jint drawable, jint depth,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_crebtePixmbp(JNIEnv *env, jobject this,
+                                                jint drbwbble, jint depth,
                                                 jint width, jint height) {
-    return (jint) XCreatePixmap(awt_display, (Drawable) drawable,
+    return (jint) XCrebtePixmbp(bwt_displby, (Drbwbble) drbwbble,
                                 width, height, depth);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_xr_XRBackendNative_createPictureNative
- (JNIEnv *env, jclass cls, jint drawable, jlong formatPtr) {
-  XRenderPictureAttributes pict_attr;
-  return XRenderCreatePicture(awt_display, (Drawable) drawable,
-                              (XRenderPictFormat *) jlong_to_ptr(formatPtr),
-                               0, &pict_attr);
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_crebtePictureNbtive
+ (JNIEnv *env, jclbss cls, jint drbwbble, jlong formbtPtr) {
+  XRenderPictureAttributes pict_bttr;
+  return XRenderCrebtePicture(bwt_displby, (Drbwbble) drbwbble,
+                              (XRenderPictFormbt *) jlong_to_ptr(formbtPtr),
+                               0, &pict_bttr);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_freePicture
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_freePicture
  (JNIEnv *env, jobject this, jint picture) {
-      XRenderFreePicture(awt_display, (Picture) picture);
+      XRenderFreePicture(bwt_displby, (Picture) picture);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_freePixmap
- (JNIEnv *env, jobject this, jint pixmap) {
-   XFreePixmap(awt_display, (Pixmap) pixmap);
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_freePixmbp
+ (JNIEnv *env, jobject this, jint pixmbp) {
+   XFreePixmbp(bwt_displby, (Pixmbp) pixmbp);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_setPictureRepeat
- (JNIEnv *env, jobject this, jint picture, jint repeat) {
-    XRenderPictureAttributes pict_attr;
-    pict_attr.repeat = repeat;
-    XRenderChangePicture (awt_display, (Picture) picture, CPRepeat, &pict_attr);
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_setPictureRepebt
+ (JNIEnv *env, jobject this, jint picture, jint repebt) {
+    XRenderPictureAttributes pict_bttr;
+    pict_bttr.repebt = repebt;
+    XRenderChbngePicture (bwt_displby, (Picture) picture, CPRepebt, &pict_bttr);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_setGCExposures
- (JNIEnv *env, jobject this, jlong gc, jboolean exposure) {
-    XSetGraphicsExposures(awt_display,
-                         (GC) jlong_to_ptr(gc), exposure ? True : False); //TODO: ????
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_setGCExposures
+ (JNIEnv *env, jobject this, jlong gc, jboolebn exposure) {
+    XSetGrbphicsExposures(bwt_displby,
+                         (GC) jlong_to_ptr(gc), exposure ? True : Fblse); //TODO: ????
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_setGCForeground
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_setGCForeground
  (JNIEnv *env, jobject this, jlong gc, jint pixel) {
-    XSetForeground(awt_display, (GC) jlong_to_ptr(gc), (unsigned long) pixel);
+    XSetForeground(bwt_displby, (GC) jlong_to_ptr(gc), (unsigned long) pixel);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_copyArea
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_copyAreb
  (JNIEnv *env, jobject this, jint src, jint dst, jlong gc,
   jint srcx, jint srcy, jint width, jint height, jint dstx, jint dsty) {
-    XCopyArea(awt_display, (Drawable) src, (Drawable) dst,
+    XCopyAreb(bwt_displby, (Drbwbble) src, (Drbwbble) dst,
              (GC) jlong_to_ptr(gc), srcx, srcy, width, height, dstx, dsty);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_renderComposite
- (JNIEnv *env, jobject this, jbyte op, jint src, jint mask, jint dst,
-  jint srcX, jint srcY, jint maskX, jint maskY,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_renderComposite
+ (JNIEnv *env, jobject this, jbyte op, jint src, jint mbsk, jint dst,
+  jint srcX, jint srcY, jint mbskX, jint mbskY,
   jint dstX, jint dstY, jint width, jint height) {
-    XRenderComposite (awt_display, op,
-                      (Picture)src, (Picture)mask, (Picture)dst,
-                       srcX, srcY, maskX, maskY, dstX, dstY, width, height);
+    XRenderComposite (bwt_displby, op,
+                      (Picture)src, (Picture)mbsk, (Picture)dst,
+                       srcX, srcY, mbskX, mbskY, dstX, dstY, width, height);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_renderRectangle
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_renderRectbngle
  (JNIEnv *env, jobject this, jint dst, jbyte op,
-  jshort red, jshort green, jshort blue, jshort alpha,
+  jshort red, jshort green, jshort blue, jshort blphb,
   jint x, jint y, jint width, jint height) {
     XRenderColor color;
-    color.alpha = alpha;
+    color.blphb = blphb;
     color.red = red;
     color.green = green;
     color.blue = blue;
-    XRenderFillRectangle(awt_display, op, (Picture) dst, &color,
+    XRenderFillRectbngle(bwt_displby, op, (Picture) dst, &color,
                          x, y, width, height);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRenderRectanglesNative
- (JNIEnv *env, jclass xsd, jint dst, jbyte op,
-  jshort red, jshort green, jshort blue, jshort alpha,
-  jintArray rectArray, jint rectCnt) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRenderRectbnglesNbtive
+ (JNIEnv *env, jclbss xsd, jint dst, jbyte op,
+  jshort red, jshort green, jshort blue, jshort blphb,
+  jintArrby rectArrby, jint rectCnt) {
     int i;
     jint* rects;
-    XRectangle *xRects;
-    XRectangle sRects[256];
+    XRectbngle *xRects;
+    XRectbngle sRects[256];
 
     XRenderColor color;
-    color.alpha = alpha;
+    color.blphb = blphb;
     color.red = red;
     color.green = green;
     color.blue = blue;
@@ -475,18 +475,18 @@ Java_sun_java2d_xr_XRBackendNative_XRenderRectanglesNative
     if (rectCnt <= 256) {
         xRects = &sRects[0];
     } else {
-        if (MAXUINT / sizeof(XRectangle) < (unsigned)rectCnt) {
+        if (MAXUINT / sizeof(XRectbngle) < (unsigned)rectCnt) {
             /* rectCnt too big, integer overflow */
             return;
         }
-        xRects = (XRectangle *) malloc(sizeof(XRectangle) * rectCnt);
+        xRects = (XRectbngle *) mblloc(sizeof(XRectbngle) * rectCnt);
         if (xRects == NULL) {
             return;
         }
     }
 
     if ((rects = (jint *)
-         (*env)->GetPrimitiveArrayCritical(env, rectArray, NULL)) == NULL) {
+         (*env)->GetPrimitiveArrbyCriticbl(env, rectArrby, NULL)) == NULL) {
         if (xRects != &sRects[0]) {
             free(xRects);
         }
@@ -500,64 +500,64 @@ Java_sun_java2d_xr_XRBackendNative_XRenderRectanglesNative
         xRects[i].height = rects[i*4 + 3];
     }
 
-    XRenderFillRectangles(awt_display, op,
+    XRenderFillRectbngles(bwt_displby, op,
                           (Picture) dst, &color, xRects, rectCnt);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, rectArray, rects, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, rectArrby, rects, JNI_ABORT);
     if (xRects != &sRects[0]) {
         free(xRects);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRSetTransformNative
- (JNIEnv *env, jclass xsd, jint pic,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRSetTrbnsformNbtive
+ (JNIEnv *env, jclbss xsd, jint pic,
   jint m00, jint m01, jint m02, jint m10, jint m11, jint m12) {
 
-  XTransform tr;
+  XTrbnsform tr;
   BUILD_TRANSFORM_MATRIX(tr, m00, m01, m02, m10, m11, m12);
-  XRenderSetPictureTransform (awt_display, (Picture) pic, &tr);
+  XRenderSetPictureTrbnsform (bwt_displby, (Picture) pic, &tr);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRCreateLinearGradientPaintNative
-    (JNIEnv *env, jclass xsd, jfloatArray fractionsArray,
-     jshortArray pixelsArray, jint x1, jint y1, jint x2, jint y2,
-     jint numStops, jint repeat) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRCrebteLinebrGrbdientPbintNbtive
+    (JNIEnv *env, jclbss xsd, jflobtArrby frbctionsArrby,
+     jshortArrby pixelsArrby, jint x1, jint y1, jint x2, jint y2,
+     jint numStops, jint repebt) {
    jint i;
    jshort* pixels;
-   jfloat* fractions;
-   XRenderPictureAttributes pict_attr;
-   Picture gradient = 0;
+   jflobt* frbctions;
+   XRenderPictureAttributes pict_bttr;
+   Picture grbdient = 0;
    XRenderColor *colors;
    XFixed *stops;
-   XLinearGradient grad;
+   XLinebrGrbdient grbd;
 
    if (MAX_PAYLOAD / (sizeof(XRenderColor) + sizeof(XFixed))
        < (unsigned)numStops) {
-       /* numStops too big, payload overflow */
+       /* numStops too big, pbylobd overflow */
        return -1;
    }
 
    if ((pixels = (jshort *)
-        (*env)->GetPrimitiveArrayCritical(env, pixelsArray, NULL)) == NULL) {
+        (*env)->GetPrimitiveArrbyCriticbl(env, pixelsArrby, NULL)) == NULL) {
        return -1;
    }
-   if ((fractions = (jfloat *)
-       (*env)->GetPrimitiveArrayCritical(env, fractionsArray, NULL)) == NULL) {
-       (*env)->ReleasePrimitiveArrayCritical(env,
-                                              pixelsArray, pixels, JNI_ABORT);
+   if ((frbctions = (jflobt *)
+       (*env)->GetPrimitiveArrbyCriticbl(env, frbctionsArrby, NULL)) == NULL) {
+       (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                              pixelsArrby, pixels, JNI_ABORT);
        return -1;
    }
 
-    grad.p1.x = x1;
-    grad.p1.y = y1;
-    grad.p2.x = x2;
-    grad.p2.y = y2;
+    grbd.p1.x = x1;
+    grbd.p1.y = y1;
+    grbd.p2.x = x2;
+    grbd.p2.y = y2;
 
-    /*TODO optimized & malloc check*/
-    colors = (XRenderColor *) malloc(numStops * sizeof(XRenderColor));
-    stops =  (XFixed *) malloc(numStops * sizeof(XFixed));
+    /*TODO optimized & mblloc check*/
+    colors = (XRenderColor *) mblloc(numStops * sizeof(XRenderColor));
+    stops =  (XFixed *) mblloc(numStops * sizeof(XFixed));
 
     if (colors == NULL || stops == NULL) {
         if (colors != NULL) {
@@ -566,82 +566,82 @@ Java_sun_java2d_xr_XRBackendNative_XRCreateLinearGradientPaintNative
         if (stops != NULL) {
             free(stops);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, pixelsArray, pixels, JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, fractionsArray, fractions, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, pixelsArrby, pixels, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, frbctionsArrby, frbctions, JNI_ABORT);
         return -1;
     }
 
     for (i=0; i < numStops; i++) {
-      stops[i] = XDoubleToFixed(fractions[i]);
-      colors[i].alpha = pixels[i*4 + 0];
+      stops[i] = XDoubleToFixed(frbctions[i]);
+      colors[i].blphb = pixels[i*4 + 0];
       colors[i].red = pixels[i*4 + 1];
       colors[i].green = pixels[i*4 + 2];
       colors[i].blue = pixels[i*4 + 3];
     }
-#ifdef __solaris__
-    if (XRenderCreateLinearGradientFunc!=NULL) {
-      gradient = (*XRenderCreateLinearGradientFunc)(awt_display, &grad, stops, colors, numStops);
+#ifdef __solbris__
+    if (XRenderCrebteLinebrGrbdientFunc!=NULL) {
+      grbdient = (*XRenderCrebteLinebrGrbdientFunc)(bwt_displby, &grbd, stops, colors, numStops);
     }
 #else
-    gradient = XRenderCreateLinearGradient(awt_display, &grad, stops, colors, numStops);
+    grbdient = XRenderCrebteLinebrGrbdient(bwt_displby, &grbd, stops, colors, numStops);
 #endif
     free(colors);
     free(stops);
 
-   (*env)->ReleasePrimitiveArrayCritical(env, pixelsArray, pixels, JNI_ABORT);
-   (*env)->ReleasePrimitiveArrayCritical(env, fractionsArray, fractions, JNI_ABORT);
+   (*env)->RelebsePrimitiveArrbyCriticbl(env, pixelsArrby, pixels, JNI_ABORT);
+   (*env)->RelebsePrimitiveArrbyCriticbl(env, frbctionsArrby, frbctions, JNI_ABORT);
 
-    if (gradient != 0) {
-        pict_attr.repeat = repeat;
-        XRenderChangePicture (awt_display, gradient, CPRepeat, &pict_attr);
+    if (grbdient != 0) {
+        pict_bttr.repebt = repebt;
+        XRenderChbngePicture (bwt_displby, grbdient, CPRepebt, &pict_bttr);
     }
 
-   return (jint) gradient;
+   return (jint) grbdient;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRCreateRadialGradientPaintNative
-    (JNIEnv *env, jclass xsd, jfloatArray fractionsArray,
-     jshortArray pixelsArray, jint numStops,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRCrebteRbdiblGrbdientPbintNbtive
+    (JNIEnv *env, jclbss xsd, jflobtArrby frbctionsArrby,
+     jshortArrby pixelsArrby, jint numStops,
      jint centerX, jint centerY,
-     jint innerRadius, jint outerRadius, jint repeat) {
+     jint innerRbdius, jint outerRbdius, jint repebt) {
    jint i;
    jshort* pixels;
-   jfloat* fractions;
-   XRenderPictureAttributes pict_attr;
-   Picture gradient = 0;
+   jflobt* frbctions;
+   XRenderPictureAttributes pict_bttr;
+   Picture grbdient = 0;
    XRenderColor *colors;
    XFixed *stops;
-   XRadialGradient grad;
+   XRbdiblGrbdient grbd;
 
    if (MAX_PAYLOAD / (sizeof(XRenderColor) + sizeof(XFixed))
        < (unsigned)numStops) {
-       /* numStops too big, payload overflow */
+       /* numStops too big, pbylobd overflow */
        return -1;
    }
 
    if ((pixels =
-       (jshort *)(*env)->GetPrimitiveArrayCritical(env, pixelsArray, NULL)) == NULL) {
+       (jshort *)(*env)->GetPrimitiveArrbyCriticbl(env, pixelsArrby, NULL)) == NULL) {
        return -1;
    }
-   if ((fractions = (jfloat *)
-        (*env)->GetPrimitiveArrayCritical(env, fractionsArray, NULL)) == NULL) {
-       (*env)->ReleasePrimitiveArrayCritical(env,
-                                             pixelsArray, pixels, JNI_ABORT);
-       return -1; //TODO release pixels first
+   if ((frbctions = (jflobt *)
+        (*env)->GetPrimitiveArrbyCriticbl(env, frbctionsArrby, NULL)) == NULL) {
+       (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                             pixelsArrby, pixels, JNI_ABORT);
+       return -1; //TODO relebse pixels first
    }
 
-    grad.inner.x = centerX;
-    grad.inner.y = centerY;
-    grad.inner.radius = innerRadius;
-    grad.outer.x = centerX;
-    grad.outer.y = centerY;
-    grad.outer.radius = outerRadius;
+    grbd.inner.x = centerX;
+    grbd.inner.y = centerY;
+    grbd.inner.rbdius = innerRbdius;
+    grbd.outer.x = centerX;
+    grbd.outer.y = centerY;
+    grbd.outer.rbdius = outerRbdius;
 
-    /*TODO optimized & malloc check*/
-    colors = (XRenderColor *) malloc(numStops * sizeof(XRenderColor));
-    stops =  (XFixed *) malloc(numStops * sizeof(XFixed));
+    /*TODO optimized & mblloc check*/
+    colors = (XRenderColor *) mblloc(numStops * sizeof(XRenderColor));
+    stops =  (XFixed *) mblloc(numStops * sizeof(XFixed));
 
     if (colors == NULL || stops == NULL) {
         if (colors != NULL) {
@@ -650,83 +650,83 @@ Java_sun_java2d_xr_XRBackendNative_XRCreateRadialGradientPaintNative
         if (stops != NULL) {
             free(stops);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, pixelsArray, pixels, JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, fractionsArray, fractions, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, pixelsArrby, pixels, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, frbctionsArrby, frbctions, JNI_ABORT);
         return -1;
     }
 
     for (i=0; i < numStops; i++) {
-      stops[i] = XDoubleToFixed(fractions[i]);
-      colors[i].alpha = pixels[i*4 + 0];
+      stops[i] = XDoubleToFixed(frbctions[i]);
+      colors[i].blphb = pixels[i*4 + 0];
       colors[i].red = pixels[i*4 + 1];
       colors[i].green = pixels[i*4 + 2];
       colors[i].blue = pixels[i*4 + 3];
     }
-#ifdef __solaris__
-    if (XRenderCreateRadialGradientFunc != NULL) {
-        gradient = (jint) (*XRenderCreateRadialGradientFunc)(awt_display, &grad, stops, colors, numStops);
+#ifdef __solbris__
+    if (XRenderCrebteRbdiblGrbdientFunc != NULL) {
+        grbdient = (jint) (*XRenderCrebteRbdiblGrbdientFunc)(bwt_displby, &grbd, stops, colors, numStops);
     }
 #else
-    gradient = (jint) XRenderCreateRadialGradient(awt_display, &grad, stops, colors, numStops);
+    grbdient = (jint) XRenderCrebteRbdiblGrbdient(bwt_displby, &grbd, stops, colors, numStops);
 #endif
     free(colors);
     free(stops);
 
-   (*env)->ReleasePrimitiveArrayCritical(env, pixelsArray, pixels, JNI_ABORT);
-   (*env)->ReleasePrimitiveArrayCritical(env, fractionsArray, fractions, JNI_ABORT);
+   (*env)->RelebsePrimitiveArrbyCriticbl(env, pixelsArrby, pixels, JNI_ABORT);
+   (*env)->RelebsePrimitiveArrbyCriticbl(env, frbctionsArrby, frbctions, JNI_ABORT);
 
 
-    if (gradient != 0) {
-        pict_attr.repeat = repeat;
-        XRenderChangePicture (awt_display, gradient, CPRepeat, &pict_attr);
+    if (grbdient != 0) {
+        pict_bttr.repebt = repebt;
+        XRenderChbngePicture (bwt_displby, grbdient, CPRepebt, &pict_bttr);
     }
 
-   return (jint) gradient;
+   return (jint) grbdient;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_setFilter
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_setFilter
  (JNIEnv *env, jobject this, jint picture, jint filter) {
 
-  char * filterName = "fast";
+  chbr * filterNbme = "fbst";
 
   switch(filter) {
-    case 0:
-      filterName = "fast";
-      break;
+    cbse 0:
+      filterNbme = "fbst";
+      brebk;
 
-    case 1:
-      filterName = "good";
-      break;
+    cbse 1:
+      filterNbme = "good";
+      brebk;
 
-    case 2:
-      filterName = "best";
-      break;
+    cbse 2:
+      filterNbme = "best";
+      brebk;
   }
 
-    XRenderSetPictureFilter(awt_display, (Picture) picture, filterName, NULL, 0);
+    XRenderSetPictureFilter(bwt_displby, (Picture) picture, filterNbme, NULL, 0);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRSetClipNative
-    (JNIEnv *env, jclass xsd, jlong dst,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRSetClipNbtive
+    (JNIEnv *env, jclbss xsd, jlong dst,
      jint x1, jint y1, jint x2, jint y2,
-     jobject complexclip, jboolean isGC)
+     jobject complexclip, jboolebn isGC)
 {
     int numrects;
-    XRectangle rects[256];
-    XRectangle *pRect = rects;
+    XRectbngle rects[256];
+    XRectbngle *pRect = rects;
 
-    numrects = RegionToYXBandedRectangles(env,
+    numrects = RegionToYXBbndedRectbngles(env,
             x1, y1, x2, y2, complexclip,
             &pRect, 256);
 
     if (isGC == JNI_TRUE) {
       if (dst != (jlong) 0) {
-          XSetClipRectangles(awt_display, (GC) jlong_to_ptr(dst), 0, 0, pRect, numrects, YXBanded);
+          XSetClipRectbngles(bwt_displby, (GC) jlong_to_ptr(dst), 0, 0, pRect, numrects, YXBbnded);
       }
     } else {
-       XRenderSetPictureClipRectangles (awt_display, (Picture) dst, 0, 0, pRect, numrects);
+       XRenderSetPictureClipRectbngles (bwt_displby, (Picture) dst, 0, 0, pRect, numrects);
     }
 
     if (pRect != rects) {
@@ -735,90 +735,90 @@ Java_sun_java2d_xr_XRBackendNative_XRSetClipNative
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_putMaskNative
- (JNIEnv *env, jclass cls, jint drawable, jlong gc, jbyteArray imageData,
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_putMbskNbtive
+ (JNIEnv *env, jclbss cls, jint drbwbble, jlong gc, jbyteArrby imbgeDbtb,
   jint sx, jint sy, jint dx, jint dy, jint width, jint height,
-  jint maskOff, jint maskScan, jfloat ea, jlong imgPtr) {
+  jint mbskOff, jint mbskScbn, jflobt eb, jlong imgPtr) {
 
     int line, pix;
-    char *mask;
-    char *defaultData;
-    XImage *defaultImg, *img;
-    jboolean imageFits;
+    chbr *mbsk;
+    chbr *defbultDbtb;
+    XImbge *defbultImg, *img;
+    jboolebn imbgeFits;
 
-    if ((mask = (char *)
-         (*env)->GetPrimitiveArrayCritical(env, imageData, NULL)) == NULL) {
+    if ((mbsk = (chbr *)
+         (*env)->GetPrimitiveArrbyCriticbl(env, imbgeDbtb, NULL)) == NULL) {
         return;
      }
 
-    defaultImg = (XImage *) jlong_to_ptr(imgPtr);
+    defbultImg = (XImbge *) jlong_to_ptr(imgPtr);
 
-    if (ea != 1.0f) {
+    if (eb != 1.0f) {
         for (line=0; line < height; line++) {
             for (pix=0; pix < width; pix++) {
-                int index = maskScan*line + pix + maskOff;
-                mask[index] = (((unsigned char) mask[index])*ea);
+                int index = mbskScbn*line + pix + mbskOff;
+                mbsk[index] = (((unsigned chbr) mbsk[index])*eb);
             }
         }
     }
 
     /*
-    * 1. If existing XImage and supplied buffer match, only adjust the data pointer
-    * 2. If existing XImage is large enough to hold the data but does not match in
-    *    scan the data is copied to fit the XImage.
-    * 3. If data is larger than the existing XImage a new temporary XImage is
-    *    allocated.
-    * The default XImage is optimized for the AA tiles, which are currently 32x32.
+    * 1. If existing XImbge bnd supplied buffer mbtch, only bdjust the dbtb pointer
+    * 2. If existing XImbge is lbrge enough to hold the dbtb but does not mbtch in
+    *    scbn the dbtb is copied to fit the XImbge.
+    * 3. If dbtb is lbrger thbn the existing XImbge b new temporbry XImbge is
+    *    bllocbted.
+    * The defbult XImbge is optimized for the AA tiles, which bre currently 32x32.
     */
-    defaultData = defaultImg->data;
-    img = defaultImg;
-    imageFits = defaultImg->width >= width && defaultImg->height >= height;
+    defbultDbtb = defbultImg->dbtb;
+    img = defbultImg;
+    imbgeFits = defbultImg->width >= width && defbultImg->height >= height;
 
-    if (imageFits &&
-        maskOff == defaultImg->xoffset && maskScan == defaultImg->bytes_per_line) {
-        defaultImg->data = mask;
+    if (imbgeFits &&
+        mbskOff == defbultImg->xoffset && mbskScbn == defbultImg->bytes_per_line) {
+        defbultImg->dbtb = mbsk;
     } else {
-        if (imageFits) {
+        if (imbgeFits) {
             for (line=0; line < height; line++) {
                 for (pix=0; pix < width; pix++) {
-                    img->data[line*img->bytes_per_line + pix] =
-                        (unsigned char) (mask[maskScan*line + pix + maskOff]);
+                    img->dbtb[line*img->bytes_per_line + pix] =
+                        (unsigned chbr) (mbsk[mbskScbn*line + pix + mbskOff]);
                 }
             }
         } else {
-            img = XCreateImage(awt_display, NULL, 8, ZPixmap,
-                               maskOff, mask, maskScan, height, 8, 0);
+            img = XCrebteImbge(bwt_displby, NULL, 8, ZPixmbp,
+                               mbskOff, mbsk, mbskScbn, height, 8, 0);
         }
     }
 
-    XPutImage(awt_display, (Pixmap) drawable, (GC) jlong_to_ptr(gc),
+    XPutImbge(bwt_displby, (Pixmbp) drbwbble, (GC) jlong_to_ptr(gc),
               img, 0, 0, 0, 0, width, height);
-    (*env)->ReleasePrimitiveArrayCritical(env, imageData, mask, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, imbgeDbtb, mbsk, JNI_ABORT);
 
-    if (img != defaultImg) {
-        img->data = NULL;
-        XDestroyImage(img);
+    if (img != defbultImg) {
+        img->dbtb = NULL;
+        XDestroyImbge(img);
     }
-    defaultImg->data = defaultData;
+    defbultImg->dbtb = defbultDbtb;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRAddGlyphsNative
- (JNIEnv *env, jclass cls, jint glyphSet,
-  jlongArray glyphInfoPtrsArray, jint glyphCnt,
-  jbyteArray pixelDataArray, int pixelDataLength) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRAddGlyphsNbtive
+ (JNIEnv *env, jclbss cls, jint glyphSet,
+  jlongArrby glyphInfoPtrsArrby, jint glyphCnt,
+  jbyteArrby pixelDbtbArrby, int pixelDbtbLength) {
     jlong *glyphInfoPtrs;
-    unsigned char *pixelData;
+    unsigned chbr *pixelDbtb;
     int i;
 
     if (MAX_PAYLOAD / (sizeof(XGlyphInfo) + sizeof(Glyph))
         < (unsigned)glyphCnt) {
-        /* glyphCnt too big, payload overflow */
+        /* glyphCnt too big, pbylobd overflow */
         return;
     }
 
-    XGlyphInfo *xginfo = (XGlyphInfo *) malloc(sizeof(XGlyphInfo) * glyphCnt);
-    Glyph *gid = (Glyph *) malloc(sizeof(Glyph) * glyphCnt);
+    XGlyphInfo *xginfo = (XGlyphInfo *) mblloc(sizeof(XGlyphInfo) * glyphCnt);
+    Glyph *gid = (Glyph *) mblloc(sizeof(Glyph) * glyphCnt);
 
     if (xginfo == NULL || gid == NULL) {
         if (xginfo != NULL) {
@@ -831,18 +831,18 @@ Java_sun_java2d_xr_XRBackendNative_XRAddGlyphsNative
     }
 
     if ((glyphInfoPtrs = (jlong *)(*env)->
-        GetPrimitiveArrayCritical(env, glyphInfoPtrsArray, NULL)) == NULL)
+        GetPrimitiveArrbyCriticbl(env, glyphInfoPtrsArrby, NULL)) == NULL)
     {
         free(xginfo);
         free(gid);
         return;
     }
 
-    if ((pixelData = (unsigned char *)
-        (*env)->GetPrimitiveArrayCritical(env, pixelDataArray, NULL)) == NULL)
+    if ((pixelDbtb = (unsigned chbr *)
+        (*env)->GetPrimitiveArrbyCriticbl(env, pixelDbtbArrby, NULL)) == NULL)
     {
-        (*env)->ReleasePrimitiveArrayCritical(env,
-                                glyphInfoPtrsArray, glyphInfoPtrs, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                glyphInfoPtrsArrby, glyphInfoPtrs, JNI_ABORT);
         free(xginfo);
         free(gid);
         return;
@@ -852,72 +852,72 @@ Java_sun_java2d_xr_XRBackendNative_XRAddGlyphsNative
       GlyphInfo *jginfo = (GlyphInfo *) jlong_to_ptr(glyphInfoPtrs[i]);
 
       // 'jginfo->cellInfo' is of type 'void*'
-      // (see definition of 'GlyphInfo' in fontscalerdefs.h)
+      // (see definition of 'GlyphInfo' in fontscblerdefs.h)
       // 'Glyph' is typedefed to 'unsigned long'
-      // (see http://www.x.org/releases/X11R7.7/doc/libXrender/libXrender.txt)
-      // Maybe we should assert that (sizeof(void*) == sizeof(Glyph)) ?
+      // (see http://www.x.org/relebses/X11R7.7/doc/libXrender/libXrender.txt)
+      // Mbybe we should bssert thbt (sizeof(void*) == sizeof(Glyph)) ?
       gid[i] = (Glyph) (jginfo->cellInfo);
       xginfo[i].x = (-jginfo->topLeftX);
       xginfo[i].y = (-jginfo->topLeftY);
       xginfo[i].width = jginfo->width;
       xginfo[i].height = jginfo->height;
-      xginfo[i].xOff = round(jginfo->advanceX);
-      xginfo[i].yOff = round(jginfo->advanceY);
+      xginfo[i].xOff = round(jginfo->bdvbnceX);
+      xginfo[i].yOff = round(jginfo->bdvbnceY);
     }
 
-    XRenderAddGlyphs(awt_display, glyphSet, &gid[0], &xginfo[0], glyphCnt,
-                     (const char*)pixelData, pixelDataLength);
+    XRenderAddGlyphs(bwt_displby, glyphSet, &gid[0], &xginfo[0], glyphCnt,
+                     (const chbr*)pixelDbtb, pixelDbtbLength);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, glyphInfoPtrsArray, glyphInfoPtrs, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, pixelDataArray, pixelData, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphInfoPtrsArrby, glyphInfoPtrs, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, pixelDbtbArrby, pixelDbtb, JNI_ABORT);
 
     free(xginfo);
     free(gid);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRFreeGlyphsNative
- (JNIEnv *env, jclass cls, jint glyphSet, jintArray gidArray, jint glyphCnt) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRFreeGlyphsNbtive
+ (JNIEnv *env, jclbss cls, jint glyphSet, jintArrby gidArrby, jint glyphCnt) {
 
     if (MAX_PAYLOAD / sizeof(Glyph) < (unsigned)glyphCnt) {
-        /* glyphCnt too big, payload overflow */
+        /* glyphCnt too big, pbylobd overflow */
         return;
     }
 
-    /* The glyph ids are 32 bit but may be stored in a 64 bit long on
-     * a 64 bit architecture. So optimise the 32 bit case to avoid
-     * extra stack or heap allocations by directly referencing the
-     * underlying Java array and only allocate on 64 bit.
+    /* The glyph ids bre 32 bit but mby be stored in b 64 bit long on
+     * b 64 bit brchitecture. So optimise the 32 bit cbse to bvoid
+     * extrb stbck or hebp bllocbtions by directly referencing the
+     * underlying Jbvb brrby bnd only bllocbte on 64 bit.
      */
     if (sizeof(jint) == sizeof(Glyph)) {
         jint *gids =
-            (*env)->GetPrimitiveArrayCritical(env, gidArray, NULL);
+            (*env)->GetPrimitiveArrbyCriticbl(env, gidArrby, NULL);
         if (gids == NULL) {
             return;
         } else {
-             XRenderFreeGlyphs(awt_display,
+             XRenderFreeGlyphs(bwt_displby,
                                (GlyphSet)glyphSet, (Glyph *)gids, glyphCnt);
-             (*env)->ReleasePrimitiveArrayCritical(env, gidArray,
+             (*env)->RelebsePrimitiveArrbyCriticbl(env, gidArrby,
                                                    gids, JNI_ABORT);
         }
         return;
     } else {
-        Glyph stack_ids[64];
+        Glyph stbck_ids[64];
         Glyph *gids = NULL;
         jint* jgids = NULL;
         int i;
 
         if (glyphCnt <= 64) {
-            gids = stack_ids;
+            gids = stbck_ids;
         } else {
-            gids = (Glyph *)malloc(sizeof(Glyph) * glyphCnt);
+            gids = (Glyph *)mblloc(sizeof(Glyph) * glyphCnt);
             if (gids == NULL) {
                 return;
             }
         }
-        jgids = (*env)->GetPrimitiveArrayCritical(env, gidArray, NULL);
+        jgids = (*env)->GetPrimitiveArrbyCriticbl(env, gidArrby, NULL);
         if (jgids == NULL) {
-            if (gids != stack_ids) {
+            if (gids != stbck_ids) {
                 free(gids);
             }
             return;
@@ -925,27 +925,27 @@ Java_sun_java2d_xr_XRBackendNative_XRFreeGlyphsNative
         for (i=0; i < glyphCnt; i++) {
             gids[i] = jgids[i];
         }
-        XRenderFreeGlyphs(awt_display,
+        XRenderFreeGlyphs(bwt_displby,
                           (GlyphSet) glyphSet, gids, glyphCnt);
-        (*env)->ReleasePrimitiveArrayCritical(env, gidArray,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, gidArrby,
                                               jgids, JNI_ABORT);
-        if (gids != stack_ids) {
+        if (gids != stbck_ids) {
             free(gids);
         }
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRenderCreateGlyphSetNative
- (JNIEnv *env, jclass cls, jlong format) {
-  return XRenderCreateGlyphSet(awt_display, (XRenderPictFormat *) jlong_to_ptr(format));
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRenderCrebteGlyphSetNbtive
+ (JNIEnv *env, jclbss cls, jlong formbt) {
+  return XRenderCrebteGlyphSet(bwt_displby, (XRenderPictFormbt *) jlong_to_ptr(formbt));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
- (JNIEnv *env, jclass cls, jint op, jint src, jint dst,
-  jint sx, jint sy, jlong maskFmt, jintArray eltArray,
-  jintArray  glyphIDArray, jint eltCnt, jint glyphCnt) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRenderCompositeTextNbtive
+ (JNIEnv *env, jclbss cls, jint op, jint src, jint dst,
+  jint sx, jint sy, jlong mbskFmt, jintArrby eltArrby,
+  jintArrby  glyphIDArrby, jint eltCnt, jint glyphCnt) {
     jint i;
     jint *ids;
     jint *elts;
@@ -953,21 +953,21 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
     unsigned int *xids;
     XGlyphElt32 selts[24];
     unsigned int sids[256];
-    int charCnt = 0;
+    int chbrCnt = 0;
 
     if ((MAX_PAYLOAD / sizeof(XGlyphElt32) < (unsigned)eltCnt)
         || (MAX_PAYLOAD / sizeof(unsigned int) < (unsigned)glyphCnt)
         || ((MAX_PAYLOAD - sizeof(XGlyphElt32)*(unsigned)eltCnt) /
             sizeof(unsigned int) < (unsigned)glyphCnt))
     {
-        /* (eltCnt, glyphCnt) too big, payload overflow */
+        /* (eltCnt, glyphCnt) too big, pbylobd overflow */
         return;
     }
 
     if (eltCnt <= 24) {
       xelts = &selts[0];
     }else {
-      xelts = (XGlyphElt32 *) malloc(sizeof(XGlyphElt32) * eltCnt);
+      xelts = (XGlyphElt32 *) mblloc(sizeof(XGlyphElt32) * eltCnt);
       if (xelts == NULL) {
           return;
       }
@@ -976,7 +976,7 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
     if (glyphCnt <= 256) {
       xids = &sids[0];
     } else {
-      xids = (unsigned int*)malloc(sizeof(unsigned int) * glyphCnt);
+      xids = (unsigned int*)mblloc(sizeof(unsigned int) * glyphCnt);
       if (xids == NULL) {
           if (xelts != &selts[0]) {
             free(xelts);
@@ -986,7 +986,7 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
     }
 
     if ((ids = (jint *)
-         (*env)->GetPrimitiveArrayCritical(env, glyphIDArray, NULL)) == NULL) {
+         (*env)->GetPrimitiveArrbyCriticbl(env, glyphIDArrby, NULL)) == NULL) {
         if (xelts != &selts[0]) {
             free(xelts);
         }
@@ -996,9 +996,9 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
         return;
     }
     if ((elts = (jint *)
-          (*env)->GetPrimitiveArrayCritical(env, eltArray, NULL)) == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env,
-                                              glyphIDArray, ids, JNI_ABORT);
+          (*env)->GetPrimitiveArrbyCriticbl(env, eltArrby, NULL)) == NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                              glyphIDArrby, ids, JNI_ABORT);
         if (xelts != &selts[0]) {
             free(xelts);
         }
@@ -1013,21 +1013,21 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
     }
 
     for (i=0; i < eltCnt; i++) {
-      xelts[i].nchars = elts[i*4 + 0];
+      xelts[i].nchbrs = elts[i*4 + 0];
       xelts[i].xOff = elts[i*4 + 1];
       xelts[i].yOff = elts[i*4 + 2];
       xelts[i].glyphset = (GlyphSet) elts[i*4 + 3];
-      xelts[i].chars = &xids[charCnt];
+      xelts[i].chbrs = &xids[chbrCnt];
 
-      charCnt += xelts[i].nchars;
+      chbrCnt += xelts[i].nchbrs;
     }
 
-    XRenderCompositeText32(awt_display, op, (Picture) src, (Picture) dst,
-                           (XRenderPictFormat *) jlong_to_ptr(maskFmt),
+    XRenderCompositeText32(bwt_displby, op, (Picture) src, (Picture) dst,
+                           (XRenderPictFormbt *) jlong_to_ptr(mbskFmt),
                             sx, sy, 0, 0, xelts, eltCnt);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, glyphIDArray, ids, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, eltArray, elts, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, glyphIDArrby, ids, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, eltArrby, elts, JNI_ABORT);
 
     if (xelts != &selts[0]) {
         free(xelts);
@@ -1039,42 +1039,42 @@ Java_sun_java2d_xr_XRBackendNative_XRenderCompositeTextNative
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_setGCMode
- (JNIEnv *env, jobject this, jlong gc, jboolean copy) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_setGCMode
+ (JNIEnv *env, jobject this, jlong gc, jboolebn copy) {
   GC xgc = (GC) jlong_to_ptr(gc);
 
   if (copy == JNI_TRUE) {
-    XSetFunction(awt_display, xgc, GXcopy);
+    XSetFunction(bwt_displby, xgc, GXcopy);
   } else {
-    XSetFunction(awt_display, xgc, GXxor);
+    XSetFunction(bwt_displby, xgc, GXxor);
   }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_GCRectanglesNative
- (JNIEnv *env, jclass xsd, jint dst, jlong gc,
-  jintArray rectArray, jint rectCnt) {
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_GCRectbnglesNbtive
+ (JNIEnv *env, jclbss xsd, jint dst, jlong gc,
+  jintArrby rectArrby, jint rectCnt) {
     int i;
     jint* rects;
-    XRectangle *xRects;
-    XRectangle sRects[256];
+    XRectbngle *xRects;
+    XRectbngle sRects[256];
 
     if (rectCnt <= 256) {
       xRects = &sRects[0];
     } else {
-      if (MAXUINT / sizeof(XRectangle) < (unsigned)rectCnt) {
+      if (MAXUINT / sizeof(XRectbngle) < (unsigned)rectCnt) {
         /* rectCnt too big, integer overflow */
         return;
       }
 
-      xRects = (XRectangle *) malloc(sizeof(XRectangle) * rectCnt);
+      xRects = (XRectbngle *) mblloc(sizeof(XRectbngle) * rectCnt);
       if (xRects == NULL) {
         return;
       }
     }
 
     if ((rects = (jint*)
-         (*env)->GetPrimitiveArrayCritical(env, rectArray, NULL)) == NULL) {
+         (*env)->GetPrimitiveArrbyCriticbl(env, rectArrby, NULL)) == NULL) {
         if (xRects != &sRects[0]) {
             free(xRects);
         }
@@ -1088,27 +1088,27 @@ Java_sun_java2d_xr_XRBackendNative_GCRectanglesNative
       xRects[i].height = rects[i*4 + 3];
     }
 
-    XFillRectangles(awt_display, (Drawable) dst, (GC) jlong_to_ptr(gc), xRects, rectCnt);
+    XFillRectbngles(bwt_displby, (Drbwbble) dst, (GC) jlong_to_ptr(gc), xRects, rectCnt);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, rectArray, rects, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, rectArrby, rects, JNI_ABORT);
     if (xRects != &sRects[0]) {
       free(xRects);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_xr_XRBackendNative_renderCompositeTrapezoidsNative
- (JNIEnv *env, jclass cls, jbyte op, jint src, jlong maskFmt,
- jint dst, jint srcX, jint srcY, jintArray  trapArray) {
-    jint *traps;
+Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_renderCompositeTrbpezoidsNbtive
+ (JNIEnv *env, jclbss cls, jbyte op, jint src, jlong mbskFmt,
+ jint dst, jint srcX, jint srcY, jintArrby  trbpArrby) {
+    jint *trbps;
 
-    if ((traps = (jint *) (*env)->GetPrimitiveArrayCritical(env, trapArray, NULL)) == NULL) {
+    if ((trbps = (jint *) (*env)->GetPrimitiveArrbyCriticbl(env, trbpArrby, NULL)) == NULL) {
       return;
     }
 
-    XRenderCompositeTrapezoids(awt_display, op, (Picture) src, (Picture) dst,
-                               (XRenderPictFormat *) jlong_to_ptr(maskFmt),
-                               srcX, srcY, (XTrapezoid *) (traps+5), traps[0]);
+    XRenderCompositeTrbpezoids(bwt_displby, op, (Picture) src, (Picture) dst,
+                               (XRenderPictFormbt *) jlong_to_ptr(mbskFmt),
+                               srcX, srcY, (XTrbpezoid *) (trbps+5), trbps[0]);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, trapArray, traps, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, trbpArrby, trbps, JNI_ABORT);
 }

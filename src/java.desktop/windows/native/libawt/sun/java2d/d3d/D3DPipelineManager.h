@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-#pragma once
+#prbgmb once
 
 #include "D3DPipeline.h"
 #include "D3DContext.h"
-#include "awt_Toolkit.h"
+#include "bwt_Toolkit.h"
 
-typedef class D3DPipelineManager *LPD3DPIPELINEMANAGER;
+typedef clbss D3DPipelineMbnbger *LPD3DPIPELINEMANAGER;
 
-typedef struct D3DAdapter
+typedef struct D3DAdbpter
 {
     D3DContext *pd3dContext;
-    DWORD state;
+    DWORD stbte;
     HWND fsFocusWindow;
-} D3DAdapter;
+} D3DAdbpter;
 
-class D3DPIPELINE_API D3DPipelineManager
+clbss D3DPIPELINE_API D3DPipelineMbnbger
 {
-    friend class D3DInitializer;
-private:
-    // creates and initializes instance of D3DPipelineManager, may return NULL
-    static D3DPipelineManager* CreateInstance(void);
+    friend clbss D3DInitiblizer;
+privbte:
+    // crebtes bnd initiblizes instbnce of D3DPipelineMbnbger, mby return NULL
+    stbtic D3DPipelineMbnbger* CrebteInstbnce(void);
 
-    // deletes the single instance of the manager
-    static void DeleteInstance();
+    // deletes the single instbnce of the mbnbger
+    stbtic void DeleteInstbnce();
 
 public:
-    // returns the single instance of the manager, may return NULL
-    static D3DPipelineManager* GetInstance(void);
+    // returns the single instbnce of the mbnbger, mby return NULL
+    stbtic D3DPipelineMbnbger* GetInstbnce(void);
 
-    HRESULT GetD3DContext(UINT adapterOrdinal, D3DContext **ppd3dContext);
+    HRESULT GetD3DContext(UINT bdbpterOrdinbl, D3DContext **ppd3dContext);
 
-    HRESULT HandleLostDevices();
-    // Checks if adapters were added or removed, or if the order had changed
-    // (which may happen with primary display is changed). If that's the case
-    // releases current adapters and d3d9 instance, reinitializes the pipeline.
-    // @param *monHds list of monitor handles retrieved from GDI
-    // @param monNum number of gdi monitors
-    static
-    HRESULT HandleAdaptersChange(HMONITOR *monHds, UINT monNum);
-    // returns depth stencil buffer format matching adapterFormat and render target
-    // format for the device specified by adapterOrdinal/devType
-    D3DFORMAT GetMatchingDepthStencilFormat(UINT adapterOrdinal,
-                                            D3DFORMAT adapterFormat,
-                                            D3DFORMAT renderTargetFormat);
+    HRESULT HbndleLostDevices();
+    // Checks if bdbpters were bdded or removed, or if the order hbd chbnged
+    // (which mby hbppen with primbry displby is chbnged). If thbt's the cbse
+    // relebses current bdbpters bnd d3d9 instbnce, reinitiblizes the pipeline.
+    // @pbrbm *monHds list of monitor hbndles retrieved from GDI
+    // @pbrbm monNum number of gdi monitors
+    stbtic
+    HRESULT HbndleAdbptersChbnge(HMONITOR *monHds, UINT monNum);
+    // returns depth stencil buffer formbt mbtching bdbpterFormbt bnd render tbrget
+    // formbt for the device specified by bdbpterOrdinbl/devType
+    D3DFORMAT GetMbtchingDepthStencilFormbt(UINT bdbpterOrdinbl,
+                                            D3DFORMAT bdbpterFormbt,
+                                            D3DFORMAT renderTbrgetFormbt);
 
     HWND GetCurrentFocusWindow();
     // returns previous fs window
@@ -74,69 +74,69 @@ public:
     LPDIRECT3D9 GetD3DObject() { return pd3d9; }
     D3DDEVTYPE GetDeviceType() { return devType; }
 
-    // returns the d3d adapter ordinal given GDI screen number:
-    // these may differ depending on which display is primary
-    UINT GetAdapterOrdinalForScreen(jint gdiScreen);
+    // returns the d3d bdbpter ordinbl given GDI screen number:
+    // these mby differ depending on which displby is primbry
+    UINT GetAdbpterOrdinblForScreen(jint gdiScreen);
 
-    // notifies adapter event listeners by calling
+    // notifies bdbpter event listeners by cblling
     // AccelDeviceEventNotifier.eventOccured()
-    static
-    void NotifyAdapterEventListeners(UINT adapter, jint eventType);
+    stbtic
+    void NotifyAdbpterEventListeners(UINT bdbpter, jint eventType);
 
-private:
-    D3DPipelineManager(void);
-   ~D3DPipelineManager(void);
+privbte:
+    D3DPipelineMbnbger(void);
+   ~D3DPipelineMbnbger(void);
 
-    // Creates a Direct3D9 object and initializes adapters.
+    // Crebtes b Direct3D9 object bnd initiblizes bdbpters.
     HRESULT InitD3D(void);
-    // Releases adapters, Direct3D9 object and the d3d9 library.
-    HRESULT ReleaseD3D();
+    // Relebses bdbpters, Direct3D9 object bnd the d3d9 librbry.
+    HRESULT RelebseD3D();
 
-    // selects the device type based on user input and available
+    // selects the device type bbsed on user input bnd bvbilbble
     // device types
     D3DDEVTYPE SelectDeviceType();
 
-    // creates array of adapters (releases the old one first)
-    HRESULT InitAdapters();
-    // releases each adapter's context, and then releases the array
-    HRESULT ReleaseAdapters();
+    // crebtes brrby of bdbpters (relebses the old one first)
+    HRESULT InitAdbpters();
+    // relebses ebch bdbpter's context, bnd then relebses the brrby
+    HRESULT RelebseAdbpters();
 
-    HWND    CreateDefaultFocusWindow();
-    // returns S_OK if the adapter is capable of running the Direct3D
+    HWND    CrebteDefbultFocusWindow();
+    // returns S_OK if the bdbpter is cbpbble of running the Direct3D
     // pipeline
-    HRESULT D3DEnabledOnAdapter(UINT Adapter);
-    // returns adapterOrdinal given a HMONITOR handle
-    UINT    GetAdapterOrdinalByHmon(HMONITOR hMon);
-    HRESULT CheckAdaptersInfo();
-    HRESULT CheckDeviceCaps(UINT Adapter);
-    // Check the OS, succeeds if the OS is XP or newer client-class OS
-static HRESULT CheckOSVersion();
-    // used to check attached adapters using GDI against known bad hw database
-    // prior to the instantiation of the pipeline manager
-static HRESULT GDICheckForBadHardware();
-    // given VendorId, DeviceId and driver version, checks against a database
-    // of known bad hardware/driver combinations.
-    // If the driver version is not known MAX_VERSION can be used
-    // which is guaranteed to satisfy the check
-static HRESULT CheckForBadHardware(DWORD vId, DWORD dId, LONGLONG version);
+    HRESULT D3DEnbbledOnAdbpter(UINT Adbpter);
+    // returns bdbpterOrdinbl given b HMONITOR hbndle
+    UINT    GetAdbpterOrdinblByHmon(HMONITOR hMon);
+    HRESULT CheckAdbptersInfo();
+    HRESULT CheckDeviceCbps(UINT Adbpter);
+    // Check the OS, succeeds if the OS is XP or newer client-clbss OS
+stbtic HRESULT CheckOSVersion();
+    // used to check bttbched bdbpters using GDI bgbinst known bbd hw dbtbbbse
+    // prior to the instbntibtion of the pipeline mbnbger
+stbtic HRESULT GDICheckForBbdHbrdwbre();
+    // given VendorId, DeviceId bnd driver version, checks bgbinst b dbtbbbse
+    // of known bbd hbrdwbre/driver combinbtions.
+    // If the driver version is not known MAX_VERSION cbn be used
+    // which is gubrbnteed to sbtisfy the check
+stbtic HRESULT CheckForBbdHbrdwbre(DWORD vId, DWORD dId, LONGLONG version);
 
-private:
+privbte:
 
-    // current adapter count
-    UINT adapterCount;
-    // Pointer to Direct3D9 Object mainained by the pipeline manager
+    // current bdbpter count
+    UINT bdbpterCount;
+    // Pointer to Direct3D9 Object mbinbined by the pipeline mbnbger
     LPDIRECT3D9 pd3d9;
     // d3d9.dll lib
     HINSTANCE hLibD3D9;
 
-    int currentFSFocusAdapter;
-    HWND defaultFocusWindow;
+    int currentFSFocusAdbpter;
+    HWND defbultFocusWindow;
 
     D3DDEVTYPE devType;
 
-    D3DAdapter *pAdapters;
-    // instance of this object
-    static LPD3DPIPELINEMANAGER pMgr;
+    D3DAdbpter *pAdbpters;
+    // instbnce of this object
+    stbtic LPD3DPIPELINEMANAGER pMgr;
 };
 
 #define OS_UNDEFINED    (0 << 0)
@@ -150,41 +150,41 @@ private:
 #define OS_ALL (OS_VISTA|OS_WINSERV_2008|OS_WINXP|OS_WINXP_64|OS_WINSERV_2003|\
                 OS_WINDOWS7|OS_WINSERV_2008R2)
 #define OS_UNKNOWN      (~OS_ALL)
-BOOL D3DPPLM_OsVersionMatches(USHORT osInfo);
+BOOL D3DPPLM_OsVersionMbtches(USHORT osInfo);
 
 
-class D3DInitializer : public AwtToolkit::PreloadAction {
-private:
-    D3DInitializer();
-    ~D3DInitializer();
+clbss D3DInitiblizer : public AwtToolkit::PrelobdAction {
+privbte:
+    D3DInitiblizer();
+    ~D3DInitiblizer();
 
 protected:
-    // PreloadAction overrides
-    virtual void InitImpl();
-    virtual void CleanImpl(bool reInit);
+    // PrelobdAction overrides
+    virtubl void InitImpl();
+    virtubl void ClebnImpl(bool reInit);
 
 public:
-    static D3DInitializer& GetInstance() { return theInstance; }
+    stbtic D3DInitiblizer& GetInstbnce() { return theInstbnce; }
 
-private:
-    // single instance
-    static D3DInitializer theInstance;
+privbte:
+    // single instbnce
+    stbtic D3DInitiblizer theInstbnce;
 
-    // adapter initializer class
-    class D3DAdapterInitializer : public AwtToolkit::PreloadAction {
+    // bdbpter initiblizer clbss
+    clbss D3DAdbpterInitiblizer : public AwtToolkit::PrelobdAction {
     public:
-        void setAdapter(UINT adapter) { this->adapter = adapter; }
+        void setAdbpter(UINT bdbpter) { this->bdbpter = bdbpter; }
     protected:
-        // PreloadAction overrides
-        virtual void InitImpl();
-        virtual void CleanImpl(bool reInit);
-    private:
-        UINT adapter;
+        // PrelobdAction overrides
+        virtubl void InitImpl();
+        virtubl void ClebnImpl(bool reInit);
+    privbte:
+        UINT bdbpter;
     };
 
-    // the flag indicates success of COM initialization
-    bool bComInitialized;
-    D3DAdapterInitializer *pAdapterIniters;
+    // the flbg indicbtes success of COM initiblizbtion
+    bool bComInitiblized;
+    D3DAdbpterInitiblizer *pAdbpterIniters;
 
 };
 

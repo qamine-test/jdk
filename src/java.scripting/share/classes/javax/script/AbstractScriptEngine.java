@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
-import java.io.Reader;
-import java.util.Map;
-import java.util.Iterator;
+pbckbge jbvbx.script;
+import jbvb.io.Rebder;
+import jbvb.util.Mbp;
+import jbvb.util.Iterbtor;
 
 /**
- * Provides a standard implementation for several of the variants of the <code>eval</code>
+ * Provides b stbndbrd implementbtion for severbl of the vbribnts of the <code>evbl</code>
  * method.
  * <br><br>
- * <code><b>eval(Reader)</b></code><p><code><b>eval(String)</b></code><p>
- * <code><b>eval(String, Bindings)</b></code><p><code><b>eval(Reader, Bindings)</b></code>
- * <br><br> are implemented using the abstract methods
+ * <code><b>evbl(Rebder)</b></code><p><code><b>evbl(String)</b></code><p>
+ * <code><b>evbl(String, Bindings)</b></code><p><code><b>evbl(Rebder, Bindings)</b></code>
+ * <br><br> bre implemented using the bbstrbct methods
  * <br><br>
- * <code><b>eval(Reader,ScriptContext)</b></code> or
- * <code><b>eval(String, ScriptContext)</b></code>
+ * <code><b>evbl(Rebder,ScriptContext)</b></code> or
+ * <code><b>evbl(String, ScriptContext)</b></code>
  * <br><br>
- * with a <code>SimpleScriptContext</code>.
+ * with b <code>SimpleScriptContext</code>.
  * <br><br>
- * A <code>SimpleScriptContext</code> is used as the default <code>ScriptContext</code>
- * of the <code>AbstractScriptEngine</code>..
+ * A <code>SimpleScriptContext</code> is used bs the defbult <code>ScriptContext</code>
+ * of the <code>AbstrbctScriptEngine</code>..
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
-public abstract class AbstractScriptEngine  implements ScriptEngine {
+public bbstrbct clbss AbstrbctScriptEngine  implements ScriptEngine {
 
     /**
-     * The default <code>ScriptContext</code> of this <code>AbstractScriptEngine</code>.
+     * The defbult <code>ScriptContext</code> of this <code>AbstrbctScriptEngine</code>.
      */
 
     protected ScriptContext context;
 
     /**
-     * Creates a new instance of AbstractScriptEngine using a <code>SimpleScriptContext</code>
-     * as its default <code>ScriptContext</code>.
+     * Crebtes b new instbnce of AbstrbctScriptEngine using b <code>SimpleScriptContext</code>
+     * bs its defbult <code>ScriptContext</code>.
      */
-    public AbstractScriptEngine() {
+    public AbstrbctScriptEngine() {
 
         context = new SimpleScriptContext();
 
     }
 
     /**
-     * Creates a new instance using the specified <code>Bindings</code> as the
+     * Crebtes b new instbnce using the specified <code>Bindings</code> bs the
      * <code>ENGINE_SCOPE</code> <code>Bindings</code> in the protected <code>context</code> field.
      *
-     * @param n The specified <code>Bindings</code>.
+     * @pbrbm n The specified <code>Bindings</code>.
      * @throws NullPointerException if n is null.
      */
-    public AbstractScriptEngine(Bindings n) {
+    public AbstrbctScriptEngine(Bindings n) {
 
         this();
         if (n == null) {
@@ -82,10 +82,10 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
     }
 
     /**
-     * Sets the value of the protected <code>context</code> field to the specified
+     * Sets the vblue of the protected <code>context</code> field to the specified
      * <code>ScriptContext</code>.
      *
-     * @param ctxt The specified <code>ScriptContext</code>.
+     * @pbrbm ctxt The specified <code>ScriptContext</code>.
      * @throws NullPointerException if ctxt is null.
      */
     public void setContext(ScriptContext ctxt) {
@@ -96,24 +96,24 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
     }
 
     /**
-     * Returns the value of the protected <code>context</code> field.
+     * Returns the vblue of the protected <code>context</code> field.
      *
-     * @return The value of the protected <code>context</code> field.
+     * @return The vblue of the protected <code>context</code> field.
      */
     public ScriptContext getContext() {
         return context;
     }
 
     /**
-     * Returns the <code>Bindings</code> with the specified scope value in
+     * Returns the <code>Bindings</code> with the specified scope vblue in
      * the protected <code>context</code> field.
      *
-     * @param scope The specified scope
+     * @pbrbm scope The specified scope
      *
      * @return The corresponding <code>Bindings</code>.
      *
-     * @throws IllegalArgumentException if the value of scope is
-     * invalid for the type the protected <code>context</code> field.
+     * @throws IllegblArgumentException if the vblue of scope is
+     * invblid for the type the protected <code>context</code> field.
      */
     public Bindings getBindings(int scope) {
 
@@ -122,20 +122,20 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
         } else if (scope == ScriptContext.ENGINE_SCOPE) {
             return context.getBindings(ScriptContext.ENGINE_SCOPE);
         } else {
-            throw new IllegalArgumentException("Invalid scope value.");
+            throw new IllegblArgumentException("Invblid scope vblue.");
         }
     }
 
     /**
-     * Sets the <code>Bindings</code> with the corresponding scope value in the
+     * Sets the <code>Bindings</code> with the corresponding scope vblue in the
      * <code>context</code> field.
      *
-     * @param bindings The specified <code>Bindings</code>.
-     * @param scope The specified scope.
+     * @pbrbm bindings The specified <code>Bindings</code>.
+     * @pbrbm scope The specified scope.
      *
-     * @throws IllegalArgumentException if the value of scope is
-     * invalid for the type the <code>context</code> field.
-     * @throws NullPointerException if the bindings is null and the scope is
+     * @throws IllegblArgumentException if the vblue of scope is
+     * invblid for the type the <code>context</code> field.
+     * @throws NullPointerException if the bindings is null bnd the scope is
      * <code>ScriptContext.ENGINE_SCOPE</code>
      */
     public void setBindings(Bindings bindings, int scope) {
@@ -145,37 +145,37 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
         } else if (scope == ScriptContext.ENGINE_SCOPE) {
             context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);;
         } else {
-            throw new IllegalArgumentException("Invalid scope value.");
+            throw new IllegblArgumentException("Invblid scope vblue.");
         }
     }
 
     /**
-     * Sets the specified value with the specified key in the <code>ENGINE_SCOPE</code>
+     * Sets the specified vblue with the specified key in the <code>ENGINE_SCOPE</code>
      * <code>Bindings</code> of the protected <code>context</code> field.
      *
-     * @param key The specified key.
-     * @param value The specified value.
+     * @pbrbm key The specified key.
+     * @pbrbm vblue The specified vblue.
      *
      * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
+     * @throws IllegblArgumentException if key is empty.
      */
-    public void put(String key, Object value) {
+    public void put(String key, Object vblue) {
 
         Bindings nn = getBindings(ScriptContext.ENGINE_SCOPE);
         if (nn != null) {
-            nn.put(key, value);
+            nn.put(key, vblue);
         }
 
     }
 
     /**
-     * Gets the value for the specified key in the <code>ENGINE_SCOPE</code> of the
+     * Gets the vblue for the specified key in the <code>ENGINE_SCOPE</code> of the
      * protected <code>context</code> field.
      *
-     * @return The value for the specified key.
+     * @return The vblue for the specified key.
      *
      * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
+     * @throws IllegblArgumentException if key is empty.
      */
     public Object get(String key) {
 
@@ -189,100 +189,100 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
 
 
     /**
-     * <code>eval(Reader, Bindings)</code> calls the abstract
-     * <code>eval(Reader, ScriptContext)</code> method, passing it a <code>ScriptContext</code>
-     * whose Reader, Writers and Bindings for scopes other that <code>ENGINE_SCOPE</code>
-     * are identical to those members of the protected <code>context</code> field.  The specified
-     * <code>Bindings</code> is used instead of the <code>ENGINE_SCOPE</code>
+     * <code>evbl(Rebder, Bindings)</code> cblls the bbstrbct
+     * <code>evbl(Rebder, ScriptContext)</code> method, pbssing it b <code>ScriptContext</code>
+     * whose Rebder, Writers bnd Bindings for scopes other thbt <code>ENGINE_SCOPE</code>
+     * bre identicbl to those members of the protected <code>context</code> field.  The specified
+     * <code>Bindings</code> is used instebd of the <code>ENGINE_SCOPE</code>
      *
      * <code>Bindings</code> of the <code>context</code> field.
      *
-     * @param reader A <code>Reader</code> containing the source of the script.
-     * @param bindings A <code>Bindings</code> to use for the <code>ENGINE_SCOPE</code>
+     * @pbrbm rebder A <code>Rebder</code> contbining the source of the script.
+     * @pbrbm bindings A <code>Bindings</code> to use for the <code>ENGINE_SCOPE</code>
      * while the script executes.
      *
-     * @return The return value from <code>eval(Reader, ScriptContext)</code>
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if any of the parameters is null.
+     * @return The return vblue from <code>evbl(Rebder, ScriptContext)</code>
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if bny of the pbrbmeters is null.
      */
-    public Object eval(Reader reader, Bindings bindings ) throws ScriptException {
+    public Object evbl(Rebder rebder, Bindings bindings ) throws ScriptException {
 
         ScriptContext ctxt = getScriptContext(bindings);
 
-        return eval(reader, ctxt);
+        return evbl(rebder, ctxt);
     }
 
 
     /**
-     * Same as <code>eval(Reader, Bindings)</code> except that the abstract
-     * <code>eval(String, ScriptContext)</code> is used.
+     * Sbme bs <code>evbl(Rebder, Bindings)</code> except thbt the bbstrbct
+     * <code>evbl(String, ScriptContext)</code> is used.
      *
-     * @param script A <code>String</code> containing the source of the script.
+     * @pbrbm script A <code>String</code> contbining the source of the script.
      *
-     * @param bindings A <code>Bindings</code> to use as the <code>ENGINE_SCOPE</code>
+     * @pbrbm bindings A <code>Bindings</code> to use bs the <code>ENGINE_SCOPE</code>
      * while the script executes.
      *
-     * @return The return value from <code>eval(String, ScriptContext)</code>
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if any of the parameters is null.
+     * @return The return vblue from <code>evbl(String, ScriptContext)</code>
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if bny of the pbrbmeters is null.
      */
-    public Object eval(String script, Bindings bindings) throws ScriptException {
+    public Object evbl(String script, Bindings bindings) throws ScriptException {
 
         ScriptContext ctxt = getScriptContext(bindings);
 
-        return eval(script , ctxt);
+        return evbl(script , ctxt);
     }
 
     /**
-     * <code>eval(Reader)</code> calls the abstract
-     * <code>eval(Reader, ScriptContext)</code> passing the value of the <code>context</code>
+     * <code>evbl(Rebder)</code> cblls the bbstrbct
+     * <code>evbl(Rebder, ScriptContext)</code> pbssing the vblue of the <code>context</code>
      * field.
      *
-     * @param reader A <code>Reader</code> containing the source of the script.
-     * @return The return value from <code>eval(Reader, ScriptContext)</code>
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if any of the parameters is null.
+     * @pbrbm rebder A <code>Rebder</code> contbining the source of the script.
+     * @return The return vblue from <code>evbl(Rebder, ScriptContext)</code>
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if bny of the pbrbmeters is null.
      */
-    public Object eval(Reader reader) throws ScriptException {
+    public Object evbl(Rebder rebder) throws ScriptException {
 
 
-        return eval(reader, context);
+        return evbl(rebder, context);
     }
 
     /**
-     * Same as <code>eval(Reader)</code> except that the abstract
-     * <code>eval(String, ScriptContext)</code> is used.
+     * Sbme bs <code>evbl(Rebder)</code> except thbt the bbstrbct
+     * <code>evbl(String, ScriptContext)</code> is used.
      *
-     * @param script A <code>String</code> containing the source of the script.
-     * @return The return value from <code>eval(String, ScriptContext)</code>
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if any of the parameters is null.
+     * @pbrbm script A <code>String</code> contbining the source of the script.
+     * @return The return vblue from <code>evbl(String, ScriptContext)</code>
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if bny of the pbrbmeters is null.
      */
-    public Object eval(String script) throws ScriptException {
+    public Object evbl(String script) throws ScriptException {
 
 
-        return eval(script, context);
+        return evbl(script, context);
     }
 
     /**
-     * Returns a <code>SimpleScriptContext</code>.  The <code>SimpleScriptContext</code>:
+     * Returns b <code>SimpleScriptContext</code>.  The <code>SimpleScriptContext</code>:
      *<br><br>
      * <ul>
      * <li>Uses the specified <code>Bindings</code> for its <code>ENGINE_SCOPE</code>
      * </li>
-     * <li>Uses the <code>Bindings</code> returned by the abstract <code>getGlobalScope</code>
-     * method as its <code>GLOBAL_SCOPE</code>
+     * <li>Uses the <code>Bindings</code> returned by the bbstrbct <code>getGlobblScope</code>
+     * method bs its <code>GLOBAL_SCOPE</code>
      * </li>
-     * <li>Uses the Reader and Writer in the default <code>ScriptContext</code> of this
+     * <li>Uses the Rebder bnd Writer in the defbult <code>ScriptContext</code> of this
      * <code>ScriptEngine</code>
      * </li>
      * </ul>
      * <br><br>
-     * A <code>SimpleScriptContext</code> returned by this method is used to implement eval methods
-     * using the abstract <code>eval(Reader,Bindings)</code> and <code>eval(String,Bindings)</code>
+     * A <code>SimpleScriptContext</code> returned by this method is used to implement evbl methods
+     * using the bbstrbct <code>evbl(Rebder,Bindings)</code> bnd <code>evbl(String,Bindings)</code>
      * versions.
      *
-     * @param nn Bindings to use for the <code>ENGINE_SCOPE</code>
+     * @pbrbm nn Bindings to use for the <code>ENGINE_SCOPE</code>
      * @return The <code>SimpleScriptContext</code>
      */
     protected ScriptContext getScriptContext(Bindings nn) {
@@ -298,10 +298,10 @@ public abstract class AbstractScriptEngine  implements ScriptEngine {
             ctxt.setBindings(nn,
                     ScriptContext.ENGINE_SCOPE);
         } else {
-            throw new NullPointerException("Engine scope Bindings may not be null.");
+            throw new NullPointerException("Engine scope Bindings mby not be null.");
         }
 
-        ctxt.setReader(context.getReader());
+        ctxt.setRebder(context.getRebder());
         ctxt.setWriter(context.getWriter());
         ctxt.setErrorWriter(context.getErrorWriter());
 

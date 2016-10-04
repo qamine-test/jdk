@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
@@ -27,120 +27,120 @@
  * (C) Copyright IBM Corp. 1998-2003- All Rights Reserved.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
+import jbvb.bwt.Font;
 
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.font.GlyphJustificbtionInfo;
+import jbvb.bwt.font.LineMetrics;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * An extension of TextLabel that maintains information
- * about characters.
+ * An extension of TextLbbel thbt mbintbins informbtion
+ * bbout chbrbcters.
  */
 
-public abstract class ExtendedTextLabel extends TextLabel
+public bbstrbct clbss ExtendedTextLbbel extends TextLbbel
                             implements TextLineComponent{
   /**
-   * Return the number of characters represented by this label.
+   * Return the number of chbrbcters represented by this lbbel.
    */
-  public abstract int getNumCharacters();
+  public bbstrbct int getNumChbrbcters();
 
   /**
-   * Return the line metrics for all text in this label.
+   * Return the line metrics for bll text in this lbbel.
    */
-  public abstract CoreMetrics getCoreMetrics();
+  public bbstrbct CoreMetrics getCoreMetrics();
 
   /**
-   * Return the x location of the character at the given logical index.
+   * Return the x locbtion of the chbrbcter bt the given logicbl index.
    */
-  public abstract float getCharX(int logicalIndex);
+  public bbstrbct flobt getChbrX(int logicblIndex);
 
   /**
-   * Return the y location of the character at the given logical index.
+   * Return the y locbtion of the chbrbcter bt the given logicbl index.
    */
-  public abstract float getCharY(int logicalIndex);
+  public bbstrbct flobt getChbrY(int logicblIndex);
 
   /**
-   * Return the advance of the character at the given logical index.
+   * Return the bdvbnce of the chbrbcter bt the given logicbl index.
    */
-  public abstract float getCharAdvance(int logicalIndex);
+  public bbstrbct flobt getChbrAdvbnce(int logicblIndex);
 
   /**
-   * Return the visual bounds of the character at the given logical index.
-   * This bounds encloses all the pixels of the character when the label is rendered
-   * at x, y.
+   * Return the visubl bounds of the chbrbcter bt the given logicbl index.
+   * This bounds encloses bll the pixels of the chbrbcter when the lbbel is rendered
+   * bt x, y.
    */
-  public abstract Rectangle2D getCharVisualBounds(int logicalIndex, float x, float y);
+  public bbstrbct Rectbngle2D getChbrVisublBounds(int logicblIndex, flobt x, flobt y);
 
   /**
-   * Return the visual index of the character at the given logical index.
+   * Return the visubl index of the chbrbcter bt the given logicbl index.
    */
-  public abstract int logicalToVisual(int logicalIndex);
+  public bbstrbct int logicblToVisubl(int logicblIndex);
 
   /**
-   * Return the logical index of the character at the given visual index.
+   * Return the logicbl index of the chbrbcter bt the given visubl index.
    */
-  public abstract int visualToLogical(int visualIndex);
+  public bbstrbct int visublToLogicbl(int visublIndex);
 
   /**
-   * Return the logical index of the character, starting with the character at
-   * logicalStart, whose accumulated advance exceeds width.  If the advances of
-   * all characters do not exceed width, return getNumCharacters.  If width is
-   * less than zero, return logicalStart - 1.
+   * Return the logicbl index of the chbrbcter, stbrting with the chbrbcter bt
+   * logicblStbrt, whose bccumulbted bdvbnce exceeds width.  If the bdvbnces of
+   * bll chbrbcters do not exceed width, return getNumChbrbcters.  If width is
+   * less thbn zero, return logicblStbrt - 1.
    */
-  public abstract int getLineBreakIndex(int logicalStart, float width);
+  public bbstrbct int getLineBrebkIndex(int logicblStbrt, flobt width);
 
   /**
-   * Return the accumulated advances of all characters between logicalStart and
-   * logicalLimit.
+   * Return the bccumulbted bdvbnces of bll chbrbcters between logicblStbrt bnd
+   * logicblLimit.
    */
-  public abstract float getAdvanceBetween(int logicalStart, int logicalLimit);
+  public bbstrbct flobt getAdvbnceBetween(int logicblStbrt, int logicblLimit);
 
   /**
-   * Return whether a caret can exist on the leading edge of the
-   * character at offset.  If the character is part of a ligature
-   * (for example) a caret may not be appropriate at offset.
+   * Return whether b cbret cbn exist on the lebding edge of the
+   * chbrbcter bt offset.  If the chbrbcter is pbrt of b ligbture
+   * (for exbmple) b cbret mby not be bppropribte bt offset.
    */
-  public abstract boolean caretAtOffsetIsValid(int offset);
+  public bbstrbct boolebn cbretAtOffsetIsVblid(int offset);
 
   /**
-   * A convenience overload of getCharVisualBounds that defaults the label origin
+   * A convenience overlobd of getChbrVisublBounds thbt defbults the lbbel origin
    * to 0, 0.
    */
-  public Rectangle2D getCharVisualBounds(int logicalIndex) {
-    return getCharVisualBounds(logicalIndex, 0, 0);
+  public Rectbngle2D getChbrVisublBounds(int logicblIndex) {
+    return getChbrVisublBounds(logicblIndex, 0, 0);
   }
 
-  public abstract TextLineComponent getSubset(int start, int limit, int dir);
+  public bbstrbct TextLineComponent getSubset(int stbrt, int limit, int dir);
 
   /**
-   * Return the number of justification records this uses.
+   * Return the number of justificbtion records this uses.
    */
-  public abstract int getNumJustificationInfos();
+  public bbstrbct int getNumJustificbtionInfos();
 
   /**
-   * Return GlyphJustificationInfo objects for the characters between
-   * charStart and charLimit, starting at offset infoStart.  Infos
-   * will be in visual order.  All positions between infoStart and
-   * getNumJustificationInfos will be set.  If a position corresponds
-   * to a character outside the provided range, it is set to null.
+   * Return GlyphJustificbtionInfo objects for the chbrbcters between
+   * chbrStbrt bnd chbrLimit, stbrting bt offset infoStbrt.  Infos
+   * will be in visubl order.  All positions between infoStbrt bnd
+   * getNumJustificbtionInfos will be set.  If b position corresponds
+   * to b chbrbcter outside the provided rbnge, it is set to null.
    */
-  public abstract void getJustificationInfos(GlyphJustificationInfo[] infos, int infoStart, int charStart, int charLimit);
+  public bbstrbct void getJustificbtionInfos(GlyphJustificbtionInfo[] infos, int infoStbrt, int chbrStbrt, int chbrLimit);
 
   /**
-   * Apply deltas to the data in this component, starting at offset
-   * deltaStart, and return the new component.  There are two floats
-   * for each justification info, for a total of 2 * getNumJustificationInfos.
-   * The first delta is the left adjustment, the second is the right
-   * adjustment.
+   * Apply deltbs to the dbtb in this component, stbrting bt offset
+   * deltbStbrt, bnd return the new component.  There bre two flobts
+   * for ebch justificbtion info, for b totbl of 2 * getNumJustificbtionInfos.
+   * The first deltb is the left bdjustment, the second is the right
+   * bdjustment.
    * <p>
-   * If flags[0] is true on entry, rejustification is allowed.  If
-   * the new component requires rejustification (ligatures were
-   * formed or split), flags[0] will be set on exit.
+   * If flbgs[0] is true on entry, rejustificbtion is bllowed.  If
+   * the new component requires rejustificbtion (ligbtures were
+   * formed or split), flbgs[0] will be set on exit.
    */
-  public abstract TextLineComponent applyJustificationDeltas(float[] deltas, int deltaStart, boolean[] flags);
+  public bbstrbct TextLineComponent bpplyJustificbtionDeltbs(flobt[] deltbs, int deltbStbrt, boolebn[] flbgs);
 }

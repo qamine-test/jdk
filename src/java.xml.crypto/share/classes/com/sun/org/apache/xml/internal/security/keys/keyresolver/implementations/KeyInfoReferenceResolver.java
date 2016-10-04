@@ -2,74 +2,74 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
 
-import javax.crypto.SecretKey;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.nbmespbce.QNbme;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
-import com.sun.org.apache.xml.internal.security.keys.content.KeyInfoReference;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.KeyInfoReference;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * KeyResolverSpi implementation which resolves public keys, private keys, secret keys, and X.509 certificates from a
+ * KeyResolverSpi implementbtion which resolves public keys, privbte keys, secret keys, bnd X.509 certificbtes from b
  * <code>dsig11:KeyInfoReference</code> element.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @buthor Brent Putmbn (putmbnb@georgetown.edu)
  */
-public class KeyInfoReferenceResolver extends KeyResolverSpi {
+public clbss KeyInfoReferenceResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(KeyInfoReferenceResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(KeyInfoReferenceResolver.clbss.getNbme());
 
     /** {@inheritDoc}. */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        return XMLUtils.elementIsInSignature11Space(element, Constants._TAG_KEYINFOREFERENCE);
+    public boolebn engineCbnResolve(Element element, String bbseURI, StorbgeResolver storbge) {
+        return XMLUtils.elementIsInSignbture11Spbce(element, Constbnts._TAG_KEYINFOREFERENCE);
     }
 
     /** {@inheritDoc}. */
-    public PublicKey engineLookupAndResolvePublicKey(Element element, String baseURI, StorageResolver storage)
+    public PublicKey engineLookupAndResolvePublicKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            KeyInfo referent = resolveReferentKeyInfo(element, baseURI, storage);
+            KeyInfo referent = resolveReferentKeyInfo(element, bbseURI, storbge);
             if (referent != null) {
                 return referent.getPublicKey();
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -77,25 +77,25 @@ public class KeyInfoReferenceResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public X509Certificate engineLookupResolveX509Certificate(Element element, String baseURI, StorageResolver storage)
+    public X509Certificbte engineLookupResolveX509Certificbte(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            KeyInfo referent = resolveReferentKeyInfo(element, baseURI, storage);
+            KeyInfo referent = resolveReferentKeyInfo(element, bbseURI, storbge);
             if (referent != null) {
-                return referent.getX509Certificate();
+                return referent.getX509Certificbte();
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -103,25 +103,25 @@ public class KeyInfoReferenceResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public SecretKey engineLookupAndResolveSecretKey(Element element, String baseURI, StorageResolver storage)
+    public SecretKey engineLookupAndResolveSecretKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            KeyInfo referent = resolveReferentKeyInfo(element, baseURI, storage);
+            KeyInfo referent = resolveReferentKeyInfo(element, bbseURI, storbge);
             if (referent != null) {
                 return referent.getSecretKey();
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -129,25 +129,25 @@ public class KeyInfoReferenceResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public PrivateKey engineLookupAndResolvePrivateKey(Element element, String baseURI, StorageResolver storage)
+    public PrivbteKey engineLookupAndResolvePrivbteKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            KeyInfo referent = resolveReferentKeyInfo(element, baseURI, storage);
+            KeyInfo referent = resolveReferentKeyInfo(element, bbseURI, storbge);
             if (referent != null) {
-                return referent.getPrivateKey();
+                return referent.getPrivbteKey();
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -155,108 +155,108 @@ public class KeyInfoReferenceResolver extends KeyResolverSpi {
     }
 
     /**
-     * Resolve the KeyInfoReference Element's URI attribute into a KeyInfo instance.
+     * Resolve the KeyInfoReference Element's URI bttribute into b KeyInfo instbnce.
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return the KeyInfo which is referred to by this KeyInfoReference, or null if can not be resolved
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return the KeyInfo which is referred to by this KeyInfoReference, or null if cbn not be resolved
      * @throws XMLSecurityException
      */
-    private KeyInfo resolveReferentKeyInfo(Element element, String baseURI, StorageResolver storage) throws XMLSecurityException {
-        KeyInfoReference reference = new KeyInfoReference(element, baseURI);
+    privbte KeyInfo resolveReferentKeyInfo(Element element, String bbseURI, StorbgeResolver storbge) throws XMLSecurityException {
+        KeyInfoReference reference = new KeyInfoReference(element, bbseURI);
         Attr uriAttr = reference.getURIAttr();
 
-        XMLSignatureInput resource = resolveInput(uriAttr, baseURI, secureValidation);
+        XMLSignbtureInput resource = resolveInput(uriAttr, bbseURI, secureVblidbtion);
 
         Element referentElement = null;
         try {
-            referentElement = obtainReferenceElement(resource);
-        } catch (Exception e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+            referentElement = obtbinReferenceElement(resource);
+        } cbtch (Exception e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
             return null;
         }
 
         if (referentElement == null) {
-            log.log(java.util.logging.Level.FINE, "De-reference of KeyInfoReference URI returned null: " + uriAttr.getValue());
+            log.log(jbvb.util.logging.Level.FINE, "De-reference of KeyInfoReference URI returned null: " + uriAttr.getVblue());
             return null;
         }
 
-        validateReference(referentElement);
+        vblidbteReference(referentElement);
 
-        KeyInfo referent = new KeyInfo(referentElement, baseURI);
-        referent.addStorageResolver(storage);
+        KeyInfo referent = new KeyInfo(referentElement, bbseURI);
+        referent.bddStorbgeResolver(storbge);
         return referent;
     }
 
     /**
-     * Validate the Element referred to by the KeyInfoReference.
+     * Vblidbte the Element referred to by the KeyInfoReference.
      *
-     * @param referentElement
+     * @pbrbm referentElement
      *
      * @throws XMLSecurityException
      */
-    private void validateReference(Element referentElement) throws XMLSecurityException {
-        if (!XMLUtils.elementIsInSignatureSpace(referentElement, Constants._TAG_KEYINFO)) {
-            Object exArgs[] = { new QName(referentElement.getNamespaceURI(), referentElement.getLocalName()) };
-            throw new XMLSecurityException("KeyInfoReferenceResolver.InvalidReferentElement.WrongType", exArgs);
+    privbte void vblidbteReference(Element referentElement) throws XMLSecurityException {
+        if (!XMLUtils.elementIsInSignbtureSpbce(referentElement, Constbnts._TAG_KEYINFO)) {
+            Object exArgs[] = { new QNbme(referentElement.getNbmespbceURI(), referentElement.getLocblNbme()) };
+            throw new XMLSecurityException("KeyInfoReferenceResolver.InvblidReferentElement.WrongType", exArgs);
         }
 
         KeyInfo referent = new KeyInfo(referentElement, "");
-        if (referent.containsKeyInfoReference()) {
-            if (secureValidation) {
-                throw new XMLSecurityException("KeyInfoReferenceResolver.InvalidReferentElement.ReferenceWithSecure");
+        if (referent.contbinsKeyInfoReference()) {
+            if (secureVblidbtion) {
+                throw new XMLSecurityException("KeyInfoReferenceResolver.InvblidReferentElement.ReferenceWithSecure");
             } else {
-                // Don't support chains of references at this time. If do support in the future, this is where the code
-                // would go to validate that don't have a cycle, resulting in an infinite loop. This may be unrealistic
-                // to implement, and/or very expensive given remote URI references.
-                throw new XMLSecurityException("KeyInfoReferenceResolver.InvalidReferentElement.ReferenceWithoutSecure");
+                // Don't support chbins of references bt this time. If do support in the future, this is where the code
+                // would go to vblidbte thbt don't hbve b cycle, resulting in bn infinite loop. This mby be unreblistic
+                // to implement, bnd/or very expensive given remote URI references.
+                throw new XMLSecurityException("KeyInfoReferenceResolver.InvblidReferentElement.ReferenceWithoutSecure");
             }
         }
 
     }
 
     /**
-     * Resolve the XML signature input represented by the specified URI.
+     * Resolve the XML signbture input represented by the specified URI.
      *
-     * @param uri
-     * @param baseURI
-     * @param secureValidation
+     * @pbrbm uri
+     * @pbrbm bbseURI
+     * @pbrbm secureVblidbtion
      * @return
      * @throws XMLSecurityException
      */
-    private XMLSignatureInput resolveInput(Attr uri, String baseURI, boolean secureValidation)
+    privbte XMLSignbtureInput resolveInput(Attr uri, String bbseURI, boolebn secureVblidbtion)
         throws XMLSecurityException {
-        ResourceResolver resRes = ResourceResolver.getInstance(uri, baseURI, secureValidation);
-        XMLSignatureInput resource = resRes.resolve(uri, baseURI, secureValidation);
+        ResourceResolver resRes = ResourceResolver.getInstbnce(uri, bbseURI, secureVblidbtion);
+        XMLSignbtureInput resource = resRes.resolve(uri, bbseURI, secureVblidbtion);
         return resource;
     }
 
     /**
-     * Resolve the Element effectively represented by the XML signature input source.
+     * Resolve the Element effectively represented by the XML signbture input source.
      *
-     * @param resource
+     * @pbrbm resource
      * @return
-     * @throws CanonicalizationException
-     * @throws ParserConfigurationException
+     * @throws CbnonicblizbtionException
+     * @throws PbrserConfigurbtionException
      * @throws IOException
      * @throws SAXException
      * @throws KeyResolverException
      */
-    private Element obtainReferenceElement(XMLSignatureInput resource)
-        throws CanonicalizationException, ParserConfigurationException,
+    privbte Element obtbinReferenceElement(XMLSignbtureInput resource)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException,
         IOException, SAXException, KeyResolverException {
 
         Element e;
         if (resource.isElement()){
             e = (Element) resource.getSubNode();
         } else if (resource.isNodeSet()) {
-            log.log(java.util.logging.Level.FINE, "De-reference of KeyInfoReference returned an unsupported NodeSet");
+            log.log(jbvb.util.logging.Level.FINE, "De-reference of KeyInfoReference returned bn unsupported NodeSet");
             return null;
         } else {
-            // Retrieved resource is a byte stream
+            // Retrieved resource is b byte strebm
             byte inputBytes[] = resource.getBytes();
             e = getDocFromBytes(inputBytes);
         }
@@ -264,25 +264,25 @@ public class KeyInfoReferenceResolver extends KeyResolverSpi {
     }
 
     /**
-     * Parses a byte array and returns the parsed Element.
+     * Pbrses b byte brrby bnd returns the pbrsed Element.
      *
-     * @param bytes
-     * @return the Document Element after parsing bytes
+     * @pbrbm bytes
+     * @return the Document Element bfter pbrsing bytes
      * @throws KeyResolverException if something goes wrong
      */
-    private Element getDocFromBytes(byte[] bytes) throws KeyResolverException {
+    privbte Element getDocFromBytes(byte[] bytes) throws KeyResolverException {
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setNamespaceAware(true);
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            DocumentBuilderFbctory dbf = DocumentBuilderFbctory.newInstbnce();
+            dbf.setNbmespbceAwbre(true);
+            dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(bytes));
+            Document doc = db.pbrse(new ByteArrbyInputStrebm(bytes));
             return doc.getDocumentElement();
-        } catch (SAXException ex) {
+        } cbtch (SAXException ex) {
             throw new KeyResolverException("empty", ex);
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             throw new KeyResolverException("empty", ex);
-        } catch (ParserConfigurationException ex) {
+        } cbtch (PbrserConfigurbtionException ex) {
             throw new KeyResolverException("empty", ex);
         }
     }

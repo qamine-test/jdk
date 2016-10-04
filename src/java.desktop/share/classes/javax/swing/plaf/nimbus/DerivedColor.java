@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.UIMbnbger;
+import jbvb.bwt.Color;
+import jbvb.bebns.PropertyChbngeSupport;
+import jbvb.bebns.PropertyChbngeListener;
 
 /**
- * DerivedColor - A color implementation that is derived from a UIManager
- * defaults table color and a set of offsets. It can be rederived at any point
- * by calling rederiveColor(). For example when its parent color changes and it
- * value will update to reflect the new derived color. Property change events
- * are fired for the "rgb" property when the derived color changes.
+ * DerivedColor - A color implementbtion thbt is derived from b UIMbnbger
+ * defbults tbble color bnd b set of offsets. It cbn be rederived bt bny point
+ * by cblling rederiveColor(). For exbmple when its pbrent color chbnges bnd it
+ * vblue will updbte to reflect the new derived color. Property chbnge events
+ * bre fired for the "rgb" property when the derived color chbnges.
  *
- * @author Jasper Potts
+ * @buthor Jbsper Potts
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class DerivedColor extends Color {
-    private final String uiDefaultParentName;
-    private final float hOffset, sOffset, bOffset;
-    private final int aOffset;
-    private int argbValue;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss DerivedColor extends Color {
+    privbte finbl String uiDefbultPbrentNbme;
+    privbte finbl flobt hOffset, sOffset, bOffset;
+    privbte finbl int bOffset;
+    privbte int brgbVblue;
 
-    DerivedColor(String uiDefaultParentName, float hOffset, float sOffset, float bOffset, int aOffset) {
+    DerivedColor(String uiDefbultPbrentNbme, flobt hOffset, flobt sOffset, flobt bOffset, int bOffset) {
         super(0);
-        this.uiDefaultParentName = uiDefaultParentName;
+        this.uiDefbultPbrentNbme = uiDefbultPbrentNbme;
         this.hOffset = hOffset;
         this.sOffset = sOffset;
         this.bOffset = bOffset;
-        this.aOffset = aOffset;
+        this.bOffset = bOffset;
     }
 
-    public String getUiDefaultParentName() {
-        return uiDefaultParentName;
+    public String getUiDefbultPbrentNbme() {
+        return uiDefbultPbrentNbme;
     }
 
-    public float getHueOffset() {
+    public flobt getHueOffset() {
         return hOffset;
     }
 
-    public float getSaturationOffset() {
+    public flobt getSbturbtionOffset() {
         return sOffset;
     }
 
-    public float getBrightnessOffset() {
+    public flobt getBrightnessOffset() {
         return bOffset;
     }
 
-    public int getAlphaOffset() {
-        return aOffset;
+    public int getAlphbOffset() {
+        return bOffset;
     }
 
     /**
-     * Recalculate the derived color from the UIManager parent color and offsets
+     * Recblculbte the derived color from the UIMbnbger pbrent color bnd offsets
      */
     public void rederiveColor() {
-        Color src = UIManager.getColor(uiDefaultParentName);
+        Color src = UIMbnbger.getColor(uiDefbultPbrentNbme);
         if (src != null) {
-            float[] tmp = Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), null);
-            // apply offsets
-            tmp[0] = clamp(tmp[0] + hOffset);
-            tmp[1] = clamp(tmp[1] + sOffset);
-            tmp[2] = clamp(tmp[2] + bOffset);
-            int alpha = clamp(src.getAlpha() + aOffset);
-            argbValue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24);
+            flobt[] tmp = Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), null);
+            // bpply offsets
+            tmp[0] = clbmp(tmp[0] + hOffset);
+            tmp[1] = clbmp(tmp[1] + sOffset);
+            tmp[2] = clbmp(tmp[2] + bOffset);
+            int blphb = clbmp(src.getAlphb() + bOffset);
+            brgbVblue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (blphb << 24);
         } else {
-            float[] tmp = new float[3];
-            tmp[0] = clamp(hOffset);
-            tmp[1] = clamp(sOffset);
-            tmp[2] = clamp(bOffset);
-            int alpha = clamp(aOffset);
-            argbValue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24);
+            flobt[] tmp = new flobt[3];
+            tmp[0] = clbmp(hOffset);
+            tmp[1] = clbmp(sOffset);
+            tmp[2] = clbmp(bOffset);
+            int blphb = clbmp(bOffset);
+            brgbVblue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (blphb << 24);
         }
     }
 
     /**
-     * Returns the RGB value representing the color in the default sRGB {@link java.awt.image.ColorModel}. (Bits 24-31
-     * are alpha, 16-23 are red, 8-15 are green, 0-7 are blue).
+     * Returns the RGB vblue representing the color in the defbult sRGB {@link jbvb.bwt.imbge.ColorModel}. (Bits 24-31
+     * bre blphb, 16-23 bre red, 8-15 bre green, 0-7 bre blue).
      *
-     * @return the RGB value of the color in the default sRGB <code>ColorModel</code>.
-     * @see java.awt.image.ColorModel#getRGBdefault
+     * @return the RGB vblue of the color in the defbult sRGB <code>ColorModel</code>.
+     * @see jbvb.bwt.imbge.ColorModel#getRGBdefbult
      * @see #getRed
      * @see #getGreen
      * @see #getBlue
      * @since 1.0
      */
     @Override public int getRGB() {
-        return argbValue;
+        return brgbVblue;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DerivedColor)) return false;
-        DerivedColor that = (DerivedColor) o;
-        if (aOffset != that.aOffset) return false;
-        if (Float.compare(that.bOffset, bOffset) != 0) return false;
-        if (Float.compare(that.hOffset, hOffset) != 0) return false;
-        if (Float.compare(that.sOffset, sOffset) != 0) return false;
-        if (!uiDefaultParentName.equals(that.uiDefaultParentName)) return false;
+        if (!(o instbnceof DerivedColor)) return fblse;
+        DerivedColor thbt = (DerivedColor) o;
+        if (bOffset != thbt.bOffset) return fblse;
+        if (Flobt.compbre(thbt.bOffset, bOffset) != 0) return fblse;
+        if (Flobt.compbre(thbt.hOffset, hOffset) != 0) return fblse;
+        if (Flobt.compbre(thbt.sOffset, sOffset) != 0) return fblse;
+        if (!uiDefbultPbrentNbme.equbls(thbt.uiDefbultPbrentNbme)) return fblse;
         return true;
     }
 
     @Override
-    public int hashCode() {
-        int result = uiDefaultParentName.hashCode();
+    public int hbshCode() {
+        int result = uiDefbultPbrentNbme.hbshCode();
         result = 31 * result + hOffset != +0.0f ?
-                Float.floatToIntBits(hOffset) : 0;
+                Flobt.flobtToIntBits(hOffset) : 0;
         result = 31 * result + sOffset != +0.0f ?
-                Float.floatToIntBits(sOffset) : 0;
+                Flobt.flobtToIntBits(sOffset) : 0;
         result = 31 * result + bOffset != +0.0f ?
-                Float.floatToIntBits(bOffset) : 0;
-        result = 31 * result + aOffset;
+                Flobt.flobtToIntBits(bOffset) : 0;
+        result = 31 * result + bOffset;
         return result;
     }
 
-    private float clamp(float value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 1) {
-            value = 1;
+    privbte flobt clbmp(flobt vblue) {
+        if (vblue < 0) {
+            vblue = 0;
+        } else if (vblue > 1) {
+            vblue = 1;
         }
-        return value;
+        return vblue;
     }
 
-    private int clamp(int value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 255) {
-            value = 255;
+    privbte int clbmp(int vblue) {
+        if (vblue < 0) {
+            vblue = 0;
+        } else if (vblue > 255) {
+            vblue = 255;
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns a string representation of this <code>Color</code>. This method
-     * is intended to be used only for debugging purposes. The content and
-     * format of the returned string might vary between implementations. The
-     * returned string might be empty but cannot be <code>null</code>.
+     * Returns b string representbtion of this <code>Color</code>. This method
+     * is intended to be used only for debugging purposes. The content bnd
+     * formbt of the returned string might vbry between implementbtions. The
+     * returned string might be empty but cbnnot be <code>null</code>.
      *
-     * @return a String representation of this <code>Color</code>.
+     * @return b String representbtion of this <code>Color</code>.
      */
     @Override
     public String toString() {
-        Color src = UIManager.getColor(uiDefaultParentName);
+        Color src = UIMbnbger.getColor(uiDefbultPbrentNbme);
         String s = "DerivedColor(color=" + getRed() + "," + getGreen() + "," + getBlue() +
-                " parent=" + uiDefaultParentName +
-                " offsets=" + getHueOffset() + "," + getSaturationOffset() + ","
-                + getBrightnessOffset() + "," + getAlphaOffset();
+                " pbrent=" + uiDefbultPbrentNbme +
+                " offsets=" + getHueOffset() + "," + getSbturbtionOffset() + ","
+                + getBrightnessOffset() + "," + getAlphbOffset();
         return src == null ? s : s + " pColor=" + src.getRed() + "," + src.getGreen() + "," + src.getBlue();
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class UIResource extends DerivedColor implements javax.swing.plaf.UIResource {
-        UIResource(String uiDefaultParentName, float hOffset, float sOffset,
-                   float bOffset, int aOffset) {
-            super(uiDefaultParentName, hOffset, sOffset, bOffset, aOffset);
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss UIResource extends DerivedColor implements jbvbx.swing.plbf.UIResource {
+        UIResource(String uiDefbultPbrentNbme, flobt hOffset, flobt sOffset,
+                   flobt bOffset, int bOffset) {
+            super(uiDefbultPbrentNbme, hOffset, sOffset, bOffset, bOffset);
         }
 
         @Override
-        public boolean equals(Object o) {
-            return (o instanceof UIResource) && super.equals(o);
+        public boolebn equbls(Object o) {
+            return (o instbnceof UIResource) && super.equbls(o);
         }
 
         @Override
-        public int hashCode() {
-            return super.hashCode() + 7;
+        public int hbshCode() {
+            return super.hbshCode() + 7;
         }
     }
 }

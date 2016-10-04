@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.io.*;
-import java.util.Arrays;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
 
 /**
- * <code>JPasswordField</code> is a lightweight component that allows
- * the editing of a single line of text where the view indicates
- * something was typed, but does not show the original characters.
- * You can find further information and examples in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/textfield.html">How to Use Text Fields</a>,
- * a section in <em>The Java Tutorial.</em>
+ * <code>JPbsswordField</code> is b lightweight component thbt bllows
+ * the editing of b single line of text where the view indicbtes
+ * something wbs typed, but does not show the originbl chbrbcters.
+ * You cbn find further informbtion bnd exbmples in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/textfield.html">How to Use Text Fields</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <code>JPasswordField</code> is intended
- * to be source-compatible with <code>java.awt.TextField</code>
- * used with <code>echoChar</code> set.  It is provided separately
- * to make it easier to safely change the UI for the
- * <code>JTextField</code> without affecting password entries.
+ * <code>JPbsswordField</code> is intended
+ * to be source-compbtible with <code>jbvb.bwt.TextField</code>
+ * used with <code>echoChbr</code> set.  It is provided sepbrbtely
+ * to mbke it ebsier to sbfely chbnge the UI for the
+ * <code>JTextField</code> without bffecting pbssword entries.
  * <p>
  * <strong>NOTE:</strong>
- * By default, JPasswordField disables input methods; otherwise, input
- * characters could be visible while they were composed using input methods.
- * If an application needs the input methods support, please use the
- * inherited method, <code>enableInputMethods(true)</code>.
+ * By defbult, JPbsswordField disbbles input methods; otherwise, input
+ * chbrbcters could be visible while they were composed using input methods.
+ * If bn bpplicbtion needs the input methods support, plebse use the
+ * inherited method, <code>enbbleInputMethods(true)</code>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *  attribute: isContainer false
- * description: Allows the editing of a line of text but doesn't show the characters.
+ * @bebninfo
+ *  bttribute: isContbiner fblse
+ * description: Allows the editing of b line of text but doesn't show the chbrbcters.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JPasswordField extends JTextField {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JPbsswordField extends JTextField {
 
     /**
-     * Constructs a new <code>JPasswordField</code>,
-     * with a default document, <code>null</code> starting
-     * text string, and 0 column width.
+     * Constructs b new <code>JPbsswordField</code>,
+     * with b defbult document, <code>null</code> stbrting
+     * text string, bnd 0 column width.
      */
-    public JPasswordField() {
+    public JPbsswordField() {
         this(null,null,0);
     }
 
     /**
-     * Constructs a new <code>JPasswordField</code> initialized
+     * Constructs b new <code>JPbsswordField</code> initiblized
      * with the specified text.  The document model is set to the
-     * default, and the number of columns to 0.
+     * defbult, bnd the number of columns to 0.
      *
-     * @param text the text to be displayed, <code>null</code> if none
+     * @pbrbm text the text to be displbyed, <code>null</code> if none
      */
-    public JPasswordField(String text) {
+    public JPbsswordField(String text) {
         this(null, text, 0);
     }
 
     /**
-     * Constructs a new empty <code>JPasswordField</code> with the specified
-     * number of columns.  A default model is created, and the initial string
+     * Constructs b new empty <code>JPbsswordField</code> with the specified
+     * number of columns.  A defbult model is crebted, bnd the initibl string
      * is set to <code>null</code>.
      *
-     * @param columns the number of columns &gt;= 0
+     * @pbrbm columns the number of columns &gt;= 0
      */
-    public JPasswordField(int columns) {
+    public JPbsswordField(int columns) {
         this(null, null, columns);
     }
 
     /**
-     * Constructs a new <code>JPasswordField</code> initialized with
-     * the specified text and columns.  The document model is set to
-     * the default.
+     * Constructs b new <code>JPbsswordField</code> initiblized with
+     * the specified text bnd columns.  The document model is set to
+     * the defbult.
      *
-     * @param text the text to be displayed, <code>null</code> if none
-     * @param columns the number of columns &gt;= 0
+     * @pbrbm text the text to be displbyed, <code>null</code> if none
+     * @pbrbm columns the number of columns &gt;= 0
      */
-    public JPasswordField(String text, int columns) {
+    public JPbsswordField(String text, int columns) {
         this(null, text, columns);
     }
 
     /**
-     * Constructs a new <code>JPasswordField</code> that uses the
-     * given text storage model and the given number of columns.
+     * Constructs b new <code>JPbsswordField</code> thbt uses the
+     * given text storbge model bnd the given number of columns.
      * This is the constructor through which the other constructors feed.
-     * The echo character is set to '*', but may be changed by the current
-     * Look and Feel.  If the document model is
-     * <code>null</code>, a default one will be created.
+     * The echo chbrbcter is set to '*', but mby be chbnged by the current
+     * Look bnd Feel.  If the document model is
+     * <code>null</code>, b defbult one will be crebted.
      *
-     * @param doc  the text storage to use
-     * @param txt the text to be displayed, <code>null</code> if none
-     * @param columns  the number of columns to use to calculate
+     * @pbrbm doc  the text storbge to use
+     * @pbrbm txt the text to be displbyed, <code>null</code> if none
+     * @pbrbm columns  the number of columns to use to cblculbte
      *   the preferred width &gt;= 0; if columns is set to zero, the
-     *   preferred width will be whatever naturally results from
-     *   the component implementation
+     *   preferred width will be whbtever nbturblly results from
+     *   the component implementbtion
      */
-    public JPasswordField(Document doc, String txt, int columns) {
+    public JPbsswordField(Document doc, String txt, int columns) {
         super(doc, txt, columns);
-        // We could either leave this on, which wouldn't be secure,
-        // or obscure the composted text, which essentially makes displaying
+        // We could either lebve this on, which wouldn't be secure,
+        // or obscure the composted text, which essentiblly mbkes displbying
         // it useless. Therefore, we turn off input methods.
-        enableInputMethods(false);
+        enbbleInputMethods(fblse);
     }
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "PasswordFieldUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "PbsswordFieldUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
@@ -160,210 +160,210 @@ public class JPasswordField extends JTextField {
      * {@inheritDoc}
      * @since 1.6
      */
-    public void updateUI() {
-        if(!echoCharSet) {
-            echoChar = '*';
+    public void updbteUI() {
+        if(!echoChbrSet) {
+            echoChbr = '*';
         }
-        super.updateUI();
+        super.updbteUI();
     }
 
     /**
-     * Returns the character to be used for echoing.  The default is '*'.
-     * The default may be different depending on the currently running Look
-     * and Feel. For example, Metal/Ocean's default is a bullet character.
+     * Returns the chbrbcter to be used for echoing.  The defbult is '*'.
+     * The defbult mby be different depending on the currently running Look
+     * bnd Feel. For exbmple, Metbl/Ocebn's defbult is b bullet chbrbcter.
      *
-     * @return the echo character, 0 if unset
-     * @see #setEchoChar
-     * @see #echoCharIsSet
+     * @return the echo chbrbcter, 0 if unset
+     * @see #setEchoChbr
+     * @see #echoChbrIsSet
      */
-    public char getEchoChar() {
-        return echoChar;
+    public chbr getEchoChbr() {
+        return echoChbr;
     }
 
     /**
-     * Sets the echo character for this <code>JPasswordField</code>.
-     * Note that this is largely a suggestion, since the
-     * view that gets installed can use whatever graphic techniques
-     * it desires to represent the field.  Setting a value of 0 indicates
-     * that you wish to see the text as it is typed, similar to
-     * the behavior of a standard <code>JTextField</code>.
+     * Sets the echo chbrbcter for this <code>JPbsswordField</code>.
+     * Note thbt this is lbrgely b suggestion, since the
+     * view thbt gets instblled cbn use whbtever grbphic techniques
+     * it desires to represent the field.  Setting b vblue of 0 indicbtes
+     * thbt you wish to see the text bs it is typed, similbr to
+     * the behbvior of b stbndbrd <code>JTextField</code>.
      *
-     * @param c the echo character to display
-     * @see #echoCharIsSet
-     * @see #getEchoChar
-     * @beaninfo
-     * description: character to display in place of the real characters
-     *   attribute: visualUpdate true
+     * @pbrbm c the echo chbrbcter to displby
+     * @see #echoChbrIsSet
+     * @see #getEchoChbr
+     * @bebninfo
+     * description: chbrbcter to displby in plbce of the rebl chbrbcters
+     *   bttribute: visublUpdbte true
      */
-    public void setEchoChar(char c) {
-        echoChar = c;
-        echoCharSet = true;
-        repaint();
-        revalidate();
+    public void setEchoChbr(chbr c) {
+        echoChbr = c;
+        echoChbrSet = true;
+        repbint();
+        revblidbte();
     }
 
     /**
-     * Returns true if this <code>JPasswordField</code> has a character
-     * set for echoing.  A character is considered to be set if the echo
-     * character is not 0.
+     * Returns true if this <code>JPbsswordField</code> hbs b chbrbcter
+     * set for echoing.  A chbrbcter is considered to be set if the echo
+     * chbrbcter is not 0.
      *
-     * @return true if a character is set for echoing
-     * @see #setEchoChar
-     * @see #getEchoChar
+     * @return true if b chbrbcter is set for echoing
+     * @see #setEchoChbr
+     * @see #getEchoChbr
      */
-    public boolean echoCharIsSet() {
-        return echoChar != 0;
+    public boolebn echoChbrIsSet() {
+        return echoChbr != 0;
     }
 
     // --- JTextComponent methods ----------------------------------
 
     /**
-     * Invokes <code>provideErrorFeedback</code> on the current
-     * look and feel, which typically initiates an error beep.
-     * The normal behavior of transferring the
-     * currently selected range in the associated text model
-     * to the system clipboard, and removing the contents from
-     * the model, is not acceptable for a password field.
+     * Invokes <code>provideErrorFeedbbck</code> on the current
+     * look bnd feel, which typicblly initibtes bn error beep.
+     * The normbl behbvior of trbnsferring the
+     * currently selected rbnge in the bssocibted text model
+     * to the system clipbobrd, bnd removing the contents from
+     * the model, is not bcceptbble for b pbssword field.
      */
     public void cut() {
-        if (getClientProperty("JPasswordField.cutCopyAllowed") != Boolean.TRUE) {
-            UIManager.getLookAndFeel().provideErrorFeedback(this);
+        if (getClientProperty("JPbsswordField.cutCopyAllowed") != Boolebn.TRUE) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(this);
         } else {
             super.cut();
         }
     }
 
     /**
-     * Invokes <code>provideErrorFeedback</code> on the current
-     * look and feel, which typically initiates an error beep.
-     * The normal behavior of transferring the
-     * currently selected range in the associated text model
-     * to the system clipboard, and leaving the contents from
-     * the model, is not acceptable for a password field.
+     * Invokes <code>provideErrorFeedbbck</code> on the current
+     * look bnd feel, which typicblly initibtes bn error beep.
+     * The normbl behbvior of trbnsferring the
+     * currently selected rbnge in the bssocibted text model
+     * to the system clipbobrd, bnd lebving the contents from
+     * the model, is not bcceptbble for b pbssword field.
      */
     public void copy() {
-        if (getClientProperty("JPasswordField.cutCopyAllowed") != Boolean.TRUE) {
-            UIManager.getLookAndFeel().provideErrorFeedback(this);
+        if (getClientProperty("JPbsswordField.cutCopyAllowed") != Boolebn.TRUE) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(this);
         } else {
             super.copy();
         }
     }
 
     /**
-     * Returns the text contained in this <code>TextComponent</code>.
-     * If the underlying document is <code>null</code>, will give a
+     * Returns the text contbined in this <code>TextComponent</code>.
+     * If the underlying document is <code>null</code>, will give b
      * <code>NullPointerException</code>.
      * <p>
-     * For security reasons, this method is deprecated.  Use the
-     <code>* getPassword</code> method instead.
-     * @deprecated As of Java 2 platform v1.2,
-     * replaced by <code>getPassword</code>.
+     * For security rebsons, this method is deprecbted.  Use the
+     <code>* getPbssword</code> method instebd.
+     * @deprecbted As of Jbvb 2 plbtform v1.2,
+     * replbced by <code>getPbssword</code>.
      * @return the text
      */
-    @Deprecated
+    @Deprecbted
     public String getText() {
         return super.getText();
     }
 
     /**
-     * Fetches a portion of the text represented by the
-     * component.  Returns an empty string if length is 0.
+     * Fetches b portion of the text represented by the
+     * component.  Returns bn empty string if length is 0.
      * <p>
-     * For security reasons, this method is deprecated.  Use the
-     * <code>getPassword</code> method instead.
-     * @deprecated As of Java 2 platform v1.2,
-     * replaced by <code>getPassword</code>.
-     * @param offs the offset &gt;= 0
-     * @param len the length &gt;= 0
+     * For security rebsons, this method is deprecbted.  Use the
+     * <code>getPbssword</code> method instebd.
+     * @deprecbted As of Jbvb 2 plbtform v1.2,
+     * replbced by <code>getPbssword</code>.
+     * @pbrbm offs the offset &gt;= 0
+     * @pbrbm len the length &gt;= 0
      * @return the text
-     * @exception BadLocationException if the offset or length are invalid
+     * @exception BbdLocbtionException if the offset or length bre invblid
      */
-    @Deprecated
-    public String getText(int offs, int len) throws BadLocationException {
+    @Deprecbted
+    public String getText(int offs, int len) throws BbdLocbtionException {
         return super.getText(offs, len);
     }
 
     /**
-     * Returns the text contained in this <code>TextComponent</code>.
-     * If the underlying document is <code>null</code>, will give a
+     * Returns the text contbined in this <code>TextComponent</code>.
+     * If the underlying document is <code>null</code>, will give b
      * <code>NullPointerException</code>.  For stronger
-     * security, it is recommended that the returned character array be
-     * cleared after use by setting each character to zero.
+     * security, it is recommended thbt the returned chbrbcter brrby be
+     * clebred bfter use by setting ebch chbrbcter to zero.
      *
      * @return the text
      */
-    public char[] getPassword() {
+    public chbr[] getPbssword() {
         Document doc = getDocument();
         Segment txt = new Segment();
         try {
             doc.getText(0, doc.getLength(), txt); // use the non-String API
-        } catch (BadLocationException e) {
+        } cbtch (BbdLocbtionException e) {
             return null;
         }
-        char[] retValue = new char[txt.count];
-        System.arraycopy(txt.array, txt.offset, retValue, 0, txt.count);
-        return retValue;
+        chbr[] retVblue = new chbr[txt.count];
+        System.brrbycopy(txt.brrby, txt.offset, retVblue, 0, txt.count);
+        return retVblue;
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    // --- variables -----------------------------------------------
+    // --- vbribbles -----------------------------------------------
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "PasswordFieldUI";
+    privbte stbtic finbl String uiClbssID = "PbsswordFieldUI";
 
-    private char echoChar;
+    privbte chbr echoChbr;
 
-    private boolean echoCharSet = false;
+    privbte boolebn echoChbrSet = fblse;
 
 
     /**
-     * Returns a string representation of this <code>JPasswordField</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this <code>JPbsswordField</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JPasswordField</code>
+     * @return  b string representbtion of this <code>JPbsswordField</code>
      */
-    protected String paramString() {
-        return super.paramString() +
-        ",echoChar=" + echoChar;
+    protected String pbrbmString() {
+        return super.pbrbmString() +
+        ",echoChbr=" + echoChbr;
     }
 
 
     /**
-     * This method is a hack to get around the fact that we cannot
-     * directly override setUIProperty because part of the inheritance hierarchy
-     * goes outside of the javax.swing package, and therefore calling a package
-     * private method isn't allowed. This method should return true if the property
-     * was handled, and false otherwise.
+     * This method is b hbck to get bround the fbct thbt we cbnnot
+     * directly override setUIProperty becbuse pbrt of the inheritbnce hierbrchy
+     * goes outside of the jbvbx.swing pbckbge, bnd therefore cblling b pbckbge
+     * privbte method isn't bllowed. This method should return true if the property
+     * wbs hbndled, bnd fblse otherwise.
      */
-    boolean customSetUIProperty(String propertyName, Object value) {
-        if (propertyName == "echoChar") {
-            if (!echoCharSet) {
-                setEchoChar((Character)value);
-                echoCharSet = false;
+    boolebn customSetUIProperty(String propertyNbme, Object vblue) {
+        if (propertyNbme == "echoChbr") {
+            if (!echoChbrSet) {
+                setEchoChbr((Chbrbcter)vblue);
+                echoChbrSet = fblse;
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
 /////////////////
@@ -372,45 +372,45 @@ public class JPasswordField extends JTextField {
 
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with this
-     * <code>JPasswordField</code>. For password fields, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJPasswordField</code>.
-     * A new <code>AccessibleJPasswordField</code> instance is created
-     * if necessary.
+     * Returns the <code>AccessibleContext</code> bssocibted with this
+     * <code>JPbsswordField</code>. For pbssword fields, the
+     * <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleJPbsswordField</code>.
+     * A new <code>AccessibleJPbsswordField</code> instbnce is crebted
+     * if necessbry.
      *
-     * @return an <code>AccessibleJPasswordField</code> that serves as the
+     * @return bn <code>AccessibleJPbsswordField</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this
-     *         <code>JPasswordField</code>
+     *         <code>JPbsswordField</code>
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJPasswordField();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJPbsswordField();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JPasswordField</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to password field user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JPbsswordField</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to pbssword field user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    protected class AccessibleJPasswordField extends AccessibleJTextField {
+    protected clbss AccessibleJPbsswordField extends AccessibleJTextField {
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          *   object (AccessibleRole.PASSWORD_TEXT)
          * @see AccessibleRole
          */
@@ -419,15 +419,15 @@ public class JPasswordField extends JTextField {
         }
 
         /**
-         * Gets the <code>AccessibleText</code> for the <code>JPasswordField</code>.
-         * The returned object also implements the
-         * <code>AccessibleExtendedText</code> interface.
+         * Gets the <code>AccessibleText</code> for the <code>JPbsswordField</code>.
+         * The returned object blso implements the
+         * <code>AccessibleExtendedText</code> interfbce.
          *
-         * @return <code>AccessibleText</code> for the JPasswordField
-         * @see javax.accessibility.AccessibleContext
-         * @see javax.accessibility.AccessibleContext#getAccessibleText
-         * @see javax.accessibility.AccessibleText
-         * @see javax.accessibility.AccessibleExtendedText
+         * @return <code>AccessibleText</code> for the JPbsswordField
+         * @see jbvbx.bccessibility.AccessibleContext
+         * @see jbvbx.bccessibility.AccessibleContext#getAccessibleText
+         * @see jbvbx.bccessibility.AccessibleText
+         * @see jbvbx.bccessibility.AccessibleExtendedText
          *
          * @since 1.6
          */
@@ -436,102 +436,102 @@ public class JPasswordField extends JTextField {
         }
 
         /*
-         * Returns a String filled with password echo characters. The String
-         * contains one echo character for each character (including whitespace)
-         * that the user entered in the JPasswordField.
+         * Returns b String filled with pbssword echo chbrbcters. The String
+         * contbins one echo chbrbcter for ebch chbrbcter (including whitespbce)
+         * thbt the user entered in the JPbsswordField.
          */
-        private String getEchoString(String str) {
+        privbte String getEchoString(String str) {
             if (str == null) {
                 return null;
             }
-            char[] buffer = new char[str.length()];
-            Arrays.fill(buffer, getEchoChar());
+            chbr[] buffer = new chbr[str.length()];
+            Arrbys.fill(buffer, getEchoChbr());
             return new String(buffer);
         }
 
         /**
-         * Returns the <code>String</code> at a given <code>index</code>.
+         * Returns the <code>String</code> bt b given <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code> or
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code> or
          * <code>SENTENCE</code> to retrieve
-         * @param index an index within the text
-         * @return a <code>String</code> if <code>part</code> and
-         * <code>index</code> are valid.
+         * @pbrbm index bn index within the text
+         * @return b <code>String</code> if <code>pbrt</code> bnd
+         * <code>index</code> bre vblid.
          * Otherwise, <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
          *
          * @since 1.6
          */
-        public String getAtIndex(int part, int index) {
+        public String getAtIndex(int pbrt, int index) {
            String str = null;
-            if (part == AccessibleText.CHARACTER) {
-                str = super.getAtIndex(part, index);
+            if (pbrt == AccessibleText.CHARACTER) {
+                str = super.getAtIndex(pbrt, index);
             } else {
-                // Treat the text displayed in the JPasswordField
-                // as one word and sentence.
-                char password[] = getPassword();
-                if (password == null ||
-                    index < 0 || index >= password.length) {
+                // Trebt the text displbyed in the JPbsswordField
+                // bs one word bnd sentence.
+                chbr pbssword[] = getPbssword();
+                if (pbssword == null ||
+                    index < 0 || index >= pbssword.length) {
                     return null;
                 }
-                str = new String(password);
+                str = new String(pbssword);
             }
             return getEchoString(str);
         }
 
         /**
-         * Returns the <code>String</code> after a given <code>index</code>.
+         * Returns the <code>String</code> bfter b given <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code> or
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code> or
          * <code>SENTENCE</code> to retrieve
-         * @param index an index within the text
-         * @return a <code>String</code> if <code>part</code> and
-         * <code>index</code> are valid.
+         * @pbrbm index bn index within the text
+         * @return b <code>String</code> if <code>pbrt</code> bnd
+         * <code>index</code> bre vblid.
          * Otherwise, <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
          *
          * @since 1.6
          */
-        public String getAfterIndex(int part, int index) {
-            if (part == AccessibleText.CHARACTER) {
-                String str = super.getAfterIndex(part, index);
+        public String getAfterIndex(int pbrt, int index) {
+            if (pbrt == AccessibleText.CHARACTER) {
+                String str = super.getAfterIndex(pbrt, index);
                 return getEchoString(str);
             } else {
-                // There is no word or sentence after the text
-                // displayed in the JPasswordField.
+                // There is no word or sentence bfter the text
+                // displbyed in the JPbsswordField.
                 return null;
             }
         }
 
         /**
-         * Returns the <code>String</code> before a given <code>index</code>.
+         * Returns the <code>String</code> before b given <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code> or
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code> or
          * <code>SENTENCE</code> to retrieve
-         * @param index an index within the text
-         * @return a <code>String</code> if <code>part</code> and
-         * <code>index</code> are valid.
+         * @pbrbm index bn index within the text
+         * @return b <code>String</code> if <code>pbrt</code> bnd
+         * <code>index</code> bre vblid.
          * Otherwise, <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
          *
          * @since 1.6
          */
-        public String getBeforeIndex(int part, int index) {
-            if (part == AccessibleText.CHARACTER) {
-                String str = super.getBeforeIndex(part, index);
+        public String getBeforeIndex(int pbrt, int index) {
+            if (pbrt == AccessibleText.CHARACTER) {
+                String str = super.getBeforeIndex(pbrt, index);
                 return getEchoString(str);
             } else {
                 // There is no word or sentence before the text
-                // displayed in the JPasswordField.
+                // displbyed in the JPbsswordField.
                 return null;
             }
         }
@@ -539,127 +539,127 @@ public class JPasswordField extends JTextField {
         /**
          * Returns the text between two <code>indices</code>.
          *
-         * @param startIndex the start index in the text
-         * @param endIndex the end index in the text
-         * @return the text string if the indices are valid.
+         * @pbrbm stbrtIndex the stbrt index in the text
+         * @pbrbm endIndex the end index in the text
+         * @return the text string if the indices bre vblid.
          * Otherwise, <code>null</code> is returned
          *
          * @since 1.6
          */
-        public String getTextRange(int startIndex, int endIndex) {
-            String str = super.getTextRange(startIndex, endIndex);
+        public String getTextRbnge(int stbrtIndex, int endIndex) {
+            String str = super.getTextRbnge(stbrtIndex, endIndex);
             return getEchoString(str);
         }
 
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> at a given
+         * Returns the <code>AccessibleTextSequence</code> bt b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code> to
          * retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text if
-         * <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text if
+         * <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceAt(int part, int index) {
-            if (part == AccessibleText.CHARACTER) {
-                AccessibleTextSequence seq = super.getTextSequenceAt(part, index);
+        public AccessibleTextSequence getTextSequenceAt(int pbrt, int index) {
+            if (pbrt == AccessibleText.CHARACTER) {
+                AccessibleTextSequence seq = super.getTextSequenceAt(pbrt, index);
                 if (seq == null) {
                     return null;
                 }
-                return new AccessibleTextSequence(seq.startIndex, seq.endIndex,
+                return new AccessibleTextSequence(seq.stbrtIndex, seq.endIndex,
                                                   getEchoString(seq.text));
             } else {
-                // Treat the text displayed in the JPasswordField
-                // as one word, sentence, line and attribute run
-                char password[] = getPassword();
-                if (password == null ||
-                    index < 0 || index >= password.length) {
+                // Trebt the text displbyed in the JPbsswordField
+                // bs one word, sentence, line bnd bttribute run
+                chbr pbssword[] = getPbssword();
+                if (pbssword == null ||
+                    index < 0 || index >= pbssword.length) {
                     return null;
                 }
-                String text = new String(password);
-                return new AccessibleTextSequence(0, password.length - 1,
+                String text = new String(pbssword);
+                return new AccessibleTextSequence(0, pbssword.length - 1,
                                                   getEchoString(text));
             }
         }
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> after a given
+         * Returns the <code>AccessibleTextSequence</code> bfter b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code> to
          * retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text if
-         * <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text if
+         * <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceAfter(int part, int index) {
-            if (part == AccessibleText.CHARACTER) {
-                AccessibleTextSequence seq = super.getTextSequenceAfter(part, index);
+        public AccessibleTextSequence getTextSequenceAfter(int pbrt, int index) {
+            if (pbrt == AccessibleText.CHARACTER) {
+                AccessibleTextSequence seq = super.getTextSequenceAfter(pbrt, index);
                 if (seq == null) {
                     return null;
                 }
-                return new AccessibleTextSequence(seq.startIndex, seq.endIndex,
+                return new AccessibleTextSequence(seq.stbrtIndex, seq.endIndex,
                                                   getEchoString(seq.text));
             } else {
-                // There is no word, sentence, line or attribute run
-                // after the text displayed in the JPasswordField.
+                // There is no word, sentence, line or bttribute run
+                // bfter the text displbyed in the JPbsswordField.
                 return null;
             }
         }
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> before a given
+         * Returns the <code>AccessibleTextSequence</code> before b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code> to
          * retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text if
-         * <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text if
+         * <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceBefore(int part, int index) {
-            if (part == AccessibleText.CHARACTER) {
-                AccessibleTextSequence seq = super.getTextSequenceBefore(part, index);
+        public AccessibleTextSequence getTextSequenceBefore(int pbrt, int index) {
+            if (pbrt == AccessibleText.CHARACTER) {
+                AccessibleTextSequence seq = super.getTextSequenceBefore(pbrt, index);
                 if (seq == null) {
                     return null;
                 }
-                return new AccessibleTextSequence(seq.startIndex, seq.endIndex,
+                return new AccessibleTextSequence(seq.stbrtIndex, seq.endIndex,
                                                   getEchoString(seq.text));
             } else {
-                // There is no word, sentence, line or attribute run
-                // before the text displayed in the JPasswordField.
+                // There is no word, sentence, line or bttribute run
+                // before the text displbyed in the JPbsswordField.
                 return null;
             }
         }

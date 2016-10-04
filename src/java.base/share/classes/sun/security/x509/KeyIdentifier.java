@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.security.PublicKey;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import jbvb.io.IOException;
+import jbvb.security.PublicKey;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
@@ -36,79 +36,79 @@ import sun.security.util.*;
 /**
  * Represent the Key Identifier ASN.1 object.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class KeyIdentifier {
-    private byte[] octetString;
+public clbss KeyIdentifier {
+    privbte byte[] octetString;
 
     /**
-     * Create a KeyIdentifier with the passed bit settings.
+     * Crebte b KeyIdentifier with the pbssed bit settings.
      *
-     * @param octetString the octet string identifying the key identifier.
+     * @pbrbm octetString the octet string identifying the key identifier.
      */
     public KeyIdentifier(byte[] octetString) {
         this.octetString = octetString.clone();
     }
 
     /**
-     * Create a KeyIdentifier from the DER encoded value.
+     * Crebte b KeyIdentifier from the DER encoded vblue.
      *
-     * @param val the DerValue
+     * @pbrbm vbl the DerVblue
      */
-    public KeyIdentifier(DerValue val) throws IOException {
-        octetString = val.getOctetString();
+    public KeyIdentifier(DerVblue vbl) throws IOException {
+        octetString = vbl.getOctetString();
     }
 
     /**
-     * Creates a KeyIdentifier from a public-key value.
+     * Crebtes b KeyIdentifier from b public-key vblue.
      *
-     * <p>From RFC2459: Two common methods for generating key identifiers from
-     * the public key are:
+     * <p>From RFC2459: Two common methods for generbting key identifiers from
+     * the public key bre:
      * <ol>
-     * <li>The keyIdentifier is composed of the 160-bit SHA-1 hash of the
-     * value of the BIT STRING subjectPublicKey (excluding the tag,
-     * length, and number of unused bits).
+     * <li>The keyIdentifier is composed of the 160-bit SHA-1 hbsh of the
+     * vblue of the BIT STRING subjectPublicKey (excluding the tbg,
+     * length, bnd number of unused bits).
      * <p>
-     * <li>The keyIdentifier is composed of a four bit type field with
-     * the value 0100 followed by the least significant 60 bits of the
-     * SHA-1 hash of the value of the BIT STRING subjectPublicKey.
+     * <li>The keyIdentifier is composed of b four bit type field with
+     * the vblue 0100 followed by the lebst significbnt 60 bits of the
+     * SHA-1 hbsh of the vblue of the BIT STRING subjectPublicKey.
      * </ol>
      * <p>This method supports method 1.
      *
-     * @param pubKey the public key from which to construct this KeyIdentifier
-     * @throws IOException on parsing errors
+     * @pbrbm pubKey the public key from which to construct this KeyIdentifier
+     * @throws IOException on pbrsing errors
      */
     public KeyIdentifier(PublicKey pubKey)
         throws IOException
     {
-        DerValue algAndKey = new DerValue(pubKey.getEncoded());
-        if (algAndKey.tag != DerValue.tag_Sequence)
-            throw new IOException("PublicKey value is not a valid "
+        DerVblue blgAndKey = new DerVblue(pubKey.getEncoded());
+        if (blgAndKey.tbg != DerVblue.tbg_Sequence)
+            throw new IOException("PublicKey vblue is not b vblid "
                                   + "X.509 public key");
 
-        AlgorithmId algid = AlgorithmId.parse(algAndKey.data.getDerValue());
-        byte[] key = algAndKey.data.getUnalignedBitString().toByteArray();
+        AlgorithmId blgid = AlgorithmId.pbrse(blgAndKey.dbtb.getDerVblue());
+        byte[] key = blgAndKey.dbtb.getUnblignedBitString().toByteArrby();
 
-        MessageDigest md = null;
+        MessbgeDigest md = null;
         try {
-            md = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException e3) {
+            md = MessbgeDigest.getInstbnce("SHA1");
+        } cbtch (NoSuchAlgorithmException e3) {
             throw new IOException("SHA1 not supported");
         }
-        md.update(key);
+        md.updbte(key);
         this.octetString = md.digest();
     }
 
     /**
-     * Return the value of the KeyIdentifier as byte array.
+     * Return the vblue of the KeyIdentifier bs byte brrby.
      */
     public byte[] getIdentifier() {
         return octetString.clone();
     }
 
     /**
-     * Returns a printable representation of the KeyUsage.
+     * Returns b printbble representbtion of the KeyUsbge.
      */
     public String toString() {
         String s = "KeyIdentifier [\n";
@@ -120,35 +120,35 @@ public class KeyIdentifier {
     }
 
     /**
-     * Write the KeyIdentifier to the DerOutputStream.
+     * Write the KeyIdentifier to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the object to.
+     * @pbrbm out the DerOutputStrebm to write the object to.
      * @exception IOException
      */
-    void encode(DerOutputStream out) throws IOException {
+    void encode(DerOutputStrebm out) throws IOException {
         out.putOctetString(octetString);
     }
 
     /**
-     * Returns a hash code value for this object.
-     * Objects that are equal will also have the same hashcode.
+     * Returns b hbsh code vblue for this object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode () {
-        int retval = 0;
+    public int hbshCode () {
+        int retvbl = 0;
         for (int i = 0; i < octetString.length; i++)
-            retval += octetString[i] * i;
-        return retval;
+            retvbl += octetString[i] * i;
+        return retvbl;
     }
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * Indicbtes whether some other object is "equbl to" this one.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof KeyIdentifier))
-            return false;
-        return java.util.Arrays.equals(octetString,
+        if (!(other instbnceof KeyIdentifier))
+            return fblse;
+        return jbvb.util.Arrbys.equbls(octetString,
                                        ((KeyIdentifier)other).getIdentifier());
     }
 }

@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.undo;
+pbckbge jbvbx.swing.undo;
 
-import java.io.Serializable;
-import javax.swing.UIManager;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.UIMbnbger;
 
 /**
- * An abstract implementation of <code>UndoableEdit</code>,
- * implementing simple responses to all boolean methods in
- * that interface.
+ * An bbstrbct implementbtion of <code>UndobbleEdit</code>,
+ * implementing simple responses to bll boolebn methods in
+ * thbt interfbce.
  *
- * @author Ray Ryan
+ * @buthor Rby Rybn
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class AbstractUndoableEdit implements UndoableEdit, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss AbstrbctUndobbleEdit implements UndobbleEdit, Seriblizbble {
 
     /**
-     * String returned by <code>getUndoPresentationName</code>;
-     * as of Java 2 platform v1.3.1 this field is no longer used. This value
-     * is now localized and comes from the defaults table with key
-     * <code>AbstractUndoableEdit.undoText</code>.
+     * String returned by <code>getUndoPresentbtionNbme</code>;
+     * bs of Jbvb 2 plbtform v1.3.1 this field is no longer used. This vblue
+     * is now locblized bnd comes from the defbults tbble with key
+     * <code>AbstrbctUndobbleEdit.undoText</code>.
      *
-     * @see javax.swing.UIDefaults
+     * @see jbvbx.swing.UIDefbults
      */
-    protected static final String UndoName = "Undo";
+    protected stbtic finbl String UndoNbme = "Undo";
 
     /**
-     * String returned by <code>getRedoPresentationName</code>;
-     * as of Java 2 platform v1.3.1 this field is no longer used. This value
-     * is now localized and comes from the defaults table with key
-     * <code>AbstractUndoableEdit.redoText</code>.
+     * String returned by <code>getRedoPresentbtionNbme</code>;
+     * bs of Jbvb 2 plbtform v1.3.1 this field is no longer used. This vblue
+     * is now locblized bnd comes from the defbults tbble with key
+     * <code>AbstrbctUndobbleEdit.redoText</code>.
      *
-     * @see javax.swing.UIDefaults
+     * @see jbvbx.swing.UIDefbults
      */
-    protected static final String RedoName = "Redo";
+    protected stbtic finbl String RedoNbme = "Redo";
 
     /**
-     * Defaults to true; becomes false if this edit is undone, true
-     * again if it is redone.
+     * Defbults to true; becomes fblse if this edit is undone, true
+     * bgbin if it is redone.
      */
-    boolean hasBeenDone;
+    boolebn hbsBeenDone;
 
     /**
-     * True if this edit has not received <code>die</code>; defaults
+     * True if this edit hbs not received <code>die</code>; defbults
      * to <code>true</code>.
      */
-    boolean alive;
+    boolebn blive;
 
     /**
-     * Creates an <code>AbstractUndoableEdit</code> which defaults
-     * <code>hasBeenDone</code> and <code>alive</code> to <code>true</code>.
+     * Crebtes bn <code>AbstrbctUndobbleEdit</code> which defbults
+     * <code>hbsBeenDone</code> bnd <code>blive</code> to <code>true</code>.
      */
-    public AbstractUndoableEdit() {
+    public AbstrbctUndobbleEdit() {
         super();
 
-        hasBeenDone = true;
-        alive = true;
+        hbsBeenDone = true;
+        blive = true;
     }
 
     /**
-     * Sets <code>alive</code> to false. Note that this
-     * is a one way operation; dead edits cannot be resurrected.
+     * Sets <code>blive</code> to fblse. Note thbt this
+     * is b one wby operbtion; debd edits cbnnot be resurrected.
      * Sending <code>undo</code> or <code>redo</code> to
-     * a dead edit results in an exception being thrown.
+     * b debd edit results in bn exception being thrown.
      *
-     * <p>Typically an edit is killed when it is consolidated by
-     * another edit's <code>addEdit</code> or <code>replaceEdit</code>
-     * method, or when it is dequeued from an <code>UndoManager</code>.
+     * <p>Typicblly bn edit is killed when it is consolidbted by
+     * bnother edit's <code>bddEdit</code> or <code>replbceEdit</code>
+     * method, or when it is dequeued from bn <code>UndoMbnbger</code>.
      */
     public void die() {
-        alive = false;
+        blive = fblse;
     }
 
     /**
-     * Throws <code>CannotUndoException</code> if <code>canUndo</code>
-     * returns <code>false</code>. Sets <code>hasBeenDone</code>
-     * to <code>false</code>. Subclasses should override to undo the
-     * operation represented by this edit. Override should begin with
-     * a call to super.
+     * Throws <code>CbnnotUndoException</code> if <code>cbnUndo</code>
+     * returns <code>fblse</code>. Sets <code>hbsBeenDone</code>
+     * to <code>fblse</code>. Subclbsses should override to undo the
+     * operbtion represented by this edit. Override should begin with
+     * b cbll to super.
      *
-     * @exception CannotUndoException if <code>canUndo</code>
-     *    returns <code>false</code>
-     * @see     #canUndo
+     * @exception CbnnotUndoException if <code>cbnUndo</code>
+     *    returns <code>fblse</code>
+     * @see     #cbnUndo
      */
-    public void undo() throws CannotUndoException {
-        if (!canUndo()) {
-            throw new CannotUndoException();
+    public void undo() throws CbnnotUndoException {
+        if (!cbnUndo()) {
+            throw new CbnnotUndoException();
         }
-        hasBeenDone = false;
+        hbsBeenDone = fblse;
     }
 
     /**
-     * Returns true if this edit is <code>alive</code>
-     * and <code>hasBeenDone</code> is <code>true</code>.
+     * Returns true if this edit is <code>blive</code>
+     * bnd <code>hbsBeenDone</code> is <code>true</code>.
      *
-     * @return true if this edit is <code>alive</code>
-     *    and <code>hasBeenDone</code> is <code>true</code>
+     * @return true if this edit is <code>blive</code>
+     *    bnd <code>hbsBeenDone</code> is <code>true</code>
      *
      * @see     #die
      * @see     #undo
      * @see     #redo
      */
-    public boolean canUndo() {
-        return alive && hasBeenDone;
+    public boolebn cbnUndo() {
+        return blive && hbsBeenDone;
     }
 
     /**
-     * Throws <code>CannotRedoException</code> if <code>canRedo</code>
-     * returns false. Sets <code>hasBeenDone</code> to <code>true</code>.
-     * Subclasses should override to redo the operation represented by
-     * this edit. Override should begin with a call to super.
+     * Throws <code>CbnnotRedoException</code> if <code>cbnRedo</code>
+     * returns fblse. Sets <code>hbsBeenDone</code> to <code>true</code>.
+     * Subclbsses should override to redo the operbtion represented by
+     * this edit. Override should begin with b cbll to super.
      *
-     * @exception CannotRedoException if <code>canRedo</code>
-     *     returns <code>false</code>
-     * @see     #canRedo
+     * @exception CbnnotRedoException if <code>cbnRedo</code>
+     *     returns <code>fblse</code>
+     * @see     #cbnRedo
      */
-    public void redo() throws CannotRedoException {
-        if (!canRedo()) {
-            throw new CannotRedoException();
+    public void redo() throws CbnnotRedoException {
+        if (!cbnRedo()) {
+            throw new CbnnotRedoException();
         }
-        hasBeenDone = true;
+        hbsBeenDone = true;
     }
 
     /**
-     * Returns <code>true</code> if this edit is <code>alive</code>
-     * and <code>hasBeenDone</code> is <code>false</code>.
+     * Returns <code>true</code> if this edit is <code>blive</code>
+     * bnd <code>hbsBeenDone</code> is <code>fblse</code>.
      *
-     * @return <code>true</code> if this edit is <code>alive</code>
-     *   and <code>hasBeenDone</code> is <code>false</code>
+     * @return <code>true</code> if this edit is <code>blive</code>
+     *   bnd <code>hbsBeenDone</code> is <code>fblse</code>
      * @see     #die
      * @see     #undo
      * @see     #redo
      */
-    public boolean canRedo() {
-        return alive && !hasBeenDone;
+    public boolebn cbnRedo() {
+        return blive && !hbsBeenDone;
     }
 
     /**
-     * This default implementation returns false.
+     * This defbult implementbtion returns fblse.
      *
-     * @param anEdit the edit to be added
-     * @return false
+     * @pbrbm bnEdit the edit to be bdded
+     * @return fblse
      *
-     * @see UndoableEdit#addEdit
+     * @see UndobbleEdit#bddEdit
      */
-    public boolean addEdit(UndoableEdit anEdit) {
-        return false;
+    public boolebn bddEdit(UndobbleEdit bnEdit) {
+        return fblse;
     }
 
     /**
-     * This default implementation returns false.
+     * This defbult implementbtion returns fblse.
      *
-     * @param anEdit the edit to replace
-     * @return false
+     * @pbrbm bnEdit the edit to replbce
+     * @return fblse
      *
-     * @see UndoableEdit#replaceEdit
+     * @see UndobbleEdit#replbceEdit
      */
-    public boolean replaceEdit(UndoableEdit anEdit) {
-        return false;
+    public boolebn replbceEdit(UndobbleEdit bnEdit) {
+        return fblse;
     }
 
     /**
-     * This default implementation returns true.
+     * This defbult implementbtion returns true.
      *
      * @return true
-     * @see UndoableEdit#isSignificant
+     * @see UndobbleEdit#isSignificbnt
      */
-    public boolean isSignificant() {
+    public boolebn isSignificbnt() {
         return true;
     }
 
     /**
-     * This default implementation returns "". Used by
-     * <code>getUndoPresentationName</code> and
-     * <code>getRedoPresentationName</code> to
-     * construct the strings they return. Subclasses should override to
-     * return an appropriate description of the operation this edit
+     * This defbult implementbtion returns "". Used by
+     * <code>getUndoPresentbtionNbme</code> bnd
+     * <code>getRedoPresentbtionNbme</code> to
+     * construct the strings they return. Subclbsses should override to
+     * return bn bppropribte description of the operbtion this edit
      * represents.
      *
      * @return the empty string ""
      *
-     * @see     #getUndoPresentationName
-     * @see     #getRedoPresentationName
+     * @see     #getUndoPresentbtionNbme
+     * @see     #getRedoPresentbtionNbme
      */
-    public String getPresentationName() {
+    public String getPresentbtionNbme() {
         return "";
     }
 
     /**
-     * Retreives the value from the defaults table with key
-     * <code>AbstractUndoableEdit.undoText</code> and returns
-     * that value followed by a space, followed by
-     * <code>getPresentationName</code>.
-     * If <code>getPresentationName</code> returns "",
-     * then the defaults value is returned alone.
+     * Retreives the vblue from the defbults tbble with key
+     * <code>AbstrbctUndobbleEdit.undoText</code> bnd returns
+     * thbt vblue followed by b spbce, followed by
+     * <code>getPresentbtionNbme</code>.
+     * If <code>getPresentbtionNbme</code> returns "",
+     * then the defbults vblue is returned blone.
      *
-     * @return the value from the defaults table with key
-     *    <code>AbstractUndoableEdit.undoText</code>, followed
-     *    by a space, followed by <code>getPresentationName</code>
-     *    unless <code>getPresentationName</code> is "" in which
-     *    case, the defaults value is returned alone.
-     * @see #getPresentationName
+     * @return the vblue from the defbults tbble with key
+     *    <code>AbstrbctUndobbleEdit.undoText</code>, followed
+     *    by b spbce, followed by <code>getPresentbtionNbme</code>
+     *    unless <code>getPresentbtionNbme</code> is "" in which
+     *    cbse, the defbults vblue is returned blone.
+     * @see #getPresentbtionNbme
      */
-    public String getUndoPresentationName() {
-        String name = getPresentationName();
-        if (!"".equals(name)) {
-            name = UIManager.getString("AbstractUndoableEdit.undoText") +
-                " " + name;
+    public String getUndoPresentbtionNbme() {
+        String nbme = getPresentbtionNbme();
+        if (!"".equbls(nbme)) {
+            nbme = UIMbnbger.getString("AbstrbctUndobbleEdit.undoText") +
+                " " + nbme;
         } else {
-            name = UIManager.getString("AbstractUndoableEdit.undoText");
+            nbme = UIMbnbger.getString("AbstrbctUndobbleEdit.undoText");
         }
 
-        return name;
+        return nbme;
     }
 
     /**
-     * Retreives the value from the defaults table with key
-     * <code>AbstractUndoableEdit.redoText</code> and returns
-     * that value followed by a space, followed by
-     * <code>getPresentationName</code>.
-     * If <code>getPresentationName</code> returns "",
-     * then the defaults value is returned alone.
+     * Retreives the vblue from the defbults tbble with key
+     * <code>AbstrbctUndobbleEdit.redoText</code> bnd returns
+     * thbt vblue followed by b spbce, followed by
+     * <code>getPresentbtionNbme</code>.
+     * If <code>getPresentbtionNbme</code> returns "",
+     * then the defbults vblue is returned blone.
      *
-     * @return the value from the defaults table with key
-     *    <code>AbstractUndoableEdit.redoText</code>, followed
-     *    by a space, followed by <code>getPresentationName</code>
-     *    unless <code>getPresentationName</code> is "" in which
-     *    case, the defaults value is returned alone.
-     * @see #getPresentationName
+     * @return the vblue from the defbults tbble with key
+     *    <code>AbstrbctUndobbleEdit.redoText</code>, followed
+     *    by b spbce, followed by <code>getPresentbtionNbme</code>
+     *    unless <code>getPresentbtionNbme</code> is "" in which
+     *    cbse, the defbults vblue is returned blone.
+     * @see #getPresentbtionNbme
      */
-    public String getRedoPresentationName() {
-        String name = getPresentationName();
-        if (!"".equals(name)) {
-            name = UIManager.getString("AbstractUndoableEdit.redoText") +
-                " " + name;
+    public String getRedoPresentbtionNbme() {
+        String nbme = getPresentbtionNbme();
+        if (!"".equbls(nbme)) {
+            nbme = UIMbnbger.getString("AbstrbctUndobbleEdit.redoText") +
+                " " + nbme;
         } else {
-            name = UIManager.getString("AbstractUndoableEdit.redoText");
+            nbme = UIMbnbger.getString("AbstrbctUndobbleEdit.redoText");
         }
 
-        return name;
+        return nbme;
     }
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString()
     {
         return super.toString()
-            + " hasBeenDone: " + hasBeenDone
-            + " alive: " + alive;
+            + " hbsBeenDone: " + hbsBeenDone
+            + " blive: " + blive;
     }
 }

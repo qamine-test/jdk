@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import java.util.logging.Level;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import static javax.management.monitor.Monitor.NumericalType.*;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtic com.sun.jmx.defbults.JmxProperties.MONITOR_LOGGER;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import stbtic jbvbx.mbnbgement.monitor.Monitor.NumericblType.*;
+import stbtic jbvbx.mbnbgement.monitor.MonitorNotificbtion.*;
 
 /**
- * Defines a monitor MBean designed to observe the values of a counter
- * attribute.
+ * Defines b monitor MBebn designed to observe the vblues of b counter
+ * bttribute.
  *
- * <P> A counter monitor sends a {@link
- * MonitorNotification#THRESHOLD_VALUE_EXCEEDED threshold
- * notification} when the value of the counter reaches or exceeds a
- * threshold known as the comparison level.  The notify flag must be
+ * <P> A counter monitor sends b {@link
+ * MonitorNotificbtion#THRESHOLD_VALUE_EXCEEDED threshold
+ * notificbtion} when the vblue of the counter rebches or exceeds b
+ * threshold known bs the compbrison level.  The notify flbg must be
  * set to <CODE>true</CODE>.
  *
- * <P> In addition, an offset mechanism enables particular counting
- * intervals to be detected.  If the offset value is not zero,
- * whenever the threshold is triggered by the counter value reaching a
- * comparison level, that comparison level is incremented by the
- * offset value.  This is regarded as taking place instantaneously,
- * that is, before the count is incremented.  Thus, for each level,
- * the threshold triggers an event notification every time the count
- * increases by an interval equal to the offset value.
+ * <P> In bddition, bn offset mechbnism enbbles pbrticulbr counting
+ * intervbls to be detected.  If the offset vblue is not zero,
+ * whenever the threshold is triggered by the counter vblue rebching b
+ * compbrison level, thbt compbrison level is incremented by the
+ * offset vblue.  This is regbrded bs tbking plbce instbntbneously,
+ * thbt is, before the count is incremented.  Thus, for ebch level,
+ * the threshold triggers bn event notificbtion every time the count
+ * increbses by bn intervbl equbl to the offset vblue.
  *
- * <P> If the counter can wrap around its maximum value, the modulus
- * needs to be specified.  The modulus is the value at which the
+ * <P> If the counter cbn wrbp bround its mbximum vblue, the modulus
+ * needs to be specified.  The modulus is the vblue bt which the
  * counter is reset to zero.
  *
- * <P> If the counter difference mode is used, the value of the
- * derived gauge is calculated as the difference between the observed
- * counter values for two successive observations.  If this difference
- * is negative, the value of the derived gauge is incremented by the
- * value of the modulus.  The derived gauge value (V[t]) is calculated
+ * <P> If the counter difference mode is used, the vblue of the
+ * derived gbuge is cblculbted bs the difference between the observed
+ * counter vblues for two successive observbtions.  If this difference
+ * is negbtive, the vblue of the derived gbuge is incremented by the
+ * vblue of the modulus.  The derived gbuge vblue (V[t]) is cblculbted
  * using the following method:
  *
  * <UL>
  * <LI>if (counter[t] - counter[t-GP]) is positive then
  * V[t] = counter[t] - counter[t-GP]
- * <LI>if (counter[t] - counter[t-GP]) is negative then
+ * <LI>if (counter[t] - counter[t-GP]) is negbtive then
  * V[t] = counter[t] - counter[t-GP] + MODULUS
  * </UL>
  *
- * This implementation of the counter monitor requires the observed
- * attribute to be of the type integer (<CODE>Byte</CODE>,
+ * This implementbtion of the counter monitor requires the observed
+ * bttribute to be of the type integer (<CODE>Byte</CODE>,
  * <CODE>Integer</CODE>, <CODE>Short</CODE>, <CODE>Long</CODE>).
  *
  *
  * @since 1.5
  */
-public class CounterMonitor extends Monitor implements CounterMonitorMBean {
+public clbss CounterMonitor extends Monitor implements CounterMonitorMBebn {
 
     /*
      * ------------------------------------------
@@ -84,67 +84,67 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * ------------------------------------------
      */
 
-    static class CounterMonitorObservedObject extends ObservedObject {
+    stbtic clbss CounterMonitorObservedObject extends ObservedObject {
 
-        public CounterMonitorObservedObject(ObjectName observedObject) {
+        public CounterMonitorObservedObject(ObjectNbme observedObject) {
             super(observedObject);
         }
 
-        public final synchronized Number getThreshold() {
+        public finbl synchronized Number getThreshold() {
             return threshold;
         }
-        public final synchronized void setThreshold(Number threshold) {
+        public finbl synchronized void setThreshold(Number threshold) {
             this.threshold = threshold;
         }
-        public final synchronized Number getPreviousScanCounter() {
-            return previousScanCounter;
+        public finbl synchronized Number getPreviousScbnCounter() {
+            return previousScbnCounter;
         }
-        public final synchronized void setPreviousScanCounter(
-                                                  Number previousScanCounter) {
-            this.previousScanCounter = previousScanCounter;
+        public finbl synchronized void setPreviousScbnCounter(
+                                                  Number previousScbnCounter) {
+            this.previousScbnCounter = previousScbnCounter;
         }
-        public final synchronized boolean getModulusExceeded() {
+        public finbl synchronized boolebn getModulusExceeded() {
             return modulusExceeded;
         }
-        public final synchronized void setModulusExceeded(
-                                                 boolean modulusExceeded) {
+        public finbl synchronized void setModulusExceeded(
+                                                 boolebn modulusExceeded) {
             this.modulusExceeded = modulusExceeded;
         }
-        public final synchronized Number getDerivedGaugeExceeded() {
-            return derivedGaugeExceeded;
+        public finbl synchronized Number getDerivedGbugeExceeded() {
+            return derivedGbugeExceeded;
         }
-        public final synchronized void setDerivedGaugeExceeded(
-                                                 Number derivedGaugeExceeded) {
-            this.derivedGaugeExceeded = derivedGaugeExceeded;
+        public finbl synchronized void setDerivedGbugeExceeded(
+                                                 Number derivedGbugeExceeded) {
+            this.derivedGbugeExceeded = derivedGbugeExceeded;
         }
-        public final synchronized boolean getDerivedGaugeValid() {
-            return derivedGaugeValid;
+        public finbl synchronized boolebn getDerivedGbugeVblid() {
+            return derivedGbugeVblid;
         }
-        public final synchronized void setDerivedGaugeValid(
-                                                 boolean derivedGaugeValid) {
-            this.derivedGaugeValid = derivedGaugeValid;
+        public finbl synchronized void setDerivedGbugeVblid(
+                                                 boolebn derivedGbugeVblid) {
+            this.derivedGbugeVblid = derivedGbugeVblid;
         }
-        public final synchronized boolean getEventAlreadyNotified() {
-            return eventAlreadyNotified;
+        public finbl synchronized boolebn getEventAlrebdyNotified() {
+            return eventAlrebdyNotified;
         }
-        public final synchronized void setEventAlreadyNotified(
-                                               boolean eventAlreadyNotified) {
-            this.eventAlreadyNotified = eventAlreadyNotified;
+        public finbl synchronized void setEventAlrebdyNotified(
+                                               boolebn eventAlrebdyNotified) {
+            this.eventAlrebdyNotified = eventAlrebdyNotified;
         }
-        public final synchronized NumericalType getType() {
+        public finbl synchronized NumericblType getType() {
             return type;
         }
-        public final synchronized void setType(NumericalType type) {
+        public finbl synchronized void setType(NumericblType type) {
             this.type = type;
         }
 
-        private Number threshold;
-        private Number previousScanCounter;
-        private boolean modulusExceeded;
-        private Number derivedGaugeExceeded;
-        private boolean derivedGaugeValid;
-        private boolean eventAlreadyNotified;
-        private NumericalType type;
+        privbte Number threshold;
+        privbte Number previousScbnCounter;
+        privbte boolebn modulusExceeded;
+        privbte Number derivedGbugeExceeded;
+        privbte boolebn derivedGbugeVblid;
+        privbte boolebn eventAlrebdyNotified;
+        privbte NumericblType type;
     }
 
     /*
@@ -155,41 +155,41 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
 
     /**
      * Counter modulus.
-     * <BR>The default value is a null Integer object.
+     * <BR>The defbult vblue is b null Integer object.
      */
-    private Number modulus = INTEGER_ZERO;
+    privbte Number modulus = INTEGER_ZERO;
 
     /**
      * Counter offset.
-     * <BR>The default value is a null Integer object.
+     * <BR>The defbult vblue is b null Integer object.
      */
-    private Number offset = INTEGER_ZERO;
+    privbte Number offset = INTEGER_ZERO;
 
     /**
-     * Flag indicating if the counter monitor notifies when exceeding
-     * the threshold.  The default value is set to
-     * <CODE>false</CODE>.
+     * Flbg indicbting if the counter monitor notifies when exceeding
+     * the threshold.  The defbult vblue is set to
+     * <CODE>fblse</CODE>.
      */
-    private boolean notify = false;
+    privbte boolebn notify = fblse;
 
     /**
-     * Flag indicating if the counter difference mode is used.  If the
-     * counter difference mode is used, the derived gauge is the
-     * difference between two consecutive observed values.  Otherwise,
-     * the derived gauge is directly the value of the observed
-     * attribute.  The default value is set to <CODE>false</CODE>.
+     * Flbg indicbting if the counter difference mode is used.  If the
+     * counter difference mode is used, the derived gbuge is the
+     * difference between two consecutive observed vblues.  Otherwise,
+     * the derived gbuge is directly the vblue of the observed
+     * bttribute.  The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean differenceMode = false;
+    privbte boolebn differenceMode = fblse;
 
     /**
-     * Initial counter threshold.  This value is used to initialize
-     * the threshold when a new object is added to the list and reset
-     * the threshold to its initial value each time the counter
+     * Initibl counter threshold.  This vblue is used to initiblize
+     * the threshold when b new object is bdded to the list bnd reset
+     * the threshold to its initibl vblue ebch time the counter
      * resets.
      */
-    private Number initThreshold = INTEGER_ZERO;
+    privbte Number initThreshold = INTEGER_ZERO;
 
-    private static final String[] types = {
+    privbte stbtic finbl String[] types = {
         RUNTIME_ERROR,
         OBSERVED_OBJECT_ERROR,
         OBSERVED_ATTRIBUTE_ERROR,
@@ -198,11 +198,11 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
         THRESHOLD_VALUE_EXCEEDED
     };
 
-    private static final MBeanNotificationInfo[] notifsInfo = {
-        new MBeanNotificationInfo(
+    privbte stbtic finbl MBebnNotificbtionInfo[] notifsInfo = {
+        new MBebnNotificbtionInfo(
             types,
-            "javax.management.monitor.MonitorNotification",
-            "Notifications sent by the CounterMonitor MBean")
+            "jbvbx.mbnbgement.monitor.MonitorNotificbtion",
+            "Notificbtions sent by the CounterMonitor MBebn")
     };
 
     /*
@@ -212,7 +212,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public CounterMonitor() {
     }
@@ -224,25 +224,25 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Starts the counter monitor.
+     * Stbrts the counter monitor.
      */
-    public synchronized void start() {
+    public synchronized void stbrt() {
         if (isActive()) {
-            MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.class.getName(),
-                    "start", "the monitor is already active");
+            MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.clbss.getNbme(),
+                    "stbrt", "the monitor is blrebdy bctive");
             return;
         }
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final CounterMonitorObservedObject cmo =
+            finbl CounterMonitorObservedObject cmo =
                 (CounterMonitorObservedObject) o;
             cmo.setThreshold(initThreshold);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
-            cmo.setPreviousScanCounter(null);
+            cmo.setModulusExceeded(fblse);
+            cmo.setEventAlrebdyNotified(fblse);
+            cmo.setPreviousScbnCounter(null);
         }
-        doStart();
+        doStbrt();
     }
 
     /**
@@ -256,64 +256,64 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     //--------------------
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gets the derived gbuge of the specified object, if this object is
+     * contbined in the set of observed MBebns, or <code>null</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge is to
+     * @pbrbm object the nbme of the object whose derived gbuge is to
      * be returned.
      *
-     * @return The derived gauge of the specified object.
+     * @return The derived gbuge of the specified object.
      *
      */
     @Override
-    public synchronized Number getDerivedGauge(ObjectName object) {
-        return (Number) super.getDerivedGauge(object);
+    public synchronized Number getDerivedGbuge(ObjectNbme object) {
+        return (Number) super.getDerivedGbuge(object);
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
+     * Gets the derived gbuge timestbmp of the specified object, if
+     * this object is contbined in the set of observed MBebns, or
      * <code>0</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm object the nbme of the object whose derived gbuge
+     * timestbmp is to be returned.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @return The derived gbuge timestbmp of the specified object.
      *
      */
     @Override
-    public synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        return super.getDerivedGaugeTimeStamp(object);
+    public synchronized long getDerivedGbugeTimeStbmp(ObjectNbme object) {
+        return super.getDerivedGbugeTimeStbmp(object);
     }
 
     /**
-     * Gets the current threshold value of the specified object, if
-     * this object is contained in the set of observed MBeans, or
+     * Gets the current threshold vblue of the specified object, if
+     * this object is contbined in the set of observed MBebns, or
      * <code>null</code> otherwise.
      *
-     * @param object the name of the object whose threshold is to be
+     * @pbrbm object the nbme of the object whose threshold is to be
      * returned.
      *
-     * @return The threshold value of the specified object.
+     * @return The threshold vblue of the specified object.
      *
      */
-    public synchronized Number getThreshold(ObjectName object) {
-        final CounterMonitorObservedObject o =
+    public synchronized Number getThreshold(ObjectNbme object) {
+        finbl CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // If the counter that is monitored rolls over when it reaches a
-        // maximum value, then the modulus value needs to be set to that
-        // maximum value. The threshold will then also roll over whenever
-        // it strictly exceeds the modulus value. When the threshold rolls
-        // over, it is reset to the value that was specified through the
-        // latest call to the monitor's setInitThreshold method, before
-        // any offsets were applied.
+        // If the counter thbt is monitored rolls over when it rebches b
+        // mbximum vblue, then the modulus vblue needs to be set to thbt
+        // mbximum vblue. The threshold will then blso roll over whenever
+        // it strictly exceeds the modulus vblue. When the threshold rolls
+        // over, it is reset to the vblue thbt wbs specified through the
+        // lbtest cbll to the monitor's setInitThreshold method, before
+        // bny offsets were bpplied.
         //
-        if (offset.longValue() > 0L &&
-            modulus.longValue() > 0L &&
-            o.getThreshold().longValue() > modulus.longValue()) {
+        if (offset.longVblue() > 0L &&
+            modulus.longVblue() > 0L &&
+            o.getThreshold().longVblue() > modulus.longVblue()) {
             return initThreshold;
         } else {
             return o.getThreshold();
@@ -321,9 +321,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     }
 
     /**
-     * Gets the initial threshold value common to all observed objects.
+     * Gets the initibl threshold vblue common to bll observed objects.
      *
-     * @return The initial threshold.
+     * @return The initibl threshold.
      *
      * @see #setInitThreshold
      *
@@ -333,119 +333,119 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     }
 
     /**
-     * Sets the initial threshold value common to all observed objects.
+     * Sets the initibl threshold vblue common to bll observed objects.
      *
      * <BR>The current threshold of every object in the set of
-     * observed MBeans is updated consequently.
+     * observed MBebns is updbted consequently.
      *
-     * @param value The initial threshold value.
+     * @pbrbm vblue The initibl threshold vblue.
      *
-     * @exception IllegalArgumentException The specified
-     * threshold is null or the threshold value is less than zero.
+     * @exception IllegblArgumentException The specified
+     * threshold is null or the threshold vblue is less thbn zero.
      *
      * @see #getInitThreshold
      *
      */
-    public synchronized void setInitThreshold(Number value)
-        throws IllegalArgumentException {
+    public synchronized void setInitThreshold(Number vblue)
+        throws IllegblArgumentException {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null threshold");
+        if (vblue == null) {
+            throw new IllegblArgumentException("Null threshold");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative threshold");
+        if (vblue.longVblue() < 0L) {
+            throw new IllegblArgumentException("Negbtive threshold");
         }
 
-        if (initThreshold.equals(value))
+        if (initThreshold.equbls(vblue))
             return;
-        initThreshold = value;
+        initThreshold = vblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         int index = 0;
         for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
-            final CounterMonitorObservedObject cmo =
+            resetAlrebdyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CounterMonitorObservedObject cmo =
                 (CounterMonitorObservedObject) o;
-            cmo.setThreshold(value);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
+            cmo.setThreshold(vblue);
+            cmo.setModulusExceeded(fblse);
+            cmo.setEventAlrebdyNotified(fblse);
         }
     }
 
     /**
-     * Returns the derived gauge of the first object in the set of
-     * observed MBeans.
+     * Returns the derived gbuge of the first object in the set of
+     * observed MBebns.
      *
-     * @return The derived gauge.
+     * @return The derived gbuge.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGauge(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbuge(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized Number getDerivedGauge() {
+    @Deprecbted
+    public synchronized Number getDerivedGbuge() {
         if (observedObjects.isEmpty()) {
             return null;
         } else {
-            return (Number) observedObjects.get(0).getDerivedGauge();
+            return (Number) observedObjects.get(0).getDerivedGbuge();
         }
     }
 
     /**
-     * Gets the derived gauge timestamp of the first object in the set
-     * of observed MBeans.
+     * Gets the derived gbuge timestbmp of the first object in the set
+     * of observed MBebns.
      *
-     * @return The derived gauge timestamp.
+     * @return The derived gbuge timestbmp.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbugeTimeStbmp(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized long getDerivedGaugeTimeStamp() {
+    @Deprecbted
+    public synchronized long getDerivedGbugeTimeStbmp() {
         if (observedObjects.isEmpty()) {
             return 0;
         } else {
-            return observedObjects.get(0).getDerivedGaugeTimeStamp();
+            return observedObjects.get(0).getDerivedGbugeTimeStbmp();
         }
     }
 
     /**
-     * Gets the threshold value of the first object in the set of
-     * observed MBeans.
+     * Gets the threshold vblue of the first object in the set of
+     * observed MBebns.
      *
-     * @return The threshold value.
+     * @return The threshold vblue.
      *
      * @see #setThreshold
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getThreshold(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by {@link #getThreshold(ObjectNbme)}
      */
-    @Deprecated
+    @Deprecbted
     public synchronized Number getThreshold() {
         return getThreshold(getObservedObject());
     }
 
     /**
-     * Sets the initial threshold value.
+     * Sets the initibl threshold vblue.
      *
-     * @param value The initial threshold value.
+     * @pbrbm vblue The initibl threshold vblue.
      *
-     * @exception IllegalArgumentException The specified threshold is
-     * null or the threshold value is less than zero.
+     * @exception IllegblArgumentException The specified threshold is
+     * null or the threshold vblue is less thbn zero.
      *
      * @see #getThreshold()
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #setInitThreshold}
+     * @deprecbted As of JMX 1.2, replbced by {@link #setInitThreshold}
      */
-    @Deprecated
-    public synchronized void setThreshold(Number value)
-        throws IllegalArgumentException {
-        setInitThreshold(value);
+    @Deprecbted
+    public synchronized void setThreshold(Number vblue)
+        throws IllegblArgumentException {
+        setInitThreshold(vblue);
     }
 
     /**
-     * Gets the offset value common to all observed MBeans.
+     * Gets the offset vblue common to bll observed MBebns.
      *
-     * @return The offset value.
+     * @return The offset vblue.
      *
      * @see #setOffset
      */
@@ -454,151 +454,151 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     }
 
     /**
-     * Sets the offset value common to all observed MBeans.
+     * Sets the offset vblue common to bll observed MBebns.
      *
-     * @param value The offset value.
+     * @pbrbm vblue The offset vblue.
      *
-     * @exception IllegalArgumentException The specified
-     * offset is null or the offset value is less than zero.
+     * @exception IllegblArgumentException The specified
+     * offset is null or the offset vblue is less thbn zero.
      *
      * @see #getOffset
      */
-    public synchronized void setOffset(Number value)
-        throws IllegalArgumentException {
+    public synchronized void setOffset(Number vblue)
+        throws IllegblArgumentException {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null offset");
+        if (vblue == null) {
+            throw new IllegblArgumentException("Null offset");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative offset");
+        if (vblue.longVblue() < 0L) {
+            throw new IllegblArgumentException("Negbtive offset");
         }
 
-        if (offset.equals(value))
+        if (offset.equbls(vblue))
             return;
-        offset = value;
+        offset = vblue;
 
         int index = 0;
         for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
+            resetAlrebdyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
         }
     }
 
     /**
-     * Gets the modulus value common to all observed MBeans.
+     * Gets the modulus vblue common to bll observed MBebns.
      *
      * @see #setModulus
      *
-     * @return The modulus value.
+     * @return The modulus vblue.
      */
     public synchronized Number getModulus() {
         return modulus;
     }
 
     /**
-     * Sets the modulus value common to all observed MBeans.
+     * Sets the modulus vblue common to bll observed MBebns.
      *
-     * @param value The modulus value.
+     * @pbrbm vblue The modulus vblue.
      *
-     * @exception IllegalArgumentException The specified
-     * modulus is null or the modulus value is less than zero.
+     * @exception IllegblArgumentException The specified
+     * modulus is null or the modulus vblue is less thbn zero.
      *
      * @see #getModulus
      */
-    public synchronized void setModulus(Number value)
-        throws IllegalArgumentException {
+    public synchronized void setModulus(Number vblue)
+        throws IllegblArgumentException {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null modulus");
+        if (vblue == null) {
+            throw new IllegblArgumentException("Null modulus");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative modulus");
+        if (vblue.longVblue() < 0L) {
+            throw new IllegblArgumentException("Negbtive modulus");
         }
 
-        if (modulus.equals(value))
+        if (modulus.equbls(vblue))
             return;
-        modulus = value;
+        modulus = vblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         int index = 0;
         for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
-            final CounterMonitorObservedObject cmo =
+            resetAlrebdyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CounterMonitorObservedObject cmo =
                 (CounterMonitorObservedObject) o;
-            cmo.setModulusExceeded(false);
+            cmo.setModulusExceeded(fblse);
         }
     }
 
     /**
-     * Gets the notification's on/off switch value common to all
-     * observed MBeans.
+     * Gets the notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
      * @return <CODE>true</CODE> if the counter monitor notifies when
-     * exceeding the threshold, <CODE>false</CODE> otherwise.
+     * exceeding the threshold, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotify
      */
-    public synchronized boolean getNotify() {
+    public synchronized boolebn getNotify() {
         return notify;
     }
 
     /**
-     * Sets the notification's on/off switch value common to all
-     * observed MBeans.
+     * Sets the notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
-     * @param value The notification's on/off switch value.
+     * @pbrbm vblue The notificbtion's on/off switch vblue.
      *
      * @see #getNotify
      */
-    public synchronized void setNotify(boolean value) {
-        if (notify == value)
+    public synchronized void setNotify(boolebn vblue) {
+        if (notify == vblue)
             return;
-        notify = value;
+        notify = vblue;
     }
 
     /**
-     * Gets the difference mode flag value common to all observed MBeans.
+     * Gets the difference mode flbg vblue common to bll observed MBebns.
      *
      * @return <CODE>true</CODE> if the difference mode is used,
-     * <CODE>false</CODE> otherwise.
+     * <CODE>fblse</CODE> otherwise.
      *
      * @see #setDifferenceMode
      */
-    public synchronized boolean getDifferenceMode() {
+    public synchronized boolebn getDifferenceMode() {
         return differenceMode;
     }
 
     /**
-     * Sets the difference mode flag value common to all observed MBeans.
+     * Sets the difference mode flbg vblue common to bll observed MBebns.
      *
-     * @param value The difference mode flag value.
+     * @pbrbm vblue The difference mode flbg vblue.
      *
      * @see #getDifferenceMode
      */
-    public synchronized void setDifferenceMode(boolean value) {
-        if (differenceMode == value)
+    public synchronized void setDifferenceMode(boolebn vblue) {
+        if (differenceMode == vblue)
             return;
-        differenceMode = value;
+        differenceMode = vblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final CounterMonitorObservedObject cmo =
+            finbl CounterMonitorObservedObject cmo =
                 (CounterMonitorObservedObject) o;
             cmo.setThreshold(initThreshold);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
-            cmo.setPreviousScanCounter(null);
+            cmo.setModulusExceeded(fblse);
+            cmo.setEventAlrebdyNotified(fblse);
+            cmo.setPreviousScbnCounter(null);
         }
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the
-     * name of the Java class of the notification and the notification
+     * Returns b <CODE>NotificbtionInfo</CODE> object contbining the
+     * nbme of the Jbvb clbss of the notificbtion bnd the notificbtion
      * types sent by the counter monitor.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         return notifsInfo.clone();
     }
 
@@ -609,79 +609,79 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Updates the derived gauge attribute of the observed object.
+     * Updbtes the derived gbuge bttribute of the observed object.
      *
-     * @param scanCounter The value of the observed attribute.
-     * @param o The observed object.
-     * @return <CODE>true</CODE> if the derived gauge value is valid,
-     * <CODE>false</CODE> otherwise.  The derived gauge value is
-     * invalid when the differenceMode flag is set to
-     * <CODE>true</CODE> and it is the first notification (so we
-     * haven't 2 consecutive values to update the derived gauge).
+     * @pbrbm scbnCounter The vblue of the observed bttribute.
+     * @pbrbm o The observed object.
+     * @return <CODE>true</CODE> if the derived gbuge vblue is vblid,
+     * <CODE>fblse</CODE> otherwise.  The derived gbuge vblue is
+     * invblid when the differenceMode flbg is set to
+     * <CODE>true</CODE> bnd it is the first notificbtion (so we
+     * hbven't 2 consecutive vblues to updbte the derived gbuge).
      */
-    private synchronized boolean updateDerivedGauge(
-        Object scanCounter, CounterMonitorObservedObject o) {
+    privbte synchronized boolebn updbteDerivedGbuge(
+        Object scbnCounter, CounterMonitorObservedObject o) {
 
-        boolean is_derived_gauge_valid;
+        boolebn is_derived_gbuge_vblid;
 
         // The counter difference mode is used.
         //
         if (differenceMode) {
 
-            // The previous scan counter has been initialized.
+            // The previous scbn counter hbs been initiblized.
             //
-            if (o.getPreviousScanCounter() != null) {
-                setDerivedGaugeWithDifference((Number)scanCounter, null, o);
+            if (o.getPreviousScbnCounter() != null) {
+                setDerivedGbugeWithDifference((Number)scbnCounter, null, o);
 
-                // If derived gauge is negative it means that the
-                // counter has wrapped around and the value of the
-                // threshold needs to be reset to its initial value.
+                // If derived gbuge is negbtive it mebns thbt the
+                // counter hbs wrbpped bround bnd the vblue of the
+                // threshold needs to be reset to its initibl vblue.
                 //
-                if (((Number)o.getDerivedGauge()).longValue() < 0L) {
-                    if (modulus.longValue() > 0L) {
-                        setDerivedGaugeWithDifference((Number)scanCounter,
+                if (((Number)o.getDerivedGbuge()).longVblue() < 0L) {
+                    if (modulus.longVblue() > 0L) {
+                        setDerivedGbugeWithDifference((Number)scbnCounter,
                                                       modulus, o);
                     }
                     o.setThreshold(initThreshold);
-                    o.setEventAlreadyNotified(false);
+                    o.setEventAlrebdyNotified(fblse);
                 }
-                is_derived_gauge_valid = true;
+                is_derived_gbuge_vblid = true;
             }
-            // The previous scan counter has not been initialized.
-            // We cannot update the derived gauge...
+            // The previous scbn counter hbs not been initiblized.
+            // We cbnnot updbte the derived gbuge...
             //
             else {
-                is_derived_gauge_valid = false;
+                is_derived_gbuge_vblid = fblse;
             }
-            o.setPreviousScanCounter((Number)scanCounter);
+            o.setPreviousScbnCounter((Number)scbnCounter);
         }
         // The counter difference mode is not used.
         //
         else {
-            o.setDerivedGauge((Number)scanCounter);
-            is_derived_gauge_valid = true;
+            o.setDerivedGbuge((Number)scbnCounter);
+            is_derived_gbuge_vblid = true;
         }
-        return is_derived_gauge_valid;
+        return is_derived_gbuge_vblid;
     }
 
     /**
-     * Updates the notification attribute of the observed object
-     * and notifies the listeners only once if the notify flag
+     * Updbtes the notificbtion bttribute of the observed object
+     * bnd notifies the listeners only once if the notify flbg
      * is set to <CODE>true</CODE>.
-     * @param o The observed object.
+     * @pbrbm o The observed object.
      */
-    private synchronized MonitorNotification updateNotifications(
+    privbte synchronized MonitorNotificbtion updbteNotificbtions(
         CounterMonitorObservedObject o) {
 
-        MonitorNotification n = null;
+        MonitorNotificbtion n = null;
 
-        // Send notification if notify is true.
+        // Send notificbtion if notify is true.
         //
-        if (!o.getEventAlreadyNotified()) {
-            if (((Number)o.getDerivedGauge()).longValue() >=
-                o.getThreshold().longValue()) {
+        if (!o.getEventAlrebdyNotified()) {
+            if (((Number)o.getDerivedGbuge()).longVblue() >=
+                o.getThreshold().longVblue()) {
                 if (notify) {
-                    n = new MonitorNotification(THRESHOLD_VALUE_EXCEEDED,
+                    n = new MonitorNotificbtion(THRESHOLD_VALUE_EXCEEDED,
                                                 this,
                                                 0,
                                                 0,
@@ -692,24 +692,24 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
                                                 o.getThreshold());
                 }
                 if (!differenceMode) {
-                    o.setEventAlreadyNotified(true);
+                    o.setEventAlrebdyNotified(true);
                 }
             }
         } else {
-            if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-                final StringBuilder strb = new StringBuilder()
-                .append("The notification:")
-                .append("\n\tNotification observed object = ")
-                .append(o.getObservedObject())
-                .append("\n\tNotification observed attribute = ")
-                .append(getObservedAttribute())
-                .append("\n\tNotification threshold level = ")
-                .append(o.getThreshold())
-                .append("\n\tNotification derived gauge = ")
-                .append(o.getDerivedGauge())
-                .append("\nhas already been sent");
-                MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.class.getName(),
-                        "updateNotifications", strb.toString());
+            if (MONITOR_LOGGER.isLoggbble(Level.FINER)) {
+                finbl StringBuilder strb = new StringBuilder()
+                .bppend("The notificbtion:")
+                .bppend("\n\tNotificbtion observed object = ")
+                .bppend(o.getObservedObject())
+                .bppend("\n\tNotificbtion observed bttribute = ")
+                .bppend(getObservedAttribute())
+                .bppend("\n\tNotificbtion threshold level = ")
+                .bppend(o.getThreshold())
+                .bppend("\n\tNotificbtion derived gbuge = ")
+                .bppend(o.getDerivedGbuge())
+                .bppend("\nhbs blrebdy been sent");
+                MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.clbss.getNbme(),
+                        "updbteNotificbtions", strb.toString());
             }
         }
 
@@ -717,112 +717,112 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     }
 
     /**
-     * Updates the threshold attribute of the observed object.
-     * @param o The observed object.
+     * Updbtes the threshold bttribute of the observed object.
+     * @pbrbm o The observed object.
      */
-    private synchronized void updateThreshold(CounterMonitorObservedObject o) {
+    privbte synchronized void updbteThreshold(CounterMonitorObservedObject o) {
 
-        // Calculate the new threshold value if the threshold has been
-        // exceeded and if the offset value is greater than zero.
+        // Cblculbte the new threshold vblue if the threshold hbs been
+        // exceeded bnd if the offset vblue is grebter thbn zero.
         //
-        if (((Number)o.getDerivedGauge()).longValue() >=
-            o.getThreshold().longValue()) {
+        if (((Number)o.getDerivedGbuge()).longVblue() >=
+            o.getThreshold().longVblue()) {
 
-            if (offset.longValue() > 0L) {
+            if (offset.longVblue() > 0L) {
 
-                // Increment the threshold until its value is greater
-                // than the one for the current derived gauge.
+                // Increment the threshold until its vblue is grebter
+                // thbn the one for the current derived gbuge.
                 //
-                long threshold_value = o.getThreshold().longValue();
-                while (((Number)o.getDerivedGauge()).longValue() >=
-                       threshold_value) {
-                    threshold_value += offset.longValue();
+                long threshold_vblue = o.getThreshold().longVblue();
+                while (((Number)o.getDerivedGbuge()).longVblue() >=
+                       threshold_vblue) {
+                    threshold_vblue += offset.longVblue();
                 }
 
-                // Set threshold attribute.
+                // Set threshold bttribute.
                 //
                 switch (o.getType()) {
-                    case INTEGER:
-                        o.setThreshold(Integer.valueOf((int)threshold_value));
-                        break;
-                    case BYTE:
-                        o.setThreshold(Byte.valueOf((byte)threshold_value));
-                        break;
-                    case SHORT:
-                        o.setThreshold(Short.valueOf((short)threshold_value));
-                        break;
-                    case LONG:
-                        o.setThreshold(Long.valueOf(threshold_value));
-                        break;
-                    default:
+                    cbse INTEGER:
+                        o.setThreshold(Integer.vblueOf((int)threshold_vblue));
+                        brebk;
+                    cbse BYTE:
+                        o.setThreshold(Byte.vblueOf((byte)threshold_vblue));
+                        brebk;
+                    cbse SHORT:
+                        o.setThreshold(Short.vblueOf((short)threshold_vblue));
+                        brebk;
+                    cbse LONG:
+                        o.setThreshold(Long.vblueOf(threshold_vblue));
+                        brebk;
+                    defbult:
                         // Should never occur...
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                CounterMonitor.class.getName(),
-                                "updateThreshold",
-                                "the threshold type is invalid");
-                        break;
+                                CounterMonitor.clbss.getNbme(),
+                                "updbteThreshold",
+                                "the threshold type is invblid");
+                        brebk;
                 }
 
-                // If the counter can wrap around when it reaches
-                // its maximum and we are not dealing with counter
+                // If the counter cbn wrbp bround when it rebches
+                // its mbximum bnd we bre not debling with counter
                 // differences then we need to reset the threshold
-                // to its initial value too.
+                // to its initibl vblue too.
                 //
                 if (!differenceMode) {
-                    if (modulus.longValue() > 0L) {
-                        if (o.getThreshold().longValue() >
-                            modulus.longValue()) {
+                    if (modulus.longVblue() > 0L) {
+                        if (o.getThreshold().longVblue() >
+                            modulus.longVblue()) {
                             o.setModulusExceeded(true);
-                            o.setDerivedGaugeExceeded(
-                                (Number) o.getDerivedGauge());
+                            o.setDerivedGbugeExceeded(
+                                (Number) o.getDerivedGbuge());
                         }
                     }
                 }
 
-                // Threshold value has been modified so we can notify again.
+                // Threshold vblue hbs been modified so we cbn notify bgbin.
                 //
-                o.setEventAlreadyNotified(false);
+                o.setEventAlrebdyNotified(fblse);
             } else {
                 o.setModulusExceeded(true);
-                o.setDerivedGaugeExceeded((Number) o.getDerivedGauge());
+                o.setDerivedGbugeExceeded((Number) o.getDerivedGbuge());
             }
         }
     }
 
     /**
-     * Sets the derived gauge of the specified observed object when the
-     * differenceMode flag is set to <CODE>true</CODE>.  Integer types
-     * only are allowed.
+     * Sets the derived gbuge of the specified observed object when the
+     * differenceMode flbg is set to <CODE>true</CODE>.  Integer types
+     * only bre bllowed.
      *
-     * @param scanCounter The value of the observed attribute.
-     * @param mod The counter modulus value.
-     * @param o The observed object.
+     * @pbrbm scbnCounter The vblue of the observed bttribute.
+     * @pbrbm mod The counter modulus vblue.
+     * @pbrbm o The observed object.
      */
-    private synchronized void setDerivedGaugeWithDifference(
-        Number scanCounter, Number mod, CounterMonitorObservedObject o) {
-        /* We do the arithmetic using longs here even though the
-           result may end up in a smaller type.  Since
-           l == (byte)l (mod 256) for any long l,
+    privbte synchronized void setDerivedGbugeWithDifference(
+        Number scbnCounter, Number mod, CounterMonitorObservedObject o) {
+        /* We do the brithmetic using longs here even though the
+           result mby end up in b smbller type.  Since
+           l == (byte)l (mod 256) for bny long l,
            (byte) ((byte)l1 + (byte)l2) == (byte) (l1 + l2),
-           and likewise for subtraction.  So it's the same as if
-           we had done the arithmetic in the smaller type.*/
+           bnd likewise for subtrbction.  So it's the sbme bs if
+           we hbd done the brithmetic in the smbller type.*/
 
         long derived =
-            scanCounter.longValue() - o.getPreviousScanCounter().longValue();
+            scbnCounter.longVblue() - o.getPreviousScbnCounter().longVblue();
         if (mod != null)
-            derived += modulus.longValue();
+            derived += modulus.longVblue();
 
         switch (o.getType()) {
-        case INTEGER: o.setDerivedGauge(Integer.valueOf((int) derived)); break;
-        case BYTE: o.setDerivedGauge(Byte.valueOf((byte) derived)); break;
-        case SHORT: o.setDerivedGauge(Short.valueOf((short) derived)); break;
-        case LONG: o.setDerivedGauge(Long.valueOf(derived)); break;
-        default:
+        cbse INTEGER: o.setDerivedGbuge(Integer.vblueOf((int) derived)); brebk;
+        cbse BYTE: o.setDerivedGbuge(Byte.vblueOf((byte) derived)); brebk;
+        cbse SHORT: o.setDerivedGbuge(Short.vblueOf((short) derived)); brebk;
+        cbse LONG: o.setDerivedGbuge(Long.vblueOf(derived)); brebk;
+        defbult:
             // Should never occur...
-            MONITOR_LOGGER.logp(Level.FINEST, CounterMonitor.class.getName(),
-                    "setDerivedGaugeWithDifference",
-                    "the threshold type is invalid");
-            break;
+            MONITOR_LOGGER.logp(Level.FINEST, CounterMonitor.clbss.getNbme(),
+                    "setDerivedGbugeWithDifference",
+                    "the threshold type is invblid");
+            brebk;
         }
     }
 
@@ -833,149 +833,149 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbctory method for ObservedObject crebtion.
      *
      * @since 1.6
      */
     @Override
-    ObservedObject createObservedObject(ObjectName object) {
-        final CounterMonitorObservedObject cmo =
+    ObservedObject crebteObservedObject(ObjectNbme object) {
+        finbl CounterMonitorObservedObject cmo =
             new CounterMonitorObservedObject(object);
         cmo.setThreshold(initThreshold);
-        cmo.setModulusExceeded(false);
-        cmo.setEventAlreadyNotified(false);
-        cmo.setPreviousScanCounter(null);
+        cmo.setModulusExceeded(fblse);
+        cmo.setEventAlrebdyNotified(fblse);
+        cmo.setPreviousScbnCounter(null);
         return cmo;
     }
 
     /**
-     * This method globally sets the derived gauge type for the given
-     * "object" and "attribute" after checking that the type of the
-     * supplied observed attribute value is one of the value types
+     * This method globblly sets the derived gbuge type for the given
+     * "object" bnd "bttribute" bfter checking thbt the type of the
+     * supplied observed bttribute vblue is one of the vblue types
      * supported by this monitor.
      */
     @Override
-    synchronized boolean isComparableTypeValid(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final CounterMonitorObservedObject o =
+    synchronized boolebn isCompbrbbleTypeVblid(ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
+        finbl CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
         if (o == null)
-            return false;
+            return fblse;
 
-        // Check that the observed attribute is of type "Integer".
+        // Check thbt the observed bttribute is of type "Integer".
         //
-        if (value instanceof Integer) {
+        if (vblue instbnceof Integer) {
             o.setType(INTEGER);
-        } else if (value instanceof Byte) {
+        } else if (vblue instbnceof Byte) {
             o.setType(BYTE);
-        } else if (value instanceof Short) {
+        } else if (vblue instbnceof Short) {
             o.setType(SHORT);
-        } else if (value instanceof Long) {
+        } else if (vblue instbnceof Long) {
             o.setType(LONG);
         } else {
-            return false;
+            return fblse;
         }
         return true;
     }
 
     @Override
-    synchronized Comparable<?> getDerivedGaugeFromComparable(
-                                                  ObjectName object,
-                                                  String attribute,
-                                                  Comparable<?> value) {
-        final CounterMonitorObservedObject o =
+    synchronized Compbrbble<?> getDerivedGbugeFromCompbrbble(
+                                                  ObjectNbme object,
+                                                  String bttribute,
+                                                  Compbrbble<?> vblue) {
+        finbl CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // Check if counter has wrapped around.
+        // Check if counter hbs wrbpped bround.
         //
         if (o.getModulusExceeded()) {
-            if (((Number)o.getDerivedGauge()).longValue() <
-                o.getDerivedGaugeExceeded().longValue()) {
+            if (((Number)o.getDerivedGbuge()).longVblue() <
+                o.getDerivedGbugeExceeded().longVblue()) {
                     o.setThreshold(initThreshold);
-                    o.setModulusExceeded(false);
-                    o.setEventAlreadyNotified(false);
+                    o.setModulusExceeded(fblse);
+                    o.setEventAlrebdyNotified(fblse);
             }
         }
 
-        // Update the derived gauge attributes and check the
-        // validity of the new value. The derived gauge value
-        // is invalid when the differenceMode flag is set to
-        // true and it is the first notification, i.e. we
-        // haven't got 2 consecutive values to update the
-        // derived gauge.
+        // Updbte the derived gbuge bttributes bnd check the
+        // vblidity of the new vblue. The derived gbuge vblue
+        // is invblid when the differenceMode flbg is set to
+        // true bnd it is the first notificbtion, i.e. we
+        // hbven't got 2 consecutive vblues to updbte the
+        // derived gbuge.
         //
-        o.setDerivedGaugeValid(updateDerivedGauge(value, o));
+        o.setDerivedGbugeVblid(updbteDerivedGbuge(vblue, o));
 
-        return (Comparable<?>) o.getDerivedGauge();
+        return (Compbrbble<?>) o.getDerivedGbuge();
     }
 
     @Override
-    synchronized void onErrorNotification(MonitorNotification notification) {
-        final CounterMonitorObservedObject o = (CounterMonitorObservedObject)
-            getObservedObject(notification.getObservedObject());
+    synchronized void onErrorNotificbtion(MonitorNotificbtion notificbtion) {
+        finbl CounterMonitorObservedObject o = (CounterMonitorObservedObject)
+            getObservedObject(notificbtion.getObservedObject());
         if (o == null)
             return;
 
-        // Reset values.
+        // Reset vblues.
         //
-        o.setModulusExceeded(false);
-        o.setEventAlreadyNotified(false);
-        o.setPreviousScanCounter(null);
+        o.setModulusExceeded(fblse);
+        o.setEventAlrebdyNotified(fblse);
+        o.setPreviousScbnCounter(null);
     }
 
     @Override
-    synchronized MonitorNotification buildAlarmNotification(
-                                               ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final CounterMonitorObservedObject o =
+    synchronized MonitorNotificbtion buildAlbrmNotificbtion(
+                                               ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
+        finbl CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // Notify the listeners and update the threshold if
-        // the updated derived gauge value is valid.
+        // Notify the listeners bnd updbte the threshold if
+        // the updbted derived gbuge vblue is vblid.
         //
-        final MonitorNotification alarm;
-        if (o.getDerivedGaugeValid()) {
-            alarm = updateNotifications(o);
-            updateThreshold(o);
+        finbl MonitorNotificbtion blbrm;
+        if (o.getDerivedGbugeVblid()) {
+            blbrm = updbteNotificbtions(o);
+            updbteThreshold(o);
         } else {
-            alarm = null;
+            blbrm = null;
         }
-        return alarm;
+        return blbrm;
     }
 
     /**
-     * Tests if the threshold, offset and modulus of the specified observed
-     * object are of the same type as the counter. Only integer types are
-     * allowed.
+     * Tests if the threshold, offset bnd modulus of the specified observed
+     * object bre of the sbme type bs the counter. Only integer types bre
+     * bllowed.
      *
      * Note:
-     *   If the optional offset or modulus have not been initialized, their
-     *   default value is an Integer object with a value equal to zero.
+     *   If the optionbl offset or modulus hbve not been initiblized, their
+     *   defbult vblue is bn Integer object with b vblue equbl to zero.
      *
-     * @param object The observed object.
-     * @param attribute The observed attribute.
-     * @param value The sample value.
-     * @return <CODE>true</CODE> if type is the same,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm object The observed object.
+     * @pbrbm bttribute The observed bttribute.
+     * @pbrbm vblue The sbmple vblue.
+     * @return <CODE>true</CODE> if type is the sbme,
+     * <CODE>fblse</CODE> otherwise.
      */
     @Override
-    synchronized boolean isThresholdTypeValid(ObjectName object,
-                                              String attribute,
-                                              Comparable<?> value) {
-        final CounterMonitorObservedObject o =
+    synchronized boolebn isThresholdTypeVblid(ObjectNbme object,
+                                              String bttribute,
+                                              Compbrbble<?> vblue) {
+        finbl CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
         if (o == null)
-            return false;
+            return fblse;
 
-        Class<? extends Number> c = classForType(o.getType());
-        return (c.isInstance(o.getThreshold()) &&
-                isValidForType(offset, c) &&
-                isValidForType(modulus, c));
+        Clbss<? extends Number> c = clbssForType(o.getType());
+        return (c.isInstbnce(o.getThreshold()) &&
+                isVblidForType(offset, c) &&
+                isVblidForType(modulus, c));
     }
 }

@@ -1,416 +1,416 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.FilterOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
 
 /**
- * This class consists exclusively of static methods for obtaining
- * encoders and decoders for the Base64 encoding scheme. The
- * implementation of this class supports the following types of Base64
- * as specified in
- * <a href="http://www.ietf.org/rfc/rfc4648.txt">RFC 4648</a> and
- * <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
+ * This clbss consists exclusively of stbtic methods for obtbining
+ * encoders bnd decoders for the Bbse64 encoding scheme. The
+ * implementbtion of this clbss supports the following types of Bbse64
+ * bs specified in
+ * <b href="http://www.ietf.org/rfc/rfc4648.txt">RFC 4648</b> bnd
+ * <b href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</b>.
  *
  * <ul>
- * <li><a name="basic"><b>Basic</b></a>
- * <p> Uses "The Base64 Alphabet" as specified in Table 1 of
- *     RFC 4648 and RFC 2045 for encoding and decoding operation.
- *     The encoder does not add any line feed (line separator)
- *     character. The decoder rejects data that contains characters
- *     outside the base64 alphabet.</p></li>
+ * <li><b nbme="bbsic"><b>Bbsic</b></b>
+ * <p> Uses "The Bbse64 Alphbbet" bs specified in Tbble 1 of
+ *     RFC 4648 bnd RFC 2045 for encoding bnd decoding operbtion.
+ *     The encoder does not bdd bny line feed (line sepbrbtor)
+ *     chbrbcter. The decoder rejects dbtb thbt contbins chbrbcters
+ *     outside the bbse64 blphbbet.</p></li>
  *
- * <li><a name="url"><b>URL and Filename safe</b></a>
- * <p> Uses the "URL and Filename safe Base64 Alphabet" as specified
- *     in Table 2 of RFC 4648 for encoding and decoding. The
- *     encoder does not add any line feed (line separator) character.
- *     The decoder rejects data that contains characters outside the
- *     base64 alphabet.</p></li>
+ * <li><b nbme="url"><b>URL bnd Filenbme sbfe</b></b>
+ * <p> Uses the "URL bnd Filenbme sbfe Bbse64 Alphbbet" bs specified
+ *     in Tbble 2 of RFC 4648 for encoding bnd decoding. The
+ *     encoder does not bdd bny line feed (line sepbrbtor) chbrbcter.
+ *     The decoder rejects dbtb thbt contbins chbrbcters outside the
+ *     bbse64 blphbbet.</p></li>
  *
- * <li><a name="mime"><b>MIME</b></a>
- * <p> Uses the "The Base64 Alphabet" as specified in Table 1 of
- *     RFC 2045 for encoding and decoding operation. The encoded output
- *     must be represented in lines of no more than 76 characters each
- *     and uses a carriage return {@code '\r'} followed immediately by
- *     a linefeed {@code '\n'} as the line separator. No line separator
- *     is added to the end of the encoded output. All line separators
- *     or other characters not found in the base64 alphabet table are
- *     ignored in decoding operation.</p></li>
+ * <li><b nbme="mime"><b>MIME</b></b>
+ * <p> Uses the "The Bbse64 Alphbbet" bs specified in Tbble 1 of
+ *     RFC 2045 for encoding bnd decoding operbtion. The encoded output
+ *     must be represented in lines of no more thbn 76 chbrbcters ebch
+ *     bnd uses b cbrribge return {@code '\r'} followed immedibtely by
+ *     b linefeed {@code '\n'} bs the line sepbrbtor. No line sepbrbtor
+ *     is bdded to the end of the encoded output. All line sepbrbtors
+ *     or other chbrbcters not found in the bbse64 blphbbet tbble bre
+ *     ignored in decoding operbtion.</p></li>
  * </ul>
  *
- * <p> Unless otherwise noted, passing a {@code null} argument to a
- * method of this class will cause a {@link java.lang.NullPointerException
+ * <p> Unless otherwise noted, pbssing b {@code null} brgument to b
+ * method of this clbss will cbuse b {@link jbvb.lbng.NullPointerException
  * NullPointerException} to be thrown.
  *
- * @author  Xueming Shen
+ * @buthor  Xueming Shen
  * @since   1.8
  */
 
-public class Base64 {
+public clbss Bbse64 {
 
-    private Base64() {}
+    privbte Bbse64() {}
 
     /**
-     * Returns a {@link Encoder} that encodes using the
-     * <a href="#basic">Basic</a> type base64 encoding scheme.
+     * Returns b {@link Encoder} thbt encodes using the
+     * <b href="#bbsic">Bbsic</b> type bbse64 encoding scheme.
      *
-     * @return  A Base64 encoder.
+     * @return  A Bbse64 encoder.
      */
-    public static Encoder getEncoder() {
+    public stbtic Encoder getEncoder() {
          return Encoder.RFC4648;
     }
 
     /**
-     * Returns a {@link Encoder} that encodes using the
-     * <a href="#url">URL and Filename safe</a> type base64
+     * Returns b {@link Encoder} thbt encodes using the
+     * <b href="#url">URL bnd Filenbme sbfe</b> type bbse64
      * encoding scheme.
      *
-     * @return  A Base64 encoder.
+     * @return  A Bbse64 encoder.
      */
-    public static Encoder getUrlEncoder() {
+    public stbtic Encoder getUrlEncoder() {
          return Encoder.RFC4648_URLSAFE;
     }
 
     /**
-     * Returns a {@link Encoder} that encodes using the
-     * <a href="#mime">MIME</a> type base64 encoding scheme.
+     * Returns b {@link Encoder} thbt encodes using the
+     * <b href="#mime">MIME</b> type bbse64 encoding scheme.
      *
-     * @return  A Base64 encoder.
+     * @return  A Bbse64 encoder.
      */
-    public static Encoder getMimeEncoder() {
+    public stbtic Encoder getMimeEncoder() {
         return Encoder.RFC2045;
     }
 
     /**
-     * Returns a {@link Encoder} that encodes using the
-     * <a href="#mime">MIME</a> type base64 encoding scheme
-     * with specified line length and line separators.
+     * Returns b {@link Encoder} thbt encodes using the
+     * <b href="#mime">MIME</b> type bbse64 encoding scheme
+     * with specified line length bnd line sepbrbtors.
      *
-     * @param   lineLength
-     *          the length of each output line (rounded down to nearest multiple
-     *          of 4). If {@code lineLength <= 0} the output will not be separated
+     * @pbrbm   lineLength
+     *          the length of ebch output line (rounded down to nebrest multiple
+     *          of 4). If {@code lineLength <= 0} the output will not be sepbrbted
      *          in lines
-     * @param   lineSeparator
-     *          the line separator for each output line
+     * @pbrbm   lineSepbrbtor
+     *          the line sepbrbtor for ebch output line
      *
-     * @return  A Base64 encoder.
+     * @return  A Bbse64 encoder.
      *
-     * @throws  IllegalArgumentException if {@code lineSeparator} includes any
-     *          character of "The Base64 Alphabet" as specified in Table 1 of
+     * @throws  IllegblArgumentException if {@code lineSepbrbtor} includes bny
+     *          chbrbcter of "The Bbse64 Alphbbet" bs specified in Tbble 1 of
      *          RFC 2045.
      */
-    public static Encoder getMimeEncoder(int lineLength, byte[] lineSeparator) {
-         Objects.requireNonNull(lineSeparator);
-         int[] base64 = Decoder.fromBase64;
-         for (byte b : lineSeparator) {
-             if (base64[b & 0xff] != -1)
-                 throw new IllegalArgumentException(
-                     "Illegal base64 line separator character 0x" + Integer.toString(b, 16));
+    public stbtic Encoder getMimeEncoder(int lineLength, byte[] lineSepbrbtor) {
+         Objects.requireNonNull(lineSepbrbtor);
+         int[] bbse64 = Decoder.fromBbse64;
+         for (byte b : lineSepbrbtor) {
+             if (bbse64[b & 0xff] != -1)
+                 throw new IllegblArgumentException(
+                     "Illegbl bbse64 line sepbrbtor chbrbcter 0x" + Integer.toString(b, 16));
          }
          if (lineLength <= 0) {
              return Encoder.RFC4648;
          }
-         return new Encoder(false, lineSeparator, lineLength >> 2 << 2, true);
+         return new Encoder(fblse, lineSepbrbtor, lineLength >> 2 << 2, true);
     }
 
     /**
-     * Returns a {@link Decoder} that decodes using the
-     * <a href="#basic">Basic</a> type base64 encoding scheme.
+     * Returns b {@link Decoder} thbt decodes using the
+     * <b href="#bbsic">Bbsic</b> type bbse64 encoding scheme.
      *
-     * @return  A Base64 decoder.
+     * @return  A Bbse64 decoder.
      */
-    public static Decoder getDecoder() {
+    public stbtic Decoder getDecoder() {
          return Decoder.RFC4648;
     }
 
     /**
-     * Returns a {@link Decoder} that decodes using the
-     * <a href="#url">URL and Filename safe</a> type base64
+     * Returns b {@link Decoder} thbt decodes using the
+     * <b href="#url">URL bnd Filenbme sbfe</b> type bbse64
      * encoding scheme.
      *
-     * @return  A Base64 decoder.
+     * @return  A Bbse64 decoder.
      */
-    public static Decoder getUrlDecoder() {
+    public stbtic Decoder getUrlDecoder() {
          return Decoder.RFC4648_URLSAFE;
     }
 
     /**
-     * Returns a {@link Decoder} that decodes using the
-     * <a href="#mime">MIME</a> type base64 decoding scheme.
+     * Returns b {@link Decoder} thbt decodes using the
+     * <b href="#mime">MIME</b> type bbse64 decoding scheme.
      *
-     * @return  A Base64 decoder.
+     * @return  A Bbse64 decoder.
      */
-    public static Decoder getMimeDecoder() {
+    public stbtic Decoder getMimeDecoder() {
          return Decoder.RFC2045;
     }
 
     /**
-     * This class implements an encoder for encoding byte data using
-     * the Base64 encoding scheme as specified in RFC 4648 and RFC 2045.
+     * This clbss implements bn encoder for encoding byte dbtb using
+     * the Bbse64 encoding scheme bs specified in RFC 4648 bnd RFC 2045.
      *
-     * <p> Instances of {@link Encoder} class are safe for use by
-     * multiple concurrent threads.
+     * <p> Instbnces of {@link Encoder} clbss bre sbfe for use by
+     * multiple concurrent threbds.
      *
-     * <p> Unless otherwise noted, passing a {@code null} argument to
-     * a method of this class will cause a
-     * {@link java.lang.NullPointerException NullPointerException} to
+     * <p> Unless otherwise noted, pbssing b {@code null} brgument to
+     * b method of this clbss will cbuse b
+     * {@link jbvb.lbng.NullPointerException NullPointerException} to
      * be thrown.
      *
      * @see     Decoder
      * @since   1.8
      */
-    public static class Encoder {
+    public stbtic clbss Encoder {
 
-        private final byte[] newline;
-        private final int linemax;
-        private final boolean isURL;
-        private final boolean doPadding;
+        privbte finbl byte[] newline;
+        privbte finbl int linembx;
+        privbte finbl boolebn isURL;
+        privbte finbl boolebn doPbdding;
 
-        private Encoder(boolean isURL, byte[] newline, int linemax, boolean doPadding) {
+        privbte Encoder(boolebn isURL, byte[] newline, int linembx, boolebn doPbdding) {
             this.isURL = isURL;
             this.newline = newline;
-            this.linemax = linemax;
-            this.doPadding = doPadding;
+            this.linembx = linembx;
+            this.doPbdding = doPbdding;
         }
 
         /**
-         * This array is a lookup table that translates 6-bit positive integer
-         * index values into their "Base64 Alphabet" equivalents as specified
-         * in "Table 1: The Base64 Alphabet" of RFC 2045 (and RFC 4648).
+         * This brrby is b lookup tbble thbt trbnslbtes 6-bit positive integer
+         * index vblues into their "Bbse64 Alphbbet" equivblents bs specified
+         * in "Tbble 1: The Bbse64 Alphbbet" of RFC 2045 (bnd RFC 4648).
          */
-        private static final char[] toBase64 = {
+        privbte stbtic finbl chbr[] toBbse64 = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'b', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
         };
 
         /**
-         * It's the lookup table for "URL and Filename safe Base64" as specified
-         * in Table 2 of the RFC 4648, with the '+' and '/' changed to '-' and
-         * '_'. This table is used when BASE64_URL is specified.
+         * It's the lookup tbble for "URL bnd Filenbme sbfe Bbse64" bs specified
+         * in Tbble 2 of the RFC 4648, with the '+' bnd '/' chbnged to '-' bnd
+         * '_'. This tbble is used when BASE64_URL is specified.
          */
-        private static final char[] toBase64URL = {
+        privbte stbtic finbl chbr[] toBbse64URL = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'b', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
         };
 
-        private static final int MIMELINEMAX = 76;
-        private static final byte[] CRLF = new byte[] {'\r', '\n'};
+        privbte stbtic finbl int MIMELINEMAX = 76;
+        privbte stbtic finbl byte[] CRLF = new byte[] {'\r', '\n'};
 
-        static final Encoder RFC4648 = new Encoder(false, null, -1, true);
-        static final Encoder RFC4648_URLSAFE = new Encoder(true, null, -1, true);
-        static final Encoder RFC2045 = new Encoder(false, CRLF, MIMELINEMAX, true);
+        stbtic finbl Encoder RFC4648 = new Encoder(fblse, null, -1, true);
+        stbtic finbl Encoder RFC4648_URLSAFE = new Encoder(true, null, -1, true);
+        stbtic finbl Encoder RFC2045 = new Encoder(fblse, CRLF, MIMELINEMAX, true);
 
-        private final int outLength(int srclen) {
+        privbte finbl int outLength(int srclen) {
             int len = 0;
-            if (doPadding) {
+            if (doPbdding) {
                 len = 4 * ((srclen + 2) / 3);
             } else {
                 int n = srclen % 3;
                 len = 4 * (srclen / 3) + (n == 0 ? 0 : n + 1);
             }
-            if (linemax > 0)                                  // line separators
-                len += (len - 1) / linemax * newline.length;
+            if (linembx > 0)                                  // line sepbrbtors
+                len += (len - 1) / linembx * newline.length;
             return len;
         }
 
         /**
-         * Encodes all bytes from the specified byte array into a newly-allocated
-         * byte array using the {@link Base64} encoding scheme. The returned byte
-         * array is of the length of the resulting bytes.
+         * Encodes bll bytes from the specified byte brrby into b newly-bllocbted
+         * byte brrby using the {@link Bbse64} encoding scheme. The returned byte
+         * brrby is of the length of the resulting bytes.
          *
-         * @param   src
-         *          the byte array to encode
-         * @return  A newly-allocated byte array containing the resulting
+         * @pbrbm   src
+         *          the byte brrby to encode
+         * @return  A newly-bllocbted byte brrby contbining the resulting
          *          encoded bytes.
          */
         public byte[] encode(byte[] src) {
-            int len = outLength(src.length);          // dst array size
+            int len = outLength(src.length);          // dst brrby size
             byte[] dst = new byte[len];
             int ret = encode0(src, 0, src.length, dst);
             if (ret != dst.length)
-                 return Arrays.copyOf(dst, ret);
+                 return Arrbys.copyOf(dst, ret);
             return dst;
         }
 
         /**
-         * Encodes all bytes from the specified byte array using the
-         * {@link Base64} encoding scheme, writing the resulting bytes to the
-         * given output byte array, starting at offset 0.
+         * Encodes bll bytes from the specified byte brrby using the
+         * {@link Bbse64} encoding scheme, writing the resulting bytes to the
+         * given output byte brrby, stbrting bt offset 0.
          *
-         * <p> It is the responsibility of the invoker of this method to make
-         * sure the output byte array {@code dst} has enough space for encoding
-         * all bytes from the input byte array. No bytes will be written to the
-         * output byte array if the output byte array is not big enough.
+         * <p> It is the responsibility of the invoker of this method to mbke
+         * sure the output byte brrby {@code dst} hbs enough spbce for encoding
+         * bll bytes from the input byte brrby. No bytes will be written to the
+         * output byte brrby if the output byte brrby is not big enough.
          *
-         * @param   src
-         *          the byte array to encode
-         * @param   dst
-         *          the output byte array
-         * @return  The number of bytes written to the output byte array
+         * @pbrbm   src
+         *          the byte brrby to encode
+         * @pbrbm   dst
+         *          the output byte brrby
+         * @return  The number of bytes written to the output byte brrby
          *
-         * @throws  IllegalArgumentException if {@code dst} does not have enough
-         *          space for encoding all input bytes.
+         * @throws  IllegblArgumentException if {@code dst} does not hbve enough
+         *          spbce for encoding bll input bytes.
          */
         public int encode(byte[] src, byte[] dst) {
-            int len = outLength(src.length);         // dst array size
+            int len = outLength(src.length);         // dst brrby size
             if (dst.length < len)
-                throw new IllegalArgumentException(
-                    "Output byte array is too small for encoding all input bytes");
+                throw new IllegblArgumentException(
+                    "Output byte brrby is too smbll for encoding bll input bytes");
             return encode0(src, 0, src.length, dst);
         }
 
         /**
-         * Encodes the specified byte array into a String using the {@link Base64}
+         * Encodes the specified byte brrby into b String using the {@link Bbse64}
          * encoding scheme.
          *
-         * <p> This method first encodes all input bytes into a base64 encoded
-         * byte array and then constructs a new String by using the encoded byte
-         * array and the {@link java.nio.charset.StandardCharsets#ISO_8859_1
-         * ISO-8859-1} charset.
+         * <p> This method first encodes bll input bytes into b bbse64 encoded
+         * byte brrby bnd then constructs b new String by using the encoded byte
+         * brrby bnd the {@link jbvb.nio.chbrset.StbndbrdChbrsets#ISO_8859_1
+         * ISO-8859-1} chbrset.
          *
-         * <p> In other words, an invocation of this method has exactly the same
-         * effect as invoking
-         * {@code new String(encode(src), StandardCharsets.ISO_8859_1)}.
+         * <p> In other words, bn invocbtion of this method hbs exbctly the sbme
+         * effect bs invoking
+         * {@code new String(encode(src), StbndbrdChbrsets.ISO_8859_1)}.
          *
-         * @param   src
-         *          the byte array to encode
-         * @return  A String containing the resulting Base64 encoded characters
+         * @pbrbm   src
+         *          the byte brrby to encode
+         * @return  A String contbining the resulting Bbse64 encoded chbrbcters
          */
-        @SuppressWarnings("deprecation")
+        @SuppressWbrnings("deprecbtion")
         public String encodeToString(byte[] src) {
             byte[] encoded = encode(src);
             return new String(encoded, 0, 0, encoded.length);
         }
 
         /**
-         * Encodes all remaining bytes from the specified byte buffer into
-         * a newly-allocated ByteBuffer using the {@link Base64} encoding
+         * Encodes bll rembining bytes from the specified byte buffer into
+         * b newly-bllocbted ByteBuffer using the {@link Bbse64} encoding
          * scheme.
          *
-         * Upon return, the source buffer's position will be updated to
-         * its limit; its limit will not have been changed. The returned
-         * output buffer's position will be zero and its limit will be the
+         * Upon return, the source buffer's position will be updbted to
+         * its limit; its limit will not hbve been chbnged. The returned
+         * output buffer's position will be zero bnd its limit will be the
          * number of resulting encoded bytes.
          *
-         * @param   buffer
+         * @pbrbm   buffer
          *          the source ByteBuffer to encode
-         * @return  A newly-allocated byte buffer containing the encoded bytes.
+         * @return  A newly-bllocbted byte buffer contbining the encoded bytes.
          */
         public ByteBuffer encode(ByteBuffer buffer) {
-            int len = outLength(buffer.remaining());
+            int len = outLength(buffer.rembining());
             byte[] dst = new byte[len];
             int ret = 0;
-            if (buffer.hasArray()) {
-                ret = encode0(buffer.array(),
-                              buffer.arrayOffset() + buffer.position(),
-                              buffer.arrayOffset() + buffer.limit(),
+            if (buffer.hbsArrby()) {
+                ret = encode0(buffer.brrby(),
+                              buffer.brrbyOffset() + buffer.position(),
+                              buffer.brrbyOffset() + buffer.limit(),
                               dst);
                 buffer.position(buffer.limit());
             } else {
-                byte[] src = new byte[buffer.remaining()];
+                byte[] src = new byte[buffer.rembining()];
                 buffer.get(src);
                 ret = encode0(src, 0, src.length, dst);
             }
             if (ret != dst.length)
-                 dst = Arrays.copyOf(dst, ret);
-            return ByteBuffer.wrap(dst);
+                 dst = Arrbys.copyOf(dst, ret);
+            return ByteBuffer.wrbp(dst);
         }
 
         /**
-         * Wraps an output stream for encoding byte data using the {@link Base64}
+         * Wrbps bn output strebm for encoding byte dbtb using the {@link Bbse64}
          * encoding scheme.
          *
-         * <p> It is recommended to promptly close the returned output stream after
-         * use, during which it will flush all possible leftover bytes to the underlying
-         * output stream. Closing the returned output stream will close the underlying
-         * output stream.
+         * <p> It is recommended to promptly close the returned output strebm bfter
+         * use, during which it will flush bll possible leftover bytes to the underlying
+         * output strebm. Closing the returned output strebm will close the underlying
+         * output strebm.
          *
-         * @param   os
-         *          the output stream.
-         * @return  the output stream for encoding the byte data into the
-         *          specified Base64 encoded format
+         * @pbrbm   os
+         *          the output strebm.
+         * @return  the output strebm for encoding the byte dbtb into the
+         *          specified Bbse64 encoded formbt
          */
-        public OutputStream wrap(OutputStream os) {
+        public OutputStrebm wrbp(OutputStrebm os) {
             Objects.requireNonNull(os);
-            return new EncOutputStream(os, isURL ? toBase64URL : toBase64,
-                                       newline, linemax, doPadding);
+            return new EncOutputStrebm(os, isURL ? toBbse64URL : toBbse64,
+                                       newline, linembx, doPbdding);
         }
 
         /**
-         * Returns an encoder instance that encodes equivalently to this one,
-         * but without adding any padding character at the end of the encoded
-         * byte data.
+         * Returns bn encoder instbnce thbt encodes equivblently to this one,
+         * but without bdding bny pbdding chbrbcter bt the end of the encoded
+         * byte dbtb.
          *
-         * <p> The encoding scheme of this encoder instance is unaffected by
-         * this invocation. The returned encoder instance should be used for
-         * non-padding encoding operation.
+         * <p> The encoding scheme of this encoder instbnce is unbffected by
+         * this invocbtion. The returned encoder instbnce should be used for
+         * non-pbdding encoding operbtion.
          *
-         * @return an equivalent encoder that encodes without adding any
-         *         padding character at the end
+         * @return bn equivblent encoder thbt encodes without bdding bny
+         *         pbdding chbrbcter bt the end
          */
-        public Encoder withoutPadding() {
-            if (!doPadding)
+        public Encoder withoutPbdding() {
+            if (!doPbdding)
                 return this;
-            return new Encoder(isURL, newline, linemax, false);
+            return new Encoder(isURL, newline, linembx, fblse);
         }
 
-        private int encode0(byte[] src, int off, int end, byte[] dst) {
-            char[] base64 = isURL ? toBase64URL : toBase64;
+        privbte int encode0(byte[] src, int off, int end, byte[] dst) {
+            chbr[] bbse64 = isURL ? toBbse64URL : toBbse64;
             int sp = off;
             int slen = (end - off) / 3 * 3;
             int sl = off + slen;
-            if (linemax > 0 && slen  > linemax / 4 * 3)
-                slen = linemax / 4 * 3;
+            if (linembx > 0 && slen  > linembx / 4 * 3)
+                slen = linembx / 4 * 3;
             int dp = 0;
             while (sp < sl) {
-                int sl0 = Math.min(sp + slen, sl);
+                int sl0 = Mbth.min(sp + slen, sl);
                 for (int sp0 = sp, dp0 = dp ; sp0 < sl0; ) {
                     int bits = (src[sp0++] & 0xff) << 16 |
                                (src[sp0++] & 0xff) <<  8 |
                                (src[sp0++] & 0xff);
-                    dst[dp0++] = (byte)base64[(bits >>> 18) & 0x3f];
-                    dst[dp0++] = (byte)base64[(bits >>> 12) & 0x3f];
-                    dst[dp0++] = (byte)base64[(bits >>> 6)  & 0x3f];
-                    dst[dp0++] = (byte)base64[bits & 0x3f];
+                    dst[dp0++] = (byte)bbse64[(bits >>> 18) & 0x3f];
+                    dst[dp0++] = (byte)bbse64[(bits >>> 12) & 0x3f];
+                    dst[dp0++] = (byte)bbse64[(bits >>> 6)  & 0x3f];
+                    dst[dp0++] = (byte)bbse64[bits & 0x3f];
                 }
                 int dlen = (sl0 - sp) / 3 * 4;
                 dp += dlen;
                 sp = sl0;
-                if (dlen == linemax && sp < end) {
+                if (dlen == linembx && sp < end) {
                     for (byte b : newline){
                         dst[dp++] = b;
                     }
@@ -418,18 +418,18 @@ public class Base64 {
             }
             if (sp < end) {               // 1 or 2 leftover bytes
                 int b0 = src[sp++] & 0xff;
-                dst[dp++] = (byte)base64[b0 >> 2];
+                dst[dp++] = (byte)bbse64[b0 >> 2];
                 if (sp == end) {
-                    dst[dp++] = (byte)base64[(b0 << 4) & 0x3f];
-                    if (doPadding) {
+                    dst[dp++] = (byte)bbse64[(b0 << 4) & 0x3f];
+                    if (doPbdding) {
                         dst[dp++] = '=';
                         dst[dp++] = '=';
                     }
                 } else {
                     int b1 = src[sp++] & 0xff;
-                    dst[dp++] = (byte)base64[(b0 << 4) & 0x3f | (b1 >> 4)];
-                    dst[dp++] = (byte)base64[(b1 << 2) & 0x3f];
-                    if (doPadding) {
+                    dst[dp++] = (byte)bbse64[(b0 << 4) & 0x3f | (b1 >> 4)];
+                    dst[dp++] = (byte)bbse64[(b1 << 2) & 0x3f];
+                    if (doPbdding) {
                         dst[dp++] = '=';
                     }
                 }
@@ -439,278 +439,278 @@ public class Base64 {
     }
 
     /**
-     * This class implements a decoder for decoding byte data using the
-     * Base64 encoding scheme as specified in RFC 4648 and RFC 2045.
+     * This clbss implements b decoder for decoding byte dbtb using the
+     * Bbse64 encoding scheme bs specified in RFC 4648 bnd RFC 2045.
      *
-     * <p> The Base64 padding character {@code '='} is accepted and
-     * interpreted as the end of the encoded byte data, but is not
-     * required. So if the final unit of the encoded byte data only has
-     * two or three Base64 characters (without the corresponding padding
-     * character(s) padded), they are decoded as if followed by padding
-     * character(s). If there is a padding character present in the
-     * final unit, the correct number of padding character(s) must be
-     * present, otherwise {@code IllegalArgumentException} (
-     * {@code IOException} when reading from a Base64 stream) is thrown
+     * <p> The Bbse64 pbdding chbrbcter {@code '='} is bccepted bnd
+     * interpreted bs the end of the encoded byte dbtb, but is not
+     * required. So if the finbl unit of the encoded byte dbtb only hbs
+     * two or three Bbse64 chbrbcters (without the corresponding pbdding
+     * chbrbcter(s) pbdded), they bre decoded bs if followed by pbdding
+     * chbrbcter(s). If there is b pbdding chbrbcter present in the
+     * finbl unit, the correct number of pbdding chbrbcter(s) must be
+     * present, otherwise {@code IllegblArgumentException} (
+     * {@code IOException} when rebding from b Bbse64 strebm) is thrown
      * during decoding.
      *
-     * <p> Instances of {@link Decoder} class are safe for use by
-     * multiple concurrent threads.
+     * <p> Instbnces of {@link Decoder} clbss bre sbfe for use by
+     * multiple concurrent threbds.
      *
-     * <p> Unless otherwise noted, passing a {@code null} argument to
-     * a method of this class will cause a
-     * {@link java.lang.NullPointerException NullPointerException} to
+     * <p> Unless otherwise noted, pbssing b {@code null} brgument to
+     * b method of this clbss will cbuse b
+     * {@link jbvb.lbng.NullPointerException NullPointerException} to
      * be thrown.
      *
      * @see     Encoder
      * @since   1.8
      */
-    public static class Decoder {
+    public stbtic clbss Decoder {
 
-        private final boolean isURL;
-        private final boolean isMIME;
+        privbte finbl boolebn isURL;
+        privbte finbl boolebn isMIME;
 
-        private Decoder(boolean isURL, boolean isMIME) {
+        privbte Decoder(boolebn isURL, boolebn isMIME) {
             this.isURL = isURL;
             this.isMIME = isMIME;
         }
 
         /**
-         * Lookup table for decoding unicode characters drawn from the
-         * "Base64 Alphabet" (as specified in Table 1 of RFC 2045) into
-         * their 6-bit positive integer equivalents.  Characters that
-         * are not in the Base64 alphabet but fall within the bounds of
-         * the array are encoded to -1.
+         * Lookup tbble for decoding unicode chbrbcters drbwn from the
+         * "Bbse64 Alphbbet" (bs specified in Tbble 1 of RFC 2045) into
+         * their 6-bit positive integer equivblents.  Chbrbcters thbt
+         * bre not in the Bbse64 blphbbet but fbll within the bounds of
+         * the brrby bre encoded to -1.
          *
          */
-        private static final int[] fromBase64 = new int[256];
-        static {
-            Arrays.fill(fromBase64, -1);
-            for (int i = 0; i < Encoder.toBase64.length; i++)
-                fromBase64[Encoder.toBase64[i]] = i;
-            fromBase64['='] = -2;
+        privbte stbtic finbl int[] fromBbse64 = new int[256];
+        stbtic {
+            Arrbys.fill(fromBbse64, -1);
+            for (int i = 0; i < Encoder.toBbse64.length; i++)
+                fromBbse64[Encoder.toBbse64[i]] = i;
+            fromBbse64['='] = -2;
         }
 
         /**
-         * Lookup table for decoding "URL and Filename safe Base64 Alphabet"
-         * as specified in Table2 of the RFC 4648.
+         * Lookup tbble for decoding "URL bnd Filenbme sbfe Bbse64 Alphbbet"
+         * bs specified in Tbble2 of the RFC 4648.
          */
-        private static final int[] fromBase64URL = new int[256];
+        privbte stbtic finbl int[] fromBbse64URL = new int[256];
 
-        static {
-            Arrays.fill(fromBase64URL, -1);
-            for (int i = 0; i < Encoder.toBase64URL.length; i++)
-                fromBase64URL[Encoder.toBase64URL[i]] = i;
-            fromBase64URL['='] = -2;
+        stbtic {
+            Arrbys.fill(fromBbse64URL, -1);
+            for (int i = 0; i < Encoder.toBbse64URL.length; i++)
+                fromBbse64URL[Encoder.toBbse64URL[i]] = i;
+            fromBbse64URL['='] = -2;
         }
 
-        static final Decoder RFC4648         = new Decoder(false, false);
-        static final Decoder RFC4648_URLSAFE = new Decoder(true, false);
-        static final Decoder RFC2045         = new Decoder(false, true);
+        stbtic finbl Decoder RFC4648         = new Decoder(fblse, fblse);
+        stbtic finbl Decoder RFC4648_URLSAFE = new Decoder(true, fblse);
+        stbtic finbl Decoder RFC2045         = new Decoder(fblse, true);
 
         /**
-         * Decodes all bytes from the input byte array using the {@link Base64}
-         * encoding scheme, writing the results into a newly-allocated output
-         * byte array. The returned byte array is of the length of the resulting
+         * Decodes bll bytes from the input byte brrby using the {@link Bbse64}
+         * encoding scheme, writing the results into b newly-bllocbted output
+         * byte brrby. The returned byte brrby is of the length of the resulting
          * bytes.
          *
-         * @param   src
-         *          the byte array to decode
+         * @pbrbm   src
+         *          the byte brrby to decode
          *
-         * @return  A newly-allocated byte array containing the decoded bytes.
+         * @return  A newly-bllocbted byte brrby contbining the decoded bytes.
          *
-         * @throws  IllegalArgumentException
-         *          if {@code src} is not in valid Base64 scheme
+         * @throws  IllegblArgumentException
+         *          if {@code src} is not in vblid Bbse64 scheme
          */
         public byte[] decode(byte[] src) {
             byte[] dst = new byte[outLength(src, 0, src.length)];
             int ret = decode0(src, 0, src.length, dst);
             if (ret != dst.length) {
-                dst = Arrays.copyOf(dst, ret);
+                dst = Arrbys.copyOf(dst, ret);
             }
             return dst;
         }
 
         /**
-         * Decodes a Base64 encoded String into a newly-allocated byte array
-         * using the {@link Base64} encoding scheme.
+         * Decodes b Bbse64 encoded String into b newly-bllocbted byte brrby
+         * using the {@link Bbse64} encoding scheme.
          *
-         * <p> An invocation of this method has exactly the same effect as invoking
-         * {@code decode(src.getBytes(StandardCharsets.ISO_8859_1))}
+         * <p> An invocbtion of this method hbs exbctly the sbme effect bs invoking
+         * {@code decode(src.getBytes(StbndbrdChbrsets.ISO_8859_1))}
          *
-         * @param   src
+         * @pbrbm   src
          *          the string to decode
          *
-         * @return  A newly-allocated byte array containing the decoded bytes.
+         * @return  A newly-bllocbted byte brrby contbining the decoded bytes.
          *
-         * @throws  IllegalArgumentException
-         *          if {@code src} is not in valid Base64 scheme
+         * @throws  IllegblArgumentException
+         *          if {@code src} is not in vblid Bbse64 scheme
          */
         public byte[] decode(String src) {
-            return decode(src.getBytes(StandardCharsets.ISO_8859_1));
+            return decode(src.getBytes(StbndbrdChbrsets.ISO_8859_1));
         }
 
         /**
-         * Decodes all bytes from the input byte array using the {@link Base64}
-         * encoding scheme, writing the results into the given output byte array,
-         * starting at offset 0.
+         * Decodes bll bytes from the input byte brrby using the {@link Bbse64}
+         * encoding scheme, writing the results into the given output byte brrby,
+         * stbrting bt offset 0.
          *
-         * <p> It is the responsibility of the invoker of this method to make
-         * sure the output byte array {@code dst} has enough space for decoding
-         * all bytes from the input byte array. No bytes will be be written to
-         * the output byte array if the output byte array is not big enough.
+         * <p> It is the responsibility of the invoker of this method to mbke
+         * sure the output byte brrby {@code dst} hbs enough spbce for decoding
+         * bll bytes from the input byte brrby. No bytes will be be written to
+         * the output byte brrby if the output byte brrby is not big enough.
          *
-         * <p> If the input byte array is not in valid Base64 encoding scheme
-         * then some bytes may have been written to the output byte array before
-         * IllegalargumentException is thrown.
+         * <p> If the input byte brrby is not in vblid Bbse64 encoding scheme
+         * then some bytes mby hbve been written to the output byte brrby before
+         * IllegblbrgumentException is thrown.
          *
-         * @param   src
-         *          the byte array to decode
-         * @param   dst
-         *          the output byte array
+         * @pbrbm   src
+         *          the byte brrby to decode
+         * @pbrbm   dst
+         *          the output byte brrby
          *
-         * @return  The number of bytes written to the output byte array
+         * @return  The number of bytes written to the output byte brrby
          *
-         * @throws  IllegalArgumentException
-         *          if {@code src} is not in valid Base64 scheme, or {@code dst}
-         *          does not have enough space for decoding all input bytes.
+         * @throws  IllegblArgumentException
+         *          if {@code src} is not in vblid Bbse64 scheme, or {@code dst}
+         *          does not hbve enough spbce for decoding bll input bytes.
          */
         public int decode(byte[] src, byte[] dst) {
             int len = outLength(src, 0, src.length);
             if (dst.length < len)
-                throw new IllegalArgumentException(
-                    "Output byte array is too small for decoding all input bytes");
+                throw new IllegblArgumentException(
+                    "Output byte brrby is too smbll for decoding bll input bytes");
             return decode0(src, 0, src.length, dst);
         }
 
         /**
-         * Decodes all bytes from the input byte buffer using the {@link Base64}
-         * encoding scheme, writing the results into a newly-allocated ByteBuffer.
+         * Decodes bll bytes from the input byte buffer using the {@link Bbse64}
+         * encoding scheme, writing the results into b newly-bllocbted ByteBuffer.
          *
-         * <p> Upon return, the source buffer's position will be updated to
-         * its limit; its limit will not have been changed. The returned
-         * output buffer's position will be zero and its limit will be the
+         * <p> Upon return, the source buffer's position will be updbted to
+         * its limit; its limit will not hbve been chbnged. The returned
+         * output buffer's position will be zero bnd its limit will be the
          * number of resulting decoded bytes
          *
-         * <p> {@code IllegalArgumentException} is thrown if the input buffer
-         * is not in valid Base64 encoding scheme. The position of the input
-         * buffer will not be advanced in this case.
+         * <p> {@code IllegblArgumentException} is thrown if the input buffer
+         * is not in vblid Bbse64 encoding scheme. The position of the input
+         * buffer will not be bdvbnced in this cbse.
          *
-         * @param   buffer
+         * @pbrbm   buffer
          *          the ByteBuffer to decode
          *
-         * @return  A newly-allocated byte buffer containing the decoded bytes
+         * @return  A newly-bllocbted byte buffer contbining the decoded bytes
          *
-         * @throws  IllegalArgumentException
-         *          if {@code src} is not in valid Base64 scheme.
+         * @throws  IllegblArgumentException
+         *          if {@code src} is not in vblid Bbse64 scheme.
          */
         public ByteBuffer decode(ByteBuffer buffer) {
             int pos0 = buffer.position();
             try {
                 byte[] src;
                 int sp, sl;
-                if (buffer.hasArray()) {
-                    src = buffer.array();
-                    sp = buffer.arrayOffset() + buffer.position();
-                    sl = buffer.arrayOffset() + buffer.limit();
+                if (buffer.hbsArrby()) {
+                    src = buffer.brrby();
+                    sp = buffer.brrbyOffset() + buffer.position();
+                    sl = buffer.brrbyOffset() + buffer.limit();
                     buffer.position(buffer.limit());
                 } else {
-                    src = new byte[buffer.remaining()];
+                    src = new byte[buffer.rembining()];
                     buffer.get(src);
                     sp = 0;
                     sl = src.length;
                 }
                 byte[] dst = new byte[outLength(src, sp, sl)];
-                return ByteBuffer.wrap(dst, 0, decode0(src, sp, sl, dst));
-            } catch (IllegalArgumentException iae) {
+                return ByteBuffer.wrbp(dst, 0, decode0(src, sp, sl, dst));
+            } cbtch (IllegblArgumentException ibe) {
                 buffer.position(pos0);
-                throw iae;
+                throw ibe;
             }
         }
 
         /**
-         * Returns an input stream for decoding {@link Base64} encoded byte stream.
+         * Returns bn input strebm for decoding {@link Bbse64} encoded byte strebm.
          *
-         * <p> The {@code read}  methods of the returned {@code InputStream} will
-         * throw {@code IOException} when reading bytes that cannot be decoded.
+         * <p> The {@code rebd}  methods of the returned {@code InputStrebm} will
+         * throw {@code IOException} when rebding bytes thbt cbnnot be decoded.
          *
-         * <p> Closing the returned input stream will close the underlying
-         * input stream.
+         * <p> Closing the returned input strebm will close the underlying
+         * input strebm.
          *
-         * @param   is
-         *          the input stream
+         * @pbrbm   is
+         *          the input strebm
          *
-         * @return  the input stream for decoding the specified Base64 encoded
-         *          byte stream
+         * @return  the input strebm for decoding the specified Bbse64 encoded
+         *          byte strebm
          */
-        public InputStream wrap(InputStream is) {
+        public InputStrebm wrbp(InputStrebm is) {
             Objects.requireNonNull(is);
-            return new DecInputStream(is, isURL ? fromBase64URL : fromBase64, isMIME);
+            return new DecInputStrebm(is, isURL ? fromBbse64URL : fromBbse64, isMIME);
         }
 
-        private int outLength(byte[] src, int sp, int sl) {
-            int[] base64 = isURL ? fromBase64URL : fromBase64;
-            int paddings = 0;
+        privbte int outLength(byte[] src, int sp, int sl) {
+            int[] bbse64 = isURL ? fromBbse64URL : fromBbse64;
+            int pbddings = 0;
             int len = sl - sp;
             if (len == 0)
                 return 0;
             if (len < 2) {
-                if (isMIME && base64[0] == -1)
+                if (isMIME && bbse64[0] == -1)
                     return 0;
-                throw new IllegalArgumentException(
-                    "Input byte[] should at least have 2 bytes for base64 bytes");
+                throw new IllegblArgumentException(
+                    "Input byte[] should bt lebst hbve 2 bytes for bbse64 bytes");
             }
             if (isMIME) {
-                // scan all bytes to fill out all non-alphabet. a performance
-                // trade-off of pre-scan or Arrays.copyOf
+                // scbn bll bytes to fill out bll non-blphbbet. b performbnce
+                // trbde-off of pre-scbn or Arrbys.copyOf
                 int n = 0;
                 while (sp < sl) {
                     int b = src[sp++] & 0xff;
                     if (b == '=') {
                         len -= (sl - sp + 1);
-                        break;
+                        brebk;
                     }
-                    if ((b = base64[b]) == -1)
+                    if ((b = bbse64[b]) == -1)
                         n++;
                 }
                 len -= n;
             } else {
                 if (src[sl - 1] == '=') {
-                    paddings++;
+                    pbddings++;
                     if (src[sl - 2] == '=')
-                        paddings++;
+                        pbddings++;
                 }
             }
-            if (paddings == 0 && (len & 0x3) !=  0)
-                paddings = 4 - (len & 0x3);
-            return 3 * ((len + 3) / 4) - paddings;
+            if (pbddings == 0 && (len & 0x3) !=  0)
+                pbddings = 4 - (len & 0x3);
+            return 3 * ((len + 3) / 4) - pbddings;
         }
 
-        private int decode0(byte[] src, int sp, int sl, byte[] dst) {
-            int[] base64 = isURL ? fromBase64URL : fromBase64;
+        privbte int decode0(byte[] src, int sp, int sl, byte[] dst) {
+            int[] bbse64 = isURL ? fromBbse64URL : fromBbse64;
             int dp = 0;
             int bits = 0;
-            int shiftto = 18;       // pos of first byte of 4-byte atom
+            int shiftto = 18;       // pos of first byte of 4-byte btom
             while (sp < sl) {
                 int b = src[sp++] & 0xff;
-                if ((b = base64[b]) < 0) {
-                    if (b == -2) {         // padding byte '='
-                        // =     shiftto==18 unnecessary padding
-                        // x=    shiftto==12 a dangling single x
-                        // x     to be handled together with non-padding case
-                        // xx=   shiftto==6&&sp==sl missing last =
-                        // xx=y  shiftto==6 last is not =
+                if ((b = bbse64[b]) < 0) {
+                    if (b == -2) {         // pbdding byte '='
+                        // =     shiftto==18 unnecessbry pbdding
+                        // x=    shiftto==12 b dbngling single x
+                        // x     to be hbndled together with non-pbdding cbse
+                        // xx=   shiftto==6&&sp==sl missing lbst =
+                        // xx=y  shiftto==6 lbst is not =
                         if (shiftto == 6 && (sp == sl || src[sp++] != '=') ||
                             shiftto == 18) {
-                            throw new IllegalArgumentException(
-                                "Input byte array has wrong 4-byte ending unit");
+                            throw new IllegblArgumentException(
+                                "Input byte brrby hbs wrong 4-byte ending unit");
                         }
-                        break;
+                        brebk;
                     }
                     if (isMIME)    // skip if for rfc2045
                         continue;
                     else
-                        throw new IllegalArgumentException(
-                            "Illegal base64 character " +
+                        throw new IllegblArgumentException(
+                            "Illegbl bbse64 chbrbcter " +
                             Integer.toString(src[sp - 1], 16));
                 }
                 bits |= (b << shiftto);
@@ -723,51 +723,51 @@ public class Base64 {
                     bits = 0;
                 }
             }
-            // reached end of byte array or hit padding '=' characters.
+            // rebched end of byte brrby or hit pbdding '=' chbrbcters.
             if (shiftto == 6) {
                 dst[dp++] = (byte)(bits >> 16);
             } else if (shiftto == 0) {
                 dst[dp++] = (byte)(bits >> 16);
                 dst[dp++] = (byte)(bits >>  8);
             } else if (shiftto == 12) {
-                // dangling single "x", incorrectly encoded.
-                throw new IllegalArgumentException(
-                    "Last unit does not have enough valid bits");
+                // dbngling single "x", incorrectly encoded.
+                throw new IllegblArgumentException(
+                    "Lbst unit does not hbve enough vblid bits");
             }
-            // anything left is invalid, if is not MIME.
-            // if MIME, ignore all non-base64 character
+            // bnything left is invblid, if is not MIME.
+            // if MIME, ignore bll non-bbse64 chbrbcter
             while (sp < sl) {
-                if (isMIME && base64[src[sp++]] < 0)
+                if (isMIME && bbse64[src[sp++]] < 0)
                     continue;
-                throw new IllegalArgumentException(
-                    "Input byte array has incorrect ending byte at " + sp);
+                throw new IllegblArgumentException(
+                    "Input byte brrby hbs incorrect ending byte bt " + sp);
             }
             return dp;
         }
     }
 
     /*
-     * An output stream for encoding bytes into the Base64.
+     * An output strebm for encoding bytes into the Bbse64.
      */
-    private static class EncOutputStream extends FilterOutputStream {
+    privbte stbtic clbss EncOutputStrebm extends FilterOutputStrebm {
 
-        private int leftover = 0;
-        private int b0, b1, b2;
-        private boolean closed = false;
+        privbte int leftover = 0;
+        privbte int b0, b1, b2;
+        privbte boolebn closed = fblse;
 
-        private final char[] base64;    // byte->base64 mapping
-        private final byte[] newline;   // line separator, if needed
-        private final int linemax;
-        private final boolean doPadding;// whether or not to pad
-        private int linepos = 0;
+        privbte finbl chbr[] bbse64;    // byte->bbse64 mbpping
+        privbte finbl byte[] newline;   // line sepbrbtor, if needed
+        privbte finbl int linembx;
+        privbte finbl boolebn doPbdding;// whether or not to pbd
+        privbte int linepos = 0;
 
-        EncOutputStream(OutputStream os, char[] base64,
-                        byte[] newline, int linemax, boolean doPadding) {
+        EncOutputStrebm(OutputStrebm os, chbr[] bbse64,
+                        byte[] newline, int linembx, boolebn doPbdding) {
             super(os);
-            this.base64 = base64;
+            this.bbse64 = bbse64;
             this.newline = newline;
-            this.linemax = linemax;
-            this.doPadding = doPadding;
+            this.linembx = linembx;
+            this.doPbdding = doPbdding;
         }
 
         @Override
@@ -777,8 +777,8 @@ public class Base64 {
             write(buf, 0, 1);
         }
 
-        private void checkNewline() throws IOException {
-            if (linepos == linemax) {
+        privbte void checkNewline() throws IOException {
+            if (linepos == linembx) {
                 out.write(newline);
                 linepos = 0;
             }
@@ -787,9 +787,9 @@ public class Base64 {
         @Override
         public void write(byte[] b, int off, int len) throws IOException {
             if (closed)
-                throw new IOException("Stream is closed");
+                throw new IOException("Strebm is closed");
             if (off < 0 || len < 0 || off + len > b.length)
-                throw new ArrayIndexOutOfBoundsException();
+                throw new ArrbyIndexOutOfBoundsException();
             if (len == 0)
                 return;
             if (leftover != 0) {
@@ -804,10 +804,10 @@ public class Base64 {
                 b2 = b[off++] & 0xff;
                 len--;
                 checkNewline();
-                out.write(base64[b0 >> 2]);
-                out.write(base64[(b0 << 4) & 0x3f | (b1 >> 4)]);
-                out.write(base64[(b1 << 2) & 0x3f | (b2 >> 6)]);
-                out.write(base64[b2 & 0x3f]);
+                out.write(bbse64[b0 >> 2]);
+                out.write(bbse64[(b0 << 4) & 0x3f | (b1 >> 4)]);
+                out.write(bbse64[(b1 << 2) & 0x3f | (b2 >> 6)]);
+                out.write(bbse64[b2 & 0x3f]);
                 linepos += 4;
             }
             int nBits24 = len / 3;
@@ -817,10 +817,10 @@ public class Base64 {
                 int bits = (b[off++] & 0xff) << 16 |
                            (b[off++] & 0xff) <<  8 |
                            (b[off++] & 0xff);
-                out.write(base64[(bits >>> 18) & 0x3f]);
-                out.write(base64[(bits >>> 12) & 0x3f]);
-                out.write(base64[(bits >>> 6)  & 0x3f]);
-                out.write(base64[bits & 0x3f]);
+                out.write(bbse64[(bits >>> 18) & 0x3f]);
+                out.write(bbse64[(bits >>> 12) & 0x3f]);
+                out.write(bbse64[(bits >>> 6)  & 0x3f]);
+                out.write(bbse64[bits & 0x3f]);
                 linepos += 4;
            }
             if (leftover == 1) {
@@ -837,18 +837,18 @@ public class Base64 {
                 closed = true;
                 if (leftover == 1) {
                     checkNewline();
-                    out.write(base64[b0 >> 2]);
-                    out.write(base64[(b0 << 4) & 0x3f]);
-                    if (doPadding) {
+                    out.write(bbse64[b0 >> 2]);
+                    out.write(bbse64[(b0 << 4) & 0x3f]);
+                    if (doPbdding) {
                         out.write('=');
                         out.write('=');
                     }
                 } else if (leftover == 2) {
                     checkNewline();
-                    out.write(base64[b0 >> 2]);
-                    out.write(base64[(b0 << 4) & 0x3f | (b1 >> 4)]);
-                    out.write(base64[(b1 << 2) & 0x3f]);
-                    if (doPadding) {
+                    out.write(bbse64[b0 >> 2]);
+                    out.write(bbse64[(b0 << 4) & 0x3f | (b1 >> 4)]);
+                    out.write(bbse64[(b1 << 2) & 0x3f]);
+                    if (doPbdding) {
                        out.write('=');
                     }
                 }
@@ -859,39 +859,39 @@ public class Base64 {
     }
 
     /*
-     * An input stream for decoding Base64 bytes
+     * An input strebm for decoding Bbse64 bytes
      */
-    private static class DecInputStream extends InputStream {
+    privbte stbtic clbss DecInputStrebm extends InputStrebm {
 
-        private final InputStream is;
-        private final boolean isMIME;
-        private final int[] base64;      // base64 -> byte mapping
-        private int bits = 0;            // 24-bit buffer for decoding
-        private int nextin = 18;         // next available "off" in "bits" for input;
+        privbte finbl InputStrebm is;
+        privbte finbl boolebn isMIME;
+        privbte finbl int[] bbse64;      // bbse64 -> byte mbpping
+        privbte int bits = 0;            // 24-bit buffer for decoding
+        privbte int nextin = 18;         // next bvbilbble "off" in "bits" for input;
                                          // -> 18, 12, 6, 0
-        private int nextout = -8;        // next available "off" in "bits" for output;
+        privbte int nextout = -8;        // next bvbilbble "off" in "bits" for output;
                                          // -> 8, 0, -8 (no byte for output)
-        private boolean eof = false;
-        private boolean closed = false;
+        privbte boolebn eof = fblse;
+        privbte boolebn closed = fblse;
 
-        DecInputStream(InputStream is, int[] base64, boolean isMIME) {
+        DecInputStrebm(InputStrebm is, int[] bbse64, boolebn isMIME) {
             this.is = is;
-            this.base64 = base64;
+            this.bbse64 = bbse64;
             this.isMIME = isMIME;
         }
 
-        private byte[] sbBuf = new byte[1];
+        privbte byte[] sbBuf = new byte[1];
 
         @Override
-        public int read() throws IOException {
-            return read(sbBuf, 0, 1) == -1 ? -1 : sbBuf[0] & 0xff;
+        public int rebd() throws IOException {
+            return rebd(sbBuf, 0, 1) == -1 ? -1 : sbBuf[0] & 0xff;
         }
 
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
+        public int rebd(byte[] b, int off, int len) throws IOException {
             if (closed)
-                throw new IOException("Stream is closed");
-            if (eof && nextout < 0)    // eof and no leftover
+                throw new IOException("Strebm is closed");
+            if (eof && nextout < 0)    // eof bnd no leftover
                 return -1;
             if (off < 0 || len < 0 || len > b.length - off)
                 throw new IndexOutOfBoundsException();
@@ -907,18 +907,18 @@ public class Base64 {
                 bits = 0;
             }
             while (len > 0) {
-                int v = is.read();
+                int v = is.rebd();
                 if (v == -1) {
                     eof = true;
                     if (nextin != 18) {
                         if (nextin == 12)
-                            throw new IOException("Base64 stream has one un-decoded dangling byte.");
-                        // treat ending xx/xxx without padding character legal.
-                        // same logic as v == '=' below
+                            throw new IOException("Bbse64 strebm hbs one un-decoded dbngling byte.");
+                        // trebt ending xx/xxx without pbdding chbrbcter legbl.
+                        // sbme logic bs v == '=' below
                         b[off++] = (byte)(bits >> (16));
                         len--;
-                        if (nextin == 0) {           // only one padding byte
-                            if (len == 0) {          // no enough output space
+                        if (nextin == 0) {           // only one pbdding byte
+                            if (len == 0) {          // no enough output spbce
                                 bits >>= 8;          // shift to lowest byte
                                 nextout = 0;
                             } else {
@@ -931,19 +931,19 @@ public class Base64 {
                     else
                         return off - oldOff;
                 }
-                if (v == '=') {                  // padding byte(s)
-                    // =     shiftto==18 unnecessary padding
-                    // x=    shiftto==12 dangling x, invalid unit
-                    // xx=   shiftto==6 && missing last '='
-                    // xx=y  or last is not '='
+                if (v == '=') {                  // pbdding byte(s)
+                    // =     shiftto==18 unnecessbry pbdding
+                    // x=    shiftto==12 dbngling x, invblid unit
+                    // xx=   shiftto==6 && missing lbst '='
+                    // xx=y  or lbst is not '='
                     if (nextin == 18 || nextin == 12 ||
-                        nextin == 6 && is.read() != '=') {
-                        throw new IOException("Illegal base64 ending sequence:" + nextin);
+                        nextin == 6 && is.rebd() != '=') {
+                        throw new IOException("Illegbl bbse64 ending sequence:" + nextin);
                     }
                     b[off++] = (byte)(bits >> (16));
                     len--;
-                    if (nextin == 0) {           // only one padding byte
-                        if (len == 0) {          // no enough output space
+                    if (nextin == 0) {           // only one pbdding byte
+                        if (len == 0) {          // no enough output spbce
                             bits >>= 8;          // shift to lowest byte
                             nextout = 0;
                         } else {
@@ -951,24 +951,24 @@ public class Base64 {
                         }
                     }
                     eof = true;
-                    break;
+                    brebk;
                 }
-                if ((v = base64[v]) == -1) {
+                if ((v = bbse64[v]) == -1) {
                     if (isMIME)                 // skip if for rfc2045
                         continue;
                     else
-                        throw new IOException("Illegal base64 character " +
+                        throw new IOException("Illegbl bbse64 chbrbcter " +
                             Integer.toString(v, 16));
                 }
                 bits |= (v << nextin);
                 if (nextin == 0) {
-                    nextin = 18;    // clear for next
+                    nextin = 18;    // clebr for next
                     nextout = 16;
                     while (nextout >= 0) {
                         b[off++] = (byte)(bits >> nextout);
                         len--;
                         nextout -= 8;
-                        if (len == 0 && nextout >= 0) {  // don't clean "bits"
+                        if (len == 0 && nextout >= 0) {  // don't clebn "bits"
                             return off - oldOff;
                         }
                     }
@@ -981,10 +981,10 @@ public class Base64 {
         }
 
         @Override
-        public int available() throws IOException {
+        public int bvbilbble() throws IOException {
             if (closed)
-                throw new IOException("Stream is closed");
-            return is.available();   // TBD:
+                throw new IOException("Strebm is closed");
+            return is.bvbilbble();   // TBD:
         }
 
         @Override

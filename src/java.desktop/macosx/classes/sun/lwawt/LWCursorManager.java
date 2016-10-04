@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Point;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Point;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-public abstract class LWCursorManager {
+public bbstrbct clbss LWCursorMbnbger {
 
     /**
-     * A flag to indicate if the update is scheduled, so we don't process it
+     * A flbg to indicbte if the updbte is scheduled, so we don't process it
      * twice.
      */
-    private final AtomicBoolean updatePending = new AtomicBoolean(false);
+    privbte finbl AtomicBoolebn updbtePending = new AtomicBoolebn(fblse);
 
-    protected LWCursorManager() {
+    protected LWCursorMbnbger() {
     }
 
     /**
      * Sets the cursor to correspond the component currently under mouse.
      *
-     * This method should not be executed on the toolkit thread as it
-     * calls to user code (e.g. Container.findComponentAt).
+     * This method should not be executed on the toolkit threbd bs it
+     * cblls to user code (e.g. Contbiner.findComponentAt).
      */
-    public final void updateCursor() {
-        updatePending.set(false);
-        updateCursorImpl();
+    public finbl void updbteCursor() {
+        updbtePending.set(fblse);
+        updbteCursorImpl();
     }
 
     /**
-     * Schedules updating the cursor on the corresponding event dispatch
-     * thread for the given window.
+     * Schedules updbting the cursor on the corresponding event dispbtch
+     * threbd for the given window.
      *
-     * This method is called on the toolkit thread as a result of a
-     * native update cursor request (e.g. WM_SETCURSOR on Windows).
+     * This method is cblled on the toolkit threbd bs b result of b
+     * nbtive updbte cursor request (e.g. WM_SETCURSOR on Windows).
      */
-    public final void updateCursorLater(final LWWindowPeer window) {
-        if (updatePending.compareAndSet(false, true)) {
-            Runnable r = new Runnable() {
+    public finbl void updbteCursorLbter(finbl LWWindowPeer window) {
+        if (updbtePending.compbreAndSet(fblse, true)) {
+            Runnbble r = new Runnbble() {
                 @Override
                 public void run() {
-                    updateCursor();
+                    updbteCursor();
                 }
             };
-            SunToolkit.executeOnEventHandlerThread(window.getTarget(), r);
+            SunToolkit.executeOnEventHbndlerThrebd(window.getTbrget(), r);
         }
     }
 
-    private void updateCursorImpl() {
-        final Point cursorPos = getCursorPosition();
-        final Component c = findComponent(cursorPos);
-        final Cursor cursor;
-        final Object peer = LWToolkit.targetToPeer(c);
-        if (peer instanceof LWComponentPeer) {
-            final LWComponentPeer<?, ?> lwpeer = (LWComponentPeer<?, ?>) peer;
-            final Point p = lwpeer.getLocationOnScreen();
+    privbte void updbteCursorImpl() {
+        finbl Point cursorPos = getCursorPosition();
+        finbl Component c = findComponent(cursorPos);
+        finbl Cursor cursor;
+        finbl Object peer = LWToolkit.tbrgetToPeer(c);
+        if (peer instbnceof LWComponentPeer) {
+            finbl LWComponentPeer<?, ?> lwpeer = (LWComponentPeer<?, ?>) peer;
+            finbl Point p = lwpeer.getLocbtionOnScreen();
             cursor = lwpeer.getCursor(new Point(cursorPos.x - p.x,
                                                 cursorPos.y - p.y));
         } else {
@@ -93,29 +93,29 @@ public abstract class LWCursorManager {
     }
 
     /**
-     * Returns the first visible, enabled and showing component under cursor.
-     * Returns null for modal blocked windows.
+     * Returns the first visible, enbbled bnd showing component under cursor.
+     * Returns null for modbl blocked windows.
      *
-     * @param cursorPos Current cursor position.
+     * @pbrbm cursorPos Current cursor position.
      * @return Component or null.
      */
-    private static final Component findComponent(final Point cursorPos) {
-        final LWComponentPeer<?, ?> peer = LWWindowPeer.getPeerUnderCursor();
+    privbte stbtic finbl Component findComponent(finbl Point cursorPos) {
+        finbl LWComponentPeer<?, ?> peer = LWWindowPeer.getPeerUnderCursor();
         Component c = null;
         if (peer != null && peer.getWindowPeerOrSelf().getBlocker() == null) {
-            c = peer.getTarget();
-            if (c instanceof Container) {
-                final Point p = peer.getLocationOnScreen();
-                c = AWTAccessor.getContainerAccessor().findComponentAt(
-                    (Container) c, cursorPos.x - p.x, cursorPos.y - p.y, false);
+            c = peer.getTbrget();
+            if (c instbnceof Contbiner) {
+                finbl Point p = peer.getLocbtionOnScreen();
+                c = AWTAccessor.getContbinerAccessor().findComponentAt(
+                    (Contbiner) c, cursorPos.x - p.x, cursorPos.y - p.y, fblse);
 
             }
             while (c != null) {
-                final Object p = AWTAccessor.getComponentAccessor().getPeer(c);
-                if (c.isVisible() && c.isEnabled() && p != null) {
-                    break;
+                finbl Object p = AWTAccessor.getComponentAccessor().getPeer(c);
+                if (c.isVisible() && c.isEnbbled() && p != null) {
+                    brebk;
                 }
-                c = c.getParent();
+                c = c.getPbrent();
             }
         }
         return c;
@@ -124,13 +124,13 @@ public abstract class LWCursorManager {
     /**
      * Returns the current cursor position.
      */
-    // TODO: make it public to reuse for MouseInfo
-    protected abstract Point getCursorPosition();
+    // TODO: mbke it public to reuse for MouseInfo
+    protected bbstrbct Point getCursorPosition();
 
     /**
-     * Sets a cursor. The cursor can be null if the mouse is not over a Java
+     * Sets b cursor. The cursor cbn be null if the mouse is not over b Jbvb
      * window.
-     * @param cursor the new {@code Cursor}.
+     * @pbrbm cursor the new {@code Cursor}.
      */
-    protected abstract void setCursor(Cursor cursor);
+    protected bbstrbct void setCursor(Cursor cursor);
 }

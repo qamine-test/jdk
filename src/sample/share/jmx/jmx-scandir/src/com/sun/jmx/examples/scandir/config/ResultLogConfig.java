@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,149 +30,149 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbckbge com.sun.jmx.exbmples.scbndir.config;
 
-import java.util.Arrays;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jbvb.util.Arrbys;
+import jbvbx.xml.bind.bnnotbtion.XmlElement;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElement;
 
 /**
- * The <code>ResultLogConfig</code> Java Bean is used to model
- * the initial configuration of the {@link
- * com.sun.jmx.examples.scandir.ResultLogManagerMXBean}.
+ * The <code>ResultLogConfig</code> Jbvb Bebn is used to model
+ * the initibl configurbtion of the {@link
+ * com.sun.jmx.exbmples.scbndir.ResultLogMbnbgerMXBebn}.
  *
  * <p>
- * This class is annotated for XML binding.
+ * This clbss is bnnotbted for XML binding.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-@XmlRootElement(name="ResultLogConfig",
-        namespace=XmlConfigUtils.NAMESPACE)
-public class ResultLogConfig {
+@XmlRootElement(nbme="ResultLogConfig",
+        nbmespbce=XmlConfigUtils.NAMESPACE)
+public clbss ResultLogConfig {
 
     //
-    // A logger for this class.
+    // A logger for this clbss.
     //
-    // private static final Logger LOG =
-    //        Logger.getLogger(ResultLogConfig.class.getName());
+    // privbte stbtic finbl Logger LOG =
+    //        Logger.getLogger(ResultLogConfig.clbss.getNbme());
 
     /**
-     * The path to the result log file. {@code null} means that logging to
-     * file is disabled.
+     * The pbth to the result log file. {@code null} mebns thbt logging to
+     * file is disbbled.
      */
-    private String logFileName;
+    privbte String logFileNbme;
 
     /**
-     * Maximum number of record that will be logged in the log file before
-     * switching to a new log file.
+     * Mbximum number of record thbt will be logged in the log file before
+     * switching to b new log file.
      */
-    private long logFileMaxRecords;
+    privbte long logFileMbxRecords;
 
     /**
-     * The maximum number of records that can be contained in the memory log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
+     * The mbximum number of records thbt cbn be contbined in the memory log.
+     * When this number is rebched, the memory log drops its eldest record
+     * to mbke wby for the new one.
      */
-    private int memoryMaxRecords;
+    privbte int memoryMbxRecords;
 
     /**
-     * Creates a new instance of ResultLogConfig
+     * Crebtes b new instbnce of ResultLogConfig
      */
     public ResultLogConfig() {
     }
 
     /**
-     * Gets the path to the result log file. {@code null} means that logging to
-     * file is disabled.
-     * @return the path to the result log file.
+     * Gets the pbth to the result log file. {@code null} mebns thbt logging to
+     * file is disbbled.
+     * @return the pbth to the result log file.
      */
-    @XmlElement(name="LogFileName",namespace=XmlConfigUtils.NAMESPACE)
-    public String getLogFileName() {
-        return this.logFileName;
+    @XmlElement(nbme="LogFileNbme",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public String getLogFileNbme() {
+        return this.logFileNbme;
     }
 
     /**
-     * Sets the path to the result log file. {@code null} means that
-     * logging to file is disabled.
-     * @param logFileName the path to the result log file.
+     * Sets the pbth to the result log file. {@code null} mebns thbt
+     * logging to file is disbbled.
+     * @pbrbm logFileNbme the pbth to the result log file.
      */
-    public void setLogFileName(String logFileName) {
-        this.logFileName = logFileName;
+    public void setLogFileNbme(String logFileNbme) {
+        this.logFileNbme = logFileNbme;
     }
 
     /**
-     * Gets the maximum number of record that will be logged in the log file
-     * before switching to a new log file.
-     * A 0 or negative value means no limit.
-     * @return the maximum number of record that will be logged in the log file.
+     * Gets the mbximum number of record thbt will be logged in the log file
+     * before switching to b new log file.
+     * A 0 or negbtive vblue mebns no limit.
+     * @return the mbximum number of record thbt will be logged in the log file.
      */
-    @XmlElement(name="LogFileMaxRecords",namespace=XmlConfigUtils.NAMESPACE)
-    public long getLogFileMaxRecords() {
-        return this.logFileMaxRecords;
+    @XmlElement(nbme="LogFileMbxRecords",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public long getLogFileMbxRecords() {
+        return this.logFileMbxRecords;
     }
 
     /**
-     * Sets the maximum number of record that will be logged in the log file
-     * before switching to a new log file.
-     * A 0 or negative value means no limit.
-     * @param logFileMaxRecords the maximum number of record that will be
+     * Sets the mbximum number of record thbt will be logged in the log file
+     * before switching to b new log file.
+     * A 0 or negbtive vblue mebns no limit.
+     * @pbrbm logFileMbxRecords the mbximum number of record thbt will be
      * logged in the log file.
      */
-    public void setLogFileMaxRecords(long logFileMaxRecords) {
-        this.logFileMaxRecords = logFileMaxRecords;
+    public void setLogFileMbxRecords(long logFileMbxRecords) {
+        this.logFileMbxRecords = logFileMbxRecords;
     }
 
     /**
-     * Gets the maximum number of records that can be contained in the memory
+     * Gets the mbximum number of records thbt cbn be contbined in the memory
      * log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
-     * @return the maximum number of records that can be contained in the
+     * When this number is rebched, the memory log drops its eldest record
+     * to mbke wby for the new one.
+     * @return the mbximum number of records thbt cbn be contbined in the
      * memory log.
      */
-    @XmlElement(name="MemoryMaxRecords",namespace=XmlConfigUtils.NAMESPACE)
-    public int getMemoryMaxRecords() {
-        return this.memoryMaxRecords;
+    @XmlElement(nbme="MemoryMbxRecords",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public int getMemoryMbxRecords() {
+        return this.memoryMbxRecords;
     }
 
     /**
-     * Sets the maximum number of records that can be contained in the memory
+     * Sets the mbximum number of records thbt cbn be contbined in the memory
      * log.
-     * When this number is reached, the memory log drops its eldest record
-     * to make way for the new one.
-     * @param memoryMaxRecords the maximum number of records that can be
-     * contained in the memory log.
+     * When this number is rebched, the memory log drops its eldest record
+     * to mbke wby for the new one.
+     * @pbrbm memoryMbxRecords the mbximum number of records thbt cbn be
+     * contbined in the memory log.
      */
-    public void setMemoryMaxRecords(int memoryMaxRecords) {
-        this.memoryMaxRecords = memoryMaxRecords;
+    public void setMemoryMbxRecords(int memoryMbxRecords) {
+        this.memoryMbxRecords = memoryMbxRecords;
     }
 
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            memoryMaxRecords,logFileMaxRecords,logFileName
+    privbte Object[] toArrby() {
+        finbl Object[] thisconfig = {
+            memoryMbxRecords,logFileMbxRecords,logFileNbme
         };
         return thisconfig;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this) return true;
-        if (!(o instanceof ResultLogConfig)) return false;
-        final ResultLogConfig other = (ResultLogConfig)o;
-        return Arrays.deepEquals(toArray(),other.toArray());
+        if (!(o instbnceof ResultLogConfig)) return fblse;
+        finbl ResultLogConfig other = (ResultLogConfig)o;
+        return Arrbys.deepEqubls(toArrby(),other.toArrby());
     }
 
     @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(toArray());
+    public int hbshCode() {
+        return Arrbys.deepHbshCode(toArrby());
     }
 }

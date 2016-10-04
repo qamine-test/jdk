@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -31,101 +31,101 @@
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
+#include "OpenTypeTbbles.h"
 #include "OpenTypeUtilities.h"
-#include "ScriptAndLanguage.h"
-#include "LESwaps.h"
+#include "ScriptAndLbngubge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-LEReferenceTo<LangSysTable> ScriptTable::findLanguage(const LETableReference& base, LETag languageTag, LEErrorCode &success, le_bool exactMatch) const
+LEReferenceTo<LbngSysTbble> ScriptTbble::findLbngubge(const LETbbleReference& bbse, LETbg lbngubgeTbg, LEErrorCode &success, le_bool exbctMbtch) const
 {
-    le_uint16 count = SWAPW(langSysCount);
-    Offset langSysTableOffset = exactMatch? 0 : SWAPW(defaultLangSysTableOffset);
+    le_uint16 count = SWAPW(lbngSysCount);
+    Offset lbngSysTbbleOffset = exbctMbtch? 0 : SWAPW(defbultLbngSysTbbleOffset);
 
     if (count > 0) {
-      LEReferenceToArrayOf<TagAndOffsetRecord> langSysRecords(base, success, langSysRecordArray, count);
+      LEReferenceToArrbyOf<TbgAndOffsetRecord> lbngSysRecords(bbse, success, lbngSysRecordArrby, count);
       Offset foundOffset =
-        OpenTypeUtilities::getTagOffset(languageTag, langSysRecords, success);
+        OpenTypeUtilities::getTbgOffset(lbngubgeTbg, lbngSysRecords, success);
 
       if (foundOffset != 0 && LE_SUCCESS(success)) {
-        langSysTableOffset = foundOffset;
+        lbngSysTbbleOffset = foundOffset;
       }
     }
 
-    if (langSysTableOffset != 0) {
-      return LEReferenceTo<LangSysTable>(base, success, langSysTableOffset);
+    if (lbngSysTbbleOffset != 0) {
+      return LEReferenceTo<LbngSysTbble>(bbse, success, lbngSysTbbleOffset);
     }
 
-    return LEReferenceTo<LangSysTable>();
+    return LEReferenceTo<LbngSysTbble>();
 }
 
-LEReferenceTo<ScriptTable> ScriptListTable::findScript(const LETableReference &base, LETag scriptTag, LEErrorCode &success) const
+LEReferenceTo<ScriptTbble> ScriptListTbble::findScript(const LETbbleReference &bbse, LETbg scriptTbg, LEErrorCode &success) const
 {
     if (LE_FAILURE(success) ) {
-      return LEReferenceTo<ScriptTable>(); // get out
+      return LEReferenceTo<ScriptTbble>(); // get out
     }
     /*
-     * There are some fonts that have a large, bogus value for scriptCount. To try
-     * and protect against this, we use the offset in the first scriptRecord,
-     * which we know has to be past the end of the scriptRecordArray, to compute
-     * a value which is greater than or equal to the actual script count.
+     * There bre some fonts thbt hbve b lbrge, bogus vblue for scriptCount. To try
+     * bnd protect bgbinst this, we use the offset in the first scriptRecord,
+     * which we know hbs to be pbst the end of the scriptRecordArrby, to compute
+     * b vblue which is grebter thbn or equbl to the bctubl script count.
      *
-     * Note: normally, the first offset will point to just after the scriptRecordArray,
-     * but there's no guarantee of this, only that it's *after* the scriptRecordArray.
-     * Because of this, a binary serach isn't safe, because the new count may include
-     * data that's not actually in the scriptRecordArray and hence the array will appear
+     * Note: normblly, the first offset will point to just bfter the scriptRecordArrby,
+     * but there's no gubrbntee of this, only thbt it's *bfter* the scriptRecordArrby.
+     * Becbuse of this, b binbry serbch isn't sbfe, becbuse the new count mby include
+     * dbtb thbt's not bctublly in the scriptRecordArrby bnd hence the brrby will bppebr
      * to be unsorted.
      */
     le_uint16 count = SWAPW(scriptCount);
 
     if (count == 0) {
-      return LEReferenceTo<ScriptTable>(); // no items, no search
+      return LEReferenceTo<ScriptTbble>(); // no items, no sebrch
     }
 
-    // attempt to construct a ref with at least one element
-    LEReferenceToArrayOf<ScriptRecord> oneElementTable(base, success, &scriptRecordArray[0], 1);
+    // bttempt to construct b ref with bt lebst one element
+    LEReferenceToArrbyOf<ScriptRecord> oneElementTbble(bbse, success, &scriptRecordArrby[0], 1);
 
     if( LE_FAILURE(success) ) {
-      return LEReferenceTo<ScriptTable>(); // couldn't even read the first record - bad font.
+      return LEReferenceTo<ScriptTbble>(); // couldn't even rebd the first record - bbd font.
     }
 
-    le_uint16 limit = ((SWAPW(scriptRecordArray[0].offset) - sizeof(ScriptListTable)) / sizeof(scriptRecordArray)) + ANY_NUMBER;
-    Offset scriptTableOffset = 0;
+    le_uint16 limit = ((SWAPW(scriptRecordArrby[0].offset) - sizeof(ScriptListTbble)) / sizeof(scriptRecordArrby)) + ANY_NUMBER;
+    Offset scriptTbbleOffset = 0;
 
 
     if (count > limit) {
-        // the scriptCount value is bogus; do a linear search
-        // because limit may still be too large.
-        LEReferenceToArrayOf<ScriptRecord> scriptRecordArrayRef(base, success, &scriptRecordArray[0], limit);
+        // the scriptCount vblue is bogus; do b linebr sebrch
+        // becbuse limit mby still be too lbrge.
+        LEReferenceToArrbyOf<ScriptRecord> scriptRecordArrbyRef(bbse, success, &scriptRecordArrby[0], limit);
         for(le_int32 s = 0; (s < limit)&&LE_SUCCESS(success); s += 1) {
-          if (SWAPT(scriptRecordArrayRef(s,success).tag) == scriptTag) {
-            scriptTableOffset = SWAPW(scriptRecordArrayRef(s,success).offset);
-            break;
+          if (SWAPT(scriptRecordArrbyRef(s,success).tbg) == scriptTbg) {
+            scriptTbbleOffset = SWAPW(scriptRecordArrbyRef(s,success).offset);
+            brebk;
           }
         }
     } else {
-      LEReferenceToArrayOf<ScriptRecord> scriptRecordArrayRef(base, success, &scriptRecordArray[0], count);
+      LEReferenceToArrbyOf<ScriptRecord> scriptRecordArrbyRef(bbse, success, &scriptRecordArrby[0], count);
 
-      scriptTableOffset = OpenTypeUtilities::getTagOffset(scriptTag, scriptRecordArrayRef, success);
+      scriptTbbleOffset = OpenTypeUtilities::getTbgOffset(scriptTbg, scriptRecordArrbyRef, success);
     }
 
-    if (scriptTableOffset != 0) {
-      return LEReferenceTo<ScriptTable>(base, success, scriptTableOffset);
+    if (scriptTbbleOffset != 0) {
+      return LEReferenceTo<ScriptTbble>(bbse, success, scriptTbbleOffset);
     }
 
-  return LEReferenceTo<ScriptTable>();
+  return LEReferenceTo<ScriptTbble>();
 }
 
-LEReferenceTo<LangSysTable>  ScriptListTable::findLanguage(const LETableReference &base, LETag scriptTag, LETag languageTag, LEErrorCode &success, le_bool exactMatch) const
+LEReferenceTo<LbngSysTbble>  ScriptListTbble::findLbngubge(const LETbbleReference &bbse, LETbg scriptTbg, LETbg lbngubgeTbg, LEErrorCode &success, le_bool exbctMbtch) const
 {
-  const LEReferenceTo<ScriptTable> scriptTable = findScript(base, scriptTag, success);
+  const LEReferenceTo<ScriptTbble> scriptTbble = findScript(bbse, scriptTbg, success);
 
-  if (scriptTable.isEmpty()) {
-    return LEReferenceTo<LangSysTable>();
+  if (scriptTbble.isEmpty()) {
+    return LEReferenceTo<LbngSysTbble>();
   }
 
-  return scriptTable->findLanguage(scriptTable, languageTag, success, exactMatch).reparent(base);
+  return scriptTbble->findLbngubge(scriptTbble, lbngubgeTbg, success, exbctMbtch).repbrent(bbse);
 }
 
 U_NAMESPACE_END

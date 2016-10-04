@@ -1,169 +1,169 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.io.Serializable;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.io.Seriblizbble;
 
 /**
- * One or more variables that together maintain an initially zero
- * {@code long} sum.  When updates (method {@link #add}) are contended
- * across threads, the set of variables may grow dynamically to reduce
- * contention. Method {@link #sum} (or, equivalently, {@link
- * #longValue}) returns the current total combined across the
- * variables maintaining the sum.
+ * One or more vbribbles thbt together mbintbin bn initiblly zero
+ * {@code long} sum.  When updbtes (method {@link #bdd}) bre contended
+ * bcross threbds, the set of vbribbles mby grow dynbmicblly to reduce
+ * contention. Method {@link #sum} (or, equivblently, {@link
+ * #longVblue}) returns the current totbl combined bcross the
+ * vbribbles mbintbining the sum.
  *
- * <p>This class is usually preferable to {@link AtomicLong} when
- * multiple threads update a common sum that is used for purposes such
- * as collecting statistics, not for fine-grained synchronization
- * control.  Under low update contention, the two classes have similar
- * characteristics. But under high contention, expected throughput of
- * this class is significantly higher, at the expense of higher space
+ * <p>This clbss is usublly preferbble to {@link AtomicLong} when
+ * multiple threbds updbte b common sum thbt is used for purposes such
+ * bs collecting stbtistics, not for fine-grbined synchronizbtion
+ * control.  Under low updbte contention, the two clbsses hbve similbr
+ * chbrbcteristics. But under high contention, expected throughput of
+ * this clbss is significbntly higher, bt the expense of higher spbce
  * consumption.
  *
- * <p>LongAdders can be used with a {@link
- * java.util.concurrent.ConcurrentHashMap} to maintain a scalable
- * frequency map (a form of histogram or multiset). For example, to
- * add a count to a {@code ConcurrentHashMap<String,LongAdder> freqs},
- * initializing if not already present, you can use {@code
+ * <p>LongAdders cbn be used with b {@link
+ * jbvb.util.concurrent.ConcurrentHbshMbp} to mbintbin b scblbble
+ * frequency mbp (b form of histogrbm or multiset). For exbmple, to
+ * bdd b count to b {@code ConcurrentHbshMbp<String,LongAdder> freqs},
+ * initiblizing if not blrebdy present, you cbn use {@code
  * freqs.computeIfAbsent(key, k -> new LongAdder()).increment();}
  *
- * <p>This class extends {@link Number}, but does <em>not</em> define
- * methods such as {@code equals}, {@code hashCode} and {@code
- * compareTo} because instances are expected to be mutated, and so are
- * not useful as collection keys.
+ * <p>This clbss extends {@link Number}, but does <em>not</em> define
+ * methods such bs {@code equbls}, {@code hbshCode} bnd {@code
+ * compbreTo} becbuse instbnces bre expected to be mutbted, bnd so bre
+ * not useful bs collection keys.
  *
  * @since 1.8
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class LongAdder extends Striped64 implements Serializable {
-    private static final long serialVersionUID = 7249069246863182397L;
+public clbss LongAdder extends Striped64 implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
     /**
-     * Creates a new adder with initial sum of zero.
+     * Crebtes b new bdder with initibl sum of zero.
      */
     public LongAdder() {
     }
 
     /**
-     * Adds the given value.
+     * Adds the given vblue.
      *
-     * @param x the value to add
+     * @pbrbm x the vblue to bdd
      */
-    public void add(long x) {
-        Cell[] as; long b, v; int m; Cell a;
-        if ((as = cells) != null || !casBase(b = base, b + x)) {
-            boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                (a = as[getProbe() & m]) == null ||
-                !(uncontended = a.cas(v = a.value, v + x)))
-                longAccumulate(x, null, uncontended);
+    public void bdd(long x) {
+        Cell[] bs; long b, v; int m; Cell b;
+        if ((bs = cells) != null || !cbsBbse(b = bbse, b + x)) {
+            boolebn uncontended = true;
+            if (bs == null || (m = bs.length - 1) < 0 ||
+                (b = bs[getProbe() & m]) == null ||
+                !(uncontended = b.cbs(v = b.vblue, v + x)))
+                longAccumulbte(x, null, uncontended);
         }
     }
 
     /**
-     * Equivalent to {@code add(1)}.
+     * Equivblent to {@code bdd(1)}.
      */
     public void increment() {
-        add(1L);
+        bdd(1L);
     }
 
     /**
-     * Equivalent to {@code add(-1)}.
+     * Equivblent to {@code bdd(-1)}.
      */
     public void decrement() {
-        add(-1L);
+        bdd(-1L);
     }
 
     /**
-     * Returns the current sum.  The returned value is <em>NOT</em> an
-     * atomic snapshot; invocation in the absence of concurrent
-     * updates returns an accurate result, but concurrent updates that
-     * occur while the sum is being calculated might not be
-     * incorporated.
+     * Returns the current sum.  The returned vblue is <em>NOT</em> bn
+     * btomic snbpshot; invocbtion in the bbsence of concurrent
+     * updbtes returns bn bccurbte result, but concurrent updbtes thbt
+     * occur while the sum is being cblculbted might not be
+     * incorporbted.
      *
      * @return the sum
      */
     public long sum() {
-        Cell[] as = cells; Cell a;
-        long sum = base;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    sum += a.value;
+        Cell[] bs = cells; Cell b;
+        long sum = bbse;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    sum += b.vblue;
             }
         }
         return sum;
     }
 
     /**
-     * Resets variables maintaining the sum to zero.  This method may
-     * be a useful alternative to creating a new adder, but is only
-     * effective if there are no concurrent updates.  Because this
-     * method is intrinsically racy, it should only be used when it is
-     * known that no threads are concurrently updating.
+     * Resets vbribbles mbintbining the sum to zero.  This method mby
+     * be b useful blternbtive to crebting b new bdder, but is only
+     * effective if there bre no concurrent updbtes.  Becbuse this
+     * method is intrinsicblly rbcy, it should only be used when it is
+     * known thbt no threbds bre concurrently updbting.
      */
     public void reset() {
-        Cell[] as = cells; Cell a;
-        base = 0L;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    a.value = 0L;
+        Cell[] bs = cells; Cell b;
+        bbse = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    b.vblue = 0L;
             }
         }
     }
 
     /**
-     * Equivalent in effect to {@link #sum} followed by {@link
-     * #reset}. This method may apply for example during quiescent
-     * points between multithreaded computations.  If there are
-     * updates concurrent with this method, the returned value is
-     * <em>not</em> guaranteed to be the final value occurring before
+     * Equivblent in effect to {@link #sum} followed by {@link
+     * #reset}. This method mby bpply for exbmple during quiescent
+     * points between multithrebded computbtions.  If there bre
+     * updbtes concurrent with this method, the returned vblue is
+     * <em>not</em> gubrbnteed to be the finbl vblue occurring before
      * the reset.
      *
      * @return the sum
      */
     public long sumThenReset() {
-        Cell[] as = cells; Cell a;
-        long sum = base;
-        base = 0L;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null) {
-                    sum += a.value;
-                    a.value = 0L;
+        Cell[] bs = cells; Cell b;
+        long sum = bbse;
+        bbse = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null) {
+                    sum += b.vblue;
+                    b.vblue = 0L;
                 }
             }
         }
@@ -171,98 +171,98 @@ public class LongAdder extends Striped64 implements Serializable {
     }
 
     /**
-     * Returns the String representation of the {@link #sum}.
-     * @return the String representation of the {@link #sum}
+     * Returns the String representbtion of the {@link #sum}.
+     * @return the String representbtion of the {@link #sum}
      */
     public String toString() {
         return Long.toString(sum());
     }
 
     /**
-     * Equivalent to {@link #sum}.
+     * Equivblent to {@link #sum}.
      *
      * @return the sum
      */
-    public long longValue() {
+    public long longVblue() {
         return sum();
     }
 
     /**
-     * Returns the {@link #sum} as an {@code int} after a narrowing
+     * Returns the {@link #sum} bs bn {@code int} bfter b nbrrowing
      * primitive conversion.
      */
-    public int intValue() {
+    public int intVblue() {
         return (int)sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code float}
-     * after a widening primitive conversion.
+     * Returns the {@link #sum} bs b {@code flobt}
+     * bfter b widening primitive conversion.
      */
-    public float floatValue() {
-        return (float)sum();
+    public flobt flobtVblue() {
+        return (flobt)sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code double} after a widening
+     * Returns the {@link #sum} bs b {@code double} bfter b widening
      * primitive conversion.
      */
-    public double doubleValue() {
+    public double doubleVblue() {
         return (double)sum();
     }
 
     /**
-     * Serialization proxy, used to avoid reference to the non-public
-     * Striped64 superclass in serialized forms.
-     * @serial include
+     * Seriblizbtion proxy, used to bvoid reference to the non-public
+     * Striped64 superclbss in seriblized forms.
+     * @seribl include
      */
-    private static class SerializationProxy implements Serializable {
-        private static final long serialVersionUID = 7249069246863182397L;
+    privbte stbtic clbss SeriblizbtionProxy implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
         /**
-         * The current value returned by sum().
-         * @serial
+         * The current vblue returned by sum().
+         * @seribl
          */
-        private final long value;
+        privbte finbl long vblue;
 
-        SerializationProxy(LongAdder a) {
-            value = a.sum();
+        SeriblizbtionProxy(LongAdder b) {
+            vblue = b.sum();
         }
 
         /**
-         * Return a {@code LongAdder} object with initial state
+         * Return b {@code LongAdder} object with initibl stbte
          * held by this proxy.
          *
-         * @return a {@code LongAdder} object with initial state
+         * @return b {@code LongAdder} object with initibl stbte
          * held by this proxy.
          */
-        private Object readResolve() {
-            LongAdder a = new LongAdder();
-            a.base = value;
-            return a;
+        privbte Object rebdResolve() {
+            LongAdder b = new LongAdder();
+            b.bbse = vblue;
+            return b;
         }
     }
 
     /**
-     * Returns a
-     * <a href="../../../../serialized-form.html#java.util.concurrent.atomic.LongAdder.SerializationProxy">
-     * SerializationProxy</a>
-     * representing the state of this instance.
+     * Returns b
+     * <b href="../../../../seriblized-form.html#jbvb.util.concurrent.btomic.LongAdder.SeriblizbtionProxy">
+     * SeriblizbtionProxy</b>
+     * representing the stbte of this instbnce.
      *
-     * @return a {@link SerializationProxy}
-     * representing the state of this instance
+     * @return b {@link SeriblizbtionProxy}
+     * representing the stbte of this instbnce
      */
-    private Object writeReplace() {
-        return new SerializationProxy(this);
+    privbte Object writeReplbce() {
+        return new SeriblizbtionProxy(this);
     }
 
     /**
-     * @param s the stream
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s the strebm
+     * @throws jbvb.io.InvblidObjectException blwbys
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.InvalidObjectException {
-        throw new java.io.InvalidObjectException("Proxy required");
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.InvblidObjectException {
+        throw new jbvb.io.InvblidObjectException("Proxy required");
     }
 
 }

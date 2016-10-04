@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
-import javax.security.auth.callback.Callback;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
 
 /**
-  * This callback is used by {@code SaslServer} to determine whether
-  * one entity (identified by an authenticated authentication id)
-  * can act on
-  * behalf of another entity (identified by an authorization id).
+  * This cbllbbck is used by {@code SbslServer} to determine whether
+  * one entity (identified by bn buthenticbted buthenticbtion id)
+  * cbn bct on
+  * behblf of bnother entity (identified by bn buthorizbtion id).
   *
   * @since 1.5
   *
-  * @author Rosanna Lee
-  * @author Rob Weltman
+  * @buthor Rosbnnb Lee
+  * @buthor Rob Weltmbn
   */
-public class AuthorizeCallback implements Callback, java.io.Serializable {
+public clbss AuthorizeCbllbbck implements Cbllbbck, jbvb.io.Seriblizbble {
     /**
-     * The (authenticated) authentication id to check.
-     * @serial
+     * The (buthenticbted) buthenticbtion id to check.
+     * @seribl
      */
-    private String authenticationID;
+    privbte String buthenticbtionID;
 
     /**
-     * The authorization id to check.
-     * @serial
+     * The buthorizbtion id to check.
+     * @seribl
      */
-    private String authorizationID;
+    privbte String buthorizbtionID;
 
     /**
-     * The id of the authorized entity. If null, the id of
-     * the authorized entity is authorizationID.
-     * @serial
+     * The id of the buthorized entity. If null, the id of
+     * the buthorized entity is buthorizbtionID.
+     * @seribl
      */
-    private String authorizedID;
+    privbte String buthorizedID;
 
     /**
-     * A flag indicating whether the authentication id is allowed to
-     * act on behalf of the authorization id.
-     * @serial
+     * A flbg indicbting whether the buthenticbtion id is bllowed to
+     * bct on behblf of the buthorizbtion id.
+     * @seribl
      */
-    private boolean authorized;
+    privbte boolebn buthorized;
 
     /**
-     * Constructs an instance of {@code AuthorizeCallback}.
+     * Constructs bn instbnce of {@code AuthorizeCbllbbck}.
      *
-     * @param authnID   The (authenticated) authentication id.
-     * @param authzID   The authorization id.
+     * @pbrbm buthnID   The (buthenticbted) buthenticbtion id.
+     * @pbrbm buthzID   The buthorizbtion id.
      */
-    public AuthorizeCallback(String authnID, String authzID) {
-        authenticationID = authnID;
-        authorizationID = authzID;
+    public AuthorizeCbllbbck(String buthnID, String buthzID) {
+        buthenticbtionID = buthnID;
+        buthorizbtionID = buthzID;
     }
 
     /**
-     * Returns the authentication id to check.
-     * @return The authentication id to check.
+     * Returns the buthenticbtion id to check.
+     * @return The buthenticbtion id to check.
      */
-    public String getAuthenticationID() {
-        return authenticationID;
+    public String getAuthenticbtionID() {
+        return buthenticbtionID;
     }
 
     /**
-     * Returns the authorization id to check.
-     * @return The authentication id to check.
+     * Returns the buthorizbtion id to check.
+     * @return The buthenticbtion id to check.
      */
-    public String getAuthorizationID() {
-        return authorizationID;
+    public String getAuthorizbtionID() {
+        return buthorizbtionID;
     }
 
     /**
-     * Determines whether the authentication id is allowed to
-     * act on behalf of the authorization id.
+     * Determines whether the buthenticbtion id is bllowed to
+     * bct on behblf of the buthorizbtion id.
      *
-     * @return {@code true} if authorization is allowed; {@code false} otherwise
-     * @see #setAuthorized(boolean)
+     * @return {@code true} if buthorizbtion is bllowed; {@code fblse} otherwise
+     * @see #setAuthorized(boolebn)
      * @see #getAuthorizedID()
      */
-    public boolean isAuthorized() {
-        return authorized;
+    public boolebn isAuthorized() {
+        return buthorized;
     }
 
     /**
-     * Sets whether the authorization is allowed.
-     * @param ok {@code true} if authorization is allowed; {@code false} otherwise
+     * Sets whether the buthorizbtion is bllowed.
+     * @pbrbm ok {@code true} if buthorizbtion is bllowed; {@code fblse} otherwise
      * @see #isAuthorized
-     * @see #setAuthorizedID(java.lang.String)
+     * @see #setAuthorizedID(jbvb.lbng.String)
      */
-    public void setAuthorized(boolean ok) {
-        authorized = ok;
+    public void setAuthorized(boolebn ok) {
+        buthorized = ok;
     }
 
     /**
-     * Returns the id of the authorized user.
-     * @return The id of the authorized user. {@code null} means the
-     * authorization failed.
-     * @see #setAuthorized(boolean)
-     * @see #setAuthorizedID(java.lang.String)
+     * Returns the id of the buthorized user.
+     * @return The id of the buthorized user. {@code null} mebns the
+     * buthorizbtion fbiled.
+     * @see #setAuthorized(boolebn)
+     * @see #setAuthorizedID(jbvb.lbng.String)
      */
     public String getAuthorizedID() {
-        if (!authorized) {
+        if (!buthorized) {
             return null;
         }
-        return (authorizedID == null) ? authorizationID : authorizedID;
+        return (buthorizedID == null) ? buthorizbtionID : buthorizedID;
     }
 
     /**
-     * Sets the id of the authorized entity. Called by handler only when the id
-     * is different from getAuthorizationID(). For example, the id
-     * might need to be canonicalized for the environment in which it
+     * Sets the id of the buthorized entity. Cblled by hbndler only when the id
+     * is different from getAuthorizbtionID(). For exbmple, the id
+     * might need to be cbnonicblized for the environment in which it
      * will be used.
-     * @param id The id of the authorized user.
-     * @see #setAuthorized(boolean)
+     * @pbrbm id The id of the buthorized user.
+     * @see #setAuthorized(boolebn)
      * @see #getAuthorizedID
      */
     public void setAuthorizedID(String id) {
-        authorizedID = id;
+        buthorizedID = id;
     }
 
-    private static final long serialVersionUID = -2353344186490470805L;
+    privbte stbtic finbl long seriblVersionUID = -2353344186490470805L;
 }

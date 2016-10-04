@@ -1,760 +1,760 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.function.Supplier;
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.BiFunction;
-import java.util.concurrent.Executor;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.function.Supplier;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.BiFunction;
+import jbvb.util.concurrent.Executor;
 
 /**
- * A stage of a possibly asynchronous computation, that performs an
- * action or computes a value when another CompletionStage completes.
- * A stage completes upon termination of its computation, but this may
- * in turn trigger other dependent stages.  The functionality defined
- * in this interface takes only a few basic forms, which expand out to
- * a larger set of methods to capture a range of usage styles: <ul>
+ * A stbge of b possibly bsynchronous computbtion, thbt performs bn
+ * bction or computes b vblue when bnother CompletionStbge completes.
+ * A stbge completes upon terminbtion of its computbtion, but this mby
+ * in turn trigger other dependent stbges.  The functionblity defined
+ * in this interfbce tbkes only b few bbsic forms, which expbnd out to
+ * b lbrger set of methods to cbpture b rbnge of usbge styles: <ul>
  *
- * <li>The computation performed by a stage may be expressed as a
- * Function, Consumer, or Runnable (using methods with names including
- * <em>apply</em>, <em>accept</em>, or <em>run</em>, respectively)
- * depending on whether it requires arguments and/or produces results.
- * For example, {@code stage.thenApply(x -> square(x)).thenAccept(x ->
+ * <li>The computbtion performed by b stbge mby be expressed bs b
+ * Function, Consumer, or Runnbble (using methods with nbmes including
+ * <em>bpply</em>, <em>bccept</em>, or <em>run</em>, respectively)
+ * depending on whether it requires brguments bnd/or produces results.
+ * For exbmple, {@code stbge.thenApply(x -> squbre(x)).thenAccept(x ->
  * System.out.print(x)).thenRun(() -> System.out.println())}. An
- * additional form (<em>compose</em>) applies functions of stages
- * themselves, rather than their results. </li>
+ * bdditionbl form (<em>compose</em>) bpplies functions of stbges
+ * themselves, rbther thbn their results. </li>
  *
- * <li> One stage's execution may be triggered by completion of a
- * single stage, or both of two stages, or either of two stages.
- * Dependencies on a single stage are arranged using methods with
+ * <li> One stbge's execution mby be triggered by completion of b
+ * single stbge, or both of two stbges, or either of two stbges.
+ * Dependencies on b single stbge bre brrbnged using methods with
  * prefix <em>then</em>. Those triggered by completion of
- * <em>both</em> of two stages may <em>combine</em> their results or
- * effects, using correspondingly named methods. Those triggered by
- * <em>either</em> of two stages make no guarantees about which of the
- * results or effects are used for the dependent stage's
- * computation.</li>
+ * <em>both</em> of two stbges mby <em>combine</em> their results or
+ * effects, using correspondingly nbmed methods. Those triggered by
+ * <em>either</em> of two stbges mbke no gubrbntees bbout which of the
+ * results or effects bre used for the dependent stbge's
+ * computbtion.</li>
  *
- * <li> Dependencies among stages control the triggering of
- * computations, but do not otherwise guarantee any particular
- * ordering. Additionally, execution of a new stage's computations may
- * be arranged in any of three ways: default execution, default
- * asynchronous execution (using methods with suffix <em>async</em>
- * that employ the stage's default asynchronous execution facility),
- * or custom (via a supplied {@link Executor}).  The execution
- * properties of default and async modes are specified by
- * CompletionStage implementations, not this interface. Methods with
- * explicit Executor arguments may have arbitrary execution
- * properties, and might not even support concurrent execution, but
- * are arranged for processing in a way that accommodates asynchrony.
+ * <li> Dependencies bmong stbges control the triggering of
+ * computbtions, but do not otherwise gubrbntee bny pbrticulbr
+ * ordering. Additionblly, execution of b new stbge's computbtions mby
+ * be brrbnged in bny of three wbys: defbult execution, defbult
+ * bsynchronous execution (using methods with suffix <em>bsync</em>
+ * thbt employ the stbge's defbult bsynchronous execution fbcility),
+ * or custom (vib b supplied {@link Executor}).  The execution
+ * properties of defbult bnd bsync modes bre specified by
+ * CompletionStbge implementbtions, not this interfbce. Methods with
+ * explicit Executor brguments mby hbve brbitrbry execution
+ * properties, bnd might not even support concurrent execution, but
+ * bre brrbnged for processing in b wby thbt bccommodbtes bsynchrony.
  *
  * <li> Two method forms support processing whether the triggering
- * stage completed normally or exceptionally: Method {@link
- * #whenComplete whenComplete} allows injection of an action
- * regardless of outcome, otherwise preserving the outcome in its
- * completion. Method {@link #handle handle} additionally allows the
- * stage to compute a replacement result that may enable further
- * processing by other dependent stages.  In all other cases, if a
- * stage's computation terminates abruptly with an (unchecked)
- * exception or error, then all dependent stages requiring its
- * completion complete exceptionally as well, with a {@link
- * CompletionException} holding the exception as its cause.  If a
- * stage is dependent on <em>both</em> of two stages, and both
- * complete exceptionally, then the CompletionException may correspond
- * to either one of these exceptions.  If a stage is dependent on
- * <em>either</em> of two others, and only one of them completes
- * exceptionally, no guarantees are made about whether the dependent
- * stage completes normally or exceptionally. In the case of method
- * {@code whenComplete}, when the supplied action itself encounters an
- * exception, then the stage exceptionally completes with this
- * exception if not already completed exceptionally.</li>
+ * stbge completed normblly or exceptionblly: Method {@link
+ * #whenComplete whenComplete} bllows injection of bn bction
+ * regbrdless of outcome, otherwise preserving the outcome in its
+ * completion. Method {@link #hbndle hbndle} bdditionblly bllows the
+ * stbge to compute b replbcement result thbt mby enbble further
+ * processing by other dependent stbges.  In bll other cbses, if b
+ * stbge's computbtion terminbtes bbruptly with bn (unchecked)
+ * exception or error, then bll dependent stbges requiring its
+ * completion complete exceptionblly bs well, with b {@link
+ * CompletionException} holding the exception bs its cbuse.  If b
+ * stbge is dependent on <em>both</em> of two stbges, bnd both
+ * complete exceptionblly, then the CompletionException mby correspond
+ * to either one of these exceptions.  If b stbge is dependent on
+ * <em>either</em> of two others, bnd only one of them completes
+ * exceptionblly, no gubrbntees bre mbde bbout whether the dependent
+ * stbge completes normblly or exceptionblly. In the cbse of method
+ * {@code whenComplete}, when the supplied bction itself encounters bn
+ * exception, then the stbge exceptionblly completes with this
+ * exception if not blrebdy completed exceptionblly.</li>
  *
  * </ul>
  *
- * <p>All methods adhere to the above triggering, execution, and
- * exceptional completion specifications (which are not repeated in
- * individual method specifications). Additionally, while arguments
- * used to pass a completion result (that is, for parameters of type
- * {@code T}) for methods accepting them may be null, passing a null
- * value for any other parameter will result in a {@link
+ * <p>All methods bdhere to the bbove triggering, execution, bnd
+ * exceptionbl completion specificbtions (which bre not repebted in
+ * individubl method specificbtions). Additionblly, while brguments
+ * used to pbss b completion result (thbt is, for pbrbmeters of type
+ * {@code T}) for methods bccepting them mby be null, pbssing b null
+ * vblue for bny other pbrbmeter will result in b {@link
  * NullPointerException} being thrown.
  *
- * <p>This interface does not define methods for initially creating,
- * forcibly completing normally or exceptionally, probing completion
- * status or results, or awaiting completion of a stage.
- * Implementations of CompletionStage may provide means of achieving
- * such effects, as appropriate.  Method {@link #toCompletableFuture}
- * enables interoperability among different implementations of this
- * interface by providing a common conversion type.
+ * <p>This interfbce does not define methods for initiblly crebting,
+ * forcibly completing normblly or exceptionblly, probing completion
+ * stbtus or results, or bwbiting completion of b stbge.
+ * Implementbtions of CompletionStbge mby provide mebns of bchieving
+ * such effects, bs bppropribte.  Method {@link #toCompletbbleFuture}
+ * enbbles interoperbbility bmong different implementbtions of this
+ * interfbce by providing b common conversion type.
  *
- * @author Doug Lea
+ * @buthor Doug Leb
  * @since 1.8
  */
-public interface CompletionStage<T> {
+public interfbce CompletionStbge<T> {
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage's result as the argument
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed with this stbge's result bs the brgument
      * to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> thenApply(Function<? super T,? extends U> fn);
+    public <U> CompletionStbge<U> thenApply(Function<? super T,? extends U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage's result as the argument to
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using this stbge's defbult bsynchronous
+     * execution fbcility, with this stbge's result bs the brgument to
      * the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> thenApplyAsync
+    public <U> CompletionStbge<U> thenApplyAsync
         (Function<? super T,? extends U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied function.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using the supplied Executor, with this
+     * stbge's result bs the brgument to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> thenApplyAsync
+    public <U> CompletionStbge<U> thenApplyAsync
         (Function<? super T,? extends U> fn,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage's result as the argument
-     * to the supplied action.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed with this stbge's result bs the brgument
+     * to the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenAccept(Consumer<? super T> action);
+    public CompletionStbge<Void> thenAccept(Consumer<? super T> bction);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage's result as the argument to
-     * the supplied action.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using this stbge's defbult bsynchronous
+     * execution fbcility, with this stbge's result bs the brgument to
+     * the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action);
+    public CompletionStbge<Void> thenAcceptAsync(Consumer<? super T> bction);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied action.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using the supplied Executor, with this
+     * stbge's result bs the brgument to the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action,
+    public CompletionStbge<Void> thenAcceptAsync(Consumer<? super T> bction,
                                                  Executor executor);
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, executes the given bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenRun(Runnable action);
+    public CompletionStbge<Void> thenRun(Runnbble bction);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action using this stage's default
-     * asynchronous execution facility.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, executes the given bction using this stbge's defbult
+     * bsynchronous execution fbcility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenRunAsync(Runnable action);
+    public CompletionStbge<Void> thenRunAsync(Runnbble bction);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action using the supplied Executor.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, executes the given bction using the supplied Executor.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> thenRunAsync(Runnable action,
+    public CompletionStbge<Void> thenRunAsync(Runnbble bction,
                                               Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, is executed with the two
-     * results as arguments to the supplied function.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge both complete normblly, is executed with the two
+     * results bs brguments to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @pbrbm <V> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U,V> CompletionStage<V> thenCombine
-        (CompletionStage<? extends U> other,
+    public <U,V> CompletionStbge<V> thenCombine
+        (CompletionStbge<? extends U> other,
          BiFunction<? super T,? super U,? extends V> fn);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using this stage's
-     * default asynchronous execution facility, with the two results
-     * as arguments to the supplied function.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, is executed using this stbge's
+     * defbult bsynchronous execution fbcility, with the two results
+     * bs brguments to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @pbrbm <V> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U,V> CompletionStage<V> thenCombineAsync
-        (CompletionStage<? extends U> other,
+    public <U,V> CompletionStbge<V> thenCombineAsync
+        (CompletionStbge<? extends U> other,
          BiFunction<? super T,? super U,? extends V> fn);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using the supplied
-     * executor, with the two results as arguments to the supplied
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, is executed using the supplied
+     * executor, with the two results bs brguments to the supplied
      * function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @pbrbm <V> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U,V> CompletionStage<V> thenCombineAsync
-        (CompletionStage<? extends U> other,
+    public <U,V> CompletionStbge<V> thenCombineAsync
+        (CompletionStbge<? extends U> other,
          BiFunction<? super T,? super U,? extends V> fn,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, is executed with the two
-     * results as arguments to the supplied action.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge both complete normblly, is executed with the two
+     * results bs brguments to the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<Void> thenAcceptBoth
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action);
+    public <U> CompletionStbge<Void> thenAcceptBoth
+        (CompletionStbge<? extends U> other,
+         BiConsumer<? super T, ? super U> bction);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using this stage's
-     * default asynchronous execution facility, with the two results
-     * as arguments to the supplied action.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, is executed using this stbge's
+     * defbult bsynchronous execution fbcility, with the two results
+     * bs brguments to the supplied bction.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<Void> thenAcceptBothAsync
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action);
+    public <U> CompletionStbge<Void> thenAcceptBothAsync
+        (CompletionStbge<? extends U> other,
+         BiConsumer<? super T, ? super U> bction);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using the supplied
-     * executor, with the two results as arguments to the supplied
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, is executed using the supplied
+     * executor, with the two results bs brguments to the supplied
      * function.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the type of the other CompletionStbge's result
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<Void> thenAcceptBothAsync
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action,
+    public <U> CompletionStbge<Void> thenAcceptBothAsync
+        (CompletionStbge<? extends U> other,
+         BiConsumer<? super T, ? super U> bction,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, executes the given action.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge both complete normblly, executes the given bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterBoth(CompletionStage<?> other,
-                                              Runnable action);
+    public CompletionStbge<Void> runAfterBoth(CompletionStbge<?> other,
+                                              Runnbble bction);
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, executes the given action using
-     * this stage's default asynchronous execution facility.
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, executes the given bction using
+     * this stbge's defbult bsynchronous execution fbcility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterBothAsync(CompletionStage<?> other,
-                                                   Runnable action);
+    public CompletionStbge<Void> runAfterBothAsync(CompletionStbge<?> other,
+                                                   Runnbble bction);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, executes the given action using
+     * Returns b new CompletionStbge thbt, when this bnd the other
+     * given stbge complete normblly, executes the given bction using
      * the supplied executor
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterBothAsync(CompletionStage<?> other,
-                                                   Runnable action,
+    public CompletionStbge<Void> runAfterBothAsync(CompletionStbge<?> other,
+                                                   Runnbble bction,
                                                    Executor executor);
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed with the
-     * corresponding result as argument to the supplied function.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed with the
+     * corresponding result bs brgument to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> applyToEither
-        (CompletionStage<? extends T> other,
+    public <U> CompletionStbge<U> bpplyToEither
+        (CompletionStbge<? extends T> other,
          Function<? super T, U> fn);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using this
-     * stage's default asynchronous execution facility, with the
-     * corresponding result as argument to the supplied function.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed using this
+     * stbge's defbult bsynchronous execution fbcility, with the
+     * corresponding result bs brgument to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> applyToEitherAsync
-        (CompletionStage<? extends T> other,
+    public <U> CompletionStbge<U> bpplyToEitherAsync
+        (CompletionStbge<? extends T> other,
          Function<? super T, U> fn);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using the
-     * supplied executor, with the corresponding result as argument to
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed using the
+     * supplied executor, with the corresponding result bs brgument to
      * the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm fn the function to use to compute the vblue of
+     * the returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> applyToEitherAsync
-        (CompletionStage<? extends T> other,
+    public <U> CompletionStbge<U> bpplyToEitherAsync
+        (CompletionStbge<? extends T> other,
          Function<? super T, U> fn,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed with the
-     * corresponding result as argument to the supplied action.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed with the
+     * corresponding result bs brgument to the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> acceptEither
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action);
+    public CompletionStbge<Void> bcceptEither
+        (CompletionStbge<? extends T> other,
+         Consumer<? super T> bction);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using this
-     * stage's default asynchronous execution facility, with the
-     * corresponding result as argument to the supplied action.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed using this
+     * stbge's defbult bsynchronous execution fbcility, with the
+     * corresponding result bs brgument to the supplied bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> acceptEitherAsync
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action);
+    public CompletionStbge<Void> bcceptEitherAsync
+        (CompletionStbge<? extends T> other,
+         Consumer<? super T> bction);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using the
-     * supplied executor, with the corresponding result as argument to
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, is executed using the
+     * supplied executor, with the corresponding result bs brgument to
      * the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> acceptEitherAsync
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action,
+    public CompletionStbge<Void> bcceptEitherAsync
+        (CompletionStbge<? extends T> other,
+         Consumer<? super T> bction,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, executes the given bction.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterEither(CompletionStage<?> other,
-                                                Runnable action);
+    public CompletionStbge<Void> runAfterEither(CompletionStbge<?> other,
+                                                Runnbble bction);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action
-     * using this stage's default asynchronous execution facility.
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, executes the given bction
+     * using this stbge's defbult bsynchronous execution fbcility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterEitherAsync
-        (CompletionStage<?> other,
-         Runnable action);
+    public CompletionStbge<Void> runAfterEitherAsync
+        (CompletionStbge<?> other,
+         Runnbble bction);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action
+     * Returns b new CompletionStbge thbt, when either this or the
+     * other given stbge complete normblly, executes the given bction
      * using supplied executor.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm other the other CompletionStbge
+     * @pbrbm bction the bction to perform before completing the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<Void> runAfterEitherAsync
-        (CompletionStage<?> other,
-         Runnable action,
+    public CompletionStbge<Void> runAfterEitherAsync
+        (CompletionStbge<?> other,
+         Runnbble bction,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage as the argument
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed with this stbge bs the brgument
      * to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn the function returning b new CompletionStbge
+     * @pbrbm <U> the type of the returned CompletionStbge's result
+     * @return the CompletionStbge
      */
-    public <U> CompletionStage<U> thenCompose
-        (Function<? super T, ? extends CompletionStage<U>> fn);
+    public <U> CompletionStbge<U> thenCompose
+        (Function<? super T, ? extends CompletionStbge<U>> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage as the argument to the
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using this stbge's defbult bsynchronous
+     * execution fbcility, with this stbge bs the brgument to the
      * supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn the function returning b new CompletionStbge
+     * @pbrbm <U> the type of the returned CompletionStbge's result
+     * @return the CompletionStbge
      */
-    public <U> CompletionStage<U> thenComposeAsync
-        (Function<? super T, ? extends CompletionStage<U>> fn);
+    public <U> CompletionStbge<U> thenComposeAsync
+        (Function<? super T, ? extends CompletionStbge<U>> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied function.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * normblly, is executed using the supplied Executor, with this
+     * stbge's result bs the brgument to the supplied function.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * See the {@link CompletionStbge} documentbtion for rules
+     * covering exceptionbl completion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn the function returning b new CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the type of the returned CompletionStbge's result
+     * @return the CompletionStbge
      */
-    public <U> CompletionStage<U> thenComposeAsync
-        (Function<? super T, ? extends CompletionStage<U>> fn,
+    public <U> CompletionStbge<U> thenComposeAsync
+        (Function<? super T, ? extends CompletionStbge<U>> fn,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * exceptionally, is executed with this stage's exception as the
-     * argument to the supplied function.  Otherwise, if this stage
-     * completes normally, then the returned stage also completes
-     * normally with the same value.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * exceptionblly, is executed with this stbge's exception bs the
+     * brgument to the supplied function.  Otherwise, if this stbge
+     * completes normblly, then the returned stbge blso completes
+     * normblly with the sbme vblue.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage if this CompletionStage completed
-     * exceptionally
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of the
+     * returned CompletionStbge if this CompletionStbge completed
+     * exceptionblly
+     * @return the new CompletionStbge
      */
-    public CompletionStage<T> exceptionally
-        (Function<Throwable, ? extends T> fn);
+    public CompletionStbge<T> exceptionblly
+        (Function<Throwbble, ? extends T> fn);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes the
-     * given action with the result (or {@code null} if none) and the
-     * exception (or {@code null} if none) of this stage.
+     * Returns b new CompletionStbge with the sbme result or exception
+     * bs this stbge, bnd when this stbge completes, executes the
+     * given bction with the result (or {@code null} if none) bnd the
+     * exception (or {@code null} if none) of this stbge.
      *
-     * @param action the action to perform
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform
+     * @return the new CompletionStbge
      */
-    public CompletionStage<T> whenComplete
-        (BiConsumer<? super T, ? super Throwable> action);
+    public CompletionStbge<T> whenComplete
+        (BiConsumer<? super T, ? super Throwbble> bction);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes the
-     * given action executes the given action using this stage's
-     * default asynchronous execution facility, with the result (or
-     * {@code null} if none) and the exception (or {@code null} if
-     * none) of this stage as arguments.
+     * Returns b new CompletionStbge with the sbme result or exception
+     * bs this stbge, bnd when this stbge completes, executes the
+     * given bction executes the given bction using this stbge's
+     * defbult bsynchronous execution fbcility, with the result (or
+     * {@code null} if none) bnd the exception (or {@code null} if
+     * none) of this stbge bs brguments.
      *
-     * @param action the action to perform
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform
+     * @return the new CompletionStbge
      */
-    public CompletionStage<T> whenCompleteAsync
-        (BiConsumer<? super T, ? super Throwable> action);
+    public CompletionStbge<T> whenCompleteAsync
+        (BiConsumer<? super T, ? super Throwbble> bction);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes using
-     * the supplied Executor, the given action with the result (or
-     * {@code null} if none) and the exception (or {@code null} if
-     * none) of this stage as arguments.
+     * Returns b new CompletionStbge with the sbme result or exception
+     * bs this stbge, bnd when this stbge completes, executes using
+     * the supplied Executor, the given bction with the result (or
+     * {@code null} if none) bnd the exception (or {@code null} if
+     * none) of this stbge bs brguments.
      *
-     * @param action the action to perform
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bction the bction to perform
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @return the new CompletionStbge
      */
-    public CompletionStage<T> whenCompleteAsync
-        (BiConsumer<? super T, ? super Throwable> action,
+    public CompletionStbge<T> whenCompleteAsync
+        (BiConsumer<? super T, ? super Throwbble> bction,
          Executor executor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed with this stage's
-     * result and exception as arguments to the supplied function.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * either normblly or exceptionblly, is executed with this stbge's
+     * result bnd exception bs brguments to the supplied function.
      * The given function is invoked with the result (or {@code null}
-     * if none) and the exception (or {@code null} if none) of this
-     * stage when complete as arguments.
+     * if none) bnd the exception (or {@code null} if none) of this
+     * stbge when complete bs brguments.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of the
+     * returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> handle
-        (BiFunction<? super T, Throwable, ? extends U> fn);
+    public <U> CompletionStbge<U> hbndle
+        (BiFunction<? super T, Throwbble, ? extends U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed using this stage's
-     * default asynchronous execution facility, with this stage's
-     * result and exception as arguments to the supplied function.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * either normblly or exceptionblly, is executed using this stbge's
+     * defbult bsynchronous execution fbcility, with this stbge's
+     * result bnd exception bs brguments to the supplied function.
      * The given function is invoked with the result (or {@code null}
-     * if none) and the exception (or {@code null} if none) of this
-     * stage when complete as arguments.
+     * if none) bnd the exception (or {@code null} if none) of this
+     * stbge when complete bs brguments.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of the
+     * returned CompletionStbge
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> handleAsync
-        (BiFunction<? super T, Throwable, ? extends U> fn);
+    public <U> CompletionStbge<U> hbndleAsync
+        (BiFunction<? super T, Throwbble, ? extends U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed using the
-     * supplied executor, with this stage's result and exception as
-     * arguments to the supplied function.  The given function is
-     * invoked with the result (or {@code null} if none) and the
-     * exception (or {@code null} if none) of this stage when complete
-     * as arguments.
+     * Returns b new CompletionStbge thbt, when this stbge completes
+     * either normblly or exceptionblly, is executed using the
+     * supplied executor, with this stbge's result bnd exception bs
+     * brguments to the supplied function.  The given function is
+     * invoked with the result (or {@code null} if none) bnd the
+     * exception (or {@code null} if none) of this stbge when complete
+     * bs brguments.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn the function to use to compute the vblue of the
+     * returned CompletionStbge
+     * @pbrbm executor the executor to use for bsynchronous execution
+     * @pbrbm <U> the function's return type
+     * @return the new CompletionStbge
      */
-    public <U> CompletionStage<U> handleAsync
-        (BiFunction<? super T, Throwable, ? extends U> fn,
+    public <U> CompletionStbge<U> hbndleAsync
+        (BiFunction<? super T, Throwbble, ? extends U> fn,
          Executor executor);
 
     /**
-     * Returns a {@link CompletableFuture} maintaining the same
-     * completion properties as this stage. If this stage is already a
-     * CompletableFuture, this method may return this stage itself.
-     * Otherwise, invocation of this method may be equivalent in
-     * effect to {@code thenApply(x -> x)}, but returning an instance
-     * of type {@code CompletableFuture}. A CompletionStage
-     * implementation that does not choose to interoperate with others
-     * may throw {@code UnsupportedOperationException}.
+     * Returns b {@link CompletbbleFuture} mbintbining the sbme
+     * completion properties bs this stbge. If this stbge is blrebdy b
+     * CompletbbleFuture, this method mby return this stbge itself.
+     * Otherwise, invocbtion of this method mby be equivblent in
+     * effect to {@code thenApply(x -> x)}, but returning bn instbnce
+     * of type {@code CompletbbleFuture}. A CompletionStbge
+     * implementbtion thbt does not choose to interoperbte with others
+     * mby throw {@code UnsupportedOperbtionException}.
      *
-     * @return the CompletableFuture
-     * @throws UnsupportedOperationException if this implementation
-     * does not interoperate with CompletableFuture
+     * @return the CompletbbleFuture
+     * @throws UnsupportedOperbtionException if this implementbtion
+     * does not interoperbte with CompletbbleFuture
      */
-    public CompletableFuture<T> toCompletableFuture();
+    public CompletbbleFuture<T> toCompletbbleFuture();
 
 }

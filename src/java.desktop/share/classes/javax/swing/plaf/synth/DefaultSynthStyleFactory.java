@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import java.awt.Font;
-import java.util.*;
-import java.util.regex.*;
-import sun.swing.plaf.synth.*;
-import sun.swing.BakedArrayList;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.FontUIResource;
+import jbvb.bwt.Font;
+import jbvb.util.*;
+import jbvb.util.regex.*;
+import sun.swing.plbf.synth.*;
+import sun.swing.BbkedArrbyList;
 
 /**
- * Factory used for obtaining styles. Supports associating a style based on
- * the name of the component as returned by <code>Component.getName()</code>,
- * and the <code>Region</code> associated with the <code>JComponent</code>.
- * Lookup is done using regular expressions.
+ * Fbctory used for obtbining styles. Supports bssocibting b style bbsed on
+ * the nbme of the component bs returned by <code>Component.getNbme()</code>,
+ * bnd the <code>Region</code> bssocibted with the <code>JComponent</code>.
+ * Lookup is done using regulbr expressions.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-class DefaultSynthStyleFactory extends SynthStyleFactory {
+clbss DefbultSynthStyleFbctory extends SynthStyleFbctory {
     /**
-     * Used to indicate the lookup should be done based on Component name.
+     * Used to indicbte the lookup should be done bbsed on Component nbme.
      */
-    public static final int NAME = 0;
+    public stbtic finbl int NAME = 0;
     /**
-     * Used to indicate the lookup should be done based on region.
+     * Used to indicbte the lookup should be done bbsed on region.
      */
-    public static final int REGION = 1;
+    public stbtic finbl int REGION = 1;
 
     /**
-     * List containing set of StyleAssociations used in determining matching
+     * List contbining set of StyleAssocibtions used in determining mbtching
      * styles.
      */
-    private List<StyleAssociation> _styles;
+    privbte List<StyleAssocibtion> _styles;
     /**
      * Used during lookup.
      */
-    private BakedArrayList<SynthStyle> _tmpList;
+    privbte BbkedArrbyList<SynthStyle> _tmpList;
 
     /**
-     * Maps from a List (BakedArrayList to be precise) to the merged style.
+     * Mbps from b List (BbkedArrbyList to be precise) to the merged style.
      */
-    private Map<BakedArrayList<SynthStyle>, SynthStyle> _resolvedStyles;
+    privbte Mbp<BbkedArrbyList<SynthStyle>, SynthStyle> _resolvedStyles;
 
     /**
-     * Used if there are no styles matching a widget.
+     * Used if there bre no styles mbtching b widget.
      */
-    private SynthStyle _defaultStyle;
+    privbte SynthStyle _defbultStyle;
 
 
-    DefaultSynthStyleFactory() {
-        _tmpList = new BakedArrayList<SynthStyle>(5);
-        _styles = new ArrayList<>();
-        _resolvedStyles = new HashMap<>();
+    DefbultSynthStyleFbctory() {
+        _tmpList = new BbkedArrbyList<SynthStyle>(5);
+        _styles = new ArrbyList<>();
+        _resolvedStyles = new HbshMbp<>();
     }
 
-    public synchronized void addStyle(DefaultSynthStyle style,
-                         String path, int type) throws PatternSyntaxException {
-        if (path == null) {
-            // Make an empty path match all.
-            path = ".*";
+    public synchronized void bddStyle(DefbultSynthStyle style,
+                         String pbth, int type) throws PbtternSyntbxException {
+        if (pbth == null) {
+            // Mbke bn empty pbth mbtch bll.
+            pbth = ".*";
         }
         if (type == NAME) {
-            _styles.add(StyleAssociation.createStyleAssociation(
-                            path, style, type));
+            _styles.bdd(StyleAssocibtion.crebteStyleAssocibtion(
+                            pbth, style, type));
         }
         else if (type == REGION) {
-            _styles.add(StyleAssociation.createStyleAssociation(
-                            path.toLowerCase(), style, type));
+            _styles.bdd(StyleAssocibtion.crebteStyleAssocibtion(
+                            pbth.toLowerCbse(), style, type));
         }
     }
 
     /**
      * Returns the style for the specified Component.
      *
-     * @param c Component asking for
-     * @param id ID of the Component
+     * @pbrbm c Component bsking for
+     * @pbrbm id ID of the Component
      */
     public synchronized SynthStyle getStyle(JComponent c, Region id) {
-        BakedArrayList<SynthStyle> matches = _tmpList;
+        BbkedArrbyList<SynthStyle> mbtches = _tmpList;
 
-        matches.clear();
-        getMatchingStyles(matches, c, id);
+        mbtches.clebr();
+        getMbtchingStyles(mbtches, c, id);
 
-        if (matches.size() == 0) {
-            return getDefaultStyle();
+        if (mbtches.size() == 0) {
+            return getDefbultStyle();
         }
-        // Use a cached Style if possible, otherwise create a new one.
-        matches.cacheHashCode();
-        SynthStyle style = getCachedStyle(matches);
+        // Use b cbched Style if possible, otherwise crebte b new one.
+        mbtches.cbcheHbshCode();
+        SynthStyle style = getCbchedStyle(mbtches);
 
         if (style == null) {
-            style = mergeStyles(matches);
+            style = mergeStyles(mbtches);
 
             if (style != null) {
-                cacheStyle(matches, style);
+                cbcheStyle(mbtches, style);
             }
         }
         return style;
     }
 
     /**
-     * Returns the style to use if there are no matching styles.
+     * Returns the style to use if there bre no mbtching styles.
      */
-    private SynthStyle getDefaultStyle() {
-        if (_defaultStyle == null) {
-            _defaultStyle = new DefaultSynthStyle();
-            ((DefaultSynthStyle)_defaultStyle).setFont(
+    privbte SynthStyle getDefbultStyle() {
+        if (_defbultStyle == null) {
+            _defbultStyle = new DefbultSynthStyle();
+            ((DefbultSynthStyle)_defbultStyle).setFont(
                 new FontUIResource(Font.DIALOG, Font.PLAIN,12));
         }
-        return _defaultStyle;
+        return _defbultStyle;
     }
 
     /**
-     * Fetches any styles that match the passed into arguments into
-     * <code>matches</code>.
+     * Fetches bny styles thbt mbtch the pbssed into brguments into
+     * <code>mbtches</code>.
      */
-    private void getMatchingStyles(List<SynthStyle> matches, JComponent c,
+    privbte void getMbtchingStyles(List<SynthStyle> mbtches, JComponent c,
                                    Region id) {
-        String idName = id.getLowerCaseName();
-        String cName = c.getName();
+        String idNbme = id.getLowerCbseNbme();
+        String cNbme = c.getNbme();
 
-        if (cName == null) {
-            cName = "";
+        if (cNbme == null) {
+            cNbme = "";
         }
         for (int counter = _styles.size() - 1; counter >= 0; counter--){
-            StyleAssociation sa = _styles.get(counter);
-            String path;
+            StyleAssocibtion sb = _styles.get(counter);
+            String pbth;
 
-            if (sa.getID() == NAME) {
-                path = cName;
+            if (sb.getID() == NAME) {
+                pbth = cNbme;
             }
             else {
-                path = idName;
+                pbth = idNbme;
             }
 
-            if (sa.matches(path) && matches.indexOf(sa.getStyle()) == -1) {
-                matches.add(sa.getStyle());
+            if (sb.mbtches(pbth) && mbtches.indexOf(sb.getStyle()) == -1) {
+                mbtches.bdd(sb.getStyle());
             }
         }
     }
 
     /**
-     * Caches the specified style.
+     * Cbches the specified style.
      */
-    private void cacheStyle(List<SynthStyle> styles, SynthStyle style) {
-        BakedArrayList<SynthStyle> cachedStyles = new BakedArrayList<>(styles);
+    privbte void cbcheStyle(List<SynthStyle> styles, SynthStyle style) {
+        BbkedArrbyList<SynthStyle> cbchedStyles = new BbkedArrbyList<>(styles);
 
-        _resolvedStyles.put(cachedStyles, style);
+        _resolvedStyles.put(cbchedStyles, style);
     }
 
     /**
-     * Returns the cached style from the passed in arguments.
+     * Returns the cbched style from the pbssed in brguments.
      */
-    private SynthStyle getCachedStyle(List<SynthStyle> styles) { // ??
+    privbte SynthStyle getCbchedStyle(List<SynthStyle> styles) { // ??
         if (styles.size() == 0) {
             return null;
         }
@@ -183,26 +183,26 @@ class DefaultSynthStyleFactory extends SynthStyleFactory {
     }
 
     /**
-     * Creates a single Style from the passed in styles. The passed in List
-     * is reverse sorted, that is the most recently added style found to
-     * match will be first.
+     * Crebtes b single Style from the pbssed in styles. The pbssed in List
+     * is reverse sorted, thbt is the most recently bdded style found to
+     * mbtch will be first.
      */
-    private SynthStyle mergeStyles(List<SynthStyle> styles) {
+    privbte SynthStyle mergeStyles(List<SynthStyle> styles) {
         int size = styles.size();
 
         if (size == 0) {
             return null;
         }
         else if (size == 1) {
-            return (SynthStyle)((DefaultSynthStyle)styles.get(0)).clone();
+            return (SynthStyle)((DefbultSynthStyle)styles.get(0)).clone();
         }
-        // NOTE: merging is done backwards as DefaultSynthStyleFactory reverses
-        // order, that is, the most specific style is first.
-        DefaultSynthStyle style = (DefaultSynthStyle)styles.get(size - 1);
+        // NOTE: merging is done bbckwbrds bs DefbultSynthStyleFbctory reverses
+        // order, thbt is, the most specific style is first.
+        DefbultSynthStyle style = (DefbultSynthStyle)styles.get(size - 1);
 
-        style = (DefaultSynthStyle)style.clone();
+        style = (DefbultSynthStyle)style.clone();
         for (int counter = size - 2; counter >= 0; counter--) {
-            style = ((DefaultSynthStyle)styles.get(counter)).addTo(style);
+            style = ((DefbultSynthStyle)styles.get(counter)).bddTo(style);
         }
         return style;
     }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,30 +30,30 @@
 #include "jni_util.h"
 
 #include "jvm_symbols.h"
-#include "sun_tracing_dtrace_JVM.h"
+#include "sun_trbcing_dtrbce_JVM.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-static JvmSymbols* jvm_symbols = NULL;
+stbtic JvmSymbols* jvm_symbols = NULL;
 
-static void initialize() {
-    static int initialized = 0;
-    if (initialized == 0) {
+stbtic void initiblize() {
+    stbtic int initiblized = 0;
+    if (initiblized == 0) {
         jvm_symbols = lookupJvmSymbols();
-        initialized = 1;
+        initiblized = 1;
     }
 }
 
 /*
- * Class:     sun_tracing_dtrace_JVM
+ * Clbss:     sun_trbcing_dtrbce_JVM
  * Method:    isSupported0
- * Signature: ()I
+ * Signbture: ()I
  */
-JNIEXPORT jboolean JNICALL Java_sun_tracing_dtrace_JVM_isSupported0(
-        JNIEnv* env, jclass cls) {
-    initialize();
+JNIEXPORT jboolebn JNICALL Jbvb_sun_trbcing_dtrbce_JVM_isSupported0(
+        JNIEnv* env, jclbss cls) {
+    initiblize();
     if (jvm_symbols != NULL) {
         return jvm_symbols->IsSupported(env) ? JNI_TRUE : JNI_FALSE;
     } else {
@@ -61,268 +61,268 @@ JNIEXPORT jboolean JNICALL Java_sun_tracing_dtrace_JVM_isSupported0(
     }
 }
 
-// Macros that cause an immediate return if we detect an exception
+// Mbcros thbt cbuse bn immedibte return if we detect bn exception
 #define CHECK if ((*env)->ExceptionOccurred(env)) { return; }
 #define CHECK_(x) if ((*env)->ExceptionOccurred(env)) { return x; }
 
-static void readProbeData (
-        JNIEnv* env, jobject probe, JVM_DTraceProbe* jvm_probe) {
-    jclass clazz;
+stbtic void rebdProbeDbtb (
+        JNIEnv* env, jobject probe, JVM_DTrbceProbe* jvm_probe) {
+    jclbss clbzz;
     jmethodID mid;
     jobject method;
 
     if (jvm_probe == NULL) {
-        return; // just in case
+        return; // just in cbse
     }
 
-    clazz = (*env)->GetObjectClass(env, probe); CHECK
+    clbzz = (*env)->GetObjectClbss(env, probe); CHECK
 
     mid = (*env)->GetMethodID(
-        env, clazz, "getFunctionName", "()Ljava/lang/String;"); CHECK
-    jvm_probe->function = (jstring)(*env)->CallObjectMethod(
+        env, clbzz, "getFunctionNbme", "()Ljbvb/lbng/String;"); CHECK
+    jvm_probe->function = (jstring)(*env)->CbllObjectMethod(
         env, probe, mid); CHECK
 
     mid = (*env)->GetMethodID(
-        env, clazz, "getProbeName", "()Ljava/lang/String;"); CHECK
-    jvm_probe->name = (jstring)(*env)->CallObjectMethod(env, probe, mid); CHECK
+        env, clbzz, "getProbeNbme", "()Ljbvb/lbng/String;"); CHECK
+    jvm_probe->nbme = (jstring)(*env)->CbllObjectMethod(env, probe, mid); CHECK
 
     mid = (*env)->GetMethodID(
-        env, clazz, "getMethod", "()Ljava/lang/reflect/Method;"); CHECK
-    method = (*env)->CallObjectMethod(env, probe, mid); CHECK
+        env, clbzz, "getMethod", "()Ljbvb/lbng/reflect/Method;"); CHECK
+    method = (*env)->CbllObjectMethod(env, probe, mid); CHECK
     jvm_probe->method = (*env)->FromReflectedMethod(env, method); CHECK
 }
 
-static void readFieldInterfaceAttributes(
-        char* annotationName, JNIEnv* env, jobject provider,
-        JVM_DTraceInterfaceAttributes* attrs) {
+stbtic void rebdFieldInterfbceAttributes(
+        chbr* bnnotbtionNbme, JNIEnv* env, jobject provider,
+        JVM_DTrbceInterfbceAttributes* bttrs) {
     jobject result;
-    jobject result_clazz;
-    jclass provider_clazz;
-    jclass annotation_clazz;
+    jobject result_clbzz;
+    jclbss provider_clbzz;
+    jclbss bnnotbtion_clbzz;
     jmethodID get;
     jmethodID enc;
 
-    provider_clazz = (*env)->GetObjectClass(env, provider); CHECK
-    annotation_clazz = (*env)->FindClass(env, annotationName); CHECK
+    provider_clbzz = (*env)->GetObjectClbss(env, provider); CHECK
+    bnnotbtion_clbzz = (*env)->FindClbss(env, bnnotbtionNbme); CHECK
 
-    get = (*env)->GetMethodID(env, provider_clazz, "getNameStabilityFor",
-        "(Ljava/lang/Class;)Lcom/sun/tracing/dtrace/StabilityLevel;"); CHECK
-    result = (*env)->CallObjectMethod(
-        env, provider, get, annotation_clazz); CHECK
-    result_clazz = (*env)->GetObjectClass(env, result); CHECK
-    enc = (*env)->GetMethodID(env, result_clazz, "getEncoding", "()I"); CHECK
-    attrs->nameStability = (*env)->CallIntMethod(env, result, enc); CHECK
+    get = (*env)->GetMethodID(env, provider_clbzz, "getNbmeStbbilityFor",
+        "(Ljbvb/lbng/Clbss;)Lcom/sun/trbcing/dtrbce/StbbilityLevel;"); CHECK
+    result = (*env)->CbllObjectMethod(
+        env, provider, get, bnnotbtion_clbzz); CHECK
+    result_clbzz = (*env)->GetObjectClbss(env, result); CHECK
+    enc = (*env)->GetMethodID(env, result_clbzz, "getEncoding", "()I"); CHECK
+    bttrs->nbmeStbbility = (*env)->CbllIntMethod(env, result, enc); CHECK
 
-    get = (*env)->GetMethodID(env, provider_clazz, "getDataStabilityFor",
-        "(Ljava/lang/Class;)Lcom/sun/tracing/dtrace/StabilityLevel;"); CHECK
-    result = (*env)->CallObjectMethod(
-        env, provider, get, annotation_clazz); CHECK
-    result_clazz = (*env)->GetObjectClass(env, result); CHECK
-    enc = (*env)->GetMethodID(env, result_clazz, "getEncoding", "()I"); CHECK
-    attrs->dataStability = (*env)->CallIntMethod(env, result, enc); CHECK
+    get = (*env)->GetMethodID(env, provider_clbzz, "getDbtbStbbilityFor",
+        "(Ljbvb/lbng/Clbss;)Lcom/sun/trbcing/dtrbce/StbbilityLevel;"); CHECK
+    result = (*env)->CbllObjectMethod(
+        env, provider, get, bnnotbtion_clbzz); CHECK
+    result_clbzz = (*env)->GetObjectClbss(env, result); CHECK
+    enc = (*env)->GetMethodID(env, result_clbzz, "getEncoding", "()I"); CHECK
+    bttrs->dbtbStbbility = (*env)->CbllIntMethod(env, result, enc); CHECK
 
-    get = (*env)->GetMethodID(env, provider_clazz, "getDependencyClassFor",
-        "(Ljava/lang/Class;)Lcom/sun/tracing/dtrace/DependencyClass;"); CHECK
-    result = (*env)->CallObjectMethod(
-        env, provider, get, annotation_clazz); CHECK
-    result_clazz = (*env)->GetObjectClass(env, result); CHECK
-    enc = (*env)->GetMethodID(env, result_clazz, "getEncoding", "()I"); CHECK
-    attrs->dependencyClass = (*env)->CallIntMethod(env, result, enc); CHECK
+    get = (*env)->GetMethodID(env, provider_clbzz, "getDependencyClbssFor",
+        "(Ljbvb/lbng/Clbss;)Lcom/sun/trbcing/dtrbce/DependencyClbss;"); CHECK
+    result = (*env)->CbllObjectMethod(
+        env, provider, get, bnnotbtion_clbzz); CHECK
+    result_clbzz = (*env)->GetObjectClbss(env, result); CHECK
+    enc = (*env)->GetMethodID(env, result_clbzz, "getEncoding", "()I"); CHECK
+    bttrs->dependencyClbss = (*env)->CbllIntMethod(env, result, enc); CHECK
 }
 
-static void readInterfaceAttributes(
-        JNIEnv* env, jobject provider, JVM_DTraceProvider* jvm_provider) {
-    readFieldInterfaceAttributes("com/sun/tracing/dtrace/ProviderAttributes",
+stbtic void rebdInterfbceAttributes(
+        JNIEnv* env, jobject provider, JVM_DTrbceProvider* jvm_provider) {
+    rebdFieldInterfbceAttributes("com/sun/trbcing/dtrbce/ProviderAttributes",
         env, provider, &(jvm_provider->providerAttributes));
-    readFieldInterfaceAttributes("com/sun/tracing/dtrace/ModuleAttributes",
+    rebdFieldInterfbceAttributes("com/sun/trbcing/dtrbce/ModuleAttributes",
         env, provider, &(jvm_provider->moduleAttributes));
-    readFieldInterfaceAttributes("com/sun/tracing/dtrace/FunctionAttributes",
+    rebdFieldInterfbceAttributes("com/sun/trbcing/dtrbce/FunctionAttributes",
         env, provider, &(jvm_provider->functionAttributes));
-    readFieldInterfaceAttributes("com/sun/tracing/dtrace/NameAttributes",
-        env, provider, &(jvm_provider->nameAttributes));
-    readFieldInterfaceAttributes("com/sun/tracing/dtrace/ArgsAttributes",
-        env, provider, &(jvm_provider->argsAttributes));
+    rebdFieldInterfbceAttributes("com/sun/trbcing/dtrbce/NbmeAttributes",
+        env, provider, &(jvm_provider->nbmeAttributes));
+    rebdFieldInterfbceAttributes("com/sun/trbcing/dtrbce/ArgsAttributes",
+        env, provider, &(jvm_provider->brgsAttributes));
 }
 
-static int readProviderData(
-        JNIEnv* env, jobject provider, JVM_DTraceProvider* jvm_provider) {
+stbtic int rebdProviderDbtb(
+        JNIEnv* env, jobject provider, JVM_DTrbceProvider* jvm_provider) {
     jmethodID mid;
-    jobjectArray probes;
+    jobjectArrby probes;
     jsize i;
-    jclass clazz = (*env)->GetObjectClass(env, provider); CHECK_(0)
+    jclbss clbzz = (*env)->GetObjectClbss(env, provider); CHECK_(0)
     mid = (*env)->GetMethodID(
-        env, clazz, "getProbes", "()[Lsun/tracing/dtrace/DTraceProbe;"); CHECK_(0)
-    probes = (jobjectArray)(*env)->CallObjectMethod(
+        env, clbzz, "getProbes", "()[Lsun/trbcing/dtrbce/DTrbceProbe;"); CHECK_(0)
+    probes = (jobjectArrby)(*env)->CbllObjectMethod(
         env, provider, mid); CHECK_(0)
 
     // Fill JVM structure, describing provider
-    jvm_provider->probe_count = (*env)->GetArrayLength(env, probes); CHECK_(0)
-    jvm_provider->probes = (JVM_DTraceProbe*)calloc(
+    jvm_provider->probe_count = (*env)->GetArrbyLength(env, probes); CHECK_(0)
+    jvm_provider->probes = (JVM_DTrbceProbe*)cblloc(
         jvm_provider->probe_count, sizeof(*jvm_provider->probes));
     mid = (*env)->GetMethodID(
-        env, clazz, "getProviderName", "()Ljava/lang/String;"); CHECK_(0)
-    jvm_provider->name = (jstring)(*env)->CallObjectMethod(
+        env, clbzz, "getProviderNbme", "()Ljbvb/lbng/String;"); CHECK_(0)
+    jvm_provider->nbme = (jstring)(*env)->CbllObjectMethod(
         env, provider, mid); CHECK_(0)
 
-    readInterfaceAttributes(env, provider, jvm_provider); CHECK_(0)
+    rebdInterfbceAttributes(env, provider, jvm_provider); CHECK_(0)
 
     for (i = 0; i < jvm_provider->probe_count; ++i) {
-        jobject probe = (*env)->GetObjectArrayElement(env, probes, i); CHECK_(0)
-        readProbeData(env, probe, &jvm_provider->probes[i]); CHECK_(0)
+        jobject probe = (*env)->GetObjectArrbyElement(env, probes, i); CHECK_(0)
+        rebdProbeDbtb(env, probe, &jvm_provider->probes[i]); CHECK_(0)
     }
 
     return 1;
 }
 
 /*
- * Class:     sun_tracing_dtrace_JVM
- * Method:    activate0
- * Signature: ()J
+ * Clbss:     sun_trbcing_dtrbce_JVM
+ * Method:    bctivbte0
+ * Signbture: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_tracing_dtrace_JVM_activate0(
-        JNIEnv* env, jclass cls, jstring moduleName, jobjectArray providers) {
-    jlong handle = 0;
+JNIEXPORT jlong JNICALL Jbvb_sun_trbcing_dtrbce_JVM_bctivbte0(
+        JNIEnv* env, jclbss cls, jstring moduleNbme, jobjectArrby providers) {
+    jlong hbndle = 0;
     jsize num_providers;
     jsize i;
     jsize count = 0;
-    JVM_DTraceProvider* jvm_providers;
+    JVM_DTrbceProvider* jvm_providers;
 
-    initialize();
+    initiblize();
 
     if (jvm_symbols == NULL) {
       return 0;
     }
 
-    num_providers = (*env)->GetArrayLength(env, providers); CHECK_(0L)
+    num_providers = (*env)->GetArrbyLength(env, providers); CHECK_(0L)
 
-    jvm_providers = (JVM_DTraceProvider*)calloc(
+    jvm_providers = (JVM_DTrbceProvider*)cblloc(
         num_providers, sizeof(*jvm_providers));
 
     for (; count < num_providers; ++count) {
-        JVM_DTraceProvider* p = &(jvm_providers[count]);
-        jobject provider = (*env)->GetObjectArrayElement(
+        JVM_DTrbceProvider* p = &(jvm_providers[count]);
+        jobject provider = (*env)->GetObjectArrbyElement(
             env, providers, count);
         if ((*env)->ExceptionOccurred(env) ||
-            ! readProviderData(env, provider, p)) {
-            // got an error, bail out!
-            break;
+            ! rebdProviderDbtb(env, provider, p)) {
+            // got bn error, bbil out!
+            brebk;
         }
     }
 
     if (count == num_providers) {
-        // all providers successfully loaded - get the handle
-        handle = jvm_symbols->Activate(
-            env, JVM_TRACING_DTRACE_VERSION, moduleName,
+        // bll providers successfully lobded - get the hbndle
+        hbndle = jvm_symbols->Activbte(
+            env, JVM_TRACING_DTRACE_VERSION, moduleNbme,
             num_providers, jvm_providers);
     }
 
     for (i = 0; i < num_providers; ++i) {
-        JVM_DTraceProvider* p = &(jvm_providers[i]);
+        JVM_DTrbceProvider* p = &(jvm_providers[i]);
         free(p->probes);
     }
     free(jvm_providers);
 
-    return handle;
+    return hbndle;
 }
 
 /*
- * Class:     sun_tracing_dtrace_JVM
+ * Clbss:     sun_trbcing_dtrbce_JVM
  * Method:    dispose0
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_tracing_dtrace_JVM_dispose0(
-        JNIEnv* env, jclass cls, jlong handle) {
-    if (jvm_symbols != NULL && handle != 0) {
-        jvm_symbols->Dispose(env, handle);
+JNIEXPORT void JNICALL Jbvb_sun_trbcing_dtrbce_JVM_dispose0(
+        JNIEnv* env, jclbss cls, jlong hbndle) {
+    if (jvm_symbols != NULL && hbndle != 0) {
+        jvm_symbols->Dispose(env, hbndle);
     }
 }
 
 /*
- * Class:     sun_tracing_dtrace_JVM
- * Method:    isEnabled0
- * Signature: (Ljava/lang/String;Ljava/lang/String;)Z
+ * Clbss:     sun_trbcing_dtrbce_JVM
+ * Method:    isEnbbled0
+ * Signbture: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_tracing_dtrace_JVM_isEnabled0(
-        JNIEnv* env, jclass cls, jobject method) {
+JNIEXPORT jboolebn JNICALL Jbvb_sun_trbcing_dtrbce_JVM_isEnbbled0(
+        JNIEnv* env, jclbss cls, jobject method) {
     jmethodID mid;
     if (jvm_symbols != NULL && method != NULL) {
         mid = (*env)->FromReflectedMethod(env, method);
-        return jvm_symbols->IsProbeEnabled(env, mid);
+        return jvm_symbols->IsProbeEnbbled(env, mid);
     }
     return JNI_FALSE;
 }
 
 /*
- * Class:     sun_tracing_dtrace_JVM
- * Method:    defineClass0
- * Signature: (Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;
+ * Clbss:     sun_trbcing_dtrbce_JVM
+ * Method:    defineClbss0
+ * Signbture: (Ljbvb/lbng/ClbssLobder;Ljbvb/lbng/String;[BII)Ljbvb/lbng/Clbss;
  *
- * The implementation of this native static method is a copy of that of
- * the native instance method Java_java_lang_ClassLoader_defineClass0()
- * with the implicit "this" parameter becoming the "loader" parameter.
+ * The implementbtion of this nbtive stbtic method is b copy of thbt of
+ * the nbtive instbnce method Jbvb_jbvb_lbng_ClbssLobder_defineClbss0()
+ * with the implicit "this" pbrbmeter becoming the "lobder" pbrbmeter.
  *
- * This code was cloned and modified from java_lang_reflect_Proxy
+ * This code wbs cloned bnd modified from jbvb_lbng_reflect_Proxy
  */
-JNIEXPORT jclass JNICALL
-Java_sun_tracing_dtrace_JVM_defineClass0(
-        JNIEnv *env, jclass ignore, jobject loader, jstring name, jbyteArray data,
+JNIEXPORT jclbss JNICALL
+Jbvb_sun_trbcing_dtrbce_JVM_defineClbss0(
+        JNIEnv *env, jclbss ignore, jobject lobder, jstring nbme, jbyteArrby dbtb,
         jint offset, jint length)
 {
     jbyte *body;
-    char *utfName;
-    jclass result = 0;
-    char buf[128];
+    chbr *utfNbme;
+    jclbss result = 0;
+    chbr buf[128];
 
-    if (data == NULL) {
+    if (dbtb == NULL) {
         return 0;
     }
 
-    /* Work around 4153825. malloc crashes on Solaris when passed a
-     * negative size.
+    /* Work bround 4153825. mblloc crbshes on Solbris when pbssed b
+     * negbtive size.
      */
     if (length < 0) {
         return 0;
     }
 
-    body = (jbyte *)malloc(length);
+    body = (jbyte *)mblloc(length);
 
     if (body == 0) {
         return 0;
     }
 
-    (*env)->GetByteArrayRegion(env, data, offset, length, body);
+    (*env)->GetByteArrbyRegion(env, dbtb, offset, length, body);
 
     if ((*env)->ExceptionOccurred(env))
         goto free_body;
 
-    if (name != NULL) {
+    if (nbme != NULL) {
         int i;
-        jsize len = (*env)->GetStringUTFLength(env, name);
-        int unicode_len = (*env)->GetStringLength(env, name);
+        jsize len = (*env)->GetStringUTFLength(env, nbme);
+        int unicode_len = (*env)->GetStringLength(env, nbme);
         if (len >= (jsize)sizeof(buf)) {
-            utfName = malloc(len + 1);
-            if (utfName == NULL) {
+            utfNbme = mblloc(len + 1);
+            if (utfNbme == NULL) {
                 goto free_body;
             }
         } else {
-            utfName = buf;
+            utfNbme = buf;
         }
-        (*env)->GetStringUTFRegion(env, name, 0, unicode_len, utfName);
+        (*env)->GetStringUTFRegion(env, nbme, 0, unicode_len, utfNbme);
 
-        // Convert '.' to '/' in the package name
+        // Convert '.' to '/' in the pbckbge nbme
         for (i = 0; i < unicode_len; ++i) {
-            if (utfName[i] == '.') {
-                utfName[i] = '/';
+            if (utfNbme[i] == '.') {
+                utfNbme[i] = '/';
             }
         }
     } else {
-        utfName = NULL;
+        utfNbme = NULL;
     }
 
-    result = (*env)->DefineClass(env, utfName, loader, body, length);
+    result = (*env)->DefineClbss(env, utfNbme, lobder, body, length);
 
-    if (utfName && utfName != buf)
-        free(utfName);
+    if (utfNbme && utfNbme != buf)
+        free(utfNbme);
 
  free_body:
     free(body);

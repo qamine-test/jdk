@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * This class is a placeholder for all internal static objects that represent
- * system state. We keep our representation up-to-date with actual system
- * state by tracking events, such as X Focus, Component under cursor etc.
- * All attributes should be static private with accessors to simpify change
- * tracking.
+ * This clbss is b plbceholder for bll internbl stbtic objects thbt represent
+ * system stbte. We keep our representbtion up-to-dbte with bctubl system
+ * stbte by trbcking events, such bs X Focus, Component under cursor etc.
+ * All bttributes should be stbtic privbte with bccessors to simpify chbnge
+ * trbcking.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Component;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.Component;
+import jbvb.lbng.ref.WebkReference;
 
-class XAwtState {
+clbss XAwtStbte {
     /**
      * The mouse is over this component.
-     * If the component is not disabled, it received MOUSE_ENTERED but no MOUSE_EXITED.
+     * If the component is not disbbled, it received MOUSE_ENTERED but no MOUSE_EXITED.
      */
-    private static WeakReference<Component> componentMouseEnteredRef = null;
+    privbte stbtic WebkReference<Component> componentMouseEnteredRef = null;
 
-    static void setComponentMouseEntered(Component component) {
-        XToolkit.awtLock();
+    stbtic void setComponentMouseEntered(Component component) {
+        XToolkit.bwtLock();
         try {
             if (component == null) {
                 componentMouseEnteredRef = null;
                 return;
             }
             if (component != getComponentMouseEntered()) {
-                componentMouseEnteredRef = new WeakReference<>(component);
+                componentMouseEnteredRef = new WebkReference<>(component);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    static Component getComponentMouseEntered() {
-        XToolkit.awtLock();
+    stbtic Component getComponentMouseEntered() {
+        XToolkit.bwtLock();
         try {
             if (componentMouseEnteredRef == null) {
                 return null;
             }
             return componentMouseEnteredRef.get();
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * The XBaseWindow is created with OwnerGrabButtonMask
-     * (see X vol. 1, 8.3.3.2) so inside the app Key, Motion, and Button events
-     * are received by the window they actualy happened on, not the grabber.
-     * Then XBaseWindow dispatches them to the grabber. As a result
-     * XAnyEvent.get_window() returns actual window the event is originated,
-     * though the event is dispatched by  the grabber.
+     * The XBbseWindow is crebted with OwnerGrbbButtonMbsk
+     * (see X vol. 1, 8.3.3.2) so inside the bpp Key, Motion, bnd Button events
+     * bre received by the window they bctubly hbppened on, not the grbbber.
+     * Then XBbseWindow dispbtches them to the grbbber. As b result
+     * XAnyEvent.get_window() returns bctubl window the event is originbted,
+     * though the event is dispbtched by  the grbbber.
      */
-    private static boolean inManualGrab = false;
+    privbte stbtic boolebn inMbnublGrbb = fblse;
 
-    static boolean isManualGrab() {
-        return inManualGrab;
+    stbtic boolebn isMbnublGrbb() {
+        return inMbnublGrbb;
     }
 
-    private static WeakReference<XBaseWindow> grabWindowRef = null;
+    privbte stbtic WebkReference<XBbseWindow> grbbWindowRef = null;
 
     /**
-     * The X Active Grab overrides any other active grab by the same
-     * client see XGrabPointer, XGrabKeyboard
+     * The X Active Grbb overrides bny other bctive grbb by the sbme
+     * client see XGrbbPointer, XGrbbKeybobrd
      */
-    static void setGrabWindow(XBaseWindow grabWindow) {
-        setGrabWindow(grabWindow, false);
+    stbtic void setGrbbWindow(XBbseWindow grbbWindow) {
+        setGrbbWindow(grbbWindow, fblse);
     }
 
     /**
-     * Automatic passive grab doesn't override active grab see XGrabButton
+     * Autombtic pbssive grbb doesn't override bctive grbb see XGrbbButton
      */
-    static void setAutoGrabWindow(XBaseWindow grabWindow) {
-        setGrabWindow(grabWindow, true);
+    stbtic void setAutoGrbbWindow(XBbseWindow grbbWindow) {
+        setGrbbWindow(grbbWindow, true);
     }
 
-    private static void setGrabWindow(XBaseWindow grabWindow, boolean isAutoGrab) {
-        XToolkit.awtLock();
+    privbte stbtic void setGrbbWindow(XBbseWindow grbbWindow, boolebn isAutoGrbb) {
+        XToolkit.bwtLock();
         try {
-            if (inManualGrab && isAutoGrab) {
+            if (inMbnublGrbb && isAutoGrbb) {
                 return;
             }
-            inManualGrab = grabWindow != null && !isAutoGrab;
-            if (grabWindow == null) {
-                grabWindowRef = null;
+            inMbnublGrbb = grbbWindow != null && !isAutoGrbb;
+            if (grbbWindow == null) {
+                grbbWindowRef = null;
                 return;
             }
-            if (grabWindow != getGrabWindow()) {
-                grabWindowRef = new WeakReference<>(grabWindow);
+            if (grbbWindow != getGrbbWindow()) {
+                grbbWindowRef = new WebkReference<>(grbbWindow);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    static XBaseWindow getGrabWindow() {
-        XToolkit.awtLock();
+    stbtic XBbseWindow getGrbbWindow() {
+        XToolkit.bwtLock();
         try {
-            if (grabWindowRef == null) {
+            if (grbbWindowRef == null) {
                 return null;
             }
-            XBaseWindow xbw = grabWindowRef.get();
+            XBbseWindow xbw = grbbWindowRef.get();
             if( xbw != null && xbw.isDisposed() ) {
                 xbw = null;
-                grabWindowRef = null;
+                grbbWindowRef = null;
             }else if( xbw == null ) {
-                grabWindowRef = null;
+                grbbWindowRef = null;
             }
             return xbw;
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
 
-// Imports for picking up mouse events from the JTable.
+// Imports for picking up mouse events from the JTbble.
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseListener;
+import jbvb.util.Vector;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.event.TbbleModelEvent;
+import jbvbx.swing.event.TbbleModelListener;
+import jbvbx.swing.tbble.DefbultTbbleModel;
+import jbvbx.swing.tbble.JTbbleHebder;
+import jbvbx.swing.tbble.TbbleColumnModel;
 import sun.tools.jconsole.JConsole;
 
-@SuppressWarnings("serial")
-public class TableSorter extends DefaultTableModel implements MouseListener {
-    private boolean ascending = true;
-    private TableColumnModel columnModel;
-    private JTable tableView;
-    private Vector<TableModelListener> evtListenerList;
-    private int sortColumn = 0;
+@SuppressWbrnings("seribl")
+public clbss TbbleSorter extends DefbultTbbleModel implements MouseListener {
+    privbte boolebn bscending = true;
+    privbte TbbleColumnModel columnModel;
+    privbte JTbble tbbleView;
+    privbte Vector<TbbleModelListener> evtListenerList;
+    privbte int sortColumn = 0;
 
-    private int[] invertedIndex;
+    privbte int[] invertedIndex;
 
-    public TableSorter() {
+    public TbbleSorter() {
         super();
-        evtListenerList = new Vector<TableModelListener>();
+        evtListenerList = new Vector<TbbleModelListener>();
     }
 
-    public TableSorter(Object[] columnNames, int numRows) {
-        super(columnNames,numRows);
-        evtListenerList = new Vector<TableModelListener>();
+    public TbbleSorter(Object[] columnNbmes, int numRows) {
+        super(columnNbmes,numRows);
+        evtListenerList = new Vector<TbbleModelListener>();
     }
 
     @Override
-    public void newDataAvailable(TableModelEvent e) {
-        super.newDataAvailable(e);
+    public void newDbtbAvbilbble(TbbleModelEvent e) {
+        super.newDbtbAvbilbble(e);
         invertedIndex = new int[getRowCount()];
         for (int i = 0; i < invertedIndex.length; i++) {
             invertedIndex[i] = i;
         }
-        sort(this.sortColumn, this.ascending);
+        sort(this.sortColumn, this.bscending);
     }
 
     @Override
-    public void addTableModelListener(TableModelListener l) {
-        evtListenerList.add(l);
-        super.addTableModelListener(l);
+    public void bddTbbleModelListener(TbbleModelListener l) {
+        evtListenerList.bdd(l);
+        super.bddTbbleModelListener(l);
     }
 
     @Override
-    public void removeTableModelListener(TableModelListener l) {
+    public void removeTbbleModelListener(TbbleModelListener l) {
         evtListenerList.remove(l);
-        super.removeTableModelListener(l);
+        super.removeTbbleModelListener(l);
     }
 
-    private void removeListeners() {
-        for(TableModelListener tnl : evtListenerList)
-            super.removeTableModelListener(tnl);
+    privbte void removeListeners() {
+        for(TbbleModelListener tnl : evtListenerList)
+            super.removeTbbleModelListener(tnl);
     }
 
-    private void restoreListeners() {
-        for(TableModelListener tnl : evtListenerList)
-            super.addTableModelListener(tnl);
+    privbte void restoreListeners() {
+        for(TbbleModelListener tnl : evtListenerList)
+            super.bddTbbleModelListener(tnl);
     }
 
-    @SuppressWarnings("unchecked")
-    private int compare(Object o1, Object o2) {
-        // take care of the case where both o1 & o2 are null. Needed to keep
+    @SuppressWbrnings("unchecked")
+    privbte int compbre(Object o1, Object o2) {
+        // tbke cbre of the cbse where both o1 & o2 bre null. Needed to keep
         // the method symmetric. Without this quickSort gives surprising results.
         if (o1 == o2)
             return 0;
@@ -101,180 +101,180 @@ public class TableSorter extends DefaultTableModel implements MouseListener {
             return 1;
         if (o2==null)
             return -1;
-        //two object of the same class and that are comparable
-        else if ((o1.getClass().equals(o2.getClass())) &&
-                 (o1 instanceof Comparable)) {
-            return (((Comparable) o1).compareTo(o2));
+        //two object of the sbme clbss bnd thbt bre compbrbble
+        else if ((o1.getClbss().equbls(o2.getClbss())) &&
+                 (o1 instbnceof Compbrbble)) {
+            return (((Compbrbble) o1).compbreTo(o2));
         }
         else {
-            return o1.toString().compareTo(o2.toString());
+            return o1.toString().compbreTo(o2.toString());
         }
     }
 
-    private void sort(int column, boolean isAscending) {
-        final XMBeanAttributes attrs =
-                (tableView instanceof XMBeanAttributes)
-                ?(XMBeanAttributes) tableView
+    privbte void sort(int column, boolebn isAscending) {
+        finbl XMBebnAttributes bttrs =
+                (tbbleView instbnceof XMBebnAttributes)
+                ?(XMBebnAttributes) tbbleView
                 :null;
 
-        // We cannot sort rows when a cell is being
-        // edited - so we're going to cancel cell editing here if needed.
-        // This might happen when the user is editing a row, and clicks on
-        // another row without validating. In that case there are two events
-        // that compete: one is the validation of the value that was previously
-        // edited, the other is the mouse click that opens the new editor.
+        // We cbnnot sort rows when b cell is being
+        // edited - so we're going to cbncel cell editing here if needed.
+        // This might hbppen when the user is editing b row, bnd clicks on
+        // bnother row without vblidbting. In thbt cbse there bre two events
+        // thbt compete: one is the vblidbtion of the vblue thbt wbs previously
+        // edited, the other is the mouse click thbt opens the new editor.
         //
-        // When we reach here the previous value is already validated, and the
-        // old editor is closed, but the new editor might have opened.
-        // It's this new editor that wil be cancelled here, if needed.
+        // When we rebch here the previous vblue is blrebdy vblidbted, bnd the
+        // old editor is closed, but the new editor might hbve opened.
+        // It's this new editor thbt wil be cbncelled here, if needed.
         //
-        if (attrs != null && attrs.isEditing())
-            attrs.cancelCellEditing();
+        if (bttrs != null && bttrs.isEditing())
+            bttrs.cbncelCellEditing();
 
         // remove registered listeners
         removeListeners();
         // do the sort
 
         if (JConsole.isDebug()) {
-            System.err.println("sorting table against column="+column
-                    +" ascending="+isAscending);
+            System.err.println("sorting tbble bgbinst column="+column
+                    +" bscending="+isAscending);
         }
         quickSort(0,getRowCount()-1,column,isAscending);
         // restore registered listeners
         restoreListeners();
 
-        // update row heights in XMBeanAttributes (required by expandable cells)
-        if (attrs != null) {
+        // updbte row heights in XMBebnAttributes (required by expbndbble cells)
+        if (bttrs != null) {
             for (int i = 0; i < getRowCount(); i++) {
-                Vector<?> data = (Vector) dataVector.elementAt(i);
-                attrs.updateRowHeight(data.elementAt(1), i);
+                Vector<?> dbtb = (Vector) dbtbVector.elementAt(i);
+                bttrs.updbteRowHeight(dbtb.elementAt(1), i);
             }
         }
     }
 
-    private boolean compareS(Object s1, Object s2, boolean isAscending) {
+    privbte boolebn compbreS(Object s1, Object s2, boolebn isAscending) {
         if (isAscending)
-            return (compare(s1,s2) > 0);
+            return (compbre(s1,s2) > 0);
         else
-            return (compare(s1,s2) < 0);
+            return (compbre(s1,s2) < 0);
     }
 
-    private boolean compareG(Object s1, Object s2, boolean isAscending) {
+    privbte boolebn compbreG(Object s1, Object s2, boolebn isAscending) {
         if (isAscending)
-            return (compare(s1,s2) < 0);
+            return (compbre(s1,s2) < 0);
         else
-            return (compare(s1,s2) > 0);
+            return (compbre(s1,s2) > 0);
     }
 
-    private void quickSort(int lo0,int hi0, int key, boolean isAscending) {
+    privbte void quickSort(int lo0,int hi0, int key, boolebn isAscending) {
         int lo = lo0;
         int hi = hi0;
         Object mid;
 
         if ( hi0 > lo0)
             {
-                mid = getValueAt( ( lo0 + hi0 ) / 2 , key);
+                mid = getVblueAt( ( lo0 + hi0 ) / 2 , key);
 
                 while( lo <= hi )
                     {
-                        /* find the first element that is greater than
-                         * or equal to the partition element starting
+                        /* find the first element thbt is grebter thbn
+                         * or equbl to the pbrtition element stbrting
                          * from the left Index.
                          */
                         while( ( lo < hi0 ) &&
-                               ( compareS(mid,getValueAt(lo,key), isAscending) ))
+                               ( compbreS(mid,getVblueAt(lo,key), isAscending) ))
                             ++lo;
 
-                        /* find an element that is smaller than or equal to
-                         * the partition element starting from the right Index.
+                        /* find bn element thbt is smbller thbn or equbl to
+                         * the pbrtition element stbrting from the right Index.
                          */
                         while( ( hi > lo0 ) &&
-                               ( compareG(mid,getValueAt(hi,key), isAscending) ))
+                               ( compbreG(mid,getVblueAt(hi,key), isAscending) ))
                             --hi;
 
-                        // if the indexes have not crossed, swap
+                        // if the indexes hbve not crossed, swbp
                         if( lo <= hi )
                             {
-                                swap(lo, hi, key);
+                                swbp(lo, hi, key);
                                 ++lo;
                                 --hi;
                             }
                     }
 
-                                /* If the right index has not reached the
-                                 * left side of array
-                                 * must now sort the left partition.
+                                /* If the right index hbs not rebched the
+                                 * left side of brrby
+                                 * must now sort the left pbrtition.
                                  */
                 if( lo0 < hi )
                     quickSort(lo0, hi , key, isAscending);
 
-                                /* If the left index has not reached the right
-                                 * side of array
-                                 * must now sort the right partition.
+                                /* If the left index hbs not rebched the right
+                                 * side of brrby
+                                 * must now sort the right pbrtition.
                                  */
                 if( lo <= hi0 )
                     quickSort(lo, hi0 , key, isAscending);
             }
     }
 
-    private Vector<Object> getRow(int row) {
-        return dataVector.elementAt(row);
+    privbte Vector<Object> getRow(int row) {
+        return dbtbVector.elementAt(row);
     }
 
-    @SuppressWarnings("unchecked")
-    private void setRow(Vector<Object> data, int row) {
-        dataVector.setElementAt(data,row);
+    @SuppressWbrnings("unchecked")
+    privbte void setRow(Vector<Object> dbtb, int row) {
+        dbtbVector.setElementAt(dbtb,row);
     }
 
-    private void swap(int i, int j, int column) {
-        Vector<Object> data = getRow(i);
+    privbte void swbp(int i, int j, int column) {
+        Vector<Object> dbtb = getRow(i);
         setRow(getRow(j),i);
-        setRow(data,j);
+        setRow(dbtb,j);
 
-        int a = invertedIndex[i];
+        int b = invertedIndex[i];
         invertedIndex[i] = invertedIndex[j];
-        invertedIndex[j] = a;
+        invertedIndex[j] = b;
     }
 
     public void sortByColumn(int column) {
-        sortByColumn(column, !ascending);
+        sortByColumn(column, !bscending);
     }
 
-    public void sortByColumn(int column, boolean ascending) {
-        this.ascending = ascending;
+    public void sortByColumn(int column, boolebn bscending) {
+        this.bscending = bscending;
         this.sortColumn = column;
-        sort(column,ascending);
+        sort(column,bscending);
     }
 
     public int getIndexOfRow(int row) {
         return invertedIndex[row];
     }
 
-    // Add a mouse listener to the Table to trigger a table sort
-    // when a column heading is clicked in the JTable.
-    public void addMouseListenerToHeaderInTable(JTable table) {
-        tableView = table;
-        columnModel = tableView.getColumnModel();
-        JTableHeader th = tableView.getTableHeader();
-        th.addMouseListener(this);
+    // Add b mouse listener to the Tbble to trigger b tbble sort
+    // when b column hebding is clicked in the JTbble.
+    public void bddMouseListenerToHebderInTbble(JTbble tbble) {
+        tbbleView = tbble;
+        columnModel = tbbleView.getColumnModel();
+        JTbbleHebder th = tbbleView.getTbbleHebder();
+        th.bddMouseListener(this);
     }
 
     public void mouseClicked(MouseEvent e) {
         int viewColumn = columnModel.getColumnIndexAtX(e.getX());
-        int column = tableView.convertColumnIndexToModel(viewColumn);
+        int column = tbbleView.convertColumnIndexToModel(viewColumn);
         if (e.getClickCount() == 1 && column != -1) {
-            if (tableView instanceof XTable) {
-                XTable attrs = (XTable) tableView;
-                // inform the table view that the rows are going to be sorted
-                // against the values in a given column. This gives the
-                // chance to the table view to close its editor - if needed.
+            if (tbbleView instbnceof XTbble) {
+                XTbble bttrs = (XTbble) tbbleView;
+                // inform the tbble view thbt the rows bre going to be sorted
+                // bgbinst the vblues in b given column. This gives the
+                // chbnce to the tbble view to close its editor - if needed.
                 //
-                attrs.sortRequested(column);
+                bttrs.sortRequested(column);
             }
-            tableView.invalidate();
+            tbbleView.invblidbte();
             sortByColumn(column);
-            tableView.validate();
-            tableView.repaint();
+            tbbleView.vblidbte();
+            tbbleView.repbint();
         }
     }
 
@@ -287,6 +287,6 @@ public class TableSorter extends DefaultTableModel implements MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
     }
 }

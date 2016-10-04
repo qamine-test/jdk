@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.SortOrder;
-import javax.swing.event.*;
-import java.util.*;
+import jbvbx.swing.SortOrder;
+import jbvbx.swing.event.*;
+import jbvb.util.*;
 
 /**
- * <code>RowSorter</code> provides the basis for sorting and filtering.
- * Beyond creating and installing a <code>RowSorter</code>, you very rarely
- * need to interact with one directly.  Refer to
- * {@link javax.swing.table.TableRowSorter TableRowSorter} for a concrete
- * implementation of <code>RowSorter</code> for <code>JTable</code>.
+ * <code>RowSorter</code> provides the bbsis for sorting bnd filtering.
+ * Beyond crebting bnd instblling b <code>RowSorter</code>, you very rbrely
+ * need to interbct with one directly.  Refer to
+ * {@link jbvbx.swing.tbble.TbbleRowSorter TbbleRowSorter} for b concrete
+ * implementbtion of <code>RowSorter</code> for <code>JTbble</code>.
  * <p>
- * <code>RowSorter</code>'s primary role is to provide a mapping between
- * two coordinate systems: that of the view (for example a
- * <code>JTable</code>) and that of the underlying data source, typically a
+ * <code>RowSorter</code>'s primbry role is to provide b mbpping between
+ * two coordinbte systems: thbt of the view (for exbmple b
+ * <code>JTbble</code>) bnd thbt of the underlying dbtb source, typicblly b
  * model.
  * <p>
  * The view invokes the following methods on the <code>RowSorter</code>:
  * <ul>
  * <li><code>toggleSortOrder</code> &#8212; The view invokes this when the
- *     appropriate user gesture has occurred to trigger a sort.  For example,
- *     the user clicked a column header in a table.
- * <li>One of the model change methods &#8212; The view invokes a model
- *     change method when the underlying model
- *     has changed.  There may be order dependencies in how the events are
- *     delivered, so a <code>RowSorter</code> should not update its mapping
+ *     bppropribte user gesture hbs occurred to trigger b sort.  For exbmple,
+ *     the user clicked b column hebder in b tbble.
+ * <li>One of the model chbnge methods &#8212; The view invokes b model
+ *     chbnge method when the underlying model
+ *     hbs chbnged.  There mby be order dependencies in how the events bre
+ *     delivered, so b <code>RowSorter</code> should not updbte its mbpping
  *     until one of these methods is invoked.
  * </ul>
- * Because the view makes extensive use of  the
+ * Becbuse the view mbkes extensive use of  the
  * <code>convertRowIndexToModel</code>,
- * <code>convertRowIndexToView</code> and <code>getViewRowCount</code> methods,
- * these methods need to be fast.
+ * <code>convertRowIndexToView</code> bnd <code>getViewRowCount</code> methods,
+ * these methods need to be fbst.
  * <p>
- * <code>RowSorter</code> provides notification of changes by way of
- * <code>RowSorterListener</code>.  Two types of notification are sent:
+ * <code>RowSorter</code> provides notificbtion of chbnges by wby of
+ * <code>RowSorterListener</code>.  Two types of notificbtion bre sent:
  * <ul>
  * <li><code>RowSorterEvent.Type.SORT_ORDER_CHANGED</code> &#8212; notifies
- *     listeners that the sort order has changed.  This is typically followed
- *     by a notification that the sort has changed.
- * <li><code>RowSorterEvent.Type.SORTED</code> &#8212; notifies listeners that
- *     the mapping maintained by the <code>RowSorter</code> has changed in
- *     some way.
+ *     listeners thbt the sort order hbs chbnged.  This is typicblly followed
+ *     by b notificbtion thbt the sort hbs chbnged.
+ * <li><code>RowSorterEvent.Type.SORTED</code> &#8212; notifies listeners thbt
+ *     the mbpping mbintbined by the <code>RowSorter</code> hbs chbnged in
+ *     some wby.
  * </ul>
- * <code>RowSorter</code> implementations typically don't have a one-to-one
- * mapping with the underlying model, but they can.
- * For example, if a database does the sorting,
- * <code>toggleSortOrder</code> might call through to the database
- * (on a background thread), and override the mapping methods to return the
- * argument that is passed in.
+ * <code>RowSorter</code> implementbtions typicblly don't hbve b one-to-one
+ * mbpping with the underlying model, but they cbn.
+ * For exbmple, if b dbtbbbse does the sorting,
+ * <code>toggleSortOrder</code> might cbll through to the dbtbbbse
+ * (on b bbckground threbd), bnd override the mbpping methods to return the
+ * brgument thbt is pbssed in.
  * <p>
- * Concrete implementations of <code>RowSorter</code>
- * need to reference a model such as <code>TableModel</code> or
- * <code>ListModel</code>.  The view classes, such as
- * <code>JTable</code> and <code>JList</code>, will also have a
- * reference to the model.  To avoid ordering dependencies,
- * <code>RowSorter</code> implementations should not install a
- * listener on the model.  Instead the view class will call into the
- * <code>RowSorter</code> when the model changes.  For
- * example, if a row is updated in a <code>TableModel</code>
- * <code>JTable</code> invokes <code>rowsUpdated</code>.
- * When the model changes, the view may call into any of the following methods:
- * <code>modelStructureChanged</code>, <code>allRowsChanged</code>,
- * <code>rowsInserted</code>, <code>rowsDeleted</code> and
- * <code>rowsUpdated</code>.
+ * Concrete implementbtions of <code>RowSorter</code>
+ * need to reference b model such bs <code>TbbleModel</code> or
+ * <code>ListModel</code>.  The view clbsses, such bs
+ * <code>JTbble</code> bnd <code>JList</code>, will blso hbve b
+ * reference to the model.  To bvoid ordering dependencies,
+ * <code>RowSorter</code> implementbtions should not instbll b
+ * listener on the model.  Instebd the view clbss will cbll into the
+ * <code>RowSorter</code> when the model chbnges.  For
+ * exbmple, if b row is updbted in b <code>TbbleModel</code>
+ * <code>JTbble</code> invokes <code>rowsUpdbted</code>.
+ * When the model chbnges, the view mby cbll into bny of the following methods:
+ * <code>modelStructureChbnged</code>, <code>bllRowsChbnged</code>,
+ * <code>rowsInserted</code>, <code>rowsDeleted</code> bnd
+ * <code>rowsUpdbted</code>.
  *
- * @param <M> the type of the underlying model
- * @see javax.swing.table.TableRowSorter
+ * @pbrbm <M> the type of the underlying model
+ * @see jbvbx.swing.tbble.TbbleRowSorter
  * @since 1.6
  */
-public abstract class RowSorter<M> {
-    private EventListenerList listenerList = new EventListenerList();
+public bbstrbct clbss RowSorter<M> {
+    privbte EventListenerList listenerList = new EventListenerList();
 
     /**
-     * Creates a <code>RowSorter</code>.
+     * Crebtes b <code>RowSorter</code>.
      */
     public RowSorter() {
     }
@@ -106,85 +106,85 @@ public abstract class RowSorter<M> {
      *
      * @return the underlying model
      */
-    public abstract M getModel();
+    public bbstrbct M getModel();
 
     /**
      * Reverses the sort order of the specified column.  It is up to
-     * subclasses to provide the exact behavior when invoked.  Typically
-     * this will reverse the sort order from ascending to descending (or
-     * descending to ascending) if the specified column is already the
-     * primary sorted column; otherwise, makes the specified column
-     * the primary sorted column, with an ascending sort order.  If
-     * the specified column is not sortable, this method has no
+     * subclbsses to provide the exbct behbvior when invoked.  Typicblly
+     * this will reverse the sort order from bscending to descending (or
+     * descending to bscending) if the specified column is blrebdy the
+     * primbry sorted column; otherwise, mbkes the specified column
+     * the primbry sorted column, with bn bscending sort order.  If
+     * the specified column is not sortbble, this method hbs no
      * effect.
      * <p>
-     * If this results in changing the sort order and sorting, the
-     * appropriate <code>RowSorterListener</code> notification will be
+     * If this results in chbnging the sort order bnd sorting, the
+     * bppropribte <code>RowSorterListener</code> notificbtion will be
      * sent.
      *
-     * @param column the column to toggle the sort ordering of, in
+     * @pbrbm column the column to toggle the sort ordering of, in
      *        terms of the underlying model
-     * @throws IndexOutOfBoundsException if column is outside the range of
+     * @throws IndexOutOfBoundsException if column is outside the rbnge of
      *         the underlying model
      */
-    public abstract void toggleSortOrder(int column);
+    public bbstrbct void toggleSortOrder(int column);
 
     /**
-     * Returns the location of <code>index</code> in terms of the
-     * underlying model.  That is, for the row <code>index</code> in
-     * the coordinates of the view this returns the row index in terms
+     * Returns the locbtion of <code>index</code> in terms of the
+     * underlying model.  Thbt is, for the row <code>index</code> in
+     * the coordinbtes of the view this returns the row index in terms
      * of the underlying model.
      *
-     * @param index the row index in terms of the underlying view
+     * @pbrbm index the row index in terms of the underlying view
      * @return row index in terms of the view
      * @throws IndexOutOfBoundsException if <code>index</code> is outside the
-     *         range of the view
+     *         rbnge of the view
      */
-    public abstract int convertRowIndexToModel(int index);
+    public bbstrbct int convertRowIndexToModel(int index);
 
     /**
-     * Returns the location of <code>index</code> in terms of the
-     * view.  That is, for the row <code>index</code> in the
-     * coordinates of the underlying model this returns the row index
+     * Returns the locbtion of <code>index</code> in terms of the
+     * view.  Thbt is, for the row <code>index</code> in the
+     * coordinbtes of the underlying model this returns the row index
      * in terms of the view.
      *
-     * @param index the row index in terms of the underlying model
-     * @return row index in terms of the view, or -1 if index has been
+     * @pbrbm index the row index in terms of the underlying model
+     * @return row index in terms of the view, or -1 if index hbs been
      *         filtered out of the view
      * @throws IndexOutOfBoundsException if <code>index</code> is outside
-     *         the range of the model
+     *         the rbnge of the model
      */
-    public abstract int convertRowIndexToView(int index);
+    public bbstrbct int convertRowIndexToView(int index);
 
     /**
      * Sets the current sort keys.
      *
-     * @param keys the new <code>SortKeys</code>; <code>null</code>
-     *        is a shorthand for specifying an empty list,
-     *        indicating that the view should be unsorted
+     * @pbrbm keys the new <code>SortKeys</code>; <code>null</code>
+     *        is b shorthbnd for specifying bn empty list,
+     *        indicbting thbt the view should be unsorted
      */
-    public abstract void setSortKeys(List<? extends SortKey> keys);
+    public bbstrbct void setSortKeys(List<? extends SortKey> keys);
 
     /**
-     * Returns the current sort keys.  This must return a {@code
-     * non-null List} and may return an unmodifiable {@code List}. If
-     * you need to change the sort keys, make a copy of the returned
-     * {@code List}, mutate the copy and invoke {@code setSortKeys}
+     * Returns the current sort keys.  This must return b {@code
+     * non-null List} bnd mby return bn unmodifibble {@code List}. If
+     * you need to chbnge the sort keys, mbke b copy of the returned
+     * {@code List}, mutbte the copy bnd invoke {@code setSortKeys}
      * with the new list.
      *
      * @return the current sort order
      */
-    public abstract List<? extends SortKey> getSortKeys();
+    public bbstrbct List<? extends SortKey> getSortKeys();
 
     /**
-     * Returns the number of rows in the view.  If the contents have
+     * Returns the number of rows in the view.  If the contents hbve
      * been filtered this might differ from the row count of the
      * underlying model.
      *
      * @return number of rows in the view
      * @see #getModelRowCount
      */
-    public abstract int getViewRowCount();
+    public bbstrbct int getViewRowCount();
 
     /**
      * Returns the number of rows in the underlying model.
@@ -192,180 +192,180 @@ public abstract class RowSorter<M> {
      * @return number of rows in the underlying model
      * @see #getViewRowCount
      */
-    public abstract int getModelRowCount();
+    public bbstrbct int getModelRowCount();
 
     /**
-     * Invoked when the underlying model structure has completely
-     * changed.  For example, if the number of columns in a
-     * <code>TableModel</code> changed, this method would be invoked.
+     * Invoked when the underlying model structure hbs completely
+     * chbnged.  For exbmple, if the number of columns in b
+     * <code>TbbleModel</code> chbnged, this method would be invoked.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      */
-    public abstract void modelStructureChanged();
+    public bbstrbct void modelStructureChbnged();
 
     /**
-     * Invoked when the contents of the underlying model have
-     * completely changed. The structure of the table is the same,
-     * only the contents have changed. This is typically sent when it
-     * is too expensive to characterize the change in terms of the
+     * Invoked when the contents of the underlying model hbve
+     * completely chbnged. The structure of the tbble is the sbme,
+     * only the contents hbve chbnged. This is typicblly sent when it
+     * is too expensive to chbrbcterize the chbnge in terms of the
      * other methods.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      */
-    public abstract void allRowsChanged();
+    public bbstrbct void bllRowsChbnged();
 
     /**
-     * Invoked when rows have been inserted into the underlying model
-     * in the specified range (inclusive).
+     * Invoked when rows hbve been inserted into the underlying model
+     * in the specified rbnge (inclusive).
      * <p>
-     * The arguments give the indices of the effected range.
-     * The first argument is in terms of the model before the change, and
-     * must be less than or equal to the size of the model before the change.
-     * The second argument is in terms of the model after the change and must
-     * be less than the size of the model after the change. For example,
-     * if you have a 5-row model and add 3 items to the end of the model
-     * the indices are 5, 7.
+     * The brguments give the indices of the effected rbnge.
+     * The first brgument is in terms of the model before the chbnge, bnd
+     * must be less thbn or equbl to the size of the model before the chbnge.
+     * The second brgument is in terms of the model bfter the chbnge bnd must
+     * be less thbn the size of the model bfter the chbnge. For exbmple,
+     * if you hbve b 5-row model bnd bdd 3 items to the end of the model
+     * the indices bre 5, 7.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      *
-     * @param firstRow the first row
-     * @param endRow the last row
-     * @throws IndexOutOfBoundsException if either argument is invalid, or
+     * @pbrbm firstRow the first row
+     * @pbrbm endRow the lbst row
+     * @throws IndexOutOfBoundsException if either brgument is invblid, or
      *         <code>firstRow</code> &gt; <code>endRow</code>
      */
-    public abstract void rowsInserted(int firstRow, int endRow);
+    public bbstrbct void rowsInserted(int firstRow, int endRow);
 
     /**
-     * Invoked when rows have been deleted from the underlying model
-     * in the specified range (inclusive).
+     * Invoked when rows hbve been deleted from the underlying model
+     * in the specified rbnge (inclusive).
      * <p>
-     * The arguments give the indices of the effected range and
-     * are in terms of the model <b>before</b> the change.
-     * For example, if you have a 5-row model and delete 3 items from the end
-     * of the model the indices are 2, 4.
+     * The brguments give the indices of the effected rbnge bnd
+     * bre in terms of the model <b>before</b> the chbnge.
+     * For exbmple, if you hbve b 5-row model bnd delete 3 items from the end
+     * of the model the indices bre 2, 4.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      *
-     * @param firstRow the first row
-     * @param endRow the last row
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the model before the change, or
+     * @pbrbm firstRow the first row
+     * @pbrbm endRow the lbst row
+     * @throws IndexOutOfBoundsException if either brgument is outside
+     *         the rbnge of the model before the chbnge, or
      *         <code>firstRow</code> &gt; <code>endRow</code>
      */
-    public abstract void rowsDeleted(int firstRow, int endRow);
+    public bbstrbct void rowsDeleted(int firstRow, int endRow);
 
     /**
-     * Invoked when rows have been changed in the underlying model
-     * between the specified range (inclusive).
+     * Invoked when rows hbve been chbnged in the underlying model
+     * between the specified rbnge (inclusive).
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      *
-     * @param firstRow the first row, in terms of the underlying model
-     * @param endRow the last row, in terms of the underlying model
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the underlying model, or
+     * @pbrbm firstRow the first row, in terms of the underlying model
+     * @pbrbm endRow the lbst row, in terms of the underlying model
+     * @throws IndexOutOfBoundsException if either brgument is outside
+     *         the rbnge of the underlying model, or
      *         <code>firstRow</code> &gt; <code>endRow</code>
      */
-    public abstract void rowsUpdated(int firstRow, int endRow);
+    public bbstrbct void rowsUpdbted(int firstRow, int endRow);
 
     /**
-     * Invoked when the column in the rows have been updated in
-     * the underlying model between the specified range.
+     * Invoked when the column in the rows hbve been updbted in
+     * the underlying model between the specified rbnge.
      * <p>
-     * You normally do not call this method.  This method is public
-     * to allow view classes to call it.
+     * You normblly do not cbll this method.  This method is public
+     * to bllow view clbsses to cbll it.
      *
-     * @param firstRow the first row, in terms of the underlying model
-     * @param endRow the last row, in terms of the underlying model
-     * @param column the column that has changed, in terms of the underlying
+     * @pbrbm firstRow the first row, in terms of the underlying model
+     * @pbrbm endRow the lbst row, in terms of the underlying model
+     * @pbrbm column the column thbt hbs chbnged, in terms of the underlying
      *        model
-     * @throws IndexOutOfBoundsException if either argument is outside
-     *         the range of the underlying model after the change,
+     * @throws IndexOutOfBoundsException if either brgument is outside
+     *         the rbnge of the underlying model bfter the chbnge,
      *         <code>firstRow</code> &gt; <code>endRow</code>, or
-     *         <code>column</code> is outside the range of the underlying
+     *         <code>column</code> is outside the rbnge of the underlying
      *          model
      */
-    public abstract void rowsUpdated(int firstRow, int endRow, int column);
+    public bbstrbct void rowsUpdbted(int firstRow, int endRow, int column);
 
     /**
-     * Adds a <code>RowSorterListener</code> to receive notification
-     * about this <code>RowSorter</code>.  If the same
-     * listener is added more than once it will receive multiple
-     * notifications.  If <code>l</code> is <code>null</code> nothing
+     * Adds b <code>RowSorterListener</code> to receive notificbtion
+     * bbout this <code>RowSorter</code>.  If the sbme
+     * listener is bdded more thbn once it will receive multiple
+     * notificbtions.  If <code>l</code> is <code>null</code> nothing
      * is done.
      *
-     * @param l the <code>RowSorterListener</code>
+     * @pbrbm l the <code>RowSorterListener</code>
      */
-    public void addRowSorterListener(RowSorterListener l) {
-        listenerList.add(RowSorterListener.class, l);
+    public void bddRowSorterListener(RowSorterListener l) {
+        listenerList.bdd(RowSorterListener.clbss, l);
     }
 
     /**
-     * Removes a <code>RowSorterListener</code>.  If
+     * Removes b <code>RowSorterListener</code>.  If
      * <code>l</code> is <code>null</code> nothing is done.
      *
-     * @param l the <code>RowSorterListener</code>
+     * @pbrbm l the <code>RowSorterListener</code>
      */
     public void removeRowSorterListener(RowSorterListener l) {
-        listenerList.remove(RowSorterListener.class, l);
+        listenerList.remove(RowSorterListener.clbss, l);
     }
 
     /**
-     * Notifies listener that the sort order has changed.
+     * Notifies listener thbt the sort order hbs chbnged.
      */
-    protected void fireSortOrderChanged() {
-        fireRowSorterChanged(new RowSorterEvent(this));
+    protected void fireSortOrderChbnged() {
+        fireRowSorterChbnged(new RowSorterEvent(this));
     }
 
     /**
-     * Notifies listener that the mapping has changed.
+     * Notifies listener thbt the mbpping hbs chbnged.
      *
-     * @param lastRowIndexToModel the mapping from model indices to
-     *        view indices prior to the sort, may be <code>null</code>
+     * @pbrbm lbstRowIndexToModel the mbpping from model indices to
+     *        view indices prior to the sort, mby be <code>null</code>
      */
-    protected void fireRowSorterChanged(int[] lastRowIndexToModel) {
-        fireRowSorterChanged(new RowSorterEvent(this,
-                RowSorterEvent.Type.SORTED, lastRowIndexToModel));
+    protected void fireRowSorterChbnged(int[] lbstRowIndexToModel) {
+        fireRowSorterChbnged(new RowSorterEvent(this,
+                RowSorterEvent.Type.SORTED, lbstRowIndexToModel));
     }
 
-    void fireRowSorterChanged(RowSorterEvent event) {
+    void fireRowSorterChbnged(RowSorterEvent event) {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == RowSorterListener.class) {
+            if (listeners[i] == RowSorterListener.clbss) {
                 ((RowSorterListener)listeners[i + 1]).
-                        sorterChanged(event);
+                        sorterChbnged(event);
             }
         }
     }
 
     /**
-     * SortKey describes the sort order for a particular column.  The
-     * column index is in terms of the underlying model, which may differ
-     * from that of the view.
+     * SortKey describes the sort order for b pbrticulbr column.  The
+     * column index is in terms of the underlying model, which mby differ
+     * from thbt of the view.
      *
      * @since 1.6
      */
-    public static class SortKey {
-        private int column;
-        private SortOrder sortOrder;
+    public stbtic clbss SortKey {
+        privbte int column;
+        privbte SortOrder sortOrder;
 
         /**
-         * Creates a <code>SortKey</code> for the specified column with
+         * Crebtes b <code>SortKey</code> for the specified column with
          * the specified sort order.
          *
-         * @param column index of the column, in terms of the model
-         * @param sortOrder the sorter order
-         * @throws IllegalArgumentException if <code>sortOrder</code> is
+         * @pbrbm column index of the column, in terms of the model
+         * @pbrbm sortOrder the sorter order
+         * @throws IllegblArgumentException if <code>sortOrder</code> is
          *         <code>null</code>
          */
         public SortKey(int column, SortOrder sortOrder) {
             if (sortOrder == null) {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "sort order must be non-null");
             }
             this.column = column;
@@ -377,7 +377,7 @@ public abstract class RowSorter<M> {
          *
          * @return index of column
          */
-        public final int getColumn() {
+        public finbl int getColumn() {
             return column;
         }
 
@@ -386,40 +386,40 @@ public abstract class RowSorter<M> {
          *
          * @return the sort order of the column
          */
-        public final SortOrder getSortOrder() {
+        public finbl SortOrder getSortOrder() {
             return sortOrder;
         }
 
         /**
-         * Returns the hash code for this <code>SortKey</code>.
+         * Returns the hbsh code for this <code>SortKey</code>.
          *
-         * @return hash code
+         * @return hbsh code
          */
-        public int hashCode() {
+        public int hbshCode() {
             int result = 17;
             result = 37 * result + column;
-            result = 37 * result + sortOrder.hashCode();
+            result = 37 * result + sortOrder.hbshCode();
             return result;
         }
 
         /**
-         * Returns true if this object equals the specified object.
-         * If the specified object is a <code>SortKey</code> and
-         * references the same column and sort order, the two objects
-         * are equal.
+         * Returns true if this object equbls the specified object.
+         * If the specified object is b <code>SortKey</code> bnd
+         * references the sbme column bnd sort order, the two objects
+         * bre equbl.
          *
-         * @param o the object to compare to
-         * @return true if <code>o</code> is equal to this <code>SortKey</code>
+         * @pbrbm o the object to compbre to
+         * @return true if <code>o</code> is equbl to this <code>SortKey</code>
          */
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (o == this) {
                 return true;
             }
-            if (o instanceof SortKey) {
+            if (o instbnceof SortKey) {
                 return (((SortKey)o).column == column &&
                         ((SortKey)o).sortOrder == sortOrder);
             }
-            return false;
+            return fblse;
         }
     }
 }

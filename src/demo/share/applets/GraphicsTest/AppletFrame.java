@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,82 +30,82 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.Frame;
-import java.awt.Event;
-import java.awt.Dimension;
-import java.applet.Applet;
-import java.awt.AWTEvent;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Event;
+import jbvb.bwt.Dimension;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.AWTEvent;
 
 
 /**
- * Applet to Application Frame window
+ * Applet to Applicbtion Frbme window
  */
-@SuppressWarnings("serial")
-class AppletFrame extends Frame {
+@SuppressWbrnings("seribl")
+clbss AppletFrbme extends Frbme {
 
-    public static void startApplet(String className,
+    public stbtic void stbrtApplet(String clbssNbme,
             String title,
-            String args[]) {
-        // local variables
-        Applet a;
-        Dimension appletSize;
+            String brgs[]) {
+        // locbl vbribbles
+        Applet b;
+        Dimension bppletSize;
 
         try {
-            // create an instance of your applet class
-            a = (Applet) Class.forName(className).newInstance();
-        } catch (ClassNotFoundException e) {
+            // crebte bn instbnce of your bpplet clbss
+            b = (Applet) Clbss.forNbme(clbssNbme).newInstbnce();
+        } cbtch (ClbssNotFoundException e) {
             return;
-        } catch (InstantiationException e) {
+        } cbtch (InstbntibtionException e) {
             return;
-        } catch (IllegalAccessException e) {
+        } cbtch (IllegblAccessException e) {
             return;
         }
 
-        // initialize the applet
-        a.init();
-        a.start();
+        // initiblize the bpplet
+        b.init();
+        b.stbrt();
 
-        // create new application frame window
-        AppletFrame f = new AppletFrame(title);
+        // crebte new bpplicbtion frbme window
+        AppletFrbme f = new AppletFrbme(title);
 
-        // add applet to frame window
-        f.add("Center", a);
+        // bdd bpplet to frbme window
+        f.bdd("Center", b);
 
-        // resize frame window to fit applet
-        // assumes that the applet sets its own size
-        // otherwise, you should set a specific size here.
-        appletSize = a.getSize();
-        f.pack();
-        f.setSize(appletSize);
+        // resize frbme window to fit bpplet
+        // bssumes thbt the bpplet sets its own size
+        // otherwise, you should set b specific size here.
+        bppletSize = b.getSize();
+        f.pbck();
+        f.setSize(bppletSize);
 
         // show the window
         f.setVisible(true);
 
-    }  // end startApplet()
+    }  // end stbrtApplet()
 
-    // constructor needed to pass window title to class Frame
-    public AppletFrame(String name) {
-        // call java.awt.Frame(String) constructor
-        super(name);
+    // constructor needed to pbss window title to clbss Frbme
+    public AppletFrbme(String nbme) {
+        // cbll jbvb.bwt.Frbme(String) constructor
+        super(nbme);
     }
 
-    // needed to allow window close
+    // needed to bllow window close
     @Override
     public void processEvent(AWTEvent e) {
         // Window Destroy event
         if (e.getID() == Event.WINDOW_DESTROY) {
-            // exit the program
+            // exit the progrbm
             System.exit(0);
         }
-    }  // end handleEvent()
-}   // end class AppletFrame
+    }  // end hbndleEvent()
+}   // end clbss AppletFrbme
 

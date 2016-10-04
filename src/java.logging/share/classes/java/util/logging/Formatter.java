@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
 /**
- * A Formatter provides support for formatting LogRecords.
+ * A Formbtter provides support for formbtting LogRecords.
  * <p>
- * Typically each logging Handler will have a Formatter associated
- * with it.  The Formatter takes a LogRecord and converts it to
- * a string.
+ * Typicblly ebch logging Hbndler will hbve b Formbtter bssocibted
+ * with it.  The Formbtter tbkes b LogRecord bnd converts it to
+ * b string.
  * <p>
- * Some formatters (such as the XMLFormatter) need to wrap head
- * and tail strings around a set of formatted records. The getHeader
- * and getTail methods can be used to obtain these strings.
+ * Some formbtters (such bs the XMLFormbtter) need to wrbp hebd
+ * bnd tbil strings bround b set of formbtted records. The getHebder
+ * bnd getTbil methods cbn be used to obtbin these strings.
  *
  * @since 1.4
  */
 
-public abstract class Formatter {
+public bbstrbct clbss Formbtter {
 
     /**
-     * Construct a new formatter.
+     * Construct b new formbtter.
      */
-    protected Formatter() {
+    protected Formbtter() {
     }
 
     /**
-     * Format the given log record and return the formatted string.
+     * Formbt the given log record bnd return the formbtted string.
      * <p>
-     * The resulting formatted String will normally include a
-     * localized and formatted version of the LogRecord's message field.
-     * It is recommended to use the {@link Formatter#formatMessage}
-     * convenience method to localize and format the message field.
+     * The resulting formbtted String will normblly include b
+     * locblized bnd formbtted version of the LogRecord's messbge field.
+     * It is recommended to use the {@link Formbtter#formbtMessbge}
+     * convenience method to locblize bnd formbt the messbge field.
      *
-     * @param record the log record to be formatted.
-     * @return the formatted log record
+     * @pbrbm record the log record to be formbtted.
+     * @return the formbtted log record
      */
-    public abstract String format(LogRecord record);
+    public bbstrbct String formbt(LogRecord record);
 
 
     /**
-     * Return the header string for a set of formatted records.
+     * Return the hebder string for b set of formbtted records.
      * <p>
-     * This base class returns an empty string, but this may be
-     * overridden by subclasses.
+     * This bbse clbss returns bn empty string, but this mby be
+     * overridden by subclbsses.
      *
-     * @param   h  The target handler (can be null)
-     * @return  header string
+     * @pbrbm   h  The tbrget hbndler (cbn be null)
+     * @return  hebder string
      */
-    public String getHead(Handler h) {
+    public String getHebd(Hbndler h) {
         return "";
     }
 
     /**
-     * Return the tail string for a set of formatted records.
+     * Return the tbil string for b set of formbtted records.
      * <p>
-     * This base class returns an empty string, but this may be
-     * overridden by subclasses.
+     * This bbse clbss returns bn empty string, but this mby be
+     * overridden by subclbsses.
      *
-     * @param   h  The target handler (can be null)
-     * @return  tail string
+     * @pbrbm   h  The tbrget hbndler (cbn be null)
+     * @return  tbil string
      */
-    public String getTail(Handler h) {
+    public String getTbil(Hbndler h) {
         return "";
     }
 
 
     /**
-     * Localize and format the message string from a log record.  This
-     * method is provided as a convenience for Formatter subclasses to
-     * use when they are performing formatting.
+     * Locblize bnd formbt the messbge string from b log record.  This
+     * method is provided bs b convenience for Formbtter subclbsses to
+     * use when they bre performing formbtting.
      * <p>
-     * The message string is first localized to a format string using
+     * The messbge string is first locblized to b formbt string using
      * the record's ResourceBundle.  (If there is no ResourceBundle,
-     * or if the message key is not found, then the key is used as the
-     * format string.)  The format String uses java.text style
-     * formatting.
+     * or if the messbge key is not found, then the key is used bs the
+     * formbt string.)  The formbt String uses jbvb.text style
+     * formbtting.
      * <ul>
-     * <li>If there are no parameters, no formatter is used.
-     * <li>Otherwise, if the string contains "{0" then
-     *     java.text.MessageFormat  is used to format the string.
-     * <li>Otherwise no formatting is performed.
+     * <li>If there bre no pbrbmeters, no formbtter is used.
+     * <li>Otherwise, if the string contbins "{0" then
+     *     jbvb.text.MessbgeFormbt  is used to formbt the string.
+     * <li>Otherwise no formbtting is performed.
      * </ul>
      *
-     * @param  record  the log record containing the raw message
-     * @return   a localized and formatted message
+     * @pbrbm  record  the log record contbining the rbw messbge
+     * @return   b locblized bnd formbtted messbge
      */
-    public synchronized String formatMessage(LogRecord record) {
-        String format = record.getMessage();
-        java.util.ResourceBundle catalog = record.getResourceBundle();
-        if (catalog != null) {
+    public synchronized String formbtMessbge(LogRecord record) {
+        String formbt = record.getMessbge();
+        jbvb.util.ResourceBundle cbtblog = record.getResourceBundle();
+        if (cbtblog != null) {
             try {
-                format = catalog.getString(record.getMessage());
-            } catch (java.util.MissingResourceException ex) {
-                // Drop through.  Use record message as format
-                format = record.getMessage();
+                formbt = cbtblog.getString(record.getMessbge());
+            } cbtch (jbvb.util.MissingResourceException ex) {
+                // Drop through.  Use record messbge bs formbt
+                formbt = record.getMessbge();
             }
         }
-        // Do the formatting.
+        // Do the formbtting.
         try {
-            Object parameters[] = record.getParameters();
-            if (parameters == null || parameters.length == 0) {
-                // No parameters.  Just return format string.
-                return format;
+            Object pbrbmeters[] = record.getPbrbmeters();
+            if (pbrbmeters == null || pbrbmeters.length == 0) {
+                // No pbrbmeters.  Just return formbt string.
+                return formbt;
             }
-            // Is it a java.text style format?
-            // Ideally we could match with
-            // Pattern.compile("\\{\\d").matcher(format).find())
-            // However the cost is 14% higher, so we cheaply check for
-            // 1 of the first 4 parameters
-            if (format.indexOf("{0") >= 0 || format.indexOf("{1") >=0 ||
-                        format.indexOf("{2") >=0|| format.indexOf("{3") >=0) {
-                return java.text.MessageFormat.format(format, parameters);
+            // Is it b jbvb.text style formbt?
+            // Ideblly we could mbtch with
+            // Pbttern.compile("\\{\\d").mbtcher(formbt).find())
+            // However the cost is 14% higher, so we chebply check for
+            // 1 of the first 4 pbrbmeters
+            if (formbt.indexOf("{0") >= 0 || formbt.indexOf("{1") >=0 ||
+                        formbt.indexOf("{2") >=0|| formbt.indexOf("{3") >=0) {
+                return jbvb.text.MessbgeFormbt.formbt(formbt, pbrbmeters);
             }
-            return format;
+            return formbt;
 
-        } catch (Exception ex) {
-            // Formatting failed: use localized format string.
-            return format;
+        } cbtch (Exception ex) {
+            // Formbtting fbiled: use locblized formbt string.
+            return formbt;
         }
     }
 }

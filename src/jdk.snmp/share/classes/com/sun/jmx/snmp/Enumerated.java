@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
-import java.io.*;
-import java.util.Hashtable;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.Hbshtbble;
+import jbvb.util.*;
 
 
 
-/** This class is used for implementing enumerated values.
+/** This clbss is used for implementing enumerbted vblues.
  *
- * An enumeration is represented by a class derived from Enumerated.
- * The derived class defines what are the permitted values in the enumeration.
+ * An enumerbtion is represented by b clbss derived from Enumerbted.
+ * The derived clbss defines whbt bre the permitted vblues in the enumerbtion.
  *
- * An enumerated value is represented by an instance of the derived class.
- * It can be represented :
- *  - as an integer
- *  - as a string
+ * An enumerbted vblue is represented by bn instbnce of the derived clbss.
+ * It cbn be represented :
+ *  - bs bn integer
+ *  - bs b string
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-@SuppressWarnings("serial") // JDK implementation class
-abstract public class Enumerated  implements Serializable {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+bbstrbct public clbss Enumerbted  implements Seriblizbble {
 
   /**
-   * Construct an enumerated with a default value.
-   * The default value is the first available in getIntTable().
-    * @exception IllegalArgumentException One of the arguments passed to the method is illegal or inappropriate.
+   * Construct bn enumerbted with b defbult vblue.
+   * The defbult vblue is the first bvbilbble in getIntTbble().
+    * @exception IllegblArgumentException One of the brguments pbssed to the method is illegbl or inbppropribte.
    */
-  public Enumerated() throws IllegalArgumentException {
-    Enumeration<Integer> e =getIntTable().keys();
-    if (e.hasMoreElements()) {
-      value = e.nextElement().intValue() ;
+  public Enumerbted() throws IllegblArgumentException {
+    Enumerbtion<Integer> e =getIntTbble().keys();
+    if (e.hbsMoreElements()) {
+      vblue = e.nextElement().intVblue() ;
     }
     else {
-      throw new IllegalArgumentException() ;
+      throw new IllegblArgumentException() ;
     }
   }
 
   /**
-   * Construct an enumerated from its integer form.
+   * Construct bn enumerbted from its integer form.
    *
-   * @param valueIndex The integer form.
-   * @exception IllegalArgumentException One of the arguments passed to
-   *            the method is illegal or inappropriate.
+   * @pbrbm vblueIndex The integer form.
+   * @exception IllegblArgumentException One of the brguments pbssed to
+   *            the method is illegbl or inbppropribte.
    */
-  public Enumerated(int valueIndex) throws IllegalArgumentException {
-    if (getIntTable().get(valueIndex) == null) {
-      throw new IllegalArgumentException() ;
+  public Enumerbted(int vblueIndex) throws IllegblArgumentException {
+    if (getIntTbble().get(vblueIndex) == null) {
+      throw new IllegblArgumentException() ;
     }
-    value = valueIndex ;
+    vblue = vblueIndex ;
   }
 
   /**
-   * Construct an enumerated from its Integer form.
+   * Construct bn enumerbted from its Integer form.
    *
-   * @param valueIndex The Integer form.
-   * @exception IllegalArgumentException One of the arguments passed to
-   *            the method is illegal or inappropriate.
+   * @pbrbm vblueIndex The Integer form.
+   * @exception IllegblArgumentException One of the brguments pbssed to
+   *            the method is illegbl or inbppropribte.
    */
-  public Enumerated(Integer valueIndex) throws IllegalArgumentException {
-    if (getIntTable().get(valueIndex) == null) {
-      throw new IllegalArgumentException() ;
+  public Enumerbted(Integer vblueIndex) throws IllegblArgumentException {
+    if (getIntTbble().get(vblueIndex) == null) {
+      throw new IllegblArgumentException() ;
     }
-    value = valueIndex.intValue() ;
+    vblue = vblueIndex.intVblue() ;
   }
 
 
   /**
-   * Construct an enumerated from its string form.
+   * Construct bn enumerbted from its string form.
    *
-   * @param valueString The string form.
-   * @exception IllegalArgumentException One of the arguments passed
-   *  to the method is illegal or inappropriate.
+   * @pbrbm vblueString The string form.
+   * @exception IllegblArgumentException One of the brguments pbssed
+   *  to the method is illegbl or inbppropribte.
    */
-  public Enumerated(String valueString) throws IllegalArgumentException {
-    Integer index = getStringTable().get(valueString) ;
+  public Enumerbted(String vblueString) throws IllegblArgumentException {
+    Integer index = getStringTbble().get(vblueString) ;
     if (index == null) {
-      throw new IllegalArgumentException() ;
+      throw new IllegblArgumentException() ;
     }
     else {
-      value = index.intValue() ;
+      vblue = index.intVblue() ;
     }
   }
 
 
   /**
-   * Return the integer form of the enumerated.
+   * Return the integer form of the enumerbted.
    *
    * @return The integer form
    */
 
-  public int intValue() {
-    return value ;
+  public int intVblue() {
+    return vblue ;
   }
 
 
   /**
-   * Returns an Java enumeration of the permitted integers.
+   * Returns bn Jbvb enumerbtion of the permitted integers.
    *
-   * @return An enumeration of Integer instances
+   * @return An enumerbtion of Integer instbnces
    */
 
-  public Enumeration<Integer> valueIndexes() {
-    return getIntTable().keys() ;
+  public Enumerbtion<Integer> vblueIndexes() {
+    return getIntTbble().keys() ;
   }
 
 
   /**
-   * Returns an Java enumeration of the permitted strings.
+   * Returns bn Jbvb enumerbtion of the permitted strings.
    *
-   * @return An enumeration of String instances
+   * @return An enumerbtion of String instbnces
    */
 
-  public Enumeration<String> valueStrings() {
-    return getStringTable().keys() ;
+  public Enumerbtion<String> vblueStrings() {
+    return getStringTbble().keys() ;
   }
 
 
   /**
-   * Compares this enumerated to the specified enumerated.
+   * Compbres this enumerbted to the specified enumerbted.
    *
-   * The result is true if and only if the argument is not null
-   * and is of the same class.
+   * The result is true if bnd only if the brgument is not null
+   * bnd is of the sbme clbss.
    *
-   * @param obj The object to compare with.
+   * @pbrbm obj The object to compbre with.
    *
-   * @return True if this and obj are the same; false otherwise
+   * @return True if this bnd obj bre the sbme; fblse otherwise
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolebn equbls(Object obj) {
 
     return ((obj != null) &&
-            (getClass() == obj.getClass()) &&
-            (value == ((Enumerated)obj).value)) ;
+            (getClbss() == obj.getClbss()) &&
+            (vblue == ((Enumerbted)obj).vblue)) ;
   }
 
 
   /**
-   * Returns the hash code for this enumerated.
+   * Returns the hbsh code for this enumerbted.
    *
-   * @return A hash code value for this object.
+   * @return A hbsh code vblue for this object.
    */
   @Override
-  public int hashCode() {
-    String hashString = getClass().getName() + String.valueOf(value) ;
-    return hashString.hashCode() ;
+  public int hbshCode() {
+    String hbshString = getClbss().getNbme() + String.vblueOf(vblue) ;
+    return hbshString.hbshCode() ;
   }
 
 
   /**
-   * Returns the string form of this enumerated.
+   * Returns the string form of this enumerbted.
    *
    * @return The string for for this object.
    */
   @Override
   public String toString() {
-    return getIntTable().get(value);
+    return getIntTbble().get(vblue);
   }
 
 
   /**
-   * Returns the hashtable of the integer forms.
-   * getIntTable().get(x) returns the string form associated
+   * Returns the hbshtbble of the integer forms.
+   * getIntTbble().get(x) returns the string form bssocibted
    * to the integer x.
    *
-   * This method must be implemented by the derived class.
+   * This method must be implemented by the derived clbss.
    *
-   * @return An hashtable for read-only purpose
+   * @return An hbshtbble for rebd-only purpose
    */
 
-  protected abstract Hashtable<Integer,String>  getIntTable() ;
+  protected bbstrbct Hbshtbble<Integer,String>  getIntTbble() ;
 
 
 
   /**
-   * Returns the hashtable of the string forms.
-   * getStringTable().get(s) returns the integer form associated
+   * Returns the hbshtbble of the string forms.
+   * getStringTbble().get(s) returns the integer form bssocibted
    * to the string s.
    *
-   * This method must be implemented by the derived class.
+   * This method must be implemented by the derived clbss.
    *
-   * @return An hashtable for read-only purpose
+   * @return An hbshtbble for rebd-only purpose
    */
 
-  protected abstract Hashtable<String,Integer> getStringTable() ;
+  protected bbstrbct Hbshtbble<String,Integer> getStringTbble() ;
 
 
   /**
-   * This variable keeps the integer form of the enumerated.
-   * The string form is retrieved using getIntTable().
+   * This vbribble keeps the integer form of the enumerbted.
+   * The string form is retrieved using getIntTbble().
    */
-  protected int value ;
+  protected int vblue ;
 
 }

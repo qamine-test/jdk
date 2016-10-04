@@ -1,731 +1,731 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
 
-import java.util.Hashtable;
-import java.util.Map;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.UNIXToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
+import sun.bwt.UNIXToolkit;
 
-import sun.awt.datatransfer.DataTransferer;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
 
 /**
- * A class which interfaces with the X11 selection service.
+ * A clbss which interfbces with the X11 selection service.
  */
-public final class XSelection {
+public finbl clbss XSelection {
 
-    /* Maps atoms to XSelection instances. */
-    private static final Hashtable<XAtom, XSelection> table = new Hashtable<XAtom, XSelection>();
-    /* Prevents from parallel selection data request processing. */
-    private static final Object lock = new Object();
-    /* The property in which the owner should place the requested data. */
-    private static final XAtom selectionPropertyAtom = XAtom.get("XAWT_SELECTION");
-    /* The maximal length of the property data. */
-    public static final long MAX_LENGTH = 1000000;
+    /* Mbps btoms to XSelection instbnces. */
+    privbte stbtic finbl Hbshtbble<XAtom, XSelection> tbble = new Hbshtbble<XAtom, XSelection>();
+    /* Prevents from pbrbllel selection dbtb request processing. */
+    privbte stbtic finbl Object lock = new Object();
+    /* The property in which the owner should plbce the requested dbtb. */
+    privbte stbtic finbl XAtom selectionPropertyAtom = XAtom.get("XAWT_SELECTION");
+    /* The mbximbl length of the property dbtb. */
+    public stbtic finbl long MAX_LENGTH = 1000000;
     /*
-     * The maximum data size for ChangeProperty request.
+     * The mbximum dbtb size for ChbngeProperty request.
      * 100 is for the structure prepended to the request.
      */
-    public static final int MAX_PROPERTY_SIZE;
-    static {
-        XToolkit.awtLock();
+    public stbtic finbl int MAX_PROPERTY_SIZE;
+    stbtic {
+        XToolkit.bwtLock();
         try {
             MAX_PROPERTY_SIZE =
-                (int)(XlibWrapper.XMaxRequestSize(XToolkit.getDisplay()) * 4 - 100);
-        } finally {
-            XToolkit.awtUnlock();
+                (int)(XlibWrbpper.XMbxRequestSize(XToolkit.getDisplby()) * 4 - 100);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    /* The PropertyNotify event handler for incremental data transfer. */
-    private static final XEventDispatcher incrementalTransferHandler =
-        new IncrementalTransferHandler();
-    /* The context for the current request - protected with awtLock. */
-    private static WindowPropertyGetter propertyGetter = null;
+    /* The PropertyNotify event hbndler for incrementbl dbtb trbnsfer. */
+    privbte stbtic finbl XEventDispbtcher incrementblTrbnsferHbndler =
+        new IncrementblTrbnsferHbndler();
+    /* The context for the current request - protected with bwtLock. */
+    privbte stbtic WindowPropertyGetter propertyGetter = null;
 
-    // The orders of the lock acquisition:
-    //   XClipboard -> XSelection -> awtLock.
-    //   lock -> awtLock.
+    // The orders of the lock bcquisition:
+    //   XClipbobrd -> XSelection -> bwtLock.
+    //   lock -> bwtLock.
 
-    /* The X atom for the underlying selection. */
-    private final XAtom selectionAtom;
+    /* The X btom for the underlying selection. */
+    privbte finbl XAtom selectionAtom;
 
     /*
-     * Owner-related variables - protected with synchronized (this).
+     * Owner-relbted vbribbles - protected with synchronized (this).
      */
 
     /* The contents supplied by the current owner. */
-    private Transferable contents = null;
-    /* The format-to-flavor map for the current owner. */
-    private Map<Long, DataFlavor> formatMap = null;
-    /* The formats supported by the current owner was set. */
-    private long[] formats = null;
-    /* The AppContext in which the current owner was set. */
-    private AppContext appContext = null;
-    // The X server time of the last XConvertSelection() call;
-    // protected with 'lock' and awtLock.
-    private static long lastRequestServerTime;
-    /* The time at which the current owner was set. */
-    private long ownershipTime = 0;
-    // True if we are the owner of this selection.
-    private boolean isOwner;
-    private OwnershipListener ownershipListener = null;
-    private final Object stateLock = new Object();
+    privbte Trbnsferbble contents = null;
+    /* The formbt-to-flbvor mbp for the current owner. */
+    privbte Mbp<Long, DbtbFlbvor> formbtMbp = null;
+    /* The formbts supported by the current owner wbs set. */
+    privbte long[] formbts = null;
+    /* The AppContext in which the current owner wbs set. */
+    privbte AppContext bppContext = null;
+    // The X server time of the lbst XConvertSelection() cbll;
+    // protected with 'lock' bnd bwtLock.
+    privbte stbtic long lbstRequestServerTime;
+    /* The time bt which the current owner wbs set. */
+    privbte long ownershipTime = 0;
+    // True if we bre the owner of this selection.
+    privbte boolebn isOwner;
+    privbte OwnershipListener ownershipListener = null;
+    privbte finbl Object stbteLock = new Object();
 
-    static {
-        XToolkit.addEventDispatcher(XWindow.getXAWTRootWindow().getWindow(),
-                                    new SelectionEventHandler());
+    stbtic {
+        XToolkit.bddEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(),
+                                    new SelectionEventHbndler());
     }
 
     /*
-     * Returns the XSelection object for the specified selection atom or
+     * Returns the XSelection object for the specified selection btom or
      * <code>null</code> if none exists.
      */
-    static XSelection getSelection(XAtom atom) {
-        return table.get(atom);
+    stbtic XSelection getSelection(XAtom btom) {
+        return tbble.get(btom);
     }
 
     /**
-     * Creates a selection object.
+     * Crebtes b selection object.
      *
-     * @param atom   the selection atom.
-     * @param clpbrd the corresponding clipoboard
-     * @exception NullPointerException if atom is <code>null</code>.
+     * @pbrbm btom   the selection btom.
+     * @pbrbm clpbrd the corresponding clipobobrd
+     * @exception NullPointerException if btom is <code>null</code>.
      */
-    public XSelection(XAtom atom) {
-        if (atom == null) {
-            throw new NullPointerException("Null atom");
+    public XSelection(XAtom btom) {
+        if (btom == null) {
+            throw new NullPointerException("Null btom");
         }
-        selectionAtom = atom;
-        table.put(selectionAtom, this);
+        selectionAtom = btom;
+        tbble.put(selectionAtom, this);
     }
 
     public XAtom getSelectionAtom() {
         return selectionAtom;
     }
 
-    public synchronized boolean setOwner(Transferable contents,
-                                         Map<Long, DataFlavor> formatMap,
-                                         long[] formats, long time)
+    public synchronized boolebn setOwner(Trbnsferbble contents,
+                                         Mbp<Long, DbtbFlbvor> formbtMbp,
+                                         long[] formbts, long time)
     {
         long owner = XWindow.getXAWTRootWindow().getWindow();
         long selection = selectionAtom.getAtom();
 
-        // ICCCM prescribes that CurrentTime should not be used for SetSelectionOwner.
-        if (time == XConstants.CurrentTime) {
+        // ICCCM prescribes thbt CurrentTime should not be used for SetSelectionOwner.
+        if (time == XConstbnts.CurrentTime) {
             time = XToolkit.getCurrentServerTime();
         }
 
         this.contents = contents;
-        this.formatMap = formatMap;
-        this.formats = formats;
-        this.appContext = AppContext.getAppContext();
+        this.formbtMbp = formbtMbp;
+        this.formbts = formbts;
+        this.bppContext = AppContext.getAppContext();
         this.ownershipTime = time;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XSetSelectionOwner(XToolkit.getDisplay(),
+            XlibWrbpper.XSetSelectionOwner(XToolkit.getDisplby(),
                                            selection, owner, time);
-            if (XlibWrapper.XGetSelectionOwner(XToolkit.getDisplay(),
+            if (XlibWrbpper.XGetSelectionOwner(XToolkit.getDisplby(),
                                                selection) != owner)
             {
                 reset();
-                return false;
+                return fblse;
             }
             setOwnerProp(true);
             return true;
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Blocks the current thread till SelectionNotify or PropertyNotify (in case of INCR transfer) arrives.
+     * Blocks the current threbd till SelectionNotify or PropertyNotify (in cbse of INCR trbnsfer) brrives.
      */
-    private static void waitForSelectionNotify(WindowPropertyGetter dataGetter) throws InterruptedException {
-        long startTime = System.currentTimeMillis();
-        XToolkit.awtLock();
+    privbte stbtic void wbitForSelectionNotify(WindowPropertyGetter dbtbGetter) throws InterruptedException {
+        long stbrtTime = System.currentTimeMillis();
+        XToolkit.bwtLock();
         try {
             do {
-                DataTransferer.getInstance().processDataConversionRequests();
-                XToolkit.awtLockWait(250);
-            } while (propertyGetter == dataGetter && System.currentTimeMillis() < startTime + UNIXToolkit.getDatatransferTimeout());
-        } finally {
-            XToolkit.awtUnlock();
+                DbtbTrbnsferer.getInstbnce().processDbtbConversionRequests();
+                XToolkit.bwtLockWbit(250);
+            } while (propertyGetter == dbtbGetter && System.currentTimeMillis() < stbrtTime + UNIXToolkit.getDbtbtrbnsferTimeout());
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /*
-     * Returns the list of atoms that represent the targets for which an attempt
+     * Returns the list of btoms thbt represent the tbrgets for which bn bttempt
      * to convert the current selection will succeed.
      */
-    public long[] getTargets(long time) {
-        if (XToolkit.isToolkitThread()) {
+    public long[] getTbrgets(long time) {
+        if (XToolkit.isToolkitThrebd()) {
             throw new Error("UNIMPLEMENTED");
         }
 
-        long[] targets = null;
+        long[] tbrgets = null;
 
         synchronized (lock) {
-            WindowPropertyGetter targetsGetter =
+            WindowPropertyGetter tbrgetsGetter =
                 new WindowPropertyGetter(XWindow.getXAWTRootWindow().getWindow(),
                                          selectionPropertyAtom, 0, MAX_LENGTH,
-                                         true, XConstants.AnyPropertyType);
+                                         true, XConstbnts.AnyPropertyType);
 
             try {
-                XToolkit.awtLock();
+                XToolkit.bwtLock();
                 try {
-                    propertyGetter = targetsGetter;
-                    lastRequestServerTime = time;
+                    propertyGetter = tbrgetsGetter;
+                    lbstRequestServerTime = time;
 
-                    XlibWrapper.XConvertSelection(XToolkit.getDisplay(),
+                    XlibWrbpper.XConvertSelection(XToolkit.getDisplby(),
                                                   getSelectionAtom().getAtom(),
-                                                  XDataTransferer.TARGETS_ATOM.getAtom(),
+                                                  XDbtbTrbnsferer.TARGETS_ATOM.getAtom(),
                                                   selectionPropertyAtom.getAtom(),
                                                   XWindow.getXAWTRootWindow().getWindow(),
                                                   time);
 
                     // If the owner doesn't respond within the
-                    // SELECTION_TIMEOUT, we report conversion failure.
+                    // SELECTION_TIMEOUT, we report conversion fbilure.
                     try {
-                        waitForSelectionNotify(targetsGetter);
-                    } catch (InterruptedException ie) {
+                        wbitForSelectionNotify(tbrgetsGetter);
+                    } cbtch (InterruptedException ie) {
                         return new long[0];
-                    } finally {
+                    } finblly {
                         propertyGetter = null;
                     }
-                } finally {
-                    XToolkit.awtUnlock();
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
-                targets = getFormats(targetsGetter);
-            } finally {
-                targetsGetter.dispose();
+                tbrgets = getFormbts(tbrgetsGetter);
+            } finblly {
+                tbrgetsGetter.dispose();
             }
         }
-        return targets;
+        return tbrgets;
     }
 
-    static long[] getFormats(WindowPropertyGetter targetsGetter) {
-        long[] formats = null;
+    stbtic long[] getFormbts(WindowPropertyGetter tbrgetsGetter) {
+        long[] formbts = null;
 
-        if (targetsGetter.isExecuted() && !targetsGetter.isDisposed() &&
-                (targetsGetter.getActualType() == XAtom.XA_ATOM ||
-                 targetsGetter.getActualType() == XDataTransferer.TARGETS_ATOM.getAtom()) &&
-                targetsGetter.getActualFormat() == 32)
+        if (tbrgetsGetter.isExecuted() && !tbrgetsGetter.isDisposed() &&
+                (tbrgetsGetter.getActublType() == XAtom.XA_ATOM ||
+                 tbrgetsGetter.getActublType() == XDbtbTrbnsferer.TARGETS_ATOM.getAtom()) &&
+                tbrgetsGetter.getActublFormbt() == 32)
         {
-            // we accept property with TARGETS type to be compatible with old jdks
+            // we bccept property with TARGETS type to be compbtible with old jdks
             // see 6607163
-            int count = targetsGetter.getNumberOfItems();
+            int count = tbrgetsGetter.getNumberOfItems();
             if (count > 0) {
-                long atoms = targetsGetter.getData();
-                formats = new long[count];
+                long btoms = tbrgetsGetter.getDbtb();
+                formbts = new long[count];
                 for (int index = 0; index < count; index++) {
-                    formats[index] =
-                            Native.getLong(atoms+index*XAtom.getAtomSize());
+                    formbts[index] =
+                            Nbtive.getLong(btoms+index*XAtom.getAtomSize());
                 }
             }
         }
 
-        return formats != null ? formats : new long[0];
+        return formbts != null ? formbts : new long[0];
     }
 
     /*
-     * Requests the selection data in the specified format and returns
-     * the data provided by the owner.
+     * Requests the selection dbtb in the specified formbt bnd returns
+     * the dbtb provided by the owner.
      */
-    public byte[] getData(long format, long time) throws IOException {
-        if (XToolkit.isToolkitThread()) {
+    public byte[] getDbtb(long formbt, long time) throws IOException {
+        if (XToolkit.isToolkitThrebd()) {
             throw new Error("UNIMPLEMENTED");
         }
 
-        byte[] data = null;
+        byte[] dbtb = null;
 
         synchronized (lock) {
-            WindowPropertyGetter dataGetter =
+            WindowPropertyGetter dbtbGetter =
                 new WindowPropertyGetter(XWindow.getXAWTRootWindow().getWindow(),
                                          selectionPropertyAtom, 0, MAX_LENGTH,
-                                         false, // don't delete to handle INCR properly.
-                                         XConstants.AnyPropertyType);
+                                         fblse, // don't delete to hbndle INCR properly.
+                                         XConstbnts.AnyPropertyType);
 
             try {
-                XToolkit.awtLock();
+                XToolkit.bwtLock();
                 try {
-                    propertyGetter = dataGetter;
-                    lastRequestServerTime = time;
+                    propertyGetter = dbtbGetter;
+                    lbstRequestServerTime = time;
 
-                    XlibWrapper.XConvertSelection(XToolkit.getDisplay(),
+                    XlibWrbpper.XConvertSelection(XToolkit.getDisplby(),
                                                   getSelectionAtom().getAtom(),
-                                                  format,
+                                                  formbt,
                                                   selectionPropertyAtom.getAtom(),
                                                   XWindow.getXAWTRootWindow().getWindow(),
                                                   time);
 
                     // If the owner doesn't respond within the
-                    // SELECTION_TIMEOUT, we report conversion failure.
+                    // SELECTION_TIMEOUT, we report conversion fbilure.
                     try {
-                        waitForSelectionNotify(dataGetter);
-                    } catch (InterruptedException ie) {
+                        wbitForSelectionNotify(dbtbGetter);
+                    } cbtch (InterruptedException ie) {
                         return new byte[0];
-                    } finally {
+                    } finblly {
                         propertyGetter = null;
                     }
-                } finally {
-                    XToolkit.awtUnlock();
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
 
-                validateDataGetter(dataGetter);
+                vblidbteDbtbGetter(dbtbGetter);
 
-                // Handle incremental transfer.
-                if (dataGetter.getActualType() ==
-                    XDataTransferer.INCR_ATOM.getAtom()) {
+                // Hbndle incrementbl trbnsfer.
+                if (dbtbGetter.getActublType() ==
+                    XDbtbTrbnsferer.INCR_ATOM.getAtom()) {
 
-                    if (dataGetter.getActualFormat() != 32) {
-                        throw new IOException("Unsupported INCR format: " +
-                                              dataGetter.getActualFormat());
+                    if (dbtbGetter.getActublFormbt() != 32) {
+                        throw new IOException("Unsupported INCR formbt: " +
+                                              dbtbGetter.getActublFormbt());
                     }
 
-                    int count = dataGetter.getNumberOfItems();
+                    int count = dbtbGetter.getNumberOfItems();
 
                     if (count <= 0) {
-                        throw new IOException("INCR data is missed.");
+                        throw new IOException("INCR dbtb is missed.");
                     }
 
-                    long ptr = dataGetter.getData();
+                    long ptr = dbtbGetter.getDbtb();
 
                     int len = 0;
 
                     {
-                        // Following Xt sources use the last element.
-                        long longLength = Native.getLong(ptr, count-1);
+                        // Following Xt sources use the lbst element.
+                        long longLength = Nbtive.getLong(ptr, count-1);
 
                         if (longLength <= 0) {
                             return new byte[0];
                         }
 
                         if (longLength > Integer.MAX_VALUE) {
-                            throw new IOException("Can't handle large data block: "
+                            throw new IOException("Cbn't hbndle lbrge dbtb block: "
                                                   + longLength + " bytes");
                         }
 
                         len = (int)longLength;
                     }
 
-                    dataGetter.dispose();
+                    dbtbGetter.dispose();
 
-                    ByteArrayOutputStream dataStream = new ByteArrayOutputStream(len);
+                    ByteArrbyOutputStrebm dbtbStrebm = new ByteArrbyOutputStrebm(len);
 
                     while (true) {
-                        WindowPropertyGetter incrDataGetter =
+                        WindowPropertyGetter incrDbtbGetter =
                             new WindowPropertyGetter(XWindow.getXAWTRootWindow().getWindow(),
                                                      selectionPropertyAtom,
-                                                     0, MAX_LENGTH, false,
-                                                     XConstants.AnyPropertyType);
+                                                     0, MAX_LENGTH, fblse,
+                                                     XConstbnts.AnyPropertyType);
 
                         try {
-                            XToolkit.awtLock();
-                            XToolkit.addEventDispatcher(XWindow.getXAWTRootWindow().getWindow(),
-                                                        incrementalTransferHandler);
+                            XToolkit.bwtLock();
+                            XToolkit.bddEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(),
+                                                        incrementblTrbnsferHbndler);
 
-                            propertyGetter = incrDataGetter;
+                            propertyGetter = incrDbtbGetter;
 
                             try {
-                                XlibWrapper.XDeleteProperty(XToolkit.getDisplay(),
+                                XlibWrbpper.XDeleteProperty(XToolkit.getDisplby(),
                                                             XWindow.getXAWTRootWindow().getWindow(),
                                                             selectionPropertyAtom.getAtom());
 
                                 // If the owner doesn't respond within the
-                                // SELECTION_TIMEOUT, we terminate incremental
-                                // transfer.
-                                waitForSelectionNotify(incrDataGetter);
-                            } catch (InterruptedException ie) {
-                                break;
-                            } finally {
+                                // SELECTION_TIMEOUT, we terminbte incrementbl
+                                // trbnsfer.
+                                wbitForSelectionNotify(incrDbtbGetter);
+                            } cbtch (InterruptedException ie) {
+                                brebk;
+                            } finblly {
                                 propertyGetter = null;
-                                XToolkit.removeEventDispatcher(XWindow.getXAWTRootWindow().getWindow(),
-                                                               incrementalTransferHandler);
-                                XToolkit.awtUnlock();
+                                XToolkit.removeEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(),
+                                                               incrementblTrbnsferHbndler);
+                                XToolkit.bwtUnlock();
                             }
 
-                            validateDataGetter(incrDataGetter);
+                            vblidbteDbtbGetter(incrDbtbGetter);
 
-                            if (incrDataGetter.getActualFormat() != 8) {
-                                throw new IOException("Unsupported data format: " +
-                                                      incrDataGetter.getActualFormat());
+                            if (incrDbtbGetter.getActublFormbt() != 8) {
+                                throw new IOException("Unsupported dbtb formbt: " +
+                                                      incrDbtbGetter.getActublFormbt());
                             }
 
-                            count = incrDataGetter.getNumberOfItems();
+                            count = incrDbtbGetter.getNumberOfItems();
 
                             if (count == 0) {
-                                break;
+                                brebk;
                             }
 
                             if (count > 0) {
-                                ptr = incrDataGetter.getData();
+                                ptr = incrDbtbGetter.getDbtb();
                                 for (int index = 0; index < count; index++) {
-                                    dataStream.write(Native.getByte(ptr + index));
+                                    dbtbStrebm.write(Nbtive.getByte(ptr + index));
                                 }
                             }
 
-                            data = dataStream.toByteArray();
+                            dbtb = dbtbStrebm.toByteArrby();
 
-                        } finally {
-                            incrDataGetter.dispose();
+                        } finblly {
+                            incrDbtbGetter.dispose();
                         }
                     }
                 } else {
-                    XToolkit.awtLock();
+                    XToolkit.bwtLock();
                     try {
-                        XlibWrapper.XDeleteProperty(XToolkit.getDisplay(),
+                        XlibWrbpper.XDeleteProperty(XToolkit.getDisplby(),
                                                     XWindow.getXAWTRootWindow().getWindow(),
                                                     selectionPropertyAtom.getAtom());
-                    } finally {
-                        XToolkit.awtUnlock();
+                    } finblly {
+                        XToolkit.bwtUnlock();
                     }
 
-                    if (dataGetter.getActualFormat() != 8) {
-                        throw new IOException("Unsupported data format: " +
-                                              dataGetter.getActualFormat());
+                    if (dbtbGetter.getActublFormbt() != 8) {
+                        throw new IOException("Unsupported dbtb formbt: " +
+                                              dbtbGetter.getActublFormbt());
                     }
 
-                    int count = dataGetter.getNumberOfItems();
+                    int count = dbtbGetter.getNumberOfItems();
                     if (count > 0) {
-                        data = new byte[count];
-                        long ptr = dataGetter.getData();
+                        dbtb = new byte[count];
+                        long ptr = dbtbGetter.getDbtb();
                         for (int index = 0; index < count; index++) {
-                            data[index] = Native.getByte(ptr + index);
+                            dbtb[index] = Nbtive.getByte(ptr + index);
                         }
                     }
                 }
-            } finally {
-                dataGetter.dispose();
+            } finblly {
+                dbtbGetter.dispose();
             }
         }
 
-        return data != null ? data : new byte[0];
+        return dbtb != null ? dbtb : new byte[0];
     }
 
-    void validateDataGetter(WindowPropertyGetter propertyGetter)
+    void vblidbteDbtbGetter(WindowPropertyGetter propertyGetter)
             throws IOException
     {
-        // The order of checks is important because a property getter
-        // has not been executed in case of timeout as well as in case of
-        // changed selection owner.
+        // The order of checks is importbnt becbuse b property getter
+        // hbs not been executed in cbse of timeout bs well bs in cbse of
+        // chbnged selection owner.
 
         if (propertyGetter.isDisposed()) {
-            throw new IOException("Owner failed to convert data");
+            throw new IOException("Owner fbiled to convert dbtb");
         }
 
-        // The owner didn't respond - terminate the transfer.
+        // The owner didn't respond - terminbte the trbnsfer.
         if (!propertyGetter.isExecuted()) {
             throw new IOException("Owner timed out");
         }
     }
 
-    // To be MT-safe this method should be called under awtLock.
-    boolean isOwner() {
+    // To be MT-sbfe this method should be cblled under bwtLock.
+    boolebn isOwner() {
         return isOwner;
     }
 
-    // To be MT-safe this method should be called under awtLock.
-    private void setOwnerProp(boolean f) {
+    // To be MT-sbfe this method should be cblled under bwtLock.
+    privbte void setOwnerProp(boolebn f) {
         isOwner = f;
-        fireOwnershipChanges(isOwner);
+        fireOwnershipChbnges(isOwner);
     }
 
-    private void lostOwnership() {
-        setOwnerProp(false);
+    privbte void lostOwnership() {
+        setOwnerProp(fblse);
     }
 
     public synchronized void reset() {
         contents = null;
-        formatMap = null;
-        formats = null;
-        appContext = null;
+        formbtMbp = null;
+        formbts = null;
+        bppContext = null;
         ownershipTime = 0;
     }
 
-    // Converts the data to the 'format' and if the conversion succeeded stores
-    // the data in the 'property' on the 'requestor' window.
+    // Converts the dbtb to the 'formbt' bnd if the conversion succeeded stores
+    // the dbtb in the 'property' on the 'requestor' window.
     // Returns true if the conversion succeeded.
-    private boolean convertAndStore(long requestor, long format, long property) {
-        int dataFormat = 8; /* Can choose between 8,16,32. */
-        byte[] byteData = null;
-        long nativeDataPtr = 0;
+    privbte boolebn convertAndStore(long requestor, long formbt, long property) {
+        int dbtbFormbt = 8; /* Cbn choose between 8,16,32. */
+        byte[] byteDbtb = null;
+        long nbtiveDbtbPtr = 0;
         int count = 0;
 
         try {
-            SunToolkit.insertTargetMapping(this, appContext);
+            SunToolkit.insertTbrgetMbpping(this, bppContext);
 
-            byteData = DataTransferer.getInstance().convertData(this,
+            byteDbtb = DbtbTrbnsferer.getInstbnce().convertDbtb(this,
                                                                 contents,
-                                                                format,
-                                                                formatMap,
-                                                                XToolkit.isToolkitThread());
-        } catch (IOException ioe) {
-            return false;
+                                                                formbt,
+                                                                formbtMbp,
+                                                                XToolkit.isToolkitThrebd());
+        } cbtch (IOException ioe) {
+            return fblse;
         }
 
-        if (byteData == null) {
-            return false;
+        if (byteDbtb == null) {
+            return fblse;
         }
 
-        count = byteData.length;
+        count = byteDbtb.length;
 
         try {
             if (count > 0) {
                 if (count <= MAX_PROPERTY_SIZE) {
-                    nativeDataPtr = Native.toData(byteData);
+                    nbtiveDbtbPtr = Nbtive.toDbtb(byteDbtb);
                 } else {
-                    // Initiate incremental data transfer.
-                    new IncrementalDataProvider(requestor, property, format, 8,
-                                                byteData);
+                    // Initibte incrementbl dbtb trbnsfer.
+                    new IncrementblDbtbProvider(requestor, property, formbt, 8,
+                                                byteDbtb);
 
-                    nativeDataPtr =
-                        XlibWrapper.unsafe.allocateMemory(XAtom.getAtomSize());
+                    nbtiveDbtbPtr =
+                        XlibWrbpper.unsbfe.bllocbteMemory(XAtom.getAtomSize());
 
-                    Native.putLong(nativeDataPtr, (long)count);
+                    Nbtive.putLong(nbtiveDbtbPtr, (long)count);
 
-                    format = XDataTransferer.INCR_ATOM.getAtom();
-                    dataFormat = 32;
+                    formbt = XDbtbTrbnsferer.INCR_ATOM.getAtom();
+                    dbtbFormbt = 32;
                     count = 1;
                 }
 
             }
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XChangeProperty(XToolkit.getDisplay(), requestor, property,
-                                            format, dataFormat,
-                                            XConstants.PropModeReplace,
-                                            nativeDataPtr, count);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XChbngeProperty(XToolkit.getDisplby(), requestor, property,
+                                            formbt, dbtbFormbt,
+                                            XConstbnts.PropModeReplbce,
+                                            nbtiveDbtbPtr, count);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
-            if (nativeDataPtr != 0) {
-                XlibWrapper.unsafe.freeMemory(nativeDataPtr);
-                nativeDataPtr = 0;
+        } finblly {
+            if (nbtiveDbtbPtr != 0) {
+                XlibWrbpper.unsbfe.freeMemory(nbtiveDbtbPtr);
+                nbtiveDbtbPtr = 0;
             }
         }
 
         return true;
     }
 
-    private void handleSelectionRequest(XSelectionRequestEvent xsre) {
+    privbte void hbndleSelectionRequest(XSelectionRequestEvent xsre) {
         long property = xsre.get_property();
-        final long requestor = xsre.get_requestor();
-        final long requestTime = xsre.get_time();
-        final long format = xsre.get_target();
-        boolean conversionSucceeded = false;
+        finbl long requestor = xsre.get_requestor();
+        finbl long requestTime = xsre.get_time();
+        finbl long formbt = xsre.get_tbrget();
+        boolebn conversionSucceeded = fblse;
 
         if (ownershipTime != 0 &&
-            (requestTime == XConstants.CurrentTime || requestTime >= ownershipTime))
+            (requestTime == XConstbnts.CurrentTime || requestTime >= ownershipTime))
         {
-            // Handle MULTIPLE requests as per ICCCM.
-            if (format == XDataTransferer.MULTIPLE_ATOM.getAtom()) {
-                conversionSucceeded = handleMultipleRequest(requestor, property);
+            // Hbndle MULTIPLE requests bs per ICCCM.
+            if (formbt == XDbtbTrbnsferer.MULTIPLE_ATOM.getAtom()) {
+                conversionSucceeded = hbndleMultipleRequest(requestor, property);
             } else {
-                // Support for obsolete clients as per ICCCM.
-                if (property == XConstants.None) {
-                    property = format;
+                // Support for obsolete clients bs per ICCCM.
+                if (property == XConstbnts.None) {
+                    property = formbt;
                 }
 
-                if (format == XDataTransferer.TARGETS_ATOM.getAtom()) {
-                    conversionSucceeded = handleTargetsRequest(property, requestor);
+                if (formbt == XDbtbTrbnsferer.TARGETS_ATOM.getAtom()) {
+                    conversionSucceeded = hbndleTbrgetsRequest(property, requestor);
                 } else {
-                    conversionSucceeded = convertAndStore(requestor, format, property);
+                    conversionSucceeded = convertAndStore(requestor, formbt, property);
                 }
             }
         }
 
         if (!conversionSucceeded) {
-            // None property indicates conversion failure.
-            property = XConstants.None;
+            // None property indicbtes conversion fbilure.
+            property = XConstbnts.None;
         }
 
         XSelectionEvent xse = new XSelectionEvent();
         try {
-            xse.set_type(XConstants.SelectionNotify);
+            xse.set_type(XConstbnts.SelectionNotify);
             xse.set_send_event(true);
             xse.set_requestor(requestor);
             xse.set_selection(selectionAtom.getAtom());
-            xse.set_target(format);
+            xse.set_tbrget(formbt);
             xse.set_property(property);
             xse.set_time(requestTime);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), requestor, false,
-                                       XConstants.NoEventMask, xse.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(), requestor, fblse,
+                                       XConstbnts.NoEventMbsk, xse.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             xse.dispose();
         }
     }
 
-    private boolean handleMultipleRequest(final long requestor, long property) {
-        if (XConstants.None == property) {
-            // The property cannot be None for a MULTIPLE request.
-            return false;
+    privbte boolebn hbndleMultipleRequest(finbl long requestor, long property) {
+        if (XConstbnts.None == property) {
+            // The property cbnnot be None for b MULTIPLE request.
+            return fblse;
         }
 
-        boolean conversionSucceeded = false;
+        boolebn conversionSucceeded = fblse;
 
-        // First retrieve the list of requested targets.
+        // First retrieve the list of requested tbrgets.
         WindowPropertyGetter wpg =
                 new WindowPropertyGetter(requestor, XAtom.get(property),
-                                         0, MAX_LENGTH, false,
-                                         XConstants.AnyPropertyType);
+                                         0, MAX_LENGTH, fblse,
+                                         XConstbnts.AnyPropertyType);
         try {
             wpg.execute();
 
-            if (wpg.getActualFormat() == 32 && (wpg.getNumberOfItems() % 2) == 0) {
-                final long count = wpg.getNumberOfItems() / 2;
-                final long pairsPtr = wpg.getData();
-                boolean writeBack = false;
+            if (wpg.getActublFormbt() == 32 && (wpg.getNumberOfItems() % 2) == 0) {
+                finbl long count = wpg.getNumberOfItems() / 2;
+                finbl long pbirsPtr = wpg.getDbtb();
+                boolebn writeBbck = fblse;
 
                 for (int i = 0; i < count; i++) {
-                    long target = Native.getLong(pairsPtr, 2 * i);
-                    long prop = Native.getLong(pairsPtr, 2 * i + 1);
+                    long tbrget = Nbtive.getLong(pbirsPtr, 2 * i);
+                    long prop = Nbtive.getLong(pbirsPtr, 2 * i + 1);
 
-                    if (!convertAndStore(requestor, target, prop)) {
-                        // To report failure, we should replace the
-                        // target atom with 0 in the MULTIPLE property.
-                        Native.putLong(pairsPtr, 2 * i, 0);
-                        writeBack = true;
+                    if (!convertAndStore(requestor, tbrget, prop)) {
+                        // To report fbilure, we should replbce the
+                        // tbrget btom with 0 in the MULTIPLE property.
+                        Nbtive.putLong(pbirsPtr, 2 * i, 0);
+                        writeBbck = true;
                     }
                 }
-                if (writeBack) {
-                    XToolkit.awtLock();
+                if (writeBbck) {
+                    XToolkit.bwtLock();
                     try {
-                        XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
+                        XlibWrbpper.XChbngeProperty(XToolkit.getDisplby(),
                                                     requestor,
                                                     property,
-                                                    wpg.getActualType(),
-                                                    wpg.getActualFormat(),
-                                                                XConstants.PropModeReplace,
-                                                    wpg.getData(),
+                                                    wpg.getActublType(),
+                                                    wpg.getActublFormbt(),
+                                                                XConstbnts.PropModeReplbce,
+                                                    wpg.getDbtb(),
                                                     wpg.getNumberOfItems());
-                    } finally {
-                        XToolkit.awtUnlock();
+                    } finblly {
+                        XToolkit.bwtUnlock();
                     }
                 }
                 conversionSucceeded = true;
             }
-        } finally {
+        } finblly {
             wpg.dispose();
         }
 
         return conversionSucceeded;
     }
 
-    private boolean handleTargetsRequest(long property, long requestor)
-            throws IllegalStateException
+    privbte boolebn hbndleTbrgetsRequest(long property, long requestor)
+            throws IllegblStbteException
     {
-        boolean conversionSucceeded = false;
-        // Use a local copy to avoid synchronization.
-        long[] formatsLocal = formats;
+        boolebn conversionSucceeded = fblse;
+        // Use b locbl copy to bvoid synchronizbtion.
+        long[] formbtsLocbl = formbts;
 
-        if (formatsLocal == null) {
-            throw new IllegalStateException("Not an owner.");
+        if (formbtsLocbl == null) {
+            throw new IllegblStbteException("Not bn owner.");
         }
 
-        long nativeDataPtr = 0;
+        long nbtiveDbtbPtr = 0;
 
         try {
-            final int count = formatsLocal.length;
-            final int dataFormat = 32;
+            finbl int count = formbtsLocbl.length;
+            finbl int dbtbFormbt = 32;
 
             if (count > 0) {
-                nativeDataPtr = Native.allocateLongArray(count);
-                Native.put(nativeDataPtr, formatsLocal);
+                nbtiveDbtbPtr = Nbtive.bllocbteLongArrby(count);
+                Nbtive.put(nbtiveDbtbPtr, formbtsLocbl);
             }
 
             conversionSucceeded = true;
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XChangeProperty(XToolkit.getDisplay(), requestor,
-                                            property, XAtom.XA_ATOM, dataFormat,
-                                            XConstants.PropModeReplace,
-                                            nativeDataPtr, count);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XChbngeProperty(XToolkit.getDisplby(), requestor,
+                                            property, XAtom.XA_ATOM, dbtbFormbt,
+                                            XConstbnts.PropModeReplbce,
+                                            nbtiveDbtbPtr, count);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
-            if (nativeDataPtr != 0) {
-                XlibWrapper.unsafe.freeMemory(nativeDataPtr);
-                nativeDataPtr = 0;
+        } finblly {
+            if (nbtiveDbtbPtr != 0) {
+                XlibWrbpper.unsbfe.freeMemory(nbtiveDbtbPtr);
+                nbtiveDbtbPtr = 0;
             }
         }
         return conversionSucceeded;
     }
 
-    private void fireOwnershipChanges(final boolean isOwner) {
+    privbte void fireOwnershipChbnges(finbl boolebn isOwner) {
         OwnershipListener l = null;
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             l = ownershipListener;
         }
         if (null != l) {
-            l.ownershipChanged(isOwner);
+            l.ownershipChbnged(isOwner);
         }
     }
 
     void registerOwershipListener(OwnershipListener l) {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             ownershipListener = l;
         }
     }
 
     void unregisterOwnershipListener() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             ownershipListener = null;
         }
     }
 
-    private static class SelectionEventHandler implements XEventDispatcher {
-        public void dispatchEvent(XEvent ev) {
+    privbte stbtic clbss SelectionEventHbndler implements XEventDispbtcher {
+        public void dispbtchEvent(XEvent ev) {
             switch (ev.get_type()) {
-            case XConstants.SelectionNotify: {
-                XToolkit.awtLock();
+            cbse XConstbnts.SelectionNotify: {
+                XToolkit.bwtLock();
                 try {
                     XSelectionEvent xse = ev.get_xselection();
-                    // Ignore the SelectionNotify event if it is not the response to our last request.
-                    if (propertyGetter != null && xse.get_time() == lastRequestServerTime) {
-                        // The property will be None in case of convertion failure.
+                    // Ignore the SelectionNotify event if it is not the response to our lbst request.
+                    if (propertyGetter != null && xse.get_time() == lbstRequestServerTime) {
+                        // The property will be None in cbse of convertion fbilure.
                         if (xse.get_property() == selectionPropertyAtom.getAtom()) {
                             propertyGetter.execute();
                             propertyGetter = null;
@@ -734,121 +734,121 @@ public final class XSelection {
                             propertyGetter = null;
                         }
                     }
-                    XToolkit.awtLockNotifyAll();
-                } finally {
-                    XToolkit.awtUnlock();
+                    XToolkit.bwtLockNotifyAll();
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
-                break;
+                brebk;
             }
-            case XConstants.SelectionRequest: {
+            cbse XConstbnts.SelectionRequest: {
                 XSelectionRequestEvent xsre = ev.get_xselectionrequest();
-                long atom = xsre.get_selection();
-                XSelection selection = XSelection.getSelection(XAtom.get(atom));
+                long btom = xsre.get_selection();
+                XSelection selection = XSelection.getSelection(XAtom.get(btom));
 
                 if (selection != null) {
-                    selection.handleSelectionRequest(xsre);
+                    selection.hbndleSelectionRequest(xsre);
                 }
-                break;
+                brebk;
             }
-            case XConstants.SelectionClear: {
-                XSelectionClearEvent xsce = ev.get_xselectionclear();
-                long atom = xsce.get_selection();
-                XSelection selection = XSelection.getSelection(XAtom.get(atom));
+            cbse XConstbnts.SelectionClebr: {
+                XSelectionClebrEvent xsce = ev.get_xselectionclebr();
+                long btom = xsce.get_selection();
+                XSelection selection = XSelection.getSelection(XAtom.get(btom));
 
                 if (selection != null) {
                     selection.lostOwnership();
                 }
 
-                XToolkit.awtLock();
+                XToolkit.bwtLock();
                 try {
-                    XToolkit.awtLockNotifyAll();
-                } finally {
-                    XToolkit.awtUnlock();
+                    XToolkit.bwtLockNotifyAll();
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
-                break;
+                brebk;
             }
             }
         }
     };
 
-    private static class IncrementalDataProvider implements XEventDispatcher {
-        private final long requestor;
-        private final long property;
-        private final long target;
-        private final int format;
-        private final byte[] data;
-        private int offset = 0;
+    privbte stbtic clbss IncrementblDbtbProvider implements XEventDispbtcher {
+        privbte finbl long requestor;
+        privbte finbl long property;
+        privbte finbl long tbrget;
+        privbte finbl int formbt;
+        privbte finbl byte[] dbtb;
+        privbte int offset = 0;
 
-        // NOTE: formats other than 8 are not supported.
-        public IncrementalDataProvider(long requestor, long property,
-                                       long target, int format, byte[] data) {
-            if (format != 8) {
-                throw new IllegalArgumentException("Unsupported format: " + format);
+        // NOTE: formbts other thbn 8 bre not supported.
+        public IncrementblDbtbProvider(long requestor, long property,
+                                       long tbrget, int formbt, byte[] dbtb) {
+            if (formbt != 8) {
+                throw new IllegblArgumentException("Unsupported formbt: " + formbt);
             }
 
             this.requestor = requestor;
             this.property = property;
-            this.target = target;
-            this.format = format;
-            this.data = data;
+            this.tbrget = tbrget;
+            this.formbt = formbt;
+            this.dbtb = dbtb;
 
-            XWindowAttributes wattr = new XWindowAttributes();
+            XWindowAttributes wbttr = new XWindowAttributes();
             try {
-                XToolkit.awtLock();
+                XToolkit.bwtLock();
                 try {
-                    XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), requestor,
-                                                     wattr.pData);
-                    XlibWrapper.XSelectInput(XToolkit.getDisplay(), requestor,
-                                             wattr.get_your_event_mask() |
-                                             XConstants.PropertyChangeMask);
-                } finally {
-                    XToolkit.awtUnlock();
+                    XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(), requestor,
+                                                     wbttr.pDbtb);
+                    XlibWrbpper.XSelectInput(XToolkit.getDisplby(), requestor,
+                                             wbttr.get_your_event_mbsk() |
+                                             XConstbnts.PropertyChbngeMbsk);
+                } finblly {
+                    XToolkit.bwtUnlock();
                 }
-            } finally {
-                wattr.dispose();
+            } finblly {
+                wbttr.dispose();
             }
-            XToolkit.addEventDispatcher(requestor, this);
+            XToolkit.bddEventDispbtcher(requestor, this);
         }
 
-        public void dispatchEvent(XEvent ev) {
+        public void dispbtchEvent(XEvent ev) {
             switch (ev.get_type()) {
-            case XConstants.PropertyNotify:
+            cbse XConstbnts.PropertyNotify:
                 XPropertyEvent xpe = ev.get_xproperty();
                 if (xpe.get_window() == requestor &&
-                    xpe.get_state() == XConstants.PropertyDelete &&
-                    xpe.get_atom() == property) {
+                    xpe.get_stbte() == XConstbnts.PropertyDelete &&
+                    xpe.get_btom() == property) {
 
-                    int count = data.length - offset;
-                    long nativeDataPtr = 0;
+                    int count = dbtb.length - offset;
+                    long nbtiveDbtbPtr = 0;
                     if (count > MAX_PROPERTY_SIZE) {
                         count = MAX_PROPERTY_SIZE;
                     }
 
                     if (count > 0) {
-                        nativeDataPtr = XlibWrapper.unsafe.allocateMemory(count);
+                        nbtiveDbtbPtr = XlibWrbpper.unsbfe.bllocbteMemory(count);
                         for (int i = 0; i < count; i++) {
-                            Native.putByte(nativeDataPtr+i, data[offset + i]);
+                            Nbtive.putByte(nbtiveDbtbPtr+i, dbtb[offset + i]);
                         }
                     } else {
-                        assert (count == 0);
-                        // All data has been transferred.
-                        // This zero-length data indicates end of transfer.
-                        XToolkit.removeEventDispatcher(requestor, this);
+                        bssert (count == 0);
+                        // All dbtb hbs been trbnsferred.
+                        // This zero-length dbtb indicbtes end of trbnsfer.
+                        XToolkit.removeEventDispbtcher(requestor, this);
                     }
 
-                    XToolkit.awtLock();
+                    XToolkit.bwtLock();
                     try {
-                        XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
+                        XlibWrbpper.XChbngeProperty(XToolkit.getDisplby(),
                                                     requestor, property,
-                                                    target, format,
-                                                    XConstants.PropModeReplace,
-                                                    nativeDataPtr, count);
-                    } finally {
-                        XToolkit.awtUnlock();
+                                                    tbrget, formbt,
+                                                    XConstbnts.PropModeReplbce,
+                                                    nbtiveDbtbPtr, count);
+                    } finblly {
+                        XToolkit.bwtUnlock();
                     }
-                    if (nativeDataPtr != 0) {
-                        XlibWrapper.unsafe.freeMemory(nativeDataPtr);
-                        nativeDataPtr = 0;
+                    if (nbtiveDbtbPtr != 0) {
+                        XlibWrbpper.unsbfe.freeMemory(nbtiveDbtbPtr);
+                        nbtiveDbtbPtr = 0;
                     }
 
                     offset += count;
@@ -857,25 +857,25 @@ public final class XSelection {
         }
     }
 
-    private static class IncrementalTransferHandler implements XEventDispatcher {
-        public void dispatchEvent(XEvent ev) {
+    privbte stbtic clbss IncrementblTrbnsferHbndler implements XEventDispbtcher {
+        public void dispbtchEvent(XEvent ev) {
             switch (ev.get_type()) {
-            case XConstants.PropertyNotify:
+            cbse XConstbnts.PropertyNotify:
                 XPropertyEvent xpe = ev.get_xproperty();
-                if (xpe.get_state() == XConstants.PropertyNewValue &&
-                    xpe.get_atom() == selectionPropertyAtom.getAtom()) {
-                    XToolkit.awtLock();
+                if (xpe.get_stbte() == XConstbnts.PropertyNewVblue &&
+                    xpe.get_btom() == selectionPropertyAtom.getAtom()) {
+                    XToolkit.bwtLock();
                     try {
                         if (propertyGetter != null) {
                             propertyGetter.execute();
                             propertyGetter = null;
                         }
-                        XToolkit.awtLockNotifyAll();
-                    } finally {
-                        XToolkit.awtUnlock();
+                        XToolkit.bwtLockNotifyAll();
+                    } finblly {
+                        XToolkit.bwtUnlock();
                     }
                 }
-                break;
+                brebk;
             }
         }
     };

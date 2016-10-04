@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.cmm;
+pbckbge sun.jbvb2d.cmm;
 
-import java.awt.color.ProfileDataException;
-import java.util.Vector;
+import jbvb.bwt.color.ProfileDbtbException;
+import jbvb.util.Vector;
 
 
 /**
- * A class to manage the deferral of CMM initialization of profile
- * data for internal ICC_Profile objects - i.e. when we "trust" that
- * the profile data is valid and we think it may not be needed.  An
- * example is the sRGB profile which gets loaded by any program doing
- * graphics, but which may not be needed if the program does not need
- * high quality color conversion.
+ * A clbss to mbnbge the deferrbl of CMM initiblizbtion of profile
+ * dbtb for internbl ICC_Profile objects - i.e. when we "trust" thbt
+ * the profile dbtb is vblid bnd we think it mby not be needed.  An
+ * exbmple is the sRGB profile which gets lobded by bny progrbm doing
+ * grbphics, but which mby not be needed if the progrbm does not need
+ * high qublity color conversion.
  */
-public class ProfileDeferralMgr {
+public clbss ProfileDeferrblMgr {
 
-    public static boolean deferring = true;
-    private static Vector<ProfileActivator> aVector;
+    public stbtic boolebn deferring = true;
+    privbte stbtic Vector<ProfileActivbtor> bVector;
 
     /**
-     * Records a ProfileActivator object whose activate method will
-     * be called if the CMM needs to be activated.
+     * Records b ProfileActivbtor object whose bctivbte method will
+     * be cblled if the CMM needs to be bctivbted.
      */
-    public static void registerDeferral(ProfileActivator pa) {
+    public stbtic void registerDeferrbl(ProfileActivbtor pb) {
 
         if (!deferring) {
             return;
         }
-        if (aVector == null) {
-            aVector = new Vector<ProfileActivator>(3, 3);
+        if (bVector == null) {
+            bVector = new Vector<ProfileActivbtor>(3, 3);
         }
-        aVector.addElement(pa);
+        bVector.bddElement(pb);
         return;
     }
 
 
     /**
-     * Removes a ProfileActivator object from the vector of ProfileActivator
-     * objects whose activate method will be called if the CMM needs to be
-     * activated.
+     * Removes b ProfileActivbtor object from the vector of ProfileActivbtor
+     * objects whose bctivbte method will be cblled if the CMM needs to be
+     * bctivbted.
      */
-    public static void unregisterDeferral(ProfileActivator pa) {
+    public stbtic void unregisterDeferrbl(ProfileActivbtor pb) {
 
         if (!deferring) {
             return;
         }
-        if (aVector == null) {
+        if (bVector == null) {
             return;
         }
-        aVector.removeElement(pa);
+        bVector.removeElement(pb);
         return;
     }
 
     /**
-     * Removes a ProfileActivator object from the vector of ProfileActivator
-     * objects whose activate method will be called if the CMM needs to be
-     * activated.
+     * Removes b ProfileActivbtor object from the vector of ProfileActivbtor
+     * objects whose bctivbte method will be cblled if the CMM needs to be
+     * bctivbted.
      */
-    public static void activateProfiles() {
+    public stbtic void bctivbteProfiles() {
 
         int i, n;
 
-        deferring = false;
-        if (aVector == null) {
+        deferring = fblse;
+        if (bVector == null) {
             return;
         }
-        n = aVector.size();
-        for (ProfileActivator pa : aVector) {
+        n = bVector.size();
+        for (ProfileActivbtor pb : bVector) {
             try {
-                pa.activate();
-            } catch (ProfileDataException e) {
+                pb.bctivbte();
+            } cbtch (ProfileDbtbException e) {
                 /*
-                 * Ignore profile activation error for now:
-                 * such exception is pssible due to absence
-                 * or corruption of standard color profile.
-                 * As for now we expect all profiles should
-                 * be shiped with jre and presence of this
-                 * exception is indication of some configuration
-                 * problem in jre installation.
+                 * Ignore profile bctivbtion error for now:
+                 * such exception is pssible due to bbsence
+                 * or corruption of stbndbrd color profile.
+                 * As for now we expect bll profiles should
+                 * be shiped with jre bnd presence of this
+                 * exception is indicbtion of some configurbtion
+                 * problem in jre instbllbtion.
                  *
-                 * NB: we still are greedy loading deferred profiles
-                 * and load them all if any of them is needed.
-                 * Therefore broken profile (if any) might be never used.
-                 * If there will be attempt to use broken profile then
+                 * NB: we still bre greedy lobding deferred profiles
+                 * bnd lobd them bll if bny of them is needed.
+                 * Therefore broken profile (if bny) might be never used.
+                 * If there will be bttempt to use broken profile then
                  * it will result in CMMException.
                  */
             }
         }
-        aVector.removeAllElements();
-        aVector = null;
+        bVector.removeAllElements();
+        bVector = null;
         return;
     }
 

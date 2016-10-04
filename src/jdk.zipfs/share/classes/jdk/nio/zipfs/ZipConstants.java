@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
 /**
  *
- * @author Xueming Shen
+ * @buthor Xueming Shen
  */
 
-class ZipConstants {
+clbss ZipConstbnts {
     /*
      * Compression methods
      */
-    static final int METHOD_STORED     = 0;
-    static final int METHOD_DEFLATED   = 8;
-    static final int METHOD_DEFLATED64 = 9;
-    static final int METHOD_BZIP2      = 12;
-    static final int METHOD_LZMA       = 14;
-    static final int METHOD_LZ77       = 19;
-    static final int METHOD_AES        = 99;
+    stbtic finbl int METHOD_STORED     = 0;
+    stbtic finbl int METHOD_DEFLATED   = 8;
+    stbtic finbl int METHOD_DEFLATED64 = 9;
+    stbtic finbl int METHOD_BZIP2      = 12;
+    stbtic finbl int METHOD_LZMA       = 14;
+    stbtic finbl int METHOD_LZ77       = 19;
+    stbtic finbl int METHOD_AES        = 99;
 
     /*
-     * General purpose big flag
+     * Generbl purpose big flbg
      */
-    static final int FLAG_ENCRYPTED  = 0x01;
-    static final int FLAG_DATADESCR  = 0x08;    // crc, size and csize in dd
-    static final int FLAG_EFS        = 0x800;   // If this bit is set the filename and
+    stbtic finbl int FLAG_ENCRYPTED  = 0x01;
+    stbtic finbl int FLAG_DATADESCR  = 0x08;    // crc, size bnd csize in dd
+    stbtic finbl int FLAG_EFS        = 0x800;   // If this bit is set the filenbme bnd
                                                 // comment fields for this file must be
                                                 // encoded using UTF-8.
     /*
-     * Header signatures
+     * Hebder signbtures
      */
-    static long LOCSIG = 0x04034b50L;   // "PK\003\004"
-    static long EXTSIG = 0x08074b50L;   // "PK\007\008"
-    static long CENSIG = 0x02014b50L;   // "PK\001\002"
-    static long ENDSIG = 0x06054b50L;   // "PK\005\006"
+    stbtic long LOCSIG = 0x04034b50L;   // "PK\003\004"
+    stbtic long EXTSIG = 0x08074b50L;   // "PK\007\008"
+    stbtic long CENSIG = 0x02014b50L;   // "PK\001\002"
+    stbtic long ENDSIG = 0x06054b50L;   // "PK\005\006"
 
     /*
-     * Header sizes in bytes (including signatures)
+     * Hebder sizes in bytes (including signbtures)
      */
-    static final int LOCHDR = 30;       // LOC header size
-    static final int EXTHDR = 16;       // EXT header size
-    static final int CENHDR = 46;       // CEN header size
-    static final int ENDHDR = 22;       // END header size
+    stbtic finbl int LOCHDR = 30;       // LOC hebder size
+    stbtic finbl int EXTHDR = 16;       // EXT hebder size
+    stbtic finbl int CENHDR = 46;       // CEN hebder size
+    stbtic finbl int ENDHDR = 22;       // END hebder size
 
     /*
-     * Local file (LOC) header field offsets
+     * Locbl file (LOC) hebder field offsets
      */
-    static final int LOCVER = 4;        // version needed to extract
-    static final int LOCFLG = 6;        // general purpose bit flag
-    static final int LOCHOW = 8;        // compression method
-    static final int LOCTIM = 10;       // modification time
-    static final int LOCCRC = 14;       // uncompressed file crc-32 value
-    static final int LOCSIZ = 18;       // compressed size
-    static final int LOCLEN = 22;       // uncompressed size
-    static final int LOCNAM = 26;       // filename length
-    static final int LOCEXT = 28;       // extra field length
+    stbtic finbl int LOCVER = 4;        // version needed to extrbct
+    stbtic finbl int LOCFLG = 6;        // generbl purpose bit flbg
+    stbtic finbl int LOCHOW = 8;        // compression method
+    stbtic finbl int LOCTIM = 10;       // modificbtion time
+    stbtic finbl int LOCCRC = 14;       // uncompressed file crc-32 vblue
+    stbtic finbl int LOCSIZ = 18;       // compressed size
+    stbtic finbl int LOCLEN = 22;       // uncompressed size
+    stbtic finbl int LOCNAM = 26;       // filenbme length
+    stbtic finbl int LOCEXT = 28;       // extrb field length
 
     /*
-     * Extra local (EXT) header field offsets
+     * Extrb locbl (EXT) hebder field offsets
      */
-    static final int EXTCRC = 4;        // uncompressed file crc-32 value
-    static final int EXTSIZ = 8;        // compressed size
-    static final int EXTLEN = 12;       // uncompressed size
+    stbtic finbl int EXTCRC = 4;        // uncompressed file crc-32 vblue
+    stbtic finbl int EXTSIZ = 8;        // compressed size
+    stbtic finbl int EXTLEN = 12;       // uncompressed size
 
     /*
-     * Central directory (CEN) header field offsets
+     * Centrbl directory (CEN) hebder field offsets
      */
-    static final int CENVEM = 4;        // version made by
-    static final int CENVER = 6;        // version needed to extract
-    static final int CENFLG = 8;        // encrypt, decrypt flags
-    static final int CENHOW = 10;       // compression method
-    static final int CENTIM = 12;       // modification time
-    static final int CENCRC = 16;       // uncompressed file crc-32 value
-    static final int CENSIZ = 20;       // compressed size
-    static final int CENLEN = 24;       // uncompressed size
-    static final int CENNAM = 28;       // filename length
-    static final int CENEXT = 30;       // extra field length
-    static final int CENCOM = 32;       // comment length
-    static final int CENDSK = 34;       // disk number start
-    static final int CENATT = 36;       // internal file attributes
-    static final int CENATX = 38;       // external file attributes
-    static final int CENOFF = 42;       // LOC header offset
+    stbtic finbl int CENVEM = 4;        // version mbde by
+    stbtic finbl int CENVER = 6;        // version needed to extrbct
+    stbtic finbl int CENFLG = 8;        // encrypt, decrypt flbgs
+    stbtic finbl int CENHOW = 10;       // compression method
+    stbtic finbl int CENTIM = 12;       // modificbtion time
+    stbtic finbl int CENCRC = 16;       // uncompressed file crc-32 vblue
+    stbtic finbl int CENSIZ = 20;       // compressed size
+    stbtic finbl int CENLEN = 24;       // uncompressed size
+    stbtic finbl int CENNAM = 28;       // filenbme length
+    stbtic finbl int CENEXT = 30;       // extrb field length
+    stbtic finbl int CENCOM = 32;       // comment length
+    stbtic finbl int CENDSK = 34;       // disk number stbrt
+    stbtic finbl int CENATT = 36;       // internbl file bttributes
+    stbtic finbl int CENATX = 38;       // externbl file bttributes
+    stbtic finbl int CENOFF = 42;       // LOC hebder offset
 
     /*
-     * End of central directory (END) header field offsets
+     * End of centrbl directory (END) hebder field offsets
      */
-    static final int ENDSUB = 8;        // number of entries on this disk
-    static final int ENDTOT = 10;       // total number of entries
-    static final int ENDSIZ = 12;       // central directory size in bytes
-    static final int ENDOFF = 16;       // offset of first CEN header
-    static final int ENDCOM = 20;       // zip file comment length
+    stbtic finbl int ENDSUB = 8;        // number of entries on this disk
+    stbtic finbl int ENDTOT = 10;       // totbl number of entries
+    stbtic finbl int ENDSIZ = 12;       // centrbl directory size in bytes
+    stbtic finbl int ENDOFF = 16;       // offset of first CEN hebder
+    stbtic finbl int ENDCOM = 20;       // zip file comment length
 
     /*
-     * ZIP64 constants
+     * ZIP64 constbnts
      */
-    static final long ZIP64_ENDSIG = 0x06064b50L;  // "PK\006\006"
-    static final long ZIP64_LOCSIG = 0x07064b50L;  // "PK\006\007"
-    static final int  ZIP64_ENDHDR = 56;           // ZIP64 end header size
-    static final int  ZIP64_LOCHDR = 20;           // ZIP64 end loc header size
-    static final int  ZIP64_EXTHDR = 24;           // EXT header size
-    static final int  ZIP64_EXTID  = 0x0001;       // Extra field Zip64 header ID
+    stbtic finbl long ZIP64_ENDSIG = 0x06064b50L;  // "PK\006\006"
+    stbtic finbl long ZIP64_LOCSIG = 0x07064b50L;  // "PK\006\007"
+    stbtic finbl int  ZIP64_ENDHDR = 56;           // ZIP64 end hebder size
+    stbtic finbl int  ZIP64_LOCHDR = 20;           // ZIP64 end loc hebder size
+    stbtic finbl int  ZIP64_EXTHDR = 24;           // EXT hebder size
+    stbtic finbl int  ZIP64_EXTID  = 0x0001;       // Extrb field Zip64 hebder ID
 
-    static final int  ZIP64_MINVAL32 = 0xFFFF;
-    static final long ZIP64_MINVAL = 0xFFFFFFFFL;
+    stbtic finbl int  ZIP64_MINVAL32 = 0xFFFF;
+    stbtic finbl long ZIP64_MINVAL = 0xFFFFFFFFL;
 
     /*
-     * Zip64 End of central directory (END) header field offsets
+     * Zip64 End of centrbl directory (END) hebder field offsets
      */
-    static final int  ZIP64_ENDLEN = 4;       // size of zip64 end of central dir
-    static final int  ZIP64_ENDVEM = 12;      // version made by
-    static final int  ZIP64_ENDVER = 14;      // version needed to extract
-    static final int  ZIP64_ENDNMD = 16;      // number of this disk
-    static final int  ZIP64_ENDDSK = 20;      // disk number of start
-    static final int  ZIP64_ENDTOD = 24;      // total number of entries on this disk
-    static final int  ZIP64_ENDTOT = 32;      // total number of entries
-    static final int  ZIP64_ENDSIZ = 40;      // central directory size in bytes
-    static final int  ZIP64_ENDOFF = 48;      // offset of first CEN header
-    static final int  ZIP64_ENDEXT = 56;      // zip64 extensible data sector
+    stbtic finbl int  ZIP64_ENDLEN = 4;       // size of zip64 end of centrbl dir
+    stbtic finbl int  ZIP64_ENDVEM = 12;      // version mbde by
+    stbtic finbl int  ZIP64_ENDVER = 14;      // version needed to extrbct
+    stbtic finbl int  ZIP64_ENDNMD = 16;      // number of this disk
+    stbtic finbl int  ZIP64_ENDDSK = 20;      // disk number of stbrt
+    stbtic finbl int  ZIP64_ENDTOD = 24;      // totbl number of entries on this disk
+    stbtic finbl int  ZIP64_ENDTOT = 32;      // totbl number of entries
+    stbtic finbl int  ZIP64_ENDSIZ = 40;      // centrbl directory size in bytes
+    stbtic finbl int  ZIP64_ENDOFF = 48;      // offset of first CEN hebder
+    stbtic finbl int  ZIP64_ENDEXT = 56;      // zip64 extensible dbtb sector
 
     /*
-     * Zip64 End of central directory locator field offsets
+     * Zip64 End of centrbl directory locbtor field offsets
      */
-    static final int  ZIP64_LOCDSK = 4;       // disk number start
-    static final int  ZIP64_LOCOFF = 8;       // offset of zip64 end
-    static final int  ZIP64_LOCTOT = 16;      // total number of disks
+    stbtic finbl int  ZIP64_LOCDSK = 4;       // disk number stbrt
+    stbtic finbl int  ZIP64_LOCOFF = 8;       // offset of zip64 end
+    stbtic finbl int  ZIP64_LOCTOT = 16;      // totbl number of disks
 
     /*
-     * Zip64 Extra local (EXT) header field offsets
+     * Zip64 Extrb locbl (EXT) hebder field offsets
      */
-    static final int  ZIP64_EXTCRC = 4;       // uncompressed file crc-32 value
-    static final int  ZIP64_EXTSIZ = 8;       // compressed size, 8-byte
-    static final int  ZIP64_EXTLEN = 16;      // uncompressed size, 8-byte
+    stbtic finbl int  ZIP64_EXTCRC = 4;       // uncompressed file crc-32 vblue
+    stbtic finbl int  ZIP64_EXTSIZ = 8;       // compressed size, 8-byte
+    stbtic finbl int  ZIP64_EXTLEN = 16;      // uncompressed size, 8-byte
 
     /*
-     * Extra field header ID
+     * Extrb field hebder ID
      */
-    static final int  EXTID_ZIP64 = 0x0001;      // ZIP64
-    static final int  EXTID_NTFS  = 0x000a;      // NTFS
-    static final int  EXTID_UNIX  = 0x000d;      // UNIX
-    static final int  EXTID_EFS   = 0x0017;      // Strong Encryption
-    static final int  EXTID_EXTT  = 0x5455;      // Info-ZIP Extended Timestamp
+    stbtic finbl int  EXTID_ZIP64 = 0x0001;      // ZIP64
+    stbtic finbl int  EXTID_NTFS  = 0x000b;      // NTFS
+    stbtic finbl int  EXTID_UNIX  = 0x000d;      // UNIX
+    stbtic finbl int  EXTID_EFS   = 0x0017;      // Strong Encryption
+    stbtic finbl int  EXTID_EXTT  = 0x5455;      // Info-ZIP Extended Timestbmp
 
     /*
-     * fields access methods
+     * fields bccess methods
      */
     ///////////////////////////////////////////////////////
-    static final int CH(byte[] b, int n) {
+    stbtic finbl int CH(byte[] b, int n) {
         return Byte.toUnsignedInt(b[n]);
     }
 
-    static final int SH(byte[] b, int n) {
+    stbtic finbl int SH(byte[] b, int n) {
         return Byte.toUnsignedInt(b[n]) | (Byte.toUnsignedInt(b[n + 1]) << 8);
     }
 
-    static final long LG(byte[] b, int n) {
+    stbtic finbl long LG(byte[] b, int n) {
         return ((SH(b, n)) | (SH(b, n + 2) << 16)) & 0xffffffffL;
     }
 
-    static final long LL(byte[] b, int n) {
+    stbtic finbl long LL(byte[] b, int n) {
         return (LG(b, n)) | (LG(b, n + 4) << 32);
     }
 
-    static final long GETSIG(byte[] b) {
+    stbtic finbl long GETSIG(byte[] b) {
         return LG(b, 0);
     }
 
-    // local file (LOC) header fields
-    static final long LOCSIG(byte[] b) { return LG(b, 0); } // signature
-    static final int  LOCVER(byte[] b) { return SH(b, 4); } // version needed to extract
-    static final int  LOCFLG(byte[] b) { return SH(b, 6); } // general purpose bit flags
-    static final int  LOCHOW(byte[] b) { return SH(b, 8); } // compression method
-    static final long LOCTIM(byte[] b) { return LG(b, 10);} // modification time
-    static final long LOCCRC(byte[] b) { return LG(b, 14);} // crc of uncompressed data
-    static final long LOCSIZ(byte[] b) { return LG(b, 18);} // compressed data size
-    static final long LOCLEN(byte[] b) { return LG(b, 22);} // uncompressed data size
-    static final int  LOCNAM(byte[] b) { return SH(b, 26);} // filename length
-    static final int  LOCEXT(byte[] b) { return SH(b, 28);} // extra field length
+    // locbl file (LOC) hebder fields
+    stbtic finbl long LOCSIG(byte[] b) { return LG(b, 0); } // signbture
+    stbtic finbl int  LOCVER(byte[] b) { return SH(b, 4); } // version needed to extrbct
+    stbtic finbl int  LOCFLG(byte[] b) { return SH(b, 6); } // generbl purpose bit flbgs
+    stbtic finbl int  LOCHOW(byte[] b) { return SH(b, 8); } // compression method
+    stbtic finbl long LOCTIM(byte[] b) { return LG(b, 10);} // modificbtion time
+    stbtic finbl long LOCCRC(byte[] b) { return LG(b, 14);} // crc of uncompressed dbtb
+    stbtic finbl long LOCSIZ(byte[] b) { return LG(b, 18);} // compressed dbtb size
+    stbtic finbl long LOCLEN(byte[] b) { return LG(b, 22);} // uncompressed dbtb size
+    stbtic finbl int  LOCNAM(byte[] b) { return SH(b, 26);} // filenbme length
+    stbtic finbl int  LOCEXT(byte[] b) { return SH(b, 28);} // extrb field length
 
-    // extra local (EXT) header fields
-    static final long EXTCRC(byte[] b) { return LG(b, 4);}  // crc of uncompressed data
-    static final long EXTSIZ(byte[] b) { return LG(b, 8);}  // compressed size
-    static final long EXTLEN(byte[] b) { return LG(b, 12);} // uncompressed size
+    // extrb locbl (EXT) hebder fields
+    stbtic finbl long EXTCRC(byte[] b) { return LG(b, 4);}  // crc of uncompressed dbtb
+    stbtic finbl long EXTSIZ(byte[] b) { return LG(b, 8);}  // compressed size
+    stbtic finbl long EXTLEN(byte[] b) { return LG(b, 12);} // uncompressed size
 
-    // end of central directory header (END) fields
-    static final int  ENDSUB(byte[] b) { return SH(b, 8); }  // number of entries on this disk
-    static final int  ENDTOT(byte[] b) { return SH(b, 10);}  // total number of entries
-    static final long ENDSIZ(byte[] b) { return LG(b, 12);}  // central directory size
-    static final long ENDOFF(byte[] b) { return LG(b, 16);}  // central directory offset
-    static final int  ENDCOM(byte[] b) { return SH(b, 20);}  // size of zip file comment
-    static final int  ENDCOM(byte[] b, int off) { return SH(b, off + 20);}
+    // end of centrbl directory hebder (END) fields
+    stbtic finbl int  ENDSUB(byte[] b) { return SH(b, 8); }  // number of entries on this disk
+    stbtic finbl int  ENDTOT(byte[] b) { return SH(b, 10);}  // totbl number of entries
+    stbtic finbl long ENDSIZ(byte[] b) { return LG(b, 12);}  // centrbl directory size
+    stbtic finbl long ENDOFF(byte[] b) { return LG(b, 16);}  // centrbl directory offset
+    stbtic finbl int  ENDCOM(byte[] b) { return SH(b, 20);}  // size of zip file comment
+    stbtic finbl int  ENDCOM(byte[] b, int off) { return SH(b, off + 20);}
 
-    // zip64 end of central directory recoder fields
-    static final long ZIP64_ENDTOD(byte[] b) { return LL(b, 24);}  // total number of entries on disk
-    static final long ZIP64_ENDTOT(byte[] b) { return LL(b, 32);}  // total number of entries
-    static final long ZIP64_ENDSIZ(byte[] b) { return LL(b, 40);}  // central directory size
-    static final long ZIP64_ENDOFF(byte[] b) { return LL(b, 48);}  // central directory offset
-    static final long ZIP64_LOCOFF(byte[] b) { return LL(b, 8);}   // zip64 end offset
+    // zip64 end of centrbl directory recoder fields
+    stbtic finbl long ZIP64_ENDTOD(byte[] b) { return LL(b, 24);}  // totbl number of entries on disk
+    stbtic finbl long ZIP64_ENDTOT(byte[] b) { return LL(b, 32);}  // totbl number of entries
+    stbtic finbl long ZIP64_ENDSIZ(byte[] b) { return LL(b, 40);}  // centrbl directory size
+    stbtic finbl long ZIP64_ENDOFF(byte[] b) { return LL(b, 48);}  // centrbl directory offset
+    stbtic finbl long ZIP64_LOCOFF(byte[] b) { return LL(b, 8);}   // zip64 end offset
 
-    // central directory header (CEN) fields
-    static final long CENSIG(byte[] b, int pos) { return LG(b, pos + 0); }
-    static final int  CENVEM(byte[] b, int pos) { return SH(b, pos + 4); }
-    static final int  CENVER(byte[] b, int pos) { return SH(b, pos + 6); }
-    static final int  CENFLG(byte[] b, int pos) { return SH(b, pos + 8); }
-    static final int  CENHOW(byte[] b, int pos) { return SH(b, pos + 10);}
-    static final long CENTIM(byte[] b, int pos) { return LG(b, pos + 12);}
-    static final long CENCRC(byte[] b, int pos) { return LG(b, pos + 16);}
-    static final long CENSIZ(byte[] b, int pos) { return LG(b, pos + 20);}
-    static final long CENLEN(byte[] b, int pos) { return LG(b, pos + 24);}
-    static final int  CENNAM(byte[] b, int pos) { return SH(b, pos + 28);}
-    static final int  CENEXT(byte[] b, int pos) { return SH(b, pos + 30);}
-    static final int  CENCOM(byte[] b, int pos) { return SH(b, pos + 32);}
-    static final int  CENDSK(byte[] b, int pos) { return SH(b, pos + 34);}
-    static final int  CENATT(byte[] b, int pos) { return SH(b, pos + 36);}
-    static final long CENATX(byte[] b, int pos) { return LG(b, pos + 38);}
-    static final long CENOFF(byte[] b, int pos) { return LG(b, pos + 42);}
+    // centrbl directory hebder (CEN) fields
+    stbtic finbl long CENSIG(byte[] b, int pos) { return LG(b, pos + 0); }
+    stbtic finbl int  CENVEM(byte[] b, int pos) { return SH(b, pos + 4); }
+    stbtic finbl int  CENVER(byte[] b, int pos) { return SH(b, pos + 6); }
+    stbtic finbl int  CENFLG(byte[] b, int pos) { return SH(b, pos + 8); }
+    stbtic finbl int  CENHOW(byte[] b, int pos) { return SH(b, pos + 10);}
+    stbtic finbl long CENTIM(byte[] b, int pos) { return LG(b, pos + 12);}
+    stbtic finbl long CENCRC(byte[] b, int pos) { return LG(b, pos + 16);}
+    stbtic finbl long CENSIZ(byte[] b, int pos) { return LG(b, pos + 20);}
+    stbtic finbl long CENLEN(byte[] b, int pos) { return LG(b, pos + 24);}
+    stbtic finbl int  CENNAM(byte[] b, int pos) { return SH(b, pos + 28);}
+    stbtic finbl int  CENEXT(byte[] b, int pos) { return SH(b, pos + 30);}
+    stbtic finbl int  CENCOM(byte[] b, int pos) { return SH(b, pos + 32);}
+    stbtic finbl int  CENDSK(byte[] b, int pos) { return SH(b, pos + 34);}
+    stbtic finbl int  CENATT(byte[] b, int pos) { return SH(b, pos + 36);}
+    stbtic finbl long CENATX(byte[] b, int pos) { return LG(b, pos + 38);}
+    stbtic finbl long CENOFF(byte[] b, int pos) { return LG(b, pos + 42);}
 
-    /* The END header is followed by a variable length comment of size < 64k. */
-    static final long END_MAXLEN = 0xFFFF + ENDHDR;
-    static final int READBLOCKSZ = 128;
+    /* The END hebder is followed by b vbribble length comment of size < 64k. */
+    stbtic finbl long END_MAXLEN = 0xFFFF + ENDHDR;
+    stbtic finbl int READBLOCKSZ = 128;
 }

@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.List;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * Represents implementations of URLConnection caches. An instance of
- * such a class can be registered with the system by doing
- * ResponseCache.setDefault(ResponseCache), and the system will call
+ * Represents implementbtions of URLConnection cbches. An instbnce of
+ * such b clbss cbn be registered with the system by doing
+ * ResponseCbche.setDefbult(ResponseCbche), bnd the system will cbll
  * this object in order to:
  *
- *    <ul><li>store resource data which has been retrieved from an
- *            external source into the cache</li>
- *         <li>try to fetch a requested resource that may have been
- *            stored in the cache</li>
+ *    <ul><li>store resource dbtb which hbs been retrieved from bn
+ *            externbl source into the cbche</li>
+ *         <li>try to fetch b requested resource thbt mby hbve been
+ *            stored in the cbche</li>
  *    </ul>
  *
- * The ResponseCache implementation decides which resources
- * should be cached, and for how long they should be cached. If a
- * request resource cannot be retrieved from the cache, then the
- * protocol handlers will fetch the resource from its original
- * location.
+ * The ResponseCbche implementbtion decides which resources
+ * should be cbched, bnd for how long they should be cbched. If b
+ * request resource cbnnot be retrieved from the cbche, then the
+ * protocol hbndlers will fetch the resource from its originbl
+ * locbtion.
  *
- * The settings for URLConnection#useCaches controls whether the
- * protocol is allowed to use a cached response.
+ * The settings for URLConnection#useCbches controls whether the
+ * protocol is bllowed to use b cbched response.
  *
- * For more information on HTTP caching, see <a
+ * For more informbtion on HTTP cbching, see <b
  * href="http://www.ietf.org/rfc/rfc2616.txt"><i>RFC&nbsp;2616: Hypertext
- * Transfer Protocol -- HTTP/1.1</i></a>
+ * Trbnsfer Protocol -- HTTP/1.1</i></b>
  *
- * @author Yingxian Wang
+ * @buthor Yingxibn Wbng
  * @since 1.5
  */
-public abstract class ResponseCache {
+public bbstrbct clbss ResponseCbche {
 
     /**
-     * The system wide cache that provides access to a url
-     * caching mechanism.
+     * The system wide cbche thbt provides bccess to b url
+     * cbching mechbnism.
      *
-     * @see #setDefault(ResponseCache)
-     * @see #getDefault()
+     * @see #setDefbult(ResponseCbche)
+     * @see #getDefbult()
      */
-    private static ResponseCache theResponseCache;
+    privbte stbtic ResponseCbche theResponseCbche;
 
     /**
-     * Gets the system-wide response cache.
+     * Gets the system-wide response cbche.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("getResponseCache")}
+     *          If b security mbnbger hbs been instblled bnd it denies
+     * {@link NetPermission}{@code ("getResponseCbche")}
      *
-     * @see #setDefault(ResponseCache)
-     * @return the system-wide {@code ResponseCache}
+     * @see #setDefbult(ResponseCbche)
+     * @return the system-wide {@code ResponseCbche}
      * @since 1.5
      */
-    public synchronized  static ResponseCache getDefault() {
-        SecurityManager sm = System.getSecurityManager();
+    public synchronized  stbtic ResponseCbche getDefbult() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_RESPONSECACHE_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_RESPONSECACHE_PERMISSION);
         }
-        return theResponseCache;
+        return theResponseCbche;
     }
 
     /**
-     * Sets (or unsets) the system-wide cache.
+     * Sets (or unsets) the system-wide cbche.
      *
-     * Note: non-standard procotol handlers may ignore this setting.
+     * Note: non-stbndbrd procotol hbndlers mby ignore this setting.
      *
-     * @param responseCache The response cache, or
-     *          {@code null} to unset the cache.
+     * @pbrbm responseCbche The response cbche, or
+     *          {@code null} to unset the cbche.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("setResponseCache")}
+     *          If b security mbnbger hbs been instblled bnd it denies
+     * {@link NetPermission}{@code ("setResponseCbche")}
      *
-     * @see #getDefault()
+     * @see #getDefbult()
      * @since 1.5
      */
-    public synchronized static void setDefault(ResponseCache responseCache) {
-        SecurityManager sm = System.getSecurityManager();
+    public synchronized stbtic void setDefbult(ResponseCbche responseCbche) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.SET_RESPONSECACHE_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.SET_RESPONSECACHE_PERMISSION);
         }
-        theResponseCache = responseCache;
+        theResponseCbche = responseCbche;
     }
 
     /**
-     * Retrieve the cached response based on the requesting uri,
-     * request method and request headers. Typically this method is
-     * called by the protocol handler before it sends out the request
-     * to get the network resource. If a cached response is returned,
-     * that resource is used instead.
+     * Retrieve the cbched response bbsed on the requesting uri,
+     * request method bnd request hebders. Typicblly this method is
+     * cblled by the protocol hbndler before it sends out the request
+     * to get the network resource. If b cbched response is returned,
+     * thbt resource is used instebd.
      *
-     * @param uri a {@code URI} used to reference the requested
+     * @pbrbm uri b {@code URI} used to reference the requested
      *            network resource
-     * @param rqstMethod a {@code String} representing the request
+     * @pbrbm rqstMethod b {@code String} representing the request
      *            method
-     * @param rqstHeaders - a Map from request header
-     *            field names to lists of field values representing
-     *            the current request headers
-     * @return a {@code CacheResponse} instance if available
-     *          from cache, or null otherwise
-     * @throws  IOException if an I/O error occurs
-     * @throws  IllegalArgumentException if any one of the arguments is null
+     * @pbrbm rqstHebders - b Mbp from request hebder
+     *            field nbmes to lists of field vblues representing
+     *            the current request hebders
+     * @return b {@code CbcheResponse} instbnce if bvbilbble
+     *          from cbche, or null otherwise
+     * @throws  IOException if bn I/O error occurs
+     * @throws  IllegblArgumentException if bny one of the brguments is null
      *
-     * @see     java.net.URLConnection#setUseCaches(boolean)
-     * @see     java.net.URLConnection#getUseCaches()
-     * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
-     * @see     java.net.URLConnection#getDefaultUseCaches()
+     * @see     jbvb.net.URLConnection#setUseCbches(boolebn)
+     * @see     jbvb.net.URLConnection#getUseCbches()
+     * @see     jbvb.net.URLConnection#setDefbultUseCbches(boolebn)
+     * @see     jbvb.net.URLConnection#getDefbultUseCbches()
      */
-    public abstract CacheResponse
-        get(URI uri, String rqstMethod, Map<String, List<String>> rqstHeaders)
+    public bbstrbct CbcheResponse
+        get(URI uri, String rqstMethod, Mbp<String, List<String>> rqstHebders)
         throws IOException;
 
     /**
-     * The protocol handler calls this method after a resource has
-     * been retrieved, and the ResponseCache must decide whether or
-     * not to store the resource in its cache. If the resource is to
-     * be cached, then put() must return a CacheRequest object which
-     * contains an OutputStream that the protocol handler will
-     * use to write the resource into the cache. If the resource is
-     * not to be cached, then put must return null.
+     * The protocol hbndler cblls this method bfter b resource hbs
+     * been retrieved, bnd the ResponseCbche must decide whether or
+     * not to store the resource in its cbche. If the resource is to
+     * be cbched, then put() must return b CbcheRequest object which
+     * contbins bn OutputStrebm thbt the protocol hbndler will
+     * use to write the resource into the cbche. If the resource is
+     * not to be cbched, then put must return null.
      *
-     * @param uri a {@code URI} used to reference the requested
+     * @pbrbm uri b {@code URI} used to reference the requested
      *            network resource
-     * @param conn - a URLConnection instance that is used to fetch
-     *            the response to be cached
-     * @return a {@code CacheRequest} for recording the
-     *            response to be cached. Null return indicates that
-     *            the caller does not intend to cache the response.
-     * @throws IOException if an I/O error occurs
-     * @throws IllegalArgumentException if any one of the arguments is
+     * @pbrbm conn - b URLConnection instbnce thbt is used to fetch
+     *            the response to be cbched
+     * @return b {@code CbcheRequest} for recording the
+     *            response to be cbched. Null return indicbtes thbt
+     *            the cbller does not intend to cbche the response.
+     * @throws IOException if bn I/O error occurs
+     * @throws IllegblArgumentException if bny one of the brguments is
      *            null
      */
-    public abstract CacheRequest put(URI uri, URLConnection conn)  throws IOException;
+    public bbstrbct CbcheRequest put(URI uri, URLConnection conn)  throws IOException;
 }

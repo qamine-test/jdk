@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl.krb5;
+pbckbge sun.security.ssl.krb5;
 
-import java.io.*;
-import java.security.*;
-import java.util.Arrays;
+import jbvb.io.*;
+import jbvb.security.*;
+import jbvb.util.Arrbys;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
 import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.EncryptedData;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.KrbException;
-import sun.security.krb5.internal.crypto.KeyUsage;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
 
 import sun.security.ssl.Debug;
-import sun.security.ssl.HandshakeInStream;
-import sun.security.ssl.HandshakeMessage;
+import sun.security.ssl.HbndshbkeInStrebm;
+import sun.security.ssl.HbndshbkeMessbge;
 import sun.security.ssl.ProtocolVersion;
 
 /**
- * This is the Kerberos premaster secret in the Kerberos client key
- * exchange message (CLIENT --> SERVER); it holds the
- * Kerberos-encrypted pre-master secret. The secret is encrypted using the
- * Kerberos session key.  The padding and size of the resulting message
- * depends on the session key type, but the pre-master secret is
- * always exactly 48 bytes.
+ * This is the Kerberos prembster secret in the Kerberos client key
+ * exchbnge messbge (CLIENT --> SERVER); it holds the
+ * Kerberos-encrypted pre-mbster secret. The secret is encrypted using the
+ * Kerberos session key.  The pbdding bnd size of the resulting messbge
+ * depends on the session key type, but the pre-mbster secret is
+ * blwbys exbctly 48 bytes.
  *
  */
-final class KerberosPreMasterSecret {
+finbl clbss KerberosPreMbsterSecret {
 
-    private ProtocolVersion protocolVersion; // preMaster [0,1]
-    private byte preMaster[];           // 48 bytes
-    private byte encrypted[];
+    privbte ProtocolVersion protocolVersion; // preMbster [0,1]
+    privbte byte preMbster[];           // 48 bytes
+    privbte byte encrypted[];
 
     /**
-     * Constructor used by client to generate premaster secret.
+     * Constructor used by client to generbte prembster secret.
      *
-     * Client randomly creates a pre-master secret and encrypts it
-     * using the Kerberos session key; only the server can decrypt
-     * it, using the session key available in the service ticket.
+     * Client rbndomly crebtes b pre-mbster secret bnd encrypts it
+     * using the Kerberos session key; only the server cbn decrypt
+     * it, using the session key bvbilbble in the service ticket.
      *
-     * @param protocolVersion used to set preMaster[0,1]
-     * @param generator random number generator for generating premaster secret
-     * @param sessionKey Kerberos session key for encrypting premaster secret
+     * @pbrbm protocolVersion used to set preMbster[0,1]
+     * @pbrbm generbtor rbndom number generbtor for generbting prembster secret
+     * @pbrbm sessionKey Kerberos session key for encrypting prembster secret
      */
-    KerberosPreMasterSecret(ProtocolVersion protocolVersion,
-        SecureRandom generator, EncryptionKey sessionKey) throws IOException {
+    KerberosPreMbsterSecret(ProtocolVersion protocolVersion,
+        SecureRbndom generbtor, EncryptionKey sessionKey) throws IOException {
 
         if (sessionKey.getEType() ==
-            EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
+            EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
             throw new IOException(
-               "session keys with des3-cbc-hmac-sha1-kd encryption type " +
-               "are not supported for TLS Kerberos cipher suites");
+               "session keys with des3-cbc-hmbc-shb1-kd encryption type " +
+               "bre not supported for TLS Kerberos cipher suites");
         }
 
         this.protocolVersion = protocolVersion;
-        preMaster = generatePreMaster(generator, protocolVersion);
+        preMbster = generbtePreMbster(generbtor, protocolVersion);
 
-        // Encrypt premaster secret
+        // Encrypt prembster secret
         try {
-            EncryptedData eData = new EncryptedData(sessionKey, preMaster,
-                KeyUsage.KU_UNKNOWN);
-            encrypted = eData.getBytes();  // not ASN.1 encoded.
+            EncryptedDbtb eDbtb = new EncryptedDbtb(sessionKey, preMbster,
+                KeyUsbge.KU_UNKNOWN);
+            encrypted = eDbtb.getBytes();  // not ASN.1 encoded.
 
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
             throw (SSLKeyException)new SSLKeyException
-                ("Kerberos premaster secret error").initCause(e);
+                ("Kerberos prembster secret error").initCbuse(e);
         }
     }
 
     /*
-     * Constructor used by server to decrypt encrypted premaster secret.
-     * The protocol version in preMaster[0,1] must match either currentVersion
-     * or clientVersion, otherwise, the premaster secret is set to
-     * a random one to foil possible attack.
+     * Constructor used by server to decrypt encrypted prembster secret.
+     * The protocol version in preMbster[0,1] must mbtch either currentVersion
+     * or clientVersion, otherwise, the prembster secret is set to
+     * b rbndom one to foil possible bttbck.
      *
-     * @param currentVersion version of protocol being used
-     * @param clientVersion version requested by client
-     * @param generator random number generator used to generate
-     *        bogus premaster secret if premaster secret verification fails
-     * @param input input stream from which to read the encrypted
-     *        premaster secret
-     * @param sessionKey Kerberos session key to be used for decryption
+     * @pbrbm currentVersion version of protocol being used
+     * @pbrbm clientVersion version requested by client
+     * @pbrbm generbtor rbndom number generbtor used to generbte
+     *        bogus prembster secret if prembster secret verificbtion fbils
+     * @pbrbm input input strebm from which to rebd the encrypted
+     *        prembster secret
+     * @pbrbm sessionKey Kerberos session key to be used for decryption
      */
-    KerberosPreMasterSecret(ProtocolVersion currentVersion,
+    KerberosPreMbsterSecret(ProtocolVersion currentVersion,
         ProtocolVersion clientVersion,
-        SecureRandom generator, HandshakeInStream input,
+        SecureRbndom generbtor, HbndshbkeInStrebm input,
         EncryptionKey sessionKey) throws IOException {
 
-         // Extract encrypted premaster secret from message
+         // Extrbct encrypted prembster secret from messbge
          encrypted = input.getBytes16();
 
-         if (HandshakeMessage.debug != null && Debug.isOn("handshake")) {
+         if (HbndshbkeMessbge.debug != null && Debug.isOn("hbndshbke")) {
             if (encrypted != null) {
                 Debug.println(System.out,
-                     "encrypted premaster secret", encrypted);
+                     "encrypted prembster secret", encrypted);
             }
          }
 
         if (sessionKey.getEType() ==
-            EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
+            EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD) {
             throw new IOException(
-               "session keys with des3-cbc-hmac-sha1-kd encryption type " +
-               "are not supported for TLS Kerberos cipher suites");
+               "session keys with des3-cbc-hmbc-shb1-kd encryption type " +
+               "bre not supported for TLS Kerberos cipher suites");
         }
 
-        // Decrypt premaster secret
+        // Decrypt prembster secret
         try {
-            EncryptedData data = new EncryptedData(sessionKey.getEType(),
-                        null /* optional kvno */, encrypted);
+            EncryptedDbtb dbtb = new EncryptedDbtb(sessionKey.getEType(),
+                        null /* optionbl kvno */, encrypted);
 
-            byte[] temp = data.decrypt(sessionKey, KeyUsage.KU_UNKNOWN);
-            if (HandshakeMessage.debug != null && Debug.isOn("handshake")) {
+            byte[] temp = dbtb.decrypt(sessionKey, KeyUsbge.KU_UNKNOWN);
+            if (HbndshbkeMessbge.debug != null && Debug.isOn("hbndshbke")) {
                  if (encrypted != null) {
                      Debug.println(System.out,
-                         "decrypted premaster secret", temp);
+                         "decrypted prembster secret", temp);
                  }
             }
 
-            // Remove padding bytes after decryption. Only DES and DES3 have
-            // paddings and we don't support DES3 in TLS (see above)
+            // Remove pbdding bytes bfter decryption. Only DES bnd DES3 hbve
+            // pbddings bnd we don't support DES3 in TLS (see bbove)
 
             if (temp.length == 52 &&
-                    data.getEType() == EncryptedData.ETYPE_DES_CBC_CRC) {
-                // For des-cbc-crc, 4 paddings. Value can be 0x04 or 0x00.
-                if (paddingByteIs(temp, 52, (byte)4) ||
-                        paddingByteIs(temp, 52, (byte)0)) {
-                    temp = Arrays.copyOf(temp, 48);
+                    dbtb.getEType() == EncryptedDbtb.ETYPE_DES_CBC_CRC) {
+                // For des-cbc-crc, 4 pbddings. Vblue cbn be 0x04 or 0x00.
+                if (pbddingByteIs(temp, 52, (byte)4) ||
+                        pbddingByteIs(temp, 52, (byte)0)) {
+                    temp = Arrbys.copyOf(temp, 48);
                 }
             } else if (temp.length == 56 &&
-                    data.getEType() == EncryptedData.ETYPE_DES_CBC_MD5) {
-                // For des-cbc-md5, 8 paddings with 0x08, or no padding
-                if (paddingByteIs(temp, 56, (byte)8)) {
-                    temp = Arrays.copyOf(temp, 48);
+                    dbtb.getEType() == EncryptedDbtb.ETYPE_DES_CBC_MD5) {
+                // For des-cbc-md5, 8 pbddings with 0x08, or no pbdding
+                if (pbddingByteIs(temp, 56, (byte)8)) {
+                    temp = Arrbys.copyOf(temp, 48);
                 }
             }
 
-            preMaster = temp;
+            preMbster = temp;
 
-            protocolVersion = ProtocolVersion.valueOf(preMaster[0],
-                 preMaster[1]);
-            if (HandshakeMessage.debug != null && Debug.isOn("handshake")) {
-                 System.out.println("Kerberos PreMasterSecret version: "
+            protocolVersion = ProtocolVersion.vblueOf(preMbster[0],
+                 preMbster[1]);
+            if (HbndshbkeMessbge.debug != null && Debug.isOn("hbndshbke")) {
+                 System.out.println("Kerberos PreMbsterSecret version: "
                         + protocolVersion);
             }
-        } catch (Exception e) {
-            // catch exception & process below
-            preMaster = null;
+        } cbtch (Exception e) {
+            // cbtch exception & process below
+            preMbster = null;
             protocolVersion = currentVersion;
         }
 
-        // check if the premaster secret version is ok
-        // the specification says that it must be the maximum version supported
-        // by the client from its ClientHello message. However, many
-        // old implementations send the negotiated version, so accept both
-        // for SSL v3.0 and TLS v1.0.
-        // NOTE that we may be comparing two unsupported version numbers in
-        // the second case, which is why we cannot use object references
-        // equality in this special case
-        boolean versionMismatch = (protocolVersion.v != clientVersion.v);
+        // check if the prembster secret version is ok
+        // the specificbtion sbys thbt it must be the mbximum version supported
+        // by the client from its ClientHello messbge. However, mbny
+        // old implementbtions send the negotibted version, so bccept both
+        // for SSL v3.0 bnd TLS v1.0.
+        // NOTE thbt we mby be compbring two unsupported version numbers in
+        // the second cbse, which is why we cbnnot use object references
+        // equblity in this specibl cbse
+        boolebn versionMismbtch = (protocolVersion.v != clientVersion.v);
 
         /*
          * we never checked the client_version in server side
-         * for TLS v1.0 and SSL v3.0. For compatibility, we
-         * maintain this behavior.
+         * for TLS v1.0 bnd SSL v3.0. For compbtibility, we
+         * mbintbin this behbvior.
          */
-        if (versionMismatch && (clientVersion.v <= 0x0301)) {
-            versionMismatch = (protocolVersion.v != currentVersion.v);
+        if (versionMismbtch && (clientVersion.v <= 0x0301)) {
+            versionMismbtch = (protocolVersion.v != currentVersion.v);
         }
 
         /*
-         * Bogus decrypted ClientKeyExchange? If so, conjure a
-         * a random preMaster secret that will fail later during
-         * Finished message processing. This is a countermeasure against
-         * the "interactive RSA PKCS#1 encryption envelop attack" reported
-         * in June 1998. Preserving the executation path will
-         * mitigate timing attacks and force consistent error handling
-         * that will prevent an attacking client from differentiating
-         * different kinds of decrypted ClientKeyExchange bogosities.
+         * Bogus decrypted ClientKeyExchbnge? If so, conjure b
+         * b rbndom preMbster secret thbt will fbil lbter during
+         * Finished messbge processing. This is b countermebsure bgbinst
+         * the "interbctive RSA PKCS#1 encryption envelop bttbck" reported
+         * in June 1998. Preserving the executbtion pbth will
+         * mitigbte timing bttbcks bnd force consistent error hbndling
+         * thbt will prevent bn bttbcking client from differentibting
+         * different kinds of decrypted ClientKeyExchbnge bogosities.
          */
-         if ((preMaster == null) || (preMaster.length != 48)
-                || versionMismatch) {
-            if (HandshakeMessage.debug != null && Debug.isOn("handshake")) {
-                System.out.println("Kerberos PreMasterSecret error, "
-                                   + "generating random secret");
-                if (preMaster != null) {
-                    Debug.println(System.out, "Invalid secret", preMaster);
+         if ((preMbster == null) || (preMbster.length != 48)
+                || versionMismbtch) {
+            if (HbndshbkeMessbge.debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("Kerberos PreMbsterSecret error, "
+                                   + "generbting rbndom secret");
+                if (preMbster != null) {
+                    Debug.println(System.out, "Invblid secret", preMbster);
                 }
             }
 
             /*
-             * Randomize the preMaster secret with the
-             * ClientHello.client_version, as will produce invalid master
-             * secret to prevent the attacks.
+             * Rbndomize the preMbster secret with the
+             * ClientHello.client_version, bs will produce invblid mbster
+             * secret to prevent the bttbcks.
              */
-            preMaster = generatePreMaster(generator, clientVersion);
+            preMbster = generbtePreMbster(generbtor, clientVersion);
             protocolVersion = clientVersion;
         }
     }
 
     /**
-     * Checks if all paddings of data are b
-     * @param data the block with padding
-     * @param len length of data, >= 48
-     * @param b expected padding byte
+     * Checks if bll pbddings of dbtb bre b
+     * @pbrbm dbtb the block with pbdding
+     * @pbrbm len length of dbtb, >= 48
+     * @pbrbm b expected pbdding byte
      */
-    private static boolean paddingByteIs(byte[] data, int len, byte b) {
+    privbte stbtic boolebn pbddingByteIs(byte[] dbtb, int len, byte b) {
         for (int i=48; i<len; i++) {
-            if (data[i] != b) return false;
+            if (dbtb[i] != b) return fblse;
         }
         return true;
     }
 
     /*
-     * Used by server to generate premaster secret in case of
+     * Used by server to generbte prembster secret in cbse of
      * problem decoding ticket.
      *
-     * @param protocolVersion used for preMaster[0,1]
-     * @param generator random number generator to use for generating secret.
+     * @pbrbm protocolVersion used for preMbster[0,1]
+     * @pbrbm generbtor rbndom number generbtor to use for generbting secret.
      */
-    KerberosPreMasterSecret(ProtocolVersion protocolVersion,
-        SecureRandom generator) {
+    KerberosPreMbsterSecret(ProtocolVersion protocolVersion,
+        SecureRbndom generbtor) {
 
         this.protocolVersion = protocolVersion;
-        preMaster = generatePreMaster(generator, protocolVersion);
+        preMbster = generbtePreMbster(generbtor, protocolVersion);
     }
 
-    private static byte[] generatePreMaster(SecureRandom rand,
+    privbte stbtic byte[] generbtePreMbster(SecureRbndom rbnd,
         ProtocolVersion ver) {
 
         byte[] pm = new byte[48];
-        rand.nextBytes(pm);
-        pm[0] = ver.major;
+        rbnd.nextBytes(pm);
+        pm[0] = ver.mbjor;
         pm[1] = ver.minor;
 
         return pm;
     }
 
-    // Clone not needed; internal use only
+    // Clone not needed; internbl use only
     byte[] getUnencrypted() {
-        return preMaster;
+        return preMbster;
     }
 
-    // Clone not needed; internal use only
+    // Clone not needed; internbl use only
     byte[] getEncrypted() {
         return encrypted;
     }

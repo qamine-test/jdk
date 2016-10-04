@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2009-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,396 +59,396 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbckbge jbvb.time.zone;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Durbtion;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbteTime;
+import jbvb.time.ZoneOffset;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
 /**
- * A transition between two offsets caused by a discontinuity in the local time-line.
+ * A trbnsition between two offsets cbused by b discontinuity in the locbl time-line.
  * <p>
- * A transition between two offsets is normally the result of a daylight savings cutover.
- * The discontinuity is normally a gap in spring and an overlap in autumn.
- * {@code ZoneOffsetTransition} models the transition between the two offsets.
+ * A trbnsition between two offsets is normblly the result of b dbylight sbvings cutover.
+ * The discontinuity is normblly b gbp in spring bnd bn overlbp in butumn.
+ * {@code ZoneOffsetTrbnsition} models the trbnsition between the two offsets.
  * <p>
- * Gaps occur where there are local date-times that simply do not exist.
- * An example would be when the offset changes from {@code +03:00} to {@code +04:00}.
- * This might be described as 'the clocks will move forward one hour tonight at 1am'.
+ * Gbps occur where there bre locbl dbte-times thbt simply do not exist.
+ * An exbmple would be when the offset chbnges from {@code +03:00} to {@code +04:00}.
+ * This might be described bs 'the clocks will move forwbrd one hour tonight bt 1bm'.
  * <p>
- * Overlaps occur where there are local date-times that exist twice.
- * An example would be when the offset changes from {@code +04:00} to {@code +03:00}.
- * This might be described as 'the clocks will move back one hour tonight at 2am'.
+ * Overlbps occur where there bre locbl dbte-times thbt exist twice.
+ * An exbmple would be when the offset chbnges from {@code +04:00} to {@code +03:00}.
+ * This might be described bs 'the clocks will move bbck one hour tonight bt 2bm'.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ZoneOffsetTransition
-        implements Comparable<ZoneOffsetTransition>, Serializable {
+public finbl clbss ZoneOffsetTrbnsition
+        implements Compbrbble<ZoneOffsetTrbnsition>, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -6946044323557704546L;
+    privbte stbtic finbl long seriblVersionUID = -6946044323557704546L;
     /**
-     * The local transition date-time at the transition.
+     * The locbl trbnsition dbte-time bt the trbnsition.
      */
-    private final LocalDateTime transition;
+    privbte finbl LocblDbteTime trbnsition;
     /**
-     * The offset before transition.
+     * The offset before trbnsition.
      */
-    private final ZoneOffset offsetBefore;
+    privbte finbl ZoneOffset offsetBefore;
     /**
-     * The offset after transition.
+     * The offset bfter trbnsition.
      */
-    private final ZoneOffset offsetAfter;
+    privbte finbl ZoneOffset offsetAfter;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance defining a transition between two offsets.
+     * Obtbins bn instbnce defining b trbnsition between two offsets.
      * <p>
-     * Applications should normally obtain an instance from {@link ZoneRules}.
-     * This factory is only intended for use when creating {@link ZoneRules}.
+     * Applicbtions should normblly obtbin bn instbnce from {@link ZoneRules}.
+     * This fbctory is only intended for use when crebting {@link ZoneRules}.
      *
-     * @param transition  the transition date-time at the transition, which never
-     *  actually occurs, expressed local to the before offset, not null
-     * @param offsetBefore  the offset before the transition, not null
-     * @param offsetAfter  the offset at and after the transition, not null
-     * @return the transition, not null
-     * @throws IllegalArgumentException if {@code offsetBefore} and {@code offsetAfter}
-     *         are equal, or {@code transition.getNano()} returns non-zero value
+     * @pbrbm trbnsition  the trbnsition dbte-time bt the trbnsition, which never
+     *  bctublly occurs, expressed locbl to the before offset, not null
+     * @pbrbm offsetBefore  the offset before the trbnsition, not null
+     * @pbrbm offsetAfter  the offset bt bnd bfter the trbnsition, not null
+     * @return the trbnsition, not null
+     * @throws IllegblArgumentException if {@code offsetBefore} bnd {@code offsetAfter}
+     *         bre equbl, or {@code trbnsition.getNbno()} returns non-zero vblue
      */
-    public static ZoneOffsetTransition of(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
-        Objects.requireNonNull(transition, "transition");
+    public stbtic ZoneOffsetTrbnsition of(LocblDbteTime trbnsition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
+        Objects.requireNonNull(trbnsition, "trbnsition");
         Objects.requireNonNull(offsetBefore, "offsetBefore");
         Objects.requireNonNull(offsetAfter, "offsetAfter");
-        if (offsetBefore.equals(offsetAfter)) {
-            throw new IllegalArgumentException("Offsets must not be equal");
+        if (offsetBefore.equbls(offsetAfter)) {
+            throw new IllegblArgumentException("Offsets must not be equbl");
         }
-        if (transition.getNano() != 0) {
-            throw new IllegalArgumentException("Nano-of-second must be zero");
+        if (trbnsition.getNbno() != 0) {
+            throw new IllegblArgumentException("Nbno-of-second must be zero");
         }
-        return new ZoneOffsetTransition(transition, offsetBefore, offsetAfter);
+        return new ZoneOffsetTrbnsition(trbnsition, offsetBefore, offsetAfter);
     }
 
     /**
-     * Creates an instance defining a transition between two offsets.
+     * Crebtes bn instbnce defining b trbnsition between two offsets.
      *
-     * @param transition  the transition date-time with the offset before the transition, not null
-     * @param offsetBefore  the offset before the transition, not null
-     * @param offsetAfter  the offset at and after the transition, not null
+     * @pbrbm trbnsition  the trbnsition dbte-time with the offset before the trbnsition, not null
+     * @pbrbm offsetBefore  the offset before the trbnsition, not null
+     * @pbrbm offsetAfter  the offset bt bnd bfter the trbnsition, not null
      */
-    ZoneOffsetTransition(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
-        this.transition = transition;
+    ZoneOffsetTrbnsition(LocblDbteTime trbnsition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
+        this.trbnsition = trbnsition;
         this.offsetBefore = offsetBefore;
         this.offsetAfter = offsetAfter;
     }
 
     /**
-     * Creates an instance from epoch-second and offsets.
+     * Crebtes bn instbnce from epoch-second bnd offsets.
      *
-     * @param epochSecond  the transition epoch-second
-     * @param offsetBefore  the offset before the transition, not null
-     * @param offsetAfter  the offset at and after the transition, not null
+     * @pbrbm epochSecond  the trbnsition epoch-second
+     * @pbrbm offsetBefore  the offset before the trbnsition, not null
+     * @pbrbm offsetAfter  the offset bt bnd bfter the trbnsition, not null
      */
-    ZoneOffsetTransition(long epochSecond, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
-        this.transition = LocalDateTime.ofEpochSecond(epochSecond, 0, offsetBefore);
+    ZoneOffsetTrbnsition(long epochSecond, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
+        this.trbnsition = LocblDbteTime.ofEpochSecond(epochSecond, 0, offsetBefore);
         this.offsetBefore = offsetBefore;
         this.offsetAfter = offsetAfter;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * Refer to the serialized form of
-     * <a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
-     * for the encoding of epoch seconds and offsets.
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.zone.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
+     * Refer to the seriblized form of
+     * <b href="../../../seriblized-form.html#jbvb.time.zone.ZoneRules">ZoneRules.writeReplbce</b>
+     * for the encoding of epoch seconds bnd offsets.
      * <pre style="font-size:1.0em">{@code
      *
-     *   out.writeByte(2);                // identifies a ZoneOffsetTransition
+     *   out.writeByte(2);                // identifies b ZoneOffsetTrbnsition
      *   out.writeEpochSec(toEpochSecond);
      *   out.writeOffset(offsetBefore);
      *   out.writeOffset(offsetAfter);
      * }
      * </pre>
-     * @return the replacing object, not null
+     * @return the replbcing object, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.ZOT, this);
     }
 
     /**
-     * Writes the state to the stream.
+     * Writes the stbte to the strebm.
      *
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm out  the output strebm, not null
+     * @throws IOException if bn error occurs
      */
-    void writeExternal(DataOutput out) throws IOException {
+    void writeExternbl(DbtbOutput out) throws IOException {
         Ser.writeEpochSec(toEpochSecond(), out);
         Ser.writeOffset(offsetBefore, out);
         Ser.writeOffset(offsetAfter, out);
     }
 
     /**
-     * Reads the state from the stream.
+     * Rebds the stbte from the strebm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  the input strebm, not null
+     * @return the crebted object, not null
+     * @throws IOException if bn error occurs
      */
-    static ZoneOffsetTransition readExternal(DataInput in) throws IOException {
-        long epochSecond = Ser.readEpochSec(in);
-        ZoneOffset before = Ser.readOffset(in);
-        ZoneOffset after = Ser.readOffset(in);
-        if (before.equals(after)) {
-            throw new IllegalArgumentException("Offsets must not be equal");
+    stbtic ZoneOffsetTrbnsition rebdExternbl(DbtbInput in) throws IOException {
+        long epochSecond = Ser.rebdEpochSec(in);
+        ZoneOffset before = Ser.rebdOffset(in);
+        ZoneOffset bfter = Ser.rebdOffset(in);
+        if (before.equbls(bfter)) {
+            throw new IllegblArgumentException("Offsets must not be equbl");
         }
-        return new ZoneOffsetTransition(epochSecond, before, after);
+        return new ZoneOffsetTrbnsition(epochSecond, before, bfter);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the transition instant.
+     * Gets the trbnsition instbnt.
      * <p>
-     * This is the instant of the discontinuity, which is defined as the first
-     * instant that the 'after' offset applies.
+     * This is the instbnt of the discontinuity, which is defined bs the first
+     * instbnt thbt the 'bfter' offset bpplies.
      * <p>
-     * The methods {@link #getInstant()}, {@link #getDateTimeBefore()} and {@link #getDateTimeAfter()}
-     * all represent the same instant.
+     * The methods {@link #getInstbnt()}, {@link #getDbteTimeBefore()} bnd {@link #getDbteTimeAfter()}
+     * bll represent the sbme instbnt.
      *
-     * @return the transition instant, not null
+     * @return the trbnsition instbnt, not null
      */
-    public Instant getInstant() {
-        return transition.toInstant(offsetBefore);
+    public Instbnt getInstbnt() {
+        return trbnsition.toInstbnt(offsetBefore);
     }
 
     /**
-     * Gets the transition instant as an epoch second.
+     * Gets the trbnsition instbnt bs bn epoch second.
      *
-     * @return the transition epoch second
+     * @return the trbnsition epoch second
      */
     public long toEpochSecond() {
-        return transition.toEpochSecond(offsetBefore);
+        return trbnsition.toEpochSecond(offsetBefore);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Gets the local transition date-time, as would be expressed with the 'before' offset.
+     * Gets the locbl trbnsition dbte-time, bs would be expressed with the 'before' offset.
      * <p>
-     * This is the date-time where the discontinuity begins expressed with the 'before' offset.
-     * At this instant, the 'after' offset is actually used, therefore the combination of this
-     * date-time and the 'before' offset will never occur.
+     * This is the dbte-time where the discontinuity begins expressed with the 'before' offset.
+     * At this instbnt, the 'bfter' offset is bctublly used, therefore the combinbtion of this
+     * dbte-time bnd the 'before' offset will never occur.
      * <p>
-     * The combination of the 'before' date-time and offset represents the same instant
-     * as the 'after' date-time and offset.
+     * The combinbtion of the 'before' dbte-time bnd offset represents the sbme instbnt
+     * bs the 'bfter' dbte-time bnd offset.
      *
-     * @return the transition date-time expressed with the before offset, not null
+     * @return the trbnsition dbte-time expressed with the before offset, not null
      */
-    public LocalDateTime getDateTimeBefore() {
-        return transition;
+    public LocblDbteTime getDbteTimeBefore() {
+        return trbnsition;
     }
 
     /**
-     * Gets the local transition date-time, as would be expressed with the 'after' offset.
+     * Gets the locbl trbnsition dbte-time, bs would be expressed with the 'bfter' offset.
      * <p>
-     * This is the first date-time after the discontinuity, when the new offset applies.
+     * This is the first dbte-time bfter the discontinuity, when the new offset bpplies.
      * <p>
-     * The combination of the 'before' date-time and offset represents the same instant
-     * as the 'after' date-time and offset.
+     * The combinbtion of the 'before' dbte-time bnd offset represents the sbme instbnt
+     * bs the 'bfter' dbte-time bnd offset.
      *
-     * @return the transition date-time expressed with the after offset, not null
+     * @return the trbnsition dbte-time expressed with the bfter offset, not null
      */
-    public LocalDateTime getDateTimeAfter() {
-        return transition.plusSeconds(getDurationSeconds());
+    public LocblDbteTime getDbteTimeAfter() {
+        return trbnsition.plusSeconds(getDurbtionSeconds());
     }
 
     /**
-     * Gets the offset before the transition.
+     * Gets the offset before the trbnsition.
      * <p>
-     * This is the offset in use before the instant of the transition.
+     * This is the offset in use before the instbnt of the trbnsition.
      *
-     * @return the offset before the transition, not null
+     * @return the offset before the trbnsition, not null
      */
     public ZoneOffset getOffsetBefore() {
         return offsetBefore;
     }
 
     /**
-     * Gets the offset after the transition.
+     * Gets the offset bfter the trbnsition.
      * <p>
-     * This is the offset in use on and after the instant of the transition.
+     * This is the offset in use on bnd bfter the instbnt of the trbnsition.
      *
-     * @return the offset after the transition, not null
+     * @return the offset bfter the trbnsition, not null
      */
     public ZoneOffset getOffsetAfter() {
         return offsetAfter;
     }
 
     /**
-     * Gets the duration of the transition.
+     * Gets the durbtion of the trbnsition.
      * <p>
-     * In most cases, the transition duration is one hour, however this is not always the case.
-     * The duration will be positive for a gap and negative for an overlap.
-     * Time-zones are second-based, so the nanosecond part of the duration will be zero.
+     * In most cbses, the trbnsition durbtion is one hour, however this is not blwbys the cbse.
+     * The durbtion will be positive for b gbp bnd negbtive for bn overlbp.
+     * Time-zones bre second-bbsed, so the nbnosecond pbrt of the durbtion will be zero.
      *
-     * @return the duration of the transition, positive for gaps, negative for overlaps
+     * @return the durbtion of the trbnsition, positive for gbps, negbtive for overlbps
      */
-    public Duration getDuration() {
-        return Duration.ofSeconds(getDurationSeconds());
+    public Durbtion getDurbtion() {
+        return Durbtion.ofSeconds(getDurbtionSeconds());
     }
 
     /**
-     * Gets the duration of the transition in seconds.
+     * Gets the durbtion of the trbnsition in seconds.
      *
-     * @return the duration in seconds
+     * @return the durbtion in seconds
      */
-    private int getDurationSeconds() {
-        return getOffsetAfter().getTotalSeconds() - getOffsetBefore().getTotalSeconds();
+    privbte int getDurbtionSeconds() {
+        return getOffsetAfter().getTotblSeconds() - getOffsetBefore().getTotblSeconds();
     }
 
     /**
-     * Does this transition represent a gap in the local time-line.
+     * Does this trbnsition represent b gbp in the locbl time-line.
      * <p>
-     * Gaps occur where there are local date-times that simply do not exist.
-     * An example would be when the offset changes from {@code +01:00} to {@code +02:00}.
-     * This might be described as 'the clocks will move forward one hour tonight at 1am'.
+     * Gbps occur where there bre locbl dbte-times thbt simply do not exist.
+     * An exbmple would be when the offset chbnges from {@code +01:00} to {@code +02:00}.
+     * This might be described bs 'the clocks will move forwbrd one hour tonight bt 1bm'.
      *
-     * @return true if this transition is a gap, false if it is an overlap
+     * @return true if this trbnsition is b gbp, fblse if it is bn overlbp
      */
-    public boolean isGap() {
-        return getOffsetAfter().getTotalSeconds() > getOffsetBefore().getTotalSeconds();
+    public boolebn isGbp() {
+        return getOffsetAfter().getTotblSeconds() > getOffsetBefore().getTotblSeconds();
     }
 
     /**
-     * Does this transition represent an overlap in the local time-line.
+     * Does this trbnsition represent bn overlbp in the locbl time-line.
      * <p>
-     * Overlaps occur where there are local date-times that exist twice.
-     * An example would be when the offset changes from {@code +02:00} to {@code +01:00}.
-     * This might be described as 'the clocks will move back one hour tonight at 2am'.
+     * Overlbps occur where there bre locbl dbte-times thbt exist twice.
+     * An exbmple would be when the offset chbnges from {@code +02:00} to {@code +01:00}.
+     * This might be described bs 'the clocks will move bbck one hour tonight bt 2bm'.
      *
-     * @return true if this transition is an overlap, false if it is a gap
+     * @return true if this trbnsition is bn overlbp, fblse if it is b gbp
      */
-    public boolean isOverlap() {
-        return getOffsetAfter().getTotalSeconds() < getOffsetBefore().getTotalSeconds();
+    public boolebn isOverlbp() {
+        return getOffsetAfter().getTotblSeconds() < getOffsetBefore().getTotblSeconds();
     }
 
     /**
-     * Checks if the specified offset is valid during this transition.
+     * Checks if the specified offset is vblid during this trbnsition.
      * <p>
-     * This checks to see if the given offset will be valid at some point in the transition.
-     * A gap will always return false.
-     * An overlap will return true if the offset is either the before or after offset.
+     * This checks to see if the given offset will be vblid bt some point in the trbnsition.
+     * A gbp will blwbys return fblse.
+     * An overlbp will return true if the offset is either the before or bfter offset.
      *
-     * @param offset  the offset to check, null returns false
-     * @return true if the offset is valid during the transition
+     * @pbrbm offset  the offset to check, null returns fblse
+     * @return true if the offset is vblid during the trbnsition
      */
-    public boolean isValidOffset(ZoneOffset offset) {
-        return isGap() ? false : (getOffsetBefore().equals(offset) || getOffsetAfter().equals(offset));
+    public boolebn isVblidOffset(ZoneOffset offset) {
+        return isGbp() ? fblse : (getOffsetBefore().equbls(offset) || getOffsetAfter().equbls(offset));
     }
 
     /**
-     * Gets the valid offsets during this transition.
+     * Gets the vblid offsets during this trbnsition.
      * <p>
-     * A gap will return an empty list, while an overlap will return both offsets.
+     * A gbp will return bn empty list, while bn overlbp will return both offsets.
      *
-     * @return the list of valid offsets
+     * @return the list of vblid offsets
      */
-    List<ZoneOffset> getValidOffsets() {
-        if (isGap()) {
+    List<ZoneOffset> getVblidOffsets() {
+        if (isGbp()) {
             return Collections.emptyList();
         }
-        return Arrays.asList(getOffsetBefore(), getOffsetAfter());
+        return Arrbys.bsList(getOffsetBefore(), getOffsetAfter());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this transition to another based on the transition instant.
+     * Compbres this trbnsition to bnother bbsed on the trbnsition instbnt.
      * <p>
-     * This compares the instants of each transition.
-     * The offsets are ignored, making this order inconsistent with equals.
+     * This compbres the instbnts of ebch trbnsition.
+     * The offsets bre ignored, mbking this order inconsistent with equbls.
      *
-     * @param transition  the transition to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm trbnsition  the trbnsition to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(ZoneOffsetTransition transition) {
-        return this.getInstant().compareTo(transition.getInstant());
+    public int compbreTo(ZoneOffsetTrbnsition trbnsition) {
+        return this.getInstbnt().compbreTo(trbnsition.getInstbnt());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this object equals another.
+     * Checks if this object equbls bnother.
      * <p>
-     * The entire state of the object is compared.
+     * The entire stbte of the object is compbred.
      *
-     * @param other  the other object to compare to, null returns false
-     * @return true if equal
+     * @pbrbm other  the other object to compbre to, null returns fblse
+     * @return true if equbl
      */
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (other == this) {
             return true;
         }
-        if (other instanceof ZoneOffsetTransition) {
-            ZoneOffsetTransition d = (ZoneOffsetTransition) other;
-            return transition.equals(d.transition) &&
-                offsetBefore.equals(d.offsetBefore) && offsetAfter.equals(d.offsetAfter);
+        if (other instbnceof ZoneOffsetTrbnsition) {
+            ZoneOffsetTrbnsition d = (ZoneOffsetTrbnsition) other;
+            return trbnsition.equbls(d.trbnsition) &&
+                offsetBefore.equbls(d.offsetBefore) && offsetAfter.equbls(d.offsetAfter);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a suitable hash code.
+     * Returns b suitbble hbsh code.
      *
-     * @return the hash code
+     * @return the hbsh code
      */
     @Override
-    public int hashCode() {
-        return transition.hashCode() ^ offsetBefore.hashCode() ^ Integer.rotateLeft(offsetAfter.hashCode(), 16);
+    public int hbshCode() {
+        return trbnsition.hbshCode() ^ offsetBefore.hbshCode() ^ Integer.rotbteLeft(offsetAfter.hbshCode(), 16);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string describing this object.
+     * Returns b string describing this object.
      *
-     * @return a string for debugging, not null
+     * @return b string for debugging, not null
      */
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("Transition[")
-            .append(isGap() ? "Gap" : "Overlap")
-            .append(" at ")
-            .append(transition)
-            .append(offsetBefore)
-            .append(" to ")
-            .append(offsetAfter)
-            .append(']');
+        buf.bppend("Trbnsition[")
+            .bppend(isGbp() ? "Gbp" : "Overlbp")
+            .bppend(" bt ")
+            .bppend(trbnsition)
+            .bppend(offsetBefore)
+            .bppend(" to ")
+            .bppend(offsetAfter)
+            .bppend(']');
         return buf.toString();
     }
 

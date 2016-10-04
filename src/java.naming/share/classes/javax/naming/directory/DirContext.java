@@ -1,1039 +1,1039 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 /**
- * The directory service interface, containing
- * methods for examining and updating attributes
- * associated with objects, and for searching the directory.
+ * The directory service interfbce, contbining
+ * methods for exbmining bnd updbting bttributes
+ * bssocibted with objects, bnd for sebrching the directory.
  *
- * <h1>Names</h1>
- * Each name passed as an argument to a <tt>DirContext</tt> method is relative
- * to that context.  The empty name is used to name the context itself.
- * The name parameter may never be null.
+ * <h1>Nbmes</h1>
+ * Ebch nbme pbssed bs bn brgument to b <tt>DirContext</tt> method is relbtive
+ * to thbt context.  The empty nbme is used to nbme the context itself.
+ * The nbme pbrbmeter mby never be null.
  * <p>
- * Most of the methods have overloaded versions with one taking a
- * <code>Name</code> parameter and one taking a <code>String</code>.
- * These overloaded versions are equivalent in that if
- * the <code>Name</code> and <code>String</code> parameters are just
- * different representations of the same name, then the overloaded
- * versions of the same methods behave the same.
+ * Most of the methods hbve overlobded versions with one tbking b
+ * <code>Nbme</code> pbrbmeter bnd one tbking b <code>String</code>.
+ * These overlobded versions bre equivblent in thbt if
+ * the <code>Nbme</code> bnd <code>String</code> pbrbmeters bre just
+ * different representbtions of the sbme nbme, then the overlobded
+ * versions of the sbme methods behbve the sbme.
  * In the method descriptions below, only one version is documented.
- * The second version instead has a link to the first:  the same
- * documentation applies to both.
+ * The second version instebd hbs b link to the first:  the sbme
+ * documentbtion bpplies to both.
  * <p>
- * See <tt>Context</tt> for a discussion on the interpretation of the
- * name argument to the <tt>Context</tt> methods. These same rules
- * apply to the name argument to the <tt>DirContext</tt> methods.
+ * See <tt>Context</tt> for b discussion on the interpretbtion of the
+ * nbme brgument to the <tt>Context</tt> methods. These sbme rules
+ * bpply to the nbme brgument to the <tt>DirContext</tt> methods.
  *
  * <h1>Attribute Models</h1>
- * There are two basic models of what attributes should be
- * associated with.  First, attributes may be directly associated with a
+ * There bre two bbsic models of whbt bttributes should be
+ * bssocibted with.  First, bttributes mby be directly bssocibted with b
  * DirContext object.
- * In this model, an attribute operation on the named object is
- * roughly equivalent
- * to a lookup on the name (which returns the DirContext object),
- * followed by the attribute operation invoked on the DirContext object
- * in which the caller supplies an empty name. The attributes can be viewed
- * as being stored along with the object (note that this does not imply that
- * the implementation must do so).
+ * In this model, bn bttribute operbtion on the nbmed object is
+ * roughly equivblent
+ * to b lookup on the nbme (which returns the DirContext object),
+ * followed by the bttribute operbtion invoked on the DirContext object
+ * in which the cbller supplies bn empty nbme. The bttributes cbn be viewed
+ * bs being stored blong with the object (note thbt this does not imply thbt
+ * the implementbtion must do so).
  * <p>
- * The second model is that attributes are associated with a
- * name (typically an atomic name) in a DirContext.
- * In this model, an attribute operation on the named object is
- * roughly equivalent to a lookup on the name of the parent DirContext of the
- * named object, followed by the attribute operation invoked on the parent
- * in which the caller supplies the terminal atomic name.
- * The attributes can be viewed as being stored in the parent DirContext
- * (again, this does not imply that the implementation must do so).
- * Objects that are not DirContexts can have attributes, as long as
- * their parents are DirContexts.
+ * The second model is thbt bttributes bre bssocibted with b
+ * nbme (typicblly bn btomic nbme) in b DirContext.
+ * In this model, bn bttribute operbtion on the nbmed object is
+ * roughly equivblent to b lookup on the nbme of the pbrent DirContext of the
+ * nbmed object, followed by the bttribute operbtion invoked on the pbrent
+ * in which the cbller supplies the terminbl btomic nbme.
+ * The bttributes cbn be viewed bs being stored in the pbrent DirContext
+ * (bgbin, this does not imply thbt the implementbtion must do so).
+ * Objects thbt bre not DirContexts cbn hbve bttributes, bs long bs
+ * their pbrents bre DirContexts.
  * <p>
  * JNDI support both of these models.
- * It is up to the individual service providers to decide where to
- * "store" attributes.
- * JNDI clients are safest when they do not make assumptions about
- * whether an object's attributes are stored as part of the object, or stored
- * within the parent object and associated with the object's name.
+ * It is up to the individubl service providers to decide where to
+ * "store" bttributes.
+ * JNDI clients bre sbfest when they do not mbke bssumptions bbout
+ * whether bn object's bttributes bre stored bs pbrt of the object, or stored
+ * within the pbrent object bnd bssocibted with the object's nbme.
  *
- * <h1>Attribute Type Names</h1>
- * In the <tt>getAttributes()</tt> and <tt>search()</tt> methods,
- * you can supply the attributes to return by supplying a list of
- * attribute names (strings).
- * The attributes that you get back might not have the same names as the
- * attribute names you have specified. This is because some directories
- * support features that cause them to return other attributes.  Such
- * features include attribute subclassing, attribute name synonyms, and
- * attribute language codes.
+ * <h1>Attribute Type Nbmes</h1>
+ * In the <tt>getAttributes()</tt> bnd <tt>sebrch()</tt> methods,
+ * you cbn supply the bttributes to return by supplying b list of
+ * bttribute nbmes (strings).
+ * The bttributes thbt you get bbck might not hbve the sbme nbmes bs the
+ * bttribute nbmes you hbve specified. This is becbuse some directories
+ * support febtures thbt cbuse them to return other bttributes.  Such
+ * febtures include bttribute subclbssing, bttribute nbme synonyms, bnd
+ * bttribute lbngubge codes.
  * <p>
- * In attribute subclassing, attributes are defined in a class hierarchy.
- * In some directories, for example, the "name" attribute might be the
- * superclass of all name-related attributes, including "commonName" and
- * "surName".  Asking for the "name" attribute might return both the
- * "commonName" and "surName" attributes.
+ * In bttribute subclbssing, bttributes bre defined in b clbss hierbrchy.
+ * In some directories, for exbmple, the "nbme" bttribute might be the
+ * superclbss of bll nbme-relbted bttributes, including "commonNbme" bnd
+ * "surNbme".  Asking for the "nbme" bttribute might return both the
+ * "commonNbme" bnd "surNbme" bttributes.
  * <p>
- * With attribute type synonyms, a directory can assign multiple names to
- * the same attribute. For example, "cn" and "commonName" might both
- * refer to the same attribute. Asking for "cn" might return the
- * "commonName" attribute.
+ * With bttribute type synonyms, b directory cbn bssign multiple nbmes to
+ * the sbme bttribute. For exbmple, "cn" bnd "commonNbme" might both
+ * refer to the sbme bttribute. Asking for "cn" might return the
+ * "commonNbme" bttribute.
  * <p>
- * Some directories support the language codes for attributes.
- * Asking such a directory for the "description" attribute, for example,
- * might return all of the following attributes:
+ * Some directories support the lbngubge codes for bttributes.
+ * Asking such b directory for the "description" bttribute, for exbmple,
+ * might return bll of the following bttributes:
  * <ul>
  * <li>description
- * <li>description;lang-en
- * <li>description;lang-de
- * <li>description;lang-fr
+ * <li>description;lbng-en
+ * <li>description;lbng-de
+ * <li>description;lbng-fr
  * </ul>
  *
  *
- *<h1>Operational Attributes</h1>
+ *<h1>Operbtionbl Attributes</h1>
  *<p>
- * Some directories have the notion of "operational attributes" which are
- * attributes associated with a directory object for administrative
- * purposes. An example of operational attributes is the access control
- * list for an object.
+ * Some directories hbve the notion of "operbtionbl bttributes" which bre
+ * bttributes bssocibted with b directory object for bdministrbtive
+ * purposes. An exbmple of operbtionbl bttributes is the bccess control
+ * list for bn object.
  * <p>
- * In the <tt>getAttributes()</tt> and <tt>search()</tt> methods,
- * you can specify that all attributes associated with the requested objects
- * be returned by supply <tt>null</tt> as the list of attributes to return.
- * The attributes returned do <em>not</em> include operational attributes.
- * In order to retrieve operational attributes, you must name them explicitly.
+ * In the <tt>getAttributes()</tt> bnd <tt>sebrch()</tt> methods,
+ * you cbn specify thbt bll bttributes bssocibted with the requested objects
+ * be returned by supply <tt>null</tt> bs the list of bttributes to return.
+ * The bttributes returned do <em>not</em> include operbtionbl bttributes.
+ * In order to retrieve operbtionbl bttributes, you must nbme them explicitly.
  *
  *
- * <h1>Named Context</h1>
+ * <h1>Nbmed Context</h1>
  * <p>
- * There are certain methods in which the name must resolve to a context
- * (for example, when searching a single level context). The documentation
+ * There bre certbin methods in which the nbme must resolve to b context
+ * (for exbmple, when sebrching b single level context). The documentbtion
  * of such methods
- * use the term <em>named context</em> to describe their name parameter.
- * For these methods, if the named object is not a DirContext,
+ * use the term <em>nbmed context</em> to describe their nbme pbrbmeter.
+ * For these methods, if the nbmed object is not b DirContext,
  * <code>NotContextException</code> is thrown.
- * Aside from these methods, there is no requirement that the
- * <em>named object</em> be a DirContext.
+ * Aside from these methods, there is no requirement thbt the
+ * <em>nbmed object</em> be b DirContext.
  *
- *<h1>Parameters</h1>
+ *<h1>Pbrbmeters</h1>
  *<p>
- * An <tt>Attributes</tt>, <tt>SearchControls</tt>, or array object
- * passed as a parameter to any method will not be modified by the
- * service provider.  The service provider may keep a reference to it
- * for the duration of the operation, including any enumeration of the
- * method's results and the processing of any referrals generated.
- * The caller should not modify the object during this time.
- * An <tt>Attributes</tt> object returned by any method is owned by
- * the caller.  The caller may subsequently modify it; the service
+ * An <tt>Attributes</tt>, <tt>SebrchControls</tt>, or brrby object
+ * pbssed bs b pbrbmeter to bny method will not be modified by the
+ * service provider.  The service provider mby keep b reference to it
+ * for the durbtion of the operbtion, including bny enumerbtion of the
+ * method's results bnd the processing of bny referrbls generbted.
+ * The cbller should not modify the object during this time.
+ * An <tt>Attributes</tt> object returned by bny method is owned by
+ * the cbller.  The cbller mby subsequently modify it; the service
  * provider will not.
  *
  *<h1>Exceptions</h1>
  *<p>
- * All the methods in this interface can throw a NamingException or
- * any of its subclasses. See NamingException and their subclasses
- * for details on each exception.
+ * All the methods in this interfbce cbn throw b NbmingException or
+ * bny of its subclbsses. See NbmingException bnd their subclbsses
+ * for detbils on ebch exception.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author R. Vasudevan
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
+ * @buthor R. Vbsudevbn
  *
- * @see javax.naming.Context
+ * @see jbvbx.nbming.Context
  * @since 1.3
  */
 
-public interface DirContext extends Context {
+public interfbce DirContext extends Context {
 
     /**
-     * Retrieves all of the attributes associated with a named object.
-     * See the class description regarding attribute models, attribute
-     * type names, and operational attributes.
+     * Retrieves bll of the bttributes bssocibted with b nbmed object.
+     * See the clbss description regbrding bttribute models, bttribute
+     * type nbmes, bnd operbtionbl bttributes.
      *
-     * @param name
-     *          the name of the object from which to retrieve attributes
-     * @return  the set of attributes associated with <code>name</code>.
-     *          Returns an empty attribute set if name has no attributes;
+     * @pbrbm nbme
+     *          the nbme of the object from which to retrieve bttributes
+     * @return  the set of bttributes bssocibted with <code>nbme</code>.
+     *          Returns bn empty bttribute set if nbme hbs no bttributes;
      *          never null.
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #getAttributes(String)
-     * @see #getAttributes(Name, String[])
+     * @see #getAttributes(Nbme, String[])
      */
-    public Attributes getAttributes(Name name) throws NamingException;
+    public Attributes getAttributes(Nbme nbme) throws NbmingException;
 
     /**
-     * Retrieves all of the attributes associated with a named object.
-     * See {@link #getAttributes(Name)} for details.
+     * Retrieves bll of the bttributes bssocibted with b nbmed object.
+     * See {@link #getAttributes(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the object from which to retrieve attributes
-     * @return  the set of attributes associated with <code>name</code>
+     * @pbrbm nbme
+     *          the nbme of the object from which to retrieve bttributes
+     * @return  the set of bttributes bssocibted with <code>nbme</code>
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Attributes getAttributes(String name) throws NamingException;
+    public Attributes getAttributes(String nbme) throws NbmingException;
 
     /**
-     * Retrieves selected attributes associated with a named object.
-     * See the class description regarding attribute models, attribute
-     * type names, and operational attributes.
+     * Retrieves selected bttributes bssocibted with b nbmed object.
+     * See the clbss description regbrding bttribute models, bttribute
+     * type nbmes, bnd operbtionbl bttributes.
      *
-     * <p> If the object does not have an attribute
-     * specified, the directory will ignore the nonexistent attribute
-     * and return those requested attributes that the object does have.
+     * <p> If the object does not hbve bn bttribute
+     * specified, the directory will ignore the nonexistent bttribute
+     * bnd return those requested bttributes thbt the object does hbve.
      *
-     * <p> A directory might return more attributes than was requested
-     * (see <strong>Attribute Type Names</strong> in the class description),
-     * but is not allowed to return arbitrary, unrelated attributes.
+     * <p> A directory might return more bttributes thbn wbs requested
+     * (see <strong>Attribute Type Nbmes</strong> in the clbss description),
+     * but is not bllowed to return brbitrbry, unrelbted bttributes.
      *
-     * <p> See also <strong>Operational Attributes</strong> in the class
+     * <p> See blso <strong>Operbtionbl Attributes</strong> in the clbss
      * description.
      *
-     * @param name
-     *          the name of the object from which to retrieve attributes
-     * @param attrIds
-     *          the identifiers of the attributes to retrieve.
-     *          null indicates that all attributes should be retrieved;
-     *          an empty array indicates that none should be retrieved.
-     * @return  the requested attributes; never null
+     * @pbrbm nbme
+     *          the nbme of the object from which to retrieve bttributes
+     * @pbrbm bttrIds
+     *          the identifiers of the bttributes to retrieve.
+     *          null indicbtes thbt bll bttributes should be retrieved;
+     *          bn empty brrby indicbtes thbt none should be retrieved.
+     * @return  the requested bttributes; never null
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException;
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+            throws NbmingException;
 
     /**
-     * Retrieves selected attributes associated with a named object.
-     * See {@link #getAttributes(Name, String[])} for details.
+     * Retrieves selected bttributes bssocibted with b nbmed object.
+     * See {@link #getAttributes(Nbme, String[])} for detbils.
      *
-     * @param name
-     *          The name of the object from which to retrieve attributes
-     * @param attrIds
-     *          the identifiers of the attributes to retrieve.
-     *          null indicates that all attributes should be retrieved;
-     *          an empty array indicates that none should be retrieved.
-     * @return  the requested attributes; never null
+     * @pbrbm nbme
+     *          The nbme of the object from which to retrieve bttributes
+     * @pbrbm bttrIds
+     *          the identifiers of the bttributes to retrieve.
+     *          null indicbtes thbt bll bttributes should be retrieved;
+     *          bn empty brrby indicbtes thbt none should be retrieved.
+     * @return  the requested bttributes; never null
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException;
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+            throws NbmingException;
 
     /**
-     * This constant specifies to add an attribute with the specified values.
+     * This constbnt specifies to bdd bn bttribute with the specified vblues.
      * <p>
-     * If attribute does not exist,
-     * create the attribute.  The resulting attribute has a union of the
-     * specified value set and the prior value set.
-     * Adding an attribute with no value will throw
-     * <code>InvalidAttributeValueException</code> if the attribute must have
-     * at least  one value.  For a single-valued attribute where that attribute
-     * already exists, throws <code>AttributeInUseException</code>.
-     * If attempting to add more than one value to a single-valued attribute,
-     * throws <code>InvalidAttributeValueException</code>.
+     * If bttribute does not exist,
+     * crebte the bttribute.  The resulting bttribute hbs b union of the
+     * specified vblue set bnd the prior vblue set.
+     * Adding bn bttribute with no vblue will throw
+     * <code>InvblidAttributeVblueException</code> if the bttribute must hbve
+     * bt lebst  one vblue.  For b single-vblued bttribute where thbt bttribute
+     * blrebdy exists, throws <code>AttributeInUseException</code>.
+     * If bttempting to bdd more thbn one vblue to b single-vblued bttribute,
+     * throws <code>InvblidAttributeVblueException</code>.
      * <p>
-     * The value of this constant is <tt>1</tt>.
+     * The vblue of this constbnt is <tt>1</tt>.
      *
-     * @see ModificationItem
+     * @see ModificbtionItem
      * @see #modifyAttributes
      */
-    public final static int ADD_ATTRIBUTE = 1;
+    public finbl stbtic int ADD_ATTRIBUTE = 1;
 
     /**
-     * This constant specifies to replace an attribute with specified values.
+     * This constbnt specifies to replbce bn bttribute with specified vblues.
      *<p>
-     * If attribute already exists,
-     * replaces all existing values with new specified values.  If the
-     * attribute does not exist, creates it.  If no value is specified,
-     * deletes all the values of the attribute.
-     * Removal of the last value will remove the attribute if the attribute
-     * is required to have at least one value.  If
-     * attempting to add more than one value to a single-valued attribute,
-     * throws <code>InvalidAttributeValueException</code>.
+     * If bttribute blrebdy exists,
+     * replbces bll existing vblues with new specified vblues.  If the
+     * bttribute does not exist, crebtes it.  If no vblue is specified,
+     * deletes bll the vblues of the bttribute.
+     * Removbl of the lbst vblue will remove the bttribute if the bttribute
+     * is required to hbve bt lebst one vblue.  If
+     * bttempting to bdd more thbn one vblue to b single-vblued bttribute,
+     * throws <code>InvblidAttributeVblueException</code>.
      * <p>
-     * The value of this constant is <tt>2</tt>.
+     * The vblue of this constbnt is <tt>2</tt>.
      *
-     * @see ModificationItem
+     * @see ModificbtionItem
      * @see #modifyAttributes
      */
-    public final static int REPLACE_ATTRIBUTE = 2;
+    public finbl stbtic int REPLACE_ATTRIBUTE = 2;
 
     /**
-     * This constant specifies to delete
-     * the specified attribute values from the attribute.
+     * This constbnt specifies to delete
+     * the specified bttribute vblues from the bttribute.
      *<p>
-     * The resulting attribute has the set difference of its prior value set
-     * and the specified value set.
-     * If no values are specified, deletes the entire attribute.
-     * If the attribute does not exist, or if some or all members of the
-     * specified value set do not exist, this absence may be ignored
-     * and the operation succeeds, or a NamingException may be thrown to
-     * indicate the absence.
-     * Removal of the last value will remove the attribute if the
-     * attribute is required to have at least one value.
+     * The resulting bttribute hbs the set difference of its prior vblue set
+     * bnd the specified vblue set.
+     * If no vblues bre specified, deletes the entire bttribute.
+     * If the bttribute does not exist, or if some or bll members of the
+     * specified vblue set do not exist, this bbsence mby be ignored
+     * bnd the operbtion succeeds, or b NbmingException mby be thrown to
+     * indicbte the bbsence.
+     * Removbl of the lbst vblue will remove the bttribute if the
+     * bttribute is required to hbve bt lebst one vblue.
      * <p>
-     * The value of this constant is <tt>3</tt>.
+     * The vblue of this constbnt is <tt>3</tt>.
      *
-     * @see ModificationItem
+     * @see ModificbtionItem
      * @see #modifyAttributes
      */
-    public final static int REMOVE_ATTRIBUTE = 3;
+    public finbl stbtic int REMOVE_ATTRIBUTE = 3;
 
     /**
-     * Modifies the attributes associated with a named object.
-     * The order of the modifications is not specified.  Where
-     * possible, the modifications are performed atomically.
+     * Modifies the bttributes bssocibted with b nbmed object.
+     * The order of the modificbtions is not specified.  Where
+     * possible, the modificbtions bre performed btomicblly.
      *
-     * @param name
-     *          the name of the object whose attributes will be updated
-     * @param mod_op
-     *          the modification operation, one of:
+     * @pbrbm nbme
+     *          the nbme of the object whose bttributes will be updbted
+     * @pbrbm mod_op
+     *          the modificbtion operbtion, one of:
      *                  <code>ADD_ATTRIBUTE</code>,
      *                  <code>REPLACE_ATTRIBUTE</code>,
      *                  <code>REMOVE_ATTRIBUTE</code>.
-     * @param attrs
-     *          the attributes to be used for the modification; may not be null
+     * @pbrbm bttrs
+     *          the bttributes to be used for the modificbtion; mby not be null
      *
-     * @throws  AttributeModificationException if the modification cannot
+     * @throws  AttributeModificbtionException if the modificbtion cbnnot
      *          be completed successfully
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #modifyAttributes(Name, ModificationItem[])
+     * @see #modifyAttributes(Nbme, ModificbtionItem[])
      */
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException;
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Modifies the attributes associated with a named object.
-     * See {@link #modifyAttributes(Name, int, Attributes)} for details.
+     * Modifies the bttributes bssocibted with b nbmed object.
+     * See {@link #modifyAttributes(Nbme, int, Attributes)} for detbils.
      *
-     * @param name
-     *          the name of the object whose attributes will be updated
-     * @param mod_op
-     *          the modification operation, one of:
+     * @pbrbm nbme
+     *          the nbme of the object whose bttributes will be updbted
+     * @pbrbm mod_op
+     *          the modificbtion operbtion, one of:
      *                  <code>ADD_ATTRIBUTE</code>,
      *                  <code>REPLACE_ATTRIBUTE</code>,
      *                  <code>REMOVE_ATTRIBUTE</code>.
-     * @param attrs
-     *          the attributes to be used for the modification; may not be null
+     * @pbrbm bttrs
+     *          the bttributes to be used for the modificbtion; mby not be null
      *
-     * @throws  AttributeModificationException if the modification cannot
+     * @throws  AttributeModificbtionException if the modificbtion cbnnot
      *          be completed successfully
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException;
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Modifies the attributes associated with a named object using
-     * an ordered list of modifications.
-     * The modifications are performed
-     * in the order specified.  Each modification specifies a
-     * modification operation code and an attribute on which to
-     * operate.  Where possible, the modifications are
-     * performed atomically.
+     * Modifies the bttributes bssocibted with b nbmed object using
+     * bn ordered list of modificbtions.
+     * The modificbtions bre performed
+     * in the order specified.  Ebch modificbtion specifies b
+     * modificbtion operbtion code bnd bn bttribute on which to
+     * operbte.  Where possible, the modificbtions bre
+     * performed btomicblly.
      *
-     * @param name
-     *          the name of the object whose attributes will be updated
-     * @param mods
-     *          an ordered sequence of modifications to be performed;
-     *          may not be null
+     * @pbrbm nbme
+     *          the nbme of the object whose bttributes will be updbted
+     * @pbrbm mods
+     *          bn ordered sequence of modificbtions to be performed;
+     *          mby not be null
      *
-     * @throws  AttributeModificationException if the modifications
-     *          cannot be completed successfully
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  AttributeModificbtionException if the modificbtions
+     *          cbnnot be completed successfully
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #modifyAttributes(Name, int, Attributes)
-     * @see ModificationItem
+     * @see #modifyAttributes(Nbme, int, Attributes)
+     * @see ModificbtionItem
      */
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException;
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+            throws NbmingException;
 
     /**
-     * Modifies the attributes associated with a named object using
-     * an ordered list of modifications.
-     * See {@link #modifyAttributes(Name, ModificationItem[])} for details.
+     * Modifies the bttributes bssocibted with b nbmed object using
+     * bn ordered list of modificbtions.
+     * See {@link #modifyAttributes(Nbme, ModificbtionItem[])} for detbils.
      *
-     * @param name
-     *          the name of the object whose attributes will be updated
-     * @param mods
-     *          an ordered sequence of modifications to be performed;
-     *          may not be null
+     * @pbrbm nbme
+     *          the nbme of the object whose bttributes will be updbted
+     * @pbrbm mods
+     *          bn ordered sequence of modificbtions to be performed;
+     *          mby not be null
      *
-     * @throws  AttributeModificationException if the modifications
-     *          cannot be completed successfully
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  AttributeModificbtionException if the modificbtions
+     *          cbnnot be completed successfully
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException;
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+            throws NbmingException;
 
     /**
-     * Binds a name to an object, along with associated attributes.
-     * If <tt>attrs</tt> is null, the resulting binding will have
-     * the attributes associated with <tt>obj</tt> if <tt>obj</tt> is a
-     * <tt>DirContext</tt>, and no attributes otherwise.
-     * If <tt>attrs</tt> is non-null, the resulting binding will have
-     * <tt>attrs</tt> as its attributes; any attributes associated with
-     * <tt>obj</tt> are ignored.
+     * Binds b nbme to bn object, blong with bssocibted bttributes.
+     * If <tt>bttrs</tt> is null, the resulting binding will hbve
+     * the bttributes bssocibted with <tt>obj</tt> if <tt>obj</tt> is b
+     * <tt>DirContext</tt>, bnd no bttributes otherwise.
+     * If <tt>bttrs</tt> is non-null, the resulting binding will hbve
+     * <tt>bttrs</tt> bs its bttributes; bny bttributes bssocibted with
+     * <tt>obj</tt> bre ignored.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @param attrs
-     *          the attributes to associate with the binding
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the binding
      *
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  InvalidAttributesException if some "mandatory" attributes
-     *          of the binding are not supplied
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  InvblidAttributesException if some "mbndbtory" bttributes
+     *          of the binding bre not supplied
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see Context#bind(Name, Object)
-     * @see #rebind(Name, Object, Attributes)
+     * @see Context#bind(Nbme, Object)
+     * @see #rebind(Nbme, Object, Attributes)
      */
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException;
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Binds a name to an object, along with associated attributes.
-     * See {@link #bind(Name, Object, Attributes)} for details.
+     * Binds b nbme to bn object, blong with bssocibted bttributes.
+     * See {@link #bind(Nbme, Object, Attributes)} for detbils.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @param attrs
-     *          the attributes to associate with the binding
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the binding
      *
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  InvalidAttributesException if some "mandatory" attributes
-     *          of the binding are not supplied
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  InvblidAttributesException if some "mbndbtory" bttributes
+     *          of the binding bre not supplied
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException;
+    public void bind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Binds a name to an object, along with associated attributes,
-     * overwriting any existing binding.
-     * If <tt>attrs</tt> is null and <tt>obj</tt> is a <tt>DirContext</tt>,
-     * the attributes from <tt>obj</tt> are used.
-     * If <tt>attrs</tt> is null and <tt>obj</tt> is not a <tt>DirContext</tt>,
-     * any existing attributes associated with the object already bound
-     * in the directory remain unchanged.
-     * If <tt>attrs</tt> is non-null, any existing attributes associated with
-     * the object already bound in the directory are removed and <tt>attrs</tt>
-     * is associated with the named object.  If <tt>obj</tt> is a
-     * <tt>DirContext</tt> and <tt>attrs</tt> is non-null, the attributes
-     * of <tt>obj</tt> are ignored.
+     * Binds b nbme to bn object, blong with bssocibted bttributes,
+     * overwriting bny existing binding.
+     * If <tt>bttrs</tt> is null bnd <tt>obj</tt> is b <tt>DirContext</tt>,
+     * the bttributes from <tt>obj</tt> bre used.
+     * If <tt>bttrs</tt> is null bnd <tt>obj</tt> is not b <tt>DirContext</tt>,
+     * bny existing bttributes bssocibted with the object blrebdy bound
+     * in the directory rembin unchbnged.
+     * If <tt>bttrs</tt> is non-null, bny existing bttributes bssocibted with
+     * the object blrebdy bound in the directory bre removed bnd <tt>bttrs</tt>
+     * is bssocibted with the nbmed object.  If <tt>obj</tt> is b
+     * <tt>DirContext</tt> bnd <tt>bttrs</tt> is non-null, the bttributes
+     * of <tt>obj</tt> bre ignored.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @param attrs
-     *          the attributes to associate with the binding
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the binding
      *
-     * @throws  InvalidAttributesException if some "mandatory" attributes
-     *          of the binding are not supplied
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  InvblidAttributesException if some "mbndbtory" bttributes
+     *          of the binding bre not supplied
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see Context#bind(Name, Object)
-     * @see #bind(Name, Object, Attributes)
+     * @see Context#bind(Nbme, Object)
+     * @see #bind(Nbme, Object, Attributes)
      */
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException;
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Binds a name to an object, along with associated attributes,
-     * overwriting any existing binding.
-     * See {@link #rebind(Name, Object, Attributes)} for details.
+     * Binds b nbme to bn object, blong with bssocibted bttributes,
+     * overwriting bny existing binding.
+     * See {@link #rebind(Nbme, Object, Attributes)} for detbils.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @param attrs
-     *          the attributes to associate with the binding
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the binding
      *
-     * @throws  InvalidAttributesException if some "mandatory" attributes
-     *          of the binding are not supplied
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  InvblidAttributesException if some "mbndbtory" bttributes
+     *          of the binding bre not supplied
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException;
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Creates and binds a new context, along with associated attributes.
-     * This method creates a new subcontext with the given name, binds it in
-     * the target context (that named by all but terminal atomic
-     * component of the name), and associates the supplied attributes
-     * with the newly created object.
-     * All intermediate and target contexts must already exist.
-     * If <tt>attrs</tt> is null, this method is equivalent to
-     * <tt>Context.createSubcontext()</tt>.
+     * Crebtes bnd binds b new context, blong with bssocibted bttributes.
+     * This method crebtes b new subcontext with the given nbme, binds it in
+     * the tbrget context (thbt nbmed by bll but terminbl btomic
+     * component of the nbme), bnd bssocibtes the supplied bttributes
+     * with the newly crebted object.
+     * All intermedibte bnd tbrget contexts must blrebdy exist.
+     * If <tt>bttrs</tt> is null, this method is equivblent to
+     * <tt>Context.crebteSubcontext()</tt>.
      *
-     * @param name
-     *          the name of the context to create; may not be empty
-     * @param attrs
-     *          the attributes to associate with the newly created context
-     * @return  the newly created context
+     * @pbrbm nbme
+     *          the nbme of the context to crebte; mby not be empty
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the newly crebted context
+     * @return  the newly crebted context
      *
-     * @throws  NameAlreadyBoundException if the name is already bound
-     * @throws  InvalidAttributesException if <code>attrs</code> does not
-     *          contain all the mandatory attributes required for creation
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if the nbme is blrebdy bound
+     * @throws  InvblidAttributesException if <code>bttrs</code> does not
+     *          contbin bll the mbndbtory bttributes required for crebtion
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see Context#createSubcontext(Name)
+     * @see Context#crebteSubcontext(Nbme)
      */
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException;
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+            throws NbmingException;
 
     /**
-     * Creates and binds a new context, along with associated attributes.
-     * See {@link #createSubcontext(Name, Attributes)} for details.
+     * Crebtes bnd binds b new context, blong with bssocibted bttributes.
+     * See {@link #crebteSubcontext(Nbme, Attributes)} for detbils.
      *
-     * @param name
-     *          the name of the context to create; may not be empty
-     * @param attrs
-     *          the attributes to associate with the newly created context
-     * @return  the newly created context
+     * @pbrbm nbme
+     *          the nbme of the context to crebte; mby not be empty
+     * @pbrbm bttrs
+     *          the bttributes to bssocibte with the newly crebted context
+     * @return  the newly crebted context
      *
-     * @throws  NameAlreadyBoundException if the name is already bound
-     * @throws  InvalidAttributesException if <code>attrs</code> does not
-     *          contain all the mandatory attributes required for creation
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if the nbme is blrebdy bound
+     * @throws  InvblidAttributesException if <code>bttrs</code> does not
+     *          contbin bll the mbndbtory bttributes required for crebtion
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException;
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+            throws NbmingException;
 
-// -------------------- schema operations
+// -------------------- schemb operbtions
 
     /**
-     * Retrieves the schema associated with the named object.
-     * The schema describes rules regarding the structure of the namespace
-     * and the attributes stored within it.  The schema
-     * specifies what types of objects can be added to the directory and where
-     * they can be added; what mandatory and optional attributes an object
-     * can have. The range of support for schemas is directory-specific.
+     * Retrieves the schemb bssocibted with the nbmed object.
+     * The schemb describes rules regbrding the structure of the nbmespbce
+     * bnd the bttributes stored within it.  The schemb
+     * specifies whbt types of objects cbn be bdded to the directory bnd where
+     * they cbn be bdded; whbt mbndbtory bnd optionbl bttributes bn object
+     * cbn hbve. The rbnge of support for schembs is directory-specific.
      *
-     * <p> This method returns the root of the schema information tree
-     * that is applicable to the named object. Several named objects
-     * (or even an entire directory) might share the same schema.
+     * <p> This method returns the root of the schemb informbtion tree
+     * thbt is bpplicbble to the nbmed object. Severbl nbmed objects
+     * (or even bn entire directory) might shbre the sbme schemb.
      *
-     * <p> Issues such as structure and contents of the schema tree,
-     * permission to modify to the contents of the schema
-     * tree, and the effect of such modifications on the directory
-     * are dependent on the underlying directory.
+     * <p> Issues such bs structure bnd contents of the schemb tree,
+     * permission to modify to the contents of the schemb
+     * tree, bnd the effect of such modificbtions on the directory
+     * bre dependent on the underlying directory.
      *
-     * @param name
-     *          the name of the object whose schema is to be retrieved
-     * @return  the schema associated with the context; never null
-     * @throws  OperationNotSupportedException if schema not supported
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the object whose schemb is to be retrieved
+     * @return  the schemb bssocibted with the context; never null
+     * @throws  OperbtionNotSupportedException if schemb not supported
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public DirContext getSchema(Name name) throws NamingException;
+    public DirContext getSchemb(Nbme nbme) throws NbmingException;
 
     /**
-     * Retrieves the schema associated with the named object.
-     * See {@link #getSchema(Name)} for details.
+     * Retrieves the schemb bssocibted with the nbmed object.
+     * See {@link #getSchemb(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the object whose schema is to be retrieved
-     * @return  the schema associated with the context; never null
-     * @throws  OperationNotSupportedException if schema not supported
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the object whose schemb is to be retrieved
+     * @return  the schemb bssocibted with the context; never null
+     * @throws  OperbtionNotSupportedException if schemb not supported
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public DirContext getSchema(String name) throws NamingException;
+    public DirContext getSchemb(String nbme) throws NbmingException;
 
     /**
-     * Retrieves a context containing the schema objects of the
-     * named object's class definitions.
+     * Retrieves b context contbining the schemb objects of the
+     * nbmed object's clbss definitions.
      *<p>
-     * One category of information found in directory schemas is
-     * <em>class definitions</em>.  An "object class" definition
-     * specifies the object's <em>type</em> and what attributes (mandatory
-     * and optional) the object must/can have. Note that the term
-     * "object class" being referred to here is in the directory sense
-     * rather than in the Java sense.
-     * For example, if the named object is a directory object of
-     * "Person" class, <tt>getSchemaClassDefinition()</tt> would return a
-     * <tt>DirContext</tt> representing the (directory's) object class
+     * One cbtegory of informbtion found in directory schembs is
+     * <em>clbss definitions</em>.  An "object clbss" definition
+     * specifies the object's <em>type</em> bnd whbt bttributes (mbndbtory
+     * bnd optionbl) the object must/cbn hbve. Note thbt the term
+     * "object clbss" being referred to here is in the directory sense
+     * rbther thbn in the Jbvb sense.
+     * For exbmple, if the nbmed object is b directory object of
+     * "Person" clbss, <tt>getSchembClbssDefinition()</tt> would return b
+     * <tt>DirContext</tt> representing the (directory's) object clbss
      * definition of "Person".
      *<p>
-     * The information that can be retrieved from an object class definition
+     * The informbtion thbt cbn be retrieved from bn object clbss definition
      * is directory-dependent.
      *<p>
      * Prior to JNDI 1.2, this method
-     * returned a single schema object representing the class definition of
-     * the named object.
-     * Since JNDI 1.2, this method returns a <tt>DirContext</tt> containing
-     * all of the named object's class definitions.
+     * returned b single schemb object representing the clbss definition of
+     * the nbmed object.
+     * Since JNDI 1.2, this method returns b <tt>DirContext</tt> contbining
+     * bll of the nbmed object's clbss definitions.
      *
-     * @param name
-     *          the name of the object whose object class
+     * @pbrbm nbme
+     *          the nbme of the object whose object clbss
      *          definition is to be retrieved
-     * @return  the <tt>DirContext</tt> containing the named
-     *          object's class definitions; never null
+     * @return  the <tt>DirContext</tt> contbining the nbmed
+     *          object's clbss definitions; never null
      *
-     * @throws  OperationNotSupportedException if schema not supported
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  OperbtionNotSupportedException if schemb not supported
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException;
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+            throws NbmingException;
 
     /**
-     * Retrieves a context containing the schema objects of the
-     * named object's class definitions.
-     * See {@link #getSchemaClassDefinition(Name)} for details.
+     * Retrieves b context contbining the schemb objects of the
+     * nbmed object's clbss definitions.
+     * See {@link #getSchembClbssDefinition(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the object whose object class
+     * @pbrbm nbme
+     *          the nbme of the object whose object clbss
      *          definition is to be retrieved
-     * @return  the <tt>DirContext</tt> containing the named
-     *          object's class definitions; never null
+     * @return  the <tt>DirContext</tt> contbining the nbmed
+     *          object's clbss definitions; never null
      *
-     * @throws  OperationNotSupportedException if schema not supported
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  OperbtionNotSupportedException if schemb not supported
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException;
+    public DirContext getSchembClbssDefinition(String nbme)
+            throws NbmingException;
 
-// -------------------- search operations
+// -------------------- sebrch operbtions
 
     /**
-     * Searches in a single context for objects that contain a
-     * specified set of attributes, and retrieves selected attributes.
-     * The search is performed using the default
-     * <code>SearchControls</code> settings.
+     * Sebrches in b single context for objects thbt contbin b
+     * specified set of bttributes, bnd retrieves selected bttributes.
+     * The sebrch is performed using the defbult
+     * <code>SebrchControls</code> settings.
      * <p>
-     * For an object to be selected, each attribute in
-     * <code>matchingAttributes</code> must match some attribute of the
-     * object.  If <code>matchingAttributes</code> is empty or
-     * null, all objects in the target context are returned.
+     * For bn object to be selected, ebch bttribute in
+     * <code>mbtchingAttributes</code> must mbtch some bttribute of the
+     * object.  If <code>mbtchingAttributes</code> is empty or
+     * null, bll objects in the tbrget context bre returned.
      *<p>
-     * An attribute <em>A</em><sub>1</sub> in
-     * <code>matchingAttributes</code> is considered to match an
-     * attribute <em>A</em><sub>2</sub> of an object if
-     * <em>A</em><sub>1</sub> and <em>A</em><sub>2</sub> have the same
-     * identifier, and each value of <em>A</em><sub>1</sub> is equal
-     * to some value of <em>A</em><sub>2</sub>.  This implies that the
-     * order of values is not significant, and that
-     * <em>A</em><sub>2</sub> may contain "extra" values not found in
-     * <em>A</em><sub>1</sub> without affecting the comparison.  It
-     * also implies that if <em>A</em><sub>1</sub> has no values, then
-     * testing for a match is equivalent to testing for the presence
-     * of an attribute <em>A</em><sub>2</sub> with the same
+     * An bttribute <em>A</em><sub>1</sub> in
+     * <code>mbtchingAttributes</code> is considered to mbtch bn
+     * bttribute <em>A</em><sub>2</sub> of bn object if
+     * <em>A</em><sub>1</sub> bnd <em>A</em><sub>2</sub> hbve the sbme
+     * identifier, bnd ebch vblue of <em>A</em><sub>1</sub> is equbl
+     * to some vblue of <em>A</em><sub>2</sub>.  This implies thbt the
+     * order of vblues is not significbnt, bnd thbt
+     * <em>A</em><sub>2</sub> mby contbin "extrb" vblues not found in
+     * <em>A</em><sub>1</sub> without bffecting the compbrison.  It
+     * blso implies thbt if <em>A</em><sub>1</sub> hbs no vblues, then
+     * testing for b mbtch is equivblent to testing for the presence
+     * of bn bttribute <em>A</em><sub>2</sub> with the sbme
      * identifier.
      *<p>
-     * The precise definition of "equality" used in comparing attribute values
+     * The precise definition of "equblity" used in compbring bttribute vblues
      * is defined by the underlying directory service.  It might use the
-     * <code>Object.equals</code> method, for example, or might use a schema
-     * to specify a different equality operation.
-     * For matching based on operations other than equality (such as
-     * substring comparison) use the version of the <code>search</code>
-     * method that takes a filter argument.
+     * <code>Object.equbls</code> method, for exbmple, or might use b schemb
+     * to specify b different equblity operbtion.
+     * For mbtching bbsed on operbtions other thbn equblity (such bs
+     * substring compbrison) use the version of the <code>sebrch</code>
+     * method thbt tbkes b filter brgument.
      * <p>
-     * When changes are made to this <tt>DirContext</tt>,
-     * the effect on enumerations returned by prior calls to this method
+     * When chbnges bre mbde to this <tt>DirContext</tt>,
+     * the effect on enumerbtions returned by prior cblls to this method
      * is undefined.
      *<p>
-     * If the object does not have the attribute
-     * specified, the directory will ignore the nonexistent attribute
-     * and return the requested attributes that the object does have.
+     * If the object does not hbve the bttribute
+     * specified, the directory will ignore the nonexistent bttribute
+     * bnd return the requested bttributes thbt the object does hbve.
      *<p>
-     * A directory might return more attributes than was requested
-     * (see <strong>Attribute Type Names</strong> in the class description),
-     * but is not allowed to return arbitrary, unrelated attributes.
+     * A directory might return more bttributes thbn wbs requested
+     * (see <strong>Attribute Type Nbmes</strong> in the clbss description),
+     * but is not bllowed to return brbitrbry, unrelbted bttributes.
      *<p>
-     * See also <strong>Operational Attributes</strong> in the class
+     * See blso <strong>Operbtionbl Attributes</strong> in the clbss
      * description.
      *
-     * @param name
-     *          the name of the context to search
-     * @param matchingAttributes
-     *          the attributes to search for.  If empty or null,
-     *          all objects in the target context are returned.
-     * @param attributesToReturn
-     *          the attributes to return.  null indicates that
-     *          all attributes are to be returned;
-     *          an empty array indicates that none are to be returned.
+     * @pbrbm nbme
+     *          the nbme of the context to sebrch
+     * @pbrbm mbtchingAttributes
+     *          the bttributes to sebrch for.  If empty or null,
+     *          bll objects in the tbrget context bre returned.
+     * @pbrbm bttributesToReturn
+     *          the bttributes to return.  null indicbtes thbt
+     *          bll bttributes bre to be returned;
+     *          bn empty brrby indicbtes thbt none bre to be returned.
      * @return
-     *          a non-null enumeration of <tt>SearchResult</tt> objects.
-     *          Each <tt>SearchResult</tt> contains the attributes
-     *          identified by <code>attributesToReturn</code>
-     *          and the name of the corresponding object, named relative
-     *          to the context named by <code>name</code>.
-     * @throws  NamingException if a naming exception is encountered
+     *          b non-null enumerbtion of <tt>SebrchResult</tt> objects.
+     *          Ebch <tt>SebrchResult</tt> contbins the bttributes
+     *          identified by <code>bttributesToReturn</code>
+     *          bnd the nbme of the corresponding object, nbmed relbtive
+     *          to the context nbmed by <code>nbme</code>.
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see SearchControls
-     * @see SearchResult
-     * @see #search(Name, String, Object[], SearchControls)
+     * @see SebrchControls
+     * @see SebrchResult
+     * @see #sebrch(Nbme, String, Object[], SebrchControls)
      */
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException;
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException;
 
     /**
-     * Searches in a single context for objects that contain a
-     * specified set of attributes, and retrieves selected attributes.
-     * See {@link #search(Name, Attributes, String[])} for details.
+     * Sebrches in b single context for objects thbt contbin b
+     * specified set of bttributes, bnd retrieves selected bttributes.
+     * See {@link #sebrch(Nbme, Attributes, String[])} for detbils.
      *
-     * @param name
-     *          the name of the context to search
-     * @param matchingAttributes
-     *          the attributes to search for
-     * @param attributesToReturn
-     *          the attributes to return
-     * @return  a non-null enumeration of <tt>SearchResult</tt> objects
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to sebrch
+     * @pbrbm mbtchingAttributes
+     *          the bttributes to sebrch for
+     * @pbrbm bttributesToReturn
+     *          the bttributes to return
+     * @return  b non-null enumerbtion of <tt>SebrchResult</tt> objects
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException;
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException;
 
     /**
-     * Searches in a single context for objects that contain a
-     * specified set of attributes.
-     * This method returns all the attributes of such objects.
-     * It is equivalent to supplying null as
-     * the <tt>attributesToReturn</tt> parameter to the method
-     * <code>search(Name, Attributes, String[])</code>.
+     * Sebrches in b single context for objects thbt contbin b
+     * specified set of bttributes.
+     * This method returns bll the bttributes of such objects.
+     * It is equivblent to supplying null bs
+     * the <tt>bttributesToReturn</tt> pbrbmeter to the method
+     * <code>sebrch(Nbme, Attributes, String[])</code>.
      * <br>
-     * See {@link #search(Name, Attributes, String[])} for a full description.
+     * See {@link #sebrch(Nbme, Attributes, String[])} for b full description.
      *
-     * @param name
-     *          the name of the context to search
-     * @param matchingAttributes
-     *          the attributes to search for
-     * @return  an enumeration of <tt>SearchResult</tt> objects
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to sebrch
+     * @pbrbm mbtchingAttributes
+     *          the bttributes to sebrch for
+     * @return  bn enumerbtion of <tt>SebrchResult</tt> objects
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #search(Name, Attributes, String[])
+     * @see #sebrch(Nbme, Attributes, String[])
      */
-    public NamingEnumeration<SearchResult>
-        search(Name name, Attributes matchingAttributes)
-        throws NamingException;
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme, Attributes mbtchingAttributes)
+        throws NbmingException;
 
     /**
-     * Searches in a single context for objects that contain a
-     * specified set of attributes.
-     * See {@link #search(Name, Attributes)} for details.
+     * Sebrches in b single context for objects thbt contbin b
+     * specified set of bttributes.
+     * See {@link #sebrch(Nbme, Attributes)} for detbils.
      *
-     * @param name
-     *          the name of the context to search
-     * @param matchingAttributes
-     *          the attributes to search for
-     * @return  an enumeration of <tt>SearchResult</tt> objects
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to sebrch
+     * @pbrbm mbtchingAttributes
+     *          the bttributes to sebrch for
+     * @return  bn enumerbtion of <tt>SebrchResult</tt> objects
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<SearchResult>
-        search(String name, Attributes matchingAttributes)
-        throws NamingException;
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme, Attributes mbtchingAttributes)
+        throws NbmingException;
 
     /**
-     * Searches in the named context or object for entries that satisfy the
-     * given search filter.  Performs the search as specified by
-     * the search controls.
+     * Sebrches in the nbmed context or object for entries thbt sbtisfy the
+     * given sebrch filter.  Performs the sebrch bs specified by
+     * the sebrch controls.
      * <p>
-     * The format and interpretation of <code>filter</code> follows RFC 2254
+     * The formbt bnd interpretbtion of <code>filter</code> follows RFC 2254
      * with the
-     * following interpretations for <code>attr</code> and <code>value</code>
+     * following interpretbtions for <code>bttr</code> bnd <code>vblue</code>
      * mentioned in the RFC.
      * <p>
-     * <code>attr</code> is the attribute's identifier.
+     * <code>bttr</code> is the bttribute's identifier.
      * <p>
-     * <code>value</code> is the string representation the attribute's value.
-     * The translation of this string representation into the attribute's value
+     * <code>vblue</code> is the string representbtion the bttribute's vblue.
+     * The trbnslbtion of this string representbtion into the bttribute's vblue
      * is directory-specific.
      * <p>
-     * For the assertion "someCount=127", for example, <code>attr</code>
-     * is "someCount" and <code>value</code> is "127".
-     * The provider determines, based on the attribute ID ("someCount")
-     * (and possibly its schema), that the attribute's value is an integer.
-     * It then parses the string "127" appropriately.
+     * For the bssertion "someCount=127", for exbmple, <code>bttr</code>
+     * is "someCount" bnd <code>vblue</code> is "127".
+     * The provider determines, bbsed on the bttribute ID ("someCount")
+     * (bnd possibly its schemb), thbt the bttribute's vblue is bn integer.
+     * It then pbrses the string "127" bppropribtely.
      *<p>
-     * Any non-ASCII characters in the filter string should be
-     * represented by the appropriate Java (Unicode) characters, and
-     * not encoded as UTF-8 octets.  Alternately, the
-     * "backslash-hexcode" notation described in RFC 2254 may be used.
+     * Any non-ASCII chbrbcters in the filter string should be
+     * represented by the bppropribte Jbvb (Unicode) chbrbcters, bnd
+     * not encoded bs UTF-8 octets.  Alternbtely, the
+     * "bbckslbsh-hexcode" notbtion described in RFC 2254 mby be used.
      *<p>
-     * If the directory does not support a string representation of
-     * some or all of its attributes, the form of <code>search</code> that
-     * accepts filter arguments in the form of Objects can be used instead.
-     * The service provider for such a directory would then translate
-     * the filter arguments to its service-specific representation
-     * for filter evaluation.
-     * See <code>search(Name, String, Object[], SearchControls)</code>.
+     * If the directory does not support b string representbtion of
+     * some or bll of its bttributes, the form of <code>sebrch</code> thbt
+     * bccepts filter brguments in the form of Objects cbn be used instebd.
+     * The service provider for such b directory would then trbnslbte
+     * the filter brguments to its service-specific representbtion
+     * for filter evblubtion.
+     * See <code>sebrch(Nbme, String, Object[], SebrchControls)</code>.
      * <p>
-     * RFC 2254 defines certain operators for the filter, including substring
-     * matches, equality, approximate match, greater than, less than.  These
-     * operators are mapped to operators with corresponding semantics in the
-     * underlying directory. For example, for the equals operator, suppose
-     * the directory has a matching rule defining "equality" of the
-     * attributes in the filter. This rule would be used for checking
-     * equality of the attributes specified in the filter with the attributes
-     * of objects in the directory. Similarly, if the directory has a
-     * matching rule for ordering, this rule would be used for
-     * making "greater than" and "less than" comparisons.
+     * RFC 2254 defines certbin operbtors for the filter, including substring
+     * mbtches, equblity, bpproximbte mbtch, grebter thbn, less thbn.  These
+     * operbtors bre mbpped to operbtors with corresponding sembntics in the
+     * underlying directory. For exbmple, for the equbls operbtor, suppose
+     * the directory hbs b mbtching rule defining "equblity" of the
+     * bttributes in the filter. This rule would be used for checking
+     * equblity of the bttributes specified in the filter with the bttributes
+     * of objects in the directory. Similbrly, if the directory hbs b
+     * mbtching rule for ordering, this rule would be used for
+     * mbking "grebter thbn" bnd "less thbn" compbrisons.
      *<p>
-     * Not all of the operators defined in RFC 2254 are applicable to all
-     * attributes.  When an operator is not applicable, the exception
-     * <code>InvalidSearchFilterException</code> is thrown.
+     * Not bll of the operbtors defined in RFC 2254 bre bpplicbble to bll
+     * bttributes.  When bn operbtor is not bpplicbble, the exception
+     * <code>InvblidSebrchFilterException</code> is thrown.
      * <p>
-     * The result is returned in an enumeration of <tt>SearchResult</tt>s.
-     * Each <tt>SearchResult</tt> contains the name of the object
-     * and other information about the object (see SearchResult).
-     * The name is either relative to the target context of the search
-     * (which is named by the <code>name</code> parameter), or
-     * it is a URL string. If the target context is included in
-     * the enumeration (as is possible when
-     * <code>cons</code> specifies a search scope of
-     * <code>SearchControls.OBJECT_SCOPE</code> or
-     * <code>SearchControls.SUBSTREE_SCOPE</code>), its name is the empty
-     * string. The <tt>SearchResult</tt> may also contain attributes of the
-     * matching object if the <tt>cons</tt> argument specified that attributes
+     * The result is returned in bn enumerbtion of <tt>SebrchResult</tt>s.
+     * Ebch <tt>SebrchResult</tt> contbins the nbme of the object
+     * bnd other informbtion bbout the object (see SebrchResult).
+     * The nbme is either relbtive to the tbrget context of the sebrch
+     * (which is nbmed by the <code>nbme</code> pbrbmeter), or
+     * it is b URL string. If the tbrget context is included in
+     * the enumerbtion (bs is possible when
+     * <code>cons</code> specifies b sebrch scope of
+     * <code>SebrchControls.OBJECT_SCOPE</code> or
+     * <code>SebrchControls.SUBSTREE_SCOPE</code>), its nbme is the empty
+     * string. The <tt>SebrchResult</tt> mby blso contbin bttributes of the
+     * mbtching object if the <tt>cons</tt> brgument specified thbt bttributes
      * be returned.
      *<p>
-     * If the object does not have a requested attribute, that
-     * nonexistent attribute will be ignored.  Those requested
-     * attributes that the object does have will be returned.
+     * If the object does not hbve b requested bttribute, thbt
+     * nonexistent bttribute will be ignored.  Those requested
+     * bttributes thbt the object does hbve will be returned.
      *<p>
-     * A directory might return more attributes than were requested
-     * (see <strong>Attribute Type Names</strong> in the class description)
-     * but is not allowed to return arbitrary, unrelated attributes.
+     * A directory might return more bttributes thbn were requested
+     * (see <strong>Attribute Type Nbmes</strong> in the clbss description)
+     * but is not bllowed to return brbitrbry, unrelbted bttributes.
      *<p>
-     * See also <strong>Operational Attributes</strong> in the class
+     * See blso <strong>Operbtionbl Attributes</strong> in the clbss
      * description.
      *
-     * @param name
-     *          the name of the context or object to search
-     * @param filter
-     *          the filter expression to use for the search; may not be null
-     * @param cons
-     *          the search controls that control the search.  If null,
-     *          the default search controls are used (equivalent
-     *          to <tt>(new SearchControls())</tt>).
-     * @return  an enumeration of <tt>SearchResult</tt>s of
-     *          the objects that satisfy the filter; never null
+     * @pbrbm nbme
+     *          the nbme of the context or object to sebrch
+     * @pbrbm filter
+     *          the filter expression to use for the sebrch; mby not be null
+     * @pbrbm cons
+     *          the sebrch controls thbt control the sebrch.  If null,
+     *          the defbult sebrch controls bre used (equivblent
+     *          to <tt>(new SebrchControls())</tt>).
+     * @return  bn enumerbtion of <tt>SebrchResult</tt>s of
+     *          the objects thbt sbtisfy the filter; never null
      *
-     * @throws  InvalidSearchFilterException if the search filter specified is
+     * @throws  InvblidSebrchFilterException if the sebrch filter specified is
      *          not supported or understood by the underlying directory
-     * @throws  InvalidSearchControlsException if the search controls
-     *          contain invalid settings
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  InvblidSebrchControlsException if the sebrch controls
+     *          contbin invblid settings
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #search(Name, String, Object[], SearchControls)
-     * @see SearchControls
-     * @see SearchResult
+     * @see #sebrch(Nbme, String, Object[], SebrchControls)
+     * @see SebrchControls
+     * @see SebrchResult
      */
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException;
+               SebrchControls cons)
+        throws NbmingException;
 
     /**
-     * Searches in the named context or object for entries that satisfy the
-     * given search filter.  Performs the search as specified by
-     * the search controls.
-     * See {@link #search(Name, String, SearchControls)} for details.
+     * Sebrches in the nbmed context or object for entries thbt sbtisfy the
+     * given sebrch filter.  Performs the sebrch bs specified by
+     * the sebrch controls.
+     * See {@link #sebrch(Nbme, String, SebrchControls)} for detbils.
      *
-     * @param name
-     *          the name of the context or object to search
-     * @param filter
-     *          the filter expression to use for the search; may not be null
-     * @param cons
-     *          the search controls that control the search.  If null,
-     *          the default search controls are used (equivalent
-     *          to <tt>(new SearchControls())</tt>).
+     * @pbrbm nbme
+     *          the nbme of the context or object to sebrch
+     * @pbrbm filter
+     *          the filter expression to use for the sebrch; mby not be null
+     * @pbrbm cons
+     *          the sebrch controls thbt control the sebrch.  If null,
+     *          the defbult sebrch controls bre used (equivblent
+     *          to <tt>(new SebrchControls())</tt>).
      *
-     * @return  an enumeration of <tt>SearchResult</tt>s for
-     *          the objects that satisfy the filter.
-     * @throws  InvalidSearchFilterException if the search filter specified is
+     * @return  bn enumerbtion of <tt>SebrchResult</tt>s for
+     *          the objects thbt sbtisfy the filter.
+     * @throws  InvblidSebrchFilterException if the sebrch filter specified is
      *          not supported or understood by the underlying directory
-     * @throws  InvalidSearchControlsException if the search controls
-     *          contain invalid settings
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  InvblidSebrchControlsException if the sebrch controls
+     *          contbin invblid settings
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException;
+               SebrchControls cons)
+        throws NbmingException;
 
     /**
-     * Searches in the named context or object for entries that satisfy the
-     * given search filter.  Performs the search as specified by
-     * the search controls.
+     * Sebrches in the nbmed context or object for entries thbt sbtisfy the
+     * given sebrch filter.  Performs the sebrch bs specified by
+     * the sebrch controls.
      *<p>
-     * The interpretation of <code>filterExpr</code> is based on RFC
-     * 2254.  It may additionally contain variables of the form
-     * <code>{i}</code> -- where <code>i</code> is an integer -- that
-     * refer to objects in the <code>filterArgs</code> array.  The
-     * interpretation of <code>filterExpr</code> is otherwise
-     * identical to that of the <code>filter</code> parameter of the
-     * method <code>search(Name, String, SearchControls)</code>.
+     * The interpretbtion of <code>filterExpr</code> is bbsed on RFC
+     * 2254.  It mby bdditionblly contbin vbribbles of the form
+     * <code>{i}</code> -- where <code>i</code> is bn integer -- thbt
+     * refer to objects in the <code>filterArgs</code> brrby.  The
+     * interpretbtion of <code>filterExpr</code> is otherwise
+     * identicbl to thbt of the <code>filter</code> pbrbmeter of the
+     * method <code>sebrch(Nbme, String, SebrchControls)</code>.
      *<p>
-     * When a variable <code>{i}</code> appears in a search filter, it
-     * indicates that the filter argument <code>filterArgs[i]</code>
-     * is to be used in that place.  Such variables may be used
-     * wherever an <em>attr</em>, <em>value</em>, or
-     * <em>matchingrule</em> production appears in the filter grammar
-     * of RFC 2254, section 4.  When a string-valued filter argument
-     * is substituted for a variable, the filter is interpreted as if
-     * the string were given in place of the variable, with any
-     * characters having special significance within filters (such as
-     * <code>'*'</code>) having been escaped according to the rules of
+     * When b vbribble <code>{i}</code> bppebrs in b sebrch filter, it
+     * indicbtes thbt the filter brgument <code>filterArgs[i]</code>
+     * is to be used in thbt plbce.  Such vbribbles mby be used
+     * wherever bn <em>bttr</em>, <em>vblue</em>, or
+     * <em>mbtchingrule</em> production bppebrs in the filter grbmmbr
+     * of RFC 2254, section 4.  When b string-vblued filter brgument
+     * is substituted for b vbribble, the filter is interpreted bs if
+     * the string were given in plbce of the vbribble, with bny
+     * chbrbcters hbving specibl significbnce within filters (such bs
+     * <code>'*'</code>) hbving been escbped bccording to the rules of
      * RFC 2254.
      *<p>
-     * For directories that do not use a string representation for
-     * some or all of their attributes, the filter argument
-     * corresponding to an attribute value may be of a type other than
-     * String.  Directories that support unstructured binary-valued
-     * attributes, for example, should accept byte arrays as filter
-     * arguments.  The interpretation (if any) of filter arguments of
-     * any other type is determined by the service provider for that
-     * directory, which maps the filter operations onto operations with
-     * corresponding semantics in the underlying directory.
+     * For directories thbt do not use b string representbtion for
+     * some or bll of their bttributes, the filter brgument
+     * corresponding to bn bttribute vblue mby be of b type other thbn
+     * String.  Directories thbt support unstructured binbry-vblued
+     * bttributes, for exbmple, should bccept byte brrbys bs filter
+     * brguments.  The interpretbtion (if bny) of filter brguments of
+     * bny other type is determined by the service provider for thbt
+     * directory, which mbps the filter operbtions onto operbtions with
+     * corresponding sembntics in the underlying directory.
      *<p>
-     * This method returns an enumeration of the results.
-     * Each element in the enumeration contains the name of the object
-     * and other information about the object (see <code>SearchResult</code>).
-     * The name is either relative to the target context of the search
-     * (which is named by the <code>name</code> parameter), or
-     * it is a URL string. If the target context is included in
-     * the enumeration (as is possible when
-     * <code>cons</code> specifies a search scope of
-     * <code>SearchControls.OBJECT_SCOPE</code> or
-     * <code>SearchControls.SUBSTREE_SCOPE</code>),
-     * its name is the empty string.
+     * This method returns bn enumerbtion of the results.
+     * Ebch element in the enumerbtion contbins the nbme of the object
+     * bnd other informbtion bbout the object (see <code>SebrchResult</code>).
+     * The nbme is either relbtive to the tbrget context of the sebrch
+     * (which is nbmed by the <code>nbme</code> pbrbmeter), or
+     * it is b URL string. If the tbrget context is included in
+     * the enumerbtion (bs is possible when
+     * <code>cons</code> specifies b sebrch scope of
+     * <code>SebrchControls.OBJECT_SCOPE</code> or
+     * <code>SebrchControls.SUBSTREE_SCOPE</code>),
+     * its nbme is the empty string.
      *<p>
-     * The <tt>SearchResult</tt> may also contain attributes of the matching
-     * object if the <tt>cons</tt> argument specifies that attributes be
+     * The <tt>SebrchResult</tt> mby blso contbin bttributes of the mbtching
+     * object if the <tt>cons</tt> brgument specifies thbt bttributes be
      * returned.
      *<p>
-     * If the object does not have a requested attribute, that
-     * nonexistent attribute will be ignored.  Those requested
-     * attributes that the object does have will be returned.
+     * If the object does not hbve b requested bttribute, thbt
+     * nonexistent bttribute will be ignored.  Those requested
+     * bttributes thbt the object does hbve will be returned.
      *<p>
-     * A directory might return more attributes than were requested
-     * (see <strong>Attribute Type Names</strong> in the class description)
-     * but is not allowed to return arbitrary, unrelated attributes.
+     * A directory might return more bttributes thbn were requested
+     * (see <strong>Attribute Type Nbmes</strong> in the clbss description)
+     * but is not bllowed to return brbitrbry, unrelbted bttributes.
      *<p>
-     * If a search filter with invalid variable substitutions is provided
+     * If b sebrch filter with invblid vbribble substitutions is provided
      * to this method, the result is undefined.
-     * When changes are made to this DirContext,
-     * the effect on enumerations returned by prior calls to this method
+     * When chbnges bre mbde to this DirContext,
+     * the effect on enumerbtions returned by prior cblls to this method
      * is undefined.
      *<p>
-     * See also <strong>Operational Attributes</strong> in the class
+     * See blso <strong>Operbtionbl Attributes</strong> in the clbss
      * description.
      *
-     * @param name
-     *          the name of the context or object to search
-     * @param filterExpr
-     *          the filter expression to use for the search.
-     *          The expression may contain variables of the
+     * @pbrbm nbme
+     *          the nbme of the context or object to sebrch
+     * @pbrbm filterExpr
+     *          the filter expression to use for the sebrch.
+     *          The expression mby contbin vbribbles of the
      *          form "<code>{i}</code>" where <code>i</code>
-     *          is a nonnegative integer.  May not be null.
-     * @param filterArgs
-     *          the array of arguments to substitute for the variables
-     *          in <code>filterExpr</code>.  The value of
-     *          <code>filterArgs[i]</code> will replace each
+     *          is b nonnegbtive integer.  Mby not be null.
+     * @pbrbm filterArgs
+     *          the brrby of brguments to substitute for the vbribbles
+     *          in <code>filterExpr</code>.  The vblue of
+     *          <code>filterArgs[i]</code> will replbce ebch
      *          occurrence of "<code>{i}</code>".
-     *          If null, equivalent to an empty array.
-     * @param cons
-     *          the search controls that control the search.  If null,
-     *          the default search controls are used (equivalent
-     *          to <tt>(new SearchControls())</tt>).
-     * @return  an enumeration of <tt>SearchResult</tt>s of the objects
-     *          that satisfy the filter; never null
+     *          If null, equivblent to bn empty brrby.
+     * @pbrbm cons
+     *          the sebrch controls thbt control the sebrch.  If null,
+     *          the defbult sebrch controls bre used (equivblent
+     *          to <tt>(new SebrchControls())</tt>).
+     * @return  bn enumerbtion of <tt>SebrchResult</tt>s of the objects
+     *          thbt sbtisfy the filter; never null
      *
-     * @throws  ArrayIndexOutOfBoundsException if <tt>filterExpr</tt> contains
+     * @throws  ArrbyIndexOutOfBoundsException if <tt>filterExpr</tt> contbins
      *          <code>{i}</code> expressions where <code>i</code> is outside
-     *          the bounds of the array <code>filterArgs</code>
-     * @throws  InvalidSearchControlsException if <tt>cons</tt> contains
-     *          invalid settings
-     * @throws  InvalidSearchFilterException if <tt>filterExpr</tt> with
-     *          <tt>filterArgs</tt> represents an invalid search filter
-     * @throws  NamingException if a naming exception is encountered
+     *          the bounds of the brrby <code>filterArgs</code>
+     * @throws  InvblidSebrchControlsException if <tt>cons</tt> contbins
+     *          invblid settings
+     * @throws  InvblidSebrchFilterException if <tt>filterExpr</tt> with
+     *          <tt>filterArgs</tt> represents bn invblid sebrch filter
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #search(Name, Attributes, String[])
-     * @see java.text.MessageFormat
+     * @see #sebrch(Nbme, Attributes, String[])
+     * @see jbvb.text.MessbgeFormbt
      */
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException;
+               SebrchControls cons)
+        throws NbmingException;
 
     /**
-     * Searches in the named context or object for entries that satisfy the
-     * given search filter.  Performs the search as specified by
-     * the search controls.
-     * See {@link #search(Name, String, Object[], SearchControls)} for details.
+     * Sebrches in the nbmed context or object for entries thbt sbtisfy the
+     * given sebrch filter.  Performs the sebrch bs specified by
+     * the sebrch controls.
+     * See {@link #sebrch(Nbme, String, Object[], SebrchControls)} for detbils.
      *
-     * @param name
-     *          the name of the context or object to search
-     * @param filterExpr
-     *          the filter expression to use for the search.
-     *          The expression may contain variables of the
+     * @pbrbm nbme
+     *          the nbme of the context or object to sebrch
+     * @pbrbm filterExpr
+     *          the filter expression to use for the sebrch.
+     *          The expression mby contbin vbribbles of the
      *          form "<code>{i}</code>" where <code>i</code>
-     *          is a nonnegative integer.  May not be null.
-     * @param filterArgs
-     *          the array of arguments to substitute for the variables
-     *          in <code>filterExpr</code>.  The value of
-     *          <code>filterArgs[i]</code> will replace each
+     *          is b nonnegbtive integer.  Mby not be null.
+     * @pbrbm filterArgs
+     *          the brrby of brguments to substitute for the vbribbles
+     *          in <code>filterExpr</code>.  The vblue of
+     *          <code>filterArgs[i]</code> will replbce ebch
      *          occurrence of "<code>{i}</code>".
-     *          If null, equivalent to an empty array.
-     * @param cons
-     *          the search controls that control the search.  If null,
-     *          the default search controls are used (equivalent
-     *          to <tt>(new SearchControls())</tt>).
-     * @return  an enumeration of <tt>SearchResult</tt>s of the objects
-     *          that satisfy the filter; never null
+     *          If null, equivblent to bn empty brrby.
+     * @pbrbm cons
+     *          the sebrch controls thbt control the sebrch.  If null,
+     *          the defbult sebrch controls bre used (equivblent
+     *          to <tt>(new SebrchControls())</tt>).
+     * @return  bn enumerbtion of <tt>SebrchResult</tt>s of the objects
+     *          thbt sbtisfy the filter; never null
      *
-     * @throws  ArrayIndexOutOfBoundsException if <tt>filterExpr</tt> contains
+     * @throws  ArrbyIndexOutOfBoundsException if <tt>filterExpr</tt> contbins
      *          <code>{i}</code> expressions where <code>i</code> is outside
-     *          the bounds of the array <code>filterArgs</code>
-     * @throws  InvalidSearchControlsException if <tt>cons</tt> contains
-     *          invalid settings
-     * @throws  InvalidSearchFilterException if <tt>filterExpr</tt> with
-     *          <tt>filterArgs</tt> represents an invalid search filter
-     * @throws  NamingException if a naming exception is encountered
+     *          the bounds of the brrby <code>filterArgs</code>
+     * @throws  InvblidSebrchControlsException if <tt>cons</tt> contbins
+     *          invblid settings
+     * @throws  InvblidSebrchFilterException if <tt>filterExpr</tt> with
+     *          <tt>filterArgs</tt> represents bn invblid sebrch filter
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException;
+               SebrchControls cons)
+        throws NbmingException;
 }

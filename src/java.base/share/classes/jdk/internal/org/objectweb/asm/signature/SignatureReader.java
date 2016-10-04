@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,198 +56,198 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.signature;
+pbckbge jdk.internbl.org.objectweb.bsm.signbture;
 
 /**
- * A type signature parser to make a signature visitor visit an existing
- * signature.
+ * A type signbture pbrser to mbke b signbture visitor visit bn existing
+ * signbture.
  *
- * @author Thomas Hallgren
- * @author Eric Bruneton
+ * @buthor Thombs Hbllgren
+ * @buthor Eric Bruneton
  */
-public class SignatureReader {
+public clbss SignbtureRebder {
 
     /**
-     * The signature to be read.
+     * The signbture to be rebd.
      */
-    private final String signature;
+    privbte finbl String signbture;
 
     /**
-     * Constructs a {@link SignatureReader} for the given signature.
+     * Constructs b {@link SignbtureRebder} for the given signbture.
      *
-     * @param signature
-     *            A <i>ClassSignature</i>, <i>MethodTypeSignature</i>, or
-     *            <i>FieldTypeSignature</i>.
+     * @pbrbm signbture
+     *            A <i>ClbssSignbture</i>, <i>MethodTypeSignbture</i>, or
+     *            <i>FieldTypeSignbture</i>.
      */
-    public SignatureReader(final String signature) {
-        this.signature = signature;
+    public SignbtureRebder(finbl String signbture) {
+        this.signbture = signbture;
     }
 
     /**
-     * Makes the given visitor visit the signature of this
-     * {@link SignatureReader}. This signature is the one specified in the
-     * constructor (see {@link #SignatureReader(String) SignatureReader}). This
-     * method is intended to be called on a {@link SignatureReader} that was
-     * created using a <i>ClassSignature</i> (such as the <code>signature</code>
-     * parameter of the {@link jdk.internal.org.objectweb.asm.ClassVisitor#visit
-     * ClassVisitor.visit} method) or a <i>MethodTypeSignature</i> (such as the
-     * <code>signature</code> parameter of the
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitMethod
-     * ClassVisitor.visitMethod} method).
+     * Mbkes the given visitor visit the signbture of this
+     * {@link SignbtureRebder}. This signbture is the one specified in the
+     * constructor (see {@link #SignbtureRebder(String) SignbtureRebder}). This
+     * method is intended to be cblled on b {@link SignbtureRebder} thbt wbs
+     * crebted using b <i>ClbssSignbture</i> (such bs the <code>signbture</code>
+     * pbrbmeter of the {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visit
+     * ClbssVisitor.visit} method) or b <i>MethodTypeSignbture</i> (such bs the
+     * <code>signbture</code> pbrbmeter of the
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitMethod
+     * ClbssVisitor.visitMethod} method).
      *
-     * @param v
-     *            the visitor that must visit this signature.
+     * @pbrbm v
+     *            the visitor thbt must visit this signbture.
      */
-    public void accept(final SignatureVisitor v) {
-        String signature = this.signature;
-        int len = signature.length();
+    public void bccept(finbl SignbtureVisitor v) {
+        String signbture = this.signbture;
+        int len = signbture.length();
         int pos;
-        char c;
+        chbr c;
 
-        if (signature.charAt(0) == '<') {
+        if (signbture.chbrAt(0) == '<') {
             pos = 2;
             do {
-                int end = signature.indexOf(':', pos);
-                v.visitFormalTypeParameter(signature.substring(pos - 1, end));
+                int end = signbture.indexOf(':', pos);
+                v.visitFormblTypePbrbmeter(signbture.substring(pos - 1, end));
                 pos = end + 1;
 
-                c = signature.charAt(pos);
+                c = signbture.chbrAt(pos);
                 if (c == 'L' || c == '[' || c == 'T') {
-                    pos = parseType(signature, pos, v.visitClassBound());
+                    pos = pbrseType(signbture, pos, v.visitClbssBound());
                 }
 
-                while ((c = signature.charAt(pos++)) == ':') {
-                    pos = parseType(signature, pos, v.visitInterfaceBound());
+                while ((c = signbture.chbrAt(pos++)) == ':') {
+                    pos = pbrseType(signbture, pos, v.visitInterfbceBound());
                 }
             } while (c != '>');
         } else {
             pos = 0;
         }
 
-        if (signature.charAt(pos) == '(') {
+        if (signbture.chbrAt(pos) == '(') {
             pos++;
-            while (signature.charAt(pos) != ')') {
-                pos = parseType(signature, pos, v.visitParameterType());
+            while (signbture.chbrAt(pos) != ')') {
+                pos = pbrseType(signbture, pos, v.visitPbrbmeterType());
             }
-            pos = parseType(signature, pos + 1, v.visitReturnType());
+            pos = pbrseType(signbture, pos + 1, v.visitReturnType());
             while (pos < len) {
-                pos = parseType(signature, pos + 1, v.visitExceptionType());
+                pos = pbrseType(signbture, pos + 1, v.visitExceptionType());
             }
         } else {
-            pos = parseType(signature, pos, v.visitSuperclass());
+            pos = pbrseType(signbture, pos, v.visitSuperclbss());
             while (pos < len) {
-                pos = parseType(signature, pos, v.visitInterface());
+                pos = pbrseType(signbture, pos, v.visitInterfbce());
             }
         }
     }
 
     /**
-     * Makes the given visitor visit the signature of this
-     * {@link SignatureReader}. This signature is the one specified in the
-     * constructor (see {@link #SignatureReader(String) SignatureReader}). This
-     * method is intended to be called on a {@link SignatureReader} that was
-     * created using a <i>FieldTypeSignature</i>, such as the
-     * <code>signature</code> parameter of the
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitField ClassVisitor.visitField}
-     * or {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLocalVariable
-     * MethodVisitor.visitLocalVariable} methods.
+     * Mbkes the given visitor visit the signbture of this
+     * {@link SignbtureRebder}. This signbture is the one specified in the
+     * constructor (see {@link #SignbtureRebder(String) SignbtureRebder}). This
+     * method is intended to be cblled on b {@link SignbtureRebder} thbt wbs
+     * crebted using b <i>FieldTypeSignbture</i>, such bs the
+     * <code>signbture</code> pbrbmeter of the
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitField ClbssVisitor.visitField}
+     * or {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLocblVbribble
+     * MethodVisitor.visitLocblVbribble} methods.
      *
-     * @param v
-     *            the visitor that must visit this signature.
+     * @pbrbm v
+     *            the visitor thbt must visit this signbture.
      */
-    public void acceptType(final SignatureVisitor v) {
-        parseType(this.signature, 0, v);
+    public void bcceptType(finbl SignbtureVisitor v) {
+        pbrseType(this.signbture, 0, v);
     }
 
     /**
-     * Parses a field type signature and makes the given visitor visit it.
+     * Pbrses b field type signbture bnd mbkes the given visitor visit it.
      *
-     * @param signature
-     *            a string containing the signature that must be parsed.
-     * @param pos
-     *            index of the first character of the signature to parsed.
-     * @param v
-     *            the visitor that must visit this signature.
-     * @return the index of the first character after the parsed signature.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be pbrsed.
+     * @pbrbm pos
+     *            index of the first chbrbcter of the signbture to pbrsed.
+     * @pbrbm v
+     *            the visitor thbt must visit this signbture.
+     * @return the index of the first chbrbcter bfter the pbrsed signbture.
      */
-    private static int parseType(final String signature, int pos,
-            final SignatureVisitor v) {
-        char c;
-        int start, end;
-        boolean visited, inner;
-        String name;
+    privbte stbtic int pbrseType(finbl String signbture, int pos,
+            finbl SignbtureVisitor v) {
+        chbr c;
+        int stbrt, end;
+        boolebn visited, inner;
+        String nbme;
 
-        switch (c = signature.charAt(pos++)) {
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-        case 'F':
-        case 'J':
-        case 'D':
-        case 'V':
-            v.visitBaseType(c);
+        switch (c = signbture.chbrAt(pos++)) {
+        cbse 'Z':
+        cbse 'C':
+        cbse 'B':
+        cbse 'S':
+        cbse 'I':
+        cbse 'F':
+        cbse 'J':
+        cbse 'D':
+        cbse 'V':
+            v.visitBbseType(c);
             return pos;
 
-        case '[':
-            return parseType(signature, pos, v.visitArrayType());
+        cbse '[':
+            return pbrseType(signbture, pos, v.visitArrbyType());
 
-        case 'T':
-            end = signature.indexOf(';', pos);
-            v.visitTypeVariable(signature.substring(pos, end));
+        cbse 'T':
+            end = signbture.indexOf(';', pos);
+            v.visitTypeVbribble(signbture.substring(pos, end));
             return end + 1;
 
-        default: // case 'L':
-            start = pos;
-            visited = false;
-            inner = false;
+        defbult: // cbse 'L':
+            stbrt = pos;
+            visited = fblse;
+            inner = fblse;
             for (;;) {
-                switch (c = signature.charAt(pos++)) {
-                case '.':
-                case ';':
+                switch (c = signbture.chbrAt(pos++)) {
+                cbse '.':
+                cbse ';':
                     if (!visited) {
-                        name = signature.substring(start, pos - 1);
+                        nbme = signbture.substring(stbrt, pos - 1);
                         if (inner) {
-                            v.visitInnerClassType(name);
+                            v.visitInnerClbssType(nbme);
                         } else {
-                            v.visitClassType(name);
+                            v.visitClbssType(nbme);
                         }
                     }
                     if (c == ';') {
                         v.visitEnd();
                         return pos;
                     }
-                    start = pos;
-                    visited = false;
+                    stbrt = pos;
+                    visited = fblse;
                     inner = true;
-                    break;
+                    brebk;
 
-                case '<':
-                    name = signature.substring(start, pos - 1);
+                cbse '<':
+                    nbme = signbture.substring(stbrt, pos - 1);
                     if (inner) {
-                        v.visitInnerClassType(name);
+                        v.visitInnerClbssType(nbme);
                     } else {
-                        v.visitClassType(name);
+                        v.visitClbssType(nbme);
                     }
                     visited = true;
                     top: for (;;) {
-                        switch (c = signature.charAt(pos)) {
-                        case '>':
-                            break top;
-                        case '*':
+                        switch (c = signbture.chbrAt(pos)) {
+                        cbse '>':
+                            brebk top;
+                        cbse '*':
                             ++pos;
                             v.visitTypeArgument();
-                            break;
-                        case '+':
-                        case '-':
-                            pos = parseType(signature, pos + 1,
+                            brebk;
+                        cbse '+':
+                        cbse '-':
+                            pos = pbrseType(signbture, pos + 1,
                                     v.visitTypeArgument(c));
-                            break;
-                        default:
-                            pos = parseType(signature, pos,
+                            brebk;
+                        defbult:
+                            pos = pbrseType(signbture, pos,
                                     v.visitTypeArgument('='));
-                            break;
+                            brebk;
                         }
                     }
                 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,7 +34,7 @@
 #ifdef USE_ERROR
 #include <stdio.h>
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
@@ -47,43 +47,43 @@
 #define MIDIOUT_CHECK_ERROR
 #endif
 
-/* *************************** MidiOutDeviceProvider implementation *********************************** */
+/* *************************** MidiOutDeviceProvider implementbtion *********************************** */
 
-/* not thread safe */
-static char winMidiOutErrMsg[WIN_MAX_ERROR_LEN];
+/* not threbd sbfe */
+stbtic chbr winMidiOutErrMsg[WIN_MAX_ERROR_LEN];
 
-char* MIDI_OUT_GetErrorStr(INT32 err) {
+chbr* MIDI_OUT_GetErrorStr(INT32 err) {
     winMidiOutErrMsg[0] = 0;
     midiOutGetErrorText((MMRESULT) err, winMidiOutErrMsg, WIN_MAX_ERROR_LEN);
     return winMidiOutErrMsg;
 }
 
 INT32 MIDI_OUT_GetNumDevices() {
-    // add one for the MIDI_MAPPER
-    // we want to return it first so it'll be the default, so we
-    // decrement each deviceID for these methods....
+    // bdd one for the MIDI_MAPPER
+    // we wbnt to return it first so it'll be the defbult, so we
+    // decrement ebch deviceID for these methods....
     return (INT32) (midiOutGetNumDevs() + 1);
 }
 
 
-INT32 getMidiOutCaps(INT32 deviceID, MIDIOUTCAPS* caps, INT32* err) {
+INT32 getMidiOutCbps(INT32 deviceID, MIDIOUTCAPS* cbps, INT32* err) {
     if (deviceID == 0) {
         deviceID = MIDI_MAPPER;
     } else {
         deviceID--;
     }
-    (*err) = (INT32) midiOutGetDevCaps(deviceID, caps, sizeof(MIDIOUTCAPS));
+    (*err) = (INT32) midiOutGetDevCbps(deviceID, cbps, sizeof(MIDIOUTCAPS));
     return ((*err) == MMSYSERR_NOERROR);
 }
 
 
-INT32 MIDI_OUT_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength) {
-    MIDIOUTCAPS midiOutCaps;
+INT32 MIDI_OUT_GetDeviceNbme(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    MIDIOUTCAPS midiOutCbps;
     INT32 err;
 
-    if (getMidiOutCaps(deviceID, &midiOutCaps, &err)) {
-        strncpy(name, midiOutCaps.szPname, nameLength-1);
-        name[nameLength-1] = 0;
+    if (getMidiOutCbps(deviceID, &midiOutCbps, &err)) {
+        strncpy(nbme, midiOutCbps.szPnbme, nbmeLength-1);
+        nbme[nbmeLength-1] = 0;
         return MIDI_SUCCESS;
     }
     MIDIOUT_CHECK_ERROR;
@@ -91,54 +91,54 @@ INT32 MIDI_OUT_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength) {
 }
 
 
-INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength) {
+INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
     return MIDI_NOT_SUPPORTED;
 }
 
 
-INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength) {
-    MIDIOUTCAPS midiOutCaps;
-    char *desc;
+INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    MIDIOUTCAPS midiOutCbps;
+    chbr *desc;
     INT32 err;
 
-    if (getMidiOutCaps(deviceID, &midiOutCaps, &err)) {
-        int tech = (int)midiOutCaps.wTechnology;
+    if (getMidiOutCbps(deviceID, &midiOutCbps, &err)) {
+        int tech = (int)midiOutCbps.wTechnology;
         switch(tech) {
-        case MOD_MIDIPORT:
-            desc = "External MIDI Port";
-            break;
-        case MOD_SQSYNTH:
-            desc = "Internal square wave synthesizer";
-            break;
-        case MOD_FMSYNTH:
-            desc = "Internal FM synthesizer";
-            break;
-        case MOD_SYNTH:
-            desc = "Internal synthesizer (generic)";
-            break;
-        case MOD_MAPPER:
+        cbse MOD_MIDIPORT:
+            desc = "Externbl MIDI Port";
+            brebk;
+        cbse MOD_SQSYNTH:
+            desc = "Internbl squbre wbve synthesizer";
+            brebk;
+        cbse MOD_FMSYNTH:
+            desc = "Internbl FM synthesizer";
+            brebk;
+        cbse MOD_SYNTH:
+            desc = "Internbl synthesizer (generic)";
+            brebk;
+        cbse MOD_MAPPER:
             desc = "Windows MIDI_MAPPER";
-            break;
-        case 7 /* MOD_SWSYNTH*/:
-            desc = "Internal software synthesizer";
-            break;
-        default:
+            brebk;
+        cbse 7 /* MOD_SWSYNTH*/:
+            desc = "Internbl softwbre synthesizer";
+            brebk;
+        defbult:
             return MIDI_NOT_SUPPORTED;
         }
-        strncpy(name, desc, nameLength-1);
-        name[nameLength-1] = 0;
+        strncpy(nbme, desc, nbmeLength-1);
+        nbme[nbmeLength-1] = 0;
         return MIDI_SUCCESS;
     }
     return err;
 }
 
 
-INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength) {
-    MIDIOUTCAPS midiOutCaps;
+INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    MIDIOUTCAPS midiOutCbps;
     INT32 err;
 
-    if (getMidiOutCaps(deviceID, &midiOutCaps, &err) && nameLength>7) {
-        sprintf(name, "%d.%d", (midiOutCaps.vDriverVersion & 0xFF00) >> 8, midiOutCaps.vDriverVersion & 0xFF);
+    if (getMidiOutCbps(deviceID, &midiOutCbps, &err) && nbmeLength>7) {
+        sprintf(nbme, "%d.%d", (midiOutCbps.vDriverVersion & 0xFF00) >> 8, midiOutCbps.vDriverVersion & 0xFF);
         return MIDI_SUCCESS;
     }
     MIDIOUT_CHECK_ERROR;
@@ -146,67 +146,67 @@ INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength) {
 }
 
 
-/* *************************** MidiOutDevice implementation ***************************************** */
+/* *************************** MidiOutDevice implementbtion ***************************************** */
 
 
-INT32 unprepareLongBuffers(MidiDeviceHandle* handle) {
+INT32 unprepbreLongBuffers(MidiDeviceHbndle* hbndle) {
     SysExQueue* sysex;
     MMRESULT err = MMSYSERR_NOERROR;
     int i;
 
-    if (!handle || !handle->deviceHandle || !handle->longBuffers) {
-        ERROR0("MIDI_OUT_unprepareLongBuffers: handle, deviceHandle, or longBuffers == NULL\n");
+    if (!hbndle || !hbndle->deviceHbndle || !hbndle->longBuffers) {
+        ERROR0("MIDI_OUT_unprepbreLongBuffers: hbndle, deviceHbndle, or longBuffers == NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    sysex = (SysExQueue*) handle->longBuffers;
+    sysex = (SysExQueue*) hbndle->longBuffers;
     for (i = 0; i<sysex->count; i++) {
-        MIDIHDR* hdr = &(sysex->header[i]);
-        if (hdr->dwFlags) {
-            err = midiOutUnprepareHeader((HMIDIOUT) handle->deviceHandle, hdr, sizeof(MIDIHDR));
+        MIDIHDR* hdr = &(sysex->hebder[i]);
+        if (hdr->dwFlbgs) {
+            err = midiOutUnprepbreHebder((HMIDIOUT) hbndle->deviceHbndle, hdr, sizeof(MIDIHDR));
         }
     }
     MIDIOUT_CHECK_ERROR;
     return (INT32) err;
 }
 
-INT32 freeLongBuffer(MIDIHDR* hdr, HMIDIOUT deviceHandle, INT32 minToLeaveData) {
+INT32 freeLongBuffer(MIDIHDR* hdr, HMIDIOUT deviceHbndle, INT32 minToLebveDbtb) {
     MMRESULT err = MMSYSERR_NOERROR;
 
     if (!hdr) {
         ERROR0("MIDI_OUT_freeLongBuffer: hdr == NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    if (hdr->dwFlags && deviceHandle) {
-        err = midiOutUnprepareHeader(deviceHandle, hdr, sizeof(MIDIHDR));
+    if (hdr->dwFlbgs && deviceHbndle) {
+        err = midiOutUnprepbreHebder(deviceHbndle, hdr, sizeof(MIDIHDR));
     }
-    if (hdr->lpData && (((INT32) hdr->dwBufferLength) < minToLeaveData || minToLeaveData < 0)) {
-        free(hdr->lpData);
-        hdr->lpData=NULL;
+    if (hdr->lpDbtb && (((INT32) hdr->dwBufferLength) < minToLebveDbtb || minToLebveDbtb < 0)) {
+        free(hdr->lpDbtb);
+        hdr->lpDbtb=NULL;
         hdr->dwBufferLength=0;
     }
     hdr->dwBytesRecorded=0;
-    hdr->dwFlags=0;
+    hdr->dwFlbgs=0;
     return (INT32) err;
 }
 
-INT32 freeLongBuffers(MidiDeviceHandle* handle) {
+INT32 freeLongBuffers(MidiDeviceHbndle* hbndle) {
     SysExQueue* sysex;
     MMRESULT err = MMSYSERR_NOERROR;
     int i;
 
-    if (!handle || !handle->longBuffers) {
-        ERROR0("MIDI_OUT_freeLongBuffers: handle or longBuffers == NULL\n");
+    if (!hbndle || !hbndle->longBuffers) {
+        ERROR0("MIDI_OUT_freeLongBuffers: hbndle or longBuffers == NULL\n");
         return MIDI_INVALID_HANDLE;
     }
-    sysex = (SysExQueue*) handle->longBuffers;
+    sysex = (SysExQueue*) hbndle->longBuffers;
     for (i = 0; i<sysex->count; i++) {
-        err = freeLongBuffer(&(sysex->header[i]), (HMIDIOUT) handle->deviceHandle, -1);
+        err = freeLongBuffer(&(sysex->hebder[i]), (HMIDIOUT) hbndle->deviceHbndle, -1);
     }
     MIDIOUT_CHECK_ERROR;
     return (INT32) err;
 }
 
-INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle) {
+INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHbndle** hbndle) {
     MMRESULT err;
 
     TRACE1(">> MIDI_OUT_OpenDevice: deviceID: %d\n", deviceID);
@@ -221,179 +221,179 @@ INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle) {
     setvbuf(stderr, NULL, (int)_IONBF, 0);
 #endif
 
-    (*handle) = (MidiDeviceHandle*) malloc(sizeof(MidiDeviceHandle));
-    if (!(*handle)) {
+    (*hbndle) = (MidiDeviceHbndle*) mblloc(sizeof(MidiDeviceHbndle));
+    if (!(*hbndle)) {
         ERROR0("ERROR: MIDI_OUT_OpenDevice: out of memory\n");
         return MIDI_OUT_OF_MEMORY;
     }
-    memset(*handle, 0, sizeof(MidiDeviceHandle));
+    memset(*hbndle, 0, sizeof(MidiDeviceHbndle));
 
-    // create long buffer queue
-    if (!MIDI_WinCreateEmptyLongBufferQueue(*handle, MIDI_OUT_LONG_QUEUE_SIZE)) {
-        ERROR0("ERROR: MIDI_OUT_OpenDevice: could not create long Buffers\n");
-        free(*handle);
-        (*handle) = NULL;
+    // crebte long buffer queue
+    if (!MIDI_WinCrebteEmptyLongBufferQueue(*hbndle, MIDI_OUT_LONG_QUEUE_SIZE)) {
+        ERROR0("ERROR: MIDI_OUT_OpenDevice: could not crebte long Buffers\n");
+        free(*hbndle);
+        (*hbndle) = NULL;
         return MIDI_OUT_OF_MEMORY;
     }
 
-    // create notification event
-    (*handle)->platformData = (void*) CreateEvent(NULL, FALSE /*manual reset*/, FALSE /*signaled*/, NULL);
-    if (!(*handle)->platformData) {
-        ERROR0("ERROR: MIDI_OUT_StartDevice: could not create event\n");
-        MIDI_WinDestroyLongBufferQueue(*handle);
-        free(*handle);
-        (*handle) = NULL;
+    // crebte notificbtion event
+    (*hbndle)->plbtformDbtb = (void*) CrebteEvent(NULL, FALSE /*mbnubl reset*/, FALSE /*signbled*/, NULL);
+    if (!(*hbndle)->plbtformDbtb) {
+        ERROR0("ERROR: MIDI_OUT_StbrtDevice: could not crebte event\n");
+        MIDI_WinDestroyLongBufferQueue(*hbndle);
+        free(*hbndle);
+        (*hbndle) = NULL;
         return MIDI_OUT_OF_MEMORY;
     }
 
-    // finally open the device
-    err = midiOutOpen((HMIDIOUT*) &((*handle)->deviceHandle), deviceID,
-                      (UINT_PTR) (*handle)->platformData, (UINT_PTR) (*handle), CALLBACK_EVENT);
+    // finblly open the device
+    err = midiOutOpen((HMIDIOUT*) &((*hbndle)->deviceHbndle), deviceID,
+                      (UINT_PTR) (*hbndle)->plbtformDbtb, (UINT_PTR) (*hbndle), CALLBACK_EVENT);
 
-    if ((err != MMSYSERR_NOERROR) || (!(*handle)->deviceHandle)) {
+    if ((err != MMSYSERR_NOERROR) || (!(*hbndle)->deviceHbndle)) {
         /* some devices return non zero, but no error! */
-        if (midiOutShortMsg((HMIDIOUT) ((*handle)->deviceHandle),0) == MMSYSERR_INVALHANDLE) {
+        if (midiOutShortMsg((HMIDIOUT) ((*hbndle)->deviceHbndle),0) == MMSYSERR_INVALHANDLE) {
             MIDIOUT_CHECK_ERROR;
-            CloseHandle((HANDLE) (*handle)->platformData);
-            MIDI_WinDestroyLongBufferQueue(*handle);
-            free(*handle);
-            (*handle) = NULL;
+            CloseHbndle((HANDLE) (*hbndle)->plbtformDbtb);
+            MIDI_WinDestroyLongBufferQueue(*hbndle);
+            free(*hbndle);
+            (*hbndle) = NULL;
             return (INT32) err;
         }
     }
-    //$$fb enable high resolution time
+    //$$fb enbble high resolution time
     timeBeginPeriod(1);
-    MIDI_SetStartTime(*handle);
+    MIDI_SetStbrtTime(*hbndle);
     TRACE0("<< MIDI_OUT_OpenDevice: succeeded\n");
     return MIDI_SUCCESS;
 }
 
-INT32 MIDI_OUT_CloseDevice(MidiDeviceHandle* handle) {
+INT32 MIDI_OUT_CloseDevice(MidiDeviceHbndle* hbndle) {
     MMRESULT err = MMSYSERR_NOERROR;
     HANDLE event;
 
     TRACE0("> MIDI_OUT_CloseDevice\n");
-    if (!handle) {
-        ERROR0("ERROR: MIDI_OUT_StopDevice: handle is NULL\n");
-        return MIDI_INVALID_HANDLE; // failure
+    if (!hbndle) {
+        ERROR0("ERROR: MIDI_OUT_StopDevice: hbndle is NULL\n");
+        return MIDI_INVALID_HANDLE; // fbilure
     }
-    // encourage MIDI_OUT_SendLongMessage to return soon
-    event = handle->platformData;
-    handle->platformData = NULL;
+    // encourbge MIDI_OUT_SendLongMessbge to return soon
+    event = hbndle->plbtformDbtb;
+    hbndle->plbtformDbtb = NULL;
     if (event) {
         SetEvent(event);
     } else {
         ERROR0("ERROR: MIDI_OUT_StopDevice: event is NULL\n");
     }
 
-    if (handle->deviceHandle) {
-        //$$fb disable high resolution time
+    if (hbndle->deviceHbndle) {
+        //$$fb disbble high resolution time
         timeEndPeriod(1);
-        err = midiOutReset((HMIDIOUT) handle->deviceHandle);
+        err = midiOutReset((HMIDIOUT) hbndle->deviceHbndle);
     } else {
-        ERROR0("ERROR: MIDI_OUT_CloseDevice: deviceHandle is NULL\n");
+        ERROR0("ERROR: MIDI_OUT_CloseDevice: deviceHbndle is NULL\n");
     }
 
-    // issue a "SUSTAIN OFF" message to each MIDI channel, 0 to 15.
-    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, and the value is 0.
-    // $$fb 2002-04-04: It is responsability of the application developer to
-    // leave the device in a consistent state. So I put this in comments
+    // issue b "SUSTAIN OFF" messbge to ebch MIDI chbnnel, 0 to 15.
+    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, bnd the vblue is 0.
+    // $$fb 2002-04-04: It is responsbbility of the bpplicbtion developer to
+    // lebve the device in b consistent stbte. So I put this in comments
     /*
-      for (channel = 0; channel < 16; channel++)
-      MIDI_OUT_SendShortMessage(deviceHandle, (unsigned char)(176 + channel), (unsigned char)64, (unsigned char)0, (UINT32)-1);
+      for (chbnnel = 0; chbnnel < 16; chbnnel++)
+      MIDI_OUT_SendShortMessbge(deviceHbndle, (unsigned chbr)(176 + chbnnel), (unsigned chbr)64, (unsigned chbr)0, (UINT32)-1);
     */
 
     if (event) {
-        // wait until MIDI_OUT_SendLongMessage has finished
-        while (handle->isWaiting) Sleep(0);
+        // wbit until MIDI_OUT_SendLongMessbge hbs finished
+        while (hbndle->isWbiting) Sleep(0);
     }
 
-    unprepareLongBuffers(handle);
+    unprepbreLongBuffers(hbndle);
 
-    if (handle->deviceHandle) {
-        err = midiOutClose((HMIDIOUT) handle->deviceHandle);
+    if (hbndle->deviceHbndle) {
+        err = midiOutClose((HMIDIOUT) hbndle->deviceHbndle);
         MIDIOUT_CHECK_ERROR;
-        handle->deviceHandle = NULL;
+        hbndle->deviceHbndle = NULL;
     }
-    freeLongBuffers(handle);
+    freeLongBuffers(hbndle);
 
     if (event) {
-        CloseHandle(event);
+        CloseHbndle(event);
     }
-    MIDI_WinDestroyLongBufferQueue(handle);
-    free(handle);
+    MIDI_WinDestroyLongBufferQueue(hbndle);
+    free(hbndle);
 
     TRACE0("< MIDI_OUT_CloseDevice\n");
     return (INT32) err;
 }
 
 
-/* return time stamp in microseconds */
-INT64 MIDI_OUT_GetTimeStamp(MidiDeviceHandle* handle) {
-    return MIDI_GetTimeStamp(handle);
+/* return time stbmp in microseconds */
+INT64 MIDI_OUT_GetTimeStbmp(MidiDeviceHbndle* hbndle) {
+    return MIDI_GetTimeStbmp(hbndle);
 }
 
 
-INT32 MIDI_OUT_SendShortMessage(MidiDeviceHandle* handle, UINT32 packedMsg, UINT32 timestamp) {
+INT32 MIDI_OUT_SendShortMessbge(MidiDeviceHbndle* hbndle, UINT32 pbckedMsg, UINT32 timestbmp) {
     MMRESULT err = MMSYSERR_NOERROR;
 
-    TRACE2("> MIDI_OUT_SendShortMessage %x, time: %d\n", packedMsg, timestamp);
-    if (!handle) {
-        ERROR0("ERROR: MIDI_OUT_SendShortMessage: handle is NULL\n");
-        return MIDI_INVALID_HANDLE; // failure
+    TRACE2("> MIDI_OUT_SendShortMessbge %x, time: %d\n", pbckedMsg, timestbmp);
+    if (!hbndle) {
+        ERROR0("ERROR: MIDI_OUT_SendShortMessbge: hbndle is NULL\n");
+        return MIDI_INVALID_HANDLE; // fbilure
     }
-    err = midiOutShortMsg((HMIDIOUT) handle->deviceHandle, packedMsg);
+    err = midiOutShortMsg((HMIDIOUT) hbndle->deviceHbndle, pbckedMsg);
     MIDIOUT_CHECK_ERROR;
-    TRACE0("< MIDI_OUT_SendShortMessage\n");
+    TRACE0("< MIDI_OUT_SendShortMessbge\n");
     return (INT32) err;
 }
 
-INT32 MIDI_OUT_SendLongMessage(MidiDeviceHandle* handle, UBYTE* data, UINT32 size, UINT32 timestamp) {
+INT32 MIDI_OUT_SendLongMessbge(MidiDeviceHbndle* hbndle, UBYTE* dbtb, UINT32 size, UINT32 timestbmp) {
     MMRESULT err;
     SysExQueue* sysex;
     MIDIHDR* hdr = NULL;
-    INT32 remainingSize;
+    INT32 rembiningSize;
     int i;
 
-    TRACE2("> MIDI_OUT_SendLongMessage size %d, time: %d\n", size, timestamp);
-    if (!handle || !data || !handle->longBuffers) {
-        ERROR0("< ERROR: MIDI_OUT_SendLongMessage: handle, data, or longBuffers is NULL\n");
-        return MIDI_INVALID_HANDLE; // failure
+    TRACE2("> MIDI_OUT_SendLongMessbge size %d, time: %d\n", size, timestbmp);
+    if (!hbndle || !dbtb || !hbndle->longBuffers) {
+        ERROR0("< ERROR: MIDI_OUT_SendLongMessbge: hbndle, dbtb, or longBuffers is NULL\n");
+        return MIDI_INVALID_HANDLE; // fbilure
     }
     if (size == 0) {
         return MIDI_SUCCESS;
     }
 
-    sysex = (SysExQueue*) handle->longBuffers;
-    remainingSize = size;
+    sysex = (SysExQueue*) hbndle->longBuffers;
+    rembiningSize = size;
 
     // send in chunks of 512 bytes
     size = 512;
-    while (remainingSize > 0) {
-        if (remainingSize < (INT32) size) {
-            size = (UINT32) remainingSize;
+    while (rembiningSize > 0) {
+        if (rembiningSize < (INT32) size) {
+            size = (UINT32) rembiningSize;
         }
 
-        while (!hdr && handle->platformData) {
-            /* find a non-queued header */
+        while (!hdr && hbndle->plbtformDbtb) {
+            /* find b non-queued hebder */
             for (i = 0; i < sysex->count; i++) {
-                hdr = &(sysex->header[i]);
-                if ((hdr->dwFlags & MHDR_DONE) || (hdr->dwFlags == 0)) {
-                    break;
+                hdr = &(sysex->hebder[i]);
+                if ((hdr->dwFlbgs & MHDR_DONE) || (hdr->dwFlbgs == 0)) {
+                    brebk;
                 }
                 hdr = NULL;
             }
-            /* wait for a buffer to free up */
-            if (!hdr && handle->platformData) {
+            /* wbit for b buffer to free up */
+            if (!hdr && hbndle->plbtformDbtb) {
                 DWORD res;
-                TRACE0(" Need to wait for free buffer\n");
-                handle->isWaiting = TRUE;
-                res = WaitForSingleObject((HANDLE) handle->platformData, 700);
-                handle->isWaiting = FALSE;
+                TRACE0(" Need to wbit for free buffer\n");
+                hbndle->isWbiting = TRUE;
+                res = WbitForSingleObject((HANDLE) hbndle->plbtformDbtb, 700);
+                hbndle->isWbiting = FALSE;
                 if (res == WAIT_TIMEOUT) {
-                    // break out back to Java if no buffer freed up after 700 milliseconds
-                    TRACE0("-> TIMEOUT. Need to go back to Java\n");
-                    break;
+                    // brebk out bbck to Jbvb if no buffer freed up bfter 700 milliseconds
+                    TRACE0("-> TIMEOUT. Need to go bbck to Jbvb\n");
+                    brebk;
                 }
             }
         }
@@ -403,30 +403,30 @@ INT32 MIDI_OUT_SendLongMessage(MidiDeviceHandle* handle, UBYTE* data, UINT32 siz
         }
 
         TRACE2("-> sending %d bytes with buffer index=%d\n", (int) size, (int) hdr->dwUser);
-        freeLongBuffer(hdr, handle->deviceHandle, (INT32) size);
-        if (hdr->lpData == NULL) {
-            hdr->lpData = malloc(size);
+        freeLongBuffer(hdr, hbndle->deviceHbndle, (INT32) size);
+        if (hdr->lpDbtb == NULL) {
+            hdr->lpDbtb = mblloc(size);
             hdr->dwBufferLength = size;
         }
         hdr->dwBytesRecorded = size;
-        memcpy(hdr->lpData, data, size);
-        err = midiOutPrepareHeader((HMIDIOUT) handle->deviceHandle, hdr, sizeof(MIDIHDR));
+        memcpy(hdr->lpDbtb, dbtb, size);
+        err = midiOutPrepbreHebder((HMIDIOUT) hbndle->deviceHbndle, hdr, sizeof(MIDIHDR));
         if (err != MMSYSERR_NOERROR) {
-            freeLongBuffer(hdr, handle->deviceHandle, -1);
+            freeLongBuffer(hdr, hbndle->deviceHbndle, -1);
             MIDIOUT_CHECK_ERROR;
             return (INT32) err;
         }
-        err = midiOutLongMsg((HMIDIOUT) handle->deviceHandle, hdr, sizeof(MIDIHDR));
+        err = midiOutLongMsg((HMIDIOUT) hbndle->deviceHbndle, hdr, sizeof(MIDIHDR));
         if (err != MMSYSERR_NOERROR) {
-            freeLongBuffer(hdr, handle->deviceHandle, -1);
-            ERROR0("ERROR: MIDI_OUT_SendLongMessage: midiOutLongMsg returned error:\n");
+            freeLongBuffer(hdr, hbndle->deviceHbndle, -1);
+            ERROR0("ERROR: MIDI_OUT_SendLongMessbge: midiOutLongMsg returned error:\n");
             MIDIOUT_CHECK_ERROR;
             return (INT32) err;
         }
-        remainingSize -= size;
-        data += size;
+        rembiningSize -= size;
+        dbtb += size;
     }
-    TRACE0("< MIDI_OUT_SendLongMessage success\n");
+    TRACE0("< MIDI_OUT_SendLongMessbge success\n");
     return MIDI_SUCCESS;
 }
 

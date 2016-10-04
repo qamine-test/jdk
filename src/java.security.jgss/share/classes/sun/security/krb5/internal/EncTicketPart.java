@@ -1,120 +1,120 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.*;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.*;
 
 /**
- * Implements the ASN.1 EncTicketPart type.
+ * Implements the ASN.1 EncTicketPbrt type.
  *
  * <xmp>
- * EncTicketPart   ::= [APPLICATION 3] SEQUENCE {
- *         flags                   [0] TicketFlags,
+ * EncTicketPbrt   ::= [APPLICATION 3] SEQUENCE {
+ *         flbgs                   [0] TicketFlbgs,
  *         key                     [1] EncryptionKey,
- *         crealm                  [2] Realm,
- *         cname                   [3] PrincipalName,
- *         transited               [4] TransitedEncoding,
- *         authtime                [5] KerberosTime,
- *         starttime               [6] KerberosTime OPTIONAL,
+ *         creblm                  [2] Reblm,
+ *         cnbme                   [3] PrincipblNbme,
+ *         trbnsited               [4] TrbnsitedEncoding,
+ *         buthtime                [5] KerberosTime,
+ *         stbrttime               [6] KerberosTime OPTIONAL,
  *         endtime                 [7] KerberosTime,
  *         renew-till              [8] KerberosTime OPTIONAL,
- *         caddr                   [9] HostAddresses OPTIONAL,
- *         authorization-data      [10] AuthorizationData OPTIONAL
+ *         cbddr                   [9] HostAddresses OPTIONAL,
+ *         buthorizbtion-dbtb      [10] AuthorizbtionDbtb OPTIONAL
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public class EncTicketPart {
+public clbss EncTicketPbrt {
 
-    public TicketFlags flags;
+    public TicketFlbgs flbgs;
     public EncryptionKey key;
-    public PrincipalName cname;
-    public TransitedEncoding transited;
-    public KerberosTime authtime;
-    public KerberosTime starttime; //optional
+    public PrincipblNbme cnbme;
+    public TrbnsitedEncoding trbnsited;
+    public KerberosTime buthtime;
+    public KerberosTime stbrttime; //optionbl
     public KerberosTime endtime;
-    public KerberosTime renewTill; //optional
-    public HostAddresses caddr; //optional
-    public AuthorizationData authorizationData; //optional
+    public KerberosTime renewTill; //optionbl
+    public HostAddresses cbddr; //optionbl
+    public AuthorizbtionDbtb buthorizbtionDbtb; //optionbl
 
-    public EncTicketPart(
-            TicketFlags new_flags,
+    public EncTicketPbrt(
+            TicketFlbgs new_flbgs,
             EncryptionKey new_key,
-            PrincipalName new_cname,
-            TransitedEncoding new_transited,
-            KerberosTime new_authtime,
-            KerberosTime new_starttime,
+            PrincipblNbme new_cnbme,
+            TrbnsitedEncoding new_trbnsited,
+            KerberosTime new_buthtime,
+            KerberosTime new_stbrttime,
             KerberosTime new_endtime,
             KerberosTime new_renewTill,
-            HostAddresses new_caddr,
-            AuthorizationData new_authorizationData) {
-        flags = new_flags;
+            HostAddresses new_cbddr,
+            AuthorizbtionDbtb new_buthorizbtionDbtb) {
+        flbgs = new_flbgs;
         key = new_key;
-        cname = new_cname;
-        transited = new_transited;
-        authtime = new_authtime;
-        starttime = new_starttime;
+        cnbme = new_cnbme;
+        trbnsited = new_trbnsited;
+        buthtime = new_buthtime;
+        stbrttime = new_stbrttime;
         endtime = new_endtime;
         renewTill = new_renewTill;
-        caddr = new_caddr;
-        authorizationData = new_authorizationData;
+        cbddr = new_cbddr;
+        buthorizbtionDbtb = new_buthorizbtionDbtb;
     }
 
-    public EncTicketPart(byte[] data)
+    public EncTicketPbrt(byte[] dbtb)
             throws Asn1Exception, KrbException, IOException {
-        init(new DerValue(data));
+        init(new DerVblue(dbtb));
     }
 
-    public EncTicketPart(DerValue encoding)
+    public EncTicketPbrt(DerVblue encoding)
             throws Asn1Exception, KrbException, IOException {
         init(encoding);
     }
 
     /**
-     * Initializes an EncTicketPart object.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Initiblizes bn EncTicketPbrt object.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception ReblmException if bn error occurs while pbrsing b Reblm object.
      */
-    private static String getHexBytes(byte[] bytes, int len)
+    privbte stbtic String getHexBytes(byte[] bytes, int len)
             throws IOException {
 
         StringBuilder sb = new StringBuilder();
@@ -123,98 +123,98 @@ public class EncTicketPart {
             int b1 = (bytes[i] >> 4) & 0x0f;
             int b2 = bytes[i] & 0x0f;
 
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
+            sb.bppend(Integer.toHexString(b1));
+            sb.bppend(Integer.toHexString(b2));
+            sb.bppend(' ');
         }
         return sb.toString();
     }
 
-    private void init(DerValue encoding)
-            throws Asn1Exception, IOException, RealmException {
-        DerValue der, subDer;
+    privbte void init(DerVblue encoding)
+            throws Asn1Exception, IOException, ReblmException {
+        DerVblue der, subDer;
 
         renewTill = null;
-        caddr = null;
-        authorizationData = null;
-        if (((encoding.getTag() & (byte) 0x1F) != (byte) 0x03)
-                || (encoding.isApplication() != true)
+        cbddr = null;
+        buthorizbtionDbtb = null;
+        if (((encoding.getTbg() & (byte) 0x1F) != (byte) 0x03)
+                || (encoding.isApplicbtion() != true)
                 || (encoding.isConstructed() != true)) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
+        der = encoding.getDbtb().getDerVblue();
+        if (der.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        flags = TicketFlags.parse(der.getData(), (byte) 0x00, false);
-        key = EncryptionKey.parse(der.getData(), (byte) 0x01, false);
-        Realm crealm = Realm.parse(der.getData(), (byte) 0x02, false);
-        cname = PrincipalName.parse(der.getData(), (byte) 0x03, false, crealm);
-        transited = TransitedEncoding.parse(der.getData(), (byte) 0x04, false);
-        authtime = KerberosTime.parse(der.getData(), (byte) 0x05, false);
-        starttime = KerberosTime.parse(der.getData(), (byte) 0x06, true);
-        endtime = KerberosTime.parse(der.getData(), (byte) 0x07, false);
-        if (der.getData().available() > 0) {
-            renewTill = KerberosTime.parse(der.getData(), (byte) 0x08, true);
+        flbgs = TicketFlbgs.pbrse(der.getDbtb(), (byte) 0x00, fblse);
+        key = EncryptionKey.pbrse(der.getDbtb(), (byte) 0x01, fblse);
+        Reblm creblm = Reblm.pbrse(der.getDbtb(), (byte) 0x02, fblse);
+        cnbme = PrincipblNbme.pbrse(der.getDbtb(), (byte) 0x03, fblse, creblm);
+        trbnsited = TrbnsitedEncoding.pbrse(der.getDbtb(), (byte) 0x04, fblse);
+        buthtime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x05, fblse);
+        stbrttime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x06, true);
+        endtime = KerberosTime.pbrse(der.getDbtb(), (byte) 0x07, fblse);
+        if (der.getDbtb().bvbilbble() > 0) {
+            renewTill = KerberosTime.pbrse(der.getDbtb(), (byte) 0x08, true);
         }
-        if (der.getData().available() > 0) {
-            caddr = HostAddresses.parse(der.getData(), (byte) 0x09, true);
+        if (der.getDbtb().bvbilbble() > 0) {
+            cbddr = HostAddresses.pbrse(der.getDbtb(), (byte) 0x09, true);
         }
-        if (der.getData().available() > 0) {
-            authorizationData = AuthorizationData.parse(der.getData(), (byte) 0x0A, true);
+        if (der.getDbtb().bvbilbble() > 0) {
+            buthorizbtionDbtb = AuthorizbtionDbtb.pbrse(der.getDbtb(), (byte) 0x0A, true);
         }
-        if (der.getData().available() > 0) {
+        if (der.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
 
     }
 
     /**
-     * Encodes an EncTicketPart object.
-     * @return byte array of encoded EncTicketPart object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes bn EncTicketPbrt object.
+     * @return byte brrby of encoded EncTicketPbrt object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x00), flags.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x01), key.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x02), cname.getRealm().asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x03), cname.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), transited.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x05), authtime.asn1Encode());
-        if (starttime != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x06), starttime.asn1Encode());
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x00), flbgs.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x01), key.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x02), cnbme.getReblm().bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x03), cnbme.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x04), trbnsited.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x05), buthtime.bsn1Encode());
+        if (stbrttime != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x06), stbrttime.bsn1Encode());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x07), endtime.asn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x07), endtime.bsn1Encode());
 
         if (renewTill != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x08), renewTill.asn1Encode());
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x08), renewTill.bsn1Encode());
         }
 
-        if (caddr != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x09), caddr.asn1Encode());
+        if (cbddr != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x09), cbddr.bsn1Encode());
         }
 
-        if (authorizationData != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x0A), authorizationData.asn1Encode());
+        if (buthorizbtionDbtb != null) {
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                    true, (byte) 0x0A), buthorizbtionDbtb.bsn1Encode());
         }
-        temp.write(DerValue.tag_Sequence, bytes);
-        bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_APPLICATION,
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        bytes = new DerOutputStrebm();
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_APPLICATION,
                 true, (byte) 0x03), temp);
-        return bytes.toByteArray();
+        return bytes.toByteArrby();
     }
 }

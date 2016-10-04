@@ -1,10 +1,10 @@
 
 To run the Ruler demo:
 
-  java -jar TransparentRuler.jar
+  jbvb -jbr TrbnspbrentRuler.jbr
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+These instructions bssume thbt this instbllbtion's version of the jbvb
+commbnd is in your pbth.  If it isn't, then you should either
+specify the complete pbth to the jbvb commbnd or updbte your
+PATH environment vbribble bs described in the instbllbtion
+instructions for the Jbvb(TM) SE Development Kit.

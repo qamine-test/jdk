@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Rbndom;
+import jbvb.util.StringTokenizer;
+import jbvb.util.List;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.NamingManager;
-import javax.naming.ldap.LdapName;
-import javax.naming.ldap.Rdn;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.NbmingMbnbger;
+import jbvbx.nbming.ldbp.LdbpNbme;
+import jbvbx.nbming.ldbp.Rdn;
 
 /**
- * This class discovers the location of LDAP services by querying DNS.
- * See http://www.ietf.org/internet-drafts/draft-ietf-ldapext-locate-07.txt
+ * This clbss discovers the locbtion of LDAP services by querying DNS.
+ * See http://www.ietf.org/internet-drbfts/drbft-ietf-ldbpext-locbte-07.txt
  */
 
-class ServiceLocator {
+clbss ServiceLocbtor {
 
-    private static final String SRV_RR = "SRV";
+    privbte stbtic finbl String SRV_RR = "SRV";
 
-    private static final String[] SRV_RR_ATTR = new String[]{SRV_RR};
+    privbte stbtic finbl String[] SRV_RR_ATTR = new String[]{SRV_RR};
 
-    private static final Random random = new Random();
+    privbte stbtic finbl Rbndom rbndom = new Rbndom();
 
-    private ServiceLocator() {
+    privbte ServiceLocbtor() {
     }
 
     /**
-     * Maps a distinguished name (RFC 2253) to a fully qualified domain name.
-     * Processes a sequence of RDNs having a DC attribute.
-     * The special RDN "DC=." denotes the root of the domain tree.
-     * Multi-valued RDNs, non-DC attributes, binary-valued attributes and the
-     * RDN "DC=." all reset the domain name and processing continues.
+     * Mbps b distinguished nbme (RFC 2253) to b fully qublified dombin nbme.
+     * Processes b sequence of RDNs hbving b DC bttribute.
+     * The specibl RDN "DC=." denotes the root of the dombin tree.
+     * Multi-vblued RDNs, non-DC bttributes, binbry-vblued bttributes bnd the
+     * RDN "DC=." bll reset the dombin nbme bnd processing continues.
      *
-     * @param dn A string distinguished name (RFC 2253).
-     * @return A domain name or null if none can be derived.
-     * @throw InvalidNameException If the distinguished name is invalid.
+     * @pbrbm dn A string distinguished nbme (RFC 2253).
+     * @return A dombin nbme or null if none cbn be derived.
+     * @throw InvblidNbmeException If the distinguished nbme is invblid.
      */
-    static String mapDnToDomainName(String dn) throws InvalidNameException {
+    stbtic String mbpDnToDombinNbme(String dn) throws InvblidNbmeException {
         if (dn == null) {
             return null;
         }
-        StringBuilder domain = new StringBuilder();
-        LdapName ldapName = new LdapName(dn);
+        StringBuilder dombin = new StringBuilder();
+        LdbpNbme ldbpNbme = new LdbpNbme(dn);
 
         // process RDNs left-to-right
-        //List<Rdn> rdnList = ldapName.getRdns();
+        //List<Rdn> rdnList = ldbpNbme.getRdns();
 
-        List<Rdn> rdnList = ldapName.getRdns();
+        List<Rdn> rdnList = ldbpNbme.getRdns();
         for (int i = rdnList.size() - 1; i >= 0; i--) {
             //Rdn rdn = rdnList.get(i);
             Rdn rdn = rdnList.get(i);
 
-            // single-valued RDN with a DC attribute
+            // single-vblued RDN with b DC bttribute
             if ((rdn.size() == 1) &&
-                ("dc".equalsIgnoreCase(rdn.getType()) )) {
-                Object attrval = rdn.getValue();
-                if (attrval instanceof String) {
-                    if (attrval.equals(".") ||
-                        (domain.length() == 1 && domain.charAt(0) == '.')) {
-                        domain.setLength(0); // reset (when current or previous
-                                             //        RDN value is "DC=.")
+                ("dc".equblsIgnoreCbse(rdn.getType()) )) {
+                Object bttrvbl = rdn.getVblue();
+                if (bttrvbl instbnceof String) {
+                    if (bttrvbl.equbls(".") ||
+                        (dombin.length() == 1 && dombin.chbrAt(0) == '.')) {
+                        dombin.setLength(0); // reset (when current or previous
+                                             //        RDN vblue is "DC=.")
                     }
-                    if (domain.length() > 0) {
-                        domain.append('.');
+                    if (dombin.length() > 0) {
+                        dombin.bppend('.');
                     }
-                    domain.append(attrval);
+                    dombin.bppend(bttrvbl);
                 } else {
-                    domain.setLength(0); // reset (when binary-valued attribute)
+                    dombin.setLength(0); // reset (when binbry-vblued bttribute)
                 }
             } else {
-                domain.setLength(0); // reset (when multi-valued RDN or non-DC)
+                dombin.setLength(0); // reset (when multi-vblued RDN or non-DC)
             }
         }
-        return (domain.length() != 0) ? domain.toString() : null;
+        return (dombin.length() != 0) ? dombin.toString() : null;
     }
 
     /**
-     * Locates the LDAP service for a given domain.
-     * Queries DNS for a list of LDAP Service Location Records (SRV) for a
-     * given domain name.
+     * Locbtes the LDAP service for b given dombin.
+     * Queries DNS for b list of LDAP Service Locbtion Records (SRV) for b
+     * given dombin nbme.
      *
-     * @param domainName A string domain name.
-     * @param environment The possibly null environment of the context.
+     * @pbrbm dombinNbme A string dombin nbme.
+     * @pbrbm environment The possibly null environment of the context.
      * @return An ordered list of hostports for the LDAP service or null if
-     *         the service has not been located.
+     *         the service hbs not been locbted.
      */
-    static String[] getLdapService(String domainName, Hashtable<?,?> environment) {
+    stbtic String[] getLdbpService(String dombinNbme, Hbshtbble<?,?> environment) {
 
-        if (domainName == null || domainName.length() == 0) {
+        if (dombinNbme == null || dombinNbme.length() == 0) {
             return null;
         }
 
-        String dnsUrl = "dns:///_ldap._tcp." + domainName;
+        String dnsUrl = "dns:///_ldbp._tcp." + dombinNbme;
         String[] hostports = null;
 
         try {
-            // Create the DNS context using NamingManager rather than using
-            // the initial context constructor. This avoids having the initial
-            // context constructor call itself (when processing the URL
-            // argument in the getAttributes call).
-            Context ctx = NamingManager.getURLContext("dns", environment);
-            if (!(ctx instanceof DirContext)) {
-                return null; // cannot create a DNS context
+            // Crebte the DNS context using NbmingMbnbger rbther thbn using
+            // the initibl context constructor. This bvoids hbving the initibl
+            // context constructor cbll itself (when processing the URL
+            // brgument in the getAttributes cbll).
+            Context ctx = NbmingMbnbger.getURLContext("dns", environment);
+            if (!(ctx instbnceof DirContext)) {
+                return null; // cbnnot crebte b DNS context
             }
-            Attributes attrs =
+            Attributes bttrs =
                 ((DirContext)ctx).getAttributes(dnsUrl, SRV_RR_ATTR);
-            Attribute attr;
+            Attribute bttr;
 
-            if (attrs != null && ((attr = attrs.get(SRV_RR)) != null)) {
-                int numValues = attr.size();
+            if (bttrs != null && ((bttr = bttrs.get(SRV_RR)) != null)) {
+                int numVblues = bttr.size();
                 int numRecords = 0;
-                SrvRecord[] srvRecords = new SrvRecord[numValues];
+                SrvRecord[] srvRecords = new SrvRecord[numVblues];
 
-                // create the service records
+                // crebte the service records
                 int i = 0;
                 int j = 0;
-                while (i < numValues) {
+                while (i < numVblues) {
                     try {
-                        srvRecords[j] = new SrvRecord((String) attr.get(i));
+                        srvRecords[j] = new SrvRecord((String) bttr.get(i));
                         j++;
-                    } catch (Exception e) {
-                        // ignore bad value
+                    } cbtch (Exception e) {
+                        // ignore bbd vblue
                     }
                     i++;
                 }
                 numRecords = j;
 
                 // trim
-                if (numRecords < numValues) {
+                if (numRecords < numVblues) {
                     SrvRecord[] trimmed = new SrvRecord[numRecords];
-                    System.arraycopy(srvRecords, 0, trimmed, 0, numRecords);
+                    System.brrbycopy(srvRecords, 0, trimmed, 0, numRecords);
                     srvRecords = trimmed;
                 }
 
-                // Sort the service records in ascending order of their
-                // priority value. For records with equal priority, move
+                // Sort the service records in bscending order of their
+                // priority vblue. For records with equbl priority, move
                 // those with weight 0 to the top of the list.
                 if (numRecords > 1) {
-                    Arrays.sort(srvRecords);
+                    Arrbys.sort(srvRecords);
                 }
 
-                // extract the host and port number from each service record
-                hostports = extractHostports(srvRecords);
+                // extrbct the host bnd port number from ebch service record
+                hostports = extrbctHostports(srvRecords);
             }
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             // ignore
         }
         return hostports;
     }
 
     /**
-     * Extract hosts and port numbers from a list of SRV records.
-     * An array of hostports is returned or null if none were found.
+     * Extrbct hosts bnd port numbers from b list of SRV records.
+     * An brrby of hostports is returned or null if none were found.
      */
-    private static String[] extractHostports(SrvRecord[] srvRecords) {
+    privbte stbtic String[] extrbctHostports(SrvRecord[] srvRecords) {
         String[] hostports = null;
 
-        int head = 0;
-        int tail = 0;
+        int hebd = 0;
+        int tbil = 0;
         int sublistLength = 0;
         int k = 0;
         for (int i = 0; i < srvRecords.length; i++) {
             if (hostports == null) {
                 hostports = new String[srvRecords.length];
             }
-            // find the head and tail of the list of records having the same
-            // priority value.
-            head = i;
+            // find the hebd bnd tbil of the list of records hbving the sbme
+            // priority vblue.
+            hebd = i;
             while (i < srvRecords.length - 1 &&
                 srvRecords[i].priority == srvRecords[i + 1].priority) {
                 i++;
             }
-            tail = i;
+            tbil = i;
 
             // select hostports from the sublist
-            sublistLength = (tail - head) + 1;
+            sublistLength = (tbil - hebd) + 1;
             for (int j = 0; j < sublistLength; j++) {
-                hostports[k++] = selectHostport(srvRecords, head, tail);
+                hostports[k++] = selectHostport(srvRecords, hebd, tbil);
             }
         }
         return hostports;
     }
 
     /*
-     * Randomly select a service record in the range [head, tail] and return
-     * its hostport value. Follows the algorithm in RFC 2782.
+     * Rbndomly select b service record in the rbnge [hebd, tbil] bnd return
+     * its hostport vblue. Follows the blgorithm in RFC 2782.
      */
-    private static String selectHostport(SrvRecord[] srvRecords, int head,
-            int tail) {
-        if (head == tail) {
-            return srvRecords[head].hostport;
+    privbte stbtic String selectHostport(SrvRecord[] srvRecords, int hebd,
+            int tbil) {
+        if (hebd == tbil) {
+            return srvRecords[hebd].hostport;
         }
 
-        // compute the running sum for records between head and tail
+        // compute the running sum for records between hebd bnd tbil
         int sum = 0;
-        for (int i = head; i <= tail; i++) {
+        for (int i = hebd; i <= tbil; i++) {
             if (srvRecords[i] != null) {
                 sum += srvRecords[i].weight;
                 srvRecords[i].sum = sum;
@@ -230,25 +230,25 @@ class ServiceLocator {
         }
         String hostport = null;
 
-        // If all records have zero weight, select first available one;
-        // otherwise, randomly select a record according to its weight
-        int target = (sum == 0 ? 0 : random.nextInt(sum + 1));
-        for (int i = head; i <= tail; i++) {
-            if (srvRecords[i] != null && srvRecords[i].sum >= target) {
+        // If bll records hbve zero weight, select first bvbilbble one;
+        // otherwise, rbndomly select b record bccording to its weight
+        int tbrget = (sum == 0 ? 0 : rbndom.nextInt(sum + 1));
+        for (int i = hebd; i <= tbil; i++) {
+            if (srvRecords[i] != null && srvRecords[i].sum >= tbrget) {
                 hostport = srvRecords[i].hostport;
-                srvRecords[i] = null; // make this record unavailable
-                break;
+                srvRecords[i] = null; // mbke this record unbvbilbble
+                brebk;
             }
         }
         return hostport;
     }
 
 /**
- * This class holds a DNS service (SRV) record.
+ * This clbss holds b DNS service (SRV) record.
  * See http://www.ietf.org/rfc/rfc2782.txt
  */
 
-static class SrvRecord implements Comparable<SrvRecord> {
+stbtic clbss SrvRecord implements Compbrbble<SrvRecord> {
 
     int priority;
     int weight;
@@ -256,8 +256,8 @@ static class SrvRecord implements Comparable<SrvRecord> {
     String hostport;
 
     /**
-     * Creates a service record object from a string record.
-     * DNS supplies the string record in the following format:
+     * Crebtes b service record object from b string record.
+     * DNS supplies the string record in the following formbt:
      * <pre>
      *     <Priority> " " <Weight> " " <Port> " " <Host>
      * </pre>
@@ -267,30 +267,30 @@ static class SrvRecord implements Comparable<SrvRecord> {
         String port;
 
         if (tokenizer.countTokens() == 4) {
-            priority = Integer.parseInt(tokenizer.nextToken());
-            weight = Integer.parseInt(tokenizer.nextToken());
+            priority = Integer.pbrseInt(tokenizer.nextToken());
+            weight = Integer.pbrseInt(tokenizer.nextToken());
             port = tokenizer.nextToken();
             hostport = tokenizer.nextToken() + ":" + port;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
     /*
-     * Sort records in ascending order of priority value. For records with
-     * equal priority move those with weight 0 to the top of the list.
+     * Sort records in bscending order of priority vblue. For records with
+     * equbl priority move those with weight 0 to the top of the list.
      */
-    public int compareTo(SrvRecord that) {
-        if (priority > that.priority) {
-            return 1; // this > that
-        } else if (priority < that.priority) {
-            return -1; // this < that
-        } else if (weight == 0 && that.weight != 0) {
-            return -1; // this < that
-        } else if (weight != 0 && that.weight == 0) {
-            return 1; // this > that
+    public int compbreTo(SrvRecord thbt) {
+        if (priority > thbt.priority) {
+            return 1; // this > thbt
+        } else if (priority < thbt.priority) {
+            return -1; // this < thbt
+        } else if (weight == 0 && thbt.weight != 0) {
+            return -1; // this < thbt
+        } else if (weight != 0 && thbt.weight == 0) {
+            return 1; // this > thbt
         } else {
-            return 0; // this == that
+            return 0; // this == thbt
         }
     }
 }

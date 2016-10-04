@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Mbp;
 
-import javax.management.Attribute;
-import javax.management.MBeanServerConnection;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
-   <p>Helper class for an {@link InvocationHandler} that forwards methods from an
-   MXBean interface to a named
-   MXBean in an MBean Server and handles translation between the
-   arbitrary Java types in the interface and the Open Types used
-   by the MXBean.</p>
+   <p>Helper clbss for bn {@link InvocbtionHbndler} thbt forwbrds methods from bn
+   MXBebn interfbce to b nbmed
+   MXBebn in bn MBebn Server bnd hbndles trbnslbtion between the
+   brbitrbry Jbvb types in the interfbce bnd the Open Types used
+   by the MXBebn.</p>
 
    @since 1.6
 */
-public class MXBeanProxy {
-    public MXBeanProxy(Class<?> mxbeanInterface) {
+public clbss MXBebnProxy {
+    public MXBebnProxy(Clbss<?> mxbebnInterfbce) {
 
-        if (mxbeanInterface == null)
-            throw new IllegalArgumentException("Null parameter");
+        if (mxbebnInterfbce == null)
+            throw new IllegblArgumentException("Null pbrbmeter");
 
-        final MBeanAnalyzer<ConvertingMethod> analyzer;
+        finbl MBebnAnblyzer<ConvertingMethod> bnblyzer;
         try {
-            analyzer =
-                MXBeanIntrospector.getInstance().getAnalyzer(mxbeanInterface);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            bnblyzer =
+                MXBebnIntrospector.getInstbnce().getAnblyzer(mxbebnInterfbce);
+        } cbtch (NotComplibntMBebnException e) {
+            throw new IllegblArgumentException(e);
         }
-        analyzer.visit(new Visitor());
+        bnblyzer.visit(new Visitor());
     }
 
-    private class Visitor
-            implements MBeanAnalyzer.MBeanVisitor<ConvertingMethod> {
-        public void visitAttribute(String attributeName,
+    privbte clbss Visitor
+            implements MBebnAnblyzer.MBebnVisitor<ConvertingMethod> {
+        public void visitAttribute(String bttributeNbme,
                                    ConvertingMethod getter,
                                    ConvertingMethod setter) {
             if (getter != null) {
-                getter.checkCallToOpen();
+                getter.checkCbllToOpen();
                 Method getterMethod = getter.getMethod();
-                handlerMap.put(getterMethod,
-                               new GetHandler(attributeName, getter));
+                hbndlerMbp.put(getterMethod,
+                               new GetHbndler(bttributeNbme, getter));
             }
             if (setter != null) {
-                // return type is void, no need for checkCallToOpen
+                // return type is void, no need for checkCbllToOpen
                 Method setterMethod = setter.getMethod();
-                handlerMap.put(setterMethod,
-                               new SetHandler(attributeName, setter));
+                hbndlerMbp.put(setterMethod,
+                               new SetHbndler(bttributeNbme, setter));
             }
         }
 
-        public void visitOperation(String operationName,
-                                   ConvertingMethod operation) {
-            operation.checkCallToOpen();
-            Method operationMethod = operation.getMethod();
-            String[] sig = operation.getOpenSignature();
-            handlerMap.put(operationMethod,
-                           new InvokeHandler(operationName, sig, operation));
+        public void visitOperbtion(String operbtionNbme,
+                                   ConvertingMethod operbtion) {
+            operbtion.checkCbllToOpen();
+            Method operbtionMethod = operbtion.getMethod();
+            String[] sig = operbtion.getOpenSignbture();
+            hbndlerMbp.put(operbtionMethod,
+                           new InvokeHbndler(operbtionNbme, sig, operbtion));
         }
     }
 
-    private static abstract class Handler {
-        Handler(String name, ConvertingMethod cm) {
-            this.name = name;
+    privbte stbtic bbstrbct clbss Hbndler {
+        Hbndler(String nbme, ConvertingMethod cm) {
+            this.nbme = nbme;
             this.convertingMethod = cm;
         }
 
-        String getName() {
-            return name;
+        String getNbme() {
+            return nbme;
         }
 
         ConvertingMethod getConvertingMethod() {
             return convertingMethod;
         }
 
-        abstract Object invoke(MBeanServerConnection mbsc,
-                               ObjectName name, Object[] args) throws Exception;
+        bbstrbct Object invoke(MBebnServerConnection mbsc,
+                               ObjectNbme nbme, Object[] brgs) throws Exception;
 
-        private final String name;
-        private final ConvertingMethod convertingMethod;
+        privbte finbl String nbme;
+        privbte finbl ConvertingMethod convertingMethod;
     }
 
-    private static class GetHandler extends Handler {
-        GetHandler(String attributeName, ConvertingMethod cm) {
-            super(attributeName, cm);
+    privbte stbtic clbss GetHbndler extends Hbndler {
+        GetHbndler(String bttributeNbme, ConvertingMethod cm) {
+            super(bttributeNbme, cm);
         }
 
         @Override
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
+        Object invoke(MBebnServerConnection mbsc, ObjectNbme nbme, Object[] brgs)
                 throws Exception {
-            assert(args == null || args.length == 0);
-            return mbsc.getAttribute(name, getName());
+            bssert(brgs == null || brgs.length == 0);
+            return mbsc.getAttribute(nbme, getNbme());
         }
     }
 
-    private static class SetHandler extends Handler {
-        SetHandler(String attributeName, ConvertingMethod cm) {
-            super(attributeName, cm);
+    privbte stbtic clbss SetHbndler extends Hbndler {
+        SetHbndler(String bttributeNbme, ConvertingMethod cm) {
+            super(bttributeNbme, cm);
         }
 
         @Override
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
+        Object invoke(MBebnServerConnection mbsc, ObjectNbme nbme, Object[] brgs)
                 throws Exception {
-            assert(args.length == 1);
-            Attribute attr = new Attribute(getName(), args[0]);
-            mbsc.setAttribute(name, attr);
+            bssert(brgs.length == 1);
+            Attribute bttr = new Attribute(getNbme(), brgs[0]);
+            mbsc.setAttribute(nbme, bttr);
             return null;
         }
     }
 
-    private static class InvokeHandler extends Handler {
-        InvokeHandler(String operationName, String[] signature,
+    privbte stbtic clbss InvokeHbndler extends Hbndler {
+        InvokeHbndler(String operbtionNbme, String[] signbture,
                       ConvertingMethod cm) {
-            super(operationName, cm);
-            this.signature = signature;
+            super(operbtionNbme, cm);
+            this.signbture = signbture;
         }
 
-        Object invoke(MBeanServerConnection mbsc, ObjectName name, Object[] args)
+        Object invoke(MBebnServerConnection mbsc, ObjectNbme nbme, Object[] brgs)
                 throws Exception {
-            return mbsc.invoke(name, getName(), args, signature);
+            return mbsc.invoke(nbme, getNbme(), brgs, signbture);
         }
 
-        private final String[] signature;
+        privbte finbl String[] signbture;
     }
 
-    public Object invoke(MBeanServerConnection mbsc, ObjectName name,
-                         Method method, Object[] args)
-            throws Throwable {
+    public Object invoke(MBebnServerConnection mbsc, ObjectNbme nbme,
+                         Method method, Object[] brgs)
+            throws Throwbble {
 
-        Handler handler = handlerMap.get(method);
-        ConvertingMethod cm = handler.getConvertingMethod();
-        MXBeanLookup lookup = MXBeanLookup.lookupFor(mbsc);
-        MXBeanLookup oldLookup = MXBeanLookup.getLookup();
+        Hbndler hbndler = hbndlerMbp.get(method);
+        ConvertingMethod cm = hbndler.getConvertingMethod();
+        MXBebnLookup lookup = MXBebnLookup.lookupFor(mbsc);
+        MXBebnLookup oldLookup = MXBebnLookup.getLookup();
         try {
-            MXBeanLookup.setLookup(lookup);
-            Object[] openArgs = cm.toOpenParameters(lookup, args);
-            Object result = handler.invoke(mbsc, name, openArgs);
-            return cm.fromOpenReturnValue(lookup, result);
-        } finally {
-            MXBeanLookup.setLookup(oldLookup);
+            MXBebnLookup.setLookup(lookup);
+            Object[] openArgs = cm.toOpenPbrbmeters(lookup, brgs);
+            Object result = hbndler.invoke(mbsc, nbme, openArgs);
+            return cm.fromOpenReturnVblue(lookup, result);
+        } finblly {
+            MXBebnLookup.setLookup(oldLookup);
         }
     }
 
-    private final Map<Method, Handler> handlerMap = newMap();
+    privbte finbl Mbp<Method, Hbndler> hbndlerMbp = newMbp();
 }

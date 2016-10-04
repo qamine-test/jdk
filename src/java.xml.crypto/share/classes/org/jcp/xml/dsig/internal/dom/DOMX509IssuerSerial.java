@@ -3,136 +3,136 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMX509IssuerSerial.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMX509IssuerSeribl.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.X509IssuerSerial;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.keyinfo.X509IssuerSeribl;
 
-import java.math.BigInteger;
-import javax.security.auth.x500.X500Principal;
+import jbvb.mbth.BigInteger;
+import jbvbx.security.buth.x500.X500Principbl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * DOM-based implementation of X509IssuerSerial.
+ * DOM-bbsed implementbtion of X509IssuerSeribl.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMX509IssuerSerial extends DOMStructure
-    implements X509IssuerSerial {
+public finbl clbss DOMX509IssuerSeribl extends DOMStructure
+    implements X509IssuerSeribl {
 
-    private final String issuerName;
-    private final BigInteger serialNumber;
+    privbte finbl String issuerNbme;
+    privbte finbl BigInteger seriblNumber;
 
     /**
-     * Creates a <code>DOMX509IssuerSerial</code> containing the specified
-     * issuer distinguished name/serial number pair.
+     * Crebtes b <code>DOMX509IssuerSeribl</code> contbining the specified
+     * issuer distinguished nbme/seribl number pbir.
      *
-     * @param issuerName the X.509 issuer distinguished name in RFC 2253
-     *    String format
-     * @param serialNumber the serial number
-     * @throws IllegalArgumentException if the format of <code>issuerName</code>
-     *    is not RFC 2253 compliant
-     * @throws NullPointerException if <code>issuerName</code> or
-     *    <code>serialNumber</code> is <code>null</code>
+     * @pbrbm issuerNbme the X.509 issuer distinguished nbme in RFC 2253
+     *    String formbt
+     * @pbrbm seriblNumber the seribl number
+     * @throws IllegblArgumentException if the formbt of <code>issuerNbme</code>
+     *    is not RFC 2253 complibnt
+     * @throws NullPointerException if <code>issuerNbme</code> or
+     *    <code>seriblNumber</code> is <code>null</code>
      */
-    public DOMX509IssuerSerial(String issuerName, BigInteger serialNumber) {
-        if (issuerName == null) {
-            throw new NullPointerException("issuerName cannot be null");
+    public DOMX509IssuerSeribl(String issuerNbme, BigInteger seriblNumber) {
+        if (issuerNbme == null) {
+            throw new NullPointerException("issuerNbme cbnnot be null");
         }
-        if (serialNumber == null) {
-            throw new NullPointerException("serialNumber cannot be null");
+        if (seriblNumber == null) {
+            throw new NullPointerException("seriblNumber cbnnot be null");
         }
-        // check that issuer distinguished name conforms to RFC 2253
-        new X500Principal(issuerName);
-        this.issuerName = issuerName;
-        this.serialNumber = serialNumber;
+        // check thbt issuer distinguished nbme conforms to RFC 2253
+        new X500Principbl(issuerNbme);
+        this.issuerNbme = issuerNbme;
+        this.seriblNumber = seriblNumber;
     }
 
     /**
-     * Creates a <code>DOMX509IssuerSerial</code> from an element.
+     * Crebtes b <code>DOMX509IssuerSeribl</code> from bn element.
      *
-     * @param isElem an X509IssuerSerial element
+     * @pbrbm isElem bn X509IssuerSeribl element
      */
-    public DOMX509IssuerSerial(Element isElem) throws MarshalException {
+    public DOMX509IssuerSeribl(Element isElem) throws MbrshblException {
         Element iNElem = DOMUtils.getFirstChildElement(isElem,
-                                                       "X509IssuerName");
+                                                       "X509IssuerNbme");
         Element sNElem = DOMUtils.getNextSiblingElement(iNElem,
-                                                        "X509SerialNumber");
-        issuerName = iNElem.getFirstChild().getNodeValue();
-        serialNumber = new BigInteger(sNElem.getFirstChild().getNodeValue());
+                                                        "X509SeriblNumber");
+        issuerNbme = iNElem.getFirstChild().getNodeVblue();
+        seriblNumber = new BigInteger(sNElem.getFirstChild().getNodeVblue());
     }
 
-    public String getIssuerName() {
-        return issuerName;
+    public String getIssuerNbme() {
+        return issuerNbme;
     }
 
-    public BigInteger getSerialNumber() {
-        return serialNumber;
+    public BigInteger getSeriblNumber() {
+        return seriblNumber;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
 
-        Element isElem = DOMUtils.createElement(ownerDoc, "X509IssuerSerial",
-                                                XMLSignature.XMLNS, dsPrefix);
-        Element inElem = DOMUtils.createElement(ownerDoc, "X509IssuerName",
-                                                XMLSignature.XMLNS, dsPrefix);
-        Element snElem = DOMUtils.createElement(ownerDoc, "X509SerialNumber",
-                                                XMLSignature.XMLNS, dsPrefix);
-        inElem.appendChild(ownerDoc.createTextNode(issuerName));
-        snElem.appendChild(ownerDoc.createTextNode(serialNumber.toString()));
-        isElem.appendChild(inElem);
-        isElem.appendChild(snElem);
-        parent.appendChild(isElem);
+        Element isElem = DOMUtils.crebteElement(ownerDoc, "X509IssuerSeribl",
+                                                XMLSignbture.XMLNS, dsPrefix);
+        Element inElem = DOMUtils.crebteElement(ownerDoc, "X509IssuerNbme",
+                                                XMLSignbture.XMLNS, dsPrefix);
+        Element snElem = DOMUtils.crebteElement(ownerDoc, "X509SeriblNumber",
+                                                XMLSignbture.XMLNS, dsPrefix);
+        inElem.bppendChild(ownerDoc.crebteTextNode(issuerNbme));
+        snElem.bppendChild(ownerDoc.crebteTextNode(seriblNumber.toString()));
+        isElem.bppendChild(inElem);
+        isElem.bppendChild(snElem);
+        pbrent.bppendChild(isElem);
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof X509IssuerSerial)) {
-            return false;
+        if (!(obj instbnceof X509IssuerSeribl)) {
+            return fblse;
         }
-        X509IssuerSerial ois = (X509IssuerSerial)obj;
-        return (issuerName.equals(ois.getIssuerName()) &&
-                serialNumber.equals(ois.getSerialNumber()));
+        X509IssuerSeribl ois = (X509IssuerSeribl)obj;
+        return (issuerNbme.equbls(ois.getIssuerNbme()) &&
+                seriblNumber.equbls(ois.getSeriblNumber()));
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
-        result = 31 * result + issuerName.hashCode();
-        result = 31 * result + serialNumber.hashCode();
+        result = 31 * result + issuerNbme.hbshCode();
+        result = 31 * result + seriblNumber.hbshCode();
 
         return result;
     }

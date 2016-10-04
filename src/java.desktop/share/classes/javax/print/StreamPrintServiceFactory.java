@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrebm;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
 
-import javax.print.DocFlavor;
+import jbvbx.print.DocFlbvor;
 
-import sun.awt.AppContext;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import sun.bwt.AppContext;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 
 /**
- * A <code>StreamPrintServiceFactory</code> is the factory for
- * {@link StreamPrintService} instances,
- * which can print to an output stream in a particular
- * document format described as a mime type.
- * A typical output document format may be Postscript(TM).
+ * A <code>StrebmPrintServiceFbctory</code> is the fbctory for
+ * {@link StrebmPrintService} instbnces,
+ * which cbn print to bn output strebm in b pbrticulbr
+ * document formbt described bs b mime type.
+ * A typicbl output document formbt mby be Postscript(TM).
  * <p>
- * This class is implemented by a service and located by the
- * implementation using the
- * <a href="../../../technotes/guides/jar/jar.html#Service%20Provider">
- * SPI JAR File specification</a>.
+ * This clbss is implemented by b service bnd locbted by the
+ * implementbtion using the
+ * <b href="../../../technotes/guides/jbr/jbr.html#Service%20Provider">
+ * SPI JAR File specificbtion</b>.
  * <p>
- * Applications locate instances of this class by calling the
- * {@link #lookupStreamPrintServiceFactories(DocFlavor, String)} method.
+ * Applicbtions locbte instbnces of this clbss by cblling the
+ * {@link #lookupStrebmPrintServiceFbctories(DocFlbvor, String)} method.
  * <p>
- * Applications can use a <code>StreamPrintService</code> obtained from a
- * factory in place of a <code>PrintService</code> which represents a
- * physical printer device.
+ * Applicbtions cbn use b <code>StrebmPrintService</code> obtbined from b
+ * fbctory in plbce of b <code>PrintService</code> which represents b
+ * physicbl printer device.
  */
 
-public abstract class StreamPrintServiceFactory {
+public bbstrbct clbss StrebmPrintServiceFbctory {
 
-    static class Services {
-        private ArrayList<StreamPrintServiceFactory> listOfFactories = null;
+    stbtic clbss Services {
+        privbte ArrbyList<StrebmPrintServiceFbctory> listOfFbctories = null;
     }
 
-    private static Services getServices() {
+    privbte stbtic Services getServices() {
         Services services =
-            (Services)AppContext.getAppContext().get(Services.class);
+            (Services)AppContext.getAppContext().get(Services.clbss);
         if (services == null) {
             services = new Services();
-            AppContext.getAppContext().put(Services.class, services);
+            AppContext.getAppContext().put(Services.clbss, services);
         }
         return services;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> getListOfFactories() {
-        return getServices().listOfFactories;
+    privbte stbtic ArrbyList<StrebmPrintServiceFbctory> getListOfFbctories() {
+        return getServices().listOfFbctories;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> initListOfFactories() {
-        ArrayList<StreamPrintServiceFactory> listOfFactories = new ArrayList<>();
-        getServices().listOfFactories = listOfFactories;
-        return listOfFactories;
+    privbte stbtic ArrbyList<StrebmPrintServiceFbctory> initListOfFbctories() {
+        ArrbyList<StrebmPrintServiceFbctory> listOfFbctories = new ArrbyList<>();
+        getServices().listOfFbctories = listOfFbctories;
+        return listOfFbctories;
     }
 
     /**
-     * Locates factories for print services that can be used with
-     * a print job to output a stream of data in the
-     * format specified by {@code outputMimeType}.
+     * Locbtes fbctories for print services thbt cbn be used with
+     * b print job to output b strebm of dbtb in the
+     * formbt specified by {@code outputMimeType}.
      * <p>
-     * The {@code outputMimeType} parameter describes the document type that
-     * you want to create, whereas the {@code flavor} parameter describes the
-     * format in which the input data will be provided by the application
-     * to the {@code StreamPrintService}.
+     * The {@code outputMimeType} pbrbmeter describes the document type thbt
+     * you wbnt to crebte, wherebs the {@code flbvor} pbrbmeter describes the
+     * formbt in which the input dbtb will be provided by the bpplicbtion
+     * to the {@code StrebmPrintService}.
      * <p>
-     * Although null is an acceptable value to use in the lookup of stream
-     * printing services, it's typical to search for a particular
-     * desired format, such as Postscript(TM).
+     * Although null is bn bcceptbble vblue to use in the lookup of strebm
+     * printing services, it's typicbl to sebrch for b pbrticulbr
+     * desired formbt, such bs Postscript(TM).
      *
-     * @param flavor of the input document type - null means match all
+     * @pbrbm flbvor of the input document type - null mebns mbtch bll
      * types.
-     * @param outputMimeType representing the required output format, used to
-     * identify suitable stream printer factories. A value of null means
-     * match all formats.
-     * @return - matching factories for stream print service instance,
-     *           empty if no suitable factories could be located.
+     * @pbrbm outputMimeType representing the required output formbt, used to
+     * identify suitbble strebm printer fbctories. A vblue of null mebns
+     * mbtch bll formbts.
+     * @return - mbtching fbctories for strebm print service instbnce,
+     *           empty if no suitbble fbctories could be locbted.
      */
-     public static StreamPrintServiceFactory[]
-         lookupStreamPrintServiceFactories(DocFlavor flavor,
+     public stbtic StrebmPrintServiceFbctory[]
+         lookupStrebmPrintServiceFbctories(DocFlbvor flbvor,
                                            String outputMimeType) {
 
-         ArrayList<StreamPrintServiceFactory> list = getFactories(flavor, outputMimeType);
-         return list.toArray(new StreamPrintServiceFactory[list.size()]);
+         ArrbyList<StrebmPrintServiceFbctory> list = getFbctories(flbvor, outputMimeType);
+         return list.toArrby(new StrebmPrintServiceFbctory[list.size()]);
      }
 
-    /** Queries the factory for the document format that is emitted
-     * by printers obtained from this factory.
+    /** Queries the fbctory for the document formbt thbt is emitted
+     * by printers obtbined from this fbctory.
      *
-     * @return the output format described as a mime type.
+     * @return the output formbt described bs b mime type.
      */
-    public abstract String getOutputFormat();
+    public bbstrbct String getOutputFormbt();
 
     /**
-     * Queries the factory for the document flavors that can be accepted
-     * by printers obtained from this factory.
-     * @return array of supported doc flavors.
+     * Queries the fbctory for the document flbvors thbt cbn be bccepted
+     * by printers obtbined from this fbctory.
+     * @return brrby of supported doc flbvors.
      */
-    public abstract DocFlavor[] getSupportedDocFlavors();
+    public bbstrbct DocFlbvor[] getSupportedDocFlbvors();
 
     /**
-     * Returns a <code>StreamPrintService</code> that can print to
-     * the specified output stream.
-     * The output stream is created and managed by the application.
-     * It is the application's responsibility to close the stream and
-     * to ensure that this Printer is not reused.
-     * The application should not close this stream until any print job
-     * created from the printer is complete. Doing so earlier may generate
-     * a <code>PrinterException</code> and an event indicating that the
-     * job failed.
+     * Returns b <code>StrebmPrintService</code> thbt cbn print to
+     * the specified output strebm.
+     * The output strebm is crebted bnd mbnbged by the bpplicbtion.
+     * It is the bpplicbtion's responsibility to close the strebm bnd
+     * to ensure thbt this Printer is not reused.
+     * The bpplicbtion should not close this strebm until bny print job
+     * crebted from the printer is complete. Doing so ebrlier mby generbte
+     * b <code>PrinterException</code> bnd bn event indicbting thbt the
+     * job fbiled.
      * <p>
-     * Whereas a <code>PrintService</code> connected to a physical printer
-     * can be reused,
-     * a <code>StreamPrintService</code> connected to a stream cannot.
-     * The underlying <code>StreamPrintService</code> may be disposed by
+     * Wherebs b <code>PrintService</code> connected to b physicbl printer
+     * cbn be reused,
+     * b <code>StrebmPrintService</code> connected to b strebm cbnnot.
+     * The underlying <code>StrebmPrintService</code> mby be disposed by
      * the print system with
-     * the {@link StreamPrintService#dispose() dispose} method
+     * the {@link StrebmPrintService#dispose() dispose} method
      * before returning from the
-     * {@link DocPrintJob#print(Doc, javax.print.attribute.PrintRequestAttributeSet) print}
-     * method of <code>DocPrintJob</code> so that the print system knows
-     * this printer is no longer usable.
-     * This is equivalent to a physical printer going offline - permanently.
-     * Applications may supply a null print stream to create a queryable
-     * service. It is not valid to create a PrintJob for such a stream.
-     * Implementations which allocate resources on construction should examine
-     * the stream and may wish to only allocate resources if the stream is
+     * {@link DocPrintJob#print(Doc, jbvbx.print.bttribute.PrintRequestAttributeSet) print}
+     * method of <code>DocPrintJob</code> so thbt the print system knows
+     * this printer is no longer usbble.
+     * This is equivblent to b physicbl printer going offline - permbnently.
+     * Applicbtions mby supply b null print strebm to crebte b querybble
+     * service. It is not vblid to crebte b PrintJob for such b strebm.
+     * Implementbtions which bllocbte resources on construction should exbmine
+     * the strebm bnd mby wish to only bllocbte resources if the strebm is
      * non-null.
      *
-     * @param out destination stream for generated output.
-     * @return a PrintService which will generate the format specified by the
-     * DocFlavor supported by this Factory.
+     * @pbrbm out destinbtion strebm for generbted output.
+     * @return b PrintService which will generbte the formbt specified by the
+     * DocFlbvor supported by this Fbctory.
      */
-    public abstract StreamPrintService getPrintService(OutputStream out);
+    public bbstrbct StrebmPrintService getPrintService(OutputStrebm out);
 
 
-    private static ArrayList<StreamPrintServiceFactory> getAllFactories() {
-        synchronized (StreamPrintServiceFactory.class) {
+    privbte stbtic ArrbyList<StrebmPrintServiceFbctory> getAllFbctories() {
+        synchronized (StrebmPrintServiceFbctory.clbss) {
 
-          ArrayList<StreamPrintServiceFactory> listOfFactories = getListOfFactories();
-            if (listOfFactories != null) {
-                return listOfFactories;
+          ArrbyList<StrebmPrintServiceFbctory> listOfFbctories = getListOfFbctories();
+            if (listOfFbctories != null) {
+                return listOfFbctories;
             } else {
-                listOfFactories = initListOfFactories();
+                listOfFbctories = initListOfFbctories();
             }
 
             try {
-                java.security.AccessController.doPrivileged(
-                     new java.security.PrivilegedExceptionAction<Object>() {
+                jbvb.security.AccessController.doPrivileged(
+                     new jbvb.security.PrivilegedExceptionAction<Object>() {
                         public Object run() {
-                            Iterator<StreamPrintServiceFactory> iterator =
-                                ServiceLoader.load
-                                (StreamPrintServiceFactory.class).iterator();
-                            ArrayList<StreamPrintServiceFactory> lof = getListOfFactories();
-                            while (iterator.hasNext()) {
+                            Iterbtor<StrebmPrintServiceFbctory> iterbtor =
+                                ServiceLobder.lobd
+                                (StrebmPrintServiceFbctory.clbss).iterbtor();
+                            ArrbyList<StrebmPrintServiceFbctory> lof = getListOfFbctories();
+                            while (iterbtor.hbsNext()) {
                                 try {
-                                    lof.add(iterator.next());
-                                }  catch (ServiceConfigurationError err) {
-                                     /* In the applet case, we continue */
-                                    if (System.getSecurityManager() != null) {
-                                        err.printStackTrace();
+                                    lof.bdd(iterbtor.next());
+                                }  cbtch (ServiceConfigurbtionError err) {
+                                     /* In the bpplet cbse, we continue */
+                                    if (System.getSecurityMbnbger() != null) {
+                                        err.printStbckTrbce();
                                     } else {
                                         throw err;
                                     }
@@ -194,36 +194,36 @@ public abstract class StreamPrintServiceFactory {
                             return null;
                         }
                 });
-            } catch (java.security.PrivilegedActionException e) {
+            } cbtch (jbvb.security.PrivilegedActionException e) {
             }
-            return listOfFactories;
+            return listOfFbctories;
         }
     }
 
-    private static boolean isMember(DocFlavor flavor, DocFlavor[] flavors) {
-        for (int f=0; f<flavors.length; f++ ) {
-            if (flavor.equals(flavors[f])) {
+    privbte stbtic boolebn isMember(DocFlbvor flbvor, DocFlbvor[] flbvors) {
+        for (int f=0; f<flbvors.length; f++ ) {
+            if (flbvor.equbls(flbvors[f])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> getFactories(DocFlavor flavor, String outType) {
+    privbte stbtic ArrbyList<StrebmPrintServiceFbctory> getFbctories(DocFlbvor flbvor, String outType) {
 
-        if (flavor == null && outType == null) {
-            return getAllFactories();
+        if (flbvor == null && outType == null) {
+            return getAllFbctories();
         }
 
-        ArrayList<StreamPrintServiceFactory> list = new ArrayList<>();
-        Iterator<StreamPrintServiceFactory> iterator = getAllFactories().iterator();
-        while (iterator.hasNext()) {
-            StreamPrintServiceFactory factory = iterator.next();
+        ArrbyList<StrebmPrintServiceFbctory> list = new ArrbyList<>();
+        Iterbtor<StrebmPrintServiceFbctory> iterbtor = getAllFbctories().iterbtor();
+        while (iterbtor.hbsNext()) {
+            StrebmPrintServiceFbctory fbctory = iterbtor.next();
             if ((outType == null ||
-                 outType.equalsIgnoreCase(factory.getOutputFormat())) &&
-                (flavor == null ||
-                 isMember(flavor, factory.getSupportedDocFlavors()))) {
-                list.add(factory);
+                 outType.equblsIgnoreCbse(fbctory.getOutputFormbt())) &&
+                (flbvor == null ||
+                 isMember(flbvor, fbctory.getSupportedDocFlbvors()))) {
+                list.bdd(fbctory);
             }
         }
 

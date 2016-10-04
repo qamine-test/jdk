@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,184 +30,184 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Trace table. */
+/* Trbce tbble. */
 
 /*
- * A trace is an optional thread serial number plus N frames.
+ * A trbce is bn optionbl threbd seribl number plus N frbmes.
  *
- * The thread serial number is added to the key only if the user asks for
- *    threads in traces, which will cause many more traces to be created.
- *    Without it all threads share the traces.
+ * The threbd seribl number is bdded to the key only if the user bsks for
+ *    threbds in trbces, which will cbuse mbny more trbces to be crebted.
+ *    Without it bll threbds shbre the trbces.
  *
- * This is a variable length Key, depending on the number of frames.
- *   The frames are FrameIndex values into the frame table.
+ * This is b vbribble length Key, depending on the number of frbmes.
+ *   The frbmes bre FrbmeIndex vblues into the frbme tbble.
  *
- * It is important that the thread serial number is used and not the
- *    TlsIndex, threads come and go, and TlsIndex values are re-used
- *    but the thread serial number is unique per thread.
+ * It is importbnt thbt the threbd seribl number is used bnd not the
+ *    TlsIndex, threbds come bnd go, bnd TlsIndex vblues bre re-used
+ *    but the threbd seribl number is unique per threbd.
  *
- * The cpu=times and cpu=samples dumps rely heavily on traces, the trace
- *   dump preceeds the cpu information and uses the trace information.
- *   Depending on the cpu= request, different sorts are applied to the
- *   traces that are dumped.
+ * The cpu=times bnd cpu=sbmples dumps rely hebvily on trbces, the trbce
+ *   dump preceeds the cpu informbtion bnd uses the trbce informbtion.
+ *   Depending on the cpu= request, different sorts bre bpplied to the
+ *   trbces thbt bre dumped.
  *
  */
 
 #include "hprof.h"
 
-typedef struct TraceKey {
-    SerialNumber thread_serial_num; /* Thread serial number */
-    short        n_frames;          /* Number of frames that follow. */
-    jvmtiPhase   phase : 8;         /* Makes some traces unique */
-    FrameIndex   frames[1];         /* Variable length */
-} TraceKey;
+typedef struct TrbceKey {
+    SeriblNumber threbd_seribl_num; /* Threbd seribl number */
+    short        n_frbmes;          /* Number of frbmes thbt follow. */
+    jvmtiPhbse   phbse : 8;         /* Mbkes some trbces unique */
+    FrbmeIndex   frbmes[1];         /* Vbribble length */
+} TrbceKey;
 
-typedef struct TraceInfo {
-    SerialNumber serial_num;        /* Trace serial number */
-    jint         num_hits;          /* Number of hits this trace has */
-    jlong        total_cost;        /* Total cost associated with trace */
-    jlong        self_cost;         /* Total cost without children cost */
-    jint         status;            /* Status of dump of trace */
-} TraceInfo;
+typedef struct TrbceInfo {
+    SeriblNumber seribl_num;        /* Trbce seribl number */
+    jint         num_hits;          /* Number of hits this trbce hbs */
+    jlong        totbl_cost;        /* Totbl cost bssocibted with trbce */
+    jlong        self_cost;         /* Totbl cost without children cost */
+    jint         stbtus;            /* Stbtus of dump of trbce */
+} TrbceInfo;
 
-typedef struct IterateInfo {
-    TraceIndex* traces;
+typedef struct IterbteInfo {
+    TrbceIndex* trbces;
     int         count;
-    jlong       grand_total_cost;
-} IterateInfo;
+    jlong       grbnd_totbl_cost;
+} IterbteInfo;
 
-/* Private internal functions. */
+/* Privbte internbl functions. */
 
-static TraceKey*
-get_pkey(TraceIndex index)
+stbtic TrbceKey*
+get_pkey(TrbceIndex index)
 {
     void *      pkey;
     int         key_len;
 
-    table_get_key(gdata->trace_table, index, &pkey, &key_len);
+    tbble_get_key(gdbtb->trbce_tbble, index, &pkey, &key_len);
     HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(key_len>=(int)sizeof(TraceKey));
-    HPROF_ASSERT(((TraceKey*)pkey)->n_frames<=1?key_len==(int)sizeof(TraceKey) :
-             key_len==(int)sizeof(TraceKey)+
-                      (int)sizeof(FrameIndex)*(((TraceKey*)pkey)->n_frames-1));
-    return (TraceKey*)pkey;
+    HPROF_ASSERT(key_len>=(int)sizeof(TrbceKey));
+    HPROF_ASSERT(((TrbceKey*)pkey)->n_frbmes<=1?key_len==(int)sizeof(TrbceKey) :
+             key_len==(int)sizeof(TrbceKey)+
+                      (int)sizeof(FrbmeIndex)*(((TrbceKey*)pkey)->n_frbmes-1));
+    return (TrbceKey*)pkey;
 }
 
-static TraceInfo *
-get_info(TraceIndex index)
+stbtic TrbceInfo *
+get_info(TrbceIndex index)
 {
-    TraceInfo *         info;
+    TrbceInfo *         info;
 
-    info        = (TraceInfo*)table_get_info(gdata->trace_table, index);
+    info        = (TrbceInfo*)tbble_get_info(gdbtb->trbce_tbble, index);
     return info;
 }
 
-static TraceIndex
-find_or_create(SerialNumber thread_serial_num, jint n_frames,
-            FrameIndex *frames, jvmtiPhase phase, TraceKey *trace_key_buffer)
+stbtic TrbceIndex
+find_or_crebte(SeriblNumber threbd_seribl_num, jint n_frbmes,
+            FrbmeIndex *frbmes, jvmtiPhbse phbse, TrbceKey *trbce_key_buffer)
 {
-    TraceInfo * info;
-    TraceKey *  pkey;
+    TrbceInfo * info;
+    TrbceKey *  pkey;
     int         key_len;
-    TraceIndex  index;
-    jboolean    new_one;
-    static TraceKey empty_key;
+    TrbceIndex  index;
+    jboolebn    new_one;
+    stbtic TrbceKey empty_key;
 
-    HPROF_ASSERT(frames!=NULL);
-    HPROF_ASSERT(trace_key_buffer!=NULL);
-    key_len = (int)sizeof(TraceKey);
-    if ( n_frames > 1 ) {
-        key_len += (int)((n_frames-1)*(int)sizeof(FrameIndex));
+    HPROF_ASSERT(frbmes!=NULL);
+    HPROF_ASSERT(trbce_key_buffer!=NULL);
+    key_len = (int)sizeof(TrbceKey);
+    if ( n_frbmes > 1 ) {
+        key_len += (int)((n_frbmes-1)*(int)sizeof(FrbmeIndex));
     }
-    pkey = trace_key_buffer;
+    pkey = trbce_key_buffer;
     *pkey = empty_key;
-    pkey->thread_serial_num = (gdata->thread_in_traces ? thread_serial_num : 0);
-    pkey->n_frames = (short)n_frames;
-    pkey->phase = phase;
-    if ( n_frames > 0 ) {
-        (void)memcpy(pkey->frames, frames, (n_frames*(int)sizeof(FrameIndex)));
+    pkey->threbd_seribl_num = (gdbtb->threbd_in_trbces ? threbd_seribl_num : 0);
+    pkey->n_frbmes = (short)n_frbmes;
+    pkey->phbse = phbse;
+    if ( n_frbmes > 0 ) {
+        (void)memcpy(pkey->frbmes, frbmes, (n_frbmes*(int)sizeof(FrbmeIndex)));
     }
 
     new_one = JNI_FALSE;
-    index = table_find_or_create_entry(gdata->trace_table,
+    index = tbble_find_or_crebte_entry(gdbtb->trbce_tbble,
                                 pkey, key_len, &new_one, NULL);
     if ( new_one ) {
         info = get_info(index);
-        info->serial_num = gdata->trace_serial_number_counter++;
+        info->seribl_num = gdbtb->trbce_seribl_number_counter++;
     }
     return index;
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
-    TraceKey         *key;
+    TrbceInfo *info;
+    TrbceKey         *key;
     int               i;
 
     HPROF_ASSERT(key_ptr!=NULL);
     HPROF_ASSERT(key_len>0);
     HPROF_ASSERT(info_ptr!=NULL);
-    key = (TraceKey*)key_ptr;
-    info = (TraceInfo *)info_ptr;
+    key = (TrbceKey*)key_ptr;
+    info = (TrbceInfo *)info_ptr;
 
-    debug_message( "Trace 0x%08x: SN=%u, threadSN=%u, n_frames=%d, frames=(",
+    debug_messbge( "Trbce 0x%08x: SN=%u, threbdSN=%u, n_frbmes=%d, frbmes=(",
              index,
-             info->serial_num,
-             key->thread_serial_num,
-             key->n_frames);
-    for ( i = 0 ; i < key->n_frames ; i++ ) {
-        debug_message( "0x%08x, ", key->frames[i]);
+             info->seribl_num,
+             key->threbd_seribl_num,
+             key->n_frbmes);
+    for ( i = 0 ; i < key->n_frbmes ; i++ ) {
+        debug_messbge( "0x%08x, ", key->frbmes[i]);
     }
-    debug_message( "), traceSN=%u, num_hits=%d, self_cost=(%d,%d), "
-                        "total_cost=(%d,%d), status=0x%08x\n",
-                        info->serial_num,
+    debug_messbge( "), trbceSN=%u, num_hits=%d, self_cost=(%d,%d), "
+                        "totbl_cost=(%d,%d), stbtus=0x%08x\n",
+                        info->seribl_num,
                         info->num_hits,
                         jlong_high(info->self_cost),
                         jlong_low(info->self_cost),
-                        jlong_high(info->total_cost),
-                        jlong_low(info->total_cost),
-                        info->status);
+                        jlong_high(info->totbl_cost),
+                        jlong_low(info->totbl_cost),
+                        info->stbtus);
 }
 
-static void
-clear_cost(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+clebr_cost(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
+    TrbceInfo *info;
 
     HPROF_ASSERT(key_ptr!=NULL);
     HPROF_ASSERT(key_len>0);
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (TraceInfo *)info_ptr;
+    info = (TrbceInfo *)info_ptr;
     info->num_hits = 0;
-    info->total_cost = 0;
+    info->totbl_cost = 0;
     info->self_cost = 0;
 }
 
-/* Get the names for a frame in order to dump it. */
-static void
-get_frame_details(JNIEnv *env, FrameIndex frame_index,
-                SerialNumber *frame_serial_num, char **pcsig, ClassIndex *pcnum,
-                char **pmname, char **pmsig, char **psname, jint *plineno)
+/* Get the nbmes for b frbme in order to dump it. */
+stbtic void
+get_frbme_detbils(JNIEnv *env, FrbmeIndex frbme_index,
+                SeriblNumber *frbme_seribl_num, chbr **pcsig, ClbssIndex *pcnum,
+                chbr **pmnbme, chbr **pmsig, chbr **psnbme, jint *plineno)
 {
     jmethodID method;
-    jlocation location;
+    jlocbtion locbtion;
     jint      lineno;
 
-    HPROF_ASSERT(frame_index!=0);
-    *pmname = NULL;
+    HPROF_ASSERT(frbme_index!=0);
+    *pmnbme = NULL;
     *pmsig = NULL;
     *pcsig = NULL;
-    if ( psname != NULL ) {
-        *psname = NULL;
+    if ( psnbme != NULL ) {
+        *psnbme = NULL;
     }
     if ( plineno != NULL ) {
         *plineno = -1;
@@ -215,655 +215,655 @@ get_frame_details(JNIEnv *env, FrameIndex frame_index,
     if ( pcnum != NULL ) {
         *pcnum = 0;
     }
-    frame_get_location(frame_index, frame_serial_num, &method, &location, &lineno);
+    frbme_get_locbtion(frbme_index, frbme_seribl_num, &method, &locbtion, &lineno);
     if ( plineno != NULL ) {
         *plineno = lineno;
     }
     WITH_LOCAL_REFS(env, 1) {
-        jclass klass;
+        jclbss klbss;
 
-        getMethodClass(method, &klass);
-        getClassSignature(klass, pcsig, NULL);
+        getMethodClbss(method, &klbss);
+        getClbssSignbture(klbss, pcsig, NULL);
         if ( pcnum != NULL ) {
-            LoaderIndex loader_index;
-            jobject     loader;
+            LobderIndex lobder_index;
+            jobject     lobder;
 
-            loader = getClassLoader(klass);
-            loader_index = loader_find_or_create(env, loader);
-            *pcnum = class_find_or_create(*pcsig, loader_index);
-             (void)class_new_classref(env, *pcnum, klass);
+            lobder = getClbssLobder(klbss);
+            lobder_index = lobder_find_or_crebte(env, lobder);
+            *pcnum = clbss_find_or_crebte(*pcsig, lobder_index);
+             (void)clbss_new_clbssref(env, *pcnum, klbss);
         }
-        if ( psname != NULL ) {
-            getSourceFileName(klass, psname);
+        if ( psnbme != NULL ) {
+            getSourceFileNbme(klbss, psnbme);
         }
     } END_WITH_LOCAL_REFS;
-    getMethodName(method, pmname, pmsig);
+    getMethodNbme(method, pmnbme, pmsig);
 }
 
-/* Write out a stack trace.  */
-static void
-output_trace(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Write out b stbck trbce.  */
+stbtic void
+output_trbce(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    TraceKey *key;
-    TraceInfo *info;
-    SerialNumber serial_num;
-    SerialNumber thread_serial_num;
-    jint n_frames;
+    TrbceKey *key;
+    TrbceInfo *info;
+    SeriblNumber seribl_num;
+    SeriblNumber threbd_seribl_num;
+    jint n_frbmes;
     JNIEnv *env;
     int i;
-    char *phase_str;
-    struct FrameNames {
-        SerialNumber serial_num;
-        char * sname;
-        char * csig;
-        char * mname;
+    chbr *phbse_str;
+    struct FrbmeNbmes {
+        SeriblNumber seribl_num;
+        chbr * snbme;
+        chbr * csig;
+        chbr * mnbme;
         int    lineno;
     } *finfo;
 
-    info = (TraceInfo*)info_ptr;
-    if ( info->status != 0 ) {
+    info = (TrbceInfo*)info_ptr;
+    if ( info->stbtus != 0 ) {
         return;
     }
 
-    env = (JNIEnv*)arg;
+    env = (JNIEnv*)brg;
 
-    key = (TraceKey*)key_ptr;
-    thread_serial_num = key->thread_serial_num;
-    serial_num = info->serial_num;
-    info->status = 1;
+    key = (TrbceKey*)key_ptr;
+    threbd_seribl_num = key->threbd_seribl_num;
+    seribl_num = info->seribl_num;
+    info->stbtus = 1;
     finfo = NULL;
 
-    n_frames = (jint)key->n_frames;
-    if ( n_frames > 0 ) {
-        finfo = (struct FrameNames *)HPROF_MALLOC(n_frames*(int)sizeof(struct FrameNames));
+    n_frbmes = (jint)key->n_frbmes;
+    if ( n_frbmes > 0 ) {
+        finfo = (struct FrbmeNbmes *)HPROF_MALLOC(n_frbmes*(int)sizeof(struct FrbmeNbmes));
 
-        /* Write frames, but save information for trace later */
-        for (i = 0; i < n_frames; i++) {
-            FrameIndex frame_index;
-            char *msig;
-            ClassIndex cnum;
+        /* Write frbmes, but sbve informbtion for trbce lbter */
+        for (i = 0; i < n_frbmes; i++) {
+            FrbmeIndex frbme_index;
+            chbr *msig;
+            ClbssIndex cnum;
 
-            frame_index = key->frames[i];
-            get_frame_details(env, frame_index, &finfo[i].serial_num,
+            frbme_index = key->frbmes[i];
+            get_frbme_detbils(env, frbme_index, &finfo[i].seribl_num,
                         &finfo[i].csig, &cnum,
-                        &finfo[i].mname, &msig, &finfo[i].sname, &finfo[i].lineno);
+                        &finfo[i].mnbme, &msig, &finfo[i].snbme, &finfo[i].lineno);
 
-            if (frame_get_status(frame_index) == 0) {
-                io_write_frame(frame_index, finfo[i].serial_num,
-                               finfo[i].mname, msig,
-                               finfo[i].sname, class_get_serial_number(cnum),
+            if (frbme_get_stbtus(frbme_index) == 0) {
+                io_write_frbme(frbme_index, finfo[i].seribl_num,
+                               finfo[i].mnbme, msig,
+                               finfo[i].snbme, clbss_get_seribl_number(cnum),
                                finfo[i].lineno);
-                frame_set_status(frame_index, 1);
+                frbme_set_stbtus(frbme_index, 1);
             }
-            jvmtiDeallocate(msig);
+            jvmtiDebllocbte(msig);
         }
     }
 
-    /* Find phase string */
-    if ( key->phase == JVMTI_PHASE_LIVE ) {
-        phase_str = NULL; /* Normal trace, no phase annotation */
+    /* Find phbse string */
+    if ( key->phbse == JVMTI_PHASE_LIVE ) {
+        phbse_str = NULL; /* Normbl trbce, no phbse bnnotbtion */
     } else {
-        phase_str =  phaseString(key->phase);
+        phbse_str =  phbseString(key->phbse);
     }
 
-    io_write_trace_header(serial_num, thread_serial_num, n_frames, phase_str);
+    io_write_trbce_hebder(seribl_num, threbd_seribl_num, n_frbmes, phbse_str);
 
-    for (i = 0; i < n_frames; i++) {
-        io_write_trace_elem(serial_num, key->frames[i], finfo[i].serial_num,
+    for (i = 0; i < n_frbmes; i++) {
+        io_write_trbce_elem(seribl_num, key->frbmes[i], finfo[i].seribl_num,
                             finfo[i].csig,
-                            finfo[i].mname, finfo[i].sname, finfo[i].lineno);
-        jvmtiDeallocate(finfo[i].csig);
-        jvmtiDeallocate(finfo[i].mname);
-        jvmtiDeallocate(finfo[i].sname);
+                            finfo[i].mnbme, finfo[i].snbme, finfo[i].lineno);
+        jvmtiDebllocbte(finfo[i].csig);
+        jvmtiDebllocbte(finfo[i].mnbme);
+        jvmtiDebllocbte(finfo[i].snbme);
     }
 
-    io_write_trace_footer(serial_num, thread_serial_num, n_frames);
+    io_write_trbce_footer(seribl_num, threbd_seribl_num, n_frbmes);
 
     if ( finfo != NULL ) {
         HPROF_FREE(finfo);
     }
 }
 
-/* Output a specific list of traces. */
-static void
-output_list(JNIEnv *env, TraceIndex *list, jint count)
+/* Output b specific list of trbces. */
+stbtic void
+output_list(JNIEnv *env, TrbceIndex *list, jint count)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
         int i;
 
         for ( i = 0; i < count ; i++ ) {
-            TraceIndex index;
-            TraceInfo  *info;
+            TrbceIndex index;
+            TrbceInfo  *info;
             void *      pkey;
             int         key_len;
 
             index = list[i];
-            table_get_key(gdata->trace_table, index, &pkey, &key_len);
+            tbble_get_key(gdbtb->trbce_tbble, index, &pkey, &key_len);
             info = get_info(index);
-            output_trace(index, pkey, key_len, info, (void*)env);
+            output_trbce(index, pkey, key_len, info, (void*)env);
         }
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
-static void
-collect_iterator(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+collect_iterbtor(TbbleIndex index, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
-    IterateInfo      *iterate;
+    TrbceInfo *info;
+    IterbteInfo      *iterbte;
 
     HPROF_ASSERT(key_ptr!=NULL);
     HPROF_ASSERT(key_len>0);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(brg!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
-    iterate = (IterateInfo *)arg;
-    info = (TraceInfo *)info_ptr;
-    iterate->traces[iterate->count++] = index;
-    iterate->grand_total_cost += info->self_cost;
+    iterbte = (IterbteInfo *)brg;
+    info = (TrbceInfo *)info_ptr;
+    iterbte->trbces[iterbte->count++] = index;
+    iterbte->grbnd_totbl_cost += info->self_cost;
 }
 
-static int
-qsort_compare_cost(const void *p_trace1, const void *p_trace2)
+stbtic int
+qsort_compbre_cost(const void *p_trbce1, const void *p_trbce2)
 {
-    TraceIndex          trace1;
-    TraceIndex          trace2;
-    TraceInfo * info1;
-    TraceInfo * info2;
+    TrbceIndex          trbce1;
+    TrbceIndex          trbce2;
+    TrbceInfo * info1;
+    TrbceInfo * info2;
 
-    HPROF_ASSERT(p_trace1!=NULL);
-    HPROF_ASSERT(p_trace2!=NULL);
-    trace1 = *(TraceIndex *)p_trace1;
-    trace2 = *(TraceIndex *)p_trace2;
-    info1 = get_info(trace1);
-    info2 = get_info(trace2);
+    HPROF_ASSERT(p_trbce1!=NULL);
+    HPROF_ASSERT(p_trbce2!=NULL);
+    trbce1 = *(TrbceIndex *)p_trbce1;
+    trbce2 = *(TrbceIndex *)p_trbce2;
+    info1 = get_info(trbce1);
+    info2 = get_info(trbce2);
     /*LINTED*/
     return (int)(info2->self_cost - info1->self_cost);
 }
 
-static int
-qsort_compare_num_hits(const void *p_trace1, const void *p_trace2)
+stbtic int
+qsort_compbre_num_hits(const void *p_trbce1, const void *p_trbce2)
 {
-    TraceIndex          trace1;
-    TraceIndex          trace2;
-    TraceInfo * info1;
-    TraceInfo * info2;
+    TrbceIndex          trbce1;
+    TrbceIndex          trbce2;
+    TrbceInfo * info1;
+    TrbceInfo * info2;
 
-    HPROF_ASSERT(p_trace1!=NULL);
-    HPROF_ASSERT(p_trace2!=NULL);
-    trace1 = *(TraceIndex *)p_trace1;
-    trace2 = *(TraceIndex *)p_trace2;
-    info1 = get_info(trace1);
-    info2 = get_info(trace2);
+    HPROF_ASSERT(p_trbce1!=NULL);
+    HPROF_ASSERT(p_trbce2!=NULL);
+    trbce1 = *(TrbceIndex *)p_trbce1;
+    trbce2 = *(TrbceIndex *)p_trbce2;
+    info1 = get_info(trbce1);
+    info2 = get_info(trbce2);
     return info2->num_hits - info1->num_hits;
 }
 
-/* External interfaces. */
+/* Externbl interfbces. */
 
 void
-trace_init(void)
+trbce_init(void)
 {
-    gdata->trace_table = table_initialize("Trace",
-                            256, 256, 511, (int)sizeof(TraceInfo));
+    gdbtb->trbce_tbble = tbble_initiblize("Trbce",
+                            256, 256, 511, (int)sizeof(TrbceInfo));
 }
 
 void
-trace_list(void)
+trbce_list(void)
 {
-    debug_message(
-        "--------------------- Trace Table ------------------------\n");
-    table_walk_items(gdata->trace_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- Trbce Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->trbce_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-trace_cleanup(void)
+trbce_clebnup(void)
 {
-    table_cleanup(gdata->trace_table, NULL, NULL);
-    gdata->trace_table = NULL;
+    tbble_clebnup(gdbtb->trbce_tbble, NULL, NULL);
+    gdbtb->trbce_tbble = NULL;
 }
 
-SerialNumber
-trace_get_serial_number(TraceIndex index)
+SeriblNumber
+trbce_get_seribl_number(TrbceIndex index)
 {
-    TraceInfo *info;
+    TrbceInfo *info;
 
     if ( index == 0 ) {
         return 0;
     }
     info = get_info(index);
-    return info->serial_num;
+    return info->seribl_num;
 }
 
 void
-trace_increment_cost(TraceIndex index, jint num_hits, jlong self_cost, jlong total_cost)
+trbce_increment_cost(TrbceIndex index, jint num_hits, jlong self_cost, jlong totbl_cost)
 {
-    TraceInfo *info;
+    TrbceInfo *info;
 
-    table_lock_enter(gdata->trace_table); {
+    tbble_lock_enter(gdbtb->trbce_tbble); {
         info              = get_info(index);
         info->num_hits   += num_hits;
         info->self_cost  += self_cost;
-        info->total_cost += total_cost;
-    } table_lock_exit(gdata->trace_table);
+        info->totbl_cost += totbl_cost;
+    } tbble_lock_exit(gdbtb->trbce_tbble);
 }
 
-TraceIndex
-trace_find_or_create(SerialNumber thread_serial_num, jint n_frames, FrameIndex *frames, jvmtiFrameInfo *jframes_buffer)
+TrbceIndex
+trbce_find_or_crebte(SeriblNumber threbd_seribl_num, jint n_frbmes, FrbmeIndex *frbmes, jvmtiFrbmeInfo *jfrbmes_buffer)
 {
-    return find_or_create(thread_serial_num, n_frames, frames, getPhase(),
-                                (TraceKey*)jframes_buffer);
+    return find_or_crebte(threbd_seribl_num, n_frbmes, frbmes, getPhbse(),
+                                (TrbceKey*)jfrbmes_buffer);
 }
 
-/* We may need to ask for more frames than the user asked for */
-static int
-get_real_depth(int depth, jboolean skip_init)
+/* We mby need to bsk for more frbmes thbn the user bsked for */
+stbtic int
+get_rebl_depth(int depth, jboolebn skip_init)
 {
-    int extra_frames;
+    int extrb_frbmes;
 
-    extra_frames = 0;
-    /* This is only needed if we are doing BCI */
-    if ( gdata->bci && depth > 0 ) {
-        /* Account for Java and native Tracker methods */
-        extra_frames = 2;
+    extrb_frbmes = 0;
+    /* This is only needed if we bre doing BCI */
+    if ( gdbtb->bci && depth > 0 ) {
+        /* Account for Jbvb bnd nbtive Trbcker methods */
+        extrb_frbmes = 2;
         if ( skip_init ) {
-            /* Also allow for ignoring the java.lang.Object.<init> method */
-            extra_frames += 1;
+            /* Also bllow for ignoring the jbvb.lbng.Object.<init> method */
+            extrb_frbmes += 1;
         }
     }
-    return depth + extra_frames;
+    return depth + extrb_frbmes;
 }
 
-/* Fill in FrameIndex array from jvmtiFrameInfo array, return n_frames */
-static int
-fill_frame_buffer(int depth, int real_depth,
-                 int frame_count, jboolean skip_init,
-                 jvmtiFrameInfo *jframes_buffer, FrameIndex *frames_buffer)
+/* Fill in FrbmeIndex brrby from jvmtiFrbmeInfo brrby, return n_frbmes */
+stbtic int
+fill_frbme_buffer(int depth, int rebl_depth,
+                 int frbme_count, jboolebn skip_init,
+                 jvmtiFrbmeInfo *jfrbmes_buffer, FrbmeIndex *frbmes_buffer)
 {
-    int  n_frames;
-    jint topframe;
+    int  n_frbmes;
+    jint topfrbme;
 
-    /* If real_depth is 0, just return 0 */
-    if ( real_depth == 0 ) {
+    /* If rebl_depth is 0, just return 0 */
+    if ( rebl_depth == 0 ) {
         return 0;
     }
 
-    /* Assume top frame index is 0 for now */
-    topframe = 0;
+    /* Assume top frbme index is 0 for now */
+    topfrbme = 0;
 
-    /* Possible top frames belong to the hprof Tracker class, remove them */
-    if ( gdata->bci ) {
-        while ( ( ( frame_count - topframe ) > 0 ) &&
-                ( topframe < (real_depth-depth) ) &&
-                ( tracker_method(jframes_buffer[topframe].method) ||
+    /* Possible top frbmes belong to the hprof Trbcker clbss, remove them */
+    if ( gdbtb->bci ) {
+        while ( ( ( frbme_count - topfrbme ) > 0 ) &&
+                ( topfrbme < (rebl_depth-depth) ) &&
+                ( trbcker_method(jfrbmes_buffer[topfrbme].method) ||
                   ( skip_init
-                    && jframes_buffer[topframe].method==gdata->object_init_method ) )
+                    && jfrbmes_buffer[topfrbme].method==gdbtb->object_init_method ) )
              ) {
-            topframe++;
+            topfrbme++;
         }
     }
 
-    /* Adjust count to match depth request */
-    if ( ( frame_count - topframe ) > depth ) {
-        frame_count =  depth + topframe;
+    /* Adjust count to mbtch depth request */
+    if ( ( frbme_count - topfrbme ) > depth ) {
+        frbme_count =  depth + topfrbme;
     }
 
-    /* The actual frame count we will process */
-    n_frames = frame_count - topframe;
-    if ( n_frames > 0 ) {
+    /* The bctubl frbme count we will process */
+    n_frbmes = frbme_count - topfrbme;
+    if ( n_frbmes > 0 ) {
         int i;
 
-        for (i = 0; i < n_frames; i++) {
+        for (i = 0; i < n_frbmes; i++) {
             jmethodID method;
-            jlocation location;
+            jlocbtion locbtion;
 
-            method = jframes_buffer[i+topframe].method;
-            location = jframes_buffer[i+topframe].location;
-            frames_buffer[i] = frame_find_or_create(method, location);
+            method = jfrbmes_buffer[i+topfrbme].method;
+            locbtion = jfrbmes_buffer[i+topfrbme].locbtion;
+            frbmes_buffer[i] = frbme_find_or_crebte(method, locbtion);
         }
     }
-    return n_frames;
+    return n_frbmes;
 }
 
-/* Get the trace for the supplied thread */
-TraceIndex
-trace_get_current(jthread thread, SerialNumber thread_serial_num,
-                        int depth, jboolean skip_init,
-                        FrameIndex *frames_buffer,
-                        jvmtiFrameInfo *jframes_buffer)
+/* Get the trbce for the supplied threbd */
+TrbceIndex
+trbce_get_current(jthrebd threbd, SeriblNumber threbd_seribl_num,
+                        int depth, jboolebn skip_init,
+                        FrbmeIndex *frbmes_buffer,
+                        jvmtiFrbmeInfo *jfrbmes_buffer)
 {
-    TraceIndex index;
-    jint       frame_count;
-    int        real_depth;
-    int        n_frames;
+    TrbceIndex index;
+    jint       frbme_count;
+    int        rebl_depth;
+    int        n_frbmes;
 
-    HPROF_ASSERT(thread!=NULL);
-    HPROF_ASSERT(frames_buffer!=NULL);
-    HPROF_ASSERT(jframes_buffer!=NULL);
+    HPROF_ASSERT(threbd!=NULL);
+    HPROF_ASSERT(frbmes_buffer!=NULL);
+    HPROF_ASSERT(jfrbmes_buffer!=NULL);
 
-    /* We may need to ask for more frames than the user asked for */
-    real_depth = get_real_depth(depth, skip_init);
+    /* We mby need to bsk for more frbmes thbn the user bsked for */
+    rebl_depth = get_rebl_depth(depth, skip_init);
 
-    /* Get the stack trace for this one thread */
-    frame_count = 0;
-    if ( real_depth > 0 ) {
-        getStackTrace(thread, jframes_buffer, real_depth, &frame_count);
+    /* Get the stbck trbce for this one threbd */
+    frbme_count = 0;
+    if ( rebl_depth > 0 ) {
+        getStbckTrbce(threbd, jfrbmes_buffer, rebl_depth, &frbme_count);
     }
 
-    /* Create FrameIndex's */
-    n_frames = fill_frame_buffer(depth, real_depth, frame_count, skip_init,
-                                 jframes_buffer, frames_buffer);
+    /* Crebte FrbmeIndex's */
+    n_frbmes = fill_frbme_buffer(depth, rebl_depth, frbme_count, skip_init,
+                                 jfrbmes_buffer, frbmes_buffer);
 
-    /* Lookup or create new TraceIndex */
-    index = find_or_create(thread_serial_num, n_frames, frames_buffer,
-                getPhase(), (TraceKey*)jframes_buffer);
+    /* Lookup or crebte new TrbceIndex */
+    index = find_or_crebte(threbd_seribl_num, n_frbmes, frbmes_buffer,
+                getPhbse(), (TrbceKey*)jfrbmes_buffer);
     return index;
 }
 
-/* Get traces for all threads in list (traces[i]==0 if thread not running) */
+/* Get trbces for bll threbds in list (trbces[i]==0 if threbd not running) */
 void
-trace_get_all_current(jint thread_count, jthread *threads,
-                      SerialNumber *thread_serial_nums,
-                      int depth, jboolean skip_init,
-                      TraceIndex *traces, jboolean always_care)
+trbce_get_bll_current(jint threbd_count, jthrebd *threbds,
+                      SeriblNumber *threbd_seribl_nums,
+                      int depth, jboolebn skip_init,
+                      TrbceIndex *trbces, jboolebn blwbys_cbre)
 {
-    jvmtiStackInfo *stack_info;
+    jvmtiStbckInfo *stbck_info;
     int             nbytes;
-    int             real_depth;
+    int             rebl_depth;
     int             i;
-    FrameIndex     *frames_buffer;
-    TraceKey       *trace_key_buffer;
-    jvmtiPhase      phase;
+    FrbmeIndex     *frbmes_buffer;
+    TrbceKey       *trbce_key_buffer;
+    jvmtiPhbse      phbse;
 
-    HPROF_ASSERT(threads!=NULL);
-    HPROF_ASSERT(thread_serial_nums!=NULL);
-    HPROF_ASSERT(traces!=NULL);
-    HPROF_ASSERT(thread_count > 0);
+    HPROF_ASSERT(threbds!=NULL);
+    HPROF_ASSERT(threbd_seribl_nums!=NULL);
+    HPROF_ASSERT(trbces!=NULL);
+    HPROF_ASSERT(threbd_count > 0);
 
-    /* Find out what the phase is for all these traces */
-    phase = getPhase();
+    /* Find out whbt the phbse is for bll these trbces */
+    phbse = getPhbse();
 
-    /* We may need to ask for more frames than the user asked for */
-    real_depth = get_real_depth(depth, skip_init);
+    /* We mby need to bsk for more frbmes thbn the user bsked for */
+    rebl_depth = get_rebl_depth(depth, skip_init);
 
-    /* Get the stack traces for all the threads */
-    getThreadListStackTraces(thread_count, threads, real_depth, &stack_info);
+    /* Get the stbck trbces for bll the threbds */
+    getThrebdListStbckTrbces(threbd_count, threbds, rebl_depth, &stbck_info);
 
-    /* Allocate a frames_buffer and trace key buffer */
-    nbytes = (int)sizeof(FrameIndex)*real_depth;
-    frames_buffer = (FrameIndex*)HPROF_MALLOC(nbytes);
-    nbytes += (int)sizeof(TraceKey);
-    trace_key_buffer = (TraceKey*)HPROF_MALLOC(nbytes);
+    /* Allocbte b frbmes_buffer bnd trbce key buffer */
+    nbytes = (int)sizeof(FrbmeIndex)*rebl_depth;
+    frbmes_buffer = (FrbmeIndex*)HPROF_MALLOC(nbytes);
+    nbytes += (int)sizeof(TrbceKey);
+    trbce_key_buffer = (TrbceKey*)HPROF_MALLOC(nbytes);
 
-    /* Loop over the stack traces we have for these 'thread_count' threads */
-    for ( i = 0 ; i < thread_count ; i++ ) {
-        int n_frames;
+    /* Loop over the stbck trbces we hbve for these 'threbd_count' threbds */
+    for ( i = 0 ; i < threbd_count ; i++ ) {
+        int n_frbmes;
 
-        /* Assume 0 at first (no trace) */
-        traces[i] = 0;
+        /* Assume 0 bt first (no trbce) */
+        trbces[i] = 0;
 
-        /* If thread has frames, is runnable, and isn't suspended, we care */
-        if ( always_care ||
-             ( stack_info[i].frame_count > 0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_RUNNABLE)!=0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_SUSPENDED)==0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_INTERRUPTED)==0 )
+        /* If threbd hbs frbmes, is runnbble, bnd isn't suspended, we cbre */
+        if ( blwbys_cbre ||
+             ( stbck_info[i].frbme_count > 0
+               && (stbck_info[i].stbte & JVMTI_THREAD_STATE_RUNNABLE)!=0
+               && (stbck_info[i].stbte & JVMTI_THREAD_STATE_SUSPENDED)==0
+               && (stbck_info[i].stbte & JVMTI_THREAD_STATE_INTERRUPTED)==0 )
             ) {
 
-            /* Create FrameIndex's */
-            n_frames = fill_frame_buffer(depth, real_depth,
-                                         stack_info[i].frame_count,
+            /* Crebte FrbmeIndex's */
+            n_frbmes = fill_frbme_buffer(depth, rebl_depth,
+                                         stbck_info[i].frbme_count,
                                          skip_init,
-                                         stack_info[i].frame_buffer,
-                                         frames_buffer);
+                                         stbck_info[i].frbme_buffer,
+                                         frbmes_buffer);
 
-            /* Lookup or create new TraceIndex */
-            traces[i] = find_or_create(thread_serial_nums[i],
-                           n_frames, frames_buffer, phase, trace_key_buffer);
+            /* Lookup or crebte new TrbceIndex */
+            trbces[i] = find_or_crebte(threbd_seribl_nums[i],
+                           n_frbmes, frbmes_buffer, phbse, trbce_key_buffer);
         }
     }
 
-    /* Make sure we free the space */
-    HPROF_FREE(frames_buffer);
-    HPROF_FREE(trace_key_buffer);
-    jvmtiDeallocate(stack_info);
+    /* Mbke sure we free the spbce */
+    HPROF_FREE(frbmes_buffer);
+    HPROF_FREE(trbce_key_buffer);
+    jvmtiDebllocbte(stbck_info);
 }
 
-/* Increment the trace costs for all the threads (for cpu=samples) */
+/* Increment the trbce costs for bll the threbds (for cpu=sbmples) */
 void
-trace_increment_all_sample_costs(jint thread_count, jthread *threads,
-                      SerialNumber *thread_serial_nums,
-                      int depth, jboolean skip_init)
+trbce_increment_bll_sbmple_costs(jint threbd_count, jthrebd *threbds,
+                      SeriblNumber *threbd_seribl_nums,
+                      int depth, jboolebn skip_init)
 {
-    TraceIndex *traces;
+    TrbceIndex *trbces;
     int         nbytes;
 
-    HPROF_ASSERT(threads!=NULL);
-    HPROF_ASSERT(thread_serial_nums!=NULL);
-    HPROF_ASSERT(thread_count > 0);
+    HPROF_ASSERT(threbds!=NULL);
+    HPROF_ASSERT(threbd_seribl_nums!=NULL);
+    HPROF_ASSERT(threbd_count > 0);
     HPROF_ASSERT(depth >= 0);
 
     if ( depth == 0 ) {
         return;
     }
 
-    /* Allocate a traces array */
-    nbytes = (int)sizeof(TraceIndex)*thread_count;
-    traces = (TraceIndex*)HPROF_MALLOC(nbytes);
+    /* Allocbte b trbces brrby */
+    nbytes = (int)sizeof(TrbceIndex)*threbd_count;
+    trbces = (TrbceIndex*)HPROF_MALLOC(nbytes);
 
-    /* Get all the current traces for these threads */
-    trace_get_all_current(thread_count, threads, thread_serial_nums,
-                      depth, skip_init, traces, JNI_FALSE);
+    /* Get bll the current trbces for these threbds */
+    trbce_get_bll_current(threbd_count, threbds, threbd_seribl_nums,
+                      depth, skip_init, trbces, JNI_FALSE);
 
-    /* Increment the cpu=samples cost on these traces */
-    table_lock_enter(gdata->trace_table); {
+    /* Increment the cpu=sbmples cost on these trbces */
+    tbble_lock_enter(gdbtb->trbce_tbble); {
         int i;
 
-        for ( i = 0 ; i < thread_count ; i++ ) {
-            /* Each trace gets a hit and an increment of it's total cost */
-            if ( traces[i] != 0 ) {
-                TraceInfo *info;
+        for ( i = 0 ; i < threbd_count ; i++ ) {
+            /* Ebch trbce gets b hit bnd bn increment of it's totbl cost */
+            if ( trbces[i] != 0 ) {
+                TrbceInfo *info;
 
-                info              = get_info(traces[i]);
+                info              = get_info(trbces[i]);
                 info->num_hits   += 1;
                 info->self_cost  += (jlong)1;
-                info->total_cost += (jlong)1;
+                info->totbl_cost += (jlong)1;
             }
         }
-    } table_lock_exit(gdata->trace_table);
+    } tbble_lock_exit(gdbtb->trbce_tbble);
 
-    /* Free up the memory allocated */
-    HPROF_FREE(traces);
+    /* Free up the memory bllocbted */
+    HPROF_FREE(trbces);
 }
 
 void
-trace_output_unmarked(JNIEnv *env)
+trbce_output_unmbrked(JNIEnv *env)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
-        table_walk_items(gdata->trace_table, &output_trace, (void*)env);
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+        tbble_wblk_items(gdbtb->trbce_tbble, &output_trbce, (void*)env);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
-/* output info on the cost associated with traces  */
+/* output info on the cost bssocibted with trbces  */
 void
-trace_output_cost(JNIEnv *env, double cutoff)
+trbce_output_cost(JNIEnv *env, double cutoff)
 {
-    IterateInfo iterate;
-    int i, trace_table_size, n_items;
-    double accum;
+    IterbteInfo iterbte;
+    int i, trbce_tbble_size, n_items;
+    double bccum;
     int n_entries;
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
-        n_entries = table_element_count(gdata->trace_table);
-        iterate.traces = HPROF_MALLOC(n_entries*(int)sizeof(TraceIndex)+1);
-        iterate.count = 0;
-        iterate.grand_total_cost = 0;
-        table_walk_items(gdata->trace_table, &collect_iterator, &iterate);
+        n_entries = tbble_element_count(gdbtb->trbce_tbble);
+        iterbte.trbces = HPROF_MALLOC(n_entries*(int)sizeof(TrbceIndex)+1);
+        iterbte.count = 0;
+        iterbte.grbnd_totbl_cost = 0;
+        tbble_wblk_items(gdbtb->trbce_tbble, &collect_iterbtor, &iterbte);
 
-        trace_table_size = iterate.count;
+        trbce_tbble_size = iterbte.count;
 
-        /* sort all the traces according to the cost */
-        qsort(iterate.traces, trace_table_size, sizeof(TraceIndex),
-                    &qsort_compare_cost);
+        /* sort bll the trbces bccording to the cost */
+        qsort(iterbte.trbces, trbce_tbble_size, sizeof(TrbceIndex),
+                    &qsort_compbre_cost);
 
         n_items = 0;
-        for (i = 0; i < trace_table_size; i++) {
-            TraceInfo *info;
-            TraceIndex trace_index;
+        for (i = 0; i < trbce_tbble_size; i++) {
+            TrbceInfo *info;
+            TrbceIndex trbce_index;
             double percent;
 
-            trace_index = iterate.traces[i];
-            info = get_info(trace_index);
-            /* As soon as a trace with zero hits is seen, we need no others */
+            trbce_index = iterbte.trbces[i];
+            info = get_info(trbce_index);
+            /* As soon bs b trbce with zero hits is seen, we need no others */
             if (info->num_hits == 0 ) {
-                break;
+                brebk;
             }
-            percent = (double)info->self_cost / (double)iterate.grand_total_cost;
+            percent = (double)info->self_cost / (double)iterbte.grbnd_totbl_cost;
             if (percent < cutoff) {
-                break;
+                brebk;
             }
             n_items++;
         }
 
-        /* Now write all trace we might refer to. */
-        output_list(env, iterate.traces, n_items);
+        /* Now write bll trbce we might refer to. */
+        output_list(env, iterbte.trbces, n_items);
 
-        io_write_cpu_samples_header(iterate.grand_total_cost, n_items);
+        io_write_cpu_sbmples_hebder(iterbte.grbnd_totbl_cost, n_items);
 
-        accum = 0;
+        bccum = 0;
 
         for (i = 0; i < n_items; i++) {
-            SerialNumber frame_serial_num;
-            TraceInfo *info;
-            TraceKey *key;
-            TraceIndex trace_index;
+            SeriblNumber frbme_seribl_num;
+            TrbceInfo *info;
+            TrbceKey *key;
+            TrbceIndex trbce_index;
             double percent;
-            char *csig;
-            char *mname;
-            char *msig;
+            chbr *csig;
+            chbr *mnbme;
+            chbr *msig;
 
-            trace_index = iterate.traces[i];
-            info = get_info(trace_index);
-            key = get_pkey(trace_index);
-            percent = ((double)info->self_cost / (double)iterate.grand_total_cost) * 100.0;
-            accum += percent;
+            trbce_index = iterbte.trbces[i];
+            info = get_info(trbce_index);
+            key = get_pkey(trbce_index);
+            percent = ((double)info->self_cost / (double)iterbte.grbnd_totbl_cost) * 100.0;
+            bccum += percent;
 
             csig = NULL;
-            mname = NULL;
+            mnbme = NULL;
             msig  = NULL;
 
-            if (key->n_frames > 0) {
-                get_frame_details(env, key->frames[0], &frame_serial_num,
-                        &csig, NULL, &mname, &msig, NULL, NULL);
+            if (key->n_frbmes > 0) {
+                get_frbme_detbils(env, key->frbmes[0], &frbme_seribl_num,
+                        &csig, NULL, &mnbme, &msig, NULL, NULL);
             }
 
-            io_write_cpu_samples_elem(i+1, percent, accum, info->num_hits,
-                        (jint)info->self_cost, info->serial_num,
-                        key->n_frames, csig, mname);
+            io_write_cpu_sbmples_elem(i+1, percent, bccum, info->num_hits,
+                        (jint)info->self_cost, info->seribl_num,
+                        key->n_frbmes, csig, mnbme);
 
-            jvmtiDeallocate(csig);
-            jvmtiDeallocate(mname);
-            jvmtiDeallocate(msig);
+            jvmtiDebllocbte(csig);
+            jvmtiDebllocbte(mnbme);
+            jvmtiDebllocbte(msig);
         }
 
-        io_write_cpu_samples_footer();
+        io_write_cpu_sbmples_footer();
 
-        HPROF_FREE(iterate.traces);
+        HPROF_FREE(iterbte.trbces);
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
 }
 
-/* output the trace cost in old prof format */
+/* output the trbce cost in old prof formbt */
 void
-trace_output_cost_in_prof_format(JNIEnv *env)
+trbce_output_cost_in_prof_formbt(JNIEnv *env)
 {
-    IterateInfo iterate;
-    int i, trace_table_size;
+    IterbteInfo iterbte;
+    int i, trbce_tbble_size;
     int n_entries;
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
-        n_entries = table_element_count(gdata->trace_table);
-        iterate.traces = HPROF_MALLOC(n_entries*(int)sizeof(TraceIndex)+1);
-        iterate.count = 0;
-        iterate.grand_total_cost = 0;
-        table_walk_items(gdata->trace_table, &collect_iterator, &iterate);
+        n_entries = tbble_element_count(gdbtb->trbce_tbble);
+        iterbte.trbces = HPROF_MALLOC(n_entries*(int)sizeof(TrbceIndex)+1);
+        iterbte.count = 0;
+        iterbte.grbnd_totbl_cost = 0;
+        tbble_wblk_items(gdbtb->trbce_tbble, &collect_iterbtor, &iterbte);
 
-        trace_table_size = iterate.count;
+        trbce_tbble_size = iterbte.count;
 
-        /* sort all the traces according to the number of hits */
-        qsort(iterate.traces, trace_table_size, sizeof(TraceIndex),
-                    &qsort_compare_num_hits);
+        /* sort bll the trbces bccording to the number of hits */
+        qsort(iterbte.trbces, trbce_tbble_size, sizeof(TrbceIndex),
+                    &qsort_compbre_num_hits);
 
-        io_write_oldprof_header();
+        io_write_oldprof_hebder();
 
-        for (i = 0; i < trace_table_size; i++) {
-            SerialNumber frame_serial_num;
-            TraceInfo *info;
-            TraceKey *key;
-            TraceIndex trace_index;
-            int num_frames;
+        for (i = 0; i < trbce_tbble_size; i++) {
+            SeriblNumber frbme_seribl_num;
+            TrbceInfo *info;
+            TrbceKey *key;
+            TrbceIndex trbce_index;
+            int num_frbmes;
             int num_hits;
-            char *csig_callee;
-            char *mname_callee;
-            char *msig_callee;
-            char *csig_caller;
-            char *mname_caller;
-            char *msig_caller;
+            chbr *csig_cbllee;
+            chbr *mnbme_cbllee;
+            chbr *msig_cbllee;
+            chbr *csig_cbller;
+            chbr *mnbme_cbller;
+            chbr *msig_cbller;
 
-            trace_index = iterate.traces[i];
-            key = get_pkey(trace_index);
-            info = get_info(trace_index);
+            trbce_index = iterbte.trbces[i];
+            key = get_pkey(trbce_index);
+            info = get_info(trbce_index);
             num_hits = info->num_hits;
 
             if (num_hits == 0) {
-                break;
+                brebk;
             }
 
-            csig_callee  = NULL;
-            mname_callee = NULL;
-            msig_callee  = NULL;
-            csig_caller  = NULL;
-            mname_caller = NULL;
-            msig_caller  = NULL;
+            csig_cbllee  = NULL;
+            mnbme_cbllee = NULL;
+            msig_cbllee  = NULL;
+            csig_cbller  = NULL;
+            mnbme_cbller = NULL;
+            msig_cbller  = NULL;
 
-            num_frames = (int)key->n_frames;
+            num_frbmes = (int)key->n_frbmes;
 
-            if (num_frames >= 1) {
-                get_frame_details(env, key->frames[0], &frame_serial_num,
-                        &csig_callee, NULL,
-                        &mname_callee, &msig_callee, NULL, NULL);
+            if (num_frbmes >= 1) {
+                get_frbme_detbils(env, key->frbmes[0], &frbme_seribl_num,
+                        &csig_cbllee, NULL,
+                        &mnbme_cbllee, &msig_cbllee, NULL, NULL);
             }
 
-            if (num_frames > 1) {
-                get_frame_details(env, key->frames[1], &frame_serial_num,
-                        &csig_caller, NULL,
-                        &mname_caller, &msig_caller, NULL, NULL);
+            if (num_frbmes > 1) {
+                get_frbme_detbils(env, key->frbmes[1], &frbme_seribl_num,
+                        &csig_cbller, NULL,
+                        &mnbme_cbller, &msig_cbller, NULL, NULL);
             }
 
-            io_write_oldprof_elem(info->num_hits, num_frames,
-                                    csig_callee, mname_callee, msig_callee,
-                                    csig_caller, mname_caller, msig_caller,
-                                    (int)info->total_cost);
+            io_write_oldprof_elem(info->num_hits, num_frbmes,
+                                    csig_cbllee, mnbme_cbllee, msig_cbllee,
+                                    csig_cbller, mnbme_cbller, msig_cbller,
+                                    (int)info->totbl_cost);
 
-            jvmtiDeallocate(csig_callee);
-            jvmtiDeallocate(mname_callee);
-            jvmtiDeallocate(msig_callee);
-            jvmtiDeallocate(csig_caller);
-            jvmtiDeallocate(mname_caller);
-            jvmtiDeallocate(msig_caller);
+            jvmtiDebllocbte(csig_cbllee);
+            jvmtiDebllocbte(mnbme_cbllee);
+            jvmtiDebllocbte(msig_cbllee);
+            jvmtiDebllocbte(csig_cbller);
+            jvmtiDebllocbte(mnbme_cbller);
+            jvmtiDebllocbte(msig_cbller);
         }
 
         io_write_oldprof_footer();
 
-        HPROF_FREE(iterate.traces);
+        HPROF_FREE(iterbte.trbces);
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
 void
-trace_clear_cost(void)
+trbce_clebr_cost(void)
 {
-    table_walk_items(gdata->trace_table, &clear_cost, NULL);
+    tbble_wblk_items(gdbtb->trbce_tbble, &clebr_cost, NULL);
 }

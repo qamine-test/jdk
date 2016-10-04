@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.peer.ScrollPanePeer;
-import java.io.Serializable;
+import jbvb.bwt.event.AdjustmentEvent;
+import jbvb.bwt.event.AdjustmentListener;
+import jbvb.bwt.peer.ScrollPbnePeer;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * This class represents the state of a horizontal or vertical
- * scrollbar of a <code>ScrollPane</code>.  Objects of this class are
- * returned by <code>ScrollPane</code> methods.
+ * This clbss represents the stbte of b horizontbl or verticbl
+ * scrollbbr of b <code>ScrollPbne</code>.  Objects of this clbss bre
+ * returned by <code>ScrollPbne</code> methods.
  *
  * @since       1.4
  */
-public class ScrollPaneAdjustable implements Adjustable, Serializable {
+public clbss ScrollPbneAdjustbble implements Adjustbble, Seriblizbble {
 
     /**
-     * The <code>ScrollPane</code> this object is a scrollbar of.
-     * @serial
+     * The <code>ScrollPbne</code> this object is b scrollbbr of.
+     * @seribl
      */
-    private ScrollPane sp;
+    privbte ScrollPbne sp;
 
     /**
-     * Orientation of this scrollbar.
+     * Orientbtion of this scrollbbr.
      *
-     * @serial
-     * @see #getOrientation
-     * @see java.awt.Adjustable#HORIZONTAL
-     * @see java.awt.Adjustable#VERTICAL
+     * @seribl
+     * @see #getOrientbtion
+     * @see jbvb.bwt.Adjustbble#HORIZONTAL
+     * @see jbvb.bwt.Adjustbble#VERTICAL
      */
-    private int orientation;
+    privbte int orientbtion;
 
     /**
-     * The value of this scrollbar.
-     * <code>value</code> should be greater than <code>minimum</code>
-     * and less than <code>maximum</code>
+     * The vblue of this scrollbbr.
+     * <code>vblue</code> should be grebter thbn <code>minimum</code>
+     * bnd less thbn <code>mbximum</code>
      *
-     * @serial
-     * @see #getValue
-     * @see #setValue
+     * @seribl
+     * @see #getVblue
+     * @see #setVblue
      */
-    private int value;
+    privbte int vblue;
 
     /**
-     * The minimum value of this scrollbar.
-     * This value can only be set by the <code>ScrollPane</code>.
+     * The minimum vblue of this scrollbbr.
+     * This vblue cbn only be set by the <code>ScrollPbne</code>.
      * <p>
-     * <strong>ATTN:</strong> In current implementation
-     * <code>minimum</code> is always <code>0</code>.  This field can
-     * only be altered via <code>setSpan</code> method and
-     * <code>ScrollPane</code> always calls that method with
+     * <strong>ATTN:</strong> In current implementbtion
+     * <code>minimum</code> is blwbys <code>0</code>.  This field cbn
+     * only be bltered vib <code>setSpbn</code> method bnd
+     * <code>ScrollPbne</code> blwbys cblls thbt method with
      * <code>0</code> for the minimum.  <code>getMinimum</code> method
-     * always returns <code>0</code> without checking this field.
+     * blwbys returns <code>0</code> without checking this field.
      *
-     * @serial
+     * @seribl
      * @see #getMinimum
-     * @see #setSpan(int, int, int)
+     * @see #setSpbn(int, int, int)
      */
-    private int minimum;
+    privbte int minimum;
 
     /**
-     * The maximum value of this scrollbar.
-     * This value can only be set by the <code>ScrollPane</code>.
+     * The mbximum vblue of this scrollbbr.
+     * This vblue cbn only be set by the <code>ScrollPbne</code>.
      *
-     * @serial
-     * @see #getMaximum
-     * @see #setSpan(int, int, int)
+     * @seribl
+     * @see #getMbximum
+     * @see #setSpbn(int, int, int)
      */
-    private int maximum;
+    privbte int mbximum;
 
     /**
-     * The size of the visible portion of this scrollbar.
-     * This value can only be set by the <code>ScrollPane</code>.
+     * The size of the visible portion of this scrollbbr.
+     * This vblue cbn only be set by the <code>ScrollPbne</code>.
      *
-     * @serial
+     * @seribl
      * @see #getVisibleAmount
-     * @see #setSpan(int, int, int)
+     * @see #setSpbn(int, int, int)
      */
-    private int visibleAmount;
+    privbte int visibleAmount;
 
     /**
-     * The adjusting status of the <code>Scrollbar</code>.
-     * True if the value is in the process of changing as a result of
-     * actions being taken by the user.
+     * The bdjusting stbtus of the <code>Scrollbbr</code>.
+     * True if the vblue is in the process of chbnging bs b result of
+     * bctions being tbken by the user.
      *
-     * @see #getValueIsAdjusting
-     * @see #setValueIsAdjusting
+     * @see #getVblueIsAdjusting
+     * @see #setVblueIsAdjusting
      * @since 1.4
      */
-    private transient boolean isAdjusting;
+    privbte trbnsient boolebn isAdjusting;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a line.
-     * This value should be a non negative integer.
+     * The bmount by which the scrollbbr vblue will chbnge when going
+     * up or down by b line.
+     * This vblue should be b non negbtive integer.
      *
-     * @serial
+     * @seribl
      * @see #getUnitIncrement
      * @see #setUnitIncrement
      */
-    private int unitIncrement  = 1;
+    privbte int unitIncrement  = 1;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a page.
-     * This value should be a non negative integer.
+     * The bmount by which the scrollbbr vblue will chbnge when going
+     * up or down by b pbge.
+     * This vblue should be b non negbtive integer.
      *
-     * @serial
+     * @seribl
      * @see #getBlockIncrement
      * @see #setBlockIncrement
      */
-    private int blockIncrement = 1;
+    privbte int blockIncrement = 1;
 
-    private AdjustmentListener adjustmentListener;
-
-    /**
-     * Error message for <code>AWTError</code> reported when one of
-     * the public but unsupported methods is called.
-     */
-    private static final String SCROLLPANE_ONLY =
-        "Can be set by scrollpane only";
-
+    privbte AdjustmentListener bdjustmentListener;
 
     /**
-     * Initialize JNI field and method ids.
+     * Error messbge for <code>AWTError</code> reported when one of
+     * the public but unsupported methods is cblled.
      */
-    private static native void initIDs();
+    privbte stbtic finbl String SCROLLPANE_ONLY =
+        "Cbn be set by scrollpbne only";
 
-    static {
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+
+    /**
+     * Initiblize JNI field bnd method ids.
+     */
+    privbte stbtic nbtive void initIDs();
+
+    stbtic {
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
-        AWTAccessor.setScrollPaneAdjustableAccessor(new AWTAccessor.ScrollPaneAdjustableAccessor() {
-            public void setTypedValue(final ScrollPaneAdjustable adj,
-                                      final int v, final int type) {
-                adj.setTypedValue(v, type);
+        AWTAccessor.setScrollPbneAdjustbbleAccessor(new AWTAccessor.ScrollPbneAdjustbbleAccessor() {
+            public void setTypedVblue(finbl ScrollPbneAdjustbble bdj,
+                                      finbl int v, finbl int type) {
+                bdj.setTypedVblue(v, type);
             }
         });
     }
 
     /**
-     * JDK 1.1 serialVersionUID.
+     * JDK 1.1 seriblVersionUID.
      */
-    private static final long serialVersionUID = -3359745691033257079L;
+    privbte stbtic finbl long seriblVersionUID = -3359745691033257079L;
 
 
     /**
-     * Constructs a new object to represent specified scrollabar
-     * of the specified <code>ScrollPane</code>.
-     * Only ScrollPane creates instances of this class.
-     * @param sp           <code>ScrollPane</code>
-     * @param l            <code>AdjustmentListener</code> to add upon creation.
-     * @param orientation  specifies which scrollbar this object represents,
-     *                     can be either  <code>Adjustable.HORIZONTAL</code>
-     *                     or <code>Adjustable.VERTICAL</code>.
+     * Constructs b new object to represent specified scrollbbbr
+     * of the specified <code>ScrollPbne</code>.
+     * Only ScrollPbne crebtes instbnces of this clbss.
+     * @pbrbm sp           <code>ScrollPbne</code>
+     * @pbrbm l            <code>AdjustmentListener</code> to bdd upon crebtion.
+     * @pbrbm orientbtion  specifies which scrollbbr this object represents,
+     *                     cbn be either  <code>Adjustbble.HORIZONTAL</code>
+     *                     or <code>Adjustbble.VERTICAL</code>.
      */
-    ScrollPaneAdjustable(ScrollPane sp, AdjustmentListener l, int orientation) {
+    ScrollPbneAdjustbble(ScrollPbne sp, AdjustmentListener l, int orientbtion) {
         this.sp = sp;
-        this.orientation = orientation;
-        addAdjustmentListener(l);
+        this.orientbtion = orientbtion;
+        bddAdjustmentListener(l);
     }
 
     /**
-     * This is called by the scrollpane itself to update the
-     * <code>minimum</code>, <code>maximum</code> and
-     * <code>visible</code> values.  The scrollpane is the only one
-     * that should be changing these since it is the source of these
-     * values.
+     * This is cblled by the scrollpbne itself to updbte the
+     * <code>minimum</code>, <code>mbximum</code> bnd
+     * <code>visible</code> vblues.  The scrollpbne is the only one
+     * thbt should be chbnging these since it is the source of these
+     * vblues.
      */
-    void setSpan(int min, int max, int visible) {
-        // adjust the values to be reasonable
+    void setSpbn(int min, int mbx, int visible) {
+        // bdjust the vblues to be rebsonbble
         minimum = min;
-        maximum = Math.max(max, minimum + 1);
-        visibleAmount = Math.min(visible, maximum - minimum);
-        visibleAmount = Math.max(visibleAmount, 1);
-        blockIncrement = Math.max((int)(visible * .90), 1);
-        setValue(value);
+        mbximum = Mbth.mbx(mbx, minimum + 1);
+        visibleAmount = Mbth.min(visible, mbximum - minimum);
+        visibleAmount = Mbth.mbx(visibleAmount, 1);
+        blockIncrement = Mbth.mbx((int)(visible * .90), 1);
+        setVblue(vblue);
     }
 
     /**
-     * Returns the orientation of this scrollbar.
-     * @return    the orientation of this scrollbar, either
-     *            <code>Adjustable.HORIZONTAL</code> or
-     *            <code>Adjustable.VERTICAL</code>
+     * Returns the orientbtion of this scrollbbr.
+     * @return    the orientbtion of this scrollbbr, either
+     *            <code>Adjustbble.HORIZONTAL</code> or
+     *            <code>Adjustbble.VERTICAL</code>
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
     /**
-     * This method should <strong>NOT</strong> be called by user code.
-     * This method is public for this class to properly implement
-     * <code>Adjustable</code> interface.
+     * This method should <strong>NOT</strong> be cblled by user code.
+     * This method is public for this clbss to properly implement
+     * <code>Adjustbble</code> interfbce.
      *
-     * @throws AWTError Always throws an error when called.
+     * @throws AWTError Alwbys throws bn error when cblled.
      */
     public void setMinimum(int min) {
         throw new AWTError(SCROLLPANE_ONLY);
     }
 
     public int getMinimum() {
-        // XXX: This relies on setSpan always being called with 0 for
+        // XXX: This relies on setSpbn blwbys being cblled with 0 for
         // the minimum (which is currently true).
         return 0;
     }
 
     /**
-     * This method should <strong>NOT</strong> be called by user code.
-     * This method is public for this class to properly implement
-     * <code>Adjustable</code> interface.
+     * This method should <strong>NOT</strong> be cblled by user code.
+     * This method is public for this clbss to properly implement
+     * <code>Adjustbble</code> interfbce.
      *
-     * @throws AWTError Always throws an error when called.
+     * @throws AWTError Alwbys throws bn error when cblled.
      */
-    public void setMaximum(int max) {
+    public void setMbximum(int mbx) {
         throw new AWTError(SCROLLPANE_ONLY);
     }
 
-    public int getMaximum() {
-        return maximum;
+    public int getMbximum() {
+        return mbximum;
     }
 
     public synchronized void setUnitIncrement(int u) {
         if (u != unitIncrement) {
             unitIncrement = u;
             if (sp.peer != null) {
-                ScrollPanePeer peer = (ScrollPanePeer) sp.peer;
+                ScrollPbnePeer peer = (ScrollPbnePeer) sp.peer;
                 peer.setUnitIncrement(this, u);
             }
         }
@@ -270,11 +270,11 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
     }
 
     /**
-     * This method should <strong>NOT</strong> be called by user code.
-     * This method is public for this class to properly implement
-     * <code>Adjustable</code> interface.
+     * This method should <strong>NOT</strong> be cblled by user code.
+     * This method is public for this clbss to properly implement
+     * <code>Adjustbble</code> interfbce.
      *
-     * @throws AWTError Always throws an error when called.
+     * @throws AWTError Alwbys throws bn error when cblled.
      */
     public void setVisibleAmount(int v) {
         throw new AWTError(SCROLLPANE_ONLY);
@@ -286,164 +286,164 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
 
 
     /**
-     * Sets the <code>valueIsAdjusting</code> property.
+     * Sets the <code>vblueIsAdjusting</code> property.
      *
-     * @param b new adjustment-in-progress status
-     * @see #getValueIsAdjusting
+     * @pbrbm b new bdjustment-in-progress stbtus
+     * @see #getVblueIsAdjusting
      * @since 1.4
      */
-    public void setValueIsAdjusting(boolean b) {
+    public void setVblueIsAdjusting(boolebn b) {
         if (isAdjusting != b) {
             isAdjusting = b;
             AdjustmentEvent e =
                 new AdjustmentEvent(this,
                         AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED,
-                        AdjustmentEvent.TRACK, value, b);
-            adjustmentListener.adjustmentValueChanged(e);
+                        AdjustmentEvent.TRACK, vblue, b);
+            bdjustmentListener.bdjustmentVblueChbnged(e);
         }
     }
 
     /**
-     * Returns true if the value is in the process of changing as a
-     * result of actions being taken by the user.
+     * Returns true if the vblue is in the process of chbnging bs b
+     * result of bctions being tbken by the user.
      *
-     * @return the value of the <code>valueIsAdjusting</code> property
-     * @see #setValueIsAdjusting
+     * @return the vblue of the <code>vblueIsAdjusting</code> property
+     * @see #setVblueIsAdjusting
      */
-    public boolean getValueIsAdjusting() {
+    public boolebn getVblueIsAdjusting() {
         return isAdjusting;
     }
 
     /**
-     * Sets the value of this scrollbar to the specified value.
+     * Sets the vblue of this scrollbbr to the specified vblue.
      * <p>
-     * If the value supplied is less than the current minimum or
-     * greater than the current maximum, then one of those values is
-     * substituted, as appropriate.
+     * If the vblue supplied is less thbn the current minimum or
+     * grebter thbn the current mbximum, then one of those vblues is
+     * substituted, bs bppropribte.
      *
-     * @param v the new value of the scrollbar
+     * @pbrbm v the new vblue of the scrollbbr
      */
-    public void setValue(int v) {
-        setTypedValue(v, AdjustmentEvent.TRACK);
+    public void setVblue(int v) {
+        setTypedVblue(v, AdjustmentEvent.TRACK);
     }
 
     /**
-     * Sets the value of this scrollbar to the specified value.
+     * Sets the vblue of this scrollbbr to the specified vblue.
      * <p>
-     * If the value supplied is less than the current minimum or
-     * greater than the current maximum, then one of those values is
-     * substituted, as appropriate. Also, creates and dispatches
-     * the AdjustementEvent with specified type and value.
+     * If the vblue supplied is less thbn the current minimum or
+     * grebter thbn the current mbximum, then one of those vblues is
+     * substituted, bs bppropribte. Also, crebtes bnd dispbtches
+     * the AdjustementEvent with specified type bnd vblue.
      *
-     * @param v the new value of the scrollbar
-     * @param type the type of the scrolling operation occurred
+     * @pbrbm v the new vblue of the scrollbbr
+     * @pbrbm type the type of the scrolling operbtion occurred
      */
-    private void setTypedValue(int v, int type) {
-        v = Math.max(v, minimum);
-        v = Math.min(v, maximum - visibleAmount);
+    privbte void setTypedVblue(int v, int type) {
+        v = Mbth.mbx(v, minimum);
+        v = Mbth.min(v, mbximum - visibleAmount);
 
-        if (v != value) {
-            value = v;
-            // Synchronously notify the listeners so that they are
-            // guaranteed to be up-to-date with the Adjustable before
-            // it is mutated again.
+        if (v != vblue) {
+            vblue = v;
+            // Synchronously notify the listeners so thbt they bre
+            // gubrbnteed to be up-to-dbte with the Adjustbble before
+            // it is mutbted bgbin.
             AdjustmentEvent e =
                 new AdjustmentEvent(this,
                         AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED,
-                        type, value, isAdjusting);
-            adjustmentListener.adjustmentValueChanged(e);
+                        type, vblue, isAdjusting);
+            bdjustmentListener.bdjustmentVblueChbnged(e);
         }
     }
 
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 
     /**
-     * Adds the specified adjustment listener to receive adjustment
-     * events from this <code>ScrollPaneAdjustable</code>.
+     * Adds the specified bdjustment listener to receive bdjustment
+     * events from this <code>ScrollPbneAdjustbble</code>.
      * If <code>l</code> is <code>null</code>, no exception is thrown
-     * and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    l   the adjustment listener.
+     * @pbrbm    l   the bdjustment listener.
      * @see      #removeAdjustmentListener
      * @see      #getAdjustmentListeners
-     * @see      java.awt.event.AdjustmentListener
-     * @see      java.awt.event.AdjustmentEvent
+     * @see      jbvb.bwt.event.AdjustmentListener
+     * @see      jbvb.bwt.event.AdjustmentEvent
      */
-    public synchronized void addAdjustmentListener(AdjustmentListener l) {
+    public synchronized void bddAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
         }
-        adjustmentListener = AWTEventMulticaster.add(adjustmentListener, l);
+        bdjustmentListener = AWTEventMulticbster.bdd(bdjustmentListener, l);
     }
 
     /**
-     * Removes the specified adjustment listener so that it no longer
-     * receives adjustment events from this <code>ScrollPaneAdjustable</code>.
+     * Removes the specified bdjustment listener so thbt it no longer
+     * receives bdjustment events from this <code>ScrollPbneAdjustbble</code>.
      * If <code>l</code> is <code>null</code>, no exception is thrown
-     * and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         l     the adjustment listener.
-     * @see           #addAdjustmentListener
+     * @pbrbm         l     the bdjustment listener.
+     * @see           #bddAdjustmentListener
      * @see           #getAdjustmentListeners
-     * @see           java.awt.event.AdjustmentListener
-     * @see           java.awt.event.AdjustmentEvent
+     * @see           jbvb.bwt.event.AdjustmentListener
+     * @see           jbvb.bwt.event.AdjustmentEvent
      * @since         1.1
      */
     public synchronized void removeAdjustmentListener(AdjustmentListener l){
         if (l == null) {
             return;
         }
-        adjustmentListener = AWTEventMulticaster.remove(adjustmentListener, l);
+        bdjustmentListener = AWTEventMulticbster.remove(bdjustmentListener, l);
     }
 
     /**
-     * Returns an array of all the adjustment listeners
-     * registered on this <code>ScrollPaneAdjustable</code>.
+     * Returns bn brrby of bll the bdjustment listeners
+     * registered on this <code>ScrollPbneAdjustbble</code>.
      *
-     * @return all of this <code>ScrollPaneAdjustable</code>'s
+     * @return bll of this <code>ScrollPbneAdjustbble</code>'s
      *         <code>AdjustmentListener</code>s
-     *         or an empty array if no adjustment
-     *         listeners are currently registered
+     *         or bn empty brrby if no bdjustment
+     *         listeners bre currently registered
      *
-     * @see           #addAdjustmentListener
+     * @see           #bddAdjustmentListener
      * @see           #removeAdjustmentListener
-     * @see           java.awt.event.AdjustmentListener
-     * @see           java.awt.event.AdjustmentEvent
+     * @see           jbvb.bwt.event.AdjustmentListener
+     * @see           jbvb.bwt.event.AdjustmentEvent
      * @since 1.4
      */
     public synchronized AdjustmentListener[] getAdjustmentListeners() {
-        return AWTEventMulticaster.getListeners(adjustmentListener,
-                                                AdjustmentListener.class);
+        return AWTEventMulticbster.getListeners(bdjustmentListener,
+                                                AdjustmentListener.clbss);
     }
 
     /**
-     * Returns a string representation of this scrollbar and its values.
-     * @return    a string representation of this scrollbar.
+     * Returns b string representbtion of this scrollbbr bnd its vblues.
+     * @return    b string representbtion of this scrollbbr.
      */
     public String toString() {
-        return getClass().getName() + "[" + paramString() + "]";
+        return getClbss().getNbme() + "[" + pbrbmString() + "]";
     }
 
     /**
-     * Returns a string representing the state of this scrollbar.
+     * Returns b string representing the stbte of this scrollbbr.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary
-     * between implementations.  The returned string may be empty but
-     * may not be <code>null</code>.
+     * bnd the content bnd formbt of the returned string mby vbry
+     * between implementbtions.  The returned string mby be empty but
+     * mby not be <code>null</code>.
      *
-     * @return      the parameter string of this scrollbar.
+     * @return      the pbrbmeter string of this scrollbbr.
      */
-    public String paramString() {
-        return ((orientation == Adjustable.VERTICAL ? "vertical,"
-                                                    :"horizontal,")
-                + "[0.."+maximum+"]"
-                + ",val=" + value
+    public String pbrbmString() {
+        return ((orientbtion == Adjustbble.VERTICAL ? "verticbl,"
+                                                    :"horizontbl,")
+                + "[0.."+mbximum+"]"
+                + ",vbl=" + vblue
                 + ",vis=" + visibleAmount
                 + ",unit=" + unitIncrement
                 + ",block=" + blockIncrement

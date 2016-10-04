@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,36 +45,36 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_RSA_PKCS_OAEP_PARAMS provides the parameters to the
- * CKM_RSA_PKCS_OAEP mechanism.<p>
+ * clbss CK_RSA_PKCS_OAEP_PARAMS provides the pbrbmeters to the
+ * CKM_RSA_PKCS_OAEP mechbnism.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_RSA_PKCS_OAEP_PARAMS {
- *   CK_MECHANISM_TYPE hashAlg;
+ *   CK_MECHANISM_TYPE hbshAlg;
  *   CK_RSA_PKCS_OAEP_MGF_TYPE mgf;
  *   CK_RSA_PKCS_OAEP_SOURCE_TYPE source;
- *   CK_VOID_PTR pSourceData;
- *   CK_ULONG ulSourceDataLen;
+ *   CK_VOID_PTR pSourceDbtb;
+ *   CK_ULONG ulSourceDbtbLen;
  * } CK_RSA_PKCS_OAEP_PARAMS;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_RSA_PKCS_OAEP_PARAMS {
+public clbss CK_RSA_PKCS_OAEP_PARAMS {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_MECHANISM_TYPE hashAlg;
+     *   CK_MECHANISM_TYPE hbshAlg;
      * </PRE>
      */
-    public long hashAlg;
+    public long hbshAlg;
 
     /**
      * <B>PKCS#11:</B>
@@ -95,47 +95,47 @@ public class CK_RSA_PKCS_OAEP_PARAMS {
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VOID_PTR pSourceData;
-     *   CK_ULONG ulSourceDataLen;
+     *   CK_VOID_PTR pSourceDbtb;
+     *   CK_ULONG ulSourceDbtbLen;
      * </PRE>
      */
-    public byte[] pSourceData;
+    public byte[] pSourceDbtb;
 
-    //CK_ULONG ulSourceDataLen;
-    // ulSourceDataLen == pSourceData.length
+    //CK_ULONG ulSourceDbtbLen;
+    // ulSourceDbtbLen == pSourceDbtb.length
 
     /**
-     * Returns the string representation of CK_RSA_PKCS_OAEP_PARAMS.
+     * Returns the string representbtion of CK_RSA_PKCS_OAEP_PARAMS.
      *
-     * @return the string representation of CK_RSA_PKCS_OAEP_PARAMS
+     * @return the string representbtion of CK_RSA_PKCS_OAEP_PARAMS
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("hashAlg: ");
-        sb.append(hashAlg);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("hbshAlg: ");
+        sb.bppend(hbshAlg);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("mgf: ");
-        sb.append(mgf);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("mgf: ");
+        sb.bppend(mgf);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("source: ");
-        sb.append(source);
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("source: ");
+        sb.bppend(source);
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pSourceData: ");
-        sb.append(pSourceData.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pSourceDbtb: ");
+        sb.bppend(pSourceDbtb.toString());
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pSourceDataLen: ");
-        sb.append(Functions.toHexString(pSourceData));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("pSourceDbtbLen: ");
+        sb.bppend(Functions.toHexString(pSourceDbtb));
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString() ;
     }

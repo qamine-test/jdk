@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,334 +30,334 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import javax.management.InstanceNotFoundException;
-import javax.management.Notification;
-import junit.framework.*;
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.JMException;
-import javax.management.JMX;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.TimeUnit;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.Notificbtion;
+import junit.frbmework.*;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte.*;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import jbvb.io.IOException;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.EnumSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.JMException;
+import jbvbx.mbnbgement.JMX;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte.*;
 
 /**
- * Unit tests for {@code ScanManager}
+ * Unit tests for {@code ScbnMbnbger}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class ScanManagerTest extends TestCase {
+public clbss ScbnMbnbgerTest extends TestCbse {
 
-    public ScanManagerTest(String testName) {
-        super(testName);
+    public ScbnMbnbgerTest(String testNbme) {
+        super(testNbme);
     }
 
     protected void setUp() throws Exception {
     }
 
-    protected void tearDown() throws Exception {
+    protected void tebrDown() throws Exception {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ScanManagerTest.class);
+    public stbtic Test suite() {
+        TestSuite suite = new TestSuite(ScbnMbnbgerTest.clbss);
 
         return suite;
     }
 
     /**
-     * Test of makeSingletonName method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of mbkeSingletonNbme method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
-    public void testMakeSingletonName() {
-        System.out.println("makeSingletonName");
+    public void testMbkeSingletonNbme() {
+        System.out.println("mbkeSingletonNbme");
 
-        Class clazz = ScanManagerMXBean.class;
+        Clbss clbzz = ScbnMbnbgerMXBebn.clbss;
 
-        ObjectName expResult = ScanManager.SCAN_MANAGER_NAME;
-        ObjectName result = ScanManager.makeSingletonName(clazz);
-        assertEquals(expResult, result);
+        ObjectNbme expResult = ScbnMbnbger.SCAN_MANAGER_NAME;
+        ObjectNbme result = ScbnMbnbger.mbkeSingletonNbme(clbzz);
+        bssertEqubls(expResult, result);
 
     }
 
     /**
-     * Test of register method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of register method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
     public void testRegister() throws Exception {
         System.out.println("register");
 
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        MBebnServer mbs = MbnbgementFbctory.getPlbtformMBebnServer();
 
 
-        ScanManagerMXBean result = ScanManager.register(mbs);
+        ScbnMbnbgerMXBebn result = ScbnMbnbger.register(mbs);
         try {
-            assertEquals(STOPPED,result.getState());
-        } finally {
+            bssertEqubls(STOPPED,result.getStbte());
+        } finblly {
             try {
-                mbs.unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                mbs.unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
 
     }
 
-    public interface Call {
-        public void call() throws Exception;
-        public void cancel() throws Exception;
+    public interfbce Cbll {
+        public void cbll() throws Exception;
+        public void cbncel() throws Exception;
     }
 
     /**
-     * Test of addNotificationListener method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of bddNotificbtionListener method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
-    public void testAddNotificationListener() throws Exception {
-        System.out.println("addNotificationListener");
+    public void testAddNotificbtionListener() throws Exception {
+        System.out.println("bddNotificbtionListener");
 
-        final ScanManagerMXBean manager = ScanManager.register();
-        final Call op = new Call() {
-            public void call() throws Exception {
-                manager.schedule(100000,0);
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
+        finbl Cbll op = new Cbll() {
+            public void cbll() throws Exception {
+                mbnbger.schedule(100000,0);
             }
-            public void cancel() throws Exception {
-                manager.stop();
+            public void cbncel() throws Exception {
+                mbnbger.stop();
             }
         };
         try {
-            doTestOperation(manager,op,
+            doTestOperbtion(mbnbger,op,
                             EnumSet.of(RUNNING,SCHEDULED),
                             "schedule");
-        } finally {
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
     /**
-     * Test of addNotificationListener method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of bddNotificbtionListener method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
-    private void doTestOperation(
-            ScanManagerMXBean proxy,
-            Call op,
-            EnumSet<ScanState> after,
-            String testName)
+    privbte void doTestOperbtion(
+            ScbnMbnbgerMXBebn proxy,
+            Cbll op,
+            EnumSet<ScbnStbte> bfter,
+            String testNbme)
         throws Exception {
-        System.out.println("doTestOperation: "+testName);
+        System.out.println("doTestOperbtion: "+testNbme);
 
-        final LinkedBlockingQueue<Notification> queue =
-                new LinkedBlockingQueue<Notification>();
+        finbl LinkedBlockingQueue<Notificbtion> queue =
+                new LinkedBlockingQueue<Notificbtion>();
 
-        NotificationListener listener = new NotificationListener() {
-            public void handleNotification(Notification notification,
-                        Object handback) {
+        NotificbtionListener listener = new NotificbtionListener() {
+            public void hbndleNotificbtion(Notificbtion notificbtion,
+                        Object hbndbbck) {
                 try {
-                    queue.put(notification);
-                } catch (Exception x) {
-                    System.err.println("Failed to queue notif: "+x);
+                    queue.put(notificbtion);
+                } cbtch (Exception x) {
+                    System.err.println("Fbiled to queue notif: "+x);
                 }
             }
         };
-        NotificationFilter filter = null;
-        Object handback = null;
-        final ScanState before;
-        final NotificationEmitter emitter = (NotificationEmitter)proxy;
-        emitter.addNotificationListener(listener, filter, handback);
-        before = proxy.getState();
-        op.call();
+        NotificbtionFilter filter = null;
+        Object hbndbbck = null;
+        finbl ScbnStbte before;
+        finbl NotificbtionEmitter emitter = (NotificbtionEmitter)proxy;
+        emitter.bddNotificbtionListener(listener, filter, hbndbbck);
+        before = proxy.getStbte();
+        op.cbll();
         try {
-            final Notification notification =
+            finbl Notificbtion notificbtion =
                     queue.poll(3000,TimeUnit.MILLISECONDS);
-            assertEquals(AttributeChangeNotification.ATTRIBUTE_CHANGE,
-                    notification.getType());
-            assertEquals(AttributeChangeNotification.class,
-                    notification.getClass());
-            assertEquals(ScanManager.SCAN_MANAGER_NAME,
-                    notification.getSource());
-            AttributeChangeNotification acn =
-                    (AttributeChangeNotification)notification;
-            assertEquals("State",acn.getAttributeName());
-            assertEquals(ScanState.class.getName(),acn.getAttributeType());
-            assertEquals(before,ScanState.valueOf((String)acn.getOldValue()));
-            assertContained(after,ScanState.valueOf((String)acn.getNewValue()));
-            emitter.removeNotificationListener(listener,filter,handback);
-        } finally {
+            bssertEqubls(AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE,
+                    notificbtion.getType());
+            bssertEqubls(AttributeChbngeNotificbtion.clbss,
+                    notificbtion.getClbss());
+            bssertEqubls(ScbnMbnbger.SCAN_MANAGER_NAME,
+                    notificbtion.getSource());
+            AttributeChbngeNotificbtion bcn =
+                    (AttributeChbngeNotificbtion)notificbtion;
+            bssertEqubls("Stbte",bcn.getAttributeNbme());
+            bssertEqubls(ScbnStbte.clbss.getNbme(),bcn.getAttributeType());
+            bssertEqubls(before,ScbnStbte.vblueOf((String)bcn.getOldVblue()));
+            bssertContbined(bfter,ScbnStbte.vblueOf((String)bcn.getNewVblue()));
+            emitter.removeNotificbtionListener(listener,filter,hbndbbck);
+        } finblly {
             try {
-                op.cancel();
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                op.cbncel();
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
     /**
-     * Test of preRegister method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of preRegister method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
     public void testPreRegister() throws Exception {
         System.out.println("preRegister");
 
-        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("DownUnder:type=Wombat");
-        ScanManager instance = new ScanManager();
+        MBebnServer server = MbnbgementFbctory.getPlbtformMBebnServer();
+        ObjectNbme nbme = new ObjectNbme("DownUnder:type=Wombbt");
+        ScbnMbnbger instbnce = new ScbnMbnbger();
 
-        ObjectName expResult = ScanManager.SCAN_MANAGER_NAME;
-        ObjectName result;
+        ObjectNbme expResult = ScbnMbnbger.SCAN_MANAGER_NAME;
+        ObjectNbme result;
         try {
-            result = instance.preRegister(server, name);
-            throw new RuntimeException("bad name accepted!");
-        } catch (IllegalArgumentException x) {
+            result = instbnce.preRegister(server, nbme);
+            throw new RuntimeException("bbd nbme bccepted!");
+        } cbtch (IllegblArgumentException x) {
             // OK!
-            result = instance.preRegister(server, null);
+            result = instbnce.preRegister(server, null);
         }
-        assertEquals(expResult, result);
-        result = instance.preRegister(server, ScanManager.SCAN_MANAGER_NAME);
-        assertEquals(expResult, result);
+        bssertEqubls(expResult, result);
+        result = instbnce.preRegister(server, ScbnMbnbger.SCAN_MANAGER_NAME);
+        bssertEqubls(expResult, result);
     }
 
 
     /**
-     * Test of getState method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of getStbte method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
-    public void testGetState() throws IOException, InstanceNotFoundException {
-        System.out.println("getState");
+    public void testGetStbte() throws IOException, InstbnceNotFoundException {
+        System.out.println("getStbte");
 
-        ScanManager instance = new ScanManager();
+        ScbnMbnbger instbnce = new ScbnMbnbger();
 
-        ScanState expResult = ScanState.STOPPED;
-        ScanState result = instance.getState();
-        assertEquals(expResult, result);
-        instance.start();
-        final ScanState afterStart = instance.getState();
-        assertContained(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),afterStart);
-        instance.stop();
-        assertEquals(STOPPED,instance.getState());
-        instance.schedule(1000000L,1000000L);
-        assertEquals(SCHEDULED,instance.getState());
-        instance.stop();
-        assertEquals(STOPPED,instance.getState());
+        ScbnStbte expResult = ScbnStbte.STOPPED;
+        ScbnStbte result = instbnce.getStbte();
+        bssertEqubls(expResult, result);
+        instbnce.stbrt();
+        finbl ScbnStbte bfterStbrt = instbnce.getStbte();
+        bssertContbined(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),bfterStbrt);
+        instbnce.stop();
+        bssertEqubls(STOPPED,instbnce.getStbte());
+        instbnce.schedule(1000000L,1000000L);
+        bssertEqubls(SCHEDULED,instbnce.getStbte());
+        instbnce.stop();
+        bssertEqubls(STOPPED,instbnce.getStbte());
     }
 
     /**
-     * Test of schedule method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of schedule method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
     public void testSchedule() throws Exception {
         System.out.println("schedule");
 
-        final long delay = 10000L;
-        final long interval = 10000L;
+        finbl long delby = 10000L;
+        finbl long intervbl = 10000L;
 
-        final ScanManagerMXBean manager = ScanManager.register();
-        final Call op = new Call() {
-            public void call() throws Exception {
-                manager.schedule(delay,interval);
-                assertEquals(SCHEDULED,manager.getState());
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
+        finbl Cbll op = new Cbll() {
+            public void cbll() throws Exception {
+                mbnbger.schedule(delby,intervbl);
+                bssertEqubls(SCHEDULED,mbnbger.getStbte());
             }
-            public void cancel() throws Exception {
-                manager.stop();
+            public void cbncel() throws Exception {
+                mbnbger.stop();
             }
         };
         try {
-            doTestOperation(manager,op,EnumSet.of(SCHEDULED),
+            doTestOperbtion(mbnbger,op,EnumSet.of(SCHEDULED),
                     "schedule");
-        } finally {
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
-    public static void assertContained(EnumSet<ScanState> allowed,
-            ScanState state) {
-         final String msg = String.valueOf(state) + " is not one of " + allowed;
-         assertTrue(msg,allowed.contains(state));
+    public stbtic void bssertContbined(EnumSet<ScbnStbte> bllowed,
+            ScbnStbte stbte) {
+         finbl String msg = String.vblueOf(stbte) + " is not one of " + bllowed;
+         bssertTrue(msg,bllowed.contbins(stbte));
     }
 
     /**
-     * Test of stop method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of stop method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
     public void testStop() throws Exception {
         System.out.println("stop");
-        final ScanManagerMXBean manager = ScanManager.register();
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
         try {
-            manager.schedule(1000000,0);
-            assertContained(EnumSet.of(SCHEDULED),manager.getState());
-            final Call op = new Call() {
-                public void call() throws Exception {
-                    manager.stop();
-                    assertEquals(STOPPED,manager.getState());
+            mbnbger.schedule(1000000,0);
+            bssertContbined(EnumSet.of(SCHEDULED),mbnbger.getStbte());
+            finbl Cbll op = new Cbll() {
+                public void cbll() throws Exception {
+                    mbnbger.stop();
+                    bssertEqubls(STOPPED,mbnbger.getStbte());
                 }
-                public void cancel() throws Exception {
-                    if (manager.getState() != STOPPED)
-                        manager.stop();
+                public void cbncel() throws Exception {
+                    if (mbnbger.getStbte() != STOPPED)
+                        mbnbger.stop();
                 }
             };
-            doTestOperation(manager,op,EnumSet.of(STOPPED),"stop");
-        } finally {
+            doTestOperbtion(mbnbger,op,EnumSet.of(STOPPED),"stop");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
     /**
-     * Test of start method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Test of stbrt method, of clbss com.sun.jmx.exbmples.scbndir.ScbnMbnbger.
      */
-    public void testStart() throws Exception {
-        final ScanManagerMXBean manager = ScanManager.register();
+    public void testStbrt() throws Exception {
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
         try {
-            final Call op = new Call() {
-                public void call() throws Exception {
-                    assertEquals(STOPPED,manager.getState());
-                    manager.start();
-                    assertContained(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
-                            manager.getState());
+            finbl Cbll op = new Cbll() {
+                public void cbll() throws Exception {
+                    bssertEqubls(STOPPED,mbnbger.getStbte());
+                    mbnbger.stbrt();
+                    bssertContbined(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
+                            mbnbger.getStbte());
                 }
-                public void cancel() throws Exception {
-                    manager.stop();
+                public void cbncel() throws Exception {
+                    mbnbger.stop();
                 }
             };
-            doTestOperation(manager,op,EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
-                    "start");
-        } finally {
+            doTestOperbtion(mbnbger,op,EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
+                    "stbrt");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }

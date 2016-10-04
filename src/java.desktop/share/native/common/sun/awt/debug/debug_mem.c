@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,79 +27,79 @@
 
 #include "debug_util.h"
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-#define DMEM_MIN(a,b)   (a) < (b) ? (a) : (b)
-#define DMEM_MAX(a,b)   (a) > (b) ? (a) : (b)
+#define DMEM_MIN(b,b)   (b) < (b) ? (b) : (b)
+#define DMEM_MAX(b,b)   (b) > (b) ? (b) : (b)
 
-typedef char byte_t;
+typedef chbr byte_t;
 
-static const byte_t ByteInited = '\xCD';
-static const byte_t ByteFreed = '\xDD';
-static const byte_t ByteGuard = '\xFD';
+stbtic const byte_t ByteInited = '\xCD';
+stbtic const byte_t ByteFreed = '\xDD';
+stbtic const byte_t ByteGubrd = '\xFD';
 
 enum {
-    MAX_LINENUM = 50000,        /* I certainly hope we don't have source files bigger than this */
-    MAX_CHECK_BYTES = 27,       /* max bytes to check at start of block */
-    MAX_GUARD_BYTES = 8,        /* size of guard areas on either side of a block */
+    MAX_LINENUM = 50000,        /* I certbinly hope we don't hbve source files bigger thbn this */
+    MAX_CHECK_BYTES = 27,       /* mbx bytes to check bt stbrt of block */
+    MAX_GUARD_BYTES = 8,        /* size of gubrd brebs on either side of b block */
     MAX_DECIMAL_DIGITS = 15
 };
 
-/* Debug Info Header to precede allocated block */
-typedef struct MemoryBlockHeader {
-    char                        filename[FILENAME_MAX+1]; /* filename where alloc occurred */
-    int                         linenumber;             /* line where alloc occurred */
-    size_t                      size;                   /* size of the allocation */
-    int                         order;                  /* the order the block was allocated in */
+/* Debug Info Hebder to precede bllocbted block */
+typedef struct MemoryBlockHebder {
+    chbr                        filenbme[FILENAME_MAX+1]; /* filenbme where blloc occurred */
+    int                         linenumber;             /* line where blloc occurred */
+    size_t                      size;                   /* size of the bllocbtion */
+    int                         order;                  /* the order the block wbs bllocbted in */
     struct MemoryListLink *     listEnter;              /* pointer to the free list node */
-    byte_t                      guard[MAX_GUARD_BYTES]; /* guard area for underrun check */
-} MemoryBlockHeader;
+    byte_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd breb for underrun check */
+} MemoryBlockHebder;
 
-/* Tail to follow allocated block */
-typedef struct MemoryBlockTail {
-    byte_t                      guard[MAX_GUARD_BYTES]; /* guard area overrun check */
-} MemoryBlockTail;
+/* Tbil to follow bllocbted block */
+typedef struct MemoryBlockTbil {
+    byte_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd breb overrun check */
+} MemoryBlockTbil;
 
-/* Linked list of allocated memory blocks */
+/* Linked list of bllocbted memory blocks */
 typedef struct MemoryListLink {
     struct MemoryListLink *     next;
-    MemoryBlockHeader *         header;
+    MemoryBlockHebder *         hebder;
     int                         freed;
 } MemoryListLink;
 
 /**************************************************
- * Global Data structures
+ * Globbl Dbtb structures
  */
-static DMemState                DMemGlobalState;
-extern const DMemState *        DMemStatePtr = &DMemGlobalState;
-static MemoryListLink           MemoryList = {NULL,NULL,FALSE};
-static dmutex_t                 DMemMutex = NULL;
+stbtic DMemStbte                DMemGlobblStbte;
+extern const DMemStbte *        DMemStbtePtr = &DMemGlobblStbte;
+stbtic MemoryListLink           MemoryList = {NULL,NULL,FALSE};
+stbtic dmutex_t                 DMemMutex = NULL;
 
 /**************************************************/
 
 /*************************************************
- * Client callback invocation functions
+ * Client cbllbbck invocbtion functions
  */
-static void * DMem_ClientAllocate(size_t size) {
-    if (DMemGlobalState.pfnAlloc != NULL) {
-        return (*DMemGlobalState.pfnAlloc)(size);
+stbtic void * DMem_ClientAllocbte(size_t size) {
+    if (DMemGlobblStbte.pfnAlloc != NULL) {
+        return (*DMemGlobblStbte.pfnAlloc)(size);
     }
-    return malloc(size);
+    return mblloc(size);
 }
 
-static void DMem_ClientFree(void * ptr) {
-    if (DMemGlobalState.pfnFree != NULL) {
-        (*DMemGlobalState.pfnFree)(ptr);
+stbtic void DMem_ClientFree(void * ptr) {
+    if (DMemGlobblStbte.pfnFree != NULL) {
+        (*DMemGlobblStbte.pfnFree)(ptr);
     }
     free(ptr);
 }
 
-static dbool_t DMem_ClientCheckPtr(void * ptr, size_t size) {
-    if (DMemGlobalState.pfnCheckPtr != NULL) {
-        return (*DMemGlobalState.pfnCheckPtr)(ptr, size);
+stbtic dbool_t DMem_ClientCheckPtr(void * ptr, size_t size) {
+    if (DMemGlobblStbte.pfnCheckPtr != NULL) {
+        return (*DMemGlobblStbte.pfnCheckPtr)(ptr, size);
     }
     return ptr != NULL;
 }
@@ -107,16 +107,16 @@ static dbool_t DMem_ClientCheckPtr(void * ptr, size_t size) {
 /**************************************************/
 
 /*************************************************
- * Debug Memory Manager implementation
+ * Debug Memory Mbnbger implementbtion
  */
 
-static MemoryListLink * DMem_TrackBlock(MemoryBlockHeader * header) {
+stbtic MemoryListLink * DMem_TrbckBlock(MemoryBlockHebder * hebder) {
     MemoryListLink *    link;
 
-    link = (MemoryListLink *)DMem_ClientAllocate(sizeof(MemoryListLink));
+    link = (MemoryListLink *)DMem_ClientAllocbte(sizeof(MemoryListLink));
     if (link != NULL) {
-        link->header = header;
-        link->header->listEnter = link;
+        link->hebder = hebder;
+        link->hebder->listEnter = link;
         link->next = MemoryList.next;
         link->freed = FALSE;
         MemoryList.next = link;
@@ -125,70 +125,70 @@ static MemoryListLink * DMem_TrackBlock(MemoryBlockHeader * header) {
     return link;
 }
 
-static int DMem_VerifyGuardArea(const byte_t * area) {
+stbtic int DMem_VerifyGubrdAreb(const byte_t * breb) {
     int         nbyte;
 
     for ( nbyte = 0; nbyte < MAX_GUARD_BYTES; nbyte++ ) {
-        if (area[nbyte] != ByteGuard) {
+        if (breb[nbyte] != ByteGubrd) {
             return FALSE;
         }
     }
     return TRUE;
 }
 
-static void DMem_VerifyHeader(MemoryBlockHeader * header) {
-    DASSERTMSG( DMem_ClientCheckPtr(header, sizeof(MemoryBlockHeader)), "Invalid header" );
-    DASSERTMSG( DMem_VerifyGuardArea(header->guard), "Header corruption, possible underwrite" );
-    DASSERTMSG( header->linenumber > 0 && header->linenumber < MAX_LINENUM, "Header corruption, bad line number" );
-    DASSERTMSG( header->size <= DMemGlobalState.biggestBlock, "Header corruption, block size is too large");
-    DASSERTMSG( header->order <= DMemGlobalState.totalAllocs, "Header corruption, block order out of range");
+stbtic void DMem_VerifyHebder(MemoryBlockHebder * hebder) {
+    DASSERTMSG( DMem_ClientCheckPtr(hebder, sizeof(MemoryBlockHebder)), "Invblid hebder" );
+    DASSERTMSG( DMem_VerifyGubrdAreb(hebder->gubrd), "Hebder corruption, possible underwrite" );
+    DASSERTMSG( hebder->linenumber > 0 && hebder->linenumber < MAX_LINENUM, "Hebder corruption, bbd line number" );
+    DASSERTMSG( hebder->size <= DMemGlobblStbte.biggestBlock, "Hebder corruption, block size is too lbrge");
+    DASSERTMSG( hebder->order <= DMemGlobblStbte.totblAllocs, "Hebder corruption, block order out of rbnge");
 }
 
-static void DMem_VerifyTail(MemoryBlockTail * tail) {
-    DASSERTMSG( DMem_ClientCheckPtr(tail, sizeof(MemoryBlockTail)), "Tail corruption, invalid pointer");
-    DASSERTMSG( DMem_VerifyGuardArea(tail->guard), "Tail corruption, possible overwrite" );
+stbtic void DMem_VerifyTbil(MemoryBlockTbil * tbil) {
+    DASSERTMSG( DMem_ClientCheckPtr(tbil, sizeof(MemoryBlockTbil)), "Tbil corruption, invblid pointer");
+    DASSERTMSG( DMem_VerifyGubrdAreb(tbil->gubrd), "Tbil corruption, possible overwrite" );
 }
 
-static MemoryBlockHeader * DMem_VerifyBlock(void * memptr) {
-    MemoryBlockHeader * header;
-    MemoryBlockTail *   tail;
+stbtic MemoryBlockHebder * DMem_VerifyBlock(void * memptr) {
+    MemoryBlockHebder * hebder;
+    MemoryBlockTbil *   tbil;
 
-    /* check if the pointer is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(memptr, 1), "Invalid pointer");
+    /* check if the pointer is vblid */
+    DASSERTMSG( DMem_ClientCheckPtr(memptr, 1), "Invblid pointer");
 
-    /* check if the block header is valid */
-    header = (MemoryBlockHeader *)((byte_t *)memptr - sizeof(MemoryBlockHeader));
-    DMem_VerifyHeader(header);
-    /* check that the memory itself is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(memptr, DMEM_MIN(MAX_CHECK_BYTES,header->size)), "Block memory invalid" );
-    /* check that the pointer to the alloc list is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(header->listEnter, sizeof(MemoryListLink)), "Header corruption, alloc list pointer invalid" );
-    /* check the tail of the block for overruns */
-    tail = (MemoryBlockTail *) ( (byte_t *)memptr + header->size );
-    DMem_VerifyTail(tail);
+    /* check if the block hebder is vblid */
+    hebder = (MemoryBlockHebder *)((byte_t *)memptr - sizeof(MemoryBlockHebder));
+    DMem_VerifyHebder(hebder);
+    /* check thbt the memory itself is vblid */
+    DASSERTMSG( DMem_ClientCheckPtr(memptr, DMEM_MIN(MAX_CHECK_BYTES,hebder->size)), "Block memory invblid" );
+    /* check thbt the pointer to the blloc list is vblid */
+    DASSERTMSG( DMem_ClientCheckPtr(hebder->listEnter, sizeof(MemoryListLink)), "Hebder corruption, blloc list pointer invblid" );
+    /* check the tbil of the block for overruns */
+    tbil = (MemoryBlockTbil *) ( (byte_t *)memptr + hebder->size );
+    DMem_VerifyTbil(tbil);
 
-    return header;
+    return hebder;
 }
 
-static MemoryBlockHeader * DMem_GetHeader(void * memptr) {
-    MemoryBlockHeader * header = DMem_VerifyBlock(memptr);
-    return header;
+stbtic MemoryBlockHebder * DMem_GetHebder(void * memptr) {
+    MemoryBlockHebder * hebder = DMem_VerifyBlock(memptr);
+    return hebder;
 }
 
 /*
- * Should be called before any other DMem_XXX function
+ * Should be cblled before bny other DMem_XXX function
  */
-void DMem_Initialize() {
-    DMemMutex = DMutex_Create();
+void DMem_Initiblize() {
+    DMemMutex = DMutex_Crebte();
     DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnAlloc = NULL;
-    DMemGlobalState.pfnFree = NULL;
-    DMemGlobalState.pfnCheckPtr = NULL;
-    DMemGlobalState.biggestBlock = 0;
-    DMemGlobalState.maxHeap = INT_MAX;
-    DMemGlobalState.totalHeapUsed = 0;
-    DMemGlobalState.failNextAlloc = FALSE;
-    DMemGlobalState.totalAllocs = 0;
+    DMemGlobblStbte.pfnAlloc = NULL;
+    DMemGlobblStbte.pfnFree = NULL;
+    DMemGlobblStbte.pfnCheckPtr = NULL;
+    DMemGlobblStbte.biggestBlock = 0;
+    DMemGlobblStbte.mbxHebp = INT_MAX;
+    DMemGlobblStbte.totblHebpUsed = 0;
+    DMemGlobblStbte.fbilNextAlloc = FALSE;
+    DMemGlobblStbte.totblAllocs = 0;
     DMutex_Exit(DMemMutex);
 }
 
@@ -196,55 +196,55 @@ void DMem_Shutdown() {
     DMutex_Destroy(DMemMutex);
 }
 /*
- * Allocates a block of memory, reserving extra space at the start and end of the
- * block to store debug info on where the block was allocated, it's size, and
- * 'guard' areas to catch overwrite/underwrite bugs
+ * Allocbtes b block of memory, reserving extrb spbce bt the stbrt bnd end of the
+ * block to store debug info on where the block wbs bllocbted, it's size, bnd
+ * 'gubrd' brebs to cbtch overwrite/underwrite bugs
  */
-void * DMem_AllocateBlock(size_t size, const char * filename, int linenumber) {
-    MemoryBlockHeader * header;
-    MemoryBlockTail *   tail;
+void * DMem_AllocbteBlock(size_t size, const chbr * filenbme, int linenumber) {
+    MemoryBlockHebder * hebder;
+    MemoryBlockTbil *   tbil;
     size_t              debugBlockSize;
     byte_t *            memptr = NULL;
 
     DMutex_Enter(DMemMutex);
-    if (DMemGlobalState.failNextAlloc) {
-    /* force an allocation failure if so ordered */
-        DMemGlobalState.failNextAlloc = FALSE; /* reset flag */
+    if (DMemGlobblStbte.fbilNextAlloc) {
+    /* force bn bllocbtion fbilure if so ordered */
+        DMemGlobblStbte.fbilNextAlloc = FALSE; /* reset flbg */
         goto Exit;
     }
 
-    /* allocate a block large enough to hold extra debug info */
-    debugBlockSize = sizeof(MemoryBlockHeader) + size + sizeof(MemoryBlockTail);
-    header = (MemoryBlockHeader *)DMem_ClientAllocate(debugBlockSize);
-    if (header == NULL) {
+    /* bllocbte b block lbrge enough to hold extrb debug info */
+    debugBlockSize = sizeof(MemoryBlockHebder) + size + sizeof(MemoryBlockTbil);
+    hebder = (MemoryBlockHebder *)DMem_ClientAllocbte(debugBlockSize);
+    if (hebder == NULL) {
         goto Exit;
     }
 
-    /* add block to list of allocated memory */
-    header->listEnter = DMem_TrackBlock(header);
-    if ( header->listEnter == NULL ) {
+    /* bdd block to list of bllocbted memory */
+    hebder->listEnter = DMem_TrbckBlock(hebder);
+    if ( hebder->listEnter == NULL ) {
         goto Exit;
     }
 
     /* store size of requested block */
-    header->size = size;
-    /* update maximum block size */
-    DMemGlobalState.biggestBlock = DMEM_MAX(header->size, DMemGlobalState.biggestBlock);
-    /* update used memory total */
-    DMemGlobalState.totalHeapUsed += header->size;
-    /* store filename and linenumber where allocation routine was called */
-    strncpy(header->filename, filename, FILENAME_MAX);
-    header->linenumber = linenumber;
-    /* store the order the block was allocated in */
-    header->order = DMemGlobalState.totalAllocs++;
-    /* initialize memory to a recognizable 'inited' value */
-    memptr = (byte_t *)header + sizeof(MemoryBlockHeader);
+    hebder->size = size;
+    /* updbte mbximum block size */
+    DMemGlobblStbte.biggestBlock = DMEM_MAX(hebder->size, DMemGlobblStbte.biggestBlock);
+    /* updbte used memory totbl */
+    DMemGlobblStbte.totblHebpUsed += hebder->size;
+    /* store filenbme bnd linenumber where bllocbtion routine wbs cblled */
+    strncpy(hebder->filenbme, filenbme, FILENAME_MAX);
+    hebder->linenumber = linenumber;
+    /* store the order the block wbs bllocbted in */
+    hebder->order = DMemGlobblStbte.totblAllocs++;
+    /* initiblize memory to b recognizbble 'inited' vblue */
+    memptr = (byte_t *)hebder + sizeof(MemoryBlockHebder);
     memset(memptr, ByteInited, size);
-    /* put guard area before block */
-    memset(header->guard, ByteGuard, MAX_GUARD_BYTES);
-    /* put guard area after block */
-    tail = (MemoryBlockTail *)(memptr + size);
-    memset(tail->guard, ByteGuard, MAX_GUARD_BYTES);
+    /* put gubrd breb before block */
+    memset(hebder->gubrd, ByteGubrd, MAX_GUARD_BYTES);
+    /* put gubrd breb bfter block */
+    tbil = (MemoryBlockTbil *)(memptr + size);
+    memset(tbil->gubrd, ByteGubrd, MAX_GUARD_BYTES);
 
 Exit:
     DMutex_Exit(DMemMutex);
@@ -252,60 +252,60 @@ Exit:
 }
 
 /*
- * Frees block of memory allocated with DMem_AllocateBlock
+ * Frees block of memory bllocbted with DMem_AllocbteBlock
  */
 void DMem_FreeBlock(void * memptr) {
-    MemoryBlockHeader * header;
+    MemoryBlockHebder * hebder;
 
     DMutex_Enter(DMemMutex);
     if ( memptr == NULL) {
         goto Exit;
     }
 
-    /* get the debug block header preceding the allocated memory */
-    header = DMem_GetHeader(memptr);
-    /* fill memory with recognizable 'freed' value */
-    memset(memptr, ByteFreed, header->size);
-    /* mark block as freed */
-    header->listEnter->freed = TRUE;
-    /* update used memory total */
-    DMemGlobalState.totalHeapUsed -= header->size;
+    /* get the debug block hebder preceding the bllocbted memory */
+    hebder = DMem_GetHebder(memptr);
+    /* fill memory with recognizbble 'freed' vblue */
+    memset(memptr, ByteFreed, hebder->size);
+    /* mbrk block bs freed */
+    hebder->listEnter->freed = TRUE;
+    /* updbte used memory totbl */
+    DMemGlobblStbte.totblHebpUsed -= hebder->size;
 Exit:
     DMutex_Exit(DMemMutex);
 }
 
-static void DMem_DumpHeader(MemoryBlockHeader * header) {
-    char        report[FILENAME_MAX+MAX_DECIMAL_DIGITS*3+1];
-    static const char * reportFormat =
+stbtic void DMem_DumpHebder(MemoryBlockHebder * hebder) {
+    chbr        report[FILENAME_MAX+MAX_DECIMAL_DIGITS*3+1];
+    stbtic const chbr * reportFormbt =
         "file:  %s, line %d\n"
         "size:  %d bytes\n"
         "order: %d\n"
         "-------";
 
-    DMem_VerifyHeader(header);
-    sprintf(report, reportFormat, header->filename, header->linenumber, header->size, header->order);
+    DMem_VerifyHebder(hebder);
+    sprintf(report, reportFormbt, hebder->filenbme, hebder->linenumber, hebder->size, hebder->order);
     DTRACE_PRINTLN(report);
 }
 
 /*
- * Call this function at shutdown time to report any leaked blocks
+ * Cbll this function bt shutdown time to report bny lebked blocks
  */
-void DMem_ReportLeaks() {
+void DMem_ReportLebks() {
     MemoryListLink *    link;
 
     DMutex_Enter(DMemMutex);
 
-    /* Force memory leaks to be output regardless of trace settings */
-    DTrace_EnableFile(THIS_FILE, TRUE);
+    /* Force memory lebks to be output regbrdless of trbce settings */
+    DTrbce_EnbbleFile(THIS_FILE, TRUE);
     DTRACE_PRINTLN("--------------------------");
-    DTRACE_PRINTLN("Debug Memory Manager Leaks");
+    DTRACE_PRINTLN("Debug Memory Mbnbger Lebks");
     DTRACE_PRINTLN("--------------------------");
 
-    /* walk through allocated list and dump any blocks not marked as freed */
+    /* wblk through bllocbted list bnd dump bny blocks not mbrked bs freed */
     link = MemoryList.next;
     while (link != NULL) {
         if ( !link->freed ) {
-            DMem_DumpHeader(link->header);
+            DMem_DumpHebder(link->hebder);
         }
         link = link->next;
     }
@@ -313,31 +313,31 @@ void DMem_ReportLeaks() {
     DMutex_Exit(DMemMutex);
 }
 
-void DMem_SetAllocCallback( DMEM_ALLOCFN pfn ) {
+void DMem_SetAllocCbllbbck( DMEM_ALLOCFN pfn ) {
     DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnAlloc = pfn;
+    DMemGlobblStbte.pfnAlloc = pfn;
     DMutex_Exit(DMemMutex);
 }
 
-void DMem_SetFreeCallback( DMEM_FREEFN pfn ) {
+void DMem_SetFreeCbllbbck( DMEM_FREEFN pfn ) {
     DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnFree = pfn;
+    DMemGlobblStbte.pfnFree = pfn;
     DMutex_Exit(DMemMutex);
 }
 
-void DMem_SetCheckPtrCallback( DMEM_CHECKPTRFN pfn ) {
+void DMem_SetCheckPtrCbllbbck( DMEM_CHECKPTRFN pfn ) {
     DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnCheckPtr = pfn;
+    DMemGlobblStbte.pfnCheckPtr = pfn;
     DMutex_Exit(DMemMutex);
 }
 
-void DMem_DisableMutex() {
+void DMem_DisbbleMutex() {
     DMemMutex = NULL;
 }
 
 #endif  /* defined(DEBUG) */
 
-/* The following line is only here to prevent compiler warnings
- * on release (non-debug) builds
+/* The following line is only here to prevent compiler wbrnings
+ * on relebse (non-debug) builds
  */
-static int dummyVariable = 0;
+stbtic int dummyVbribble = 0;

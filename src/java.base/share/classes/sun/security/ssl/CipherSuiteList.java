@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.net.ssl.SSLException;
+import jbvbx.net.ssl.SSLException;
 
 /**
- * A list of CipherSuites. Also maintains the lists of supported and
- * default ciphersuites and supports I/O from handshake streams.
+ * A list of CipherSuites. Also mbintbins the lists of supported bnd
+ * defbult ciphersuites bnd supports I/O from hbndshbke strebms.
  *
- * Instances of this class are immutable.
+ * Instbnces of this clbss bre immutbble.
  *
  */
-final class CipherSuiteList {
+finbl clbss CipherSuiteList {
 
-    private final Collection<CipherSuite> cipherSuites;
-    private String[] suiteNames;
+    privbte finbl Collection<CipherSuite> cipherSuites;
+    privbte String[] suiteNbmes;
 
-    // flag indicating whether this list contains any ECC ciphersuites.
+    // flbg indicbting whether this list contbins bny ECC ciphersuites.
     // null if not yet checked.
-    private volatile Boolean containsEC;
+    privbte volbtile Boolebn contbinsEC;
 
-    // for use by buildAvailableCache() and
-    // Handshaker.getKickstartMessage() only
+    // for use by buildAvbilbbleCbche() bnd
+    // Hbndshbker.getKickstbrtMessbge() only
     CipherSuiteList(Collection<CipherSuite> cipherSuites) {
         this.cipherSuites = cipherSuites;
     }
 
     /**
-     * Create a CipherSuiteList with a single element.
+     * Crebte b CipherSuiteList with b single element.
      */
     CipherSuiteList(CipherSuite suite) {
-        cipherSuites = new ArrayList<CipherSuite>(1);
-        cipherSuites.add(suite);
+        cipherSuites = new ArrbyList<CipherSuite>(1);
+        cipherSuites.bdd(suite);
     }
 
     /**
-     * Construct a CipherSuiteList from a array of names. We don't bother
-     * to eliminate duplicates.
+     * Construct b CipherSuiteList from b brrby of nbmes. We don't bother
+     * to eliminbte duplicbtes.
      *
-     * @exception IllegalArgumentException if the array or any of its elements
-     * is null or if the ciphersuite name is unrecognized or unsupported
-     * using currently installed providers.
+     * @exception IllegblArgumentException if the brrby or bny of its elements
+     * is null or if the ciphersuite nbme is unrecognized or unsupported
+     * using currently instblled providers.
      */
-    CipherSuiteList(String[] names) {
-        if (names == null) {
-            throw new IllegalArgumentException("CipherSuites may not be null");
+    CipherSuiteList(String[] nbmes) {
+        if (nbmes == null) {
+            throw new IllegblArgumentException("CipherSuites mby not be null");
         }
-        cipherSuites = new ArrayList<CipherSuite>(names.length);
-        // refresh available cache once if a CipherSuite is not available
-        // (maybe new JCE providers have been installed)
-        boolean refreshed = false;
-        for (int i = 0; i < names.length; i++) {
-            String suiteName = names[i];
-            CipherSuite suite = CipherSuite.valueOf(suiteName);
-            if (suite.isAvailable() == false) {
-                if (refreshed == false) {
-                    // clear the cache so that the isAvailable() call below
-                    // does a full check
-                    clearAvailableCache();
+        cipherSuites = new ArrbyList<CipherSuite>(nbmes.length);
+        // refresh bvbilbble cbche once if b CipherSuite is not bvbilbble
+        // (mbybe new JCE providers hbve been instblled)
+        boolebn refreshed = fblse;
+        for (int i = 0; i < nbmes.length; i++) {
+            String suiteNbme = nbmes[i];
+            CipherSuite suite = CipherSuite.vblueOf(suiteNbme);
+            if (suite.isAvbilbble() == fblse) {
+                if (refreshed == fblse) {
+                    // clebr the cbche so thbt the isAvbilbble() cbll below
+                    // does b full check
+                    clebrAvbilbbleCbche();
                     refreshed = true;
                 }
                 // still missing?
-                if (suite.isAvailable() == false) {
-                    throw new IllegalArgumentException("Cannot support "
-                        + suiteName + " with currently installed providers");
+                if (suite.isAvbilbble() == fblse) {
+                    throw new IllegblArgumentException("Cbnnot support "
+                        + suiteNbme + " with currently instblled providers");
                 }
             }
-            cipherSuites.add(suite);
+            cipherSuites.bdd(suite);
         }
     }
 
     /**
-     * Read a CipherSuiteList from a HandshakeInStream in V3 ClientHello
-     * format. Does not check if the listed ciphersuites are known or
+     * Rebd b CipherSuiteList from b HbndshbkeInStrebm in V3 ClientHello
+     * formbt. Does not check if the listed ciphersuites bre known or
      * supported.
      */
-    CipherSuiteList(HandshakeInStream in) throws IOException {
+    CipherSuiteList(HbndshbkeInStrebm in) throws IOException {
         byte[] bytes = in.getBytes16();
         if ((bytes.length & 1) != 0) {
-            throw new SSLException("Invalid ClientHello message");
+            throw new SSLException("Invblid ClientHello messbge");
         }
-        cipherSuites = new ArrayList<CipherSuite>(bytes.length >> 1);
+        cipherSuites = new ArrbyList<CipherSuite>(bytes.length >> 1);
         for (int i = 0; i < bytes.length; i += 2) {
-            cipherSuites.add(CipherSuite.valueOf(bytes[i], bytes[i+1]));
+            cipherSuites.bdd(CipherSuite.vblueOf(bytes[i], bytes[i+1]));
         }
     }
 
     /**
-     * Return whether this list contains the given CipherSuite.
+     * Return whether this list contbins the given CipherSuite.
      */
-    boolean contains(CipherSuite suite) {
-        return cipherSuites.contains(suite);
+    boolebn contbins(CipherSuite suite) {
+        return cipherSuites.contbins(suite);
     }
 
-    // Return whether this list contains any ECC ciphersuites
-    boolean containsEC() {
-        if (containsEC == null) {
+    // Return whether this list contbins bny ECC ciphersuites
+    boolebn contbinsEC() {
+        if (contbinsEC == null) {
             for (CipherSuite c : cipherSuites) {
-                switch (c.keyExchange) {
-                case K_ECDH_ECDSA:
-                case K_ECDH_RSA:
-                case K_ECDHE_ECDSA:
-                case K_ECDHE_RSA:
-                case K_ECDH_ANON:
-                    containsEC = true;
+                switch (c.keyExchbnge) {
+                cbse K_ECDH_ECDSA:
+                cbse K_ECDH_RSA:
+                cbse K_ECDHE_ECDSA:
+                cbse K_ECDHE_RSA:
+                cbse K_ECDH_ANON:
+                    contbinsEC = true;
                     return true;
-                default:
-                    break;
+                defbult:
+                    brebk;
                 }
             }
-            containsEC = false;
+            contbinsEC = fblse;
         }
-        return containsEC;
+        return contbinsEC;
     }
 
     /**
-     * Return an Iterator for the CipherSuites in this list.
+     * Return bn Iterbtor for the CipherSuites in this list.
      */
-    Iterator<CipherSuite> iterator() {
-        return cipherSuites.iterator();
+    Iterbtor<CipherSuite> iterbtor() {
+        return cipherSuites.iterbtor();
     }
 
     /**
-     * Return a reference to the internal Collection of CipherSuites.
+     * Return b reference to the internbl Collection of CipherSuites.
      * The Collection MUST NOT be modified.
      */
     Collection<CipherSuite> collection() {
@@ -164,17 +164,17 @@ final class CipherSuiteList {
     }
 
     /**
-     * Return an array with the names of the CipherSuites in this list.
+     * Return bn brrby with the nbmes of the CipherSuites in this list.
      */
-    synchronized String[] toStringArray() {
-        if (suiteNames == null) {
-            suiteNames = new String[cipherSuites.size()];
+    synchronized String[] toStringArrby() {
+        if (suiteNbmes == null) {
+            suiteNbmes = new String[cipherSuites.size()];
             int i = 0;
             for (CipherSuite c : cipherSuites) {
-                suiteNames[i++] = c.name;
+                suiteNbmes[i++] = c.nbme;
             }
         }
-        return suiteNames.clone();
+        return suiteNbmes.clone();
     }
 
     @Override
@@ -183,9 +183,9 @@ final class CipherSuiteList {
     }
 
     /**
-     * Write this list to an HandshakeOutStream in V3 ClientHello format.
+     * Write this list to bn HbndshbkeOutStrebm in V3 ClientHello formbt.
      */
-    void send(HandshakeOutStream s) throws IOException {
+    void send(HbndshbkeOutStrebm s) throws IOException {
         byte[] suiteBytes = new byte[cipherSuites.size() * 2];
         int i = 0;
         for (CipherSuite c : cipherSuites) {
@@ -197,14 +197,14 @@ final class CipherSuiteList {
     }
 
     /**
-     * Clear cache of available ciphersuites. If we support all ciphers
-     * internally, there is no need to clear the cache and calling this
-     * method has no effect.
+     * Clebr cbche of bvbilbble ciphersuites. If we support bll ciphers
+     * internblly, there is no need to clebr the cbche bnd cblling this
+     * method hbs no effect.
      */
-    static synchronized void clearAvailableCache() {
+    stbtic synchronized void clebrAvbilbbleCbche() {
         if (CipherSuite.DYNAMIC_AVAILABILITY) {
-            CipherSuite.BulkCipher.clearAvailableCache();
-            JsseJce.clearEcAvailable();
+            CipherSuite.BulkCipher.clebrAvbilbbleCbche();
+            JsseJce.clebrEcAvbilbble();
         }
     }
 }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import java.util.Enumeration;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.*;
-import javax.swing.*;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.*;
+import jbvbx.swing.*;
 
 
 /**
- * Defines the requirements for a table column model object suitable for
- * use with <code>JTable</code>.
+ * Defines the requirements for b tbble column model object suitbble for
+ * use with <code>JTbble</code>.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see DefaultTableColumnModel
+ * @buthor Albn Chung
+ * @buthor Philip Milne
+ * @see DefbultTbbleColumnModel
  */
-public interface TableColumnModel
+public interfbce TbbleColumnModel
 {
 //
 // Modifying the model
 //
 
     /**
-     *  Appends <code>aColumn</code> to the end of the
-     *  <code>tableColumns</code> array.
-     *  This method posts a <code>columnAdded</code>
+     *  Appends <code>bColumn</code> to the end of the
+     *  <code>tbbleColumns</code> brrby.
+     *  This method posts b <code>columnAdded</code>
      *  event to its listeners.
      *
-     * @param   aColumn         the <code>TableColumn</code> to be added
+     * @pbrbm   bColumn         the <code>TbbleColumn</code> to be bdded
      * @see     #removeColumn
      */
-    public void addColumn(TableColumn aColumn);
+    public void bddColumn(TbbleColumn bColumn);
 
     /**
-     *  Deletes the <code>TableColumn</code> <code>column</code> from the
-     *  <code>tableColumns</code> array.  This method will do nothing if
-     *  <code>column</code> is not in the table's column list.
-     *  This method posts a <code>columnRemoved</code>
+     *  Deletes the <code>TbbleColumn</code> <code>column</code> from the
+     *  <code>tbbleColumns</code> brrby.  This method will do nothing if
+     *  <code>column</code> is not in the tbble's column list.
+     *  This method posts b <code>columnRemoved</code>
      *  event to its listeners.
      *
-     * @param   column          the <code>TableColumn</code> to be removed
-     * @see     #addColumn
+     * @pbrbm   column          the <code>TbbleColumn</code> to be removed
+     * @see     #bddColumn
      */
-    public void removeColumn(TableColumn column);
+    public void removeColumn(TbbleColumn column);
 
     /**
-     * Moves the column and its header at <code>columnIndex</code> to
-     * <code>newIndex</code>.  The old column at <code>columnIndex</code>
-     * will now be found at <code>newIndex</code>.  The column that used
-     * to be at <code>newIndex</code> is shifted left or right
-     * to make room.  This will not move any columns if
-     * <code>columnIndex</code> equals <code>newIndex</code>.  This method
-     * posts a <code>columnMoved</code> event to its listeners.
+     * Moves the column bnd its hebder bt <code>columnIndex</code> to
+     * <code>newIndex</code>.  The old column bt <code>columnIndex</code>
+     * will now be found bt <code>newIndex</code>.  The column thbt used
+     * to be bt <code>newIndex</code> is shifted left or right
+     * to mbke room.  This will not move bny columns if
+     * <code>columnIndex</code> equbls <code>newIndex</code>.  This method
+     * posts b <code>columnMoved</code> event to its listeners.
      *
-     * @param   columnIndex                     the index of column to be moved
-     * @param   newIndex                        index of the column's new location
-     * @exception IllegalArgumentException      if <code>columnIndex</code> or
+     * @pbrbm   columnIndex                     the index of column to be moved
+     * @pbrbm   newIndex                        index of the column's new locbtion
+     * @exception IllegblArgumentException      if <code>columnIndex</code> or
      *                                          <code>newIndex</code>
-     *                                          are not in the valid range
+     *                                          bre not in the vblid rbnge
      */
     public void moveColumn(int columnIndex, int newIndex);
 
     /**
-     * Sets the <code>TableColumn</code>'s column margin to
-     * <code>newMargin</code>.  This method posts
-     * a <code>columnMarginChanged</code> event to its listeners.
+     * Sets the <code>TbbleColumn</code>'s column mbrgin to
+     * <code>newMbrgin</code>.  This method posts
+     * b <code>columnMbrginChbnged</code> event to its listeners.
      *
-     * @param   newMargin       the width, in pixels, of the new column margins
-     * @see     #getColumnMargin
+     * @pbrbm   newMbrgin       the width, in pixels, of the new column mbrgins
+     * @see     #getColumnMbrgin
      */
-    public void setColumnMargin(int newMargin);
+    public void setColumnMbrgin(int newMbrgin);
 
 //
 // Querying the model
@@ -106,112 +106,112 @@ public interface TableColumnModel
     public int getColumnCount();
 
     /**
-     * Returns an <code>Enumeration</code> of all the columns in the model.
-     * @return an <code>Enumeration</code> of all the columns in the model
+     * Returns bn <code>Enumerbtion</code> of bll the columns in the model.
+     * @return bn <code>Enumerbtion</code> of bll the columns in the model
      */
-    public Enumeration<TableColumn> getColumns();
+    public Enumerbtion<TbbleColumn> getColumns();
 
     /**
-     * Returns the index of the first column in the table
-     * whose identifier is equal to <code>identifier</code>,
-     * when compared using <code>equals</code>.
+     * Returns the index of the first column in the tbble
+     * whose identifier is equbl to <code>identifier</code>,
+     * when compbred using <code>equbls</code>.
      *
-     * @param           columnIdentifier        the identifier object
-     * @return          the index of the first table column
-     *                  whose identifier is equal to <code>identifier</code>
-     * @exception IllegalArgumentException      if <code>identifier</code>
+     * @pbrbm           columnIdentifier        the identifier object
+     * @return          the index of the first tbble column
+     *                  whose identifier is equbl to <code>identifier</code>
+     * @exception IllegblArgumentException      if <code>identifier</code>
      *                          is <code>null</code>, or no
-     *                          <code>TableColumn</code> has this
+     *                          <code>TbbleColumn</code> hbs this
      *                          <code>identifier</code>
      * @see             #getColumn
      */
     public int getColumnIndex(Object columnIdentifier);
 
     /**
-     * Returns the <code>TableColumn</code> object for the column at
+     * Returns the <code>TbbleColumn</code> object for the column bt
      * <code>columnIndex</code>.
      *
-     * @param   columnIndex     the index of the desired column
-     * @return  the <code>TableColumn</code> object for
-     *                          the column at <code>columnIndex</code>
+     * @pbrbm   columnIndex     the index of the desired column
+     * @return  the <code>TbbleColumn</code> object for
+     *                          the column bt <code>columnIndex</code>
      */
-    public TableColumn getColumn(int columnIndex);
+    public TbbleColumn getColumn(int columnIndex);
 
     /**
-     * Returns the width between the cells in each column.
-     * @return the margin, in pixels, between the cells
+     * Returns the width between the cells in ebch column.
+     * @return the mbrgin, in pixels, between the cells
      */
-    public int getColumnMargin();
+    public int getColumnMbrgin();
 
     /**
-     * Returns the index of the column that lies on the
-     * horizontal point, <code>xPosition</code>;
-     * or -1 if it lies outside the any of the column's bounds.
+     * Returns the index of the column thbt lies on the
+     * horizontbl point, <code>xPosition</code>;
+     * or -1 if it lies outside the bny of the column's bounds.
      *
-     * In keeping with Swing's separable model architecture, a
-     * TableColumnModel does not know how the table columns actually appear on
-     * screen.  The visual presentation of the columns is the responsibility
-     * of the view/controller object using this model (typically JTable).  The
-     * view/controller need not display the columns sequentially from left to
-     * right.  For example, columns could be displayed from right to left to
-     * accommodate a locale preference or some columns might be hidden at the
-     * request of the user.  Because the model does not know how the columns
-     * are laid out on screen, the given <code>xPosition</code> should not be
-     * considered to be a coordinate in 2D graphics space.  Instead, it should
-     * be considered to be a width from the start of the first column in the
-     * model.  If the column index for a given X coordinate in 2D space is
-     * required, <code>JTable.columnAtPoint</code> can be used instead.
+     * In keeping with Swing's sepbrbble model brchitecture, b
+     * TbbleColumnModel does not know how the tbble columns bctublly bppebr on
+     * screen.  The visubl presentbtion of the columns is the responsibility
+     * of the view/controller object using this model (typicblly JTbble).  The
+     * view/controller need not displby the columns sequentiblly from left to
+     * right.  For exbmple, columns could be displbyed from right to left to
+     * bccommodbte b locble preference or some columns might be hidden bt the
+     * request of the user.  Becbuse the model does not know how the columns
+     * bre lbid out on screen, the given <code>xPosition</code> should not be
+     * considered to be b coordinbte in 2D grbphics spbce.  Instebd, it should
+     * be considered to be b width from the stbrt of the first column in the
+     * model.  If the column index for b given X coordinbte in 2D spbce is
+     * required, <code>JTbble.columnAtPoint</code> cbn be used instebd.
      *
-     * @param xPosition  width from the start of the first column in
+     * @pbrbm xPosition  width from the stbrt of the first column in
      * the model.
      *
      * @return  the index of the column; or -1 if no column is found
-     * @see javax.swing.JTable#columnAtPoint
+     * @see jbvbx.swing.JTbble#columnAtPoint
      */
     public int getColumnIndexAtX(int xPosition);
 
     /**
-     * Returns the total width of all the columns.
-     * @return the total computed width of all columns
+     * Returns the totbl width of bll the columns.
+     * @return the totbl computed width of bll columns
      */
-    public int getTotalColumnWidth();
+    public int getTotblColumnWidth();
 
 //
 // Selection
 //
 
     /**
-     * Sets whether the columns in this model may be selected.
-     * @param flag   true if columns may be selected; otherwise false
+     * Sets whether the columns in this model mby be selected.
+     * @pbrbm flbg   true if columns mby be selected; otherwise fblse
      * @see #getColumnSelectionAllowed
      */
-    public void setColumnSelectionAllowed(boolean flag);
+    public void setColumnSelectionAllowed(boolebn flbg);
 
     /**
-     * Returns true if columns may be selected.
-     * @return true if columns may be selected
+     * Returns true if columns mby be selected.
+     * @return true if columns mby be selected
      * @see #setColumnSelectionAllowed
      */
-    public boolean getColumnSelectionAllowed();
+    public boolebn getColumnSelectionAllowed();
 
     /**
-     * Returns an array of indicies of all selected columns.
-     * @return an array of integers containing the indicies of all
-     *          selected columns; or an empty array if nothing is selected
+     * Returns bn brrby of indicies of bll selected columns.
+     * @return bn brrby of integers contbining the indicies of bll
+     *          selected columns; or bn empty brrby if nothing is selected
      */
     public int[] getSelectedColumns();
 
     /**
      * Returns the number of selected columns.
      *
-     * @return the number of selected columns; or 0 if no columns are selected
+     * @return the number of selected columns; or 0 if no columns bre selected
      */
     public int getSelectedColumnCount();
 
     /**
      * Sets the selection model.
      *
-     * @param newModel  a <code>ListSelectionModel</code> object
+     * @pbrbm newModel  b <code>ListSelectionModel</code> object
      * @see #getSelectionModel
      */
     public void setSelectionModel(ListSelectionModel newModel);
@@ -219,7 +219,7 @@ public interface TableColumnModel
     /**
      * Returns the current selection model.
      *
-     * @return a <code>ListSelectionModel</code> object
+     * @return b <code>ListSelectionModel</code> object
      * @see #setSelectionModel
      */
     public ListSelectionModel getSelectionModel();
@@ -229,16 +229,16 @@ public interface TableColumnModel
 //
 
     /**
-     * Adds a listener for table column model events.
+     * Adds b listener for tbble column model events.
      *
-     * @param x  a <code>TableColumnModelListener</code> object
+     * @pbrbm x  b <code>TbbleColumnModelListener</code> object
      */
-    public void addColumnModelListener(TableColumnModelListener x);
+    public void bddColumnModelListener(TbbleColumnModelListener x);
 
     /**
-     * Removes a listener for table column model events.
+     * Removes b listener for tbble column model events.
      *
-     * @param x  a <code>TableColumnModelListener</code> object
+     * @pbrbm x  b <code>TbbleColumnModelListener</code> object
      */
-    public void removeColumnModelListener(TableColumnModelListener x);
+    public void removeColumnModelListener(TbbleColumnModelListener x);
 }

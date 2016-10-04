@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,55 +30,55 @@
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "SubtableProcessor.h"
-#include "NonContextualGlyphSubst.h"
-#include "NonContextualGlyphSubstProc.h"
-#include "TrimmedArrayProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#include "MorphTbbles.h"
+#include "SubtbbleProcessor.h"
+#include "NonContextublGlyphSubst.h"
+#include "NonContextublGlyphSubstProc.h"
+#include "TrimmedArrbyProcessor.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(TrimmedArrayProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(TrimmedArrbyProcessor)
 
-TrimmedArrayProcessor::TrimmedArrayProcessor()
+TrimmedArrbyProcessor::TrimmedArrbyProcessor()
 {
 }
 
-TrimmedArrayProcessor::TrimmedArrayProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : NonContextualGlyphSubstitutionProcessor(morphSubtableHeader, success), firstGlyph(0), lastGlyph(0)
+TrimmedArrbyProcessor::TrimmedArrbyProcessor(const LEReferenceTo<MorphSubtbbleHebder> &morphSubtbbleHebder, LEErrorCode &success)
+  : NonContextublGlyphSubstitutionProcessor(morphSubtbbleHebder, success), firstGlyph(0), lbstGlyph(0)
 {
-  LEReferenceTo<NonContextualGlyphSubstitutionHeader> header(morphSubtableHeader, success);
+  LEReferenceTo<NonContextublGlyphSubstitutionHebder> hebder(morphSubtbbleHebder, success);
 
   if(LE_FAILURE(success)) return;
 
-  trimmedArrayLookupTable = LEReferenceTo<TrimmedArrayLookupTable>(morphSubtableHeader, success, (const TrimmedArrayLookupTable*)&header->table);
+  trimmedArrbyLookupTbble = LEReferenceTo<TrimmedArrbyLookupTbble>(morphSubtbbleHebder, success, (const TrimmedArrbyLookupTbble*)&hebder->tbble);
 
   if(LE_FAILURE(success)) return;
 
-  firstGlyph = SWAPW(trimmedArrayLookupTable->firstGlyph);
-  lastGlyph = firstGlyph + SWAPW(trimmedArrayLookupTable->glyphCount);
+  firstGlyph = SWAPW(trimmedArrbyLookupTbble->firstGlyph);
+  lbstGlyph = firstGlyph + SWAPW(trimmedArrbyLookupTbble->glyphCount);
 }
 
-TrimmedArrayProcessor::~TrimmedArrayProcessor()
+TrimmedArrbyProcessor::~TrimmedArrbyProcessor()
 {
 }
 
-void TrimmedArrayProcessor::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void TrimmedArrbyProcessor::process(LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
   if(LE_FAILURE(success)) return;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
     le_int32 glyph;
 
     for (glyph = 0; glyph < glyphCount; glyph += 1) {
-        LEGlyphID thisGlyph = glyphStorage[glyph];
+        LEGlyphID thisGlyph = glyphStorbge[glyph];
         TTGlyphID ttGlyph = (TTGlyphID) LE_GET_GLYPH(thisGlyph);
 
-        if ((ttGlyph > firstGlyph) && (ttGlyph < lastGlyph)) {
-            TTGlyphID newGlyph = SWAPW(trimmedArrayLookupTable->valueArray[ttGlyph - firstGlyph]);
+        if ((ttGlyph > firstGlyph) && (ttGlyph < lbstGlyph)) {
+            TTGlyphID newGlyph = SWAPW(trimmedArrbyLookupTbble->vblueArrby[ttGlyph - firstGlyph]);
 
-            glyphStorage[glyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+            glyphStorbge[glyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
         }
     }
 }

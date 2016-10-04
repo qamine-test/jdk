@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.Serializable;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import jbvb.io.Seriblizbble;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.Function;
+import jbvb.util.function.ToDoubleFunction;
+import jbvb.util.function.ToIntFunction;
+import jbvb.util.function.ToLongFunction;
 
 /**
- * Package private supporting class for {@link Comparator}.
+ * Pbckbge privbte supporting clbss for {@link Compbrbtor}.
  */
-class Comparators {
-    private Comparators() {
-        throw new AssertionError("no instances");
+clbss Compbrbtors {
+    privbte Compbrbtors() {
+        throw new AssertionError("no instbnces");
     }
 
     /**
-     * Compares {@link Comparable} objects in natural order.
+     * Compbres {@link Compbrbble} objects in nbturbl order.
      *
-     * @see Comparable
+     * @see Compbrbble
      */
-    enum NaturalOrderComparator implements Comparator<Comparable<Object>> {
+    enum NbturblOrderCompbrbtor implements Compbrbtor<Compbrbble<Object>> {
         INSTANCE;
 
         @Override
-        public int compare(Comparable<Object> c1, Comparable<Object> c2) {
-            return c1.compareTo(c2);
+        public int compbre(Compbrbble<Object> c1, Compbrbble<Object> c2) {
+            return c1.compbreTo(c2);
         }
 
         @Override
-        public Comparator<Comparable<Object>> reversed() {
-            return Comparator.reverseOrder();
+        public Compbrbtor<Compbrbble<Object>> reversed() {
+            return Compbrbtor.reverseOrder();
         }
     }
 
     /**
-     * Null-friendly comparators
+     * Null-friendly compbrbtors
      */
-    final static class NullComparator<T> implements Comparator<T>, Serializable {
-        private static final long serialVersionUID = -7569533591570686392L;
-        private final boolean nullFirst;
-        // if null, non-null Ts are considered equal
-        private final Comparator<T> real;
+    finbl stbtic clbss NullCompbrbtor<T> implements Compbrbtor<T>, Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = -7569533591570686392L;
+        privbte finbl boolebn nullFirst;
+        // if null, non-null Ts bre considered equbl
+        privbte finbl Compbrbtor<T> rebl;
 
-        @SuppressWarnings("unchecked")
-        NullComparator(boolean nullFirst, Comparator<? super T> real) {
+        @SuppressWbrnings("unchecked")
+        NullCompbrbtor(boolebn nullFirst, Compbrbtor<? super T> rebl) {
             this.nullFirst = nullFirst;
-            this.real = (Comparator<T>) real;
+            this.rebl = (Compbrbtor<T>) rebl;
         }
 
         @Override
-        public int compare(T a, T b) {
-            if (a == null) {
+        public int compbre(T b, T b) {
+            if (b == null) {
                 return (b == null) ? 0 : (nullFirst ? -1 : 1);
             } else if (b == null) {
                 return nullFirst ? 1: -1;
             } else {
-                return (real == null) ? 0 : real.compare(a, b);
+                return (rebl == null) ? 0 : rebl.compbre(b, b);
             }
         }
 
         @Override
-        public Comparator<T> thenComparing(Comparator<? super T> other) {
+        public Compbrbtor<T> thenCompbring(Compbrbtor<? super T> other) {
             Objects.requireNonNull(other);
-            return new NullComparator<>(nullFirst, real == null ? other : real.thenComparing(other));
+            return new NullCompbrbtor<>(nullFirst, rebl == null ? other : rebl.thenCompbring(other));
         }
 
         @Override
-        public Comparator<T> reversed() {
-            return new NullComparator<>(!nullFirst, real == null ? null : real.reversed());
+        public Compbrbtor<T> reversed() {
+            return new NullCompbrbtor<>(!nullFirst, rebl == null ? null : rebl.reversed());
         }
     }
 }

@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.RemoteException;
-import java.rmi.server.ExportException;
-import java.rmi.server.LogStream;
-import java.rmi.server.RMIFailureHandler;
-import java.rmi.server.RMISocketFactory;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.UID;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.UndeclbredThrowbbleException;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
+import jbvb.net.Socket;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.ExportException;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.rmi.server.RMIFbilureHbndler;
+import jbvb.rmi.server.RMISocketFbctory;
+import jbvb.rmi.server.RemoteCbll;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.rmi.server.UID;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.logging.Level;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.util.concurrent.RejectedExecutionException;
+import jbvb.util.concurrent.SynchronousQueue;
+import jbvb.util.concurrent.ThrebdFbctory;
+import jbvb.util.concurrent.ThrebdPoolExecutor;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.DGCAckHandler;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.StreamRemoteCall;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.Transport;
-import sun.rmi.transport.TransportConstants;
-import sun.rmi.transport.proxy.HttpReceiveSocket;
+import sun.rmi.runtime.NewThrebdAction;
+import sun.rmi.trbnsport.Chbnnel;
+import sun.rmi.trbnsport.Connection;
+import sun.rmi.trbnsport.DGCAckHbndler;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.StrebmRemoteCbll;
+import sun.rmi.trbnsport.Tbrget;
+import sun.rmi.trbnsport.Trbnsport;
+import sun.rmi.trbnsport.TrbnsportConstbnts;
+import sun.rmi.trbnsport.proxy.HttpReceiveSocket;
 
 /**
- * TCPTransport is the socket-based implementation of the RMI Transport
- * abstraction.
+ * TCPTrbnsport is the socket-bbsed implementbtion of the RMI Trbnsport
+ * bbstrbction.
  *
- * @author Ann Wollrath
- * @author Peter Jones
+ * @buthor Ann Wollrbth
+ * @buthor Peter Jones
  */
-@SuppressWarnings("deprecation")
-public class TCPTransport extends Transport {
+@SuppressWbrnings("deprecbtion")
+public clbss TCPTrbnsport extends Trbnsport {
 
-    /* tcp package log */
-    static final Log tcpLog = Log.getLog("sun.rmi.transport.tcp", "tcp",
-        LogStream.parseLevel(AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.tcp.logLevel"))));
+    /* tcp pbckbge log */
+    stbtic finbl Log tcpLog = Log.getLog("sun.rmi.trbnsport.tcp", "tcp",
+        LogStrebm.pbrseLevel(AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.trbnsport.tcp.logLevel"))));
 
-    /** maximum number of connection handler threads */
-    private static final int maxConnectionThreads =     // default no limit
+    /** mbximum number of connection hbndler threbds */
+    privbte stbtic finbl int mbxConnectionThrebds =     // defbult no limit
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.maxConnectionThreads",
+            Integer.getInteger("sun.rmi.trbnsport.tcp.mbxConnectionThrebds",
                                Integer.MAX_VALUE));
 
-    /** keep alive time for idle connection handler threads */
-    private static final long threadKeepAliveTime =     // default 1 minute
+    /** keep blive time for idle connection hbndler threbds */
+    privbte stbtic finbl long threbdKeepAliveTime =     // defbult 1 minute
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.transport.tcp.threadKeepAliveTime", 60000));
+            Long.getLong("sun.rmi.trbnsport.tcp.threbdKeepAliveTime", 60000));
 
-    /** thread pool for connection handlers */
-    private static final ExecutorService connectionThreadPool =
-        new ThreadPoolExecutor(0, maxConnectionThreads,
-            threadKeepAliveTime, TimeUnit.MILLISECONDS,
-            new SynchronousQueue<Runnable>(),
-            new ThreadFactory() {
-                public Thread newThread(Runnable runnable) {
-                    return AccessController.doPrivileged(new NewThreadAction(
-                        runnable, "TCP Connection(idle)", true, true));
+    /** threbd pool for connection hbndlers */
+    privbte stbtic finbl ExecutorService connectionThrebdPool =
+        new ThrebdPoolExecutor(0, mbxConnectionThrebds,
+            threbdKeepAliveTime, TimeUnit.MILLISECONDS,
+            new SynchronousQueue<Runnbble>(),
+            new ThrebdFbctory() {
+                public Threbd newThrebd(Runnbble runnbble) {
+                    return AccessController.doPrivileged(new NewThrebdAction(
+                        runnbble, "TCP Connection(idle)", true, true));
                 }
             });
 
-    /** total connections handled */
-    private static final AtomicInteger connectionCount = new AtomicInteger(0);
+    /** totbl connections hbndled */
+    privbte stbtic finbl AtomicInteger connectionCount = new AtomicInteger(0);
 
-    /** client host for the current thread's connection */
-    private static final ThreadLocal<ConnectionHandler>
-        threadConnectionHandler = new ThreadLocal<>();
+    /** client host for the current threbd's connection */
+    privbte stbtic finbl ThrebdLocbl<ConnectionHbndler>
+        threbdConnectionHbndler = new ThrebdLocbl<>();
 
-    /** endpoints for this transport */
-    private final LinkedList<TCPEndpoint> epList;
-    /** number of objects exported on this transport */
-    private int exportCount = 0;
-    /** server socket for this transport */
-    private ServerSocket server = null;
-    /** table mapping endpoints to channels */
-    private final Map<TCPEndpoint,Reference<TCPChannel>> channelTable =
-        new WeakHashMap<>();
+    /** endpoints for this trbnsport */
+    privbte finbl LinkedList<TCPEndpoint> epList;
+    /** number of objects exported on this trbnsport */
+    privbte int exportCount = 0;
+    /** server socket for this trbnsport */
+    privbte ServerSocket server = null;
+    /** tbble mbpping endpoints to chbnnels */
+    privbte finbl Mbp<TCPEndpoint,Reference<TCPChbnnel>> chbnnelTbble =
+        new WebkHbshMbp<>();
 
-    static final RMISocketFactory defaultSocketFactory =
-        RMISocketFactory.getDefaultSocketFactory();
+    stbtic finbl RMISocketFbctory defbultSocketFbctory =
+        RMISocketFbctory.getDefbultSocketFbctory();
 
-    /** number of milliseconds in accepted-connection timeout.
-     * Warning: this should be greater than 15 seconds (the client-side
-     * timeout), and defaults to 2 hours.
-     * The maximum representable value is slightly more than 24 days
-     * and 20 hours.
+    /** number of milliseconds in bccepted-connection timeout.
+     * Wbrning: this should be grebter thbn 15 seconds (the client-side
+     * timeout), bnd defbults to 2 hours.
+     * The mbximum representbble vblue is slightly more thbn 24 dbys
+     * bnd 20 hours.
      */
-    private static final int connectionReadTimeout =    // default 2 hours
+    privbte stbtic finbl int connectionRebdTimeout =    // defbult 2 hours
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.readTimeout", 2 * 3600 * 1000));
+            Integer.getInteger("sun.rmi.trbnsport.tcp.rebdTimeout", 2 * 3600 * 1000));
 
     /**
-     * Constructs a TCPTransport.
+     * Constructs b TCPTrbnsport.
      */
-    TCPTransport(LinkedList<TCPEndpoint> epList)  {
-        // assert ((epList.size() != null) && (epList.size() >= 1))
+    TCPTrbnsport(LinkedList<TCPEndpoint> epList)  {
+        // bssert ((epList.size() != null) && (epList.size() >= 1))
         this.epList = epList;
-        if (tcpLog.isLoggable(Log.BRIEF)) {
+        if (tcpLog.isLoggbble(Log.BRIEF)) {
             tcpLog.log(Log.BRIEF, "Version = " +
-                TransportConstants.Version + ", ep = " + getEndpoint());
+                TrbnsportConstbnts.Version + ", ep = " + getEndpoint());
         }
     }
 
     /**
-     * Closes all cached connections in every channel subordinated to this
-     * transport.  Currently, this only closes outgoing connections.
+     * Closes bll cbched connections in every chbnnel subordinbted to this
+     * trbnsport.  Currently, this only closes outgoing connections.
      */
-    public void shedConnectionCaches() {
-        List<TCPChannel> channels;
-        synchronized (channelTable) {
-            channels = new ArrayList<TCPChannel>(channelTable.values().size());
-            for (Reference<TCPChannel> ref : channelTable.values()) {
-                TCPChannel ch = ref.get();
+    public void shedConnectionCbches() {
+        List<TCPChbnnel> chbnnels;
+        synchronized (chbnnelTbble) {
+            chbnnels = new ArrbyList<TCPChbnnel>(chbnnelTbble.vblues().size());
+            for (Reference<TCPChbnnel> ref : chbnnelTbble.vblues()) {
+                TCPChbnnel ch = ref.get();
                 if (ch != null) {
-                    channels.add(ch);
+                    chbnnels.bdd(ch);
                 }
             }
         }
-        for (TCPChannel channel : channels) {
-            channel.shedCache();
+        for (TCPChbnnel chbnnel : chbnnels) {
+            chbnnel.shedCbche();
         }
     }
 
     /**
-     * Returns a <I>Channel</I> that generates connections to the
-     * endpoint <I>ep</I>. A Channel is an object that creates and
-     * manages connections of a particular type to some particular
-     * address space.
-     * @param ep the endpoint to which connections will be generated.
-     * @return the channel or null if the transport cannot
-     * generate connections to this endpoint
+     * Returns b <I>Chbnnel</I> thbt generbtes connections to the
+     * endpoint <I>ep</I>. A Chbnnel is bn object thbt crebtes bnd
+     * mbnbges connections of b pbrticulbr type to some pbrticulbr
+     * bddress spbce.
+     * @pbrbm ep the endpoint to which connections will be generbted.
+     * @return the chbnnel or null if the trbnsport cbnnot
+     * generbte connections to this endpoint
      */
-    public TCPChannel getChannel(Endpoint ep) {
-        TCPChannel ch = null;
-        if (ep instanceof TCPEndpoint) {
-            synchronized (channelTable) {
-                Reference<TCPChannel> ref = channelTable.get(ep);
+    public TCPChbnnel getChbnnel(Endpoint ep) {
+        TCPChbnnel ch = null;
+        if (ep instbnceof TCPEndpoint) {
+            synchronized (chbnnelTbble) {
+                Reference<TCPChbnnel> ref = chbnnelTbble.get(ep);
                 if (ref != null) {
                     ch = ref.get();
                 }
                 if (ch == null) {
                     TCPEndpoint tcpEndpoint = (TCPEndpoint) ep;
-                    ch = new TCPChannel(this, tcpEndpoint);
-                    channelTable.put(tcpEndpoint,
-                                     new WeakReference<TCPChannel>(ch));
+                    ch = new TCPChbnnel(this, tcpEndpoint);
+                    chbnnelTbble.put(tcpEndpoint,
+                                     new WebkReference<TCPChbnnel>(ch));
                 }
             }
         }
@@ -204,17 +204,17 @@ public class TCPTransport extends Transport {
     }
 
     /**
-     * Removes the <I>Channel</I> that generates connections to the
+     * Removes the <I>Chbnnel</I> thbt generbtes connections to the
      * endpoint <I>ep</I>.
      */
     public void free(Endpoint ep) {
-        if (ep instanceof TCPEndpoint) {
-            synchronized (channelTable) {
-                Reference<TCPChannel> ref = channelTable.remove(ep);
+        if (ep instbnceof TCPEndpoint) {
+            synchronized (chbnnelTbble) {
+                Reference<TCPChbnnel> ref = chbnnelTbble.remove(ep);
                 if (ref != null) {
-                    TCPChannel channel = ref.get();
-                    if (channel != null) {
-                        channel.shedCache();
+                    TCPChbnnel chbnnel = ref.get();
+                    if (chbnnel != null) {
+                        chbnnel.shedCbche();
                     }
                 }
             }
@@ -222,11 +222,11 @@ public class TCPTransport extends Transport {
     }
 
     /**
-     * Export the object so that it can accept incoming calls.
+     * Export the object so thbt it cbn bccept incoming cblls.
      */
-    public void exportObject(Target target) throws RemoteException {
+    public void exportObject(Tbrget tbrget) throws RemoteException {
         /*
-         * Ensure that a server socket is listening, and count this
+         * Ensure thbt b server socket is listening, bnd count this
          * export while synchronized to prevent the server socket from
          * being closed due to concurrent unexports.
          */
@@ -236,15 +236,15 @@ public class TCPTransport extends Transport {
         }
 
         /*
-         * Try to add the Target to the exported object table; keep
+         * Try to bdd the Tbrget to the exported object tbble; keep
          * counting this export (to keep server socket open) only if
-         * that succeeds.
+         * thbt succeeds.
          */
-        boolean ok = false;
+        boolebn ok = fblse;
         try {
-            super.exportObject(target);
+            super.exportObject(tbrget);
             ok = true;
-        } finally {
+        } finblly {
             if (!ok) {
                 synchronized (this) {
                     decrementExportCount();
@@ -253,84 +253,84 @@ public class TCPTransport extends Transport {
         }
     }
 
-    protected synchronized void targetUnexported() {
+    protected synchronized void tbrgetUnexported() {
         decrementExportCount();
     }
 
     /**
      * Decrements the count of exported objects, closing the current
-     * server socket if the count reaches zero.
+     * server socket if the count rebches zero.
      **/
-    private void decrementExportCount() {
-        assert Thread.holdsLock(this);
+    privbte void decrementExportCount() {
+        bssert Threbd.holdsLock(this);
         exportCount--;
         if (exportCount == 0 && getEndpoint().getListenPort() != 0) {
             ServerSocket ss = server;
             server = null;
             try {
                 ss.close();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
             }
         }
     }
 
     /**
-     * Verify that the current access control context has permission to
-     * accept the connection being dispatched by the current thread.
+     * Verify thbt the current bccess control context hbs permission to
+     * bccept the connection being dispbtched by the current threbd.
      */
-    protected void checkAcceptPermission(AccessControlContext acc) {
-        SecurityManager sm = System.getSecurityManager();
+    protected void checkAcceptPermission(AccessControlContext bcc) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
             return;
         }
-        ConnectionHandler h = threadConnectionHandler.get();
+        ConnectionHbndler h = threbdConnectionHbndler.get();
         if (h == null) {
             throw new Error(
-                "checkAcceptPermission not in ConnectionHandler thread");
+                "checkAcceptPermission not in ConnectionHbndler threbd");
         }
-        h.checkAcceptPermission(sm, acc);
+        h.checkAcceptPermission(sm, bcc);
     }
 
-    private TCPEndpoint getEndpoint() {
+    privbte TCPEndpoint getEndpoint() {
         synchronized (epList) {
-            return epList.getLast();
+            return epList.getLbst();
         }
     }
 
     /**
-     * Listen on transport's endpoint.
+     * Listen on trbnsport's endpoint.
      */
-    private void listen() throws RemoteException {
-        assert Thread.holdsLock(this);
+    privbte void listen() throws RemoteException {
+        bssert Threbd.holdsLock(this);
         TCPEndpoint ep = getEndpoint();
         int port = ep.getPort();
 
         if (server == null) {
-            if (tcpLog.isLoggable(Log.BRIEF)) {
+            if (tcpLog.isLoggbble(Log.BRIEF)) {
                 tcpLog.log(Log.BRIEF,
-                    "(port " + port + ") create server socket");
+                    "(port " + port + ") crebte server socket");
             }
 
             try {
                 server = ep.newServerSocket();
                 /*
-                 * Don't retry ServerSocket if creation fails since
-                 * "port in use" will cause export to hang if an
-                 * RMIFailureHandler is not installed.
+                 * Don't retry ServerSocket if crebtion fbils since
+                 * "port in use" will cbuse export to hbng if bn
+                 * RMIFbilureHbndler is not instblled.
                  */
-                Thread t = AccessController.doPrivileged(
-                    new NewThreadAction(new AcceptLoop(server),
+                Threbd t = AccessController.doPrivileged(
+                    new NewThrebdAction(new AcceptLoop(server),
                                         "TCP Accept-" + port, true));
-                t.start();
-            } catch (java.net.BindException e) {
-                throw new ExportException("Port already in use: " + port, e);
-            } catch (IOException e) {
-                throw new ExportException("Listen failed on port: " + port, e);
+                t.stbrt();
+            } cbtch (jbvb.net.BindException e) {
+                throw new ExportException("Port blrebdy in use: " + port, e);
+            } cbtch (IOException e) {
+                throw new ExportException("Listen fbiled on port: " + port, e);
             }
 
         } else {
-            // otherwise verify security access to existing server socket
-            SecurityManager sm = System.getSecurityManager();
+            // otherwise verify security bccess to existing server socket
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkListen(port);
             }
@@ -338,15 +338,15 @@ public class TCPTransport extends Transport {
     }
 
     /**
-     * Worker for accepting connections from a server socket.
+     * Worker for bccepting connections from b server socket.
      **/
-    private class AcceptLoop implements Runnable {
+    privbte clbss AcceptLoop implements Runnbble {
 
-        private final ServerSocket serverSocket;
+        privbte finbl ServerSocket serverSocket;
 
-        // state for throttling loop on exceptions (local to accept thread)
-        private long lastExceptionTime = 0L;
-        private int recentExceptionCount;
+        // stbte for throttling loop on exceptions (locbl to bccept threbd)
+        privbte long lbstExceptionTime = 0L;
+        privbte int recentExceptionCount;
 
         AcceptLoop(ServerSocket serverSocket) {
             this.serverSocket = serverSocket;
@@ -355,26 +355,26 @@ public class TCPTransport extends Transport {
         public void run() {
             try {
                 executeAcceptLoop();
-            } finally {
+            } finblly {
                 try {
                     /*
-                     * Only one accept loop is started per server
-                     * socket, so after no more connections will be
-                     * accepted, ensure that the server socket is no
+                     * Only one bccept loop is stbrted per server
+                     * socket, so bfter no more connections will be
+                     * bccepted, ensure thbt the server socket is no
                      * longer listening.
                      */
                     serverSocket.close();
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                 }
             }
         }
 
         /**
-         * Accepts connections from the server socket and executes
-         * handlers for them in the thread pool.
+         * Accepts connections from the server socket bnd executes
+         * hbndlers for them in the threbd pool.
          **/
-        private void executeAcceptLoop() {
-            if (tcpLog.isLoggable(Log.BRIEF)) {
+        privbte void executeAcceptLoop() {
+            if (tcpLog.isLoggbble(Log.BRIEF)) {
                 tcpLog.log(Log.BRIEF, "listening on port " +
                            getEndpoint().getPort());
             }
@@ -382,10 +382,10 @@ public class TCPTransport extends Transport {
             while (true) {
                 Socket socket = null;
                 try {
-                    socket = serverSocket.accept();
+                    socket = serverSocket.bccept();
 
                     /*
-                     * Find client host name (or "0.0.0.0" if unknown)
+                     * Find client host nbme (or "0.0.0.0" if unknown)
                      */
                     InetAddress clientAddr = socket.getInetAddress();
                     String clientHost = (clientAddr != null
@@ -393,43 +393,43 @@ public class TCPTransport extends Transport {
                                          : "0.0.0.0");
 
                     /*
-                     * Execute connection handler in the thread pool,
-                     * which uses non-system threads.
+                     * Execute connection hbndler in the threbd pool,
+                     * which uses non-system threbds.
                      */
                     try {
-                        connectionThreadPool.execute(
-                            new ConnectionHandler(socket, clientHost));
-                    } catch (RejectedExecutionException e) {
+                        connectionThrebdPool.execute(
+                            new ConnectionHbndler(socket, clientHost));
+                    } cbtch (RejectedExecutionException e) {
                         closeSocket(socket);
                         tcpLog.log(Log.BRIEF,
                                    "rejected connection from " + clientHost);
                     }
 
-                } catch (Throwable t) {
+                } cbtch (Throwbble t) {
                     try {
                         /*
-                         * If the server socket has been closed, such
-                         * as because there are no more exported
-                         * objects, then we expect accept to throw an
-                         * exception, so just terminate normally.
+                         * If the server socket hbs been closed, such
+                         * bs becbuse there bre no more exported
+                         * objects, then we expect bccept to throw bn
+                         * exception, so just terminbte normblly.
                          */
                         if (serverSocket.isClosed()) {
-                            break;
+                            brebk;
                         }
 
                         try {
-                            if (tcpLog.isLoggable(Level.WARNING)) {
+                            if (tcpLog.isLoggbble(Level.WARNING)) {
                                 tcpLog.log(Level.WARNING,
-                                           "accept loop for " + serverSocket +
+                                           "bccept loop for " + serverSocket +
                                            " throws", t);
                             }
-                        } catch (Throwable tt) {
+                        } cbtch (Throwbble tt) {
                         }
-                    } finally {
+                    } finblly {
                         /*
-                         * Always close the accepted socket (if any)
-                         * if an exception occurs, but only after
-                         * logging an unexpected exception.
+                         * Alwbys close the bccepted socket (if bny)
+                         * if bn exception occurs, but only bfter
+                         * logging bn unexpected exception.
                          */
                         if (socket != null) {
                             closeSocket(socket);
@@ -437,52 +437,52 @@ public class TCPTransport extends Transport {
                     }
 
                     /*
-                     * In case we're running out of file descriptors,
-                     * release resources held in caches.
+                     * In cbse we're running out of file descriptors,
+                     * relebse resources held in cbches.
                      */
-                    if (!(t instanceof SecurityException)) {
+                    if (!(t instbnceof SecurityException)) {
                         try {
-                            TCPEndpoint.shedConnectionCaches();
-                        } catch (Throwable tt) {
+                            TCPEndpoint.shedConnectionCbches();
+                        } cbtch (Throwbble tt) {
                         }
                     }
 
                     /*
-                     * A NoClassDefFoundError can occur if no file
-                     * descriptors are available, in which case this
-                     * loop should not terminate.
+                     * A NoClbssDefFoundError cbn occur if no file
+                     * descriptors bre bvbilbble, in which cbse this
+                     * loop should not terminbte.
                      */
-                    if (t instanceof Exception ||
-                        t instanceof OutOfMemoryError ||
-                        t instanceof NoClassDefFoundError)
+                    if (t instbnceof Exception ||
+                        t instbnceof OutOfMemoryError ||
+                        t instbnceof NoClbssDefFoundError)
                     {
-                        if (!continueAfterAcceptFailure(t)) {
+                        if (!continueAfterAcceptFbilure(t)) {
                             return;
                         }
                         // continue loop
-                    } else if (t instanceof Error) {
+                    } else if (t instbnceof Error) {
                         throw (Error) t;
                     } else {
-                        throw new UndeclaredThrowableException(t);
+                        throw new UndeclbredThrowbbleException(t);
                     }
                 }
             }
         }
 
         /**
-         * Returns true if the accept loop should continue after the
-         * specified exception has been caught, or false if the accept
-         * loop should terminate (closing the server socket).  If
-         * there is an RMIFailureHandler, this method returns the
-         * result of passing the specified exception to it; otherwise,
-         * this method always returns true, after sleeping to throttle
-         * the accept loop if necessary.
+         * Returns true if the bccept loop should continue bfter the
+         * specified exception hbs been cbught, or fblse if the bccept
+         * loop should terminbte (closing the server socket).  If
+         * there is bn RMIFbilureHbndler, this method returns the
+         * result of pbssing the specified exception to it; otherwise,
+         * this method blwbys returns true, bfter sleeping to throttle
+         * the bccept loop if necessbry.
          **/
-        private boolean continueAfterAcceptFailure(Throwable t) {
-            RMIFailureHandler fh = RMISocketFactory.getFailureHandler();
+        privbte boolebn continueAfterAcceptFbilure(Throwbble t) {
+            RMIFbilureHbndler fh = RMISocketFbctory.getFbilureHbndler();
             if (fh != null) {
-                return fh.failure(t instanceof Exception ? (Exception) t :
-                                  new InvocationTargetException(t));
+                return fh.fbilure(t instbnceof Exception ? (Exception) t :
+                                  new InvocbtionTbrgetException(t));
             } else {
                 throttleLoopOnException();
                 return true;
@@ -490,136 +490,136 @@ public class TCPTransport extends Transport {
         }
 
         /**
-         * Throttles the accept loop after an exception has been
-         * caught: if a burst of 10 exceptions in 5 seconds occurs,
-         * then wait for 10 seconds to curb busy CPU usage.
+         * Throttles the bccept loop bfter bn exception hbs been
+         * cbught: if b burst of 10 exceptions in 5 seconds occurs,
+         * then wbit for 10 seconds to curb busy CPU usbge.
          **/
-        private void throttleLoopOnException() {
+        privbte void throttleLoopOnException() {
             long now = System.currentTimeMillis();
-            if (lastExceptionTime == 0L || (now - lastExceptionTime) > 5000) {
-                // last exception was long ago (or this is the first)
-                lastExceptionTime = now;
+            if (lbstExceptionTime == 0L || (now - lbstExceptionTime) > 5000) {
+                // lbst exception wbs long bgo (or this is the first)
+                lbstExceptionTime = now;
                 recentExceptionCount = 0;
             } else {
-                // exception burst window was started recently
+                // exception burst window wbs stbrted recently
                 if (++recentExceptionCount >= 10) {
                     try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException ignore) {
+                        Threbd.sleep(10000);
+                    } cbtch (InterruptedException ignore) {
                     }
                 }
             }
         }
     }
 
-    /** close socket and eat exception */
-    private static void closeSocket(Socket sock) {
+    /** close socket bnd ebt exception */
+    privbte stbtic void closeSocket(Socket sock) {
         try {
             sock.close();
-        } catch (IOException ex) {
-            // eat exception
+        } cbtch (IOException ex) {
+            // ebt exception
         }
     }
 
     /**
-     * handleMessages decodes transport operations and handles messages
-     * appropriately.  If an exception occurs during message handling,
+     * hbndleMessbges decodes trbnsport operbtions bnd hbndles messbges
+     * bppropribtely.  If bn exception occurs during messbge hbndling,
      * the socket is closed.
      */
-    void handleMessages(Connection conn, boolean persistent) {
+    void hbndleMessbges(Connection conn, boolebn persistent) {
         int port = getEndpoint().getPort();
 
         try {
-            DataInputStream in = new DataInputStream(conn.getInputStream());
+            DbtbInputStrebm in = new DbtbInputStrebm(conn.getInputStrebm());
             do {
-                int op = in.read();     // transport op
+                int op = in.rebd();     // trbnsport op
                 if (op == -1) {
-                    if (tcpLog.isLoggable(Log.BRIEF)) {
+                    if (tcpLog.isLoggbble(Log.BRIEF)) {
                         tcpLog.log(Log.BRIEF, "(port " +
                             port + ") connection closed");
                     }
-                    break;
+                    brebk;
                 }
 
-                if (tcpLog.isLoggable(Log.BRIEF)) {
+                if (tcpLog.isLoggbble(Log.BRIEF)) {
                     tcpLog.log(Log.BRIEF, "(port " + port +
                         ") op = " + op);
                 }
 
                 switch (op) {
-                case TransportConstants.Call:
-                    // service incoming RMI call
-                    RemoteCall call = new StreamRemoteCall(conn);
-                    if (serviceCall(call) == false)
+                cbse TrbnsportConstbnts.Cbll:
+                    // service incoming RMI cbll
+                    RemoteCbll cbll = new StrebmRemoteCbll(conn);
+                    if (serviceCbll(cbll) == fblse)
                         return;
-                    break;
+                    brebk;
 
-                case TransportConstants.Ping:
-                    // send ack for ping
-                    DataOutputStream out =
-                        new DataOutputStream(conn.getOutputStream());
-                    out.writeByte(TransportConstants.PingAck);
-                    conn.releaseOutputStream();
-                    break;
+                cbse TrbnsportConstbnts.Ping:
+                    // send bck for ping
+                    DbtbOutputStrebm out =
+                        new DbtbOutputStrebm(conn.getOutputStrebm());
+                    out.writeByte(TrbnsportConstbnts.PingAck);
+                    conn.relebseOutputStrebm();
+                    brebk;
 
-                case TransportConstants.DGCAck:
-                    DGCAckHandler.received(UID.read(in));
-                    break;
+                cbse TrbnsportConstbnts.DGCAck:
+                    DGCAckHbndler.received(UID.rebd(in));
+                    brebk;
 
-                default:
-                    throw new IOException("unknown transport op " + op);
+                defbult:
+                    throw new IOException("unknown trbnsport op " + op);
                 }
             } while (persistent);
 
-        } catch (IOException e) {
-            // exception during processing causes connection to close (below)
-            if (tcpLog.isLoggable(Log.BRIEF)) {
+        } cbtch (IOException e) {
+            // exception during processing cbuses connection to close (below)
+            if (tcpLog.isLoggbble(Log.BRIEF)) {
                 tcpLog.log(Log.BRIEF, "(port " + port +
                     ") exception: ", e);
             }
-        } finally {
+        } finblly {
             try {
                 conn.close();
-            } catch (IOException ex) {
-                // eat exception
+            } cbtch (IOException ex) {
+                // ebt exception
             }
         }
     }
 
     /**
-     * Returns the client host for the current thread's connection.  Throws
-     * ServerNotActiveException if no connection is active for this thread.
+     * Returns the client host for the current threbd's connection.  Throws
+     * ServerNotActiveException if no connection is bctive for this threbd.
      */
-    public static String getClientHost() throws ServerNotActiveException {
-        ConnectionHandler h = threadConnectionHandler.get();
+    public stbtic String getClientHost() throws ServerNotActiveException {
+        ConnectionHbndler h = threbdConnectionHbndler.get();
         if (h != null) {
             return h.getClientHost();
         } else {
-            throw new ServerNotActiveException("not in a remote call");
+            throw new ServerNotActiveException("not in b remote cbll");
         }
     }
 
     /**
-     * Services messages on accepted connection
+     * Services messbges on bccepted connection
      */
-    private class ConnectionHandler implements Runnable {
+    privbte clbss ConnectionHbndler implements Runnbble {
 
-        /** int value of "POST" in ASCII (Java's specified data formats
-         *  make this once-reviled tactic again socially acceptable) */
-        private static final int POST = 0x504f5354;
+        /** int vblue of "POST" in ASCII (Jbvb's specified dbtb formbts
+         *  mbke this once-reviled tbctic bgbin sociblly bcceptbble) */
+        privbte stbtic finbl int POST = 0x504f5354;
 
-        /** most recently accept-authorized AccessControlContext */
-        private AccessControlContext okContext;
-        /** cache of accept-authorized AccessControlContexts */
-        private Map<AccessControlContext,
-                    Reference<AccessControlContext>> authCache;
-        /** security manager which authorized contexts in authCache */
-        private SecurityManager cacheSecurityManager = null;
+        /** most recently bccept-buthorized AccessControlContext */
+        privbte AccessControlContext okContext;
+        /** cbche of bccept-buthorized AccessControlContexts */
+        privbte Mbp<AccessControlContext,
+                    Reference<AccessControlContext>> buthCbche;
+        /** security mbnbger which buthorized contexts in buthCbche */
+        privbte SecurityMbnbger cbcheSecurityMbnbger = null;
 
-        private Socket socket;
-        private String remoteHost;
+        privbte Socket socket;
+        privbte String remoteHost;
 
-        ConnectionHandler(Socket socket, String remoteHost) {
+        ConnectionHbndler(Socket socket, String remoteHost) {
             this.socket = socket;
             this.remoteHost = remoteHost;
         }
@@ -629,155 +629,155 @@ public class TCPTransport extends Transport {
         }
 
         /**
-         * Verify that the given AccessControlContext has permission to
-         * accept this connection.
+         * Verify thbt the given AccessControlContext hbs permission to
+         * bccept this connection.
          */
-        void checkAcceptPermission(SecurityManager sm,
-                                   AccessControlContext acc)
+        void checkAcceptPermission(SecurityMbnbger sm,
+                                   AccessControlContext bcc)
         {
             /*
-             * Note: no need to synchronize on cache-related fields, since this
-             * method only gets called from the ConnectionHandler's thread.
+             * Note: no need to synchronize on cbche-relbted fields, since this
+             * method only gets cblled from the ConnectionHbndler's threbd.
              */
-            if (sm != cacheSecurityManager) {
+            if (sm != cbcheSecurityMbnbger) {
                 okContext = null;
-                authCache = new WeakHashMap<AccessControlContext,
+                buthCbche = new WebkHbshMbp<AccessControlContext,
                                             Reference<AccessControlContext>>();
-                cacheSecurityManager = sm;
+                cbcheSecurityMbnbger = sm;
             }
-            if (acc.equals(okContext) || authCache.containsKey(acc)) {
+            if (bcc.equbls(okContext) || buthCbche.contbinsKey(bcc)) {
                 return;
             }
-            InetAddress addr = socket.getInetAddress();
-            String host = (addr != null) ? addr.getHostAddress() : "*";
+            InetAddress bddr = socket.getInetAddress();
+            String host = (bddr != null) ? bddr.getHostAddress() : "*";
 
             sm.checkAccept(host, socket.getPort());
 
-            authCache.put(acc, new SoftReference<AccessControlContext>(acc));
-            okContext = acc;
+            buthCbche.put(bcc, new SoftReference<AccessControlContext>(bcc));
+            okContext = bcc;
         }
 
         public void run() {
-            Thread t = Thread.currentThread();
-            String name = t.getName();
+            Threbd t = Threbd.currentThrebd();
+            String nbme = t.getNbme();
             try {
-                t.setName("RMI TCP Connection(" +
+                t.setNbme("RMI TCP Connection(" +
                           connectionCount.incrementAndGet() +
                           ")-" + remoteHost);
                 run0();
-            } finally {
-                t.setName(name);
+            } finblly {
+                t.setNbme(nbme);
             }
         }
 
-        private void run0() {
+        privbte void run0() {
             TCPEndpoint endpoint = getEndpoint();
             int port = endpoint.getPort();
 
-            threadConnectionHandler.set(this);
+            threbdConnectionHbndler.set(this);
 
-            // set socket to disable Nagle's algorithm (always send
-            // immediately)
-            // TBD: should this be left up to socket factory instead?
+            // set socket to disbble Nbgle's blgorithm (blwbys send
+            // immedibtely)
+            // TBD: should this be left up to socket fbctory instebd?
             try {
-                socket.setTcpNoDelay(true);
-            } catch (Exception e) {
-                // if we fail to set this, ignore and proceed anyway
+                socket.setTcpNoDelby(true);
+            } cbtch (Exception e) {
+                // if we fbil to set this, ignore bnd proceed bnywby
             }
-            // set socket to timeout after excessive idle time
+            // set socket to timeout bfter excessive idle time
             try {
-                if (connectionReadTimeout > 0)
-                    socket.setSoTimeout(connectionReadTimeout);
-            } catch (Exception e) {
-                // too bad, continue anyway
+                if (connectionRebdTimeout > 0)
+                    socket.setSoTimeout(connectionRebdTimeout);
+            } cbtch (Exception e) {
+                // too bbd, continue bnywby
             }
 
             try {
-                InputStream sockIn = socket.getInputStream();
-                InputStream bufIn = sockIn.markSupported()
+                InputStrebm sockIn = socket.getInputStrebm();
+                InputStrebm bufIn = sockIn.mbrkSupported()
                         ? sockIn
-                        : new BufferedInputStream(sockIn);
+                        : new BufferedInputStrebm(sockIn);
 
-                // Read magic (or HTTP wrapper)
-                bufIn.mark(4);
-                DataInputStream in = new DataInputStream(bufIn);
-                int magic = in.readInt();
+                // Rebd mbgic (or HTTP wrbpper)
+                bufIn.mbrk(4);
+                DbtbInputStrebm in = new DbtbInputStrebm(bufIn);
+                int mbgic = in.rebdInt();
 
-                if (magic == POST) {
-                    tcpLog.log(Log.BRIEF, "decoding HTTP-wrapped call");
+                if (mbgic == POST) {
+                    tcpLog.log(Log.BRIEF, "decoding HTTP-wrbpped cbll");
 
-                    // It's really a HTTP-wrapped request.  Repackage
-                    // the socket in a HttpReceiveSocket, reinitialize
-                    // sockIn and in, and reread magic.
-                    bufIn.reset();      // unread "POST"
+                    // It's reblly b HTTP-wrbpped request.  Repbckbge
+                    // the socket in b HttpReceiveSocket, reinitiblize
+                    // sockIn bnd in, bnd rerebd mbgic.
+                    bufIn.reset();      // unrebd "POST"
 
                     try {
                         socket = new HttpReceiveSocket(socket, bufIn, null);
                         remoteHost = "0.0.0.0";
-                        sockIn = socket.getInputStream();
-                        bufIn = new BufferedInputStream(sockIn);
-                        in = new DataInputStream(bufIn);
-                        magic = in.readInt();
+                        sockIn = socket.getInputStrebm();
+                        bufIn = new BufferedInputStrebm(sockIn);
+                        in = new DbtbInputStrebm(bufIn);
+                        mbgic = in.rebdInt();
 
-                    } catch (IOException e) {
-                        throw new RemoteException("Error HTTP-unwrapping call",
+                    } cbtch (IOException e) {
+                        throw new RemoteException("Error HTTP-unwrbpping cbll",
                                                   e);
                     }
                 }
-                // bufIn's mark will invalidate itself when it overflows
-                // so it doesn't have to be turned off
+                // bufIn's mbrk will invblidbte itself when it overflows
+                // so it doesn't hbve to be turned off
 
-                // read and verify transport header
-                short version = in.readShort();
-                if (magic != TransportConstants.Magic ||
-                    version != TransportConstants.Version) {
-                    // protocol mismatch detected...
-                    // just close socket: this would recurse if we marshal an
-                    // exception to the client and the protocol at other end
-                    // doesn't match.
+                // rebd bnd verify trbnsport hebder
+                short version = in.rebdShort();
+                if (mbgic != TrbnsportConstbnts.Mbgic ||
+                    version != TrbnsportConstbnts.Version) {
+                    // protocol mismbtch detected...
+                    // just close socket: this would recurse if we mbrshbl bn
+                    // exception to the client bnd the protocol bt other end
+                    // doesn't mbtch.
                     closeSocket(socket);
                     return;
                 }
 
-                OutputStream sockOut = socket.getOutputStream();
-                BufferedOutputStream bufOut =
-                    new BufferedOutputStream(sockOut);
-                DataOutputStream out = new DataOutputStream(bufOut);
+                OutputStrebm sockOut = socket.getOutputStrebm();
+                BufferedOutputStrebm bufOut =
+                    new BufferedOutputStrebm(sockOut);
+                DbtbOutputStrebm out = new DbtbOutputStrebm(bufOut);
 
                 int remotePort = socket.getPort();
 
-                if (tcpLog.isLoggable(Log.BRIEF)) {
-                    tcpLog.log(Log.BRIEF, "accepted socket from [" +
+                if (tcpLog.isLoggbble(Log.BRIEF)) {
+                    tcpLog.log(Log.BRIEF, "bccepted socket from [" +
                                      remoteHost + ":" + remotePort + "]");
                 }
 
                 TCPEndpoint ep;
-                TCPChannel ch;
+                TCPChbnnel ch;
                 TCPConnection conn;
 
-                // send ack (or nack) for protocol
-                byte protocol = in.readByte();
+                // send bck (or nbck) for protocol
+                byte protocol = in.rebdByte();
                 switch (protocol) {
-                case TransportConstants.SingleOpProtocol:
-                    // no ack for protocol
+                cbse TrbnsportConstbnts.SingleOpProtocol:
+                    // no bck for protocol
 
-                    // create dummy channel for receiving messages
-                    ep = new TCPEndpoint(remoteHost, socket.getLocalPort(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    ch = new TCPChannel(TCPTransport.this, ep);
+                    // crebte dummy chbnnel for receiving messbges
+                    ep = new TCPEndpoint(remoteHost, socket.getLocblPort(),
+                                         endpoint.getClientSocketFbctory(),
+                                         endpoint.getServerSocketFbctory());
+                    ch = new TCPChbnnel(TCPTrbnsport.this, ep);
                     conn = new TCPConnection(ch, socket, bufIn, bufOut);
 
-                    // read input messages
-                    handleMessages(conn, false);
-                    break;
+                    // rebd input messbges
+                    hbndleMessbges(conn, fblse);
+                    brebk;
 
-                case TransportConstants.StreamProtocol:
-                    // send ack
-                    out.writeByte(TransportConstants.ProtocolAck);
+                cbse TrbnsportConstbnts.StrebmProtocol:
+                    // send bck
+                    out.writeByte(TrbnsportConstbnts.ProtocolAck);
 
-                    // suggest endpoint (in case client doesn't know host name)
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
+                    // suggest endpoint (in cbse client doesn't know host nbme)
+                    if (tcpLog.isLoggbble(Log.VERBOSE)) {
                         tcpLog.log(Log.VERBOSE, "(port " + port +
                             ") " + "suggesting " + remoteHost + ":" +
                             remotePort);
@@ -787,38 +787,38 @@ public class TCPTransport extends Transport {
                     out.writeInt(remotePort);
                     out.flush();
 
-                    // read and discard (possibly bogus) endpoint
-                    // REMIND: would be faster to read 2 bytes then skip N+4
-                    String clientHost = in.readUTF();
-                    int    clientPort = in.readInt();
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
+                    // rebd bnd discbrd (possibly bogus) endpoint
+                    // REMIND: would be fbster to rebd 2 bytes then skip N+4
+                    String clientHost = in.rebdUTF();
+                    int    clientPort = in.rebdInt();
+                    if (tcpLog.isLoggbble(Log.VERBOSE)) {
                         tcpLog.log(Log.VERBOSE, "(port " + port +
                             ") client using " + clientHost + ":" + clientPort);
                     }
 
-                    // create dummy channel for receiving messages
-                    // (why not use clientHost and clientPort?)
-                    ep = new TCPEndpoint(remoteHost, socket.getLocalPort(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    ch = new TCPChannel(TCPTransport.this, ep);
+                    // crebte dummy chbnnel for receiving messbges
+                    // (why not use clientHost bnd clientPort?)
+                    ep = new TCPEndpoint(remoteHost, socket.getLocblPort(),
+                                         endpoint.getClientSocketFbctory(),
+                                         endpoint.getServerSocketFbctory());
+                    ch = new TCPChbnnel(TCPTrbnsport.this, ep);
                     conn = new TCPConnection(ch, socket, bufIn, bufOut);
 
-                    // read input messages
-                    handleMessages(conn, true);
-                    break;
+                    // rebd input messbges
+                    hbndleMessbges(conn, true);
+                    brebk;
 
-                case TransportConstants.MultiplexProtocol:
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
+                cbse TrbnsportConstbnts.MultiplexProtocol:
+                    if (tcpLog.isLoggbble(Log.VERBOSE)) {
                         tcpLog.log(Log.VERBOSE, "(port " + port +
-                            ") accepting multiplex protocol");
+                            ") bccepting multiplex protocol");
                     }
 
-                    // send ack
-                    out.writeByte(TransportConstants.ProtocolAck);
+                    // send bck
+                    out.writeByte(TrbnsportConstbnts.ProtocolAck);
 
-                    // suggest endpoint (in case client doesn't already have one)
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
+                    // suggest endpoint (in cbse client doesn't blrebdy hbve one)
+                    if (tcpLog.isLoggbble(Log.VERBOSE)) {
                         tcpLog.log(Log.VERBOSE, "(port " + port +
                             ") suggesting " + remoteHost + ":" + remotePort);
                     }
@@ -827,39 +827,39 @@ public class TCPTransport extends Transport {
                     out.writeInt(remotePort);
                     out.flush();
 
-                    // read endpoint client has decided to use
-                    ep = new TCPEndpoint(in.readUTF(), in.readInt(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
+                    // rebd endpoint client hbs decided to use
+                    ep = new TCPEndpoint(in.rebdUTF(), in.rebdInt(),
+                                         endpoint.getClientSocketFbctory(),
+                                         endpoint.getServerSocketFbctory());
+                    if (tcpLog.isLoggbble(Log.VERBOSE)) {
                         tcpLog.log(Log.VERBOSE, "(port " +
                             port + ") client using " +
                             ep.getHost() + ":" + ep.getPort());
                     }
 
                     ConnectionMultiplexer multiplexer;
-                    synchronized (channelTable) {
-                        // create or find channel for this endpoint
-                        ch = getChannel(ep);
+                    synchronized (chbnnelTbble) {
+                        // crebte or find chbnnel for this endpoint
+                        ch = getChbnnel(ep);
                         multiplexer =
                             new ConnectionMultiplexer(ch, bufIn, sockOut,
-                                                      false);
+                                                      fblse);
                         ch.useMultiplexer(multiplexer);
                     }
                     multiplexer.run();
-                    break;
+                    brebk;
 
-                default:
-                    // protocol not understood, send nack and close socket
-                    out.writeByte(TransportConstants.ProtocolNack);
+                defbult:
+                    // protocol not understood, send nbck bnd close socket
+                    out.writeByte(TrbnsportConstbnts.ProtocolNbck);
                     out.flush();
-                    break;
+                    brebk;
                 }
 
-            } catch (IOException e) {
-                // socket in unknown state: destroy socket
-                tcpLog.log(Log.BRIEF, "terminated with exception:", e);
-            } finally {
+            } cbtch (IOException e) {
+                // socket in unknown stbte: destroy socket
+                tcpLog.log(Log.BRIEF, "terminbted with exception:", e);
+            } finblly {
                 closeSocket(socket);
             }
         }

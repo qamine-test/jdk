@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.SQLException;
+import jbvb.sql.SQLException;
 
 /**
- * <P>An <code>Event</code> object that provides information about the
- * source of a connection-related event.  <code>ConnectionEvent</code>
- * objects are generated when an application closes a pooled connection
- * and when an error occurs.  The <code>ConnectionEvent</code> object
- * contains two kinds of information:
+ * <P>An <code>Event</code> object thbt provides informbtion bbout the
+ * source of b connection-relbted event.  <code>ConnectionEvent</code>
+ * objects bre generbted when bn bpplicbtion closes b pooled connection
+ * bnd when bn error occurs.  The <code>ConnectionEvent</code> object
+ * contbins two kinds of informbtion:
  * <UL>
- *   <LI>The pooled connection closed by the application
- *   <LI>In the case of an error event, the <code>SQLException</code>
- *       about to be thrown to the application
+ *   <LI>The pooled connection closed by the bpplicbtion
+ *   <LI>In the cbse of bn error event, the <code>SQLException</code>
+ *       bbout to be thrown to the bpplicbtion
  * </UL>
  *
  * @since 1.4
  */
 
-public class ConnectionEvent extends java.util.EventObject {
+public clbss ConnectionEvent extends jbvb.util.EventObject {
 
   /**
-   * <P>Constructs a <code>ConnectionEvent</code> object initialized with
+   * <P>Constructs b <code>ConnectionEvent</code> object initiblized with
    * the given <code>PooledConnection</code> object. <code>SQLException</code>
-   * defaults to <code>null</code>.
+   * defbults to <code>null</code>.
    *
-   * @param con the pooled connection that is the source of the event
-   * @throws IllegalArgumentException if <code>con</code> is null.
+   * @pbrbm con the pooled connection thbt is the source of the event
+   * @throws IllegblArgumentException if <code>con</code> is null.
    */
   public ConnectionEvent(PooledConnection con) {
     super(con);
   }
 
   /**
-   * <P>Constructs a <code>ConnectionEvent</code> object initialized with
-   * the given <code>PooledConnection</code> object and
+   * <P>Constructs b <code>ConnectionEvent</code> object initiblized with
+   * the given <code>PooledConnection</code> object bnd
    * <code>SQLException</code> object.
    *
-   * @param con the pooled connection that is the source of the event
-   * @param ex the SQLException about to be thrown to the application
-   * @throws IllegalArgumentException if <code>con</code> is null.
+   * @pbrbm con the pooled connection thbt is the source of the event
+   * @pbrbm ex the SQLException bbout to be thrown to the bpplicbtion
+   * @throws IllegblArgumentException if <code>con</code> is null.
    */
   public ConnectionEvent(PooledConnection con, SQLException ex) {
     super(con);
@@ -72,24 +72,24 @@ public class ConnectionEvent extends java.util.EventObject {
 
   /**
    * <P>Retrieves the <code>SQLException</code> for this
-   * <code>ConnectionEvent</code> object. May be <code>null</code>.
+   * <code>ConnectionEvent</code> object. Mby be <code>null</code>.
    *
-   * @return the SQLException about to be thrown or <code>null</code>
+   * @return the SQLException bbout to be thrown or <code>null</code>
    */
   public SQLException getSQLException() { return ex; }
 
   /**
-   * The <code>SQLException</code> that the driver will throw to the
-   * application when an error occurs and the pooled connection is no
-   * longer usable.
-   * @serial
+   * The <code>SQLException</code> thbt the driver will throw to the
+   * bpplicbtion when bn error occurs bnd the pooled connection is no
+   * longer usbble.
+   * @seribl
    */
-  private SQLException ex = null;
+  privbte SQLException ex = null;
 
   /**
-   * Private serial version unique ID to ensure serialization
-   * compatibility.
+   * Privbte seribl version unique ID to ensure seriblizbtion
+   * compbtibility.
    */
-  static final long serialVersionUID = -4843217645290030002L;
+  stbtic finbl long seriblVersionUID = -4843217645290030002L;
 
  }

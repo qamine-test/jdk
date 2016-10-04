@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.text.*;
 
 /**
- * <P>The AccessibleEditableText interface should be implemented by all
- * classes that present editable textual information on the display.
- * Along with the AccessibleText interface, this interface provides
- * the standard mechanism for an assistive technology to access
- * that text via its content, attributes, and spatial location.
- * Applications can determine if an object supports the AccessibleEditableText
- * interface by first obtaining its AccessibleContext (see {@link Accessible})
- * and then calling the {@link AccessibleContext#getAccessibleEditableText}
- * method of AccessibleContext.  If the return value is not null, the object
- * supports this interface.
+ * <P>The AccessibleEditbbleText interfbce should be implemented by bll
+ * clbsses thbt present editbble textubl informbtion on the displby.
+ * Along with the AccessibleText interfbce, this interfbce provides
+ * the stbndbrd mechbnism for bn bssistive technology to bccess
+ * thbt text vib its content, bttributes, bnd spbtibl locbtion.
+ * Applicbtions cbn determine if bn object supports the AccessibleEditbbleText
+ * interfbce by first obtbining its AccessibleContext (see {@link Accessible})
+ * bnd then cblling the {@link AccessibleContext#getAccessibleEditbbleText}
+ * method of AccessibleContext.  If the return vblue is not null, the object
+ * supports this interfbce.
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
  * @see AccessibleContext
  * @see AccessibleContext#getAccessibleText
- * @see AccessibleContext#getAccessibleEditableText
+ * @see AccessibleContext#getAccessibleEditbbleText
  *
- * @author      Lynn Monsanto
+ * @buthor      Lynn Monsbnto
  * @since 1.4
  */
 
-public interface AccessibleEditableText extends AccessibleText {
+public interfbce AccessibleEditbbleText extends AccessibleText {
 
     /**
      * Sets the text contents to the specified string.
      *
-     * @param s the string to set the text contents
+     * @pbrbm s the string to set the text contents
      */
     public void setTextContents(String s);
 
     /**
-     * Inserts the specified string at the given index/
+     * Inserts the specified string bt the given index/
      *
-     * @param index the index in the text where the string will
+     * @pbrbm index the index in the text where the string will
      * be inserted
-     * @param s the string to insert in the text
+     * @pbrbm s the string to insert in the text
      */
     public void insertTextAtIndex(int index, String s);
 
     /**
      * Returns the text string between two indices.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
      * @return the text string between the indices
      */
-    public String getTextRange(int startIndex, int endIndex);
+    public String getTextRbnge(int stbrtIndex, int endIndex);
 
     /**
      * Deletes the text between two indices
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
      */
-    public void delete(int startIndex, int endIndex);
+    public void delete(int stbrtIndex, int endIndex);
 
     /**
-     * Cuts the text between two indices into the system clipboard.
+     * Cuts the text between two indices into the system clipbobrd.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
      */
-    public void cut(int startIndex, int endIndex);
+    public void cut(int stbrtIndex, int endIndex);
 
     /**
-     * Pastes the text from the system clipboard into the text
-     * starting at the specified index.
+     * Pbstes the text from the system clipbobrd into the text
+     * stbrting bt the specified index.
      *
-     * @param startIndex the starting index in the text
+     * @pbrbm stbrtIndex the stbrting index in the text
      */
-    public void paste(int startIndex);
+    public void pbste(int stbrtIndex);
 
     /**
-     * Replaces the text between two indices with the specified
+     * Replbces the text between two indices with the specified
      * string.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
-     * @param s the string to replace the text between two indices
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
+     * @pbrbm s the string to replbce the text between two indices
      */
-    public void replaceText(int startIndex, int endIndex, String s);
+    public void replbceText(int stbrtIndex, int endIndex, String s);
 
     /**
      * Selects the text between two indices.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
      */
-    public void selectText(int startIndex, int endIndex);
+    public void selectText(int stbrtIndex, int endIndex);
 
     /**
-     * Sets attributes for the text between two indices.
+     * Sets bttributes for the text between two indices.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
-     * @param as the attribute set
+     * @pbrbm stbrtIndex the stbrting index in the text
+     * @pbrbm endIndex the ending index in the text
+     * @pbrbm bs the bttribute set
      * @see AttributeSet
      */
-    public void setAttributes(int startIndex, int endIndex, AttributeSet as);
+    public void setAttributes(int stbrtIndex, int endIndex, AttributeSet bs);
 
 }

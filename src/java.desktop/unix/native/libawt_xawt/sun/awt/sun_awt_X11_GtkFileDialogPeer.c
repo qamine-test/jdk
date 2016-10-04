@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,152 +27,152 @@
 #include <stdio.h>
 #include <jni_util.h>
 #include <string.h>
-#include "gtk2_interface.h"
-#include "sun_awt_X11_GtkFileDialogPeer.h"
-#include "java_awt_FileDialog.h"
-#include "debug_assert.h"
+#include "gtk2_interfbce.h"
+#include "sun_bwt_X11_GtkFileDiblogPeer.h"
+#include "jbvb_bwt_FileDiblog.h"
+#include "debug_bssert.h"
 
-static JavaVM *jvm;
+stbtic JbvbVM *jvm;
 
-/* To cache some method IDs */
-static jmethodID filenameFilterCallbackMethodID = NULL;
-static jmethodID setFileInternalMethodID = NULL;
-static jfieldID  widgetFieldID = NULL;
+/* To cbche some method IDs */
+stbtic jmethodID filenbmeFilterCbllbbckMethodID = NULL;
+stbtic jmethodID setFileInternblMethodID = NULL;
+stbtic jfieldID  widgetFieldID = NULL;
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_GtkFileDialogPeer_initIDs
-(JNIEnv *env, jclass cx)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFileDiblogPeer_initIDs
+(JNIEnv *env, jclbss cx)
 {
-    filenameFilterCallbackMethodID = (*env)->GetMethodID(env, cx,
-            "filenameFilterCallback", "(Ljava/lang/String;)Z");
-    DASSERT(filenameFilterCallbackMethodID != NULL);
-    CHECK_NULL(filenameFilterCallbackMethodID);
+    filenbmeFilterCbllbbckMethodID = (*env)->GetMethodID(env, cx,
+            "filenbmeFilterCbllbbck", "(Ljbvb/lbng/String;)Z");
+    DASSERT(filenbmeFilterCbllbbckMethodID != NULL);
+    CHECK_NULL(filenbmeFilterCbllbbckMethodID);
 
-    setFileInternalMethodID = (*env)->GetMethodID(env, cx,
-            "setFileInternal", "(Ljava/lang/String;[Ljava/lang/String;)V");
-    DASSERT(setFileInternalMethodID != NULL);
-    CHECK_NULL(setFileInternalMethodID);
+    setFileInternblMethodID = (*env)->GetMethodID(env, cx,
+            "setFileInternbl", "(Ljbvb/lbng/String;[Ljbvb/lbng/String;)V");
+    DASSERT(setFileInternblMethodID != NULL);
+    CHECK_NULL(setFileInternblMethodID);
 
     widgetFieldID = (*env)->GetFieldID(env, cx, "widget", "J");
     DASSERT(widgetFieldID != NULL);
 }
 
-static gboolean filenameFilterCallback(const GtkFileFilterInfo * filter_info, gpointer obj)
+stbtic gboolebn filenbmeFilterCbllbbck(const GtkFileFilterInfo * filter_info, gpointer obj)
 {
     JNIEnv *env;
-    jstring filename;
+    jstring filenbme;
 
     env = (JNIEnv *) JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    filename = (*env)->NewStringUTF(env, filter_info->filename);
+    filenbme = (*env)->NewStringUTF(env, filter_info->filenbme);
     JNU_CHECK_EXCEPTION_RETURN(env, FALSE);
 
-    return (*env)->CallBooleanMethod(env, obj, filenameFilterCallbackMethodID,
-            filename);
+    return (*env)->CbllBoolebnMethod(env, obj, filenbmeFilterCbllbbckMethodID,
+            filenbme);
 }
 
-static void quit(JNIEnv * env, jobject jpeer, gboolean isSignalHandler)
+stbtic void quit(JNIEnv * env, jobject jpeer, gboolebn isSignblHbndler)
 {
-    GtkWidget * dialog = (GtkWidget*)jlong_to_ptr(
+    GtkWidget * diblog = (GtkWidget*)jlong_to_ptr(
             (*env)->GetLongField(env, jpeer, widgetFieldID));
 
-    if (dialog != NULL)
+    if (diblog != NULL)
     {
-        // Callbacks from GTK signals are made within the GTK lock
-        // So, within a signal handler there is no need to call
-        // gdk_threads_enter() / fp_gdk_threads_leave()
-        if (!isSignalHandler) {
-            fp_gdk_threads_enter();
+        // Cbllbbcks from GTK signbls bre mbde within the GTK lock
+        // So, within b signbl hbndler there is no need to cbll
+        // gdk_threbds_enter() / fp_gdk_threbds_lebve()
+        if (!isSignblHbndler) {
+            fp_gdk_threbds_enter();
         }
 
-        fp_gtk_widget_hide (dialog);
-        fp_gtk_widget_destroy (dialog);
+        fp_gtk_widget_hide (diblog);
+        fp_gtk_widget_destroy (diblog);
 
-        fp_gtk_main_quit ();
+        fp_gtk_mbin_quit ();
 
         (*env)->SetLongField(env, jpeer, widgetFieldID, 0);
 
-        if (!isSignalHandler) {
-            fp_gdk_threads_leave();
+        if (!isSignblHbndler) {
+            fp_gdk_threbds_lebve();
         }
     }
 }
 
 /*
- * Class:     sun_awt_X11_GtkFileDialogPeer
+ * Clbss:     sun_bwt_X11_GtkFileDiblogPeer
  * Method:    quit
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_GtkFileDialogPeer_quit
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFileDiblogPeer_quit
 (JNIEnv * env, jobject jpeer)
 {
     quit(env, jpeer, FALSE);
 }
 
 /*
- * Class:     sun_awt_X11_GtkFileDialogPeer
+ * Clbss:     sun_bwt_X11_GtkFileDiblogPeer
  * Method:    toFront
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_GtkFileDialogPeer_toFront
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFileDiblogPeer_toFront
 (JNIEnv * env, jobject jpeer)
 {
-    GtkWidget * dialog;
+    GtkWidget * diblog;
 
-    fp_gdk_threads_enter();
+    fp_gdk_threbds_enter();
 
-    dialog = (GtkWidget*)jlong_to_ptr(
+    diblog = (GtkWidget*)jlong_to_ptr(
             (*env)->GetLongField(env, jpeer, widgetFieldID));
 
-    if (dialog != NULL) {
-        fp_gtk_window_present((GtkWindow*)dialog);
+    if (diblog != NULL) {
+        fp_gtk_window_present((GtkWindow*)diblog);
     }
 
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     sun_awt_X11_GtkFileDialogPeer
+ * Clbss:     sun_bwt_X11_GtkFileDiblogPeer
  * Method:    setBounds
- * Signature: (IIIII)V
+ * Signbture: (IIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_GtkFileDialogPeer_setBounds
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFileDiblogPeer_setBounds
 (JNIEnv * env, jobject jpeer, jint x, jint y, jint width, jint height, jint op)
 {
-    GtkWindow* dialog;
+    GtkWindow* diblog;
 
-    fp_gdk_threads_enter();
+    fp_gdk_threbds_enter();
 
-    dialog = (GtkWindow*)jlong_to_ptr(
+    diblog = (GtkWindow*)jlong_to_ptr(
         (*env)->GetLongField(env, jpeer, widgetFieldID));
 
-    if (dialog != NULL) {
+    if (diblog != NULL) {
         if (x >= 0 && y >= 0) {
-            fp_gtk_window_move(dialog, (gint)x, (gint)y);
+            fp_gtk_window_move(diblog, (gint)x, (gint)y);
         }
         if (width > 0 && height > 0) {
-            fp_gtk_window_resize(dialog, (gint)width, (gint)height);
+            fp_gtk_window_resize(diblog, (gint)width, (gint)height);
         }
     }
 
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * baseDir should be freed by user.
+ * bbseDir should be freed by user.
  */
-static gboolean isFromSameDirectory(GSList* list, gchar** baseDir) {
+stbtic gboolebn isFromSbmeDirectory(GSList* list, gchbr** bbseDir) {
 
     GSList *it = list;
-    gchar* prevDir = NULL;
-    gboolean isAllDirsSame = TRUE;
+    gchbr* prevDir = NULL;
+    gboolebn isAllDirsSbme = TRUE;
 
     while (it) {
-        gchar* dir = fp_g_path_get_dirname((gchar*) it->data);
+        gchbr* dir = fp_g_pbth_get_dirnbme((gchbr*) it->dbtb);
 
         if (prevDir && strcmp(prevDir, dir) != 0) {
-            isAllDirsSame = FALSE;
+            isAllDirsSbme = FALSE;
             fp_g_free(dir);
-            break;
+            brebk;
         }
 
         if (!prevDir) {
@@ -183,63 +183,63 @@ static gboolean isFromSameDirectory(GSList* list, gchar** baseDir) {
         it = it->next;
     }
 
-    if (isAllDirsSame) {
-        *baseDir = prevDir;
+    if (isAllDirsSbme) {
+        *bbseDir = prevDir;
     } else {
         free(prevDir);
-        *baseDir = strdup("/");
+        *bbseDir = strdup("/");
     }
 
-    return isAllDirsSame;
+    return isAllDirsSbme;
 }
 
 /**
- * Convert a GSList to an array of filenames
+ * Convert b GSList to bn brrby of filenbmes
  */
-static jobjectArray toFilenamesArray(JNIEnv *env, GSList* list, jstring* jcurrent_folder)
+stbtic jobjectArrby toFilenbmesArrby(JNIEnv *env, GSList* list, jstring* jcurrent_folder)
 {
     jstring str;
-    jclass stringCls;
-    GSList *iterator;
-    jobjectArray array;
+    jclbss stringCls;
+    GSList *iterbtor;
+    jobjectArrby brrby;
     int i;
-    gchar* entry;
-    gchar * baseDir;
-    gboolean isFromSameDir;
+    gchbr* entry;
+    gchbr * bbseDir;
+    gboolebn isFromSbmeDir;
 
     if (list == NULL) {
         return NULL;
     }
 
-    stringCls = (*env)->FindClass(env, "java/lang/String");
+    stringCls = (*env)->FindClbss(env, "jbvb/lbng/String");
     if (stringCls == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowInternalError(env, "Could not get java.lang.String class");
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowInternblError(env, "Could not get jbvb.lbng.String clbss");
         return NULL;
     }
 
-    array = (*env)->NewObjectArray(env, fp_gtk_g_slist_length(list), stringCls, NULL);
-    if (array == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowInternalError(env, "Could not instantiate array files array");
+    brrby = (*env)->NewObjectArrby(env, fp_gtk_g_slist_length(list), stringCls, NULL);
+    if (brrby == NULL) {
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowInternblError(env, "Could not instbntibte brrby files brrby");
         return NULL;
     }
 
-    isFromSameDir = isFromSameDirectory(list, &baseDir);
+    isFromSbmeDir = isFromSbmeDirectory(list, &bbseDir);
 
-    *jcurrent_folder = (*env)->NewStringUTF(env, baseDir);
+    *jcurrent_folder = (*env)->NewStringUTF(env, bbseDir);
     if (*jcurrent_folder == NULL) {
-        free(baseDir);
+        free(bbseDir);
         return NULL;
     }
 
-    for (iterator = list, i=0;
-            iterator;
-            iterator = iterator->next, i++) {
+    for (iterbtor = list, i=0;
+            iterbtor;
+            iterbtor = iterbtor->next, i++) {
 
-        entry = (gchar*) iterator->data;
+        entry = (gchbr*) iterbtor->dbtb;
 
-        if (isFromSameDir) {
+        if (isFromSbmeDir) {
             entry = strrchr(entry, '/') + 1;
         } else if (entry[0] == '/') {
             entry++;
@@ -247,146 +247,146 @@ static jobjectArray toFilenamesArray(JNIEnv *env, GSList* list, jstring* jcurren
 
         str = (*env)->NewStringUTF(env, entry);
         if (str && !(*env)->ExceptionCheck(env)) {
-            (*env)->SetObjectArrayElement(env, array, i, str);
+            (*env)->SetObjectArrbyElement(env, brrby, i, str);
         }
     }
 
-    free(baseDir);
-    return array;
+    free(bbseDir);
+    return brrby;
 }
 
-static void handle_response(GtkWidget* aDialog, gint responseId, gpointer obj)
+stbtic void hbndle_response(GtkWidget* bDiblog, gint responseId, gpointer obj)
 {
     JNIEnv *env;
-    GSList *filenames;
+    GSList *filenbmes;
     jstring jcurrent_folder = NULL;
-    jobjectArray jfilenames;
+    jobjectArrby jfilenbmes;
 
     env = (JNIEnv *) JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    filenames = NULL;
+    filenbmes = NULL;
 
     if (responseId == GTK_RESPONSE_ACCEPT) {
-        filenames = fp_gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(aDialog));
+        filenbmes = fp_gtk_file_chooser_get_filenbmes(GTK_FILE_CHOOSER(bDiblog));
     }
 
-    jfilenames = toFilenamesArray(env, filenames, &jcurrent_folder);
+    jfilenbmes = toFilenbmesArrby(env, filenbmes, &jcurrent_folder);
 
     if (!(*env)->ExceptionCheck(env)) {
-        (*env)->CallVoidMethod(env, obj, setFileInternalMethodID,
-                               jcurrent_folder, jfilenames);
+        (*env)->CbllVoidMethod(env, obj, setFileInternblMethodID,
+                               jcurrent_folder, jfilenbmes);
     }
 
     quit(env, (jobject)obj, TRUE);
 }
 
 /*
- * Class:     sun_awt_X11_GtkFileDialogPeer
+ * Clbss:     sun_bwt_X11_GtkFileDiblogPeer
  * Method:    run
- * Signature: (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/io/FilenameFilter;ZII)V
+ * Signbture: (Ljbvb/lbng/String;ILjbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/io/FilenbmeFilter;ZII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_GtkFileDialogPeer_run(JNIEnv * env, jobject jpeer,
+Jbvb_sun_bwt_X11_GtkFileDiblogPeer_run(JNIEnv * env, jobject jpeer,
         jstring jtitle, jint mode, jstring jdir, jstring jfile,
-        jobject jfilter, jboolean multiple, int x, int y)
+        jobject jfilter, jboolebn multiple, int x, int y)
 {
-    GtkWidget *dialog = NULL;
+    GtkWidget *diblog = NULL;
     GtkFileFilter *filter;
 
     if (jvm == NULL) {
-        (*env)->GetJavaVM(env, &jvm);
+        (*env)->GetJbvbVM(env, &jvm);
         JNU_CHECK_EXCEPTION(env);
     }
 
-    fp_gdk_threads_enter();
+    fp_gdk_threbds_enter();
 
-    const char *title = jtitle == NULL? "": (*env)->GetStringUTFChars(env, jtitle, 0);
+    const chbr *title = jtitle == NULL? "": (*env)->GetStringUTFChbrs(env, jtitle, 0);
     if (title == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         JNU_ThrowOutOfMemoryError(env, "Could not get title");
         return;
     }
 
-    if (mode == java_awt_FileDialog_SAVE) {
-        /* Save action */
-        dialog = fp_gtk_file_chooser_dialog_new(title, NULL,
+    if (mode == jbvb_bwt_FileDiblog_SAVE) {
+        /* Sbve bction */
+        diblog = fp_gtk_file_chooser_diblog_new(title, NULL,
                 GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL,
                 GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
     }
     else {
-        /* Default action OPEN */
-        dialog = fp_gtk_file_chooser_dialog_new(title, NULL,
+        /* Defbult bction OPEN */
+        diblog = fp_gtk_file_chooser_diblog_new(title, NULL,
                 GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL,
                 GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
-        /* Set multiple selection mode, that is allowed only in OPEN action */
+        /* Set multiple selection mode, thbt is bllowed only in OPEN bction */
         if (multiple) {
-            fp_gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog),
+            fp_gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(diblog),
                     multiple);
         }
     }
 
     if (jtitle != NULL) {
-      (*env)->ReleaseStringUTFChars(env, jtitle, title);
+      (*env)->RelebseStringUTFChbrs(env, jtitle, title);
     }
 
     /* Set the directory */
     if (jdir != NULL) {
-        const char *dir = (*env)->GetStringUTFChars(env, jdir, 0);
+        const chbr *dir = (*env)->GetStringUTFChbrs(env, jdir, 0);
         if (dir == NULL) {
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             JNU_ThrowOutOfMemoryError(env, "Could not get dir");
             return;
         }
-        fp_gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), dir);
-        (*env)->ReleaseStringUTFChars(env, jdir, dir);
+        fp_gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(diblog), dir);
+        (*env)->RelebseStringUTFChbrs(env, jdir, dir);
     }
 
-    /* Set the filename */
+    /* Set the filenbme */
     if (jfile != NULL) {
-        const char *filename = (*env)->GetStringUTFChars(env, jfile, 0);
-        if (filename == NULL) {
-            (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "Could not get filename");
+        const chbr *filenbme = (*env)->GetStringUTFChbrs(env, jfile, 0);
+        if (filenbme == NULL) {
+            (*env)->ExceptionClebr(env);
+            JNU_ThrowOutOfMemoryError(env, "Could not get filenbme");
             return;
         }
-        if (mode == java_awt_FileDialog_SAVE) {
-            fp_gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), filename);
+        if (mode == jbvb_bwt_FileDiblog_SAVE) {
+            fp_gtk_file_chooser_set_current_nbme(GTK_FILE_CHOOSER(diblog), filenbme);
         } else {
-            fp_gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), filename);
+            fp_gtk_file_chooser_set_filenbme(GTK_FILE_CHOOSER(diblog), filenbme);
         }
-        (*env)->ReleaseStringUTFChars(env, jfile, filename);
+        (*env)->RelebseStringUTFChbrs(env, jfile, filenbme);
     }
 
     /* Set the file filter */
     if (jfilter != NULL) {
         filter = fp_gtk_file_filter_new();
-        fp_gtk_file_filter_add_custom(filter, GTK_FILE_FILTER_FILENAME,
-                filenameFilterCallback, jpeer, NULL);
-        fp_gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
+        fp_gtk_file_filter_bdd_custom(filter, GTK_FILE_FILTER_FILENAME,
+                filenbmeFilterCbllbbck, jpeer, NULL);
+        fp_gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(diblog), filter);
     }
 
     /* Other Properties */
     if (fp_gtk_check_version(2, 8, 0) == NULL) {
-        fp_gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(
-                dialog), TRUE);
+        fp_gtk_file_chooser_set_do_overwrite_confirmbtion(GTK_FILE_CHOOSER(
+                diblog), TRUE);
     }
 
-    /* Set the initial location */
+    /* Set the initibl locbtion */
     if (x >= 0 && y >= 0) {
-        fp_gtk_window_move((GtkWindow*)dialog, (gint)x, (gint)y);
+        fp_gtk_window_move((GtkWindow*)diblog, (gint)x, (gint)y);
 
-        // NOTE: it doesn't set the initial size for the file chooser
-        // as it seems like the file chooser overrides the size internally
+        // NOTE: it doesn't set the initibl size for the file chooser
+        // bs it seems like the file chooser overrides the size internblly
     }
 
-    fp_g_signal_connect(G_OBJECT(dialog), "response", G_CALLBACK(
-            handle_response), jpeer);
+    fp_g_signbl_connect(G_OBJECT(diblog), "response", G_CALLBACK(
+            hbndle_response), jpeer);
 
-    (*env)->SetLongField(env, jpeer, widgetFieldID, ptr_to_jlong(dialog));
+    (*env)->SetLongField(env, jpeer, widgetFieldID, ptr_to_jlong(diblog));
 
-    fp_gtk_widget_show(dialog);
+    fp_gtk_widget_show(diblog);
 
-    fp_gtk_main();
-    fp_gdk_threads_leave();
+    fp_gtk_mbin();
+    fp_gdk_threbds_lebve();
 }
 

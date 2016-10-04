@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
+import jbvbx.sound.midi.Instrument;
+import jbvbx.sound.midi.Pbtch;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkResource;
 
 /**
- * A simple soundbank that contains instruments and soundbankresources.
+ * A simple soundbbnk thbt contbins instruments bnd soundbbnkresources.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public class SimpleSoundbank implements Soundbank {
+public clbss SimpleSoundbbnk implements Soundbbnk {
 
-    String name = "";
+    String nbme = "";
     String version = "";
     String vendor = "";
     String description = "";
-    List<SoundbankResource> resources = new ArrayList<SoundbankResource>();
-    List<Instrument> instruments = new ArrayList<Instrument>();
+    List<SoundbbnkResource> resources = new ArrbyList<SoundbbnkResource>();
+    List<Instrument> instruments = new ArrbyList<Instrument>();
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     public String getVersion() {
@@ -67,8 +67,8 @@ public class SimpleSoundbank implements Soundbank {
         this.description = description;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNbme(String nbme) {
+        this.nbme = nbme;
     }
 
     public void setVendor(String vendor) {
@@ -79,31 +79,31 @@ public class SimpleSoundbank implements Soundbank {
         this.version = version;
     }
 
-    public SoundbankResource[] getResources() {
-        return resources.toArray(new SoundbankResource[resources.size()]);
+    public SoundbbnkResource[] getResources() {
+        return resources.toArrby(new SoundbbnkResource[resources.size()]);
     }
 
     public Instrument[] getInstruments() {
-        Instrument[] inslist_array
-                = instruments.toArray(new Instrument[resources.size()]);
-        Arrays.sort(inslist_array, new ModelInstrumentComparator());
-        return inslist_array;
+        Instrument[] inslist_brrby
+                = instruments.toArrby(new Instrument[resources.size()]);
+        Arrbys.sort(inslist_brrby, new ModelInstrumentCompbrbtor());
+        return inslist_brrby;
     }
 
-    public Instrument getInstrument(Patch patch) {
-        int program = patch.getProgram();
-        int bank = patch.getBank();
-        boolean percussion = false;
-        if (patch instanceof ModelPatch)
-            percussion = ((ModelPatch)patch).isPercussion();
+    public Instrument getInstrument(Pbtch pbtch) {
+        int progrbm = pbtch.getProgrbm();
+        int bbnk = pbtch.getBbnk();
+        boolebn percussion = fblse;
+        if (pbtch instbnceof ModelPbtch)
+            percussion = ((ModelPbtch)pbtch).isPercussion();
         for (Instrument instrument : instruments) {
-            Patch patch2 = instrument.getPatch();
-            int program2 = patch2.getProgram();
-            int bank2 = patch2.getBank();
-            if (program == program2 && bank == bank2) {
-                boolean percussion2 = false;
-                if (patch2 instanceof ModelPatch)
-                    percussion2 = ((ModelPatch)patch2).isPercussion();
+            Pbtch pbtch2 = instrument.getPbtch();
+            int progrbm2 = pbtch2.getProgrbm();
+            int bbnk2 = pbtch2.getBbnk();
+            if (progrbm == progrbm2 && bbnk == bbnk2) {
+                boolebn percussion2 = fblse;
+                if (pbtch2 instbnceof ModelPbtch)
+                    percussion2 = ((ModelPbtch)pbtch2).isPercussion();
                 if (percussion == percussion2)
                     return instrument;
             }
@@ -111,35 +111,35 @@ public class SimpleSoundbank implements Soundbank {
         return null;
     }
 
-    public void addResource(SoundbankResource resource) {
-        if (resource instanceof Instrument)
-            instruments.add((Instrument) resource);
+    public void bddResource(SoundbbnkResource resource) {
+        if (resource instbnceof Instrument)
+            instruments.bdd((Instrument) resource);
         else
-            resources.add(resource);
+            resources.bdd(resource);
     }
 
-    public void removeResource(SoundbankResource resource) {
-        if (resource instanceof Instrument)
+    public void removeResource(SoundbbnkResource resource) {
+        if (resource instbnceof Instrument)
             instruments.remove((Instrument) resource);
         else
             resources.remove(resource);
     }
 
-    public void addInstrument(Instrument resource) {
-        instruments.add(resource);
+    public void bddInstrument(Instrument resource) {
+        instruments.bdd(resource);
     }
 
     public void removeInstrument(Instrument resource) {
         instruments.remove(resource);
     }
 
-    public void addAllInstruments(Soundbank soundbank) {
-        for (Instrument ins : soundbank.getInstruments())
-            addInstrument(ins);
+    public void bddAllInstruments(Soundbbnk soundbbnk) {
+        for (Instrument ins : soundbbnk.getInstruments())
+            bddInstrument(ins);
     }
 
-    public void removeAllInstruments(Soundbank soundbank) {
-        for (Instrument ins : soundbank.getInstruments())
+    public void removeAllInstruments(Soundbbnk soundbbnk) {
+        for (Instrument ins : soundbbnk.getInstruments())
             removeInstrument(ins);
     }
 }

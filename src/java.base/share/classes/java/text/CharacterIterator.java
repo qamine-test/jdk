@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 
 /**
- * This interface defines a protocol for bidirectional iteration over text.
- * The iterator iterates over a bounded sequence of characters.  Characters
- * are indexed with values beginning with the value returned by getBeginIndex() and
- * continuing through the value returned by getEndIndex()-1.
+ * This interfbce defines b protocol for bidirectionbl iterbtion over text.
+ * The iterbtor iterbtes over b bounded sequence of chbrbcters.  Chbrbcters
+ * bre indexed with vblues beginning with the vblue returned by getBeginIndex() bnd
+ * continuing through the vblue returned by getEndIndex()-1.
  * <p>
- * Iterators maintain a current character index, whose valid range is from
- * getBeginIndex() to getEndIndex(); the value getEndIndex() is included to allow
- * handling of zero-length text ranges and for historical reasons.
- * The current index can be retrieved by calling getIndex() and set directly
- * by calling setIndex(), first(), and last().
+ * Iterbtors mbintbin b current chbrbcter index, whose vblid rbnge is from
+ * getBeginIndex() to getEndIndex(); the vblue getEndIndex() is included to bllow
+ * hbndling of zero-length text rbnges bnd for historicbl rebsons.
+ * The current index cbn be retrieved by cblling getIndex() bnd set directly
+ * by cblling setIndex(), first(), bnd lbst().
  * <p>
- * The methods previous() and next() are used for iteration. They return DONE if
- * they would move outside the range from getBeginIndex() to getEndIndex() -1,
- * signaling that the iterator has reached the end of the sequence. DONE is
- * also returned by other methods to indicate that the current index is
- * outside this range.
+ * The methods previous() bnd next() bre used for iterbtion. They return DONE if
+ * they would move outside the rbnge from getBeginIndex() to getEndIndex() -1,
+ * signbling thbt the iterbtor hbs rebched the end of the sequence. DONE is
+ * blso returned by other methods to indicbte thbt the current index is
+ * outside this rbnge.
  *
- * <P>Examples:<P>
+ * <P>Exbmples:<P>
  *
- * Traverse the text from start to finish
+ * Trbverse the text from stbrt to finish
  * <pre>{@code
- * public void traverseForward(CharacterIterator iter) {
- *     for(char c = iter.first(); c != CharacterIterator.DONE; c = iter.next()) {
- *         processChar(c);
+ * public void trbverseForwbrd(ChbrbcterIterbtor iter) {
+ *     for(chbr c = iter.first(); c != ChbrbcterIterbtor.DONE; c = iter.next()) {
+ *         processChbr(c);
  *     }
  * }
  * }</pre>
  *
- * Traverse the text backwards, from end to start
+ * Trbverse the text bbckwbrds, from end to stbrt
  * <pre>{@code
- * public void traverseBackward(CharacterIterator iter) {
- *     for(char c = iter.last(); c != CharacterIterator.DONE; c = iter.previous()) {
- *         processChar(c);
+ * public void trbverseBbckwbrd(ChbrbcterIterbtor iter) {
+ *     for(chbr c = iter.lbst(); c != ChbrbcterIterbtor.DONE; c = iter.previous()) {
+ *         processChbr(c);
  *     }
  * }
  * }</pre>
  *
- * Traverse both forward and backward from a given position in the text.
- * Calls to notBoundary() in this example represents some
- * additional stopping criteria.
+ * Trbverse both forwbrd bnd bbckwbrd from b given position in the text.
+ * Cblls to notBoundbry() in this exbmple represents some
+ * bdditionbl stopping criterib.
  * <pre>{@code
- * public void traverseOut(CharacterIterator iter, int pos) {
- *     for (char c = iter.setIndex(pos);
- *              c != CharacterIterator.DONE && notBoundary(c);
+ * public void trbverseOut(ChbrbcterIterbtor iter, int pos) {
+ *     for (chbr c = iter.setIndex(pos);
+ *              c != ChbrbcterIterbtor.DONE && notBoundbry(c);
  *              c = iter.next()) {
  *     }
  *     int end = iter.getIndex();
- *     for (char c = iter.setIndex(pos);
- *             c != CharacterIterator.DONE && notBoundary(c);
+ *     for (chbr c = iter.setIndex(pos);
+ *             c != ChbrbcterIterbtor.DONE && notBoundbry(c);
  *             c = iter.previous()) {
  *     }
- *     int start = iter.getIndex();
- *     processSection(start, end);
+ *     int stbrt = iter.getIndex();
+ *     processSection(stbrt, end);
  * }
  * }</pre>
  *
- * @see StringCharacterIterator
- * @see AttributedCharacterIterator
+ * @see StringChbrbcterIterbtor
+ * @see AttributedChbrbcterIterbtor
  */
 
-public interface CharacterIterator extends Cloneable
+public interfbce ChbrbcterIterbtor extends Clonebble
 {
 
     /**
-     * Constant that is returned when the iterator has reached either the end
-     * or the beginning of the text. The value is '\\uFFFF', the "not a
-     * character" value which should not occur in any valid Unicode string.
+     * Constbnt thbt is returned when the iterbtor hbs rebched either the end
+     * or the beginning of the text. The vblue is '\\uFFFF', the "not b
+     * chbrbcter" vblue which should not occur in bny vblid Unicode string.
      */
-    public static final char DONE = '\uFFFF';
+    public stbtic finbl chbr DONE = '\uFFFF';
 
     /**
-     * Sets the position to getBeginIndex() and returns the character at that
+     * Sets the position to getBeginIndex() bnd returns the chbrbcter bt thbt
      * position.
-     * @return the first character in the text, or DONE if the text is empty
+     * @return the first chbrbcter in the text, or DONE if the text is empty
      * @see #getBeginIndex()
      */
-    public char first();
+    public chbr first();
 
     /**
      * Sets the position to getEndIndex()-1 (getEndIndex() if the text is empty)
-     * and returns the character at that position.
-     * @return the last character in the text, or DONE if the text is empty
+     * bnd returns the chbrbcter bt thbt position.
+     * @return the lbst chbrbcter in the text, or DONE if the text is empty
      * @see #getEndIndex()
      */
-    public char last();
+    public chbr lbst();
 
     /**
-     * Gets the character at the current position (as returned by getIndex()).
-     * @return the character at the current position or DONE if the current
+     * Gets the chbrbcter bt the current position (bs returned by getIndex()).
+     * @return the chbrbcter bt the current position or DONE if the current
      * position is off the end of the text.
      * @see #getIndex()
      */
-    public char current();
+    public chbr current();
 
     /**
-     * Increments the iterator's index by one and returns the character
-     * at the new index.  If the resulting index is greater or equal
-     * to getEndIndex(), the current index is reset to getEndIndex() and
-     * a value of DONE is returned.
-     * @return the character at the new position or DONE if the new
-     * position is off the end of the text range.
+     * Increments the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index.  If the resulting index is grebter or equbl
+     * to getEndIndex(), the current index is reset to getEndIndex() bnd
+     * b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the new
+     * position is off the end of the text rbnge.
      */
-    public char next();
+    public chbr next();
 
     /**
-     * Decrements the iterator's index by one and returns the character
-     * at the new index. If the current index is getBeginIndex(), the index
-     * remains at getBeginIndex() and a value of DONE is returned.
-     * @return the character at the new position or DONE if the current
-     * position is equal to getBeginIndex().
+     * Decrements the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index. If the current index is getBeginIndex(), the index
+     * rembins bt getBeginIndex() bnd b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the current
+     * position is equbl to getBeginIndex().
      */
-    public char previous();
+    public chbr previous();
 
     /**
-     * Sets the position to the specified position in the text and returns that
-     * character.
-     * @param position the position within the text.  Valid values range from
-     * getBeginIndex() to getEndIndex().  An IllegalArgumentException is thrown
-     * if an invalid value is supplied.
-     * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
+     * Sets the position to the specified position in the text bnd returns thbt
+     * chbrbcter.
+     * @pbrbm position the position within the text.  Vblid vblues rbnge from
+     * getBeginIndex() to getEndIndex().  An IllegblArgumentException is thrown
+     * if bn invblid vblue is supplied.
+     * @return the chbrbcter bt the specified position or DONE if the specified position is equbl to getEndIndex()
      */
-    public char setIndex(int position);
+    public chbr setIndex(int position);
 
     /**
-     * Returns the start index of the text.
-     * @return the index at which the text begins.
+     * Returns the stbrt index of the text.
+     * @return the index bt which the text begins.
      */
     public int getBeginIndex();
 
     /**
      * Returns the end index of the text.  This index is the index of the first
-     * character following the end of the text.
-     * @return the index after the last character in the text
+     * chbrbcter following the end of the text.
+     * @return the index bfter the lbst chbrbcter in the text
      */
     public int getEndIndex();
 
@@ -185,7 +185,7 @@ public interface CharacterIterator extends Cloneable
     public int getIndex();
 
     /**
-     * Create a copy of this iterator
+     * Crebte b copy of this iterbtor
      * @return A copy of this
      */
     public Object clone();

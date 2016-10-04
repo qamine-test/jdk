@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.nio.channels.DatagramChannel;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.util.Set;
-import java.util.Collections;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.DbtbgrbmChbnnel;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Set;
+import jbvb.util.Collections;
 
 /**
- * This class represents a socket for sending and receiving datagram packets.
+ * This clbss represents b socket for sending bnd receiving dbtbgrbm pbckets.
  *
- * <p>A datagram socket is the sending or receiving point for a packet
- * delivery service. Each packet sent or received on a datagram socket
- * is individually addressed and routed. Multiple packets sent from
- * one machine to another may be routed differently, and may arrive in
- * any order.
+ * <p>A dbtbgrbm socket is the sending or receiving point for b pbcket
+ * delivery service. Ebch pbcket sent or received on b dbtbgrbm socket
+ * is individublly bddressed bnd routed. Multiple pbckets sent from
+ * one mbchine to bnother mby be routed differently, bnd mby brrive in
+ * bny order.
  *
- * <p> Where possible, a newly constructed {@code DatagramSocket} has the
- * {@link SocketOptions#SO_BROADCAST SO_BROADCAST} socket option enabled so as
- * to allow the transmission of broadcast datagrams. In order to receive
- * broadcast packets a DatagramSocket should be bound to the wildcard address.
- * In some implementations, broadcast packets may also be received when
- * a DatagramSocket is bound to a more specific address.
+ * <p> Where possible, b newly constructed {@code DbtbgrbmSocket} hbs the
+ * {@link SocketOptions#SO_BROADCAST SO_BROADCAST} socket option enbbled so bs
+ * to bllow the trbnsmission of brobdcbst dbtbgrbms. In order to receive
+ * brobdcbst pbckets b DbtbgrbmSocket should be bound to the wildcbrd bddress.
+ * In some implementbtions, brobdcbst pbckets mby blso be received when
+ * b DbtbgrbmSocket is bound to b more specific bddress.
  * <p>
- * Example:
+ * Exbmple:
  * {@code
- *              DatagramSocket s = new DatagramSocket(null);
+ *              DbtbgrbmSocket s = new DbtbgrbmSocket(null);
  *              s.bind(new InetSocketAddress(8888));
  * }
- * Which is equivalent to:
+ * Which is equivblent to:
  * {@code
- *              DatagramSocket s = new DatagramSocket(8888);
+ *              DbtbgrbmSocket s = new DbtbgrbmSocket(8888);
  * }
- * Both cases will create a DatagramSocket able to receive broadcasts on
+ * Both cbses will crebte b DbtbgrbmSocket bble to receive brobdcbsts on
  * UDP port 8888.
  *
- * @author  Pavani Diwanji
- * @see     java.net.DatagramPacket
- * @see     java.nio.channels.DatagramChannel
+ * @buthor  Pbvbni Diwbnji
+ * @see     jbvb.net.DbtbgrbmPbcket
+ * @see     jbvb.nio.chbnnels.DbtbgrbmChbnnel
  * @since 1.0
  */
 public
-class DatagramSocket implements java.io.Closeable {
+clbss DbtbgrbmSocket implements jbvb.io.Closebble {
     /**
-     * Various states of this socket.
+     * Vbrious stbtes of this socket.
      */
-    private boolean created = false;
-    private boolean bound = false;
-    private boolean closed = false;
-    private Object closeLock = new Object();
+    privbte boolebn crebted = fblse;
+    privbte boolebn bound = fblse;
+    privbte boolebn closed = fblse;
+    privbte Object closeLock = new Object();
 
     /*
-     * The implementation of this DatagramSocket.
+     * The implementbtion of this DbtbgrbmSocket.
      */
-    DatagramSocketImpl impl;
+    DbtbgrbmSocketImpl impl;
 
     /**
-     * Are we using an older DatagramSocketImpl?
+     * Are we using bn older DbtbgrbmSocketImpl?
      */
-    boolean oldImpl = false;
+    boolebn oldImpl = fblse;
 
     /*
-     * Connection state:
+     * Connection stbte:
      * ST_NOT_CONNECTED = socket not connected
      * ST_CONNECTED = socket connected
-     * ST_CONNECTED_NO_IMPL = socket connected but not at impl level
+     * ST_CONNECTED_NO_IMPL = socket connected but not bt impl level
      */
-    static final int ST_NOT_CONNECTED = 0;
-    static final int ST_CONNECTED = 1;
-    static final int ST_CONNECTED_NO_IMPL = 2;
+    stbtic finbl int ST_NOT_CONNECTED = 0;
+    stbtic finbl int ST_CONNECTED = 1;
+    stbtic finbl int ST_CONNECTED_NO_IMPL = 2;
 
-    int connectState = ST_NOT_CONNECTED;
+    int connectStbte = ST_NOT_CONNECTED;
 
     /*
-     * Connected address & port
+     * Connected bddress & port
      */
     InetAddress connectedAddress = null;
     int connectedPort = -1;
 
     /**
-     * Connects this socket to a remote socket address (IP address + port number).
-     * Binds socket if not already bound.
+     * Connects this socket to b remote socket bddress (IP bddress + port number).
+     * Binds socket if not blrebdy bound.
      *
-     * @param   address The remote address.
-     * @param   port    The remote port
-     * @throws  SocketException if binding the socket fails.
+     * @pbrbm   bddress The remote bddress.
+     * @pbrbm   port    The remote port
+     * @throws  SocketException if binding the socket fbils.
      */
-    private synchronized void connectInternal(InetAddress address, int port) throws SocketException {
+    privbte synchronized void connectInternbl(InetAddress bddress, int port) throws SocketException {
         if (port < 0 || port > 0xFFFF) {
-            throw new IllegalArgumentException("connect: " + port);
+            throw new IllegblArgumentException("connect: " + port);
         }
-        if (address == null) {
-            throw new IllegalArgumentException("connect: null address");
+        if (bddress == null) {
+            throw new IllegblArgumentException("connect: null bddress");
         }
-        checkAddress (address, "connect");
+        checkAddress (bddress, "connect");
         if (isClosed())
             return;
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            if (address.isMulticastAddress()) {
-                security.checkMulticast(address);
+            if (bddress.isMulticbstAddress()) {
+                security.checkMulticbst(bddress);
             } else {
-                security.checkConnect(address.getHostAddress(), port);
-                security.checkAccept(address.getHostAddress(), port);
+                security.checkConnect(bddress.getHostAddress(), port);
+                security.checkAccept(bddress.getHostAddress(), port);
             }
         }
 
@@ -135,58 +135,58 @@ class DatagramSocket implements java.io.Closeable {
           bind(new InetSocketAddress(0));
 
         // old impls do not support connect/disconnect
-        if (oldImpl || (impl instanceof AbstractPlainDatagramSocketImpl &&
-             ((AbstractPlainDatagramSocketImpl)impl).nativeConnectDisabled())) {
-            connectState = ST_CONNECTED_NO_IMPL;
+        if (oldImpl || (impl instbnceof AbstrbctPlbinDbtbgrbmSocketImpl &&
+             ((AbstrbctPlbinDbtbgrbmSocketImpl)impl).nbtiveConnectDisbbled())) {
+            connectStbte = ST_CONNECTED_NO_IMPL;
         } else {
             try {
-                getImpl().connect(address, port);
+                getImpl().connect(bddress, port);
 
                 // socket is now connected by the impl
-                connectState = ST_CONNECTED;
-            } catch (SocketException se) {
+                connectStbte = ST_CONNECTED;
+            } cbtch (SocketException se) {
 
-                // connection will be emulated by DatagramSocket
-                connectState = ST_CONNECTED_NO_IMPL;
+                // connection will be emulbted by DbtbgrbmSocket
+                connectStbte = ST_CONNECTED_NO_IMPL;
             }
         }
 
-        connectedAddress = address;
+        connectedAddress = bddress;
         connectedPort = port;
     }
 
 
     /**
-     * Constructs a datagram socket and binds it to any available port
-     * on the local host machine.  The socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Constructs b dbtbgrbm socket bnd binds it to bny bvbilbble port
+     * on the locbl host mbchine.  The socket will be bound to the
+     * {@link InetAddress#isAnyLocblAddress wildcbrd} bddress,
+     * bn IP bddress chosen by the kernel.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with 0 as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with 0 bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
      * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     *               or the socket could not bind to the specified locbl port.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkListen
+     * @see SecurityMbnbger#checkListen
      */
-    public DatagramSocket() throws SocketException {
+    public DbtbgrbmSocket() throws SocketException {
         this(new InetSocketAddress(0));
     }
 
     /**
-     * Creates an unbound datagram socket with the specified
-     * DatagramSocketImpl.
+     * Crebtes bn unbound dbtbgrbm socket with the specified
+     * DbtbgrbmSocketImpl.
      *
-     * @param impl an instance of a <B>DatagramSocketImpl</B>
-     *        the subclass wishes to use on the DatagramSocket.
+     * @pbrbm impl bn instbnce of b <B>DbtbgrbmSocketImpl</B>
+     *        the subclbss wishes to use on the DbtbgrbmSocket.
      * @since   1.4
      */
-    protected DatagramSocket(DatagramSocketImpl impl) {
+    protected DbtbgrbmSocket(DbtbgrbmSocketImpl impl) {
         if (impl == null)
             throw new NullPointerException();
         this.impl = impl;
@@ -194,35 +194,35 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Creates a datagram socket, bound to the specified local
-     * socket address.
+     * Crebtes b dbtbgrbm socket, bound to the specified locbl
+     * socket bddress.
      * <p>
-     * If, if the address is {@code null}, creates an unbound socket.
+     * If, if the bddress is {@code null}, crebtes bn unbound socket.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the port from the socket address
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with the port from the socket bddress
+     * bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param bindaddr local socket address to bind, or {@code null}
-     *                 for an unbound socket.
+     * @pbrbm bindbddr locbl socket bddress to bind, or {@code null}
+     *                 for bn unbound socket.
      *
      * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     *               or the socket could not bind to the specified locbl port.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkListen
+     * @see SecurityMbnbger#checkListen
      * @since   1.4
      */
-    public DatagramSocket(SocketAddress bindaddr) throws SocketException {
-        // create a datagram socket.
-        createImpl();
-        if (bindaddr != null) {
+    public DbtbgrbmSocket(SocketAddress bindbddr) throws SocketException {
+        // crebte b dbtbgrbm socket.
+        crebteImpl();
+        if (bindbddr != null) {
             try {
-                bind(bindaddr);
-            } finally {
+                bind(bindbddr);
+            } finblly {
                 if (!isBound())
                     close();
             }
@@ -230,255 +230,255 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Constructs a datagram socket and binds it to the specified port
-     * on the local host machine.  The socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Constructs b dbtbgrbm socket bnd binds it to the specified port
+     * on the locbl host mbchine.  The socket will be bound to the
+     * {@link InetAddress#isAnyLocblAddress wildcbrd} bddress,
+     * bn IP bddress chosen by the kernel.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with the {@code port} brgument
+     * bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param      port port to use.
+     * @pbrbm      port port to use.
      * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     *               or the socket could not bind to the specified locbl port.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkListen
+     * @see SecurityMbnbger#checkListen
      */
-    public DatagramSocket(int port) throws SocketException {
+    public DbtbgrbmSocket(int port) throws SocketException {
         this(port, null);
     }
 
     /**
-     * Creates a datagram socket, bound to the specified local
-     * address.  The local port must be between 0 and 65535 inclusive.
-     * If the IP address is 0.0.0.0, the socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Crebtes b dbtbgrbm socket, bound to the specified locbl
+     * bddress.  The locbl port must be between 0 bnd 65535 inclusive.
+     * If the IP bddress is 0.0.0.0, the socket will be bound to the
+     * {@link InetAddress#isAnyLocblAddress wildcbrd} bddress,
+     * bn IP bddress chosen by the kernel.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with the {@code port} brgument
+     * bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param port local port to use
-     * @param laddr local address to bind
+     * @pbrbm port locbl port to use
+     * @pbrbm lbddr locbl bddress to bind
      *
      * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     *               or the socket could not bind to the specified locbl port.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkListen
+     * @see SecurityMbnbger#checkListen
      * @since   1.1
      */
-    public DatagramSocket(int port, InetAddress laddr) throws SocketException {
-        this(new InetSocketAddress(laddr, port));
+    public DbtbgrbmSocket(int port, InetAddress lbddr) throws SocketException {
+        this(new InetSocketAddress(lbddr, port));
     }
 
-    private void checkOldImpl() {
+    privbte void checkOldImpl() {
         if (impl == null)
             return;
-        // DatagramSocketImpl.peekdata() is a protected method, therefore we need to use
-        // getDeclaredMethod, therefore we need permission to access the member
+        // DbtbgrbmSocketImpl.peekdbtb() is b protected method, therefore we need to use
+        // getDeclbredMethod, therefore we need permission to bccess the member
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
                     public Void run() throws NoSuchMethodException {
-                        Class<?>[] cl = new Class<?>[1];
-                        cl[0] = DatagramPacket.class;
-                        impl.getClass().getDeclaredMethod("peekData", cl);
+                        Clbss<?>[] cl = new Clbss<?>[1];
+                        cl[0] = DbtbgrbmPbcket.clbss;
+                        impl.getClbss().getDeclbredMethod("peekDbtb", cl);
                         return null;
                     }
                 });
-        } catch (java.security.PrivilegedActionException e) {
+        } cbtch (jbvb.security.PrivilegedActionException e) {
             oldImpl = true;
         }
     }
 
-    static Class<?> implClass = null;
+    stbtic Clbss<?> implClbss = null;
 
-    void createImpl() throws SocketException {
+    void crebteImpl() throws SocketException {
         if (impl == null) {
-            if (factory != null) {
-                impl = factory.createDatagramSocketImpl();
+            if (fbctory != null) {
+                impl = fbctory.crebteDbtbgrbmSocketImpl();
                 checkOldImpl();
             } else {
-                boolean isMulticast = (this instanceof MulticastSocket) ? true : false;
-                impl = DefaultDatagramSocketImplFactory.createDatagramSocketImpl(isMulticast);
+                boolebn isMulticbst = (this instbnceof MulticbstSocket) ? true : fblse;
+                impl = DefbultDbtbgrbmSocketImplFbctory.crebteDbtbgrbmSocketImpl(isMulticbst);
 
                 checkOldImpl();
             }
         }
-        // creates a udp socket
-        impl.create();
-        impl.setDatagramSocket(this);
-        created = true;
+        // crebtes b udp socket
+        impl.crebte();
+        impl.setDbtbgrbmSocket(this);
+        crebted = true;
     }
 
     /**
-     * Get the {@code DatagramSocketImpl} attached to this socket,
-     * creating it if necessary.
+     * Get the {@code DbtbgrbmSocketImpl} bttbched to this socket,
+     * crebting it if necessbry.
      *
-     * @return  the {@code DatagramSocketImpl} attached to that
-     *          DatagramSocket
-     * @throws SocketException if creation fails.
+     * @return  the {@code DbtbgrbmSocketImpl} bttbched to thbt
+     *          DbtbgrbmSocket
+     * @throws SocketException if crebtion fbils.
      * @since 1.4
      */
-    DatagramSocketImpl getImpl() throws SocketException {
-        if (!created)
-            createImpl();
+    DbtbgrbmSocketImpl getImpl() throws SocketException {
+        if (!crebted)
+            crebteImpl();
         return impl;
     }
 
     /**
-     * Binds this DatagramSocket to a specific address and port.
+     * Binds this DbtbgrbmSocket to b specific bddress bnd port.
      * <p>
-     * If the address is {@code null}, then the system will pick up
-     * an ephemeral port and a valid local address to bind the socket.
+     * If the bddress is {@code null}, then the system will pick up
+     * bn ephemerbl port bnd b vblid locbl bddress to bind the socket.
      *
-     * @param   addr The address and port to bind to.
-     * @throws  SocketException if any error happens during the bind, or if the
-     *          socket is already bound.
-     * @throws  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @throws IllegalArgumentException if addr is a SocketAddress subclass
+     * @pbrbm   bddr The bddress bnd port to bind to.
+     * @throws  SocketException if bny error hbppens during the bind, or if the
+     *          socket is blrebdy bound.
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if bddr is b SocketAddress subclbss
      *         not supported by this socket.
      * @since 1.4
      */
-    public synchronized void bind(SocketAddress addr) throws SocketException {
+    public synchronized void bind(SocketAddress bddr) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (isBound())
-            throw new SocketException("already bound");
-        if (addr == null)
-            addr = new InetSocketAddress(0);
-        if (!(addr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type!");
-        InetSocketAddress epoint = (InetSocketAddress) addr;
+            throw new SocketException("blrebdy bound");
+        if (bddr == null)
+            bddr = new InetSocketAddress(0);
+        if (!(bddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type!");
+        InetSocketAddress epoint = (InetSocketAddress) bddr;
         if (epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
-        InetAddress iaddr = epoint.getAddress();
+            throw new SocketException("Unresolved bddress");
+        InetAddress ibddr = epoint.getAddress();
         int port = epoint.getPort();
-        checkAddress(iaddr, "bind");
-        SecurityManager sec = System.getSecurityManager();
+        checkAddress(ibddr, "bind");
+        SecurityMbnbger sec = System.getSecurityMbnbger();
         if (sec != null) {
             sec.checkListen(port);
         }
         try {
-            getImpl().bind(port, iaddr);
-        } catch (SocketException e) {
+            getImpl().bind(port, ibddr);
+        } cbtch (SocketException e) {
             getImpl().close();
             throw e;
         }
         bound = true;
     }
 
-    void checkAddress (InetAddress addr, String op) {
-        if (addr == null) {
+    void checkAddress (InetAddress bddr, String op) {
+        if (bddr == null) {
             return;
         }
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address)) {
-            throw new IllegalArgumentException(op + ": invalid address type");
+        if (!(bddr instbnceof Inet4Address || bddr instbnceof Inet6Address)) {
+            throw new IllegblArgumentException(op + ": invblid bddress type");
         }
     }
 
     /**
-     * Connects the socket to a remote address for this socket. When a
-     * socket is connected to a remote address, packets may only be
-     * sent to or received from that address. By default a datagram
+     * Connects the socket to b remote bddress for this socket. When b
+     * socket is connected to b remote bddress, pbckets mby only be
+     * sent to or received from thbt bddress. By defbult b dbtbgrbm
      * socket is not connected.
      *
-     * <p>If the remote destination to which the socket is connected does not
-     * exist, or is otherwise unreachable, and if an ICMP destination unreachable
-     * packet has been received for that address, then a subsequent call to
-     * send or receive may throw a PortUnreachableException. Note, there is no
-     * guarantee that the exception will be thrown.
+     * <p>If the remote destinbtion to which the socket is connected does not
+     * exist, or is otherwise unrebchbble, bnd if bn ICMP destinbtion unrebchbble
+     * pbcket hbs been received for thbt bddress, then b subsequent cbll to
+     * send or receive mby throw b PortUnrebchbbleException. Note, there is no
+     * gubrbntee thbt the exception will be thrown.
      *
-     * <p> If a security manager has been installed then it is invoked to check
-     * access to the remote address. Specifically, if the given {@code address}
-     * is a {@link InetAddress#isMulticastAddress multicast address},
-     * the security manager's {@link
-     * java.lang.SecurityManager#checkMulticast(InetAddress)
-     * checkMulticast} method is invoked with the given {@code address}.
-     * Otherwise, the security manager's {@link
-     * java.lang.SecurityManager#checkConnect(String,int) checkConnect}
-     * and {@link java.lang.SecurityManager#checkAccept checkAccept} methods
-     * are invoked, with the given {@code address} and {@code port}, to
-     * verify that datagrams are permitted to be sent and received
+     * <p> If b security mbnbger hbs been instblled then it is invoked to check
+     * bccess to the remote bddress. Specificblly, if the given {@code bddress}
+     * is b {@link InetAddress#isMulticbstAddress multicbst bddress},
+     * the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkMulticbst(InetAddress)
+     * checkMulticbst} method is invoked with the given {@code bddress}.
+     * Otherwise, the security mbnbger's {@link
+     * jbvb.lbng.SecurityMbnbger#checkConnect(String,int) checkConnect}
+     * bnd {@link jbvb.lbng.SecurityMbnbger#checkAccept checkAccept} methods
+     * bre invoked, with the given {@code bddress} bnd {@code port}, to
+     * verify thbt dbtbgrbms bre permitted to be sent bnd received
      * respectively.
      *
-     * <p> When a socket is connected, {@link #receive receive} and
-     * {@link #send send} <b>will not perform any security checks</b>
-     * on incoming and outgoing packets, other than matching the packet's
-     * and the socket's address and port. On a send operation, if the
-     * packet's address is set and the packet's address and the socket's
-     * address do not match, an {@code IllegalArgumentException} will be
-     * thrown. A socket connected to a multicast address may only be used
-     * to send packets.
+     * <p> When b socket is connected, {@link #receive receive} bnd
+     * {@link #send send} <b>will not perform bny security checks</b>
+     * on incoming bnd outgoing pbckets, other thbn mbtching the pbcket's
+     * bnd the socket's bddress bnd port. On b send operbtion, if the
+     * pbcket's bddress is set bnd the pbcket's bddress bnd the socket's
+     * bddress do not mbtch, bn {@code IllegblArgumentException} will be
+     * thrown. A socket connected to b multicbst bddress mby only be used
+     * to send pbckets.
      *
-     * @param address the remote address for the socket
+     * @pbrbm bddress the remote bddress for the socket
      *
-     * @param port the remote port for the socket.
+     * @pbrbm port the remote port for the socket.
      *
-     * @throws IllegalArgumentException
-     *         if the address is null, or the port is out of range.
+     * @throws IllegblArgumentException
+     *         if the bddress is null, or the port is out of rbnge.
      *
      * @throws SecurityException
-     *         if a security manager has been installed and it does
-     *         not permit access to the given remote address
+     *         if b security mbnbger hbs been instblled bnd it does
+     *         not permit bccess to the given remote bddress
      *
      * @see #disconnect
      */
-    public void connect(InetAddress address, int port) {
+    public void connect(InetAddress bddress, int port) {
         try {
-            connectInternal(address, port);
-        } catch (SocketException se) {
-            throw new Error("connect failed", se);
+            connectInternbl(bddress, port);
+        } cbtch (SocketException se) {
+            throw new Error("connect fbiled", se);
         }
     }
 
     /**
-     * Connects this socket to a remote socket address (IP address + port number).
+     * Connects this socket to b remote socket bddress (IP bddress + port number).
      *
-     * <p> If given an {@link InetSocketAddress InetSocketAddress}, this method
-     * behaves as if invoking {@link #connect(InetAddress,int) connect(InetAddress,int)}
-     * with the given socket addresses IP address and port number.
+     * <p> If given bn {@link InetSocketAddress InetSocketAddress}, this method
+     * behbves bs if invoking {@link #connect(InetAddress,int) connect(InetAddress,int)}
+     * with the given socket bddresses IP bddress bnd port number.
      *
-     * @param   addr    The remote address.
+     * @pbrbm   bddr    The remote bddress.
      *
      * @throws  SocketException
-     *          if the connect fails
+     *          if the connect fbils
      *
-     * @throws IllegalArgumentException
-     *         if {@code addr} is {@code null}, or {@code addr} is a SocketAddress
-     *         subclass not supported by this socket
+     * @throws IllegblArgumentException
+     *         if {@code bddr} is {@code null}, or {@code bddr} is b SocketAddress
+     *         subclbss not supported by this socket
      *
      * @throws SecurityException
-     *         if a security manager has been installed and it does
-     *         not permit access to the given remote address
+     *         if b security mbnbger hbs been instblled bnd it does
+     *         not permit bccess to the given remote bddress
      *
      * @since 1.4
      */
-    public void connect(SocketAddress addr) throws SocketException {
-        if (addr == null)
-            throw new IllegalArgumentException("Address can't be null");
-        if (!(addr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        InetSocketAddress epoint = (InetSocketAddress) addr;
+    public void connect(SocketAddress bddr) throws SocketException {
+        if (bddr == null)
+            throw new IllegblArgumentException("Address cbn't be null");
+        if (!(bddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
+        InetSocketAddress epoint = (InetSocketAddress) bddr;
         if (epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
-        connectInternal(epoint.getAddress(), epoint.getPort());
+            throw new SocketException("Unresolved bddress");
+        connectInternbl(epoint.getAddress(), epoint.getPort());
     }
 
     /**
      * Disconnects the socket. If the socket is closed or not connected,
-     * then this method has no effect.
+     * then this method hbs no effect.
      *
      * @see #connect
      */
@@ -486,52 +486,52 @@ class DatagramSocket implements java.io.Closeable {
         synchronized (this) {
             if (isClosed())
                 return;
-            if (connectState == ST_CONNECTED) {
+            if (connectStbte == ST_CONNECTED) {
                 impl.disconnect ();
             }
             connectedAddress = null;
             connectedPort = -1;
-            connectState = ST_NOT_CONNECTED;
+            connectStbte = ST_NOT_CONNECTED;
         }
     }
 
     /**
-     * Returns the binding state of the socket.
+     * Returns the binding stbte of the socket.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
+     * If the socket wbs bound prior to being {@link #close closed},
      * then this method will continue to return {@code true}
-     * after the socket is closed.
+     * bfter the socket is closed.
      *
-     * @return true if the socket successfully bound to an address
+     * @return true if the socket successfully bound to bn bddress
      * @since 1.4
      */
-    public boolean isBound() {
+    public boolebn isBound() {
         return bound;
     }
 
     /**
-     * Returns the connection state of the socket.
+     * Returns the connection stbte of the socket.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
+     * If the socket wbs connected prior to being {@link #close closed},
      * then this method will continue to return {@code true}
-     * after the socket is closed.
+     * bfter the socket is closed.
      *
-     * @return true if the socket successfully connected to a server
+     * @return true if the socket successfully connected to b server
      * @since 1.4
      */
-    public boolean isConnected() {
-        return connectState != ST_NOT_CONNECTED;
+    public boolebn isConnected() {
+        return connectStbte != ST_NOT_CONNECTED;
     }
 
     /**
-     * Returns the address to which this socket is connected. Returns
+     * Returns the bddress to which this socket is connected. Returns
      * {@code null} if the socket is not connected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If the socket wbs connected prior to being {@link #close closed},
+     * then this method will continue to return the connected bddress
+     * bfter the socket is closed.
      *
-     * @return the address to which this socket is connected.
+     * @return the bddress to which this socket is connected.
      */
     public InetAddress getInetAddress() {
         return connectedAddress;
@@ -541,9 +541,9 @@ class DatagramSocket implements java.io.Closeable {
      * Returns the port number to which this socket is connected.
      * Returns {@code -1} if the socket is not connected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
+     * If the socket wbs connected prior to being {@link #close closed},
      * then this method will continue to return the connected port number
-     * after the socket is closed.
+     * bfter the socket is closed.
      *
      * @return the port number to which this socket is connected.
      */
@@ -552,14 +552,14 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Returns the address of the endpoint this socket is connected to, or
+     * Returns the bddress of the endpoint this socket is connected to, or
      * {@code null} if it is unconnected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If the socket wbs connected prior to being {@link #close closed},
+     * then this method will continue to return the connected bddress
+     * bfter the socket is closed.
      *
-     * @return a {@code SocketAddress} representing the remote
+     * @return b {@code SocketAddress} representing the remote
      *         endpoint of this socket, or {@code null} if it is
      *         not connected yet.
      * @see #getInetAddress()
@@ -574,81 +574,81 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Returns the address of the endpoint this socket is bound to.
+     * Returns the bddress of the endpoint this socket is bound to.
      *
-     * @return a {@code SocketAddress} representing the local endpoint of this
+     * @return b {@code SocketAddress} representing the locbl endpoint of this
      *         socket, or {@code null} if it is closed or not bound yet.
-     * @see #getLocalAddress()
-     * @see #getLocalPort()
+     * @see #getLocblAddress()
+     * @see #getLocblPort()
      * @see #bind(SocketAddress)
      * @since 1.4
      */
 
-    public SocketAddress getLocalSocketAddress() {
+    public SocketAddress getLocblSocketAddress() {
         if (isClosed())
             return null;
         if (!isBound())
             return null;
-        return new InetSocketAddress(getLocalAddress(), getLocalPort());
+        return new InetSocketAddress(getLocblAddress(), getLocblPort());
     }
 
     /**
-     * Sends a datagram packet from this socket. The
-     * {@code DatagramPacket} includes information indicating the
-     * data to be sent, its length, the IP address of the remote host,
-     * and the port number on the remote host.
+     * Sends b dbtbgrbm pbcket from this socket. The
+     * {@code DbtbgrbmPbcket} includes informbtion indicbting the
+     * dbtb to be sent, its length, the IP bddress of the remote host,
+     * bnd the port number on the remote host.
      *
-     * <p>If there is a security manager, and the socket is not currently
-     * connected to a remote address, this method first performs some
-     * security checks. First, if {@code p.getAddress().isMulticastAddress()}
-     * is true, this method calls the
-     * security manager's {@code checkMulticast} method
-     * with {@code p.getAddress()} as its argument.
-     * If the evaluation of that expression is false,
-     * this method instead calls the security manager's
-     * {@code checkConnect} method with arguments
-     * {@code p.getAddress().getHostAddress()} and
-     * {@code p.getPort()}. Each call to a security manager method
-     * could result in a SecurityException if the operation is not allowed.
+     * <p>If there is b security mbnbger, bnd the socket is not currently
+     * connected to b remote bddress, this method first performs some
+     * security checks. First, if {@code p.getAddress().isMulticbstAddress()}
+     * is true, this method cblls the
+     * security mbnbger's {@code checkMulticbst} method
+     * with {@code p.getAddress()} bs its brgument.
+     * If the evblubtion of thbt expression is fblse,
+     * this method instebd cblls the security mbnbger's
+     * {@code checkConnect} method with brguments
+     * {@code p.getAddress().getHostAddress()} bnd
+     * {@code p.getPort()}. Ebch cbll to b security mbnbger method
+     * could result in b SecurityException if the operbtion is not bllowed.
      *
-     * @param      p   the {@code DatagramPacket} to be sent.
+     * @pbrbm      p   the {@code DbtbgrbmPbcket} to be sent.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkMulticast} or {@code checkConnect}
-     *             method doesn't allow the send.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *             to a currently unreachable destination. Note, there is no
-     *             guarantee that the exception will be thrown.
-     * @exception  java.nio.channels.IllegalBlockingModeException
-     *             if this socket has an associated channel,
-     *             and the channel is in non-blocking mode.
-     * @exception  IllegalArgumentException if the socket is connected,
-     *             and connected address and packet address differ.
+     * @exception  IOException  if bn I/O error occurs.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkMulticbst} or {@code checkConnect}
+     *             method doesn't bllow the send.
+     * @exception  PortUnrebchbbleException mby be thrown if the socket is connected
+     *             to b currently unrebchbble destinbtion. Note, there is no
+     *             gubrbntee thbt the exception will be thrown.
+     * @exception  jbvb.nio.chbnnels.IllegblBlockingModeException
+     *             if this socket hbs bn bssocibted chbnnel,
+     *             bnd the chbnnel is in non-blocking mode.
+     * @exception  IllegblArgumentException if the socket is connected,
+     *             bnd connected bddress bnd pbcket bddress differ.
      *
-     * @see        java.net.DatagramPacket
-     * @see        SecurityManager#checkMulticast(InetAddress)
-     * @see        SecurityManager#checkConnect
+     * @see        jbvb.net.DbtbgrbmPbcket
+     * @see        SecurityMbnbger#checkMulticbst(InetAddress)
+     * @see        SecurityMbnbger#checkConnect
      * @revised 1.4
      * @spec JSR-51
      */
-    public void send(DatagramPacket p) throws IOException  {
-        InetAddress packetAddress = null;
+    public void send(DbtbgrbmPbcket p) throws IOException  {
+        InetAddress pbcketAddress = null;
         synchronized (p) {
             if (isClosed())
                 throw new SocketException("Socket is closed");
             checkAddress (p.getAddress(), "send");
-            if (connectState == ST_NOT_CONNECTED) {
-                // check the address is ok wiht the security manager on every send.
-                SecurityManager security = System.getSecurityManager();
+            if (connectStbte == ST_NOT_CONNECTED) {
+                // check the bddress is ok wiht the security mbnbger on every send.
+                SecurityMbnbger security = System.getSecurityMbnbger();
 
-                // The reason you want to synchronize on datagram packet
-                // is because you don't want an applet to change the address
-                // while you are trying to send the packet for example
-                // after the security check but before the send.
+                // The rebson you wbnt to synchronize on dbtbgrbm pbcket
+                // is becbuse you don't wbnt bn bpplet to chbnge the bddress
+                // while you bre trying to send the pbcket for exbmple
+                // bfter the security check but before the send.
                 if (security != null) {
-                    if (p.getAddress().isMulticastAddress()) {
-                        security.checkMulticast(p.getAddress());
+                    if (p.getAddress().isMulticbstAddress()) {
+                        security.checkMulticbst(p.getAddress());
                     } else {
                         security.checkConnect(p.getAddress().getHostAddress(),
                                               p.getPort());
@@ -656,202 +656,202 @@ class DatagramSocket implements java.io.Closeable {
                 }
             } else {
                 // we're connected
-                packetAddress = p.getAddress();
-                if (packetAddress == null) {
+                pbcketAddress = p.getAddress();
+                if (pbcketAddress == null) {
                     p.setAddress(connectedAddress);
                     p.setPort(connectedPort);
-                } else if ((!packetAddress.equals(connectedAddress)) ||
+                } else if ((!pbcketAddress.equbls(connectedAddress)) ||
                            p.getPort() != connectedPort) {
-                    throw new IllegalArgumentException("connected address " +
-                                                       "and packet address" +
+                    throw new IllegblArgumentException("connected bddress " +
+                                                       "bnd pbcket bddress" +
                                                        " differ");
                 }
             }
             // Check whether the socket is bound
             if (!isBound())
                 bind(new InetSocketAddress(0));
-            // call the  method to send
+            // cbll the  method to send
             getImpl().send(p);
         }
     }
 
     /**
-     * Receives a datagram packet from this socket. When this method
-     * returns, the {@code DatagramPacket}'s buffer is filled with
-     * the data received. The datagram packet also contains the sender's
-     * IP address, and the port number on the sender's machine.
+     * Receives b dbtbgrbm pbcket from this socket. When this method
+     * returns, the {@code DbtbgrbmPbcket}'s buffer is filled with
+     * the dbtb received. The dbtbgrbm pbcket blso contbins the sender's
+     * IP bddress, bnd the port number on the sender's mbchine.
      * <p>
-     * This method blocks until a datagram is received. The
-     * {@code length} field of the datagram packet object contains
-     * the length of the received message. If the message is longer than
-     * the packet's length, the message is truncated.
+     * This method blocks until b dbtbgrbm is received. The
+     * {@code length} field of the dbtbgrbm pbcket object contbins
+     * the length of the received messbge. If the messbge is longer thbn
+     * the pbcket's length, the messbge is truncbted.
      * <p>
-     * If there is a security manager, a packet cannot be received if the
-     * security manager's {@code checkAccept} method
-     * does not allow it.
+     * If there is b security mbnbger, b pbcket cbnnot be received if the
+     * security mbnbger's {@code checkAccept} method
+     * does not bllow it.
      *
-     * @param      p   the {@code DatagramPacket} into which to place
-     *                 the incoming data.
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  SocketTimeoutException  if setSoTimeout was previously called
-     *                 and the timeout has expired.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *             to a currently unreachable destination. Note, there is no guarantee that the
+     * @pbrbm      p   the {@code DbtbgrbmPbcket} into which to plbce
+     *                 the incoming dbtb.
+     * @exception  IOException  if bn I/O error occurs.
+     * @exception  SocketTimeoutException  if setSoTimeout wbs previously cblled
+     *                 bnd the timeout hbs expired.
+     * @exception  PortUnrebchbbleException mby be thrown if the socket is connected
+     *             to b currently unrebchbble destinbtion. Note, there is no gubrbntee thbt the
      *             exception will be thrown.
-     * @exception  java.nio.channels.IllegalBlockingModeException
-     *             if this socket has an associated channel,
-     *             and the channel is in non-blocking mode.
-     * @see        java.net.DatagramPacket
-     * @see        java.net.DatagramSocket
+     * @exception  jbvb.nio.chbnnels.IllegblBlockingModeException
+     *             if this socket hbs bn bssocibted chbnnel,
+     *             bnd the chbnnel is in non-blocking mode.
+     * @see        jbvb.net.DbtbgrbmPbcket
+     * @see        jbvb.net.DbtbgrbmSocket
      * @revised 1.4
      * @spec JSR-51
      */
-    public synchronized void receive(DatagramPacket p) throws IOException {
+    public synchronized void receive(DbtbgrbmPbcket p) throws IOException {
         synchronized (p) {
             if (!isBound())
                 bind(new InetSocketAddress(0));
-            if (connectState == ST_NOT_CONNECTED) {
-                // check the address is ok with the security manager before every recv.
-                SecurityManager security = System.getSecurityManager();
+            if (connectStbte == ST_NOT_CONNECTED) {
+                // check the bddress is ok with the security mbnbger before every recv.
+                SecurityMbnbger security = System.getSecurityMbnbger();
                 if (security != null) {
                     while(true) {
                         String peekAd = null;
                         int peekPort = 0;
-                        // peek at the packet to see who it is from.
+                        // peek bt the pbcket to see who it is from.
                         if (!oldImpl) {
-                            // We can use the new peekData() API
-                            DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
-                            peekPort = getImpl().peekData(peekPacket);
-                            peekAd = peekPacket.getAddress().getHostAddress();
+                            // We cbn use the new peekDbtb() API
+                            DbtbgrbmPbcket peekPbcket = new DbtbgrbmPbcket(new byte[1], 1);
+                            peekPort = getImpl().peekDbtb(peekPbcket);
+                            peekAd = peekPbcket.getAddress().getHostAddress();
                         } else {
-                            InetAddress adr = new InetAddress();
-                            peekPort = getImpl().peek(adr);
-                            peekAd = adr.getHostAddress();
+                            InetAddress bdr = new InetAddress();
+                            peekPort = getImpl().peek(bdr);
+                            peekAd = bdr.getHostAddress();
                         }
                         try {
                             security.checkAccept(peekAd, peekPort);
-                            // security check succeeded - so now break
-                            // and recv the packet.
-                            break;
-                        } catch (SecurityException se) {
-                            // Throw away the offending packet by consuming
-                            // it in a tmp buffer.
-                            DatagramPacket tmp = new DatagramPacket(new byte[1], 1);
+                            // security check succeeded - so now brebk
+                            // bnd recv the pbcket.
+                            brebk;
+                        } cbtch (SecurityException se) {
+                            // Throw bwby the offending pbcket by consuming
+                            // it in b tmp buffer.
+                            DbtbgrbmPbcket tmp = new DbtbgrbmPbcket(new byte[1], 1);
                             getImpl().receive(tmp);
 
-                            // silently discard the offending packet
-                            // and continue: unknown/malicious
-                            // entities on nets should not make
-                            // runtime throw security exception and
-                            // disrupt the applet by sending random
-                            // datagram packets.
+                            // silently discbrd the offending pbcket
+                            // bnd continue: unknown/mblicious
+                            // entities on nets should not mbke
+                            // runtime throw security exception bnd
+                            // disrupt the bpplet by sending rbndom
+                            // dbtbgrbm pbckets.
                             continue;
                         }
                     } // end of while
                 }
             }
-            if (connectState == ST_CONNECTED_NO_IMPL) {
-                // We have to do the filtering the old fashioned way since
-                // the native impl doesn't support connect or the connect
-                // via the impl failed.
-                boolean stop = false;
+            if (connectStbte == ST_CONNECTED_NO_IMPL) {
+                // We hbve to do the filtering the old fbshioned wby since
+                // the nbtive impl doesn't support connect or the connect
+                // vib the impl fbiled.
+                boolebn stop = fblse;
                 while (!stop) {
                     InetAddress peekAddress = null;
                     int peekPort = -1;
-                    // peek at the packet to see who it is from.
+                    // peek bt the pbcket to see who it is from.
                     if (!oldImpl) {
-                        // We can use the new peekData() API
-                        DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
-                        peekPort = getImpl().peekData(peekPacket);
-                        peekAddress = peekPacket.getAddress();
+                        // We cbn use the new peekDbtb() API
+                        DbtbgrbmPbcket peekPbcket = new DbtbgrbmPbcket(new byte[1], 1);
+                        peekPort = getImpl().peekDbtb(peekPbcket);
+                        peekAddress = peekPbcket.getAddress();
                     } else {
-                        // this api only works for IPv4
+                        // this bpi only works for IPv4
                         peekAddress = new InetAddress();
                         peekPort = getImpl().peek(peekAddress);
                     }
-                    if ((!connectedAddress.equals(peekAddress)) ||
+                    if ((!connectedAddress.equbls(peekAddress)) ||
                         (connectedPort != peekPort)) {
-                        // throw the packet away and silently continue
-                        DatagramPacket tmp = new DatagramPacket(new byte[1], 1);
+                        // throw the pbcket bwby bnd silently continue
+                        DbtbgrbmPbcket tmp = new DbtbgrbmPbcket(new byte[1], 1);
                         getImpl().receive(tmp);
                     } else {
                         stop = true;
                     }
                 }
             }
-            // If the security check succeeds, or the datagram is
-            // connected then receive the packet
+            // If the security check succeeds, or the dbtbgrbm is
+            // connected then receive the pbcket
             getImpl().receive(p);
         }
     }
 
     /**
-     * Gets the local address to which the socket is bound.
+     * Gets the locbl bddress to which the socket is bound.
      *
-     * <p>If there is a security manager, its
-     * {@code checkConnect} method is first called
-     * with the host address and {@code -1}
-     * as its arguments to see if the operation is allowed.
+     * <p>If there is b security mbnbger, its
+     * {@code checkConnect} method is first cblled
+     * with the host bddress bnd {@code -1}
+     * bs its brguments to see if the operbtion is bllowed.
      *
-     * @see SecurityManager#checkConnect
-     * @return  the local address to which the socket is bound,
+     * @see SecurityMbnbger#checkConnect
+     * @return  the locbl bddress to which the socket is bound,
      *          {@code null} if the socket is closed, or
-     *          an {@code InetAddress} representing
-     *          {@link InetAddress#isAnyLocalAddress wildcard}
-     *          address if either the socket is not bound, or
-     *          the security manager {@code checkConnect}
-     *          method does not allow the operation
+     *          bn {@code InetAddress} representing
+     *          {@link InetAddress#isAnyLocblAddress wildcbrd}
+     *          bddress if either the socket is not bound, or
+     *          the security mbnbger {@code checkConnect}
+     *          method does not bllow the operbtion
      * @since   1.1
      */
-    public InetAddress getLocalAddress() {
+    public InetAddress getLocblAddress() {
         if (isClosed())
             return null;
         InetAddress in = null;
         try {
             in = (InetAddress) getImpl().getOption(SocketOptions.SO_BINDADDR);
-            if (in.isAnyLocalAddress()) {
-                in = InetAddress.anyLocalAddress();
+            if (in.isAnyLocblAddress()) {
+                in = InetAddress.bnyLocblAddress();
             }
-            SecurityManager s = System.getSecurityManager();
+            SecurityMbnbger s = System.getSecurityMbnbger();
             if (s != null) {
                 s.checkConnect(in.getHostAddress(), -1);
             }
-        } catch (Exception e) {
-            in = InetAddress.anyLocalAddress(); // "0.0.0.0"
+        } cbtch (Exception e) {
+            in = InetAddress.bnyLocblAddress(); // "0.0.0.0"
         }
         return in;
     }
 
     /**
-     * Returns the port number on the local host to which this socket
+     * Returns the port number on the locbl host to which this socket
      * is bound.
      *
-     * @return  the port number on the local host to which this socket is bound,
+     * @return  the port number on the locbl host to which this socket is bound,
                 {@code -1} if the socket is closed, or
                 {@code 0} if it is not bound yet.
      */
-    public int getLocalPort() {
+    public int getLocblPort() {
         if (isClosed())
             return -1;
         try {
-            return getImpl().getLocalPort();
-        } catch (Exception e) {
+            return getImpl().getLocblPort();
+        } cbtch (Exception e) {
             return 0;
         }
     }
 
-    /** Enable/disable SO_TIMEOUT with the specified timeout, in
-     *  milliseconds. With this option set to a non-zero timeout,
-     *  a call to receive() for this DatagramSocket
-     *  will block for only this amount of time.  If the timeout expires,
-     *  a <B>java.net.SocketTimeoutException</B> is raised, though the
-     *  DatagramSocket is still valid.  The option <B>must</B> be enabled
-     *  prior to entering the blocking operation to have effect.  The
+    /** Enbble/disbble SO_TIMEOUT with the specified timeout, in
+     *  milliseconds. With this option set to b non-zero timeout,
+     *  b cbll to receive() for this DbtbgrbmSocket
+     *  will block for only this bmount of time.  If the timeout expires,
+     *  b <B>jbvb.net.SocketTimeoutException</B> is rbised, though the
+     *  DbtbgrbmSocket is still vblid.  The option <B>must</B> be enbbled
+     *  prior to entering the blocking operbtion to hbve effect.  The
      *  timeout must be {@code > 0}.
-     *  A timeout of zero is interpreted as an infinite timeout.
+     *  A timeout of zero is interpreted bs bn infinite timeout.
      *
-     * @param timeout the specified timeout in milliseconds.
-     * @throws SocketException if there is an error in the underlying protocol, such as an UDP error.
+     * @pbrbm timeout the specified timeout in milliseconds.
+     * @throws SocketException if there is bn error in the underlying protocol, such bs bn UDP error.
      * @since   1.1
      * @see #getSoTimeout()
      */
@@ -862,11 +862,11 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Retrieve setting for SO_TIMEOUT.  0 returns implies that the
-     * option is disabled (i.e., timeout of infinity).
+     * Retrieve setting for SO_TIMEOUT.  0 returns implies thbt the
+     * option is disbbled (i.e., timeout of infinity).
      *
      * @return the setting for SO_TIMEOUT
-     * @throws SocketException if there is an error in the underlying protocol, such as an UDP error.
+     * @throws SocketException if there is bn error in the underlying protocol, such bs bn UDP error.
      * @since   1.1
      * @see #setSoTimeout(int)
      */
@@ -876,47 +876,47 @@ class DatagramSocket implements java.io.Closeable {
         if (getImpl() == null)
             return 0;
         Object o = getImpl().getOption(SocketOptions.SO_TIMEOUT);
-        /* extra type safety */
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+        /* extrb type sbfety */
+        if (o instbnceof Integer) {
+            return ((Integer) o).intVblue();
         } else {
             return 0;
         }
     }
 
     /**
-     * Sets the SO_SNDBUF option to the specified value for this
-     * {@code DatagramSocket}. The SO_SNDBUF option is used by the
-     * network implementation as a hint to size the underlying
-     * network I/O buffers. The SO_SNDBUF setting may also be used
-     * by the network implementation to determine the maximum size
-     * of the packet that can be sent on this socket.
+     * Sets the SO_SNDBUF option to the specified vblue for this
+     * {@code DbtbgrbmSocket}. The SO_SNDBUF option is used by the
+     * network implementbtion bs b hint to size the underlying
+     * network I/O buffers. The SO_SNDBUF setting mby blso be used
+     * by the network implementbtion to determine the mbximum size
+     * of the pbcket thbt cbn be sent on this socket.
      * <p>
-     * As SO_SNDBUF is a hint, applications that want to verify
-     * what size the buffer is should call {@link #getSendBufferSize()}.
+     * As SO_SNDBUF is b hint, bpplicbtions thbt wbnt to verify
+     * whbt size the buffer is should cbll {@link #getSendBufferSize()}.
      * <p>
-     * Increasing the buffer size may allow multiple outgoing packets
-     * to be queued by the network implementation when the send rate
+     * Increbsing the buffer size mby bllow multiple outgoing pbckets
+     * to be queued by the network implementbtion when the send rbte
      * is high.
      * <p>
-     * Note: If {@link #send(DatagramPacket)} is used to send a
-     * {@code DatagramPacket} that is larger than the setting
-     * of SO_SNDBUF then it is implementation specific if the
-     * packet is sent or discarded.
+     * Note: If {@link #send(DbtbgrbmPbcket)} is used to send b
+     * {@code DbtbgrbmPbcket} thbt is lbrger thbn the setting
+     * of SO_SNDBUF then it is implementbtion specific if the
+     * pbcket is sent or discbrded.
      *
-     * @param size the size to which to set the send buffer
-     * size. This value must be greater than 0.
+     * @pbrbm size the size to which to set the send buffer
+     * size. This vblue must be grebter thbn 0.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
-     * @exception IllegalArgumentException if the value is 0 or is
-     * negative.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs bn UDP error.
+     * @exception IllegblArgumentException if the vblue is 0 or is
+     * negbtive.
      * @see #getSendBufferSize()
      */
     public synchronized void setSendBufferSize(int size)
     throws SocketException{
         if (!(size > 0)) {
-            throw new IllegalArgumentException("negative send size");
+            throw new IllegblArgumentException("negbtive send size");
         }
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -924,12 +924,12 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Get value of the SO_SNDBUF option for this {@code DatagramSocket}, that is the
-     * buffer size used by the platform for output on this {@code DatagramSocket}.
+     * Get vblue of the SO_SNDBUF option for this {@code DbtbgrbmSocket}, thbt is the
+     * buffer size used by the plbtform for output on this {@code DbtbgrbmSocket}.
      *
-     * @return the value of the SO_SNDBUF option for this {@code DatagramSocket}
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as an UDP error.
+     * @return the vblue of the SO_SNDBUF option for this {@code DbtbgrbmSocket}
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs bn UDP error.
      * @see #setSendBufferSize
      */
     public synchronized int getSendBufferSize() throws SocketException {
@@ -937,44 +937,44 @@ class DatagramSocket implements java.io.Closeable {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_SNDBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+        if (o instbnceof Integer) {
+            result = ((Integer)o).intVblue();
         }
         return result;
     }
 
     /**
-     * Sets the SO_RCVBUF option to the specified value for this
-     * {@code DatagramSocket}. The SO_RCVBUF option is used by the
-     * the network implementation as a hint to size the underlying
-     * network I/O buffers. The SO_RCVBUF setting may also be used
-     * by the network implementation to determine the maximum size
-     * of the packet that can be received on this socket.
+     * Sets the SO_RCVBUF option to the specified vblue for this
+     * {@code DbtbgrbmSocket}. The SO_RCVBUF option is used by the
+     * the network implementbtion bs b hint to size the underlying
+     * network I/O buffers. The SO_RCVBUF setting mby blso be used
+     * by the network implementbtion to determine the mbximum size
+     * of the pbcket thbt cbn be received on this socket.
      * <p>
-     * Because SO_RCVBUF is a hint, applications that want to
-     * verify what size the buffers were set to should call
+     * Becbuse SO_RCVBUF is b hint, bpplicbtions thbt wbnt to
+     * verify whbt size the buffers were set to should cbll
      * {@link #getReceiveBufferSize()}.
      * <p>
-     * Increasing SO_RCVBUF may allow the network implementation
-     * to buffer multiple packets when packets arrive faster than
-     * are being received using {@link #receive(DatagramPacket)}.
+     * Increbsing SO_RCVBUF mby bllow the network implementbtion
+     * to buffer multiple pbckets when pbckets brrive fbster thbn
+     * bre being received using {@link #receive(DbtbgrbmPbcket)}.
      * <p>
-     * Note: It is implementation specific if a packet larger
-     * than SO_RCVBUF can be received.
+     * Note: It is implementbtion specific if b pbcket lbrger
+     * thbn SO_RCVBUF cbn be received.
      *
-     * @param size the size to which to set the receive buffer
-     * size. This value must be greater than 0.
+     * @pbrbm size the size to which to set the receive buffer
+     * size. This vblue must be grebter thbn 0.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as an UDP error.
-     * @exception IllegalArgumentException if the value is 0 or is
-     * negative.
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs bn UDP error.
+     * @exception IllegblArgumentException if the vblue is 0 or is
+     * negbtive.
      * @see #getReceiveBufferSize()
      */
     public synchronized void setReceiveBufferSize(int size)
     throws SocketException{
         if (size <= 0) {
-            throw new IllegalArgumentException("invalid receive size");
+            throw new IllegblArgumentException("invblid receive size");
         }
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -982,11 +982,11 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Get value of the SO_RCVBUF option for this {@code DatagramSocket}, that is the
-     * buffer size used by the platform for input on this {@code DatagramSocket}.
+     * Get vblue of the SO_RCVBUF option for this {@code DbtbgrbmSocket}, thbt is the
+     * buffer size used by the plbtform for input on this {@code DbtbgrbmSocket}.
      *
-     * @return the value of the SO_RCVBUF option for this {@code DatagramSocket}
-     * @exception SocketException if there is an error in the underlying protocol, such as an UDP error.
+     * @return the vblue of the SO_RCVBUF option for this {@code DbtbgrbmSocket}
+     * @exception SocketException if there is bn error in the underlying protocol, such bs bn UDP error.
      * @see #setReceiveBufferSize(int)
      */
     public synchronized int getReceiveBufferSize()
@@ -995,39 +995,39 @@ class DatagramSocket implements java.io.Closeable {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+        if (o instbnceof Integer) {
+            result = ((Integer)o).intVblue();
         }
         return result;
     }
 
     /**
-     * Enable/disable the SO_REUSEADDR socket option.
+     * Enbble/disbble the SO_REUSEADDR socket option.
      * <p>
-     * For UDP sockets it may be necessary to bind more than one
-     * socket to the same socket address. This is typically for the
-     * purpose of receiving multicast packets
-     * (See {@link java.net.MulticastSocket}). The
-     * {@code SO_REUSEADDR} socket option allows multiple
-     * sockets to be bound to the same socket address if the
-     * {@code SO_REUSEADDR} socket option is enabled prior
+     * For UDP sockets it mby be necessbry to bind more thbn one
+     * socket to the sbme socket bddress. This is typicblly for the
+     * purpose of receiving multicbst pbckets
+     * (See {@link jbvb.net.MulticbstSocket}). The
+     * {@code SO_REUSEADDR} socket option bllows multiple
+     * sockets to be bound to the sbme socket bddress if the
+     * {@code SO_REUSEADDR} socket option is enbbled prior
      * to binding the socket using {@link #bind(SocketAddress)}.
      * <p>
-     * Note: This functionality is not supported by all existing platforms,
-     * so it is implementation specific whether this option will be ignored
+     * Note: This functionblity is not supported by bll existing plbtforms,
+     * so it is implementbtion specific whether this option will be ignored
      * or not. However, if it is not supported then
-     * {@link #getReuseAddress()} will always return {@code false}.
+     * {@link #getReuseAddress()} will blwbys return {@code fblse}.
      * <p>
-     * When a {@code DatagramSocket} is created the initial setting
-     * of {@code SO_REUSEADDR} is disabled.
+     * When b {@code DbtbgrbmSocket} is crebted the initibl setting
+     * of {@code SO_REUSEADDR} is disbbled.
      * <p>
-     * The behaviour when {@code SO_REUSEADDR} is enabled or
-     * disabled after a socket is bound (See {@link #isBound()})
+     * The behbviour when {@code SO_REUSEADDR} is enbbled or
+     * disbbled bfter b socket is bound (See {@link #isBound()})
      * is not defined.
      *
-     * @param on  whether to enable or disable the
-     * @exception SocketException if an error occurs enabling or
-     *            disabling the {@code SO_RESUEADDR} socket option,
+     * @pbrbm on  whether to enbble or disbble the
+     * @exception SocketException if bn error occurs enbbling or
+     *            disbbling the {@code SO_RESUEADDR} socket option,
      *            or the socket is closed.
      * @since 1.4
      * @see #getReuseAddress()
@@ -1035,83 +1035,83 @@ class DatagramSocket implements java.io.Closeable {
      * @see #isBound()
      * @see #isClosed()
      */
-    public synchronized void setReuseAddress(boolean on) throws SocketException {
+    public synchronized void setReuseAddress(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        // Integer instead of Boolean for compatibility with older DatagramSocketImpl
+        // Integer instebd of Boolebn for compbtibility with older DbtbgrbmSocketImpl
         if (oldImpl)
             getImpl().setOption(SocketOptions.SO_REUSEADDR, on?-1:0);
         else
-            getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolean.valueOf(on));
+            getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if SO_REUSEADDR is enabled.
+     * Tests if SO_REUSEADDR is enbbled.
      *
-     * @return a {@code boolean} indicating whether or not SO_REUSEADDR is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
+     * @return b {@code boolebn} indicbting whether or not SO_REUSEADDR is enbbled.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs bn UDP error.
      * @since   1.4
-     * @see #setReuseAddress(boolean)
+     * @see #setReuseAddress(boolebn)
      */
-    public synchronized boolean getReuseAddress() throws SocketException {
+    public synchronized boolebn getReuseAddress() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         Object o = getImpl().getOption(SocketOptions.SO_REUSEADDR);
-        return ((Boolean)o).booleanValue();
+        return ((Boolebn)o).boolebnVblue();
     }
 
     /**
-     * Enable/disable SO_BROADCAST.
+     * Enbble/disbble SO_BROADCAST.
      *
-     * <p> Some operating systems may require that the Java virtual machine be
-     * started with implementation specific privileges to enable this option or
-     * send broadcast datagrams.
+     * <p> Some operbting systems mby require thbt the Jbvb virtubl mbchine be
+     * stbrted with implementbtion specific privileges to enbble this option or
+     * send brobdcbst dbtbgrbms.
      *
-     * @param  on
-     *         whether or not to have broadcast turned on.
+     * @pbrbm  on
+     *         whether or not to hbve brobdcbst turned on.
      *
      * @throws  SocketException
-     *          if there is an error in the underlying protocol, such as an UDP
+     *          if there is bn error in the underlying protocol, such bs bn UDP
      *          error.
      *
      * @since 1.4
-     * @see #getBroadcast()
+     * @see #getBrobdcbst()
      */
-    public synchronized void setBroadcast(boolean on) throws SocketException {
+    public synchronized void setBrobdcbst(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_BROADCAST, Boolean.valueOf(on));
+        getImpl().setOption(SocketOptions.SO_BROADCAST, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if SO_BROADCAST is enabled.
-     * @return a {@code boolean} indicating whether or not SO_BROADCAST is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
+     * Tests if SO_BROADCAST is enbbled.
+     * @return b {@code boolebn} indicbting whether or not SO_BROADCAST is enbbled.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs bn UDP error.
      * @since 1.4
-     * @see #setBroadcast(boolean)
+     * @see #setBrobdcbst(boolebn)
      */
-    public synchronized boolean getBroadcast() throws SocketException {
+    public synchronized boolebn getBrobdcbst() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Boolean)(getImpl().getOption(SocketOptions.SO_BROADCAST))).booleanValue();
+        return ((Boolebn)(getImpl().getOption(SocketOptions.SO_BROADCAST))).boolebnVblue();
     }
 
     /**
-     * Sets traffic class or type-of-service octet in the IP
-     * datagram header for datagrams sent from this DatagramSocket.
-     * As the underlying network implementation may ignore this
-     * value applications should consider it a hint.
+     * Sets trbffic clbss or type-of-service octet in the IP
+     * dbtbgrbm hebder for dbtbgrbms sent from this DbtbgrbmSocket.
+     * As the underlying network implementbtion mby ignore this
+     * vblue bpplicbtions should consider it b hint.
      *
-     * <P> The tc <B>must</B> be in the range {@code 0 <= tc <=
-     * 255} or an IllegalArgumentException will be thrown.
+     * <P> The tc <B>must</B> be in the rbnge {@code 0 <= tc <=
+     * 255} or bn IllegblArgumentException will be thrown.
      * <p>Notes:
-     * <p>For Internet Protocol v4 the value consists of an
-     * {@code integer}, the least significant 8 bits of which
-     * represent the value of the TOS octet in IP packets sent by
+     * <p>For Internet Protocol v4 the vblue consists of bn
+     * {@code integer}, the lebst significbnt 8 bits of which
+     * represent the vblue of the TOS octet in IP pbckets sent by
      * the socket.
-     * RFC 1349 defines the TOS values as follows:
+     * RFC 1349 defines the TOS vblues bs follows:
      *
      * <UL>
      * <LI><CODE>IPTOS_LOWCOST (0x02)</CODE></LI>
@@ -1119,25 +1119,25 @@ class DatagramSocket implements java.io.Closeable {
      * <LI><CODE>IPTOS_THROUGHPUT (0x08)</CODE></LI>
      * <LI><CODE>IPTOS_LOWDELAY (0x10)</CODE></LI>
      * </UL>
-     * The last low order bit is always ignored as this
+     * The lbst low order bit is blwbys ignored bs this
      * corresponds to the MBZ (must be zero) bit.
      * <p>
-     * Setting bits in the precedence field may result in a
-     * SocketException indicating that the operation is not
+     * Setting bits in the precedence field mby result in b
+     * SocketException indicbting thbt the operbtion is not
      * permitted.
      * <p>
-     * for Internet Protocol v6 {@code tc} is the value that
-     * would be placed into the sin6_flowinfo field of the IP header.
+     * for Internet Protocol v6 {@code tc} is the vblue thbt
+     * would be plbced into the sin6_flowinfo field of the IP hebder.
      *
-     * @param tc        an {@code int} value for the bitset.
-     * @throws SocketException if there is an error setting the
-     * traffic class or type-of-service
+     * @pbrbm tc        bn {@code int} vblue for the bitset.
+     * @throws SocketException if there is bn error setting the
+     * trbffic clbss or type-of-service
      * @since 1.4
-     * @see #getTrafficClass
+     * @see #getTrbfficClbss
      */
-    public synchronized void setTrafficClass(int tc) throws SocketException {
+    public synchronized void setTrbfficClbss(int tc) throws SocketException {
         if (tc < 0 || tc > 255)
-            throw new IllegalArgumentException("tc is not in range 0 -- 255");
+            throw new IllegblArgumentException("tc is not in rbnge 0 -- 255");
 
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -1145,35 +1145,35 @@ class DatagramSocket implements java.io.Closeable {
     }
 
     /**
-     * Gets traffic class or type-of-service in the IP datagram
-     * header for packets sent from this DatagramSocket.
+     * Gets trbffic clbss or type-of-service in the IP dbtbgrbm
+     * hebder for pbckets sent from this DbtbgrbmSocket.
      * <p>
-     * As the underlying network implementation may ignore the
-     * traffic class or type-of-service set using {@link #setTrafficClass(int)}
-     * this method may return a different value than was previously
-     * set using the {@link #setTrafficClass(int)} method on this
-     * DatagramSocket.
+     * As the underlying network implementbtion mby ignore the
+     * trbffic clbss or type-of-service set using {@link #setTrbfficClbss(int)}
+     * this method mby return b different vblue thbn wbs previously
+     * set using the {@link #setTrbfficClbss(int)} method on this
+     * DbtbgrbmSocket.
      *
-     * @return the traffic class or type-of-service already set
-     * @throws SocketException if there is an error obtaining the
-     * traffic class or type-of-service value.
+     * @return the trbffic clbss or type-of-service blrebdy set
+     * @throws SocketException if there is bn error obtbining the
+     * trbffic clbss or type-of-service vblue.
      * @since 1.4
-     * @see #setTrafficClass(int)
+     * @see #setTrbfficClbss(int)
      */
-    public synchronized int getTrafficClass() throws SocketException {
+    public synchronized int getTrbfficClbss() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Integer)(getImpl().getOption(SocketOptions.IP_TOS))).intValue();
+        return ((Integer)(getImpl().getOption(SocketOptions.IP_TOS))).intVblue();
     }
 
     /**
-     * Closes this datagram socket.
+     * Closes this dbtbgrbm socket.
      * <p>
-     * Any thread currently blocked in {@link #receive} upon this socket
-     * will throw a {@link SocketException}.
+     * Any threbd currently blocked in {@link #receive} upon this socket
+     * will throw b {@link SocketException}.
      *
-     * <p> If this socket has an associated channel then the channel is closed
-     * as well.
+     * <p> If this socket hbs bn bssocibted chbnnel then the chbnnel is closed
+     * bs well.
      *
      * @revised 1.4
      * @spec JSR-51
@@ -1190,161 +1190,161 @@ class DatagramSocket implements java.io.Closeable {
     /**
      * Returns whether the socket is closed or not.
      *
-     * @return true if the socket has been closed
+     * @return true if the socket hbs been closed
      * @since 1.4
      */
-    public boolean isClosed() {
+    public boolebn isClosed() {
         synchronized(closeLock) {
             return closed;
         }
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.DatagramChannel} object
-     * associated with this datagram socket, if any.
+     * Returns the unique {@link jbvb.nio.chbnnels.DbtbgrbmChbnnel} object
+     * bssocibted with this dbtbgrbm socket, if bny.
      *
-     * <p> A datagram socket will have a channel if, and only if, the channel
-     * itself was created via the {@link java.nio.channels.DatagramChannel#open
-     * DatagramChannel.open} method.
+     * <p> A dbtbgrbm socket will hbve b chbnnel if, bnd only if, the chbnnel
+     * itself wbs crebted vib the {@link jbvb.nio.chbnnels.DbtbgrbmChbnnel#open
+     * DbtbgrbmChbnnel.open} method.
      *
-     * @return  the datagram channel associated with this datagram socket,
-     *          or {@code null} if this socket was not created for a channel
+     * @return  the dbtbgrbm chbnnel bssocibted with this dbtbgrbm socket,
+     *          or {@code null} if this socket wbs not crebted for b chbnnel
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public DatagramChannel getChannel() {
+    public DbtbgrbmChbnnel getChbnnel() {
         return null;
     }
 
     /**
-     * User defined factory for all datagram sockets.
+     * User defined fbctory for bll dbtbgrbm sockets.
      */
-    static DatagramSocketImplFactory factory;
+    stbtic DbtbgrbmSocketImplFbctory fbctory;
 
     /**
-     * Sets the datagram socket implementation factory for the
-     * application. The factory can be specified only once.
+     * Sets the dbtbgrbm socket implementbtion fbctory for the
+     * bpplicbtion. The fbctory cbn be specified only once.
      * <p>
-     * When an application creates a new datagram socket, the socket
-     * implementation factory's {@code createDatagramSocketImpl} method is
-     * called to create the actual datagram socket implementation.
+     * When bn bpplicbtion crebtes b new dbtbgrbm socket, the socket
+     * implementbtion fbctory's {@code crebteDbtbgrbmSocketImpl} method is
+     * cblled to crebte the bctubl dbtbgrbm socket implementbtion.
      * <p>
-     * Passing {@code null} to the method is a no-op unless the factory
-     * was already set.
+     * Pbssing {@code null} to the method is b no-op unless the fbctory
+     * wbs blrebdy set.
      *
-     * <p>If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param      fac   the desired factory.
-     * @exception  IOException  if an I/O error occurs when setting the
-     *              datagram socket factory.
-     * @exception  SocketException  if the factory is already defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see       java.net.DatagramSocketImplFactory#createDatagramSocketImpl()
-     * @see       SecurityManager#checkSetFactory
+     * @pbrbm      fbc   the desired fbctory.
+     * @exception  IOException  if bn I/O error occurs when setting the
+     *              dbtbgrbm socket fbctory.
+     * @exception  SocketException  if the fbctory is blrebdy defined.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't bllow the operbtion.
+     * @see       jbvb.net.DbtbgrbmSocketImplFbctory#crebteDbtbgrbmSocketImpl()
+     * @see       SecurityMbnbger#checkSetFbctory
      * @since 1.3
      */
-    public static synchronized void
-    setDatagramSocketImplFactory(DatagramSocketImplFactory fac)
+    public stbtic synchronized void
+    setDbtbgrbmSocketImplFbctory(DbtbgrbmSocketImplFbctory fbc)
        throws IOException
     {
-        if (factory != null) {
-            throw new SocketException("factory already defined");
+        if (fbctory != null) {
+            throw new SocketException("fbctory blrebdy defined");
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        factory = fac;
+        fbctory = fbc;
     }
 
     /**
-     * Sets the value of a socket option.
+     * Sets the vblue of b socket option.
      *
-     * @param name The socket option
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
+     * @pbrbm nbme The socket option
+     * @pbrbm vblue The vblue of the socket option. A vblue of {@code null}
+     *              mby be vblid for some options.
      *
-     * @return this DatagramSocket
+     * @return this DbtbgrbmSocket
      *
-     * @throws UnsupportedOperationException if the datagram socket
+     * @throws UnsupportedOperbtionException if the dbtbgrbm socket
      *         does not support the option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
+     * @throws IllegblArgumentException if the vblue is not vblid for
      *         the option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @throws IOException if bn I/O error occurs, or if the socket is closed.
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @throws SecurityException if b security mbnbger is set bnd if the socket
+     *         option requires b security permission bnd if the cbller does
+     *         not hbve the required permission.
+     *         {@link jbvb.net.StbndbrdSocketOptions StbndbrdSocketOptions}
+     *         do not require bny security permission.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @throws NullPointerException if nbme is {@code null}
      *
      * @since 1.9
      */
-    public <T> DatagramSocket setOption(SocketOption<T> name, T value)
+    public <T> DbtbgrbmSocket setOption(SocketOption<T> nbme, T vblue)
         throws IOException
     {
-        getImpl().setOption(name, value);
+        getImpl().setOption(nbme, vblue);
         return this;
     }
 
     /**
-     * Returns the value of a socket option.
+     * Returns the vblue of b socket option.
      *
-     * @param name The socket option
+     * @pbrbm nbme The socket option
      *
-     * @return The value of the socket option.
+     * @return The vblue of the socket option.
      *
-     * @throws UnsupportedOperationException if the datagram socket
+     * @throws UnsupportedOperbtionException if the dbtbgrbm socket
      *         does not support the option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @throws IOException if bn I/O error occurs, or if the socket is closed.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @throws NullPointerException if nbme is {@code null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @throws SecurityException if b security mbnbger is set bnd if the socket
+     *         option requires b security permission bnd if the cbller does
+     *         not hbve the required permission.
+     *         {@link jbvb.net.StbndbrdSocketOptions StbndbrdSocketOptions}
+     *         do not require bny security permission.
      *
      * @since 1.9
      */
-    public <T> T getOption(SocketOption<T> name) throws IOException {
-        return getImpl().getOption(name);
+    public <T> T getOption(SocketOption<T> nbme) throws IOException {
+        return getImpl().getOption(nbme);
     }
 
-    private static Set<SocketOption<?>> options;
-    private static boolean optionsSet = false;
+    privbte stbtic Set<SocketOption<?>> options;
+    privbte stbtic boolebn optionsSet = fblse;
 
     /**
-     * Returns a set of the socket options supported by this socket.
+     * Returns b set of the socket options supported by this socket.
      *
-     * This method will continue to return the set of options even after
-     * the socket has been closed.
+     * This method will continue to return the set of options even bfter
+     * the socket hbs been closed.
      *
      * @return A set of the socket options supported by this socket. This set
-     *        may be empty if the socket's DatagramSocketImpl cannot be created.
+     *        mby be empty if the socket's DbtbgrbmSocketImpl cbnnot be crebted.
      *
      * @since 1.9
      */
     public Set<SocketOption<?>> supportedOptions() {
-        synchronized(DatagramSocket.class) {
+        synchronized(DbtbgrbmSocket.clbss) {
             if (optionsSet) {
                 return options;
             }
             try {
-                DatagramSocketImpl impl = getImpl();
-                options = Collections.unmodifiableSet(impl.supportedOptions());
-            } catch (IOException e) {
+                DbtbgrbmSocketImpl impl = getImpl();
+                options = Collections.unmodifibbleSet(impl.supportedOptions());
+            } cbtch (IOException e) {
                 options = Collections.emptySet();
             }
             optionsSet = true;

@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
-import static com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Stbte;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
-public class WindowsSpinnerUI extends BasicSpinnerUI {
-    public static ComponentUI createUI(JComponent c) {
+public clbss WindowsSpinnerUI extends BbsicSpinnerUI {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new WindowsSpinnerUI();
     }
 
@@ -46,58 +46,58 @@ public class WindowsSpinnerUI extends BasicSpinnerUI {
      * {@inheritDoc}
      * @since 1.6
      */
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         if (XPStyle.getXP() != null) {
-            paintXPBackground(g, c);
+            pbintXPBbckground(g, c);
         }
-        super.paint(g,c);
+        super.pbint(g,c);
     }
 
-    private State getXPState(JComponent c) {
-        State state = State.NORMAL;
-        if (!c.isEnabled()) {
-            state = State.DISABLED;
+    privbte Stbte getXPStbte(JComponent c) {
+        Stbte stbte = Stbte.NORMAL;
+        if (!c.isEnbbled()) {
+            stbte = Stbte.DISABLED;
         }
-        return state;
+        return stbte;
     }
 
-    private void paintXPBackground(Graphics g, JComponent c) {
+    privbte void pbintXPBbckground(Grbphics g, JComponent c) {
         XPStyle xp = XPStyle.getXP();
         if (xp == null) {
             return;
         }
-        Skin skin = xp.getSkin(c, Part.EP_EDIT);
-        State state = getXPState(c);
-        skin.paintSkin(g, 0, 0, c.getWidth(), c.getHeight(), state);
+        Skin skin = xp.getSkin(c, Pbrt.EP_EDIT);
+        Stbte stbte = getXPStbte(c);
+        skin.pbintSkin(g, 0, 0, c.getWidth(), c.getHeight(), stbte);
     }
 
-    protected Component createPreviousButton() {
+    protected Component crebtePreviousButton() {
         if (XPStyle.getXP() != null) {
-            JButton xpButton = new XPStyle.GlyphButton(spinner, Part.SPNP_DOWN);
-            Dimension size = UIManager.getDimension("Spinner.arrowButtonSize");
+            JButton xpButton = new XPStyle.GlyphButton(spinner, Pbrt.SPNP_DOWN);
+            Dimension size = UIMbnbger.getDimension("Spinner.brrowButtonSize");
             xpButton.setPreferredSize(size);
-            xpButton.setRequestFocusEnabled(false);
-            installPreviousButtonListeners(xpButton);
+            xpButton.setRequestFocusEnbbled(fblse);
+            instbllPreviousButtonListeners(xpButton);
             return xpButton;
         }
-        return super.createPreviousButton();
+        return super.crebtePreviousButton();
     }
 
-    protected Component createNextButton() {
+    protected Component crebteNextButton() {
         if (XPStyle.getXP() != null) {
-            JButton xpButton = new XPStyle.GlyphButton(spinner, Part.SPNP_UP);
-            Dimension size = UIManager.getDimension("Spinner.arrowButtonSize");
+            JButton xpButton = new XPStyle.GlyphButton(spinner, Pbrt.SPNP_UP);
+            Dimension size = UIMbnbger.getDimension("Spinner.brrowButtonSize");
             xpButton.setPreferredSize(size);
-            xpButton.setRequestFocusEnabled(false);
-            installNextButtonListeners(xpButton);
+            xpButton.setRequestFocusEnbbled(fblse);
+            instbllNextButtonListeners(xpButton);
             return xpButton;
         }
-        return super.createNextButton();
+        return super.crebteNextButton();
     }
 
-    private UIResource getUIResource(Object[] listeners) {
+    privbte UIResource getUIResource(Object[] listeners) {
         for (int counter = 0; counter < listeners.length; counter++) {
-            if (listeners[counter] instanceof UIResource) {
+            if (listeners[counter] instbnceof UIResource) {
                 return (UIResource)listeners[counter];
             }
         }

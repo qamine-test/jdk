@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jni.h>
 #include "impl/ecc_impl.h"
 
-#define ILLEGAL_STATE_EXCEPTION "java/lang/IllegalStateException"
+#define ILLEGAL_STATE_EXCEPTION "jbvb/lbng/IllegblStbteException"
 #define INVALID_ALGORITHM_PARAMETER_EXCEPTION \
-        "java/security/InvalidAlgorithmParameterException"
+        "jbvb/security/InvblidAlgorithmPbrbmeterException"
 #define INVALID_PARAMETER_EXCEPTION \
-        "java/security/InvalidParameterException"
-#define KEY_EXCEPTION   "java/security/KeyException"
+        "jbvb/security/InvblidPbrbmeterException"
+#define KEY_EXCEPTION   "jbvb/security/KeyException"
 
 extern "C" {
 
 /*
- * Throws an arbitrary Java exception.
+ * Throws bn brbitrbry Jbvb exception.
  */
-void ThrowException(JNIEnv *env, const char *exceptionName)
+void ThrowException(JNIEnv *env, const chbr *exceptionNbme)
 {
-    jclass exceptionClazz = env->FindClass(exceptionName);
-    if (exceptionClazz != NULL) {
-        env->ThrowNew(exceptionClazz, NULL);
+    jclbss exceptionClbzz = env->FindClbss(exceptionNbme);
+    if (exceptionClbzz != NULL) {
+        env->ThrowNew(exceptionClbzz, NULL);
     }
 }
 
 /*
- * Deep free of the ECParams struct
+ * Deep free of the ECPbrbms struct
  */
-void FreeECParams(ECParams *ecparams, jboolean freeStruct)
+void FreeECPbrbms(ECPbrbms *ecpbrbms, jboolebn freeStruct)
 {
-    // Use B_FALSE to free the SECItem->data element, but not the SECItem itself
+    // Use B_FALSE to free the SECItem->dbtb element, but not the SECItem itself
     // Use B_TRUE to free both
 
-    SECITEM_FreeItem(&ecparams->fieldID.u.prime, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.a, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.b, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curve.seed, B_FALSE);
-    SECITEM_FreeItem(&ecparams->base, B_FALSE);
-    SECITEM_FreeItem(&ecparams->order, B_FALSE);
-    SECITEM_FreeItem(&ecparams->DEREncoding, B_FALSE);
-    SECITEM_FreeItem(&ecparams->curveOID, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->fieldID.u.prime, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->curve.b, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->curve.b, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->curve.seed, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->bbse, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->order, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->DEREncoding, B_FALSE);
+    SECITEM_FreeItem(&ecpbrbms->curveOID, B_FALSE);
     if (freeStruct)
-        free(ecparams);
+        free(ecpbrbms);
 }
 
-jbyteArray getEncodedBytes(JNIEnv *env, SECItem *hSECItem)
+jbyteArrby getEncodedBytes(JNIEnv *env, SECItem *hSECItem)
 {
     SECItem *s = (SECItem *)hSECItem;
 
-    jbyteArray jEncodedBytes = env->NewByteArray(s->len);
+    jbyteArrby jEncodedBytes = env->NewByteArrby(s->len);
     if (jEncodedBytes == NULL) {
         return NULL;
     }
-    // Copy bytes from a native SECItem buffer to Java byte array
-    env->SetByteArrayRegion(jEncodedBytes, 0, s->len, (jbyte *)s->data);
-    if (env->ExceptionCheck()) { // should never happen
+    // Copy bytes from b nbtive SECItem buffer to Jbvb byte brrby
+    env->SetByteArrbyRegion(jEncodedBytes, 0, s->len, (jbyte *)s->dbtb);
+    if (env->ExceptionCheck()) { // should never hbppen
         return NULL;
     }
     return jEncodedBytes;
 }
 
 /*
- * Class:     sun_security_ec_ECKeyPairGenerator
- * Method:    generateECKeyPair
- * Signature: (I[B[B)[[B
+ * Clbss:     sun_security_ec_ECKeyPbirGenerbtor
+ * Method:    generbteECKeyPbir
+ * Signbture: (I[B[B)[[B
  */
-JNIEXPORT jobjectArray
-JNICALL Java_sun_security_ec_ECKeyPairGenerator_generateECKeyPair
-  (JNIEnv *env, jclass clazz, jint keySize, jbyteArray encodedParams, jbyteArray seed)
+JNIEXPORT jobjectArrby
+JNICALL Jbvb_sun_security_ec_ECKeyPbirGenerbtor_generbteECKeyPbir
+  (JNIEnv *env, jclbss clbzz, jint keySize, jbyteArrby encodedPbrbms, jbyteArrby seed)
 {
-    ECPrivateKey *privKey = NULL; // contains both public and private values
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
+    ECPrivbteKey *privKey = NULL; // contbins both public bnd privbte vblues
+    ECPbrbms *ecpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_item;
     jint jSeedLength;
     jbyte* pSeedBuffer = NULL;
-    jobjectArray result = NULL;
-    jclass baCls = NULL;
-    jbyteArray jba;
+    jobjectArrby result = NULL;
+    jclbss bbCls = NULL;
+    jbyteArrby jbb;
 
-    // Initialize the ECParams struct
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblize the ECPbrbms struct
+    pbrbms_item.len = env->GetArrbyLength(encodedPbrbms);
+    pbrbms_item.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(encodedPbrbms, 0);
+    if (pbrbms_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
+    // Fill b new ECPbrbms using the supplied OID
+    if (EC_DecodePbrbms(&pbrbms_item, &ecpbrbms, 0) != SECSuccess) {
+        /* bbd curve OID */
         ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Copy seed from Java to native buffer
-    jSeedLength = env->GetArrayLength(seed);
+    // Copy seed from Jbvb to nbtive buffer
+    jSeedLength = env->GetArrbyLength(seed);
     pSeedBuffer = new jbyte[jSeedLength];
-    env->GetByteArrayRegion(seed, 0, jSeedLength, pSeedBuffer);
+    env->GetByteArrbyRegion(seed, 0, jSeedLength, pSeedBuffer);
 
-    // Generate the new keypair (using the supplied seed)
-    if (EC_NewKey(ecparams, &privKey, (unsigned char *) pSeedBuffer,
+    // Generbte the new keypbir (using the supplied seed)
+    if (EC_NewKey(ecpbrbms, &privKey, (unsigned chbr *) pSeedBuffer,
         jSeedLength, 0) != SECSuccess) {
         ThrowException(env, KEY_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    jboolean isCopy;
-    baCls = env->FindClass("[B");
-    if (baCls == NULL) {
-        goto cleanup;
+    jboolebn isCopy;
+    bbCls = env->FindClbss("[B");
+    if (bbCls == NULL) {
+        goto clebnup;
     }
-    result = env->NewObjectArray(2, baCls, NULL);
+    result = env->NewObjectArrby(2, bbCls, NULL);
     if (result == NULL) {
-        goto cleanup;
+        goto clebnup;
     }
-    jba = getEncodedBytes(env, &(privKey->privateValue));
-    if (jba == NULL) {
+    jbb = getEncodedBytes(env, &(privKey->privbteVblue));
+    if (jbb == NULL) {
         result = NULL;
-        goto cleanup;
+        goto clebnup;
     }
-    env->SetObjectArrayElement(result, 0, jba); // big integer
-    if (env->ExceptionCheck()) { // should never happen
+    env->SetObjectArrbyElement(result, 0, jbb); // big integer
+    if (env->ExceptionCheck()) { // should never hbppen
         result = NULL;
-        goto cleanup;
+        goto clebnup;
     }
 
-    jba = getEncodedBytes(env, &(privKey->publicValue));
-    if (jba == NULL) {
+    jbb = getEncodedBytes(env, &(privKey->publicVblue));
+    if (jbb == NULL) {
         result = NULL;
-        goto cleanup;
+        goto clebnup;
     }
-    env->SetObjectArrayElement(result, 1, jba); // encoded ec point
-    if (env->ExceptionCheck()) { // should never happen
+    env->SetObjectArrbyElement(result, 1, jbb); // encoded ec point
+    if (env->ExceptionCheck()) { // should never hbppen
         result = NULL;
-        goto cleanup;
+        goto clebnup;
     }
 
-cleanup:
+clebnup:
     {
-        if (params_item.data) {
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_item.dbtb) {
+            env->RelebseByteArrbyElements(encodedPbrbms,
+                (jbyte *) pbrbms_item.dbtb, JNI_ABORT);
         }
-        if (ecparams) {
-            FreeECParams(ecparams, true);
+        if (ecpbrbms) {
+            FreeECPbrbms(ecpbrbms, true);
         }
         if (privKey) {
-            FreeECParams(&privKey->ecParams, false);
+            FreeECPbrbms(&privKey->ecPbrbms, fblse);
             SECITEM_FreeItem(&privKey->version, B_FALSE);
-            SECITEM_FreeItem(&privKey->privateValue, B_FALSE);
-            SECITEM_FreeItem(&privKey->publicValue, B_FALSE);
+            SECITEM_FreeItem(&privKey->privbteVblue, B_FALSE);
+            SECITEM_FreeItem(&privKey->publicVblue, B_FALSE);
             free(privKey);
         }
 
@@ -184,95 +184,95 @@ cleanup:
 }
 
 /*
- * Class:     sun_security_ec_ECDSASignature
+ * Clbss:     sun_security_ec_ECDSASignbture
  * Method:    signDigest
- * Signature: ([B[B[B[B)[B
+ * Signbture: ([B[B[B[B)[B
  */
-JNIEXPORT jbyteArray
-JNICALL Java_sun_security_ec_ECDSASignature_signDigest
-  (JNIEnv *env, jclass clazz, jbyteArray digest, jbyteArray privateKey, jbyteArray encodedParams, jbyteArray seed)
+JNIEXPORT jbyteArrby
+JNICALL Jbvb_sun_security_ec_ECDSASignbture_signDigest
+  (JNIEnv *env, jclbss clbzz, jbyteArrby digest, jbyteArrby privbteKey, jbyteArrby encodedPbrbms, jbyteArrby seed)
 {
     jbyte* pDigestBuffer = NULL;
-    jint jDigestLength = env->GetArrayLength(digest);
-    jbyteArray jSignedDigest = NULL;
+    jint jDigestLength = env->GetArrbyLength(digest);
+    jbyteArrby jSignedDigest = NULL;
 
-    SECItem signature_item;
+    SECItem signbture_item;
     jbyte* pSignedDigestBuffer = NULL;
-    jbyteArray temp;
+    jbyteArrby temp;
 
-    jint jSeedLength = env->GetArrayLength(seed);
+    jint jSeedLength = env->GetArrbyLength(seed);
     jbyte* pSeedBuffer = NULL;
 
-    // Copy digest from Java to native buffer
+    // Copy digest from Jbvb to nbtive buffer
     pDigestBuffer = new jbyte[jDigestLength];
-    env->GetByteArrayRegion(digest, 0, jDigestLength, pDigestBuffer);
+    env->GetByteArrbyRegion(digest, 0, jDigestLength, pDigestBuffer);
     SECItem digest_item;
-    digest_item.data = (unsigned char *) pDigestBuffer;
+    digest_item.dbtb = (unsigned chbr *) pDigestBuffer;
     digest_item.len = jDigestLength;
 
-    ECPrivateKey privKey;
+    ECPrivbteKey privKey;
 
-    // Initialize the ECParams struct
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblize the ECPbrbms struct
+    ECPbrbms *ecpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_item;
+    pbrbms_item.len = env->GetArrbyLength(encodedPbrbms);
+    pbrbms_item.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(encodedPbrbms, 0);
+    if (pbrbms_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
+    // Fill b new ECPbrbms using the supplied OID
+    if (EC_DecodePbrbms(&pbrbms_item, &ecpbrbms, 0) != SECSuccess) {
+        /* bbd curve OID */
         ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Extract private key data
-    privKey.ecParams = *ecparams; // struct assignment
-    privKey.privateValue.len = env->GetArrayLength(privateKey);
-    privKey.privateValue.data =
-        (unsigned char *) env->GetByteArrayElements(privateKey, 0);
-    if (privKey.privateValue.data == NULL) {
-        goto cleanup;
+    // Extrbct privbte key dbtb
+    privKey.ecPbrbms = *ecpbrbms; // struct bssignment
+    privKey.privbteVblue.len = env->GetArrbyLength(privbteKey);
+    privKey.privbteVblue.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(privbteKey, 0);
+    if (privKey.privbteVblue.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Prepare a buffer for the signature (twice the key length)
-    pSignedDigestBuffer = new jbyte[ecparams->order.len * 2];
-    signature_item.data = (unsigned char *) pSignedDigestBuffer;
-    signature_item.len = ecparams->order.len * 2;
+    // Prepbre b buffer for the signbture (twice the key length)
+    pSignedDigestBuffer = new jbyte[ecpbrbms->order.len * 2];
+    signbture_item.dbtb = (unsigned chbr *) pSignedDigestBuffer;
+    signbture_item.len = ecpbrbms->order.len * 2;
 
-    // Copy seed from Java to native buffer
+    // Copy seed from Jbvb to nbtive buffer
     pSeedBuffer = new jbyte[jSeedLength];
-    env->GetByteArrayRegion(seed, 0, jSeedLength, pSeedBuffer);
+    env->GetByteArrbyRegion(seed, 0, jSeedLength, pSeedBuffer);
 
     // Sign the digest (using the supplied seed)
-    if (ECDSA_SignDigest(&privKey, &signature_item, &digest_item,
-        (unsigned char *) pSeedBuffer, jSeedLength, 0) != SECSuccess) {
+    if (ECDSA_SignDigest(&privKey, &signbture_item, &digest_item,
+        (unsigned chbr *) pSeedBuffer, jSeedLength, 0) != SECSuccess) {
         ThrowException(env, KEY_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Create new byte array
-    temp = env->NewByteArray(signature_item.len);
+    // Crebte new byte brrby
+    temp = env->NewByteArrby(signbture_item.len);
     if (temp == NULL) {
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Copy data from native buffer
-    env->SetByteArrayRegion(temp, 0, signature_item.len, pSignedDigestBuffer);
+    // Copy dbtb from nbtive buffer
+    env->SetByteArrbyRegion(temp, 0, signbture_item.len, pSignedDigestBuffer);
     jSignedDigest = temp;
 
-cleanup:
+clebnup:
     {
-        if (params_item.data) {
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_item.dbtb) {
+            env->RelebseByteArrbyElements(encodedPbrbms,
+                (jbyte *) pbrbms_item.dbtb, JNI_ABORT);
         }
-        if (privKey.privateValue.data) {
-            env->ReleaseByteArrayElements(privateKey,
-                (jbyte *) privKey.privateValue.data, JNI_ABORT);
+        if (privKey.privbteVblue.dbtb) {
+            env->RelebseByteArrbyElements(privbteKey,
+                (jbyte *) privKey.privbteVblue.dbtb, JNI_ABORT);
         }
         if (pDigestBuffer) {
             delete [] pDigestBuffer;
@@ -283,8 +283,8 @@ cleanup:
         if (pSeedBuffer) {
             delete [] pSeedBuffer;
         }
-        if (ecparams) {
-            FreeECParams(ecparams, true);
+        if (ecpbrbms) {
+            FreeECPbrbms(ecpbrbms, true);
         }
     }
 
@@ -292,79 +292,79 @@ cleanup:
 }
 
 /*
- * Class:     sun_security_ec_ECDSASignature
+ * Clbss:     sun_security_ec_ECDSASignbture
  * Method:    verifySignedDigest
- * Signature: ([B[B[B[B)Z
+ * Signbture: ([B[B[B[B)Z
  */
-JNIEXPORT jboolean
-JNICALL Java_sun_security_ec_ECDSASignature_verifySignedDigest
-  (JNIEnv *env, jclass clazz, jbyteArray signedDigest, jbyteArray digest, jbyteArray publicKey, jbyteArray encodedParams)
+JNIEXPORT jboolebn
+JNICALL Jbvb_sun_security_ec_ECDSASignbture_verifySignedDigest
+  (JNIEnv *env, jclbss clbzz, jbyteArrby signedDigest, jbyteArrby digest, jbyteArrby publicKey, jbyteArrby encodedPbrbms)
 {
-    jboolean isValid = false;
+    jboolebn isVblid = fblse;
 
-    // Copy signedDigest from Java to native buffer
+    // Copy signedDigest from Jbvb to nbtive buffer
     jbyte* pSignedDigestBuffer = NULL;
-    jint jSignedDigestLength = env->GetArrayLength(signedDigest);
+    jint jSignedDigestLength = env->GetArrbyLength(signedDigest);
     pSignedDigestBuffer = new jbyte[jSignedDigestLength];
-    env->GetByteArrayRegion(signedDigest, 0, jSignedDigestLength,
+    env->GetByteArrbyRegion(signedDigest, 0, jSignedDigestLength,
         pSignedDigestBuffer);
-    SECItem signature_item;
-    signature_item.data = (unsigned char *) pSignedDigestBuffer;
-    signature_item.len = jSignedDigestLength;
+    SECItem signbture_item;
+    signbture_item.dbtb = (unsigned chbr *) pSignedDigestBuffer;
+    signbture_item.len = jSignedDigestLength;
 
-    // Copy digest from Java to native buffer
+    // Copy digest from Jbvb to nbtive buffer
     jbyte* pDigestBuffer = NULL;
-    jint jDigestLength = env->GetArrayLength(digest);
+    jint jDigestLength = env->GetArrbyLength(digest);
     pDigestBuffer = new jbyte[jDigestLength];
-    env->GetByteArrayRegion(digest, 0, jDigestLength, pDigestBuffer);
+    env->GetByteArrbyRegion(digest, 0, jDigestLength, pDigestBuffer);
     SECItem digest_item;
-    digest_item.data = (unsigned char *) pDigestBuffer;
+    digest_item.dbtb = (unsigned chbr *) pDigestBuffer;
     digest_item.len = jDigestLength;
 
-    // Extract public key data
+    // Extrbct public key dbtb
     ECPublicKey pubKey;
-    pubKey.publicValue.data = NULL;
-    ECParams *ecparams = NULL;
-    SECKEYECParams params_item;
+    pubKey.publicVblue.dbtb = NULL;
+    ECPbrbms *ecpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_item;
 
-    // Initialize the ECParams struct
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblize the ECPbrbms struct
+    pbrbms_item.len = env->GetArrbyLength(encodedPbrbms);
+    pbrbms_item.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(encodedPbrbms, 0);
+    if (pbrbms_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
+    // Fill b new ECPbrbms using the supplied OID
+    if (EC_DecodePbrbms(&pbrbms_item, &ecpbrbms, 0) != SECSuccess) {
+        /* bbd curve OID */
         ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
-    pubKey.ecParams = *ecparams; // struct assignment
-    pubKey.publicValue.len = env->GetArrayLength(publicKey);
-    pubKey.publicValue.data =
-        (unsigned char *) env->GetByteArrayElements(publicKey, 0);
+    pubKey.ecPbrbms = *ecpbrbms; // struct bssignment
+    pubKey.publicVblue.len = env->GetArrbyLength(publicKey);
+    pubKey.publicVblue.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(publicKey, 0);
 
-    if (ECDSA_VerifyDigest(&pubKey, &signature_item, &digest_item, 0)
+    if (ECDSA_VerifyDigest(&pubKey, &signbture_item, &digest_item, 0)
             != SECSuccess) {
-        goto cleanup;
+        goto clebnup;
     }
 
-    isValid = true;
+    isVblid = true;
 
-cleanup:
+clebnup:
     {
-        if (params_item.data)
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_item.dbtb)
+            env->RelebseByteArrbyElements(encodedPbrbms,
+                (jbyte *) pbrbms_item.dbtb, JNI_ABORT);
 
-        if (pubKey.publicValue.data)
-            env->ReleaseByteArrayElements(publicKey,
-                (jbyte *) pubKey.publicValue.data, JNI_ABORT);
+        if (pubKey.publicVblue.dbtb)
+            env->RelebseByteArrbyElements(publicKey,
+                (jbyte *) pubKey.publicVblue.dbtb, JNI_ABORT);
 
-        if (ecparams)
-            FreeECParams(ecparams, true);
+        if (ecpbrbms)
+            FreeECPbrbms(ecpbrbms, true);
 
         if (pSignedDigestBuffer)
             delete [] pSignedDigestBuffer;
@@ -373,95 +373,95 @@ cleanup:
             delete [] pDigestBuffer;
     }
 
-    return isValid;
+    return isVblid;
 }
 
 /*
- * Class:     sun_security_ec_ECDHKeyAgreement
+ * Clbss:     sun_security_ec_ECDHKeyAgreement
  * Method:    deriveKey
- * Signature: ([B[B[B)[B
+ * Signbture: ([B[B[B)[B
  */
-JNIEXPORT jbyteArray
-JNICALL Java_sun_security_ec_ECDHKeyAgreement_deriveKey
-  (JNIEnv *env, jclass clazz, jbyteArray privateKey, jbyteArray publicKey, jbyteArray encodedParams)
+JNIEXPORT jbyteArrby
+JNICALL Jbvb_sun_security_ec_ECDHKeyAgreement_deriveKey
+  (JNIEnv *env, jclbss clbzz, jbyteArrby privbteKey, jbyteArrby publicKey, jbyteArrby encodedPbrbms)
 {
-    jbyteArray jSecret = NULL;
-    ECParams *ecparams = NULL;
+    jbyteArrby jSecret = NULL;
+    ECPbrbms *ecpbrbms = NULL;
 
-    // Extract private key value
-    SECItem privateValue_item;
-    privateValue_item.len = env->GetArrayLength(privateKey);
-    privateValue_item.data =
-            (unsigned char *) env->GetByteArrayElements(privateKey, 0);
-    if (privateValue_item.data == NULL) {
-        goto cleanup;
+    // Extrbct privbte key vblue
+    SECItem privbteVblue_item;
+    privbteVblue_item.len = env->GetArrbyLength(privbteKey);
+    privbteVblue_item.dbtb =
+            (unsigned chbr *) env->GetByteArrbyElements(privbteKey, 0);
+    if (privbteVblue_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Extract public key value
-    SECItem publicValue_item;
-    publicValue_item.len = env->GetArrayLength(publicKey);
-    publicValue_item.data =
-        (unsigned char *) env->GetByteArrayElements(publicKey, 0);
-    if (publicValue_item.data == NULL) {
-        goto cleanup;
+    // Extrbct public key vblue
+    SECItem publicVblue_item;
+    publicVblue_item.len = env->GetArrbyLength(publicKey);
+    publicVblue_item.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(publicKey, 0);
+    if (publicVblue_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Initialize the ECParams struct
-    SECKEYECParams params_item;
-    params_item.len = env->GetArrayLength(encodedParams);
-    params_item.data =
-        (unsigned char *) env->GetByteArrayElements(encodedParams, 0);
-    if (params_item.data == NULL) {
-        goto cleanup;
+    // Initiblize the ECPbrbms struct
+    SECKEYECPbrbms pbrbms_item;
+    pbrbms_item.len = env->GetArrbyLength(encodedPbrbms);
+    pbrbms_item.dbtb =
+        (unsigned chbr *) env->GetByteArrbyElements(encodedPbrbms, 0);
+    if (pbrbms_item.dbtb == NULL) {
+        goto clebnup;
     }
 
-    // Fill a new ECParams using the supplied OID
-    if (EC_DecodeParams(&params_item, &ecparams, 0) != SECSuccess) {
-        /* bad curve OID */
+    // Fill b new ECPbrbms using the supplied OID
+    if (EC_DecodePbrbms(&pbrbms_item, &ecpbrbms, 0) != SECSuccess) {
+        /* bbd curve OID */
         ThrowException(env, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Prepare a buffer for the secret
+    // Prepbre b buffer for the secret
     SECItem secret_item;
-    secret_item.data = NULL;
-    secret_item.len = ecparams->order.len * 2;
+    secret_item.dbtb = NULL;
+    secret_item.len = ecpbrbms->order.len * 2;
 
-    if (ECDH_Derive(&publicValue_item, ecparams, &privateValue_item, B_FALSE,
+    if (ECDH_Derive(&publicVblue_item, ecpbrbms, &privbteVblue_item, B_FALSE,
         &secret_item, 0) != SECSuccess) {
         ThrowException(env, ILLEGAL_STATE_EXCEPTION);
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Create new byte array
-    jSecret = env->NewByteArray(secret_item.len);
+    // Crebte new byte brrby
+    jSecret = env->NewByteArrby(secret_item.len);
     if (jSecret == NULL) {
-        goto cleanup;
+        goto clebnup;
     }
 
-    // Copy bytes from the SECItem buffer to a Java byte array
-    env->SetByteArrayRegion(jSecret, 0, secret_item.len,
-        (jbyte *)secret_item.data);
+    // Copy bytes from the SECItem buffer to b Jbvb byte brrby
+    env->SetByteArrbyRegion(jSecret, 0, secret_item.len,
+        (jbyte *)secret_item.dbtb);
 
-    // Free the SECItem data buffer
+    // Free the SECItem dbtb buffer
     SECITEM_FreeItem(&secret_item, B_FALSE);
 
-cleanup:
+clebnup:
     {
-        if (privateValue_item.data)
-            env->ReleaseByteArrayElements(privateKey,
-                (jbyte *) privateValue_item.data, JNI_ABORT);
+        if (privbteVblue_item.dbtb)
+            env->RelebseByteArrbyElements(privbteKey,
+                (jbyte *) privbteVblue_item.dbtb, JNI_ABORT);
 
-        if (publicValue_item.data)
-            env->ReleaseByteArrayElements(publicKey,
-                (jbyte *) publicValue_item.data, JNI_ABORT);
+        if (publicVblue_item.dbtb)
+            env->RelebseByteArrbyElements(publicKey,
+                (jbyte *) publicVblue_item.dbtb, JNI_ABORT);
 
-        if (params_item.data)
-            env->ReleaseByteArrayElements(encodedParams,
-                (jbyte *) params_item.data, JNI_ABORT);
+        if (pbrbms_item.dbtb)
+            env->RelebseByteArrbyElements(encodedPbrbms,
+                (jbyte *) pbrbms_item.dbtb, JNI_ABORT);
 
-        if (ecparams)
-            FreeECParams(ecparams, true);
+        if (ecpbrbms)
+            FreeECPbrbms(ecpbrbms, true);
     }
 
     return jSecret;

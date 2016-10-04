@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Label;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Lbbel;
+import sun.tools.bsm.Assembler;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class Expression extends Node {
+clbss Expression extends Node {
     Type type;
 
     /**
@@ -49,17 +49,17 @@ class Expression extends Node {
     }
 
     /**
-     * Type checking may assign a more complex implementation
-     * to an innocuous-looking expression (like an identifier).
-     * Return that implementation, or the original expression itself
-     * if there is no special implementation.
+     * Type checking mby bssign b more complex implementbtion
+     * to bn innocuous-looking expression (like bn identifier).
+     * Return thbt implementbtion, or the originbl expression itself
+     * if there is no specibl implementbtion.
      * <p>
-     * This appears at present to be dead code, and is not called
-     * from within javac.  Access to the implementation generally
-     * occurs within the same class, and thus uses the underlying
+     * This bppebrs bt present to be debd code, bnd is not cblled
+     * from within jbvbc.  Access to the implementbtion generblly
+     * occurs within the sbme clbss, bnd thus uses the underlying
      * field directly.
      */
-    public Expression getImplementation() {
+    public Expression getImplementbtion() {
         return this;
     }
 
@@ -68,264 +68,264 @@ class Expression extends Node {
     }
 
     /**
-     * Return the precedence of the operator
+     * Return the precedence of the operbtor
      */
     int precedence() {
         return (op < opPrecedence.length) ? opPrecedence[op] : 100;
     }
 
     /**
-     * Order the expression based on precedence
+     * Order the expression bbsed on precedence
      */
     public Expression order() {
         return this;
     }
 
     /**
-     * Return true if constant, according to JLS 15.27.
-     * A constant expression must inline away to a literal constant.
+     * Return true if constbnt, bccording to JLS 15.27.
+     * A constbnt expression must inline bwby to b literbl constbnt.
      */
-    public boolean isConstant() {
-        return false;
+    public boolebn isConstbnt() {
+        return fblse;
     }
 
     /**
-     * Return the constant value.
+     * Return the constbnt vblue.
      */
-    public Object getValue() {
+    public Object getVblue() {
         return null;
     }
 
     /**
-     * Check if the expression is known to be equal to a given value.
-     * Returns false for any expression other than a literal constant,
-     * thus should be called only after simplification (inlining) has
+     * Check if the expression is known to be equbl to b given vblue.
+     * Returns fblse for bny expression other thbn b literbl constbnt,
+     * thus should be cblled only bfter simplificbtion (inlining) hbs
      * been performed.
      */
-    public boolean equals(int i) {
-        return false;
+    public boolebn equbls(int i) {
+        return fblse;
     }
-    public boolean equals(boolean b) {
-        return false;
+    public boolebn equbls(boolebn b) {
+        return fblse;
     }
-    public boolean equals(Identifier id) {
-        return false;
+    public boolebn equbls(Identifier id) {
+        return fblse;
     }
-    public boolean equals(String s) {
-        return false;
+    public boolebn equbls(String s) {
+        return fblse;
     }
 
     /**
-     * Check if the expression must be a null reference.
+     * Check if the expression must be b null reference.
      */
-    public boolean isNull() {
-        return false;
+    public boolebn isNull() {
+        return fblse;
     }
 
     /**
-     * Check if the expression cannot be a null reference.
+     * Check if the expression cbnnot be b null reference.
      */
-    public boolean isNonNull() {
-        return false;
+    public boolebn isNonNull() {
+        return fblse;
     }
 
     /**
-     * Check if the expression is equal to its default static value
+     * Check if the expression is equbl to its defbult stbtic vblue
      */
-    public boolean equalsDefault() {
-        return false;
+    public boolebn equblsDefbult() {
+        return fblse;
     }
 
 
     /**
-     * Convert an expresion to a type
+     * Convert bn expresion to b type
      */
     Type toType(Environment env, Context ctx) {
-        env.error(where, "invalid.type.expr");
+        env.error(where, "invblid.type.expr");
         return Type.tError;
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name.
+     * Convert bn expresion to b type in b context where b qublified
+     * type nbme is expected, e.g., in the prefix of b qublified type
+     * nbme.
      */
     /*-----------------------------------------------------*
-    Type toQualifiedType(Environment env, Context ctx) {
-        env.error(where, "invalid.type.expr");
+    Type toQublifiedType(Environment env, Context ctx) {
+        env.error(where, "invblid.type.expr");
         return Type.tError;
     }
     *-----------------------------------------------------*/
 
     /**
      * See if this expression fits in the given type.
-     * This is useful because some larger numbers fit into
-     * smaller types.
+     * This is useful becbuse some lbrger numbers fit into
+     * smbller types.
      * <p>
-     * If it is an "int" constant expression, inline it, if necessary,
-     * to examine its numerical value.  See JLS 5.2 and 15.24.
+     * If it is bn "int" constbnt expression, inline it, if necessbry,
+     * to exbmine its numericbl vblue.  See JLS 5.2 bnd 15.24.
      */
-    public boolean fitsType(Environment env, Context ctx, Type t) {
+    public boolebn fitsType(Environment env, Context ctx, Type t) {
         try {
             if (env.isMoreSpecific(this.type, t)) {
                 return true;
             }
-            if (this.type.isType(TC_INT) && this.isConstant() && ctx != null) {
-                // Tentative inlining is harmless for constant expressions.
-                Expression n = this.inlineValue(env, ctx);
-                if (n != this && n instanceof ConstantExpression) {
+            if (this.type.isType(TC_INT) && this.isConstbnt() && ctx != null) {
+                // Tentbtive inlining is hbrmless for constbnt expressions.
+                Expression n = this.inlineVblue(env, ctx);
+                if (n != this && n instbnceof ConstbntExpression) {
                     return n.fitsType(env, ctx, t);
                 }
             }
-            return false;
-        } catch (ClassNotFound e) {
-            return false;
+            return fblse;
+        } cbtch (ClbssNotFound e) {
+            return fblse;
         }
     }
 
-    /** @deprecated (for backward compatibility) */
-    @Deprecated
-    public boolean fitsType(Environment env, Type t) {
+    /** @deprecbted (for bbckwbrd compbtibility) */
+    @Deprecbted
+    public boolebn fitsType(Environment env, Type t) {
         return fitsType(env, (Context) null, t);
     }
 
     /**
-     * Check an expression
+     * Check bn expression
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
         return vset;
     }
-    public Vset checkInitializer(Environment env, Context ctx, Vset vset, Type t, Hashtable<Object, Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    public Vset checkInitiblizer(Environment env, Context ctx, Vset vset, Type t, Hbshtbble<Object, Object> exp) {
+        return checkVblue(env, ctx, vset, exp);
     }
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        throw new CompilerError("check failed");
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        throw new CompilerError("check fbiled");
     }
 
     public Vset checkLHS(Environment env, Context ctx,
-                            Vset vset, Hashtable<Object, Object> exp) {
-        env.error(where, "invalid.lhs.assignment");
+                            Vset vset, Hbshtbble<Object, Object> exp) {
+        env.error(where, "invblid.lhs.bssignment");
         type = Type.tError;
         return vset;
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the
-     * value of the location denoted by <code>this</code>, which must be an
-     * expression suitable for the left-hand side of an assignment.
-     * This is used for implementing assignments to private fields for which
-     * an access method is required.  Returns null if no access method is
-     * needed, in which case the assignment is handled in the usual way, by
-     * direct access.  Only simple assignment expressions are handled here
-     * Assignment operators and pre/post increment/decrement operators are
-     * are handled by 'getUpdater' below.
+     * Return b <code>FieldUpdbter</code> object to be used in updbting the
+     * vblue of the locbtion denoted by <code>this</code>, which must be bn
+     * expression suitbble for the left-hbnd side of bn bssignment.
+     * This is used for implementing bssignments to privbte fields for which
+     * bn bccess method is required.  Returns null if no bccess method is
+     * needed, in which cbse the bssignment is hbndled in the usubl wby, by
+     * direct bccess.  Only simple bssignment expressions bre hbndled here
+     * Assignment operbtors bnd pre/post increment/decrement operbtors bre
+     * bre hbndled by 'getUpdbter' below.
      * <p>
-     * Called during the checking phase.
+     * Cblled during the checking phbse.
      */
 
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
+    public FieldUpdbter getAssigner(Environment env, Context ctx) {
         throw new CompilerError("getAssigner lhs");
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the value of the
-     * location denoted by <code>this</code>, which must be an expression suitable for the
-     * left-hand side of an assignment.  This is used for implementing the assignment
-     * operators and the increment/decrement operators on private fields that require an
-     * access method, e.g., uplevel from an inner class.  Returns null if no access method
+     * Return b <code>FieldUpdbter</code> object to be used in updbting the vblue of the
+     * locbtion denoted by <code>this</code>, which must be bn expression suitbble for the
+     * left-hbnd side of bn bssignment.  This is used for implementing the bssignment
+     * operbtors bnd the increment/decrement operbtors on privbte fields thbt require bn
+     * bccess method, e.g., uplevel from bn inner clbss.  Returns null if no bccess method
      * is needed.
      * <p>
-     * Called during the checking phase.
+     * Cblled during the checking phbse.
      */
 
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        throw new CompilerError("getUpdater lhs");
+    public FieldUpdbter getUpdbter(Environment env, Context ctx) {
+        throw new CompilerError("getUpdbter lhs");
     }
 
     public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        if (outside instanceof IncDecExpression)
-            env.error(where, "invalid.arg", opNames[outside.op]);
+                              Vset vset, Hbshtbble<Object, Object> exp, Expression outside) {
+        if (outside instbnceof IncDecExpression)
+            env.error(where, "invblid.brg", opNbmes[outside.op]);
         else
-            env.error(where, "invalid.lhs.assignment");
+            env.error(where, "invblid.lhs.bssignment");
         type = Type.tError;
         return vset;
     }
 
     /**
-     * Check something that might be an AmbiguousName (refman 6.5.2).
-     * A string of dot-separated identifiers might be, in order of preference:
+     * Check something thbt might be bn AmbiguousNbme (refmbn 6.5.2).
+     * A string of dot-sepbrbted identifiers might be, in order of preference:
      * <nl>
-     * <li> a variable name followed by fields or types
-     * <li> a type name followed by fields or types
-     * <li> a package name followed a type and then fields or types
+     * <li> b vbribble nbme followed by fields or types
+     * <li> b type nbme followed by fields or types
+     * <li> b pbckbge nbme followed b type bnd then fields or types
      * </nl>
-     * If a type name is found, it rewrites itself as a <tt>TypeExpression</tt>.
-     * If a node decides it can only be a package prefix, it sets its
-     * type to <tt>Type.tPackage</tt>.  The caller must detect this
-     * and act appropriately to verify the full package name.
-     * @arg loc the expression containing the ambiguous expression
+     * If b type nbme is found, it rewrites itself bs b <tt>TypeExpression</tt>.
+     * If b node decides it cbn only be b pbckbge prefix, it sets its
+     * type to <tt>Type.tPbckbge</tt>.  The cbller must detect this
+     * bnd bct bppropribtely to verify the full pbckbge nbme.
+     * @brg loc the expression contbining the bmbiguous expression
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
-        return checkValue(env, ctx, vset, exp);
+    public Vset checkAmbigNbme(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp,
+                               UnbryExpression loc) {
+        return checkVblue(env, ctx, vset, exp);
     }
 
     /**
-     * Check a condition.  Return a ConditionVars(), which indicates when
-     * which variables are set if the condition is true, and which are set if
-     * the condition is false.
+     * Check b condition.  Return b ConditionVbrs(), which indicbtes when
+     * which vbribbles bre set if the condition is true, bnd which bre set if
+     * the condition is fblse.
      */
-    public ConditionVars checkCondition(Environment env, Context ctx,
-                                        Vset vset, Hashtable<Object, Object> exp) {
-        ConditionVars cvars = new ConditionVars();
-        checkCondition(env, ctx, vset, exp, cvars);
-        return cvars;
+    public ConditionVbrs checkCondition(Environment env, Context ctx,
+                                        Vset vset, Hbshtbble<Object, Object> exp) {
+        ConditionVbrs cvbrs = new ConditionVbrs();
+        checkCondition(env, ctx, vset, exp, cvbrs);
+        return cvbrs;
     }
 
     /*
-     * Check a condition.
+     * Check b condition.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if result = true
-     *    cvars.vsFalse indicates variables with a known value if !result
+     * cvbrs is modified so thbt
+     *    cvbr.vsTrue indicbtes vbribbles with b known vblue if result = true
+     *    cvbrs.vsFblse indicbtes vbribbles with b known vblue if !result
      *
-     * The default action is to simply call checkValue on the expression, and
-     * to see both vsTrue and vsFalse to the result.
+     * The defbult bction is to simply cbll checkVblue on the expression, bnd
+     * to see both vsTrue bnd vsFblse to the result.
      */
 
     public void checkCondition(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
-        cvars.vsTrue = cvars.vsFalse = checkValue(env, ctx, vset, exp);
-        // unshare side effects:
-        cvars.vsFalse = cvars.vsFalse.copy();
+                               Vset vset, Hbshtbble<Object, Object> exp, ConditionVbrs cvbrs) {
+        cvbrs.vsTrue = cvbrs.vsFblse = checkVblue(env, ctx, vset, exp);
+        // unshbre side effects:
+        cvbrs.vsFblse = cvbrs.vsFblse.copy();
     }
 
     /**
-     * Evaluate.
+     * Evblubte.
      *
-     * Attempt to compute the value of an expression node.  If all operands are
-     * literal constants of the same kind (e.g., IntegerExpression nodes), a
-     * new constant node of the proper type is returned representing the value
-     * as computed at compile-time.  Otherwise, the original node 'this' is
+     * Attempt to compute the vblue of bn expression node.  If bll operbnds bre
+     * literbl constbnts of the sbme kind (e.g., IntegerExpression nodes), b
+     * new constbnt node of the proper type is returned representing the vblue
+     * bs computed bt compile-time.  Otherwise, the originbl node 'this' is
      * returned.
      */
-    Expression eval() {
+    Expression evbl() {
         return this;
     }
 
     /**
      * Simplify.
      *
-     * Attempt to simplify an expression node by returning a semantically-
-     * equivalent expression that is presumably less costly to execute.  There
-     * is some overlap with the intent of 'eval', as compile-time evaluation of
-     * conditional expressions and the short-circuit boolean operators is
-     * performed here.  Other simplifications include logical identities
-     * involving logical negation and comparisons.  If no simplification is
-     * possible, the original node 'this' is returned.  It is assumed that the
-     * children of the node have previously been recursively simplified and
-     * evaluated.  A result of 'null' indicates that the expression may be
+     * Attempt to simplify bn expression node by returning b sembnticblly-
+     * equivblent expression thbt is presumbbly less costly to execute.  There
+     * is some overlbp with the intent of 'evbl', bs compile-time evblubtion of
+     * conditionbl expressions bnd the short-circuit boolebn operbtors is
+     * performed here.  Other simplificbtions include logicbl identities
+     * involving logicbl negbtion bnd compbrisons.  If no simplificbtion is
+     * possible, the originbl node 'this' is returned.  It is bssumed thbt the
+     * children of the node hbve previously been recursively simplified bnd
+     * evblubted.  A result of 'null' indicbtes thbt the expression mby be
      * elided entirely.
      */
     Expression simplify() {
@@ -335,68 +335,68 @@ class Expression extends Node {
     /**
      * Inline.
      *
-     * Recursively simplify each child of an expression node, destructively
-     * replacing the child with the simplified result.  Also attempts to
-     * simplify the current node 'this', and returns the simplified result.
+     * Recursively simplify ebch child of bn expression node, destructively
+     * replbcing the child with the simplified result.  Also bttempts to
+     * simplify the current node 'this', bnd returns the simplified result.
      *
-     * The name 'inline' is somthing of a misnomer, as these methods are
-     * responsible for compile-time expression simplification in general.
-     * The 'eval' and 'simplify' methods apply to a single expression node
-     * only -- it is 'inline' and 'inlineValue' that drive the simplification
+     * The nbme 'inline' is somthing of b misnomer, bs these methods bre
+     * responsible for compile-time expression simplificbtion in generbl.
+     * The 'evbl' bnd 'simplify' methods bpply to b single expression node
+     * only -- it is 'inline' bnd 'inlineVblue' thbt drive the simplificbtion
      * of entire expressions.
      */
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
+    public Expression inlineVblue(Environment env, Context ctx) {
         return this;
     }
 
     /**
-     * Attempt to evaluate this expression.  If this expression
-     * yields a value, append it to the StringBuffer `buffer'.
-     * If this expression cannot be evaluated at this time (for
-     * example if it contains a division by zero, a non-constant
-     * subexpression, or a subexpression which "refuses" to evaluate)
-     * then return `null' to indicate failure.
+     * Attempt to evblubte this expression.  If this expression
+     * yields b vblue, bppend it to the StringBuffer `buffer'.
+     * If this expression cbnnot be evblubted bt this time (for
+     * exbmple if it contbins b division by zero, b non-constbnt
+     * subexpression, or b subexpression which "refuses" to evblubte)
+     * then return `null' to indicbte fbilure.
      *
-     * It is anticipated that this method will be called to evaluate
-     * concatenations of compile-time constant strings.  The call
-     * originates from AddExpression#inlineValue().
+     * It is bnticipbted thbt this method will be cblled to evblubte
+     * concbtenbtions of compile-time constbnt strings.  The cbll
+     * originbtes from AddExpression#inlineVblue().
      *
-     * See AddExpression#inlineValueSB() for detailed comments.
+     * See AddExpression#inlineVblueSB() for detbiled comments.
      */
-    protected StringBuffer inlineValueSB(Environment env,
+    protected StringBuffer inlineVblueSB(Environment env,
                                          Context ctx,
                                          StringBuffer buffer) {
-        Expression inlined = inlineValue(env, ctx);
-        Object val = inlined.getValue();
+        Expression inlined = inlineVblue(env, ctx);
+        Object vbl = inlined.getVblue();
 
-        if (val == null && !inlined.isNull()){
-            // This (supposedly constant) expression refuses to yield
-            // a value.  This can happen, in particular, when we are
-            // trying to evaluate a division by zero.  It can also
-            // happen in cases where isConstant() is able to classify
-            // expressions as constant that the compiler's inlining
-            // mechanisms aren't able to evaluate; this is rare,
-            // and all such cases that we have found so far
-            // (e.g. 4082814, 4106244) have been plugged up.
+        if (vbl == null && !inlined.isNull()){
+            // This (supposedly constbnt) expression refuses to yield
+            // b vblue.  This cbn hbppen, in pbrticulbr, when we bre
+            // trying to evblubte b division by zero.  It cbn blso
+            // hbppen in cbses where isConstbnt() is bble to clbssify
+            // expressions bs constbnt thbt the compiler's inlining
+            // mechbnisms bren't bble to evblubte; this is rbre,
+            // bnd bll such cbses thbt we hbve found so fbr
+            // (e.g. 4082814, 4106244) hbve been plugged up.
             //
-            // We return a null to indicate that we have failed to
-            // evaluate the concatenation.
+            // We return b null to indicbte thbt we hbve fbiled to
+            // evblubte the concbtenbtion.
             return null;
         }
 
-        // For boolean and character expressions, getValue() returns
-        // an Integer.  We need to take care, when appending the result
-        // of getValue(), that we preserve the type.
+        // For boolebn bnd chbrbcter expressions, getVblue() returns
+        // bn Integer.  We need to tbke cbre, when bppending the result
+        // of getVblue(), thbt we preserve the type.
         // Fix for 4103959, 4102672.
-        if (type == Type.tChar) {
-            buffer.append((char)((Integer)val).intValue());
-        } else if (type == Type.tBoolean) {
-            buffer.append(((Integer)val).intValue() != 0);
+        if (type == Type.tChbr) {
+            buffer.bppend((chbr)((Integer)vbl).intVblue());
+        } else if (type == Type.tBoolebn) {
+            buffer.bppend(((Integer)vbl).intVblue() != 0);
         } else {
-            buffer.append(val);
+            buffer.bppend(vbl);
         }
 
         return buffer;
@@ -408,8 +408,8 @@ class Expression extends Node {
 
     /**
      * The cost of inlining this expression.
-     * This cost controls the inlining of methods, and does not determine
-     * the compile-time simplifications performed by 'inline' and friends.
+     * This cost controls the inlining of methods, bnd does not determine
+     * the compile-time simplificbtions performed by 'inline' bnd friends.
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1;
@@ -418,349 +418,349 @@ class Expression extends Node {
     /**
      * Code
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
+    void codeBrbnch(Environment env, Context ctx, Assembler bsm, Lbbel lbl, boolebn whenTrue) {
         if (type.isType(TC_BOOLEAN)) {
-            codeValue(env, ctx, asm);
-            asm.add(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
+            codeVblue(env, ctx, bsm);
+            bsm.bdd(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
         } else {
-            throw new CompilerError("codeBranch " + opNames[op]);
+            throw new CompilerError("codeBrbnch " + opNbmes[op]);
         }
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
         if (type.isType(TC_BOOLEAN)) {
-            Label l1 = new Label();
-            Label l2 = new Label();
+            Lbbel l1 = new Lbbel();
+            Lbbel l2 = new Lbbel();
 
-            codeBranch(env, ctx, asm, l1, true);
-            asm.add(true, where, opc_ldc, 0);
-            asm.add(true, where, opc_goto, l2);
-            asm.add(l1);
-            asm.add(true, where, opc_ldc, 1);
-            asm.add(l2);
+            codeBrbnch(env, ctx, bsm, l1, true);
+            bsm.bdd(true, where, opc_ldc, 0);
+            bsm.bdd(true, where, opc_goto, l2);
+            bsm.bdd(l1);
+            bsm.bdd(true, where, opc_ldc, 1);
+            bsm.bdd(l2);
         } else {
-            throw new CompilerError("codeValue");
+            throw new CompilerError("codeVblue");
         }
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
-        codeValue(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        codeVblue(env, ctx, bsm);
 
         switch (type.getTypeCode()) {
-          case TC_VOID:
-            break;
+          cbse TC_VOID:
+            brebk;
 
-          case TC_DOUBLE:
-          case TC_LONG:
-            asm.add(where, opc_pop2);
-            break;
+          cbse TC_DOUBLE:
+          cbse TC_LONG:
+            bsm.bdd(where, opc_pop2);
+            brebk;
 
-          default:
-            asm.add(where, opc_pop);
-            break;
+          defbult:
+            bsm.bdd(where, opc_pop);
+            brebk;
         }
     }
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
+    int codeLVblue(Environment env, Context ctx, Assembler bsm) {
         print(System.out);
-        throw new CompilerError("invalid lhs");
+        throw new CompilerError("invblid lhs");
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
+    void codeLobd(Environment env, Context ctx, Assembler bsm) {
         print(System.out);
-        throw new CompilerError("invalid load");
+        throw new CompilerError("invblid lobd");
     }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
+    void codeStore(Environment env, Context ctx, Assembler bsm) {
         print(System.out);
-        throw new CompilerError("invalid store");
+        throw new CompilerError("invblid store");
     }
 
     /**
-     * Convert this expression to a string.
+     * Convert this expression to b string.
      */
-    void ensureString(Environment env, Context ctx, Assembler asm)
-            throws ClassNotFound, AmbiguousMember
+    void ensureString(Environment env, Context ctx, Assembler bsm)
+            throws ClbssNotFound, AmbiguousMember
     {
         if (type == Type.tString && isNonNull()) {
             return;
         }
-        // Make sure it's a non-null string.
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
-        ClassDeclaration stClass = env.getClassDeclaration(Type.tString);
-        ClassDefinition stClsDef = stClass.getClassDefinition(env);
+        // Mbke sure it's b non-null string.
+        ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
+        ClbssDeclbrbtion stClbss = env.getClbssDeclbrbtion(Type.tString);
+        ClbssDefinition stClsDef = stClbss.getClbssDefinition(env);
         // FIX FOR 4071548
-        // We use 'String.valueOf' to do the conversion, in order to
-        // correctly handle null references and efficiently handle
-        // primitive types.  For reference types, we force the argument
-        // to be interpreted as of 'Object' type, thus avoiding the
-        // the special-case overloading of 'valueOf' for character arrays.
-        // This special treatment would conflict with JLS 15.17.1.1.
-        if (type.inMask(TM_REFERENCE)) {
+        // We use 'String.vblueOf' to do the conversion, in order to
+        // correctly hbndle null references bnd efficiently hbndle
+        // primitive types.  For reference types, we force the brgument
+        // to be interpreted bs of 'Object' type, thus bvoiding the
+        // the specibl-cbse overlobding of 'vblueOf' for chbrbcter brrbys.
+        // This specibl trebtment would conflict with JLS 15.17.1.1.
+        if (type.inMbsk(TM_REFERENCE)) {
             // Reference type
             if (type != Type.tString) {
                 // Convert non-string object to string.  If object is
-                // a string, we don't need to convert it, except in the
-                // case that it is null, which is handled below.
-                Type argType1[] = {Type.tObject};
+                // b string, we don't need to convert it, except in the
+                // cbse thbt it is null, which is hbndled below.
+                Type brgType1[] = {Type.tObject};
                 MemberDefinition f1 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType1);
-                asm.add(where, opc_invokestatic, f1);
+                    stClsDef.mbtchMethod(env, sourceClbss, idVblueOf, brgType1);
+                bsm.bdd(where, opc_invokestbtic, f1);
             }
             // FIX FOR 4030173
-            // If the argument was null, then value is "null", but if the
-            // argument was not null, 'toString' was called and could have
-            // returned null.  We call 'valueOf' again to make sure that
-            // the result is a non-null string.  See JLS 15.17.1.1.  The
-            // approach taken here minimizes code size -- open code would
-            // be faster.  The 'toString' method for an array class cannot
-            // be overridden, thus we know that it will never return null.
-            if (!type.inMask(TM_ARRAY|TM_NULL)) {
-                Type argType2[] = {Type.tString};
+            // If the brgument wbs null, then vblue is "null", but if the
+            // brgument wbs not null, 'toString' wbs cblled bnd could hbve
+            // returned null.  We cbll 'vblueOf' bgbin to mbke sure thbt
+            // the result is b non-null string.  See JLS 15.17.1.1.  The
+            // bpprobch tbken here minimizes code size -- open code would
+            // be fbster.  The 'toString' method for bn brrby clbss cbnnot
+            // be overridden, thus we know thbt it will never return null.
+            if (!type.inMbsk(TM_ARRAY|TM_NULL)) {
+                Type brgType2[] = {Type.tString};
                 MemberDefinition f2 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType2);
-                asm.add(where, opc_invokestatic, f2);
+                    stClsDef.mbtchMethod(env, sourceClbss, idVblueOf, brgType2);
+                bsm.bdd(where, opc_invokestbtic, f2);
             }
         } else {
             // Primitive type
-            Type argType[] = {type};
+            Type brgType[] = {type};
             MemberDefinition f =
-                stClsDef.matchMethod(env, sourceClass, idValueOf, argType);
-            asm.add(where, opc_invokestatic, f);
+                stClsDef.mbtchMethod(env, sourceClbss, idVblueOf, brgType);
+            bsm.bdd(where, opc_invokestbtic, f);
         }
     }
 
     /**
-     * Convert this expression to a string and append it to the string
-     * buffer on the top of the stack.
-     * If the needBuffer argument is true, the string buffer needs to be
-     * created, initialized, and pushed on the stack, first.
+     * Convert this expression to b string bnd bppend it to the string
+     * buffer on the top of the stbck.
+     * If the needBuffer brgument is true, the string buffer needs to be
+     * crebted, initiblized, bnd pushed on the stbck, first.
      */
-    void codeAppend(Environment env, Context ctx, Assembler asm,
-                    ClassDeclaration sbClass, boolean needBuffer)
-            throws ClassNotFound, AmbiguousMember
+    void codeAppend(Environment env, Context ctx, Assembler bsm,
+                    ClbssDeclbrbtion sbClbss, boolebn needBuffer)
+            throws ClbssNotFound, AmbiguousMember
     {
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
-        ClassDefinition sbClsDef = sbClass.getClassDefinition(env);
+        ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
+        ClbssDefinition sbClsDef = sbClbss.getClbssDefinition(env);
         MemberDefinition f;
         if (needBuffer) {
-            // need to create the string buffer
-            asm.add(where, opc_new, sbClass); // create the class
-            asm.add(where, opc_dup);
-            if (equals("")) {
-                // make an empty string buffer
-                f = sbClsDef.matchMethod(env, sourceClass, idInit);
+            // need to crebte the string buffer
+            bsm.bdd(where, opc_new, sbClbss); // crebte the clbss
+            bsm.bdd(where, opc_dup);
+            if (equbls("")) {
+                // mbke bn empty string buffer
+                f = sbClsDef.mbtchMethod(env, sourceClbss, idInit);
             } else {
-                // optimize by initializing the buffer with the string
-                codeValue(env, ctx, asm);
-                ensureString(env, ctx, asm);
-                Type argType[] = {Type.tString};
-                f = sbClsDef.matchMethod(env, sourceClass, idInit, argType);
+                // optimize by initiblizing the buffer with the string
+                codeVblue(env, ctx, bsm);
+                ensureString(env, ctx, bsm);
+                Type brgType[] = {Type.tString};
+                f = sbClsDef.mbtchMethod(env, sourceClbss, idInit, brgType);
             }
-            asm.add(where, opc_invokespecial, f);
+            bsm.bdd(where, opc_invokespecibl, f);
         } else {
-            // append this item to the string buffer
-            codeValue(env, ctx, asm);
+            // bppend this item to the string buffer
+            codeVblue(env, ctx, bsm);
             // FIX FOR 4071548
-            // 'StringBuffer.append' converts its argument as if by
-            // 'valueOf', treating character arrays specially.  This
-            // violates JLS 15.17.1.1, which requires that concatenation
-            // convert non-primitive arguments using 'toString'.  We force
-            // the treatment of all reference types as type 'Object', thus
-            // invoking an overloading of 'append' that has the required
-            // semantics.
-            Type argType[] =
-                { (type.inMask(TM_REFERENCE) && type != Type.tString)
+            // 'StringBuffer.bppend' converts its brgument bs if by
+            // 'vblueOf', trebting chbrbcter brrbys speciblly.  This
+            // violbtes JLS 15.17.1.1, which requires thbt concbtenbtion
+            // convert non-primitive brguments using 'toString'.  We force
+            // the trebtment of bll reference types bs type 'Object', thus
+            // invoking bn overlobding of 'bppend' thbt hbs the required
+            // sembntics.
+            Type brgType[] =
+                { (type.inMbsk(TM_REFERENCE) && type != Type.tString)
                   ? Type.tObject
                   : type };
-            f = sbClsDef.matchMethod(env, sourceClass, idAppend, argType);
-            asm.add(where, opc_invokevirtual, f);
+            f = sbClsDef.mbtchMethod(env, sourceClbss, idAppend, brgType);
+            bsm.bdd(where, opc_invokevirtubl, f);
         }
     }
 
     /**
      * Code
      */
-    void codeDup(Environment env, Context ctx, Assembler asm, int items, int depth) {
+    void codeDup(Environment env, Context ctx, Assembler bsm, int items, int depth) {
         switch (items) {
-          case 0:
+          cbse 0:
             return;
 
-          case 1:
+          cbse 1:
             switch (depth) {
-              case 0:
-                asm.add(where, opc_dup);
+              cbse 0:
+                bsm.bdd(where, opc_dup);
                 return;
-              case 1:
-                asm.add(where, opc_dup_x1);
+              cbse 1:
+                bsm.bdd(where, opc_dup_x1);
                 return;
-              case 2:
-                asm.add(where, opc_dup_x2);
+              cbse 2:
+                bsm.bdd(where, opc_dup_x2);
                 return;
 
             }
-            break;
-          case 2:
+            brebk;
+          cbse 2:
             switch (depth) {
-              case 0:
-                asm.add(where, opc_dup2);
+              cbse 0:
+                bsm.bdd(where, opc_dup2);
                 return;
-              case 1:
-                asm.add(where, opc_dup2_x1);
+              cbse 1:
+                bsm.bdd(where, opc_dup2_x1);
                 return;
-              case 2:
-                asm.add(where, opc_dup2_x2);
+              cbse 2:
+                bsm.bdd(where, opc_dup2_x2);
                 return;
 
             }
-            break;
+            brebk;
         }
-        throw new CompilerError("can't dup: " + items + ", " + depth);
+        throw new CompilerError("cbn't dup: " + items + ", " + depth);
     }
 
-    void codeConversion(Environment env, Context ctx, Assembler asm, Type f, Type t) {
+    void codeConversion(Environment env, Context ctx, Assembler bsm, Type f, Type t) {
         int from = f.getTypeCode();
         int to = t.getTypeCode();
 
         switch (to) {
-          case TC_BOOLEAN:
+          cbse TC_BOOLEAN:
             if (from != TC_BOOLEAN) {
-                break;
+                brebk;
             }
             return;
-          case TC_BYTE:
+          cbse TC_BYTE:
             if (from != TC_BYTE) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2b);
+                codeConversion(env, ctx, bsm, f, Type.tInt);
+                bsm.bdd(where, opc_i2b);
             }
             return;
-          case TC_CHAR:
+          cbse TC_CHAR:
             if (from != TC_CHAR) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2c);
+                codeConversion(env, ctx, bsm, f, Type.tInt);
+                bsm.bdd(where, opc_i2c);
             }
             return;
-          case TC_SHORT:
+          cbse TC_SHORT:
             if (from != TC_SHORT) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2s);
+                codeConversion(env, ctx, bsm, f, Type.tInt);
+                bsm.bdd(where, opc_i2s);
             }
             return;
-          case TC_INT:
+          cbse TC_INT:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
+              cbse TC_BYTE:
+              cbse TC_CHAR:
+              cbse TC_SHORT:
+              cbse TC_INT:
                 return;
-              case TC_LONG:
-                asm.add(where, opc_l2i);
+              cbse TC_LONG:
+                bsm.bdd(where, opc_l2i);
                 return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2i);
+              cbse TC_FLOAT:
+                bsm.bdd(where, opc_f2i);
                 return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2i);
+              cbse TC_DOUBLE:
+                bsm.bdd(where, opc_d2i);
                 return;
             }
-            break;
-          case TC_LONG:
+            brebk;
+          cbse TC_LONG:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2l);
+              cbse TC_BYTE:
+              cbse TC_CHAR:
+              cbse TC_SHORT:
+              cbse TC_INT:
+                bsm.bdd(where, opc_i2l);
                 return;
-              case TC_LONG:
+              cbse TC_LONG:
                 return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2l);
+              cbse TC_FLOAT:
+                bsm.bdd(where, opc_f2l);
                 return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2l);
+              cbse TC_DOUBLE:
+                bsm.bdd(where, opc_d2l);
                 return;
             }
-            break;
-          case TC_FLOAT:
+            brebk;
+          cbse TC_FLOAT:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2f);
+              cbse TC_BYTE:
+              cbse TC_CHAR:
+              cbse TC_SHORT:
+              cbse TC_INT:
+                bsm.bdd(where, opc_i2f);
                 return;
-              case TC_LONG:
-                asm.add(where, opc_l2f);
+              cbse TC_LONG:
+                bsm.bdd(where, opc_l2f);
                 return;
-              case TC_FLOAT:
+              cbse TC_FLOAT:
                 return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2f);
+              cbse TC_DOUBLE:
+                bsm.bdd(where, opc_d2f);
                 return;
             }
-            break;
-          case TC_DOUBLE:
+            brebk;
+          cbse TC_DOUBLE:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2d);
+              cbse TC_BYTE:
+              cbse TC_CHAR:
+              cbse TC_SHORT:
+              cbse TC_INT:
+                bsm.bdd(where, opc_i2d);
                 return;
-              case TC_LONG:
-                asm.add(where, opc_l2d);
+              cbse TC_LONG:
+                bsm.bdd(where, opc_l2d);
                 return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2d);
+              cbse TC_FLOAT:
+                bsm.bdd(where, opc_f2d);
                 return;
-              case TC_DOUBLE:
+              cbse TC_DOUBLE:
                 return;
             }
-            break;
+            brebk;
 
-          case TC_CLASS:
+          cbse TC_CLASS:
             switch (from) {
-              case TC_NULL:
+              cbse TC_NULL:
                 return;
-              case TC_CLASS:
-              case TC_ARRAY:
+              cbse TC_CLASS:
+              cbse TC_ARRAY:
                 try {
-                    if (!env.implicitCast(f, t)) {
-                        asm.add(where, opc_checkcast, env.getClassDeclaration(t));
+                    if (!env.implicitCbst(f, t)) {
+                        bsm.bdd(where, opc_checkcbst, env.getClbssDeclbrbtion(t));
                     }
-                } catch (ClassNotFound e) {
+                } cbtch (ClbssNotFound e) {
                     throw new CompilerError(e);
                 }
                 return;
             }
 
-            break;
+            brebk;
 
-          case TC_ARRAY:
+          cbse TC_ARRAY:
             switch (from) {
-              case TC_NULL:
+              cbse TC_NULL:
                 return;
-              case TC_CLASS:
-              case TC_ARRAY:
+              cbse TC_CLASS:
+              cbse TC_ARRAY:
                 try {
-                    if (!env.implicitCast(f, t)) {
-                        asm.add(where, opc_checkcast, t);
+                    if (!env.implicitCbst(f, t)) {
+                        bsm.bdd(where, opc_checkcbst, t);
                     }
                     return;
-                } catch (ClassNotFound e) {
+                } cbtch (ClbssNotFound e) {
                     throw new CompilerError(e);
                 }
             }
-            break;
+            brebk;
         }
         throw new CompilerError("codeConversion: " + from + ", " + to);
     }
 
     /**
-     * Check if the first thing is a constructor invocation
+     * Check if the first thing is b constructor invocbtion
      */
     public Expression firstConstructor() {
         return null;
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crebte b copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
         return (Expression)clone();
@@ -769,7 +769,7 @@ class Expression extends Node {
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print(opNames[op]);
+    public void print(PrintStrebm out) {
+        out.print(opNbmes[op]);
     }
 }

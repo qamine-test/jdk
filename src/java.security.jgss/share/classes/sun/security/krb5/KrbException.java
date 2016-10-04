@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.KRBError;
+import sun.security.krb5.internbl.Krb5;
+import sun.security.krb5.internbl.KRBError;
 
-public class KrbException extends Exception {
+public clbss KrbException extends Exception {
 
-    private static final long serialVersionUID = -4993302876451928596L;
+    privbte stbtic finbl long seriblVersionUID = -4993302876451928596L;
 
-    private int returnCode;
-    private KRBError error;
+    privbte int returnCode;
+    privbte KRBError error;
 
     public KrbException(String s) {
         super(s);
     }
 
-    public KrbException(Throwable cause) {
-        super(cause);
+    public KrbException(Throwbble cbuse) {
+        super(cbuse);
     }
 
     public KrbException(int i) {
@@ -82,78 +82,78 @@ public class KrbException extends Exception {
         return returnCodeSymbol(returnCode);
     }
 
-    public static String returnCodeSymbol(int i) {
+    public stbtic String returnCodeSymbol(int i) {
         return "not yet implemented";
     }
 
-    public String returnCodeMessage() {
-        return Krb5.getErrorMessage(returnCode);
+    public String returnCodeMessbge() {
+        return Krb5.getErrorMessbge(returnCode);
     }
 
-    public static String errorMessage(int i) {
-        return Krb5.getErrorMessage(i);
+    public stbtic String errorMessbge(int i) {
+        return Krb5.getErrorMessbge(i);
     }
 
 
-    public String krbErrorMessage() {
+    public String krbErrorMessbge() {
         StringBuilder strbuf = new StringBuilder("krb_error " + returnCode);
-        String msg =  getMessage();
+        String msg =  getMessbge();
         if (msg != null) {
-            strbuf.append(" ");
-            strbuf.append(msg);
+            strbuf.bppend(" ");
+            strbuf.bppend(msg);
         }
         return strbuf.toString();
     }
 
     /**
-     * Returns messages like:
-     * "Integrity check on decrypted field failed (31) - \
+     * Returns messbges like:
+     * "Integrity check on decrypted field fbiled (31) - \
      *                         Could not decrypt service ticket"
-     * If the error code is 0 then the first half is skipped.
+     * If the error code is 0 then the first hblf is skipped.
      */
-    public String getMessage() {
-        StringBuilder message = new StringBuilder();
+    public String getMessbge() {
+        StringBuilder messbge = new StringBuilder();
         int returnCode = returnCode();
         if (returnCode != 0) {
-            message.append(returnCodeMessage());
-            message.append(" (").append(returnCode()).append(')');
+            messbge.bppend(returnCodeMessbge());
+            messbge.bppend(" (").bppend(returnCode()).bppend(')');
         }
-        String consMessage = super.getMessage();
-        if (consMessage != null && consMessage.length() != 0) {
+        String consMessbge = super.getMessbge();
+        if (consMessbge != null && consMessbge.length() != 0) {
             if (returnCode != 0)
-                message.append(" - ");
-            message.append(consMessage);
+                messbge.bppend(" - ");
+            messbge.bppend(consMessbge);
         }
-        return message.toString();
+        return messbge.toString();
     }
 
     public String toString() {
-        return ("KrbException: " + getMessage());
+        return ("KrbException: " + getMessbge());
     }
 
-    @Override public int hashCode() {
+    @Override public int hbshCode() {
         int result = 17;
         result = 37 * result + returnCode;
         if (error != null) {
-            result = 37 * result + error.hashCode();
+            result = 37 * result + error.hbshCode();
         }
         return result;
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof KrbException)) {
-            return false;
+        if (!(obj instbnceof KrbException)) {
+            return fblse;
         }
 
         KrbException other = (KrbException)obj;
         if (returnCode != other.returnCode) {
-            return false;
+            return fblse;
         }
         return (error == null)?(other.error == null):
-            (error.equals(other.error));
+            (error.equbls(other.error));
     }
 }

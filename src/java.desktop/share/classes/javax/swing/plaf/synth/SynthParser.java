@@ -1,392 +1,392 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.regex.PatternSyntaxException;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Toolkit;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.text.PbrseException;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokenizer;
+import jbvb.util.regex.PbtternSyntbxException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIDefaults;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.DimensionUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.InsetsUIResource;
-import javax.swing.plaf.UIResource;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.JSplitPbne;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.DimensionUIResource;
+import jbvbx.swing.plbf.FontUIResource;
+import jbvbx.swing.plbf.InsetsUIResource;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
+import jbvbx.xml.pbrsers.SAXPbrser;
+import jbvbx.xml.pbrsers.SAXPbrserFbctory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sbx.Attributes;
+import org.xml.sbx.InputSource;
+import org.xml.sbx.Locbtor;
+import org.xml.sbx.SAXException;
+import org.xml.sbx.SAXPbrseException;
+import org.xml.sbx.helpers.DefbultHbndler;
 
-import com.sun.beans.decoder.DocumentHandler;
+import com.sun.bebns.decoder.DocumentHbndler;
 import sun.reflect.misc.ReflectUtil;
 
-class SynthParser extends DefaultHandler {
+clbss SynthPbrser extends DefbultHbndler {
     //
-    // Known element names
+    // Known element nbmes
     //
-    private static final String ELEMENT_SYNTH = "synth";
-    private static final String ELEMENT_STYLE = "style";
-    private static final String ELEMENT_STATE = "state";
-    private static final String ELEMENT_FONT = "font";
-    private static final String ELEMENT_COLOR = "color";
-    private static final String ELEMENT_IMAGE_PAINTER = "imagePainter";
-    private static final String ELEMENT_PAINTER = "painter";
-    private static final String ELEMENT_PROPERTY = "property";
-    private static final String ELEMENT_SYNTH_GRAPHICS = "graphicsUtils";
-    private static final String ELEMENT_IMAGE_ICON = "imageIcon";
-    private static final String ELEMENT_BIND = "bind";
-    private static final String ELEMENT_BIND_KEY = "bindKey";
-    private static final String ELEMENT_INSETS = "insets";
-    private static final String ELEMENT_OPAQUE = "opaque";
-    private static final String ELEMENT_DEFAULTS_PROPERTY =
-                                        "defaultsProperty";
-    private static final String ELEMENT_INPUT_MAP = "inputMap";
+    privbte stbtic finbl String ELEMENT_SYNTH = "synth";
+    privbte stbtic finbl String ELEMENT_STYLE = "style";
+    privbte stbtic finbl String ELEMENT_STATE = "stbte";
+    privbte stbtic finbl String ELEMENT_FONT = "font";
+    privbte stbtic finbl String ELEMENT_COLOR = "color";
+    privbte stbtic finbl String ELEMENT_IMAGE_PAINTER = "imbgePbinter";
+    privbte stbtic finbl String ELEMENT_PAINTER = "pbinter";
+    privbte stbtic finbl String ELEMENT_PROPERTY = "property";
+    privbte stbtic finbl String ELEMENT_SYNTH_GRAPHICS = "grbphicsUtils";
+    privbte stbtic finbl String ELEMENT_IMAGE_ICON = "imbgeIcon";
+    privbte stbtic finbl String ELEMENT_BIND = "bind";
+    privbte stbtic finbl String ELEMENT_BIND_KEY = "bindKey";
+    privbte stbtic finbl String ELEMENT_INSETS = "insets";
+    privbte stbtic finbl String ELEMENT_OPAQUE = "opbque";
+    privbte stbtic finbl String ELEMENT_DEFAULTS_PROPERTY =
+                                        "defbultsProperty";
+    privbte stbtic finbl String ELEMENT_INPUT_MAP = "inputMbp";
 
     //
-    // Known attribute names
+    // Known bttribute nbmes
     //
-    private static final String ATTRIBUTE_ACTION = "action";
-    private static final String ATTRIBUTE_ID = "id";
-    private static final String ATTRIBUTE_IDREF = "idref";
-    private static final String ATTRIBUTE_CLONE = "clone";
-    private static final String ATTRIBUTE_VALUE = "value";
-    private static final String ATTRIBUTE_NAME = "name";
-    private static final String ATTRIBUTE_STYLE = "style";
-    private static final String ATTRIBUTE_SIZE = "size";
-    private static final String ATTRIBUTE_TYPE = "type";
-    private static final String ATTRIBUTE_TOP = "top";
-    private static final String ATTRIBUTE_LEFT = "left";
-    private static final String ATTRIBUTE_BOTTOM = "bottom";
-    private static final String ATTRIBUTE_RIGHT = "right";
-    private static final String ATTRIBUTE_KEY = "key";
-    private static final String ATTRIBUTE_SOURCE_INSETS = "sourceInsets";
-    private static final String ATTRIBUTE_DEST_INSETS = "destinationInsets";
-    private static final String ATTRIBUTE_PATH = "path";
-    private static final String ATTRIBUTE_STRETCH = "stretch";
-    private static final String ATTRIBUTE_PAINT_CENTER = "paintCenter";
-    private static final String ATTRIBUTE_METHOD = "method";
-    private static final String ATTRIBUTE_DIRECTION = "direction";
-    private static final String ATTRIBUTE_CENTER = "center";
+    privbte stbtic finbl String ATTRIBUTE_ACTION = "bction";
+    privbte stbtic finbl String ATTRIBUTE_ID = "id";
+    privbte stbtic finbl String ATTRIBUTE_IDREF = "idref";
+    privbte stbtic finbl String ATTRIBUTE_CLONE = "clone";
+    privbte stbtic finbl String ATTRIBUTE_VALUE = "vblue";
+    privbte stbtic finbl String ATTRIBUTE_NAME = "nbme";
+    privbte stbtic finbl String ATTRIBUTE_STYLE = "style";
+    privbte stbtic finbl String ATTRIBUTE_SIZE = "size";
+    privbte stbtic finbl String ATTRIBUTE_TYPE = "type";
+    privbte stbtic finbl String ATTRIBUTE_TOP = "top";
+    privbte stbtic finbl String ATTRIBUTE_LEFT = "left";
+    privbte stbtic finbl String ATTRIBUTE_BOTTOM = "bottom";
+    privbte stbtic finbl String ATTRIBUTE_RIGHT = "right";
+    privbte stbtic finbl String ATTRIBUTE_KEY = "key";
+    privbte stbtic finbl String ATTRIBUTE_SOURCE_INSETS = "sourceInsets";
+    privbte stbtic finbl String ATTRIBUTE_DEST_INSETS = "destinbtionInsets";
+    privbte stbtic finbl String ATTRIBUTE_PATH = "pbth";
+    privbte stbtic finbl String ATTRIBUTE_STRETCH = "stretch";
+    privbte stbtic finbl String ATTRIBUTE_PAINT_CENTER = "pbintCenter";
+    privbte stbtic finbl String ATTRIBUTE_METHOD = "method";
+    privbte stbtic finbl String ATTRIBUTE_DIRECTION = "direction";
+    privbte stbtic finbl String ATTRIBUTE_CENTER = "center";
 
     /**
-     * Lazily created, used for anything we don't understand.
+     * Lbzily crebted, used for bnything we don't understbnd.
      */
-    private DocumentHandler _handler;
+    privbte DocumentHbndler _hbndler;
 
     /**
-     * Indicates the depth of how many elements we've encountered but don't
-     * understand. This is used when forwarding to beans persistance to know
-     * when we hsould stop forwarding.
+     * Indicbtes the depth of how mbny elements we've encountered but don't
+     * understbnd. This is used when forwbrding to bebns persistbnce to know
+     * when we hsould stop forwbrding.
      */
-    private int _depth;
+    privbte int _depth;
 
     /**
-     * Factory that new styles are added to.
+     * Fbctory thbt new styles bre bdded to.
      */
-    private DefaultSynthStyleFactory _factory;
+    privbte DefbultSynthStyleFbctory _fbctory;
 
     /**
-     * Array of state infos for the current style. These are pushed to the
+     * Arrby of stbte infos for the current style. These bre pushed to the
      * style when </style> is received.
      */
-    private List<ParsedSynthStyle.StateInfo> _stateInfos;
+    privbte List<PbrsedSynthStyle.StbteInfo> _stbteInfos;
 
     /**
      * Current style.
      */
-    private ParsedSynthStyle _style;
+    privbte PbrsedSynthStyle _style;
 
     /**
-     * Current state info.
+     * Current stbte info.
      */
-    private ParsedSynthStyle.StateInfo _stateInfo;
+    privbte PbrsedSynthStyle.StbteInfo _stbteInfo;
 
     /**
-     * Bindings for the current InputMap
+     * Bindings for the current InputMbp
      */
-    private List<String> _inputMapBindings;
+    privbte List<String> _inputMbpBindings;
 
     /**
-     * ID for the input map. This is cached as
-     * the InputMap is created AFTER the inputMapProperty has ended.
+     * ID for the input mbp. This is cbched bs
+     * the InputMbp is crebted AFTER the inputMbpProperty hbs ended.
      */
-    private String _inputMapID;
+    privbte String _inputMbpID;
 
     /**
-     * Object references outside the scope of persistance.
+     * Object references outside the scope of persistbnce.
      */
-    private Map<String,Object> _mapping;
+    privbte Mbp<String,Object> _mbpping;
 
     /**
-     * Based URL used to resolve paths.
+     * Bbsed URL used to resolve pbths.
      */
-    private URL _urlResourceBase;
+    privbte URL _urlResourceBbse;
 
     /**
-     * Based class used to resolve paths.
+     * Bbsed clbss used to resolve pbths.
      */
-    private Class<?> _classResourceBase;
+    privbte Clbss<?> _clbssResourceBbse;
 
     /**
-     * List of ColorTypes. This is populated in startColorType.
+     * List of ColorTypes. This is populbted in stbrtColorType.
      */
-    private List<ColorType> _colorTypes;
+    privbte List<ColorType> _colorTypes;
 
     /**
-     * defaultsPropertys are placed here.
+     * defbultsPropertys bre plbced here.
      */
-    private Map<String, Object> _defaultsMap;
+    privbte Mbp<String, Object> _defbultsMbp;
 
     /**
-     * List of SynthStyle.Painters that will be applied to the current style.
+     * List of SynthStyle.Pbinters thbt will be bpplied to the current style.
      */
-    private List<ParsedSynthStyle.PainterInfo> _stylePainters;
+    privbte List<PbrsedSynthStyle.PbinterInfo> _stylePbinters;
 
     /**
-     * List of SynthStyle.Painters that will be applied to the current state.
+     * List of SynthStyle.Pbinters thbt will be bpplied to the current stbte.
      */
-    private List<ParsedSynthStyle.PainterInfo> _statePainters;
+    privbte List<PbrsedSynthStyle.PbinterInfo> _stbtePbinters;
 
-    SynthParser() {
-        _mapping = new HashMap<String,Object>();
-        _stateInfos = new ArrayList<ParsedSynthStyle.StateInfo>();
-        _colorTypes = new ArrayList<ColorType>();
-        _inputMapBindings = new ArrayList<String>();
-        _stylePainters = new ArrayList<ParsedSynthStyle.PainterInfo>();
-        _statePainters = new ArrayList<ParsedSynthStyle.PainterInfo>();
+    SynthPbrser() {
+        _mbpping = new HbshMbp<String,Object>();
+        _stbteInfos = new ArrbyList<PbrsedSynthStyle.StbteInfo>();
+        _colorTypes = new ArrbyList<ColorType>();
+        _inputMbpBindings = new ArrbyList<String>();
+        _stylePbinters = new ArrbyList<PbrsedSynthStyle.PbinterInfo>();
+        _stbtePbinters = new ArrbyList<PbrsedSynthStyle.PbinterInfo>();
     }
 
     /**
-     * Parses a set of styles from <code>inputStream</code>, adding the
-     * resulting styles to the passed in DefaultSynthStyleFactory.
-     * Resources are resolved either from a URL or from a Class. When calling
-     * this method, one of the URL or the Class must be null but not both at
-     * the same time.
+     * Pbrses b set of styles from <code>inputStrebm</code>, bdding the
+     * resulting styles to the pbssed in DefbultSynthStyleFbctory.
+     * Resources bre resolved either from b URL or from b Clbss. When cblling
+     * this method, one of the URL or the Clbss must be null but not both bt
+     * the sbme time.
      *
-     * @param inputStream XML document containing the styles to read
-     * @param factory DefaultSynthStyleFactory that new styles are added to
-     * @param urlResourceBase the URL used to resolve any resources, such as Images
-     * @param classResourceBase the Class used to resolve any resources, such as Images
-     * @param defaultsMap Map that UIDefaults properties are placed in
+     * @pbrbm inputStrebm XML document contbining the styles to rebd
+     * @pbrbm fbctory DefbultSynthStyleFbctory thbt new styles bre bdded to
+     * @pbrbm urlResourceBbse the URL used to resolve bny resources, such bs Imbges
+     * @pbrbm clbssResourceBbse the Clbss used to resolve bny resources, such bs Imbges
+     * @pbrbm defbultsMbp Mbp thbt UIDefbults properties bre plbced in
      */
-    public void parse(InputStream inputStream,
-                      DefaultSynthStyleFactory factory,
-                      URL urlResourceBase, Class<?> classResourceBase,
-                      Map<String, Object> defaultsMap)
-                      throws ParseException, IllegalArgumentException {
-        if (inputStream == null || factory == null ||
-            (urlResourceBase == null && classResourceBase == null)) {
-            throw new IllegalArgumentException(
-                "You must supply an InputStream, StyleFactory and Class or URL");
+    public void pbrse(InputStrebm inputStrebm,
+                      DefbultSynthStyleFbctory fbctory,
+                      URL urlResourceBbse, Clbss<?> clbssResourceBbse,
+                      Mbp<String, Object> defbultsMbp)
+                      throws PbrseException, IllegblArgumentException {
+        if (inputStrebm == null || fbctory == null ||
+            (urlResourceBbse == null && clbssResourceBbse == null)) {
+            throw new IllegblArgumentException(
+                "You must supply bn InputStrebm, StyleFbctory bnd Clbss or URL");
         }
 
-        assert(!(urlResourceBase != null && classResourceBase != null));
+        bssert(!(urlResourceBbse != null && clbssResourceBbse != null));
 
-        _factory = factory;
-        _classResourceBase = classResourceBase;
-        _urlResourceBase = urlResourceBase;
-        _defaultsMap = defaultsMap;
+        _fbctory = fbctory;
+        _clbssResourceBbse = clbssResourceBbse;
+        _urlResourceBbse = urlResourceBbse;
+        _defbultsMbp = defbultsMbp;
         try {
             try {
-                SAXParser saxParser = SAXParserFactory.newInstance().
-                                                   newSAXParser();
-                saxParser.parse(new BufferedInputStream(inputStream), this);
-            } catch (ParserConfigurationException e) {
-                throw new ParseException("Error parsing: " + e, 0);
+                SAXPbrser sbxPbrser = SAXPbrserFbctory.newInstbnce().
+                                                   newSAXPbrser();
+                sbxPbrser.pbrse(new BufferedInputStrebm(inputStrebm), this);
+            } cbtch (PbrserConfigurbtionException e) {
+                throw new PbrseException("Error pbrsing: " + e, 0);
             }
-            catch (SAXException se) {
-                throw new ParseException("Error parsing: " + se + " " +
+            cbtch (SAXException se) {
+                throw new PbrseException("Error pbrsing: " + se + " " +
                                          se.getException(), 0);
             }
-            catch (IOException ioe) {
-                throw new ParseException("Error parsing: " + ioe, 0);
+            cbtch (IOException ioe) {
+                throw new PbrseException("Error pbrsing: " + ioe, 0);
             }
-        } finally {
+        } finblly {
             reset();
         }
     }
 
     /**
-     * Returns the path to a resource.
+     * Returns the pbth to b resource.
      */
-    private URL getResource(String path) {
-        if (_classResourceBase != null) {
-            return _classResourceBase.getResource(path);
+    privbte URL getResource(String pbth) {
+        if (_clbssResourceBbse != null) {
+            return _clbssResourceBbse.getResource(pbth);
         } else {
             try {
-                return new URL(_urlResourceBase, path);
-            } catch (MalformedURLException mue) {
+                return new URL(_urlResourceBbse, pbth);
+            } cbtch (MblformedURLException mue) {
                 return null;
             }
         }
     }
 
     /**
-     * Clears our internal state.
+     * Clebrs our internbl stbte.
      */
-    private void reset() {
-        _handler = null;
+    privbte void reset() {
+        _hbndler = null;
         _depth = 0;
-        _mapping.clear();
-        _stateInfos.clear();
-        _colorTypes.clear();
-        _statePainters.clear();
-        _stylePainters.clear();
+        _mbpping.clebr();
+        _stbteInfos.clebr();
+        _colorTypes.clebr();
+        _stbtePbinters.clebr();
+        _stylePbinters.clebr();
     }
 
     /**
-     * Returns true if we are forwarding to persistance.
+     * Returns true if we bre forwbrding to persistbnce.
      */
-    private boolean isForwarding() {
+    privbte boolebn isForwbrding() {
         return (_depth > 0);
     }
 
     /**
-     * Handles beans persistance.
+     * Hbndles bebns persistbnce.
      */
-    private DocumentHandler getHandler() {
-        if (_handler == null) {
-            _handler = new DocumentHandler();
-            if (_urlResourceBase != null) {
-                // getHandler() is never called before parse() so it is safe
-                // to create a URLClassLoader with _resourceBase.
+    privbte DocumentHbndler getHbndler() {
+        if (_hbndler == null) {
+            _hbndler = new DocumentHbndler();
+            if (_urlResourceBbse != null) {
+                // getHbndler() is never cblled before pbrse() so it is sbfe
+                // to crebte b URLClbssLobder with _resourceBbse.
                 //
-                // getResource(".") is called to ensure we have the directory
-                // containing the resources in the case the resource base is a
-                // .class file.
+                // getResource(".") is cblled to ensure we hbve the directory
+                // contbining the resources in the cbse the resource bbse is b
+                // .clbss file.
                 URL[] urls = new URL[] { getResource(".") };
-                ClassLoader parent = Thread.currentThread().getContextClassLoader();
-                ClassLoader urlLoader = new URLClassLoader(urls, parent);
-                _handler.setClassLoader(urlLoader);
+                ClbssLobder pbrent = Threbd.currentThrebd().getContextClbssLobder();
+                ClbssLobder urlLobder = new URLClbssLobder(urls, pbrent);
+                _hbndler.setClbssLobder(urlLobder);
             } else {
-                _handler.setClassLoader(_classResourceBase.getClassLoader());
+                _hbndler.setClbssLobder(_clbssResourceBbse.getClbssLobder());
             }
 
-            for (String key : _mapping.keySet()) {
-                _handler.setVariable(key, _mapping.get(key));
+            for (String key : _mbpping.keySet()) {
+                _hbndler.setVbribble(key, _mbpping.get(key));
             }
         }
-        return _handler;
+        return _hbndler;
     }
 
     /**
-     * If <code>value</code> is an instance of <code>type</code> it is
-     * returned, otherwise a SAXException is thrown.
+     * If <code>vblue</code> is bn instbnce of <code>type</code> it is
+     * returned, otherwise b SAXException is thrown.
      */
-    private Object checkCast(Object value, Class<?> type) throws SAXException {
-        if (!type.isInstance(value)) {
+    privbte Object checkCbst(Object vblue, Clbss<?> type) throws SAXException {
+        if (!type.isInstbnce(vblue)) {
             throw new SAXException("Expected type " + type + " got " +
-                                   value.getClass());
+                                   vblue.getClbss());
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns an object created with id=key. If the object is not of
-     * type type, this will throw an exception.
+     * Returns bn object crebted with id=key. If the object is not of
+     * type type, this will throw bn exception.
      */
-    private Object lookup(String key, Class<?> type) throws SAXException {
-        Object value;
-        if (_handler != null) {
-            if (_handler.hasVariable(key)) {
-                return checkCast(_handler.getVariable(key), type);
+    privbte Object lookup(String key, Clbss<?> type) throws SAXException {
+        Object vblue;
+        if (_hbndler != null) {
+            if (_hbndler.hbsVbribble(key)) {
+                return checkCbst(_hbndler.getVbribble(key), type);
             }
         }
-        value = _mapping.get(key);
-        if (value == null) {
-            throw new SAXException("ID " + key + " has not been defined");
+        vblue = _mbpping.get(key);
+        if (vblue == null) {
+            throw new SAXException("ID " + key + " hbs not been defined");
         }
-        return checkCast(value, type);
+        return checkCbst(vblue, type);
     }
 
     /**
-     * Registers an object by name. This will throw an exception if an
-     * object has already been registered under the given name.
+     * Registers bn object by nbme. This will throw bn exception if bn
+     * object hbs blrebdy been registered under the given nbme.
      */
-    private void register(String key, Object value) throws SAXException {
+    privbte void register(String key, Object vblue) throws SAXException {
         if (key != null) {
-            if (_mapping.get(key) != null ||
-                     (_handler != null && _handler.hasVariable(key))) {
-                throw new SAXException("ID " + key + " is already defined");
+            if (_mbpping.get(key) != null ||
+                     (_hbndler != null && _hbndler.hbsVbribble(key))) {
+                throw new SAXException("ID " + key + " is blrebdy defined");
             }
-            if (_handler != null) {
-                _handler.setVariable(key, value);
+            if (_hbndler != null) {
+                _hbndler.setVbribble(key, vblue);
             }
             else {
-                _mapping.put(key, value);
+                _mbpping.put(key, vblue);
             }
         }
     }
 
     /**
-     * Convenience method to return the next int, or throw if there are no
-     * more valid ints.
+     * Convenience method to return the next int, or throw if there bre no
+     * more vblid ints.
      */
-    private int nextInt(StringTokenizer tok, String errorMsg) throws
+    privbte int nextInt(StringTokenizer tok, String errorMsg) throws
                    SAXException {
-        if (!tok.hasMoreTokens()) {
+        if (!tok.hbsMoreTokens()) {
             throw new SAXException(errorMsg);
         }
         try {
-            return Integer.parseInt(tok.nextToken());
-        } catch (NumberFormatException nfe) {
+            return Integer.pbrseInt(tok.nextToken());
+        } cbtch (NumberFormbtException nfe) {
             throw new SAXException(errorMsg);
         }
     }
 
     /**
-     * Convenience method to return an Insets object.
+     * Convenience method to return bn Insets object.
      */
-    private Insets parseInsets(String insets, String errorMsg) throws
+    privbte Insets pbrseInsets(String insets, String errorMsg) throws
                         SAXException {
         StringTokenizer tokenizer = new StringTokenizer(insets);
         return new Insets(nextInt(tokenizer, errorMsg),
@@ -398,144 +398,144 @@ class SynthParser extends DefaultHandler {
 
 
     //
-    // The following methods are invoked from startElement/stopElement
+    // The following methods bre invoked from stbrtElement/stopElement
     //
 
-    private void startStyle(Attributes attributes) throws SAXException {
+    privbte void stbrtStyle(Attributes bttributes) throws SAXException {
         String id = null;
 
         _style = null;
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            if (key.equals(ATTRIBUTE_CLONE)) {
-                _style = (ParsedSynthStyle)((ParsedSynthStyle)lookup(
-                         attributes.getValue(i), ParsedSynthStyle.class)).
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            if (key.equbls(ATTRIBUTE_CLONE)) {
+                _style = (PbrsedSynthStyle)((PbrsedSynthStyle)lookup(
+                         bttributes.getVblue(i), PbrsedSynthStyle.clbss)).
                          clone();
             }
-            else if (key.equals(ATTRIBUTE_ID)) {
-                id = attributes.getValue(i);
+            else if (key.equbls(ATTRIBUTE_ID)) {
+                id = bttributes.getVblue(i);
             }
         }
         if (_style == null) {
-            _style = new ParsedSynthStyle();
+            _style = new PbrsedSynthStyle();
         }
         register(id, _style);
     }
 
-    private void endStyle() {
-        int size = _stylePainters.size();
+    privbte void endStyle() {
+        int size = _stylePbinters.size();
         if (size > 0) {
-            _style.setPainters(_stylePainters.toArray(new ParsedSynthStyle.PainterInfo[size]));
-            _stylePainters.clear();
+            _style.setPbinters(_stylePbinters.toArrby(new PbrsedSynthStyle.PbinterInfo[size]));
+            _stylePbinters.clebr();
         }
-        size = _stateInfos.size();
+        size = _stbteInfos.size();
         if (size > 0) {
-            _style.setStateInfo(_stateInfos.toArray(new ParsedSynthStyle.StateInfo[size]));
-            _stateInfos.clear();
+            _style.setStbteInfo(_stbteInfos.toArrby(new PbrsedSynthStyle.StbteInfo[size]));
+            _stbteInfos.clebr();
         }
         _style = null;
     }
 
-    private void startState(Attributes attributes) throws SAXException {
-        ParsedSynthStyle.StateInfo stateInfo = null;
-        int state = 0;
+    privbte void stbrtStbte(Attributes bttributes) throws SAXException {
+        PbrsedSynthStyle.StbteInfo stbteInfo = null;
+        int stbte = 0;
         String id = null;
 
-        _stateInfo = null;
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            if (key.equals(ATTRIBUTE_ID)) {
-                id = attributes.getValue(i);
+        _stbteInfo = null;
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            if (key.equbls(ATTRIBUTE_ID)) {
+                id = bttributes.getVblue(i);
             }
-            else if (key.equals(ATTRIBUTE_IDREF)) {
-                _stateInfo = (ParsedSynthStyle.StateInfo)lookup(
-                   attributes.getValue(i), ParsedSynthStyle.StateInfo.class);
+            else if (key.equbls(ATTRIBUTE_IDREF)) {
+                _stbteInfo = (PbrsedSynthStyle.StbteInfo)lookup(
+                   bttributes.getVblue(i), PbrsedSynthStyle.StbteInfo.clbss);
             }
-            else if (key.equals(ATTRIBUTE_CLONE)) {
-                _stateInfo = (ParsedSynthStyle.StateInfo)((ParsedSynthStyle.
-                             StateInfo)lookup(attributes.getValue(i),
-                             ParsedSynthStyle.StateInfo.class)).clone();
+            else if (key.equbls(ATTRIBUTE_CLONE)) {
+                _stbteInfo = (PbrsedSynthStyle.StbteInfo)((PbrsedSynthStyle.
+                             StbteInfo)lookup(bttributes.getVblue(i),
+                             PbrsedSynthStyle.StbteInfo.clbss)).clone();
             }
-            else if (key.equals(ATTRIBUTE_VALUE)) {
+            else if (key.equbls(ATTRIBUTE_VALUE)) {
                 StringTokenizer tokenizer = new StringTokenizer(
-                                   attributes.getValue(i));
-                while (tokenizer.hasMoreTokens()) {
-                    String stateString = tokenizer.nextToken().toUpperCase().
+                                   bttributes.getVblue(i));
+                while (tokenizer.hbsMoreTokens()) {
+                    String stbteString = tokenizer.nextToken().toUpperCbse().
                                                    intern();
-                    if (stateString == "ENABLED") {
-                        state |= SynthConstants.ENABLED;
+                    if (stbteString == "ENABLED") {
+                        stbte |= SynthConstbnts.ENABLED;
                     }
-                    else if (stateString == "MOUSE_OVER") {
-                        state |= SynthConstants.MOUSE_OVER;
+                    else if (stbteString == "MOUSE_OVER") {
+                        stbte |= SynthConstbnts.MOUSE_OVER;
                     }
-                    else if (stateString == "PRESSED") {
-                        state |= SynthConstants.PRESSED;
+                    else if (stbteString == "PRESSED") {
+                        stbte |= SynthConstbnts.PRESSED;
                     }
-                    else if (stateString == "DISABLED") {
-                        state |= SynthConstants.DISABLED;
+                    else if (stbteString == "DISABLED") {
+                        stbte |= SynthConstbnts.DISABLED;
                     }
-                    else if (stateString == "FOCUSED") {
-                        state |= SynthConstants.FOCUSED;
+                    else if (stbteString == "FOCUSED") {
+                        stbte |= SynthConstbnts.FOCUSED;
                     }
-                    else if (stateString == "SELECTED") {
-                        state |= SynthConstants.SELECTED;
+                    else if (stbteString == "SELECTED") {
+                        stbte |= SynthConstbnts.SELECTED;
                     }
-                    else if (stateString == "DEFAULT") {
-                        state |= SynthConstants.DEFAULT;
+                    else if (stbteString == "DEFAULT") {
+                        stbte |= SynthConstbnts.DEFAULT;
                     }
-                    else if (stateString != "AND") {
-                        throw new SAXException("Unknown state: " + state);
+                    else if (stbteString != "AND") {
+                        throw new SAXException("Unknown stbte: " + stbte);
                     }
                 }
             }
         }
-        if (_stateInfo == null) {
-            _stateInfo = new ParsedSynthStyle.StateInfo();
+        if (_stbteInfo == null) {
+            _stbteInfo = new PbrsedSynthStyle.StbteInfo();
         }
-        _stateInfo.setComponentState(state);
-        register(id, _stateInfo);
-        _stateInfos.add(_stateInfo);
+        _stbteInfo.setComponentStbte(stbte);
+        register(id, _stbteInfo);
+        _stbteInfos.bdd(_stbteInfo);
     }
 
-    private void endState() {
-        int size = _statePainters.size();
+    privbte void endStbte() {
+        int size = _stbtePbinters.size();
         if (size > 0) {
-            _stateInfo.setPainters(_statePainters.toArray(new ParsedSynthStyle.PainterInfo[size]));
-            _statePainters.clear();
+            _stbteInfo.setPbinters(_stbtePbinters.toArrby(new PbrsedSynthStyle.PbinterInfo[size]));
+            _stbtePbinters.clebr();
         }
-        _stateInfo = null;
+        _stbteInfo = null;
     }
 
-    private void startFont(Attributes attributes) throws SAXException {
+    privbte void stbrtFont(Attributes bttributes) throws SAXException {
         Font font = null;
         int style = Font.PLAIN;
         int size = 0;
         String id = null;
-        String name = null;
+        String nbme = null;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            if (key.equals(ATTRIBUTE_ID)) {
-                id = attributes.getValue(i);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            if (key.equbls(ATTRIBUTE_ID)) {
+                id = bttributes.getVblue(i);
             }
-            else if (key.equals(ATTRIBUTE_IDREF)) {
-                font = (Font)lookup(attributes.getValue(i), Font.class);
+            else if (key.equbls(ATTRIBUTE_IDREF)) {
+                font = (Font)lookup(bttributes.getVblue(i), Font.clbss);
             }
-            else if (key.equals(ATTRIBUTE_NAME)) {
-                name = attributes.getValue(i);
+            else if (key.equbls(ATTRIBUTE_NAME)) {
+                nbme = bttributes.getVblue(i);
             }
-            else if (key.equals(ATTRIBUTE_SIZE)) {
+            else if (key.equbls(ATTRIBUTE_SIZE)) {
                 try {
-                    size = Integer.parseInt(attributes.getValue(i));
-                } catch (NumberFormatException nfe) {
-                    throw new SAXException("Invalid font size: " +
-                                           attributes.getValue(i));
+                    size = Integer.pbrseInt(bttributes.getVblue(i));
+                } cbtch (NumberFormbtException nfe) {
+                    throw new SAXException("Invblid font size: " +
+                                           bttributes.getVblue(i));
                 }
             }
-            else if (key.equals(ATTRIBUTE_STYLE)) {
+            else if (key.equbls(ATTRIBUTE_STYLE)) {
                 StringTokenizer tok = new StringTokenizer(
-                                                attributes.getValue(i));
-                while (tok.hasMoreTokens()) {
+                                                bttributes.getVblue(i));
+                while (tok.hbsMoreTokens()) {
                     String token = tok.nextToken().intern();
                     if (token == "BOLD") {
                         style = ((style | Font.PLAIN) ^ Font.PLAIN) |
@@ -548,144 +548,144 @@ class SynthParser extends DefaultHandler {
             }
         }
         if (font == null) {
-            if (name == null) {
-                throw new SAXException("You must define a name for the font");
+            if (nbme == null) {
+                throw new SAXException("You must define b nbme for the font");
             }
             if (size == 0) {
-                throw new SAXException("You must define a size for the font");
+                throw new SAXException("You must define b size for the font");
             }
-            font = new FontUIResource(name, style, size);
+            font = new FontUIResource(nbme, style, size);
         }
-        else if (name != null || size != 0 || style != Font.PLAIN) {
-            throw new SAXException("Name, size and style are not for use " +
+        else if (nbme != null || size != 0 || style != Font.PLAIN) {
+            throw new SAXException("Nbme, size bnd style bre not for use " +
                                    "with idref");
         }
         register(id, font);
-        if (_stateInfo != null) {
-            _stateInfo.setFont(font);
+        if (_stbteInfo != null) {
+            _stbteInfo.setFont(font);
         }
         else if (_style != null) {
             _style.setFont(font);
         }
     }
 
-    private void startColor(Attributes attributes) throws SAXException {
+    privbte void stbrtColor(Attributes bttributes) throws SAXException {
         Color color = null;
         String id = null;
 
-        _colorTypes.clear();
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            if (key.equals(ATTRIBUTE_ID)) {
-                id = attributes.getValue(i);
+        _colorTypes.clebr();
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            if (key.equbls(ATTRIBUTE_ID)) {
+                id = bttributes.getVblue(i);
             }
-            else if (key.equals(ATTRIBUTE_IDREF)) {
-                color = (Color)lookup(attributes.getValue(i), Color.class);
+            else if (key.equbls(ATTRIBUTE_IDREF)) {
+                color = (Color)lookup(bttributes.getVblue(i), Color.clbss);
             }
-            else if (key.equals(ATTRIBUTE_NAME)) {
+            else if (key.equbls(ATTRIBUTE_NAME)) {
             }
-            else if (key.equals(ATTRIBUTE_VALUE)) {
-                String value = attributes.getValue(i);
+            else if (key.equbls(ATTRIBUTE_VALUE)) {
+                String vblue = bttributes.getVblue(i);
 
-                if (value.startsWith("#")) {
+                if (vblue.stbrtsWith("#")) {
                     try {
-                        int argb;
-                        boolean hasAlpha;
+                        int brgb;
+                        boolebn hbsAlphb;
 
-                        int length = value.length();
+                        int length = vblue.length();
                         if (length < 8) {
                             // Just RGB, or some portion of it.
-                            argb = Integer.decode(value);
-                            hasAlpha = false;
+                            brgb = Integer.decode(vblue);
+                            hbsAlphb = fblse;
                         } else if (length == 8) {
-                            // Single character alpha: #ARRGGBB.
-                            argb = Integer.decode(value);
-                            hasAlpha = true;
+                            // Single chbrbcter blphb: #ARRGGBB.
+                            brgb = Integer.decode(vblue);
+                            hbsAlphb = true;
                         } else if (length == 9) {
-                            // Color has alpha and is of the form
+                            // Color hbs blphb bnd is of the form
                             // #AARRGGBB.
-                            // The following split decoding is mandatory due to
-                            // Integer.decode() behavior which won't decode
-                            // hexadecimal values higher than #7FFFFFFF.
-                            // Thus, when an alpha channel is detected, it is
-                            // decoded separately from the RGB channels.
+                            // The following split decoding is mbndbtory due to
+                            // Integer.decode() behbvior which won't decode
+                            // hexbdecimbl vblues higher thbn #7FFFFFFF.
+                            // Thus, when bn blphb chbnnel is detected, it is
+                            // decoded sepbrbtely from the RGB chbnnels.
                             int rgb = Integer.decode('#' +
-                                                     value.substring(3, 9));
-                            int a = Integer.decode(value.substring(0, 3));
-                            argb = (a << 24) | rgb;
-                            hasAlpha = true;
+                                                     vblue.substring(3, 9));
+                            int b = Integer.decode(vblue.substring(0, 3));
+                            brgb = (b << 24) | rgb;
+                            hbsAlphb = true;
                         } else {
-                            throw new SAXException("Invalid Color value: "
-                                + value);
+                            throw new SAXException("Invblid Color vblue: "
+                                + vblue);
                         }
 
-                        color = new ColorUIResource(new Color(argb, hasAlpha));
-                    } catch (NumberFormatException nfe) {
-                        throw new SAXException("Invalid Color value: " +value);
+                        color = new ColorUIResource(new Color(brgb, hbsAlphb));
+                    } cbtch (NumberFormbtException nfe) {
+                        throw new SAXException("Invblid Color vblue: " +vblue);
                     }
                 }
                 else {
                     try {
-                        color = new ColorUIResource((Color)Color.class.
-                              getField(value.toUpperCase()).get(Color.class));
-                    } catch (NoSuchFieldException nsfe) {
-                        throw new SAXException("Invalid color name: " + value);
-                    } catch (IllegalAccessException iae) {
-                        throw new SAXException("Invalid color name: " + value);
+                        color = new ColorUIResource((Color)Color.clbss.
+                              getField(vblue.toUpperCbse()).get(Color.clbss));
+                    } cbtch (NoSuchFieldException nsfe) {
+                        throw new SAXException("Invblid color nbme: " + vblue);
+                    } cbtch (IllegblAccessException ibe) {
+                        throw new SAXException("Invblid color nbme: " + vblue);
                     }
                 }
             }
-            else if (key.equals(ATTRIBUTE_TYPE)) {
+            else if (key.equbls(ATTRIBUTE_TYPE)) {
                 StringTokenizer tokenizer = new StringTokenizer(
-                                   attributes.getValue(i));
-                while (tokenizer.hasMoreTokens()) {
-                    String typeName = tokenizer.nextToken();
-                    int classIndex = typeName.lastIndexOf('.');
-                    Class<?> typeClass;
+                                   bttributes.getVblue(i));
+                while (tokenizer.hbsMoreTokens()) {
+                    String typeNbme = tokenizer.nextToken();
+                    int clbssIndex = typeNbme.lbstIndexOf('.');
+                    Clbss<?> typeClbss;
 
-                    if (classIndex == -1) {
-                        typeClass = ColorType.class;
-                        classIndex = 0;
+                    if (clbssIndex == -1) {
+                        typeClbss = ColorType.clbss;
+                        clbssIndex = 0;
                     }
                     else {
                         try {
-                            typeClass = ReflectUtil.forName(typeName.substring(
-                                                      0, classIndex));
-                        } catch (ClassNotFoundException cnfe) {
-                            throw new SAXException("Unknown class: " +
-                                      typeName.substring(0, classIndex));
+                            typeClbss = ReflectUtil.forNbme(typeNbme.substring(
+                                                      0, clbssIndex));
+                        } cbtch (ClbssNotFoundException cnfe) {
+                            throw new SAXException("Unknown clbss: " +
+                                      typeNbme.substring(0, clbssIndex));
                         }
-                        classIndex++;
+                        clbssIndex++;
                     }
                     try {
-                        _colorTypes.add((ColorType)checkCast(typeClass.
-                              getField(typeName.substring(classIndex)).
-                              get(typeClass), ColorType.class));
-                    } catch (NoSuchFieldException nsfe) {
-                        throw new SAXException("Unable to find color type: " +
-                                               typeName);
-                    } catch (IllegalAccessException iae) {
-                        throw new SAXException("Unable to find color type: " +
-                                               typeName);
+                        _colorTypes.bdd((ColorType)checkCbst(typeClbss.
+                              getField(typeNbme.substring(clbssIndex)).
+                              get(typeClbss), ColorType.clbss));
+                    } cbtch (NoSuchFieldException nsfe) {
+                        throw new SAXException("Unbble to find color type: " +
+                                               typeNbme);
+                    } cbtch (IllegblAccessException ibe) {
+                        throw new SAXException("Unbble to find color type: " +
+                                               typeNbme);
                     }
                 }
             }
         }
         if (color == null) {
-            throw new SAXException("color: you must specificy a value");
+            throw new SAXException("color: you must specificy b vblue");
         }
         register(id, color);
-        if (_stateInfo != null && _colorTypes.size() > 0) {
-            Color[] colors = _stateInfo.getColors();
-            int max = 0;
+        if (_stbteInfo != null && _colorTypes.size() > 0) {
+            Color[] colors = _stbteInfo.getColors();
+            int mbx = 0;
             for (int counter = _colorTypes.size() - 1; counter >= 0;
                      counter--) {
-                max = Math.max(max, _colorTypes.get(counter).getID());
+                mbx = Mbth.mbx(mbx, _colorTypes.get(counter).getID());
             }
-            if (colors == null || colors.length <= max) {
-                Color[] newColors = new Color[max + 1];
+            if (colors == null || colors.length <= mbx) {
+                Color[] newColors = new Color[mbx + 1];
                 if (colors != null) {
-                    System.arraycopy(colors, 0, newColors, 0, colors.length);
+                    System.brrbycopy(colors, 0, newColors, 0, colors.length);
                 }
                 colors = newColors;
             }
@@ -693,127 +693,127 @@ class SynthParser extends DefaultHandler {
                      counter--) {
                 colors[_colorTypes.get(counter).getID()] = color;
             }
-            _stateInfo.setColors(colors);
+            _stbteInfo.setColors(colors);
         }
     }
 
-    private void startProperty(Attributes attributes,
+    privbte void stbrtProperty(Attributes bttributes,
                                Object property) throws SAXException {
-        Object value = null;
+        Object vblue = null;
         String key = null;
-        // Type of the value: 0=idref, 1=boolean, 2=dimension, 3=insets,
+        // Type of the vblue: 0=idref, 1=boolebn, 2=dimension, 3=insets,
         // 4=integer,5=string
         int iType = 0;
-        String aValue = null;
+        String bVblue = null;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String aName = attributes.getQName(i);
-            if (aName.equals(ATTRIBUTE_TYPE)) {
-                String type = attributes.getValue(i).toUpperCase();
-                if (type.equals("IDREF")) {
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String bNbme = bttributes.getQNbme(i);
+            if (bNbme.equbls(ATTRIBUTE_TYPE)) {
+                String type = bttributes.getVblue(i).toUpperCbse();
+                if (type.equbls("IDREF")) {
                     iType = 0;
                 }
-                else if (type.equals("BOOLEAN")) {
+                else if (type.equbls("BOOLEAN")) {
                     iType = 1;
                 }
-                else if (type.equals("DIMENSION")) {
+                else if (type.equbls("DIMENSION")) {
                     iType = 2;
                 }
-                else if (type.equals("INSETS")) {
+                else if (type.equbls("INSETS")) {
                     iType = 3;
                 }
-                else if (type.equals("INTEGER")) {
+                else if (type.equbls("INTEGER")) {
                     iType = 4;
                 }
-                else if (type.equals("STRING")) {
+                else if (type.equbls("STRING")) {
                     iType = 5;
                 }
                 else {
                     throw new SAXException(property + " unknown type, use" +
-                        "idref, boolean, dimension, insets or integer");
+                        "idref, boolebn, dimension, insets or integer");
                 }
             }
-            else if (aName.equals(ATTRIBUTE_VALUE)) {
-                aValue = attributes.getValue(i);
+            else if (bNbme.equbls(ATTRIBUTE_VALUE)) {
+                bVblue = bttributes.getVblue(i);
             }
-            else if (aName.equals(ATTRIBUTE_KEY)) {
-                key = attributes.getValue(i);
+            else if (bNbme.equbls(ATTRIBUTE_KEY)) {
+                key = bttributes.getVblue(i);
             }
         }
-        if (aValue != null) {
+        if (bVblue != null) {
             switch (iType) {
-            case 0: // idref
-                value = lookup(aValue, Object.class);
-                break;
-            case 1: // boolean
-                if (aValue.toUpperCase().equals("TRUE")) {
-                    value = Boolean.TRUE;
+            cbse 0: // idref
+                vblue = lookup(bVblue, Object.clbss);
+                brebk;
+            cbse 1: // boolebn
+                if (bVblue.toUpperCbse().equbls("TRUE")) {
+                    vblue = Boolebn.TRUE;
                 }
                 else {
-                    value = Boolean.FALSE;
+                    vblue = Boolebn.FALSE;
                 }
-                break;
-            case 2: // dimension
-                StringTokenizer tok = new StringTokenizer(aValue);
-                value = new DimensionUIResource(
-                    nextInt(tok, "Invalid dimension"),
-                    nextInt(tok, "Invalid dimension"));
-                break;
-            case 3: // insets
-                value = parseInsets(aValue, property + " invalid insets");
-                break;
-            case 4: // integer
+                brebk;
+            cbse 2: // dimension
+                StringTokenizer tok = new StringTokenizer(bVblue);
+                vblue = new DimensionUIResource(
+                    nextInt(tok, "Invblid dimension"),
+                    nextInt(tok, "Invblid dimension"));
+                brebk;
+            cbse 3: // insets
+                vblue = pbrseInsets(bVblue, property + " invblid insets");
+                brebk;
+            cbse 4: // integer
                 try {
-                    value = Integer.valueOf(aValue);
-                } catch (NumberFormatException nfe) {
-                    throw new SAXException(property + " invalid value");
+                    vblue = Integer.vblueOf(bVblue);
+                } cbtch (NumberFormbtException nfe) {
+                    throw new SAXException(property + " invblid vblue");
                 }
-                break;
-            case 5: //string
-                value = aValue;
-                break;
+                brebk;
+            cbse 5: //string
+                vblue = bVblue;
+                brebk;
             }
         }
-        if (value == null || key == null) {
-            throw new SAXException(property + ": you must supply a " +
-                                   "key and value");
+        if (vblue == null || key == null) {
+            throw new SAXException(property + ": you must supply b " +
+                                   "key bnd vblue");
         }
         if (property == ELEMENT_DEFAULTS_PROPERTY) {
-            _defaultsMap.put(key, value);
+            _defbultsMbp.put(key, vblue);
         }
-        else if (_stateInfo != null) {
-            if (_stateInfo.getData() == null) {
-                _stateInfo.setData(new HashMap<>());
+        else if (_stbteInfo != null) {
+            if (_stbteInfo.getDbtb() == null) {
+                _stbteInfo.setDbtb(new HbshMbp<>());
             }
-            _stateInfo.getData().put(key, value);
+            _stbteInfo.getDbtb().put(key, vblue);
         }
         else if (_style != null) {
-            if (_style.getData() == null) {
-                _style.setData(new HashMap<>());
+            if (_style.getDbtb() == null) {
+                _style.setDbtb(new HbshMbp<>());
             }
-            _style.getData().put(key, value);
+            _style.getDbtb().put(key, vblue);
         }
     }
 
-    private void startGraphics(Attributes attributes) throws SAXException {
-        SynthGraphicsUtils graphics = null;
+    privbte void stbrtGrbphics(Attributes bttributes) throws SAXException {
+        SynthGrbphicsUtils grbphics = null;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            if (key.equals(ATTRIBUTE_IDREF)) {
-                graphics = (SynthGraphicsUtils)lookup(attributes.getValue(i),
-                                                 SynthGraphicsUtils.class);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            if (key.equbls(ATTRIBUTE_IDREF)) {
+                grbphics = (SynthGrbphicsUtils)lookup(bttributes.getVblue(i),
+                                                 SynthGrbphicsUtils.clbss);
             }
         }
-        if (graphics == null) {
-            throw new SAXException("graphicsUtils: you must supply an idref");
+        if (grbphics == null) {
+            throw new SAXException("grbphicsUtils: you must supply bn idref");
         }
         if (_style != null) {
-            _style.setGraphicsUtils(graphics);
+            _style.setGrbphicsUtils(grbphics);
         }
     }
 
-    private void startInsets(Attributes attributes) throws SAXException {
+    privbte void stbrtInsets(Attributes bttributes) throws SAXException {
         int top = 0;
         int bottom = 0;
         int left = 0;
@@ -821,32 +821,32 @@ class SynthParser extends DefaultHandler {
         Insets insets = null;
         String id = null;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
 
             try {
-                if (key.equals(ATTRIBUTE_IDREF)) {
-                    insets = (Insets)lookup(attributes.getValue(i),
-                                                   Insets.class);
+                if (key.equbls(ATTRIBUTE_IDREF)) {
+                    insets = (Insets)lookup(bttributes.getVblue(i),
+                                                   Insets.clbss);
                 }
-                else if (key.equals(ATTRIBUTE_ID)) {
-                    id = attributes.getValue(i);
+                else if (key.equbls(ATTRIBUTE_ID)) {
+                    id = bttributes.getVblue(i);
                 }
-                else if (key.equals(ATTRIBUTE_TOP)) {
-                    top = Integer.parseInt(attributes.getValue(i));
+                else if (key.equbls(ATTRIBUTE_TOP)) {
+                    top = Integer.pbrseInt(bttributes.getVblue(i));
                 }
-                else if (key.equals(ATTRIBUTE_LEFT)) {
-                    left = Integer.parseInt(attributes.getValue(i));
+                else if (key.equbls(ATTRIBUTE_LEFT)) {
+                    left = Integer.pbrseInt(bttributes.getVblue(i));
                 }
-                else if (key.equals(ATTRIBUTE_BOTTOM)) {
-                    bottom = Integer.parseInt(attributes.getValue(i));
+                else if (key.equbls(ATTRIBUTE_BOTTOM)) {
+                    bottom = Integer.pbrseInt(bttributes.getVblue(i));
                 }
-                else if (key.equals(ATTRIBUTE_RIGHT)) {
-                    right = Integer.parseInt(attributes.getValue(i));
+                else if (key.equbls(ATTRIBUTE_RIGHT)) {
+                    right = Integer.pbrseInt(bttributes.getVblue(i));
                 }
-            } catch (NumberFormatException nfe) {
-                throw new SAXException("insets: bad integer value for " +
-                                       attributes.getValue(i));
+            } cbtch (NumberFormbtException nfe) {
+                throw new SAXException("insets: bbd integer vblue for " +
+                                       bttributes.getVblue(i));
             }
         }
         if (insets == null) {
@@ -858,478 +858,478 @@ class SynthParser extends DefaultHandler {
         }
     }
 
-    private void startBind(Attributes attributes) throws SAXException {
-        ParsedSynthStyle style = null;
-        String path = null;
+    privbte void stbrtBind(Attributes bttributes) throws SAXException {
+        PbrsedSynthStyle style = null;
+        String pbth = null;
         int type = -1;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
 
-            if (key.equals(ATTRIBUTE_STYLE)) {
-                style = (ParsedSynthStyle)lookup(attributes.getValue(i),
-                                                  ParsedSynthStyle.class);
+            if (key.equbls(ATTRIBUTE_STYLE)) {
+                style = (PbrsedSynthStyle)lookup(bttributes.getVblue(i),
+                                                  PbrsedSynthStyle.clbss);
             }
-            else if (key.equals(ATTRIBUTE_TYPE)) {
-                String typeS = attributes.getValue(i).toUpperCase();
+            else if (key.equbls(ATTRIBUTE_TYPE)) {
+                String typeS = bttributes.getVblue(i).toUpperCbse();
 
-                if (typeS.equals("NAME")) {
-                    type = DefaultSynthStyleFactory.NAME;
+                if (typeS.equbls("NAME")) {
+                    type = DefbultSynthStyleFbctory.NAME;
                 }
-                else if (typeS.equals("REGION")) {
-                    type = DefaultSynthStyleFactory.REGION;
+                else if (typeS.equbls("REGION")) {
+                    type = DefbultSynthStyleFbctory.REGION;
                 }
                 else {
                     throw new SAXException("bind: unknown type " + typeS);
                 }
             }
-            else if (key.equals(ATTRIBUTE_KEY)) {
-                path = attributes.getValue(i);
+            else if (key.equbls(ATTRIBUTE_KEY)) {
+                pbth = bttributes.getVblue(i);
             }
         }
-        if (style == null || path == null || type == -1) {
-            throw new SAXException("bind: you must specify a style, type " +
-                                   "and key");
+        if (style == null || pbth == null || type == -1) {
+            throw new SAXException("bind: you must specify b style, type " +
+                                   "bnd key");
         }
         try {
-            _factory.addStyle(style, path, type);
-        } catch (PatternSyntaxException pse) {
-            throw new SAXException("bind: " + path + " is not a valid " +
-                                   "regular expression");
+            _fbctory.bddStyle(style, pbth, type);
+        } cbtch (PbtternSyntbxException pse) {
+            throw new SAXException("bind: " + pbth + " is not b vblid " +
+                                   "regulbr expression");
         }
     }
 
-    private void startPainter(Attributes attributes, String type) throws SAXException {
+    privbte void stbrtPbinter(Attributes bttributes, String type) throws SAXException {
         Insets sourceInsets = null;
         Insets destInsets = null;
-        String path = null;
-        boolean paintCenter = true;
-        boolean stretch = true;
-        SynthPainter painter = null;
+        String pbth = null;
+        boolebn pbintCenter = true;
+        boolebn stretch = true;
+        SynthPbinter pbinter = null;
         String method = null;
         String id = null;
         int direction = -1;
-        boolean center = false;
+        boolebn center = fblse;
 
-        boolean stretchSpecified = false;
-        boolean paintCenterSpecified = false;
+        boolebn stretchSpecified = fblse;
+        boolebn pbintCenterSpecified = fblse;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
-            String value = attributes.getValue(i);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
+            String vblue = bttributes.getVblue(i);
 
-            if (key.equals(ATTRIBUTE_ID)) {
-                id = value;
+            if (key.equbls(ATTRIBUTE_ID)) {
+                id = vblue;
             }
-            else if (key.equals(ATTRIBUTE_METHOD)) {
-                method = value.toLowerCase(Locale.ENGLISH);
+            else if (key.equbls(ATTRIBUTE_METHOD)) {
+                method = vblue.toLowerCbse(Locble.ENGLISH);
             }
-            else if (key.equals(ATTRIBUTE_IDREF)) {
-                painter = (SynthPainter)lookup(value, SynthPainter.class);
+            else if (key.equbls(ATTRIBUTE_IDREF)) {
+                pbinter = (SynthPbinter)lookup(vblue, SynthPbinter.clbss);
             }
-            else if (key.equals(ATTRIBUTE_PATH)) {
-                path = value;
+            else if (key.equbls(ATTRIBUTE_PATH)) {
+                pbth = vblue;
             }
-            else if (key.equals(ATTRIBUTE_SOURCE_INSETS)) {
-                sourceInsets = parseInsets(value, type +
+            else if (key.equbls(ATTRIBUTE_SOURCE_INSETS)) {
+                sourceInsets = pbrseInsets(vblue, type +
                    ": sourceInsets must be top left bottom right");
             }
-            else if (key.equals(ATTRIBUTE_DEST_INSETS)) {
-                destInsets = parseInsets(value, type +
-                  ": destinationInsets must be top left bottom right");
+            else if (key.equbls(ATTRIBUTE_DEST_INSETS)) {
+                destInsets = pbrseInsets(vblue, type +
+                  ": destinbtionInsets must be top left bottom right");
             }
-            else if (key.equals(ATTRIBUTE_PAINT_CENTER)) {
-                paintCenter = value.toLowerCase().equals("true");
-                paintCenterSpecified = true;
+            else if (key.equbls(ATTRIBUTE_PAINT_CENTER)) {
+                pbintCenter = vblue.toLowerCbse().equbls("true");
+                pbintCenterSpecified = true;
             }
-            else if (key.equals(ATTRIBUTE_STRETCH)) {
-                stretch = value.toLowerCase().equals("true");
+            else if (key.equbls(ATTRIBUTE_STRETCH)) {
+                stretch = vblue.toLowerCbse().equbls("true");
                 stretchSpecified = true;
             }
-            else if (key.equals(ATTRIBUTE_DIRECTION)) {
-                value = value.toUpperCase().intern();
-                if (value == "EAST") {
-                    direction = SwingConstants.EAST;
+            else if (key.equbls(ATTRIBUTE_DIRECTION)) {
+                vblue = vblue.toUpperCbse().intern();
+                if (vblue == "EAST") {
+                    direction = SwingConstbnts.EAST;
                 }
-                else if (value == "NORTH") {
-                    direction = SwingConstants.NORTH;
+                else if (vblue == "NORTH") {
+                    direction = SwingConstbnts.NORTH;
                 }
-                else if (value == "SOUTH") {
-                    direction = SwingConstants.SOUTH;
+                else if (vblue == "SOUTH") {
+                    direction = SwingConstbnts.SOUTH;
                 }
-                else if (value == "WEST") {
-                    direction = SwingConstants.WEST;
+                else if (vblue == "WEST") {
+                    direction = SwingConstbnts.WEST;
                 }
-                else if (value == "TOP") {
-                    direction = SwingConstants.TOP;
+                else if (vblue == "TOP") {
+                    direction = SwingConstbnts.TOP;
                 }
-                else if (value == "LEFT") {
-                    direction = SwingConstants.LEFT;
+                else if (vblue == "LEFT") {
+                    direction = SwingConstbnts.LEFT;
                 }
-                else if (value == "BOTTOM") {
-                    direction = SwingConstants.BOTTOM;
+                else if (vblue == "BOTTOM") {
+                    direction = SwingConstbnts.BOTTOM;
                 }
-                else if (value == "RIGHT") {
-                    direction = SwingConstants.RIGHT;
+                else if (vblue == "RIGHT") {
+                    direction = SwingConstbnts.RIGHT;
                 }
-                else if (value == "HORIZONTAL") {
-                    direction = SwingConstants.HORIZONTAL;
+                else if (vblue == "HORIZONTAL") {
+                    direction = SwingConstbnts.HORIZONTAL;
                 }
-                else if (value == "VERTICAL") {
-                    direction = SwingConstants.VERTICAL;
+                else if (vblue == "VERTICAL") {
+                    direction = SwingConstbnts.VERTICAL;
                 }
-                else if (value == "HORIZONTAL_SPLIT") {
-                    direction = JSplitPane.HORIZONTAL_SPLIT;
+                else if (vblue == "HORIZONTAL_SPLIT") {
+                    direction = JSplitPbne.HORIZONTAL_SPLIT;
                 }
-                else if (value == "VERTICAL_SPLIT") {
-                    direction = JSplitPane.VERTICAL_SPLIT;
+                else if (vblue == "VERTICAL_SPLIT") {
+                    direction = JSplitPbne.VERTICAL_SPLIT;
                 }
                 else {
                     throw new SAXException(type + ": unknown direction");
                 }
             }
-            else if (key.equals(ATTRIBUTE_CENTER)) {
-                center = value.toLowerCase().equals("true");
+            else if (key.equbls(ATTRIBUTE_CENTER)) {
+                center = vblue.toLowerCbse().equbls("true");
             }
         }
-        if (painter == null) {
+        if (pbinter == null) {
             if (type == ELEMENT_PAINTER) {
                 throw new SAXException(type +
-                             ": you must specify an idref");
+                             ": you must specify bn idref");
             }
             if (sourceInsets == null && !center) {
                 throw new SAXException(
                              "property: you must specify sourceInsets");
             }
-            if (path == null) {
-                throw new SAXException("property: you must specify a path");
+            if (pbth == null) {
+                throw new SAXException("property: you must specify b pbth");
             }
             if (center && (sourceInsets != null || destInsets != null ||
-                           paintCenterSpecified || stretchSpecified)) {
-                throw new SAXException("The attributes: sourceInsets, " +
-                                       "destinationInsets, paintCenter and stretch " +
-                                       " are not legal when center is true");
+                           pbintCenterSpecified || stretchSpecified)) {
+                throw new SAXException("The bttributes: sourceInsets, " +
+                                       "destinbtionInsets, pbintCenter bnd stretch " +
+                                       " bre not legbl when center is true");
             }
-            painter = new ImagePainter(!stretch, paintCenter,
-                     sourceInsets, destInsets, getResource(path), center);
+            pbinter = new ImbgePbinter(!stretch, pbintCenter,
+                     sourceInsets, destInsets, getResource(pbth), center);
         }
-        register(id, painter);
-        if (_stateInfo != null) {
-            addPainterOrMerge(_statePainters, method, painter, direction);
+        register(id, pbinter);
+        if (_stbteInfo != null) {
+            bddPbinterOrMerge(_stbtePbinters, method, pbinter, direction);
         }
         else if (_style != null) {
-            addPainterOrMerge(_stylePainters, method, painter, direction);
+            bddPbinterOrMerge(_stylePbinters, method, pbinter, direction);
         }
     }
 
-    private void addPainterOrMerge(List<ParsedSynthStyle.PainterInfo> painters, String method,
-                                   SynthPainter painter, int direction) {
-        ParsedSynthStyle.PainterInfo painterInfo;
-        painterInfo = new ParsedSynthStyle.PainterInfo(method,
-                                                       painter,
+    privbte void bddPbinterOrMerge(List<PbrsedSynthStyle.PbinterInfo> pbinters, String method,
+                                   SynthPbinter pbinter, int direction) {
+        PbrsedSynthStyle.PbinterInfo pbinterInfo;
+        pbinterInfo = new PbrsedSynthStyle.PbinterInfo(method,
+                                                       pbinter,
                                                        direction);
 
-        for (Object infoObject: painters) {
-            ParsedSynthStyle.PainterInfo info;
-            info = (ParsedSynthStyle.PainterInfo) infoObject;
+        for (Object infoObject: pbinters) {
+            PbrsedSynthStyle.PbinterInfo info;
+            info = (PbrsedSynthStyle.PbinterInfo) infoObject;
 
-            if (painterInfo.equalsPainter(info)) {
-                info.addPainter(painter);
+            if (pbinterInfo.equblsPbinter(info)) {
+                info.bddPbinter(pbinter);
                 return;
             }
         }
 
-        painters.add(painterInfo);
+        pbinters.bdd(pbinterInfo);
     }
 
-    private void startImageIcon(Attributes attributes) throws SAXException {
-        String path = null;
+    privbte void stbrtImbgeIcon(Attributes bttributes) throws SAXException {
+        String pbth = null;
         String id = null;
 
-        for(int i = attributes.getLength() - 1; i >= 0; i--) {
-            String key = attributes.getQName(i);
+        for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+            String key = bttributes.getQNbme(i);
 
-            if (key.equals(ATTRIBUTE_ID)) {
-                id = attributes.getValue(i);
+            if (key.equbls(ATTRIBUTE_ID)) {
+                id = bttributes.getVblue(i);
             }
-            else if (key.equals(ATTRIBUTE_PATH)) {
-                path = attributes.getValue(i);
+            else if (key.equbls(ATTRIBUTE_PATH)) {
+                pbth = bttributes.getVblue(i);
             }
         }
-        if (path == null) {
-            throw new SAXException("imageIcon: you must specify a path");
+        if (pbth == null) {
+            throw new SAXException("imbgeIcon: you must specify b pbth");
         }
-        register(id, new LazyImageIcon(getResource(path)));
+        register(id, new LbzyImbgeIcon(getResource(pbth)));
        }
 
-    private void startOpaque(Attributes attributes) {
+    privbte void stbrtOpbque(Attributes bttributes) {
         if (_style != null) {
-            _style.setOpaque(true);
-            for(int i = attributes.getLength() - 1; i >= 0; i--) {
-                String key = attributes.getQName(i);
+            _style.setOpbque(true);
+            for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+                String key = bttributes.getQNbme(i);
 
-                if (key.equals(ATTRIBUTE_VALUE)) {
-                    _style.setOpaque("true".equals(attributes.getValue(i).
-                                                   toLowerCase()));
+                if (key.equbls(ATTRIBUTE_VALUE)) {
+                    _style.setOpbque("true".equbls(bttributes.getVblue(i).
+                                                   toLowerCbse()));
                 }
             }
         }
     }
 
-    private void startInputMap(Attributes attributes) throws SAXException {
-        _inputMapBindings.clear();
-        _inputMapID = null;
+    privbte void stbrtInputMbp(Attributes bttributes) throws SAXException {
+        _inputMbpBindings.clebr();
+        _inputMbpID = null;
         if (_style != null) {
-            for(int i = attributes.getLength() - 1; i >= 0; i--) {
-                String key = attributes.getQName(i);
+            for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+                String key = bttributes.getQNbme(i);
 
-                if (key.equals(ATTRIBUTE_ID)) {
-                    _inputMapID = attributes.getValue(i);
+                if (key.equbls(ATTRIBUTE_ID)) {
+                    _inputMbpID = bttributes.getVblue(i);
                 }
             }
         }
     }
 
-    private void endInputMap() throws SAXException {
-        if (_inputMapID != null) {
-            register(_inputMapID, new UIDefaults.LazyInputMap(
-                     _inputMapBindings.toArray(new Object[_inputMapBindings.
+    privbte void endInputMbp() throws SAXException {
+        if (_inputMbpID != null) {
+            register(_inputMbpID, new UIDefbults.LbzyInputMbp(
+                     _inputMbpBindings.toArrby(new Object[_inputMbpBindings.
                      size()])));
         }
-        _inputMapBindings.clear();
-        _inputMapID = null;
+        _inputMbpBindings.clebr();
+        _inputMbpID = null;
     }
 
-    private void startBindKey(Attributes attributes) throws SAXException {
-        if (_inputMapID == null) {
-            // Not in an inputmap, bail.
+    privbte void stbrtBindKey(Attributes bttributes) throws SAXException {
+        if (_inputMbpID == null) {
+            // Not in bn inputmbp, bbil.
             return;
         }
         if (_style != null) {
             String key = null;
-            String value = null;
-            for(int i = attributes.getLength() - 1; i >= 0; i--) {
-                String aKey = attributes.getQName(i);
+            String vblue = null;
+            for(int i = bttributes.getLength() - 1; i >= 0; i--) {
+                String bKey = bttributes.getQNbme(i);
 
-                if (aKey.equals(ATTRIBUTE_KEY)) {
-                    key = attributes.getValue(i);
+                if (bKey.equbls(ATTRIBUTE_KEY)) {
+                    key = bttributes.getVblue(i);
                 }
-                else if (aKey.equals(ATTRIBUTE_ACTION)) {
-                    value = attributes.getValue(i);
+                else if (bKey.equbls(ATTRIBUTE_ACTION)) {
+                    vblue = bttributes.getVblue(i);
                 }
             }
-            if (key == null || value == null) {
+            if (key == null || vblue == null) {
                 throw new SAXException(
-                    "bindKey: you must supply a key and action");
+                    "bindKey: you must supply b key bnd bction");
             }
-            _inputMapBindings.add(key);
-            _inputMapBindings.add(value);
+            _inputMbpBindings.bdd(key);
+            _inputMbpBindings.bdd(vblue);
         }
     }
 
     //
-    // SAX methods, these forward to the DocumentHandler if we don't know
-    // the element name.
+    // SAX methods, these forwbrd to the DocumentHbndler if we don't know
+    // the element nbme.
     //
 
     public InputSource resolveEntity(String publicId, String systemId)
                               throws IOException, SAXException {
-        if (isForwarding()) {
-            return getHandler().resolveEntity(publicId, systemId);
+        if (isForwbrding()) {
+            return getHbndler().resolveEntity(publicId, systemId);
         }
         return null;
     }
 
-    public void notationDecl(String name, String publicId, String systemId) throws SAXException {
-        if (isForwarding()) {
-            getHandler().notationDecl(name, publicId, systemId);
+    public void notbtionDecl(String nbme, String publicId, String systemId) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().notbtionDecl(nbme, publicId, systemId);
         }
     }
 
-    public void unparsedEntityDecl(String name, String publicId,
-                                   String systemId, String notationName) throws SAXException {
-        if (isForwarding()) {
-            getHandler().unparsedEntityDecl(name, publicId, systemId,
-                                            notationName);
+    public void unpbrsedEntityDecl(String nbme, String publicId,
+                                   String systemId, String notbtionNbme) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().unpbrsedEntityDecl(nbme, publicId, systemId,
+                                            notbtionNbme);
         }
     }
 
-    public void setDocumentLocator(Locator locator) {
-        if (isForwarding()) {
-            getHandler().setDocumentLocator(locator);
+    public void setDocumentLocbtor(Locbtor locbtor) {
+        if (isForwbrding()) {
+            getHbndler().setDocumentLocbtor(locbtor);
         }
     }
 
-    public void startDocument() throws SAXException {
-        if (isForwarding()) {
-            getHandler().startDocument();
+    public void stbrtDocument() throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().stbrtDocument();
         }
     }
 
     public void endDocument() throws SAXException {
-        if (isForwarding()) {
-            getHandler().endDocument();
+        if (isForwbrding()) {
+            getHbndler().endDocument();
         }
     }
 
-    public void startElement(String uri, String local, String name, Attributes attributes)
+    public void stbrtElement(String uri, String locbl, String nbme, Attributes bttributes)
                      throws SAXException {
-        name = name.intern();
-        if (name == ELEMENT_STYLE) {
-            startStyle(attributes);
+        nbme = nbme.intern();
+        if (nbme == ELEMENT_STYLE) {
+            stbrtStyle(bttributes);
         }
-        else if (name == ELEMENT_STATE) {
-            startState(attributes);
+        else if (nbme == ELEMENT_STATE) {
+            stbrtStbte(bttributes);
         }
-        else if (name == ELEMENT_FONT) {
-            startFont(attributes);
+        else if (nbme == ELEMENT_FONT) {
+            stbrtFont(bttributes);
         }
-        else if (name == ELEMENT_COLOR) {
-            startColor(attributes);
+        else if (nbme == ELEMENT_COLOR) {
+            stbrtColor(bttributes);
         }
-        else if (name == ELEMENT_PAINTER) {
-            startPainter(attributes, name);
+        else if (nbme == ELEMENT_PAINTER) {
+            stbrtPbinter(bttributes, nbme);
         }
-        else if (name == ELEMENT_IMAGE_PAINTER) {
-            startPainter(attributes, name);
+        else if (nbme == ELEMENT_IMAGE_PAINTER) {
+            stbrtPbinter(bttributes, nbme);
         }
-        else if (name == ELEMENT_PROPERTY) {
-            startProperty(attributes, ELEMENT_PROPERTY);
+        else if (nbme == ELEMENT_PROPERTY) {
+            stbrtProperty(bttributes, ELEMENT_PROPERTY);
         }
-        else if (name == ELEMENT_DEFAULTS_PROPERTY) {
-            startProperty(attributes, ELEMENT_DEFAULTS_PROPERTY);
+        else if (nbme == ELEMENT_DEFAULTS_PROPERTY) {
+            stbrtProperty(bttributes, ELEMENT_DEFAULTS_PROPERTY);
         }
-        else if (name == ELEMENT_SYNTH_GRAPHICS) {
-            startGraphics(attributes);
+        else if (nbme == ELEMENT_SYNTH_GRAPHICS) {
+            stbrtGrbphics(bttributes);
         }
-        else if (name == ELEMENT_INSETS) {
-            startInsets(attributes);
+        else if (nbme == ELEMENT_INSETS) {
+            stbrtInsets(bttributes);
         }
-        else if (name == ELEMENT_BIND) {
-            startBind(attributes);
+        else if (nbme == ELEMENT_BIND) {
+            stbrtBind(bttributes);
         }
-        else if (name == ELEMENT_BIND_KEY) {
-            startBindKey(attributes);
+        else if (nbme == ELEMENT_BIND_KEY) {
+            stbrtBindKey(bttributes);
         }
-        else if (name == ELEMENT_IMAGE_ICON) {
-            startImageIcon(attributes);
+        else if (nbme == ELEMENT_IMAGE_ICON) {
+            stbrtImbgeIcon(bttributes);
         }
-        else if (name == ELEMENT_OPAQUE) {
-            startOpaque(attributes);
+        else if (nbme == ELEMENT_OPAQUE) {
+            stbrtOpbque(bttributes);
         }
-        else if (name == ELEMENT_INPUT_MAP) {
-            startInputMap(attributes);
+        else if (nbme == ELEMENT_INPUT_MAP) {
+            stbrtInputMbp(bttributes);
         }
-        else if (name != ELEMENT_SYNTH) {
+        else if (nbme != ELEMENT_SYNTH) {
             if (_depth++ == 0) {
-                getHandler().startDocument();
+                getHbndler().stbrtDocument();
             }
-            getHandler().startElement(uri, local, name, attributes);
+            getHbndler().stbrtElement(uri, locbl, nbme, bttributes);
         }
     }
 
-    public void endElement(String uri, String local, String name) throws SAXException {
-        if (isForwarding()) {
-            getHandler().endElement(uri, local, name);
+    public void endElement(String uri, String locbl, String nbme) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().endElement(uri, locbl, nbme);
             _depth--;
-            if (!isForwarding()) {
-                getHandler().startDocument();
+            if (!isForwbrding()) {
+                getHbndler().stbrtDocument();
             }
         }
         else {
-            name = name.intern();
-            if (name == ELEMENT_STYLE) {
+            nbme = nbme.intern();
+            if (nbme == ELEMENT_STYLE) {
                 endStyle();
             }
-            else if (name == ELEMENT_STATE) {
-                endState();
+            else if (nbme == ELEMENT_STATE) {
+                endStbte();
             }
-            else if (name == ELEMENT_INPUT_MAP) {
-                endInputMap();
+            else if (nbme == ELEMENT_INPUT_MAP) {
+                endInputMbp();
             }
         }
     }
 
-    public void characters(char ch[], int start, int length)
+    public void chbrbcters(chbr ch[], int stbrt, int length)
                            throws SAXException {
-        if (isForwarding()) {
-            getHandler().characters(ch, start, length);
+        if (isForwbrding()) {
+            getHbndler().chbrbcters(ch, stbrt, length);
         }
     }
 
-    public void ignorableWhitespace (char ch[], int start, int length)
+    public void ignorbbleWhitespbce (chbr ch[], int stbrt, int length)
         throws SAXException {
-        if (isForwarding()) {
-            getHandler().ignorableWhitespace(ch, start, length);
+        if (isForwbrding()) {
+            getHbndler().ignorbbleWhitespbce(ch, stbrt, length);
         }
     }
 
-    public void processingInstruction(String target, String data)
+    public void processingInstruction(String tbrget, String dbtb)
                                      throws SAXException {
-        if (isForwarding()) {
-            getHandler().processingInstruction(target, data);
+        if (isForwbrding()) {
+            getHbndler().processingInstruction(tbrget, dbtb);
         }
     }
 
-    public void warning(SAXParseException e) throws SAXException {
-        if (isForwarding()) {
-            getHandler().warning(e);
+    public void wbrning(SAXPbrseException e) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().wbrning(e);
         }
     }
 
-    public void error(SAXParseException e) throws SAXException {
-        if (isForwarding()) {
-            getHandler().error(e);
+    public void error(SAXPbrseException e) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().error(e);
         }
     }
 
 
-    public void fatalError(SAXParseException e) throws SAXException {
-        if (isForwarding()) {
-            getHandler().fatalError(e);
+    public void fbtblError(SAXPbrseException e) throws SAXException {
+        if (isForwbrding()) {
+            getHbndler().fbtblError(e);
         }
         throw e;
     }
 
 
     /**
-     * ImageIcon that lazily loads the image until needed.
+     * ImbgeIcon thbt lbzily lobds the imbge until needed.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class LazyImageIcon extends ImageIcon implements UIResource {
-        private URL location;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte stbtic clbss LbzyImbgeIcon extends ImbgeIcon implements UIResource {
+        privbte URL locbtion;
 
-        public LazyImageIcon(URL location) {
+        public LbzyImbgeIcon(URL locbtion) {
             super();
-            this.location = location;
+            this.locbtion = locbtion;
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (getImage() != null) {
-                super.paintIcon(c, g, x, y);
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            if (getImbge() != null) {
+                super.pbintIcon(c, g, x, y);
             }
         }
 
         public int getIconWidth() {
-            if (getImage() != null) {
+            if (getImbge() != null) {
                 return super.getIconWidth();
             }
             return 0;
         }
 
         public int getIconHeight() {
-            if (getImage() != null) {
+            if (getImbge() != null) {
                 return super.getIconHeight();
             }
             return 0;
         }
 
-        public Image getImage() {
-            if (location != null) {
-                setImage(Toolkit.getDefaultToolkit().getImage(location));
-                location = null;
+        public Imbge getImbge() {
+            if (locbtion != null) {
+                setImbge(Toolkit.getDefbultToolkit().getImbge(locbtion));
+                locbtion = null;
             }
-            return super.getImage();
+            return super.getImbge();
         }
     }
 }

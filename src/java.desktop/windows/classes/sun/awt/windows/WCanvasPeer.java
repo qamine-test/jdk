@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.peer.CanvasPeer;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.peer.CbnvbsPeer;
 
-import sun.awt.PaintEventDispatcher;
-import sun.awt.SunToolkit;
+import sun.bwt.PbintEventDispbtcher;
+import sun.bwt.SunToolkit;
 
-class WCanvasPeer extends WComponentPeer implements CanvasPeer {
+clbss WCbnvbsPeer extends WComponentPeer implements CbnvbsPeer {
 
-    private boolean eraseBackground;
+    privbte boolebn erbseBbckground;
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WCanvasPeer(Component target) {
-        super(target);
+    WCbnvbsPeer(Component tbrget) {
+        super(tbrget);
     }
 
     @Override
-    native void create(WComponentPeer parent);
+    nbtive void crebte(WComponentPeer pbrent);
 
     @Override
-    void initialize() {
-        eraseBackground = !SunToolkit.getSunAwtNoerasebackground();
-        boolean eraseBackgroundOnResize = SunToolkit.getSunAwtErasebackgroundonresize();
-        // Optimization: the default value in the native code is true, so we
-        // call setNativeBackgroundErase only when the value changes to false
-        if (!PaintEventDispatcher.getPaintEventDispatcher().
-                shouldDoNativeBackgroundErase((Component)target)) {
-            eraseBackground = false;
+    void initiblize() {
+        erbseBbckground = !SunToolkit.getSunAwtNoerbsebbckground();
+        boolebn erbseBbckgroundOnResize = SunToolkit.getSunAwtErbsebbckgroundonresize();
+        // Optimizbtion: the defbult vblue in the nbtive code is true, so we
+        // cbll setNbtiveBbckgroundErbse only when the vblue chbnges to fblse
+        if (!PbintEventDispbtcher.getPbintEventDispbtcher().
+                shouldDoNbtiveBbckgroundErbse((Component)tbrget)) {
+            erbseBbckground = fblse;
         }
-        setNativeBackgroundErase(eraseBackground, eraseBackgroundOnResize);
-        super.initialize();
-        Color bg = ((Component)target).getBackground();
+        setNbtiveBbckgroundErbse(erbseBbckground, erbseBbckgroundOnResize);
+        super.initiblize();
+        Color bg = ((Component)tbrget).getBbckground();
         if (bg != null) {
-            setBackground(bg);
+            setBbckground(bg);
         }
     }
 
     @Override
-    public void paint(Graphics g) {
-        Dimension d = ((Component)target).getSize();
-        if (g instanceof Graphics2D ||
-            g instanceof sun.awt.Graphics2Delegate) {
-            // background color is setup correctly, so just use clearRect
-            g.clearRect(0, 0, d.width, d.height);
+    public void pbint(Grbphics g) {
+        Dimension d = ((Component)tbrget).getSize();
+        if (g instbnceof Grbphics2D ||
+            g instbnceof sun.bwt.Grbphics2Delegbte) {
+            // bbckground color is setup correctly, so just use clebrRect
+            g.clebrRect(0, 0, d.width, d.height);
         } else {
-            // emulate clearRect
-            g.setColor(((Component)target).getBackground());
+            // emulbte clebrRect
+            g.setColor(((Component)tbrget).getBbckground());
             g.fillRect(0, 0, d.width, d.height);
-            g.setColor(((Component)target).getForeground());
+            g.setColor(((Component)tbrget).getForeground());
         }
-        super.paint(g);
+        super.pbint(g);
     }
 
     @Override
-    public boolean shouldClearRectBeforePaint() {
-        return eraseBackground;
+    public boolebn shouldClebrRectBeforePbint() {
+        return erbseBbckground;
     }
 
     /*
-     * Disables background erasing for this canvas, both for resizing
-     * and not-resizing repaints.
+     * Disbbles bbckground erbsing for this cbnvbs, both for resizing
+     * bnd not-resizing repbints.
      */
-    void disableBackgroundErase() {
-        eraseBackground = false;
-        setNativeBackgroundErase(false, false);
+    void disbbleBbckgroundErbse() {
+        erbseBbckground = fblse;
+        setNbtiveBbckgroundErbse(fblse, fblse);
     }
 
     /*
-     * Sets background erasing flags at the native level. If {@code
-     * doErase} is set to {@code true}, canvas background is erased on
-     * every repaint. If {@code doErase} is {@code false} and {@code
-     * doEraseOnResize} is {@code true}, then background is only erased
-     * on resizing repaints. If both {@code doErase} and {@code
-     * doEraseOnResize} are false, then background is never erased.
+     * Sets bbckground erbsing flbgs bt the nbtive level. If {@code
+     * doErbse} is set to {@code true}, cbnvbs bbckground is erbsed on
+     * every repbint. If {@code doErbse} is {@code fblse} bnd {@code
+     * doErbseOnResize} is {@code true}, then bbckground is only erbsed
+     * on resizing repbints. If both {@code doErbse} bnd {@code
+     * doErbseOnResize} bre fblse, then bbckground is never erbsed.
      */
-    private native void setNativeBackgroundErase(boolean doErase,
-                                                 boolean doEraseOnResize);
+    privbte nbtive void setNbtiveBbckgroundErbse(boolebn doErbse,
+                                                 boolebn doErbseOnResize);
 
     @Override
-    public GraphicsConfiguration getAppropriateGraphicsConfiguration(
-            GraphicsConfiguration gc)
+    public GrbphicsConfigurbtion getAppropribteGrbphicsConfigurbtion(
+            GrbphicsConfigurbtion gc)
     {
         return gc;
     }

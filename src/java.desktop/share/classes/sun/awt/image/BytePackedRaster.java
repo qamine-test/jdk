@@ -1,629 +1,629 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.RasterFormatException;
-import java.awt.image.SampleModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.Rectangle;
-import java.awt.Point;
+pbckbge sun.bwt.imbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.RbsterFormbtException;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Point;
 
 /**
- * This class is useful for describing 1, 2, or 4 bit image data
- * elements.  This raster has one band whose pixels are packed
- * together into individual bytes in a single byte array.  This type
- * of raster can be used with an IndexColorModel. This raster uses a
- * MultiPixelPackedSampleModel.
+ * This clbss is useful for describing 1, 2, or 4 bit imbge dbtb
+ * elements.  This rbster hbs one bbnd whose pixels bre pbcked
+ * together into individubl bytes in b single byte brrby.  This type
+ * of rbster cbn be used with bn IndexColorModel. This rbster uses b
+ * MultiPixelPbckedSbmpleModel.
  *
  */
-public class BytePackedRaster extends SunWritableRaster {
+public clbss BytePbckedRbster extends SunWritbbleRbster {
 
-    /** The data bit offset for each pixel. */
-    int           dataBitOffset;
+    /** The dbtb bit offset for ebch pixel. */
+    int           dbtbBitOffset;
 
-    /** Scanline stride of the image data contained in this Raster. */
-    int           scanlineStride;
+    /** Scbnline stride of the imbge dbtb contbined in this Rbster. */
+    int           scbnlineStride;
 
     /**
-     * The bit stride of a pixel, equal to the total number of bits
-     * required to store a pixel.
+     * The bit stride of b pixel, equbl to the totbl number of bits
+     * required to store b pixel.
      */
     int           pixelBitStride;
 
-    /** The bit mask for extracting the pixel. */
-    int           bitMask;
+    /** The bit mbsk for extrbcting the pixel. */
+    int           bitMbsk;
 
-    /** The image data array. */
-    byte[]        data;
+    /** The imbge dbtb brrby. */
+    byte[]        dbtb;
 
     /** 8 minus the pixel bit stride. */
     int shiftOffset;
 
     int type;
 
-    /** A cached copy of minX + width for use in bounds checks. */
-    private int maxX;
+    /** A cbched copy of minX + width for use in bounds checks. */
+    privbte int mbxX;
 
-    /** A cached copy of minY + height for use in bounds checks. */
-    private int maxY;
+    /** A cbched copy of minY + height for use in bounds checks. */
+    privbte int mbxY;
 
-    static private native void initIDs();
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
+    stbtic privbte nbtive void initIDs();
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Constructs a BytePackedRaster with the given SampleModel.
-     * The Raster's upper left corner is origin and it is the same
-     * size as the SampleModel.  A DataBuffer large enough to describe the
-     * Raster is automatically created.  SampleModel must be of type
-     * MultiPixelPackedSampleModel.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param origin          The Point that specified the origin.
+     * Constructs b BytePbckedRbster with the given SbmpleModel.
+     * The Rbster's upper left corner is origin bnd it is the sbme
+     * size bs the SbmpleModel.  A DbtbBuffer lbrge enough to describe the
+     * Rbster is butombticblly crebted.  SbmpleModel must be of type
+     * MultiPixelPbckedSbmpleModel.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm origin          The Point thbt specified the origin.
      */
-    public BytePackedRaster(SampleModel sampleModel,
+    public BytePbckedRbster(SbmpleModel sbmpleModel,
                             Point origin) {
-        this(sampleModel,
-             sampleModel.createDataBuffer(),
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             sbmpleModel.crebteDbtbBuffer(),
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
     /**
-     * Constructs a BytePackedRaster with the given SampleModel
-     * and DataBuffer.  The Raster's upper left corner is origin and
-     * it is the same size as the SampleModel.  The DataBuffer is not
-     * initialized and must be a DataBufferByte compatible with SampleModel.
-     * SampleModel must be of type MultiPixelPackedSampleModel.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferShort that contains the image data.
-     * @param origin          The Point that specifies the origin.
+     * Constructs b BytePbckedRbster with the given SbmpleModel
+     * bnd DbtbBuffer.  The Rbster's upper left corner is origin bnd
+     * it is the sbme size bs the SbmpleModel.  The DbtbBuffer is not
+     * initiblized bnd must be b DbtbBufferByte compbtible with SbmpleModel.
+     * SbmpleModel must be of type MultiPixelPbckedSbmpleModel.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm dbtbBuffer      The DbtbBufferShort thbt contbins the imbge dbtb.
+     * @pbrbm origin          The Point thbt specifies the origin.
      */
-    public BytePackedRaster(SampleModel sampleModel,
-                            DataBuffer dataBuffer,
+    public BytePbckedRbster(SbmpleModel sbmpleModel,
+                            DbtbBuffer dbtbBuffer,
                             Point origin) {
-        this(sampleModel,
-             dataBuffer,
-             new Rectangle(origin.x,
+        this(sbmpleModel,
+             dbtbBuffer,
+             new Rectbngle(origin.x,
                            origin.y,
-                           sampleModel.getWidth(),
-                           sampleModel.getHeight()),
+                           sbmpleModel.getWidth(),
+                           sbmpleModel.getHeight()),
              origin,
              null);
     }
 
     /**
-     * Constructs a BytePackedRaster with the given SampleModel,
-     * DataBuffer, and parent.  DataBuffer must be a DataBufferByte and
-     * SampleModel must be of type MultiPixelPackedSampleModel.
-     * When translated into the base Raster's
-     * coordinate system, aRegion must be contained by the base Raster.
-     * Origin is the coordinate in the new Raster's coordinate system of
-     * the origin of the base Raster.  (The base Raster is the Raster's
-     * ancestor which has no parent.)
+     * Constructs b BytePbckedRbster with the given SbmpleModel,
+     * DbtbBuffer, bnd pbrent.  DbtbBuffer must be b DbtbBufferByte bnd
+     * SbmpleModel must be of type MultiPixelPbckedSbmpleModel.
+     * When trbnslbted into the bbse Rbster's
+     * coordinbte system, bRegion must be contbined by the bbse Rbster.
+     * Origin is the coordinbte in the new Rbster's coordinbte system of
+     * the origin of the bbse Rbster.  (The bbse Rbster is the Rbster's
+     * bncestor which hbs no pbrent.)
      *
-     * Note that this constructor should generally be called by other
-     * constructors or create methods, it should not be used directly.
-     * @param sampleModel     The SampleModel that specifies the layout.
-     * @param dataBuffer      The DataBufferShort that contains the image data.
-     * @param aRegion         The Rectangle that specifies the image area.
-     * @param origin          The Point that specifies the origin.
-     * @param parent          The parent (if any) of this raster.
+     * Note thbt this constructor should generblly be cblled by other
+     * constructors or crebte methods, it should not be used directly.
+     * @pbrbm sbmpleModel     The SbmpleModel thbt specifies the lbyout.
+     * @pbrbm dbtbBuffer      The DbtbBufferShort thbt contbins the imbge dbtb.
+     * @pbrbm bRegion         The Rectbngle thbt specifies the imbge breb.
+     * @pbrbm origin          The Point thbt specifies the origin.
+     * @pbrbm pbrent          The pbrent (if bny) of this rbster.
      *
-     * @exception RasterFormatException if the parameters do not conform
-     * to requirements of this Raster type.
+     * @exception RbsterFormbtException if the pbrbmeters do not conform
+     * to requirements of this Rbster type.
      */
-    public BytePackedRaster(SampleModel sampleModel,
-                            DataBuffer dataBuffer,
-                            Rectangle aRegion,
+    public BytePbckedRbster(SbmpleModel sbmpleModel,
+                            DbtbBuffer dbtbBuffer,
+                            Rectbngle bRegion,
                             Point origin,
-                            BytePackedRaster parent){
-        super(sampleModel,dataBuffer,aRegion,origin, parent);
-        this.maxX = minX + width;
-        this.maxY = minY + height;
+                            BytePbckedRbster pbrent){
+        super(sbmpleModel,dbtbBuffer,bRegion,origin, pbrent);
+        this.mbxX = minX + width;
+        this.mbxY = minY + height;
 
-        if (!(dataBuffer instanceof DataBufferByte)) {
-           throw new RasterFormatException("BytePackedRasters must have" +
-                "byte DataBuffers");
+        if (!(dbtbBuffer instbnceof DbtbBufferByte)) {
+           throw new RbsterFormbtException("BytePbckedRbsters must hbve" +
+                "byte DbtbBuffers");
         }
-        DataBufferByte dbb = (DataBufferByte)dataBuffer;
-        this.data = stealData(dbb, 0);
-        if (dbb.getNumBanks() != 1) {
+        DbtbBufferByte dbb = (DbtbBufferByte)dbtbBuffer;
+        this.dbtb = steblDbtb(dbb, 0);
+        if (dbb.getNumBbnks() != 1) {
             throw new
-                RasterFormatException("DataBuffer for BytePackedRasters"+
-                                      " must only have 1 bank.");
+                RbsterFormbtException("DbtbBuffer for BytePbckedRbsters"+
+                                      " must only hbve 1 bbnk.");
         }
         int dbOffset = dbb.getOffset();
 
-        if (sampleModel instanceof MultiPixelPackedSampleModel) {
-            MultiPixelPackedSampleModel mppsm =
-                (MultiPixelPackedSampleModel)sampleModel;
-            this.type = IntegerComponentRaster.TYPE_BYTE_BINARY_SAMPLES;
+        if (sbmpleModel instbnceof MultiPixelPbckedSbmpleModel) {
+            MultiPixelPbckedSbmpleModel mppsm =
+                (MultiPixelPbckedSbmpleModel)sbmpleModel;
+            this.type = IntegerComponentRbster.TYPE_BYTE_BINARY_SAMPLES;
             pixelBitStride = mppsm.getPixelBitStride();
             if (pixelBitStride != 1 &&
                 pixelBitStride != 2 &&
                 pixelBitStride != 4) {
-                throw new RasterFormatException
-                  ("BytePackedRasters must have a bit depth of 1, 2, or 4");
+                throw new RbsterFormbtException
+                  ("BytePbckedRbsters must hbve b bit depth of 1, 2, or 4");
             }
-            scanlineStride = mppsm.getScanlineStride();
-            dataBitOffset = mppsm.getDataBitOffset() + dbOffset*8;
-            int xOffset = aRegion.x - origin.x;
-            int yOffset = aRegion.y - origin.y;
-            dataBitOffset += xOffset*pixelBitStride + yOffset*scanlineStride*8;
-            bitMask = (1 << pixelBitStride) -1;
+            scbnlineStride = mppsm.getScbnlineStride();
+            dbtbBitOffset = mppsm.getDbtbBitOffset() + dbOffset*8;
+            int xOffset = bRegion.x - origin.x;
+            int yOffset = bRegion.y - origin.y;
+            dbtbBitOffset += xOffset*pixelBitStride + yOffset*scbnlineStride*8;
+            bitMbsk = (1 << pixelBitStride) -1;
             shiftOffset = 8 - pixelBitStride;
         } else {
-            throw new RasterFormatException("BytePackedRasters must have"+
-                "MultiPixelPackedSampleModel");
+            throw new RbsterFormbtException("BytePbckedRbsters must hbve"+
+                "MultiPixelPbckedSbmpleModel");
         }
-        verify(false);
+        verify(fblse);
     }
 
     /**
-     * Returns the data bit offset for the Raster.  The data
-     * bit offset is the bit index into the data array element
-     * corresponding to the first sample of the first scanline.
+     * Returns the dbtb bit offset for the Rbster.  The dbtb
+     * bit offset is the bit index into the dbtb brrby element
+     * corresponding to the first sbmple of the first scbnline.
      */
-    public int getDataBitOffset() {
-        return dataBitOffset;
+    public int getDbtbBitOffset() {
+        return dbtbBitOffset;
     }
 
     /**
-     * Returns the scanline stride -- the number of data array elements between
-     * a given sample and the sample in the same column
+     * Returns the scbnline stride -- the number of dbtb brrby elements between
+     * b given sbmple bnd the sbmple in the sbme column
      * of the next row.
      */
-    public int getScanlineStride() {
-        return scanlineStride;
+    public int getScbnlineStride() {
+        return scbnlineStride;
     }
 
     /**
      * Returns pixel bit stride -- the number of bits between two
-     * samples on the same scanline.
+     * sbmples on the sbme scbnline.
      */
     public int getPixelBitStride() {
         return pixelBitStride;
     }
 
     /**
-     * Returns a reference to the entire data array.
+     * Returns b reference to the entire dbtb brrby.
      */
-    public byte[] getDataStorage() {
-        return data;
+    public byte[] getDbtbStorbge() {
+        return dbtb;
     }
 
     /**
-     * Returns the data element at the specified
-     * location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * Returns the dbtb element bt the specified
+     * locbtion.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbte is out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm outDbtb  An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length getNumDbtbElements().
+     *                 If null bn brrby of bppropribte type bnd size will be
+     *                 bllocbted.
+     * @return         An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() with the request pixel dbtb.
      */
-    public Object getDataElements(int x, int y, Object obj) {
+    public Object getDbtbElements(int x, int y, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        byte outData[];
+        byte outDbtb[];
         if (obj == null) {
-            outData = new byte[numDataElements];
+            outDbtb = new byte[numDbtbElements];
         } else {
-            outData = (byte[])obj;
+            outDbtb = (byte[])obj;
         }
-        int bitnum = dataBitOffset + (x-minX) * pixelBitStride;
+        int bitnum = dbtbBitOffset + (x-minX) * pixelBitStride;
         // Fix 4184283
-        int element = data[(y-minY) * scanlineStride + (bitnum >> 3)] & 0xff;
+        int element = dbtb[(y-minY) * scbnlineStride + (bitnum >> 3)] & 0xff;
         int shift = shiftOffset - (bitnum & 7);
-        outData[0] = (byte)((element >> shift) & bitMask);
-        return outData;
+        outDbtb[0] = (byte)((element >> shift) & bitMbsk);
+        return outDbtb;
     }
 
     /**
-     * Returns the pixel data for the specified rectangle of pixels in a
-     * primitive array of type TransferType.
-     * For image data supported by the Java 2D API, this
-     * will be one of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT, or
-     * DataBuffer.TYPE_INT.  Data may be returned in a packed format,
-     * thus increasing efficiency for data transfers.
+     * Returns the pixel dbtb for the specified rectbngle of pixels in b
+     * primitive brrby of type TrbnsferType.
+     * For imbge dbtb supported by the Jbvb 2D API, this
+     * will be one of DbtbBuffer.TYPE_BYTE, DbtbBuffer.TYPE_USHORT, or
+     * DbtbBuffer.TYPE_INT.  Dbtb mby be returned in b pbcked formbt,
+     * thus increbsing efficiency for dbtb trbnsfers.
      *
-     * An ArrayIndexOutOfBoundsException may be thrown
-     * if the coordinates are not in bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of TransferType.
-     * @see java.awt.image.SampleModel#getDataElements(int, int, int, int, Object, DataBuffer)
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements().
-     *                 If null, an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the requested pixel data.
+     * An ArrbyIndexOutOfBoundsException mby be thrown
+     * if the coordinbtes bre not in bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of TrbnsferType.
+     * @see jbvb.bwt.imbge.SbmpleModel#getDbtbElements(int, int, int, int, Object, DbtbBuffer)
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm outDbtb  An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements().
+     *                 If null, bn brrby of bppropribte type bnd size will be
+     *                 bllocbted.
+     * @return         An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() with the requested pixel dbtb.
      */
-    public Object getDataElements(int x, int y, int w, int h,
-                                  Object outData) {
-        return getByteData(x, y, w, h, (byte[])outData);
+    public Object getDbtbElements(int x, int y, int w, int h,
+                                  Object outDbtb) {
+        return getByteDbtb(x, y, w, h, (byte[])outDbtb);
     }
 
     /**
-     * Returns an array  of data elements from the specified rectangular
+     * Returns bn brrby  of dbtb elements from the specified rectbngulbr
      * region.
      *
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
      * <pre>
-     *       byte[] bandData = (byte[])raster.getPixelData(x, y, w, h, null);
+     *       byte[] bbndDbtb = (byte[])rbster.getPixelDbtb(x, y, w, h, null);
      *       int pixel;
-     *       // To find a data element at location (x2, y2)
-     *       pixel = bandData[((y2-y)*w + (x2-x))];
+     *       // To find b dbtb element bt locbtion (x2, y2)
+     *       pixel = bbndDbtb[((y2-y)*w + (x2-x))];
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param outData  An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements().
-     *                 If null an array of appropriate type and size will be
-     *                 allocated.
-     * @return         An object reference to an array of type defined by
-     *                 getTransferType() with the request pixel data.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm width    Width of the pixel rectbngle.
+     * @pbrbm height   Height of the pixel rectbngle.
+     * @pbrbm outDbtb  An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements().
+     *                 If null bn brrby of bppropribte type bnd size will be
+     *                 bllocbted.
+     * @return         An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() with the request pixel dbtb.
      */
-    public Object getPixelData(int x, int y, int w, int h, Object obj) {
+    public Object getPixelDbtb(int x, int y, int w, int h, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        byte outData[];
+        byte outDbtb[];
         if (obj == null) {
-            outData = new byte[numDataElements*w*h];
+            outDbtb = new byte[numDbtbElements*w*h];
         } else {
-            outData = (byte[])obj;
+            outDbtb = (byte[])obj;
         }
         int pixbits = pixelBitStride;
-        int scanbit = dataBitOffset + (x-minX) * pixbits;
-        int index = (y-minY) * scanlineStride;
+        int scbnbit = dbtbBitOffset + (x-minX) * pixbits;
+        int index = (y-minY) * scbnlineStride;
         int outindex = 0;
-        byte data[] = this.data;
+        byte dbtb[] = this.dbtb;
 
         for (int j = 0; j < h; j++) {
-            int bitnum = scanbit;
+            int bitnum = scbnbit;
             for (int i = 0; i < w; i++) {
                 int shift = shiftOffset - (bitnum & 7);
-                outData[outindex++] =
-                    (byte)(bitMask & (data[index + (bitnum >> 3)] >> shift));
+                outDbtb[outindex++] =
+                    (byte)(bitMbsk & (dbtb[index + (bitnum >> 3)] >> shift));
                 bitnum += pixbits;
             }
-            index += scanlineStride;
+            index += scbnlineStride;
         }
-        return outData;
+        return outDbtb;
     }
 
     /**
-     * Returns a byte array containing the specified data elements
-     * from the data array.  The band index will be ignored.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
+     * Returns b byte brrby contbining the specified dbtb elements
+     * from the dbtb brrby.  The bbnd index will be ignored.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
      * <pre>
-     *       byte[] byteData = getByteData(x, y, band, w, h, null);
-     *       // To find a data element at location (x2, y2)
-     *       byte element = byteData[(y2-y)*w + (x2-x)];
+     *       byte[] byteDbtb = getByteDbtb(x, y, bbnd, w, h, null);
+     *       // To find b dbtb element bt locbtion (x2, y2)
+     *       byte element = byteDbtb[(y2-y)*w + (x2-x)];
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param band     The band to return, is ignored.
-     * @param outData  If non-null, data elements
-     *                 at the specified locations are returned in this array.
-     * @return         Byte array with data elements.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm width    Width of the pixel rectbngle.
+     * @pbrbm height   Height of the pixel rectbngle.
+     * @pbrbm bbnd     The bbnd to return, is ignored.
+     * @pbrbm outDbtb  If non-null, dbtb elements
+     *                 bt the specified locbtions bre returned in this brrby.
+     * @return         Byte brrby with dbtb elements.
      */
-    public byte[] getByteData(int x, int y, int w, int h,
-                              int band, byte[] outData) {
-        return getByteData(x, y, w, h, outData);
+    public byte[] getByteDbtb(int x, int y, int w, int h,
+                              int bbnd, byte[] outDbtb) {
+        return getByteDbtb(x, y, w, h, outDbtb);
     }
 
     /**
-     * Returns a byte array containing the specified data elements
-     * from the data array.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
+     * Returns b byte brrby contbining the specified dbtb elements
+     * from the dbtb brrby.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
      * <pre>
-     *       byte[] byteData = raster.getByteData(x, y, w, h, null);
+     *       byte[] byteDbtb = rbster.getByteDbtb(x, y, w, h, null);
      *       byte pixel;
-     *       // To find a data element at location (x2, y2)
-     *       pixel = byteData[((y2-y)*w + (x2-x))];
+     *       // To find b dbtb element bt locbtion (x2, y2)
+     *       pixel = byteDbtb[((y2-y)*w + (x2-x))];
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param width    Width of the pixel rectangle.
-     * @param height   Height of the pixel rectangle.
-     * @param outData  If non-null, data elements
-     *                 at the specified locations are returned in this array.
-     * @return         Byte array with data elements.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm width    Width of the pixel rectbngle.
+     * @pbrbm height   Height of the pixel rectbngle.
+     * @pbrbm outDbtb  If non-null, dbtb elements
+     *                 bt the specified locbtions bre returned in this brrby.
+     * @return         Byte brrby with dbtb elements.
      */
-    public byte[] getByteData(int x, int y, int w, int h, byte[] outData) {
+    public byte[] getByteDbtb(int x, int y, int w, int h, byte[] outDbtb) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        if (outData == null) {
-            outData = new byte[w * h];
+        if (outDbtb == null) {
+            outDbtb = new byte[w * h];
         }
         int pixbits = pixelBitStride;
-        int scanbit = dataBitOffset + (x-minX) * pixbits;
-        int index = (y-minY) * scanlineStride;
+        int scbnbit = dbtbBitOffset + (x-minX) * pixbits;
+        int index = (y-minY) * scbnlineStride;
         int outindex = 0;
-        byte data[] = this.data;
+        byte dbtb[] = this.dbtb;
 
         for (int j = 0; j < h; j++) {
-            int bitnum = scanbit;
+            int bitnum = scbnbit;
             int element;
 
-            // Process initial portion of scanline
+            // Process initibl portion of scbnline
             int i = 0;
             while ((i < w) && ((bitnum & 7) != 0)) {
                 int shift = shiftOffset - (bitnum & 7);
-                outData[outindex++] =
-                    (byte)(bitMask & (data[index + (bitnum >> 3)] >> shift));
+                outDbtb[outindex++] =
+                    (byte)(bitMbsk & (dbtb[index + (bitnum >> 3)] >> shift));
                 bitnum += pixbits;
                 i++;
             }
 
-            // Process central portion of scanline 8 pixels at a time
+            // Process centrbl portion of scbnline 8 pixels bt b time
             int inIndex = index + (bitnum >> 3);
             switch (pixbits) {
-            case 1:
+            cbse 1:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 7) & 1);
-                    outData[outindex++] = (byte)((element >> 6) & 1);
-                    outData[outindex++] = (byte)((element >> 5) & 1);
-                    outData[outindex++] = (byte)((element >> 4) & 1);
-                    outData[outindex++] = (byte)((element >> 3) & 1);
-                    outData[outindex++] = (byte)((element >> 2) & 1);
-                    outData[outindex++] = (byte)((element >> 1) & 1);
-                    outData[outindex++] = (byte)(element & 1);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 7) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 6) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 5) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 4) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 3) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 2) & 1);
+                    outDbtb[outindex++] = (byte)((element >> 1) & 1);
+                    outDbtb[outindex++] = (byte)(element & 1);
                     bitnum += 8;
                 }
-                break;
+                brebk;
 
-            case 2:
+            cbse 2:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 6) & 3);
-                    outData[outindex++] = (byte)((element >> 4) & 3);
-                    outData[outindex++] = (byte)((element >> 2) & 3);
-                    outData[outindex++] = (byte)(element & 3);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 6) & 3);
+                    outDbtb[outindex++] = (byte)((element >> 4) & 3);
+                    outDbtb[outindex++] = (byte)((element >> 2) & 3);
+                    outDbtb[outindex++] = (byte)(element & 3);
 
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 6) & 3);
-                    outData[outindex++] = (byte)((element >> 4) & 3);
-                    outData[outindex++] = (byte)((element >> 2) & 3);
-                    outData[outindex++] = (byte)(element & 3);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 6) & 3);
+                    outDbtb[outindex++] = (byte)((element >> 4) & 3);
+                    outDbtb[outindex++] = (byte)((element >> 2) & 3);
+                    outDbtb[outindex++] = (byte)(element & 3);
 
                     bitnum += 16;
                 }
-                break;
+                brebk;
 
-            case 4:
+            cbse 4:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 4) & 0xf);
-                    outData[outindex++] = (byte)(element & 0xf);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 4) & 0xf);
+                    outDbtb[outindex++] = (byte)(element & 0xf);
 
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 4) & 0xf);
-                    outData[outindex++] = (byte)(element & 0xf);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 4) & 0xf);
+                    outDbtb[outindex++] = (byte)(element & 0xf);
 
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 4) & 0xf);
-                    outData[outindex++] = (byte)(element & 0xf);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 4) & 0xf);
+                    outDbtb[outindex++] = (byte)(element & 0xf);
 
-                    element = data[inIndex++];
-                    outData[outindex++] = (byte)((element >> 4) & 0xf);
-                    outData[outindex++] = (byte)(element & 0xf);
+                    element = dbtb[inIndex++];
+                    outDbtb[outindex++] = (byte)((element >> 4) & 0xf);
+                    outDbtb[outindex++] = (byte)(element & 0xf);
 
                     bitnum += 32;
                 }
-                break;
+                brebk;
             }
 
-            // Process final portion of scanline
+            // Process finbl portion of scbnline
             for (; i < w; i++) {
                 int shift = shiftOffset - (bitnum & 7);
-                outData[outindex++] =
-                    (byte) (bitMask & (data[index + (bitnum >> 3)] >> shift));
+                outDbtb[outindex++] =
+                    (byte) (bitMbsk & (dbtb[index + (bitnum >> 3)] >> shift));
                 bitnum += pixbits;
             }
 
-            index += scanlineStride;
+            index += scbnlineStride;
         }
 
-        return outData;
+        return outDbtb;
     }
 
     /**
-     * Stores the data elements at the specified location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinate is out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * @param x        The X coordinate of the pixel location.
-     * @param y        The Y coordinate of the pixel location.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length getNumDataElements()
-     *                 containing the pixel data to place at x,y.
+     * Stores the dbtb elements bt the specified locbtion.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbte is out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * @pbrbm x        The X coordinbte of the pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the pixel locbtion.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce bt x,y.
      */
-    public void setDataElements(int x, int y, Object obj) {
+    public void setDbtbElements(int x, int y, Object obj) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x >= this.maxX) || (y >= this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        byte inData[] = (byte[])obj;
-        int bitnum = dataBitOffset + (x-minX) * pixelBitStride;
-        int index = (y-minY) * scanlineStride + (bitnum >> 3);
+        byte inDbtb[] = (byte[])obj;
+        int bitnum = dbtbBitOffset + (x-minX) * pixelBitStride;
+        int index = (y-minY) * scbnlineStride + (bitnum >> 3);
         int shift = shiftOffset - (bitnum & 7);
 
-        byte element = data[index];
-        element &= ~(bitMask << shift);
-        element |= (inData[0] & bitMask) << shift;
-        data[index] = element;
+        byte element = dbtb[index];
+        element &= ~(bitMbsk << shift);
+        element |= (inDbtb[0] & bitMbsk) << shift;
+        dbtb[index] = element;
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Stores the Raster data at the specified location.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * @param x          The X coordinate of the pixel location.
-     * @param y          The Y coordinate of the pixel location.
-     * @param inRaster   Raster of data to place at x,y location.
+     * Stores the Rbster dbtb bt the specified locbtion.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * @pbrbm x          The X coordinbte of the pixel locbtion.
+     * @pbrbm y          The Y coordinbte of the pixel locbtion.
+     * @pbrbm inRbster   Rbster of dbtb to plbce bt x,y locbtion.
      */
-    public void setDataElements(int x, int y, Raster inRaster) {
-        // Check if we can use fast code
-        if (!(inRaster instanceof BytePackedRaster) ||
-            ((BytePackedRaster)inRaster).pixelBitStride != pixelBitStride) {
-            super.setDataElements(x, y, inRaster);
+    public void setDbtbElements(int x, int y, Rbster inRbster) {
+        // Check if we cbn use fbst code
+        if (!(inRbster instbnceof BytePbckedRbster) ||
+            ((BytePbckedRbster)inRbster).pixelBitStride != pixelBitStride) {
+            super.setDbtbElements(x, y, inRbster);
             return;
         }
 
-        int srcOffX = inRaster.getMinX();
-        int srcOffY = inRaster.getMinY();
+        int srcOffX = inRbster.getMinX();
+        int srcOffY = inRbster.getMinY();
         int dstOffX = srcOffX + x;
         int dstOffY = srcOffY + y;
-        int width = inRaster.getWidth();
-        int height = inRaster.getHeight();
+        int width = inRbster.getWidth();
+        int height = inRbster.getHeight();
         if ((dstOffX < this.minX) || (dstOffY < this.minY) ||
-            (dstOffX + width > this.maxX) || (dstOffY + height > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (dstOffX + width > this.mbxX) || (dstOffY + height > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        setDataElements(dstOffX, dstOffY,
+        setDbtbElements(dstOffX, dstOffY,
                         srcOffX, srcOffY,
                         width, height,
-                        (BytePackedRaster)inRaster);
+                        (BytePbckedRbster)inRbster);
     }
 
     /**
-     * Stores the Raster data at the specified location.
-     * @param dstX The absolute X coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param dstY The absolute Y coordinate of the destination pixel
-     * that will receive a copy of the upper-left pixel of the
-     * inRaster
-     * @param srcX The absolute X coordinate of the upper-left source
-     * pixel that will be copied into this Raster
-     * @param srcY The absolute Y coordinate of the upper-left source
-     * pixel that will be copied into this Raster
-     * @param width      The number of pixels to store horizontally
-     * @param height     The number of pixels to store vertically
-     * @param inRaster   BytePackedRaster of data to place at x,y location.
+     * Stores the Rbster dbtb bt the specified locbtion.
+     * @pbrbm dstX The bbsolute X coordinbte of the destinbtion pixel
+     * thbt will receive b copy of the upper-left pixel of the
+     * inRbster
+     * @pbrbm dstY The bbsolute Y coordinbte of the destinbtion pixel
+     * thbt will receive b copy of the upper-left pixel of the
+     * inRbster
+     * @pbrbm srcX The bbsolute X coordinbte of the upper-left source
+     * pixel thbt will be copied into this Rbster
+     * @pbrbm srcY The bbsolute Y coordinbte of the upper-left source
+     * pixel thbt will be copied into this Rbster
+     * @pbrbm width      The number of pixels to store horizontblly
+     * @pbrbm height     The number of pixels to store verticblly
+     * @pbrbm inRbster   BytePbckedRbster of dbtb to plbce bt x,y locbtion.
      */
-    private void setDataElements(int dstX, int dstY,
+    privbte void setDbtbElements(int dstX, int dstY,
                                  int srcX, int srcY,
                                  int width, int height,
-                                 BytePackedRaster inRaster) {
-        // Assume bounds checking has been performed previously
+                                 BytePbckedRbster inRbster) {
+        // Assume bounds checking hbs been performed previously
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        byte[] inData = inRaster.data;
-        byte[] outData = this.data;
+        byte[] inDbtb = inRbster.dbtb;
+        byte[] outDbtb = this.dbtb;
 
-        int inscan = inRaster.scanlineStride;
-        int outscan = this.scanlineStride;
-        int inbit = inRaster.dataBitOffset +
-                      8 * (srcY - inRaster.minY) * inscan +
-                      (srcX - inRaster.minX) * inRaster.pixelBitStride;
-        int outbit = (this.dataBitOffset +
-                      8 * (dstY - minY) * outscan +
+        int inscbn = inRbster.scbnlineStride;
+        int outscbn = this.scbnlineStride;
+        int inbit = inRbster.dbtbBitOffset +
+                      8 * (srcY - inRbster.minY) * inscbn +
+                      (srcX - inRbster.minX) * inRbster.pixelBitStride;
+        int outbit = (this.dbtbBitOffset +
+                      8 * (dstY - minY) * outscbn +
                       (dstX - minX) * this.pixelBitStride);
         int copybits = width * pixelBitStride;
 
-        // Check whether the same bit alignment is present in both
-        // Rasters; if so, we can copy whole bytes using
-        // System.arraycopy.  If not, we must do a "funnel shift"
-        // where adjacent bytes contribute to each destination byte.
+        // Check whether the sbme bit blignment is present in both
+        // Rbsters; if so, we cbn copy whole bytes using
+        // System.brrbycopy.  If not, we must do b "funnel shift"
+        // where bdjbcent bytes contribute to ebch destinbtion byte.
         if ((inbit & 7) == (outbit & 7)) {
-            // copy is bit aligned
+            // copy is bit bligned
             int bitpos = outbit & 7;
             if (bitpos != 0) {
                 int bits = 8 - bitpos;
-                // Copy partial bytes on left
+                // Copy pbrtibl bytes on left
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
-                int mask = 0xff >> bitpos;
+                int mbsk = 0xff >> bitpos;
                 if (copybits < bits) {
-                    // Fix bug 4399076: previously had '8 - copybits' instead
+                    // Fix bug 4399076: previously hbd '8 - copybits' instebd
                     // of 'bits - copybits'.
                     //
-                    // Prior to the this expression, 'mask' has its rightmost
-                    // 'bits' bits set to '1'.  We want it to have a total
-                    // of 'copybits' bits set, therefore we want to introduce
+                    // Prior to the this expression, 'mbsk' hbs its rightmost
+                    // 'bits' bits set to '1'.  We wbnt it to hbve b totbl
+                    // of 'copybits' bits set, therefore we wbnt to introduce
                     // 'bits - copybits' zeroes on the right.
-                    mask &= 0xff << (bits - copybits);
+                    mbsk &= 0xff << (bits - copybits);
                     bits = copybits;
                 }
                 for (int j = 0; j < height; j++) {
-                    int element = outData[outbyte];
-                    element &= ~mask;
-                    element |= (inData[inbyte] & mask);
-                    outData[outbyte] = (byte) element;
-                    inbyte += inscan;
-                    outbyte += outscan;
+                    int element = outDbtb[outbyte];
+                    element &= ~mbsk;
+                    element |= (inDbtb[inbyte] & mbsk);
+                    outDbtb[outbyte] = (byte) element;
+                    inbyte += inscbn;
+                    outbyte += outscbn;
                 }
                 inbit += bits;
                 outbit += bits;
@@ -634,17 +634,17 @@ public class BytePackedRaster extends SunWritableRaster {
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
                 int copybytes = copybits >> 3;
-                if (copybytes == inscan && inscan == outscan) {
-                    System.arraycopy(inData, inbyte,
-                                     outData, outbyte,
-                                     inscan * height);
+                if (copybytes == inscbn && inscbn == outscbn) {
+                    System.brrbycopy(inDbtb, inbyte,
+                                     outDbtb, outbyte,
+                                     inscbn * height);
                 } else {
                     for (int j = 0; j < height; j++) {
-                        System.arraycopy(inData, inbyte,
-                                         outData, outbyte,
+                        System.brrbycopy(inDbtb, inbyte,
+                                         outDbtb, outbyte,
                                          copybytes);
-                        inbyte += inscan;
-                        outbyte += outscan;
+                        inbyte += inscbn;
+                        outbyte += outscbn;
                     }
                 }
 
@@ -654,26 +654,26 @@ public class BytePackedRaster extends SunWritableRaster {
                 copybits -= bits;
             }
             if (copybits > 0) {
-                // Copy partial bytes on right
+                // Copy pbrtibl bytes on right
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
-                int mask = (0xff00 >> copybits) & 0xff;
+                int mbsk = (0xff00 >> copybits) & 0xff;
                 for (int j = 0; j < height; j++) {
-                    int element = outData[outbyte];
-                    element &= ~mask;
-                    element |= (inData[inbyte] & mask);
-                    outData[outbyte] = (byte) element;
-                    inbyte += inscan;
-                    outbyte += outscan;
+                    int element = outDbtb[outbyte];
+                    element &= ~mbsk;
+                    element |= (inDbtb[inbyte] & mbsk);
+                    outDbtb[outbyte] = (byte) element;
+                    inbyte += inscbn;
+                    outbyte += outscbn;
                 }
             }
         } else {
-            // Unaligned case, see RFE #4284166
-            // Note that the code in that RFE is not correct
+            // Unbligned cbse, see RFE #4284166
+            // Note thbt the code in thbt RFE is not correct
 
             // Insert bits into the first byte of the output
-            // if either the starting bit position is not zero or
-            // we are writing fewer than 8 bits in total
+            // if either the stbrting bit position is not zero or
+            // we bre writing fewer thbn 8 bits in totbl
             int bitpos = outbit & 7;
             if (bitpos != 0 || copybits < 8) {
                 int bits = 8 - bitpos;
@@ -682,32 +682,32 @@ public class BytePackedRaster extends SunWritableRaster {
 
                 int lshift = inbit & 7;
                 int rshift = 8 - lshift;
-                int mask = 0xff >> bitpos;
+                int mbsk = 0xff >> bitpos;
                 if (copybits < bits) {
-                    // Fix mask if we're only writing a partial byte
-                    mask &= 0xff << (bits - copybits);
+                    // Fix mbsk if we're only writing b pbrtibl byte
+                    mbsk &= 0xff << (bits - copybits);
                     bits = copybits;
                 }
-                int lastByte = inData.length - 1;
+                int lbstByte = inDbtb.length - 1;
                 for (int j = 0; j < height; j++) {
-                    // Read two bytes from the source if possible
-                    // Don't worry about going over a scanline boundary
-                    // since any extra bits won't get used anyway
-                    byte inData0 = inData[inbyte];
-                    byte inData1 = (byte)0;
-                    if (inbyte < lastByte) {
-                        inData1 = inData[inbyte + 1];
+                    // Rebd two bytes from the source if possible
+                    // Don't worry bbout going over b scbnline boundbry
+                    // since bny extrb bits won't get used bnywby
+                    byte inDbtb0 = inDbtb[inbyte];
+                    byte inDbtb1 = (byte)0;
+                    if (inbyte < lbstByte) {
+                        inDbtb1 = inDbtb[inbyte + 1];
                     }
 
                     // Insert the new bits into the output
-                    int element = outData[outbyte];
-                    element &= ~mask;
-                    element |= (((inData0 << lshift) |
-                                 ((inData1 & 0xff) >> rshift))
-                                >> bitpos) & mask;
-                    outData[outbyte] = (byte)element;
-                    inbyte += inscan;
-                    outbyte += outscan;
+                    int element = outDbtb[outbyte];
+                    element &= ~mbsk;
+                    element |= (((inDbtb0 << lshift) |
+                                 ((inDbtb1 & 0xff) >> rshift))
+                                >> bitpos) & mbsk;
+                    outDbtb[outbyte] = (byte)element;
+                    inbyte += inscbn;
+                    outbyte += outscbn;
                 }
 
                 inbit += bits;
@@ -715,11 +715,11 @@ public class BytePackedRaster extends SunWritableRaster {
                 copybits -= bits;
             }
 
-            // Now we have outbit & 7 == 0 so we can write
-            // complete bytes for a while
+            // Now we hbve outbit & 7 == 0 so we cbn write
+            // complete bytes for b while
 
-            // Make sure we have work to do in the central loop
-            // to avoid reading past the end of the scanline
+            // Mbke sure we hbve work to do in the centrbl loop
+            // to bvoid rebding pbst the end of the scbnline
             if (copybits >= 8) {
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
@@ -728,17 +728,17 @@ public class BytePackedRaster extends SunWritableRaster {
                 int rshift = 8 - lshift;
 
                 for (int j = 0; j < height; j++) {
-                    int ibyte = inbyte + j*inscan;
-                    int obyte = outbyte + j*outscan;
+                    int ibyte = inbyte + j*inscbn;
+                    int obyte = outbyte + j*outscbn;
 
-                    int inData0 = inData[ibyte];
-                    // Combine adjacent bytes while 8 or more bits left
+                    int inDbtb0 = inDbtb[ibyte];
+                    // Combine bdjbcent bytes while 8 or more bits left
                     for (int i = 0; i < copybytes; i++) {
-                        int inData1 = inData[ibyte + 1];
-                        int val = (inData0 << lshift) |
-                            ((inData1 & 0xff) >> rshift);
-                        outData[obyte] = (byte)val;
-                        inData0 = inData1;
+                        int inDbtb1 = inDbtb[ibyte + 1];
+                        int vbl = (inDbtb0 << lshift) |
+                            ((inDbtb1 & 0xff) >> rshift);
+                        outDbtb[obyte] = (byte)vbl;
+                        inDbtb0 = inDbtb1;
 
                         ++ibyte;
                         ++obyte;
@@ -751,70 +751,70 @@ public class BytePackedRaster extends SunWritableRaster {
                 copybits -= bits;
             }
 
-            // Finish last byte
+            // Finish lbst byte
             if (copybits > 0) {
                 int inbyte = inbit >> 3;
                 int outbyte = outbit >> 3;
-                int mask = (0xff00 >> copybits) & 0xff;
+                int mbsk = (0xff00 >> copybits) & 0xff;
                 int lshift = inbit & 7;
                 int rshift = 8 - lshift;
 
-                int lastByte = inData.length - 1;
+                int lbstByte = inDbtb.length - 1;
                 for (int j = 0; j < height; j++) {
-                    byte inData0 = inData[inbyte];
-                    byte inData1 = (byte)0;
-                    if (inbyte < lastByte) {
-                        inData1 = inData[inbyte + 1];
+                    byte inDbtb0 = inDbtb[inbyte];
+                    byte inDbtb1 = (byte)0;
+                    if (inbyte < lbstByte) {
+                        inDbtb1 = inDbtb[inbyte + 1];
                     }
 
                     // Insert the new bits into the output
-                    int element = outData[outbyte];
-                    element &= ~mask;
-                    element |= ((inData0 << lshift) |
-                                ((inData1 & 0xff) >> rshift)) & mask;
-                    outData[outbyte] = (byte)element;
+                    int element = outDbtb[outbyte];
+                    element &= ~mbsk;
+                    element |= ((inDbtb0 << lshift) |
+                                ((inDbtb1 & 0xff) >> rshift)) & mbsk;
+                    outDbtb[outbyte] = (byte)element;
 
-                    inbyte += inscan;
-                    outbyte += outscan;
+                    inbyte += inscbn;
+                    outbyte += outscbn;
                 }
             }
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Copies pixels from Raster srcRaster to this WritableRaster.
-     * For each (x, y) address in srcRaster, the corresponding pixel
-     * is copied to address (x+dx, y+dy) in this WritableRaster,
-     * unless (x+dx, y+dy) falls outside the bounds of this raster.
-     * srcRaster must have the same number of bands as this WritableRaster.
-     * The copy is a simple copy of source samples to the corresponding
-     * destination samples.  For details, see
-     * {@link WritableRaster#setRect(Raster)}.
+     * Copies pixels from Rbster srcRbster to this WritbbleRbster.
+     * For ebch (x, y) bddress in srcRbster, the corresponding pixel
+     * is copied to bddress (x+dx, y+dy) in this WritbbleRbster,
+     * unless (x+dx, y+dy) fblls outside the bounds of this rbster.
+     * srcRbster must hbve the sbme number of bbnds bs this WritbbleRbster.
+     * The copy is b simple copy of source sbmples to the corresponding
+     * destinbtion sbmples.  For detbils, see
+     * {@link WritbbleRbster#setRect(Rbster)}.
      *
-     * @param dx        The X translation factor from src space to dst space
+     * @pbrbm dx        The X trbnslbtion fbctor from src spbce to dst spbce
      *                  of the copy.
-     * @param dy        The Y translation factor from src space to dst space
+     * @pbrbm dy        The Y trbnslbtion fbctor from src spbce to dst spbce
      *                  of the copy.
-     * @param srcRaster The Raster from which to copy pixels.
+     * @pbrbm srcRbster The Rbster from which to copy pixels.
      */
-    public void setRect(int dx, int dy, Raster srcRaster) {
-        // Check if we can use fast code
-        if (!(srcRaster instanceof BytePackedRaster) ||
-            ((BytePackedRaster)srcRaster).pixelBitStride != pixelBitStride) {
-            super.setRect(dx, dy, srcRaster);
+    public void setRect(int dx, int dy, Rbster srcRbster) {
+        // Check if we cbn use fbst code
+        if (!(srcRbster instbnceof BytePbckedRbster) ||
+            ((BytePbckedRbster)srcRbster).pixelBitStride != pixelBitStride) {
+            super.setRect(dx, dy, srcRbster);
             return;
         }
 
-        int width  = srcRaster.getWidth();
-        int height = srcRaster.getHeight();
-        int srcOffX = srcRaster.getMinX();
-        int srcOffY = srcRaster.getMinY();
+        int width  = srcRbster.getWidth();
+        int height = srcRbster.getHeight();
+        int srcOffX = srcRbster.getMinX();
+        int srcOffY = srcRbster.getMinY();
         int dstOffX = dx+srcOffX;
         int dstOffY = dy+srcOffY;
 
-        // Clip to this raster
+        // Clip to this rbster
         if (dstOffX < this.minX) {
             int skipX = this.minX - dstOffX;
             width -= skipX;
@@ -827,610 +827,610 @@ public class BytePackedRaster extends SunWritableRaster {
             srcOffY += skipY;
             dstOffY = this.minY;
         }
-        if (dstOffX+width > this.maxX) {
-            width = this.maxX - dstOffX;
+        if (dstOffX+width > this.mbxX) {
+            width = this.mbxX - dstOffX;
         }
-        if (dstOffY+height > this.maxY) {
-            height = this.maxY - dstOffY;
+        if (dstOffY+height > this.mbxY) {
+            height = this.mbxY - dstOffY;
         }
 
-        setDataElements(dstOffX, dstOffY,
+        setDbtbElements(dstOffX, dstOffY,
                         srcOffX, srcOffY,
                         width, height,
-                        (BytePackedRaster)srcRaster);
+                        (BytePbckedRbster)srcRbster);
     }
 
     /**
-     * Stores an array of data elements into the specified rectangular
+     * Stores bn brrby of dbtb elements into the specified rectbngulbr
      * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * A ClassCastException will be thrown if the input object is non null
-     * and references anything other than an array of transferType.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * at location (x2, y2) would be found at:
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * A ClbssCbstException will be thrown if the input object is non null
+     * bnd references bnything other thbn bn brrby of trbnsferType.
+     * The dbtb elements in the
+     * dbtb brrby bre bssumed to be pbcked.  Thbt is, b dbtb element
+     * bt locbtion (x2, y2) would be found bt:
      * <pre>
-     *      inData[((y2-y)*w + (x2-x))]
+     *      inDbtb[((y2-y)*w + (x2-x))]
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   An object reference to an array of type defined by
-     *                 getTransferType() and length w*h*getNumDataElements()
-     *                 containing the pixel data to place between x,y and
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm inDbtb   An object reference to bn brrby of type defined by
+     *                 getTrbnsferType() bnd length w*h*getNumDbtbElements()
+     *                 contbining the pixel dbtb to plbce between x,y bnd
      *                 x+h, y+h.
      */
-    public void setDataElements(int x, int y, int w, int h, Object obj) {
-        putByteData(x, y, w, h, (byte[])obj);
+    public void setDbtbElements(int x, int y, int w, int h, Object obj) {
+        putByteDbtb(x, y, w, h, (byte[])obj);
     }
 
     /**
-     * Stores a byte array of data elements into the specified rectangular
-     * region.  The band index will be ignored.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * at location (x2, y2) would be found at:
+     * Stores b byte brrby of dbtb elements into the specified rectbngulbr
+     * region.  The bbnd index will be ignored.
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * The dbtb elements in the
+     * dbtb brrby bre bssumed to be pbcked.  Thbt is, b dbtb element
+     * bt locbtion (x2, y2) would be found bt:
      * <pre>
-     *      inData[((y2-y)*w + (x2-x))]
+     *      inDbtb[((y2-y)*w + (x2-x))]
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param band     The band to set, is ignored.
-     * @param inData   The data elements to be stored.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm bbnd     The bbnd to set, is ignored.
+     * @pbrbm inDbtb   The dbtb elements to be stored.
      */
-    public void putByteData(int x, int y, int w, int h,
-                            int band, byte[] inData) {
-        putByteData(x, y, w, h, inData);
+    public void putByteDbtb(int x, int y, int w, int h,
+                            int bbnd, byte[] inDbtb) {
+        putByteDbtb(x, y, w, h, inDbtb);
     }
 
     /**
-     * Stores a byte array of data elements into the specified rectangular
+     * Stores b byte brrby of dbtb elements into the specified rectbngulbr
      * region.
-     * An ArrayIndexOutOfBounds exception will be thrown at runtime
-     * if the pixel coordinates are out of bounds.
-     * The data elements in the
-     * data array are assumed to be packed.  That is, a data element
-     * at location (x2, y2) would be found at:
+     * An ArrbyIndexOutOfBounds exception will be thrown bt runtime
+     * if the pixel coordinbtes bre out of bounds.
+     * The dbtb elements in the
+     * dbtb brrby bre bssumed to be pbcked.  Thbt is, b dbtb element
+     * bt locbtion (x2, y2) would be found bt:
      * <pre>
-     *      inData[((y2-y)*w + (x2-x))]
+     *      inDbtb[((y2-y)*w + (x2-x))]
      * </pre>
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param inData   The data elements to be stored.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm inDbtb   The dbtb elements to be stored.
      */
-    public void putByteData(int x, int y, int w, int h, byte[] inData) {
+    public void putByteDbtb(int x, int y, int w, int h, byte[] inDbtb) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         if (w == 0 || h == 0) {
             return;
         }
 
         int pixbits = pixelBitStride;
-        int scanbit = dataBitOffset + (x - minX) * pixbits;
-        int index = (y - minY) * scanlineStride;
+        int scbnbit = dbtbBitOffset + (x - minX) * pixbits;
+        int index = (y - minY) * scbnlineStride;
         int outindex = 0;
-        byte data[] = this.data;
+        byte dbtb[] = this.dbtb;
         for (int j = 0; j < h; j++) {
-            int bitnum = scanbit;
+            int bitnum = scbnbit;
             int element;
 
-            // Process initial portion of scanline
+            // Process initibl portion of scbnline
             int i = 0;
             while ((i < w) && ((bitnum & 7) != 0)) {
                 int shift = shiftOffset - (bitnum & 7);
-                element = data[index + (bitnum >> 3)];
-                element &= ~(bitMask << shift);
-                element |= (inData[outindex++] & bitMask) << shift;
-                data[index + (bitnum >> 3)] = (byte)element;
+                element = dbtb[index + (bitnum >> 3)];
+                element &= ~(bitMbsk << shift);
+                element |= (inDbtb[outindex++] & bitMbsk) << shift;
+                dbtb[index + (bitnum >> 3)] = (byte)element;
 
                 bitnum += pixbits;
                 i++;
             }
 
-            // Process central portion of scanline 8 pixels at a time
+            // Process centrbl portion of scbnline 8 pixels bt b time
             int inIndex = index + (bitnum >> 3);
             switch (pixbits) {
-            case 1:
+            cbse 1:
                 for (; i < w - 7; i += 8) {
-                    element = (inData[outindex++] & 1) << 7;
-                    element |= (inData[outindex++] & 1) << 6;
-                    element |= (inData[outindex++] & 1) << 5;
-                    element |= (inData[outindex++] & 1) << 4;
-                    element |= (inData[outindex++] & 1) << 3;
-                    element |= (inData[outindex++] & 1) << 2;
-                    element |= (inData[outindex++] & 1) << 1;
-                    element |= (inData[outindex++] & 1);
+                    element = (inDbtb[outindex++] & 1) << 7;
+                    element |= (inDbtb[outindex++] & 1) << 6;
+                    element |= (inDbtb[outindex++] & 1) << 5;
+                    element |= (inDbtb[outindex++] & 1) << 4;
+                    element |= (inDbtb[outindex++] & 1) << 3;
+                    element |= (inDbtb[outindex++] & 1) << 2;
+                    element |= (inDbtb[outindex++] & 1) << 1;
+                    element |= (inDbtb[outindex++] & 1);
 
-                    data[inIndex++] = (byte)element;
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 8;
                 }
-                break;
+                brebk;
 
-            case 2:
+            cbse 2:
                 for (; i < w - 7; i += 8) {
-                    element = (inData[outindex++] & 3) << 6;
-                    element |= (inData[outindex++] & 3) << 4;
-                    element |= (inData[outindex++] & 3) << 2;
-                    element |= (inData[outindex++] & 3);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 3) << 6;
+                    element |= (inDbtb[outindex++] & 3) << 4;
+                    element |= (inDbtb[outindex++] & 3) << 2;
+                    element |= (inDbtb[outindex++] & 3);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (inData[outindex++] & 3) << 6;
-                    element |= (inData[outindex++] & 3) << 4;
-                    element |= (inData[outindex++] & 3) << 2;
-                    element |= (inData[outindex++] & 3);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 3) << 6;
+                    element |= (inDbtb[outindex++] & 3) << 4;
+                    element |= (inDbtb[outindex++] & 3) << 2;
+                    element |= (inDbtb[outindex++] & 3);
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 16;
                 }
-                break;
+                brebk;
 
-            case 4:
+            cbse 4:
                 for (; i < w - 7; i += 8) {
-                    element = (inData[outindex++] & 0xf) << 4;
-                    element |= (inData[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 0xf) << 4;
+                    element |= (inDbtb[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (inData[outindex++] & 0xf) << 4;
-                    element |= (inData[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 0xf) << 4;
+                    element |= (inDbtb[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (inData[outindex++] & 0xf) << 4;
-                    element |= (inData[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 0xf) << 4;
+                    element |= (inDbtb[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (inData[outindex++] & 0xf) << 4;
-                    element |= (inData[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (inDbtb[outindex++] & 0xf) << 4;
+                    element |= (inDbtb[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 32;
                 }
-                break;
+                brebk;
             }
 
-            // Process final portion of scanline
+            // Process finbl portion of scbnline
             for (; i < w; i++) {
                 int shift = shiftOffset - (bitnum & 7);
 
-                element = data[index + (bitnum >> 3)];
-                element &= ~(bitMask << shift);
-                element |= (inData[outindex++] & bitMask) << shift;
-                data[index + (bitnum >> 3)] = (byte)element;
+                element = dbtb[index + (bitnum >> 3)];
+                element &= ~(bitMbsk << shift);
+                element |= (inDbtb[outindex++] & bitMbsk) << shift;
+                dbtb[index + (bitnum >> 3)] = (byte)element;
 
                 bitnum += pixbits;
             }
 
-            index += scanlineStride;
+            index += scbnlineStride;
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Returns an int array containing all samples for a rectangle of pixels,
-     * one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown
-     * if the coordinates are not in bounds.
-     * @param x,&nbsp;y   the coordinates of the upper-left pixel location
-     * @param w      Width of the pixel rectangle
-     * @param h      Height of the pixel rectangle
-     * @param iArray An optionally pre-allocated int array
-     * @return the samples for the specified rectangle of pixels.
+     * Returns bn int brrby contbining bll sbmples for b rectbngle of pixels,
+     * one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown
+     * if the coordinbtes bre not in bounds.
+     * @pbrbm x,&nbsp;y   the coordinbtes of the upper-left pixel locbtion
+     * @pbrbm w      Width of the pixel rectbngle
+     * @pbrbm h      Height of the pixel rectbngle
+     * @pbrbm iArrby An optionblly pre-bllocbted int brrby
+     * @return the sbmples for the specified rectbngle of pixels.
      */
-    public int[] getPixels(int x, int y, int w, int h, int iArray[]) {
+    public int[] getPixels(int x, int y, int w, int h, int iArrby[]) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
-        if (iArray == null) {
-            iArray = new int[w * h];
+        if (iArrby == null) {
+            iArrby = new int[w * h];
         }
         int pixbits = pixelBitStride;
-        int scanbit = dataBitOffset + (x-minX) * pixbits;
-        int index = (y-minY) * scanlineStride;
+        int scbnbit = dbtbBitOffset + (x-minX) * pixbits;
+        int index = (y-minY) * scbnlineStride;
         int outindex = 0;
-        byte data[] = this.data;
+        byte dbtb[] = this.dbtb;
 
         for (int j = 0; j < h; j++) {
-            int bitnum = scanbit;
+            int bitnum = scbnbit;
             int element;
 
-            // Process initial portion of scanline
+            // Process initibl portion of scbnline
             int i = 0;
             while ((i < w) && ((bitnum & 7) != 0)) {
                 int shift = shiftOffset - (bitnum & 7);
-                iArray[outindex++] =
-                    bitMask & (data[index + (bitnum >> 3)] >> shift);
+                iArrby[outindex++] =
+                    bitMbsk & (dbtb[index + (bitnum >> 3)] >> shift);
                 bitnum += pixbits;
                 i++;
             }
 
-            // Process central portion of scanline 8 pixels at a time
+            // Process centrbl portion of scbnline 8 pixels bt b time
             int inIndex = index + (bitnum >> 3);
             switch (pixbits) {
-            case 1:
+            cbse 1:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 7) & 1;
-                    iArray[outindex++] = (element >> 6) & 1;
-                    iArray[outindex++] = (element >> 5) & 1;
-                    iArray[outindex++] = (element >> 4) & 1;
-                    iArray[outindex++] = (element >> 3) & 1;
-                    iArray[outindex++] = (element >> 2) & 1;
-                    iArray[outindex++] = (element >> 1) & 1;
-                    iArray[outindex++] = element & 1;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 7) & 1;
+                    iArrby[outindex++] = (element >> 6) & 1;
+                    iArrby[outindex++] = (element >> 5) & 1;
+                    iArrby[outindex++] = (element >> 4) & 1;
+                    iArrby[outindex++] = (element >> 3) & 1;
+                    iArrby[outindex++] = (element >> 2) & 1;
+                    iArrby[outindex++] = (element >> 1) & 1;
+                    iArrby[outindex++] = element & 1;
                     bitnum += 8;
                 }
-                break;
+                brebk;
 
-            case 2:
+            cbse 2:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 6) & 3;
-                    iArray[outindex++] = (element >> 4) & 3;
-                    iArray[outindex++] = (element >> 2) & 3;
-                    iArray[outindex++] = element & 3;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 6) & 3;
+                    iArrby[outindex++] = (element >> 4) & 3;
+                    iArrby[outindex++] = (element >> 2) & 3;
+                    iArrby[outindex++] = element & 3;
 
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 6) & 3;
-                    iArray[outindex++] = (element >> 4) & 3;
-                    iArray[outindex++] = (element >> 2) & 3;
-                    iArray[outindex++] = element & 3;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 6) & 3;
+                    iArrby[outindex++] = (element >> 4) & 3;
+                    iArrby[outindex++] = (element >> 2) & 3;
+                    iArrby[outindex++] = element & 3;
 
                     bitnum += 16;
                 }
-                break;
+                brebk;
 
-            case 4:
+            cbse 4:
                 for (; i < w - 7; i += 8) {
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 4) & 0xf;
-                    iArray[outindex++] = element & 0xf;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 4) & 0xf;
+                    iArrby[outindex++] = element & 0xf;
 
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 4) & 0xf;
-                    iArray[outindex++] = element & 0xf;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 4) & 0xf;
+                    iArrby[outindex++] = element & 0xf;
 
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 4) & 0xf;
-                    iArray[outindex++] = element & 0xf;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 4) & 0xf;
+                    iArrby[outindex++] = element & 0xf;
 
-                    element = data[inIndex++];
-                    iArray[outindex++] = (element >> 4) & 0xf;
-                    iArray[outindex++] = element & 0xf;
+                    element = dbtb[inIndex++];
+                    iArrby[outindex++] = (element >> 4) & 0xf;
+                    iArrby[outindex++] = element & 0xf;
 
                     bitnum += 32;
                 }
-                break;
+                brebk;
             }
 
-            // Process final portion of scanline
+            // Process finbl portion of scbnline
             for (; i < w; i++) {
                 int shift = shiftOffset - (bitnum & 7);
-                iArray[outindex++] =
-                    bitMask & (data[index + (bitnum >> 3)] >> shift);
+                iArrby[outindex++] =
+                    bitMbsk & (dbtb[index + (bitnum >> 3)] >> shift);
                 bitnum += pixbits;
             }
 
-            index += scanlineStride;
+            index += scbnlineStride;
         }
 
-        return iArray;
+        return iArrby;
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * An ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sets bll sbmples for b rectbngle of pixels from bn int brrby contbining
+     * one sbmple per brrby element.
+     * An ArrbyIndexOutOfBoundsException mby be thrown if the coordinbtes bre
      * not in bounds.
-     * @param x        The X coordinate of the upper left pixel location.
-     * @param y        The Y coordinate of the upper left pixel location.
-     * @param w        Width of the pixel rectangle.
-     * @param h        Height of the pixel rectangle.
-     * @param iArray   The input int pixel array.
+     * @pbrbm x        The X coordinbte of the upper left pixel locbtion.
+     * @pbrbm y        The Y coordinbte of the upper left pixel locbtion.
+     * @pbrbm w        Width of the pixel rectbngle.
+     * @pbrbm h        Height of the pixel rectbngle.
+     * @pbrbm iArrby   The input int pixel brrby.
      */
-    public void setPixels(int x, int y, int w, int h, int iArray[]) {
+    public void setPixels(int x, int y, int w, int h, int iArrby[]) {
         if ((x < this.minX) || (y < this.minY) ||
-            (x + w > this.maxX) || (y + h > this.maxY)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw new ArrbyIndexOutOfBoundsException
+                ("Coordinbte out of bounds!");
         }
         int pixbits = pixelBitStride;
-        int scanbit = dataBitOffset + (x - minX) * pixbits;
-        int index = (y - minY) * scanlineStride;
+        int scbnbit = dbtbBitOffset + (x - minX) * pixbits;
+        int index = (y - minY) * scbnlineStride;
         int outindex = 0;
-        byte data[] = this.data;
+        byte dbtb[] = this.dbtb;
         for (int j = 0; j < h; j++) {
-            int bitnum = scanbit;
+            int bitnum = scbnbit;
             int element;
 
-            // Process initial portion of scanline
+            // Process initibl portion of scbnline
             int i = 0;
             while ((i < w) && ((bitnum & 7) != 0)) {
                 int shift = shiftOffset - (bitnum & 7);
-                element = data[index + (bitnum >> 3)];
-                element &= ~(bitMask << shift);
-                element |= (iArray[outindex++] & bitMask) << shift;
-                data[index + (bitnum >> 3)] = (byte)element;
+                element = dbtb[index + (bitnum >> 3)];
+                element &= ~(bitMbsk << shift);
+                element |= (iArrby[outindex++] & bitMbsk) << shift;
+                dbtb[index + (bitnum >> 3)] = (byte)element;
 
                 bitnum += pixbits;
                 i++;
             }
 
-            // Process central portion of scanline 8 pixels at a time
+            // Process centrbl portion of scbnline 8 pixels bt b time
             int inIndex = index + (bitnum >> 3);
             switch (pixbits) {
-            case 1:
+            cbse 1:
                 for (; i < w - 7; i += 8) {
-                    element = (iArray[outindex++] & 1) << 7;
-                    element |= (iArray[outindex++] & 1) << 6;
-                    element |= (iArray[outindex++] & 1) << 5;
-                    element |= (iArray[outindex++] & 1) << 4;
-                    element |= (iArray[outindex++] & 1) << 3;
-                    element |= (iArray[outindex++] & 1) << 2;
-                    element |= (iArray[outindex++] & 1) << 1;
-                    element |= (iArray[outindex++] & 1);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 1) << 7;
+                    element |= (iArrby[outindex++] & 1) << 6;
+                    element |= (iArrby[outindex++] & 1) << 5;
+                    element |= (iArrby[outindex++] & 1) << 4;
+                    element |= (iArrby[outindex++] & 1) << 3;
+                    element |= (iArrby[outindex++] & 1) << 2;
+                    element |= (iArrby[outindex++] & 1) << 1;
+                    element |= (iArrby[outindex++] & 1);
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 8;
                 }
-                break;
+                brebk;
 
-            case 2:
+            cbse 2:
                 for (; i < w - 7; i += 8) {
-                    element = (iArray[outindex++] & 3) << 6;
-                    element |= (iArray[outindex++] & 3) << 4;
-                    element |= (iArray[outindex++] & 3) << 2;
-                    element |= (iArray[outindex++] & 3);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 3) << 6;
+                    element |= (iArrby[outindex++] & 3) << 4;
+                    element |= (iArrby[outindex++] & 3) << 2;
+                    element |= (iArrby[outindex++] & 3);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (iArray[outindex++] & 3) << 6;
-                    element |= (iArray[outindex++] & 3) << 4;
-                    element |= (iArray[outindex++] & 3) << 2;
-                    element |= (iArray[outindex++] & 3);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 3) << 6;
+                    element |= (iArrby[outindex++] & 3) << 4;
+                    element |= (iArrby[outindex++] & 3) << 2;
+                    element |= (iArrby[outindex++] & 3);
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 16;
                 }
-                break;
+                brebk;
 
-            case 4:
+            cbse 4:
                 for (; i < w - 7; i += 8) {
-                    element = (iArray[outindex++] & 0xf) << 4;
-                    element |= (iArray[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 0xf) << 4;
+                    element |= (iArrby[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (iArray[outindex++] & 0xf) << 4;
-                    element |= (iArray[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 0xf) << 4;
+                    element |= (iArrby[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (iArray[outindex++] & 0xf) << 4;
-                    element |= (iArray[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 0xf) << 4;
+                    element |= (iArrby[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
-                    element = (iArray[outindex++] & 0xf) << 4;
-                    element |= (iArray[outindex++] & 0xf);
-                    data[inIndex++] = (byte)element;
+                    element = (iArrby[outindex++] & 0xf) << 4;
+                    element |= (iArrby[outindex++] & 0xf);
+                    dbtb[inIndex++] = (byte)element;
 
                     bitnum += 32;
                 }
-                break;
+                brebk;
             }
 
-            // Process final portion of scanline
+            // Process finbl portion of scbnline
             for (; i < w; i++) {
                 int shift = shiftOffset - (bitnum & 7);
 
-                element = data[index + (bitnum >> 3)];
-                element &= ~(bitMask << shift);
-                element |= (iArray[outindex++] & bitMask) << shift;
-                data[index + (bitnum >> 3)] = (byte)element;
+                element = dbtb[index + (bitnum >> 3)];
+                element &= ~(bitMbsk << shift);
+                element |= (iArrby[outindex++] & bitMbsk) << shift;
+                dbtb[index + (bitnum >> 3)] = (byte)element;
 
                 bitnum += pixbits;
             }
 
-            index += scanlineStride;
+            index += scbnlineStride;
         }
 
-        markDirty();
+        mbrkDirty();
     }
 
     /**
-     * Creates a subraster given a region of the raster.  The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this raster to the upper-left corner
-     * of the subraster.  Note that the subraster will reference the same
-     * DataBuffer as the parent raster, but using different offsets. The
-     * bandList is ignored.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subraster.
-     * @param y0              Translated Y origin of the subraster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent raster.
+     * Crebtes b subrbster given b region of the rbster.  The x bnd y
+     * coordinbtes specify the horizontbl bnd verticbl offsets
+     * from the upper-left corner of this rbster to the upper-left corner
+     * of the subrbster.  Note thbt the subrbster will reference the sbme
+     * DbtbBuffer bs the pbrent rbster, but using different offsets. The
+     * bbndList is ignored.
+     * @pbrbm x               X offset.
+     * @pbrbm y               Y offset.
+     * @pbrbm width           Width (in pixels) of the subrbster.
+     * @pbrbm height          Height (in pixels) of the subrbster.
+     * @pbrbm x0              Trbnslbted X origin of the subrbster.
+     * @pbrbm y0              Trbnslbted Y origin of the subrbster.
+     * @pbrbm bbndList        Arrby of bbnd indices.
+     * @exception RbsterFormbtException
+     *            if the specified bounding box is outside of the pbrent rbster.
      */
-    public Raster createChild(int x, int y,
+    public Rbster crebteChild(int x, int y,
                               int width, int height,
-                              int x0, int y0, int[] bandList) {
-        WritableRaster newRaster = createWritableChild(x, y,
+                              int x0, int y0, int[] bbndList) {
+        WritbbleRbster newRbster = crebteWritbbleChild(x, y,
                                                        width, height,
                                                        x0, y0,
-                                                       bandList);
-        return (Raster) newRaster;
+                                                       bbndList);
+        return (Rbster) newRbster;
     }
 
     /**
-     * Creates a Writable subRaster given a region of the Raster. The x and y
-     * coordinates specify the horizontal and vertical offsets
-     * from the upper-left corner of this Raster to the upper-left corner
-     * of the subRaster.  The bandList is ignored.
-     * A translation to the subRaster may also be specified.
-     * Note that the subRaster will reference the same
-     * DataBuffer as the parent Raster, but using different offsets.
-     * @param x               X offset.
-     * @param y               Y offset.
-     * @param width           Width (in pixels) of the subraster.
-     * @param height          Height (in pixels) of the subraster.
-     * @param x0              Translated X origin of the subraster.
-     * @param y0              Translated Y origin of the subraster.
-     * @param bandList        Array of band indices.
-     * @exception RasterFormatException
-     *            if the specified bounding box is outside of the parent Raster.
+     * Crebtes b Writbble subRbster given b region of the Rbster. The x bnd y
+     * coordinbtes specify the horizontbl bnd verticbl offsets
+     * from the upper-left corner of this Rbster to the upper-left corner
+     * of the subRbster.  The bbndList is ignored.
+     * A trbnslbtion to the subRbster mby blso be specified.
+     * Note thbt the subRbster will reference the sbme
+     * DbtbBuffer bs the pbrent Rbster, but using different offsets.
+     * @pbrbm x               X offset.
+     * @pbrbm y               Y offset.
+     * @pbrbm width           Width (in pixels) of the subrbster.
+     * @pbrbm height          Height (in pixels) of the subrbster.
+     * @pbrbm x0              Trbnslbted X origin of the subrbster.
+     * @pbrbm y0              Trbnslbted Y origin of the subrbster.
+     * @pbrbm bbndList        Arrby of bbnd indices.
+     * @exception RbsterFormbtException
+     *            if the specified bounding box is outside of the pbrent Rbster.
      */
-    public WritableRaster createWritableChild(int x, int y,
+    public WritbbleRbster crebteWritbbleChild(int x, int y,
                                               int width, int height,
                                               int x0, int y0,
-                                              int[] bandList) {
+                                              int[] bbndList) {
         if (x < this.minX) {
-            throw new RasterFormatException("x lies outside the raster");
+            throw new RbsterFormbtException("x lies outside the rbster");
         }
         if (y < this.minY) {
-            throw new RasterFormatException("y lies outside the raster");
+            throw new RbsterFormbtException("y lies outside the rbster");
         }
         if ((x+width < x) || (x+width > this.minX + this.width)) {
-            throw new RasterFormatException("(x + width) is outside of Raster");
+            throw new RbsterFormbtException("(x + width) is outside of Rbster");
         }
         if ((y+height < y) || (y+height > this.minY + this.height)) {
-            throw new RasterFormatException("(y + height) is outside of Raster");
+            throw new RbsterFormbtException("(y + height) is outside of Rbster");
         }
 
-        SampleModel sm;
+        SbmpleModel sm;
 
-        if (bandList != null) {
-            sm = sampleModel.createSubsetSampleModel(bandList);
+        if (bbndList != null) {
+            sm = sbmpleModel.crebteSubsetSbmpleModel(bbndList);
         }
         else {
-            sm = sampleModel;
+            sm = sbmpleModel;
         }
 
-        int deltaX = x0 - x;
-        int deltaY = y0 - y;
+        int deltbX = x0 - x;
+        int deltbY = y0 - y;
 
-        return new BytePackedRaster(sm,
-                                    dataBuffer,
-                                    new Rectangle(x0, y0, width, height),
-                                    new Point(sampleModelTranslateX+deltaX,
-                                              sampleModelTranslateY+deltaY),
+        return new BytePbckedRbster(sm,
+                                    dbtbBuffer,
+                                    new Rectbngle(x0, y0, width, height),
+                                    new Point(sbmpleModelTrbnslbteX+deltbX,
+                                              sbmpleModelTrbnslbteY+deltbY),
                                     this);
     }
 
     /**
-     * Creates a raster with the same layout but using a different
-     * width and height, and with new zeroed data arrays.
+     * Crebtes b rbster with the sbme lbyout but using b different
+     * width bnd height, bnd with new zeroed dbtb brrbys.
      */
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
+    public WritbbleRbster crebteCompbtibleWritbbleRbster(int w, int h) {
         if (w <= 0 || h <=0) {
-            throw new RasterFormatException("negative "+
+            throw new RbsterFormbtException("negbtive "+
                                           ((w <= 0) ? "width" : "height"));
         }
 
-        SampleModel sm = sampleModel.createCompatibleSampleModel(w,h);
+        SbmpleModel sm = sbmpleModel.crebteCompbtibleSbmpleModel(w,h);
 
-        return new BytePackedRaster(sm, new Point(0,0));
+        return new BytePbckedRbster(sm, new Point(0,0));
     }
 
     /**
-     * Creates a raster with the same layout and the same
-     * width and height, and with new zeroed data arrays.
+     * Crebtes b rbster with the sbme lbyout bnd the sbme
+     * width bnd height, bnd with new zeroed dbtb brrbys.
      */
-    public WritableRaster createCompatibleWritableRaster () {
-        return createCompatibleWritableRaster(width,height);
+    public WritbbleRbster crebteCompbtibleWritbbleRbster () {
+        return crebteCompbtibleWritbbleRbster(width,height);
     }
 
     /**
-     * Verify that the layout parameters are consistent with
-     * the data.  If strictCheck
-     * is false, this method will check for ArrayIndexOutOfBounds conditions.
-     * If strictCheck is true, this method will check for additional error
-     * conditions such as line wraparound (width of a line greater than
-     * the scanline stride).
-     * @return   String   Error string, if the layout is incompatible with
-     *                    the data.  Otherwise returns null.
+     * Verify thbt the lbyout pbrbmeters bre consistent with
+     * the dbtb.  If strictCheck
+     * is fblse, this method will check for ArrbyIndexOutOfBounds conditions.
+     * If strictCheck is true, this method will check for bdditionbl error
+     * conditions such bs line wrbpbround (width of b line grebter thbn
+     * the scbnline stride).
+     * @return   String   Error string, if the lbyout is incompbtible with
+     *                    the dbtb.  Otherwise returns null.
      */
-    private void verify (boolean strictCheck) {
-        // Make sure data for Raster is in a legal range
-        if (dataBitOffset < 0) {
-            throw new RasterFormatException("Data offsets must be >= 0");
+    privbte void verify (boolebn strictCheck) {
+        // Mbke sure dbtb for Rbster is in b legbl rbnge
+        if (dbtbBitOffset < 0) {
+            throw new RbsterFormbtException("Dbtb offsets must be >= 0");
         }
 
-        /* Need to re-verify the dimensions since a sample model may be
+        /* Need to re-verify the dimensions since b sbmple model mby be
          * specified to the constructor
          */
         if (width <= 0 || height <= 0 ||
             height > (Integer.MAX_VALUE / width))
         {
-            throw new RasterFormatException("Invalid raster dimension");
+            throw new RbsterFormbtException("Invblid rbster dimension");
         }
 
 
         /*
-         * pixelBitstride was verified in constructor, so just make
-         * sure that it is safe to multiply it by width.
+         * pixelBitstride wbs verified in constructor, so just mbke
+         * sure thbt it is sbfe to multiply it by width.
          */
         if ((width - 1) > Integer.MAX_VALUE / pixelBitStride) {
-            throw new RasterFormatException("Invalid raster dimension");
+            throw new RbsterFormbtException("Invblid rbster dimension");
         }
 
-        if ((long)minX - sampleModelTranslateX < 0 ||
-            (long)minY - sampleModelTranslateY < 0) {
+        if ((long)minX - sbmpleModelTrbnslbteX < 0 ||
+            (long)minY - sbmpleModelTrbnslbteY < 0) {
 
-            throw new RasterFormatException("Incorrect origin/translate: (" +
+            throw new RbsterFormbtException("Incorrect origin/trbnslbte: (" +
                     minX + ", " + minY + ") / (" +
-                    sampleModelTranslateX + ", " + sampleModelTranslateY + ")");
+                    sbmpleModelTrbnslbteX + ", " + sbmpleModelTrbnslbteY + ")");
         }
 
-        if (scanlineStride < 0 ||
-            scanlineStride > (Integer.MAX_VALUE / height))
+        if (scbnlineStride < 0 ||
+            scbnlineStride > (Integer.MAX_VALUE / height))
         {
-            throw new RasterFormatException("Invalid scanline stride");
+            throw new RbsterFormbtException("Invblid scbnline stride");
         }
 
-        if (height > 1 || minY - sampleModelTranslateY > 0) {
-            // buffer should contain at least one scanline
-            if (scanlineStride > data.length) {
-                throw new RasterFormatException("Incorrect scanline stride: "
-                        + scanlineStride);
+        if (height > 1 || minY - sbmpleModelTrbnslbteY > 0) {
+            // buffer should contbin bt lebst one scbnline
+            if (scbnlineStride > dbtb.length) {
+                throw new RbsterFormbtException("Incorrect scbnline stride: "
+                        + scbnlineStride);
             }
         }
 
-        int lastbit = (dataBitOffset
-                       + (height-1) * scanlineStride * 8
+        int lbstbit = (dbtbBitOffset
+                       + (height-1) * scbnlineStride * 8
                        + (width-1) * pixelBitStride
                        + pixelBitStride - 1);
-        if (lastbit < 0 || lastbit / 8 >= data.length) {
-            throw new RasterFormatException("raster dimensions overflow " +
-                                            "array bounds");
+        if (lbstbit < 0 || lbstbit / 8 >= dbtb.length) {
+            throw new RbsterFormbtException("rbster dimensions overflow " +
+                                            "brrby bounds");
         }
         if (strictCheck) {
             if (height > 1) {
-                lastbit = width * pixelBitStride - 1;
-                if (lastbit / 8 >= scanlineStride) {
-                    throw new RasterFormatException("data for adjacent" +
-                                                    " scanlines overlaps");
+                lbstbit = width * pixelBitStride - 1;
+                if (lbstbit / 8 >= scbnlineStride) {
+                    throw new RbsterFormbtException("dbtb for bdjbcent" +
+                                                    " scbnlines overlbps");
                 }
             }
         }
     }
 
     public String toString() {
-        return new String ("BytePackedRaster: width = "+width+" height = "+height
-                           +" #channels "+numBands
-                           +" xOff = "+sampleModelTranslateX
-                           +" yOff = "+sampleModelTranslateY);
+        return new String ("BytePbckedRbster: width = "+width+" height = "+height
+                           +" #chbnnels "+numBbnds
+                           +" xOff = "+sbmpleModelTrbnslbteX
+                           +" yOff = "+sbmpleModelTrbnslbteY);
     }
 }

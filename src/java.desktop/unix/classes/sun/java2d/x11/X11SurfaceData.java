@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.x11;
+pbckbge sun.jbvb2d.x11;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Rectangle;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.color.ColorSpace;
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Color;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.peer.ComponentPeer;
 
-import sun.awt.SunHints;
-import sun.awt.SunToolkit;
-import sun.awt.X11ComponentPeer;
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsEnvironment;
-import sun.awt.image.PixelConverter;
+import sun.bwt.SunHints;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11ComponentPeer;
+import sun.bwt.X11GrbphicsConfig;
+import sun.bwt.X11GrbphicsEnvironment;
+import sun.bwt.imbge.PixelConverter;
 import sun.font.X11TextRenderer;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.RenderLoops;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.XORComposite;
-import sun.java2d.loops.Blit;
-import sun.java2d.pipe.ValidatePipe;
-import sun.java2d.pipe.PixelToShapeConverter;
-import sun.java2d.pipe.TextPipe;
-import sun.java2d.pipe.Region;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.RenderLoops;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.XORComposite;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.pipe.VblidbtePipe;
+import sun.jbvb2d.pipe.PixelToShbpeConverter;
+import sun.jbvb2d.pipe.TextPipe;
+import sun.jbvb2d.pipe.Region;
 
-public abstract class X11SurfaceData extends XSurfaceData {
+public bbstrbct clbss X11SurfbceDbtb extends XSurfbceDbtb {
     X11ComponentPeer peer;
-    X11GraphicsConfig graphicsConfig;
-    private RenderLoops solidloops;
+    X11GrbphicsConfig grbphicsConfig;
+    privbte RenderLoops solidloops;
 
     protected int depth;
 
-    private static native void initIDs(Class<?> xorComp, boolean tryDGA);
-    protected native void initSurface(int depth, int width, int height,
-                                      long drawable);
+    privbte stbtic nbtive void initIDs(Clbss<?> xorComp, boolebn tryDGA);
+    protected nbtive void initSurfbce(int depth, int width, int height,
+                                      long drbwbble);
 
-    public static final String
-        DESC_INT_BGR_X11        = "Integer BGR Pixmap";
-    public static final String
-        DESC_INT_RGB_X11        = "Integer RGB Pixmap";
+    public stbtic finbl String
+        DESC_INT_BGR_X11        = "Integer BGR Pixmbp";
+    public stbtic finbl String
+        DESC_INT_RGB_X11        = "Integer RGB Pixmbp";
 
-    public static final String
-        DESC_4BYTE_ABGR_PRE_X11 = "4 byte ABGR Pixmap with pre-multplied alpha";
-    public static final String
-        DESC_INT_ARGB_PRE_X11   = "Integer ARGB Pixmap with pre-multiplied " +
-                                  "alpha";
+    public stbtic finbl String
+        DESC_4BYTE_ABGR_PRE_X11 = "4 byte ABGR Pixmbp with pre-multplied blphb";
+    public stbtic finbl String
+        DESC_INT_ARGB_PRE_X11   = "Integer ARGB Pixmbp with pre-multiplied " +
+                                  "blphb";
 
-    public static final String
-        DESC_BYTE_IND_OPQ_X11   = "Byte Indexed Opaque Pixmap";
+    public stbtic finbl String
+        DESC_BYTE_IND_OPQ_X11   = "Byte Indexed Opbque Pixmbp";
 
-    public static final String
-        DESC_INT_BGR_X11_BM     = "Integer BGR Pixmap with 1-bit transp";
-    public static final String
-        DESC_INT_RGB_X11_BM     = "Integer RGB Pixmap with 1-bit transp";
-    public static final String
-        DESC_BYTE_IND_X11_BM    = "Byte Indexed Pixmap with 1-bit transp";
+    public stbtic finbl String
+        DESC_INT_BGR_X11_BM     = "Integer BGR Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
+        DESC_INT_RGB_X11_BM     = "Integer RGB Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
+        DESC_BYTE_IND_X11_BM    = "Byte Indexed Pixmbp with 1-bit trbnsp";
 
-    public static final String
-        DESC_BYTE_GRAY_X11      = "Byte Gray Opaque Pixmap";
-    public static final String
-        DESC_INDEX8_GRAY_X11    = "Index8 Gray Opaque Pixmap";
+    public stbtic finbl String
+        DESC_BYTE_GRAY_X11      = "Byte Grby Opbque Pixmbp";
+    public stbtic finbl String
+        DESC_INDEX8_GRAY_X11    = "Index8 Grby Opbque Pixmbp";
 
-    public static final String
-        DESC_BYTE_GRAY_X11_BM   = "Byte Gray Opaque Pixmap with 1-bit transp";
-    public static final String
-        DESC_INDEX8_GRAY_X11_BM = "Index8 Gray Opaque Pixmap with 1-bit transp";
+    public stbtic finbl String
+        DESC_BYTE_GRAY_X11_BM   = "Byte Grby Opbque Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
+        DESC_INDEX8_GRAY_X11_BM = "Index8 Grby Opbque Pixmbp with 1-bit trbnsp";
 
-    public static final String
-        DESC_3BYTE_RGB_X11      = "3 Byte RGB Pixmap";
-    public static final String
-        DESC_3BYTE_BGR_X11      = "3 Byte BGR Pixmap";
+    public stbtic finbl String
+        DESC_3BYTE_RGB_X11      = "3 Byte RGB Pixmbp";
+    public stbtic finbl String
+        DESC_3BYTE_BGR_X11      = "3 Byte BGR Pixmbp";
 
-    public static final String
-        DESC_3BYTE_RGB_X11_BM   = "3 Byte RGB Pixmap with 1-bit transp";
-    public static final String
-        DESC_3BYTE_BGR_X11_BM   = "3 Byte BGR Pixmap with 1-bit transp";
+    public stbtic finbl String
+        DESC_3BYTE_RGB_X11_BM   = "3 Byte RGB Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
+        DESC_3BYTE_BGR_X11_BM   = "3 Byte BGR Pixmbp with 1-bit trbnsp";
 
-    public static final String
-        DESC_USHORT_555_RGB_X11 = "Ushort 555 RGB Pixmap";
-    public static final String
-        DESC_USHORT_565_RGB_X11 = "Ushort 565 RGB Pixmap";
+    public stbtic finbl String
+        DESC_USHORT_555_RGB_X11 = "Ushort 555 RGB Pixmbp";
+    public stbtic finbl String
+        DESC_USHORT_565_RGB_X11 = "Ushort 565 RGB Pixmbp";
 
-    public static final String
+    public stbtic finbl String
         DESC_USHORT_555_RGB_X11_BM
-                                = "Ushort 555 RGB Pixmap with 1-bit transp";
-    public static final String
+                                = "Ushort 555 RGB Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
         DESC_USHORT_565_RGB_X11_BM
-                                = "Ushort 565 RGB Pixmap with 1-bit transp";
-    public static final String
-        DESC_USHORT_INDEXED_X11 = "Ushort Indexed Pixmap";
+                                = "Ushort 565 RGB Pixmbp with 1-bit trbnsp";
+    public stbtic finbl String
+        DESC_USHORT_INDEXED_X11 = "Ushort Indexed Pixmbp";
 
-    public static final String
-        DESC_USHORT_INDEXED_X11_BM = "Ushort Indexed Pixmap with 1-bit transp";
+    public stbtic finbl String
+        DESC_USHORT_INDEXED_X11_BM = "Ushort Indexed Pixmbp with 1-bit trbnsp";
 
-    public static final SurfaceType IntBgrX11 =
-        SurfaceType.IntBgr.deriveSubType(DESC_INT_BGR_X11);
-    public static final SurfaceType IntRgbX11 =
-        SurfaceType.IntRgb.deriveSubType(DESC_INT_RGB_X11);
+    public stbtic finbl SurfbceType IntBgrX11 =
+        SurfbceType.IntBgr.deriveSubType(DESC_INT_BGR_X11);
+    public stbtic finbl SurfbceType IntRgbX11 =
+        SurfbceType.IntRgb.deriveSubType(DESC_INT_RGB_X11);
 
-    public static final SurfaceType FourByteAbgrPreX11 =
-        SurfaceType.FourByteAbgrPre.deriveSubType(DESC_4BYTE_ABGR_PRE_X11);
-    public static final SurfaceType IntArgbPreX11 =
-        SurfaceType.IntArgbPre.deriveSubType(DESC_INT_ARGB_PRE_X11);
+    public stbtic finbl SurfbceType FourByteAbgrPreX11 =
+        SurfbceType.FourByteAbgrPre.deriveSubType(DESC_4BYTE_ABGR_PRE_X11);
+    public stbtic finbl SurfbceType IntArgbPreX11 =
+        SurfbceType.IntArgbPre.deriveSubType(DESC_INT_ARGB_PRE_X11);
 
-    public static final SurfaceType ThreeByteRgbX11 =
-        SurfaceType.ThreeByteRgb.deriveSubType(DESC_3BYTE_RGB_X11);
-    public static final SurfaceType ThreeByteBgrX11 =
-        SurfaceType.ThreeByteBgr.deriveSubType(DESC_3BYTE_BGR_X11);
+    public stbtic finbl SurfbceType ThreeByteRgbX11 =
+        SurfbceType.ThreeByteRgb.deriveSubType(DESC_3BYTE_RGB_X11);
+    public stbtic finbl SurfbceType ThreeByteBgrX11 =
+        SurfbceType.ThreeByteBgr.deriveSubType(DESC_3BYTE_BGR_X11);
 
-    public static final SurfaceType UShort555RgbX11 =
-        SurfaceType.Ushort555Rgb.deriveSubType(DESC_USHORT_555_RGB_X11);
-    public static final SurfaceType UShort565RgbX11 =
-        SurfaceType.Ushort565Rgb.deriveSubType(DESC_USHORT_565_RGB_X11);
+    public stbtic finbl SurfbceType UShort555RgbX11 =
+        SurfbceType.Ushort555Rgb.deriveSubType(DESC_USHORT_555_RGB_X11);
+    public stbtic finbl SurfbceType UShort565RgbX11 =
+        SurfbceType.Ushort565Rgb.deriveSubType(DESC_USHORT_565_RGB_X11);
 
-    public static final SurfaceType UShortIndexedX11 =
-        SurfaceType.UshortIndexed.deriveSubType(DESC_USHORT_INDEXED_X11);
+    public stbtic finbl SurfbceType UShortIndexedX11 =
+        SurfbceType.UshortIndexed.deriveSubType(DESC_USHORT_INDEXED_X11);
 
-    public static final SurfaceType ByteIndexedOpaqueX11 =
-        SurfaceType.ByteIndexedOpaque.deriveSubType(DESC_BYTE_IND_OPQ_X11);
+    public stbtic finbl SurfbceType ByteIndexedOpbqueX11 =
+        SurfbceType.ByteIndexedOpbque.deriveSubType(DESC_BYTE_IND_OPQ_X11);
 
-    public static final SurfaceType ByteGrayX11 =
-        SurfaceType.ByteGray.deriveSubType(DESC_BYTE_GRAY_X11);
-    public static final SurfaceType Index8GrayX11 =
-        SurfaceType.Index8Gray.deriveSubType(DESC_INDEX8_GRAY_X11);
+    public stbtic finbl SurfbceType ByteGrbyX11 =
+        SurfbceType.ByteGrby.deriveSubType(DESC_BYTE_GRAY_X11);
+    public stbtic finbl SurfbceType Index8GrbyX11 =
+        SurfbceType.Index8Grby.deriveSubType(DESC_INDEX8_GRAY_X11);
 
-    // Bitmap surface types
-    public static final SurfaceType IntBgrX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_INT_BGR_X11_BM,
-                                         PixelConverter.Xbgr.instance);
-    public static final SurfaceType IntRgbX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_INT_RGB_X11_BM,
-                                         PixelConverter.Xrgb.instance);
+    // Bitmbp surfbce types
+    public stbtic finbl SurfbceType IntBgrX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_INT_BGR_X11_BM,
+                                         PixelConverter.Xbgr.instbnce);
+    public stbtic finbl SurfbceType IntRgbX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_INT_RGB_X11_BM,
+                                         PixelConverter.Xrgb.instbnce);
 
-    public static final SurfaceType ThreeByteRgbX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_3BYTE_RGB_X11_BM,
-                                         PixelConverter.Xbgr.instance);
-    public static final SurfaceType ThreeByteBgrX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_3BYTE_BGR_X11_BM,
-                                         PixelConverter.Xrgb.instance);
+    public stbtic finbl SurfbceType ThreeByteRgbX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_3BYTE_RGB_X11_BM,
+                                         PixelConverter.Xbgr.instbnce);
+    public stbtic finbl SurfbceType ThreeByteBgrX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_3BYTE_BGR_X11_BM,
+                                         PixelConverter.Xrgb.instbnce);
 
-    public static final SurfaceType UShort555RgbX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_USHORT_555_RGB_X11_BM,
-                                         PixelConverter.Ushort555Rgb.instance);
-    public static final SurfaceType UShort565RgbX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_USHORT_565_RGB_X11_BM,
-                                         PixelConverter.Ushort565Rgb.instance);
+    public stbtic finbl SurfbceType UShort555RgbX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_USHORT_555_RGB_X11_BM,
+                                         PixelConverter.Ushort555Rgb.instbnce);
+    public stbtic finbl SurfbceType UShort565RgbX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_USHORT_565_RGB_X11_BM,
+                                         PixelConverter.Ushort565Rgb.instbnce);
 
-    public static final SurfaceType UShortIndexedX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_USHORT_INDEXED_X11_BM);
+    public stbtic finbl SurfbceType UShortIndexedX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_USHORT_INDEXED_X11_BM);
 
-    public static final SurfaceType ByteIndexedX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_BYTE_IND_X11_BM);
+    public stbtic finbl SurfbceType ByteIndexedX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_BYTE_IND_X11_BM);
 
-    public static final SurfaceType ByteGrayX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_BYTE_GRAY_X11_BM);
-    public static final SurfaceType Index8GrayX11_BM =
-        SurfaceType.Custom.deriveSubType(DESC_INDEX8_GRAY_X11_BM);
+    public stbtic finbl SurfbceType ByteGrbyX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_BYTE_GRAY_X11_BM);
+    public stbtic finbl SurfbceType Index8GrbyX11_BM =
+        SurfbceType.Custom.deriveSubType(DESC_INDEX8_GRAY_X11_BM);
 
 
-    private static Boolean accelerationEnabled = null;
+    privbte stbtic Boolebn bccelerbtionEnbbled = null;
 
-    public Raster getRaster(int x, int y, int w, int h) {
-        throw new InternalError("not implemented yet");
+    public Rbster getRbster(int x, int y, int w, int h) {
+        throw new InternblError("not implemented yet");
     }
 
     protected X11Renderer x11pipe;
-    protected PixelToShapeConverter x11txpipe;
-    protected static TextPipe x11textpipe;
-    protected static boolean dgaAvailable;
+    protected PixelToShbpeConverter x11txpipe;
+    protected stbtic TextPipe x11textpipe;
+    protected stbtic boolebn dgbAvbilbble;
 
-    static {
-       if (!isX11SurfaceDataInitialized() &&
-           !GraphicsEnvironment.isHeadless()) {
-            // If a screen magnifier is present, don't attempt to use DGA
-            String magPresent = java.security.AccessController.doPrivileged
-                (new sun.security.action.GetPropertyAction("javax.accessibility.screen_magnifier_present"));
-            boolean tryDGA = magPresent == null || !"true".equals(magPresent);
+    stbtic {
+       if (!isX11SurfbceDbtbInitiblized() &&
+           !GrbphicsEnvironment.isHebdless()) {
+            // If b screen mbgnifier is present, don't bttempt to use DGA
+            String mbgPresent = jbvb.security.AccessController.doPrivileged
+                (new sun.security.bction.GetPropertyAction("jbvbx.bccessibility.screen_mbgnifier_present"));
+            boolebn tryDGA = mbgPresent == null || !"true".equbls(mbgPresent);
 
-            initIDs(XORComposite.class, tryDGA);
+            initIDs(XORComposite.clbss, tryDGA);
 
-            String xtextpipe = java.security.AccessController.doPrivileged
-                (new sun.security.action.GetPropertyAction("sun.java2d.xtextpipe"));
-            if (xtextpipe == null || "true".startsWith(xtextpipe)) {
-                if ("true".equals(xtextpipe)) {
+            String xtextpipe = jbvb.security.AccessController.doPrivileged
+                (new sun.security.bction.GetPropertyAction("sun.jbvb2d.xtextpipe"));
+            if (xtextpipe == null || "true".stbrtsWith(xtextpipe)) {
+                if ("true".equbls(xtextpipe)) {
                     // Only verbose if they use the full string "true"
                     System.out.println("using X11 text renderer");
                 }
                 x11textpipe = new X11TextRenderer();
-                if (GraphicsPrimitive.tracingEnabled()) {
-                    x11textpipe = ((X11TextRenderer) x11textpipe).traceWrap();
+                if (GrbphicsPrimitive.trbcingEnbbled()) {
+                    x11textpipe = ((X11TextRenderer) x11textpipe).trbceWrbp();
                 }
             } else {
-                if ("false".equals(xtextpipe)) {
-                    // Only verbose if they use the full string "false"
+                if ("fblse".equbls(xtextpipe)) {
+                    // Only verbose if they use the full string "fblse"
                     System.out.println("using DGA text renderer");
                 }
                 x11textpipe = solidTextRenderer;
             }
 
-            dgaAvailable = isDgaAvailable();
+            dgbAvbilbble = isDgbAvbilbble();
 
-            if (isAccelerationEnabled()) {
+            if (isAccelerbtionEnbbled()) {
                 X11PMBlitLoops.register();
                 X11PMBlitBgLoops.register();
             }
@@ -249,583 +249,583 @@ public abstract class X11SurfaceData extends XSurfaceData {
     }
 
     /**
-     * Returns true if we can use DGA on any of the screens
+     * Returns true if we cbn use DGA on bny of the screens
      */
-    public static native boolean isDgaAvailable();
+    public stbtic nbtive boolebn isDgbAvbilbble();
 
     /**
-     * Returns true if shared memory pixmaps are available
+     * Returns true if shbred memory pixmbps bre bvbilbble
      */
-    private static native boolean isShmPMAvailable();
+    privbte stbtic nbtive boolebn isShmPMAvbilbble();
 
-    public static boolean isAccelerationEnabled() {
-        if (accelerationEnabled == null) {
+    public stbtic boolebn isAccelerbtionEnbbled() {
+        if (bccelerbtionEnbbled == null) {
 
-            if (GraphicsEnvironment.isHeadless()) {
-                accelerationEnabled = Boolean.FALSE;
+            if (GrbphicsEnvironment.isHebdless()) {
+                bccelerbtionEnbbled = Boolebn.FALSE;
             } else {
-                String prop = java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("sun.java2d.pmoffscreen"));
+                String prop = jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("sun.jbvb2d.pmoffscreen"));
                 if (prop != null) {
-                    // true iff prop==true, false otherwise
-                    accelerationEnabled = Boolean.valueOf(prop);
+                    // true iff prop==true, fblse otherwise
+                    bccelerbtionEnbbled = Boolebn.vblueOf(prop);
                 } else {
-                    boolean isDisplayLocal = false;
-                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    if (ge instanceof SunGraphicsEnvironment) {
-                        isDisplayLocal = ((SunGraphicsEnvironment) ge).isDisplayLocal();
+                    boolebn isDisplbyLocbl = fblse;
+                    GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+                    if (ge instbnceof SunGrbphicsEnvironment) {
+                        isDisplbyLocbl = ((SunGrbphicsEnvironment) ge).isDisplbyLocbl();
                      }
 
-                    // EXA based drivers tend to place pixmaps in VRAM, slowing down readbacks.
-                    // Don't use pixmaps if dga is available,
-                    // or we are local and shared memory Pixmaps are not available.
-                    accelerationEnabled =
-                        !(isDgaAvailable() || (isDisplayLocal && !isShmPMAvailable()));
+                    // EXA bbsed drivers tend to plbce pixmbps in VRAM, slowing down rebdbbcks.
+                    // Don't use pixmbps if dgb is bvbilbble,
+                    // or we bre locbl bnd shbred memory Pixmbps bre not bvbilbble.
+                    bccelerbtionEnbbled =
+                        !(isDgbAvbilbble() || (isDisplbyLocbl && !isShmPMAvbilbble()));
                 }
             }
         }
-        return accelerationEnabled.booleanValue();
+        return bccelerbtionEnbbled.boolebnVblue();
     }
 
     @Override
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return X11SurfaceDataProxy.createProxy(srcData, graphicsConfig);
+    public SurfbceDbtbProxy mbkeProxyFor(SurfbceDbtb srcDbtb) {
+        return X11SurfbceDbtbProxy.crebteProxy(srcDbtb, grbphicsConfig);
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
-        if (sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON &&
-            sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY ||
-             sg2d.compositeState == SunGraphics2D.COMP_XOR))
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON &&
+            sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY ||
+             sg2d.compositeStbte == SunGrbphics2D.COMP_XOR))
         {
             if (x11txpipe == null) {
                 /*
-                 * Note: this is thread-safe since x11txpipe is the
-                 * second of the two pipes constructed in makePipes().
-                 * In the rare case we are racing against another
-                 * thread making new pipes, setting lazypipe is a
-                 * safe alternative to waiting for the other thread.
+                 * Note: this is threbd-sbfe since x11txpipe is the
+                 * second of the two pipes constructed in mbkePipes().
+                 * In the rbre cbse we bre rbcing bgbinst bnother
+                 * threbd mbking new pipes, setting lbzypipe is b
+                 * sbfe blternbtive to wbiting for the other threbd.
                  */
-                sg2d.drawpipe = lazypipe;
-                sg2d.fillpipe = lazypipe;
-                sg2d.shapepipe = lazypipe;
-                sg2d.imagepipe = lazypipe;
-                sg2d.textpipe = lazypipe;
+                sg2d.drbwpipe = lbzypipe;
+                sg2d.fillpipe = lbzypipe;
+                sg2d.shbpepipe = lbzypipe;
+                sg2d.imbgepipe = lbzypipe;
+                sg2d.textpipe = lbzypipe;
                 return;
             }
 
-            if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
+            if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
                 // Do this to init textpipe correctly; we will override the
                 // other non-text pipes below
-                // REMIND: we should clean this up eventually instead of
-                // having this work duplicated.
-                super.validatePipe(sg2d);
+                // REMIND: we should clebn this up eventublly instebd of
+                // hbving this work duplicbted.
+                super.vblidbtePipe(sg2d);
             } else {
-                switch (sg2d.textAntialiasHint) {
+                switch (sg2d.textAntiblibsHint) {
 
-                case SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
-                    /* equating to OFF which it is for us */
-                case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
-                    // Use X11 pipe even if DGA is available since DGA
-                    // text slows everything down when mixed with X11 calls
-                    if (sg2d.compositeState == SunGraphics2D.COMP_ISCOPY) {
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
+                    /* equbting to OFF which it is for us */
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+                    // Use X11 pipe even if DGA is bvbilbble since DGA
+                    // text slows everything down when mixed with X11 cblls
+                    if (sg2d.compositeStbte == SunGrbphics2D.COMP_ISCOPY) {
                         sg2d.textpipe = x11textpipe;
                     } else {
                         sg2d.textpipe = solidTextRenderer;
                     }
-                    break;
+                    brebk;
 
-                case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-                    // Remind: may use Xrender for these when composite is
-                    // copy as above, or if remote X11.
-                    sg2d.textpipe = aaTextRenderer;
-                    break;
+                cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                    // Remind: mby use Xrender for these when composite is
+                    // copy bs bbove, or if remote X11.
+                    sg2d.textpipe = bbTextRenderer;
+                    brebk;
 
-                default:
-                    switch (sg2d.getFontInfo().aaHint) {
+                defbult:
+                    switch (sg2d.getFontInfo().bbHint) {
 
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
                         sg2d.textpipe = lcdTextRenderer;
-                        break;
+                        brebk;
 
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
-                    // Use X11 pipe even if DGA is available since DGA
-                    // text slows everything down when mixed with X11 calls
-                    if (sg2d.compositeState == SunGraphics2D.COMP_ISCOPY) {
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+                    // Use X11 pipe even if DGA is bvbilbble since DGA
+                    // text slows everything down when mixed with X11 cblls
+                    if (sg2d.compositeStbte == SunGrbphics2D.COMP_ISCOPY) {
                         sg2d.textpipe = x11textpipe;
                     } else {
                         sg2d.textpipe = solidTextRenderer;
                     }
-                    break;
+                    brebk;
 
-                    case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-                        sg2d.textpipe = aaTextRenderer;
-                        break;
+                    cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                        sg2d.textpipe = bbTextRenderer;
+                        brebk;
 
-                    default:
+                    defbult:
                         sg2d.textpipe = solidTextRenderer;
                     }
                 }
             }
 
-            if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                sg2d.drawpipe = x11txpipe;
+            if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipe = x11txpipe;
                 sg2d.fillpipe = x11txpipe;
-            } else if (sg2d.strokeState != SunGraphics2D.STROKE_THIN){
-                sg2d.drawpipe = x11txpipe;
+            } else if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN){
+                sg2d.drbwpipe = x11txpipe;
                 sg2d.fillpipe = x11pipe;
             } else {
-                sg2d.drawpipe = x11pipe;
+                sg2d.drbwpipe = x11pipe;
                 sg2d.fillpipe = x11pipe;
             }
-            sg2d.shapepipe = x11pipe;
-            sg2d.imagepipe = imagepipe;
+            sg2d.shbpepipe = x11pipe;
+            sg2d.imbgepipe = imbgepipe;
 
             // This is needed for AA text.
-            // Note that even an X11TextRenderer can dispatch AA text
-            // if a GlyphVector overrides the AA setting.
-            // We use getRenderLoops() rather than setting solidloops
-            // directly so that we get the appropriate loops in XOR mode.
+            // Note thbt even bn X11TextRenderer cbn dispbtch AA text
+            // if b GlyphVector overrides the AA setting.
+            // We use getRenderLoops() rbther thbn setting solidloops
+            // directly so thbt we get the bppropribte loops in XOR mode.
             if (sg2d.loops == null) {
-                // assert(some pipe will always be a LoopBasedPipe)
+                // bssert(some pipe will blwbys be b LoopBbsedPipe)
                 sg2d.loops = getRenderLoops(sg2d);
             }
         } else {
-            super.validatePipe(sg2d);
+            super.vblidbtePipe(sg2d);
         }
     }
 
-    public RenderLoops getRenderLoops(SunGraphics2D sg2d) {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY)
+    public RenderLoops getRenderLoops(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY)
         {
             return solidloops;
         }
         return super.getRenderLoops(sg2d);
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsConfig;
     }
 
     /**
-     * Method for instantiating a Window SurfaceData
+     * Method for instbntibting b Window SurfbceDbtb
      */
-    public static X11WindowSurfaceData createData(X11ComponentPeer peer) {
-       X11GraphicsConfig gc = getGC(peer);
-       return new X11WindowSurfaceData(peer, gc, gc.getSurfaceType());
+    public stbtic X11WindowSurfbceDbtb crebteDbtb(X11ComponentPeer peer) {
+       X11GrbphicsConfig gc = getGC(peer);
+       return new X11WindowSurfbceDbtb(peer, gc, gc.getSurfbceType());
     }
 
     /**
-     * Method for instantiating a Pixmap SurfaceData (offscreen)
+     * Method for instbntibting b Pixmbp SurfbceDbtb (offscreen)
      */
-    public static X11PixmapSurfaceData createData(X11GraphicsConfig gc,
+    public stbtic X11PixmbpSurfbceDbtb crebteDbtb(X11GrbphicsConfig gc,
                                                   int width, int height,
-                                                  ColorModel cm, Image image,
-                                                  long drawable,
-                                                  int transparency)
+                                                  ColorModel cm, Imbge imbge,
+                                                  long drbwbble,
+                                                  int trbnspbrency)
     {
-        return new X11PixmapSurfaceData(gc, width, height, image,
-                                        getSurfaceType(gc, transparency, true),
-                                        cm, drawable, transparency);
+        return new X11PixmbpSurfbceDbtb(gc, width, height, imbge,
+                                        getSurfbceType(gc, trbnspbrency, true),
+                                        cm, drbwbble, trbnspbrency);
     }
 
 //    /**
-//     * Initializes the native Ops pointer.
+//     * Initiblizes the nbtive Ops pointer.
 //     */
-//    private native void initOps(X11ComponentPeer peer,
-//                                X11GraphicsConfig gc, int depth);
+//    privbte nbtive void initOps(X11ComponentPeer peer,
+//                                X11GrbphicsConfig gc, int depth);
 
-    protected X11SurfaceData(X11ComponentPeer peer,
-                             X11GraphicsConfig gc,
-                             SurfaceType sType,
+    protected X11SurfbceDbtb(X11ComponentPeer peer,
+                             X11GrbphicsConfig gc,
+                             SurfbceType sType,
                              ColorModel cm) {
         super(sType, cm);
         this.peer = peer;
-        this.graphicsConfig = gc;
-        this.solidloops = graphicsConfig.getSolidLoops(sType);
+        this.grbphicsConfig = gc;
+        this.solidloops = grbphicsConfig.getSolidLoops(sType);
         this.depth = cm.getPixelSize();
-        initOps(peer, graphicsConfig, depth);
-        if (isAccelerationEnabled()) {
+        initOps(peer, grbphicsConfig, depth);
+        if (isAccelerbtionEnbbled()) {
             setBlitProxyKey(gc.getProxyKey());
         }
     }
 
-    public static X11GraphicsConfig getGC(X11ComponentPeer peer) {
+    public stbtic X11GrbphicsConfig getGC(X11ComponentPeer peer) {
         if (peer != null) {
-            return (X11GraphicsConfig) peer.getGraphicsConfiguration();
+            return (X11GrbphicsConfig) peer.getGrbphicsConfigurbtion();
         } else {
-            GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            return (X11GraphicsConfig)gd.getDefaultConfiguration();
+            GrbphicsEnvironment env =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            GrbphicsDevice gd = env.getDefbultScreenDevice();
+            return (X11GrbphicsConfig)gd.getDefbultConfigurbtion();
         }
     }
 
     /**
-     * Returns a boolean indicating whether or not a copyArea from
-     * the given rectangle source coordinates might be incomplete
-     * and result in X11 GraphicsExposure events being generated
-     * from XCopyArea.
-     * This method allows the SurfaceData copyArea method to determine
-     * if it needs to set the GraphicsExposures attribute of the X11 GC
-     * to True or False to receive or avoid the events.
-     * @return true if there is any chance that an XCopyArea from the
-     *              given source coordinates could produce any X11
+     * Returns b boolebn indicbting whether or not b copyAreb from
+     * the given rectbngle source coordinbtes might be incomplete
+     * bnd result in X11 GrbphicsExposure events being generbted
+     * from XCopyAreb.
+     * This method bllows the SurfbceDbtb copyAreb method to determine
+     * if it needs to set the GrbphicsExposures bttribute of the X11 GC
+     * to True or Fblse to receive or bvoid the events.
+     * @return true if there is bny chbnce thbt bn XCopyAreb from the
+     *              given source coordinbtes could produce bny X11
      *              Exposure events.
      */
-    public abstract boolean canSourceSendExposures(int x, int y, int w, int h);
+    public bbstrbct boolebn cbnSourceSendExposures(int x, int y, int w, int h);
 
-    public boolean copyArea(SunGraphics2D sg2d,
+    public boolebn copyAreb(SunGrbphics2D sg2d,
                             int x, int y, int w, int h, int dx, int dy)
     {
         if (x11pipe == null) {
-            if (!isDrawableValid()) {
+            if (!isDrbwbbleVblid()) {
                 return true;
             }
-            makePipes();
+            mbkePipes();
         }
-        CompositeType comptype = sg2d.imageComp;
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-            (CompositeType.SrcOverNoEa.equals(comptype) ||
-             CompositeType.SrcNoEa.equals(comptype)))
+        CompositeType comptype = sg2d.imbgeComp;
+        if (sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE &&
+            (CompositeType.SrcOverNoEb.equbls(comptype) ||
+             CompositeType.SrcNoEb.equbls(comptype)))
         {
-            x += sg2d.transX;
-            y += sg2d.transY;
-            SunToolkit.awtLock();
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
+            SunToolkit.bwtLock();
             try {
-                boolean needExposures = canSourceSendExposures(x, y, w, h);
+                boolebn needExposures = cbnSourceSendExposures(x, y, w, h);
                 long xgc = getBlitGC(sg2d.getCompClip(), needExposures);
-                x11pipe.devCopyArea(getNativeOps(), xgc,
+                x11pipe.devCopyAreb(getNbtiveOps(), xgc,
                                     x, y,
                                     x + dx, y + dy,
                                     w, h);
-            } finally {
-                SunToolkit.awtUnlock();
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public static SurfaceType getSurfaceType(X11GraphicsConfig gc,
-                                             int transparency)
+    public stbtic SurfbceType getSurfbceType(X11GrbphicsConfig gc,
+                                             int trbnspbrency)
     {
-        return getSurfaceType(gc, transparency, false);
+        return getSurfbceType(gc, trbnspbrency, fblse);
     }
 
-    @SuppressWarnings("fallthrough")
-    public static SurfaceType getSurfaceType(X11GraphicsConfig gc,
-                                             int transparency,
-                                             boolean pixmapSurface)
+    @SuppressWbrnings("fbllthrough")
+    public stbtic SurfbceType getSurfbceType(X11GrbphicsConfig gc,
+                                             int trbnspbrency,
+                                             boolebn pixmbpSurfbce)
     {
-        boolean transparent = (transparency == Transparency.BITMASK);
-        SurfaceType sType;
+        boolebn trbnspbrent = (trbnspbrency == Trbnspbrency.BITMASK);
+        SurfbceType sType;
         ColorModel cm = gc.getColorModel();
         switch (cm.getPixelSize()) {
-        case 24:
+        cbse 24:
             if (gc.getBitsPerPixel() == 24) {
-                if (cm instanceof DirectColorModel) {
-                    // 4517321: We will always use ThreeByteBgr for 24 bpp
-                    // surfaces, regardless of the pixel masks reported by
-                    // X11.  Despite ambiguity in the X11 spec in how 24 bpp
-                    // surfaces are treated, it appears that the best
-                    // SurfaceType for these configurations (including
-                    // some Matrox Millenium and ATI Radeon boards) is
+                if (cm instbnceof DirectColorModel) {
+                    // 4517321: We will blwbys use ThreeByteBgr for 24 bpp
+                    // surfbces, regbrdless of the pixel mbsks reported by
+                    // X11.  Despite bmbiguity in the X11 spec in how 24 bpp
+                    // surfbces bre trebted, it bppebrs thbt the best
+                    // SurfbceType for these configurbtions (including
+                    // some Mbtrox Millenium bnd ATI Rbdeon bobrds) is
                     // ThreeByteBgr.
-                    sType = transparent ? X11SurfaceData.ThreeByteBgrX11_BM : X11SurfaceData.ThreeByteBgrX11;
+                    sType = trbnspbrent ? X11SurfbceDbtb.ThreeByteBgrX11_BM : X11SurfbceDbtb.ThreeByteBgrX11;
                 } else {
-                    throw new sun.java2d.InvalidPipeException("Unsupported bit " +
+                    throw new sun.jbvb2d.InvblidPipeException("Unsupported bit " +
                                                               "depth/cm combo: " +
                                                               cm.getPixelSize()  +
                                                               ", " + cm);
                 }
-                break;
+                brebk;
             }
-            // Fall through for 32 bit case
-        case 32:
-            if (cm instanceof DirectColorModel) {
-                if (((SunToolkit)java.awt.Toolkit.getDefaultToolkit()
-                     ).isTranslucencyCapable(gc) && !pixmapSurface)
+            // Fbll through for 32 bit cbse
+        cbse 32:
+            if (cm instbnceof DirectColorModel) {
+                if (((SunToolkit)jbvb.bwt.Toolkit.getDefbultToolkit()
+                     ).isTrbnslucencyCbpbble(gc) && !pixmbpSurfbce)
                 {
-                    sType = X11SurfaceData.IntArgbPreX11;
+                    sType = X11SurfbceDbtb.IntArgbPreX11;
                 } else {
-                    if (((DirectColorModel)cm).getRedMask() == 0xff0000) {
-                        sType = transparent ? X11SurfaceData.IntRgbX11_BM :
-                                              X11SurfaceData.IntRgbX11;
+                    if (((DirectColorModel)cm).getRedMbsk() == 0xff0000) {
+                        sType = trbnspbrent ? X11SurfbceDbtb.IntRgbX11_BM :
+                                              X11SurfbceDbtb.IntRgbX11;
                     } else {
-                        sType = transparent ? X11SurfaceData.IntBgrX11_BM :
-                                              X11SurfaceData.IntBgrX11;
+                        sType = trbnspbrent ? X11SurfbceDbtb.IntBgrX11_BM :
+                                              X11SurfbceDbtb.IntBgrX11;
                     }
                 }
-            } else if (cm instanceof ComponentColorModel) {
-                   sType = X11SurfaceData.FourByteAbgrPreX11;
+            } else if (cm instbnceof ComponentColorModel) {
+                   sType = X11SurfbceDbtb.FourByteAbgrPreX11;
             } else {
 
-                throw new sun.java2d.InvalidPipeException("Unsupported bit " +
+                throw new sun.jbvb2d.InvblidPipeException("Unsupported bit " +
                                                           "depth/cm combo: " +
                                                           cm.getPixelSize()  +
                                                           ", " + cm);
             }
-            break;
-        case 15:
-            sType = transparent ? X11SurfaceData.UShort555RgbX11_BM : X11SurfaceData.UShort555RgbX11;
-            break;
-        case 16:
-            if ((cm instanceof DirectColorModel) &&
-                (((DirectColorModel)cm).getGreenMask() == 0x3e0))
+            brebk;
+        cbse 15:
+            sType = trbnspbrent ? X11SurfbceDbtb.UShort555RgbX11_BM : X11SurfbceDbtb.UShort555RgbX11;
+            brebk;
+        cbse 16:
+            if ((cm instbnceof DirectColorModel) &&
+                (((DirectColorModel)cm).getGreenMbsk() == 0x3e0))
             {
-                // fix for 4352984: Riva128 on Linux
-                sType = transparent ? X11SurfaceData.UShort555RgbX11_BM : X11SurfaceData.UShort555RgbX11;
+                // fix for 4352984: Rivb128 on Linux
+                sType = trbnspbrent ? X11SurfbceDbtb.UShort555RgbX11_BM : X11SurfbceDbtb.UShort555RgbX11;
             } else {
-                sType = transparent ? X11SurfaceData.UShort565RgbX11_BM : X11SurfaceData.UShort565RgbX11;
+                sType = trbnspbrent ? X11SurfbceDbtb.UShort565RgbX11_BM : X11SurfbceDbtb.UShort565RgbX11;
             }
-            break;
-        case  12:
-            if (cm instanceof IndexColorModel) {
-                sType = transparent ?
-                    X11SurfaceData.UShortIndexedX11_BM :
-                    X11SurfaceData.UShortIndexedX11;
+            brebk;
+        cbse  12:
+            if (cm instbnceof IndexColorModel) {
+                sType = trbnspbrent ?
+                    X11SurfbceDbtb.UShortIndexedX11_BM :
+                    X11SurfbceDbtb.UShortIndexedX11;
             } else {
-                throw new sun.java2d.InvalidPipeException("Unsupported bit " +
+                throw new sun.jbvb2d.InvblidPipeException("Unsupported bit " +
                                                           "depth: " +
                                                           cm.getPixelSize() +
                                                           " cm="+cm);
             }
-            break;
-        case 8:
-            if (cm.getColorSpace().getType() == ColorSpace.TYPE_GRAY &&
-                cm instanceof ComponentColorModel) {
-                sType = transparent ? X11SurfaceData.ByteGrayX11_BM : X11SurfaceData.ByteGrayX11;
-            } else if (cm instanceof IndexColorModel &&
-                       isOpaqueGray((IndexColorModel)cm)) {
-                sType = transparent ? X11SurfaceData.Index8GrayX11_BM : X11SurfaceData.Index8GrayX11;
+            brebk;
+        cbse 8:
+            if (cm.getColorSpbce().getType() == ColorSpbce.TYPE_GRAY &&
+                cm instbnceof ComponentColorModel) {
+                sType = trbnspbrent ? X11SurfbceDbtb.ByteGrbyX11_BM : X11SurfbceDbtb.ByteGrbyX11;
+            } else if (cm instbnceof IndexColorModel &&
+                       isOpbqueGrby((IndexColorModel)cm)) {
+                sType = trbnspbrent ? X11SurfbceDbtb.Index8GrbyX11_BM : X11SurfbceDbtb.Index8GrbyX11;
             } else {
-                sType = transparent ? X11SurfaceData.ByteIndexedX11_BM : X11SurfaceData.ByteIndexedOpaqueX11;
+                sType = trbnspbrent ? X11SurfbceDbtb.ByteIndexedX11_BM : X11SurfbceDbtb.ByteIndexedOpbqueX11;
             }
-            break;
-        default:
-            throw new sun.java2d.InvalidPipeException("Unsupported bit " +
+            brebk;
+        defbult:
+            throw new sun.jbvb2d.InvblidPipeException("Unsupported bit " +
                                                       "depth: " +
                                                       cm.getPixelSize());
         }
         return sType;
     }
 
-    public void invalidate() {
-        if (isValid()) {
-            setInvalid();
-            super.invalidate();
+    public void invblidbte() {
+        if (isVblid()) {
+            setInvblid();
+            super.invblidbte();
         }
     }
 
     /**
-     * The following methods and variables are used to keep the Java-level
-     * context state in sync with the native X11 GC associated with this
-     * X11SurfaceData object.
+     * The following methods bnd vbribbles bre used to keep the Jbvb-level
+     * context stbte in sync with the nbtive X11 GC bssocibted with this
+     * X11SurfbceDbtb object.
      */
 
-    private static native void XSetCopyMode(long xgc);
-    private static native void XSetXorMode(long xgc);
-    private static native void XSetForeground(long xgc, int pixel);
+    privbte stbtic nbtive void XSetCopyMode(long xgc);
+    privbte stbtic nbtive void XSetXorMode(long xgc);
+    privbte stbtic nbtive void XSetForeground(long xgc, int pixel);
 
-    private long xgc;
-    private Region validatedClip;
-    private XORComposite validatedXorComp;
-    private int xorpixelmod;
-    private int validatedPixel;
-    private boolean validatedExposures = true;
+    privbte long xgc;
+    privbte Region vblidbtedClip;
+    privbte XORComposite vblidbtedXorComp;
+    privbte int xorpixelmod;
+    privbte int vblidbtedPixel;
+    privbte boolebn vblidbtedExposures = true;
 
-    public final long getRenderGC(Region clip,
-                                  int compState, Composite comp,
+    public finbl long getRenderGC(Region clip,
+                                  int compStbte, Composite comp,
                                   int pixel)
     {
-        return getGC(clip, compState, comp, pixel, validatedExposures);
+        return getGC(clip, compStbte, comp, pixel, vblidbtedExposures);
     }
 
-    public final long getBlitGC(Region clip, boolean needExposures) {
-        return getGC(clip, SunGraphics2D.COMP_ISCOPY, null,
-                     validatedPixel, needExposures);
+    public finbl long getBlitGC(Region clip, boolebn needExposures) {
+        return getGC(clip, SunGrbphics2D.COMP_ISCOPY, null,
+                     vblidbtedPixel, needExposures);
     }
 
-    final long getGC(Region clip,
-                     int compState, Composite comp,
-                     int pixel, boolean needExposures)
+    finbl long getGC(Region clip,
+                     int compStbte, Composite comp,
+                     int pixel, boolebn needExposures)
     {
-        // assert SunToolkit.isAWTLockHeldByCurrentThread();
+        // bssert SunToolkit.isAWTLockHeldByCurrentThrebd();
 
-        if (!isValid()) {
-            throw new InvalidPipeException("bounds changed");
+        if (!isVblid()) {
+            throw new InvblidPipeException("bounds chbnged");
         }
 
-        // validate clip
-        if (clip != validatedClip) {
-            validatedClip = clip;
+        // vblidbte clip
+        if (clip != vblidbtedClip) {
+            vblidbtedClip = clip;
             if (clip != null) {
                 XSetClip(xgc,
                          clip.getLoX(), clip.getLoY(),
                          clip.getHiX(), clip.getHiY(),
-                         (clip.isRectangular() ? null : clip));
+                         (clip.isRectbngulbr() ? null : clip));
             } else {
                 XResetClip(xgc);
             }
         }
 
-        // validate composite
-        if (compState == SunGraphics2D.COMP_ISCOPY) {
-            if (validatedXorComp != null) {
-                validatedXorComp = null;
+        // vblidbte composite
+        if (compStbte == SunGrbphics2D.COMP_ISCOPY) {
+            if (vblidbtedXorComp != null) {
+                vblidbtedXorComp = null;
                 xorpixelmod = 0;
                 XSetCopyMode(xgc);
             }
         } else {
-            if (validatedXorComp != comp) {
-                validatedXorComp = (XORComposite)comp;
-                xorpixelmod = validatedXorComp.getXorPixel();
+            if (vblidbtedXorComp != comp) {
+                vblidbtedXorComp = (XORComposite)comp;
+                xorpixelmod = vblidbtedXorComp.getXorPixel();
                 XSetXorMode(xgc);
             }
         }
 
-        // validate pixel
+        // vblidbte pixel
         pixel ^= xorpixelmod;
-        if (pixel != validatedPixel) {
-            validatedPixel = pixel;
+        if (pixel != vblidbtedPixel) {
+            vblidbtedPixel = pixel;
             XSetForeground(xgc, pixel);
         }
 
-        if (validatedExposures != needExposures) {
-            validatedExposures = needExposures;
-            XSetGraphicsExposures(xgc, needExposures);
+        if (vblidbtedExposures != needExposures) {
+            vblidbtedExposures = needExposures;
+            XSetGrbphicsExposures(xgc, needExposures);
         }
 
         return xgc;
     }
 
-    public synchronized void makePipes() {
+    public synchronized void mbkePipes() {
         if (x11pipe == null) {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
             try {
-                xgc = XCreateGC(getNativeOps());
-            } finally {
-                SunToolkit.awtUnlock();
+                xgc = XCrebteGC(getNbtiveOps());
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
-            x11pipe = X11Renderer.getInstance();
-            x11txpipe = new PixelToShapeConverter(x11pipe);
+            x11pipe = X11Renderer.getInstbnce();
+            x11txpipe = new PixelToShbpeConverter(x11pipe);
         }
     }
 
-    public static class X11WindowSurfaceData extends X11SurfaceData {
-        public X11WindowSurfaceData(X11ComponentPeer peer,
-                                    X11GraphicsConfig gc,
-                                    SurfaceType sType) {
+    public stbtic clbss X11WindowSurfbceDbtb extends X11SurfbceDbtb {
+        public X11WindowSurfbceDbtb(X11ComponentPeer peer,
+                                    X11GrbphicsConfig gc,
+                                    SurfbceType sType) {
             super(peer, gc, sType, peer.getColorModel());
-            if (isDrawableValid()) {
-                makePipes();
+            if (isDrbwbbleVblid()) {
+                mbkePipes();
             }
         }
 
-        public SurfaceData getReplacement() {
-            return peer.getSurfaceData();
+        public SurfbceDbtb getReplbcement() {
+            return peer.getSurfbceDbtb();
         }
 
-        public Rectangle getBounds() {
-            Rectangle r = peer.getBounds();
+        public Rectbngle getBounds() {
+            Rectbngle r = peer.getBounds();
             r.x = r.y = 0;
             return r;
         }
 
         @Override
-        public boolean canSourceSendExposures(int x, int y, int w, int h) {
+        public boolebn cbnSourceSendExposures(int x, int y, int w, int h) {
             return true;
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Returns destinbtion Component bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return peer.getTarget();
+        public Object getDestinbtion() {
+            return peer.getTbrget();
         }
     }
 
-    public static class X11PixmapSurfaceData extends X11SurfaceData {
+    public stbtic clbss X11PixmbpSurfbceDbtb extends X11SurfbceDbtb {
 
-        Image                   offscreenImage;
+        Imbge                   offscreenImbge;
         int                     width;
         int                     height;
-        int                     transparency;
+        int                     trbnspbrency;
 
-        public X11PixmapSurfaceData(X11GraphicsConfig gc,
+        public X11PixmbpSurfbceDbtb(X11GrbphicsConfig gc,
                                     int width, int height,
-                                    Image image,
-                                    SurfaceType sType, ColorModel cm,
-                                    long drawable, int transparency)
+                                    Imbge imbge,
+                                    SurfbceType sType, ColorModel cm,
+                                    long drbwbble, int trbnspbrency)
         {
             super(null, gc, sType, cm);
             this.width = width;
             this.height = height;
-            offscreenImage = image;
-            this.transparency = transparency;
-            initSurface(depth, width, height, drawable);
-            makePipes();
+            offscreenImbge = imbge;
+            this.trbnspbrency = trbnspbrency;
+            initSurfbce(depth, width, height, drbwbble);
+            mbkePipes();
         }
 
-        public SurfaceData getReplacement() {
-            return restoreContents(offscreenImage);
+        public SurfbceDbtb getReplbcement() {
+            return restoreContents(offscreenImbge);
         }
 
         /**
-         * Need this since the surface data is created with
-         * the color model of the target GC, which is always
-         * opaque. But in SunGraphics2D.blitSD we choose loops
-         * based on the transparency on the source SD, so
-         * it could choose wrong loop (blit instead of blitbg,
-         * for example).
+         * Need this since the surfbce dbtb is crebted with
+         * the color model of the tbrget GC, which is blwbys
+         * opbque. But in SunGrbphics2D.blitSD we choose loops
+         * bbsed on the trbnspbrency on the source SD, so
+         * it could choose wrong loop (blit instebd of blitbg,
+         * for exbmple).
          */
-        public int getTransparency() {
-            return transparency;
+        public int getTrbnspbrency() {
+            return trbnspbrency;
         }
 
-        public Rectangle getBounds() {
-            return new Rectangle(width, height);
+        public Rectbngle getBounds() {
+            return new Rectbngle(width, height);
         }
 
         @Override
-        public boolean canSourceSendExposures(int x, int y, int w, int h) {
+        public boolebn cbnSourceSendExposures(int x, int y, int w, int h) {
             return (x < 0 || y < 0 || (x+w) > width || (y+h) > height);
         }
 
         public void flush() {
             /*
-             * We need to invalidate the surface before disposing the
-             * native Drawable and GC.  This way if an application tries
-             * to render to an already flushed X11SurfaceData, we will notice
-             * in the validate() method above that it has been invalidated,
-             * and we will avoid using those native resources that have
-             * already been disposed.
+             * We need to invblidbte the surfbce before disposing the
+             * nbtive Drbwbble bnd GC.  This wby if bn bpplicbtion tries
+             * to render to bn blrebdy flushed X11SurfbceDbtb, we will notice
+             * in the vblidbte() method bbove thbt it hbs been invblidbted,
+             * bnd we will bvoid using those nbtive resources thbt hbve
+             * blrebdy been disposed.
              */
-            invalidate();
-            flushNativeSurface();
+            invblidbte();
+            flushNbtiveSurfbce();
         }
 
         /**
-         * Returns destination Image associated with this SurfaceData.
+         * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return offscreenImage;
+        public Object getDestinbtion() {
+            return offscreenImbge;
         }
     }
 
-    private static LazyPipe lazypipe = new LazyPipe();
+    privbte stbtic LbzyPipe lbzypipe = new LbzyPipe();
 
-    public static class LazyPipe extends ValidatePipe {
-        public boolean validate(SunGraphics2D sg2d) {
-            X11SurfaceData xsd = (X11SurfaceData) sg2d.surfaceData;
-            if (!xsd.isDrawableValid()) {
-                return false;
+    public stbtic clbss LbzyPipe extends VblidbtePipe {
+        public boolebn vblidbte(SunGrbphics2D sg2d) {
+            X11SurfbceDbtb xsd = (X11SurfbceDbtb) sg2d.surfbceDbtb;
+            if (!xsd.isDrbwbbleVblid()) {
+                return fblse;
             }
-            xsd.makePipes();
-            return super.validate(sg2d);
+            xsd.mbkePipes();
+            return super.vblidbte(sg2d);
         }
     }
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 
-#include "sun_java2d_opengl_WGLSurfaceData.h"
+#include "sun_jbvb2d_opengl_WGLSurfbceDbtb.h"
 
 #include "jni.h"
 #include "jlong.h"
 #include "jni_util.h"
-#include "sizecalc.h"
+#include "sizecblc.h"
 #include "OGLRenderQueue.h"
-#include "WGLGraphicsConfig.h"
-#include "WGLSurfaceData.h"
+#include "WGLGrbphicsConfig.h"
+#include "WGLSurfbceDbtb.h"
 
 /**
- * The methods in this file implement the native windowing system specific
- * layer (WGL) for the OpenGL-based Java 2D pipeline.
+ * The methods in this file implement the nbtive windowing system specific
+ * lbyer (WGL) for the OpenGL-bbsed Jbvb 2D pipeline.
  */
 
 extern LockFunc                     OGLSD_Lock;
-extern GetRasInfoFunc               OGLSD_GetRasInfo;
+extern GetRbsInfoFunc               OGLSD_GetRbsInfo;
 extern UnlockFunc                   OGLSD_Unlock;
 extern DisposeFunc                  OGLSD_Dispose;
 
-extern OGLPixelFormat PixelFormats[];
-extern void AwtWindow_UpdateWindow(JNIEnv *env, jobject peer,
-                                   jint w, jint h, HBITMAP hBitmap);
-extern HBITMAP BitmapUtil_CreateBitmapFromARGBPre(int width, int height,
+extern OGLPixelFormbt PixelFormbts[];
+extern void AwtWindow_UpdbteWindow(JNIEnv *env, jobject peer,
+                                   jint w, jint h, HBITMAP hBitmbp);
+extern HBITMAP BitmbpUtil_CrebteBitmbpFromARGBPre(int width, int height,
                                                   int srcStride,
-                                                  int* imageData);
+                                                  int* imbgeDbtb);
 extern void AwtComponent_GetInsets(JNIEnv *env, jobject peer, RECT *insets);
 
 extern void
-    OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
+    OGLSD_SetNbtiveDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_WGLSurfaceData_initOps(JNIEnv *env, jobject wglsd,
+Jbvb_sun_jbvb2d_opengl_WGLSurfbceDbtb_initOps(JNIEnv *env, jobject wglsd,
                                               jlong pConfigInfo,
                                               jobject peer, jlong hwnd)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)SurfaceData_InitOps(env, wglsd,
+    OGLSDOps *oglsdo = (OGLSDOps *)SurfbceDbtb_InitOps(env, wglsd,
                                                        sizeof(OGLSDOps));
-    WGLSDOps *wglsdo = (WGLSDOps *)malloc(sizeof(WGLSDOps));
+    WGLSDOps *wglsdo = (WGLSDOps *)mblloc(sizeof(WGLSDOps));
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSurfaceData_initOps");
+    J2dTrbceLn(J2D_TRACE_INFO, "WGLSurfbceDbtb_initOps");
 
     if (wglsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "creating native wgl ops");
+        JNU_ThrowOutOfMemoryError(env, "crebting nbtive wgl ops");
         return;
     }
     if (oglsdo == NULL) {
         free(wglsdo);
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
+        JNU_ThrowOutOfMemoryError(env, "Initiblizbtion of SurfbceDbtb fbiled.");
         return;
     }
 
     oglsdo->privOps = wglsdo;
 
     oglsdo->sdOps.Lock               = OGLSD_Lock;
-    oglsdo->sdOps.GetRasInfo         = OGLSD_GetRasInfo;
+    oglsdo->sdOps.GetRbsInfo         = OGLSD_GetRbsInfo;
     oglsdo->sdOps.Unlock             = OGLSD_Unlock;
     oglsdo->sdOps.Dispose            = OGLSD_Dispose;
 
-    oglsdo->drawableType = OGLSD_UNDEFINED;
-    oglsdo->activeBuffer = GL_FRONT;
+    oglsdo->drbwbbleType = OGLSD_UNDEFINED;
+    oglsdo->bctiveBuffer = GL_FRONT;
     oglsdo->needsInit = JNI_TRUE;
     if (peer != NULL) {
         RECT insets;
@@ -98,7 +98,7 @@ Java_sun_java2d_opengl_WGLSurfaceData_initOps(JNIEnv *env, jobject wglsd,
     }
 
     wglsdo->window = (HWND)jlong_to_ptr(hwnd);
-    wglsdo->configInfo = (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    wglsdo->configInfo = (WGLGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     if (wglsdo->configInfo == NULL) {
         free(wglsdo);
         JNU_ThrowNullPointerException(env, "Config info is null in initOps");
@@ -106,22 +106,22 @@ Java_sun_java2d_opengl_WGLSurfaceData_initOps(JNIEnv *env, jobject wglsd,
 }
 
 /**
- * This function disposes of any native windowing system resources associated
- * with this surface.  For instance, if the given OGLSDOps is of type
- * OGLSD_PBUFFER, this method implementation will destroy the actual pbuffer
- * surface.
+ * This function disposes of bny nbtive windowing system resources bssocibted
+ * with this surfbce.  For instbnce, if the given OGLSDOps is of type
+ * OGLSD_PBUFFER, this method implementbtion will destroy the bctubl pbuffer
+ * surfbce.
  */
 void
-OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo)
+OGLSD_DestroyOGLSurfbce(JNIEnv *env, OGLSDOps *oglsdo)
 {
     WGLSDOps *wglsdo = (WGLSDOps *)oglsdo->privOps;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurfbce");
 
-    if (oglsdo->drawableType == OGLSD_PBUFFER) {
+    if (oglsdo->drbwbbleType == OGLSD_PBUFFER) {
         if (wglsdo->pbuffer != 0) {
             if (wglsdo->pbufferDC != 0) {
-                j2d_wglReleasePbufferDCARB(wglsdo->pbuffer,
+                j2d_wglRelebsePbufferDCARB(wglsdo->pbuffer,
                                            wglsdo->pbufferDC);
                 wglsdo->pbufferDC = 0;
             }
@@ -132,27 +132,27 @@ OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo)
 }
 
 /**
- * Makes the given context current to its associated "scratch" surface.  If
- * the operation is successful, this method will return JNI_TRUE; otherwise,
+ * Mbkes the given context current to its bssocibted "scrbtch" surfbce.  If
+ * the operbtion is successful, this method will return JNI_TRUE; otherwise,
  * returns JNI_FALSE.
  */
-static jboolean
-WGLSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
+stbtic jboolebn
+WGLSD_MbkeCurrentToScrbtch(JNIEnv *env, OGLContext *oglc)
 {
     WGLCtxInfo *ctxInfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSD_MakeCurrentToScratch");
+    J2dTrbceLn(J2D_TRACE_INFO, "WGLSD_MbkeCurrentToScrbtch");
 
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "WGLSD_MakeCurrentToScratch: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "WGLSD_MbkeCurrentToScrbtch: context is null");
         return JNI_FALSE;
     }
 
     ctxInfo = (WGLCtxInfo *)oglc->ctxInfo;
-    if (!j2d_wglMakeCurrent(ctxInfo->scratchSurfaceDC, ctxInfo->context)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "WGLSD_MakeCurrentToScratch: could not make current");
+    if (!j2d_wglMbkeCurrent(ctxInfo->scrbtchSurfbceDC, ctxInfo->context)) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "WGLSD_MbkeCurrentToScrbtch: could not mbke current");
         return JNI_FALSE;
     }
 
@@ -160,26 +160,26 @@ WGLSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
 }
 
 /**
- * Returns a pointer (as a jlong) to the native WGLGraphicsConfigInfo
- * associated with the given OGLSDOps.  This method can be called from
- * shared code to retrieve the native GraphicsConfig data in a platform-
- * independent manner.
+ * Returns b pointer (bs b jlong) to the nbtive WGLGrbphicsConfigInfo
+ * bssocibted with the given OGLSDOps.  This method cbn be cblled from
+ * shbred code to retrieve the nbtive GrbphicsConfig dbtb in b plbtform-
+ * independent mbnner.
  */
 jlong
-OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
+OGLSD_GetNbtiveConfigInfo(OGLSDOps *oglsdo)
 {
     WGLSDOps *wglsdo;
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_GetNbtiveConfigInfo: ops bre null");
         return 0L;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: wgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_GetNbtiveConfigInfo: wgl ops bre null");
         return 0L;
     }
 
@@ -187,49 +187,49 @@ OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
 }
 
 /**
- * Makes the given GraphicsConfig's context current to its associated
- * "scratch" surface.  If there is a problem making the context current,
- * this method will return NULL; otherwise, returns a pointer to the
- * OGLContext that is associated with the given GraphicsConfig.
+ * Mbkes the given GrbphicsConfig's context current to its bssocibted
+ * "scrbtch" surfbce.  If there is b problem mbking the context current,
+ * this method will return NULL; otherwise, returns b pointer to the
+ * OGLContext thbt is bssocibted with the given GrbphicsConfig.
  */
 OGLContext *
-OGLSD_SetScratchSurface(JNIEnv *env, jlong pConfigInfo)
+OGLSD_SetScrbtchSurfbce(JNIEnv *env, jlong pConfigInfo)
 {
-    WGLGraphicsConfigInfo *wglInfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    WGLGrbphicsConfigInfo *wglInfo =
+        (WGLGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     OGLContext *oglc;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SetScratchContext");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SetScrbtchContext");
 
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SetScratchContext: wgl config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SetScrbtchContext: wgl config info is null");
         return NULL;
     }
 
     oglc = wglInfo->context;
-    if (!WGLSD_MakeCurrentToScratch(env, oglc)) {
+    if (!WGLSD_MbkeCurrentToScrbtch(env, oglc)) {
         return NULL;
     }
 
     if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so this call
-        // will ensure that we are bound to the scratch pbuffer (and not
-        // some other framebuffer object)
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // the GL_EXT_frbmebuffer_object extension is present, so this cbll
+        // will ensure thbt we bre bound to the scrbtch pbuffer (bnd not
+        // some other frbmebuffer object)
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
     return oglc;
 }
 
 /**
- * Makes a context current to the given source and destination
- * surfaces.  If there is a problem making the context current, this method
- * will return NULL; otherwise, returns a pointer to the OGLContext that is
- * associated with the destination surface.
+ * Mbkes b context current to the given source bnd destinbtion
+ * surfbces.  If there is b problem mbking the context current, this method
+ * will return NULL; otherwise, returns b pointer to the OGLContext thbt is
+ * bssocibted with the destinbtion surfbce.
  */
 OGLContext *
-OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
+OGLSD_MbkeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
 {
     WGLSDOps *srcWGLOps = (WGLSDOps *)srcOps->privOps;
     WGLSDOps *dstWGLOps = (WGLSDOps *)dstOps->privOps;
@@ -238,134 +238,134 @@ OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
     HDC srcHDC, dstHDC;
     BOOL success;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_MakeOGLContextCurrent");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_MbkeOGLContextCurrent");
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  src: %d %p dst: %d %p",
-                srcOps->drawableType, srcOps,
-                dstOps->drawableType, dstOps);
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  src: %d %p dst: %d %p",
+                srcOps->drbwbbleType, srcOps,
+                dstOps->drbwbbleType, dstOps);
 
     oglc = dstWGLOps->configInfo->context;
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_MakeOGLContextCurrent: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkeOGLContextCurrent: context is null");
         return NULL;
     }
 
-    if (dstOps->drawableType == OGLSD_FBOBJECT) {
+    if (dstOps->drbwbbleType == OGLSD_FBOBJECT) {
         OGLContext *currentContext = OGLRenderQueue_GetCurrentContext();
 
-        // first make sure we have a current context (if the context isn't
-        // already current to some drawable, we will make it current to
-        // its scratch surface)
+        // first mbke sure we hbve b current context (if the context isn't
+        // blrebdy current to some drbwbble, we will mbke it current to
+        // its scrbtch surfbce)
         if (oglc != currentContext) {
-            if (!WGLSD_MakeCurrentToScratch(env, oglc)) {
+            if (!WGLSD_MbkeCurrentToScrbtch(env, oglc)) {
                 return NULL;
             }
         }
 
-        // now bind to the fbobject associated with the destination surface;
-        // this means that all rendering will go into the fbobject destination
-        // (note that we unbind the currently bound texture first; this is
-        // recommended procedure when binding an fbobject)
-        j2d_glBindTexture(dstOps->textureTarget, 0);
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
+        // now bind to the fbobject bssocibted with the destinbtion surfbce;
+        // this mebns thbt bll rendering will go into the fbobject destinbtion
+        // (note thbt we unbind the currently bound texture first; this is
+        // recommended procedure when binding bn fbobject)
+        j2d_glBindTexture(dstOps->textureTbrget, 0);
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
 
         return oglc;
     }
 
     ctxinfo = (WGLCtxInfo *)oglc->ctxInfo;
 
-    // get the hdc for the destination surface
-    if (dstOps->drawableType == OGLSD_PBUFFER) {
+    // get the hdc for the destinbtion surfbce
+    if (dstOps->drbwbbleType == OGLSD_PBUFFER) {
         dstHDC = dstWGLOps->pbufferDC;
     } else {
         dstHDC = GetDC(dstWGLOps->window);
     }
 
-    // get the hdc for the source surface
-    if (srcOps->drawableType == OGLSD_PBUFFER) {
+    // get the hdc for the source surfbce
+    if (srcOps->drbwbbleType == OGLSD_PBUFFER) {
         srcHDC = srcWGLOps->pbufferDC;
     } else {
-        // the source will always be equal to the destination in this case
+        // the source will blwbys be equbl to the destinbtion in this cbse
         srcHDC = dstHDC;
     }
 
-    // REMIND: in theory we should be able to use wglMakeContextCurrentARB()
-    // even when the src/dst surfaces are the same, but this causes problems
+    // REMIND: in theory we should be bble to use wglMbkeContextCurrentARB()
+    // even when the src/dst surfbces bre the sbme, but this cbuses problems
     // on ATI's drivers (see 6525997); for now we will only use it when the
-    // surfaces are different, otherwise we will use the old
-    // wglMakeCurrent() approach...
+    // surfbces bre different, otherwise we will use the old
+    // wglMbkeCurrent() bpprobch...
     if (srcHDC != dstHDC) {
-        // use WGL_ARB_make_current_read extension to make context current
+        // use WGL_ARB_mbke_current_rebd extension to mbke context current
         success =
-            j2d_wglMakeContextCurrentARB(dstHDC, srcHDC, ctxinfo->context);
+            j2d_wglMbkeContextCurrentARB(dstHDC, srcHDC, ctxinfo->context);
     } else {
-        // use the old approach for making current to the destination
-        success = j2d_wglMakeCurrent(dstHDC, ctxinfo->context);
+        // use the old bpprobch for mbking current to the destinbtion
+        success = j2d_wglMbkeCurrent(dstHDC, ctxinfo->context);
     }
     if (!success) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_MakeOGLContextCurrent: could not make current");
-        if (dstOps->drawableType != OGLSD_PBUFFER) {
-            ReleaseDC(dstWGLOps->window, dstHDC);
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkeOGLContextCurrent: could not mbke current");
+        if (dstOps->drbwbbleType != OGLSD_PBUFFER) {
+            RelebseDC(dstWGLOps->window, dstHDC);
         }
         return NULL;
     }
 
     if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so we
-        // must bind to the default (windowing system provided)
-        // framebuffer
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // the GL_EXT_frbmebuffer_object extension is present, so we
+        // must bind to the defbult (windowing system provided)
+        // frbmebuffer
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
-    if (dstOps->drawableType != OGLSD_PBUFFER) {
-        ReleaseDC(dstWGLOps->window, dstHDC);
+    if (dstOps->drbwbbleType != OGLSD_PBUFFER) {
+        RelebseDC(dstWGLOps->window, dstHDC);
     }
 
     return oglc;
 }
 
 /**
- * This function initializes a native window surface and caches the window
- * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operation was
+ * This function initiblizes b nbtive window surfbce bnd cbches the window
+ * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operbtion wbs
  * successful; JNI_FALSE otherwise.
  */
-jboolean
+jboolebn
 OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo)
 {
     PIXELFORMATDESCRIPTOR pfd;
     WGLSDOps *wglsdo;
-    WGLGraphicsConfigInfo *wglInfo;
+    WGLGrbphicsConfigInfo *wglInfo;
     HWND window;
     RECT wbounds;
     HDC hdc;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: ops bre null");
         return JNI_FALSE;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: wgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: wgl ops bre null");
         return JNI_FALSE;
     }
 
     wglInfo = wglsdo->configInfo;
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: graphics config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: grbphics config info is null");
         return JNI_FALSE;
     }
 
     window = wglsdo->window;
     if (!IsWindow(window)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
                       "OGLSD_InitOGLWindow: disposed component");
         return JNI_FALSE;
     }
@@ -374,224 +374,224 @@ OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo)
 
     hdc = GetDC(window);
     if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: invalid hdc");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: invblid hdc");
         return JNI_FALSE;
     }
 
-    if (!SetPixelFormat(hdc, wglInfo->pixfmt, &pfd)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: error setting pixel format");
-        ReleaseDC(window, hdc);
+    if (!SetPixelFormbt(hdc, wglInfo->pixfmt, &pfd)) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: error setting pixel formbt");
+        RelebseDC(window, hdc);
         return JNI_FALSE;
     }
 
-    ReleaseDC(window, hdc);
+    RelebseDC(window, hdc);
 
-    oglsdo->drawableType = OGLSD_WINDOW;
-    oglsdo->isOpaque = JNI_TRUE;
+    oglsdo->drbwbbleType = OGLSD_WINDOW;
+    oglsdo->isOpbque = JNI_TRUE;
     oglsdo->width = wbounds.right - wbounds.left;
     oglsdo->height = wbounds.bottom - wbounds.top;
     wglsdo->pbufferDC = 0;
 
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  created window: w=%d h=%d",
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  crebted window: w=%d h=%d",
                 oglsdo->width, oglsdo->height);
 
     return JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_WGLSurfaceData_initPbuffer
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_WGLSurfbceDbtb_initPbuffer
     (JNIEnv *env, jobject wglsd,
-     jlong pData, jlong pConfigInfo,
-     jboolean isOpaque,
+     jlong pDbtb, jlong pConfigInfo,
+     jboolebn isOpbque,
      jint width, jint height)
 {
-    int attrKeys[] = {
+    int bttrKeys[] = {
         WGL_MAX_PBUFFER_WIDTH_ARB,
         WGL_MAX_PBUFFER_HEIGHT_ARB,
     };
-    int attrVals[2];
+    int bttrVbls[2];
     int pbAttrList[] = { 0 };
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    WGLGraphicsConfigInfo *wglInfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    WGLGrbphicsConfigInfo *wglInfo =
+        (WGLGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     WGLSDOps *wglsdo;
     HWND hwnd;
     HDC hdc, pbufferDC;
     HPBUFFERARB pbuffer;
-    int maxWidth, maxHeight;
-    int actualWidth, actualHeight;
+    int mbxWidth, mbxHeight;
+    int bctublWidth, bctublHeight;
 
-    J2dTraceLn3(J2D_TRACE_INFO,
-                "WGLSurfaceData_initPbuffer: w=%d h=%d opq=%d",
-                width, height, isOpaque);
+    J2dTrbceLn3(J2D_TRACE_INFO,
+                "WGLSurfbceDbtb_initPbuffer: w=%d h=%d opq=%d",
+                width, height, isOpbque);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: ops bre null");
         return JNI_FALSE;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: wgl ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: wgl ops bre null");
         return JNI_FALSE;
     }
 
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: wgl config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: wgl config info is null");
         return JNI_FALSE;
     }
 
-    // create a scratch window
-    hwnd = WGLGC_CreateScratchWindow(wglInfo->screen);
+    // crebte b scrbtch window
+    hwnd = WGLGC_CrebteScrbtchWindow(wglInfo->screen);
     if (hwnd == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not create scratch window");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: could not crebte scrbtch window");
         return JNI_FALSE;
     }
 
-    // get the HDC for the scratch window
+    // get the HDC for the scrbtch window
     hdc = GetDC(hwnd);
     if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not get dc for scratch window");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: could not get dc for scrbtch window");
         DestroyWindow(hwnd);
         return JNI_FALSE;
     }
 
-    // get the maximum allowable pbuffer dimensions
-    j2d_wglGetPixelFormatAttribivARB(hdc, wglInfo->pixfmt, 0, 2,
-                                     attrKeys, attrVals);
-    maxWidth  = attrVals[0];
-    maxHeight = attrVals[1];
+    // get the mbximum bllowbble pbuffer dimensions
+    j2d_wglGetPixelFormbtAttribivARB(hdc, wglInfo->pixfmt, 0, 2,
+                                     bttrKeys, bttrVbls);
+    mbxWidth  = bttrVbls[0];
+    mbxHeight = bttrVbls[1];
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
-                "  desired pbuffer dimensions: w=%d h=%d maxw=%d maxh=%d",
-                width, height, maxWidth, maxHeight);
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
+                "  desired pbuffer dimensions: w=%d h=%d mbxw=%d mbxh=%d",
+                width, height, mbxWidth, mbxHeight);
 
-    // if either dimension is 0 or larger than the maximum, we cannot
-    // allocate a pbuffer with the requested dimensions
-    if (width  == 0 || width  > maxWidth ||
-        height == 0 || height > maxHeight)
+    // if either dimension is 0 or lbrger thbn the mbximum, we cbnnot
+    // bllocbte b pbuffer with the requested dimensions
+    if (width  == 0 || width  > mbxWidth ||
+        height == 0 || height > mbxHeight)
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: invalid dimensions");
-        ReleaseDC(hwnd, hdc);
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: invblid dimensions");
+        RelebseDC(hwnd, hdc);
         DestroyWindow(hwnd);
         return JNI_FALSE;
     }
 
-    pbuffer = j2d_wglCreatePbufferARB(hdc, wglInfo->pixfmt,
+    pbuffer = j2d_wglCrebtePbufferARB(hdc, wglInfo->pixfmt,
                                       width, height, pbAttrList);
 
-    ReleaseDC(hwnd, hdc);
+    RelebseDC(hwnd, hdc);
     DestroyWindow(hwnd);
 
     if (pbuffer == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not create wgl pbuffer");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: could not crebte wgl pbuffer");
         return JNI_FALSE;
     }
 
-    // note that we get the DC for the pbuffer at creation time, and then
-    // release the DC when the pbuffer is disposed; the WGL_ARB_pbuffer
-    // spec is vague about such things, but from past experience we know
-    // this approach to be more robust than, for example, doing a
-    // Get/ReleasePbufferDC() everytime we make a context current
+    // note thbt we get the DC for the pbuffer bt crebtion time, bnd then
+    // relebse the DC when the pbuffer is disposed; the WGL_ARB_pbuffer
+    // spec is vbgue bbout such things, but from pbst experience we know
+    // this bpprobch to be more robust thbn, for exbmple, doing b
+    // Get/RelebsePbufferDC() everytime we mbke b context current
     pbufferDC = j2d_wglGetPbufferDCARB(pbuffer);
     if (pbufferDC == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not get dc for pbuffer");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: could not get dc for pbuffer");
         j2d_wglDestroyPbufferARB(pbuffer);
         return JNI_FALSE;
     }
 
-    // make sure the actual dimensions match those that we requested
-    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_WIDTH_ARB, &actualWidth);
-    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_HEIGHT_ARB, &actualHeight);
+    // mbke sure the bctubl dimensions mbtch those thbt we requested
+    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_WIDTH_ARB, &bctublWidth);
+    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_HEIGHT_ARB, &bctublHeight);
 
-    if (width != actualWidth || height != actualHeight) {
-        J2dRlsTraceLn2(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: actual (w=%d h=%d) != requested",
-                       actualWidth, actualHeight);
-        j2d_wglReleasePbufferDCARB(pbuffer, pbufferDC);
+    if (width != bctublWidth || height != bctublHeight) {
+        J2dRlsTrbceLn2(J2D_TRACE_ERROR,
+            "WGLSurfbceDbtb_initPbuffer: bctubl (w=%d h=%d) != requested",
+                       bctublWidth, bctublHeight);
+        j2d_wglRelebsePbufferDCARB(pbuffer, pbufferDC);
         j2d_wglDestroyPbufferARB(pbuffer);
         return JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_PBUFFER;
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->drbwbbleType = OGLSD_PBUFFER;
+    oglsdo->isOpbque = isOpbque;
     oglsdo->width = width;
     oglsdo->height = height;
     wglsdo->pbuffer = pbuffer;
     wglsdo->pbufferDC = pbufferDC;
 
-    OGLSD_SetNativeDimensions(env, oglsdo, width, height);
+    OGLSD_SetNbtiveDimensions(env, oglsdo, width, height);
 
     return JNI_TRUE;
 }
 
 void
-OGLSD_SwapBuffers(JNIEnv *env, jlong pPeerData)
+OGLSD_SwbpBuffers(JNIEnv *env, jlong pPeerDbtb)
 {
     HWND window;
     HDC hdc;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SwapBuffers");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SwbpBuffers");
 
-    window = AwtComponent_GetHWnd(env, pPeerData);
+    window = AwtComponent_GetHWnd(env, pPeerDbtb);
     if (!IsWindow(window)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: disposed component");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBuffers: disposed component");
         return;
     }
 
     hdc = GetDC(window);
     if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: invalid hdc");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBuffers: invblid hdc");
         return;
     }
 
-    if (!SwapBuffers(hdc)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: error in SwapBuffers");
+    if (!SwbpBuffers(hdc)) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBuffers: error in SwbpBuffers");
     }
 
-    if (!ReleaseDC(window, hdc)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: error while releasing dc");
+    if (!RelebseDC(window, hdc)) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBuffers: error while relebsing dc");
     }
 }
 
-// needed by Mac OS X port, no-op on other platforms
+// needed by Mbc OS X port, no-op on other plbtforms
 void
 OGLSD_Flush(JNIEnv *env)
 {
 }
 
 /*
- * Class:     sun_java2d_opengl_WGLSurfaceData
- * Method:    updateWindowAccelImpl
- * Signature: (JJII)Z
+ * Clbss:     sun_jbvb2d_opengl_WGLSurfbceDbtb
+ * Method:    updbteWindowAccelImpl
+ * Signbture: (JJII)Z
  */
-JNIEXPORT jboolean JNICALL
-    Java_sun_java2d_opengl_WGLSurfaceData_updateWindowAccelImpl
-  (JNIEnv *env, jclass clazz, jlong pData, jobject peer, jint w, jint h)
+JNIEXPORT jboolebn JNICALL
+    Jbvb_sun_jbvb2d_opengl_WGLSurfbceDbtb_updbteWindowAccelImpl
+  (JNIEnv *env, jclbss clbzz, jlong pDbtb, jobject peer, jint w, jint h)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    OGLPixelFormat pf = PixelFormats[0/*PF_INT_ARGB_PRE*/];
-    HBITMAP hBitmap = NULL;
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    OGLPixelFormbt pf = PixelFormbts[0/*PF_INT_ARGB_PRE*/];
+    HBITMAP hBitmbp = NULL;
     void *pDst;
     jint srcx, srcy, dstx, dsty, width, height;
     jint pixelStride = 4;
-    jint scanStride = pixelStride * w;
+    jint scbnStride = pixelStride * w;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSurfaceData_updateWindowAccelImpl");
+    J2dTrbceLn(J2D_TRACE_INFO, "WGLSurfbceDbtb_updbteWindowAccelImpl");
 
     if (w <= 0 || h <= 0) {
         return JNI_TRUE;
@@ -605,27 +605,27 @@ JNIEXPORT jboolean JNICALL
     height = h;
     srcx = srcy = dstx = dsty = 0;
 
-    pDst = SAFE_SIZE_ARRAY_ALLOC(malloc, height, scanStride);
+    pDst = SAFE_SIZE_ARRAY_ALLOC(mblloc, height, scbnStride);
     if (pDst == NULL) {
         return JNI_FALSE;
     }
-    ZeroMemory(pDst, height * scanStride);
+    ZeroMemory(pDst, height * scbnStride);
 
-    // the code below is mostly copied from OGLBlitLoops_SurfaceToSwBlit
+    // the code below is mostly copied from OGLBlitLoops_SurfbceToSwBlit
 
     j2d_glPixelStorei(GL_PACK_SKIP_PIXELS, dstx);
-    j2d_glPixelStorei(GL_PACK_ROW_LENGTH, scanStride / pixelStride);
-    j2d_glPixelStorei(GL_PACK_ALIGNMENT, pf.alignment);
+    j2d_glPixelStorei(GL_PACK_ROW_LENGTH, scbnStride / pixelStride);
+    j2d_glPixelStorei(GL_PACK_ALIGNMENT, pf.blignment);
 
-    // this accounts for lower-left origin of the source region
+    // this bccounts for lower-left origin of the source region
     srcx = oglsdo->xOffset + srcx;
     srcy = oglsdo->yOffset + oglsdo->height - (srcy + 1);
-    // we must read one scanline at a time because there is no way
-    // to read starting at the top-left corner of the source region
+    // we must rebd one scbnline bt b time becbuse there is no wby
+    // to rebd stbrting bt the top-left corner of the source region
     while (height > 0) {
         j2d_glPixelStorei(GL_PACK_SKIP_ROWS, dsty);
-        j2d_glReadPixels(srcx, srcy, width, 1,
-                         pf.format, pf.type, pDst);
+        j2d_glRebdPixels(srcx, srcy, width, 1,
+                         pf.formbt, pf.type, pDst);
         srcy--;
         dsty++;
         height--;
@@ -636,18 +636,18 @@ JNIEXPORT jboolean JNICALL
     j2d_glPixelStorei(GL_PACK_ROW_LENGTH, 0);
     j2d_glPixelStorei(GL_PACK_ALIGNMENT, 4);
 
-    // the pixels read from the surface are already premultiplied
-    hBitmap = BitmapUtil_CreateBitmapFromARGBPre(w, h, scanStride,
+    // the pixels rebd from the surfbce bre blrebdy premultiplied
+    hBitmbp = BitmbpUtil_CrebteBitmbpFromARGBPre(w, h, scbnStride,
                                                  (int*)pDst);
     free(pDst);
 
-    if (hBitmap == NULL) {
+    if (hBitmbp == NULL) {
         return JNI_FALSE;
     }
 
-    AwtWindow_UpdateWindow(env, peer, w, h, hBitmap);
+    AwtWindow_UpdbteWindow(env, peer, w, h, hBitmbp);
 
-    // hBitmap is released in UpdateWindow
+    // hBitmbp is relebsed in UpdbteWindow
 
     return JNI_TRUE;
 }

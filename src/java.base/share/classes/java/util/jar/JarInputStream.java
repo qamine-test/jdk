@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.util.zip.*;
-import java.io.*;
-import sun.security.util.ManifestEntryVerifier;
-import sun.misc.JarIndex;
+import jbvb.util.zip.*;
+import jbvb.io.*;
+import sun.security.util.MbnifestEntryVerifier;
+import sun.misc.JbrIndex;
 
 /**
- * The <code>JarInputStream</code> class is used to read the contents of
- * a JAR file from any input stream. It extends the class
- * <code>java.util.zip.ZipInputStream</code> with support for reading
- * an optional <code>Manifest</code> entry. The <code>Manifest</code>
- * can be used to store meta-information about the JAR file and its entries.
+ * The <code>JbrInputStrebm</code> clbss is used to rebd the contents of
+ * b JAR file from bny input strebm. It extends the clbss
+ * <code>jbvb.util.zip.ZipInputStrebm</code> with support for rebding
+ * bn optionbl <code>Mbnifest</code> entry. The <code>Mbnifest</code>
+ * cbn be used to store metb-informbtion bbout the JAR file bnd its entries.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipInputStream
+ * @buthor  Dbvid Connelly
+ * @see     Mbnifest
+ * @see     jbvb.util.zip.ZipInputStrebm
  * @since   1.2
  */
 public
-class JarInputStream extends ZipInputStream {
-    private Manifest man;
-    private JarEntry first;
-    private JarVerifier jv;
-    private ManifestEntryVerifier mev;
-    private final boolean doVerify;
-    private boolean tryManifest;
+clbss JbrInputStrebm extends ZipInputStrebm {
+    privbte Mbnifest mbn;
+    privbte JbrEntry first;
+    privbte JbrVerifier jv;
+    privbte MbnifestEntryVerifier mev;
+    privbte finbl boolebn doVerify;
+    privbte boolebn tryMbnifest;
 
     /**
-     * Creates a new <code>JarInputStream</code> and reads the optional
-     * manifest. If a manifest is present, also attempts to verify
-     * the signatures if the JarInputStream is signed.
-     * @param in the actual input stream
-     * @exception IOException if an I/O error has occurred
+     * Crebtes b new <code>JbrInputStrebm</code> bnd rebds the optionbl
+     * mbnifest. If b mbnifest is present, blso bttempts to verify
+     * the signbtures if the JbrInputStrebm is signed.
+     * @pbrbm in the bctubl input strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public JarInputStream(InputStream in) throws IOException {
+    public JbrInputStrebm(InputStrebm in) throws IOException {
         this(in, true);
     }
 
     /**
-     * Creates a new <code>JarInputStream</code> and reads the optional
-     * manifest. If a manifest is present and verify is true, also attempts
-     * to verify the signatures if the JarInputStream is signed.
+     * Crebtes b new <code>JbrInputStrebm</code> bnd rebds the optionbl
+     * mbnifest. If b mbnifest is present bnd verify is true, blso bttempts
+     * to verify the signbtures if the JbrInputStrebm is signed.
      *
-     * @param in the actual input stream
-     * @param verify whether or not to verify the JarInputStream if
+     * @pbrbm in the bctubl input strebm
+     * @pbrbm verify whether or not to verify the JbrInputStrebm if
      * it is signed.
-     * @exception IOException if an I/O error has occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public JarInputStream(InputStream in, boolean verify) throws IOException {
+    public JbrInputStrebm(InputStrebm in, boolebn verify) throws IOException {
         super(in);
         this.doVerify = verify;
 
-        // This implementation assumes the META-INF/MANIFEST.MF entry
+        // This implementbtion bssumes the META-INF/MANIFEST.MF entry
         // should be either the first or the second entry (when preceded
-        // by the dir META-INF/). It skips the META-INF/ and then
-        // "consumes" the MANIFEST.MF to initialize the Manifest object.
-        JarEntry e = (JarEntry)super.getNextEntry();
-        if (e != null && e.getName().equalsIgnoreCase("META-INF/"))
-            e = (JarEntry)super.getNextEntry();
-        first = checkManifest(e);
+        // by the dir META-INF/). It skips the META-INF/ bnd then
+        // "consumes" the MANIFEST.MF to initiblize the Mbnifest object.
+        JbrEntry e = (JbrEntry)super.getNextEntry();
+        if (e != null && e.getNbme().equblsIgnoreCbse("META-INF/"))
+            e = (JbrEntry)super.getNextEntry();
+        first = checkMbnifest(e);
     }
 
-    private JarEntry checkManifest(JarEntry e)
+    privbte JbrEntry checkMbnifest(JbrEntry e)
         throws IOException
     {
-        if (e != null && JarFile.MANIFEST_NAME.equalsIgnoreCase(e.getName())) {
-            man = new Manifest();
-            byte bytes[] = getBytes(new BufferedInputStream(this));
-            man.read(new ByteArrayInputStream(bytes));
+        if (e != null && JbrFile.MANIFEST_NAME.equblsIgnoreCbse(e.getNbme())) {
+            mbn = new Mbnifest();
+            byte bytes[] = getBytes(new BufferedInputStrebm(this));
+            mbn.rebd(new ByteArrbyInputStrebm(bytes));
             closeEntry();
             if (doVerify) {
-                jv = new JarVerifier(bytes);
-                mev = new ManifestEntryVerifier(man);
+                jv = new JbrVerifier(bytes);
+                mev = new MbnifestEntryVerifier(mbn);
             }
-            return (JarEntry)super.getNextEntry();
+            return (JbrEntry)super.getNextEntry();
         }
         return e;
     }
 
-    private byte[] getBytes(InputStream is)
+    privbte byte[] getBytes(InputStrebm is)
         throws IOException
     {
         byte[] buffer = new byte[8192];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm(2048);
         int n;
-        while ((n = is.read(buffer, 0, buffer.length)) != -1) {
-            baos.write(buffer, 0, n);
+        while ((n = is.rebd(buffer, 0, buffer.length)) != -1) {
+            bbos.write(buffer, 0, n);
         }
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
     /**
-     * Returns the <code>Manifest</code> for this JAR file, or
+     * Returns the <code>Mbnifest</code> for this JAR file, or
      * <code>null</code> if none.
      *
-     * @return the <code>Manifest</code> for this JAR file, or
+     * @return the <code>Mbnifest</code> for this JAR file, or
      *         <code>null</code> if none.
      */
-    public Manifest getManifest() {
-        return man;
+    public Mbnifest getMbnifest() {
+        return mbn;
     }
 
     /**
-     * Reads the next ZIP file entry and positions the stream at the
-     * beginning of the entry data. If verification has been enabled,
-     * any invalid signature detected while positioning the stream for
-     * the next entry will result in an exception.
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * Rebds the next ZIP file entry bnd positions the strebm bt the
+     * beginning of the entry dbtb. If verificbtion hbs been enbbled,
+     * bny invblid signbture detected while positioning the strebm for
+     * the next entry will result in bn exception.
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception SecurityException if bny of the jbr file entries
+     *         bre incorrectly signed.
      */
     public ZipEntry getNextEntry() throws IOException {
-        JarEntry e;
+        JbrEntry e;
         if (first == null) {
-            e = (JarEntry)super.getNextEntry();
-            if (tryManifest) {
-                e = checkManifest(e);
-                tryManifest = false;
+            e = (JbrEntry)super.getNextEntry();
+            if (tryMbnifest) {
+                e = checkMbnifest(e);
+                tryMbnifest = fblse;
             }
         } else {
             e = first;
-            if (first.getName().equalsIgnoreCase(JarIndex.INDEX_NAME))
-                tryManifest = true;
+            if (first.getNbme().equblsIgnoreCbse(JbrIndex.INDEX_NAME))
+                tryMbnifest = true;
             first = null;
         }
         if (jv != null && e != null) {
-            // At this point, we might have parsed all the meta-inf
-            // entries and have nothing to verify. If we have
-            // nothing to verify, get rid of the JarVerifier object.
+            // At this point, we might hbve pbrsed bll the metb-inf
+            // entries bnd hbve nothing to verify. If we hbve
+            // nothing to verify, get rid of the JbrVerifier object.
             if (jv.nothingToVerify() == true) {
                 jv = null;
                 mev = null;
@@ -165,68 +165,68 @@ class JarInputStream extends ZipInputStream {
     }
 
     /**
-     * Reads the next JAR file entry and positions the stream at the
-     * beginning of the entry data. If verification has been enabled,
-     * any invalid signature detected while positioning the stream for
-     * the next entry will result in an exception.
-     * @return the next JAR file entry, or null if there are no more entries
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * Rebds the next JAR file entry bnd positions the strebm bt the
+     * beginning of the entry dbtb. If verificbtion hbs been enbbled,
+     * bny invblid signbture detected while positioning the strebm for
+     * the next entry will result in bn exception.
+     * @return the next JAR file entry, or null if there bre no more entries
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception SecurityException if bny of the jbr file entries
+     *         bre incorrectly signed.
      */
-    public JarEntry getNextJarEntry() throws IOException {
-        return (JarEntry)getNextEntry();
+    public JbrEntry getNextJbrEntry() throws IOException {
+        return (JbrEntry)getNextEntry();
     }
 
     /**
-     * Reads from the current JAR file entry into an array of bytes.
+     * Rebds from the current JAR file entry into bn brrby of bytes.
      * If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
-     * If verification has been enabled, any invalid signature
-     * on the current entry will be reported at some point before the
-     * end of the entry is reached.
-     * @param b the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes to read
-     * @return the actual number of bytes read, or -1 if the end of the
-     *         entry is reached
+     * blocks until some input is bvbilbble; otherwise, no
+     * bytes bre rebd bnd <code>0</code> is returned.
+     * If verificbtion hbs been enbbled, bny invblid signbture
+     * on the current entry will be reported bt some point before the
+     * end of the entry is rebched.
+     * @pbrbm b the buffer into which the dbtb is rebd
+     * @pbrbm off the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm len the mbximum number of bytes to rebd
+     * @return the bctubl number of bytes rebd, or -1 if the end of the
+     *         entry is rebched
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
-     * @exception SecurityException if any of the jar file entries
-     *         are incorrectly signed.
+     * @exception ZipException if b ZIP file error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
+     * @exception SecurityException if bny of the jbr file entries
+     *         bre incorrectly signed.
      */
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         int n;
         if (first == null) {
-            n = super.read(b, off, len);
+            n = super.rebd(b, off, len);
         } else {
             n = -1;
         }
         if (jv != null) {
-            jv.update(n, b, off, len, mev);
+            jv.updbte(n, b, off, len, mev);
         }
         return n;
     }
 
     /**
-     * Creates a new <code>JarEntry</code> (<code>ZipEntry</code>) for the
-     * specified JAR file entry name. The manifest attributes of
-     * the specified JAR file entry name will be copied to the new
-     * <CODE>JarEntry</CODE>.
+     * Crebtes b new <code>JbrEntry</code> (<code>ZipEntry</code>) for the
+     * specified JAR file entry nbme. The mbnifest bttributes of
+     * the specified JAR file entry nbme will be copied to the new
+     * <CODE>JbrEntry</CODE>.
      *
-     * @param name the name of the JAR/ZIP file entry
-     * @return the <code>JarEntry</code> object just created
+     * @pbrbm nbme the nbme of the JAR/ZIP file entry
+     * @return the <code>JbrEntry</code> object just crebted
      */
-    protected ZipEntry createZipEntry(String name) {
-        JarEntry e = new JarEntry(name);
-        if (man != null) {
-            e.attr = man.getAttributes(name);
+    protected ZipEntry crebteZipEntry(String nbme) {
+        JbrEntry e = new JbrEntry(nbme);
+        if (mbn != null) {
+            e.bttr = mbn.getAttributes(nbme);
         }
         return e;
     }

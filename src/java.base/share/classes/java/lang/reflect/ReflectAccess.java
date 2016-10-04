@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 import sun.reflect.MethodAccessor;
 import sun.reflect.ConstructorAccessor;
 
-/** Package-private class implementing the
-    sun.reflect.LangReflectAccess interface, allowing the java.lang
-    package to instantiate objects in this package. */
+/** Pbckbge-privbte clbss implementing the
+    sun.reflect.LbngReflectAccess interfbce, bllowing the jbvb.lbng
+    pbckbge to instbntibte objects in this pbckbge. */
 
-class ReflectAccess implements sun.reflect.LangReflectAccess {
-    public Field newField(Class<?> declaringClass,
-                          String name,
-                          Class<?> type,
+clbss ReflectAccess implements sun.reflect.LbngReflectAccess {
+    public Field newField(Clbss<?> declbringClbss,
+                          String nbme,
+                          Clbss<?> type,
                           int modifiers,
                           int slot,
-                          String signature,
-                          byte[] annotations)
+                          String signbture,
+                          byte[] bnnotbtions)
     {
-        return new Field(declaringClass,
-                         name,
+        return new Field(declbringClbss,
+                         nbme,
                          type,
                          modifiers,
                          slot,
-                         signature,
-                         annotations);
+                         signbture,
+                         bnnotbtions);
     }
 
-    public Method newMethod(Class<?> declaringClass,
-                            String name,
-                            Class<?>[] parameterTypes,
-                            Class<?> returnType,
-                            Class<?>[] checkedExceptions,
+    public Method newMethod(Clbss<?> declbringClbss,
+                            String nbme,
+                            Clbss<?>[] pbrbmeterTypes,
+                            Clbss<?> returnType,
+                            Clbss<?>[] checkedExceptions,
                             int modifiers,
                             int slot,
-                            String signature,
-                            byte[] annotations,
-                            byte[] parameterAnnotations,
-                            byte[] annotationDefault)
+                            String signbture,
+                            byte[] bnnotbtions,
+                            byte[] pbrbmeterAnnotbtions,
+                            byte[] bnnotbtionDefbult)
     {
-        return new Method(declaringClass,
-                          name,
-                          parameterTypes,
+        return new Method(declbringClbss,
+                          nbme,
+                          pbrbmeterTypes,
                           returnType,
                           checkedExceptions,
                           modifiers,
                           slot,
-                          signature,
-                          annotations,
-                          parameterAnnotations,
-                          annotationDefault);
+                          signbture,
+                          bnnotbtions,
+                          pbrbmeterAnnotbtions,
+                          bnnotbtionDefbult);
     }
 
-    public <T> Constructor<T> newConstructor(Class<T> declaringClass,
-                                             Class<?>[] parameterTypes,
-                                             Class<?>[] checkedExceptions,
+    public <T> Constructor<T> newConstructor(Clbss<T> declbringClbss,
+                                             Clbss<?>[] pbrbmeterTypes,
+                                             Clbss<?>[] checkedExceptions,
                                              int modifiers,
                                              int slot,
-                                             String signature,
-                                             byte[] annotations,
-                                             byte[] parameterAnnotations)
+                                             String signbture,
+                                             byte[] bnnotbtions,
+                                             byte[] pbrbmeterAnnotbtions)
     {
-        return new Constructor<>(declaringClass,
-                                  parameterTypes,
+        return new Constructor<>(declbringClbss,
+                                  pbrbmeterTypes,
                                   checkedExceptions,
                                   modifiers,
                                   slot,
-                                  signature,
-                                  annotations,
-                                  parameterAnnotations);
+                                  signbture,
+                                  bnnotbtions,
+                                  pbrbmeterAnnotbtions);
     }
 
     public MethodAccessor getMethodAccessor(Method m) {
         return m.getMethodAccessor();
     }
 
-    public void setMethodAccessor(Method m, MethodAccessor accessor) {
-        m.setMethodAccessor(accessor);
+    public void setMethodAccessor(Method m, MethodAccessor bccessor) {
+        m.setMethodAccessor(bccessor);
     }
 
     public ConstructorAccessor getConstructorAccessor(Constructor<?> c) {
@@ -107,44 +107,44 @@ class ReflectAccess implements sun.reflect.LangReflectAccess {
     }
 
     public void setConstructorAccessor(Constructor<?> c,
-                                       ConstructorAccessor accessor)
+                                       ConstructorAccessor bccessor)
     {
-        c.setConstructorAccessor(accessor);
+        c.setConstructorAccessor(bccessor);
     }
 
     public int getConstructorSlot(Constructor<?> c) {
         return c.getSlot();
     }
 
-    public String getConstructorSignature(Constructor<?> c) {
-        return c.getSignature();
+    public String getConstructorSignbture(Constructor<?> c) {
+        return c.getSignbture();
     }
 
-    public byte[] getConstructorAnnotations(Constructor<?> c) {
-        return c.getRawAnnotations();
+    public byte[] getConstructorAnnotbtions(Constructor<?> c) {
+        return c.getRbwAnnotbtions();
     }
 
-    public byte[] getConstructorParameterAnnotations(Constructor<?> c) {
-        return c.getRawParameterAnnotations();
+    public byte[] getConstructorPbrbmeterAnnotbtions(Constructor<?> c) {
+        return c.getRbwPbrbmeterAnnotbtions();
     }
 
-    public byte[] getExecutableTypeAnnotationBytes(Executable ex) {
-        return ex.getTypeAnnotationBytes();
+    public byte[] getExecutbbleTypeAnnotbtionBytes(Executbble ex) {
+        return ex.getTypeAnnotbtionBytes();
     }
 
     //
-    // Copying routines, needed to quickly fabricate new Field,
-    // Method, and Constructor objects from templates
+    // Copying routines, needed to quickly fbbricbte new Field,
+    // Method, bnd Constructor objects from templbtes
     //
-    public Method      copyMethod(Method arg) {
-        return arg.copy();
+    public Method      copyMethod(Method brg) {
+        return brg.copy();
     }
 
-    public Field       copyField(Field arg) {
-        return arg.copy();
+    public Field       copyField(Field brg) {
+        return brg.copy();
     }
 
-    public <T> Constructor<T> copyConstructor(Constructor<T> arg) {
-        return arg.copy();
+    public <T> Constructor<T> copyConstructor(Constructor<T> brg) {
+        return brg.copy();
     }
 }

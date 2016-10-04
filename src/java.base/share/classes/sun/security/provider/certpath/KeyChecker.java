@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.*;
-import java.security.cert.*;
-import java.security.cert.PKIXReason;
+import jbvb.util.*;
+import jbvb.security.cert.*;
+import jbvb.security.cert.PKIXRebson;
 
 import sun.security.util.Debug;
-import static sun.security.x509.PKIXExtensions.*;
+import stbtic sun.security.x509.PKIXExtensions.*;
 
 /**
- * KeyChecker is a <code>PKIXCertPathChecker</code> that checks that the
- * keyCertSign bit is set in the keyUsage extension in an intermediate CA
- * certificate. It also checks whether the final certificate in a
- * certification path meets the specified target constraints specified as
- * a CertSelector in the PKIXParameters passed to the CertPathValidator.
+ * KeyChecker is b <code>PKIXCertPbthChecker</code> thbt checks thbt the
+ * keyCertSign bit is set in the keyUsbge extension in bn intermedibte CA
+ * certificbte. It blso checks whether the finbl certificbte in b
+ * certificbtion pbth meets the specified tbrget constrbints specified bs
+ * b CertSelector in the PKIXPbrbmeters pbssed to the CertPbthVblidbtor.
  *
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-class KeyChecker extends PKIXCertPathChecker {
+clbss KeyChecker extends PKIXCertPbthChecker {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private final int certPathLen;
-    private final CertSelector targetConstraints;
-    private int remainingCerts;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    privbte finbl int certPbthLen;
+    privbte finbl CertSelector tbrgetConstrbints;
+    privbte int rembiningCerts;
 
-    private Set<String> supportedExts;
+    privbte Set<String> supportedExts;
 
     /**
-     * Creates a KeyChecker.
+     * Crebtes b KeyChecker.
      *
-     * @param certPathLen allowable cert path length
-     * @param targetCertSel a CertSelector object specifying the constraints
-     * on the target certificate
+     * @pbrbm certPbthLen bllowbble cert pbth length
+     * @pbrbm tbrgetCertSel b CertSelector object specifying the constrbints
+     * on the tbrget certificbte
      */
-    KeyChecker(int certPathLen, CertSelector targetCertSel) {
-        this.certPathLen = certPathLen;
-        this.targetConstraints = targetCertSel;
+    KeyChecker(int certPbthLen, CertSelector tbrgetCertSel) {
+        this.certPbthLen = certPbthLen;
+        this.tbrgetConstrbints = tbrgetCertSel;
     }
 
     /**
-     * Initializes the internal state of the checker from parameters
+     * Initiblizes the internbl stbte of the checker from pbrbmeters
      * specified in the constructor
      */
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (!forward) {
-            remainingCerts = certPathLen;
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        if (!forwbrd) {
+            rembiningCerts = certPbthLen;
         } else {
-            throw new CertPathValidatorException
-                ("forward checking not supported");
+            throw new CertPbthVblidbtorException
+                ("forwbrd checking not supported");
         }
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        return fblse;
     }
 
     @Override
     public Set<String> getSupportedExtensions() {
         if (supportedExts == null) {
-            supportedExts = new HashSet<String>(3);
-            supportedExts.add(KeyUsage_Id.toString());
-            supportedExts.add(ExtendedKeyUsage_Id.toString());
-            supportedExts.add(SubjectAlternativeName_Id.toString());
-            supportedExts = Collections.unmodifiableSet(supportedExts);
+            supportedExts = new HbshSet<String>(3);
+            supportedExts.bdd(KeyUsbge_Id.toString());
+            supportedExts.bdd(ExtendedKeyUsbge_Id.toString());
+            supportedExts.bdd(SubjectAlternbtiveNbme_Id.toString());
+            supportedExts = Collections.unmodifibbleSet(supportedExts);
         }
         return supportedExts;
     }
 
     /**
-     * Checks that keyUsage and target constraints are satisfied by
-     * the specified certificate.
+     * Checks thbt keyUsbge bnd tbrget constrbints bre sbtisfied by
+     * the specified certificbte.
      *
-     * @param cert the Certificate
-     * @param unresolvedCritExts the unresolved critical extensions
-     * @throws CertPathValidatorException if certificate does not verify
+     * @pbrbm cert the Certificbte
+     * @pbrbm unresolvedCritExts the unresolved criticbl extensions
+     * @throws CertPbthVblidbtorException if certificbte does not verify
      */
     @Override
-    public void check(Certificate cert, Collection<String> unresCritExts)
-        throws CertPathValidatorException
+    public void check(Certificbte cert, Collection<String> unresCritExts)
+        throws CertPbthVblidbtorException
     {
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Certificbte currCert = (X509Certificbte)cert;
 
-        remainingCerts--;
+        rembiningCerts--;
 
-        // if final certificate, check that target constraints are satisfied
-        if (remainingCerts == 0) {
-            if (targetConstraints != null &&
-                targetConstraints.match(currCert) == false) {
-                throw new CertPathValidatorException("target certificate " +
-                    "constraints check failed");
+        // if finbl certificbte, check thbt tbrget constrbints bre sbtisfied
+        if (rembiningCerts == 0) {
+            if (tbrgetConstrbints != null &&
+                tbrgetConstrbints.mbtch(currCert) == fblse) {
+                throw new CertPbthVblidbtorException("tbrget certificbte " +
+                    "constrbints check fbiled");
             }
         } else {
-            // otherwise, verify that keyCertSign bit is set in CA certificate
-            verifyCAKeyUsage(currCert);
+            // otherwise, verify thbt keyCertSign bit is set in CA certificbte
+            verifyCAKeyUsbge(currCert);
         }
 
-        // remove the extensions that we have checked
+        // remove the extensions thbt we hbve checked
         if (unresCritExts != null && !unresCritExts.isEmpty()) {
-            unresCritExts.remove(KeyUsage_Id.toString());
-            unresCritExts.remove(ExtendedKeyUsage_Id.toString());
-            unresCritExts.remove(SubjectAlternativeName_Id.toString());
+            unresCritExts.remove(KeyUsbge_Id.toString());
+            unresCritExts.remove(ExtendedKeyUsbge_Id.toString());
+            unresCritExts.remove(SubjectAlternbtiveNbme_Id.toString());
         }
     }
 
-    // the index of keyCertSign in the boolean KeyUsage array
-    private static final int KEY_CERT_SIGN = 5;
+    // the index of keyCertSign in the boolebn KeyUsbge brrby
+    privbte stbtic finbl int KEY_CERT_SIGN = 5;
     /**
-     * Verifies the key usage extension in a CA cert.
-     * The key usage extension, if present, must assert the keyCertSign bit.
-     * The extended key usage extension is not checked (see CR 4776794 for
-     * more information).
+     * Verifies the key usbge extension in b CA cert.
+     * The key usbge extension, if present, must bssert the keyCertSign bit.
+     * The extended key usbge extension is not checked (see CR 4776794 for
+     * more informbtion).
      */
-    static void verifyCAKeyUsage(X509Certificate cert)
-            throws CertPathValidatorException {
-        String msg = "CA key usage";
+    stbtic void verifyCAKeyUsbge(X509Certificbte cert)
+            throws CertPbthVblidbtorException {
+        String msg = "CA key usbge";
         if (debug != null) {
-            debug.println("KeyChecker.verifyCAKeyUsage() ---checking " + msg
+            debug.println("KeyChecker.verifyCAKeyUsbge() ---checking " + msg
                           + "...");
         }
 
-        boolean[] keyUsageBits = cert.getKeyUsage();
+        boolebn[] keyUsbgeBits = cert.getKeyUsbge();
 
-        // getKeyUsage returns null if the KeyUsage extension is not present
-        // in the certificate - in which case there is nothing to check
-        if (keyUsageBits == null) {
+        // getKeyUsbge returns null if the KeyUsbge extension is not present
+        // in the certificbte - in which cbse there is nothing to check
+        if (keyUsbgeBits == null) {
             return;
         }
 
-        // throw an exception if the keyCertSign bit is not set
-        if (!keyUsageBits[KEY_CERT_SIGN]) {
-            throw new CertPathValidatorException
-                (msg + " check failed: keyCertSign bit is not set", null,
-                 null, -1, PKIXReason.INVALID_KEY_USAGE);
+        // throw bn exception if the keyCertSign bit is not set
+        if (!keyUsbgeBits[KEY_CERT_SIGN]) {
+            throw new CertPbthVblidbtorException
+                (msg + " check fbiled: keyCertSign bit is not set", null,
+                 null, -1, PKIXRebson.INVALID_KEY_USAGE);
         }
 
         if (debug != null) {
-            debug.println("KeyChecker.verifyCAKeyUsage() " + msg
+            debug.println("KeyChecker.verifyCAKeyUsbge() " + msg
                           + " verified.");
         }
     }

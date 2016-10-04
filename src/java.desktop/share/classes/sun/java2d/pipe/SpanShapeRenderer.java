@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import sun.awt.SunHints;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
+import sun.bwt.SunHints;
 
 /**
- * This class is used to convert raw geometry into a span iterator
- * object using a simple flattening polygon scan converter.
- * The iterator can be passed on to special SpanFiller loops to
- * perform the actual rendering.
+ * This clbss is used to convert rbw geometry into b spbn iterbtor
+ * object using b simple flbttening polygon scbn converter.
+ * The iterbtor cbn be pbssed on to specibl SpbnFiller loops to
+ * perform the bctubl rendering.
  */
-public abstract class SpanShapeRenderer implements ShapeDrawPipe {
-    final static RenderingEngine RenderEngine = RenderingEngine.getInstance();
+public bbstrbct clbss SpbnShbpeRenderer implements ShbpeDrbwPipe {
+    finbl stbtic RenderingEngine RenderEngine = RenderingEngine.getInstbnce();
 
-    public static class Composite extends SpanShapeRenderer {
+    public stbtic clbss Composite extends SpbnShbpeRenderer {
         CompositePipe comppipe;
 
         public Composite(CompositePipe pipe) {
             comppipe = pipe;
         }
 
-        public Object startSequence(SunGraphics2D sg, Shape s,
-                                    Rectangle devR, int[] bbox) {
-            return comppipe.startSequence(sg, s, devR, bbox);
+        public Object stbrtSequence(SunGrbphics2D sg, Shbpe s,
+                                    Rectbngle devR, int[] bbox) {
+            return comppipe.stbrtSequence(sg, s, devR, bbox);
         }
 
         public void renderBox(Object ctx, int x, int y, int w, int h) {
-            comppipe.renderPathTile(ctx, null, 0, w, x, y, w, h);
+            comppipe.renderPbthTile(ctx, null, 0, w, x, y, w, h);
         }
 
         public void endSequence(Object ctx) {
@@ -65,17 +65,17 @@ public abstract class SpanShapeRenderer implements ShapeDrawPipe {
         }
     }
 
-    public static class Simple extends SpanShapeRenderer
-        implements  LoopBasedPipe
+    public stbtic clbss Simple extends SpbnShbpeRenderer
+        implements  LoopBbsedPipe
     {
-        public Object startSequence(SunGraphics2D sg, Shape s,
-                                    Rectangle devR, int[] bbox) {
+        public Object stbrtSequence(SunGrbphics2D sg, Shbpe s,
+                                    Rectbngle devR, int[] bbox) {
             return sg;
         }
 
         public void renderBox(Object ctx, int x, int y, int w, int h) {
-            SunGraphics2D sg2d = (SunGraphics2D) ctx;
-            SurfaceData sd = sg2d.getSurfaceData();
+            SunGrbphics2D sg2d = (SunGrbphics2D) ctx;
+            SurfbceDbtb sd = sg2d.getSurfbceDbtb();
             sg2d.loops.fillRectLoop.FillRect(sg2d, sd, x, y, w, h);
         }
 
@@ -83,50 +83,50 @@ public abstract class SpanShapeRenderer implements ShapeDrawPipe {
         }
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
-        if (sg.stroke instanceof BasicStroke) {
-            ShapeSpanIterator sr = LoopPipe.getStrokeSpans(sg, s);
+    public void drbw(SunGrbphics2D sg, Shbpe s) {
+        if (sg.stroke instbnceof BbsicStroke) {
+            ShbpeSpbnIterbtor sr = LoopPipe.getStrokeSpbns(sg, s);
             try {
-                renderSpans(sg, sg.getCompClip(), s, sr);
-            } finally {
+                renderSpbns(sg, sg.getCompClip(), s, sr);
+            } finblly {
                 sr.dispose();
             }
         } else {
-            fill(sg, sg.stroke.createStrokedShape(s));
+            fill(sg, sg.stroke.crebteStrokedShbpe(s));
         }
     }
 
-    public static final int NON_RECTILINEAR_TRANSFORM_MASK =
-        (AffineTransform.TYPE_GENERAL_TRANSFORM |
-         AffineTransform.TYPE_GENERAL_ROTATION);
+    public stbtic finbl int NON_RECTILINEAR_TRANSFORM_MASK =
+        (AffineTrbnsform.TYPE_GENERAL_TRANSFORM |
+         AffineTrbnsform.TYPE_GENERAL_ROTATION);
 
-    public void fill(SunGraphics2D sg, Shape s) {
-        if (s instanceof Rectangle2D &&
-            (sg.transform.getType() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
+    public void fill(SunGrbphics2D sg, Shbpe s) {
+        if (s instbnceof Rectbngle2D &&
+            (sg.trbnsform.getType() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
         {
-            renderRect(sg, (Rectangle2D) s);
+            renderRect(sg, (Rectbngle2D) s);
             return;
         }
 
         Region clipRegion = sg.getCompClip();
-        ShapeSpanIterator sr = LoopPipe.getFillSSI(sg);
+        ShbpeSpbnIterbtor sr = LoopPipe.getFillSSI(sg);
         try {
-            sr.setOutputArea(clipRegion);
-            sr.appendPath(s.getPathIterator(sg.transform));
-            renderSpans(sg, clipRegion, s, sr);
-        } finally {
+            sr.setOutputAreb(clipRegion);
+            sr.bppendPbth(s.getPbthIterbtor(sg.trbnsform));
+            renderSpbns(sg, clipRegion, s, sr);
+        } finblly {
             sr.dispose();
         }
     }
 
-    public abstract Object startSequence(SunGraphics2D sg, Shape s,
-                                         Rectangle devR, int[] bbox);
+    public bbstrbct Object stbrtSequence(SunGrbphics2D sg, Shbpe s,
+                                         Rectbngle devR, int[] bbox);
 
-    public abstract void renderBox(Object ctx, int x, int y, int w, int h);
+    public bbstrbct void renderBox(Object ctx, int x, int y, int w, int h);
 
-    public abstract void endSequence(Object ctx);
+    public bbstrbct void endSequence(Object ctx);
 
-    public void renderRect(SunGraphics2D sg, Rectangle2D r) {
+    public void renderRect(SunGrbphics2D sg, Rectbngle2D r) {
         double corners[] = {
             r.getX(), r.getY(), r.getWidth(), r.getHeight(),
         };
@@ -135,7 +135,7 @@ public abstract class SpanShapeRenderer implements ShapeDrawPipe {
         if (corners[2] <= corners[0] || corners[3] <= corners[1]) {
             return;
         }
-        sg.transform.transform(corners, 0, corners, 0, 2);
+        sg.trbnsform.trbnsform(corners, 0, corners, 0, 2);
         if (corners[2] < corners[0]) {
             double t = corners[2];
             corners[2] = corners[0];
@@ -146,71 +146,71 @@ public abstract class SpanShapeRenderer implements ShapeDrawPipe {
             corners[3] = corners[1];
             corners[1] = t;
         }
-        int abox[] = {
+        int bbox[] = {
             (int) corners[0],
             (int) corners[1],
             (int) corners[2],
             (int) corners[3],
         };
-        Rectangle devR = new Rectangle(abox[0], abox[1],
-                                       abox[2] - abox[0],
-                                       abox[3] - abox[1]);
+        Rectbngle devR = new Rectbngle(bbox[0], bbox[1],
+                                       bbox[2] - bbox[0],
+                                       bbox[3] - bbox[1]);
         Region clipRegion = sg.getCompClip();
-        clipRegion.clipBoxToBounds(abox);
-        if (abox[0] >= abox[2] || abox[1] >= abox[3]) {
+        clipRegion.clipBoxToBounds(bbox);
+        if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
             return;
         }
-        Object context = startSequence(sg, r, devR, abox);
-        if (clipRegion.isRectangular()) {
-            renderBox(context, abox[0], abox[1],
-                      abox[2] - abox[0],
-                      abox[3] - abox[1]);
+        Object context = stbrtSequence(sg, r, devR, bbox);
+        if (clipRegion.isRectbngulbr()) {
+            renderBox(context, bbox[0], bbox[1],
+                      bbox[2] - bbox[0],
+                      bbox[3] - bbox[1]);
         } else {
-            SpanIterator sr = clipRegion.getSpanIterator(abox);
-            while (sr.nextSpan(abox)) {
-                renderBox(context, abox[0], abox[1],
-                              abox[2] - abox[0],
-                              abox[3] - abox[1]);
+            SpbnIterbtor sr = clipRegion.getSpbnIterbtor(bbox);
+            while (sr.nextSpbn(bbox)) {
+                renderBox(context, bbox[0], bbox[1],
+                              bbox[2] - bbox[0],
+                              bbox[3] - bbox[1]);
             }
         }
         endSequence(context);
     }
 
-    public void renderSpans(SunGraphics2D sg, Region clipRegion, Shape s,
-                            ShapeSpanIterator sr)
+    public void renderSpbns(SunGrbphics2D sg, Region clipRegion, Shbpe s,
+                            ShbpeSpbnIterbtor sr)
     {
         Object context = null;
-        int abox[] = new int[4];
+        int bbox[] = new int[4];
         try {
-            sr.getPathBox(abox);
-            Rectangle devR = new Rectangle(abox[0], abox[1],
-                                           abox[2] - abox[0],
-                                           abox[3] - abox[1]);
-            clipRegion.clipBoxToBounds(abox);
-            if (abox[0] >= abox[2] || abox[1] >= abox[3]) {
+            sr.getPbthBox(bbox);
+            Rectbngle devR = new Rectbngle(bbox[0], bbox[1],
+                                           bbox[2] - bbox[0],
+                                           bbox[3] - bbox[1]);
+            clipRegion.clipBoxToBounds(bbox);
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
                 return;
             }
-            sr.intersectClipBox(abox[0], abox[1], abox[2], abox[3]);
-            context = startSequence(sg, s, devR, abox);
+            sr.intersectClipBox(bbox[0], bbox[1], bbox[2], bbox[3]);
+            context = stbrtSequence(sg, s, devR, bbox);
 
-            spanClipLoop(context, sr, clipRegion, abox);
+            spbnClipLoop(context, sr, clipRegion, bbox);
 
-        } finally {
+        } finblly {
             if (context != null) {
                 endSequence(context);
             }
         }
     }
 
-    public void spanClipLoop(Object ctx, SpanIterator sr,
-                             Region r, int[] abox) {
-        if (!r.isRectangular()) {
+    public void spbnClipLoop(Object ctx, SpbnIterbtor sr,
+                             Region r, int[] bbox) {
+        if (!r.isRectbngulbr()) {
             sr = r.filter(sr);
         }
-        while (sr.nextSpan(abox)) {
-            int x = abox[0];
-            int y = abox[1];
-            renderBox(ctx, x, y, abox[2] - x, abox[3] - y);
+        while (sr.nextSpbn(bbox)) {
+            int x = bbox[0];
+            int y = bbox[1];
+            renderBox(ctx, x, y, bbox[2] - x, bbox[3] - y);
         }
     }
 }

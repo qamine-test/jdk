@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "CDataTransferer.h"
-#import "ThreadUtilities.h"
+#import "CDbtbTrbnsferer.h"
+#import "ThrebdUtilities.h"
 #import "jni_util.h" 
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-@interface CClipboard : NSObject { }
-@property NSInteger changeCount;
-@property jobject clipboardOwner;
+@interfbce CClipbobrd : NSObject { }
+@property NSInteger chbngeCount;
+@property jobject clipbobrdOwner;
 
-+ (CClipboard*)sharedClipboard;
-- (void)declareTypes:(NSArray *)types withOwner:(jobject)owner jniEnv:(JNIEnv*)env;
-- (void)checkPasteboard:(id)sender;
++ (CClipbobrd*)shbredClipbobrd;
+- (void)declbreTypes:(NSArrby *)types withOwner:(jobject)owner jniEnv:(JNIEnv*)env;
+- (void)checkPbstebobrd:(id)sender;
 @end
 
-@implementation CClipboard
-@synthesize changeCount = _changeCount;
-@synthesize clipboardOwner = _clipboardOwner;
+@implementbtion CClipbobrd
+@synthesize chbngeCount = _chbngeCount;
+@synthesize clipbobrdOwner = _clipbobrdOwner;
 
-// Clipboard creation is synchronized at the Java level
-+ (CClipboard*)sharedClipboard {
-    static CClipboard* sClipboard = nil;
-    if (sClipboard == nil) {
-        sClipboard = [[CClipboard alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:sClipboard selector: @selector(checkPasteboard:)
-                                                     name: NSApplicationDidBecomeActiveNotification
+// Clipbobrd crebtion is synchronized bt the Jbvb level
++ (CClipbobrd*)shbredClipbobrd {
+    stbtic CClipbobrd* sClipbobrd = nil;
+    if (sClipbobrd == nil) {
+        sClipbobrd = [[CClipbobrd blloc] init];
+        [[NSNotificbtionCenter defbultCenter] bddObserver:sClipbobrd selector: @selector(checkPbstebobrd:)
+                                                     nbme: NSApplicbtionDidBecomeActiveNotificbtion
                                                    object: nil];
     }
 
-    return sClipboard;
+    return sClipbobrd;
 }
 
 - (id)init {
     if (self = [super init]) {
-        self.changeCount = [[NSPasteboard generalPasteboard] changeCount];
+        self.chbngeCount = [[NSPbstebobrd generblPbstebobrd] chbngeCount];
     }
     return self;
 }
 
-- (void)declareTypes:(NSArray*)types withOwner:(jobject)owner jniEnv:(JNIEnv*)env {
+- (void)declbreTypes:(NSArrby*)types withOwner:(jobject)owner jniEnv:(JNIEnv*)env {
     @synchronized(self) {
         if (owner != NULL) {
-            if (self.clipboardOwner != NULL) {
-                JNFDeleteGlobalRef(env, self.clipboardOwner);
+            if (self.clipbobrdOwner != NULL) {
+                JNFDeleteGlobblRef(env, self.clipbobrdOwner);
             }
-            self.clipboardOwner = JNFNewGlobalRef(env, owner);
+            self.clipbobrdOwner = JNFNewGlobblRef(env, owner);
         }
     }
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^() {
-        self.changeCount = [[NSPasteboard generalPasteboard] declareTypes:types owner:self];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^() {
+        self.chbngeCount = [[NSPbstebobrd generblPbstebobrd] declbreTypes:types owner:self];
     }];
 }
 
-- (void)checkPasteboard:(id)sender {
+- (void)checkPbstebobrd:(id)sender {
 
-    // This is called via NSApplicationDidBecomeActiveNotification.
+    // This is cblled vib NSApplicbtionDidBecomeActiveNotificbtion.
     
-    // If the change count on the general pasteboard is different than when we set it
-    // someone else put data on the clipboard.  That means the current owner lost ownership.
+    // If the chbnge count on the generbl pbstebobrd is different thbn when we set it
+    // someone else put dbtb on the clipbobrd.  Thbt mebns the current owner lost ownership.
     
-    NSInteger newChangeCount = [[NSPasteboard generalPasteboard] changeCount];
+    NSInteger newChbngeCount = [[NSPbstebobrd generblPbstebobrd] chbngeCount];
 
-    if (self.changeCount != newChangeCount) {
-        self.changeCount = newChangeCount;
+    if (self.chbngeCount != newChbngeCount) {
+        self.chbngeCount = newChbngeCount;
 
-        // Notify that the content might be changed
-        static JNF_CLASS_CACHE(jc_CClipboard, "sun/lwawt/macosx/CClipboard");
-        static JNF_STATIC_MEMBER_CACHE(jm_contentChanged, jc_CClipboard, "notifyChanged", "()V");
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        JNFCallStaticVoidMethod(env, jm_contentChanged);
+        // Notify thbt the content might be chbnged
+        stbtic JNF_CLASS_CACHE(jc_CClipbobrd, "sun/lwbwt/mbcosx/CClipbobrd");
+        stbtic JNF_STATIC_MEMBER_CACHE(jm_contentChbnged, jc_CClipbobrd, "notifyChbnged", "()V");
+        JNIEnv *env = [ThrebdUtilities getJNIEnv];
+        JNFCbllStbticVoidMethod(env, jm_contentChbnged);
 
-        // If we have a Java pasteboard owner, tell it that it doesn't own the pasteboard anymore.
-        static JNF_MEMBER_CACHE(jm_lostOwnership, jc_CClipboard, "notifyLostOwnership", "()V");
+        // If we hbve b Jbvb pbstebobrd owner, tell it thbt it doesn't own the pbstebobrd bnymore.
+        stbtic JNF_MEMBER_CACHE(jm_lostOwnership, jc_CClipbobrd, "notifyLostOwnership", "()V");
         @synchronized(self) {
-            if (self.clipboardOwner) {
-                JNIEnv *env = [ThreadUtilities getJNIEnv];
-                JNFCallVoidMethod(env, self.clipboardOwner, jm_lostOwnership); // AWT_THREADING Safe (event)
-                JNFDeleteGlobalRef(env, self.clipboardOwner);
-                self.clipboardOwner = NULL;
+            if (self.clipbobrdOwner) {
+                JNIEnv *env = [ThrebdUtilities getJNIEnv];
+                JNFCbllVoidMethod(env, self.clipbobrdOwner, jm_lostOwnership); // AWT_THREADING Sbfe (event)
+                JNFDeleteGlobblRef(env, self.clipbobrdOwner);
+                self.clipbobrdOwner = NULL;
             }
         }
     }
@@ -110,168 +110,168 @@
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CClipboard
- * Method:    declareTypes
- * Signature: ([JLsun/awt/datatransfer/SunClipboard;)V
+ * Clbss:     sun_lwbwt_mbcosx_CClipbobrd
+ * Method:    declbreTypes
+ * Signbture: ([JLsun/bwt/dbtbtrbnsfer/SunClipbobrd;)V
 */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CClipboard_declareTypes
-(JNIEnv *env, jobject inObject, jlongArray inTypes, jobject inJavaClip)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CClipbobrd_declbreTypes
+(JNIEnv *env, jobject inObject, jlongArrby inTypes, jobject inJbvbClip)
 {
 JNF_COCOA_ENTER(env);
 
     jint i;
-    jint nElements = (*env)->GetArrayLength(env, inTypes);
-    NSMutableArray *formatArray = [NSMutableArray arrayWithCapacity:nElements];
-    jlong *elements = (*env)->GetPrimitiveArrayCritical(env, inTypes, NULL);
+    jint nElements = (*env)->GetArrbyLength(env, inTypes);
+    NSMutbbleArrby *formbtArrby = [NSMutbbleArrby brrbyWithCbpbcity:nElements];
+    jlong *elements = (*env)->GetPrimitiveArrbyCriticbl(env, inTypes, NULL);
 
     for (i = 0; i < nElements; i++) {
-        NSString *pbFormat = formatForIndex(elements[i]);
-        if (pbFormat)
-            [formatArray addObject:pbFormat];
+        NSString *pbFormbt = formbtForIndex(elements[i]);
+        if (pbFormbt)
+            [formbtArrby bddObject:pbFormbt];
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, inTypes, elements, JNI_ABORT);
-    [[CClipboard sharedClipboard] declareTypes:formatArray withOwner:inJavaClip jniEnv:env];
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, inTypes, elements, JNI_ABORT);
+    [[CClipbobrd shbredClipbobrd] declbreTypes:formbtArrby withOwner:inJbvbClip jniEnv:env];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CClipboard
- * Method:    setData
- * Signature: ([BJ)V
+ * Clbss:     sun_lwbwt_mbcosx_CClipbobrd
+ * Method:    setDbtb
+ * Signbture: ([BJ)V
 */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CClipboard_setData
-(JNIEnv *env, jobject inObject, jbyteArray inBytes, jlong inFormat)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CClipbobrd_setDbtb
+(JNIEnv *env, jobject inObject, jbyteArrby inBytes, jlong inFormbt)
 {
     if (inBytes == NULL) {
         return;
     }
 
 JNF_COCOA_ENTER(env);
-    jint nBytes = (*env)->GetArrayLength(env, inBytes);
-    jbyte *rawBytes = (*env)->GetPrimitiveArrayCritical(env, inBytes, NULL);
-    CHECK_NULL(rawBytes);
-    NSData *bytesAsData = [NSData dataWithBytes:rawBytes length:nBytes];
-    (*env)->ReleasePrimitiveArrayCritical(env, inBytes, rawBytes, JNI_ABORT);
-    NSString *format = formatForIndex(inFormat);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^() {
-        [[NSPasteboard generalPasteboard] setData:bytesAsData forType:format];
+    jint nBytes = (*env)->GetArrbyLength(env, inBytes);
+    jbyte *rbwBytes = (*env)->GetPrimitiveArrbyCriticbl(env, inBytes, NULL);
+    CHECK_NULL(rbwBytes);
+    NSDbtb *bytesAsDbtb = [NSDbtb dbtbWithBytes:rbwBytes length:nBytes];
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, inBytes, rbwBytes, JNI_ABORT);
+    NSString *formbt = formbtForIndex(inFormbt);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^() {
+        [[NSPbstebobrd generblPbstebobrd] setDbtb:bytesAsDbtb forType:formbt];
     }];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CClipboard
- * Method:    getClipboardFormats
- * Signature: (J)[J
+ * Clbss:     sun_lwbwt_mbcosx_CClipbobrd
+ * Method:    getClipbobrdFormbts
+ * Signbture: (J)[J
      */
-JNIEXPORT jlongArray JNICALL Java_sun_lwawt_macosx_CClipboard_getClipboardFormats
+JNIEXPORT jlongArrby JNICALL Jbvb_sun_lwbwt_mbcosx_CClipbobrd_getClipbobrdFormbts
 (JNIEnv *env, jobject inObject)
 {
-    jlongArray returnValue = NULL;
+    jlongArrby returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    __block NSArray* dataTypes;
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^() {
-        dataTypes = [[[NSPasteboard generalPasteboard] types] retain];
+    __block NSArrby* dbtbTypes;
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^() {
+        dbtbTypes = [[[NSPbstebobrd generblPbstebobrd] types] retbin];
     }];
-    [dataTypes autorelease];
+    [dbtbTypes butorelebse];
     
-    NSUInteger nFormats = [dataTypes count];
-    NSUInteger knownFormats = 0;
+    NSUInteger nFormbts = [dbtbTypes count];
+    NSUInteger knownFormbts = 0;
     NSUInteger i;
 
-    // There can be any number of formats on the general pasteboard.  Find out which ones
-    // we know about (i.e., live in the flavormap.properties).
-    for (i = 0; i < nFormats; i++) {
-        NSString *format = (NSString *)[dataTypes objectAtIndex:i];
-        if (indexForFormat(format) != -1)
-            knownFormats++;
+    // There cbn be bny number of formbts on the generbl pbstebobrd.  Find out which ones
+    // we know bbout (i.e., live in the flbvormbp.properties).
+    for (i = 0; i < nFormbts; i++) {
+        NSString *formbt = (NSString *)[dbtbTypes objectAtIndex:i];
+        if (indexForFormbt(formbt) != -1)
+            knownFormbts++;
     }
 
-    returnValue = (*env)->NewLongArray(env, knownFormats);
-    if (returnValue == NULL) {
+    returnVblue = (*env)->NewLongArrby(env, knownFormbts);
+    if (returnVblue == NULL) {
         return NULL;
     }
 
-    if (knownFormats == 0) {
-        return returnValue;
+    if (knownFormbts == 0) {
+        return returnVblue;
     }
 
-    // Now go back and map the formats we found back to Java indexes.
-    jboolean isCopy;
-    jlong *lFormats = (*env)->GetLongArrayElements(env, returnValue, &isCopy);
-    jlong *saveFormats = lFormats;
+    // Now go bbck bnd mbp the formbts we found bbck to Jbvb indexes.
+    jboolebn isCopy;
+    jlong *lFormbts = (*env)->GetLongArrbyElements(env, returnVblue, &isCopy);
+    jlong *sbveFormbts = lFormbts;
 
-    for (i = 0; i < nFormats; i++) {
-        NSString *format = (NSString *)[dataTypes objectAtIndex:i];
-        jlong index = indexForFormat(format);
+    for (i = 0; i < nFormbts; i++) {
+        NSString *formbt = (NSString *)[dbtbTypes objectAtIndex:i];
+        jlong index = indexForFormbt(formbt);
 
         if (index != -1) {
-            *lFormats = index;
-            lFormats++;
+            *lFormbts = index;
+            lFormbts++;
         }
     }
 
-    (*env)->ReleaseLongArrayElements(env, returnValue, saveFormats, JNI_COMMIT);
+    (*env)->RelebseLongArrbyElements(env, returnVblue, sbveFormbts, JNI_COMMIT);
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CClipboard
- * Method:    getClipboardData
- * Signature: (JJ)[B
+ * Clbss:     sun_lwbwt_mbcosx_CClipbobrd
+ * Method:    getClipbobrdDbtb
+ * Signbture: (JJ)[B
      */
-JNIEXPORT jbyteArray JNICALL Java_sun_lwawt_macosx_CClipboard_getClipboardData
-(JNIEnv *env, jobject inObject, jlong format)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_lwbwt_mbcosx_CClipbobrd_getClipbobrdDbtb
+(JNIEnv *env, jobject inObject, jlong formbt)
 {
-    jbyteArray returnValue = NULL;
+    jbyteArrby returnVblue = NULL;
 
-    // Note that this routine makes no attempt to interpret the data, since we're returning
-    // a byte array back to Java.  CDataTransferer will do that if necessary.
+    // Note thbt this routine mbkes no bttempt to interpret the dbtb, since we're returning
+    // b byte brrby bbck to Jbvb.  CDbtbTrbnsferer will do thbt if necessbry.
 JNF_COCOA_ENTER(env);
 
-    NSString *formatAsString = formatForIndex(format);
-    __block NSData* clipData;
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^() {
-        clipData = [[[NSPasteboard generalPasteboard] dataForType:formatAsString] retain];
+    NSString *formbtAsString = formbtForIndex(formbt);
+    __block NSDbtb* clipDbtb;
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^() {
+        clipDbtb = [[[NSPbstebobrd generblPbstebobrd] dbtbForType:formbtAsString] retbin];
     }];
     
-    if (clipData == NULL) {
-        [JNFException raise:env as:"java/io/IOException" reason:"Font transform has NaN position"];
+    if (clipDbtb == NULL) {
+        [JNFException rbise:env bs:"jbvb/io/IOException" rebson:"Font trbnsform hbs NbN position"];
         return NULL;
     } else {
-        [clipData autorelease];
+        [clipDbtb butorelebse];
     }
 
-    NSUInteger dataSize = [clipData length];
-    returnValue = (*env)->NewByteArray(env, dataSize);
-    if (returnValue == NULL) {
+    NSUInteger dbtbSize = [clipDbtb length];
+    returnVblue = (*env)->NewByteArrby(env, dbtbSize);
+    if (returnVblue == NULL) {
         return NULL;
     }
 
-    if (dataSize != 0) {
-        const void *dataBuffer = [clipData bytes];
-        (*env)->SetByteArrayRegion(env, returnValue, 0, dataSize, (jbyte *)dataBuffer);
+    if (dbtbSize != 0) {
+        const void *dbtbBuffer = [clipDbtb bytes];
+        (*env)->SetByteArrbyRegion(env, returnVblue, 0, dbtbSize, (jbyte *)dbtbBuffer);
     }
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CClipboard
- * Method:    checkPasteboard
- * Signature: ()V
+ * Clbss:     sun_lwbwt_mbcosx_CClipbobrd
+ * Method:    checkPbstebobrd
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CClipboard_checkPasteboard
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CClipbobrd_checkPbstebobrd
 (JNIEnv *env, jobject inObject )
 {
 JNF_COCOA_ENTER(env);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [[CClipboard sharedClipboard] checkPasteboard:nil];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        [[CClipbobrd shbredClipbobrd] checkPbstebobrd:nil];
     }];
         
 JNF_COCOA_EXIT(env);

@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import sun.awt.FontDescriptor;
-import sun.awt.FontConfiguration;
-import sun.font.SunFontManager;
-import java.nio.charset.*;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import sun.bwt.FontDescriptor;
+import sun.bwt.FontConfigurbtion;
+import sun.font.SunFontMbnbger;
+import jbvb.nio.chbrset.*;
 
-public final class WFontConfiguration extends FontConfiguration {
+public finbl clbss WFontConfigurbtion extends FontConfigurbtion {
 
-    // whether compatibility fallbacks for TimesRoman and Co. are used
-    private boolean useCompatibilityFallbacks;
+    // whether compbtibility fbllbbcks for TimesRombn bnd Co. bre used
+    privbte boolebn useCompbtibilityFbllbbcks;
 
-    public WFontConfiguration(SunFontManager fm) {
+    public WFontConfigurbtion(SunFontMbnbger fm) {
         super(fm);
-        useCompatibilityFallbacks = "windows-1252".equals(encoding);
-        initTables(encoding);
+        useCompbtibilityFbllbbcks = "windows-1252".equbls(encoding);
+        initTbbles(encoding);
     }
 
-    public WFontConfiguration(SunFontManager fm,
-                              boolean preferLocaleFonts,
-                              boolean preferPropFonts) {
-        super(fm, preferLocaleFonts, preferPropFonts);
-        useCompatibilityFallbacks = "windows-1252".equals(encoding);
+    public WFontConfigurbtion(SunFontMbnbger fm,
+                              boolebn preferLocbleFonts,
+                              boolebn preferPropFonts) {
+        super(fm, preferLocbleFonts, preferPropFonts);
+        useCompbtibilityFbllbbcks = "windows-1252".equbls(encoding);
     }
 
     @Override
-    protected void initReorderMap() {
-        if (encoding.equalsIgnoreCase("windows-31j")) {
-            localeMap = new Hashtable<>();
-            /* Substitute Mincho for Gothic in this one case.
-             * Note the windows fontconfig files already contain the mapping:
-             * filename.MS_Mincho=MSMINCHO.TTC
-             * which isn't essential to this usage but avoids a call
-             * to loadfonts in the event MSMINCHO.TTC has not otherwise
-             * been opened and its fonts loaded.
-             * Also note this usage is only enabled if a private flag is set.
+    protected void initReorderMbp() {
+        if (encoding.equblsIgnoreCbse("windows-31j")) {
+            locbleMbp = new Hbshtbble<>();
+            /* Substitute Mincho for Gothic in this one cbse.
+             * Note the windows fontconfig files blrebdy contbin the mbpping:
+             * filenbme.MS_Mincho=MSMINCHO.TTC
+             * which isn't essentibl to this usbge but bvoids b cbll
+             * to lobdfonts in the event MSMINCHO.TTC hbs not otherwise
+             * been opened bnd its fonts lobded.
+             * Also note this usbge is only enbbled if b privbte flbg is set.
              */
-            localeMap.put("dialoginput.plain.japanese", "MS Mincho");
-            localeMap.put("dialoginput.bold.japanese", "MS Mincho");
-            localeMap.put("dialoginput.italic.japanese", "MS Mincho");
-            localeMap.put("dialoginput.bolditalic.japanese", "MS Mincho");
+            locbleMbp.put("dibloginput.plbin.jbpbnese", "MS Mincho");
+            locbleMbp.put("dibloginput.bold.jbpbnese", "MS Mincho");
+            locbleMbp.put("dibloginput.itblic.jbpbnese", "MS Mincho");
+            locbleMbp.put("dibloginput.bolditblic.jbpbnese", "MS Mincho");
         }
-        reorderMap = new HashMap<>();
-        reorderMap.put("UTF-8.hi", "devanagari");
-        reorderMap.put("windows-1255", "hebrew");
-        reorderMap.put("x-windows-874", "thai");
-        reorderMap.put("windows-31j", "japanese");
-        reorderMap.put("x-windows-949", "korean");
-        reorderMap.put("GBK", "chinese-ms936");
-        reorderMap.put("GB18030", "chinese-gb18030");
-        reorderMap.put("x-windows-950", "chinese-ms950");
-        reorderMap.put("x-MS950-HKSCS", split("chinese-ms950,chinese-hkscs"));
-//      reorderMap.put("windows-1252", "alphabetic");
+        reorderMbp = new HbshMbp<>();
+        reorderMbp.put("UTF-8.hi", "devbnbgbri");
+        reorderMbp.put("windows-1255", "hebrew");
+        reorderMbp.put("x-windows-874", "thbi");
+        reorderMbp.put("windows-31j", "jbpbnese");
+        reorderMbp.put("x-windows-949", "korebn");
+        reorderMbp.put("GBK", "chinese-ms936");
+        reorderMbp.put("GB18030", "chinese-gb18030");
+        reorderMbp.put("x-windows-950", "chinese-ms950");
+        reorderMbp.put("x-MS950-HKSCS", split("chinese-ms950,chinese-hkscs"));
+//      reorderMbp.put("windows-1252", "blphbbetic");
     }
 
     @Override
-    protected void setOsNameAndVersion(){
-        super.setOsNameAndVersion();
-        if (osName.startsWith("Windows")){
+    protected void setOsNbmeAndVersion(){
+        super.setOsNbmeAndVersion();
+        if (osNbme.stbrtsWith("Windows")){
             int p, q;
-            p = osName.indexOf(' ');
+            p = osNbme.indexOf(' ');
             if (p == -1){
-                osName = null;
+                osNbme = null;
             }
             else{
-                q = osName.indexOf(' ', p + 1);
+                q = osNbme.indexOf(' ', p + 1);
                 if (q == -1){
-                    osName = osName.substring(p + 1);
+                    osNbme = osNbme.substring(p + 1);
                 }
                 else{
-                    osName = osName.substring(p + 1, q);
+                    osNbme = osNbme.substring(p + 1, q);
                 }
             }
             osVersion = null;
         }
     }
 
-    // overrides FontConfiguration.getFallbackFamilyName
+    // overrides FontConfigurbtion.getFbllbbckFbmilyNbme
     @Override
-    public String getFallbackFamilyName(String fontName, String defaultFallback) {
-        // maintain compatibility with old font.properties files, where
-        // default file had aliases for timesroman & Co, while others didn't.
-        if (useCompatibilityFallbacks) {
-            String compatibilityName = getCompatibilityFamilyName(fontName);
-            if (compatibilityName != null) {
-                return compatibilityName;
+    public String getFbllbbckFbmilyNbme(String fontNbme, String defbultFbllbbck) {
+        // mbintbin compbtibility with old font.properties files, where
+        // defbult file hbd blibses for timesrombn & Co, while others didn't.
+        if (useCompbtibilityFbllbbcks) {
+            String compbtibilityNbme = getCompbtibilityFbmilyNbme(fontNbme);
+            if (compbtibilityNbme != null) {
+                return compbtibilityNbme;
             }
         }
-        return defaultFallback;
+        return defbultFbllbbck;
     }
 
     @Override
-    protected String makeAWTFontName(String platformFontName, String characterSubsetName) {
-        String windowsCharset = subsetCharsetMap.get(characterSubsetName);
-        if (windowsCharset == null) {
-            windowsCharset = "DEFAULT_CHARSET";
+    protected String mbkeAWTFontNbme(String plbtformFontNbme, String chbrbcterSubsetNbme) {
+        String windowsChbrset = subsetChbrsetMbp.get(chbrbcterSubsetNbme);
+        if (windowsChbrset == null) {
+            windowsChbrset = "DEFAULT_CHARSET";
         }
-        return platformFontName + "," + windowsCharset;
+        return plbtformFontNbme + "," + windowsChbrset;
     }
 
     @Override
-    protected String getEncoding(String awtFontName, String characterSubsetName) {
-        String encoding = subsetEncodingMap.get(characterSubsetName);
+    protected String getEncoding(String bwtFontNbme, String chbrbcterSubsetNbme) {
+        String encoding = subsetEncodingMbp.get(chbrbcterSubsetNbme);
         if (encoding == null) {
-            encoding = "default";
+            encoding = "defbult";
         }
         return encoding;
     }
 
     @Override
-    protected Charset getDefaultFontCharset(String fontName) {
-        return new WDefaultFontCharset(fontName);
+    protected Chbrset getDefbultFontChbrset(String fontNbme) {
+        return new WDefbultFontChbrset(fontNbme);
     }
 
     @Override
-    public String getFaceNameFromComponentFontName(String componentFontName) {
-        // for Windows, the platform name is the face name
-        return componentFontName;
+    public String getFbceNbmeFromComponentFontNbme(String componentFontNbme) {
+        // for Windows, the plbtform nbme is the fbce nbme
+        return componentFontNbme;
     }
 
     @Override
-    protected String getFileNameFromComponentFontName(String componentFontName) {
-        return getFileNameFromPlatformName(componentFontName);
+    protected String getFileNbmeFromComponentFontNbme(String componentFontNbme) {
+        return getFileNbmeFromPlbtformNbme(componentFontNbme);
     }
 
     /**
-     * Returns the component font name (face name plus charset) of the
-     * font that should be used for AWT text components. May return null.
+     * Returns the component font nbme (fbce nbme plus chbrset) of the
+     * font thbt should be used for AWT text components. Mby return null.
      */
-    public String getTextComponentFontName(String familyName, int style) {
-        FontDescriptor[] fontDescriptors = getFontDescriptors(familyName, style);
-        String fontName = findFontWithCharset(fontDescriptors, textInputCharset);
-        if (fontName == null) {
-            fontName = findFontWithCharset(fontDescriptors, "DEFAULT_CHARSET");
+    public String getTextComponentFontNbme(String fbmilyNbme, int style) {
+        FontDescriptor[] fontDescriptors = getFontDescriptors(fbmilyNbme, style);
+        String fontNbme = findFontWithChbrset(fontDescriptors, textInputChbrset);
+        if (fontNbme == null) {
+            fontNbme = findFontWithChbrset(fontDescriptors, "DEFAULT_CHARSET");
         }
-        return fontName;
+        return fontNbme;
     }
 
-    private String findFontWithCharset(FontDescriptor[] fontDescriptors, String charset) {
-        String fontName = null;
+    privbte String findFontWithChbrset(FontDescriptor[] fontDescriptors, String chbrset) {
+        String fontNbme = null;
         for (int i = 0; i < fontDescriptors.length; i++) {
-            String componentFontName = fontDescriptors[i].getNativeName();
-            if (componentFontName.endsWith(charset)) {
-                fontName = componentFontName;
+            String componentFontNbme = fontDescriptors[i].getNbtiveNbme();
+            if (componentFontNbme.endsWith(chbrset)) {
+                fontNbme = componentFontNbme;
             }
         }
-        return fontName;
+        return fontNbme;
     }
 
-    private static HashMap<String, String> subsetCharsetMap = new HashMap<>();
-    private static HashMap<String, String> subsetEncodingMap = new HashMap<>();
-    private static String textInputCharset;
+    privbte stbtic HbshMbp<String, String> subsetChbrsetMbp = new HbshMbp<>();
+    privbte stbtic HbshMbp<String, String> subsetEncodingMbp = new HbshMbp<>();
+    privbte stbtic String textInputChbrset;
 
-    private void initTables(String defaultEncoding) {
-        subsetCharsetMap.put("alphabetic", "ANSI_CHARSET");
-        subsetCharsetMap.put("alphabetic/1252", "ANSI_CHARSET");
-        subsetCharsetMap.put("alphabetic/default", "DEFAULT_CHARSET");
-        subsetCharsetMap.put("arabic", "ARABIC_CHARSET");
-        subsetCharsetMap.put("chinese-ms936", "GB2312_CHARSET");
-        subsetCharsetMap.put("chinese-gb18030", "GB2312_CHARSET");
-        subsetCharsetMap.put("chinese-ms950", "CHINESEBIG5_CHARSET");
-        subsetCharsetMap.put("chinese-hkscs", "CHINESEBIG5_CHARSET");
-        subsetCharsetMap.put("cyrillic", "RUSSIAN_CHARSET");
-        subsetCharsetMap.put("devanagari", "DEFAULT_CHARSET");
-        subsetCharsetMap.put("dingbats", "SYMBOL_CHARSET");
-        subsetCharsetMap.put("greek", "GREEK_CHARSET");
-        subsetCharsetMap.put("hebrew", "HEBREW_CHARSET");
-        subsetCharsetMap.put("japanese", "SHIFTJIS_CHARSET");
-        subsetCharsetMap.put("korean", "HANGEUL_CHARSET");
-        subsetCharsetMap.put("latin", "ANSI_CHARSET");
-        subsetCharsetMap.put("symbol", "SYMBOL_CHARSET");
-        subsetCharsetMap.put("thai", "THAI_CHARSET");
+    privbte void initTbbles(String defbultEncoding) {
+        subsetChbrsetMbp.put("blphbbetic", "ANSI_CHARSET");
+        subsetChbrsetMbp.put("blphbbetic/1252", "ANSI_CHARSET");
+        subsetChbrsetMbp.put("blphbbetic/defbult", "DEFAULT_CHARSET");
+        subsetChbrsetMbp.put("brbbic", "ARABIC_CHARSET");
+        subsetChbrsetMbp.put("chinese-ms936", "GB2312_CHARSET");
+        subsetChbrsetMbp.put("chinese-gb18030", "GB2312_CHARSET");
+        subsetChbrsetMbp.put("chinese-ms950", "CHINESEBIG5_CHARSET");
+        subsetChbrsetMbp.put("chinese-hkscs", "CHINESEBIG5_CHARSET");
+        subsetChbrsetMbp.put("cyrillic", "RUSSIAN_CHARSET");
+        subsetChbrsetMbp.put("devbnbgbri", "DEFAULT_CHARSET");
+        subsetChbrsetMbp.put("dingbbts", "SYMBOL_CHARSET");
+        subsetChbrsetMbp.put("greek", "GREEK_CHARSET");
+        subsetChbrsetMbp.put("hebrew", "HEBREW_CHARSET");
+        subsetChbrsetMbp.put("jbpbnese", "SHIFTJIS_CHARSET");
+        subsetChbrsetMbp.put("korebn", "HANGEUL_CHARSET");
+        subsetChbrsetMbp.put("lbtin", "ANSI_CHARSET");
+        subsetChbrsetMbp.put("symbol", "SYMBOL_CHARSET");
+        subsetChbrsetMbp.put("thbi", "THAI_CHARSET");
 
-        subsetEncodingMap.put("alphabetic", "default");
-        subsetEncodingMap.put("alphabetic/1252", "windows-1252");
-        subsetEncodingMap.put("alphabetic/default", defaultEncoding);
-        subsetEncodingMap.put("arabic", "windows-1256");
-        subsetEncodingMap.put("chinese-ms936", "GBK");
-        subsetEncodingMap.put("chinese-gb18030", "GB18030");
-        if ("x-MS950-HKSCS".equals(defaultEncoding)) {
-            subsetEncodingMap.put("chinese-ms950", "x-MS950-HKSCS");
+        subsetEncodingMbp.put("blphbbetic", "defbult");
+        subsetEncodingMbp.put("blphbbetic/1252", "windows-1252");
+        subsetEncodingMbp.put("blphbbetic/defbult", defbultEncoding);
+        subsetEncodingMbp.put("brbbic", "windows-1256");
+        subsetEncodingMbp.put("chinese-ms936", "GBK");
+        subsetEncodingMbp.put("chinese-gb18030", "GB18030");
+        if ("x-MS950-HKSCS".equbls(defbultEncoding)) {
+            subsetEncodingMbp.put("chinese-ms950", "x-MS950-HKSCS");
         } else {
-            subsetEncodingMap.put("chinese-ms950", "x-windows-950"); //MS950
+            subsetEncodingMbp.put("chinese-ms950", "x-windows-950"); //MS950
         }
-        subsetEncodingMap.put("chinese-hkscs", "sun.awt.HKSCS");
-        subsetEncodingMap.put("cyrillic", "windows-1251");
-        subsetEncodingMap.put("devanagari", "UTF-16LE");
-        subsetEncodingMap.put("dingbats", "sun.awt.windows.WingDings");
-        subsetEncodingMap.put("greek", "windows-1253");
-        subsetEncodingMap.put("hebrew", "windows-1255");
-        subsetEncodingMap.put("japanese", "windows-31j");
-        subsetEncodingMap.put("korean", "x-windows-949");
-        subsetEncodingMap.put("latin", "windows-1252");
-        subsetEncodingMap.put("symbol", "sun.awt.Symbol");
-        subsetEncodingMap.put("thai", "x-windows-874");
+        subsetEncodingMbp.put("chinese-hkscs", "sun.bwt.HKSCS");
+        subsetEncodingMbp.put("cyrillic", "windows-1251");
+        subsetEncodingMbp.put("devbnbgbri", "UTF-16LE");
+        subsetEncodingMbp.put("dingbbts", "sun.bwt.windows.WingDings");
+        subsetEncodingMbp.put("greek", "windows-1253");
+        subsetEncodingMbp.put("hebrew", "windows-1255");
+        subsetEncodingMbp.put("jbpbnese", "windows-31j");
+        subsetEncodingMbp.put("korebn", "x-windows-949");
+        subsetEncodingMbp.put("lbtin", "windows-1252");
+        subsetEncodingMbp.put("symbol", "sun.bwt.Symbol");
+        subsetEncodingMbp.put("thbi", "x-windows-874");
 
-        if ("windows-1256".equals(defaultEncoding)) {
-            textInputCharset = "ARABIC_CHARSET";
-        } else if ("GBK".equals(defaultEncoding)) {
-            textInputCharset = "GB2312_CHARSET";
-        } else if ("GB18030".equals(defaultEncoding)) {
-            textInputCharset = "GB2312_CHARSET";
-        } else if ("x-windows-950".equals(defaultEncoding)) {
-            textInputCharset = "CHINESEBIG5_CHARSET";
-        } else if ("x-MS950-HKSCS".equals(defaultEncoding)) {
-            textInputCharset = "CHINESEBIG5_CHARSET";
-        } else if ("windows-1251".equals(defaultEncoding)) {
-            textInputCharset = "RUSSIAN_CHARSET";
-        } else if ("UTF-8".equals(defaultEncoding)) {
-            textInputCharset = "DEFAULT_CHARSET";
-        } else if ("windows-1253".equals(defaultEncoding)) {
-            textInputCharset = "GREEK_CHARSET";
-        } else if ("windows-1255".equals(defaultEncoding)) {
-            textInputCharset = "HEBREW_CHARSET";
-        } else if ("windows-31j".equals(defaultEncoding)) {
-            textInputCharset = "SHIFTJIS_CHARSET";
-        } else if ("x-windows-949".equals(defaultEncoding)) {
-            textInputCharset = "HANGEUL_CHARSET";
-        } else if ("x-windows-874".equals(defaultEncoding)) {
-            textInputCharset = "THAI_CHARSET";
+        if ("windows-1256".equbls(defbultEncoding)) {
+            textInputChbrset = "ARABIC_CHARSET";
+        } else if ("GBK".equbls(defbultEncoding)) {
+            textInputChbrset = "GB2312_CHARSET";
+        } else if ("GB18030".equbls(defbultEncoding)) {
+            textInputChbrset = "GB2312_CHARSET";
+        } else if ("x-windows-950".equbls(defbultEncoding)) {
+            textInputChbrset = "CHINESEBIG5_CHARSET";
+        } else if ("x-MS950-HKSCS".equbls(defbultEncoding)) {
+            textInputChbrset = "CHINESEBIG5_CHARSET";
+        } else if ("windows-1251".equbls(defbultEncoding)) {
+            textInputChbrset = "RUSSIAN_CHARSET";
+        } else if ("UTF-8".equbls(defbultEncoding)) {
+            textInputChbrset = "DEFAULT_CHARSET";
+        } else if ("windows-1253".equbls(defbultEncoding)) {
+            textInputChbrset = "GREEK_CHARSET";
+        } else if ("windows-1255".equbls(defbultEncoding)) {
+            textInputChbrset = "HEBREW_CHARSET";
+        } else if ("windows-31j".equbls(defbultEncoding)) {
+            textInputChbrset = "SHIFTJIS_CHARSET";
+        } else if ("x-windows-949".equbls(defbultEncoding)) {
+            textInputChbrset = "HANGEUL_CHARSET";
+        } else if ("x-windows-874".equbls(defbultEncoding)) {
+            textInputChbrset = "THAI_CHARSET";
         } else {
-            textInputCharset = "DEFAULT_CHARSET";
+            textInputChbrset = "DEFAULT_CHARSET";
         }
     }
 }

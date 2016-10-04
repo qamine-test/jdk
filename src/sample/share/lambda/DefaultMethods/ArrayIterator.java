@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,66 +29,66 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
 
 /**
- * The code sample illustrates the usage of default methods in the JDK 8. Most
- * implementations of {@link Iterator} don't provide a useful
- * {@link Iterator#remove()} method, however,
- * they still have to implement this method to throw
- * an UnsupportedOperationException. With the default method, the same
- * default behavior in interface Iterator itself can be provided.
+ * The code sbmple illustrbtes the usbge of defbult methods in the JDK 8. Most
+ * implementbtions of {@link Iterbtor} don't provide b useful
+ * {@link Iterbtor#remove()} method, however,
+ * they still hbve to implement this method to throw
+ * bn UnsupportedOperbtionException. With the defbult method, the sbme
+ * defbult behbvior in interfbce Iterbtor itself cbn be provided.
  */
-public class ArrayIterator {
+public clbss ArrbyIterbtor {
 
-    /** Close the constructor because ArrayIterator is part of the utility
-     * class.
+    /** Close the constructor becbuse ArrbyIterbtor is pbrt of the utility
+     * clbss.
      */
-    protected ArrayIterator() {
-        throw new UnsupportedOperationException();
+    protected ArrbyIterbtor() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns an iterator that goes over the elements in the array.
+     * Returns bn iterbtor thbt goes over the elements in the brrby.
      *
-     * @param <E> type of an array element
-     * @param array source array to iterate over it
-     * @return an iterator that goes over the elements in the array
+     * @pbrbm <E> type of bn brrby element
+     * @pbrbm brrby source brrby to iterbte over it
+     * @return bn iterbtor thbt goes over the elements in the brrby
      */
-    public static <E> Iterator<E> iterator(final E[] array) {
-        return new Iterator<E>() {
+    public stbtic <E> Iterbtor<E> iterbtor(finbl E[] brrby) {
+        return new Iterbtor<E>() {
             /**
              * Index of the current position
              *
              */
-            private int index = 0;
+            privbte int index = 0;
 
             /**
-             * Returns the next element in the iteration
+             * Returns the next element in the iterbtion
              *
-             * @return the next element in the iteration
-             * @throws NoSuchElementException if the iteration has no more
+             * @return the next element in the iterbtion
+             * @throws NoSuchElementException if the iterbtion hbs no more
              * elements
              */
             @Override
-            public boolean hasNext() {
-                return (index < array.length);
+            public boolebn hbsNext() {
+                return (index < brrby.length);
             }
 
             /**
-             * Returns {@code true} if the iteration has more elements. (In
+             * Returns {@code true} if the iterbtion hbs more elements. (In
              * other words, returns {@code true} if {@link #next} returns
-             * an element, rather than throwing an exception.)
+             * bn element, rbther thbn throwing bn exception.)
              *
-             * @return {@code true} if the iteration has more elements
+             * @return {@code true} if the iterbtion hbs more elements
              */
             @Override
             public E next() {
-                if (!hasNext()) {
+                if (!hbsNext()) {
                     throw new NoSuchElementException();
                 }
-                return array[index++];
+                return brrby[index++];
             }
 
             /**
@@ -96,22 +96,22 @@ public class ArrayIterator {
              */
             //@Override
             //public void remove() {
-            //    throw UnsupportedOperationException(
-            //            "Arrays don't support remove.")
+            //    throw UnsupportedOperbtionException(
+            //            "Arrbys don't support remove.")
             //}
         };
     }
 
     /**
-     * Sample usage of the ArrayIterator
+     * Sbmple usbge of the ArrbyIterbtor
      *
-     * @param args command-line arguments
+     * @pbrbm brgs commbnd-line brguments
      */
-    public static void main(final String[] args) {
-        Iterator<String> it = ArrayIterator.iterator(
+    public stbtic void mbin(finbl String[] brgs) {
+        Iterbtor<String> it = ArrbyIterbtor.iterbtor(
                 new String[]{"one", "two", "three"});
 
-        while (it.hasNext()) {
+        while (it.hbsNext()) {
             System.out.println(it.next());
         }
     }

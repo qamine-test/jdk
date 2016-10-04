@@ -1,196 +1,196 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A {@link CompletionService} that uses a supplied {@link Executor}
- * to execute tasks.  This class arranges that submitted tasks are,
- * upon completion, placed on a queue accessible using {@code take}.
- * The class is lightweight enough to be suitable for transient use
- * when processing groups of tasks.
+ * A {@link CompletionService} thbt uses b supplied {@link Executor}
+ * to execute tbsks.  This clbss brrbnges thbt submitted tbsks bre,
+ * upon completion, plbced on b queue bccessible using {@code tbke}.
+ * The clbss is lightweight enough to be suitbble for trbnsient use
+ * when processing groups of tbsks.
  *
  * <p>
  *
- * <b>Usage Examples.</b>
+ * <b>Usbge Exbmples.</b>
  *
- * Suppose you have a set of solvers for a certain problem, each
- * returning a value of some type {@code Result}, and would like to
- * run them concurrently, processing the results of each of them that
- * return a non-null value, in some method {@code use(Result r)}. You
- * could write this as:
+ * Suppose you hbve b set of solvers for b certbin problem, ebch
+ * returning b vblue of some type {@code Result}, bnd would like to
+ * run them concurrently, processing the results of ebch of them thbt
+ * return b non-null vblue, in some method {@code use(Result r)}. You
+ * could write this bs:
  *
  * <pre> {@code
  * void solve(Executor e,
- *            Collection<Callable<Result>> solvers)
+ *            Collection<Cbllbble<Result>> solvers)
  *     throws InterruptedException, ExecutionException {
  *     CompletionService<Result> ecs
  *         = new ExecutorCompletionService<Result>(e);
- *     for (Callable<Result> s : solvers)
+ *     for (Cbllbble<Result> s : solvers)
  *         ecs.submit(s);
  *     int n = solvers.size();
  *     for (int i = 0; i < n; ++i) {
- *         Result r = ecs.take().get();
+ *         Result r = ecs.tbke().get();
  *         if (r != null)
  *             use(r);
  *     }
  * }}</pre>
  *
- * Suppose instead that you would like to use the first non-null result
- * of the set of tasks, ignoring any that encounter exceptions,
- * and cancelling all other tasks when the first one is ready:
+ * Suppose instebd thbt you would like to use the first non-null result
+ * of the set of tbsks, ignoring bny thbt encounter exceptions,
+ * bnd cbncelling bll other tbsks when the first one is rebdy:
  *
  * <pre> {@code
  * void solve(Executor e,
- *            Collection<Callable<Result>> solvers)
+ *            Collection<Cbllbble<Result>> solvers)
  *     throws InterruptedException {
  *     CompletionService<Result> ecs
  *         = new ExecutorCompletionService<Result>(e);
  *     int n = solvers.size();
  *     List<Future<Result>> futures
- *         = new ArrayList<Future<Result>>(n);
+ *         = new ArrbyList<Future<Result>>(n);
  *     Result result = null;
  *     try {
- *         for (Callable<Result> s : solvers)
- *             futures.add(ecs.submit(s));
+ *         for (Cbllbble<Result> s : solvers)
+ *             futures.bdd(ecs.submit(s));
  *         for (int i = 0; i < n; ++i) {
  *             try {
- *                 Result r = ecs.take().get();
+ *                 Result r = ecs.tbke().get();
  *                 if (r != null) {
  *                     result = r;
- *                     break;
+ *                     brebk;
  *                 }
- *             } catch (ExecutionException ignore) {}
+ *             } cbtch (ExecutionException ignore) {}
  *         }
  *     }
- *     finally {
+ *     finblly {
  *         for (Future<Result> f : futures)
- *             f.cancel(true);
+ *             f.cbncel(true);
  *     }
  *
  *     if (result != null)
  *         use(result);
  * }}</pre>
  */
-public class ExecutorCompletionService<V> implements CompletionService<V> {
-    private final Executor executor;
-    private final AbstractExecutorService aes;
-    private final BlockingQueue<Future<V>> completionQueue;
+public clbss ExecutorCompletionService<V> implements CompletionService<V> {
+    privbte finbl Executor executor;
+    privbte finbl AbstrbctExecutorService bes;
+    privbte finbl BlockingQueue<Future<V>> completionQueue;
 
     /**
-     * FutureTask extension to enqueue upon completion
+     * FutureTbsk extension to enqueue upon completion
      */
-    private class QueueingFuture extends FutureTask<Void> {
-        QueueingFuture(RunnableFuture<V> task) {
-            super(task, null);
-            this.task = task;
+    privbte clbss QueueingFuture extends FutureTbsk<Void> {
+        QueueingFuture(RunnbbleFuture<V> tbsk) {
+            super(tbsk, null);
+            this.tbsk = tbsk;
         }
-        protected void done() { completionQueue.add(task); }
-        private final Future<V> task;
+        protected void done() { completionQueue.bdd(tbsk); }
+        privbte finbl Future<V> tbsk;
     }
 
-    private RunnableFuture<V> newTaskFor(Callable<V> task) {
-        if (aes == null)
-            return new FutureTask<V>(task);
+    privbte RunnbbleFuture<V> newTbskFor(Cbllbble<V> tbsk) {
+        if (bes == null)
+            return new FutureTbsk<V>(tbsk);
         else
-            return aes.newTaskFor(task);
+            return bes.newTbskFor(tbsk);
     }
 
-    private RunnableFuture<V> newTaskFor(Runnable task, V result) {
-        if (aes == null)
-            return new FutureTask<V>(task, result);
+    privbte RunnbbleFuture<V> newTbskFor(Runnbble tbsk, V result) {
+        if (bes == null)
+            return new FutureTbsk<V>(tbsk, result);
         else
-            return aes.newTaskFor(task, result);
+            return bes.newTbskFor(tbsk, result);
     }
 
     /**
-     * Creates an ExecutorCompletionService using the supplied
-     * executor for base task execution and a
-     * {@link LinkedBlockingQueue} as a completion queue.
+     * Crebtes bn ExecutorCompletionService using the supplied
+     * executor for bbse tbsk execution bnd b
+     * {@link LinkedBlockingQueue} bs b completion queue.
      *
-     * @param executor the executor to use
+     * @pbrbm executor the executor to use
      * @throws NullPointerException if executor is {@code null}
      */
     public ExecutorCompletionService(Executor executor) {
         if (executor == null)
             throw new NullPointerException();
         this.executor = executor;
-        this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
+        this.bes = (executor instbnceof AbstrbctExecutorService) ?
+            (AbstrbctExecutorService) executor : null;
         this.completionQueue = new LinkedBlockingQueue<Future<V>>();
     }
 
     /**
-     * Creates an ExecutorCompletionService using the supplied
-     * executor for base task execution and the supplied queue as its
+     * Crebtes bn ExecutorCompletionService using the supplied
+     * executor for bbse tbsk execution bnd the supplied queue bs its
      * completion queue.
      *
-     * @param executor the executor to use
-     * @param completionQueue the queue to use as the completion queue
-     *        normally one dedicated for use by this service. This
-     *        queue is treated as unbounded -- failed attempted
-     *        {@code Queue.add} operations for completed tasks cause
-     *        them not to be retrievable.
-     * @throws NullPointerException if executor or completionQueue are {@code null}
+     * @pbrbm executor the executor to use
+     * @pbrbm completionQueue the queue to use bs the completion queue
+     *        normblly one dedicbted for use by this service. This
+     *        queue is trebted bs unbounded -- fbiled bttempted
+     *        {@code Queue.bdd} operbtions for completed tbsks cbuse
+     *        them not to be retrievbble.
+     * @throws NullPointerException if executor or completionQueue bre {@code null}
      */
     public ExecutorCompletionService(Executor executor,
                                      BlockingQueue<Future<V>> completionQueue) {
         if (executor == null || completionQueue == null)
             throw new NullPointerException();
         this.executor = executor;
-        this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
+        this.bes = (executor instbnceof AbstrbctExecutorService) ?
+            (AbstrbctExecutorService) executor : null;
         this.completionQueue = completionQueue;
     }
 
-    public Future<V> submit(Callable<V> task) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<V> f = newTaskFor(task);
+    public Future<V> submit(Cbllbble<V> tbsk) {
+        if (tbsk == null) throw new NullPointerException();
+        RunnbbleFuture<V> f = newTbskFor(tbsk);
         executor.execute(new QueueingFuture(f));
         return f;
     }
 
-    public Future<V> submit(Runnable task, V result) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<V> f = newTaskFor(task, result);
+    public Future<V> submit(Runnbble tbsk, V result) {
+        if (tbsk == null) throw new NullPointerException();
+        RunnbbleFuture<V> f = newTbskFor(tbsk, result);
         executor.execute(new QueueingFuture(f));
         return f;
     }
 
-    public Future<V> take() throws InterruptedException {
-        return completionQueue.take();
+    public Future<V> tbke() throws InterruptedException {
+        return completionQueue.tbke();
     }
 
     public Future<V> poll() {

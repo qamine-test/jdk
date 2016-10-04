@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * An abstract class for drag protocols on X11 systems.
- * Contains protocol-independent drag source code.
+ * An bbstrbct clbss for drbg protocols on X11 systems.
+ * Contbins protocol-independent drbg source code.
  *
  * @since 1.5
  */
-abstract class XDragSourceProtocol {
-    private final XDragSourceProtocolListener listener;
+bbstrbct clbss XDrbgSourceProtocol {
+    privbte finbl XDrbgSourceProtocolListener listener;
 
-    private boolean initialized = false;
+    privbte boolebn initiblized = fblse;
 
-    private long targetWindow = 0;
-    private long targetProxyWindow = 0;
-    private int targetProtocolVersion = 0;
-    private long targetWindowMask = 0;
+    privbte long tbrgetWindow = 0;
+    privbte long tbrgetProxyWindow = 0;
+    privbte int tbrgetProtocolVersion = 0;
+    privbte long tbrgetWindowMbsk = 0;
 
-    // Always use the XAWT root window as the drag source window.
-    static long getDragSourceWindow() {
+    // Alwbys use the XAWT root window bs the drbg source window.
+    stbtic long getDrbgSourceWindow() {
         return XWindow.getXAWTRootWindow().getWindow();
     }
 
-    protected XDragSourceProtocol(XDragSourceProtocolListener listener) {
+    protected XDrbgSourceProtocol(XDrbgSourceProtocolListener listener) {
         if (listener == null) {
-            throw new NullPointerException("Null XDragSourceProtocolListener");
+            throw new NullPointerException("Null XDrbgSourceProtocolListener");
         }
         this.listener = listener;
     }
 
-    protected final XDragSourceProtocolListener getProtocolListener() {
+    protected finbl XDrbgSourceProtocolListener getProtocolListener() {
         return listener;
     }
 
     /**
-     * Returns the protocol name. The protocol name cannot be null.
+     * Returns the protocol nbme. The protocol nbme cbnnot be null.
      */
-    public abstract String getProtocolName();
+    public bbstrbct String getProtocolNbme();
 
     /**
-     * Initializes a drag operation with the specified supported drop actions,
-     * contents and data formats.
+     * Initiblizes b drbg operbtion with the specified supported drop bctions,
+     * contents bnd dbtb formbts.
      *
-     * @param actions a bitwise mask of <code>DnDConstants</code> that represent
-     *                the supported drop actions.
-     * @param contents the contents for the drag operation.
-     * @param formats an array of Atoms that represent the supported data formats.
-     * @param formats an array of Atoms that represent the supported data formats.
-     * @throws InvalidDnDOperationException if a drag operation is already
-     * initialized.
-     * @throws IllegalArgumentException if some argument has invalid value.
-     * @throws XException if some X call failed.
+     * @pbrbm bctions b bitwise mbsk of <code>DnDConstbnts</code> thbt represent
+     *                the supported drop bctions.
+     * @pbrbm contents the contents for the drbg operbtion.
+     * @pbrbm formbts bn brrby of Atoms thbt represent the supported dbtb formbts.
+     * @pbrbm formbts bn brrby of Atoms thbt represent the supported dbtb formbts.
+     * @throws InvblidDnDOperbtionException if b drbg operbtion is blrebdy
+     * initiblized.
+     * @throws IllegblArgumentException if some brgument hbs invblid vblue.
+     * @throws XException if some X cbll fbiled.
      */
-    public final void initializeDrag(int actions, Transferable contents,
-                                     Map<Long, DataFlavor> formatMap, long[] formats)
-      throws InvalidDnDOperationException,
-             IllegalArgumentException, XException {
-        XToolkit.awtLock();
+    public finbl void initiblizeDrbg(int bctions, Trbnsferbble contents,
+                                     Mbp<Long, DbtbFlbvor> formbtMbp, long[] formbts)
+      throws InvblidDnDOperbtionException,
+             IllegblArgumentException, XException {
+        XToolkit.bwtLock();
         try {
             try {
-                if (initialized) {
-                    throw new InvalidDnDOperationException("Already initialized");
+                if (initiblized) {
+                    throw new InvblidDnDOperbtionException("Alrebdy initiblized");
                 }
 
-                initializeDragImpl(actions, contents, formatMap, formats);
+                initiblizeDrbgImpl(bctions, contents, formbtMbp, formbts);
 
-                initialized = true;
-            } finally {
-                if (!initialized) {
-                    cleanup();
+                initiblized = true;
+            } finblly {
+                if (!initiblized) {
+                    clebnup();
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    /* The caller must hold AWT_LOCK. */
-    protected abstract void initializeDragImpl(int actions,
-                                               Transferable contents,
-                                               Map<Long, DataFlavor> formatMap,
-                                               long[] formats)
-      throws InvalidDnDOperationException, IllegalArgumentException, XException;
+    /* The cbller must hold AWT_LOCK. */
+    protected bbstrbct void initiblizeDrbgImpl(int bctions,
+                                               Trbnsferbble contents,
+                                               Mbp<Long, DbtbFlbvor> formbtMbp,
+                                               long[] formbts)
+      throws InvblidDnDOperbtionException, IllegblArgumentException, XException;
 
     /**
-     * Terminates the current drag operation (if any) and resets the internal
-     * state of this object.
+     * Terminbtes the current drbg operbtion (if bny) bnd resets the internbl
+     * stbte of this object.
      *
-     * @throws XException if some X call failed.
+     * @throws XException if some X cbll fbiled.
      */
-    public void cleanup() {
-        initialized = false;
-        cleanupTargetInfo();
+    public void clebnup() {
+        initiblized = fblse;
+        clebnupTbrgetInfo();
     }
 
     /**
-     * Clears the information on the current drop target.
+     * Clebrs the informbtion on the current drop tbrget.
      *
-     * @throws XException if some X call failed.
+     * @throws XException if some X cbll fbiled.
      */
-    public void cleanupTargetInfo() {
-        targetWindow = 0;
-        targetProxyWindow = 0;
-        targetProtocolVersion = 0;
+    public void clebnupTbrgetInfo() {
+        tbrgetWindow = 0;
+        tbrgetProxyWindow = 0;
+        tbrgetProtocolVersion = 0;
     }
 
     /**
-     * Processes the specified client message event.
+     * Processes the specified client messbge event.
      *
-     * @returns true if the event was successfully processed.
+     * @returns true if the event wbs successfully processed.
      */
-    public abstract boolean processClientMessage(XClientMessageEvent xclient)
+    public bbstrbct boolebn processClientMessbge(XClientMessbgeEvent xclient)
       throws XException;
 
-    /* The caller must hold AWT_LOCK. */
-    public final boolean attachTargetWindow(long window, long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    /* The cbller must hold AWT_LOCK. */
+    public finbl boolebn bttbchTbrgetWindow(long window, long time) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        TargetWindowInfo info = getTargetWindowInfo(window);
+        TbrgetWindowInfo info = getTbrgetWindowInfo(window);
         if (info == null) {
-            return false;
+            return fblse;
         } else {
-            targetWindow = window;
-            targetProxyWindow = info.getProxyWindow();
-            targetProtocolVersion = info.getProtocolVersion();
+            tbrgetWindow = window;
+            tbrgetProxyWindow = info.getProxyWindow();
+            tbrgetProtocolVersion = info.getProtocolVersion();
             return true;
         }
     }
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract TargetWindowInfo getTargetWindowInfo(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct TbrgetWindowInfo getTbrgetWindowInfo(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void sendEnterMessage(long[] formats, int sourceAction,
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void sendEnterMessbge(long[] formbts, int sourceAction,
                                           int sourceActions, long time);
-    /* The caller must hold AWT_LOCK. */
-    public abstract void sendMoveMessage(int xRoot, int yRoot,
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void sendMoveMessbge(int xRoot, int yRoot,
                                          int sourceAction, int sourceActions,
                                          long time);
-    /* The caller must hold AWT_LOCK. */
-    public abstract void sendLeaveMessage(long time);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void sendLebveMessbge(long time);
 
-    /* The caller must hold AWT_LOCK. */
-    protected abstract void sendDropMessage(int xRoot, int yRoot,
+    /* The cbller must hold AWT_LOCK. */
+    protected bbstrbct void sendDropMessbge(int xRoot, int yRoot,
                                             int sourceAction, int sourceActions,
                                             long time);
 
-    public final void initiateDrop(int xRoot, int yRoot,
+    public finbl void initibteDrop(int xRoot, int yRoot,
                                    int sourceAction, int sourceActions,
                                    long time) {
-        XWindowAttributes wattr = new XWindowAttributes();
+        XWindowAttributes wbttr = new XWindowAttributes();
         try {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                          targetWindow, wattr.pData);
+            XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+            int stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                          tbrgetWindow, wbttr.pDbtb);
 
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-            if ((status == 0) ||
-                ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                throw new XException("XGetWindowAttributes failed");
+            if ((stbtus == 0) ||
+                ((XErrorHbndlerUtil.sbved_error != null) &&
+                (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success))) {
+                throw new XException("XGetWindowAttributes fbiled");
             }
 
-            targetWindowMask = wattr.get_your_event_mask();
-        } finally {
-            wattr.dispose();
+            tbrgetWindowMbsk = wbttr.get_your_event_mbsk();
+        } finblly {
+            wbttr.dispose();
         }
 
-        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-        XlibWrapper.XSelectInput(XToolkit.getDisplay(), targetWindow,
-                                 targetWindowMask |
-                                 XConstants.StructureNotifyMask);
+        XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+        XlibWrbpper.XSelectInput(XToolkit.getDisplby(), tbrgetWindow,
+                                 tbrgetWindowMbsk |
+                                 XConstbnts.StructureNotifyMbsk);
 
-        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+        XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-        if ((XErrorHandlerUtil.saved_error != null) &&
-            (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-            throw new XException("XSelectInput failed");
+        if ((XErrorHbndlerUtil.sbved_error != null) &&
+            (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+            throw new XException("XSelectInput fbiled");
         }
 
-        sendDropMessage(xRoot, yRoot, sourceAction, sourceActions, time);
+        sendDropMessbge(xRoot, yRoot, sourceAction, sourceActions, time);
     }
 
-    protected final void finalizeDrop() {
-        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-        XlibWrapper.XSelectInput(XToolkit.getDisplay(), targetWindow,
-                                 targetWindowMask);
-        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+    protected finbl void finblizeDrop() {
+        XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+        XlibWrbpper.XSelectInput(XToolkit.getDisplby(), tbrgetWindow,
+                                 tbrgetWindowMbsk);
+        XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
     }
 
-    public abstract boolean processProxyModeEvent(XClientMessageEvent xclient,
+    public bbstrbct boolebn processProxyModeEvent(XClientMessbgeEvent xclient,
                                                   long sourceWindow);
 
-    protected final long getTargetWindow() {
-        return targetWindow;
+    protected finbl long getTbrgetWindow() {
+        return tbrgetWindow;
     }
 
-    protected final long getTargetProxyWindow() {
-        if (targetProxyWindow != 0) {
-            return targetProxyWindow;
+    protected finbl long getTbrgetProxyWindow() {
+        if (tbrgetProxyWindow != 0) {
+            return tbrgetProxyWindow;
         } else {
-            return targetWindow;
+            return tbrgetWindow;
         }
     }
 
-    protected final int getTargetProtocolVersion() {
-        return targetProtocolVersion;
+    protected finbl int getTbrgetProtocolVersion() {
+        return tbrgetProtocolVersion;
     }
 
-    public static class TargetWindowInfo {
-        private final long proxyWindow;
-        private final int protocolVersion;
-        public TargetWindowInfo(long proxy, int version) {
+    public stbtic clbss TbrgetWindowInfo {
+        privbte finbl long proxyWindow;
+        privbte finbl int protocolVersion;
+        public TbrgetWindowInfo(long proxy, int version) {
             proxyWindow = proxy;
             protocolVersion = version;
         }

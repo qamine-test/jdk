@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * The {@code ReverbType} class provides methods for accessing various
- * reverberation settings to be applied to an audio signal.
+ * The {@code ReverbType} clbss provides methods for bccessing vbrious
+ * reverberbtion settings to be bpplied to bn budio signbl.
  * <p>
- * Reverberation simulates the reflection of sound off of the walls, ceiling,
- * and floor of a room. Depending on the size of the room, and how absorbent or
- * reflective the materials in the room's surfaces are, the sound might bounce
- * around for a long time before dying away.
+ * Reverberbtion simulbtes the reflection of sound off of the wblls, ceiling,
+ * bnd floor of b room. Depending on the size of the room, bnd how bbsorbent or
+ * reflective the mbteribls in the room's surfbces bre, the sound might bounce
+ * bround for b long time before dying bwby.
  * <p>
- * The reverberation parameters provided by {@code ReverbType} consist of the
- * delay time and intensity of early reflections, the delay time and intensity
- * of late reflections, and an overall decay time. Early reflections are the
- * initial individual low-order reflections of the direct signal off the
- * surfaces in the room. The late Reflections are the dense, high-order
- * reflections that characterize the room's reverberation. The delay times for
- * the start of these two reflection types give the listener a sense of the
- * overall size and complexity of the room's shape and contents. The larger the
- * room, the longer the reflection delay times. The early and late reflections'
- * intensities define the gain (in decibels) of the reflected signals as
- * compared to the direct signal. These intensities give the listener an
- * impression of the absorptive nature of the surfaces and objects in the room.
- * The decay time defines how long the reverberation takes to exponentially
- * decay until it is no longer perceptible ("effective zero"). The larger and
- * less absorbent the surfaces, the longer the decay time.
+ * The reverberbtion pbrbmeters provided by {@code ReverbType} consist of the
+ * delby time bnd intensity of ebrly reflections, the delby time bnd intensity
+ * of lbte reflections, bnd bn overbll decby time. Ebrly reflections bre the
+ * initibl individubl low-order reflections of the direct signbl off the
+ * surfbces in the room. The lbte Reflections bre the dense, high-order
+ * reflections thbt chbrbcterize the room's reverberbtion. The delby times for
+ * the stbrt of these two reflection types give the listener b sense of the
+ * overbll size bnd complexity of the room's shbpe bnd contents. The lbrger the
+ * room, the longer the reflection delby times. The ebrly bnd lbte reflections'
+ * intensities define the gbin (in decibels) of the reflected signbls bs
+ * compbred to the direct signbl. These intensities give the listener bn
+ * impression of the bbsorptive nbture of the surfbces bnd objects in the room.
+ * The decby time defines how long the reverberbtion tbkes to exponentiblly
+ * decby until it is no longer perceptible ("effective zero"). The lbrger bnd
+ * less bbsorbent the surfbces, the longer the decby time.
  * <p>
- * The set of parameters defined here may not include all aspects of
- * reverberation as specified by some systems. For example, the Midi
- * Manufacturer's Association (MMA) has an Interactive Audio Special Interest
- * Group (IASIG), which has a 3-D Working Group that has defined a Level 2 Spec
- * (I3DL2). I3DL2 supports filtering of reverberation and control of reverb
- * density. These properties are not included in the JavaSound 1.0 definition of
- * a reverb control. In such a case, the implementing system should either
- * extend the defined reverb control to include additional parameters, or else
- * interpret the system's additional capabilities in a way that fits the model
+ * The set of pbrbmeters defined here mby not include bll bspects of
+ * reverberbtion bs specified by some systems. For exbmple, the Midi
+ * Mbnufbcturer's Associbtion (MMA) hbs bn Interbctive Audio Specibl Interest
+ * Group (IASIG), which hbs b 3-D Working Group thbt hbs defined b Level 2 Spec
+ * (I3DL2). I3DL2 supports filtering of reverberbtion bnd control of reverb
+ * density. These properties bre not included in the JbvbSound 1.0 definition of
+ * b reverb control. In such b cbse, the implementing system should either
+ * extend the defined reverb control to include bdditionbl pbrbmeters, or else
+ * interpret the system's bdditionbl cbpbbilities in b wby thbt fits the model
  * described here.
  * <p>
- * If implementing JavaSound on a I3DL2-compliant device:
+ * If implementing JbvbSound on b I3DL2-complibnt device:
  * <ul>
- * <li>Filtering is disabled (high-frequency attenuations are set to 0.0 dB)
- * <li>Density parameters are set to midway between minimum and maximum
+ * <li>Filtering is disbbled (high-frequency bttenubtions bre set to 0.0 dB)
+ * <li>Density pbrbmeters bre set to midwby between minimum bnd mbximum
  * </ul>
  * <p>
- * The following table shows what parameter values an implementation might use
- * for a representative set of reverberation settings.
+ * The following tbble shows whbt pbrbmeter vblues bn implementbtion might use
+ * for b representbtive set of reverberbtion settings.
  * <p>
  *
- * <b>Reverberation Types and Parameters</b>
+ * <b>Reverberbtion Types bnd Pbrbmeters</b>
  *
- * <table border=1 cellpadding=5 summary="reverb types and params: decay time, late intensity, late delay, early intensity, and early delay">
+ * <tbble border=1 cellpbdding=5 summbry="reverb types bnd pbrbms: decby time, lbte intensity, lbte delby, ebrly intensity, bnd ebrly delby">
  *
  * <tr>
  *  <th>Type</th>
- *  <th>Decay Time (ms)</th>
- *  <th>Late Intensity (dB)</th>
- *  <th>Late Delay (ms)</th>
- *  <th>Early Intensity (dB)</th>
- *  <th>Early Delay(ms)</th>
+ *  <th>Decby Time (ms)</th>
+ *  <th>Lbte Intensity (dB)</th>
+ *  <th>Lbte Delby (ms)</th>
+ *  <th>Ebrly Intensity (dB)</th>
+ *  <th>Ebrly Delby(ms)</th>
  * </tr>
  *
  * <tr>
- *  <td>Cavern</td>
+ *  <td>Cbvern</td>
  *  <td>2250</td>
  *  <td>-2.0</td>
  *  <td>41.3</td>
@@ -103,7 +103,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Garage</td>
+ *  <td>Gbrbge</td>
  *  <td>900</td>
  *  <td>-6.0</td>
  *  <td>14.7</td>
@@ -112,7 +112,7 @@ package javax.sound.sampled;
  * </tr>
  *
  * <tr>
- *  <td>Acoustic Lab</td>
+ *  <td>Acoustic Lbb</td>
  *  <td>280</td>
  *  <td>-3.0</td>
  *  <td>8.0</td>
@@ -129,169 +129,169 @@ package javax.sound.sampled;
  *  <td>0.6</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public class ReverbType {
+public clbss ReverbType {
 
     /**
-     * Descriptive name of the reverb type.
+     * Descriptive nbme of the reverb type.
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * Early reflection delay in microseconds.
+     * Ebrly reflection delby in microseconds.
      */
-    private int earlyReflectionDelay;
+    privbte int ebrlyReflectionDelby;
 
     /**
-     * Early reflection intensity.
+     * Ebrly reflection intensity.
      */
-    private float earlyReflectionIntensity;
+    privbte flobt ebrlyReflectionIntensity;
 
     /**
-     * Late reflection delay in microseconds.
+     * Lbte reflection delby in microseconds.
      */
-    private int lateReflectionDelay;
+    privbte int lbteReflectionDelby;
 
     /**
-     * Late reflection intensity.
+     * Lbte reflection intensity.
      */
-    private float lateReflectionIntensity;
+    privbte flobt lbteReflectionIntensity;
 
     /**
-     * Total decay time.
+     * Totbl decby time.
      */
-    private int decayTime;
+    privbte int decbyTime;
 
     /**
-     * Constructs a new reverb type that has the specified reverberation
-     * parameter values.
+     * Constructs b new reverb type thbt hbs the specified reverberbtion
+     * pbrbmeter vblues.
      *
-     * @param  name the name of the new reverb type, or a zero-length
+     * @pbrbm  nbme the nbme of the new reverb type, or b zero-length
      *         {@code String}
-     * @param  earlyReflectionDelay the new type's early reflection delay time
+     * @pbrbm  ebrlyReflectionDelby the new type's ebrly reflection delby time
      *         in microseconds
-     * @param  earlyReflectionIntensity the new type's early reflection
+     * @pbrbm  ebrlyReflectionIntensity the new type's ebrly reflection
      *         intensity in dB
-     * @param  lateReflectionDelay the new type's late reflection delay time in
+     * @pbrbm  lbteReflectionDelby the new type's lbte reflection delby time in
      *         microseconds
-     * @param  lateReflectionIntensity the new type's late reflection intensity
+     * @pbrbm  lbteReflectionIntensity the new type's lbte reflection intensity
      *         in dB
-     * @param  decayTime the new type's decay time in microseconds
+     * @pbrbm  decbyTime the new type's decby time in microseconds
      */
-    protected ReverbType(String name, int earlyReflectionDelay, float earlyReflectionIntensity, int lateReflectionDelay, float lateReflectionIntensity, int decayTime) {
+    protected ReverbType(String nbme, int ebrlyReflectionDelby, flobt ebrlyReflectionIntensity, int lbteReflectionDelby, flobt lbteReflectionIntensity, int decbyTime) {
 
-        this.name = name;
-        this.earlyReflectionDelay = earlyReflectionDelay;
-        this.earlyReflectionIntensity = earlyReflectionIntensity;
-        this.lateReflectionDelay = lateReflectionDelay;
-        this.lateReflectionIntensity = lateReflectionIntensity;
-        this.decayTime = decayTime;
+        this.nbme = nbme;
+        this.ebrlyReflectionDelby = ebrlyReflectionDelby;
+        this.ebrlyReflectionIntensity = ebrlyReflectionIntensity;
+        this.lbteReflectionDelby = lbteReflectionDelby;
+        this.lbteReflectionIntensity = lbteReflectionIntensity;
+        this.decbyTime = decbyTime;
     }
 
     /**
-     * Obtains the name of this reverb type.
+     * Obtbins the nbme of this reverb type.
      *
-     * @return the name of this reverb type
+     * @return the nbme of this reverb type
      * @since 1.5
      */
-    public String getName() {
-            return name;
+    public String getNbme() {
+            return nbme;
     }
 
     /**
-     * Returns the early reflection delay time in microseconds. This is the
-     * amount of time between when the direct signal is heard and when the first
-     * early reflections are heard.
+     * Returns the ebrly reflection delby time in microseconds. This is the
+     * bmount of time between when the direct signbl is hebrd bnd when the first
+     * ebrly reflections bre hebrd.
      *
-     * @return early reflection delay time for this reverb type, in microseconds
+     * @return ebrly reflection delby time for this reverb type, in microseconds
      */
-    public final int getEarlyReflectionDelay() {
-        return earlyReflectionDelay;
+    public finbl int getEbrlyReflectionDelby() {
+        return ebrlyReflectionDelby;
     }
 
     /**
-     * Returns the early reflection intensity in decibels. This is the amplitude
-     * attenuation of the first early reflections relative to the direct signal.
+     * Returns the ebrly reflection intensity in decibels. This is the bmplitude
+     * bttenubtion of the first ebrly reflections relbtive to the direct signbl.
      *
-     * @return early reflection intensity for this reverb type, in dB
+     * @return ebrly reflection intensity for this reverb type, in dB
      */
-    public final float getEarlyReflectionIntensity() {
-        return earlyReflectionIntensity;
+    public finbl flobt getEbrlyReflectionIntensity() {
+        return ebrlyReflectionIntensity;
     }
 
     /**
-     * Returns the late reflection delay time in microseconds. This is the
-     * amount of time between when the first early reflections are heard and
-     * when the first late reflections are heard.
+     * Returns the lbte reflection delby time in microseconds. This is the
+     * bmount of time between when the first ebrly reflections bre hebrd bnd
+     * when the first lbte reflections bre hebrd.
      *
-     * @return late reflection delay time for this reverb type, in microseconds
+     * @return lbte reflection delby time for this reverb type, in microseconds
      */
-    public final int getLateReflectionDelay() {
-        return lateReflectionDelay;
+    public finbl int getLbteReflectionDelby() {
+        return lbteReflectionDelby;
     }
 
     /**
-     * Returns the late reflection intensity in decibels. This is the amplitude
-     * attenuation of the first late reflections relative to the direct signal.
+     * Returns the lbte reflection intensity in decibels. This is the bmplitude
+     * bttenubtion of the first lbte reflections relbtive to the direct signbl.
      *
-     * @return late reflection intensity for this reverb type, in dB
+     * @return lbte reflection intensity for this reverb type, in dB
      */
-    public final float getLateReflectionIntensity() {
-        return lateReflectionIntensity;
+    public finbl flobt getLbteReflectionIntensity() {
+        return lbteReflectionIntensity;
     }
 
     /**
-     * Obtains the decay time, which is the amount of time over which the late
-     * reflections attenuate to effective zero. The effective zero value is
-     * implementation-dependent.
+     * Obtbins the decby time, which is the bmount of time over which the lbte
+     * reflections bttenubte to effective zero. The effective zero vblue is
+     * implementbtion-dependent.
      *
-     * @return the decay time of the late reflections, in microseconds
+     * @return the decby time of the lbte reflections, in microseconds
      */
-    public final int getDecayTime() {
-        return decayTime;
+    public finbl int getDecbyTime() {
+        return decbyTime;
     }
 
     /**
-     * Indicates whether the specified object is equal to this reverb type,
-     * returning {@code true} if the objects are identical.
+     * Indicbtes whether the specified object is equbl to this reverb type,
+     * returning {@code true} if the objects bre identicbl.
      *
-     * @param  obj the reference object with which to compare
-     * @return {@code true} if this reverb type is the same as {@code obj};
-     *         {@code false} otherwise
+     * @pbrbm  obj the reference object with which to compbre
+     * @return {@code true} if this reverb type is the sbme bs {@code obj};
+     *         {@code fblse} otherwise
      */
     @Override
-    public final boolean equals(Object obj) {
-        return super.equals(obj);
+    public finbl boolebn equbls(Object obj) {
+        return super.equbls(obj);
     }
 
     /**
-     * Finalizes the hashcode method.
+     * Finblizes the hbshcode method.
      */
     @Override
-    public final int hashCode() {
-        return super.hashCode();
+    public finbl int hbshCode() {
+        return super.hbshCode();
     }
 
     /**
-     * Provides a {@code String} representation of the reverb type, including
-     * its name and its parameter settings. The exact contents of the string may
-     * vary between implementations of Java Sound.
+     * Provides b {@code String} representbtion of the reverb type, including
+     * its nbme bnd its pbrbmeter settings. The exbct contents of the string mby
+     * vbry between implementbtions of Jbvb Sound.
      *
-     * @return reverberation type name and description
+     * @return reverberbtion type nbme bnd description
      */
     @Override
-    public final String toString() {
+    public finbl String toString() {
 
-        //$$fb2001-07-20: fix for bug 4385060: The "name" attribute of class "ReverbType" is not accessible.
-        //return (super.toString() + ", early reflection delay " + earlyReflectionDelay +
-        return (name + ", early reflection delay " + earlyReflectionDelay +
-                " ns, early reflection intensity " + earlyReflectionIntensity +
-                " dB, late deflection delay " + lateReflectionDelay +
-                " ns, late reflection intensity " + lateReflectionIntensity +
-                " dB, decay time " +  decayTime);
+        //$$fb2001-07-20: fix for bug 4385060: The "nbme" bttribute of clbss "ReverbType" is not bccessible.
+        //return (super.toString() + ", ebrly reflection delby " + ebrlyReflectionDelby +
+        return (nbme + ", ebrly reflection delby " + ebrlyReflectionDelby +
+                " ns, ebrly reflection intensity " + ebrlyReflectionIntensity +
+                " dB, lbte deflection delby " + lbteReflectionDelby +
+                " ns, lbte reflection intensity " + lbteReflectionIntensity +
+                " dB, decby time " +  decbyTime);
     }
 }

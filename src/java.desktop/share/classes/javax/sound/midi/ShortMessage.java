@@ -1,496 +1,496 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 /**
- * A <code>ShortMessage</code> contains a MIDI message that has at most
- * two data bytes following its status byte.  The types of MIDI message
- * that satisfy this criterion are channel voice, channel mode, system common,
- * and system real-time--in other words, everything except system exclusive
- * and meta-events.  The <code>ShortMessage</code> class provides methods
- * for getting and setting the contents of the MIDI message.
+ * A <code>ShortMessbge</code> contbins b MIDI messbge thbt hbs bt most
+ * two dbtb bytes following its stbtus byte.  The types of MIDI messbge
+ * thbt sbtisfy this criterion bre chbnnel voice, chbnnel mode, system common,
+ * bnd system rebl-time--in other words, everything except system exclusive
+ * bnd metb-events.  The <code>ShortMessbge</code> clbss provides methods
+ * for getting bnd setting the contents of the MIDI messbge.
  * <p>
- * A number of <code>ShortMessage</code> methods have integer parameters by which
- * you specify a MIDI status or data byte.  If you know the numeric value, you
- * can express it directly.  For system common and system real-time messages,
- * you can often use the corresponding fields of <code>ShortMessage</code>, such as
- * {@link #SYSTEM_RESET SYSTEM_RESET}.  For channel messages,
- * the upper four bits of the status byte are specified by a command value and
- * the lower four bits are specified by a MIDI channel number. To
- * convert incoming MIDI data bytes that are in the form of Java's signed bytes,
- * you can use the <A HREF="MidiMessage.html#integersVsBytes">conversion code</A>
- * given in the <code>{@link MidiMessage}</code> class description.
+ * A number of <code>ShortMessbge</code> methods hbve integer pbrbmeters by which
+ * you specify b MIDI stbtus or dbtb byte.  If you know the numeric vblue, you
+ * cbn express it directly.  For system common bnd system rebl-time messbges,
+ * you cbn often use the corresponding fields of <code>ShortMessbge</code>, such bs
+ * {@link #SYSTEM_RESET SYSTEM_RESET}.  For chbnnel messbges,
+ * the upper four bits of the stbtus byte bre specified by b commbnd vblue bnd
+ * the lower four bits bre specified by b MIDI chbnnel number. To
+ * convert incoming MIDI dbtb bytes thbt bre in the form of Jbvb's signed bytes,
+ * you cbn use the <A HREF="MidiMessbge.html#integersVsBytes">conversion code</A>
+ * given in the <code>{@link MidiMessbge}</code> clbss description.
  *
- * @see SysexMessage
- * @see MetaMessage
+ * @see SysexMessbge
+ * @see MetbMessbge
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
 
-public class ShortMessage extends MidiMessage {
+public clbss ShortMessbge extends MidiMessbge {
 
 
-    // Status byte defines
+    // Stbtus byte defines
 
 
-    // System common messages
+    // System common messbges
 
     /**
-     * Status byte for MIDI Time Code Quarter Frame message (0xF1, or 241).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for MIDI Time Code Qubrter Frbme messbge (0xF1, or 241).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int MIDI_TIME_CODE                              = 0xF1; // 241
+    public stbtic finbl int MIDI_TIME_CODE                              = 0xF1; // 241
 
     /**
-     * Status byte for Song Position Pointer message (0xF2, or 242).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Song Position Pointer messbge (0xF2, or 242).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int SONG_POSITION_POINTER               = 0xF2; // 242
+    public stbtic finbl int SONG_POSITION_POINTER               = 0xF2; // 242
 
     /**
-     * Status byte for MIDI Song Select message (0xF3, or 243).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for MIDI Song Select messbge (0xF3, or 243).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int SONG_SELECT                                 = 0xF3; // 243
+    public stbtic finbl int SONG_SELECT                                 = 0xF3; // 243
 
     /**
-     * Status byte for Tune Request message (0xF6, or 246).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Tune Request messbge (0xF6, or 246).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int TUNE_REQUEST                                = 0xF6; // 246
+    public stbtic finbl int TUNE_REQUEST                                = 0xF6; // 246
 
     /**
-     * Status byte for End of System Exclusive message (0xF7, or 247).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for End of System Exclusive messbge (0xF7, or 247).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int END_OF_EXCLUSIVE                    = 0xF7; // 247
+    public stbtic finbl int END_OF_EXCLUSIVE                    = 0xF7; // 247
 
 
-    // System real-time messages
+    // System rebl-time messbges
 
     /**
-     * Status byte for Timing Clock message (0xF8, or 248).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Timing Clock messbge (0xF8, or 248).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int TIMING_CLOCK                                = 0xF8; // 248
+    public stbtic finbl int TIMING_CLOCK                                = 0xF8; // 248
 
     /**
-     * Status byte for Start message (0xFA, or 250).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Stbrt messbge (0xFA, or 250).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int START                                               = 0xFA; // 250
+    public stbtic finbl int START                                               = 0xFA; // 250
 
     /**
-     * Status byte for Continue message (0xFB, or 251).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Continue messbge (0xFB, or 251).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int CONTINUE                                    = 0xFB; // 251
+    public stbtic finbl int CONTINUE                                    = 0xFB; // 251
 
     /**
-     * Status byte for Stop message (0xFC, or 252).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Stop messbge (0xFC, or 252).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int STOP                                                = 0xFC; //252
+    public stbtic finbl int STOP                                                = 0xFC; //252
 
     /**
-     * Status byte for Active Sensing message (0xFE, or 254).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for Active Sensing messbge (0xFE, or 254).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int ACTIVE_SENSING                              = 0xFE; // 254
+    public stbtic finbl int ACTIVE_SENSING                              = 0xFE; // 254
 
     /**
-     * Status byte for System Reset message (0xFF, or 255).
-     * @see MidiMessage#getStatus
+     * Stbtus byte for System Reset messbge (0xFF, or 255).
+     * @see MidiMessbge#getStbtus
      */
-    public static final int SYSTEM_RESET                                = 0xFF; // 255
+    public stbtic finbl int SYSTEM_RESET                                = 0xFF; // 255
 
 
-    // Channel voice message upper nibble defines
+    // Chbnnel voice messbge upper nibble defines
 
     /**
-     * Command value for Note Off message (0x80, or 128)
+     * Commbnd vblue for Note Off messbge (0x80, or 128)
      */
-    public static final int NOTE_OFF                                    = 0x80;  // 128
+    public stbtic finbl int NOTE_OFF                                    = 0x80;  // 128
 
     /**
-     * Command value for Note On message (0x90, or 144)
+     * Commbnd vblue for Note On messbge (0x90, or 144)
      */
-    public static final int NOTE_ON                                             = 0x90;  // 144
+    public stbtic finbl int NOTE_ON                                             = 0x90;  // 144
 
     /**
-     * Command value for Polyphonic Key Pressure (Aftertouch) message (0xA0, or 160)
+     * Commbnd vblue for Polyphonic Key Pressure (Aftertouch) messbge (0xA0, or 160)
      */
-    public static final int POLY_PRESSURE                               = 0xA0;  // 160
+    public stbtic finbl int POLY_PRESSURE                               = 0xA0;  // 160
 
     /**
-     * Command value for Control Change message (0xB0, or 176)
+     * Commbnd vblue for Control Chbnge messbge (0xB0, or 176)
      */
-    public static final int CONTROL_CHANGE                              = 0xB0;  // 176
+    public stbtic finbl int CONTROL_CHANGE                              = 0xB0;  // 176
 
     /**
-     * Command value for Program Change message (0xC0, or 192)
+     * Commbnd vblue for Progrbm Chbnge messbge (0xC0, or 192)
      */
-    public static final int PROGRAM_CHANGE                              = 0xC0;  // 192
+    public stbtic finbl int PROGRAM_CHANGE                              = 0xC0;  // 192
 
     /**
-     * Command value for Channel Pressure (Aftertouch) message (0xD0, or 208)
+     * Commbnd vblue for Chbnnel Pressure (Aftertouch) messbge (0xD0, or 208)
      */
-    public static final int CHANNEL_PRESSURE                    = 0xD0;  // 208
+    public stbtic finbl int CHANNEL_PRESSURE                    = 0xD0;  // 208
 
     /**
-     * Command value for Pitch Bend message (0xE0, or 224)
+     * Commbnd vblue for Pitch Bend messbge (0xE0, or 224)
      */
-    public static final int PITCH_BEND                                  = 0xE0;  // 224
+    public stbtic finbl int PITCH_BEND                                  = 0xE0;  // 224
 
 
-    // Instance variables
+    // Instbnce vbribbles
 
     /**
-     * Constructs a new <code>ShortMessage</code>.  The
-     * contents of the new message are guaranteed to specify
-     * a valid MIDI message.  Subsequently, you may set the
-     * contents of the message using one of the <code>setMessage</code>
+     * Constructs b new <code>ShortMessbge</code>.  The
+     * contents of the new messbge bre gubrbnteed to specify
+     * b vblid MIDI messbge.  Subsequently, you mby set the
+     * contents of the messbge using one of the <code>setMessbge</code>
      * methods.
-     * @see #setMessage
+     * @see #setMessbge
      */
-    public ShortMessage() {
+    public ShortMessbge() {
         this(new byte[3]);
-        // Default message data: NOTE_ON on Channel 0 with max volume
-        data[0] = (byte) (NOTE_ON & 0xFF);
-        data[1] = (byte) 64;
-        data[2] = (byte) 127;
+        // Defbult messbge dbtb: NOTE_ON on Chbnnel 0 with mbx volume
+        dbtb[0] = (byte) (NOTE_ON & 0xFF);
+        dbtb[1] = (byte) 64;
+        dbtb[2] = (byte) 127;
         length = 3;
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a MIDI
-     * message that takes no data bytes.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Constructs b new {@code ShortMessbge} which represents b MIDI
+     * messbge thbt tbkes no dbtb bytes.
+     * The contents of the messbge cbn be chbnged by using one of
+     * the {@code setMessbge} methods.
      *
-     * @param status the MIDI status byte
-     * @throws InvalidMidiDataException if {@code status} does not specify
-     *     a valid MIDI status byte for a message that requires no data bytes
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getStatus()
+     * @pbrbm stbtus the MIDI stbtus byte
+     * @throws InvblidMidiDbtbException if {@code stbtus} does not specify
+     *     b vblid MIDI stbtus byte for b messbge thbt requires no dbtb bytes
+     * @see #setMessbge(int)
+     * @see #setMessbge(int, int, int)
+     * @see #setMessbge(int, int, int, int)
+     * @see #getStbtus()
      * @since 1.7
      */
-    public ShortMessage(int status) throws InvalidMidiDataException {
+    public ShortMessbge(int stbtus) throws InvblidMidiDbtbException {
         super(null);
-        setMessage(status); // can throw InvalidMidiDataException
+        setMessbge(stbtus); // cbn throw InvblidMidiDbtbException
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a MIDI message
-     * that takes up to two data bytes. If the message only takes one data byte,
-     * the second data byte is ignored. If the message does not take
-     * any data bytes, both data bytes are ignored.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Constructs b new {@code ShortMessbge} which represents b MIDI messbge
+     * thbt tbkes up to two dbtb bytes. If the messbge only tbkes one dbtb byte,
+     * the second dbtb byte is ignored. If the messbge does not tbke
+     * bny dbtb bytes, both dbtb bytes bre ignored.
+     * The contents of the messbge cbn be chbnged by using one of
+     * the {@code setMessbge} methods.
      *
-     * @param status   the MIDI status byte
-     * @param data1    the first data byte
-     * @param data2    the second data byte
-     * @throws InvalidMidiDataException if the status byte or all data bytes
-     *     belonging to the message do not specify a valid MIDI message
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getStatus()
-     * @see #getData1()
-     * @see #getData2()
+     * @pbrbm stbtus   the MIDI stbtus byte
+     * @pbrbm dbtb1    the first dbtb byte
+     * @pbrbm dbtb2    the second dbtb byte
+     * @throws InvblidMidiDbtbException if the stbtus byte or bll dbtb bytes
+     *     belonging to the messbge do not specify b vblid MIDI messbge
+     * @see #setMessbge(int)
+     * @see #setMessbge(int, int, int)
+     * @see #setMessbge(int, int, int, int)
+     * @see #getStbtus()
+     * @see #getDbtb1()
+     * @see #getDbtb2()
      * @since 1.7
      */
-    public ShortMessage(int status, int data1, int data2)
-            throws InvalidMidiDataException {
+    public ShortMessbge(int stbtus, int dbtb1, int dbtb2)
+            throws InvblidMidiDbtbException {
         super(null);
-        setMessage(status, data1, data2); // can throw InvalidMidiDataException
+        setMessbge(stbtus, dbtb1, dbtb2); // cbn throw InvblidMidiDbtbException
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a channel
-     * MIDI message that takes up to two data bytes. If the message only takes
-     * one data byte, the second data byte is ignored. If the message does not
-     * take any data bytes, both data bytes are ignored.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Constructs b new {@code ShortMessbge} which represents b chbnnel
+     * MIDI messbge thbt tbkes up to two dbtb bytes. If the messbge only tbkes
+     * one dbtb byte, the second dbtb byte is ignored. If the messbge does not
+     * tbke bny dbtb bytes, both dbtb bytes bre ignored.
+     * The contents of the messbge cbn be chbnged by using one of
+     * the {@code setMessbge} methods.
      *
-     * @param command  the MIDI command represented by this message
-     * @param channel  the channel associated with the message
-     * @param data1    the first data byte
-     * @param data2    the second data byte
-     * @throws InvalidMidiDataException if the command value, channel value
-     *     or all data bytes belonging to the message do not specify
-     *     a valid MIDI message
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getCommand()
-     * @see #getChannel()
-     * @see #getData1()
-     * @see #getData2()
+     * @pbrbm commbnd  the MIDI commbnd represented by this messbge
+     * @pbrbm chbnnel  the chbnnel bssocibted with the messbge
+     * @pbrbm dbtb1    the first dbtb byte
+     * @pbrbm dbtb2    the second dbtb byte
+     * @throws InvblidMidiDbtbException if the commbnd vblue, chbnnel vblue
+     *     or bll dbtb bytes belonging to the messbge do not specify
+     *     b vblid MIDI messbge
+     * @see #setMessbge(int)
+     * @see #setMessbge(int, int, int)
+     * @see #setMessbge(int, int, int, int)
+     * @see #getCommbnd()
+     * @see #getChbnnel()
+     * @see #getDbtb1()
+     * @see #getDbtb2()
      * @since 1.7
      */
-    public ShortMessage(int command, int channel, int data1, int data2)
-            throws InvalidMidiDataException {
+    public ShortMessbge(int commbnd, int chbnnel, int dbtb1, int dbtb2)
+            throws InvblidMidiDbtbException {
         super(null);
-        setMessage(command, channel, data1, data2);
+        setMessbge(commbnd, chbnnel, dbtb1, dbtb2);
     }
 
 
     /**
-     * Constructs a new <code>ShortMessage</code>.
-     * @param data an array of bytes containing the complete message.
-     * The message data may be changed using the <code>setMessage</code>
+     * Constructs b new <code>ShortMessbge</code>.
+     * @pbrbm dbtb bn brrby of bytes contbining the complete messbge.
+     * The messbge dbtb mby be chbnged using the <code>setMessbge</code>
      * method.
-     * @see #setMessage
+     * @see #setMessbge
      */
-    // $$fb this should throw an Exception in case of an illegal message!
-    protected ShortMessage(byte[] data) {
-        // $$fb this may set an invalid message.
-        // Can't correct without compromising compatibility
-        super(data);
+    // $$fb this should throw bn Exception in cbse of bn illegbl messbge!
+    protected ShortMessbge(byte[] dbtb) {
+        // $$fb this mby set bn invblid messbge.
+        // Cbn't correct without compromising compbtibility
+        super(dbtb);
     }
 
 
     /**
-     * Sets the parameters for a MIDI message that takes no data bytes.
-     * @param status    the MIDI status byte
-     * @throws  InvalidMidiDataException if <code>status</code> does not
-     * specify a valid MIDI status byte for a message that requires no data bytes.
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
+     * Sets the pbrbmeters for b MIDI messbge thbt tbkes no dbtb bytes.
+     * @pbrbm stbtus    the MIDI stbtus byte
+     * @throws  InvblidMidiDbtbException if <code>stbtus</code> does not
+     * specify b vblid MIDI stbtus byte for b messbge thbt requires no dbtb bytes.
+     * @see #setMessbge(int, int, int)
+     * @see #setMessbge(int, int, int, int)
      */
-    public void setMessage(int status) throws InvalidMidiDataException {
-        // check for valid values
-        int dataLength = getDataLength(status); // can throw InvalidMidiDataException
-        if (dataLength != 0) {
-            throw new InvalidMidiDataException("Status byte; " + status + " requires " + dataLength + " data bytes");
+    public void setMessbge(int stbtus) throws InvblidMidiDbtbException {
+        // check for vblid vblues
+        int dbtbLength = getDbtbLength(stbtus); // cbn throw InvblidMidiDbtbException
+        if (dbtbLength != 0) {
+            throw new InvblidMidiDbtbException("Stbtus byte; " + stbtus + " requires " + dbtbLength + " dbtb bytes");
         }
-        setMessage(status, 0, 0);
+        setMessbge(stbtus, 0, 0);
     }
 
 
     /**
-     * Sets the  parameters for a MIDI message that takes one or two data
-     * bytes.  If the message takes only one data byte, the second data
-     * byte is ignored; if the message does not take any data bytes, both
-     * data bytes are ignored.
+     * Sets the  pbrbmeters for b MIDI messbge thbt tbkes one or two dbtb
+     * bytes.  If the messbge tbkes only one dbtb byte, the second dbtb
+     * byte is ignored; if the messbge does not tbke bny dbtb bytes, both
+     * dbtb bytes bre ignored.
      *
-     * @param status    the MIDI status byte
-     * @param data1             the first data byte
-     * @param data2             the second data byte
-     * @throws  InvalidMidiDataException if the
-     * the status byte, or all data bytes belonging to the message, do
-     * not specify a valid MIDI message.
-     * @see #setMessage(int, int, int, int)
-     * @see #setMessage(int)
+     * @pbrbm stbtus    the MIDI stbtus byte
+     * @pbrbm dbtb1             the first dbtb byte
+     * @pbrbm dbtb2             the second dbtb byte
+     * @throws  InvblidMidiDbtbException if the
+     * the stbtus byte, or bll dbtb bytes belonging to the messbge, do
+     * not specify b vblid MIDI messbge.
+     * @see #setMessbge(int, int, int, int)
+     * @see #setMessbge(int)
      */
-    public void setMessage(int status, int data1, int data2) throws InvalidMidiDataException {
-        // check for valid values
-        int dataLength = getDataLength(status); // can throw InvalidMidiDataException
-        if (dataLength > 0) {
-            if (data1 < 0 || data1 > 127) {
-                throw new InvalidMidiDataException("data1 out of range: " + data1);
+    public void setMessbge(int stbtus, int dbtb1, int dbtb2) throws InvblidMidiDbtbException {
+        // check for vblid vblues
+        int dbtbLength = getDbtbLength(stbtus); // cbn throw InvblidMidiDbtbException
+        if (dbtbLength > 0) {
+            if (dbtb1 < 0 || dbtb1 > 127) {
+                throw new InvblidMidiDbtbException("dbtb1 out of rbnge: " + dbtb1);
             }
-            if (dataLength > 1) {
-                if (data2 < 0 || data2 > 127) {
-                    throw new InvalidMidiDataException("data2 out of range: " + data2);
+            if (dbtbLength > 1) {
+                if (dbtb2 < 0 || dbtb2 > 127) {
+                    throw new InvblidMidiDbtbException("dbtb2 out of rbnge: " + dbtb2);
                 }
             }
         }
 
 
         // set the length
-        length = dataLength + 1;
-        // re-allocate array if ShortMessage(byte[]) constructor gave array with fewer elements
-        if (data == null || data.length < length) {
-            data = new byte[3];
+        length = dbtbLength + 1;
+        // re-bllocbte brrby if ShortMessbge(byte[]) constructor gbve brrby with fewer elements
+        if (dbtb == null || dbtb.length < length) {
+            dbtb = new byte[3];
         }
 
-        // set the data
-        data[0] = (byte) (status & 0xFF);
+        // set the dbtb
+        dbtb[0] = (byte) (stbtus & 0xFF);
         if (length > 1) {
-            data[1] = (byte) (data1 & 0xFF);
+            dbtb[1] = (byte) (dbtb1 & 0xFF);
             if (length > 2) {
-                data[2] = (byte) (data2 & 0xFF);
+                dbtb[2] = (byte) (dbtb2 & 0xFF);
             }
         }
     }
 
 
     /**
-     * Sets the short message parameters for a  channel message
-     * which takes up to two data bytes.  If the message only
-     * takes one data byte, the second data byte is ignored; if
-     * the message does not take any data bytes, both data bytes
-     * are ignored.
+     * Sets the short messbge pbrbmeters for b  chbnnel messbge
+     * which tbkes up to two dbtb bytes.  If the messbge only
+     * tbkes one dbtb byte, the second dbtb byte is ignored; if
+     * the messbge does not tbke bny dbtb bytes, both dbtb bytes
+     * bre ignored.
      *
-     * @param command   the MIDI command represented by this message
-     * @param channel   the channel associated with the message
-     * @param data1             the first data byte
-     * @param data2             the second data byte
-     * @throws          InvalidMidiDataException if the
-     * status byte or all data bytes belonging to the message, do
-     * not specify a valid MIDI message
+     * @pbrbm commbnd   the MIDI commbnd represented by this messbge
+     * @pbrbm chbnnel   the chbnnel bssocibted with the messbge
+     * @pbrbm dbtb1             the first dbtb byte
+     * @pbrbm dbtb2             the second dbtb byte
+     * @throws          InvblidMidiDbtbException if the
+     * stbtus byte or bll dbtb bytes belonging to the messbge, do
+     * not specify b vblid MIDI messbge
      *
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int)
-     * @see #getCommand
-     * @see #getChannel
-     * @see #getData1
-     * @see #getData2
+     * @see #setMessbge(int, int, int)
+     * @see #setMessbge(int)
+     * @see #getCommbnd
+     * @see #getChbnnel
+     * @see #getDbtb1
+     * @see #getDbtb2
      */
-    public void setMessage(int command, int channel, int data1, int data2) throws InvalidMidiDataException {
-        // check for valid values
-        if (command >= 0xF0 || command < 0x80) {
-            throw new InvalidMidiDataException("command out of range: 0x" + Integer.toHexString(command));
+    public void setMessbge(int commbnd, int chbnnel, int dbtb1, int dbtb2) throws InvblidMidiDbtbException {
+        // check for vblid vblues
+        if (commbnd >= 0xF0 || commbnd < 0x80) {
+            throw new InvblidMidiDbtbException("commbnd out of rbnge: 0x" + Integer.toHexString(commbnd));
         }
-        if ((channel & 0xFFFFFFF0) != 0) { // <=> (channel<0 || channel>15)
-            throw new InvalidMidiDataException("channel out of range: " + channel);
+        if ((chbnnel & 0xFFFFFFF0) != 0) { // <=> (chbnnel<0 || chbnnel>15)
+            throw new InvblidMidiDbtbException("chbnnel out of rbnge: " + chbnnel);
         }
-        setMessage((command & 0xF0) | (channel & 0x0F), data1, data2);
+        setMessbge((commbnd & 0xF0) | (chbnnel & 0x0F), dbtb1, dbtb2);
     }
 
 
     /**
-     * Obtains the MIDI channel associated with this event.  This method
-     * assumes that the event is a MIDI channel message; if not, the return
-     * value will not be meaningful.
-     * @return MIDI channel associated with the message.
-     * @see #setMessage(int, int, int, int)
+     * Obtbins the MIDI chbnnel bssocibted with this event.  This method
+     * bssumes thbt the event is b MIDI chbnnel messbge; if not, the return
+     * vblue will not be mebningful.
+     * @return MIDI chbnnel bssocibted with the messbge.
+     * @see #setMessbge(int, int, int, int)
      */
-    public int getChannel() {
-        // this returns 0 if an invalid message is set
-        return (getStatus() & 0x0F);
+    public int getChbnnel() {
+        // this returns 0 if bn invblid messbge is set
+        return (getStbtus() & 0x0F);
     }
 
 
     /**
-     * Obtains the MIDI command associated with this event.  This method
-     * assumes that the event is a MIDI channel message; if not, the return
-     * value will not be meaningful.
-     * @return the MIDI command associated with this event
-     * @see #setMessage(int, int, int, int)
+     * Obtbins the MIDI commbnd bssocibted with this event.  This method
+     * bssumes thbt the event is b MIDI chbnnel messbge; if not, the return
+     * vblue will not be mebningful.
+     * @return the MIDI commbnd bssocibted with this event
+     * @see #setMessbge(int, int, int, int)
      */
-    public int getCommand() {
-        // this returns 0 if an invalid message is set
-        return (getStatus() & 0xF0);
+    public int getCommbnd() {
+        // this returns 0 if bn invblid messbge is set
+        return (getStbtus() & 0xF0);
     }
 
 
     /**
-     * Obtains the first data byte in the message.
-     * @return the value of the <code>data1</code> field
-     * @see #setMessage(int, int, int)
+     * Obtbins the first dbtb byte in the messbge.
+     * @return the vblue of the <code>dbtb1</code> field
+     * @see #setMessbge(int, int, int)
      */
-    public int getData1() {
+    public int getDbtb1() {
         if (length > 1) {
-            return (data[1] & 0xFF);
+            return (dbtb[1] & 0xFF);
         }
         return 0;
     }
 
 
     /**
-     * Obtains the second data byte in the message.
-     * @return the value of the <code>data2</code> field
-     * @see #setMessage(int, int, int)
+     * Obtbins the second dbtb byte in the messbge.
+     * @return the vblue of the <code>dbtb2</code> field
+     * @see #setMessbge(int, int, int)
      */
-    public int getData2() {
+    public int getDbtb2() {
         if (length > 2) {
-            return (data[2] & 0xFF);
+            return (dbtb[2] & 0xFF);
         }
         return 0;
     }
 
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
-     * @return a clone of this instance.
+     * Crebtes b new object of the sbme clbss bnd with the sbme contents
+     * bs this object.
+     * @return b clone of this instbnce.
      */
     public Object clone() {
-        byte[] newData = new byte[length];
-        System.arraycopy(data, 0, newData, 0, newData.length);
+        byte[] newDbtb = new byte[length];
+        System.brrbycopy(dbtb, 0, newDbtb, 0, newDbtb.length);
 
-        ShortMessage msg = new ShortMessage(newData);
+        ShortMessbge msg = new ShortMessbge(newDbtb);
         return msg;
     }
 
 
     /**
-     * Retrieves the number of data bytes associated with a particular
-     * status byte value.
-     * @param status status byte value, which must represent a short MIDI message
-     * @return data length in bytes (0, 1, or 2)
-     * @throws InvalidMidiDataException if the
-     * <code>status</code> argument does not represent the status byte for any
-     * short message
+     * Retrieves the number of dbtb bytes bssocibted with b pbrticulbr
+     * stbtus byte vblue.
+     * @pbrbm stbtus stbtus byte vblue, which must represent b short MIDI messbge
+     * @return dbtb length in bytes (0, 1, or 2)
+     * @throws InvblidMidiDbtbException if the
+     * <code>stbtus</code> brgument does not represent the stbtus byte for bny
+     * short messbge
      */
-    protected final int getDataLength(int status) throws InvalidMidiDataException {
-        // system common and system real-time messages
-        switch(status) {
-        case 0xF6:                      // Tune Request
-        case 0xF7:                      // EOX
-            // System real-time messages
-        case 0xF8:                      // Timing Clock
-        case 0xF9:                      // Undefined
-        case 0xFA:                      // Start
-        case 0xFB:                      // Continue
-        case 0xFC:                      // Stop
-        case 0xFD:                      // Undefined
-        case 0xFE:                      // Active Sensing
-        case 0xFF:                      // System Reset
+    protected finbl int getDbtbLength(int stbtus) throws InvblidMidiDbtbException {
+        // system common bnd system rebl-time messbges
+        switch(stbtus) {
+        cbse 0xF6:                      // Tune Request
+        cbse 0xF7:                      // EOX
+            // System rebl-time messbges
+        cbse 0xF8:                      // Timing Clock
+        cbse 0xF9:                      // Undefined
+        cbse 0xFA:                      // Stbrt
+        cbse 0xFB:                      // Continue
+        cbse 0xFC:                      // Stop
+        cbse 0xFD:                      // Undefined
+        cbse 0xFE:                      // Active Sensing
+        cbse 0xFF:                      // System Reset
             return 0;
-        case 0xF1:                      // MTC Quarter Frame
-        case 0xF3:                      // Song Select
+        cbse 0xF1:                      // MTC Qubrter Frbme
+        cbse 0xF3:                      // Song Select
             return 1;
-        case 0xF2:                      // Song Position Pointer
+        cbse 0xF2:                      // Song Position Pointer
             return 2;
-        default:
+        defbult:
         }
 
-        // channel voice and mode messages
-        switch(status & 0xF0) {
-        case 0x80:
-        case 0x90:
-        case 0xA0:
-        case 0xB0:
-        case 0xE0:
+        // chbnnel voice bnd mode messbges
+        switch(stbtus & 0xF0) {
+        cbse 0x80:
+        cbse 0x90:
+        cbse 0xA0:
+        cbse 0xB0:
+        cbse 0xE0:
             return 2;
-        case 0xC0:
-        case 0xD0:
+        cbse 0xC0:
+        cbse 0xD0:
             return 1;
-        default:
-            throw new InvalidMidiDataException("Invalid status byte: " + status);
+        defbult:
+            throw new InvblidMidiDbtbException("Invblid stbtus byte: " + stbtus);
         }
     }
 }

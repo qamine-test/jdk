@@ -3,12 +3,12 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5719 $"/>
-		<generation date="$Date: 2011-04-28 14:24:47 +0900 (Thu, 28 Apr 2011) $"/>
-		<language type="fr"/>
+		<generbtion dbte="$Dbte: 2011-04-28 14:24:47 +0900 (Thu, 28 Apr 2011) $"/>
+		<lbngubge type="fr"/>
 		<territory type="LU"/>
 	</identity>
 	<numbers>
-		<symbols numberSystem="latn">
+		<symbols numberSystem="lbtn">
 			<group>.</group>
 		</symbols>
 		<currencies>

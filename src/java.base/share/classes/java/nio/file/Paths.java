@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.spi.FileSystemProvider;
-import java.net.URI;
+import jbvb.nio.file.spi.FileSystemProvider;
+import jbvb.net.URI;
 
 /**
- * This class consists exclusively of static methods that return a {@link Path}
- * by converting a path string or {@link URI}.
+ * This clbss consists exclusively of stbtic methods thbt return b {@link Pbth}
+ * by converting b pbth string or {@link URI}.
  *
  * @since 1.7
  */
 
-public final class Paths {
-    private Paths() { }
+public finbl clbss Pbths {
+    privbte Pbths() { }
 
     /**
-     * Converts a path string, or a sequence of strings that when joined form
-     * a path string, to a {@code Path}. If {@code more} does not specify any
-     * elements then the value of the {@code first} parameter is the path string
-     * to convert. If {@code more} specifies one or more elements then each
-     * non-empty string, including {@code first}, is considered to be a sequence
-     * of name elements (see {@link Path}) and is joined to form a path string.
-     * The details as to how the Strings are joined is provider specific but
-     * typically they will be joined using the {@link FileSystem#getSeparator
-     * name-separator} as the separator. For example, if the name separator is
-     * "{@code /}" and {@code getPath("/foo","bar","gus")} is invoked, then the
-     * path string {@code "/foo/bar/gus"} is converted to a {@code Path}.
-     * A {@code Path} representing an empty path is returned if {@code first}
-     * is the empty string and {@code more} does not contain any non-empty
+     * Converts b pbth string, or b sequence of strings thbt when joined form
+     * b pbth string, to b {@code Pbth}. If {@code more} does not specify bny
+     * elements then the vblue of the {@code first} pbrbmeter is the pbth string
+     * to convert. If {@code more} specifies one or more elements then ebch
+     * non-empty string, including {@code first}, is considered to be b sequence
+     * of nbme elements (see {@link Pbth}) bnd is joined to form b pbth string.
+     * The detbils bs to how the Strings bre joined is provider specific but
+     * typicblly they will be joined using the {@link FileSystem#getSepbrbtor
+     * nbme-sepbrbtor} bs the sepbrbtor. For exbmple, if the nbme sepbrbtor is
+     * "{@code /}" bnd {@code getPbth("/foo","bbr","gus")} is invoked, then the
+     * pbth string {@code "/foo/bbr/gus"} is converted to b {@code Pbth}.
+     * A {@code Pbth} representing bn empty pbth is returned if {@code first}
+     * is the empty string bnd {@code more} does not contbin bny non-empty
      * strings.
      *
-     * <p> The {@code Path} is obtained by invoking the {@link FileSystem#getPath
-     * getPath} method of the {@link FileSystems#getDefault default} {@link
+     * <p> The {@code Pbth} is obtbined by invoking the {@link FileSystem#getPbth
+     * getPbth} method of the {@link FileSystems#getDefbult defbult} {@link
      * FileSystem}.
      *
-     * <p> Note that while this method is very convenient, using it will imply
-     * an assumed reference to the default {@code FileSystem} and limit the
-     * utility of the calling code. Hence it should not be used in library code
-     * intended for flexible reuse. A more flexible alternative is to use an
-     * existing {@code Path} instance as an anchor, such as:
+     * <p> Note thbt while this method is very convenient, using it will imply
+     * bn bssumed reference to the defbult {@code FileSystem} bnd limit the
+     * utility of the cblling code. Hence it should not be used in librbry code
+     * intended for flexible reuse. A more flexible blternbtive is to use bn
+     * existing {@code Pbth} instbnce bs bn bnchor, such bs:
      * <pre>
-     *     Path dir = ...
-     *     Path path = dir.resolve("file");
+     *     Pbth dir = ...
+     *     Pbth pbth = dir.resolve("file");
      * </pre>
      *
-     * @param   first
-     *          the path string or initial part of the path string
-     * @param   more
-     *          additional strings to be joined to form the path string
+     * @pbrbm   first
+     *          the pbth string or initibl pbrt of the pbth string
+     * @pbrbm   more
+     *          bdditionbl strings to be joined to form the pbth string
      *
-     * @return  the resulting {@code Path}
+     * @return  the resulting {@code Pbth}
      *
-     * @throws  InvalidPathException
-     *          if the path string cannot be converted to a {@code Path}
+     * @throws  InvblidPbthException
+     *          if the pbth string cbnnot be converted to b {@code Pbth}
      *
-     * @see FileSystem#getPath
+     * @see FileSystem#getPbth
      */
-    public static Path get(String first, String... more) {
-        return FileSystems.getDefault().getPath(first, more);
+    public stbtic Pbth get(String first, String... more) {
+        return FileSystems.getDefbult().getPbth(first, more);
     }
 
     /**
-     * Converts the given URI to a {@link Path} object.
+     * Converts the given URI to b {@link Pbth} object.
      *
-     * <p> This method iterates over the {@link FileSystemProvider#installedProviders()
-     * installed} providers to locate the provider that is identified by the
-     * URI {@link URI#getScheme scheme} of the given URI. URI schemes are
-     * compared without regard to case. If the provider is found then its {@link
-     * FileSystemProvider#getPath getPath} method is invoked to convert the
+     * <p> This method iterbtes over the {@link FileSystemProvider#instblledProviders()
+     * instblled} providers to locbte the provider thbt is identified by the
+     * URI {@link URI#getScheme scheme} of the given URI. URI schemes bre
+     * compbred without regbrd to cbse. If the provider is found then its {@link
+     * FileSystemProvider#getPbth getPbth} method is invoked to convert the
      * URI.
      *
-     * <p> In the case of the default provider, identified by the URI scheme
-     * "file", the given URI has a non-empty path component, and undefined query
-     * and fragment components. Whether the authority component may be present
-     * is platform specific. The returned {@code Path} is associated with the
-     * {@link FileSystems#getDefault default} file system.
+     * <p> In the cbse of the defbult provider, identified by the URI scheme
+     * "file", the given URI hbs b non-empty pbth component, bnd undefined query
+     * bnd frbgment components. Whether the buthority component mby be present
+     * is plbtform specific. The returned {@code Pbth} is bssocibted with the
+     * {@link FileSystems#getDefbult defbult} file system.
      *
-     * <p> The default provider provides a similar <em>round-trip</em> guarantee
-     * to the {@link java.io.File} class. For a given {@code Path} <i>p</i> it
-     * is guaranteed that
+     * <p> The defbult provider provides b similbr <em>round-trip</em> gubrbntee
+     * to the {@link jbvb.io.File} clbss. For b given {@code Pbth} <i>p</i> it
+     * is gubrbnteed thbt
      * <blockquote><tt>
-     * Paths.get(</tt><i>p</i><tt>.{@link Path#toUri() toUri}()).equals(</tt>
-     * <i>p</i><tt>.{@link Path#toAbsolutePath() toAbsolutePath}())</tt>
+     * Pbths.get(</tt><i>p</i><tt>.{@link Pbth#toUri() toUri}()).equbls(</tt>
+     * <i>p</i><tt>.{@link Pbth#toAbsolutePbth() toAbsolutePbth}())</tt>
      * </blockquote>
-     * so long as the original {@code Path}, the {@code URI}, and the new {@code
-     * Path} are all created in (possibly different invocations of) the same
-     * Java virtual machine. Whether other providers make any guarantees is
-     * provider specific and therefore unspecified.
+     * so long bs the originbl {@code Pbth}, the {@code URI}, bnd the new {@code
+     * Pbth} bre bll crebted in (possibly different invocbtions of) the sbme
+     * Jbvb virtubl mbchine. Whether other providers mbke bny gubrbntees is
+     * provider specific bnd therefore unspecified.
      *
-     * @param   uri
+     * @pbrbm   uri
      *          the URI to convert
      *
-     * @return  the resulting {@code Path}
+     * @return  the resulting {@code Pbth}
      *
-     * @throws  IllegalArgumentException
-     *          if preconditions on the {@code uri} parameter do not hold. The
-     *          format of the URI is provider specific.
+     * @throws  IllegblArgumentException
+     *          if preconditions on the {@code uri} pbrbmeter do not hold. The
+     *          formbt of the URI is provider specific.
      * @throws  FileSystemNotFoundException
-     *          The file system, identified by the URI, does not exist and
-     *          cannot be created automatically, or the provider identified by
-     *          the URI's scheme component is not installed
+     *          The file system, identified by the URI, does not exist bnd
+     *          cbnnot be crebted butombticblly, or the provider identified by
+     *          the URI's scheme component is not instblled
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission to access the file system
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission to bccess the file system
      */
-    public static Path get(URI uri) {
+    public stbtic Pbth get(URI uri) {
         String scheme =  uri.getScheme();
         if (scheme == null)
-            throw new IllegalArgumentException("Missing scheme");
+            throw new IllegblArgumentException("Missing scheme");
 
-        // check for default provider to avoid loading of installed providers
-        if (scheme.equalsIgnoreCase("file"))
-            return FileSystems.getDefault().provider().getPath(uri);
+        // check for defbult provider to bvoid lobding of instblled providers
+        if (scheme.equblsIgnoreCbse("file"))
+            return FileSystems.getDefbult().provider().getPbth(uri);
 
         // try to find provider
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
-            if (provider.getScheme().equalsIgnoreCase(scheme)) {
-                return provider.getPath(uri);
+        for (FileSystemProvider provider: FileSystemProvider.instblledProviders()) {
+            if (provider.getScheme().equblsIgnoreCbse(scheme)) {
+                return provider.getPbth(uri);
             }
         }
 
-        throw new FileSystemNotFoundException("Provider \"" + scheme + "\" not installed");
+        throw new FileSystemNotFoundException("Provider \"" + scheme + "\" not instblled");
     }
 }

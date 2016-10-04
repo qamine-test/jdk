@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.sasl;
+pbckbge jbvbx.security.sbsl;
 
-import java.util.Map;
-import javax.security.auth.callback.CallbackHandler;
+import jbvb.util.Mbp;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
 
 /**
- * An interface for creating instances of {@code SaslServer}.
- * A class that implements this interface
- * must be thread-safe and handle multiple simultaneous
- * requests. It must also have a public constructor that accepts no
- * argument.
+ * An interfbce for crebting instbnces of {@code SbslServer}.
+ * A clbss thbt implements this interfbce
+ * must be threbd-sbfe bnd hbndle multiple simultbneous
+ * requests. It must blso hbve b public constructor thbt bccepts no
+ * brgument.
  *<p>
- * This interface is not normally accessed directly by a server, which will use the
- * {@code Sasl} static methods
- * instead. However, a particular environment may provide and install a
- * new or different {@code SaslServerFactory}.
+ * This interfbce is not normblly bccessed directly by b server, which will use the
+ * {@code Sbsl} stbtic methods
+ * instebd. However, b pbrticulbr environment mby provide bnd instbll b
+ * new or different {@code SbslServerFbctory}.
  *
  * @since 1.5
  *
- * @see SaslServer
- * @see Sasl
+ * @see SbslServer
+ * @see Sbsl
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @buthor Rosbnnb Lee
+ * @buthor Rob Weltmbn
  */
-public abstract interface SaslServerFactory {
+public bbstrbct interfbce SbslServerFbctory {
     /**
-     * Creates a {@code SaslServer} using the parameters supplied.
+     * Crebtes b {@code SbslServer} using the pbrbmeters supplied.
      * It returns null
-     * if no {@code SaslServer} can be created using the parameters supplied.
-     * Throws {@code SaslException} if it cannot create a {@code SaslServer}
-     * because of an error.
+     * if no {@code SbslServer} cbn be crebted using the pbrbmeters supplied.
+     * Throws {@code SbslException} if it cbnnot crebte b {@code SbslServer}
+     * becbuse of bn error.
      *
-     * @param mechanism The non-null
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
-     * @param serverName The fully qualified host name of the server to
-     * authenticate to, or null if the server is not bound to any specific host
-     * name. If the mechanism does not allow an unbound server, a
-     * {@code SaslException} will be thrown.
-     * @param props The possibly null set of properties used to select the SASL
-     * mechanism and to configure the authentication exchange of the selected
-     * mechanism. See the {@code Sasl} class for a list of standard properties.
-     * Other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * @pbrbm mechbnism The non-null
+     * IANA-registered nbme of b SASL mechbnism. (e.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm protocol The non-null string nbme of the protocol for which
+     * the buthenticbtion is being performed (e.g., "ldbp").
+     * @pbrbm serverNbme The fully qublified host nbme of the server to
+     * buthenticbte to, or null if the server is not bound to bny specific host
+     * nbme. If the mechbnism does not bllow bn unbound server, b
+     * {@code SbslException} will be thrown.
+     * @pbrbm props The possibly null set of properties used to select the SASL
+     * mechbnism bnd to configure the buthenticbtion exchbnge of the selected
+     * mechbnism. See the {@code Sbsl} clbss for b list of stbndbrd properties.
+     * Other, possibly mechbnism-specific, properties cbn be included.
+     * Properties not relevbnt to the selected mechbnism bre ignored,
+     * including bny mbp entries with non-String keys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm cbh The possibly null cbllbbck hbndler to used by the SASL
+     * mechbnisms to get further informbtion from the bpplicbtion/librbry
+     * to complete the buthenticbtion. For exbmple, b SASL mechbnism might
+     * require the buthenticbtion ID, pbssword bnd reblm from the cbller.
+     * The buthenticbtion ID is requested by using b {@code NbmeCbllbbck}.
+     * The pbssword is requested by using b {@code PbsswordCbllbbck}.
+     * The reblm is requested by using b {@code ReblmChoiceCbllbbck} if there is b list
+     * of reblms to choose from, bnd by using b {@code ReblmCbllbbck} if
+     * the reblm must be entered.
      *
-     *@return A possibly null {@code SaslServer} created using the parameters
-     * supplied. If null, this factory cannot produce a {@code SaslServer}
-     * using the parameters supplied.
-     *@exception SaslException If cannot create a {@code SaslServer} because
-     * of an error.
+     *@return A possibly null {@code SbslServer} crebted using the pbrbmeters
+     * supplied. If null, this fbctory cbnnot produce b {@code SbslServer}
+     * using the pbrbmeters supplied.
+     *@exception SbslException If cbnnot crebte b {@code SbslServer} becbuse
+     * of bn error.
      */
-    public abstract SaslServer createSaslServer(
-        String mechanism,
+    public bbstrbct SbslServer crebteSbslServer(
+        String mechbnism,
         String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException;
+        String serverNbme,
+        Mbp<String,?> props,
+        CbllbbckHbndler cbh) throws SbslException;
 
     /**
-     * Returns an array of names of mechanisms that match the specified
-     * mechanism selection policies.
-     * @param props The possibly null set of properties used to specify the
-     * security policy of the SASL mechanisms. For example, if {@code props}
-     * contains the {@code Sasl.POLICY_NOPLAINTEXT} property with the value
-     * {@code "true"}, then the factory must not return any SASL mechanisms
-     * that are susceptible to simple plain passive attacks.
-     * See the {@code Sasl} class for a complete list of policy properties.
-     * Non-policy related properties, if present in {@code props}, are ignored,
-     * including any map entries with non-String keys.
-     * @return A non-null array containing a IANA-registered SASL mechanism names.
+     * Returns bn brrby of nbmes of mechbnisms thbt mbtch the specified
+     * mechbnism selection policies.
+     * @pbrbm props The possibly null set of properties used to specify the
+     * security policy of the SASL mechbnisms. For exbmple, if {@code props}
+     * contbins the {@code Sbsl.POLICY_NOPLAINTEXT} property with the vblue
+     * {@code "true"}, then the fbctory must not return bny SASL mechbnisms
+     * thbt bre susceptible to simple plbin pbssive bttbcks.
+     * See the {@code Sbsl} clbss for b complete list of policy properties.
+     * Non-policy relbted properties, if present in {@code props}, bre ignored,
+     * including bny mbp entries with non-String keys.
+     * @return A non-null brrby contbining b IANA-registered SASL mechbnism nbmes.
      */
-    public abstract String[] getMechanismNames(Map<String,?> props);
+    public bbstrbct String[] getMechbnismNbmes(Mbp<String,?> props);
 }

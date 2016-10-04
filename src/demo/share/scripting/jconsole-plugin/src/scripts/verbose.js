@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,60 +30,60 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
- * This script demonstrates "getMBeanAttribute"
- * and "setMBeanAttribute" functions. Instead of using
- * MXBean proxy or script wrapper object returned by
- * 'mbean' function, this file uses direct get/set MBean
- * attribute functions.
+ * This script demonstrbtes "getMBebnAttribute"
+ * bnd "setMBebnAttribute" functions. Instebd of using
+ * MXBebn proxy or script wrbpper object returned by
+ * 'mbebn' function, this file uses direct get/set MBebn
+ * bttribute functions.
  *
- * To use this particular script, load this script file in
- * script console prompt and call verboseGC or verboseClass
- * functions. These functions based on events such as 
- * heap threshold crossing a given limit. i.e., A timer thread
- * can keep checking for threshold event and then turn on
- * verbose:gc or verbose:class based on expected event.
+ * To use this pbrticulbr script, lobd this script file in
+ * script console prompt bnd cbll verboseGC or verboseClbss
+ * functions. These functions bbsed on events such bs 
+ * hebp threshold crossing b given limit. i.e., A timer threbd
+ * cbn keep checking for threshold event bnd then turn on
+ * verbose:gc or verbose:clbss bbsed on expected event.
 
  */
 
 /**
- * Get or set verbose GC flag.
+ * Get or set verbose GC flbg.
  *
- * @param flag verbose mode flag [optional]
+ * @pbrbm flbg verbose mode flbg [optionbl]
  *
- * If flag is not passed verboseGC returns current
- * flag value.
+ * If flbg is not pbssed verboseGC returns current
+ * flbg vblue.
  */
-function verboseGC(flag) {
-    if (flag == undefined) {
-        // no argument passed. interpret this as 'get'
-        return getMBeanAttribute("java.lang:type=Memory", "Verbose");    
+function verboseGC(flbg) {
+    if (flbg == undefined) {
+        // no brgument pbssed. interpret this bs 'get'
+        return getMBebnAttribute("jbvb.lbng:type=Memory", "Verbose");    
     } else {
-        return setMBeanAttribute("java.lang:type=Memory", "Verbose", flag);
+        return setMBebnAttribute("jbvb.lbng:type=Memory", "Verbose", flbg);
     }
 }
 
 /**
- * Get or set verbose class flag.
+ * Get or set verbose clbss flbg.
  *
- * @param flag verbose mode flag [optional]
+ * @pbrbm flbg verbose mode flbg [optionbl]
  *
- * If flag is not passed verboseClass returns current
- * flag value.
+ * If flbg is not pbssed verboseClbss returns current
+ * flbg vblue.
  */
-function verboseClass(flag) {
-    if (flag == undefined) {
-        // no argument passed. interpret this as 'get'
-        return getMBeanAttribute("java.lang:type=ClassLoading", "Verbose");    
+function verboseClbss(flbg) {
+    if (flbg == undefined) {
+        // no brgument pbssed. interpret this bs 'get'
+        return getMBebnAttribute("jbvb.lbng:type=ClbssLobding", "Verbose");    
     } else {
-        return setMBeanAttribute("java.lang:type=ClassLoading", "Verbose", flag);
+        return setMBebnAttribute("jbvb.lbng:type=ClbssLobding", "Verbose", flbg);
     }
 }

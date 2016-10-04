@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Arrbys;
 import sun.security.util.*;
 
 /**
- * Represent a X509 Extension Attribute.
+ * Represent b X509 Extension Attribute.
  *
- * <p>Extensions are additional attributes which can be inserted in a X509
- * v3 certificate. For example a "Driving License Certificate" could have
- * the driving license number as a extension.
+ * <p>Extensions bre bdditionbl bttributes which cbn be inserted in b X509
+ * v3 certificbte. For exbmple b "Driving License Certificbte" could hbve
+ * the driving license number bs b extension.
  *
- * <p>Extensions are represented as a sequence of the extension identifier
- * (Object Identifier), a boolean flag stating whether the extension is to
- * be treated as being critical and the extension value itself (this is again
- * a DER encoding of the extension value).
+ * <p>Extensions bre represented bs b sequence of the extension identifier
+ * (Object Identifier), b boolebn flbg stbting whether the extension is to
+ * be trebted bs being criticbl bnd the extension vblue itself (this is bgbin
+ * b DER encoding of the extension vblue).
  * <pre>
  * ASN.1 definition of Extension:
  * Extension ::= SEQUENCE {
  *      ExtensionId     OBJECT IDENTIFIER,
- *      critical        BOOLEAN DEFAULT FALSE,
- *      extensionValue  OCTET STRING
+ *      criticbl        BOOLEAN DEFAULT FALSE,
+ *      extensionVblue  OCTET STRING
  * }
  * </pre>
- * All subclasses need to implement a constructor of the form
+ * All subclbsses need to implement b constructor of the form
  * <pre>
- *     <subclass> (Boolean, Object)
+ *     <subclbss> (Boolebn, Object)
  * </pre>
- * where the Object is typically an array of DER encoded bytes.
+ * where the Object is typicblly bn brrby of DER encoded bytes.
  * <p>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class Extension implements java.security.cert.Extension {
+public clbss Extension implements jbvb.security.cert.Extension {
 
     protected ObjectIdentifier  extensionId = null;
-    protected boolean           critical = false;
-    protected byte[]            extensionValue = null;
+    protected boolebn           criticbl = fblse;
+    protected byte[]            extensionVblue = null;
 
     /**
-     * Default constructor.  Used only by sub-classes.
+     * Defbult constructor.  Used only by sub-clbsses.
      */
     public Extension() { }
 
     /**
-     * Constructs an extension from a DER encoded array of bytes.
+     * Constructs bn extension from b DER encoded brrby of bytes.
      */
-    public Extension(DerValue derVal) throws IOException {
+    public Extension(DerVblue derVbl) throws IOException {
 
-        DerInputStream in = derVal.toDerInputStream();
+        DerInputStrebm in = derVbl.toDerInputStrebm();
 
         // Object identifier
         extensionId = in.getOID();
 
-        // If the criticality flag was false, it will not have been encoded.
-        DerValue val = in.getDerValue();
-        if (val.tag == DerValue.tag_Boolean) {
-            critical = val.getBoolean();
+        // If the criticblity flbg wbs fblse, it will not hbve been encoded.
+        DerVblue vbl = in.getDerVblue();
+        if (vbl.tbg == DerVblue.tbg_Boolebn) {
+            criticbl = vbl.getBoolebn();
 
-            // Extension value (DER encoded)
-            val = in.getDerValue();
-            extensionValue = val.getOctetString();
+            // Extension vblue (DER encoded)
+            vbl = in.getDerVblue();
+            extensionVblue = vbl.getOctetString();
         } else {
-            critical = false;
-            extensionValue = val.getOctetString();
+            criticbl = fblse;
+            extensionVblue = vbl.getOctetString();
         }
     }
 
     /**
-     * Constructs an Extension from individual components of ObjectIdentifier,
-     * criticality and the DER encoded OctetString.
+     * Constructs bn Extension from individubl components of ObjectIdentifier,
+     * criticblity bnd the DER encoded OctetString.
      *
-     * @param extensionId the ObjectIdentifier of the extension
-     * @param critical the boolean indicating if the extension is critical
-     * @param extensionValue the DER encoded octet string of the value.
+     * @pbrbm extensionId the ObjectIdentifier of the extension
+     * @pbrbm criticbl the boolebn indicbting if the extension is criticbl
+     * @pbrbm extensionVblue the DER encoded octet string of the vblue.
      */
-    public Extension(ObjectIdentifier extensionId, boolean critical,
-                     byte[] extensionValue) throws IOException {
+    public Extension(ObjectIdentifier extensionId, boolebn criticbl,
+                     byte[] extensionVblue) throws IOException {
         this.extensionId = extensionId;
-        this.critical = critical;
-        // passed in a DER encoded octet string, strip off the tag
-        // and length
-        DerValue inDerVal = new DerValue(extensionValue);
-        this.extensionValue = inDerVal.getOctetString();
+        this.criticbl = criticbl;
+        // pbssed in b DER encoded octet string, strip off the tbg
+        // bnd length
+        DerVblue inDerVbl = new DerVblue(extensionVblue);
+        this.extensionVblue = inDerVbl.getOctetString();
     }
 
     /**
-     * Constructs an Extension from another extension. To be used for
-     * creating decoded subclasses.
+     * Constructs bn Extension from bnother extension. To be used for
+     * crebting decoded subclbsses.
      *
-     * @param ext the extension to create from.
+     * @pbrbm ext the extension to crebte from.
      */
     public Extension(Extension ext) {
         this.extensionId = ext.extensionId;
-        this.critical = ext.critical;
-        this.extensionValue = ext.extensionValue;
+        this.criticbl = ext.criticbl;
+        this.extensionVblue = ext.extensionVblue;
     }
 
     /**
-     * Constructs an Extension from individual components of ObjectIdentifier,
-     * criticality and the raw encoded extension value.
+     * Constructs bn Extension from individubl components of ObjectIdentifier,
+     * criticblity bnd the rbw encoded extension vblue.
      *
-     * @param extensionId the ObjectIdentifier of the extension
-     * @param critical the boolean indicating if the extension is critical
-     * @param rawExtensionValue the raw DER-encoded extension value (this
+     * @pbrbm extensionId the ObjectIdentifier of the extension
+     * @pbrbm criticbl the boolebn indicbting if the extension is criticbl
+     * @pbrbm rbwExtensionVblue the rbw DER-encoded extension vblue (this
      * is not the encoded OctetString).
      */
-    public static Extension newExtension(ObjectIdentifier extensionId,
-        boolean critical, byte[] rawExtensionValue) throws IOException {
+    public stbtic Extension newExtension(ObjectIdentifier extensionId,
+        boolebn criticbl, byte[] rbwExtensionVblue) throws IOException {
         Extension ext = new Extension();
         ext.extensionId = extensionId;
-        ext.critical = critical;
-        ext.extensionValue = rawExtensionValue;
+        ext.criticbl = criticbl;
+        ext.extensionVblue = rbwExtensionVblue;
         return ext;
     }
 
-    public void encode(OutputStream out) throws IOException {
+    public void encode(OutputStrebm out) throws IOException {
         if (out == null) {
             throw new NullPointerException();
         }
 
-        DerOutputStream dos1 = new DerOutputStream();
-        DerOutputStream dos2 = new DerOutputStream();
+        DerOutputStrebm dos1 = new DerOutputStrebm();
+        DerOutputStrebm dos2 = new DerOutputStrebm();
 
         dos1.putOID(extensionId);
-        if (critical) {
-            dos1.putBoolean(critical);
+        if (criticbl) {
+            dos1.putBoolebn(criticbl);
         }
-        dos1.putOctetString(extensionValue);
+        dos1.putOctetString(extensionVblue);
 
-        dos2.write(DerValue.tag_Sequence, dos1);
-        out.write(dos2.toByteArray());
+        dos2.write(DerVblue.tbg_Sequence, dos1);
+        out.write(dos2.toByteArrby());
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
 
         if (extensionId == null)
             throw new IOException("Null OID to encode for the extension!");
-        if (extensionValue == null)
-            throw new IOException("No value to encode for the extension!");
+        if (extensionVblue == null)
+            throw new IOException("No vblue to encode for the extension!");
 
-        DerOutputStream dos = new DerOutputStream();
+        DerOutputStrebm dos = new DerOutputStrebm();
 
         dos.putOID(extensionId);
-        if (critical)
-            dos.putBoolean(critical);
-        dos.putOctetString(extensionValue);
+        if (criticbl)
+            dos.putBoolebn(criticbl);
+        dos.putOctetString(extensionVblue);
 
-        out.write(DerValue.tag_Sequence, dos);
+        out.write(DerVblue.tbg_Sequence, dos);
     }
 
     /**
-     * Returns true if extension is critical.
+     * Returns true if extension is criticbl.
      */
-    public boolean isCritical() {
-        return critical;
+    public boolebn isCriticbl() {
+        return criticbl;
     }
 
     /**
@@ -196,19 +196,19 @@ public class Extension implements java.security.cert.Extension {
         return extensionId;
     }
 
-    public byte[] getValue() {
-        return extensionValue.clone();
+    public byte[] getVblue() {
+        return extensionVblue.clone();
     }
 
     /**
-     * Returns the extension value as an byte array for further processing.
-     * Note, this is the raw DER value of the extension, not the DER
-     * encoded octet string which is in the certificate.
-     * This method does not return a clone; it is the responsibility of the
-     * caller to clone the array if necessary.
+     * Returns the extension vblue bs bn byte brrby for further processing.
+     * Note, this is the rbw DER vblue of the extension, not the DER
+     * encoded octet string which is in the certificbte.
+     * This method does not return b clone; it is the responsibility of the
+     * cbller to clone the brrby if necessbry.
      */
-    public byte[] getExtensionValue() {
-        return extensionValue;
+    public byte[] getExtensionVblue() {
+        return extensionVblue;
     }
 
     public String getId() {
@@ -216,61 +216,61 @@ public class Extension implements java.security.cert.Extension {
     }
 
     /**
-     * Returns the Extension in user readable form.
+     * Returns the Extension in user rebdbble form.
      */
     public String toString() {
         String s = "ObjectId: " + extensionId.toString();
-        if (critical) {
-            s += " Criticality=true\n";
+        if (criticbl) {
+            s += " Criticblity=true\n";
         } else {
-            s += " Criticality=false\n";
+            s += " Criticblity=fblse\n";
         }
         return (s);
     }
 
-    // Value to mix up the hash
-    private static final int hashMagic = 31;
+    // Vblue to mix up the hbsh
+    privbte stbtic finbl int hbshMbgic = 31;
 
     /**
-     * Returns a hashcode value for this Extension.
+     * Returns b hbshcode vblue for this Extension.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int h = 0;
-        if (extensionValue != null) {
-            byte[] val = extensionValue;
-            int len = val.length;
+        if (extensionVblue != null) {
+            byte[] vbl = extensionVblue;
+            int len = vbl.length;
             while (len > 0)
-                h += len * val[--len];
+                h += len * vbl[--len];
         }
-        h = h * hashMagic + extensionId.hashCode();
-        h = h * hashMagic + (critical?1231:1237);
+        h = h * hbshMbgic + extensionId.hbshCode();
+        h = h * hbshMbgic + (criticbl?1231:1237);
         return h;
     }
 
     /**
-     * Compares this Extension for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>Extension</code>, then
-     * its encoded form is retrieved and compared with the
+     * Compbres this Extension for equblity with the specified
+     * object. If the <code>other</code> object is bn
+     * <code>instbnceof</code> <code>Extension</code>, then
+     * its encoded form is retrieved bnd compbred with the
      * encoded form of this Extension.
      *
-     * @param other the object to test for equality with this Extension.
-     * @return true iff the other object is of type Extension, and the
-     * criticality flag, object identifier and encoded extension value of
-     * the two Extensions match, false otherwise.
+     * @pbrbm other the object to test for equblity with this Extension.
+     * @return true iff the other object is of type Extension, bnd the
+     * criticblity flbg, object identifier bnd encoded extension vblue of
+     * the two Extensions mbtch, fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof Extension))
-            return false;
+        if (!(other instbnceof Extension))
+            return fblse;
         Extension otherExt = (Extension) other;
-        if (critical != otherExt.critical)
-            return false;
-        if (!extensionId.equals((Object)otherExt.extensionId))
-            return false;
-        return Arrays.equals(extensionValue, otherExt.extensionValue);
+        if (criticbl != otherExt.criticbl)
+            return fblse;
+        if (!extensionId.equbls((Object)otherExt.extensionId))
+            return fblse;
+        return Arrbys.equbls(extensionVblue, otherExt.extensionVblue);
     }
 }

@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Set;
-import java.util.Collection;
+import jbvb.util.Set;
+import jbvb.util.Collection;
 
 // jmx import
 //
 
 
 /**
- * The <tt>TabularData</tt> interface specifies the behavior of a specific type of complex <i>open data</i> objects
- * which represent <i>tabular data</i> structures.
+ * The <tt>TbbulbrDbtb</tt> interfbce specifies the behbvior of b specific type of complex <i>open dbtb</i> objects
+ * which represent <i>tbbulbr dbtb</i> structures.
  *
  * @since 1.5
  */
-public interface TabularData /*extends Map*/ {
+public interfbce TbbulbrDbtb /*extends Mbp*/ {
 
 
-    /* *** TabularData specific information methods *** */
+    /* *** TbbulbrDbtb specific informbtion methods *** */
 
 
     /**
-     * Returns the <i>tabular type</i> describing this
-     * <tt>TabularData</tt> instance.
+     * Returns the <i>tbbulbr type</i> describing this
+     * <tt>TbbulbrDbtb</tt> instbnce.
      *
-     * @return the tabular type.
+     * @return the tbbulbr type.
      */
-    public TabularType getTabularType();
+    public TbbulbrType getTbbulbrType();
 
 
     /**
-     * Calculates the index that would be used in this <tt>TabularData</tt> instance to refer to the specified
-     * composite data <var>value</var> parameter if it were added to this instance.
-     * This method checks for the type validity of the specified <var>value</var>,
-     * but does not check if the calculated index is already used to refer to a value in this <tt>TabularData</tt> instance.
+     * Cblculbtes the index thbt would be used in this <tt>TbbulbrDbtb</tt> instbnce to refer to the specified
+     * composite dbtb <vbr>vblue</vbr> pbrbmeter if it were bdded to this instbnce.
+     * This method checks for the type vblidity of the specified <vbr>vblue</vbr>,
+     * but does not check if the cblculbted index is blrebdy used to refer to b vblue in this <tt>TbbulbrDbtb</tt> instbnce.
      *
-     * @param  value                      the composite data value whose index in this
-     *                                    <tt>TabularData</tt> instance is to be calculated;
-     *                                    must be of the same composite type as this instance's row type;
+     * @pbrbm  vblue                      the composite dbtb vblue whose index in this
+     *                                    <tt>TbbulbrDbtb</tt> instbnce is to be cblculbted;
+     *                                    must be of the sbme composite type bs this instbnce's row type;
      *                                    must not be null.
      *
-     * @return the index that the specified <var>value</var> would have in this <tt>TabularData</tt> instance.
+     * @return the index thbt the specified <vbr>vblue</vbr> would hbve in this <tt>TbbulbrDbtb</tt> instbnce.
      *
-     * @throws NullPointerException       if <var>value</var> is <tt>null</tt>
+     * @throws NullPointerException       if <vbr>vblue</vbr> is <tt>null</tt>
      *
-     * @throws InvalidOpenTypeException   if <var>value</var> does not conform to this <tt>TabularData</tt> instance's
+     * @throws InvblidOpenTypeException   if <vbr>vblue</vbr> does not conform to this <tt>TbbulbrDbtb</tt> instbnce's
      *                                    row type definition.
      */
-    public Object[] calculateIndex(CompositeData value) ;
+    public Object[] cblculbteIndex(CompositeDbtb vblue) ;
 
 
 
 
-    /* *** Content information query methods *** */
+    /* *** Content informbtion query methods *** */
 
     /**
-     * Returns the number of <tt>CompositeData</tt> values (ie the
-     * number of rows) contained in this <tt>TabularData</tt>
-     * instance.
+     * Returns the number of <tt>CompositeDbtb</tt> vblues (ie the
+     * number of rows) contbined in this <tt>TbbulbrDbtb</tt>
+     * instbnce.
      *
-     * @return the number of values contained.
+     * @return the number of vblues contbined.
      */
     public int size() ;
 
     /**
-     * Returns <tt>true</tt> if the number of <tt>CompositeData</tt>
-     * values (ie the number of rows) contained in this
-     * <tt>TabularData</tt> instance is zero.
+     * Returns <tt>true</tt> if the number of <tt>CompositeDbtb</tt>
+     * vblues (ie the number of rows) contbined in this
+     * <tt>TbbulbrDbtb</tt> instbnce is zero.
      *
-     * @return true if this <tt>TabularData</tt> is empty.
+     * @return true if this <tt>TbbulbrDbtb</tt> is empty.
      */
-    public boolean isEmpty() ;
+    public boolebn isEmpty() ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains a <tt>CompositeData</tt> value
-     * (ie a row) whose index is the specified <var>key</var>. If <var>key</var> is <tt>null</tt> or does not conform to
-     * this <tt>TabularData</tt> instance's <tt>TabularType</tt> definition, this method simply returns <tt>false</tt>.
+     * Returns <tt>true</tt> if bnd only if this <tt>TbbulbrDbtb</tt> instbnce contbins b <tt>CompositeDbtb</tt> vblue
+     * (ie b row) whose index is the specified <vbr>key</vbr>. If <vbr>key</vbr> is <tt>null</tt> or does not conform to
+     * this <tt>TbbulbrDbtb</tt> instbnce's <tt>TbbulbrType</tt> definition, this method simply returns <tt>fblse</tt>.
      *
-     * @param  key  the index value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  key  the index vblue whose presence in this <tt>TbbulbrDbtb</tt> instbnce is to be tested.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> indexes a row value with the specified key.
+     * @return  <tt>true</tt> if this <tt>TbbulbrDbtb</tt> indexes b row vblue with the specified key.
      */
-    public boolean containsKey(Object[] key) ;
+    public boolebn contbinsKey(Object[] key) ;
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>TabularData</tt> instance contains the specified
-     * <tt>CompositeData</tt> value. If <var>value</var> is <tt>null</tt> or does not conform to
-     * this <tt>TabularData</tt> instance's row type definition, this method simply returns <tt>false</tt>.
+     * Returns <tt>true</tt> if bnd only if this <tt>TbbulbrDbtb</tt> instbnce contbins the specified
+     * <tt>CompositeDbtb</tt> vblue. If <vbr>vblue</vbr> is <tt>null</tt> or does not conform to
+     * this <tt>TbbulbrDbtb</tt> instbnce's row type definition, this method simply returns <tt>fblse</tt>.
      *
-     * @param  value  the row value whose presence in this <tt>TabularData</tt> instance is to be tested.
+     * @pbrbm  vblue  the row vblue whose presence in this <tt>TbbulbrDbtb</tt> instbnce is to be tested.
      *
-     * @return  <tt>true</tt> if this <tt>TabularData</tt> instance contains the specified row value.
+     * @return  <tt>true</tt> if this <tt>TbbulbrDbtb</tt> instbnce contbins the specified row vblue.
      */
-    public boolean containsValue(CompositeData value) ;
+    public boolebn contbinsVblue(CompositeDbtb vblue) ;
 
     /**
-     * Returns the <tt>CompositeData</tt> value whose index is
-     * <var>key</var>, or <tt>null</tt> if there is no value mapping
-     * to <var>key</var>, in this <tt>TabularData</tt> instance.
+     * Returns the <tt>CompositeDbtb</tt> vblue whose index is
+     * <vbr>key</vbr>, or <tt>null</tt> if there is no vblue mbpping
+     * to <vbr>key</vbr>, in this <tt>TbbulbrDbtb</tt> instbnce.
      *
-     * @param key the key of the row to return.
+     * @pbrbm key the key of the row to return.
      *
-     * @return the value corresponding to <var>key</var>.
+     * @return the vblue corresponding to <vbr>key</vbr>.
      *
-     * @throws NullPointerException if the <var>key</var> is
+     * @throws NullPointerException if the <vbr>key</vbr> is
      * <tt>null</tt>
-     * @throws InvalidKeyException if the <var>key</var> does not
-     * conform to this <tt>TabularData</tt> instance's *
-     * <tt>TabularType</tt> definition
+     * @throws InvblidKeyException if the <vbr>key</vbr> does not
+     * conform to this <tt>TbbulbrDbtb</tt> instbnce's *
+     * <tt>TbbulbrType</tt> definition
      */
-    public CompositeData get(Object[] key) ;
+    public CompositeDbtb get(Object[] key) ;
 
 
 
 
-    /* *** Content modification operations (one element at a time) *** */
+    /* *** Content modificbtion operbtions (one element bt b time) *** */
 
 
     /**
-     * Adds <var>value</var> to this <tt>TabularData</tt> instance.
-     * The composite type of <var>value</var> must be the same as this
-     * instance's row type (ie the composite type returned by
-     * <tt>this.getTabularType().{@link TabularType#getRowType
-     * getRowType()}</tt>), and there must not already be an existing
-     * value in this <tt>TabularData</tt> instance whose index is the
-     * same as the one calculated for the <var>value</var> to be
-     * added. The index for <var>value</var> is calculated according
-     * to this <tt>TabularData</tt> instance's <tt>TabularType</tt>
-     * definition (see <tt>TabularType.{@link
-     * TabularType#getIndexNames getIndexNames()}</tt>).
+     * Adds <vbr>vblue</vbr> to this <tt>TbbulbrDbtb</tt> instbnce.
+     * The composite type of <vbr>vblue</vbr> must be the sbme bs this
+     * instbnce's row type (ie the composite type returned by
+     * <tt>this.getTbbulbrType().{@link TbbulbrType#getRowType
+     * getRowType()}</tt>), bnd there must not blrebdy be bn existing
+     * vblue in this <tt>TbbulbrDbtb</tt> instbnce whose index is the
+     * sbme bs the one cblculbted for the <vbr>vblue</vbr> to be
+     * bdded. The index for <vbr>vblue</vbr> is cblculbted bccording
+     * to this <tt>TbbulbrDbtb</tt> instbnce's <tt>TbbulbrType</tt>
+     * definition (see <tt>TbbulbrType.{@link
+     * TbbulbrType#getIndexNbmes getIndexNbmes()}</tt>).
      *
-     * @param  value                      the composite data value to be added as a new row to this <tt>TabularData</tt> instance;
-     *                                    must be of the same composite type as this instance's row type;
+     * @pbrbm  vblue                      the composite dbtb vblue to be bdded bs b new row to this <tt>TbbulbrDbtb</tt> instbnce;
+     *                                    must be of the sbme composite type bs this instbnce's row type;
      *                                    must not be null.
      *
-     * @throws NullPointerException       if <var>value</var> is <tt>null</tt>
-     * @throws InvalidOpenTypeException   if <var>value</var> does not conform to this <tt>TabularData</tt> instance's
+     * @throws NullPointerException       if <vbr>vblue</vbr> is <tt>null</tt>
+     * @throws InvblidOpenTypeException   if <vbr>vblue</vbr> does not conform to this <tt>TbbulbrDbtb</tt> instbnce's
      *                                    row type definition.
-     * @throws KeyAlreadyExistsException  if the index for <var>value</var>, calculated according to
-     *                                    this <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
-     *                                    already maps to an existing value in the underlying HashMap.
+     * @throws KeyAlrebdyExistsException  if the index for <vbr>vblue</vbr>, cblculbted bccording to
+     *                                    this <tt>TbbulbrDbtb</tt> instbnce's <tt>TbbulbrType</tt> definition
+     *                                    blrebdy mbps to bn existing vblue in the underlying HbshMbp.
      */
-    public void put(CompositeData value) ;
+    public void put(CompositeDbtb vblue) ;
 
     /**
-     * Removes the <tt>CompositeData</tt> value whose index is <var>key</var> from this <tt>TabularData</tt> instance,
-     * and returns the removed value, or returns <tt>null</tt> if there is no value whose index is <var>key</var>.
+     * Removes the <tt>CompositeDbtb</tt> vblue whose index is <vbr>key</vbr> from this <tt>TbbulbrDbtb</tt> instbnce,
+     * bnd returns the removed vblue, or returns <tt>null</tt> if there is no vblue whose index is <vbr>key</vbr>.
      *
-     * @param  key  the index of the value to get in this <tt>TabularData</tt> instance;
-     *              must be valid with this <tt>TabularData</tt> instance's row type definition;
+     * @pbrbm  key  the index of the vblue to get in this <tt>TbbulbrDbtb</tt> instbnce;
+     *              must be vblid with this <tt>TbbulbrDbtb</tt> instbnce's row type definition;
      *              must not be null.
      *
-     * @return previous value associated with specified key, or <tt>null</tt>
-     *         if there was no mapping for key.
+     * @return previous vblue bssocibted with specified key, or <tt>null</tt>
+     *         if there wbs no mbpping for key.
      *
-     * @throws NullPointerException  if the <var>key</var> is <tt>null</tt>
-     * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
-     *                               <tt>TabularType</tt> definition
+     * @throws NullPointerException  if the <vbr>key</vbr> is <tt>null</tt>
+     * @throws InvblidKeyException   if the <vbr>key</vbr> does not conform to this <tt>TbbulbrDbtb</tt> instbnce's
+     *                               <tt>TbbulbrType</tt> definition
      */
-    public CompositeData remove(Object[] key) ;
+    public CompositeDbtb remove(Object[] key) ;
 
 
 
 
-    /* ***   Content modification bulk operations   *** */
+    /* ***   Content modificbtion bulk operbtions   *** */
 
 
     /**
-     * Add all the elements in <var>values</var> to this <tt>TabularData</tt> instance.
-     * If any  element in <var>values</var> does not satisfy the constraints defined in {@link #put(CompositeData) <tt>put</tt>},
-     * or if any two elements in <var>values</var> have the same index calculated according to this <tt>TabularData</tt>
-     * instance's <tt>TabularType</tt> definition, then an exception describing the failure is thrown
-     * and no element of <var>values</var> is added,  thus leaving this <tt>TabularData</tt> instance unchanged.
+     * Add bll the elements in <vbr>vblues</vbr> to this <tt>TbbulbrDbtb</tt> instbnce.
+     * If bny  element in <vbr>vblues</vbr> does not sbtisfy the constrbints defined in {@link #put(CompositeDbtb) <tt>put</tt>},
+     * or if bny two elements in <vbr>vblues</vbr> hbve the sbme index cblculbted bccording to this <tt>TbbulbrDbtb</tt>
+     * instbnce's <tt>TbbulbrType</tt> definition, then bn exception describing the fbilure is thrown
+     * bnd no element of <vbr>vblues</vbr> is bdded,  thus lebving this <tt>TbbulbrDbtb</tt> instbnce unchbnged.
      *
-     * @param  values  the array of composite data values to be added as new rows to this <tt>TabularData</tt> instance;
-     *                 if <var>values</var> is <tt>null</tt> or empty, this method returns without doing anything.
+     * @pbrbm  vblues  the brrby of composite dbtb vblues to be bdded bs new rows to this <tt>TbbulbrDbtb</tt> instbnce;
+     *                 if <vbr>vblues</vbr> is <tt>null</tt> or empty, this method returns without doing bnything.
      *
-     * @throws NullPointerException       if an element of <var>values</var> is <tt>null</tt>
-     * @throws InvalidOpenTypeException   if an element of <var>values</var> does not conform to
-     *                                    this <tt>TabularData</tt> instance's row type definition
-     * @throws KeyAlreadyExistsException  if the index for an element of <var>values</var>, calculated according to
-     *                                    this <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
-     *                                    already maps to an existing value in this instance,
-     *                                    or two elements of <var>values</var> have the same index.
+     * @throws NullPointerException       if bn element of <vbr>vblues</vbr> is <tt>null</tt>
+     * @throws InvblidOpenTypeException   if bn element of <vbr>vblues</vbr> does not conform to
+     *                                    this <tt>TbbulbrDbtb</tt> instbnce's row type definition
+     * @throws KeyAlrebdyExistsException  if the index for bn element of <vbr>vblues</vbr>, cblculbted bccording to
+     *                                    this <tt>TbbulbrDbtb</tt> instbnce's <tt>TbbulbrType</tt> definition
+     *                                    blrebdy mbps to bn existing vblue in this instbnce,
+     *                                    or two elements of <vbr>vblues</vbr> hbve the sbme index.
      */
-    public void putAll(CompositeData[] values) ;
+    public void putAll(CompositeDbtb[] vblues) ;
 
     /**
-     * Removes all <tt>CompositeData</tt> values (ie rows) from this <tt>TabularData</tt> instance.
+     * Removes bll <tt>CompositeDbtb</tt> vblues (ie rows) from this <tt>TbbulbrDbtb</tt> instbnce.
      */
-    public void clear();
+    public void clebr();
 
 
 
 
-    /* ***   Collection views of the keys and values   *** */
+    /* ***   Collection views of the keys bnd vblues   *** */
 
 
     /**
-     * Returns a set view of the keys (ie the index values) of the
-     * {@code CompositeData} values (ie the rows) contained in this
-     * {@code TabularData} instance. The returned {@code Set} is a
-     * {@code Set<List<?>>} but is declared as a {@code Set<?>} for
-     * compatibility reasons. The returned set can be used to iterate
+     * Returns b set view of the keys (ie the index vblues) of the
+     * {@code CompositeDbtb} vblues (ie the rows) contbined in this
+     * {@code TbbulbrDbtb} instbnce. The returned {@code Set} is b
+     * {@code Set<List<?>>} but is declbred bs b {@code Set<?>} for
+     * compbtibility rebsons. The returned set cbn be used to iterbte
      * over the keys.
      *
-     * @return a set view ({@code Set<List<?>>}) of the index values
-     * used in this {@code TabularData} instance.
+     * @return b set view ({@code Set<List<?>>}) of the index vblues
+     * used in this {@code TbbulbrDbtb} instbnce.
      */
     public Set<?> keySet();
 
     /**
-     * Returns a collection view of the {@code CompositeData} values
-     * (ie the rows) contained in this {@code TabularData} instance.
-     * The returned {@code Collection} is a {@code Collection<CompositeData>}
-     * but is declared as a {@code Collection<?>} for compatibility reasons.
-     * The returned collection can be used to iterate over the values.
+     * Returns b collection view of the {@code CompositeDbtb} vblues
+     * (ie the rows) contbined in this {@code TbbulbrDbtb} instbnce.
+     * The returned {@code Collection} is b {@code Collection<CompositeDbtb>}
+     * but is declbred bs b {@code Collection<?>} for compbtibility rebsons.
+     * The returned collection cbn be used to iterbte over the vblues.
      *
-     * @return a collection view ({@code Collection<CompositeData>})
-     * of the rows contained in this {@code TabularData} instance.
+     * @return b collection view ({@code Collection<CompositeDbtb>})
+     * of the rows contbined in this {@code TbbulbrDbtb} instbnce.
      */
-    public Collection<?> values();
+    public Collection<?> vblues();
 
 
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity methods from jbvb.lbng.Object  *** */
 
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>TabularData</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this <code>TbbulbrDbtb</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>TabularData</code> interface,</li>
-     * <li>their row types are equal</li>
-     * <li>their contents (ie index to value mappings) are equal</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>TbbulbrDbtb</code> interfbce,</li>
+     * <li>their row types bre equbl</li>
+     * <li>their contents (ie index to vblue mbppings) bre equbl</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>TabularData</code> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for <vbr>obj</vbr> pbrbmeters which bre
+     * different implementbtions of the <code>TbbulbrDbtb</code> interfbce.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>TabularData</code> instance;
+     * @pbrbm  obj  the object to be compbred for equblity with this <code>TbbulbrDbtb</code> instbnce;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>TabularData</code> instance.
+     * @return  <code>true</code> if the specified object is equbl to this <code>TbbulbrDbtb</code> instbnce.
      */
-    public boolean equals(Object obj);
+    public boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this <code>TabularData</code> instance.
+     * Returns the hbsh code vblue for this <code>TbbulbrDbtb</code> instbnce.
      * <p>
-     * The hash code of a <code>TabularData</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its <i>tabular type</i> and its content, where the content is defined as all the index to value mappings).
+     * The hbsh code of b <code>TbbulbrDbtb</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its <i>tbbulbr type</i> bnd its content, where the content is defined bs bll the index to vblue mbppings).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>TabularDataSupport</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>TbbulbrDbtbSupport</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      *
-     * @return  the hash code value for this <code>TabularDataSupport</code> instance
+     * @return  the hbsh code vblue for this <code>TbbulbrDbtbSupport</code> instbnce
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Returns a string representation of this <code>TabularData</code> instance.
+     * Returns b string representbtion of this <code>TbbulbrDbtb</code> instbnce.
      * <p>
-     * The string representation consists of the name of the implementing class,
-     * and the tabular type of this instance.
+     * The string representbtion consists of the nbme of the implementing clbss,
+     * bnd the tbbulbr type of this instbnce.
      *
-     * @return  a string representation of this <code>TabularData</code> instance
+     * @return  b string representbtion of this <code>TbbulbrDbtb</code> instbnce
      */
     public String toString();
 

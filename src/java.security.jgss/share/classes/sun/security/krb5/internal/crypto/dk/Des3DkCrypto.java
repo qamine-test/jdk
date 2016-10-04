@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5.internal.crypto.dk;
+pbckbge sun.security.krb5.internbl.crypto.dk;
 
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import java.security.spec.KeySpec;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.util.Arrays;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.Mbc;
+import jbvbx.crypto.SecretKeyFbctory;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.spec.DESKeySpec;
+import jbvbx.crypto.spec.DESedeKeySpec;
+import jbvbx.crypto.spec.IvPbrbmeterSpec;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.InvblidKeyException;
+import jbvb.util.Arrbys;
 
-public class Des3DkCrypto extends DkCrypto {
+public clbss Des3DkCrypto extends DkCrypto {
 
-    private static final byte[] ZERO_IV = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
+    privbte stbtic finbl byte[] ZERO_IV = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
 
     public Des3DkCrypto() {
     }
 
     protected int getKeySeedLength() {
-        return 168;   // bits; 3DES key material has 21 bytes
+        return 168;   // bits; 3DES key mbteribl hbs 21 bytes
     }
 
-    public byte[] stringToKey(char[] salt) throws GeneralSecurityException {
-        byte[] saltUtf8 = null;
+    public byte[] stringToKey(chbr[] sblt) throws GenerblSecurityException {
+        byte[] sbltUtf8 = null;
         try {
-            saltUtf8 = charToUtf8(salt);
-            return stringToKey(saltUtf8, null);
-        } finally {
-            if (saltUtf8 != null) {
-                Arrays.fill(saltUtf8, (byte)0);
+            sbltUtf8 = chbrToUtf8(sblt);
+            return stringToKey(sbltUtf8, null);
+        } finblly {
+            if (sbltUtf8 != null) {
+                Arrbys.fill(sbltUtf8, (byte)0);
             }
-            // Caller responsible for clearing its own salt
+            // Cbller responsible for clebring its own sblt
         }
     }
 
-    private byte[] stringToKey(byte[] secretAndSalt, byte[] opaque)
-        throws GeneralSecurityException {
+    privbte byte[] stringToKey(byte[] secretAndSblt, byte[] opbque)
+        throws GenerblSecurityException {
 
-        if (opaque != null && opaque.length > 0) {
-            throw new RuntimeException("Invalid parameter to stringToKey");
+        if (opbque != null && opbque.length > 0) {
+            throw new RuntimeException("Invblid pbrbmeter to stringToKey");
         }
 
-        byte[] tmpKey = randomToKey(nfold(secretAndSalt, getKeySeedLength()));
+        byte[] tmpKey = rbndomToKey(nfold(secretAndSblt, getKeySeedLength()));
         return dk(tmpKey, KERBEROS_CONSTANT);
     }
 
-    public byte[] parityFix(byte[] value)
-        throws GeneralSecurityException {
-        // fix key parity
-        setParityBit(value);
-        return value;
+    public byte[] pbrityFix(byte[] vblue)
+        throws GenerblSecurityException {
+        // fix key pbrity
+        setPbrityBit(vblue);
+        return vblue;
     }
 
     /*
      * From RFC 3961.
      *
-     * The 168 bits of random key data are converted to a protocol key value
-     * as follows.  First, the 168 bits are divided into three groups of 56
-     * bits, which are expanded individually into 64 bits as in des3Expand().
-     * Result is a 24 byte (192-bit) key.
+     * The 168 bits of rbndom key dbtb bre converted to b protocol key vblue
+     * bs follows.  First, the 168 bits bre divided into three groups of 56
+     * bits, which bre expbnded individublly into 64 bits bs in des3Expbnd().
+     * Result is b 24 byte (192-bit) key.
      */
-    protected byte[] randomToKey(byte[] in) {
+    protected byte[] rbndomToKey(byte[] in) {
         if (in.length != 21) {
-            throw new IllegalArgumentException("input must be 168 bits");
+            throw new IllegblArgumentException("input must be 168 bits");
         }
 
-        byte[] one = keyCorrection(des3Expand(in, 0, 7));
-        byte[] two = keyCorrection(des3Expand(in, 7, 14));
-        byte[] three = keyCorrection(des3Expand(in, 14, 21));
+        byte[] one = keyCorrection(des3Expbnd(in, 0, 7));
+        byte[] two = keyCorrection(des3Expbnd(in, 7, 14));
+        byte[] three = keyCorrection(des3Expbnd(in, 14, 21));
 
         byte[] key = new byte[24];
-        System.arraycopy(one, 0, key, 0, 8);
-        System.arraycopy(two, 0, key, 8, 8);
-        System.arraycopy(three, 0, key, 16, 8);
+        System.brrbycopy(one, 0, key, 0, 8);
+        System.brrbycopy(two, 0, key, 8, 8);
+        System.brrbycopy(three, 0, key, 16, 8);
 
         return key;
     }
 
-    private static byte[] keyCorrection(byte[] key) {
-        // check for weak key
+    privbte stbtic byte[] keyCorrection(byte[] key) {
+        // check for webk key
         try {
-            if (DESKeySpec.isWeak(key, 0)) {
+            if (DESKeySpec.isWebk(key, 0)) {
                 key[7] = (byte)(key[7] ^ 0xF0);
             }
-        } catch (InvalidKeyException ex) {
-            // swallow, since it should never happen
+        } cbtch (InvblidKeyException ex) {
+            // swbllow, since it should never hbppen
         }
         return key;
     }
@@ -120,8 +120,8 @@ public class Des3DkCrypto extends DkCrypto {
     /**
      * From RFC 3961.
      *
-     * Expands a 7-byte array into an 8-byte array that contains parity bits.
-     * The 56 bits are expanded into 64 bits as follows:
+     * Expbnds b 7-byte brrby into bn 8-byte brrby thbt contbins pbrity bits.
+     * The 56 bits bre expbnded into 64 bits bs follows:
      *   1  2  3  4  5  6  7  p
      *   9 10 11 12 13 14 15  p
      *   17 18 19 20 21 22 23  p
@@ -131,25 +131,25 @@ public class Des3DkCrypto extends DkCrypto {
      *   49 50 51 52 53 54 55  p
      *   56 48 40 32 24 16  8  p
      *
-     * (PI,P2,...,P8) are reserved for parity bits computed on the preceding
-     * seven independent bits and set so that the parity of the octet is odd,
-     * i.e., there is an odd number of "1" bits in the octet.
+     * (PI,P2,...,P8) bre reserved for pbrity bits computed on the preceding
+     * seven independent bits bnd set so thbt the pbrity of the octet is odd,
+     * i.e., there is bn odd number of "1" bits in the octet.
      *
-     * @param start index of starting byte (inclusive)
-     * @param end index of ending byte (exclusive)
+     * @pbrbm stbrt index of stbrting byte (inclusive)
+     * @pbrbm end index of ending byte (exclusive)
      */
-    private static byte[] des3Expand(byte[] input, int start, int end) {
-        if ((end - start) != 7)
-            throw new IllegalArgumentException(
-                "Invalid length of DES Key Value:" + start + "," + end);
+    privbte stbtic byte[] des3Expbnd(byte[] input, int stbrt, int end) {
+        if ((end - stbrt) != 7)
+            throw new IllegblArgumentException(
+                "Invblid length of DES Key Vblue:" + stbrt + "," + end);
 
         byte[] result = new byte[8];
-        byte last = 0;
-        System.arraycopy(input, start, result, 0, 7);
+        byte lbst = 0;
+        System.brrbycopy(input, stbrt, result, 0, 7);
         byte posn = 0;
 
-        // Fill in last row
-        for (int i = start; i < end; i++) {
+        // Fill in lbst row
+        for (int i = stbrt; i < end; i++) {
             byte bit = (byte) (input[i]&0x01);
             if (debug) {
                 System.out.println(i + ": " + Integer.toHexString(input[i]) +
@@ -157,23 +157,23 @@ public class Des3DkCrypto extends DkCrypto {
             }
             ++posn;
             if (bit != 0) {
-                last |= (bit<<posn);
+                lbst |= (bit<<posn);
             }
         }
 
         if (debug) {
-            System.out.println("last: " + Integer.toHexString(last));
+            System.out.println("lbst: " + Integer.toHexString(lbst));
         }
-        result[7] = last;
-        setParityBit(result);
+        result[7] = lbst;
+        setPbrityBit(result);
         return result;
     }
 
     /**
-     * Sets the parity bit (0th bit) in each byte so that each byte
-     * contains an odd number of 1's.
+     * Sets the pbrity bit (0th bit) in ebch byte so thbt ebch byte
+     * contbins bn odd number of 1's.
      */
-    private static void setParityBit(byte[] key) {
+    privbte stbtic void setPbrityBit(byte[] key) {
         for (int i = 0; i < key.length; i++) {
             int b = key[i] & 0xfe;
             b |= (Integer.bitCount(b) & 1) ^ 1;
@@ -182,27 +182,27 @@ public class Des3DkCrypto extends DkCrypto {
     }
 
     protected Cipher getCipher(byte[] key, byte[] ivec, int mode)
-        throws GeneralSecurityException {
+        throws GenerblSecurityException {
         // NoSuchAlgorithException
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("desede");
+        SecretKeyFbctory fbctory = SecretKeyFbctory.getInstbnce("desede");
 
-        // InvalidKeyException
+        // InvblidKeyException
         KeySpec spec = new DESedeKeySpec(key, 0);
 
-        // InvalidKeySpecException
-        SecretKey secretKey = factory.generateSecret(spec);
+        // InvblidKeySpecException
+        SecretKey secretKey = fbctory.generbteSecret(spec);
 
         // IV
         if (ivec == null) {
             ivec = ZERO_IV;
         }
 
-        // NoSuchAlgorithmException, NoSuchPaddingException
+        // NoSuchAlgorithmException, NoSuchPbddingException
         // NoSuchProviderException
-        Cipher cipher = Cipher.getInstance("DESede/CBC/NoPadding");
-        IvParameterSpec encIv = new IvParameterSpec(ivec, 0, ivec.length);
+        Cipher cipher = Cipher.getInstbnce("DESede/CBC/NoPbdding");
+        IvPbrbmeterSpec encIv = new IvPbrbmeterSpec(ivec, 0, ivec.length);
 
-        // InvalidKeyException, InvalidAlgorithParameterException
+        // InvblidKeyException, InvblidAlgorithPbrbmeterException
         cipher.init(mode, secretKey, encIv);
 
         return cipher;
@@ -212,12 +212,12 @@ public class Des3DkCrypto extends DkCrypto {
         return 20;  // bytes
     }
 
-    protected byte[] getHmac(byte[] key, byte[] msg)
-        throws GeneralSecurityException {
+    protected byte[] getHmbc(byte[] key, byte[] msg)
+        throws GenerblSecurityException {
 
-        SecretKey keyKi = new SecretKeySpec(key, "HmacSHA1");
-        Mac m = Mac.getInstance("HmacSHA1");
+        SecretKey keyKi = new SecretKeySpec(key, "HmbcSHA1");
+        Mbc m = Mbc.getInstbnce("HmbcSHA1");
         m.init(keyKi);
-        return m.doFinal(msg);
+        return m.doFinbl(msg);
     }
 }

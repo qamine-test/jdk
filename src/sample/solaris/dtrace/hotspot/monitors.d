@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,108 +34,108 @@
 */
 
 /*
- * Usage:
- *   1. monitors.d -c "java ..."
+ * Usbge:
+ *   1. monitors.d -c "jbvb ..."
  *   2. monitors.d -p JAVA_PID
  *
- * The script traces monitor related probes.
+ * The script trbces monitor relbted probes.
  *
  * Notes:
- *  - These probes are disabled by default since it incurs performance
- *    overhead to the application. To trace the monitor-* probes, you need
- *    to turn on the ExtendedDTraceProbes VM option.
- *    You can either start the application with -XX:+ExtendedDTraceProbes
- *    option or use the jinfo command to enable it at runtime as follows:
+ *  - These probes bre disbbled by defbult since it incurs performbnce
+ *    overhebd to the bpplicbtion. To trbce the monitor-* probes, you need
+ *    to turn on the ExtendedDTrbceProbes VM option.
+ *    You cbn either stbrt the bpplicbtion with -XX:+ExtendedDTrbceProbes
+ *    option or use the jinfo commbnd to enbble it bt runtime bs follows:
  *
- *       jinfo -flag +ExtendedDTraceProbes <java_pid>
+ *       jinfo -flbg +ExtendedDTrbceProbes <jbvb_pid>
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bggrbte=100ms
 
 
-self string thread_name;
-self char* str_ptr;
+self string threbd_nbme;
+self chbr* str_ptr;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot monitors tracing";
+    SAMPLE_NAME = "hotspot monitors trbcing";
 
     printf("BEGIN %s\n\n", SAMPLE_NAME);
 }
 
 /*
- * hotspot:::thread-start, hotspot:::thread-stop probe arguments:
- *  arg0: char*,        thread name passed as mUTF8 string
- *  arg1: uintptr_t,    thread name length
- *  arg2: uintptr_t,    Java thread id
- *  arg3: uintptr_t,    native/OS thread id
- *  arg4: uintptr_t,    is a daemon or not
+ * hotspot:::threbd-stbrt, hotspot:::threbd-stop probe brguments:
+ *  brg0: chbr*,        threbd nbme pbssed bs mUTF8 string
+ *  brg1: uintptr_t,    threbd nbme length
+ *  brg2: uintptr_t,    Jbvb threbd id
+ *  brg3: uintptr_t,    nbtive/OS threbd id
+ *  brg4: uintptr_t,    is b dbemon or not
  */
-hotspot$target:::thread-start
+hotspot$tbrget:::threbd-stbrt
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->thread_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->threbd_nbme = (string) self->str_ptr;
 
-    printf("thread-start: id=%d, is_daemon=%d, name=%s, os_id=%d\n",
-            arg2, arg4, self->thread_name, arg3);
+    printf("threbd-stbrt: id=%d, is_dbemon=%d, nbme=%s, os_id=%d\n",
+            brg2, brg4, self->threbd_nbme, brg3);
 
-    threads[arg2] = self->thread_name;
+    threbds[brg2] = self->threbd_nbme;
 }
 
 
-hotspot$target:::thread-stop
+hotspot$tbrget:::threbd-stop
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->thread_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->threbd_nbme = (string) self->str_ptr;
 
 
-    printf("thread-stop: id=%d, is_daemon=%d, name=%s, os_id=%d\n",
-            arg2, arg4, self->thread_name, arg3);
+    printf("threbd-stop: id=%d, is_dbemon=%d, nbme=%s, os_id=%d\n",
+            brg2, brg4, self->threbd_nbme, brg3);
 }
 
 /*
  *
  * hotspot::monitor-contended-enter, hotspot::monitor-contended-entered
  *
- *  arg0: uintptr_t,    the Java thread identifier for the thread peforming
- *                          the monitor operation
- *  arg1: uintptr_t,    a unique, but opaque identifier for the specific
- *                          monitor that the action is performed upon
- *  arg2: char*,        a pointer to mUTF-8 string data which contains the
- *                          name of the class of the object being acted upon
- *  arg3: uintptr_t,    the length of the class name (in bytes)
+ *  brg0: uintptr_t,    the Jbvb threbd identifier for the threbd peforming
+ *                          the monitor operbtion
+ *  brg1: uintptr_t,    b unique, but opbque identifier for the specific
+ *                          monitor thbt the bction is performed upon
+ *  brg2: chbr*,        b pointer to mUTF-8 string dbtb which contbins the
+ *                          nbme of the clbss of the object being bcted upon
+ *  brg3: uintptr_t,    the length of the clbss nbme (in bytes)
  */
 
-hotspot$target:::monitor-contended-enter
+hotspot$tbrget:::monitor-contended-enter
 {
-    /* (uintptr_t thread_id, uintptr_t monitor_id,
-       char* obj_class_name, uintptr_t obj_class_name_len) */
+    /* (uintptr_t threbd_id, uintptr_t monitor_id,
+       chbr* obj_clbss_nbme, uintptr_t obj_clbss_nbme_len) */
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg2, brg3+1);
+    self->str_ptr[brg3] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    monitors[arg1] = self->class_name;
+    monitors[brg1] = self->clbss_nbme;
 
-    monitors_enter[arg1] = arg0;
+    monitors_enter[brg1] = brg0;
     printf("%s: -> enter monitor (%d) %s\n",
-        threads[arg0], arg1, monitors[arg1]);
+        threbds[brg0], brg1, monitors[brg1]);
 }
 
-hotspot$target:::monitor-contended-entered
+hotspot$tbrget:::monitor-contended-entered
 {
-    /* (uintptr_t thread_id, uintptr_t monitor_id, char* obj_class_name,
-        uintptr_t obj_class_name_len) */
+    /* (uintptr_t threbd_id, uintptr_t monitor_id, chbr* obj_clbss_nbme,
+        uintptr_t obj_clbss_nbme_len) */
 
-    monitors_entered[arg1] = arg0;
+    monitors_entered[brg1] = brg0;
     printf("%s: <- entered monitor (%d) %s\n",
-        threads[arg0], arg1, monitors[arg1]);
+        threbds[brg0], brg1, monitors[brg1]);
 }
 
 
@@ -144,9 +144,9 @@ hotspot$target:::monitor-contended-entered
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
    exit(0);
 }

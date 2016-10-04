@@ -1,17 +1,17 @@
 /*
- * This handles smartcard reader communications.
+ * This hbndles smbrtcbrd rebder communicbtions.
  *
- * MUSCLE SmartCard Development ( http://www.linuxnet.com )
+ * MUSCLE SmbrtCbrd Development ( http://www.linuxnet.com )
  *
  * Copyright (C) 1999-2003
- *  David Corcoran <corcoran@linuxnet.com>
- *  Ludovic Rousseau <ludovic.rousseau@free.fr>
+ *  Dbvid Corcorbn <corcorbn@linuxnet.com>
+ *  Ludovic Roussebu <ludovic.roussebu@free.fr>
  *
- * $Id: winscard.h,v 1.13 2004/08/06 12:12:19 rousseau Exp $
+ * $Id: winscbrd.h,v 1.13 2004/08/06 12:12:19 roussebu Exp $
  */
 
-#ifndef __winscard_h__
-#define __winscard_h__
+#ifndef __winscbrd_h__
+#define __winscbrd_h__
 
 #include <pcsclite.h>
 
@@ -20,68 +20,68 @@ extern "C"
 {
 #endif
 
-        LONG SCardEstablishContext(DWORD dwScope,
+        LONG SCbrdEstbblishContext(DWORD dwScope,
                 LPCVOID pvReserved1, LPCVOID pvReserved2, LPSCARDCONTEXT phContext);
 
-        LONG SCardReleaseContext(SCARDCONTEXT hContext);
+        LONG SCbrdRelebseContext(SCARDCONTEXT hContext);
 
-        LONG SCardSetTimeout(SCARDCONTEXT hContext, DWORD dwTimeout);
+        LONG SCbrdSetTimeout(SCARDCONTEXT hContext, DWORD dwTimeout);
 
-        LONG SCardConnect(SCARDCONTEXT hContext,
-                LPCTSTR szReader,
-                DWORD dwShareMode,
+        LONG SCbrdConnect(SCARDCONTEXT hContext,
+                LPCTSTR szRebder,
+                DWORD dwShbreMode,
                 DWORD dwPreferredProtocols,
-                LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol);
+                LPSCARDHANDLE phCbrd, LPDWORD pdwActiveProtocol);
 
-        LONG SCardReconnect(SCARDHANDLE hCard,
-                DWORD dwShareMode,
+        LONG SCbrdReconnect(SCARDHANDLE hCbrd,
+                DWORD dwShbreMode,
                 DWORD dwPreferredProtocols,
-                DWORD dwInitialization, LPDWORD pdwActiveProtocol);
+                DWORD dwInitiblizbtion, LPDWORD pdwActiveProtocol);
 
-        LONG SCardDisconnect(SCARDHANDLE hCard, DWORD dwDisposition);
+        LONG SCbrdDisconnect(SCARDHANDLE hCbrd, DWORD dwDisposition);
 
-        LONG SCardBeginTransaction(SCARDHANDLE hCard);
+        LONG SCbrdBeginTrbnsbction(SCARDHANDLE hCbrd);
 
-        LONG SCardEndTransaction(SCARDHANDLE hCard, DWORD dwDisposition);
+        LONG SCbrdEndTrbnsbction(SCARDHANDLE hCbrd, DWORD dwDisposition);
 
-        LONG SCardCancelTransaction(SCARDHANDLE hCard);
+        LONG SCbrdCbncelTrbnsbction(SCARDHANDLE hCbrd);
 
-        LONG SCardStatus(SCARDHANDLE hCard,
-                LPTSTR mszReaderNames, LPDWORD pcchReaderLen,
-                LPDWORD pdwState,
+        LONG SCbrdStbtus(SCARDHANDLE hCbrd,
+                LPTSTR mszRebderNbmes, LPDWORD pcchRebderLen,
+                LPDWORD pdwStbte,
                 LPDWORD pdwProtocol,
                 LPBYTE pbAtr, LPDWORD pcbAtrLen);
 
-        LONG SCardGetStatusChange(SCARDCONTEXT hContext,
+        LONG SCbrdGetStbtusChbnge(SCARDCONTEXT hContext,
                 DWORD dwTimeout,
-                LPSCARD_READERSTATE_A rgReaderStates, DWORD cReaders);
+                LPSCARD_READERSTATE_A rgRebderStbtes, DWORD cRebders);
 
-        LONG SCardControl(SCARDHANDLE hCard, DWORD dwControlCode,
+        LONG SCbrdControl(SCARDHANDLE hCbrd, DWORD dwControlCode,
                 LPCVOID pbSendBuffer, DWORD cbSendLength,
                 LPVOID pbRecvBuffer, DWORD cbRecvLength, LPDWORD lpBytesReturned);
 
-        LONG SCardTransmit(SCARDHANDLE hCard,
+        LONG SCbrdTrbnsmit(SCARDHANDLE hCbrd,
                 LPCSCARD_IO_REQUEST pioSendPci,
                 LPCBYTE pbSendBuffer, DWORD cbSendLength,
                 LPSCARD_IO_REQUEST pioRecvPci,
                 LPBYTE pbRecvBuffer, LPDWORD pcbRecvLength);
 
-        LONG SCardListReaderGroups(SCARDCONTEXT hContext,
+        LONG SCbrdListRebderGroups(SCARDCONTEXT hContext,
                 LPTSTR mszGroups, LPDWORD pcchGroups);
 
-        LONG SCardListReaders(SCARDCONTEXT hContext,
+        LONG SCbrdListRebders(SCARDCONTEXT hContext,
                 LPCTSTR mszGroups,
-                LPTSTR mszReaders, LPDWORD pcchReaders);
+                LPTSTR mszRebders, LPDWORD pcchRebders);
 
-        LONG SCardCancel(SCARDCONTEXT hContext);
+        LONG SCbrdCbncel(SCARDCONTEXT hContext);
 
-        LONG SCardGetAttrib(SCARDHANDLE hCard, DWORD dwAttrId, LPBYTE pbAttr,
+        LONG SCbrdGetAttrib(SCARDHANDLE hCbrd, DWORD dwAttrId, LPBYTE pbAttr,
                         LPDWORD pcbAttrLen);
 
-        LONG SCardSetAttrib(SCARDHANDLE hCard, DWORD dwAttrId, LPCBYTE pbAttr,
+        LONG SCbrdSetAttrib(SCARDHANDLE hCbrd, DWORD dwAttrId, LPCBYTE pbAttr,
                         DWORD cbAttrLen);
 
-        void SCardUnload(void);
+        void SCbrdUnlobd(void);
 
 #ifdef __cplusplus
 }

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * {@code DataLine} adds media-related functionality to its superinterface,
- * {@code Line}. This functionality includes transport-control methods that
- * start, stop, drain, and flush the audio data that passes through the line. A
- * data line can also report the current position, volume, and audio format of
- * the media. Data lines are used for output of audio by means of the
- * subinterfaces {@link SourceDataLine} or {@link Clip}, which allow an
- * application program to write data. Similarly, audio input is handled by the
- * subinterface {@link TargetDataLine}, which allows data to be read.
+ * {@code DbtbLine} bdds medib-relbted functionblity to its superinterfbce,
+ * {@code Line}. This functionblity includes trbnsport-control methods thbt
+ * stbrt, stop, drbin, bnd flush the budio dbtb thbt pbsses through the line. A
+ * dbtb line cbn blso report the current position, volume, bnd budio formbt of
+ * the medib. Dbtb lines bre used for output of budio by mebns of the
+ * subinterfbces {@link SourceDbtbLine} or {@link Clip}, which bllow bn
+ * bpplicbtion progrbm to write dbtb. Similbrly, budio input is hbndled by the
+ * subinterfbce {@link TbrgetDbtbLine}, which bllows dbtb to be rebd.
  * <p>
- * A data line has an internal buffer in which the incoming or outgoing audio
- * data is queued. The {@link #drain()} method blocks until this internal buffer
- * becomes empty, usually because all queued data has been processed. The
- * {@link #flush()} method discards any available queued data from the internal
+ * A dbtb line hbs bn internbl buffer in which the incoming or outgoing budio
+ * dbtb is queued. The {@link #drbin()} method blocks until this internbl buffer
+ * becomes empty, usublly becbuse bll queued dbtb hbs been processed. The
+ * {@link #flush()} method discbrds bny bvbilbble queued dbtb from the internbl
  * buffer.
  * <p>
- * A data line produces {@link LineEvent.Type#START START} and
- * {@link LineEvent.Type#STOP STOP} events whenever it begins or ceases active
- * presentation or capture of data. These events can be generated in response to
- * specific requests, or as a result of less direct state changes. For example,
- * if {@link #start()} is called on an inactive data line, and data is available
- * for capture or playback, a {@code START} event will be generated shortly,
- * when data playback or capture actually begins. Or, if the flow of data to an
- * active data line is constricted so that a gap occurs in the presentation of
- * data, a {@code STOP} event is generated.
+ * A dbtb line produces {@link LineEvent.Type#START START} bnd
+ * {@link LineEvent.Type#STOP STOP} events whenever it begins or cebses bctive
+ * presentbtion or cbpture of dbtb. These events cbn be generbted in response to
+ * specific requests, or bs b result of less direct stbte chbnges. For exbmple,
+ * if {@link #stbrt()} is cblled on bn inbctive dbtb line, bnd dbtb is bvbilbble
+ * for cbpture or plbybbck, b {@code START} event will be generbted shortly,
+ * when dbtb plbybbck or cbpture bctublly begins. Or, if the flow of dbtb to bn
+ * bctive dbtb line is constricted so thbt b gbp occurs in the presentbtion of
+ * dbtb, b {@code STOP} event is generbted.
  * <p>
- * Mixers often support synchronized control of multiple data lines.
- * Synchronization can be established through the Mixer interface's
+ * Mixers often support synchronized control of multiple dbtb lines.
+ * Synchronizbtion cbn be estbblished through the Mixer interfbce's
  * {@link Mixer#synchronize synchronize} method. See the description of the
- * {@link Mixer Mixer} interface for a more complete description.
+ * {@link Mixer Mixer} interfbce for b more complete description.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @see LineEvent
  * @since 1.3
  */
-public interface DataLine extends Line {
+public interfbce DbtbLine extends Line {
 
     /**
-     * Drains queued data from the line by continuing data I/O until the data
-     * line's internal buffer has been emptied. This method blocks until the
-     * draining is complete. Because this is a blocking method, it should be
-     * used with care. If {@code drain()} is invoked on a stopped line that has
-     * data in its queue, the method will block until the line is running and
-     * the data queue becomes empty. If {@code drain()} is invoked by one
-     * thread, and another continues to fill the data queue, the operation will
-     * not complete. This method always returns when the data line is closed.
+     * Drbins queued dbtb from the line by continuing dbtb I/O until the dbtb
+     * line's internbl buffer hbs been emptied. This method blocks until the
+     * drbining is complete. Becbuse this is b blocking method, it should be
+     * used with cbre. If {@code drbin()} is invoked on b stopped line thbt hbs
+     * dbtb in its queue, the method will block until the line is running bnd
+     * the dbtb queue becomes empty. If {@code drbin()} is invoked by one
+     * threbd, bnd bnother continues to fill the dbtb queue, the operbtion will
+     * not complete. This method blwbys returns when the dbtb line is closed.
      *
      * @see #flush()
      */
-    void drain();
+    void drbin();
 
     /**
-     * Flushes queued data from the line. The flushed data is discarded. In some
-     * cases, not all queued data can be discarded. For example, a mixer can
-     * flush data from the buffer for a specific input line, but any unplayed
-     * data already in the output buffer (the result of the mix) will still be
-     * played. You can invoke this method after pausing a line (the normal case)
-     * if you want to skip the "stale" data when you restart playback or
-     * capture. (It is legal to flush a line that is not stopped, but doing so
-     * on an active line is likely to cause a discontinuity in the data,
-     * resulting in a perceptible click.)
+     * Flushes queued dbtb from the line. The flushed dbtb is discbrded. In some
+     * cbses, not bll queued dbtb cbn be discbrded. For exbmple, b mixer cbn
+     * flush dbtb from the buffer for b specific input line, but bny unplbyed
+     * dbtb blrebdy in the output buffer (the result of the mix) will still be
+     * plbyed. You cbn invoke this method bfter pbusing b line (the normbl cbse)
+     * if you wbnt to skip the "stble" dbtb when you restbrt plbybbck or
+     * cbpture. (It is legbl to flush b line thbt is not stopped, but doing so
+     * on bn bctive line is likely to cbuse b discontinuity in the dbtb,
+     * resulting in b perceptible click.)
      *
      * @see #stop()
-     * @see #drain()
+     * @see #drbin()
      */
     void flush();
 
     /**
-     * Allows a line to engage in data I/O. If invoked on a line that is already
-     * running, this method does nothing. Unless the data in the buffer has been
-     * flushed, the line resumes I/O starting with the first frame that was
-     * unprocessed at the time the line was stopped. When audio capture or
-     * playback starts, a {@link LineEvent.Type#START START} event is generated.
+     * Allows b line to engbge in dbtb I/O. If invoked on b line thbt is blrebdy
+     * running, this method does nothing. Unless the dbtb in the buffer hbs been
+     * flushed, the line resumes I/O stbrting with the first frbme thbt wbs
+     * unprocessed bt the time the line wbs stopped. When budio cbpture or
+     * plbybbck stbrts, b {@link LineEvent.Type#START START} event is generbted.
      *
      * @see #stop()
      * @see #isRunning()
      * @see LineEvent
      */
-    void start();
+    void stbrt();
 
     /**
-     * Stops the line. A stopped line should cease I/O activity. If the line is
-     * open and running, however, it should retain the resources required to
-     * resume activity. A stopped line should retain any audio data in its
-     * buffer instead of discarding it, so that upon resumption the I/O can
-     * continue where it left off, if possible. (This doesn't guarantee that
+     * Stops the line. A stopped line should cebse I/O bctivity. If the line is
+     * open bnd running, however, it should retbin the resources required to
+     * resume bctivity. A stopped line should retbin bny budio dbtb in its
+     * buffer instebd of discbrding it, so thbt upon resumption the I/O cbn
+     * continue where it left off, if possible. (This doesn't gubrbntee thbt
      * there will never be discontinuities beyond the current buffer, of course;
-     * if the stopped condition continues for too long, input or output samples
-     * might be dropped.) If desired, the retained data can be discarded by
-     * invoking the {@code flush} method. When audio capture or playback stops,
-     * a {@link LineEvent.Type#STOP STOP} event is generated.
+     * if the stopped condition continues for too long, input or output sbmples
+     * might be dropped.) If desired, the retbined dbtb cbn be discbrded by
+     * invoking the {@code flush} method. When budio cbpture or plbybbck stops,
+     * b {@link LineEvent.Type#STOP STOP} event is generbted.
      *
-     * @see #start()
+     * @see #stbrt()
      * @see #isRunning()
      * @see #flush()
      * @see LineEvent
@@ -127,272 +127,272 @@ public interface DataLine extends Line {
     void stop();
 
     /**
-     * Indicates whether the line is running. The default is {@code false}. An
-     * open line begins running when the first data is presented in response to
-     * an invocation of the {@code start} method, and continues until
-     * presentation ceases in response to a call to {@code stop} or because
-     * playback completes.
+     * Indicbtes whether the line is running. The defbult is {@code fblse}. An
+     * open line begins running when the first dbtb is presented in response to
+     * bn invocbtion of the {@code stbrt} method, bnd continues until
+     * presentbtion cebses in response to b cbll to {@code stop} or becbuse
+     * plbybbck completes.
      *
-     * @return {@code true} if the line is running, otherwise {@code false}
-     * @see #start()
+     * @return {@code true} if the line is running, otherwise {@code fblse}
+     * @see #stbrt()
      * @see #stop()
      */
-    boolean isRunning();
+    boolebn isRunning();
 
     /**
-     * Indicates whether the line is engaging in active I/O (such as playback or
-     * capture). When an inactive line becomes active, it sends a
-     * {@link LineEvent.Type#START START} event to its listeners. Similarly,
-     * when an active line becomes inactive, it sends a
+     * Indicbtes whether the line is engbging in bctive I/O (such bs plbybbck or
+     * cbpture). When bn inbctive line becomes bctive, it sends b
+     * {@link LineEvent.Type#START START} event to its listeners. Similbrly,
+     * when bn bctive line becomes inbctive, it sends b
      * {@link LineEvent.Type#STOP STOP} event.
      *
-     * @return {@code true} if the line is actively capturing or rendering
-     *         sound, otherwise {@code false}
+     * @return {@code true} if the line is bctively cbpturing or rendering
+     *         sound, otherwise {@code fblse}
      * @see #isOpen
-     * @see #addLineListener
+     * @see #bddLineListener
      * @see #removeLineListener
      * @see LineEvent
      * @see LineListener
      */
-    boolean isActive();
+    boolebn isActive();
 
     /**
-     * Obtains the current format (encoding, sample rate, number of channels,
-     * etc.) of the data line's audio data.
+     * Obtbins the current formbt (encoding, sbmple rbte, number of chbnnels,
+     * etc.) of the dbtb line's budio dbtb.
      * <p>
-     * If the line is not open and has never been opened, it returns the default
-     * format. The default format is an implementation specific audio format,
-     * or, if the {@code DataLine.Info} object, which was used to retrieve this
-     * {@code DataLine}, specifies at least one fully qualified audio format,
-     * the last one will be used as the default format. Opening the line with a
-     * specific audio format (e.g. {@link SourceDataLine#open(AudioFormat)})
-     * will override the default format.
+     * If the line is not open bnd hbs never been opened, it returns the defbult
+     * formbt. The defbult formbt is bn implementbtion specific budio formbt,
+     * or, if the {@code DbtbLine.Info} object, which wbs used to retrieve this
+     * {@code DbtbLine}, specifies bt lebst one fully qublified budio formbt,
+     * the lbst one will be used bs the defbult formbt. Opening the line with b
+     * specific budio formbt (e.g. {@link SourceDbtbLine#open(AudioFormbt)})
+     * will override the defbult formbt.
      *
-     * @return current audio data format
-     * @see AudioFormat
+     * @return current budio dbtb formbt
+     * @see AudioFormbt
      */
-    AudioFormat getFormat();
+    AudioFormbt getFormbt();
 
     /**
-     * Obtains the maximum number of bytes of data that will fit in the data
-     * line's internal buffer. For a source data line, this is the size of the
-     * buffer to which data can be written. For a target data line, it is the
-     * size of the buffer from which data can be read. Note that the units used
-     * are bytes, but will always correspond to an integral number of sample
-     * frames of audio data.
+     * Obtbins the mbximum number of bytes of dbtb thbt will fit in the dbtb
+     * line's internbl buffer. For b source dbtb line, this is the size of the
+     * buffer to which dbtb cbn be written. For b tbrget dbtb line, it is the
+     * size of the buffer from which dbtb cbn be rebd. Note thbt the units used
+     * bre bytes, but will blwbys correspond to bn integrbl number of sbmple
+     * frbmes of budio dbtb.
      *
      * @return the size of the buffer in bytes
      */
     int getBufferSize();
 
     /**
-     * Obtains the number of bytes of data currently available to the
-     * application for processing in the data line's internal buffer. For a
-     * source data line, this is the amount of data that can be written to the
-     * buffer without blocking. For a target data line, this is the amount of
-     * data available to be read by the application. For a clip, this value is
-     * always 0 because the audio data is loaded into the buffer when the clip
-     * is opened, and persists without modification until the clip is closed.
+     * Obtbins the number of bytes of dbtb currently bvbilbble to the
+     * bpplicbtion for processing in the dbtb line's internbl buffer. For b
+     * source dbtb line, this is the bmount of dbtb thbt cbn be written to the
+     * buffer without blocking. For b tbrget dbtb line, this is the bmount of
+     * dbtb bvbilbble to be rebd by the bpplicbtion. For b clip, this vblue is
+     * blwbys 0 becbuse the budio dbtb is lobded into the buffer when the clip
+     * is opened, bnd persists without modificbtion until the clip is closed.
      * <p>
-     * Note that the units used are bytes, but will always correspond to an
-     * integral number of sample frames of audio data.
+     * Note thbt the units used bre bytes, but will blwbys correspond to bn
+     * integrbl number of sbmple frbmes of budio dbtb.
      * <p>
-     * An application is guaranteed that a read or write operation of up to the
-     * number of bytes returned from {@code available()} will not block;
-     * however, there is no guarantee that attempts to read or write more data
+     * An bpplicbtion is gubrbnteed thbt b rebd or write operbtion of up to the
+     * number of bytes returned from {@code bvbilbble()} will not block;
+     * however, there is no gubrbntee thbt bttempts to rebd or write more dbtb
      * will block.
      *
-     * @return the amount of data available, in bytes
+     * @return the bmount of dbtb bvbilbble, in bytes
      */
-    int available();
+    int bvbilbble();
 
     /**
-     * Obtains the current position in the audio data, in sample frames. The
-     * frame position measures the number of sample frames captured by, or
-     * rendered from, the line since it was opened. This return value will wrap
-     * around after 2^31 frames. It is recommended to use
-     * {@code getLongFramePosition} instead.
+     * Obtbins the current position in the budio dbtb, in sbmple frbmes. The
+     * frbme position mebsures the number of sbmple frbmes cbptured by, or
+     * rendered from, the line since it wbs opened. This return vblue will wrbp
+     * bround bfter 2^31 frbmes. It is recommended to use
+     * {@code getLongFrbmePosition} instebd.
      *
-     * @return the number of frames already processed since the line was opened
-     * @see #getLongFramePosition()
+     * @return the number of frbmes blrebdy processed since the line wbs opened
+     * @see #getLongFrbmePosition()
      */
-    int getFramePosition();
+    int getFrbmePosition();
 
     /**
-     * Obtains the current position in the audio data, in sample frames. The
-     * frame position measures the number of sample frames captured by, or
-     * rendered from, the line since it was opened.
+     * Obtbins the current position in the budio dbtb, in sbmple frbmes. The
+     * frbme position mebsures the number of sbmple frbmes cbptured by, or
+     * rendered from, the line since it wbs opened.
      *
-     * @return the number of frames already processed since the line was opened
+     * @return the number of frbmes blrebdy processed since the line wbs opened
      * @since 1.5
      */
-    long getLongFramePosition();
+    long getLongFrbmePosition();
 
     /**
-     * Obtains the current position in the audio data, in microseconds. The
-     * microsecond position measures the time corresponding to the number of
-     * sample frames captured by, or rendered from, the line since it was
-     * opened. The level of precision is not guaranteed. For example, an
-     * implementation might calculate the microsecond position from the current
-     * frame position and the audio sample frame rate. The precision in
+     * Obtbins the current position in the budio dbtb, in microseconds. The
+     * microsecond position mebsures the time corresponding to the number of
+     * sbmple frbmes cbptured by, or rendered from, the line since it wbs
+     * opened. The level of precision is not gubrbnteed. For exbmple, bn
+     * implementbtion might cblculbte the microsecond position from the current
+     * frbme position bnd the budio sbmple frbme rbte. The precision in
      * microseconds would then be limited to the number of microseconds per
-     * sample frame.
+     * sbmple frbme.
      *
-     * @return the number of microseconds of data processed since the line was
+     * @return the number of microseconds of dbtb processed since the line wbs
      *         opened
      */
     long getMicrosecondPosition();
 
     /**
-     * Obtains the current volume level for the line. This level is a measure of
-     * the signal's current amplitude, and should not be confused with the
-     * current setting of a gain control. The range is from 0.0 (silence) to 1.0
-     * (maximum possible amplitude for the sound waveform). The units measure
-     * linear amplitude, not decibels.
+     * Obtbins the current volume level for the line. This level is b mebsure of
+     * the signbl's current bmplitude, bnd should not be confused with the
+     * current setting of b gbin control. The rbnge is from 0.0 (silence) to 1.0
+     * (mbximum possible bmplitude for the sound wbveform). The units mebsure
+     * linebr bmplitude, not decibels.
      *
-     * @return the current amplitude of the signal in this line, or
+     * @return the current bmplitude of the signbl in this line, or
      *         {@link AudioSystem#NOT_SPECIFIED}
      */
-    float getLevel();
+    flobt getLevel();
 
     /**
-     * Besides the class information inherited from its superclass,
-     * {@code DataLine.Info} provides additional information specific to data
-     * lines. This information includes:
+     * Besides the clbss informbtion inherited from its superclbss,
+     * {@code DbtbLine.Info} provides bdditionbl informbtion specific to dbtb
+     * lines. This informbtion includes:
      * <ul>
-     * <li> the audio formats supported by the data line
-     * <li> the minimum and maximum sizes of its internal buffer
+     * <li> the budio formbts supported by the dbtb line
+     * <li> the minimum bnd mbximum sizes of its internbl buffer
      * </ul>
-     * Because a {@code Line.Info} knows the class of the line its describes, a
-     * {@code DataLine.Info} object can describe {@code DataLine} subinterfaces
-     * such as {@link SourceDataLine}, {@link TargetDataLine}, and {@link Clip}.
-     * You can query a mixer for lines of any of these types, passing an
-     * appropriate instance of {@code DataLine.Info} as the argument to a method
-     * such as {@link Mixer#getLine(Line.Info)}.
+     * Becbuse b {@code Line.Info} knows the clbss of the line its describes, b
+     * {@code DbtbLine.Info} object cbn describe {@code DbtbLine} subinterfbces
+     * such bs {@link SourceDbtbLine}, {@link TbrgetDbtbLine}, bnd {@link Clip}.
+     * You cbn query b mixer for lines of bny of these types, pbssing bn
+     * bppropribte instbnce of {@code DbtbLine.Info} bs the brgument to b method
+     * such bs {@link Mixer#getLine(Line.Info)}.
      *
      * @see Line.Info
-     * @author Kara Kytle
+     * @buthor Kbrb Kytle
      * @since 1.3
      */
-    class Info extends Line.Info {
+    clbss Info extends Line.Info {
 
-        private final AudioFormat[] formats;
-        private final int minBufferSize;
-        private final int maxBufferSize;
+        privbte finbl AudioFormbt[] formbts;
+        privbte finbl int minBufferSize;
+        privbte finbl int mbxBufferSize;
 
         /**
-         * Constructs a data line's info object from the specified information,
-         * which includes a set of supported audio formats and a range for the
-         * buffer size. This constructor is typically used by mixer
-         * implementations when returning information about a supported line.
+         * Constructs b dbtb line's info object from the specified informbtion,
+         * which includes b set of supported budio formbts bnd b rbnge for the
+         * buffer size. This constructor is typicblly used by mixer
+         * implementbtions when returning informbtion bbout b supported line.
          *
-         * @param  lineClass the class of the data line described by the info
+         * @pbrbm  lineClbss the clbss of the dbtb line described by the info
          *         object
-         * @param  formats set of formats supported
-         * @param  minBufferSize minimum buffer size supported by the data
+         * @pbrbm  formbts set of formbts supported
+         * @pbrbm  minBufferSize minimum buffer size supported by the dbtb
          *         line, in bytes
-         * @param  maxBufferSize maximum buffer size supported by the data
+         * @pbrbm  mbxBufferSize mbximum buffer size supported by the dbtb
          *         line, in bytes
          */
-        public Info(Class<?> lineClass, AudioFormat[] formats, int minBufferSize, int maxBufferSize) {
+        public Info(Clbss<?> lineClbss, AudioFormbt[] formbts, int minBufferSize, int mbxBufferSize) {
 
-            super(lineClass);
+            super(lineClbss);
 
-            if (formats == null) {
-                this.formats = new AudioFormat[0];
+            if (formbts == null) {
+                this.formbts = new AudioFormbt[0];
             } else {
-                this.formats = Arrays.copyOf(formats, formats.length);
+                this.formbts = Arrbys.copyOf(formbts, formbts.length);
             }
 
             this.minBufferSize = minBufferSize;
-            this.maxBufferSize = maxBufferSize;
+            this.mbxBufferSize = mbxBufferSize;
         }
 
         /**
-         * Constructs a data line's info object from the specified information,
-         * which includes a single audio format and a desired buffer size. This
-         * constructor is typically used by an application to describe a desired
+         * Constructs b dbtb line's info object from the specified informbtion,
+         * which includes b single budio formbt bnd b desired buffer size. This
+         * constructor is typicblly used by bn bpplicbtion to describe b desired
          * line.
          *
-         * @param  lineClass the class of the data line described by the info
+         * @pbrbm  lineClbss the clbss of the dbtb line described by the info
          *         object
-         * @param  format desired format
-         * @param  bufferSize desired buffer size in bytes
+         * @pbrbm  formbt desired formbt
+         * @pbrbm  bufferSize desired buffer size in bytes
          */
-        public Info(Class<?> lineClass, AudioFormat format, int bufferSize) {
+        public Info(Clbss<?> lineClbss, AudioFormbt formbt, int bufferSize) {
 
-            super(lineClass);
+            super(lineClbss);
 
-            if (format == null) {
-                this.formats = new AudioFormat[0];
+            if (formbt == null) {
+                this.formbts = new AudioFormbt[0];
             } else {
-                this.formats = new AudioFormat[]{format};
+                this.formbts = new AudioFormbt[]{formbt};
             }
 
             this.minBufferSize = bufferSize;
-            this.maxBufferSize = bufferSize;
+            this.mbxBufferSize = bufferSize;
         }
 
         /**
-         * Constructs a data line's info object from the specified information,
-         * which includes a single audio format. This constructor is typically
-         * used by an application to describe a desired line.
+         * Constructs b dbtb line's info object from the specified informbtion,
+         * which includes b single budio formbt. This constructor is typicblly
+         * used by bn bpplicbtion to describe b desired line.
          *
-         * @param  lineClass the class of the data line described by the info
+         * @pbrbm  lineClbss the clbss of the dbtb line described by the info
          *         object
-         * @param  format desired format
+         * @pbrbm  formbt desired formbt
          */
-        public Info(Class<?> lineClass, AudioFormat format) {
-            this(lineClass, format, AudioSystem.NOT_SPECIFIED);
+        public Info(Clbss<?> lineClbss, AudioFormbt formbt) {
+            this(lineClbss, formbt, AudioSystem.NOT_SPECIFIED);
         }
 
         /**
-         * Obtains a set of audio formats supported by the data line. Note that
-         * {@code isFormatSupported(AudioFormat)} might return {@code true} for
-         * certain additional formats that are missing from the set returned by
-         * {@code getFormats()}. The reverse is not the case:
-         * {@code isFormatSupported(AudioFormat)} is guaranteed to return
-         * {@code true} for all formats returned by {@code getFormats()}.
+         * Obtbins b set of budio formbts supported by the dbtb line. Note thbt
+         * {@code isFormbtSupported(AudioFormbt)} might return {@code true} for
+         * certbin bdditionbl formbts thbt bre missing from the set returned by
+         * {@code getFormbts()}. The reverse is not the cbse:
+         * {@code isFormbtSupported(AudioFormbt)} is gubrbnteed to return
+         * {@code true} for bll formbts returned by {@code getFormbts()}.
          * <p>
-         * Some fields in the AudioFormat instances can be set to
-         * {@link javax.sound.sampled.AudioSystem#NOT_SPECIFIED NOT_SPECIFIED}
-         * if that field does not apply to the format, or if the format supports
-         * a wide range of values for that field. For example, a multi-channel
-         * device supporting up to 64 channels, could set the channel field in
-         * the {@code AudioFormat} instances returned by this method to
+         * Some fields in the AudioFormbt instbnces cbn be set to
+         * {@link jbvbx.sound.sbmpled.AudioSystem#NOT_SPECIFIED NOT_SPECIFIED}
+         * if thbt field does not bpply to the formbt, or if the formbt supports
+         * b wide rbnge of vblues for thbt field. For exbmple, b multi-chbnnel
+         * device supporting up to 64 chbnnels, could set the chbnnel field in
+         * the {@code AudioFormbt} instbnces returned by this method to
          * {@code NOT_SPECIFIED}.
          *
-         * @return a set of supported audio formats
-         * @see #isFormatSupported(AudioFormat)
+         * @return b set of supported budio formbts
+         * @see #isFormbtSupported(AudioFormbt)
          */
-        public AudioFormat[] getFormats() {
-            return Arrays.copyOf(formats, formats.length);
+        public AudioFormbt[] getFormbts() {
+            return Arrbys.copyOf(formbts, formbts.length);
         }
 
         /**
-         * Indicates whether this data line supports a particular audio format.
-         * The default implementation of this method simply returns {@code true}
-         * if the specified format matches any of the supported formats.
+         * Indicbtes whether this dbtb line supports b pbrticulbr budio formbt.
+         * The defbult implementbtion of this method simply returns {@code true}
+         * if the specified formbt mbtches bny of the supported formbts.
          *
-         * @param  format the audio format for which support is queried
-         * @return {@code true} if the format is supported, otherwise
-         *         {@code false}
-         * @see #getFormats
-         * @see AudioFormat#matches
+         * @pbrbm  formbt the budio formbt for which support is queried
+         * @return {@code true} if the formbt is supported, otherwise
+         *         {@code fblse}
+         * @see #getFormbts
+         * @see AudioFormbt#mbtches
          */
-        public boolean isFormatSupported(AudioFormat format) {
+        public boolebn isFormbtSupported(AudioFormbt formbt) {
 
-            for (int i = 0; i < formats.length; i++) {
-                if (format.matches(formats[i])) {
+            for (int i = 0; i < formbts.length; i++) {
+                if (formbt.mbtches(formbts[i])) {
                     return true;
                 }
             }
 
-            return false;
+            return fblse;
         }
 
         /**
-         * Obtains the minimum buffer size supported by the data line.
+         * Obtbins the minimum buffer size supported by the dbtb line.
          *
          * @return minimum buffer size in bytes, or
          *         {@code AudioSystem.NOT_SPECIFIED}
@@ -402,58 +402,58 @@ public interface DataLine extends Line {
         }
 
         /**
-         * Obtains the maximum buffer size supported by the data line.
+         * Obtbins the mbximum buffer size supported by the dbtb line.
          *
-         * @return maximum buffer size in bytes, or
+         * @return mbximum buffer size in bytes, or
          *         {@code AudioSystem.NOT_SPECIFIED}
          */
-        public int getMaxBufferSize() {
-            return maxBufferSize;
+        public int getMbxBufferSize() {
+            return mbxBufferSize;
         }
 
         /**
-         * Determines whether the specified info object matches this one. To
-         * match, the superclass match requirements must be met. In addition,
-         * this object's minimum buffer size must be at least as large as that
-         * of the object specified, its maximum buffer size must be at most as
-         * large as that of the object specified, and all of its formats must
-         * match formats supported by the object specified.
+         * Determines whether the specified info object mbtches this one. To
+         * mbtch, the superclbss mbtch requirements must be met. In bddition,
+         * this object's minimum buffer size must be bt lebst bs lbrge bs thbt
+         * of the object specified, its mbximum buffer size must be bt most bs
+         * lbrge bs thbt of the object specified, bnd bll of its formbts must
+         * mbtch formbts supported by the object specified.
          *
-         * @return {@code true} if this object matches the one specified,
-         *         otherwise {@code false}
+         * @return {@code true} if this object mbtches the one specified,
+         *         otherwise {@code fblse}
          */
         @Override
-        public boolean matches(Line.Info info) {
+        public boolebn mbtches(Line.Info info) {
 
-            if (! (super.matches(info)) ) {
-                return false;
+            if (! (super.mbtches(info)) ) {
+                return fblse;
             }
 
-            Info dataLineInfo = (Info)info;
+            Info dbtbLineInfo = (Info)info;
 
-            // treat anything < 0 as NOT_SPECIFIED
-            // demo code in old Java Sound Demo used a wrong buffer calculation
-            // that would lead to arbitrary negative values
-            if ((getMaxBufferSize() >= 0) && (dataLineInfo.getMaxBufferSize() >= 0)) {
-                if (getMaxBufferSize() > dataLineInfo.getMaxBufferSize()) {
-                    return false;
+            // trebt bnything < 0 bs NOT_SPECIFIED
+            // demo code in old Jbvb Sound Demo used b wrong buffer cblculbtion
+            // thbt would lebd to brbitrbry negbtive vblues
+            if ((getMbxBufferSize() >= 0) && (dbtbLineInfo.getMbxBufferSize() >= 0)) {
+                if (getMbxBufferSize() > dbtbLineInfo.getMbxBufferSize()) {
+                    return fblse;
                 }
             }
 
-            if ((getMinBufferSize() >= 0) && (dataLineInfo.getMinBufferSize() >= 0)) {
-                if (getMinBufferSize() < dataLineInfo.getMinBufferSize()) {
-                    return false;
+            if ((getMinBufferSize() >= 0) && (dbtbLineInfo.getMinBufferSize() >= 0)) {
+                if (getMinBufferSize() < dbtbLineInfo.getMinBufferSize()) {
+                    return fblse;
                 }
             }
 
-            AudioFormat[] localFormats = getFormats();
+            AudioFormbt[] locblFormbts = getFormbts();
 
-            if (localFormats != null) {
+            if (locblFormbts != null) {
 
-                for (int i = 0; i < localFormats.length; i++) {
-                    if (! (localFormats[i] == null) ) {
-                        if (! (dataLineInfo.isFormatSupported(localFormats[i])) ) {
-                            return false;
+                for (int i = 0; i < locblFormbts.length; i++) {
+                    if (! (locblFormbts[i] == null) ) {
+                        if (! (dbtbLineInfo.isFormbtSupported(locblFormbts[i])) ) {
+                            return fblse;
                         }
                     }
                 }
@@ -463,27 +463,27 @@ public interface DataLine extends Line {
         }
 
         /**
-         * Obtains a textual description of the data line info.
+         * Obtbins b textubl description of the dbtb line info.
          *
-         * @return a string description
+         * @return b string description
          */
         @Override
         public String toString() {
 
             StringBuilder sb = new StringBuilder();
 
-            if ( (formats.length == 1) && (formats[0] != null) ) {
-                sb.append(" supporting format " + formats[0]);
-            } else if (getFormats().length > 1) {
-                sb.append(" supporting " + getFormats().length + " audio formats");
+            if ( (formbts.length == 1) && (formbts[0] != null) ) {
+                sb.bppend(" supporting formbt " + formbts[0]);
+            } else if (getFormbts().length > 1) {
+                sb.bppend(" supporting " + getFormbts().length + " budio formbts");
             }
 
-            if ( (minBufferSize != AudioSystem.NOT_SPECIFIED) && (maxBufferSize != AudioSystem.NOT_SPECIFIED) ) {
-                sb.append(", and buffers of " + minBufferSize + " to " + maxBufferSize + " bytes");
+            if ( (minBufferSize != AudioSystem.NOT_SPECIFIED) && (mbxBufferSize != AudioSystem.NOT_SPECIFIED) ) {
+                sb.bppend(", bnd buffers of " + minBufferSize + " to " + mbxBufferSize + " bytes");
             } else if ( (minBufferSize != AudioSystem.NOT_SPECIFIED) && (minBufferSize > 0) ) {
-                sb.append(", and buffers of at least " + minBufferSize + " bytes");
-            } else if (maxBufferSize != AudioSystem.NOT_SPECIFIED) {
-                sb.append(", and buffers of up to " + minBufferSize + " bytes");
+                sb.bppend(", bnd buffers of bt lebst " + minBufferSize + " bytes");
+            } else if (mbxBufferSize != AudioSystem.NOT_SPECIFIED) {
+                sb.bppend(", bnd buffers of up to " + minBufferSize + " bytes");
             }
 
             return new String(super.toString() + sb);

@@ -1,912 +1,912 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.IntBinaryOperator;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.IntPredicate;
-import java.util.function.IntSupplier;
-import java.util.function.IntToDoubleFunction;
-import java.util.function.IntToLongFunction;
-import java.util.function.IntUnaryOperator;
-import java.util.function.ObjIntConsumer;
-import java.util.function.Supplier;
+import jbvb.util.Arrbys;
+import jbvb.util.IntSummbryStbtistics;
+import jbvb.util.Objects;
+import jbvb.util.OptionblDouble;
+import jbvb.util.OptionblInt;
+import jbvb.util.PrimitiveIterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.IntBinbryOperbtor;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.IntPredicbte;
+import jbvb.util.function.IntSupplier;
+import jbvb.util.function.IntToDoubleFunction;
+import jbvb.util.function.IntToLongFunction;
+import jbvb.util.function.IntUnbryOperbtor;
+import jbvb.util.function.ObjIntConsumer;
+import jbvb.util.function.Supplier;
 
 /**
- * A sequence of primitive int-valued elements supporting sequential and parallel
- * aggregate operations.  This is the {@code int} primitive specialization of
- * {@link Stream}.
+ * A sequence of primitive int-vblued elements supporting sequentibl bnd pbrbllel
+ * bggregbte operbtions.  This is the {@code int} primitive speciblizbtion of
+ * {@link Strebm}.
  *
- * <p>The following example illustrates an aggregate operation using
- * {@link Stream} and {@link IntStream}, computing the sum of the weights of the
+ * <p>The following exbmple illustrbtes bn bggregbte operbtion using
+ * {@link Strebm} bnd {@link IntStrebm}, computing the sum of the weights of the
  * red widgets:
  *
  * <pre>{@code
- *     int sum = widgets.stream()
+ *     int sum = widgets.strebm()
  *                      .filter(w -> w.getColor() == RED)
- *                      .mapToInt(w -> w.getWeight())
+ *                      .mbpToInt(w -> w.getWeight())
  *                      .sum();
  * }</pre>
  *
- * See the class documentation for {@link Stream} and the package documentation
- * for <a href="package-summary.html">java.util.stream</a> for additional
- * specification of streams, stream operations, stream pipelines, and
- * parallelism.
+ * See the clbss documentbtion for {@link Strebm} bnd the pbckbge documentbtion
+ * for <b href="pbckbge-summbry.html">jbvb.util.strebm</b> for bdditionbl
+ * specificbtion of strebms, strebm operbtions, strebm pipelines, bnd
+ * pbrbllelism.
  *
  * @since 1.8
- * @see Stream
- * @see <a href="package-summary.html">java.util.stream</a>
+ * @see Strebm
+ * @see <b href="pbckbge-summbry.html">jbvb.util.strebm</b>
  */
-public interface IntStream extends BaseStream<Integer, IntStream> {
+public interfbce IntStrebm extends BbseStrebm<Integer, IntStrebm> {
 
     /**
-     * Returns a stream consisting of the elements of this stream that match
-     * the given predicate.
+     * Returns b strebm consisting of the elements of this strebm thbt mbtch
+     * the given predicbte.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to each element to determine if it
+     * @pbrbm predicbte b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                  <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                  predicbte to bpply to ebch element to determine if it
      *                  should be included
-     * @return the new stream
+     * @return the new strebm
      */
-    IntStream filter(IntPredicate predicate);
+    IntStrebm filter(IntPredicbte predicbte);
 
     /**
-     * Returns a stream consisting of the results of applying the given
-     * function to the elements of this stream.
+     * Returns b strebm consisting of the results of bpplying the given
+     * function to the elements of this strebm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbpper b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *               <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *               function to bpply to ebch element
+     * @return the new strebm
      */
-    IntStream map(IntUnaryOperator mapper);
+    IntStrebm mbp(IntUnbryOperbtor mbpper);
 
     /**
-     * Returns an object-valued {@code Stream} consisting of the results of
-     * applying the given function to the elements of this stream.
+     * Returns bn object-vblued {@code Strebm} consisting of the results of
+     * bpplying the given function to the elements of this strebm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">
-     *     intermediate operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">
+     *     intermedibte operbtion</b>.
      *
-     * @param <U> the element type of the new stream
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm <U> the element type of the new strebm
+     * @pbrbm mbpper b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *               <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *               function to bpply to ebch element
+     * @return the new strebm
      */
-    <U> Stream<U> mapToObj(IntFunction<? extends U> mapper);
+    <U> Strebm<U> mbpToObj(IntFunction<? extends U> mbpper);
 
     /**
-     * Returns a {@code LongStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Returns b {@code LongStrebm} consisting of the results of bpplying the
+     * given function to the elements of this strebm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbpper b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *               <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *               function to bpply to ebch element
+     * @return the new strebm
      */
-    LongStream mapToLong(IntToLongFunction mapper);
+    LongStrebm mbpToLong(IntToLongFunction mbpper);
 
     /**
-     * Returns a {@code DoubleStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Returns b {@code DoubleStrebm} consisting of the results of bpplying the
+     * given function to the elements of this strebm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbpper b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *               <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *               function to bpply to ebch element
+     * @return the new strebm
      */
-    DoubleStream mapToDouble(IntToDoubleFunction mapper);
+    DoubleStrebm mbpToDouble(IntToDoubleFunction mbpper);
 
     /**
-     * Returns a stream consisting of the results of replacing each element of
-     * this stream with the contents of a mapped stream produced by applying
-     * the provided mapping function to each element.  Each mapped stream is
-     * {@link java.util.stream.BaseStream#close() closed} after its contents
-     * have been placed into this stream.  (If a mapped stream is {@code null}
-     * an empty stream is used, instead.)
+     * Returns b strebm consisting of the results of replbcing ebch element of
+     * this strebm with the contents of b mbpped strebm produced by bpplying
+     * the provided mbpping function to ebch element.  Ebch mbpped strebm is
+     * {@link jbvb.util.strebm.BbseStrebm#close() closed} bfter its contents
+     * hbve been plbced into this strebm.  (If b mbpped strebm is {@code null}
+     * bn empty strebm is used, instebd.)
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element which produces an
-     *               {@code IntStream} of new values
-     * @return the new stream
-     * @see Stream#flatMap(Function)
+     * @pbrbm mbpper b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *               <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *               function to bpply to ebch element which produces bn
+     *               {@code IntStrebm} of new vblues
+     * @return the new strebm
+     * @see Strebm#flbtMbp(Function)
      */
-    IntStream flatMap(IntFunction<? extends IntStream> mapper);
+    IntStrebm flbtMbp(IntFunction<? extends IntStrebm> mbpper);
 
     /**
-     * Returns a stream consisting of the distinct elements of this stream.
+     * Returns b strebm consisting of the distinct elements of this strebm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">stbteful
+     * intermedibte operbtion</b>.
      *
-     * @return the new stream
+     * @return the new strebm
      */
-    IntStream distinct();
+    IntStrebm distinct();
 
     /**
-     * Returns a stream consisting of the elements of this stream in sorted
+     * Returns b strebm consisting of the elements of this strebm in sorted
      * order.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">stbteful
+     * intermedibte operbtion</b>.
      *
-     * @return the new stream
+     * @return the new strebm
      */
-    IntStream sorted();
+    IntStrebm sorted();
 
     /**
-     * Returns a stream consisting of the elements of this stream, additionally
-     * performing the provided action on each element as elements are consumed
-     * from the resulting stream.
+     * Returns b strebm consisting of the elements of this strebm, bdditionblly
+     * performing the provided bction on ebch element bs elements bre consumed
+     * from the resulting strebm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * <p>For parallel stream pipelines, the action may be called at
-     * whatever time and in whatever thread the element is made available by the
-     * upstream operation.  If the action modifies shared state,
-     * it is responsible for providing the required synchronization.
+     * <p>For pbrbllel strebm pipelines, the bction mby be cblled bt
+     * whbtever time bnd in whbtever threbd the element is mbde bvbilbble by the
+     * upstrebm operbtion.  If the bction modifies shbred stbte,
+     * it is responsible for providing the required synchronizbtion.
      *
-     * @apiNote This method exists mainly to support debugging, where you want
-     * to see the elements as they flow past a certain point in a pipeline:
+     * @bpiNote This method exists mbinly to support debugging, where you wbnt
+     * to see the elements bs they flow pbst b certbin point in b pipeline:
      * <pre>{@code
-     *     IntStream.of(1, 2, 3, 4)
+     *     IntStrebm.of(1, 2, 3, 4)
      *         .filter(e -> e > 2)
-     *         .peek(e -> System.out.println("Filtered value: " + e))
-     *         .map(e -> e * e)
-     *         .peek(e -> System.out.println("Mapped value: " + e))
+     *         .peek(e -> System.out.println("Filtered vblue: " + e))
+     *         .mbp(e -> e * e)
+     *         .peek(e -> System.out.println("Mbpped vblue: " + e))
      *         .sum();
      * }</pre>
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements as
-     *               they are consumed from the stream
-     * @return the new stream
+     * @pbrbm bction b <b href="pbckbge-summbry.html#NonInterference">
+     *               non-interfering</b> bction to perform on the elements bs
+     *               they bre consumed from the strebm
+     * @return the new strebm
      */
-    IntStream peek(IntConsumer action);
+    IntStrebm peek(IntConsumer bction);
 
     /**
-     * Returns a stream consisting of the elements of this stream, truncated
-     * to be no longer than {@code maxSize} in length.
+     * Returns b strebm consisting of the elements of this strebm, truncbted
+     * to be no longer thbn {@code mbxSize} in length.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * stateful intermediate operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * stbteful intermedibte operbtion</b>.
      *
-     * @apiNote
-     * While {@code limit()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code maxSize}, since {@code limit(n)}
-     * is constrained to return not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(IntSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code limit()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code limit()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNote
+     * While {@code limit()} is generblly b chebp operbtion on sequentibl
+     * strebm pipelines, it cbn be quite expensive on ordered pbrbllel pipelines,
+     * especiblly for lbrge vblues of {@code mbxSize}, since {@code limit(n)}
+     * is constrbined to return not just bny <em>n</em> elements, but the
+     * <em>first n</em> elements in the encounter order.  Using bn unordered
+     * strebm source (such bs {@link #generbte(IntSupplier)}) or removing the
+     * ordering constrbint with {@link #unordered()} mby result in significbnt
+     * speedups of {@code limit()} in pbrbllel pipelines, if the sembntics of
+     * your situbtion permit.  If consistency with encounter order is required,
+     * bnd you bre experiencing poor performbnce or memory utilizbtion with
+     * {@code limit()} in pbrbllel pipelines, switching to sequentibl execution
+     * with {@link #sequentibl()} mby improve performbnce.
      *
-     * @param maxSize the number of elements the stream should be limited to
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code maxSize} is negative
+     * @pbrbm mbxSize the number of elements the strebm should be limited to
+     * @return the new strebm
+     * @throws IllegblArgumentException if {@code mbxSize} is negbtive
      */
-    IntStream limit(long maxSize);
+    IntStrebm limit(long mbxSize);
 
     /**
-     * Returns a stream consisting of the remaining elements of this stream
-     * after discarding the first {@code n} elements of the stream.
-     * If this stream contains fewer than {@code n} elements then an
-     * empty stream will be returned.
+     * Returns b strebm consisting of the rembining elements of this strebm
+     * bfter discbrding the first {@code n} elements of the strebm.
+     * If this strebm contbins fewer thbn {@code n} elements then bn
+     * empty strebm will be returned.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">stbteful
+     * intermedibte operbtion</b>.
      *
-     * @apiNote
-     * While {@code skip()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code n}, since {@code skip(n)}
-     * is constrained to skip not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(IntSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code skip()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code skip()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNote
+     * While {@code skip()} is generblly b chebp operbtion on sequentibl
+     * strebm pipelines, it cbn be quite expensive on ordered pbrbllel pipelines,
+     * especiblly for lbrge vblues of {@code n}, since {@code skip(n)}
+     * is constrbined to skip not just bny <em>n</em> elements, but the
+     * <em>first n</em> elements in the encounter order.  Using bn unordered
+     * strebm source (such bs {@link #generbte(IntSupplier)}) or removing the
+     * ordering constrbint with {@link #unordered()} mby result in significbnt
+     * speedups of {@code skip()} in pbrbllel pipelines, if the sembntics of
+     * your situbtion permit.  If consistency with encounter order is required,
+     * bnd you bre experiencing poor performbnce or memory utilizbtion with
+     * {@code skip()} in pbrbllel pipelines, switching to sequentibl execution
+     * with {@link #sequentibl()} mby improve performbnce.
      *
-     * @param n the number of leading elements to skip
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code n} is negative
+     * @pbrbm n the number of lebding elements to skip
+     * @return the new strebm
+     * @throws IllegblArgumentException if {@code n} is negbtive
      */
-    IntStream skip(long n);
+    IntStrebm skip(long n);
 
     /**
-     * Performs an action for each element of this stream.
+     * Performs bn bction for ebch element of this strebm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * <p>For parallel stream pipelines, this operation does <em>not</em>
-     * guarantee to respect the encounter order of the stream, as doing so
-     * would sacrifice the benefit of parallelism.  For any given element, the
-     * action may be performed at whatever time and in whatever thread the
-     * library chooses.  If the action accesses shared state, it is
-     * responsible for providing the required synchronization.
+     * <p>For pbrbllel strebm pipelines, this operbtion does <em>not</em>
+     * gubrbntee to respect the encounter order of the strebm, bs doing so
+     * would sbcrifice the benefit of pbrbllelism.  For bny given element, the
+     * bction mby be performed bt whbtever time bnd in whbtever threbd the
+     * librbry chooses.  If the bction bccesses shbred stbte, it is
+     * responsible for providing the required synchronizbtion.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
+     * @pbrbm bction b <b href="pbckbge-summbry.html#NonInterference">
+     *               non-interfering</b> bction to perform on the elements
      */
-    void forEach(IntConsumer action);
+    void forEbch(IntConsumer bction);
 
     /**
-     * Performs an action for each element of this stream, guaranteeing that
-     * each element is processed in encounter order for streams that have a
+     * Performs bn bction for ebch element of this strebm, gubrbnteeing thbt
+     * ebch element is processed in encounter order for strebms thbt hbve b
      * defined encounter order.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
-     * @see #forEach(IntConsumer)
+     * @pbrbm bction b <b href="pbckbge-summbry.html#NonInterference">
+     *               non-interfering</b> bction to perform on the elements
+     * @see #forEbch(IntConsumer)
      */
-    void forEachOrdered(IntConsumer action);
+    void forEbchOrdered(IntConsumer bction);
 
     /**
-     * Returns an array containing the elements of this stream.
+     * Returns bn brrby contbining the elements of this strebm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return an array containing the elements of this stream
+     * @return bn brrby contbining the elements of this strebm
      */
-    int[] toArray();
+    int[] toArrby();
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using the provided identity value and an
-     * <a href="package-summary.html#Associativity">associative</a>
-     * accumulation function, and returns the reduced value.  This is equivalent
+     * Performs b <b href="pbckbge-summbry.html#Reduction">reduction</b> on the
+     * elements of this strebm, using the provided identity vblue bnd bn
+     * <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b>
+     * bccumulbtion function, bnd returns the reduced vblue.  This is equivblent
      * to:
      * <pre>{@code
      *     int result = identity;
-     *     for (int element : this stream)
-     *         result = accumulator.applyAsInt(result, element)
+     *     for (int element : this strebm)
+     *         result = bccumulbtor.bpplyAsInt(result, element)
      *     return result;
      * }</pre>
      *
-     * but is not constrained to execute sequentially.
+     * but is not constrbined to execute sequentiblly.
      *
-     * <p>The {@code identity} value must be an identity for the accumulator
-     * function. This means that for all {@code x},
-     * {@code accumulator.apply(identity, x)} is equal to {@code x}.
-     * The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>The {@code identity} vblue must be bn identity for the bccumulbtor
+     * function. This mebns thbt for bll {@code x},
+     * {@code bccumulbtor.bpply(identity, x)} is equbl to {@code x}.
+     * The {@code bccumulbtor} function must be bn
+     * <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b> function.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @apiNote Sum, min, max, and average are all special cases of reduction.
-     * Summing a stream of numbers can be expressed as:
+     * @bpiNote Sum, min, mbx, bnd bverbge bre bll specibl cbses of reduction.
+     * Summing b strebm of numbers cbn be expressed bs:
      *
      * <pre>{@code
-     *     int sum = integers.reduce(0, (a, b) -> a+b);
+     *     int sum = integers.reduce(0, (b, b) -> b+b);
      * }</pre>
      *
-     * or more compactly:
+     * or more compbctly:
      *
      * <pre>{@code
      *     int sum = integers.reduce(0, Integer::sum);
      * }</pre>
      *
-     * <p>While this may seem a more roundabout way to perform an aggregation
-     * compared to simply mutating a running total in a loop, reduction
-     * operations parallelize more gracefully, without needing additional
-     * synchronization and with greatly reduced risk of data races.
+     * <p>While this mby seem b more roundbbout wby to perform bn bggregbtion
+     * compbred to simply mutbting b running totbl in b loop, reduction
+     * operbtions pbrbllelize more grbcefully, without needing bdditionbl
+     * synchronizbtion bnd with grebtly reduced risk of dbtb rbces.
      *
-     * @param identity the identity value for the accumulating function
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
+     * @pbrbm identity the identity vblue for the bccumulbting function
+     * @pbrbm op bn <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b>,
+     *           <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *           <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *           function for combining two vblues
      * @return the result of the reduction
      * @see #sum()
      * @see #min()
-     * @see #max()
-     * @see #average()
+     * @see #mbx()
+     * @see #bverbge()
      */
-    int reduce(int identity, IntBinaryOperator op);
+    int reduce(int identity, IntBinbryOperbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using an
-     * <a href="package-summary.html#Associativity">associative</a> accumulation
-     * function, and returns an {@code OptionalInt} describing the reduced value,
-     * if any. This is equivalent to:
+     * Performs b <b href="pbckbge-summbry.html#Reduction">reduction</b> on the
+     * elements of this strebm, using bn
+     * <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b> bccumulbtion
+     * function, bnd returns bn {@code OptionblInt} describing the reduced vblue,
+     * if bny. This is equivblent to:
      * <pre>{@code
-     *     boolean foundAny = false;
+     *     boolebn foundAny = fblse;
      *     int result = null;
-     *     for (int element : this stream) {
+     *     for (int element : this strebm) {
      *         if (!foundAny) {
      *             foundAny = true;
      *             result = element;
      *         }
      *         else
-     *             result = accumulator.applyAsInt(result, element);
+     *             result = bccumulbtor.bpplyAsInt(result, element);
      *     }
-     *     return foundAny ? OptionalInt.of(result) : OptionalInt.empty();
+     *     return foundAny ? OptionblInt.of(result) : OptionblInt.empty();
      * }</pre>
      *
-     * but is not constrained to execute sequentially.
+     * but is not constrbined to execute sequentiblly.
      *
-     * <p>The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>The {@code bccumulbtor} function must be bn
+     * <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b> function.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
+     * @pbrbm op bn <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b>,
+     *           <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *           <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *           function for combining two vblues
      * @return the result of the reduction
-     * @see #reduce(int, IntBinaryOperator)
+     * @see #reduce(int, IntBinbryOperbtor)
      */
-    OptionalInt reduce(IntBinaryOperator op);
+    OptionblInt reduce(IntBinbryOperbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#MutableReduction">mutable
-     * reduction</a> operation on the elements of this stream.  A mutable
-     * reduction is one in which the reduced value is a mutable result container,
-     * such as an {@code ArrayList}, and elements are incorporated by updating
-     * the state of the result rather than by replacing the result.  This
-     * produces a result equivalent to:
+     * Performs b <b href="pbckbge-summbry.html#MutbbleReduction">mutbble
+     * reduction</b> operbtion on the elements of this strebm.  A mutbble
+     * reduction is one in which the reduced vblue is b mutbble result contbiner,
+     * such bs bn {@code ArrbyList}, bnd elements bre incorporbted by updbting
+     * the stbte of the result rbther thbn by replbcing the result.  This
+     * produces b result equivblent to:
      * <pre>{@code
      *     R result = supplier.get();
-     *     for (int element : this stream)
-     *         accumulator.accept(result, element);
+     *     for (int element : this strebm)
+     *         bccumulbtor.bccept(result, element);
      *     return result;
      * }</pre>
      *
-     * <p>Like {@link #reduce(int, IntBinaryOperator)}, {@code collect} operations
-     * can be parallelized without requiring additional synchronization.
+     * <p>Like {@link #reduce(int, IntBinbryOperbtor)}, {@code collect} operbtions
+     * cbn be pbrbllelized without requiring bdditionbl synchronizbtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @param <R> type of the result
-     * @param supplier a function that creates a new result container. For a
-     *                 parallel execution, this function may be called
-     *                 multiple times and must return a fresh value each time.
-     * @param accumulator an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for incorporating an additional element into a result
-     * @param combiner an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for combining two values, which must be
-     *                    compatible with the accumulator function
+     * @pbrbm <R> type of the result
+     * @pbrbm supplier b function thbt crebtes b new result contbiner. For b
+     *                 pbrbllel execution, this function mby be cblled
+     *                 multiple times bnd must return b fresh vblue ebch time.
+     * @pbrbm bccumulbtor bn <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b>,
+     *                    <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                    <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                    function for incorporbting bn bdditionbl element into b result
+     * @pbrbm combiner bn <b href="pbckbge-summbry.html#Associbtivity">bssocibtive</b>,
+     *                    <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                    <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                    function for combining two vblues, which must be
+     *                    compbtible with the bccumulbtor function
      * @return the result of the reduction
-     * @see Stream#collect(Supplier, BiConsumer, BiConsumer)
+     * @see Strebm#collect(Supplier, BiConsumer, BiConsumer)
      */
     <R> R collect(Supplier<R> supplier,
-                  ObjIntConsumer<R> accumulator,
+                  ObjIntConsumer<R> bccumulbtor,
                   BiConsumer<R, R> combiner);
 
     /**
-     * Returns the sum of elements in this stream.  This is a special case
-     * of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
+     * Returns the sum of elements in this strebm.  This is b specibl cbse
+     * of b <b href="pbckbge-summbry.html#Reduction">reduction</b>
+     * bnd is equivblent to:
      * <pre>{@code
      *     return reduce(0, Integer::sum);
      * }</pre>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return the sum of elements in this stream
+     * @return the sum of elements in this strebm
      */
     int sum();
 
     /**
-     * Returns an {@code OptionalInt} describing the minimum element of this
-     * stream, or an empty optional if this stream is empty.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
+     * Returns bn {@code OptionblInt} describing the minimum element of this
+     * strebm, or bn empty optionbl if this strebm is empty.  This is b specibl
+     * cbse of b <b href="pbckbge-summbry.html#Reduction">reduction</b>
+     * bnd is equivblent to:
      * <pre>{@code
      *     return reduce(Integer::min);
      * }</pre>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl operbtion</b>.
      *
-     * @return an {@code OptionalInt} containing the minimum element of this
-     * stream, or an empty {@code OptionalInt} if the stream is empty
+     * @return bn {@code OptionblInt} contbining the minimum element of this
+     * strebm, or bn empty {@code OptionblInt} if the strebm is empty
      */
-    OptionalInt min();
+    OptionblInt min();
 
     /**
-     * Returns an {@code OptionalInt} describing the maximum element of this
-     * stream, or an empty optional if this stream is empty.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
+     * Returns bn {@code OptionblInt} describing the mbximum element of this
+     * strebm, or bn empty optionbl if this strebm is empty.  This is b specibl
+     * cbse of b <b href="pbckbge-summbry.html#Reduction">reduction</b>
+     * bnd is equivblent to:
      * <pre>{@code
-     *     return reduce(Integer::max);
+     *     return reduce(Integer::mbx);
      * }</pre>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return an {@code OptionalInt} containing the maximum element of this
-     * stream, or an empty {@code OptionalInt} if the stream is empty
+     * @return bn {@code OptionblInt} contbining the mbximum element of this
+     * strebm, or bn empty {@code OptionblInt} if the strebm is empty
      */
-    OptionalInt max();
+    OptionblInt mbx();
 
     /**
-     * Returns the count of elements in this stream.  This is a special case of
-     * a <a href="package-summary.html#Reduction">reduction</a> and is
-     * equivalent to:
+     * Returns the count of elements in this strebm.  This is b specibl cbse of
+     * b <b href="pbckbge-summbry.html#Reduction">reduction</b> bnd is
+     * equivblent to:
      * <pre>{@code
-     *     return mapToLong(e -> 1L).sum();
+     *     return mbpToLong(e -> 1L).sum();
      * }</pre>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl operbtion</b>.
      *
-     * @return the count of elements in this stream
+     * @return the count of elements in this strebm
      */
     long count();
 
     /**
-     * Returns an {@code OptionalDouble} describing the arithmetic mean of elements of
-     * this stream, or an empty optional if this stream is empty.  This is a
-     * special case of a
-     * <a href="package-summary.html#Reduction">reduction</a>.
+     * Returns bn {@code OptionblDouble} describing the brithmetic mebn of elements of
+     * this strebm, or bn empty optionbl if this strebm is empty.  This is b
+     * specibl cbse of b
+     * <b href="pbckbge-summbry.html#Reduction">reduction</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return an {@code OptionalDouble} containing the average element of this
-     * stream, or an empty optional if the stream is empty
+     * @return bn {@code OptionblDouble} contbining the bverbge element of this
+     * strebm, or bn empty optionbl if the strebm is empty
      */
-    OptionalDouble average();
+    OptionblDouble bverbge();
 
     /**
-     * Returns an {@code IntSummaryStatistics} describing various
-     * summary data about the elements of this stream.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>.
+     * Returns bn {@code IntSummbryStbtistics} describing vbrious
+     * summbry dbtb bbout the elements of this strebm.  This is b specibl
+     * cbse of b <b href="pbckbge-summbry.html#Reduction">reduction</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">terminbl
+     * operbtion</b>.
      *
-     * @return an {@code IntSummaryStatistics} describing various summary data
-     * about the elements of this stream
+     * @return bn {@code IntSummbryStbtistics} describing vbrious summbry dbtb
+     * bbout the elements of this strebm
      */
-    IntSummaryStatistics summaryStatistics();
+    IntSummbryStbtistics summbryStbtistics();
 
     /**
-     * Returns whether any elements of this stream match the provided
-     * predicate.  May not evaluate the predicate on all elements if not
-     * necessary for determining the result.  If the stream is empty then
-     * {@code false} is returned and the predicate is not evaluated.
+     * Returns whether bny elements of this strebm mbtch the provided
+     * predicbte.  Mby not evblubte the predicbte on bll elements if not
+     * necessbry for determining the result.  If the strebm is empty then
+     * {@code fblse} is returned bnd the predicbte is not evblubted.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * terminbl operbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>existential quantification</em> of the
-     * predicate over the elements of the stream (for some x P(x)).
+     * @bpiNote
+     * This method evblubtes the <em>existentibl qubntificbtion</em> of the
+     * predicbte over the elements of the strebm (for some x P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if any elements of the stream match the provided
-     * predicate, otherwise {@code false}
+     * @pbrbm predicbte b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                  <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                  predicbte to bpply to elements of this strebm
+     * @return {@code true} if bny elements of the strebm mbtch the provided
+     * predicbte, otherwise {@code fblse}
      */
-    boolean anyMatch(IntPredicate predicate);
+    boolebn bnyMbtch(IntPredicbte predicbte);
 
     /**
-     * Returns whether all elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Returns whether bll elements of this strebm mbtch the provided predicbte.
+     * Mby not evblubte the predicbte on bll elements if not necessbry for
+     * determining the result.  If the strebm is empty then {@code true} is
+     * returned bnd the predicbte is not evblubted.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * terminbl operbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * predicate over the elements of the stream (for all x P(x)).  If the
-     * stream is empty, the quantification is said to be <em>vacuously
-     * satisfied</em> and is always {@code true} (regardless of P(x)).
+     * @bpiNote
+     * This method evblubtes the <em>universbl qubntificbtion</em> of the
+     * predicbte over the elements of the strebm (for bll x P(x)).  If the
+     * strebm is empty, the qubntificbtion is sbid to be <em>vbcuously
+     * sbtisfied</em> bnd is blwbys {@code true} (regbrdless of P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either all elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm predicbte b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                  <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                  predicbte to bpply to elements of this strebm
+     * @return {@code true} if either bll elements of the strebm mbtch the
+     * provided predicbte or the strebm is empty, otherwise {@code fblse}
      */
-    boolean allMatch(IntPredicate predicate);
+    boolebn bllMbtch(IntPredicbte predicbte);
 
     /**
-     * Returns whether no elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Returns whether no elements of this strebm mbtch the provided predicbte.
+     * Mby not evblubte the predicbte on bll elements if not necessbry for
+     * determining the result.  If the strebm is empty then {@code true} is
+     * returned bnd the predicbte is not evblubted.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * terminbl operbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * negated predicate over the elements of the stream (for all x ~P(x)).  If
-     * the stream is empty, the quantification is said to be vacuously satisfied
-     * and is always {@code true}, regardless of P(x).
+     * @bpiNote
+     * This method evblubtes the <em>universbl qubntificbtion</em> of the
+     * negbted predicbte over the elements of the strebm (for bll x ~P(x)).  If
+     * the strebm is empty, the qubntificbtion is sbid to be vbcuously sbtisfied
+     * bnd is blwbys {@code true}, regbrdless of P(x).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either no elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm predicbte b <b href="pbckbge-summbry.html#NonInterference">non-interfering</b>,
+     *                  <b href="pbckbge-summbry.html#Stbtelessness">stbteless</b>
+     *                  predicbte to bpply to elements of this strebm
+     * @return {@code true} if either no elements of the strebm mbtch the
+     * provided predicbte or the strebm is empty, otherwise {@code fblse}
      */
-    boolean noneMatch(IntPredicate predicate);
+    boolebn noneMbtch(IntPredicbte predicbte);
 
     /**
-     * Returns an {@link OptionalInt} describing the first element of this
-     * stream, or an empty {@code OptionalInt} if the stream is empty.  If the
-     * stream has no encounter order, then any element may be returned.
+     * Returns bn {@link OptionblInt} describing the first element of this
+     * strebm, or bn empty {@code OptionblInt} if the strebm is empty.  If the
+     * strebm hbs no encounter order, then bny element mby be returned.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * terminbl operbtion</b>.
      *
-     * @return an {@code OptionalInt} describing the first element of this stream,
-     * or an empty {@code OptionalInt} if the stream is empty
+     * @return bn {@code OptionblInt} describing the first element of this strebm,
+     * or bn empty {@code OptionblInt} if the strebm is empty
      */
-    OptionalInt findFirst();
+    OptionblInt findFirst();
 
     /**
-     * Returns an {@link OptionalInt} describing some element of the stream, or
-     * an empty {@code OptionalInt} if the stream is empty.
+     * Returns bn {@link OptionblInt} describing some element of the strebm, or
+     * bn empty {@code OptionblInt} if the strebm is empty.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>This is b <b href="pbckbge-summbry.html#StrebmOps">short-circuiting
+     * terminbl operbtion</b>.
      *
-     * <p>The behavior of this operation is explicitly nondeterministic; it is
-     * free to select any element in the stream.  This is to allow for maximal
-     * performance in parallel operations; the cost is that multiple invocations
-     * on the same source may not return the same result.  (If a stable result
-     * is desired, use {@link #findFirst()} instead.)
+     * <p>The behbvior of this operbtion is explicitly nondeterministic; it is
+     * free to select bny element in the strebm.  This is to bllow for mbximbl
+     * performbnce in pbrbllel operbtions; the cost is thbt multiple invocbtions
+     * on the sbme source mby not return the sbme result.  (If b stbble result
+     * is desired, use {@link #findFirst()} instebd.)
      *
-     * @return an {@code OptionalInt} describing some element of this stream, or
-     * an empty {@code OptionalInt} if the stream is empty
+     * @return bn {@code OptionblInt} describing some element of this strebm, or
+     * bn empty {@code OptionblInt} if the strebm is empty
      * @see #findFirst()
      */
-    OptionalInt findAny();
+    OptionblInt findAny();
 
     /**
-     * Returns a {@code LongStream} consisting of the elements of this stream,
+     * Returns b {@code LongStrebm} consisting of the elements of this strebm,
      * converted to {@code long}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return a {@code LongStream} consisting of the elements of this stream,
+     * @return b {@code LongStrebm} consisting of the elements of this strebm,
      * converted to {@code long}
      */
-    LongStream asLongStream();
+    LongStrebm bsLongStrebm();
 
     /**
-     * Returns a {@code DoubleStream} consisting of the elements of this stream,
+     * Returns b {@code DoubleStrebm} consisting of the elements of this strebm,
      * converted to {@code double}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return a {@code DoubleStream} consisting of the elements of this stream,
+     * @return b {@code DoubleStrebm} consisting of the elements of this strebm,
      * converted to {@code double}
      */
-    DoubleStream asDoubleStream();
+    DoubleStrebm bsDoubleStrebm();
 
     /**
-     * Returns a {@code Stream} consisting of the elements of this stream,
-     * each boxed to an {@code Integer}.
+     * Returns b {@code Strebm} consisting of the elements of this strebm,
+     * ebch boxed to bn {@code Integer}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>This is bn <b href="pbckbge-summbry.html#StrebmOps">intermedibte
+     * operbtion</b>.
      *
-     * @return a {@code Stream} consistent of the elements of this stream,
-     * each boxed to an {@code Integer}
+     * @return b {@code Strebm} consistent of the elements of this strebm,
+     * ebch boxed to bn {@code Integer}
      */
-    Stream<Integer> boxed();
+    Strebm<Integer> boxed();
 
     @Override
-    IntStream sequential();
+    IntStrebm sequentibl();
 
     @Override
-    IntStream parallel();
+    IntStrebm pbrbllel();
 
     @Override
-    PrimitiveIterator.OfInt iterator();
+    PrimitiveIterbtor.OfInt iterbtor();
 
     @Override
-    Spliterator.OfInt spliterator();
+    Spliterbtor.OfInt spliterbtor();
 
-    // Static factories
+    // Stbtic fbctories
 
     /**
-     * Returns a builder for an {@code IntStream}.
+     * Returns b builder for bn {@code IntStrebm}.
      *
-     * @return a stream builder
+     * @return b strebm builder
      */
-    public static Builder builder() {
-        return new Streams.IntStreamBuilderImpl();
+    public stbtic Builder builder() {
+        return new Strebms.IntStrebmBuilderImpl();
     }
 
     /**
-     * Returns an empty sequential {@code IntStream}.
+     * Returns bn empty sequentibl {@code IntStrebm}.
      *
-     * @return an empty sequential stream
+     * @return bn empty sequentibl strebm
      */
-    public static IntStream empty() {
-        return StreamSupport.intStream(Spliterators.emptyIntSpliterator(), false);
+    public stbtic IntStrebm empty() {
+        return StrebmSupport.intStrebm(Spliterbtors.emptyIntSpliterbtor(), fblse);
     }
 
     /**
-     * Returns a sequential {@code IntStream} containing a single element.
+     * Returns b sequentibl {@code IntStrebm} contbining b single element.
      *
-     * @param t the single element
-     * @return a singleton sequential stream
+     * @pbrbm t the single element
+     * @return b singleton sequentibl strebm
      */
-    public static IntStream of(int t) {
-        return StreamSupport.intStream(new Streams.IntStreamBuilderImpl(t), false);
+    public stbtic IntStrebm of(int t) {
+        return StrebmSupport.intStrebm(new Strebms.IntStrebmBuilderImpl(t), fblse);
     }
 
     /**
-     * Returns a sequential ordered stream whose elements are the specified values.
+     * Returns b sequentibl ordered strebm whose elements bre the specified vblues.
      *
-     * @param values the elements of the new stream
-     * @return the new stream
+     * @pbrbm vblues the elements of the new strebm
+     * @return the new strebm
      */
-    public static IntStream of(int... values) {
-        return Arrays.stream(values);
+    public stbtic IntStrebm of(int... vblues) {
+        return Arrbys.strebm(vblues);
     }
 
     /**
-     * Returns an infinite sequential ordered {@code IntStream} produced by iterative
-     * application of a function {@code f} to an initial element {@code seed},
-     * producing a {@code Stream} consisting of {@code seed}, {@code f(seed)},
+     * Returns bn infinite sequentibl ordered {@code IntStrebm} produced by iterbtive
+     * bpplicbtion of b function {@code f} to bn initibl element {@code seed},
+     * producing b {@code Strebm} consisting of {@code seed}, {@code f(seed)},
      * {@code f(f(seed))}, etc.
      *
-     * <p>The first element (position {@code 0}) in the {@code IntStream} will be
-     * the provided {@code seed}.  For {@code n > 0}, the element at position
-     * {@code n}, will be the result of applying the function {@code f} to the
-     * element at position {@code n - 1}.
+     * <p>The first element (position {@code 0}) in the {@code IntStrebm} will be
+     * the provided {@code seed}.  For {@code n > 0}, the element bt position
+     * {@code n}, will be the result of bpplying the function {@code f} to the
+     * element bt position {@code n - 1}.
      *
-     * @param seed the initial element
-     * @param f a function to be applied to the previous element to produce
-     *          a new element
-     * @return A new sequential {@code IntStream}
+     * @pbrbm seed the initibl element
+     * @pbrbm f b function to be bpplied to the previous element to produce
+     *          b new element
+     * @return A new sequentibl {@code IntStrebm}
      */
-    public static IntStream iterate(final int seed, final IntUnaryOperator f) {
+    public stbtic IntStrebm iterbte(finbl int seed, finbl IntUnbryOperbtor f) {
         Objects.requireNonNull(f);
-        final PrimitiveIterator.OfInt iterator = new PrimitiveIterator.OfInt() {
+        finbl PrimitiveIterbtor.OfInt iterbtor = new PrimitiveIterbtor.OfInt() {
             int t = seed;
 
             @Override
-            public boolean hasNext() {
+            public boolebn hbsNext() {
                 return true;
             }
 
             @Override
             public int nextInt() {
                 int v = t;
-                t = f.applyAsInt(t);
+                t = f.bpplyAsInt(t);
                 return v;
             }
         };
-        return StreamSupport.intStream(Spliterators.spliteratorUnknownSize(
-                iterator,
-                Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+        return StrebmSupport.intStrebm(Spliterbtors.spliterbtorUnknownSize(
+                iterbtor,
+                Spliterbtor.ORDERED | Spliterbtor.IMMUTABLE | Spliterbtor.NONNULL), fblse);
     }
 
     /**
-     * Returns an infinite sequential unordered stream where each element is
-     * generated by the provided {@code IntSupplier}.  This is suitable for
-     * generating constant streams, streams of random elements, etc.
+     * Returns bn infinite sequentibl unordered strebm where ebch element is
+     * generbted by the provided {@code IntSupplier}.  This is suitbble for
+     * generbting constbnt strebms, strebms of rbndom elements, etc.
      *
-     * @param s the {@code IntSupplier} for generated elements
-     * @return a new infinite sequential unordered {@code IntStream}
+     * @pbrbm s the {@code IntSupplier} for generbted elements
+     * @return b new infinite sequentibl unordered {@code IntStrebm}
      */
-    public static IntStream generate(IntSupplier s) {
+    public stbtic IntStrebm generbte(IntSupplier s) {
         Objects.requireNonNull(s);
-        return StreamSupport.intStream(
-                new StreamSpliterators.InfiniteSupplyingSpliterator.OfInt(Long.MAX_VALUE, s), false);
+        return StrebmSupport.intStrebm(
+                new StrebmSpliterbtors.InfiniteSupplyingSpliterbtor.OfInt(Long.MAX_VALUE, s), fblse);
     }
 
     /**
-     * Returns a sequential ordered {@code IntStream} from {@code startInclusive}
-     * (inclusive) to {@code endExclusive} (exclusive) by an incremental step of
+     * Returns b sequentibl ordered {@code IntStrebm} from {@code stbrtInclusive}
+     * (inclusive) to {@code endExclusive} (exclusive) by bn incrementbl step of
      * {@code 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
-     * sequentially using a {@code for} loop as follows:
+     * @bpiNote
+     * <p>An equivblent sequence of increbsing vblues cbn be produced
+     * sequentiblly using b {@code for} loop bs follows:
      * <pre>{@code
-     *     for (int i = startInclusive; i < endExclusive ; i++) { ... }
+     *     for (int i = stbrtInclusive; i < endExclusive ; i++) { ... }
      * }</pre>
      *
-     * @param startInclusive the (inclusive) initial value
-     * @param endExclusive the exclusive upper bound
-     * @return a sequential {@code IntStream} for the range of {@code int}
+     * @pbrbm stbrtInclusive the (inclusive) initibl vblue
+     * @pbrbm endExclusive the exclusive upper bound
+     * @return b sequentibl {@code IntStrebm} for the rbnge of {@code int}
      *         elements
      */
-    public static IntStream range(int startInclusive, int endExclusive) {
-        if (startInclusive >= endExclusive) {
+    public stbtic IntStrebm rbnge(int stbrtInclusive, int endExclusive) {
+        if (stbrtInclusive >= endExclusive) {
             return empty();
         } else {
-            return StreamSupport.intStream(
-                    new Streams.RangeIntSpliterator(startInclusive, endExclusive, false), false);
+            return StrebmSupport.intStrebm(
+                    new Strebms.RbngeIntSpliterbtor(stbrtInclusive, endExclusive, fblse), fblse);
         }
     }
 
     /**
-     * Returns a sequential ordered {@code IntStream} from {@code startInclusive}
-     * (inclusive) to {@code endInclusive} (inclusive) by an incremental step of
+     * Returns b sequentibl ordered {@code IntStrebm} from {@code stbrtInclusive}
+     * (inclusive) to {@code endInclusive} (inclusive) by bn incrementbl step of
      * {@code 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
-     * sequentially using a {@code for} loop as follows:
+     * @bpiNote
+     * <p>An equivblent sequence of increbsing vblues cbn be produced
+     * sequentiblly using b {@code for} loop bs follows:
      * <pre>{@code
-     *     for (int i = startInclusive; i <= endInclusive ; i++) { ... }
+     *     for (int i = stbrtInclusive; i <= endInclusive ; i++) { ... }
      * }</pre>
      *
-     * @param startInclusive the (inclusive) initial value
-     * @param endInclusive the inclusive upper bound
-     * @return a sequential {@code IntStream} for the range of {@code int}
+     * @pbrbm stbrtInclusive the (inclusive) initibl vblue
+     * @pbrbm endInclusive the inclusive upper bound
+     * @return b sequentibl {@code IntStrebm} for the rbnge of {@code int}
      *         elements
      */
-    public static IntStream rangeClosed(int startInclusive, int endInclusive) {
-        if (startInclusive > endInclusive) {
+    public stbtic IntStrebm rbngeClosed(int stbrtInclusive, int endInclusive) {
+        if (stbrtInclusive > endInclusive) {
             return empty();
         } else {
-            return StreamSupport.intStream(
-                    new Streams.RangeIntSpliterator(startInclusive, endInclusive, true), false);
+            return StrebmSupport.intStrebm(
+                    new Strebms.RbngeIntSpliterbtor(stbrtInclusive, endInclusive, true), fblse);
         }
     }
 
     /**
-     * Creates a lazily concatenated stream whose elements are all the
-     * elements of the first stream followed by all the elements of the
-     * second stream.  The resulting stream is ordered if both
-     * of the input streams are ordered, and parallel if either of the input
-     * streams is parallel.  When the resulting stream is closed, the close
-     * handlers for both input streams are invoked.
+     * Crebtes b lbzily concbtenbted strebm whose elements bre bll the
+     * elements of the first strebm followed by bll the elements of the
+     * second strebm.  The resulting strebm is ordered if both
+     * of the input strebms bre ordered, bnd pbrbllel if either of the input
+     * strebms is pbrbllel.  When the resulting strebm is closed, the close
+     * hbndlers for both input strebms bre invoked.
      *
      * @implNote
-     * Use caution when constructing streams from repeated concatenation.
-     * Accessing an element of a deeply concatenated stream can result in deep
-     * call chains, or even {@code StackOverflowException}.
+     * Use cbution when constructing strebms from repebted concbtenbtion.
+     * Accessing bn element of b deeply concbtenbted strebm cbn result in deep
+     * cbll chbins, or even {@code StbckOverflowException}.
      *
-     * @param a the first stream
-     * @param b the second stream
-     * @return the concatenation of the two input streams
+     * @pbrbm b the first strebm
+     * @pbrbm b the second strebm
+     * @return the concbtenbtion of the two input strebms
      */
-    public static IntStream concat(IntStream a, IntStream b) {
-        Objects.requireNonNull(a);
+    public stbtic IntStrebm concbt(IntStrebm b, IntStrebm b) {
+        Objects.requireNonNull(b);
         Objects.requireNonNull(b);
 
-        Spliterator.OfInt split = new Streams.ConcatSpliterator.OfInt(
-                a.spliterator(), b.spliterator());
-        IntStream stream = StreamSupport.intStream(split, a.isParallel() || b.isParallel());
-        return stream.onClose(Streams.composedClose(a, b));
+        Spliterbtor.OfInt split = new Strebms.ConcbtSpliterbtor.OfInt(
+                b.spliterbtor(), b.spliterbtor());
+        IntStrebm strebm = StrebmSupport.intStrebm(split, b.isPbrbllel() || b.isPbrbllel());
+        return strebm.onClose(Strebms.composedClose(b, b));
     }
 
     /**
-     * A mutable builder for an {@code IntStream}.
+     * A mutbble builder for bn {@code IntStrebm}.
      *
-     * <p>A stream builder has a lifecycle, which starts in a building
-     * phase, during which elements can be added, and then transitions to a built
-     * phase, after which elements may not be added.  The built phase
-     * begins when the {@link #build()} method is called, which creates an
-     * ordered stream whose elements are the elements that were added to the
-     * stream builder, in the order they were added.
+     * <p>A strebm builder hbs b lifecycle, which stbrts in b building
+     * phbse, during which elements cbn be bdded, bnd then trbnsitions to b built
+     * phbse, bfter which elements mby not be bdded.  The built phbse
+     * begins when the {@link #build()} method is cblled, which crebtes bn
+     * ordered strebm whose elements bre the elements thbt were bdded to the
+     * strebm builder, in the order they were bdded.
      *
-     * @see IntStream#builder()
+     * @see IntStrebm#builder()
      * @since 1.8
      */
-    public interface Builder extends IntConsumer {
+    public interfbce Builder extends IntConsumer {
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn element to the strebm being built.
          *
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @throws IllegblStbteException if the builder hbs blrebdy trbnsitioned
+         * to the built stbte
          */
         @Override
-        void accept(int t);
+        void bccept(int t);
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn element to the strebm being built.
          *
          * @implSpec
-         * The default implementation behaves as if:
+         * The defbult implementbtion behbves bs if:
          * <pre>{@code
-         *     accept(t)
+         *     bccept(t)
          *     return this;
          * }</pre>
          *
-         * @param t the element to add
+         * @pbrbm t the element to bdd
          * @return {@code this} builder
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @throws IllegblStbteException if the builder hbs blrebdy trbnsitioned
+         * to the built stbte
          */
-        default Builder add(int t) {
-            accept(t);
+        defbult Builder bdd(int t) {
+            bccept(t);
             return this;
         }
 
         /**
-         * Builds the stream, transitioning this builder to the built state.
-         * An {@code IllegalStateException} is thrown if there are further
-         * attempts to operate on the builder after it has entered the built
-         * state.
+         * Builds the strebm, trbnsitioning this builder to the built stbte.
+         * An {@code IllegblStbteException} is thrown if there bre further
+         * bttempts to operbte on the builder bfter it hbs entered the built
+         * stbte.
          *
-         * @return the built stream
-         * @throws IllegalStateException if the builder has already transitioned to
-         * the built state
+         * @return the built strebm
+         * @throws IllegblStbteException if the builder hbs blrebdy trbnsitioned to
+         * the built stbte
          */
-        IntStream build();
+        IntStrebm build();
     }
 }

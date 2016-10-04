@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import javax.security.auth.Subject;
+import jbvbx.security.buth.Subject;
 
 
 /**
- * <p>An identified listener.  A listener has an Integer id that is
- * unique per connector server.  It selects notifications based on the
- * ObjectName of the originator and an optional
- * NotificationFilter.</p>
+ * <p>An identified listener.  A listener hbs bn Integer id thbt is
+ * unique per connector server.  It selects notificbtions bbsed on the
+ * ObjectNbme of the originbtor bnd bn optionbl
+ * NotificbtionFilter.</p>
  */
-public class ClientListenerInfo {
+public clbss ClientListenerInfo {
     public ClientListenerInfo(Integer listenerID,
-                              ObjectName name,
-                              NotificationListener listener,
-                              NotificationFilter filter,
-                              Object handback,
-                              Subject delegationSubject) {
+                              ObjectNbme nbme,
+                              NotificbtionListener listener,
+                              NotificbtionFilter filter,
+                              Object hbndbbck,
+                              Subject delegbtionSubject) {
         this.listenerID = listenerID;
-        this.name = name;
+        this.nbme = nbme;
         this.listener = listener;
         this.filter = filter;
-        this.handback = handback;
-        this.delegationSubject = delegationSubject;
+        this.hbndbbck = hbndbbck;
+        this.delegbtionSubject = delegbtionSubject;
     }
 
-    public ObjectName getObjectName() {
-        return name;
+    public ObjectNbme getObjectNbme() {
+        return nbme;
     }
 
     public Integer getListenerID() {
         return listenerID;
     }
 
-    public NotificationFilter getNotificationFilter() {
+    public NotificbtionFilter getNotificbtionFilter() {
         return filter;
     }
 
-    public NotificationListener getListener() {
+    public NotificbtionListener getListener() {
         return listener;
     }
 
-    public Object getHandback() {
-        return handback;
+    public Object getHbndbbck() {
+        return hbndbbck;
     }
 
-    public Subject getDelegationSubject() {
-        return delegationSubject;
-    }
-
-
-    public boolean sameAs(ObjectName name) {
-        return (getObjectName().equals(name));
+    public Subject getDelegbtionSubject() {
+        return delegbtionSubject;
     }
 
 
-    public boolean sameAs(ObjectName name, NotificationListener listener) {
-        return ( getObjectName().equals(name) &&
+    public boolebn sbmeAs(ObjectNbme nbme) {
+        return (getObjectNbme().equbls(nbme));
+    }
+
+
+    public boolebn sbmeAs(ObjectNbme nbme, NotificbtionListener listener) {
+        return ( getObjectNbme().equbls(nbme) &&
                  getListener() == listener);
     }
 
 
-    public boolean sameAs(ObjectName name, NotificationListener listener, NotificationFilter filter, Object handback) {
-        return ( getObjectName().equals(name) &&
+    public boolebn sbmeAs(ObjectNbme nbme, NotificbtionListener listener, NotificbtionFilter filter, Object hbndbbck) {
+        return ( getObjectNbme().equbls(nbme) &&
                  getListener() == listener &&
-                 getNotificationFilter() == filter &&
-                 getHandback() == handback);
+                 getNotificbtionFilter() == filter &&
+                 getHbndbbck() == hbndbbck);
     }
 
-    private final ObjectName name;
-    private final Integer listenerID;
-    private final NotificationFilter filter;
+    privbte finbl ObjectNbme nbme;
+    privbte finbl Integer listenerID;
+    privbte finbl NotificbtionFilter filter;
 
-    private final NotificationListener listener;
-    private final Object handback;
-    private final Subject delegationSubject;
+    privbte finbl NotificbtionListener listener;
+    privbte finbl Object hbndbbck;
+    privbte finbl Subject delegbtionSubject;
 }

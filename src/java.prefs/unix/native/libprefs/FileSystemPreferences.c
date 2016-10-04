@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Solaris/Linux platform specific code to support the Prefs API.
+ * Solbris/Linux plbtform specific code to support the Prefs API.
  */
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <utime.h>
 #include "jni_util.h"
 
 JNIEXPORT jint JNICALL
-Java_java_util_prefs_FileSystemPreferences_chmod(JNIEnv *env,
-                       jclass thisclass, jstring java_fname, jint permission) {
-    const char *fname = JNU_GetStringPlatformChars(env, java_fname, NULL);
+Jbvb_jbvb_util_prefs_FileSystemPreferences_chmod(JNIEnv *env,
+                       jclbss thisclbss, jstring jbvb_fnbme, jint permission) {
+    const chbr *fnbme = JNU_GetStringPlbtformChbrs(env, jbvb_fnbme, NULL);
     int result = -1;
-    if (fname) {
-        result =  chmod(fname, permission);
+    if (fnbme) {
+        result =  chmod(fnbme, permission);
         if (result != 0)
             result = errno;
-        JNU_ReleaseStringPlatformChars(env, java_fname, fname);
+        JNU_RelebseStringPlbtformChbrs(env, jbvb_fnbme, fnbme);
     }
     return (jint) result;
 }
@@ -56,39 +56,39 @@ typedef struct flock64 FLOCK;
 #endif
 
 /**
- * Try to open a named lock file.
- * The result is a cookie that can be used later to unlock the file.
- * On failure the result is zero.
+ * Try to open b nbmed lock file.
+ * The result is b cookie thbt cbn be used lbter to unlock the file.
+ * On fbilure the result is zero.
  */
-JNIEXPORT jintArray JNICALL
-Java_java_util_prefs_FileSystemPreferences_lockFile0(JNIEnv *env,
-    jclass thisclass, jstring java_fname, jint permission, jboolean shared) {
-    const char *fname = JNU_GetStringPlatformChars(env, java_fname, NULL);
+JNIEXPORT jintArrby JNICALL
+Jbvb_jbvb_util_prefs_FileSystemPreferences_lockFile0(JNIEnv *env,
+    jclbss thisclbss, jstring jbvb_fnbme, jint permission, jboolebn shbred) {
+    const chbr *fnbme = JNU_GetStringPlbtformChbrs(env, jbvb_fnbme, NULL);
     int fd, rc;
     int result[2];
-    jintArray javaResult = NULL;
-    int old_umask;
+    jintArrby jbvbResult = NULL;
+    int old_umbsk;
     FLOCK fl;
 
-    if (!fname)
-        return javaResult;
+    if (!fnbme)
+        return jbvbResult;
 
     fl.l_whence = SEEK_SET;
     fl.l_len = 0;
-    fl.l_start = 0;
-    if (shared == JNI_TRUE) {
+    fl.l_stbrt = 0;
+    if (shbred == JNI_TRUE) {
         fl.l_type = F_RDLCK;
     } else {
         fl.l_type = F_WRLCK;
     }
 
-    if (shared == JNI_TRUE) {
-        fd = open(fname, O_RDONLY, 0);
+    if (shbred == JNI_TRUE) {
+        fd = open(fnbme, O_RDONLY, 0);
     } else {
-        old_umask = umask(0);
-        fd = open(fname, O_WRONLY|O_CREAT, permission);
+        old_umbsk = umbsk(0);
+        fd = open(fnbme, O_WRONLY|O_CREAT, permission);
         result[1] = errno;
-        umask(old_umask);
+        umbsk(old_umbsk);
     }
 
     if (fd < 0) {
@@ -107,26 +107,26 @@ Java_java_util_prefs_FileSystemPreferences_lockFile0(JNIEnv *env,
           result[0] = fd;
         }
     }
-    JNU_ReleaseStringPlatformChars(env, java_fname, fname);
-    javaResult = (*env)->NewIntArray(env,2);
-    if (javaResult)
-        (*env)->SetIntArrayRegion(env, javaResult, 0, 2, result);
-    return javaResult;
+    JNU_RelebseStringPlbtformChbrs(env, jbvb_fnbme, fnbme);
+    jbvbResult = (*env)->NewIntArrby(env,2);
+    if (jbvbResult)
+        (*env)->SetIntArrbyRegion(env, jbvbResult, 0, 2, result);
+    return jbvbResult;
 }
 
 
 /**
- * Try to unlock a lock file, using a cookie returned by lockFile.
+ * Try to unlock b lock file, using b cookie returned by lockFile.
  */
 JNIEXPORT jint JNICALL
-Java_java_util_prefs_FileSystemPreferences_unlockFile0(JNIEnv *env,
-                                      jclass thisclass, jint fd) {
+Jbvb_jbvb_util_prefs_FileSystemPreferences_unlockFile0(JNIEnv *env,
+                                      jclbss thisclbss, jint fd) {
 
     int rc;
     FLOCK fl;
     fl.l_whence = SEEK_SET;
     fl.l_len = 0;
-    fl.l_start = 0;
+    fl.l_stbrt = 0;
     fl.l_type = F_UNLCK;
 
 #if defined(_ALLBSD_SOURCE)

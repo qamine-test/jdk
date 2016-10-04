@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.ConstructorAccessor;
 import sun.reflect.Reflection;
-import sun.reflect.annotation.TypeAnnotation;
-import sun.reflect.annotation.TypeAnnotationParser;
+import sun.reflect.bnnotbtion.TypeAnnotbtion;
+import sun.reflect.bnnotbtion.TypeAnnotbtionPbrser;
 import sun.reflect.generics.repository.ConstructorRepository;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
+import sun.reflect.generics.fbctory.CoreReflectionFbctory;
+import sun.reflect.generics.fbctory.GenericsFbctory;
 import sun.reflect.generics.scope.ConstructorScope;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
 
 /**
- * {@code Constructor} provides information about, and access to, a single
- * constructor for a class.
+ * {@code Constructor} provides informbtion bbout, bnd bccess to, b single
+ * constructor for b clbss.
  *
- * <p>{@code Constructor} permits widening conversions to occur when matching the
- * actual parameters to newInstance() with the underlying
- * constructor's formal parameters, but throws an
- * {@code IllegalArgumentException} if a narrowing conversion would occur.
+ * <p>{@code Constructor} permits widening conversions to occur when mbtching the
+ * bctubl pbrbmeters to newInstbnce() with the underlying
+ * constructor's formbl pbrbmeters, but throws bn
+ * {@code IllegblArgumentException} if b nbrrowing conversion would occur.
  *
- * @param <T> the class in which the constructor is declared
+ * @pbrbm <T> the clbss in which the constructor is declbred
  *
  * @see Member
- * @see java.lang.Class
- * @see java.lang.Class#getConstructors()
- * @see java.lang.Class#getConstructor(Class[])
- * @see java.lang.Class#getDeclaredConstructors()
+ * @see jbvb.lbng.Clbss
+ * @see jbvb.lbng.Clbss#getConstructors()
+ * @see jbvb.lbng.Clbss#getConstructor(Clbss[])
+ * @see jbvb.lbng.Clbss#getDeclbredConstructors()
  *
- * @author      Kenneth Russell
- * @author      Nakul Saraiya
+ * @buthor      Kenneth Russell
+ * @buthor      Nbkul Sbrbiyb
  */
-public final class Constructor<T> extends Executable {
-    private Class<T>            clazz;
-    private int                 slot;
-    private Class<?>[]          parameterTypes;
-    private Class<?>[]          exceptionTypes;
-    private int                 modifiers;
-    // Generics and annotations support
-    private transient String    signature;
-    // generic info repository; lazily initialized
-    private transient ConstructorRepository genericInfo;
-    private byte[]              annotations;
-    private byte[]              parameterAnnotations;
+public finbl clbss Constructor<T> extends Executbble {
+    privbte Clbss<T>            clbzz;
+    privbte int                 slot;
+    privbte Clbss<?>[]          pbrbmeterTypes;
+    privbte Clbss<?>[]          exceptionTypes;
+    privbte int                 modifiers;
+    // Generics bnd bnnotbtions support
+    privbte trbnsient String    signbture;
+    // generic info repository; lbzily initiblized
+    privbte trbnsient ConstructorRepository genericInfo;
+    privbte byte[]              bnnotbtions;
+    privbte byte[]              pbrbmeterAnnotbtions;
 
-    // Generics infrastructure
-    // Accessor for factory
-    private GenericsFactory getFactory() {
-        // create scope and factory
-        return CoreReflectionFactory.make(this, ConstructorScope.make(this));
+    // Generics infrbstructure
+    // Accessor for fbctory
+    privbte GenericsFbctory getFbctory() {
+        // crebte scope bnd fbctory
+        return CoreReflectionFbctory.mbke(this, ConstructorScope.mbke(this));
     }
 
     // Accessor for generic info repository
     @Override
     ConstructorRepository getGenericInfo() {
-        // lazily initialize repository if necessary
+        // lbzily initiblize repository if necessbry
         if (genericInfo == null) {
-            // create and cache generic info repository
+            // crebte bnd cbche generic info repository
             genericInfo =
-                ConstructorRepository.make(getSignature(),
-                                           getFactory());
+                ConstructorRepository.mbke(getSignbture(),
+                                           getFbctory());
         }
-        return genericInfo; //return cached repository
+        return genericInfo; //return cbched repository
     }
 
-    private volatile ConstructorAccessor constructorAccessor;
-    // For sharing of ConstructorAccessors. This branching structure
+    privbte volbtile ConstructorAccessor constructorAccessor;
+    // For shbring of ConstructorAccessors. This brbnching structure
     // is currently only two levels deep (i.e., one root Constructor
-    // and potentially many Constructor objects pointing to it.)
-    private Constructor<T>      root;
+    // bnd potentiblly mbny Constructor objects pointing to it.)
+    privbte Constructor<T>      root;
 
     /**
-     * Package-private constructor used by ReflectAccess to enable
-     * instantiation of these objects in Java code from the java.lang
-     * package via sun.reflect.LangReflectAccess.
+     * Pbckbge-privbte constructor used by ReflectAccess to enbble
+     * instbntibtion of these objects in Jbvb code from the jbvb.lbng
+     * pbckbge vib sun.reflect.LbngReflectAccess.
      */
-    Constructor(Class<T> declaringClass,
-                Class<?>[] parameterTypes,
-                Class<?>[] checkedExceptions,
+    Constructor(Clbss<T> declbringClbss,
+                Clbss<?>[] pbrbmeterTypes,
+                Clbss<?>[] checkedExceptions,
                 int modifiers,
                 int slot,
-                String signature,
-                byte[] annotations,
-                byte[] parameterAnnotations) {
-        this.clazz = declaringClass;
-        this.parameterTypes = parameterTypes;
+                String signbture,
+                byte[] bnnotbtions,
+                byte[] pbrbmeterAnnotbtions) {
+        this.clbzz = declbringClbss;
+        this.pbrbmeterTypes = pbrbmeterTypes;
         this.exceptionTypes = checkedExceptions;
         this.modifiers = modifiers;
         this.slot = slot;
-        this.signature = signature;
-        this.annotations = annotations;
-        this.parameterAnnotations = parameterAnnotations;
+        this.signbture = signbture;
+        this.bnnotbtions = bnnotbtions;
+        this.pbrbmeterAnnotbtions = pbrbmeterAnnotbtions;
     }
 
     /**
-     * Package-private routine (exposed to java.lang.Class via
-     * ReflectAccess) which returns a copy of this Constructor. The copy's
+     * Pbckbge-privbte routine (exposed to jbvb.lbng.Clbss vib
+     * ReflectAccess) which returns b copy of this Constructor. The copy's
      * "root" field points to this Constructor.
      */
     Constructor<T> copy() {
-        // This routine enables sharing of ConstructorAccessor objects
-        // among Constructor objects which refer to the same underlying
-        // method in the VM. (All of this contortion is only necessary
-        // because of the "accessibility" bit in AccessibleObject,
-        // which implicitly requires that new java.lang.reflect
-        // objects be fabricated for each reflective call on Class
+        // This routine enbbles shbring of ConstructorAccessor objects
+        // bmong Constructor objects which refer to the sbme underlying
+        // method in the VM. (All of this contortion is only necessbry
+        // becbuse of the "bccessibility" bit in AccessibleObject,
+        // which implicitly requires thbt new jbvb.lbng.reflect
+        // objects be fbbricbted for ebch reflective cbll on Clbss
         // objects.)
-        Constructor<T> res = new Constructor<>(clazz,
-                                               parameterTypes,
+        Constructor<T> res = new Constructor<>(clbzz,
+                                               pbrbmeterTypes,
                                                exceptionTypes, modifiers, slot,
-                                               signature,
-                                               annotations,
-                                               parameterAnnotations);
+                                               signbture,
+                                               bnnotbtions,
+                                               pbrbmeterAnnotbtions);
         res.root = this;
-        // Might as well eagerly propagate this if already present
+        // Might bs well ebgerly propbgbte this if blrebdy present
         res.constructorAccessor = constructorAccessor;
         return res;
     }
 
     @Override
-    boolean hasGenericInformation() {
-        return (getSignature() != null);
+    boolebn hbsGenericInformbtion() {
+        return (getSignbture() != null);
     }
 
     @Override
-    byte[] getAnnotationBytes() {
-        return annotations;
+    byte[] getAnnotbtionBytes() {
+        return bnnotbtions;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Class<T> getDeclaringClass() {
-        return clazz;
+    public Clbss<T> getDeclbringClbss() {
+        return clbzz;
     }
 
     /**
-     * Returns the name of this constructor, as a string.  This is
-     * the binary name of the constructor's declaring class.
+     * Returns the nbme of this constructor, bs b string.  This is
+     * the binbry nbme of the constructor's declbring clbss.
      */
     @Override
-    public String getName() {
-        return getDeclaringClass().getName();
+    public String getNbme() {
+        return getDeclbringClbss().getNbme();
     }
 
     /**
@@ -181,16 +181,16 @@ public final class Constructor<T> extends Executable {
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @since 1.5
      */
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public TypeVariable<Constructor<T>>[] getTypeParameters() {
-      if (getSignature() != null) {
-        return (TypeVariable<Constructor<T>>[])getGenericInfo().getTypeParameters();
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    public TypeVbribble<Constructor<T>>[] getTypePbrbmeters() {
+      if (getSignbture() != null) {
+        return (TypeVbribble<Constructor<T>>[])getGenericInfo().getTypePbrbmeters();
       } else
-          return (TypeVariable<Constructor<T>>[])new TypeVariable[0];
+          return (TypeVbribble<Constructor<T>>[])new TypeVbribble[0];
     }
 
 
@@ -198,42 +198,42 @@ public final class Constructor<T> extends Executable {
      * {@inheritDoc}
      */
     @Override
-    public Class<?>[] getParameterTypes() {
-        return parameterTypes.clone();
+    public Clbss<?>[] getPbrbmeterTypes() {
+        return pbrbmeterTypes.clone();
     }
 
     /**
      * {@inheritDoc}
      * @since 1.8
      */
-    public int getParameterCount() { return parameterTypes.length; }
+    public int getPbrbmeterCount() { return pbrbmeterTypes.length; }
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
+     * @throws MblformedPbrbmeterizedTypeException {@inheritDoc}
      * @since 1.5
      */
     @Override
-    public Type[] getGenericParameterTypes() {
-        return super.getGenericParameterTypes();
+    public Type[] getGenericPbrbmeterTypes() {
+        return super.getGenericPbrbmeterTypes();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Class<?>[] getExceptionTypes() {
+    public Clbss<?>[] getExceptionTypes() {
         return exceptionTypes.clone();
     }
 
 
     /**
      * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
+     * @throws GenericSignbtureFormbtError {@inheritDoc}
      * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
+     * @throws MblformedPbrbmeterizedTypeException {@inheritDoc}
      * @since 1.5
      */
     @Override
@@ -242,171 +242,171 @@ public final class Constructor<T> extends Executable {
     }
 
     /**
-     * Compares this {@code Constructor} against the specified object.
-     * Returns true if the objects are the same.  Two {@code Constructor} objects are
-     * the same if they were declared by the same class and have the
-     * same formal parameter types.
+     * Compbres this {@code Constructor} bgbinst the specified object.
+     * Returns true if the objects bre the sbme.  Two {@code Constructor} objects bre
+     * the sbme if they were declbred by the sbme clbss bnd hbve the
+     * sbme formbl pbrbmeter types.
      */
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Constructor) {
+    public boolebn equbls(Object obj) {
+        if (obj != null && obj instbnceof Constructor) {
             Constructor<?> other = (Constructor<?>)obj;
-            if (getDeclaringClass() == other.getDeclaringClass()) {
-                return equalParamTypes(parameterTypes, other.parameterTypes);
+            if (getDeclbringClbss() == other.getDeclbringClbss()) {
+                return equblPbrbmTypes(pbrbmeterTypes, other.pbrbmeterTypes);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hashcode for this {@code Constructor}. The hashcode is
-     * the same as the hashcode for the underlying constructor's
-     * declaring class name.
+     * Returns b hbshcode for this {@code Constructor}. The hbshcode is
+     * the sbme bs the hbshcode for the underlying constructor's
+     * declbring clbss nbme.
      */
-    public int hashCode() {
-        return getDeclaringClass().getName().hashCode();
+    public int hbshCode() {
+        return getDeclbringClbss().getNbme().hbshCode();
     }
 
     /**
-     * Returns a string describing this {@code Constructor}.  The string is
-     * formatted as the constructor access modifiers, if any,
-     * followed by the fully-qualified name of the declaring class,
-     * followed by a parenthesized, comma-separated list of the
-     * constructor's formal parameter types.  For example:
+     * Returns b string describing this {@code Constructor}.  The string is
+     * formbtted bs the constructor bccess modifiers, if bny,
+     * followed by the fully-qublified nbme of the declbring clbss,
+     * followed by b pbrenthesized, commb-sepbrbted list of the
+     * constructor's formbl pbrbmeter types.  For exbmple:
      * <pre>
-     *    public java.util.Hashtable(int,float)
+     *    public jbvb.util.Hbshtbble(int,flobt)
      * </pre>
      *
-     * <p>The only possible modifiers for constructors are the access
+     * <p>The only possible modifiers for constructors bre the bccess
      * modifiers {@code public}, {@code protected} or
-     * {@code private}.  Only one of these may appear, or none if the
-     * constructor has default (package) access.
+     * {@code privbte}.  Only one of these mby bppebr, or none if the
+     * constructor hbs defbult (pbckbge) bccess.
      *
-     * @return a string describing this {@code Constructor}
+     * @return b string describing this {@code Constructor}
      * @jls 8.8.3. Constructor Modifiers
      */
     public String toString() {
-        return sharedToString(Modifier.constructorModifiers(),
-                              false,
-                              parameterTypes,
+        return shbredToString(Modifier.constructorModifiers(),
+                              fblse,
+                              pbrbmeterTypes,
                               exceptionTypes);
     }
 
     @Override
-    void specificToStringHeader(StringBuilder sb) {
-        sb.append(getDeclaringClass().getTypeName());
+    void specificToStringHebder(StringBuilder sb) {
+        sb.bppend(getDeclbringClbss().getTypeNbme());
     }
 
     /**
-     * Returns a string describing this {@code Constructor},
-     * including type parameters.  The string is formatted as the
-     * constructor access modifiers, if any, followed by an
-     * angle-bracketed comma separated list of the constructor's type
-     * parameters, if any, followed by the fully-qualified name of the
-     * declaring class, followed by a parenthesized, comma-separated
-     * list of the constructor's generic formal parameter types.
+     * Returns b string describing this {@code Constructor},
+     * including type pbrbmeters.  The string is formbtted bs the
+     * constructor bccess modifiers, if bny, followed by bn
+     * bngle-brbcketed commb sepbrbted list of the constructor's type
+     * pbrbmeters, if bny, followed by the fully-qublified nbme of the
+     * declbring clbss, followed by b pbrenthesized, commb-sepbrbted
+     * list of the constructor's generic formbl pbrbmeter types.
      *
-     * If this constructor was declared to take a variable number of
-     * arguments, instead of denoting the last parameter as
-     * "<tt><i>Type</i>[]</tt>", it is denoted as
+     * If this constructor wbs declbred to tbke b vbribble number of
+     * brguments, instebd of denoting the lbst pbrbmeter bs
+     * "<tt><i>Type</i>[]</tt>", it is denoted bs
      * "<tt><i>Type</i>...</tt>".
      *
-     * A space is used to separate access modifiers from one another
-     * and from the type parameters or return type.  If there are no
-     * type parameters, the type parameter list is elided; if the type
-     * parameter list is present, a space separates the list from the
-     * class name.  If the constructor is declared to throw
-     * exceptions, the parameter list is followed by a space, followed
-     * by the word "{@code throws}" followed by a
-     * comma-separated list of the thrown exception types.
+     * A spbce is used to sepbrbte bccess modifiers from one bnother
+     * bnd from the type pbrbmeters or return type.  If there bre no
+     * type pbrbmeters, the type pbrbmeter list is elided; if the type
+     * pbrbmeter list is present, b spbce sepbrbtes the list from the
+     * clbss nbme.  If the constructor is declbred to throw
+     * exceptions, the pbrbmeter list is followed by b spbce, followed
+     * by the word "{@code throws}" followed by b
+     * commb-sepbrbted list of the thrown exception types.
      *
-     * <p>The only possible modifiers for constructors are the access
+     * <p>The only possible modifiers for constructors bre the bccess
      * modifiers {@code public}, {@code protected} or
-     * {@code private}.  Only one of these may appear, or none if the
-     * constructor has default (package) access.
+     * {@code privbte}.  Only one of these mby bppebr, or none if the
+     * constructor hbs defbult (pbckbge) bccess.
      *
-     * @return a string describing this {@code Constructor},
-     * include type parameters
+     * @return b string describing this {@code Constructor},
+     * include type pbrbmeters
      *
      * @since 1.5
      * @jls 8.8.3. Constructor Modifiers
      */
     @Override
     public String toGenericString() {
-        return sharedToGenericString(Modifier.constructorModifiers(), false);
+        return shbredToGenericString(Modifier.constructorModifiers(), fblse);
     }
 
     @Override
-    void specificToGenericStringHeader(StringBuilder sb) {
-        specificToStringHeader(sb);
+    void specificToGenericStringHebder(StringBuilder sb) {
+        specificToStringHebder(sb);
     }
 
     /**
      * Uses the constructor represented by this {@code Constructor} object to
-     * create and initialize a new instance of the constructor's
-     * declaring class, with the specified initialization parameters.
-     * Individual parameters are automatically unwrapped to match
-     * primitive formal parameters, and both primitive and reference
-     * parameters are subject to method invocation conversions as necessary.
+     * crebte bnd initiblize b new instbnce of the constructor's
+     * declbring clbss, with the specified initiblizbtion pbrbmeters.
+     * Individubl pbrbmeters bre butombticblly unwrbpped to mbtch
+     * primitive formbl pbrbmeters, bnd both primitive bnd reference
+     * pbrbmeters bre subject to method invocbtion conversions bs necessbry.
      *
-     * <p>If the number of formal parameters required by the underlying constructor
-     * is 0, the supplied {@code initargs} array may be of length 0 or null.
+     * <p>If the number of formbl pbrbmeters required by the underlying constructor
+     * is 0, the supplied {@code initbrgs} brrby mby be of length 0 or null.
      *
-     * <p>If the constructor's declaring class is an inner class in a
-     * non-static context, the first argument to the constructor needs
-     * to be the enclosing instance; see section 15.9.3 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * <p>If the constructor's declbring clbss is bn inner clbss in b
+     * non-stbtic context, the first brgument to the constructor needs
+     * to be the enclosing instbnce; see section 15.9.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * <p>If the required access and argument checks succeed and the
-     * instantiation will proceed, the constructor's declaring class
-     * is initialized if it has not already been initialized.
+     * <p>If the required bccess bnd brgument checks succeed bnd the
+     * instbntibtion will proceed, the constructor's declbring clbss
+     * is initiblized if it hbs not blrebdy been initiblized.
      *
-     * <p>If the constructor completes normally, returns the newly
-     * created and initialized instance.
+     * <p>If the constructor completes normblly, returns the newly
+     * crebted bnd initiblized instbnce.
      *
-     * @param initargs array of objects to be passed as arguments to
-     * the constructor call; values of primitive types are wrapped in
-     * a wrapper object of the appropriate type (e.g. a {@code float}
-     * in a {@link java.lang.Float Float})
+     * @pbrbm initbrgs brrby of objects to be pbssed bs brguments to
+     * the constructor cbll; vblues of primitive types bre wrbpped in
+     * b wrbpper object of the bppropribte type (e.g. b {@code flobt}
+     * in b {@link jbvb.lbng.Flobt Flobt})
      *
-     * @return a new object created by calling the constructor
+     * @return b new object crebted by cblling the constructor
      * this object represents
      *
-     * @exception IllegalAccessException    if this {@code Constructor} object
-     *              is enforcing Java language access control and the underlying
-     *              constructor is inaccessible.
-     * @exception IllegalArgumentException  if the number of actual
-     *              and formal parameters differ; if an unwrapping
-     *              conversion for primitive arguments fails; or if,
-     *              after possible unwrapping, a parameter value
-     *              cannot be converted to the corresponding formal
-     *              parameter type by a method invocation conversion; if
-     *              this constructor pertains to an enum type.
-     * @exception InstantiationException    if the class that declares the
-     *              underlying constructor represents an abstract class.
-     * @exception InvocationTargetException if the underlying constructor
-     *              throws an exception.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
+     * @exception IllegblAccessException    if this {@code Constructor} object
+     *              is enforcing Jbvb lbngubge bccess control bnd the underlying
+     *              constructor is inbccessible.
+     * @exception IllegblArgumentException  if the number of bctubl
+     *              bnd formbl pbrbmeters differ; if bn unwrbpping
+     *              conversion for primitive brguments fbils; or if,
+     *              bfter possible unwrbpping, b pbrbmeter vblue
+     *              cbnnot be converted to the corresponding formbl
+     *              pbrbmeter type by b method invocbtion conversion; if
+     *              this constructor pertbins to bn enum type.
+     * @exception InstbntibtionException    if the clbss thbt declbres the
+     *              underlying constructor represents bn bbstrbct clbss.
+     * @exception InvocbtionTbrgetException if the underlying constructor
+     *              throws bn exception.
+     * @exception ExceptionInInitiblizerError if the initiblizbtion provoked
+     *              by this method fbils.
      */
-    @CallerSensitive
-    public T newInstance(Object ... initargs)
-        throws InstantiationException, IllegalAccessException,
-               IllegalArgumentException, InvocationTargetException
+    @CbllerSensitive
+    public T newInstbnce(Object ... initbrgs)
+        throws InstbntibtionException, IllegblAccessException,
+               IllegblArgumentException, InvocbtionTbrgetException
     {
         if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, null, modifiers);
+            if (!Reflection.quickCheckMemberAccess(clbzz, modifiers)) {
+                Clbss<?> cbller = Reflection.getCbllerClbss();
+                checkAccess(cbller, clbzz, null, modifiers);
             }
         }
-        if ((clazz.getModifiers() & Modifier.ENUM) != 0)
-            throw new IllegalArgumentException("Cannot reflectively create enum objects");
-        ConstructorAccessor ca = constructorAccessor;   // read volatile
-        if (ca == null) {
-            ca = acquireConstructorAccessor();
+        if ((clbzz.getModifiers() & Modifier.ENUM) != 0)
+            throw new IllegblArgumentException("Cbnnot reflectively crebte enum objects");
+        ConstructorAccessor cb = constructorAccessor;   // rebd volbtile
+        if (cb == null) {
+            cb = bcquireConstructorAccessor();
         }
-        @SuppressWarnings("unchecked")
-        T inst = (T) ca.newInstance(initargs);
+        @SuppressWbrnings("unchecked")
+        T inst = (T) cb.newInstbnce(initbrgs);
         return inst;
     }
 
@@ -415,35 +415,35 @@ public final class Constructor<T> extends Executable {
      * @since 1.5
      */
     @Override
-    public boolean isVarArgs() {
-        return super.isVarArgs();
+    public boolebn isVbrArgs() {
+        return super.isVbrArgs();
     }
 
     /**
      * {@inheritDoc}
-     * @jls 13.1 The Form of a Binary
+     * @jls 13.1 The Form of b Binbry
      * @since 1.5
      */
     @Override
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return super.isSynthetic();
     }
 
-    // NOTE that there is no synchronization used here. It is correct
-    // (though not efficient) to generate more than one
-    // ConstructorAccessor for a given Constructor. However, avoiding
-    // synchronization will probably make the implementation more
-    // scalable.
-    private ConstructorAccessor acquireConstructorAccessor() {
-        // First check to see if one has been created yet, and take it
+    // NOTE thbt there is no synchronizbtion used here. It is correct
+    // (though not efficient) to generbte more thbn one
+    // ConstructorAccessor for b given Constructor. However, bvoiding
+    // synchronizbtion will probbbly mbke the implementbtion more
+    // scblbble.
+    privbte ConstructorAccessor bcquireConstructorAccessor() {
+        // First check to see if one hbs been crebted yet, bnd tbke it
         // if so.
         ConstructorAccessor tmp = null;
         if (root != null) tmp = root.getConstructorAccessor();
         if (tmp != null) {
             constructorAccessor = tmp;
         } else {
-            // Otherwise fabricate one and propagate it up to the root
-            tmp = reflectionFactory.newConstructorAccessor(this);
+            // Otherwise fbbricbte one bnd propbgbte it up to the root
+            tmp = reflectionFbctory.newConstructorAccessor(this);
             setConstructorAccessor(tmp);
         }
 
@@ -451,18 +451,18 @@ public final class Constructor<T> extends Executable {
     }
 
     // Returns ConstructorAccessor for this Constructor object, not
-    // looking up the chain to the root
+    // looking up the chbin to the root
     ConstructorAccessor getConstructorAccessor() {
         return constructorAccessor;
     }
 
-    // Sets the ConstructorAccessor for this Constructor object and
+    // Sets the ConstructorAccessor for this Constructor object bnd
     // (recursively) its root
-    void setConstructorAccessor(ConstructorAccessor accessor) {
-        constructorAccessor = accessor;
-        // Propagate up
+    void setConstructorAccessor(ConstructorAccessor bccessor) {
+        constructorAccessor = bccessor;
+        // Propbgbte up
         if (root != null) {
-            root.setConstructorAccessor(accessor);
+            root.setConstructorAccessor(bccessor);
         }
     }
 
@@ -470,16 +470,16 @@ public final class Constructor<T> extends Executable {
         return slot;
     }
 
-    String getSignature() {
-        return signature;
+    String getSignbture() {
+        return signbture;
     }
 
-    byte[] getRawAnnotations() {
-        return annotations;
+    byte[] getRbwAnnotbtions() {
+        return bnnotbtions;
     }
 
-    byte[] getRawParameterAnnotations() {
-        return parameterAnnotations;
+    byte[] getRbwPbrbmeterAnnotbtions() {
+        return pbrbmeterAnnotbtions;
     }
 
 
@@ -488,16 +488,16 @@ public final class Constructor<T> extends Executable {
      * @throws NullPointerException  {@inheritDoc}
      * @since 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        return super.getAnnotation(annotationClass);
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        return super.getAnnotbtion(bnnotbtionClbss);
     }
 
     /**
      * {@inheritDoc}
      * @since 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return super.getDeclaredAnnotations();
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        return super.getDeclbredAnnotbtions();
     }
 
     /**
@@ -505,26 +505,26 @@ public final class Constructor<T> extends Executable {
      * @since 1.5
      */
     @Override
-    public Annotation[][] getParameterAnnotations() {
-        return sharedGetParameterAnnotations(parameterTypes, parameterAnnotations);
+    public Annotbtion[][] getPbrbmeterAnnotbtions() {
+        return shbredGetPbrbmeterAnnotbtions(pbrbmeterTypes, pbrbmeterAnnotbtions);
     }
 
     @Override
-    void handleParameterNumberMismatch(int resultLength, int numParameters) {
-        Class<?> declaringClass = getDeclaringClass();
-        if (declaringClass.isEnum() ||
-            declaringClass.isAnonymousClass() ||
-            declaringClass.isLocalClass() )
-            return ; // Can't do reliable parameter counting
+    void hbndlePbrbmeterNumberMismbtch(int resultLength, int numPbrbmeters) {
+        Clbss<?> declbringClbss = getDeclbringClbss();
+        if (declbringClbss.isEnum() ||
+            declbringClbss.isAnonymousClbss() ||
+            declbringClbss.isLocblClbss() )
+            return ; // Cbn't do relibble pbrbmeter counting
         else {
-            if (!declaringClass.isMemberClass() || // top-level
-                // Check for the enclosing instance parameter for
-                // non-static member classes
-                (declaringClass.isMemberClass() &&
-                 ((declaringClass.getModifiers() & Modifier.STATIC) == 0)  &&
-                 resultLength + 1 != numParameters) ) {
-                throw new AnnotationFormatError(
-                          "Parameter annotations don't match number of parameters");
+            if (!declbringClbss.isMemberClbss() || // top-level
+                // Check for the enclosing instbnce pbrbmeter for
+                // non-stbtic member clbsses
+                (declbringClbss.isMemberClbss() &&
+                 ((declbringClbss.getModifiers() & Modifier.STATIC) == 0)  &&
+                 resultLength + 1 != numPbrbmeters) ) {
+                throw new AnnotbtionFormbtError(
+                          "Pbrbmeter bnnotbtions don't mbtch number of pbrbmeters");
             }
         }
     }
@@ -534,8 +534,8 @@ public final class Constructor<T> extends Executable {
      * @since 1.8
      */
     @Override
-    public AnnotatedType getAnnotatedReturnType() {
-        return getAnnotatedReturnType0(getDeclaringClass());
+    public AnnotbtedType getAnnotbtedReturnType() {
+        return getAnnotbtedReturnType0(getDeclbringClbss());
     }
 
     /**
@@ -543,16 +543,16 @@ public final class Constructor<T> extends Executable {
      * @since 1.8
      */
     @Override
-    public AnnotatedType getAnnotatedReceiverType() {
-        if (getDeclaringClass().getEnclosingClass() == null)
-            return super.getAnnotatedReceiverType();
+    public AnnotbtedType getAnnotbtedReceiverType() {
+        if (getDeclbringClbss().getEnclosingClbss() == null)
+            return super.getAnnotbtedReceiverType();
 
-        return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
+        return TypeAnnotbtionPbrser.buildAnnotbtedType(getTypeAnnotbtionBytes0(),
+                sun.misc.ShbredSecrets.getJbvbLbngAccess().
+                        getConstbntPool(getDeclbringClbss()),
                 this,
-                getDeclaringClass(),
-                getDeclaringClass().getEnclosingClass(),
-                TypeAnnotation.TypeAnnotationTarget.METHOD_RECEIVER);
+                getDeclbringClbss(),
+                getDeclbringClbss().getEnclosingClbss(),
+                TypeAnnotbtion.TypeAnnotbtionTbrget.METHOD_RECEIVER);
     }
 }

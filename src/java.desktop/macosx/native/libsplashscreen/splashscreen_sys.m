@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "splashscreen_impl.h"
+#include "splbshscreen_impl.h"
 
-#import <Cocoa/Cocoa.h>
-#import <objc/objc-auto.h>
+#import <Cocob/Cocob.h>
+#import <objc/objc-buto.h>
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import "NSApplicationAWT.h"
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import "NSApplicbtionAWT.h"
 
 #include <sys/time.h>
-#include <pthread.h>
+#include <pthrebd.h>
 #include <iconv.h>
-#include <langinfo.h>
-#include <locale.h>
+#include <lbnginfo.h>
+#include <locble.h>
 #include <fcntl.h>
 #include <poll.h>
 #include <errno.h>
 #include <sys/types.h>
-#include <signal.h>
+#include <signbl.h>
 #include <unistd.h>
 #include <dlfcn.h>
 
-#include <sizecalc.h>
-#import "ThreadUtilities.h"
+#include <sizecblc.h>
+#import "ThrebdUtilities.h"
 
-static NSScreen* SplashNSScreen()
+stbtic NSScreen* SplbshNSScreen()
 {
     return [[NSScreen screens] objectAtIndex: 0];
 }
 
-static void SplashCenter(Splash * splash)
+stbtic void SplbshCenter(Splbsh * splbsh)
 {
-    NSRect screenFrame = [SplashNSScreen() frame];
+    NSRect screenFrbme = [SplbshNSScreen() frbme];
 
-    splash->x = (screenFrame.size.width - splash->width) / 2;
-    splash->y = (screenFrame.size.height - splash->height) / 2 + screenFrame.origin.y;
+    splbsh->x = (screenFrbme.size.width - splbsh->width) / 2;
+    splbsh->y = (screenFrbme.size.height - splbsh->height) / 2 + screenFrbme.origin.y;
 }
 
 unsigned
-SplashTime(void) {
-    struct timeval tv;
+SplbshTime(void) {
+    struct timevbl tv;
     struct timezone tz;
     unsigned long long msec;
 
-    gettimeofday(&tv, &tz);
+    gettimeofdby(&tv, &tz);
     msec = (unsigned long long) tv.tv_sec * 1000 +
         (unsigned long long) tv.tv_usec / 1000;
 
@@ -74,26 +74,26 @@ SplashTime(void) {
 }
 
 /* Could use npt but decided to cut down on linked code size */
-char* SplashConvertStringAlloc(const char* in, int* size) {
-    const char     *codeset;
-    const char     *codeset_out;
+chbr* SplbshConvertStringAlloc(const chbr* in, int* size) {
+    const chbr     *codeset;
+    const chbr     *codeset_out;
     iconv_t         cd;
     size_t          rc;
-    char           *buf = NULL, *out;
+    chbr           *buf = NULL, *out;
     size_t          bufSize, inSize, outSize;
-    const char* old_locale;
+    const chbr* old_locble;
 
     if (!in) {
         return NULL;
     }
-    old_locale = setlocale(LC_ALL, "");
+    old_locble = setlocble(LC_ALL, "");
 
-    codeset = nl_langinfo(CODESET);
+    codeset = nl_lbnginfo(CODESET);
     if ( codeset == NULL || codeset[0] == 0 ) {
         goto done;
     }
-    /* we don't need BOM in output so we choose native BE or LE encoding here */
-    codeset_out = (platformByteOrder()==BYTE_ORDER_MSBFIRST) ?
+    /* we don't need BOM in output so we choose nbtive BE or LE encoding here */
+    codeset_out = (plbtformByteOrder()==BYTE_ORDER_MSBFIRST) ?
         "UCS-2BE" : "UCS-2LE";
 
     cd = iconv_open(codeset_out, codeset);
@@ -101,15 +101,15 @@ char* SplashConvertStringAlloc(const char* in, int* size) {
         goto done;
     }
     inSize = strlen(in);
-    buf = SAFE_SIZE_ARRAY_ALLOC(malloc, inSize, 2);
+    buf = SAFE_SIZE_ARRAY_ALLOC(mblloc, inSize, 2);
     if (!buf) {
         return NULL;
     }
-    bufSize = inSize*2; // need 2 bytes per char for UCS-2, this is
-                        // 2 bytes per source byte max
+    bufSize = inSize*2; // need 2 bytes per chbr for UCS-2, this is
+                        // 2 bytes per source byte mbx
     out = buf; outSize = bufSize;
-    /* linux iconv wants char** source and solaris wants const char**...
-       cast to void* */
+    /* linux iconv wbnts chbr** source bnd solbris wbnts const chbr**...
+       cbst to void* */
     rc = iconv(cd, (void*)&in, &inSize, &out, &outSize);
     iconv_close(cd);
 
@@ -118,213 +118,213 @@ char* SplashConvertStringAlloc(const char* in, int* size) {
         buf = NULL;
     } else {
         if (size) {
-            *size = (bufSize-outSize)/2; /* bytes to wchars */
+            *size = (bufSize-outSize)/2; /* bytes to wchbrs */
         }
     }
 done:
-    setlocale(LC_ALL, old_locale);
+    setlocble(LC_ALL, old_locble);
     return buf;
 }
 
-char* SplashGetScaledImageName(const char* jar, const char* file,
-                               float *scaleFactor) {
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    *scaleFactor = 1;
-    char* scaledFile = nil;
-    __block float screenScaleFactor = 1;
+chbr* SplbshGetScbledImbgeNbme(const chbr* jbr, const chbr* file,
+                               flobt *scbleFbctor) {
+    NSAutorelebsePool *pool = [NSAutorelebsePool new];
+    *scbleFbctor = 1;
+    chbr* scbledFile = nil;
+    __block flobt screenScbleFbctor = 1;
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        screenScaleFactor = [SplashNSScreen() backingScaleFactor];
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        screenScbleFbctor = [SplbshNSScreen() bbckingScbleFbctor];
     }];
 
-    if (screenScaleFactor > 1) {
-        NSString *fileName = [NSString stringWithUTF8String: file];
-        NSUInteger length = [fileName length];
-        NSRange range = [fileName rangeOfString: @"."
-                                        options:NSBackwardsSearch];
-        NSUInteger dotIndex = range.location;
-        NSString *fileName2x = nil;
+    if (screenScbleFbctor > 1) {
+        NSString *fileNbme = [NSString stringWithUTF8String: file];
+        NSUInteger length = [fileNbme length];
+        NSRbnge rbnge = [fileNbme rbngeOfString: @"."
+                                        options:NSBbckwbrdsSebrch];
+        NSUInteger dotIndex = rbnge.locbtion;
+        NSString *fileNbme2x = nil;
         
         if (dotIndex == NSNotFound) {
-            fileName2x = [fileName stringByAppendingString: @"@2x"];
+            fileNbme2x = [fileNbme stringByAppendingString: @"@2x"];
         } else {
-            fileName2x = [fileName substringToIndex: dotIndex];
-            fileName2x = [fileName2x stringByAppendingString: @"@2x"];
-            fileName2x = [fileName2x stringByAppendingString:
-                          [fileName substringFromIndex: dotIndex]];
+            fileNbme2x = [fileNbme substringToIndex: dotIndex];
+            fileNbme2x = [fileNbme2x stringByAppendingString: @"@2x"];
+            fileNbme2x = [fileNbme2x stringByAppendingString:
+                          [fileNbme substringFromIndex: dotIndex]];
         }
         
-        if ((fileName2x != nil) && (jar || [[NSFileManager defaultManager]
-                    fileExistsAtPath: fileName2x])){
-            *scaleFactor = 2;
-            scaledFile = strdup([fileName2x UTF8String]);
+        if ((fileNbme2x != nil) && (jbr || [[NSFileMbnbger defbultMbnbger]
+                    fileExistsAtPbth: fileNbme2x])){
+            *scbleFbctor = 2;
+            scbledFile = strdup([fileNbme2x UTF8String]);
         }
     }
-    [pool drain];
-    return scaledFile;
+    [pool drbin];
+    return scbledFile;
 }
 
 void
-SplashInitPlatform(Splash * splash) {
-    pthread_mutex_init(&splash->lock, NULL);
+SplbshInitPlbtform(Splbsh * splbsh) {
+    pthrebd_mutex_init(&splbsh->lock, NULL);
 
-    splash->maskRequired = 0;
+    splbsh->mbskRequired = 0;
 
     
-    //TODO: the following is too much of a hack but should work in 90% cases.
-    //      besides we don't use device-dependant drawing, so probably
-    //      that's very fine indeed
-    splash->byteAlignment = 1;
-    initFormat(&splash->screenFormat, 0xff << 8,
+    //TODO: the following is too much of b hbck but should work in 90% cbses.
+    //      besides we don't use device-dependbnt drbwing, so probbbly
+    //      thbt's very fine indeed
+    splbsh->byteAlignment = 1;
+    initFormbt(&splbsh->screenFormbt, 0xff << 8,
             0xff << 16, 0xff << 24, 0xff << 0);
-    splash->screenFormat.byteOrder = 1 ?  BYTE_ORDER_LSBFIRST : BYTE_ORDER_MSBFIRST;
-    splash->screenFormat.depthBytes = 4;
+    splbsh->screenFormbt.byteOrder = 1 ?  BYTE_ORDER_LSBFIRST : BYTE_ORDER_MSBFIRST;
+    splbsh->screenFormbt.depthBytes = 4;
 
-    // If this property is present we are running SWT and should not start a runLoop
-    // Can't check if running SWT in webstart, so splash screen in webstart SWT
-    // applications is not supported
-    char envVar[80];
-    snprintf(envVar, sizeof(envVar), "JAVA_STARTED_ON_FIRST_THREAD_%d", getpid());
-    if (getenv(envVar) == NULL) {
-        [JNFRunLoop performOnMainThreadWaiting:NO withBlock:^() {
-            [NSApplicationAWT runAWTLoopWithApp:[NSApplicationAWT sharedApplication]];
+    // If this property is present we bre running SWT bnd should not stbrt b runLoop
+    // Cbn't check if running SWT in webstbrt, so splbsh screen in webstbrt SWT
+    // bpplicbtions is not supported
+    chbr envVbr[80];
+    snprintf(envVbr, sizeof(envVbr), "JAVA_STARTED_ON_FIRST_THREAD_%d", getpid());
+    if (getenv(envVbr) == NULL) {
+        [JNFRunLoop performOnMbinThrebdWbiting:NO withBlock:^() {
+            [NSApplicbtionAWT runAWTLoopWithApp:[NSApplicbtionAWT shbredApplicbtion]];
         }];
     }
 }
 
 void
-SplashCleanupPlatform(Splash * splash) {
-    splash->maskRequired = 0;
+SplbshClebnupPlbtform(Splbsh * splbsh) {
+    splbsh->mbskRequired = 0;
 }
 
 void
-SplashDonePlatform(Splash * splash) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+SplbshDonePlbtform(Splbsh * splbsh) {
+    NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
 
-    pthread_mutex_destroy(&splash->lock);
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        if (splash->window) {
-            [splash->window orderOut:nil];
-            [splash->window release];
+    pthrebd_mutex_destroy(&splbsh->lock);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        if (splbsh->window) {
+            [splbsh->window orderOut:nil];
+            [splbsh->window relebse];
         }
     }];
-    [pool drain];
+    [pool drbin];
 }
 
 void
-SplashLock(Splash * splash) {
-    pthread_mutex_lock(&splash->lock);
+SplbshLock(Splbsh * splbsh) {
+    pthrebd_mutex_lock(&splbsh->lock);
 }
 
 void
-SplashUnlock(Splash * splash) {
-    pthread_mutex_unlock(&splash->lock);
+SplbshUnlock(Splbsh * splbsh) {
+    pthrebd_mutex_unlock(&splbsh->lock);
 }
 
 void
-SplashInitFrameShape(Splash * splash, int imageIndex) {
-    // No shapes, we rely on alpha compositing
+SplbshInitFrbmeShbpe(Splbsh * splbsh, int imbgeIndex) {
+    // No shbpes, we rely on blphb compositing
 }
 
-void * SplashScreenThread(void *param);
+void * SplbshScreenThrebd(void *pbrbm);
 void
-SplashCreateThread(Splash * splash) {
-    pthread_t thr;
-    pthread_attr_t attr;
+SplbshCrebteThrebd(Splbsh * splbsh) {
+    pthrebd_t thr;
+    pthrebd_bttr_t bttr;
     int rc;
 
-    pthread_attr_init(&attr);
-    rc = pthread_create(&thr, &attr, SplashScreenThread, (void *) splash);
+    pthrebd_bttr_init(&bttr);
+    rc = pthrebd_crebte(&thr, &bttr, SplbshScreenThrebd, (void *) splbsh);
 }
 
 void
-SplashRedrawWindow(Splash * splash) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+SplbshRedrbwWindow(Splbsh * splbsh) {
+    NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
 
-    SplashUpdateScreenData(splash);
+    SplbshUpdbteScreenDbtb(splbsh);
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        // NSDeviceRGBColorSpace vs. NSCalibratedRGBColorSpace ?
-        NSBitmapImageRep * rep = [[NSBitmapImageRep alloc]
-            initWithBitmapDataPlanes: (unsigned char**)&splash->screenData
-                          pixelsWide: splash->width
-                          pixelsHigh: splash->height
-                       bitsPerSample: 8
-                     samplesPerPixel: 4
-                            hasAlpha: YES
-                            isPlanar: NO
-                      colorSpaceName: NSDeviceRGBColorSpace
-                        bitmapFormat: NSAlphaFirstBitmapFormat | NSAlphaNonpremultipliedBitmapFormat
-                         bytesPerRow: splash->width * 4
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        // NSDeviceRGBColorSpbce vs. NSCblibrbtedRGBColorSpbce ?
+        NSBitmbpImbgeRep * rep = [[NSBitmbpImbgeRep blloc]
+            initWithBitmbpDbtbPlbnes: (unsigned chbr**)&splbsh->screenDbtb
+                          pixelsWide: splbsh->width
+                          pixelsHigh: splbsh->height
+                       bitsPerSbmple: 8
+                     sbmplesPerPixel: 4
+                            hbsAlphb: YES
+                            isPlbnbr: NO
+                      colorSpbceNbme: NSDeviceRGBColorSpbce
+                        bitmbpFormbt: NSAlphbFirstBitmbpFormbt | NSAlphbNonpremultipliedBitmbpFormbt
+                         bytesPerRow: splbsh->width * 4
                         bitsPerPixel: 32];
 
-        NSImage * image = [[NSImage alloc]
-            initWithSize: NSMakeSize(splash->width, splash->height)];
-        [image setBackgroundColor: [NSColor clearColor]];
+        NSImbge * imbge = [[NSImbge blloc]
+            initWithSize: NSMbkeSize(splbsh->width, splbsh->height)];
+        [imbge setBbckgroundColor: [NSColor clebrColor]];
 
-        [image addRepresentation: rep];
-        float scaleFactor = splash->scaleFactor;
-        if (scaleFactor > 0 && scaleFactor != 1) {
-            [image setScalesWhenResized:YES];
-            NSSize size = [image size];
-            size.width /= scaleFactor;
-            size.height /= scaleFactor;
-            [image setSize: size];
+        [imbge bddRepresentbtion: rep];
+        flobt scbleFbctor = splbsh->scbleFbctor;
+        if (scbleFbctor > 0 && scbleFbctor != 1) {
+            [imbge setScblesWhenResized:YES];
+            NSSize size = [imbge size];
+            size.width /= scbleFbctor;
+            size.height /= scbleFbctor;
+            [imbge setSize: size];
         }
         
-        NSImageView * view = [[NSImageView alloc] init];
+        NSImbgeView * view = [[NSImbgeView blloc] init];
 
-        [view setImage: image];
-        [view setEditable: NO];
-        //NOTE: we don't set a 'wait cursor' for the view because:
-        //      1. The Cocoa GUI guidelines suggest to avoid it, and use a progress
-        //         bar instead.
-        //      2. There simply isn't an instance of NSCursor that represent
-        //         the 'wait cursor'. So that is undoable.
+        [view setImbge: imbge];
+        [view setEditbble: NO];
+        //NOTE: we don't set b 'wbit cursor' for the view becbuse:
+        //      1. The Cocob GUI guidelines suggest to bvoid it, bnd use b progress
+        //         bbr instebd.
+        //      2. There simply isn't bn instbnce of NSCursor thbt represent
+        //         the 'wbit cursor'. So thbt is undobble.
 
-        //TODO: only the first image in an animated gif preserves transparency.
-        //      Loos like the splash->screenData contains inappropriate data
-        //      for all but the first frame.
+        //TODO: only the first imbge in bn bnimbted gif preserves trbnspbrency.
+        //      Loos like the splbsh->screenDbtb contbins inbppropribte dbtb
+        //      for bll but the first frbme.
 
-        [image release];
-        [rep release];
+        [imbge relebse];
+        [rep relebse];
 
-        [splash->window setContentView: view];
-        [splash->window orderFrontRegardless];
+        [splbsh->window setContentView: view];
+        [splbsh->window orderFrontRegbrdless];
     }];
 
-    [pool drain];
+    [pool drbin];
 }
 
-void SplashReconfigureNow(Splash * splash) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+void SplbshReconfigureNow(Splbsh * splbsh) {
+    NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        SplashCenter(splash);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        SplbshCenter(splbsh);
 
-        if (!splash->window) {
+        if (!splbsh->window) {
             return;
         }
 
-        [splash->window orderOut:nil];
-        [splash->window setFrame: NSMakeRect(splash->x, splash->y, splash->width, splash->height)
-                         display: NO];
+        [splbsh->window orderOut:nil];
+        [splbsh->window setFrbme: NSMbkeRect(splbsh->x, splbsh->y, splbsh->width, splbsh->height)
+                         displby: NO];
     }];
 
-    [pool drain];
+    [pool drbin];
 
-    SplashRedrawWindow(splash);
+    SplbshRedrbwWindow(splbsh);
 }
 
 void
-SplashEventLoop(Splash * splash) {
+SplbshEventLoop(Splbsh * splbsh) {
 
-    /* we should have splash _locked_ on entry!!! */
+    /* we should hbve splbsh _locked_ on entry!!! */
 
     while (1) {
         struct pollfd pfd[1];
         int timeout = -1;
-        int ctl = splash->controlpipe[0];
+        int ctl = splbsh->controlpipe[0];
         int rc;
         int pipes_empty;
 
@@ -332,20 +332,20 @@ SplashEventLoop(Splash * splash) {
         pfd[0].events = POLLIN | POLLPRI;
 
         errno = 0;
-        if (splash->isVisible>0 && SplashIsStillLooping(splash)) {
-            timeout = splash->time + splash->frames[splash->currentFrame].delay
-                - SplashTime();
+        if (splbsh->isVisible>0 && SplbshIsStillLooping(splbsh)) {
+            timeout = splbsh->time + splbsh->frbmes[splbsh->currentFrbme].delby
+                - SplbshTime();
             if (timeout < 0) {
                 timeout = 0;
             }
         }
-        SplashUnlock(splash);
+        SplbshUnlock(splbsh);
         rc = poll(pfd, 1, timeout);
-        SplashLock(splash);
-        if (splash->isVisible > 0 && splash->currentFrame >= 0 &&
-                SplashTime() >= splash->time + splash->frames[splash->currentFrame].delay) {
-            SplashNextFrame(splash);
-            SplashRedrawWindow(splash);
+        SplbshLock(splbsh);
+        if (splbsh->isVisible > 0 && splbsh->currentFrbme >= 0 &&
+                SplbshTime() >= splbsh->time + splbsh->frbmes[splbsh->currentFrbme].delby) {
+            SplbshNextFrbme(splbsh);
+            SplbshRedrbwWindow(splbsh);
         }
         if (rc <= 0) {
             errno = 0;
@@ -353,23 +353,23 @@ SplashEventLoop(Splash * splash) {
         }
         pipes_empty = 0;
         while(!pipes_empty) {
-            char buf;
+            chbr buf;
 
             pipes_empty = 1;
-            if (read(ctl, &buf, sizeof(buf)) > 0) {
+            if (rebd(ctl, &buf, sizeof(buf)) > 0) {
                 pipes_empty = 0;
                 switch (buf) {
-                case SPLASHCTL_UPDATE:
-                    if (splash->isVisible>0) {
-                        SplashRedrawWindow(splash);
+                cbse SPLASHCTL_UPDATE:
+                    if (splbsh->isVisible>0) {
+                        SplbshRedrbwWindow(splbsh);
                     }
-                    break;
-                case SPLASHCTL_RECONFIGURE:
-                    if (splash->isVisible>0) {
-                        SplashReconfigureNow(splash);
+                    brebk;
+                cbse SPLASHCTL_RECONFIGURE:
+                    if (splbsh->isVisible>0) {
+                        SplbshReconfigureNow(splbsh);
                     }
-                    break;
-                case SPLASHCTL_QUIT:
+                    brebk;
+                cbse SPLASHCTL_QUIT:
                     return;
                 }
             }
@@ -378,68 +378,68 @@ SplashEventLoop(Splash * splash) {
 }
 
 void *
-SplashScreenThread(void *param) {
-    objc_registerThreadWithCollector();
+SplbshScreenThrebd(void *pbrbm) {
+    objc_registerThrebdWithCollector();
 
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    Splash *splash = (Splash *) param;
+    NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
+    Splbsh *splbsh = (Splbsh *) pbrbm;
 
-    SplashLock(splash);
-    pipe(splash->controlpipe);
-    fcntl(splash->controlpipe[0], F_SETFL,
-        fcntl(splash->controlpipe[0], F_GETFL, 0) | O_NONBLOCK);
-    splash->time = SplashTime();
-    splash->currentFrame = 0;
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        SplashCenter(splash);
+    SplbshLock(splbsh);
+    pipe(splbsh->controlpipe);
+    fcntl(splbsh->controlpipe[0], F_SETFL,
+        fcntl(splbsh->controlpipe[0], F_GETFL, 0) | O_NONBLOCK);
+    splbsh->time = SplbshTime();
+    splbsh->currentFrbme = 0;
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        SplbshCenter(splbsh);
 
-        splash->window = (void*) [[NSWindow alloc]
-            initWithContentRect: NSMakeRect(splash->x, splash->y, splash->width, splash->height)
-                      styleMask: NSBorderlessWindowMask
-                        backing: NSBackingStoreBuffered
+        splbsh->window = (void*) [[NSWindow blloc]
+            initWithContentRect: NSMbkeRect(splbsh->x, splbsh->y, splbsh->width, splbsh->height)
+                      styleMbsk: NSBorderlessWindowMbsk
+                        bbcking: NSBbckingStoreBuffered
                           defer: NO
-                         screen: SplashNSScreen()];
+                         screen: SplbshNSScreen()];
 
-        [splash->window setOpaque: NO];
-        [splash->window setBackgroundColor: [NSColor clearColor]];
+        [splbsh->window setOpbque: NO];
+        [splbsh->window setBbckgroundColor: [NSColor clebrColor]];
     }];
     fflush(stdout);
-    if (splash->window) {
-        [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-            [splash->window orderFrontRegardless];
+    if (splbsh->window) {
+        [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+            [splbsh->window orderFrontRegbrdless];
         }];
-        SplashRedrawWindow(splash);
-        SplashEventLoop(splash);
+        SplbshRedrbwWindow(splbsh);
+        SplbshEventLoop(splbsh);
     }
-    SplashUnlock(splash);
-    SplashDone(splash);
+    SplbshUnlock(splbsh);
+    SplbshDone(splbsh);
 
-    splash->isVisible=-1;
+    splbsh->isVisible=-1;
 
-    [pool drain];
+    [pool drbin];
 
     return 0;
 }
 
 void
-sendctl(Splash * splash, char code) {
-    if (splash && splash->controlpipe[1]) {
-        write(splash->controlpipe[1], &code, 1);
+sendctl(Splbsh * splbsh, chbr code) {
+    if (splbsh && splbsh->controlpipe[1]) {
+        write(splbsh->controlpipe[1], &code, 1);
     }
 }
 
 void
-SplashClosePlatform(Splash * splash) {
-    sendctl(splash, SPLASHCTL_QUIT);
+SplbshClosePlbtform(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_QUIT);
 }
 
 void
-SplashUpdate(Splash * splash) {
-    sendctl(splash, SPLASHCTL_UPDATE);
+SplbshUpdbte(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_UPDATE);
 }
 
 void
-SplashReconfigure(Splash * splash) {
-    sendctl(splash, SPLASHCTL_RECONFIGURE);
+SplbshReconfigure(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_RECONFIGURE);
 }
 

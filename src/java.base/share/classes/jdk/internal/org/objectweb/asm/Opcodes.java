@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,21 +56,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * Defines the JVM opcodes, access flags and array type codes. This interface
- * does not define all the JVM opcodes because some opcodes are automatically
- * handled. For example, the xLOAD and xSTORE opcodes are automatically replaced
- * by xLOAD_n and xSTORE_n opcodes when possible. The xLOAD_n and xSTORE_n
- * opcodes are therefore not defined in this interface. Likewise for LDC,
- * automatically replaced by LDC_W or LDC2_W when necessary, WIDE, GOTO_W and
+ * Defines the JVM opcodes, bccess flbgs bnd brrby type codes. This interfbce
+ * does not define bll the JVM opcodes becbuse some opcodes bre butombticblly
+ * hbndled. For exbmple, the xLOAD bnd xSTORE opcodes bre butombticblly replbced
+ * by xLOAD_n bnd xSTORE_n opcodes when possible. The xLOAD_n bnd xSTORE_n
+ * opcodes bre therefore not defined in this interfbce. Likewise for LDC,
+ * butombticblly replbced by LDC_W or LDC2_W when necessbry, WIDE, GOTO_W bnd
  * JSR_W.
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @buthor Eric Bruneton
+ * @buthor Eugene Kuleshov
  */
-public interface Opcodes {
+public interfbce Opcodes {
 
     // ASM API versions
 
@@ -88,31 +88,31 @@ public interface Opcodes {
     int V1_7 = 0 << 16 | 51;
     int V1_8 = 0 << 16 | 52;
 
-    // access flags
+    // bccess flbgs
 
-    int ACC_PUBLIC = 0x0001; // class, field, method
-    int ACC_PRIVATE = 0x0002; // class, field, method
-    int ACC_PROTECTED = 0x0004; // class, field, method
+    int ACC_PUBLIC = 0x0001; // clbss, field, method
+    int ACC_PRIVATE = 0x0002; // clbss, field, method
+    int ACC_PROTECTED = 0x0004; // clbss, field, method
     int ACC_STATIC = 0x0008; // field, method
-    int ACC_FINAL = 0x0010; // class, field, method, parameter
-    int ACC_SUPER = 0x0020; // class
+    int ACC_FINAL = 0x0010; // clbss, field, method, pbrbmeter
+    int ACC_SUPER = 0x0020; // clbss
     int ACC_SYNCHRONIZED = 0x0020; // method
     int ACC_VOLATILE = 0x0040; // field
     int ACC_BRIDGE = 0x0040; // method
     int ACC_VARARGS = 0x0080; // method
     int ACC_TRANSIENT = 0x0080; // field
     int ACC_NATIVE = 0x0100; // method
-    int ACC_INTERFACE = 0x0200; // class
-    int ACC_ABSTRACT = 0x0400; // class, method
+    int ACC_INTERFACE = 0x0200; // clbss
+    int ACC_ABSTRACT = 0x0400; // clbss, method
     int ACC_STRICT = 0x0800; // method
-    int ACC_SYNTHETIC = 0x1000; // class, field, method, parameter
-    int ACC_ANNOTATION = 0x2000; // class
-    int ACC_ENUM = 0x4000; // class(?) field inner
-    int ACC_MANDATED = 0x8000; // parameter
+    int ACC_SYNTHETIC = 0x1000; // clbss, field, method, pbrbmeter
+    int ACC_ANNOTATION = 0x2000; // clbss
+    int ACC_ENUM = 0x4000; // clbss(?) field inner
+    int ACC_MANDATED = 0x8000; // pbrbmeter
 
-    // ASM specific pseudo access flags
+    // ASM specific pseudo bccess flbgs
 
-    int ACC_DEPRECATED = 0x20000; // class, field, method
+    int ACC_DEPRECATED = 0x20000; // clbss, field, method
 
     // types for NEWARRAY
 
@@ -125,7 +125,7 @@ public interface Opcodes {
     int T_INT = 10;
     int T_LONG = 11;
 
-    // tags for Handle
+    // tbgs for Hbndle
 
     int H_GETFIELD = 1;
     int H_GETSTATIC = 2;
@@ -137,41 +137,41 @@ public interface Opcodes {
     int H_NEWINVOKESPECIAL = 8;
     int H_INVOKEINTERFACE = 9;
 
-    // stack map frame types
+    // stbck mbp frbme types
 
     /**
-     * Represents an expanded frame. See {@link ClassReader#EXPAND_FRAMES}.
+     * Represents bn expbnded frbme. See {@link ClbssRebder#EXPAND_FRAMES}.
      */
     int F_NEW = -1;
 
     /**
-     * Represents a compressed frame with complete frame data.
+     * Represents b compressed frbme with complete frbme dbtb.
      */
     int F_FULL = 0;
 
     /**
-     * Represents a compressed frame where locals are the same as the locals in
-     * the previous frame, except that additional 1-3 locals are defined, and
-     * with an empty stack.
+     * Represents b compressed frbme where locbls bre the sbme bs the locbls in
+     * the previous frbme, except thbt bdditionbl 1-3 locbls bre defined, bnd
+     * with bn empty stbck.
      */
     int F_APPEND = 1;
 
     /**
-     * Represents a compressed frame where locals are the same as the locals in
-     * the previous frame, except that the last 1-3 locals are absent and with
-     * an empty stack.
+     * Represents b compressed frbme where locbls bre the sbme bs the locbls in
+     * the previous frbme, except thbt the lbst 1-3 locbls bre bbsent bnd with
+     * bn empty stbck.
      */
     int F_CHOP = 2;
 
     /**
-     * Represents a compressed frame with exactly the same locals as the
-     * previous frame and with an empty stack.
+     * Represents b compressed frbme with exbctly the sbme locbls bs the
+     * previous frbme bnd with bn empty stbck.
      */
     int F_SAME = 3;
 
     /**
-     * Represents a compressed frame with exactly the same locals as the
-     * previous frame and with a single value on the stack.
+     * Represents b compressed frbme with exbctly the sbme locbls bs the
+     * previous frbme bnd with b single vblue on the stbck.
      */
     int F_SAME1 = 4;
 
@@ -206,7 +206,7 @@ public interface Opcodes {
     int LDC = 18; // visitLdcInsn
     // int LDC_W = 19; // -
     // int LDC2_W = 20; // -
-    int ILOAD = 21; // visitVarInsn
+    int ILOAD = 21; // visitVbrInsn
     int LLOAD = 22; // -
     int FLOAD = 23; // -
     int DLOAD = 24; // -
@@ -239,7 +239,7 @@ public interface Opcodes {
     int BALOAD = 51; // -
     int CALOAD = 52; // -
     int SALOAD = 53; // -
-    int ISTORE = 54; // visitVarInsn
+    int ISTORE = 54; // visitVbrInsn
     int LSTORE = 55; // -
     int FSTORE = 56; // -
     int DSTORE = 57; // -
@@ -354,8 +354,8 @@ public interface Opcodes {
     int IF_ACMPNE = 166; // -
     int GOTO = 167; // -
     int JSR = 168; // -
-    int RET = 169; // visitVarInsn
-    int TABLESWITCH = 170; // visiTableSwitchInsn
+    int RET = 169; // visitVbrInsn
+    int TABLESWITCH = 170; // visiTbbleSwitchInsn
     int LOOKUPSWITCH = 171; // visitLookupSwitch
     int IRETURN = 172; // visitInsn
     int LRETURN = 173; // -
@@ -371,7 +371,7 @@ public interface Opcodes {
     int INVOKESPECIAL = 183; // -
     int INVOKESTATIC = 184; // -
     int INVOKEINTERFACE = 185; // -
-    int INVOKEDYNAMIC = 186; // visitInvokeDynamicInsn
+    int INVOKEDYNAMIC = 186; // visitInvokeDynbmicInsn
     int NEW = 187; // visitTypeInsn
     int NEWARRAY = 188; // visitIntInsn
     int ANEWARRAY = 189; // visitTypeInsn
@@ -382,7 +382,7 @@ public interface Opcodes {
     int MONITORENTER = 194; // visitInsn
     int MONITOREXIT = 195; // -
     // int WIDE = 196; // NOT VISITED
-    int MULTIANEWARRAY = 197; // visitMultiANewArrayInsn
+    int MULTIANEWARRAY = 197; // visitMultiANewArrbyInsn
     int IFNULL = 198; // visitJumpInsn
     int IFNONNULL = 199; // -
     // int GOTO_W = 200; // -

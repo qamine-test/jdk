@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
 /**
- * This class represents numbers that are arguments to relational constraints.
- * A NumericValueExp may be used anywhere a ValueExp is required.
+ * This clbss represents numbers thbt bre brguments to relbtionbl constrbints.
+ * A NumericVblueExp mby be used bnywhere b VblueExp is required.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-4679739485102359104L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-4679739485102359104L</code>.
  *
- * @serial include
+ * @seribl include
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-class NumericValueExp extends QueryEval implements ValueExp {
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+clbss NumericVblueExp extends QueryEvbl implements VblueExp {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -6227876276058904000L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -6227876276058904000L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -4679739485102359104L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -4679739485102359104L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-        new ObjectStreamField("longVal", Long.TYPE),
-        new ObjectStreamField("doubleVal", Double.TYPE),
-        new ObjectStreamField("valIsLong", Boolean.TYPE)
+        new ObjectStrebmField("longVbl", Long.TYPE),
+        new ObjectStrebmField("doubleVbl", Double.TYPE),
+        new ObjectStrebmField("vblIsLong", Boolebn.TYPE)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-        new ObjectStreamField("val", Number.class)
+        new ObjectStrebmField("vbl", Number.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
 
     /**
-     * @serialField val Number The numeric value
+     * @seriblField vbl Number The numeric vblue
      *
-     * <p>The <b>serialVersionUID</b> of this class is <code>-4679739485102359104L</code>.
+     * <p>The <b>seriblVersionUID</b> of this clbss is <code>-4679739485102359104L</code>.
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private Number val = 0.0;
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte Number vbl = 0.0;
 
-    private static boolean compat = false;
-    static {
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: exception mebns no compbt with 1.0, too bbd
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
 
     /**
-     * Basic constructor.
+     * Bbsic constructor.
      */
-    public NumericValueExp() {
+    public NumericVblueExp() {
     }
 
-    /** Creates a new NumericValue representing the numeric literal @{code val}.*/
-    NumericValueExp(Number val)
+    /** Crebtes b new NumericVblue representing the numeric literbl @{code vbl}.*/
+    NumericVblueExp(Number vbl)
     {
-      this.val = val;
+      this.vbl = vbl;
     }
 
     /**
-     * Returns a double numeric value
+     * Returns b double numeric vblue
      */
-    public double doubleValue()  {
-      if (val instanceof Long || val instanceof Integer)
+    public double doubleVblue()  {
+      if (vbl instbnceof Long || vbl instbnceof Integer)
       {
-        return (double)(val.longValue());
+        return (double)(vbl.longVblue());
       }
-      return val.doubleValue();
+      return vbl.doubleVblue();
     }
 
     /**
-     * Returns a long numeric value
+     * Returns b long numeric vblue
      */
-    public long longValue()  {
-      if (val instanceof Long || val instanceof Integer)
+    public long longVblue()  {
+      if (vbl instbnceof Long || vbl instbnceof Integer)
       {
-        return val.longValue();
+        return vbl.longVblue();
       }
-      return (long)(val.doubleValue());
+      return (long)(vbl.doubleVblue());
     }
 
     /**
-     * Returns true is if the numeric value is a long, false otherwise.
+     * Returns true is if the numeric vblue is b long, fblse otherwise.
      */
-    public boolean isLong()  {
-        return (val instanceof Long || val instanceof Integer);
+    public boolebn isLong()  {
+        return (vbl instbnceof Long || vbl instbnceof Integer);
     }
 
     /**
      * Returns the string representing the object
      */
     public String toString()  {
-      if (val == null)
+      if (vbl == null)
         return "null";
-      if (val instanceof Long || val instanceof Integer)
+      if (vbl instbnceof Long || vbl instbnceof Integer)
       {
-        return Long.toString(val.longValue());
+        return Long.toString(vbl.longVblue());
       }
-      double d = val.doubleValue();
+      double d = vbl.doubleVblue();
       if (Double.isInfinite(d))
           return (d > 0) ? "(1.0 / 0.0)" : "(-1.0 / 0.0)";
-      if (Double.isNaN(d))
+      if (Double.isNbN(d))
           return "(0.0 / 0.0)";
       return Double.toString(d);
     }
 
     /**
-     * Applies the ValueExp on a MBean.
+     * Applies the VblueExp on b MBebn.
      *
-     * @param name The name of the MBean on which the ValueExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the VblueExp will be bpplied.
      *
-     * @return  The <CODE>ValueExp</CODE>.
+     * @return  The <CODE>VblueExp</CODE>.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public ValueExp apply(ObjectName name)
-            throws BadStringOperationException, BadBinaryOpValueExpException,
-                   BadAttributeValueExpException, InvalidApplicationException {
+    public VblueExp bpply(ObjectNbme nbme)
+            throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+                   BbdAttributeVblueExpException, InvblidApplicbtionException {
         return this;
     }
 
     /**
-     * Deserializes a {@link NumericValueExp} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link NumericVblueExp} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        double doubleVal;
-        long longVal;
-        boolean isLong;
-        ObjectInputStream.GetField fields = in.readFields();
-        doubleVal = fields.get("doubleVal", (double)0);
-        if (fields.defaulted("doubleVal"))
+        double doubleVbl;
+        long longVbl;
+        boolebn isLong;
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        doubleVbl = fields.get("doubleVbl", (double)0);
+        if (fields.defbulted("doubleVbl"))
         {
-          throw new NullPointerException("doubleVal");
+          throw new NullPointerException("doubleVbl");
         }
-        longVal = fields.get("longVal", (long)0);
-        if (fields.defaulted("longVal"))
+        longVbl = fields.get("longVbl", (long)0);
+        if (fields.defbulted("longVbl"))
         {
-          throw new NullPointerException("longVal");
+          throw new NullPointerException("longVbl");
         }
-        isLong = fields.get("valIsLong", false);
-        if (fields.defaulted("valIsLong"))
+        isLong = fields.get("vblIsLong", fblse);
+        if (fields.defbulted("vblIsLong"))
         {
-          throw new NullPointerException("valIsLong");
+          throw new NullPointerException("vblIsLong");
         }
         if (isLong)
         {
-          this.val = longVal;
+          this.vbl = longVbl;
         }
         else
         {
-          this.val = doubleVal;
+          this.vbl = doubleVbl;
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes a {@link NumericValueExp} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link NumericVblueExp} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("doubleVal", doubleValue());
-        fields.put("longVal", longValue());
-        fields.put("valIsLong", isLong());
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("doubleVbl", doubleVblue());
+        fields.put("longVbl", longVblue());
+        fields.put("vblIsLong", isLong());
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 
-    @Deprecated
-    public void setMBeanServer(MBeanServer s) {
-        super.setMBeanServer(s);
+    @Deprecbted
+    public void setMBebnServer(MBebnServer s) {
+        super.setMBebnServer(s);
     }
 
  }

@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.MalformedInputException;
-import sun.nio.cs.HistoricallyNamedCharset;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import static java.lang.Character.UnicodeBlock;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.ChbrbcterCodingException;
+import jbvb.nio.chbrset.MblformedInputException;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import stbtic jbvb.lbng.Chbrbcter.UnicodeBlock;
 
 
-public class JISAutoDetect
-    extends Charset
-    implements HistoricallyNamedCharset
+public clbss JISAutoDetect
+    extends Chbrset
+    implements HistoricbllyNbmedChbrset
 {
 
-    private final static int EUCJP_MASK       = 0x01;
-    private final static int SJIS2B_MASK      = 0x02;
-    private final static int SJIS1B_MASK      = 0x04;
-    private final static int EUCJP_KANA1_MASK = 0x08;
-    private final static int EUCJP_KANA2_MASK = 0x10;
+    privbte finbl stbtic int EUCJP_MASK       = 0x01;
+    privbte finbl stbtic int SJIS2B_MASK      = 0x02;
+    privbte finbl stbtic int SJIS1B_MASK      = 0x04;
+    privbte finbl stbtic int EUCJP_KANA1_MASK = 0x08;
+    privbte finbl stbtic int EUCJP_KANA2_MASK = 0x10;
 
     public JISAutoDetect() {
-        super("x-JISAutoDetect", ExtendedCharsets.aliasesFor("x-JISAutoDetect"));
+        super("x-JISAutoDetect", ExtendedChbrsets.blibsesFor("x-JISAutoDetect"));
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof SJIS)
-                || (cs instanceof EUC_JP)
-                || (cs instanceof ISO2022_JP));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs.nbme().equbls("US-ASCII"))
+                || (cs instbnceof SJIS)
+                || (cs instbnceof EUC_JP)
+                || (cs instbnceof ISO2022_JP));
     }
 
-    public boolean canEncode() {
-        return false;
+    public boolebn cbnEncode() {
+        return fblse;
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public String historicalName() {
+    public String historicblNbme() {
         return "JISAutoDetect";
     }
 
-    public CharsetEncoder newEncoder() {
-        throw new UnsupportedOperationException();
+    public ChbrsetEncoder newEncoder() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * accessor methods used to share byte masking tables
-     * with the sun.io JISAutoDetect implementation
+     * bccessor methods used to shbre byte mbsking tbbles
+     * with the sun.io JISAutoDetect implementbtion
      */
 
-    public static byte[] getByteMask1() {
-        return Decoder.maskTable1;
+    public stbtic byte[] getByteMbsk1() {
+        return Decoder.mbskTbble1;
     }
 
-    public static byte[] getByteMask2() {
-        return Decoder.maskTable2;
+    public stbtic byte[] getByteMbsk2() {
+        return Decoder.mbskTbble2;
     }
 
-    public final static boolean canBeSJIS1B(int mask) {
-        return (mask & SJIS1B_MASK) != 0;
+    public finbl stbtic boolebn cbnBeSJIS1B(int mbsk) {
+        return (mbsk & SJIS1B_MASK) != 0;
     }
 
-    public final static boolean canBeEUCJP(int mask) {
-        return (mask & EUCJP_MASK) != 0;
+    public finbl stbtic boolebn cbnBeEUCJP(int mbsk) {
+        return (mbsk & EUCJP_MASK) != 0;
     }
 
-    public final static boolean canBeEUCKana(int mask1, int mask2) {
-        return ((mask1 & EUCJP_KANA1_MASK) != 0)
-            && ((mask2 & EUCJP_KANA2_MASK) != 0);
+    public finbl stbtic boolebn cbnBeEUCKbnb(int mbsk1, int mbsk2) {
+        return ((mbsk1 & EUCJP_KANA1_MASK) != 0)
+            && ((mbsk2 & EUCJP_KANA2_MASK) != 0);
     }
 
-    // A heuristic algorithm for guessing if EUC-decoded text really
-    // might be Japanese text.  Better heuristics are possible...
-    private static boolean looksLikeJapanese(CharBuffer cb) {
-        int hiragana = 0;       // Fullwidth Hiragana
-        int katakana = 0;       // Halfwidth Katakana
-        while (cb.hasRemaining()) {
-            char c = cb.get();
-            if (0x3040 <= c && c <= 0x309f && ++hiragana > 1) return true;
-            if (0xff65 <= c && c <= 0xff9f && ++katakana > 1) return true;
+    // A heuristic blgorithm for guessing if EUC-decoded text reblly
+    // might be Jbpbnese text.  Better heuristics bre possible...
+    privbte stbtic boolebn looksLikeJbpbnese(ChbrBuffer cb) {
+        int hirbgbnb = 0;       // Fullwidth Hirbgbnb
+        int kbtbkbnb = 0;       // Hblfwidth Kbtbkbnb
+        while (cb.hbsRembining()) {
+            chbr c = cb.get();
+            if (0x3040 <= c && c <= 0x309f && ++hirbgbnb > 1) return true;
+            if (0xff65 <= c && c <= 0xff9f && ++kbtbkbnb > 1) return true;
         }
-        return false;
+        return fblse;
     }
 
-    private static class Decoder extends CharsetDecoder {
-        private final static String osName = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("os.name"));
+    privbte stbtic clbss Decoder extends ChbrsetDecoder {
+        privbte finbl stbtic String osNbme = AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("os.nbme"));
 
-        private final static String SJISName = getSJISName();
-        private final static String EUCJPName = getEUCJPName();
-        private DelegatableDecoder detectedDecoder = null;
+        privbte finbl stbtic String SJISNbme = getSJISNbme();
+        privbte finbl stbtic String EUCJPNbme = getEUCJPNbme();
+        privbte DelegbtbbleDecoder detectedDecoder = null;
 
-        public Decoder(Charset cs) {
+        public Decoder(Chbrset cs) {
             super(cs, 0.5f, 1.0f);
         }
 
-        private static boolean isPlainASCII(byte b) {
+        privbte stbtic boolebn isPlbinASCII(byte b) {
             return b >= 0 && b != 0x1b;
         }
 
-        private static void copyLeadingASCII(ByteBuffer src, CharBuffer dst) {
-            int start = src.position();
-            int limit = start + Math.min(src.remaining(), dst.remaining());
+        privbte stbtic void copyLebdingASCII(ByteBuffer src, ChbrBuffer dst) {
+            int stbrt = src.position();
+            int limit = stbrt + Mbth.min(src.rembining(), dst.rembining());
             int p;
             byte b;
-            for (p = start; p < limit && isPlainASCII(b = src.get(p)); p++)
-                dst.put((char)(b & 0xff));
+            for (p = stbrt; p < limit && isPlbinASCII(b = src.get(p)); p++)
+                dst.put((chbr)(b & 0xff));
             src.position(p);
         }
 
-        private CoderResult decodeLoop(Charset cs,
-                                       ByteBuffer src, CharBuffer dst) {
-            detectedDecoder = (DelegatableDecoder) cs.newDecoder();
+        privbte CoderResult decodeLoop(Chbrset cs,
+                                       ByteBuffer src, ChbrBuffer dst) {
+            detectedDecoder = (DelegbtbbleDecoder) cs.newDecoder();
             return detectedDecoder.decodeLoop(src, dst);
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
+        protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
             if (detectedDecoder == null) {
-                copyLeadingASCII(src, dst);
+                copyLebdingASCII(src, dst);
 
                 // All ASCII?
-                if (! src.hasRemaining())
+                if (! src.hbsRembining())
                     return CoderResult.UNDERFLOW;
-                if (! dst.hasRemaining())
+                if (! dst.hbsRembining())
                     return CoderResult.OVERFLOW;
 
-                // We need to perform double, not float, arithmetic; otherwise
-                // we lose low order bits when src is larger than 2**24.
-                int cbufsiz = (int)(src.limit() * (double)maxCharsPerByte());
-                CharBuffer sandbox = CharBuffer.allocate(cbufsiz);
+                // We need to perform double, not flobt, brithmetic; otherwise
+                // we lose low order bits when src is lbrger thbn 2**24.
+                int cbufsiz = (int)(src.limit() * (double)mbxChbrsPerByte());
+                ChbrBuffer sbndbox = ChbrBuffer.bllocbte(cbufsiz);
 
-                // First try ISO-2022-JP, since there is no ambiguity
-                Charset cs2022 = Charset.forName("ISO-2022-JP");
-                DelegatableDecoder dd2022
-                    = (DelegatableDecoder) cs2022.newDecoder();
-                ByteBuffer src2022 = src.asReadOnlyBuffer();
-                CoderResult res2022 = dd2022.decodeLoop(src2022, sandbox);
+                // First try ISO-2022-JP, since there is no bmbiguity
+                Chbrset cs2022 = Chbrset.forNbme("ISO-2022-JP");
+                DelegbtbbleDecoder dd2022
+                    = (DelegbtbbleDecoder) cs2022.newDecoder();
+                ByteBuffer src2022 = src.bsRebdOnlyBuffer();
+                CoderResult res2022 = dd2022.decodeLoop(src2022, sbndbox);
                 if (! res2022.isError())
                     return decodeLoop(cs2022, src, dst);
 
-                // We must choose between EUC and SJIS
-                Charset csEUCJ = Charset.forName(EUCJPName);
-                Charset csSJIS = Charset.forName(SJISName);
+                // We must choose between EUC bnd SJIS
+                Chbrset csEUCJ = Chbrset.forNbme(EUCJPNbme);
+                Chbrset csSJIS = Chbrset.forNbme(SJISNbme);
 
-                DelegatableDecoder ddEUCJ
-                    = (DelegatableDecoder) csEUCJ.newDecoder();
-                ByteBuffer srcEUCJ = src.asReadOnlyBuffer();
-                sandbox.clear();
-                CoderResult resEUCJ = ddEUCJ.decodeLoop(srcEUCJ, sandbox);
-                // If EUC decoding fails, must be SJIS
+                DelegbtbbleDecoder ddEUCJ
+                    = (DelegbtbbleDecoder) csEUCJ.newDecoder();
+                ByteBuffer srcEUCJ = src.bsRebdOnlyBuffer();
+                sbndbox.clebr();
+                CoderResult resEUCJ = ddEUCJ.decodeLoop(srcEUCJ, sbndbox);
+                // If EUC decoding fbils, must be SJIS
                 if (resEUCJ.isError())
                     return decodeLoop(csSJIS, src, dst);
 
-                DelegatableDecoder ddSJIS
-                    = (DelegatableDecoder) csSJIS.newDecoder();
-                ByteBuffer srcSJIS = src.asReadOnlyBuffer();
-                CharBuffer sandboxSJIS = CharBuffer.allocate(cbufsiz);
-                CoderResult resSJIS = ddSJIS.decodeLoop(srcSJIS, sandboxSJIS);
-                // If SJIS decoding fails, must be EUC
+                DelegbtbbleDecoder ddSJIS
+                    = (DelegbtbbleDecoder) csSJIS.newDecoder();
+                ByteBuffer srcSJIS = src.bsRebdOnlyBuffer();
+                ChbrBuffer sbndboxSJIS = ChbrBuffer.bllocbte(cbufsiz);
+                CoderResult resSJIS = ddSJIS.decodeLoop(srcSJIS, sbndboxSJIS);
+                // If SJIS decoding fbils, must be EUC
                 if (resSJIS.isError())
                     return decodeLoop(csEUCJ, src, dst);
 
-                // From here on, we have some ambiguity, and must guess.
+                // From here on, we hbve some bmbiguity, bnd must guess.
 
-                // We prefer input that does not appear to end mid-character.
+                // We prefer input thbt does not bppebr to end mid-chbrbcter.
                 if (srcEUCJ.position() > srcSJIS.position())
                     return decodeLoop(csEUCJ, src, dst);
 
                 if (srcEUCJ.position() < srcSJIS.position())
                     return decodeLoop(csSJIS, src, dst);
 
-                // end-of-input is after the first byte of the first char?
+                // end-of-input is bfter the first byte of the first chbr?
                 if (src.position() == srcEUCJ.position())
                     return CoderResult.UNDERFLOW;
 
-                // Use heuristic knowledge of typical Japanese text
-                sandbox.flip();
-                Charset guess = looksLikeJapanese(sandbox) ? csEUCJ : csSJIS;
+                // Use heuristic knowledge of typicbl Jbpbnese text
+                sbndbox.flip();
+                Chbrset guess = looksLikeJbpbnese(sbndbox) ? csEUCJ : csSJIS;
                 return decodeLoop(guess, src, dst);
             }
 
@@ -220,54 +220,54 @@ public class JISAutoDetect
             detectedDecoder = null;
         }
 
-        protected CoderResult implFlush(CharBuffer out) {
+        protected CoderResult implFlush(ChbrBuffer out) {
             if (detectedDecoder != null)
                 return detectedDecoder.implFlush(out);
             else
                 return super.implFlush(out);
         }
 
-        public boolean isAutoDetecting() {
+        public boolebn isAutoDetecting() {
             return true;
         }
 
-        public boolean isCharsetDetected() {
+        public boolebn isChbrsetDetected() {
             return detectedDecoder != null;
         }
 
-        public Charset detectedCharset() {
+        public Chbrset detectedChbrset() {
             if (detectedDecoder == null)
-                throw new IllegalStateException("charset not yet detected");
-            return ((CharsetDecoder) detectedDecoder).charset();
+                throw new IllegblStbteException("chbrset not yet detected");
+            return ((ChbrsetDecoder) detectedDecoder).chbrset();
         }
 
 
         /**
-         * Returned Shift_JIS Charset name is OS dependent
+         * Returned Shift_JIS Chbrset nbme is OS dependent
          */
-        private static String getSJISName() {
-            if (osName.equals("Solaris") || osName.equals("SunOS"))
+        privbte stbtic String getSJISNbme() {
+            if (osNbme.equbls("Solbris") || osNbme.equbls("SunOS"))
                 return("PCK");
-            else if (osName.startsWith("Windows"))
+            else if (osNbme.stbrtsWith("Windows"))
                 return("windows-31J");
             else
                 return("Shift_JIS");
         }
 
         /**
-         * Returned EUC-JP Charset name is OS dependent
+         * Returned EUC-JP Chbrset nbme is OS dependent
          */
 
-        private static String getEUCJPName() {
-            if (osName.equals("Solaris") || osName.equals("SunOS"))
+        privbte stbtic String getEUCJPNbme() {
+            if (osNbme.equbls("Solbris") || osNbme.equbls("SunOS"))
                 return("x-eucjp-open");
             else
                 return("EUC_JP");
         }
 
-        // Mask tables - each entry indicates possibility of first or
+        // Mbsk tbbles - ebch entry indicbtes possibility of first or
         // second byte being SJIS or EUC_JP
-        private static final byte maskTable1[] = {
+        privbte stbtic finbl byte mbskTbble1[] = {
             0, 0, 0, 0, // 0x00 - 0x03
             0, 0, 0, 0, // 0x04 - 0x07
             0, 0, 0, 0, // 0x08 - 0x0b
@@ -308,10 +308,10 @@ public class JISAutoDetect
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x94 - 0x97
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x98 - 0x9b
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x9c - 0x9f
-            0, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,  // 0xa0 - 0xa3
-            SJIS1B_MASK|EUCJP_MASK|EUCJP_KANA1_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,    // 0xa4 - 0xa7
-            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xa8 - 0xab
-            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xac - 0xaf
+            0, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,  // 0xb0 - 0xb3
+            SJIS1B_MASK|EUCJP_MASK|EUCJP_KANA1_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,    // 0xb4 - 0xb7
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb8 - 0xbb
+            SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xbc - 0xbf
             SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb0 - 0xb3
             SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb4 - 0xb7
             SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK, SJIS1B_MASK|EUCJP_MASK,     // 0xb8 - 0xbb
@@ -334,7 +334,7 @@ public class JISAutoDetect
             SJIS2B_MASK|EUCJP_MASK, EUCJP_MASK, EUCJP_MASK, 0   // 0xfc - 0xff
         };
 
-        private static final byte maskTable2[] = {
+        privbte stbtic finbl byte mbskTbble2[] = {
             0, 0, 0, 0, // 0x00 - 0x03
             0, 0, 0, 0, // 0x04 - 0x07
             0, 0, 0, 0, // 0x08 - 0x0b
@@ -375,10 +375,10 @@ public class JISAutoDetect
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x94 - 0x97
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x98 - 0x9b
             SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, SJIS2B_MASK, // 0x9c - 0x9f
-            SJIS2B_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xa0 - 0xa3
-            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xa4 - 0xa7
-            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xa8 - 0xab
-            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xac - 0xaf
+            SJIS2B_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb0 - 0xb3
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb4 - 0xb7
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb8 - 0xbb
+            SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xbc - 0xbf
             SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb0 - 0xb3
             SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb4 - 0xb7
             SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, SJIS1B_MASK|SJIS2B_MASK|EUCJP_MASK|EUCJP_KANA2_MASK, // 0xb8 - 0xbb

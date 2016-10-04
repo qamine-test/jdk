@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshSet;
+import jbvb.util.Objects;
 
-import javax.management.Descriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
 
 /**
- * The {@code OpenMBeanInfoSupport} class describes the management
- * information of an <i>open MBean</i>: it is a subclass of {@link
- * javax.management.MBeanInfo}, and it implements the {@link
- * OpenMBeanInfo} interface.  Note that an <i>open MBean</i> is
- * recognized as such if its {@code getMBeanInfo()} method returns an
- * instance of a class which implements the OpenMBeanInfo interface,
- * typically {@code OpenMBeanInfoSupport}.
+ * The {@code OpenMBebnInfoSupport} clbss describes the mbnbgement
+ * informbtion of bn <i>open MBebn</i>: it is b subclbss of {@link
+ * jbvbx.mbnbgement.MBebnInfo}, bnd it implements the {@link
+ * OpenMBebnInfo} interfbce.  Note thbt bn <i>open MBebn</i> is
+ * recognized bs such if its {@code getMBebnInfo()} method returns bn
+ * instbnce of b clbss which implements the OpenMBebnInfo interfbce,
+ * typicblly {@code OpenMBebnInfoSupport}.
  *
  *
  * @since 1.5
  */
-public class OpenMBeanInfoSupport
-    extends MBeanInfo
-    implements OpenMBeanInfo {
+public clbss OpenMBebnInfoSupport
+    extends MBebnInfo
+    implements OpenMBebnInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = 4349395935420511492L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 4349395935420511492L;
 
-    // As this instance is immutable, these two values
-    // need only be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
+    // As this instbnce is immutbble, these two vblues
+    // need only be cblculbted once.
+    privbte trbnsient Integer myHbshCode = null;
+    privbte trbnsient String  myToString = null;
 
 
     /**
-     * <p>Constructs an {@code OpenMBeanInfoSupport} instance, which
-     * describes a class of open MBeans with the specified {@code
-     * className}, {@code description}, {@code openAttributes}, {@code
-     * openConstructors} , {@code openOperations} and {@code
-     * notifications}.</p>
+     * <p>Constructs bn {@code OpenMBebnInfoSupport} instbnce, which
+     * describes b clbss of open MBebns with the specified {@code
+     * clbssNbme}, {@code description}, {@code openAttributes}, {@code
+     * openConstructors} , {@code openOperbtions} bnd {@code
+     * notificbtions}.</p>
      *
      * <p>The {@code openAttributes}, {@code openConstructors},
-     * {@code openOperations} and {@code notifications}
-     * array parameters are internally copied, so that subsequent changes
-     * to the arrays referenced by these parameters have no effect on this
-     * instance.</p>
+     * {@code openOperbtions} bnd {@code notificbtions}
+     * brrby pbrbmeters bre internblly copied, so thbt subsequent chbnges
+     * to the brrbys referenced by these pbrbmeters hbve no effect on this
+     * instbnce.</p>
      *
-     * @param className The fully qualified Java class name of the
-     * open MBean described by this <CODE>OpenMBeanInfoSupport</CODE>
-     * instance.
+     * @pbrbm clbssNbme The fully qublified Jbvb clbss nbme of the
+     * open MBebn described by this <CODE>OpenMBebnInfoSupport</CODE>
+     * instbnce.
      *
-     * @param description A human readable description of the open
-     * MBean described by this <CODE>OpenMBeanInfoSupport</CODE>
-     * instance.
+     * @pbrbm description A humbn rebdbble description of the open
+     * MBebn described by this <CODE>OpenMBebnInfoSupport</CODE>
+     * instbnce.
      *
-     * @param openAttributes The list of exposed attributes of the
-     * described open MBean; Must be an array of instances of a
-     * subclass of {@code MBeanAttributeInfo}, typically {@code
-     * OpenMBeanAttributeInfoSupport}.
+     * @pbrbm openAttributes The list of exposed bttributes of the
+     * described open MBebn; Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnAttributeInfo}, typicblly {@code
+     * OpenMBebnAttributeInfoSupport}.
      *
-     * @param openConstructors The list of exposed public constructors
-     * of the described open MBean; Must be an array of instances of a
-     * subclass of {@code MBeanConstructorInfo}, typically {@code
-     * OpenMBeanConstructorInfoSupport}.
+     * @pbrbm openConstructors The list of exposed public constructors
+     * of the described open MBebn; Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnConstructorInfo}, typicblly {@code
+     * OpenMBebnConstructorInfoSupport}.
      *
-     * @param openOperations The list of exposed operations of the
-     * described open MBean.  Must be an array of instances of a
-     * subclass of {@code MBeanOperationInfo}, typically {@code
-     * OpenMBeanOperationInfoSupport}.
+     * @pbrbm openOperbtions The list of exposed operbtions of the
+     * described open MBebn.  Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnOperbtionInfo}, typicblly {@code
+     * OpenMBebnOperbtionInfoSupport}.
      *
-     * @param notifications The list of notifications emitted by the
-     * described open MBean.
+     * @pbrbm notificbtions The list of notificbtions emitted by the
+     * described open MBebn.
      *
-     * @throws ArrayStoreException If {@code openAttributes}, {@code
-     * openConstructors} or {@code openOperations} is not an array of
-     * instances of a subclass of {@code MBeanAttributeInfo}, {@code
-     * MBeanConstructorInfo} or {@code MBeanOperationInfo}
+     * @throws ArrbyStoreException If {@code openAttributes}, {@code
+     * openConstructors} or {@code openOperbtions} is not bn brrby of
+     * instbnces of b subclbss of {@code MBebnAttributeInfo}, {@code
+     * MBebnConstructorInfo} or {@code MBebnOperbtionInfo}
      * respectively.
      */
-    public OpenMBeanInfoSupport(String className,
+    public OpenMBebnInfoSupport(String clbssNbme,
                                 String description,
-                                OpenMBeanAttributeInfo[] openAttributes,
-                                OpenMBeanConstructorInfo[] openConstructors,
-                                OpenMBeanOperationInfo[] openOperations,
-                                MBeanNotificationInfo[] notifications) {
-        this(className, description,
-             openAttributes, openConstructors, openOperations, notifications,
+                                OpenMBebnAttributeInfo[] openAttributes,
+                                OpenMBebnConstructorInfo[] openConstructors,
+                                OpenMBebnOperbtionInfo[] openOperbtions,
+                                MBebnNotificbtionInfo[] notificbtions) {
+        this(clbssNbme, description,
+             openAttributes, openConstructors, openOperbtions, notificbtions,
              (Descriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanInfoSupport} instance, which
-     * describes a class of open MBeans with the specified {@code
-     * className}, {@code description}, {@code openAttributes}, {@code
-     * openConstructors} , {@code openOperations}, {@code
-     * notifications}, and {@code descriptor}.</p>
+     * <p>Constructs bn {@code OpenMBebnInfoSupport} instbnce, which
+     * describes b clbss of open MBebns with the specified {@code
+     * clbssNbme}, {@code description}, {@code openAttributes}, {@code
+     * openConstructors} , {@code openOperbtions}, {@code
+     * notificbtions}, bnd {@code descriptor}.</p>
      *
      * <p>The {@code openAttributes}, {@code openConstructors}, {@code
-     * openOperations} and {@code notifications} array parameters are
-     * internally copied, so that subsequent changes to the arrays
-     * referenced by these parameters have no effect on this
-     * instance.</p>
+     * openOperbtions} bnd {@code notificbtions} brrby pbrbmeters bre
+     * internblly copied, so thbt subsequent chbnges to the brrbys
+     * referenced by these pbrbmeters hbve no effect on this
+     * instbnce.</p>
      *
-     * @param className The fully qualified Java class name of the
-     * open MBean described by this <CODE>OpenMBeanInfoSupport</CODE>
-     * instance.
+     * @pbrbm clbssNbme The fully qublified Jbvb clbss nbme of the
+     * open MBebn described by this <CODE>OpenMBebnInfoSupport</CODE>
+     * instbnce.
      *
-     * @param description A human readable description of the open
-     * MBean described by this <CODE>OpenMBeanInfoSupport</CODE>
-     * instance.
+     * @pbrbm description A humbn rebdbble description of the open
+     * MBebn described by this <CODE>OpenMBebnInfoSupport</CODE>
+     * instbnce.
      *
-     * @param openAttributes The list of exposed attributes of the
-     * described open MBean; Must be an array of instances of a
-     * subclass of {@code MBeanAttributeInfo}, typically {@code
-     * OpenMBeanAttributeInfoSupport}.
+     * @pbrbm openAttributes The list of exposed bttributes of the
+     * described open MBebn; Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnAttributeInfo}, typicblly {@code
+     * OpenMBebnAttributeInfoSupport}.
      *
-     * @param openConstructors The list of exposed public constructors
-     * of the described open MBean; Must be an array of instances of a
-     * subclass of {@code MBeanConstructorInfo}, typically {@code
-     * OpenMBeanConstructorInfoSupport}.
+     * @pbrbm openConstructors The list of exposed public constructors
+     * of the described open MBebn; Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnConstructorInfo}, typicblly {@code
+     * OpenMBebnConstructorInfoSupport}.
      *
-     * @param openOperations The list of exposed operations of the
-     * described open MBean.  Must be an array of instances of a
-     * subclass of {@code MBeanOperationInfo}, typically {@code
-     * OpenMBeanOperationInfoSupport}.
+     * @pbrbm openOperbtions The list of exposed operbtions of the
+     * described open MBebn.  Must be bn brrby of instbnces of b
+     * subclbss of {@code MBebnOperbtionInfo}, typicblly {@code
+     * OpenMBebnOperbtionInfoSupport}.
      *
-     * @param notifications The list of notifications emitted by the
-     * described open MBean.
+     * @pbrbm notificbtions The list of notificbtions emitted by the
+     * described open MBebn.
      *
-     * @param descriptor The descriptor for the MBean.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm descriptor The descriptor for the MBebn.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
-     * @throws ArrayStoreException If {@code openAttributes}, {@code
-     * openConstructors} or {@code openOperations} is not an array of
-     * instances of a subclass of {@code MBeanAttributeInfo}, {@code
-     * MBeanConstructorInfo} or {@code MBeanOperationInfo}
+     * @throws ArrbyStoreException If {@code openAttributes}, {@code
+     * openConstructors} or {@code openOperbtions} is not bn brrby of
+     * instbnces of b subclbss of {@code MBebnAttributeInfo}, {@code
+     * MBebnConstructorInfo} or {@code MBebnOperbtionInfo}
      * respectively.
      *
      * @since 1.6
      */
-    public OpenMBeanInfoSupport(String className,
+    public OpenMBebnInfoSupport(String clbssNbme,
                                 String description,
-                                OpenMBeanAttributeInfo[] openAttributes,
-                                OpenMBeanConstructorInfo[] openConstructors,
-                                OpenMBeanOperationInfo[] openOperations,
-                                MBeanNotificationInfo[] notifications,
+                                OpenMBebnAttributeInfo[] openAttributes,
+                                OpenMBebnConstructorInfo[] openConstructors,
+                                OpenMBebnOperbtionInfo[] openOperbtions,
+                                MBebnNotificbtionInfo[] notificbtions,
                                 Descriptor descriptor) {
-        super(className,
+        super(clbssNbme,
               description,
-              attributeArray(openAttributes),
-              constructorArray(openConstructors),
-              operationArray(openOperations),
-              (notifications == null) ? null : notifications.clone(),
+              bttributeArrby(openAttributes),
+              constructorArrby(openConstructors),
+              operbtionArrby(openOperbtions),
+              (notificbtions == null) ? null : notificbtions.clone(),
               descriptor);
     }
 
 
-    private static MBeanAttributeInfo[]
-            attributeArray(OpenMBeanAttributeInfo[] src) {
+    privbte stbtic MBebnAttributeInfo[]
+            bttributeArrby(OpenMBebnAttributeInfo[] src) {
         if (src == null)
             return null;
-        MBeanAttributeInfo[] dst = new MBeanAttributeInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
+        MBebnAttributeInfo[] dst = new MBebnAttributeInfo[src.length];
+        System.brrbycopy(src, 0, dst, 0, src.length);
+        // mby throw bn ArrbyStoreException
         return dst;
     }
 
-    private static MBeanConstructorInfo[]
-            constructorArray(OpenMBeanConstructorInfo[] src) {
+    privbte stbtic MBebnConstructorInfo[]
+            constructorArrby(OpenMBebnConstructorInfo[] src) {
         if (src == null)
             return null;
-        MBeanConstructorInfo[] dst = new MBeanConstructorInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
+        MBebnConstructorInfo[] dst = new MBebnConstructorInfo[src.length];
+        System.brrbycopy(src, 0, dst, 0, src.length);
+        // mby throw bn ArrbyStoreException
         return dst;
     }
 
-    private static MBeanOperationInfo[]
-            operationArray(OpenMBeanOperationInfo[] src) {
+    privbte stbtic MBebnOperbtionInfo[]
+            operbtionArrby(OpenMBebnOperbtionInfo[] src) {
         if (src == null)
             return null;
-        MBeanOperationInfo[] dst = new MBeanOperationInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
+        MBebnOperbtionInfo[] dst = new MBebnOperbtionInfo[src.length];
+        System.brrbycopy(src, 0, dst, 0, src.length);
         return dst;
     }
 
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity methods from jbvb.lbng.Object  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this
-     * {@code OpenMBeanInfoSupport} instance for equality.</p>
+     * <p>Compbres the specified {@code obj} pbrbmeter with this
+     * {@code OpenMBebnInfoSupport} instbnce for equblity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Returns {@code true} if bnd only if bll of the following
+     * stbtements bre true:
      *
      * <ul>
      * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code OpenMBeanInfo}
-     * interface,</li>
-     * <li>their class names are equal</li>
-     * <li>their infos on attributes, constructors, operations and
-     * notifications are equal</li>
+     * <li>{@code obj} blso implements the {@code OpenMBebnInfo}
+     * interfbce,</li>
+     * <li>their clbss nbmes bre equbl</li>
+     * <li>their infos on bttributes, constructors, operbtions bnd
+     * notificbtions bre equbl</li>
      * </ul>
      *
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanInfo} interface.
+     * This ensures thbt this {@code equbls} method works properly for
+     * {@code obj} pbrbmeters which bre different implementbtions of
+     * the {@code OpenMBebnInfo} interfbce.
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanInfoSupport} instance;
+     * @pbrbm obj the object to be compbred for equblity with this
+     * {@code OpenMBebnInfoSupport} instbnce;
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanInfoSupport} instance.
+     * @return {@code true} if the specified object is equbl to this
+     * {@code OpenMBebnInfoSupport} instbnce.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
-        // if obj is null, return false
+        // if obj is null, return fblse
         //
         if (obj == null) {
-            return false;
+            return fblse;
         }
 
-        // if obj is not a OpenMBeanInfo, return false
+        // if obj is not b OpenMBebnInfo, return fblse
         //
-        OpenMBeanInfo other;
+        OpenMBebnInfo other;
         try {
-            other = (OpenMBeanInfo) obj;
-        } catch (ClassCastException e) {
-            return false;
+            other = (OpenMBebnInfo) obj;
+        } cbtch (ClbssCbstException e) {
+            return fblse;
         }
 
-        // Now, really test for equality between this OpenMBeanInfo
-        // implementation and the other:
+        // Now, reblly test for equblity between this OpenMBebnInfo
+        // implementbtion bnd the other:
         //
 
-        // their MBean className should be equal
-        if (!Objects.equals(this.getClassName(), other.getClassName())) {
-            return false;
+        // their MBebn clbssNbme should be equbl
+        if (!Objects.equbls(this.getClbssNbme(), other.getClbssNbme())) {
+            return fblse;
         }
 
-        // their infos on attributes should be equal (order not
-        // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getAttributes(), other.getAttributes()))
-            return false;
+        // their infos on bttributes should be equbl (order not
+        // significbnt => equblity between sets, not brrbys or lists)
+        if (!sbmeArrbyContents(this.getAttributes(), other.getAttributes()))
+            return fblse;
 
-        // their infos on constructors should be equal (order not
-        // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getConstructors(), other.getConstructors()))
-            return false;
+        // their infos on constructors should be equbl (order not
+        // significbnt => equblity between sets, not brrbys or lists)
+        if (!sbmeArrbyContents(this.getConstructors(), other.getConstructors()))
+            return fblse;
 
-        // their infos on operations should be equal (order not
-        // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getOperations(), other.getOperations()))
+        // their infos on operbtions should be equbl (order not
+        // significbnt => equblity between sets, not brrbys or lists)
+        if (!sbmeArrbyContents(this.getOperbtions(), other.getOperbtions()))
 
-            return false;
+            return fblse;
 
-        // their infos on notifications should be equal (order not
-        // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getNotifications(), other.getNotifications()))
-            return false;
+        // their infos on notificbtions should be equbl (order not
+        // significbnt => equblity between sets, not brrbys or lists)
+        if (!sbmeArrbyContents(this.getNotificbtions(), other.getNotificbtions()))
+            return fblse;
 
-        // All tests for equality were successful
+        // All tests for equblity were successful
         //
         return true;
     }
 
-    private static <T> boolean sameArrayContents(T[] a1, T[] a2) {
-        return (new HashSet<T>(Arrays.asList(a1))
-                .equals(new HashSet<T>(Arrays.asList(a2))));
+    privbte stbtic <T> boolebn sbmeArrbyContents(T[] b1, T[] b2) {
+        return (new HbshSet<T>(Arrbys.bsList(b1))
+                .equbls(new HbshSet<T>(Arrbys.bsList(b2))));
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanInfoSupport} instance.</p>
+     * <p>Returns the hbsh code vblue for this {@code
+     * OpenMBebnInfoSupport} instbnce.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanInfoSupport} instance is
-     * the sum of the hash codes of all elements of information used
-     * in {@code equals} comparisons (ie: its class name, and its
-     * infos on attributes, constructors, operations and
-     * notifications, where the hashCode of each of these arrays is
-     * calculated by a call to {@code new
-     * java.util.HashSet(java.util.Arrays.asList(this.getSignature)).hashCode()}).</p>
+     * <p>The hbsh code of bn {@code OpenMBebnInfoSupport} instbnce is
+     * the sum of the hbsh codes of bll elements of informbtion used
+     * in {@code equbls} compbrisons (ie: its clbss nbme, bnd its
+     * infos on bttributes, constructors, operbtions bnd
+     * notificbtions, where the hbshCode of ebch of these brrbys is
+     * cblculbted by b cbll to {@code new
+     * jbvb.util.HbshSet(jbvb.util.Arrbys.bsList(this.getSignbture)).hbshCode()}).</p>
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanInfoSupport} instances {@code t1} and {@code t2}, as
-     * required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.</p>
+     * <p>This ensures thbt {@code t1.equbls(t2)} implies thbt {@code
+     * t1.hbshCode()==t2.hbshCode()} for bny two {@code
+     * OpenMBebnInfoSupport} instbnces {@code t1} bnd {@code t2}, bs
+     * required by the generbl contrbct of the method {@link
+     * Object#hbshCode() Object.hbshCode()}.</p>
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanInfo} interface may be equal to this {@code
-     * OpenMBeanInfoSupport} instance as defined by {@link
-     * #equals(java.lang.Object)}, but may have a different hash code
-     * if it is calculated differently.</p>
+     * <p>However, note thbt bnother instbnce of b clbss implementing
+     * the {@code OpenMBebnInfo} interfbce mby be equbl to this {@code
+     * OpenMBebnInfoSupport} instbnce bs defined by {@link
+     * #equbls(jbvb.lbng.Object)}, but mby hbve b different hbsh code
+     * if it is cblculbted differently.</p>
      *
-     * <p>As {@code OpenMBeanInfoSupport} instances are immutable, the
-     * hash code for this instance is calculated once, on the first
-     * call to {@code hashCode}, and then the same value is returned
-     * for subsequent calls.</p>
+     * <p>As {@code OpenMBebnInfoSupport} instbnces bre immutbble, the
+     * hbsh code for this instbnce is cblculbted once, on the first
+     * cbll to {@code hbshCode}, bnd then the sbme vblue is returned
+     * for subsequent cblls.</p>
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanInfoSupport} instance
+     * @return the hbsh code vblue for this {@code
+     * OpenMBebnInfoSupport} instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done
+        // (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            if (this.getClassName() != null) {
-                value += this.getClassName().hashCode();
+        if (myHbshCode == null) {
+            int vblue = 0;
+            if (this.getClbssNbme() != null) {
+                vblue += this.getClbssNbme().hbshCode();
             }
-            value += arraySetHash(this.getAttributes());
-            value += arraySetHash(this.getConstructors());
-            value += arraySetHash(this.getOperations());
-            value += arraySetHash(this.getNotifications());
-            myHashCode = Integer.valueOf(value);
+            vblue += brrbySetHbsh(this.getAttributes());
+            vblue += brrbySetHbsh(this.getConstructors());
+            vblue += brrbySetHbsh(this.getOperbtions());
+            vblue += brrbySetHbsh(this.getNotificbtions());
+            myHbshCode = Integer.vblueOf(vblue);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
-    private static <T> int arraySetHash(T[] a) {
-        return new HashSet<T>(Arrays.asList(a)).hashCode();
+    privbte stbtic <T> int brrbySetHbsh(T[] b) {
+        return new HbshSet<T>(Arrbys.bsList(b)).hbshCode();
     }
 
 
 
     /**
-     * <p>Returns a string representation of this {@code
-     * OpenMBeanInfoSupport} instance.</p>
+     * <p>Returns b string representbtion of this {@code
+     * OpenMBebnInfoSupport} instbnce.</p>
      *
-     * <p>The string representation consists of the name of this class
-     * (ie {@code javax.management.openmbean.OpenMBeanInfoSupport}),
-     * the MBean class name, the string representation of infos on
-     * attributes, constructors, operations and notifications of the
-     * described MBean and the string representation of the descriptor.</p>
+     * <p>The string representbtion consists of the nbme of this clbss
+     * (ie {@code jbvbx.mbnbgement.openmbebn.OpenMBebnInfoSupport}),
+     * the MBebn clbss nbme, the string representbtion of infos on
+     * bttributes, constructors, operbtions bnd notificbtions of the
+     * described MBebn bnd the string representbtion of the descriptor.</p>
      *
-     * <p>As {@code OpenMBeanInfoSupport} instances are immutable, the
-     * string representation for this instance is calculated once, on
-     * the first call to {@code toString}, and then the same value is
-     * returned for subsequent calls.</p>
+     * <p>As {@code OpenMBebnInfoSupport} instbnces bre immutbble, the
+     * string representbtion for this instbnce is cblculbted once, on
+     * the first cbll to {@code toString}, bnd then the sbme vblue is
+     * returned for subsequent cblls.</p>
      *
-     * @return a string representation of this {@code
-     * OpenMBeanInfoSupport} instance
+     * @return b string representbtion of this {@code
+     * OpenMBebnInfoSupport} instbnce
      */
     public String toString() {
 
-        // Calculate the string value if it has not yet been done (ie
-        // 1st call to toString())
+        // Cblculbte the string vblue if it hbs not yet been done (ie
+        // 1st cbll to toString())
         //
         if (myToString == null) {
             myToString = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(mbean_class_name=")
-                .append(this.getClassName())
-                .append(",attributes=")
-                .append(Arrays.asList(this.getAttributes()).toString())
-                .append(",constructors=")
-                .append(Arrays.asList(this.getConstructors()).toString())
-                .append(",operations=")
-                .append(Arrays.asList(this.getOperations()).toString())
-                .append(",notifications=")
-                .append(Arrays.asList(this.getNotifications()).toString())
-                .append(",descriptor=")
-                .append(this.getDescriptor())
-                .append(")")
+                .bppend(this.getClbss().getNbme())
+                .bppend("(mbebn_clbss_nbme=")
+                .bppend(this.getClbssNbme())
+                .bppend(",bttributes=")
+                .bppend(Arrbys.bsList(this.getAttributes()).toString())
+                .bppend(",constructors=")
+                .bppend(Arrbys.bsList(this.getConstructors()).toString())
+                .bppend(",operbtions=")
+                .bppend(Arrbys.bsList(this.getOperbtions()).toString())
+                .bppend(",notificbtions=")
+                .bppend(Arrbys.bsList(this.getNotificbtions()).toString())
+                .bppend(",descriptor=")
+                .bppend(this.getDescriptor())
+                .bppend(")")
                 .toString();
         }
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // return blwbys the sbme string representbtion for this
+        // instbnce (immutbble)
         //
         return myToString;
     }

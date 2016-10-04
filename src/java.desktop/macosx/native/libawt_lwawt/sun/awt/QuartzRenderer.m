@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "java_awt_image_BufferedImage.h"
-#import "java_awt_geom_PathIterator.h"
-#import "sun_java2d_OSXSurfaceData.h"
+#import "jbvb_bwt_imbge_BufferedImbge.h"
+#import "jbvb_bwt_geom_PbthIterbtor.h"
+#import "sun_jbvb2d_OSXSurfbceDbtb.h"
 
 #import <stdio.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "ImageSurfaceData.h"
+#import "ImbgeSurfbceDbtb.h"
 
 
 //#define DEBUG 1
@@ -38,20 +38,20 @@
     #define QUARTZ_RENDERER_INLINE
     #define PRINT(msg) {fprintf(stderr, "%s\n", msg);fflush(stderr);}
 #else
-    #define QUARTZ_RENDERER_INLINE static inline
+    #define QUARTZ_RENDERER_INLINE stbtic inline
     #define PRINT(msg) {}
 #endif
 
-// Copied the following from Math.java
+// Copied the following from Mbth.jbvb
 #define PI 3.14159265358979323846f
 
 #define BATCHED_POINTS_SIZE 1024
 
-// same value as defined in Sun's own code
+// sbme vblue bs defined in Sun's own code
 #define XOR_ALPHA_CUTOFF 128
 
 
-static CGFloat gRoundRectCtrlpts[10][12] =
+stbtic CGFlobt gRoundRectCtrlpts[10][12] =
 {
     {0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
     {0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
@@ -65,11 +65,11 @@ static CGFloat gRoundRectCtrlpts[10][12] =
     {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
 };
 
-CG_EXTERN CGRect CGRectApplyAffineTransform(CGRect rect, CGAffineTransform t);
+CG_EXTERN CGRect CGRectApplyAffineTrbnsform(CGRect rect, CGAffineTrbnsform t);
 
 
-CGRect sanitizedRect(CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2) {
-    CGFloat temp;
+CGRect sbnitizedRect(CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2) {
+    CGFlobt temp;
     if (x1 > x2) {
         temp = x2;
         x2 = x1;
@@ -80,20 +80,20 @@ CGRect sanitizedRect(CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2) {
         y2 = y1;
         y1 = temp;
     }
-    return CGRectMake(x1, y1, x2-x1, y2-y1);
+    return CGRectMbke(x1, y1, x2-x1, y2-y1);
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doLineUsingCG(CGContextRef cgRef, CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRenderType doLineUsingCG(CGContextRef cgRef, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2, BOOL simple, CGFlobt offsetX, CGFlobt offsetY)
 {
-//fprintf(stderr, "doLine start=(%f, %f), end=(%f, %f), linewidth:%f, offsetX:%f, offsetY:%f\n", x1, y1, x2, y2, CGContextGetLineWidth(cgRef), offsetX, offsetY);
+//fprintf(stderr, "doLine stbrt=(%f, %f), end=(%f, %f), linewidth:%f, offsetX:%f, offsetY:%f\n", x1, y1, x2, y2, CGContextGetLineWidth(cgRef), offsetX, offsetY);
     SDRenderType renderType = SD_Nothing;
 
     if (simple == YES)
     {
         struct CGPoint oneLinePoints[2];
 
-        oneLinePoints[0] = CGPointMake(x1+offsetX, y1+offsetY);
-        oneLinePoints[1] = CGPointMake(x2+offsetX, y2+offsetY);
+        oneLinePoints[0] = CGPointMbke(x1+offsetX, y1+offsetY);
+        oneLinePoints[1] = CGPointMbke(x2+offsetX, y2+offsetY);
 
         CGContextStrokeLineSegments(cgRef, oneLinePoints, 2);
         renderType = SD_Nothing;
@@ -107,37 +107,37 @@ QUARTZ_RENDERER_INLINE SDRenderType doLineUsingCG(CGContextRef cgRef, CGFloat x1
 
     return renderType;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doLine(QuartzSDOps *qsdo, CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2)
+QUARTZ_RENDERER_INLINE SDRenderType doLine(QubrtzSDOps *qsdo, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2)
 {
 PRINT(" doLine")
     if (YES)
     {
         return doLineUsingCG(qsdo->cgRef, x1, y1, x2, y2,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+                                qsdo->grbphicsStbteInfo.simpleStroke, qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
 
-QUARTZ_RENDERER_INLINE SDRenderType doRectUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRenderType doRectUsingCG(CGContextRef cgRef, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill, BOOL simple, CGFlobt offsetX, CGFlobt offsetY)
 {
 //fprintf(stderr, "doRect point=(%f, %f), size=(%f, %f), offsets=(%f, %f) fill=%d simple=%d\n", x, y, w, h, offsetX, offsetY, fill, simple);
 //CGRect clip = CGContextGetClipBoundingBox(cgRef);
 //fprintf(stderr, "    clip: ((%f, %f), (%f, %f))\n", clip.origin.x, clip.origin.y, clip.size.width, clip.size.height);
-//CGAffineTransform ctm = CGContextGetCTM(cgRef);
-//fprintf(stderr, "    ctm: (%f, %f, %f, %f, %f, %f)\n", ctm.a, ctm.b, ctm.c, ctm.d, ctm.tx, ctm.ty);
+//CGAffineTrbnsform ctm = CGContextGetCTM(cgRef);
+//fprintf(stderr, "    ctm: (%f, %f, %f, %f, %f, %f)\n", ctm.b, ctm.b, ctm.c, ctm.d, ctm.tx, ctm.ty);
     SDRenderType renderType = SD_Nothing;
 
     if (fill == YES)
     {
         if (simple == YES)
         {
-            CGContextFillRect(cgRef, CGRectMake(x, y, w, h));
+            CGContextFillRect(cgRef, CGRectMbke(x, y, w, h));
             renderType = SD_Nothing;
         }
         else
         {
-            CGContextAddRect(cgRef, CGRectMake(x, y, w, h));
+            CGContextAddRect(cgRef, CGRectMbke(x, y, w, h));
             renderType = SD_Fill;
         }
     }
@@ -145,31 +145,31 @@ QUARTZ_RENDERER_INLINE SDRenderType doRectUsingCG(CGContextRef cgRef, CGFloat x,
     {
         if (simple == YES)
         {
-            CGContextStrokeRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContextStrokeRect(cgRef, CGRectMbke(x+offsetX, y+offsetY, w, h));
             renderType = SD_Nothing;
         }
         else
         {
-            CGContextAddRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContextAddRect(cgRef, CGRectMbke(x+offsetX, y+offsetY, w, h));
             renderType = SD_Stroke;
         }
     }
 
     return renderType;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doRect(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRenderType doRect(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill)
 {
 PRINT(" doRect")
     if (YES)
     {
         return doRectUsingCG(qsdo->cgRef, x, y, w, h, fill,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+                                qsdo->grbphicsStbteInfo.simpleStroke, qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
-// from RoundRectIterator.java
-QUARTZ_RENDERER_INLINE SDRenderType doRoundRectUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat arcWidth, CGFloat arcHeight, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+// from RoundRectIterbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRenderType doRoundRectUsingCG(CGContextRef cgRef, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt brcWidth, CGFlobt brcHeight, BOOL fill, CGFlobt offsetX, CGFlobt offsetY)
 {
     SDRenderType renderType = SD_Nothing;
 
@@ -182,93 +182,93 @@ QUARTZ_RENDERER_INLINE SDRenderType doRoundRectUsingCG(CGContextRef cgRef, CGFlo
         renderType = SD_Stroke;
     }
 
-    // radr://3593731 RoundRects with corner width/height of 0 don't draw
-    arcWidth = (arcWidth > 0.0f) ? arcWidth : 0.0f;
-    arcHeight = (arcHeight > 0.0f) ? arcHeight : 0.0f;
+    // rbdr://3593731 RoundRects with corner width/height of 0 don't drbw
+    brcWidth = (brcWidth > 0.0f) ? brcWidth : 0.0f;
+    brcHeight = (brcHeight > 0.0f) ? brcHeight : 0.0f;
 
-    CGFloat aw = (w < arcWidth) ? w : arcWidth;
-    CGFloat ah = (h < arcHeight) ? h : arcHeight;
+    CGFlobt bw = (w < brcWidth) ? w : brcWidth;
+    CGFlobt bh = (h < brcHeight) ? h : brcHeight;
 
-    CGFloat *ctrls, p1, q1, p2, q2, p3, q3;
+    CGFlobt *ctrls, p1, q1, p2, q2, p3, q3;
     ctrls = gRoundRectCtrlpts[0];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
     CGContextMoveToPoint(cgRef, p1+offsetX, q1+offsetY);
 
     ctrls = gRoundRectCtrlpts[1];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
     CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
 
     ctrls = gRoundRectCtrlpts[2];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
+    p2 = (x + ctrls[4] * w + ctrls[5] * bw);
+    q2 = (y + ctrls[6] * h + ctrls[7] * bh);
+    p3 = (x + ctrls[8] * w + ctrls[9] * bw);
+    q3 = (y + ctrls[10] * h + ctrls[11] * bh);
     CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
 
     ctrls = gRoundRectCtrlpts[3];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
     CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
 
     ctrls = gRoundRectCtrlpts[4];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
+    p2 = (x + ctrls[4] * w + ctrls[5] * bw);
+    q2 = (y + ctrls[6] * h + ctrls[7] * bh);
+    p3 = (x + ctrls[8] * w + ctrls[9] * bw);
+    q3 = (y + ctrls[10] * h + ctrls[11] * bh);
     CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
 
     ctrls = gRoundRectCtrlpts[5];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
     CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
 
     ctrls = gRoundRectCtrlpts[6];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
+    p2 = (x + ctrls[4] * w + ctrls[5] * bw);
+    q2 = (y + ctrls[6] * h + ctrls[7] * bh);
+    p3 = (x + ctrls[8] * w + ctrls[9] * bw);
+    q3 = (y + ctrls[10] * h + ctrls[11] * bh);
     CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
 
     ctrls = gRoundRectCtrlpts[7];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
     CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
 
     ctrls = gRoundRectCtrlpts[8];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
+    p1 = (x + ctrls[0] * w + ctrls[1] * bw);
+    q1 = (y + ctrls[2] * h + ctrls[3] * bh);
+    p2 = (x + ctrls[4] * w + ctrls[5] * bw);
+    q2 = (y + ctrls[6] * h + ctrls[7] * bh);
+    p3 = (x + ctrls[8] * w + ctrls[9] * bw);
+    q3 = (y + ctrls[10] * h + ctrls[11] * bh);
     CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
 
-    CGContextClosePath(cgRef);
+    CGContextClosePbth(cgRef);
 
     return renderType;
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doRoundRect(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat arcWidth, CGFloat arcHeight, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRenderType doRoundRect(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt brcWidth, CGFlobt brcHeight, BOOL fill)
 {
 PRINT(" doRoundRect")
     if (YES)
     {
-        return doRoundRectUsingCG(qsdo->cgRef, x, y, w, h, arcWidth, arcHeight, fill,
-                                    qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        return doRoundRectUsingCG(qsdo->cgRef, x, y, w, h, brcWidth, brcHeight, fill,
+                                    qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
-// from EllipseIterator.java
-QUARTZ_RENDERER_INLINE SDRenderType doOvalUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+// from EllipseIterbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRenderType doOvblUsingCG(CGContextRef cgRef, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill, BOOL simple, CGFlobt offsetX, CGFlobt offsetY)
 {
     SDRenderType renderType = SD_Nothing;
 
@@ -276,11 +276,11 @@ QUARTZ_RENDERER_INLINE SDRenderType doOvalUsingCG(CGContextRef cgRef, CGFloat x,
     {
         if (fill == YES)
         {
-            CGContextFillEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContextFillEllipseInRect(cgRef, CGRectMbke(x+offsetX, y+offsetY, w, h));
         }
         else
         {
-            CGContextStrokeEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContextStrokeEllipseInRect(cgRef, CGRectMbke(x+offsetX, y+offsetY, w, h));
         }
     }
     else
@@ -294,33 +294,33 @@ QUARTZ_RENDERER_INLINE SDRenderType doOvalUsingCG(CGContextRef cgRef, CGFloat x,
             renderType = SD_Stroke;
         }
 
-        CGContextAddEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+        CGContextAddEllipseInRect(cgRef, CGRectMbke(x+offsetX, y+offsetY, w, h));
     }
 
     return renderType;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doOval(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRenderType doOvbl(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill)
 {
-PRINT(" doOval")
+PRINT(" doOvbl")
     if (YES)
     {
-        return doOvalUsingCG(qsdo->cgRef, x, y, w, h, fill,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        return doOvblUsingCG(qsdo->cgRef, x, y, w, h, fill,
+                                qsdo->grbphicsStbteInfo.simpleStroke, qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
-// from ArcIterator.java
-QUARTZ_RENDERER_INLINE CGFloat btan(CGFloat increment)
+// from ArcIterbtor.jbvb
+QUARTZ_RENDERER_INLINE CGFlobt btbn(CGFlobt increment)
 {
     increment /= 2.0f;
-    CGFloat a = 1.0f - cos(increment);
-    CGFloat b = tan(increment);
-    CGFloat c = sqrt(1.0f + b * b) - 1.0f + a;
+    CGFlobt b = 1.0f - cos(increment);
+    CGFlobt b = tbn(increment);
+    CGFlobt c = sqrt(1.0f + b * b) - 1.0f + b;
 
-    return 4.0f / 3.0f * a * b / c;
+    return 4.0f / 3.0f * b * b / c;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat angleStart, CGFloat angleExtent, jint arcType, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt bngleStbrt, CGFlobt bngleExtent, jint brcType, BOOL fill, CGFlobt offsetX, CGFlobt offsetY)
 {
 //fprintf(stderr, "doArc\n");
     SDRenderType renderType = SD_Nothing;
@@ -334,8 +334,8 @@ QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, 
         renderType = SD_Stroke;
     }
 
-    CGFloat angStRad, angExtDeg;
-    jint arcSegs;
+    CGFlobt bngStRbd, bngExtDeg;
+    jint brcSegs;
     jint lineSegs;
     jint index = 1;
 
@@ -343,38 +343,38 @@ QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, 
     h = h / 2.0f;
     x = x + w;
     y = y + h;
-    angStRad = -(angleStart / 180.0f * PI);
-    angExtDeg = -angleExtent;
-    CGFloat ext = (angExtDeg>0) ? angExtDeg : -angExtDeg;
+    bngStRbd = -(bngleStbrt / 180.0f * PI);
+    bngExtDeg = -bngleExtent;
+    CGFlobt ext = (bngExtDeg>0) ? bngExtDeg : -bngExtDeg;
     if (ext >= 360.0f)
     {
-        arcSegs = 4;
+        brcSegs = 4;
     }
     else
     {
-        arcSegs = (jint)ceil(ext/90.0f);
+        brcSegs = (jint)ceil(ext/90.0f);
     }
-    switch (arcType)
+    switch (brcType)
     {
-        case 0:
+        cbse 0:
             lineSegs = 0;
-            break;
-        case 1:
+            brebk;
+        cbse 1:
             lineSegs = 1;
-            break;
-        case 2:
+            brebk;
+        cbse 2:
             lineSegs = 2;
-            break;
+            brebk;
     }
     if (w < 0 || h < 0)
     {
-        arcSegs = lineSegs = -1;
+        brcSegs = lineSegs = -1;
     }
 
-    CGFloat angle = angStRad;
-    CGContextMoveToPoint(cgRef, (x + cos(angle) * w)+offsetX, (y + sin(angle) * h)+offsetY);
+    CGFlobt bngle = bngStRbd;
+    CGContextMoveToPoint(cgRef, (x + cos(bngle) * w)+offsetX, (y + sin(bngle) * h)+offsetY);
 
-    CGFloat increment = angExtDeg;
+    CGFlobt increment = bngExtDeg;
     if (increment > 360.0f)
     {
         increment = 360.0f;
@@ -383,21 +383,21 @@ QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, 
     {
         increment = -360.0f;
     }
-    increment /= arcSegs;
+    increment /= brcSegs;
     increment = (increment / 180.0f * PI);
-    CGFloat z = btan(increment);
-    CGFloat angleBase = angle;
-    CGFloat p1, q1, p2, q2, p3, q3;
-    while (index <= arcSegs)
+    CGFlobt z = btbn(increment);
+    CGFlobt bngleBbse = bngle;
+    CGFlobt p1, q1, p2, q2, p3, q3;
+    while (index <= brcSegs)
     {
-        angle = angleBase + increment * (index - 1);
-        CGFloat relx = cos(angle);
-        CGFloat rely = sin(angle);
+        bngle = bngleBbse + increment * (index - 1);
+        CGFlobt relx = cos(bngle);
+        CGFlobt rely = sin(bngle);
         p1 = (x + (relx - z * rely) * w);
         q1 = (y + (rely + z * relx) * h);
-        angle += increment;
-        relx = cos(angle);
-        rely = sin(angle);
+        bngle += increment;
+        relx = cos(bngle);
+        rely = sin(bngle);
         p2 = (x + (relx + z * rely) * w);
         q2 = (y + (rely - z * relx) * h);
         p3 = (x + relx * w);
@@ -408,37 +408,37 @@ QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, 
         index++;
     }
 
-    switch (arcType)
+    switch (brcType)
     {
-        case 1:
-            CGContextClosePath(cgRef);
-            break;
-        case 2:
+        cbse 1:
+            CGContextClosePbth(cgRef);
+            brebk;
+        cbse 2:
             CGContextAddLineToPoint(cgRef, x+offsetX, y+offsetY);
-            CGContextClosePath(cgRef);
-            break;
-        default:
-            break;
+            CGContextClosePbth(cgRef);
+            brebk;
+        defbult:
+            brebk;
     }
 
     return renderType;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doArc(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat angleStart, CGFloat angleExtent, jint arcType, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRenderType doArc(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt bngleStbrt, CGFlobt bngleExtent, jint brcType, BOOL fill)
 {
 PRINT(" doArc")
     if (YES)
     {
-        return doArcUsingCG(qsdo->cgRef, x, y, w, h, angleStart, angleExtent, arcType, fill,
-                                qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        return doArcUsingCG(qsdo->cgRef, x, y, w, h, bngleStbrt, bngleExtent, brcType, fill,
+                                qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doPolyUsingCG(JNIEnv *env, CGContextRef cgRef, jintArray xpointsarray, jintArray ypointsarray, jint npoints, BOOL polygon, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRenderType doPolyUsingCG(JNIEnv *env, CGContextRef cgRef, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill, CGFlobt offsetX, CGFlobt offsetY)
 {
     SDRenderType renderType = SD_Nothing;
 
-    if (xpointsarray == NULL || ypointsarray == NULL) {
+    if (xpointsbrrby == NULL || ypointsbrrby == NULL) {
         return SD_Nothing;
     }
     if (npoints > 1)
@@ -454,13 +454,13 @@ QUARTZ_RENDERER_INLINE SDRenderType doPolyUsingCG(JNIEnv *env, CGContextRef cgRe
 
         jint i;
 
-        jint* xpoints = (jint*)(*env)->GetPrimitiveArrayCritical(env, xpointsarray, NULL);
+        jint* xpoints = (jint*)(*env)->GetPrimitiveArrbyCriticbl(env, xpointsbrrby, NULL);
         if (xpoints == NULL) {
             return SD_Nothing;
         }
-        jint* ypoints = (jint*)(*env)->GetPrimitiveArrayCritical(env, ypointsarray, NULL);
+        jint* ypoints = (jint*)(*env)->GetPrimitiveArrbyCriticbl(env, ypointsbrrby, NULL);
         if (ypoints == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, xpointsarray, xpoints, 0);
+            (*env)->RelebsePrimitiveArrbyCriticbl(env, xpointsbrrby, xpoints, 0);
             return SD_Nothing;
         }
 
@@ -473,62 +473,62 @@ QUARTZ_RENDERER_INLINE SDRenderType doPolyUsingCG(JNIEnv *env, CGContextRef cgRe
 
         if (polygon == YES)
         {
-            if ((xpoints[0] != xpoints[npoints-1]) || (ypoints[0] != ypoints[npoints-1])) // according to the specs (only applies to polygons, not polylines)
+            if ((xpoints[0] != xpoints[npoints-1]) || (ypoints[0] != ypoints[npoints-1])) // bccording to the specs (only bpplies to polygons, not polylines)
             {
                 CGContextAddLineToPoint(cgRef, xpoints[0]+offsetX, ypoints[0]+offsetY);
             }
         }
 
-        (*env)->ReleasePrimitiveArrayCritical(env, ypointsarray, ypoints, 0);
-        (*env)->ReleasePrimitiveArrayCritical(env, xpointsarray, xpoints, 0);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, ypointsbrrby, ypoints, 0);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, xpointsbrrby, xpoints, 0);
     }
 
     return renderType;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doPoly(JNIEnv *env, QuartzSDOps *qsdo, jintArray xpointsarray, jintArray ypointsarray, jint npoints, BOOL polygon, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRenderType doPoly(JNIEnv *env, QubrtzSDOps *qsdo, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill)
 {
 PRINT(" doPoly")
     if (YES)
     {
-        return doPolyUsingCG(env, qsdo->cgRef, xpointsarray, ypointsarray, npoints, polygon, fill,
-            qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        return doPolyUsingCG(env, qsdo->cgRef, xpointsbrrby, ypointsbrrby, npoints, polygon, fill,
+            qsdo->grbphicsStbteInfo.offsetX, qsdo->grbphicsStbteInfo.offsetY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
-SDRenderType doShape(QuartzSDOps *qsdo, jint *types, jfloat *coords, jint numtypes, BOOL fill, BOOL shouldApplyOffset)
+SDRenderType doShbpe(QubrtzSDOps *qsdo, jint *types, jflobt *coords, jint numtypes, BOOL fill, BOOL shouldApplyOffset)
 {
-PRINT(" doShape")
+PRINT(" doShbpe")
     if (YES)
     {
-        CGFloat offsetX = 0.0f;
-        CGFloat offsetY = 0.0f;
+        CGFlobt offsetX = 0.0f;
+        CGFlobt offsetY = 0.0f;
         if (shouldApplyOffset)
         {
-            offsetX = qsdo->graphicsStateInfo.offsetX;
-            offsetY = qsdo->graphicsStateInfo.offsetY;
+            offsetX = qsdo->grbphicsStbteInfo.offsetX;
+            offsetY = qsdo->grbphicsStbteInfo.offsetY;
         }
-        return DoShapeUsingCG(qsdo->cgRef, types, coords, numtypes, fill, offsetX, offsetY); // defined in QuartzSurfaceData.m
+        return DoShbpeUsingCG(qsdo->cgRef, types, coords, numtypes, fill, offsetX, offsetY); // defined in QubrtzSurfbceDbtb.m
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // here we cbn bdd other implementbtions (ex. using QuickDrbw, OpenGL, etc.)
 }
 
 
 
-QUARTZ_RENDERER_INLINE void doImageCG(JNIEnv *env, CGContextRef cgRef, jobject imageSurfaceData,
-                                        jint interpolation, BOOL fliph, BOOL flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+QUARTZ_RENDERER_INLINE void doImbgeCG(JNIEnv *env, CGContextRef cgRef, jobject imbgeSurfbceDbtb,
+                                        jint interpolbtion, BOOL fliph, BOOL flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
 {
-//fprintf(stderr, "doImageCG\n");
+//fprintf(stderr, "doImbgeCG\n");
 //fprintf(stderr, "    flip:(%d, %d), size:(%d, %d), src:(%d, %d, %d, %d), dst:(%d, %d, %d, %d)\n", (jint)fliph, (jint)flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
-    // gznote: need to handle interpolation
-    ImageSDOps* isdo = LockImage(env, imageSurfaceData);
+    // gznote: need to hbndle interpolbtion
+    ImbgeSDOps* isdo = LockImbge(env, imbgeSurfbceDbtb);
 
-    CGFloat a = 1.0f;
-    CGFloat b = 0.0f;
-    CGFloat c = 0.0f;
-    CGFloat d = -1.0f;
-    CGFloat tx = dx;
-    CGFloat ty = dy+dh;
+    CGFlobt b = 1.0f;
+    CGFlobt b = 0.0f;
+    CGFlobt c = 0.0f;
+    CGFlobt d = -1.0f;
+    CGFlobt tx = dx;
+    CGFlobt ty = dy+dh;
 
     if (flipv == YES)
     {
@@ -537,265 +537,265 @@ QUARTZ_RENDERER_INLINE void doImageCG(JNIEnv *env, CGContextRef cgRef, jobject i
     }
     if (fliph == YES)
     {
-        a = -1.0f;
+        b = -1.0f;
         tx += dw;
     }
 
-    makeSureImageIsCreated(isdo);
+    mbkeSureImbgeIsCrebted(isdo);
 
-    CGContextSaveGState(cgRef);
-    CGContextConcatCTM(cgRef, CGAffineTransformMake(a, b, c, d, tx, ty));
-    jint alphaInfo = isdo->contextInfo.alphaInfo & kCGBitmapAlphaInfoMask;
+    CGContextSbveGStbte(cgRef);
+    CGContextConcbtCTM(cgRef, CGAffineTrbnsformMbke(b, b, c, d, tx, ty));
+    jint blphbInfo = isdo->contextInfo.blphbInfo & kCGBitmbpAlphbInfoMbsk;
 
-    if ((sx == 0) && (sy == 0) && (sw == w) && (sh == h)) // no subimages allowed here
+    if ((sx == 0) && (sy == 0) && (sw == w) && (sh == h)) // no subimbges bllowed here
     {
-        CGContextDrawImage(cgRef, CGRectMake(0, 0, dw, dh), isdo->imgRef);
+        CGContextDrbwImbge(cgRef, CGRectMbke(0, 0, dw, dh), isdo->imgRef);
     }
-    else // handle subimages
+    else // hbndle subimbges
     {
-        CGImageRef subImg = CGImageCreateWithImageInRect(isdo->imgRef, CGRectMake(sx, sy, sw, sh));
-        CGContextDrawImage(cgRef, CGRectMake(0.0f, 0.0f, dw, dh), subImg);
-        CGImageRelease(subImg);
+        CGImbgeRef subImg = CGImbgeCrebteWithImbgeInRect(isdo->imgRef, CGRectMbke(sx, sy, sw, sh));
+        CGContextDrbwImbge(cgRef, CGRectMbke(0.0f, 0.0f, dw, dh), subImg);
+        CGImbgeRelebse(subImg);
     }
 
-    CGContextRestoreGState(cgRef);
-    UnlockImage(env, isdo);
+    CGContextRestoreGStbte(cgRef);
+    UnlockImbge(env, isdo);
 }
 
-QUARTZ_RENDERER_INLINE void doImage(JNIEnv *env, QuartzSDOps *qsdo, jobject imageSurfaceData,
-                                jboolean fliph, jboolean flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+QUARTZ_RENDERER_INLINE void doImbge(JNIEnv *env, QubrtzSDOps *qsdo, jobject imbgeSurfbceDbtb,
+                                jboolebn fliph, jboolebn flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
 {
     if ((w > 0) && (h > 0) && (sw > 0) && (sh > 0) && (dw > 0) && (dh > 0))
     {
-       doImageCG(env, qsdo->cgRef, imageSurfaceData,
-                            qsdo->graphicsStateInfo.interpolation, (BOOL)fliph, (BOOL)flipv, (jint)w, (jint)h, (jint)sx, (jint)sy, (jint)sw, (jint)sh, (jint)dx, (jint)dy, (jint)dw, (jint)dh);
+       doImbgeCG(env, qsdo->cgRef, imbgeSurfbceDbtb,
+                            qsdo->grbphicsStbteInfo.interpolbtion, (BOOL)fliph, (BOOL)flipv, (jint)w, (jint)h, (jint)sx, (jint)sy, (jint)sw, (jint)sh, (jint)dx, (jint)dy, (jint)dw, (jint)dh);
     }
 }
 
 
 
-QUARTZ_RENDERER_INLINE void completePath(JNIEnv *env, QuartzSDOps *qsdo, CGContextRef cgRef, jint renderType)
+QUARTZ_RENDERER_INLINE void completePbth(JNIEnv *env, QubrtzSDOps *qsdo, CGContextRef cgRef, jint renderType)
 {
     switch (renderType)
     {
-        case SD_Stroke:
-            if (CGContextIsPathEmpty(cgRef) == 0)
+        cbse SD_Stroke:
+            if (CGContextIsPbthEmpty(cgRef) == 0)
             {
-                CGContextStrokePath(cgRef);
+                CGContextStrokePbth(cgRef);
             }
-            break;
-        case SD_Fill:
-            if (CGContextIsPathEmpty(cgRef) == 0)
+            brebk;
+        cbse SD_Fill:
+            if (CGContextIsPbthEmpty(cgRef) == 0)
             {
-                CGContextFillPath(cgRef);
+                CGContextFillPbth(cgRef);
             }
-            break;
-        case SD_Image:
-            break;
-        case SD_Nothing:
-                break;
-        default:
-fprintf(stderr, "completePath unknown renderType=%d\n", (int)renderType);
-            break;
+            brebk;
+        cbse SD_Imbge:
+            brebk;
+        cbse SD_Nothing:
+                brebk;
+        defbult:
+fprintf(stderr, "completePbth unknown renderType=%d\n", (int)renderType);
+            brebk;
     }
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_init
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_init
 (JNIEnv *env, jobject jthis)
 {
-PRINT("Java_sun_java2d_CRenderer_init")
-    CGFloat angle = PI / 4.0f;
-    CGFloat a = 1.0f - cos(angle);
-    CGFloat b = tan(angle);
-    CGFloat c = sqrt(1.0f + b * b) - 1.0f + a;
-    CGFloat cv = 4.0f / 3.0f * a * b / c;
-    CGFloat acv = (1.0f - cv) / 2.0f;
+PRINT("Jbvb_sun_jbvb2d_CRenderer_init")
+    CGFlobt bngle = PI / 4.0f;
+    CGFlobt b = 1.0f - cos(bngle);
+    CGFlobt b = tbn(bngle);
+    CGFlobt c = sqrt(1.0f + b * b) - 1.0f + b;
+    CGFlobt cv = 4.0f / 3.0f * b * b / c;
+    CGFlobt bcv = (1.0f - cv) / 2.0f;
 
-    gRoundRectCtrlpts[2][3] = -acv;
-    gRoundRectCtrlpts[2][5] = acv;
-    gRoundRectCtrlpts[4][1] = -acv;
-    gRoundRectCtrlpts[4][7] = -acv;
-    gRoundRectCtrlpts[6][3] = acv;
-    gRoundRectCtrlpts[6][5] = -acv;
-    gRoundRectCtrlpts[8][1] = acv;
-    gRoundRectCtrlpts[8][7] = acv;
+    gRoundRectCtrlpts[2][3] = -bcv;
+    gRoundRectCtrlpts[2][5] = bcv;
+    gRoundRectCtrlpts[4][1] = -bcv;
+    gRoundRectCtrlpts[4][7] = -bcv;
+    gRoundRectCtrlpts[6][3] = bcv;
+    gRoundRectCtrlpts[6][5] = -bcv;
+    gRoundRectCtrlpts[8][1] = bcv;
+    gRoundRectCtrlpts[8][7] = bcv;
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    doLine
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;FFFF)V
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;FFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doLine
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x1, jfloat y1, jfloat x2, jfloat y2)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doLine
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jflobt x1, jflobt y1, jflobt x2, jflobt y2)
 {
-PRINT("Java_sun_java2d_CRenderer_doLine")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doLine")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
     SDRenderType renderType = SD_Stroke;
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
         doLine(qsdo, x1, y1, x2, y2);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    doRect
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;FFFF)V
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;FFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doRect
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doRect
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jflobt x, jflobt y, jflobt w, jflobt h, jboolebn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doRect")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doRect")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
     SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
         doRect(qsdo, x, y, w, h, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    doRoundRect
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIIIII)V
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;IIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doRoundRect
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jfloat arcWidth, jfloat arcHeight, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doRoundRect
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jflobt x, jflobt y, jflobt w, jflobt h, jflobt brcWidth, jflobt brcHeight, jboolebn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doRoundRect")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doRoundRect")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
     SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
-        doRoundRect(qsdo, x, y, w, h, arcWidth, arcHeight, isfill);
+        doRoundRect(qsdo, x, y, w, h, brcWidth, brcHeight, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doOval
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIII)V
+ * Clbss:     sun_jbvb2d_CRenderer
+ * Method:    doOvbl
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;IIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doOval
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doOvbl
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jflobt x, jflobt y, jflobt w, jflobt h, jboolebn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doOval")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doOvbl")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
     SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
-        doOval(qsdo, x, y, w, h, isfill);
+        doOvbl(qsdo, x, y, w, h, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    doArc
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIIIII)V
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;IIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doArc
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jfloat angleStart, jfloat angleExtent, jint arcType, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doArc
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jflobt x, jflobt y, jflobt w, jflobt h, jflobt bngleStbrt, jflobt bngleExtent, jint brcType, jboolebn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doArc")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doArc")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
     SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
-        doArc(qsdo, x, y, w, h, angleStart, angleExtent, arcType, isfill);
+        doArc(qsdo, x, y, w, h, bngleStbrt, bngleExtent, brcType, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
+ * Clbss:     sun_jbvb2d_CRenderer
  * Method:    doPoly
- * Signature:
+ * Signbture:
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doPoly
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jintArray xpointsarray, jintArray ypointsarray, jint npoints, jboolean ispolygon, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doPoly
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, jboolebn ispolygon, jboolebn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doPoly")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doPoly")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
-    BOOL eoFill = YES; // polys are WIND_EVEN_ODD by definition
+    BOOL eoFill = YES; // polys bre WIND_EVEN_ODD by definition
     SDRenderType renderType    = (isfill? (eoFill ? SD_EOFill : SD_Fill) : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
-        doPoly(env, qsdo, xpointsarray, ypointsarray, npoints, ispolygon, isfill);
+        doPoly(env, qsdo, xpointsbrrby, ypointsbrrby, npoints, ispolygon, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doShape
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;ILjava/nio/FloatBuffer;Ljava/nio/IntBuffer;IZ)V
+ * Clbss:     sun_jbvb2d_CRenderer
+ * Method:    doShbpe
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;ILjbvb/nio/FlobtBuffer;Ljbvb/nio/IntBuffer;IZ)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doShape
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jint length, jobject jFloatCoordinates, jobject jIntTypes, jint windingRule, jboolean isfill, jboolean shouldApplyOffset)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doShbpe
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jint length, jobject jFlobtCoordinbtes, jobject jIntTypes, jint windingRule, jboolebn isfill, jboolebn shouldApplyOffset)
 {
-PRINT("Java_sun_java2d_CRenderer_doShape")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doShbpe")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
-    BOOL eoFill = (windingRule == java_awt_geom_PathIterator_WIND_EVEN_ODD);
+    BOOL eoFill = (windingRule == jbvb_bwt_geom_PbthIterbtor_WIND_EVEN_ODD);
     SDRenderType renderType    = (isfill? (eoFill ? SD_EOFill : SD_Fill) : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
+    qsdo->BeginSurfbce(env, qsdo, renderType);
     if (qsdo->cgRef != NULL)
     {
-        jfloat *coordinates = (jfloat*)((*env)->GetDirectBufferAddress(env, jFloatCoordinates));
+        jflobt *coordinbtes = (jflobt*)((*env)->GetDirectBufferAddress(env, jFlobtCoordinbtes));
         jint *types = (jint*)((*env)->GetDirectBufferAddress(env, jIntTypes));
-        doShape(qsdo, types, coordinates, length, isfill, shouldApplyOffset);
+        doShbpe(qsdo, types, coordinbtes, length, isfill, shouldApplyOffset);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }
 
-#define invalidContext(c) \
+#define invblidContext(c) \
     ((c) == NULL /* || (c)->identifer != CGContextIdentifier */)
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doImage
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;Lsun/java2d/SurfaceData;ZZIIIIIIII)V
+ * Clbss:     sun_jbvb2d_CRenderer
+ * Method:    doImbge
+ * Signbture: (Lsun/jbvb2d/SurfbceDbtb;Ljbvb/nio/IntBuffer;Ljbvb/nio/FlobtBuffer;[Ljbvb/lbng/Object;Lsun/jbvb2d/SurfbceDbtb;ZZIIIIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doImage
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jobject imageSurfaceData, jboolean fliph, jboolean flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRenderer_doImbge
+(JNIEnv *env, jobject jthis, jobject jsurfbcedbtb, jobject imbgeSurfbceDbtb, jboolebn fliph, jboolebn flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
 {
-PRINT("Java_sun_java2d_CRenderer_doImage")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
+PRINT("Jbvb_sun_jbvb2d_CRenderer_doImbge")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbceDbtb_GetOps(env, jsurfbcedbtb);
 JNF_COCOA_ENTER(env);
-    qsdo->BeginSurface(env, qsdo, SD_Image);
+    qsdo->BeginSurfbce(env, qsdo, SD_Imbge);
     if (qsdo->cgRef != NULL)
     {
-        doImage(env, qsdo, imageSurfaceData, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+        doImbge(env, qsdo, imbgeSurfbceDbtb, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
     }
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinishSurfbce(env, qsdo);
 JNF_COCOA_RENDERER_EXIT(env);
 }

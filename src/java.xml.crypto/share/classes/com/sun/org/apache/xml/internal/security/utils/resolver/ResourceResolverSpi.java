@@ -3,104 +3,104 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils.resolver;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
 import org.w3c.dom.Attr;
 
 /**
- * During reference validation, we have to retrieve resources from somewhere.
+ * During reference vblidbtion, we hbve to retrieve resources from somewhere.
  *
- * @author $Author: coheigea $
+ * @buthor $Author: coheigeb $
  */
-public abstract class ResourceResolverSpi {
+public bbstrbct clbss ResourceResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResourceResolverSpi.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(ResourceResolverSpi.clbss.getNbme());
 
     /** Field properties */
-    protected java.util.Map<String, String> properties = null;
+    protected jbvb.util.Mbp<String, String> properties = null;
 
     /**
-     * Deprecated - used to carry state about whether resolution was being done in a secure fashion,
-     * but was not thread safe, so the resolution information is now passed as parameters to methods.
+     * Deprecbted - used to cbrry stbte bbout whether resolution wbs being done in b secure fbshion,
+     * but wbs not threbd sbfe, so the resolution informbtion is now pbssed bs pbrbmeters to methods.
      *
-     * @deprecated Secure validation flag is now passed to methods.
+     * @deprecbted Secure vblidbtion flbg is now pbssed to methods.
      */
-    @Deprecated
-    protected final boolean secureValidation = true;
+    @Deprecbted
+    protected finbl boolebn secureVblidbtion = true;
 
     /**
      * This is the workhorse method used to resolve resources.
      *
-     * @param uri
-     * @param BaseURI
-     * @return the resource wrapped around a XMLSignatureInput
+     * @pbrbm uri
+     * @pbrbm BbseURI
+     * @return the resource wrbpped bround b XMLSignbtureInput
      *
      * @throws ResourceResolverException
      *
-     * @deprecated New clients should override {@link #engineResolveURI(ResourceResolverContext)}
+     * @deprecbted New clients should override {@link #engineResolveURI(ResourceResolverContext)}
      */
-    @Deprecated
-    public XMLSignatureInput engineResolve(Attr uri, String BaseURI)
+    @Deprecbted
+    public XMLSignbtureInput engineResolve(Attr uri, String BbseURI)
         throws ResourceResolverException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
      * This is the workhorse method used to resolve resources.
-     * @param context Context to use to resolve resources.
+     * @pbrbm context Context to use to resolve resources.
      *
-     * @return the resource wrapped around a XMLSignatureInput
+     * @return the resource wrbpped bround b XMLSignbtureInput
      *
      * @throws ResourceResolverException
      */
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
+    public XMLSignbtureInput engineResolveURI(ResourceResolverContext context)
         throws ResourceResolverException {
-        // The default implementation, to preserve backwards compatibility in the
-        // test cases, calls the old resolver API.
-        return engineResolve(context.attr, context.baseUri);
+        // The defbult implementbtion, to preserve bbckwbrds compbtibility in the
+        // test cbses, cblls the old resolver API.
+        return engineResolve(context.bttr, context.bbseUri);
     }
 
     /**
      * Method engineSetProperty
      *
-     * @param key
-     * @param value
+     * @pbrbm key
+     * @pbrbm vblue
      */
-    public void engineSetProperty(String key, String value) {
+    public void engineSetProperty(String key, String vblue) {
         if (properties == null) {
-            properties = new HashMap<String, String>();
+            properties = new HbshMbp<String, String>();
         }
-        properties.put(key, value);
+        properties.put(key, vblue);
     }
 
     /**
      * Method engineGetProperty
      *
-     * @param key
-     * @return the value of the property
+     * @pbrbm key
+     * @return the vblue of the property
      */
     public String engineGetProperty(String key) {
         if (properties == null) {
@@ -111,56 +111,56 @@ public abstract class ResourceResolverSpi {
 
     /**
      *
-     * @param newProperties
+     * @pbrbm newProperties
      */
-    public void engineAddProperies(Map<String, String> newProperties) {
+    public void engineAddProperies(Mbp<String, String> newProperties) {
         if (newProperties != null && !newProperties.isEmpty()) {
             if (properties == null) {
-                properties = new HashMap<String, String>();
+                properties = new HbshMbp<String, String>();
             }
             properties.putAll(newProperties);
         }
     }
 
     /**
-     * Tells if the implementation does can be reused by several threads safely.
-     * It normally means that the implementation does not have any member, or there is
-     * member change between engineCanResolve & engineResolve invocations. Or it maintains all
-     * member info in ThreadLocal methods.
+     * Tells if the implementbtion does cbn be reused by severbl threbds sbfely.
+     * It normblly mebns thbt the implementbtion does not hbve bny member, or there is
+     * member chbnge between engineCbnResolve & engineResolve invocbtions. Or it mbintbins bll
+     * member info in ThrebdLocbl methods.
      */
-    public boolean engineIsThreadSafe() {
-        return false;
+    public boolebn engineIsThrebdSbfe() {
+        return fblse;
     }
 
     /**
-     * This method helps the {@link ResourceResolver} to decide whether a
-     * {@link ResourceResolverSpi} is able to perform the requested action.
+     * This method helps the {@link ResourceResolver} to decide whether b
+     * {@link ResourceResolverSpi} is bble to perform the requested bction.
      *
-     * @param uri
-     * @param BaseURI
-     * @return true if the engine can resolve the uri
+     * @pbrbm uri
+     * @pbrbm BbseURI
+     * @return true if the engine cbn resolve the uri
      *
-     * @deprecated See {@link #engineCanResolveURI(ResourceResolverContext)}
+     * @deprecbted See {@link #engineCbnResolveURI(ResourceResolverContext)}
      */
-    @Deprecated
-    public boolean engineCanResolve(Attr uri, String BaseURI) {
-        // This method used to be abstract, so any calls to "super" are bogus.
-        throw new UnsupportedOperationException();
+    @Deprecbted
+    public boolebn engineCbnResolve(Attr uri, String BbseURI) {
+        // This method used to be bbstrbct, so bny cblls to "super" bre bogus.
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * This method helps the {@link ResourceResolver} to decide whether a
-     * {@link ResourceResolverSpi} is able to perform the requested action.
+     * This method helps the {@link ResourceResolver} to decide whether b
+     * {@link ResourceResolverSpi} is bble to perform the requested bction.
      *
-     * <p>New clients should override this method, and not override {@link #engineCanResolve(Attr, String)}
+     * <p>New clients should override this method, bnd not override {@link #engineCbnResolve(Attr, String)}
      * </p>
-     * @param context Context in which to do resolution.
-     * @return true if the engine can resolve the uri
+     * @pbrbm context Context in which to do resolution.
+     * @return true if the engine cbn resolve the uri
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        // To preserve backward compatibility with existing resolvers that might override the old method,
-        // call the old deprecated API.
-        return engineCanResolve( context.attr, context.baseUri );
+    public boolebn engineCbnResolveURI(ResourceResolverContext context) {
+        // To preserve bbckwbrd compbtibility with existing resolvers thbt might override the old method,
+        // cbll the old deprecbted API.
+        return engineCbnResolve( context.bttr, context.bbseUri );
     }
 
     /**
@@ -173,60 +173,60 @@ public abstract class ResourceResolverSpi {
     }
 
     /**
-     * Method understandsProperty
+     * Method understbndsProperty
      *
-     * @param propertyToTest
-     * @return true if understands the property
+     * @pbrbm propertyToTest
+     * @return true if understbnds the property
      */
-    public boolean understandsProperty(String propertyToTest) {
+    public boolebn understbndsProperty(String propertyToTest) {
         String[] understood = this.engineGetPropertyKeys();
 
         if (understood != null) {
             for (int i = 0; i < understood.length; i++) {
-                if (understood[i].equals(propertyToTest)) {
+                if (understood[i].equbls(propertyToTest)) {
                     return true;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Fixes a platform dependent filename to standard URI form.
+     * Fixes b plbtform dependent filenbme to stbndbrd URI form.
      *
-     * @param str The string to fix.
+     * @pbrbm str The string to fix.
      *
      * @return Returns the fixed URI string.
      */
-    public static String fixURI(String str) {
+    public stbtic String fixURI(String str) {
 
-        // handle platform dependent strings
-        str = str.replace(java.io.File.separatorChar, '/');
+        // hbndle plbtform dependent strings
+        str = str.replbce(jbvb.io.File.sepbrbtorChbr, '/');
 
         if (str.length() >= 4) {
 
-            // str =~ /^\W:\/([^/])/ # to speak perl ;-))
-            char ch0 = Character.toUpperCase(str.charAt(0));
-            char ch1 = str.charAt(1);
-            char ch2 = str.charAt(2);
-            char ch3 = str.charAt(3);
-            boolean isDosFilename = ((('A' <= ch0) && (ch0 <= 'Z'))
+            // str =~ /^\W:\/([^/])/ # to spebk perl ;-))
+            chbr ch0 = Chbrbcter.toUpperCbse(str.chbrAt(0));
+            chbr ch1 = str.chbrAt(1);
+            chbr ch2 = str.chbrAt(2);
+            chbr ch3 = str.chbrAt(3);
+            boolebn isDosFilenbme = ((('A' <= ch0) && (ch0 <= 'Z'))
                 && (ch1 == ':') && (ch2 == '/')
                 && (ch3 != '/'));
 
-            if (isDosFilename && log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Found DOS filename: " + str);
+            if (isDosFilenbme && log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Found DOS filenbme: " + str);
             }
         }
 
         // Windows fix
         if (str.length() >= 2) {
-            char ch1 = str.charAt(1);
+            chbr ch1 = str.chbrAt(1);
 
             if (ch1 == ':') {
-                char ch0 = Character.toUpperCase(str.charAt(0));
+                chbr ch0 = Chbrbcter.toUpperCbse(str.chbrAt(0));
 
                 if (('A' <= ch0) && (ch0 <= 'Z')) {
                     str = "/" + str;

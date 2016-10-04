@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.PublicKey;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.PublicKey;
+import jbvb.util.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.util.Debug;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerVblue;
 import sun.security.util.ObjectIdentifier;
 import sun.security.x509.*;
 
 /**
- * A {@code CertSelector} that selects {@code X509Certificates} that
- * match all specified criteria. This class is particularly useful when
- * selecting certificates from a {@code CertStore} to build a
- * PKIX-compliant certification path.
+ * A {@code CertSelector} thbt selects {@code X509Certificbtes} thbt
+ * mbtch bll specified criterib. This clbss is pbrticulbrly useful when
+ * selecting certificbtes from b {@code CertStore} to build b
+ * PKIX-complibnt certificbtion pbth.
  * <p>
- * When first constructed, an {@code X509CertSelector} has no criteria
- * enabled and each of the {@code get} methods return a default value
- * ({@code null}, or {@code -1} for the {@link #getBasicConstraints
- * getBasicConstraints} method). Therefore, the {@link #match match}
- * method would return {@code true} for any {@code X509Certificate}.
- * Typically, several criteria are enabled (by calling
+ * When first constructed, bn {@code X509CertSelector} hbs no criterib
+ * enbbled bnd ebch of the {@code get} methods return b defbult vblue
+ * ({@code null}, or {@code -1} for the {@link #getBbsicConstrbints
+ * getBbsicConstrbints} method). Therefore, the {@link #mbtch mbtch}
+ * method would return {@code true} for bny {@code X509Certificbte}.
+ * Typicblly, severbl criterib bre enbbled (by cblling
  * {@link #setIssuer setIssuer} or
- * {@link #setKeyUsage setKeyUsage}, for instance) and then the
- * {@code X509CertSelector} is passed to
- * {@link CertStore#getCertificates CertStore.getCertificates} or some similar
+ * {@link #setKeyUsbge setKeyUsbge}, for instbnce) bnd then the
+ * {@code X509CertSelector} is pbssed to
+ * {@link CertStore#getCertificbtes CertStore.getCertificbtes} or some similbr
  * method.
  * <p>
- * Several criteria can be enabled (by calling {@link #setIssuer setIssuer}
- * and {@link #setSerialNumber setSerialNumber},
- * for example) such that the {@code match} method
- * usually uniquely matches a single {@code X509Certificate}. We say
- * usually, since it is possible for two issuing CAs to have the same
- * distinguished name and each issue a certificate with the same serial
- * number. Other unique combinations include the issuer, subject,
- * subjectKeyIdentifier and/or the subjectPublicKey criteria.
+ * Severbl criterib cbn be enbbled (by cblling {@link #setIssuer setIssuer}
+ * bnd {@link #setSeriblNumber setSeriblNumber},
+ * for exbmple) such thbt the {@code mbtch} method
+ * usublly uniquely mbtches b single {@code X509Certificbte}. We sby
+ * usublly, since it is possible for two issuing CAs to hbve the sbme
+ * distinguished nbme bnd ebch issue b certificbte with the sbme seribl
+ * number. Other unique combinbtions include the issuer, subject,
+ * subjectKeyIdentifier bnd/or the subjectPublicKey criterib.
  * <p>
- * Please refer to <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
- * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a> for
- * definitions of the X.509 certificate extensions mentioned below.
+ * Plebse refer to <b href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
+ * Internet X.509 Public Key Infrbstructure Certificbte bnd CRL Profile</b> for
+ * definitions of the X.509 certificbte extensions mentioned below.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
  * @see CertSelector
- * @see X509Certificate
+ * @see X509Certificbte
  *
  * @since       1.4
- * @author      Steve Hanna
+ * @buthor      Steve Hbnnb
  */
-public class X509CertSelector implements CertSelector {
+public clbss X509CertSelector implements CertSelector {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    private final static ObjectIdentifier ANY_EXTENDED_KEY_USAGE =
-        ObjectIdentifier.newInternal(new int[] {2, 5, 29, 37, 0});
+    privbte finbl stbtic ObjectIdentifier ANY_EXTENDED_KEY_USAGE =
+        ObjectIdentifier.newInternbl(new int[] {2, 5, 29, 37, 0});
 
-    static {
-        CertPathHelperImpl.initialize();
+    stbtic {
+        CertPbthHelperImpl.initiblize();
     }
 
-    private BigInteger serialNumber;
-    private X500Principal issuer;
-    private X500Principal subject;
-    private byte[] subjectKeyID;
-    private byte[] authorityKeyID;
-    private Date certificateValid;
-    private Date privateKeyValid;
-    private ObjectIdentifier subjectPublicKeyAlgID;
-    private PublicKey subjectPublicKey;
-    private byte[] subjectPublicKeyBytes;
-    private boolean[] keyUsage;
-    private Set<String> keyPurposeSet;
-    private Set<ObjectIdentifier> keyPurposeOIDSet;
-    private Set<List<?>> subjectAlternativeNames;
-    private Set<GeneralNameInterface> subjectAlternativeGeneralNames;
-    private CertificatePolicySet policy;
-    private Set<String> policySet;
-    private Set<List<?>> pathToNames;
-    private Set<GeneralNameInterface> pathToGeneralNames;
-    private NameConstraintsExtension nc;
-    private byte[] ncBytes;
-    private int basicConstraints = -1;
-    private X509Certificate x509Cert;
-    private boolean matchAllSubjectAltNames = true;
+    privbte BigInteger seriblNumber;
+    privbte X500Principbl issuer;
+    privbte X500Principbl subject;
+    privbte byte[] subjectKeyID;
+    privbte byte[] buthorityKeyID;
+    privbte Dbte certificbteVblid;
+    privbte Dbte privbteKeyVblid;
+    privbte ObjectIdentifier subjectPublicKeyAlgID;
+    privbte PublicKey subjectPublicKey;
+    privbte byte[] subjectPublicKeyBytes;
+    privbte boolebn[] keyUsbge;
+    privbte Set<String> keyPurposeSet;
+    privbte Set<ObjectIdentifier> keyPurposeOIDSet;
+    privbte Set<List<?>> subjectAlternbtiveNbmes;
+    privbte Set<GenerblNbmeInterfbce> subjectAlternbtiveGenerblNbmes;
+    privbte CertificbtePolicySet policy;
+    privbte Set<String> policySet;
+    privbte Set<List<?>> pbthToNbmes;
+    privbte Set<GenerblNbmeInterfbce> pbthToGenerblNbmes;
+    privbte NbmeConstrbintsExtension nc;
+    privbte byte[] ncBytes;
+    privbte int bbsicConstrbints = -1;
+    privbte X509Certificbte x509Cert;
+    privbte boolebn mbtchAllSubjectAltNbmes = true;
 
-    private static final Boolean FALSE = Boolean.FALSE;
+    privbte stbtic finbl Boolebn FALSE = Boolebn.FALSE;
 
-    private static final int PRIVATE_KEY_USAGE_ID = 0;
-    private static final int SUBJECT_ALT_NAME_ID = 1;
-    private static final int NAME_CONSTRAINTS_ID = 2;
-    private static final int CERT_POLICIES_ID = 3;
-    private static final int EXTENDED_KEY_USAGE_ID = 4;
-    private static final int NUM_OF_EXTENSIONS = 5;
-    private static final String[] EXTENSION_OIDS = new String[NUM_OF_EXTENSIONS];
+    privbte stbtic finbl int PRIVATE_KEY_USAGE_ID = 0;
+    privbte stbtic finbl int SUBJECT_ALT_NAME_ID = 1;
+    privbte stbtic finbl int NAME_CONSTRAINTS_ID = 2;
+    privbte stbtic finbl int CERT_POLICIES_ID = 3;
+    privbte stbtic finbl int EXTENDED_KEY_USAGE_ID = 4;
+    privbte stbtic finbl int NUM_OF_EXTENSIONS = 5;
+    privbte stbtic finbl String[] EXTENSION_OIDS = new String[NUM_OF_EXTENSIONS];
 
-    static {
+    stbtic {
         EXTENSION_OIDS[PRIVATE_KEY_USAGE_ID]  = "2.5.29.16";
         EXTENSION_OIDS[SUBJECT_ALT_NAME_ID]   = "2.5.29.17";
         EXTENSION_OIDS[NAME_CONSTRAINTS_ID]   = "2.5.29.30";
@@ -137,228 +137,228 @@ public class X509CertSelector implements CertSelector {
         EXTENSION_OIDS[EXTENDED_KEY_USAGE_ID] = "2.5.29.37";
     };
 
-    /* Constants representing the GeneralName types */
-    static final int NAME_ANY = 0;
-    static final int NAME_RFC822 = 1;
-    static final int NAME_DNS = 2;
-    static final int NAME_X400 = 3;
-    static final int NAME_DIRECTORY = 4;
-    static final int NAME_EDI = 5;
-    static final int NAME_URI = 6;
-    static final int NAME_IP = 7;
-    static final int NAME_OID = 8;
+    /* Constbnts representing the GenerblNbme types */
+    stbtic finbl int NAME_ANY = 0;
+    stbtic finbl int NAME_RFC822 = 1;
+    stbtic finbl int NAME_DNS = 2;
+    stbtic finbl int NAME_X400 = 3;
+    stbtic finbl int NAME_DIRECTORY = 4;
+    stbtic finbl int NAME_EDI = 5;
+    stbtic finbl int NAME_URI = 6;
+    stbtic finbl int NAME_IP = 7;
+    stbtic finbl int NAME_OID = 8;
 
     /**
-     * Creates an {@code X509CertSelector}. Initially, no criteria are set
-     * so any {@code X509Certificate} will match.
+     * Crebtes bn {@code X509CertSelector}. Initiblly, no criterib bre set
+     * so bny {@code X509Certificbte} will mbtch.
      */
     public X509CertSelector() {
         // empty
     }
 
     /**
-     * Sets the certificateEquals criterion. The specified
-     * {@code X509Certificate} must be equal to the
-     * {@code X509Certificate} passed to the {@code match} method.
-     * If {@code null}, then this check is not applied.
+     * Sets the certificbteEqubls criterion. The specified
+     * {@code X509Certificbte} must be equbl to the
+     * {@code X509Certificbte} pbssed to the {@code mbtch} method.
+     * If {@code null}, then this check is not bpplied.
      *
-     * <p>This method is particularly useful when it is necessary to
-     * match a single certificate. Although other criteria can be specified
-     * in conjunction with the certificateEquals criterion, it is usually not
-     * practical or necessary.
+     * <p>This method is pbrticulbrly useful when it is necessbry to
+     * mbtch b single certificbte. Although other criterib cbn be specified
+     * in conjunction with the certificbteEqubls criterion, it is usublly not
+     * prbcticbl or necessbry.
      *
-     * @param cert the {@code X509Certificate} to match (or
+     * @pbrbm cert the {@code X509Certificbte} to mbtch (or
      * {@code null})
-     * @see #getCertificate
+     * @see #getCertificbte
      */
-    public void setCertificate(X509Certificate cert) {
+    public void setCertificbte(X509Certificbte cert) {
         x509Cert = cert;
     }
 
     /**
-     * Sets the serialNumber criterion. The specified serial number
-     * must match the certificate serial number in the
-     * {@code X509Certificate}. If {@code null}, any certificate
-     * serial number will do.
+     * Sets the seriblNumber criterion. The specified seribl number
+     * must mbtch the certificbte seribl number in the
+     * {@code X509Certificbte}. If {@code null}, bny certificbte
+     * seribl number will do.
      *
-     * @param serial the certificate serial number to match
+     * @pbrbm seribl the certificbte seribl number to mbtch
      *        (or {@code null})
-     * @see #getSerialNumber
+     * @see #getSeriblNumber
      */
-    public void setSerialNumber(BigInteger serial) {
-        serialNumber = serial;
+    public void setSeriblNumber(BigInteger seribl) {
+        seriblNumber = seribl;
     }
 
     /**
-     * Sets the issuer criterion. The specified distinguished name
-     * must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null}, any issuer
-     * distinguished name will do.
+     * Sets the issuer criterion. The specified distinguished nbme
+     * must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, bny issuer
+     * distinguished nbme will do.
      *
-     * @param issuer a distinguished name as X500Principal
+     * @pbrbm issuer b distinguished nbme bs X500Principbl
      *                 (or {@code null})
      * @since 1.5
      */
-    public void setIssuer(X500Principal issuer) {
+    public void setIssuer(X500Principbl issuer) {
         this.issuer = issuer;
     }
 
     /**
-     * <strong>Denigrated</strong>, use {@linkplain #setIssuer(X500Principal)}
-     * or {@linkplain #setIssuer(byte[])} instead. This method should not be
-     * relied on as it can fail to match some certificates because of a loss of
-     * encoding information in the
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> String form
-     * of some distinguished names.
+     * <strong>Denigrbted</strong>, use {@linkplbin #setIssuer(X500Principbl)}
+     * or {@linkplbin #setIssuer(byte[])} instebd. This method should not be
+     * relied on bs it cbn fbil to mbtch some certificbtes becbuse of b loss of
+     * encoding informbtion in the
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b> String form
+     * of some distinguished nbmes.
      * <p>
-     * Sets the issuer criterion. The specified distinguished name
-     * must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null}, any issuer
-     * distinguished name will do.
+     * Sets the issuer criterion. The specified distinguished nbme
+     * must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, bny issuer
+     * distinguished nbme will do.
      * <p>
-     * If {@code issuerDN} is not {@code null}, it should contain a
-     * distinguished name, in RFC 2253 format.
+     * If {@code issuerDN} is not {@code null}, it should contbin b
+     * distinguished nbme, in RFC 2253 formbt.
      *
-     * @param issuerDN a distinguished name in RFC 2253 format
+     * @pbrbm issuerDN b distinguished nbme in RFC 2253 formbt
      *                 (or {@code null})
-     * @throws IOException if a parsing error occurs (incorrect form for DN)
+     * @throws IOException if b pbrsing error occurs (incorrect form for DN)
      */
     public void setIssuer(String issuerDN) throws IOException {
         if (issuerDN == null) {
             issuer = null;
         } else {
-            issuer = new X500Name(issuerDN).asX500Principal();
+            issuer = new X500Nbme(issuerDN).bsX500Principbl();
         }
     }
 
     /**
-     * Sets the issuer criterion. The specified distinguished name
-     * must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null} is specified,
-     * the issuer criterion is disabled and any issuer distinguished name will
+     * Sets the issuer criterion. The specified distinguished nbme
+     * must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null} is specified,
+     * the issuer criterion is disbbled bnd bny issuer distinguished nbme will
      * do.
      * <p>
-     * If {@code issuerDN} is not {@code null}, it should contain a
-     * single DER encoded distinguished name, as defined in X.501. The ASN.1
-     * notation for this structure is as follows.
+     * If {@code issuerDN} is not {@code null}, it should contbin b
+     * single DER encoded distinguished nbme, bs defined in X.501. The ASN.1
+     * notbtion for this structure is bs follows.
      * <pre>{@code
-     * Name ::= CHOICE {
+     * Nbme ::= CHOICE {
      *   RDNSequence }
      *
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+     * RDNSequence ::= SEQUENCE OF RelbtiveDistinguishedNbme
      *
-     * RelativeDistinguishedName ::=
-     *   SET SIZE (1 .. MAX) OF AttributeTypeAndValue
+     * RelbtiveDistinguishedNbme ::=
+     *   SET SIZE (1 .. MAX) OF AttributeTypeAndVblue
      *
-     * AttributeTypeAndValue ::= SEQUENCE {
+     * AttributeTypeAndVblue ::= SEQUENCE {
      *   type     AttributeType,
-     *   value    AttributeValue }
+     *   vblue    AttributeVblue }
      *
      * AttributeType ::= OBJECT IDENTIFIER
      *
-     * AttributeValue ::= ANY DEFINED BY AttributeType
+     * AttributeVblue ::= ANY DEFINED BY AttributeType
      * ....
      * DirectoryString ::= CHOICE {
      *       teletexString           TeletexString (SIZE (1..MAX)),
-     *       printableString         PrintableString (SIZE (1..MAX)),
-     *       universalString         UniversalString (SIZE (1..MAX)),
+     *       printbbleString         PrintbbleString (SIZE (1..MAX)),
+     *       universblString         UniversblString (SIZE (1..MAX)),
      *       utf8String              UTF8String (SIZE (1.. MAX)),
      *       bmpString               BMPString (SIZE (1..MAX)) }
      * }</pre>
      * <p>
-     * Note that the byte array specified here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby specified here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param issuerDN a byte array containing the distinguished name
+     * @pbrbm issuerDN b byte brrby contbining the distinguished nbme
      *                 in ASN.1 DER encoded form (or {@code null})
-     * @throws IOException if an encoding error occurs (incorrect form for DN)
+     * @throws IOException if bn encoding error occurs (incorrect form for DN)
      */
     public void setIssuer(byte[] issuerDN) throws IOException {
         try {
-            issuer = (issuerDN == null ? null : new X500Principal(issuerDN));
-        } catch (IllegalArgumentException e) {
-            throw new IOException("Invalid name", e);
+            issuer = (issuerDN == null ? null : new X500Principbl(issuerDN));
+        } cbtch (IllegblArgumentException e) {
+            throw new IOException("Invblid nbme", e);
         }
     }
 
     /**
-     * Sets the subject criterion. The specified distinguished name
-     * must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, any subject
-     * distinguished name will do.
+     * Sets the subject criterion. The specified distinguished nbme
+     * must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, bny subject
+     * distinguished nbme will do.
      *
-     * @param subject a distinguished name as X500Principal
+     * @pbrbm subject b distinguished nbme bs X500Principbl
      *                  (or {@code null})
      * @since 1.5
      */
-    public void setSubject(X500Principal subject) {
+    public void setSubject(X500Principbl subject) {
         this.subject = subject;
     }
 
     /**
-     * <strong>Denigrated</strong>, use {@linkplain #setSubject(X500Principal)}
-     * or {@linkplain #setSubject(byte[])} instead. This method should not be
-     * relied on as it can fail to match some certificates because of a loss of
-     * encoding information in the RFC 2253 String form of some distinguished
-     * names.
+     * <strong>Denigrbted</strong>, use {@linkplbin #setSubject(X500Principbl)}
+     * or {@linkplbin #setSubject(byte[])} instebd. This method should not be
+     * relied on bs it cbn fbil to mbtch some certificbtes becbuse of b loss of
+     * encoding informbtion in the RFC 2253 String form of some distinguished
+     * nbmes.
      * <p>
-     * Sets the subject criterion. The specified distinguished name
-     * must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, any subject
-     * distinguished name will do.
+     * Sets the subject criterion. The specified distinguished nbme
+     * must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, bny subject
+     * distinguished nbme will do.
      * <p>
-     * If {@code subjectDN} is not {@code null}, it should contain a
-     * distinguished name, in RFC 2253 format.
+     * If {@code subjectDN} is not {@code null}, it should contbin b
+     * distinguished nbme, in RFC 2253 formbt.
      *
-     * @param subjectDN a distinguished name in RFC 2253 format
+     * @pbrbm subjectDN b distinguished nbme in RFC 2253 formbt
      *                  (or {@code null})
-     * @throws IOException if a parsing error occurs (incorrect form for DN)
+     * @throws IOException if b pbrsing error occurs (incorrect form for DN)
      */
     public void setSubject(String subjectDN) throws IOException {
         if (subjectDN == null) {
             subject = null;
         } else {
-            subject = new X500Name(subjectDN).asX500Principal();
+            subject = new X500Nbme(subjectDN).bsX500Principbl();
         }
     }
 
     /**
-     * Sets the subject criterion. The specified distinguished name
-     * must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, any subject
-     * distinguished name will do.
+     * Sets the subject criterion. The specified distinguished nbme
+     * must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, bny subject
+     * distinguished nbme will do.
      * <p>
-     * If {@code subjectDN} is not {@code null}, it should contain a
-     * single DER encoded distinguished name, as defined in X.501. For the ASN.1
-     * notation for this structure, see
+     * If {@code subjectDN} is not {@code null}, it should contbin b
+     * single DER encoded distinguished nbme, bs defined in X.501. For the ASN.1
+     * notbtion for this structure, see
      * {@link #setIssuer(byte [] issuerDN) setIssuer(byte [] issuerDN)}.
      *
-     * @param subjectDN a byte array containing the distinguished name in
-     *                  ASN.1 DER format (or {@code null})
-     * @throws IOException if an encoding error occurs (incorrect form for DN)
+     * @pbrbm subjectDN b byte brrby contbining the distinguished nbme in
+     *                  ASN.1 DER formbt (or {@code null})
+     * @throws IOException if bn encoding error occurs (incorrect form for DN)
      */
     public void setSubject(byte[] subjectDN) throws IOException {
         try {
-            subject = (subjectDN == null ? null : new X500Principal(subjectDN));
-        } catch (IllegalArgumentException e) {
-            throw new IOException("Invalid name", e);
+            subject = (subjectDN == null ? null : new X500Principbl(subjectDN));
+        } cbtch (IllegblArgumentException e) {
+            throw new IOException("Invblid nbme", e);
         }
     }
 
     /**
      * Sets the subjectKeyIdentifier criterion. The
-     * {@code X509Certificate} must contain a SubjectKeyIdentifier
+     * {@code X509Certificbte} must contbin b SubjectKeyIdentifier
      * extension for which the contents of the extension
-     * matches the specified criterion value.
-     * If the criterion value is {@code null}, no
+     * mbtches the specified criterion vblue.
+     * If the criterion vblue is {@code null}, no
      * subjectKeyIdentifier check will be done.
      * <p>
      * If {@code subjectKeyID} is not {@code null}, it
-     * should contain a single DER encoded value corresponding to the contents
-     * of the extension value (not including the object identifier,
-     * criticality setting, and encapsulating OCTET STRING)
-     * for a SubjectKeyIdentifier extension.
-     * The ASN.1 notation for this structure follows.
+     * should contbin b single DER encoded vblue corresponding to the contents
+     * of the extension vblue (not including the object identifier,
+     * criticblity setting, bnd encbpsulbting OCTET STRING)
+     * for b SubjectKeyIdentifier extension.
+     * The ASN.1 notbtion for this structure follows.
      *
      * <pre>{@code
      * SubjectKeyIdentifier ::= KeyIdentifier
@@ -366,15 +366,15 @@ public class X509CertSelector implements CertSelector {
      * KeyIdentifier ::= OCTET STRING
      * }</pre>
      * <p>
-     * Since the format of subject key identifiers is not mandated by
-     * any standard, subject key identifiers are not parsed by the
-     * {@code X509CertSelector}. Instead, the values are compared using
-     * a byte-by-byte comparison.
+     * Since the formbt of subject key identifiers is not mbndbted by
+     * bny stbndbrd, subject key identifiers bre not pbrsed by the
+     * {@code X509CertSelector}. Instebd, the vblues bre compbred using
+     * b byte-by-byte compbrison.
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param subjectKeyID the subject key identifier (or {@code null})
+     * @pbrbm subjectKeyID the subject key identifier (or {@code null})
      * @see #getSubjectKeyIdentifier
      */
     public void setSubjectKeyIdentifier(byte[] subjectKeyID) {
@@ -386,119 +386,119 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Sets the authorityKeyIdentifier criterion. The
-     * {@code X509Certificate} must contain an
+     * Sets the buthorityKeyIdentifier criterion. The
+     * {@code X509Certificbte} must contbin bn
      * AuthorityKeyIdentifier extension for which the contents of the
-     * extension value matches the specified criterion value.
-     * If the criterion value is {@code null}, no
-     * authorityKeyIdentifier check will be done.
+     * extension vblue mbtches the specified criterion vblue.
+     * If the criterion vblue is {@code null}, no
+     * buthorityKeyIdentifier check will be done.
      * <p>
-     * If {@code authorityKeyID} is not {@code null}, it
-     * should contain a single DER encoded value corresponding to the contents
-     * of the extension value (not including the object identifier,
-     * criticality setting, and encapsulating OCTET STRING)
-     * for an AuthorityKeyIdentifier extension.
-     * The ASN.1 notation for this structure follows.
+     * If {@code buthorityKeyID} is not {@code null}, it
+     * should contbin b single DER encoded vblue corresponding to the contents
+     * of the extension vblue (not including the object identifier,
+     * criticblity setting, bnd encbpsulbting OCTET STRING)
+     * for bn AuthorityKeyIdentifier extension.
+     * The ASN.1 notbtion for this structure follows.
      *
      * <pre>{@code
      * AuthorityKeyIdentifier ::= SEQUENCE {
      *    keyIdentifier             [0] KeyIdentifier           OPTIONAL,
-     *    authorityCertIssuer       [1] GeneralNames            OPTIONAL,
-     *    authorityCertSerialNumber [2] CertificateSerialNumber OPTIONAL  }
+     *    buthorityCertIssuer       [1] GenerblNbmes            OPTIONAL,
+     *    buthorityCertSeriblNumber [2] CertificbteSeriblNumber OPTIONAL  }
      *
      * KeyIdentifier ::= OCTET STRING
      * }</pre>
      * <p>
-     * Authority key identifiers are not parsed by the
-     * {@code X509CertSelector}.  Instead, the values are
-     * compared using a byte-by-byte comparison.
+     * Authority key identifiers bre not pbrsed by the
+     * {@code X509CertSelector}.  Instebd, the vblues bre
+     * compbred using b byte-by-byte compbrison.
      * <p>
      * When the {@code keyIdentifier} field of
-     * {@code AuthorityKeyIdentifier} is populated, the value is
-     * usually taken from the {@code SubjectKeyIdentifier} extension
-     * in the issuer's certificate.  Note, however, that the result of
-     * {@code X509Certificate.getExtensionValue(<SubjectKeyIdentifier Object
-     * Identifier>)} on the issuer's certificate may NOT be used
-     * directly as the input to {@code setAuthorityKeyIdentifier}.
-     * This is because the SubjectKeyIdentifier contains
-     * only a KeyIdentifier OCTET STRING, and not a SEQUENCE of
-     * KeyIdentifier, GeneralNames, and CertificateSerialNumber.
-     * In order to use the extension value of the issuer certificate's
+     * {@code AuthorityKeyIdentifier} is populbted, the vblue is
+     * usublly tbken from the {@code SubjectKeyIdentifier} extension
+     * in the issuer's certificbte.  Note, however, thbt the result of
+     * {@code X509Certificbte.getExtensionVblue(<SubjectKeyIdentifier Object
+     * Identifier>)} on the issuer's certificbte mby NOT be used
+     * directly bs the input to {@code setAuthorityKeyIdentifier}.
+     * This is becbuse the SubjectKeyIdentifier contbins
+     * only b KeyIdentifier OCTET STRING, bnd not b SEQUENCE of
+     * KeyIdentifier, GenerblNbmes, bnd CertificbteSeriblNumber.
+     * In order to use the extension vblue of the issuer certificbte's
      * {@code SubjectKeyIdentifier}
-     * extension, it will be necessary to extract the value of the embedded
+     * extension, it will be necessbry to extrbct the vblue of the embedded
      * {@code KeyIdentifier} OCTET STRING, then DER encode this OCTET
-     * STRING inside a SEQUENCE.
-     * For more details on SubjectKeyIdentifier, see
+     * STRING inside b SEQUENCE.
+     * For more detbils on SubjectKeyIdentifier, see
      * {@link #setSubjectKeyIdentifier(byte[] subjectKeyID)}.
      * <p>
-     * Note also that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note blso thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param authorityKeyID the authority key identifier
+     * @pbrbm buthorityKeyID the buthority key identifier
      *        (or {@code null})
      * @see #getAuthorityKeyIdentifier
      */
-    public void setAuthorityKeyIdentifier(byte[] authorityKeyID) {
-        if (authorityKeyID == null) {
-            this.authorityKeyID = null;
+    public void setAuthorityKeyIdentifier(byte[] buthorityKeyID) {
+        if (buthorityKeyID == null) {
+            this.buthorityKeyID = null;
         } else {
-            this.authorityKeyID = authorityKeyID.clone();
+            this.buthorityKeyID = buthorityKeyID.clone();
         }
     }
 
     /**
-     * Sets the certificateValid criterion. The specified date must fall
-     * within the certificate validity period for the
-     * {@code X509Certificate}. If {@code null}, no certificateValid
+     * Sets the certificbteVblid criterion. The specified dbte must fbll
+     * within the certificbte vblidity period for the
+     * {@code X509Certificbte}. If {@code null}, no certificbteVblid
      * check will be done.
      * <p>
-     * Note that the {@code Date} supplied here is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the {@code Dbte} supplied here is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param certValid the {@code Date} to check (or {@code null})
-     * @see #getCertificateValid
+     * @pbrbm certVblid the {@code Dbte} to check (or {@code null})
+     * @see #getCertificbteVblid
      */
-    public void setCertificateValid(Date certValid) {
-        if (certValid == null) {
-            certificateValid = null;
+    public void setCertificbteVblid(Dbte certVblid) {
+        if (certVblid == null) {
+            certificbteVblid = null;
         } else {
-            certificateValid = (Date)certValid.clone();
+            certificbteVblid = (Dbte)certVblid.clone();
         }
     }
 
     /**
-     * Sets the privateKeyValid criterion. The specified date must fall
-     * within the private key validity period for the
-     * {@code X509Certificate}. If {@code null}, no privateKeyValid
+     * Sets the privbteKeyVblid criterion. The specified dbte must fbll
+     * within the privbte key vblidity period for the
+     * {@code X509Certificbte}. If {@code null}, no privbteKeyVblid
      * check will be done.
      * <p>
-     * Note that the {@code Date} supplied here is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the {@code Dbte} supplied here is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param privateKeyValid the {@code Date} to check (or
+     * @pbrbm privbteKeyVblid the {@code Dbte} to check (or
      *                        {@code null})
-     * @see #getPrivateKeyValid
+     * @see #getPrivbteKeyVblid
      */
-    public void setPrivateKeyValid(Date privateKeyValid) {
-        if (privateKeyValid == null) {
-            this.privateKeyValid = null;
+    public void setPrivbteKeyVblid(Dbte privbteKeyVblid) {
+        if (privbteKeyVblid == null) {
+            this.privbteKeyVblid = null;
         } else {
-            this.privateKeyValid = (Date)privateKeyValid.clone();
+            this.privbteKeyVblid = (Dbte)privbteKeyVblid.clone();
         }
     }
 
     /**
      * Sets the subjectPublicKeyAlgID criterion. The
-     * {@code X509Certificate} must contain a subject public key
-     * with the specified algorithm. If {@code null}, no
+     * {@code X509Certificbte} must contbin b subject public key
+     * with the specified blgorithm. If {@code null}, no
      * subjectPublicKeyAlgID check will be done.
      *
-     * @param oid The object identifier (OID) of the algorithm to check
-     *            for (or {@code null}). An OID is represented by a
-     *            set of nonnegative integers separated by periods.
-     * @throws IOException if the OID is invalid, such as
+     * @pbrbm oid The object identifier (OID) of the blgorithm to check
+     *            for (or {@code null}). An OID is represented by b
+     *            set of nonnegbtive integers sepbrbted by periods.
+     * @throws IOException if the OID is invblid, such bs
      * the first component being not 0, 1 or 2 or the second component
-     * being greater than 39.
+     * being grebter thbn 39.
      *
      * @see #getSubjectPublicKeyAlgID
      */
@@ -512,10 +512,10 @@ public class X509CertSelector implements CertSelector {
 
     /**
      * Sets the subjectPublicKey criterion. The
-     * {@code X509Certificate} must contain the specified subject public
+     * {@code X509Certificbte} must contbin the specified subject public
      * key. If {@code null}, no subjectPublicKey check will be done.
      *
-     * @param key the subject public key to check for (or {@code null})
+     * @pbrbm key the subject public key to check for (or {@code null})
      * @see #getSubjectPublicKey
      */
     public void setSubjectPublicKey(PublicKey key) {
@@ -529,35 +529,35 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Sets the subjectPublicKey criterion. The {@code X509Certificate}
-     * must contain the specified subject public key. If {@code null},
+     * Sets the subjectPublicKey criterion. The {@code X509Certificbte}
+     * must contbin the specified subject public key. If {@code null},
      * no subjectPublicKey check will be done.
      * <p>
-     * Because this method allows the public key to be specified as a byte
-     * array, it may be used for unknown key types.
+     * Becbuse this method bllows the public key to be specified bs b byte
+     * brrby, it mby be used for unknown key types.
      * <p>
-     * If {@code key} is not {@code null}, it should contain a
-     * single DER encoded SubjectPublicKeyInfo structure, as defined in X.509.
-     * The ASN.1 notation for this structure is as follows.
+     * If {@code key} is not {@code null}, it should contbin b
+     * single DER encoded SubjectPublicKeyInfo structure, bs defined in X.509.
+     * The ASN.1 notbtion for this structure is bs follows.
      * <pre>{@code
      * SubjectPublicKeyInfo  ::=  SEQUENCE  {
-     *   algorithm            AlgorithmIdentifier,
+     *   blgorithm            AlgorithmIdentifier,
      *   subjectPublicKey     BIT STRING  }
      *
      * AlgorithmIdentifier  ::=  SEQUENCE  {
-     *   algorithm               OBJECT IDENTIFIER,
-     *   parameters              ANY DEFINED BY algorithm OPTIONAL  }
-     *                              -- contains a value of the type
+     *   blgorithm               OBJECT IDENTIFIER,
+     *   pbrbmeters              ANY DEFINED BY blgorithm OPTIONAL  }
+     *                              -- contbins b vblue of the type
      *                              -- registered for use with the
-     *                              -- algorithm object identifier value
+     *                              -- blgorithm object identifier vblue
      * }</pre>
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param key a byte array containing the subject public key in ASN.1 DER
+     * @pbrbm key b byte brrby contbining the subject public key in ASN.1 DER
      *            form (or {@code null})
-     * @throws IOException if an encoding error occurs (incorrect form for
+     * @throws IOException if bn encoding error occurs (incorrect form for
      * subject public key)
      * @see #getSubjectPublicKey
      */
@@ -567,526 +567,526 @@ public class X509CertSelector implements CertSelector {
             subjectPublicKeyBytes = null;
         } else {
             subjectPublicKeyBytes = key.clone();
-            subjectPublicKey = X509Key.parse(new DerValue(subjectPublicKeyBytes));
+            subjectPublicKey = X509Key.pbrse(new DerVblue(subjectPublicKeyBytes));
         }
     }
 
     /**
-     * Sets the keyUsage criterion. The {@code X509Certificate}
-     * must allow the specified keyUsage values. If {@code null}, no
-     * keyUsage check will be done. Note that an {@code X509Certificate}
-     * that has no keyUsage extension implicitly allows all keyUsage values.
+     * Sets the keyUsbge criterion. The {@code X509Certificbte}
+     * must bllow the specified keyUsbge vblues. If {@code null}, no
+     * keyUsbge check will be done. Note thbt bn {@code X509Certificbte}
+     * thbt hbs no keyUsbge extension implicitly bllows bll keyUsbge vblues.
      * <p>
-     * Note that the boolean array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the boolebn brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param keyUsage a boolean array in the same format as the boolean
-     *                 array returned by
-     * {@link X509Certificate#getKeyUsage() X509Certificate.getKeyUsage()}.
+     * @pbrbm keyUsbge b boolebn brrby in the sbme formbt bs the boolebn
+     *                 brrby returned by
+     * {@link X509Certificbte#getKeyUsbge() X509Certificbte.getKeyUsbge()}.
      *                 Or {@code null}.
-     * @see #getKeyUsage
+     * @see #getKeyUsbge
      */
-    public void setKeyUsage(boolean[] keyUsage) {
-        if (keyUsage == null) {
-            this.keyUsage = null;
+    public void setKeyUsbge(boolebn[] keyUsbge) {
+        if (keyUsbge == null) {
+            this.keyUsbge = null;
         } else {
-            this.keyUsage = keyUsage.clone();
+            this.keyUsbge = keyUsbge.clone();
         }
     }
 
     /**
-     * Sets the extendedKeyUsage criterion. The {@code X509Certificate}
-     * must allow the specified key purposes in its extended key usage
+     * Sets the extendedKeyUsbge criterion. The {@code X509Certificbte}
+     * must bllow the specified key purposes in its extended key usbge
      * extension. If {@code keyPurposeSet} is empty or {@code null},
-     * no extendedKeyUsage check will be done. Note that an
-     * {@code X509Certificate} that has no extendedKeyUsage extension
-     * implicitly allows all key purposes.
+     * no extendedKeyUsbge check will be done. Note thbt bn
+     * {@code X509Certificbte} thbt hbs no extendedKeyUsbge extension
+     * implicitly bllows bll key purposes.
      * <p>
-     * Note that the {@code Set} is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Set} is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param keyPurposeSet a {@code Set} of key purpose OIDs in string
-     * format (or {@code null}). Each OID is represented by a set of
-     * nonnegative integers separated by periods.
-     * @throws IOException if the OID is invalid, such as
+     * @pbrbm keyPurposeSet b {@code Set} of key purpose OIDs in string
+     * formbt (or {@code null}). Ebch OID is represented by b set of
+     * nonnegbtive integers sepbrbted by periods.
+     * @throws IOException if the OID is invblid, such bs
      * the first component being not 0, 1 or 2 or the second component
-     * being greater than 39.
-     * @see #getExtendedKeyUsage
+     * being grebter thbn 39.
+     * @see #getExtendedKeyUsbge
      */
-    public void setExtendedKeyUsage(Set<String> keyPurposeSet) throws IOException {
+    public void setExtendedKeyUsbge(Set<String> keyPurposeSet) throws IOException {
         if ((keyPurposeSet == null) || keyPurposeSet.isEmpty()) {
             this.keyPurposeSet = null;
             keyPurposeOIDSet = null;
         } else {
             this.keyPurposeSet =
-                Collections.unmodifiableSet(new HashSet<String>(keyPurposeSet));
-            keyPurposeOIDSet = new HashSet<ObjectIdentifier>();
+                Collections.unmodifibbleSet(new HbshSet<String>(keyPurposeSet));
+            keyPurposeOIDSet = new HbshSet<ObjectIdentifier>();
             for (String s : this.keyPurposeSet) {
-                keyPurposeOIDSet.add(new ObjectIdentifier(s));
+                keyPurposeOIDSet.bdd(new ObjectIdentifier(s));
             }
         }
     }
 
     /**
-     * Enables/disables matching all of the subjectAlternativeNames
-     * specified in the {@link #setSubjectAlternativeNames
-     * setSubjectAlternativeNames} or {@link #addSubjectAlternativeName
-     * addSubjectAlternativeName} methods. If enabled,
-     * the {@code X509Certificate} must contain all of the
-     * specified subject alternative names. If disabled, the
-     * {@code X509Certificate} must contain at least one of the
-     * specified subject alternative names.
+     * Enbbles/disbbles mbtching bll of the subjectAlternbtiveNbmes
+     * specified in the {@link #setSubjectAlternbtiveNbmes
+     * setSubjectAlternbtiveNbmes} or {@link #bddSubjectAlternbtiveNbme
+     * bddSubjectAlternbtiveNbme} methods. If enbbled,
+     * the {@code X509Certificbte} must contbin bll of the
+     * specified subject blternbtive nbmes. If disbbled, the
+     * {@code X509Certificbte} must contbin bt lebst one of the
+     * specified subject blternbtive nbmes.
      *
-     * <p>The matchAllNames flag is {@code true} by default.
+     * <p>The mbtchAllNbmes flbg is {@code true} by defbult.
      *
-     * @param matchAllNames if {@code true}, the flag is enabled;
-     * if {@code false}, the flag is disabled.
-     * @see #getMatchAllSubjectAltNames
+     * @pbrbm mbtchAllNbmes if {@code true}, the flbg is enbbled;
+     * if {@code fblse}, the flbg is disbbled.
+     * @see #getMbtchAllSubjectAltNbmes
      */
-    public void setMatchAllSubjectAltNames(boolean matchAllNames) {
-        this.matchAllSubjectAltNames = matchAllNames;
+    public void setMbtchAllSubjectAltNbmes(boolebn mbtchAllNbmes) {
+        this.mbtchAllSubjectAltNbmes = mbtchAllNbmes;
     }
 
     /**
-     * Sets the subjectAlternativeNames criterion. The
-     * {@code X509Certificate} must contain all or at least one of the
-     * specified subjectAlternativeNames, depending on the value of
-     * the matchAllNames flag (see {@link #setMatchAllSubjectAltNames
-     * setMatchAllSubjectAltNames}).
+     * Sets the subjectAlternbtiveNbmes criterion. The
+     * {@code X509Certificbte} must contbin bll or bt lebst one of the
+     * specified subjectAlternbtiveNbmes, depending on the vblue of
+     * the mbtchAllNbmes flbg (see {@link #setMbtchAllSubjectAltNbmes
+     * setMbtchAllSubjectAltNbmes}).
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of subject alternative names for the
-     * subjectAlternativeNames criterion. The specified value replaces
-     * the previous value for the subjectAlternativeNames criterion.
+     * This method bllows the cbller to specify, with b single method cbll,
+     * the complete set of subject blternbtive nbmes for the
+     * subjectAlternbtiveNbmes criterion. The specified vblue replbces
+     * the previous vblue for the subjectAlternbtiveNbmes criterion.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
+     * The {@code nbmes} pbrbmeter (if not {@code null}) is b
      * {@code Collection} with one
-     * entry for each name to be included in the subject alternative name
-     * criterion. Each entry is a {@code List} whose first entry is an
-     * {@code Integer} (the name type, 0-8) and whose second
-     * entry is a {@code String} or a byte array (the name, in
+     * entry for ebch nbme to be included in the subject blternbtive nbme
+     * criterion. Ebch entry is b {@code List} whose first entry is bn
+     * {@code Integer} (the nbme type, 0-8) bnd whose second
+     * entry is b {@code String} or b byte brrby (the nbme, in
      * string or ASN.1 DER encoded form, respectively).
-     * There can be multiple names of the same type. If {@code null}
-     * is supplied as the value for this argument, no
-     * subjectAlternativeNames check will be performed.
+     * There cbn be multiple nbmes of the sbme type. If {@code null}
+     * is supplied bs the vblue for this brgument, no
+     * subjectAlternbtiveNbmes check will be performed.
      * <p>
-     * Each subject alternative name in the {@code Collection}
-     * may be specified either as a {@code String} or as an ASN.1 encoded
-     * byte array. For more details about the formats used, see
-     * {@link #addSubjectAlternativeName(int type, String name)
-     * addSubjectAlternativeName(int type, String name)} and
-     * {@link #addSubjectAlternativeName(int type, byte [] name)
-     * addSubjectAlternativeName(int type, byte [] name)}.
+     * Ebch subject blternbtive nbme in the {@code Collection}
+     * mby be specified either bs b {@code String} or bs bn ASN.1 encoded
+     * byte brrby. For more detbils bbout the formbts used, see
+     * {@link #bddSubjectAlternbtiveNbme(int type, String nbme)
+     * bddSubjectAlternbtiveNbme(int type, String nbme)} bnd
+     * {@link #bddSubjectAlternbtiveNbme(int type, byte [] nbme)
+     * bddSubjectAlternbtiveNbme(int type, byte [] nbme)}.
      * <p>
-     * <strong>Note:</strong> for distinguished names, specify the byte
-     * array form instead of the String form. See the note in
-     * {@link #addSubjectAlternativeName(int, String)} for more information.
+     * <strong>Note:</strong> for distinguished nbmes, specify the byte
+     * brrby form instebd of the String form. See the note in
+     * {@link #bddSubjectAlternbtiveNbme(int, String)} for more informbtion.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * names (same name and name type), but they may be removed from the
-     * {@code Collection} of names returned by the
-     * {@link #getSubjectAlternativeNames getSubjectAlternativeNames} method.
+     * Note thbt the {@code nbmes} pbrbmeter cbn contbin duplicbte
+     * nbmes (sbme nbme bnd nbme type), but they mby be removed from the
+     * {@code Collection} of nbmes returned by the
+     * {@link #getSubjectAlternbtiveNbmes getSubjectAlternbtiveNbmes} method.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param names a {@code Collection} of names (or {@code null})
-     * @throws IOException if a parsing error occurs
-     * @see #getSubjectAlternativeNames
+     * @pbrbm nbmes b {@code Collection} of nbmes (or {@code null})
+     * @throws IOException if b pbrsing error occurs
+     * @see #getSubjectAlternbtiveNbmes
      */
-    public void setSubjectAlternativeNames(Collection<List<?>> names)
+    public void setSubjectAlternbtiveNbmes(Collection<List<?>> nbmes)
             throws IOException {
-        if (names == null) {
-            subjectAlternativeNames = null;
-            subjectAlternativeGeneralNames = null;
+        if (nbmes == null) {
+            subjectAlternbtiveNbmes = null;
+            subjectAlternbtiveGenerblNbmes = null;
         } else {
-            if (names.isEmpty()) {
-                subjectAlternativeNames = null;
-                subjectAlternativeGeneralNames = null;
+            if (nbmes.isEmpty()) {
+                subjectAlternbtiveNbmes = null;
+                subjectAlternbtiveGenerblNbmes = null;
                 return;
             }
-            Set<List<?>> tempNames = cloneAndCheckNames(names);
-            // Ensure that we either set both of these or neither
-            subjectAlternativeGeneralNames = parseNames(tempNames);
-            subjectAlternativeNames = tempNames;
+            Set<List<?>> tempNbmes = cloneAndCheckNbmes(nbmes);
+            // Ensure thbt we either set both of these or neither
+            subjectAlternbtiveGenerblNbmes = pbrseNbmes(tempNbmes);
+            subjectAlternbtiveNbmes = tempNbmes;
         }
     }
 
     /**
-     * Adds a name to the subjectAlternativeNames criterion. The
-     * {@code X509Certificate} must contain all or at least one
-     * of the specified subjectAlternativeNames, depending on the value of
-     * the matchAllNames flag (see {@link #setMatchAllSubjectAltNames
-     * setMatchAllSubjectAltNames}).
+     * Adds b nbme to the subjectAlternbtiveNbmes criterion. The
+     * {@code X509Certificbte} must contbin bll or bt lebst one
+     * of the specified subjectAlternbtiveNbmes, depending on the vblue of
+     * the mbtchAllNbmes flbg (see {@link #setMbtchAllSubjectAltNbmes
+     * setMbtchAllSubjectAltNbmes}).
      * <p>
-     * This method allows the caller to add a name to the set of subject
-     * alternative names.
-     * The specified name is added to any previous value for the
-     * subjectAlternativeNames criterion. If the specified name is a
-     * duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of subject
+     * blternbtive nbmes.
+     * The specified nbme is bdded to bny previous vblue for the
+     * subjectAlternbtiveNbmes criterion. If the specified nbme is b
+     * duplicbte, it mby be ignored.
      * <p>
-     * The name is provided in string format.
-     * <a href="http://www.ietf.org/rfc/rfc822.txt">RFC 822</a>, DNS, and URI
-     * names use the well-established string formats for those types (subject to
-     * the restrictions included in RFC 3280). IPv4 address names are
-     * supplied using dotted quad notation. OID address names are represented
-     * as a series of nonnegative integers separated by periods. And
-     * directory names (distinguished names) are supplied in RFC 2253 format.
-     * No standard string format is defined for otherNames, X.400 names,
-     * EDI party names, IPv6 address names, or any other type of names. They
+     * The nbme is provided in string formbt.
+     * <b href="http://www.ietf.org/rfc/rfc822.txt">RFC 822</b>, DNS, bnd URI
+     * nbmes use the well-estbblished string formbts for those types (subject to
+     * the restrictions included in RFC 3280). IPv4 bddress nbmes bre
+     * supplied using dotted qubd notbtion. OID bddress nbmes bre represented
+     * bs b series of nonnegbtive integers sepbrbted by periods. And
+     * directory nbmes (distinguished nbmes) bre supplied in RFC 2253 formbt.
+     * No stbndbrd string formbt is defined for otherNbmes, X.400 nbmes,
+     * EDI pbrty nbmes, IPv6 bddress nbmes, or bny other type of nbmes. They
      * should be specified using the
-     * {@link #addSubjectAlternativeName(int type, byte [] name)
-     * addSubjectAlternativeName(int type, byte [] name)}
+     * {@link #bddSubjectAlternbtiveNbme(int type, byte [] nbme)
+     * bddSubjectAlternbtiveNbme(int type, byte [] nbme)}
      * method.
      * <p>
-     * <strong>Note:</strong> for distinguished names, use
-     * {@linkplain #addSubjectAlternativeName(int, byte[])} instead.
-     * This method should not be relied on as it can fail to match some
-     * certificates because of a loss of encoding information in the RFC 2253
-     * String form of some distinguished names.
+     * <strong>Note:</strong> for distinguished nbmes, use
+     * {@linkplbin #bddSubjectAlternbtiveNbme(int, byte[])} instebd.
+     * This method should not be relied on bs it cbn fbil to mbtch some
+     * certificbtes becbuse of b loss of encoding informbtion in the RFC 2253
+     * String form of some distinguished nbmes.
      *
-     * @param type the name type (0-8, as specified in
+     * @pbrbm type the nbme type (0-8, bs specified in
      *             RFC 3280, section 4.2.1.7)
-     * @param name the name in string form (not {@code null})
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme the nbme in string form (not {@code null})
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addSubjectAlternativeName(int type, String name)
+    public void bddSubjectAlternbtiveNbme(int type, String nbme)
             throws IOException {
-        addSubjectAlternativeNameInternal(type, name);
+        bddSubjectAlternbtiveNbmeInternbl(type, nbme);
     }
 
     /**
-     * Adds a name to the subjectAlternativeNames criterion. The
-     * {@code X509Certificate} must contain all or at least one
-     * of the specified subjectAlternativeNames, depending on the value of
-     * the matchAllNames flag (see {@link #setMatchAllSubjectAltNames
-     * setMatchAllSubjectAltNames}).
+     * Adds b nbme to the subjectAlternbtiveNbmes criterion. The
+     * {@code X509Certificbte} must contbin bll or bt lebst one
+     * of the specified subjectAlternbtiveNbmes, depending on the vblue of
+     * the mbtchAllNbmes flbg (see {@link #setMbtchAllSubjectAltNbmes
+     * setMbtchAllSubjectAltNbmes}).
      * <p>
-     * This method allows the caller to add a name to the set of subject
-     * alternative names.
-     * The specified name is added to any previous value for the
-     * subjectAlternativeNames criterion. If the specified name is a
-     * duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of subject
+     * blternbtive nbmes.
+     * The specified nbme is bdded to bny previous vblue for the
+     * subjectAlternbtiveNbmes criterion. If the specified nbme is b
+     * duplicbte, it mby be ignored.
      * <p>
-     * The name is provided as a byte array. This byte array should contain
-     * the DER encoded name, as it would appear in the GeneralName structure
-     * defined in RFC 3280 and X.509. The encoded byte array should only contain
-     * the encoded value of the name, and should not include the tag associated
-     * with the name in the GeneralName structure. The ASN.1 definition of this
-     * structure appears below.
+     * The nbme is provided bs b byte brrby. This byte brrby should contbin
+     * the DER encoded nbme, bs it would bppebr in the GenerblNbme structure
+     * defined in RFC 3280 bnd X.509. The encoded byte brrby should only contbin
+     * the encoded vblue of the nbme, bnd should not include the tbg bssocibted
+     * with the nbme in the GenerblNbme structure. The ASN.1 definition of this
+     * structure bppebrs below.
      * <pre>{@code
-     *  GeneralName ::= CHOICE {
-     *       otherName                       [0]     OtherName,
-     *       rfc822Name                      [1]     IA5String,
-     *       dNSName                         [2]     IA5String,
+     *  GenerblNbme ::= CHOICE {
+     *       otherNbme                       [0]     OtherNbme,
+     *       rfc822Nbme                      [1]     IA5String,
+     *       dNSNbme                         [2]     IA5String,
      *       x400Address                     [3]     ORAddress,
-     *       directoryName                   [4]     Name,
-     *       ediPartyName                    [5]     EDIPartyName,
+     *       directoryNbme                   [4]     Nbme,
+     *       ediPbrtyNbme                    [5]     EDIPbrtyNbme,
      *       uniformResourceIdentifier       [6]     IA5String,
      *       iPAddress                       [7]     OCTET STRING,
      *       registeredID                    [8]     OBJECT IDENTIFIER}
      * }</pre>
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param type the name type (0-8, as listed above)
-     * @param name a byte array containing the name in ASN.1 DER encoded form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm type the nbme type (0-8, bs listed bbove)
+     * @pbrbm nbme b byte brrby contbining the nbme in ASN.1 DER encoded form
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addSubjectAlternativeName(int type, byte[] name)
+    public void bddSubjectAlternbtiveNbme(int type, byte[] nbme)
             throws IOException {
-        // clone because byte arrays are modifiable
-        addSubjectAlternativeNameInternal(type, name.clone());
+        // clone becbuse byte brrbys bre modifibble
+        bddSubjectAlternbtiveNbmeInternbl(type, nbme.clone());
     }
 
     /**
-     * A private method that adds a name (String or byte array) to the
-     * subjectAlternativeNames criterion. The {@code X509Certificate}
-     * must contain the specified subjectAlternativeName.
+     * A privbte method thbt bdds b nbme (String or byte brrby) to the
+     * subjectAlternbtiveNbmes criterion. The {@code X509Certificbte}
+     * must contbin the specified subjectAlternbtiveNbme.
      *
-     * @param type the name type (0-8, as specified in
+     * @pbrbm type the nbme type (0-8, bs specified in
      *             RFC 3280, section 4.2.1.7)
-     * @param name the name in string or byte array form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme the nbme in string or byte brrby form
+     * @throws IOException if b pbrsing error occurs
      */
-    private void addSubjectAlternativeNameInternal(int type, Object name)
+    privbte void bddSubjectAlternbtiveNbmeInternbl(int type, Object nbme)
             throws IOException {
-        // First, ensure that the name parses
-        GeneralNameInterface tempName = makeGeneralNameInterface(type, name);
-        if (subjectAlternativeNames == null) {
-            subjectAlternativeNames = new HashSet<List<?>>();
+        // First, ensure thbt the nbme pbrses
+        GenerblNbmeInterfbce tempNbme = mbkeGenerblNbmeInterfbce(type, nbme);
+        if (subjectAlternbtiveNbmes == null) {
+            subjectAlternbtiveNbmes = new HbshSet<List<?>>();
         }
-        if (subjectAlternativeGeneralNames == null) {
-            subjectAlternativeGeneralNames = new HashSet<GeneralNameInterface>();
+        if (subjectAlternbtiveGenerblNbmes == null) {
+            subjectAlternbtiveGenerblNbmes = new HbshSet<GenerblNbmeInterfbce>();
         }
-        List<Object> list = new ArrayList<Object>(2);
-        list.add(Integer.valueOf(type));
-        list.add(name);
-        subjectAlternativeNames.add(list);
-        subjectAlternativeGeneralNames.add(tempName);
+        List<Object> list = new ArrbyList<Object>(2);
+        list.bdd(Integer.vblueOf(type));
+        list.bdd(nbme);
+        subjectAlternbtiveNbmes.bdd(list);
+        subjectAlternbtiveGenerblNbmes.bdd(tempNbme);
     }
 
     /**
-     * Parse an argument of the form passed to setSubjectAlternativeNames,
-     * returning a {@code Collection} of
-     * {@code GeneralNameInterface}s.
-     * Throw an IllegalArgumentException or a ClassCastException
-     * if the argument is malformed.
+     * Pbrse bn brgument of the form pbssed to setSubjectAlternbtiveNbmes,
+     * returning b {@code Collection} of
+     * {@code GenerblNbmeInterfbce}s.
+     * Throw bn IllegblArgumentException or b ClbssCbstException
+     * if the brgument is mblformed.
      *
-     * @param names a Collection with one entry per name.
-     *              Each entry is a {@code List} whose first entry
-     *              is an Integer (the name type, 0-8) and whose second
-     *              entry is a String or a byte array (the name, in
+     * @pbrbm nbmes b Collection with one entry per nbme.
+     *              Ebch entry is b {@code List} whose first entry
+     *              is bn Integer (the nbme type, 0-8) bnd whose second
+     *              entry is b String or b byte brrby (the nbme, in
      *              string or ASN.1 DER encoded form, respectively).
-     *              There can be multiple names of the same type. Null is
-     *              not an acceptable value.
-     * @return a Set of {@code GeneralNameInterface}s
-     * @throws IOException if a parsing error occurs
+     *              There cbn be multiple nbmes of the sbme type. Null is
+     *              not bn bcceptbble vblue.
+     * @return b Set of {@code GenerblNbmeInterfbce}s
+     * @throws IOException if b pbrsing error occurs
      */
-    private static Set<GeneralNameInterface> parseNames(Collection<List<?>> names) throws IOException {
-        Set<GeneralNameInterface> genNames = new HashSet<GeneralNameInterface>();
-        for (List<?> nameList : names) {
-            if (nameList.size() != 2) {
-                throw new IOException("name list size not 2");
+    privbte stbtic Set<GenerblNbmeInterfbce> pbrseNbmes(Collection<List<?>> nbmes) throws IOException {
+        Set<GenerblNbmeInterfbce> genNbmes = new HbshSet<GenerblNbmeInterfbce>();
+        for (List<?> nbmeList : nbmes) {
+            if (nbmeList.size() != 2) {
+                throw new IOException("nbme list size not 2");
             }
-            Object o =  nameList.get(0);
-            if (!(o instanceof Integer)) {
-                throw new IOException("expected an Integer");
+            Object o =  nbmeList.get(0);
+            if (!(o instbnceof Integer)) {
+                throw new IOException("expected bn Integer");
             }
-            int nameType = ((Integer)o).intValue();
-            o = nameList.get(1);
-            genNames.add(makeGeneralNameInterface(nameType, o));
+            int nbmeType = ((Integer)o).intVblue();
+            o = nbmeList.get(1);
+            genNbmes.bdd(mbkeGenerblNbmeInterfbce(nbmeType, o));
         }
 
-        return genNames;
+        return genNbmes;
     }
 
     /**
-     * Compare for equality two objects of the form passed to
-     * setSubjectAlternativeNames (or X509CRLSelector.setIssuerNames).
-     * Throw an {@code IllegalArgumentException} or a
-     * {@code ClassCastException} if one of the objects is malformed.
+     * Compbre for equblity two objects of the form pbssed to
+     * setSubjectAlternbtiveNbmes (or X509CRLSelector.setIssuerNbmes).
+     * Throw bn {@code IllegblArgumentException} or b
+     * {@code ClbssCbstException} if one of the objects is mblformed.
      *
-     * @param object1 a Collection containing the first object to compare
-     * @param object2 a Collection containing the second object to compare
-     * @return true if the objects are equal, false otherwise
+     * @pbrbm object1 b Collection contbining the first object to compbre
+     * @pbrbm object2 b Collection contbining the second object to compbre
+     * @return true if the objects bre equbl, fblse otherwise
      */
-    static boolean equalNames(Collection<?> object1, Collection<?> object2) {
+    stbtic boolebn equblNbmes(Collection<?> object1, Collection<?> object2) {
         if ((object1 == null) || (object2 == null)) {
             return object1 == object2;
         }
-        return object1.equals(object2);
+        return object1.equbls(object2);
     }
 
     /**
-     * Make a {@code GeneralNameInterface} out of a name type (0-8) and an
-     * Object that may be a byte array holding the ASN.1 DER encoded
-     * name or a String form of the name.  Except for X.509
-     * Distinguished Names, the String form of the name must not be the
-     * result from calling toString on an existing GeneralNameInterface
-     * implementing class.  The output of toString is not compatible
-     * with the String constructors for names other than Distinguished
-     * Names.
+     * Mbke b {@code GenerblNbmeInterfbce} out of b nbme type (0-8) bnd bn
+     * Object thbt mby be b byte brrby holding the ASN.1 DER encoded
+     * nbme or b String form of the nbme.  Except for X.509
+     * Distinguished Nbmes, the String form of the nbme must not be the
+     * result from cblling toString on bn existing GenerblNbmeInterfbce
+     * implementing clbss.  The output of toString is not compbtible
+     * with the String constructors for nbmes other thbn Distinguished
+     * Nbmes.
      *
-     * @param type name type (0-8)
-     * @param name name as ASN.1 Der-encoded byte array or String
-     * @return a GeneralNameInterface name
-     * @throws IOException if a parsing error occurs
+     * @pbrbm type nbme type (0-8)
+     * @pbrbm nbme nbme bs ASN.1 Der-encoded byte brrby or String
+     * @return b GenerblNbmeInterfbce nbme
+     * @throws IOException if b pbrsing error occurs
      */
-    static GeneralNameInterface makeGeneralNameInterface(int type, Object name)
+    stbtic GenerblNbmeInterfbce mbkeGenerblNbmeInterfbce(int type, Object nbme)
             throws IOException {
-        GeneralNameInterface result;
+        GenerblNbmeInterfbce result;
         if (debug != null) {
-            debug.println("X509CertSelector.makeGeneralNameInterface("
+            debug.println("X509CertSelector.mbkeGenerblNbmeInterfbce("
                 + type + ")...");
         }
 
-        if (name instanceof String) {
+        if (nbme instbnceof String) {
             if (debug != null) {
-                debug.println("X509CertSelector.makeGeneralNameInterface() "
-                    + "name is String: " + name);
+                debug.println("X509CertSelector.mbkeGenerblNbmeInterfbce() "
+                    + "nbme is String: " + nbme);
             }
             switch (type) {
-            case NAME_RFC822:
-                result = new RFC822Name((String)name);
-                break;
-            case NAME_DNS:
-                result = new DNSName((String)name);
-                break;
-            case NAME_DIRECTORY:
-                result = new X500Name((String)name);
-                break;
-            case NAME_URI:
-                result = new URIName((String)name);
-                break;
-            case NAME_IP:
-                result = new IPAddressName((String)name);
-                break;
-            case NAME_OID:
-                result = new OIDName((String)name);
-                break;
-            default:
-                throw new IOException("unable to parse String names of type "
+            cbse NAME_RFC822:
+                result = new RFC822Nbme((String)nbme);
+                brebk;
+            cbse NAME_DNS:
+                result = new DNSNbme((String)nbme);
+                brebk;
+            cbse NAME_DIRECTORY:
+                result = new X500Nbme((String)nbme);
+                brebk;
+            cbse NAME_URI:
+                result = new URINbme((String)nbme);
+                brebk;
+            cbse NAME_IP:
+                result = new IPAddressNbme((String)nbme);
+                brebk;
+            cbse NAME_OID:
+                result = new OIDNbme((String)nbme);
+                brebk;
+            defbult:
+                throw new IOException("unbble to pbrse String nbmes of type "
                                       + type);
             }
             if (debug != null) {
-                debug.println("X509CertSelector.makeGeneralNameInterface() "
+                debug.println("X509CertSelector.mbkeGenerblNbmeInterfbce() "
                     + "result: " + result.toString());
             }
-        } else if (name instanceof byte[]) {
-            DerValue val = new DerValue((byte[]) name);
+        } else if (nbme instbnceof byte[]) {
+            DerVblue vbl = new DerVblue((byte[]) nbme);
             if (debug != null) {
                 debug.println
-                    ("X509CertSelector.makeGeneralNameInterface() is byte[]");
+                    ("X509CertSelector.mbkeGenerblNbmeInterfbce() is byte[]");
             }
 
             switch (type) {
-            case NAME_ANY:
-                result = new OtherName(val);
-                break;
-            case NAME_RFC822:
-                result = new RFC822Name(val);
-                break;
-            case NAME_DNS:
-                result = new DNSName(val);
-                break;
-            case NAME_X400:
-                result = new X400Address(val);
-                break;
-            case NAME_DIRECTORY:
-                result = new X500Name(val);
-                break;
-            case NAME_EDI:
-                result = new EDIPartyName(val);
-                break;
-            case NAME_URI:
-                result = new URIName(val);
-                break;
-            case NAME_IP:
-                result = new IPAddressName(val);
-                break;
-            case NAME_OID:
-                result = new OIDName(val);
-                break;
-            default:
-                throw new IOException("unable to parse byte array names of "
+            cbse NAME_ANY:
+                result = new OtherNbme(vbl);
+                brebk;
+            cbse NAME_RFC822:
+                result = new RFC822Nbme(vbl);
+                brebk;
+            cbse NAME_DNS:
+                result = new DNSNbme(vbl);
+                brebk;
+            cbse NAME_X400:
+                result = new X400Address(vbl);
+                brebk;
+            cbse NAME_DIRECTORY:
+                result = new X500Nbme(vbl);
+                brebk;
+            cbse NAME_EDI:
+                result = new EDIPbrtyNbme(vbl);
+                brebk;
+            cbse NAME_URI:
+                result = new URINbme(vbl);
+                brebk;
+            cbse NAME_IP:
+                result = new IPAddressNbme(vbl);
+                brebk;
+            cbse NAME_OID:
+                result = new OIDNbme(vbl);
+                brebk;
+            defbult:
+                throw new IOException("unbble to pbrse byte brrby nbmes of "
                     + "type " + type);
             }
             if (debug != null) {
-                debug.println("X509CertSelector.makeGeneralNameInterface() result: "
+                debug.println("X509CertSelector.mbkeGenerblNbmeInterfbce() result: "
                     + result.toString());
             }
         } else {
             if (debug != null) {
-                debug.println("X509CertSelector.makeGeneralName() input name "
-                    + "not String or byte array");
+                debug.println("X509CertSelector.mbkeGenerblNbme() input nbme "
+                    + "not String or byte brrby");
             }
-            throw new IOException("name not String or byte array");
+            throw new IOException("nbme not String or byte brrby");
         }
         return result;
     }
 
 
     /**
-     * Sets the name constraints criterion. The {@code X509Certificate}
-     * must have subject and subject alternative names that
-     * meet the specified name constraints.
+     * Sets the nbme constrbints criterion. The {@code X509Certificbte}
+     * must hbve subject bnd subject blternbtive nbmes thbt
+     * meet the specified nbme constrbints.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * should contain the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 definition of this structure appears below.
+     * The nbme constrbints bre specified bs b byte brrby. This byte brrby
+     * should contbin the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in RFC 3280
+     * bnd X.509. The ASN.1 definition of this structure bppebrs below.
      *
      * <pre>{@code
-     *  NameConstraints ::= SEQUENCE {
-     *       permittedSubtrees       [0]     GeneralSubtrees OPTIONAL,
-     *       excludedSubtrees        [1]     GeneralSubtrees OPTIONAL }
+     *  NbmeConstrbints ::= SEQUENCE {
+     *       permittedSubtrees       [0]     GenerblSubtrees OPTIONAL,
+     *       excludedSubtrees        [1]     GenerblSubtrees OPTIONAL }
      *
-     *  GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
+     *  GenerblSubtrees ::= SEQUENCE SIZE (1..MAX) OF GenerblSubtree
      *
-     *  GeneralSubtree ::= SEQUENCE {
-     *       base                    GeneralName,
-     *       minimum         [0]     BaseDistance DEFAULT 0,
-     *       maximum         [1]     BaseDistance OPTIONAL }
+     *  GenerblSubtree ::= SEQUENCE {
+     *       bbse                    GenerblNbme,
+     *       minimum         [0]     BbseDistbnce DEFAULT 0,
+     *       mbximum         [1]     BbseDistbnce OPTIONAL }
      *
-     *  BaseDistance ::= INTEGER (0..MAX)
+     *  BbseDistbnce ::= INTEGER (0..MAX)
      *
-     *  GeneralName ::= CHOICE {
-     *       otherName                       [0]     OtherName,
-     *       rfc822Name                      [1]     IA5String,
-     *       dNSName                         [2]     IA5String,
+     *  GenerblNbme ::= CHOICE {
+     *       otherNbme                       [0]     OtherNbme,
+     *       rfc822Nbme                      [1]     IA5String,
+     *       dNSNbme                         [2]     IA5String,
      *       x400Address                     [3]     ORAddress,
-     *       directoryName                   [4]     Name,
-     *       ediPartyName                    [5]     EDIPartyName,
+     *       directoryNbme                   [4]     Nbme,
+     *       ediPbrtyNbme                    [5]     EDIPbrtyNbme,
      *       uniformResourceIdentifier       [6]     IA5String,
      *       iPAddress                       [7]     OCTET STRING,
      *       registeredID                    [8]     OBJECT IDENTIFIER}
      * }</pre>
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param bytes a byte array containing the ASN.1 DER encoding of
-     *              a NameConstraints extension to be used for checking
-     *              name constraints. Only the value of the extension is
-     *              included, not the OID or criticality flag. Can be
+     * @pbrbm bytes b byte brrby contbining the ASN.1 DER encoding of
+     *              b NbmeConstrbints extension to be used for checking
+     *              nbme constrbints. Only the vblue of the extension is
+     *              included, not the OID or criticblity flbg. Cbn be
      *              {@code null},
-     *              in which case no name constraints check will be performed.
-     * @throws IOException if a parsing error occurs
-     * @see #getNameConstraints
+     *              in which cbse no nbme constrbints check will be performed.
+     * @throws IOException if b pbrsing error occurs
+     * @see #getNbmeConstrbints
      */
-    public void setNameConstraints(byte[] bytes) throws IOException {
+    public void setNbmeConstrbints(byte[] bytes) throws IOException {
         if (bytes == null) {
             ncBytes = null;
             nc = null;
         } else {
             ncBytes = bytes.clone();
-            nc = new NameConstraintsExtension(FALSE, bytes);
+            nc = new NbmeConstrbintsExtension(FALSE, bytes);
         }
     }
 
     /**
-     * Sets the basic constraints constraint. If the value is greater than or
-     * equal to zero, {@code X509Certificates} must include a
-     * basicConstraints extension with
-     * a pathLen of at least this value. If the value is -2, only end-entity
-     * certificates are accepted. If the value is -1, no check is done.
+     * Sets the bbsic constrbints constrbint. If the vblue is grebter thbn or
+     * equbl to zero, {@code X509Certificbtes} must include b
+     * bbsicConstrbints extension with
+     * b pbthLen of bt lebst this vblue. If the vblue is -2, only end-entity
+     * certificbtes bre bccepted. If the vblue is -1, no check is done.
      * <p>
-     * This constraint is useful when building a certification path forward
-     * (from the target toward the trust anchor. If a partial path has been
-     * built, any candidate certificate must have a maxPathLen value greater
-     * than or equal to the number of certificates in the partial path.
+     * This constrbint is useful when building b certificbtion pbth forwbrd
+     * (from the tbrget towbrd the trust bnchor. If b pbrtibl pbth hbs been
+     * built, bny cbndidbte certificbte must hbve b mbxPbthLen vblue grebter
+     * thbn or equbl to the number of certificbtes in the pbrtibl pbth.
      *
-     * @param minMaxPathLen the value for the basic constraints constraint
-     * @throws IllegalArgumentException if the value is less than -2
-     * @see #getBasicConstraints
+     * @pbrbm minMbxPbthLen the vblue for the bbsic constrbints constrbint
+     * @throws IllegblArgumentException if the vblue is less thbn -2
+     * @see #getBbsicConstrbints
      */
-    public void setBasicConstraints(int minMaxPathLen) {
-        if (minMaxPathLen < -2) {
-            throw new IllegalArgumentException("basic constraints less than -2");
+    public void setBbsicConstrbints(int minMbxPbthLen) {
+        if (minMbxPbthLen < -2) {
+            throw new IllegblArgumentException("bbsic constrbints less thbn -2");
         }
-        basicConstraints = minMaxPathLen;
+        bbsicConstrbints = minMbxPbthLen;
     }
 
     /**
-     * Sets the policy constraint. The {@code X509Certificate} must
-     * include at least one of the specified policies in its certificate
+     * Sets the policy constrbint. The {@code X509Certificbte} must
+     * include bt lebst one of the specified policies in its certificbte
      * policies extension. If {@code certPolicySet} is empty, then the
-     * {@code X509Certificate} must include at least some specified policy
-     * in its certificate policies extension. If {@code certPolicySet} is
+     * {@code X509Certificbte} must include bt lebst some specified policy
+     * in its certificbte policies extension. If {@code certPolicySet} is
      * {@code null}, no policy check will be performed.
      * <p>
-     * Note that the {@code Set} is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Set} is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param certPolicySet a {@code Set} of certificate policy OIDs in
-     *                      string format (or {@code null}). Each OID is
-     *                      represented by a set of nonnegative integers
-     *                    separated by periods.
-     * @throws IOException if a parsing error occurs on the OID such as
+     * @pbrbm certPolicySet b {@code Set} of certificbte policy OIDs in
+     *                      string formbt (or {@code null}). Ebch OID is
+     *                      represented by b set of nonnegbtive integers
+     *                    sepbrbted by periods.
+     * @throws IOException if b pbrsing error occurs on the OID such bs
      * the first component is not 0, 1 or 2 or the second component is
-     * greater than 39.
+     * grebter thbn 39.
      * @see #getPolicy
      */
     public void setPolicy(Set<String> certPolicySet) throws IOException {
@@ -1094,329 +1094,329 @@ public class X509CertSelector implements CertSelector {
             policySet = null;
             policy = null;
         } else {
-            // Snapshot set and parse it
-            Set<String> tempSet = Collections.unmodifiableSet
-                                        (new HashSet<String>(certPolicySet));
+            // Snbpshot set bnd pbrse it
+            Set<String> tempSet = Collections.unmodifibbleSet
+                                        (new HbshSet<String>(certPolicySet));
             /* Convert to Vector of ObjectIdentifiers */
-            Iterator<String> i = tempSet.iterator();
-            Vector<CertificatePolicyId> polIdVector = new Vector<CertificatePolicyId>();
-            while (i.hasNext()) {
+            Iterbtor<String> i = tempSet.iterbtor();
+            Vector<CertificbtePolicyId> polIdVector = new Vector<CertificbtePolicyId>();
+            while (i.hbsNext()) {
                 Object o = i.next();
-                if (!(o instanceof String)) {
+                if (!(o instbnceof String)) {
                     throw new IOException("non String in certPolicySet");
                 }
-                polIdVector.add(new CertificatePolicyId(new ObjectIdentifier(
+                polIdVector.bdd(new CertificbtePolicyId(new ObjectIdentifier(
                   (String)o)));
             }
-            // If everything went OK, make the changes
+            // If everything went OK, mbke the chbnges
             policySet = tempSet;
-            policy = new CertificatePolicySet(polIdVector);
+            policy = new CertificbtePolicySet(polIdVector);
         }
     }
 
     /**
-     * Sets the pathToNames criterion. The {@code X509Certificate} must
-     * not include name constraints that would prohibit building a
-     * path to the specified names.
+     * Sets the pbthToNbmes criterion. The {@code X509Certificbte} must
+     * not include nbme constrbints thbt would prohibit building b
+     * pbth to the specified nbmes.
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of names which the {@code X509Certificates}'s
-     * name constraints must permit. The specified value replaces
-     * the previous value for the pathToNames criterion.
+     * This method bllows the cbller to specify, with b single method cbll,
+     * the complete set of nbmes which the {@code X509Certificbtes}'s
+     * nbme constrbints must permit. The specified vblue replbces
+     * the previous vblue for the pbthToNbmes criterion.
      * <p>
-     * This constraint is useful when building a certification path forward
-     * (from the target toward the trust anchor. If a partial path has been
-     * built, any candidate certificate must not include name constraints that
-     * would prohibit building a path to any of the names in the partial path.
+     * This constrbint is useful when building b certificbtion pbth forwbrd
+     * (from the tbrget towbrd the trust bnchor. If b pbrtibl pbth hbs been
+     * built, bny cbndidbte certificbte must not include nbme constrbints thbt
+     * would prohibit building b pbth to bny of the nbmes in the pbrtibl pbth.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
+     * The {@code nbmes} pbrbmeter (if not {@code null}) is b
      * {@code Collection} with one
-     * entry for each name to be included in the pathToNames
-     * criterion. Each entry is a {@code List} whose first entry is an
-     * {@code Integer} (the name type, 0-8) and whose second
-     * entry is a {@code String} or a byte array (the name, in
+     * entry for ebch nbme to be included in the pbthToNbmes
+     * criterion. Ebch entry is b {@code List} whose first entry is bn
+     * {@code Integer} (the nbme type, 0-8) bnd whose second
+     * entry is b {@code String} or b byte brrby (the nbme, in
      * string or ASN.1 DER encoded form, respectively).
-     * There can be multiple names of the same type. If {@code null}
-     * is supplied as the value for this argument, no
-     * pathToNames check will be performed.
+     * There cbn be multiple nbmes of the sbme type. If {@code null}
+     * is supplied bs the vblue for this brgument, no
+     * pbthToNbmes check will be performed.
      * <p>
-     * Each name in the {@code Collection}
-     * may be specified either as a {@code String} or as an ASN.1 encoded
-     * byte array. For more details about the formats used, see
-     * {@link #addPathToName(int type, String name)
-     * addPathToName(int type, String name)} and
-     * {@link #addPathToName(int type, byte [] name)
-     * addPathToName(int type, byte [] name)}.
+     * Ebch nbme in the {@code Collection}
+     * mby be specified either bs b {@code String} or bs bn ASN.1 encoded
+     * byte brrby. For more detbils bbout the formbts used, see
+     * {@link #bddPbthToNbme(int type, String nbme)
+     * bddPbthToNbme(int type, String nbme)} bnd
+     * {@link #bddPbthToNbme(int type, byte [] nbme)
+     * bddPbthToNbme(int type, byte [] nbme)}.
      * <p>
-     * <strong>Note:</strong> for distinguished names, specify the byte
-     * array form instead of the String form. See the note in
-     * {@link #addPathToName(int, String)} for more information.
+     * <strong>Note:</strong> for distinguished nbmes, specify the byte
+     * brrby form instebd of the String form. See the note in
+     * {@link #bddPbthToNbme(int, String)} for more informbtion.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * names (same name and name type), but they may be removed from the
-     * {@code Collection} of names returned by the
-     * {@link #getPathToNames getPathToNames} method.
+     * Note thbt the {@code nbmes} pbrbmeter cbn contbin duplicbte
+     * nbmes (sbme nbme bnd nbme type), but they mby be removed from the
+     * {@code Collection} of nbmes returned by the
+     * {@link #getPbthToNbmes getPbthToNbmes} method.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param names a {@code Collection} with one entry per name
+     * @pbrbm nbmes b {@code Collection} with one entry per nbme
      *              (or {@code null})
-     * @throws IOException if a parsing error occurs
-     * @see #getPathToNames
+     * @throws IOException if b pbrsing error occurs
+     * @see #getPbthToNbmes
      */
-    public void setPathToNames(Collection<List<?>> names) throws IOException {
-        if ((names == null) || names.isEmpty()) {
-            pathToNames = null;
-            pathToGeneralNames = null;
+    public void setPbthToNbmes(Collection<List<?>> nbmes) throws IOException {
+        if ((nbmes == null) || nbmes.isEmpty()) {
+            pbthToNbmes = null;
+            pbthToGenerblNbmes = null;
         } else {
-            Set<List<?>> tempNames = cloneAndCheckNames(names);
-            pathToGeneralNames = parseNames(tempNames);
-            // Ensure that we either set both of these or neither
-            pathToNames = tempNames;
+            Set<List<?>> tempNbmes = cloneAndCheckNbmes(nbmes);
+            pbthToGenerblNbmes = pbrseNbmes(tempNbmes);
+            // Ensure thbt we either set both of these or neither
+            pbthToNbmes = tempNbmes;
         }
     }
 
-    // called from CertPathHelper
-    void setPathToNamesInternal(Set<GeneralNameInterface> names) {
-        // set names to non-null dummy value
-        // this breaks getPathToNames()
-        pathToNames = Collections.<List<?>>emptySet();
-        pathToGeneralNames = names;
+    // cblled from CertPbthHelper
+    void setPbthToNbmesInternbl(Set<GenerblNbmeInterfbce> nbmes) {
+        // set nbmes to non-null dummy vblue
+        // this brebks getPbthToNbmes()
+        pbthToNbmes = Collections.<List<?>>emptySet();
+        pbthToGenerblNbmes = nbmes;
     }
 
     /**
-     * Adds a name to the pathToNames criterion. The {@code X509Certificate}
-     * must not include name constraints that would prohibit building a
-     * path to the specified name.
+     * Adds b nbme to the pbthToNbmes criterion. The {@code X509Certificbte}
+     * must not include nbme constrbints thbt would prohibit building b
+     * pbth to the specified nbme.
      * <p>
-     * This method allows the caller to add a name to the set of names which
-     * the {@code X509Certificates}'s name constraints must permit.
-     * The specified name is added to any previous value for the
-     * pathToNames criterion.  If the name is a duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of nbmes which
+     * the {@code X509Certificbtes}'s nbme constrbints must permit.
+     * The specified nbme is bdded to bny previous vblue for the
+     * pbthToNbmes criterion.  If the nbme is b duplicbte, it mby be ignored.
      * <p>
-     * The name is provided in string format. RFC 822, DNS, and URI names
-     * use the well-established string formats for those types (subject to
-     * the restrictions included in RFC 3280). IPv4 address names are
-     * supplied using dotted quad notation. OID address names are represented
-     * as a series of nonnegative integers separated by periods. And
-     * directory names (distinguished names) are supplied in RFC 2253 format.
-     * No standard string format is defined for otherNames, X.400 names,
-     * EDI party names, IPv6 address names, or any other type of names. They
+     * The nbme is provided in string formbt. RFC 822, DNS, bnd URI nbmes
+     * use the well-estbblished string formbts for those types (subject to
+     * the restrictions included in RFC 3280). IPv4 bddress nbmes bre
+     * supplied using dotted qubd notbtion. OID bddress nbmes bre represented
+     * bs b series of nonnegbtive integers sepbrbted by periods. And
+     * directory nbmes (distinguished nbmes) bre supplied in RFC 2253 formbt.
+     * No stbndbrd string formbt is defined for otherNbmes, X.400 nbmes,
+     * EDI pbrty nbmes, IPv6 bddress nbmes, or bny other type of nbmes. They
      * should be specified using the
-     * {@link #addPathToName(int type, byte [] name)
-     * addPathToName(int type, byte [] name)} method.
+     * {@link #bddPbthToNbme(int type, byte [] nbme)
+     * bddPbthToNbme(int type, byte [] nbme)} method.
      * <p>
-     * <strong>Note:</strong> for distinguished names, use
-     * {@linkplain #addPathToName(int, byte[])} instead.
-     * This method should not be relied on as it can fail to match some
-     * certificates because of a loss of encoding information in the RFC 2253
-     * String form of some distinguished names.
+     * <strong>Note:</strong> for distinguished nbmes, use
+     * {@linkplbin #bddPbthToNbme(int, byte[])} instebd.
+     * This method should not be relied on bs it cbn fbil to mbtch some
+     * certificbtes becbuse of b loss of encoding informbtion in the RFC 2253
+     * String form of some distinguished nbmes.
      *
-     * @param type the name type (0-8, as specified in
+     * @pbrbm type the nbme type (0-8, bs specified in
      *             RFC 3280, section 4.2.1.7)
-     * @param name the name in string form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme the nbme in string form
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addPathToName(int type, String name) throws IOException {
-        addPathToNameInternal(type, name);
+    public void bddPbthToNbme(int type, String nbme) throws IOException {
+        bddPbthToNbmeInternbl(type, nbme);
     }
 
     /**
-     * Adds a name to the pathToNames criterion. The {@code X509Certificate}
-     * must not include name constraints that would prohibit building a
-     * path to the specified name.
+     * Adds b nbme to the pbthToNbmes criterion. The {@code X509Certificbte}
+     * must not include nbme constrbints thbt would prohibit building b
+     * pbth to the specified nbme.
      * <p>
-     * This method allows the caller to add a name to the set of names which
-     * the {@code X509Certificates}'s name constraints must permit.
-     * The specified name is added to any previous value for the
-     * pathToNames criterion. If the name is a duplicate, it may be ignored.
+     * This method bllows the cbller to bdd b nbme to the set of nbmes which
+     * the {@code X509Certificbtes}'s nbme constrbints must permit.
+     * The specified nbme is bdded to bny previous vblue for the
+     * pbthToNbmes criterion. If the nbme is b duplicbte, it mby be ignored.
      * <p>
-     * The name is provided as a byte array. This byte array should contain
-     * the DER encoded name, as it would appear in the GeneralName structure
-     * defined in RFC 3280 and X.509. The ASN.1 definition of this structure
-     * appears in the documentation for
-     * {@link #addSubjectAlternativeName(int type, byte [] name)
-     * addSubjectAlternativeName(int type, byte [] name)}.
+     * The nbme is provided bs b byte brrby. This byte brrby should contbin
+     * the DER encoded nbme, bs it would bppebr in the GenerblNbme structure
+     * defined in RFC 3280 bnd X.509. The ASN.1 definition of this structure
+     * bppebrs in the documentbtion for
+     * {@link #bddSubjectAlternbtiveNbme(int type, byte [] nbme)
+     * bddSubjectAlternbtiveNbme(int type, byte [] nbme)}.
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby supplied here is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param type the name type (0-8, as specified in
+     * @pbrbm type the nbme type (0-8, bs specified in
      *             RFC 3280, section 4.2.1.7)
-     * @param name a byte array containing the name in ASN.1 DER encoded form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbme b byte brrby contbining the nbme in ASN.1 DER encoded form
+     * @throws IOException if b pbrsing error occurs
      */
-    public void addPathToName(int type, byte [] name) throws IOException {
-        // clone because byte arrays are modifiable
-        addPathToNameInternal(type, name.clone());
+    public void bddPbthToNbme(int type, byte [] nbme) throws IOException {
+        // clone becbuse byte brrbys bre modifibble
+        bddPbthToNbmeInternbl(type, nbme.clone());
     }
 
     /**
-     * A private method that adds a name (String or byte array) to the
-     * pathToNames criterion. The {@code X509Certificate} must contain
-     * the specified pathToName.
+     * A privbte method thbt bdds b nbme (String or byte brrby) to the
+     * pbthToNbmes criterion. The {@code X509Certificbte} must contbin
+     * the specified pbthToNbme.
      *
-     * @param type the name type (0-8, as specified in
+     * @pbrbm type the nbme type (0-8, bs specified in
      *             RFC 3280, section 4.2.1.7)
-     * @param name the name in string or byte array form
-     * @throws IOException if an encoding error occurs (incorrect form for DN)
+     * @pbrbm nbme the nbme in string or byte brrby form
+     * @throws IOException if bn encoding error occurs (incorrect form for DN)
      */
-    private void addPathToNameInternal(int type, Object name)
+    privbte void bddPbthToNbmeInternbl(int type, Object nbme)
             throws IOException {
-        // First, ensure that the name parses
-        GeneralNameInterface tempName = makeGeneralNameInterface(type, name);
-        if (pathToGeneralNames == null) {
-            pathToNames = new HashSet<List<?>>();
-            pathToGeneralNames = new HashSet<GeneralNameInterface>();
+        // First, ensure thbt the nbme pbrses
+        GenerblNbmeInterfbce tempNbme = mbkeGenerblNbmeInterfbce(type, nbme);
+        if (pbthToGenerblNbmes == null) {
+            pbthToNbmes = new HbshSet<List<?>>();
+            pbthToGenerblNbmes = new HbshSet<GenerblNbmeInterfbce>();
         }
-        List<Object> list = new ArrayList<Object>(2);
-        list.add(Integer.valueOf(type));
-        list.add(name);
-        pathToNames.add(list);
-        pathToGeneralNames.add(tempName);
+        List<Object> list = new ArrbyList<Object>(2);
+        list.bdd(Integer.vblueOf(type));
+        list.bdd(nbme);
+        pbthToNbmes.bdd(list);
+        pbthToGenerblNbmes.bdd(tempNbme);
     }
 
     /**
-     * Returns the certificateEquals criterion. The specified
-     * {@code X509Certificate} must be equal to the
-     * {@code X509Certificate} passed to the {@code match} method.
-     * If {@code null}, this check is not applied.
+     * Returns the certificbteEqubls criterion. The specified
+     * {@code X509Certificbte} must be equbl to the
+     * {@code X509Certificbte} pbssed to the {@code mbtch} method.
+     * If {@code null}, this check is not bpplied.
      *
-     * @return the {@code X509Certificate} to match (or {@code null})
-     * @see #setCertificate
+     * @return the {@code X509Certificbte} to mbtch (or {@code null})
+     * @see #setCertificbte
      */
-    public X509Certificate getCertificate() {
+    public X509Certificbte getCertificbte() {
         return x509Cert;
     }
 
     /**
-     * Returns the serialNumber criterion. The specified serial number
-     * must match the certificate serial number in the
-     * {@code X509Certificate}. If {@code null}, any certificate
-     * serial number will do.
+     * Returns the seriblNumber criterion. The specified seribl number
+     * must mbtch the certificbte seribl number in the
+     * {@code X509Certificbte}. If {@code null}, bny certificbte
+     * seribl number will do.
      *
-     * @return the certificate serial number to match
+     * @return the certificbte seribl number to mbtch
      *                (or {@code null})
-     * @see #setSerialNumber
+     * @see #setSeriblNumber
      */
-    public BigInteger getSerialNumber() {
-        return serialNumber;
+    public BigInteger getSeriblNumber() {
+        return seriblNumber;
     }
 
     /**
-     * Returns the issuer criterion as an {@code X500Principal}. This
-     * distinguished name must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the issuer criterion
-     * is disabled and any issuer distinguished name will do.
+     * Returns the issuer criterion bs bn {@code X500Principbl}. This
+     * distinguished nbme must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the issuer criterion
+     * is disbbled bnd bny issuer distinguished nbme will do.
      *
-     * @return the required issuer distinguished name as X500Principal
+     * @return the required issuer distinguished nbme bs X500Principbl
      *         (or {@code null})
      * @since 1.5
      */
-    public X500Principal getIssuer() {
+    public X500Principbl getIssuer() {
         return issuer;
     }
 
     /**
-     * <strong>Denigrated</strong>, use {@linkplain #getIssuer()} or
-     * {@linkplain #getIssuerAsBytes()} instead. This method should not be
-     * relied on as it can fail to match some certificates because of a loss of
-     * encoding information in the RFC 2253 String form of some distinguished
-     * names.
+     * <strong>Denigrbted</strong>, use {@linkplbin #getIssuer()} or
+     * {@linkplbin #getIssuerAsBytes()} instebd. This method should not be
+     * relied on bs it cbn fbil to mbtch some certificbtes becbuse of b loss of
+     * encoding informbtion in the RFC 2253 String form of some distinguished
+     * nbmes.
      * <p>
-     * Returns the issuer criterion as a {@code String}. This
-     * distinguished name must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the issuer criterion
-     * is disabled and any issuer distinguished name will do.
+     * Returns the issuer criterion bs b {@code String}. This
+     * distinguished nbme must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the issuer criterion
+     * is disbbled bnd bny issuer distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * distinguished name, in RFC 2253 format.
+     * If the vblue returned is not {@code null}, it is b
+     * distinguished nbme, in RFC 2253 formbt.
      *
-     * @return the required issuer distinguished name in RFC 2253 format
+     * @return the required issuer distinguished nbme in RFC 2253 formbt
      *         (or {@code null})
      */
     public String getIssuerAsString() {
-        return (issuer == null ? null : issuer.getName());
+        return (issuer == null ? null : issuer.getNbme());
     }
 
     /**
-     * Returns the issuer criterion as a byte array. This distinguished name
-     * must match the issuer distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the issuer criterion
-     * is disabled and any issuer distinguished name will do.
+     * Returns the issuer criterion bs b byte brrby. This distinguished nbme
+     * must mbtch the issuer distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the issuer criterion
+     * is disbbled bnd bny issuer distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a byte
-     * array containing a single DER encoded distinguished name, as defined in
-     * X.501. The ASN.1 notation for this structure is supplied in the
-     * documentation for
+     * If the vblue returned is not {@code null}, it is b byte
+     * brrby contbining b single DER encoded distinguished nbme, bs defined in
+     * X.501. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
      * {@link #setIssuer(byte [] issuerDN) setIssuer(byte [] issuerDN)}.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return a byte array containing the required issuer distinguished name
-     *         in ASN.1 DER format (or {@code null})
-     * @throws IOException if an encoding error occurs
+     * @return b byte brrby contbining the required issuer distinguished nbme
+     *         in ASN.1 DER formbt (or {@code null})
+     * @throws IOException if bn encoding error occurs
      */
     public byte[] getIssuerAsBytes() throws IOException {
         return (issuer == null ? null: issuer.getEncoded());
     }
 
     /**
-     * Returns the subject criterion as an {@code X500Principal}. This
-     * distinguished name must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the subject criterion
-     * is disabled and any subject distinguished name will do.
+     * Returns the subject criterion bs bn {@code X500Principbl}. This
+     * distinguished nbme must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the subject criterion
+     * is disbbled bnd bny subject distinguished nbme will do.
      *
-     * @return the required subject distinguished name as X500Principal
+     * @return the required subject distinguished nbme bs X500Principbl
      *         (or {@code null})
      * @since 1.5
      */
-    public X500Principal getSubject() {
+    public X500Principbl getSubject() {
         return subject;
     }
 
     /**
-     * <strong>Denigrated</strong>, use {@linkplain #getSubject()} or
-     * {@linkplain #getSubjectAsBytes()} instead. This method should not be
-     * relied on as it can fail to match some certificates because of a loss of
-     * encoding information in the RFC 2253 String form of some distinguished
-     * names.
+     * <strong>Denigrbted</strong>, use {@linkplbin #getSubject()} or
+     * {@linkplbin #getSubjectAsBytes()} instebd. This method should not be
+     * relied on bs it cbn fbil to mbtch some certificbtes becbuse of b loss of
+     * encoding informbtion in the RFC 2253 String form of some distinguished
+     * nbmes.
      * <p>
-     * Returns the subject criterion as a {@code String}. This
-     * distinguished name must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the subject criterion
-     * is disabled and any subject distinguished name will do.
+     * Returns the subject criterion bs b {@code String}. This
+     * distinguished nbme must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the subject criterion
+     * is disbbled bnd bny subject distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * distinguished name, in RFC 2253 format.
+     * If the vblue returned is not {@code null}, it is b
+     * distinguished nbme, in RFC 2253 formbt.
      *
-     * @return the required subject distinguished name in RFC 2253 format
+     * @return the required subject distinguished nbme in RFC 2253 formbt
      *         (or {@code null})
      */
     public String getSubjectAsString() {
-        return (subject == null ? null : subject.getName());
+        return (subject == null ? null : subject.getNbme());
     }
 
     /**
-     * Returns the subject criterion as a byte array. This distinguished name
-     * must match the subject distinguished name in the
-     * {@code X509Certificate}. If {@code null}, the subject criterion
-     * is disabled and any subject distinguished name will do.
+     * Returns the subject criterion bs b byte brrby. This distinguished nbme
+     * must mbtch the subject distinguished nbme in the
+     * {@code X509Certificbte}. If {@code null}, the subject criterion
+     * is disbbled bnd bny subject distinguished nbme will do.
      * <p>
-     * If the value returned is not {@code null}, it is a byte
-     * array containing a single DER encoded distinguished name, as defined in
-     * X.501. The ASN.1 notation for this structure is supplied in the
-     * documentation for
+     * If the vblue returned is not {@code null}, it is b byte
+     * brrby contbining b single DER encoded distinguished nbme, bs defined in
+     * X.501. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
      * {@link #setSubject(byte [] subjectDN) setSubject(byte [] subjectDN)}.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return a byte array containing the required subject distinguished name
-     *         in ASN.1 DER format (or {@code null})
-     * @throws IOException if an encoding error occurs
+     * @return b byte brrby contbining the required subject distinguished nbme
+     *         in ASN.1 DER formbt (or {@code null})
+     * @throws IOException if bn encoding error occurs
      */
     public byte[] getSubjectAsBytes() throws IOException {
         return (subject == null ? null : subject.getEncoded());
@@ -1424,12 +1424,12 @@ public class X509CertSelector implements CertSelector {
 
     /**
      * Returns the subjectKeyIdentifier criterion. The
-     * {@code X509Certificate} must contain a SubjectKeyIdentifier
-     * extension with the specified value. If {@code null}, no
+     * {@code X509Certificbte} must contbin b SubjectKeyIdentifier
+     * extension with the specified vblue. If {@code null}, no
      * subjectKeyIdentifier check will be done.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
      * @return the key identifier (or {@code null})
      * @see #setSubjectKeyIdentifier
@@ -1442,71 +1442,71 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Returns the authorityKeyIdentifier criterion. The
-     * {@code X509Certificate} must contain a AuthorityKeyIdentifier
-     * extension with the specified value. If {@code null}, no
-     * authorityKeyIdentifier check will be done.
+     * Returns the buthorityKeyIdentifier criterion. The
+     * {@code X509Certificbte} must contbin b AuthorityKeyIdentifier
+     * extension with the specified vblue. If {@code null}, no
+     * buthorityKeyIdentifier check will be done.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
      * @return the key identifier (or {@code null})
      * @see #setAuthorityKeyIdentifier
      */
     public byte[] getAuthorityKeyIdentifier() {
-        if (authorityKeyID == null) {
+        if (buthorityKeyID == null) {
           return null;
         }
-        return authorityKeyID.clone();
+        return buthorityKeyID.clone();
     }
 
     /**
-     * Returns the certificateValid criterion. The specified date must fall
-     * within the certificate validity period for the
-     * {@code X509Certificate}. If {@code null}, no certificateValid
+     * Returns the certificbteVblid criterion. The specified dbte must fbll
+     * within the certificbte vblidity period for the
+     * {@code X509Certificbte}. If {@code null}, no certificbteVblid
      * check will be done.
      * <p>
-     * Note that the {@code Date} returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Dbte} returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return the {@code Date} to check (or {@code null})
-     * @see #setCertificateValid
+     * @return the {@code Dbte} to check (or {@code null})
+     * @see #setCertificbteVblid
      */
-    public Date getCertificateValid() {
-        if (certificateValid == null) {
+    public Dbte getCertificbteVblid() {
+        if (certificbteVblid == null) {
             return null;
         }
-        return (Date)certificateValid.clone();
+        return (Dbte)certificbteVblid.clone();
     }
 
     /**
-     * Returns the privateKeyValid criterion. The specified date must fall
-     * within the private key validity period for the
-     * {@code X509Certificate}. If {@code null}, no privateKeyValid
+     * Returns the privbteKeyVblid criterion. The specified dbte must fbll
+     * within the privbte key vblidity period for the
+     * {@code X509Certificbte}. If {@code null}, no privbteKeyVblid
      * check will be done.
      * <p>
-     * Note that the {@code Date} returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the {@code Dbte} returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return the {@code Date} to check (or {@code null})
-     * @see #setPrivateKeyValid
+     * @return the {@code Dbte} to check (or {@code null})
+     * @see #setPrivbteKeyVblid
      */
-    public Date getPrivateKeyValid() {
-        if (privateKeyValid == null) {
+    public Dbte getPrivbteKeyVblid() {
+        if (privbteKeyVblid == null) {
             return null;
         }
-        return (Date)privateKeyValid.clone();
+        return (Dbte)privbteKeyVblid.clone();
     }
 
     /**
      * Returns the subjectPublicKeyAlgID criterion. The
-     * {@code X509Certificate} must contain a subject public key
-     * with the specified algorithm. If {@code null}, no
+     * {@code X509Certificbte} must contbin b subject public key
+     * with the specified blgorithm. If {@code null}, no
      * subjectPublicKeyAlgID check will be done.
      *
-     * @return the object identifier (OID) of the signature algorithm to check
-     *         for (or {@code null}). An OID is represented by a set of
-     *         nonnegative integers separated by periods.
+     * @return the object identifier (OID) of the signbture blgorithm to check
+     *         for (or {@code null}). An OID is represented by b set of
+     *         nonnegbtive integers sepbrbted by periods.
      * @see #setSubjectPublicKeyAlgID
      */
     public String getSubjectPublicKeyAlgID() {
@@ -1518,7 +1518,7 @@ public class X509CertSelector implements CertSelector {
 
     /**
      * Returns the subjectPublicKey criterion. The
-     * {@code X509Certificate} must contain the specified subject
+     * {@code X509Certificbte} must contbin the specified subject
      * public key. If {@code null}, no subjectPublicKey check will be done.
      *
      * @return the subject public key to check for (or {@code null})
@@ -1529,206 +1529,206 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Returns the keyUsage criterion. The {@code X509Certificate}
-     * must allow the specified keyUsage values. If null, no keyUsage
+     * Returns the keyUsbge criterion. The {@code X509Certificbte}
+     * must bllow the specified keyUsbge vblues. If null, no keyUsbge
      * check will be done.
      * <p>
-     * Note that the boolean array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the boolebn brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return a boolean array in the same format as the boolean
-     *                 array returned by
-     * {@link X509Certificate#getKeyUsage() X509Certificate.getKeyUsage()}.
+     * @return b boolebn brrby in the sbme formbt bs the boolebn
+     *                 brrby returned by
+     * {@link X509Certificbte#getKeyUsbge() X509Certificbte.getKeyUsbge()}.
      *                 Or {@code null}.
-     * @see #setKeyUsage
+     * @see #setKeyUsbge
      */
-    public boolean[] getKeyUsage() {
-        if (keyUsage == null) {
+    public boolebn[] getKeyUsbge() {
+        if (keyUsbge == null) {
             return null;
         }
-        return keyUsage.clone();
+        return keyUsbge.clone();
     }
 
     /**
-     * Returns the extendedKeyUsage criterion. The {@code X509Certificate}
-     * must allow the specified key purposes in its extended key usage
+     * Returns the extendedKeyUsbge criterion. The {@code X509Certificbte}
+     * must bllow the specified key purposes in its extended key usbge
      * extension. If the {@code keyPurposeSet} returned is empty or
-     * {@code null}, no extendedKeyUsage check will be done. Note that an
-     * {@code X509Certificate} that has no extendedKeyUsage extension
-     * implicitly allows all key purposes.
+     * {@code null}, no extendedKeyUsbge check will be done. Note thbt bn
+     * {@code X509Certificbte} thbt hbs no extendedKeyUsbge extension
+     * implicitly bllows bll key purposes.
      *
-     * @return an immutable {@code Set} of key purpose OIDs in string
-     * format (or {@code null})
-     * @see #setExtendedKeyUsage
+     * @return bn immutbble {@code Set} of key purpose OIDs in string
+     * formbt (or {@code null})
+     * @see #setExtendedKeyUsbge
      */
-    public Set<String> getExtendedKeyUsage() {
+    public Set<String> getExtendedKeyUsbge() {
         return keyPurposeSet;
     }
 
     /**
-     * Indicates if the {@code X509Certificate} must contain all
-     * or at least one of the subjectAlternativeNames
-     * specified in the {@link #setSubjectAlternativeNames
-     * setSubjectAlternativeNames} or {@link #addSubjectAlternativeName
-     * addSubjectAlternativeName} methods. If {@code true},
-     * the {@code X509Certificate} must contain all of the
-     * specified subject alternative names. If {@code false}, the
-     * {@code X509Certificate} must contain at least one of the
-     * specified subject alternative names.
+     * Indicbtes if the {@code X509Certificbte} must contbin bll
+     * or bt lebst one of the subjectAlternbtiveNbmes
+     * specified in the {@link #setSubjectAlternbtiveNbmes
+     * setSubjectAlternbtiveNbmes} or {@link #bddSubjectAlternbtiveNbme
+     * bddSubjectAlternbtiveNbme} methods. If {@code true},
+     * the {@code X509Certificbte} must contbin bll of the
+     * specified subject blternbtive nbmes. If {@code fblse}, the
+     * {@code X509Certificbte} must contbin bt lebst one of the
+     * specified subject blternbtive nbmes.
      *
-     * @return {@code true} if the flag is enabled;
-     * {@code false} if the flag is disabled. The flag is
-     * {@code true} by default.
-     * @see #setMatchAllSubjectAltNames
+     * @return {@code true} if the flbg is enbbled;
+     * {@code fblse} if the flbg is disbbled. The flbg is
+     * {@code true} by defbult.
+     * @see #setMbtchAllSubjectAltNbmes
      */
-    public boolean getMatchAllSubjectAltNames() {
-        return matchAllSubjectAltNames;
+    public boolebn getMbtchAllSubjectAltNbmes() {
+        return mbtchAllSubjectAltNbmes;
     }
 
     /**
-     * Returns a copy of the subjectAlternativeNames criterion.
-     * The {@code X509Certificate} must contain all or at least one
-     * of the specified subjectAlternativeNames, depending on the value
-     * of the matchAllNames flag (see {@link #getMatchAllSubjectAltNames
-     * getMatchAllSubjectAltNames}). If the value returned is
-     * {@code null}, no subjectAlternativeNames check will be performed.
+     * Returns b copy of the subjectAlternbtiveNbmes criterion.
+     * The {@code X509Certificbte} must contbin bll or bt lebst one
+     * of the specified subjectAlternbtiveNbmes, depending on the vblue
+     * of the mbtchAllNbmes flbg (see {@link #getMbtchAllSubjectAltNbmes
+     * getMbtchAllSubjectAltNbmes}). If the vblue returned is
+     * {@code null}, no subjectAlternbtiveNbmes check will be performed.
      * <p>
-     * If the value returned is not {@code null}, it is a
+     * If the vblue returned is not {@code null}, it is b
      * {@code Collection} with
-     * one entry for each name to be included in the subject alternative name
-     * criterion. Each entry is a {@code List} whose first entry is an
-     * {@code Integer} (the name type, 0-8) and whose second
-     * entry is a {@code String} or a byte array (the name, in
+     * one entry for ebch nbme to be included in the subject blternbtive nbme
+     * criterion. Ebch entry is b {@code List} whose first entry is bn
+     * {@code Integer} (the nbme type, 0-8) bnd whose second
+     * entry is b {@code String} or b byte brrby (the nbme, in
      * string or ASN.1 DER encoded form, respectively).
-     * There can be multiple names of the same type.  Note that the
-     * {@code Collection} returned may contain duplicate names (same name
-     * and name type).
+     * There cbn be multiple nbmes of the sbme type.  Note thbt the
+     * {@code Collection} returned mby contbin duplicbte nbmes (sbme nbme
+     * bnd nbme type).
      * <p>
-     * Each subject alternative name in the {@code Collection}
-     * may be specified either as a {@code String} or as an ASN.1 encoded
-     * byte array. For more details about the formats used, see
-     * {@link #addSubjectAlternativeName(int type, String name)
-     * addSubjectAlternativeName(int type, String name)} and
-     * {@link #addSubjectAlternativeName(int type, byte [] name)
-     * addSubjectAlternativeName(int type, byte [] name)}.
+     * Ebch subject blternbtive nbme in the {@code Collection}
+     * mby be specified either bs b {@code String} or bs bn ASN.1 encoded
+     * byte brrby. For more detbils bbout the formbts used, see
+     * {@link #bddSubjectAlternbtiveNbme(int type, String nbme)
+     * bddSubjectAlternbtiveNbme(int type, String nbme)} bnd
+     * {@link #bddSubjectAlternbtiveNbme(int type, byte [] nbme)
+     * bddSubjectAlternbtiveNbme(int type, byte [] nbme)}.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @return a {@code Collection} of names (or {@code null})
-     * @see #setSubjectAlternativeNames
+     * @return b {@code Collection} of nbmes (or {@code null})
+     * @see #setSubjectAlternbtiveNbmes
      */
-    public Collection<List<?>> getSubjectAlternativeNames() {
-        if (subjectAlternativeNames == null) {
+    public Collection<List<?>> getSubjectAlternbtiveNbmes() {
+        if (subjectAlternbtiveNbmes == null) {
             return null;
         }
-        return cloneNames(subjectAlternativeNames);
+        return cloneNbmes(subjectAlternbtiveNbmes);
     }
 
     /**
-     * Clone an object of the form passed to
-     * setSubjectAlternativeNames and setPathToNames.
-     * Throw a {@code RuntimeException} if the argument is malformed.
+     * Clone bn object of the form pbssed to
+     * setSubjectAlternbtiveNbmes bnd setPbthToNbmes.
+     * Throw b {@code RuntimeException} if the brgument is mblformed.
      * <p>
-     * This method wraps cloneAndCheckNames, changing any
-     * {@code IOException} into a {@code RuntimeException}. This
+     * This method wrbps cloneAndCheckNbmes, chbnging bny
+     * {@code IOException} into b {@code RuntimeException}. This
      * method should be used when the object being
-     * cloned has already been checked, so there should never be any exceptions.
+     * cloned hbs blrebdy been checked, so there should never be bny exceptions.
      *
-     * @param names a {@code Collection} with one entry per name.
-     *              Each entry is a {@code List} whose first entry
-     *              is an Integer (the name type, 0-8) and whose second
-     *              entry is a String or a byte array (the name, in
+     * @pbrbm nbmes b {@code Collection} with one entry per nbme.
+     *              Ebch entry is b {@code List} whose first entry
+     *              is bn Integer (the nbme type, 0-8) bnd whose second
+     *              entry is b String or b byte brrby (the nbme, in
      *              string or ASN.1 DER encoded form, respectively).
-     *              There can be multiple names of the same type. Null
-     *              is not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws RuntimeException if a parsing error occurs
+     *              There cbn be multiple nbmes of the sbme type. Null
+     *              is not bn bcceptbble vblue.
+     * @return b deep copy of the specified {@code Collection}
+     * @throws RuntimeException if b pbrsing error occurs
      */
-    private static Set<List<?>> cloneNames(Collection<List<?>> names) {
+    privbte stbtic Set<List<?>> cloneNbmes(Collection<List<?>> nbmes) {
         try {
-            return cloneAndCheckNames(names);
-        } catch (IOException e) {
-            throw new RuntimeException("cloneNames encountered IOException: " +
-                                       e.getMessage());
+            return cloneAndCheckNbmes(nbmes);
+        } cbtch (IOException e) {
+            throw new RuntimeException("cloneNbmes encountered IOException: " +
+                                       e.getMessbge());
         }
     }
 
     /**
-     * Clone and check an argument of the form passed to
-     * setSubjectAlternativeNames and setPathToNames.
-     * Throw an {@code IOException} if the argument is malformed.
+     * Clone bnd check bn brgument of the form pbssed to
+     * setSubjectAlternbtiveNbmes bnd setPbthToNbmes.
+     * Throw bn {@code IOException} if the brgument is mblformed.
      *
-     * @param names a {@code Collection} with one entry per name.
-     *              Each entry is a {@code List} whose first entry
-     *              is an Integer (the name type, 0-8) and whose second
-     *              entry is a String or a byte array (the name, in
+     * @pbrbm nbmes b {@code Collection} with one entry per nbme.
+     *              Ebch entry is b {@code List} whose first entry
+     *              is bn Integer (the nbme type, 0-8) bnd whose second
+     *              entry is b String or b byte brrby (the nbme, in
      *              string or ASN.1 DER encoded form, respectively).
-     *              There can be multiple names of the same type.
-     *              {@code null} is not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws IOException if a parsing error occurs
+     *              There cbn be multiple nbmes of the sbme type.
+     *              {@code null} is not bn bcceptbble vblue.
+     * @return b deep copy of the specified {@code Collection}
+     * @throws IOException if b pbrsing error occurs
      */
-    private static Set<List<?>> cloneAndCheckNames(Collection<List<?>> names) throws IOException {
-        // Copy the Lists and Collection
-        Set<List<?>> namesCopy = new HashSet<List<?>>();
-        for (List<?> o : names)
+    privbte stbtic Set<List<?>> cloneAndCheckNbmes(Collection<List<?>> nbmes) throws IOException {
+        // Copy the Lists bnd Collection
+        Set<List<?>> nbmesCopy = new HbshSet<List<?>>();
+        for (List<?> o : nbmes)
         {
-            namesCopy.add(new ArrayList<Object>(o));
+            nbmesCopy.bdd(new ArrbyList<Object>(o));
         }
 
-        // Check the contents of the Lists and clone any byte arrays
-        for (List<?> list : namesCopy) {
-            @SuppressWarnings("unchecked") // See javadoc for parameter "names".
-            List<Object> nameList = (List<Object>)list;
-            if (nameList.size() != 2) {
-                throw new IOException("name list size not 2");
+        // Check the contents of the Lists bnd clone bny byte brrbys
+        for (List<?> list : nbmesCopy) {
+            @SuppressWbrnings("unchecked") // See jbvbdoc for pbrbmeter "nbmes".
+            List<Object> nbmeList = (List<Object>)list;
+            if (nbmeList.size() != 2) {
+                throw new IOException("nbme list size not 2");
             }
-            Object o = nameList.get(0);
-            if (!(o instanceof Integer)) {
-                throw new IOException("expected an Integer");
+            Object o = nbmeList.get(0);
+            if (!(o instbnceof Integer)) {
+                throw new IOException("expected bn Integer");
             }
-            int nameType = ((Integer)o).intValue();
-            if ((nameType < 0) || (nameType > 8)) {
-                throw new IOException("name type not 0-8");
+            int nbmeType = ((Integer)o).intVblue();
+            if ((nbmeType < 0) || (nbmeType > 8)) {
+                throw new IOException("nbme type not 0-8");
             }
-            Object nameObject = nameList.get(1);
-            if (!(nameObject instanceof byte[]) &&
-                !(nameObject instanceof String)) {
+            Object nbmeObject = nbmeList.get(1);
+            if (!(nbmeObject instbnceof byte[]) &&
+                !(nbmeObject instbnceof String)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.cloneAndCheckNames() "
-                        + "name not byte array");
+                    debug.println("X509CertSelector.cloneAndCheckNbmes() "
+                        + "nbme not byte brrby");
                 }
-                throw new IOException("name not byte array or String");
+                throw new IOException("nbme not byte brrby or String");
             }
-            if (nameObject instanceof byte[]) {
-                nameList.set(1, ((byte[]) nameObject).clone());
+            if (nbmeObject instbnceof byte[]) {
+                nbmeList.set(1, ((byte[]) nbmeObject).clone());
             }
         }
-        return namesCopy;
+        return nbmesCopy;
     }
 
     /**
-     * Returns the name constraints criterion. The {@code X509Certificate}
-     * must have subject and subject alternative names that
-     * meet the specified name constraints.
+     * Returns the nbme constrbints criterion. The {@code X509Certificbte}
+     * must hbve subject bnd subject blternbtive nbmes thbt
+     * meet the specified nbme constrbints.
      * <p>
-     * The name constraints are returned as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #setNameConstraints(byte [] bytes) setNameConstraints(byte [] bytes)}.
+     * The nbme constrbints bre returned bs b byte brrby. This byte brrby
+     * contbins the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in RFC 3280
+     * bnd X.509. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
+     * {@link #setNbmeConstrbints(byte [] bytes) setNbmeConstrbints(byte [] bytes)}.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return a byte array containing the ASN.1 DER encoding of
-     *         a NameConstraints extension used for checking name constraints.
-     *         {@code null} if no name constraints check will be performed.
-     * @see #setNameConstraints
+     * @return b byte brrby contbining the ASN.1 DER encoding of
+     *         b NbmeConstrbints extension used for checking nbme constrbints.
+     *         {@code null} if no nbme constrbints check will be performed.
+     * @see #setNbmeConstrbints
      */
-    public byte[] getNameConstraints() {
+    public byte[] getNbmeConstrbints() {
         if (ncBytes == null) {
             return null;
         } else {
@@ -1737,29 +1737,29 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Returns the basic constraints constraint. If the value is greater than
-     * or equal to zero, the {@code X509Certificates} must include a
-     * basicConstraints extension with a pathLen of at least this value.
-     * If the value is -2, only end-entity certificates are accepted. If
-     * the value is -1, no basicConstraints check is done.
+     * Returns the bbsic constrbints constrbint. If the vblue is grebter thbn
+     * or equbl to zero, the {@code X509Certificbtes} must include b
+     * bbsicConstrbints extension with b pbthLen of bt lebst this vblue.
+     * If the vblue is -2, only end-entity certificbtes bre bccepted. If
+     * the vblue is -1, no bbsicConstrbints check is done.
      *
-     * @return the value for the basic constraints constraint
-     * @see #setBasicConstraints
+     * @return the vblue for the bbsic constrbints constrbint
+     * @see #setBbsicConstrbints
      */
-    public int getBasicConstraints() {
-        return basicConstraints;
+    public int getBbsicConstrbints() {
+        return bbsicConstrbints;
     }
 
     /**
-     * Returns the policy criterion. The {@code X509Certificate} must
-     * include at least one of the specified policies in its certificate policies
+     * Returns the policy criterion. The {@code X509Certificbte} must
+     * include bt lebst one of the specified policies in its certificbte policies
      * extension. If the {@code Set} returned is empty, then the
-     * {@code X509Certificate} must include at least some specified policy
-     * in its certificate policies extension. If the {@code Set} returned is
+     * {@code X509Certificbte} must include bt lebst some specified policy
+     * in its certificbte policies extension. If the {@code Set} returned is
      * {@code null}, no policy check will be performed.
      *
-     * @return an immutable {@code Set} of certificate policy OIDs in
-     *         string format (or {@code null})
+     * @return bn immutbble {@code Set} of certificbte policy OIDs in
+     *         string formbt (or {@code null})
      * @see #setPolicy
      */
     public Set<String> getPolicy() {
@@ -1767,141 +1767,141 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Returns a copy of the pathToNames criterion. The
-     * {@code X509Certificate} must not include name constraints that would
-     * prohibit building a path to the specified names. If the value
-     * returned is {@code null}, no pathToNames check will be performed.
+     * Returns b copy of the pbthToNbmes criterion. The
+     * {@code X509Certificbte} must not include nbme constrbints thbt would
+     * prohibit building b pbth to the specified nbmes. If the vblue
+     * returned is {@code null}, no pbthToNbmes check will be performed.
      * <p>
-     * If the value returned is not {@code null}, it is a
+     * If the vblue returned is not {@code null}, it is b
      * {@code Collection} with one
-     * entry for each name to be included in the pathToNames
-     * criterion. Each entry is a {@code List} whose first entry is an
-     * {@code Integer} (the name type, 0-8) and whose second
-     * entry is a {@code String} or a byte array (the name, in
+     * entry for ebch nbme to be included in the pbthToNbmes
+     * criterion. Ebch entry is b {@code List} whose first entry is bn
+     * {@code Integer} (the nbme type, 0-8) bnd whose second
+     * entry is b {@code String} or b byte brrby (the nbme, in
      * string or ASN.1 DER encoded form, respectively).
-     * There can be multiple names of the same type. Note that the
-     * {@code Collection} returned may contain duplicate names (same
-     * name and name type).
+     * There cbn be multiple nbmes of the sbme type. Note thbt the
+     * {@code Collection} returned mby contbin duplicbte nbmes (sbme
+     * nbme bnd nbme type).
      * <p>
-     * Each name in the {@code Collection}
-     * may be specified either as a {@code String} or as an ASN.1 encoded
-     * byte array. For more details about the formats used, see
-     * {@link #addPathToName(int type, String name)
-     * addPathToName(int type, String name)} and
-     * {@link #addPathToName(int type, byte [] name)
-     * addPathToName(int type, byte [] name)}.
+     * Ebch nbme in the {@code Collection}
+     * mby be specified either bs b {@code String} or bs bn ASN.1 encoded
+     * byte brrby. For more detbils bbout the formbts used, see
+     * {@link #bddPbthToNbme(int type, String nbme)
+     * bddPbthToNbme(int type, String nbme)} bnd
+     * {@link #bddPbthToNbme(int type, byte [] nbme)
+     * bddPbthToNbme(int type, byte [] nbme)}.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Note thbt b deep copy is performed on the {@code Collection} to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @return a {@code Collection} of names (or {@code null})
-     * @see #setPathToNames
+     * @return b {@code Collection} of nbmes (or {@code null})
+     * @see #setPbthToNbmes
      */
-    public Collection<List<?>> getPathToNames() {
-        if (pathToNames == null) {
+    public Collection<List<?>> getPbthToNbmes() {
+        if (pbthToNbmes == null) {
             return null;
         }
-        return cloneNames(pathToNames);
+        return cloneNbmes(pbthToNbmes);
     }
 
     /**
-     * Return a printable representation of the {@code CertSelector}.
+     * Return b printbble representbtion of the {@code CertSelector}.
      *
-     * @return a {@code String} describing the contents of the
+     * @return b {@code String} describing the contents of the
      *         {@code CertSelector}
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("X509CertSelector: [\n");
+        sb.bppend("X509CertSelector: [\n");
         if (x509Cert != null) {
-            sb.append("  Certificate: " + x509Cert.toString() + "\n");
+            sb.bppend("  Certificbte: " + x509Cert.toString() + "\n");
         }
-        if (serialNumber != null) {
-            sb.append("  Serial Number: " + serialNumber.toString() + "\n");
+        if (seriblNumber != null) {
+            sb.bppend("  Seribl Number: " + seriblNumber.toString() + "\n");
         }
         if (issuer != null) {
-            sb.append("  Issuer: " + getIssuerAsString() + "\n");
+            sb.bppend("  Issuer: " + getIssuerAsString() + "\n");
         }
         if (subject != null) {
-            sb.append("  Subject: " + getSubjectAsString() + "\n");
+            sb.bppend("  Subject: " + getSubjectAsString() + "\n");
         }
-        sb.append("  matchAllSubjectAltNames flag: "
-                  + String.valueOf(matchAllSubjectAltNames) + "\n");
-        if (subjectAlternativeNames != null) {
-            sb.append("  SubjectAlternativeNames:\n");
-            Iterator<List<?>> i = subjectAlternativeNames.iterator();
-            while (i.hasNext()) {
+        sb.bppend("  mbtchAllSubjectAltNbmes flbg: "
+                  + String.vblueOf(mbtchAllSubjectAltNbmes) + "\n");
+        if (subjectAlternbtiveNbmes != null) {
+            sb.bppend("  SubjectAlternbtiveNbmes:\n");
+            Iterbtor<List<?>> i = subjectAlternbtiveNbmes.iterbtor();
+            while (i.hbsNext()) {
                 List<?> list = i.next();
-                sb.append("    type " + list.get(0) +
-                          ", name " + list.get(1) + "\n");
+                sb.bppend("    type " + list.get(0) +
+                          ", nbme " + list.get(1) + "\n");
             }
         }
         if (subjectKeyID != null) {
             HexDumpEncoder enc = new HexDumpEncoder();
-            sb.append("  Subject Key Identifier: " +
+            sb.bppend("  Subject Key Identifier: " +
                       enc.encodeBuffer(subjectKeyID) + "\n");
         }
-        if (authorityKeyID != null) {
+        if (buthorityKeyID != null) {
             HexDumpEncoder enc = new HexDumpEncoder();
-            sb.append("  Authority Key Identifier: " +
-                      enc.encodeBuffer(authorityKeyID) + "\n");
+            sb.bppend("  Authority Key Identifier: " +
+                      enc.encodeBuffer(buthorityKeyID) + "\n");
         }
-        if (certificateValid != null) {
-            sb.append("  Certificate Valid: " +
-                      certificateValid.toString() + "\n");
+        if (certificbteVblid != null) {
+            sb.bppend("  Certificbte Vblid: " +
+                      certificbteVblid.toString() + "\n");
         }
-        if (privateKeyValid != null) {
-            sb.append("  Private Key Valid: " +
-                      privateKeyValid.toString() + "\n");
+        if (privbteKeyVblid != null) {
+            sb.bppend("  Privbte Key Vblid: " +
+                      privbteKeyVblid.toString() + "\n");
         }
         if (subjectPublicKeyAlgID != null) {
-            sb.append("  Subject Public Key AlgID: " +
+            sb.bppend("  Subject Public Key AlgID: " +
                       subjectPublicKeyAlgID.toString() + "\n");
         }
         if (subjectPublicKey != null) {
-            sb.append("  Subject Public Key: " +
+            sb.bppend("  Subject Public Key: " +
                       subjectPublicKey.toString() + "\n");
         }
-        if (keyUsage != null) {
-            sb.append("  Key Usage: " + keyUsageToString(keyUsage) + "\n");
+        if (keyUsbge != null) {
+            sb.bppend("  Key Usbge: " + keyUsbgeToString(keyUsbge) + "\n");
         }
         if (keyPurposeSet != null) {
-            sb.append("  Extended Key Usage: " +
+            sb.bppend("  Extended Key Usbge: " +
                       keyPurposeSet.toString() + "\n");
         }
         if (policy != null) {
-            sb.append("  Policy: " + policy.toString() + "\n");
+            sb.bppend("  Policy: " + policy.toString() + "\n");
         }
-        if (pathToGeneralNames != null) {
-            sb.append("  Path to names:\n");
-            Iterator<GeneralNameInterface> i = pathToGeneralNames.iterator();
-            while (i.hasNext()) {
-                sb.append("    " + i.next() + "\n");
+        if (pbthToGenerblNbmes != null) {
+            sb.bppend("  Pbth to nbmes:\n");
+            Iterbtor<GenerblNbmeInterfbce> i = pbthToGenerblNbmes.iterbtor();
+            while (i.hbsNext()) {
+                sb.bppend("    " + i.next() + "\n");
             }
         }
-        sb.append("]");
+        sb.bppend("]");
         return sb.toString();
     }
 
-    // Copied from sun.security.x509.KeyUsageExtension
-    // (without calling the superclass)
+    // Copied from sun.security.x509.KeyUsbgeExtension
+    // (without cblling the superclbss)
     /**
-     * Returns a printable representation of the KeyUsage.
+     * Returns b printbble representbtion of the KeyUsbge.
      */
-    private static String keyUsageToString(boolean[] k) {
-        String s = "KeyUsage [\n";
+    privbte stbtic String keyUsbgeToString(boolebn[] k) {
+        String s = "KeyUsbge [\n";
         try {
             if (k[0]) {
-                s += "  DigitalSignature\n";
+                s += "  DigitblSignbture\n";
             }
             if (k[1]) {
-                s += "  Non_repudiation\n";
+                s += "  Non_repudibtion\n";
             }
             if (k[2]) {
                 s += "  Key_Encipherment\n";
             }
             if (k[3]) {
-                s += "  Data_Encipherment\n";
+                s += "  Dbtb_Encipherment\n";
             }
             if (k[4]) {
                 s += "  Key_Agreement\n";
@@ -1918,7 +1918,7 @@ public class X509CertSelector implements CertSelector {
             if (k[8]) {
                 s += "  Decipher_Only\n";
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+        } cbtch (ArrbyIndexOutOfBoundsException ex) {}
 
         s += "]\n";
 
@@ -1926,590 +1926,590 @@ public class X509CertSelector implements CertSelector {
     }
 
     /**
-     * Returns an Extension object given any X509Certificate and extension oid.
-     * Throw an {@code IOException} if the extension byte value is
-     * malformed.
+     * Returns bn Extension object given bny X509Certificbte bnd extension oid.
+     * Throw bn {@code IOException} if the extension byte vblue is
+     * mblformed.
      *
-     * @param cert a {@code X509Certificate}
-     * @param extId an {@code integer} which specifies the extension index.
-     * Currently, the supported extensions are as follows:
-     * index 0 - PrivateKeyUsageExtension
-     * index 1 - SubjectAlternativeNameExtension
-     * index 2 - NameConstraintsExtension
-     * index 3 - CertificatePoliciesExtension
-     * index 4 - ExtendedKeyUsageExtension
-     * @return an {@code Extension} object whose real type is as specified
+     * @pbrbm cert b {@code X509Certificbte}
+     * @pbrbm extId bn {@code integer} which specifies the extension index.
+     * Currently, the supported extensions bre bs follows:
+     * index 0 - PrivbteKeyUsbgeExtension
+     * index 1 - SubjectAlternbtiveNbmeExtension
+     * index 2 - NbmeConstrbintsExtension
+     * index 3 - CertificbtePoliciesExtension
+     * index 4 - ExtendedKeyUsbgeExtension
+     * @return bn {@code Extension} object whose rebl type is bs specified
      * by the extension oid.
-     * @throws IOException if cannot construct the {@code Extension}
-     * object with the extension encoding retrieved from the passed in
-     * {@code X509Certificate}.
+     * @throws IOException if cbnnot construct the {@code Extension}
+     * object with the extension encoding retrieved from the pbssed in
+     * {@code X509Certificbte}.
      */
-    private static Extension getExtensionObject(X509Certificate cert, int extId)
+    privbte stbtic Extension getExtensionObject(X509Certificbte cert, int extId)
             throws IOException {
-        if (cert instanceof X509CertImpl) {
+        if (cert instbnceof X509CertImpl) {
             X509CertImpl impl = (X509CertImpl)cert;
             switch (extId) {
-            case PRIVATE_KEY_USAGE_ID:
-                return impl.getPrivateKeyUsageExtension();
-            case SUBJECT_ALT_NAME_ID:
-                return impl.getSubjectAlternativeNameExtension();
-            case NAME_CONSTRAINTS_ID:
-                return impl.getNameConstraintsExtension();
-            case CERT_POLICIES_ID:
-                return impl.getCertificatePoliciesExtension();
-            case EXTENDED_KEY_USAGE_ID:
-                return impl.getExtendedKeyUsageExtension();
-            default:
+            cbse PRIVATE_KEY_USAGE_ID:
+                return impl.getPrivbteKeyUsbgeExtension();
+            cbse SUBJECT_ALT_NAME_ID:
+                return impl.getSubjectAlternbtiveNbmeExtension();
+            cbse NAME_CONSTRAINTS_ID:
+                return impl.getNbmeConstrbintsExtension();
+            cbse CERT_POLICIES_ID:
+                return impl.getCertificbtePoliciesExtension();
+            cbse EXTENDED_KEY_USAGE_ID:
+                return impl.getExtendedKeyUsbgeExtension();
+            defbult:
                 return null;
             }
         }
-        byte[] rawExtVal = cert.getExtensionValue(EXTENSION_OIDS[extId]);
-        if (rawExtVal == null) {
+        byte[] rbwExtVbl = cert.getExtensionVblue(EXTENSION_OIDS[extId]);
+        if (rbwExtVbl == null) {
             return null;
         }
-        DerInputStream in = new DerInputStream(rawExtVal);
+        DerInputStrebm in = new DerInputStrebm(rbwExtVbl);
         byte[] encoded = in.getOctetString();
         switch (extId) {
-        case PRIVATE_KEY_USAGE_ID:
+        cbse PRIVATE_KEY_USAGE_ID:
             try {
-                return new PrivateKeyUsageExtension(FALSE, encoded);
-            } catch (CertificateException ex) {
-                throw new IOException(ex.getMessage());
+                return new PrivbteKeyUsbgeExtension(FALSE, encoded);
+            } cbtch (CertificbteException ex) {
+                throw new IOException(ex.getMessbge());
             }
-        case SUBJECT_ALT_NAME_ID:
-            return new SubjectAlternativeNameExtension(FALSE, encoded);
-        case NAME_CONSTRAINTS_ID:
-            return new NameConstraintsExtension(FALSE, encoded);
-        case CERT_POLICIES_ID:
-            return new CertificatePoliciesExtension(FALSE, encoded);
-        case EXTENDED_KEY_USAGE_ID:
-            return new ExtendedKeyUsageExtension(FALSE, encoded);
-        default:
+        cbse SUBJECT_ALT_NAME_ID:
+            return new SubjectAlternbtiveNbmeExtension(FALSE, encoded);
+        cbse NAME_CONSTRAINTS_ID:
+            return new NbmeConstrbintsExtension(FALSE, encoded);
+        cbse CERT_POLICIES_ID:
+            return new CertificbtePoliciesExtension(FALSE, encoded);
+        cbse EXTENDED_KEY_USAGE_ID:
+            return new ExtendedKeyUsbgeExtension(FALSE, encoded);
+        defbult:
             return null;
         }
     }
 
     /**
-     * Decides whether a {@code Certificate} should be selected.
+     * Decides whether b {@code Certificbte} should be selected.
      *
-     * @param cert the {@code Certificate} to be checked
-     * @return {@code true} if the {@code Certificate} should be
-     *         selected, {@code false} otherwise
+     * @pbrbm cert the {@code Certificbte} to be checked
+     * @return {@code true} if the {@code Certificbte} should be
+     *         selected, {@code fblse} otherwise
      */
-    public boolean match(Certificate cert) {
-        if (!(cert instanceof X509Certificate)) {
-            return false;
+    public boolebn mbtch(Certificbte cert) {
+        if (!(cert instbnceof X509Certificbte)) {
+            return fblse;
         }
-        X509Certificate xcert = (X509Certificate)cert;
+        X509Certificbte xcert = (X509Certificbte)cert;
 
         if (debug != null) {
-            debug.println("X509CertSelector.match(SN: "
-                + (xcert.getSerialNumber()).toString(16) + "\n  Issuer: "
+            debug.println("X509CertSelector.mbtch(SN: "
+                + (xcert.getSeriblNumber()).toString(16) + "\n  Issuer: "
                 + xcert.getIssuerDN() + "\n  Subject: " + xcert.getSubjectDN()
                 + ")");
         }
 
-        /* match on X509Certificate */
+        /* mbtch on X509Certificbte */
         if (x509Cert != null) {
-            if (!x509Cert.equals(xcert)) {
+            if (!x509Cert.equbls(xcert)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "certs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "certs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        /* match on serial number */
-        if (serialNumber != null) {
-            if (!serialNumber.equals(xcert.getSerialNumber())) {
+        /* mbtch on seribl number */
+        if (seriblNumber != null) {
+            if (!seriblNumber.equbls(xcert.getSeriblNumber())) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "serial numbers don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "seribl numbers don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        /* match on issuer name */
+        /* mbtch on issuer nbme */
         if (issuer != null) {
-            if (!issuer.equals(xcert.getIssuerX500Principal())) {
+            if (!issuer.equbls(xcert.getIssuerX500Principbl())) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "issuer DNs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "issuer DNs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        /* match on subject name */
+        /* mbtch on subject nbme */
         if (subject != null) {
-            if (!subject.equals(xcert.getSubjectX500Principal())) {
+            if (!subject.equbls(xcert.getSubjectX500Principbl())) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "subject DNs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "subject DNs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        /* match on certificate validity range */
-        if (certificateValid != null) {
+        /* mbtch on certificbte vblidity rbnge */
+        if (certificbteVblid != null) {
             try {
-                xcert.checkValidity(certificateValid);
-            } catch (CertificateException e) {
+                xcert.checkVblidity(certificbteVblid);
+            } cbtch (CertificbteException e) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "certificate not within validity period");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "certificbte not within vblidity period");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        /* match on subject public key */
+        /* mbtch on subject public key */
         if (subjectPublicKeyBytes != null) {
             byte[] certKey = xcert.getPublicKey().getEncoded();
-            if (!Arrays.equals(subjectPublicKeyBytes, certKey)) {
+            if (!Arrbys.equbls(subjectPublicKeyBytes, certKey)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "subject public keys don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "subject public keys don't mbtch");
                 }
-                return false;
+                return fblse;
             }
         }
 
-        boolean result = matchBasicConstraints(xcert)
-                      && matchKeyUsage(xcert)
-                      && matchExtendedKeyUsage(xcert)
-                      && matchSubjectKeyID(xcert)
-                      && matchAuthorityKeyID(xcert)
-                      && matchPrivateKeyValid(xcert)
-                      && matchSubjectPublicKeyAlgID(xcert)
-                      && matchPolicy(xcert)
-                      && matchSubjectAlternativeNames(xcert)
-                      && matchPathToNames(xcert)
-                      && matchNameConstraints(xcert);
+        boolebn result = mbtchBbsicConstrbints(xcert)
+                      && mbtchKeyUsbge(xcert)
+                      && mbtchExtendedKeyUsbge(xcert)
+                      && mbtchSubjectKeyID(xcert)
+                      && mbtchAuthorityKeyID(xcert)
+                      && mbtchPrivbteKeyVblid(xcert)
+                      && mbtchSubjectPublicKeyAlgID(xcert)
+                      && mbtchPolicy(xcert)
+                      && mbtchSubjectAlternbtiveNbmes(xcert)
+                      && mbtchPbthToNbmes(xcert)
+                      && mbtchNbmeConstrbints(xcert);
 
         if (result && (debug != null)) {
-            debug.println("X509CertSelector.match returning: true");
+            debug.println("X509CertSelector.mbtch returning: true");
         }
         return result;
     }
 
-    /* match on subject key identifier extension value */
-    private boolean matchSubjectKeyID(X509Certificate xcert) {
+    /* mbtch on subject key identifier extension vblue */
+    privbte boolebn mbtchSubjectKeyID(X509Certificbte xcert) {
         if (subjectKeyID == null) {
             return true;
         }
         try {
-            byte[] extVal = xcert.getExtensionValue("2.5.29.14");
-            if (extVal == null) {
+            byte[] extVbl = xcert.getExtensionVblue("2.5.29.14");
+            if (extVbl == null) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
+                    debug.println("X509CertSelector.mbtch: "
                         + "no subject key ID extension");
                 }
-                return false;
+                return fblse;
             }
-            DerInputStream in = new DerInputStream(extVal);
+            DerInputStrebm in = new DerInputStrebm(extVbl);
             byte[] certSubjectKeyID = in.getOctetString();
             if (certSubjectKeyID == null ||
-                    !Arrays.equals(subjectKeyID, certSubjectKeyID)) {
+                    !Arrbys.equbls(subjectKeyID, certSubjectKeyID)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "subject key IDs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "subject key IDs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
+                debug.println("X509CertSelector.mbtch: "
                     + "exception in subject key ID check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on authority key identifier extension value */
-    private boolean matchAuthorityKeyID(X509Certificate xcert) {
-        if (authorityKeyID == null) {
+    /* mbtch on buthority key identifier extension vblue */
+    privbte boolebn mbtchAuthorityKeyID(X509Certificbte xcert) {
+        if (buthorityKeyID == null) {
             return true;
         }
         try {
-            byte[] extVal = xcert.getExtensionValue("2.5.29.35");
-            if (extVal == null) {
+            byte[] extVbl = xcert.getExtensionVblue("2.5.29.35");
+            if (extVbl == null) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "no authority key ID extension");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "no buthority key ID extension");
                 }
-                return false;
+                return fblse;
             }
-            DerInputStream in = new DerInputStream(extVal);
+            DerInputStrebm in = new DerInputStrebm(extVbl);
             byte[] certAuthKeyID = in.getOctetString();
             if (certAuthKeyID == null ||
-                    !Arrays.equals(authorityKeyID, certAuthKeyID)) {
+                    !Arrbys.equbls(buthorityKeyID, certAuthKeyID)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "authority key IDs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "buthority key IDs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
-                    + "exception in authority key ID check");
+                debug.println("X509CertSelector.mbtch: "
+                    + "exception in buthority key ID check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on private key usage range */
-    private boolean matchPrivateKeyValid(X509Certificate xcert) {
-        if (privateKeyValid == null) {
+    /* mbtch on privbte key usbge rbnge */
+    privbte boolebn mbtchPrivbteKeyVblid(X509Certificbte xcert) {
+        if (privbteKeyVblid == null) {
             return true;
         }
-        PrivateKeyUsageExtension ext = null;
+        PrivbteKeyUsbgeExtension ext = null;
         try {
-            ext = (PrivateKeyUsageExtension)
+            ext = (PrivbteKeyUsbgeExtension)
                 getExtensionObject(xcert, PRIVATE_KEY_USAGE_ID);
             if (ext != null) {
-                ext.valid(privateKeyValid);
+                ext.vblid(privbteKeyVblid);
             }
-        } catch (CertificateExpiredException e1) {
+        } cbtch (CertificbteExpiredException e1) {
             if (debug != null) {
-                String time = "n/a";
+                String time = "n/b";
                 try {
-                    Date notAfter = ext.get(PrivateKeyUsageExtension.NOT_AFTER);
+                    Dbte notAfter = ext.get(PrivbteKeyUsbgeExtension.NOT_AFTER);
                     time = notAfter.toString();
-                } catch (CertificateException ex) {
-                    // not able to retrieve notAfter value
+                } cbtch (CertificbteException ex) {
+                    // not bble to retrieve notAfter vblue
                 }
-                debug.println("X509CertSelector.match: private key usage not "
-                    + "within validity date; ext.NOT_After: "
+                debug.println("X509CertSelector.mbtch: privbte key usbge not "
+                    + "within vblidity dbte; ext.NOT_After: "
                     + time + "; X509CertSelector: "
                     + this.toString());
-                e1.printStackTrace();
+                e1.printStbckTrbce();
             }
-            return false;
-        } catch (CertificateNotYetValidException e2) {
+            return fblse;
+        } cbtch (CertificbteNotYetVblidException e2) {
             if (debug != null) {
-                String time = "n/a";
+                String time = "n/b";
                 try {
-                    Date notBefore = ext.get(PrivateKeyUsageExtension.NOT_BEFORE);
+                    Dbte notBefore = ext.get(PrivbteKeyUsbgeExtension.NOT_BEFORE);
                     time = notBefore.toString();
-                } catch (CertificateException ex) {
-                    // not able to retrieve notBefore value
+                } cbtch (CertificbteException ex) {
+                    // not bble to retrieve notBefore vblue
                 }
-                debug.println("X509CertSelector.match: private key usage not "
-                    + "within validity date; ext.NOT_BEFORE: "
+                debug.println("X509CertSelector.mbtch: privbte key usbge not "
+                    + "within vblidity dbte; ext.NOT_BEFORE: "
                     + time + "; X509CertSelector: "
                     + this.toString());
-                e2.printStackTrace();
+                e2.printStbckTrbce();
             }
-            return false;
-        } catch (IOException e4) {
+            return fblse;
+        } cbtch (IOException e4) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: IOException in "
-                    + "private key usage check; X509CertSelector: "
+                debug.println("X509CertSelector.mbtch: IOException in "
+                    + "privbte key usbge check; X509CertSelector: "
                     + this.toString());
-                e4.printStackTrace();
+                e4.printStbckTrbce();
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on subject public key algorithm OID */
-    private boolean matchSubjectPublicKeyAlgID(X509Certificate xcert) {
+    /* mbtch on subject public key blgorithm OID */
+    privbte boolebn mbtchSubjectPublicKeyAlgID(X509Certificbte xcert) {
         if (subjectPublicKeyAlgID == null) {
             return true;
         }
         try {
             byte[] encodedKey = xcert.getPublicKey().getEncoded();
-            DerValue val = new DerValue(encodedKey);
-            if (val.tag != DerValue.tag_Sequence) {
-                throw new IOException("invalid key format");
+            DerVblue vbl = new DerVblue(encodedKey);
+            if (vbl.tbg != DerVblue.tbg_Sequence) {
+                throw new IOException("invblid key formbt");
             }
 
-            AlgorithmId algID = AlgorithmId.parse(val.data.getDerValue());
+            AlgorithmId blgID = AlgorithmId.pbrse(vbl.dbtb.getDerVblue());
             if (debug != null) {
-                debug.println("X509CertSelector.match: subjectPublicKeyAlgID = "
+                debug.println("X509CertSelector.mbtch: subjectPublicKeyAlgID = "
                     + subjectPublicKeyAlgID + ", xcert subjectPublicKeyAlgID = "
-                    + algID.getOID());
+                    + blgID.getOID());
             }
-            if (!subjectPublicKeyAlgID.equals((Object)algID.getOID())) {
+            if (!subjectPublicKeyAlgID.equbls((Object)blgID.getOID())) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "subject public key alg IDs don't match");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "subject public key blg IDs don't mbtch");
                 }
-                return false;
+                return fblse;
             }
-        } catch (IOException e5) {
+        } cbtch (IOException e5) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: IOException in subject "
-                    + "public key algorithm OID check");
+                debug.println("X509CertSelector.mbtch: IOException in subject "
+                    + "public key blgorithm OID check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on key usage extension value */
-    private boolean matchKeyUsage(X509Certificate xcert) {
-        if (keyUsage == null) {
+    /* mbtch on key usbge extension vblue */
+    privbte boolebn mbtchKeyUsbge(X509Certificbte xcert) {
+        if (keyUsbge == null) {
             return true;
         }
-        boolean[] certKeyUsage = xcert.getKeyUsage();
-        if (certKeyUsage != null) {
-            for (int keyBit = 0; keyBit < keyUsage.length; keyBit++) {
-                if (keyUsage[keyBit] &&
-                    ((keyBit >= certKeyUsage.length) || !certKeyUsage[keyBit])) {
+        boolebn[] certKeyUsbge = xcert.getKeyUsbge();
+        if (certKeyUsbge != null) {
+            for (int keyBit = 0; keyBit < keyUsbge.length; keyBit++) {
+                if (keyUsbge[keyBit] &&
+                    ((keyBit >= certKeyUsbge.length) || !certKeyUsbge[keyBit])) {
                     if (debug != null) {
-                        debug.println("X509CertSelector.match: "
-                            + "key usage bits don't match");
+                        debug.println("X509CertSelector.mbtch: "
+                            + "key usbge bits don't mbtch");
                     }
-                    return false;
+                    return fblse;
                 }
             }
         }
         return true;
     }
 
-    /* match on extended key usage purpose OIDs */
-    private boolean matchExtendedKeyUsage(X509Certificate xcert) {
+    /* mbtch on extended key usbge purpose OIDs */
+    privbte boolebn mbtchExtendedKeyUsbge(X509Certificbte xcert) {
         if ((keyPurposeSet == null) || keyPurposeSet.isEmpty()) {
             return true;
         }
         try {
-            ExtendedKeyUsageExtension ext =
-                (ExtendedKeyUsageExtension)getExtensionObject(xcert,
+            ExtendedKeyUsbgeExtension ext =
+                (ExtendedKeyUsbgeExtension)getExtensionObject(xcert,
                                                 EXTENDED_KEY_USAGE_ID);
             if (ext != null) {
                 Vector<ObjectIdentifier> certKeyPurposeVector =
-                    ext.get(ExtendedKeyUsageExtension.USAGES);
-                if (!certKeyPurposeVector.contains(ANY_EXTENDED_KEY_USAGE)
-                        && !certKeyPurposeVector.containsAll(keyPurposeOIDSet)) {
+                    ext.get(ExtendedKeyUsbgeExtension.USAGES);
+                if (!certKeyPurposeVector.contbins(ANY_EXTENDED_KEY_USAGE)
+                        && !certKeyPurposeVector.contbinsAll(keyPurposeOIDSet)) {
                     if (debug != null) {
-                        debug.println("X509CertSelector.match: cert failed "
-                            + "extendedKeyUsage criterion");
+                        debug.println("X509CertSelector.mbtch: cert fbiled "
+                            + "extendedKeyUsbge criterion");
                     }
-                    return false;
+                    return fblse;
                 }
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
-                    + "IOException in extended key usage check");
+                debug.println("X509CertSelector.mbtch: "
+                    + "IOException in extended key usbge check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on subject alternative name extension names */
-    private boolean matchSubjectAlternativeNames(X509Certificate xcert) {
-        if ((subjectAlternativeNames == null) || subjectAlternativeNames.isEmpty()) {
+    /* mbtch on subject blternbtive nbme extension nbmes */
+    privbte boolebn mbtchSubjectAlternbtiveNbmes(X509Certificbte xcert) {
+        if ((subjectAlternbtiveNbmes == null) || subjectAlternbtiveNbmes.isEmpty()) {
             return true;
         }
         try {
-            SubjectAlternativeNameExtension sanExt =
-                (SubjectAlternativeNameExtension) getExtensionObject(xcert,
+            SubjectAlternbtiveNbmeExtension sbnExt =
+                (SubjectAlternbtiveNbmeExtension) getExtensionObject(xcert,
                                                       SUBJECT_ALT_NAME_ID);
-            if (sanExt == null) {
+            if (sbnExt == null) {
                 if (debug != null) {
-                  debug.println("X509CertSelector.match: "
-                      + "no subject alternative name extension");
+                  debug.println("X509CertSelector.mbtch: "
+                      + "no subject blternbtive nbme extension");
                 }
-                return false;
+                return fblse;
             }
-            GeneralNames certNames =
-                    sanExt.get(SubjectAlternativeNameExtension.SUBJECT_NAME);
-            Iterator<GeneralNameInterface> i =
-                                subjectAlternativeGeneralNames.iterator();
-            while (i.hasNext()) {
-                GeneralNameInterface matchName = i.next();
-                boolean found = false;
-                for (Iterator<GeneralName> t = certNames.iterator();
-                                                t.hasNext() && !found; ) {
-                    GeneralNameInterface certName = (t.next()).getName();
-                    found = certName.equals(matchName);
+            GenerblNbmes certNbmes =
+                    sbnExt.get(SubjectAlternbtiveNbmeExtension.SUBJECT_NAME);
+            Iterbtor<GenerblNbmeInterfbce> i =
+                                subjectAlternbtiveGenerblNbmes.iterbtor();
+            while (i.hbsNext()) {
+                GenerblNbmeInterfbce mbtchNbme = i.next();
+                boolebn found = fblse;
+                for (Iterbtor<GenerblNbme> t = certNbmes.iterbtor();
+                                                t.hbsNext() && !found; ) {
+                    GenerblNbmeInterfbce certNbme = (t.next()).getNbme();
+                    found = certNbme.equbls(mbtchNbme);
                 }
-                if (!found && (matchAllSubjectAltNames || !i.hasNext())) {
+                if (!found && (mbtchAllSubjectAltNbmes || !i.hbsNext())) {
                     if (debug != null) {
-                      debug.println("X509CertSelector.match: subject alternative "
-                          + "name " + matchName + " not found");
+                      debug.println("X509CertSelector.mbtch: subject blternbtive "
+                          + "nbme " + mbtchNbme + " not found");
                     }
-                    return false;
-                } else if (found && !matchAllSubjectAltNames) {
-                    break;
+                    return fblse;
+                } else if (found && !mbtchAllSubjectAltNbmes) {
+                    brebk;
                 }
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null)
-                debug.println("X509CertSelector.match: IOException in subject "
-                    + "alternative name check");
-            return false;
+                debug.println("X509CertSelector.mbtch: IOException in subject "
+                    + "blternbtive nbme check");
+            return fblse;
         }
         return true;
     }
 
-    /* match on name constraints */
-    private boolean matchNameConstraints(X509Certificate xcert) {
+    /* mbtch on nbme constrbints */
+    privbte boolebn mbtchNbmeConstrbints(X509Certificbte xcert) {
         if (nc == null) {
             return true;
         }
         try {
             if (!nc.verify(xcert)) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: "
-                        + "name constraints not satisfied");
+                    debug.println("X509CertSelector.mbtch: "
+                        + "nbme constrbints not sbtisfied");
                 }
-                return false;
+                return fblse;
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
-                    + "IOException in name constraints check");
+                debug.println("X509CertSelector.mbtch: "
+                    + "IOException in nbme constrbints check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on policy OIDs */
-    private boolean matchPolicy(X509Certificate xcert) {
+    /* mbtch on policy OIDs */
+    privbte boolebn mbtchPolicy(X509Certificbte xcert) {
         if (policy == null) {
             return true;
         }
         try {
-            CertificatePoliciesExtension ext = (CertificatePoliciesExtension)
+            CertificbtePoliciesExtension ext = (CertificbtePoliciesExtension)
                 getExtensionObject(xcert, CERT_POLICIES_ID);
             if (ext == null) {
                 if (debug != null) {
-                  debug.println("X509CertSelector.match: "
-                      + "no certificate policy extension");
+                  debug.println("X509CertSelector.mbtch: "
+                      + "no certificbte policy extension");
                 }
-                return false;
+                return fblse;
             }
-            List<PolicyInformation> policies = ext.get(CertificatePoliciesExtension.POLICIES);
+            List<PolicyInformbtion> policies = ext.get(CertificbtePoliciesExtension.POLICIES);
             /*
-             * Convert the Vector of PolicyInformation to a Vector
-             * of CertificatePolicyIds for easier comparison.
+             * Convert the Vector of PolicyInformbtion to b Vector
+             * of CertificbtePolicyIds for ebsier compbrison.
              */
-            List<CertificatePolicyId> policyIDs = new ArrayList<CertificatePolicyId>(policies.size());
-            for (PolicyInformation info : policies) {
-                policyIDs.add(info.getPolicyIdentifier());
+            List<CertificbtePolicyId> policyIDs = new ArrbyList<CertificbtePolicyId>(policies.size());
+            for (PolicyInformbtion info : policies) {
+                policyIDs.bdd(info.getPolicyIdentifier());
             }
             if (policy != null) {
-                boolean foundOne = false;
+                boolebn foundOne = fblse;
                 /*
-                 * if the user passes in an empty policy Set, then
-                 * we just want to make sure that the candidate certificate
-                 * has some policy OID in its CertPoliciesExtension
+                 * if the user pbsses in bn empty policy Set, then
+                 * we just wbnt to mbke sure thbt the cbndidbte certificbte
+                 * hbs some policy OID in its CertPoliciesExtension
                  */
                 if (policy.getCertPolicyIds().isEmpty()) {
                     if (policyIDs.isEmpty()) {
                         if (debug != null) {
-                            debug.println("X509CertSelector.match: "
-                                + "cert failed policyAny criterion");
+                            debug.println("X509CertSelector.mbtch: "
+                                + "cert fbiled policyAny criterion");
                         }
-                        return false;
+                        return fblse;
                     }
                 } else {
-                    for (CertificatePolicyId id : policy.getCertPolicyIds()) {
-                        if (policyIDs.contains(id)) {
+                    for (CertificbtePolicyId id : policy.getCertPolicyIds()) {
+                        if (policyIDs.contbins(id)) {
                             foundOne = true;
-                            break;
+                            brebk;
                         }
                     }
                     if (!foundOne) {
                         if (debug != null) {
-                            debug.println("X509CertSelector.match: "
-                                + "cert failed policyAny criterion");
+                            debug.println("X509CertSelector.mbtch: "
+                                + "cert fbiled policyAny criterion");
                         }
-                        return false;
+                        return fblse;
                     }
                 }
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
-                    + "IOException in certificate policy ID check");
+                debug.println("X509CertSelector.mbtch: "
+                    + "IOException in certificbte policy ID check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    /* match on pathToNames */
-    private boolean matchPathToNames(X509Certificate xcert) {
-        if (pathToGeneralNames == null) {
+    /* mbtch on pbthToNbmes */
+    privbte boolebn mbtchPbthToNbmes(X509Certificbte xcert) {
+        if (pbthToGenerblNbmes == null) {
             return true;
         }
         try {
-            NameConstraintsExtension ext = (NameConstraintsExtension)
+            NbmeConstrbintsExtension ext = (NbmeConstrbintsExtension)
                 getExtensionObject(xcert, NAME_CONSTRAINTS_ID);
             if (ext == null) {
                 return true;
             }
-            if ((debug != null) && Debug.isOn("certpath")) {
-                debug.println("X509CertSelector.match pathToNames:\n");
-                Iterator<GeneralNameInterface> i =
-                                        pathToGeneralNames.iterator();
-                while (i.hasNext()) {
+            if ((debug != null) && Debug.isOn("certpbth")) {
+                debug.println("X509CertSelector.mbtch pbthToNbmes:\n");
+                Iterbtor<GenerblNbmeInterfbce> i =
+                                        pbthToGenerblNbmes.iterbtor();
+                while (i.hbsNext()) {
                     debug.println("    " + i.next() + "\n");
                 }
             }
 
-            GeneralSubtrees permitted =
-                    ext.get(NameConstraintsExtension.PERMITTED_SUBTREES);
-            GeneralSubtrees excluded =
-                    ext.get(NameConstraintsExtension.EXCLUDED_SUBTREES);
+            GenerblSubtrees permitted =
+                    ext.get(NbmeConstrbintsExtension.PERMITTED_SUBTREES);
+            GenerblSubtrees excluded =
+                    ext.get(NbmeConstrbintsExtension.EXCLUDED_SUBTREES);
             if (excluded != null) {
-                if (matchExcluded(excluded) == false) {
-                    return false;
+                if (mbtchExcluded(excluded) == fblse) {
+                    return fblse;
                 }
             }
             if (permitted != null) {
-                if (matchPermitted(permitted) == false) {
-                    return false;
+                if (mbtchPermitted(permitted) == fblse) {
+                    return fblse;
                 }
             }
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             if (debug != null) {
-                debug.println("X509CertSelector.match: "
-                    + "IOException in name constraints check");
+                debug.println("X509CertSelector.mbtch: "
+                    + "IOException in nbme constrbints check");
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    private boolean matchExcluded(GeneralSubtrees excluded) {
+    privbte boolebn mbtchExcluded(GenerblSubtrees excluded) {
         /*
-         * Enumerate through excluded and compare each entry
-         * to all pathToNames. If any pathToName is within any of the
-         * subtrees listed in excluded, return false.
+         * Enumerbte through excluded bnd compbre ebch entry
+         * to bll pbthToNbmes. If bny pbthToNbme is within bny of the
+         * subtrees listed in excluded, return fblse.
          */
-        for (Iterator<GeneralSubtree> t = excluded.iterator(); t.hasNext(); ) {
-            GeneralSubtree tree = t.next();
-            GeneralNameInterface excludedName = tree.getName().getName();
-            Iterator<GeneralNameInterface> i = pathToGeneralNames.iterator();
-            while (i.hasNext()) {
-                GeneralNameInterface pathToName = i.next();
-                if (excludedName.getType() == pathToName.getType()) {
-                    switch (pathToName.constrains(excludedName)) {
-                    case GeneralNameInterface.NAME_WIDENS:
-                    case GeneralNameInterface.NAME_MATCH:
+        for (Iterbtor<GenerblSubtree> t = excluded.iterbtor(); t.hbsNext(); ) {
+            GenerblSubtree tree = t.next();
+            GenerblNbmeInterfbce excludedNbme = tree.getNbme().getNbme();
+            Iterbtor<GenerblNbmeInterfbce> i = pbthToGenerblNbmes.iterbtor();
+            while (i.hbsNext()) {
+                GenerblNbmeInterfbce pbthToNbme = i.next();
+                if (excludedNbme.getType() == pbthToNbme.getType()) {
+                    switch (pbthToNbme.constrbins(excludedNbme)) {
+                    cbse GenerblNbmeInterfbce.NAME_WIDENS:
+                    cbse GenerblNbmeInterfbce.NAME_MATCH:
                         if (debug != null) {
-                            debug.println("X509CertSelector.match: name constraints "
-                                + "inhibit path to specified name");
-                            debug.println("X509CertSelector.match: excluded name: " +
-                                pathToName);
+                            debug.println("X509CertSelector.mbtch: nbme constrbints "
+                                + "inhibit pbth to specified nbme");
+                            debug.println("X509CertSelector.mbtch: excluded nbme: " +
+                                pbthToNbme);
                         }
-                        return false;
-                    default:
+                        return fblse;
+                    defbult:
                     }
                 }
             }
@@ -2517,105 +2517,105 @@ public class X509CertSelector implements CertSelector {
         return true;
     }
 
-    private boolean matchPermitted(GeneralSubtrees permitted) {
+    privbte boolebn mbtchPermitted(GenerblSubtrees permitted) {
         /*
-         * Enumerate through pathToNames, checking that each pathToName
-         * is in at least one of the subtrees listed in permitted.
-         * If not, return false. However, if no subtrees of a given type
-         * are listed, all names of that type are permitted.
+         * Enumerbte through pbthToNbmes, checking thbt ebch pbthToNbme
+         * is in bt lebst one of the subtrees listed in permitted.
+         * If not, return fblse. However, if no subtrees of b given type
+         * bre listed, bll nbmes of thbt type bre permitted.
          */
-        Iterator<GeneralNameInterface> i = pathToGeneralNames.iterator();
-        while (i.hasNext()) {
-            GeneralNameInterface pathToName = i.next();
-            Iterator<GeneralSubtree> t = permitted.iterator();
-            boolean permittedNameFound = false;
-            boolean nameTypeFound = false;
-            String names = "";
-            while (t.hasNext() && !permittedNameFound) {
-                GeneralSubtree tree = t.next();
-                GeneralNameInterface permittedName = tree.getName().getName();
-                if (permittedName.getType() == pathToName.getType()) {
-                    nameTypeFound = true;
-                    names = names + "  " + permittedName;
-                    switch (pathToName.constrains(permittedName)) {
-                    case GeneralNameInterface.NAME_WIDENS:
-                    case GeneralNameInterface.NAME_MATCH:
-                        permittedNameFound = true;
-                        break;
-                    default:
+        Iterbtor<GenerblNbmeInterfbce> i = pbthToGenerblNbmes.iterbtor();
+        while (i.hbsNext()) {
+            GenerblNbmeInterfbce pbthToNbme = i.next();
+            Iterbtor<GenerblSubtree> t = permitted.iterbtor();
+            boolebn permittedNbmeFound = fblse;
+            boolebn nbmeTypeFound = fblse;
+            String nbmes = "";
+            while (t.hbsNext() && !permittedNbmeFound) {
+                GenerblSubtree tree = t.next();
+                GenerblNbmeInterfbce permittedNbme = tree.getNbme().getNbme();
+                if (permittedNbme.getType() == pbthToNbme.getType()) {
+                    nbmeTypeFound = true;
+                    nbmes = nbmes + "  " + permittedNbme;
+                    switch (pbthToNbme.constrbins(permittedNbme)) {
+                    cbse GenerblNbmeInterfbce.NAME_WIDENS:
+                    cbse GenerblNbmeInterfbce.NAME_MATCH:
+                        permittedNbmeFound = true;
+                        brebk;
+                    defbult:
                     }
                 }
             }
-            if (!permittedNameFound && nameTypeFound) {
+            if (!permittedNbmeFound && nbmeTypeFound) {
                 if (debug != null)
-                  debug.println("X509CertSelector.match: " +
-                            "name constraints inhibit path to specified name; " +
-                            "permitted names of type " + pathToName.getType() +
-                            ": " + names);
-                return false;
+                  debug.println("X509CertSelector.mbtch: " +
+                            "nbme constrbints inhibit pbth to specified nbme; " +
+                            "permitted nbmes of type " + pbthToNbme.getType() +
+                            ": " + nbmes);
+                return fblse;
             }
         }
         return true;
     }
 
-    /* match on basic constraints */
-    private boolean matchBasicConstraints(X509Certificate xcert) {
-        if (basicConstraints == -1) {
+    /* mbtch on bbsic constrbints */
+    privbte boolebn mbtchBbsicConstrbints(X509Certificbte xcert) {
+        if (bbsicConstrbints == -1) {
             return true;
         }
-        int maxPathLen = xcert.getBasicConstraints();
-        if (basicConstraints == -2) {
-            if (maxPathLen != -1) {
+        int mbxPbthLen = xcert.getBbsicConstrbints();
+        if (bbsicConstrbints == -2) {
+            if (mbxPbthLen != -1) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: not an EE cert");
+                    debug.println("X509CertSelector.mbtch: not bn EE cert");
                 }
-                return false;
+                return fblse;
             }
         } else {
-            if (maxPathLen < basicConstraints) {
+            if (mbxPbthLen < bbsicConstrbints) {
                 if (debug != null) {
-                    debug.println("X509CertSelector.match: maxPathLen too small ("
-                        + maxPathLen + " < " + basicConstraints + ")");
+                    debug.println("X509CertSelector.mbtch: mbxPbthLen too smbll ("
+                        + mbxPbthLen + " < " + bbsicConstrbints + ")");
                 }
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    @SuppressWarnings("unchecked") // Safe casts assuming clone() works correctly
-    private static <T> Set<T> cloneSet(Set<T> set) {
-        if (set instanceof HashSet) {
-            Object clone = ((HashSet<T>)set).clone();
+    @SuppressWbrnings("unchecked") // Sbfe cbsts bssuming clone() works correctly
+    privbte stbtic <T> Set<T> cloneSet(Set<T> set) {
+        if (set instbnceof HbshSet) {
+            Object clone = ((HbshSet<T>)set).clone();
             return (Set<T>)clone;
         } else {
-            return new HashSet<T>(set);
+            return new HbshSet<T>(set);
         }
     }
 
     /**
-     * Returns a copy of this object.
+     * Returns b copy of this object.
      *
      * @return the copy
      */
     public Object clone() {
         try {
             X509CertSelector copy = (X509CertSelector)super.clone();
-            // Must clone these because addPathToName et al. modify them
-            if (subjectAlternativeNames != null) {
-                copy.subjectAlternativeNames =
-                        cloneSet(subjectAlternativeNames);
-                copy.subjectAlternativeGeneralNames =
-                        cloneSet(subjectAlternativeGeneralNames);
+            // Must clone these becbuse bddPbthToNbme et bl. modify them
+            if (subjectAlternbtiveNbmes != null) {
+                copy.subjectAlternbtiveNbmes =
+                        cloneSet(subjectAlternbtiveNbmes);
+                copy.subjectAlternbtiveGenerblNbmes =
+                        cloneSet(subjectAlternbtiveGenerblNbmes);
             }
-            if (pathToGeneralNames != null) {
-                copy.pathToNames = cloneSet(pathToNames);
-                copy.pathToGeneralNames = cloneSet(pathToGeneralNames);
+            if (pbthToGenerblNbmes != null) {
+                copy.pbthToNbmes = cloneSet(pbthToNbmes);
+                copy.pbthToGenerblNbmes = cloneSet(pbthToGenerblNbmes);
             }
             return copy;
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            /* Cbnnot hbppen */
+            throw new InternblError(e.toString(), e);
         }
     }
 }

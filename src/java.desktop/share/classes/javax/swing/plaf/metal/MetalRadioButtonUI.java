@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
 import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.io.Serializable;
-import javax.swing.text.View;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.text.View;
 
 
 /**
- * RadioButtonUI implementation for MetalRadioButtonUI
+ * RbdioButtonUI implementbtion for MetblRbdioButtonUI
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Michael C. Albers (Metal modifications)
- * @author Jeff Dinkins (original BasicRadioButtonCode)
+ * @buthor Michbel C. Albers (Metbl modificbtions)
+ * @buthor Jeff Dinkins (originbl BbsicRbdioButtonCode)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalRadioButtonUI extends BasicRadioButtonUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblRbdioButtonUI extends BbsicRbdioButtonUI {
 
-    private static final Object METAL_RADIO_BUTTON_UI_KEY = new Object();
+    privbte stbtic finbl Object METAL_RADIO_BUTTON_UI_KEY = new Object();
 
     /**
-     * The color of the focused radio button.
+     * The color of the focused rbdio button.
      */
     protected Color focusColor;
 
     /**
-     * The color of the selected radio button.
+     * The color of the selected rbdio button.
      */
     protected Color selectColor;
 
     /**
-     * The color of a disabled text.
+     * The color of b disbbled text.
      */
-    protected Color disabledTextColor;
+    protected Color disbbledTextColor;
 
-    private boolean defaults_initialized = false;
+    privbte boolebn defbults_initiblized = fblse;
 
     // ********************************
-    //        Create PlAF
+    //        Crebte PlAF
     // ********************************
 
     /**
-     * Returns an instance of {@code MetalRadioButtonUI}.
+     * Returns bn instbnce of {@code MetblRbdioButtonUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalRadioButtonUI}
+     * @pbrbm c b component
+     * @return bn instbnce of {@code MetblRbdioButtonUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
-        MetalRadioButtonUI metalRadioButtonUI =
-                (MetalRadioButtonUI) appContext.get(METAL_RADIO_BUTTON_UI_KEY);
-        if (metalRadioButtonUI == null) {
-            metalRadioButtonUI = new MetalRadioButtonUI();
-            appContext.put(METAL_RADIO_BUTTON_UI_KEY, metalRadioButtonUI);
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        AppContext bppContext = AppContext.getAppContext();
+        MetblRbdioButtonUI metblRbdioButtonUI =
+                (MetblRbdioButtonUI) bppContext.get(METAL_RADIO_BUTTON_UI_KEY);
+        if (metblRbdioButtonUI == null) {
+            metblRbdioButtonUI = new MetblRbdioButtonUI();
+            bppContext.put(METAL_RADIO_BUTTON_UI_KEY, metblRbdioButtonUI);
         }
-        return metalRadioButtonUI;
+        return metblRbdioButtonUI;
     }
 
     // ********************************
-    //        Install Defaults
+    //        Instbll Defbults
     // ********************************
-    public void installDefaults(AbstractButton b) {
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            focusColor = UIManager.getColor(getPropertyPrefix() + "focus");
-            selectColor = UIManager.getColor(getPropertyPrefix() + "select");
-            disabledTextColor = UIManager.getColor(getPropertyPrefix() + "disabledText");
-            defaults_initialized = true;
+    public void instbllDefbults(AbstrbctButton b) {
+        super.instbllDefbults(b);
+        if(!defbults_initiblized) {
+            focusColor = UIMbnbger.getColor(getPropertyPrefix() + "focus");
+            selectColor = UIMbnbger.getColor(getPropertyPrefix() + "select");
+            disbbledTextColor = UIMbnbger.getColor(getPropertyPrefix() + "disbbledText");
+            defbults_initiblized = true;
         }
-        LookAndFeel.installProperty(b, "opaque", Boolean.TRUE);
+        LookAndFeel.instbllProperty(b, "opbque", Boolebn.TRUE);
     }
 
-    protected void uninstallDefaults(AbstractButton b) {
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    protected void uninstbllDefbults(AbstrbctButton b) {
+        super.uninstbllDefbults(b);
+        defbults_initiblized = fblse;
     }
 
     // ********************************
-    //         Default Accessors
+    //         Defbult Accessors
     // ********************************
 
     /**
-     * Returns the color of the selected {@code JRadioButton}.
+     * Returns the color of the selected {@code JRbdioButton}.
      *
-     * @return the color of the selected {@code JRadioButton}
+     * @return the color of the selected {@code JRbdioButton}
      */
     protected Color getSelectColor() {
         return selectColor;
     }
 
     /**
-     * Returns the color of the disabled text.
+     * Returns the color of the disbbled text.
      *
-     * @return the color of the disabled text
+     * @return the color of the disbbled text
      */
-    protected Color getDisabledTextColor() {
-        return disabledTextColor;
+    protected Color getDisbbledTextColor() {
+        return disbbledTextColor;
     }
 
     /**
-     * Returns the color of the focused {@code JRadioButton}.
+     * Returns the color of the focused {@code JRbdioButton}.
      *
-     * @return the color of the focused {@code JRadioButton}
+     * @return the color of the focused {@code JRbdioButton}
      */
     protected Color getFocusColor() {
         return focusColor;
@@ -148,11 +148,11 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
 
 
     // ********************************
-    //        Paint Methods
+    //        Pbint Methods
     // ********************************
-    public synchronized void paint(Graphics g, JComponent c) {
+    public synchronized void pbint(Grbphics g, JComponent c) {
 
-        AbstractButton b = (AbstractButton) c;
+        AbstrbctButton b = (AbstrbctButton) c;
         ButtonModel model = b.getModel();
 
         Dimension size = c.getSize();
@@ -164,9 +164,9 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
         g.setFont(f);
         FontMetrics fm = SwingUtilities2.getFontMetrics(c, g, f);
 
-        Rectangle viewRect = new Rectangle(size);
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
+        Rectbngle viewRect = new Rectbngle(size);
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
 
         Insets i = c.getInsets();
         viewRect.x += i.left;
@@ -174,88 +174,88 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
         viewRect.width -= (i.right + viewRect.x);
         viewRect.height -= (i.bottom + viewRect.y);
 
-        Icon altIcon = b.getIcon();
+        Icon bltIcon = b.getIcon();
         Icon selectedIcon = null;
-        Icon disabledIcon = null;
+        Icon disbbledIcon = null;
 
-        String text = SwingUtilities.layoutCompoundLabel(
-            c, fm, b.getText(), altIcon != null ? altIcon : getDefaultIcon(),
-            b.getVerticalAlignment(), b.getHorizontalAlignment(),
-            b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
-            viewRect, iconRect, textRect, b.getIconTextGap());
+        String text = SwingUtilities.lbyoutCompoundLbbel(
+            c, fm, b.getText(), bltIcon != null ? bltIcon : getDefbultIcon(),
+            b.getVerticblAlignment(), b.getHorizontblAlignment(),
+            b.getVerticblTextPosition(), b.getHorizontblTextPosition(),
+            viewRect, iconRect, textRect, b.getIconTextGbp());
 
-        // fill background
-        if(c.isOpaque()) {
-            g.setColor(b.getBackground());
+        // fill bbckground
+        if(c.isOpbque()) {
+            g.setColor(b.getBbckground());
             g.fillRect(0,0, size.width, size.height);
         }
 
 
-        // Paint the radio button
-        if(altIcon != null) {
+        // Pbint the rbdio button
+        if(bltIcon != null) {
 
-            if(!model.isEnabled()) {
+            if(!model.isEnbbled()) {
                 if(model.isSelected()) {
-                   altIcon = b.getDisabledSelectedIcon();
+                   bltIcon = b.getDisbbledSelectedIcon();
                 } else {
-                   altIcon = b.getDisabledIcon();
+                   bltIcon = b.getDisbbledIcon();
                 }
             } else if(model.isPressed() && model.isArmed()) {
-                altIcon = b.getPressedIcon();
-                if(altIcon == null) {
+                bltIcon = b.getPressedIcon();
+                if(bltIcon == null) {
                     // Use selected icon
-                    altIcon = b.getSelectedIcon();
+                    bltIcon = b.getSelectedIcon();
                 }
             } else if(model.isSelected()) {
-                if(b.isRolloverEnabled() && model.isRollover()) {
-                        altIcon = b.getRolloverSelectedIcon();
-                        if (altIcon == null) {
-                                altIcon = b.getSelectedIcon();
+                if(b.isRolloverEnbbled() && model.isRollover()) {
+                        bltIcon = b.getRolloverSelectedIcon();
+                        if (bltIcon == null) {
+                                bltIcon = b.getSelectedIcon();
                         }
                 } else {
-                        altIcon = b.getSelectedIcon();
+                        bltIcon = b.getSelectedIcon();
                 }
-            } else if(b.isRolloverEnabled() && model.isRollover()) {
-                altIcon = b.getRolloverIcon();
+            } else if(b.isRolloverEnbbled() && model.isRollover()) {
+                bltIcon = b.getRolloverIcon();
             }
 
-            if(altIcon == null) {
-                altIcon = b.getIcon();
+            if(bltIcon == null) {
+                bltIcon = b.getIcon();
             }
 
-            altIcon.paintIcon(c, g, iconRect.x, iconRect.y);
+            bltIcon.pbintIcon(c, g, iconRect.x, iconRect.y);
 
         } else {
-            getDefaultIcon().paintIcon(c, g, iconRect.x, iconRect.y);
+            getDefbultIcon().pbintIcon(c, g, iconRect.x, iconRect.y);
         }
 
 
-        // Draw the Text
+        // Drbw the Text
         if(text != null) {
-            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+            View v = (View) c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-                v.paint(g, textRect);
+                v.pbint(g, textRect);
             } else {
-               int mnemIndex = b.getDisplayedMnemonicIndex();
-               if(model.isEnabled()) {
-                   // *** paint the text normally
+               int mnemIndex = b.getDisplbyedMnemonicIndex();
+               if(model.isEnbbled()) {
+                   // *** pbint the text normblly
                    g.setColor(b.getForeground());
                } else {
-                   // *** paint the text disabled
-                   g.setColor(getDisabledTextColor());
+                   // *** pbint the text disbbled
+                   g.setColor(getDisbbledTextColor());
                }
-               SwingUtilities2.drawStringUnderlineCharAt(c,g,text,
+               SwingUtilities2.drbwStringUnderlineChbrAt(c,g,text,
                        mnemIndex, textRect.x, textRect.y + fm.getAscent());
            }
-           if(b.hasFocus() && b.isFocusPainted() &&
+           if(b.hbsFocus() && b.isFocusPbinted() &&
               textRect.width > 0 && textRect.height > 0 ) {
-               paintFocus(g,textRect,size);
+               pbintFocus(g,textRect,size);
            }
         }
     }
 
-    protected void paintFocus(Graphics g, Rectangle t, Dimension d){
+    protected void pbintFocus(Grbphics g, Rectbngle t, Dimension d){
         g.setColor(getFocusColor());
-        g.drawRect(t.x-1, t.y-1, t.width+1, t.height+1);
+        g.drbwRect(t.x-1, t.y-1, t.width+1, t.height+1);
     }
 }

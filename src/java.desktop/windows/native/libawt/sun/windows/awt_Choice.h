@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_CHOICE_H
 #define AWT_CHOICE_H
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
-#include "java_awt_Choice.h"
-#include "sun_awt_windows_WChoicePeer.h"
+#include "jbvb_bwt_Choice.h"
+#include "sun_bwt_windows_WChoicePeer.h"
 
 
 /************************************************************************
- * Component class for system provided buttons
+ * Component clbss for system provided buttons
  */
 
-class AwtChoice : public AwtComponent {
+clbss AwtChoice : public AwtComponent {
 public:
     AwtChoice();
 
-    virtual LPCTSTR GetClassName();
-    static AwtChoice* Create(jobject peer, jobject hParent);
+    virtubl LPCTSTR GetClbssNbme();
+    stbtic AwtChoice* Crebte(jobject peer, jobject hPbrent);
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual void Reshape(int x, int y, int w, int h);
+    virtubl void Reshbpe(int x, int y, int w, int h);
     void ResetDropDownHeight();
     int GetDropDownHeight();
 
 #ifdef DEBUG
-    void VerifyState(); /* verify component and peer are in sync. */
+    void VerifyStbte(); /* verify component bnd peer bre in sync. */
 #endif
 
     /*for multifont list */
     jobject PreferredItemSize(JNIEnv *env);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
     MsgRouting WmNotify(UINT notifyCode);
 
     /* for multifont choice */
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting OwnerMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
+    MsgRouting OwnerDrbwItem(UINT ctrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting OwnerMebsureItem(UINT ctrlId, MEASUREITEMSTRUCT& mebsureInfo);
 
-    /* Workaround for bug #4338368 */
+    /* Workbround for bug #4338368 */
     MsgRouting WmKillFocus(HWND hWndGotFocus);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
+    MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
 
-    INLINE HWND GetDBCSEditHandle() { return GetHWnd(); }
-    virtual void SetFont(AwtFont *pFont);
-    virtual BOOL InheritsNativeMouseWheelBehavior();
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
+    INLINE HWND GetDBCSEditHbndle() { return GetHWnd(); }
+    virtubl void SetFont(AwtFont *pFont);
+    virtubl BOOL InheritsNbtiveMouseWheelBehbvior();
+    virtubl void SetDrbgCbpture(UINT flbgs);
+    virtubl void RelebseDrbgCbpture(UINT flbgs);
 
-    static BOOL mouseCapture;
-    static BOOL skipNextMouseUp;
+    stbtic BOOL mouseCbpture;
+    stbtic BOOL skipNextMouseUp;
 
-    // called on Toolkit thread from JNI
-    static void _Reshape(void *param);
-    static void _Select(void *param);
-    static void _AddItems(void *param);
-    static void _Remove(void *param);
-    static void _RemoveAll(void *param);
-    static void _CloseList(void *param);
+    // cblled on Toolkit threbd from JNI
+    stbtic void _Reshbpe(void *pbrbm);
+    stbtic void _Select(void *pbrbm);
+    stbtic void _AddItems(void *pbrbm);
+    stbtic void _Remove(void *pbrbm);
+    stbtic void _RemoveAll(void *pbrbm);
+    stbtic void _CloseList(void *pbrbm);
 
-private:
+privbte:
     int GetFieldHeight();
-    int GetTotalHeight();
-    static BOOL sm_isMouseMoveInList;
+    int GetTotblHeight();
+    stbtic BOOL sm_isMouseMoveInList;
     HWND m_hList;
     WNDPROC m_listDefWindowProc;
-    static LRESULT CALLBACK ListWindowProc(HWND hwnd, UINT message,
-                                           WPARAM wParam, LPARAM lParam);
+    stbtic LRESULT CALLBACK ListWindowProc(HWND hwnd, UINT messbge,
+                                           WPARAM wPbrbm, LPARAM lPbrbm);
 };
 
 #endif /* AWT_CHOICE_H */

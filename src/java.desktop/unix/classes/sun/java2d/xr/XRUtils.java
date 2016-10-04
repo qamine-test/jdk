@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.MultipleGradientPaint.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.*;
-import sun.java2d.loops.*;
-import static java.awt.AlphaComposite.*;
+import jbvb.bwt.*;
+import jbvb.bwt.MultipleGrbdientPbint.*;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.*;
+import sun.jbvb2d.loops.*;
+import stbtic jbvb.bwt.AlphbComposite.*;
 
 /**
- * XRender constants and utility methods.
+ * XRender constbnts bnd utility methods.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRUtils {
-    public static final int None = 0;
+public clbss XRUtils {
+    public stbtic finbl int None = 0;
 
-    /* Composition Operators */
-    public static final byte PictOpClear = 0;
-    public static final byte PictOpSrc = 1;
-    public static final byte PictOpDst = 2;
-    public static final byte PictOpOver = 3;
-    public static final byte PictOpOverReverse = 4;
-    public static final byte PictOpIn = 5;
-    public static final byte PictOpInReverse = 6;
-    public static final byte PictOpOut = 7;
-    public static final byte PictOpOutReverse = 8;
-    public static final byte PictOpAtop = 9;
-    public static final byte PictOpAtopReverse = 10;
-    public static final byte PictOpXor = 11;
-    public static final byte PictOpAdd = 12;
-    public static final byte PictOpSaturate = 13;
+    /* Composition Operbtors */
+    public stbtic finbl byte PictOpClebr = 0;
+    public stbtic finbl byte PictOpSrc = 1;
+    public stbtic finbl byte PictOpDst = 2;
+    public stbtic finbl byte PictOpOver = 3;
+    public stbtic finbl byte PictOpOverReverse = 4;
+    public stbtic finbl byte PictOpIn = 5;
+    public stbtic finbl byte PictOpInReverse = 6;
+    public stbtic finbl byte PictOpOut = 7;
+    public stbtic finbl byte PictOpOutReverse = 8;
+    public stbtic finbl byte PictOpAtop = 9;
+    public stbtic finbl byte PictOpAtopReverse = 10;
+    public stbtic finbl byte PictOpXor = 11;
+    public stbtic finbl byte PictOpAdd = 12;
+    public stbtic finbl byte PictOpSbturbte = 13;
 
-    /* Repeats */
-    public static final int RepeatNone = 0;
-    public static final int RepeatNormal = 1;
-    public static final int RepeatPad = 2;
-    public static final int RepeatReflect = 3;
+    /* Repebts */
+    public stbtic finbl int RepebtNone = 0;
+    public stbtic finbl int RepebtNormbl = 1;
+    public stbtic finbl int RepebtPbd = 2;
+    public stbtic finbl int RepebtReflect = 3;
 
-    /* Interpolation qualities */
-    public static final int FAST = 0;
-    public static final int GOOD = 1;
-    public static final int BEST = 2;
-    public static final byte[] FAST_NAME = "fast".getBytes();
-    public static final byte[] GOOD_NAME = "good".getBytes();
-    public static final byte[] BEST_NAME = "best".getBytes();
+    /* Interpolbtion qublities */
+    public stbtic finbl int FAST = 0;
+    public stbtic finbl int GOOD = 1;
+    public stbtic finbl int BEST = 2;
+    public stbtic finbl byte[] FAST_NAME = "fbst".getBytes();
+    public stbtic finbl byte[] GOOD_NAME = "good".getBytes();
+    public stbtic finbl byte[] BEST_NAME = "best".getBytes();
 
-    /* PictFormats */
-    public static final int PictStandardARGB32 = 0;
-    public static final int PictStandardRGB24 = 1;
-    public static final int PictStandardA8 = 2;
-    public static final int PictStandardA4 = 3;
-    public static final int PictStandardA1 = 4;
+    /* PictFormbts */
+    public stbtic finbl int PictStbndbrdARGB32 = 0;
+    public stbtic finbl int PictStbndbrdRGB24 = 1;
+    public stbtic finbl int PictStbndbrdA8 = 2;
+    public stbtic finbl int PictStbndbrdA4 = 3;
+    public stbtic finbl int PictStbndbrdA1 = 4;
 
     /**
-     * Maps the specified affineTransformOp to the corresponding XRender image
+     * Mbps the specified bffineTrbnsformOp to the corresponding XRender imbge
      * filter.
      */
-    public static int ATransOpToXRQuality(int affineTranformOp) {
+    public stbtic int ATrbnsOpToXRQublity(int bffineTrbnformOp) {
 
-        switch (affineTranformOp) {
-        case AffineTransformOp.TYPE_NEAREST_NEIGHBOR:
+        switch (bffineTrbnformOp) {
+        cbse AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR:
             return FAST;
 
-        case AffineTransformOp.TYPE_BILINEAR:
+        cbse AffineTrbnsformOp.TYPE_BILINEAR:
             return GOOD;
 
-        case AffineTransformOp.TYPE_BICUBIC:
+        cbse AffineTrbnsformOp.TYPE_BICUBIC:
             return BEST;
         }
 
@@ -99,19 +99,19 @@ public class XRUtils {
     }
 
     /**
-     * Maps the specified affineTransformOp to the corresponding XRender image
+     * Mbps the specified bffineTrbnsformOp to the corresponding XRender imbge
      * filter.
      */
-    public static byte[] ATransOpToXRQualityName(int affineTranformOp) {
+    public stbtic byte[] ATrbnsOpToXRQublityNbme(int bffineTrbnformOp) {
 
-        switch (affineTranformOp) {
-        case AffineTransformOp.TYPE_NEAREST_NEIGHBOR:
+        switch (bffineTrbnformOp) {
+        cbse AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR:
             return FAST_NAME;
 
-        case AffineTransformOp.TYPE_BILINEAR:
+        cbse AffineTrbnsformOp.TYPE_BILINEAR:
             return GOOD_NAME;
 
-        case AffineTransformOp.TYPE_BICUBIC:
+        cbse AffineTrbnsformOp.TYPE_BICUBIC:
             return BEST_NAME;
         }
 
@@ -119,13 +119,13 @@ public class XRUtils {
     }
 
 
-    public static byte[] getFilterName(int filterType) {
+    public stbtic byte[] getFilterNbme(int filterType) {
         switch (filterType) {
-        case FAST:
+        cbse FAST:
             return FAST_NAME;
-        case GOOD:
+        cbse GOOD:
             return GOOD_NAME;
-        case BEST:
+        cbse BEST:
             return BEST_NAME;
         }
 
@@ -134,68 +134,68 @@ public class XRUtils {
 
 
     /**
-     * Returns the XRender picture Format which is required to fullfill the
-     * Java2D transparency requirement.
+     * Returns the XRender picture Formbt which is required to fullfill the
+     * Jbvb2D trbnspbrency requirement.
      */
-    public static int getPictureFormatForTransparency(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            return PictStandardRGB24;
+    public stbtic int getPictureFormbtForTrbnspbrency(int trbnspbrency) {
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
+            return PictStbndbrdRGB24;
 
-        case Transparency.BITMASK:
-        case Transparency.TRANSLUCENT:
-            return PictStandardARGB32;
+        cbse Trbnspbrency.BITMASK:
+        cbse Trbnspbrency.TRANSLUCENT:
+            return PictStbndbrdARGB32;
         }
 
         return -1;
     }
 
 
-    public static SurfaceType getXRSurfaceTypeForTransparency(int transparency) {
-        if (transparency == Transparency.OPAQUE) {
-            return SurfaceType.IntRgb;
+    public stbtic SurfbceType getXRSurfbceTypeForTrbnspbrency(int trbnspbrency) {
+        if (trbnspbrency == Trbnspbrency.OPAQUE) {
+            return SurfbceType.IntRgb;
         }else {
-            return SurfaceType.IntArgbPre;
+            return SurfbceType.IntArgbPre;
         }
     }
 
     /**
-     * Maps Java2D CycleMethod to XRender's Repeat property.
+     * Mbps Jbvb2D CycleMethod to XRender's Repebt property.
      */
-    public static int getRepeatForCycleMethod(CycleMethod cycleMethod) {
-        if (cycleMethod.equals(CycleMethod.NO_CYCLE)) {
-            return RepeatPad;
-        } else if (cycleMethod.equals(CycleMethod.REFLECT)) {
-            return RepeatReflect;
-        } else if (cycleMethod.equals(CycleMethod.REPEAT)) {
-            return RepeatNormal;
+    public stbtic int getRepebtForCycleMethod(CycleMethod cycleMethod) {
+        if (cycleMethod.equbls(CycleMethod.NO_CYCLE)) {
+            return RepebtPbd;
+        } else if (cycleMethod.equbls(CycleMethod.REFLECT)) {
+            return RepebtReflect;
+        } else if (cycleMethod.equbls(CycleMethod.REPEAT)) {
+            return RepebtNormbl;
         }
 
-        return RepeatNone;
+        return RepebtNone;
     }
 
     /**
-     * Converts a double into an XFixed.
+     * Converts b double into bn XFixed.
      */
-    public static int XDoubleToFixed(double dbl) {
+    public stbtic int XDoubleToFixed(double dbl) {
         return (int) (dbl * 65536);
     }
 
-    public static double XFixedToDouble(int fixed) {
+    public stbtic double XFixedToDouble(int fixed) {
         return ((double) fixed) / 65536;
     }
 
-    public static int[] convertFloatsToFixed(float[] values) {
-        int[] fixed = new int[values.length];
+    public stbtic int[] convertFlobtsToFixed(flobt[] vblues) {
+        int[] fixed = new int[vblues.length];
 
-        for (int i = 0; i < values.length; i++) {
-            fixed[i] = XDoubleToFixed(values[i]);
+        for (int i = 0; i < vblues.length; i++) {
+            fixed[i] = XDoubleToFixed(vblues[i]);
         }
 
         return fixed;
     }
 
-    public static long intToULong(int signed) {
+    public stbtic long intToULong(int signed) {
         if (signed < 0) {
             return ((long) signed) + (((long) Integer.MAX_VALUE) -
                     ((long) Integer.MIN_VALUE) + 1);
@@ -205,75 +205,75 @@ public class XRUtils {
     }
 
     /**
-     * Maps the specified Java2D composition rule, to the corresponding XRender
+     * Mbps the specified Jbvb2D composition rule, to the corresponding XRender
      * composition rule.
      */
-    public static byte j2dAlphaCompToXR(int j2dRule) {
+    public stbtic byte j2dAlphbCompToXR(int j2dRule) {
         switch (j2dRule) {
-        case CLEAR:
-            return PictOpClear;
+        cbse CLEAR:
+            return PictOpClebr;
 
-        case SRC:
+        cbse SRC:
             return PictOpSrc;
 
-        case DST:
+        cbse DST:
             return PictOpDst;
 
-        case SRC_OVER:
+        cbse SRC_OVER:
             return PictOpOver;
 
-        case DST_OVER:
+        cbse DST_OVER:
             return PictOpOverReverse;
 
-        case SRC_IN:
+        cbse SRC_IN:
             return PictOpIn;
 
-        case DST_IN:
+        cbse DST_IN:
             return PictOpInReverse;
 
-        case SRC_OUT:
+        cbse SRC_OUT:
             return PictOpOut;
 
-        case DST_OUT:
+        cbse DST_OUT:
             return PictOpOutReverse;
 
-        case SRC_ATOP:
+        cbse SRC_ATOP:
             return PictOpAtop;
 
-        case DST_ATOP:
+        cbse DST_ATOP:
             return PictOpAtopReverse;
 
-        case XOR:
+        cbse XOR:
             return PictOpXor;
         }
 
-        throw new InternalError("No XRender equivalent available for requested java2d composition rule: "+j2dRule);
+        throw new InternblError("No XRender equivblent bvbilbble for requested jbvb2d composition rule: "+j2dRule);
     }
 
-    public static short clampToShort(int x) {
+    public stbtic short clbmpToShort(int x) {
         return (short) (x > Short.MAX_VALUE
                            ? Short.MAX_VALUE
                            : (x < Short.MIN_VALUE ? Short.MIN_VALUE : x));
     }
 
-    public static int clampToUShort(int x) {
+    public stbtic int clbmpToUShort(int x) {
         return (x > 65535 ? 65535 : (x < 0) ? 0 : x);
     }
 
-    public static boolean isTransformQuadrantRotated(AffineTransform tr) {
-        return ((tr.getType() & (AffineTransform.TYPE_GENERAL_ROTATION |
-                 AffineTransform.TYPE_GENERAL_TRANSFORM)) == 0);
+    public stbtic boolebn isTrbnsformQubdrbntRotbted(AffineTrbnsform tr) {
+        return ((tr.getType() & (AffineTrbnsform.TYPE_GENERAL_ROTATION |
+                 AffineTrbnsform.TYPE_GENERAL_TRANSFORM)) == 0);
     }
 
-    public static boolean isMaskEvaluated(byte xrCompRule) {
+    public stbtic boolebn isMbskEvblubted(byte xrCompRule) {
         switch (xrCompRule) {
-        case PictOpOver:
-        case PictOpOverReverse:
-        case PictOpAtop:
-        case PictOpXor:
+        cbse PictOpOver:
+        cbse PictOpOverReverse:
+        cbse PictOpAtop:
+        cbse PictOpXor:
             return true;
         }
 
-        return false;
+        return fblse;
     }
 }

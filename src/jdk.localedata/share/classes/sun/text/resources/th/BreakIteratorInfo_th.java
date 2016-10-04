@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,46 +27,46 @@
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Licensed Mbteribls - Property of IBM
  *
  * (C) Copyright IBM Corp. 1999 All Rights Reserved.
  * (C) IBM Corp. 1997-1998.  All Rights Reserved.
  *
- * The program is provided "as is" without any warranty express or
- * implied, including the warranty of non-infringement and the implied
- * warranties of merchantibility and fitness for a particular purpose.
- * IBM will not be liable for any damages suffered by you as a result
- * of using the Program. In no event will IBM be liable for any
- * special, indirect or consequential damages or lost profits even if
- * IBM has been advised of the possibility of their occurrence. IBM
- * will not be liable for any third party claims against you.
+ * The progrbm is provided "bs is" without bny wbrrbnty express or
+ * implied, including the wbrrbnty of non-infringement bnd the implied
+ * wbrrbnties of merchbntibility bnd fitness for b pbrticulbr purpose.
+ * IBM will not be libble for bny dbmbges suffered by you bs b result
+ * of using the Progrbm. In no event will IBM be libble for bny
+ * specibl, indirect or consequentibl dbmbges or lost profits even if
+ * IBM hbs been bdvised of the possibility of their occurrence. IBM
+ * will not be libble for bny third pbrty clbims bgbinst you.
  */
 
-package sun.text.resources.th;
+pbckbge sun.text.resources.th;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class BreakIteratorInfo_th extends ListResourceBundle {
-    protected final Object[][] getContents() {
+public clbss BrebkIterbtorInfo_th extends ListResourceBundle {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            // BreakIteratorClasses lists the class names to instantiate for each
-            // built-in type of BreakIterator
-            {"BreakIteratorClasses",
+            // BrebkIterbtorClbsses lists the clbss nbmes to instbntibte for ebch
+            // built-in type of BrebkIterbtor
+            {"BrebkIterbtorClbsses",
                 new String[] {
-                    "RuleBasedBreakIterator",  // character-break iterator class
-                    "DictionaryBasedBreakIterator",  // word-break iterator class
-                    "DictionaryBasedBreakIterator",  // line-break iterator class
-                    "RuleBasedBreakIterator"   // sentence-break iterator class
+                    "RuleBbsedBrebkIterbtor",  // chbrbcter-brebk iterbtor clbss
+                    "DictionbryBbsedBrebkIterbtor",  // word-brebk iterbtor clbss
+                    "DictionbryBbsedBrebkIterbtor",  // line-brebk iterbtor clbss
+                    "RuleBbsedBrebkIterbtor"   // sentence-brebk iterbtor clbss
                 }
             },
 
-            // Data filename for each break-iterator
-            {"WordData", "th/WordBreakIteratorData_th"},
-            {"LineData", "th/LineBreakIteratorData_th"},
+            // Dbtb filenbme for ebch brebk-iterbtor
+            {"WordDbtb", "th/WordBrebkIterbtorDbtb_th"},
+            {"LineDbtb", "th/LineBrebkIterbtorDbtb_th"},
 
-            // Dictionary filename for each dictionary-based break-iterator
-            {"WordDictionary", "th/thai_dict"},
-            {"LineDictionary", "th/thai_dict"},
+            // Dictionbry filenbme for ebch dictionbry-bbsed brebk-iterbtor
+            {"WordDictionbry", "th/thbi_dict"},
+            {"LineDictionbry", "th/thbi_dict"},
         };
     }
 }

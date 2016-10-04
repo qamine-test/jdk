@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.Color;
-import javax.swing.plaf.ColorUIResource;
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIResource;
 
 /**
- * A subclass of ColorUIResource that wraps an alternate color
- * for use during printing. Useful to replace color values that
- * may look poor in printed output.
+ * A subclbss of ColorUIResource thbt wrbps bn blternbte color
+ * for use during printing. Useful to replbce color vblues thbt
+ * mby look poor in printed output.
  *
- * @author Shannon Hickey
+ * @buthor Shbnnon Hickey
  *
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class PrintColorUIResource extends ColorUIResource {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss PrintColorUIResource extends ColorUIResource {
 
     /** The color to use during printing */
-    private Color printColor;
+    privbte Color printColor;
 
     /**
-     * Construct an instance for the given RGB value and
-     * alternate color to use during printing.
+     * Construct bn instbnce for the given RGB vblue bnd
+     * blternbte color to use during printing.
      *
-     * @param rgb the color rgb value
-     * @param printColor the alternate color for printing
+     * @pbrbm rgb the color rgb vblue
+     * @pbrbm printColor the blternbte color for printing
      */
     public PrintColorUIResource(int rgb, Color printColor) {
         super(rgb);
@@ -55,8 +55,8 @@ public class PrintColorUIResource extends ColorUIResource {
     }
 
     /**
-     * Return the color to use during printing. If no alternate
-     * color was specified on construction, this method will
+     * Return the color to use during printing. If no blternbte
+     * color wbs specified on construction, this method will
      * return <code>this</code>.
      *
      * @return the color to use during printing
@@ -66,27 +66,27 @@ public class PrintColorUIResource extends ColorUIResource {
     }
 
     /**
-     * Replaces this object with a plain {@code ColorUIResource} during
-     * serialization. Since {@code PrintColorUIResource} resides in the
-     * sun.swing package, access can be disallowed to it by a security
-     * manager. When access is disallowed, deserialization of any object
-     * with reference to a {@code PrintColorUIResource} fails.
+     * Replbces this object with b plbin {@code ColorUIResource} during
+     * seriblizbtion. Since {@code PrintColorUIResource} resides in the
+     * sun.swing pbckbge, bccess cbn be disbllowed to it by b security
+     * mbnbger. When bccess is disbllowed, deseriblizbtion of bny object
+     * with reference to b {@code PrintColorUIResource} fbils.
      * <p>
      * Since {@code PrintColorUIResource) is used only by Swing's look
-     * and feels, and we know that UI supplied colors are replaced after
-     * deserialization when the UI is re-installed, the only important
-     * aspect of the {@code PrintColorUIResource} that needs to be
-     * persisted is the fact that it is a {@code ColorUIResource}. As
-     * such, we can avoid the problem outlined above by replacing
-     * the problematic {@code PrintColorUIResource} with a plain
+     * bnd feels, bnd we know thbt UI supplied colors bre replbced bfter
+     * deseriblizbtion when the UI is re-instblled, the only importbnt
+     * bspect of the {@code PrintColorUIResource} thbt needs to be
+     * persisted is the fbct thbt it is b {@code ColorUIResource}. As
+     * such, we cbn bvoid the problem outlined bbove by replbcing
+     * the problembtic {@code PrintColorUIResource} with b plbin
      * {@code ColorUIResource}.
      * <p>
-     * Note: As a result of this method, it is not possible to write
-     * a {@code PrintColorUIResource} to a stream and then read
-     * back a {@code PrintColorUIResource}. This is acceptable since we
-     * don't have a requirement for that in Swing.
+     * Note: As b result of this method, it is not possible to write
+     * b {@code PrintColorUIResource} to b strebm bnd then rebd
+     * bbck b {@code PrintColorUIResource}. This is bcceptbble since we
+     * don't hbve b requirement for thbt in Swing.
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new ColorUIResource(this);
     }
 }

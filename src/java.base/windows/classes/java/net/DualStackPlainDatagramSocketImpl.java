@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import jbvb.io.IOException;
+import sun.misc.ShbredSecrets;
+import sun.misc.JbvbIOFileDescriptorAccess;
 
 /**
- * This class defines the plain DatagramSocketImpl that is used on
- * Windows platforms greater than or equal to Windows Vista. These
- * platforms have a dual layer TCP/IP stack and can handle both IPv4
- * and IPV6 through a single file descriptor.
+ * This clbss defines the plbin DbtbgrbmSocketImpl thbt is used on
+ * Windows plbtforms grebter thbn or equbl to Windows Vistb. These
+ * plbtforms hbve b dubl lbyer TCP/IP stbck bnd cbn hbndle both IPv4
+ * bnd IPV6 through b single file descriptor.
  * <p>
- * Note: Multicasting on a dual layer TCP/IP stack is always done with
- * TwoStacksPlainDatagramSocketImpl. This is to overcome the lack
- * of behavior defined for multicasting over a dual layer socket by the RFC.
+ * Note: Multicbsting on b dubl lbyer TCP/IP stbck is blwbys done with
+ * TwoStbcksPlbinDbtbgrbmSocketImpl. This is to overcome the lbck
+ * of behbvior defined for multicbsting over b dubl lbyer socket by the RFC.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
+clbss DublStbckPlbinDbtbgrbmSocketImpl extends AbstrbctPlbinDbtbgrbmSocketImpl
 {
-    static JavaIOFileDescriptorAccess fdAccess = SharedSecrets.getJavaIOFileDescriptorAccess();
+    stbtic JbvbIOFileDescriptorAccess fdAccess = ShbredSecrets.getJbvbIOFileDescriptorAccess();
 
-    static {
+    stbtic {
         initIDs();
     }
 
     // true if this socket is exclusively bound
-    private final boolean exclusiveBind;
+    privbte finbl boolebn exclusiveBind;
 
     /*
-     * Set to true if SO_REUSEADDR is set after the socket is bound to
-     * indicate SO_REUSEADDR is being emulated
+     * Set to true if SO_REUSEADDR is set bfter the socket is bound to
+     * indicbte SO_REUSEADDR is being emulbted
      */
-    private boolean reuseAddressEmulated;
+    privbte boolebn reuseAddressEmulbted;
 
-    // emulates SO_REUSEADDR when exclusiveBind is true and socket is bound
-    private boolean isReuseAddress;
+    // emulbtes SO_REUSEADDR when exclusiveBind is true bnd socket is bound
+    privbte boolebn isReuseAddress;
 
-    DualStackPlainDatagramSocketImpl(boolean exclBind) {
+    DublStbckPlbinDbtbgrbmSocketImpl(boolebn exclBind) {
         exclusiveBind = exclBind;
     }
 
-    protected void datagramSocketCreate() throws SocketException {
+    protected void dbtbgrbmSocketCrebte() throws SocketException {
         if (fd == null)
             throw new SocketException("Socket closed");
 
-        int newfd = socketCreate(false /* v6Only */);
+        int newfd = socketCrebte(fblse /* v6Only */);
 
         fdAccess.set(fd, newfd);
     }
 
-    protected synchronized void bind0(int lport, InetAddress laddr)
+    protected synchronized void bind0(int lport, InetAddress lbddr)
         throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+        int nbtivefd = checkAndReturnNbtiveFD();
 
-        if (laddr == null)
-            throw new NullPointerException("argument address");
+        if (lbddr == null)
+            throw new NullPointerException("brgument bddress");
 
-        socketBind(nativefd, laddr, lport, exclusiveBind);
+        socketBind(nbtivefd, lbddr, lport, exclusiveBind);
         if (lport == 0) {
-            localPort = socketLocalPort(nativefd);
+            locblPort = socketLocblPort(nbtivefd);
         } else {
-            localPort = lport;
+            locblPort = lport;
         }
     }
 
-    protected synchronized int peek(InetAddress address) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    protected synchronized int peek(InetAddress bddress) throws IOException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
-        if (address == null)
-            throw new NullPointerException("Null address in peek()");
+        if (bddress == null)
+            throw new NullPointerException("Null bddress in peek()");
 
-        // Use peekData()
-        DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
-        int peekPort = peekData(peekPacket);
-        address = peekPacket.getAddress();
+        // Use peekDbtb()
+        DbtbgrbmPbcket peekPbcket = new DbtbgrbmPbcket(new byte[1], 1);
+        int peekPort = peekDbtb(peekPbcket);
+        bddress = peekPbcket.getAddress();
         return peekPort;
     }
 
-    protected synchronized int peekData(DatagramPacket p) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    protected synchronized int peekDbtb(DbtbgrbmPbcket p) throws IOException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
         if (p == null)
-            throw new NullPointerException("packet");
-        if (p.getData() == null)
-            throw new NullPointerException("packet buffer");
+            throw new NullPointerException("pbcket");
+        if (p.getDbtb() == null)
+            throw new NullPointerException("pbcket buffer");
 
-        return socketReceiveOrPeekData(nativefd, p, timeout, connected, true /*peek*/);
+        return socketReceiveOrPeekDbtb(nbtivefd, p, timeout, connected, true /*peek*/);
     }
 
-    protected synchronized void receive0(DatagramPacket p) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    protected synchronized void receive0(DbtbgrbmPbcket p) throws IOException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
         if (p == null)
-            throw new NullPointerException("packet");
-        if (p.getData() == null)
-            throw new NullPointerException("packet buffer");
+            throw new NullPointerException("pbcket");
+        if (p.getDbtb() == null)
+            throw new NullPointerException("pbcket buffer");
 
-        socketReceiveOrPeekData(nativefd, p, timeout, connected, false /*receive*/);
+        socketReceiveOrPeekDbtb(nbtivefd, p, timeout, connected, fblse /*receive*/);
     }
 
-    protected void send(DatagramPacket p) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    protected void send(DbtbgrbmPbcket p) throws IOException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
         if (p == null)
-            throw new NullPointerException("null packet");
+            throw new NullPointerException("null pbcket");
 
-        if (p.getAddress() == null ||p.getData() ==null)
-            throw new NullPointerException("null address || null buffer");
+        if (p.getAddress() == null ||p.getDbtb() ==null)
+            throw new NullPointerException("null bddress || null buffer");
 
-        socketSend(nativefd, p.getData(), p.getOffset(), p.getLength(),
+        socketSend(nbtivefd, p.getDbtb(), p.getOffset(), p.getLength(),
                    p.getAddress(), p.getPort(), connected);
     }
 
-    protected void connect0(InetAddress address, int port) throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+    protected void connect0(InetAddress bddress, int port) throws SocketException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
-        if (address == null)
-            throw new NullPointerException("address");
+        if (bddress == null)
+            throw new NullPointerException("bddress");
 
-        socketConnect(nativefd, address, port);
+        socketConnect(nbtivefd, bddress, port);
     }
 
-    protected void disconnect0(int family /*unused*/) {
-        if (fd == null || !fd.valid())
-            return;   // disconnect doesn't throw any exceptions
+    protected void disconnect0(int fbmily /*unused*/) {
+        if (fd == null || !fd.vblid())
+            return;   // disconnect doesn't throw bny exceptions
 
         socketDisconnect(fdAccess.get(fd));
     }
 
-    protected void datagramSocketClose() {
-        if (fd == null || !fd.valid())
-            return;   // close doesn't throw any exceptions
+    protected void dbtbgrbmSocketClose() {
+        if (fd == null || !fd.vblid())
+            return;   // close doesn't throw bny exceptions
 
         socketClose(fdAccess.get(fd));
         fdAccess.set(fd, -1);
     }
 
-    @SuppressWarnings("fallthrough")
-    protected void socketSetOption(int opt, Object val) throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+    @SuppressWbrnings("fbllthrough")
+    protected void socketSetOption(int opt, Object vbl) throws SocketException {
+        int nbtivefd = checkAndReturnNbtiveFD();
 
-        int optionValue = 0;
+        int optionVblue = 0;
 
         switch(opt) {
-            case IP_TOS :
-            case SO_RCVBUF :
-            case SO_SNDBUF :
-                optionValue = ((Integer)val).intValue();
-                break;
-            case SO_REUSEADDR :
-                if (exclusiveBind && localPort != 0)  {
-                    // socket already bound, emulate SO_REUSEADDR
-                    reuseAddressEmulated = true;
-                    isReuseAddress = (Boolean)val;
+            cbse IP_TOS :
+            cbse SO_RCVBUF :
+            cbse SO_SNDBUF :
+                optionVblue = ((Integer)vbl).intVblue();
+                brebk;
+            cbse SO_REUSEADDR :
+                if (exclusiveBind && locblPort != 0)  {
+                    // socket blrebdy bound, emulbte SO_REUSEADDR
+                    reuseAddressEmulbted = true;
+                    isReuseAddress = (Boolebn)vbl;
                     return;
                 }
-                //Intentional fallthrough
-            case SO_BROADCAST :
-                optionValue = ((Boolean)val).booleanValue() ? 1 : 0;
-                break;
-            default: /* shouldn't get here */
+                //Intentionbl fbllthrough
+            cbse SO_BROADCAST :
+                optionVblue = ((Boolebn)vbl).boolebnVblue() ? 1 : 0;
+                brebk;
+            defbult: /* shouldn't get here */
                 throw new SocketException("Option not supported");
         }
 
-        socketSetIntOption(nativefd, opt, optionValue);
+        socketSetIntOption(nbtivefd, opt, optionVblue);
     }
 
     protected Object socketGetOption(int opt) throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+        int nbtivefd = checkAndReturnNbtiveFD();
 
-         // SO_BINDADDR is not a socket option.
+         // SO_BINDADDR is not b socket option.
         if (opt == SO_BINDADDR) {
-            return socketLocalAddress(nativefd);
+            return socketLocblAddress(nbtivefd);
         }
-        if (opt == SO_REUSEADDR && reuseAddressEmulated)
+        if (opt == SO_REUSEADDR && reuseAddressEmulbted)
             return isReuseAddress;
 
-        int value = socketGetIntOption(nativefd, opt);
-        Object returnValue = null;
+        int vblue = socketGetIntOption(nbtivefd, opt);
+        Object returnVblue = null;
 
         switch (opt) {
-            case SO_REUSEADDR :
-            case SO_BROADCAST :
-                returnValue =  (value == 0) ? Boolean.FALSE : Boolean.TRUE;
-                break;
-            case IP_TOS :
-            case SO_RCVBUF :
-            case SO_SNDBUF :
-                returnValue = new Integer(value);
-                break;
-            default: /* shouldn't get here */
+            cbse SO_REUSEADDR :
+            cbse SO_BROADCAST :
+                returnVblue =  (vblue == 0) ? Boolebn.FALSE : Boolebn.TRUE;
+                brebk;
+            cbse IP_TOS :
+            cbse SO_RCVBUF :
+            cbse SO_SNDBUF :
+                returnVblue = new Integer(vblue);
+                brebk;
+            defbult: /* shouldn't get here */
                 throw new SocketException("Option not supported");
         }
 
-        return returnValue;
+        return returnVblue;
     }
 
-    /* Multicast specific methods.
-     * Multicasting on a dual layer TCP/IP stack is always done with
-     * TwoStacksPlainDatagramSocketImpl. This is to overcome the lack
-     * of behavior defined for multicasting over a dual layer socket by the RFC.
+    /* Multicbst specific methods.
+     * Multicbsting on b dubl lbyer TCP/IP stbck is blwbys done with
+     * TwoStbcksPlbinDbtbgrbmSocketImpl. This is to overcome the lbck
+     * of behbvior defined for multicbsting over b dubl lbyer socket by the RFC.
      */
-    protected void join(InetAddress inetaddr, NetworkInterface netIf)
+    protected void join(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException {
         throw new IOException("Method not implemented!");
     }
 
-    protected void leave(InetAddress inetaddr, NetworkInterface netIf)
+    protected void lebve(InetAddress inetbddr, NetworkInterfbce netIf)
         throws IOException {
         throw new IOException("Method not implemented!");
     }
@@ -244,52 +244,52 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         throw new IOException("Method not implemented!");
     }
 
-    @Deprecated
+    @Deprecbted
     protected void setTTL(byte ttl) throws IOException {
         throw new IOException("Method not implemented!");
     }
 
-    @Deprecated
+    @Deprecbted
     protected byte getTTL() throws IOException {
         throw new IOException("Method not implemented!");
     }
-    /* END Multicast specific methods */
+    /* END Multicbst specific methods */
 
-    private int checkAndReturnNativeFD() throws SocketException {
-        if (fd == null || !fd.valid())
+    privbte int checkAndReturnNbtiveFD() throws SocketException {
+        if (fd == null || !fd.vblid())
             throw new SocketException("Socket closed");
 
         return fdAccess.get(fd);
     }
 
-    /* Native methods */
+    /* Nbtive methods */
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static native int socketCreate(boolean v6Only);
+    privbte stbtic nbtive int socketCrebte(boolebn v6Only);
 
-    private static native void socketBind(int fd, InetAddress localAddress,
-            int localport, boolean exclBind) throws SocketException;
+    privbte stbtic nbtive void socketBind(int fd, InetAddress locblAddress,
+            int locblport, boolebn exclBind) throws SocketException;
 
-    private static native void socketConnect(int fd, InetAddress address, int port)
+    privbte stbtic nbtive void socketConnect(int fd, InetAddress bddress, int port)
         throws SocketException;
 
-    private static native void socketDisconnect(int fd);
+    privbte stbtic nbtive void socketDisconnect(int fd);
 
-    private static native void socketClose(int fd);
+    privbte stbtic nbtive void socketClose(int fd);
 
-    private static native int socketLocalPort(int fd) throws SocketException;
+    privbte stbtic nbtive int socketLocblPort(int fd) throws SocketException;
 
-    private static native Object socketLocalAddress(int fd) throws SocketException;
+    privbte stbtic nbtive Object socketLocblAddress(int fd) throws SocketException;
 
-    private static native int socketReceiveOrPeekData(int fd, DatagramPacket packet,
-        int timeout, boolean connected, boolean peek) throws IOException;
+    privbte stbtic nbtive int socketReceiveOrPeekDbtb(int fd, DbtbgrbmPbcket pbcket,
+        int timeout, boolebn connected, boolebn peek) throws IOException;
 
-    private static native void socketSend(int fd, byte[] data, int offset, int length,
-        InetAddress address, int port, boolean connected) throws IOException;
+    privbte stbtic nbtive void socketSend(int fd, byte[] dbtb, int offset, int length,
+        InetAddress bddress, int port, boolebn connected) throws IOException;
 
-    private static native void socketSetIntOption(int fd, int cmd,
-        int optionValue) throws SocketException;
+    privbte stbtic nbtive void socketSetIntOption(int fd, int cmd,
+        int optionVblue) throws SocketException;
 
-    private static native int socketGetIntOption(int fd, int cmd) throws SocketException;
+    privbte stbtic nbtive int socketGetIntOption(int fd, int cmd) throws SocketException;
 }

@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 //#define USE_ERROR
 //#define USE_TRACE
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
 
-#include "PLATFORM_API_MacOSX_MidiUtils.h"
+#include "PLATFORM_API_MbcOSX_MidiUtils.h"
 
-char* MIDI_OUT_GetErrorStr(INT32 err) {
-    return (char *) MIDI_Utils_GetErrorMsg((int) err);
+chbr* MIDI_OUT_GetErrorStr(INT32 err) {
+    return (chbr *) MIDI_Utils_GetErrorMsg((int) err);
 }
 
 
@@ -45,198 +45,198 @@ INT32 MIDI_OUT_GetNumDevices() {
 }
 
 
-INT32 MIDI_OUT_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceName(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GetDeviceNbme(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    return MIDI_Utils_GetDeviceNbme(MIDI_OUT, deviceID, nbme, nbmeLength);
 }
 
 
-INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceVendor(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    return MIDI_Utils_GetDeviceVendor(MIDI_OUT, deviceID, nbme, nbmeLength);
 }
 
 
-INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceDescription(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    return MIDI_Utils_GetDeviceDescription(MIDI_OUT, deviceID, nbme, nbmeLength);
 }
 
 
-INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_Utils_GetDeviceVersion(MIDI_OUT, deviceID, name, nameLength);
+INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, chbr *nbme, UINT32 nbmeLength) {
+    return MIDI_Utils_GetDeviceVersion(MIDI_OUT, deviceID, nbme, nbmeLength);
 }
 
 
-/* *************************** MidiOutDevice implementation ***************************************** */
+/* *************************** MidiOutDevice implementbtion ***************************************** */
 
-INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle) {
+INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHbndle** hbndle) {
     TRACE1("MIDI_OUT_OpenDevice: deviceID: %d\n", (int) deviceID);
-    /* queue sizes are ignored for MIDI_OUT only (uses STREAMS) */
-    return MIDI_Utils_OpenDevice(MIDI_OUT, deviceID, (MacMidiDeviceHandle**) handle, 0, 0, 0);
+    /* queue sizes bre ignored for MIDI_OUT only (uses STREAMS) */
+    return MIDI_Utils_OpenDevice(MIDI_OUT, deviceID, (MbcMidiDeviceHbndle**) hbndle, 0, 0, 0);
 }
 
-INT32 MIDI_OUT_CloseDevice(MidiDeviceHandle* handle) {
+INT32 MIDI_OUT_CloseDevice(MidiDeviceHbndle* hbndle) {
     TRACE0("MIDI_OUT_CloseDevice\n");
 
-    // issue a "SUSTAIN OFF" message to each MIDI channel, 0 to 15.
-    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, and the value is 0.
-    // $$fb 2002-04-04: It is responsability of the application developer to
-    // leave the device in a consistent state. So I put this in comments
+    // issue b "SUSTAIN OFF" messbge to ebch MIDI chbnnel, 0 to 15.
+    // "CONTROL CHANGE" is 176, "SUSTAIN CONTROLLER" is 64, bnd the vblue is 0.
+    // $$fb 2002-04-04: It is responsbbility of the bpplicbtion developer to
+    // lebve the device in b consistent stbte. So I put this in comments
     /*
-      for (channel = 0; channel < 16; channel++)
-      MIDI_OUT_SendShortMessage(deviceHandle, (unsigned char)(176 + channel),
-      (unsigned char)64, (unsigned char)0, (UINT32)-1);
+      for (chbnnel = 0; chbnnel < 16; chbnnel++)
+      MIDI_OUT_SendShortMessbge(deviceHbndle, (unsigned chbr)(176 + chbnnel),
+      (unsigned chbr)64, (unsigned chbr)0, (UINT32)-1);
     */
-    return MIDI_Utils_CloseDevice((MacMidiDeviceHandle*) handle);
+    return MIDI_Utils_CloseDevice((MbcMidiDeviceHbndle*) hbndle);
 }
 
 
-INT64 MIDI_OUT_GetTimeStamp(MidiDeviceHandle* handle) {
-    return MIDI_Utils_GetTimeStamp((MacMidiDeviceHandle*) handle);
+INT64 MIDI_OUT_GetTimeStbmp(MidiDeviceHbndle* hbndle) {
+    return MIDI_Utils_GetTimeStbmp((MbcMidiDeviceHbndle*) hbndle);
 }
 
 
-INT32 MIDI_OUT_SendShortMessage(MidiDeviceHandle* handle, UINT32 packedMsg, UINT32 timestamp) {
-    OSStatus err = noErr;
+INT32 MIDI_OUT_SendShortMessbge(MidiDeviceHbndle* hbndle, UINT32 pbckedMsg, UINT32 timestbmp) {
+    OSStbtus err = noErr;
 
-    TRACE2("> MIDI_OUT_SendShortMessage %x, time: %d\n", (uint) packedMsg, (int) timestamp);
-    if (!handle) {
-        ERROR0("< ERROR: MIDI_OUT_SendShortMessage: handle is NULL\n");
+    TRACE2("> MIDI_OUT_SendShortMessbge %x, time: %d\n", (uint) pbckedMsg, (int) timestbmp);
+    if (!hbndle) {
+        ERROR0("< ERROR: MIDI_OUT_SendShortMessbge: hbndle is NULL\n");
         return MIDI_INVALID_HANDLE;
     }
 
-    MacMidiDeviceHandle* macHandle = (MacMidiDeviceHandle*) handle;
+    MbcMidiDeviceHbndle* mbcHbndle = (MbcMidiDeviceHbndle*) hbndle;
     UInt8 mBuffers[100];
-    MIDIPacketList* packetList = (MIDIPacketList*) mBuffers;
-    MIDIPacket* packet;
-    UINT32 nData;
-    Byte data[3] = {packedMsg & 0xFF, (packedMsg >> 8) & 0xFF, (packedMsg >> 16) & 0xFF};
-    bool byteIsInvalid = FALSE;
+    MIDIPbcketList* pbcketList = (MIDIPbcketList*) mBuffers;
+    MIDIPbcket* pbcket;
+    UINT32 nDbtb;
+    Byte dbtb[3] = {pbckedMsg & 0xFF, (pbckedMsg >> 8) & 0xFF, (pbckedMsg >> 16) & 0xFF};
+    bool byteIsInvblid = FALSE;
 
-    packet = MIDIPacketListInit(packetList);
-    switch (data[0] & 0xF0) {
-        case 0x80:    // Note off
-        case 0x90:    // Note on
-        case 0xA0:    // Aftertouch
-        case 0xB0:    // Controller
-        case 0xE0:    // Pitch wheel
-            nData = 3;
-            break;
+    pbcket = MIDIPbcketListInit(pbcketList);
+    switch (dbtb[0] & 0xF0) {
+        cbse 0x80:    // Note off
+        cbse 0x90:    // Note on
+        cbse 0xA0:    // Aftertouch
+        cbse 0xB0:    // Controller
+        cbse 0xE0:    // Pitch wheel
+            nDbtb = 3;
+            brebk;
 
-        case 0xC0:    // Program change
-        case 0xD0:    // Channel pressure
-            nData = 2;
-            break;
+        cbse 0xC0:    // Progrbm chbnge
+        cbse 0xD0:    // Chbnnel pressure
+            nDbtb = 2;
+            brebk;
 
-        case 0xF0: {
-            // System common message
-            switch (data[0]) {
-                case 0xF0:
-                case 0xF7:
+        cbse 0xF0: {
+            // System common messbge
+            switch (dbtb[0]) {
+                cbse 0xF0:
+                cbse 0xF7:
                     // System exclusive
-                    fprintf(stderr, "%s: %d->internal error: sysex message status=0x%X while sending short message\n",
-                            THIS_FILE, __LINE__, data[0]);
-                    byteIsInvalid = TRUE;
-                    break;
+                    fprintf(stderr, "%s: %d->internbl error: sysex messbge stbtus=0x%X while sending short messbge\n",
+                            THIS_FILE, __LINE__, dbtb[0]);
+                    byteIsInvblid = TRUE;
+                    brebk;
 
-                case 0xF1:    // MTC quarter frame message
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: MTC quarter frame message....\n");
-                    nData = 2;
-                    break;
-                case 0xF3:    // Song select
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Song select....\n");
-                    nData = 2;
-                    break;
+                cbse 0xF1:    // MTC qubrter frbme messbge
+                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessbge: MTC qubrter frbme messbge....\n");
+                    nDbtb = 2;
+                    brebk;
+                cbse 0xF3:    // Song select
+                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessbge: Song select....\n");
+                    nDbtb = 2;
+                    brebk;
 
-                case 0xF2:    // Song position pointer
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Song position pointer....\n");
-                    nData = 3;
-                    break;
+                cbse 0xF2:    // Song position pointer
+                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessbge: Song position pointer....\n");
+                    nDbtb = 3;
+                    brebk;
 
-                case 0xF6:    // Tune request
-                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessage: Tune request....\n");
-                    nData = 1;
-                    break;
+                cbse 0xF6:    // Tune request
+                    //fprintf(stderr, ">>>MIDI_OUT_SendShortMessbge: Tune request....\n");
+                    nDbtb = 1;
+                    brebk;
 
-                default:
-                    // Invalid message
-                    fprintf(stderr, "%s: %d->Invalid message: message status=0x%X while sending short message\n",
-                            THIS_FILE, __LINE__, data[0]);
-                    byteIsInvalid = TRUE;
-                    break;
+                defbult:
+                    // Invblid messbge
+                    fprintf(stderr, "%s: %d->Invblid messbge: messbge stbtus=0x%X while sending short messbge\n",
+                            THIS_FILE, __LINE__, dbtb[0]);
+                    byteIsInvblid = TRUE;
+                    brebk;
             }
-            break;
+            brebk;
         }
 
-        default:
-            // This can't happen, but handle it anyway.
-            fprintf(stderr, "%s: %d->Invalid message: message status=0x%X while sending short message\n",
-                    THIS_FILE, __LINE__, data[0]);
-            byteIsInvalid = TRUE;
-            break;
+        defbult:
+            // This cbn't hbppen, but hbndle it bnywby.
+            fprintf(stderr, "%s: %d->Invblid messbge: messbge stbtus=0x%X while sending short messbge\n",
+                    THIS_FILE, __LINE__, dbtb[0]);
+            byteIsInvblid = TRUE;
+            brebk;
     }
 
-    if (byteIsInvalid) return -1;
+    if (byteIsInvblid) return -1;
 
-    MIDIPacketListAdd(packetList, sizeof(mBuffers), packet, 0, nData, data);
-    err = MIDISend(macHandle->port, (MIDIEndpointRef) (intptr_t) handle->deviceHandle, packetList);
+    MIDIPbcketListAdd(pbcketList, sizeof(mBuffers), pbcket, 0, nDbtb, dbtb);
+    err = MIDISend(mbcHbndle->port, (MIDIEndpointRef) (intptr_t) hbndle->deviceHbndle, pbcketList);
 
     MIDI_CHECK_ERROR;
-    TRACE0("< MIDI_OUT_SendShortMessage\n");
+    TRACE0("< MIDI_OUT_SendShortMessbge\n");
     return (err == noErr ? MIDI_SUCCESS : -1);
 }
 
 
-INT32 MIDI_OUT_SendLongMessage(MidiDeviceHandle* handle, UBYTE* data, UINT32 size, UINT32 timestamp) {
-    OSStatus err = noErr;
+INT32 MIDI_OUT_SendLongMessbge(MidiDeviceHbndle* hbndle, UBYTE* dbtb, UINT32 size, UINT32 timestbmp) {
+    OSStbtus err = noErr;
 
-    TRACE2("> MIDI_OUT_SendLongMessage size %d, time: %d\n", (int) size, (int) timestamp);
-    if (!handle || !data) {
-        ERROR0("< ERROR: MIDI_OUT_SendLongMessage: handle, or data is NULL\n");
+    TRACE2("> MIDI_OUT_SendLongMessbge size %d, time: %d\n", (int) size, (int) timestbmp);
+    if (!hbndle || !dbtb) {
+        ERROR0("< ERROR: MIDI_OUT_SendLongMessbge: hbndle, or dbtb is NULL\n");
         return MIDI_INVALID_HANDLE;
     }
     if (size == 0) {
         return MIDI_SUCCESS;
     }
 
-    MacMidiDeviceHandle* macHandle = (MacMidiDeviceHandle*) handle;
+    MbcMidiDeviceHbndle* mbcHbndle = (MbcMidiDeviceHbndle*) hbndle;
     UInt8 mBuffers[8196];
-    MIDIPacketList* packetList = (MIDIPacketList*) mBuffers;
-    MIDIPacket* packet = NULL;
-    UINT32 remaining = size;
+    MIDIPbcketList* pbcketList = (MIDIPbcketList*) mBuffers;
+    MIDIPbcket* pbcket = NULL;
+    UINT32 rembining = size;
     UINT32 increment = 512;
-    UINT32 nData;
+    UINT32 nDbtb;
 
-    handle->isWaiting = TRUE;
+    hbndle->isWbiting = TRUE;
 
-    while (remaining > 0) {
+    while (rembining > 0) {
 
-        if (packet == NULL) {
-            packet = MIDIPacketListInit(packetList);
+        if (pbcket == NULL) {
+            pbcket = MIDIPbcketListInit(pbcketList);
         }
 
-        if (remaining > increment) {
-            nData = increment;
+        if (rembining > increment) {
+            nDbtb = increment;
         } else {
-            nData = remaining;
+            nDbtb = rembining;
         }
 
-        // Copies the bytes to our current packet.
-        if ((packet = MIDIPacketListAdd(packetList, sizeof(mBuffers), packet, 0, nData, (const Byte*) data)) == NULL) {
-            // Packet list is full, send it.
-            err = MIDISend(macHandle->port, (MIDIEndpointRef) (intptr_t) handle->deviceHandle, packetList);
+        // Copies the bytes to our current pbcket.
+        if ((pbcket = MIDIPbcketListAdd(pbcketList, sizeof(mBuffers), pbcket, 0, nDbtb, (const Byte*) dbtb)) == NULL) {
+            // Pbcket list is full, send it.
+            err = MIDISend(mbcHbndle->port, (MIDIEndpointRef) (intptr_t) hbndle->deviceHbndle, pbcketList);
             if (err != noErr) {
-                break;
+                brebk;
             }
         } else {
-            // Moves the data pointer to the next segment.
-            data += nData;
-            remaining -= nData;
-            packet = MIDIPacketNext(packet);
+            // Moves the dbtb pointer to the next segment.
+            dbtb += nDbtb;
+            rembining -= nDbtb;
+            pbcket = MIDIPbcketNext(pbcket);
         }
     }
 
     MIDI_CHECK_ERROR;
-    handle->isWaiting = FALSE;
-    TRACE0("< MIDI_OUT_SendLongMessage\n");
+    hbndle->isWbiting = FALSE;
+    TRACE0("< MIDI_OUT_SendLongMessbge\n");
     return (err == noErr ? MIDI_SUCCESS : -1);
 }
 

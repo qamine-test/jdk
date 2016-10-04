@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import jbvb.net.URISyntbxException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.ServiceLobder;
+import jbvb.util.Set;
 
-import sun.jvmstat.monitor.event.HostListener;
+import sun.jvmstbt.monitor.event.HostListener;
 
 /**
- * An abstraction for a host that contains instrumented Java Virtual
- * Machines. The class provides abstract factory methods for creating
- * concrete instances of this class and factory methods for creating
- * {@link MonitoredVm} instances. Concrete implementations of this class
- * provide methods for managing the communications protocols and provide
- * for event notification.
+ * An bbstrbction for b host thbt contbins instrumented Jbvb Virtubl
+ * Mbchines. The clbss provides bbstrbct fbctory methods for crebting
+ * concrete instbnces of this clbss bnd fbctory methods for crebting
+ * {@link MonitoredVm} instbnces. Concrete implementbtions of this clbss
+ * provide methods for mbnbging the communicbtions protocols bnd provide
+ * for event notificbtion.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  *
  * @see HostIdentifier
@@ -49,84 +49,84 @@ import sun.jvmstat.monitor.event.HostListener;
  * @see MonitoredVm
  * @see HostListener
  */
-public abstract class MonitoredHost {
-    private static Map<HostIdentifier, MonitoredHost> monitoredHosts =
-                new HashMap<HostIdentifier, MonitoredHost>();
+public bbstrbct clbss MonitoredHost {
+    privbte stbtic Mbp<HostIdentifier, MonitoredHost> monitoredHosts =
+                new HbshMbp<HostIdentifier, MonitoredHost>();
 
     /*
-     * The default optimized local protocol override mechanism. The value
-     * of this property is used to construct the default package name
-     * for the default optimized local protocol as follows:
+     * The defbult optimized locbl protocol override mechbnism. The vblue
+     * of this property is used to construct the defbult pbckbge nbme
+     * for the defbult optimized locbl protocol bs follows:
      *        <IMPL_PACKAGE>.monitor.<LOCAL_PROTOCOL>
-     * This property is not expected to be set under normal circumstances.
+     * This property is not expected to be set under normbl circumstbnces.
      */
-    private static final String LOCAL_PROTOCOL_PROP_NAME =
-            "sun.jvmstat.monitor.local";
-    private static final String LOCAL_PROTOCOL =
-            System.getProperty(LOCAL_PROTOCOL_PROP_NAME, "local");
+    privbte stbtic finbl String LOCAL_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.locbl";
+    privbte stbtic finbl String LOCAL_PROTOCOL =
+            System.getProperty(LOCAL_PROTOCOL_PROP_NAME, "locbl");
 
     /*
-     * The default remote protocol override mechanism. The value of
-     * this property is used to construct the default package name
-     * for the default remote protocol protocol as follows:
+     * The defbult remote protocol override mechbnism. The vblue of
+     * this property is used to construct the defbult pbckbge nbme
+     * for the defbult remote protocol protocol bs follows:
      *        <IMPL_PACKAGE>.monitor.protocol.<REMOTE_PROTOCOL>
-     * This property is not expected to be set under normal circumstances.
+     * This property is not expected to be set under normbl circumstbnces.
      */
-    private static final String REMOTE_PROTOCOL_PROP_NAME =
-            "sun.jvmstat.monitor.remote";
-    private static final String REMOTE_PROTOCOL =
+    privbte stbtic finbl String REMOTE_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.remote";
+    privbte stbtic finbl String REMOTE_PROTOCOL =
             System.getProperty(REMOTE_PROTOCOL_PROP_NAME, "rmi");
 
     /**
-     * The HostIdentifier for this MonitoredHost instance.
+     * The HostIdentifier for this MonitoredHost instbnce.
      */
     protected HostIdentifier hostId;
 
     /**
-     * The polling interval, in milliseconds, for this MonitoredHost instance.
+     * The polling intervbl, in milliseconds, for this MonitoredHost instbnce.
      */
-    protected int interval;
+    protected int intervbl;
 
     /**
-     * The last Exception encountered while polling this MonitoredHost.
+     * The lbst Exception encountered while polling this MonitoredHost.
      */
-    protected Exception lastException;
+    protected Exception lbstException;
 
     /**
-     * Factory method to construct MonitoredHost instances to manage
-     * connections to the host indicated by <tt>hostIdString</tt>
+     * Fbctory method to construct MonitoredHost instbnces to mbnbge
+     * connections to the host indicbted by <tt>hostIdString</tt>
      *
-     * @param hostIdString a String representation of a {@link HostIdentifier}
-     * @return MonitoredHost - the MonitoredHost instance for communicating
-     *                         with the indicated host using the protocol
+     * @pbrbm hostIdString b String representbtion of b {@link HostIdentifier}
+     * @return MonitoredHost - the MonitoredHost instbnce for communicbting
+     *                         with the indicbted host using the protocol
      *                         specified in hostIdString.
      * @throws MonitorException  Thrown if monitoring errors occur.
-     * @throws URISyntaxException Thrown when the hostIdString is poorly
-     *                            formed. This exception may get encapsulated
-     *                            into MonitorException in a future revision.
+     * @throws URISyntbxException Thrown when the hostIdString is poorly
+     *                            formed. This exception mby get encbpsulbted
+     *                            into MonitorException in b future revision.
      */
-    public static MonitoredHost getMonitoredHost(String hostIdString)
-                  throws MonitorException, URISyntaxException {
+    public stbtic MonitoredHost getMonitoredHost(String hostIdString)
+                  throws MonitorException, URISyntbxException {
         HostIdentifier hostId = new HostIdentifier(hostIdString);
         return getMonitoredHost(hostId);
     }
 
     /**
-     * Factory method to construct a MonitoredHost instance to manage the
-     * connection to the Java Virtual Machine indicated by <tt>vmid</tt>.
+     * Fbctory method to construct b MonitoredHost instbnce to mbnbge the
+     * connection to the Jbvb Virtubl Mbchine indicbted by <tt>vmid</tt>.
      *
-     * This method provide a convenient short cut for attaching to a specific
-     * instrumented Java Virtual Machine. The information in the VmIdentifier
-     * is used to construct a corresponding HostIdentifier, which in turn is
-     * used to create the MonitoredHost instance.
+     * This method provide b convenient short cut for bttbching to b specific
+     * instrumented Jbvb Virtubl Mbchine. The informbtion in the VmIdentifier
+     * is used to construct b corresponding HostIdentifier, which in turn is
+     * used to crebte the MonitoredHost instbnce.
      *
-     * @param vmid The identifier for the target Java Virtual Machine.
-     * @return MonitoredHost - The MonitoredHost object needed to attach to
-     *                         the target Java Virtual Machine.
+     * @pbrbm vmid The identifier for the tbrget Jbvb Virtubl Mbchine.
+     * @return MonitoredHost - The MonitoredHost object needed to bttbch to
+     *                         the tbrget Jbvb Virtubl Mbchine.
      *
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public static MonitoredHost getMonitoredHost(VmIdentifier vmid)
+    public stbtic MonitoredHost getMonitoredHost(VmIdentifier vmid)
                  throws MonitorException {
         // use the VmIdentifier to construct the corresponding HostIdentifier
         HostIdentifier hostId = new HostIdentifier(vmid);
@@ -135,22 +135,22 @@ public abstract class MonitoredHost {
 
 
     /*
-     * Load the MonitoredHostServices
+     * Lobd the MonitoredHostServices
      */
-    private static ServiceLoader<MonitoredHostService> monitoredHostServiceLoader =
-        ServiceLoader.load(MonitoredHostService.class, MonitoredHostService.class.getClassLoader());
+    privbte stbtic ServiceLobder<MonitoredHostService> monitoredHostServiceLobder =
+        ServiceLobder.lobd(MonitoredHostService.clbss, MonitoredHostService.clbss.getClbssLobder());
 
     /**
-     * Factory method to construct a MonitoredHost instance to manage the
-     * connection to the host indicated by <tt>hostId</tt>.
+     * Fbctory method to construct b MonitoredHost instbnce to mbnbge the
+     * connection to the host indicbted by <tt>hostId</tt>.
      *
-     * @param hostId the identifier for the target host.
-     * @return MonitoredHost - The MonitoredHost object needed to attach to
-     *                         the target host.
+     * @pbrbm hostId the identifier for the tbrget host.
+     * @return MonitoredHost - The MonitoredHost object needed to bttbch to
+     *                         the tbrget host.
      *
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public static MonitoredHost getMonitoredHost(HostIdentifier hostId)
+    public stbtic MonitoredHost getMonitoredHost(HostIdentifier hostId)
                   throws MonitorException {
         MonitoredHost mh = null;
 
@@ -167,14 +167,14 @@ public abstract class MonitoredHost {
 
         hostId = resolveHostId(hostId);
 
-        for (MonitoredHostService mhs : monitoredHostServiceLoader) {
-            if (mhs.getScheme().equals(hostId.getScheme())) {
+        for (MonitoredHostService mhs : monitoredHostServiceLobder) {
+            if (mhs.getScheme().equbls(hostId.getScheme())) {
                 mh = mhs.getMonitoredHost(hostId);
             }
         }
 
         if (mh == null) {
-            throw new IllegalArgumentException("Could not find MonitoredHost for scheme: " + hostId.getScheme());
+            throw new IllegblArgumentException("Could not find MonitoredHost for scheme: " + hostId.getScheme());
         }
 
         synchronized(monitoredHosts) {
@@ -186,43 +186,43 @@ public abstract class MonitoredHost {
 
     /**
      * Method to resolve unspecified components of the given HostIdentifier
-     * by constructing a new HostIdentifier that replaces the unspecified
-     * components with the default values.
+     * by constructing b new HostIdentifier thbt replbces the unspecified
+     * components with the defbult vblues.
      *
-     * @param hostId the unresolved HostIdentifier.
-     * @return HostIdentifier - a resolved HostIdentifier.
+     * @pbrbm hostId the unresolved HostIdentifier.
+     * @return HostIdentifier - b resolved HostIdentifier.
      *
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    protected static HostIdentifier resolveHostId(HostIdentifier hostId)
+    protected stbtic HostIdentifier resolveHostId(HostIdentifier hostId)
                      throws MonitorException {
-        String hostname = hostId.getHost();
+        String hostnbme = hostId.getHost();
         String scheme = hostId.getScheme();
         StringBuilder sb = new StringBuilder();
 
-        assert hostname != null;
+        bssert hostnbme != null;
 
         if (scheme == null) {
-            if (hostname.compareTo("localhost") == 0) {
+            if (hostnbme.compbreTo("locblhost") == 0) {
                 scheme = LOCAL_PROTOCOL;
             } else {
                 scheme = REMOTE_PROTOCOL;
             }
         }
 
-        sb.append(scheme).append(":").append(hostId.getSchemeSpecificPart());
+        sb.bppend(scheme).bppend(":").bppend(hostId.getSchemeSpecificPbrt());
 
-        String frag = hostId.getFragment();
-        if (frag != null) {
-            sb.append("#").append(frag);
+        String frbg = hostId.getFrbgment();
+        if (frbg != null) {
+            sb.bppend("#").bppend(frbg);
         }
 
         try {
             return new HostIdentifier(sb.toString());
-        } catch (URISyntaxException e) {
-            // programming error - HostIdentifier was valid.
-            assert false;
-            throw new IllegalArgumentException("Malformed URI created: "
+        } cbtch (URISyntbxException e) {
+            // progrbmming error - HostIdentifier wbs vblid.
+            bssert fblse;
+            throw new IllegblArgumentException("Mblformed URI crebted: "
                                                + sb.toString());
         }
     }
@@ -236,128 +236,128 @@ public abstract class MonitoredHost {
         return hostId;
     }
 
-    /* ---- Methods to support polled MonitoredHost Implementations ----- */
+    /* ---- Methods to support polled MonitoredHost Implementbtions ----- */
 
     /**
-     * Set the polling interval for this MonitoredHost.
+     * Set the polling intervbl for this MonitoredHost.
      *
-     * @param interval the polling interval, in milliseconds
+     * @pbrbm intervbl the polling intervbl, in milliseconds
      */
-    public void setInterval(int interval) {
-        this.interval = interval;
+    public void setIntervbl(int intervbl) {
+        this.intervbl = intervbl;
     }
 
     /**
-     * Get the polling interval.
+     * Get the polling intervbl.
      *
-     * @return int - the polling interval in milliseconds for this MonitoredHost
+     * @return int - the polling intervbl in milliseconds for this MonitoredHost
      */
-    public int getInterval() {
-        return interval;
+    public int getIntervbl() {
+        return intervbl;
     }
 
     /**
-     * Set the last exception encountered while polling this MonitoredHost.
+     * Set the lbst exception encountered while polling this MonitoredHost.
      *
-     * @param lastException the last exception encountered;
+     * @pbrbm lbstException the lbst exception encountered;
      */
-    public void setLastException(Exception lastException) {
-        this.lastException = lastException;
+    public void setLbstException(Exception lbstException) {
+        this.lbstException = lbstException;
     }
 
     /**
-     * Get the last exception encountered while polling this MonitoredHost.
+     * Get the lbst exception encountered while polling this MonitoredHost.
      *
-     * @return Exception - the last exception occurred while polling this
+     * @return Exception - the lbst exception occurred while polling this
      *                     MonitoredHost, or <tt>null</tt> if no exception
-     *                     has occurred or the exception has been cleared,
+     *                     hbs occurred or the exception hbs been clebred,
      */
-    public Exception getLastException() {
-        return lastException;
+    public Exception getLbstException() {
+        return lbstException;
     }
 
     /**
-     * Clear the last exception.
+     * Clebr the lbst exception.
      */
-    public void clearLastException() {
-        lastException = null;
+    public void clebrLbstException() {
+        lbstException = null;
     }
 
     /**
-     * Test if this MonitoredHost is in the errored state. If this method
-     * returns true, then the Exception returned by getLastException()
-     * indicates the Exception that caused the error condition.
+     * Test if this MonitoredHost is in the errored stbte. If this method
+     * returns true, then the Exception returned by getLbstException()
+     * indicbtes the Exception thbt cbused the error condition.
      *
-     * @return boolean - true if the MonitoredHost instance has experienced
-     *                   an error, or false if it hasn't or if any past
-     *                   error has been cleared.
+     * @return boolebn - true if the MonitoredHost instbnce hbs experienced
+     *                   bn error, or fblse if it hbsn't or if bny pbst
+     *                   error hbs been clebred.
      */
-    public boolean isErrored() {
-        return lastException != null;
+    public boolebn isErrored() {
+        return lbstException != null;
     }
 
     /**
-     * Get the MonitoredVm for the given Java Virtual Machine. The default
-     * sampling interval is used for the MonitoredVm instance.
+     * Get the MonitoredVm for the given Jbvb Virtubl Mbchine. The defbult
+     * sbmpling intervbl is used for the MonitoredVm instbnce.
      *
-     * @param id the VmIdentifier specifying the target Java Virtual Machine.
-     * @return MonitoredVm - the MonitoredVm instance for the target Java
-     *                       Virtual Machine.
+     * @pbrbm id the VmIdentifier specifying the tbrget Jbvb Virtubl Mbchine.
+     * @return MonitoredVm - the MonitoredVm instbnce for the tbrget Jbvb
+     *                       Virtubl Mbchine.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract MonitoredVm getMonitoredVm(VmIdentifier id)
+    public bbstrbct MonitoredVm getMonitoredVm(VmIdentifier id)
                                 throws MonitorException;
 
     /**
-     * Get the MonitoredVm for the given Java Virtual Machine. The sampling
-     * interval is set to the given interval.
+     * Get the MonitoredVm for the given Jbvb Virtubl Mbchine. The sbmpling
+     * intervbl is set to the given intervbl.
      *
-     * @param id the VmIdentifier specifying the target Java Virtual Machine.
-     * @param interval the sampling interval for the target Java Virtual Machine.
-     * @return MonitoredVm - the MonitoredVm instance for the target Java
-     *                       Virtual Machine.
+     * @pbrbm id the VmIdentifier specifying the tbrget Jbvb Virtubl Mbchine.
+     * @pbrbm intervbl the sbmpling intervbl for the tbrget Jbvb Virtubl Mbchine.
+     * @return MonitoredVm - the MonitoredVm instbnce for the tbrget Jbvb
+     *                       Virtubl Mbchine.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract MonitoredVm getMonitoredVm(VmIdentifier id, int interval)
+    public bbstrbct MonitoredVm getMonitoredVm(VmIdentifier id, int intervbl)
                                 throws MonitorException;
 
     /**
-     * Detach from the indicated MonitoredVm.
+     * Detbch from the indicbted MonitoredVm.
      *
-     * @param vm the monitored Java Virtual Machine.
+     * @pbrbm vm the monitored Jbvb Virtubl Mbchine.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract void detach(MonitoredVm vm) throws MonitorException;
+    public bbstrbct void detbch(MonitoredVm vm) throws MonitorException;
 
     /**
-     * Add a HostListener. The given listener is added to the list
-     * of HostListener objects to be notified of MonitoredHost related events.
+     * Add b HostListener. The given listener is bdded to the list
+     * of HostListener objects to be notified of MonitoredHost relbted events.
      *
-     * @param listener the HostListener to add.
+     * @pbrbm listener the HostListener to bdd.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract void addHostListener(HostListener listener)
+    public bbstrbct void bddHostListener(HostListener listener)
                          throws MonitorException;
 
     /**
-     * Remove a HostListener. The given listener is removed from the list
-     * of HostListener objects to be notified of MonitoredHost related events.
+     * Remove b HostListener. The given listener is removed from the list
+     * of HostListener objects to be notified of MonitoredHost relbted events.
      *
-     * @param listener the HostListener to add.
+     * @pbrbm listener the HostListener to bdd.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract void removeHostListener(HostListener listener)
+    public bbstrbct void removeHostListener(HostListener listener)
                          throws MonitorException;
 
     /**
-     * Return the current set of active Java Virtual Machines for this
-     * MonitoredHost. The returned Set contains {@link Integer} instances
-     * holding the local virtual machine identifier, or <em>lvmid</em>
-     * for each instrumented Java Virtual Machine currently available.
+     * Return the current set of bctive Jbvb Virtubl Mbchines for this
+     * MonitoredHost. The returned Set contbins {@link Integer} instbnces
+     * holding the locbl virtubl mbchine identifier, or <em>lvmid</em>
+     * for ebch instrumented Jbvb Virtubl Mbchine currently bvbilbble.
      *
-     * @return Set - the current set of active Java Virtual Machines associated
+     * @return Set - the current set of bctive Jbvb Virtubl Mbchines bssocibted
      *               with this MonitoredHost, or the empty set of none.
      * @throws MonitorException Thrown if monitoring errors occur.
      */
-    public abstract Set<Integer> activeVms() throws MonitorException;
+    public bbstrbct Set<Integer> bctiveVms() throws MonitorException;
 }

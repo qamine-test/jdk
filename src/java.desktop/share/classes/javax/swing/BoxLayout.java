@@ -1,458 +1,458 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.beans.ConstructorProperties;
-import java.io.Serializable;
-import java.io.PrintStream;
+import jbvb.bwt.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.io.Seriblizbble;
+import jbvb.io.PrintStrebm;
 
 /**
- * A layout manager that allows multiple components to be laid out either
- * vertically or horizontally. The components will not wrap so, for
- * example, a vertical arrangement of components will stay vertically
- * arranged when the frame is resized.
- * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="layout">
+ * A lbyout mbnbger thbt bllows multiple components to be lbid out either
+ * verticblly or horizontblly. The components will not wrbp so, for
+ * exbmple, b verticbl brrbngement of components will stby verticblly
+ * brrbnged when the frbme is resized.
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
  *    <TR>
  *      <TD ALIGN="CENTER">
- *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/BoxLayout-1.gif"
- *          alt="The following text describes this graphic."
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="doc-files/BoxLbyout-1.gif"
+ *          blt="The following text describes this grbphic."
  *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
  *      </TD>
  *    </TR>
  * </TABLE>
  * <p>
- * Nesting multiple panels with different combinations of horizontal and
- * vertical gives an effect similar to GridBagLayout, without the
- * complexity. The diagram shows two panels arranged horizontally, each
- * of which contains 3 components arranged vertically.
+ * Nesting multiple pbnels with different combinbtions of horizontbl bnd
+ * verticbl gives bn effect similbr to GridBbgLbyout, without the
+ * complexity. The dibgrbm shows two pbnels brrbnged horizontblly, ebch
+ * of which contbins 3 components brrbnged verticblly.
  *
- * <p> The BoxLayout manager is constructed with an axis parameter that
- * specifies the type of layout that will be done. There are four choices:
+ * <p> The BoxLbyout mbnbger is constructed with bn bxis pbrbmeter thbt
+ * specifies the type of lbyout thbt will be done. There bre four choices:
  *
- * <blockquote><b><tt>X_AXIS</tt></b> - Components are laid out horizontally
+ * <blockquote><b><tt>X_AXIS</tt></b> - Components bre lbid out horizontblly
  * from left to right.</blockquote>
  *
- * <blockquote><b><tt>Y_AXIS</tt></b> - Components are laid out vertically
+ * <blockquote><b><tt>Y_AXIS</tt></b> - Components bre lbid out verticblly
  * from top to bottom.</blockquote>
  *
- * <blockquote><b><tt>LINE_AXIS</tt></b> - Components are laid out the way
- * words are laid out in a line, based on the container's
- * <tt>ComponentOrientation</tt> property. If the container's
- * <tt>ComponentOrientation</tt> is horizontal then components are laid out
- * horizontally, otherwise they are laid out vertically.  For horizontal
- * orientations, if the container's <tt>ComponentOrientation</tt> is left to
- * right then components are laid out left to right, otherwise they are laid
- * out right to left. For vertical orientations components are always laid out
+ * <blockquote><b><tt>LINE_AXIS</tt></b> - Components bre lbid out the wby
+ * words bre lbid out in b line, bbsed on the contbiner's
+ * <tt>ComponentOrientbtion</tt> property. If the contbiner's
+ * <tt>ComponentOrientbtion</tt> is horizontbl then components bre lbid out
+ * horizontblly, otherwise they bre lbid out verticblly.  For horizontbl
+ * orientbtions, if the contbiner's <tt>ComponentOrientbtion</tt> is left to
+ * right then components bre lbid out left to right, otherwise they bre lbid
+ * out right to left. For verticbl orientbtions components bre blwbys lbid out
  * from top to bottom.</blockquote>
  *
- * <blockquote><b><tt>PAGE_AXIS</tt></b> - Components are laid out the way
- * text lines are laid out on a page, based on the container's
- * <tt>ComponentOrientation</tt> property. If the container's
- * <tt>ComponentOrientation</tt> is horizontal then components are laid out
- * vertically, otherwise they are laid out horizontally.  For horizontal
- * orientations, if the container's <tt>ComponentOrientation</tt> is left to
- * right then components are laid out left to right, otherwise they are laid
- * out right to left.&nbsp; For vertical orientations components are always
- * laid out from top to bottom.</blockquote>
+ * <blockquote><b><tt>PAGE_AXIS</tt></b> - Components bre lbid out the wby
+ * text lines bre lbid out on b pbge, bbsed on the contbiner's
+ * <tt>ComponentOrientbtion</tt> property. If the contbiner's
+ * <tt>ComponentOrientbtion</tt> is horizontbl then components bre lbid out
+ * verticblly, otherwise they bre lbid out horizontblly.  For horizontbl
+ * orientbtions, if the contbiner's <tt>ComponentOrientbtion</tt> is left to
+ * right then components bre lbid out left to right, otherwise they bre lbid
+ * out right to left.&nbsp; For verticbl orientbtions components bre blwbys
+ * lbid out from top to bottom.</blockquote>
  * <p>
- * For all directions, components are arranged in the same order as they were
- * added to the container.
+ * For bll directions, components bre brrbnged in the sbme order bs they were
+ * bdded to the contbiner.
  * <p>
- * BoxLayout attempts to arrange components
- * at their preferred widths (for horizontal layout)
- * or heights (for vertical layout).
- * For a horizontal layout,
- * if not all the components are the same height,
- * BoxLayout attempts to make all the components
- * as high as the highest component.
- * If that's not possible for a particular component,
- * then BoxLayout aligns that component vertically,
- * according to the component's Y alignment.
- * By default, a component has a Y alignment of 0.5,
- * which means that the vertical center of the component
- * should have the same Y coordinate as
- * the vertical centers of other components with 0.5 Y alignment.
+ * BoxLbyout bttempts to brrbnge components
+ * bt their preferred widths (for horizontbl lbyout)
+ * or heights (for verticbl lbyout).
+ * For b horizontbl lbyout,
+ * if not bll the components bre the sbme height,
+ * BoxLbyout bttempts to mbke bll the components
+ * bs high bs the highest component.
+ * If thbt's not possible for b pbrticulbr component,
+ * then BoxLbyout bligns thbt component verticblly,
+ * bccording to the component's Y blignment.
+ * By defbult, b component hbs b Y blignment of 0.5,
+ * which mebns thbt the verticbl center of the component
+ * should hbve the sbme Y coordinbte bs
+ * the verticbl centers of other components with 0.5 Y blignment.
  * <p>
- * Similarly, for a vertical layout,
- * BoxLayout attempts to make all components in the column
- * as wide as the widest component.
- * If that fails, it aligns them horizontally
- * according to their X alignments.  For <code>PAGE_AXIS</code> layout,
- * horizontal alignment is done based on the leading edge of the component.
- * In other words, an X alignment value of 0.0 means the left edge of a
- * component if the container's <code>ComponentOrientation</code> is left to
- * right and it means the right edge of the component otherwise.
+ * Similbrly, for b verticbl lbyout,
+ * BoxLbyout bttempts to mbke bll components in the column
+ * bs wide bs the widest component.
+ * If thbt fbils, it bligns them horizontblly
+ * bccording to their X blignments.  For <code>PAGE_AXIS</code> lbyout,
+ * horizontbl blignment is done bbsed on the lebding edge of the component.
+ * In other words, bn X blignment vblue of 0.0 mebns the left edge of b
+ * component if the contbiner's <code>ComponentOrientbtion</code> is left to
+ * right bnd it mebns the right edge of the component otherwise.
  * <p>
- * Instead of using BoxLayout directly, many programs use the Box class.
- * The Box class is a lightweight container that uses a BoxLayout.
- * It also provides handy methods to help you use BoxLayout well.
- * Adding components to multiple nested boxes is a powerful way to get
- * the arrangement you want.
+ * Instebd of using BoxLbyout directly, mbny progrbms use the Box clbss.
+ * The Box clbss is b lightweight contbiner thbt uses b BoxLbyout.
+ * It blso provides hbndy methods to help you use BoxLbyout well.
+ * Adding components to multiple nested boxes is b powerful wby to get
+ * the brrbngement you wbnt.
  * <p>
- * For further information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html">How to Use BoxLayout</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For further informbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/lbyout/box.html">How to Use BoxLbyout</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  * @see Box
- * @see java.awt.ComponentOrientation
+ * @see jbvb.bwt.ComponentOrientbtion
  * @see JComponent#getAlignmentX
  * @see JComponent#getAlignmentY
  *
- * @author   Timothy Prinzing
+ * @buthor   Timothy Prinzing
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class BoxLayout implements LayoutManager2, Serializable {
+@SuppressWbrnings("seribl")
+public clbss BoxLbyout implements LbyoutMbnbger2, Seriblizbble {
 
     /**
-     * Specifies that components should be laid out left to right.
+     * Specifies thbt components should be lbid out left to right.
      */
-    public static final int X_AXIS = 0;
+    public stbtic finbl int X_AXIS = 0;
 
     /**
-     * Specifies that components should be laid out top to bottom.
+     * Specifies thbt components should be lbid out top to bottom.
      */
-    public static final int Y_AXIS = 1;
+    public stbtic finbl int Y_AXIS = 1;
 
     /**
-     * Specifies that components should be laid out in the direction of
-     * a line of text as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies thbt components should be lbid out in the direction of
+     * b line of text bs determined by the tbrget contbiner's
+     * <code>ComponentOrientbtion</code> property.
      */
-    public static final int LINE_AXIS = 2;
+    public stbtic finbl int LINE_AXIS = 2;
 
     /**
-     * Specifies that components should be laid out in the direction that
-     * lines flow across a page as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies thbt components should be lbid out in the direction thbt
+     * lines flow bcross b pbge bs determined by the tbrget contbiner's
+     * <code>ComponentOrientbtion</code> property.
      */
-    public static final int PAGE_AXIS = 3;
+    public stbtic finbl int PAGE_AXIS = 3;
 
     /**
-     * Creates a layout manager that will lay out components along the
-     * given axis.
+     * Crebtes b lbyout mbnbger thbt will lby out components blong the
+     * given bxis.
      *
-     * @param target  the container that needs to be laid out
-     * @param axis  the axis to lay out components along. Can be one of:
-     *              <code>BoxLayout.X_AXIS</code>,
-     *              <code>BoxLayout.Y_AXIS</code>,
-     *              <code>BoxLayout.LINE_AXIS</code> or
-     *              <code>BoxLayout.PAGE_AXIS</code>
+     * @pbrbm tbrget  the contbiner thbt needs to be lbid out
+     * @pbrbm bxis  the bxis to lby out components blong. Cbn be one of:
+     *              <code>BoxLbyout.X_AXIS</code>,
+     *              <code>BoxLbyout.Y_AXIS</code>,
+     *              <code>BoxLbyout.LINE_AXIS</code> or
+     *              <code>BoxLbyout.PAGE_AXIS</code>
      *
-     * @exception AWTError  if the value of <code>axis</code> is invalid
+     * @exception AWTError  if the vblue of <code>bxis</code> is invblid
      */
-    @ConstructorProperties({"target", "axis"})
-    public BoxLayout(Container target, int axis) {
-        if (axis != X_AXIS && axis != Y_AXIS &&
-            axis != LINE_AXIS && axis != PAGE_AXIS) {
-            throw new AWTError("Invalid axis");
+    @ConstructorProperties({"tbrget", "bxis"})
+    public BoxLbyout(Contbiner tbrget, int bxis) {
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            throw new AWTError("Invblid bxis");
         }
-        this.axis = axis;
-        this.target = target;
+        this.bxis = bxis;
+        this.tbrget = tbrget;
     }
 
     /**
-     * Constructs a BoxLayout that
-     * produces debugging messages.
+     * Constructs b BoxLbyout thbt
+     * produces debugging messbges.
      *
-     * @param target  the container that needs to be laid out
-     * @param axis  the axis to lay out components along. Can be one of:
-     *              <code>BoxLayout.X_AXIS</code>,
-     *              <code>BoxLayout.Y_AXIS</code>,
-     *              <code>BoxLayout.LINE_AXIS</code> or
-     *              <code>BoxLayout.PAGE_AXIS</code>
+     * @pbrbm tbrget  the contbiner thbt needs to be lbid out
+     * @pbrbm bxis  the bxis to lby out components blong. Cbn be one of:
+     *              <code>BoxLbyout.X_AXIS</code>,
+     *              <code>BoxLbyout.Y_AXIS</code>,
+     *              <code>BoxLbyout.LINE_AXIS</code> or
+     *              <code>BoxLbyout.PAGE_AXIS</code>
      *
-     * @param dbg  the stream to which debugging messages should be sent,
+     * @pbrbm dbg  the strebm to which debugging messbges should be sent,
      *   null if none
      */
-    BoxLayout(Container target, int axis, PrintStream dbg) {
-        this(target, axis);
+    BoxLbyout(Contbiner tbrget, int bxis, PrintStrebm dbg) {
+        this(tbrget, bxis);
         this.dbg = dbg;
     }
 
     /**
-     * Returns the container that uses this layout manager.
+     * Returns the contbiner thbt uses this lbyout mbnbger.
      *
-     * @return the container that uses this layout manager
+     * @return the contbiner thbt uses this lbyout mbnbger
      *
      * @since 1.6
      */
-    public final Container getTarget() {
-        return this.target;
+    public finbl Contbiner getTbrget() {
+        return this.tbrget;
     }
 
     /**
-     * Returns the axis that was used to lay out components.
+     * Returns the bxis thbt wbs used to lby out components.
      * Returns one of:
-     * <code>BoxLayout.X_AXIS</code>,
-     * <code>BoxLayout.Y_AXIS</code>,
-     * <code>BoxLayout.LINE_AXIS</code> or
-     * <code>BoxLayout.PAGE_AXIS</code>
+     * <code>BoxLbyout.X_AXIS</code>,
+     * <code>BoxLbyout.Y_AXIS</code>,
+     * <code>BoxLbyout.LINE_AXIS</code> or
+     * <code>BoxLbyout.PAGE_AXIS</code>
      *
-     * @return the axis that was used to lay out components
+     * @return the bxis thbt wbs used to lby out components
      *
      * @since 1.6
      */
-    public final int getAxis() {
-        return this.axis;
+    public finbl int getAxis() {
+        return this.bxis;
     }
 
     /**
-     * Indicates that a child has changed its layout related information,
-     * and thus any cached calculations should be flushed.
+     * Indicbtes thbt b child hbs chbnged its lbyout relbted informbtion,
+     * bnd thus bny cbched cblculbtions should be flushed.
      * <p>
-     * This method is called by AWT when the invalidate method is called
-     * on the Container.  Since the invalidate method may be called
-     * asynchronously to the event thread, this method may be called
-     * asynchronously.
+     * This method is cblled by AWT when the invblidbte method is cblled
+     * on the Contbiner.  Since the invblidbte method mby be cblled
+     * bsynchronously to the event threbd, this method mby be cblled
+     * bsynchronously.
      *
-     * @param target  the affected container
+     * @pbrbm tbrget  the bffected contbiner
      *
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
      */
-    public synchronized void invalidateLayout(Container target) {
-        checkContainer(target);
+    public synchronized void invblidbteLbyout(Contbiner tbrget) {
+        checkContbiner(tbrget);
         xChildren = null;
         yChildren = null;
-        xTotal = null;
-        yTotal = null;
+        xTotbl = null;
+        yTotbl = null;
     }
 
     /**
-     * Not used by this class.
+     * Not used by this clbss.
      *
-     * @param name the name of the component
-     * @param comp the component
+     * @pbrbm nbme the nbme of the component
+     * @pbrbm comp the component
      */
-    public void addLayoutComponent(String name, Component comp) {
-        invalidateLayout(comp.getParent());
+    public void bddLbyoutComponent(String nbme, Component comp) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Not used by this class.
+     * Not used by this clbss.
      *
-     * @param comp the component
+     * @pbrbm comp the component
      */
-    public void removeLayoutComponent(Component comp) {
-        invalidateLayout(comp.getParent());
+    public void removeLbyoutComponent(Component comp) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Not used by this class.
+     * Not used by this clbss.
      *
-     * @param comp the component
-     * @param constraints constraints
+     * @pbrbm comp the component
+     * @pbrbm constrbints constrbints
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-        invalidateLayout(comp.getParent());
+    public void bddLbyoutComponent(Component comp, Object constrbints) {
+        invblidbteLbyout(comp.getPbrent());
     }
 
     /**
-     * Returns the preferred dimensions for this layout, given the components
-     * in the specified target container.
+     * Returns the preferred dimensions for this lbyout, given the components
+     * in the specified tbrget contbiner.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #maximumLayoutSize
+     * @pbrbm tbrget  the contbiner thbt needs to be lbid out
+     * @return the dimensions &gt;= 0 &bmp;&bmp; &lt;= Integer.MAX_VALUE
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
+     * @see Contbiner
+     * @see #minimumLbyoutSize
+     * @see #mbximumLbyoutSize
      */
-    public Dimension preferredLayoutSize(Container target) {
+    public Dimension preferredLbyoutSize(Contbiner tbrget) {
         Dimension size;
         synchronized(this) {
-            checkContainer(target);
+            checkContbiner(tbrget);
             checkRequests();
-            size = new Dimension(xTotal.preferred, yTotal.preferred);
+            size = new Dimension(xTotbl.preferred, yTotbl.preferred);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
+        Insets insets = tbrget.getInsets();
+        size.width = (int) Mbth.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
+        size.height = (int) Mbth.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
         return size;
     }
 
     /**
-     * Returns the minimum dimensions needed to lay out the components
-     * contained in the specified target container.
+     * Returns the minimum dimensions needed to lby out the components
+     * contbined in the specified tbrget contbiner.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see #preferredLayoutSize
-     * @see #maximumLayoutSize
+     * @pbrbm tbrget  the contbiner thbt needs to be lbid out
+     * @return the dimensions &gt;= 0 &bmp;&bmp; &lt;= Integer.MAX_VALUE
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
+     * @see #preferredLbyoutSize
+     * @see #mbximumLbyoutSize
      */
-    public Dimension minimumLayoutSize(Container target) {
+    public Dimension minimumLbyoutSize(Contbiner tbrget) {
         Dimension size;
         synchronized(this) {
-            checkContainer(target);
+            checkContbiner(tbrget);
             checkRequests();
-            size = new Dimension(xTotal.minimum, yTotal.minimum);
+            size = new Dimension(xTotbl.minimum, yTotbl.minimum);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
+        Insets insets = tbrget.getInsets();
+        size.width = (int) Mbth.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
+        size.height = (int) Mbth.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
         return size;
     }
 
     /**
-     * Returns the maximum dimensions the target container can use
-     * to lay out the components it contains.
+     * Returns the mbximum dimensions the tbrget contbiner cbn use
+     * to lby out the components it contbins.
      *
-     * @param target  the container that needs to be laid out
-     * @return the dimensions &gt;= 0 &amp;&amp; &lt;= Integer.MAX_VALUE
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
-     * @see #preferredLayoutSize
-     * @see #minimumLayoutSize
+     * @pbrbm tbrget  the contbiner thbt needs to be lbid out
+     * @return the dimensions &gt;= 0 &bmp;&bmp; &lt;= Integer.MAX_VALUE
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
+     * @see #preferredLbyoutSize
+     * @see #minimumLbyoutSize
      */
-    public Dimension maximumLayoutSize(Container target) {
+    public Dimension mbximumLbyoutSize(Contbiner tbrget) {
         Dimension size;
         synchronized(this) {
-            checkContainer(target);
+            checkContbiner(tbrget);
             checkRequests();
-            size = new Dimension(xTotal.maximum, yTotal.maximum);
+            size = new Dimension(xTotbl.mbximum, yTotbl.mbximum);
         }
 
-        Insets insets = target.getInsets();
-        size.width = (int) Math.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
-        size.height = (int) Math.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
+        Insets insets = tbrget.getInsets();
+        size.width = (int) Mbth.min((long) size.width + (long) insets.left + (long) insets.right, Integer.MAX_VALUE);
+        size.height = (int) Mbth.min((long) size.height + (long) insets.top + (long) insets.bottom, Integer.MAX_VALUE);
         return size;
     }
 
     /**
-     * Returns the alignment along the X axis for the container.
-     * If the box is horizontal, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the X axis will be returned.
+     * Returns the blignment blong the X bxis for the contbiner.
+     * If the box is horizontbl, the defbult
+     * blignment will be returned. Otherwise, the blignment needed
+     * to plbce the children blong the X bxis will be returned.
      *
-     * @param target  the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @pbrbm tbrget  the contbiner
+     * @return the blignment &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
      */
-    public synchronized float getLayoutAlignmentX(Container target) {
-        checkContainer(target);
+    public synchronized flobt getLbyoutAlignmentX(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
-        return xTotal.alignment;
+        return xTotbl.blignment;
     }
 
     /**
-     * Returns the alignment along the Y axis for the container.
-     * If the box is vertical, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the Y axis will be returned.
+     * Returns the blignment blong the Y bxis for the contbiner.
+     * If the box is verticbl, the defbult
+     * blignment will be returned. Otherwise, the blignment needed
+     * to plbce the children blong the Y bxis will be returned.
      *
-     * @param target  the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @pbrbm tbrget  the contbiner
+     * @return the blignment &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
      */
-    public synchronized float getLayoutAlignmentY(Container target) {
-        checkContainer(target);
+    public synchronized flobt getLbyoutAlignmentY(Contbiner tbrget) {
+        checkContbiner(tbrget);
         checkRequests();
-        return yTotal.alignment;
+        return yTotbl.blignment;
     }
 
     /**
-     * Called by the AWT <!-- XXX CHECK! --> when the specified container
-     * needs to be laid out.
+     * Cblled by the AWT <!-- XXX CHECK! --> when the specified contbiner
+     * needs to be lbid out.
      *
-     * @param target  the container to lay out
+     * @pbrbm tbrget  the contbiner to lby out
      *
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      BoxLayout constructor
+     * @exception AWTError  if the tbrget isn't the contbiner specified to the
+     *                      BoxLbyout constructor
      */
-    public void layoutContainer(Container target) {
-        checkContainer(target);
-        int nChildren = target.getComponentCount();
+    public void lbyoutContbiner(Contbiner tbrget) {
+        checkContbiner(tbrget);
+        int nChildren = tbrget.getComponentCount();
         int[] xOffsets = new int[nChildren];
-        int[] xSpans = new int[nChildren];
+        int[] xSpbns = new int[nChildren];
         int[] yOffsets = new int[nChildren];
-        int[] ySpans = new int[nChildren];
+        int[] ySpbns = new int[nChildren];
 
-        Dimension alloc = target.getSize();
-        Insets in = target.getInsets();
-        alloc.width -= in.left + in.right;
-        alloc.height -= in.top + in.bottom;
+        Dimension blloc = tbrget.getSize();
+        Insets in = tbrget.getInsets();
+        blloc.width -= in.left + in.right;
+        blloc.height -= in.top + in.bottom;
 
-        // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
-        ComponentOrientation o = target.getComponentOrientation();
-        int absoluteAxis = resolveAxis( axis, o );
-        boolean ltr = (absoluteAxis != axis) ? o.isLeftToRight() : true;
+        // Resolve bxis to bn bbsolute vblue (either X_AXIS or Y_AXIS)
+        ComponentOrientbtion o = tbrget.getComponentOrientbtion();
+        int bbsoluteAxis = resolveAxis( bxis, o );
+        boolebn ltr = (bbsoluteAxis != bxis) ? o.isLeftToRight() : true;
 
 
-        // determine the child placements
+        // determine the child plbcements
         synchronized(this) {
             checkRequests();
 
-            if (absoluteAxis == X_AXIS) {
-                SizeRequirements.calculateTiledPositions(alloc.width, xTotal,
+            if (bbsoluteAxis == X_AXIS) {
+                SizeRequirements.cblculbteTiledPositions(blloc.width, xTotbl,
                                                          xChildren, xOffsets,
-                                                         xSpans, ltr);
-                SizeRequirements.calculateAlignedPositions(alloc.height, yTotal,
+                                                         xSpbns, ltr);
+                SizeRequirements.cblculbteAlignedPositions(blloc.height, yTotbl,
                                                            yChildren, yOffsets,
-                                                           ySpans);
+                                                           ySpbns);
             } else {
-                SizeRequirements.calculateAlignedPositions(alloc.width, xTotal,
+                SizeRequirements.cblculbteAlignedPositions(blloc.width, xTotbl,
                                                            xChildren, xOffsets,
-                                                           xSpans, ltr);
-                SizeRequirements.calculateTiledPositions(alloc.height, yTotal,
+                                                           xSpbns, ltr);
+                SizeRequirements.cblculbteTiledPositions(blloc.height, yTotbl,
                                                          yChildren, yOffsets,
-                                                         ySpans);
+                                                         ySpbns);
             }
         }
 
-        // flush changes to the container
+        // flush chbnges to the contbiner
         for (int i = 0; i < nChildren; i++) {
-            Component c = target.getComponent(i);
-            c.setBounds((int) Math.min((long) in.left + (long) xOffsets[i], Integer.MAX_VALUE),
-                        (int) Math.min((long) in.top + (long) yOffsets[i], Integer.MAX_VALUE),
-                        xSpans[i], ySpans[i]);
+            Component c = tbrget.getComponent(i);
+            c.setBounds((int) Mbth.min((long) in.left + (long) xOffsets[i], Integer.MAX_VALUE),
+                        (int) Mbth.min((long) in.top + (long) yOffsets[i], Integer.MAX_VALUE),
+                        xSpbns[i], ySpbns[i]);
 
         }
         if (dbg != null) {
             for (int i = 0; i < nChildren; i++) {
-                Component c = target.getComponent(i);
+                Component c = tbrget.getComponent(i);
                 dbg.println(c.toString());
                 dbg.println("X: " + xChildren[i]);
                 dbg.println("Y: " + yChildren[i]);
@@ -461,21 +461,21 @@ public class BoxLayout implements LayoutManager2, Serializable {
 
     }
 
-    void checkContainer(Container target) {
-        if (this.target != target) {
-            throw new AWTError("BoxLayout can't be shared");
+    void checkContbiner(Contbiner tbrget) {
+        if (this.tbrget != tbrget) {
+            throw new AWTError("BoxLbyout cbn't be shbred");
         }
     }
 
     void checkRequests() {
         if (xChildren == null || yChildren == null) {
-            // The requests have been invalidated... recalculate
-            // the request information.
-            int n = target.getComponentCount();
+            // The requests hbve been invblidbted... recblculbte
+            // the request informbtion.
+            int n = tbrget.getComponentCount();
             xChildren = new SizeRequirements[n];
             yChildren = new SizeRequirements[n];
             for (int i = 0; i < n; i++) {
-                Component c = target.getComponent(i);
+                Component c = tbrget.getComponent(i);
                 if (!c.isVisible()) {
                     xChildren[i] = new SizeRequirements(0,0,0, c.getAlignmentX());
                     yChildren[i] = new SizeRequirements(0,0,0, c.getAlignmentY());
@@ -483,58 +483,58 @@ public class BoxLayout implements LayoutManager2, Serializable {
                 }
                 Dimension min = c.getMinimumSize();
                 Dimension typ = c.getPreferredSize();
-                Dimension max = c.getMaximumSize();
+                Dimension mbx = c.getMbximumSize();
                 xChildren[i] = new SizeRequirements(min.width, typ.width,
-                                                    max.width,
+                                                    mbx.width,
                                                     c.getAlignmentX());
                 yChildren[i] = new SizeRequirements(min.height, typ.height,
-                                                    max.height,
+                                                    mbx.height,
                                                     c.getAlignmentY());
             }
 
-            // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
-            int absoluteAxis = resolveAxis(axis,target.getComponentOrientation());
+            // Resolve bxis to bn bbsolute vblue (either X_AXIS or Y_AXIS)
+            int bbsoluteAxis = resolveAxis(bxis,tbrget.getComponentOrientbtion());
 
-            if (absoluteAxis == X_AXIS) {
-                xTotal = SizeRequirements.getTiledSizeRequirements(xChildren);
-                yTotal = SizeRequirements.getAlignedSizeRequirements(yChildren);
+            if (bbsoluteAxis == X_AXIS) {
+                xTotbl = SizeRequirements.getTiledSizeRequirements(xChildren);
+                yTotbl = SizeRequirements.getAlignedSizeRequirements(yChildren);
             } else {
-                xTotal = SizeRequirements.getAlignedSizeRequirements(xChildren);
-                yTotal = SizeRequirements.getTiledSizeRequirements(yChildren);
+                xTotbl = SizeRequirements.getAlignedSizeRequirements(xChildren);
+                yTotbl = SizeRequirements.getTiledSizeRequirements(yChildren);
             }
         }
     }
 
     /**
-     * Given one of the 4 axis values, resolve it to an absolute axis.
-     * The relative axis values, PAGE_AXIS and LINE_AXIS are converted
-     * to their absolute couterpart given the target's ComponentOrientation
-     * value.  The absolute axes, X_AXIS and Y_AXIS are returned unmodified.
+     * Given one of the 4 bxis vblues, resolve it to bn bbsolute bxis.
+     * The relbtive bxis vblues, PAGE_AXIS bnd LINE_AXIS bre converted
+     * to their bbsolute couterpbrt given the tbrget's ComponentOrientbtion
+     * vblue.  The bbsolute bxes, X_AXIS bnd Y_AXIS bre returned unmodified.
      *
-     * @param axis the axis to resolve
-     * @param o the ComponentOrientation to resolve against
-     * @return the resolved axis
+     * @pbrbm bxis the bxis to resolve
+     * @pbrbm o the ComponentOrientbtion to resolve bgbinst
+     * @return the resolved bxis
      */
-    private int resolveAxis( int axis, ComponentOrientation o ) {
-        int absoluteAxis;
-        if( axis == LINE_AXIS ) {
-            absoluteAxis = o.isHorizontal() ? X_AXIS : Y_AXIS;
-        } else if( axis == PAGE_AXIS ) {
-            absoluteAxis = o.isHorizontal() ? Y_AXIS : X_AXIS;
+    privbte int resolveAxis( int bxis, ComponentOrientbtion o ) {
+        int bbsoluteAxis;
+        if( bxis == LINE_AXIS ) {
+            bbsoluteAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+        } else if( bxis == PAGE_AXIS ) {
+            bbsoluteAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
         } else {
-            absoluteAxis = axis;
+            bbsoluteAxis = bxis;
         }
-        return absoluteAxis;
+        return bbsoluteAxis;
    }
 
 
-    private int axis;
-    private Container target;
+    privbte int bxis;
+    privbte Contbiner tbrget;
 
-    private transient SizeRequirements[] xChildren;
-    private transient SizeRequirements[] yChildren;
-    private transient SizeRequirements xTotal;
-    private transient SizeRequirements yTotal;
+    privbte trbnsient SizeRequirements[] xChildren;
+    privbte trbnsient SizeRequirements[] yChildren;
+    privbte trbnsient SizeRequirements xTotbl;
+    privbte trbnsient SizeRequirements yTotbl;
 
-    private transient PrintStream dbg;
+    privbte trbnsient PrintStrebm dbg;
 }

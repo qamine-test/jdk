@@ -1,169 +1,169 @@
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 trbnsitionbl//en">
 <html>
-<head>
+<hebd>
                     
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <metb http-equiv="Content-Type"
+ content="text/html; chbrset=iso-8859-1">
                     
-  <meta name="GENERATOR"
- content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+  <metb nbme="GENERATOR"
+ content="Mozillb/4.79 [en] (Windows NT 5.0; U) [Netscbpe]">
      <!--
 
-Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-  <title>javax.sql.rowset.providers Package</title>
-</head>
+  <title>jbvbx.sql.rowset.providers Pbckbge</title>
+</hebd>
   <body bgcolor="#ffffff">
-  Repository for the <tt>RowSet</tt> reference implementations of the 
- <tt>SyncProvider</tt> abstract class. These implementations provide a 
+  Repository for the <tt>RowSet</tt> reference implementbtions of the 
+ <tt>SyncProvider</tt> bbstrbct clbss. These implementbtions provide b 
  disconnected <code>RowSet</code>
- object with the ability to synchronize the data in the underlying data 
- source with its data.  These implementations are provided as
-the default <tt>SyncProvider</tt> implementations and are accessible via the
-<tt>SyncProvider</tt> SPI managed by the <tt>SyncFactory</tt>.  
+ object with the bbility to synchronize the dbtb in the underlying dbtb 
+ source with its dbtb.  These implementbtions bre provided bs
+the defbult <tt>SyncProvider</tt> implementbtions bnd bre bccessible vib the
+<tt>SyncProvider</tt> SPI mbnbged by the <tt>SyncFbctory</tt>.  
 
-<h3>1.0 <code>SyncProvider</code> Reference Implementations</h3>
-  The main job of a <tt>SyncProvider</tt> implementation is to manage
-the reader and writer mechanisms.
- The <tt>SyncProvider</tt> SPI, as specified in the <tt>javax.sql.rowset.spi</tt>
-package, provides a pluggable mechanism by which <tt>javax.sql.RowSetReader</tt>
-and <tt>javax.sql.RowSetWriter</tt> implementations can be supplied to a disconnected
+<h3>1.0 <code>SyncProvider</code> Reference Implementbtions</h3>
+  The mbin job of b <tt>SyncProvider</tt> implementbtion is to mbnbge
+the rebder bnd writer mechbnisms.
+ The <tt>SyncProvider</tt> SPI, bs specified in the <tt>jbvbx.sql.rowset.spi</tt>
+pbckbge, provides b pluggbble mechbnism by which <tt>jbvbx.sql.RowSetRebder</tt>
+bnd <tt>jbvbx.sql.RowSetWriter</tt> implementbtions cbn be supplied to b disconnected
 <tt>RowSet</tt> object.
 <P>
- A reader, a <code>javax.sql.RowSetReader</code>
-object, does the work necessary to populate a <code>RowSet</code> object with data.
-A writer, a <code>javax.sql.RowSetWriter</code> object, does the work necessary for
-synchronizing a <code>RowSet</code> object's data with the data in the originating
-source of data. Put another way, a writer writes a <code>RowSet</code>
-object's data back to the data source. 
+ A rebder, b <code>jbvbx.sql.RowSetRebder</code>
+object, does the work necessbry to populbte b <code>RowSet</code> object with dbtb.
+A writer, b <code>jbvbx.sql.RowSetWriter</code> object, does the work necessbry for
+synchronizing b <code>RowSet</code> object's dbtb with the dbtb in the originbting
+source of dbtb. Put bnother wby, b writer writes b <code>RowSet</code>
+object's dbtb bbck to the dbtb source. 
 <P>
-Generally speaking, the course of events is this.  The reader makes a connection to
-the data source and reads the data from a <code>ResultSet</code> object into its
+Generblly spebking, the course of events is this.  The rebder mbkes b connection to
+the dbtb source bnd rebds the dbtb from b <code>ResultSet</code> object into its
 <code>RowSet</code> object.  Then it closes the connection.  While 
-the <code>RowSet</code> object is disconnected, an application makes some modifications 
-to the data and calls the method <code>acceptChanges</code>. At this point, the
-writer is called to write the changes back to the database table or view
-from which the original data came. This is called <i>synchronization</i>.
+the <code>RowSet</code> object is disconnected, bn bpplicbtion mbkes some modificbtions 
+to the dbtb bnd cblls the method <code>bcceptChbnges</code>. At this point, the
+writer is cblled to write the chbnges bbck to the dbtbbbse tbble or view
+from which the originbl dbtb cbme. This is cblled <i>synchronizbtion</i>.
 <P>
-If the data in the originating data source has not changed, there is no problem
-with just writing the <code>RowSet</code> object's new data to the data source.
-If it has changed, however, there is a conflict that needs to be resolved. One
-way to solve the problem is not to let the data in the data source be changed in
-the first place, which can be done by setting locks on a row, a table, or the 
-whole data source.  Setting locks is a way to avoid conflicts, but it can be
-very expensive. Another approach, which is at the other end of the spectrum,
- is simply to assume that no conflicts will occur and thus do nothing to avoid
+If the dbtb in the originbting dbtb source hbs not chbnged, there is no problem
+with just writing the <code>RowSet</code> object's new dbtb to the dbtb source.
+If it hbs chbnged, however, there is b conflict thbt needs to be resolved. One
+wby to solve the problem is not to let the dbtb in the dbtb source be chbnged in
+the first plbce, which cbn be done by setting locks on b row, b tbble, or the 
+whole dbtb source.  Setting locks is b wby to bvoid conflicts, but it cbn be
+very expensive. Another bpprobch, which is bt the other end of the spectrum,
+ is simply to bssume thbt no conflicts will occur bnd thus do nothing to bvoid
 conflicts.  
-Different <code>SyncProvider</code> implementations may handle synchronization in
-any of these ways, varying from doing no checking for
-conflicts, to doing various levels of checking, to guaranteeing that there are no
+Different <code>SyncProvider</code> implementbtions mby hbndle synchronizbtion in
+bny of these wbys, vbrying from doing no checking for
+conflicts, to doing vbrious levels of checking, to gubrbnteeing thbt there bre no
 conflicts. 
 <P>
-The <code>SyncProvider</code> class offers methods to help a <code>RowSet</code>
-object discover and manage how a provider handles synchronization.
-The method <code>getProviderGrade</code> returns the
-grade of synchronization a provider offers. An application can 
-direct the provider to use a particular level of locking by calling
-the method <code>setDataSourceLock</code> and specifying the level of locking desired.
-If a <code>RowSet</code> object's data came from an SQL <code>VIEW</code>, an 
-application may call the method <code>supportsUpdatableView</code> to 
-find out whether the <code>VIEW</code> can be updated.
+The <code>SyncProvider</code> clbss offers methods to help b <code>RowSet</code>
+object discover bnd mbnbge how b provider hbndles synchronizbtion.
+The method <code>getProviderGrbde</code> returns the
+grbde of synchronizbtion b provider offers. An bpplicbtion cbn 
+direct the provider to use b pbrticulbr level of locking by cblling
+the method <code>setDbtbSourceLock</code> bnd specifying the level of locking desired.
+If b <code>RowSet</code> object's dbtb cbme from bn SQL <code>VIEW</code>, bn 
+bpplicbtion mby cbll the method <code>supportsUpdbtbbleView</code> to 
+find out whether the <code>VIEW</code> cbn be updbted.
 <P>
-Synchronization is done completely behind the scenes, so it is third party vendors of
-synchronization provider implementations who have to take care of this complex task.
-Application programmers can decide which provider to use and the level of locking to
-be done, but they are free from having to worry about the implementation details.
+Synchronizbtion is done completely behind the scenes, so it is third pbrty vendors of
+synchronizbtion provider implementbtions who hbve to tbke cbre of this complex tbsk.
+Applicbtion progrbmmers cbn decide which provider to use bnd the level of locking to
+be done, but they bre free from hbving to worry bbout the implementbtion detbils.
 <P>
-The JDBC <code>RowSet</code> Implementations reference implementation provides two
-implementations of the <code>SyncProvider</code> class:
+The JDBC <code>RowSet</code> Implementbtions reference implementbtion provides two
+implementbtions of the <code>SyncProvider</code> clbss:
    
 <UL>
 <LI>
-<b><tt>RIOptimisticProvider </tt></b>- provides the <tt>javax.sql.RowSetReader</tt>
- and <tt>javax.sql.RowSetWriter</tt> interface implementations and provides
-an optimistic concurrency model for synchronization. This model assumes that there
-will be few conflicts and therefore uses a relatively low grade of synchronization.
-If no other provider is available, this is the default provider that the 
-<code>SyncFactory</code> will supply to a <code>RowSet</code> object.
+<b><tt>RIOptimisticProvider </tt></b>- provides the <tt>jbvbx.sql.RowSetRebder</tt>
+ bnd <tt>jbvbx.sql.RowSetWriter</tt> interfbce implementbtions bnd provides
+bn optimistic concurrency model for synchronizbtion. This model bssumes thbt there
+will be few conflicts bnd therefore uses b relbtively low grbde of synchronizbtion.
+If no other provider is bvbilbble, this is the defbult provider thbt the 
+<code>SyncFbctory</code> will supply to b <code>RowSet</code> object.
     <br>
 <LI>
-    <b><tt>RIXMLProvider </tt></b>- provides the <tt>XmlReader</tt> (an extension
-of  the <tt>javax.sql.RowSetReader</tt> interface) and the <tt>XmlWriter</tt>
-(an extension of the <tt>javax.sql.RowSetWriter</tt> interface) to enable
-  <tt>WebRowSet</tt> objects to write their state to a
-well formed XML document according to the <tt>WebRowSet</tt> XML schema
+    <b><tt>RIXMLProvider </tt></b>- provides the <tt>XmlRebder</tt> (bn extension
+of  the <tt>jbvbx.sql.RowSetRebder</tt> interfbce) bnd the <tt>XmlWriter</tt>
+(bn extension of the <tt>jbvbx.sql.RowSetWriter</tt> interfbce) to enbble
+  <tt>WebRowSet</tt> objects to write their stbte to b
+well formed XML document bccording to the <tt>WebRowSet</tt> XML schemb
 definition.<br>
 </UL>
    
-<h3>2.0 Basics in RowSet Population &amp; Synchronization</h3>
-  A rowset's first task is to populate itself with rows of column values.
-Generally,   these rows will come from a relational database, so a rowset
-has properties   that supply what is necessary for making a connection to
-a database and executing  a query. A rowset that does not need to establish
-a connection and execute  a command, such as one that gets its data from
-a tabular file instead of a relational database, does not need to have these
-properties set. The vast  majority of RowSets, however, do need to set these
-properties. The general  rule is that a RowSet is required to set only the
-properties that it uses.<br>
+<h3>2.0 Bbsics in RowSet Populbtion &bmp; Synchronizbtion</h3>
+  A rowset's first tbsk is to populbte itself with rows of column vblues.
+Generblly,   these rows will come from b relbtionbl dbtbbbse, so b rowset
+hbs properties   thbt supply whbt is necessbry for mbking b connection to
+b dbtbbbse bnd executing  b query. A rowset thbt does not need to estbblish
+b connection bnd execute  b commbnd, such bs one thbt gets its dbtb from
+b tbbulbr file instebd of b relbtionbl dbtbbbse, does not need to hbve these
+properties set. The vbst  mbjority of RowSets, however, do need to set these
+properties. The generbl  rule is thbt b RowSet is required to set only the
+properties thbt it uses.<br>
     <br>
-    The <tt>command</tt> property contains the query that determines what 
-data  a <code>RowSet</code> will contain. Rowsets have methods for setting a query's 
-parameter(s),  which means that a query can be executed multiple times with 
-different parameters  to produce different result sets. Or the query can be
-changed to something  completely new to get a new result set.           
-<p>Once a rowset contains the rows from a <tt>ResultSet</tt> object or some
-  other data source, its column values can be updated, and its rows can be
- inserted or deleted. Any method that causes a change in the rowset's values
- or cursor position also notifies any object that has been registered as
-a  listener with the rowset. So, for example, a table that displays the rowset's
- data in an applet can can be notified of changes and make updates as they
+    The <tt>commbnd</tt> property contbins the query thbt determines whbt 
+dbtb  b <code>RowSet</code> will contbin. Rowsets hbve methods for setting b query's 
+pbrbmeter(s),  which mebns thbt b query cbn be executed multiple times with 
+different pbrbmeters  to produce different result sets. Or the query cbn be
+chbnged to something  completely new to get b new result set.           
+<p>Once b rowset contbins the rows from b <tt>ResultSet</tt> object or some
+  other dbtb source, its column vblues cbn be updbted, bnd its rows cbn be
+ inserted or deleted. Any method thbt cbuses b chbnge in the rowset's vblues
+ or cursor position blso notifies bny object thbt hbs been registered bs
+b  listener with the rowset. So, for exbmple, b tbble thbt displbys the rowset's
+ dbtb in bn bpplet cbn cbn be notified of chbnges bnd mbke updbtes bs they
  occur.<br>
     <br>
-  The changes made to a rowset can be propagated back to the original data
-  source to keep the rowset and its data source synchronized. Although this
-  involves many operations behind the scenes, it is completely transparent 
- to the application programmer and remains the concern of the RowSet provider 
-  developer. All an application has to do is invoke the method <tt>acceptChanges</tt>, 
-  and the data source backing the rowset will be updated to match the current 
-  values in the rowset. </p>
+  The chbnges mbde to b rowset cbn be propbgbted bbck to the originbl dbtb
+  source to keep the rowset bnd its dbtb source synchronized. Although this
+  involves mbny operbtions behind the scenes, it is completely trbnspbrent 
+ to the bpplicbtion progrbmmer bnd rembins the concern of the RowSet provider 
+  developer. All bn bpplicbtion hbs to do is invoke the method <tt>bcceptChbnges</tt>, 
+  bnd the dbtb source bbcking the rowset will be updbted to mbtch the current 
+  vblues in the rowset. </p>
        
-<p>A disconnected rowset, such as a <tt>CachedRowSet</tt> or <tt>WebRowSet</tt>
- object, establishes a connection to populate itself with data from a database 
- and then closes the connection. The <code>RowSet</code> object will remain 
- disconnected until it wants to propagate changes back to its database table, 
- which is optional. To write its changes back to the database (synchronize with
- the database), the rowset establishes a connection, write the changes, and then 
- once again disconnects itself.<br>
+<p>A disconnected rowset, such bs b <tt>CbchedRowSet</tt> or <tt>WebRowSet</tt>
+ object, estbblishes b connection to populbte itself with dbtb from b dbtbbbse 
+ bnd then closes the connection. The <code>RowSet</code> object will rembin 
+ disconnected until it wbnts to propbgbte chbnges bbck to its dbtbbbse tbble, 
+ which is optionbl. To write its chbnges bbck to the dbtbbbse (synchronize with
+ the dbtbbbse), the rowset estbblishes b connection, write the chbnges, bnd then 
+ once bgbin disconnects itself.<br>
   </p>
       
-<h3> 3.0 Other Possible Implementations</h3>
- There are many other possible implementations of the <tt>SyncProvider</tt> abstract
- class. One possibility is to employ a more robust synchronization model, which
- would give a <code>RowSet</code> object increased trust in the provider's
- ability to get any updates back to the original data source. Another possibility 
- is a more formal synchronization mechanism such as SyncML
- (<a href="http://www.syncml.org/">http://www.syncml.org/</a>)   <br>
+<h3> 3.0 Other Possible Implementbtions</h3>
+ There bre mbny other possible implementbtions of the <tt>SyncProvider</tt> bbstrbct
+ clbss. One possibility is to employ b more robust synchronizbtion model, which
+ would give b <code>RowSet</code> object increbsed trust in the provider's
+ bbility to get bny updbtes bbck to the originbl dbtb source. Another possibility 
+ is b more formbl synchronizbtion mechbnism such bs SyncML
+ (<b href="http://www.syncml.org/">http://www.syncml.org/</b>)   <br>
     <br>
  <br>
 </body>

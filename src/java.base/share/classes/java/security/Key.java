@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * The Key interface is the top-level interface for all keys. It
- * defines the functionality shared by all key objects. All keys
- * have three characteristics:
+ * The Key interfbce is the top-level interfbce for bll keys. It
+ * defines the functionblity shbred by bll key objects. All keys
+ * hbve three chbrbcteristics:
  *
  * <UL>
  *
  * <LI>An Algorithm
  *
- * <P>This is the key algorithm for that key. The key algorithm is usually
- * an encryption or asymmetric operation algorithm (such as DSA or
- * RSA), which will work with those algorithms and with related
- * algorithms (such as MD5 with RSA, SHA-1 with RSA, Raw DSA, etc.)
- * The name of the algorithm of a key is obtained using the
+ * <P>This is the key blgorithm for thbt key. The key blgorithm is usublly
+ * bn encryption or bsymmetric operbtion blgorithm (such bs DSA or
+ * RSA), which will work with those blgorithms bnd with relbted
+ * blgorithms (such bs MD5 with RSA, SHA-1 with RSA, Rbw DSA, etc.)
+ * The nbme of the blgorithm of b key is obtbined using the
  * {@link #getAlgorithm() getAlgorithm} method.
  *
  * <LI>An Encoded Form
  *
- * <P>This is an external encoded form for the key used when a standard
- * representation of the key is needed outside the Java Virtual Machine,
- * as when transmitting the key to some other party. The key
- * is encoded according to a standard format (such as
- * X.509 {@code SubjectPublicKeyInfo} or PKCS#8), and
+ * <P>This is bn externbl encoded form for the key used when b stbndbrd
+ * representbtion of the key is needed outside the Jbvb Virtubl Mbchine,
+ * bs when trbnsmitting the key to some other pbrty. The key
+ * is encoded bccording to b stbndbrd formbt (such bs
+ * X.509 {@code SubjectPublicKeyInfo} or PKCS#8), bnd
  * is returned using the {@link #getEncoded() getEncoded} method.
- * Note: The syntax of the ASN.1 type {@code SubjectPublicKeyInfo}
- * is defined as follows:
+ * Note: The syntbx of the ASN.1 type {@code SubjectPublicKeyInfo}
+ * is defined bs follows:
  *
  * <pre>
  * SubjectPublicKeyInfo ::= SEQUENCE {
- *   algorithm AlgorithmIdentifier,
+ *   blgorithm AlgorithmIdentifier,
  *   subjectPublicKey BIT STRING }
  *
  * AlgorithmIdentifier ::= SEQUENCE {
- *   algorithm OBJECT IDENTIFIER,
- *   parameters ANY DEFINED BY algorithm OPTIONAL }
+ *   blgorithm OBJECT IDENTIFIER,
+ *   pbrbmeters ANY DEFINED BY blgorithm OPTIONAL }
  * </pre>
  *
- * For more information, see
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
- * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a>.
+ * For more informbtion, see
+ * <b href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
+ * Internet X.509 Public Key Infrbstructure Certificbte bnd CRL Profile</b>.
  *
- * <LI>A Format
+ * <LI>A Formbt
  *
- * <P>This is the name of the format of the encoded key. It is returned
- * by the {@link #getFormat() getFormat} method.
+ * <P>This is the nbme of the formbt of the encoded key. It is returned
+ * by the {@link #getFormbt() getFormbt} method.
  *
  * </UL>
  *
- * Keys are generally obtained through key generators, certificates,
- * or various Identity classes used to manage keys.
- * Keys may also be obtained from key specifications (transparent
- * representations of the underlying key material) through the use of a key
- * factory (see {@link KeyFactory}).
+ * Keys bre generblly obtbined through key generbtors, certificbtes,
+ * or vbrious Identity clbsses used to mbnbge keys.
+ * Keys mby blso be obtbined from key specificbtions (trbnspbrent
+ * representbtions of the underlying key mbteribl) through the use of b key
+ * fbctory (see {@link KeyFbctory}).
  *
- * <p> A Key should use KeyRep as its serialized representation.
- * Note that a serialized Key may contain sensitive information
+ * <p> A Key should use KeyRep bs its seriblized representbtion.
+ * Note thbt b seriblized Key mby contbin sensitive informbtion
  * which should not be exposed in untrusted environments.  See the
- * <a href="../../../platform/serialization/spec/security.html">
- * Security Appendix</a>
- * of the Serialization Specification for more information.
+ * <b href="../../../plbtform/seriblizbtion/spec/security.html">
+ * Security Appendix</b>
+ * of the Seriblizbtion Specificbtion for more informbtion.
  *
  * @see PublicKey
- * @see PrivateKey
- * @see KeyPair
- * @see KeyPairGenerator
- * @see KeyFactory
+ * @see PrivbteKey
+ * @see KeyPbir
+ * @see KeyPbirGenerbtor
+ * @see KeyFbctory
  * @see KeyRep
- * @see java.security.spec.KeySpec
+ * @see jbvb.security.spec.KeySpec
  * @see Identity
  * @see Signer
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
 
-public interface Key extends java.io.Serializable {
+public interfbce Key extends jbvb.io.Seriblizbble {
 
-    // Declare serialVersionUID to be compatible with JDK1.1
+    // Declbre seriblVersionUID to be compbtible with JDK1.1
 
    /**
-    * The class fingerprint that is set to indicate
-    * serialization compatibility with a previous
-    * version of the class.
+    * The clbss fingerprint thbt is set to indicbte
+    * seriblizbtion compbtibility with b previous
+    * version of the clbss.
     */
-    static final long serialVersionUID = 6603384152749567654L;
+    stbtic finbl long seriblVersionUID = 6603384152749567654L;
 
     /**
-     * Returns the standard algorithm name for this key. For
-     * example, "DSA" would indicate that this key is a DSA key.
-     * See Appendix A in the <a href=
+     * Returns the stbndbrd blgorithm nbme for this key. For
+     * exbmple, "DSA" would indicbte thbt this key is b DSA key.
+     * See Appendix A in the <b href=
      * "../../../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the name of the algorithm associated with this key.
+     * @return the nbme of the blgorithm bssocibted with this key.
      */
     public String getAlgorithm();
 
     /**
-     * Returns the name of the primary encoding format of this key,
+     * Returns the nbme of the primbry encoding formbt of this key,
      * or null if this key does not support encoding.
-     * The primary encoding format is
-     * named in terms of the appropriate ASN.1 data format, if an
-     * ASN.1 specification for this key exists.
-     * For example, the name of the ASN.1 data format for public
-     * keys is <I>SubjectPublicKeyInfo</I>, as
-     * defined by the X.509 standard; in this case, the returned format is
-     * {@code "X.509"}. Similarly,
-     * the name of the ASN.1 data format for private keys is
-     * <I>PrivateKeyInfo</I>,
-     * as defined by the PKCS #8 standard; in this case, the returned format is
+     * The primbry encoding formbt is
+     * nbmed in terms of the bppropribte ASN.1 dbtb formbt, if bn
+     * ASN.1 specificbtion for this key exists.
+     * For exbmple, the nbme of the ASN.1 dbtb formbt for public
+     * keys is <I>SubjectPublicKeyInfo</I>, bs
+     * defined by the X.509 stbndbrd; in this cbse, the returned formbt is
+     * {@code "X.509"}. Similbrly,
+     * the nbme of the ASN.1 dbtb formbt for privbte keys is
+     * <I>PrivbteKeyInfo</I>,
+     * bs defined by the PKCS #8 stbndbrd; in this cbse, the returned formbt is
      * {@code "PKCS#8"}.
      *
-     * @return the primary encoding format of the key.
+     * @return the primbry encoding formbt of the key.
      */
-    public String getFormat();
+    public String getFormbt();
 
     /**
-     * Returns the key in its primary encoding format, or null
+     * Returns the key in its primbry encoding formbt, or null
      * if this key does not support encoding.
      *
      * @return the encoded key, or null if the key does not support

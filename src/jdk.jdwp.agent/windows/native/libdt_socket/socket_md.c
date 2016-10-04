@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <windows.h>
 #include <winsock2.h>
 
 #include "sysSocket.h"
-#include "socketTransport.h"
+#include "socketTrbnsport.h"
 
-typedef jboolean bool_t;
+typedef jboolebn bool_t;
 
 /*
- * Table of Windows Sockets errors, the specific exception we
- * throw for the error, and the error text.
+ * Tbble of Windows Sockets errors, the specific exception we
+ * throw for the error, bnd the error text.
  *
- * Note that this table excludes OS dependent errors.
+ * Note thbt this tbble excludes OS dependent errors.
  */
-static struct {
+stbtic struct {
     int errCode;
-    const char *errString;
+    const chbr *errString;
 } const winsock_errors[] = {
-    { WSAEPROVIDERFAILEDINIT,   "Provider initialization failed (check %SystemRoot%)" },
+    { WSAEPROVIDERFAILEDINIT,   "Provider initiblizbtion fbiled (check %SystemRoot%)" },
     { WSAEACCES,                "Permission denied" },
-    { WSAEADDRINUSE,            "Address already in use" },
-    { WSAEADDRNOTAVAIL,         "Cannot assign requested address" },
-    { WSAEAFNOSUPPORT,          "Address family not supported by protocol family" },
-    { WSAEALREADY,              "Operation already in progress" },
-    { WSAECONNABORTED,          "Software caused connection abort" },
+    { WSAEADDRINUSE,            "Address blrebdy in use" },
+    { WSAEADDRNOTAVAIL,         "Cbnnot bssign requested bddress" },
+    { WSAEAFNOSUPPORT,          "Address fbmily not supported by protocol fbmily" },
+    { WSAEALREADY,              "Operbtion blrebdy in progress" },
+    { WSAECONNABORTED,          "Softwbre cbused connection bbort" },
     { WSAECONNREFUSED,          "Connection refused" },
     { WSAECONNRESET,            "Connection reset by peer" },
-    { WSAEDESTADDRREQ,          "Destination address required" },
-    { WSAEFAULT,                "Bad address" },
+    { WSAEDESTADDRREQ,          "Destinbtion bddress required" },
+    { WSAEFAULT,                "Bbd bddress" },
     { WSAEHOSTDOWN,             "Host is down" },
     { WSAEHOSTUNREACH,          "No route to host" },
-    { WSAEINPROGRESS,           "Operation now in progress" },
-    { WSAEINTR,                 "Interrupted function call" },
-    { WSAEINVAL,                "Invalid argument" },
-    { WSAEISCONN,               "Socket is already connected" },
-    { WSAEMFILE,                "Too many open files" },
-    { WSAEMSGSIZE,              "The message is larger than the maximum supported by the underlying transport" },
+    { WSAEINPROGRESS,           "Operbtion now in progress" },
+    { WSAEINTR,                 "Interrupted function cbll" },
+    { WSAEINVAL,                "Invblid brgument" },
+    { WSAEISCONN,               "Socket is blrebdy connected" },
+    { WSAEMFILE,                "Too mbny open files" },
+    { WSAEMSGSIZE,              "The messbge is lbrger thbn the mbximum supported by the underlying trbnsport" },
     { WSAENETDOWN,              "Network is down" },
     { WSAENETRESET,             "Network dropped connection on reset" },
-    { WSAENETUNREACH,           "Network is unreachable" },
-    { WSAENOBUFS,               "No buffer space available (maximum connections reached?)" },
-    { WSAENOPROTOOPT,           "Bad protocol option" },
+    { WSAENETUNREACH,           "Network is unrebchbble" },
+    { WSAENOBUFS,               "No buffer spbce bvbilbble (mbximum connections rebched?)" },
+    { WSAENOPROTOOPT,           "Bbd protocol option" },
     { WSAENOTCONN,              "Socket is not connected" },
-    { WSAENOTSOCK,              "Socket operation on nonsocket" },
-    { WSAEOPNOTSUPP,            "Operation not supported" },
-    { WSAEPFNOSUPPORT,          "Protocol family not supported" },
-    { WSAEPROCLIM,              "Too many processes" },
+    { WSAENOTSOCK,              "Socket operbtion on nonsocket" },
+    { WSAEOPNOTSUPP,            "Operbtion not supported" },
+    { WSAEPFNOSUPPORT,          "Protocol fbmily not supported" },
+    { WSAEPROCLIM,              "Too mbny processes" },
     { WSAEPROTONOSUPPORT,       "Protocol not supported" },
     { WSAEPROTOTYPE,            "Protocol wrong type for socket" },
-    { WSAESHUTDOWN,             "Cannot send after socket shutdown" },
+    { WSAESHUTDOWN,             "Cbnnot send bfter socket shutdown" },
     { WSAESOCKTNOSUPPORT,       "Socket type not supported" },
     { WSAETIMEDOUT,             "Connection timed out" },
-    { WSATYPE_NOT_FOUND,        "Class type not found" },
-    { WSAEWOULDBLOCK,           "Resource temporarily unavailable" },
+    { WSATYPE_NOT_FOUND,        "Clbss type not found" },
+    { WSAEWOULDBLOCK,           "Resource temporbrily unbvbilbble" },
     { WSAHOST_NOT_FOUND,        "Host not found" },
-    { WSA_NOT_ENOUGH_MEMORY,    "Insufficient memory available" },
-    { WSANOTINITIALISED,        "Successful WSAStartup not yet performed" },
-    { WSANO_DATA,               "Valid name, no data record of requested type" },
-    { WSANO_RECOVERY,           "This is a nonrecoverable error" },
-    { WSASYSNOTREADY,           "Network subsystem is unavailable" },
-    { WSATRY_AGAIN,             "Nonauthoritative host not found" },
-    { WSAVERNOTSUPPORTED,       "Winsock.dll version out of range" },
-    { WSAEDISCON,               "Graceful shutdown in progress" },
-    { WSA_OPERATION_ABORTED,    "Overlapped operation aborted" },
+    { WSA_NOT_ENOUGH_MEMORY,    "Insufficient memory bvbilbble" },
+    { WSANOTINITIALISED,        "Successful WSAStbrtup not yet performed" },
+    { WSANO_DATA,               "Vblid nbme, no dbtb record of requested type" },
+    { WSANO_RECOVERY,           "This is b nonrecoverbble error" },
+    { WSASYSNOTREADY,           "Network subsystem is unbvbilbble" },
+    { WSATRY_AGAIN,             "Nonbuthoritbtive host not found" },
+    { WSAVERNOTSUPPORTED,       "Winsock.dll version out of rbnge" },
+    { WSAEDISCON,               "Grbceful shutdown in progress" },
+    { WSA_OPERATION_ABORTED,    "Overlbpped operbtion bborted" },
 };
 
 
 /*
- * Initialize Windows Sockets API support
+ * Initiblize Windows Sockets API support
  */
 BOOL WINAPI
-DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved)
+DllMbin(HINSTANCE hinst, DWORD rebson, LPVOID reserved)
 {
-    WSADATA wsadata;
+    WSADATA wsbdbtb;
 
-    switch (reason) {
-        case DLL_PROCESS_ATTACH:
-            if (WSAStartup(MAKEWORD(2,2), &wsadata) != 0) {
+    switch (rebson) {
+        cbse DLL_PROCESS_ATTACH:
+            if (WSAStbrtup(MAKEWORD(2,2), &wsbdbtb) != 0) {
                 return FALSE;
             }
-            break;
+            brebk;
 
-        case DLL_PROCESS_DETACH:
-            WSACleanup();
-            break;
+        cbse DLL_PROCESS_DETACH:
+            WSAClebnup();
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
     }
     return TRUE;
 }
 
 /*
- * If we get a nonnull function pointer it might still be the case
- * that some other thread is in the process of initializing the socket
- * function pointer table, but our pointer should still be good.
+ * If we get b nonnull function pointer it might still be the cbse
+ * thbt some other threbd is in the process of initiblizing the socket
+ * function pointer tbble, but our pointer should still be good.
  */
 int
-dbgsysListen(int fd, int backlog) {
-    return listen(fd, backlog);
+dbgsysListen(int fd, int bbcklog) {
+    return listen(fd, bbcklog);
 }
 
 int
-dbgsysConnect(int fd, struct sockaddr *name, socklen_t namelen) {
-    int rv = connect(fd, name, namelen);
+dbgsysConnect(int fd, struct sockbddr *nbme, socklen_t nbmelen) {
+    int rv = connect(fd, nbme, nbmelen);
     if (rv == SOCKET_ERROR) {
-        if (WSAGetLastError() == WSAEINPROGRESS || WSAGetLastError() == WSAEWOULDBLOCK) {
+        if (WSAGetLbstError() == WSAEINPROGRESS || WSAGetLbstError() == WSAEWOULDBLOCK) {
             return DBG_EINPROGRESS;
         }
     }
@@ -137,7 +137,7 @@ dbgsysConnect(int fd, struct sockaddr *name, socklen_t namelen) {
 
 int dbgsysFinishConnect(int fd, int timeout) {
     int rv;
-    struct timeval t;
+    struct timevbl t;
     fd_set wr, ex;
 
     t.tv_sec = timeout / 1000;
@@ -154,52 +154,52 @@ int dbgsysFinishConnect(int fd, int timeout) {
     }
 
     /*
-     * Check if there was an error - this is preferable to check if
-     * the socket is writable because some versions of Windows don't
-     * report a connected socket as being writable.
+     * Check if there wbs bn error - this is preferbble to check if
+     * the socket is writbble becbuse some versions of Windows don't
+     * report b connected socket bs being writbble.
      */
     if (!FD_ISSET(fd, &ex)) {
         return SYS_OK;
     }
 
     /*
-     * Unable to establish connection - to get the reason we must
-     * call getsockopt.
+     * Unbble to estbblish connection - to get the rebson we must
+     * cbll getsockopt.
      */
     return SYS_ERR;
 }
 
 
 int
-dbgsysAccept(int fd, struct sockaddr *name, socklen_t *namelen) {
-    return (int)accept(fd, name, namelen);
+dbgsysAccept(int fd, struct sockbddr *nbme, socklen_t *nbmelen) {
+    return (int)bccept(fd, nbme, nbmelen);
 }
 
 int
-dbgsysRecvFrom(int fd, char *buf, size_t nBytes,
-                  int flags, struct sockaddr *from, socklen_t *fromlen) {
-    return recvfrom(fd, buf, (int)nBytes, flags, from, fromlen);
+dbgsysRecvFrom(int fd, chbr *buf, size_t nBytes,
+                  int flbgs, struct sockbddr *from, socklen_t *fromlen) {
+    return recvfrom(fd, buf, (int)nBytes, flbgs, from, fromlen);
 }
 
 int
-dbgsysSendTo(int fd, char *buf, size_t len,
-                int flags, struct sockaddr *to, socklen_t tolen) {
-    return sendto(fd, buf, (int)len, flags, to, tolen);
+dbgsysSendTo(int fd, chbr *buf, size_t len,
+                int flbgs, struct sockbddr *to, socklen_t tolen) {
+    return sendto(fd, buf, (int)len, flbgs, to, tolen);
 }
 
 int
-dbgsysRecv(int fd, char *buf, size_t nBytes, int flags) {
-    return recv(fd, buf, (int) nBytes, flags);
+dbgsysRecv(int fd, chbr *buf, size_t nBytes, int flbgs) {
+    return recv(fd, buf, (int) nBytes, flbgs);
 }
 
 int
-dbgsysSend(int fd, char *buf, size_t nBytes, int flags) {
-    return send(fd, buf, (int)nBytes, flags);
+dbgsysSend(int fd, chbr *buf, size_t nBytes, int flbgs) {
+    return send(fd, buf, (int)nBytes, flbgs);
 }
 
 struct hostent *
-dbgsysGetHostByName(char *hostname) {
-    return gethostbyname(hostname);
+dbgsysGetHostByNbme(chbr *hostnbme) {
+    return gethostbynbme(hostnbme);
 }
 
 unsigned short
@@ -208,10 +208,10 @@ dbgsysHostToNetworkShort(unsigned short hostshort) {
 }
 
 int
-dbgsysSocket(int domain, int type, int protocol) {
-  int fd = (int)socket(domain, type, protocol);
+dbgsysSocket(int dombin, int type, int protocol) {
+  int fd = (int)socket(dombin, type, protocol);
   if (fd != SOCKET_ERROR) {
-      SetHandleInformation((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+      SetHbndleInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
   }
   return fd;
 }
@@ -221,7 +221,7 @@ dbgsysSocketClose(int fd) {
     struct linger l;
     int len = sizeof(l);
 
-    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (char *)&l, &len) == 0) {
+    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (chbr *)&l, &len) == 0) {
         if (l.l_onoff == 0) {
             WSASendDisconnect(fd, NULL);
         }
@@ -229,17 +229,17 @@ dbgsysSocketClose(int fd) {
     return closesocket(fd);
 }
 
-/* Additions to original follow */
+/* Additions to originbl follow */
 
 int
-dbgsysBind(int fd, struct sockaddr *name, socklen_t namelen) {
-    return bind(fd, name, namelen);
+dbgsysBind(int fd, struct sockbddr *nbme, socklen_t nbmelen) {
+    return bind(fd, nbme, nbmelen);
 }
 
 
 uint32_t
-dbgsysInetAddr(const char* cp) {
-    return (uint32_t)inet_addr(cp);
+dbgsysInetAddr(const chbr* cp) {
+    return (uint32_t)inet_bddr(cp);
 }
 
 uint32_t
@@ -253,8 +253,8 @@ dbgsysNetworkToHostShort(unsigned short netshort) {
 }
 
 int
-dbgsysGetSocketName(int fd, struct sockaddr *name, socklen_t *namelen) {
-    return getsockname(fd, name, namelen);
+dbgsysGetSocketNbme(int fd, struct sockbddr *nbme, socklen_t *nbmelen) {
+    return getsocknbme(fd, nbme, nbmelen);
 }
 
 uint32_t
@@ -263,63 +263,63 @@ dbgsysNetworkToHostLong(uint32_t netlong) {
 }
 
 /*
- * Below Adapted from PlainSocketImpl.c, win32 version 1.18. Changed exception
+ * Below Adbpted from PlbinSocketImpl.c, win32 version 1.18. Chbnged exception
  * throws to returns of SYS_ERR; we should improve the error codes
- * eventually. Changed java objects to values the debugger back end can
- * more easily deal with.
+ * eventublly. Chbnged jbvb objects to vblues the debugger bbck end cbn
+ * more ebsily debl with.
  */
 
 int
-dbgsysSetSocketOption(int fd, jint cmd, jboolean on, jvalue value)
+dbgsysSetSocketOption(int fd, jint cmd, jboolebn on, jvblue vblue)
 {
     if (cmd == TCP_NODELAY) {
-        struct protoent *proto = getprotobyname("TCP");
+        struct protoent *proto = getprotobynbme("TCP");
         int tcp_level = (proto == 0 ? IPPROTO_TCP: proto->p_proto);
         long onl = (long)on;
 
         if (setsockopt(fd, tcp_level, TCP_NODELAY,
-                       (char *)&onl, sizeof(long)) < 0) {
+                       (chbr *)&onl, sizeof(long)) < 0) {
                 return SYS_ERR;
         }
     } else if (cmd == SO_LINGER) {
-        struct linger arg;
-        arg.l_onoff = on;
+        struct linger brg;
+        brg.l_onoff = on;
 
         if(on) {
-            arg.l_linger = (unsigned short)value.i;
+            brg.l_linger = (unsigned short)vblue.i;
             if(setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                          (char*)&arg, sizeof(arg)) < 0) {
+                          (chbr*)&brg, sizeof(brg)) < 0) {
                 return SYS_ERR;
             }
         } else {
             if (setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                           (char*)&arg, sizeof(arg)) < 0) {
+                           (chbr*)&brg, sizeof(brg)) < 0) {
                 return SYS_ERR;
             }
         }
     } else if (cmd == SO_SNDBUF) {
-        jint buflen = value.i;
+        jint buflen = vblue.i;
         if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF,
-                       (char *)&buflen, sizeof(buflen)) < 0) {
+                       (chbr *)&buflen, sizeof(buflen)) < 0) {
             return SYS_ERR;
         }
     } else if (cmd == SO_REUSEADDR) {
         /*
          * On Windows the SO_REUSEADDR socket option doesn't implement
-         * BSD semantics. Specifically, the socket option allows multiple
-         * processes to bind to the same address/port rather than allowing
-         * a process to bind with a previous connection in the TIME_WAIT
-         * state. Hence on Windows we never enable this option for TCP
+         * BSD sembntics. Specificblly, the socket option bllows multiple
+         * processes to bind to the sbme bddress/port rbther thbn bllowing
+         * b process to bind with b previous connection in the TIME_WAIT
+         * stbte. Hence on Windows we never enbble this option for TCP
          * option.
          */
-        int sotype, arglen=sizeof(sotype);
-        if (getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &arglen) == SOCKET_ERROR) {
+        int sotype, brglen=sizeof(sotype);
+        if (getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &brglen) == SOCKET_ERROR) {
             return SYS_ERR;
         }
         if (sotype != SOCK_STREAM) {
             int oni = (int)on;
             if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR,
-                       (char *)&oni, sizeof(oni)) == SOCKET_ERROR) {
+                       (chbr *)&oni, sizeof(oni)) == SOCKET_ERROR) {
                 return SYS_ERR;
             }
         }
@@ -329,16 +329,16 @@ dbgsysSetSocketOption(int fd, jint cmd, jboolean on, jvalue value)
     return SYS_OK;
 }
 
-int dbgsysConfigureBlocking(int fd, jboolean blocking) {
-    u_long argp;
+int dbgsysConfigureBlocking(int fd, jboolebn blocking) {
+    u_long brgp;
     int result = 0;
 
     if (blocking == JNI_FALSE) {
-        argp = 1;
+        brgp = 1;
     } else {
-        argp = 0;
+        brgp = 0;
     }
-    result = ioctlsocket(fd, FIONBIO, &argp);
+    result = ioctlsocket(fd, FIONBIO, &brgp);
     if (result == SOCKET_ERROR) {
         return SYS_ERR;
     } else {
@@ -347,9 +347,9 @@ int dbgsysConfigureBlocking(int fd, jboolean blocking) {
 }
 
 int
-dbgsysPoll(int fd, jboolean rd, jboolean wr, long timeout) {
+dbgsysPoll(int fd, jboolebn rd, jboolebn wr, long timeout) {
     int rv;
-    struct timeval t;
+    struct timevbl t;
     fd_set rd_tbl, wr_tbl;
 
     t.tv_sec = timeout / 1000;
@@ -379,24 +379,24 @@ dbgsysPoll(int fd, jboolean rd, jboolean wr, long timeout) {
 }
 
 int
-dbgsysGetLastIOError(char *buf, jint size) {
-    int table_size = sizeof(winsock_errors) /
+dbgsysGetLbstIOError(chbr *buf, jint size) {
+    int tbble_size = sizeof(winsock_errors) /
                      sizeof(winsock_errors[0]);
     int i;
-    int error = WSAGetLastError();
+    int error = WSAGetLbstError();
 
     /*
-     * Check table for known winsock errors
+     * Check tbble for known winsock errors
      */
     i=0;
-    while (i < table_size) {
+    while (i < tbble_size) {
         if (error == winsock_errors[i].errCode) {
-            break;
+            brebk;
         }
         i++;
     }
 
-    if (i < table_size) {
+    if (i < tbble_size) {
         strcpy(buf, winsock_errors[i].errString);
     } else {
         sprintf(buf, "winsock error %d", error);
@@ -416,30 +416,30 @@ dbgsysTlsFree(int index) {
 }
 
 void
-dbgsysTlsPut(int index, void *value) {
-    TlsSetValue(index, value);
+dbgsysTlsPut(int index, void *vblue) {
+    TlsSetVblue(index, vblue);
 }
 
 void *
 dbgsysTlsGet(int index) {
-    return TlsGetValue(index);
+    return TlsGetVblue(index);
 }
 
 #define FT2INT64(ft) \
-        ((INT64)(ft).dwHighDateTime << 32 | (INT64)(ft).dwLowDateTime)
+        ((INT64)(ft).dwHighDbteTime << 32 | (INT64)(ft).dwLowDbteTime)
 
 long
 dbgsysCurrentTimeMillis() {
-    static long fileTime_1_1_70 = 0;    /* midnight 1/1/70 */
+    stbtic long fileTime_1_1_70 = 0;    /* midnight 1/1/70 */
     SYSTEMTIME st0;
     FILETIME   ft0;
 
-    /* initialize on first usage */
+    /* initiblize on first usbge */
     if (fileTime_1_1_70 == 0) {
         memset(&st0, 0, sizeof(st0));
-        st0.wYear  = 1970;
+        st0.wYebr  = 1970;
         st0.wMonth = 1;
-        st0.wDay   = 1;
+        st0.wDby   = 1;
         SystemTimeToFileTime(&st0, &ft0);
         fileTime_1_1_70 = FT2INT64(ft0);
     }

@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * ApplicationEvents are deprecated. Use individual AppEvent listeners or handlers instead.
+ * ApplicbtionEvents bre deprecbted. Use individubl AppEvent listeners or hbndlers instebd.
  *
- * @see Application#addAppEventListener(AppEventListener)
+ * @see Applicbtion#bddAppEventListener(AppEventListener)
  *
- * @see AboutHandler
- * @see PreferencesHandler
- * @see OpenURIHandler
- * @see OpenFilesHandler
- * @see PrintFilesHandler
- * @see QuitHandler
+ * @see AboutHbndler
+ * @see PreferencesHbndler
+ * @see OpenURIHbndler
+ * @see OpenFilesHbndler
+ * @see PrintFilesHbndler
+ * @see QuitHbndler
  *
  * @see AppReOpenedListener
  * @see AppForegroundListener
@@ -47,107 +47,107 @@ import java.util.EventListener;
  * @see SystemSleepListener
  *
  * @since 1.4
- * @deprecated replaced by {@link AboutHandler}, {@link PreferencesHandler}, {@link AppReOpenedListener}, {@link OpenFilesHandler}, {@link PrintFilesHandler}, {@link QuitHandler}, {@link QuitResponse}
+ * @deprecbted replbced by {@link AboutHbndler}, {@link PreferencesHbndler}, {@link AppReOpenedListener}, {@link OpenFilesHbndler}, {@link PrintFilesHbndler}, {@link QuitHbndler}, {@link QuitResponse}
  */
-@SuppressWarnings("deprecation")
-@Deprecated
-public interface ApplicationListener extends EventListener {
+@SuppressWbrnings("deprecbtion")
+@Deprecbted
+public interfbce ApplicbtionListener extends EventListener {
     /**
-     * Called when the user selects the About item in the application menu. If <code>event</code> is not handled by
-     * setting <code>isHandled(true)</code>, a default About window consisting of the application's name and icon is
-     * displayed. To display a custom About window, designate the <code>event</code> as being handled and display the
-     * appropriate About window.
+     * Cblled when the user selects the About item in the bpplicbtion menu. If <code>event</code> is not hbndled by
+     * setting <code>isHbndled(true)</code>, b defbult About window consisting of the bpplicbtion's nbme bnd icon is
+     * displbyed. To displby b custom About window, designbte the <code>event</code> bs being hbndled bnd displby the
+     * bppropribte About window.
      *
-     * @param event an ApplicationEvent initiated by the user choosing About in the application menu
-     * @deprecated use {@link AboutHandler}
+     * @pbrbm event bn ApplicbtionEvent initibted by the user choosing About in the bpplicbtion menu
+     * @deprecbted use {@link AboutHbndler}
      */
-    @Deprecated
-    public void handleAbout(ApplicationEvent event);
+    @Deprecbted
+    public void hbndleAbout(ApplicbtionEvent event);
 
     /**
-     * Called when the application receives an Open Application event from the Finder or another application. Usually
-     * this will come from the Finder when a user double-clicks your application icon. If there is any special code
-     * that you want to run when you user launches your application from the Finder or by sending an Open Application
-     * event from another application, include that code as part of this handler. The Open Application event is sent
-     * after AWT has been loaded.
+     * Cblled when the bpplicbtion receives bn Open Applicbtion event from the Finder or bnother bpplicbtion. Usublly
+     * this will come from the Finder when b user double-clicks your bpplicbtion icon. If there is bny specibl code
+     * thbt you wbnt to run when you user lbunches your bpplicbtion from the Finder or by sending bn Open Applicbtion
+     * event from bnother bpplicbtion, include thbt code bs pbrt of this hbndler. The Open Applicbtion event is sent
+     * bfter AWT hbs been lobded.
      *
-     * @param event the Open Application event
-     * @deprecated no replacement
+     * @pbrbm event the Open Applicbtion event
+     * @deprecbted no replbcement
      */
-    @Deprecated
-    public void handleOpenApplication(ApplicationEvent event);
+    @Deprecbted
+    public void hbndleOpenApplicbtion(ApplicbtionEvent event);
 
     /**
-     * Called when the application receives an Open Document event from the Finder or another application. This event
-     * is generated when a user double-clicks a document in the Finder. If the document is registered as belonging
-     * to your application, this event is sent to your application. Documents are bound to a particular application based
-     * primarily on their suffix. In the Finder, a user selects a document and then from the File Menu chooses Get Info.
-     * The Info window allows users to bind a document to a particular application.
+     * Cblled when the bpplicbtion receives bn Open Document event from the Finder or bnother bpplicbtion. This event
+     * is generbted when b user double-clicks b document in the Finder. If the document is registered bs belonging
+     * to your bpplicbtion, this event is sent to your bpplicbtion. Documents bre bound to b pbrticulbr bpplicbtion bbsed
+     * primbrily on their suffix. In the Finder, b user selects b document bnd then from the File Menu chooses Get Info.
+     * The Info window bllows users to bind b document to b pbrticulbr bpplicbtion.
      *
-     * These events are sent only if the bound application has file types listed in the Info.plist entries Document Types
+     * These events bre sent only if the bound bpplicbtion hbs file types listed in the Info.plist entries Document Types
      * or CFBundleDocumentTypes.
      *
-     * The ApplicationEvent sent to this handler holds a reference to the file being opened.
+     * The ApplicbtionEvent sent to this hbndler holds b reference to the file being opened.
      *
-     * @param event an Open Document event with reference to the file to be opened
-     * @deprecated use {@link OpenFilesHandler}
+     * @pbrbm event bn Open Document event with reference to the file to be opened
+     * @deprecbted use {@link OpenFilesHbndler}
      */
-    @Deprecated
-    public void handleOpenFile(ApplicationEvent event);
+    @Deprecbted
+    public void hbndleOpenFile(ApplicbtionEvent event);
 
     /**
-     * Called when the Preference item in the application menu is selected. Native Mac OS X applications make their
-     * Preferences window available through the application menu. Java applications are automatically given an application
-     * menu in Mac OS X. By default, the Preferences item is disabled in that menu. If you are deploying an application
-     * on Mac OS X, you should enable the preferences item with <code>setEnabledPreferencesMenu(true)</code> in the
-     * Application object and then display your Preferences window in this handler.
+     * Cblled when the Preference item in the bpplicbtion menu is selected. Nbtive Mbc OS X bpplicbtions mbke their
+     * Preferences window bvbilbble through the bpplicbtion menu. Jbvb bpplicbtions bre butombticblly given bn bpplicbtion
+     * menu in Mbc OS X. By defbult, the Preferences item is disbbled in thbt menu. If you bre deploying bn bpplicbtion
+     * on Mbc OS X, you should enbble the preferences item with <code>setEnbbledPreferencesMenu(true)</code> in the
+     * Applicbtion object bnd then displby your Preferences window in this hbndler.
      *
-     * @param event triggered when the user selects Preferences from the application menu
-     * @deprecated use {@link PreferencesHandler}
+     * @pbrbm event triggered when the user selects Preferences from the bpplicbtion menu
+     * @deprecbted use {@link PreferencesHbndler}
      */
-    @Deprecated
-    public void handlePreferences(ApplicationEvent event);
+    @Deprecbted
+    public void hbndlePreferences(ApplicbtionEvent event);
 
     /**
-     * Called when the application is sent a request to print a particular file or files. You can allow other applications to
-     * print files with your application by implementing this handler. If another application sends a Print Event along
-     * with the name of a file that your application knows how to process, you can use this handler to determine what to
-     * do with that request. You might open your entire application, or just invoke your printing classes.
+     * Cblled when the bpplicbtion is sent b request to print b pbrticulbr file or files. You cbn bllow other bpplicbtions to
+     * print files with your bpplicbtion by implementing this hbndler. If bnother bpplicbtion sends b Print Event blong
+     * with the nbme of b file thbt your bpplicbtion knows how to process, you cbn use this hbndler to determine whbt to
+     * do with thbt request. You might open your entire bpplicbtion, or just invoke your printing clbsses.
      *
-     * These events are sent only if the bound application has file types listed in the Info.plist entries Document Types
+     * These events bre sent only if the bound bpplicbtion hbs file types listed in the Info.plist entries Document Types
      * or CFBundleDocumentTypes.
      *
-     * The ApplicationEvent sent to this handler holds a reference to the file being opened.
+     * The ApplicbtionEvent sent to this hbndler holds b reference to the file being opened.
      *
-     * @param event a Print Document event with a reference to the file(s) to be printed
-     * @deprecated use {@link PrintFilesHandler}
+     * @pbrbm event b Print Document event with b reference to the file(s) to be printed
+     * @deprecbted use {@link PrintFilesHbndler}
      */
-    @Deprecated
-    public void handlePrintFile(ApplicationEvent event);
+    @Deprecbted
+    public void hbndlePrintFile(ApplicbtionEvent event);
 
     /**
-     * Called when the application is sent the Quit event. This event is generated when the user selects Quit from the
-     * application menu, when the user types Command-Q, or when the user control clicks on your application icon in the
-     * Dock and chooses Quit. You can either accept or reject the request to quit. You might want to reject the request
-     * to quit if the user has unsaved work. Reject the request, move into your code to save changes, then quit your
-     * application. To accept the request to quit, and terminate the application, set <code>isHandled(true)</code> for the
-     * <code>event</code>. To reject the quit, set <code>isHandled(false)</code>.
+     * Cblled when the bpplicbtion is sent the Quit event. This event is generbted when the user selects Quit from the
+     * bpplicbtion menu, when the user types Commbnd-Q, or when the user control clicks on your bpplicbtion icon in the
+     * Dock bnd chooses Quit. You cbn either bccept or reject the request to quit. You might wbnt to reject the request
+     * to quit if the user hbs unsbved work. Reject the request, move into your code to sbve chbnges, then quit your
+     * bpplicbtion. To bccept the request to quit, bnd terminbte the bpplicbtion, set <code>isHbndled(true)</code> for the
+     * <code>event</code>. To reject the quit, set <code>isHbndled(fblse)</code>.
      *
-     * @param event a Quit Application event
-     * @deprecated use {@link QuitHandler} and {@link QuitResponse}
+     * @pbrbm event b Quit Applicbtion event
+     * @deprecbted use {@link QuitHbndler} bnd {@link QuitResponse}
      */
-    @Deprecated
-    public void handleQuit(ApplicationEvent event);
+    @Deprecbted
+    public void hbndleQuit(ApplicbtionEvent event);
 
     /**
-     * Called when the application receives a Reopen Application event from the Finder or another application. Usually
-     * this will come when a user clicks on your application icon in the Dock. If there is any special code
-     * that needs to run when your user clicks on your application icon in the Dock or when a Reopen Application
-     * event is sent from another application, include that code as part of this handler.
+     * Cblled when the bpplicbtion receives b Reopen Applicbtion event from the Finder or bnother bpplicbtion. Usublly
+     * this will come when b user clicks on your bpplicbtion icon in the Dock. If there is bny specibl code
+     * thbt needs to run when your user clicks on your bpplicbtion icon in the Dock or when b Reopen Applicbtion
+     * event is sent from bnother bpplicbtion, include thbt code bs pbrt of this hbndler.
      *
-     * @param event the Reopen Application event
-     * @deprecated use {@link AppReOpenedListener}
+     * @pbrbm event the Reopen Applicbtion event
+     * @deprecbted use {@link AppReOpenedListener}
      */
-    @Deprecated
-    public void handleReOpenApplication(ApplicationEvent event);
+    @Deprecbted
+    public void hbndleReOpenApplicbtion(ApplicbtionEvent event);
 }

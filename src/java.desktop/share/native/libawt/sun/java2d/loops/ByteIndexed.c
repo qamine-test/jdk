@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,34 +27,34 @@
 
 #include "AnyByte.h"
 #include "ByteIndexed.h"
-#include "AlphaMacros.h"
+#include "AlphbMbcros.h"
 
 #include "IntArgb.h"
 #include "IntArgbBm.h"
 #include "IntArgbPre.h"
 #include "IntRgb.h"
 #include "ThreeByteBgr.h"
-#include "ByteGray.h"
-#include "Index12Gray.h"
+#include "ByteGrby.h"
+#include "Index12Grby.h"
 
 /*
- * This file declares, registers, and defines the various graphics
- * primitive loops to manipulate surfaces of type "ByteIndexed".
+ * This file declbres, registers, bnd defines the vbrious grbphics
+ * primitive loops to mbnipulbte surfbces of type "ByteIndexed".
  *
- * See also LoopMacros.h
+ * See blso LoopMbcros.h
  */
 
 RegisterFunc RegisterByteIndexed;
 
 DECLARE_CONVERT_BLIT(IntArgb, ByteIndexed);
 DECLARE_CONVERT_BLIT(ThreeByteBgr, ByteIndexed);
-DECLARE_CONVERT_BLIT(ByteGray, ByteIndexed);
+DECLARE_CONVERT_BLIT(ByteGrby, ByteIndexed);
 DECLARE_CONVERT_BLIT(ByteIndexed, ByteIndexed);
-DECLARE_CONVERT_BLIT(Index12Gray, ByteIndexed);
+DECLARE_CONVERT_BLIT(Index12Grby, ByteIndexed);
 DECLARE_SCALE_BLIT(IntArgb, ByteIndexed);
 DECLARE_SCALE_BLIT(ThreeByteBgr, ByteIndexed);
-DECLARE_SCALE_BLIT(ByteGray, ByteIndexed);
-DECLARE_SCALE_BLIT(Index12Gray, ByteIndexed);
+DECLARE_SCALE_BLIT(ByteGrby, ByteIndexed);
+DECLARE_SCALE_BLIT(Index12Grby, ByteIndexed);
 DECLARE_SCALE_BLIT(ByteIndexed, ByteIndexed);
 DECLARE_XPAR_CONVERT_BLIT(ByteIndexedBm, ByteIndexed);
 DECLARE_XPAR_SCALE_BLIT(ByteIndexedBm, ByteIndexed);
@@ -73,15 +73,15 @@ DECLARE_SOLID_DRAWGLYPHLISTAA(ByteIndexed);
 DECLARE_TRANSFORMHELPER_FUNCS(ByteIndexed);
 DECLARE_TRANSFORMHELPER_FUNCS(ByteIndexedBm);
 
-NativePrimitive ByteIndexedPrimitives[] = {
+NbtivePrimitive ByteIndexedPrimitives[] = {
     REGISTER_CONVERT_BLIT(IntArgb, ByteIndexed),
     REGISTER_CONVERT_BLIT_EQUIV(IntRgb, ByteIndexed,
                                 NAME_CONVERT_BLIT(IntArgb, ByteIndexed)),
     REGISTER_CONVERT_BLIT_EQUIV(IntArgbBm, ByteIndexed,
                                 NAME_CONVERT_BLIT(IntArgb, ByteIndexed)),
     REGISTER_CONVERT_BLIT(ThreeByteBgr, ByteIndexed),
-    REGISTER_CONVERT_BLIT(ByteGray, ByteIndexed),
-    REGISTER_CONVERT_BLIT(Index12Gray, ByteIndexed),
+    REGISTER_CONVERT_BLIT(ByteGrby, ByteIndexed),
+    REGISTER_CONVERT_BLIT(Index12Grby, ByteIndexed),
     REGISTER_CONVERT_BLIT_FLAGS(ByteIndexed, ByteIndexed, 0, SD_LOCK_LUT),
     REGISTER_SCALE_BLIT(IntArgb, ByteIndexed),
     REGISTER_SCALE_BLIT_EQUIV(IntRgb, ByteIndexed,
@@ -89,8 +89,8 @@ NativePrimitive ByteIndexedPrimitives[] = {
     REGISTER_SCALE_BLIT_EQUIV(IntArgbBm, ByteIndexed,
                               NAME_SCALE_BLIT(IntArgb, ByteIndexed)),
     REGISTER_SCALE_BLIT(ThreeByteBgr, ByteIndexed),
-    REGISTER_SCALE_BLIT(ByteGray, ByteIndexed),
-    REGISTER_SCALE_BLIT(Index12Gray, ByteIndexed),
+    REGISTER_SCALE_BLIT(ByteGrby, ByteIndexed),
+    REGISTER_SCALE_BLIT(Index12Grby, ByteIndexed),
     REGISTER_SCALE_BLIT_FLAGS(ByteIndexed, ByteIndexed, 0, SD_LOCK_LUT),
     REGISTER_XPAR_CONVERT_BLIT(ByteIndexedBm, ByteIndexed),
     REGISTER_XPAR_SCALE_BLIT(ByteIndexedBm, ByteIndexed),
@@ -110,31 +110,31 @@ NativePrimitive ByteIndexedPrimitives[] = {
     REGISTER_TRANSFORMHELPER_FUNCS(ByteIndexedBm),
 };
 
-jboolean RegisterByteIndexed(JNIEnv *env)
+jboolebn RegisterByteIndexed(JNIEnv *env)
 {
     return RegisterPrimitives(env, ByteIndexedPrimitives,
-                              ArraySize(ByteIndexedPrimitives));
+                              ArrbySize(ByteIndexedPrimitives));
 }
 
-jint PixelForByteIndexed(SurfaceDataRasInfo *pRasInfo, jint rgb)
+jint PixelForByteIndexed(SurfbceDbtbRbsInfo *pRbsInfo, jint rgb)
 {
     jint r, g, b;
-    ExtractIntDcmComponentsX123(rgb, r, g, b);
-    return SurfaceData_InvColorMap(pRasInfo->invColorTable, r, g, b);
+    ExtrbctIntDcmComponentsX123(rgb, r, g, b);
+    return SurfbceDbtb_InvColorMbp(pRbsInfo->invColorTbble, r, g, b);
 }
 
-jboolean checkSameLut(jint *SrcReadLut, jint *DstReadLut,
-                      SurfaceDataRasInfo *pSrcInfo,
-                      SurfaceDataRasInfo *pDstInfo)
+jboolebn checkSbmeLut(jint *SrcRebdLut, jint *DstRebdLut,
+                      SurfbceDbtbRbsInfo *pSrcInfo,
+                      SurfbceDbtbRbsInfo *pDstInfo)
 {
-    if (SrcReadLut != DstReadLut) {
+    if (SrcRebdLut != DstRebdLut) {
         juint lutSize = pSrcInfo->lutSize;
         if (lutSize > pDstInfo->lutSize) {
             return JNI_FALSE;
         } else {
             juint i;
             for (i = 0; i < lutSize; i++) {
-                if (SrcReadLut[i] != DstReadLut[i]) {
+                if (SrcRebdLut[i] != DstRebdLut[i]) {
                     return JNI_FALSE;
                 }
             }
@@ -147,40 +147,40 @@ DEFINE_CONVERT_BLIT(IntArgb, ByteIndexed, 3ByteRgb)
 
 DEFINE_CONVERT_BLIT(ThreeByteBgr, ByteIndexed, 3ByteRgb)
 
-DEFINE_CONVERT_BLIT(ByteGray, ByteIndexed, 3ByteRgb)
+DEFINE_CONVERT_BLIT(ByteGrby, ByteIndexed, 3ByteRgb)
 
-DEFINE_CONVERT_BLIT(Index12Gray, ByteIndexed, 3ByteRgb)
+DEFINE_CONVERT_BLIT(Index12Grby, ByteIndexed, 3ByteRgb)
 
 void NAME_CONVERT_BLIT(ByteIndexed, ByteIndexed)
-    (void *srcBase, void *dstBase,
+    (void *srcBbse, void *dstBbse,
      juint width, juint height,
-     SurfaceDataRasInfo *pSrcInfo,
-     SurfaceDataRasInfo *pDstInfo,
-     NativePrimitive *pPrim,
+     SurfbceDbtbRbsInfo *pSrcInfo,
+     SurfbceDbtbRbsInfo *pDstInfo,
+     NbtivePrimitive *pPrim,
      CompositeInfo *pCompInfo)
 {
-    DeclareByteIndexedLoadVars(SrcRead)
-    DeclareByteIndexedLoadVars(DstRead)
-    jint srcScan = pSrcInfo->scanStride;
-    jint dstScan = pDstInfo->scanStride;
+    DeclbreByteIndexedLobdVbrs(SrcRebd)
+    DeclbreByteIndexedLobdVbrs(DstRebd)
+    jint srcScbn = pSrcInfo->scbnStride;
+    jint dstScbn = pDstInfo->scbnStride;
 
-    InitByteIndexedLoadVars(SrcRead, pSrcInfo);
-    InitByteIndexedLoadVars(DstRead, pDstInfo);
+    InitByteIndexedLobdVbrs(SrcRebd, pSrcInfo);
+    InitByteIndexedLobdVbrs(DstRebd, pDstInfo);
 
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {
         do {
-            memcpy(dstBase, srcBase, width);
-            srcBase = PtrAddBytes(srcBase, srcScan);
-            dstBase = PtrAddBytes(dstBase, dstScan);
+            memcpy(dstBbse, srcBbse, width);
+            srcBbse = PtrAddBytes(srcBbse, srcScbn);
+            dstBbse = PtrAddBytes(dstBbse, dstScbn);
         } while (--height > 0);
     } else {
-        DeclareByteIndexedStoreVars(DstWrite);
+        DeclbreByteIndexedStoreVbrs(DstWrite);
 
-        BlitLoopWidthHeight(ByteIndexed, pSrc, srcBase, pSrcInfo,
-                            ByteIndexed, pDst, dstBase, pDstInfo, DstWrite,
+        BlitLoopWidthHeight(ByteIndexed, pSrc, srcBbse, pSrcInfo,
+                            ByteIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                             width, height,
-                            ConvertVia3ByteRgb
-                                (pSrc, ByteIndexed, SrcRead,
+                            ConvertVib3ByteRgb
+                                (pSrc, ByteIndexed, SrcRebd,
                                  pDst, ByteIndexed, DstWrite, 0, 0));
     }
 }
@@ -189,41 +189,41 @@ DEFINE_SCALE_BLIT(IntArgb, ByteIndexed, 3ByteRgb)
 
 DEFINE_SCALE_BLIT(ThreeByteBgr, ByteIndexed, 3ByteRgb)
 
-DEFINE_SCALE_BLIT(ByteGray, ByteIndexed, 3ByteRgb)
+DEFINE_SCALE_BLIT(ByteGrby, ByteIndexed, 3ByteRgb)
 
-DEFINE_SCALE_BLIT(Index12Gray, ByteIndexed, 3ByteRgb)
+DEFINE_SCALE_BLIT(Index12Grby, ByteIndexed, 3ByteRgb)
 
 void NAME_SCALE_BLIT(ByteIndexed, ByteIndexed)
-    (void *srcBase, void *dstBase,
+    (void *srcBbse, void *dstBbse,
      juint width, juint height,
      jint sxloc, jint syloc,
      jint sxinc, jint syinc, jint shift,
-     SurfaceDataRasInfo *pSrcInfo,
-     SurfaceDataRasInfo *pDstInfo,
-     NativePrimitive *pPrim,
+     SurfbceDbtbRbsInfo *pSrcInfo,
+     SurfbceDbtbRbsInfo *pDstInfo,
+     NbtivePrimitive *pPrim,
      CompositeInfo *pCompInfo)
 {
-    DeclareByteIndexedLoadVars(SrcRead)
-    DeclareByteIndexedLoadVars(DstRead)
-    jint srcScan = pSrcInfo->scanStride;
-    jint dstScan = pDstInfo->scanStride;
-    DeclareByteIndexedStoreVars(DstWrite)
+    DeclbreByteIndexedLobdVbrs(SrcRebd)
+    DeclbreByteIndexedLobdVbrs(DstRebd)
+    jint srcScbn = pSrcInfo->scbnStride;
+    jint dstScbn = pDstInfo->scbnStride;
+    DeclbreByteIndexedStoreVbrs(DstWrite)
 
-    InitByteIndexedLoadVars(SrcRead, pSrcInfo);
-    InitByteIndexedLoadVars(DstRead, pDstInfo);
+    InitByteIndexedLobdVbrs(SrcRebd, pSrcInfo);
+    InitByteIndexedLobdVbrs(DstRebd, pDstInfo);
 
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {
-        BlitLoopScaleWidthHeight(ByteIndexed, pSrc, srcBase, pSrcInfo,
-                                 ByteIndexed, pDst, dstBase, pDstInfo, DstWrite,
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {
+        BlitLoopScbleWidthHeight(ByteIndexed, pSrc, srcBbse, pSrcInfo,
+                                 ByteIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                                  x, width, height,
                                  sxloc, syloc, sxinc, syinc, shift,
                                  pDst[0] = pSrc[x]);
     } else {
-        BlitLoopScaleWidthHeight(ByteIndexed, pSrc, srcBase, pSrcInfo,
-                                 ByteIndexed, pDst, dstBase, pDstInfo, DstWrite,
+        BlitLoopScbleWidthHeight(ByteIndexed, pSrc, srcBbse, pSrcInfo,
+                                 ByteIndexed, pDst, dstBbse, pDstInfo, DstWrite,
                                  x, width, height,
                                  sxloc, syloc, sxinc, syinc, shift,
-                                 ConvertVia3ByteRgb(pSrc, ByteIndexed, SrcRead,
+                                 ConvertVib3ByteRgb(pSrc, ByteIndexed, SrcRebd,
                                                     pDst, ByteIndexed, DstWrite,
                                                     x, 0));
     }

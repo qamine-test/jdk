@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_TextArea.h"
-#include "awt_TextComponent.h"
-#include "awt_Canvas.h"
-#include "awt_Window.h"
-#include "awt_Frame.h"
+#include "bwt_Toolkit.h"
+#include "bwt_TextAreb.h"
+#include "bwt_TextComponent.h"
+#include "bwt_Cbnvbs.h"
+#include "bwt_Window.h"
+#include "bwt_Frbme.h"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// Struct for _ReplaceText() method
-struct ReplaceTextStruct {
+// Struct for _ReplbceText() method
+struct ReplbceTextStruct {
   jobject textComponent;
   jstring text;
-  int start, end;
+  int stbrt, end;
 };
 
 /************************************************************************
- * AwtTextArea fields
+ * AwtTextAreb fields
  */
 
-jfieldID AwtTextArea::scrollbarVisibilityID;
+jfieldID AwtTextAreb::scrollbbrVisibilityID;
 
-WNDPROC AwtTextArea::sm_pDefWindowProc = NULL;
+WNDPROC AwtTextAreb::sm_pDefWindowProc = NULL;
 
 /************************************************************************
- * AwtTextArea methods
+ * AwtTextAreb methods
  */
 
-AwtTextArea::AwtTextArea() {
-    m_bIgnoreEnChange = FALSE;
-    m_bCanUndo        = FALSE;
+AwtTextAreb::AwtTextAreb() {
+    m_bIgnoreEnChbnge = FALSE;
+    m_bCbnUndo        = FALSE;
     m_hEditCtrl       = NULL;
-    m_lHDeltaAccum    = 0;
-    m_lVDeltaAccum    = 0;
+    m_lHDeltbAccum    = 0;
+    m_lVDeltbAccum    = 0;
 }
 
-AwtTextArea::~AwtTextArea()
+AwtTextAreb::~AwtTextAreb()
 {
 }
 
-void AwtTextArea::Dispose()
+void AwtTextAreb::Dispose()
 {
     if (m_hEditCtrl != NULL) {
         VERIFY(::DestroyWindow(m_hEditCtrl));
@@ -74,29 +74,29 @@ void AwtTextArea::Dispose()
     AwtTextComponent::Dispose();
 }
 
-/* Create a new AwtTextArea object and window.   */
-AwtTextArea* AwtTextArea::Create(jobject peer, jobject parent)
+/* Crebte b new AwtTextAreb object bnd window.   */
+AwtTextAreb* AwtTextAreb::Crebte(jobject peer, jobject pbrent)
 {
-    return (AwtTextArea*) AwtTextComponent::Create(peer, parent, true);
+    return (AwtTextAreb*) AwtTextComponent::Crebte(peer, pbrent, true);
 }
 
-void AwtTextArea::EditSetSel(CHARRANGE &cr) {
-    // Fix for 5003402: added restoring/hiding selection to enable automatic scrolling
-    SendMessage(EM_HIDESELECTION, FALSE, TRUE);
-    SendMessage(EM_EXSETSEL, 0, reinterpret_cast<LPARAM>(&cr));
-    SendMessage(EM_HIDESELECTION, TRUE, TRUE);
-    // 6417581: force expected drawing
-    if (IS_WINVISTA && cr.cpMin == cr.cpMax) {
-        ::InvalidateRect(GetHWnd(), NULL, TRUE);
+void AwtTextAreb::EditSetSel(CHARRANGE &cr) {
+    // Fix for 5003402: bdded restoring/hiding selection to enbble butombtic scrolling
+    SendMessbge(EM_HIDESELECTION, FALSE, TRUE);
+    SendMessbge(EM_EXSETSEL, 0, reinterpret_cbst<LPARAM>(&cr));
+    SendMessbge(EM_HIDESELECTION, TRUE, TRUE);
+    // 6417581: force expected drbwing
+    if (IS_WINVISTA && cr.cpMin == cr.cpMbx) {
+        ::InvblidbteRect(GetHWnd(), NULL, TRUE);
     }
 }
 
-void AwtTextArea::EditGetSel(CHARRANGE &cr) {
-    SendMessage(EM_EXGETSEL, 0, reinterpret_cast<LPARAM>(&cr));
+void AwtTextAreb::EditGetSel(CHARRANGE &cr) {
+    SendMessbge(EM_EXGETSEL, 0, reinterpret_cbst<LPARAM>(&cr));
 }
 
-/* Count how many '\n's are there in jStr */
-size_t AwtTextArea::CountNewLines(JNIEnv *env, jstring jStr, size_t maxlen)
+/* Count how mbny '\n's bre there in jStr */
+size_t AwtTextAreb::CountNewLines(JNIEnv *env, jstring jStr, size_t mbxlen)
 {
     size_t nNewlines = 0;
 
@@ -104,15 +104,15 @@ size_t AwtTextArea::CountNewLines(JNIEnv *env, jstring jStr, size_t maxlen)
         return nNewlines;
     }
     /*
-     * Fix for BugTraq Id 4260109.
-     * Don't use TO_WSTRING since it allocates memory on the stack
-     * causing stack overflow when the text is very long.
+     * Fix for BugTrbq Id 4260109.
+     * Don't use TO_WSTRING since it bllocbtes memory on the stbck
+     * cbusing stbck overflow when the text is very long.
      */
     size_t length = env->GetStringLength(jStr) + 1;
     WCHAR *string = new WCHAR[length];
-    env->GetStringRegion(jStr, 0, static_cast<jsize>(length - 1), reinterpret_cast<jchar*>(string));
+    env->GetStringRegion(jStr, 0, stbtic_cbst<jsize>(length - 1), reinterpret_cbst<jchbr*>(string));
     string[length-1] = '\0';
-    for (size_t i = 0; i < maxlen && i < length - 1; i++) {
+    for (size_t i = 0; i < mbxlen && i < length - 1; i++) {
         if (string[i] == L'\n') {
             nNewlines++;
         }
@@ -121,159 +121,159 @@ size_t AwtTextArea::CountNewLines(JNIEnv *env, jstring jStr, size_t maxlen)
     return nNewlines;
 }
 
-BOOL AwtTextArea::InheritsNativeMouseWheelBehavior() {return true;}
+BOOL AwtTextAreb::InheritsNbtiveMouseWheelBehbvior() {return true;}
 
 
 LRESULT
-AwtTextArea::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
+AwtTextAreb::WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm) {
 
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
+    LRESULT retVblue = 0;
+    MsgRouting mr = mrDoDefbult;
 
-    switch (message) {
-    case EM_SETCHARFORMAT:
-    case WM_SETFONT:
-        SetIgnoreEnChange(TRUE);
-        break;
+    switch (messbge) {
+    cbse EM_SETCHARFORMAT:
+    cbse WM_SETFONT:
+        SetIgnoreEnChbnge(TRUE);
+        brebk;
     }
 
-    retValue = AwtTextComponent::WindowProc(message, wParam, lParam);
+    retVblue = AwtTextComponent::WindowProc(messbge, wPbrbm, lPbrbm);
 
-    switch (message) {
-    case EM_SETCHARFORMAT:
-    case WM_SETFONT:
-        SetIgnoreEnChange(FALSE);
-        break;
+    switch (messbge) {
+    cbse EM_SETCHARFORMAT:
+    cbse WM_SETFONT:
+        SetIgnoreEnChbnge(FALSE);
+        brebk;
     }
 
-    return retValue;
+    return retVblue;
 }
 
 /*
- * This routine is a window procedure for the subclass of the standard edit control
- * used to generate context menu. RichEdit controls don't have built-in context menu.
- * To implement this functionality we have to create an invisible edit control and
- * forward WM_CONTEXTMENU messages from a RichEdit control to this helper edit control.
- * While the edit control context menu is active we intercept the message generated in
- * response to particular item selection and forward it back to the RichEdit control.
- * (See AwtTextArea::WmContextMenu for more details).
+ * This routine is b window procedure for the subclbss of the stbndbrd edit control
+ * used to generbte context menu. RichEdit controls don't hbve built-in context menu.
+ * To implement this functionblity we hbve to crebte bn invisible edit control bnd
+ * forwbrd WM_CONTEXTMENU messbges from b RichEdit control to this helper edit control.
+ * While the edit control context menu is bctive we intercept the messbge generbted in
+ * response to pbrticulbr item selection bnd forwbrd it bbck to the RichEdit control.
+ * (See AwtTextAreb::WmContextMenu for more detbils).
  */
 LRESULT
-AwtTextArea::EditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+AwtTextAreb::EditProc(HWND hWnd, UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm) {
 
-    static BOOL bContextMenuActive = FALSE;
+    stbtic BOOL bContextMenuActive = FALSE;
 
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
+    LRESULT retVblue = 0;
+    MsgRouting mr = mrDoDefbult;
 
-    DASSERT(::IsWindow(::GetParent(hWnd)));
+    DASSERT(::IsWindow(::GetPbrent(hWnd)));
 
-    switch (message) {
-    case WM_UNDO:
-    case WM_CUT:
-    case WM_COPY:
-    case WM_PASTE:
-    case WM_CLEAR:
-    case EM_SETSEL:
+    switch (messbge) {
+    cbse WM_UNDO:
+    cbse WM_CUT:
+    cbse WM_COPY:
+    cbse WM_PASTE:
+    cbse WM_CLEAR:
+    cbse EM_SETSEL:
         if (bContextMenuActive) {
-            ::SendMessage(::GetParent(hWnd), message, wParam, lParam);
+            ::SendMessbge(::GetPbrent(hWnd), messbge, wPbrbm, lPbrbm);
             mr = mrConsume;
         }
-        break;
-    case WM_CONTEXTMENU:
+        brebk;
+    cbse WM_CONTEXTMENU:
         bContextMenuActive = TRUE;
-        break;
+        brebk;
     }
 
-    if (mr == mrDoDefault) {
+    if (mr == mrDoDefbult) {
         DASSERT(sm_pDefWindowProc != NULL);
-        retValue = ::CallWindowProc(sm_pDefWindowProc,
-                                    hWnd, message, wParam, lParam);
+        retVblue = ::CbllWindowProc(sm_pDefWindowProc,
+                                    hWnd, messbge, wPbrbm, lPbrbm);
     }
 
-    if (message == WM_CONTEXTMENU) {
+    if (messbge == WM_CONTEXTMENU) {
         bContextMenuActive = FALSE;
     }
 
-    return retValue;
+    return retVblue;
 }
 
 MsgRouting
-AwtTextArea::WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
-    /* Use the system provided edit control class to generate context menu. */
+AwtTextAreb::WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
+    /* Use the system provided edit control clbss to generbte context menu. */
     if (m_hEditCtrl == NULL) {
         DWORD dwStyle = WS_CHILD;
         DWORD dwExStyle = 0;
-        m_hEditCtrl = ::CreateWindowEx(dwExStyle,
+        m_hEditCtrl = ::CrebteWindowEx(dwExStyle,
                                         L"EDIT",
                                         L"TEXT",
                                         dwStyle,
                                         0, 0, 0, 0,
                                         GetHWnd(),
-                                        reinterpret_cast<HMENU>(
-                                         static_cast<INT_PTR>(
-                                             CreateControlID())),
-                                        AwtToolkit::GetInstance().GetModuleHandle(),
+                                        reinterpret_cbst<HMENU>(
+                                         stbtic_cbst<INT_PTR>(
+                                             CrebteControlID())),
+                                        AwtToolkit::GetInstbnce().GetModuleHbndle(),
                                         NULL);
         DASSERT(m_hEditCtrl != NULL);
         if (sm_pDefWindowProc == NULL) {
             sm_pDefWindowProc = (WNDPROC)::GetWindowLongPtr(m_hEditCtrl,
                                                          GWLP_WNDPROC);
         }
-        ::SetLastError(0);
+        ::SetLbstError(0);
         INT_PTR ret = ::SetWindowLongPtr(m_hEditCtrl, GWLP_WNDPROC,
-                                   (INT_PTR)AwtTextArea::EditProc);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+                                   (INT_PTR)AwtTextAreb::EditProc);
+        DASSERT(ret != 0 || ::GetLbstError() == 0);
     }
 
     /*
-     * Tricks on the edit control to ensure that its context menu has
-     * the correct set of enabled items according to the RichEdit state.
+     * Tricks on the edit control to ensure thbt its context menu hbs
+     * the correct set of enbbled items bccording to the RichEdit stbte.
      */
     ::SetWindowText(m_hEditCtrl, TEXT("TEXT"));
 
-    if (m_bCanUndo == TRUE && SendMessage(EM_CANUNDO)) {
-        /* Enable 'Undo' item. */
-        ::SendMessage(m_hEditCtrl, WM_CHAR, 'A', 0);
+    if (m_bCbnUndo == TRUE && SendMessbge(EM_CANUNDO)) {
+        /* Enbble 'Undo' item. */
+        ::SendMessbge(m_hEditCtrl, WM_CHAR, 'A', 0);
     }
 
     {
         /*
-         * Initial selection for the edit control - (0,1).
-         * This enables 'Cut', 'Copy' and 'Delete' and 'Select All'.
+         * Initibl selection for the edit control - (0,1).
+         * This enbbles 'Cut', 'Copy' bnd 'Delete' bnd 'Select All'.
          */
-        INT nStart = 0;
+        INT nStbrt = 0;
         INT nEnd = 1;
-        if (SendMessage(EM_SELECTIONTYPE) == SEL_EMPTY) {
+        if (SendMessbge(EM_SELECTIONTYPE) == SEL_EMPTY) {
             /*
-             * RichEdit selection is empty - clear selection of the edit control.
-             * This disables 'Cut', 'Copy' and 'Delete'.
+             * RichEdit selection is empty - clebr selection of the edit control.
+             * This disbbles 'Cut', 'Copy' bnd 'Delete'.
              */
-            nStart = -1;
+            nStbrt = -1;
             nEnd = 0;
         } else {
 
             CHARRANGE cr;
             EditGetSel(cr);
-            /* Check if all the text is selected. */
+            /* Check if bll the text is selected. */
             if (cr.cpMin == 0) {
 
                 int len = ::GetWindowTextLength(GetHWnd());
-                if (cr.cpMin == 0 && cr.cpMax >= len) {
+                if (cr.cpMin == 0 && cr.cpMbx >= len) {
                     /*
-                     * All the text is selected in RichEdit - select all the
-                     * text in the edit control. This disables 'Select All'.
+                     * All the text is selected in RichEdit - select bll the
+                     * text in the edit control. This disbbles 'Select All'.
                      */
-                    nStart = 0;
+                    nStbrt = 0;
                     nEnd = -1;
                 }
             }
         }
-        ::SendMessage(m_hEditCtrl, EM_SETSEL, (WPARAM)nStart, (LPARAM)nEnd);
+        ::SendMessbge(m_hEditCtrl, EM_SETSEL, (WPARAM)nStbrt, (LPARAM)nEnd);
     }
 
-    /* Disable 'Paste' item if the RichEdit control is read-only. */
-    ::SendMessage(m_hEditCtrl, EM_SETREADONLY,
+    /* Disbble 'Pbste' item if the RichEdit control is rebd-only. */
+    ::SendMessbge(m_hEditCtrl, EM_SETREADONLY,
                   GetStyle() & ES_READONLY ? TRUE : FALSE, 0);
 
     POINT p;
@@ -293,127 +293,127 @@ AwtTextArea::WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
         VERIFY(::ClientToScreen(GetHWnd(), &p));
     }
 
-    // The context menu steals focus from the proxy.
-    // So, set the focus-restore flag up.
+    // The context menu stebls focus from the proxy.
+    // So, set the focus-restore flbg up.
     SetRestoreFocus(TRUE);
-    ::SendMessage(m_hEditCtrl, WM_CONTEXTMENU, (WPARAM)m_hEditCtrl, MAKELPARAM(p.x, p.y));
+    ::SendMessbge(m_hEditCtrl, WM_CONTEXTMENU, (WPARAM)m_hEditCtrl, MAKELPARAM(p.x, p.y));
     SetRestoreFocus(FALSE);
 
     return mrConsume;
 }
 
 MsgRouting
-AwtTextArea::WmNcHitTest(UINT x, UINT y, LRESULT& retVal)
+AwtTextAreb::WmNcHitTest(UINT x, UINT y, LRESULT& retVbl)
 {
-    if (::IsWindow(AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(GetHWnd())))) {
-        retVal = HTCLIENT;
+    if (::IsWindow(AwtWindow::GetModblBlocker(AwtComponent::GetTopLevelPbrentForWindow(GetHWnd())))) {
+        retVbl = HTCLIENT;
         return mrConsume;
     }
-    return AwtTextComponent::WmNcHitTest(x, y, retVal);
+    return AwtTextComponent::WmNcHitTest(x, y, retVbl);
 }
 
 
 MsgRouting
-AwtTextArea::WmNotify(UINT notifyCode)
+AwtTextAreb::WmNotify(UINT notifyCode)
 {
     if (notifyCode == EN_CHANGE) {
         /*
-         * Ignore notifications if the text hasn't been changed.
-         * EN_CHANGE sent on character formatting changes as well.
+         * Ignore notificbtions if the text hbsn't been chbnged.
+         * EN_CHANGE sent on chbrbcter formbtting chbnges bs well.
          */
-        if (m_bIgnoreEnChange == FALSE) {
-            m_bCanUndo = TRUE;
-            DoCallback("valueChanged", "()V");
+        if (m_bIgnoreEnChbnge == FALSE) {
+            m_bCbnUndo = TRUE;
+            DoCbllbbck("vblueChbnged", "()V");
         } else {
-            m_bCanUndo = FALSE;
+            m_bCbnUndo = FALSE;
         }
     }
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
 MsgRouting
-AwtTextArea::HandleEvent(MSG *msg, BOOL synthetic)
+AwtTextAreb::HbndleEvent(MSG *msg, BOOL synthetic)
 {
-    MsgRouting returnVal;
+    MsgRouting returnVbl;
     /*
-     * RichEdit 1.0 control starts internal message loop if the
+     * RichEdit 1.0 control stbrts internbl messbge loop if the
      * left mouse button is pressed while the cursor is not over
      * the current selection or the current selection is empty.
-     * Because of this we don't receive WM_MOUSEMOVE messages
-     * while the left mouse button is pressed. To work around
-     * this behavior we process the relevant mouse messages
+     * Becbuse of this we don't receive WM_MOUSEMOVE messbges
+     * while the left mouse button is pressed. To work bround
+     * this behbvior we process the relevbnt mouse messbges
      * by ourselves.
-     * By consuming WM_MOUSEMOVE messages we also don't give
-     * the RichEdit control a chance to recognize a drag gesture
-     * and initiate its own drag-n-drop operation.
+     * By consuming WM_MOUSEMOVE messbges we blso don't give
+     * the RichEdit control b chbnce to recognize b drbg gesture
+     * bnd initibte its own drbg-n-drop operbtion.
      *
-     * The workaround also allows us to implement synthetic focus mechanism.
+     * The workbround blso bllows us to implement synthetic focus mechbnism.
      *
      */
-    if (IsFocusingMouseMessage(msg)) {
+    if (IsFocusingMouseMessbge(msg)) {
         CHARRANGE cr;
 
-        LONG lCurPos = EditGetCharFromPos(msg->pt);
+        LONG lCurPos = EditGetChbrFromPos(msg->pt);
 
         EditGetSel(cr);
         /*
-         * NOTE: Plain EDIT control always clears selection on mouse
-         * button press. We are clearing the current selection only if
+         * NOTE: Plbin EDIT control blwbys clebrs selection on mouse
+         * button press. We bre clebring the current selection only if
          * the mouse pointer is not over the selected region.
-         * In this case we sacrifice backward compatibility
-         * to allow dnd of the current selection.
+         * In this cbse we sbcrifice bbckwbrd compbtibility
+         * to bllow dnd of the current selection.
          */
-        if (lCurPos < cr.cpMin || cr.cpMax <= lCurPos) {
-            if (msg->message == WM_LBUTTONDBLCLK) {
-                SetStartSelectionPos(static_cast<LONG>(SendMessage(
+        if (lCurPos < cr.cpMin || cr.cpMbx <= lCurPos) {
+            if (msg->messbge == WM_LBUTTONDBLCLK) {
+                SetStbrtSelectionPos(stbtic_cbst<LONG>(SendMessbge(
                     EM_FINDWORDBREAK, WB_MOVEWORDLEFT, lCurPos)));
-                SetEndSelectionPos(static_cast<LONG>(SendMessage(
+                SetEndSelectionPos(stbtic_cbst<LONG>(SendMessbge(
                     EM_FINDWORDBREAK, WB_MOVEWORDRIGHT, lCurPos)));
             } else {
-                SetStartSelectionPos(lCurPos);
+                SetStbrtSelectionPos(lCurPos);
                 SetEndSelectionPos(lCurPos);
             }
-            cr.cpMin = GetStartSelectionPos();
-            cr.cpMax = GetEndSelectionPos();
+            cr.cpMin = GetStbrtSelectionPos();
+            cr.cpMbx = GetEndSelectionPos();
             EditSetSel(cr);
         }
 
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_LBUTTONUP) {
+    } else if (msg->messbge == WM_LBUTTONUP) {
 
         /*
          * If the left mouse button is pressed on the selected region
-         * we don't clear the current selection. We clear it on button
-         * release instead. This is to allow dnd of the current selection.
+         * we don't clebr the current selection. We clebr it on button
+         * relebse instebd. This is to bllow dnd of the current selection.
          */
-        if (GetStartSelectionPos() == -1 && GetEndSelectionPos() == -1) {
+        if (GetStbrtSelectionPos() == -1 && GetEndSelectionPos() == -1) {
             CHARRANGE cr;
 
-            LONG lCurPos = EditGetCharFromPos(msg->pt);
+            LONG lCurPos = EditGetChbrFromPos(msg->pt);
 
             cr.cpMin = lCurPos;
-            cr.cpMax = lCurPos;
+            cr.cpMbx = lCurPos;
             EditSetSel(cr);
         }
 
         /*
-         * Cleanup the state variables when left mouse button is released.
-         * These state variables are designed to reflect the selection state
-         * while the left mouse button is pressed and be set to -1 otherwise.
+         * Clebnup the stbte vbribbles when left mouse button is relebsed.
+         * These stbte vbribbles bre designed to reflect the selection stbte
+         * while the left mouse button is pressed bnd be set to -1 otherwise.
          */
-        SetStartSelectionPos(-1);
+        SetStbrtSelectionPos(-1);
         SetEndSelectionPos(-1);
-        SetLastSelectionPos(-1);
+        SetLbstSelectionPos(-1);
 
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_MOUSEMOVE && (msg->wParam & MK_LBUTTON)) {
+    } else if (msg->messbge == WM_MOUSEMOVE && (msg->wPbrbm & MK_LBUTTON)) {
 
         /*
          * We consume WM_MOUSEMOVE while the left mouse button is pressed,
-         * so we have to simulate autoscrolling when mouse is moved outside
-         * of the client area.
+         * so we hbve to simulbte butoscrolling when mouse is moved outside
+         * of the client breb.
          */
         POINT p;
         RECT r;
@@ -441,18 +441,18 @@ AwtTextArea::HandleEvent(MSG *msg, BOOL synthetic)
             p.y = r.bottom - 1;
         }
 
-        LONG lCurPos = EditGetCharFromPos(p);
+        LONG lCurPos = EditGetChbrFromPos(p);
 
-        if (GetStartSelectionPos() != -1 &&
+        if (GetStbrtSelectionPos() != -1 &&
             GetEndSelectionPos() != -1 &&
-            lCurPos != GetLastSelectionPos()) {
+            lCurPos != GetLbstSelectionPos()) {
 
             CHARRANGE cr;
 
-            SetLastSelectionPos(lCurPos);
+            SetLbstSelectionPos(lCurPos);
 
-            cr.cpMin = GetStartSelectionPos();
-            cr.cpMax = GetLastSelectionPos();
+            cr.cpMin = GetStbrtSelectionPos();
+            cr.cpMbx = GetLbstSelectionPos();
 
             EditSetSel(cr);
         }
@@ -461,134 +461,134 @@ AwtTextArea::HandleEvent(MSG *msg, BOOL synthetic)
             SCROLLINFO si;
             memset(&si, 0, sizeof(si));
             si.cbSize = sizeof(si);
-            si.fMask = SIF_PAGE | SIF_POS | SIF_RANGE;
+            si.fMbsk = SIF_PAGE | SIF_POS | SIF_RANGE;
 
             VERIFY(::GetScrollInfo(GetHWnd(), SB_HORZ, &si));
             if (bScrollLeft == TRUE) {
-                si.nPos = si.nPos - si.nPage / 2;
-                si.nPos = max(si.nMin, si.nPos);
+                si.nPos = si.nPos - si.nPbge / 2;
+                si.nPos = mbx(si.nMin, si.nPos);
             } else if (bScrollRight == TRUE) {
-                si.nPos = si.nPos + si.nPage / 2;
-                si.nPos = min(si.nPos, si.nMax);
+                si.nPos = si.nPos + si.nPbge / 2;
+                si.nPos = min(si.nPos, si.nMbx);
             }
             /*
-             * Okay to use 16-bit position since RichEdit control adjusts
-             * its scrollbars so that their range is always 16-bit.
+             * Okby to use 16-bit position since RichEdit control bdjusts
+             * its scrollbbrs so thbt their rbnge is blwbys 16-bit.
              */
-            DASSERT(abs(si.nPos) < 0x8000);
-            SendMessage(WM_HSCROLL,
+            DASSERT(bbs(si.nPos) < 0x8000);
+            SendMessbge(WM_HSCROLL,
                         MAKEWPARAM(SB_THUMBPOSITION, LOWORD(si.nPos)));
         }
         if (bScrollUp == TRUE) {
-            SendMessage(EM_LINESCROLL, 0, -1);
+            SendMessbge(EM_LINESCROLL, 0, -1);
         } else if (bScrollDown == TRUE) {
-            SendMessage(EM_LINESCROLL, 0, 1);
+            SendMessbge(EM_LINESCROLL, 0, 1);
         }
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_RBUTTONUP ||
-               (msg->message == WM_SYSKEYDOWN && msg->wParam == VK_F10 &&
-                HIBYTE(::GetKeyState(VK_SHIFT)))) {
+    } else if (msg->messbge == WM_RBUTTONUP ||
+               (msg->messbge == WM_SYSKEYDOWN && msg->wPbrbm == VK_F10 &&
+                HIBYTE(::GetKeyStbte(VK_SHIFT)))) {
         POINT p;
-        if (msg->message == WM_RBUTTONUP) {
+        if (msg->messbge == WM_RBUTTONUP) {
             VERIFY(::GetCursorPos(&p));
         } else {
             p.x = -1;
             p.y = -1;
         }
 
-        if (!::PostMessage(GetHWnd(), WM_CONTEXTMENU, (WPARAM)GetHWnd(),
+        if (!::PostMessbge(GetHWnd(), WM_CONTEXTMENU, (WPARAM)GetHWnd(),
                            MAKELPARAM(p.x, p.y))) {
             JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            JNU_ThrowInternalError(env, "Message not posted, native event queue may be full.");
+            JNU_ThrowInternblError(env, "Messbge not posted, nbtive event queue mby be full.");
             env->ExceptionDescribe();
-            env->ExceptionClear();
+            env->ExceptionClebr();
         }
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_MOUSEWHEEL) {
-        // 4417236: If there is an old version of RichEd32.dll which
-        // does not provide the mouse wheel scrolling we have to
-        // interpret WM_MOUSEWHEEL as a sequence of scroll messages.
-        // kdm@sparc.spb.su
-        UINT platfScrollLines = 3;
-        // Retrieve a number of scroll lines.
-        ::SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0,
-                               &platfScrollLines, 0);
+    } else if (msg->messbge == WM_MOUSEWHEEL) {
+        // 4417236: If there is bn old version of RichEd32.dll which
+        // does not provide the mouse wheel scrolling we hbve to
+        // interpret WM_MOUSEWHEEL bs b sequence of scroll messbges.
+        // kdm@spbrc.spb.su
+        UINT plbtfScrollLines = 3;
+        // Retrieve b number of scroll lines.
+        ::SystemPbrbmetersInfo(SPI_GETWHEELSCROLLLINES, 0,
+                               &plbtfScrollLines, 0);
 
-        if (platfScrollLines > 0) {
+        if (plbtfScrollLines > 0) {
             HWND hWnd = GetHWnd();
             LONG styles = ::GetWindowLong(hWnd, GWL_STYLE);
 
             RECT rect;
-            // rect.left and rect.top are zero.
-            // rect.right and rect.bottom contain the width and height
+            // rect.left bnd rect.top bre zero.
+            // rect.right bnd rect.bottom contbin the width bnd height
             VERIFY(::GetClientRect(hWnd, &rect));
 
-            // calculate a number of visible lines
+            // cblculbte b number of visible lines
             TEXTMETRIC tm;
             HDC hDC = ::GetDC(hWnd);
             DASSERT(hDC != NULL);
             VERIFY(::GetTextMetrics(hDC, &tm));
-            VERIFY(::ReleaseDC(hWnd, hDC));
+            VERIFY(::RelebseDC(hWnd, hDC));
             LONG visibleLines = rect.bottom / tm.tmHeight + 1;
 
-            LONG lineCount = static_cast<LONG>(::SendMessage(hWnd,
+            LONG lineCount = stbtic_cbst<LONG>(::SendMessbge(hWnd,
                 EM_GETLINECOUNT, 0, 0));
-            BOOL sb_vert_disabled = (styles & WS_VSCROLL) == 0
+            BOOL sb_vert_disbbled = (styles & WS_VSCROLL) == 0
               || (lineCount <= visibleLines);
 
-            LONG *delta_accum = &m_lVDeltaAccum;
+            LONG *deltb_bccum = &m_lVDeltbAccum;
             UINT wm_msg = WM_VSCROLL;
             int sb_type = SB_VERT;
 
-            if (sb_vert_disabled && (styles & WS_HSCROLL)) {
-                delta_accum = &m_lHDeltaAccum;
+            if (sb_vert_disbbled && (styles & WS_HSCROLL)) {
+                deltb_bccum = &m_lHDeltbAccum;
                 wm_msg = WM_HSCROLL;
                 sb_type = SB_HORZ;
             }
 
-            int delta = (short) HIWORD(msg->wParam);
-            *delta_accum += delta;
-            if (abs(*delta_accum) >= WHEEL_DELTA) {
-                if (platfScrollLines == WHEEL_PAGESCROLL) {
-                    // Synthesize a page down or a page up message.
-                    ::SendMessage(hWnd, wm_msg,
-                                  (delta > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
-                    *delta_accum = 0;
+            int deltb = (short) HIWORD(msg->wPbrbm);
+            *deltb_bccum += deltb;
+            if (bbs(*deltb_bccum) >= WHEEL_DELTA) {
+                if (plbtfScrollLines == WHEEL_PAGESCROLL) {
+                    // Synthesize b pbge down or b pbge up messbge.
+                    ::SendMessbge(hWnd, wm_msg,
+                                  (deltb > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
+                    *deltb_bccum = 0;
                 } else {
-                    // We provide a friendly behavior of text scrolling.
-                    // During of scrolling the text can be out of the client
-                    // area's boundary. Here we try to prevent this behavior.
+                    // We provide b friendly behbvior of text scrolling.
+                    // During of scrolling the text cbn be out of the client
+                    // breb's boundbry. Here we try to prevent this behbvior.
                     SCROLLINFO si;
                     ::ZeroMemory(&si, sizeof(si));
                     si.cbSize = sizeof(SCROLLINFO);
-                    si.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;
-                    int actualScrollLines =
-                        abs((int)(platfScrollLines * (*delta_accum / WHEEL_DELTA)));
-                    for (int i = 0; i < actualScrollLines; i++) {
+                    si.fMbsk = SIF_POS | SIF_RANGE | SIF_PAGE;
+                    int bctublScrollLines =
+                        bbs((int)(plbtfScrollLines * (*deltb_bccum / WHEEL_DELTA)));
+                    for (int i = 0; i < bctublScrollLines; i++) {
                         if (::GetScrollInfo(hWnd, sb_type, &si)) {
                             if ((wm_msg == WM_VSCROLL)
-                                && ((*delta_accum < 0
-                                     && si.nPos >= (si.nMax - (int) si.nPage))
-                                    || (*delta_accum > 0
+                                && ((*deltb_bccum < 0
+                                     && si.nPos >= (si.nMbx - (int) si.nPbge))
+                                    || (*deltb_bccum > 0
                                         && si.nPos <= si.nMin))) {
-                                break;
+                                brebk;
                             }
                         }
                         // Here we don't send EM_LINESCROLL or EM_SCROLL
-                        // messages to rich edit because it doesn't
-                        // provide horizontal scrolling.
+                        // messbges to rich edit becbuse it doesn't
+                        // provide horizontbl scrolling.
                         // So it's only possible to scroll by 1 line
-                        // at a time to prevent scrolling when the
-                        // scrollbar thumb reaches its boundary position.
-                        ::SendMessage(hWnd, wm_msg,
-                            (*delta_accum>0) ? SB_LINEUP : SB_LINEDOWN, 0);
+                        // bt b time to prevent scrolling when the
+                        // scrollbbr thumb rebches its boundbry position.
+                        ::SendMessbge(hWnd, wm_msg,
+                            (*deltb_bccum>0) ? SB_LINEUP : SB_LINEDOWN, 0);
                     }
-                    *delta_accum %= WHEEL_DELTA;
+                    *deltb_bccum %= WHEEL_DELTA;
                 }
             } else {
-                *delta_accum = 0;
+                *deltb_bccum = 0;
             }
         }
         delete msg;
@@ -597,37 +597,37 @@ AwtTextArea::HandleEvent(MSG *msg, BOOL synthetic)
     }
 
     /*
-     * Store the 'synthetic' parameter so that the WM_PASTE security check
-     * happens only for synthetic events.
+     * Store the 'synthetic' pbrbmeter so thbt the WM_PASTE security check
+     * hbppens only for synthetic events.
      */
     m_synthetic = synthetic;
-    returnVal = AwtComponent::HandleEvent(msg, synthetic);
+    returnVbl = AwtComponent::HbndleEvent(msg, synthetic);
     m_synthetic = FALSE;
 
-    return returnVal;
+    return returnVbl;
 }
 
 
 /* Fix for 4776535, 4648702
- * If width is 0 or 1 Windows hides the horizontal scroll bar even
- * if the WS_HSCROLL style is set. It is a bug in Windows.
- * As a workaround we should set an initial width to 2.
- * kdm@sparc.spb.su
+ * If width is 0 or 1 Windows hides the horizontbl scroll bbr even
+ * if the WS_HSCROLL style is set. It is b bug in Windows.
+ * As b workbround we should set bn initibl width to 2.
+ * kdm@spbrc.spb.su
  */
-void AwtTextArea::Reshape(int x, int y, int w, int h)
+void AwtTextAreb::Reshbpe(int x, int y, int w, int h)
 {
     if (w < 2) {
         w = 2;
     }
-    AwtTextComponent::Reshape(x, y, w, h);
+    AwtTextComponent::Reshbpe(x, y, w, h);
 }
 
-LONG AwtTextArea::getJavaSelPos(LONG orgPos)
+LONG AwtTextAreb::getJbvbSelPos(LONG orgPos)
 {
     long wlen;
     long pos = orgPos;
     long cur = 0;
-    long retval = 0;
+    long retvbl = 0;
     LPTSTR wbuf;
 
     if ((wlen = GetTextLength()) == 0)
@@ -643,94 +643,94 @@ LONG AwtTextArea::getJavaSelPos(LONG orgPos)
             pos++;
         }
         cur++;
-        retval++;
+        retvbl++;
     }
     delete[] wbuf;
-    return retval;
+    return retvbl;
 }
 
-LONG AwtTextArea::getWin32SelPos(LONG orgPos)
+LONG AwtTextAreb::getWin32SelPos(LONG orgPos)
 {
     if (GetTextLength() == 0)
        return 0;
     return orgPos;
 }
 
-void AwtTextArea::SetSelRange(LONG start, LONG end)
+void AwtTextAreb::SetSelRbnge(LONG stbrt, LONG end)
 {
     CHARRANGE cr;
-    cr.cpMin = getWin32SelPos(start);
-    cr.cpMax = getWin32SelPos(end);
+    cr.cpMin = getWin32SelPos(stbrt);
+    cr.cpMbx = getWin32SelPos(end);
     EditSetSel(cr);
 }
 
 
-void AwtTextArea::_ReplaceText(void *param)
+void AwtTextAreb::_ReplbceText(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    ReplaceTextStruct *rts = (ReplaceTextStruct *)param;
+    ReplbceTextStruct *rts = (ReplbceTextStruct *)pbrbm;
 
     jobject textComponent = rts->textComponent;
     jstring text = rts->text;
-    jint start = rts->start;
+    jint stbrt = rts->stbrt;
     jint end = rts->end;
 
     AwtTextComponent *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(textComponent, done);
     JNI_CHECK_NULL_GOTO(text, "null string", done);
 
-    c = (AwtTextComponent *)pData;
+    c = (AwtTextComponent *)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
       jsize length = env->GetStringLength(text) + 1;
-      // Bugid 4141477 - Can't use TO_WSTRING here because it uses alloca
+      // Bugid 4141477 - Cbn't use TO_WSTRING here becbuse it uses bllocb
       // WCHAR* buffer = TO_WSTRING(text);
       TCHAR *buffer = new TCHAR[length];
-      env->GetStringRegion(text, 0, length-1, reinterpret_cast<jchar*>(buffer));
+      env->GetStringRegion(text, 0, length-1, reinterpret_cbst<jchbr*>(buffer));
       buffer[length-1] = '\0';
 
-      c->CheckLineSeparator(buffer);
+      c->CheckLineSepbrbtor(buffer);
       c->RemoveCR(buffer);
-      // Fix for 5003402: added restoring/hiding selection to enable automatic scrolling
-      c->SendMessage(EM_HIDESELECTION, FALSE, TRUE);
-      c->SendMessage(EM_SETSEL, start, end);
-      c->SendMessage(EM_REPLACESEL, FALSE, (LPARAM)buffer);
-      c->SendMessage(EM_HIDESELECTION, TRUE, TRUE);
+      // Fix for 5003402: bdded restoring/hiding selection to enbble butombtic scrolling
+      c->SendMessbge(EM_HIDESELECTION, FALSE, TRUE);
+      c->SendMessbge(EM_SETSEL, stbrt, end);
+      c->SendMessbge(EM_REPLACESEL, FALSE, (LPARAM)buffer);
+      c->SendMessbge(EM_HIDESELECTION, TRUE, TRUE);
 
       delete[] buffer;
     }
 
 done:
-    env->DeleteGlobalRef(textComponent);
-    env->DeleteGlobalRef(text);
+    env->DeleteGlobblRef(textComponent);
+    env->DeleteGlobblRef(text);
 
     delete rts;
 }
 
 
 /************************************************************************
- * TextArea native methods
+ * TextAreb nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_TextArea
+ * Clbss:     jbvb_bwt_TextAreb
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_TextArea_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_TextAreb_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtTextArea::scrollbarVisibilityID =
-        env->GetFieldID(cls, "scrollbarVisibility", "I");
+    AwtTextAreb::scrollbbrVisibilityID =
+        env->GetFieldID(cls, "scrollbbrVisibility", "I");
 
-    DASSERT(AwtTextArea::scrollbarVisibilityID != NULL);
+    DASSERT(AwtTextAreb::scrollbbrVisibilityID != NULL);
 
     CATCH_BAD_ALLOC;
 }
@@ -739,55 +739,55 @@ Java_java_awt_TextArea_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * WTextAreaPeer native methods
+ * WTextArebPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WTextAreaPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WTextArebPeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextAreaPeer_create(JNIEnv *env, jobject self,
-                                          jobject parent)
+Jbvb_sun_bwt_windows_WTextArebPeer_crebte(JNIEnv *env, jobject self,
+                                          jobject pbrent)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtTextArea::Create);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrent);
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtTextAreb::Crebte);
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextAreaPeer
- * Method:    replaceRange
- * Signature: (Ljava/lang/String;II)V
+ * Clbss:     sun_bwt_windows_WTextArebPeer
+ * Method:    replbceRbnge
+ * Signbture: (Ljbvb/lbng/String;II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextAreaPeer_replaceRange(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WTextArebPeer_replbceRbnge(JNIEnv *env, jobject self,
                                                jstring text,
-                                               jint start, jint end)
+                                               jint stbrt, jint end)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
-    jstring textGlobalRef = (jstring)env->NewGlobalRef(text);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
+    jstring textGlobblRef = (jstring)env->NewGlobblRef(text);
 
-    ReplaceTextStruct *rts = new ReplaceTextStruct;
-    rts->textComponent = selfGlobalRef;
-    rts->text = textGlobalRef;
-    rts->start = start;
+    ReplbceTextStruct *rts = new ReplbceTextStruct;
+    rts->textComponent = selfGlobblRef;
+    rts->text = textGlobblRef;
+    rts->stbrt = stbrt;
     rts->end = end;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextArea::_ReplaceText, rts);
-    // global refs and rts are deleted in _ReplaceText()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTextAreb::_ReplbceText, rts);
+    // globbl refs bnd rts bre deleted in _ReplbceText()
 
     CATCH_BAD_ALLOC;
 }

@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.UnsupportedEncodingException;
+import jbvb.io.UnsupportedEncodingException;
 
 /**
   * A BER encoder.
   *
-  * @author Jagane Sundar
-  * @author Scott Seligman
-  * @author Vincent Ryan
+  * @buthor Jbgbne Sundbr
+  * @buthor Scott Seligmbn
+  * @buthor Vincent Rybn
   */
-public final class BerEncoder extends Ber {
+public finbl clbss BerEncoder extends Ber {
 
-    private int curSeqIndex;
-    private int seqOffset[];
-    private static final int INITIAL_SEQUENCES = 16;
-    private static final int DEFAULT_BUFSIZE = 1024;
+    privbte int curSeqIndex;
+    privbte int seqOffset[];
+    privbte stbtic finbl int INITIAL_SEQUENCES = 16;
+    privbte stbtic finbl int DEFAULT_BUFSIZE = 1024;
 
-    // When buf is full, expand its size by the following factor.
-    private static final int BUF_GROWTH_FACTOR = 8;
+    // When buf is full, expbnd its size by the following fbctor.
+    privbte stbtic finbl int BUF_GROWTH_FACTOR = 8;
 
     /**
-     * Creates a BER buffer for encoding.
+     * Crebtes b BER buffer for encoding.
      */
     public BerEncoder() {
         this(DEFAULT_BUFSIZE);
     }
 
     /**
-     * Creates a BER buffer of a specified size for encoding.
-     * Specify the initial bufsize.  Buffer will be expanded as needed.
-     * @param bufsize The number of bytes for the buffer.
+     * Crebtes b BER buffer of b specified size for encoding.
+     * Specify the initibl bufsize.  Buffer will be expbnded bs needed.
+     * @pbrbm bufsize The number of bytes for the buffer.
      */
     public BerEncoder(int bufsize) {
         buf = new byte[bufsize];
@@ -66,8 +66,8 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-     * Resets encoder to state when newly constructed.  Zeros out
-     * internal data structures.
+     * Resets encoder to stbte when newly constructed.  Zeros out
+     * internbl dbtb structures.
      */
     public void reset() {
         while (offset > 0) {
@@ -83,46 +83,46 @@ public final class BerEncoder extends Ber {
     /**
      * Gets the number of encoded bytes in this BER buffer.
      */
-    public int getDataLen() {
+    public int getDbtbLen() {
         return offset;
     }
 
     /**
-     * Gets the buffer that contains the BER encoding. Throws an
-     * exception if unmatched beginSeq() and endSeq() pairs were
-     * encountered. Not entire buffer contains encoded bytes.
-     * Use getDataLen() to determine number of encoded bytes.
-     * Use getBuffer(true) to get rid of excess bytes in array.
-     * @throws IllegalStateException If buffer contains unbalanced sequence.
+     * Gets the buffer thbt contbins the BER encoding. Throws bn
+     * exception if unmbtched beginSeq() bnd endSeq() pbirs were
+     * encountered. Not entire buffer contbins encoded bytes.
+     * Use getDbtbLen() to determine number of encoded bytes.
+     * Use getBuffer(true) to get rid of excess bytes in brrby.
+     * @throws IllegblStbteException If buffer contbins unbblbnced sequence.
      */
     public byte[] getBuf() {
         if (curSeqIndex != 0) {
-            throw new IllegalStateException("BER encode error: Unbalanced SEQUENCEs.");
+            throw new IllegblStbteException("BER encode error: Unbblbnced SEQUENCEs.");
         }
-        return buf;     // shared buffer, be careful to use this method.
+        return buf;     // shbred buffer, be cbreful to use this method.
     }
 
     /**
-     * Gets the buffer that contains the BER encoding, trimming unused bytes.
+     * Gets the buffer thbt contbins the BER encoding, trimming unused bytes.
      *
-     * @throws IllegalStateException If buffer contains unbalanced sequence.
+     * @throws IllegblStbteException If buffer contbins unbblbnced sequence.
      */
     public byte[] getTrimmedBuf() {
-        int len = getDataLen();
+        int len = getDbtbLen();
         byte[] trimBuf = new byte[len];
 
-        System.arraycopy(getBuf(), 0, trimBuf, 0, len);
+        System.brrbycopy(getBuf(), 0, trimBuf, 0, len);
         return trimBuf;
     }
 
 // -------------- encoding methods -------------
 
     /**
-     * Begin encoding a sequence with a tag.
+     * Begin encoding b sequence with b tbg.
      */
-    public void beginSeq(int tag) {
+    public void beginSeq(int tbg) {
 
-        // Double the size of the SEQUENCE array if it overflows
+        // Double the size of the SEQUENCE brrby if it overflows
         if (curSeqIndex >= seqOffset.length) {
             int[] seqOffsetTmp = new int[seqOffset.length * 2];
 
@@ -132,14 +132,14 @@ public final class BerEncoder extends Ber {
             seqOffset = seqOffsetTmp;
         }
 
-        encodeByte(tag);
+        encodeByte(tbg);
         seqOffset[curSeqIndex] = offset;
 
-        // Save space for sequence length.
-        // %%% Currently we save enough space for sequences up to 64k.
-        //     For larger sequences we'll need to shift the data to the right
-        //     in endSeq().  If we could instead pad the length field with
-        //     zeros, it would be a big win.
+        // Sbve spbce for sequence length.
+        // %%% Currently we sbve enough spbce for sequences up to 64k.
+        //     For lbrger sequences we'll need to shift the dbtb to the right
+        //     in endSeq().  If we could instebd pbd the length field with
+        //     zeros, it would be b big win.
         ensureFreeBytes(3);
         offset += 3;
 
@@ -147,22 +147,22 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-      * Terminate a BER sequence.
+      * Terminbte b BER sequence.
       */
     public void endSeq() throws EncodeException {
         curSeqIndex--;
         if (curSeqIndex < 0) {
-            throw new IllegalStateException("BER encode error: Unbalanced SEQUENCEs.");
+            throw new IllegblStbteException("BER encode error: Unbblbnced SEQUENCEs.");
         }
 
-        int start = seqOffset[curSeqIndex] + 3; // index beyond length field
-        int len = offset - start;
+        int stbrt = seqOffset[curSeqIndex] + 3; // index beyond length field
+        int len = offset - stbrt;
 
         if (len <= 0x7f) {
-            shiftSeqData(start, len, -2);
+            shiftSeqDbtb(stbrt, len, -2);
             buf[seqOffset[curSeqIndex]] = (byte) len;
         } else if (len <= 0xff) {
-            shiftSeqData(start, len, -1);
+            shiftSeqDbtb(stbrt, len, -1);
             buf[seqOffset[curSeqIndex]] = (byte) 0x81;
             buf[seqOffset[curSeqIndex] + 1] = (byte) len;
         } else if (len <= 0xffff) {
@@ -170,7 +170,7 @@ public final class BerEncoder extends Ber {
             buf[seqOffset[curSeqIndex] + 1] = (byte) (len >> 8);
             buf[seqOffset[curSeqIndex] + 2] = (byte) len;
         } else if (len <= 0xffffff) {
-            shiftSeqData(start, len, 1);
+            shiftSeqDbtb(stbrt, len, 1);
             buf[seqOffset[curSeqIndex]] = (byte) 0x83;
             buf[seqOffset[curSeqIndex] + 1] = (byte) (len >> 16);
             buf[seqOffset[curSeqIndex] + 2] = (byte) (len >> 8);
@@ -181,19 +181,19 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-     * Shifts contents of buf in the range [start,start+len) a specified amount.
-     * Positive shift value means shift to the right.
+     * Shifts contents of buf in the rbnge [stbrt,stbrt+len) b specified bmount.
+     * Positive shift vblue mebns shift to the right.
      */
-    private void shiftSeqData(int start, int len, int shift) {
+    privbte void shiftSeqDbtb(int stbrt, int len, int shift) {
         if (shift > 0) {
             ensureFreeBytes(shift);
         }
-        System.arraycopy(buf, start, buf, start + shift, len);
+        System.brrbycopy(buf, stbrt, buf, stbrt + shift, len);
         offset += shift;
     }
 
     /**
-     * Encode a single byte.
+     * Encode b single byte.
      */
     public void encodeByte(int b) {
         ensureFreeBytes(1);
@@ -201,14 +201,14 @@ public final class BerEncoder extends Ber {
     }
 
 /*
-    private void deleteByte() {
+    privbte void deleteByte() {
         offset--;
     }
 */
 
 
     /*
-     * Encodes an int.
+     * Encodes bn int.
      *<blockquote><pre>
      * BER integer ::= 0x02 berlength byte {byte}*
      *</pre></blockquote>
@@ -218,96 +218,96 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-     * Encodes an int and a tag.
+     * Encodes bn int bnd b tbg.
      *<blockquote><pre>
-     * BER integer w tag ::= tag berlength byte {byte}*
+     * BER integer w tbg ::= tbg berlength byte {byte}*
      *</pre></blockquote>
      */
-    public void encodeInt(int i, int tag) {
-        int mask = 0xff800000;
+    public void encodeInt(int i, int tbg) {
+        int mbsk = 0xff800000;
         int intsize = 4;
 
-        while( (((i & mask) == 0) || ((i & mask) == mask)) && (intsize > 1) ) {
+        while( (((i & mbsk) == 0) || ((i & mbsk) == mbsk)) && (intsize > 1) ) {
             intsize--;
             i <<= 8;
         }
 
-        encodeInt(i, tag, intsize);
+        encodeInt(i, tbg, intsize);
     }
 
     //
-    // encodes an int using numbytes for the actual encoding.
+    // encodes bn int using numbytes for the bctubl encoding.
     //
-    private void encodeInt(int i, int tag, int intsize) {
+    privbte void encodeInt(int i, int tbg, int intsize) {
 
         //
-        // integer ::= 0x02 asnlength byte {byte}*
+        // integer ::= 0x02 bsnlength byte {byte}*
         //
 
         if (intsize > 4) {
-            throw new IllegalArgumentException("BER encode error: INTEGER too long.");
+            throw new IllegblArgumentException("BER encode error: INTEGER too long.");
         }
 
         ensureFreeBytes(2 + intsize);
 
-        buf[offset++] = (byte) tag;
+        buf[offset++] = (byte) tbg;
         buf[offset++] = (byte) intsize;
 
-        int mask = 0xff000000;
+        int mbsk = 0xff000000;
 
         while (intsize-- > 0) {
-            buf[offset++] = (byte) ((i & mask) >> 24);
+            buf[offset++] = (byte) ((i & mbsk) >> 24);
             i <<= 8;
         }
     }
 
     /**
-     * Encodes a boolean.
+     * Encodes b boolebn.
      *<blockquote><pre>
-     * BER boolean ::= 0x01 0x01 {0xff|0x00}
+     * BER boolebn ::= 0x01 0x01 {0xff|0x00}
      *</pre></blockquote>
      */
-    public void encodeBoolean(boolean b) {
-        encodeBoolean(b, ASN_BOOLEAN);
+    public void encodeBoolebn(boolebn b) {
+        encodeBoolebn(b, ASN_BOOLEAN);
     }
 
 
     /**
-     * Encodes a boolean and a tag
+     * Encodes b boolebn bnd b tbg
      *<blockquote><pre>
-     * BER boolean w TAG ::= tag 0x01 {0xff|0x00}
+     * BER boolebn w TAG ::= tbg 0x01 {0xff|0x00}
      *</pre></blockquote>
      */
-    public void encodeBoolean(boolean b, int tag) {
+    public void encodeBoolebn(boolebn b, int tbg) {
         ensureFreeBytes(3);
 
-        buf[offset++] = (byte) tag;
+        buf[offset++] = (byte) tbg;
         buf[offset++] = 0x01;
         buf[offset++] = b ? (byte) 0xff : (byte) 0x00;
     }
 
     /**
-     * Encodes a string.
+     * Encodes b string.
      *<blockquote><pre>
      * BER string ::= 0x04 strlen byte1 byte2...
      *</pre></blockquote>
-     * The string is converted into bytes using UTF-8 or ISO-Latin-1.
+     * The string is converted into bytes using UTF-8 or ISO-Lbtin-1.
      */
-    public void encodeString(String str, boolean encodeUTF8)
+    public void encodeString(String str, boolebn encodeUTF8)
         throws EncodeException {
         encodeString(str, ASN_OCTET_STR, encodeUTF8);
     }
 
     /**
-     * Encodes a string and a tag.
+     * Encodes b string bnd b tbg.
      *<blockquote><pre>
-     * BER string w TAG ::= tag strlen byte1 byte2...
+     * BER string w TAG ::= tbg strlen byte1 byte2...
      *</pre></blockquote>
      */
-    public void encodeString(String str, int tag, boolean encodeUTF8)
+    public void encodeString(String str, int tbg, boolebn encodeUTF8)
         throws EncodeException {
 
-        encodeByte(tag);
+        encodeByte(tbg);
 
         int i = 0;
         int count;
@@ -319,15 +319,15 @@ public final class BerEncoder extends Ber {
             try {
                 bytes = str.getBytes("UTF8");
                 count = bytes.length;
-            } catch (UnsupportedEncodingException e) {
-                throw new EncodeException("UTF8 not available on platform");
+            } cbtch (UnsupportedEncodingException e) {
+                throw new EncodeException("UTF8 not bvbilbble on plbtform");
             }
         } else {
             try {
                 bytes = str.getBytes("8859_1");
                 count = bytes.length;
-            } catch (UnsupportedEncodingException e) {
-                throw new EncodeException("8859_1 not available on platform");
+            } cbtch (UnsupportedEncodingException e) {
+                throw new EncodeException("8859_1 not bvbilbble on plbtform");
             }
         }
 
@@ -340,30 +340,30 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-     * Encodes a portion of an octet string and a tag.
+     * Encodes b portion of bn octet string bnd b tbg.
      */
-    public void encodeOctetString(byte tb[], int tag, int tboffset, int length)
+    public void encodeOctetString(byte tb[], int tbg, int tboffset, int length)
         throws EncodeException {
 
-        encodeByte(tag);
+        encodeByte(tbg);
         encodeLength(length);
 
         if (length > 0) {
             ensureFreeBytes(length);
-            System.arraycopy(tb, tboffset, buf, offset, length);
+            System.brrbycopy(tb, tboffset, buf, offset, length);
             offset += length;
         }
     }
 
     /**
-      * Encodes an octet string and a tag.
+      * Encodes bn octet string bnd b tbg.
       */
-    public void encodeOctetString(byte tb[], int tag) throws EncodeException {
-        encodeOctetString(tb, tag, 0, tb.length);
+    public void encodeOctetString(byte tb[], int tbg) throws EncodeException {
+        encodeOctetString(tb, tbg, 0, tb.length);
     }
 
-    private void encodeLength(int len) throws EncodeException {
-        ensureFreeBytes(4);     // worst case
+    privbte void encodeLength(int len) throws EncodeException {
+        ensureFreeBytes(4);     // worst cbse
 
         if (len < 128) {
             buf[offset++] = (byte) len;
@@ -385,9 +385,9 @@ public final class BerEncoder extends Ber {
     }
 
     /**
-     * Encodes an array of strings.
+     * Encodes bn brrby of strings.
      */
-    public void encodeStringArray(String strs[], boolean encodeUTF8)
+    public void encodeStringArrby(String strs[], boolebn encodeUTF8)
         throws EncodeException {
         if (strs == null)
             return;
@@ -396,7 +396,7 @@ public final class BerEncoder extends Ber {
         }
     }
 /*
-    private void encodeNull() {
+    privbte void encodeNull() {
 
         //
         // NULL ::= 0x05 0x00
@@ -407,20 +407,20 @@ public final class BerEncoder extends Ber {
 */
 
     /**
-     * Ensures that there are at least "len" unused bytes in "buf".
-     * When more space is needed "buf" is expanded by a factor of
-     * BUF_GROWTH_FACTOR, then "len" bytes are added if "buf" still
-     * isn't large enough.
+     * Ensures thbt there bre bt lebst "len" unused bytes in "buf".
+     * When more spbce is needed "buf" is expbnded by b fbctor of
+     * BUF_GROWTH_FACTOR, then "len" bytes bre bdded if "buf" still
+     * isn't lbrge enough.
      */
-    private void ensureFreeBytes(int len) {
+    privbte void ensureFreeBytes(int len) {
         if (bufsize - offset < len) {
             int newsize = bufsize * BUF_GROWTH_FACTOR;
             if (newsize - offset < len) {
                 newsize += len;
             }
             byte newbuf[] = new byte[newsize];
-            // Only copy bytes in the range [0, offset)
-            System.arraycopy(buf, 0, newbuf, 0, offset);
+            // Only copy bytes in the rbnge [0, offset)
+            System.brrbycopy(buf, 0, newbuf, 0, offset);
 
             buf = newbuf;
             bufsize = newsize;

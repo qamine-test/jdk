@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.Key;
-import java.security.AlgorithmParameters;
-import java.security.InvalidKeyException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.Key;
+import jbvb.security.AlgorithmPbrbmeters;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>ExemptionMechanism</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular exemption mechanism.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>ExemptionMechbnism</code> clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b pbrticulbr exemption mechbnism.
  *
- * @author Sharon Liu
+ * @buthor Shbron Liu
  *
  * @since 1.4
  */
 
-public abstract class ExemptionMechanismSpi {
+public bbstrbct clbss ExemptionMechbnismSpi {
 
     /**
-     * Returns the length in bytes that an output buffer would need to be in
+     * Returns the length in bytes thbt bn output buffer would need to be in
      * order to hold the result of the next
      * {@link #engineGenExemptionBlob(byte[], int) engineGenExemptionBlob}
-     * operation, given the input length <code>inputLen</code> (in bytes).
+     * operbtion, given the input length <code>inputLen</code> (in bytes).
      *
-     * <p>The actual output length of the next
+     * <p>The bctubl output length of the next
      * {@link #engineGenExemptionBlob(byte[], int) engineGenExemptionBlob}
-     * call may be smaller than the length returned by this method.
+     * cbll mby be smbller thbn the length returned by this method.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLen the input length (in bytes)
      *
      * @return the required output buffer size (in bytes)
      */
-    protected abstract int engineGetOutputSize(int inputLen);
+    protected bbstrbct int engineGetOutputSize(int inputLen);
 
     /**
-     * Initializes this exemption mechanism with a key.
+     * Initiblizes this exemption mechbnism with b key.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters
-     * that cannot be derived from the given <code>key</code>, the underlying
-     * exemption mechanism implementation is supposed to generate the required
-     * parameters itself (using provider-specific default values); in the case
-     * that algorithm parameters must be specified by the caller, an
-     * <code>InvalidKeyException</code> is raised.
+     * <p>If this exemption mechbnism requires bny blgorithm pbrbmeters
+     * thbt cbnnot be derived from the given <code>key</code>, the underlying
+     * exemption mechbnism implementbtion is supposed to generbte the required
+     * pbrbmeters itself (using provider-specific defbult vblues); in the cbse
+     * thbt blgorithm pbrbmeters must be specified by the cbller, bn
+     * <code>InvblidKeyException</code> is rbised.
      *
-     * @param key the key for this exemption mechanism
+     * @pbrbm key the key for this exemption mechbnism
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this exemption mechbnism.
+     * @exception ExemptionMechbnismException if problem(s) encountered in the
+     * process of initiblizing.
      */
-    protected abstract void engineInit(Key key)
-    throws InvalidKeyException, ExemptionMechanismException;
+    protected bbstrbct void engineInit(Key key)
+    throws InvblidKeyException, ExemptionMechbnismException;
 
     /**
-     * Initializes this exemption mechanism with a key and a set of algorithm
-     * parameters.
+     * Initiblizes this exemption mechbnism with b key bnd b set of blgorithm
+     * pbrbmeters.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters and
-     * <code>params</code> is null, the underlying exemption mechanism
-     * implementation is supposed to generate the required parameters
-     * itself (using provider-specific default values); in the case that
-     * algorithm parameters must be specified by the caller, an
-     * <code>InvalidAlgorithmParameterException</code> is raised.
+     * <p>If this exemption mechbnism requires bny blgorithm pbrbmeters bnd
+     * <code>pbrbms</code> is null, the underlying exemption mechbnism
+     * implementbtion is supposed to generbte the required pbrbmeters
+     * itself (using provider-specific defbult vblues); in the cbse thbt
+     * blgorithm pbrbmeters must be specified by the cbller, bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> is rbised.
      *
-     * @param key the key for this exemption mechanism
-     * @param params the algorithm parameters
+     * @pbrbm key the key for this exemption mechbnism
+     * @pbrbm pbrbms the blgorithm pbrbmeters
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this exemption mechbnism.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this exemption mechbnism.
+     * @exception ExemptionMechbnismException if problem(s) encountered in the
+     * process of initiblizing.
      */
-    protected abstract void engineInit(Key key, AlgorithmParameterSpec params)
-    throws InvalidKeyException, InvalidAlgorithmParameterException,
-    ExemptionMechanismException;
+    protected bbstrbct void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms)
+    throws InvblidKeyException, InvblidAlgorithmPbrbmeterException,
+    ExemptionMechbnismException;
 
     /**
-     * Initializes this exemption mechanism with a key and a set of algorithm
-     * parameters.
+     * Initiblizes this exemption mechbnism with b key bnd b set of blgorithm
+     * pbrbmeters.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters
-     * and <code>params</code> is null, the underlying exemption mechanism
-     * implementation is supposed to generate the required parameters
-     * itself (using provider-specific default values); in the case that
-     * algorithm parameters must be specified by the caller, an
-     * <code>InvalidAlgorithmParameterException</code> is raised.
+     * <p>If this exemption mechbnism requires bny blgorithm pbrbmeters
+     * bnd <code>pbrbms</code> is null, the underlying exemption mechbnism
+     * implementbtion is supposed to generbte the required pbrbmeters
+     * itself (using provider-specific defbult vblues); in the cbse thbt
+     * blgorithm pbrbmeters must be specified by the cbller, bn
+     * <code>InvblidAlgorithmPbrbmeterException</code> is rbised.
      *
-     * @param key the key for this exemption mechanism
-     * @param params the algorithm parameters
+     * @pbrbm key the key for this exemption mechbnism
+     * @pbrbm pbrbms the blgorithm pbrbmeters
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this exemption mechbnism.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this exemption mechbnism.
+     * @exception ExemptionMechbnismException if problem(s) encountered in the
+     * process of initiblizing.
      */
-    protected abstract void engineInit(Key key, AlgorithmParameters params)
-    throws InvalidKeyException, InvalidAlgorithmParameterException,
-    ExemptionMechanismException;
+    protected bbstrbct void engineInit(Key key, AlgorithmPbrbmeters pbrbms)
+    throws InvblidKeyException, InvblidAlgorithmPbrbmeterException,
+    ExemptionMechbnismException;
 
     /**
-     * Generates the exemption mechanism key blob.
+     * Generbtes the exemption mechbnism key blob.
      *
      * @return the new buffer with the result key blob.
      *
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of generating.
+     * @exception ExemptionMechbnismException if problem(s) encountered in the
+     * process of generbting.
      */
-    protected abstract byte[] engineGenExemptionBlob()
-        throws ExemptionMechanismException;
+    protected bbstrbct byte[] engineGenExemptionBlob()
+        throws ExemptionMechbnismException;
 
     /**
-     * Generates the exemption mechanism key blob, and stores the result in
-     * the <code>output</code> buffer, starting at <code>outputOffset</code>
+     * Generbtes the exemption mechbnism key blob, bnd stores the result in
+     * the <code>output</code> buffer, stbrting bt <code>outputOffset</code>
      * inclusive.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
+     * <p>If the <code>output</code> buffer is too smbll to hold the result,
+     * b <code>ShortBufferException</code> is thrown. In this cbse, repebt this
+     * cbll with b lbrger output buffer. Use
      * {@link #engineGetOutputSize(int) engineGetOutputSize} to determine
      * how big the output buffer should be.
      *
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of generating.
+     * @exception ExemptionMechbnismException if problem(s) encountered in the
+     * process of generbting.
      */
-    protected abstract int engineGenExemptionBlob
+    protected bbstrbct int engineGenExemptionBlob
     (byte[] output, int outputOffset)
-        throws ShortBufferException, ExemptionMechanismException;
+        throws ShortBufferException, ExemptionMechbnismException;
 }

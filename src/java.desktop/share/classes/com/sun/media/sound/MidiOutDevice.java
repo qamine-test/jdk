@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 
 
 /**
- * MidiOutDevice class representing functionality of MidiOut devices.
+ * MidiOutDevice clbss representing functionblity of MidiOut devices.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-final class MidiOutDevice extends AbstractMidiDevice {
+finbl clbss MidiOutDevice extends AbstrbctMidiDevice {
 
     // CONSTRUCTOR
 
-    MidiOutDevice(AbstractMidiDeviceProvider.Info info) {
+    MidiOutDevice(AbstrbctMidiDeviceProvider.Info info) {
                 super(info);
-                if(Printer.trace) Printer.trace("MidiOutDevice CONSTRUCTOR");
+                if(Printer.trbce) Printer.trbce("MidiOutDevice CONSTRUCTOR");
     }
 
 
     // IMPLEMENTATION OF ABSTRACT MIDI DEVICE METHODS
 
-    protected synchronized void implOpen() throws MidiUnavailableException {
-        if (Printer.trace) Printer.trace("> MidiOutDevice: implOpen()");
-        int index = ((AbstractMidiDeviceProvider.Info)getDeviceInfo()).getIndex();
-        id = nOpen(index); // can throw MidiUnavailableException
+    protected synchronized void implOpen() throws MidiUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("> MidiOutDevice: implOpen()");
+        int index = ((AbstrbctMidiDeviceProvider.Info)getDeviceInfo()).getIndex();
+        id = nOpen(index); // cbn throw MidiUnbvbilbbleException
         if (id == 0) {
-            throw new MidiUnavailableException("Unable to open native device");
+            throw new MidiUnbvbilbbleException("Unbble to open nbtive device");
         }
-        if (Printer.trace) Printer.trace("< MidiOutDevice: implOpen(): completed.");
+        if (Printer.trbce) Printer.trbce("< MidiOutDevice: implOpen(): completed.");
     }
 
 
     protected synchronized void implClose() {
-        if (Printer.trace) Printer.trace("> MidiOutDevice: implClose()");
-        // prevent further action
+        if (Printer.trbce) Printer.trbce("> MidiOutDevice: implClose()");
+        // prevent further bction
         long oldId = id;
         id = 0;
 
@@ -69,16 +69,16 @@ final class MidiOutDevice extends AbstractMidiDevice {
 
         // close the device
         nClose(oldId);
-        if (Printer.trace) Printer.trace("< MidiOutDevice: implClose(): completed");
+        if (Printer.trbce) Printer.trbce("< MidiOutDevice: implClose(): completed");
     }
 
 
     public long getMicrosecondPosition() {
-        long timestamp = -1;
+        long timestbmp = -1;
         if (isOpen()) {
-            timestamp = nGetTimeStamp(id);
+            timestbmp = nGetTimeStbmp(id);
         }
-        return timestamp;
+        return timestbmp;
     }
 
 
@@ -86,91 +86,91 @@ final class MidiOutDevice extends AbstractMidiDevice {
     // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
 
     /** Returns if this device supports Receivers.
-        This implementation always returns true.
-        @return true, if the device supports Receivers, false otherwise.
+        This implementbtion blwbys returns true.
+        @return true, if the device supports Receivers, fblse otherwise.
     */
-    protected boolean hasReceivers() {
+    protected boolebn hbsReceivers() {
         return true;
     }
 
 
-    protected Receiver createReceiver() {
+    protected Receiver crebteReceiver() {
         return new MidiOutReceiver();
     }
 
 
     // INNER CLASSES
 
-    final class MidiOutReceiver extends AbstractReceiver {
+    finbl clbss MidiOutReceiver extends AbstrbctReceiver {
 
-        void implSend(final MidiMessage message, final long timeStamp) {
-            final int length = message.getLength();
-            final int status = message.getStatus();
-            if (length <= 3 && status != 0xF0 && status != 0xF7) {
-                int packedMsg;
-                if (message instanceof ShortMessage) {
-                    if (message instanceof FastShortMessage) {
-                        packedMsg = ((FastShortMessage) message).getPackedMsg();
+        void implSend(finbl MidiMessbge messbge, finbl long timeStbmp) {
+            finbl int length = messbge.getLength();
+            finbl int stbtus = messbge.getStbtus();
+            if (length <= 3 && stbtus != 0xF0 && stbtus != 0xF7) {
+                int pbckedMsg;
+                if (messbge instbnceof ShortMessbge) {
+                    if (messbge instbnceof FbstShortMessbge) {
+                        pbckedMsg = ((FbstShortMessbge) messbge).getPbckedMsg();
                     } else {
-                        ShortMessage msg = (ShortMessage) message;
-                        packedMsg = (status & 0xFF)
-                            | ((msg.getData1() & 0xFF) << 8)
-                            | ((msg.getData2() & 0xFF) << 16);
+                        ShortMessbge msg = (ShortMessbge) messbge;
+                        pbckedMsg = (stbtus & 0xFF)
+                            | ((msg.getDbtb1() & 0xFF) << 8)
+                            | ((msg.getDbtb2() & 0xFF) << 16);
                     }
                 } else {
-                    packedMsg = 0;
-                    byte[] data = message.getMessage();
+                    pbckedMsg = 0;
+                    byte[] dbtb = messbge.getMessbge();
                     if (length>0) {
-                        packedMsg = data[0] & 0xFF;
+                        pbckedMsg = dbtb[0] & 0xFF;
                         if (length>1) {
-                            /* We handle meta messages here. The message
+                            /* We hbndle metb messbges here. The messbge
                                system reset (FF) doesn't get until here,
-                               because it's length is only 1. So if we see
-                               a status byte of FF, it's sure that we
-                               have a Meta message. */
-                            if (status == 0xFF) {
+                               becbuse it's length is only 1. So if we see
+                               b stbtus byte of FF, it's sure thbt we
+                               hbve b Metb messbge. */
+                            if (stbtus == 0xFF) {
                                 return;
                             }
-                            packedMsg |= (data[1] & 0xFF) << 8;
+                            pbckedMsg |= (dbtb[1] & 0xFF) << 8;
                             if (length>2) {
-                                packedMsg |= (data[2] & 0xFF) << 16;
+                                pbckedMsg |= (dbtb[2] & 0xFF) << 16;
                             }
                         }
                     }
                 }
-                nSendShortMessage(id, packedMsg, timeStamp);
+                nSendShortMessbge(id, pbckedMsg, timeStbmp);
             } else {
-                final byte[] data;
-                if (message instanceof FastSysexMessage) {
-                    data = ((FastSysexMessage) message).getReadOnlyMessage();
+                finbl byte[] dbtb;
+                if (messbge instbnceof FbstSysexMessbge) {
+                    dbtb = ((FbstSysexMessbge) messbge).getRebdOnlyMessbge();
                 } else {
-                    data = message.getMessage();
+                    dbtb = messbge.getMessbge();
                 }
-                final int dataLength = Math.min(length, data.length);
-                if (dataLength > 0) {
-                    nSendLongMessage(id, data, dataLength, timeStamp);
+                finbl int dbtbLength = Mbth.min(length, dbtb.length);
+                if (dbtbLength > 0) {
+                    nSendLongMessbge(id, dbtb, dbtbLength, timeStbmp);
                 }
             }
         }
 
-        /** shortcut for the Sun implementation */
-        synchronized void sendPackedMidiMessage(int packedMsg, long timeStamp) {
+        /** shortcut for the Sun implementbtion */
+        synchronized void sendPbckedMidiMessbge(int pbckedMsg, long timeStbmp) {
             if (isOpen() && id != 0) {
-                nSendShortMessage(id, packedMsg, timeStamp);
+                nSendShortMessbge(id, pbckedMsg, timeStbmp);
             }
         }
 
 
-    } // class MidiOutReceiver
+    } // clbss MidiOutReceiver
 
 
     // NATIVE METHODS
 
-    private native long nOpen(int index) throws MidiUnavailableException;
-    private native void nClose(long id);
+    privbte nbtive long nOpen(int index) throws MidiUnbvbilbbleException;
+    privbte nbtive void nClose(long id);
 
-    private native void nSendShortMessage(long id, int packedMsg, long timeStamp);
-    private native void nSendLongMessage(long id, byte[] data, int size, long timeStamp);
-    private native long nGetTimeStamp(long id);
+    privbte nbtive void nSendShortMessbge(long id, int pbckedMsg, long timeStbmp);
+    privbte nbtive void nSendLongMessbge(long id, byte[] dbtb, int size, long timeStbmp);
+    privbte nbtive long nGetTimeStbmp(long id);
 
-} // class MidiOutDevice
+} // clbss MidiOutDevice

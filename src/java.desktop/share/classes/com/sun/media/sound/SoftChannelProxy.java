@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.MidiChannel;
+import jbvbx.sound.midi.MidiChbnnel;
 
 /**
- * A MidiChannel proxy object used for external access to synthesizer internal
- * channel objects.
+ * A MidiChbnnel proxy object used for externbl bccess to synthesizer internbl
+ * chbnnel objects.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftChannelProxy implements MidiChannel {
+public finbl clbss SoftChbnnelProxy implements MidiChbnnel {
 
-    private MidiChannel channel = null;
+    privbte MidiChbnnel chbnnel = null;
 
-    public MidiChannel getChannel() {
-        return channel;
+    public MidiChbnnel getChbnnel() {
+        return chbnnel;
     }
 
-    public void setChannel(MidiChannel channel) {
-        this.channel = channel;
+    public void setChbnnel(MidiChbnnel chbnnel) {
+        this.chbnnel = chbnnel;
     }
 
-    public void allNotesOff() {
-        if (channel == null)
+    public void bllNotesOff() {
+        if (chbnnel == null)
             return;
-        channel.allNotesOff();
+        chbnnel.bllNotesOff();
     }
 
-    public void allSoundOff() {
-        if (channel == null)
+    public void bllSoundOff() {
+        if (chbnnel == null)
             return;
-        channel.allSoundOff();
+        chbnnel.bllSoundOff();
     }
 
-    public void controlChange(int controller, int value) {
-        if (channel == null)
+    public void controlChbnge(int controller, int vblue) {
+        if (chbnnel == null)
             return;
-        channel.controlChange(controller, value);
+        chbnnel.controlChbnge(controller, vblue);
     }
 
-    public int getChannelPressure() {
-        if (channel == null)
+    public int getChbnnelPressure() {
+        if (chbnnel == null)
             return 0;
-        return channel.getChannelPressure();
+        return chbnnel.getChbnnelPressure();
     }
 
     public int getController(int controller) {
-        if (channel == null)
+        if (chbnnel == null)
             return 0;
-        return channel.getController(controller);
+        return chbnnel.getController(controller);
     }
 
-    public boolean getMono() {
-        if (channel == null)
-            return false;
-        return channel.getMono();
+    public boolebn getMono() {
+        if (chbnnel == null)
+            return fblse;
+        return chbnnel.getMono();
     }
 
-    public boolean getMute() {
-        if (channel == null)
-            return false;
-        return channel.getMute();
+    public boolebn getMute() {
+        if (chbnnel == null)
+            return fblse;
+        return chbnnel.getMute();
     }
 
-    public boolean getOmni() {
-        if (channel == null)
-            return false;
-        return channel.getOmni();
+    public boolebn getOmni() {
+        if (chbnnel == null)
+            return fblse;
+        return chbnnel.getOmni();
     }
 
     public int getPitchBend() {
-        if (channel == null)
+        if (chbnnel == null)
             return 8192;
-        return channel.getPitchBend();
+        return chbnnel.getPitchBend();
     }
 
     public int getPolyPressure(int noteNumber) {
-        if (channel == null)
+        if (chbnnel == null)
             return 0;
-        return channel.getPolyPressure(noteNumber);
+        return chbnnel.getPolyPressure(noteNumber);
     }
 
-    public int getProgram() {
-        if (channel == null)
+    public int getProgrbm() {
+        if (chbnnel == null)
             return 0;
-        return channel.getProgram();
+        return chbnnel.getProgrbm();
     }
 
-    public boolean getSolo() {
-        if (channel == null)
-            return false;
-        return channel.getSolo();
+    public boolebn getSolo() {
+        if (chbnnel == null)
+            return fblse;
+        return chbnnel.getSolo();
     }
 
-    public boolean localControl(boolean on) {
-        if (channel == null)
-            return false;
-        return channel.localControl(on);
+    public boolebn locblControl(boolebn on) {
+        if (chbnnel == null)
+            return fblse;
+        return chbnnel.locblControl(on);
     }
 
     public void noteOff(int noteNumber) {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.noteOff(noteNumber);
+        chbnnel.noteOff(noteNumber);
     }
 
     public void noteOff(int noteNumber, int velocity) {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.noteOff(noteNumber, velocity);
+        chbnnel.noteOff(noteNumber, velocity);
     }
 
     public void noteOn(int noteNumber, int velocity) {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.noteOn(noteNumber, velocity);
+        chbnnel.noteOn(noteNumber, velocity);
     }
 
-    public void programChange(int program) {
-        if (channel == null)
+    public void progrbmChbnge(int progrbm) {
+        if (chbnnel == null)
             return;
-        channel.programChange(program);
+        chbnnel.progrbmChbnge(progrbm);
     }
 
-    public void programChange(int bank, int program) {
-        if (channel == null)
+    public void progrbmChbnge(int bbnk, int progrbm) {
+        if (chbnnel == null)
             return;
-        channel.programChange(bank, program);
+        chbnnel.progrbmChbnge(bbnk, progrbm);
     }
 
     public void resetAllControllers() {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.resetAllControllers();
+        chbnnel.resetAllControllers();
     }
 
-    public void setChannelPressure(int pressure) {
-        if (channel == null)
+    public void setChbnnelPressure(int pressure) {
+        if (chbnnel == null)
             return;
-        channel.setChannelPressure(pressure);
+        chbnnel.setChbnnelPressure(pressure);
     }
 
-    public void setMono(boolean on) {
-        if (channel == null)
+    public void setMono(boolebn on) {
+        if (chbnnel == null)
             return;
-        channel.setMono(on);
+        chbnnel.setMono(on);
     }
 
-    public void setMute(boolean mute) {
-        if (channel == null)
+    public void setMute(boolebn mute) {
+        if (chbnnel == null)
             return;
-        channel.setMute(mute);
+        chbnnel.setMute(mute);
     }
 
-    public void setOmni(boolean on) {
-        if (channel == null)
+    public void setOmni(boolebn on) {
+        if (chbnnel == null)
             return;
-        channel.setOmni(on);
+        chbnnel.setOmni(on);
     }
 
     public void setPitchBend(int bend) {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.setPitchBend(bend);
+        chbnnel.setPitchBend(bend);
     }
 
     public void setPolyPressure(int noteNumber, int pressure) {
-        if (channel == null)
+        if (chbnnel == null)
             return;
-        channel.setPolyPressure(noteNumber, pressure);
+        chbnnel.setPolyPressure(noteNumber, pressure);
     }
 
-    public void setSolo(boolean soloState) {
-        if (channel == null)
+    public void setSolo(boolebn soloStbte) {
+        if (chbnnel == null)
             return;
-        channel.setSolo(soloState);
+        chbnnel.setSolo(soloStbte);
     }
 }

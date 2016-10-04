@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * The Originbl Code is the elliptic curve mbth librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -44,7 +44,7 @@
 #endif
 
 /* NIST prime curves */
-static const ECCurveParams ecCurve_NIST_P192 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_P192 = {
         "NIST-P192", ECField_GFp, 192,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC",
@@ -54,7 +54,7 @@ static const ECCurveParams ecCurve_NIST_P192 = {
         "FFFFFFFFFFFFFFFFFFFFFFFF99DEF836146BC9B1B4D22831", 1
 };
 
-static const ECCurveParams ecCurve_NIST_P224 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_P224 = {
         "NIST-P224", ECField_GFp, 224,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000001",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFE",
@@ -64,7 +64,7 @@ static const ECCurveParams ecCurve_NIST_P224 = {
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFF16A2E0B8F03E13DD29455C5C2A3D", 1
 };
 
-static const ECCurveParams ecCurve_NIST_P256 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_P256 = {
         "NIST-P256", ECField_GFp, 256,
         "FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF",
         "FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC",
@@ -74,7 +74,7 @@ static const ECCurveParams ecCurve_NIST_P256 = {
         "FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551", 1
 };
 
-static const ECCurveParams ecCurve_NIST_P384 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_P384 = {
         "NIST-P384", ECField_GFp, 384,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFF0000000000000000FFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFF0000000000000000FFFFFFFC",
@@ -85,7 +85,7 @@ static const ECCurveParams ecCurve_NIST_P384 = {
         1
 };
 
-static const ECCurveParams ecCurve_NIST_P521 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_P521 = {
         "NIST-P521", ECField_GFp, 521,
         "01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
         "01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC",
@@ -96,8 +96,8 @@ static const ECCurveParams ecCurve_NIST_P521 = {
         1
 };
 
-/* NIST binary curves */
-static const ECCurveParams ecCurve_NIST_K163 = {
+/* NIST binbry curves */
+stbtic const ECCurvePbrbms ecCurve_NIST_K163 = {
         "NIST-K163", ECField_GF2m, 163,
         "0800000000000000000000000000000000000000C9",
         "000000000000000000000000000000000000000001",
@@ -107,7 +107,7 @@ static const ECCurveParams ecCurve_NIST_K163 = {
         "04000000000000000000020108A2E0CC0D99F8A5EF", 2
 };
 
-static const ECCurveParams ecCurve_NIST_B163 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_B163 = {
         "NIST-B163", ECField_GF2m, 163,
         "0800000000000000000000000000000000000000C9",
         "000000000000000000000000000000000000000001",
@@ -117,7 +117,7 @@ static const ECCurveParams ecCurve_NIST_B163 = {
         "040000000000000000000292FE77E70C12A4234C33", 2
 };
 
-static const ECCurveParams ecCurve_NIST_K233 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_K233 = {
         "NIST-K233", ECField_GF2m, 233,
         "020000000000000000000000000000000000000004000000000000000001",
         "000000000000000000000000000000000000000000000000000000000000",
@@ -127,7 +127,7 @@ static const ECCurveParams ecCurve_NIST_K233 = {
         "008000000000000000000000000000069D5BB915BCD46EFB1AD5F173ABDF", 4
 };
 
-static const ECCurveParams ecCurve_NIST_B233 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_B233 = {
         "NIST-B233", ECField_GF2m, 233,
         "020000000000000000000000000000000000000004000000000000000001",
         "000000000000000000000000000000000000000000000000000000000001",
@@ -137,7 +137,7 @@ static const ECCurveParams ecCurve_NIST_B233 = {
         "01000000000000000000000000000013E974E72F8A6922031D2603CFE0D7", 2
 };
 
-static const ECCurveParams ecCurve_NIST_K283 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_K283 = {
         "NIST-K283", ECField_GF2m, 283,
         "0800000000000000000000000000000000000000000000000000000000000000000010A1",
         "000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -147,7 +147,7 @@ static const ECCurveParams ecCurve_NIST_K283 = {
         "01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE9AE2ED07577265DFF7F94451E061E163C61", 4
 };
 
-static const ECCurveParams ecCurve_NIST_B283 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_B283 = {
         "NIST-B283", ECField_GF2m, 283,
         "0800000000000000000000000000000000000000000000000000000000000000000010A1",
         "000000000000000000000000000000000000000000000000000000000000000000000001",
@@ -157,7 +157,7 @@ static const ECCurveParams ecCurve_NIST_B283 = {
         "03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEF90399660FC938A90165B042A7CEFADB307", 2
 };
 
-static const ECCurveParams ecCurve_NIST_K409 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_K409 = {
         "NIST-K409", ECField_GF2m, 409,
         "02000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000001",
         "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -167,7 +167,7 @@ static const ECCurveParams ecCurve_NIST_K409 = {
         "007FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE5F83B2D4EA20400EC4557D5ED3E3E7CA5B4B5C83B8E01E5FCF", 4
 };
 
-static const ECCurveParams ecCurve_NIST_B409 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_B409 = {
         "NIST-B409", ECField_GF2m, 409,
         "02000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000001",
         "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
@@ -177,7 +177,7 @@ static const ECCurveParams ecCurve_NIST_B409 = {
         "010000000000000000000000000000000000000000000000000001E2AAD6A612F33307BE5FA47C3C9E052F838164CD37D9A21173", 2
 };
 
-static const ECCurveParams ecCurve_NIST_K571 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_K571 = {
         "NIST-K571", ECField_GF2m, 571,
         "080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000425",
         "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -187,7 +187,7 @@ static const ECCurveParams ecCurve_NIST_K571 = {
         "020000000000000000000000000000000000000000000000000000000000000000000000131850E1F19A63E4B391A8DB917F4138B630D84BE5D639381E91DEB45CFE778F637C1001", 4
 };
 
-static const ECCurveParams ecCurve_NIST_B571 = {
+stbtic const ECCurvePbrbms ecCurve_NIST_B571 = {
         "NIST-B571", ECField_GF2m, 571,
         "080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000425",
         "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
@@ -198,7 +198,7 @@ static const ECCurveParams ecCurve_NIST_B571 = {
 };
 
 /* ANSI X9.62 prime curves */
-static const ECCurveParams ecCurve_X9_62_PRIME_192V2 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_PRIME_192V2 = {
         "X9.62 P-192V2", ECField_GFp, 192,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC",
@@ -208,7 +208,7 @@ static const ECCurveParams ecCurve_X9_62_PRIME_192V2 = {
         "FFFFFFFFFFFFFFFFFFFFFFFE5FB1A724DC80418648D8DD31", 1
 };
 
-static const ECCurveParams ecCurve_X9_62_PRIME_192V3 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_PRIME_192V3 = {
         "X9.62 P-192V3", ECField_GFp, 192,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC",
@@ -218,7 +218,7 @@ static const ECCurveParams ecCurve_X9_62_PRIME_192V3 = {
         "FFFFFFFFFFFFFFFFFFFFFFFF7A62D031C83F4294F640EC13", 1
 };
 
-static const ECCurveParams ecCurve_X9_62_PRIME_239V1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_PRIME_239V1 = {
         "X9.62 P-239V1", ECField_GFp, 239,
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFF",
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFC",
@@ -228,7 +228,7 @@ static const ECCurveParams ecCurve_X9_62_PRIME_239V1 = {
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFF9E5E9A9F5D9071FBD1522688909D0B", 1
 };
 
-static const ECCurveParams ecCurve_X9_62_PRIME_239V2 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_PRIME_239V2 = {
         "X9.62 P-239V2", ECField_GFp, 239,
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFF",
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFC",
@@ -238,7 +238,7 @@ static const ECCurveParams ecCurve_X9_62_PRIME_239V2 = {
         "7FFFFFFFFFFFFFFFFFFFFFFF800000CFA7E8594377D414C03821BC582063", 1
 };
 
-static const ECCurveParams ecCurve_X9_62_PRIME_239V3 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_PRIME_239V3 = {
         "X9.62 P-239V3", ECField_GFp, 239,
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFF",
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFF8000000000007FFFFFFFFFFC",
@@ -248,8 +248,8 @@ static const ECCurveParams ecCurve_X9_62_PRIME_239V3 = {
         "7FFFFFFFFFFFFFFFFFFFFFFF7FFFFF975DEB41B3A6057C3C432146526551", 1
 };
 
-/* ANSI X9.62 binary curves */
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V1 = {
+/* ANSI X9.62 binbry curves */
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB163V1 = {
         "X9.62 C2-PNB163V1", ECField_GF2m, 163,
         "080000000000000000000000000000000000000107",
         "072546B5435234A422E0789675F432C89435DE5242",
@@ -259,7 +259,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V1 = {
         "0400000000000000000001E60FC8821CC74DAEAFC1", 2
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V2 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB163V2 = {
         "X9.62 C2-PNB163V2", ECField_GF2m, 163,
         "080000000000000000000000000000000000000107",
         "0108B39E77C4B108BED981ED0E890E117C511CF072",
@@ -269,7 +269,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V2 = {
         "03FFFFFFFFFFFFFFFFFFFDF64DE1151ADBB78F10A7", 2
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V3 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB163V3 = {
         "X9.62 C2-PNB163V3", ECField_GF2m, 163,
         "080000000000000000000000000000000000000107",
         "07A526C63D3E25A256A007699F5447E32AE456B50E",
@@ -279,7 +279,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB163V3 = {
         "03FFFFFFFFFFFFFFFFFFFE1AEE140F110AFF961309", 2
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB176V1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB176V1 = {
         "X9.62 C2-PNB176V1", ECField_GF2m, 176,
         "0100000000000000000000000000000000080000000007",
         "E4E6DB2995065C407D9D39B8D0967B96704BA8E9C90B",
@@ -289,7 +289,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB176V1 = {
         "00010092537397ECA4F6145799D62B0A19CE06FE26AD", 0xFF6E
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB191V1 = {
         "X9.62 C2-TNB191V1", ECField_GF2m, 191,
         "800000000000000000000000000000000000000000000201",
         "2866537B676752636A68F56554E12640276B649EF7526267",
@@ -299,7 +299,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V1 = {
         "40000000000000000000000004A20E90C39067C893BBB9A5", 2
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V2 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB191V2 = {
         "X9.62 C2-TNB191V2", ECField_GF2m, 191,
         "800000000000000000000000000000000000000000000201",
         "401028774D7777C7B7666D1366EA432071274F89FF01E718",
@@ -309,7 +309,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V2 = {
         "20000000000000000000000050508CB89F652824E06B8173", 4
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V3 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB191V3 = {
         "X9.62 C2-TNB191V3", ECField_GF2m, 191,
         "800000000000000000000000000000000000000000000201",
         "6C01074756099122221056911C77D77E77A777E7E7E77FCB",
@@ -319,7 +319,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB191V3 = {
         "155555555555555555555555610C0B196812BFB6288A3EA3", 6
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB208W1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB208W1 = {
         "X9.62 C2-PNB208W1", ECField_GF2m, 208,
         "010000000000000000000000000000000800000000000000000007",
         "0000000000000000000000000000000000000000000000000000",
@@ -329,7 +329,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB208W1 = {
         "000101BAF95C9723C57B6C21DA2EFF2D5ED588BDD5717E212F9D", 0xFE48
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB239V1 = {
         "X9.62 C2-TNB239V1", ECField_GF2m, 239,
         "800000000000000000000000000000000000000000000000001000000001",
         "32010857077C5431123A46B808906756F543423E8D27877578125778AC76",
@@ -339,7 +339,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V1 = {
         "2000000000000000000000000000000F4D42FFE1492A4993F1CAD666E447", 4
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V2 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB239V2 = {
         "X9.62 C2-TNB239V2", ECField_GF2m, 239,
         "800000000000000000000000000000000000000000000000001000000001",
         "4230017757A767FAE42398569B746325D45313AF0766266479B75654E65F",
@@ -349,7 +349,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V2 = {
         "1555555555555555555555555555553C6F2885259C31E3FCDF154624522D", 6
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V3 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB239V3 = {
         "X9.62 C2-TNB239V3", ECField_GF2m, 239,
         "800000000000000000000000000000000000000000000000001000000001",
         "01238774666A67766D6676F778E676B66999176666E687666D8766C66A9F",
@@ -359,7 +359,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB239V3 = {
         "0CCCCCCCCCCCCCCCCCCCCCCCCCCCCCAC4912D2D9DF903EF9888B8A0E4CFF", 0xA
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB272W1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB272W1 = {
         "X9.62 C2-PNB272W1", ECField_GF2m, 272,
         "010000000000000000000000000000000000000000000000000000010000000000000B",
         "91A091F03B5FBA4AB2CCF49C4EDD220FB028712D42BE752B2C40094DBACDB586FB20",
@@ -370,7 +370,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB272W1 = {
         0xFF06
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB304W1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB304W1 = {
         "X9.62 C2-PNB304W1", ECField_GF2m, 304,
         "010000000000000000000000000000000000000000000000000000000000000000000000000807",
         "FD0D693149A118F651E6DCE6802085377E5F882D1B510B44160074C1288078365A0396C8E681",
@@ -380,7 +380,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB304W1 = {
         "000101D556572AABAC800101D556572AABAC8001022D5C91DD173F8FB561DA6899164443051D", 0xFE2E
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB359V1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB359V1 = {
         "X9.62 C2-TNB359V1", ECField_GF2m, 359,
         "800000000000000000000000000000000000000000000000000000000000000000000000100000000000000001",
         "5667676A654B20754F356EA92017D946567C46675556F19556A04616B567D223A5E05656FB549016A96656A557",
@@ -390,7 +390,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB359V1 = {
         "01AF286BCA1AF286BCA1AF286BCA1AF286BCA1AF286BC9FB8F6B85C556892C20A7EB964FE7719E74F490758D3B", 0x4C
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_PNB368W1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_PNB368W1 = {
         "X9.62 C2-PNB368W1", ECField_GF2m, 368,
         "0100000000000000000000000000000000000000000000000000000000000000000000002000000000000000000007",
         "E0D2EE25095206F5E2A4F9ED229F1F256E79A0E2B455970D8D0D865BD94778C576D62F0AB7519CCD2A1A906AE30D",
@@ -400,7 +400,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_PNB368W1 = {
         "00010090512DA9AF72B08349D98A5DD4C7B0532ECA51CE03E2D10F3B7AC579BD87E909AE40A6F131E9CFCE5BD967", 0xFF70
 };
 
-static const ECCurveParams ecCurve_X9_62_CHAR2_TNB431R1 = {
+stbtic const ECCurvePbrbms ecCurve_X9_62_CHAR2_TNB431R1 = {
         "X9.62 C2-TNB431R1", ECField_GF2m, 431,
         "800000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000001",
         "1A827EF00DD6FC0E234CAF046C6A5D8A85395B236CC4AD2CF32A0CADBDC9DDF620B0EB9906D0957F6C6FEACD615468DF104DE296CD8F",
@@ -411,7 +411,7 @@ static const ECCurveParams ecCurve_X9_62_CHAR2_TNB431R1 = {
 };
 
 /* SEC2 prime curves */
-static const ECCurveParams ecCurve_SECG_PRIME_112R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_112R1 = {
         "SECP-112R1", ECField_GFp, 112,
         "DB7C2ABF62E35E668076BEAD208B",
         "DB7C2ABF62E35E668076BEAD2088",
@@ -421,17 +421,17 @@ static const ECCurveParams ecCurve_SECG_PRIME_112R1 = {
         "DB7C2ABF62E35E7628DFAC6561C5", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_112R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_112R2 = {
         "SECP-112R2", ECField_GFp, 112,
         "DB7C2ABF62E35E668076BEAD208B",
         "6127C24C05F38A0AAAF65C0EF02C",
         "51DEF1815DB5ED74FCC34C85D709",
         "4BA30AB5E892B4E1649DD0928643",
-        "adcd46f5882e3747def36e956e97",
+        "bdcd46f5882e3747def36e956e97",
         "36DF0AAFD8B8D7597CA10520D04B", 4
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_128R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_128R1 = {
         "SECP-128R1", ECField_GFp, 128,
         "FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFF",
         "FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFC",
@@ -441,7 +441,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_128R1 = {
         "FFFFFFFE0000000075A30D1B9038A115", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_128R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_128R2 = {
         "SECP-128R2", ECField_GFp, 128,
         "FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFF",
         "D6031998D1B3BBFEBF59CC9BBFF9AEE1",
@@ -451,7 +451,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_128R2 = {
         "3FFFFFFF7FFFFFFFBE0024720613B5A3", 4
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_160K1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_160K1 = {
         "SECP-160K1", ECField_GFp, 160,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73",
         "0000000000000000000000000000000000000000",
@@ -461,7 +461,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_160K1 = {
         "0100000000000000000001B8FA16DFAB9ACA16B6B3", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_160R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_160R1 = {
         "SECP-160R1", ECField_GFp, 160,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFC",
@@ -471,7 +471,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_160R1 = {
         "0100000000000000000001F4C8F927AED3CA752257", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_160R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_160R2 = {
         "SECP-160R2", ECField_GFp, 160,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC70",
@@ -481,7 +481,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_160R2 = {
         "0100000000000000000000351EE786A818F3A1A16B", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_192K1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_192K1 = {
         "SECP-192K1", ECField_GFp, 192,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFEE37",
         "000000000000000000000000000000000000000000000000",
@@ -491,7 +491,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_192K1 = {
         "FFFFFFFFFFFFFFFFFFFFFFFE26F2FC170F69466A74DEFD8D", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_224K1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_224K1 = {
         "SECP-224K1", ECField_GFp, 224,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFE56D",
         "00000000000000000000000000000000000000000000000000000000",
@@ -501,7 +501,7 @@ static const ECCurveParams ecCurve_SECG_PRIME_224K1 = {
         "010000000000000000000000000001DCE8D2EC6184CAF0A971769FB1F7", 1
 };
 
-static const ECCurveParams ecCurve_SECG_PRIME_256K1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_PRIME_256K1 = {
         "SECP-256K1", ECField_GFp, 256,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F",
         "0000000000000000000000000000000000000000000000000000000000000000",
@@ -511,8 +511,8 @@ static const ECCurveParams ecCurve_SECG_PRIME_256K1 = {
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141", 1
 };
 
-/* SEC2 binary curves */
-static const ECCurveParams ecCurve_SECG_CHAR2_113R1 = {
+/* SEC2 binbry curves */
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_113R1 = {
         "SECT-113R1", ECField_GF2m, 113,
         "020000000000000000000000000201",
         "003088250CA6E7C7FE649CE85820F7",
@@ -522,7 +522,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_113R1 = {
         "0100000000000000D9CCEC8A39E56F", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_113R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_113R2 = {
         "SECT-113R2", ECField_GF2m, 113,
         "020000000000000000000000000201",
         "00689918DBEC7E5A0DD6DFC0AA55C7",
@@ -532,7 +532,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_113R2 = {
         "010000000000000108789B2496AF93", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_131R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_131R1 = {
         "SECT-131R1", ECField_GF2m, 131,
         "080000000000000000000000000000010D",
         "07A11B09A76B562144418FF3FF8C2570B8",
@@ -542,7 +542,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_131R1 = {
         "0400000000000000023123953A9464B54D", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_131R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_131R2 = {
         "SECT-131R2", ECField_GF2m, 131,
         "080000000000000000000000000000010D",
         "03E5A88919D7CAFCBF415F07C2176573B2",
@@ -552,7 +552,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_131R2 = {
         "0400000000000000016954A233049BA98F", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_163R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_163R1 = {
         "SECT-163R1", ECField_GF2m, 163,
         "0800000000000000000000000000000000000000C9",
         "07B6882CAAEFA84F9554FF8428BD88E246D2782AE2",
@@ -562,7 +562,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_163R1 = {
         "03FFFFFFFFFFFFFFFFFFFF48AAB689C29CA710279B", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_193R1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_193R1 = {
         "SECT-193R1", ECField_GF2m, 193,
         "02000000000000000000000000000000000000000000008001",
         "0017858FEB7A98975169E171F77B4087DE098AC8A911DF7B01",
@@ -572,7 +572,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_193R1 = {
         "01000000000000000000000000C7F34A778F443ACC920EBA49", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_193R2 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_193R2 = {
         "SECT-193R2", ECField_GF2m, 193,
         "02000000000000000000000000000000000000000000008001",
         "0163F35A5137C2CE3EA6ED8667190B0BC43ECD69977702709B",
@@ -582,7 +582,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_193R2 = {
         "010000000000000000000000015AAB561B005413CCD4EE99D5", 2
 };
 
-static const ECCurveParams ecCurve_SECG_CHAR2_239K1 = {
+stbtic const ECCurvePbrbms ecCurve_SECG_CHAR2_239K1 = {
         "SECT-239K1", ECField_GF2m, 239,
         "800000000000000000004000000000000000000000000000000000000001",
         "000000000000000000000000000000000000000000000000000000000000",
@@ -593,7 +593,7 @@ static const ECCurveParams ecCurve_SECG_CHAR2_239K1 = {
 };
 
 /* WTLS curves */
-static const ECCurveParams ecCurve_WTLS_1 = {
+stbtic const ECCurvePbrbms ecCurve_WTLS_1 = {
         "WTLS-1", ECField_GF2m, 113,
         "020000000000000000000000000201",
         "000000000000000000000000000001",
@@ -603,7 +603,7 @@ static const ECCurveParams ecCurve_WTLS_1 = {
         "00FFFFFFFFFFFFFFFDBF91AF6DEA73", 2
 };
 
-static const ECCurveParams ecCurve_WTLS_8 = {
+stbtic const ECCurvePbrbms ecCurve_WTLS_8 = {
         "WTLS-8", ECField_GFp, 112,
         "FFFFFFFFFFFFFFFFFFFFFFFFFDE7",
         "0000000000000000000000000000",
@@ -613,7 +613,7 @@ static const ECCurveParams ecCurve_WTLS_8 = {
         "0100000000000001ECEA551AD837E9", 1
 };
 
-static const ECCurveParams ecCurve_WTLS_9 = {
+stbtic const ECCurvePbrbms ecCurve_WTLS_9 = {
         "WTLS-9", ECField_GFp, 160,
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC808F",
         "0000000000000000000000000000000000000000",
@@ -623,9 +623,9 @@ static const ECCurveParams ecCurve_WTLS_9 = {
         "0100000000000000000001CDC98AE0E2DE574ABF33", 1
 };
 
-/* mapping between ECCurveName enum and pointers to ECCurveParams */
-static const ECCurveParams *ecCurve_map[] = {
-    NULL,                               /* ECCurve_noName */
+/* mbpping between ECCurveNbme enum bnd pointers to ECCurvePbrbms */
+stbtic const ECCurvePbrbms *ecCurve_mbp[] = {
+    NULL,                               /* ECCurve_noNbme */
     &ecCurve_NIST_P192,                 /* ECCurve_NIST_P192 */
     &ecCurve_NIST_P224,                 /* ECCurve_NIST_P224 */
     &ecCurve_NIST_P256,                 /* ECCurve_NIST_P256 */
@@ -683,7 +683,7 @@ static const ECCurveParams *ecCurve_map[] = {
     &ecCurve_WTLS_1,                    /* ECCurve_WTLS_1 */
     &ecCurve_WTLS_8,                    /* ECCurve_WTLS_8 */
     &ecCurve_WTLS_9,                    /* ECCurve_WTLS_9 */
-    NULL                                /* ECCurve_pastLastCurve */
+    NULL                                /* ECCurve_pbstLbstCurve */
 };
 
 #endif /* _ECL_CURVE_H */

@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
 
-import sun.awt.PeerEvent;
-import sun.awt.SunToolkit;
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.dnd.SunDropTargetEvent;
+import sun.bwt.PeerEvent;
+import sun.bwt.SunToolkit;
+import sun.bwt.dnd.SunDropTbrgetContextPeer;
+import sun.bwt.dnd.SunDropTbrgetEvent;
 
 /**
  * <p>
- * The WDropTargetContextPeer class is the class responsible for handling
- * the interaction between the win32 DnD system and Java.
+ * The WDropTbrgetContextPeer clbss is the clbss responsible for hbndling
+ * the interbction between the win32 DnD system bnd Jbvb.
  * </p>
  *
  *
  */
 
-final class WDropTargetContextPeer extends SunDropTargetContextPeer {
+finbl clbss WDropTbrgetContextPeer extends SunDropTbrgetContextPeer {
     /**
-     * create the peer typically upcall from C++
+     * crebte the peer typicblly upcbll from C++
      */
 
-    static WDropTargetContextPeer getWDropTargetContextPeer() {
-        return new WDropTargetContextPeer();
+    stbtic WDropTbrgetContextPeer getWDropTbrgetContextPeer() {
+        return new WDropTbrgetContextPeer();
     }
 
     /**
-     * create the peer
+     * crebte the peer
      */
 
-    private WDropTargetContextPeer() {
+    privbte WDropTbrgetContextPeer() {
         super();
     }
 
     /**
-     * upcall to encapsulate file transfer
+     * upcbll to encbpsulbte file trbnsfer
      */
 
-    private static FileInputStream getFileStream(String file, long stgmedium)
+    privbte stbtic FileInputStrebm getFileStrebm(String file, long stgmedium)
         throws IOException
     {
-        return new WDropTargetContextPeerFileStream(file, stgmedium);
+        return new WDropTbrgetContextPeerFileStrebm(file, stgmedium);
     }
 
     /**
-     * upcall to encapsulate IStream buffer transfer
+     * upcbll to encbpsulbte IStrebm buffer trbnsfer
      */
 
-    private static Object getIStream(long istream) throws IOException {
-        return new WDropTargetContextPeerIStream(istream);
+    privbte stbtic Object getIStrebm(long istrebm) throws IOException {
+        return new WDropTbrgetContextPeerIStrebm(istrebm);
     }
 
     @Override
-    protected Object getNativeData(long format) {
-        return getData(getNativeDragContext(), format);
+    protected Object getNbtiveDbtb(long formbt) {
+        return getDbtb(getNbtiveDrbgContext(), formbt);
     }
 
     /**
-     * signal drop complete
+     * signbl drop complete
      */
 
     @Override
-    protected void doDropDone(boolean success, int dropAction,
-                              boolean isLocal) {
-        dropDone(getNativeDragContext(), success, dropAction);
+    protected void doDropDone(boolebn success, int dropAction,
+                              boolebn isLocbl) {
+        dropDone(getNbtiveDrbgContext(), success, dropAction);
     }
 
     @Override
-    protected void eventPosted(final SunDropTargetEvent e) {
-        if (e.getID() != SunDropTargetEvent.MOUSE_DROPPED) {
-            Runnable runnable = new Runnable() {
+    protected void eventPosted(finbl SunDropTbrgetEvent e) {
+        if (e.getID() != SunDropTbrgetEvent.MOUSE_DROPPED) {
+            Runnbble runnbble = new Runnbble() {
                     @Override
                     public void run() {
-                        e.getDispatcher().unregisterAllEvents();
+                        e.getDispbtcher().unregisterAllEvents();
                     }
                 };
-            // NOTE: this PeerEvent must be a NORM_PRIORITY event to be
-            // dispatched after this SunDropTargetEvent, but before the next
-            // one, so we should pass zero flags.
-            PeerEvent peerEvent = new PeerEvent(e.getSource(), runnable, 0);
-            SunToolkit.executeOnEventHandlerThread(peerEvent);
+            // NOTE: this PeerEvent must be b NORM_PRIORITY event to be
+            // dispbtched bfter this SunDropTbrgetEvent, but before the next
+            // one, so we should pbss zero flbgs.
+            PeerEvent peerEvent = new PeerEvent(e.getSource(), runnbble, 0);
+            SunToolkit.executeOnEventHbndlerThrebd(peerEvent);
         }
     }
 
     /**
-     * downcall to bind transfer data.
+     * downcbll to bind trbnsfer dbtb.
      */
 
-     private native Object getData(long nativeContext, long format);
+     privbte nbtive Object getDbtb(long nbtiveContext, long formbt);
 
     /**
-     * downcall to notify that drop is complete
+     * downcbll to notify thbt drop is complete
      */
 
-     private native void dropDone(long nativeContext, boolean success, int action);
+     privbte nbtive void dropDone(long nbtiveContext, boolebn success, int bction);
 }
 
 /**
- * package private class to handle file transfers
+ * pbckbge privbte clbss to hbndle file trbnsfers
  */
 
-final class WDropTargetContextPeerFileStream extends FileInputStream {
+finbl clbss WDropTbrgetContextPeerFileStrebm extends FileInputStrebm {
 
     /**
-     * construct file input stream
+     * construct file input strebm
      */
 
-    WDropTargetContextPeerFileStream(String name, long stgmedium)
+    WDropTbrgetContextPeerFileStrebm(String nbme, long stgmedium)
         throws FileNotFoundException
     {
-        super(name);
+        super(nbme);
 
         this.stgmedium  = stgmedium;
     }
@@ -156,71 +156,71 @@ final class WDropTargetContextPeerFileStream extends FileInputStream {
     }
 
     /**
-     * free underlying windows data structure
+     * free underlying windows dbtb structure
      */
 
-    private native void freeStgMedium(long stgmedium);
+    privbte nbtive void freeStgMedium(long stgmedium);
 
     /*
      * fields
      */
 
-    private long    stgmedium;
+    privbte long    stgmedium;
 }
 
 /**
- * Package private class to access IStream objects
+ * Pbckbge privbte clbss to bccess IStrebm objects
  */
 
-final class WDropTargetContextPeerIStream extends InputStream {
+finbl clbss WDropTbrgetContextPeerIStrebm extends InputStrebm {
 
     /**
-     * construct a WDropTargetContextPeerIStream wrapper
+     * construct b WDropTbrgetContextPeerIStrebm wrbpper
      */
 
-    WDropTargetContextPeerIStream(long istream) throws IOException {
+    WDropTbrgetContextPeerIStrebm(long istrebm) throws IOException {
         super();
 
-        if (istream == 0) throw new IOException("No IStream");
+        if (istrebm == 0) throw new IOException("No IStrebm");
 
-        this.istream    = istream;
+        this.istrebm    = istrebm;
     }
 
     /**
-     * @return bytes available
+     * @return bytes bvbilbble
      */
 
     @Override
-    public int available() throws IOException {
-        if (istream == 0) throw new IOException("No IStream");
-        return Available(istream);
+    public int bvbilbble() throws IOException {
+        if (istrebm == 0) throw new IOException("No IStrebm");
+        return Avbilbble(istrebm);
     }
 
-    private native int Available(long istream);
+    privbte nbtive int Avbilbble(long istrebm);
 
     /**
-     * read
+     * rebd
      */
 
     @Override
-    public int read() throws IOException {
-        if (istream == 0) throw new IOException("No IStream");
-        return Read(istream);
+    public int rebd() throws IOException {
+        if (istrebm == 0) throw new IOException("No IStrebm");
+        return Rebd(istrebm);
     }
 
-    private native int Read(long istream) throws IOException;
+    privbte nbtive int Rebd(long istrebm) throws IOException;
 
     /**
-     * read into buffer
+     * rebd into buffer
      */
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException {
-        if (istream == 0) throw new IOException("No IStream");
-        return ReadBytes(istream, b, off, len);
+    public int rebd(byte[] b, int off, int len) throws IOException {
+        if (istrebm == 0) throw new IOException("No IStrebm");
+        return RebdBytes(istrebm, b, off, len);
     }
 
-    private native int ReadBytes(long istream, byte[] b, int off, int len) throws IOException;
+    privbte nbtive int RebdBytes(long istrebm, byte[] b, int off, int len) throws IOException;
 
     /**
      * close
@@ -228,18 +228,18 @@ final class WDropTargetContextPeerIStream extends InputStream {
 
     @Override
     public void close() throws IOException {
-        if (istream != 0) {
+        if (istrebm != 0) {
             super.close();
-            Close(istream);
-            istream = 0;
+            Close(istrebm);
+            istrebm = 0;
         }
     }
 
-    private native void Close(long istream);
+    privbte nbtive void Close(long istrebm);
 
     /*
      * fields
      */
 
-    private long istream;
+    privbte long istrebm;
 }

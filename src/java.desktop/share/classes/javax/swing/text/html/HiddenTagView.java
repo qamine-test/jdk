@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvbx.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvb.util.*;
 
 /**
- * HiddenTagView subclasses EditableView to contain a JTextField showing
- * the element name. When the textfield is edited the element name is
- * reset. As this inherits from EditableView if the JTextComponent is
- * not editable, the textfield will not be visible.
+ * HiddenTbgView subclbsses EditbbleView to contbin b JTextField showing
+ * the element nbme. When the textfield is edited the element nbme is
+ * reset. As this inherits from EditbbleView if the JTextComponent is
+ * not editbble, the textfield will not be visible.
  *
- * @author  Scott Violet
+ * @buthor  Scott Violet
  */
-class HiddenTagView extends EditableView implements DocumentListener {
-    HiddenTagView(Element e) {
+clbss HiddenTbgView extends EditbbleView implements DocumentListener {
+    HiddenTbgView(Element e) {
         super(e);
         yAlign = 1;
     }
 
-    protected Component createComponent() {
-        JTextField tf = new JTextField(getElement().getName());
+    protected Component crebteComponent() {
+        JTextField tf = new JTextField(getElement().getNbme());
         Document doc = getDocument();
         Font font;
-        if (doc instanceof StyledDocument) {
+        if (doc instbnceof StyledDocument) {
             font = ((StyledDocument)doc).getFont(getAttributes());
             tf.setFont(font);
         }
         else {
             font = tf.getFont();
         }
-        tf.getDocument().addDocumentListener(this);
-        updateYAlign(font);
+        tf.getDocument().bddDocumentListener(this);
+        updbteYAlign(font);
 
-        // Create a panel to wrap the textfield so that the textfields
-        // laf border shows through.
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(null);
-        if (isEndTag()) {
-            panel.setBorder(EndBorder);
+        // Crebte b pbnel to wrbp the textfield so thbt the textfields
+        // lbf border shows through.
+        JPbnel pbnel = new JPbnel(new BorderLbyout());
+        pbnel.setBbckground(null);
+        if (isEndTbg()) {
+            pbnel.setBorder(EndBorder);
         }
         else {
-            panel.setBorder(StartBorder);
+            pbnel.setBorder(StbrtBorder);
         }
-        panel.add(tf);
-        return panel;
+        pbnel.bdd(tf);
+        return pbnel;
     }
 
-    public float getAlignment(int axis) {
-        if (axis == View.Y_AXIS) {
+    public flobt getAlignment(int bxis) {
+        if (bxis == View.Y_AXIS) {
             return yAlign;
         }
         return 0.5f;
     }
 
-    public float getMinimumSpan(int axis) {
-        if (axis == View.X_AXIS && isVisible()) {
-            // Default to preferred.
-            return Math.max(30, super.getPreferredSpan(axis));
+    public flobt getMinimumSpbn(int bxis) {
+        if (bxis == View.X_AXIS && isVisible()) {
+            // Defbult to preferred.
+            return Mbth.mbx(30, super.getPreferredSpbn(bxis));
         }
-        return super.getMinimumSpan(axis);
+        return super.getMinimumSpbn(bxis);
     }
 
-    public float getPreferredSpan(int axis) {
-        if (axis == View.X_AXIS && isVisible()) {
-            return Math.max(30, super.getPreferredSpan(axis));
+    public flobt getPreferredSpbn(int bxis) {
+        if (bxis == View.X_AXIS && isVisible()) {
+            return Mbth.mbx(30, super.getPreferredSpbn(bxis));
         }
-        return super.getPreferredSpan(axis);
+        return super.getPreferredSpbn(bxis);
     }
 
-    public float getMaximumSpan(int axis) {
-        if (axis == View.X_AXIS && isVisible()) {
-            // Default to preferred.
-            return Math.max(30, super.getMaximumSpan(axis));
+    public flobt getMbximumSpbn(int bxis) {
+        if (bxis == View.X_AXIS && isVisible()) {
+            // Defbult to preferred.
+            return Mbth.mbx(30, super.getMbximumSpbn(bxis));
         }
-        return super.getMaximumSpan(axis);
+        return super.getMbximumSpbn(bxis);
     }
 
     // DocumentListener methods
-    public void insertUpdate(DocumentEvent e) {
-        updateModelFromText();
+    public void insertUpdbte(DocumentEvent e) {
+        updbteModelFromText();
     }
 
-    public void removeUpdate(DocumentEvent e) {
-        updateModelFromText();
+    public void removeUpdbte(DocumentEvent e) {
+        updbteModelFromText();
     }
 
-    public void changedUpdate(DocumentEvent e) {
-        updateModelFromText();
+    public void chbngedUpdbte(DocumentEvent e) {
+        updbteModelFromText();
     }
 
     // View method
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
         if (!isSettingAttributes) {
             setTextFromModel();
         }
     }
 
-    // local methods
+    // locbl methods
 
-    void updateYAlign(Font font) {
-        Container c = getContainer();
+    void updbteYAlign(Font font) {
+        Contbiner c = getContbiner();
         FontMetrics fm = (c != null) ? c.getFontMetrics(font) :
-            Toolkit.getDefaultToolkit().getFontMetrics(font);
-        float h = fm.getHeight();
-        float d = fm.getDescent();
+            Toolkit.getDefbultToolkit().getFontMetrics(font);
+        flobt h = fm.getHeight();
+        flobt d = fm.getDescent();
         yAlign = (h > 0) ? (h - d) / h : 0;
     }
 
@@ -142,29 +142,29 @@ class HiddenTagView extends EditableView implements DocumentListener {
         Component comp = getComponent();
 
         if (comp != null) {
-            if (isEndTag()) {
-                ((JPanel)comp).setBorder(EndBorder);
+            if (isEndTbg()) {
+                ((JPbnel)comp).setBorder(EndBorder);
             }
             else {
-                ((JPanel)comp).setBorder(StartBorder);
+                ((JPbnel)comp).setBorder(StbrtBorder);
             }
         }
     }
 
     /**
-     * This resets the text on the text component we created to match
-     * that of the AttributeSet for the Element we represent.
-     * <p>If this is invoked on the event dispatching thread, this
+     * This resets the text on the text component we crebted to mbtch
+     * thbt of the AttributeSet for the Element we represent.
+     * <p>If this is invoked on the event dispbtching threbd, this
      * directly invokes <code>_setTextFromModel</code>, otherwise
-     * <code>SwingUtilities.invokeLater</code> is used to schedule execution
+     * <code>SwingUtilities.invokeLbter</code> is used to schedule execution
      * of <code>_setTextFromModel</code>.
      */
     void setTextFromModel() {
-        if (SwingUtilities.isEventDispatchThread()) {
+        if (SwingUtilities.isEventDispbtchThrebd()) {
             _setTextFromModel();
         }
         else {
-            SwingUtilities.invokeLater(new Runnable() {
+            SwingUtilities.invokeLbter(new Runnbble() {
                 public void run() {
                     _setTextFromModel();
                 }
@@ -173,52 +173,52 @@ class HiddenTagView extends EditableView implements DocumentListener {
     }
 
     /**
-     * This resets the text on the text component we created to match
-     * that of the AttributeSet for the Element we represent.
+     * This resets the text on the text component we crebted to mbtch
+     * thbt of the AttributeSet for the Element we represent.
      */
     void _setTextFromModel() {
         Document doc = getDocument();
         try {
             isSettingAttributes = true;
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdLock();
             }
             JTextComponent text = getTextComponent();
             if (text != null) {
                 text.setText(getRepresentedText());
                 resetBorder();
-                Container host = getContainer();
+                Contbiner host = getContbiner();
                 if (host != null) {
-                    preferenceChanged(this, true, true);
-                    host.repaint();
+                    preferenceChbnged(this, true, true);
+                    host.repbint();
                 }
             }
         }
-        finally {
-            isSettingAttributes = false;
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        finblly {
+            isSettingAttributes = fblse;
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).rebdUnlock();
             }
         }
     }
 
     /**
-     * This copies the text from the text component we've created
+     * This copies the text from the text component we've crebted
      * to the Element's AttributeSet we represent.
-     * <p>If this is invoked on the event dispatching thread, this
-     * directly invokes <code>_updateModelFromText</code>, otherwise
-     * <code>SwingUtilities.invokeLater</code> is used to schedule execution
-     * of <code>_updateModelFromText</code>.
+     * <p>If this is invoked on the event dispbtching threbd, this
+     * directly invokes <code>_updbteModelFromText</code>, otherwise
+     * <code>SwingUtilities.invokeLbter</code> is used to schedule execution
+     * of <code>_updbteModelFromText</code>.
      */
-    void updateModelFromText() {
+    void updbteModelFromText() {
         if (!isSettingAttributes) {
-            if (SwingUtilities.isEventDispatchThread()) {
-                _updateModelFromText();
+            if (SwingUtilities.isEventDispbtchThrebd()) {
+                _updbteModelFromText();
             }
             else {
-                SwingUtilities.invokeLater(new Runnable() {
+                SwingUtilities.invokeLbter(new Runnbble() {
                     public void run() {
-                        _updateModelFromText();
+                        _updbteModelFromText();
                     }
                 });
             }
@@ -226,29 +226,29 @@ class HiddenTagView extends EditableView implements DocumentListener {
     }
 
     /**
-     * This copies the text from the text component we've created
+     * This copies the text from the text component we've crebted
      * to the Element's AttributeSet we represent.
      */
-    void _updateModelFromText() {
+    void _updbteModelFromText() {
         Document doc = getDocument();
-        Object name = getElement().getAttributes().getAttribute
-            (StyleConstants.NameAttribute);
-        if ((name instanceof HTML.UnknownTag) &&
-            (doc instanceof StyledDocument)) {
-            SimpleAttributeSet sas = new SimpleAttributeSet();
+        Object nbme = getElement().getAttributes().getAttribute
+            (StyleConstbnts.NbmeAttribute);
+        if ((nbme instbnceof HTML.UnknownTbg) &&
+            (doc instbnceof StyledDocument)) {
+            SimpleAttributeSet sbs = new SimpleAttributeSet();
             JTextComponent textComponent = getTextComponent();
             if (textComponent != null) {
                 String text = textComponent.getText();
                 isSettingAttributes = true;
                 try {
-                    sas.addAttribute(StyleConstants.NameAttribute,
-                                     new HTML.UnknownTag(text));
-                    ((StyledDocument)doc).setCharacterAttributes
-                        (getStartOffset(), getEndOffset() -
-                         getStartOffset(), sas, false);
+                    sbs.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                     new HTML.UnknownTbg(text));
+                    ((StyledDocument)doc).setChbrbcterAttributes
+                        (getStbrtOffset(), getEndOffset() -
+                         getStbrtOffset(), sbs, fblse);
                 }
-                finally {
-                    isSettingAttributes = false;
+                finblly {
+                    isSettingAttributes = fblse;
                 }
             }
         }
@@ -257,105 +257,105 @@ class HiddenTagView extends EditableView implements DocumentListener {
     JTextComponent getTextComponent() {
         Component comp = getComponent();
 
-        return (comp == null) ? null : (JTextComponent)((Container)comp).
+        return (comp == null) ? null : (JTextComponent)((Contbiner)comp).
                                        getComponent(0);
     }
 
     String getRepresentedText() {
-        String retValue = getElement().getName();
-        return (retValue == null) ? "" : retValue;
+        String retVblue = getElement().getNbme();
+        return (retVblue == null) ? "" : retVblue;
     }
 
-    boolean isEndTag() {
-        AttributeSet as = getElement().getAttributes();
-        if (as != null) {
-            Object end = as.getAttribute(HTML.Attribute.ENDTAG);
-            if (end != null && (end instanceof String) &&
-                ((String)end).equals("true")) {
+    boolebn isEndTbg() {
+        AttributeSet bs = getElement().getAttributes();
+        if (bs != null) {
+            Object end = bs.getAttribute(HTML.Attribute.ENDTAG);
+            if (end != null && (end instbnceof String) &&
+                ((String)end).equbls("true")) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    /** Alignment along the y axis, based on the font of the textfield. */
-    float yAlign;
-    /** Set to true when setting attributes. */
-    boolean isSettingAttributes;
+    /** Alignment blong the y bxis, bbsed on the font of the textfield. */
+    flobt yAlign;
+    /** Set to true when setting bttributes. */
+    boolebn isSettingAttributes;
 
 
-    // Following are for Borders that used for Unknown tags and comments.
+    // Following bre for Borders thbt used for Unknown tbgs bnd comments.
     //
     // Border defines
-    static final int circleR = 3;
-    static final int circleD = circleR * 2;
-    static final int tagSize = 6;
-    static final int padding = 3;
-    static final Color UnknownTagBorderColor = Color.black;
-    static final Border StartBorder = new StartTagBorder();
-    static final Border EndBorder = new EndTagBorder();
+    stbtic finbl int circleR = 3;
+    stbtic finbl int circleD = circleR * 2;
+    stbtic finbl int tbgSize = 6;
+    stbtic finbl int pbdding = 3;
+    stbtic finbl Color UnknownTbgBorderColor = Color.blbck;
+    stbtic finbl Border StbrtBorder = new StbrtTbgBorder();
+    stbtic finbl Border EndBorder = new EndTbgBorder();
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class StartTagBorder implements Border, Serializable {
-        public void paintBorder(Component c, Graphics g, int x, int y,
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss StbrtTbgBorder implements Border, Seriblizbble {
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            g.setColor(UnknownTagBorderColor);
-            x += padding;
-            width -= (padding * 2);
-            g.drawLine(x, y + circleR,
+            g.setColor(UnknownTbgBorderColor);
+            x += pbdding;
+            width -= (pbdding * 2);
+            g.drbwLine(x, y + circleR,
                        x, y + height - circleR);
-            g.drawArc(x, y + height - circleD - 1,
+            g.drbwArc(x, y + height - circleD - 1,
                       circleD, circleD, 180, 90);
-            g.drawArc(x, y, circleD, circleD, 90, 90);
-            g.drawLine(x + circleR, y, x + width - tagSize, y);
-            g.drawLine(x + circleR, y + height - 1,
-                       x + width - tagSize, y + height - 1);
+            g.drbwArc(x, y, circleD, circleD, 90, 90);
+            g.drbwLine(x + circleR, y, x + width - tbgSize, y);
+            g.drbwLine(x + circleR, y + height - 1,
+                       x + width - tbgSize, y + height - 1);
 
-            g.drawLine(x + width - tagSize, y,
+            g.drbwLine(x + width - tbgSize, y,
                        x + width - 1, y + height / 2);
-            g.drawLine(x + width - tagSize, y + height,
+            g.drbwLine(x + width - tbgSize, y + height,
                        x + width - 1, y + height / 2);
         }
 
         public Insets getBorderInsets(Component c) {
-            return new Insets(2, 2 + padding, 2, tagSize + 2 + padding);
+            return new Insets(2, 2 + pbdding, 2, tbgSize + 2 + pbdding);
         }
 
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
-    } // End of class HiddenTagView.StartTagBorder
+    } // End of clbss HiddenTbgView.StbrtTbgBorder
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class EndTagBorder implements Border, Serializable {
-        public void paintBorder(Component c, Graphics g, int x, int y,
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss EndTbgBorder implements Border, Seriblizbble {
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            g.setColor(UnknownTagBorderColor);
-            x += padding;
-            width -= (padding * 2);
-            g.drawLine(x + width - 1, y + circleR,
+            g.setColor(UnknownTbgBorderColor);
+            x += pbdding;
+            width -= (pbdding * 2);
+            g.drbwLine(x + width - 1, y + circleR,
                        x + width - 1, y + height - circleR);
-            g.drawArc(x + width - circleD - 1, y + height - circleD - 1,
+            g.drbwArc(x + width - circleD - 1, y + height - circleD - 1,
                       circleD, circleD, 270, 90);
-            g.drawArc(x + width - circleD - 1, y, circleD, circleD, 0, 90);
-            g.drawLine(x + tagSize, y, x + width - circleR, y);
-            g.drawLine(x + tagSize, y + height - 1,
+            g.drbwArc(x + width - circleD - 1, y, circleD, circleD, 0, 90);
+            g.drbwLine(x + tbgSize, y, x + width - circleR, y);
+            g.drbwLine(x + tbgSize, y + height - 1,
                        x + width - circleR, y + height - 1);
 
-            g.drawLine(x + tagSize, y,
+            g.drbwLine(x + tbgSize, y,
                        x, y + height / 2);
-            g.drawLine(x + tagSize, y + height,
+            g.drbwLine(x + tbgSize, y + height,
                        x, y + height / 2);
         }
 
         public Insets getBorderInsets(Component c) {
-            return new Insets(2, tagSize + 2 + padding, 2, 2 + padding);
+            return new Insets(2, tbgSize + 2 + pbdding, 2, 2 + pbdding);
         }
 
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
-    } // End of class HiddenTagView.EndTagBorder
+    } // End of clbss HiddenTbgView.EndTbgBorder
 
 
-} // End of HiddenTagView
+} // End of HiddenTbgView

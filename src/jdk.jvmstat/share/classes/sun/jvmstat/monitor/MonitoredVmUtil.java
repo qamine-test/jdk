@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
 /**
- * Utility class proving concenience methods for extracting various
- * information from an MonitoredVm object.
+ * Utility clbss proving concenience methods for extrbcting vbrious
+ * informbtion from bn MonitoredVm object.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class MonitoredVmUtil {
+public clbss MonitoredVmUtil {
 
     /**
-     * Private constructor - prevent instantiation.
+     * Privbte constructor - prevent instbntibtion.
      */
-    private MonitoredVmUtil() { }
+    privbte MonitoredVmUtil() { }
 
     /**
-     * Return the Java Virtual Machine Version.
+     * Return the Jbvb Virtubl Mbchine Version.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the version of the target JVM or the
-     *                  the string "Unknown" if the version cannot be
+     * @pbrbm vm the tbrget MonitoredVm
+     * @return String - contbins the version of the tbrget JVM or the
+     *                  the string "Unknown" if the version cbnnot be
      *                  determined.
      */
-    public static String vmVersion(MonitoredVm vm) throws MonitorException {
+    public stbtic String vmVersion(MonitoredVm vm) throws MonitorException {
         StringMonitor ver =
-               (StringMonitor)vm.findByName("java.property.java.vm.version");
-        return (ver == null) ? "Unknown" : ver.stringValue();
+               (StringMonitor)vm.findByNbme("jbvb.property.jbvb.vm.version");
+        return (ver == null) ? "Unknown" : ver.stringVblue();
     }
 
     /**
-     * Return the command line for the target Java application.
+     * Return the commbnd line for the tbrget Jbvb bpplicbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the command line of the target Java
-     *                  application or the the string "Unknown" if the
-     *                  command line cannot be determined.
+     * @pbrbm vm the tbrget MonitoredVm
+     * @return String - contbins the commbnd line of the tbrget Jbvb
+     *                  bpplicbtion or the the string "Unknown" if the
+     *                  commbnd line cbnnot be determined.
      */
-    public static String commandLine(MonitoredVm vm) throws MonitorException {
-        StringMonitor cmd = (StringMonitor)vm.findByName("sun.rt.javaCommand");
-        return (cmd == null) ? "Unknown" : cmd.stringValue();
+    public stbtic String commbndLine(MonitoredVm vm) throws MonitorException {
+        StringMonitor cmd = (StringMonitor)vm.findByNbme("sun.rt.jbvbCommbnd");
+        return (cmd == null) ? "Unknown" : cmd.stringVblue();
     }
 
     /**
-     * Return the arguments to the main class for the target Java application.
-     * Returns the arguments to the main class. If the arguments can't be
+     * Return the brguments to the mbin clbss for the tbrget Jbvb bpplicbtion.
+     * Returns the brguments to the mbin clbss. If the brguments cbn't be
      * found, the string "Unknown" is returned.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the arguments to the main class for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm the tbrget MonitoredVm
+     * @return String - contbins the brguments to the mbin clbss for the
+     *                  tbrget Jbvb bpplicbtion or the the string "Unknown"
+     *                  if the commbnd line cbnnot be determined.
      */
-    public static String mainArgs(MonitoredVm vm) throws MonitorException {
-        String commandLine = commandLine(vm);
+    public stbtic String mbinArgs(MonitoredVm vm) throws MonitorException {
+        String commbndLine = commbndLine(vm);
 
-        int firstSpace = commandLine.indexOf(' ');
-        if (firstSpace > 0) {
-            return commandLine.substring(firstSpace + 1);
-        } else if (commandLine.compareTo("Unknown") == 0) {
-            return commandLine;
+        int firstSpbce = commbndLine.indexOf(' ');
+        if (firstSpbce > 0) {
+            return commbndLine.substring(firstSpbce + 1);
+        } else if (commbndLine.compbreTo("Unknown") == 0) {
+            return commbndLine;
         } else {
             return null;
         }
     }
 
     /**
-     * Return the main class for the target Java application.
-     * Returns the main class or the name of the jar file if the application
-     * was started with the <em>-jar</em> option.
+     * Return the mbin clbss for the tbrget Jbvb bpplicbtion.
+     * Returns the mbin clbss or the nbme of the jbr file if the bpplicbtion
+     * wbs stbrted with the <em>-jbr</em> option.
      *
-     * @param vm the target MonitoredVm
-     * @param fullPath include the full path to Jar file, where applicable
-     * @return String - contains the main class of the target Java
-     *                  application or the the string "Unknown" if the
-     *                  command line cannot be determined.
+     * @pbrbm vm the tbrget MonitoredVm
+     * @pbrbm fullPbth include the full pbth to Jbr file, where bpplicbble
+     * @return String - contbins the mbin clbss of the tbrget Jbvb
+     *                  bpplicbtion or the the string "Unknown" if the
+     *                  commbnd line cbnnot be determined.
      */
-    public static String mainClass(MonitoredVm vm, boolean fullPath)
+    public stbtic String mbinClbss(MonitoredVm vm, boolebn fullPbth)
                          throws MonitorException {
-        String commandLine = commandLine(vm);
-        String arg0 = commandLine;
+        String commbndLine = commbndLine(vm);
+        String brg0 = commbndLine;
 
-        int firstSpace = commandLine.indexOf(' ');
-        if (firstSpace > 0) {
-            arg0 = commandLine.substring(0, firstSpace);
+        int firstSpbce = commbndLine.indexOf(' ');
+        if (firstSpbce > 0) {
+            brg0 = commbndLine.substring(0, firstSpbce);
         }
-        if (!fullPath) {
+        if (!fullPbth) {
             /*
-             * can't use File.separator() here because the separator
-             * for the target jvm may be different than the separator
+             * cbn't use File.sepbrbtor() here becbuse the sepbrbtor
+             * for the tbrget jvm mby be different thbn the sepbrbtor
              * for the monitoring jvm.
              */
-            int lastFileSeparator = arg0.lastIndexOf('/');
-            if (lastFileSeparator > 0) {
-                 return arg0.substring(lastFileSeparator + 1);
+            int lbstFileSepbrbtor = brg0.lbstIndexOf('/');
+            if (lbstFileSepbrbtor > 0) {
+                 return brg0.substring(lbstFileSepbrbtor + 1);
             }
 
-            lastFileSeparator = arg0.lastIndexOf('\\');
-            if (lastFileSeparator > 0) {
-                 return arg0.substring(lastFileSeparator + 1);
+            lbstFileSepbrbtor = brg0.lbstIndexOf('\\');
+            if (lbstFileSepbrbtor > 0) {
+                 return brg0.substring(lbstFileSepbrbtor + 1);
             }
 
-            int lastPackageSeparator = arg0.lastIndexOf('.');
-            if (lastPackageSeparator > 0) {
-                 return arg0.substring(lastPackageSeparator + 1);
+            int lbstPbckbgeSepbrbtor = brg0.lbstIndexOf('.');
+            if (lbstPbckbgeSepbrbtor > 0) {
+                 return brg0.substring(lbstPbckbgeSepbrbtor + 1);
             }
         }
-        return arg0;
+        return brg0;
     }
 
     /**
-     * Return the JVM arguments for the target Java application.
+     * Return the JVM brguments for the tbrget Jbvb bpplicbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the arguments passed to the JVM for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm the tbrget MonitoredVm
+     * @return String - contbins the brguments pbssed to the JVM for the
+     *                  tbrget Jbvb bpplicbtion or the the string "Unknown"
+     *                  if the commbnd line cbnnot be determined.
      */
-    public static String jvmArgs(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmArgs = (StringMonitor)vm.findByName("java.rt.vmArgs");
-        return (jvmArgs == null) ? "Unknown" : jvmArgs.stringValue();
+    public stbtic String jvmArgs(MonitoredVm vm) throws MonitorException {
+        StringMonitor jvmArgs = (StringMonitor)vm.findByNbme("jbvb.rt.vmArgs");
+        return (jvmArgs == null) ? "Unknown" : jvmArgs.stringVblue();
     }
 
     /**
-     * Return the JVM flags for the target Java application.
+     * Return the JVM flbgs for the tbrget Jbvb bpplicbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the flags passed to the JVM for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm the tbrget MonitoredVm
+     * @return String - contbins the flbgs pbssed to the JVM for the
+     *                  tbrget Jbvb bpplicbtion or the the string "Unknown"
+     *                  if the commbnd line cbnnot be determined.
      */
-    public static String jvmFlags(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmFlags =
-               (StringMonitor)vm.findByName("java.rt.vmFlags");
-        return (jvmFlags == null) ? "Unknown" : jvmFlags.stringValue();
+    public stbtic String jvmFlbgs(MonitoredVm vm) throws MonitorException {
+        StringMonitor jvmFlbgs =
+               (StringMonitor)vm.findByNbme("jbvb.rt.vmFlbgs");
+        return (jvmFlbgs == null) ? "Unknown" : jvmFlbgs.stringVblue();
     }
 
-    // Index of the sun.rt.jvmCapabilities counter
-    private static int IS_ATTACHABLE = 0;
-    private static int IS_KERNEL_VM  = 1;
+    // Index of the sun.rt.jvmCbpbbilities counter
+    privbte stbtic int IS_ATTACHABLE = 0;
+    privbte stbtic int IS_KERNEL_VM  = 1;
 
     /**
-     * Returns true if the VM supports attach-on-demand.
+     * Returns true if the VM supports bttbch-on-dembnd.
      *
-     * @param vm the target MonitoredVm
+     * @pbrbm vm the tbrget MonitoredVm
      */
-    public static boolean isAttachable(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmCapabilities =
-               (StringMonitor)vm.findByName("sun.rt.jvmCapabilities");
-        if (jvmCapabilities == null) {
-             return false;
+    public stbtic boolebn isAttbchbble(MonitoredVm vm) throws MonitorException {
+        StringMonitor jvmCbpbbilities =
+               (StringMonitor)vm.findByNbme("sun.rt.jvmCbpbbilities");
+        if (jvmCbpbbilities == null) {
+             return fblse;
         } else {
-             return jvmCapabilities.stringValue().charAt(IS_ATTACHABLE) == '1';
+             return jvmCbpbbilities.stringVblue().chbrAt(IS_ATTACHABLE) == '1';
         }
     }
 

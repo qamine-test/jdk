@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.TreeMap;
+import jbvb.util.TreeMbp;
 
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiDeviceReceiver;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.ShortMessage;
+import jbvbx.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiDeviceReceiver;
+import jbvbx.sound.midi.MidiMessbge;
+import jbvbx.sound.midi.ShortMessbge;
 
 /**
- * Software synthesizer MIDI receiver class.
+ * Softwbre synthesizer MIDI receiver clbss.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftReceiver implements MidiDeviceReceiver {
+public finbl clbss SoftReceiver implements MidiDeviceReceiver {
 
-    boolean open = true;
-    private final Object control_mutex;
-    private final SoftSynthesizer synth;
-    TreeMap<Long, Object> midimessages;
-    SoftMainMixer mainmixer;
+    boolebn open = true;
+    privbte finbl Object control_mutex;
+    privbte finbl SoftSynthesizer synth;
+    TreeMbp<Long, Object> midimessbges;
+    SoftMbinMixer mbinmixer;
 
     public SoftReceiver(SoftSynthesizer synth) {
         this.control_mutex = synth.control_mutex;
         this.synth = synth;
-        this.mainmixer = synth.getMainMixer();
-        if (mainmixer != null)
-            this.midimessages = mainmixer.midimessages;
+        this.mbinmixer = synth.getMbinMixer();
+        if (mbinmixer != null)
+            this.midimessbges = mbinmixer.midimessbges;
     }
 
     public MidiDevice getMidiDevice() {
         return synth;
     }
 
-    public void send(MidiMessage message, long timeStamp) {
+    public void send(MidiMessbge messbge, long timeStbmp) {
 
         synchronized (control_mutex) {
             if (!open)
-                throw new IllegalStateException("Receiver is not open");
+                throw new IllegblStbteException("Receiver is not open");
         }
 
-        if (timeStamp != -1) {
+        if (timeStbmp != -1) {
             synchronized (control_mutex) {
-                mainmixer.activity();
-                while (midimessages.get(timeStamp) != null)
-                    timeStamp++;
-                if (message instanceof ShortMessage
-                        && (((ShortMessage)message).getChannel() > 0xF)) {
-                    midimessages.put(timeStamp, message.clone());
+                mbinmixer.bctivity();
+                while (midimessbges.get(timeStbmp) != null)
+                    timeStbmp++;
+                if (messbge instbnceof ShortMessbge
+                        && (((ShortMessbge)messbge).getChbnnel() > 0xF)) {
+                    midimessbges.put(timeStbmp, messbge.clone());
                 } else {
-                    midimessages.put(timeStamp, message.getMessage());
+                    midimessbges.put(timeStbmp, messbge.getMessbge());
                 }
             }
         } else {
-            mainmixer.processMessage(message);
+            mbinmixer.processMessbge(messbge);
         }
     }
 
     public void close() {
         synchronized (control_mutex) {
-            open = false;
+            open = fblse;
         }
         synth.removeReceiver(this);
     }

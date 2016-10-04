@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.security.util.DerOutputStrebm;
+import sun.security.util.DerVblue;
 
 /**
- * The Subject Information Access Extension (OID = 1.3.6.1.5.5.7.1.11).
+ * The Subject Informbtion Access Extension (OID = 1.3.6.1.5.5.7.1.11).
  * <p>
- * The subject information access extension indicates how to access
- * information and services for the subject of the certificate in which
- * the extension appears.  When the subject is a CA, information and
- * services may include certificate validation services and CA policy
- * data.  When the subject is an end entity, the information describes
- * the type of services offered and how to access them.  In this case,
- * the contents of this extension are defined in the protocol
- * specifications for the supported services.  This extension may be
- * included in end entity or CA certificates.  Conforming CAs MUST mark
- * this extension as non-critical.
+ * The subject informbtion bccess extension indicbtes how to bccess
+ * informbtion bnd services for the subject of the certificbte in which
+ * the extension bppebrs.  When the subject is b CA, informbtion bnd
+ * services mby include certificbte vblidbtion services bnd CA policy
+ * dbtb.  When the subject is bn end entity, the informbtion describes
+ * the type of services offered bnd how to bccess them.  In this cbse,
+ * the contents of this extension bre defined in the protocol
+ * specificbtions for the supported services.  This extension mby be
+ * included in end entity or CA certificbtes.  Conforming CAs MUST mbrk
+ * this extension bs non-criticbl.
  * <p>
- * This extension is defined in <a href="http://www.ietf.org/rfc/rfc3280.txt">
- * Internet X.509 PKI Certificate and Certificate Revocation List
- * (CRL) Profile</a>. The profile permits
- * the extension to be included in end-entity or CA certificates,
- * and it must be marked as non-critical. Its ASN.1 definition is as follows:
+ * This extension is defined in <b href="http://www.ietf.org/rfc/rfc3280.txt">
+ * Internet X.509 PKI Certificbte bnd Certificbte Revocbtion List
+ * (CRL) Profile</b>. The profile permits
+ * the extension to be included in end-entity or CA certificbtes,
+ * bnd it must be mbrked bs non-criticbl. Its ASN.1 definition is bs follows:
  * <pre>
  *   id-pe-subjectInfoAccess OBJECT IDENTIFIER ::= { id-pe 11 }
  *
- *   SubjectInfoAccessSyntax  ::=
+ *   SubjectInfoAccessSyntbx  ::=
  *          SEQUENCE SIZE (1..MAX) OF AccessDescription
  *
  *   AccessDescription  ::=  SEQUENCE {
- *          accessMethod          OBJECT IDENTIFIER,
- *          accessLocation        GeneralName  }
+ *          bccessMethod          OBJECT IDENTIFIER,
+ *          bccessLocbtion        GenerblNbme  }
  * </pre>
  * <p>
  * @see Extension
  * @see CertAttrSet
  */
 
-public class SubjectInfoAccessExtension extends Extension
+public clbss SubjectInfoAccessExtension extends Extension
         implements CertAttrSet<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
+    public stbtic finbl String IDENT =
                                 "x509.info.extensions.SubjectInfoAccess";
 
     /**
-     * Attribute name.
+     * Attribute nbme.
      */
-    public static final String NAME = "SubjectInfoAccess";
-    public static final String DESCRIPTIONS = "descriptions";
+    public stbtic finbl String NAME = "SubjectInfoAccess";
+    public stbtic finbl String DESCRIPTIONS = "descriptions";
 
     /**
      * The List of AccessDescription objects.
      */
-    private List<AccessDescription> accessDescriptions;
+    privbte List<AccessDescription> bccessDescriptions;
 
     /**
-     * Create an SubjectInfoAccessExtension from a List of
-     * AccessDescription; the criticality is set to false.
+     * Crebte bn SubjectInfoAccessExtension from b List of
+     * AccessDescription; the criticblity is set to fblse.
      *
-     * @param accessDescriptions the List of AccessDescription
+     * @pbrbm bccessDescriptions the List of AccessDescription
      * @throws IOException on error
      */
     public SubjectInfoAccessExtension(
-            List<AccessDescription> accessDescriptions) throws IOException {
+            List<AccessDescription> bccessDescriptions) throws IOException {
         this.extensionId = PKIXExtensions.SubjectInfoAccess_Id;
-        this.critical = false;
-        this.accessDescriptions = accessDescriptions;
+        this.criticbl = fblse;
+        this.bccessDescriptions = bccessDescriptions;
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value Array of DER encoded bytes of the actual value.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue Arrby of DER encoded bytes of the bctubl vblue.
      * @exception IOException on error.
      */
-    public SubjectInfoAccessExtension(Boolean critical, Object value)
+    public SubjectInfoAccessExtension(Boolebn criticbl, Object vblue)
             throws IOException {
         this.extensionId = PKIXExtensions.SubjectInfoAccess_Id;
-        this.critical = critical.booleanValue();
+        this.criticbl = criticbl.boolebnVblue();
 
-        if (!(value instanceof byte[])) {
-            throw new IOException("Illegal argument type");
+        if (!(vblue instbnceof byte[])) {
+            throw new IOException("Illegbl brgument type");
         }
 
-        extensionValue = (byte[])value;
-        DerValue val = new DerValue(extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
+        extensionVblue = (byte[])vblue;
+        DerVblue vbl = new DerVblue(extensionVblue);
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for " +
                                   "SubjectInfoAccessExtension.");
         }
-        accessDescriptions = new ArrayList<AccessDescription>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            AccessDescription accessDescription = new AccessDescription(seq);
-            accessDescriptions.add(accessDescription);
+        bccessDescriptions = new ArrbyList<AccessDescription>();
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue seq = vbl.dbtb.getDerVblue();
+            AccessDescription bccessDescription = new AccessDescription(seq);
+            bccessDescriptions.bdd(bccessDescription);
         }
     }
 
@@ -137,45 +137,45 @@ public class SubjectInfoAccessExtension extends Extension
      * Return the list of AccessDescription objects.
      */
     public List<AccessDescription> getAccessDescriptions() {
-        return accessDescriptions;
+        return bccessDescriptions;
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Write the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (this.extensionVblue == null) {
             this.extensionId = PKIXExtensions.SubjectInfoAccess_Id;
-            this.critical = false;
+            this.criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(DESCRIPTIONS)) {
-            if (!(obj instanceof List)) {
-                throw new IOException("Attribute value should be of type List.");
+    @SuppressWbrnings("unchecked") // Checked with instbnceof
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(DESCRIPTIONS)) {
+            if (!(obj instbnceof List)) {
+                throw new IOException("Attribute vblue should be of type List.");
             }
-            accessDescriptions = (List<AccessDescription>)obj;
+            bccessDescriptions = (List<AccessDescription>)obj;
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
                                 "CertAttrSet:SubjectInfoAccessExtension.");
         }
@@ -183,26 +183,26 @@ public class SubjectInfoAccessExtension extends Extension
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public List<AccessDescription> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(DESCRIPTIONS)) {
-            return accessDescriptions;
+    public List<AccessDescription> get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DESCRIPTIONS)) {
+            return bccessDescriptions;
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
                                 "CertAttrSet:SubjectInfoAccessExtension.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(DESCRIPTIONS)) {
-            accessDescriptions = new ArrayList<AccessDescription>();
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(DESCRIPTIONS)) {
+            bccessDescriptions = new ArrbyList<AccessDescription>();
         } else {
-            throw new IOException("Attribute name [" + name +
+            throw new IOException("Attribute nbme [" + nbme +
                                 "] not recognized by " +
                                 "CertAttrSet:SubjectInfoAccessExtension.");
         }
@@ -210,36 +210,36 @@ public class SubjectInfoAccessExtension extends Extension
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(DESCRIPTIONS);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(DESCRIPTIONS);
         return elements.elements();
     }
 
-     // Encode this extension value
-    private void encodeThis() throws IOException {
-        if (accessDescriptions.isEmpty()) {
-            this.extensionValue = null;
+     // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
+        if (bccessDescriptions.isEmpty()) {
+            this.extensionVblue = null;
         } else {
-            DerOutputStream ads = new DerOutputStream();
-            for (AccessDescription accessDescription : accessDescriptions) {
-                accessDescription.encode(ads);
+            DerOutputStrebm bds = new DerOutputStrebm();
+            for (AccessDescription bccessDescription : bccessDescriptions) {
+                bccessDescription.encode(bds);
             }
-            DerOutputStream seq = new DerOutputStream();
-            seq.write(DerValue.tag_Sequence, ads);
-            this.extensionValue = seq.toByteArray();
+            DerOutputStrebm seq = new DerOutputStrebm();
+            seq.write(DerVblue.tbg_Sequence, bds);
+            this.extensionVblue = seq.toByteArrby();
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Return the extension bs user rebdbble string.
      */
     public String toString() {
         return super.toString() + "SubjectInfoAccess [\n  "
-               + accessDescriptions + "\n]\n";
+               + bccessDescriptions + "\n]\n";
     }
 
 }

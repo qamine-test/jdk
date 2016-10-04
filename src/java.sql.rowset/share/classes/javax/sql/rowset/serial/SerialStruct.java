@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.math.*;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Vector;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.Vector;
 
-import javax.sql.rowset.*;
+import jbvbx.sql.rowset.*;
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * structured type. Each attribute that is not already serialized
- * is mapped to a serialized form, and if an attribute is itself
- * a structured type, each of its attributes that is not already
- * serialized is mapped to a serialized form.
+ * A seriblized mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * structured type. Ebch bttribute thbt is not blrebdy seriblized
+ * is mbpped to b seriblized form, bnd if bn bttribute is itself
+ * b structured type, ebch of its bttributes thbt is not blrebdy
+ * seriblized is mbpped to b seriblized form.
  * <P>
- * In addition, the structured type is custom mapped to a class in the
- * Java programming language if there is such a mapping, as are
- * its attributes, if appropriate.
+ * In bddition, the structured type is custom mbpped to b clbss in the
+ * Jbvb progrbmming lbngubge if there is such b mbpping, bs bre
+ * its bttributes, if bppropribte.
  * <P>
- * The <code>SerialStruct</code> class provides a constructor for creating
- * an instance from a <code>Struct</code> object, a method for retrieving
- * the SQL type name of the SQL structured type in the database, and methods
- * for retrieving its attribute values.
+ * The <code>SeriblStruct</code> clbss provides b constructor for crebting
+ * bn instbnce from b <code>Struct</code> object, b method for retrieving
+ * the SQL type nbme of the SQL structured type in the dbtbbbse, bnd methods
+ * for retrieving its bttribute vblues.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * A SerialStruct is not safe for use by multiple concurrent threads.  If a
- * SerialStruct is to be used by more than one thread then access to the
- * SerialStruct should be controlled by appropriate synchronization.
+ * A SeriblStruct is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblStruct is to be used by more thbn one threbd then bccess to the
+ * SeriblStruct should be controlled by bppropribte synchronizbtion.
  *
  * @since 1.5
  */
-public class SerialStruct implements Struct, Serializable, Cloneable {
+public clbss SeriblStruct implements Struct, Seriblizbble, Clonebble {
 
 
     /**
-     * The SQL type name for the structured type that this
-     * <code>SerialStruct</code> object represents.  This is the name
+     * The SQL type nbme for the structured type thbt this
+     * <code>SeriblStruct</code> object represents.  This is the nbme
      * used in the SQL definition of the SQL structured type.
      *
-     * @serial
+     * @seribl
      */
-    private String SQLTypeName;
+    privbte String SQLTypeNbme;
 
     /**
-     * An array of <code>Object</code> instances in  which each
-     * element is an attribute of the SQL structured type that this
-     * <code>SerialStruct</code> object represents.  The attributes are
-     * ordered according to their order in the definition of the
+     * An brrby of <code>Object</code> instbnces in  which ebch
+     * element is bn bttribute of the SQL structured type thbt this
+     * <code>SeriblStruct</code> object represents.  The bttributes bre
+     * ordered bccording to their order in the definition of the
      * SQL structured type.
      *
-     * @serial
+     * @seribl
      */
-    private Object attribs[];
+    privbte Object bttribs[];
 
     /**
-     * Constructs a <code>SerialStruct</code> object from the given
-     * <code>Struct</code> object, using the given <code>java.util.Map</code>
-     * object for custom mapping the SQL structured type or any of its
-     * attributes that are SQL structured types.
+     * Constructs b <code>SeriblStruct</code> object from the given
+     * <code>Struct</code> object, using the given <code>jbvb.util.Mbp</code>
+     * object for custom mbpping the SQL structured type or bny of its
+     * bttributes thbt bre SQL structured types.
      *
-     * @param in an instance of {@code Struct}
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @throws SerialException if an error occurs
-     * @see java.sql.Struct
+     * @pbrbm in bn instbnce of {@code Struct}
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @throws SeriblException if bn error occurs
+     * @see jbvb.sql.Struct
      */
-     public SerialStruct(Struct in, Map<String,Class<?>> map)
-         throws SerialException
+     public SeriblStruct(Struct in, Mbp<String,Clbss<?>> mbp)
+         throws SeriblException
      {
 
         try {
 
-        // get the type name
-        SQLTypeName = in.getSQLTypeName();
-        System.out.println("SQLTypeName: " + SQLTypeName);
+        // get the type nbme
+        SQLTypeNbme = in.getSQLTypeNbme();
+        System.out.println("SQLTypeNbme: " + SQLTypeNbme);
 
-        // get the attributes of the struct
-        attribs = in.getAttributes(map);
+        // get the bttributes of the struct
+        bttribs = in.getAttributes(mbp);
 
         /*
-         * the array may contain further Structs
-         * and/or classes that have been mapped,
-         * other types that we have to serialize
+         * the brrby mby contbin further Structs
+         * bnd/or clbsses thbt hbve been mbpped,
+         * other types thbt we hbve to seriblize
          */
-        mapToSerial(map);
+        mbpToSeribl(mbp);
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } cbtch (SQLException e) {
+            throw new SeriblException(e.getMessbge());
         }
     }
 
      /**
-      * Constructs a <code>SerialStruct</code> object from the
-      * given <code>SQLData</code> object, using the given type
-      * map to custom map it to a class in the Java programming
-      * language.  The type map gives the SQL type and the class
-      * to which it is mapped.  The <code>SQLData</code> object
-      * defines the class to which the SQL type will be mapped.
+      * Constructs b <code>SeriblStruct</code> object from the
+      * given <code>SQLDbtb</code> object, using the given type
+      * mbp to custom mbp it to b clbss in the Jbvb progrbmming
+      * lbngubge.  The type mbp gives the SQL type bnd the clbss
+      * to which it is mbpped.  The <code>SQLDbtb</code> object
+      * defines the clbss to which the SQL type will be mbpped.
       *
-      * @param in an instance of the <code>SQLData</code> class
-      *           that defines the mapping of the SQL structured
-      *           type to one or more objects in the Java programming language
-      * @param map a <code>java.util.Map</code> object in which
-      *        each entry consists of 1) a <code>String</code> object
-      *        giving the fully qualified name of a UDT and 2) the
-      *        <code>Class</code> object for the <code>SQLData</code> implementation
-      *        that defines how the UDT is to be mapped
-      * @throws SerialException if an error occurs
+      * @pbrbm in bn instbnce of the <code>SQLDbtb</code> clbss
+      *           thbt defines the mbpping of the SQL structured
+      *           type to one or more objects in the Jbvb progrbmming lbngubge
+      * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+      *        ebch entry consists of 1) b <code>String</code> object
+      *        giving the fully qublified nbme of b UDT bnd 2) the
+      *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+      *        thbt defines how the UDT is to be mbpped
+      * @throws SeriblException if bn error occurs
       */
-    public SerialStruct(SQLData in, Map<String,Class<?>> map)
-        throws SerialException
+    public SeriblStruct(SQLDbtb in, Mbp<String,Clbss<?>> mbp)
+        throws SeriblException
     {
 
         try {
 
-        //set the type name
-        SQLTypeName = in.getSQLTypeName();
+        //set the type nbme
+        SQLTypeNbme = in.getSQLTypeNbme();
 
         Vector<Object> tmp = new Vector<>();
-        in.writeSQL(new SQLOutputImpl(tmp, map));
-        attribs = tmp.toArray();
+        in.writeSQL(new SQLOutputImpl(tmp, mbp));
+        bttribs = tmp.toArrby();
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } cbtch (SQLException e) {
+            throw new SeriblException(e.getMessbge());
         }
     }
 
 
     /**
-     * Retrieves the SQL type name for this <code>SerialStruct</code>
-     * object. This is the name used in the SQL definition of the
+     * Retrieves the SQL type nbme for this <code>SeriblStruct</code>
+     * object. This is the nbme used in the SQL definition of the
      * structured type
      *
-     * @return a <code>String</code> object representing the SQL
-     *         type name for the SQL structured type that this
-     *         <code>SerialStruct</code> object represents
-     * @throws SerialException if an error occurs
+     * @return b <code>String</code> object representing the SQL
+     *         type nbme for the SQL structured type thbt this
+     *         <code>SeriblStruct</code> object represents
+     * @throws SeriblException if bn error occurs
      */
-    public String getSQLTypeName() throws SerialException {
-        return SQLTypeName;
+    public String getSQLTypeNbme() throws SeriblException {
+        return SQLTypeNbme;
     }
 
     /**
-     * Retrieves an array of <code>Object</code> values containing the
-     * attributes of the SQL structured type that this
-     * <code>SerialStruct</code> object represents.
+     * Retrieves bn brrby of <code>Object</code> vblues contbining the
+     * bttributes of the SQL structured type thbt this
+     * <code>SeriblStruct</code> object represents.
      *
-     * @return an array of <code>Object</code> values, with each
-     *         element being an attribute of the SQL structured type
-     *         that this <code>SerialStruct</code> object represents
-     * @throws SerialException if an error occurs
+     * @return bn brrby of <code>Object</code> vblues, with ebch
+     *         element being bn bttribute of the SQL structured type
+     *         thbt this <code>SeriblStruct</code> object represents
+     * @throws SeriblException if bn error occurs
      */
-    public Object[]  getAttributes() throws SerialException {
-        Object[] val = this.attribs;
-        return (val == null) ? null : Arrays.copyOf(val, val.length);
+    public Object[]  getAttributes() throws SeriblException {
+        Object[] vbl = this.bttribs;
+        return (vbl == null) ? null : Arrbys.copyOf(vbl, vbl.length);
     }
 
     /**
-     * Retrieves the attributes for the SQL structured type that
-     * this <code>SerialStruct</code> represents as an array of
-     * <code>Object</code> values, using the given type map for
-     * custom mapping if appropriate.
+     * Retrieves the bttributes for the SQL structured type thbt
+     * this <code>SeriblStruct</code> represents bs bn brrby of
+     * <code>Object</code> vblues, using the given type mbp for
+     * custom mbpping if bppropribte.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return an array of <code>Object</code> values, with each
-     *         element being an attribute of the SQL structured
-     *         type that this <code>SerialStruct</code> object
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return bn brrby of <code>Object</code> vblues, with ebch
+     *         element being bn bttribute of the SQL structured
+     *         type thbt this <code>SeriblStruct</code> object
      *         represents
-     * @throws SerialException if an error occurs
+     * @throws SeriblException if bn error occurs
      */
-    public Object[] getAttributes(Map<String,Class<?>> map)
-        throws SerialException
+    public Object[] getAttributes(Mbp<String,Clbss<?>> mbp)
+        throws SeriblException
     {
-        Object[] val = this.attribs;
-        return (val == null) ? null : Arrays.copyOf(val, val.length);
+        Object[] vbl = this.bttribs;
+        return (vbl == null) ? null : Arrbys.copyOf(vbl, vbl.length);
     }
 
 
     /**
-     * Maps attributes of an SQL structured type that are not
-     * serialized to a serialized form, using the given type map
-     * for custom mapping when appropriate.  The following types
-     * in the Java programming language are mapped to their
-     * serialized forms:  <code>Struct</code>, <code>SQLData</code>,
-     * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>, and
-     * <code>Array</code>.
+     * Mbps bttributes of bn SQL structured type thbt bre not
+     * seriblized to b seriblized form, using the given type mbp
+     * for custom mbpping when bppropribte.  The following types
+     * in the Jbvb progrbmming lbngubge bre mbpped to their
+     * seriblized forms:  <code>Struct</code>, <code>SQLDbtb</code>,
+     * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>, bnd
+     * <code>Arrby</code>.
      * <P>
-     * This method is called internally and is not used by an
-     * application programmer.
+     * This method is cblled internblly bnd is not used by bn
+     * bpplicbtion progrbmmer.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @throws SerialException if an error occurs
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @throws SeriblException if bn error occurs
      */
-    private void mapToSerial(Map<String,Class<?>> map) throws SerialException {
+    privbte void mbpToSeribl(Mbp<String,Clbss<?>> mbp) throws SeriblException {
 
         try {
 
-        for (int i = 0; i < attribs.length; i++) {
-            if (attribs[i] instanceof Struct) {
-                attribs[i] = new SerialStruct((Struct)attribs[i], map);
-            } else if (attribs[i] instanceof SQLData) {
-                attribs[i] = new SerialStruct((SQLData)attribs[i], map);
-            } else if (attribs[i] instanceof Blob) {
-                attribs[i] = new SerialBlob((Blob)attribs[i]);
-            } else if (attribs[i] instanceof Clob) {
-                attribs[i] = new SerialClob((Clob)attribs[i]);
-            } else if (attribs[i] instanceof Ref) {
-                attribs[i] = new SerialRef((Ref)attribs[i]);
-            } else if (attribs[i] instanceof java.sql.Array) {
-                attribs[i] = new SerialArray((java.sql.Array)attribs[i], map);
+        for (int i = 0; i < bttribs.length; i++) {
+            if (bttribs[i] instbnceof Struct) {
+                bttribs[i] = new SeriblStruct((Struct)bttribs[i], mbp);
+            } else if (bttribs[i] instbnceof SQLDbtb) {
+                bttribs[i] = new SeriblStruct((SQLDbtb)bttribs[i], mbp);
+            } else if (bttribs[i] instbnceof Blob) {
+                bttribs[i] = new SeriblBlob((Blob)bttribs[i]);
+            } else if (bttribs[i] instbnceof Clob) {
+                bttribs[i] = new SeriblClob((Clob)bttribs[i]);
+            } else if (bttribs[i] instbnceof Ref) {
+                bttribs[i] = new SeriblRef((Ref)bttribs[i]);
+            } else if (bttribs[i] instbnceof jbvb.sql.Arrby) {
+                bttribs[i] = new SeriblArrby((jbvb.sql.Arrby)bttribs[i], mbp);
             }
         }
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } cbtch (SQLException e) {
+            throw new SeriblException(e.getMessbge());
         }
         return;
     }
 
     /**
-     * Compares this SerialStruct to the specified object.  The result is
-     * {@code true} if and only if the argument is not {@code null} and is a
-     * {@code SerialStruct} object whose attributes are identical to this
-     * object's attributes
+     * Compbres this SeriblStruct to the specified object.  The result is
+     * {@code true} if bnd only if the brgument is not {@code null} bnd is b
+     * {@code SeriblStruct} object whose bttributes bre identicbl to this
+     * object's bttributes
      *
-     * @param  obj The object to compare this {@code SerialStruct} against
+     * @pbrbm  obj The object to compbre this {@code SeriblStruct} bgbinst
      *
-     * @return {@code true} if the given object represents a {@code SerialStruct}
-     *          equivalent to this SerialStruct, {@code false} otherwise
+     * @return {@code true} if the given object represents b {@code SeriblStruct}
+     *          equivblent to this SeriblStruct, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof SerialStruct) {
-            SerialStruct ss = (SerialStruct)obj;
-            return SQLTypeName.equals(ss.SQLTypeName) &&
-                    Arrays.equals(attribs, ss.attribs);
+        if (obj instbnceof SeriblStruct) {
+            SeriblStruct ss = (SeriblStruct)obj;
+            return SQLTypeNbme.equbls(ss.SQLTypeNbme) &&
+                    Arrbys.equbls(bttribs, ss.bttribs);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this {@code SerialStruct}. The hash code for a
-     * {@code SerialStruct} object is computed using the hash codes
-     * of the attributes of the {@code SerialStruct} object and its
-     * {@code SQLTypeName}
+     * Returns b hbsh code for this {@code SeriblStruct}. The hbsh code for b
+     * {@code SeriblStruct} object is computed using the hbsh codes
+     * of the bttributes of the {@code SeriblStruct} object bnd its
+     * {@code SQLTypeNbme}
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return ((31 + Arrays.hashCode(attribs)) * 31) * 31
-                + SQLTypeName.hashCode();
+    public int hbshCode() {
+        return ((31 + Arrbys.hbshCode(bttribs)) * 31) * 31
+                + SQLTypeNbme.hbshCode();
     }
 
     /**
-     * Returns a clone of this {@code SerialStruct}. The copy will contain a
-     * reference to a clone of the underlying attribs array, not a reference
-     * to the original underlying attribs array of this {@code SerialStruct} object.
+     * Returns b clone of this {@code SeriblStruct}. The copy will contbin b
+     * reference to b clone of the underlying bttribs brrby, not b reference
+     * to the originbl underlying bttribs brrby of this {@code SeriblStruct} object.
      *
-     * @return  a clone of this SerialStruct
+     * @return  b clone of this SeriblStruct
      */
     public Object clone() {
         try {
-            SerialStruct ss = (SerialStruct) super.clone();
-            ss.attribs = Arrays.copyOf(attribs, attribs.length);
+            SeriblStruct ss = (SeriblStruct) super.clone();
+            ss.bttribs = Arrbys.copyOf(bttribs, bttribs.length);
             return ss;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the {@code SerialStruct} from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the {@code SeriblStruct} from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-       ObjectInputStream.GetField fields = s.readFields();
-       Object[] tmp = (Object[])fields.get("attribs", null);
-       attribs = tmp == null ? null : tmp.clone();
-       SQLTypeName = (String)fields.get("SQLTypeName", null);
+       ObjectInputStrebm.GetField fields = s.rebdFields();
+       Object[] tmp = (Object[])fields.get("bttribs", null);
+       bttribs = tmp == null ? null : tmp.clone();
+       SQLTypeNbme = (String)fields.get("SQLTypeNbme", null);
     }
 
     /**
-     * writeObject is called to save the state of the {@code SerialStruct}
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the {@code SeriblStruct}
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("attribs", attribs);
-        fields.put("SQLTypeName", SQLTypeName);
+        ObjectOutputStrebm.PutField fields = s.putFields();
+        fields.put("bttribs", bttribs);
+        fields.put("SQLTypeNbme", SQLTypeNbme);
         s.writeFields();
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * <code>SerialStruct</code> object.
+     * The identifier thbt bssists in the seriblizbtion of this
+     * <code>SeriblStruct</code> object.
      */
-    static final long serialVersionUID = -8322445504027483372L;
+    stbtic finbl long seriblVersionUID = -8322445504027483372L;
 }

@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-public final class InternalLocaleBuilder {
+public finbl clbss InternblLocbleBuilder {
 
-    private static final CaseInsensitiveChar PRIVATEUSE_KEY
-        = new CaseInsensitiveChar(LanguageTag.PRIVATEUSE);
+    privbte stbtic finbl CbseInsensitiveChbr PRIVATEUSE_KEY
+        = new CbseInsensitiveChbr(LbngubgeTbg.PRIVATEUSE);
 
-    private String language = "";
-    private String script = "";
-    private String region = "";
-    private String variant = "";
+    privbte String lbngubge = "";
+    privbte String script = "";
+    privbte String region = "";
+    privbte String vbribnt = "";
 
-    private Map<CaseInsensitiveChar, String> extensions;
-    private Set<CaseInsensitiveString> uattributes;
-    private Map<CaseInsensitiveString, String> ukeywords;
+    privbte Mbp<CbseInsensitiveChbr, String> extensions;
+    privbte Set<CbseInsensitiveString> ubttributes;
+    privbte Mbp<CbseInsensitiveString, String> ukeywords;
 
 
-    public InternalLocaleBuilder() {
+    public InternblLocbleBuilder() {
     }
 
-    public InternalLocaleBuilder setLanguage(String language) throws LocaleSyntaxException {
-        if (LocaleUtils.isEmpty(language)) {
-            this.language = "";
+    public InternblLocbleBuilder setLbngubge(String lbngubge) throws LocbleSyntbxException {
+        if (LocbleUtils.isEmpty(lbngubge)) {
+            this.lbngubge = "";
         } else {
-            if (!LanguageTag.isLanguage(language)) {
-                throw new LocaleSyntaxException("Ill-formed language: " + language, 0);
+            if (!LbngubgeTbg.isLbngubge(lbngubge)) {
+                throw new LocbleSyntbxException("Ill-formed lbngubge: " + lbngubge, 0);
             }
-            this.language = language;
+            this.lbngubge = lbngubge;
         }
         return this;
     }
 
-    public InternalLocaleBuilder setScript(String script) throws LocaleSyntaxException {
-        if (LocaleUtils.isEmpty(script)) {
+    public InternblLocbleBuilder setScript(String script) throws LocbleSyntbxException {
+        if (LocbleUtils.isEmpty(script)) {
             this.script = "";
         } else {
-            if (!LanguageTag.isScript(script)) {
-                throw new LocaleSyntaxException("Ill-formed script: " + script, 0);
+            if (!LbngubgeTbg.isScript(script)) {
+                throw new LocbleSyntbxException("Ill-formed script: " + script, 0);
             }
             this.script = script;
         }
         return this;
     }
 
-    public InternalLocaleBuilder setRegion(String region) throws LocaleSyntaxException {
-        if (LocaleUtils.isEmpty(region)) {
+    public InternblLocbleBuilder setRegion(String region) throws LocbleSyntbxException {
+        if (LocbleUtils.isEmpty(region)) {
             this.region = "";
         } else {
-            if (!LanguageTag.isRegion(region)) {
-                throw new LocaleSyntaxException("Ill-formed region: " + region, 0);
+            if (!LbngubgeTbg.isRegion(region)) {
+                throw new LocbleSyntbxException("Ill-formed region: " + region, 0);
             }
             this.region = region;
         }
         return this;
     }
 
-    public InternalLocaleBuilder setVariant(String variant) throws LocaleSyntaxException {
-        if (LocaleUtils.isEmpty(variant)) {
-            this.variant = "";
+    public InternblLocbleBuilder setVbribnt(String vbribnt) throws LocbleSyntbxException {
+        if (LocbleUtils.isEmpty(vbribnt)) {
+            this.vbribnt = "";
         } else {
-            // normalize separators to "_"
-            String var = variant.replaceAll(LanguageTag.SEP, BaseLocale.SEP);
-            int errIdx = checkVariants(var, BaseLocale.SEP);
+            // normblize sepbrbtors to "_"
+            String vbr = vbribnt.replbceAll(LbngubgeTbg.SEP, BbseLocble.SEP);
+            int errIdx = checkVbribnts(vbr, BbseLocble.SEP);
             if (errIdx != -1) {
-                throw new LocaleSyntaxException("Ill-formed variant: " + variant, errIdx);
+                throw new LocbleSyntbxException("Ill-formed vbribnt: " + vbribnt, errIdx);
             }
-            this.variant = var;
+            this.vbribnt = vbr;
         }
         return this;
     }
 
-    public InternalLocaleBuilder addUnicodeLocaleAttribute(String attribute) throws LocaleSyntaxException {
-        if (!UnicodeLocaleExtension.isAttribute(attribute)) {
-            throw new LocaleSyntaxException("Ill-formed Unicode locale attribute: " + attribute);
+    public InternblLocbleBuilder bddUnicodeLocbleAttribute(String bttribute) throws LocbleSyntbxException {
+        if (!UnicodeLocbleExtension.isAttribute(bttribute)) {
+            throw new LocbleSyntbxException("Ill-formed Unicode locble bttribute: " + bttribute);
         }
-        // Use case insensitive string to prevent duplication
-        if (uattributes == null) {
-            uattributes = new HashSet<>(4);
+        // Use cbse insensitive string to prevent duplicbtion
+        if (ubttributes == null) {
+            ubttributes = new HbshSet<>(4);
         }
-        uattributes.add(new CaseInsensitiveString(attribute));
+        ubttributes.bdd(new CbseInsensitiveString(bttribute));
         return this;
     }
 
-    public InternalLocaleBuilder removeUnicodeLocaleAttribute(String attribute) throws LocaleSyntaxException {
-        if (attribute == null || !UnicodeLocaleExtension.isAttribute(attribute)) {
-            throw new LocaleSyntaxException("Ill-formed Unicode locale attribute: " + attribute);
+    public InternblLocbleBuilder removeUnicodeLocbleAttribute(String bttribute) throws LocbleSyntbxException {
+        if (bttribute == null || !UnicodeLocbleExtension.isAttribute(bttribute)) {
+            throw new LocbleSyntbxException("Ill-formed Unicode locble bttribute: " + bttribute);
         }
-        if (uattributes != null) {
-            uattributes.remove(new CaseInsensitiveString(attribute));
+        if (ubttributes != null) {
+            ubttributes.remove(new CbseInsensitiveString(bttribute));
         }
         return this;
     }
 
-    public InternalLocaleBuilder setUnicodeLocaleKeyword(String key, String type) throws LocaleSyntaxException {
-        if (!UnicodeLocaleExtension.isKey(key)) {
-            throw new LocaleSyntaxException("Ill-formed Unicode locale keyword key: " + key);
+    public InternblLocbleBuilder setUnicodeLocbleKeyword(String key, String type) throws LocbleSyntbxException {
+        if (!UnicodeLocbleExtension.isKey(key)) {
+            throw new LocbleSyntbxException("Ill-formed Unicode locble keyword key: " + key);
         }
 
-        CaseInsensitiveString cikey = new CaseInsensitiveString(key);
+        CbseInsensitiveString cikey = new CbseInsensitiveString(key);
         if (type == null) {
             if (ukeywords != null) {
                 // null type is used for remove the key
@@ -142,440 +142,440 @@ public final class InternalLocaleBuilder {
             }
         } else {
             if (type.length() != 0) {
-                // normalize separator to "-"
-                String tp = type.replaceAll(BaseLocale.SEP, LanguageTag.SEP);
-                // validate
-                StringTokenIterator itr = new StringTokenIterator(tp, LanguageTag.SEP);
+                // normblize sepbrbtor to "-"
+                String tp = type.replbceAll(BbseLocble.SEP, LbngubgeTbg.SEP);
+                // vblidbte
+                StringTokenIterbtor itr = new StringTokenIterbtor(tp, LbngubgeTbg.SEP);
                 while (!itr.isDone()) {
                     String s = itr.current();
-                    if (!UnicodeLocaleExtension.isTypeSubtag(s)) {
-                        throw new LocaleSyntaxException("Ill-formed Unicode locale keyword type: "
+                    if (!UnicodeLocbleExtension.isTypeSubtbg(s)) {
+                        throw new LocbleSyntbxException("Ill-formed Unicode locble keyword type: "
                                                         + type,
-                                                        itr.currentStart());
+                                                        itr.currentStbrt());
                     }
                     itr.next();
                 }
             }
             if (ukeywords == null) {
-                ukeywords = new HashMap<>(4);
+                ukeywords = new HbshMbp<>(4);
             }
             ukeywords.put(cikey, type);
         }
         return this;
     }
 
-    public InternalLocaleBuilder setExtension(char singleton, String value) throws LocaleSyntaxException {
-        // validate key
-        boolean isBcpPrivateuse = LanguageTag.isPrivateusePrefixChar(singleton);
-        if (!isBcpPrivateuse && !LanguageTag.isExtensionSingletonChar(singleton)) {
-            throw new LocaleSyntaxException("Ill-formed extension key: " + singleton);
+    public InternblLocbleBuilder setExtension(chbr singleton, String vblue) throws LocbleSyntbxException {
+        // vblidbte key
+        boolebn isBcpPrivbteuse = LbngubgeTbg.isPrivbteusePrefixChbr(singleton);
+        if (!isBcpPrivbteuse && !LbngubgeTbg.isExtensionSingletonChbr(singleton)) {
+            throw new LocbleSyntbxException("Ill-formed extension key: " + singleton);
         }
 
-        boolean remove = LocaleUtils.isEmpty(value);
-        CaseInsensitiveChar key = new CaseInsensitiveChar(singleton);
+        boolebn remove = LocbleUtils.isEmpty(vblue);
+        CbseInsensitiveChbr key = new CbseInsensitiveChbr(singleton);
 
         if (remove) {
-            if (UnicodeLocaleExtension.isSingletonChar(key.value())) {
-                // clear entire Unicode locale extension
-                if (uattributes != null) {
-                    uattributes.clear();
+            if (UnicodeLocbleExtension.isSingletonChbr(key.vblue())) {
+                // clebr entire Unicode locble extension
+                if (ubttributes != null) {
+                    ubttributes.clebr();
                 }
                 if (ukeywords != null) {
-                    ukeywords.clear();
+                    ukeywords.clebr();
                 }
             } else {
-                if (extensions != null && extensions.containsKey(key)) {
+                if (extensions != null && extensions.contbinsKey(key)) {
                     extensions.remove(key);
                 }
             }
         } else {
-            // validate value
-            String val = value.replaceAll(BaseLocale.SEP, LanguageTag.SEP);
-            StringTokenIterator itr = new StringTokenIterator(val, LanguageTag.SEP);
+            // vblidbte vblue
+            String vbl = vblue.replbceAll(BbseLocble.SEP, LbngubgeTbg.SEP);
+            StringTokenIterbtor itr = new StringTokenIterbtor(vbl, LbngubgeTbg.SEP);
             while (!itr.isDone()) {
                 String s = itr.current();
-                boolean validSubtag;
-                if (isBcpPrivateuse) {
-                    validSubtag = LanguageTag.isPrivateuseSubtag(s);
+                boolebn vblidSubtbg;
+                if (isBcpPrivbteuse) {
+                    vblidSubtbg = LbngubgeTbg.isPrivbteuseSubtbg(s);
                 } else {
-                    validSubtag = LanguageTag.isExtensionSubtag(s);
+                    vblidSubtbg = LbngubgeTbg.isExtensionSubtbg(s);
                 }
-                if (!validSubtag) {
-                    throw new LocaleSyntaxException("Ill-formed extension value: " + s,
-                                                    itr.currentStart());
+                if (!vblidSubtbg) {
+                    throw new LocbleSyntbxException("Ill-formed extension vblue: " + s,
+                                                    itr.currentStbrt());
                 }
                 itr.next();
             }
 
-            if (UnicodeLocaleExtension.isSingletonChar(key.value())) {
-                setUnicodeLocaleExtension(val);
+            if (UnicodeLocbleExtension.isSingletonChbr(key.vblue())) {
+                setUnicodeLocbleExtension(vbl);
             } else {
                 if (extensions == null) {
-                    extensions = new HashMap<>(4);
+                    extensions = new HbshMbp<>(4);
                 }
-                extensions.put(key, val);
+                extensions.put(key, vbl);
             }
         }
         return this;
     }
 
     /*
-     * Set extension/private subtags in a single string representation
+     * Set extension/privbte subtbgs in b single string representbtion
      */
-    public InternalLocaleBuilder setExtensions(String subtags) throws LocaleSyntaxException {
-        if (LocaleUtils.isEmpty(subtags)) {
-            clearExtensions();
+    public InternblLocbleBuilder setExtensions(String subtbgs) throws LocbleSyntbxException {
+        if (LocbleUtils.isEmpty(subtbgs)) {
+            clebrExtensions();
             return this;
         }
-        subtags = subtags.replaceAll(BaseLocale.SEP, LanguageTag.SEP);
-        StringTokenIterator itr = new StringTokenIterator(subtags, LanguageTag.SEP);
+        subtbgs = subtbgs.replbceAll(BbseLocble.SEP, LbngubgeTbg.SEP);
+        StringTokenIterbtor itr = new StringTokenIterbtor(subtbgs, LbngubgeTbg.SEP);
 
         List<String> extensions = null;
-        String privateuse = null;
+        String privbteuse = null;
 
-        int parsed = 0;
-        int start;
+        int pbrsed = 0;
+        int stbrt;
 
-        // Make a list of extension subtags
+        // Mbke b list of extension subtbgs
         while (!itr.isDone()) {
             String s = itr.current();
-            if (LanguageTag.isExtensionSingleton(s)) {
-                start = itr.currentStart();
+            if (LbngubgeTbg.isExtensionSingleton(s)) {
+                stbrt = itr.currentStbrt();
                 String singleton = s;
                 StringBuilder sb = new StringBuilder(singleton);
 
                 itr.next();
                 while (!itr.isDone()) {
                     s = itr.current();
-                    if (LanguageTag.isExtensionSubtag(s)) {
-                        sb.append(LanguageTag.SEP).append(s);
-                        parsed = itr.currentEnd();
+                    if (LbngubgeTbg.isExtensionSubtbg(s)) {
+                        sb.bppend(LbngubgeTbg.SEP).bppend(s);
+                        pbrsed = itr.currentEnd();
                     } else {
-                        break;
+                        brebk;
                     }
                     itr.next();
                 }
 
-                if (parsed < start) {
-                    throw new LocaleSyntaxException("Incomplete extension '" + singleton + "'",
-                                                    start);
+                if (pbrsed < stbrt) {
+                    throw new LocbleSyntbxException("Incomplete extension '" + singleton + "'",
+                                                    stbrt);
                 }
 
                 if (extensions == null) {
-                    extensions = new ArrayList<>(4);
+                    extensions = new ArrbyList<>(4);
                 }
-                extensions.add(sb.toString());
+                extensions.bdd(sb.toString());
             } else {
-                break;
+                brebk;
             }
         }
         if (!itr.isDone()) {
             String s = itr.current();
-            if (LanguageTag.isPrivateusePrefix(s)) {
-                start = itr.currentStart();
+            if (LbngubgeTbg.isPrivbteusePrefix(s)) {
+                stbrt = itr.currentStbrt();
                 StringBuilder sb = new StringBuilder(s);
 
                 itr.next();
                 while (!itr.isDone()) {
                     s = itr.current();
-                    if (!LanguageTag.isPrivateuseSubtag(s)) {
-                        break;
+                    if (!LbngubgeTbg.isPrivbteuseSubtbg(s)) {
+                        brebk;
                     }
-                    sb.append(LanguageTag.SEP).append(s);
-                    parsed = itr.currentEnd();
+                    sb.bppend(LbngubgeTbg.SEP).bppend(s);
+                    pbrsed = itr.currentEnd();
 
                     itr.next();
                 }
-                if (parsed <= start) {
-                    throw new LocaleSyntaxException("Incomplete privateuse:"
-                                                    + subtags.substring(start),
-                                                    start);
+                if (pbrsed <= stbrt) {
+                    throw new LocbleSyntbxException("Incomplete privbteuse:"
+                                                    + subtbgs.substring(stbrt),
+                                                    stbrt);
                 } else {
-                    privateuse = sb.toString();
+                    privbteuse = sb.toString();
                 }
             }
         }
 
         if (!itr.isDone()) {
-            throw new LocaleSyntaxException("Ill-formed extension subtags:"
-                                            + subtags.substring(itr.currentStart()),
-                                            itr.currentStart());
+            throw new LocbleSyntbxException("Ill-formed extension subtbgs:"
+                                            + subtbgs.substring(itr.currentStbrt()),
+                                            itr.currentStbrt());
         }
 
-        return setExtensions(extensions, privateuse);
+        return setExtensions(extensions, privbteuse);
     }
 
     /*
-     * Set a list of BCP47 extensions and private use subtags
-     * BCP47 extensions are already validated and well-formed, but may contain duplicates
+     * Set b list of BCP47 extensions bnd privbte use subtbgs
+     * BCP47 extensions bre blrebdy vblidbted bnd well-formed, but mby contbin duplicbtes
      */
-    private InternalLocaleBuilder setExtensions(List<String> bcpExtensions, String privateuse) {
-        clearExtensions();
+    privbte InternblLocbleBuilder setExtensions(List<String> bcpExtensions, String privbteuse) {
+        clebrExtensions();
 
-        if (!LocaleUtils.isEmpty(bcpExtensions)) {
-            Set<CaseInsensitiveChar> done = new HashSet<>(bcpExtensions.size());
+        if (!LocbleUtils.isEmpty(bcpExtensions)) {
+            Set<CbseInsensitiveChbr> done = new HbshSet<>(bcpExtensions.size());
             for (String bcpExt : bcpExtensions) {
-                CaseInsensitiveChar key = new CaseInsensitiveChar(bcpExt);
-                // ignore duplicates
-                if (!done.contains(key)) {
-                    // each extension string contains singleton, e.g. "a-abc-def"
-                    if (UnicodeLocaleExtension.isSingletonChar(key.value())) {
-                        setUnicodeLocaleExtension(bcpExt.substring(2));
+                CbseInsensitiveChbr key = new CbseInsensitiveChbr(bcpExt);
+                // ignore duplicbtes
+                if (!done.contbins(key)) {
+                    // ebch extension string contbins singleton, e.g. "b-bbc-def"
+                    if (UnicodeLocbleExtension.isSingletonChbr(key.vblue())) {
+                        setUnicodeLocbleExtension(bcpExt.substring(2));
                     } else {
                         if (extensions == null) {
-                            extensions = new HashMap<>(4);
+                            extensions = new HbshMbp<>(4);
                         }
                         extensions.put(key, bcpExt.substring(2));
                     }
                 }
-                done.add(key);
+                done.bdd(key);
             }
         }
-        if (privateuse != null && privateuse.length() > 0) {
-            // privateuse string contains prefix, e.g. "x-abc-def"
+        if (privbteuse != null && privbteuse.length() > 0) {
+            // privbteuse string contbins prefix, e.g. "x-bbc-def"
             if (extensions == null) {
-                extensions = new HashMap<>(1);
+                extensions = new HbshMbp<>(1);
             }
-            extensions.put(new CaseInsensitiveChar(privateuse), privateuse.substring(2));
+            extensions.put(new CbseInsensitiveChbr(privbteuse), privbteuse.substring(2));
         }
 
         return this;
     }
 
     /*
-     * Reset Builder's internal state with the given language tag
+     * Reset Builder's internbl stbte with the given lbngubge tbg
      */
-    public InternalLocaleBuilder setLanguageTag(LanguageTag langtag) {
-        clear();
-        if (!langtag.getExtlangs().isEmpty()) {
-            language = langtag.getExtlangs().get(0);
+    public InternblLocbleBuilder setLbngubgeTbg(LbngubgeTbg lbngtbg) {
+        clebr();
+        if (!lbngtbg.getExtlbngs().isEmpty()) {
+            lbngubge = lbngtbg.getExtlbngs().get(0);
         } else {
-            String lang = langtag.getLanguage();
-            if (!lang.equals(LanguageTag.UNDETERMINED)) {
-                language = lang;
+            String lbng = lbngtbg.getLbngubge();
+            if (!lbng.equbls(LbngubgeTbg.UNDETERMINED)) {
+                lbngubge = lbng;
             }
         }
-        script = langtag.getScript();
-        region = langtag.getRegion();
+        script = lbngtbg.getScript();
+        region = lbngtbg.getRegion();
 
-        List<String> bcpVariants = langtag.getVariants();
-        if (!bcpVariants.isEmpty()) {
-            StringBuilder var = new StringBuilder(bcpVariants.get(0));
-            int size = bcpVariants.size();
+        List<String> bcpVbribnts = lbngtbg.getVbribnts();
+        if (!bcpVbribnts.isEmpty()) {
+            StringBuilder vbr = new StringBuilder(bcpVbribnts.get(0));
+            int size = bcpVbribnts.size();
             for (int i = 1; i < size; i++) {
-                var.append(BaseLocale.SEP).append(bcpVariants.get(i));
+                vbr.bppend(BbseLocble.SEP).bppend(bcpVbribnts.get(i));
             }
-            variant = var.toString();
+            vbribnt = vbr.toString();
         }
 
-        setExtensions(langtag.getExtensions(), langtag.getPrivateuse());
+        setExtensions(lbngtbg.getExtensions(), lbngtbg.getPrivbteuse());
 
         return this;
     }
 
-    public InternalLocaleBuilder setLocale(BaseLocale base, LocaleExtensions localeExtensions) throws LocaleSyntaxException {
-        String language = base.getLanguage();
-        String script = base.getScript();
-        String region = base.getRegion();
-        String variant = base.getVariant();
+    public InternblLocbleBuilder setLocble(BbseLocble bbse, LocbleExtensions locbleExtensions) throws LocbleSyntbxException {
+        String lbngubge = bbse.getLbngubge();
+        String script = bbse.getScript();
+        String region = bbse.getRegion();
+        String vbribnt = bbse.getVbribnt();
 
-        // Special backward compatibility support
+        // Specibl bbckwbrd compbtibility support
 
-        // Exception 1 - ja_JP_JP
-        if (language.equals("ja") && region.equals("JP") && variant.equals("JP")) {
-            // When locale ja_JP_JP is created, ca-japanese is always there.
-            // The builder ignores the variant "JP"
-            assert("japanese".equals(localeExtensions.getUnicodeLocaleType("ca")));
-            variant = "";
+        // Exception 1 - jb_JP_JP
+        if (lbngubge.equbls("jb") && region.equbls("JP") && vbribnt.equbls("JP")) {
+            // When locble jb_JP_JP is crebted, cb-jbpbnese is blwbys there.
+            // The builder ignores the vbribnt "JP"
+            bssert("jbpbnese".equbls(locbleExtensions.getUnicodeLocbleType("cb")));
+            vbribnt = "";
         }
         // Exception 2 - th_TH_TH
-        else if (language.equals("th") && region.equals("TH") && variant.equals("TH")) {
-            // When locale th_TH_TH is created, nu-thai is always there.
-            // The builder ignores the variant "TH"
-            assert("thai".equals(localeExtensions.getUnicodeLocaleType("nu")));
-            variant = "";
+        else if (lbngubge.equbls("th") && region.equbls("TH") && vbribnt.equbls("TH")) {
+            // When locble th_TH_TH is crebted, nu-thbi is blwbys there.
+            // The builder ignores the vbribnt "TH"
+            bssert("thbi".equbls(locbleExtensions.getUnicodeLocbleType("nu")));
+            vbribnt = "";
         }
         // Exception 3 - no_NO_NY
-        else if (language.equals("no") && region.equals("NO") && variant.equals("NY")) {
-            // no_NO_NY is a valid locale and used by Java 6 or older versions.
-            // The build ignores the variant "NY" and change the language to "nn".
-            language = "nn";
-            variant = "";
+        else if (lbngubge.equbls("no") && region.equbls("NO") && vbribnt.equbls("NY")) {
+            // no_NO_NY is b vblid locble bnd used by Jbvb 6 or older versions.
+            // The build ignores the vbribnt "NY" bnd chbnge the lbngubge to "nn".
+            lbngubge = "nn";
+            vbribnt = "";
         }
 
-        // Validate base locale fields before updating internal state.
-        // LocaleExtensions always store validated/canonicalized values,
-        // so no checks are necessary.
-        if (language.length() > 0 && !LanguageTag.isLanguage(language)) {
-            throw new LocaleSyntaxException("Ill-formed language: " + language);
+        // Vblidbte bbse locble fields before updbting internbl stbte.
+        // LocbleExtensions blwbys store vblidbted/cbnonicblized vblues,
+        // so no checks bre necessbry.
+        if (lbngubge.length() > 0 && !LbngubgeTbg.isLbngubge(lbngubge)) {
+            throw new LocbleSyntbxException("Ill-formed lbngubge: " + lbngubge);
         }
 
-        if (script.length() > 0 && !LanguageTag.isScript(script)) {
-            throw new LocaleSyntaxException("Ill-formed script: " + script);
+        if (script.length() > 0 && !LbngubgeTbg.isScript(script)) {
+            throw new LocbleSyntbxException("Ill-formed script: " + script);
         }
 
-        if (region.length() > 0 && !LanguageTag.isRegion(region)) {
-            throw new LocaleSyntaxException("Ill-formed region: " + region);
+        if (region.length() > 0 && !LbngubgeTbg.isRegion(region)) {
+            throw new LocbleSyntbxException("Ill-formed region: " + region);
         }
 
-        if (variant.length() > 0) {
-            int errIdx = checkVariants(variant, BaseLocale.SEP);
+        if (vbribnt.length() > 0) {
+            int errIdx = checkVbribnts(vbribnt, BbseLocble.SEP);
             if (errIdx != -1) {
-                throw new LocaleSyntaxException("Ill-formed variant: " + variant, errIdx);
+                throw new LocbleSyntbxException("Ill-formed vbribnt: " + vbribnt, errIdx);
             }
         }
 
-        // The input locale is validated at this point.
-        // Now, updating builder's internal fields.
-        this.language = language;
+        // The input locble is vblidbted bt this point.
+        // Now, updbting builder's internbl fields.
+        this.lbngubge = lbngubge;
         this.script = script;
         this.region = region;
-        this.variant = variant;
-        clearExtensions();
+        this.vbribnt = vbribnt;
+        clebrExtensions();
 
-        Set<Character> extKeys = (localeExtensions == null) ? null : localeExtensions.getKeys();
+        Set<Chbrbcter> extKeys = (locbleExtensions == null) ? null : locbleExtensions.getKeys();
         if (extKeys != null) {
-            // map localeExtensions back to builder's internal format
-            for (Character key : extKeys) {
-                Extension e = localeExtensions.getExtension(key);
-                if (e instanceof UnicodeLocaleExtension) {
-                    UnicodeLocaleExtension ue = (UnicodeLocaleExtension)e;
-                    for (String uatr : ue.getUnicodeLocaleAttributes()) {
-                        if (uattributes == null) {
-                            uattributes = new HashSet<>(4);
+            // mbp locbleExtensions bbck to builder's internbl formbt
+            for (Chbrbcter key : extKeys) {
+                Extension e = locbleExtensions.getExtension(key);
+                if (e instbnceof UnicodeLocbleExtension) {
+                    UnicodeLocbleExtension ue = (UnicodeLocbleExtension)e;
+                    for (String ubtr : ue.getUnicodeLocbleAttributes()) {
+                        if (ubttributes == null) {
+                            ubttributes = new HbshSet<>(4);
                         }
-                        uattributes.add(new CaseInsensitiveString(uatr));
+                        ubttributes.bdd(new CbseInsensitiveString(ubtr));
                     }
-                    for (String ukey : ue.getUnicodeLocaleKeys()) {
+                    for (String ukey : ue.getUnicodeLocbleKeys()) {
                         if (ukeywords == null) {
-                            ukeywords = new HashMap<>(4);
+                            ukeywords = new HbshMbp<>(4);
                         }
-                        ukeywords.put(new CaseInsensitiveString(ukey), ue.getUnicodeLocaleType(ukey));
+                        ukeywords.put(new CbseInsensitiveString(ukey), ue.getUnicodeLocbleType(ukey));
                     }
                 } else {
                     if (extensions == null) {
-                        extensions = new HashMap<>(4);
+                        extensions = new HbshMbp<>(4);
                     }
-                    extensions.put(new CaseInsensitiveChar(key), e.getValue());
+                    extensions.put(new CbseInsensitiveChbr(key), e.getVblue());
                 }
             }
         }
         return this;
     }
 
-    public InternalLocaleBuilder clear() {
-        language = "";
+    public InternblLocbleBuilder clebr() {
+        lbngubge = "";
         script = "";
         region = "";
-        variant = "";
-        clearExtensions();
+        vbribnt = "";
+        clebrExtensions();
         return this;
     }
 
-    public InternalLocaleBuilder clearExtensions() {
+    public InternblLocbleBuilder clebrExtensions() {
         if (extensions != null) {
-            extensions.clear();
+            extensions.clebr();
         }
-        if (uattributes != null) {
-            uattributes.clear();
+        if (ubttributes != null) {
+            ubttributes.clebr();
         }
         if (ukeywords != null) {
-            ukeywords.clear();
+            ukeywords.clebr();
         }
         return this;
     }
 
-    public BaseLocale getBaseLocale() {
-        String language = this.language;
+    public BbseLocble getBbseLocble() {
+        String lbngubge = this.lbngubge;
         String script = this.script;
         String region = this.region;
-        String variant = this.variant;
+        String vbribnt = this.vbribnt;
 
-        // Special private use subtag sequence identified by "lvariant" will be
-        // interpreted as Java variant.
+        // Specibl privbte use subtbg sequence identified by "lvbribnt" will be
+        // interpreted bs Jbvb vbribnt.
         if (extensions != null) {
             String privuse = extensions.get(PRIVATEUSE_KEY);
             if (privuse != null) {
-                StringTokenIterator itr = new StringTokenIterator(privuse, LanguageTag.SEP);
-                boolean sawPrefix = false;
-                int privVarStart = -1;
+                StringTokenIterbtor itr = new StringTokenIterbtor(privuse, LbngubgeTbg.SEP);
+                boolebn sbwPrefix = fblse;
+                int privVbrStbrt = -1;
                 while (!itr.isDone()) {
-                    if (sawPrefix) {
-                        privVarStart = itr.currentStart();
-                        break;
+                    if (sbwPrefix) {
+                        privVbrStbrt = itr.currentStbrt();
+                        brebk;
                     }
-                    if (LocaleUtils.caseIgnoreMatch(itr.current(), LanguageTag.PRIVUSE_VARIANT_PREFIX)) {
-                        sawPrefix = true;
+                    if (LocbleUtils.cbseIgnoreMbtch(itr.current(), LbngubgeTbg.PRIVUSE_VARIANT_PREFIX)) {
+                        sbwPrefix = true;
                     }
                     itr.next();
                 }
-                if (privVarStart != -1) {
-                    StringBuilder sb = new StringBuilder(variant);
+                if (privVbrStbrt != -1) {
+                    StringBuilder sb = new StringBuilder(vbribnt);
                     if (sb.length() != 0) {
-                        sb.append(BaseLocale.SEP);
+                        sb.bppend(BbseLocble.SEP);
                     }
-                    sb.append(privuse.substring(privVarStart).replaceAll(LanguageTag.SEP,
-                                                                         BaseLocale.SEP));
-                    variant = sb.toString();
+                    sb.bppend(privuse.substring(privVbrStbrt).replbceAll(LbngubgeTbg.SEP,
+                                                                         BbseLocble.SEP));
+                    vbribnt = sb.toString();
                 }
             }
         }
 
-        return BaseLocale.getInstance(language, script, region, variant);
+        return BbseLocble.getInstbnce(lbngubge, script, region, vbribnt);
     }
 
-    public LocaleExtensions getLocaleExtensions() {
-        if (LocaleUtils.isEmpty(extensions) && LocaleUtils.isEmpty(uattributes)
-            && LocaleUtils.isEmpty(ukeywords)) {
+    public LocbleExtensions getLocbleExtensions() {
+        if (LocbleUtils.isEmpty(extensions) && LocbleUtils.isEmpty(ubttributes)
+            && LocbleUtils.isEmpty(ukeywords)) {
             return null;
         }
 
-        LocaleExtensions lext = new LocaleExtensions(extensions, uattributes, ukeywords);
+        LocbleExtensions lext = new LocbleExtensions(extensions, ubttributes, ukeywords);
         return lext.isEmpty() ? null : lext;
     }
 
     /*
-     * Remove special private use subtag sequence identified by "lvariant"
-     * and return the rest. Only used by LocaleExtensions
+     * Remove specibl privbte use subtbg sequence identified by "lvbribnt"
+     * bnd return the rest. Only used by LocbleExtensions
      */
-    static String removePrivateuseVariant(String privuseVal) {
-        StringTokenIterator itr = new StringTokenIterator(privuseVal, LanguageTag.SEP);
+    stbtic String removePrivbteuseVbribnt(String privuseVbl) {
+        StringTokenIterbtor itr = new StringTokenIterbtor(privuseVbl, LbngubgeTbg.SEP);
 
-        // Note: privateuse value "abc-lvariant" is unchanged
-        // because no subtags after "lvariant".
+        // Note: privbteuse vblue "bbc-lvbribnt" is unchbnged
+        // becbuse no subtbgs bfter "lvbribnt".
 
-        int prefixStart = -1;
-        boolean sawPrivuseVar = false;
+        int prefixStbrt = -1;
+        boolebn sbwPrivuseVbr = fblse;
         while (!itr.isDone()) {
-            if (prefixStart != -1) {
-                // Note: privateuse value "abc-lvariant" is unchanged
-                // because no subtags after "lvariant".
-                sawPrivuseVar = true;
-                break;
+            if (prefixStbrt != -1) {
+                // Note: privbteuse vblue "bbc-lvbribnt" is unchbnged
+                // becbuse no subtbgs bfter "lvbribnt".
+                sbwPrivuseVbr = true;
+                brebk;
             }
-            if (LocaleUtils.caseIgnoreMatch(itr.current(), LanguageTag.PRIVUSE_VARIANT_PREFIX)) {
-                prefixStart = itr.currentStart();
+            if (LocbleUtils.cbseIgnoreMbtch(itr.current(), LbngubgeTbg.PRIVUSE_VARIANT_PREFIX)) {
+                prefixStbrt = itr.currentStbrt();
             }
             itr.next();
         }
-        if (!sawPrivuseVar) {
-            return privuseVal;
+        if (!sbwPrivuseVbr) {
+            return privuseVbl;
         }
 
-        assert(prefixStart == 0 || prefixStart > 1);
-        return (prefixStart == 0) ? null : privuseVal.substring(0, prefixStart -1);
+        bssert(prefixStbrt == 0 || prefixStbrt > 1);
+        return (prefixStbrt == 0) ? null : privuseVbl.substring(0, prefixStbrt -1);
     }
 
     /*
-     * Check if the given variant subtags separated by the given
-     * separator(s) are valid
+     * Check if the given vbribnt subtbgs sepbrbted by the given
+     * sepbrbtor(s) bre vblid
      */
-    private int checkVariants(String variants, String sep) {
-        StringTokenIterator itr = new StringTokenIterator(variants, sep);
+    privbte int checkVbribnts(String vbribnts, String sep) {
+        StringTokenIterbtor itr = new StringTokenIterbtor(vbribnts, sep);
         while (!itr.isDone()) {
             String s = itr.current();
-            if (!LanguageTag.isVariant(s)) {
-                return itr.currentStart();
+            if (!LbngubgeTbg.isVbribnt(s)) {
+                return itr.currentStbrt();
             }
             itr.next();
         }
@@ -583,149 +583,149 @@ public final class InternalLocaleBuilder {
     }
 
     /*
-     * Private methods parsing Unicode Locale Extension subtags.
-     * Duplicated attributes/keywords will be ignored.
-     * The input must be a valid extension subtags (excluding singleton).
+     * Privbte methods pbrsing Unicode Locble Extension subtbgs.
+     * Duplicbted bttributes/keywords will be ignored.
+     * The input must be b vblid extension subtbgs (excluding singleton).
      */
-    private void setUnicodeLocaleExtension(String subtags) {
-        // wipe out existing attributes/keywords
-        if (uattributes != null) {
-            uattributes.clear();
+    privbte void setUnicodeLocbleExtension(String subtbgs) {
+        // wipe out existing bttributes/keywords
+        if (ubttributes != null) {
+            ubttributes.clebr();
         }
         if (ukeywords != null) {
-            ukeywords.clear();
+            ukeywords.clebr();
         }
 
-        StringTokenIterator itr = new StringTokenIterator(subtags, LanguageTag.SEP);
+        StringTokenIterbtor itr = new StringTokenIterbtor(subtbgs, LbngubgeTbg.SEP);
 
-        // parse attributes
+        // pbrse bttributes
         while (!itr.isDone()) {
-            if (!UnicodeLocaleExtension.isAttribute(itr.current())) {
-                break;
+            if (!UnicodeLocbleExtension.isAttribute(itr.current())) {
+                brebk;
             }
-            if (uattributes == null) {
-                uattributes = new HashSet<>(4);
+            if (ubttributes == null) {
+                ubttributes = new HbshSet<>(4);
             }
-            uattributes.add(new CaseInsensitiveString(itr.current()));
+            ubttributes.bdd(new CbseInsensitiveString(itr.current()));
             itr.next();
         }
 
-        // parse keywords
-        CaseInsensitiveString key = null;
+        // pbrse keywords
+        CbseInsensitiveString key = null;
         String type;
-        int typeStart = -1;
+        int typeStbrt = -1;
         int typeEnd = -1;
         while (!itr.isDone()) {
             if (key != null) {
-                if (UnicodeLocaleExtension.isKey(itr.current())) {
+                if (UnicodeLocbleExtension.isKey(itr.current())) {
                     // next keyword - emit previous one
-                    assert(typeStart == -1 || typeEnd != -1);
-                    type = (typeStart == -1) ? "" : subtags.substring(typeStart, typeEnd);
+                    bssert(typeStbrt == -1 || typeEnd != -1);
+                    type = (typeStbrt == -1) ? "" : subtbgs.substring(typeStbrt, typeEnd);
                     if (ukeywords == null) {
-                        ukeywords = new HashMap<>(4);
+                        ukeywords = new HbshMbp<>(4);
                     }
                     ukeywords.put(key, type);
 
                     // reset keyword info
-                    CaseInsensitiveString tmpKey = new CaseInsensitiveString(itr.current());
-                    key = ukeywords.containsKey(tmpKey) ? null : tmpKey;
-                    typeStart = typeEnd = -1;
+                    CbseInsensitiveString tmpKey = new CbseInsensitiveString(itr.current());
+                    key = ukeywords.contbinsKey(tmpKey) ? null : tmpKey;
+                    typeStbrt = typeEnd = -1;
                 } else {
-                    if (typeStart == -1) {
-                        typeStart = itr.currentStart();
+                    if (typeStbrt == -1) {
+                        typeStbrt = itr.currentStbrt();
                     }
                     typeEnd = itr.currentEnd();
                 }
-            } else if (UnicodeLocaleExtension.isKey(itr.current())) {
+            } else if (UnicodeLocbleExtension.isKey(itr.current())) {
                 // 1. first keyword or
-                // 2. next keyword, but previous one was duplicate
-                key = new CaseInsensitiveString(itr.current());
-                if (ukeywords != null && ukeywords.containsKey(key)) {
-                    // duplicate
+                // 2. next keyword, but previous one wbs duplicbte
+                key = new CbseInsensitiveString(itr.current());
+                if (ukeywords != null && ukeywords.contbinsKey(key)) {
+                    // duplicbte
                     key = null;
                 }
             }
 
-            if (!itr.hasNext()) {
+            if (!itr.hbsNext()) {
                 if (key != null) {
-                    // last keyword
-                    assert(typeStart == -1 || typeEnd != -1);
-                    type = (typeStart == -1) ? "" : subtags.substring(typeStart, typeEnd);
+                    // lbst keyword
+                    bssert(typeStbrt == -1 || typeEnd != -1);
+                    type = (typeStbrt == -1) ? "" : subtbgs.substring(typeStbrt, typeEnd);
                     if (ukeywords == null) {
-                        ukeywords = new HashMap<>(4);
+                        ukeywords = new HbshMbp<>(4);
                     }
                     ukeywords.put(key, type);
                 }
-                break;
+                brebk;
             }
 
             itr.next();
         }
     }
 
-    static final class CaseInsensitiveString {
-        private final String str, lowerStr;
+    stbtic finbl clbss CbseInsensitiveString {
+        privbte finbl String str, lowerStr;
 
-        CaseInsensitiveString(String s) {
+        CbseInsensitiveString(String s) {
             str = s;
-            lowerStr = LocaleUtils.toLowerString(s);
+            lowerStr = LocbleUtils.toLowerString(s);
         }
 
-        public String value() {
+        public String vblue() {
             return str;
         }
 
         @Override
-        public int hashCode() {
-            return lowerStr.hashCode();
+        public int hbshCode() {
+            return lowerStr.hbshCode();
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof CaseInsensitiveString)) {
-                return false;
+            if (!(obj instbnceof CbseInsensitiveString)) {
+                return fblse;
             }
-            return lowerStr.equals(((CaseInsensitiveString)obj).lowerStr);
+            return lowerStr.equbls(((CbseInsensitiveString)obj).lowerStr);
         }
     }
 
-    static final class CaseInsensitiveChar {
-        private final char ch, lowerCh;
+    stbtic finbl clbss CbseInsensitiveChbr {
+        privbte finbl chbr ch, lowerCh;
 
         /**
-         * Constructs a CaseInsensitiveChar with the first char of the
+         * Constructs b CbseInsensitiveChbr with the first chbr of the
          * given s.
          */
-        private CaseInsensitiveChar(String s) {
-            this(s.charAt(0));
+        privbte CbseInsensitiveChbr(String s) {
+            this(s.chbrAt(0));
         }
 
-        CaseInsensitiveChar(char c) {
+        CbseInsensitiveChbr(chbr c) {
             ch = c;
-            lowerCh = LocaleUtils.toLower(ch);
+            lowerCh = LocbleUtils.toLower(ch);
         }
 
-        public char value() {
+        public chbr vblue() {
             return ch;
         }
 
         @Override
-        public int hashCode() {
+        public int hbshCode() {
             return lowerCh;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof CaseInsensitiveChar)) {
-                return false;
+            if (!(obj instbnceof CbseInsensitiveChbr)) {
+                return fblse;
             }
-            return lowerCh == ((CaseInsensitiveChar)obj).lowerCh;
+            return lowerCh == ((CbseInsensitiveChbr)obj).lowerCh;
         }
     }
 }

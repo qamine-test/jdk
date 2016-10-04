@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.v1_0;
+pbckbge sun.jvmstbt.perfdbtb.monitor.v1_0;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.util.regex.*;
-import java.nio.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
+import jbvb.nio.*;
 
 /**
- * The concrete implementation of version 1.0 of the HotSpot PerfData
- * Instrumentation buffer. This class is responsible for parsing the
- * instrumentation memory and constructing the necessary objects to
- * represent and access the instrumentation objects contained in the
+ * The concrete implementbtion of version 1.0 of the HotSpot PerfDbtb
+ * Instrumentbtion buffer. This clbss is responsible for pbrsing the
+ * instrumentbtion memory bnd constructing the necessbry objects to
+ * represent bnd bccess the instrumentbtion objects contbined in the
  * memory buffer.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
- * @see AbstractPerfDataBuffer
+ * @see AbstrbctPerfDbtbBuffer
  */
-public class PerfDataBuffer extends PerfDataBufferImpl {
+public clbss PerfDbtbBuffer extends PerfDbtbBufferImpl {
 
-    private static final boolean DEBUG = false;
-    private static final int syncWaitMs =
-            Integer.getInteger("sun.jvmstat.perdata.syncWaitMs", 5000);
-    private static final ArrayList<Monitor> EMPTY_LIST = new ArrayList<Monitor>(0);
+    privbte stbtic finbl boolebn DEBUG = fblse;
+    privbte stbtic finbl int syncWbitMs =
+            Integer.getInteger("sun.jvmstbt.perdbtb.syncWbitMs", 5000);
+    privbte stbtic finbl ArrbyList<Monitor> EMPTY_LIST = new ArrbyList<Monitor>(0);
 
     /*
-     * the following constants must be kept in sync with struct
-     * PerfDataEntry in perfMemory.hpp
+     * the following constbnts must be kept in sync with struct
+     * PerfDbtbEntry in perfMemory.hpp
      */
-    private final static int PERFDATA_ENTRYLENGTH_OFFSET=0;
-    private final static int PERFDATA_ENTRYLENGTH_SIZE=4;   // sizeof(int)
-    private final static int PERFDATA_NAMELENGTH_OFFSET=4;
-    private final static int PERFDATA_NAMELENGTH_SIZE=4;    // sizeof(int)
-    private final static int PERFDATA_VECTORLENGTH_OFFSET=8;
-    private final static int PERFDATA_VECTORLENGTH_SIZE=4;  // sizeof(int)
-    private final static int PERFDATA_DATATYPE_OFFSET=12;
-    private final static int PERFDATA_DATATYPE_SIZE=1;      // sizeof(byte)
-    private final static int PERFDATA_FLAGS_OFFSET=13;
-    private final static int PERFDATA_FLAGS_SIZE=1;        // sizeof(byte)
-    private final static int PERFDATA_DATAUNITS_OFFSET=14;
-    private final static int PERFDATA_DATAUNITS_SIZE=1;     // sizeof(byte)
-    private final static int PERFDATA_DATAATTR_OFFSET=15;
-    private final static int PERFDATA_DATAATTR_SIZE=1;      // sizeof(byte)
-    private final static int PERFDATA_NAME_OFFSET=16;
+    privbte finbl stbtic int PERFDATA_ENTRYLENGTH_OFFSET=0;
+    privbte finbl stbtic int PERFDATA_ENTRYLENGTH_SIZE=4;   // sizeof(int)
+    privbte finbl stbtic int PERFDATA_NAMELENGTH_OFFSET=4;
+    privbte finbl stbtic int PERFDATA_NAMELENGTH_SIZE=4;    // sizeof(int)
+    privbte finbl stbtic int PERFDATA_VECTORLENGTH_OFFSET=8;
+    privbte finbl stbtic int PERFDATA_VECTORLENGTH_SIZE=4;  // sizeof(int)
+    privbte finbl stbtic int PERFDATA_DATATYPE_OFFSET=12;
+    privbte finbl stbtic int PERFDATA_DATATYPE_SIZE=1;      // sizeof(byte)
+    privbte finbl stbtic int PERFDATA_FLAGS_OFFSET=13;
+    privbte finbl stbtic int PERFDATA_FLAGS_SIZE=1;        // sizeof(byte)
+    privbte finbl stbtic int PERFDATA_DATAUNITS_OFFSET=14;
+    privbte finbl stbtic int PERFDATA_DATAUNITS_SIZE=1;     // sizeof(byte)
+    privbte finbl stbtic int PERFDATA_DATAATTR_OFFSET=15;
+    privbte finbl stbtic int PERFDATA_DATAATTR_SIZE=1;      // sizeof(byte)
+    privbte finbl stbtic int PERFDATA_NAME_OFFSET=16;
 
-    PerfDataBufferPrologue prologue;
+    PerfDbtbBufferPrologue prologue;
     int nextEntry;
     int pollForEntry;
-    int perfDataItem;
-    long lastModificationTime;
-    int lastUsed;
+    int perfDbtbItem;
+    long lbstModificbtionTime;
+    int lbstUsed;
     IntegerMonitor overflow;
-    ArrayList<Monitor> insertedMonitors;
+    ArrbyList<Monitor> insertedMonitors;
 
     /**
-     * Construct a PerfDataBufferImpl instance.
+     * Construct b PerfDbtbBufferImpl instbnce.
      * <p>
-     * This class is dynamically loaded by
-     * {@link AbstractPerfDataBuffer#createPerfDataBuffer}, and this
-     * constructor is called to instantiate the instance.
+     * This clbss is dynbmicblly lobded by
+     * {@link AbstrbctPerfDbtbBuffer#crebtePerfDbtbBuffer}, bnd this
+     * constructor is cblled to instbntibte the instbnce.
      *
-     * @param buffer the buffer containing the instrumentation data
-     * @param lvmid the Local Java Virtual Machine Identifier for this
-     *              instrumentation buffer.
+     * @pbrbm buffer the buffer contbining the instrumentbtion dbtb
+     * @pbrbm lvmid the Locbl Jbvb Virtubl Mbchine Identifier for this
+     *              instrumentbtion buffer.
      */
-    public PerfDataBuffer(ByteBuffer buffer, int lvmid)
+    public PerfDbtbBuffer(ByteBuffer buffer, int lvmid)
            throws MonitorException {
         super(buffer, lvmid);
-        prologue = new PerfDataBufferPrologue(buffer);
+        prologue = new PerfDbtbBufferPrologue(buffer);
         this.buffer.order(prologue.getByteOrder());
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void buildMonitorMap(Map<String, Monitor> map) throws MonitorException {
-        assert Thread.holdsLock(this);
+    protected void buildMonitorMbp(Mbp<String, Monitor> mbp) throws MonitorException {
+        bssert Threbd.holdsLock(this);
 
-        // start at the beginning of the buffer
+        // stbrt bt the beginning of the buffer
         buffer.rewind();
 
-        // create pseudo monitors
-        buildPseudoMonitors(map);
+        // crebte pseudo monitors
+        buildPseudoMonitors(mbp);
 
-        // position buffer to start of the data section
+        // position buffer to stbrt of the dbtb section
         buffer.position(prologue.getSize());
         nextEntry = buffer.position();
-        perfDataItem = 0;
+        perfDbtbItem = 0;
 
         int used = prologue.getUsed();
-        long modificationTime = prologue.getModificationTimeStamp();
+        long modificbtionTime = prologue.getModificbtionTimeStbmp();
 
         Monitor m = getNextMonitorEntry();
         while (m != null) {
-            map.put(m.getName(), m);
+            mbp.put(m.getNbme(), m);
             m = getNextMonitorEntry();
         }
 
         /*
-         * set the last modification data. These are set to the values
-         * recorded before parsing the data structure. This allows the
-         * the data structure to be modified while the Map is being built.
-         * The Map may contain more entries than indicated based on the
-         * time stamp, but this is handled by ignoring duplicate entries
-         * when the Map is updated in getNewMonitors().
+         * set the lbst modificbtion dbtb. These bre set to the vblues
+         * recorded before pbrsing the dbtb structure. This bllows the
+         * the dbtb structure to be modified while the Mbp is being built.
+         * The Mbp mby contbin more entries thbn indicbted bbsed on the
+         * time stbmp, but this is hbndled by ignoring duplicbte entries
+         * when the Mbp is updbted in getNewMonitors().
          */
-        lastUsed = used;
-        lastModificationTime = modificationTime;
+        lbstUsed = used;
+        lbstModificbtionTime = modificbtionTime;
 
-        // synchronize with the target jvm
-        synchWithTarget(map);
+        // synchronize with the tbrget jvm
+        synchWithTbrget(mbp);
 
-        // work around 1.4.2 counter inititization bugs
-        kludge(map);
+        // work bround 1.4.2 counter inititizbtion bugs
+        kludge(mbp);
 
-        insertedMonitors = new ArrayList<Monitor>(map.values());
+        insertedMonitors = new ArrbyList<Monitor>(mbp.vblues());
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void getNewMonitors(Map<String, Monitor> map) throws MonitorException {
-        assert Thread.holdsLock(this);
+    protected void getNewMonitors(Mbp<String, Monitor> mbp) throws MonitorException {
+        bssert Threbd.holdsLock(this);
 
         int used = prologue.getUsed();
-        long modificationTime = prologue.getModificationTimeStamp();
+        long modificbtionTime = prologue.getModificbtionTimeStbmp();
 
-        if ((used > lastUsed) || (lastModificationTime > modificationTime)) {
+        if ((used > lbstUsed) || (lbstModificbtionTime > modificbtionTime)) {
 
-            lastUsed = used;
-            lastModificationTime = modificationTime;
+            lbstUsed = used;
+            lbstModificbtionTime = modificbtionTime;
 
             Monitor monitor = getNextMonitorEntry();
             while (monitor != null) {
-                String name = monitor.getName();
+                String nbme = monitor.getNbme();
 
-                // guard against duplicate entries
-                if (!map.containsKey(name)) {
-                    map.put(name, monitor);
+                // gubrd bgbinst duplicbte entries
+                if (!mbp.contbinsKey(nbme)) {
+                    mbp.put(nbme, monitor);
 
                     /*
-                     * insertedMonitors is null when called from pollFor()
-                     * via buildMonitorMap(). Since we update insertedMonitors
-                     * at the end of buildMonitorMap(), it's ok to skip the
-                     * add here.
+                     * insertedMonitors is null when cblled from pollFor()
+                     * vib buildMonitorMbp(). Since we updbte insertedMonitors
+                     * bt the end of buildMonitorMbp(), it's ok to skip the
+                     * bdd here.
                      */
                     if (insertedMonitors != null) {
-                        insertedMonitors.add(monitor);
+                        insertedMonitors.bdd(monitor);
                     }
                 }
                 monitor = getNextMonitorEntry();
@@ -182,297 +182,297 @@ public class PerfDataBuffer extends PerfDataBufferImpl {
     /**
      * {@inheritDoc}
      */
-    protected MonitorStatus getMonitorStatus(Map<String, Monitor> map) throws MonitorException {
-        assert Thread.holdsLock(this);
-        assert insertedMonitors != null;
+    protected MonitorStbtus getMonitorStbtus(Mbp<String, Monitor> mbp) throws MonitorException {
+        bssert Threbd.holdsLock(this);
+        bssert insertedMonitors != null;
 
-        // load any new monitors
-        getNewMonitors(map);
+        // lobd bny new monitors
+        getNewMonitors(mbp);
 
-        // current implementation doesn't support deletion or reuse of entries
-        ArrayList<Monitor> removed = EMPTY_LIST;
-        ArrayList<Monitor> inserted = insertedMonitors;
+        // current implementbtion doesn't support deletion or reuse of entries
+        ArrbyList<Monitor> removed = EMPTY_LIST;
+        ArrbyList<Monitor> inserted = insertedMonitors;
 
-        insertedMonitors = new ArrayList<Monitor>();
-        return new MonitorStatus(inserted, removed);
+        insertedMonitors = new ArrbyList<Monitor>();
+        return new MonitorStbtus(inserted, removed);
     }
 
     /**
-     * Build the pseudo monitors used to map the prolog data into counters.
+     * Build the pseudo monitors used to mbp the prolog dbtb into counters.
      */
-    protected void buildPseudoMonitors(Map<String, Monitor> map) {
+    protected void buildPseudoMonitors(Mbp<String, Monitor> mbp) {
         Monitor monitor = null;
-        String name = null;
+        String nbme = null;
         IntBuffer ib = null;
 
-        name = PerfDataBufferPrologue.PERFDATA_MAJOR_NAME;
-        ib = prologue.majorVersionBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.NONE,
-                                         Variability.CONSTANT, false, ib);
-        map.put(name, monitor);
+        nbme = PerfDbtbBufferPrologue.PERFDATA_MAJOR_NAME;
+        ib = prologue.mbjorVersionBuffer();
+        monitor = new PerfIntegerMonitor(nbme, Units.NONE,
+                                         Vbribbility.CONSTANT, fblse, ib);
+        mbp.put(nbme, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_MINOR_NAME;
+        nbme = PerfDbtbBufferPrologue.PERFDATA_MINOR_NAME;
         ib = prologue.minorVersionBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.NONE,
-                                         Variability.CONSTANT, false, ib);
-        map.put(name, monitor);
+        monitor = new PerfIntegerMonitor(nbme, Units.NONE,
+                                         Vbribbility.CONSTANT, fblse, ib);
+        mbp.put(nbme, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_BUFFER_SIZE_NAME;
+        nbme = PerfDbtbBufferPrologue.PERFDATA_BUFFER_SIZE_NAME;
         ib = prologue.sizeBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
+        monitor = new PerfIntegerMonitor(nbme, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblse, ib);
+        mbp.put(nbme, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_BUFFER_USED_NAME;
+        nbme = PerfDbtbBufferPrologue.PERFDATA_BUFFER_USED_NAME;
         ib = prologue.usedBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
+        monitor = new PerfIntegerMonitor(nbme, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblse, ib);
+        mbp.put(nbme, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_OVERFLOW_NAME;
+        nbme = PerfDbtbBufferPrologue.PERFDATA_OVERFLOW_NAME;
         ib = prologue.overflowBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
+        monitor = new PerfIntegerMonitor(nbme, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblse, ib);
+        mbp.put(nbme, monitor);
         this.overflow = (IntegerMonitor)monitor;
 
-        name = PerfDataBufferPrologue.PERFDATA_MODTIMESTAMP_NAME;
-        LongBuffer lb = prologue.modificationTimeStampBuffer();
-        monitor = new PerfLongMonitor(name, Units.TICKS,
-                                      Variability.MONOTONIC, false, lb);
-        map.put(name, monitor);
+        nbme = PerfDbtbBufferPrologue.PERFDATA_MODTIMESTAMP_NAME;
+        LongBuffer lb = prologue.modificbtionTimeStbmpBuffer();
+        monitor = new PerfLongMonitor(nbme, Units.TICKS,
+                                      Vbribbility.MONOTONIC, fblse, lb);
+        mbp.put(nbme, monitor);
     }
 
     /**
-     * Method to provide a gross level of synchronization with the
-     * target monitored jvm.
+     * Method to provide b gross level of synchronizbtion with the
+     * tbrget monitored jvm.
      *
-     * gross synchronization works by polling for the hotspot.rt.hrt.ticks
-     * counter, which is the last counter created by the StatSampler
-     * initialization code. The counter is updated when the watcher thread
-     * starts scheduling tasks, which is the last thing done in vm
-     * initialization.
+     * gross synchronizbtion works by polling for the hotspot.rt.hrt.ticks
+     * counter, which is the lbst counter crebted by the StbtSbmpler
+     * initiblizbtion code. The counter is updbted when the wbtcher threbd
+     * stbrts scheduling tbsks, which is the lbst thing done in vm
+     * initiblizbtion.
      */
-    protected void synchWithTarget(Map<String, Monitor> map) throws MonitorException {
+    protected void synchWithTbrget(Mbp<String, Monitor> mbp) throws MonitorException {
         /*
-         * synch must happen with syncWaitMs from now. Default is 5 seconds,
-         * which is reasonabally generous and should provide for extreme
-         * situations like startup delays due to allocation of large ISM heaps.
+         * synch must hbppen with syncWbitMs from now. Defbult is 5 seconds,
+         * which is rebsonbbblly generous bnd should provide for extreme
+         * situbtions like stbrtup delbys due to bllocbtion of lbrge ISM hebps.
          */
-        long timeLimit = System.currentTimeMillis() + syncWaitMs;
+        long timeLimit = System.currentTimeMillis() + syncWbitMs;
 
-        String name = "hotspot.rt.hrt.ticks";
-        LongMonitor ticks = (LongMonitor)pollFor(map, name, timeLimit);
+        String nbme = "hotspot.rt.hrt.ticks";
+        LongMonitor ticks = (LongMonitor)pollFor(mbp, nbme, timeLimit);
 
         /*
-         * loop waiting for the ticks counter to be non zero. This is
-         * an indication that the jvm is initialized.
+         * loop wbiting for the ticks counter to be non zero. This is
+         * bn indicbtion thbt the jvm is initiblized.
          */
-        log("synchWithTarget: " + lvmid + " ");
-        while (ticks.longValue() == 0) {
+        log("synchWithTbrget: " + lvmid + " ");
+        while (ticks.longVblue() == 0) {
             log(".");
 
-            try { Thread.sleep(20); } catch (InterruptedException e) { }
+            try { Threbd.sleep(20); } cbtch (InterruptedException e) { }
 
             if (System.currentTimeMillis() > timeLimit) {
-                lognl("failed: " + lvmid);
-                throw new MonitorException("Could Not Synchronize with target");
+                lognl("fbiled: " + lvmid);
+                throw new MonitorException("Could Not Synchronize with tbrget");
             }
         }
         lognl("success: " + lvmid);
     }
 
     /**
-     * Method to poll the instrumentation memory for a counter with
-     * the given name. The polling period is bounded by the timeLimit
-     * argument.
+     * Method to poll the instrumentbtion memory for b counter with
+     * the given nbme. The polling period is bounded by the timeLimit
+     * brgument.
      */
-    protected Monitor pollFor(Map<String, Monitor> map, String name, long timeLimit)
+    protected Monitor pollFor(Mbp<String, Monitor> mbp, String nbme, long timeLimit)
                       throws MonitorException {
         Monitor monitor = null;
 
-        log("polling for: " + lvmid + "," + name + " ");
+        log("polling for: " + lvmid + "," + nbme + " ");
 
         pollForEntry = nextEntry;
-        while ((monitor = map.get(name)) == null) {
+        while ((monitor = mbp.get(nbme)) == null) {
             log(".");
 
-            try { Thread.sleep(20); } catch (InterruptedException e) { }
+            try { Threbd.sleep(20); } cbtch (InterruptedException e) { }
 
             long t = System.currentTimeMillis();
-            if ((t > timeLimit) || (overflow.intValue() > 0)) {
-                lognl("failed: " + lvmid + "," + name);
-                dumpAll(map, lvmid);
+            if ((t > timeLimit) || (overflow.intVblue() > 0)) {
+                lognl("fbiled: " + lvmid + "," + nbme);
+                dumpAll(mbp, lvmid);
                 throw new MonitorException("Could not find expected counter");
             }
 
-            getNewMonitors(map);
+            getNewMonitors(mbp);
         }
-        lognl("success: " + lvmid + "," + name);
+        lognl("success: " + lvmid + "," + nbme);
         return monitor;
     }
 
     /**
-     * method to make adjustments for known counter problems. This
-     * method depends on the availability of certain counters, which
-     * is generally guaranteed by the synchWithTarget() method.
+     * method to mbke bdjustments for known counter problems. This
+     * method depends on the bvbilbbility of certbin counters, which
+     * is generblly gubrbnteed by the synchWithTbrget() method.
      */
-    protected void kludge(Map<String, Monitor> map) {
-        if (Boolean.getBoolean("sun.jvmstat.perfdata.disableKludge")) {
-            // bypass all kludges
+    protected void kludge(Mbp<String, Monitor> mbp) {
+        if (Boolebn.getBoolebn("sun.jvmstbt.perfdbtb.disbbleKludge")) {
+            // bypbss bll kludges
             return;
         }
 
-        String name = "java.vm.version";
-        StringMonitor jvm_version = (StringMonitor)map.get(name);
+        String nbme = "jbvb.vm.version";
+        StringMonitor jvm_version = (StringMonitor)mbp.get(nbme);
         if (jvm_version == null) {
-            jvm_version = (StringMonitor)findByAlias(name);
+            jvm_version = (StringMonitor)findByAlibs(nbme);
         }
 
-        name = "java.vm.name";
-        StringMonitor jvm_name = (StringMonitor)map.get(name);
-        if (jvm_name == null) {
-            jvm_name = (StringMonitor)findByAlias(name);
+        nbme = "jbvb.vm.nbme";
+        StringMonitor jvm_nbme = (StringMonitor)mbp.get(nbme);
+        if (jvm_nbme == null) {
+            jvm_nbme = (StringMonitor)findByAlibs(nbme);
         }
 
-        name = "hotspot.vm.args";
-        StringMonitor args = (StringMonitor)map.get(name);
-        if (args == null) {
-            args = (StringMonitor)findByAlias(name);
+        nbme = "hotspot.vm.brgs";
+        StringMonitor brgs = (StringMonitor)mbp.get(nbme);
+        if (brgs == null) {
+            brgs = (StringMonitor)findByAlibs(nbme);
         }
 
-        assert ((jvm_name != null) && (jvm_version != null) && (args != null));
+        bssert ((jvm_nbme != null) && (jvm_version != null) && (brgs != null));
 
-        if (jvm_name.stringValue().indexOf("HotSpot") >= 0) {
-            if (jvm_version.stringValue().startsWith("1.4.2")) {
-                kludgeMantis(map, args);
+        if (jvm_nbme.stringVblue().indexOf("HotSpot") >= 0) {
+            if (jvm_version.stringVblue().stbrtsWith("1.4.2")) {
+                kludgeMbntis(mbp, brgs);
             }
         }
     }
 
     /**
-     * method to repair the 1.4.2 parallel scavenge counters that are
-     * incorrectly initialized by the JVM when UseAdaptiveSizePolicy
-     * is set. This bug couldn't be fixed for 1.4.2 FCS due to putback
+     * method to repbir the 1.4.2 pbrbllel scbvenge counters thbt bre
+     * incorrectly initiblized by the JVM when UseAdbptiveSizePolicy
+     * is set. This bug couldn't be fixed for 1.4.2 FCS due to putbbck
      * restrictions.
      */
-    private void kludgeMantis(Map<String, Monitor> map, StringMonitor args) {
+    privbte void kludgeMbntis(Mbp<String, Monitor> mbp, StringMonitor brgs) {
         /*
-         * the HotSpot 1.4.2 JVM with the +UseParallelGC option along
-         * with its default +UseAdaptiveSizePolicy option has a bug with
-         * the initialization of the sizes of the eden and survivor spaces.
+         * the HotSpot 1.4.2 JVM with the +UsePbrbllelGC option blong
+         * with its defbult +UseAdbptiveSizePolicy option hbs b bug with
+         * the initiblizbtion of the sizes of the eden bnd survivor spbces.
          * See bugid 4890736.
          *
-         * note - use explicit 1.4.2 counter names here - don't update
-         * to latest counter names or attempt to find aliases.
+         * note - use explicit 1.4.2 counter nbmes here - don't updbte
+         * to lbtest counter nbmes or bttempt to find blibses.
          */
 
-        String cname = "hotspot.gc.collector.0.name";
-        StringMonitor collector = (StringMonitor)map.get(cname);
+        String cnbme = "hotspot.gc.collector.0.nbme";
+        StringMonitor collector = (StringMonitor)mbp.get(cnbme);
 
-        if (collector.stringValue().compareTo("PSScavenge") == 0) {
-            boolean adaptiveSizePolicy = true;
-
-            /*
-             * HotSpot processes the -XX:Flags/.hotspotrc arguments prior to
-             * processing the command line arguments. This allows the command
-             * line arguments to override any defaults set in .hotspotrc
-             */
-            cname = "hotspot.vm.flags";
-            StringMonitor flags = (StringMonitor)map.get(cname);
-            String allArgs = flags.stringValue() + " " + args.stringValue();
+        if (collector.stringVblue().compbreTo("PSScbvenge") == 0) {
+            boolebn bdbptiveSizePolicy = true;
 
             /*
-             * ignore the -XX: prefix as it only applies to the arguments
-             * passed from the command line (i.e. the invocation api).
-             * arguments passed through .hotspotrc omit the -XX: prefix.
+             * HotSpot processes the -XX:Flbgs/.hotspotrc brguments prior to
+             * processing the commbnd line brguments. This bllows the commbnd
+             * line brguments to override bny defbults set in .hotspotrc
              */
-            int ahi = allArgs.lastIndexOf("+AggressiveHeap");
-            int aspi = allArgs.lastIndexOf("-UseAdaptiveSizePolicy");
+            cnbme = "hotspot.vm.flbgs";
+            StringMonitor flbgs = (StringMonitor)mbp.get(cnbme);
+            String bllArgs = flbgs.stringVblue() + " " + brgs.stringVblue();
 
-            if (ahi != -1) {
+            /*
+             * ignore the -XX: prefix bs it only bpplies to the brguments
+             * pbssed from the commbnd line (i.e. the invocbtion bpi).
+             * brguments pbssed through .hotspotrc omit the -XX: prefix.
+             */
+            int bhi = bllArgs.lbstIndexOf("+AggressiveHebp");
+            int bspi = bllArgs.lbstIndexOf("-UseAdbptiveSizePolicy");
+
+            if (bhi != -1) {
                 /*
-                 * +AggressiveHeap was set, check if -UseAdaptiveSizePolicy
-                 * is set after +AggressiveHeap.
+                 * +AggressiveHebp wbs set, check if -UseAdbptiveSizePolicy
+                 * is set bfter +AggressiveHebp.
                  */
                 //
-                if ((aspi != -1) && (aspi > ahi)) {
-                    adaptiveSizePolicy = false;
+                if ((bspi != -1) && (bspi > bhi)) {
+                    bdbptiveSizePolicy = fblse;
                 }
             } else {
                 /*
-                 * +AggressiveHeap not set, must be +UseParallelGC. The
-                 * relative position of -UseAdaptiveSizePolicy is not
-                 * important in this case, as it will override the
-                 * UseParallelGC default (+UseAdaptiveSizePolicy) if it
-                 * appears anywhere in the JVM arguments.
+                 * +AggressiveHebp not set, must be +UsePbrbllelGC. The
+                 * relbtive position of -UseAdbptiveSizePolicy is not
+                 * importbnt in this cbse, bs it will override the
+                 * UsePbrbllelGC defbult (+UseAdbptiveSizePolicy) if it
+                 * bppebrs bnywhere in the JVM brguments.
                  */
-                if (aspi != -1) {
-                    adaptiveSizePolicy = false;
+                if (bspi != -1) {
+                    bdbptiveSizePolicy = fblse;
                 }
             }
 
-            if (adaptiveSizePolicy) {
-                // adjust the buggy AdaptiveSizePolicy size counters.
+            if (bdbptiveSizePolicy) {
+                // bdjust the buggy AdbptiveSizePolicy size counters.
 
-                // first remove the real counters.
-                String eden_size = "hotspot.gc.generation.0.space.0.size";
-                String s0_size = "hotspot.gc.generation.0.space.1.size";
-                String s1_size = "hotspot.gc.generation.0.space.2.size";
-                map.remove(eden_size);
-                map.remove(s0_size);
-                map.remove(s1_size);
+                // first remove the rebl counters.
+                String eden_size = "hotspot.gc.generbtion.0.spbce.0.size";
+                String s0_size = "hotspot.gc.generbtion.0.spbce.1.size";
+                String s1_size = "hotspot.gc.generbtion.0.spbce.2.size";
+                mbp.remove(eden_size);
+                mbp.remove(s0_size);
+                mbp.remove(s1_size);
 
-                // get the maximum new generation size
-                String new_max_name = "hotspot.gc.generation.0.capacity.max";
-                LongMonitor new_max = (LongMonitor)map.get(new_max_name);
+                // get the mbximum new generbtion size
+                String new_mbx_nbme = "hotspot.gc.generbtion.0.cbpbcity.mbx";
+                LongMonitor new_mbx = (LongMonitor)mbp.get(new_mbx_nbme);
 
                 /*
-                 * replace the real counters with pseudo counters that are
-                 * initialized to to the correct values. The maximum size of
-                 * the eden and survivor spaces are supposed to be:
-                 *    max_eden_size = new_size - (2*alignment).
-                 *    max_survivor_size = new_size - (2*alignment).
-                 * since we don't know the alignment value used, and because
-                 * of other parallel scavenge bugs that result in oversized
-                 * spaces, we just set the maximum size of each space to the
+                 * replbce the rebl counters with pseudo counters thbt bre
+                 * initiblized to to the correct vblues. The mbximum size of
+                 * the eden bnd survivor spbces bre supposed to be:
+                 *    mbx_eden_size = new_size - (2*blignment).
+                 *    mbx_survivor_size = new_size - (2*blignment).
+                 * since we don't know the blignment vblue used, bnd becbuse
+                 * of other pbrbllel scbvenge bugs thbt result in oversized
+                 * spbces, we just set the mbximum size of ebch spbce to the
                  * full new gen size.
                  */
                 Monitor monitor = null;
 
-                LongBuffer lb = LongBuffer.allocate(1);
-                lb.put(new_max.longValue());
+                LongBuffer lb = LongBuffer.bllocbte(1);
+                lb.put(new_mbx.longVblue());
                 monitor = new PerfLongMonitor(eden_size, Units.BYTES,
-                                              Variability.CONSTANT, false, lb);
-                map.put(eden_size, monitor);
+                                              Vbribbility.CONSTANT, fblse, lb);
+                mbp.put(eden_size, monitor);
 
                 monitor = new PerfLongMonitor(s0_size, Units.BYTES,
-                                              Variability.CONSTANT, false, lb);
-                map.put(s0_size, monitor);
+                                              Vbribbility.CONSTANT, fblse, lb);
+                mbp.put(s0_size, monitor);
 
                 monitor = new PerfLongMonitor(s1_size, Units.BYTES,
-                                              Variability.CONSTANT, false, lb);
-                map.put(s1_size, monitor);
+                                              Vbribbility.CONSTANT, fblse, lb);
+                mbp.put(s1_size, monitor);
             }
         }
     }
 
     /**
-     * method to extract the next monitor entry from the instrumentation memory.
-     * assumes that nextEntry is the offset into the byte array
-     * at which to start the search for the next entry. method leaves
-     * next entry pointing to the next entry or to the end of data.
+     * method to extrbct the next monitor entry from the instrumentbtion memory.
+     * bssumes thbt nextEntry is the offset into the byte brrby
+     * bt which to stbrt the sebrch for the next entry. method lebves
+     * next entry pointing to the next entry or to the end of dbtb.
      */
     protected Monitor getNextMonitorEntry() throws MonitorException {
         Monitor monitor = null;
 
-        // entries are always 4 byte aligned.
+        // entries bre blwbys 4 byte bligned.
         if ((nextEntry % 4) != 0) {
             throw new MonitorStructureException(
-                   "Entry index not properly aligned: " + nextEntry);
+                   "Entry index not properly bligned: " + nextEntry);
         }
 
-        // protect against a corrupted shared memory region.
+        // protect bgbinst b corrupted shbred memory region.
         if ((nextEntry < 0) || (nextEntry > buffer.limit())) {
             throw new MonitorStructureException(
                    "Entry index out of bounds: nextEntry = " + nextEntry
@@ -488,146 +488,146 @@ public class PerfDataBuffer extends PerfDataBufferImpl {
 
         buffer.position(nextEntry);
 
-        int entryStart = buffer.position();
+        int entryStbrt = buffer.position();
         int entryLength = buffer.getInt();
 
-        // check for valid entry length
+        // check for vblid entry length
         if ((entryLength < 0) || (entryLength > buffer.limit())) {
             throw new MonitorStructureException(
-                   "Invalid entry length: entryLength = " + entryLength);
+                   "Invblid entry length: entryLength = " + entryLength);
         }
 
-        // check if last entry occurs before the eof.
-        if ((entryStart + entryLength) > buffer.limit()) {
+        // check if lbst entry occurs before the eof.
+        if ((entryStbrt + entryLength) > buffer.limit()) {
             throw new MonitorStructureException(
                    "Entry extends beyond end of buffer: "
-                   + " entryStart = " + entryStart
+                   + " entryStbrt = " + entryStbrt
                    + " entryLength = " + entryLength
                    + " buffer limit = " + buffer.limit());
         }
 
         if (entryLength == 0) {
-            // end of data
+            // end of dbtb
             return null;
         }
 
-        int nameLength = buffer.getInt();
+        int nbmeLength = buffer.getInt();
         int vectorLength = buffer.getInt();
-        byte dataType = buffer.get();
-        byte flags = buffer.get();
+        byte dbtbType = buffer.get();
+        byte flbgs = buffer.get();
         Units u = Units.toUnits(buffer.get());
-        Variability v = Variability.toVariability(buffer.get());
-        boolean supported = (flags & 0x01) != 0;
+        Vbribbility v = Vbribbility.toVbribbility(buffer.get());
+        boolebn supported = (flbgs & 0x01) != 0;
 
-        // defend against corrupt entries
-        if ((nameLength <= 0) || (nameLength > entryLength)) {
+        // defend bgbinst corrupt entries
+        if ((nbmeLength <= 0) || (nbmeLength > entryLength)) {
             throw new MonitorStructureException(
-                   "Invalid Monitor name length: " + nameLength);
+                   "Invblid Monitor nbme length: " + nbmeLength);
         }
 
         if ((vectorLength < 0) || (vectorLength > entryLength)) {
             throw new MonitorStructureException(
-                   "Invalid Monitor vector length: " + vectorLength);
+                   "Invblid Monitor vector length: " + vectorLength);
         }
 
-        // read in the perfData item name, casting bytes to chars. skip the
-        // null terminator
+        // rebd in the perfDbtb item nbme, cbsting bytes to chbrs. skip the
+        // null terminbtor
         //
-        byte[] nameBytes = new byte[nameLength-1];
-        for (int i = 0; i < nameLength-1; i++) {
-            nameBytes[i] = buffer.get();
+        byte[] nbmeBytes = new byte[nbmeLength-1];
+        for (int i = 0; i < nbmeLength-1; i++) {
+            nbmeBytes[i] = buffer.get();
         }
 
-        // convert name into a String
-        String name = new String(nameBytes, 0, nameLength-1);
+        // convert nbme into b String
+        String nbme = new String(nbmeBytes, 0, nbmeLength-1);
 
-        if (v == Variability.INVALID) {
-            throw new MonitorDataException("Invalid variability attribute:"
-                                           + " entry index = " + perfDataItem
-                                           + " name = " + name);
+        if (v == Vbribbility.INVALID) {
+            throw new MonitorDbtbException("Invblid vbribbility bttribute:"
+                                           + " entry index = " + perfDbtbItem
+                                           + " nbme = " + nbme);
         }
         if (u == Units.INVALID) {
-            throw new MonitorDataException("Invalid units attribute: "
-                                           + " entry index = " + perfDataItem
-                                           + " name = " + name);
+            throw new MonitorDbtbException("Invblid units bttribute: "
+                                           + " entry index = " + perfDbtbItem
+                                           + " nbme = " + nbme);
         }
 
         int offset;
         if (vectorLength == 0) {
-            // scalar Types
-            if (dataType == BasicType.LONG.intValue()) {
-                offset = entryStart + entryLength - 8;  /* 8 = sizeof(long) */
+            // scblbr Types
+            if (dbtbType == BbsicType.LONG.intVblue()) {
+                offset = entryStbrt + entryLength - 8;  /* 8 = sizeof(long) */
                 buffer.position(offset);
-                LongBuffer lb = buffer.asLongBuffer();
+                LongBuffer lb = buffer.bsLongBuffer();
                 lb.limit(1);
-                monitor = new PerfLongMonitor(name, u, v, supported, lb);
-                perfDataItem++;
+                monitor = new PerfLongMonitor(nbme, u, v, supported, lb);
+                perfDbtbItem++;
             } else {
-                // bad data types.
-                throw new MonitorTypeException("Invalid Monitor type:"
-                                    + " entry index = " + perfDataItem
-                                    + " name = " + name
-                                    + " type = " + dataType);
+                // bbd dbtb types.
+                throw new MonitorTypeException("Invblid Monitor type:"
+                                    + " entry index = " + perfDbtbItem
+                                    + " nbme = " + nbme
+                                    + " type = " + dbtbType);
             }
         } else {
             // vector types
-            if (dataType == BasicType.BYTE.intValue()) {
+            if (dbtbType == BbsicType.BYTE.intVblue()) {
                 if (u != Units.STRING) {
-                    // only byte arrays of type STRING are currently supported
-                    throw new MonitorTypeException("Invalid Monitor type:"
-                                      + " entry index = " + perfDataItem
-                                      + " name = " + name
-                                      + " type = " + dataType);
+                    // only byte brrbys of type STRING bre currently supported
+                    throw new MonitorTypeException("Invblid Monitor type:"
+                                      + " entry index = " + perfDbtbItem
+                                      + " nbme = " + nbme
+                                      + " type = " + dbtbType);
                 }
 
-                offset = entryStart + PERFDATA_NAME_OFFSET + nameLength;
+                offset = entryStbrt + PERFDATA_NAME_OFFSET + nbmeLength;
                 buffer.position(offset);
                 ByteBuffer bb = buffer.slice();
                 bb.limit(vectorLength);
                 bb.position(0);
 
-                if (v == Variability.CONSTANT) {
-                    monitor = new PerfStringConstantMonitor(name, supported,
+                if (v == Vbribbility.CONSTANT) {
+                    monitor = new PerfStringConstbntMonitor(nbme, supported,
                                                             bb);
-                } else if (v == Variability.VARIABLE) {
-                    monitor = new PerfStringVariableMonitor(name, supported,
+                } else if (v == Vbribbility.VARIABLE) {
+                    monitor = new PerfStringVbribbleMonitor(nbme, supported,
                                                             bb, vectorLength-1);
                 } else {
-                    // Monotonically increasing byte arrays are not supported
-                    throw new MonitorDataException(
-                            "Invalid variability attribute:"
-                            + " entry index = " + perfDataItem
-                            + " name = " + name
-                            + " variability = " + v);
+                    // Monotonicblly increbsing byte brrbys bre not supported
+                    throw new MonitorDbtbException(
+                            "Invblid vbribbility bttribute:"
+                            + " entry index = " + perfDbtbItem
+                            + " nbme = " + nbme
+                            + " vbribbility = " + v);
                 }
-                perfDataItem++;
+                perfDbtbItem++;
             } else {
-                // bad data types.
+                // bbd dbtb types.
                 throw new MonitorTypeException(
-                        "Invalid Monitor type:" + " entry index = "
-                        + perfDataItem + " name = " + name
-                        + " type = " + dataType);
+                        "Invblid Monitor type:" + " entry index = "
+                        + perfDbtbItem + " nbme = " + nbme
+                        + " type = " + dbtbType);
             }
         }
 
-        // setup index to next entry for next iteration of the loop.
-        nextEntry = entryStart + entryLength;
+        // setup index to next entry for next iterbtion of the loop.
+        nextEntry = entryStbrt + entryLength;
         return monitor;
     }
 
     /**
-     * Method to dump debugging information
+     * Method to dump debugging informbtion
      */
-    private void dumpAll(Map<String, Monitor> map, int lvmid) {
+    privbte void dumpAll(Mbp<String, Monitor> mbp, int lvmid) {
         if (DEBUG) {
-            Set<String> keys = map.keySet();
+            Set<String> keys = mbp.keySet();
 
             System.err.println("Dump for " + lvmid);
             int j = 0;
-            for (Iterator<String> i = keys.iterator(); i.hasNext(); j++) {
-                Monitor monitor = map.get(i.next());
-                System.err.println(j + "\t" + monitor.getName()
-                                   + "=" + monitor.getValue());
+            for (Iterbtor<String> i = keys.iterbtor(); i.hbsNext(); j++) {
+                Monitor monitor = mbp.get(i.next());
+                System.err.println(j + "\t" + monitor.getNbme()
+                                   + "=" + monitor.getVblue());
             }
             System.err.println("nextEntry = " + nextEntry
                                + " pollForEntry = " + pollForEntry);
@@ -636,13 +636,13 @@ public class PerfDataBuffer extends PerfDataBufferImpl {
         }
     }
 
-    private void lognl(String s) {
+    privbte void lognl(String s) {
         if (DEBUG) {
             System.err.println(s);
         }
     }
 
-    private void log(String s) {
+    privbte void log(String s) {
         if (DEBUG) {
             System.err.print(s);
         }

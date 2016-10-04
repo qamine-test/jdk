@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * Utility class for small LRU caches.
+ * Utility clbss for smbll LRU cbches.
  *
- * @author Mark Reinhold
+ * @buthor Mbrk Reinhold
  */
-public abstract class LRUCache<N,V> {
+public bbstrbct clbss LRUCbche<N,V> {
 
-    private V[] oa = null;
-    private final int size;
+    privbte V[] ob = null;
+    privbte finbl int size;
 
-    public LRUCache(int size) {
+    public LRUCbche(int size) {
         this.size = size;
     }
 
-    abstract protected V create(N name);
+    bbstrbct protected V crebte(N nbme);
 
-    abstract protected boolean hasName(V ob, N name);
+    bbstrbct protected boolebn hbsNbme(V ob, N nbme);
 
-    public static void moveToFront(Object[] oa, int i) {
-        Object ob = oa[i];
+    public stbtic void moveToFront(Object[] ob, int i) {
+        Object ob = ob[i];
         for (int j = i; j > 0; j--)
-            oa[j] = oa[j - 1];
-        oa[0] = ob;
+            ob[j] = ob[j - 1];
+        ob[0] = ob;
     }
 
-    public V forName(N name) {
-        if (oa == null) {
-            @SuppressWarnings("unchecked")
+    public V forNbme(N nbme) {
+        if (ob == null) {
+            @SuppressWbrnings("unchecked")
             V[] temp = (V[])new Object[size];
-            oa = temp;
+            ob = temp;
         } else {
-            for (int i = 0; i < oa.length; i++) {
-                V ob = oa[i];
+            for (int i = 0; i < ob.length; i++) {
+                V ob = ob[i];
                 if (ob == null)
                     continue;
-                if (hasName(ob, name)) {
+                if (hbsNbme(ob, nbme)) {
                     if (i > 0)
-                        moveToFront(oa, i);
+                        moveToFront(ob, i);
                     return ob;
                 }
             }
         }
 
-        // Create a new object
-        V ob = create(name);
-        oa[oa.length - 1] = ob;
-        moveToFront(oa, oa.length - 1);
+        // Crebte b new object
+        V ob = crebte(nbme);
+        ob[ob.length - 1] = ob;
+        moveToFront(ob, ob.length - 1);
         return ob;
     }
 

@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pisces;
+pbckbge sun.jbvb2d.pisces;
 
-import sun.awt.geom.PathConsumer2D;
-import java.awt.geom.AffineTransform;
+import sun.bwt.geom.PbthConsumer2D;
+import jbvb.bwt.geom.AffineTrbnsform;
 
-final class TransformingPathConsumer2D {
-    public static PathConsumer2D
-        transformConsumer(PathConsumer2D out,
-                          AffineTransform at)
+finbl clbss TrbnsformingPbthConsumer2D {
+    public stbtic PbthConsumer2D
+        trbnsformConsumer(PbthConsumer2D out,
+                          AffineTrbnsform bt)
     {
-        if (at == null) {
+        if (bt == null) {
             return out;
         }
-        float Mxx = (float) at.getScaleX();
-        float Mxy = (float) at.getShearX();
-        float Mxt = (float) at.getTranslateX();
-        float Myx = (float) at.getShearY();
-        float Myy = (float) at.getScaleY();
-        float Myt = (float) at.getTranslateY();
+        flobt Mxx = (flobt) bt.getScbleX();
+        flobt Mxy = (flobt) bt.getShebrX();
+        flobt Mxt = (flobt) bt.getTrbnslbteX();
+        flobt Myx = (flobt) bt.getShebrY();
+        flobt Myy = (flobt) bt.getScbleY();
+        flobt Myt = (flobt) bt.getTrbnslbteY();
         if (Mxy == 0f && Myx == 0f) {
             if (Mxx == 1f && Myy == 1f) {
                 if (Mxt == 0f && Myt == 0f) {
                     return out;
                 } else {
-                    return new TranslateFilter(out, Mxt, Myt);
+                    return new TrbnslbteFilter(out, Mxt, Myt);
                 }
             } else {
                 if (Mxt == 0f && Myt == 0f) {
-                    return new DeltaScaleFilter(out, Mxx, Myy);
+                    return new DeltbScbleFilter(out, Mxx, Myy);
                 } else {
-                    return new ScaleFilter(out, Mxx, Myy, Mxt, Myt);
+                    return new ScbleFilter(out, Mxx, Myy, Mxt, Myt);
                 }
             }
         } else if (Mxt == 0f && Myt == 0f) {
-            return new DeltaTransformFilter(out, Mxx, Mxy, Myx, Myy);
+            return new DeltbTrbnsformFilter(out, Mxx, Mxy, Myx, Myy);
         } else {
-            return new TransformFilter(out, Mxx, Mxy, Mxt, Myx, Myy, Myt);
+            return new TrbnsformFilter(out, Mxx, Mxy, Mxt, Myx, Myy, Myt);
         }
     }
 
-    public static PathConsumer2D
-        deltaTransformConsumer(PathConsumer2D out,
-                               AffineTransform at)
+    public stbtic PbthConsumer2D
+        deltbTrbnsformConsumer(PbthConsumer2D out,
+                               AffineTrbnsform bt)
     {
-        if (at == null) {
+        if (bt == null) {
             return out;
         }
-        float Mxx = (float) at.getScaleX();
-        float Mxy = (float) at.getShearX();
-        float Myx = (float) at.getShearY();
-        float Myy = (float) at.getScaleY();
+        flobt Mxx = (flobt) bt.getScbleX();
+        flobt Mxy = (flobt) bt.getShebrX();
+        flobt Myx = (flobt) bt.getShebrY();
+        flobt Myy = (flobt) bt.getScbleY();
         if (Mxy == 0f && Myx == 0f) {
             if (Mxx == 1f && Myy == 1f) {
                 return out;
             } else {
-                return new DeltaScaleFilter(out, Mxx, Myy);
+                return new DeltbScbleFilter(out, Mxx, Myy);
             }
         } else {
-            return new DeltaTransformFilter(out, Mxx, Mxy, Myx, Myy);
+            return new DeltbTrbnsformFilter(out, Mxx, Mxy, Myx, Myy);
         }
     }
 
-    public static PathConsumer2D
-        inverseDeltaTransformConsumer(PathConsumer2D out,
-                                      AffineTransform at)
+    public stbtic PbthConsumer2D
+        inverseDeltbTrbnsformConsumer(PbthConsumer2D out,
+                                      AffineTrbnsform bt)
     {
-        if (at == null) {
+        if (bt == null) {
             return out;
         }
-        float Mxx = (float) at.getScaleX();
-        float Mxy = (float) at.getShearX();
-        float Myx = (float) at.getShearY();
-        float Myy = (float) at.getScaleY();
+        flobt Mxx = (flobt) bt.getScbleX();
+        flobt Mxy = (flobt) bt.getShebrX();
+        flobt Myx = (flobt) bt.getShebrY();
+        flobt Myy = (flobt) bt.getScbleY();
         if (Mxy == 0f && Myx == 0f) {
             if (Mxx == 1f && Myy == 1f) {
                 return out;
             } else {
-                return new DeltaScaleFilter(out, 1.0f/Mxx, 1.0f/Myy);
+                return new DeltbScbleFilter(out, 1.0f/Mxx, 1.0f/Myy);
             }
         } else {
-            float det = Mxx * Myy - Mxy * Myx;
-            return new DeltaTransformFilter(out,
+            flobt det = Mxx * Myy - Mxy * Myx;
+            return new DeltbTrbnsformFilter(out,
                                             Myy / det,
                                             -Mxy / det,
                                             -Myx / det,
@@ -112,65 +112,65 @@ final class TransformingPathConsumer2D {
         }
     }
 
-    static final class TranslateFilter implements PathConsumer2D {
-        private final PathConsumer2D out;
-        private final float tx;
-        private final float ty;
+    stbtic finbl clbss TrbnslbteFilter implements PbthConsumer2D {
+        privbte finbl PbthConsumer2D out;
+        privbte finbl flobt tx;
+        privbte finbl flobt ty;
 
-        TranslateFilter(PathConsumer2D out,
-                        float tx, float ty)
+        TrbnslbteFilter(PbthConsumer2D out,
+                        flobt tx, flobt ty)
         {
             this.out = out;
             this.tx = tx;
             this.ty = ty;
         }
 
-        public void moveTo(float x0, float y0) {
+        public void moveTo(flobt x0, flobt y0) {
             out.moveTo(x0 + tx, y0 + ty);
         }
 
-        public void lineTo(float x1, float y1) {
+        public void lineTo(flobt x1, flobt y1) {
             out.lineTo(x1 + tx, y1 + ty);
         }
 
-        public void quadTo(float x1, float y1,
-                           float x2, float y2)
+        public void qubdTo(flobt x1, flobt y1,
+                           flobt x2, flobt y2)
         {
-            out.quadTo(x1 + tx, y1 + ty,
+            out.qubdTo(x1 + tx, y1 + ty,
                        x2 + tx, y2 + ty);
         }
 
-        public void curveTo(float x1, float y1,
-                            float x2, float y2,
-                            float x3, float y3)
+        public void curveTo(flobt x1, flobt y1,
+                            flobt x2, flobt y2,
+                            flobt x3, flobt y3)
         {
             out.curveTo(x1 + tx, y1 + ty,
                         x2 + tx, y2 + ty,
                         x3 + tx, y3 + ty);
         }
 
-        public void closePath() {
-            out.closePath();
+        public void closePbth() {
+            out.closePbth();
         }
 
-        public void pathDone() {
-            out.pathDone();
+        public void pbthDone() {
+            out.pbthDone();
         }
 
-        public long getNativeConsumer() {
+        public long getNbtiveConsumer() {
             return 0;
         }
     }
 
-    static final class ScaleFilter implements PathConsumer2D {
-        private final PathConsumer2D out;
-        private final float sx;
-        private final float sy;
-        private final float tx;
-        private final float ty;
+    stbtic finbl clbss ScbleFilter implements PbthConsumer2D {
+        privbte finbl PbthConsumer2D out;
+        privbte finbl flobt sx;
+        privbte finbl flobt sy;
+        privbte finbl flobt tx;
+        privbte finbl flobt ty;
 
-        ScaleFilter(PathConsumer2D out,
-                    float sx, float sy, float tx, float ty)
+        ScbleFilter(PbthConsumer2D out,
+                    flobt sx, flobt sy, flobt tx, flobt ty)
         {
             this.out = out;
             this.sx = sx;
@@ -179,55 +179,55 @@ final class TransformingPathConsumer2D {
             this.ty = ty;
         }
 
-        public void moveTo(float x0, float y0) {
+        public void moveTo(flobt x0, flobt y0) {
             out.moveTo(x0 * sx + tx, y0 * sy + ty);
         }
 
-        public void lineTo(float x1, float y1) {
+        public void lineTo(flobt x1, flobt y1) {
             out.lineTo(x1 * sx + tx, y1 * sy + ty);
         }
 
-        public void quadTo(float x1, float y1,
-                           float x2, float y2)
+        public void qubdTo(flobt x1, flobt y1,
+                           flobt x2, flobt y2)
         {
-            out.quadTo(x1 * sx + tx, y1 * sy + ty,
+            out.qubdTo(x1 * sx + tx, y1 * sy + ty,
                        x2 * sx + tx, y2 * sy + ty);
         }
 
-        public void curveTo(float x1, float y1,
-                            float x2, float y2,
-                            float x3, float y3)
+        public void curveTo(flobt x1, flobt y1,
+                            flobt x2, flobt y2,
+                            flobt x3, flobt y3)
         {
             out.curveTo(x1 * sx + tx, y1 * sy + ty,
                         x2 * sx + tx, y2 * sy + ty,
                         x3 * sx + tx, y3 * sy + ty);
         }
 
-        public void closePath() {
-            out.closePath();
+        public void closePbth() {
+            out.closePbth();
         }
 
-        public void pathDone() {
-            out.pathDone();
+        public void pbthDone() {
+            out.pbthDone();
         }
 
-        public long getNativeConsumer() {
+        public long getNbtiveConsumer() {
             return 0;
         }
     }
 
-    static final class TransformFilter implements PathConsumer2D {
-        private final PathConsumer2D out;
-        private final float Mxx;
-        private final float Mxy;
-        private final float Mxt;
-        private final float Myx;
-        private final float Myy;
-        private final float Myt;
+    stbtic finbl clbss TrbnsformFilter implements PbthConsumer2D {
+        privbte finbl PbthConsumer2D out;
+        privbte finbl flobt Mxx;
+        privbte finbl flobt Mxy;
+        privbte finbl flobt Mxt;
+        privbte finbl flobt Myx;
+        privbte finbl flobt Myy;
+        privbte finbl flobt Myt;
 
-        TransformFilter(PathConsumer2D out,
-                        float Mxx, float Mxy, float Mxt,
-                        float Myx, float Myy, float Myt)
+        TrbnsformFilter(PbthConsumer2D out,
+                        flobt Mxx, flobt Mxy, flobt Mxt,
+                        flobt Myx, flobt Myy, flobt Myt)
         {
             this.out = out;
             this.Mxx = Mxx;
@@ -238,28 +238,28 @@ final class TransformingPathConsumer2D {
             this.Myt = Myt;
         }
 
-        public void moveTo(float x0, float y0) {
+        public void moveTo(flobt x0, flobt y0) {
             out.moveTo(x0 * Mxx + y0 * Mxy + Mxt,
                        x0 * Myx + y0 * Myy + Myt);
         }
 
-        public void lineTo(float x1, float y1) {
+        public void lineTo(flobt x1, flobt y1) {
             out.lineTo(x1 * Mxx + y1 * Mxy + Mxt,
                        x1 * Myx + y1 * Myy + Myt);
         }
 
-        public void quadTo(float x1, float y1,
-                           float x2, float y2)
+        public void qubdTo(flobt x1, flobt y1,
+                           flobt x2, flobt y2)
         {
-            out.quadTo(x1 * Mxx + y1 * Mxy + Mxt,
+            out.qubdTo(x1 * Mxx + y1 * Mxy + Mxt,
                        x1 * Myx + y1 * Myy + Myt,
                        x2 * Mxx + y2 * Mxy + Mxt,
                        x2 * Myx + y2 * Myy + Myt);
         }
 
-        public void curveTo(float x1, float y1,
-                            float x2, float y2,
-                            float x3, float y3)
+        public void curveTo(flobt x1, flobt y1,
+                            flobt x2, flobt y2,
+                            flobt x3, flobt y3)
         {
             out.curveTo(x1 * Mxx + y1 * Mxy + Mxt,
                         x1 * Myx + y1 * Myy + Myt,
@@ -269,76 +269,76 @@ final class TransformingPathConsumer2D {
                         x3 * Myx + y3 * Myy + Myt);
         }
 
-        public void closePath() {
-            out.closePath();
+        public void closePbth() {
+            out.closePbth();
         }
 
-        public void pathDone() {
-            out.pathDone();
+        public void pbthDone() {
+            out.pbthDone();
         }
 
-        public long getNativeConsumer() {
+        public long getNbtiveConsumer() {
             return 0;
         }
     }
 
-    static final class DeltaScaleFilter implements PathConsumer2D {
-        private final float sx, sy;
-        private final PathConsumer2D out;
+    stbtic finbl clbss DeltbScbleFilter implements PbthConsumer2D {
+        privbte finbl flobt sx, sy;
+        privbte finbl PbthConsumer2D out;
 
-        public DeltaScaleFilter(PathConsumer2D out, float Mxx, float Myy) {
+        public DeltbScbleFilter(PbthConsumer2D out, flobt Mxx, flobt Myy) {
             sx = Mxx;
             sy = Myy;
             this.out = out;
         }
 
-        public void moveTo(float x0, float y0) {
+        public void moveTo(flobt x0, flobt y0) {
             out.moveTo(x0 * sx, y0 * sy);
         }
 
-        public void lineTo(float x1, float y1) {
+        public void lineTo(flobt x1, flobt y1) {
             out.lineTo(x1 * sx, y1 * sy);
         }
 
-        public void quadTo(float x1, float y1,
-                           float x2, float y2)
+        public void qubdTo(flobt x1, flobt y1,
+                           flobt x2, flobt y2)
         {
-            out.quadTo(x1 * sx, y1 * sy,
+            out.qubdTo(x1 * sx, y1 * sy,
                        x2 * sx, y2 * sy);
         }
 
-        public void curveTo(float x1, float y1,
-                            float x2, float y2,
-                            float x3, float y3)
+        public void curveTo(flobt x1, flobt y1,
+                            flobt x2, flobt y2,
+                            flobt x3, flobt y3)
         {
             out.curveTo(x1 * sx, y1 * sy,
                         x2 * sx, y2 * sy,
                         x3 * sx, y3 * sy);
         }
 
-        public void closePath() {
-            out.closePath();
+        public void closePbth() {
+            out.closePbth();
         }
 
-        public void pathDone() {
-            out.pathDone();
+        public void pbthDone() {
+            out.pbthDone();
         }
 
-        public long getNativeConsumer() {
+        public long getNbtiveConsumer() {
             return 0;
         }
     }
 
-    static final class DeltaTransformFilter implements PathConsumer2D {
-        private PathConsumer2D out;
-        private final float Mxx;
-        private final float Mxy;
-        private final float Myx;
-        private final float Myy;
+    stbtic finbl clbss DeltbTrbnsformFilter implements PbthConsumer2D {
+        privbte PbthConsumer2D out;
+        privbte finbl flobt Mxx;
+        privbte finbl flobt Mxy;
+        privbte finbl flobt Myx;
+        privbte finbl flobt Myy;
 
-        DeltaTransformFilter(PathConsumer2D out,
-                             float Mxx, float Mxy,
-                             float Myx, float Myy)
+        DeltbTrbnsformFilter(PbthConsumer2D out,
+                             flobt Mxx, flobt Mxy,
+                             flobt Myx, flobt Myy)
         {
             this.out = out;
             this.Mxx = Mxx;
@@ -347,28 +347,28 @@ final class TransformingPathConsumer2D {
             this.Myy = Myy;
         }
 
-        public void moveTo(float x0, float y0) {
+        public void moveTo(flobt x0, flobt y0) {
             out.moveTo(x0 * Mxx + y0 * Mxy,
                        x0 * Myx + y0 * Myy);
         }
 
-        public void lineTo(float x1, float y1) {
+        public void lineTo(flobt x1, flobt y1) {
             out.lineTo(x1 * Mxx + y1 * Mxy,
                        x1 * Myx + y1 * Myy);
         }
 
-        public void quadTo(float x1, float y1,
-                           float x2, float y2)
+        public void qubdTo(flobt x1, flobt y1,
+                           flobt x2, flobt y2)
         {
-            out.quadTo(x1 * Mxx + y1 * Mxy,
+            out.qubdTo(x1 * Mxx + y1 * Mxy,
                        x1 * Myx + y1 * Myy,
                        x2 * Mxx + y2 * Mxy,
                        x2 * Myx + y2 * Myy);
         }
 
-        public void curveTo(float x1, float y1,
-                            float x2, float y2,
-                            float x3, float y3)
+        public void curveTo(flobt x1, flobt y1,
+                            flobt x2, flobt y2,
+                            flobt x3, flobt y3)
         {
             out.curveTo(x1 * Mxx + y1 * Mxy,
                         x1 * Myx + y1 * Myy,
@@ -378,15 +378,15 @@ final class TransformingPathConsumer2D {
                         x3 * Myx + y3 * Myy);
         }
 
-        public void closePath() {
-            out.closePath();
+        public void closePbth() {
+            out.closePbth();
         }
 
-        public void pathDone() {
-            out.pathDone();
+        public void pbthDone() {
+            out.pbthDone();
         }
 
-        public long getNativeConsumer() {
+        public long getNbtiveConsumer() {
             return 0;
         }
     }

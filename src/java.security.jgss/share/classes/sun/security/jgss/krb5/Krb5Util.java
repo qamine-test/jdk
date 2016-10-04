@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
-import java.security.AccessControlContext;
+import jbvbx.security.buth.kerberos.KerberosTicket;
+import jbvbx.security.buth.kerberos.KerberosKey;
+import jbvbx.security.buth.kerberos.KerberosPrincipbl;
+import jbvbx.security.buth.kerberos.KeyTbb;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.login.LoginException;
+import jbvb.security.AccessControlContext;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 
-import sun.security.krb5.Credentials;
+import sun.security.krb5.Credentibls;
 import sun.security.krb5.EncryptionKey;
 import sun.security.krb5.KrbException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 import sun.security.krb5.KerberosSecrets;
-import sun.security.krb5.PrincipalName;
+import sun.security.krb5.PrincipblNbme;
 /**
- * Utilities for obtaining and converting Kerberos tickets.
+ * Utilities for obtbining bnd converting Kerberos tickets.
  *
  */
-public class Krb5Util {
+public clbss Krb5Util {
 
-    static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction
-            ("sun.security.krb5.debug")).booleanValue();
+    stbtic finbl boolebn DEBUG =
+        jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetBoolebnAction
+            ("sun.security.krb5.debug")).boolebnVblue();
 
     /**
-     * Default constructor
+     * Defbult constructor
      */
-    private Krb5Util() {  // Cannot create one of these
+    privbte Krb5Util() {  // Cbnnot crebte one of these
     }
 
     /**
-     * Retrieve the service ticket for serverPrincipal from caller's Subject
-     * or from Subject obtained by logging in, or if not found, via the
-     * Ticket Granting Service using the TGT obtained from the Subject.
+     * Retrieve the service ticket for serverPrincipbl from cbller's Subject
+     * or from Subject obtbined by logging in, or if not found, vib the
+     * Ticket Grbnting Service using the TGT obtbined from the Subject.
      *
-     * Caller must have permission to:
-     *    - access and update Subject's private credentials
-     *    - create LoginContext
-     *    - read the auth.login.defaultCallbackHandler security property
+     * Cbller must hbve permission to:
+     *    - bccess bnd updbte Subject's privbte credentibls
+     *    - crebte LoginContext
+     *    - rebd the buth.login.defbultCbllbbckHbndler security property
      *
      * NOTE: This method is used by JSSE Kerberos Cipher Suites
      */
-    public static KerberosTicket getTicketFromSubjectAndTgs(GSSCaller caller,
-        String clientPrincipal, String serverPrincipal, String tgsPrincipal,
-        AccessControlContext acc)
+    public stbtic KerberosTicket getTicketFromSubjectAndTgs(GSSCbller cbller,
+        String clientPrincipbl, String serverPrincipbl, String tgsPrincipbl,
+        AccessControlContext bcc)
         throws LoginException, KrbException, IOException {
 
-        // 1. Try to find service ticket in acc subject
-        Subject accSubj = Subject.getSubject(acc);
-        KerberosTicket ticket = SubjectComber.find(accSubj,
-            serverPrincipal, clientPrincipal, KerberosTicket.class);
+        // 1. Try to find service ticket in bcc subject
+        Subject bccSubj = Subject.getSubject(bcc);
+        KerberosTicket ticket = SubjectComber.find(bccSubj,
+            serverPrincipbl, clientPrincipbl, KerberosTicket.clbss);
 
         if (ticket != null) {
             return ticket;  // found it
         }
 
         Subject loginSubj = null;
-        if (!GSSUtil.useSubjectCredsOnly(caller)) {
+        if (!GSSUtil.useSubjectCredsOnly(cbller)) {
             // 2. Try to get ticket from login
             try {
-                loginSubj = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
+                loginSubj = GSSUtil.login(cbller, GSSUtil.GSS_KRB5_MECH_OID);
                 ticket = SubjectComber.find(loginSubj,
-                    serverPrincipal, clientPrincipal, KerberosTicket.class);
+                    serverPrincipbl, clientPrincipbl, KerberosTicket.clbss);
                 if (ticket != null) {
                     return ticket; // found it
                 }
-            } catch (LoginException e) {
+            } cbtch (LoginException e) {
                 // No login entry to use
-                // ignore and continue
+                // ignore bnd continue
             }
         }
 
         // Service ticket not found in subject or login
-        // Try to get TGT to acquire service ticket
+        // Try to get TGT to bcquire service ticket
 
-        // 3. Try to get TGT from acc subject
-        KerberosTicket tgt = SubjectComber.find(accSubj,
-            tgsPrincipal, clientPrincipal, KerberosTicket.class);
+        // 3. Try to get TGT from bcc subject
+        KerberosTicket tgt = SubjectComber.find(bccSubj,
+            tgsPrincipbl, clientPrincipbl, KerberosTicket.clbss);
 
-        boolean fromAcc;
+        boolebn fromAcc;
         if (tgt == null && loginSubj != null) {
             // 4. Try to get TGT from login subject
             tgt = SubjectComber.find(loginSubj,
-                tgsPrincipal, clientPrincipal, KerberosTicket.class);
-            fromAcc = false;
+                tgsPrincipbl, clientPrincipbl, KerberosTicket.clbss);
+            fromAcc = fblse;
         } else {
             fromAcc = true;
         }
 
         // 5. Try to get service ticket using TGT
         if (tgt != null) {
-            Credentials tgtCreds = ticketToCreds(tgt);
-            Credentials serviceCreds = Credentials.acquireServiceCreds(
-                        serverPrincipal, tgtCreds);
+            Credentibls tgtCreds = ticketToCreds(tgt);
+            Credentibls serviceCreds = Credentibls.bcquireServiceCreds(
+                        serverPrincipbl, tgtCreds);
             if (serviceCreds != null) {
                 ticket = credsToTicket(serviceCreds);
 
-                // Store service ticket in acc's Subject
-                if (fromAcc && accSubj != null && !accSubj.isReadOnly()) {
-                    accSubj.getPrivateCredentials().add(ticket);
+                // Store service ticket in bcc's Subject
+                if (fromAcc && bccSubj != null && !bccSubj.isRebdOnly()) {
+                    bccSubj.getPrivbteCredentibls().bdd(ticket);
                 }
             }
         }
@@ -137,130 +137,130 @@ public class Krb5Util {
     }
 
     /**
-     * Retrieves the ticket corresponding to the client/server principal
-     * pair from the Subject in the specified AccessControlContext.
-     * If the ticket can not be found in the Subject, and if
-     * useSubjectCredsOnly is false, then obtain ticket from
-     * a LoginContext.
+     * Retrieves the ticket corresponding to the client/server principbl
+     * pbir from the Subject in the specified AccessControlContext.
+     * If the ticket cbn not be found in the Subject, bnd if
+     * useSubjectCredsOnly is fblse, then obtbin ticket from
+     * b LoginContext.
      */
-    static KerberosTicket getTicket(GSSCaller caller,
-        String clientPrincipal, String serverPrincipal,
-        AccessControlContext acc) throws LoginException {
+    stbtic KerberosTicket getTicket(GSSCbller cbller,
+        String clientPrincipbl, String serverPrincipbl,
+        AccessControlContext bcc) throws LoginException {
 
-        // Try to get ticket from acc's Subject
-        Subject accSubj = Subject.getSubject(acc);
+        // Try to get ticket from bcc's Subject
+        Subject bccSubj = Subject.getSubject(bcc);
         KerberosTicket ticket =
-            SubjectComber.find(accSubj, serverPrincipal, clientPrincipal,
-                  KerberosTicket.class);
+            SubjectComber.find(bccSubj, serverPrincipbl, clientPrincipbl,
+                  KerberosTicket.clbss);
 
-        // Try to get ticket from Subject obtained from GSSUtil
-        if (ticket == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            Subject subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
+        // Try to get ticket from Subject obtbined from GSSUtil
+        if (ticket == null && !GSSUtil.useSubjectCredsOnly(cbller)) {
+            Subject subject = GSSUtil.login(cbller, GSSUtil.GSS_KRB5_MECH_OID);
             ticket = SubjectComber.find(subject,
-                serverPrincipal, clientPrincipal, KerberosTicket.class);
+                serverPrincipbl, clientPrincipbl, KerberosTicket.clbss);
         }
         return ticket;
     }
 
     /**
-     * Retrieves the caller's Subject, or Subject obtained by logging in
-     * via the specified caller.
+     * Retrieves the cbller's Subject, or Subject obtbined by logging in
+     * vib the specified cbller.
      *
-     * Caller must have permission to:
-     *    - access the Subject
-     *    - create LoginContext
-     *    - read the auth.login.defaultCallbackHandler security property
+     * Cbller must hbve permission to:
+     *    - bccess the Subject
+     *    - crebte LoginContext
+     *    - rebd the buth.login.defbultCbllbbckHbndler security property
      *
      * NOTE: This method is used by JSSE Kerberos Cipher Suites
      */
-    public static Subject getSubject(GSSCaller caller,
-        AccessControlContext acc) throws LoginException {
+    public stbtic Subject getSubject(GSSCbller cbller,
+        AccessControlContext bcc) throws LoginException {
 
-        // Try to get the Subject from acc
-        Subject subject = Subject.getSubject(acc);
+        // Try to get the Subject from bcc
+        Subject subject = Subject.getSubject(bcc);
 
-        // Try to get Subject obtained from GSSUtil
-        if (subject == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
+        // Try to get Subject obtbined from GSSUtil
+        if (subject == null && !GSSUtil.useSubjectCredsOnly(cbller)) {
+            subject = GSSUtil.login(cbller, GSSUtil.GSS_KRB5_MECH_OID);
         }
         return subject;
     }
 
     /**
-     * Retrieves the ServiceCreds for the specified server principal from
-     * the Subject in the specified AccessControlContext. If not found, and if
-     * useSubjectCredsOnly is false, then obtain from a LoginContext.
+     * Retrieves the ServiceCreds for the specified server principbl from
+     * the Subject in the specified AccessControlContext. If not found, bnd if
+     * useSubjectCredsOnly is fblse, then obtbin from b LoginContext.
      *
-     * NOTE: This method is also used by JSSE Kerberos Cipher Suites
+     * NOTE: This method is blso used by JSSE Kerberos Cipher Suites
      */
-    public static ServiceCreds getServiceCreds(GSSCaller caller,
-        String serverPrincipal, AccessControlContext acc)
+    public stbtic ServiceCreds getServiceCreds(GSSCbller cbller,
+        String serverPrincipbl, AccessControlContext bcc)
                 throws LoginException {
 
-        Subject accSubj = Subject.getSubject(acc);
+        Subject bccSubj = Subject.getSubject(bcc);
         ServiceCreds sc = null;
-        if (accSubj != null) {
-            sc = ServiceCreds.getInstance(accSubj, serverPrincipal);
+        if (bccSubj != null) {
+            sc = ServiceCreds.getInstbnce(bccSubj, serverPrincipbl);
         }
-        if (sc == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            Subject subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
-            sc = ServiceCreds.getInstance(subject, serverPrincipal);
+        if (sc == null && !GSSUtil.useSubjectCredsOnly(cbller)) {
+            Subject subject = GSSUtil.login(cbller, GSSUtil.GSS_KRB5_MECH_OID);
+            sc = ServiceCreds.getInstbnce(subject, serverPrincipbl);
         }
         return sc;
     }
 
-    public static KerberosTicket credsToTicket(Credentials serviceCreds) {
+    public stbtic KerberosTicket credsToTicket(Credentibls serviceCreds) {
         EncryptionKey sessionKey =  serviceCreds.getSessionKey();
         return new KerberosTicket(
             serviceCreds.getEncoded(),
-            new KerberosPrincipal(serviceCreds.getClient().getName()),
-            new KerberosPrincipal(serviceCreds.getServer().getName(),
-                                KerberosPrincipal.KRB_NT_SRV_INST),
+            new KerberosPrincipbl(serviceCreds.getClient().getNbme()),
+            new KerberosPrincipbl(serviceCreds.getServer().getNbme(),
+                                KerberosPrincipbl.KRB_NT_SRV_INST),
             sessionKey.getBytes(),
             sessionKey.getEType(),
-            serviceCreds.getFlags(),
+            serviceCreds.getFlbgs(),
             serviceCreds.getAuthTime(),
-            serviceCreds.getStartTime(),
+            serviceCreds.getStbrtTime(),
             serviceCreds.getEndTime(),
             serviceCreds.getRenewTill(),
             serviceCreds.getClientAddresses());
     };
 
-    public static Credentials ticketToCreds(KerberosTicket kerbTicket)
+    public stbtic Credentibls ticketToCreds(KerberosTicket kerbTicket)
             throws KrbException, IOException {
-        return new Credentials(
+        return new Credentibls(
             kerbTicket.getEncoded(),
-            kerbTicket.getClient().getName(),
-            kerbTicket.getServer().getName(),
+            kerbTicket.getClient().getNbme(),
+            kerbTicket.getServer().getNbme(),
             kerbTicket.getSessionKey().getEncoded(),
             kerbTicket.getSessionKeyType(),
-            kerbTicket.getFlags(),
+            kerbTicket.getFlbgs(),
             kerbTicket.getAuthTime(),
-            kerbTicket.getStartTime(),
+            kerbTicket.getStbrtTime(),
             kerbTicket.getEndTime(),
             kerbTicket.getRenewTill(),
             kerbTicket.getClientAddresses());
     }
 
     /**
-     * A helper method to get a sun..KeyTab from a javax..KeyTab
-     * @param ktab the javax..KeyTab object
-     * @return the sun..KeyTab object
+     * A helper method to get b sun..KeyTbb from b jbvbx..KeyTbb
+     * @pbrbm ktbb the jbvbx..KeyTbb object
+     * @return the sun..KeyTbb object
      */
-    public static sun.security.krb5.internal.ktab.KeyTab
-            snapshotFromJavaxKeyTab(KeyTab ktab) {
-        return KerberosSecrets.getJavaxSecurityAuthKerberosAccess()
-                .keyTabTakeSnapshot(ktab);
+    public stbtic sun.security.krb5.internbl.ktbb.KeyTbb
+            snbpshotFromJbvbxKeyTbb(KeyTbb ktbb) {
+        return KerberosSecrets.getJbvbxSecurityAuthKerberosAccess()
+                .keyTbbTbkeSnbpshot(ktbb);
     }
 
     /**
-     * A helper method to get EncryptionKeys from a javax..KeyTab
-     * @param ktab the javax..KeyTab object
-     * @param cname the PrincipalName
+     * A helper method to get EncryptionKeys from b jbvbx..KeyTbb
+     * @pbrbm ktbb the jbvbx..KeyTbb object
+     * @pbrbm cnbme the PrincipblNbme
      * @return the EKeys, never null, might be empty
      */
-    public static EncryptionKey[] keysFromJavaxKeyTab(
-            KeyTab ktab, PrincipalName cname) {
-        return snapshotFromJavaxKeyTab(ktab).readServiceKeys(cname);
+    public stbtic EncryptionKey[] keysFromJbvbxKeyTbb(
+            KeyTbb ktbb, PrincipblNbme cnbme) {
+        return snbpshotFromJbvbxKeyTbb(ktbb).rebdServiceKeys(cnbme);
     }
 }

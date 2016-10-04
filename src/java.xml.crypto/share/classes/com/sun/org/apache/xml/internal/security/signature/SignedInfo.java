@@ -3,175 +3,175 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.SecretKeySpec;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithm;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms.InclusiveNbmespbces;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Handles <code>&lt;ds:SignedInfo&gt;</code> elements
- * This <code>SignedInfo<code> element includes the canonicalization algorithm,
- * a signature algorithm, and one or more references.
+ * Hbndles <code>&lt;ds:SignedInfo&gt;</code> elements
+ * This <code>SignedInfo<code> element includes the cbnonicblizbtion blgorithm,
+ * b signbture blgorithm, bnd one or more references.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class SignedInfo extends Manifest {
+public clbss SignedInfo extends Mbnifest {
 
-    /** Field signatureAlgorithm */
-    private SignatureAlgorithm signatureAlgorithm = null;
+    /** Field signbtureAlgorithm */
+    privbte SignbtureAlgorithm signbtureAlgorithm = null;
 
     /** Field c14nizedBytes           */
-    private byte[] c14nizedBytes = null;
+    privbte byte[] c14nizedBytes = null;
 
-    private Element c14nMethod;
-    private Element signatureMethod;
+    privbte Element c14nMethod;
+    privbte Element signbtureMethod;
 
     /**
-     * Overwrites {@link Manifest#addDocument} because it creates another
+     * Overwrites {@link Mbnifest#bddDocument} becbuse it crebtes bnother
      * Element.
      *
-     * @param doc the {@link Document} in which <code>XMLsignature</code> will
-     *    be placed
+     * @pbrbm doc the {@link Document} in which <code>XMLsignbture</code> will
+     *    be plbced
      * @throws XMLSecurityException
      */
     public SignedInfo(Document doc) throws XMLSecurityException {
-        this(doc, XMLSignature.ALGO_ID_SIGNATURE_DSA,
-             Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
+        this(doc, XMLSignbture.ALGO_ID_SIGNATURE_DSA,
+             Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS);
     }
 
     /**
-     * Constructs {@link SignedInfo} using given Canonicalization algorithm and
-     * Signature algorithm.
+     * Constructs {@link SignedInfo} using given Cbnonicblizbtion blgorithm bnd
+     * Signbture blgorithm.
      *
-     * @param doc <code>SignedInfo</code> is placed in this document
-     * @param signatureMethodURI URI representation of the Digest and
-     *    Signature algorithm
-     * @param canonicalizationMethodURI URI representation of the
-     *    Canonicalization method
+     * @pbrbm doc <code>SignedInfo</code> is plbced in this document
+     * @pbrbm signbtureMethodURI URI representbtion of the Digest bnd
+     *    Signbture blgorithm
+     * @pbrbm cbnonicblizbtionMethodURI URI representbtion of the
+     *    Cbnonicblizbtion method
      * @throws XMLSecurityException
      */
     public SignedInfo(
-        Document doc, String signatureMethodURI, String canonicalizationMethodURI
+        Document doc, String signbtureMethodURI, String cbnonicblizbtionMethodURI
     ) throws XMLSecurityException {
-        this(doc, signatureMethodURI, 0, canonicalizationMethodURI);
+        this(doc, signbtureMethodURI, 0, cbnonicblizbtionMethodURI);
     }
 
     /**
      * Constructor SignedInfo
      *
-     * @param doc <code>SignedInfo</code> is placed in this document
-     * @param signatureMethodURI URI representation of the Digest and
-     *    Signature algorithm
-     * @param hMACOutputLength
-     * @param canonicalizationMethodURI URI representation of the
-     *    Canonicalization method
+     * @pbrbm doc <code>SignedInfo</code> is plbced in this document
+     * @pbrbm signbtureMethodURI URI representbtion of the Digest bnd
+     *    Signbture blgorithm
+     * @pbrbm hMACOutputLength
+     * @pbrbm cbnonicblizbtionMethodURI URI representbtion of the
+     *    Cbnonicblizbtion method
      * @throws XMLSecurityException
      */
     public SignedInfo(
-        Document doc, String signatureMethodURI,
-        int hMACOutputLength, String canonicalizationMethodURI
+        Document doc, String signbtureMethodURI,
+        int hMACOutputLength, String cbnonicblizbtionMethodURI
     ) throws XMLSecurityException {
         super(doc);
 
         c14nMethod =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_CANONICALIZATIONMETHOD);
+            XMLUtils.crebteElementInSignbtureSpbce(this.doc, Constbnts._TAG_CANONICALIZATIONMETHOD);
 
-        c14nMethod.setAttributeNS(null, Constants._ATT_ALGORITHM, canonicalizationMethodURI);
-        this.constructionElement.appendChild(c14nMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        c14nMethod.setAttributeNS(null, Constbnts._ATT_ALGORITHM, cbnonicblizbtionMethodURI);
+        this.constructionElement.bppendChild(c14nMethod);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
         if (hMACOutputLength > 0) {
-            this.signatureAlgorithm =
-                new SignatureAlgorithm(this.doc, signatureMethodURI, hMACOutputLength);
+            this.signbtureAlgorithm =
+                new SignbtureAlgorithm(this.doc, signbtureMethodURI, hMACOutputLength);
         } else {
-            this.signatureAlgorithm = new SignatureAlgorithm(this.doc, signatureMethodURI);
+            this.signbtureAlgorithm = new SignbtureAlgorithm(this.doc, signbtureMethodURI);
         }
 
-        signatureMethod = this.signatureAlgorithm.getElement();
-        this.constructionElement.appendChild(signatureMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        signbtureMethod = this.signbtureAlgorithm.getElement();
+        this.constructionElement.bppendChild(signbtureMethod);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * @param doc
-     * @param signatureMethodElem
-     * @param canonicalizationMethodElem
+     * @pbrbm doc
+     * @pbrbm signbtureMethodElem
+     * @pbrbm cbnonicblizbtionMethodElem
      * @throws XMLSecurityException
      */
     public SignedInfo(
-        Document doc, Element signatureMethodElem, Element canonicalizationMethodElem
+        Document doc, Element signbtureMethodElem, Element cbnonicblizbtionMethodElem
     ) throws XMLSecurityException {
         super(doc);
         // Check this?
-        this.c14nMethod = canonicalizationMethodElem;
-        this.constructionElement.appendChild(c14nMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.c14nMethod = cbnonicblizbtionMethodElem;
+        this.constructionElement.bppendChild(c14nMethod);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        this.signatureAlgorithm =
-            new SignatureAlgorithm(signatureMethodElem, null);
+        this.signbtureAlgorithm =
+            new SignbtureAlgorithm(signbtureMethodElem, null);
 
-        signatureMethod = this.signatureAlgorithm.getElement();
-        this.constructionElement.appendChild(signatureMethod);
+        signbtureMethod = this.signbtureAlgorithm.getElement();
+        this.constructionElement.bppendChild(signbtureMethod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Build a {@link SignedInfo} from an {@link Element}
+     * Build b {@link SignedInfo} from bn {@link Element}
      *
-     * @param element <code>SignedInfo</code>
-     * @param baseURI the URI of the resource where the XML instance was stored
+     * @pbrbm element <code>SignedInfo</code>
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
      * @throws XMLSecurityException
      * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0033.html">
      * Question</A>
      * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0054.html">
      * Answer</A>
      */
-    public SignedInfo(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    public SignedInfo(Element element, String bbseURI) throws XMLSecurityException {
+        this(element, bbseURI, fblse);
     }
 
     /**
-     * Build a {@link SignedInfo} from an {@link Element}
+     * Build b {@link SignedInfo} from bn {@link Element}
      *
-     * @param element <code>SignedInfo</code>
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param secureValidation whether secure validation is enabled or not
+     * @pbrbm element <code>SignedInfo</code>
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
+     * @pbrbm secureVblidbtion whether secure vblidbtion is enbbled or not
      * @throws XMLSecurityException
      * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0033.html">
      * Question</A>
@@ -179,59 +179,59 @@ public class SignedInfo extends Manifest {
      * Answer</A>
      */
     public SignedInfo(
-        Element element, String baseURI, boolean secureValidation
+        Element element, String bbseURI, boolebn secureVblidbtion
     ) throws XMLSecurityException {
-        // Parse the Reference children and Id attribute in the Manifest
-        super(reparseSignedInfoElem(element), baseURI, secureValidation);
+        // Pbrse the Reference children bnd Id bttribute in the Mbnifest
+        super(repbrseSignedInfoElem(element), bbseURI, secureVblidbtion);
 
         c14nMethod = XMLUtils.getNextElement(element.getFirstChild());
-        signatureMethod = XMLUtils.getNextElement(c14nMethod.getNextSibling());
-        this.signatureAlgorithm =
-            new SignatureAlgorithm(signatureMethod, this.getBaseURI(), secureValidation);
+        signbtureMethod = XMLUtils.getNextElement(c14nMethod.getNextSibling());
+        this.signbtureAlgorithm =
+            new SignbtureAlgorithm(signbtureMethod, this.getBbseURI(), secureVblidbtion);
     }
 
-    private static Element reparseSignedInfoElem(Element element)
+    privbte stbtic Element repbrseSignedInfoElem(Element element)
         throws XMLSecurityException {
         /*
-         * If a custom canonicalizationMethod is used, canonicalize
-         * ds:SignedInfo, reparse it into a new document
-         * and replace the original not-canonicalized ds:SignedInfo by
-         * the re-parsed canonicalized one.
+         * If b custom cbnonicblizbtionMethod is used, cbnonicblize
+         * ds:SignedInfo, repbrse it into b new document
+         * bnd replbce the originbl not-cbnonicblized ds:SignedInfo by
+         * the re-pbrsed cbnonicblized one.
          */
         Element c14nMethod = XMLUtils.getNextElement(element.getFirstChild());
         String c14nMethodURI =
-            c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
-        if (!(c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N11_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N11_WITH_COMMENTS))) {
-            // the c14n is not a secure one and can rewrite the URIs or like
-            // so reparse the SignedInfo to be sure
+            c14nMethod.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
+        if (!(c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS) ||
+            c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N_WITH_COMMENTS) ||
+            c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS) ||
+            c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS) ||
+            c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N11_OMIT_COMMENTS) ||
+            c14nMethodURI.equbls(Cbnonicblizer.ALGO_ID_C14N11_WITH_COMMENTS))) {
+            // the c14n is not b secure one bnd cbn rewrite the URIs or like
+            // so repbrse the SignedInfo to be sure
             try {
-                Canonicalizer c14nizer =
-                    Canonicalizer.getInstance(c14nMethodURI);
+                Cbnonicblizer c14nizer =
+                    Cbnonicblizer.getInstbnce(c14nMethodURI);
 
-                byte[] c14nizedBytes = c14nizer.canonicalizeSubtree(element);
-                javax.xml.parsers.DocumentBuilderFactory dbf =
-                    javax.xml.parsers.DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
+                byte[] c14nizedBytes = c14nizer.cbnonicblizeSubtree(element);
+                jbvbx.xml.pbrsers.DocumentBuilderFbctory dbf =
+                    jbvbx.xml.pbrsers.DocumentBuilderFbctory.newInstbnce();
+                dbf.setNbmespbceAwbre(true);
+                dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
+                jbvbx.xml.pbrsers.DocumentBuilder db = dbf.newDocumentBuilder();
                 Document newdoc =
-                    db.parse(new ByteArrayInputStream(c14nizedBytes));
+                    db.pbrse(new ByteArrbyInputStrebm(c14nizedBytes));
                 Node imported =
                     element.getOwnerDocument().importNode(newdoc.getDocumentElement(), true);
 
-                element.getParentNode().replaceChild(imported, element);
+                element.getPbrentNode().replbceChild(imported, element);
 
                 return (Element) imported;
-            } catch (ParserConfigurationException ex) {
+            } cbtch (PbrserConfigurbtionException ex) {
                 throw new XMLSecurityException("empty", ex);
-            } catch (IOException ex) {
+            } cbtch (IOException ex) {
                 throw new XMLSecurityException("empty", ex);
-            } catch (SAXException ex) {
+            } cbtch (SAXException ex) {
                 throw new XMLSecurityException("empty", ex);
             }
         }
@@ -239,142 +239,142 @@ public class SignedInfo extends Manifest {
     }
 
     /**
-     * Tests core validation process
+     * Tests core vblidbtion process
      *
-     * @return true if verification was successful
-     * @throws MissingResourceFailureException
+     * @return true if verificbtion wbs successful
+     * @throws MissingResourceFbilureException
      * @throws XMLSecurityException
      */
-    public boolean verify()
-        throws MissingResourceFailureException, XMLSecurityException {
-        return super.verifyReferences(false);
+    public boolebn verify()
+        throws MissingResourceFbilureException, XMLSecurityException {
+        return super.verifyReferences(fblse);
     }
 
     /**
-     * Tests core validation process
+     * Tests core vblidbtion process
      *
-     * @param followManifests defines whether the verification process has to verify referenced <CODE>ds:Manifest</CODE>s, too
-     * @return true if verification was successful
-     * @throws MissingResourceFailureException
+     * @pbrbm followMbnifests defines whether the verificbtion process hbs to verify referenced <CODE>ds:Mbnifest</CODE>s, too
+     * @return true if verificbtion wbs successful
+     * @throws MissingResourceFbilureException
      * @throws XMLSecurityException
      */
-    public boolean verify(boolean followManifests)
-        throws MissingResourceFailureException, XMLSecurityException {
-        return super.verifyReferences(followManifests);
+    public boolebn verify(boolebn followMbnifests)
+        throws MissingResourceFbilureException, XMLSecurityException {
+        return super.verifyReferences(followMbnifests);
     }
 
     /**
-     * Returns getCanonicalizedOctetStream
+     * Returns getCbnonicblizedOctetStrebm
      *
-     * @return the canonicalization result octet stream of <code>SignedInfo</code> element
-     * @throws CanonicalizationException
-     * @throws InvalidCanonicalizerException
+     * @return the cbnonicblizbtion result octet strebm of <code>SignedInfo</code> element
+     * @throws CbnonicblizbtionException
+     * @throws InvblidCbnonicblizerException
      * @throws XMLSecurityException
      */
-    public byte[] getCanonicalizedOctetStream()
-        throws CanonicalizationException, InvalidCanonicalizerException, XMLSecurityException {
+    public byte[] getCbnonicblizedOctetStrebm()
+        throws CbnonicblizbtionException, InvblidCbnonicblizerException, XMLSecurityException {
         if (this.c14nizedBytes == null) {
-            Canonicalizer c14nizer =
-                Canonicalizer.getInstance(this.getCanonicalizationMethodURI());
+            Cbnonicblizer c14nizer =
+                Cbnonicblizer.getInstbnce(this.getCbnonicblizbtionMethodURI());
 
             this.c14nizedBytes =
-                c14nizer.canonicalizeSubtree(this.constructionElement);
+                c14nizer.cbnonicblizeSubtree(this.constructionElement);
         }
 
-        // make defensive copy
+        // mbke defensive copy
         return this.c14nizedBytes.clone();
     }
 
     /**
-     * Output the C14n stream to the given OutputStream.
-     * @param os
-     * @throws CanonicalizationException
-     * @throws InvalidCanonicalizerException
+     * Output the C14n strebm to the given OutputStrebm.
+     * @pbrbm os
+     * @throws CbnonicblizbtionException
+     * @throws InvblidCbnonicblizerException
      * @throws XMLSecurityException
      */
-    public void signInOctetStream(OutputStream os)
-        throws CanonicalizationException, InvalidCanonicalizerException, XMLSecurityException {
+    public void signInOctetStrebm(OutputStrebm os)
+        throws CbnonicblizbtionException, InvblidCbnonicblizerException, XMLSecurityException {
         if (this.c14nizedBytes == null) {
-            Canonicalizer c14nizer =
-                Canonicalizer.getInstance(this.getCanonicalizationMethodURI());
+            Cbnonicblizer c14nizer =
+                Cbnonicblizer.getInstbnce(this.getCbnonicblizbtionMethodURI());
             c14nizer.setWriter(os);
-            String inclusiveNamespaces = this.getInclusiveNamespaces();
+            String inclusiveNbmespbces = this.getInclusiveNbmespbces();
 
-            if (inclusiveNamespaces == null) {
-                c14nizer.canonicalizeSubtree(this.constructionElement);
+            if (inclusiveNbmespbces == null) {
+                c14nizer.cbnonicblizeSubtree(this.constructionElement);
             } else {
-                c14nizer.canonicalizeSubtree(this.constructionElement, inclusiveNamespaces);
+                c14nizer.cbnonicblizeSubtree(this.constructionElement, inclusiveNbmespbces);
             }
         } else {
             try {
                 os.write(this.c14nizedBytes);
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
     /**
-     * Returns the Canonicalization method URI
+     * Returns the Cbnonicblizbtion method URI
      *
-     * @return the Canonicalization method URI
+     * @return the Cbnonicblizbtion method URI
      */
-    public String getCanonicalizationMethodURI() {
-        return c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
+    public String getCbnonicblizbtionMethodURI() {
+        return c14nMethod.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Returns the Signature method URI
+     * Returns the Signbture method URI
      *
-     * @return the Signature method URI
+     * @return the Signbture method URI
      */
-    public String getSignatureMethodURI() {
-        Element signatureElement = this.getSignatureMethodElement();
+    public String getSignbtureMethodURI() {
+        Element signbtureElement = this.getSignbtureMethodElement();
 
-        if (signatureElement != null) {
-            return signatureElement.getAttributeNS(null, Constants._ATT_ALGORITHM);
+        if (signbtureElement != null) {
+            return signbtureElement.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
         }
 
         return null;
     }
 
     /**
-     * Method getSignatureMethodElement
-     * @return returns the SignatureMethod Element
+     * Method getSignbtureMethodElement
+     * @return returns the SignbtureMethod Element
      *
      */
-    public Element getSignatureMethodElement() {
-        return signatureMethod;
+    public Element getSignbtureMethodElement() {
+        return signbtureMethod;
     }
 
     /**
-     * Creates a SecretKey for the appropriate Mac algorithm based on a
-     * byte[] array password.
+     * Crebtes b SecretKey for the bppropribte Mbc blgorithm bbsed on b
+     * byte[] brrby pbssword.
      *
-     * @param secretKeyBytes
+     * @pbrbm secretKeyBytes
      * @return the secret key for the SignedInfo element.
      */
-    public SecretKey createSecretKey(byte[] secretKeyBytes) {
-        return new SecretKeySpec(secretKeyBytes, this.signatureAlgorithm.getJCEAlgorithmString());
+    public SecretKey crebteSecretKey(byte[] secretKeyBytes) {
+        return new SecretKeySpec(secretKeyBytes, this.signbtureAlgorithm.getJCEAlgorithmString());
     }
 
-    protected SignatureAlgorithm getSignatureAlgorithm() {
-        return signatureAlgorithm;
+    protected SignbtureAlgorithm getSignbtureAlgorithm() {
+        return signbtureAlgorithm;
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      * @inheritDoc
      *
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNEDINFO;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_SIGNEDINFO;
     }
 
-    public String getInclusiveNamespaces() {
-        String c14nMethodURI = c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
-        if (!(c14nMethodURI.equals("http://www.w3.org/2001/10/xml-exc-c14n#") ||
-            c14nMethodURI.equals("http://www.w3.org/2001/10/xml-exc-c14n#WithComments"))) {
+    public String getInclusiveNbmespbces() {
+        String c14nMethodURI = c14nMethod.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
+        if (!(c14nMethodURI.equbls("http://www.w3.org/2001/10/xml-exc-c14n#") ||
+            c14nMethodURI.equbls("http://www.w3.org/2001/10/xml-exc-c14n#WithComments"))) {
             return null;
         }
 
@@ -382,13 +382,13 @@ public class SignedInfo extends Manifest {
 
         if (inclusiveElement != null) {
             try {
-                String inclusiveNamespaces =
-                    new InclusiveNamespaces(
+                String inclusiveNbmespbces =
+                    new InclusiveNbmespbces(
                         inclusiveElement,
-                        InclusiveNamespaces.ExclusiveCanonicalizationNamespace
-                    ).getInclusiveNamespaces();
-                return inclusiveNamespaces;
-            } catch (XMLSecurityException e) {
+                        InclusiveNbmespbces.ExclusiveCbnonicblizbtionNbmespbce
+                    ).getInclusiveNbmespbces();
+                return inclusiveNbmespbces;
+            } cbtch (XMLSecurityException e) {
                 return null;
             }
         }

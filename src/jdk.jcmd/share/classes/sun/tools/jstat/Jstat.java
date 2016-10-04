@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.util.*;
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
+import jbvb.util.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
 
 /**
- * Application to output jvmstat statistics exported by a target Java
- * Virtual Machine. The jstat tool gets its inspiration from the suite
- * of 'stat' tools, such as vmstat, iostat, mpstat, etc., available in
- * various UNIX platforms.
+ * Applicbtion to output jvmstbt stbtistics exported by b tbrget Jbvb
+ * Virtubl Mbchine. The jstbt tool gets its inspirbtion from the suite
+ * of 'stbt' tools, such bs vmstbt, iostbt, mpstbt, etc., bvbilbble in
+ * vbrious UNIX plbtforms.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Jstat {
-    private static Arguments arguments;
+public clbss Jstbt {
+    privbte stbtic Arguments brguments;
 
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            arguments = new Arguments(args);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-            Arguments.printUsage(System.err);
+            brguments = new Arguments(brgs);
+        } cbtch (IllegblArgumentException e) {
+            System.err.println(e.getMessbge());
+            Arguments.printUsbge(System.err);
             System.exit(1);
         }
 
-        if (arguments.isHelp()) {
-            Arguments.printUsage(System.out);
+        if (brguments.isHelp()) {
+            Arguments.printUsbge(System.out);
             System.exit(0);
         }
 
-        if (arguments.isOptions()) {
-            OptionLister ol = new OptionLister(arguments.optionsSources());
+        if (brguments.isOptions()) {
+            OptionLister ol = new OptionLister(brguments.optionsSources());
             ol.print(System.out);
             System.exit(0);
         }
 
         try {
-            if (arguments.isList()) {
-                logNames();
-            } else if (arguments.isSnap()) {
-                logSnapShot();
+            if (brguments.isList()) {
+                logNbmes();
+            } else if (brguments.isSnbp()) {
+                logSnbpShot();
             } else {
-                logSamples();
+                logSbmples();
             }
-        } catch (MonitorException e) {
-            e.printStackTrace();
+        } cbtch (MonitorException e) {
+            e.printStbckTrbce();
             System.exit(1);
         }
         System.exit(0);
     }
 
-    static void logNames() throws MonitorException {
-        VmIdentifier vmId = arguments.vmId();
-        int interval = arguments.sampleInterval();
+    stbtic void logNbmes() throws MonitorException {
+        VmIdentifier vmId = brguments.vmId();
+        int intervbl = brguments.sbmpleIntervbl();
         MonitoredHost monitoredHost = MonitoredHost.getMonitoredHost(vmId);
-        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, interval);
-        JStatLogger logger = new JStatLogger(monitoredVm);
-        logger.printNames(arguments.counterNames(), arguments.comparator(),
-                          arguments.showUnsupported(), System.out);
-        monitoredHost.detach(monitoredVm);
+        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, intervbl);
+        JStbtLogger logger = new JStbtLogger(monitoredVm);
+        logger.printNbmes(brguments.counterNbmes(), brguments.compbrbtor(),
+                          brguments.showUnsupported(), System.out);
+        monitoredHost.detbch(monitoredVm);
     }
 
-    static void logSnapShot() throws MonitorException {
-        VmIdentifier vmId = arguments.vmId();
-        int interval = arguments.sampleInterval();
+    stbtic void logSnbpShot() throws MonitorException {
+        VmIdentifier vmId = brguments.vmId();
+        int intervbl = brguments.sbmpleIntervbl();
         MonitoredHost monitoredHost = MonitoredHost.getMonitoredHost(vmId);
-        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, interval);
-        JStatLogger logger = new JStatLogger(monitoredVm);
-        logger.printSnapShot(arguments.counterNames(), arguments.comparator(),
-                             arguments.isVerbose(), arguments.showUnsupported(),
+        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, intervbl);
+        JStbtLogger logger = new JStbtLogger(monitoredVm);
+        logger.printSnbpShot(brguments.counterNbmes(), brguments.compbrbtor(),
+                             brguments.isVerbose(), brguments.showUnsupported(),
                              System.out);
-        monitoredHost.detach(monitoredVm);
+        monitoredHost.detbch(monitoredVm);
     }
 
-    static void logSamples() throws MonitorException {
-        final VmIdentifier vmId = arguments.vmId();
-        int interval = arguments.sampleInterval();
-        final MonitoredHost monitoredHost =
+    stbtic void logSbmples() throws MonitorException {
+        finbl VmIdentifier vmId = brguments.vmId();
+        int intervbl = brguments.sbmpleIntervbl();
+        finbl MonitoredHost monitoredHost =
                 MonitoredHost.getMonitoredHost(vmId);
-        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, interval);
-        final JStatLogger logger = new JStatLogger(monitoredVm);
-        OutputFormatter formatter = null;
+        MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, intervbl);
+        finbl JStbtLogger logger = new JStbtLogger(monitoredVm);
+        OutputFormbtter formbtter = null;
 
-        if (arguments.isSpecialOption()) {
-            OptionFormat format = arguments.optionFormat();
-            formatter = new OptionOutputFormatter(monitoredVm, format);
+        if (brguments.isSpeciblOption()) {
+            OptionFormbt formbt = brguments.optionFormbt();
+            formbtter = new OptionOutputFormbtter(monitoredVm, formbt);
         } else {
-            List<Monitor> logged = monitoredVm.findByPattern(arguments.counterNames());
-            Collections.sort(logged, arguments.comparator());
-            List<Monitor> constants = new ArrayList<Monitor>();
+            List<Monitor> logged = monitoredVm.findByPbttern(brguments.counterNbmes());
+            Collections.sort(logged, brguments.compbrbtor());
+            List<Monitor> constbnts = new ArrbyList<Monitor>();
 
-            for (Iterator<Monitor> i = logged.iterator(); i.hasNext(); /* empty */) {
+            for (Iterbtor<Monitor> i = logged.iterbtor(); i.hbsNext(); /* empty */) {
                 Monitor m = i.next();
-                if (!(m.isSupported() || arguments.showUnsupported())) {
+                if (!(m.isSupported() || brguments.showUnsupported())) {
                     i.remove();
                     continue;
                 }
-                if (m.getVariability() == Variability.CONSTANT) {
+                if (m.getVbribbility() == Vbribbility.CONSTANT) {
                     i.remove();
-                    if (arguments.printConstants()) constants.add(m);
+                    if (brguments.printConstbnts()) constbnts.bdd(m);
                 } else if ((m.getUnits() == Units.STRING)
-                        && !arguments.printStrings()) {
+                        && !brguments.printStrings()) {
                     i.remove();
                 }
             }
 
-            if (!constants.isEmpty()) {
-                logger.printList(constants, arguments.isVerbose(),
-                                 arguments.showUnsupported(), System.out);
+            if (!constbnts.isEmpty()) {
+                logger.printList(constbnts, brguments.isVerbose(),
+                                 brguments.showUnsupported(), System.out);
                 if (!logged.isEmpty()) {
                     System.out.println();
                 }
             }
 
             if (logged.isEmpty()) {
-                monitoredHost.detach(monitoredVm);
+                monitoredHost.detbch(monitoredVm);
                 return;
             }
 
-            formatter = new RawOutputFormatter(logged,
-                                               arguments.printStrings());
+            formbtter = new RbwOutputFormbtter(logged,
+                                               brguments.printStrings());
         }
 
-        // handle user termination requests by stopping sampling loops
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        // hbndle user terminbtion requests by stopping sbmpling loops
+        Runtime.getRuntime().bddShutdownHook(new Threbd() {
             public void run() {
                 logger.stopLogging();
             }
         });
 
-        // handle target termination events for targets other than ourself
-        HostListener terminator = new HostListener() {
-            public void vmStatusChanged(VmStatusChangeEvent ev) {
-                Integer lvmid = vmId.getLocalVmId();
-                if (ev.getTerminated().contains(lvmid)) {
+        // hbndle tbrget terminbtion events for tbrgets other thbn ourself
+        HostListener terminbtor = new HostListener() {
+            public void vmStbtusChbnged(VmStbtusChbngeEvent ev) {
+                Integer lvmid = vmId.getLocblVmId();
+                if (ev.getTerminbted().contbins(lvmid)) {
                     logger.stopLogging();
-                } else if (!ev.getActive().contains(lvmid)) {
+                } else if (!ev.getActive().contbins(lvmid)) {
                     logger.stopLogging();
                 }
             }
@@ -173,18 +173,18 @@ public class Jstat {
             }
         };
 
-        if (vmId.getLocalVmId() != 0) {
-            monitoredHost.addHostListener(terminator);
+        if (vmId.getLocblVmId() != 0) {
+            monitoredHost.bddHostListener(terminbtor);
         }
 
-        logger.logSamples(formatter, arguments.headerRate(),
-                          arguments.sampleInterval(), arguments.sampleCount(),
+        logger.logSbmples(formbtter, brguments.hebderRbte(),
+                          brguments.sbmpleIntervbl(), brguments.sbmpleCount(),
                           System.out);
 
-        // detach from host events and from the monitored target jvm
-        if (terminator != null) {
-            monitoredHost.removeHostListener(terminator);
+        // detbch from host events bnd from the monitored tbrget jvm
+        if (terminbtor != null) {
+            monitoredHost.removeHostListener(terminbtor);
         }
-        monitoredHost.detach(monitoredVm);
+        monitoredHost.detbch(monitoredVm);
     }
 }

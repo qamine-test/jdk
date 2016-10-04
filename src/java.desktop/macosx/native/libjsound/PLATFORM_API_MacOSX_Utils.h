@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <CoreAudio/CoreAudio.h>
-#include <pthread.h>
+#include <pthrebd.h>
 
 extern "C" {
 #include "Utilities.h"
@@ -33,8 +33,8 @@ extern "C" {
 
 #ifdef USE_ERROR
 #define OS_ERROR_END(err) {                     \
-    char errStr[32];                            \
-    snprintf(errStr, 32, "%d('%c%c%c%c')>", (int)err, (char)(err >> 24), (char)(err >> 16), (char)(err >> 8), (char)err); \
+    chbr errStr[32];                            \
+    snprintf(errStr, 32, "%d('%c%c%c%c')>", (int)err, (chbr)(err >> 24), (chbr)(err >> 16), (chbr)(err >> 8), (chbr)err); \
     ERROR1(" ERROR %s\n", errStr);              \
 }
 #define OS_ERROR0(err, string)                  { ERROR0(string); OS_ERROR_END(err); }
@@ -51,63 +51,63 @@ extern "C" {
 #endif
 
 
-// Simple mutex wrapper class
-class MutexLock {
-private:
-    pthread_mutex_t lockMutex;
+// Simple mutex wrbpper clbss
+clbss MutexLock {
+privbte:
+    pthrebd_mutex_t lockMutex;
 public:
-    MutexLock() { pthread_mutex_init(&lockMutex, NULL); }
-    ~MutexLock() { pthread_mutex_destroy(&lockMutex); }
+    MutexLock() { pthrebd_mutex_init(&lockMutex, NULL); }
+    ~MutexLock() { pthrebd_mutex_destroy(&lockMutex); }
 
-    void Lock() { pthread_mutex_lock(&lockMutex); }
-    void Unlock() { pthread_mutex_unlock(&lockMutex); }
+    void Lock() { pthrebd_mutex_lock(&lockMutex); }
+    void Unlock() { pthrebd_mutex_unlock(&lockMutex); }
 
-    class Locker {
+    clbss Locker {
     public:
         Locker(MutexLock &lock) : pLock(&lock) { pLock->Lock(); }
         ~Locker() { pLock->Unlock(); }
-    private:
+    privbte:
         MutexLock *pLock;
     };
 };
 
 
-// DirectAudio and Ports need own caches of the device list
-class DeviceList {
+// DirectAudio bnd Ports need own cbches of the device list
+clbss DeviceList {
 public:
     DeviceList();
     ~DeviceList();
 
-    OSStatus Refresh();
+    OSStbtus Refresh();
 
     int GetCount();
     AudioDeviceID GetDeviceID(int index);
-    // stringLength specified length of name, vendor, description & version strings
-    bool GetDeviceInfo(int index, AudioDeviceID *deviceID, int stringLength, char *name, char *vendor, char *description, char *version);
+    // stringLength specified length of nbme, vendor, description & version strings
+    bool GetDeviceInfo(int index, AudioDeviceID *deviceID, int stringLength, chbr *nbme, chbr *vendor, chbr *description, chbr *version);
 
-private:
+privbte:
     int count;
     AudioDeviceID *devices;
     MutexLock lock;
     void Free();
 
-    static OSStatus NotificationCallback(AudioObjectID inObjectID,
-        UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientData);
+    stbtic OSStbtus NotificbtionCbllbbck(AudioObjectID inObjectID,
+        UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientDbtb);
 
 };
 
 int MACOSX_DAUDIO_Init();
 
-AudioDeviceID GetDefaultDevice(int isSource);
-int GetChannelCount(AudioDeviceID deviceID, int isSource);
-float GetSampleRate(AudioDeviceID deviceID, int isSource);
+AudioDeviceID GetDefbultDevice(int isSource);
+int GetChbnnelCount(AudioDeviceID deviceID, int isSource);
+flobt GetSbmpleRbte(AudioDeviceID deviceID, int isSource);
 
 
-// wrappers for AudioObjectGetPropertyDataSize/AudioObjectGetPropertyData (master element)
-OSStatus GetAudioObjectPropertySize(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size);
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size, void *data);
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data, int checkSize);
+// wrbppers for AudioObjectGetPropertyDbtbSize/AudioObjectGetPropertyDbtb (mbster element)
+OSStbtus GetAudioObjectPropertySize(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size);
+OSStbtus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size, void *dbtb);
+OSStbtus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *dbtb, int checkSize);
 
-// wrapper for AudioObjectSetPropertyData (kAudioObjectPropertyElementMaster)
-OSStatus SetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data);
+// wrbpper for AudioObjectSetPropertyDbtb (kAudioObjectPropertyElementMbster)
+OSStbtus SetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *dbtb);
 

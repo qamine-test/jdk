@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
 /**
- * Thrown by a method invocation on a proxy instance if its invocation
- * handler's {@link InvocationHandler#invoke invoke} method throws a
- * checked exception (a {@code Throwable} that is not assignable
- * to {@code RuntimeException} or {@code Error}) that
- * is not assignable to any of the exception types declared in the
- * {@code throws} clause of the method that was invoked on the
- * proxy instance and dispatched to the invocation handler.
+ * Thrown by b method invocbtion on b proxy instbnce if its invocbtion
+ * hbndler's {@link InvocbtionHbndler#invoke invoke} method throws b
+ * checked exception (b {@code Throwbble} thbt is not bssignbble
+ * to {@code RuntimeException} or {@code Error}) thbt
+ * is not bssignbble to bny of the exception types declbred in the
+ * {@code throws} clbuse of the method thbt wbs invoked on the
+ * proxy instbnce bnd dispbtched to the invocbtion hbndler.
  *
- * <p>An {@code UndeclaredThrowableException} instance contains
- * the undeclared checked exception that was thrown by the invocation
- * handler, and it can be retrieved with the
- * {@code getUndeclaredThrowable()} method.
- * {@code UndeclaredThrowableException} extends
- * {@code RuntimeException}, so it is an unchecked exception
- * that wraps a checked exception.
+ * <p>An {@code UndeclbredThrowbbleException} instbnce contbins
+ * the undeclbred checked exception thbt wbs thrown by the invocbtion
+ * hbndler, bnd it cbn be retrieved with the
+ * {@code getUndeclbredThrowbble()} method.
+ * {@code UndeclbredThrowbbleException} extends
+ * {@code RuntimeException}, so it is bn unchecked exception
+ * thbt wrbps b checked exception.
  *
- * <p>As of release 1.4, this exception has been retrofitted to
- * conform to the general purpose exception-chaining mechanism.  The
- * "undeclared checked exception that was thrown by the invocation
- * handler" that may be provided at construction time and accessed via
- * the {@link #getUndeclaredThrowable()} method is now known as the
- * <i>cause</i>, and may be accessed via the {@link
- * Throwable#getCause()} method, as well as the aforementioned "legacy
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to
+ * conform to the generbl purpose exception-chbining mechbnism.  The
+ * "undeclbred checked exception thbt wbs thrown by the invocbtion
+ * hbndler" thbt mby be provided bt construction time bnd bccessed vib
+ * the {@link #getUndeclbredThrowbble()} method is now known bs the
+ * <i>cbuse</i>, bnd mby be bccessed vib the {@link
+ * Throwbble#getCbuse()} method, bs well bs the bforementioned "legbcy
  * method."
  *
- * @author      Peter Jones
- * @see         InvocationHandler
+ * @buthor      Peter Jones
+ * @see         InvocbtionHbndler
  * @since       1.3
  */
-public class UndeclaredThrowableException extends RuntimeException {
-    static final long serialVersionUID = 330127114055056639L;
+public clbss UndeclbredThrowbbleException extends RuntimeException {
+    stbtic finbl long seriblVersionUID = 330127114055056639L;
 
     /**
-     * the undeclared checked exception that was thrown
-     * @serial
+     * the undeclbred checked exception thbt wbs thrown
+     * @seribl
      */
-    private Throwable undeclaredThrowable;
+    privbte Throwbble undeclbredThrowbble;
 
     /**
-     * Constructs an {@code UndeclaredThrowableException} with the
-     * specified {@code Throwable}.
+     * Constructs bn {@code UndeclbredThrowbbleException} with the
+     * specified {@code Throwbble}.
      *
-     * @param   undeclaredThrowable the undeclared checked exception
-     *          that was thrown
+     * @pbrbm   undeclbredThrowbble the undeclbred checked exception
+     *          thbt wbs thrown
      */
-    public UndeclaredThrowableException(Throwable undeclaredThrowable) {
-        super((Throwable) null);  // Disallow initCause
-        this.undeclaredThrowable = undeclaredThrowable;
+    public UndeclbredThrowbbleException(Throwbble undeclbredThrowbble) {
+        super((Throwbble) null);  // Disbllow initCbuse
+        this.undeclbredThrowbble = undeclbredThrowbble;
     }
 
     /**
-     * Constructs an {@code UndeclaredThrowableException} with the
-     * specified {@code Throwable} and a detail message.
+     * Constructs bn {@code UndeclbredThrowbbleException} with the
+     * specified {@code Throwbble} bnd b detbil messbge.
      *
-     * @param   undeclaredThrowable the undeclared checked exception
-     *          that was thrown
-     * @param   s the detail message
+     * @pbrbm   undeclbredThrowbble the undeclbred checked exception
+     *          thbt wbs thrown
+     * @pbrbm   s the detbil messbge
      */
-    public UndeclaredThrowableException(Throwable undeclaredThrowable,
+    public UndeclbredThrowbbleException(Throwbble undeclbredThrowbble,
                                         String s)
     {
-        super(s, null);  // Disallow initCause
-        this.undeclaredThrowable = undeclaredThrowable;
+        super(s, null);  // Disbllow initCbuse
+        this.undeclbredThrowbble = undeclbredThrowbble;
     }
 
     /**
-     * Returns the {@code Throwable} instance wrapped in this
-     * {@code UndeclaredThrowableException}, which may be {@code null}.
+     * Returns the {@code Throwbble} instbnce wrbpped in this
+     * {@code UndeclbredThrowbbleException}, which mby be {@code null}.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This method predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @return the undeclared checked exception that was thrown
+     * @return the undeclbred checked exception thbt wbs thrown
      */
-    public Throwable getUndeclaredThrowable() {
-        return undeclaredThrowable;
+    public Throwbble getUndeclbredThrowbble() {
+        return undeclbredThrowbble;
     }
 
     /**
-     * Returns the cause of this exception (the {@code Throwable}
-     * instance wrapped in this {@code UndeclaredThrowableException},
-     * which may be {@code null}).
+     * Returns the cbuse of this exception (the {@code Throwbble}
+     * instbnce wrbpped in this {@code UndeclbredThrowbbleException},
+     * which mby be {@code null}).
      *
-     * @return  the cause of this exception.
+     * @return  the cbuse of this exception.
      * @since   1.4
      */
-    public Throwable getCause() {
-        return undeclaredThrowable;
+    public Throwbble getCbuse() {
+        return undeclbredThrowbble;
     }
 }

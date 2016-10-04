@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.TransformBlit;
-import sun.java2d.pipe.DrawImage;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.TrbnsformBlit;
+import sun.jbvb2d.pipe.DrbwImbge;
 
-public class OGLDrawImage extends DrawImage {
+public clbss OGLDrbwImbge extends DrbwImbge {
 
     @Override
-    protected void renderImageXform(SunGraphics2D sg, Image img,
-                                    AffineTransform tx, int interpType,
+    protected void renderImbgeXform(SunGrbphics2D sg, Imbge img,
+                                    AffineTrbnsform tx, int interpType,
                                     int sx1, int sy1, int sx2, int sy2,
                                     Color bgColor)
     {
-        // punt to the MediaLib-based transformImage() in the superclass if:
-        //     - bicubic interpolation is specified
-        //     - a background color is specified and will be used
-        //     - the source surface is neither a texture nor render-to-texture
-        //       surface, and a non-default interpolation hint is specified
-        //       (we can only control the filtering for texture->surface
+        // punt to the MedibLib-bbsed trbnsformImbge() in the superclbss if:
+        //     - bicubic interpolbtion is specified
+        //     - b bbckground color is specified bnd will be used
+        //     - the source surfbce is neither b texture nor render-to-texture
+        //       surfbce, bnd b non-defbult interpolbtion hint is specified
+        //       (we cbn only control the filtering for texture->surfbce
         //       copies)
-        //         REMIND: we should tweak the sw->texture->surface
-        //         transform case to handle filtering appropriately
+        //         REMIND: we should twebk the sw->texture->surfbce
+        //         trbnsform cbse to hbndle filtering bppropribtely
         //         (see 4841762)...
-        //     - an appropriate TransformBlit primitive could not be found
-        if (interpType != AffineTransformOp.TYPE_BICUBIC) {
-            SurfaceData dstData = sg.surfaceData;
-            SurfaceData srcData =
-                dstData.getSourceSurfaceData(img,
-                                             SunGraphics2D.TRANSFORM_GENERIC,
-                                             sg.imageComp,
+        //     - bn bppropribte TrbnsformBlit primitive could not be found
+        if (interpType != AffineTrbnsformOp.TYPE_BICUBIC) {
+            SurfbceDbtb dstDbtb = sg.surfbceDbtb;
+            SurfbceDbtb srcDbtb =
+                dstDbtb.getSourceSurfbceDbtb(img,
+                                             SunGrbphics2D.TRANSFORM_GENERIC,
+                                             sg.imbgeComp,
                                              bgColor);
 
-            if (srcData != null &&
-                !isBgOperation(srcData, bgColor) &&
-                (srcData.getSurfaceType() == OGLSurfaceData.OpenGLTexture ||
-                 srcData.getSurfaceType() == OGLSurfaceData.OpenGLSurfaceRTT ||
-                 interpType == AffineTransformOp.TYPE_NEAREST_NEIGHBOR))
+            if (srcDbtb != null &&
+                !isBgOperbtion(srcDbtb, bgColor) &&
+                (srcDbtb.getSurfbceType() == OGLSurfbceDbtb.OpenGLTexture ||
+                 srcDbtb.getSurfbceType() == OGLSurfbceDbtb.OpenGLSurfbceRTT ||
+                 interpType == AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR))
             {
-                SurfaceType srcType = srcData.getSurfaceType();
-                SurfaceType dstType = dstData.getSurfaceType();
-                TransformBlit blit = TransformBlit.getFromCache(srcType,
-                                                                sg.imageComp,
+                SurfbceType srcType = srcDbtb.getSurfbceType();
+                SurfbceType dstType = dstDbtb.getSurfbceType();
+                TrbnsformBlit blit = TrbnsformBlit.getFromCbche(srcType,
+                                                                sg.imbgeComp,
                                                                 dstType);
 
                 if (blit != null) {
-                    blit.Transform(srcData, dstData,
+                    blit.Trbnsform(srcDbtb, dstDbtb,
                                    sg.composite, sg.getCompClip(),
                                    tx, interpType,
                                    sx1, sy1, 0, 0, sx2-sx1, sy2-sy1);
@@ -86,28 +86,28 @@ public class OGLDrawImage extends DrawImage {
             }
         }
 
-        super.renderImageXform(sg, img, tx, interpType,
+        super.renderImbgeXform(sg, img, tx, interpType,
                                sx1, sy1, sx2, sy2, bgColor);
     }
 
     @Override
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y)
+    public void trbnsformImbge(SunGrbphics2D sg, BufferedImbge img,
+                               BufferedImbgeOp op, int x, int y)
     {
         if (op != null) {
-            if (op instanceof AffineTransformOp) {
-                AffineTransformOp atop = (AffineTransformOp) op;
-                transformImage(sg, img, x, y,
-                               atop.getTransform(),
-                               atop.getInterpolationType());
+            if (op instbnceof AffineTrbnsformOp) {
+                AffineTrbnsformOp btop = (AffineTrbnsformOp) op;
+                trbnsformImbge(sg, img, x, y,
+                               btop.getTrbnsform(),
+                               btop.getInterpolbtionType());
                 return;
             } else {
-                if (OGLBufImgOps.renderImageWithOp(sg, img, op, x, y)) {
+                if (OGLBufImgOps.renderImbgeWithOp(sg, img, op, x, y)) {
                     return;
                 }
             }
             img = op.filter(img, null);
         }
-        copyImage(sg, img, x, y, null);
+        copyImbge(sg, img, x, y, null);
     }
 }

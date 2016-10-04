@@ -1,557 +1,557 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Hashtable;
-import javax.naming.spi.NamingManager;
-import com.sun.naming.internal.ResourceManager;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.spi.NbmingMbnbger;
+import com.sun.nbming.internbl.ResourceMbnbger;
 
 /**
- * This class is the starting context for performing naming operations.
+ * This clbss is the stbrting context for performing nbming operbtions.
  *<p>
- * All naming operations are relative to a context.
- * The initial context implements the Context interface and
- * provides the starting point for resolution of names.
+ * All nbming operbtions bre relbtive to b context.
+ * The initibl context implements the Context interfbce bnd
+ * provides the stbrting point for resolution of nbmes.
  *<p>
- * <a name=ENVIRONMENT></a>
- * When the initial context is constructed, its environment
- * is initialized with properties defined in the environment parameter
- * passed to the constructor, and in any
- * <a href=Context.html#RESOURCEFILES>application resource files</a>.
+ * <b nbme=ENVIRONMENT></b>
+ * When the initibl context is constructed, its environment
+ * is initiblized with properties defined in the environment pbrbmeter
+ * pbssed to the constructor, bnd in bny
+ * <b href=Context.html#RESOURCEFILES>bpplicbtion resource files</b>.
  *<p>
- * JNDI determines each property's value by merging
- * the values from the following two sources, in order:
+ * JNDI determines ebch property's vblue by merging
+ * the vblues from the following two sources, in order:
  * <ol>
  * <li>
  * The first occurrence of the property from the constructor's
- * environment parameter and system properties.
+ * environment pbrbmeter bnd system properties.
  * <li>
- * The application resource files (<tt>jndi.properties</tt>).
+ * The bpplicbtion resource files (<tt>jndi.properties</tt>).
  * </ol>
- * For each property found in both of these two sources, or in
- * more than one application resource file, the property's value
- * is determined as follows.  If the property is
- * one of the standard JNDI properties that specify a list of JNDI
- * factories (see <a href=Context.html#LISTPROPS><tt>Context</tt></a>),
- * all of the values are
- * concatenated into a single colon-separated list.  For other
- * properties, only the first value found is used.
+ * For ebch property found in both of these two sources, or in
+ * more thbn one bpplicbtion resource file, the property's vblue
+ * is determined bs follows.  If the property is
+ * one of the stbndbrd JNDI properties thbt specify b list of JNDI
+ * fbctories (see <b href=Context.html#LISTPROPS><tt>Context</tt></b>),
+ * bll of the vblues bre
+ * concbtenbted into b single colon-sepbrbted list.  For other
+ * properties, only the first vblue found is used.
  *
  *<p>
- * The initial context implementation is determined at runtime.
- * The default policy uses the environment property
- * "{@link Context#INITIAL_CONTEXT_FACTORY java.naming.factory.initial}",
- * which contains the class name of the initial context factory.
- * An exception to this policy is made when resolving URL strings, as described
+ * The initibl context implementbtion is determined bt runtime.
+ * The defbult policy uses the environment property
+ * "{@link Context#INITIAL_CONTEXT_FACTORY jbvb.nbming.fbctory.initibl}",
+ * which contbins the clbss nbme of the initibl context fbctory.
+ * An exception to this policy is mbde when resolving URL strings, bs described
  * below.
  *<p>
- * When a URL string (a <tt>String</tt> of the form
- * <em>scheme_id:rest_of_name</em>) is passed as a name parameter to
- * any method, a URL context factory for handling that scheme is
- * located and used to resolve the URL.  If no such factory is found,
- * the initial context specified by
- * <tt>"java.naming.factory.initial"</tt> is used.  Similarly, when a
- * <tt>CompositeName</tt> object whose first component is a URL string is
- * passed as a name parameter to any method, a URL context factory is
- * located and used to resolve the first name component.
- * See {@link NamingManager#getURLContext
- * <tt>NamingManager.getURLContext()</tt>} for a description of how URL
- * context factories are located.
+ * When b URL string (b <tt>String</tt> of the form
+ * <em>scheme_id:rest_of_nbme</em>) is pbssed bs b nbme pbrbmeter to
+ * bny method, b URL context fbctory for hbndling thbt scheme is
+ * locbted bnd used to resolve the URL.  If no such fbctory is found,
+ * the initibl context specified by
+ * <tt>"jbvb.nbming.fbctory.initibl"</tt> is used.  Similbrly, when b
+ * <tt>CompositeNbme</tt> object whose first component is b URL string is
+ * pbssed bs b nbme pbrbmeter to bny method, b URL context fbctory is
+ * locbted bnd used to resolve the first nbme component.
+ * See {@link NbmingMbnbger#getURLContext
+ * <tt>NbmingMbnbger.getURLContext()</tt>} for b description of how URL
+ * context fbctories bre locbted.
  *<p>
- * This default policy of locating the initial context and URL context
- * factories may be overridden
- * by calling
- * <tt>NamingManager.setInitialContextFactoryBuilder()</tt>.
+ * This defbult policy of locbting the initibl context bnd URL context
+ * fbctories mby be overridden
+ * by cblling
+ * <tt>NbmingMbnbger.setInitiblContextFbctoryBuilder()</tt>.
  *<p>
- * NoInitialContextException is thrown when an initial context cannot
- * be instantiated. This exception can be thrown during any interaction
- * with the InitialContext, not only when the InitialContext is constructed.
- * For example, the implementation of the initial context might lazily
- * retrieve the context only when actual methods are invoked on it.
- * The application should not have any dependency on when the existence
- * of an initial context is determined.
+ * NoInitiblContextException is thrown when bn initibl context cbnnot
+ * be instbntibted. This exception cbn be thrown during bny interbction
+ * with the InitiblContext, not only when the InitiblContext is constructed.
+ * For exbmple, the implementbtion of the initibl context might lbzily
+ * retrieve the context only when bctubl methods bre invoked on it.
+ * The bpplicbtion should not hbve bny dependency on when the existence
+ * of bn initibl context is determined.
  *<p>
- * When the environment property "java.naming.factory.initial" is
- * non-null, the InitialContext constructor will attempt to create the
- * initial context specified therein. At that time, the initial context factory
- * involved might throw an exception if a problem is encountered. However,
- * it is provider implementation-dependent when it verifies and indicates
- * to the users of the initial context any environment property- or
- * connection- related problems. It can do so lazily--delaying until
- * an operation is performed on the context, or eagerly, at the time
+ * When the environment property "jbvb.nbming.fbctory.initibl" is
+ * non-null, the InitiblContext constructor will bttempt to crebte the
+ * initibl context specified therein. At thbt time, the initibl context fbctory
+ * involved might throw bn exception if b problem is encountered. However,
+ * it is provider implementbtion-dependent when it verifies bnd indicbtes
+ * to the users of the initibl context bny environment property- or
+ * connection- relbted problems. It cbn do so lbzily--delbying until
+ * bn operbtion is performed on the context, or ebgerly, bt the time
  * the context is constructed.
  *<p>
- * An InitialContext instance is not synchronized against concurrent
- * access by multiple threads. Multiple threads each manipulating a
- * different InitialContext instance need not synchronize.
- * Threads that need to access a single InitialContext instance
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking.
+ * An InitiblContext instbnce is not synchronized bgbinst concurrent
+ * bccess by multiple threbds. Multiple threbds ebch mbnipulbting b
+ * different InitiblContext instbnce need not synchronize.
+ * Threbds thbt need to bccess b single InitiblContext instbnce
+ * concurrently should synchronize bmongst themselves bnd provide the
+ * necessbry locking.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  *
  * @see Context
- * @see NamingManager#setInitialContextFactoryBuilder
- *      NamingManager.setInitialContextFactoryBuilder
+ * @see NbmingMbnbger#setInitiblContextFbctoryBuilder
+ *      NbmingMbnbger.setInitiblContextFbctoryBuilder
  * @since 1.3, JNDI 1.1
  */
 
-public class InitialContext implements Context {
+public clbss InitiblContext implements Context {
 
     /**
-     * The environment associated with this InitialContext.
-     * It is initialized to null and is updated by the constructor
-     * that accepts an environment or by the <tt>init()</tt> method.
-     * @see #addToEnvironment
+     * The environment bssocibted with this InitiblContext.
+     * It is initiblized to null bnd is updbted by the constructor
+     * thbt bccepts bn environment or by the <tt>init()</tt> method.
+     * @see #bddToEnvironment
      * @see #removeFromEnvironment
      * @see #getEnvironment
      */
-    protected Hashtable<Object,Object> myProps = null;
+    protected Hbshtbble<Object,Object> myProps = null;
 
     /**
-     * Field holding the result of calling NamingManager.getInitialContext().
-     * It is set by getDefaultInitCtx() the first time getDefaultInitCtx()
-     * is called. Subsequent invocations of getDefaultInitCtx() return
-     * the value of defaultInitCtx.
-     * @see #getDefaultInitCtx
+     * Field holding the result of cblling NbmingMbnbger.getInitiblContext().
+     * It is set by getDefbultInitCtx() the first time getDefbultInitCtx()
+     * is cblled. Subsequent invocbtions of getDefbultInitCtx() return
+     * the vblue of defbultInitCtx.
+     * @see #getDefbultInitCtx
      */
-    protected Context defaultInitCtx = null;
+    protected Context defbultInitCtx = null;
 
     /**
-     * Field indicating whether the initial context has been obtained
-     * by calling NamingManager.getInitialContext().
-     * If true, its result is in <code>defaultInitCtx</code>.
+     * Field indicbting whether the initibl context hbs been obtbined
+     * by cblling NbmingMbnbger.getInitiblContext().
+     * If true, its result is in <code>defbultInitCtx</code>.
      */
-    protected boolean gotDefault = false;
+    protected boolebn gotDefbult = fblse;
 
     /**
-     * Constructs an initial context with the option of not
-     * initializing it.  This may be used by a constructor in
-     * a subclass when the value of the environment parameter
-     * is not yet known at the time the <tt>InitialContext</tt>
-     * constructor is called.  The subclass's constructor will
-     * call this constructor, compute the value of the environment,
-     * and then call <tt>init()</tt> before returning.
+     * Constructs bn initibl context with the option of not
+     * initiblizing it.  This mby be used by b constructor in
+     * b subclbss when the vblue of the environment pbrbmeter
+     * is not yet known bt the time the <tt>InitiblContext</tt>
+     * constructor is cblled.  The subclbss's constructor will
+     * cbll this constructor, compute the vblue of the environment,
+     * bnd then cbll <tt>init()</tt> before returning.
      *
-     * @param lazy
-     *          true means do not initialize the initial context; false
-     *          is equivalent to calling <tt>new InitialContext()</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm lbzy
+     *          true mebns do not initiblize the initibl context; fblse
+     *          is equivblent to cblling <tt>new InitiblContext()</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #init(Hashtable)
+     * @see #init(Hbshtbble)
      * @since 1.3
      */
-    protected InitialContext(boolean lazy) throws NamingException {
-        if (!lazy) {
+    protected InitiblContext(boolebn lbzy) throws NbmingException {
+        if (!lbzy) {
             init(null);
         }
     }
 
     /**
-     * Constructs an initial context.
-     * No environment properties are supplied.
-     * Equivalent to <tt>new InitialContext(null)</tt>.
+     * Constructs bn initibl context.
+     * No environment properties bre supplied.
+     * Equivblent to <tt>new InitiblContext(null)</tt>.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #InitialContext(Hashtable)
+     * @see #InitiblContext(Hbshtbble)
      */
-    public InitialContext() throws NamingException {
+    public InitiblContext() throws NbmingException {
         init(null);
     }
 
     /**
-     * Constructs an initial context using the supplied environment.
-     * Environment properties are discussed in the class description.
+     * Constructs bn initibl context using the supplied environment.
+     * Environment properties bre discussed in the clbss description.
      *
      * <p> This constructor will not modify <tt>environment</tt>
-     * or save a reference to it, but may save a clone.
-     * Caller should not modify mutable keys and values in
-     * <tt>environment</tt> after it has been passed to the constructor.
+     * or sbve b reference to it, but mby sbve b clone.
+     * Cbller should not modify mutbble keys bnd vblues in
+     * <tt>environment</tt> bfter it hbs been pbssed to the constructor.
      *
-     * @param environment
-     *          environment used to create the initial context.
-     *          Null indicates an empty environment.
+     * @pbrbm environment
+     *          environment used to crebte the initibl context.
+     *          Null indicbtes bn empty environment.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public InitialContext(Hashtable<?,?> environment)
-        throws NamingException
+    public InitiblContext(Hbshtbble<?,?> environment)
+        throws NbmingException
     {
         if (environment != null) {
-            environment = (Hashtable)environment.clone();
+            environment = (Hbshtbble)environment.clone();
         }
         init(environment);
     }
 
     /**
-     * Initializes the initial context using the supplied environment.
-     * Environment properties are discussed in the class description.
+     * Initiblizes the initibl context using the supplied environment.
+     * Environment properties bre discussed in the clbss description.
      *
-     * <p> This method will modify <tt>environment</tt> and save
-     * a reference to it.  The caller may no longer modify it.
+     * <p> This method will modify <tt>environment</tt> bnd sbve
+     * b reference to it.  The cbller mby no longer modify it.
      *
-     * @param environment
-     *          environment used to create the initial context.
-     *          Null indicates an empty environment.
+     * @pbrbm environment
+     *          environment used to crebte the initibl context.
+     *          Null indicbtes bn empty environment.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #InitialContext(boolean)
+     * @see #InitiblContext(boolebn)
      * @since 1.3
      */
-    @SuppressWarnings("unchecked")
-    protected void init(Hashtable<?,?> environment)
-        throws NamingException
+    @SuppressWbrnings("unchecked")
+    protected void init(Hbshtbble<?,?> environment)
+        throws NbmingException
     {
-        myProps = (Hashtable<Object,Object>)
-                ResourceManager.getInitialEnvironment(environment);
+        myProps = (Hbshtbble<Object,Object>)
+                ResourceMbnbger.getInitiblEnvironment(environment);
 
         if (myProps.get(Context.INITIAL_CONTEXT_FACTORY) != null) {
-            // user has specified initial context factory; try to get it
-            getDefaultInitCtx();
+            // user hbs specified initibl context fbctory; try to get it
+            getDefbultInitCtx();
         }
     }
 
     /**
-     * A static method to retrieve the named object.
-     * This is a shortcut method equivalent to invoking:
+     * A stbtic method to retrieve the nbmed object.
+     * This is b shortcut method equivblent to invoking:
      * <p>
      * <code>
-     *        InitialContext ic = new InitialContext();
+     *        InitiblContext ic = new InitiblContext();
      *        Object obj = ic.lookup();
      * </code>
-     * <p> If <tt>name</tt> is empty, returns a new instance of this context
-     * (which represents the same naming context as this context, but its
-     * environment may be modified independently and it may be accessed
+     * <p> If <tt>nbme</tt> is empty, returns b new instbnce of this context
+     * (which represents the sbme nbming context bs this context, but its
+     * environment mby be modified independently bnd it mby be bccessed
      * concurrently).
      *
-     * @param <T> the type of the returned object
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm <T> the type of the returned object
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #doLookup(String)
-     * @see #lookup(Name)
+     * @see #lookup(Nbme)
      * @since 1.6
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T doLookup(Name name)
-        throws NamingException {
-        return (T) (new InitialContext()).lookup(name);
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> T doLookup(Nbme nbme)
+        throws NbmingException {
+        return (T) (new InitiblContext()).lookup(nbme);
     }
 
    /**
-     * A static method to retrieve the named object.
-     * See {@link #doLookup(Name)} for details.
-     * @param <T> the type of the returned object
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * A stbtic method to retrieve the nbmed object.
+     * See {@link #doLookup(Nbme)} for detbils.
+     * @pbrbm <T> the type of the returned object
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      * @since 1.6
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T doLookup(String name)
-        throws NamingException {
-        return (T) (new InitialContext()).lookup(name);
+    @SuppressWbrnings("unchecked")
+    public stbtic <T> T doLookup(String nbme)
+        throws NbmingException {
+        return (T) (new InitiblContext()).lookup(nbme);
     }
 
-    private static String getURLScheme(String str) {
+    privbte stbtic String getURLScheme(String str) {
         int colon_posn = str.indexOf(':');
-        int slash_posn = str.indexOf('/');
+        int slbsh_posn = str.indexOf('/');
 
-        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn))
+        if (colon_posn > 0 && (slbsh_posn == -1 || colon_posn < slbsh_posn))
             return str.substring(0, colon_posn);
         return null;
     }
 
     /**
-     * Retrieves the initial context by calling
-     * <code>NamingManager.getInitialContext()</code>
-     * and cache it in defaultInitCtx.
-     * Set <code>gotDefault</code> so that we know we've tried this before.
-     * @return The non-null cached initial context.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException If a naming exception was encountered.
+     * Retrieves the initibl context by cblling
+     * <code>NbmingMbnbger.getInitiblContext()</code>
+     * bnd cbche it in defbultInitCtx.
+     * Set <code>gotDefbult</code> so thbt we know we've tried this before.
+     * @return The non-null cbched initibl context.
+     * @exception NoInitiblContextException If cbnnot find bn initibl context.
+     * @exception NbmingException If b nbming exception wbs encountered.
      */
-    protected Context getDefaultInitCtx() throws NamingException{
-        if (!gotDefault) {
-            defaultInitCtx = NamingManager.getInitialContext(myProps);
-            gotDefault = true;
+    protected Context getDefbultInitCtx() throws NbmingException{
+        if (!gotDefbult) {
+            defbultInitCtx = NbmingMbnbger.getInitiblContext(myProps);
+            gotDefbult = true;
         }
-        if (defaultInitCtx == null)
-            throw new NoInitialContextException();
+        if (defbultInitCtx == null)
+            throw new NoInitiblContextException();
 
-        return defaultInitCtx;
+        return defbultInitCtx;
     }
 
     /**
-     * Retrieves a context for resolving the string name <code>name</code>.
-     * If <code>name</code> name is a URL string, then attempt
-     * to find a URL context for it. If none is found, or if
-     * <code>name</code> is not a URL string, then return
-     * <code>getDefaultInitCtx()</code>.
+     * Retrieves b context for resolving the string nbme <code>nbme</code>.
+     * If <code>nbme</code> nbme is b URL string, then bttempt
+     * to find b URL context for it. If none is found, or if
+     * <code>nbme</code> is not b URL string, then return
+     * <code>getDefbultInitCtx()</code>.
      *<p>
-     * See getURLOrDefaultInitCtx(Name) for description
-     * of how a subclass should use this method.
-     * @param name The non-null name for which to get the context.
-     * @return A URL context for <code>name</code> or the cached
-     *         initial context. The result cannot be null.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException In a naming exception is encountered.
-     * @see javax.naming.spi.NamingManager#getURLContext
+     * See getURLOrDefbultInitCtx(Nbme) for description
+     * of how b subclbss should use this method.
+     * @pbrbm nbme The non-null nbme for which to get the context.
+     * @return A URL context for <code>nbme</code> or the cbched
+     *         initibl context. The result cbnnot be null.
+     * @exception NoInitiblContextException If cbnnot find bn initibl context.
+     * @exception NbmingException In b nbming exception is encountered.
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getURLContext
      */
-    protected Context getURLOrDefaultInitCtx(String name)
-        throws NamingException {
-        if (NamingManager.hasInitialContextFactoryBuilder()) {
-            return getDefaultInitCtx();
+    protected Context getURLOrDefbultInitCtx(String nbme)
+        throws NbmingException {
+        if (NbmingMbnbger.hbsInitiblContextFbctoryBuilder()) {
+            return getDefbultInitCtx();
         }
-        String scheme = getURLScheme(name);
+        String scheme = getURLScheme(nbme);
         if (scheme != null) {
-            Context ctx = NamingManager.getURLContext(scheme, myProps);
+            Context ctx = NbmingMbnbger.getURLContext(scheme, myProps);
             if (ctx != null) {
                 return ctx;
             }
         }
-        return getDefaultInitCtx();
+        return getDefbultInitCtx();
     }
 
     /**
-     * Retrieves a context for resolving <code>name</code>.
-     * If the first component of <code>name</code> name is a URL string,
-     * then attempt to find a URL context for it. If none is found, or if
-     * the first component of <code>name</code> is not a URL string,
-     * then return <code>getDefaultInitCtx()</code>.
+     * Retrieves b context for resolving <code>nbme</code>.
+     * If the first component of <code>nbme</code> nbme is b URL string,
+     * then bttempt to find b URL context for it. If none is found, or if
+     * the first component of <code>nbme</code> is not b URL string,
+     * then return <code>getDefbultInitCtx()</code>.
      *<p>
-     * When creating a subclass of InitialContext, use this method as
+     * When crebting b subclbss of InitiblContext, use this method bs
      * follows.
-     * Define a new method that uses this method to get an initial
-     * context of the desired subclass.
+     * Define b new method thbt uses this method to get bn initibl
+     * context of the desired subclbss.
      * <blockquote><pre>
-     * protected XXXContext getURLOrDefaultInitXXXCtx(Name name)
-     * throws NamingException {
-     *  Context answer = getURLOrDefaultInitCtx(name);
-     *  if (!(answer instanceof XXXContext)) {
-     *    if (answer == null) {
-     *      throw new NoInitialContextException();
+     * protected XXXContext getURLOrDefbultInitXXXCtx(Nbme nbme)
+     * throws NbmingException {
+     *  Context bnswer = getURLOrDefbultInitCtx(nbme);
+     *  if (!(bnswer instbnceof XXXContext)) {
+     *    if (bnswer == null) {
+     *      throw new NoInitiblContextException();
      *    } else {
-     *      throw new NotContextException("Not an XXXContext");
+     *      throw new NotContextException("Not bn XXXContext");
      *    }
      *  }
-     *  return (XXXContext)answer;
+     *  return (XXXContext)bnswer;
      * }
      * </pre></blockquote>
-     * When providing implementations for the new methods in the subclass,
-     * use this newly defined method to get the initial context.
+     * When providing implementbtions for the new methods in the subclbss,
+     * use this newly defined method to get the initibl context.
      * <blockquote><pre>
-     * public Object XXXMethod1(Name name, ...) {
-     *  throws NamingException {
-     *    return getURLOrDefaultInitXXXCtx(name).XXXMethod1(name, ...);
+     * public Object XXXMethod1(Nbme nbme, ...) {
+     *  throws NbmingException {
+     *    return getURLOrDefbultInitXXXCtx(nbme).XXXMethod1(nbme, ...);
      * }
      * </pre></blockquote>
      *
-     * @param name The non-null name for which to get the context.
-     * @return A URL context for <code>name</code> or the cached
-     *         initial context. The result cannot be null.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException In a naming exception is encountered.
+     * @pbrbm nbme The non-null nbme for which to get the context.
+     * @return A URL context for <code>nbme</code> or the cbched
+     *         initibl context. The result cbnnot be null.
+     * @exception NoInitiblContextException If cbnnot find bn initibl context.
+     * @exception NbmingException In b nbming exception is encountered.
      *
-     * @see javax.naming.spi.NamingManager#getURLContext
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getURLContext
      */
-    protected Context getURLOrDefaultInitCtx(Name name)
-        throws NamingException {
-        if (NamingManager.hasInitialContextFactoryBuilder()) {
-            return getDefaultInitCtx();
+    protected Context getURLOrDefbultInitCtx(Nbme nbme)
+        throws NbmingException {
+        if (NbmingMbnbger.hbsInitiblContextFbctoryBuilder()) {
+            return getDefbultInitCtx();
         }
-        if (name.size() > 0) {
-            String first = name.get(0);
+        if (nbme.size() > 0) {
+            String first = nbme.get(0);
             String scheme = getURLScheme(first);
             if (scheme != null) {
-                Context ctx = NamingManager.getURLContext(scheme, myProps);
+                Context ctx = NbmingMbnbger.getURLContext(scheme, myProps);
                 if (ctx != null) {
                     return ctx;
                 }
             }
         }
-        return getDefaultInitCtx();
+        return getDefbultInitCtx();
     }
 
 // Context methods
-// Most Javadoc is deferred to the Context interface.
+// Most Jbvbdoc is deferred to the Context interfbce.
 
-    public Object lookup(String name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookup(name);
+    public Object lookup(String nbme) throws NbmingException {
+        return getURLOrDefbultInitCtx(nbme).lookup(nbme);
     }
 
-    public Object lookup(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookup(name);
+    public Object lookup(Nbme nbme) throws NbmingException {
+        return getURLOrDefbultInitCtx(nbme).lookup(nbme);
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).bind(name, obj);
+    public void bind(String nbme, Object obj) throws NbmingException {
+        getURLOrDefbultInitCtx(nbme).bind(nbme, obj);
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).bind(name, obj);
+    public void bind(Nbme nbme, Object obj) throws NbmingException {
+        getURLOrDefbultInitCtx(nbme).bind(nbme, obj);
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).rebind(name, obj);
+    public void rebind(String nbme, Object obj) throws NbmingException {
+        getURLOrDefbultInitCtx(nbme).rebind(nbme, obj);
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).rebind(name, obj);
+    public void rebind(Nbme nbme, Object obj) throws NbmingException {
+        getURLOrDefbultInitCtx(nbme).rebind(nbme, obj);
     }
 
-    public void unbind(String name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).unbind(name);
+    public void unbind(String nbme) throws NbmingException  {
+        getURLOrDefbultInitCtx(nbme).unbind(nbme);
     }
 
-    public void unbind(Name name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).unbind(name);
+    public void unbind(Nbme nbme) throws NbmingException  {
+        getURLOrDefbultInitCtx(nbme).unbind(nbme);
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
+    public void renbme(String oldNbme, String newNbme) throws NbmingException {
+        getURLOrDefbultInitCtx(oldNbme).renbme(oldNbme, newNbme);
     }
 
-    public void rename(Name oldName, Name newName)
-        throws NamingException
+    public void renbme(Nbme oldNbme, Nbme newNbme)
+        throws NbmingException
     {
-        getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
+        getURLOrDefbultInitCtx(oldNbme).renbme(oldNbme, newNbme);
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)
-        throws NamingException
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme)
+        throws NbmingException
     {
-        return (getURLOrDefaultInitCtx(name).list(name));
+        return (getURLOrDefbultInitCtx(nbme).list(nbme));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme)
+        throws NbmingException
     {
-        return (getURLOrDefaultInitCtx(name).list(name));
+        return (getURLOrDefbultInitCtx(nbme).list(nbme));
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-            throws NamingException  {
-        return getURLOrDefaultInitCtx(name).listBindings(name);
+    public NbmingEnumerbtion<Binding> listBindings(String nbme)
+            throws NbmingException  {
+        return getURLOrDefbultInitCtx(nbme).listBindings(nbme);
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException  {
-        return getURLOrDefaultInitCtx(name).listBindings(name);
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+            throws NbmingException  {
+        return getURLOrDefbultInitCtx(nbme).listBindings(nbme);
     }
 
-    public void destroySubcontext(String name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).destroySubcontext(name);
+    public void destroySubcontext(String nbme) throws NbmingException  {
+        getURLOrDefbultInitCtx(nbme).destroySubcontext(nbme);
     }
 
-    public void destroySubcontext(Name name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).destroySubcontext(name);
+    public void destroySubcontext(Nbme nbme) throws NbmingException  {
+        getURLOrDefbultInitCtx(nbme).destroySubcontext(nbme);
     }
 
-    public Context createSubcontext(String name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).createSubcontext(name);
+    public Context crebteSubcontext(String nbme) throws NbmingException  {
+        return getURLOrDefbultInitCtx(nbme).crebteSubcontext(nbme);
     }
 
-    public Context createSubcontext(Name name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).createSubcontext(name);
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException  {
+        return getURLOrDefbultInitCtx(nbme).crebteSubcontext(nbme);
     }
 
-    public Object lookupLink(String name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).lookupLink(name);
+    public Object lookupLink(String nbme) throws NbmingException  {
+        return getURLOrDefbultInitCtx(nbme).lookupLink(nbme);
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookupLink(name);
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        return getURLOrDefbultInitCtx(nbme).lookupLink(nbme);
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).getNameParser(name);
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        return getURLOrDefbultInitCtx(nbme).getNbmePbrser(nbme);
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).getNameParser(name);
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        return getURLOrDefbultInitCtx(nbme).getNbmePbrser(nbme);
     }
 
     /**
-     * Composes the name of this context with a name relative to
+     * Composes the nbme of this context with b nbme relbtive to
      * this context.
-     * Since an initial context may never be named relative
-     * to any context other than itself, the value of the
-     * <tt>prefix</tt> parameter must be an empty name (<tt>""</tt>).
+     * Since bn initibl context mby never be nbmed relbtive
+     * to bny context other thbn itself, the vblue of the
+     * <tt>prefix</tt> pbrbmeter must be bn empty nbme (<tt>""</tt>).
      */
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        return name;
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException {
+        return nbme;
     }
 
     /**
-     * Composes the name of this context with a name relative to
+     * Composes the nbme of this context with b nbme relbtive to
      * this context.
-     * Since an initial context may never be named relative
-     * to any context other than itself, the value of the
-     * <tt>prefix</tt> parameter must be an empty name.
+     * Since bn initibl context mby never be nbmed relbtive
+     * to bny context other thbn itself, the vblue of the
+     * <tt>prefix</tt> pbrbmeter must be bn empty nbme.
      */
-    public Name composeName(Name name, Name prefix)
-        throws NamingException
+    public Nbme composeNbme(Nbme nbme, Nbme prefix)
+        throws NbmingException
     {
-        return (Name)name.clone();
+        return (Nbme)nbme.clone();
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException {
-        myProps.put(propName, propVal);
-        return getDefaultInitCtx().addToEnvironment(propName, propVal);
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+            throws NbmingException {
+        myProps.put(propNbme, propVbl);
+        return getDefbultInitCtx().bddToEnvironment(propNbme, propVbl);
     }
 
-    public Object removeFromEnvironment(String propName)
-            throws NamingException {
-        myProps.remove(propName);
-        return getDefaultInitCtx().removeFromEnvironment(propName);
+    public Object removeFromEnvironment(String propNbme)
+            throws NbmingException {
+        myProps.remove(propNbme);
+        return getDefbultInitCtx().removeFromEnvironment(propNbme);
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        return getDefaultInitCtx().getEnvironment();
+    public Hbshtbble<?,?> getEnvironment() throws NbmingException {
+        return getDefbultInitCtx().getEnvironment();
     }
 
-    public void close() throws NamingException {
+    public void close() throws NbmingException {
         myProps = null;
-        if (defaultInitCtx != null) {
-            defaultInitCtx.close();
-            defaultInitCtx = null;
+        if (defbultInitCtx != null) {
+            defbultInitCtx.close();
+            defbultInitCtx = null;
         }
-        gotDefault = false;
+        gotDefbult = fblse;
     }
 
-    public String getNameInNamespace() throws NamingException {
-        return getDefaultInitCtx().getNameInNamespace();
+    public String getNbmeInNbmespbce() throws NbmingException {
+        return getDefbultInitCtx().getNbmeInNbmespbce();
     }
 };

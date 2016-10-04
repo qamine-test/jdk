@@ -1,254 +1,254 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.io.ByteArrayInputStream;
-import java.io.CharArrayReader;
-import java.io.StringReader;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Reader;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.DocAttributeSet;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ChbrArrbyRebder;
+import jbvb.io.StringRebder;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.Rebder;
+import jbvbx.print.bttribute.AttributeSetUtilities;
+import jbvbx.print.bttribute.DocAttributeSet;
 
 /**
- * This class is an implementation of interface <code>Doc</code> that can
- * be used in many common printing requests.
- * It can handle all of the presently defined "pre-defined" doc flavors
- * defined as static variables in the DocFlavor class.
+ * This clbss is bn implementbtion of interfbce <code>Doc</code> thbt cbn
+ * be used in mbny common printing requests.
+ * It cbn hbndle bll of the presently defined "pre-defined" doc flbvors
+ * defined bs stbtic vbribbles in the DocFlbvor clbss.
  * <p>
- * In particular this class implements certain required semantics of the
- * Doc specification as follows:
+ * In pbrticulbr this clbss implements certbin required sembntics of the
+ * Doc specificbtion bs follows:
  * <ul>
- * <li>constructs a stream for the service if requested and appropriate.
- * <li>ensures the same object is returned for each call on a method.
- * <li>ensures multiple threads can access the Doc
- * <li>performs some validation of that the data matches the doc flavor.
+ * <li>constructs b strebm for the service if requested bnd bppropribte.
+ * <li>ensures the sbme object is returned for ebch cbll on b method.
+ * <li>ensures multiple threbds cbn bccess the Doc
+ * <li>performs some vblidbtion of thbt the dbtb mbtches the doc flbvor.
  * </ul>
- * Clients who want to re-use the doc object in other jobs,
- * or need a MultiDoc will not want to use this class.
+ * Clients who wbnt to re-use the doc object in other jobs,
+ * or need b MultiDoc will not wbnt to use this clbss.
  * <p>
- * If the print data is a stream, or a print job requests data as a
- * stream, then <code>SimpleDoc</code> does not monitor if the service
- * properly closes the stream after data transfer completion or job
- * termination.
- * Clients may prefer to use provide their own implementation of doc that
- * adds a listener to monitor job completion and to validate that
- * resources such as streams are freed (ie closed).
+ * If the print dbtb is b strebm, or b print job requests dbtb bs b
+ * strebm, then <code>SimpleDoc</code> does not monitor if the service
+ * properly closes the strebm bfter dbtb trbnsfer completion or job
+ * terminbtion.
+ * Clients mby prefer to use provide their own implementbtion of doc thbt
+ * bdds b listener to monitor job completion bnd to vblidbte thbt
+ * resources such bs strebms bre freed (ie closed).
  */
 
-public final class SimpleDoc implements Doc {
+public finbl clbss SimpleDoc implements Doc {
 
-    private DocFlavor flavor;
-    private DocAttributeSet attributes;
-    private Object printData;
-    private Reader reader;
-    private InputStream inStream;
+    privbte DocFlbvor flbvor;
+    privbte DocAttributeSet bttributes;
+    privbte Object printDbtb;
+    privbte Rebder rebder;
+    privbte InputStrebm inStrebm;
 
     /**
-     * Constructs a <code>SimpleDoc</code> with the specified
-     * print data, doc flavor and doc attribute set.
-     * @param printData the print data object
-     * @param flavor the <code>DocFlavor</code> object
-     * @param attributes a <code>DocAttributeSet</code>, which can
+     * Constructs b <code>SimpleDoc</code> with the specified
+     * print dbtb, doc flbvor bnd doc bttribute set.
+     * @pbrbm printDbtb the print dbtb object
+     * @pbrbm flbvor the <code>DocFlbvor</code> object
+     * @pbrbm bttributes b <code>DocAttributeSet</code>, which cbn
      *                   be <code>null</code>
-     * @throws IllegalArgumentException if <code>flavor</code> or
-     *         <code>printData</code> is <code>null</code>, or the
-     *         <code>printData</code> does not correspond
-     *         to the specified doc flavor--for example, the data is
-     *         not of the type specified as the representation in the
-     *         <code>DocFlavor</code>.
+     * @throws IllegblArgumentException if <code>flbvor</code> or
+     *         <code>printDbtb</code> is <code>null</code>, or the
+     *         <code>printDbtb</code> does not correspond
+     *         to the specified doc flbvor--for exbmple, the dbtb is
+     *         not of the type specified bs the representbtion in the
+     *         <code>DocFlbvor</code>.
      */
-    public SimpleDoc(Object printData,
-                     DocFlavor flavor, DocAttributeSet attributes) {
+    public SimpleDoc(Object printDbtb,
+                     DocFlbvor flbvor, DocAttributeSet bttributes) {
 
-       if (flavor == null || printData == null) {
-           throw new IllegalArgumentException("null argument(s)");
+       if (flbvor == null || printDbtb == null) {
+           throw new IllegblArgumentException("null brgument(s)");
        }
 
-       Class<?> repClass = null;
+       Clbss<?> repClbss = null;
        try {
-            String className = flavor.getRepresentationClassName();
-            sun.reflect.misc.ReflectUtil.checkPackageAccess(className);
-            repClass = Class.forName(className, false,
-                              Thread.currentThread().getContextClassLoader());
-       } catch (Throwable e) {
-           throw new IllegalArgumentException("unknown representation class");
+            String clbssNbme = flbvor.getRepresentbtionClbssNbme();
+            sun.reflect.misc.ReflectUtil.checkPbckbgeAccess(clbssNbme);
+            repClbss = Clbss.forNbme(clbssNbme, fblse,
+                              Threbd.currentThrebd().getContextClbssLobder());
+       } cbtch (Throwbble e) {
+           throw new IllegblArgumentException("unknown representbtion clbss");
        }
 
-       if (!repClass.isInstance(printData)) {
-           throw new IllegalArgumentException("data is not of declared type");
+       if (!repClbss.isInstbnce(printDbtb)) {
+           throw new IllegblArgumentException("dbtb is not of declbred type");
        }
 
-       this.flavor = flavor;
-       if (attributes != null) {
-           this.attributes = AttributeSetUtilities.unmodifiableView(attributes);
+       this.flbvor = flbvor;
+       if (bttributes != null) {
+           this.bttributes = AttributeSetUtilities.unmodifibbleView(bttributes);
        }
-       this.printData = printData;
+       this.printDbtb = printDbtb;
     }
 
    /**
-     * Determines the doc flavor in which this doc object will supply its
-     * piece of print data.
+     * Determines the doc flbvor in which this doc object will supply its
+     * piece of print dbtb.
      *
-     * @return  Doc flavor.
+     * @return  Doc flbvor.
      */
-    public DocFlavor getDocFlavor() {
-        return flavor;
+    public DocFlbvor getDocFlbvor() {
+        return flbvor;
     }
 
     /**
-     * Obtains the set of printing attributes for this doc object. If the
-     * returned attribute set includes an instance of a particular attribute
-     * <I>X,</I> the printer must use that attribute value for this doc,
-     * overriding any value of attribute <I>X</I> in the job's attribute set.
-     * If the returned attribute set does not include an instance
-     * of a particular attribute <I>X</I> or if null is returned, the printer
-     * must consult the job's attribute set to obtain the value for
-     * attribute <I>X,</I> and if not found there, the printer must use an
-     * implementation-dependent default value. The returned attribute set is
-     * unmodifiable.
+     * Obtbins the set of printing bttributes for this doc object. If the
+     * returned bttribute set includes bn instbnce of b pbrticulbr bttribute
+     * <I>X,</I> the printer must use thbt bttribute vblue for this doc,
+     * overriding bny vblue of bttribute <I>X</I> in the job's bttribute set.
+     * If the returned bttribute set does not include bn instbnce
+     * of b pbrticulbr bttribute <I>X</I> or if null is returned, the printer
+     * must consult the job's bttribute set to obtbin the vblue for
+     * bttribute <I>X,</I> bnd if not found there, the printer must use bn
+     * implementbtion-dependent defbult vblue. The returned bttribute set is
+     * unmodifibble.
      *
-     * @return  Unmodifiable set of printing attributes for this doc, or null
-     *          to obtain all attribute values from the job's attribute
+     * @return  Unmodifibble set of printing bttributes for this doc, or null
+     *          to obtbin bll bttribute vblues from the job's bttribute
      *          set.
      */
     public DocAttributeSet getAttributes() {
-        return attributes;
+        return bttributes;
     }
 
     /*
-     * Obtains the print data representation object that contains this doc
-     * object's piece of print data in the format corresponding to the
-     * supported doc flavor.
-     * The <CODE>getPrintData()</CODE> method returns an instance of
-     * the representation class whose name is given by
-     * {@link DocFlavor#getRepresentationClassName() getRepresentationClassName},
-     * and the return value can be cast
-     * from class Object to that representation class.
+     * Obtbins the print dbtb representbtion object thbt contbins this doc
+     * object's piece of print dbtb in the formbt corresponding to the
+     * supported doc flbvor.
+     * The <CODE>getPrintDbtb()</CODE> method returns bn instbnce of
+     * the representbtion clbss whose nbme is given by
+     * {@link DocFlbvor#getRepresentbtionClbssNbme() getRepresentbtionClbssNbme},
+     * bnd the return vblue cbn be cbst
+     * from clbss Object to thbt representbtion clbss.
      *
-     * @return  Print data representation object.
+     * @return  Print dbtb representbtion object.
      *
-     * @exception  IOException if the representation class is a stream and
-     *     there was an I/O error while constructing the stream.
+     * @exception  IOException if the representbtion clbss is b strebm bnd
+     *     there wbs bn I/O error while constructing the strebm.
      */
-    public Object getPrintData() throws IOException {
-        return printData;
+    public Object getPrintDbtb() throws IOException {
+        return printDbtb;
     }
 
     /**
-     * Obtains a reader for extracting character print data from this doc.
-     * The <code>Doc</code> implementation is required to support this
-     * method if the <code>DocFlavor</code> has one of the following print
-     * data representation classes, and return <code>null</code>
+     * Obtbins b rebder for extrbcting chbrbcter print dbtb from this doc.
+     * The <code>Doc</code> implementbtion is required to support this
+     * method if the <code>DocFlbvor</code> hbs one of the following print
+     * dbtb representbtion clbsses, bnd return <code>null</code>
      * otherwise:
      * <UL>
-     * <LI> <code>char[]</code>
-     * <LI> <code>java.lang.String</code>
-     * <LI> <code>java.io.Reader</code>
+     * <LI> <code>chbr[]</code>
+     * <LI> <code>jbvb.lbng.String</code>
+     * <LI> <code>jbvb.io.Rebder</code>
      * </UL>
-     * The doc's print data representation object is used to construct and
-     * return a <code>Reader</code> for reading the print data as a stream
-     * of characters from the print data representation object.
-     * However, if the print data representation object is itself a
-     * <code>Reader</code> then the print data representation object is
+     * The doc's print dbtb representbtion object is used to construct bnd
+     * return b <code>Rebder</code> for rebding the print dbtb bs b strebm
+     * of chbrbcters from the print dbtb representbtion object.
+     * However, if the print dbtb representbtion object is itself b
+     * <code>Rebder</code> then the print dbtb representbtion object is
      * simply returned.
      *
-     * @return  a <code>Reader</code> for reading the print data
-     *          characters from this doc.
-     *          If a reader cannot be provided because this doc does not meet
-     *          the criteria stated above, <code>null</code> is returned.
+     * @return  b <code>Rebder</code> for rebding the print dbtb
+     *          chbrbcters from this doc.
+     *          If b rebder cbnnot be provided becbuse this doc does not meet
+     *          the criterib stbted bbove, <code>null</code> is returned.
      *
-     * @exception  IOException if there was an I/O error while creating
-     *             the reader.
+     * @exception  IOException if there wbs bn I/O error while crebting
+     *             the rebder.
      */
-    public Reader getReaderForText() throws IOException {
+    public Rebder getRebderForText() throws IOException {
 
-        if (printData instanceof Reader) {
-            return (Reader)printData;
+        if (printDbtb instbnceof Rebder) {
+            return (Rebder)printDbtb;
         }
 
         synchronized (this) {
-            if (reader != null) {
-                return reader;
+            if (rebder != null) {
+                return rebder;
             }
 
-            if (printData instanceof char[]) {
-               reader = new CharArrayReader((char[])printData);
+            if (printDbtb instbnceof chbr[]) {
+               rebder = new ChbrArrbyRebder((chbr[])printDbtb);
             }
-            else if (printData instanceof String) {
-                reader = new StringReader((String)printData);
+            else if (printDbtb instbnceof String) {
+                rebder = new StringRebder((String)printDbtb);
             }
         }
-        return reader;
+        return rebder;
     }
 
     /**
-     * Obtains an input stream for extracting byte print data from
+     * Obtbins bn input strebm for extrbcting byte print dbtb from
      * this doc.
-     * The <code>Doc</code> implementation is required to support this
-     * method if the <code>DocFlavor</code> has one of the following print
-     * data representation classes; otherwise this method
+     * The <code>Doc</code> implementbtion is required to support this
+     * method if the <code>DocFlbvor</code> hbs one of the following print
+     * dbtb representbtion clbsses; otherwise this method
      * returns <code>null</code>:
      * <UL>
      * <LI> <code>byte[]</code>
-     * <LI> <code>java.io.InputStream</code>
+     * <LI> <code>jbvb.io.InputStrebm</code>
      * </UL>
-     * The doc's print data representation object is obtained.  Then, an
-     * input stream for reading the print data
-     * from the print data representation object as a stream of bytes is
-     * created and returned.
-     * However, if the print data representation object is itself an
-     * input stream then the print data representation object is simply
+     * The doc's print dbtb representbtion object is obtbined.  Then, bn
+     * input strebm for rebding the print dbtb
+     * from the print dbtb representbtion object bs b strebm of bytes is
+     * crebted bnd returned.
+     * However, if the print dbtb representbtion object is itself bn
+     * input strebm then the print dbtb representbtion object is simply
      * returned.
      *
-     * @return  an <code>InputStream</code> for reading the print data
-     *          bytes from this doc.  If an input stream cannot be
-     *          provided because this doc does not meet
-     *          the criteria stated above, <code>null</code> is returned.
+     * @return  bn <code>InputStrebm</code> for rebding the print dbtb
+     *          bytes from this doc.  If bn input strebm cbnnot be
+     *          provided becbuse this doc does not meet
+     *          the criterib stbted bbove, <code>null</code> is returned.
      *
      * @exception  IOException
-     *     if there was an I/O error while creating the input stream.
+     *     if there wbs bn I/O error while crebting the input strebm.
      */
-    public InputStream getStreamForBytes() throws IOException {
+    public InputStrebm getStrebmForBytes() throws IOException {
 
-        if (printData instanceof InputStream) {
-            return (InputStream)printData;
+        if (printDbtb instbnceof InputStrebm) {
+            return (InputStrebm)printDbtb;
         }
 
         synchronized (this) {
-            if (inStream != null) {
-                return inStream;
+            if (inStrebm != null) {
+                return inStrebm;
             }
 
-            if (printData instanceof byte[]) {
-               inStream = new ByteArrayInputStream((byte[])printData);
+            if (printDbtb instbnceof byte[]) {
+               inStrebm = new ByteArrbyInputStrebm((byte[])printDbtb);
             }
         }
-        return inStream;
+        return inStrebm;
     }
 
 }

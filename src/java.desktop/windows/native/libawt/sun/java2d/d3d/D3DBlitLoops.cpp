@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,11 +28,11 @@
 
 #include "D3DPipeline.h"
 
-#include "SurfaceData.h"
+#include "SurfbceDbtb.h"
 #include "D3DBlitLoops.h"
 #include "D3DRenderQueue.h"
-#include "D3DSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "D3DSurfbceDbtb.h"
+#include "GrbphicsPrimitiveMgr.h"
 
 #include "IntArgb.h"
 #include "IntArgbPre.h"
@@ -61,7 +61,7 @@ extern "C" BlitFunc ByteIndexedToIntArgbPreConvert;
 #ifdef D3D_PPL_DLL
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBounds(SurfaceDataBounds *dst, SurfaceDataBounds *src)
+SurfbceDbtb_IntersectBounds(SurfbceDbtbBounds *dst, SurfbceDbtbBounds *src)
 {
     int t;
     GETMAX(dst->x1, src->x1);
@@ -71,7 +71,7 @@ SurfaceData_IntersectBounds(SurfaceDataBounds *dst, SurfaceDataBounds *src)
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
+SurfbceDbtb_IntersectBoundsXYXY(SurfbceDbtbBounds *bounds,
                                 jint x1, jint y1, jint x2, jint y2)
 {
     int t;
@@ -82,7 +82,7 @@ SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
+SurfbceDbtb_IntersectBoundsXYWH(SurfbceDbtbBounds *bounds,
                                 jint x, jint y, jint w, jint h)
 {
     w = (w <= 0) ? x : x+w;
@@ -108,8 +108,8 @@ SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBlitBounds(SurfaceDataBounds *src,
-                                SurfaceDataBounds *dst,
+SurfbceDbtb_IntersectBlitBounds(SurfbceDbtbBounds *src,
+                                SurfbceDbtbBounds *dst,
                                 jint dx, jint dy)
 {
     int t;
@@ -126,8 +126,8 @@ SurfaceData_IntersectBlitBounds(SurfaceDataBounds *src,
 #endif /* D3D_PPL_DLL */
 
 D3DPIPELINE_API HRESULT
-D3DBL_CopySurfaceToIntArgbImage(IDirect3DSurface9 *pSurface,
-                                SurfaceDataRasInfo *pDstInfo,
+D3DBL_CopySurfbceToIntArgbImbge(IDirect3DSurfbce9 *pSurfbce,
+                                SurfbceDbtbRbsInfo *pDstInfo,
                                 jint srcx, jint srcy,
                                 jint srcWidth, jint srcHeight,
                                 jint dstx, jint dsty)
@@ -136,73 +136,73 @@ D3DBL_CopySurfaceToIntArgbImage(IDirect3DSurface9 *pSurface,
     D3DLOCKED_RECT lockedRect;
     RECT r = { srcx, srcy, srcx+srcWidth, srcy+srcHeight };
     D3DSURFACE_DESC desc;
-    SurfaceDataRasInfo srcInfo;
+    SurfbceDbtbRbsInfo srcInfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBL_CopySurfaceToIntArgbImage");
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBL_CopySurfbceToIntArgbImbge");
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 " rect={%-4d, %-4d, %-4d, %-4d}",
                 r.left, r.top, r.right, r.bottom);
 
-    res = pSurface->LockRect(&lockedRect, &r, D3DLOCK_NOSYSLOCK);
+    res = pSurfbce->LockRect(&lockedRect, &r, D3DLOCK_NOSYSLOCK);
     RETURN_STATUS_IF_FAILED(res);
-    pSurface->GetDesc(&desc);
+    pSurfbce->GetDesc(&desc);
 
-    ZeroMemory(&srcInfo, sizeof(SurfaceDataRasInfo));
+    ZeroMemory(&srcInfo, sizeof(SurfbceDbtbRbsInfo));
     // srcInfo.bounds.x1 = 0;
     // srcInfo.bounds.y1 = 0;
     srcInfo.bounds.x2 = srcWidth;
     srcInfo.bounds.y2 = srcHeight;
-    srcInfo.scanStride = lockedRect.Pitch;
+    srcInfo.scbnStride = lockedRect.Pitch;
 
-    void *pSrcBase = lockedRect.pBits;
-    void *pDstBase = PtrCoord(pDstInfo->rasBase,
+    void *pSrcBbse = lockedRect.pBits;
+    void *pDstBbse = PtrCoord(pDstInfo->rbsBbse,
                               dstx, pDstInfo->pixelStride,
-                              dsty, pDstInfo->scanStride);
+                              dsty, pDstInfo->scbnStride);
 
-    switch (desc.Format) {
-        case D3DFMT_A8R8G8B8:
+    switch (desc.Formbt) {
+        cbse D3DFMT_A8R8G8B8:
             srcInfo.pixelStride = 4;
-            IntArgbPreToIntArgbConvert(pSrcBase, pDstBase,
+            IntArgbPreToIntArgbConvert(pSrcBbse, pDstBbse,
                                        srcWidth, srcHeight,
                                        &srcInfo, pDstInfo, NULL, NULL);
-            break;
-        case D3DFMT_X8R8G8B8:
+            brebk;
+        cbse D3DFMT_X8R8G8B8:
             srcInfo.pixelStride = 4;
-            IntRgbToIntArgbConvert(pSrcBase, pDstBase,
+            IntRgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                    srcWidth, srcHeight,
                                    &srcInfo, pDstInfo, NULL, NULL);
-            break;
-        case D3DFMT_X8B8G8R8:
+            brebk;
+        cbse D3DFMT_X8B8G8R8:
             srcInfo.pixelStride = 4;
-            IntBgrToIntArgbConvert(pSrcBase, pDstBase,
+            IntBgrToIntArgbConvert(pSrcBbse, pDstBbse,
                                    srcWidth, srcHeight,
                                    &srcInfo, pDstInfo, NULL, NULL);
-            break;
-        case D3DFMT_X1R5G5B5:
+            brebk;
+        cbse D3DFMT_X1R5G5B5:
             srcInfo.pixelStride = 2;
-            Ushort555RgbToIntArgbConvert(pSrcBase, pDstBase,
+            Ushort555RgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                          srcWidth, srcHeight,
                                          &srcInfo, pDstInfo, NULL, NULL);
-            break;
-        case D3DFMT_R5G6B5:
+            brebk;
+        cbse D3DFMT_R5G6B5:
             srcInfo.pixelStride = 2;
-            Ushort565RgbToIntArgbConvert(pSrcBase, pDstBase,
+            Ushort565RgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                          srcWidth, srcHeight,
                                          &srcInfo, pDstInfo, NULL, NULL);
-            break;
-        default:
-            J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                "D3DBL_CopySurfaceToIntArgbImage: unknown format %d",
-                desc.Format);
+            brebk;
+        defbult:
+            J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                "D3DBL_CopySurfbceToIntArgbImbge: unknown formbt %d",
+                desc.Formbt);
     }
 
-    return pSurface->UnlockRect();
+    return pSurfbce->UnlockRect();
 }
 
 D3DPIPELINE_API HRESULT
-D3DBL_CopyImageToIntXrgbSurface(SurfaceDataRasInfo *pSrcInfo,
+D3DBL_CopyImbgeToIntXrgbSurfbce(SurfbceDbtbRbsInfo *pSrcInfo,
                                 int srctype,
-                                D3DResource *pDstSurfaceRes,
+                                D3DResource *pDstSurfbceRes,
                                 jint srcx, jint srcy,
                                 jint srcWidth, jint srcHeight,
                                 jint dstx, jint dsty)
@@ -211,159 +211,159 @@ D3DBL_CopyImageToIntXrgbSurface(SurfaceDataRasInfo *pSrcInfo,
     D3DLOCKED_RECT lockedRect;
     RECT r = { dstx, dsty, dstx+srcWidth, dsty+srcHeight };
     RECT *pR = &r;
-    SurfaceDataRasInfo dstInfo;
-    IDirect3DSurface9 *pDstSurface = pDstSurfaceRes->GetSurface();
-    D3DSURFACE_DESC *pDesc = pDstSurfaceRes->GetDesc();
-    DWORD dwLockFlags = D3DLOCK_NOSYSLOCK;
+    SurfbceDbtbRbsInfo dstInfo;
+    IDirect3DSurfbce9 *pDstSurfbce = pDstSurfbceRes->GetSurfbce();
+    D3DSURFACE_DESC *pDesc = pDstSurfbceRes->GetDesc();
+    DWORD dwLockFlbgs = D3DLOCK_NOSYSLOCK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBL_CopyImageToIntXrgbSurface");
-    J2dTraceLn5(J2D_TRACE_VERBOSE,
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBL_CopyImbgeToIntXrgbSurfbce");
+    J2dTrbceLn5(J2D_TRACE_VERBOSE,
                 " srctype=%d rect={%-4d, %-4d, %-4d, %-4d}",
                 srctype, r.left, r.top, r.right, r.bottom);
 
-    if (pDesc->Usage == D3DUSAGE_DYNAMIC) {
-        // it is safe to lock with discard because we don't care about the
-        // contents of dynamic textures, and some drivers are happier if
-        // dynamic textures are always locked with DISCARD
-        dwLockFlags |= D3DLOCK_DISCARD;
+    if (pDesc->Usbge == D3DUSAGE_DYNAMIC) {
+        // it is sbfe to lock with discbrd becbuse we don't cbre bbout the
+        // contents of dynbmic textures, bnd some drivers bre hbppier if
+        // dynbmic textures bre blwbys locked with DISCARD
+        dwLockFlbgs |= D3DLOCK_DISCARD;
         pR = NULL;
     } else {
-        // in non-DYNAMIC case we lock the exact rect so there's no need to
-        // offset the destination pointer
+        // in non-DYNAMIC cbse we lock the exbct rect so there's no need to
+        // offset the destinbtion pointer
         dstx = 0;
         dsty = 0;
     }
 
-    res = pDstSurface->LockRect(&lockedRect, pR, dwLockFlags);
+    res = pDstSurfbce->LockRect(&lockedRect, pR, dwLockFlbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    ZeroMemory(&dstInfo, sizeof(SurfaceDataRasInfo));
+    ZeroMemory(&dstInfo, sizeof(SurfbceDbtbRbsInfo));
     // dstInfo.bounds.x1 = 0;
     // dstInfo.bounds.y1 = 0;
     dstInfo.bounds.x2 = srcWidth;
     dstInfo.bounds.y2 = srcHeight;
-    dstInfo.scanStride = lockedRect.Pitch;
+    dstInfo.scbnStride = lockedRect.Pitch;
     dstInfo.pixelStride = 4;
 
-    void *pSrcBase = PtrCoord(pSrcInfo->rasBase,
+    void *pSrcBbse = PtrCoord(pSrcInfo->rbsBbse,
                               srcx, pSrcInfo->pixelStride,
-                              srcy, pSrcInfo->scanStride);
-    void *pDstBase = PtrCoord(lockedRect.pBits,
+                              srcy, pSrcInfo->scbnStride);
+    void *pDstBbse = PtrCoord(lockedRect.pBits,
                               dstx, dstInfo.pixelStride,
-                              dsty, dstInfo.scanStride);
+                              dsty, dstInfo.scbnStride);
 
     switch (srctype) {
-        case ST_INT_ARGB:
-            IntArgbToIntArgbPreConvert(pSrcBase, pDstBase,
+        cbse ST_INT_ARGB:
+            IntArgbToIntArgbPreConvert(pSrcBbse, pDstBbse,
                                        srcWidth, srcHeight,
                                        pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_INT_ARGB_PRE:
-            AnyIntIsomorphicCopy(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_INT_ARGB_PRE:
+            AnyIntIsomorphicCopy(pSrcBbse, pDstBbse,
                                  srcWidth, srcHeight,
                                  pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_INT_RGB:
-            IntRgbToIntArgbConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_INT_RGB:
+            IntRgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                    srcWidth, srcHeight,
                                    pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_INT_ARGB_BM:
-            // REMIND: we don't have such sw loop
-            // so this path is disabled for now on java level
-//            IntArgbBmToIntArgbPreConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_INT_ARGB_BM:
+            // REMIND: we don't hbve such sw loop
+            // so this pbth is disbbled for now on jbvb level
+//            IntArgbBmToIntArgbPreConvert(pSrcBbse, pDstBbse,
 //                                         srcWidth, srcHeight,
 //                                         pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_INT_BGR:
-            IntBgrToIntArgbConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_INT_BGR:
+            IntBgrToIntArgbConvert(pSrcBbse, pDstBbse,
                                    srcWidth, srcHeight,
                                    pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_3BYTE_BGR:
-            ThreeByteBgrToIntArgbConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_3BYTE_BGR:
+            ThreeByteBgrToIntArgbConvert(pSrcBbse, pDstBbse,
                                          srcWidth, srcHeight,
                                          pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_USHORT_555_RGB:
-            Ushort555RgbToIntArgbConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_USHORT_555_RGB:
+            Ushort555RgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                          srcWidth, srcHeight,
                                          pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_USHORT_565_RGB:
-            Ushort565RgbToIntArgbConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_USHORT_565_RGB:
+            Ushort565RgbToIntArgbConvert(pSrcBbse, pDstBbse,
                                          srcWidth, srcHeight,
                                          pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_BYTE_INDEXED:
-            ByteIndexedToIntArgbPreConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_BYTE_INDEXED:
+            ByteIndexedToIntArgbPreConvert(pSrcBbse, pDstBbse,
                                            srcWidth, srcHeight,
                                            pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        case ST_BYTE_INDEXED_BM:
-            // REMIND: we don't have such sw loop
-            // so this path is disabled for now on java level
-//            ByteIndexedBmToIntArgbPreConvert(pSrcBase, pDstBase,
+            brebk;
+        cbse ST_BYTE_INDEXED_BM:
+            // REMIND: we don't hbve such sw loop
+            // so this pbth is disbbled for now on jbvb level
+//            ByteIndexedBmToIntArgbPreConvert(pSrcBbse, pDstBbse,
 //                                             srcWidth, srcHeight,
 //                                             pSrcInfo, &dstInfo, NULL, NULL);
-            break;
-        default:
-            J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                           "D3DBL_CopyImageToIntXrgbSurface: unknown type %d",
+            brebk;
+        defbult:
+            J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                           "D3DBL_CopyImbgeToIntXrgbSurfbce: unknown type %d",
                            srctype);
     }
 
-    return pDstSurface->UnlockRect();
+    return pDstSurfbce->UnlockRect();
 }
 
 /**
- * Inner loop used for copying a source "render-to" D3D "Surface" to a
- * destination D3D "Surface".  Note that the same surface can
- * not be used as both the source and destination, as is the case in a copyArea()
- * operation.  This method is invoked from D3DBlitLoops_IsoBlit().
+ * Inner loop used for copying b source "render-to" D3D "Surfbce" to b
+ * destinbtion D3D "Surfbce".  Note thbt the sbme surfbce cbn
+ * not be used bs both the source bnd destinbtion, bs is the cbse in b copyAreb()
+ * operbtion.  This method is invoked from D3DBlitLoops_IsoBlit().
  *
- * The standard StretchRect() mechanism is used to copy the source region
- * into the destination region.  If the regions have different dimensions,
- * the source will be scaled into the destination as appropriate (only
- * nearest neighbor filtering will be applied for simple scale operations).
+ * The stbndbrd StretchRect() mechbnism is used to copy the source region
+ * into the destinbtion region.  If the regions hbve different dimensions,
+ * the source will be scbled into the destinbtion bs bppropribte (only
+ * nebrest neighbor filtering will be bpplied for simple scble operbtions).
  */
 HRESULT
-D3DBlitSurfaceToSurface(D3DContext *d3dc, D3DSDOps *srcOps, D3DSDOps *dstOps,
+D3DBlitSurfbceToSurfbce(D3DContext *d3dc, D3DSDOps *srcOps, D3DSDOps *dstOps,
                         D3DTEXTUREFILTERTYPE hint,
                         jint sx1, jint sy1, jint sx2, jint sy2,
                         jint dx1, jint dy1, jint dx2, jint dy2)
 {
-    IDirect3DSurface9 *pSrc, *pDst;
+    IDirect3DSurfbce9 *pSrc, *pDst;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitSurfaceToSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitSurfbceToSurfbce");
 
     RETURN_STATUS_IF_NULL(srcOps->pResource, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps->pResource, E_FAIL);
-    RETURN_STATUS_IF_NULL(pSrc = srcOps->pResource->GetSurface(), E_FAIL);
-    RETURN_STATUS_IF_NULL(pDst = dstOps->pResource->GetSurface(), E_FAIL);
+    RETURN_STATUS_IF_NULL(pSrc = srcOps->pResource->GetSurfbce(), E_FAIL);
+    RETURN_STATUS_IF_NULL(pDst = dstOps->pResource->GetSurfbce(), E_FAIL);
 
-    d3dc->UpdateState(STATE_OTHEROP);
+    d3dc->UpdbteStbte(STATE_OTHEROP);
     IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
 
-    // need to clip the destination bounds,
-    // otherwise StretchRect could fail
+    // need to clip the destinbtion bounds,
+    // otherwise StretchRect could fbil
     jint sw    = sx2 - sx1;
     jint sh    = sy2 - sy1;
     jdouble dw = dx2 - dx1;
     jdouble dh = dy2 - dy1;
 
-    SurfaceDataBounds dstBounds;
+    SurfbceDbtbBounds dstBounds;
     dstBounds.x1 = dx1;
     dstBounds.y1 = dy1;
     dstBounds.x2 = dx2;
     dstBounds.y2 = dy2;
-    SurfaceData_IntersectBoundsXYXY(&dstBounds, 0, 0,
+    SurfbceDbtb_IntersectBoundsXYXY(&dstBounds, 0, 0,
                                     dstOps->width, dstOps->height);
     if (d3dc->GetClipType() == CLIP_RECT) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  rect clip, clip dest manually");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  rect clip, clip dest mbnublly");
         RECT clipRect;
         pd3dDevice->GetScissorRect(&clipRect);
-        SurfaceData_IntersectBoundsXYXY(&dstBounds,
+        SurfbceDbtb_IntersectBoundsXYXY(&dstBounds,
                                         clipRect.left, clipRect.top,
                                         clipRect.right, clipRect.bottom);
     }
@@ -381,7 +381,7 @@ D3DBlitSurfaceToSurface(D3DContext *d3dc, D3DSDOps *srcOps, D3DSDOps *dstOps,
         sy2 += (int)((dstBounds.y2 - dy2) * (sh / dh));
     }
 
-    // check if the rects are empty (StretchRect will fail if so)
+    // check if the rects bre empty (StretchRect will fbil if so)
     if (dstBounds.x1 >= dstBounds.x2 || dstBounds.y1 >= dstBounds.y2 ||
         sx1 >= sx2 || sy1 >= sy2)
     {
@@ -395,16 +395,16 @@ D3DBlitSurfaceToSurface(D3DContext *d3dc, D3DSDOps *srcOps, D3DSDOps *dstOps,
 }
 
 /**
- * A convenience method for issuing DrawTexture calls depending on the
- * hint. See detailed explanation below.
+ * A convenience method for issuing DrbwTexture cblls depending on the
+ * hint. See detbiled explbnbtion below.
  */
-static inline HRESULT
-D3DDrawTextureWithHint(D3DContext *d3dc, D3DTEXTUREFILTERTYPE hint,
+stbtic inline HRESULT
+D3DDrbwTextureWithHint(D3DContext *d3dc, D3DTEXTUREFILTERTYPE hint,
                        jint srcWidth, jint srcHeight,
-                       float tw, float th,
+                       flobt tw, flobt th,
                        jint sx1, jint sy1, jint sx2, jint sy2,
-                       float dx1, float dy1, float dx2, float dy2,
-                       float tx1, float ty1, float tx2, float ty2)
+                       flobt dx1, flobt dy1, flobt dx2, flobt dy2,
+                       flobt tx1, flobt ty1, flobt tx2, flobt ty2)
 {
     HRESULT res;
 
@@ -413,97 +413,97 @@ D3DDrawTextureWithHint(D3DContext *d3dc, D3DTEXTUREFILTERTYPE hint,
          srcWidth != sx2 || srcHeight != sy2 ))
     {
         /*
-         * When the image bounds are smaller than the bounds of the
-         * texture that the image resides in, D3DTEXF_LINEAR will use pixels
-         * from outside the valid image bounds, which could result in garbage
-         * pixels showing up at the edges of the transformed result.  We set
-         * the texture wrap mode to D3DTADDRESS_CLAMP, which solves the problem
-         * for the top and left edges.  But when the source bounds do not
-         * match the texture bounds, we need to perform this as a four-part
-         * operation in order to prevent the filter used by D3D from using
-         * invalid pixels at the bottom and right edges.
+         * When the imbge bounds bre smbller thbn the bounds of the
+         * texture thbt the imbge resides in, D3DTEXF_LINEAR will use pixels
+         * from outside the vblid imbge bounds, which could result in gbrbbge
+         * pixels showing up bt the edges of the trbnsformed result.  We set
+         * the texture wrbp mode to D3DTADDRESS_CLAMP, which solves the problem
+         * for the top bnd left edges.  But when the source bounds do not
+         * mbtch the texture bounds, we need to perform this bs b four-pbrt
+         * operbtion in order to prevent the filter used by D3D from using
+         * invblid pixels bt the bottom bnd right edges.
          *
-         * Note that we only need to apply this technique when the source
-         * bounds are equal to the actual image bounds.  If the source bounds
-         * fall within the image bounds there is no need to apply this hack
-         * because the filter used by D3D will access valid pixels.
-         * Likewise, if the image bounds are equal to the texture bounds,
-         * then the edge conditions are handled properly by D3DTADDRESS_CLAMP.
+         * Note thbt we only need to bpply this technique when the source
+         * bounds bre equbl to the bctubl imbge bounds.  If the source bounds
+         * fbll within the imbge bounds there is no need to bpply this hbck
+         * becbuse the filter used by D3D will bccess vblid pixels.
+         * Likewise, if the imbge bounds bre equbl to the texture bounds,
+         * then the edge conditions bre hbndled properly by D3DTADDRESS_CLAMP.
          */
 
-        // These values represent the bottom-right corner of source texture
-        // region pulled in by 1/2 of a source texel.
-        float tx2adj = tx2 - (1.0f / (2.0f * tw));
-        float ty2adj = ty2 - (1.0f / (2.0f * th));
+        // These vblues represent the bottom-right corner of source texture
+        // region pulled in by 1/2 of b source texel.
+        flobt tx2bdj = tx2 - (1.0f / (2.0f * tw));
+        flobt ty2bdj = ty2 - (1.0f / (2.0f * th));
 
-        // These values represent the above coordinates pulled in by a
-        // tiny fraction.  As an example, if we sample the tiny area from
-        // tx2adj2 to tx2adj, the result should be the solid color at the
-        // texel center corresponding to tx2adj.
-        float tx2adj2 = tx2adj - 0.0001f;
-        float ty2adj2 = ty2adj - 0.0001f;
+        // These vblues represent the bbove coordinbtes pulled in by b
+        // tiny frbction.  As bn exbmple, if we sbmple the tiny breb from
+        // tx2bdj2 to tx2bdj, the result should be the solid color bt the
+        // texel center corresponding to tx2bdj.
+        flobt tx2bdj2 = tx2bdj - 0.0001f;
+        flobt ty2bdj2 = ty2bdj - 0.0001f;
 
-        // These values represent the bottom-right corner of the destination
-        // region pulled in by 1/2 of a destination pixel.
-        float dx2adj = dx2 - 0.5f;
-        float dy2adj = dy2 - 0.5f;
+        // These vblues represent the bottom-right corner of the destinbtion
+        // region pulled in by 1/2 of b destinbtion pixel.
+        flobt dx2bdj = dx2 - 0.5f;
+        flobt dy2bdj = dy2 - 0.5f;
 
-        // First, render a majority of the source texture, from the top-left
+        // First, render b mbjority of the source texture, from the top-left
         // corner to the bottom-right, but not including the right or bottom
         // edges.
-        d3dc->pVCacher->DrawTexture(dx1, dy1, dx2adj, dy2adj,
-                                    tx1, ty1, tx2adj, ty2adj);
+        d3dc->pVCbcher->DrbwTexture(dx1, dy1, dx2bdj, dy2bdj,
+                                    tx1, ty1, tx2bdj, ty2bdj);
 
-        // Second, render the remaining sliver on the right edge.
-        d3dc->pVCacher->DrawTexture(dx2adj, dy1, dx2, dy2adj,
-                                    tx2adj2, ty1, tx2adj, ty2adj);
+        // Second, render the rembining sliver on the right edge.
+        d3dc->pVCbcher->DrbwTexture(dx2bdj, dy1, dx2, dy2bdj,
+                                    tx2bdj2, ty1, tx2bdj, ty2bdj);
 
-        // Third, render the remaining sliver on the bottom edge.
-        d3dc->pVCacher->DrawTexture(dx1, dy2adj, dx2adj, dy2,
-                                    tx1, ty2adj2, tx2adj, ty2adj);
+        // Third, render the rembining sliver on the bottom edge.
+        d3dc->pVCbcher->DrbwTexture(dx1, dy2bdj, dx2bdj, dy2,
+                                    tx1, ty2bdj2, tx2bdj, ty2bdj);
 
-        // Finally, render the remaining speck at the bottom-right corner.
-        res = d3dc->pVCacher->DrawTexture(dx2adj, dy2adj, dx2, dy2,
-                                          tx2adj2, ty2adj2, tx2adj, ty2adj);
+        // Finblly, render the rembining speck bt the bottom-right corner.
+        res = d3dc->pVCbcher->DrbwTexture(dx2bdj, dy2bdj, dx2, dy2,
+                                          tx2bdj2, ty2bdj2, tx2bdj, ty2bdj);
     } else {
         /*
-         * As mentioned above, we can issue a simple textured quad if:
+         * As mentioned bbove, we cbn issue b simple textured qubd if:
          *   - the hint is D3DTEXF_POINT or
-         *   - the source bounds are sufficiently inside the texture bounds or
-         *   - the image bounds are equal to the texture bounds (as is the
-         *     case when the image has power-of-two dimensions, or when the
+         *   - the source bounds bre sufficiently inside the texture bounds or
+         *   - the imbge bounds bre equbl to the texture bounds (bs is the
+         *     cbse when the imbge hbs power-of-two dimensions, or when the
          *     device supports non-pow2 textures)
          */
-        res =  d3dc->pVCacher->DrawTexture(dx1, dy1, dx2, dy2,
+        res =  d3dc->pVCbcher->DrbwTexture(dx1, dy1, dx2, dy2,
                                            tx1, ty1, tx2, ty2);
     }
     return res;
 }
 
 /**
- * Inner loop used for copying a source D3D "Texture" to a destination
- * D3D "Surface".  This method is invoked from D3DBlitLoops_IsoBlit().
+ * Inner loop used for copying b source D3D "Texture" to b destinbtion
+ * D3D "Surfbce".  This method is invoked from D3DBlitLoops_IsoBlit().
  *
- * This method will copy, scale, or transform the source texture into the
- * destination depending on the transform state, as established in
- * and D3DContext::SetTransform().  If the source texture is
- * transformed in any way when rendered into the destination, the filtering
- * method applied is determined by the hint parameter.
+ * This method will copy, scble, or trbnsform the source texture into the
+ * destinbtion depending on the trbnsform stbte, bs estbblished in
+ * bnd D3DContext::SetTrbnsform().  If the source texture is
+ * trbnsformed in bny wby when rendered into the destinbtion, the filtering
+ * method bpplied is determined by the hint pbrbmeter.
  */
-static HRESULT
-D3DBlitTextureToSurface(D3DContext *d3dc,
+stbtic HRESULT
+D3DBlitTextureToSurfbce(D3DContext *d3dc,
                         D3DSDOps *srcOps, D3DSDOps *dstOps,
-                        jboolean rtt, D3DTEXTUREFILTERTYPE hint,
+                        jboolebn rtt, D3DTEXTUREFILTERTYPE hint,
                         jint sx1, jint sy1, jint sx2, jint sy2,
-                        float dx1, float dy1, float dx2, float dy2)
+                        flobt dx1, flobt dy1, flobt dx2, flobt dy2)
 {
     HRESULT res;
     IDirect3DTexture9 *pSrc;
     IDirect3DDevice9 *pd3dDevice;
-    float tx1, ty1, tx2, ty2;
-    float tw, th;
+    flobt tx1, ty1, tx2, ty2;
+    flobt tw, th;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitTextureToSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitTextureToSurfbce");
 
     RETURN_STATUS_IF_NULL(srcOps->pResource, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps->pResource, E_FAIL);
@@ -512,27 +512,27 @@ D3DBlitTextureToSurface(D3DContext *d3dc,
         FAILED(res = d3dc->BeginScene(STATE_TEXTUREOP)   ||
         FAILED(res = d3dc->SetTexture(pSrc))))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "D3DBlitTextureToSurface: BeginScene or SetTexture failed");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "D3DBlitTextureToSurfbce: BeginScene or SetTexture fbiled");
         return res;
     }
 
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, hint);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, hint);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MAGFILTER, hint);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MINFILTER, hint);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-    tw = (float)srcOps->pResource->GetDesc()->Width;
-    th = (float)srcOps->pResource->GetDesc()->Height;
+    tw = (flobt)srcOps->pResource->GetDesc()->Width;
+    th = (flobt)srcOps->pResource->GetDesc()->Height;
 
-    // convert the source bounds into the range [0,1]
-    tx1 = ((float)sx1) / tw;
-    ty1 = ((float)sy1) / th;
-    tx2 = ((float)sx2) / tw;
-    ty2 = ((float)sy2) / th;
+    // convert the source bounds into the rbnge [0,1]
+    tx1 = ((flobt)sx1) / tw;
+    ty1 = ((flobt)sy1) / th;
+    tx2 = ((flobt)sx2) / tw;
+    ty2 = ((flobt)sy2) / th;
 
-    return D3DDrawTextureWithHint(d3dc, hint,
+    return D3DDrbwTextureWithHint(d3dc, hint,
                                   srcOps->width, srcOps->height,
                                   tw, th,
                                   sx1, sy1, sx2, sy2,
@@ -541,25 +541,25 @@ D3DBlitTextureToSurface(D3DContext *d3dc,
 }
 
 /**
- * Inner loop used for copying a source system memory ("Sw") surface or
- * D3D "Surface" to a destination D3D "Surface", using an D3D texture
- * tile as an intermediate surface.  This method is invoked from
- * D3DBlitLoops_Blit() for "Sw" surfaces and D3DBlitLoops_IsoBlit() for
- * "Surface" surfaces.
+ * Inner loop used for copying b source system memory ("Sw") surfbce or
+ * D3D "Surfbce" to b destinbtion D3D "Surfbce", using bn D3D texture
+ * tile bs bn intermedibte surfbce.  This method is invoked from
+ * D3DBlitLoops_Blit() for "Sw" surfbces bnd D3DBlitLoops_IsoBlit() for
+ * "Surfbce" surfbces.
  *
- * This method is used to transform the source surface into the destination.
- * Pixel rectangles cannot be arbitrarily transformed.  However, texture
- * mapped quads do respect the modelview transform matrix, so we use
- * textures here to perform the transform operation.  This method uses a
- * tile-based approach in which a small subregion of the source surface is
- * copied into a cached texture tile.  The texture tile is then mapped
- * into the appropriate location in the destination surface.
+ * This method is used to trbnsform the source surfbce into the destinbtion.
+ * Pixel rectbngles cbnnot be brbitrbrily trbnsformed.  However, texture
+ * mbpped qubds do respect the modelview trbnsform mbtrix, so we use
+ * textures here to perform the trbnsform operbtion.  This method uses b
+ * tile-bbsed bpprobch in which b smbll subregion of the source surfbce is
+ * copied into b cbched texture tile.  The texture tile is then mbpped
+ * into the bppropribte locbtion in the destinbtion surfbce.
  *
  */
 D3DPIPELINE_API HRESULT
-D3DBlitToSurfaceViaTexture(D3DContext *d3dc, SurfaceDataRasInfo *srcInfo,
+D3DBlitToSurfbceVibTexture(D3DContext *d3dc, SurfbceDbtbRbsInfo *srcInfo,
                            int srctype, D3DSDOps *srcOps,
-                           jboolean swsurface, jint hint,
+                           jboolebn swsurfbce, jint hint,
                            jint sx1, jint sy1, jint sx2, jint sy2,
                            jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
 {
@@ -570,28 +570,28 @@ D3DBlitToSurfaceViaTexture(D3DContext *d3dc, SurfaceDataRasInfo *srcInfo,
     HRESULT res = S_OK;
     D3DResource *pBlitTextureRes = NULL;
     IDirect3DTexture9 *pBlitTexture = NULL;
-    IDirect3DSurface9 *pBlitSurface = NULL, *pSrc = NULL;
+    IDirect3DSurfbce9 *pBlitSurfbce = NULL, *pSrc = NULL;
     D3DTEXTUREFILTERTYPE fhint =
             (hint == D3DSD_XFORM_BILINEAR) ? D3DTEXF_LINEAR : D3DTEXF_POINT;
     fhint = d3dc->IsTextureFilteringSupported(fhint) ? fhint : D3DTEXF_NONE;
 
-    if (swsurface) {
-        res = d3dc->GetResourceManager()->GetBlitTexture(&pBlitTextureRes);
+    if (swsurfbce) {
+        res = d3dc->GetResourceMbnbger()->GetBlitTexture(&pBlitTextureRes);
     } else {
         RETURN_STATUS_IF_NULL(srcOps->pResource, E_FAIL);
-        RETURN_STATUS_IF_NULL(pSrc = srcOps->pResource->GetSurface(), E_FAIL);
+        RETURN_STATUS_IF_NULL(pSrc = srcOps->pResource->GetSurfbce(), E_FAIL);
 
-        res = d3dc->GetResourceManager()->
+        res = d3dc->GetResourceMbnbger()->
                 GetBlitRTTexture(D3DC_BLIT_TILE_SIZE, D3DC_BLIT_TILE_SIZE,
-                                 srcOps->pResource->GetDesc()->Format,
+                                 srcOps->pResource->GetDesc()->Formbt,
                                  &pBlitTextureRes);
     }
     if (FAILED(res)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DBlitToSurfaceViaTexture: could not init blit tile");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DBlitToSurfbceVibTexture: could not init blit tile");
         return res;
     }
-    pBlitSurface = pBlitTextureRes->GetSurface();
+    pBlitSurfbce = pBlitTextureRes->GetSurfbce();
     pBlitTexture = pBlitTextureRes->GetTexture();
 
     D3DSURFACE_DESC *pDesc = pBlitTextureRes->GetDesc();
@@ -609,10 +609,10 @@ D3DBlitToSurfaceViaTexture(D3DContext *d3dc, SurfaceDataRasInfo *srcInfo,
     RETURN_STATUS_IF_FAILED(res);
 
     IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, fhint);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, fhint);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MAGFILTER, fhint);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MINFILTER, fhint);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
     for (sy = sy1, dy = dy1; sy < sy2; sy += th, dy += cdh) {
         sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
@@ -625,8 +625,8 @@ D3DBlitToSurfaceViaTexture(D3DContext *d3dc, SurfaceDataRasInfo *srcInfo,
             tx2 = ((double)sw) / tw;
             ty2 = ((double)sh) / th;
 
-            if (swsurface) {
-                D3DBL_CopyImageToIntXrgbSurface(srcInfo,
+            if (swsurfbce) {
+                D3DBL_CopyImbgeToIntXrgbSurfbce(srcInfo,
                         srctype, pBlitTextureRes,
                         sx, sy, sw, sh,
                         0, 0);
@@ -635,77 +635,77 @@ D3DBlitToSurfaceViaTexture(D3DContext *d3dc, SurfaceDataRasInfo *srcInfo,
                                  (LONG)(sx+dw), (LONG)(sy+dh) };
                 RECT dstRect = { 0l, 0l, (LONG)dw, (LONG)dh };
                 pd3dDevice->StretchRect(pSrc,
-                                        &srcRect, pBlitSurface, &dstRect,
+                                        &srcRect, pBlitSurfbce, &dstRect,
                                         D3DTEXF_NONE);
             }
-            D3DDrawTextureWithHint(d3dc, fhint,
+            D3DDrbwTextureWithHint(d3dc, fhint,
                    tw, th,
-                   (float)tw, (float)th,
+                   (flobt)tw, (flobt)th,
                    sx, sy, sw, sh,
-                   (float)dx, (float)dy, (float)(dx+dw), (float)(dy+dh),
-                   (float)tx1, (float)ty1, (float)tx2, (float)ty2);
-            res = d3dc->pVCacher->Render();
+                   (flobt)dx, (flobt)dy, (flobt)(dx+dw), (flobt)(dy+dh),
+                   (flobt)tx1, (flobt)ty1, (flobt)tx2, (flobt)ty2);
+            res = d3dc->pVCbcher->Render();
         }
     }
     return res;
 }
 
 /**
- * Inner loop used for copying a source system memory ("Sw") surface to a
- * destination D3D "Texture".  This method is invoked from
+ * Inner loop used for copying b source system memory ("Sw") surfbce to b
+ * destinbtion D3D "Texture".  This method is invoked from
  * D3DBlitLoops_Blit().
  *
- * The source surface is effectively loaded into the D3D texture object,
- * which must have already been initialized by D3DSD_initTexture().  Note
- * that this method is only capable of copying the source surface into the
- * destination surface (i.e. no scaling or general transform is allowed).
- * This restriction should not be an issue as this method is only used
- * currently to cache a static system memory image into an D3D texture in
- * a hidden-acceleration situation.
+ * The source surfbce is effectively lobded into the D3D texture object,
+ * which must hbve blrebdy been initiblized by D3DSD_initTexture().  Note
+ * thbt this method is only cbpbble of copying the source surfbce into the
+ * destinbtion surfbce (i.e. no scbling or generbl trbnsform is bllowed).
+ * This restriction should not be bn issue bs this method is only used
+ * currently to cbche b stbtic system memory imbge into bn D3D texture in
+ * b hidden-bccelerbtion situbtion.
  */
-static HRESULT
+stbtic HRESULT
 D3DBlitSwToTexture(D3DContext *d3dc,
-                   SurfaceDataRasInfo *srcInfo, int srctype,
+                   SurfbceDbtbRbsInfo *srcInfo, int srctype,
                    D3DSDOps *dstOps,
                    jint sx1, jint sy1, jint sx2, jint sy2)
 {
     RETURN_STATUS_IF_NULL(dstOps->pResource, E_FAIL);
-    RETURN_STATUS_IF_NULL(dstOps->pResource->GetSurface(), E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps->pResource->GetSurfbce(), E_FAIL);
 
-    return D3DBL_CopyImageToIntXrgbSurface(srcInfo, srctype,
+    return D3DBL_CopyImbgeToIntXrgbSurfbce(srcInfo, srctype,
                                            dstOps->pResource,
                                            sx1, sy1, sx2-sx1, sy2-sy1,
                                            0, 0);
 }
 
 /**
- * General blit method for copying a native D3D surface (of type "Surface"
- * or "Texture") to another D3D "Surface".  If texture is JNI_TRUE, this
- * method will invoke the Texture->Surface inner loop; otherwise, one of the
- * Surface->Surface inner loops will be invoked, depending on the transform
- * state.
+ * Generbl blit method for copying b nbtive D3D surfbce (of type "Surfbce"
+ * or "Texture") to bnother D3D "Surfbce".  If texture is JNI_TRUE, this
+ * method will invoke the Texture->Surfbce inner loop; otherwise, one of the
+ * Surfbce->Surfbce inner loops will be invoked, depending on the trbnsform
+ * stbte.
  */
 D3DPIPELINE_API HRESULT
 D3DBlitLoops_IsoBlit(JNIEnv *env,
                      D3DContext *d3dc, jlong pSrcOps, jlong pDstOps,
-                     jboolean xform, jint hint,
-                     jboolean texture, jboolean rtt,
+                     jboolebn xform, jint hint,
+                     jboolebn texture, jboolebn rtt,
                      jint sx1, jint sy1, jint sx2, jint sy2,
                      jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
 {
     D3DSDOps *srcOps = (D3DSDOps *)jlong_to_ptr(pSrcOps);
     D3DSDOps *dstOps = (D3DSDOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo;
+    SurfbceDbtbRbsInfo srcInfo;
     jint sw    = sx2 - sx1;
     jint sh    = sy2 - sy1;
     jdouble dw = dx2 - dx1;
     jdouble dh = dy2 - dy1;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitLoops_IsoBlit");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitLoops_IsoBlit");
 
     if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DBlitLoops_IsoBlit: invalid dimensions");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_IsoBlit: invblid dimensions");
         return E_FAIL;
     }
 
@@ -719,7 +719,7 @@ D3DBlitLoops_IsoBlit(JNIEnv *env,
     srcInfo.bounds.x2 = sx2;
     srcInfo.bounds.y2 = sy2;
 
-    SurfaceData_IntersectBoundsXYXY(&srcInfo.bounds,
+    SurfbceDbtb_IntersectBoundsXYXY(&srcInfo.bounds,
                                     0, 0, srcOps->width, srcOps->height);
 
 
@@ -744,10 +744,10 @@ D3DBlitLoops_IsoBlit(JNIEnv *env,
             sy2 = srcInfo.bounds.y2;
         }
 
-        J2dTraceLn2(J2D_TRACE_VERBOSE, "  texture=%d hint=%d", texture, hint);
-        J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+        J2dTrbceLn2(J2D_TRACE_VERBOSE, "  texture=%d hint=%d", texture, hint);
+        J2dTrbceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
                     sx1, sy1, sx2, sy2);
-        J2dTraceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+        J2dTrbceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
                     dx1, dy1, dx2, dy2);
 
         D3DTEXTUREFILTERTYPE fhint =
@@ -755,29 +755,29 @@ D3DBlitLoops_IsoBlit(JNIEnv *env,
         if (texture) {
             fhint = d3dc->IsTextureFilteringSupported(fhint) ?
                 fhint : D3DTEXF_NONE;
-            res = D3DBlitTextureToSurface(d3dc, srcOps, dstOps, rtt, fhint,
+            res = D3DBlitTextureToSurfbce(d3dc, srcOps, dstOps, rtt, fhint,
                                           sx1, sy1, sx2, sy2,
-                                          (float)dx1, (float)dy1,
-                                          (float)dx2, (float)dy2);
+                                          (flobt)dx1, (flobt)dy1,
+                                          (flobt)dx2, (flobt)dy2);
         } else {
             // StretchRect does not do compositing or clipping
             IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
-            DWORD abEnabled = 0;
+            DWORD bbEnbbled = 0;
 
-            pd3dDevice->GetRenderState(D3DRS_ALPHABLENDENABLE, &abEnabled);
-            J2dTraceLn3(J2D_TRACE_VERBOSE, "  xform=%d clip=%d abEnabled=%d",
-                        xform, d3dc->GetClipType(), abEnabled);
-            if (!xform && d3dc->GetClipType() != CLIP_SHAPE && !abEnabled) {
+            pd3dDevice->GetRenderStbte(D3DRS_ALPHABLENDENABLE, &bbEnbbled);
+            J2dTrbceLn3(J2D_TRACE_VERBOSE, "  xform=%d clip=%d bbEnbbled=%d",
+                        xform, d3dc->GetClipType(), bbEnbbled);
+            if (!xform && d3dc->GetClipType() != CLIP_SHAPE && !bbEnbbled) {
                 fhint = d3dc->IsStretchRectFilteringSupported(fhint) ?
                     fhint : D3DTEXF_NONE;
 
-                res = D3DBlitSurfaceToSurface(d3dc, srcOps, dstOps, fhint,
+                res = D3DBlitSurfbceToSurfbce(d3dc, srcOps, dstOps, fhint,
                                               sx1, sy1, sx2, sy2,
                                               (int)dx1, (int)dy1,
                                                (int)dx2, (int)dy2);
             } else {
-                res = D3DBlitToSurfaceViaTexture(d3dc, &srcInfo,
-                                                 // surface type is unused here
+                res = D3DBlitToSurfbceVibTexture(d3dc, &srcInfo,
+                                                 // surfbce type is unused here
                                                  ST_INT_ARGB_PRE,
                                                  srcOps,
                                                  JNI_FALSE, hint,
@@ -790,34 +790,34 @@ D3DBlitLoops_IsoBlit(JNIEnv *env,
 }
 
 /**
- * General blit method for copying a system memory ("Sw") surface to a native
- * D3D surface (of type "Surface" or "Texture").  If texture is JNI_TRUE,
+ * Generbl blit method for copying b system memory ("Sw") surfbce to b nbtive
+ * D3D surfbce (of type "Surfbce" or "Texture").  If texture is JNI_TRUE,
  * this method will invoke the Sw->Texture inner loop; otherwise, one of the
- * Sw->Surface inner loops will be invoked, depending on the transform state.
+ * Sw->Surfbce inner loops will be invoked, depending on the trbnsform stbte.
  */
 HRESULT
 D3DBlitLoops_Blit(JNIEnv *env,
                   D3DContext *d3dc, jlong pSrcOps, jlong pDstOps,
-                  jboolean xform, jint hint,
-                  jint srctype, jboolean texture,
+                  jboolebn xform, jint hint,
+                  jint srctype, jboolebn texture,
                   jint sx1, jint sy1, jint sx2, jint sy2,
                   jdouble dx1, jdouble dy1, jdouble dx2, jdouble dy2)
 {
-    SurfaceDataOps *srcOps = (SurfaceDataOps *)jlong_to_ptr(pSrcOps);
+    SurfbceDbtbOps *srcOps = (SurfbceDbtbOps *)jlong_to_ptr(pSrcOps);
     D3DSDOps *dstOps = (D3DSDOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo;
+    SurfbceDbtbRbsInfo srcInfo;
     HRESULT res = S_OK;
     jint sw    = sx2 - sx1;
     jint sh    = sy2 - sy1;
     jdouble dw = dx2 - dx1;
     jdouble dh = dy2 - dy1;
-    jint lockFlags = SD_LOCK_READ;
+    jint lockFlbgs = SD_LOCK_READ;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitLoops_Blit");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitLoops_Blit");
 
     if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0 || srctype < 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DBlitLoops_Blit: invalid dimensions or srctype");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_Blit: invblid dimensions or srctype");
         return E_FAIL;
     }
 
@@ -832,19 +832,19 @@ D3DBlitLoops_Blit(JNIEnv *env,
     srcInfo.bounds.y2 = sy2;
 
     if (srctype == ST_BYTE_INDEXED || srctype == ST_BYTE_INDEXED_BM) {
-        lockFlags |= SD_LOCK_LUT;
+        lockFlbgs |= SD_LOCK_LUT;
     }
-    if (srcOps->Lock(env, srcOps, &srcInfo, lockFlags) != SD_SUCCESS) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DBlitLoops_Blit: could not acquire lock");
+    if (srcOps->Lock(env, srcOps, &srcInfo, lockFlbgs) != SD_SUCCESS) {
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_Blit: could not bcquire lock");
         return E_FAIL;
     }
 
     if (srcInfo.bounds.x2 > srcInfo.bounds.x1 &&
         srcInfo.bounds.y2 > srcInfo.bounds.y1)
     {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        if (srcInfo.rasBase) {
+        srcOps->GetRbsInfo(env, srcOps, &srcInfo);
+        if (srcInfo.rbsBbse) {
             if (srcInfo.bounds.x1 != sx1) {
                 dx1 += (srcInfo.bounds.x1 - sx1) * (dw / sw);
                 sx1 = srcInfo.bounds.x1;
@@ -862,53 +862,53 @@ D3DBlitLoops_Blit(JNIEnv *env,
                 sy2 = srcInfo.bounds.y2;
             }
 
-            J2dTraceLn3(J2D_TRACE_VERBOSE, "  texture=%d srctype=%d hint=%d",
+            J2dTrbceLn3(J2D_TRACE_VERBOSE, "  texture=%d srctype=%d hint=%d",
                         texture, srctype, hint);
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+            J2dTrbceLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
                         sx1, sy1, sx2, sy2);
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+            J2dTrbceLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
                         dx1, dy1, dx2, dy2);
 
             if (texture) {
-                // These coordinates will always be integers since we
-                // only ever do a straight copy from sw to texture.
-                // Thus these casts are "safe" - no loss of precision.
+                // These coordinbtes will blwbys be integers since we
+                // only ever do b strbight copy from sw to texture.
+                // Thus these cbsts bre "sbfe" - no loss of precision.
                 res = D3DBlitSwToTexture(d3dc, &srcInfo, srctype, dstOps,
                                         (jint)dx1, (jint)dy1,
                                         (jint)dx2, (jint)dy2);
             } else {
-                res = D3DBlitToSurfaceViaTexture(d3dc, &srcInfo, srctype, NULL,
+                res = D3DBlitToSurfbceVibTexture(d3dc, &srcInfo, srctype, NULL,
                                                  JNI_TRUE, hint,
                                                  sx1, sy1, sx2, sy2,
                                                  dx1, dy1, dx2, dy2);
             }
         }
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbceDbtb_InvokeRelebse(env, srcOps, &srcInfo);
     }
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbceDbtb_InvokeUnlock(env, srcOps, &srcInfo);
     return res;
 }
 
 /**
- * Specialized blit method for copying a native D3D "Surface" (pbuffer,
- * window, etc.) to a system memory ("Sw") surface.
+ * Speciblized blit method for copying b nbtive D3D "Surfbce" (pbuffer,
+ * window, etc.) to b system memory ("Sw") surfbce.
  */
 HRESULT
-D3DBlitLoops_SurfaceToSwBlit(JNIEnv *env, D3DContext *d3dc,
+D3DBlitLoops_SurfbceToSwBlit(JNIEnv *env, D3DContext *d3dc,
                              jlong pSrcOps, jlong pDstOps, jint dsttype,
                              jint srcx, jint srcy, jint dstx, jint dsty,
                              jint width, jint height)
 {
     D3DSDOps *srcOps = (D3DSDOps *)jlong_to_ptr(pSrcOps);
-    SurfaceDataOps *dstOps = (SurfaceDataOps *)jlong_to_ptr(pDstOps);
-    SurfaceDataRasInfo srcInfo, dstInfo;
+    SurfbceDbtbOps *dstOps = (SurfbceDbtbOps *)jlong_to_ptr(pDstOps);
+    SurfbceDbtbRbsInfo srcInfo, dstInfo;
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitLoops_SurfaceToSwBlit");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitLoops_SurfbceToSwBlit");
 
     if (width <= 0 || height <= 0) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "D3DBlitLoops_SurfaceToSwBlit: dimensions are non-positive");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+            "D3DBlitLoops_SurfbceToSwBlit: dimensions bre non-positive");
         return S_OK;
     }
 
@@ -928,27 +928,27 @@ D3DBlitLoops_SurfaceToSwBlit(JNIEnv *env, D3DContext *d3dc,
     dstInfo.bounds.y2 = dsty + height;
 
     if (dstOps->Lock(env, dstOps, &dstInfo, SD_LOCK_WRITE) != SD_SUCCESS) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "D3DBlitLoops_SurfaceToSwBlit: could not acquire dst lock");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+            "D3DBlitLoops_SurfbceToSwBlit: could not bcquire dst lock");
         return S_OK;
     }
 
-    SurfaceData_IntersectBoundsXYXY(&srcInfo.bounds,
+    SurfbceDbtb_IntersectBoundsXYXY(&srcInfo.bounds,
                                     0, 0, srcOps->width, srcOps->height);
-    SurfaceData_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
+    SurfbceDbtb_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
                                     srcx - dstx, srcy - dsty);
 
     if (srcInfo.bounds.x2 > srcInfo.bounds.x1 &&
         srcInfo.bounds.y2 > srcInfo.bounds.y1)
     {
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (dstInfo.rasBase) {
+        dstOps->GetRbsInfo(env, dstOps, &dstInfo);
+        if (dstInfo.rbsBbse) {
             IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
-            IDirect3DSurface9 *pSrc = srcOps->pResource->GetSurface();
-            D3DFORMAT srcFmt = srcOps->pResource->GetDesc()->Format;
+            IDirect3DSurfbce9 *pSrc = srcOps->pResource->GetSurfbce();
+            D3DFORMAT srcFmt = srcOps->pResource->GetDesc()->Formbt;
             UINT srcw = srcOps->pResource->GetDesc()->Width;
             UINT srch = srcOps->pResource->GetDesc()->Height;
-            D3DResource *pLockableRes;
+            D3DResource *pLockbbleRes;
 
             srcx = srcInfo.bounds.x1;
             srcy = srcInfo.bounds.y1;
@@ -957,81 +957,81 @@ D3DBlitLoops_SurfaceToSwBlit(JNIEnv *env, D3DContext *d3dc,
             width = srcInfo.bounds.x2 - srcInfo.bounds.x1;
             height = srcInfo.bounds.y2 - srcInfo.bounds.y1;
 
-            J2dTraceLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d h=%d",
+            J2dTrbceLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d h=%d",
                         srcx, srcy, width, height);
-            J2dTraceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+            J2dTrbceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
                         dstx, dsty);
 
-            d3dc->UpdateState(STATE_OTHEROP);
+            d3dc->UpdbteStbte(STATE_OTHEROP);
 
-            // if we read more than 50% of the image it is faster
-            // to get the whole thing (50% is pulled out of a hat)
-            BOOL fullRead = ((width * height) >= (srcw * srch * 0.5f));
+            // if we rebd more thbn 50% of the imbge it is fbster
+            // to get the whole thing (50% is pulled out of b hbt)
+            BOOL fullRebd = ((width * height) >= (srcw * srch * 0.5f));
             UINT lockSrcX = 0, lockSrcY = 0;
 
-            if (fullRead) {
-                // read whole surface into a sysmem surface
+            if (fullRebd) {
+                // rebd whole surfbce into b sysmem surfbce
                 lockSrcX = srcx;
                 lockSrcY = srcy;
-                // the dest surface must have the same dimensions and format as
-                // the source, GetBlitOSPSurface ensures that
-                res = d3dc->GetResourceManager()->
-                    GetBlitOSPSurface(srcw, srch, srcFmt, &pLockableRes);
+                // the dest surfbce must hbve the sbme dimensions bnd formbt bs
+                // the source, GetBlitOSPSurfbce ensures thbt
+                res = d3dc->GetResourceMbnbger()->
+                    GetBlitOSPSurfbce(srcw, srch, srcFmt, &pLockbbleRes);
             } else {
-                // we first copy the source region to a temp
-                // render target surface of the same format as the
+                // we first copy the source region to b temp
+                // render tbrget surfbce of the sbme formbt bs the
                 // source, then copy the pixels to the
-                // target buffered image surface
-                res = d3dc->GetResourceManager()->
-                    GetLockableRTSurface(width, height, srcFmt, &pLockableRes);
+                // tbrget buffered imbge surfbce
+                res = d3dc->GetResourceMbnbger()->
+                    GetLockbbleRTSurfbce(width, height, srcFmt, &pLockbbleRes);
             }
             if (SUCCEEDED(res)) {
-                IDirect3DSurface9 *pTmpSurface = pLockableRes->GetSurface();
+                IDirect3DSurfbce9 *pTmpSurfbce = pLockbbleRes->GetSurfbce();
 
-                if (fullRead) {
-                    res = pd3dDevice->GetRenderTargetData(pSrc, pTmpSurface);
+                if (fullRebd) {
+                    res = pd3dDevice->GetRenderTbrgetDbtb(pSrc, pTmpSurfbce);
                 } else {
                     RECT srcRect = { srcx, srcy, srcx+width, srcy+height};
                     RECT dstRect = { 0l, 0l, width, height };
 
                     res = pd3dDevice->StretchRect(pSrc,
-                                                  &srcRect, pTmpSurface,
+                                                  &srcRect, pTmpSurfbce,
                                                   &dstRect, D3DTEXF_NONE);
                 }
 
                 if (SUCCEEDED(res)) {
-                    res = D3DBL_CopySurfaceToIntArgbImage(
-                            pTmpSurface,                       /* src surface */
+                    res = D3DBL_CopySurfbceToIntArgbImbge(
+                            pTmpSurfbce,                       /* src surfbce */
                             &dstInfo,                          /* dst info    */
                             lockSrcX, lockSrcY, width, height, /* src rect    */
                             dstx, dsty);                       /* dst coords  */
                 }
             }
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
+        SurfbceDbtb_InvokeRelebse(env, dstOps, &dstInfo);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
+    SurfbceDbtb_InvokeUnlock(env, dstOps, &dstInfo);
     return res;
 }
 
 HRESULT
-D3DBlitLoops_CopyArea(JNIEnv *env,
+D3DBlitLoops_CopyAreb(JNIEnv *env,
                       D3DContext *d3dc, D3DSDOps *dstOps,
                       jint x, jint y, jint width, jint height,
                       jint dx, jint dy)
 {
-    SurfaceDataBounds srcBounds, dstBounds;
+    SurfbceDbtbBounds srcBounds, dstBounds;
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBlitLoops_CopyArea");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBlitLoops_CopyAreb");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
     RETURN_STATUS_IF_NULL(dstOps->pResource, E_FAIL);
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d",
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d",
                 x, y, width, height);
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
                 dx, dy);
 
     IDirect3DDevice9 *pd3dDevice = d3dc->Get3DDevice();
@@ -1047,19 +1047,19 @@ D3DBlitLoops_CopyArea(JNIEnv *env,
     dstBounds.x2 = dstBounds.x1 + width;
     dstBounds.y2 = dstBounds.y1 + height;
 
-    SurfaceData_IntersectBoundsXYXY(&srcBounds,
+    SurfbceDbtb_IntersectBoundsXYXY(&srcBounds,
                                     0, 0, dstOps->width, dstOps->height);
     if (clipType == CLIP_RECT) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  rect clip, clip dest manually");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  rect clip, clip dest mbnublly");
         RECT clipRect;
         pd3dDevice->GetScissorRect(&clipRect);
-        SurfaceData_IntersectBoundsXYXY(&dstBounds,
+        SurfbceDbtb_IntersectBoundsXYXY(&dstBounds,
                                         clipRect.left, clipRect.top,
                                         clipRect.right, clipRect.bottom);
     }
-    SurfaceData_IntersectBoundsXYXY(&dstBounds,
+    SurfbceDbtb_IntersectBoundsXYXY(&dstBounds,
                                     0, 0, dstOps->width, dstOps->height);
-    SurfaceData_IntersectBlitBounds(&dstBounds, &srcBounds, -dx, -dy);
+    SurfbceDbtb_IntersectBlitBounds(&dstBounds, &srcBounds, -dx, -dy);
 
     if (dstBounds.x1 < dstBounds.x2 && dstBounds.y1 < dstBounds.y2) {
         jint sx1 = srcBounds.x1, sy1 = srcBounds.y1,
@@ -1069,61 +1069,61 @@ D3DBlitLoops_CopyArea(JNIEnv *env,
         jint dw = dx2 - dx1, dh = dy2 - dy1;
 
         IDirect3DTexture9 *pBlitTexture = NULL;
-        IDirect3DSurface9 *pBlitSurface = NULL;
+        IDirect3DSurfbce9 *pBlitSurfbce = NULL;
         D3DResource *pBlitTextureRes;
 
-        res = d3dc->GetResourceManager()->
+        res = d3dc->GetResourceMbnbger()->
             GetBlitRTTexture(dw, dh,
-                             dstOps->pResource->GetDesc()->Format,
+                             dstOps->pResource->GetDesc()->Formbt,
                              &pBlitTextureRes);
         if (SUCCEEDED(res)) {
-            pBlitSurface = pBlitTextureRes->GetSurface();
+            pBlitSurfbce = pBlitTextureRes->GetSurfbce();
             pBlitTexture = pBlitTextureRes->GetTexture();
         }
-        if (!pBlitTexture || !pBlitSurface) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "D3DBlitLoops_CopyArea: could not init blit tile");
+        if (!pBlitTexture || !pBlitSurfbce) {
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                "D3DBlitLoops_CopyAreb: could not init blit tile");
             return E_FAIL;
         }
 
         // flush the rendering first
-        d3dc->UpdateState(STATE_OTHEROP);
+        d3dc->UpdbteStbte(STATE_OTHEROP);
 
-        // REMIND: see if we could always use texture mapping;
-        // the assumption here is that StretchRect is faster,
-        // if it's not, then we should always use texture mapping
+        // REMIND: see if we could blwbys use texture mbpping;
+        // the bssumption here is thbt StretchRect is fbster,
+        // if it's not, then we should blwbys use texture mbpping
 
-        // from src surface to the temp texture
+        // from src surfbce to the temp texture
         RECT srcRect =    { sx1, sy1, sx2, sy2 };
         RECT tmpDstRect = { 0l, 0l,  0+dw,  0+dh };
-        res = pd3dDevice->StretchRect(dstOps->pResource->GetSurface(), &srcRect,
-                                      pBlitSurface, &tmpDstRect,
+        res = pd3dDevice->StretchRect(dstOps->pResource->GetSurfbce(), &srcRect,
+                                      pBlitSurfbce, &tmpDstRect,
                                       D3DTEXF_NONE);
         if (clipType != CLIP_SHAPE) {
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  rect or no clip, use StretchRect");
-            // just do stretch rect to the destination
+            J2dTrbceLn(J2D_TRACE_VERBOSE, "  rect or no clip, use StretchRect");
+            // just do stretch rect to the destinbtion
             RECT dstRect = { dx1, dy1, dx2, dy2 };
-            // from temp surface to the destination
-            res = pd3dDevice->StretchRect(pBlitSurface, &tmpDstRect,
-                                          dstOps->pResource->GetSurface(),
+            // from temp surfbce to the destinbtion
+            res = pd3dDevice->StretchRect(pBlitSurfbce, &tmpDstRect,
+                                          dstOps->pResource->GetSurfbce(),
                                           &dstRect,
                                           D3DTEXF_NONE);
         } else {
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  shape clip, use texture mapping");
-            // shape clip - have to use texture mapping
+            J2dTrbceLn(J2D_TRACE_VERBOSE, "  shbpe clip, use texture mbpping");
+            // shbpe clip - hbve to use texture mbpping
             D3DTEXTUREFILTERTYPE fhint =
                 d3dc->IsTextureFilteringSupported(D3DTEXF_NONE) ?
                     D3DTEXF_NONE: D3DTEXF_POINT;
-            pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, fhint);
-            pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, fhint);
+            pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MAGFILTER, fhint);
+            pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MINFILTER, fhint);
             res = d3dc->BeginScene(STATE_TEXTUREOP);
             RETURN_STATUS_IF_FAILED(res);
             res = d3dc->SetTexture(pBlitTexture);
 
-            float tx2 = (float)dw/(float)pBlitTextureRes->GetDesc()->Width;
-            float ty2 = (float)dh/(float)pBlitTextureRes->GetDesc()->Height;
-            res = d3dc->pVCacher->DrawTexture(
-                                (float)dx1, (float)dy1, (float)dx2, (float)dy2,
+            flobt tx2 = (flobt)dw/(flobt)pBlitTextureRes->GetDesc()->Width;
+            flobt ty2 = (flobt)dh/(flobt)pBlitTextureRes->GetDesc()->Height;
+            res = d3dc->pVCbcher->DrbwTexture(
+                                (flobt)dx1, (flobt)dy1, (flobt)dx2, (flobt)dy2,
                                 0.0f, 0.0f, tx2, ty2);
         }
     }

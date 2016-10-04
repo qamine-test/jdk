@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 /**
- * A mutable version of <code>ComboBoxModel</code>.
+ * A mutbble version of <code>ComboBoxModel</code>.
  *
- * @param <E> the type of the elements of this model
+ * @pbrbm <E> the type of the elements of this model
  *
- * @author Tom Santos
+ * @buthor Tom Sbntos
  * @since 1.2
  */
 
-public interface MutableComboBoxModel<E> extends ComboBoxModel<E> {
+public interfbce MutbbleComboBoxModel<E> extends ComboBoxModel<E> {
 
     /**
-     * Adds an item at the end of the model. The implementation of this method
-     * should notify all registered <code>ListDataListener</code>s that the
-     * item has been added.
+     * Adds bn item bt the end of the model. The implementbtion of this method
+     * should notify bll registered <code>ListDbtbListener</code>s thbt the
+     * item hbs been bdded.
      *
-     * @param item the item to be added
+     * @pbrbm item the item to be bdded
      */
-    public void addElement( E item );
+    public void bddElement( E item );
 
     /**
-     * Removes an item from the model. The implementation of this method should
-     * should notify all registered <code>ListDataListener</code>s that the
-     * item has been removed.
+     * Removes bn item from the model. The implementbtion of this method should
+     * should notify bll registered <code>ListDbtbListener</code>s thbt the
+     * item hbs been removed.
      *
-     * @param obj the <code>Object</code> to be removed
+     * @pbrbm obj the <code>Object</code> to be removed
      */
     public void removeElement( Object obj );
 
     /**
-     * Adds an item at a specific index.  The implementation of this method
-     * should notify all registered <code>ListDataListener</code>s that the
-     * item has been added.
+     * Adds bn item bt b specific index.  The implementbtion of this method
+     * should notify bll registered <code>ListDbtbListener</code>s thbt the
+     * item hbs been bdded.
      *
-     * @param item  the item to be added
-     * @param index  location to add the object
+     * @pbrbm item  the item to be bdded
+     * @pbrbm index  locbtion to bdd the object
      */
     public void insertElementAt( E item, int index );
 
     /**
-     * Removes an item at a specific index. The implementation of this method
-     * should notify all registered <code>ListDataListener</code>s that the
-     * item has been removed.
+     * Removes bn item bt b specific index. The implementbtion of this method
+     * should notify bll registered <code>ListDbtbListener</code>s thbt the
+     * item hbs been removed.
      *
-     * @param index  location of the item to be removed
+     * @pbrbm index  locbtion of the item to be removed
      */
     public void removeElementAt( int index );
 }

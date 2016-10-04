@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * The CRC-16 class calculates a 16 bit cyclic redundancy check of a set
+ * The CRC-16 clbss cblculbtes b 16 bit cyclic redundbncy check of b set
  * of bytes. This error detecting code is used to determine if bit rot
- * has occurred in a byte stream.
+ * hbs occurred in b byte strebm.
  */
 
-public class CRC16 {
+public clbss CRC16 {
 
-    /** value contains the currently computed CRC, set it to 0 initally */
-    public int value;
+    /** vblue contbins the currently computed CRC, set it to 0 initblly */
+    public int vblue;
 
     public CRC16() {
-        value = 0;
+        vblue = 0;
     }
 
-    /** update CRC with byte b */
-    public void update(byte aByte) {
-        int a, b;
+    /** updbte CRC with byte b */
+    public void updbte(byte bByte) {
+        int b, b;
 
-        a = (int) aByte;
+        b = (int) bByte;
         for (int count = 7; count >=0; count--) {
-            a = a << 1;
-            b = (a >>> 8) & 1;
-            if ((value & 0x8000) != 0) {
-                value = ((value << 1) + b) ^ 0x1021;
+            b = b << 1;
+            b = (b >>> 8) & 1;
+            if ((vblue & 0x8000) != 0) {
+                vblue = ((vblue << 1) + b) ^ 0x1021;
             } else {
-                value = (value << 1) + b;
+                vblue = (vblue << 1) + b;
             }
         }
-        value = value & 0xffff;
+        vblue = vblue & 0xffff;
         return;
     }
 
-    /** reset CRC value to 0 */
+    /** reset CRC vblue to 0 */
     public void reset() {
-        value = 0;
+        vblue = 0;
     }
 }

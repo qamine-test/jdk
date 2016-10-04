@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.InputStream;
-import java.io.IOException;
-import com.sun.imageio.stream.StreamFinalizer;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import com.sun.imbgeio.strebm.StrebmFinblizer;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
 
 /**
- * An implementation of <code>ImageInputStream</code> that gets its
- * input from a regular <code>InputStream</code>.  A memory buffer is
- * used to cache at least the data between the discard position and
- * the current read position.
+ * An implementbtion of <code>ImbgeInputStrebm</code> thbt gets its
+ * input from b regulbr <code>InputStrebm</code>.  A memory buffer is
+ * used to cbche bt lebst the dbtb between the discbrd position bnd
+ * the current rebd position.
  *
- * <p> In general, it is preferable to use a
- * <code>FileCacheImageInputStream</code> when reading from a regular
- * <code>InputStream</code>.  This class is provided for cases where
- * it is not possible to create a writable temporary file.
+ * <p> In generbl, it is preferbble to use b
+ * <code>FileCbcheImbgeInputStrebm</code> when rebding from b regulbr
+ * <code>InputStrebm</code>.  This clbss is provided for cbses where
+ * it is not possible to crebte b writbble temporbry file.
  *
  */
-public class MemoryCacheImageInputStream extends ImageInputStreamImpl {
+public clbss MemoryCbcheImbgeInputStrebm extends ImbgeInputStrebmImpl {
 
-    private InputStream stream;
+    privbte InputStrebm strebm;
 
-    private MemoryCache cache = new MemoryCache();
+    privbte MemoryCbche cbche = new MemoryCbche();
 
     /** The referent to be registered with the Disposer. */
-    private final Object disposerReferent;
+    privbte finbl Object disposerReferent;
 
-    /** The DisposerRecord that resets the underlying MemoryCache. */
-    private final DisposerRecord disposerRecord;
+    /** The DisposerRecord thbt resets the underlying MemoryCbche. */
+    privbte finbl DisposerRecord disposerRecord;
 
     /**
-     * Constructs a <code>MemoryCacheImageInputStream</code> that will read
-     * from a given <code>InputStream</code>.
+     * Constructs b <code>MemoryCbcheImbgeInputStrebm</code> thbt will rebd
+     * from b given <code>InputStrebm</code>.
      *
-     * @param stream an <code>InputStream</code> to read from.
+     * @pbrbm strebm bn <code>InputStrebm</code> to rebd from.
      *
-     * @exception IllegalArgumentException if <code>stream</code> is
+     * @exception IllegblArgumentException if <code>strebm</code> is
      * <code>null</code>.
      */
-    public MemoryCacheImageInputStream(InputStream stream) {
-        if (stream == null) {
-            throw new IllegalArgumentException("stream == null!");
+    public MemoryCbcheImbgeInputStrebm(InputStrebm strebm) {
+        if (strebm == null) {
+            throw new IllegblArgumentException("strebm == null!");
         }
-        this.stream = stream;
+        this.strebm = strebm;
 
-        disposerRecord = new StreamDisposerRecord(cache);
-        if (getClass() == MemoryCacheImageInputStream.class) {
+        disposerRecord = new StrebmDisposerRecord(cbche);
+        if (getClbss() == MemoryCbcheImbgeInputStrebm.clbss) {
             disposerReferent = new Object();
-            Disposer.addRecord(disposerReferent, disposerRecord);
+            Disposer.bddRecord(disposerReferent, disposerRecord);
         } else {
-            disposerReferent = new StreamFinalizer(this);
+            disposerReferent = new StrebmFinblizer(this);
         }
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         checkClosed();
         bitOffset = 0;
-        long pos = cache.loadFromStream(stream, streamPos+1);
-        if (pos >= streamPos+1) {
-            return cache.read(streamPos++);
+        long pos = cbche.lobdFromStrebm(strebm, strebmPos+1);
+        if (pos >= strebmPos+1) {
+            return cbche.rebd(strebmPos++);
         } else {
             return -1;
         }
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
         if (b == null) {
@@ -107,13 +107,13 @@ public class MemoryCacheImageInputStream extends ImageInputStreamImpl {
             return 0;
         }
 
-        long pos = cache.loadFromStream(stream, streamPos+len);
+        long pos = cbche.lobdFromStrebm(strebm, strebmPos+len);
 
-        len = (int)(pos - streamPos);  // In case stream ended early
+        len = (int)(pos - strebmPos);  // In cbse strebm ended ebrly
 
         if (len > 0) {
-            cache.read(b, off, len, streamPos);
-            streamPos += len;
+            cbche.rebd(b, off, len, strebmPos);
+            strebmPos += len;
             return len;
         } else {
             return -1;
@@ -121,81 +121,81 @@ public class MemoryCacheImageInputStream extends ImageInputStreamImpl {
     }
 
     public void flushBefore(long pos) throws IOException {
-        super.flushBefore(pos); // this will call checkClosed() for us
-        cache.disposeBefore(pos);
+        super.flushBefore(pos); // this will cbll checkClosed() for us
+        cbche.disposeBefore(pos);
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageInputStream</code> caches data in order to allow
-     * seeking backwards.
+     * <code>ImbgeInputStrebm</code> cbches dbtb in order to bllow
+     * seeking bbckwbrds.
      *
      * @return <code>true</code>.
      *
-     * @see #isCachedMemory
-     * @see #isCachedFile
+     * @see #isCbchedMemory
+     * @see #isCbchedFile
      */
-    public boolean isCached() {
+    public boolebn isCbched() {
         return true;
     }
 
     /**
-     * Returns <code>false</code> since this
-     * <code>ImageInputStream</code> does not maintain a file cache.
+     * Returns <code>fblse</code> since this
+     * <code>ImbgeInputStrebm</code> does not mbintbin b file cbche.
      *
-     * @return <code>false</code>.
+     * @return <code>fblse</code>.
      *
-     * @see #isCached
-     * @see #isCachedMemory
+     * @see #isCbched
+     * @see #isCbchedMemory
      */
-    public boolean isCachedFile() {
-        return false;
+    public boolebn isCbchedFile() {
+        return fblse;
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageInputStream</code> maintains a main memory cache.
+     * <code>ImbgeInputStrebm</code> mbintbins b mbin memory cbche.
      *
      * @return <code>true</code>.
      *
-     * @see #isCached
-     * @see #isCachedFile
+     * @see #isCbched
+     * @see #isCbchedFile
      */
-    public boolean isCachedMemory() {
+    public boolebn isCbchedMemory() {
         return true;
     }
 
     /**
-     * Closes this <code>MemoryCacheImageInputStream</code>, freeing
-     * the cache.  The source <code>InputStream</code> is not closed.
+     * Closes this <code>MemoryCbcheImbgeInputStrebm</code>, freeing
+     * the cbche.  The source <code>InputStrebm</code> is not closed.
      */
     public void close() throws IOException {
         super.close();
-        disposerRecord.dispose(); // this resets the MemoryCache
-        stream = null;
-        cache = null;
+        disposerRecord.dispose(); // this resets the MemoryCbche
+        strebm = null;
+        cbche = null;
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void finalize() throws Throwable {
-        // Empty finalizer: for performance reasons we instead use the
-        // Disposer mechanism for ensuring that the underlying
-        // MemoryCache is reset prior to garbage collection
+    protected void finblize() throws Throwbble {
+        // Empty finblizer: for performbnce rebsons we instebd use the
+        // Disposer mechbnism for ensuring thbt the underlying
+        // MemoryCbche is reset prior to gbrbbge collection
     }
 
-    private static class StreamDisposerRecord implements DisposerRecord {
-        private MemoryCache cache;
+    privbte stbtic clbss StrebmDisposerRecord implements DisposerRecord {
+        privbte MemoryCbche cbche;
 
-        public StreamDisposerRecord(MemoryCache cache) {
-            this.cache = cache;
+        public StrebmDisposerRecord(MemoryCbche cbche) {
+            this.cbche = cbche;
         }
 
         public synchronized void dispose() {
-            if (cache != null) {
-                cache.reset();
-                cache = null;
+            if (cbche != null) {
+                cbche.reset();
+                cbche = null;
             }
         }
     }

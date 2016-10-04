@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,16 +27,16 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
+#include <brpb/inet.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/time.h>
-#ifdef __solaris__
-#include <thread.h>
+#ifdef __solbris__
+#include <threbd.h>
 #else
-#include <pthread.h>
+#include <pthrebd.h>
 #include <sys/poll.h>
 #endif
 
@@ -44,13 +44,13 @@
 #include "sysSocket.h"
 
 int
-dbgsysListen(int fd, int backlog) {
-    return listen(fd, backlog);
+dbgsysListen(int fd, int bbcklog) {
+    return listen(fd, bbcklog);
 }
 
 int
-dbgsysConnect(int fd, struct sockaddr *name, socklen_t namelen) {
-    int rv = connect(fd, name, namelen);
+dbgsysConnect(int fd, struct sockbddr *nbme, socklen_t nbmelen) {
+    int rv = connect(fd, nbme, nbmelen);
     if (rv < 0 && (errno == EINPROGRESS || errno == EINTR)) {
         return DBG_EINPROGRESS;
     } else {
@@ -71,10 +71,10 @@ dbgsysFinishConnect(int fd, int timeout) {
 }
 
 int
-dbgsysAccept(int fd, struct sockaddr *name, socklen_t *namelen) {
+dbgsysAccept(int fd, struct sockbddr *nbme, socklen_t *nbmelen) {
     int rv;
     for (;;) {
-        rv = accept(fd, name, namelen);
+        rv = bccept(fd, nbme, nbmelen);
         if (rv >= 0) {
             return rv;
         }
@@ -85,50 +85,50 @@ dbgsysAccept(int fd, struct sockaddr *name, socklen_t *namelen) {
 }
 
 int
-dbgsysRecvFrom(int fd, char *buf, size_t nBytes,
-                  int flags, struct sockaddr *from, socklen_t *fromlen) {
+dbgsysRecvFrom(int fd, chbr *buf, size_t nBytes,
+                  int flbgs, struct sockbddr *from, socklen_t *fromlen) {
     int rv;
     do {
-        rv = recvfrom(fd, buf, nBytes, flags, from, fromlen);
+        rv = recvfrom(fd, buf, nBytes, flbgs, from, fromlen);
     } while (rv == -1 && errno == EINTR);
 
     return rv;
 }
 
 int
-dbgsysSendTo(int fd, char *buf, size_t len,
-                int flags, struct sockaddr *to, socklen_t tolen) {
+dbgsysSendTo(int fd, chbr *buf, size_t len,
+                int flbgs, struct sockbddr *to, socklen_t tolen) {
     int rv;
     do {
-        rv = sendto(fd, buf, len, flags, to, tolen);
+        rv = sendto(fd, buf, len, flbgs, to, tolen);
     } while (rv == -1 && errno == EINTR);
 
     return rv;
 }
 
 int
-dbgsysRecv(int fd, char *buf, size_t nBytes, int flags) {
+dbgsysRecv(int fd, chbr *buf, size_t nBytes, int flbgs) {
     int rv;
     do {
-        rv = recv(fd, buf, nBytes, flags);
+        rv = recv(fd, buf, nBytes, flbgs);
     } while (rv == -1 && errno == EINTR);
 
     return rv;
 }
 
 int
-dbgsysSend(int fd, char *buf, size_t nBytes, int flags) {
+dbgsysSend(int fd, chbr *buf, size_t nBytes, int flbgs) {
     int rv;
     do {
-        rv = send(fd, buf, nBytes, flags);
+        rv = send(fd, buf, nBytes, flbgs);
     } while (rv == -1 && errno == EINTR);
 
     return rv;
 }
 
 struct hostent *
-dbgsysGetHostByName(char *hostname) {
-    return gethostbyname(hostname);
+dbgsysGetHostByNbme(chbr *hostnbme) {
+    return gethostbynbme(hostnbme);
 }
 
 unsigned short
@@ -137,8 +137,8 @@ dbgsysHostToNetworkShort(unsigned short hostshort) {
 }
 
 int
-dbgsysSocket(int domain, int type, int protocol) {
-    return socket(domain, type, protocol);
+dbgsysSocket(int dombin, int type, int protocol) {
+    return socket(dombin, type, protocol);
 }
 
 int dbgsysSocketClose(int fd) {
@@ -151,13 +151,13 @@ int dbgsysSocketClose(int fd) {
 }
 
 int
-dbgsysBind(int fd, struct sockaddr *name, socklen_t namelen) {
-    return bind(fd, name, namelen);
+dbgsysBind(int fd, struct sockbddr *nbme, socklen_t nbmelen) {
+    return bind(fd, nbme, nbmelen);
 }
 
 uint32_t
-dbgsysInetAddr(const char* cp) {
-    return (uint32_t)inet_addr(cp);
+dbgsysInetAddr(const chbr* cp) {
+    return (uint32_t)inet_bddr(cp);
 }
 
 uint32_t
@@ -171,8 +171,8 @@ dbgsysNetworkToHostShort(unsigned short netshort) {
 }
 
 int
-dbgsysGetSocketName(int fd, struct sockaddr *name, socklen_t *namelen) {
-    return getsockname(fd, name, namelen);
+dbgsysGetSocketNbme(int fd, struct sockbddr *nbme, socklen_t *nbmelen) {
+    return getsocknbme(fd, nbme, nbmelen);
 }
 
 uint32_t
@@ -182,43 +182,43 @@ dbgsysNetworkToHostLong(uint32_t netlong) {
 
 
 int
-dbgsysSetSocketOption(int fd, jint cmd, jboolean on, jvalue value)
+dbgsysSetSocketOption(int fd, jint cmd, jboolebn on, jvblue vblue)
 {
     if (cmd == TCP_NODELAY) {
-        struct protoent *proto = getprotobyname("TCP");
+        struct protoent *proto = getprotobynbme("TCP");
         int tcp_level = (proto == 0 ? IPPROTO_TCP: proto->p_proto);
         uint32_t onl = (uint32_t)on;
 
         if (setsockopt(fd, tcp_level, TCP_NODELAY,
-                       (char *)&onl, sizeof(uint32_t)) < 0) {
+                       (chbr *)&onl, sizeof(uint32_t)) < 0) {
                 return SYS_ERR;
         }
     } else if (cmd == SO_LINGER) {
-        struct linger arg;
-        arg.l_onoff = on;
+        struct linger brg;
+        brg.l_onoff = on;
 
         if(on) {
-            arg.l_linger = (unsigned short)value.i;
+            brg.l_linger = (unsigned short)vblue.i;
             if(setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                          (char*)&arg, sizeof(arg)) < 0) {
+                          (chbr*)&brg, sizeof(brg)) < 0) {
                 return SYS_ERR;
             }
         } else {
             if (setsockopt(fd, SOL_SOCKET, SO_LINGER,
-                           (char*)&arg, sizeof(arg)) < 0) {
+                           (chbr*)&brg, sizeof(brg)) < 0) {
                 return SYS_ERR;
             }
         }
     } else if (cmd == SO_SNDBUF) {
-        jint buflen = value.i;
+        jint buflen = vblue.i;
         if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF,
-                       (char *)&buflen, sizeof(buflen)) < 0) {
+                       (chbr *)&buflen, sizeof(buflen)) < 0) {
             return SYS_ERR;
         }
     } else if (cmd == SO_REUSEADDR) {
         int oni = (int)on;
         if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR,
-                       (char *)&oni, sizeof(oni)) < 0) {
+                       (chbr *)&oni, sizeof(oni)) < 0) {
             return SYS_ERR;
 
         }
@@ -229,20 +229,20 @@ dbgsysSetSocketOption(int fd, jint cmd, jboolean on, jvalue value)
 }
 
 int
-dbgsysConfigureBlocking(int fd, jboolean blocking) {
-    int flags = fcntl(fd, F_GETFL);
+dbgsysConfigureBlocking(int fd, jboolebn blocking) {
+    int flbgs = fcntl(fd, F_GETFL);
 
-    if ((blocking == JNI_FALSE) && !(flags & O_NONBLOCK)) {
-        return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+    if ((blocking == JNI_FALSE) && !(flbgs & O_NONBLOCK)) {
+        return fcntl(fd, F_SETFL, flbgs | O_NONBLOCK);
     }
-    if ((blocking == JNI_TRUE) && (flags & O_NONBLOCK)) {
-        return fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);
+    if ((blocking == JNI_TRUE) && (flbgs & O_NONBLOCK)) {
+        return fcntl(fd, F_SETFL, flbgs & ~O_NONBLOCK);
     }
     return 0;
 }
 
 int
-dbgsysPoll(int fd, jboolean rd, jboolean wr, long timeout) {
+dbgsysPoll(int fd, jboolebn rd, jboolebn wr, long timeout) {
     struct pollfd fds[1];
     int rv;
 
@@ -270,19 +270,19 @@ dbgsysPoll(int fd, jboolean rd, jboolean wr, long timeout) {
 }
 
 int
-dbgsysGetLastIOError(char *buf, jint size) {
-    char *msg = strerror(errno);
+dbgsysGetLbstIOError(chbr *buf, jint size) {
+    chbr *msg = strerror(errno);
     strncpy(buf, msg, size-1);
     buf[size-1] = '\0';
     return 0;
 }
 
-#ifdef __solaris__
+#ifdef __solbris__
 int
 dbgsysTlsAlloc() {
-    thread_key_t tk;
-    if (thr_keycreate(&tk, NULL)) {
-        perror("thr_keycreate");
+    threbd_key_t tk;
+    if (thr_keycrebte(&tk, NULL)) {
+        perror("thr_keycrebte");
         exit(-1);
     }
     return (int)tk;
@@ -294,23 +294,23 @@ dbgsysTlsFree(int index) {
 }
 
 void
-dbgsysTlsPut(int index, void *value) {
-    thr_setspecific((thread_key_t)index, value) ;
+dbgsysTlsPut(int index, void *vblue) {
+    thr_setspecific((threbd_key_t)index, vblue) ;
 }
 
 void *
 dbgsysTlsGet(int index) {
     void* r = NULL;
-    thr_getspecific((thread_key_t)index, &r);
+    thr_getspecific((threbd_key_t)index, &r);
     return r;
 }
 
 #else
 int
 dbgsysTlsAlloc() {
-    pthread_key_t key;
-    if (pthread_key_create(&key, NULL)) {
-        perror("pthread_key_create");
+    pthrebd_key_t key;
+    if (pthrebd_key_crebte(&key, NULL)) {
+        perror("pthrebd_key_crebte");
         exit(-1);
     }
     return (int)key;
@@ -318,24 +318,24 @@ dbgsysTlsAlloc() {
 
 void
 dbgsysTlsFree(int index) {
-    pthread_key_delete((pthread_key_t)index);
+    pthrebd_key_delete((pthrebd_key_t)index);
 }
 
 void
-dbgsysTlsPut(int index, void *value) {
-    pthread_setspecific((pthread_key_t)index, value) ;
+dbgsysTlsPut(int index, void *vblue) {
+    pthrebd_setspecific((pthrebd_key_t)index, vblue) ;
 }
 
 void *
 dbgsysTlsGet(int index) {
-    return pthread_getspecific((pthread_key_t)index);
+    return pthrebd_getspecific((pthrebd_key_t)index);
 }
 
 #endif
 
 long
 dbgsysCurrentTimeMillis() {
-    struct timeval t;
-    gettimeofday(&t, 0);
+    struct timevbl t;
+    gettimeofdby(&t, 0);
     return ((jlong)t.tv_sec) * 1000 + (jlong)(t.tv_usec/1000);
 }

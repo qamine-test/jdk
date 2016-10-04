@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,288 +30,288 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import java.io.IOException;
-import java.util.Map;
-import javax.management.InstanceNotFoundException;
-import javax.management.JMException;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.JMException;
 
 /**
- * The <code>ScanManagerMXBean</code> is responsible for applying a
- * configuration, starting and scheduling directory scans, and reporting
- * application state.
+ * The <code>ScbnMbnbgerMXBebn</code> is responsible for bpplying b
+ * configurbtion, stbrting bnd scheduling directory scbns, bnd reporting
+ * bpplicbtion stbte.
  * <p>
- * The <code>ScanManagerMXBean</code> is a singleton MBean: there can be
- * at most one instance of such an MBean registered in a given MBeanServer.
- * The name of that MBean is a constant defined in
- * {@link ScanManager#SCAN_MANAGER_NAME ScanManager.SCAN_MANAGER_NAME}.
+ * The <code>ScbnMbnbgerMXBebn</code> is b singleton MBebn: there cbn be
+ * bt most one instbnce of such bn MBebn registered in b given MBebnServer.
+ * The nbme of thbt MBebn is b constbnt defined in
+ * {@link ScbnMbnbger#SCAN_MANAGER_NAME ScbnMbnbger.SCAN_MANAGER_NAME}.
  * </p>
  * <p>
- * The <code>ScanManagerMXBean</code> is the entry point of the <i>scandir</i>
- * application management interface. It is from this MBean that all other
- * MBeans will be created and registered.
+ * The <code>ScbnMbnbgerMXBebn</code> is the entry point of the <i>scbndir</i>
+ * bpplicbtion mbnbgement interfbce. It is from this MBebn thbt bll other
+ * MBebns will be crebted bnd registered.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  **/
-public interface ScanManagerMXBean {
+public interfbce ScbnMbnbgerMXBebn {
     /**
-     * This state tells whether directory scans are running, scheduled,
+     * This stbte tells whether directory scbns bre running, scheduled,
      * successfully completed, or stopped.
      * <p>
-     * The {@link #CLOSED} state means
-     * that the {@link ScanManagerMXBean} was closed and is no longer usable.
-     * This state is used when the {@link ScanManagerMXBean} needs to be
+     * The {@link #CLOSED} stbte mebns
+     * thbt the {@link ScbnMbnbgerMXBebn} wbs closed bnd is no longer usbble.
+     * This stbte is used when the {@link ScbnMbnbgerMXBebn} needs to be
      * unregistered.
      * </p>
      **/
-    public enum ScanState {
+    public enum ScbnStbte {
         /**
-         * Scanning of directories is in process.
+         * Scbnning of directories is in process.
          **/
         RUNNING,
 
         /**
-         * Scanning of directories is not in process, but is scheduled
-         * for a later date.
+         * Scbnning of directories is not in process, but is scheduled
+         * for b lbter dbte.
          **/
         SCHEDULED,
 
         /**
-         * Scanning is successfully completed.
+         * Scbnning is successfully completed.
          **/
         COMPLETED,
 
         /**
-         * Scanning is stopped. No scanning is scheduled.
+         * Scbnning is stopped. No scbnning is scheduled.
          **/
         STOPPED,
 
         /**
-         * close() was called.
+         * close() wbs cblled.
          **/
         CLOSED
 
     }
 
     /**
-     * Returns the current state of the application.
-     * @return the current state of the application.
-     * @throws IOException A connection problem occurred when accessing
+     * Returns the current stbte of the bpplicbtion.
+     * @return the current stbte of the bpplicbtion.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public ScanState getState()
-        throws IOException, InstanceNotFoundException;
+    public ScbnStbte getStbte()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Schedule a scan session for a later date.
+     * Schedule b scbn session for b lbter dbte.
      * <p>
-     * A scan session is a background task that will sequentially call {@link
-     * DirectoryScannerMXBean#scan scan()} on every {@link
-     * DirectoryScannerMXBean} configured for this MBean.
+     * A scbn session is b bbckground tbsk thbt will sequentiblly cbll {@link
+     * DirectoryScbnnerMXBebn#scbn scbn()} on every {@link
+     * DirectoryScbnnerMXBebn} configured for this MBebn.
      * </p>
-     * @see #getDirectoryScanners
-     * @param delay The first scan session will be started after
-     *        the given delay. 0 means start now.
-     * @param interval Scan session will be rescheduled periodically
-     *        at the specified interval. The interval starts at the
-     *        the end of the scan session: if a scan session takes
-     *        on average x milliseconds to complete, then a scan session will
-     *        be started on average every x+interval milliseconds.
-     *        if (interval == 0) then scan session will not be
-     *        rescheduled, and will run only once.
-     * @throws IllegalStateException if a scan session is already
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
+     * @see #getDirectoryScbnners
+     * @pbrbm delby The first scbn session will be stbrted bfter
+     *        the given delby. 0 mebns stbrt now.
+     * @pbrbm intervbl Scbn session will be rescheduled periodicblly
+     *        bt the specified intervbl. The intervbl stbrts bt the
+     *        the end of the scbn session: if b scbn session tbkes
+     *        on bverbge x milliseconds to complete, then b scbn session will
+     *        be stbrted on bverbge every x+intervbl milliseconds.
+     *        if (intervbl == 0) then scbn session will not be
+     *        rescheduled, bnd will run only once.
+     * @throws IllegblStbteException if b scbn session is blrebdy
+     *         running or scheduled, or the MBebn is closed.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void schedule(long delay, long interval)
-        throws IOException, InstanceNotFoundException;
+    public void schedule(long delby, long intervbl)
+        throws IOException, InstbnceNotFoundException;
 
 
     /**
-     * Stops current running or scheduled scan sessions if any.
+     * Stops current running or scheduled scbn sessions if bny.
      * <p>
-     * A scan session is a background task that will sequentially call {@link
-     * DirectoryScannerMXBean#scan scan()} on every {@link
-     * DirectoryScannerMXBean} configured for this MBean.
+     * A scbn session is b bbckground tbsk thbt will sequentiblly cbll {@link
+     * DirectoryScbnnerMXBebn#scbn scbn()} on every {@link
+     * DirectoryScbnnerMXBebn} configured for this MBebn.
      * </p>
      * <p>
-     * Scan sessions are started/scheduled by calls to {@link #start start} or
+     * Scbn sessions bre stbrted/scheduled by cblls to {@link #stbrt stbrt} or
      * {@link #schedule schedule}.
      * </p>
-     * After this method completes the state of the application will
-     * be {@link ScanState#STOPPED}.
-     * @throws IOException A connection problem occurred when accessing
+     * After this method completes the stbte of the bpplicbtion will
+     * be {@link ScbnStbte#STOPPED}.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public void stop()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Switches the state to CLOSED.
-     * When closed, this MBean cannot be used any more.
-     * @throws IOException A connection problem occurred when accessing
+     * Switches the stbte to CLOSED.
+     * When closed, this MBebn cbnnot be used bny more.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
     public void close()
-        throws IOException, InstanceNotFoundException;
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Starts a scan session immediately.
-     * This is equivalent to {@link #schedule(long,long) schedule(0,0)}.
-     * @throws IllegalStateException if a scan session is already
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
+     * Stbrts b scbn session immedibtely.
+     * This is equivblent to {@link #schedule(long,long) schedule(0,0)}.
+     * @throws IllegblStbteException if b scbn session is blrebdy
+     *         running or scheduled, or the MBebn is closed.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public void start()
-        throws IOException, InstanceNotFoundException;
+    public void stbrt()
+        throws IOException, InstbnceNotFoundException;
 
     /**
-     * Gets the list of directory scanners configured for this MBean.
-     * @return A {@code Map<String,DirectoryScannerMXBean>} where the
-     *         key in the map is the value of the <code>name=</code> key
-     *         of the {@link DirectoryScannerMXBean} ObjectName.
-     * @throws IOException A connection problem occurred when accessing
+     * Gets the list of directory scbnners configured for this MBebn.
+     * @return A {@code Mbp<String,DirectoryScbnnerMXBebn>} where the
+     *         key in the mbp is the vblue of the <code>nbme=</code> key
+     *         of the {@link DirectoryScbnnerMXBebn} ObjectNbme.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
+     * @throws JMException The MBebnServer fbiled to cbll the underlying MBebn.
      **/
-    public Map<String,DirectoryScannerMXBean> getDirectoryScanners()
+    public Mbp<String,DirectoryScbnnerMXBebn> getDirectoryScbnners()
         throws IOException, JMException;
 
     /**
-     * Apply the configuration handled by the {@link
-     * #getConfigurationMBean configuration MBean}.
+     * Apply the configurbtion hbndled by the {@link
+     * #getConfigurbtionMBebn configurbtion MBebn}.
      * <p>
-     * When the configuration is applied, all the {@link DirectoryScannerMXBean}
-     * created by this MBean will be unregistered, and new {@link
-     * DirectoryScannerMXBean} will be created and registered from the
-     * new {@link ScanDirConfigMXBean#getConfiguration configuration data}.
+     * When the configurbtion is bpplied, bll the {@link DirectoryScbnnerMXBebn}
+     * crebted by this MBebn will be unregistered, bnd new {@link
+     * DirectoryScbnnerMXBebn} will be crebted bnd registered from the
+     * new {@link ScbnDirConfigMXBebn#getConfigurbtion configurbtion dbtb}.
      * </p>
      * <p>
-     * The initial result log configuration held by the {@link
-     * #getConfigurationMBean configuration MBean} will also be pushed to the
-     * {@link ResultLogManagerMXBean}. If you don't want to lose your current
-     * {@link ResultLogManagerMXBean} configuration, you should therefore call
-     * {@link #applyCurrentResultLogConfig
-     * applyCurrentResultLogConfig} before calling
-     * {@link #applyConfiguration applyConfiguration}
+     * The initibl result log configurbtion held by the {@link
+     * #getConfigurbtionMBebn configurbtion MBebn} will blso be pushed to the
+     * {@link ResultLogMbnbgerMXBebn}. If you don't wbnt to lose your current
+     * {@link ResultLogMbnbgerMXBebn} configurbtion, you should therefore cbll
+     * {@link #bpplyCurrentResultLogConfig
+     * bpplyCurrentResultLogConfig} before cblling
+     * {@link #bpplyConfigurbtion bpplyConfigurbtion}
      * </p>
-     * @param fromMemory if {@code true}, the configuration will be applied
-     *        from memory. if {@code false}, the {@code ScanManagerMXBean} will
-     *        ask the {@link
-     * #getConfigurationMBean configuration MBean} to {@link
-     * ScanDirConfigMXBean#load reload its configuration} before applying
+     * @pbrbm fromMemory if {@code true}, the configurbtion will be bpplied
+     *        from memory. if {@code fblse}, the {@code ScbnMbnbgerMXBebn} will
+     *        bsk the {@link
+     * #getConfigurbtionMBebn configurbtion MBebn} to {@link
+     * ScbnDirConfigMXBebn#lobd relobd its configurbtion} before bpplying
      * it.
-     * @throws IllegalStateException if a scan session is
-     *         running or scheduled, or the MBean is closed.
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IllegblStbteException if b scbn session is
+     *         running or scheduled, or the MBebn is closed.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
+     * @throws JMException The MBebnServer fbiled to cbll the underlying MBebn.
      **/
-    public void applyConfiguration(boolean fromMemory)
+    public void bpplyConfigurbtion(boolebn fromMemory)
         throws IOException, JMException;
     /**
-     * Replaces the {@link
-     * #getConfigurationMBean configuration MBean}'s {@link
-     * com.sun.jmx.examples.scandir.config.ScanManagerConfig#getInitialResultLogConfig
-     * initial result log configuration} with the current {@link
-     * ResultLogManagerMXBean}
-     * configuration. This prevents the <code>ResultLogManagerMXBean</code>
-     * current configuration from being reset when {@link #applyConfiguration
-     * applyConfiguration} is called.
-     * @param toMemory if {@code true} only replaces the initial result log
-     *                 configuration held in memory.
-     *                 if {@code false}, the {@link
-     * #getConfigurationMBean configuration MBean} will be asked to commit
-     * the whole configuration to the configuration file.
+     * Replbces the {@link
+     * #getConfigurbtionMBebn configurbtion MBebn}'s {@link
+     * com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig#getInitiblResultLogConfig
+     * initibl result log configurbtion} with the current {@link
+     * ResultLogMbnbgerMXBebn}
+     * configurbtion. This prevents the <code>ResultLogMbnbgerMXBebn</code>
+     * current configurbtion from being reset when {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion} is cblled.
+     * @pbrbm toMemory if {@code true} only replbces the initibl result log
+     *                 configurbtion held in memory.
+     *                 if {@code fblse}, the {@link
+     * #getConfigurbtionMBebn configurbtion MBebn} will be bsked to commit
+     * the whole configurbtion to the configurbtion file.
      *
-     * @throws IOException A connection problem occurred when accessing
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
+     * @throws JMException The MBebnServer fbiled to cbll the underlying MBebn.
      **/
-    public void applyCurrentResultLogConfig(boolean toMemory)
+    public void bpplyCurrentResultLogConfig(boolebn toMemory)
         throws IOException, JMException;
 
     /**
-     * Instruct the {@code ScanManagerMXBean} to use another {@link
-     * ScanDirConfigMXBean configuration MBean}.
-     * <p>This method doesn't {@link #applyConfiguration apply} the new
-     * configuration. If you want to apply the new configuration, you should
-     * additionally call {@link #applyConfiguration
-     * applyConfiguration(true|false)}. Note that you cannot apply a
-     * configuration as long as a scan session is scheduled or running.
-     * In that case you will need to wait for that session to complete
-     * or call {@link #stop} to stop it.
+     * Instruct the {@code ScbnMbnbgerMXBebn} to use bnother {@link
+     * ScbnDirConfigMXBebn configurbtion MBebn}.
+     * <p>This method doesn't {@link #bpplyConfigurbtion bpply} the new
+     * configurbtion. If you wbnt to bpply the new configurbtion, you should
+     * bdditionblly cbll {@link #bpplyConfigurbtion
+     * bpplyConfigurbtion(true|fblse)}. Note thbt you cbnnot bpply b
+     * configurbtion bs long bs b scbn session is scheduled or running.
+     * In thbt cbse you will need to wbit for thbt session to complete
+     * or cbll {@link #stop} to stop it.
      * </p>
-     * @param config A proxy to the {@link ScanDirConfigMXBean} that holds
-     * the new configuration for the application.
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm config A proxy to the {@link ScbnDirConfigMXBebn} thbt holds
+     * the new configurbtion for the bpplicbtion.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      */
-    public void setConfigurationMBean(ScanDirConfigMXBean config)
-        throws IOException, InstanceNotFoundException;
+    public void setConfigurbtionMBebn(ScbnDirConfigMXBebn config)
+        throws IOException, InstbnceNotFoundException;
     /**
-     * Gets the current configuration MBean.
-     * @return A proxy to the current configuration MBean.
-     * @throws IOException A connection problem occurred when accessing
+     * Gets the current configurbtion MBebn.
+     * @return A proxy to the current configurbtion MBebn.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @throws InstbnceNotFoundException The underlying MBebn is not
+     *         registered in the MBebnServer.
      **/
-    public ScanDirConfigMXBean getConfigurationMBean()
-        throws IOException, InstanceNotFoundException;
+    public ScbnDirConfigMXBebn getConfigurbtionMBebn()
+        throws IOException, InstbnceNotFoundException;
     /**
-     * This method creates a new alternate {@link ScanDirConfigMXBean}.
+     * This method crebtes b new blternbte {@link ScbnDirConfigMXBebn}.
      *
-     * <p>You will need to call {@link #setConfigurationMBean
-     * setConfigurationMBean} if you
-     * want this new {@link ScanDirConfigMXBean} to become the
-     * current configuration MBean.
+     * <p>You will need to cbll {@link #setConfigurbtionMBebn
+     * setConfigurbtionMBebn} if you
+     * wbnt this new {@link ScbnDirConfigMXBebn} to become the
+     * current configurbtion MBebn.
      * </p>
      * <p>
-     * This new {@link ScanDirConfigMXBean} will be unregistered automatically
-     * by the {@code ScanManagerMXBean} when the {@code ScanManagerMXBean}
+     * This new {@link ScbnDirConfigMXBebn} will be unregistered butombticblly
+     * by the {@code ScbnMbnbgerMXBebn} when the {@code ScbnMbnbgerMXBebn}
      * is unregistered.
      * </p>
-     * @param name The short name for the new {@link ScanDirConfigMXBean}.
-     *        This name will be used in the ObjectName <code>name=</code> key
-     *        of the new {@link ScanDirConfigMXBean}.
-     * @param filename The path of the file from which the new {@link
-     *        ScanDirConfigMXBean} can {@link ScanDirConfigMXBean#load load} or
-     *        {@link ScanDirConfigMXBean#save save} its configuration data.
-     *        Note that even if the file exists and contain a valid
-     *        configuration, you will still need to call {@link
-     *        ScanDirConfigMXBean#load load} to make the {@link
-     *        ScanDirConfigMXBean} load its configuration data.
-     * @throws IOException A connection problem occurred when accessing
+     * @pbrbm nbme The short nbme for the new {@link ScbnDirConfigMXBebn}.
+     *        This nbme will be used in the ObjectNbme <code>nbme=</code> key
+     *        of the new {@link ScbnDirConfigMXBebn}.
+     * @pbrbm filenbme The pbth of the file from which the new {@link
+     *        ScbnDirConfigMXBebn} cbn {@link ScbnDirConfigMXBebn#lobd lobd} or
+     *        {@link ScbnDirConfigMXBebn#sbve sbve} its configurbtion dbtb.
+     *        Note thbt even if the file exists bnd contbin b vblid
+     *        configurbtion, you will still need to cbll {@link
+     *        ScbnDirConfigMXBebn#lobd lobd} to mbke the {@link
+     *        ScbnDirConfigMXBebn} lobd its configurbtion dbtb.
+     * @throws IOException A connection problem occurred when bccessing
      *                     the underlying resource.
-     * @throws JMException The MBeanServer failed to call the underlying MBean.
-     * @return A proxy to the created {@link ScanDirConfigMXBean}.
+     * @throws JMException The MBebnServer fbiled to cbll the underlying MBebn.
+     * @return A proxy to the crebted {@link ScbnDirConfigMXBebn}.
      */
-    public ScanDirConfigMXBean createOtherConfigurationMBean(String name,
-            String filename)
+    public ScbnDirConfigMXBebn crebteOtherConfigurbtionMBebn(String nbme,
+            String filenbme)
         throws JMException, IOException;
 }

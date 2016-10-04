@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.table.*;
-import sun.swing.table.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.tbble.*;
+import sun.swing.tbble.*;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.table.JTableHeader}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.tbble.JTbbleHebder}.
  *
- * @author Alan Chung
- * @author Philip Milne
+ * @buthor Albn Chung
+ * @buthor Philip Milne
  * @since 1.7
  */
-public class SynthTableHeaderUI extends BasicTableHeaderUI
-                                implements PropertyChangeListener, SynthUI {
+public clbss SynthTbbleHebderUI extends BbsicTbbleHebderUI
+                                implements PropertyChbngeListener, SynthUI {
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
-    private TableCellRenderer prevRenderer = null;
+    privbte TbbleCellRenderer prevRenderer = null;
 
-    private SynthStyle style;
+    privbte SynthStyle style;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param h component to create UI object for
+     * @pbrbm h component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent h) {
-        return new SynthTableHeaderUI();
+    public stbtic ComponentUI crebteUI(JComponent h) {
+        return new SynthTbbleHebderUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        prevRenderer = header.getDefaultRenderer();
-        if (prevRenderer instanceof UIResource) {
-            header.setDefaultRenderer(new HeaderRenderer());
+    protected void instbllDefbults() {
+        prevRenderer = hebder.getDefbultRenderer();
+        if (prevRenderer instbnceof UIResource) {
+            hebder.setDefbultRenderer(new HebderRenderer());
         }
-        updateStyle(header);
+        updbteStyle(hebder);
     }
 
-    private void updateStyle(JTableHeader c) {
+    privbte void updbteStyle(JTbbleHebder c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -92,23 +92,23 @@ public class SynthTableHeaderUI extends BasicTableHeaderUI
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        header.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        hebder.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        if (header.getDefaultRenderer() instanceof HeaderRenderer) {
-            header.setDefaultRenderer(prevRenderer);
+    protected void uninstbllDefbults() {
+        if (hebder.getDefbultRenderer() instbnceof HebderRenderer) {
+            hebder.setDefbultRenderer(prevRenderer);
         }
 
-        SynthContext context = getContext(header, ENABLED);
+        SynthContext context = getContext(hebder, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -117,69 +117,69 @@ public class SynthTableHeaderUI extends BasicTableHeaderUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        header.removePropertyChangeListener(this);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        hebder.removePropertyChbngeListener(this);
+        super.uninstbllListeners();
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTableHeaderBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintTbbleHebderBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        super.paint(g, context.getComponent());
+    protected void pbint(SynthContext context, Grbphics g) {
+        super.pbint(g, context.getComponent());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintTableHeaderBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintTbbleHebderBorder(context, g, x, y, w, h);
     }
 //
 // SynthUI
@@ -189,87 +189,87 @@ public class SynthTableHeaderUI extends BasicTableHeaderUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
-        header.repaint(header.getHeaderRect(oldColumn));
-        header.repaint(header.getHeaderRect(newColumn));
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JTableHeader)evt.getSource());
+    protected void rolloverColumnUpdbted(int oldColumn, int newColumn) {
+        hebder.repbint(hebder.getHebderRect(oldColumn));
+        hebder.repbint(hebder.getHebderRect(newColumn));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle((JTbbleHebder)evt.getSource());
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class HeaderRenderer extends DefaultTableCellHeaderRenderer {
-        HeaderRenderer() {
-            setHorizontalAlignment(JLabel.LEADING);
-            setName("TableHeader.renderer");
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss HebderRenderer extends DefbultTbbleCellHebderRenderer {
+        HebderRenderer() {
+            setHorizontblAlignment(JLbbel.LEADING);
+            setNbme("TbbleHebder.renderer");
         }
 
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected,
-                                                       boolean hasFocus,
+        public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                                                       boolebn isSelected,
+                                                       boolebn hbsFocus,
                                                        int row, int column) {
 
-            boolean hasRollover = (column == getRolloverColumn());
-            if (isSelected || hasRollover || hasFocus) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                             isSelected, hasFocus, table.isEnabled(),
-                             hasRollover);
+            boolebn hbsRollover = (column == getRolloverColumn());
+            if (isSelected || hbsRollover || hbsFocus) {
+                SynthLookAndFeel.setSelectedUI((SynthLbbelUI)SynthLookAndFeel.
+                             getUIOfType(getUI(), SynthLbbelUI.clbss),
+                             isSelected, hbsFocus, tbble.isEnbbled(),
+                             hbsRollover);
             } else {
                 SynthLookAndFeel.resetSelectedUI();
             }
 
-            //stuff a variable into the client property of this renderer indicating the sort order,
-            //so that different rendering can be done for the header based on sorted state.
-            RowSorter<?> rs = table == null ? null : table.getRowSorter();
-            java.util.List<? extends RowSorter.SortKey> sortKeys = rs == null ? null : rs.getSortKeys();
+            //stuff b vbribble into the client property of this renderer indicbting the sort order,
+            //so thbt different rendering cbn be done for the hebder bbsed on sorted stbte.
+            RowSorter<?> rs = tbble == null ? null : tbble.getRowSorter();
+            jbvb.util.List<? extends RowSorter.SortKey> sortKeys = rs == null ? null : rs.getSortKeys();
             if (sortKeys != null && sortKeys.size() > 0 && sortKeys.get(0).getColumn() ==
-                    table.convertColumnIndexToModel(column)) {
+                    tbble.convertColumnIndexToModel(column)) {
                 switch(sortKeys.get(0).getSortOrder()) {
-                    case ASCENDING:
-                        putClientProperty("Table.sortOrder", "ASCENDING");
-                        break;
-                    case DESCENDING:
-                        putClientProperty("Table.sortOrder", "DESCENDING");
-                        break;
-                    case UNSORTED:
-                        putClientProperty("Table.sortOrder", "UNSORTED");
-                        break;
-                    default:
-                        throw new AssertionError("Cannot happen");
+                    cbse ASCENDING:
+                        putClientProperty("Tbble.sortOrder", "ASCENDING");
+                        brebk;
+                    cbse DESCENDING:
+                        putClientProperty("Tbble.sortOrder", "DESCENDING");
+                        brebk;
+                    cbse UNSORTED:
+                        putClientProperty("Tbble.sortOrder", "UNSORTED");
+                        brebk;
+                    defbult:
+                        throw new AssertionError("Cbnnot hbppen");
                 }
             } else {
-                putClientProperty("Table.sortOrder", "UNSORTED");
+                putClientProperty("Tbble.sortOrder", "UNSORTED");
             }
 
-            super.getTableCellRendererComponent(table, value, isSelected,
-                                                hasFocus, row, column);
+            super.getTbbleCellRendererComponent(tbble, vblue, isSelected,
+                                                hbsFocus, row, column);
 
             return this;
         }
 
         @Override
         public void setBorder(Border border) {
-            if (border instanceof SynthBorder) {
+            if (border instbnceof SynthBorder) {
                 super.setBorder(border);
             }
         }

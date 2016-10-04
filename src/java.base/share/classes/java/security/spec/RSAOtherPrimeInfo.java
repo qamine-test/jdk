@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.spec;
+pbckbge jbvb.security.spec;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
 /**
- * This class represents the triplet (prime, exponent, and coefficient)
- * inside RSA's OtherPrimeInfo structure, as defined in the PKCS#1 v2.1.
- * The ASN.1 syntax of RSA's OtherPrimeInfo is as follows:
+ * This clbss represents the triplet (prime, exponent, bnd coefficient)
+ * inside RSA's OtherPrimeInfo structure, bs defined in the PKCS#1 v2.1.
+ * The ASN.1 syntbx of RSA's OtherPrimeInfo is bs follows:
  *
  * <pre>
  * OtherPrimeInfo ::= SEQUENCE {
@@ -41,32 +41,32 @@ import java.math.BigInteger;
  *
  * </pre>
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  *
- * @see RSAPrivateCrtKeySpec
- * @see java.security.interfaces.RSAMultiPrimePrivateCrtKey
+ * @see RSAPrivbteCrtKeySpec
+ * @see jbvb.security.interfbces.RSAMultiPrimePrivbteCrtKey
  *
  * @since 1.4
  */
 
-public class RSAOtherPrimeInfo {
+public clbss RSAOtherPrimeInfo {
 
-    private BigInteger prime;
-    private BigInteger primeExponent;
-    private BigInteger crtCoefficient;
+    privbte BigInteger prime;
+    privbte BigInteger primeExponent;
+    privbte BigInteger crtCoefficient;
 
 
    /**
-    * Creates a new {@code RSAOtherPrimeInfo}
-    * given the prime, primeExponent, and
-    * crtCoefficient as defined in PKCS#1.
+    * Crebtes b new {@code RSAOtherPrimeInfo}
+    * given the prime, primeExponent, bnd
+    * crtCoefficient bs defined in PKCS#1.
     *
-    * @param prime the prime factor of n.
-    * @param primeExponent the exponent.
-    * @param crtCoefficient the Chinese Remainder Theorem
+    * @pbrbm prime the prime fbctor of n.
+    * @pbrbm primeExponent the exponent.
+    * @pbrbm crtCoefficient the Chinese Rembinder Theorem
     * coefficient.
-    * @exception NullPointerException if any of the parameters, i.e.
+    * @exception NullPointerException if bny of the pbrbmeters, i.e.
     * {@code prime}, {@code primeExponent},
     * {@code crtCoefficient}, is null.
     *
@@ -75,15 +75,15 @@ public class RSAOtherPrimeInfo {
                           BigInteger primeExponent,
                           BigInteger crtCoefficient) {
         if (prime == null) {
-            throw new NullPointerException("the prime parameter must be " +
+            throw new NullPointerException("the prime pbrbmeter must be " +
                                             "non-null");
         }
         if (primeExponent == null) {
-            throw new NullPointerException("the primeExponent parameter " +
+            throw new NullPointerException("the primeExponent pbrbmeter " +
                                             "must be non-null");
         }
         if (crtCoefficient == null) {
-            throw new NullPointerException("the crtCoefficient parameter " +
+            throw new NullPointerException("the crtCoefficient pbrbmeter " +
                                             "must be non-null");
         }
         this.prime = prime;
@@ -96,7 +96,7 @@ public class RSAOtherPrimeInfo {
      *
      * @return the prime.
      */
-    public final BigInteger getPrime() {
+    public finbl BigInteger getPrime() {
         return this.prime;
     }
 
@@ -105,7 +105,7 @@ public class RSAOtherPrimeInfo {
      *
      * @return the primeExponent.
      */
-    public final BigInteger getExponent() {
+    public finbl BigInteger getExponent() {
         return this.primeExponent;
     }
 
@@ -114,7 +114,7 @@ public class RSAOtherPrimeInfo {
      *
      * @return the crtCoefficient.
      */
-    public final BigInteger getCrtCoefficient() {
+    public finbl BigInteger getCrtCoefficient() {
         return this.crtCoefficient;
     }
 }

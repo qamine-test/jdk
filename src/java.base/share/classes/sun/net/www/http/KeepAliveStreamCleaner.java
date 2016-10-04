@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.http;
+pbckbge sun.net.www.http;
 
-import java.io.IOException;
-import java.util.LinkedList;
+import jbvb.io.IOException;
+import jbvb.util.LinkedList;
 import sun.net.NetProperties;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * This class is used to cleanup any remaining data that may be on a KeepAliveStream
- * so that the connection can be cached in the KeepAliveCache.
- * Instances of this class can be used as a FIFO queue for KeepAliveCleanerEntry objects.
- * Executing this Runnable removes each KeepAliveCleanerEntry from the Queue, reads
- * the reamining bytes on its KeepAliveStream, and if successful puts the connection in
- * the KeepAliveCache.
+ * This clbss is used to clebnup bny rembining dbtb thbt mby be on b KeepAliveStrebm
+ * so thbt the connection cbn be cbched in the KeepAliveCbche.
+ * Instbnces of this clbss cbn be used bs b FIFO queue for KeepAliveClebnerEntry objects.
+ * Executing this Runnbble removes ebch KeepAliveClebnerEntry from the Queue, rebds
+ * the rebmining bytes on its KeepAliveStrebm, bnd if successful puts the connection in
+ * the KeepAliveCbche.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-@SuppressWarnings("serial")  // never serialized
-class KeepAliveStreamCleaner
-    extends LinkedList<KeepAliveCleanerEntry>
-    implements Runnable
+@SuppressWbrnings("seribl")  // never seriblized
+clbss KeepAliveStrebmClebner
+    extends LinkedList<KeepAliveClebnerEntry>
+    implements Runnbble
 {
-    // maximum amount of remaining data that we will try to cleanup
-    protected static int MAX_DATA_REMAINING = 512;
+    // mbximum bmount of rembining dbtb thbt we will try to clebnup
+    protected stbtic int MAX_DATA_REMAINING = 512;
 
-    // maximum amount of KeepAliveStreams to be queued
-    protected static int MAX_CAPACITY = 10;
+    // mbximum bmount of KeepAliveStrebms to be queued
+    protected stbtic int MAX_CAPACITY = 10;
 
-    // timeout for both socket and poll on the queue
-    protected static final int TIMEOUT = 5000;
+    // timeout for both socket bnd poll on the queue
+    protected stbtic finbl int TIMEOUT = 5000;
 
-    // max retries for skipping data
-    private static final int MAX_RETRIES = 5;
+    // mbx retries for skipping dbtb
+    privbte stbtic finbl int MAX_RETRIES = 5;
 
-    static {
-        final String maxDataKey = "http.KeepAlive.remainingData";
-        int maxData = AccessController.doPrivileged(
+    stbtic {
+        finbl String mbxDbtbKey = "http.KeepAlive.rembiningDbtb";
+        int mbxDbtb = AccessController.doPrivileged(
             new PrivilegedAction<Integer>() {
                 public Integer run() {
-                    return NetProperties.getInteger(maxDataKey, MAX_DATA_REMAINING);
-                }}).intValue() * 1024;
-        MAX_DATA_REMAINING = maxData;
+                    return NetProperties.getInteger(mbxDbtbKey, MAX_DATA_REMAINING);
+                }}).intVblue() * 1024;
+        MAX_DATA_REMAINING = mbxDbtb;
 
-        final String maxCapacityKey = "http.KeepAlive.queuedConnections";
-        int maxCapacity = AccessController.doPrivileged(
+        finbl String mbxCbpbcityKey = "http.KeepAlive.queuedConnections";
+        int mbxCbpbcity = AccessController.doPrivileged(
             new PrivilegedAction<Integer>() {
                 public Integer run() {
-                    return NetProperties.getInteger(maxCapacityKey, MAX_CAPACITY);
-                }}).intValue();
-        MAX_CAPACITY = maxCapacity;
+                    return NetProperties.getInteger(mbxCbpbcityKey, MAX_CAPACITY);
+                }}).intVblue();
+        MAX_CAPACITY = mbxCbpbcity;
 
     }
 
 
     @Override
-    public boolean offer(KeepAliveCleanerEntry e) {
+    public boolebn offer(KeepAliveClebnerEntry e) {
         if (size() >= MAX_CAPACITY)
-            return false;
+            return fblse;
 
         return super.offer(e);
     }
@@ -90,66 +90,66 @@ class KeepAliveStreamCleaner
     @Override
     public void run()
     {
-        KeepAliveCleanerEntry kace = null;
+        KeepAliveClebnerEntry kbce = null;
 
         do {
             try {
                 synchronized(this) {
                     long before = System.currentTimeMillis();
                     long timeout = TIMEOUT;
-                    while ((kace = poll()) == null) {
-                        this.wait(timeout);
+                    while ((kbce = poll()) == null) {
+                        this.wbit(timeout);
 
-                        long after = System.currentTimeMillis();
-                        long elapsed = after - before;
-                        if (elapsed > timeout) {
-                            /* one last try */
-                            kace = poll();
-                            break;
+                        long bfter = System.currentTimeMillis();
+                        long elbpsed = bfter - before;
+                        if (elbpsed > timeout) {
+                            /* one lbst try */
+                            kbce = poll();
+                            brebk;
                         }
-                        before = after;
-                        timeout -= elapsed;
+                        before = bfter;
+                        timeout -= elbpsed;
                     }
                 }
 
-                if(kace == null)
-                    break;
+                if(kbce == null)
+                    brebk;
 
-                KeepAliveStream kas = kace.getKeepAliveStream();
+                KeepAliveStrebm kbs = kbce.getKeepAliveStrebm();
 
-                if (kas != null) {
-                    synchronized(kas) {
-                        HttpClient hc = kace.getHttpClient();
+                if (kbs != null) {
+                    synchronized(kbs) {
+                        HttpClient hc = kbce.getHttpClient();
                         try {
-                            if (hc != null && !hc.isInKeepAliveCache()) {
-                                int oldTimeout = hc.getReadTimeout();
-                                hc.setReadTimeout(TIMEOUT);
-                                long remainingToRead = kas.remainingToRead();
-                                if (remainingToRead > 0) {
+                            if (hc != null && !hc.isInKeepAliveCbche()) {
+                                int oldTimeout = hc.getRebdTimeout();
+                                hc.setRebdTimeout(TIMEOUT);
+                                long rembiningToRebd = kbs.rembiningToRebd();
+                                if (rembiningToRebd > 0) {
                                     long n = 0;
                                     int retries = 0;
-                                    while (n < remainingToRead && retries < MAX_RETRIES) {
-                                        remainingToRead = remainingToRead - n;
-                                        n = kas.skip(remainingToRead);
+                                    while (n < rembiningToRebd && retries < MAX_RETRIES) {
+                                        rembiningToRebd = rembiningToRebd - n;
+                                        n = kbs.skip(rembiningToRebd);
                                         if (n == 0)
                                             retries++;
                                     }
-                                    remainingToRead = remainingToRead - n;
+                                    rembiningToRebd = rembiningToRebd - n;
                                 }
-                                if (remainingToRead == 0) {
-                                    hc.setReadTimeout(oldTimeout);
+                                if (rembiningToRebd == 0) {
+                                    hc.setRebdTimeout(oldTimeout);
                                     hc.finished();
                                 } else
                                     hc.closeServer();
                             }
-                        } catch (IOException ioe) {
+                        } cbtch (IOException ioe) {
                             hc.closeServer();
-                        } finally {
-                            kas.setClosed();
+                        } finblly {
+                            kbs.setClosed();
                         }
                     }
                 }
-            } catch (InterruptedException ie) { }
-        } while (kace != null);
+            } cbtch (InterruptedException ie) { }
+        } while (kbce != null);
     }
 }

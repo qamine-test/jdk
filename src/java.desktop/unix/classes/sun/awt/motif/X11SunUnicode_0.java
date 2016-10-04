@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.awt.motif;
+pbckbge sun.bwt.motif;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CharsetDecoder;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.ChbrsetDecoder;
 import sun.nio.cs.ext.DoubleByteEncoder;
 
-public class X11SunUnicode_0 extends Charset {
+public clbss X11SunUnicode_0 extends Chbrset {
     public X11SunUnicode_0 () {
         super("X11SunUnicode_0", null);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    /* Seems like supporting a decoder is required, but we aren't going
-     * to be publically exposing this class, so no need to waste work
+    /* Seems like supporting b decoder is required, but we bren't going
+     * to be publicblly exposing this clbss, so no need to wbste work
      */
-    public CharsetDecoder newDecoder() {
-        throw new Error("Decoder is not implemented for X11SunUnicode_0 Charset");
+    public ChbrsetDecoder newDecoder() {
+        throw new Error("Decoder is not implemented for X11SunUnicode_0 Chbrset");
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof X11SunUnicode_0;
+    public boolebn contbins(Chbrset cs) {
+        return cs instbnceof X11SunUnicode_0;
     }
 
-    private static class Encoder extends DoubleByteEncoder {
-        public Encoder(Charset cs) {
+    privbte stbtic clbss Encoder extends DoubleByteEncoder {
+        public Encoder(Chbrset cs) {
             super(cs, index1, index2);
         }
 
-        private final static String innerIndex0=
+        privbte finbl stbtic String innerIndex0=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
@@ -122,7 +122,7 @@ public class X11SunUnicode_0 extends Charset {
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-        private final static short index1[] = {
+        privbte finbl stbtic short index1[] = {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -141,12 +141,12 @@ public class X11SunUnicode_0 extends Charset {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
-        private final static String index2[] = {
+        privbte finbl stbtic String index2[] = {
             innerIndex0
         };
 
-        /* The default implementation creates a decoder and we don't have one */
-        public boolean isLegalReplacement(byte[] repl) {
+        /* The defbult implementbtion crebtes b decoder bnd we don't hbve one */
+        public boolebn isLegblReplbcement(byte[] repl) {
             return true;
         }
     }

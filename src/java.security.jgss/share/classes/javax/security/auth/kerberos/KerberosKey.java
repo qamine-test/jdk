@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.util.Arrays;
-import javax.crypto.SecretKey;
-import javax.security.auth.DestroyFailedException;
+import jbvb.util.Arrbys;
+import jbvbx.crypto.SecretKey;
+import jbvbx.security.buth.DestroyFbiledException;
 
 /**
- * This class encapsulates a long term secret key for a Kerberos
- * principal.<p>
+ * This clbss encbpsulbtes b long term secret key for b Kerberos
+ * principbl.<p>
  *
- * A {@code KerberosKey} object includes an EncryptionKey, a
- * {@link KerberosPrincipal} as its owner, and the version number
+ * A {@code KerberosKey} object includes bn EncryptionKey, b
+ * {@link KerberosPrincipbl} bs its owner, bnd the version number
  * of the key.<p>
  *
  * An EncryptionKey is defined in Section 4.2.9 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
+ * Specificbtion (<b href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</b>) bs:
  * <pre>
  *     EncryptionKey   ::= SEQUENCE {
- *             keytype         [0] Int32 -- actually encryption type --,
- *             keyvalue        [1] OCTET STRING
+ *             keytype         [0] Int32 -- bctublly encryption type --,
+ *             keyvblue        [1] OCTET STRING
  *     }
  * </pre>
- * The key material of a {@code KerberosKey} is defined as the value
- * of the {@code keyValue} above.<p>
+ * The key mbteribl of b {@code KerberosKey} is defined bs the vblue
+ * of the {@code keyVblue} bbove.<p>
  *
- * All Kerberos JAAS login modules that obtain a principal's password and
- * generate the secret key from it should use this class.
- * Sometimes, such as when authenticating a server in
- * the absence of user-to-user authentication, the login module will store
- * an instance of this class in the private credential set of a
- * {@link javax.security.auth.Subject Subject} during the commit phase of the
- * authentication process.<p>
+ * All Kerberos JAAS login modules thbt obtbin b principbl's pbssword bnd
+ * generbte the secret key from it should use this clbss.
+ * Sometimes, such bs when buthenticbting b server in
+ * the bbsence of user-to-user buthenticbtion, the login module will store
+ * bn instbnce of this clbss in the privbte credentibl set of b
+ * {@link jbvbx.security.buth.Subject Subject} during the commit phbse of the
+ * buthenticbtion process.<p>
  *
- * A Kerberos service using a keytab to read secret keys should use
- * the {@link KeyTab} class, where latest keys can be read when needed.<p>
+ * A Kerberos service using b keytbb to rebd secret keys should use
+ * the {@link KeyTbb} clbss, where lbtest keys cbn be rebd when needed.<p>
  *
- * It might be necessary for the application to be granted a
- * {@link javax.security.auth.PrivateCredentialPermission
- * PrivateCredentialPermission} if it needs to access the KerberosKey
- * instance from a Subject. This permission is not needed when the
- * application depends on the default JGSS Kerberos mechanism to access the
- * KerberosKey. In that case, however, the application will need an
- * appropriate
- * {@link javax.security.auth.kerberos.ServicePermission ServicePermission}.<p>
+ * It might be necessbry for the bpplicbtion to be grbnted b
+ * {@link jbvbx.security.buth.PrivbteCredentiblPermission
+ * PrivbteCredentiblPermission} if it needs to bccess the KerberosKey
+ * instbnce from b Subject. This permission is not needed when the
+ * bpplicbtion depends on the defbult JGSS Kerberos mechbnism to bccess the
+ * KerberosKey. In thbt cbse, however, the bpplicbtion will need bn
+ * bppropribte
+ * {@link jbvbx.security.buth.kerberos.ServicePermission ServicePermission}.<p>
  *
- * When creating a {@code KerberosKey} using the
- * {@link #KerberosKey(KerberosPrincipal, char[], String)} constructor,
- * an implementation may accept non-IANA algorithm names (For example,
- * "ArcFourMac" for "rc4-hmac"), but the {@link #getAlgorithm} method
- * must always return the IANA algorithm name.<p>
+ * When crebting b {@code KerberosKey} using the
+ * {@link #KerberosKey(KerberosPrincipbl, chbr[], String)} constructor,
+ * bn implementbtion mby bccept non-IANA blgorithm nbmes (For exbmple,
+ * "ArcFourMbc" for "rc4-hmbc"), but the {@link #getAlgorithm} method
+ * must blwbys return the IANA blgorithm nbme.<p>
  *
- * @implNote Old algorithm names used before JDK 9 are supported in the
- * {@link #KerberosKey(KerberosPrincipal, char[], String)} constructor in this
- * implementation for compatibility reasons, which are "DES" (and null) for
- * "des-cbc-md5", "DESede" for "des3-cbc-sha1-kd", "ArcFourHmac" for "rc4-hmac",
- * "AES128" for "aes128-cts-hmac-sha1-96", and "AES256" for
- * "aes256-cts-hmac-sha1-96".
+ * @implNote Old blgorithm nbmes used before JDK 9 bre supported in the
+ * {@link #KerberosKey(KerberosPrincipbl, chbr[], String)} constructor in this
+ * implementbtion for compbtibility rebsons, which bre "DES" (bnd null) for
+ * "des-cbc-md5", "DESede" for "des3-cbc-shb1-kd", "ArcFourHmbc" for "rc4-hmbc",
+ * "AES128" for "bes128-cts-hmbc-shb1-96", bnd "AES256" for
+ * "bes256-cts-hmbc-shb1-96".
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class KerberosKey implements SecretKey {
+public clbss KerberosKey implements SecretKey {
 
-    private static final long serialVersionUID = -4625402278148246993L;
+    privbte stbtic finbl long seriblVersionUID = -4625402278148246993L;
 
    /**
-     * The principal that this secret key belongs to.
+     * The principbl thbt this secret key belongs to.
      *
-     * @serial
+     * @seribl
      */
-    private KerberosPrincipal principal;
+    privbte KerberosPrincipbl principbl;
 
    /**
      * the version number of this secret key
      *
-     * @serial
+     * @seribl
      */
-    private final int versionNum;
+    privbte finbl int versionNum;
 
    /**
-    * {@code KeyImpl} is serialized by writing out the ASN.1 encoded bytes
+    * {@code KeyImpl} is seriblized by writing out the ASN.1 encoded bytes
     * of the encryption key.
     *
-    * @serial
+    * @seribl
     */
 
-    private KeyImpl key;
-    private transient boolean destroyed = false;
+    privbte KeyImpl key;
+    privbte trbnsient boolebn destroyed = fblse;
 
     /**
-     * Constructs a KerberosKey from the given bytes when the key type and
-     * key version number are known. This can be used when reading the secret
-     * key information from a Kerberos "keytab".
+     * Constructs b KerberosKey from the given bytes when the key type bnd
+     * key version number bre known. This cbn be used when rebding the secret
+     * key informbtion from b Kerberos "keytbb".
      *
-     * @param principal the principal that this secret key belongs to
-     * @param keyBytes the key material for the secret key
-     * @param keyType the key type for the secret key as defined by the
-     * Kerberos protocol specification.
-     * @param versionNum the version number of this secret key
+     * @pbrbm principbl the principbl thbt this secret key belongs to
+     * @pbrbm keyBytes the key mbteribl for the secret key
+     * @pbrbm keyType the key type for the secret key bs defined by the
+     * Kerberos protocol specificbtion.
+     * @pbrbm versionNum the version number of this secret key
      */
-    public KerberosKey(KerberosPrincipal principal,
+    public KerberosKey(KerberosPrincipbl principbl,
                        byte[] keyBytes,
                        int keyType,
                        int versionNum) {
-        this.principal = principal;
+        this.principbl = principbl;
         this.versionNum = versionNum;
         key = new KeyImpl(keyBytes, keyType);
     }
 
     /**
-     * Constructs a KerberosKey from a principal's password using the specified
-     * algorithm name. The algorithm name (case insensitive) should be provided
-     * as the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page. The version number of the key generated will be 0.
+     * Constructs b KerberosKey from b principbl's pbssword using the specified
+     * blgorithm nbme. The blgorithm nbme (cbse insensitive) should be provided
+     * bs the encryption type string defined on the IANA
+     * <b href="https://www.ibnb.org/bssignments/kerberos-pbrbmeters/kerberos-pbrbmeters.xhtml#kerberos-pbrbmeters-1">Kerberos Encryption Type Numbers</b>
+     * pbge. The version number of the key generbted will be 0.
      *
-     * @param principal the principal that this password belongs to
-     * @param password the password that should be used to compute the key
-     * @param algorithm the name for the algorithm that this key will be
+     * @pbrbm principbl the principbl thbt this pbssword belongs to
+     * @pbrbm pbssword the pbssword thbt should be used to compute the key
+     * @pbrbm blgorithm the nbme for the blgorithm thbt this key will be
      * used for
-     * @throws IllegalArgumentException if the name of the
-     * algorithm passed is unsupported.
+     * @throws IllegblArgumentException if the nbme of the
+     * blgorithm pbssed is unsupported.
      */
-    public KerberosKey(KerberosPrincipal principal,
-                       char[] password,
-                       String algorithm) {
+    public KerberosKey(KerberosPrincipbl principbl,
+                       chbr[] pbssword,
+                       String blgorithm) {
 
-        this.principal = principal;
+        this.principbl = principbl;
         this.versionNum = 0;
-        // Pass principal in for salt
-        key = new KeyImpl(principal, password, algorithm);
+        // Pbss principbl in for sblt
+        key = new KeyImpl(principbl, pbssword, blgorithm);
     }
 
     /**
-     * Returns the principal that this key belongs to.
+     * Returns the principbl thbt this key belongs to.
      *
-     * @return the principal this key belongs to.
-     * @throws IllegalStateException if the key is destroyed
+     * @return the principbl this key belongs to.
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final KerberosPrincipal getPrincipal() {
+    public finbl KerberosPrincipbl getPrincipbl() {
         if (destroyed) {
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
         }
-        return principal;
+        return principbl;
     }
 
     /**
      * Returns the key version number.
      *
      * @return the key version number.
-     * @throws IllegalStateException if the key is destroyed
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final int getVersionNumber() {
+    public finbl int getVersionNumber() {
         if (destroyed) {
-            throw new IllegalStateException("This key is no longer valid");
+            throw new IllegblStbteException("This key is no longer vblid");
         }
         return versionNum;
     }
@@ -186,78 +186,78 @@ public class KerberosKey implements SecretKey {
      * Returns the key type for this long-term key.
      *
      * @return the key type.
-     * @throws IllegalStateException if the key is destroyed
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final int getKeyType() {
-        // KeyImpl already checked if destroyed
+    public finbl int getKeyType() {
+        // KeyImpl blrebdy checked if destroyed
         return key.getKeyType();
     }
 
     /*
-     * Methods from java.security.Key
+     * Methods from jbvb.security.Key
      */
 
     /**
-     * Returns the standard algorithm name for this key. The algorithm names
-     * are the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page.
+     * Returns the stbndbrd blgorithm nbme for this key. The blgorithm nbmes
+     * bre the encryption type string defined on the IANA
+     * <b href="https://www.ibnb.org/bssignments/kerberos-pbrbmeters/kerberos-pbrbmeters.xhtml#kerberos-pbrbmeters-1">Kerberos Encryption Type Numbers</b>
+     * pbge.
      * <p>
-     * This method can return the following value not defined on the IANA page:
+     * This method cbn return the following vblue not defined on the IANA pbge:
      * <ol>
-     *     <li>none: for etype equal to 0</li>
-     *     <li>unknown: for etype greater than 0 but unsupported by
-     *         the implementation</li>
-     *     <li>private: for etype smaller than 0</li>
+     *     <li>none: for etype equbl to 0</li>
+     *     <li>unknown: for etype grebter thbn 0 but unsupported by
+     *         the implementbtion</li>
+     *     <li>privbte: for etype smbller thbn 0</li>
      * </ol>
      *
-     * @return the name of the algorithm associated with this key.
-     * @throws IllegalStateException if the key is destroyed
+     * @return the nbme of the blgorithm bssocibted with this key.
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final String getAlgorithm() {
-        // KeyImpl already checked if destroyed
+    public finbl String getAlgorithm() {
+        // KeyImpl blrebdy checked if destroyed
         return key.getAlgorithm();
     }
 
     /**
-     * Returns the name of the encoding format for this secret key.
+     * Returns the nbme of the encoding formbt for this secret key.
      *
      * @return the String "RAW"
-     * @throws IllegalStateException if the key is destroyed
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final String getFormat() {
-        // KeyImpl already checked if destroyed
-        return key.getFormat();
+    public finbl String getFormbt() {
+        // KeyImpl blrebdy checked if destroyed
+        return key.getFormbt();
     }
 
     /**
-     * Returns the key material of this secret key.
+     * Returns the key mbteribl of this secret key.
      *
-     * @return the key material
-     * @throws IllegalStateException if the key is destroyed
+     * @return the key mbteribl
+     * @throws IllegblStbteException if the key is destroyed
      */
-    public final byte[] getEncoded() {
-        // KeyImpl already checked if destroyed
+    public finbl byte[] getEncoded() {
+        // KeyImpl blrebdy checked if destroyed
         return key.getEncoded();
     }
 
     /**
-     * Destroys this key by clearing out the key material of this secret key.
+     * Destroys this key by clebring out the key mbteribl of this secret key.
      *
-     * @throws DestroyFailedException if some error occurs while destorying
+     * @throws DestroyFbiledException if some error occurs while destorying
      * this key.
      */
-    public void destroy() throws DestroyFailedException {
+    public void destroy() throws DestroyFbiledException {
         if (!destroyed) {
             key.destroy();
-            principal = null;
+            principbl = null;
             destroyed = true;
         }
     }
 
 
-    /** Determines if this key has been destroyed.*/
-    public boolean isDestroyed() {
+    /** Determines if this key hbs been destroyed.*/
+    public boolebn isDestroyed() {
         return destroyed;
     }
 
@@ -265,70 +265,70 @@ public class KerberosKey implements SecretKey {
         if (destroyed) {
             return "Destroyed KerberosKey";
         }
-        return "Kerberos Principal " + principal +
+        return "Kerberos Principbl " + principbl +
                 "Key Version " + versionNum +
                 "key "  + key.toString();
     }
 
     /**
-     * Returns a hashcode for this KerberosKey.
+     * Returns b hbshcode for this KerberosKey.
      *
-     * @return a hashCode() for the {@code KerberosKey}
+     * @return b hbshCode() for the {@code KerberosKey}
      * @since 1.6
      */
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (isDestroyed()) {
             return result;
         }
-        result = 37 * result + Arrays.hashCode(getEncoded());
+        result = 37 * result + Arrbys.hbshCode(getEncoded());
         result = 37 * result + getKeyType();
-        if (principal != null) {
-            result = 37 * result + principal.hashCode();
+        if (principbl != null) {
+            result = 37 * result + principbl.hbshCode();
         }
         return result * 37 + versionNum;
     }
 
     /**
-     * Compares the specified Object with this KerberosKey for equality.
-     * Returns true if the given object is also a
-     * {@code KerberosKey} and the two
-     * {@code KerberosKey} instances are equivalent.
+     * Compbres the specified Object with this KerberosKey for equblity.
+     * Returns true if the given object is blso b
+     * {@code KerberosKey} bnd the two
+     * {@code KerberosKey} instbnces bre equivblent.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this KerberosKey,
-     * false otherwise. NOTE: Returns false if either of the KerberosKey
-     * objects has been destroyed.
+     * @pbrbm other the Object to compbre to
+     * @return true if the specified object is equbl to this KerberosKey,
+     * fblse otherwise. NOTE: Returns fblse if either of the KerberosKey
+     * objects hbs been destroyed.
      * @since 1.6
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
 
         if (other == this) {
             return true;
         }
 
-        if (! (other instanceof KerberosKey)) {
-            return false;
+        if (! (other instbnceof KerberosKey)) {
+            return fblse;
         }
 
         KerberosKey otherKey = ((KerberosKey) other);
         if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+            return fblse;
         }
 
         if (versionNum != otherKey.getVersionNumber() ||
                 getKeyType() != otherKey.getKeyType() ||
-                !Arrays.equals(getEncoded(), otherKey.getEncoded())) {
-            return false;
+                !Arrbys.equbls(getEncoded(), otherKey.getEncoded())) {
+            return fblse;
         }
 
-        if (principal == null) {
-            if (otherKey.getPrincipal() != null) {
-                return false;
+        if (principbl == null) {
+            if (otherKey.getPrincipbl() != null) {
+                return fblse;
             }
         } else {
-            if (!principal.equals(otherKey.getPrincipal())) {
-                return false;
+            if (!principbl.equbls(otherKey.getPrincipbl())) {
+                return fblse;
             }
         }
 

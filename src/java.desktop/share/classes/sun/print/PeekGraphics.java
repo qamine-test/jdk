@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.font.FontRenderContext;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.RenderingHints;
-import java.awt.RenderingHints.Key;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Color;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Stroke;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.RenderingHints.Key;
 
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.print.PrinterGraphics;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Line2D;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.RoundRectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.renderbble.RenderbbleImbge;
+import jbvb.bwt.print.PrinterGrbphics;
+import jbvb.bwt.print.PrinterJob;
 
-import java.text.AttributedCharacterIterator;
+import jbvb.text.AttributedChbrbcterIterbtor;
 
-import sun.java2d.Spans;
+import sun.jbvb2d.Spbns;
 
-public class PeekGraphics extends Graphics2D
-                          implements PrinterGraphics,
-                                     ImageObserver,
-                                     Cloneable {
+public clbss PeekGrbphics extends Grbphics2D
+                          implements PrinterGrbphics,
+                                     ImbgeObserver,
+                                     Clonebble {
 
     /**
-     * Drawing methods will be forwarded to this object.
+     * Drbwing methods will be forwbrded to this object.
      */
-    Graphics2D mGraphics;
+    Grbphics2D mGrbphics;
 
     /**
      * The PrinterJob controlling the current printing.
@@ -81,48 +81,48 @@ public class PeekGraphics extends Graphics2D
     PrinterJob mPrinterJob;
 
     /**
-     * Keeps track of where drawing occurs on the page.
+     * Keeps trbck of where drbwing occurs on the pbge.
      */
-    private Spans mDrawingArea = new Spans();
+    privbte Spbns mDrbwingAreb = new Spbns();
 
     /**
-     * Track information about the types of drawing
-     * performed by the printing application.
+     * Trbck informbtion bbout the types of drbwing
+     * performed by the printing bpplicbtion.
      */
-    private PeekMetrics mPrintMetrics = new PeekMetrics();
+    privbte PeekMetrics mPrintMetrics = new PeekMetrics();
 
     /**
-     * If true the application will only be drawing AWT style
-     * graphics, no Java2D graphics.
+     * If true the bpplicbtion will only be drbwing AWT style
+     * grbphics, no Jbvb2D grbphics.
      */
-    private boolean mAWTDrawingOnly = false;
+    privbte boolebn mAWTDrbwingOnly = fblse;
 
     /**
-     * The new PeekGraphics2D will forward state changing
-     * calls to 'graphics'. 'printerJob' is stored away
-     * so that the printing application can get the PrinterJob
+     * The new PeekGrbphics2D will forwbrd stbte chbnging
+     * cblls to 'grbphics'. 'printerJob' is stored bwby
+     * so thbt the printing bpplicbtion cbn get the PrinterJob
      * if needed.
      */
-    public PeekGraphics(Graphics2D graphics, PrinterJob printerJob) {
+    public PeekGrbphics(Grbphics2D grbphics, PrinterJob printerJob) {
 
-        mGraphics = graphics;
+        mGrbphics = grbphics;
         mPrinterJob = printerJob;
     }
 
     /**
-     * Return the Graphics2D object that does the drawing
-     * for this instance.
+     * Return the Grbphics2D object thbt does the drbwing
+     * for this instbnce.
      */
-    public Graphics2D getDelegate() {
-        return mGraphics;
+    public Grbphics2D getDelegbte() {
+        return mGrbphics;
     }
 
     /**
-     * Set the Graphics2D instance which will do the
-     * drawing.
+     * Set the Grbphics2D instbnce which will do the
+     * drbwing.
      */
-    public void setDelegate(Graphics2D graphics) {
-        mGraphics = graphics;
+    public void setDelegbte(Grbphics2D grbphics) {
+        mGrbphics = grbphics;
     }
 
     public PrinterJob getPrinterJob() {
@@ -130,631 +130,631 @@ public class PeekGraphics extends Graphics2D
     }
 
     /**
-     * The caller promises that only AWT graphics will be drawn.
-     * The print system can use this information to make general
-     * assumptions about the types of graphics to be drawn without
-     * requiring the application to draw the contents multiple
+     * The cbller promises thbt only AWT grbphics will be drbwn.
+     * The print system cbn use this informbtion to mbke generbl
+     * bssumptions bbout the types of grbphics to be drbwn without
+     * requiring the bpplicbtion to drbw the contents multiple
      * times.
      */
-    public void setAWTDrawingOnly() {
-        mAWTDrawingOnly = true;
+    public void setAWTDrbwingOnly() {
+        mAWTDrbwingOnly = true;
     }
 
-    public boolean getAWTDrawingOnly() {
-        return mAWTDrawingOnly;
+    public boolebn getAWTDrbwingOnly() {
+        return mAWTDrbwingOnly;
     }
 
     /**
-     * Return a Spans instance describing the parts of the page in
-     * to which drawing occurred.
+     * Return b Spbns instbnce describing the pbrts of the pbge in
+     * to which drbwing occurred.
      */
-    public Spans getDrawingArea() {
-        return mDrawingArea;
+    public Spbns getDrbwingAreb() {
+        return mDrbwingAreb;
     }
 
     /**
-     * Returns the device configuration associated with this Graphics2D.
+     * Returns the device configurbtion bssocibted with this Grbphics2D.
      */
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return ((RasterPrinterJob)mPrinterJob).getPrinterGraphicsConfig();
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return ((RbsterPrinterJob)mPrinterJob).getPrinterGrbphicsConfig();
     }
 
-/* The Delegated Graphics Methods */
+/* The Delegbted Grbphics Methods */
 
     /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
+     * Crebtes b new <code>Grbphics</code> object thbt is
+     * b copy of this <code>Grbphics</code> object.
+     * @return     b new grbphics context thbt is b copy of
+     *                       this grbphics context.
      * @since      1.0
      */
-    public Graphics create() {
-        PeekGraphics newGraphics = null;
+    public Grbphics crebte() {
+        PeekGrbphics newGrbphics = null;
 
         try {
-            newGraphics = (PeekGraphics) clone();
-            newGraphics.mGraphics = (Graphics2D) mGraphics.create();
+            newGrbphics = (PeekGrbphics) clone();
+            newGrbphics.mGrbphics = (Grbphics2D) mGrbphics.crebte();
 
-        /* This exception can not happen unless this
-         * class no longer implements the Cloneable
-         * interface.
+        /* This exception cbn not hbppen unless this
+         * clbss no longer implements the Clonebble
+         * interfbce.
          */
-        } catch (CloneNotSupportedException e) {
-            // can never happen.
+        } cbtch (CloneNotSupportedException e) {
+            // cbn never hbppen.
         }
 
-        return newGraphics;
+        return newGrbphics;
     }
 
     /**
-     * Translates the origin of the graphics context to the point
-     * (<i>x</i>,&nbsp;<i>y</i>) in the current coordinate system.
-     * Modifies this graphics context so that its new origin corresponds
-     * to the point (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's
-     * original coordinate system.  All coordinates used in subsequent
-     * rendering operations on this graphics context will be relative
+     * Trbnslbtes the origin of the grbphics context to the point
+     * (<i>x</i>,&nbsp;<i>y</i>) in the current coordinbte system.
+     * Modifies this grbphics context so thbt its new origin corresponds
+     * to the point (<i>x</i>,&nbsp;<i>y</i>) in this grbphics context's
+     * originbl coordinbte system.  All coordinbtes used in subsequent
+     * rendering operbtions on this grbphics context will be relbtive
      * to this new origin.
-     * @param  x   the <i>x</i> coordinate.
-     * @param  y   the <i>y</i> coordinate.
+     * @pbrbm  x   the <i>x</i> coordinbte.
+     * @pbrbm  y   the <i>y</i> coordinbte.
      * @since   1.0
      */
-    public void translate(int x, int y) {
-        mGraphics.translate(x, y);
+    public void trbnslbte(int x, int y) {
+        mGrbphics.trbnslbte(x, y);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translation transformation.
-     * This is equivalent to calling transform(T), where T is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * trbnslbtion trbnsformbtion.
+     * This is equivblent to cblling trbnsform(T), where T is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   1    0    tx  ]
      *          [   0    1    ty  ]
      *          [   0    0    1   ]
      * </pre>
      */
-    public void translate(double tx, double ty) {
-        mGraphics.translate(tx, ty);
+    public void trbnslbte(double tx, double ty) {
+        mGrbphics.trbnslbte(tx, ty);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * rotation transformation.
-     * This is equivalent to calling transform(R), where R is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * rotbtion trbnsformbtion.
+     * This is equivblent to cblling trbnsform(R), where R is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
-     *          [   cos(theta)    -sin(theta)    0   ]
-     *          [   sin(theta)     cos(theta)    0   ]
+     *          [   cos(thetb)    -sin(thetb)    0   ]
+     *          [   sin(thetb)     cos(thetb)    0   ]
      *          [       0              0         1   ]
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb The bngle of rotbtion in rbdibns.
      */
-    public void rotate(double theta) {
-        mGraphics.rotate(theta);
+    public void rotbte(double thetb) {
+        mGrbphics.rotbte(thetb);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translated rotation transformation.
-     * This is equivalent to the following sequence of calls:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * trbnslbted rotbtion trbnsformbtion.
+     * This is equivblent to the following sequence of cblls:
      * <pre>
-     *          translate(x, y);
-     *          rotate(theta);
-     *          translate(-x, -y);
+     *          trbnslbte(x, y);
+     *          rotbte(thetb);
+     *          trbnslbte(-x, -y);
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
-     * @param x The x coordinate of the origin of the rotation
-     * @param y The x coordinate of the origin of the rotation
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb The bngle of rotbtion in rbdibns.
+     * @pbrbm x The x coordinbte of the origin of the rotbtion
+     * @pbrbm y The x coordinbte of the origin of the rotbtion
      */
-    public void rotate(double theta, double x, double y) {
-        mGraphics.rotate(theta, x, y);
+    public void rotbte(double thetb, double x, double y) {
+        mGrbphics.rotbte(thetb, x, y);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * scaling transformation.
-     * This is equivalent to calling transform(S), where S is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * scbling trbnsformbtion.
+     * This is equivblent to cblling trbnsform(S), where S is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   sx   0    0   ]
      *          [   0    sy   0   ]
      *          [   0    0    1   ]
      * </pre>
      */
-    public void scale(double sx, double sy) {
-        mGraphics.scale(sx, sy);
+    public void scble(double sx, double sy) {
+        mGrbphics.scble(sx, sy);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * shearing transformation.
-     * This is equivalent to calling transform(SH), where SH is an
-     * AffineTransform represented by the following matrix:
+     * Concbtenbtes the current trbnsform of this Grbphics2D with b
+     * shebring trbnsformbtion.
+     * This is equivblent to cblling trbnsform(SH), where SH is bn
+     * AffineTrbnsform represented by the following mbtrix:
      * <pre>
      *          [   1   shx   0   ]
      *          [  shy   1    0   ]
      *          [   0    0    1   ]
      * </pre>
-     * @param shx The factor by which coordinates are shifted towards the
-     * positive X axis direction according to their Y coordinate
-     * @param shy The factor by which coordinates are shifted towards the
-     * positive Y axis direction according to their X coordinate
+     * @pbrbm shx The fbctor by which coordinbtes bre shifted towbrds the
+     * positive X bxis direction bccording to their Y coordinbte
+     * @pbrbm shy The fbctor by which coordinbtes bre shifted towbrds the
+     * positive Y bxis direction bccording to their X coordinbte
      */
-    public void shear(double shx, double shy) {
-        mGraphics.shear(shx, shy);
+    public void shebr(double shx, double shy) {
+        mGrbphics.shebr(shx, shy);
     }
 
     /**
-     * Gets this graphics context's current color.
-     * @return    this graphics context's current color.
-     * @see       java.awt.Color
-     * @see       java.awt.Graphics#setColor
+     * Gets this grbphics context's current color.
+     * @return    this grbphics context's current color.
+     * @see       jbvb.bwt.Color
+     * @see       jbvb.bwt.Grbphics#setColor
      * @since     1.0
      */
     public Color getColor() {
-        return mGraphics.getColor();
+        return mGrbphics.getColor();
     }
 
     /**
-     * Sets this graphics context's current color to the specified
-     * color. All subsequent graphics operations using this graphics
+     * Sets this grbphics context's current color to the specified
+     * color. All subsequent grbphics operbtions using this grbphics
      * context use this specified color.
-     * @param     c   the new rendering color.
-     * @see       java.awt.Color
-     * @see       java.awt.Graphics#getColor
+     * @pbrbm     c   the new rendering color.
+     * @see       jbvb.bwt.Color
+     * @see       jbvb.bwt.Grbphics#getColor
      * @since     1.0
      */
     public void setColor(Color c) {
-        mGraphics.setColor(c);
+        mGrbphics.setColor(c);
     }
 
     /**
-     * Sets the paint mode of this graphics context to overwrite the
-     * destination with this graphics context's current color.
-     * This sets the logical pixel operation function to the paint or
-     * overwrite mode.  All subsequent rendering operations will
-     * overwrite the destination with the current color.
+     * Sets the pbint mode of this grbphics context to overwrite the
+     * destinbtion with this grbphics context's current color.
+     * This sets the logicbl pixel operbtion function to the pbint or
+     * overwrite mode.  All subsequent rendering operbtions will
+     * overwrite the destinbtion with the current color.
      * @since   1.0
      */
-    public void setPaintMode() {
-        mGraphics.setPaintMode();
+    public void setPbintMode() {
+        mGrbphics.setPbintMode();
     }
 
     /**
-     * Sets the paint mode of this graphics context to alternate between
-     * this graphics context's current color and the new specified color.
-     * This specifies that logical pixel operations are performed in the
-     * XOR mode, which alternates pixels between the current color and
-     * a specified XOR color.
+     * Sets the pbint mode of this grbphics context to blternbte between
+     * this grbphics context's current color bnd the new specified color.
+     * This specifies thbt logicbl pixel operbtions bre performed in the
+     * XOR mode, which blternbtes pixels between the current color bnd
+     * b specified XOR color.
      * <p>
-     * When drawing operations are performed, pixels which are the
-     * current color are changed to the specified color, and vice versa.
+     * When drbwing operbtions bre performed, pixels which bre the
+     * current color bre chbnged to the specified color, bnd vice versb.
      * <p>
-     * Pixels that are of colors other than those two colors are changed
-     * in an unpredictable but reversible manner; if the same figure is
-     * drawn twice, then all pixels are restored to their original values.
-     * @param     c1 the XOR alternation color
+     * Pixels thbt bre of colors other thbn those two colors bre chbnged
+     * in bn unpredictbble but reversible mbnner; if the sbme figure is
+     * drbwn twice, then bll pixels bre restored to their originbl vblues.
+     * @pbrbm     c1 the XOR blternbtion color
      * @since     1.0
      */
     public void setXORMode(Color c1) {
-        mGraphics.setXORMode(c1);
+        mGrbphics.setXORMode(c1);
     }
 
     /**
      * Gets the current font.
-     * @return    this graphics context's current font.
-     * @see       java.awt.Font
-     * @see       java.awt.Graphics#setFont
+     * @return    this grbphics context's current font.
+     * @see       jbvb.bwt.Font
+     * @see       jbvb.bwt.Grbphics#setFont
      * @since     1.0
      */
     public Font getFont() {
-        return mGraphics.getFont();
+        return mGrbphics.getFont();
     }
 
     /**
-     * Sets this graphics context's font to the specified font.
-     * All subsequent text operations using this graphics context
+     * Sets this grbphics context's font to the specified font.
+     * All subsequent text operbtions using this grbphics context
      * use this font.
-     * @param  font   the font.
-     * @see     java.awt.Graphics#getFont
-     * @see     java.awt.Graphics#drawChars(java.lang.String, int, int)
-     * @see     java.awt.Graphics#drawString(byte[], int, int, int, int)
-     * @see     java.awt.Graphics#drawBytes(char[], int, int, int, int)
+     * @pbrbm  font   the font.
+     * @see     jbvb.bwt.Grbphics#getFont
+     * @see     jbvb.bwt.Grbphics#drbwChbrs(jbvb.lbng.String, int, int)
+     * @see     jbvb.bwt.Grbphics#drbwString(byte[], int, int, int, int)
+     * @see     jbvb.bwt.Grbphics#drbwBytes(chbr[], int, int, int, int)
      * @since   1.0
     */
     public void setFont(Font font) {
-        mGraphics.setFont(font);
+        mGrbphics.setFont(font);
     }
 
     /**
      * Gets the font metrics for the specified font.
      * @return    the font metrics for the specified font.
-     * @param     f the specified font
-     * @see       java.awt.Graphics#getFont
-     * @see       java.awt.FontMetrics
-     * @see       java.awt.Graphics#getFontMetrics()
+     * @pbrbm     f the specified font
+     * @see       jbvb.bwt.Grbphics#getFont
+     * @see       jbvb.bwt.FontMetrics
+     * @see       jbvb.bwt.Grbphics#getFontMetrics()
      * @since     1.0
      */
     public FontMetrics getFontMetrics(Font f) {
-        return mGraphics.getFontMetrics(f);
+        return mGrbphics.getFontMetrics(f);
     }
 
     /**
     * Get the rendering context of the font
-    * within this Graphics2D context.
+    * within this Grbphics2D context.
     */
     public FontRenderContext getFontRenderContext() {
-        return mGraphics.getFontRenderContext();
+        return mGrbphics.getFontRenderContext();
     }
 
     /**
-     * Returns the bounding rectangle of the current clipping area.
-     * The coordinates in the rectangle are relative to the coordinate
-     * system origin of this graphics context.
-     * @return      the bounding rectangle of the current clipping area.
-     * @see         java.awt.Graphics#getClip
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
-     * @see         java.awt.Graphics#setClip(Shape)
+     * Returns the bounding rectbngle of the current clipping breb.
+     * The coordinbtes in the rectbngle bre relbtive to the coordinbte
+     * system origin of this grbphics context.
+     * @return      the bounding rectbngle of the current clipping breb.
+     * @see         jbvb.bwt.Grbphics#getClip
+     * @see         jbvb.bwt.Grbphics#clipRect
+     * @see         jbvb.bwt.Grbphics#setClip(int, int, int, int)
+     * @see         jbvb.bwt.Grbphics#setClip(Shbpe)
      * @since       1.1
      */
-    public Rectangle getClipBounds() {
-        return mGraphics.getClipBounds();
+    public Rectbngle getClipBounds() {
+        return mGrbphics.getClipBounds();
     }
 
 
     /**
-     * Intersects the current clip with the specified rectangle.
-     * The resulting clipping area is the intersection of the current
-     * clipping area and the specified rectangle.
-     * This method can only be used to make the current clip smaller.
-     * To set the current clip larger, use any of the setClip methods.
-     * Rendering operations have no effect outside of the clipping area.
-     * @param x the x coordinate of the rectangle to intersect the clip with
-     * @param y the y coordinate of the rectangle to intersect the clip with
-     * @param width the width of the rectangle to intersect the clip with
-     * @param height the height of the rectangle to intersect the clip with
+     * Intersects the current clip with the specified rectbngle.
+     * The resulting clipping breb is the intersection of the current
+     * clipping breb bnd the specified rectbngle.
+     * This method cbn only be used to mbke the current clip smbller.
+     * To set the current clip lbrger, use bny of the setClip methods.
+     * Rendering operbtions hbve no effect outside of the clipping breb.
+     * @pbrbm x the x coordinbte of the rectbngle to intersect the clip with
+     * @pbrbm y the y coordinbte of the rectbngle to intersect the clip with
+     * @pbrbm width the width of the rectbngle to intersect the clip with
+     * @pbrbm height the height of the rectbngle to intersect the clip with
      * @see #setClip(int, int, int, int)
-     * @see #setClip(Shape)
+     * @see #setClip(Shbpe)
      */
     public void clipRect(int x, int y, int width, int height) {
-        mGraphics.clipRect(x, y, width, height);
+        mGrbphics.clipRect(x, y, width, height);
     }
 
 
     /**
-     * Sets the current clip to the rectangle specified by the given
-     * coordinates.
-     * Rendering operations have no effect outside of the clipping area.
-     * @param       x the <i>x</i> coordinate of the new clip rectangle.
-     * @param       y the <i>y</i> coordinate of the new clip rectangle.
-     * @param       width the width of the new clip rectangle.
-     * @param       height the height of the new clip rectangle.
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(Shape)
+     * Sets the current clip to the rectbngle specified by the given
+     * coordinbtes.
+     * Rendering operbtions hbve no effect outside of the clipping breb.
+     * @pbrbm       x the <i>x</i> coordinbte of the new clip rectbngle.
+     * @pbrbm       y the <i>y</i> coordinbte of the new clip rectbngle.
+     * @pbrbm       width the width of the new clip rectbngle.
+     * @pbrbm       height the height of the new clip rectbngle.
+     * @see         jbvb.bwt.Grbphics#clipRect
+     * @see         jbvb.bwt.Grbphics#setClip(Shbpe)
      * @since       1.1
      */
     public void setClip(int x, int y, int width, int height) {
-        mGraphics.setClip(x, y, width, height);
+        mGrbphics.setClip(x, y, width, height);
     }
 
     /**
-     * Gets the current clipping area.
-     * @return      a <code>Shape</code> object representing the
-     *                      current clipping area.
-     * @see         java.awt.Graphics#getClipBounds
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
-     * @see         java.awt.Graphics#setClip(Shape)
+     * Gets the current clipping breb.
+     * @return      b <code>Shbpe</code> object representing the
+     *                      current clipping breb.
+     * @see         jbvb.bwt.Grbphics#getClipBounds
+     * @see         jbvb.bwt.Grbphics#clipRect
+     * @see         jbvb.bwt.Grbphics#setClip(int, int, int, int)
+     * @see         jbvb.bwt.Grbphics#setClip(Shbpe)
      * @since       1.1
      */
-    public Shape getClip() {
-        return mGraphics.getClip();
+    public Shbpe getClip() {
+        return mGrbphics.getClip();
     }
 
 
     /**
-     * Sets the current clipping area to an arbitrary clip shape.
-     * Not all objects which implement the <code>Shape</code>
-     * interface can be used to set the clip.  The only
-     * <code>Shape</code> objects which are guaranteed to be
-     * supported are <code>Shape</code> objects which are
-     * obtained via the <code>getClip</code> method and via
-     * <code>Rectangle</code> objects.
-     * @see         java.awt.Graphics#getClip()
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
+     * Sets the current clipping breb to bn brbitrbry clip shbpe.
+     * Not bll objects which implement the <code>Shbpe</code>
+     * interfbce cbn be used to set the clip.  The only
+     * <code>Shbpe</code> objects which bre gubrbnteed to be
+     * supported bre <code>Shbpe</code> objects which bre
+     * obtbined vib the <code>getClip</code> method bnd vib
+     * <code>Rectbngle</code> objects.
+     * @see         jbvb.bwt.Grbphics#getClip()
+     * @see         jbvb.bwt.Grbphics#clipRect
+     * @see         jbvb.bwt.Grbphics#setClip(int, int, int, int)
      * @since       1.1
      */
-    public void setClip(Shape clip) {
-        mGraphics.setClip(clip);
+    public void setClip(Shbpe clip) {
+        mGrbphics.setClip(clip);
     }
 
 
     /**
-     * Copies an area of the component by a distance specified by
-     * <code>dx</code> and <code>dy</code>. From the point specified
-     * by <code>x</code> and <code>y</code>, this method
-     * copies downwards and to the right.  To copy an area of the
-     * component to the left or upwards, specify a negative value for
+     * Copies bn breb of the component by b distbnce specified by
+     * <code>dx</code> bnd <code>dy</code>. From the point specified
+     * by <code>x</code> bnd <code>y</code>, this method
+     * copies downwbrds bnd to the right.  To copy bn breb of the
+     * component to the left or upwbrds, specify b negbtive vblue for
      * <code>dx</code> or <code>dy</code>.
-     * If a portion of the source rectangle lies outside the bounds
-     * of the component, or is obscured by another window or component,
-     * <code>copyArea</code> will be unable to copy the associated
-     * pixels. The area that is omitted can be refreshed by calling
-     * the component's <code>paint</code> method.
-     * @param       x the <i>x</i> coordinate of the source rectangle.
-     * @param       y the <i>y</i> coordinate of the source rectangle.
-     * @param       width the width of the source rectangle.
-     * @param       height the height of the source rectangle.
-     * @param       dx the horizontal distance to copy the pixels.
-     * @param       dy the vertical distance to copy the pixels.
+     * If b portion of the source rectbngle lies outside the bounds
+     * of the component, or is obscured by bnother window or component,
+     * <code>copyAreb</code> will be unbble to copy the bssocibted
+     * pixels. The breb thbt is omitted cbn be refreshed by cblling
+     * the component's <code>pbint</code> method.
+     * @pbrbm       x the <i>x</i> coordinbte of the source rectbngle.
+     * @pbrbm       y the <i>y</i> coordinbte of the source rectbngle.
+     * @pbrbm       width the width of the source rectbngle.
+     * @pbrbm       height the height of the source rectbngle.
+     * @pbrbm       dx the horizontbl distbnce to copy the pixels.
+     * @pbrbm       dy the verticbl distbnce to copy the pixels.
      * @since       1.0
      */
-    public void copyArea(int x, int y, int width, int height,
+    public void copyAreb(int x, int y, int width, int height,
                          int dx, int dy) {
         // This method is not supported for printing so we do nothing here.
     }
 
     /**
-     * Draws a line, using the current color, between the points
-     * <code>(x1,&nbsp;y1)</code> and <code>(x2,&nbsp;y2)</code>
-     * in this graphics context's coordinate system.
-     * @param   x1  the first point's <i>x</i> coordinate.
-     * @param   y1  the first point's <i>y</i> coordinate.
-     * @param   x2  the second point's <i>x</i> coordinate.
-     * @param   y2  the second point's <i>y</i> coordinate.
+     * Drbws b line, using the current color, between the points
+     * <code>(x1,&nbsp;y1)</code> bnd <code>(x2,&nbsp;y2)</code>
+     * in this grbphics context's coordinbte system.
+     * @pbrbm   x1  the first point's <i>x</i> coordinbte.
+     * @pbrbm   y1  the first point's <i>y</i> coordinbte.
+     * @pbrbm   x2  the second point's <i>x</i> coordinbte.
+     * @pbrbm   y2  the second point's <i>y</i> coordinbte.
      * @since   1.0
      */
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        addStrokeShape(new Line2D.Float(x1, y1, x2, y2));
-        mPrintMetrics.draw(this);
+    public void drbwLine(int x1, int y1, int x2, int y2) {
+        bddStrokeShbpe(new Line2D.Flobt(x1, y1, x2, y2));
+        mPrintMetrics.drbw(this);
     }
 
 
 
     /**
-     * Fills the specified rectangle.
-     * The left and right edges of the rectangle are at
-     * <code>x</code> and <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>.
-     * The top and bottom edges are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
-     * The resulting rectangle covers an area
+     * Fills the specified rectbngle.
+     * The left bnd right edges of the rectbngle bre bt
+     * <code>x</code> bnd <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>.
+     * The top bnd bottom edges bre bt
+     * <code>y</code> bnd <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
+     * The resulting rectbngle covers bn breb
      * <code>width</code> pixels wide by
-     * <code>height</code> pixels tall.
-     * The rectangle is filled using the graphics context's current color.
-     * @param         x   the <i>x</i> coordinate
-     *                         of the rectangle to be filled.
-     * @param         y   the <i>y</i> coordinate
-     *                         of the rectangle to be filled.
-     * @param         width   the width of the rectangle to be filled.
-     * @param         height   the height of the rectangle to be filled.
-     * @see           java.awt.Graphics#fillRect
-     * @see           java.awt.Graphics#clearRect
+     * <code>height</code> pixels tbll.
+     * The rectbngle is filled using the grbphics context's current color.
+     * @pbrbm         x   the <i>x</i> coordinbte
+     *                         of the rectbngle to be filled.
+     * @pbrbm         y   the <i>y</i> coordinbte
+     *                         of the rectbngle to be filled.
+     * @pbrbm         width   the width of the rectbngle to be filled.
+     * @pbrbm         height   the height of the rectbngle to be filled.
+     * @see           jbvb.bwt.Grbphics#fillRect
+     * @see           jbvb.bwt.Grbphics#clebrRect
      * @since         1.0
      */
     public void fillRect(int x, int y, int width, int height) {
 
-        addDrawingRect(new Rectangle2D.Float(x, y, width, height));
+        bddDrbwingRect(new Rectbngle2D.Flobt(x, y, width, height));
         mPrintMetrics.fill(this);
 
     }
 
     /**
-     * Clears the specified rectangle by filling it with the background
-     * color of the current drawing surface. This operation does not
-     * use the current paint mode.
+     * Clebrs the specified rectbngle by filling it with the bbckground
+     * color of the current drbwing surfbce. This operbtion does not
+     * use the current pbint mode.
      * <p>
-     * Beginning with Java&nbsp;1.1, the background color
-     * of offscreen images may be system dependent. Applications should
+     * Beginning with Jbvb&nbsp;1.1, the bbckground color
+     * of offscreen imbges mby be system dependent. Applicbtions should
      * use <code>setColor</code> followed by <code>fillRect</code> to
-     * ensure that an offscreen image is cleared to a specific color.
-     * @param       x the <i>x</i> coordinate of the rectangle to clear.
-     * @param       y the <i>y</i> coordinate of the rectangle to clear.
-     * @param       width the width of the rectangle to clear.
-     * @param       height the height of the rectangle to clear.
-     * @see         java.awt.Graphics#fillRect(int, int, int, int)
-     * @see         java.awt.Graphics#drawRect
-     * @see         java.awt.Graphics#setColor(java.awt.Color)
-     * @see         java.awt.Graphics#setPaintMode
-     * @see         java.awt.Graphics#setXORMode(java.awt.Color)
+     * ensure thbt bn offscreen imbge is clebred to b specific color.
+     * @pbrbm       x the <i>x</i> coordinbte of the rectbngle to clebr.
+     * @pbrbm       y the <i>y</i> coordinbte of the rectbngle to clebr.
+     * @pbrbm       width the width of the rectbngle to clebr.
+     * @pbrbm       height the height of the rectbngle to clebr.
+     * @see         jbvb.bwt.Grbphics#fillRect(int, int, int, int)
+     * @see         jbvb.bwt.Grbphics#drbwRect
+     * @see         jbvb.bwt.Grbphics#setColor(jbvb.bwt.Color)
+     * @see         jbvb.bwt.Grbphics#setPbintMode
+     * @see         jbvb.bwt.Grbphics#setXORMode(jbvb.bwt.Color)
      * @since       1.0
      */
-    public void clearRect(int x, int y, int width, int height) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(rect);
-        mPrintMetrics.clear(this);
+    public void clebrRect(int x, int y, int width, int height) {
+        Rectbngle2D.Flobt rect = new Rectbngle2D.Flobt(x, y, width, height);
+        bddDrbwingRect(rect);
+        mPrintMetrics.clebr(this);
     }
 
     /**
-     * Draws an outlined round-cornered rectangle using this graphics
-     * context's current color. The left and right edges of the rectangle
-     * are at <code>x</code> and <code>x&nbsp;+&nbsp;width</code>,
-     * respectively. The top and bottom edges of the rectangle are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height</code>.
-     * @param      x the <i>x</i> coordinate of the rectangle to be drawn.
-     * @param      y the <i>y</i> coordinate of the rectangle to be drawn.
-     * @param      width the width of the rectangle to be drawn.
-     * @param      height the height of the rectangle to be drawn.
-     * @param      arcWidth the horizontal diameter of the arc
-     *                    at the four corners.
-     * @param      arcHeight the vertical diameter of the arc
-     *                    at the four corners.
-     * @see        java.awt.Graphics#fillRoundRect
+     * Drbws bn outlined round-cornered rectbngle using this grbphics
+     * context's current color. The left bnd right edges of the rectbngle
+     * bre bt <code>x</code> bnd <code>x&nbsp;+&nbsp;width</code>,
+     * respectively. The top bnd bottom edges of the rectbngle bre bt
+     * <code>y</code> bnd <code>y&nbsp;+&nbsp;height</code>.
+     * @pbrbm      x the <i>x</i> coordinbte of the rectbngle to be drbwn.
+     * @pbrbm      y the <i>y</i> coordinbte of the rectbngle to be drbwn.
+     * @pbrbm      width the width of the rectbngle to be drbwn.
+     * @pbrbm      height the height of the rectbngle to be drbwn.
+     * @pbrbm      brcWidth the horizontbl dibmeter of the brc
+     *                    bt the four corners.
+     * @pbrbm      brcHeight the verticbl dibmeter of the brc
+     *                    bt the four corners.
+     * @see        jbvb.bwt.Grbphics#fillRoundRect
      * @since      1.0
      */
-    public void drawRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        addStrokeShape(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
-        mPrintMetrics.draw(this);
+    public void drbwRoundRect(int x, int y, int width, int height,
+                              int brcWidth, int brcHeight) {
+        bddStrokeShbpe(new RoundRectbngle2D.Flobt(x, y, width, height, brcWidth, brcHeight));
+        mPrintMetrics.drbw(this);
 
     }
 
     /**
-     * Fills the specified rounded corner rectangle with the current color.
-     * The left and right edges of the rectangle
-     * are at <code>x</code> and <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>,
-     * respectively. The top and bottom edges of the rectangle are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
-     * @param       x the <i>x</i> coordinate of the rectangle to be filled.
-     * @param       y the <i>y</i> coordinate of the rectangle to be filled.
-     * @param       width the width of the rectangle to be filled.
-     * @param       height the height of the rectangle to be filled.
-     * @param       arcWidth the horizontal diameter
-     *                     of the arc at the four corners.
-     * @param       arcHeight the vertical diameter
-     *                     of the arc at the four corners.
-     * @see         java.awt.Graphics#drawRoundRect
+     * Fills the specified rounded corner rectbngle with the current color.
+     * The left bnd right edges of the rectbngle
+     * bre bt <code>x</code> bnd <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>,
+     * respectively. The top bnd bottom edges of the rectbngle bre bt
+     * <code>y</code> bnd <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
+     * @pbrbm       x the <i>x</i> coordinbte of the rectbngle to be filled.
+     * @pbrbm       y the <i>y</i> coordinbte of the rectbngle to be filled.
+     * @pbrbm       width the width of the rectbngle to be filled.
+     * @pbrbm       height the height of the rectbngle to be filled.
+     * @pbrbm       brcWidth the horizontbl dibmeter
+     *                     of the brc bt the four corners.
+     * @pbrbm       brcHeight the verticbl dibmeter
+     *                     of the brc bt the four corners.
+     * @see         jbvb.bwt.Grbphics#drbwRoundRect
      * @since       1.0
      */
     public void fillRoundRect(int x, int y, int width, int height,
-                                       int arcWidth, int arcHeight) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y,width, height);
-        addDrawingRect(rect);
+                                       int brcWidth, int brcHeight) {
+        Rectbngle2D.Flobt rect = new Rectbngle2D.Flobt(x, y,width, height);
+        bddDrbwingRect(rect);
         mPrintMetrics.fill(this);
     }
 
     /**
-     * Draws the outline of an oval.
-     * The result is a circle or ellipse that fits within the
-     * rectangle specified by the <code>x</code>, <code>y</code>,
-     * <code>width</code>, and <code>height</code> arguments.
+     * Drbws the outline of bn ovbl.
+     * The result is b circle or ellipse thbt fits within the
+     * rectbngle specified by the <code>x</code>, <code>y</code>,
+     * <code>width</code>, bnd <code>height</code> brguments.
      * <p>
-     * The oval covers an area that is
+     * The ovbl covers bn breb thbt is
      * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * and <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param       x the <i>x</i> coordinate of the upper left
-     *                     corner of the oval to be drawn.
-     * @param       y the <i>y</i> coordinate of the upper left
-     *                     corner of the oval to be drawn.
-     * @param       width the width of the oval to be drawn.
-     * @param       height the height of the oval to be drawn.
-     * @see         java.awt.Graphics#fillOval
+     * bnd <code>height&nbsp;+&nbsp;1</code> pixels tbll.
+     * @pbrbm       x the <i>x</i> coordinbte of the upper left
+     *                     corner of the ovbl to be drbwn.
+     * @pbrbm       y the <i>y</i> coordinbte of the upper left
+     *                     corner of the ovbl to be drbwn.
+     * @pbrbm       width the width of the ovbl to be drbwn.
+     * @pbrbm       height the height of the ovbl to be drbwn.
+     * @see         jbvb.bwt.Grbphics#fillOvbl
      * @since       1.0
      */
-    public void drawOval(int x, int y, int width, int height) {
-        addStrokeShape(new Rectangle2D.Float(x, y,  width, height));
-        mPrintMetrics.draw(this);
+    public void drbwOvbl(int x, int y, int width, int height) {
+        bddStrokeShbpe(new Rectbngle2D.Flobt(x, y,  width, height));
+        mPrintMetrics.drbw(this);
     }
 
     /**
-     * Fills an oval bounded by the specified rectangle with the
+     * Fills bn ovbl bounded by the specified rectbngle with the
      * current color.
-     * @param       x the <i>x</i> coordinate of the upper left corner
-     *                     of the oval to be filled.
-     * @param       y the <i>y</i> coordinate of the upper left corner
-     *                     of the oval to be filled.
-     * @param       width the width of the oval to be filled.
-     * @param       height the height of the oval to be filled.
-     * @see         java.awt.Graphics#drawOval
+     * @pbrbm       x the <i>x</i> coordinbte of the upper left corner
+     *                     of the ovbl to be filled.
+     * @pbrbm       y the <i>y</i> coordinbte of the upper left corner
+     *                     of the ovbl to be filled.
+     * @pbrbm       width the width of the ovbl to be filled.
+     * @pbrbm       height the height of the ovbl to be filled.
+     * @see         jbvb.bwt.Grbphics#drbwOvbl
      * @since       1.0
      */
-    public void fillOval(int x, int y, int width, int height) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(rect);
+    public void fillOvbl(int x, int y, int width, int height) {
+        Rectbngle2D.Flobt rect = new Rectbngle2D.Flobt(x, y, width, height);
+        bddDrbwingRect(rect);
         mPrintMetrics.fill(this);
 
     }
 
 
     /**
-     * Draws the outline of a circular or elliptical arc
-     * covering the specified rectangle.
+     * Drbws the outline of b circulbr or ellipticbl brc
+     * covering the specified rectbngle.
      * <p>
-     * The resulting arc begins at <code>startAngle</code> and extends
-     * for <code>arcAngle</code> degrees, using the current color.
-     * Angles are interpreted such that 0&nbsp;degrees
-     * is at the 3&nbsp;o'clock position.
-     * A positive value indicates a counter-clockwise rotation
-     * while a negative value indicates a clockwise rotation.
+     * The resulting brc begins bt <code>stbrtAngle</code> bnd extends
+     * for <code>brcAngle</code> degrees, using the current color.
+     * Angles bre interpreted such thbt 0&nbsp;degrees
+     * is bt the 3&nbsp;o'clock position.
+     * A positive vblue indicbtes b counter-clockwise rotbtion
+     * while b negbtive vblue indicbtes b clockwise rotbtion.
      * <p>
-     * The center of the arc is the center of the rectangle whose origin
-     * is (<i>x</i>,&nbsp;<i>y</i>) and whose size is specified by the
-     * <code>width</code> and <code>height</code> arguments.
+     * The center of the brc is the center of the rectbngle whose origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd whose size is specified by the
+     * <code>width</code> bnd <code>height</code> brguments.
      * <p>
-     * The resulting arc covers an area
+     * The resulting brc covers bn breb
      * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * by <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param        x the <i>x</i> coordinate of the
-     *                    upper-left corner of the arc to be drawn.
-     * @param        y the <i>y</i>  coordinate of the
-     *                    upper-left corner of the arc to be drawn.
-     * @param        width the width of the arc to be drawn.
-     * @param        height the height of the arc to be drawn.
-     * @param        startAngle the beginning angle.
-     * @param        arcAngle the angular extent of the arc,
-     *                    relative to the start angle.
-     * @see         java.awt.Graphics#fillArc
+     * by <code>height&nbsp;+&nbsp;1</code> pixels tbll.
+     * @pbrbm        x the <i>x</i> coordinbte of the
+     *                    upper-left corner of the brc to be drbwn.
+     * @pbrbm        y the <i>y</i>  coordinbte of the
+     *                    upper-left corner of the brc to be drbwn.
+     * @pbrbm        width the width of the brc to be drbwn.
+     * @pbrbm        height the height of the brc to be drbwn.
+     * @pbrbm        stbrtAngle the beginning bngle.
+     * @pbrbm        brcAngle the bngulbr extent of the brc,
+     *                    relbtive to the stbrt bngle.
+     * @see         jbvb.bwt.Grbphics#fillArc
      * @since       1.0
      */
-    public void drawArc(int x, int y, int width, int height,
-                                 int startAngle, int arcAngle) {
-        addStrokeShape(new Rectangle2D.Float(x, y,  width, height));
-        mPrintMetrics.draw(this);
+    public void drbwArc(int x, int y, int width, int height,
+                                 int stbrtAngle, int brcAngle) {
+        bddStrokeShbpe(new Rectbngle2D.Flobt(x, y,  width, height));
+        mPrintMetrics.drbw(this);
 
     }
 
     /**
-     * Fills a circular or elliptical arc covering the specified rectangle.
+     * Fills b circulbr or ellipticbl brc covering the specified rectbngle.
      * <p>
-     * The resulting arc begins at <code>startAngle</code> and extends
-     * for <code>arcAngle</code> degrees.
-     * Angles are interpreted such that 0&nbsp;degrees
-     * is at the 3&nbsp;o'clock position.
-     * A positive value indicates a counter-clockwise rotation
-     * while a negative value indicates a clockwise rotation.
+     * The resulting brc begins bt <code>stbrtAngle</code> bnd extends
+     * for <code>brcAngle</code> degrees.
+     * Angles bre interpreted such thbt 0&nbsp;degrees
+     * is bt the 3&nbsp;o'clock position.
+     * A positive vblue indicbtes b counter-clockwise rotbtion
+     * while b negbtive vblue indicbtes b clockwise rotbtion.
      * <p>
-     * The center of the arc is the center of the rectangle whose origin
-     * is (<i>x</i>,&nbsp;<i>y</i>) and whose size is specified by the
-     * <code>width</code> and <code>height</code> arguments.
+     * The center of the brc is the center of the rectbngle whose origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd whose size is specified by the
+     * <code>width</code> bnd <code>height</code> brguments.
      * <p>
-     * The resulting arc covers an area
+     * The resulting brc covers bn breb
      * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * by <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param        x the <i>x</i> coordinate of the
-     *                    upper-left corner of the arc to be filled.
-     * @param        y the <i>y</i>  coordinate of the
-     *                    upper-left corner of the arc to be filled.
-     * @param        width the width of the arc to be filled.
-     * @param        height the height of the arc to be filled.
-     * @param        startAngle the beginning angle.
-     * @param        arcAngle the angular extent of the arc,
-     *                    relative to the start angle.
-     * @see         java.awt.Graphics#drawArc
+     * by <code>height&nbsp;+&nbsp;1</code> pixels tbll.
+     * @pbrbm        x the <i>x</i> coordinbte of the
+     *                    upper-left corner of the brc to be filled.
+     * @pbrbm        y the <i>y</i>  coordinbte of the
+     *                    upper-left corner of the brc to be filled.
+     * @pbrbm        width the width of the brc to be filled.
+     * @pbrbm        height the height of the brc to be filled.
+     * @pbrbm        stbrtAngle the beginning bngle.
+     * @pbrbm        brcAngle the bngulbr extent of the brc,
+     *                    relbtive to the stbrt bngle.
+     * @see         jbvb.bwt.Grbphics#drbwArc
      * @since       1.0
      */
     public void fillArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y,width, height);
-        addDrawingRect(rect);
+                        int stbrtAngle, int brcAngle) {
+        Rectbngle2D.Flobt rect = new Rectbngle2D.Flobt(x, y,width, height);
+        bddDrbwingRect(rect);
         mPrintMetrics.fill(this);
 
     }
 
     /**
-     * Draws a sequence of connected lines defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
-     * Each pair of (<i>x</i>,&nbsp;<i>y</i>) coordinates defines a point.
+     * Drbws b sequence of connected lines defined by
+     * brrbys of <i>x</i> bnd <i>y</i> coordinbtes.
+     * Ebch pbir of (<i>x</i>,&nbsp;<i>y</i>) coordinbtes defines b point.
      * The figure is not closed if the first point
-     * differs from the last point.
-     * @param       xPoints an array of <i>x</i> points
-     * @param       yPoints an array of <i>y</i> points
-     * @param       nPoints the total number of points
-     * @see         java.awt.Graphics#drawPolygon(int[], int[], int)
+     * differs from the lbst point.
+     * @pbrbm       xPoints bn brrby of <i>x</i> points
+     * @pbrbm       yPoints bn brrby of <i>y</i> points
+     * @pbrbm       nPoints the totbl number of points
+     * @see         jbvb.bwt.Grbphics#drbwPolygon(int[], int[], int)
      * @since       1.1
      */
-   public void drawPolyline(int xPoints[], int yPoints[],
+   public void drbwPolyline(int xPoints[], int yPoints[],
                              int nPoints) {
         if (nPoints > 0) {
             int x = xPoints[0];
             int y = yPoints[0];
 
             for (int i = 1; i < nPoints; i++) {
-                drawLine(x, y, xPoints[i], yPoints[i]);
+                drbwLine(x, y, xPoints[i], yPoints[i]);
                 x = xPoints[i];
                 y = yPoints[i];
             }
@@ -763,54 +763,54 @@ public class PeekGraphics extends Graphics2D
     }
 
     /**
-     * Draws a closed polygon defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
-     * Each pair of (<i>x</i>,&nbsp;<i>y</i>) coordinates defines a point.
+     * Drbws b closed polygon defined by
+     * brrbys of <i>x</i> bnd <i>y</i> coordinbtes.
+     * Ebch pbir of (<i>x</i>,&nbsp;<i>y</i>) coordinbtes defines b point.
      * <p>
-     * This method draws the polygon defined by <code>nPoint</code> line
+     * This method drbws the polygon defined by <code>nPoint</code> line
      * segments, where the first <code>nPoint&nbsp;-&nbsp;1</code>
-     * line segments are line segments from
+     * line segments bre line segments from
      * <code>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</code>
      * to <code>(xPoints[i],&nbsp;yPoints[i])</code>, for
      * 1&nbsp;&le;&nbsp;<i>i</i>&nbsp;&le;&nbsp;<code>nPoints</code>.
-     * The figure is automatically closed by drawing a line connecting
-     * the final point to the first point, if those points are different.
-     * @param        xPoints   a an array of <code>x</code> coordinates.
-     * @param        yPoints   a an array of <code>y</code> coordinates.
-     * @param        nPoints   a the total number of points.
-     * @see          java.awt.Graphics#fillPolygon
-     * @see          java.awt.Graphics#drawPolyline
+     * The figure is butombticblly closed by drbwing b line connecting
+     * the finbl point to the first point, if those points bre different.
+     * @pbrbm        xPoints   b bn brrby of <code>x</code> coordinbtes.
+     * @pbrbm        yPoints   b bn brrby of <code>y</code> coordinbtes.
+     * @pbrbm        nPoints   b the totbl number of points.
+     * @see          jbvb.bwt.Grbphics#fillPolygon
+     * @see          jbvb.bwt.Grbphics#drbwPolyline
      * @since        1.0
      */
-    public void drawPolygon(int xPoints[], int yPoints[],
+    public void drbwPolygon(int xPoints[], int yPoints[],
                             int nPoints) {
         if (nPoints > 0) {
-            drawPolyline(xPoints, yPoints, nPoints);
-            drawLine(xPoints[nPoints - 1], yPoints[nPoints - 1],
+            drbwPolyline(xPoints, yPoints, nPoints);
+            drbwLine(xPoints[nPoints - 1], yPoints[nPoints - 1],
                      xPoints[0], yPoints[0]);
         }
 
     }
 
     /**
-     * Fills a closed polygon defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
+     * Fills b closed polygon defined by
+     * brrbys of <i>x</i> bnd <i>y</i> coordinbtes.
      * <p>
-     * This method draws the polygon defined by <code>nPoint</code> line
+     * This method drbws the polygon defined by <code>nPoint</code> line
      * segments, where the first <code>nPoint&nbsp;-&nbsp;1</code>
-     * line segments are line segments from
+     * line segments bre line segments from
      * <code>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</code>
      * to <code>(xPoints[i],&nbsp;yPoints[i])</code>, for
      * 1&nbsp;&le;&nbsp;<i>i</i>&nbsp;&le;&nbsp;<code>nPoints</code>.
-     * The figure is automatically closed by drawing a line connecting
-     * the final point to the first point, if those points are different.
+     * The figure is butombticblly closed by drbwing b line connecting
+     * the finbl point to the first point, if those points bre different.
      * <p>
-     * The area inside the polygon is defined using an
-     * even-odd fill rule, also known as the alternating rule.
-     * @param        xPoints   a an array of <code>x</code> coordinates.
-     * @param        yPoints   a an array of <code>y</code> coordinates.
-     * @param        nPoints   a the total number of points.
-     * @see          java.awt.Graphics#drawPolygon(int[], int[], int)
+     * The breb inside the polygon is defined using bn
+     * even-odd fill rule, blso known bs the blternbting rule.
+     * @pbrbm        xPoints   b bn brrby of <code>x</code> coordinbtes.
+     * @pbrbm        yPoints   b bn brrby of <code>y</code> coordinbtes.
+     * @pbrbm        nPoints   b the totbl number of points.
+     * @see          jbvb.bwt.Grbphics#drbwPolygon(int[], int[], int)
      * @since        1.0
      */
     public void fillPolygon(int xPoints[], int yPoints[],
@@ -818,25 +818,25 @@ public class PeekGraphics extends Graphics2D
         if (nPoints > 0) {
             int minX = xPoints[0];
             int minY = yPoints[0];
-            int maxX = xPoints[0];
-            int maxY = yPoints[0];
+            int mbxX = xPoints[0];
+            int mbxY = yPoints[0];
 
             for (int i = 1; i < nPoints; i++) {
 
                 if (xPoints[i] < minX) {
                     minX = xPoints[i];
-                } else if (xPoints[i] > maxX) {
-                    maxX = xPoints[i];
+                } else if (xPoints[i] > mbxX) {
+                    mbxX = xPoints[i];
                 }
 
                 if (yPoints[i] < minY) {
                     minY = yPoints[i];
-                } else if (yPoints[i] > maxY) {
-                    maxY = yPoints[i];
+                } else if (yPoints[i] > mbxY) {
+                    mbxY = yPoints[i];
                 }
             }
 
-            addDrawingRect(minX, minY, maxX - minX, maxY - minY);
+            bddDrbwingRect(minX, minY, mbxX - minX, mbxY - minY);
         }
 
         mPrintMetrics.fill(this);
@@ -845,329 +845,329 @@ public class PeekGraphics extends Graphics2D
 
 
     /**
-     * Draws the text given by the specified string, using this
-     * graphics context's current font and color. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * @param       str      the string to be drawn.
-     * @param       x        the <i>x</i> coordinate.
-     * @param       y        the <i>y</i> coordinate.
-     * @see         java.awt.Graphics#drawBytes
-     * @see         java.awt.Graphics#drawChars
+     * Drbws the text given by the specified string, using this
+     * grbphics context's current font bnd color. The bbseline of the
+     * first chbrbcter is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphics context's coordinbte system.
+     * @pbrbm       str      the string to be drbwn.
+     * @pbrbm       x        the <i>x</i> coordinbte.
+     * @pbrbm       y        the <i>y</i> coordinbte.
+     * @see         jbvb.bwt.Grbphics#drbwBytes
+     * @see         jbvb.bwt.Grbphics#drbwChbrs
      * @since       1.0
      */
-    public void drawString(String str, int x, int y) {
+    public void drbwString(String str, int x, int y) {
 
-        drawString(str, (float)x, (float)y);
+        drbwString(str, (flobt)x, (flobt)y);
     }
 
     /**
-     * Draws the text given by the specified iterator, using this
-     * graphics context's current color. The iterator has to specify a font
-     * for each character. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs may be draw from right to left, in which case the
-     * coordinate supplied is the the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be drawn
-     * @param x,y the coordinates where the iterator's text should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
+     * Drbws the text given by the specified iterbtor, using this
+     * grbphics context's current color. The iterbtor hbs to specify b font
+     * for ebch chbrbcter. The bbseline of the
+     * first chbrbcter is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphics context's coordinbte system.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * pbint or color, bnd composite bttributes.
+     * For chbrbcters in script systems such bs Hebrew bnd Arbbic,
+     * the glyphs mby be drbw from right to left, in which cbse the
+     * coordinbte supplied is the the locbtion of the leftmost chbrbcter
+     * on the bbseline.
+     * @pbrbm iterbtor the iterbtor whose text is to be drbwn
+     * @pbrbm x,y the coordinbtes where the iterbtor's text should be drbwn.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public void drawString(AttributedCharacterIterator iterator,
+    public void drbwString(AttributedChbrbcterIterbtor iterbtor,
                                     int x, int y) {
 
-        drawString(iterator,  (float)x, (float)y);
+        drbwString(iterbtor,  (flobt)x, (flobt)y);
     }
 
     /**
-     * Draws the text given by the specified iterator, using this
-     * graphics context's current color. The iterator has to specify a font
-     * for each character. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs may be draw from right to left, in which case the
-     * coordinate supplied is the the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be drawn
-     * @param x,y the coordinates where the iterator's text should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
+     * Drbws the text given by the specified iterbtor, using this
+     * grbphics context's current color. The iterbtor hbs to specify b font
+     * for ebch chbrbcter. The bbseline of the
+     * first chbrbcter is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphics context's coordinbte system.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * pbint or color, bnd composite bttributes.
+     * For chbrbcters in script systems such bs Hebrew bnd Arbbic,
+     * the glyphs mby be drbw from right to left, in which cbse the
+     * coordinbte supplied is the the locbtion of the leftmost chbrbcter
+     * on the bbseline.
+     * @pbrbm iterbtor the iterbtor whose text is to be drbwn
+     * @pbrbm x,y the coordinbtes where the iterbtor's text should be drbwn.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public void drawString(AttributedCharacterIterator iterator,
-                                    float x, float y) {
-        if (iterator == null) {
+    public void drbwString(AttributedChbrbcterIterbtor iterbtor,
+                                    flobt x, flobt y) {
+        if (iterbtor == null) {
             throw new
-                NullPointerException("AttributedCharacterIterator is null");
+                NullPointerException("AttributedChbrbcterIterbtor is null");
         }
 
-        TextLayout layout = new TextLayout(iterator, getFontRenderContext());
-        layout.draw(this, x, y);
+        TextLbyout lbyout = new TextLbyout(iterbtor, getFontRenderContext());
+        lbyout.drbw(this, x, y);
     }
 
 
     /**
-     * Draws as much of the specified image as is currently available.
-     * The image is drawn with its top-left corner at
-     * (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's coordinate
-     * space. Transparent pixels in the image do not affect whatever
-     * pixels are already there.
+     * Drbws bs much of the specified imbge bs is currently bvbilbble.
+     * The imbge is drbwn with its top-left corner bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in this grbphics context's coordinbte
+     * spbce. Trbnspbrent pixels in the imbge do not bffect whbtever
+     * pixels bre blrebdy there.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * complete image has not yet been loaded, and it has not been dithered
-     * and converted for the current output device.
+     * This method returns immedibtely in bll cbses, even if the
+     * complete imbge hbs not yet been lobded, bnd it hbs not been dithered
+     * bnd converted for the current output device.
      * <p>
-     * If the image has not yet been completely loaded, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
-     * @param    img the specified image to be drawn.
-     * @param    x   the <i>x</i> coordinate.
-     * @param    y   the <i>y</i> coordinate.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * If the imbge hbs not yet been completely lobded, then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the specified imbge observer.
+     * @pbrbm    img the specified imbge to be drbwn.
+     * @pbrbm    x   the <i>x</i> coordinbte.
+     * @pbrbm    y   the <i>y</i> coordinbte.
+     * @pbrbm    observer    object to be notified bs more of
+     *                          the imbge is converted.
+     * @see      jbvb.bwt.Imbge
+     * @see      jbvb.bwt.imbge.ImbgeObserver
+     * @see      jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
-                             ImageObserver observer) {
+    public boolebn drbwImbge(Imbge img, int x, int y,
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
 
-        /* The ImageWaiter creation does not return until the
-         * image is loaded.
+        /* The ImbgeWbiter crebtion does not return until the
+         * imbge is lobded.
          */
-        ImageWaiter dim = new ImageWaiter(img);
+        ImbgeWbiter dim = new ImbgeWbiter(img);
 
-        addDrawingRect(x, y, dim.getWidth(), dim.getHeight());
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(x, y, dim.getWidth(), dim.getHeight());
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, x, y, observer);
+        return mGrbphics.drbwImbge(img, x, y, observer);
     }
 
 
     /**
-     * Draws as much of the specified image as has already been scaled
-     * to fit inside the specified rectangle.
+     * Drbws bs much of the specified imbge bs hbs blrebdy been scbled
+     * to fit inside the specified rectbngle.
      * <p>
-     * The image is drawn inside the specified rectangle of this
-     * graphics context's coordinate space, and is scaled if
-     * necessary. Transparent pixels do not affect whatever pixels
-     * are already there.
+     * The imbge is drbwn inside the specified rectbngle of this
+     * grbphics context's coordinbte spbce, bnd is scbled if
+     * necessbry. Trbnspbrent pixels do not bffect whbtever pixels
+     * bre blrebdy there.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * entire image has not yet been scaled, dithered, and converted
+     * This method returns immedibtely in bll cbses, even if the
+     * entire imbge hbs not yet been scbled, dithered, bnd converted
      * for the current output device.
-     * If the current output representation is not yet complete, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the image observer by calling its <code>imageUpdate</code> method.
+     * If the current output representbtion is not yet complete, then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the imbge observer by cblling its <code>imbgeUpdbte</code> method.
      * <p>
-     * A scaled version of an image will not necessarily be
-     * available immediately just because an unscaled version of the
-     * image has been constructed for this output device.  Each size of
-     * the image may be cached separately and generated from the original
-     * data in a separate image production sequence.
-     * @param    img    the specified image to be drawn.
-     * @param    x      the <i>x</i> coordinate.
-     * @param    y      the <i>y</i> coordinate.
-     * @param    width  the width of the rectangle.
-     * @param    height the height of the rectangle.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * A scbled version of bn imbge will not necessbrily be
+     * bvbilbble immedibtely just becbuse bn unscbled version of the
+     * imbge hbs been constructed for this output device.  Ebch size of
+     * the imbge mby be cbched sepbrbtely bnd generbted from the originbl
+     * dbtb in b sepbrbte imbge production sequence.
+     * @pbrbm    img    the specified imbge to be drbwn.
+     * @pbrbm    x      the <i>x</i> coordinbte.
+     * @pbrbm    y      the <i>y</i> coordinbte.
+     * @pbrbm    width  the width of the rectbngle.
+     * @pbrbm    height the height of the rectbngle.
+     * @pbrbm    observer    object to be notified bs more of
+     *                          the imbge is converted.
+     * @see      jbvb.bwt.Imbge
+     * @see      jbvb.bwt.imbge.ImbgeObserver
+     * @see      jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
+    public boolebn drbwImbge(Imbge img, int x, int y,
                              int width, int height,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
-        addDrawingRect(x, y, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(x, y, width, height);
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, x, y, width, height, observer);
+        return mGrbphics.drbwImbge(img, x, y, width, height, observer);
 
     }
 
     /**
-     * Draws as much of the specified image as is currently available.
-     * The image is drawn with its top-left corner at
-     * (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's coordinate
-     * space.  Transparent pixels are drawn in the specified
-     * background color.
+     * Drbws bs much of the specified imbge bs is currently bvbilbble.
+     * The imbge is drbwn with its top-left corner bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in this grbphics context's coordinbte
+     * spbce.  Trbnspbrent pixels bre drbwn in the specified
+     * bbckground color.
      * <p>
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * This operbtion is equivblent to filling b rectbngle of the
+     * width bnd height of the specified imbge with the given color bnd then
+     * drbwing the imbge on top of it, but possibly more efficient.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * complete image has not yet been loaded, and it has not been dithered
-     * and converted for the current output device.
+     * This method returns immedibtely in bll cbses, even if the
+     * complete imbge hbs not yet been lobded, bnd it hbs not been dithered
+     * bnd converted for the current output device.
      * <p>
-     * If the image has not yet been completely loaded, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
-     * @param    img    the specified image to be drawn.
-     * @param    x      the <i>x</i> coordinate.
-     * @param    y      the <i>y</i> coordinate.
-     * @param    bgcolor the background color to paint under the
-     *                         non-opaque portions of the image.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * If the imbge hbs not yet been completely lobded, then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the specified imbge observer.
+     * @pbrbm    img    the specified imbge to be drbwn.
+     * @pbrbm    x      the <i>x</i> coordinbte.
+     * @pbrbm    y      the <i>y</i> coordinbte.
+     * @pbrbm    bgcolor the bbckground color to pbint under the
+     *                         non-opbque portions of the imbge.
+     * @pbrbm    observer    object to be notified bs more of
+     *                          the imbge is converted.
+     * @see      jbvb.bwt.Imbge
+     * @see      jbvb.bwt.imbge.ImbgeObserver
+     * @see      jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since    1.0
      */
-   public boolean drawImage(Image img, int x, int y,
+   public boolebn drbwImbge(Imbge img, int x, int y,
                              Color bgcolor,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
 
-        /* The ImageWaiter creation does not return until the
-         * image is loaded.
+        /* The ImbgeWbiter crebtion does not return until the
+         * imbge is lobded.
          */
-        ImageWaiter dim = new ImageWaiter(img);
+        ImbgeWbiter dim = new ImbgeWbiter(img);
 
-        addDrawingRect(x, y, dim.getWidth(), dim.getHeight());
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(x, y, dim.getWidth(), dim.getHeight());
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, x, y, bgcolor, observer);
+        return mGrbphics.drbwImbge(img, x, y, bgcolor, observer);
     }
 
 
     /**
-     * Draws as much of the specified image as has already been scaled
-     * to fit inside the specified rectangle.
+     * Drbws bs much of the specified imbge bs hbs blrebdy been scbled
+     * to fit inside the specified rectbngle.
      * <p>
-     * The image is drawn inside the specified rectangle of this
-     * graphics context's coordinate space, and is scaled if
-     * necessary. Transparent pixels are drawn in the specified
-     * background color.
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * The imbge is drbwn inside the specified rectbngle of this
+     * grbphics context's coordinbte spbce, bnd is scbled if
+     * necessbry. Trbnspbrent pixels bre drbwn in the specified
+     * bbckground color.
+     * This operbtion is equivblent to filling b rectbngle of the
+     * width bnd height of the specified imbge with the given color bnd then
+     * drbwing the imbge on top of it, but possibly more efficient.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * entire image has not yet been scaled, dithered, and converted
+     * This method returns immedibtely in bll cbses, even if the
+     * entire imbge hbs not yet been scbled, dithered, bnd converted
      * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * If the current output representbtion is not yet complete then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the specified imbge observer.
      * <p>
-     * A scaled version of an image will not necessarily be
-     * available immediately just because an unscaled version of the
-     * image has been constructed for this output device.  Each size of
-     * the image may be cached separately and generated from the original
-     * data in a separate image production sequence.
-     * @param    img       the specified image to be drawn.
-     * @param    x         the <i>x</i> coordinate.
-     * @param    y         the <i>y</i> coordinate.
-     * @param    width     the width of the rectangle.
-     * @param    height    the height of the rectangle.
-     * @param    bgcolor   the background color to paint under the
-     *                         non-opaque portions of the image.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * A scbled version of bn imbge will not necessbrily be
+     * bvbilbble immedibtely just becbuse bn unscbled version of the
+     * imbge hbs been constructed for this output device.  Ebch size of
+     * the imbge mby be cbched sepbrbtely bnd generbted from the originbl
+     * dbtb in b sepbrbte imbge production sequence.
+     * @pbrbm    img       the specified imbge to be drbwn.
+     * @pbrbm    x         the <i>x</i> coordinbte.
+     * @pbrbm    y         the <i>y</i> coordinbte.
+     * @pbrbm    width     the width of the rectbngle.
+     * @pbrbm    height    the height of the rectbngle.
+     * @pbrbm    bgcolor   the bbckground color to pbint under the
+     *                         non-opbque portions of the imbge.
+     * @pbrbm    observer    object to be notified bs more of
+     *                          the imbge is converted.
+     * @see      jbvb.bwt.Imbge
+     * @see      jbvb.bwt.imbge.ImbgeObserver
+     * @see      jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
+    public boolebn drbwImbge(Imbge img, int x, int y,
                              int width, int height,
                              Color bgcolor,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
         }
 
-        addDrawingRect(x, y, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(x, y, width, height);
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, x, y, width, height, bgcolor, observer);
+        return mGrbphics.drbwImbge(img, x, y, width, height, bgcolor, observer);
 
     }
 
     /**
-     * Draws as much of the specified area of the specified image as is
-     * currently available, scaling it on the fly to fit inside the
-     * specified area of the destination drawable surface. Transparent pixels
-     * do not affect whatever pixels are already there.
+     * Drbws bs much of the specified breb of the specified imbge bs is
+     * currently bvbilbble, scbling it on the fly to fit inside the
+     * specified breb of the destinbtion drbwbble surfbce. Trbnspbrent pixels
+     * do not bffect whbtever pixels bre blrebdy there.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * image area to be drawn has not yet been scaled, dithered, and converted
+     * This method returns immedibtely in bll cbses, even if the
+     * imbge breb to be drbwn hbs not yet been scbled, dithered, bnd converted
      * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * If the current output representbtion is not yet complete then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the specified imbge observer.
      * <p>
-     * This method always uses the unscaled version of the image
-     * to render the scaled rectangle and performs the required
-     * scaling on the fly. It does not use a cached, scaled version
-     * of the image for this operation. Scaling of the image from source
-     * to destination is performed such that the first coordinate
-     * of the source rectangle is mapped to the first coordinate of
-     * the destination rectangle, and the second source coordinate is
-     * mapped to the second destination coordinate. The subimage is
-     * scaled and flipped as needed to preserve those mappings.
-     * @param       img the specified image to be drawn
-     * @param       dx1 the <i>x</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dy1 the <i>y</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dx2 the <i>x</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       dy2 the <i>y</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       sx1 the <i>x</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sy1 the <i>y</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sx2 the <i>x</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       sy2 the <i>y</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       observer object to be notified as more of the image is
-     *                    scaled and converted.
-     * @see         java.awt.Image
-     * @see         java.awt.image.ImageObserver
-     * @see         java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * This method blwbys uses the unscbled version of the imbge
+     * to render the scbled rectbngle bnd performs the required
+     * scbling on the fly. It does not use b cbched, scbled version
+     * of the imbge for this operbtion. Scbling of the imbge from source
+     * to destinbtion is performed such thbt the first coordinbte
+     * of the source rectbngle is mbpped to the first coordinbte of
+     * the destinbtion rectbngle, bnd the second source coordinbte is
+     * mbpped to the second destinbtion coordinbte. The subimbge is
+     * scbled bnd flipped bs needed to preserve those mbppings.
+     * @pbrbm       img the specified imbge to be drbwn
+     * @pbrbm       dx1 the <i>x</i> coordinbte of the first corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dy1 the <i>y</i> coordinbte of the first corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dx2 the <i>x</i> coordinbte of the second corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dy2 the <i>y</i> coordinbte of the second corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       sx1 the <i>x</i> coordinbte of the first corner of the
+     *                    source rectbngle.
+     * @pbrbm       sy1 the <i>y</i> coordinbte of the first corner of the
+     *                    source rectbngle.
+     * @pbrbm       sx2 the <i>x</i> coordinbte of the second corner of the
+     *                    source rectbngle.
+     * @pbrbm       sy2 the <i>y</i> coordinbte of the second corner of the
+     *                    source rectbngle.
+     * @pbrbm       observer object to be notified bs more of the imbge is
+     *                    scbled bnd converted.
+     * @see         jbvb.bwt.Imbge
+     * @see         jbvb.bwt.imbge.ImbgeObserver
+     * @see         jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since       1.1
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
@@ -1176,73 +1176,73 @@ public class PeekGraphics extends Graphics2D
         int width = dx2 - dx1;
         int height = dy2 - dy1;
 
-        addDrawingRect(dx1, dy1, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(dx1, dy1, width, height);
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, dx1, dy1, dx2, dy2,
+        return mGrbphics.drbwImbge(img, dx1, dy1, dx2, dy2,
                                sx1, sy1, sx2, sy2, observer);
 
     }
 
 
     /**
-     * Draws as much of the specified area of the specified image as is
-     * currently available, scaling it on the fly to fit inside the
-     * specified area of the destination drawable surface.
+     * Drbws bs much of the specified breb of the specified imbge bs is
+     * currently bvbilbble, scbling it on the fly to fit inside the
+     * specified breb of the destinbtion drbwbble surfbce.
      * <p>
-     * Transparent pixels are drawn in the specified background color.
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * Trbnspbrent pixels bre drbwn in the specified bbckground color.
+     * This operbtion is equivblent to filling b rectbngle of the
+     * width bnd height of the specified imbge with the given color bnd then
+     * drbwing the imbge on top of it, but possibly more efficient.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * image area to be drawn has not yet been scaled, dithered, and converted
+     * This method returns immedibtely in bll cbses, even if the
+     * imbge breb to be drbwn hbs not yet been scbled, dithered, bnd converted
      * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * If the current output representbtion is not yet complete then
+     * <code>drbwImbge</code> returns <code>fblse</code>. As more of
+     * the imbge becomes bvbilbble, the process thbt drbws the imbge notifies
+     * the specified imbge observer.
      * <p>
-     * This method always uses the unscaled version of the image
-     * to render the scaled rectangle and performs the required
-     * scaling on the fly. It does not use a cached, scaled version
-     * of the image for this operation. Scaling of the image from source
-     * to destination is performed such that the first coordinate
-     * of the source rectangle is mapped to the first coordinate of
-     * the destination rectangle, and the second source coordinate is
-     * mapped to the second destination coordinate. The subimage is
-     * scaled and flipped as needed to preserve those mappings.
-     * @param       img the specified image to be drawn
-     * @param       dx1 the <i>x</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dy1 the <i>y</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dx2 the <i>x</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       dy2 the <i>y</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       sx1 the <i>x</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sy1 the <i>y</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sx2 the <i>x</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       sy2 the <i>y</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       bgcolor the background color to paint under the
-     *                    non-opaque portions of the image.
-     * @param       observer object to be notified as more of the image is
-     *                    scaled and converted.
-     * @see         java.awt.Image
-     * @see         java.awt.image.ImageObserver
-     * @see         java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+     * This method blwbys uses the unscbled version of the imbge
+     * to render the scbled rectbngle bnd performs the required
+     * scbling on the fly. It does not use b cbched, scbled version
+     * of the imbge for this operbtion. Scbling of the imbge from source
+     * to destinbtion is performed such thbt the first coordinbte
+     * of the source rectbngle is mbpped to the first coordinbte of
+     * the destinbtion rectbngle, bnd the second source coordinbte is
+     * mbpped to the second destinbtion coordinbte. The subimbge is
+     * scbled bnd flipped bs needed to preserve those mbppings.
+     * @pbrbm       img the specified imbge to be drbwn
+     * @pbrbm       dx1 the <i>x</i> coordinbte of the first corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dy1 the <i>y</i> coordinbte of the first corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dx2 the <i>x</i> coordinbte of the second corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       dy2 the <i>y</i> coordinbte of the second corner of the
+     *                    destinbtion rectbngle.
+     * @pbrbm       sx1 the <i>x</i> coordinbte of the first corner of the
+     *                    source rectbngle.
+     * @pbrbm       sy1 the <i>y</i> coordinbte of the first corner of the
+     *                    source rectbngle.
+     * @pbrbm       sx2 the <i>x</i> coordinbte of the second corner of the
+     *                    source rectbngle.
+     * @pbrbm       sy2 the <i>y</i> coordinbte of the second corner of the
+     *                    source rectbngle.
+     * @pbrbm       bgcolor the bbckground color to pbint under the
+     *                    non-opbque portions of the imbge.
+     * @pbrbm       observer object to be notified bs more of the imbge is
+     *                    scbled bnd converted.
+     * @see         jbvb.bwt.Imbge
+     * @see         jbvb.bwt.imbge.ImbgeObserver
+     * @see         jbvb.bwt.imbge.ImbgeObserver#imbgeUpdbte(jbvb.bwt.Imbge, int, int, int, int, int)
      * @since       1.1
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
                              Color bgcolor,
-                             ImageObserver observer) {
+                             ImbgeObserver observer) {
 
         if (img == null) {
             return true;
@@ -1251,185 +1251,185 @@ public class PeekGraphics extends Graphics2D
         int width = dx2 - dx1;
         int height = dy2 - dy1;
 
-        addDrawingRect(dx1, dy1, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRect(dx1, dy1, width, height);
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, dx1, dy1, dx2, dy2,
+        return mGrbphics.drbwImbge(img, dx1, dy1, dx2, dy2,
                                sx1, sy1, sx2, sy2, bgcolor, observer);
 
     }
 
 
     /**
-     * Draws an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * and composite attributes. Note that the result is
-     * undefined, if the given transform is noninvertible.
-     * @param img The image to be drawn.
-     * @param xform The transformation from image space into user space.
-     * @see #transform
-     * @see #setTransform
+     * Drbws bn imbge, bpplying b trbnsform from imbge spbce into user spbce
+     * before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current trbnsform in the Grbphics2D.
+     * The given trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the Grbphics2D stbte is bpplied.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * bnd composite bttributes. Note thbt the result is
+     * undefined, if the given trbnsform is noninvertible.
+     * @pbrbm img The imbge to be drbwn.
+     * @pbrbm xform The trbnsformbtion from imbge spbce into user spbce.
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void drawRenderedImage(RenderedImage img,
-                                  AffineTransform xform) {
+    public void drbwRenderedImbge(RenderedImbge img,
+                                  AffineTrbnsform xform) {
 
         if (img == null) {
             return;
         }
 
-        mPrintMetrics.drawImage(this, img);
-        mDrawingArea.addInfinite();
+        mPrintMetrics.drbwImbge(this, img);
+        mDrbwingAreb.bddInfinite();
     }
 
 
-    public void drawRenderableImage(RenderableImage img,
-                                    AffineTransform xform) {
+    public void drbwRenderbbleImbge(RenderbbleImbge img,
+                                    AffineTrbnsform xform) {
 
         if (img == null) {
             return;
         }
 
-        mPrintMetrics.drawImage(this, img);
-        mDrawingArea.addInfinite();
+        mPrintMetrics.drbwImbge(this, img);
+        mDrbwingAreb.bddInfinite();
     }
 
     /**
-     * Disposes of this graphics context and releases
-     * any system resources that it is using.
-     * A <code>Graphics</code> object cannot be used after
-     * <code>dispose</code>has been called.
+     * Disposes of this grbphics context bnd relebses
+     * bny system resources thbt it is using.
+     * A <code>Grbphics</code> object cbnnot be used bfter
+     * <code>dispose</code>hbs been cblled.
      * <p>
-     * When a Java program runs, a large number of <code>Graphics</code>
-     * objects can be created within a short time frame.
-     * Although the finalization process of the garbage collector
-     * also disposes of the same system resources, it is preferable
-     * to manually free the associated resources by calling this
-     * method rather than to rely on a finalization process which
-     * may not run to completion for a long period of time.
+     * When b Jbvb progrbm runs, b lbrge number of <code>Grbphics</code>
+     * objects cbn be crebted within b short time frbme.
+     * Although the finblizbtion process of the gbrbbge collector
+     * blso disposes of the sbme system resources, it is preferbble
+     * to mbnublly free the bssocibted resources by cblling this
+     * method rbther thbn to rely on b finblizbtion process which
+     * mby not run to completion for b long period of time.
      * <p>
-     * Graphics objects which are provided as arguments to the
-     * <code>paint</code> and <code>update</code> methods
-     * of components are automatically released by the system when
-     * those methods return. For efficiency, programmers should
-     * call <code>dispose</code> when finished using
-     * a <code>Graphics</code> object only if it was created
-     * directly from a component or another <code>Graphics</code> object.
-     * @see         java.awt.Graphics#finalize
-     * @see         java.awt.Component#paint
-     * @see         java.awt.Component#update
-     * @see         java.awt.Component#getGraphics
-     * @see         java.awt.Graphics#create
+     * Grbphics objects which bre provided bs brguments to the
+     * <code>pbint</code> bnd <code>updbte</code> methods
+     * of components bre butombticblly relebsed by the system when
+     * those methods return. For efficiency, progrbmmers should
+     * cbll <code>dispose</code> when finished using
+     * b <code>Grbphics</code> object only if it wbs crebted
+     * directly from b component or bnother <code>Grbphics</code> object.
+     * @see         jbvb.bwt.Grbphics#finblize
+     * @see         jbvb.bwt.Component#pbint
+     * @see         jbvb.bwt.Component#updbte
+     * @see         jbvb.bwt.Component#getGrbphics
+     * @see         jbvb.bwt.Grbphics#crebte
      * @since       1.0
      */
     public void dispose() {
-        mGraphics.dispose();
+        mGrbphics.dispose();
     }
 
     /**
-     * Empty finalizer as no clean up needed here.
+     * Empty finblizer bs no clebn up needed here.
      */
-    public void finalize() {
+    public void finblize() {
     }
 
-/* The Delegated Graphics2D Methods */
+/* The Delegbted Grbphics2D Methods */
 
     /**
-     * Strokes the outline of a Shape using the settings of the current
-     * graphics state.  The rendering attributes applied include the
-     * clip, transform, paint or color, composite and stroke attributes.
-     * @param s The shape to be drawn.
+     * Strokes the outline of b Shbpe using the settings of the current
+     * grbphics stbte.  The rendering bttributes bpplied include the
+     * clip, trbnsform, pbint or color, composite bnd stroke bttributes.
+     * @pbrbm s The shbpe to be drbwn.
      * @see #setStroke
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      * @see #setComposite
      */
-    public void draw(Shape s) {
-        addStrokeShape(s);
-        mPrintMetrics.draw(this);
+    public void drbw(Shbpe s) {
+        bddStrokeShbpe(s);
+        mPrintMetrics.drbw(this);
     }
 
 
     /**
-     * Draws an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * and composite attributes. Note that the result is
-     * undefined, if the given transform is noninvertible.
-     * @param img The image to be drawn.
-     * @param xform The transformation from image space into user space.
-     * @param obs The image observer to be notified as more of the image
+     * Drbws bn imbge, bpplying b trbnsform from imbge spbce into user spbce
+     * before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current trbnsform in the Grbphics2D.
+     * The given trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the Grbphics2D stbte is bpplied.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * bnd composite bttributes. Note thbt the result is
+     * undefined, if the given trbnsform is noninvertible.
+     * @pbrbm img The imbge to be drbwn.
+     * @pbrbm xform The trbnsformbtion from imbge spbce into user spbce.
+     * @pbrbm obs The imbge observer to be notified bs more of the imbge
      * is converted.
-     * @see #transform
-     * @see #setTransform
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public boolean drawImage(Image img,
-                             AffineTransform xform,
-                             ImageObserver obs) {
+    public boolebn drbwImbge(Imbge img,
+                             AffineTrbnsform xform,
+                             ImbgeObserver obs) {
 
         if (img == null) {
             return true;
         }
 
-        mDrawingArea.addInfinite();
-        mPrintMetrics.drawImage(this, img);
+        mDrbwingAreb.bddInfinite();
+        mPrintMetrics.drbwImbge(this, img);
 
-        return mGraphics.drawImage(img, xform, obs);
+        return mGrbphics.drbwImbge(img, xform, obs);
 
 
-//      if (mDrawingArea[0] != null) {
-//          Rectangle2D.Double bbox = new Rectangle2D.Double();
+//      if (mDrbwingAreb[0] != null) {
+//          Rectbngle2D.Double bbox = new Rectbngle2D.Double();
 //          Point2D leftTop = new Point2D.Double(0, 0);
-//          Point2D rightBottom = new Point2D.Double(getImageWidth(img),
-//                                                   getImageHeight(img));
+//          Point2D rightBottom = new Point2D.Double(getImbgeWidth(img),
+//                                                   getImbgeHeight(img));
 
-//          xform.transform(leftTop, leftTop);
-//          xform.transform(rightBottom, rightBottom);
+//          xform.trbnsform(leftTop, leftTop);
+//          xform.trbnsform(rightBottom, rightBottom);
 
-//          bbox.setBoundsFromDiagonal(leftTop, rightBottom);
-//          addDrawingRect(bbox);
+//          bbox.setBoundsFromDibgonbl(leftTop, rightBottom);
+//          bddDrbwingRect(bbox);
 
 //      }
     }
 
 
     /**
-     * Draws a BufferedImage that is filtered with a BufferedImageOp.
-     * The rendering attributes applied include the clip, transform
-     * and composite attributes.  This is equivalent to:
+     * Drbws b BufferedImbge thbt is filtered with b BufferedImbgeOp.
+     * The rendering bttributes bpplied include the clip, trbnsform
+     * bnd composite bttributes.  This is equivblent to:
      * <pre>
      * img1 = op.filter(img, null);
-     * drawImage(img1, new AffineTransform(1f,0f,0f,1f,x,y), null);
+     * drbwImbge(img1, new AffineTrbnsform(1f,0f,0f,1f,x,y), null);
      * </pre>
-     * @param op The filter to be applied to the image before drawing.
-     * @param img The BufferedImage to be drawn.
-     * @param x,y The location in user space where the image should be drawn.
-     * @see #transform
-     * @see #setTransform
+     * @pbrbm op The filter to be bpplied to the imbge before drbwing.
+     * @pbrbm img The BufferedImbge to be drbwn.
+     * @pbrbm x,y The locbtion in user spbce where the imbge should be drbwn.
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void drawImage(BufferedImage img,
-                          BufferedImageOp op,
+    public void drbwImbge(BufferedImbge img,
+                          BufferedImbgeOp op,
                           int x,
                           int y) {
 
@@ -1437,395 +1437,395 @@ public class PeekGraphics extends Graphics2D
             return;
         }
 
-        mPrintMetrics.drawImage(this, (RenderedImage) img);
-        mDrawingArea.addInfinite();
+        mPrintMetrics.drbwImbge(this, (RenderedImbge) img);
+        mDrbwingAreb.bddInfinite();
     }
 
 
     /**
-     * Draws a string of text.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, font and composite attributes.
-     * @param s The string to be drawn.
-     * @param x,y The coordinates where the string should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see java.awt.Graphics#setFont
-     * @see #transform
-     * @see #setTransform
+     * Drbws b string of text.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * pbint or color, font bnd composite bttributes.
+     * @pbrbm s The string to be drbwn.
+     * @pbrbm x,y The coordinbtes where the string should be drbwn.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see jbvb.bwt.Grbphics#setFont
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void drawString(String str,
-                           float x,
-                           float y) {
+    public void drbwString(String str,
+                           flobt x,
+                           flobt y) {
 
         if (str.length() == 0) {
             return;
         }
-        /* Logical bounds close enough and is used for GlyphVector */
+        /* Logicbl bounds close enough bnd is used for GlyphVector */
         FontRenderContext frc = getFontRenderContext();
-        Rectangle2D bbox = getFont().getStringBounds(str, frc);
-        addDrawingRect(bbox, x, y);
-        mPrintMetrics.drawText(this);
+        Rectbngle2D bbox = getFont().getStringBounds(str, frc);
+        bddDrbwingRect(bbox, x, y);
+        mPrintMetrics.drbwText(this);
     }
 
     /**
-     * Draws a GlyphVector.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.  The GlyphVector specifies
-     * individual glyphs from a Font.
-     * @param g The GlyphVector to be drawn.
-     * @param x,y The coordinates where the glyphs should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * Drbws b GlyphVector.
+     * The rendering bttributes bpplied include the clip, trbnsform,
+     * pbint or color, bnd composite bttributes.  The GlyphVector specifies
+     * individubl glyphs from b Font.
+     * @pbrbm g The GlyphVector to be drbwn.
+     * @pbrbm x,y The coordinbtes where the glyphs should be drbwn.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void drawGlyphVector(GlyphVector g,
-                           float x,
-                           float y) {
+    public void drbwGlyphVector(GlyphVector g,
+                           flobt x,
+                           flobt y) {
 
-        Rectangle2D bbox = g.getLogicalBounds();
-        addDrawingRect(bbox, x, y);
-        mPrintMetrics.drawText(this);
+        Rectbngle2D bbox = g.getLogicblBounds();
+        bddDrbwingRect(bbox, x, y);
+        mPrintMetrics.drbwText(this);
 
     }
 
     /**
-     * Fills the interior of a Shape using the settings of the current
-     * graphics state. The rendering attributes applied include the
-     * clip, transform, paint or color, and composite.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * Fills the interior of b Shbpe using the settings of the current
+     * grbphics stbte. The rendering bttributes bpplied include the
+     * clip, trbnsform, pbint or color, bnd composite.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public void fill(Shape s) {
-        addDrawingRect(s.getBounds());
+    public void fill(Shbpe s) {
+        bddDrbwingRect(s.getBounds());
         mPrintMetrics.fill(this);
 
     }
 
 
     /**
-     * Checks to see if the outline of a Shape intersects the specified
-     * Rectangle in device space.
-     * The rendering attributes taken into account include the
-     * clip, transform, and stroke attributes.
-     * @param rect The area in device space to check for a hit.
-     * @param s The shape to check for a hit.
-     * @param onStroke Flag to choose between testing the stroked or
-     * the filled shape.
-     * @return True if there is a hit, false otherwise.
+     * Checks to see if the outline of b Shbpe intersects the specified
+     * Rectbngle in device spbce.
+     * The rendering bttributes tbken into bccount include the
+     * clip, trbnsform, bnd stroke bttributes.
+     * @pbrbm rect The breb in device spbce to check for b hit.
+     * @pbrbm s The shbpe to check for b hit.
+     * @pbrbm onStroke Flbg to choose between testing the stroked or
+     * the filled shbpe.
+     * @return True if there is b hit, fblse otherwise.
      * @see #setStroke
      * @see #fill
-     * @see #draw
-     * @see #transform
-     * @see #setTransform
+     * @see #drbw
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      */
-    public boolean hit(Rectangle rect,
-                       Shape s,
-                       boolean onStroke) {
+    public boolebn hit(Rectbngle rect,
+                       Shbpe s,
+                       boolebn onStroke) {
 
-        return mGraphics.hit(rect, s, onStroke);
+        return mGrbphics.hit(rect, s, onStroke);
     }
 
     /**
-     * Sets the Composite in the current graphics state. Composite is used
-     * in all drawing methods such as drawImage, drawString, draw,
-     * and fill.  It specifies how new pixels are to be combined with
-     * the existing pixels on the graphics device in the rendering process.
-     * @param comp The Composite object to be used for drawing.
-     * @see java.awt.Graphics#setXORMode
-     * @see java.awt.Graphics#setPaintMode
-     * @see AlphaComposite
+     * Sets the Composite in the current grbphics stbte. Composite is used
+     * in bll drbwing methods such bs drbwImbge, drbwString, drbw,
+     * bnd fill.  It specifies how new pixels bre to be combined with
+     * the existing pixels on the grbphics device in the rendering process.
+     * @pbrbm comp The Composite object to be used for drbwing.
+     * @see jbvb.bwt.Grbphics#setXORMode
+     * @see jbvb.bwt.Grbphics#setPbintMode
+     * @see AlphbComposite
      */
     public void setComposite(Composite comp) {
-        mGraphics.setComposite(comp);
+        mGrbphics.setComposite(comp);
     }
 
 
     /**
-     * Sets the Paint in the current graphics state.
-     * @param paint The Paint object to be used to generate color in
+     * Sets the Pbint in the current grbphics stbte.
+     * @pbrbm pbint The Pbint object to be used to generbte color in
      * the rendering process.
-     * @see java.awt.Graphics#setColor
-     * @see GradientPaint
-     * @see TexturePaint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see GrbdientPbint
+     * @see TexturePbint
      */
-    public void setPaint(Paint paint) {
-        mGraphics.setPaint(paint);
+    public void setPbint(Pbint pbint) {
+        mGrbphics.setPbint(pbint);
     }
 
     /**
-     * Sets the Stroke in the current graphics state.
-     * @param s The Stroke object to be used to stroke a Shape in
+     * Sets the Stroke in the current grbphics stbte.
+     * @pbrbm s The Stroke object to be used to stroke b Shbpe in
      * the rendering process.
-     * @see BasicStroke
+     * @see BbsicStroke
      */
     public void setStroke(Stroke s) {
-        mGraphics.setStroke(s);
+        mGrbphics.setStroke(s);
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hintCategory The category of hint to be set.
-     * @param hintValue The value indicating preferences for the specified
-     * hint category.
+     * Sets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hintCbtegory The cbtegory of hint to be set.
+     * @pbrbm hintVblue The vblue indicbting preferences for the specified
+     * hint cbtegory.
      * @see RenderingHints
      */
-    public void setRenderingHint(Key hintCategory, Object hintValue) {
-        mGraphics.setRenderingHint(hintCategory, hintValue);
+    public void setRenderingHint(Key hintCbtegory, Object hintVblue) {
+        mGrbphics.setRenderingHint(hintCbtegory, hintVblue);
     }
 
     /**
-     * Returns the preferences for the rendering algorithms.
-     * @param hintCategory The category of hint to be set.
-     * @return The preferences for rendering algorithms.
+     * Returns the preferences for the rendering blgorithms.
+     * @pbrbm hintCbtegory The cbtegory of hint to be set.
+     * @return The preferences for rendering blgorithms.
      * @see RenderingHings
      */
-    public Object getRenderingHint(Key hintCategory) {
-        return mGraphics.getRenderingHint(hintCategory);
+    public Object getRenderingHint(Key hintCbtegory) {
+        return mGrbphics.getRenderingHint(hintCbtegory);
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
+     * Sets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hints The rendering hints to be set
      * @see RenderingHints
      */
-    public void setRenderingHints(Map<?,?> hints) {
-        mGraphics.setRenderingHints(hints);
+    public void setRenderingHints(Mbp<?,?> hints) {
+        mGrbphics.setRenderingHints(hints);
     }
 
     /**
-     * Adds a number of preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
+     * Adds b number of preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * @pbrbm hints The rendering hints to be set
      * @see RenderingHints
      */
-    public void addRenderingHints(Map<?,?> hints) {
-        mGraphics.addRenderingHints(hints);
+    public void bddRenderingHints(Mbp<?,?> hints) {
+        mGrbphics.bddRenderingHints(hints);
     }
 
     /**
-     * Gets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
+     * Gets the preferences for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
      * @see RenderingHints
      */
     public RenderingHints getRenderingHints() {
-        return mGraphics.getRenderingHints();
+        return mGrbphics.getRenderingHints();
     }
 
     /**
-     * Composes a Transform object with the transform in this
-     * Graphics2D according to the rule last-specified-first-applied.
-     * If the currrent transform is Cx, the result of composition
-     * with Tx is a new transform Cx'.  Cx' becomes the current
-     * transform for this Graphics2D.
-     * Transforming a point p by the updated transform Cx' is
-     * equivalent to first transforming p by Tx and then transforming
-     * the result by the original transform Cx.  In other words,
+     * Composes b Trbnsform object with the trbnsform in this
+     * Grbphics2D bccording to the rule lbst-specified-first-bpplied.
+     * If the currrent trbnsform is Cx, the result of composition
+     * with Tx is b new trbnsform Cx'.  Cx' becomes the current
+     * trbnsform for this Grbphics2D.
+     * Trbnsforming b point p by the updbted trbnsform Cx' is
+     * equivblent to first trbnsforming p by Tx bnd then trbnsforming
+     * the result by the originbl trbnsform Cx.  In other words,
      * Cx'(p) = Cx(Tx(p)).
-     * A copy of the Tx is made, if necessary, so further
-     * modifications to Tx do not affect rendering.
-     * @param Tx The Transform object to be composed with the current
-     * transform.
-     * @see #setTransform
-     * @see TransformChain
-     * @see AffineTransform
+     * A copy of the Tx is mbde, if necessbry, so further
+     * modificbtions to Tx do not bffect rendering.
+     * @pbrbm Tx The Trbnsform object to be composed with the current
+     * trbnsform.
+     * @see #setTrbnsform
+     * @see TrbnsformChbin
+     * @see AffineTrbnsform
      */
-    public void transform(AffineTransform Tx) {
-        mGraphics.transform(Tx);
+    public void trbnsform(AffineTrbnsform Tx) {
+        mGrbphics.trbnsform(Tx);
     }
 
     /**
-     * Sets the Transform in the current graphics state.
-     * @param Tx The Transform object to be used in the rendering process.
-     * @see #transform
-     * @see TransformChain
-     * @see AffineTransform
+     * Sets the Trbnsform in the current grbphics stbte.
+     * @pbrbm Tx The Trbnsform object to be used in the rendering process.
+     * @see #trbnsform
+     * @see TrbnsformChbin
+     * @see AffineTrbnsform
      */
-    public void setTransform(AffineTransform Tx) {
-        mGraphics.setTransform(Tx);
+    public void setTrbnsform(AffineTrbnsform Tx) {
+        mGrbphics.setTrbnsform(Tx);
     }
 
     /**
-     * Returns the current Transform in the Graphics2D state.
-     * @see #transform
-     * @see #setTransform
+     * Returns the current Trbnsform in the Grbphics2D stbte.
+     * @see #trbnsform
+     * @see #setTrbnsform
      */
-    public AffineTransform getTransform() {
-        return mGraphics.getTransform();
+    public AffineTrbnsform getTrbnsform() {
+        return mGrbphics.getTrbnsform();
     }
 
     /**
-     * Returns the current Paint in the Graphics2D state.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
+     * Returns the current Pbint in the Grbphics2D stbte.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
      */
-    public Paint getPaint() {
-        return mGraphics.getPaint();
+    public Pbint getPbint() {
+        return mGrbphics.getPbint();
     }
 
     /**
-     * Returns the current Composite in the Graphics2D state.
+     * Returns the current Composite in the Grbphics2D stbte.
      * @see #setComposite
      */
     public Composite getComposite() {
-        return mGraphics.getComposite();
+        return mGrbphics.getComposite();
     }
 
     /**
-     * Sets the background color in this context used for clearing a region.
-     * When Graphics2D is constructed for a component, the backgroung color is
-     * inherited from the component. Setting the background color in the
-     * Graphics2D context only affects the subsequent clearRect() calls and
-     * not the background color of the component. To change the background
-     * of the component, use appropriate methods of the component.
-     * @param color The background color that should be used in
-     * subsequent calls to clearRect().
-     * @see getBackground
-     * @see Graphics.clearRect()
+     * Sets the bbckground color in this context used for clebring b region.
+     * When Grbphics2D is constructed for b component, the bbckgroung color is
+     * inherited from the component. Setting the bbckground color in the
+     * Grbphics2D context only bffects the subsequent clebrRect() cblls bnd
+     * not the bbckground color of the component. To chbnge the bbckground
+     * of the component, use bppropribte methods of the component.
+     * @pbrbm color The bbckground color thbt should be used in
+     * subsequent cblls to clebrRect().
+     * @see getBbckground
+     * @see Grbphics.clebrRect()
      */
-    public void setBackground(Color color) {
-        mGraphics.setBackground(color);
+    public void setBbckground(Color color) {
+        mGrbphics.setBbckground(color);
     }
 
     /**
-     * Returns the background color used for clearing a region.
-     * @see setBackground
+     * Returns the bbckground color used for clebring b region.
+     * @see setBbckground
      */
-    public Color getBackground() {
-        return mGraphics.getBackground();
+    public Color getBbckground() {
+        return mGrbphics.getBbckground();
     }
 
     /**
-     * Returns the current Stroke in the Graphics2D state.
+     * Returns the current Stroke in the Grbphics2D stbte.
      * @see setStroke
      */
     public Stroke getStroke() {
-        return mGraphics.getStroke();
+        return mGrbphics.getStroke();
     }
 
     /**
-     * Intersects the current clip with the interior of the specified Shape
-     * and sets the current clip to the resulting intersection.
-     * The indicated shape is transformed with the current transform in the
-     * Graphics2D state before being intersected with the current clip.
-     * This method is used to make the current clip smaller.
-     * To make the clip larger, use any setClip method.
-     * @param s The Shape to be intersected with the current clip.
+     * Intersects the current clip with the interior of the specified Shbpe
+     * bnd sets the current clip to the resulting intersection.
+     * The indicbted shbpe is trbnsformed with the current trbnsform in the
+     * Grbphics2D stbte before being intersected with the current clip.
+     * This method is used to mbke the current clip smbller.
+     * To mbke the clip lbrger, use bny setClip method.
+     * @pbrbm s The Shbpe to be intersected with the current clip.
      */
-     public void clip(Shape s) {
-        mGraphics.clip(s);
+     public void clip(Shbpe s) {
+        mGrbphics.clip(s);
      }
 
      /**
-      * Return true if the Rectangle <code>rect</code>
-      * intersects the area into which the application
-      * has drawn.
+      * Return true if the Rectbngle <code>rect</code>
+      * intersects the breb into which the bpplicbtion
+      * hbs drbwn.
       */
-     public boolean hitsDrawingArea(Rectangle rect) {
+     public boolebn hitsDrbwingAreb(Rectbngle rect) {
 
-         return mDrawingArea.intersects((float) rect.getMinY(),
-                                        (float) rect.getMaxY());
+         return mDrbwingAreb.intersects((flobt) rect.getMinY(),
+                                        (flobt) rect.getMbxY());
      }
 
      /**
-      * Return the object holding the summary of the
-      * drawing done by the printing application.
+      * Return the object holding the summbry of the
+      * drbwing done by the printing bpplicbtion.
       */
      public PeekMetrics getMetrics() {
         return mPrintMetrics;
      }
 
- /* Support Routines for Calculating the Drawing Area */
+ /* Support Routines for Cblculbting the Drbwing Areb */
 
    /**
-     * Shift the rectangle 'rect' to the position ('x', 'y')
-     * and add the resulting rectangle to the area representing
-     * the part of the page which is drawn into.
+     * Shift the rectbngle 'rect' to the position ('x', 'y')
+     * bnd bdd the resulting rectbngle to the breb representing
+     * the pbrt of the pbge which is drbwn into.
      */
-    private void addDrawingRect(Rectangle2D rect, float x, float y) {
+    privbte void bddDrbwingRect(Rectbngle2D rect, flobt x, flobt y) {
 
-        addDrawingRect((float) (rect.getX() + x),
-                       (float) (rect.getY() + y),
-                       (float) rect.getWidth(),
-                       (float) rect.getHeight());
+        bddDrbwingRect((flobt) (rect.getX() + x),
+                       (flobt) (rect.getY() + y),
+                       (flobt) rect.getWidth(),
+                       (flobt) rect.getHeight());
 
     }
 
-    private void addDrawingRect(float x, float y, float width, float height) {
+    privbte void bddDrbwingRect(flobt x, flobt y, flobt width, flobt height) {
 
-        Rectangle2D.Float bbox = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(bbox);
+        Rectbngle2D.Flobt bbox = new Rectbngle2D.Flobt(x, y, width, height);
+        bddDrbwingRect(bbox);
     }
 
     /**
-     * Add the rectangle 'rect' to the area representing
-     * the part of the page which is drawn into.
+     * Add the rectbngle 'rect' to the breb representing
+     * the pbrt of the pbge which is drbwn into.
      */
-    private void addDrawingRect(Rectangle2D rect) {
+    privbte void bddDrbwingRect(Rectbngle2D rect) {
 
-        /*  For testing purposes the following line can be uncommented.
-            When uncommented it causes the entire page to be rasterized
-            thus eliminating errors caused by a faulty bounding box
-            calculation.
+        /*  For testing purposes the following line cbn be uncommented.
+            When uncommented it cbuses the entire pbge to be rbsterized
+            thus eliminbting errors cbused by b fbulty bounding box
+            cblculbtion.
         */
-        //mDrawingArea.addInfinite();
+        //mDrbwingAreb.bddInfinite();
 
 
 
-        AffineTransform matrix = getTransform();
+        AffineTrbnsform mbtrix = getTrbnsform();
 
-        Shape transShape = matrix.createTransformedShape(rect);
+        Shbpe trbnsShbpe = mbtrix.crebteTrbnsformedShbpe(rect);
 
-        Rectangle2D transRect = transShape.getBounds2D();
+        Rectbngle2D trbnsRect = trbnsShbpe.getBounds2D();
 
-        mDrawingArea.add((float) transRect.getMinY(),
-                         (float) transRect.getMaxY());
+        mDrbwingAreb.bdd((flobt) trbnsRect.getMinY(),
+                         (flobt) trbnsRect.getMbxY());
 
 
     }
 
     /**
-     * Add the stroked shape to the area representing
-     * the part of the page which is drawn into.
+     * Add the stroked shbpe to the breb representing
+     * the pbrt of the pbge which is drbwn into.
      */
-    private void addStrokeShape(Shape s) {
-        Shape transShape = getStroke().createStrokedShape(s);
-        addDrawingRect(transShape.getBounds2D());
+    privbte void bddStrokeShbpe(Shbpe s) {
+        Shbpe trbnsShbpe = getStroke().crebteStrokedShbpe(s);
+        bddDrbwingRect(trbnsShbpe.getBounds2D());
     }
 
-    /* Image Observer */
+    /* Imbge Observer */
 
     /**
-     * Notify this object when the height or width become available
-     * for an image.
+     * Notify this object when the height or width become bvbilbble
+     * for bn imbge.
      */
-    public synchronized boolean imageUpdate(Image img, int infoFlags,
+    public synchronized boolebn imbgeUpdbte(Imbge img, int infoFlbgs,
                                             int x, int y,
                                             int width, int height) {
 
-        boolean gotInfo = false;
+        boolebn gotInfo = fblse;
 
-        if((infoFlags & (WIDTH | HEIGHT)) != 0) {
+        if((infoFlbgs & (WIDTH | HEIGHT)) != 0) {
             gotInfo = true;
             notify();
         }
@@ -1833,15 +1833,15 @@ public class PeekGraphics extends Graphics2D
         return gotInfo;
     }
 
-    private synchronized int getImageWidth(Image img) {
+    privbte synchronized int getImbgeWidth(Imbge img) {
 
-        /* Wait for the width the image to
-         * become available.
+        /* Wbit for the width the imbge to
+         * become bvbilbble.
          */
         while (img.getWidth(this) == -1) {
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } cbtch (InterruptedException e) {
             }
         }
 
@@ -1849,15 +1849,15 @@ public class PeekGraphics extends Graphics2D
         return img.getWidth(this);
     }
 
-    private synchronized int getImageHeight(Image img) {
+    privbte synchronized int getImbgeHeight(Imbge img) {
 
-        /* Wait for the height the image to
-         * become available.
+        /* Wbit for the height the imbge to
+         * become bvbilbble.
          */
         while (img.getHeight(this) == -1) {
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } cbtch (InterruptedException e) {
             }
         }
 
@@ -1866,17 +1866,17 @@ public class PeekGraphics extends Graphics2D
     }
 
     /**
-     * This private class does not return from its constructor
-     * until 'img's width and height are available.
+     * This privbte clbss does not return from its constructor
+     * until 'img's width bnd height bre bvbilbble.
      */
-    protected class ImageWaiter implements ImageObserver {
+    protected clbss ImbgeWbiter implements ImbgeObserver {
 
-        private int mWidth;
-        private int mHeight;
-        private boolean badImage = false;
+        privbte int mWidth;
+        privbte int mHeight;
+        privbte boolebn bbdImbge = fblse;
 
-        ImageWaiter(Image img) {
-            waitForDimensions(img);
+        ImbgeWbiter(Imbge img) {
+            wbitForDimensions(img);
         }
 
         public int getWidth() {
@@ -1887,31 +1887,31 @@ public class PeekGraphics extends Graphics2D
             return mHeight;
         }
 
-        synchronized private void waitForDimensions(Image img) {
+        synchronized privbte void wbitForDimensions(Imbge img) {
             mHeight = img.getHeight(this);
             mWidth = img.getWidth(this);
-            while (!badImage && (mWidth < 0 || mHeight < 0)) {
+            while (!bbdImbge && (mWidth < 0 || mHeight < 0)) {
                 try {
-                    Thread.sleep(50);
-                } catch(InterruptedException e) {
+                    Threbd.sleep(50);
+                } cbtch(InterruptedException e) {
                     // do nothing.
                 }
                 mHeight = img.getHeight(this);
                 mWidth = img.getWidth(this);
             }
-            if (badImage) {
+            if (bbdImbge) {
                 mHeight = 0;
                 mWidth = 0;
             }
         }
 
-        synchronized public boolean imageUpdate(Image image, int flags,
+        synchronized public boolebn imbgeUpdbte(Imbge imbge, int flbgs,
                                                 int x, int y, int w, int h) {
 
-            boolean dontCallMeAgain = (flags & (HEIGHT | ABORT | ERROR)) != 0;
-            badImage = (flags & (ABORT | ERROR)) != 0;
+            boolebn dontCbllMeAgbin = (flbgs & (HEIGHT | ABORT | ERROR)) != 0;
+            bbdImbge = (flbgs & (ABORT | ERROR)) != 0;
 
-            return dontCallMeAgain;
+            return dontCbllMeAgbin;
         }
 
     }

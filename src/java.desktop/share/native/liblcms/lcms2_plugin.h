@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -52,14 +52,14 @@
 //
 //---------------------------------------------------------------------------------
 //
-// This is the plug-in header file. Normal LittleCMS clients should not use it.
-// It is provided for plug-in writters that may want to access the support
-// functions to do low level operations. All plug-in related structures
-// are defined here. Including this file forces to include the standard API too.
+// This is the plug-in hebder file. Normbl LittleCMS clients should not use it.
+// It is provided for plug-in writters thbt mby wbnt to bccess the support
+// functions to do low level operbtions. All plug-in relbted structures
+// bre defined here. Including this file forces to include the stbndbrd API too.
 
 #ifndef _lcms_plugin_H
 
-// Deal with Microsoft's attempt at deprecating C standard runtime functions
+// Debl with Microsoft's bttempt bt deprecbting C stbndbrd runtime functions
 #ifdef _MSC_VER
 #    if (_MSC_VER >= 1400)
 #      ifndef _CRT_SECURE_NO_DEPRECATE
@@ -75,10 +75,10 @@
 #include "lcms2.h"
 #endif
 
-// We need some standard C functions.
+// We need some stbndbrd C functions.
 #include <stdlib.h>
-#include <math.h>
-#include <stdarg.h>
+#include <mbth.h>
+#include <stdbrg.h>
 #include <memory.h>
 #include <string.h>
 
@@ -89,538 +89,538 @@ extern "C" {
 #   endif
 #endif
 
-// Vector & Matrix operations -----------------------------------------------------------------------
+// Vector & Mbtrix operbtions -----------------------------------------------------------------------
 
-// Axis of the matrix/array. No specific meaning at all.
+// Axis of the mbtrix/brrby. No specific mebning bt bll.
 #define VX      0
 #define VY      1
 #define VZ      2
 
 // Vectors
 typedef struct {
-    cmsFloat64Number n[3];
+    cmsFlobt64Number n[3];
 
     } cmsVEC3;
 
-// 3x3 Matrix
+// 3x3 Mbtrix
 typedef struct {
     cmsVEC3 v[3];
 
     } cmsMAT3;
 
-CMSAPI void               CMSEXPORT _cmsVEC3init(cmsVEC3* r, cmsFloat64Number x, cmsFloat64Number y, cmsFloat64Number z);
-CMSAPI void               CMSEXPORT _cmsVEC3minus(cmsVEC3* r, const cmsVEC3* a, const cmsVEC3* b);
+CMSAPI void               CMSEXPORT _cmsVEC3init(cmsVEC3* r, cmsFlobt64Number x, cmsFlobt64Number y, cmsFlobt64Number z);
+CMSAPI void               CMSEXPORT _cmsVEC3minus(cmsVEC3* r, const cmsVEC3* b, const cmsVEC3* b);
 CMSAPI void               CMSEXPORT _cmsVEC3cross(cmsVEC3* r, const cmsVEC3* u, const cmsVEC3* v);
-CMSAPI cmsFloat64Number   CMSEXPORT _cmsVEC3dot(const cmsVEC3* u, const cmsVEC3* v);
-CMSAPI cmsFloat64Number   CMSEXPORT _cmsVEC3length(const cmsVEC3* a);
-CMSAPI cmsFloat64Number   CMSEXPORT _cmsVEC3distance(const cmsVEC3* a, const cmsVEC3* b);
+CMSAPI cmsFlobt64Number   CMSEXPORT _cmsVEC3dot(const cmsVEC3* u, const cmsVEC3* v);
+CMSAPI cmsFlobt64Number   CMSEXPORT _cmsVEC3length(const cmsVEC3* b);
+CMSAPI cmsFlobt64Number   CMSEXPORT _cmsVEC3distbnce(const cmsVEC3* b, const cmsVEC3* b);
 
-CMSAPI void               CMSEXPORT _cmsMAT3identity(cmsMAT3* a);
-CMSAPI cmsBool            CMSEXPORT _cmsMAT3isIdentity(const cmsMAT3* a);
-CMSAPI void               CMSEXPORT _cmsMAT3per(cmsMAT3* r, const cmsMAT3* a, const cmsMAT3* b);
-CMSAPI cmsBool            CMSEXPORT _cmsMAT3inverse(const cmsMAT3* a, cmsMAT3* b);
-CMSAPI cmsBool            CMSEXPORT _cmsMAT3solve(cmsVEC3* x, cmsMAT3* a, cmsVEC3* b);
-CMSAPI void               CMSEXPORT _cmsMAT3eval(cmsVEC3* r, const cmsMAT3* a, const cmsVEC3* v);
+CMSAPI void               CMSEXPORT _cmsMAT3identity(cmsMAT3* b);
+CMSAPI cmsBool            CMSEXPORT _cmsMAT3isIdentity(const cmsMAT3* b);
+CMSAPI void               CMSEXPORT _cmsMAT3per(cmsMAT3* r, const cmsMAT3* b, const cmsMAT3* b);
+CMSAPI cmsBool            CMSEXPORT _cmsMAT3inverse(const cmsMAT3* b, cmsMAT3* b);
+CMSAPI cmsBool            CMSEXPORT _cmsMAT3solve(cmsVEC3* x, cmsMAT3* b, cmsVEC3* b);
+CMSAPI void               CMSEXPORT _cmsMAT3evbl(cmsVEC3* r, const cmsMAT3* b, const cmsVEC3* v);
 
 
 // Error logging  -------------------------------------------------------------------------------------
 
-CMSAPI void               CMSEXPORT  cmsSignalError(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *ErrorText, ...);
+CMSAPI void               CMSEXPORT  cmsSignblError(cmsContext ContextID, cmsUInt32Number ErrorCode, const chbr *ErrorText, ...);
 
-// Memory management ----------------------------------------------------------------------------------
+// Memory mbnbgement ----------------------------------------------------------------------------------
 
-CMSAPI void*              CMSEXPORT _cmsMalloc(cmsContext ContextID, cmsUInt32Number size);
-CMSAPI void*              CMSEXPORT _cmsMallocZero(cmsContext ContextID, cmsUInt32Number size);
-CMSAPI void*              CMSEXPORT _cmsCalloc(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size);
-CMSAPI void*              CMSEXPORT _cmsRealloc(cmsContext ContextID, void* Ptr, cmsUInt32Number NewSize);
+CMSAPI void*              CMSEXPORT _cmsMblloc(cmsContext ContextID, cmsUInt32Number size);
+CMSAPI void*              CMSEXPORT _cmsMbllocZero(cmsContext ContextID, cmsUInt32Number size);
+CMSAPI void*              CMSEXPORT _cmsCblloc(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size);
+CMSAPI void*              CMSEXPORT _cmsReblloc(cmsContext ContextID, void* Ptr, cmsUInt32Number NewSize);
 CMSAPI void               CMSEXPORT _cmsFree(cmsContext ContextID, void* Ptr);
 CMSAPI void*              CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Number size);
 
-// I/O handler ----------------------------------------------------------------------------------
+// I/O hbndler ----------------------------------------------------------------------------------
 
-struct _cms_io_handler {
+struct _cms_io_hbndler {
 
-    void* stream;   // Associated stream, which is implemented differently depending on media.
+    void* strebm;   // Associbted strebm, which is implemented differently depending on medib.
 
     cmsContext        ContextID;
-    cmsUInt32Number   UsedSpace;
+    cmsUInt32Number   UsedSpbce;
     cmsUInt32Number   ReportedSize;
-    char              PhysicalFile[cmsMAX_PATH];
+    chbr              PhysicblFile[cmsMAX_PATH];
 
-    cmsUInt32Number   (* Read)(struct _cms_io_handler* iohandler, void *Buffer,
+    cmsUInt32Number   (* Rebd)(struct _cms_io_hbndler* iohbndler, void *Buffer,
                                                                   cmsUInt32Number size,
                                                                   cmsUInt32Number count);
-    cmsBool           (* Seek)(struct _cms_io_handler* iohandler, cmsUInt32Number offset);
-    cmsBool           (* Close)(struct _cms_io_handler* iohandler);
-    cmsUInt32Number   (* Tell)(struct _cms_io_handler* iohandler);
-    cmsBool           (* Write)(struct _cms_io_handler* iohandler, cmsUInt32Number size,
+    cmsBool           (* Seek)(struct _cms_io_hbndler* iohbndler, cmsUInt32Number offset);
+    cmsBool           (* Close)(struct _cms_io_hbndler* iohbndler);
+    cmsUInt32Number   (* Tell)(struct _cms_io_hbndler* iohbndler);
+    cmsBool           (* Write)(struct _cms_io_hbndler* iohbndler, cmsUInt32Number size,
                                                                    const void* Buffer);
 };
 
-// Endianess adjust functions
-CMSAPI cmsUInt16Number   CMSEXPORT  _cmsAdjustEndianess16(cmsUInt16Number Word);
-CMSAPI cmsUInt32Number   CMSEXPORT  _cmsAdjustEndianess32(cmsUInt32Number Value);
-CMSAPI void              CMSEXPORT  _cmsAdjustEndianess64(cmsUInt64Number* Result, cmsUInt64Number* QWord);
+// Endibness bdjust functions
+CMSAPI cmsUInt16Number   CMSEXPORT  _cmsAdjustEndibness16(cmsUInt16Number Word);
+CMSAPI cmsUInt32Number   CMSEXPORT  _cmsAdjustEndibness32(cmsUInt32Number Vblue);
+CMSAPI void              CMSEXPORT  _cmsAdjustEndibness64(cmsUInt64Number* Result, cmsUInt64Number* QWord);
 
 // Helper IO functions
-CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt8Number(cmsIOHANDLER* io,  cmsUInt8Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt16Number(cmsIOHANDLER* io, cmsUInt16Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt32Number(cmsIOHANDLER* io, cmsUInt32Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadFloat32Number(cmsIOHANDLER* io, cmsFloat32Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt64Number(cmsIOHANDLER* io, cmsUInt64Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsRead15Fixed16Number(cmsIOHANDLER* io, cmsFloat64Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadXYZNumber(cmsIOHANDLER* io, cmsCIEXYZ* XYZ);
-CMSAPI cmsBool           CMSEXPORT  _cmsReadUInt16Array(cmsIOHANDLER* io, cmsUInt32Number n, cmsUInt16Number* Array);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdUInt8Number(cmsIOHANDLER* io,  cmsUInt8Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdUInt16Number(cmsIOHANDLER* io, cmsUInt16Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdUInt32Number(cmsIOHANDLER* io, cmsUInt32Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdFlobt32Number(cmsIOHANDLER* io, cmsFlobt32Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdUInt64Number(cmsIOHANDLER* io, cmsUInt64Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebd15Fixed16Number(cmsIOHANDLER* io, cmsFlobt64Number* n);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdXYZNumber(cmsIOHANDLER* io, cmsCIEXYZ* XYZ);
+CMSAPI cmsBool           CMSEXPORT  _cmsRebdUInt16Arrby(cmsIOHANDLER* io, cmsUInt32Number n, cmsUInt16Number* Arrby);
 
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt8Number(cmsIOHANDLER* io, cmsUInt8Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt16Number(cmsIOHANDLER* io, cmsUInt16Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt32Number(cmsIOHANDLER* io, cmsUInt32Number n);
-CMSAPI cmsBool           CMSEXPORT  _cmsWriteFloat32Number(cmsIOHANDLER* io, cmsFloat32Number n);
+CMSAPI cmsBool           CMSEXPORT  _cmsWriteFlobt32Number(cmsIOHANDLER* io, cmsFlobt32Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt64Number(cmsIOHANDLER* io, cmsUInt64Number* n);
-CMSAPI cmsBool           CMSEXPORT  _cmsWrite15Fixed16Number(cmsIOHANDLER* io, cmsFloat64Number n);
+CMSAPI cmsBool           CMSEXPORT  _cmsWrite15Fixed16Number(cmsIOHANDLER* io, cmsFlobt64Number n);
 CMSAPI cmsBool           CMSEXPORT  _cmsWriteXYZNumber(cmsIOHANDLER* io, const cmsCIEXYZ* XYZ);
-CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt16Array(cmsIOHANDLER* io, cmsUInt32Number n, const cmsUInt16Number* Array);
+CMSAPI cmsBool           CMSEXPORT  _cmsWriteUInt16Arrby(cmsIOHANDLER* io, cmsUInt32Number n, const cmsUInt16Number* Arrby);
 
-// ICC base tag
+// ICC bbse tbg
 typedef struct {
-    cmsTagTypeSignature  sig;
+    cmsTbgTypeSignbture  sig;
     cmsInt8Number        reserved[4];
 
-} _cmsTagBase;
+} _cmsTbgBbse;
 
-// Type base helper functions
-CMSAPI cmsTagTypeSignature  CMSEXPORT _cmsReadTypeBase(cmsIOHANDLER* io);
-CMSAPI cmsBool              CMSEXPORT _cmsWriteTypeBase(cmsIOHANDLER* io, cmsTagTypeSignature sig);
+// Type bbse helper functions
+CMSAPI cmsTbgTypeSignbture  CMSEXPORT _cmsRebdTypeBbse(cmsIOHANDLER* io);
+CMSAPI cmsBool              CMSEXPORT _cmsWriteTypeBbse(cmsIOHANDLER* io, cmsTbgTypeSignbture sig);
 
 // Alignment functions
-CMSAPI cmsBool             CMSEXPORT _cmsReadAlignment(cmsIOHANDLER* io);
+CMSAPI cmsBool             CMSEXPORT _cmsRebdAlignment(cmsIOHANDLER* io);
 CMSAPI cmsBool             CMSEXPORT _cmsWriteAlignment(cmsIOHANDLER* io);
 
-// To deal with text streams. 2K at most
-CMSAPI cmsBool             CMSEXPORT _cmsIOPrintf(cmsIOHANDLER* io, const char* frm, ...);
+// To debl with text strebms. 2K bt most
+CMSAPI cmsBool             CMSEXPORT _cmsIOPrintf(cmsIOHANDLER* io, const chbr* frm, ...);
 
 // Fixed point helper functions
-CMSAPI cmsFloat64Number    CMSEXPORT _cms8Fixed8toDouble(cmsUInt16Number fixed8);
-CMSAPI cmsUInt16Number     CMSEXPORT _cmsDoubleTo8Fixed8(cmsFloat64Number val);
+CMSAPI cmsFlobt64Number    CMSEXPORT _cms8Fixed8toDouble(cmsUInt16Number fixed8);
+CMSAPI cmsUInt16Number     CMSEXPORT _cmsDoubleTo8Fixed8(cmsFlobt64Number vbl);
 
-CMSAPI cmsFloat64Number    CMSEXPORT _cms15Fixed16toDouble(cmsS15Fixed16Number fix32);
-CMSAPI cmsS15Fixed16Number CMSEXPORT _cmsDoubleTo15Fixed16(cmsFloat64Number v);
+CMSAPI cmsFlobt64Number    CMSEXPORT _cms15Fixed16toDouble(cmsS15Fixed16Number fix32);
+CMSAPI cmsS15Fixed16Number CMSEXPORT _cmsDoubleTo15Fixed16(cmsFlobt64Number v);
 
-// Date/time helper functions
-CMSAPI void                CMSEXPORT _cmsEncodeDateTimeNumber(cmsDateTimeNumber *Dest, const struct tm *Source);
-CMSAPI void                CMSEXPORT _cmsDecodeDateTimeNumber(const cmsDateTimeNumber *Source, struct tm *Dest);
-
-//----------------------------------------------------------------------------------------------------------
-
-// Shared callbacks for user data
-typedef void     (* _cmsFreeUserDataFn)(cmsContext ContextID, void* Data);
-typedef void*    (* _cmsDupUserDataFn)(cmsContext ContextID, const void* Data);
+// Dbte/time helper functions
+CMSAPI void                CMSEXPORT _cmsEncodeDbteTimeNumber(cmsDbteTimeNumber *Dest, const struct tm *Source);
+CMSAPI void                CMSEXPORT _cmsDecodeDbteTimeNumber(const cmsDbteTimeNumber *Source, struct tm *Dest);
 
 //----------------------------------------------------------------------------------------------------------
 
-// Plug-in foundation
-#define cmsPluginMagicNumber                 0x61637070     // 'acpp'
+// Shbred cbllbbcks for user dbtb
+typedef void     (* _cmsFreeUserDbtbFn)(cmsContext ContextID, void* Dbtb);
+typedef void*    (* _cmsDupUserDbtbFn)(cmsContext ContextID, const void* Dbtb);
 
-#define cmsPluginMemHandlerSig               0x6D656D48     // 'memH'
-#define cmsPluginInterpolationSig            0x696E7048     // 'inpH'
-#define cmsPluginParametricCurveSig          0x70617248     // 'parH'
-#define cmsPluginFormattersSig               0x66726D48     // 'frmH
-#define cmsPluginTagTypeSig                  0x74797048     // 'typH'
-#define cmsPluginTagSig                      0x74616748     // 'tagH'
+//----------------------------------------------------------------------------------------------------------
+
+// Plug-in foundbtion
+#define cmsPluginMbgicNumber                 0x61637070     // 'bcpp'
+
+#define cmsPluginMemHbndlerSig               0x6D656D48     // 'memH'
+#define cmsPluginInterpolbtionSig            0x696E7048     // 'inpH'
+#define cmsPluginPbrbmetricCurveSig          0x70617248     // 'pbrH'
+#define cmsPluginFormbttersSig               0x66726D48     // 'frmH
+#define cmsPluginTbgTypeSig                  0x74797048     // 'typH'
+#define cmsPluginTbgSig                      0x74616748     // 'tbgH'
 #define cmsPluginRenderingIntentSig          0x696E7448     // 'intH'
 #define cmsPluginMultiProcessElementSig      0x6D706548     // 'mpeH'
-#define cmsPluginOptimizationSig             0x6F707448     // 'optH'
-#define cmsPluginTransformSig                0x7A666D48     // 'xfmH'
+#define cmsPluginOptimizbtionSig             0x6F707448     // 'optH'
+#define cmsPluginTrbnsformSig                0x7A666D48     // 'xfmH'
 
-typedef struct _cmsPluginBaseStruct {
+typedef struct _cmsPluginBbseStruct {
 
-        cmsUInt32Number                Magic;               // 'acpp' signature
+        cmsUInt32Number                Mbgic;               // 'bcpp' signbture
         cmsUInt32Number                ExpectedVersion;     // Expected version of LittleCMS
         cmsUInt32Number                Type;                // Type of plug-in
-        struct _cmsPluginBaseStruct*   Next;                // For multiple plugin definition. NULL for end of list.
+        struct _cmsPluginBbseStruct*   Next;                // For multiple plugin definition. NULL for end of list.
 
-} cmsPluginBase;
+} cmsPluginBbse;
 
-// Maximum number of types in a plugin array
+// Mbximum number of types in b plugin brrby
 #define MAX_TYPES_IN_LCMS_PLUGIN    20
 
 //----------------------------------------------------------------------------------------------------------
 
-// Memory handler. Each new plug-in type replaces current behaviour
+// Memory hbndler. Ebch new plug-in type replbces current behbviour
 typedef struct {
 
-        cmsPluginBase base;
+        cmsPluginBbse bbse;
 
         // Required
-        void * (* MallocPtr)(cmsContext ContextID, cmsUInt32Number size);
+        void * (* MbllocPtr)(cmsContext ContextID, cmsUInt32Number size);
         void   (* FreePtr)(cmsContext ContextID, void *Ptr);
-        void * (* ReallocPtr)(cmsContext ContextID, void* Ptr, cmsUInt32Number NewSize);
+        void * (* RebllocPtr)(cmsContext ContextID, void* Ptr, cmsUInt32Number NewSize);
 
-        // Optional
-        void * (* MallocZeroPtr)(cmsContext ContextID, cmsUInt32Number size);
-        void * (* CallocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size);
+        // Optionbl
+        void * (* MbllocZeroPtr)(cmsContext ContextID, cmsUInt32Number size);
+        void * (* CbllocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size);
         void * (* DupPtr)(cmsContext ContextID, const void* Org, cmsUInt32Number size);
 
-} cmsPluginMemHandler;
+} cmsPluginMemHbndler;
 
 
 // ------------------------------------------------------------------------------------------------------------------
 
-// Interpolation. 16 bits and floating point versions.
+// Interpolbtion. 16 bits bnd flobting point versions.
 struct _cms_interp_struc;
 
-// Interpolation callbacks
+// Interpolbtion cbllbbcks
 
-// 16 bits forward interpolation. This function performs precision-limited linear interpolation
-// and is supposed to be quite fast. Implementation may be tetrahedral or trilinear, and plug-ins may
-// choose to implement any other interpolation algorithm.
+// 16 bits forwbrd interpolbtion. This function performs precision-limited linebr interpolbtion
+// bnd is supposed to be quite fbst. Implementbtion mby be tetrbhedrbl or trilinebr, bnd plug-ins mby
+// choose to implement bny other interpolbtion blgorithm.
 typedef void (* _cmsInterpFn16)(register const cmsUInt16Number Input[],
                                 register cmsUInt16Number Output[],
                                 register const struct _cms_interp_struc* p);
 
-// Floating point forward interpolation. Full precision interpolation using floats. This is not a
-// time critical function. Implementation may be tetrahedral or trilinear, and plug-ins may
-// choose to implement any other interpolation algorithm.
-typedef void (* _cmsInterpFnFloat)(cmsFloat32Number const Input[],
-                                   cmsFloat32Number Output[],
+// Flobting point forwbrd interpolbtion. Full precision interpolbtion using flobts. This is not b
+// time criticbl function. Implementbtion mby be tetrbhedrbl or trilinebr, bnd plug-ins mby
+// choose to implement bny other interpolbtion blgorithm.
+typedef void (* _cmsInterpFnFlobt)(cmsFlobt32Number const Input[],
+                                   cmsFlobt32Number Output[],
                                    const struct _cms_interp_struc* p);
 
 
 
-// This type holds a pointer to an interpolator that can be either 16 bits or float
+// This type holds b pointer to bn interpolbtor thbt cbn be either 16 bits or flobt
 typedef union {
-    _cmsInterpFn16       Lerp16;            // Forward interpolation in 16 bits
-    _cmsInterpFnFloat    LerpFloat;         // Forward interpolation in floating point
+    _cmsInterpFn16       Lerp16;            // Forwbrd interpolbtion in 16 bits
+    _cmsInterpFnFlobt    LerpFlobt;         // Forwbrd interpolbtion in flobting point
 } cmsInterpFunction;
 
-// Flags for interpolator selection
-#define CMS_LERP_FLAGS_16BITS             0x0000        // The default
-#define CMS_LERP_FLAGS_FLOAT              0x0001        // Requires different implementation
+// Flbgs for interpolbtor selection
+#define CMS_LERP_FLAGS_16BITS             0x0000        // The defbult
+#define CMS_LERP_FLAGS_FLOAT              0x0001        // Requires different implementbtion
 #define CMS_LERP_FLAGS_TRILINEAR          0x0100        // Hint only
 
 
 #define MAX_INPUT_DIMENSIONS 8
 
-typedef struct _cms_interp_struc {  // Used on all interpolations. Supplied by lcms2 when calling the interpolation function
+typedef struct _cms_interp_struc {  // Used on bll interpolbtions. Supplied by lcms2 when cblling the interpolbtion function
 
-    cmsContext ContextID;     // The calling thread
+    cmsContext ContextID;     // The cblling threbd
 
-    cmsUInt32Number dwFlags;  // Keep original flags
-    cmsUInt32Number nInputs;  // != 1 only in 3D interpolation
-    cmsUInt32Number nOutputs; // != 1 only in 3D interpolation
+    cmsUInt32Number dwFlbgs;  // Keep originbl flbgs
+    cmsUInt32Number nInputs;  // != 1 only in 3D interpolbtion
+    cmsUInt32Number nOutputs; // != 1 only in 3D interpolbtion
 
-    cmsUInt32Number nSamples[MAX_INPUT_DIMENSIONS];  // Valid on all kinds of tables
-    cmsUInt32Number Domain[MAX_INPUT_DIMENSIONS];    // Domain = nSamples - 1
+    cmsUInt32Number nSbmples[MAX_INPUT_DIMENSIONS];  // Vblid on bll kinds of tbbles
+    cmsUInt32Number Dombin[MAX_INPUT_DIMENSIONS];    // Dombin = nSbmples - 1
 
-    cmsUInt32Number opta[MAX_INPUT_DIMENSIONS];     // Optimization for 3D CLUT. This is the number of nodes premultiplied for each
-                                                    // dimension. For example, in 7 nodes, 7, 7^2 , 7^3, 7^4, etc. On non-regular
-                                                    // Samplings may vary according of the number of nodes for each dimension.
+    cmsUInt32Number optb[MAX_INPUT_DIMENSIONS];     // Optimizbtion for 3D CLUT. This is the number of nodes premultiplied for ebch
+                                                    // dimension. For exbmple, in 7 nodes, 7, 7^2 , 7^3, 7^4, etc. On non-regulbr
+                                                    // Sbmplings mby vbry bccording of the number of nodes for ebch dimension.
 
-    const void *Table;                // Points to the actual interpolation table
-    cmsInterpFunction Interpolation;  // Points to the function to do the interpolation
+    const void *Tbble;                // Points to the bctubl interpolbtion tbble
+    cmsInterpFunction Interpolbtion;  // Points to the function to do the interpolbtion
 
- } cmsInterpParams;
+ } cmsInterpPbrbms;
 
-// Interpolators factory
-typedef cmsInterpFunction (* cmsInterpFnFactory)(cmsUInt32Number nInputChannels, cmsUInt32Number nOutputChannels, cmsUInt32Number dwFlags);
+// Interpolbtors fbctory
+typedef cmsInterpFunction (* cmsInterpFnFbctory)(cmsUInt32Number nInputChbnnels, cmsUInt32Number nOutputChbnnels, cmsUInt32Number dwFlbgs);
 
 // The plug-in
 typedef struct {
-    cmsPluginBase base;
+    cmsPluginBbse bbse;
 
-    // Points to a user-supplied function which implements the factory
-    cmsInterpFnFactory InterpolatorsFactory;
+    // Points to b user-supplied function which implements the fbctory
+    cmsInterpFnFbctory InterpolbtorsFbctory;
 
-} cmsPluginInterpolation;
+} cmsPluginInterpolbtion;
 
 //----------------------------------------------------------------------------------------------------------
 
-// Parametric curves. A negative type means same function but analytically inverted. Max. number of params is 10
+// Pbrbmetric curves. A negbtive type mebns sbme function but bnblyticblly inverted. Mbx. number of pbrbms is 10
 
-// Evaluator callback for user-suplied parametric curves. May implement more than one type
-typedef  cmsFloat64Number (* cmsParametricCurveEvaluator)(cmsInt32Number Type, const cmsFloat64Number Params[10], cmsFloat64Number R);
+// Evblubtor cbllbbck for user-suplied pbrbmetric curves. Mby implement more thbn one type
+typedef  cmsFlobt64Number (* cmsPbrbmetricCurveEvblubtor)(cmsInt32Number Type, const cmsFlobt64Number Pbrbms[10], cmsFlobt64Number R);
 
-// Plug-in may implement an arbitrary number of parametric curves
+// Plug-in mby implement bn brbitrbry number of pbrbmetric curves
 typedef struct {
-    cmsPluginBase base;
+    cmsPluginBbse bbse;
 
     cmsUInt32Number nFunctions;                                     // Number of supported functions
-    cmsUInt32Number FunctionTypes[MAX_TYPES_IN_LCMS_PLUGIN];        // The identification types
-    cmsUInt32Number ParameterCount[MAX_TYPES_IN_LCMS_PLUGIN];       // Number of parameters for each function
+    cmsUInt32Number FunctionTypes[MAX_TYPES_IN_LCMS_PLUGIN];        // The identificbtion types
+    cmsUInt32Number PbrbmeterCount[MAX_TYPES_IN_LCMS_PLUGIN];       // Number of pbrbmeters for ebch function
 
-    cmsParametricCurveEvaluator    Evaluator;                       // The evaluator
+    cmsPbrbmetricCurveEvblubtor    Evblubtor;                       // The evblubtor
 
-} cmsPluginParametricCurves;
+} cmsPluginPbrbmetricCurves;
 //----------------------------------------------------------------------------------------------------------
 
-// Formatters. This plug-in adds new handlers, replacing them if they already exist. Formatters dealing with
-// cmsFloat32Number (bps = 4) or double (bps = 0) types are requested via FormatterFloat callback. Others come across
-// Formatter16 callback
+// Formbtters. This plug-in bdds new hbndlers, replbcing them if they blrebdy exist. Formbtters debling with
+// cmsFlobt32Number (bps = 4) or double (bps = 0) types bre requested vib FormbtterFlobt cbllbbck. Others come bcross
+// Formbtter16 cbllbbck
 
-struct _cmstransform_struct;
+struct _cmstrbnsform_struct;
 
-typedef cmsUInt8Number* (* cmsFormatter16)(register struct _cmstransform_struct* CMMcargo,
-                                           register cmsUInt16Number Values[],
+typedef cmsUInt8Number* (* cmsFormbtter16)(register struct _cmstrbnsform_struct* CMMcbrgo,
+                                           register cmsUInt16Number Vblues[],
                                            register cmsUInt8Number*  Buffer,
                                            register cmsUInt32Number  Stride);
 
-typedef cmsUInt8Number* (* cmsFormatterFloat)(struct _cmstransform_struct* CMMcargo,
-                                              cmsFloat32Number Values[],
+typedef cmsUInt8Number* (* cmsFormbtterFlobt)(struct _cmstrbnsform_struct* CMMcbrgo,
+                                              cmsFlobt32Number Vblues[],
                                               cmsUInt8Number*  Buffer,
                                               cmsUInt32Number  Stride);
 
-// This type holds a pointer to a formatter that can be either 16 bits or cmsFloat32Number
+// This type holds b pointer to b formbtter thbt cbn be either 16 bits or cmsFlobt32Number
 typedef union {
-    cmsFormatter16    Fmt16;
-    cmsFormatterFloat FmtFloat;
+    cmsFormbtter16    Fmt16;
+    cmsFormbtterFlobt FmtFlobt;
 
-} cmsFormatter;
+} cmsFormbtter;
 
 #define CMS_PACK_FLAGS_16BITS       0x0000
 #define CMS_PACK_FLAGS_FLOAT        0x0001
 
-typedef enum { cmsFormatterInput=0, cmsFormatterOutput=1 } cmsFormatterDirection;
+typedef enum { cmsFormbtterInput=0, cmsFormbtterOutput=1 } cmsFormbtterDirection;
 
-typedef cmsFormatter (* cmsFormatterFactory)(cmsUInt32Number Type,           // Specific type, i.e. TYPE_RGB_8
-                                             cmsFormatterDirection Dir,
-                                             cmsUInt32Number dwFlags);      // precision
+typedef cmsFormbtter (* cmsFormbtterFbctory)(cmsUInt32Number Type,           // Specific type, i.e. TYPE_RGB_8
+                                             cmsFormbtterDirection Dir,
+                                             cmsUInt32Number dwFlbgs);      // precision
 
-// Plug-in may implement an arbitrary number of formatters
+// Plug-in mby implement bn brbitrbry number of formbtters
 typedef struct {
-    cmsPluginBase          base;
-    cmsFormatterFactory    FormattersFactory;
+    cmsPluginBbse          bbse;
+    cmsFormbtterFbctory    FormbttersFbctory;
 
-} cmsPluginFormatters;
+} cmsPluginFormbtters;
 
 //----------------------------------------------------------------------------------------------------------
 
-// Tag type handler. Each type is free to return anything it wants, and it is up to the caller to
-// know in advance what is the type contained in the tag.
-typedef struct _cms_typehandler_struct {
+// Tbg type hbndler. Ebch type is free to return bnything it wbnts, bnd it is up to the cbller to
+// know in bdvbnce whbt is the type contbined in the tbg.
+typedef struct _cms_typehbndler_struct {
 
-        cmsTagTypeSignature Signature;     // The signature of the type
+        cmsTbgTypeSignbture Signbture;     // The signbture of the type
 
-        // Allocates and reads items
-        void *   (* ReadPtr)(struct _cms_typehandler_struct* self,
+        // Allocbtes bnd rebds items
+        void *   (* RebdPtr)(struct _cms_typehbndler_struct* self,
                              cmsIOHANDLER*      io,
                              cmsUInt32Number*   nItems,
-                             cmsUInt32Number    SizeOfTag);
+                             cmsUInt32Number    SizeOfTbg);
 
         // Writes n Items
-        cmsBool  (* WritePtr)(struct _cms_typehandler_struct* self,
+        cmsBool  (* WritePtr)(struct _cms_typehbndler_struct* self,
                               cmsIOHANDLER*     io,
                               void*             Ptr,
                               cmsUInt32Number   nItems);
 
-        // Duplicate an item or array of items
-        void*   (* DupPtr)(struct _cms_typehandler_struct* self,
+        // Duplicbte bn item or brrby of items
+        void*   (* DupPtr)(struct _cms_typehbndler_struct* self,
                            const void *Ptr,
                            cmsUInt32Number n);
 
-        // Free all resources
-        void    (* FreePtr)(struct _cms_typehandler_struct* self,
+        // Free bll resources
+        void    (* FreePtr)(struct _cms_typehbndler_struct* self,
                             void *Ptr);
 
-        // Additional parameters used by the calling thread
+        // Additionbl pbrbmeters used by the cblling threbd
         cmsContext       ContextID;
         cmsUInt32Number  ICCVersion;
 
-} cmsTagTypeHandler;
+} cmsTbgTypeHbndler;
 
-// Each plug-in implements a single type
+// Ebch plug-in implements b single type
 typedef struct {
-        cmsPluginBase      base;
-        cmsTagTypeHandler  Handler;
+        cmsPluginBbse      bbse;
+        cmsTbgTypeHbndler  Hbndler;
 
-} cmsPluginTagType;
+} cmsPluginTbgType;
 
 //----------------------------------------------------------------------------------------------------------
 
-// This is the tag plugin, which identifies tags. For writing, a pointer to function is provided.
-// This function should return the desired type for this tag, given the version of profile
-// and the data being serialized.
+// This is the tbg plugin, which identifies tbgs. For writing, b pointer to function is provided.
+// This function should return the desired type for this tbg, given the version of profile
+// bnd the dbtb being seriblized.
 typedef struct {
 
-    cmsUInt32Number     ElemCount;          // If this tag needs an array, how many elements should keep
+    cmsUInt32Number     ElemCount;          // If this tbg needs bn brrby, how mbny elements should keep
 
-    // For reading.
-    cmsUInt32Number     nSupportedTypes;    // In how many types this tag can come (MAX_TYPES_IN_LCMS_PLUGIN maximum)
-    cmsTagTypeSignature SupportedTypes[MAX_TYPES_IN_LCMS_PLUGIN];
+    // For rebding.
+    cmsUInt32Number     nSupportedTypes;    // In how mbny types this tbg cbn come (MAX_TYPES_IN_LCMS_PLUGIN mbximum)
+    cmsTbgTypeSignbture SupportedTypes[MAX_TYPES_IN_LCMS_PLUGIN];
 
     // For writting
-    cmsTagTypeSignature (* DecideType)(cmsFloat64Number ICCVersion, const void *Data);
+    cmsTbgTypeSignbture (* DecideType)(cmsFlobt64Number ICCVersion, const void *Dbtb);
 
-} cmsTagDescriptor;
+} cmsTbgDescriptor;
 
-// Plug-in implements a single tag
+// Plug-in implements b single tbg
 typedef struct {
-    cmsPluginBase    base;
+    cmsPluginBbse    bbse;
 
-    cmsTagSignature  Signature;
-    cmsTagDescriptor Descriptor;
+    cmsTbgSignbture  Signbture;
+    cmsTbgDescriptor Descriptor;
 
-} cmsPluginTag;
+} cmsPluginTbg;
 
 //----------------------------------------------------------------------------------------------------------
 
-// Custom intents. This function should join all profiles specified in the array in
-// a single LUT. Any custom intent in the chain redirects to custom function. If more than
-// one custom intent is found, the one located first is invoked. Usually users should use only one
-// custom intent, so mixing custom intents in same multiprofile transform is not supported.
+// Custom intents. This function should join bll profiles specified in the brrby in
+// b single LUT. Any custom intent in the chbin redirects to custom function. If more thbn
+// one custom intent is found, the one locbted first is invoked. Usublly users should use only one
+// custom intent, so mixing custom intents in sbme multiprofile trbnsform is not supported.
 
 typedef cmsPipeline* (* cmsIntentFn)( cmsContext       ContextID,
                                       cmsUInt32Number  nProfiles,
                                       cmsUInt32Number  Intents[],
                                       cmsHPROFILE      hProfiles[],
                                       cmsBool          BPC[],
-                                      cmsFloat64Number AdaptationStates[],
-                                      cmsUInt32Number  dwFlags);
+                                      cmsFlobt64Number AdbptbtionStbtes[],
+                                      cmsUInt32Number  dwFlbgs);
 
 
-// Each plug-in defines a single intent number.
+// Ebch plug-in defines b single intent number.
 typedef struct {
-    cmsPluginBase     base;
+    cmsPluginBbse     bbse;
     cmsUInt32Number   Intent;
     cmsIntentFn       Link;
-    char              Description[256];
+    chbr              Description[256];
 
 } cmsPluginRenderingIntent;
 
 
-// The default ICC intents (perceptual, saturation, rel.col and abs.col)
-CMSAPI cmsPipeline*  CMSEXPORT _cmsDefaultICCintents(cmsContext       ContextID,
+// The defbult ICC intents (perceptubl, sbturbtion, rel.col bnd bbs.col)
+CMSAPI cmsPipeline*  CMSEXPORT _cmsDefbultICCintents(cmsContext       ContextID,
                                                      cmsUInt32Number  nProfiles,
                                                      cmsUInt32Number  Intents[],
                                                      cmsHPROFILE      hProfiles[],
                                                      cmsBool          BPC[],
-                                                     cmsFloat64Number AdaptationStates[],
-                                                     cmsUInt32Number  dwFlags);
+                                                     cmsFlobt64Number AdbptbtionStbtes[],
+                                                     cmsUInt32Number  dwFlbgs);
 
 
 //----------------------------------------------------------------------------------------------------------
 
 // Pipelines, Multi Process Elements.
 
-typedef void (* _cmsStageEvalFn)     (const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage* mpe);
-typedef void*(* _cmsStageDupElemFn)  (cmsStage* mpe);
-typedef void (* _cmsStageFreeElemFn) (cmsStage* mpe);
+typedef void (* _cmsStbgeEvblFn)     (const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge* mpe);
+typedef void*(* _cmsStbgeDupElemFn)  (cmsStbge* mpe);
+typedef void (* _cmsStbgeFreeElemFn) (cmsStbge* mpe);
 
 
-// This function allocates a generic MPE
-CMSAPI cmsStage* CMSEXPORT _cmsStageAllocPlaceholder(cmsContext ContextID,
-                                cmsStageSignature     Type,
-                                cmsUInt32Number       InputChannels,
-                                cmsUInt32Number       OutputChannels,
-                                _cmsStageEvalFn       EvalPtr,            // Points to fn that evaluates the element (always in floating point)
-                                _cmsStageDupElemFn    DupElemPtr,         // Points to a fn that duplicates the stage
-                                _cmsStageFreeElemFn   FreePtr,            // Points to a fn that sets the element free
-                                void*                 Data);              // A generic pointer to whatever memory needed by the element
+// This function bllocbtes b generic MPE
+CMSAPI cmsStbge* CMSEXPORT _cmsStbgeAllocPlbceholder(cmsContext ContextID,
+                                cmsStbgeSignbture     Type,
+                                cmsUInt32Number       InputChbnnels,
+                                cmsUInt32Number       OutputChbnnels,
+                                _cmsStbgeEvblFn       EvblPtr,            // Points to fn thbt evblubtes the element (blwbys in flobting point)
+                                _cmsStbgeDupElemFn    DupElemPtr,         // Points to b fn thbt duplicbtes the stbge
+                                _cmsStbgeFreeElemFn   FreePtr,            // Points to b fn thbt sets the element free
+                                void*                 Dbtb);              // A generic pointer to whbtever memory needed by the element
 typedef struct {
-      cmsPluginBase     base;
-      cmsTagTypeHandler Handler;
+      cmsPluginBbse     bbse;
+      cmsTbgTypeHbndler Hbndler;
 
 }  cmsPluginMultiProcessElement;
 
 
-// Data kept in "Element" member of cmsStage
+// Dbtb kept in "Element" member of cmsStbge
 
 // Curves
 typedef struct {
     cmsUInt32Number nCurves;
     cmsToneCurve**  TheCurves;
 
-} _cmsStageToneCurvesData;
+} _cmsStbgeToneCurvesDbtb;
 
-// Matrix
+// Mbtrix
 typedef struct {
-    cmsFloat64Number*  Double;          // floating point for the matrix
-    cmsFloat64Number*  Offset;          // The offset
+    cmsFlobt64Number*  Double;          // flobting point for the mbtrix
+    cmsFlobt64Number*  Offset;          // The offset
 
-} _cmsStageMatrixData;
+} _cmsStbgeMbtrixDbtb;
 
 // CLUT
 typedef struct {
 
-    union {                       // Can have only one of both representations at same time
-        cmsUInt16Number*  T;      // Points to the table 16 bits table
-        cmsFloat32Number* TFloat; // Points to the cmsFloat32Number table
+    union {                       // Cbn hbve only one of both representbtions bt sbme time
+        cmsUInt16Number*  T;      // Points to the tbble 16 bits tbble
+        cmsFlobt32Number* TFlobt; // Points to the cmsFlobt32Number tbble
 
-    } Tab;
+    } Tbb;
 
-    cmsInterpParams* Params;
+    cmsInterpPbrbms* Pbrbms;
     cmsUInt32Number  nEntries;
-    cmsBool          HasFloatValues;
+    cmsBool          HbsFlobtVblues;
 
-} _cmsStageCLutData;
+} _cmsStbgeCLutDbtb;
 
 
 //----------------------------------------------------------------------------------------------------------
-// Optimization. Using this plug-in, additional optimization strategies may be implemented.
-// The function should return TRUE if any optimization is done on the LUT, this terminates
-// the optimization  search. Or FALSE if it is unable to optimize and want to give a chance
+// Optimizbtion. Using this plug-in, bdditionbl optimizbtion strbtegies mby be implemented.
+// The function should return TRUE if bny optimizbtion is done on the LUT, this terminbtes
+// the optimizbtion  sebrch. Or FALSE if it is unbble to optimize bnd wbnt to give b chbnce
 // to the rest of optimizers.
 
-typedef void     (* _cmsOPTeval16Fn)(register const cmsUInt16Number In[],
+typedef void     (* _cmsOPTevbl16Fn)(register const cmsUInt16Number In[],
                                      register cmsUInt16Number Out[],
-                                     register const void* Data);
+                                     register const void* Dbtb);
 
 
 typedef cmsBool  (* _cmsOPToptimizeFn)(cmsPipeline** Lut,
                                        cmsUInt32Number  Intent,
-                                       cmsUInt32Number* InputFormat,
-                                       cmsUInt32Number* OutputFormat,
-                                       cmsUInt32Number* dwFlags);
+                                       cmsUInt32Number* InputFormbt,
+                                       cmsUInt32Number* OutputFormbt,
+                                       cmsUInt32Number* dwFlbgs);
 
-// This function may be used to set the optional evaluator and a block of private data. If private data is being used, an optional
-// duplicator and free functions should also be specified in order to duplicate the LUT construct. Use NULL to inhibit such functionality.
+// This function mby be used to set the optionbl evblubtor bnd b block of privbte dbtb. If privbte dbtb is being used, bn optionbl
+// duplicbtor bnd free functions should blso be specified in order to duplicbte the LUT construct. Use NULL to inhibit such functionblity.
 
-CMSAPI void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut,
-                                               _cmsOPTeval16Fn Eval16,
-                                               void* PrivateData,
-                                               _cmsFreeUserDataFn FreePrivateDataFn,
-                                               _cmsDupUserDataFn DupPrivateDataFn);
+CMSAPI void CMSEXPORT _cmsPipelineSetOptimizbtionPbrbmeters(cmsPipeline* Lut,
+                                               _cmsOPTevbl16Fn Evbl16,
+                                               void* PrivbteDbtb,
+                                               _cmsFreeUserDbtbFn FreePrivbteDbtbFn,
+                                               _cmsDupUserDbtbFn DupPrivbteDbtbFn);
 
 typedef struct {
-      cmsPluginBase     base;
+      cmsPluginBbse     bbse;
 
       // Optimize entry point
       _cmsOPToptimizeFn  OptimizePtr;
 
-}  cmsPluginOptimization;
+}  cmsPluginOptimizbtion;
 
 //----------------------------------------------------------------------------------------------------------
 // Full xform
-typedef void     (* _cmsTransformFn)(struct _cmstransform_struct *CMMcargo,
+typedef void     (* _cmsTrbnsformFn)(struct _cmstrbnsform_struct *CMMcbrgo,
                                      const void* InputBuffer,
                                      void* OutputBuffer,
                                      cmsUInt32Number Size,
                                      cmsUInt32Number Stride);
 
-typedef cmsBool  (* _cmsTransformFactory)(_cmsTransformFn* xform,
-                                         void** UserData,
-                                         _cmsFreeUserDataFn* FreePrivateDataFn,
+typedef cmsBool  (* _cmsTrbnsformFbctory)(_cmsTrbnsformFn* xform,
+                                         void** UserDbtb,
+                                         _cmsFreeUserDbtbFn* FreePrivbteDbtbFn,
                                          cmsPipeline** Lut,
-                                         cmsUInt32Number* InputFormat,
-                                         cmsUInt32Number* OutputFormat,
-                                         cmsUInt32Number* dwFlags);
+                                         cmsUInt32Number* InputFormbt,
+                                         cmsUInt32Number* OutputFormbt,
+                                         cmsUInt32Number* dwFlbgs);
 
 
-// Retrieve user data as specified by the factory
-CMSAPI void   CMSEXPORT _cmsSetTransformUserData(struct _cmstransform_struct *CMMcargo, void* ptr, _cmsFreeUserDataFn FreePrivateDataFn);
-CMSAPI void * CMSEXPORT _cmsGetTransformUserData(struct _cmstransform_struct *CMMcargo);
+// Retrieve user dbtb bs specified by the fbctory
+CMSAPI void   CMSEXPORT _cmsSetTrbnsformUserDbtb(struct _cmstrbnsform_struct *CMMcbrgo, void* ptr, _cmsFreeUserDbtbFn FreePrivbteDbtbFn);
+CMSAPI void * CMSEXPORT _cmsGetTrbnsformUserDbtb(struct _cmstrbnsform_struct *CMMcbrgo);
 
 
-// Retrieve formatters
-CMSAPI void   CMSEXPORT _cmsGetTransformFormatters16   (struct _cmstransform_struct *CMMcargo, cmsFormatter16* FromInput, cmsFormatter16* ToOutput);
-CMSAPI void   CMSEXPORT _cmsGetTransformFormattersFloat(struct _cmstransform_struct *CMMcargo, cmsFormatterFloat* FromInput, cmsFormatterFloat* ToOutput);
+// Retrieve formbtters
+CMSAPI void   CMSEXPORT _cmsGetTrbnsformFormbtters16   (struct _cmstrbnsform_struct *CMMcbrgo, cmsFormbtter16* FromInput, cmsFormbtter16* ToOutput);
+CMSAPI void   CMSEXPORT _cmsGetTrbnsformFormbttersFlobt(struct _cmstrbnsform_struct *CMMcbrgo, cmsFormbtterFlobt* FromInput, cmsFormbtterFlobt* ToOutput);
 
 typedef struct {
-      cmsPluginBase     base;
+      cmsPluginBbse     bbse;
 
-      // Transform entry point
-      _cmsTransformFactory  Factory;
+      // Trbnsform entry point
+      _cmsTrbnsformFbctory  Fbctory;
 
-}  cmsPluginTransform;
+}  cmsPluginTrbnsform;
 
 
 #ifndef CMS_USE_CPP_API

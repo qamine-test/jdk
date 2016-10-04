@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>SSLContext</code> class.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>SSLContext</code> clbss.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular SSL context.
+ * <p> All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b pbrticulbr SSL context.
  *
  * @since 1.4
  * @see SSLContext
  */
-public abstract class SSLContextSpi {
+public bbstrbct clbss SSLContextSpi {
     /**
-     * Initializes this context.
+     * Initiblizes this context.
      *
-     * @param km the sources of authentication keys
-     * @param tm the sources of peer authentication trust decisions
-     * @param sr the source of randomness
-     * @throws KeyManagementException if this operation fails
-     * @see SSLContext#init(KeyManager [], TrustManager [], SecureRandom)
+     * @pbrbm km the sources of buthenticbtion keys
+     * @pbrbm tm the sources of peer buthenticbtion trust decisions
+     * @pbrbm sr the source of rbndomness
+     * @throws KeyMbnbgementException if this operbtion fbils
+     * @see SSLContext#init(KeyMbnbger [], TrustMbnbger [], SecureRbndom)
      */
-    protected abstract void engineInit(KeyManager[] km, TrustManager[] tm,
-        SecureRandom sr) throws KeyManagementException;
+    protected bbstrbct void engineInit(KeyMbnbger[] km, TrustMbnbger[] tm,
+        SecureRbndom sr) throws KeyMbnbgementException;
 
     /**
-     * Returns a <code>SocketFactory</code> object for this
+     * Returns b <code>SocketFbctory</code> object for this
      * context.
      *
-     * @return the <code>SocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
-     * @see javax.net.ssl.SSLContext#getSocketFactory()
+     * @return the <code>SocketFbctory</code> object
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *         initiblizbtion bnd the <code>engineInit()</code>
+     *         hbs not been cblled
+     * @see jbvbx.net.ssl.SSLContext#getSocketFbctory()
      */
-    protected abstract SSLSocketFactory engineGetSocketFactory();
+    protected bbstrbct SSLSocketFbctory engineGetSocketFbctory();
 
     /**
-     * Returns a <code>ServerSocketFactory</code> object for
+     * Returns b <code>ServerSocketFbctory</code> object for
      * this context.
      *
-     * @return the <code>ServerSocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
-     * @see javax.net.ssl.SSLContext#getServerSocketFactory()
+     * @return the <code>ServerSocketFbctory</code> object
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *         initiblizbtion bnd the <code>engineInit()</code>
+     *         hbs not been cblled
+     * @see jbvbx.net.ssl.SSLContext#getServerSocketFbctory()
      */
-    protected abstract SSLServerSocketFactory engineGetServerSocketFactory();
+    protected bbstrbct SSLServerSocketFbctory engineGetServerSocketFbctory();
 
     /**
-     * Creates a new <code>SSLEngine</code> using this context.
+     * Crebtes b new <code>SSLEngine</code> using this context.
      * <P>
-     * Applications using this factory method are providing no hints
-     * for an internal session reuse strategy. If hints are desired,
-     * {@link #engineCreateSSLEngine(String, int)} should be used
-     * instead.
+     * Applicbtions using this fbctory method bre providing no hints
+     * for bn internbl session reuse strbtegy. If hints bre desired,
+     * {@link #engineCrebteSSLEngine(String, int)} should be used
+     * instebd.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case this factory method should not be used.
+     * Some cipher suites (such bs Kerberos) require remote hostnbme
+     * informbtion, in which cbse this fbctory method should not be used.
      *
      * @return  the <code>SSLEngine</code> Object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *         initiblizbtion bnd the <code>engineInit()</code>
+     *         hbs not been cblled
      *
-     * @see     SSLContext#createSSLEngine()
+     * @see     SSLContext#crebteSSLEngine()
      *
      * @since   1.5
      */
-    protected abstract SSLEngine engineCreateSSLEngine();
+    protected bbstrbct SSLEngine engineCrebteSSLEngine();
 
     /**
-     * Creates a <code>SSLEngine</code> using this context.
+     * Crebtes b <code>SSLEngine</code> using this context.
      * <P>
-     * Applications using this factory method are providing hints
-     * for an internal session reuse strategy.
+     * Applicbtions using this fbctory method bre providing hints
+     * for bn internbl session reuse strbtegy.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case peerHost needs to be specified.
+     * Some cipher suites (such bs Kerberos) require remote hostnbme
+     * informbtion, in which cbse peerHost needs to be specified.
      *
-     * @param host the non-authoritative name of the host
-     * @param port the non-authoritative port
+     * @pbrbm host the non-buthoritbtive nbme of the host
+     * @pbrbm port the non-buthoritbtive port
      * @return  the <code>SSLEngine</code> Object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *         initiblizbtion bnd the <code>engineInit()</code>
+     *         hbs not been cblled
      *
-     * @see     SSLContext#createSSLEngine(String, int)
+     * @see     SSLContext#crebteSSLEngine(String, int)
      *
      * @since   1.5
      */
-    protected abstract SSLEngine engineCreateSSLEngine(String host, int port);
+    protected bbstrbct SSLEngine engineCrebteSSLEngine(String host, int port);
 
     /**
-     * Returns a server <code>SSLSessionContext</code> object for
+     * Returns b server <code>SSLSessionContext</code> object for
      * this context.
      *
      * @return the <code>SSLSessionContext</code> object
-     * @see javax.net.ssl.SSLContext#getServerSessionContext()
+     * @see jbvbx.net.ssl.SSLContext#getServerSessionContext()
      */
-    protected abstract SSLSessionContext engineGetServerSessionContext();
+    protected bbstrbct SSLSessionContext engineGetServerSessionContext();
 
     /**
-     * Returns a client <code>SSLSessionContext</code> object for
+     * Returns b client <code>SSLSessionContext</code> object for
      * this context.
      *
      * @return the <code>SSLSessionContext</code> object
-     * @see javax.net.ssl.SSLContext#getClientSessionContext()
+     * @see jbvbx.net.ssl.SSLContext#getClientSessionContext()
      */
-    protected abstract SSLSessionContext engineGetClientSessionContext();
+    protected bbstrbct SSLSessionContext engineGetClientSessionContext();
 
-    private SSLSocket getDefaultSocket() {
+    privbte SSLSocket getDefbultSocket() {
         try {
-            SSLSocketFactory factory = engineGetSocketFactory();
-            return (SSLSocket)factory.createSocket();
-        } catch (java.io.IOException e) {
-            throw new UnsupportedOperationException("Could not obtain parameters", e);
+            SSLSocketFbctory fbctory = engineGetSocketFbctory();
+            return (SSLSocket)fbctory.crebteSocket();
+        } cbtch (jbvb.io.IOException e) {
+            throw new UnsupportedOperbtionException("Could not obtbin pbrbmeters", e);
         }
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the default
+     * Returns b copy of the SSLPbrbmeters indicbting the defbult
      * settings for this SSL context.
      *
-     * <p>The parameters will always have the ciphersuite and protocols
-     * arrays set to non-null values.
+     * <p>The pbrbmeters will blwbys hbve the ciphersuite bnd protocols
+     * brrbys set to non-null vblues.
      *
-     * <p>The default implementation obtains the parameters from an
-     * SSLSocket created by calling the
-     * {@linkplain javax.net.SocketFactory#createSocket
-     * SocketFactory.createSocket()} method of this context's SocketFactory.
+     * <p>The defbult implementbtion obtbins the pbrbmeters from bn
+     * SSLSocket crebted by cblling the
+     * {@linkplbin jbvbx.net.SocketFbctory#crebteSocket
+     * SocketFbctory.crebteSocket()} method of this context's SocketFbctory.
      *
-     * @return a copy of the SSLParameters object with the default settings
-     * @throws UnsupportedOperationException if the default SSL parameters
-     *   could not be obtained.
+     * @return b copy of the SSLPbrbmeters object with the defbult settings
+     * @throws UnsupportedOperbtionException if the defbult SSL pbrbmeters
+     *   could not be obtbined.
      *
      * @since 1.6
      */
-    protected SSLParameters engineGetDefaultSSLParameters() {
-        SSLSocket socket = getDefaultSocket();
-        return socket.getSSLParameters();
+    protected SSLPbrbmeters engineGetDefbultSSLPbrbmeters() {
+        SSLSocket socket = getDefbultSocket();
+        return socket.getSSLPbrbmeters();
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the maximum supported
+     * Returns b copy of the SSLPbrbmeters indicbting the mbximum supported
      * settings for this SSL context.
      *
-     * <p>The parameters will always have the ciphersuite and protocols
-     * arrays set to non-null values.
+     * <p>The pbrbmeters will blwbys hbve the ciphersuite bnd protocols
+     * brrbys set to non-null vblues.
      *
-     * <p>The default implementation obtains the parameters from an
-     * SSLSocket created by calling the
-     * {@linkplain javax.net.SocketFactory#createSocket
-     * SocketFactory.createSocket()} method of this context's SocketFactory.
+     * <p>The defbult implementbtion obtbins the pbrbmeters from bn
+     * SSLSocket crebted by cblling the
+     * {@linkplbin jbvbx.net.SocketFbctory#crebteSocket
+     * SocketFbctory.crebteSocket()} method of this context's SocketFbctory.
      *
-     * @return a copy of the SSLParameters object with the maximum supported
+     * @return b copy of the SSLPbrbmeters object with the mbximum supported
      *   settings
-     * @throws UnsupportedOperationException if the supported SSL parameters
-     *   could not be obtained.
+     * @throws UnsupportedOperbtionException if the supported SSL pbrbmeters
+     *   could not be obtbined.
      *
      * @since 1.6
      */
-    protected SSLParameters engineGetSupportedSSLParameters() {
-        SSLSocket socket = getDefaultSocket();
-        SSLParameters params = new SSLParameters();
-        params.setCipherSuites(socket.getSupportedCipherSuites());
-        params.setProtocols(socket.getSupportedProtocols());
-        return params;
+    protected SSLPbrbmeters engineGetSupportedSSLPbrbmeters() {
+        SSLSocket socket = getDefbultSocket();
+        SSLPbrbmeters pbrbms = new SSLPbrbmeters();
+        pbrbms.setCipherSuites(socket.getSupportedCipherSuites());
+        pbrbms.setProtocols(socket.getSupportedProtocols());
+        return pbrbms;
     }
 
 }

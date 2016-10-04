@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.Raster;
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
- * The <code>PaintContext</code> interface defines the encapsulated
- * and optimized environment to generate color patterns in device
- * space for fill or stroke operations on a
- * {@link Graphics2D}.  The <code>PaintContext</code> provides
- * the necessary colors for <code>Graphics2D</code> operations in the
- * form of a {@link Raster} associated with a {@link ColorModel}.
- * The <code>PaintContext</code> maintains state for a particular paint
- * operation.  In a multi-threaded environment, several
- * contexts can exist simultaneously for a single {@link Paint} object.
- * @see Paint
+ * The <code>PbintContext</code> interfbce defines the encbpsulbted
+ * bnd optimized environment to generbte color pbtterns in device
+ * spbce for fill or stroke operbtions on b
+ * {@link Grbphics2D}.  The <code>PbintContext</code> provides
+ * the necessbry colors for <code>Grbphics2D</code> operbtions in the
+ * form of b {@link Rbster} bssocibted with b {@link ColorModel}.
+ * The <code>PbintContext</code> mbintbins stbte for b pbrticulbr pbint
+ * operbtion.  In b multi-threbded environment, severbl
+ * contexts cbn exist simultbneously for b single {@link Pbint} object.
+ * @see Pbint
  */
 
-public interface PaintContext {
+public interfbce PbintContext {
     /**
-     * Releases the resources allocated for the operation.
+     * Relebses the resources bllocbted for the operbtion.
      */
     public void dispose();
 
     /**
-     * Returns the <code>ColorModel</code> of the output.  Note that
+     * Returns the <code>ColorModel</code> of the output.  Note thbt
      * this <code>ColorModel</code> might be different from the hint
      * specified in the
-     * {@link Paint#createContext(ColorModel, Rectangle, Rectangle2D,
-AffineTransform, RenderingHints) createContext} method of
-     * <code>Paint</code>.  Not all <code>PaintContext</code> objects are
-     * capable of generating color patterns in an arbitrary
+     * {@link Pbint#crebteContext(ColorModel, Rectbngle, Rectbngle2D,
+AffineTrbnsform, RenderingHints) crebteContext} method of
+     * <code>Pbint</code>.  Not bll <code>PbintContext</code> objects bre
+     * cbpbble of generbting color pbtterns in bn brbitrbry
      * <code>ColorModel</code>.
      * @return the <code>ColorModel</code> of the output.
      */
     ColorModel getColorModel();
 
     /**
-     * Returns a <code>Raster</code> containing the colors generated for
-     * the graphics operation.
-     * @param x the x coordinate of the area in device space
-     * for which colors are generated.
-     * @param y the y coordinate of the area in device space
-     * for which colors are generated.
-     * @param w the width of the area in device space
-     * @param h the height of the area in device space
-     * @return a <code>Raster</code> representing the specified
-     * rectangular area and containing the colors generated for
-     * the graphics operation.
+     * Returns b <code>Rbster</code> contbining the colors generbted for
+     * the grbphics operbtion.
+     * @pbrbm x the x coordinbte of the breb in device spbce
+     * for which colors bre generbted.
+     * @pbrbm y the y coordinbte of the breb in device spbce
+     * for which colors bre generbted.
+     * @pbrbm w the width of the breb in device spbce
+     * @pbrbm h the height of the breb in device spbce
+     * @return b <code>Rbster</code> representing the specified
+     * rectbngulbr breb bnd contbining the colors generbted for
+     * the grbphics operbtion.
      */
-    Raster getRaster(int x,
+    Rbster getRbster(int x,
                      int y,
                      int w,
                      int h);

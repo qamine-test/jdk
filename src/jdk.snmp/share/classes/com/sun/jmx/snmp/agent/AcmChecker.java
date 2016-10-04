@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.logging.Level;
+import jbvb.util.Vector;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MblformedObjectNbmeException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.SNMP_ADAPTOR_LOGGER;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpEngine;
 import com.sun.jmx.snmp.SnmpUnknownModelException;
-import com.sun.jmx.snmp.internal.SnmpAccessControlModel;
-import com.sun.jmx.snmp.internal.SnmpEngineImpl;
+import com.sun.jmx.snmp.internbl.SnmpAccessControlModel;
+import com.sun.jmx.snmp.internbl.SnmpEngineImpl;
 
 /**
- * Oid Checker makes use of ACM to check each OID during the getnext process.
+ * Oid Checker mbkes use of ACM to check ebch OID during the getnext process.
  */
-class AcmChecker {
+clbss AcmChecker {
 
 
     SnmpAccessControlModel model = null;
-    String principal = null;
+    String principbl = null;
     int securityLevel = -1;
     int version = -1;
     int pduType = -1;
     int securityModel = -1;
-    byte[] contextName = null;
+    byte[] contextNbme = null;
     SnmpEngineImpl engine = null;
     LongList l = null;
     AcmChecker(SnmpMibRequest req) {
         engine = (SnmpEngineImpl) req.getEngine();
-        //We are in V3 architecture, ACM is in the picture.
+        //We bre in V3 brchitecture, ACM is in the picture.
         if(engine != null) {
-            if(engine.isCheckOidActivated()) {
+            if(engine.isCheckOidActivbted()) {
                 try {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                         SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
+                                SnmpMib.clbss.getNbme(),
                                 "AcmChecker(SnmpMibRequest)",
                                 "SNMP V3 Access Control to be done");
                     }
                     model = (SnmpAccessControlModel)
                         engine.getAccessControlSubSystem().
                         getModel(SnmpDefinitions.snmpVersionThree);
-                    principal = req.getPrincipal();
+                    principbl = req.getPrincipbl();
                     securityLevel = req.getSecurityLevel();
                     pduType = req.getPdu().type;
                     version = req.getRequestPduVersion();
                     securityModel = req.getSecurityModel();
-                    contextName = req.getAccessContextName();
+                    contextNbme = req.getAccessContextNbme();
                     l = new LongList();
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        final StringBuilder strb = new StringBuilder()
-                        .append("Will check oid for : principal : ")
-                        .append(principal)
-                        .append("; securityLevel : ").append(securityLevel)
-                        .append("; pduType : ").append(pduType)
-                        .append("; version : ").append(version)
-                        .append("; securityModel : ").append(securityModel)
-                        .append("; contextName : ").append(contextName);
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                        finbl StringBuilder strb = new StringBuilder()
+                        .bppend("Will check oid for : principbl : ")
+                        .bppend(principbl)
+                        .bppend("; securityLevel : ").bppend(securityLevel)
+                        .bppend("; pduType : ").bppend(pduType)
+                        .bppend("; version : ").bppend(version)
+                        .bppend("; securityModel : ").bppend(securityModel)
+                        .bppend("; contextNbme : ").bppend(contextNbme);
                         SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
+                                SnmpMib.clbss.getNbme(),
                                 "AcmChecker(SnmpMibRequest)", strb.toString());
                     }
 
-                }catch(SnmpUnknownModelException e) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
+                }cbtch(SnmpUnknownModelException e) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
                         SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMib.class.getName(),
+                                SnmpMib.clbss.getNbme(),
                                 "AcmChecker(SnmpMibRequest)",
                                 "Unknown Model, no ACM check.");
                     }
@@ -110,9 +110,9 @@ class AcmChecker {
         }
     }
 
-    void add(int index, long arc) {
+    void bdd(int index, long brc) {
         if(model != null)
-            l.add(index, arc);
+            l.bdd(index, brc);
     }
 
     void remove(int index) {
@@ -120,30 +120,30 @@ class AcmChecker {
             l.remove(index);
     }
 
-    void add(final int at,final long[] src, final int from,
-             final int count) {
+    void bdd(finbl int bt,finbl long[] src, finbl int from,
+             finbl int count) {
         if(model != null)
-            l.add(at,src,from,count);
+            l.bdd(bt,src,from,count);
     }
 
-    void remove(final int from, final int count) {
+    void remove(finbl int from, finbl int count) {
         if(model != null)
             l.remove(from,count);
     }
 
-    void checkCurrentOid() throws SnmpStatusException {
+    void checkCurrentOid() throws SnmpStbtusException {
         if(model != null) {
-            SnmpOid oid = new SnmpOid(l.toArray());
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMib.class.getName(),
-                        "checkCurrentOid", "Checking access for : " + oid);
+            SnmpOid oid = new SnmpOid(l.toArrby());
+            if (SNMP_ADAPTOR_LOGGER.isLoggbble(Level.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMib.clbss.getNbme(),
+                        "checkCurrentOid", "Checking bccess for : " + oid);
             }
             model.checkAccess(version,
-                              principal,
+                              principbl,
                               securityLevel,
                               pduType,
                               securityModel,
-                              contextName,
+                              contextNbme,
                               oid);
         }
     }

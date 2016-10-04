@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.mbth.BigInteger;
+import jbvb.util.*;
 
-import java.security.SecureRandom;
-import java.security.interfaces.*;
+import jbvb.security.SecureRbndom;
+import jbvb.security.interfbces.*;
 
-import javax.crypto.BadPaddingException;
+import jbvbx.crypto.BbdPbddingException;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * Core of the RSA implementation. Has code to perform public and private key
- * RSA operations (with and without CRT for private key ops). Private CRT ops
- * also support blinding to twart timing attacks.
+ * Core of the RSA implementbtion. Hbs code to perform public bnd privbte key
+ * RSA operbtions (with bnd without CRT for privbte key ops). Privbte CRT ops
+ * blso support blinding to twbrt timing bttbcks.
  *
- * The code in this class only does the core RSA operation. Padding and
- * unpadding must be done externally.
+ * The code in this clbss only does the core RSA operbtion. Pbdding bnd
+ * unpbdding must be done externblly.
  *
- * Note: RSA keys should be at least 512 bits long
+ * Note: RSA keys should be bt lebst 512 bits long
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class RSACore {
+public finbl clbss RSACore {
 
-    // globally enable/disable use of blinding
-    private final static boolean ENABLE_BLINDING = true;
+    // globblly enbble/disbble use of blinding
+    privbte finbl stbtic boolebn ENABLE_BLINDING = true;
 
-    // cache for blinding parameters. Map<BigInteger, BlindingParameters>
-    // use a weak hashmap so that cached values are automatically cleared
+    // cbche for blinding pbrbmeters. Mbp<BigInteger, BlindingPbrbmeters>
+    // use b webk hbshmbp so thbt cbched vblues bre butombticblly clebred
     // when the modulus is GC'ed
-    private final static Map<BigInteger, BlindingParameters>
-                blindingCache = new WeakHashMap<>();
+    privbte finbl stbtic Mbp<BigInteger, BlindingPbrbmeters>
+                blindingCbche = new WebkHbshMbp<>();
 
-    private RSACore() {
+    privbte RSACore() {
         // empty
     }
 
     /**
-     * Return the number of bytes required to store the magnitude byte[] of
-     * this BigInteger. Do not count a 0x00 byte toByteArray() would
+     * Return the number of bytes required to store the mbgnitude byte[] of
+     * this BigInteger. Do not count b 0x00 byte toByteArrby() would
      * prefix for 2's complement form.
      */
-    public static int getByteLength(BigInteger b) {
+    public stbtic int getByteLength(BigInteger b) {
         int n = b.bitLength();
         return (n + 7) >> 3;
     }
@@ -77,63 +77,63 @@ public final class RSACore {
      * Return the number of bytes required to store the modulus of this
      * RSA key.
      */
-    public static int getByteLength(RSAKey key) {
+    public stbtic int getByteLength(RSAKey key) {
         return getByteLength(key.getModulus());
     }
 
-    // temporary, used by RSACipher and RSAPadding. Move this somewhere else
-    public static byte[] convert(byte[] b, int ofs, int len) {
+    // temporbry, used by RSACipher bnd RSAPbdding. Move this somewhere else
+    public stbtic byte[] convert(byte[] b, int ofs, int len) {
         if ((ofs == 0) && (len == b.length)) {
             return b;
         } else {
             byte[] t = new byte[len];
-            System.arraycopy(b, ofs, t, 0, len);
+            System.brrbycopy(b, ofs, t, 0, len);
             return t;
         }
     }
 
     /**
-     * Perform an RSA public key operation.
+     * Perform bn RSA public key operbtion.
      */
-    public static byte[] rsa(byte[] msg, RSAPublicKey key)
-            throws BadPaddingException {
+    public stbtic byte[] rsb(byte[] msg, RSAPublicKey key)
+            throws BbdPbddingException {
         return crypt(msg, key.getModulus(), key.getPublicExponent());
     }
 
     /**
-     * Perform an RSA private key operation. Uses CRT if the key is a
+     * Perform bn RSA privbte key operbtion. Uses CRT if the key is b
      * CRT key.
      */
-    public static byte[] rsa(byte[] msg, RSAPrivateKey key)
-            throws BadPaddingException {
-        if (key instanceof RSAPrivateCrtKey) {
-            return crtCrypt(msg, (RSAPrivateCrtKey)key);
+    public stbtic byte[] rsb(byte[] msg, RSAPrivbteKey key)
+            throws BbdPbddingException {
+        if (key instbnceof RSAPrivbteCrtKey) {
+            return crtCrypt(msg, (RSAPrivbteCrtKey)key);
         } else {
-            return priCrypt(msg, key.getModulus(), key.getPrivateExponent());
+            return priCrypt(msg, key.getModulus(), key.getPrivbteExponent());
         }
     }
 
     /**
      * RSA public key ops. Simple modPow().
      */
-    private static byte[] crypt(byte[] msg, BigInteger n, BigInteger exp)
-            throws BadPaddingException {
-        BigInteger m = parseMsg(msg, n);
+    privbte stbtic byte[] crypt(byte[] msg, BigInteger n, BigInteger exp)
+            throws BbdPbddingException {
+        BigInteger m = pbrseMsg(msg, n);
         BigInteger c = m.modPow(exp, n);
-        return toByteArray(c, getByteLength(n));
+        return toByteArrby(c, getByteLength(n));
     }
 
     /**
-     * RSA non-CRT private key operations.
+     * RSA non-CRT privbte key operbtions.
      */
-    private static byte[] priCrypt(byte[] msg, BigInteger n, BigInteger exp)
-            throws BadPaddingException {
+    privbte stbtic byte[] priCrypt(byte[] msg, BigInteger n, BigInteger exp)
+            throws BbdPbddingException {
 
-        BigInteger c = parseMsg(msg, n);
-        BlindingRandomPair brp = null;
+        BigInteger c = pbrseMsg(msg, n);
+        BlindingRbndomPbir brp = null;
         BigInteger m;
         if (ENABLE_BLINDING) {
-            brp = getBlindingRandomPair(null, exp, n);
+            brp = getBlindingRbndomPbir(null, exp, n);
             c = c.multiply(brp.u).mod(n);
             m = c.modPow(exp, n);
             m = m.multiply(brp.v).mod(n);
@@ -141,28 +141,28 @@ public final class RSACore {
             m = c.modPow(exp, n);
         }
 
-        return toByteArray(m, getByteLength(n));
+        return toByteArrby(m, getByteLength(n));
     }
 
     /**
-     * RSA private key operations with CRT. Algorithm and variable naming
-     * are taken from PKCS#1 v2.1, section 5.1.2.
+     * RSA privbte key operbtions with CRT. Algorithm bnd vbribble nbming
+     * bre tbken from PKCS#1 v2.1, section 5.1.2.
      */
-    private static byte[] crtCrypt(byte[] msg, RSAPrivateCrtKey key)
-            throws BadPaddingException {
+    privbte stbtic byte[] crtCrypt(byte[] msg, RSAPrivbteCrtKey key)
+            throws BbdPbddingException {
         BigInteger n = key.getModulus();
-        BigInteger c = parseMsg(msg, n);
+        BigInteger c = pbrseMsg(msg, n);
         BigInteger p = key.getPrimeP();
         BigInteger q = key.getPrimeQ();
         BigInteger dP = key.getPrimeExponentP();
         BigInteger dQ = key.getPrimeExponentQ();
         BigInteger qInv = key.getCrtCoefficient();
         BigInteger e = key.getPublicExponent();
-        BigInteger d = key.getPrivateExponent();
+        BigInteger d = key.getPrivbteExponent();
 
-        BlindingRandomPair brp;
+        BlindingRbndomPbir brp;
         if (ENABLE_BLINDING) {
-            brp = getBlindingRandomPair(e, d, n);
+            brp = getBlindingRbndomPbir(e, d, n);
             c = c.multiply(brp.u).mod(n);
         }
 
@@ -172,82 +172,82 @@ public final class RSACore {
         BigInteger m2 = c.modPow(dQ, q);
 
         // h = (m1 - m2) * qInv mod p
-        BigInteger mtmp = m1.subtract(m2);
+        BigInteger mtmp = m1.subtrbct(m2);
         if (mtmp.signum() < 0) {
-            mtmp = mtmp.add(p);
+            mtmp = mtmp.bdd(p);
         }
         BigInteger h = mtmp.multiply(qInv).mod(p);
 
         // m = m2 + q * h
-        BigInteger m = h.multiply(q).add(m2);
+        BigInteger m = h.multiply(q).bdd(m2);
 
         if (ENABLE_BLINDING) {
             m = m.multiply(brp.v).mod(n);
         }
 
-        return toByteArray(m, getByteLength(n));
+        return toByteArrby(m, getByteLength(n));
     }
 
     /**
-     * Parse the msg into a BigInteger and check against the modulus n.
+     * Pbrse the msg into b BigInteger bnd check bgbinst the modulus n.
      */
-    private static BigInteger parseMsg(byte[] msg, BigInteger n)
-            throws BadPaddingException {
+    privbte stbtic BigInteger pbrseMsg(byte[] msg, BigInteger n)
+            throws BbdPbddingException {
         BigInteger m = new BigInteger(1, msg);
-        if (m.compareTo(n) >= 0) {
-            throw new BadPaddingException("Message is larger than modulus");
+        if (m.compbreTo(n) >= 0) {
+            throw new BbdPbddingException("Messbge is lbrger thbn modulus");
         }
         return m;
     }
 
     /**
-     * Return the encoding of this BigInteger that is exactly len bytes long.
-     * Prefix/strip off leading 0x00 bytes if necessary.
+     * Return the encoding of this BigInteger thbt is exbctly len bytes long.
+     * Prefix/strip off lebding 0x00 bytes if necessbry.
      * Precondition: bi must fit into len bytes
      */
-    private static byte[] toByteArray(BigInteger bi, int len) {
-        byte[] b = bi.toByteArray();
+    privbte stbtic byte[] toByteArrby(BigInteger bi, int len) {
+        byte[] b = bi.toByteArrby();
         int n = b.length;
         if (n == len) {
             return b;
         }
-        // BigInteger prefixed a 0x00 byte for 2's complement form, remove it
+        // BigInteger prefixed b 0x00 byte for 2's complement form, remove it
         if ((n == len + 1) && (b[0] == 0)) {
             byte[] t = new byte[len];
-            System.arraycopy(b, 1, t, 0, len);
+            System.brrbycopy(b, 1, t, 0, len);
             return t;
         }
-        // must be smaller
-        assert (n < len);
+        // must be smbller
+        bssert (n < len);
         byte[] t = new byte[len];
-        System.arraycopy(b, 0, t, (len - n), n);
+        System.brrbycopy(b, 0, t, (len - n), n);
         return t;
     }
 
     /**
-     * Parameters (u,v) for RSA Blinding.  This is described in the RSA
-     * Bulletin#2 (Jan 96) and other places:
+     * Pbrbmeters (u,v) for RSA Blinding.  This is described in the RSA
+     * Bulletin#2 (Jbn 96) bnd other plbces:
      *
-     *     ftp://ftp.rsa.com/pub/pdfs/bull-2.pdf
+     *     ftp://ftp.rsb.com/pub/pdfs/bull-2.pdf
      *
-     * The standard RSA Blinding decryption requires the public key exponent
-     * (e) and modulus (n), and converts ciphertext (c) to plaintext (p).
+     * The stbndbrd RSA Blinding decryption requires the public key exponent
+     * (e) bnd modulus (n), bnd converts ciphertext (c) to plbintext (p).
      *
-     * Before the modular exponentiation operation, the input message should
-     * be multiplied by (u (mod n)), and afterward the result is corrected
-     * by multiplying with (v (mod n)).  The system should reject messages
-     * equal to (0 (mod n)).  That is:
+     * Before the modulbr exponentibtion operbtion, the input messbge should
+     * be multiplied by (u (mod n)), bnd bfterwbrd the result is corrected
+     * by multiplying with (v (mod n)).  The system should reject messbges
+     * equbl to (0 (mod n)).  Thbt is:
      *
-     *     1.  Generate r between 0 and n-1, relatively prime to n.
+     *     1.  Generbte r between 0 bnd n-1, relbtively prime to n.
      *     2.  Compute x = (c*u) mod n
      *     3.  Compute y = (x^d) mod n
      *     4.  Compute p = (y*v) mod n
      *
-     * The Java APIs allows for either standard RSAPrivateKey or
-     * RSAPrivateCrtKey RSA keys.
+     * The Jbvb APIs bllows for either stbndbrd RSAPrivbteKey or
+     * RSAPrivbteCrtKey RSA keys.
      *
-     * If the public exponent is available to us (e.g. RSAPrivateCrtKey),
-     * choose a random r, then let (u, v):
+     * If the public exponent is bvbilbble to us (e.g. RSAPrivbteCrtKey),
+     * choose b rbndom r, then let (u, v):
      *
      *     u = r ^ e mod n
      *     v = r ^ (-1) mod n
@@ -261,146 +261,146 @@ public final class RSACore {
      *       = ((c ^ d) * (r ^ 1) * (r ^ (-1))) mod n  (see below)
      *       = (c ^ d) mod n
      *
-     * because in RSA cryptosystem, d is the multiplicative inverse of e:
+     * becbuse in RSA cryptosystem, d is the multiplicbtive inverse of e:
      *
      *    (r^(e * d)) mod n
      *       = (r ^ 1) mod n
      *       = r mod n
      *
-     * However, if the public exponent is not available (e.g. RSAPrivateKey),
-     * we mitigate the timing issue by using a similar random number blinding
-     * approach using the private key:
+     * However, if the public exponent is not bvbilbble (e.g. RSAPrivbteKey),
+     * we mitigbte the timing issue by using b similbr rbndom number blinding
+     * bpprobch using the privbte key:
      *
      *     u = r
      *     v = ((r ^ (-1)) ^ d) mod n
      *
-     * This returns the same plaintext because:
+     * This returns the sbme plbintext becbuse:
      *
      *     p = (((c * u) ^ d mod n) * v) mod n
      *       = ((c ^ d) * (u ^ d) * v) mod n
      *       = ((c ^ d) * (u ^ d) * ((u ^ (-1)) ^d)) mod n
      *       = (c ^ d) mod n
      *
-     * Computing inverses mod n and random number generation is slow, so
-     * it is often not practical to generate a new random (u, v) pair for
-     * each new exponentiation.  The calculation of parameters might even be
-     * subject to timing attacks.  However, (u, v) pairs should not be
-     * reused since they themselves might be compromised by timing attacks,
-     * leaving the private exponent vulnerable.  An efficient solution to
-     * this problem is update u and v before each modular exponentiation
+     * Computing inverses mod n bnd rbndom number generbtion is slow, so
+     * it is often not prbcticbl to generbte b new rbndom (u, v) pbir for
+     * ebch new exponentibtion.  The cblculbtion of pbrbmeters might even be
+     * subject to timing bttbcks.  However, (u, v) pbirs should not be
+     * reused since they themselves might be compromised by timing bttbcks,
+     * lebving the privbte exponent vulnerbble.  An efficient solution to
+     * this problem is updbte u bnd v before ebch modulbr exponentibtion
      * step by computing:
      *
      *     u = u ^ 2
      *     v = v ^ 2
      *
-     * The total performance cost is small.
+     * The totbl performbnce cost is smbll.
      */
-    private final static class BlindingRandomPair {
-        final BigInteger u;
-        final BigInteger v;
+    privbte finbl stbtic clbss BlindingRbndomPbir {
+        finbl BigInteger u;
+        finbl BigInteger v;
 
-        BlindingRandomPair(BigInteger u, BigInteger v) {
+        BlindingRbndomPbir(BigInteger u, BigInteger v) {
             this.u = u;
             this.v = v;
         }
     }
 
     /**
-     * Set of blinding parameters for a given RSA key.
+     * Set of blinding pbrbmeters for b given RSA key.
      *
-     * The RSA modulus is usually unique, so we index by modulus in
-     * {@code blindingCache}.  However, to protect against the unlikely
-     * case of two keys sharing the same modulus, we also store the public
-     * or the private exponent.  This means we cannot cache blinding
-     * parameters for multiple keys that share the same modulus, but
-     * since sharing moduli is fundamentally broken and insecure, this
-     * does not matter.
+     * The RSA modulus is usublly unique, so we index by modulus in
+     * {@code blindingCbche}.  However, to protect bgbinst the unlikely
+     * cbse of two keys shbring the sbme modulus, we blso store the public
+     * or the privbte exponent.  This mebns we cbnnot cbche blinding
+     * pbrbmeters for multiple keys thbt shbre the sbme modulus, but
+     * since shbring moduli is fundbmentblly broken bnd insecure, this
+     * does not mbtter.
      */
-    private final static class BlindingParameters {
-        private final static BigInteger BIG_TWO = BigInteger.valueOf(2L);
+    privbte finbl stbtic clbss BlindingPbrbmeters {
+        privbte finbl stbtic BigInteger BIG_TWO = BigInteger.vblueOf(2L);
 
         // RSA public exponent
-        private final BigInteger e;
+        privbte finbl BigInteger e;
 
-        // hash code of RSA private exponent
-        private final BigInteger d;
+        // hbsh code of RSA privbte exponent
+        privbte finbl BigInteger d;
 
         // r ^ e mod n (CRT), or r mod n (Non-CRT)
-        private BigInteger u;
+        privbte BigInteger u;
 
         // r ^ (-1) mod n (CRT) , or ((r ^ (-1)) ^ d) mod n (Non-CRT)
-        private BigInteger v;
+        privbte BigInteger v;
 
         // e: the public exponent
-        // d: the private exponent
+        // d: the privbte exponent
         // n: the modulus
-        BlindingParameters(BigInteger e, BigInteger d, BigInteger n) {
+        BlindingPbrbmeters(BigInteger e, BigInteger d, BigInteger n) {
             this.u = null;
             this.v = null;
             this.e = e;
             this.d = d;
 
             int len = n.bitLength();
-            SecureRandom random = JCAUtil.getSecureRandom();
-            u = new BigInteger(len, random).mod(n);
-            // Although the possibility is very much limited that u is zero
-            // or is not relatively prime to n, we still want to be careful
-            // about the special value.
+            SecureRbndom rbndom = JCAUtil.getSecureRbndom();
+            u = new BigInteger(len, rbndom).mod(n);
+            // Although the possibility is very much limited thbt u is zero
+            // or is not relbtively prime to n, we still wbnt to be cbreful
+            // bbout the specibl vblue.
             //
-            // Secure random generation is expensive, try to use BigInteger.ONE
-            // this time if this new generated random number is zero or is not
-            // relatively prime to n.  Next time, new generated secure random
-            // number will be used instead.
-            if (u.equals(BigInteger.ZERO)) {
+            // Secure rbndom generbtion is expensive, try to use BigInteger.ONE
+            // this time if this new generbted rbndom number is zero or is not
+            // relbtively prime to n.  Next time, new generbted secure rbndom
+            // number will be used instebd.
+            if (u.equbls(BigInteger.ZERO)) {
                 u = BigInteger.ONE;     // use 1 this time
             }
 
             try {
-                // The call to BigInteger.modInverse() checks that u is
-                // relatively prime to n.  Otherwise, ArithmeticException is
+                // The cbll to BigInteger.modInverse() checks thbt u is
+                // relbtively prime to n.  Otherwise, ArithmeticException is
                 // thrown.
                 v = u.modInverse(n);
-            } catch (ArithmeticException ae) {
-                // if u is not relatively prime to n, use 1 this time
+            } cbtch (ArithmeticException be) {
+                // if u is not relbtively prime to n, use 1 this time
                 u = BigInteger.ONE;
                 v = BigInteger.ONE;
             }
 
             if (e != null) {
                 u = u.modPow(e, n);   // e: the public exponent
-                                      // u: random ^ e
-                                      // v: random ^ (-1)
+                                      // u: rbndom ^ e
+                                      // v: rbndom ^ (-1)
             } else {
-                v = v.modPow(d, n);   // d: the private exponent
-                                      // u: random
-                                      // v: random ^ (-d)
+                v = v.modPow(d, n);   // d: the privbte exponent
+                                      // u: rbndom
+                                      // v: rbndom ^ (-d)
             }
         }
 
-        // return null if need to reset the parameters
-        BlindingRandomPair getBlindingRandomPair(
+        // return null if need to reset the pbrbmeters
+        BlindingRbndomPbir getBlindingRbndomPbir(
                 BigInteger e, BigInteger d, BigInteger n) {
 
-            if ((this.e != null && this.e.equals(e)) ||
-                (this.d != null && this.d.equals(d))) {
+            if ((this.e != null && this.e.equbls(e)) ||
+                (this.d != null && this.d.equbls(d))) {
 
-                BlindingRandomPair brp = null;
+                BlindingRbndomPbir brp = null;
                 synchronized (this) {
-                    if (!u.equals(BigInteger.ZERO) &&
-                        !v.equals(BigInteger.ZERO)) {
+                    if (!u.equbls(BigInteger.ZERO) &&
+                        !v.equbls(BigInteger.ZERO)) {
 
-                        brp = new BlindingRandomPair(u, v);
-                        if (u.compareTo(BigInteger.ONE) <= 0 ||
-                            v.compareTo(BigInteger.ONE) <= 0) {
+                        brp = new BlindingRbndomPbir(u, v);
+                        if (u.compbreTo(BigInteger.ONE) <= 0 ||
+                            v.compbreTo(BigInteger.ONE) <= 0) {
 
-                            // need to reset the random pair next time
+                            // need to reset the rbndom pbir next time
                             u = BigInteger.ZERO;
                             v = BigInteger.ZERO;
                         } else {
                             u = u.modPow(BIG_TWO, n);
                             v = v.modPow(BIG_TWO, n);
                         }
-                    } // Otherwise, need to reset the random pair.
+                    } // Otherwise, need to reset the rbndom pbir.
                 }
                 return brp;
             }
@@ -409,29 +409,29 @@ public final class RSACore {
         }
     }
 
-    private static BlindingRandomPair getBlindingRandomPair(
+    privbte stbtic BlindingRbndomPbir getBlindingRbndomPbir(
             BigInteger e, BigInteger d, BigInteger n) {
 
-        BlindingParameters bps = null;
-        synchronized (blindingCache) {
-            bps = blindingCache.get(n);
+        BlindingPbrbmeters bps = null;
+        synchronized (blindingCbche) {
+            bps = blindingCbche.get(n);
         }
 
         if (bps == null) {
-            bps = new BlindingParameters(e, d, n);
-            synchronized (blindingCache) {
-                blindingCache.putIfAbsent(n, bps);
+            bps = new BlindingPbrbmeters(e, d, n);
+            synchronized (blindingCbche) {
+                blindingCbche.putIfAbsent(n, bps);
             }
         }
 
-        BlindingRandomPair brp = bps.getBlindingRandomPair(e, d, n);
+        BlindingRbndomPbir brp = bps.getBlindingRbndomPbir(e, d, n);
         if (brp == null) {
-            // need to reset the blinding parameters
-            bps = new BlindingParameters(e, d, n);
-            synchronized (blindingCache) {
-                blindingCache.replace(n, bps);
+            // need to reset the blinding pbrbmeters
+            bps = new BlindingPbrbmeters(e, d, n);
+            synchronized (blindingCbche) {
+                blindingCbche.replbce(n, bps);
             }
-            brp = bps.getBlindingRandomPair(e, d, n);
+            brp = bps.getBlindingRbndomPbir(e, d, n);
         }
 
         return brp;

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*-
- *      mailto stream opener
+ *      mbilto strebm opener
  */
 
-package sun.net.www.protocol.mailto;
+pbckbge sun.net.www.protocol.mbilto;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
-import java.io.*;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.net.URLStrebmHbndler;
+import jbvb.io.*;
 import sun.net.www.*;
 //import sun.net.www.protocol.news.ArticlePoster;
 import sun.net.smtp.SmtpClient;
 
-/** open an nntp input stream given a URL */
-public class Handler extends URLStreamHandler {
+/** open bn nntp input strebm given b URL */
+public clbss Hbndler extends URLStrebmHbndler {
 
 /*
-//     private String decodePercent(String s) {
+//     privbte String decodePercent(String s) {
 //      if (s==null || s.indexOf('%') < 0)
 //          return s;
 //      int limit = s.length();
-//      char d[] = new char[limit];
+//      chbr d[] = new chbr[limit];
 //      int dp = 0;
 //      for (int sp = 0; sp < limit; sp++) {
-//          int c = s.charAt(sp);
+//          int c = s.chbrAt(sp);
 //          if (c == '%' && sp + 2 < limit) {
-//              int s1 = s.charAt(sp + 1);
-//              int s2 = s.charAt(sp + 2);
+//              int s1 = s.chbrAt(sp + 1);
+//              int s2 = s.chbrAt(sp + 2);
 //              if ('0' <= s1 && s1 <= '9')
 //                  s1 = s1 - '0';
-//              else if ('a' <= s1 && s1 <= 'f')
-//                  s1 = s1 - 'a' + 10;
+//              else if ('b' <= s1 && s1 <= 'f')
+//                  s1 = s1 - 'b' + 10;
 //              else if ('A' <= s1 && s1 <= 'F')
 //                  s1 = s1 - 'A' + 10;
 //              else
 //                  s1 = -1;
 //              if ('0' <= s2 && s2 <= '9')
 //                  s2 = s2 - '0';
-//              else if ('a' <= s2 && s2 <= 'f')
-//                  s2 = s2 - 'a' + 10;
+//              else if ('b' <= s2 && s2 <= 'f')
+//                  s2 = s2 - 'b' + 10;
 //              else if ('A' <= s2 && s2 <= 'F')
 //                  s2 = s2 - 'A' + 10;
 //              else
@@ -73,86 +73,86 @@ public class Handler extends URLStreamHandler {
 //                  sp += 2;
 //              }
 //          }
-//          d[dp++] = (char) c;
+//          d[dp++] = (chbr) c;
 //      }
 //      return new String(d, 0, dp);
 //     }
 
-//     public InputStream openStream(URL u) {
+//     public InputStrebm openStrebm(URL u) {
 //          String dest = u.file;
 //          String subj = "";
-//          int lastsl = dest.lastIndexOf('/');
-//          if (lastsl >= 0) {
-//              int st = dest.charAt(0) == '/' ? 1 : 0;
-//              if (lastsl > st)
-//                  subj = dest.substring(st, lastsl);
-//              dest = dest.substring(lastsl + 1);
+//          int lbstsl = dest.lbstIndexOf('/');
+//          if (lbstsl >= 0) {
+//              int st = dest.chbrAt(0) == '/' ? 1 : 0;
+//              if (lbstsl > st)
+//                  subj = dest.substring(st, lbstsl);
+//              dest = dest.substring(lbstsl + 1);
 //          }
-//          if (u.postData != null) {
-//              ArticlePoster.MailTo("Posted form",
+//          if (u.postDbtb != null) {
+//              ArticlePoster.MbilTo("Posted form",
 //                                   decodePercent(dest),
-//                                   u.postData);
+//                                   u.postDbtb);
 //          }
 //          else
-//              ArticlePoster.MailTo(decodePercent(subj), decodePercent(dest));
+//              ArticlePoster.MbilTo(decodePercent(subj), decodePercent(dest));
 //      return null;
 //     }
     */
 
     public synchronized URLConnection openConnection(URL u) {
-        return new MailToURLConnection(u);
+        return new MbilToURLConnection(u);
     }
 
     /**
-     * This method is called to parse the string spec into URL u for a
-     * mailto protocol.
+     * This method is cblled to pbrse the string spec into URL u for b
+     * mbilto protocol.
      *
-     * @param   u the URL to receive the result of parsing the spec
-     * @param   spec the URL string to parse
-     * @param   start the character position to start parsing at.  This is
-     *          just past the ':'.
-     * @param   limit the character position to stop parsing at.
+     * @pbrbm   u the URL to receive the result of pbrsing the spec
+     * @pbrbm   spec the URL string to pbrse
+     * @pbrbm   stbrt the chbrbcter position to stbrt pbrsing bt.  This is
+     *          just pbst the ':'.
+     * @pbrbm   limit the chbrbcter position to stop pbrsing bt.
      */
-    public void parseURL(URL u, String spec, int start, int limit) {
+    public void pbrseURL(URL u, String spec, int stbrt, int limit) {
 
         String protocol = u.getProtocol();
         String host = "";
         int port = u.getPort();
         String file = "";
 
-        if (start < limit) {
-            file = spec.substring(start, limit);
+        if (stbrt < limit) {
+            file = spec.substring(stbrt, limit);
         }
         /*
-         * Let's just make sure we DO have an Email address in the URL.
+         * Let's just mbke sure we DO hbve bn Embil bddress in the URL.
          */
-        boolean nogood = false;
-        if (file == null || file.equals(""))
+        boolebn nogood = fblse;
+        if (file == null || file.equbls(""))
             nogood = true;
         else {
-            boolean allwhites = true;
+            boolebn bllwhites = true;
             for (int i = 0; i < file.length(); i++)
-                if (!Character.isWhitespace(file.charAt(i)))
-                    allwhites = false;
-            if (allwhites)
+                if (!Chbrbcter.isWhitespbce(file.chbrAt(i)))
+                    bllwhites = fblse;
+            if (bllwhites)
                 nogood = true;
         }
         if (nogood)
-            throw new RuntimeException("No email address");
-        setURLHandler(u, protocol, host, port, file, null);
+            throw new RuntimeException("No embil bddress");
+        setURLHbndler(u, protocol, host, port, file, null);
     }
 
     /**
-     * This method is used to suppress the deprecated warning
+     * This method is used to suppress the deprecbted wbrning
      *
-     * @param   u the URL to receive the result of parsing the spec
-     * @param   spec the URL string to parse
-     * @param   start the character position to start parsing at.  This is
-     *          just past the ':'.
-     * @param   limit the character position to stop parsing at.
+     * @pbrbm   u the URL to receive the result of pbrsing the spec
+     * @pbrbm   spec the URL string to pbrse
+     * @pbrbm   stbrt the chbrbcter position to stbrt pbrsing bt.  This is
+     *          just pbst the ':'.
+     * @pbrbm   limit the chbrbcter position to stop pbrsing bt.
      */
-    @SuppressWarnings("deprecation")
-    private void setURLHandler(URL u, String protocol, String host, int port, String file, String ref) {
+    @SuppressWbrnings("deprecbtion")
+    privbte void setURLHbndler(URL u, String protocol, String host, int port, String file, String ref) {
         setURL(u,protocol,host,port,file,null);
     }
 }

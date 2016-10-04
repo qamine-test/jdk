@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.util.List;
 
-import javax.swing.RootPaneContainer;
+import jbvbx.swing.RootPbneContbiner;
 
-import com.apple.eawt.AppEvent.FullScreenEvent;
-import sun.awt.SunToolkit;
+import com.bpple.ebwt.AppEvent.FullScreenEvent;
+import sun.bwt.SunToolkit;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
-final class FullScreenHandler {
-    private static final String CLIENT_PROPERTY = "com.apple.eawt.event.internalFullScreenHandler";
+finbl clbss FullScreenHbndler {
+    privbte stbtic finbl String CLIENT_PROPERTY = "com.bpple.ebwt.event.internblFullScreenHbndler";
 
-    @Native static final int FULLSCREEN_WILL_ENTER = 1;
-    @Native static final int FULLSCREEN_DID_ENTER = 2;
-    @Native static final int FULLSCREEN_WILL_EXIT = 3;
-    @Native static final int FULLSCREEN_DID_EXIT = 4;
+    @Nbtive stbtic finbl int FULLSCREEN_WILL_ENTER = 1;
+    @Nbtive stbtic finbl int FULLSCREEN_DID_ENTER = 2;
+    @Nbtive stbtic finbl int FULLSCREEN_WILL_EXIT = 3;
+    @Nbtive stbtic finbl int FULLSCREEN_DID_EXIT = 4;
 
-    // installs a private instance of the handler, if necessary
-    static void addFullScreenListenerTo(final RootPaneContainer window, final FullScreenListener listener) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (value instanceof FullScreenHandler) {
-            ((FullScreenHandler)value).addListener(listener);
+    // instblls b privbte instbnce of the hbndler, if necessbry
+    stbtic void bddFullScreenListenerTo(finbl RootPbneContbiner window, finbl FullScreenListener listener) {
+        finbl Object vblue = window.getRootPbne().getClientProperty(CLIENT_PROPERTY);
+        if (vblue instbnceof FullScreenHbndler) {
+            ((FullScreenHbndler)vblue).bddListener(listener);
             return;
         }
 
-        if (value != null) return; // some other garbage is in our client property
+        if (vblue != null) return; // some other gbrbbge is in our client property
 
-        final FullScreenHandler newHandler = new FullScreenHandler();
-        newHandler.addListener(listener);
-        window.getRootPane().putClientProperty(CLIENT_PROPERTY, newHandler);
+        finbl FullScreenHbndler newHbndler = new FullScreenHbndler();
+        newHbndler.bddListener(listener);
+        window.getRootPbne().putClientProperty(CLIENT_PROPERTY, newHbndler);
     }
 
-    // asks the installed FullScreenHandler to remove it's listener (does not uninstall the FullScreenHandler)
-    static void removeFullScreenListenerFrom(final RootPaneContainer window, final FullScreenListener listener) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (!(value instanceof FullScreenHandler)) return;
-        ((FullScreenHandler)value).removeListener(listener);
+    // bsks the instblled FullScreenHbndler to remove it's listener (does not uninstbll the FullScreenHbndler)
+    stbtic void removeFullScreenListenerFrom(finbl RootPbneContbiner window, finbl FullScreenListener listener) {
+        finbl Object vblue = window.getRootPbne().getClientProperty(CLIENT_PROPERTY);
+        if (!(vblue instbnceof FullScreenHbndler)) return;
+        ((FullScreenHbndler)vblue).removeListener(listener);
     }
 
-    static FullScreenHandler getHandlerFor(final RootPaneContainer window) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (value instanceof FullScreenHandler) return (FullScreenHandler)value;
+    stbtic FullScreenHbndler getHbndlerFor(finbl RootPbneContbiner window) {
+        finbl Object vblue = window.getRootPbne().getClientProperty(CLIENT_PROPERTY);
+        if (vblue instbnceof FullScreenHbndler) return (FullScreenHbndler)vblue;
         return null;
     }
 
-    // called from native
-    static void handleFullScreenEventFromNative(final Window window, final int type) {
-        if (!(window instanceof RootPaneContainer)) return; // handles null
+    // cblled from nbtive
+    stbtic void hbndleFullScreenEventFromNbtive(finbl Window window, finbl int type) {
+        if (!(window instbnceof RootPbneContbiner)) return; // hbndles null
 
-        SunToolkit.executeOnEventHandlerThread(window, new Runnable() {
+        SunToolkit.executeOnEventHbndlerThrebd(window, new Runnbble() {
             public void run() {
-                final FullScreenHandler handler = getHandlerFor((RootPaneContainer)window);
-                if (handler != null) handler.notifyListener(new FullScreenEvent(window), type);
+                finbl FullScreenHbndler hbndler = getHbndlerFor((RootPbneContbiner)window);
+                if (hbndler != null) hbndler.notifyListener(new FullScreenEvent(window), type);
             }
         });
     }
 
 
-    final List<FullScreenListener> listeners = new LinkedList<FullScreenListener>();
+    finbl List<FullScreenListener> listeners = new LinkedList<FullScreenListener>();
 
-    FullScreenHandler() { }
+    FullScreenHbndler() { }
 
-    void addListener(final FullScreenListener listener) {
-        listeners.add(listener);
+    void bddListener(finbl FullScreenListener listener) {
+        listeners.bdd(listener);
     }
 
-    void removeListener(final FullScreenListener listener) {
+    void removeListener(finbl FullScreenListener listener) {
         listeners.remove(listener);
     }
 
-    void notifyListener(final FullScreenEvent e, final int op) {
-        for (final FullScreenListener listener : listeners) {
+    void notifyListener(finbl FullScreenEvent e, finbl int op) {
+        for (finbl FullScreenListener listener : listeners) {
                 switch (op) {
-                case FULLSCREEN_WILL_ENTER:
+                cbse FULLSCREEN_WILL_ENTER:
                         listener.windowEnteringFullScreen(e);
                     return;
-                case FULLSCREEN_DID_ENTER:
+                cbse FULLSCREEN_DID_ENTER:
                         listener.windowEnteredFullScreen(e);
                     return;
-                case FULLSCREEN_WILL_EXIT:
+                cbse FULLSCREEN_WILL_EXIT:
                         listener.windowExitingFullScreen(e);
                     return;
-                case FULLSCREEN_DID_EXIT:
+                cbse FULLSCREEN_DID_EXIT:
                         listener.windowExitedFullScreen(e);
                     return;
             }

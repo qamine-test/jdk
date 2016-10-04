@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
-import sun.nio.cs.HistoricallyNamedCharset;
-import sun.nio.cs.Surrogate;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.CodingErrorAction;
+import sun.nio.cs.HistoricbllyNbmedChbrset;
+import sun.nio.cs.Surrogbte;
 import sun.nio.cs.US_ASCII;
-import static sun.nio.cs.CharsetMapping.*;
+import stbtic sun.nio.cs.ChbrsetMbpping.*;
 
 /*
- * Implementation notes:
+ * Implementbtion notes:
  *
- * (1)"Standard based" (ASCII, JIS_X_0201 and JIS_X_0208) ISO2022-JP charset
- * is provided by the base implementation of this class.
+ * (1)"Stbndbrd bbsed" (ASCII, JIS_X_0201 bnd JIS_X_0208) ISO2022-JP chbrset
+ * is provided by the bbse implementbtion of this clbss.
  *
- * Three Microsoft ISO2022-JP variants, MS50220, MS50221 and MSISO2022JP
- * are provided via subclasses.
+ * Three Microsoft ISO2022-JP vbribnts, MS50220, MS50221 bnd MSISO2022JP
+ * bre provided vib subclbsses.
  *
- * (2)MS50220 and MS50221 are assumed to work the same way as Microsoft
- * CP50220 and CP50221's 7-bit implementation works by using CP5022X
- * specific JIS0208 and JIS0212 mapping tables (generated via Microsoft's
- * MultiByteToWideChar/WideCharToMultiByte APIs). The only difference
- * between these 2 classes is that MS50220 does not support singlebyte
- * halfwidth kana (Uff61-Uff9f) shiftin mechanism when "encoding", instead
- * these halfwidth kana characters are converted to their fullwidth JIS0208
- * counterparts.
+ * (2)MS50220 bnd MS50221 bre bssumed to work the sbme wby bs Microsoft
+ * CP50220 bnd CP50221's 7-bit implementbtion works by using CP5022X
+ * specific JIS0208 bnd JIS0212 mbpping tbbles (generbted vib Microsoft's
+ * MultiByteToWideChbr/WideChbrToMultiByte APIs). The only difference
+ * between these 2 clbsses is thbt MS50220 does not support singlebyte
+ * hblfwidth kbnb (Uff61-Uff9f) shiftin mechbnism when "encoding", instebd
+ * these hblfwidth kbnb chbrbcters bre converted to their fullwidth JIS0208
+ * counterpbrts.
  *
- * The difference between the standard JIS_X_0208 and JIS_X_0212 mappings
- * and the CP50220/50221 specific are
+ * The difference between the stbndbrd JIS_X_0208 bnd JIS_X_0212 mbppings
+ * bnd the CP50220/50221 specific bre
  *
- * 0208 mapping:
- *              1)0x213d <-> U2015 (compared to U2014)
- *              2)One way mappings for 5 characters below
+ * 0208 mbpping:
+ *              1)0x213d <-> U2015 (compbred to U2014)
+ *              2)One wby mbppings for 5 chbrbcters below
  *                u2225 (ms) -> 0x2142 <-> u2016 (jis)
  *                uff0d (ms) -> 0x215d <-> u2212 (jis)
- *                uffe0 (ms) -> 0x2171 <-> u00a2 (jis)
- *                uffe1 (ms) -> 0x2172 <-> u00a3 (jis)
- *                uffe2 (ms) -> 0x224c <-> u00ac (jis)
+ *                uffe0 (ms) -> 0x2171 <-> u00b2 (jis)
+ *                uffe1 (ms) -> 0x2172 <-> u00b3 (jis)
+ *                uffe2 (ms) -> 0x224c <-> u00bc (jis)
  *                //should consider 0xff5e -> 0x2141 <-> U301c?
  *              3)NEC Row13 0x2d21-0x2d79
  *              4)85-94 ku <-> UE000,UE3AB (includes NEC selected
- *                IBM kanji in 89-92ku)
+ *                IBM kbnji in 89-92ku)
  *              5)UFF61-UFF9f -> Fullwidth 0208 KANA
  *
- * 0212 mapping:
+ * 0212 mbpping:
  *              1)0x2237 <-> UFF5E (Fullwidth Tilde)
  *              2)0x2271 <-> U2116 (Numero Sign)
  *              3)85-94 ku <-> UE3AC - UE757
  *
- * (3)MSISO2022JP uses a JIS0208 mapping generated from MS932DB.b2c
- * and MS932DB.c2b by converting the SJIS codepoints back to their
- * JIS0208 counterparts. With the exception of
+ * (3)MSISO2022JP uses b JIS0208 mbpping generbted from MS932DB.b2c
+ * bnd MS932DB.c2b by converting the SJIS codepoints bbck to their
+ * JIS0208 counterpbrts. With the exception of
  *
- * (a)Codepoints with a resulting JIS0208 codepoints beyond 0x7e00 are
- *    dropped (this includs the IBM Extended Kanji/Non-kanji from 0x9321
+ * (b)Codepoints with b resulting JIS0208 codepoints beyond 0x7e00 bre
+ *    dropped (this includs the IBM Extended Kbnji/Non-kbnji from 0x9321
  *    to 0x972c)
- * (b)The Unicode codepoints that the IBM Extended Kanji/Non-kanji are
- *    mapped to (in MS932) are mapped back to NEC selected IBM Kanji/
- *    Non-kanji area at 0x7921-0x7c7e.
+ * (b)The Unicode codepoints thbt the IBM Extended Kbnji/Non-kbnji bre
+ *    mbpped to (in MS932) bre mbpped bbck to NEC selected IBM Kbnji/
+ *    Non-kbnji breb bt 0x7921-0x7c7e.
  *
- * Compared to JIS_X_0208 mapping, this MS932 based mapping has
+ * Compbred to JIS_X_0208 mbpping, this MS932 bbsed mbpping hbs
 
- * (a)different mappings for 7 JIS codepoints
+ * (b)different mbppings for 7 JIS codepoints
  *        0x213d <-> U2015
  *        0x2141 <-> UFF5E
  *        0x2142 <-> U2225
@@ -98,172 +98,172 @@ import static sun.nio.cs.CharsetMapping.*;
  *        0x2171 <-> Uffe0
  *        0x2172 <-> Uffe1
  *        0x224c <-> Uffe2
- * (b)added one-way c2b mappings for
+ * (b)bdded one-wby c2b mbppings for
  *        U00b8 -> 0x2124
  *        U00b7 -> 0x2126
- *        U00af -> 0x2131
- *        U00ab -> 0x2263
+ *        U00bf -> 0x2131
+ *        U00bb -> 0x2263
  *        U00bb -> 0x2264
  *        U3094 -> 0x2574
  *        U00b5 -> 0x264c
  * (c)NEC Row 13
- * (d)NEC selected IBM extended Kanji/Non-kanji
- *    These codepoints are mapped to the same Unicode codepoints as
- *    the MS932 does, while MS50220/50221 maps them to the Unicode
- *    private area.
+ * (d)NEC selected IBM extended Kbnji/Non-kbnji
+ *    These codepoints bre mbpped to the sbme Unicode codepoints bs
+ *    the MS932 does, while MS50220/50221 mbps them to the Unicode
+ *    privbte breb.
  *
- * # There is also an interesting difference when compared to MS5022X
- *   0208 mapping for JIS codepoint "0x2D60", MS932 maps it to U301d
- *   but MS5022X maps it to U301e, obvious MS5022X is wrong, but...
+ * # There is blso bn interesting difference when compbred to MS5022X
+ *   0208 mbpping for JIS codepoint "0x2D60", MS932 mbps it to U301d
+ *   but MS5022X mbps it to U301e, obvious MS5022X is wrong, but...
  */
 
-public class ISO2022_JP
-    extends Charset
-    implements HistoricallyNamedCharset
+public clbss ISO2022_JP
+    extends Chbrset
+    implements HistoricbllyNbmedChbrset
 {
-    private static final int ASCII = 0;                 // ESC ( B
-    private static final int JISX0201_1976 = 1;         // ESC ( J
-    private static final int JISX0208_1978 = 2;         // ESC $ @
-    private static final int JISX0208_1983 = 3;         // ESC $ B
-    private static final int JISX0212_1990 = 4;         // ESC $ ( D
-    private static final int JISX0201_1976_KANA = 5;    // ESC ( I
-    private static final int SHIFTOUT = 6;
+    privbte stbtic finbl int ASCII = 0;                 // ESC ( B
+    privbte stbtic finbl int JISX0201_1976 = 1;         // ESC ( J
+    privbte stbtic finbl int JISX0208_1978 = 2;         // ESC $ @
+    privbte stbtic finbl int JISX0208_1983 = 3;         // ESC $ B
+    privbte stbtic finbl int JISX0212_1990 = 4;         // ESC $ ( D
+    privbte stbtic finbl int JISX0201_1976_KANA = 5;    // ESC ( I
+    privbte stbtic finbl int SHIFTOUT = 6;
 
-    private static final int ESC = 0x1b;
-    private static final int SO = 0x0e;
-    private static final int SI = 0x0f;
+    privbte stbtic finbl int ESC = 0x1b;
+    privbte stbtic finbl int SO = 0x0e;
+    privbte stbtic finbl int SI = 0x0f;
 
     public ISO2022_JP() {
         super("ISO-2022-JP",
-              ExtendedCharsets.aliasesFor("ISO-2022-JP"));
+              ExtendedChbrsets.blibsesFor("ISO-2022-JP"));
     }
 
-    protected ISO2022_JP(String canonicalName,
-                         String[] aliases) {
-        super(canonicalName, aliases);
+    protected ISO2022_JP(String cbnonicblNbme,
+                         String[] blibses) {
+        super(cbnonicblNbme, blibses);
     }
 
-    public String historicalName() {
+    public String historicblNbme() {
         return "ISO2022JP";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs instanceof JIS_X_0201)
-                || (cs instanceof US_ASCII)
-                || (cs instanceof JIS_X_0208)
-                || (cs instanceof ISO2022_JP));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs instbnceof JIS_X_0201)
+                || (cs instbnceof US_ASCII)
+                || (cs instbnceof JIS_X_0208)
+                || (cs instbnceof ISO2022_JP));
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    protected boolean doSBKANA() {
+    protected boolebn doSBKANA() {
         return true;
     }
 
-    static class Decoder extends CharsetDecoder
-        implements DelegatableDecoder {
+    stbtic clbss Decoder extends ChbrsetDecoder
+        implements DelegbtbbleDecoder {
 
-        final static DoubleByte.Decoder DEC0208 =
+        finbl stbtic DoubleByte.Decoder DEC0208 =
             (DoubleByte.Decoder)new JIS_X_0208().newDecoder();
 
-        private int currentState;
-        private int previousState;
+        privbte int currentStbte;
+        privbte int previousStbte;
 
-        private DoubleByte.Decoder dec0208;
-        private DoubleByte.Decoder dec0212;
+        privbte DoubleByte.Decoder dec0208;
+        privbte DoubleByte.Decoder dec0212;
 
-        private Decoder(Charset cs) {
+        privbte Decoder(Chbrset cs) {
             this(cs, DEC0208, null);
         }
 
-        protected Decoder(Charset cs,
+        protected Decoder(Chbrset cs,
                           DoubleByte.Decoder dec0208,
                           DoubleByte.Decoder dec0212) {
             super(cs, 0.5f, 1.0f);
             this.dec0208 = dec0208;
             this.dec0212 = dec0212;
-            currentState = ASCII;
-            previousState = ASCII;
+            currentStbte = ASCII;
+            previousStbte = ASCII;
         }
 
         public void implReset() {
-            currentState = ASCII;
-            previousState = ASCII;
+            currentStbte = ASCII;
+            previousStbte = ASCII;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
             int inputSize = 0;
             int b1 = 0, b2 = 0, b3 = 0, b4 = 0;
-            char c = UNMAPPABLE_DECODING;
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            chbr c = UNMAPPABLE_DECODING;
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
                 while (sp < sl) {
-                    b1 = sa[sp] & 0xff;
+                    b1 = sb[sp] & 0xff;
                     inputSize = 1;
                     if ((b1 & 0x80) != 0) {
-                        return CoderResult.malformedForLength(inputSize);
+                        return CoderResult.mblformedForLength(inputSize);
                     }
                     if (b1 == ESC || b1 == SO || b1 == SI) {
                         if (b1 == ESC) {
                             if (sp + inputSize + 2 > sl)
                                 return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
+                            b2 = sb[sp + inputSize++] & 0xff;
                             if (b2 == '(') {
-                                b3 = sa[sp + inputSize++] & 0xff;
+                                b3 = sb[sp + inputSize++] & 0xff;
                                 if (b3 == 'B'){
-                                    currentState = ASCII;
+                                    currentStbte = ASCII;
                                 } else if (b3 == 'J'){
-                                    currentState = JISX0201_1976;
+                                    currentStbte = JISX0201_1976;
                                 } else if (b3 == 'I'){
-                                    currentState = JISX0201_1976_KANA;
+                                    currentStbte = JISX0201_1976_KANA;
                                 } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                    return CoderResult.mblformedForLength(inputSize);
                                 }
                             } else if (b2 == '$'){
-                                b3 = sa[sp + inputSize++] & 0xff;
+                                b3 = sb[sp + inputSize++] & 0xff;
                                 if (b3 == '@'){
-                                    currentState = JISX0208_1978;
+                                    currentStbte = JISX0208_1978;
                                 } else if (b3 == 'B'){
-                                    currentState = JISX0208_1983;
+                                    currentStbte = JISX0208_1983;
                                 } else if (b3 == '(' && dec0212 != null) {
                                     if (sp + inputSize + 1 > sl)
                                         return CoderResult.UNDERFLOW;
-                                    b4 = sa[sp + inputSize++] & 0xff;
+                                    b4 = sb[sp + inputSize++] & 0xff;
                                     if (b4 == 'D') {
-                                        currentState = JISX0212_1990;
+                                        currentStbte = JISX0212_1990;
                                     } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        return CoderResult.mblformedForLength(inputSize);
                                     }
                                 } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                    return CoderResult.mblformedForLength(inputSize);
                                 }
                             } else {
-                                return CoderResult.malformedForLength(inputSize);
+                                return CoderResult.mblformedForLength(inputSize);
                             }
                         } else if (b1 == SO) {
-                            previousState = currentState;
-                            currentState = SHIFTOUT;
+                            previousStbte = currentStbte;
+                            currentStbte = SHIFTOUT;
                         } else if (b1 == SI) {
-                            currentState = previousState;
+                            currentStbte = previousStbte;
                         }
                         sp += inputSize;
                         continue;
@@ -271,75 +271,75 @@ public class ISO2022_JP
                     if (dp + 1 > dl)
                         return CoderResult.OVERFLOW;
 
-                    switch (currentState){
-                        case ASCII:
-                            da[dp++] = (char)(b1 & 0xff);
-                            break;
-                        case JISX0201_1976:
+                    switch (currentStbte){
+                        cbse ASCII:
+                            db[dp++] = (chbr)(b1 & 0xff);
+                            brebk;
+                        cbse JISX0201_1976:
                           switch (b1) {
-                              case 0x5c:  // Yen/tilde substitution
-                                da[dp++] = '\u00a5';
-                                break;
-                              case 0x7e:
-                                da[dp++] = '\u203e';
-                                break;
-                              default:
-                                da[dp++] = (char)b1;
-                                break;
+                              cbse 0x5c:  // Yen/tilde substitution
+                                db[dp++] = '\u00b5';
+                                brebk;
+                              cbse 0x7e:
+                                db[dp++] = '\u203e';
+                                brebk;
+                              defbult:
+                                db[dp++] = (chbr)b1;
+                                brebk;
                             }
-                            break;
-                        case JISX0208_1978:
-                        case JISX0208_1983:
+                            brebk;
+                        cbse JISX0208_1978:
+                        cbse JISX0208_1983:
                             if (sp + inputSize + 1 > sl)
                                 return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
+                            b2 = sb[sp + inputSize++] & 0xff;
                             c = dec0208.decodeDouble(b1,b2);
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            da[dp++] = c;
-                            break;
-                        case JISX0212_1990:
+                                return CoderResult.unmbppbbleForLength(inputSize);
+                            db[dp++] = c;
+                            brebk;
+                        cbse JISX0212_1990:
                             if (sp + inputSize + 1 > sl)
                                 return CoderResult.UNDERFLOW;
-                            b2 = sa[sp + inputSize++] & 0xff;
+                            b2 = sb[sp + inputSize++] & 0xff;
                             c = dec0212.decodeDouble(b1,b2);
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
-                            da[dp++] = c;
-                            break;
-                        case JISX0201_1976_KANA:
-                        case SHIFTOUT:
+                                return CoderResult.unmbppbbleForLength(inputSize);
+                            db[dp++] = c;
+                            brebk;
+                        cbse JISX0201_1976_KANA:
+                        cbse SHIFTOUT:
                             if (b1 > 0x60) {
-                                return CoderResult.malformedForLength(inputSize);
+                                return CoderResult.mblformedForLength(inputSize);
                             }
-                            da[dp++] = (char)(b1 + 0xff40);
-                            break;
+                            db[dp++] = (chbr)(b1 + 0xff40);
+                            brebk;
                     }
                     sp += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbte CoderResult decodeBufferLoop(ByteBuffer src,
+                                             ChbrBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             int b1 = 0, b2 = 0, b3 = 0, b4=0;
-            char c = UNMAPPABLE_DECODING;
+            chbr c = UNMAPPABLE_DECODING;
             int inputSize = 0;
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     b1 = src.get() & 0xff;
                     inputSize = 1;
                     if ((b1 & 0x80) != 0)
-                        return CoderResult.malformedForLength(inputSize);
+                        return CoderResult.mblformedForLength(inputSize);
                     if (b1 == ESC || b1 == SO || b1 == SI) {
                         if (b1 == ESC) {  // ESC
-                            if (src.remaining() < 2)
+                            if (src.rembining() < 2)
                                 return CoderResult.UNDERFLOW;
                             b2 = src.get() & 0xff;
                             inputSize++;
@@ -347,143 +347,143 @@ public class ISO2022_JP
                                 b3 = src.get() & 0xff;
                                 inputSize++;
                                 if (b3 == 'B'){
-                                    currentState = ASCII;
+                                    currentStbte = ASCII;
                                 } else if (b3 == 'J'){
-                                    currentState = JISX0201_1976;
+                                    currentStbte = JISX0201_1976;
                                 } else if (b3 == 'I'){
-                                    currentState = JISX0201_1976_KANA;
+                                    currentStbte = JISX0201_1976_KANA;
                                 } else {
-                                   return CoderResult.malformedForLength(inputSize);
+                                   return CoderResult.mblformedForLength(inputSize);
                                 }
                             } else if (b2 == '$'){
                                 b3 = src.get() & 0xff;
                                 inputSize++;
                                 if (b3 == '@'){
-                                    currentState = JISX0208_1978;
+                                    currentStbte = JISX0208_1978;
                                 } else if (b3 == 'B'){
-                                    currentState = JISX0208_1983;
+                                    currentStbte = JISX0208_1983;
                                 } else if (b3 == '(' && dec0212 != null) {
-                                    if (!src.hasRemaining())
+                                    if (!src.hbsRembining())
                                         return CoderResult.UNDERFLOW;
                                     b4 = src.get() & 0xff;
                                     inputSize++;
                                     if (b4 == 'D') {
-                                        currentState = JISX0212_1990;
+                                        currentStbte = JISX0212_1990;
                                     } else {
-                                        return CoderResult.malformedForLength(inputSize);
+                                        return CoderResult.mblformedForLength(inputSize);
                                     }
                                 } else {
-                                    return CoderResult.malformedForLength(inputSize);
+                                    return CoderResult.mblformedForLength(inputSize);
                                 }
                             } else {
-                                return CoderResult.malformedForLength(inputSize);
+                                return CoderResult.mblformedForLength(inputSize);
                             }
                         } else if (b1 == SO) {
-                            previousState = currentState;
-                            currentState = SHIFTOUT;
-                        } else if (b1 == SI) { // shift back in
-                            currentState = previousState;
+                            previousStbte = currentStbte;
+                            currentStbte = SHIFTOUT;
+                        } else if (b1 == SI) { // shift bbck in
+                            currentStbte = previousStbte;
                         }
-                        mark += inputSize;
+                        mbrk += inputSize;
                         continue;
                     }
-                    if (!dst.hasRemaining())
+                    if (!dst.hbsRembining())
                         return CoderResult.OVERFLOW;
 
-                    switch (currentState){
-                        case ASCII:
-                            dst.put((char)(b1 & 0xff));
-                            break;
-                        case JISX0201_1976:
+                    switch (currentStbte){
+                        cbse ASCII:
+                            dst.put((chbr)(b1 & 0xff));
+                            brebk;
+                        cbse JISX0201_1976:
                             switch (b1) {
-                              case 0x5c:  // Yen/tilde substitution
-                                dst.put('\u00a5');
-                                break;
-                              case 0x7e:
+                              cbse 0x5c:  // Yen/tilde substitution
+                                dst.put('\u00b5');
+                                brebk;
+                              cbse 0x7e:
                                 dst.put('\u203e');
-                                break;
-                              default:
-                                dst.put((char)b1);
-                                break;
+                                brebk;
+                              defbult:
+                                dst.put((chbr)b1);
+                                brebk;
                             }
-                            break;
-                        case JISX0208_1978:
-                        case JISX0208_1983:
-                            if (!src.hasRemaining())
+                            brebk;
+                        cbse JISX0208_1978:
+                        cbse JISX0208_1983:
+                            if (!src.hbsRembining())
                                 return CoderResult.UNDERFLOW;
                             b2 = src.get() & 0xff;
                             inputSize++;
                             c = dec0208.decodeDouble(b1,b2);
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
+                                return CoderResult.unmbppbbleForLength(inputSize);
                             dst.put(c);
-                            break;
-                        case JISX0212_1990:
-                            if (!src.hasRemaining())
+                            brebk;
+                        cbse JISX0212_1990:
+                            if (!src.hbsRembining())
                                 return CoderResult.UNDERFLOW;
                             b2 = src.get() & 0xff;
                             inputSize++;
                             c = dec0212.decodeDouble(b1,b2);
                             if (c == UNMAPPABLE_DECODING)
-                                return CoderResult.unmappableForLength(inputSize);
+                                return CoderResult.unmbppbbleForLength(inputSize);
                             dst.put(c);
-                            break;
-                        case JISX0201_1976_KANA:
-                        case SHIFTOUT:
+                            brebk;
+                        cbse JISX0201_1976_KANA:
+                        cbse SHIFTOUT:
                             if (b1 > 0x60) {
-                                return CoderResult.malformedForLength(inputSize);
+                                return CoderResult.mblformedForLength(inputSize);
                             }
-                            dst.put((char)(b1 + 0xff40));
-                            break;
+                            dst.put((chbr)(b1 + 0xff40));
+                            brebk;
                     }
-                    mark += inputSize;
+                    mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        // Make some protected methods public for use by JISAutoDetect
-        public CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+        // Mbke some protected methods public for use by JISAutoDetect
+        public CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
 
-        public CoderResult implFlush(CharBuffer out) {
+        public CoderResult implFlush(ChbrBuffer out) {
             return super.implFlush(out);
         }
     }
 
-    static class Encoder extends CharsetEncoder {
+    stbtic clbss Encoder extends ChbrsetEncoder {
 
-        final static DoubleByte.Encoder ENC0208 =
+        finbl stbtic DoubleByte.Encoder ENC0208 =
             (DoubleByte.Encoder)new JIS_X_0208().newEncoder();
 
-        private static byte[] repl = { (byte)0x21, (byte)0x29 };
-        private int currentMode = ASCII;
-        private int replaceMode = JISX0208_1983;
-        private DoubleByte.Encoder enc0208;
-        private DoubleByte.Encoder enc0212;
-        private boolean doSBKANA;
+        privbte stbtic byte[] repl = { (byte)0x21, (byte)0x29 };
+        privbte int currentMode = ASCII;
+        privbte int replbceMode = JISX0208_1983;
+        privbte DoubleByte.Encoder enc0208;
+        privbte DoubleByte.Encoder enc0212;
+        privbte boolebn doSBKANA;
 
-        private Encoder(Charset cs) {
+        privbte Encoder(Chbrset cs) {
             this(cs, ENC0208, null, true);
         }
 
-        Encoder(Charset cs,
+        Encoder(Chbrset cs,
                 DoubleByte.Encoder enc0208,
                 DoubleByte.Encoder enc0212,
-                boolean doSBKANA) {
+                boolebn doSBKANA) {
             super(cs, 4.0f, (enc0212 != null)? 9.0f : 8.0f, repl);
             this.enc0208 = enc0208;
             this.enc0212 = enc0212;
             this.doSBKANA = doSBKANA;
         }
 
-        protected int encodeSingle(char inputChar) {
+        protected int encodeSingle(chbr inputChbr) {
             return -1;
         }
 
@@ -491,21 +491,21 @@ public class ISO2022_JP
             currentMode = ASCII;
         }
 
-        protected void implReplaceWith(byte[] newReplacement) {
-            /* It's almost impossible to decide which charset they belong
-               to. The best thing we can do here is to "guess" based on
-               the length of newReplacement.
+        protected void implReplbceWith(byte[] newReplbcement) {
+            /* It's blmost impossible to decide which chbrset they belong
+               to. The best thing we cbn do here is to "guess" bbsed on
+               the length of newReplbcement.
              */
-            if (newReplacement.length == 1) {
-                replaceMode = ASCII;
-            } else if (newReplacement.length == 2) {
-                replaceMode = JISX0208_1983;
+            if (newReplbcement.length == 1) {
+                replbceMode = ASCII;
+            } else if (newReplbcement.length == 2) {
+                replbceMode = JISX0208_1983;
             }
         }
 
         protected CoderResult implFlush(ByteBuffer out) {
             if (currentMode != ASCII) {
-                if (out.remaining() < 3)
+                if (out.rembining() < 3)
                     return CoderResult.OVERFLOW;
                 out.put((byte)0x1b);
                 out.put((byte)0x28);
@@ -515,199 +515,199 @@ public class ISO2022_JP
             return CoderResult.UNDERFLOW;
         }
 
-        public boolean canEncode(char c) {
+        public boolebn cbnEncode(chbr c) {
             return ((c <= '\u007F') ||
                     (c >= 0xFF61 && c <= 0xFF9F) ||
                     (c == '\u00A5') ||
                     (c == '\u203E') ||
-                    enc0208.canEncode(c) ||
-                    (enc0212!=null && enc0212.canEncode(c)));
+                    enc0208.cbnEncode(c) ||
+                    (enc0212!=null && enc0212.cbnEncode(c)));
         }
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
+        privbte finbl Surrogbte.Pbrser sgp = new Surrogbte.Pbrser();
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
+        privbte CoderResult encodeArrbyLoop(ChbrBuffer src,
                                             ByteBuffer dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
+                    chbr c = sb[sp];
                     if (c <= '\u007F') {
                         if (currentMode != ASCII) {
                             if (dl - dp < 3)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x42;
+                            db[dp++] = (byte)0x1b;
+                            db[dp++] = (byte)0x28;
+                            db[dp++] = (byte)0x42;
                             currentMode = ASCII;
                         }
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)c;
+                        db[dp++] = (byte)c;
                     } else if (c >= 0xff61 && c <= 0xff9f && doSBKANA) {
-                        //a single byte kana
+                        //b single byte kbnb
                         if (currentMode != JISX0201_1976_KANA) {
                             if (dl - dp < 3)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x49;
+                            db[dp++] = (byte)0x1b;
+                            db[dp++] = (byte)0x28;
+                            db[dp++] = (byte)0x49;
                             currentMode = JISX0201_1976_KANA;
                         }
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (byte)(c - 0xff40);
+                        db[dp++] = (byte)(c - 0xff40);
                     } else if (c == '\u00A5' || c == '\u203E') {
-                        //backslash or tilde
+                        //bbckslbsh or tilde
                         if (currentMode != JISX0201_1976) {
                             if (dl - dp < 3)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)0x1b;
-                            da[dp++] = (byte)0x28;
-                            da[dp++] = (byte)0x4a;
+                            db[dp++] = (byte)0x1b;
+                            db[dp++] = (byte)0x28;
+                            db[dp++] = (byte)0x4b;
                             currentMode = JISX0201_1976;
                         }
                         if (dl - dp < 1)
                             return CoderResult.OVERFLOW;
-                        da[dp++] = (c == '\u00A5')?(byte)0x5C:(byte)0x7e;
+                        db[dp++] = (c == '\u00A5')?(byte)0x5C:(byte)0x7e;
                     } else {
-                        int index = enc0208.encodeChar(c);
+                        int index = enc0208.encodeChbr(c);
                         if (index != UNMAPPABLE_ENCODING) {
                             if (currentMode != JISX0208_1983) {
                                 if (dl - dp < 3)
                                     return CoderResult.OVERFLOW;
-                                da[dp++] = (byte)0x1b;
-                                da[dp++] = (byte)0x24;
-                                da[dp++] = (byte)0x42;
+                                db[dp++] = (byte)0x1b;
+                                db[dp++] = (byte)0x24;
+                                db[dp++] = (byte)0x42;
                                 currentMode = JISX0208_1983;
                             }
                             if (dl - dp < 2)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)(index >> 8);
-                            da[dp++] = (byte)(index & 0xff);
+                            db[dp++] = (byte)(index >> 8);
+                            db[dp++] = (byte)(index & 0xff);
                         } else if (enc0212 != null &&
-                                   (index = enc0212.encodeChar(c)) != UNMAPPABLE_ENCODING) {
+                                   (index = enc0212.encodeChbr(c)) != UNMAPPABLE_ENCODING) {
                             if (currentMode != JISX0212_1990) {
                                 if (dl - dp < 4)
                                     return CoderResult.OVERFLOW;
-                                da[dp++] = (byte)0x1b;
-                                da[dp++] = (byte)0x24;
-                                da[dp++] = (byte)0x28;
-                                da[dp++] = (byte)0x44;
+                                db[dp++] = (byte)0x1b;
+                                db[dp++] = (byte)0x24;
+                                db[dp++] = (byte)0x28;
+                                db[dp++] = (byte)0x44;
                                 currentMode = JISX0212_1990;
                             }
                             if (dl - dp < 2)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)(index >> 8);
-                            da[dp++] = (byte)(index & 0xff);
+                            db[dp++] = (byte)(index >> 8);
+                            db[dp++] = (byte)(index & 0xff);
                         } else {
-                            if (Character.isSurrogate(c) && sgp.parse(c, sa, sp, sl) < 0)
+                            if (Chbrbcter.isSurrogbte(c) && sgp.pbrse(c, sb, sp, sl) < 0)
                                 return sgp.error();
-                            if (unmappableCharacterAction()
+                            if (unmbppbbleChbrbcterAction()
                                 == CodingErrorAction.REPLACE
-                                && currentMode != replaceMode) {
+                                && currentMode != replbceMode) {
                                 if (dl - dp < 3)
                                     return CoderResult.OVERFLOW;
-                                if (replaceMode == ASCII) {
-                                    da[dp++] = (byte)0x1b;
-                                    da[dp++] = (byte)0x28;
-                                    da[dp++] = (byte)0x42;
+                                if (replbceMode == ASCII) {
+                                    db[dp++] = (byte)0x1b;
+                                    db[dp++] = (byte)0x28;
+                                    db[dp++] = (byte)0x42;
                                 } else {
-                                    da[dp++] = (byte)0x1b;
-                                    da[dp++] = (byte)0x24;
-                                    da[dp++] = (byte)0x42;
+                                    db[dp++] = (byte)0x1b;
+                                    db[dp++] = (byte)0x24;
+                                    db[dp++] = (byte)0x42;
                                 }
-                                currentMode = replaceMode;
+                                currentMode = replbceMode;
                             }
-                            if (Character.isSurrogate(c))
-                                return sgp.unmappableResult();
-                            return CoderResult.unmappableForLength(1);
+                            if (Chbrbcter.isSurrogbte(c))
+                                return sgp.unmbppbbleResult();
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
                     sp++;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
+        privbte CoderResult encodeBufferLoop(ChbrBuffer src,
                                              ByteBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
 
                     if (c <= '\u007F') {
                         if (currentMode != ASCII) {
-                            if (dst.remaining() < 3)
+                            if (dst.rembining() < 3)
                                 return CoderResult.OVERFLOW;
                             dst.put((byte)0x1b);
                             dst.put((byte)0x28);
                             dst.put((byte)0x42);
                             currentMode = ASCII;
                         }
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)c);
                     } else if (c >= 0xff61 && c <= 0xff9f && doSBKANA) {
-                        //Is it a single byte kana?
+                        //Is it b single byte kbnb?
                         if (currentMode != JISX0201_1976_KANA) {
-                            if (dst.remaining() < 3)
+                            if (dst.rembining() < 3)
                                 return CoderResult.OVERFLOW;
                             dst.put((byte)0x1b);
                             dst.put((byte)0x28);
                             dst.put((byte)0x49);
                             currentMode = JISX0201_1976_KANA;
                         }
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)(c - 0xff40));
-                    } else if (c == '\u00a5' || c == '\u203E') {
+                    } else if (c == '\u00b5' || c == '\u203E') {
                         if (currentMode != JISX0201_1976) {
-                            if (dst.remaining() < 3)
+                            if (dst.rembining() < 3)
                                 return CoderResult.OVERFLOW;
                             dst.put((byte)0x1b);
                             dst.put((byte)0x28);
-                            dst.put((byte)0x4a);
+                            dst.put((byte)0x4b);
                             currentMode = JISX0201_1976;
                         }
-                        if (dst.remaining() < 1)
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
                         dst.put((c == '\u00A5')?(byte)0x5C:(byte)0x7e);
                     } else {
-                        int index = enc0208.encodeChar(c);
+                        int index = enc0208.encodeChbr(c);
                         if (index != UNMAPPABLE_ENCODING) {
                             if (currentMode != JISX0208_1983) {
-                                if (dst.remaining() < 3)
+                                if (dst.rembining() < 3)
                                     return CoderResult.OVERFLOW;
                                 dst.put((byte)0x1b);
                                 dst.put((byte)0x24);
                                 dst.put((byte)0x42);
                                 currentMode = JISX0208_1983;
                             }
-                            if (dst.remaining() < 2)
+                            if (dst.rembining() < 2)
                                 return CoderResult.OVERFLOW;
                             dst.put((byte)(index >> 8));
                             dst.put((byte)(index & 0xff));
                         } else if (enc0212 != null &&
-                                   (index = enc0212.encodeChar(c)) != UNMAPPABLE_ENCODING) {
+                                   (index = enc0212.encodeChbr(c)) != UNMAPPABLE_ENCODING) {
                             if (currentMode != JISX0212_1990) {
-                                if (dst.remaining() < 4)
+                                if (dst.rembining() < 4)
                                     return CoderResult.OVERFLOW;
                                 dst.put((byte)0x1b);
                                 dst.put((byte)0x24);
@@ -715,18 +715,18 @@ public class ISO2022_JP
                                 dst.put((byte)0x44);
                                 currentMode = JISX0212_1990;
                             }
-                            if (dst.remaining() < 2)
+                            if (dst.rembining() < 2)
                                 return CoderResult.OVERFLOW;
                             dst.put((byte)(index >> 8));
                             dst.put((byte)(index & 0xff));
                         } else {
-                            if (Character.isSurrogate(c) && sgp.parse(c, src) < 0)
+                            if (Chbrbcter.isSurrogbte(c) && sgp.pbrse(c, src) < 0)
                                 return sgp.error();
-                            if (unmappableCharacterAction() == CodingErrorAction.REPLACE
-                                && currentMode != replaceMode) {
-                                if (dst.remaining() < 3)
+                            if (unmbppbbleChbrbcterAction() == CodingErrorAction.REPLACE
+                                && currentMode != replbceMode) {
+                                if (dst.rembining() < 3)
                                     return CoderResult.OVERFLOW;
-                                if (replaceMode == ASCII) {
+                                if (replbceMode == ASCII) {
                                     dst.put((byte)0x1b);
                                     dst.put((byte)0x28);
                                     dst.put((byte)0x42);
@@ -735,26 +735,26 @@ public class ISO2022_JP
                                     dst.put((byte)0x24);
                                     dst.put((byte)0x42);
                                 }
-                                currentMode = replaceMode;
+                                currentMode = replbceMode;
                             }
-                            if (Character.isSurrogate(c))
-                                return sgp.unmappableResult();
-                            return CoderResult.unmappableForLength(1);
+                            if (Chbrbcter.isSurrogbte(c))
+                                return sgp.unmbppbbleResult();
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
-                    mark++;
+                    mbrk++;
                 }
                 return CoderResult.UNDERFLOW;
-              } finally {
-                src.position(mark);
+              } finblly {
+                src.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
+        protected CoderResult encodeLoop(ChbrBuffer src,
                                          ByteBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }

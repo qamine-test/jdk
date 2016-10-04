@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,91 +27,91 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
 /**
- * <p>Interface for enabling iteration over sets of <int index, int value>,
- * where index is the sorted integer index in ascending order and value, its
- * associated integer value.</p>
- * <p>The result for each iteration is the consecutive range of
- * <int index, int value> with the same value. Result is represented by
- * <start, limit, value> where</p>
+ * <p>Interfbce for enbbling iterbtion over sets of <int index, int vblue>,
+ * where index is the sorted integer index in bscending order bnd vblue, its
+ * bssocibted integer vblue.</p>
+ * <p>The result for ebch iterbtion is the consecutive rbnge of
+ * <int index, int vblue> with the sbme vblue. Result is represented by
+ * <stbrt, limit, vblue> where</p>
  * <ul>
- * <li> start is the starting integer of the result range
- * <li> limit is 1 after the maximum integer that follows start, such that
- *      all integers between start and (limit - 1), inclusive, have the same
- *      associated integer value.
- * <li> value is the integer value that all integers from start to (limit - 1)
- *      share in common.
+ * <li> stbrt is the stbrting integer of the result rbnge
+ * <li> limit is 1 bfter the mbximum integer thbt follows stbrt, such thbt
+ *      bll integers between stbrt bnd (limit - 1), inclusive, hbve the sbme
+ *      bssocibted integer vblue.
+ * <li> vblue is the integer vblue thbt bll integers from stbrt to (limit - 1)
+ *      shbre in common.
  * </ul>
  * <p>
- * Hence value(start) = value(start + 1) = .... = value(start + n) = .... =
- * value(limit - 1). However value(start -1) != value(start) and
- * value(limit) != value(start).
+ * Hence vblue(stbrt) = vblue(stbrt + 1) = .... = vblue(stbrt + n) = .... =
+ * vblue(limit - 1). However vblue(stbrt -1) != vblue(stbrt) bnd
+ * vblue(limit) != vblue(stbrt).
  * </p>
- * <p>Most implementations will be created by factory methods, such as the
- * character type iterator in UCharacter.getTypeIterator. See example below.
+ * <p>Most implementbtions will be crebted by fbctory methods, such bs the
+ * chbrbcter type iterbtor in UChbrbcter.getTypeIterbtor. See exbmple below.
  * </p>
- * Example of use:<br>
+ * Exbmple of use:<br>
  * <pre>
- * RangeValueIterator iterator = UCharacter.getTypeIterator();
- * RangeValueIterator.Element result = new RangeValueIterator.Element();
- * while (iterator.next(result)) {
+ * RbngeVblueIterbtor iterbtor = UChbrbcter.getTypeIterbtor();
+ * RbngeVblueIterbtor.Element result = new RbngeVblueIterbtor.Element();
+ * while (iterbtor.next(result)) {
  *     System.out.println("Codepoint \\u" +
- *                        Integer.toHexString(result.start) +
+ *                        Integer.toHexString(result.stbrt) +
  *                        " to codepoint \\u" +
  *                        Integer.toHexString(result.limit - 1) +
- *                        " has the character type " + result.value);
+ *                        " hbs the chbrbcter type " + result.vblue);
  * }
  * </pre>
- * @author synwee
- * @stable ICU 2.6
+ * @buthor synwee
+ * @stbble ICU 2.6
  */
-public interface RangeValueIterator
+public interfbce RbngeVblueIterbtor
 {
-    // public inner class ---------------------------------------------
+    // public inner clbss ---------------------------------------------
 
     /**
-    * Return result wrapper for com.ibm.icu.util.RangeValueIterator.
-    * Stores the start and limit of the continous result range and the
-    * common value all integers between [start, limit - 1] has.
-    * @stable ICU 2.6
+    * Return result wrbpper for com.ibm.icu.util.RbngeVblueIterbtor.
+    * Stores the stbrt bnd limit of the continous result rbnge bnd the
+    * common vblue bll integers between [stbrt, limit - 1] hbs.
+    * @stbble ICU 2.6
     */
-    public class Element
+    public clbss Element
     {
-        // public data member ---------------------------------------------
+        // public dbtb member ---------------------------------------------
 
         /**
-        * Starting integer of the continuous result range that has the same
-        * value
-        * @stable ICU 2.6
+        * Stbrting integer of the continuous result rbnge thbt hbs the sbme
+        * vblue
+        * @stbble ICU 2.6
         */
-        public int start;
+        public int stbrt;
         /**
-        * (End + 1) integer of continuous result range that has the same
-        * value
-        * @stable ICU 2.6
+        * (End + 1) integer of continuous result rbnge thbt hbs the sbme
+        * vblue
+        * @stbble ICU 2.6
         */
         public int limit;
         /**
-        * Gets the common value of the continous result range
-        * @stable ICU 2.6
+        * Gets the common vblue of the continous result rbnge
+        * @stbble ICU 2.6
         */
-        public int value;
+        public int vblue;
 
         // public constructor --------------------------------------------
 
         /**
-         * Empty default constructor to make javadoc happy
-         * @stable ICU 2.4
+         * Empty defbult constructor to mbke jbvbdoc hbppy
+         * @stbble ICU 2.4
          */
         public Element()
         {
@@ -121,20 +121,20 @@ public interface RangeValueIterator
     // public methods -------------------------------------------------
 
     /**
-    * <p>Gets the next maximal result range with a common value and returns
-    * true if we are not at the end of the iteration, false otherwise.</p>
-    * <p>If the return boolean is a false, the contents of elements will not
-    * be updated.</p>
-    * @param element for storing the result range and value
-    * @return true if we are not at the end of the iteration, false otherwise.
+    * <p>Gets the next mbximbl result rbnge with b common vblue bnd returns
+    * true if we bre not bt the end of the iterbtion, fblse otherwise.</p>
+    * <p>If the return boolebn is b fblse, the contents of elements will not
+    * be updbted.</p>
+    * @pbrbm element for storing the result rbnge bnd vblue
+    * @return true if we bre not bt the end of the iterbtion, fblse otherwise.
     * @see Element
-    * @stable ICU 2.6
+    * @stbble ICU 2.6
     */
-    public boolean next(Element element);
+    public boolebn next(Element element);
 
     /**
-    * Resets the iterator to the beginning of the iteration.
-    * @stable ICU 2.6
+    * Resets the iterbtor to the beginning of the iterbtion.
+    * @stbble ICU 2.6
     */
     public void reset();
 }

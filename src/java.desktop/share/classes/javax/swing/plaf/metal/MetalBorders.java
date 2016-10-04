@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicBorders;
+import jbvbx.swing.text.JTextComponent;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Window;
+import jbvb.bwt.Component;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Color;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Window;
 
 import sun.swing.StringUIClientPropertyKey;
 
 
 /**
- * Factory object that can vend Borders appropriate for the metal L &amp; F.
- * @author Steve Wilson
+ * Fbctory object thbt cbn vend Borders bppropribte for the metbl L &bmp; F.
+ * @buthor Steve Wilson
  */
 
-public class MetalBorders {
+public clbss MetblBorders {
 
     /**
-     * Client property indicating the button shouldn't provide a rollover
-     * indicator. Only used with the Ocean theme.
+     * Client property indicbting the button shouldn't provide b rollover
+     * indicbtor. Only used with the Ocebn theme.
      */
-    static Object NO_BUTTON_ROLLOVER =
+    stbtic Object NO_BUTTON_ROLLOVER =
         new StringUIClientPropertyKey("NoButtonRollover");
 
     /**
-     * The class represents the 3D border.
+     * The clbss represents the 3D border.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class Flush3DBorder extends AbstractBorder implements UIResource{
-        public void paintBorder(Component c, Graphics g, int x, int y,
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss Flush3DBorder extends AbstrbctBorder implements UIResource{
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                           int w, int h) {
-            if (c.isEnabled()) {
-                MetalUtils.drawFlush3DBorder(g, x, y, w, h);
+            if (c.isEnbbled()) {
+                MetblUtils.drbwFlush3DBorder(g, x, y, w, h);
             } else {
-                MetalUtils.drawDisabledBorder(g, x, y, w, h);
+                MetblUtils.drbwDisbbledBorder(g, x, y, w, h);
             }
         }
 
@@ -77,93 +77,93 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a {@code JButton}.
+     * The clbss represents the border of b {@code JButton}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ButtonBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ButtonBorder extends AbstrbctBorder implements UIResource {
 
         /**
          * The border insets.
          */
-        protected static Insets borderInsets = new Insets( 3, 3, 3, 3 );
+        protected stbtic Insets borderInsets = new Insets( 3, 3, 3, 3 );
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            if (!(c instanceof AbstractButton)) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            if (!(c instbnceof AbstrbctButton)) {
                 return;
             }
-            if (MetalLookAndFeel.usingOcean()) {
-                paintOceanBorder(c, g, x, y, w, h);
+            if (MetblLookAndFeel.usingOcebn()) {
+                pbintOcebnBorder(c, g, x, y, w, h);
                 return;
             }
-            AbstractButton button = (AbstractButton)c;
+            AbstrbctButton button = (AbstrbctButton)c;
             ButtonModel model = button.getModel();
 
-            if ( model.isEnabled() ) {
-                boolean isPressed = model.isPressed() && model.isArmed();
-                boolean isDefault = (button instanceof JButton && ((JButton)button).isDefaultButton());
+            if ( model.isEnbbled() ) {
+                boolebn isPressed = model.isPressed() && model.isArmed();
+                boolebn isDefbult = (button instbnceof JButton && ((JButton)button).isDefbultButton());
 
-                if (isPressed && isDefault) {
-                    MetalUtils.drawDefaultButtonPressedBorder(g, x, y, w, h);
+                if (isPressed && isDefbult) {
+                    MetblUtils.drbwDefbultButtonPressedBorder(g, x, y, w, h);
                 } else if (isPressed) {
-                    MetalUtils.drawPressed3DBorder( g, x, y, w, h );
-                } else if (isDefault) {
-                    MetalUtils.drawDefaultButtonBorder( g, x, y, w, h, false);
+                    MetblUtils.drbwPressed3DBorder( g, x, y, w, h );
+                } else if (isDefbult) {
+                    MetblUtils.drbwDefbultButtonBorder( g, x, y, w, h, fblse);
                 } else {
-                    MetalUtils.drawButtonBorder( g, x, y, w, h, false);
+                    MetblUtils.drbwButtonBorder( g, x, y, w, h, fblse);
                 }
-            } else { // disabled state
-                MetalUtils.drawDisabledBorder( g, x, y, w-1, h-1 );
+            } else { // disbbled stbte
+                MetblUtils.drbwDisbbledBorder( g, x, y, w-1, h-1 );
             }
         }
 
-        private void paintOceanBorder(Component c, Graphics g, int x, int y,
+        privbte void pbintOcebnBorder(Component c, Grbphics g, int x, int y,
                                       int w, int h) {
-            AbstractButton button = (AbstractButton)c;
-            ButtonModel model = ((AbstractButton)c).getModel();
+            AbstrbctButton button = (AbstrbctButton)c;
+            ButtonModel model = ((AbstrbctButton)c).getModel();
 
-            g.translate(x, y);
-            if (MetalUtils.isToolBarButton(button)) {
-                if (model.isEnabled()) {
+            g.trbnslbte(x, y);
+            if (MetblUtils.isToolBbrButton(button)) {
+                if (model.isEnbbled()) {
                     if (model.isPressed()) {
-                        g.setColor(MetalLookAndFeel.getWhite());
+                        g.setColor(MetblLookAndFeel.getWhite());
                         g.fillRect(1, h - 1, w - 1, 1);
                         g.fillRect(w - 1, 1, 1, h - 1);
-                        g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                        g.drawRect(0, 0, w - 2, h - 2);
+                        g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                        g.drbwRect(0, 0, w - 2, h - 2);
                         g.fillRect(1, 1, w - 3, 1);
                     }
                     else if (model.isSelected() || model.isRollover()) {
-                        g.setColor(MetalLookAndFeel.getWhite());
+                        g.setColor(MetblLookAndFeel.getWhite());
                         g.fillRect(1, h - 1, w - 1, 1);
                         g.fillRect(w - 1, 1, 1, h - 1);
-                        g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                        g.drawRect(0, 0, w - 2, h - 2);
+                        g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                        g.drbwRect(0, 0, w - 2, h - 2);
                     }
                     else {
-                        g.setColor(MetalLookAndFeel.getWhite());
-                        g.drawRect(1, 1, w - 2, h - 2);
-                        g.setColor(UIManager.getColor(
-                                "Button.toolBarBorderBackground"));
-                        g.drawRect(0, 0, w - 2, h - 2);
+                        g.setColor(MetblLookAndFeel.getWhite());
+                        g.drbwRect(1, 1, w - 2, h - 2);
+                        g.setColor(UIMbnbger.getColor(
+                                "Button.toolBbrBorderBbckground"));
+                        g.drbwRect(0, 0, w - 2, h - 2);
                     }
                 }
                 else {
-                   g.setColor(UIManager.getColor(
-                           "Button.disabledToolBarBorderBackground"));
-                   g.drawRect(0, 0, w - 2, h - 2);
+                   g.setColor(UIMbnbger.getColor(
+                           "Button.disbbledToolBbrBorderBbckground"));
+                   g.drbwRect(0, 0, w - 2, h - 2);
                 }
             }
-            else if (model.isEnabled()) {
-                boolean pressed = model.isPressed();
-                boolean armed = model.isArmed();
+            else if (model.isEnbbled()) {
+                boolebn pressed = model.isPressed();
+                boolebn brmed = model.isArmed();
 
-                if ((c instanceof JButton) && ((JButton)c).isDefaultButton()) {
-                    g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                    g.drawRect(0, 0, w - 1, h - 1);
-                    g.drawRect(1, 1, w - 3, h - 3);
+                if ((c instbnceof JButton) && ((JButton)c).isDefbultButton()) {
+                    g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                    g.drbwRect(0, 0, w - 1, h - 1);
+                    g.drbwRect(1, 1, w - 3, h - 3);
                 }
                 else if (pressed) {
-                    g.setColor(MetalLookAndFeel.getControlDarkShadow());
+                    g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
                     g.fillRect(0, 0, w, 2);
                     g.fillRect(0, 2, 2, h - 2);
                     g.fillRect(w - 1, 1, 1, h - 1);
@@ -171,22 +171,22 @@ public class MetalBorders {
                 }
                 else if (model.isRollover() && button.getClientProperty(
                                NO_BUTTON_ROLLOVER) == null) {
-                    g.setColor(MetalLookAndFeel.getPrimaryControl());
-                    g.drawRect(0, 0, w - 1, h - 1);
-                    g.drawRect(2, 2, w - 5, h - 5);
-                    g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                    g.drawRect(1, 1, w - 3, h - 3);
+                    g.setColor(MetblLookAndFeel.getPrimbryControl());
+                    g.drbwRect(0, 0, w - 1, h - 1);
+                    g.drbwRect(2, 2, w - 5, h - 5);
+                    g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                    g.drbwRect(1, 1, w - 3, h - 3);
                 }
                 else {
-                    g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                    g.drawRect(0, 0, w - 1, h - 1);
+                    g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                    g.drbwRect(0, 0, w - 1, h - 1);
                 }
             }
             else {
-                g.setColor(MetalLookAndFeel.getInactiveControlTextColor());
-                g.drawRect(0, 0, w - 1, h - 1);
-                if ((c instanceof JButton) && ((JButton)c).isDefaultButton()) {
-                    g.drawRect(1, 1, w - 3, h - 3);
+                g.setColor(MetblLookAndFeel.getInbctiveControlTextColor());
+                g.drbwRect(0, 0, w - 1, h - 1);
+                if ((c instbnceof JButton) && ((JButton)c).isDefbultButton()) {
+                    g.drbwRect(1, 1, w - 3, h - 3);
                 }
             }
         }
@@ -198,56 +198,56 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a {@code JInternalFrame}.
+     * The clbss represents the border of b {@code JInternblFrbme}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class InternalFrameBorder extends AbstractBorder implements UIResource {
-        private static final int corner = 14;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss InternblFrbmeBorder extends AbstrbctBorder implements UIResource {
+        privbte stbtic finbl int corner = 14;
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                           int w, int h) {
 
-            Color background;
+            Color bbckground;
             Color highlight;
-            Color shadow;
+            Color shbdow;
 
-            if (c instanceof JInternalFrame && ((JInternalFrame)c).isSelected()) {
-                background = MetalLookAndFeel.getPrimaryControlDarkShadow();
-                highlight = MetalLookAndFeel.getPrimaryControlShadow();
-                shadow = MetalLookAndFeel.getPrimaryControlInfo();
+            if (c instbnceof JInternblFrbme && ((JInternblFrbme)c).isSelected()) {
+                bbckground = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
+                highlight = MetblLookAndFeel.getPrimbryControlShbdow();
+                shbdow = MetblLookAndFeel.getPrimbryControlInfo();
             } else {
-                background = MetalLookAndFeel.getControlDarkShadow();
-                highlight = MetalLookAndFeel.getControlShadow();
-                shadow = MetalLookAndFeel.getControlInfo();
+                bbckground = MetblLookAndFeel.getControlDbrkShbdow();
+                highlight = MetblLookAndFeel.getControlShbdow();
+                shbdow = MetblLookAndFeel.getControlInfo();
             }
 
-              g.setColor(background);
-              // Draw outermost lines
-              g.drawLine( 1, 0, w-2, 0);
-              g.drawLine( 0, 1, 0, h-2);
-              g.drawLine( w-1, 1, w-1, h-2);
-              g.drawLine( 1, h-1, w-2, h-1);
+              g.setColor(bbckground);
+              // Drbw outermost lines
+              g.drbwLine( 1, 0, w-2, 0);
+              g.drbwLine( 0, 1, 0, h-2);
+              g.drbwLine( w-1, 1, w-1, h-2);
+              g.drbwLine( 1, h-1, w-2, h-1);
 
-              // Draw the bulk of the border
+              // Drbw the bulk of the border
               for (int i = 1; i < 5; i++) {
-                  g.drawRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
+                  g.drbwRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
               }
 
-              if (c instanceof JInternalFrame &&
-                               ((JInternalFrame)c).isResizable()) {
+              if (c instbnceof JInternblFrbme &&
+                               ((JInternblFrbme)c).isResizbble()) {
                   g.setColor(highlight);
-                  // Draw the Long highlight lines
-                  g.drawLine( corner+1, 3, w-corner, 3);
-                  g.drawLine( 3, corner+1, 3, h-corner);
-                  g.drawLine( w-2, corner+1, w-2, h-corner);
-                  g.drawLine( corner+1, h-2, w-corner, h-2);
+                  // Drbw the Long highlight lines
+                  g.drbwLine( corner+1, 3, w-corner, 3);
+                  g.drbwLine( 3, corner+1, 3, h-corner);
+                  g.drbwLine( w-2, corner+1, w-2, h-corner);
+                  g.drbwLine( corner+1, h-2, w-corner, h-2);
 
-                  g.setColor(shadow);
-                  // Draw the Long shadow lines
-                  g.drawLine( corner, 2, w-corner-1, 2);
-                  g.drawLine( 2, corner, 2, h-corner-1);
-                  g.drawLine( w-3, corner, w-3, h-corner-1);
-                  g.drawLine( corner, h-3, w-corner-1, h-3);
+                  g.setColor(shbdow);
+                  // Drbw the Long shbdow lines
+                  g.drbwLine( corner, 2, w-corner-1, 2);
+                  g.drbwLine( 2, corner, 2, h-corner-1);
+                  g.drbwLine( w-3, corner, w-3, h-corner-1);
+                  g.drbwLine( corner, h-3, w-corner-1, h-3);
               }
 
           }
@@ -259,57 +259,57 @@ public class MetalBorders {
     }
 
     /**
-     * Border for a Frame.
+     * Border for b Frbme.
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class FrameBorder extends AbstractBorder implements UIResource {
-        private static final int corner = 14;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss FrbmeBorder extends AbstrbctBorder implements UIResource {
+        privbte stbtic finbl int corner = 14;
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
             int w, int h) {
 
-            Color background;
+            Color bbckground;
             Color highlight;
-            Color shadow;
+            Color shbdow;
 
             Window window = SwingUtilities.getWindowAncestor(c);
             if (window != null && window.isActive()) {
-                background = MetalLookAndFeel.getPrimaryControlDarkShadow();
-                highlight = MetalLookAndFeel.getPrimaryControlShadow();
-                shadow = MetalLookAndFeel.getPrimaryControlInfo();
+                bbckground = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
+                highlight = MetblLookAndFeel.getPrimbryControlShbdow();
+                shbdow = MetblLookAndFeel.getPrimbryControlInfo();
             } else {
-                background = MetalLookAndFeel.getControlDarkShadow();
-                highlight = MetalLookAndFeel.getControlShadow();
-                shadow = MetalLookAndFeel.getControlInfo();
+                bbckground = MetblLookAndFeel.getControlDbrkShbdow();
+                highlight = MetblLookAndFeel.getControlShbdow();
+                shbdow = MetblLookAndFeel.getControlInfo();
             }
 
-            g.setColor(background);
-            // Draw outermost lines
-            g.drawLine( x+1, y+0, x+w-2, y+0);
-            g.drawLine( x+0, y+1, x+0, y +h-2);
-            g.drawLine( x+w-1, y+1, x+w-1, y+h-2);
-            g.drawLine( x+1, y+h-1, x+w-2, y+h-1);
+            g.setColor(bbckground);
+            // Drbw outermost lines
+            g.drbwLine( x+1, y+0, x+w-2, y+0);
+            g.drbwLine( x+0, y+1, x+0, y +h-2);
+            g.drbwLine( x+w-1, y+1, x+w-1, y+h-2);
+            g.drbwLine( x+1, y+h-1, x+w-2, y+h-1);
 
-            // Draw the bulk of the border
+            // Drbw the bulk of the border
             for (int i = 1; i < 5; i++) {
-                g.drawRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
+                g.drbwRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
             }
 
-            if ((window instanceof Frame) && ((Frame) window).isResizable()) {
+            if ((window instbnceof Frbme) && ((Frbme) window).isResizbble()) {
                 g.setColor(highlight);
-                // Draw the Long highlight lines
-                g.drawLine( corner+1, 3, w-corner, 3);
-                g.drawLine( 3, corner+1, 3, h-corner);
-                g.drawLine( w-2, corner+1, w-2, h-corner);
-                g.drawLine( corner+1, h-2, w-corner, h-2);
+                // Drbw the Long highlight lines
+                g.drbwLine( corner+1, 3, w-corner, 3);
+                g.drbwLine( 3, corner+1, 3, h-corner);
+                g.drbwLine( w-2, corner+1, w-2, h-corner);
+                g.drbwLine( corner+1, h-2, w-corner, h-2);
 
-                g.setColor(shadow);
-                // Draw the Long shadow lines
-                g.drawLine( corner, 2, w-corner-1, 2);
-                g.drawLine( 2, corner, 2, h-corner-1);
-                g.drawLine( w-3, corner, w-3, h-corner-1);
-                g.drawLine( corner, h-3, w-corner-1, h-3);
+                g.setColor(shbdow);
+                // Drbw the Long shbdow lines
+                g.drbwLine( corner, 2, w-corner-1, 2);
+                g.drbwLine( 2, corner, 2, h-corner-1);
+                g.drbwLine( w-3, corner, w-3, h-corner-1);
+                g.drbwLine( corner, h-3, w-corner-1, h-3);
             }
 
         }
@@ -322,88 +322,88 @@ public class MetalBorders {
     }
 
     /**
-     * Border for a Frame.
+     * Border for b Frbme.
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class DialogBorder extends AbstractBorder implements UIResource
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss DiblogBorder extends AbstrbctBorder implements UIResource
     {
-        private static final int corner = 14;
+        privbte stbtic finbl int corner = 14;
 
-        protected Color getActiveBackground()
+        protected Color getActiveBbckground()
         {
-            return MetalLookAndFeel.getPrimaryControlDarkShadow();
+            return MetblLookAndFeel.getPrimbryControlDbrkShbdow();
         }
 
         protected Color getActiveHighlight()
         {
-            return MetalLookAndFeel.getPrimaryControlShadow();
+            return MetblLookAndFeel.getPrimbryControlShbdow();
         }
 
-        protected Color getActiveShadow()
+        protected Color getActiveShbdow()
         {
-            return MetalLookAndFeel.getPrimaryControlInfo();
+            return MetblLookAndFeel.getPrimbryControlInfo();
         }
 
-        protected Color getInactiveBackground()
+        protected Color getInbctiveBbckground()
         {
-            return MetalLookAndFeel.getControlDarkShadow();
+            return MetblLookAndFeel.getControlDbrkShbdow();
         }
 
-        protected Color getInactiveHighlight()
+        protected Color getInbctiveHighlight()
         {
-            return MetalLookAndFeel.getControlShadow();
+            return MetblLookAndFeel.getControlShbdow();
         }
 
-        protected Color getInactiveShadow()
+        protected Color getInbctiveShbdow()
         {
-            return MetalLookAndFeel.getControlInfo();
+            return MetblLookAndFeel.getControlInfo();
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h)
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h)
         {
-            Color background;
+            Color bbckground;
             Color highlight;
-            Color shadow;
+            Color shbdow;
 
             Window window = SwingUtilities.getWindowAncestor(c);
             if (window != null && window.isActive()) {
-                background = getActiveBackground();
+                bbckground = getActiveBbckground();
                 highlight = getActiveHighlight();
-                shadow = getActiveShadow();
+                shbdow = getActiveShbdow();
             } else {
-                background = getInactiveBackground();
-                highlight = getInactiveHighlight();
-                shadow = getInactiveShadow();
+                bbckground = getInbctiveBbckground();
+                highlight = getInbctiveHighlight();
+                shbdow = getInbctiveShbdow();
             }
 
-            g.setColor(background);
-            // Draw outermost lines
-            g.drawLine( x + 1, y + 0, x + w-2, y + 0);
-            g.drawLine( x + 0, y + 1, x + 0, y + h - 2);
-            g.drawLine( x + w - 1, y + 1, x + w - 1, y + h - 2);
-            g.drawLine( x + 1, y + h - 1, x + w - 2, y + h - 1);
+            g.setColor(bbckground);
+            // Drbw outermost lines
+            g.drbwLine( x + 1, y + 0, x + w-2, y + 0);
+            g.drbwLine( x + 0, y + 1, x + 0, y + h - 2);
+            g.drbwLine( x + w - 1, y + 1, x + w - 1, y + h - 2);
+            g.drbwLine( x + 1, y + h - 1, x + w - 2, y + h - 1);
 
-            // Draw the bulk of the border
+            // Drbw the bulk of the border
             for (int i = 1; i < 5; i++) {
-                g.drawRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
+                g.drbwRect(x+i,y+i,w-(i*2)-1, h-(i*2)-1);
             }
 
 
-            if ((window instanceof Dialog) && ((Dialog) window).isResizable()) {
+            if ((window instbnceof Diblog) && ((Diblog) window).isResizbble()) {
                 g.setColor(highlight);
-                // Draw the Long highlight lines
-                g.drawLine( corner+1, 3, w-corner, 3);
-                g.drawLine( 3, corner+1, 3, h-corner);
-                g.drawLine( w-2, corner+1, w-2, h-corner);
-                g.drawLine( corner+1, h-2, w-corner, h-2);
+                // Drbw the Long highlight lines
+                g.drbwLine( corner+1, 3, w-corner, 3);
+                g.drbwLine( 3, corner+1, 3, h-corner);
+                g.drbwLine( w-2, corner+1, w-2, h-corner);
+                g.drbwLine( corner+1, h-2, w-corner, h-2);
 
-                g.setColor(shadow);
-                // Draw the Long shadow lines
-                g.drawLine( corner, 2, w-corner-1, 2);
-                g.drawLine( 2, corner, 2, h-corner-1);
-                g.drawLine( w-3, corner, w-3, h-corner-1);
-                g.drawLine( corner, h-3, w-corner-1, h-3);
+                g.setColor(shbdow);
+                // Drbw the Long shbdow lines
+                g.drbwLine( corner, 2, w-corner-1, 2);
+                g.drbwLine( 2, corner, 2, h-corner-1);
+                g.drbwLine( w-3, corner, w-3, h-corner-1);
+                g.drbwLine( corner, h-3, w-corner-1, h-3);
             }
 
         }
@@ -416,63 +416,63 @@ public class MetalBorders {
     }
 
     /**
-     * Border for an Error Dialog.
+     * Border for bn Error Diblog.
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ErrorDialogBorder extends DialogBorder implements UIResource
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss ErrorDiblogBorder extends DiblogBorder implements UIResource
     {
-        protected Color getActiveBackground() {
-            return UIManager.getColor("OptionPane.errorDialog.border.background");
+        protected Color getActiveBbckground() {
+            return UIMbnbger.getColor("OptionPbne.errorDiblog.border.bbckground");
         }
     }
 
 
     /**
-     * Border for a QuestionDialog.  Also used for a JFileChooser and a
+     * Border for b QuestionDiblog.  Also used for b JFileChooser bnd b
      * JColorChooser..
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class QuestionDialogBorder extends DialogBorder implements UIResource
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss QuestionDiblogBorder extends DiblogBorder implements UIResource
     {
-        protected Color getActiveBackground() {
-            return UIManager.getColor("OptionPane.questionDialog.border.background");
+        protected Color getActiveBbckground() {
+            return UIMbnbger.getColor("OptionPbne.questionDiblog.border.bbckground");
         }
     }
 
 
     /**
-     * Border for a Warning Dialog.
+     * Border for b Wbrning Diblog.
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class WarningDialogBorder extends DialogBorder implements UIResource
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss WbrningDiblogBorder extends DiblogBorder implements UIResource
     {
-        protected Color getActiveBackground() {
-            return UIManager.getColor("OptionPane.warningDialog.border.background");
+        protected Color getActiveBbckground() {
+            return UIMbnbger.getColor("OptionPbne.wbrningDiblog.border.bbckground");
         }
     }
 
 
     /**
-     * Border for a Palette.
+     * Border for b Pblette.
      * @since 1.3
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class PaletteBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss PbletteBorder extends AbstrbctBorder implements UIResource {
         int titleHeight = 0;
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
 
-            g.translate(x,y);
-            g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g.drawLine(0, 1, 0, h-2);
-            g.drawLine(1, h-1, w-2, h-1);
-            g.drawLine(w-1,  1, w-1, h-2);
-            g.drawLine( 1, 0, w-2, 0);
-            g.drawRect(1,1, w-3, h-3);
-            g.translate(-x,-y);
+            g.trbnslbte(x,y);
+            g.setColor(MetblLookAndFeel.getPrimbryControlDbrkShbdow());
+            g.drbwLine(0, 1, 0, h-2);
+            g.drbwLine(1, h-1, w-2, h-1);
+            g.drbwLine(w-1,  1, w-1, h-2);
+            g.drbwLine( 1, 0, w-2, 0);
+            g.drbwRect(1,1, w-3, h-3);
+            g.trbnslbte(-x,-y);
 
         }
 
@@ -483,61 +483,61 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of an option dialog.
+     * The clbss represents the border of bn option diblog.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class OptionDialogBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss OptionDiblogBorder extends AbstrbctBorder implements UIResource {
         int titleHeight = 0;
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
 
-            g.translate(x,y);
+            g.trbnslbte(x,y);
 
-            int messageType = JOptionPane.PLAIN_MESSAGE;
-            if (c instanceof JInternalFrame) {
-                Object obj = ((JInternalFrame) c).getClientProperty(
-                              "JInternalFrame.messageType");
-                if (obj instanceof Integer) {
-                    messageType = (Integer) obj;
+            int messbgeType = JOptionPbne.PLAIN_MESSAGE;
+            if (c instbnceof JInternblFrbme) {
+                Object obj = ((JInternblFrbme) c).getClientProperty(
+                              "JInternblFrbme.messbgeType");
+                if (obj instbnceof Integer) {
+                    messbgeType = (Integer) obj;
                 }
             }
 
             Color borderColor;
 
-            switch (messageType) {
-            case(JOptionPane.ERROR_MESSAGE):
-                borderColor = UIManager.getColor(
-                    "OptionPane.errorDialog.border.background");
-                break;
-            case(JOptionPane.QUESTION_MESSAGE):
-                borderColor = UIManager.getColor(
-                    "OptionPane.questionDialog.border.background");
-                break;
-            case(JOptionPane.WARNING_MESSAGE):
-                borderColor = UIManager.getColor(
-                    "OptionPane.warningDialog.border.background");
-                break;
-            case(JOptionPane.INFORMATION_MESSAGE):
-            case(JOptionPane.PLAIN_MESSAGE):
-            default:
-                borderColor = MetalLookAndFeel.getPrimaryControlDarkShadow();
-                break;
+            switch (messbgeType) {
+            cbse(JOptionPbne.ERROR_MESSAGE):
+                borderColor = UIMbnbger.getColor(
+                    "OptionPbne.errorDiblog.border.bbckground");
+                brebk;
+            cbse(JOptionPbne.QUESTION_MESSAGE):
+                borderColor = UIMbnbger.getColor(
+                    "OptionPbne.questionDiblog.border.bbckground");
+                brebk;
+            cbse(JOptionPbne.WARNING_MESSAGE):
+                borderColor = UIMbnbger.getColor(
+                    "OptionPbne.wbrningDiblog.border.bbckground");
+                brebk;
+            cbse(JOptionPbne.INFORMATION_MESSAGE):
+            cbse(JOptionPbne.PLAIN_MESSAGE):
+            defbult:
+                borderColor = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
+                brebk;
             }
 
             g.setColor(borderColor);
 
-              // Draw outermost lines
-              g.drawLine( 1, 0, w-2, 0);
-              g.drawLine( 0, 1, 0, h-2);
-              g.drawLine( w-1, 1, w-1, h-2);
-              g.drawLine( 1, h-1, w-2, h-1);
+              // Drbw outermost lines
+              g.drbwLine( 1, 0, w-2, 0);
+              g.drbwLine( 0, 1, 0, h-2);
+              g.drbwLine( w-1, 1, w-1, h-2);
+              g.drbwLine( 1, h-1, w-2, h-1);
 
-              // Draw the bulk of the border
+              // Drbw the bulk of the border
               for (int i = 1; i < 3; i++) {
-                  g.drawRect(i, i, w-(i*2)-1, h-(i*2)-1);
+                  g.drbwRect(i, i, w-(i*2)-1, h-(i*2)-1);
               }
 
-            g.translate(-x,-y);
+            g.trbnslbte(-x,-y);
 
         }
 
@@ -548,40 +548,40 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a {@code JMenuBar}.
+     * The clbss represents the border of b {@code JMenuBbr}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MenuBarBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MenuBbrBorder extends AbstrbctBorder implements UIResource {
 
         /**
          * The border insets.
          */
-        protected static Insets borderInsets = new Insets( 1, 0, 1, 0 );
+        protected stbtic Insets borderInsets = new Insets( 1, 0, 1, 0 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
-            g.translate( x, y );
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
+            g.trbnslbte( x, y );
 
-            if (MetalLookAndFeel.usingOcean()) {
-                // Only paint a border if we're not next to a horizontal
-                // toolbar
-                if ((c instanceof JMenuBar) && !MetalToolBarUI.doesMenuBarBorderToolBar((JMenuBar)c)) {
-                    g.setColor(MetalLookAndFeel.getControl());
-                    g.drawLine(0, h - 2, w, h - 2);
-                    g.setColor(UIManager.getColor("MenuBar.borderColor"));
-                    g.drawLine(0, h - 1, w, h - 1);
+            if (MetblLookAndFeel.usingOcebn()) {
+                // Only pbint b border if we're not next to b horizontbl
+                // toolbbr
+                if ((c instbnceof JMenuBbr) && !MetblToolBbrUI.doesMenuBbrBorderToolBbr((JMenuBbr)c)) {
+                    g.setColor(MetblLookAndFeel.getControl());
+                    g.drbwLine(0, h - 2, w, h - 2);
+                    g.setColor(UIMbnbger.getColor("MenuBbr.borderColor"));
+                    g.drbwLine(0, h - 1, w, h - 1);
                 }
             }
             else {
-                g.setColor( MetalLookAndFeel.getControlShadow() );
-                g.drawLine( 0, h-1, w, h-1 );
+                g.setColor( MetblLookAndFeel.getControlShbdow() );
+                g.drbwLine( 0, h-1, w, h-1 );
             }
 
-            g.translate( -x, -y );
+            g.trbnslbte( -x, -y );
 
         }
 
         public Insets getBorderInsets(Component c, Insets newInsets) {
-            if (MetalLookAndFeel.usingOcean()) {
+            if (MetblLookAndFeel.usingOcebn()) {
                 newInsets.set(0, 0, 2, 0);
             }
             else {
@@ -592,52 +592,52 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a {@code JMenuItem}.
+     * The clbss represents the border of b {@code JMenuItem}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MenuItemBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MenuItemBorder extends AbstrbctBorder implements UIResource {
 
         /**
          * The border insets.
          */
-        protected static Insets borderInsets = new Insets( 2, 2, 2, 2 );
+        protected stbtic Insets borderInsets = new Insets( 2, 2, 2, 2 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
-            if (!(c instanceof JMenuItem)) {
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
+            if (!(c instbnceof JMenuItem)) {
                 return;
             }
             JMenuItem b = (JMenuItem) c;
             ButtonModel model = b.getModel();
 
-            g.translate( x, y );
+            g.trbnslbte( x, y );
 
-            if ( c.getParent() instanceof JMenuBar ) {
+            if ( c.getPbrent() instbnceof JMenuBbr ) {
                 if ( model.isArmed() || model.isSelected() ) {
-                    g.setColor( MetalLookAndFeel.getControlDarkShadow() );
-                    g.drawLine( 0, 0, w - 2, 0 );
-                    g.drawLine( 0, 0, 0, h - 1 );
-                    g.drawLine( w - 2, 2, w - 2, h - 1 );
+                    g.setColor( MetblLookAndFeel.getControlDbrkShbdow() );
+                    g.drbwLine( 0, 0, w - 2, 0 );
+                    g.drbwLine( 0, 0, 0, h - 1 );
+                    g.drbwLine( w - 2, 2, w - 2, h - 1 );
 
-                    g.setColor( MetalLookAndFeel.getPrimaryControlHighlight() );
-                    g.drawLine( w - 1, 1, w - 1, h - 1 );
+                    g.setColor( MetblLookAndFeel.getPrimbryControlHighlight() );
+                    g.drbwLine( w - 1, 1, w - 1, h - 1 );
 
-                    g.setColor( MetalLookAndFeel.getMenuBackground() );
-                    g.drawLine( w - 1, 0, w - 1, 0 );
+                    g.setColor( MetblLookAndFeel.getMenuBbckground() );
+                    g.drbwLine( w - 1, 0, w - 1, 0 );
                 }
             } else {
-                if (  model.isArmed() || ( c instanceof JMenu && model.isSelected() ) ) {
-                    g.setColor( MetalLookAndFeel.getPrimaryControlDarkShadow() );
-                    g.drawLine( 0, 0, w - 1, 0 );
+                if (  model.isArmed() || ( c instbnceof JMenu && model.isSelected() ) ) {
+                    g.setColor( MetblLookAndFeel.getPrimbryControlDbrkShbdow() );
+                    g.drbwLine( 0, 0, w - 1, 0 );
 
-                    g.setColor( MetalLookAndFeel.getPrimaryControlHighlight() );
-                    g.drawLine( 0, h - 1, w - 1, h - 1 );
+                    g.setColor( MetblLookAndFeel.getPrimbryControlHighlight() );
+                    g.drbwLine( 0, h - 1, w - 1, h - 1 );
                 } else {
-                    g.setColor( MetalLookAndFeel.getPrimaryControlHighlight() );
-                    g.drawLine( 0, 0, 0, h - 1 );
+                    g.setColor( MetblLookAndFeel.getPrimbryControlHighlight() );
+                    g.drbwLine( 0, 0, 0, h - 1 );
                 }
             }
 
-            g.translate( -x, -y );
+            g.trbnslbte( -x, -y );
         }
 
         public Insets getBorderInsets(Component c, Insets newInsets) {
@@ -647,28 +647,28 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a {@code JPopupMenu}.
+     * The clbss represents the border of b {@code JPopupMenu}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class PopupMenuBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss PopupMenuBorder extends AbstrbctBorder implements UIResource {
 
         /**
          * The border insets.
          */
-        protected static Insets borderInsets = new Insets( 3, 1, 2, 1 );
+        protected stbtic Insets borderInsets = new Insets( 3, 1, 2, 1 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
-            g.translate( x, y );
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
+            g.trbnslbte( x, y );
 
-            g.setColor( MetalLookAndFeel.getPrimaryControlDarkShadow() );
-            g.drawRect( 0, 0, w - 1, h - 1 );
+            g.setColor( MetblLookAndFeel.getPrimbryControlDbrkShbdow() );
+            g.drbwRect( 0, 0, w - 1, h - 1 );
 
-            g.setColor( MetalLookAndFeel.getPrimaryControlHighlight() );
-            g.drawLine( 1, 1, w - 2, 1 );
-            g.drawLine( 1, 2, 1, 2 );
-            g.drawLine( 1, h - 2, 1, h - 2 );
+            g.setColor( MetblLookAndFeel.getPrimbryControlHighlight() );
+            g.drbwLine( 1, 1, w - 2, 1 );
+            g.drbwLine( 1, 2, 1, 2 );
+            g.drbwLine( 1, h - 2, 1, h - 2 );
 
-            g.translate( -x, -y );
+            g.trbnslbte( -x, -y );
 
         }
 
@@ -679,264 +679,264 @@ public class MetalBorders {
     }
 
     /**
-     * The class represents the border of a rollover {@code Button}.
+     * The clbss represents the border of b rollover {@code Button}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class RolloverButtonBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss RolloverButtonBorder extends ButtonBorder {
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
 
             if ( model.isRollover() && !( model.isPressed() && !model.isArmed() ) ) {
-                super.paintBorder( c, g, x, y, w, h );
+                super.pbintBorder( c, g, x, y, w, h );
             }
         }
 
     }
 
     /**
-     * A border which is like a Margin border but it will only honor the margin
-     * if the margin has been explicitly set by the developer.
+     * A border which is like b Mbrgin border but it will only honor the mbrgin
+     * if the mbrgin hbs been explicitly set by the developer.
      *
-     * Note: This is identical to the package private class
-     * BasicBorders.RolloverMarginBorder and should probably be consolidated.
+     * Note: This is identicbl to the pbckbge privbte clbss
+     * BbsicBorders.RolloverMbrginBorder bnd should probbbly be consolidbted.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class RolloverMarginBorder extends EmptyBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss RolloverMbrginBorder extends EmptyBorder {
 
-        public RolloverMarginBorder() {
-            super(3,3,3,3); // hardcoded margin for JLF requirements.
+        public RolloverMbrginBorder() {
+            super(3,3,3,3); // hbrdcoded mbrgin for JLF requirements.
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
-            Insets margin = null;
+            Insets mbrgin = null;
 
-            if (c instanceof AbstractButton) {
-                margin = ((AbstractButton)c).getMargin();
+            if (c instbnceof AbstrbctButton) {
+                mbrgin = ((AbstrbctButton)c).getMbrgin();
             }
-            if (margin == null || margin instanceof UIResource) {
-                // default margin so replace
+            if (mbrgin == null || mbrgin instbnceof UIResource) {
+                // defbult mbrgin so replbce
                 insets.left = left;
                 insets.top = top;
                 insets.right = right;
                 insets.bottom = bottom;
             } else {
-                // Margin which has been explicitly set by the user.
-                insets.left = margin.left;
-                insets.top = margin.top;
-                insets.right = margin.right;
-                insets.bottom = margin.bottom;
+                // Mbrgin which hbs been explicitly set by the user.
+                insets.left = mbrgin.left;
+                insets.top = mbrgin.top;
+                insets.right = mbrgin.right;
+                insets.bottom = mbrgin.bottom;
             }
             return insets;
         }
     }
 
     /**
-     * The class represents the border of a {@code JToolBar}.
+     * The clbss represents the border of b {@code JToolBbr}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ToolBarBorder extends AbstractBorder implements UIResource, SwingConstants
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ToolBbrBorder extends AbstrbctBorder implements UIResource, SwingConstbnts
     {
         /**
-         * The instance of {@code MetalBumps}.
+         * The instbnce of {@code MetblBumps}.
          */
-        protected MetalBumps bumps = new MetalBumps( 10, 10,
-                                      MetalLookAndFeel.getControlHighlight(),
-                                      MetalLookAndFeel.getControlDarkShadow(),
-                                     UIManager.getColor("ToolBar.background"));
+        protected MetblBumps bumps = new MetblBumps( 10, 10,
+                                      MetblLookAndFeel.getControlHighlight(),
+                                      MetblLookAndFeel.getControlDbrkShbdow(),
+                                     UIMbnbger.getColor("ToolBbr.bbckground"));
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h )
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h )
         {
-            if (!(c instanceof JToolBar)) {
+            if (!(c instbnceof JToolBbr)) {
                 return;
             }
-            g.translate( x, y );
+            g.trbnslbte( x, y );
 
-            if ( ((JToolBar) c).isFloatable() )
+            if ( ((JToolBbr) c).isFlobtbble() )
             {
-                if ( ((JToolBar) c).getOrientation() == HORIZONTAL )
+                if ( ((JToolBbr) c).getOrientbtion() == HORIZONTAL )
                 {
-                    int shift = MetalLookAndFeel.usingOcean() ? -1 : 0;
-                    bumps.setBumpArea( 10, h - 4 );
-                    if( MetalUtils.isLeftToRight(c) ) {
-                        bumps.paintIcon( c, g, 2, 2 + shift );
+                    int shift = MetblLookAndFeel.usingOcebn() ? -1 : 0;
+                    bumps.setBumpAreb( 10, h - 4 );
+                    if( MetblUtils.isLeftToRight(c) ) {
+                        bumps.pbintIcon( c, g, 2, 2 + shift );
                     } else {
-                        bumps.paintIcon( c, g, w-12,
+                        bumps.pbintIcon( c, g, w-12,
                                          2 + shift );
                     }
                 }
-                else // vertical
+                else // verticbl
                 {
-                    bumps.setBumpArea( w - 4, 10 );
-                    bumps.paintIcon( c, g, 2, 2 );
+                    bumps.setBumpAreb( w - 4, 10 );
+                    bumps.pbintIcon( c, g, 2, 2 );
                 }
 
             }
 
-            if (((JToolBar) c).getOrientation() == HORIZONTAL &&
-                               MetalLookAndFeel.usingOcean()) {
-                g.setColor(MetalLookAndFeel.getControl());
-                g.drawLine(0, h - 2, w, h - 2);
-                g.setColor(UIManager.getColor("ToolBar.borderColor"));
-                g.drawLine(0, h - 1, w, h - 1);
+            if (((JToolBbr) c).getOrientbtion() == HORIZONTAL &&
+                               MetblLookAndFeel.usingOcebn()) {
+                g.setColor(MetblLookAndFeel.getControl());
+                g.drbwLine(0, h - 2, w, h - 2);
+                g.setColor(UIMbnbger.getColor("ToolBbr.borderColor"));
+                g.drbwLine(0, h - 1, w, h - 1);
             }
 
-            g.translate( -x, -y );
+            g.trbnslbte( -x, -y );
         }
 
         public Insets getBorderInsets(Component c, Insets newInsets) {
-            if (MetalLookAndFeel.usingOcean()) {
+            if (MetblLookAndFeel.usingOcebn()) {
                 newInsets.set(1, 2, 3, 2);
             }
             else {
                 newInsets.top = newInsets.left = newInsets.bottom = newInsets.right = 2;
             }
 
-            if (!(c instanceof JToolBar)) {
+            if (!(c instbnceof JToolBbr)) {
                 return newInsets;
             }
-            if ( ((JToolBar) c).isFloatable() ) {
-                if ( ((JToolBar) c).getOrientation() == HORIZONTAL ) {
-                    if (c.getComponentOrientation().isLeftToRight()) {
+            if ( ((JToolBbr) c).isFlobtbble() ) {
+                if ( ((JToolBbr) c).getOrientbtion() == HORIZONTAL ) {
+                    if (c.getComponentOrientbtion().isLeftToRight()) {
                         newInsets.left = 16;
                     } else {
                         newInsets.right = 16;
                     }
-                } else {// vertical
+                } else {// verticbl
                     newInsets.top = 16;
                 }
             }
 
-            Insets margin = ((JToolBar) c).getMargin();
+            Insets mbrgin = ((JToolBbr) c).getMbrgin();
 
-            if ( margin != null ) {
-                newInsets.left   += margin.left;
-                newInsets.top    += margin.top;
-                newInsets.right  += margin.right;
-                newInsets.bottom += margin.bottom;
+            if ( mbrgin != null ) {
+                newInsets.left   += mbrgin.left;
+                newInsets.top    += mbrgin.top;
+                newInsets.right  += mbrgin.right;
+                newInsets.bottom += mbrgin.bottom;
             }
 
             return newInsets;
         }
     }
 
-    private static Border buttonBorder;
+    privbte stbtic Border buttonBorder;
 
     /**
-     * Returns a border instance for a {@code JButton}.
+     * Returns b border instbnce for b {@code JButton}.
      *
-     * @return a border instance for a {@code JButton}
+     * @return b border instbnce for b {@code JButton}
      * @since 1.3
      */
-    public static Border getButtonBorder() {
+    public stbtic Border getButtonBorder() {
         if (buttonBorder == null) {
             buttonBorder = new BorderUIResource.CompoundBorderUIResource(
-                                                   new MetalBorders.ButtonBorder(),
-                                                   new BasicBorders.MarginBorder());
+                                                   new MetblBorders.ButtonBorder(),
+                                                   new BbsicBorders.MbrginBorder());
         }
         return buttonBorder;
     }
 
-    private static Border textBorder;
+    privbte stbtic Border textBorder;
 
     /**
-     * Returns a border instance for a text component.
+     * Returns b border instbnce for b text component.
      *
-     * @return a border instance for a text component
+     * @return b border instbnce for b text component
      * @since 1.3
      */
-    public static Border getTextBorder() {
+    public stbtic Border getTextBorder() {
         if (textBorder == null) {
             textBorder = new BorderUIResource.CompoundBorderUIResource(
-                                                   new MetalBorders.Flush3DBorder(),
-                                                   new BasicBorders.MarginBorder());
+                                                   new MetblBorders.Flush3DBorder(),
+                                                   new BbsicBorders.MbrginBorder());
         }
         return textBorder;
     }
 
-    private static Border textFieldBorder;
+    privbte stbtic Border textFieldBorder;
 
     /**
-     * Returns a border instance for a {@code JTextField}.
+     * Returns b border instbnce for b {@code JTextField}.
      *
-     * @return a border instance for a {@code JTextField}
+     * @return b border instbnce for b {@code JTextField}
      * @since 1.3
      */
-    public static Border getTextFieldBorder() {
+    public stbtic Border getTextFieldBorder() {
         if (textFieldBorder == null) {
             textFieldBorder = new BorderUIResource.CompoundBorderUIResource(
-                                                   new MetalBorders.TextFieldBorder(),
-                                                   new BasicBorders.MarginBorder());
+                                                   new MetblBorders.TextFieldBorder(),
+                                                   new BbsicBorders.MbrginBorder());
         }
         return textFieldBorder;
     }
 
     /**
-     * The class represents the border of a {@code JTestField}.
+     * The clbss represents the border of b {@code JTestField}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class TextFieldBorder extends Flush3DBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss TextFieldBorder extends Flush3DBorder {
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int w, int h) {
 
-          if (!(c instanceof JTextComponent)) {
-                // special case for non-text components (bug ID 4144840)
-                if (c.isEnabled()) {
-                    MetalUtils.drawFlush3DBorder(g, x, y, w, h);
+          if (!(c instbnceof JTextComponent)) {
+                // specibl cbse for non-text components (bug ID 4144840)
+                if (c.isEnbbled()) {
+                    MetblUtils.drbwFlush3DBorder(g, x, y, w, h);
                 } else {
-                    MetalUtils.drawDisabledBorder(g, x, y, w, h);
+                    MetblUtils.drbwDisbbledBorder(g, x, y, w, h);
                 }
                 return;
             }
 
-            if (c.isEnabled() && ((JTextComponent)c).isEditable()) {
-                MetalUtils.drawFlush3DBorder(g, x, y, w, h);
+            if (c.isEnbbled() && ((JTextComponent)c).isEditbble()) {
+                MetblUtils.drbwFlush3DBorder(g, x, y, w, h);
             } else {
-                MetalUtils.drawDisabledBorder(g, x, y, w, h);
+                MetblUtils.drbwDisbbledBorder(g, x, y, w, h);
             }
 
         }
     }
 
     /**
-     * The class represents the border of a {@code JScrollPane}.
+     * The clbss represents the border of b {@code JScrollPbne}.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ScrollPaneBorder extends AbstractBorder implements UIResource {
-        public void paintBorder(Component c, Graphics g, int x, int y,
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ScrollPbneBorder extends AbstrbctBorder implements UIResource {
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                           int w, int h) {
 
-            if (!(c instanceof JScrollPane)) {
+            if (!(c instbnceof JScrollPbne)) {
                 return;
             }
-            JScrollPane scroll = (JScrollPane)c;
-            JComponent colHeader = scroll.getColumnHeader();
-            int colHeaderHeight = 0;
-            if (colHeader != null)
-               colHeaderHeight = colHeader.getHeight();
+            JScrollPbne scroll = (JScrollPbne)c;
+            JComponent colHebder = scroll.getColumnHebder();
+            int colHebderHeight = 0;
+            if (colHebder != null)
+               colHebderHeight = colHebder.getHeight();
 
-            JComponent rowHeader = scroll.getRowHeader();
-            int rowHeaderWidth = 0;
-            if (rowHeader != null)
-               rowHeaderWidth = rowHeader.getWidth();
+            JComponent rowHebder = scroll.getRowHebder();
+            int rowHebderWidth = 0;
+            if (rowHebder != null)
+               rowHebderWidth = rowHebder.getWidth();
 
 
-            g.translate( x, y);
+            g.trbnslbte( x, y);
 
-            g.setColor( MetalLookAndFeel.getControlDarkShadow() );
-            g.drawRect( 0, 0, w-2, h-2 );
-            g.setColor( MetalLookAndFeel.getControlHighlight() );
+            g.setColor( MetblLookAndFeel.getControlDbrkShbdow() );
+            g.drbwRect( 0, 0, w-2, h-2 );
+            g.setColor( MetblLookAndFeel.getControlHighlight() );
 
-            g.drawLine( w-1, 1, w-1, h-1);
-            g.drawLine( 1, h-1, w-1, h-1);
+            g.drbwLine( w-1, 1, w-1, h-1);
+            g.drbwLine( 1, h-1, w-1, h-1);
 
-            g.setColor( MetalLookAndFeel.getControl() );
-            g.drawLine( w-2, 2+colHeaderHeight, w-2, 2+colHeaderHeight );
-            g.drawLine( 1+rowHeaderWidth, h-2, 1+rowHeaderWidth, h-2 );
+            g.setColor( MetblLookAndFeel.getControl() );
+            g.drbwLine( w-2, 2+colHebderHeight, w-2, 2+colHebderHeight );
+            g.drbwLine( 1+rowHebderWidth, h-2, 1+rowHebderWidth, h-2 );
 
-            g.translate( -x, -y);
+            g.trbnslbte( -x, -y);
 
         }
 
@@ -946,19 +946,19 @@ public class MetalBorders {
         }
     }
 
-    private static Border toggleButtonBorder;
+    privbte stbtic Border toggleButtonBorder;
 
     /**
-     * Returns a border instance for a {@code JToggleButton}.
+     * Returns b border instbnce for b {@code JToggleButton}.
      *
-     * @return a border instance for a {@code JToggleButton}
+     * @return b border instbnce for b {@code JToggleButton}
      * @since 1.3
      */
-    public static Border getToggleButtonBorder() {
+    public stbtic Border getToggleButtonBorder() {
         if (toggleButtonBorder == null) {
             toggleButtonBorder = new BorderUIResource.CompoundBorderUIResource(
-                                                   new MetalBorders.ToggleButtonBorder(),
-                                                   new BasicBorders.MarginBorder());
+                                                   new MetblBorders.ToggleButtonBorder(),
+                                                   new BbsicBorders.MbrginBorder());
         }
         return toggleButtonBorder;
     }
@@ -966,58 +966,58 @@ public class MetalBorders {
     /**
      * @since 1.3
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ToggleButtonBorder extends ButtonBorder {
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            AbstractButton button = (AbstractButton)c;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ToggleButtonBorder extends ButtonBorder {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            AbstrbctButton button = (AbstrbctButton)c;
             ButtonModel model = button.getModel();
-            if (MetalLookAndFeel.usingOcean()) {
-                if(model.isArmed() || !button.isEnabled()) {
-                    super.paintBorder(c, g, x, y, w, h);
+            if (MetblLookAndFeel.usingOcebn()) {
+                if(model.isArmed() || !button.isEnbbled()) {
+                    super.pbintBorder(c, g, x, y, w, h);
                 }
                 else {
-                 g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                 g.drawRect(0, 0, w - 1, h - 1);
+                 g.setColor(MetblLookAndFeel.getControlDbrkShbdow());
+                 g.drbwRect(0, 0, w - 1, h - 1);
             }
             return;
         }
-            if (! c.isEnabled() ) {
-                MetalUtils.drawDisabledBorder( g, x, y, w-1, h-1 );
+            if (! c.isEnbbled() ) {
+                MetblUtils.drbwDisbbledBorder( g, x, y, w-1, h-1 );
             } else {
                 if ( model.isPressed() && model.isArmed() ) {
-                   MetalUtils.drawPressed3DBorder( g, x, y, w, h );
+                   MetblUtils.drbwPressed3DBorder( g, x, y, w, h );
                 } else if ( model.isSelected() ) {
-                    MetalUtils.drawDark3DBorder( g, x, y, w, h );
+                    MetblUtils.drbwDbrk3DBorder( g, x, y, w, h );
                 } else {
-                    MetalUtils.drawFlush3DBorder( g, x, y, w, h );
+                    MetblUtils.drbwFlush3DBorder( g, x, y, w, h );
                 }
             }
         }
     }
 
     /**
-     * Border for a Table Header
+     * Border for b Tbble Hebder
      * @since 1.3
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class TableHeaderBorder extends javax.swing.border.AbstractBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss TbbleHebderBorder extends jbvbx.swing.border.AbstrbctBorder {
 
         /**
          * The border insets.
          */
         protected Insets editorBorderInsets = new Insets( 2, 2, 2, 0 );
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            g.translate( x, y );
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            g.trbnslbte( x, y );
 
-            g.setColor( MetalLookAndFeel.getControlDarkShadow() );
-            g.drawLine( w-1, 0, w-1, h-1 );
-            g.drawLine( 1, h-1, w-1, h-1 );
-            g.setColor( MetalLookAndFeel.getControlHighlight() );
-            g.drawLine( 0, 0, w-2, 0 );
-            g.drawLine( 0, 0, 0, h-2 );
+            g.setColor( MetblLookAndFeel.getControlDbrkShbdow() );
+            g.drbwLine( w-1, 0, w-1, h-1 );
+            g.drbwLine( 1, h-1, w-1, h-1 );
+            g.setColor( MetblLookAndFeel.getControlHighlight() );
+            g.drbwLine( 0, 0, w-2, 0 );
+            g.drbwLine( 0, 0, 0, h-2 );
 
-            g.translate( -x, -y );
+            g.trbnslbte( -x, -y );
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
@@ -1027,34 +1027,34 @@ public class MetalBorders {
     }
 
     /**
-     * Returns a border instance for a Desktop Icon.
+     * Returns b border instbnce for b Desktop Icon.
      *
-     * @return a border instance for a Desktop Icon
+     * @return b border instbnce for b Desktop Icon
      * @since 1.3
      */
-    public static Border getDesktopIconBorder() {
+    public stbtic Border getDesktopIconBorder() {
         return new BorderUIResource.CompoundBorderUIResource(
-                                          new LineBorder(MetalLookAndFeel.getControlDarkShadow(), 1),
-                                          new MatteBorder (2,2,1,2, MetalLookAndFeel.getControl()));
+                                          new LineBorder(MetblLookAndFeel.getControlDbrkShbdow(), 1),
+                                          new MbtteBorder (2,2,1,2, MetblLookAndFeel.getControl()));
     }
 
-    static Border getToolBarRolloverBorder() {
-        if (MetalLookAndFeel.usingOcean()) {
+    stbtic Border getToolBbrRolloverBorder() {
+        if (MetblLookAndFeel.usingOcebn()) {
             return new CompoundBorder(
-                new MetalBorders.ButtonBorder(),
-                new MetalBorders.RolloverMarginBorder());
+                new MetblBorders.ButtonBorder(),
+                new MetblBorders.RolloverMbrginBorder());
         }
-        return new CompoundBorder(new MetalBorders.RolloverButtonBorder(),
-                                  new MetalBorders.RolloverMarginBorder());
+        return new CompoundBorder(new MetblBorders.RolloverButtonBorder(),
+                                  new MetblBorders.RolloverMbrginBorder());
     }
 
-    static Border getToolBarNonrolloverBorder() {
-        if (MetalLookAndFeel.usingOcean()) {
+    stbtic Border getToolBbrNonrolloverBorder() {
+        if (MetblLookAndFeel.usingOcebn()) {
             new CompoundBorder(
-                new MetalBorders.ButtonBorder(),
-                new MetalBorders.RolloverMarginBorder());
+                new MetblBorders.ButtonBorder(),
+                new MetblBorders.RolloverMbrginBorder());
         }
-        return new CompoundBorder(new MetalBorders.ButtonBorder(),
-                                  new MetalBorders.RolloverMarginBorder());
+        return new CompoundBorder(new MetblBorders.ButtonBorder(),
+                                  new MetblBorders.RolloverMbrginBorder());
     }
 }

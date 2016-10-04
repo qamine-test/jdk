@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class ConditionalExpression extends BinaryExpression {
+clbss ConditionblExpression extends BinbryExpression {
     Expression cond;
 
     /**
      * Constructor
      */
-    public ConditionalExpression(long where, Expression cond, Expression left, Expression right) {
+    public ConditionblExpression(long where, Expression cond, Expression left, Expression right) {
         super(COND, where, Type.tError, left, right);
         this.cond = cond;
     }
 
     /**
-     * Order the expression based on precedence
+     * Order the expression bbsed on precedence
      */
     public Expression order() {
         if (precedence() > cond.precedence()) {
-            UnaryExpression e = (UnaryExpression)cond;
+            UnbryExpression e = (UnbryExpression)cond;
             cond = e.right;
             e.right = order();
             return e;
@@ -64,36 +64,36 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Check the expression
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        ConditionVars cvars = cond.checkCondition(env, ctx, vset, exp);
-        vset = left.checkValue(env, ctx, cvars.vsTrue, exp).join(
-               right.checkValue(env, ctx, cvars.vsFalse, exp) );
-        cond = convert(env, ctx, Type.tBoolean, cond);
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        ConditionVbrs cvbrs = cond.checkCondition(env, ctx, vset, exp);
+        vset = left.checkVblue(env, ctx, cvbrs.vsTrue, exp).join(
+               right.checkVblue(env, ctx, cvbrs.vsFblse, exp) );
+        cond = convert(env, ctx, Type.tBoolebn, cond);
 
-        int tm = left.type.getTypeMask() | right.type.getTypeMask();
+        int tm = left.type.getTypeMbsk() | right.type.getTypeMbsk();
         if ((tm & TM_ERROR) != 0) {
             type = Type.tError;
             return vset;
         }
-        if (left.type.equals(right.type)) {
+        if (left.type.equbls(right.type)) {
             type = left.type;
         } else if ((tm & TM_DOUBLE) != 0) {
             type = Type.tDouble;
         } else if ((tm & TM_FLOAT) != 0) {
-            type = Type.tFloat;
+            type = Type.tFlobt;
         } else if ((tm & TM_LONG) != 0) {
             type = Type.tLong;
         } else if ((tm & TM_REFERENCE) != 0) {
             try {
                 // This is wrong.  We should be using their most common
-                // ancestor, instead.
-                type = env.implicitCast(right.type, left.type)
+                // bncestor, instebd.
+                type = env.implicitCbst(right.type, left.type)
                     ? left.type : right.type;
-            } catch (ClassNotFound e) {
+            } cbtch (ClbssNotFound e) {
                 type = Type.tError;
             }
-        } else if (((tm & TM_CHAR) != 0) && left.fitsType(env, ctx, Type.tChar) && right.fitsType(env, ctx, Type.tChar)) {
-            type = Type.tChar;
+        } else if (((tm & TM_CHAR) != 0) && left.fitsType(env, ctx, Type.tChbr) && right.fitsType(env, ctx, Type.tChbr)) {
+            type = Type.tChbr;
         } else if (((tm & TM_SHORT) != 0) && left.fitsType(env, ctx, Type.tShort) && right.fitsType(env, ctx, Type.tShort)) {
             type = Type.tShort;
         } else if (((tm & TM_BYTE) != 0) && left.fitsType(env, ctx, Type.tByte) && right.fitsType(env, ctx, Type.tByte)) {
@@ -107,27 +107,27 @@ class ConditionalExpression extends BinaryExpression {
         return vset;
     }
 
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = cond.checkValue(env, ctx, vset, exp);
-        cond = convert(env, ctx, Type.tBoolean, cond);
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        vset = cond.checkVblue(env, ctx, vset, exp);
+        cond = convert(env, ctx, Type.tBoolebn, cond);
         return left.check(env, ctx, vset.copy(), exp).join(right.check(env, ctx, vset, exp));
     }
 
     /**
-     * Check if constant
+     * Check if constbnt
      */
-    public boolean isConstant() {
-        return cond.isConstant() && left.isConstant() && right.isConstant();
+    public boolebn isConstbnt() {
+        return cond.isConstbnt() && left.isConstbnt() && right.isConstbnt();
     }
 
     /**
      * Simplify
      */
     Expression simplify() {
-        if (cond.equals(true)) {
+        if (cond.equbls(true)) {
             return left;
         }
-        if (cond.equals(false)) {
+        if (cond.equbls(fblse)) {
             return right;
         }
         return this;
@@ -147,14 +147,14 @@ class ConditionalExpression extends BinaryExpression {
             right = null;
             cond = new NotExpression(where, cond);
         }
-        cond = cond.inlineValue(env, ctx);
+        cond = cond.inlineVblue(env, ctx);
         return simplify();
     }
 
-    public Expression inlineValue(Environment env, Context ctx) {
-        cond = cond.inlineValue(env, ctx);
-        left = left.inlineValue(env, ctx);
-        right = right.inlineValue(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        cond = cond.inlineVblue(env, ctx);
+        left = left.inlineVblue(env, ctx);
+        right = right.inlineVblue(env, ctx);
         return simplify();
     }
 
@@ -162,9 +162,9 @@ class ConditionalExpression extends BinaryExpression {
      * The cost of inlining this expression
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        // We need to check if right is null in case costInline()
-        // is called after this expression has been inlined.
-        // This call can happen, for example, in MemberDefinition#cleanup().
+        // We need to check if right is null in cbse costInline()
+        // is cblled bfter this expression hbs been inlined.
+        // This cbll cbn hbppen, for exbmple, in MemberDefinition#clebnup().
         // (Fix for 4069861).
         return 1 +
             cond.costInline(thresh, env, ctx) +
@@ -173,14 +173,14 @@ class ConditionalExpression extends BinaryExpression {
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crebte b copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
-        ConditionalExpression e = (ConditionalExpression)clone();
+        ConditionblExpression e = (ConditionblExpression)clone();
         e.cond = cond.copyInline(ctx);
         e.left = left.copyInline(ctx);
 
-        // If copyInline() is called after inlining is complete,
+        // If copyInline() is cblled bfter inlining is complete,
         // right could be null.
         e.right = (right == null) ? null : right.copyInline(ctx);
 
@@ -190,37 +190,37 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Code
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        Label l1 = new Label();
-        Label l2 = new Label();
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        Lbbel l1 = new Lbbel();
+        Lbbel l2 = new Lbbel();
 
-        cond.codeBranch(env, ctx, asm, l1, false);
-        left.codeValue(env, ctx, asm);
-        asm.add(where, opc_goto, l2);
-        asm.add(l1);
-        right.codeValue(env, ctx, asm);
-        asm.add(l2);
+        cond.codeBrbnch(env, ctx, bsm, l1, fblse);
+        left.codeVblue(env, ctx, bsm);
+        bsm.bdd(where, opc_goto, l2);
+        bsm.bdd(l1);
+        right.codeVblue(env, ctx, bsm);
+        bsm.bdd(l2);
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
-        Label l1 = new Label();
-        cond.codeBranch(env, ctx, asm, l1, false);
-        left.code(env, ctx, asm);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        Lbbel l1 = new Lbbel();
+        cond.codeBrbnch(env, ctx, bsm, l1, fblse);
+        left.code(env, ctx, bsm);
         if (right != null) {
-            Label l2 = new Label();
-            asm.add(where, opc_goto, l2);
-            asm.add(l1);
-            right.code(env, ctx, asm);
-            asm.add(l2);
+            Lbbel l2 = new Lbbel();
+            bsm.bdd(where, opc_goto, l2);
+            bsm.bdd(l1);
+            right.code(env, ctx, bsm);
+            bsm.bdd(l2);
         } else {
-            asm.add(l1);
+            bsm.bdd(l1);
         }
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
+    public void print(PrintStrebm out) {
+        out.print("(" + opNbmes[op] + " ");
         cond.print(out);
         out.print(" ");
         left.print(out);

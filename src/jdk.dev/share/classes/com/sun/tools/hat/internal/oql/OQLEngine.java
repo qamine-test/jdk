@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.oql;
+pbckbge com.sun.tools.hbt.internbl.oql;
 
-import com.sun.tools.hat.internal.model.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import com.sun.tools.hbt.internbl.model.*;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.*;
 
 /**
- * This is Object Query Language Interpreter
+ * This is Object Query Lbngubge Interpreter
  *
  */
-public class OQLEngine {
-    static {
+public clbss OQLEngine {
+    stbtic {
         try {
-            // Do we have javax.script support?
-            // create ScriptEngineManager
-            Class<?> managerClass = Class.forName("javax.script.ScriptEngineManager");
-            Object manager = managerClass.newInstance();
+            // Do we hbve jbvbx.script support?
+            // crebte ScriptEngineMbnbger
+            Clbss<?> mbnbgerClbss = Clbss.forNbme("jbvbx.script.ScriptEngineMbnbger");
+            Object mbnbger = mbnbgerClbss.newInstbnce();
 
-            // create JavaScript engine
-            Method getEngineMethod = managerClass.getMethod("getEngineByName",
-                                new Class<?>[] { String.class });
-            Object jse = getEngineMethod.invoke(manager, new Object[] {"js"});
+            // crebte JbvbScript engine
+            Method getEngineMethod = mbnbgerClbss.getMethod("getEngineByNbme",
+                                new Clbss<?>[] { String.clbss });
+            Object jse = getEngineMethod.invoke(mbnbger, new Object[] {"js"});
             oqlSupported = (jse != null);
-        } catch (Exception exp) {
-            oqlSupported = false;
+        } cbtch (Exception exp) {
+            oqlSupported = fblse;
         }
     }
 
-    // check OQL is supported or not before creating OQLEngine
-    public static boolean isOQLSupported() {
+    // check OQL is supported or not before crebting OQLEngine
+    public stbtic boolebn isOQLSupported() {
         return oqlSupported;
     }
 
-    public OQLEngine(Snapshot snapshot) {
+    public OQLEngine(Snbpshot snbpshot) {
         if (!isOQLSupported()) {
-            throw new UnsupportedOperationException("OQL not supported");
+            throw new UnsupportedOperbtionException("OQL not supported");
         }
-        init(snapshot);
+        init(snbpshot);
     }
 
     /**
        Query is of the form
 
-          select &lt;java script code to select&gt;
-          [ from [instanceof] &lt;class name&gt; [&lt;identifier&gt;]
-            [ where &lt;java script boolean expression&gt; ]
+          select &lt;jbvb script code to select&gt;
+          [ from [instbnceof] &lt;clbss nbme&gt; [&lt;identifier&gt;]
+            [ where &lt;jbvb script boolebn expression&gt; ]
           ]
     */
     public synchronized void executeQuery(String query, ObjectVisitor visitor)
                                           throws OQLException {
         debugPrint("query : " + query);
         StringTokenizer st = new StringTokenizer(query);
-        if (st.hasMoreTokens()) {
+        if (st.hbsMoreTokens()) {
             String first = st.nextToken();
-            if (! first.equals("select") ) {
-                // Query does not start with 'select' keyword.
-                // Just treat it as plain JavaScript and eval it.
+            if (! first.equbls("select") ) {
+                // Query does not stbrt with 'select' keyword.
+                // Just trebt it bs plbin JbvbScript bnd evbl it.
                 try {
-                    Object res = evalScript(query);
+                    Object res = evblScript(query);
                     visitor.visit(res);
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     throw new OQLException(e);
                 }
                 return;
             }
         } else {
-            throw new OQLException("query syntax error: no 'select' clause");
+            throw new OQLException("query syntbx error: no 'select' clbuse");
         }
 
         String selectExpr = "";
-        boolean seenFrom = false;
-        while (st.hasMoreTokens()) {
+        boolebn seenFrom = fblse;
+        while (st.hbsMoreTokens()) {
             String tok = st.nextToken();
-            if (tok.equals("from")) {
+            if (tok.equbls("from")) {
                 seenFrom = true;
-                break;
+                brebk;
             }
             selectExpr += " " + tok;
         }
 
-        if (selectExpr.equals("")) {
-            throw new OQLException("query syntax error: 'select' expression can not be empty");
+        if (selectExpr.equbls("")) {
+            throw new OQLException("query syntbx error: 'select' expression cbn not be empty");
         }
 
-        String className = null;
-        boolean isInstanceOf = false;
+        String clbssNbme = null;
+        boolebn isInstbnceOf = fblse;
         String whereExpr =  null;
         String identifier = null;
 
         if (seenFrom) {
-            if (st.hasMoreTokens()) {
+            if (st.hbsMoreTokens()) {
                 String tmp = st.nextToken();
-                if (tmp.equals("instanceof")) {
-                    isInstanceOf = true;
-                    if (! st.hasMoreTokens()) {
-                        throw new OQLException("no class name after 'instanceof'");
+                if (tmp.equbls("instbnceof")) {
+                    isInstbnceOf = true;
+                    if (! st.hbsMoreTokens()) {
+                        throw new OQLException("no clbss nbme bfter 'instbnceof'");
                     }
-                    className = st.nextToken();
+                    clbssNbme = st.nextToken();
                 } else {
-                    className = tmp;
+                    clbssNbme = tmp;
                 }
             } else {
-                throw new OQLException("query syntax error: class name must follow 'from'");
+                throw new OQLException("query syntbx error: clbss nbme must follow 'from'");
             }
 
-            if (st.hasMoreTokens()) {
+            if (st.hbsMoreTokens()) {
                 identifier = st.nextToken();
-                if (identifier.equals("where")) {
-                    throw new OQLException("query syntax error: identifier should follow class name");
+                if (identifier.equbls("where")) {
+                    throw new OQLException("query syntbx error: identifier should follow clbss nbme");
                 }
-                if (st.hasMoreTokens()) {
+                if (st.hbsMoreTokens()) {
                     String tmp = st.nextToken();
-                    if (! tmp.equals("where")) {
-                        throw new OQLException("query syntax error: 'where' clause expected after 'from' clause");
+                    if (! tmp.equbls("where")) {
+                        throw new OQLException("query syntbx error: 'where' clbuse expected bfter 'from' clbuse");
                     }
 
                     whereExpr = "";
-                    while (st.hasMoreTokens()) {
+                    while (st.hbsMoreTokens()) {
                         whereExpr += " " + st.nextToken();
                     }
-                    if (whereExpr.equals("")) {
-                        throw new OQLException("query syntax error: 'where' clause cannot have empty expression");
+                    if (whereExpr.equbls("")) {
+                        throw new OQLException("query syntbx error: 'where' clbuse cbnnot hbve empty expression");
                     }
                 }
             } else {
-                throw new OQLException("query syntax error: identifier should follow class name");
+                throw new OQLException("query syntbx error: identifier should follow clbss nbme");
             }
         }
 
-        executeQuery(new OQLQuery(selectExpr, isInstanceOf, className,
+        executeQuery(new OQLQuery(selectExpr, isInstbnceOf, clbssNbme,
                                   identifier, whereExpr), visitor);
     }
 
-    private void executeQuery(OQLQuery q, ObjectVisitor visitor)
+    privbte void executeQuery(OQLQuery q, ObjectVisitor visitor)
                               throws OQLException {
-        JavaClass clazz = null;
-        if (q.className != null) {
-            clazz = snapshot.findClass(q.className);
-            if (clazz == null) {
-                throw new OQLException(q.className + " is not found!");
+        JbvbClbss clbzz = null;
+        if (q.clbssNbme != null) {
+            clbzz = snbpshot.findClbss(q.clbssNbme);
+            if (clbzz == null) {
+                throw new OQLException(q.clbssNbme + " is not found!");
             }
         }
 
         StringBuffer buf = new StringBuffer();
-        buf.append("function __select__(");
+        buf.bppend("function __select__(");
         if (q.identifier != null) {
-            buf.append(q.identifier);
+            buf.bppend(q.identifier);
         }
-        buf.append(") { return ");
-        buf.append(q.selectExpr.replace('\n', ' '));
-        buf.append("; }");
+        buf.bppend(") { return ");
+        buf.bppend(q.selectExpr.replbce('\n', ' '));
+        buf.bppend("; }");
 
         String selectCode = buf.toString();
         debugPrint(selectCode);
         String whereCode = null;
         if (q.whereExpr != null) {
             buf = new StringBuffer();
-            buf.append("function __where__(");
-            buf.append(q.identifier);
-            buf.append(") { return ");
-            buf.append(q.whereExpr.replace('\n', ' '));
-            buf.append("; }");
+            buf.bppend("function __where__(");
+            buf.bppend(q.identifier);
+            buf.bppend(") { return ");
+            buf.bppend(q.whereExpr.replbce('\n', ' '));
+            buf.bppend("; }");
             whereCode = buf.toString();
         }
         debugPrint(whereCode);
 
-        // compile select expression and where condition
+        // compile select expression bnd where condition
         try {
-            evalMethod.invoke(engine, new Object[] { selectCode });
+            evblMethod.invoke(engine, new Object[] { selectCode });
             if (whereCode != null) {
-                evalMethod.invoke(engine, new Object[] { whereCode });
+                evblMethod.invoke(engine, new Object[] { whereCode });
             }
 
-            if (q.className != null) {
-                Enumeration<JavaHeapObject> objects = clazz.getInstances(q.isInstanceOf);
-                while (objects.hasMoreElements()) {
-                    JavaHeapObject obj = objects.nextElement();
-                    Object[] args = new Object[] { wrapJavaObject(obj) };
-                    boolean b = (whereCode == null);
+            if (q.clbssNbme != null) {
+                Enumerbtion<JbvbHebpObject> objects = clbzz.getInstbnces(q.isInstbnceOf);
+                while (objects.hbsMoreElements()) {
+                    JbvbHebpObject obj = objects.nextElement();
+                    Object[] brgs = new Object[] { wrbpJbvbObject(obj) };
+                    boolebn b = (whereCode == null);
                     if (!b) {
-                        Object res = call("__where__", args);
-                        if (res instanceof Boolean) {
-                            b = ((Boolean)res).booleanValue();
-                        } else if (res instanceof Number) {
-                            b = ((Number)res).intValue() != 0;
+                        Object res = cbll("__where__", brgs);
+                        if (res instbnceof Boolebn) {
+                            b = ((Boolebn)res).boolebnVblue();
+                        } else if (res instbnceof Number) {
+                            b = ((Number)res).intVblue() != 0;
                         } else {
                             b = (res != null);
                         }
                     }
 
                     if (b) {
-                        Object select = call("__select__", args);
+                        Object select = cbll("__select__", brgs);
                         if (visitor.visit(select)) return;
                     }
                 }
             } else {
                 // simple "select <expr>" query
-                Object select = call("__select__", new Object[] {});
+                Object select = cbll("__select__", new Object[] {});
                 visitor.visit(select);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new OQLException(e);
         }
     }
 
-    public Object evalScript(String script) throws Exception {
-        return evalMethod.invoke(engine, new Object[] { script });
+    public Object evblScript(String script) throws Exception {
+        return evblMethod.invoke(engine, new Object[] { script });
     }
 
-    public Object wrapJavaObject(JavaHeapObject obj) throws Exception {
-        return call("wrapJavaObject", new Object[] { obj });
+    public Object wrbpJbvbObject(JbvbHebpObject obj) throws Exception {
+        return cbll("wrbpJbvbObject", new Object[] { obj });
     }
 
     public Object toHtml(Object obj) throws Exception {
-        return call("toHtml", new Object[] { obj });
+        return cbll("toHtml", new Object[] { obj });
     }
 
-    public Object call(String func, Object[] args) throws Exception {
-        return invokeMethod.invoke(engine, new Object[] { func, args });
+    public Object cbll(String func, Object[] brgs) throws Exception {
+        return invokeMethod.invoke(engine, new Object[] { func, brgs });
     }
 
-    private static void debugPrint(String msg) {
+    privbte stbtic void debugPrint(String msg) {
         if (debug) System.out.println(msg);
     }
 
-    private void init(Snapshot snapshot) throws RuntimeException {
-        this.snapshot = snapshot;
+    privbte void init(Snbpshot snbpshot) throws RuntimeException {
+        this.snbpshot = snbpshot;
         try {
-            // create ScriptEngineManager
-            Class<?> managerClass = Class.forName("javax.script.ScriptEngineManager");
-            Object manager = managerClass.newInstance();
+            // crebte ScriptEngineMbnbger
+            Clbss<?> mbnbgerClbss = Clbss.forNbme("jbvbx.script.ScriptEngineMbnbger");
+            Object mbnbger = mbnbgerClbss.newInstbnce();
 
-            // create JavaScript engine
-            Method getEngineMethod = managerClass.getMethod("getEngineByName",
-                                new Class<?>[] { String.class });
-            engine = getEngineMethod.invoke(manager, new Object[] {"js"});
+            // crebte JbvbScript engine
+            Method getEngineMethod = mbnbgerClbss.getMethod("getEngineByNbme",
+                                new Clbss<?>[] { String.clbss });
+            engine = getEngineMethod.invoke(mbnbger, new Object[] {"js"});
 
-            // initialize engine with init file (hat.js)
-            InputStream strm = getInitStream();
-            Class<?> engineClass = Class.forName("javax.script.ScriptEngine");
-            evalMethod = engineClass.getMethod("eval",
-                                new Class<?>[] { Reader.class });
-            evalMethod.invoke(engine, new Object[] {new InputStreamReader(strm)});
+            // initiblize engine with init file (hbt.js)
+            InputStrebm strm = getInitStrebm();
+            Clbss<?> engineClbss = Clbss.forNbme("jbvbx.script.ScriptEngine");
+            evblMethod = engineClbss.getMethod("evbl",
+                                new Clbss<?>[] { Rebder.clbss });
+            evblMethod.invoke(engine, new Object[] {new InputStrebmRebder(strm)});
 
-            // initialize ScriptEngine.eval(String) and
-            // Invocable.invokeFunction(String, Object[]) methods.
-            Class<?> invocableClass = Class.forName("javax.script.Invocable");
+            // initiblize ScriptEngine.evbl(String) bnd
+            // Invocbble.invokeFunction(String, Object[]) methods.
+            Clbss<?> invocbbleClbss = Clbss.forNbme("jbvbx.script.Invocbble");
 
-            evalMethod = engineClass.getMethod("eval",
-                                  new Class<?>[] { String.class });
-            invokeMethod = invocableClass.getMethod("invokeFunction",
-                                  new Class<?>[] { String.class, Object[].class });
+            evblMethod = engineClbss.getMethod("evbl",
+                                  new Clbss<?>[] { String.clbss });
+            invokeMethod = invocbbleClbss.getMethod("invokeFunction",
+                                  new Clbss<?>[] { String.clbss, Object[].clbss });
 
-            // initialize ScriptEngine.put(String, Object) method
-            Method putMethod = engineClass.getMethod("put",
-                                  new Class<?>[] { String.class, Object.class });
+            // initiblize ScriptEngine.put(String, Object) method
+            Method putMethod = engineClbss.getMethod("put",
+                                  new Clbss<?>[] { String.clbss, Object.clbss });
 
-            // call ScriptEngine.put to initialize built-in heap object
+            // cbll ScriptEngine.put to initiblize built-in hebp object
             putMethod.invoke(engine, new Object[] {
-                        "heap", call("wrapHeapSnapshot", new Object[] { snapshot })
+                        "hebp", cbll("wrbpHebpSnbpshot", new Object[] { snbpshot })
                     });
-        } catch (Exception e) {
-            if (debug) e.printStackTrace();
+        } cbtch (Exception e) {
+            if (debug) e.printStbckTrbce();
             throw new RuntimeException(e);
         }
     }
 
-    private InputStream getInitStream() {
-        return getClass().getResourceAsStream("/com/sun/tools/hat/resources/hat.js");
+    privbte InputStrebm getInitStrebm() {
+        return getClbss().getResourceAsStrebm("/com/sun/tools/hbt/resources/hbt.js");
     }
 
-    private Object engine;
-    private Method evalMethod;
-    private Method invokeMethod;
-    private Snapshot snapshot;
-    private static boolean debug = false;
-    private static boolean oqlSupported;
+    privbte Object engine;
+    privbte Method evblMethod;
+    privbte Method invokeMethod;
+    privbte Snbpshot snbpshot;
+    privbte stbtic boolebn debug = fblse;
+    privbte stbtic boolebn oqlSupported;
 }

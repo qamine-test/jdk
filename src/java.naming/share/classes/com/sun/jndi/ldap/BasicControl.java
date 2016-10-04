@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.ldap.*;
+import jbvbx.nbming.ldbp.*;
 
 /**
-  * This class provides a basic implementation of the <tt>Control</tt>
-  * interface. It represents an LDAPv3 Control as defined in RFC-2251.
+  * This clbss provides b bbsic implementbtion of the <tt>Control</tt>
+  * interfbce. It represents bn LDAPv3 Control bs defined in RFC-2251.
   *
-  * @author Vincent Ryan
+  * @buthor Vincent Rybn
   */
-public class BasicControl implements Control {
+public clbss BbsicControl implements Control {
 
     /**
      * The control's object identifier string.
      *
-     * @serial
+     * @seribl
      */
     protected String id;
 
     /**
-     * The control's criticality.
+     * The control's criticblity.
      *
-     * @serial
+     * @seribl
      */
-    protected boolean criticality = false; // default
+    protected boolebn criticblity = fblse; // defbult
 
     /**
-     * The control's ASN.1 BER encoded value.
+     * The control's ASN.1 BER encoded vblue.
      *
-     * @serial
+     * @seribl
      */
-    protected byte[] value = null;
+    protected byte[] vblue = null;
 
-    private static final long serialVersionUID = -5914033725246428413L;
+    privbte stbtic finbl long seriblVersionUID = -5914033725246428413L;
 
     /**
-     * Constructs a new instance of BasicControl.
-     * It is a non-critical control.
+     * Constructs b new instbnce of BbsicControl.
+     * It is b non-criticbl control.
      *
-     * @param   id      The control's object identifier string.
+     * @pbrbm   id      The control's object identifier string.
      *
      */
-    public BasicControl(String id) {
+    public BbsicControl(String id) {
         this.id = id;
     }
 
     /**
-     * Constructs a new instance of BasicControl.
+     * Constructs b new instbnce of BbsicControl.
      *
-     * @param   id              The control's object identifier string.
-     * @param   criticality     The control's criticality.
-     * @param   value           The control's ASN.1 BER encoded value.
-     *                          May be null.
+     * @pbrbm   id              The control's object identifier string.
+     * @pbrbm   criticblity     The control's criticblity.
+     * @pbrbm   vblue           The control's ASN.1 BER encoded vblue.
+     *                          Mby be null.
      */
-    public BasicControl(String id, boolean criticality, byte[] value) {
+    public BbsicControl(String id, boolebn criticblity, byte[] vblue) {
         this.id = id;
-        this.criticality = criticality;
-        if (value != null) {
-            this.value = value.clone();
+        this.criticblity = criticblity;
+        if (vblue != null) {
+            this.vblue = vblue.clone();
         }
     }
 
@@ -95,24 +95,24 @@ public class BasicControl implements Control {
     }
 
     /**
-      * Determines the control's criticality.
+      * Determines the control's criticblity.
       *
-      * @return true if the control is critical; false otherwise.
+      * @return true if the control is criticbl; fblse otherwise.
       */
-    public boolean isCritical() {
-        return criticality;
+    public boolebn isCriticbl() {
+        return criticblity;
     }
 
     /**
-      * Retrieves the control's ASN.1 BER encoded value.
-      * The result is the raw BER bytes including the tag and length of
-      * the control's value. It does not include the control's object
-      * identifier string or criticality.
+      * Retrieves the control's ASN.1 BER encoded vblue.
+      * The result is the rbw BER bytes including the tbg bnd length of
+      * the control's vblue. It does not include the control's object
+      * identifier string or criticblity.
       *
-      * @return A possibly null byte array representing the control's
-      *         ASN.1 BER encoded value.
+      * @return A possibly null byte brrby representing the control's
+      *         ASN.1 BER encoded vblue.
       */
-    public byte[] getEncodedValue() {
-        return value == null ? null : value.clone();
+    public byte[] getEncodedVblue() {
+        return vblue == null ? null : vblue.clone();
     }
 }

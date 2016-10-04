@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Arrays;  // JDK1.2
-import java.io.OutputStream;
-import javax.naming.ldap.Control;
+import jbvb.util.Arrbys;  // JDK1.2
+import jbvb.io.OutputStrebm;
+import jbvbx.nbming.ldbp.Control;
 
 /**
- * Represents the identity of a 'simple' authenticated LDAP connection.
- * In addition to ClientId information, this class contains also the
- * username and password.
+ * Represents the identity of b 'simple' buthenticbted LDAP connection.
+ * In bddition to ClientId informbtion, this clbss contbins blso the
+ * usernbme bnd pbssword.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-class SimpleClientId extends ClientId {
-    final private String username;
-    final private Object passwd;
-    final private int myHash;
+clbss SimpleClientId extends ClientId {
+    finbl privbte String usernbme;
+    finbl privbte Object pbsswd;
+    finbl privbte int myHbsh;
 
-    SimpleClientId(int version, String hostname, int port,
-        String protocol, Control[] bindCtls, OutputStream trace,
-        String socketFactory, String username, Object passwd) {
+    SimpleClientId(int version, String hostnbme, int port,
+        String protocol, Control[] bindCtls, OutputStrebm trbce,
+        String socketFbctory, String usernbme, Object pbsswd) {
 
-        super(version, hostname, port, protocol, bindCtls, trace,
-                socketFactory);
+        super(version, hostnbme, port, protocol, bindCtls, trbce,
+                socketFbctory);
 
-        this.username = username;
-        if (passwd == null) {
-            this.passwd = null;
-        } else if (passwd instanceof String) {
-            this.passwd = passwd;
-        } else if (passwd instanceof byte[]) {
-            this.passwd = ((byte[])passwd).clone();
-        } else if (passwd instanceof char[]) {
-            this.passwd = ((char[])passwd).clone();
+        this.usernbme = usernbme;
+        if (pbsswd == null) {
+            this.pbsswd = null;
+        } else if (pbsswd instbnceof String) {
+            this.pbsswd = pbsswd;
+        } else if (pbsswd instbnceof byte[]) {
+            this.pbsswd = ((byte[])pbsswd).clone();
+        } else if (pbsswd instbnceof chbr[]) {
+            this.pbsswd = ((chbr[])pbsswd).clone();
         } else {
-            this.passwd = passwd;
+            this.pbsswd = pbsswd;
         }
 
-        myHash = super.hashCode()
-            + (username != null ? username.hashCode() : 0)
-            + (passwd != null ? passwd.hashCode() : 0);
+        myHbsh = super.hbshCode()
+            + (usernbme != null ? usernbme.hbshCode() : 0)
+            + (pbsswd != null ? pbsswd.hbshCode() : 0);
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof SimpleClientId)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null || !(obj instbnceof SimpleClientId)) {
+            return fblse;
         }
 
         SimpleClientId other = (SimpleClientId)obj;
 
-        return super.equals(obj)
-            && (username == other.username // null OK
-                || (username != null && username.equals(other.username)))
-            && ((passwd == other.passwd)  // null OK
-                || (passwd != null && other.passwd != null
-                    && (((passwd instanceof String) && passwd.equals(other.passwd))
-                        || ((passwd instanceof byte[])
-                            && (other.passwd instanceof byte[])
-                            && Arrays.equals((byte[])passwd, (byte[])other.passwd))
-                        || ((passwd instanceof char[])
-                            && (other.passwd instanceof char[])
-                            && Arrays.equals((char[])passwd, (char[])other.passwd)))));
+        return super.equbls(obj)
+            && (usernbme == other.usernbme // null OK
+                || (usernbme != null && usernbme.equbls(other.usernbme)))
+            && ((pbsswd == other.pbsswd)  // null OK
+                || (pbsswd != null && other.pbsswd != null
+                    && (((pbsswd instbnceof String) && pbsswd.equbls(other.pbsswd))
+                        || ((pbsswd instbnceof byte[])
+                            && (other.pbsswd instbnceof byte[])
+                            && Arrbys.equbls((byte[])pbsswd, (byte[])other.pbsswd))
+                        || ((pbsswd instbnceof chbr[])
+                            && (other.pbsswd instbnceof chbr[])
+                            && Arrbys.equbls((chbr[])pbsswd, (chbr[])other.pbsswd)))));
 
     }
 
-    public int hashCode() {
-        return myHash;
+    public int hbshCode() {
+        return myHbsh;
     }
 
     public String toString() {
-        return super.toString() + ":" + username; // omit password for security
+        return super.toString() + ":" + usernbme; // omit pbssword for security
     }
 }

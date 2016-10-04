@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,73 +32,73 @@
 #include "jli_util.h"
 
 #include <zlib.h>
-#include "manifest_info.h"
+#include "mbnifest_info.h"
 
-static char     *manifest;
+stbtic chbr     *mbnifest;
 
-static const char       *manifest_name = "META-INF/MANIFEST.MF";
+stbtic const chbr       *mbnifest_nbme = "META-INF/MANIFEST.MF";
 
 /*
- * Inflate the manifest file (or any file for that matter).
+ * Inflbte the mbnifest file (or bny file for thbt mbtter).
  *
- *   fd:        File descriptor of the jar file.
- *   entry:     Contains the information necessary to perform the inflation
- *              (the compressed and uncompressed sizes and the offset in
- *              the file where the compressed data is located).
- *   size_out:  Returns the size of the inflated file.
+ *   fd:        File descriptor of the jbr file.
+ *   entry:     Contbins the informbtion necessbry to perform the inflbtion
+ *              (the compressed bnd uncompressed sizes bnd the offset in
+ *              the file where the compressed dbtb is locbted).
+ *   size_out:  Returns the size of the inflbted file.
  *
- * Upon success, it returns a pointer to a NUL-terminated malloc'd buffer
- * containing the inflated manifest file.  When the caller is done with it,
- * this buffer should be released by a call to free().  Upon failure,
+ * Upon success, it returns b pointer to b NUL-terminbted mblloc'd buffer
+ * contbining the inflbted mbnifest file.  When the cbller is done with it,
+ * this buffer should be relebsed by b cbll to free().  Upon fbilure,
  * returns NULL.
  */
-static char *
-inflate_file(int fd, zentry *entry, int *size_out)
+stbtic chbr *
+inflbte_file(int fd, zentry *entry, int *size_out)
 {
-    char        *in;
-    char        *out;
-    z_stream    zs;
+    chbr        *in;
+    chbr        *out;
+    z_strebm    zs;
 
     if (entry->csize == (size_t) -1 || entry->isize == (size_t) -1 )
         return (NULL);
     if (JLI_Lseek(fd, entry->offset, SEEK_SET) < (jlong)0)
         return (NULL);
-    if ((in = malloc(entry->csize + 1)) == NULL)
+    if ((in = mblloc(entry->csize + 1)) == NULL)
         return (NULL);
-    if ((size_t)(read(fd, in, (unsigned int)entry->csize)) != entry->csize) {
+    if ((size_t)(rebd(fd, in, (unsigned int)entry->csize)) != entry->csize) {
         free(in);
         return (NULL);
     }
     if (entry->how == STORED) {
-        *(char *)((size_t)in + entry->csize) = '\0';
+        *(chbr *)((size_t)in + entry->csize) = '\0';
         if (size_out) {
             *size_out = (int)entry->csize;
         }
         return (in);
     } else if (entry->how == DEFLATED) {
-        zs.zalloc = (alloc_func)Z_NULL;
+        zs.zblloc = (blloc_func)Z_NULL;
         zs.zfree = (free_func)Z_NULL;
-        zs.opaque = (voidpf)Z_NULL;
+        zs.opbque = (voidpf)Z_NULL;
         zs.next_in = (Byte*)in;
-        zs.avail_in = (uInt)entry->csize;
-        if (inflateInit2(&zs, -MAX_WBITS) < 0) {
+        zs.bvbil_in = (uInt)entry->csize;
+        if (inflbteInit2(&zs, -MAX_WBITS) < 0) {
             free(in);
             return (NULL);
         }
-        if ((out = malloc(entry->isize + 1)) == NULL) {
+        if ((out = mblloc(entry->isize + 1)) == NULL) {
             free(in);
             return (NULL);
         }
         zs.next_out = (Byte*)out;
-        zs.avail_out = (uInt)entry->isize;
-        if (inflate(&zs, Z_PARTIAL_FLUSH) < 0) {
+        zs.bvbil_out = (uInt)entry->isize;
+        if (inflbte(&zs, Z_PARTIAL_FLUSH) < 0) {
             free(in);
             free(out);
             return (NULL);
         }
-        *(char *)((size_t)out + entry->isize) = '\0';
+        *(chbr *)((size_t)out + entry->isize) = '\0';
         free(in);
-        if (inflateEnd(&zs) < 0) {
+        if (inflbteEnd(&zs) < 0) {
             free(out);
             return (NULL);
         }
@@ -111,14 +111,14 @@ inflate_file(int fd, zentry *entry, int *size_out)
     return (NULL);
 }
 
-static jboolean zip64_present = JNI_FALSE;
+stbtic jboolebn zip64_present = JNI_FALSE;
 
 /*
- * Checks to see if we have ZIP64 archive, and save
- * the check for later use
+ * Checks to see if we hbve ZIP64 brchive, bnd sbve
+ * the check for lbter use
  */
-static int
-haveZIP64(Byte *p) {
+stbtic int
+hbveZIP64(Byte *p) {
     jlong cenlen, cenoff, centot;
     cenlen = ENDSIZ(p);
     cenoff = ENDOFF(p);
@@ -129,14 +129,14 @@ haveZIP64(Byte *p) {
     return zip64_present;
 }
 
-static jlong
+stbtic jlong
 find_end64(int fd, Byte *ep, jlong pos)
 {
     jlong end64pos;
     jlong bytes;
     if ((end64pos = JLI_Lseek(fd, pos - ZIP64_LOCHDR, SEEK_SET)) < (jlong)0)
         return -1;
-    if ((bytes = read(fd, ep, ZIP64_LOCHDR)) < 0)
+    if ((bytes = rebd(fd, ep, ZIP64_LOCHDR)) < 0)
         return -1;
     if (GETSIG(ep) == ZIP64_LOCSIG)
        return end64pos;
@@ -144,18 +144,18 @@ find_end64(int fd, Byte *ep, jlong pos)
 }
 
 /*
- * A very little used routine to handle the case that zip file has
- * a comment at the end. Believe it or not, the only way to find the
- * END record is to walk backwards, byte by bloody byte looking for
- * the END record signature.
+ * A very little used routine to hbndle the cbse thbt zip file hbs
+ * b comment bt the end. Believe it or not, the only wby to find the
+ * END record is to wblk bbckwbrds, byte by bloody byte looking for
+ * the END record signbture.
  *
- *      fd:     File descriptor of the jar file.
- *      eb:     Pointer to a buffer to receive a copy of the END header.
+ *      fd:     File descriptor of the jbr file.
+ *      eb:     Pointer to b buffer to receive b copy of the END hebder.
  *
  * Returns the offset of the END record in the file on success,
- * -1 on failure.
+ * -1 on fbilure.
  */
-static jlong
+stbtic jlong
 find_end(int fd, Byte *eb)
 {
     jlong   len;
@@ -167,42 +167,42 @@ find_end(int fd, Byte *eb)
     Byte    *buffer;
 
     /*
-     * 99.44% (or more) of the time, there will be no comment at the
-     * end of the zip file.  Try reading just enough to read the END
-     * record from the end of the file, at this time we should also
-     * check to see if we have a ZIP64 archive.
+     * 99.44% (or more) of the time, there will be no comment bt the
+     * end of the zip file.  Try rebding just enough to rebd the END
+     * record from the end of the file, bt this time we should blso
+     * check to see if we hbve b ZIP64 brchive.
      */
     if ((pos = JLI_Lseek(fd, -ENDHDR, SEEK_END)) < (jlong)0)
         return (-1);
-    if ((bytes = read(fd, eb, ENDHDR)) < 0)
+    if ((bytes = rebd(fd, eb, ENDHDR)) < 0)
         return (-1);
     if (GETSIG(eb) == ENDSIG) {
-        return haveZIP64(eb) ? find_end64(fd, eb, pos) : pos;
+        return hbveZIP64(eb) ? find_end64(fd, eb, pos) : pos;
     }
 
     /*
-     * Shucky-Darn,... There is a comment at the end of the zip file.
+     * Shucky-Dbrn,... There is b comment bt the end of the zip file.
      *
-     * Allocate and fill a buffer with enough of the zip file
-     * to meet the specification for a maximal comment length.
+     * Allocbte bnd fill b buffer with enough of the zip file
+     * to meet the specificbtion for b mbximbl comment length.
      */
     if ((flen = JLI_Lseek(fd, 0, SEEK_END)) < (jlong)0)
         return (-1);
     len = (flen < END_MAXLEN) ? flen : END_MAXLEN;
     if (JLI_Lseek(fd, -len, SEEK_END) < (jlong)0)
         return (-1);
-    if ((buffer = malloc(END_MAXLEN)) == NULL)
+    if ((buffer = mblloc(END_MAXLEN)) == NULL)
         return (-1);
-    if ((bytes = read(fd, buffer, len)) < 0) {
+    if ((bytes = rebd(fd, buffer, len)) < 0) {
         free(buffer);
         return (-1);
     }
 
     /*
-     * Search backwards from the end of file stopping when the END header
-     * signature is found. (The first condition of the "if" is just a
-     * fast fail, because the GETSIG macro isn't always cheap.  The
-     * final condition protects against false positives.)
+     * Sebrch bbckwbrds from the end of file stopping when the END hebder
+     * signbture is found. (The first condition of the "if" is just b
+     * fbst fbil, becbuse the GETSIG mbcro isn't blwbys chebp.  The
+     * finbl condition protects bgbinst fblse positives.)
      */
     endpos = &buffer[bytes];
     for (cp = &buffer[bytes - ENDHDR]; cp >= &buffer[0]; cp--)
@@ -211,7 +211,7 @@ find_end(int fd, Byte *eb)
             (void) memcpy(eb, cp, ENDHDR);
             free(buffer);
             pos = flen - (endpos - cp);
-            return haveZIP64(eb) ? find_end64(fd, eb, pos) : pos;
+            return hbveZIP64(eb) ? find_end64(fd, eb, pos) : pos;
         }
     free(buffer);
     return (-1);
@@ -221,41 +221,41 @@ find_end(int fd, Byte *eb)
 #define MINREAD 1024
 
 /*
- * Computes and positions at the start of the CEN header, ie. the central
- * directory, this will also return the offset if there is a zip file comment
- * at the end of the archive, for most cases this would be 0.
+ * Computes bnd positions bt the stbrt of the CEN hebder, ie. the centrbl
+ * directory, this will blso return the offset if there is b zip file comment
+ * bt the end of the brchive, for most cbses this would be 0.
  */
-static jlong
+stbtic jlong
 compute_cen(int fd, Byte *bp)
 {
     int bytes;
     Byte *p;
-    jlong base_offset;
+    jlong bbse_offset;
     jlong offset;
-    char buffer[MINREAD];
+    chbr buffer[MINREAD];
     p = (Byte*) buffer;
     /*
-     * Read the END Header, which is the starting point for ZIP files.
-     * (Clearly designed to make writing a zip file easier than reading
-     * one. Now isn't that precious...)
+     * Rebd the END Hebder, which is the stbrting point for ZIP files.
+     * (Clebrly designed to mbke writing b zip file ebsier thbn rebding
+     * one. Now isn't thbt precious...)
      */
-    if ((base_offset = find_end(fd, bp)) == -1) {
+    if ((bbse_offset = find_end(fd, bp)) == -1) {
         return (-1);
     }
     p = bp;
     /*
-     * There is a historical, but undocumented, ability to allow for
-     * additional "stuff" to be prepended to the zip/jar file. It seems
-     * that this has been used to prepend an actual java launcher
-     * executable to the jar on Windows.  Although this is just another
-     * form of statically linking a small piece of the JVM to the
-     * application, we choose to continue to support it.  Note that no
-     * guarantees have been made (or should be made) to the customer that
+     * There is b historicbl, but undocumented, bbility to bllow for
+     * bdditionbl "stuff" to be prepended to the zip/jbr file. It seems
+     * thbt this hbs been used to prepend bn bctubl jbvb lbuncher
+     * executbble to the jbr on Windows.  Although this is just bnother
+     * form of stbticblly linking b smbll piece of the JVM to the
+     * bpplicbtion, we choose to continue to support it.  Note thbt no
+     * gubrbntees hbve been mbde (or should be mbde) to the customer thbt
      * this will continue to work.
      *
-     * Therefore, calculate the base offset of the zip file (within the
-     * expanded file) by assuming that the central directory is followed
-     * immediately by the end record.
+     * Therefore, cblculbte the bbse offset of the zip file (within the
+     * expbnded file) by bssuming thbt the centrbl directory is followed
+     * immedibtely by the end record.
      */
     if (zip64_present) {
         if ((offset = ZIP64_LOCOFF(p)) < (jlong)0) {
@@ -264,7 +264,7 @@ compute_cen(int fd, Byte *bp)
         if (JLI_Lseek(fd, offset, SEEK_SET) < (jlong) 0) {
             return (-1);
         }
-        if ((bytes = read(fd, buffer, MINREAD)) < 0) {
+        if ((bytes = rebd(fd, buffer, MINREAD)) < 0) {
             return (-1);
         }
         if (GETSIG(buffer) != ZIP64_ENDSIG) {
@@ -277,99 +277,99 @@ compute_cen(int fd, Byte *bp)
             return (-1);
         }
         p = (Byte*) buffer;
-        base_offset = base_offset - ZIP64_ENDSIZ(p) - ZIP64_ENDOFF(p) - ZIP64_ENDHDR;
+        bbse_offset = bbse_offset - ZIP64_ENDSIZ(p) - ZIP64_ENDOFF(p) - ZIP64_ENDHDR;
     } else {
-        base_offset = base_offset - ENDSIZ(p) - ENDOFF(p);
+        bbse_offset = bbse_offset - ENDSIZ(p) - ENDOFF(p);
         /*
-         * The END Header indicates the start of the Central Directory
-         * Headers. Remember that the desired Central Directory Header (CEN)
-         * will almost always be the second one and the first one is a small
+         * The END Hebder indicbtes the stbrt of the Centrbl Directory
+         * Hebders. Remember thbt the desired Centrbl Directory Hebder (CEN)
+         * will blmost blwbys be the second one bnd the first one is b smbll
          * directory entry ("META-INF/"). Keep the code optimized for
-         * that case.
+         * thbt cbse.
          *
-         * Seek to the beginning of the Central Directory.
+         * Seek to the beginning of the Centrbl Directory.
          */
-        if (JLI_Lseek(fd, base_offset + ENDOFF(p), SEEK_SET) < (jlong) 0) {
+        if (JLI_Lseek(fd, bbse_offset + ENDOFF(p), SEEK_SET) < (jlong) 0) {
             return (-1);
         }
     }
-    return base_offset;
+    return bbse_offset;
 }
 
 /*
- * Locate the manifest file with the zip/jar file.
+ * Locbte the mbnifest file with the zip/jbr file.
  *
- *      fd:     File descriptor of the jar file.
- *      entry:  To be populated with the information necessary to perform
- *              the inflation (the compressed and uncompressed sizes and
- *              the offset in the file where the compressed data is located).
+ *      fd:     File descriptor of the jbr file.
+ *      entry:  To be populbted with the informbtion necessbry to perform
+ *              the inflbtion (the compressed bnd uncompressed sizes bnd
+ *              the offset in the file where the compressed dbtb is locbted).
  *
- * Returns zero upon success. Returns a negative value upon failure.
+ * Returns zero upon success. Returns b negbtive vblue upon fbilure.
  *
- * The buffer for reading the Central Directory if the zip/jar file needs
- * to be large enough to accommodate the largest possible single record
- * and the signature of the next record which is:
+ * The buffer for rebding the Centrbl Directory if the zip/jbr file needs
+ * to be lbrge enough to bccommodbte the lbrgest possible single record
+ * bnd the signbture of the next record which is:
  *
  *      3*2**16 + CENHDR + SIGSIZ
  *
- * Each of the three variable sized fields (name, comment and extension)
- * has a maximum possible size of 64k.
+ * Ebch of the three vbribble sized fields (nbme, comment bnd extension)
+ * hbs b mbximum possible size of 64k.
  *
- * Typically, only a small bit of this buffer is used with bytes shuffled
- * down to the beginning of the buffer.  It is one thing to allocate such
- * a large buffer and another thing to actually start faulting it in.
+ * Typicblly, only b smbll bit of this buffer is used with bytes shuffled
+ * down to the beginning of the buffer.  It is one thing to bllocbte such
+ * b lbrge buffer bnd bnother thing to bctublly stbrt fbulting it in.
  *
- * In most cases, all that needs to be read are the first two entries in
- * a typical jar file (META-INF and META-INF/MANIFEST.MF). Keep this factoid
+ * In most cbses, bll thbt needs to be rebd bre the first two entries in
+ * b typicbl jbr file (META-INF bnd META-INF/MANIFEST.MF). Keep this fbctoid
  * in mind when optimizing this code.
  */
-static int
-find_file(int fd, zentry *entry, const char *file_name)
+stbtic int
+find_file(int fd, zentry *entry, const chbr *file_nbme)
 {
     int     bytes;
     int     res;
     int     entry_size;
-    int     read_size;
-    jlong   base_offset;
+    int     rebd_size;
+    jlong   bbse_offset;
     Byte    *p;
     Byte    *bp;
     Byte    *buffer;
     Byte    locbuf[LOCHDR];
 
-    if ((buffer = (Byte*)malloc(BUFSIZE)) == NULL) {
+    if ((buffer = (Byte*)mblloc(BUFSIZE)) == NULL) {
         return(-1);
     }
 
     bp = buffer;
-    base_offset = compute_cen(fd, bp);
-    if (base_offset == -1) {
+    bbse_offset = compute_cen(fd, bp);
+    if (bbse_offset == -1) {
         free(buffer);
         return -1;
     }
 
-    if ((bytes = read(fd, bp, MINREAD)) < 0) {
+    if ((bytes = rebd(fd, bp, MINREAD)) < 0) {
         free(buffer);
         return (-1);
     }
     p = bp;
     /*
-     * Loop through the Central Directory Headers. Note that a valid zip/jar
-     * must have an ENDHDR (with ENDSIG) after the Central Directory.
+     * Loop through the Centrbl Directory Hebders. Note thbt b vblid zip/jbr
+     * must hbve bn ENDHDR (with ENDSIG) bfter the Centrbl Directory.
      */
     while (GETSIG(p) == CENSIG) {
 
         /*
-         * If a complete header isn't in the buffer, shift the contents
-         * of the buffer down and refill the buffer.  Note that the check
-         * for "bytes < CENHDR" must be made before the test for the entire
-         * size of the header, because if bytes is less than CENHDR, the
-         * actual size of the header can't be determined. The addition of
-         * SIGSIZ guarantees that the next signature is also in the buffer
-         * for proper loop termination.
+         * If b complete hebder isn't in the buffer, shift the contents
+         * of the buffer down bnd refill the buffer.  Note thbt the check
+         * for "bytes < CENHDR" must be mbde before the test for the entire
+         * size of the hebder, becbuse if bytes is less thbn CENHDR, the
+         * bctubl size of the hebder cbn't be determined. The bddition of
+         * SIGSIZ gubrbntees thbt the next signbture is blso in the buffer
+         * for proper loop terminbtion.
          */
         if (bytes < CENHDR) {
             p = memmove(bp, p, bytes);
-            if ((res = read(fd, bp + bytes, MINREAD)) <= 0) {
+            if ((res = rebd(fd, bp + bytes, MINREAD)) <= 0) {
                 free(buffer);
                 return (-1);
             }
@@ -379,9 +379,9 @@ find_file(int fd, zentry *entry, const char *file_name)
         if (bytes < entry_size + SIGSIZ) {
             if (p != bp)
                 p = memmove(bp, p, bytes);
-            read_size = entry_size - bytes + SIGSIZ;
-            read_size = (read_size < MINREAD) ? MINREAD : read_size;
-            if ((res = read(fd, bp + bytes,  read_size)) <= 0) {
+            rebd_size = entry_size - bytes + SIGSIZ;
+            rebd_size = (rebd_size < MINREAD) ? MINREAD : rebd_size;
+            if ((res = rebd(fd, bp + bytes,  rebd_size)) <= 0) {
                 free(buffer);
                 return (-1);
             }
@@ -389,17 +389,17 @@ find_file(int fd, zentry *entry, const char *file_name)
         }
 
         /*
-         * Check if the name is the droid we are looking for; the jar file
-         * manifest.  If so, build the entry record from the data found in
-         * the header located and return success.
+         * Check if the nbme is the droid we bre looking for; the jbr file
+         * mbnifest.  If so, build the entry record from the dbtb found in
+         * the hebder locbted bnd return success.
          */
-        if ((size_t)CENNAM(p) == JLI_StrLen(file_name) &&
-          memcmp((p + CENHDR), file_name, JLI_StrLen(file_name)) == 0) {
-            if (JLI_Lseek(fd, base_offset + CENOFF(p), SEEK_SET) < (jlong)0) {
+        if ((size_t)CENNAM(p) == JLI_StrLen(file_nbme) &&
+          memcmp((p + CENHDR), file_nbme, JLI_StrLen(file_nbme)) == 0) {
+            if (JLI_Lseek(fd, bbse_offset + CENOFF(p), SEEK_SET) < (jlong)0) {
                 free(buffer);
                 return (-1);
             }
-            if (read(fd, locbuf, LOCHDR) < 0) {
+            if (rebd(fd, locbuf, LOCHDR) < 0) {
                 free(buffer);
                 return (-1);
             }
@@ -409,7 +409,7 @@ find_file(int fd, zentry *entry, const char *file_name)
             }
             entry->isize = CENLEN(p);
             entry->csize = CENSIZ(p);
-            entry->offset = base_offset + CENOFF(p) + LOCHDR +
+            entry->offset = bbse_offset + CENOFF(p) + LOCHDR +
                 LOCNAM(locbuf) + LOCEXT(locbuf);
             entry->how = CENHOW(p);
             free(buffer);
@@ -417,103 +417,103 @@ find_file(int fd, zentry *entry, const char *file_name)
         }
 
         /*
-         * Point to the next entry and decrement the count of valid remaining
+         * Point to the next entry bnd decrement the count of vblid rembining
          * bytes.
          */
         bytes -= entry_size;
         p += entry_size;
     }
     free(buffer);
-    return (-1);        /* Fell off the end the loop without a Manifest */
+    return (-1);        /* Fell off the end the loop without b Mbnifest */
 }
 
 /*
- * Parse a Manifest file header entry into a distinct "name" and "value".
- * Continuation lines are joined into a single "value". The documented
- * syntax for a header entry is:
+ * Pbrse b Mbnifest file hebder entry into b distinct "nbme" bnd "vblue".
+ * Continubtion lines bre joined into b single "vblue". The documented
+ * syntbx for b hebder entry is:
  *
- *      header: name ":" value
+ *      hebder: nbme ":" vblue
  *
- *      name: alphanum *headerchar
+ *      nbme: blphbnum *hebderchbr
  *
- *      value: SPACE *otherchar newline *continuation
+ *      vblue: SPACE *otherchbr newline *continubtion
  *
- *      continuation: SPACE *otherchar newline
+ *      continubtion: SPACE *otherchbr newline
  *
  *      newline: CR LF | LF | CR (not followed by LF)
  *
- *      alphanum: {"A"-"Z"} | {"a"-"z"} | {"0"-"9"}
+ *      blphbnum: {"A"-"Z"} | {"b"-"z"} | {"0"-"9"}
  *
- *      headerchar: alphanum | "-" | "_"
+ *      hebderchbr: blphbnum | "-" | "_"
  *
- *      otherchar: any UTF-8 character except NUL, CR and LF
+ *      otherchbr: bny UTF-8 chbrbcter except NUL, CR bnd LF
  *
- * Note that a manifest file may be composed of multiple sections,
- * each of which may contain multiple headers.
+ * Note thbt b mbnifest file mby be composed of multiple sections,
+ * ebch of which mby contbin multiple hebders.
  *
- *      section: *header +newline
+ *      section: *hebder +newline
  *
- *      nonempty-section: +header +newline
+ *      nonempty-section: +hebder +newline
  *
- * (Note that the point of "nonempty-section" is unclear, because it isn't
- * referenced elsewhere in the full specification for the Manifest file.)
+ * (Note thbt the point of "nonempty-section" is unclebr, becbuse it isn't
+ * referenced elsewhere in the full specificbtion for the Mbnifest file.)
  *
  * Arguments:
- *      lp      pointer to a character pointer which points to the start
- *              of a valid header.
- *      name    pointer to a character pointer which will be set to point
- *              to the name portion of the header (nul terminated).
- *      value   pointer to a character pointer which will be set to point
- *              to the value portion of the header (nul terminated).
+ *      lp      pointer to b chbrbcter pointer which points to the stbrt
+ *              of b vblid hebder.
+ *      nbme    pointer to b chbrbcter pointer which will be set to point
+ *              to the nbme portion of the hebder (nul terminbted).
+ *      vblue   pointer to b chbrbcter pointer which will be set to point
+ *              to the vblue portion of the hebder (nul terminbted).
  *
  * Returns:
- *    1 Successful parsing of an NV pair.  lp is updated to point to the
- *      next character after the terminating newline in the string
- *      representing the Manifest file. name and value are updated to
- *      point to the strings parsed.
- *    0 A valid end of section indicator was encountered.  lp, name, and
- *      value are not modified.
- *   -1 lp does not point to a valid header. Upon return, the values of
- *      lp, name, and value are undefined.
+ *    1 Successful pbrsing of bn NV pbir.  lp is updbted to point to the
+ *      next chbrbcter bfter the terminbting newline in the string
+ *      representing the Mbnifest file. nbme bnd vblue bre updbted to
+ *      point to the strings pbrsed.
+ *    0 A vblid end of section indicbtor wbs encountered.  lp, nbme, bnd
+ *      vblue bre not modified.
+ *   -1 lp does not point to b vblid hebder. Upon return, the vblues of
+ *      lp, nbme, bnd vblue bre undefined.
  */
-static int
-parse_nv_pair(char **lp, char **name, char **value)
+stbtic int
+pbrse_nv_pbir(chbr **lp, chbr **nbme, chbr **vblue)
 {
-    char    *nl;
-    char    *cp;
+    chbr    *nl;
+    chbr    *cp;
 
     /*
      * End of the section - return 0. The end of section condition is
-     * indicated by either encountering a blank line or the end of the
-     * Manifest "string" (EOF).
+     * indicbted by either encountering b blbnk line or the end of the
+     * Mbnifest "string" (EOF).
      */
     if (**lp == '\0' || **lp == '\n' || **lp == '\r')
         return (0);
 
     /*
-     * Getting to here, indicates that *lp points to an "otherchar".
-     * Turn the "header" into a string on its own.
+     * Getting to here, indicbtes thbt *lp points to bn "otherchbr".
+     * Turn the "hebder" into b string on its own.
      */
     nl = JLI_StrPBrk(*lp, "\n\r");
     if (nl == NULL) {
         nl = JLI_StrChr(*lp, (int)'\0');
     } else {
-        cp = nl;                        /* For merging continuation lines */
+        cp = nl;                        /* For merging continubtion lines */
         if (*nl == '\r' && *(nl+1) == '\n')
             *nl++ = '\0';
         *nl++ = '\0';
 
         /*
-         * Process any "continuation" line(s), by making them part of the
-         * "header" line. Yes, I know that we are "undoing" the NULs we
-         * just placed here, but continuation lines are the fairly rare
-         * case, so we shouldn't unnecessarily complicate the code above.
+         * Process bny "continubtion" line(s), by mbking them pbrt of the
+         * "hebder" line. Yes, I know thbt we bre "undoing" the NULs we
+         * just plbced here, but continubtion lines bre the fbirly rbre
+         * cbse, so we shouldn't unnecessbrily complicbte the code bbove.
          *
-         * Note that an entire continuation line is processed each iteration
+         * Note thbt bn entire continubtion line is processed ebch iterbtion
          * through the outer while loop.
          */
         while (*nl == ' ') {
-            nl++;                       /* First character to be moved */
+            nl++;                       /* First chbrbcter to be moved */
             while (*nl != '\n' && *nl != '\r' && *nl != '\0')
                 *cp++ = *nl++;          /* Shift string */
             if (*nl == '\0')
@@ -526,79 +526,79 @@ parse_nv_pair(char **lp, char **name, char **value)
     }
 
     /*
-     * Separate the name from the value;
+     * Sepbrbte the nbme from the vblue;
      */
     cp = JLI_StrChr(*lp, (int)':');
     if (cp == NULL)
         return (-1);
-    *cp++ = '\0';               /* The colon terminates the name */
+    *cp++ = '\0';               /* The colon terminbtes the nbme */
     if (*cp != ' ')
         return (-1);
-    *cp++ = '\0';               /* Eat the required space */
-    *name = *lp;
-    *value = cp;
+    *cp++ = '\0';               /* Ebt the required spbce */
+    *nbme = *lp;
+    *vblue = cp;
     *lp = nl;
     return (1);
 }
 
 /*
- * Read the manifest from the specified jar file and fill in the manifest_info
- * structure with the information found within.
+ * Rebd the mbnifest from the specified jbr file bnd fill in the mbnifest_info
+ * structure with the informbtion found within.
  *
- * Error returns are as follows:
+ * Error returns bre bs follows:
  *    0 Success
- *   -1 Unable to open jarfile
- *   -2 Error accessing the manifest from within the jarfile (most likely
- *      a manifest is not present, or this isn't a valid zip/jar file).
+ *   -1 Unbble to open jbrfile
+ *   -2 Error bccessing the mbnifest from within the jbrfile (most likely
+ *      b mbnifest is not present, or this isn't b vblid zip/jbr file).
  */
 int
-JLI_ParseManifest(char *jarfile, manifest_info *info)
+JLI_PbrseMbnifest(chbr *jbrfile, mbnifest_info *info)
 {
     int     fd;
     zentry  entry;
-    char    *lp;
-    char    *name;
-    char    *value;
+    chbr    *lp;
+    chbr    *nbme;
+    chbr    *vblue;
     int     rc;
-    char    *splashscreen_name = NULL;
+    chbr    *splbshscreen_nbme = NULL;
 
-    if ((fd = open(jarfile, O_RDONLY
+    if ((fd = open(jbrfile, O_RDONLY
 #ifdef O_LARGEFILE
-        | O_LARGEFILE /* large file mode */
+        | O_LARGEFILE /* lbrge file mode */
 #endif
 #ifdef O_BINARY
-        | O_BINARY /* use binary mode on windows */
+        | O_BINARY /* use binbry mode on windows */
 #endif
         )) == -1) {
         return (-1);
     }
-    info->manifest_version = NULL;
-    info->main_class = NULL;
+    info->mbnifest_version = NULL;
+    info->mbin_clbss = NULL;
     info->jre_version = NULL;
-    info->jre_restrict_search = 0;
-    info->splashscreen_image_file_name = NULL;
-    if (rc = find_file(fd, &entry, manifest_name) != 0) {
+    info->jre_restrict_sebrch = 0;
+    info->splbshscreen_imbge_file_nbme = NULL;
+    if (rc = find_file(fd, &entry, mbnifest_nbme) != 0) {
         close(fd);
         return (-2);
     }
-    manifest = inflate_file(fd, &entry, NULL);
-    if (manifest == NULL) {
+    mbnifest = inflbte_file(fd, &entry, NULL);
+    if (mbnifest == NULL) {
         close(fd);
         return (-2);
     }
-    lp = manifest;
-    while ((rc = parse_nv_pair(&lp, &name, &value)) > 0) {
-        if (JLI_StrCaseCmp(name, "Manifest-Version") == 0)
-            info->manifest_version = value;
-        else if (JLI_StrCaseCmp(name, "Main-Class") == 0)
-            info->main_class = value;
-        else if (JLI_StrCaseCmp(name, "JRE-Version") == 0)
-            info->jre_version = value;
-        else if (JLI_StrCaseCmp(name, "JRE-Restrict-Search") == 0) {
-            if (JLI_StrCaseCmp(value, "true") == 0)
-                info->jre_restrict_search = 1;
-        } else if (JLI_StrCaseCmp(name, "Splashscreen-Image") == 0) {
-            info->splashscreen_image_file_name = value;
+    lp = mbnifest;
+    while ((rc = pbrse_nv_pbir(&lp, &nbme, &vblue)) > 0) {
+        if (JLI_StrCbseCmp(nbme, "Mbnifest-Version") == 0)
+            info->mbnifest_version = vblue;
+        else if (JLI_StrCbseCmp(nbme, "Mbin-Clbss") == 0)
+            info->mbin_clbss = vblue;
+        else if (JLI_StrCbseCmp(nbme, "JRE-Version") == 0)
+            info->jre_version = vblue;
+        else if (JLI_StrCbseCmp(nbme, "JRE-Restrict-Sebrch") == 0) {
+            if (JLI_StrCbseCmp(vblue, "true") == 0)
+                info->jre_restrict_sebrch = 1;
+        } else if (JLI_StrCbseCmp(nbme, "Splbshscreen-Imbge") == 0) {
+            info->splbshscreen_imbge_file_nbme = vblue;
         }
     }
     close(fd);
@@ -609,88 +609,88 @@ JLI_ParseManifest(char *jarfile, manifest_info *info)
 }
 
 /*
- * Opens the jar file and unpacks the specified file from its contents.
- * Returns NULL on failure.
+ * Opens the jbr file bnd unpbcks the specified file from its contents.
+ * Returns NULL on fbilure.
  */
 void *
-JLI_JarUnpackFile(const char *jarfile, const char *filename, int *size) {
+JLI_JbrUnpbckFile(const chbr *jbrfile, const chbr *filenbme, int *size) {
     int     fd;
     zentry  entry;
-    void    *data = NULL;
+    void    *dbtb = NULL;
 
-    if ((fd = open(jarfile, O_RDONLY
+    if ((fd = open(jbrfile, O_RDONLY
 #ifdef O_LARGEFILE
-        | O_LARGEFILE /* large file mode */
+        | O_LARGEFILE /* lbrge file mode */
 #endif
 #ifdef O_BINARY
-        | O_BINARY /* use binary mode on windows */
+        | O_BINARY /* use binbry mode on windows */
 #endif
         )) == -1) {
         return NULL;
     }
-    if (find_file(fd, &entry, filename) == 0) {
-        data = inflate_file(fd, &entry, size);
+    if (find_file(fd, &entry, filenbme) == 0) {
+        dbtb = inflbte_file(fd, &entry, size);
     }
     close(fd);
-    return (data);
+    return (dbtb);
 }
 
 /*
- * Specialized "free" function.
+ * Speciblized "free" function.
  */
 void
-JLI_FreeManifest()
+JLI_FreeMbnifest()
 {
-    if (manifest)
-        free(manifest);
+    if (mbnifest)
+        free(mbnifest);
 }
 
 /*
- * Iterate over the manifest of the specified jar file and invoke the provided
- * closure function for each attribute encountered.
+ * Iterbte over the mbnifest of the specified jbr file bnd invoke the provided
+ * closure function for ebch bttribute encountered.
  *
- * Error returns are as follows:
+ * Error returns bre bs follows:
  *    0 Success
- *   -1 Unable to open jarfile
- *   -2 Error accessing the manifest from within the jarfile (most likely
- *      this means a manifest is not present, or it isn't a valid zip/jar file).
+ *   -1 Unbble to open jbrfile
+ *   -2 Error bccessing the mbnifest from within the jbrfile (most likely
+ *      this mebns b mbnifest is not present, or it isn't b vblid zip/jbr file).
  */
 int
-JLI_ManifestIterate(const char *jarfile, attribute_closure ac, void *user_data)
+JLI_MbnifestIterbte(const chbr *jbrfile, bttribute_closure bc, void *user_dbtb)
 {
     int     fd;
     zentry  entry;
-    char    *mp;        /* manifest pointer */
-    char    *lp;        /* pointer into manifest, updated during iteration */
-    char    *name;
-    char    *value;
+    chbr    *mp;        /* mbnifest pointer */
+    chbr    *lp;        /* pointer into mbnifest, updbted during iterbtion */
+    chbr    *nbme;
+    chbr    *vblue;
     int     rc;
 
-    if ((fd = open(jarfile, O_RDONLY
+    if ((fd = open(jbrfile, O_RDONLY
 #ifdef O_LARGEFILE
-        | O_LARGEFILE /* large file mode */
+        | O_LARGEFILE /* lbrge file mode */
 #endif
 #ifdef O_BINARY
-        | O_BINARY /* use binary mode on windows */
+        | O_BINARY /* use binbry mode on windows */
 #endif
         )) == -1) {
         return (-1);
     }
 
-    if (rc = find_file(fd, &entry, manifest_name) != 0) {
+    if (rc = find_file(fd, &entry, mbnifest_nbme) != 0) {
         close(fd);
         return (-2);
     }
 
-    mp = inflate_file(fd, &entry, NULL);
+    mp = inflbte_file(fd, &entry, NULL);
     if (mp == NULL) {
         close(fd);
         return (-2);
     }
 
     lp = mp;
-    while ((rc = parse_nv_pair(&lp, &name, &value)) > 0) {
-        (*ac)(name, value, user_data);
+    while ((rc = pbrse_nv_pbir(&lp, &nbme, &vblue)) > 0) {
+        (*bc)(nbme, vblue, user_dbtb);
     }
     free(mp);
     close(fd);

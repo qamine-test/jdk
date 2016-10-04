@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntSupplier;
+import jbvb.util.function.Supplier;
 
 /**
- * A container object which may or may not contain a {@code int} value.
- * If a value is present, {@code isPresent()} will return {@code true} and
- * {@code getAsInt()} will return the value.
+ * A contbiner object which mby or mby not contbin b {@code int} vblue.
+ * If b vblue is present, {@code isPresent()} will return {@code true} bnd
+ * {@code getAsInt()} will return the vblue.
  *
- * <p>Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(int) orElse()}
- * (return a default value if value not present) and
- * {@link #ifPresent(java.util.function.IntConsumer) ifPresent()} (execute a block
- * of code if the value is present).
+ * <p>Additionbl methods thbt depend on the presence or bbsence of b contbined
+ * vblue bre provided, such bs {@link #orElse(int) orElse()}
+ * (return b defbult vblue if vblue not present) bnd
+ * {@link #ifPresent(jbvb.util.function.IntConsumer) ifPresent()} (execute b block
+ * of code if the vblue is present).
  *
- * <p>This is a <a href="../lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code OptionalInt} may have unpredictable results and should be avoided.
+ * <p>This is b <b href="../lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code OptionblInt} mby hbve unpredictbble results bnd should be bvoided.
  *
  * @since 1.8
  */
-public final class OptionalInt {
+public finbl clbss OptionblInt {
     /**
-     * Common instance for {@code empty()}.
+     * Common instbnce for {@code empty()}.
      */
-    private static final OptionalInt EMPTY = new OptionalInt();
+    privbte stbtic finbl OptionblInt EMPTY = new OptionblInt();
 
     /**
-     * If true then the value is present, otherwise indicates no value is present
+     * If true then the vblue is present, otherwise indicbtes no vblue is present
      */
-    private final boolean isPresent;
-    private final int value;
+    privbte finbl boolebn isPresent;
+    privbte finbl int vblue;
 
     /**
-     * Construct an empty instance.
+     * Construct bn empty instbnce.
      *
-     * @implNote Generally only one empty instance, {@link OptionalInt#EMPTY},
+     * @implNote Generblly only one empty instbnce, {@link OptionblInt#EMPTY},
      * should exist per VM.
      */
-    private OptionalInt() {
-        this.isPresent = false;
-        this.value = 0;
+    privbte OptionblInt() {
+        this.isPresent = fblse;
+        this.vblue = 0;
     }
 
     /**
-     * Returns an empty {@code OptionalInt} instance.  No value is present for this
-     * OptionalInt.
+     * Returns bn empty {@code OptionblInt} instbnce.  No vblue is present for this
+     * OptionblInt.
      *
-     * @apiNote Though it may be tempting to do so, avoid testing if an object
-     * is empty by comparing with {@code ==} against instances returned by
-     * {@code Option.empty()}. There is no guarantee that it is a singleton.
-     * Instead, use {@link #isPresent()}.
+     * @bpiNote Though it mby be tempting to do so, bvoid testing if bn object
+     * is empty by compbring with {@code ==} bgbinst instbnces returned by
+     * {@code Option.empty()}. There is no gubrbntee thbt it is b singleton.
+     * Instebd, use {@link #isPresent()}.
      *
-     *  @return an empty {@code OptionalInt}
+     *  @return bn empty {@code OptionblInt}
      */
-    public static OptionalInt empty() {
+    public stbtic OptionblInt empty() {
         return EMPTY;
     }
 
     /**
-     * Construct an instance with the value present.
+     * Construct bn instbnce with the vblue present.
      *
-     * @param value the int value to be present
+     * @pbrbm vblue the int vblue to be present
      */
-    private OptionalInt(int value) {
+    privbte OptionblInt(int vblue) {
         this.isPresent = true;
-        this.value = value;
+        this.vblue = vblue;
     }
 
     /**
-     * Return an {@code OptionalInt} with the specified value present.
+     * Return bn {@code OptionblInt} with the specified vblue present.
      *
-     * @param value the value to be present
-     * @return an {@code OptionalInt} with the value present
+     * @pbrbm vblue the vblue to be present
+     * @return bn {@code OptionblInt} with the vblue present
      */
-    public static OptionalInt of(int value) {
-        return new OptionalInt(value);
+    public stbtic OptionblInt of(int vblue) {
+        return new OptionblInt(vblue);
     }
 
     /**
-     * If a value is present in this {@code OptionalInt}, returns the value,
+     * If b vblue is present in this {@code OptionblInt}, returns the vblue,
      * otherwise throws {@code NoSuchElementException}.
      *
-     * @return the value held by this {@code OptionalInt}
-     * @throws NoSuchElementException if there is no value present
+     * @return the vblue held by this {@code OptionblInt}
+     * @throws NoSuchElementException if there is no vblue present
      *
-     * @see OptionalInt#isPresent()
+     * @see OptionblInt#isPresent()
      */
     public int getAsInt() {
         if (!isPresent) {
-            throw new NoSuchElementException("No value present");
+            throw new NoSuchElementException("No vblue present");
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Return {@code true} if there is a value present, otherwise {@code false}.
+     * Return {@code true} if there is b vblue present, otherwise {@code fblse}.
      *
-     * @return {@code true} if there is a value present, otherwise {@code false}
+     * @return {@code true} if there is b vblue present, otherwise {@code fblse}
      */
-    public boolean isPresent() {
+    public boolebn isPresent() {
         return isPresent;
     }
 
     /**
-     * Have the specified consumer accept the value if a value is present,
+     * Hbve the specified consumer bccept the vblue if b vblue is present,
      * otherwise do nothing.
      *
-     * @param consumer block to be executed if a value is present
-     * @throws NullPointerException if value is present and {@code consumer} is
+     * @pbrbm consumer block to be executed if b vblue is present
+     * @throws NullPointerException if vblue is present bnd {@code consumer} is
      * null
      */
     public void ifPresent(IntConsumer consumer) {
         if (isPresent)
-            consumer.accept(value);
+            consumer.bccept(vblue);
     }
 
     /**
-     * Return the value if present, otherwise return {@code other}.
+     * Return the vblue if present, otherwise return {@code other}.
      *
-     * @param other the value to be returned if there is no value present
-     * @return the value, if present, otherwise {@code other}
+     * @pbrbm other the vblue to be returned if there is no vblue present
+     * @return the vblue, if present, otherwise {@code other}
      */
     public int orElse(int other) {
-        return isPresent ? value : other;
+        return isPresent ? vblue : other;
     }
 
     /**
-     * Return the value if present, otherwise invoke {@code other} and return
-     * the result of that invocation.
+     * Return the vblue if present, otherwise invoke {@code other} bnd return
+     * the result of thbt invocbtion.
      *
-     * @param other a {@code IntSupplier} whose result is returned if no value
+     * @pbrbm other b {@code IntSupplier} whose result is returned if no vblue
      * is present
-     * @return the value if present otherwise the result of {@code other.getAsInt()}
-     * @throws NullPointerException if value is not present and {@code other} is
+     * @return the vblue if present otherwise the result of {@code other.getAsInt()}
+     * @throws NullPointerException if vblue is not present bnd {@code other} is
      * null
      */
     public int orElseGet(IntSupplier other) {
-        return isPresent ? value : other.getAsInt();
+        return isPresent ? vblue : other.getAsInt();
     }
 
     /**
-     * Return the contained value, if present, otherwise throw an exception
-     * to be created by the provided supplier.
+     * Return the contbined vblue, if present, otherwise throw bn exception
+     * to be crebted by the provided supplier.
      *
-     * @apiNote A method reference to the exception constructor with an empty
-     * argument list can be used as the supplier. For example,
-     * {@code IllegalStateException::new}
+     * @bpiNote A method reference to the exception constructor with bn empty
+     * brgument list cbn be used bs the supplier. For exbmple,
+     * {@code IllegblStbteException::new}
      *
-     * @param <X> Type of the exception to be thrown
-     * @param exceptionSupplier The supplier which will return the exception to
+     * @pbrbm <X> Type of the exception to be thrown
+     * @pbrbm exceptionSupplier The supplier which will return the exception to
      * be thrown
-     * @return the present value
-     * @throws X if there is no value present
-     * @throws NullPointerException if no value is present and
+     * @return the present vblue
+     * @throws X if there is no vblue present
+     * @throws NullPointerException if no vblue is present bnd
      * {@code exceptionSupplier} is null
      */
-    public<X extends Throwable> int orElseThrow(Supplier<X> exceptionSupplier) throws X {
+    public<X extends Throwbble> int orElseThrow(Supplier<X> exceptionSupplier) throws X {
         if (isPresent) {
-            return value;
+            return vblue;
         } else {
             throw exceptionSupplier.get();
         }
     }
 
     /**
-     * Indicates whether some other object is "equal to" this OptionalInt. The
-     * other object is considered equal if:
+     * Indicbtes whether some other object is "equbl to" this OptionblInt. The
+     * other object is considered equbl if:
      * <ul>
-     * <li>it is also an {@code OptionalInt} and;
-     * <li>both instances have no value present or;
-     * <li>the present values are "equal to" each other via {@code ==}.
+     * <li>it is blso bn {@code OptionblInt} bnd;
+     * <li>both instbnces hbve no vblue present or;
+     * <li>the present vblues bre "equbl to" ebch other vib {@code ==}.
      * </ul>
      *
-     * @param obj an object to be tested for equality
-     * @return {code true} if the other object is "equal to" this object
-     * otherwise {@code false}
+     * @pbrbm obj bn object to be tested for equblity
+     * @return {code true} if the other object is "equbl to" this object
+     * otherwise {@code fblse}
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof OptionalInt)) {
-            return false;
+        if (!(obj instbnceof OptionblInt)) {
+            return fblse;
         }
 
-        OptionalInt other = (OptionalInt) obj;
+        OptionblInt other = (OptionblInt) obj;
         return (isPresent && other.isPresent)
-                ? value == other.value
+                ? vblue == other.vblue
                 : isPresent == other.isPresent;
     }
 
     /**
-     * Returns the hash code value of the present value, if any, or 0 (zero) if
-     * no value is present.
+     * Returns the hbsh code vblue of the present vblue, if bny, or 0 (zero) if
+     * no vblue is present.
      *
-     * @return hash code value of the present value or 0 if no value is present
+     * @return hbsh code vblue of the present vblue or 0 if no vblue is present
      */
     @Override
-    public int hashCode() {
-        return isPresent ? Integer.hashCode(value) : 0;
+    public int hbshCode() {
+        return isPresent ? Integer.hbshCode(vblue) : 0;
     }
 
     /**
      * {@inheritDoc}
      *
-     * Returns a non-empty string representation of this object suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Returns b non-empty string representbtion of this object suitbble for
+     * debugging. The exbct presentbtion formbt is unspecified bnd mby vbry
+     * between implementbtions bnd versions.
      *
-     * @implSpec If a value is present the result must include its string
-     * representation in the result. Empty and present instances must be
-     * unambiguously differentiable.
+     * @implSpec If b vblue is present the result must include its string
+     * representbtion in the result. Empty bnd present instbnces must be
+     * unbmbiguously differentibble.
      *
-     * @return the string representation of this instance
+     * @return the string representbtion of this instbnce
      */
     @Override
     public String toString() {
         return isPresent
-                ? String.format("OptionalInt[%s]", value)
-                : "OptionalInt.empty";
+                ? String.formbt("OptionblInt[%s]", vblue)
+                : "OptionblInt.empty";
     }
 }

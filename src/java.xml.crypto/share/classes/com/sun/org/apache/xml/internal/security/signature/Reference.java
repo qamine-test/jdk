@@ -3,55 +3,55 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
 
-import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceData;
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceNodeSetData;
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceOctetStreamData;
-import com.sun.org.apache.xml.internal.security.signature.reference.ReferenceSubTreeData;
-import com.sun.org.apache.xml.internal.security.transforms.InvalidTransformException;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.DigesterOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.MessbgeDigestAlgorithm;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.reference.ReferenceDbtb;
+import com.sun.org.bpbche.xml.internbl.security.signbture.reference.ReferenceNodeSetDbtb;
+import com.sun.org.bpbche.xml.internbl.security.signbture.reference.ReferenceOctetStrebmDbtb;
+import com.sun.org.bpbche.xml.internbl.security.signbture.reference.ReferenceSubTreeDbtb;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.InvblidTrbnsformException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformbtionException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms.InclusiveNbmespbces;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.DigesterOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.UnsyncBufferedOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -59,227 +59,227 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 /**
- * Handles <code>&lt;ds:Reference&gt;</code> elements.
+ * Hbndles <code>&lt;ds:Reference&gt;</code> elements.
  *
  * This includes:
  *
- * Constructs a <CODE>ds:Reference</CODE> from an {@link org.w3c.dom.Element}.
+ * Constructs b <CODE>ds:Reference</CODE> from bn {@link org.w3c.dom.Element}.
  *
- * <p>Create a new reference</p>
+ * <p>Crebte b new reference</p>
  * <pre>
  * Document doc;
- * MessageDigestAlgorithm sha1 = MessageDigestAlgorithm.getInstance("http://#sha1");
- * Reference ref = new Reference(new XMLSignatureInput(new FileInputStream("1.gif"),
- *                               "http://localhost/1.gif",
- *                               (Transforms) null, sha1);
+ * MessbgeDigestAlgorithm shb1 = MessbgeDigestAlgorithm.getInstbnce("http://#shb1");
+ * Reference ref = new Reference(new XMLSignbtureInput(new FileInputStrebm("1.gif"),
+ *                               "http://locblhost/1.gif",
+ *                               (Trbnsforms) null, shb1);
  * Element refElem = ref.toElement(doc);
  * </pre>
  *
- * <p>Verify a reference</p>
+ * <p>Verify b reference</p>
  * <pre>
  * Element refElem = doc.getElement("Reference"); // PSEUDO
  * Reference ref = new Reference(refElem);
  * String url = ref.getURI();
- * ref.setData(new XMLSignatureInput(new FileInputStream(url)));
+ * ref.setDbtb(new XMLSignbtureInput(new FileInputStrebm(url)));
  * if (ref.verify()) {
  *    System.out.println("verified");
  * }
  * </pre>
  *
  * <pre>
- * &lt;element name="Reference" type="ds:ReferenceType"/&gt;
- *  &lt;complexType name="ReferenceType"&gt;
+ * &lt;element nbme="Reference" type="ds:ReferenceType"/&gt;
+ *  &lt;complexType nbme="ReferenceType"&gt;
  *    &lt;sequence&gt;
- *      &lt;element ref="ds:Transforms" minOccurs="0"/&gt;
+ *      &lt;element ref="ds:Trbnsforms" minOccurs="0"/&gt;
  *      &lt;element ref="ds:DigestMethod"/&gt;
- *      &lt;element ref="ds:DigestValue"/&gt;
+ *      &lt;element ref="ds:DigestVblue"/&gt;
  *    &lt;/sequence&gt;
- *    &lt;attribute name="Id" type="ID" use="optional"/&gt;
- *    &lt;attribute name="URI" type="anyURI" use="optional"/&gt;
- *    &lt;attribute name="Type" type="anyURI" use="optional"/&gt;
+ *    &lt;bttribute nbme="Id" type="ID" use="optionbl"/&gt;
+ *    &lt;bttribute nbme="URI" type="bnyURI" use="optionbl"/&gt;
+ *    &lt;bttribute nbme="Type" type="bnyURI" use="optionbl"/&gt;
  *  &lt;/complexType&gt;
  * </pre>
  *
- * @author Christian Geuer-Pollmann
- * @see ObjectContainer
- * @see Manifest
+ * @buthor Christibn Geuer-Pollmbnn
+ * @see ObjectContbiner
+ * @see Mbnifest
  */
-public class Reference extends SignatureElementProxy {
+public clbss Reference extends SignbtureElementProxy {
 
     /** Field OBJECT_URI */
-    public static final String OBJECT_URI = Constants.SignatureSpecNS + Constants._TAG_OBJECT;
+    public stbtic finbl String OBJECT_URI = Constbnts.SignbtureSpecNS + Constbnts._TAG_OBJECT;
 
     /** Field MANIFEST_URI */
-    public static final String MANIFEST_URI = Constants.SignatureSpecNS + Constants._TAG_MANIFEST;
+    public stbtic finbl String MANIFEST_URI = Constbnts.SignbtureSpecNS + Constbnts._TAG_MANIFEST;
 
     /**
-     * The maximum number of transforms per reference, if secure validation is enabled.
+     * The mbximum number of trbnsforms per reference, if secure vblidbtion is enbbled.
      */
-    public static final int MAXIMUM_TRANSFORM_COUNT = 5;
+    public stbtic finbl int MAXIMUM_TRANSFORM_COUNT = 5;
 
-    private boolean secureValidation;
+    privbte boolebn secureVblidbtion;
 
     /**
-     * Look up useC14N11 system property. If true, an explicit C14N11 transform
-     * will be added if necessary when generating the signature. See section
-     * 3.1.1 of http://www.w3.org/2007/xmlsec/Drafts/xmldsig-core/ for more info.
+     * Look up useC14N11 system property. If true, bn explicit C14N11 trbnsform
+     * will be bdded if necessbry when generbting the signbture. See section
+     * 3.1.1 of http://www.w3.org/2007/xmlsec/Drbfts/xmldsig-core/ for more info.
      */
-    private static boolean useC14N11 = (
-        AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(Boolean.getBoolean("com.sun.org.apache.xml.internal.security.useC14N11"));
+    privbte stbtic boolebn useC14N11 = (
+        AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                return Boolebn.vblueOf(Boolebn.getBoolebn("com.sun.org.bpbche.xml.internbl.security.useC14N11"));
             }
-        })).booleanValue();
+        })).boolebnVblue();
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static final java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Reference.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic finbl jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(Reference.clbss.getNbme());
 
-    private Manifest manifest;
-    private XMLSignatureInput transformsOutput;
+    privbte Mbnifest mbnifest;
+    privbte XMLSignbtureInput trbnsformsOutput;
 
-    private Transforms transforms;
+    privbte Trbnsforms trbnsforms;
 
-    private Element digestMethodElem;
+    privbte Element digestMethodElem;
 
-    private Element digestValueElement;
+    privbte Element digestVblueElement;
 
-    private ReferenceData referenceData;
+    privbte ReferenceDbtb referenceDbtb;
 
     /**
      * Constructor Reference
      *
-     * @param doc the {@link Document} in which <code>XMLsignature</code> is placed
-     * @param baseURI the URI of the resource where the XML instance will be stored
-     * @param referenceURI URI indicate where is data which will digested
-     * @param manifest
-     * @param transforms {@link Transforms} applied to data
-     * @param messageDigestAlgorithm {@link MessageDigestAlgorithm Digest algorithm} which is
-     * applied to the data
-     * TODO should we throw XMLSignatureException if MessageDigestAlgoURI is wrong?
-     * @throws XMLSignatureException
+     * @pbrbm doc the {@link Document} in which <code>XMLsignbture</code> is plbced
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce will be stored
+     * @pbrbm referenceURI URI indicbte where is dbtb which will digested
+     * @pbrbm mbnifest
+     * @pbrbm trbnsforms {@link Trbnsforms} bpplied to dbtb
+     * @pbrbm messbgeDigestAlgorithm {@link MessbgeDigestAlgorithm Digest blgorithm} which is
+     * bpplied to the dbtb
+     * TODO should we throw XMLSignbtureException if MessbgeDigestAlgoURI is wrong?
+     * @throws XMLSignbtureException
      */
     protected Reference(
-        Document doc, String baseURI, String referenceURI, Manifest manifest,
-        Transforms transforms, String messageDigestAlgorithm
-    ) throws XMLSignatureException {
+        Document doc, String bbseURI, String referenceURI, Mbnifest mbnifest,
+        Trbnsforms trbnsforms, String messbgeDigestAlgorithm
+    ) throws XMLSignbtureException {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        this.baseURI = baseURI;
-        this.manifest = manifest;
+        this.bbseURI = bbseURI;
+        this.mbnifest = mbnifest;
 
         this.setURI(referenceURI);
 
-        // important: The ds:Reference must be added to the associated ds:Manifest
-        //            or ds:SignedInfo _before_ the this.resolverResult() is called.
-        // this.manifest.appendChild(this.constructionElement);
-        // this.manifest.appendChild(this.doc.createTextNode("\n"));
+        // importbnt: The ds:Reference must be bdded to the bssocibted ds:Mbnifest
+        //            or ds:SignedInfo _before_ the this.resolverResult() is cblled.
+        // this.mbnifest.bppendChild(this.constructionElement);
+        // this.mbnifest.bppendChild(this.doc.crebteTextNode("\n"));
 
-        if (transforms != null) {
-            this.transforms=transforms;
-            this.constructionElement.appendChild(transforms.getElement());
-            XMLUtils.addReturnToElement(this.constructionElement);
+        if (trbnsforms != null) {
+            this.trbnsforms=trbnsforms;
+            this.constructionElement.bppendChild(trbnsforms.getElement());
+            XMLUtils.bddReturnToElement(this.constructionElement);
         }
-        MessageDigestAlgorithm mda =
-            MessageDigestAlgorithm.getInstance(this.doc, messageDigestAlgorithm);
+        MessbgeDigestAlgorithm mdb =
+            MessbgeDigestAlgorithm.getInstbnce(this.doc, messbgeDigestAlgorithm);
 
-        digestMethodElem = mda.getElement();
-        this.constructionElement.appendChild(digestMethodElem);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        digestMethodElem = mdb.getElement();
+        this.constructionElement.bppendChild(digestMethodElem);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        digestValueElement =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_DIGESTVALUE);
+        digestVblueElement =
+            XMLUtils.crebteElementInSignbtureSpbce(this.doc, Constbnts._TAG_DIGESTVALUE);
 
-        this.constructionElement.appendChild(digestValueElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(digestVblueElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
 
     /**
-     * Build a {@link Reference} from an {@link Element}
+     * Build b {@link Reference} from bn {@link Element}
      *
-     * @param element <code>Reference</code> element
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param manifest is the {@link Manifest} of {@link SignedInfo} in which the Reference occurs.
-     * We need this because the Manifest has the individual {@link ResourceResolver}s which have
+     * @pbrbm element <code>Reference</code> element
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
+     * @pbrbm mbnifest is the {@link Mbnifest} of {@link SignedInfo} in which the Reference occurs.
+     * We need this becbuse the Mbnifest hbs the individubl {@link ResourceResolver}s which hbve
      * been set by the user
      * @throws XMLSecurityException
      */
-    protected Reference(Element element, String baseURI, Manifest manifest) throws XMLSecurityException {
-        this(element, baseURI, manifest, false);
+    protected Reference(Element element, String bbseURI, Mbnifest mbnifest) throws XMLSecurityException {
+        this(element, bbseURI, mbnifest, fblse);
     }
 
     /**
-     * Build a {@link Reference} from an {@link Element}
+     * Build b {@link Reference} from bn {@link Element}
      *
-     * @param element <code>Reference</code> element
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param manifest is the {@link Manifest} of {@link SignedInfo} in which the Reference occurs.
-     * @param secureValidation whether secure validation is enabled or not
-     * We need this because the Manifest has the individual {@link ResourceResolver}s which have
+     * @pbrbm element <code>Reference</code> element
+     * @pbrbm bbseURI the URI of the resource where the XML instbnce wbs stored
+     * @pbrbm mbnifest is the {@link Mbnifest} of {@link SignedInfo} in which the Reference occurs.
+     * @pbrbm secureVblidbtion whether secure vblidbtion is enbbled or not
+     * We need this becbuse the Mbnifest hbs the individubl {@link ResourceResolver}s which hbve
      * been set by the user
      * @throws XMLSecurityException
      */
-    protected Reference(Element element, String baseURI, Manifest manifest, boolean secureValidation)
+    protected Reference(Element element, String bbseURI, Mbnifest mbnifest, boolebn secureVblidbtion)
         throws XMLSecurityException {
-        super(element, baseURI);
-        this.secureValidation = secureValidation;
-        this.baseURI = baseURI;
+        super(element, bbseURI);
+        this.secureVblidbtion = secureVblidbtion;
+        this.bbseURI = bbseURI;
         Element el = XMLUtils.getNextElement(element.getFirstChild());
-        if (Constants._TAG_TRANSFORMS.equals(el.getLocalName())
-            && Constants.SignatureSpecNS.equals(el.getNamespaceURI())) {
-            transforms = new Transforms(el, this.baseURI);
-            transforms.setSecureValidation(secureValidation);
-            if (secureValidation && transforms.getLength() > MAXIMUM_TRANSFORM_COUNT) {
-                Object exArgs[] = { transforms.getLength(), MAXIMUM_TRANSFORM_COUNT };
+        if (Constbnts._TAG_TRANSFORMS.equbls(el.getLocblNbme())
+            && Constbnts.SignbtureSpecNS.equbls(el.getNbmespbceURI())) {
+            trbnsforms = new Trbnsforms(el, this.bbseURI);
+            trbnsforms.setSecureVblidbtion(secureVblidbtion);
+            if (secureVblidbtion && trbnsforms.getLength() > MAXIMUM_TRANSFORM_COUNT) {
+                Object exArgs[] = { trbnsforms.getLength(), MAXIMUM_TRANSFORM_COUNT };
 
-                throw new XMLSecurityException("signature.tooManyTransforms", exArgs);
+                throw new XMLSecurityException("signbture.tooMbnyTrbnsforms", exArgs);
             }
             el = XMLUtils.getNextElement(el.getNextSibling());
         }
         digestMethodElem = el;
-        digestValueElement = XMLUtils.getNextElement(digestMethodElem.getNextSibling());
-        this.manifest = manifest;
+        digestVblueElement = XMLUtils.getNextElement(digestMethodElem.getNextSibling());
+        this.mbnifest = mbnifest;
     }
 
     /**
-     * Returns {@link MessageDigestAlgorithm}
+     * Returns {@link MessbgeDigestAlgorithm}
      *
      *
-     * @return {@link MessageDigestAlgorithm}
+     * @return {@link MessbgeDigestAlgorithm}
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public MessageDigestAlgorithm getMessageDigestAlgorithm() throws XMLSignatureException {
+    public MessbgeDigestAlgorithm getMessbgeDigestAlgorithm() throws XMLSignbtureException {
         if (digestMethodElem == null) {
             return null;
         }
 
-        String uri = digestMethodElem.getAttributeNS(null, Constants._ATT_ALGORITHM);
+        String uri = digestMethodElem.getAttributeNS(null, Constbnts._ATT_ALGORITHM);
 
         if (uri == null) {
             return null;
         }
 
-        if (secureValidation && MessageDigestAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.equals(uri)) {
+        if (secureVblidbtion && MessbgeDigestAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.equbls(uri)) {
             Object exArgs[] = { uri };
 
-            throw new XMLSignatureException("signature.signatureAlgorithm", exArgs);
+            throw new XMLSignbtureException("signbture.signbtureAlgorithm", exArgs);
         }
 
-        return MessageDigestAlgorithm.getInstance(this.doc, uri);
+        return MessbgeDigestAlgorithm.getInstbnce(this.doc, uri);
     }
 
     /**
      * Sets the <code>URI</code> of this <code>Reference</code> element
      *
-     * @param uri the <code>URI</code> of this <code>Reference</code> element
+     * @pbrbm uri the <code>URI</code> of this <code>Reference</code> element
      */
     public void setURI(String uri) {
         if (uri != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_URI, uri);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_URI, uri);
         }
     }
 
@@ -289,514 +289,514 @@ public class Reference extends SignatureElementProxy {
      * @return URI the <code>URI</code> of this <code>Reference</code> element
      */
     public String getURI() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_URI);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_URI);
     }
 
     /**
-     * Sets the <code>Id</code> attribute of this <code>Reference</code> element
+     * Sets the <code>Id</code> bttribute of this <code>Reference</code> element
      *
-     * @param id the <code>Id</code> attribute of this <code>Reference</code> element
+     * @pbrbm id the <code>Id</code> bttribute of this <code>Reference</code> element
      */
     public void setId(String id) {
         if (id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute of this <code>Reference</code> element
+     * Returns the <code>Id</code> bttribute of this <code>Reference</code> element
      *
-     * @return Id the <code>Id</code> attribute of this <code>Reference</code> element
+     * @return Id the <code>Id</code> bttribute of this <code>Reference</code> element
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Sets the <code>type</code> atttibute of the Reference indicate whether an
-     * <code>ds:Object</code>, <code>ds:SignatureProperty</code>, or <code>ds:Manifest</code>
+     * Sets the <code>type</code> btttibute of the Reference indicbte whether bn
+     * <code>ds:Object</code>, <code>ds:SignbtureProperty</code>, or <code>ds:Mbnifest</code>
      * element.
      *
-     * @param type the <code>type</code> attribute of the Reference
+     * @pbrbm type the <code>type</code> bttribute of the Reference
      */
     public void setType(String type) {
         if (type != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_TYPE, type);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_TYPE, type);
         }
     }
 
     /**
-     * Return the <code>type</code> atttibute of the Reference indicate whether an
-     * <code>ds:Object</code>, <code>ds:SignatureProperty</code>, or <code>ds:Manifest</code>
+     * Return the <code>type</code> btttibute of the Reference indicbte whether bn
+     * <code>ds:Object</code>, <code>ds:SignbtureProperty</code>, or <code>ds:Mbnifest</code>
      * element
      *
-     * @return the <code>type</code> attribute of the Reference
+     * @return the <code>type</code> bttribute of the Reference
      */
     public String getType() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_TYPE);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_TYPE);
     }
 
     /**
      * Method isReferenceToObject
      *
-     * This returns true if the <CODE>Type</CODE> attribute of the
-     * <CODE>Reference</CODE> element points to a <CODE>#Object</CODE> element
+     * This returns true if the <CODE>Type</CODE> bttribute of the
+     * <CODE>Reference</CODE> element points to b <CODE>#Object</CODE> element
      *
-     * @return true if the Reference type indicates that this Reference points to an
+     * @return true if the Reference type indicbtes thbt this Reference points to bn
      * <code>Object</code>
      */
-    public boolean typeIsReferenceToObject() {
-        if (Reference.OBJECT_URI.equals(this.getType())) {
+    public boolebn typeIsReferenceToObject() {
+        if (Reference.OBJECT_URI.equbls(this.getType())) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Method isReferenceToManifest
+     * Method isReferenceToMbnifest
      *
-     * This returns true if the <CODE>Type</CODE> attribute of the
-     * <CODE>Reference</CODE> element points to a <CODE>#Manifest</CODE> element
+     * This returns true if the <CODE>Type</CODE> bttribute of the
+     * <CODE>Reference</CODE> element points to b <CODE>#Mbnifest</CODE> element
      *
-     * @return true if the Reference type indicates that this Reference points to a
-     * {@link Manifest}
+     * @return true if the Reference type indicbtes thbt this Reference points to b
+     * {@link Mbnifest}
      */
-    public boolean typeIsReferenceToManifest() {
-        if (Reference.MANIFEST_URI.equals(this.getType())) {
+    public boolebn typeIsReferenceToMbnifest() {
+        if (Reference.MANIFEST_URI.equbls(this.getType())) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Method setDigestValueElement
+     * Method setDigestVblueElement
      *
-     * @param digestValue
+     * @pbrbm digestVblue
      */
-    private void setDigestValueElement(byte[] digestValue) {
-        Node n = digestValueElement.getFirstChild();
+    privbte void setDigestVblueElement(byte[] digestVblue) {
+        Node n = digestVblueElement.getFirstChild();
         while (n != null) {
-            digestValueElement.removeChild(n);
+            digestVblueElement.removeChild(n);
             n = n.getNextSibling();
         }
 
-        String base64codedValue = Base64.encode(digestValue);
-        Text t = this.doc.createTextNode(base64codedValue);
+        String bbse64codedVblue = Bbse64.encode(digestVblue);
+        Text t = this.doc.crebteTextNode(bbse64codedVblue);
 
-        digestValueElement.appendChild(t);
+        digestVblueElement.bppendChild(t);
     }
 
     /**
-     * Method generateDigestValue
+     * Method generbteDigestVblue
      *
-     * @throws ReferenceNotInitializedException
-     * @throws XMLSignatureException
+     * @throws ReferenceNotInitiblizedException
+     * @throws XMLSignbtureException
      */
-    public void generateDigestValue()
-        throws XMLSignatureException, ReferenceNotInitializedException {
-        this.setDigestValueElement(this.calculateDigest(false));
+    public void generbteDigestVblue()
+        throws XMLSignbtureException, ReferenceNotInitiblizedException {
+        this.setDigestVblueElement(this.cblculbteDigest(fblse));
     }
 
     /**
-     * Returns the XMLSignatureInput which is created by de-referencing the URI attribute.
-     * @return the XMLSignatureInput of the source of this reference
-     * @throws ReferenceNotInitializedException If the resolver found any
+     * Returns the XMLSignbtureInput which is crebted by de-referencing the URI bttribute.
+     * @return the XMLSignbtureInput of the source of this reference
+     * @throws ReferenceNotInitiblizedException If the resolver found bny
      * problem resolving the reference
      */
-    public XMLSignatureInput getContentsBeforeTransformation()
-        throws ReferenceNotInitializedException {
+    public XMLSignbtureInput getContentsBeforeTrbnsformbtion()
+        throws ReferenceNotInitiblizedException {
         try {
             Attr uriAttr =
-                this.constructionElement.getAttributeNodeNS(null, Constants._ATT_URI);
+                this.constructionElement.getAttributeNodeNS(null, Constbnts._ATT_URI);
 
             ResourceResolver resolver =
-                ResourceResolver.getInstance(
-                    uriAttr, this.baseURI, this.manifest.getPerManifestResolvers(), secureValidation
+                ResourceResolver.getInstbnce(
+                    uriAttr, this.bbseURI, this.mbnifest.getPerMbnifestResolvers(), secureVblidbtion
                 );
-            resolver.addProperties(this.manifest.getResolverProperties());
+            resolver.bddProperties(this.mbnifest.getResolverProperties());
 
-            return resolver.resolve(uriAttr, this.baseURI, secureValidation);
-        }  catch (ResourceResolverException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
+            return resolver.resolve(uriAttr, this.bbseURI, secureVblidbtion);
+        }  cbtch (ResourceResolverException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
         }
     }
 
-    private XMLSignatureInput getContentsAfterTransformation(
-        XMLSignatureInput input, OutputStream os
-    ) throws XMLSignatureException {
+    privbte XMLSignbtureInput getContentsAfterTrbnsformbtion(
+        XMLSignbtureInput input, OutputStrebm os
+    ) throws XMLSignbtureException {
         try {
-            Transforms transforms = this.getTransforms();
-            XMLSignatureInput output = null;
+            Trbnsforms trbnsforms = this.getTrbnsforms();
+            XMLSignbtureInput output = null;
 
-            if (transforms != null) {
-                output = transforms.performTransforms(input, os);
-                this.transformsOutput = output;//new XMLSignatureInput(output.getBytes());
+            if (trbnsforms != null) {
+                output = trbnsforms.performTrbnsforms(input, os);
+                this.trbnsformsOutput = output;//new XMLSignbtureInput(output.getBytes());
 
-                //this.transformsOutput.setSourceURI(output.getSourceURI());
+                //this.trbnsformsOutput.setSourceURI(output.getSourceURI());
             } else {
                 output = input;
             }
 
             return output;
-        } catch (ResourceResolverException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (TransformationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+        } cbtch (ResourceResolverException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (InvblidCbnonicblizerException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (TrbnsformbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Returns the XMLSignatureInput which is the result of the Transforms.
-     * @return a XMLSignatureInput with all transformations applied.
-     * @throws XMLSignatureException
+     * Returns the XMLSignbtureInput which is the result of the Trbnsforms.
+     * @return b XMLSignbtureInput with bll trbnsformbtions bpplied.
+     * @throws XMLSignbtureException
      */
-    public XMLSignatureInput getContentsAfterTransformation()
-        throws XMLSignatureException {
-        XMLSignatureInput input = this.getContentsBeforeTransformation();
-        cacheDereferencedElement(input);
+    public XMLSignbtureInput getContentsAfterTrbnsformbtion()
+        throws XMLSignbtureException {
+        XMLSignbtureInput input = this.getContentsBeforeTrbnsformbtion();
+        cbcheDereferencedElement(input);
 
-        return this.getContentsAfterTransformation(input, null);
+        return this.getContentsAfterTrbnsformbtion(input, null);
     }
 
     /**
-     * This method returns the XMLSignatureInput which represents the node set before
-     * some kind of canonicalization is applied for the first time.
-     * @return Gets a the node doing everything till the first c14n is needed
+     * This method returns the XMLSignbtureInput which represents the node set before
+     * some kind of cbnonicblizbtion is bpplied for the first time.
+     * @return Gets b the node doing everything till the first c14n is needed
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public XMLSignatureInput getNodesetBeforeFirstCanonicalization()
-        throws XMLSignatureException {
+    public XMLSignbtureInput getNodesetBeforeFirstCbnonicblizbtion()
+        throws XMLSignbtureException {
         try {
-            XMLSignatureInput input = this.getContentsBeforeTransformation();
-            cacheDereferencedElement(input);
-            XMLSignatureInput output = input;
-            Transforms transforms = this.getTransforms();
+            XMLSignbtureInput input = this.getContentsBeforeTrbnsformbtion();
+            cbcheDereferencedElement(input);
+            XMLSignbtureInput output = input;
+            Trbnsforms trbnsforms = this.getTrbnsforms();
 
-            if (transforms != null) {
-                doTransforms: for (int i = 0; i < transforms.getLength(); i++) {
-                    Transform t = transforms.item(i);
+            if (trbnsforms != null) {
+                doTrbnsforms: for (int i = 0; i < trbnsforms.getLength(); i++) {
+                    Trbnsform t = trbnsforms.item(i);
                     String uri = t.getURI();
 
-                    if (uri.equals(Transforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
-                        || uri.equals(Transforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)
-                        || uri.equals(Transforms.TRANSFORM_C14N_OMIT_COMMENTS)
-                        || uri.equals(Transforms.TRANSFORM_C14N_WITH_COMMENTS)) {
-                        break doTransforms;
+                    if (uri.equbls(Trbnsforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
+                        || uri.equbls(Trbnsforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)
+                        || uri.equbls(Trbnsforms.TRANSFORM_C14N_OMIT_COMMENTS)
+                        || uri.equbls(Trbnsforms.TRANSFORM_C14N_WITH_COMMENTS)) {
+                        brebk doTrbnsforms;
                     }
 
-                    output = t.performTransform(output, null);
+                    output = t.performTrbnsform(output, null);
                 }
 
             output.setSourceURI(input.getSourceURI());
             }
             return output;
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (ResourceResolverException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (TransformationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (ResourceResolverException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (InvblidCbnonicblizerException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (TrbnsformbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Method getHTMLRepresentation
-     * @return The HTML of the transformation
-     * @throws XMLSignatureException
+     * Method getHTMLRepresentbtion
+     * @return The HTML of the trbnsformbtion
+     * @throws XMLSignbtureException
      */
-    public String getHTMLRepresentation() throws XMLSignatureException {
+    public String getHTMLRepresentbtion() throws XMLSignbtureException {
         try {
-            XMLSignatureInput nodes = this.getNodesetBeforeFirstCanonicalization();
+            XMLSignbtureInput nodes = this.getNodesetBeforeFirstCbnonicblizbtion();
 
-            Transforms transforms = this.getTransforms();
-            Transform c14nTransform = null;
+            Trbnsforms trbnsforms = this.getTrbnsforms();
+            Trbnsform c14nTrbnsform = null;
 
-            if (transforms != null) {
-                doTransforms: for (int i = 0; i < transforms.getLength(); i++) {
-                    Transform t = transforms.item(i);
+            if (trbnsforms != null) {
+                doTrbnsforms: for (int i = 0; i < trbnsforms.getLength(); i++) {
+                    Trbnsform t = trbnsforms.item(i);
                     String uri = t.getURI();
 
-                    if (uri.equals(Transforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
-                        || uri.equals(Transforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)) {
-                        c14nTransform = t;
-                        break doTransforms;
+                    if (uri.equbls(Trbnsforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
+                        || uri.equbls(Trbnsforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)) {
+                        c14nTrbnsform = t;
+                        brebk doTrbnsforms;
                     }
                 }
             }
 
-            Set<String> inclusiveNamespaces = new HashSet<String>();
-            if (c14nTransform != null
-                && (c14nTransform.length(
-                    InclusiveNamespaces.ExclusiveCanonicalizationNamespace,
-                    InclusiveNamespaces._TAG_EC_INCLUSIVENAMESPACES) == 1)) {
+            Set<String> inclusiveNbmespbces = new HbshSet<String>();
+            if (c14nTrbnsform != null
+                && (c14nTrbnsform.length(
+                    InclusiveNbmespbces.ExclusiveCbnonicblizbtionNbmespbce,
+                    InclusiveNbmespbces._TAG_EC_INCLUSIVENAMESPACES) == 1)) {
 
-                // there is one InclusiveNamespaces element
-                InclusiveNamespaces in =
-                    new InclusiveNamespaces(
+                // there is one InclusiveNbmespbces element
+                InclusiveNbmespbces in =
+                    new InclusiveNbmespbces(
                         XMLUtils.selectNode(
-                            c14nTransform.getElement().getFirstChild(),
-                            InclusiveNamespaces.ExclusiveCanonicalizationNamespace,
-                            InclusiveNamespaces._TAG_EC_INCLUSIVENAMESPACES,
+                            c14nTrbnsform.getElement().getFirstChild(),
+                            InclusiveNbmespbces.ExclusiveCbnonicblizbtionNbmespbce,
+                            InclusiveNbmespbces._TAG_EC_INCLUSIVENAMESPACES,
                             0
-                        ), this.getBaseURI());
+                        ), this.getBbseURI());
 
-                inclusiveNamespaces =
-                    InclusiveNamespaces.prefixStr2Set(in.getInclusiveNamespaces());
+                inclusiveNbmespbces =
+                    InclusiveNbmespbces.prefixStr2Set(in.getInclusiveNbmespbces());
             }
 
-            return nodes.getHTMLRepresentation(inclusiveNamespaces);
-        } catch (TransformationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidTransformException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return nodes.getHTMLRepresentbtion(inclusiveNbmespbces);
+        } cbtch (TrbnsformbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (InvblidTrbnsformException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * This method only works works after a call to verify.
-     * @return the transformed output(i.e. what is going to be digested).
+     * This method only works works bfter b cbll to verify.
+     * @return the trbnsformed output(i.e. whbt is going to be digested).
      */
-    public XMLSignatureInput getTransformsOutput() {
-        return this.transformsOutput;
+    public XMLSignbtureInput getTrbnsformsOutput() {
+        return this.trbnsformsOutput;
     }
 
     /**
-     * Get the ReferenceData that corresponds to the cached representation of the dereferenced
-     * object before transformation.
+     * Get the ReferenceDbtb thbt corresponds to the cbched representbtion of the dereferenced
+     * object before trbnsformbtion.
      */
-    public ReferenceData getReferenceData() {
-        return referenceData;
+    public ReferenceDbtb getReferenceDbtb() {
+        return referenceDbtb;
     }
 
     /**
-     * This method returns the {@link XMLSignatureInput} which is referenced by the
+     * This method returns the {@link XMLSignbtureInput} which is referenced by the
      * <CODE>URI</CODE> Attribute.
-     * @param os where to write the transformation can be null.
+     * @pbrbm os where to write the trbnsformbtion cbn be null.
      * @return the element to digest
      *
-     * @throws XMLSignatureException
-     * @see Manifest#verifyReferences()
+     * @throws XMLSignbtureException
+     * @see Mbnifest#verifyReferences()
      */
-    protected XMLSignatureInput dereferenceURIandPerformTransforms(OutputStream os)
-        throws XMLSignatureException {
+    protected XMLSignbtureInput dereferenceURIbndPerformTrbnsforms(OutputStrebm os)
+        throws XMLSignbtureException {
         try {
-            XMLSignatureInput input = this.getContentsBeforeTransformation();
-            cacheDereferencedElement(input);
+            XMLSignbtureInput input = this.getContentsBeforeTrbnsformbtion();
+            cbcheDereferencedElement(input);
 
-            XMLSignatureInput output = this.getContentsAfterTransformation(input, os);
-            this.transformsOutput = output;
+            XMLSignbtureInput output = this.getContentsAfterTrbnsformbtion(input, os);
+            this.trbnsformsOutput = output;
             return output;
-        } catch (XMLSecurityException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
         }
     }
 
     /**
-     * Store the dereferenced Element(s) so that it/they can be retrieved later.
+     * Store the dereferenced Element(s) so thbt it/they cbn be retrieved lbter.
      */
-    private void cacheDereferencedElement(XMLSignatureInput input) {
+    privbte void cbcheDereferencedElement(XMLSignbtureInput input) {
         if (input.isNodeSet()) {
             try {
-                final Set<Node> s = input.getNodeSet();
-                referenceData = new ReferenceNodeSetData() {
-                    public Iterator<Node> iterator() {
-                        return new Iterator<Node>() {
+                finbl Set<Node> s = input.getNodeSet();
+                referenceDbtb = new ReferenceNodeSetDbtb() {
+                    public Iterbtor<Node> iterbtor() {
+                        return new Iterbtor<Node>() {
 
-                            Iterator<Node> sIterator = s.iterator();
+                            Iterbtor<Node> sIterbtor = s.iterbtor();
 
-                            public boolean hasNext() {
-                                return sIterator.hasNext();
+                            public boolebn hbsNext() {
+                                return sIterbtor.hbsNext();
                             }
 
                             public Node next() {
-                                return sIterator.next();
+                                return sIterbtor.next();
                             }
 
                             public void remove() {
-                                throw new UnsupportedOperationException();
+                                throw new UnsupportedOperbtionException();
                             }
                         };
                     }
                 };
-            } catch (Exception e) {
-                // log a warning
-                log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + e);
+            } cbtch (Exception e) {
+                // log b wbrning
+                log.log(jbvb.util.logging.Level.WARNING, "cbnnot cbche dereferenced dbtb: " + e);
             }
         } else if (input.isElement()) {
-            referenceData = new ReferenceSubTreeData
+            referenceDbtb = new ReferenceSubTreeDbtb
                 (input.getSubNode(), input.isExcludeComments());
-        } else if (input.isOctetStream() || input.isByteArray()) {
+        } else if (input.isOctetStrebm() || input.isByteArrby()) {
             try {
-                referenceData = new ReferenceOctetStreamData
-                    (input.getOctetStream(), input.getSourceURI(),
+                referenceDbtb = new ReferenceOctetStrebmDbtb
+                    (input.getOctetStrebm(), input.getSourceURI(),
                         input.getMIMEType());
-            } catch (IOException ioe) {
-                // log a warning
-                log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + ioe);
+            } cbtch (IOException ioe) {
+                // log b wbrning
+                log.log(jbvb.util.logging.Level.WARNING, "cbnnot cbche dereferenced dbtb: " + ioe);
             }
         }
     }
 
     /**
-     * Method getTransforms
+     * Method getTrbnsforms
      *
-     * @return The transforms that applied this reference.
-     * @throws InvalidTransformException
-     * @throws TransformationException
+     * @return The trbnsforms thbt bpplied this reference.
+     * @throws InvblidTrbnsformException
+     * @throws TrbnsformbtionException
      * @throws XMLSecurityException
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public Transforms getTransforms()
-        throws XMLSignatureException, InvalidTransformException,
-        TransformationException, XMLSecurityException {
-        return transforms;
+    public Trbnsforms getTrbnsforms()
+        throws XMLSignbtureException, InvblidTrbnsformException,
+        TrbnsformbtionException, XMLSecurityException {
+        return trbnsforms;
     }
 
     /**
      * Method getReferencedBytes
      *
-     * @return the bytes that will be used to generated digest.
-     * @throws ReferenceNotInitializedException
-     * @throws XMLSignatureException
+     * @return the bytes thbt will be used to generbted digest.
+     * @throws ReferenceNotInitiblizedException
+     * @throws XMLSignbtureException
      */
     public byte[] getReferencedBytes()
-        throws ReferenceNotInitializedException, XMLSignatureException {
+        throws ReferenceNotInitiblizedException, XMLSignbtureException {
         try {
-            XMLSignatureInput output = this.dereferenceURIandPerformTransforms(null);
+            XMLSignbtureInput output = this.dereferenceURIbndPerformTrbnsforms(null);
             return output.getBytes();
-        } catch (IOException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
         }
     }
 
 
     /**
-     * Method calculateDigest
+     * Method cblculbteDigest
      *
-     * @param validating true if validating the reference
-     * @return reference Calculate the digest of this reference.
-     * @throws ReferenceNotInitializedException
-     * @throws XMLSignatureException
+     * @pbrbm vblidbting true if vblidbting the reference
+     * @return reference Cblculbte the digest of this reference.
+     * @throws ReferenceNotInitiblizedException
+     * @throws XMLSignbtureException
      */
-    private byte[] calculateDigest(boolean validating)
-        throws ReferenceNotInitializedException, XMLSignatureException {
-        OutputStream os = null;
+    privbte byte[] cblculbteDigest(boolebn vblidbting)
+        throws ReferenceNotInitiblizedException, XMLSignbtureException {
+        OutputStrebm os = null;
         try {
-            MessageDigestAlgorithm mda = this.getMessageDigestAlgorithm();
+            MessbgeDigestAlgorithm mdb = this.getMessbgeDigestAlgorithm();
 
-            mda.reset();
-            DigesterOutputStream diOs = new DigesterOutputStream(mda);
-            os = new UnsyncBufferedOutputStream(diOs);
-            XMLSignatureInput output = this.dereferenceURIandPerformTransforms(os);
-            // if signing and c14n11 property == true explicitly add
-            // C14N11 transform if needed
-            if (Reference.useC14N11 && !validating && !output.isOutputStreamSet()
-                && !output.isOctetStream()) {
-                if (transforms == null) {
-                    transforms = new Transforms(this.doc);
-                    transforms.setSecureValidation(secureValidation);
-                    this.constructionElement.insertBefore(transforms.getElement(), digestMethodElem);
+            mdb.reset();
+            DigesterOutputStrebm diOs = new DigesterOutputStrebm(mdb);
+            os = new UnsyncBufferedOutputStrebm(diOs);
+            XMLSignbtureInput output = this.dereferenceURIbndPerformTrbnsforms(os);
+            // if signing bnd c14n11 property == true explicitly bdd
+            // C14N11 trbnsform if needed
+            if (Reference.useC14N11 && !vblidbting && !output.isOutputStrebmSet()
+                && !output.isOctetStrebm()) {
+                if (trbnsforms == null) {
+                    trbnsforms = new Trbnsforms(this.doc);
+                    trbnsforms.setSecureVblidbtion(secureVblidbtion);
+                    this.constructionElement.insertBefore(trbnsforms.getElement(), digestMethodElem);
                 }
-                transforms.addTransform(Transforms.TRANSFORM_C14N11_OMIT_COMMENTS);
-                output.updateOutputStream(os, true);
+                trbnsforms.bddTrbnsform(Trbnsforms.TRANSFORM_C14N11_OMIT_COMMENTS);
+                output.updbteOutputStrebm(os, true);
             } else {
-                output.updateOutputStream(os);
+                output.updbteOutputStrebm(os);
             }
             os.flush();
 
-            if (output.getOctetStreamReal() != null) {
-                output.getOctetStreamReal().close();
+            if (output.getOctetStrebmRebl() != null) {
+                output.getOctetStrebmRebl().close();
             }
 
             //this.getReferencedBytes(diOs);
-            //mda.update(data);
+            //mdb.updbte(dbtb);
 
-            return diOs.getDigestValue();
-        } catch (XMLSecurityException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
-        } catch (IOException ex) {
-            throw new ReferenceNotInitializedException("empty", ex);
-        } finally {
+            return diOs.getDigestVblue();
+        } cbtch (XMLSecurityException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new ReferenceNotInitiblizedException("empty", ex);
+        } finblly {
             if (os != null) {
                 try {
                     os.close();
-                } catch (IOException ex) {
-                    throw new ReferenceNotInitializedException("empty", ex);
+                } cbtch (IOException ex) {
+                    throw new ReferenceNotInitiblizedException("empty", ex);
                 }
             }
         }
     }
 
     /**
-     * Returns the digest value.
+     * Returns the digest vblue.
      *
-     * @return the digest value.
-     * @throws Base64DecodingException if Reference contains no proper base64 encoded data.
-     * @throws XMLSecurityException if the Reference does not contain a DigestValue element
+     * @return the digest vblue.
+     * @throws Bbse64DecodingException if Reference contbins no proper bbse64 encoded dbtb.
+     * @throws XMLSecurityException if the Reference does not contbin b DigestVblue element
      */
-    public byte[] getDigestValue() throws Base64DecodingException, XMLSecurityException {
-        if (digestValueElement == null) {
+    public byte[] getDigestVblue() throws Bbse64DecodingException, XMLSecurityException {
+        if (digestVblueElement == null) {
             // The required element is not in the XML!
-            Object[] exArgs ={ Constants._TAG_DIGESTVALUE, Constants.SignatureSpecNS };
+            Object[] exArgs ={ Constbnts._TAG_DIGESTVALUE, Constbnts.SignbtureSpecNS };
             throw new XMLSecurityException(
-                "signature.Verification.NoSignatureElement", exArgs
+                "signbture.Verificbtion.NoSignbtureElement", exArgs
             );
         }
-        return Base64.decode(digestValueElement);
+        return Bbse64.decode(digestVblueElement);
     }
 
 
     /**
-     * Tests reference validation is success or false
+     * Tests reference vblidbtion is success or fblse
      *
-     * @return true if reference validation is success, otherwise false
-     * @throws ReferenceNotInitializedException
+     * @return true if reference vblidbtion is success, otherwise fblse
+     * @throws ReferenceNotInitiblizedException
      * @throws XMLSecurityException
      */
-    public boolean verify()
-        throws ReferenceNotInitializedException, XMLSecurityException {
-        byte[] elemDig = this.getDigestValue();
-        byte[] calcDig = this.calculateDigest(true);
-        boolean equal = MessageDigestAlgorithm.isEqual(elemDig, calcDig);
+    public boolebn verify()
+        throws ReferenceNotInitiblizedException, XMLSecurityException {
+        byte[] elemDig = this.getDigestVblue();
+        byte[] cblcDig = this.cblculbteDigest(true);
+        boolebn equbl = MessbgeDigestAlgorithm.isEqubl(elemDig, cblcDig);
 
-        if (!equal) {
-            log.log(java.util.logging.Level.WARNING, "Verification failed for URI \"" + this.getURI() + "\"");
-            log.log(java.util.logging.Level.WARNING, "Expected Digest: " + Base64.encode(elemDig));
-            log.log(java.util.logging.Level.WARNING, "Actual Digest: " + Base64.encode(calcDig));
+        if (!equbl) {
+            log.log(jbvb.util.logging.Level.WARNING, "Verificbtion fbiled for URI \"" + this.getURI() + "\"");
+            log.log(jbvb.util.logging.Level.WARNING, "Expected Digest: " + Bbse64.encode(elemDig));
+            log.log(jbvb.util.logging.Level.WARNING, "Actubl Digest: " + Bbse64.encode(cblcDig));
         } else {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Verification successful for URI \"" + this.getURI() + "\"");
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Verificbtion successful for URI \"" + this.getURI() + "\"");
             }
         }
 
-        return equal;
+        return equbl;
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      * @inheritDoc
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_REFERENCE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_REFERENCE;
     }
 }

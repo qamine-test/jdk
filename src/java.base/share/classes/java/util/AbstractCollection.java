@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class provides a skeletal implementation of the <tt>Collection</tt>
- * interface, to minimize the effort required to implement this interface. <p>
+ * This clbss provides b skeletbl implementbtion of the <tt>Collection</tt>
+ * interfbce, to minimize the effort required to implement this interfbce. <p>
  *
- * To implement an unmodifiable collection, the programmer needs only to
- * extend this class and provide implementations for the <tt>iterator</tt> and
- * <tt>size</tt> methods.  (The iterator returned by the <tt>iterator</tt>
- * method must implement <tt>hasNext</tt> and <tt>next</tt>.)<p>
+ * To implement bn unmodifibble collection, the progrbmmer needs only to
+ * extend this clbss bnd provide implementbtions for the <tt>iterbtor</tt> bnd
+ * <tt>size</tt> methods.  (The iterbtor returned by the <tt>iterbtor</tt>
+ * method must implement <tt>hbsNext</tt> bnd <tt>next</tt>.)<p>
  *
- * To implement a modifiable collection, the programmer must additionally
- * override this class's <tt>add</tt> method (which otherwise throws an
- * <tt>UnsupportedOperationException</tt>), and the iterator returned by the
- * <tt>iterator</tt> method must additionally implement its <tt>remove</tt>
+ * To implement b modifibble collection, the progrbmmer must bdditionblly
+ * override this clbss's <tt>bdd</tt> method (which otherwise throws bn
+ * <tt>UnsupportedOperbtionException</tt>), bnd the iterbtor returned by the
+ * <tt>iterbtor</tt> method must bdditionblly implement its <tt>remove</tt>
  * method.<p>
  *
- * The programmer should generally provide a void (no argument) and
- * <tt>Collection</tt> constructor, as per the recommendation in the
- * <tt>Collection</tt> interface specification.<p>
+ * The progrbmmer should generblly provide b void (no brgument) bnd
+ * <tt>Collection</tt> constructor, bs per the recommendbtion in the
+ * <tt>Collection</tt> interfbce specificbtion.<p>
  *
- * The documentation for each non-abstract method in this class describes its
- * implementation in detail.  Each of these methods may be overridden if
- * the collection being implemented admits a more efficient implementation.<p>
+ * The documentbtion for ebch non-bbstrbct method in this clbss describes its
+ * implementbtion in detbil.  Ebch of these methods mby be overridden if
+ * the collection being implemented bdmits b more efficient implementbtion.<p>
  *
- * This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see Collection
  * @since 1.2
  */
 
-public abstract class AbstractCollection<E> implements Collection<E> {
+public bbstrbct clbss AbstrbctCollection<E> implements Collection<E> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected AbstractCollection() {
+    protected AbstrbctCollection() {
     }
 
-    // Query Operations
+    // Query Operbtions
 
     /**
-     * Returns an iterator over the elements contained in this collection.
+     * Returns bn iterbtor over the elements contbined in this collection.
      *
-     * @return an iterator over the elements contained in this collection
+     * @return bn iterbtor over the elements contbined in this collection
      */
-    public abstract Iterator<E> iterator();
+    public bbstrbct Iterbtor<E> iterbtor();
 
-    public abstract int size();
+    public bbstrbct int size();
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns <tt>size() == 0</tt>.
+     * This implementbtion returns <tt>size() == 0</tt>.
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size() == 0;
     }
 
@@ -91,239 +91,239 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over the elements in the collection,
-     * checking each element in turn for equality with the specified element.
+     * This implementbtion iterbtes over the elements in the collection,
+     * checking ebch element in turn for equblity with the specified element.
      *
-     * @throws ClassCastException   {@inheritDoc}
+     * @throws ClbssCbstException   {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    public boolean contains(Object o) {
-        Iterator<E> it = iterator();
+    public boolebn contbins(Object o) {
+        Iterbtor<E> it = iterbtor();
         if (o==null) {
-            while (it.hasNext())
+            while (it.hbsNext())
                 if (it.next()==null)
                     return true;
         } else {
-            while (it.hasNext())
-                if (o.equals(it.next()))
+            while (it.hbsNext())
+                if (o.equbls(it.next()))
                     return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns an array containing all the elements
-     * returned by this collection's iterator, in the same order, stored in
-     * consecutive elements of the array, starting with index {@code 0}.
-     * The length of the returned array is equal to the number of elements
-     * returned by the iterator, even if the size of this collection changes
-     * during iteration, as might happen if the collection permits
-     * concurrent modification during iteration.  The {@code size} method is
-     * called only as an optimization hint; the correct result is returned
-     * even if the iterator returns a different number of elements.
+     * This implementbtion returns bn brrby contbining bll the elements
+     * returned by this collection's iterbtor, in the sbme order, stored in
+     * consecutive elements of the brrby, stbrting with index {@code 0}.
+     * The length of the returned brrby is equbl to the number of elements
+     * returned by the iterbtor, even if the size of this collection chbnges
+     * during iterbtion, bs might hbppen if the collection permits
+     * concurrent modificbtion during iterbtion.  The {@code size} method is
+     * cblled only bs bn optimizbtion hint; the correct result is returned
+     * even if the iterbtor returns b different number of elements.
      *
-     * <p>This method is equivalent to:
+     * <p>This method is equivblent to:
      *
      *  <pre> {@code
-     * List<E> list = new ArrayList<E>(size());
+     * List<E> list = new ArrbyList<E>(size());
      * for (E e : this)
-     *     list.add(e);
-     * return list.toArray();
+     *     list.bdd(e);
+     * return list.toArrby();
      * }</pre>
      */
-    public Object[] toArray() {
-        // Estimate size of array; be prepared to see more or fewer elements
+    public Object[] toArrby() {
+        // Estimbte size of brrby; be prepbred to see more or fewer elements
         Object[] r = new Object[size()];
-        Iterator<E> it = iterator();
+        Iterbtor<E> it = iterbtor();
         for (int i = 0; i < r.length; i++) {
-            if (! it.hasNext()) // fewer elements than expected
-                return Arrays.copyOf(r, i);
+            if (! it.hbsNext()) // fewer elements thbn expected
+                return Arrbys.copyOf(r, i);
             r[i] = it.next();
         }
-        return it.hasNext() ? finishToArray(r, it) : r;
+        return it.hbsNext() ? finishToArrby(r, it) : r;
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation returns an array containing all the elements
-     * returned by this collection's iterator in the same order, stored in
-     * consecutive elements of the array, starting with index {@code 0}.
-     * If the number of elements returned by the iterator is too large to
-     * fit into the specified array, then the elements are returned in a
-     * newly allocated array with length equal to the number of elements
-     * returned by the iterator, even if the size of this collection
-     * changes during iteration, as might happen if the collection permits
-     * concurrent modification during iteration.  The {@code size} method is
-     * called only as an optimization hint; the correct result is returned
-     * even if the iterator returns a different number of elements.
+     * This implementbtion returns bn brrby contbining bll the elements
+     * returned by this collection's iterbtor in the sbme order, stored in
+     * consecutive elements of the brrby, stbrting with index {@code 0}.
+     * If the number of elements returned by the iterbtor is too lbrge to
+     * fit into the specified brrby, then the elements bre returned in b
+     * newly bllocbted brrby with length equbl to the number of elements
+     * returned by the iterbtor, even if the size of this collection
+     * chbnges during iterbtion, bs might hbppen if the collection permits
+     * concurrent modificbtion during iterbtion.  The {@code size} method is
+     * cblled only bs bn optimizbtion hint; the correct result is returned
+     * even if the iterbtor returns b different number of elements.
      *
-     * <p>This method is equivalent to:
+     * <p>This method is equivblent to:
      *
      *  <pre> {@code
-     * List<E> list = new ArrayList<E>(size());
+     * List<E> list = new ArrbyList<E>(size());
      * for (E e : this)
-     *     list.add(e);
-     * return list.toArray(a);
+     *     list.bdd(e);
+     * return list.toArrby(b);
      * }</pre>
      *
-     * @throws ArrayStoreException  {@inheritDoc}
+     * @throws ArrbyStoreException  {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        // Estimate size of array; be prepared to see more or fewer elements
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
+        // Estimbte size of brrby; be prepbred to see more or fewer elements
         int size = size();
-        T[] r = a.length >= size ? a :
-                  (T[])java.lang.reflect.Array
-                  .newInstance(a.getClass().getComponentType(), size);
-        Iterator<E> it = iterator();
+        T[] r = b.length >= size ? b :
+                  (T[])jbvb.lbng.reflect.Arrby
+                  .newInstbnce(b.getClbss().getComponentType(), size);
+        Iterbtor<E> it = iterbtor();
 
         for (int i = 0; i < r.length; i++) {
-            if (! it.hasNext()) { // fewer elements than expected
-                if (a == r) {
-                    r[i] = null; // null-terminate
-                } else if (a.length < i) {
-                    return Arrays.copyOf(r, i);
+            if (! it.hbsNext()) { // fewer elements thbn expected
+                if (b == r) {
+                    r[i] = null; // null-terminbte
+                } else if (b.length < i) {
+                    return Arrbys.copyOf(r, i);
                 } else {
-                    System.arraycopy(r, 0, a, 0, i);
-                    if (a.length > i) {
-                        a[i] = null;
+                    System.brrbycopy(r, 0, b, 0, i);
+                    if (b.length > i) {
+                        b[i] = null;
                     }
                 }
-                return a;
+                return b;
             }
             r[i] = (T)it.next();
         }
-        // more elements than expected
-        return it.hasNext() ? finishToArray(r, it) : r;
+        // more elements thbn expected
+        return it.hbsNext() ? finishToArrby(r, it) : r;
     }
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * The mbximum size of brrby to bllocbte.
+     * Some VMs reserve some hebder words in bn brrby.
+     * Attempts to bllocbte lbrger brrbys mby result in
+     * OutOfMemoryError: Requested brrby size exceeds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbte stbtic finbl int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
     /**
-     * Reallocates the array being used within toArray when the iterator
-     * returned more elements than expected, and finishes filling it from
-     * the iterator.
+     * Rebllocbtes the brrby being used within toArrby when the iterbtor
+     * returned more elements thbn expected, bnd finishes filling it from
+     * the iterbtor.
      *
-     * @param r the array, replete with previously stored elements
-     * @param it the in-progress iterator over this collection
-     * @return array containing the elements in the given array, plus any
-     *         further elements returned by the iterator, trimmed to size
+     * @pbrbm r the brrby, replete with previously stored elements
+     * @pbrbm it the in-progress iterbtor over this collection
+     * @return brrby contbining the elements in the given brrby, plus bny
+     *         further elements returned by the iterbtor, trimmed to size
      */
-    @SuppressWarnings("unchecked")
-    private static <T> T[] finishToArray(T[] r, Iterator<?> it) {
+    @SuppressWbrnings("unchecked")
+    privbte stbtic <T> T[] finishToArrby(T[] r, Iterbtor<?> it) {
         int i = r.length;
-        while (it.hasNext()) {
-            int cap = r.length;
-            if (i == cap) {
-                int newCap = cap + (cap >> 1) + 1;
+        while (it.hbsNext()) {
+            int cbp = r.length;
+            if (i == cbp) {
+                int newCbp = cbp + (cbp >> 1) + 1;
                 // overflow-conscious code
-                if (newCap - MAX_ARRAY_SIZE > 0)
-                    newCap = hugeCapacity(cap + 1);
-                r = Arrays.copyOf(r, newCap);
+                if (newCbp - MAX_ARRAY_SIZE > 0)
+                    newCbp = hugeCbpbcity(cbp + 1);
+                r = Arrbys.copyOf(r, newCbp);
             }
             r[i++] = (T)it.next();
         }
-        // trim if overallocated
-        return (i == r.length) ? r : Arrays.copyOf(r, i);
+        // trim if overbllocbted
+        return (i == r.length) ? r : Arrbys.copyOf(r, i);
     }
 
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
+    privbte stbtic int hugeCbpbcity(int minCbpbcity) {
+        if (minCbpbcity < 0) // overflow
             throw new OutOfMemoryError
-                ("Required array size too large");
-        return (minCapacity > MAX_ARRAY_SIZE) ?
+                ("Required brrby size too lbrge");
+        return (minCbpbcity > MAX_ARRAY_SIZE) ?
             Integer.MAX_VALUE :
             MAX_ARRAY_SIZE;
     }
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation always throws an
-     * <tt>UnsupportedOperationException</tt>.
+     * This implementbtion blwbys throws bn
+     * <tt>UnsupportedOperbtionException</tt>.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     * @throws IllegalStateException         {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
+     * @throws IllegblStbteException         {@inheritDoc}
      */
-    public boolean add(E e) {
-        throw new UnsupportedOperationException();
+    public boolebn bdd(E e) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over the collection looking for the
+     * This implementbtion iterbtes over the collection looking for the
      * specified element.  If it finds the element, it removes the element
-     * from the collection using the iterator's remove method.
+     * from the collection using the iterbtor's remove method.
      *
-     * <p>Note that this implementation throws an
-     * <tt>UnsupportedOperationException</tt> if the iterator returned by this
-     * collection's iterator method does not implement the <tt>remove</tt>
-     * method and this collection contains the specified object.
+     * <p>Note thbt this implementbtion throws bn
+     * <tt>UnsupportedOperbtionException</tt> if the iterbtor returned by this
+     * collection's iterbtor method does not implement the <tt>remove</tt>
+     * method bnd this collection contbins the specified object.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
      */
-    public boolean remove(Object o) {
-        Iterator<E> it = iterator();
+    public boolebn remove(Object o) {
+        Iterbtor<E> it = iterbtor();
         if (o==null) {
-            while (it.hasNext()) {
+            while (it.hbsNext()) {
                 if (it.next()==null) {
                     it.remove();
                     return true;
                 }
             }
         } else {
-            while (it.hasNext()) {
-                if (o.equals(it.next())) {
+            while (it.hbsNext()) {
+                if (o.equbls(it.next())) {
                     it.remove();
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over the specified collection,
-     * checking each element returned by the iterator in turn to see
-     * if it's contained in this collection.  If all elements are so
-     * contained <tt>true</tt> is returned, otherwise <tt>false</tt>.
+     * This implementbtion iterbtes over the specified collection,
+     * checking ebch element returned by the iterbtor in turn to see
+     * if it's contbined in this collection.  If bll elements bre so
+     * contbined <tt>true</tt> is returned, otherwise <tt>fblse</tt>.
      *
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    public boolean containsAll(Collection<?> c) {
+    public boolebn contbinsAll(Collection<?> c) {
         for (Object e : c)
-            if (!contains(e))
-                return false;
+            if (!contbins(e))
+                return fblse;
         return true;
     }
 
@@ -331,25 +331,25 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over the specified collection, and adds
-     * each object returned by the iterator to this collection, in turn.
+     * This implementbtion iterbtes over the specified collection, bnd bdds
+     * ebch object returned by the iterbtor to this collection, in turn.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> unless <tt>add</tt> is
-     * overridden (assuming the specified collection is non-empty).
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> unless <tt>bdd</tt> is
+     * overridden (bssuming the specified collection is non-empty).
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     * @throws IllegalStateException         {@inheritDoc}
+     * @throws IllegblArgumentException      {@inheritDoc}
+     * @throws IllegblStbteException         {@inheritDoc}
      *
-     * @see #add(Object)
+     * @see #bdd(Object)
      */
-    public boolean addAll(Collection<? extends E> c) {
-        boolean modified = false;
+    public boolebn bddAll(Collection<? extends E> c) {
+        boolebn modified = fblse;
         for (E e : c)
-            if (add(e))
+            if (bdd(e))
                 modified = true;
         return modified;
     }
@@ -358,30 +358,30 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over this collection, checking each
-     * element returned by the iterator in turn to see if it's contained
-     * in the specified collection.  If it's so contained, it's removed from
-     * this collection with the iterator's <tt>remove</tt> method.
+     * This implementbtion iterbtes over this collection, checking ebch
+     * element returned by the iterbtor in turn to see if it's contbined
+     * in the specified collection.  If it's so contbined, it's removed from
+     * this collection with the iterbtor's <tt>remove</tt> method.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the iterator returned by the
-     * <tt>iterator</tt> method does not implement the <tt>remove</tt> method
-     * and this collection contains one or more elements in common with the
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the iterbtor returned by the
+     * <tt>iterbtor</tt> method does not implement the <tt>remove</tt> method
+     * bnd this collection contbins one or more elements in common with the
      * specified collection.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
      *
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    public boolean removeAll(Collection<?> c) {
+    public boolebn removeAll(Collection<?> c) {
         Objects.requireNonNull(c);
-        boolean modified = false;
-        Iterator<?> it = iterator();
-        while (it.hasNext()) {
-            if (c.contains(it.next())) {
+        boolebn modified = fblse;
+        Iterbtor<?> it = iterbtor();
+        while (it.hbsNext()) {
+            if (c.contbins(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -393,30 +393,30 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over this collection, checking each
-     * element returned by the iterator in turn to see if it's contained
-     * in the specified collection.  If it's not so contained, it's removed
-     * from this collection with the iterator's <tt>remove</tt> method.
+     * This implementbtion iterbtes over this collection, checking ebch
+     * element returned by the iterbtor in turn to see if it's contbined
+     * in the specified collection.  If it's not so contbined, it's removed
+     * from this collection with the iterbtor's <tt>remove</tt> method.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the iterator returned by the
-     * <tt>iterator</tt> method does not implement the <tt>remove</tt> method
-     * and this collection contains one or more elements not present in the
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the iterbtor returned by the
+     * <tt>iterbtor</tt> method does not implement the <tt>remove</tt> method
+     * bnd this collection contbins one or more elements not present in the
      * specified collection.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
+     * @throws ClbssCbstException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
      *
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    public boolean retainAll(Collection<?> c) {
+    public boolebn retbinAll(Collection<?> c) {
         Objects.requireNonNull(c);
-        boolean modified = false;
-        Iterator<E> it = iterator();
-        while (it.hasNext()) {
-            if (!c.contains(it.next())) {
+        boolebn modified = fblse;
+        Iterbtor<E> it = iterbtor();
+        while (it.hbsNext()) {
+            if (!c.contbins(it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -428,21 +428,21 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * @implSpec
-     * This implementation iterates over this collection, removing each
-     * element using the <tt>Iterator.remove</tt> operation.  Most
-     * implementations will probably choose to override this method for
+     * This implementbtion iterbtes over this collection, removing ebch
+     * element using the <tt>Iterbtor.remove</tt> operbtion.  Most
+     * implementbtions will probbbly choose to override this method for
      * efficiency.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the iterator returned by this
-     * collection's <tt>iterator</tt> method does not implement the
-     * <tt>remove</tt> method and this collection is non-empty.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the iterbtor returned by this
+     * collection's <tt>iterbtor</tt> method does not implement the
+     * <tt>remove</tt> method bnd this collection is non-empty.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
+     * @throws UnsupportedOperbtionException {@inheritDoc}
      */
-    public void clear() {
-        Iterator<E> it = iterator();
-        while (it.hasNext()) {
+    public void clebr() {
+        Iterbtor<E> it = iterbtor();
+        while (it.hbsNext()) {
             it.next();
             it.remove();
         }
@@ -452,28 +452,28 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     //  String conversion
 
     /**
-     * Returns a string representation of this collection.  The string
-     * representation consists of a list of the collection's elements in the
-     * order they are returned by its iterator, enclosed in square brackets
-     * (<tt>"[]"</tt>).  Adjacent elements are separated by the characters
-     * <tt>", "</tt> (comma and space).  Elements are converted to strings as
-     * by {@link String#valueOf(Object)}.
+     * Returns b string representbtion of this collection.  The string
+     * representbtion consists of b list of the collection's elements in the
+     * order they bre returned by its iterbtor, enclosed in squbre brbckets
+     * (<tt>"[]"</tt>).  Adjbcent elements bre sepbrbted by the chbrbcters
+     * <tt>", "</tt> (commb bnd spbce).  Elements bre converted to strings bs
+     * by {@link String#vblueOf(Object)}.
      *
-     * @return a string representation of this collection
+     * @return b string representbtion of this collection
      */
     public String toString() {
-        Iterator<E> it = iterator();
-        if (! it.hasNext())
+        Iterbtor<E> it = iterbtor();
+        if (! it.hbsNext())
             return "[]";
 
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
+        sb.bppend('[');
         for (;;) {
             E e = it.next();
-            sb.append(e == this ? "(this Collection)" : e);
-            if (! it.hasNext())
-                return sb.append(']').toString();
-            sb.append(',').append(' ');
+            sb.bppend(e == this ? "(this Collection)" : e);
+            if (! it.hbsNext())
+                return sb.bppend(']').toString();
+            sb.bppend(',').bppend(' ');
         }
     }
 

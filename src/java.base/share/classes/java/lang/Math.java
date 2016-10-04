@@ -1,802 +1,802 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
-import java.util.Random;
+pbckbge jbvb.lbng;
+import jbvb.util.Rbndom;
 
-import sun.misc.FloatConsts;
+import sun.misc.FlobtConsts;
 import sun.misc.DoubleConsts;
 
 /**
- * The class {@code Math} contains methods for performing basic
- * numeric operations such as the elementary exponential, logarithm,
- * square root, and trigonometric functions.
+ * The clbss {@code Mbth} contbins methods for performing bbsic
+ * numeric operbtions such bs the elementbry exponentibl, logbrithm,
+ * squbre root, bnd trigonometric functions.
  *
- * <p>Unlike some of the numeric methods of class
- * {@code StrictMath}, all implementations of the equivalent
- * functions of class {@code Math} are not defined to return the
- * bit-for-bit same results.  This relaxation permits
- * better-performing implementations where strict reproducibility is
+ * <p>Unlike some of the numeric methods of clbss
+ * {@code StrictMbth}, bll implementbtions of the equivblent
+ * functions of clbss {@code Mbth} bre not defined to return the
+ * bit-for-bit sbme results.  This relbxbtion permits
+ * better-performing implementbtions where strict reproducibility is
  * not required.
  *
- * <p>By default many of the {@code Math} methods simply call
- * the equivalent method in {@code StrictMath} for their
- * implementation.  Code generators are encouraged to use
- * platform-specific native libraries or microprocessor instructions,
- * where available, to provide higher-performance implementations of
- * {@code Math} methods.  Such higher-performance
- * implementations still must conform to the specification for
- * {@code Math}.
+ * <p>By defbult mbny of the {@code Mbth} methods simply cbll
+ * the equivblent method in {@code StrictMbth} for their
+ * implementbtion.  Code generbtors bre encourbged to use
+ * plbtform-specific nbtive librbries or microprocessor instructions,
+ * where bvbilbble, to provide higher-performbnce implementbtions of
+ * {@code Mbth} methods.  Such higher-performbnce
+ * implementbtions still must conform to the specificbtion for
+ * {@code Mbth}.
  *
- * <p>The quality of implementation specifications concern two
- * properties, accuracy of the returned result and monotonicity of the
- * method.  Accuracy of the floating-point {@code Math} methods is
- * measured in terms of <i>ulps</i>, units in the last place.  For a
- * given floating-point format, an {@linkplain #ulp(double) ulp} of a
- * specific real number value is the distance between the two
- * floating-point values bracketing that numerical value.  When
- * discussing the accuracy of a method as a whole rather than at a
- * specific argument, the number of ulps cited is for the worst-case
- * error at any argument.  If a method always has an error less than
- * 0.5 ulps, the method always returns the floating-point number
- * nearest the exact result; such a method is <i>correctly
- * rounded</i>.  A correctly rounded method is generally the best a
- * floating-point approximation can be; however, it is impractical for
- * many floating-point methods to be correctly rounded.  Instead, for
- * the {@code Math} class, a larger error bound of 1 or 2 ulps is
- * allowed for certain methods.  Informally, with a 1 ulp error bound,
- * when the exact result is a representable number, the exact result
- * should be returned as the computed result; otherwise, either of the
- * two floating-point values which bracket the exact result may be
- * returned.  For exact results large in magnitude, one of the
- * endpoints of the bracket may be infinite.  Besides accuracy at
- * individual arguments, maintaining proper relations between the
- * method at different arguments is also important.  Therefore, most
- * methods with more than 0.5 ulp errors are required to be
- * <i>semi-monotonic</i>: whenever the mathematical function is
- * non-decreasing, so is the floating-point approximation, likewise,
- * whenever the mathematical function is non-increasing, so is the
- * floating-point approximation.  Not all approximations that have 1
- * ulp accuracy will automatically meet the monotonicity requirements.
+ * <p>The qublity of implementbtion specificbtions concern two
+ * properties, bccurbcy of the returned result bnd monotonicity of the
+ * method.  Accurbcy of the flobting-point {@code Mbth} methods is
+ * mebsured in terms of <i>ulps</i>, units in the lbst plbce.  For b
+ * given flobting-point formbt, bn {@linkplbin #ulp(double) ulp} of b
+ * specific rebl number vblue is the distbnce between the two
+ * flobting-point vblues brbcketing thbt numericbl vblue.  When
+ * discussing the bccurbcy of b method bs b whole rbther thbn bt b
+ * specific brgument, the number of ulps cited is for the worst-cbse
+ * error bt bny brgument.  If b method blwbys hbs bn error less thbn
+ * 0.5 ulps, the method blwbys returns the flobting-point number
+ * nebrest the exbct result; such b method is <i>correctly
+ * rounded</i>.  A correctly rounded method is generblly the best b
+ * flobting-point bpproximbtion cbn be; however, it is imprbcticbl for
+ * mbny flobting-point methods to be correctly rounded.  Instebd, for
+ * the {@code Mbth} clbss, b lbrger error bound of 1 or 2 ulps is
+ * bllowed for certbin methods.  Informblly, with b 1 ulp error bound,
+ * when the exbct result is b representbble number, the exbct result
+ * should be returned bs the computed result; otherwise, either of the
+ * two flobting-point vblues which brbcket the exbct result mby be
+ * returned.  For exbct results lbrge in mbgnitude, one of the
+ * endpoints of the brbcket mby be infinite.  Besides bccurbcy bt
+ * individubl brguments, mbintbining proper relbtions between the
+ * method bt different brguments is blso importbnt.  Therefore, most
+ * methods with more thbn 0.5 ulp errors bre required to be
+ * <i>semi-monotonic</i>: whenever the mbthembticbl function is
+ * non-decrebsing, so is the flobting-point bpproximbtion, likewise,
+ * whenever the mbthembticbl function is non-increbsing, so is the
+ * flobting-point bpproximbtion.  Not bll bpproximbtions thbt hbve 1
+ * ulp bccurbcy will butombticblly meet the monotonicity requirements.
  *
  * <p>
- * The platform uses signed two's complement integer arithmetic with
- * int and long primitive types.  The developer should choose
- * the primitive type to ensure that arithmetic operations consistently
- * produce correct results, which in some cases means the operations
- * will not overflow the range of values of the computation.
- * The best practice is to choose the primitive type and algorithm to avoid
- * overflow. In cases where the size is {@code int} or {@code long} and
- * overflow errors need to be detected, the methods {@code addExact},
- * {@code subtractExact}, {@code multiplyExact}, and {@code toIntExact}
- * throw an {@code ArithmeticException} when the results overflow.
- * For other arithmetic operations such as divide, absolute value,
- * increment, decrement, and negation overflow occurs only with
- * a specific minimum or maximum value and should be checked against
- * the minimum or maximum as appropriate.
+ * The plbtform uses signed two's complement integer brithmetic with
+ * int bnd long primitive types.  The developer should choose
+ * the primitive type to ensure thbt brithmetic operbtions consistently
+ * produce correct results, which in some cbses mebns the operbtions
+ * will not overflow the rbnge of vblues of the computbtion.
+ * The best prbctice is to choose the primitive type bnd blgorithm to bvoid
+ * overflow. In cbses where the size is {@code int} or {@code long} bnd
+ * overflow errors need to be detected, the methods {@code bddExbct},
+ * {@code subtrbctExbct}, {@code multiplyExbct}, bnd {@code toIntExbct}
+ * throw bn {@code ArithmeticException} when the results overflow.
+ * For other brithmetic operbtions such bs divide, bbsolute vblue,
+ * increment, decrement, bnd negbtion overflow occurs only with
+ * b specific minimum or mbximum vblue bnd should be checked bgbinst
+ * the minimum or mbximum bs bppropribte.
  *
- * @author  unascribed
- * @author  Joseph D. Darcy
+ * @buthor  unbscribed
+ * @buthor  Joseph D. Dbrcy
  * @since   1.0
  */
 
-public final class Math {
+public finbl clbss Mbth {
 
     /**
-     * Don't let anyone instantiate this class.
+     * Don't let bnyone instbntibte this clbss.
      */
-    private Math() {}
+    privbte Mbth() {}
 
     /**
-     * The {@code double} value that is closer than any other to
-     * <i>e</i>, the base of the natural logarithms.
+     * The {@code double} vblue thbt is closer thbn bny other to
+     * <i>e</i>, the bbse of the nbturbl logbrithms.
      */
-    public static final double E = 2.7182818284590452354;
+    public stbtic finbl double E = 2.7182818284590452354;
 
     /**
-     * The {@code double} value that is closer than any other to
-     * <i>pi</i>, the ratio of the circumference of a circle to its
-     * diameter.
+     * The {@code double} vblue thbt is closer thbn bny other to
+     * <i>pi</i>, the rbtio of the circumference of b circle to its
+     * dibmeter.
      */
-    public static final double PI = 3.14159265358979323846;
+    public stbtic finbl double PI = 3.14159265358979323846;
 
     /**
-     * Returns the trigonometric sine of an angle.  Special cases:
-     * <ul><li>If the argument is NaN or an infinity, then the
-     * result is NaN.
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.</ul>
+     * Returns the trigonometric sine of bn bngle.  Specibl cbses:
+     * <ul><li>If the brgument is NbN or bn infinity, then the
+     * result is NbN.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   an angle, in radians.
-     * @return  the sine of the argument.
+     * @pbrbm   b   bn bngle, in rbdibns.
+     * @return  the sine of the brgument.
      */
-    public static double sin(double a) {
-        return StrictMath.sin(a); // default impl. delegates to StrictMath
+    public stbtic double sin(double b) {
+        return StrictMbth.sin(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the trigonometric cosine of an angle. Special cases:
-     * <ul><li>If the argument is NaN or an infinity, then the
-     * result is NaN.</ul>
+     * Returns the trigonometric cosine of bn bngle. Specibl cbses:
+     * <ul><li>If the brgument is NbN or bn infinity, then the
+     * result is NbN.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   an angle, in radians.
-     * @return  the cosine of the argument.
+     * @pbrbm   b   bn bngle, in rbdibns.
+     * @return  the cosine of the brgument.
      */
-    public static double cos(double a) {
-        return StrictMath.cos(a); // default impl. delegates to StrictMath
+    public stbtic double cos(double b) {
+        return StrictMbth.cos(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the trigonometric tangent of an angle.  Special cases:
-     * <ul><li>If the argument is NaN or an infinity, then the result
-     * is NaN.
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.</ul>
+     * Returns the trigonometric tbngent of bn bngle.  Specibl cbses:
+     * <ul><li>If the brgument is NbN or bn infinity, then the result
+     * is NbN.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   an angle, in radians.
-     * @return  the tangent of the argument.
+     * @pbrbm   b   bn bngle, in rbdibns.
+     * @return  the tbngent of the brgument.
      */
-    public static double tan(double a) {
-        return StrictMath.tan(a); // default impl. delegates to StrictMath
+    public stbtic double tbn(double b) {
+        return StrictMbth.tbn(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the arc sine of a value; the returned angle is in the
-     * range -<i>pi</i>/2 through <i>pi</i>/2.  Special cases:
-     * <ul><li>If the argument is NaN or its absolute value is greater
-     * than 1, then the result is NaN.
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.</ul>
+     * Returns the brc sine of b vblue; the returned bngle is in the
+     * rbnge -<i>pi</i>/2 through <i>pi</i>/2.  Specibl cbses:
+     * <ul><li>If the brgument is NbN or its bbsolute vblue is grebter
+     * thbn 1, then the result is NbN.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   the value whose arc sine is to be returned.
-     * @return  the arc sine of the argument.
+     * @pbrbm   b   the vblue whose brc sine is to be returned.
+     * @return  the brc sine of the brgument.
      */
-    public static double asin(double a) {
-        return StrictMath.asin(a); // default impl. delegates to StrictMath
+    public stbtic double bsin(double b) {
+        return StrictMbth.bsin(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the arc cosine of a value; the returned angle is in the
-     * range 0.0 through <i>pi</i>.  Special case:
-     * <ul><li>If the argument is NaN or its absolute value is greater
-     * than 1, then the result is NaN.</ul>
+     * Returns the brc cosine of b vblue; the returned bngle is in the
+     * rbnge 0.0 through <i>pi</i>.  Specibl cbse:
+     * <ul><li>If the brgument is NbN or its bbsolute vblue is grebter
+     * thbn 1, then the result is NbN.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   the value whose arc cosine is to be returned.
-     * @return  the arc cosine of the argument.
+     * @pbrbm   b   the vblue whose brc cosine is to be returned.
+     * @return  the brc cosine of the brgument.
      */
-    public static double acos(double a) {
-        return StrictMath.acos(a); // default impl. delegates to StrictMath
+    public stbtic double bcos(double b) {
+        return StrictMbth.bcos(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the arc tangent of a value; the returned angle is in the
-     * range -<i>pi</i>/2 through <i>pi</i>/2.  Special cases:
-     * <ul><li>If the argument is NaN, then the result is NaN.
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.</ul>
+     * Returns the brc tbngent of b vblue; the returned bngle is in the
+     * rbnge -<i>pi</i>/2 through <i>pi</i>/2.  Specibl cbses:
+     * <ul><li>If the brgument is NbN, then the result is NbN.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   the value whose arc tangent is to be returned.
-     * @return  the arc tangent of the argument.
+     * @pbrbm   b   the vblue whose brc tbngent is to be returned.
+     * @return  the brc tbngent of the brgument.
      */
-    public static double atan(double a) {
-        return StrictMath.atan(a); // default impl. delegates to StrictMath
+    public stbtic double btbn(double b) {
+        return StrictMbth.btbn(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Converts an angle measured in degrees to an approximately
-     * equivalent angle measured in radians.  The conversion from
-     * degrees to radians is generally inexact.
+     * Converts bn bngle mebsured in degrees to bn bpproximbtely
+     * equivblent bngle mebsured in rbdibns.  The conversion from
+     * degrees to rbdibns is generblly inexbct.
      *
-     * @param   angdeg   an angle, in degrees
-     * @return  the measurement of the angle {@code angdeg}
-     *          in radians.
+     * @pbrbm   bngdeg   bn bngle, in degrees
+     * @return  the mebsurement of the bngle {@code bngdeg}
+     *          in rbdibns.
      * @since   1.2
      */
-    public static double toRadians(double angdeg) {
-        return angdeg / 180.0 * PI;
+    public stbtic double toRbdibns(double bngdeg) {
+        return bngdeg / 180.0 * PI;
     }
 
     /**
-     * Converts an angle measured in radians to an approximately
-     * equivalent angle measured in degrees.  The conversion from
-     * radians to degrees is generally inexact; users should
-     * <i>not</i> expect {@code cos(toRadians(90.0))} to exactly
-     * equal {@code 0.0}.
+     * Converts bn bngle mebsured in rbdibns to bn bpproximbtely
+     * equivblent bngle mebsured in degrees.  The conversion from
+     * rbdibns to degrees is generblly inexbct; users should
+     * <i>not</i> expect {@code cos(toRbdibns(90.0))} to exbctly
+     * equbl {@code 0.0}.
      *
-     * @param   angrad   an angle, in radians
-     * @return  the measurement of the angle {@code angrad}
+     * @pbrbm   bngrbd   bn bngle, in rbdibns
+     * @return  the mebsurement of the bngle {@code bngrbd}
      *          in degrees.
      * @since   1.2
      */
-    public static double toDegrees(double angrad) {
-        return angrad * 180.0 / PI;
+    public stbtic double toDegrees(double bngrbd) {
+        return bngrbd * 180.0 / PI;
     }
 
     /**
-     * Returns Euler's number <i>e</i> raised to the power of a
-     * {@code double} value.  Special cases:
-     * <ul><li>If the argument is NaN, the result is NaN.
-     * <li>If the argument is positive infinity, then the result is
+     * Returns Euler's number <i>e</i> rbised to the power of b
+     * {@code double} vblue.  Specibl cbses:
+     * <ul><li>If the brgument is NbN, the result is NbN.
+     * <li>If the brgument is positive infinity, then the result is
      * positive infinity.
-     * <li>If the argument is negative infinity, then the result is
+     * <li>If the brgument is negbtive infinity, then the result is
      * positive zero.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   the exponent to raise <i>e</i> to.
-     * @return  the value <i>e</i><sup>{@code a}</sup>,
-     *          where <i>e</i> is the base of the natural logarithms.
+     * @pbrbm   b   the exponent to rbise <i>e</i> to.
+     * @return  the vblue <i>e</i><sup>{@code b}</sup>,
+     *          where <i>e</i> is the bbse of the nbturbl logbrithms.
      */
-    public static double exp(double a) {
-        return StrictMath.exp(a); // default impl. delegates to StrictMath
+    public stbtic double exp(double b) {
+        return StrictMbth.exp(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the natural logarithm (base <i>e</i>) of a {@code double}
-     * value.  Special cases:
-     * <ul><li>If the argument is NaN or less than zero, then the result
-     * is NaN.
-     * <li>If the argument is positive infinity, then the result is
+     * Returns the nbturbl logbrithm (bbse <i>e</i>) of b {@code double}
+     * vblue.  Specibl cbses:
+     * <ul><li>If the brgument is NbN or less thbn zero, then the result
+     * is NbN.
+     * <li>If the brgument is positive infinity, then the result is
      * positive infinity.
-     * <li>If the argument is positive zero or negative zero, then the
-     * result is negative infinity.</ul>
+     * <li>If the brgument is positive zero or negbtive zero, then the
+     * result is negbtive infinity.</ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   a value
-     * @return  the value ln&nbsp;{@code a}, the natural logarithm of
-     *          {@code a}.
+     * @pbrbm   b   b vblue
+     * @return  the vblue ln&nbsp;{@code b}, the nbturbl logbrithm of
+     *          {@code b}.
      */
-    public static double log(double a) {
-        return StrictMath.log(a); // default impl. delegates to StrictMath
+    public stbtic double log(double b) {
+        return StrictMbth.log(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the base 10 logarithm of a {@code double} value.
-     * Special cases:
+     * Returns the bbse 10 logbrithm of b {@code double} vblue.
+     * Specibl cbses:
      *
-     * <ul><li>If the argument is NaN or less than zero, then the result
-     * is NaN.
-     * <li>If the argument is positive infinity, then the result is
+     * <ul><li>If the brgument is NbN or less thbn zero, then the result
+     * is NbN.
+     * <li>If the brgument is positive infinity, then the result is
      * positive infinity.
-     * <li>If the argument is positive zero or negative zero, then the
-     * result is negative infinity.
-     * <li> If the argument is equal to 10<sup><i>n</i></sup> for
+     * <li>If the brgument is positive zero or negbtive zero, then the
+     * result is negbtive infinity.
+     * <li> If the brgument is equbl to 10<sup><i>n</i></sup> for
      * integer <i>n</i>, then the result is <i>n</i>.
      * </ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   a value
-     * @return  the base 10 logarithm of  {@code a}.
+     * @pbrbm   b   b vblue
+     * @return  the bbse 10 logbrithm of  {@code b}.
      * @since 1.5
      */
-    public static double log10(double a) {
-        return StrictMath.log10(a); // default impl. delegates to StrictMath
+    public stbtic double log10(double b) {
+        return StrictMbth.log10(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the correctly rounded positive square root of a
-     * {@code double} value.
-     * Special cases:
-     * <ul><li>If the argument is NaN or less than zero, then the result
-     * is NaN.
-     * <li>If the argument is positive infinity, then the result is positive
+     * Returns the correctly rounded positive squbre root of b
+     * {@code double} vblue.
+     * Specibl cbses:
+     * <ul><li>If the brgument is NbN or less thbn zero, then the result
+     * is NbN.
+     * <li>If the brgument is positive infinity, then the result is positive
      * infinity.
-     * <li>If the argument is positive zero or negative zero, then the
-     * result is the same as the argument.</ul>
-     * Otherwise, the result is the {@code double} value closest to
-     * the true mathematical square root of the argument value.
+     * <li>If the brgument is positive zero or negbtive zero, then the
+     * result is the sbme bs the brgument.</ul>
+     * Otherwise, the result is the {@code double} vblue closest to
+     * the true mbthembticbl squbre root of the brgument vblue.
      *
-     * @param   a   a value.
-     * @return  the positive square root of {@code a}.
-     *          If the argument is NaN or less than zero, the result is NaN.
+     * @pbrbm   b   b vblue.
+     * @return  the positive squbre root of {@code b}.
+     *          If the brgument is NbN or less thbn zero, the result is NbN.
      */
-    public static double sqrt(double a) {
-        return StrictMath.sqrt(a); // default impl. delegates to StrictMath
-                                   // Note that hardware sqrt instructions
-                                   // frequently can be directly used by JITs
-                                   // and should be much faster than doing
-                                   // Math.sqrt in software.
+    public stbtic double sqrt(double b) {
+        return StrictMbth.sqrt(b); // defbult impl. delegbtes to StrictMbth
+                                   // Note thbt hbrdwbre sqrt instructions
+                                   // frequently cbn be directly used by JITs
+                                   // bnd should be much fbster thbn doing
+                                   // Mbth.sqrt in softwbre.
     }
 
 
     /**
-     * Returns the cube root of a {@code double} value.  For
+     * Returns the cube root of b {@code double} vblue.  For
      * positive finite {@code x}, {@code cbrt(-x) ==
-     * -cbrt(x)}; that is, the cube root of a negative value is
-     * the negative of the cube root of that value's magnitude.
+     * -cbrt(x)}; thbt is, the cube root of b negbtive vblue is
+     * the negbtive of the cube root of thbt vblue's mbgnitude.
      *
-     * Special cases:
+     * Specibl cbses:
      *
      * <ul>
      *
-     * <li>If the argument is NaN, then the result is NaN.
+     * <li>If the brgument is NbN, then the result is NbN.
      *
-     * <li>If the argument is infinite, then the result is an infinity
-     * with the same sign as the argument.
+     * <li>If the brgument is infinite, then the result is bn infinity
+     * with the sbme sign bs the brgument.
      *
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.
      *
      * </ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      *
-     * @param   a   a value.
-     * @return  the cube root of {@code a}.
+     * @pbrbm   b   b vblue.
+     * @return  the cube root of {@code b}.
      * @since 1.5
      */
-    public static double cbrt(double a) {
-        return StrictMath.cbrt(a);
+    public stbtic double cbrt(double b) {
+        return StrictMbth.cbrt(b);
     }
 
     /**
-     * Computes the remainder operation on two arguments as prescribed
-     * by the IEEE 754 standard.
-     * The remainder value is mathematically equal to
+     * Computes the rembinder operbtion on two brguments bs prescribed
+     * by the IEEE 754 stbndbrd.
+     * The rembinder vblue is mbthembticblly equbl to
      * <code>f1&nbsp;-&nbsp;f2</code>&nbsp;&times;&nbsp;<i>n</i>,
-     * where <i>n</i> is the mathematical integer closest to the exact
-     * mathematical value of the quotient {@code f1/f2}, and if two
-     * mathematical integers are equally close to {@code f1/f2},
-     * then <i>n</i> is the integer that is even. If the remainder is
-     * zero, its sign is the same as the sign of the first argument.
-     * Special cases:
-     * <ul><li>If either argument is NaN, or the first argument is infinite,
-     * or the second argument is positive zero or negative zero, then the
-     * result is NaN.
-     * <li>If the first argument is finite and the second argument is
-     * infinite, then the result is the same as the first argument.</ul>
+     * where <i>n</i> is the mbthembticbl integer closest to the exbct
+     * mbthembticbl vblue of the quotient {@code f1/f2}, bnd if two
+     * mbthembticbl integers bre equblly close to {@code f1/f2},
+     * then <i>n</i> is the integer thbt is even. If the rembinder is
+     * zero, its sign is the sbme bs the sign of the first brgument.
+     * Specibl cbses:
+     * <ul><li>If either brgument is NbN, or the first brgument is infinite,
+     * or the second brgument is positive zero or negbtive zero, then the
+     * result is NbN.
+     * <li>If the first brgument is finite bnd the second brgument is
+     * infinite, then the result is the sbme bs the first brgument.</ul>
      *
-     * @param   f1   the dividend.
-     * @param   f2   the divisor.
-     * @return  the remainder when {@code f1} is divided by
+     * @pbrbm   f1   the dividend.
+     * @pbrbm   f2   the divisor.
+     * @return  the rembinder when {@code f1} is divided by
      *          {@code f2}.
      */
-    public static double IEEEremainder(double f1, double f2) {
-        return StrictMath.IEEEremainder(f1, f2); // delegate to StrictMath
+    public stbtic double IEEErembinder(double f1, double f2) {
+        return StrictMbth.IEEErembinder(f1, f2); // delegbte to StrictMbth
     }
 
     /**
-     * Returns the smallest (closest to negative infinity)
-     * {@code double} value that is greater than or equal to the
-     * argument and is equal to a mathematical integer. Special cases:
-     * <ul><li>If the argument value is already equal to a
-     * mathematical integer, then the result is the same as the
-     * argument.  <li>If the argument is NaN or an infinity or
-     * positive zero or negative zero, then the result is the same as
-     * the argument.  <li>If the argument value is less than zero but
-     * greater than -1.0, then the result is negative zero.</ul> Note
-     * that the value of {@code Math.ceil(x)} is exactly the
-     * value of {@code -Math.floor(-x)}.
+     * Returns the smbllest (closest to negbtive infinity)
+     * {@code double} vblue thbt is grebter thbn or equbl to the
+     * brgument bnd is equbl to b mbthembticbl integer. Specibl cbses:
+     * <ul><li>If the brgument vblue is blrebdy equbl to b
+     * mbthembticbl integer, then the result is the sbme bs the
+     * brgument.  <li>If the brgument is NbN or bn infinity or
+     * positive zero or negbtive zero, then the result is the sbme bs
+     * the brgument.  <li>If the brgument vblue is less thbn zero but
+     * grebter thbn -1.0, then the result is negbtive zero.</ul> Note
+     * thbt the vblue of {@code Mbth.ceil(x)} is exbctly the
+     * vblue of {@code -Mbth.floor(-x)}.
      *
      *
-     * @param   a   a value.
-     * @return  the smallest (closest to negative infinity)
-     *          floating-point value that is greater than or equal to
-     *          the argument and is equal to a mathematical integer.
+     * @pbrbm   b   b vblue.
+     * @return  the smbllest (closest to negbtive infinity)
+     *          flobting-point vblue thbt is grebter thbn or equbl to
+     *          the brgument bnd is equbl to b mbthembticbl integer.
      */
-    public static double ceil(double a) {
-        return StrictMath.ceil(a); // default impl. delegates to StrictMath
+    public stbtic double ceil(double b) {
+        return StrictMbth.ceil(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the largest (closest to positive infinity)
-     * {@code double} value that is less than or equal to the
-     * argument and is equal to a mathematical integer. Special cases:
-     * <ul><li>If the argument value is already equal to a
-     * mathematical integer, then the result is the same as the
-     * argument.  <li>If the argument is NaN or an infinity or
-     * positive zero or negative zero, then the result is the same as
-     * the argument.</ul>
+     * Returns the lbrgest (closest to positive infinity)
+     * {@code double} vblue thbt is less thbn or equbl to the
+     * brgument bnd is equbl to b mbthembticbl integer. Specibl cbses:
+     * <ul><li>If the brgument vblue is blrebdy equbl to b
+     * mbthembticbl integer, then the result is the sbme bs the
+     * brgument.  <li>If the brgument is NbN or bn infinity or
+     * positive zero or negbtive zero, then the result is the sbme bs
+     * the brgument.</ul>
      *
-     * @param   a   a value.
-     * @return  the largest (closest to positive infinity)
-     *          floating-point value that less than or equal to the argument
-     *          and is equal to a mathematical integer.
+     * @pbrbm   b   b vblue.
+     * @return  the lbrgest (closest to positive infinity)
+     *          flobting-point vblue thbt less thbn or equbl to the brgument
+     *          bnd is equbl to b mbthembticbl integer.
      */
-    public static double floor(double a) {
-        return StrictMath.floor(a); // default impl. delegates to StrictMath
+    public stbtic double floor(double b) {
+        return StrictMbth.floor(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the {@code double} value that is closest in value
-     * to the argument and is equal to a mathematical integer. If two
-     * {@code double} values that are mathematical integers are
-     * equally close, the result is the integer value that is
-     * even. Special cases:
-     * <ul><li>If the argument value is already equal to a mathematical
-     * integer, then the result is the same as the argument.
-     * <li>If the argument is NaN or an infinity or positive zero or negative
-     * zero, then the result is the same as the argument.</ul>
+     * Returns the {@code double} vblue thbt is closest in vblue
+     * to the brgument bnd is equbl to b mbthembticbl integer. If two
+     * {@code double} vblues thbt bre mbthembticbl integers bre
+     * equblly close, the result is the integer vblue thbt is
+     * even. Specibl cbses:
+     * <ul><li>If the brgument vblue is blrebdy equbl to b mbthembticbl
+     * integer, then the result is the sbme bs the brgument.
+     * <li>If the brgument is NbN or bn infinity or positive zero or negbtive
+     * zero, then the result is the sbme bs the brgument.</ul>
      *
-     * @param   a   a {@code double} value.
-     * @return  the closest floating-point value to {@code a} that is
-     *          equal to a mathematical integer.
+     * @pbrbm   b   b {@code double} vblue.
+     * @return  the closest flobting-point vblue to {@code b} thbt is
+     *          equbl to b mbthembticbl integer.
      */
-    public static double rint(double a) {
-        return StrictMath.rint(a); // default impl. delegates to StrictMath
+    public stbtic double rint(double b) {
+        return StrictMbth.rint(b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the angle <i>theta</i> from the conversion of rectangular
-     * coordinates ({@code x},&nbsp;{@code y}) to polar
-     * coordinates (r,&nbsp;<i>theta</i>).
-     * This method computes the phase <i>theta</i> by computing an arc tangent
-     * of {@code y/x} in the range of -<i>pi</i> to <i>pi</i>. Special
-     * cases:
-     * <ul><li>If either argument is NaN, then the result is NaN.
-     * <li>If the first argument is positive zero and the second argument
-     * is positive, or the first argument is positive and finite and the
-     * second argument is positive infinity, then the result is positive
+     * Returns the bngle <i>thetb</i> from the conversion of rectbngulbr
+     * coordinbtes ({@code x},&nbsp;{@code y}) to polbr
+     * coordinbtes (r,&nbsp;<i>thetb</i>).
+     * This method computes the phbse <i>thetb</i> by computing bn brc tbngent
+     * of {@code y/x} in the rbnge of -<i>pi</i> to <i>pi</i>. Specibl
+     * cbses:
+     * <ul><li>If either brgument is NbN, then the result is NbN.
+     * <li>If the first brgument is positive zero bnd the second brgument
+     * is positive, or the first brgument is positive bnd finite bnd the
+     * second brgument is positive infinity, then the result is positive
      * zero.
-     * <li>If the first argument is negative zero and the second argument
-     * is positive, or the first argument is negative and finite and the
-     * second argument is positive infinity, then the result is negative zero.
-     * <li>If the first argument is positive zero and the second argument
-     * is negative, or the first argument is positive and finite and the
-     * second argument is negative infinity, then the result is the
-     * {@code double} value closest to <i>pi</i>.
-     * <li>If the first argument is negative zero and the second argument
-     * is negative, or the first argument is negative and finite and the
-     * second argument is negative infinity, then the result is the
-     * {@code double} value closest to -<i>pi</i>.
-     * <li>If the first argument is positive and the second argument is
-     * positive zero or negative zero, or the first argument is positive
-     * infinity and the second argument is finite, then the result is the
-     * {@code double} value closest to <i>pi</i>/2.
-     * <li>If the first argument is negative and the second argument is
-     * positive zero or negative zero, or the first argument is negative
-     * infinity and the second argument is finite, then the result is the
-     * {@code double} value closest to -<i>pi</i>/2.
-     * <li>If both arguments are positive infinity, then the result is the
-     * {@code double} value closest to <i>pi</i>/4.
-     * <li>If the first argument is positive infinity and the second argument
-     * is negative infinity, then the result is the {@code double}
-     * value closest to 3*<i>pi</i>/4.
-     * <li>If the first argument is negative infinity and the second argument
-     * is positive infinity, then the result is the {@code double} value
+     * <li>If the first brgument is negbtive zero bnd the second brgument
+     * is positive, or the first brgument is negbtive bnd finite bnd the
+     * second brgument is positive infinity, then the result is negbtive zero.
+     * <li>If the first brgument is positive zero bnd the second brgument
+     * is negbtive, or the first brgument is positive bnd finite bnd the
+     * second brgument is negbtive infinity, then the result is the
+     * {@code double} vblue closest to <i>pi</i>.
+     * <li>If the first brgument is negbtive zero bnd the second brgument
+     * is negbtive, or the first brgument is negbtive bnd finite bnd the
+     * second brgument is negbtive infinity, then the result is the
+     * {@code double} vblue closest to -<i>pi</i>.
+     * <li>If the first brgument is positive bnd the second brgument is
+     * positive zero or negbtive zero, or the first brgument is positive
+     * infinity bnd the second brgument is finite, then the result is the
+     * {@code double} vblue closest to <i>pi</i>/2.
+     * <li>If the first brgument is negbtive bnd the second brgument is
+     * positive zero or negbtive zero, or the first brgument is negbtive
+     * infinity bnd the second brgument is finite, then the result is the
+     * {@code double} vblue closest to -<i>pi</i>/2.
+     * <li>If both brguments bre positive infinity, then the result is the
+     * {@code double} vblue closest to <i>pi</i>/4.
+     * <li>If the first brgument is positive infinity bnd the second brgument
+     * is negbtive infinity, then the result is the {@code double}
+     * vblue closest to 3*<i>pi</i>/4.
+     * <li>If the first brgument is negbtive infinity bnd the second brgument
+     * is positive infinity, then the result is the {@code double} vblue
      * closest to -<i>pi</i>/4.
-     * <li>If both arguments are negative infinity, then the result is the
-     * {@code double} value closest to -3*<i>pi</i>/4.</ul>
+     * <li>If both brguments bre negbtive infinity, then the result is the
+     * {@code double} vblue closest to -3*<i>pi</i>/4.</ul>
      *
-     * <p>The computed result must be within 2 ulps of the exact result.
+     * <p>The computed result must be within 2 ulps of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   y   the ordinate coordinate
-     * @param   x   the abscissa coordinate
-     * @return  the <i>theta</i> component of the point
-     *          (<i>r</i>,&nbsp;<i>theta</i>)
-     *          in polar coordinates that corresponds to the point
-     *          (<i>x</i>,&nbsp;<i>y</i>) in Cartesian coordinates.
+     * @pbrbm   y   the ordinbte coordinbte
+     * @pbrbm   x   the bbscissb coordinbte
+     * @return  the <i>thetb</i> component of the point
+     *          (<i>r</i>,&nbsp;<i>thetb</i>)
+     *          in polbr coordinbtes thbt corresponds to the point
+     *          (<i>x</i>,&nbsp;<i>y</i>) in Cbrtesibn coordinbtes.
      */
-    public static double atan2(double y, double x) {
-        return StrictMath.atan2(y, x); // default impl. delegates to StrictMath
+    public stbtic double btbn2(double y, double x) {
+        return StrictMbth.btbn2(y, x); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the value of the first argument raised to the power of the
-     * second argument. Special cases:
+     * Returns the vblue of the first brgument rbised to the power of the
+     * second brgument. Specibl cbses:
      *
-     * <ul><li>If the second argument is positive or negative zero, then the
+     * <ul><li>If the second brgument is positive or negbtive zero, then the
      * result is 1.0.
-     * <li>If the second argument is 1.0, then the result is the same as the
-     * first argument.
-     * <li>If the second argument is NaN, then the result is NaN.
-     * <li>If the first argument is NaN and the second argument is nonzero,
-     * then the result is NaN.
+     * <li>If the second brgument is 1.0, then the result is the sbme bs the
+     * first brgument.
+     * <li>If the second brgument is NbN, then the result is NbN.
+     * <li>If the first brgument is NbN bnd the second brgument is nonzero,
+     * then the result is NbN.
      *
      * <li>If
      * <ul>
-     * <li>the absolute value of the first argument is greater than 1
-     * and the second argument is positive infinity, or
-     * <li>the absolute value of the first argument is less than 1 and
-     * the second argument is negative infinity,
+     * <li>the bbsolute vblue of the first brgument is grebter thbn 1
+     * bnd the second brgument is positive infinity, or
+     * <li>the bbsolute vblue of the first brgument is less thbn 1 bnd
+     * the second brgument is negbtive infinity,
      * </ul>
      * then the result is positive infinity.
      *
      * <li>If
      * <ul>
-     * <li>the absolute value of the first argument is greater than 1 and
-     * the second argument is negative infinity, or
-     * <li>the absolute value of the
-     * first argument is less than 1 and the second argument is positive
+     * <li>the bbsolute vblue of the first brgument is grebter thbn 1 bnd
+     * the second brgument is negbtive infinity, or
+     * <li>the bbsolute vblue of the
+     * first brgument is less thbn 1 bnd the second brgument is positive
      * infinity,
      * </ul>
      * then the result is positive zero.
      *
-     * <li>If the absolute value of the first argument equals 1 and the
-     * second argument is infinite, then the result is NaN.
+     * <li>If the bbsolute vblue of the first brgument equbls 1 bnd the
+     * second brgument is infinite, then the result is NbN.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is positive zero and the second argument
-     * is greater than zero, or
-     * <li>the first argument is positive infinity and the second
-     * argument is less than zero,
+     * <li>the first brgument is positive zero bnd the second brgument
+     * is grebter thbn zero, or
+     * <li>the first brgument is positive infinity bnd the second
+     * brgument is less thbn zero,
      * </ul>
      * then the result is positive zero.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is positive zero and the second argument
-     * is less than zero, or
-     * <li>the first argument is positive infinity and the second
-     * argument is greater than zero,
+     * <li>the first brgument is positive zero bnd the second brgument
+     * is less thbn zero, or
+     * <li>the first brgument is positive infinity bnd the second
+     * brgument is grebter thbn zero,
      * </ul>
      * then the result is positive infinity.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is negative zero and the second argument
-     * is greater than zero but not a finite odd integer, or
-     * <li>the first argument is negative infinity and the second
-     * argument is less than zero but not a finite odd integer,
+     * <li>the first brgument is negbtive zero bnd the second brgument
+     * is grebter thbn zero but not b finite odd integer, or
+     * <li>the first brgument is negbtive infinity bnd the second
+     * brgument is less thbn zero but not b finite odd integer,
      * </ul>
      * then the result is positive zero.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is negative zero and the second argument
-     * is a positive finite odd integer, or
-     * <li>the first argument is negative infinity and the second
-     * argument is a negative finite odd integer,
+     * <li>the first brgument is negbtive zero bnd the second brgument
+     * is b positive finite odd integer, or
+     * <li>the first brgument is negbtive infinity bnd the second
+     * brgument is b negbtive finite odd integer,
      * </ul>
-     * then the result is negative zero.
+     * then the result is negbtive zero.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is negative zero and the second argument
-     * is less than zero but not a finite odd integer, or
-     * <li>the first argument is negative infinity and the second
-     * argument is greater than zero but not a finite odd integer,
+     * <li>the first brgument is negbtive zero bnd the second brgument
+     * is less thbn zero but not b finite odd integer, or
+     * <li>the first brgument is negbtive infinity bnd the second
+     * brgument is grebter thbn zero but not b finite odd integer,
      * </ul>
      * then the result is positive infinity.
      *
      * <li>If
      * <ul>
-     * <li>the first argument is negative zero and the second argument
-     * is a negative finite odd integer, or
-     * <li>the first argument is negative infinity and the second
-     * argument is a positive finite odd integer,
+     * <li>the first brgument is negbtive zero bnd the second brgument
+     * is b negbtive finite odd integer, or
+     * <li>the first brgument is negbtive infinity bnd the second
+     * brgument is b positive finite odd integer,
      * </ul>
-     * then the result is negative infinity.
+     * then the result is negbtive infinity.
      *
-     * <li>If the first argument is finite and less than zero
+     * <li>If the first brgument is finite bnd less thbn zero
      * <ul>
-     * <li> if the second argument is a finite even integer, the
-     * result is equal to the result of raising the absolute value of
-     * the first argument to the power of the second argument
+     * <li> if the second brgument is b finite even integer, the
+     * result is equbl to the result of rbising the bbsolute vblue of
+     * the first brgument to the power of the second brgument
      *
-     * <li>if the second argument is a finite odd integer, the result
-     * is equal to the negative of the result of raising the absolute
-     * value of the first argument to the power of the second
-     * argument
+     * <li>if the second brgument is b finite odd integer, the result
+     * is equbl to the negbtive of the result of rbising the bbsolute
+     * vblue of the first brgument to the power of the second
+     * brgument
      *
-     * <li>if the second argument is finite and not an integer, then
-     * the result is NaN.
+     * <li>if the second brgument is finite bnd not bn integer, then
+     * the result is NbN.
      * </ul>
      *
-     * <li>If both arguments are integers, then the result is exactly equal
-     * to the mathematical result of raising the first argument to the power
-     * of the second argument if that result can in fact be represented
-     * exactly as a {@code double} value.</ul>
+     * <li>If both brguments bre integers, then the result is exbctly equbl
+     * to the mbthembticbl result of rbising the first brgument to the power
+     * of the second brgument if thbt result cbn in fbct be represented
+     * exbctly bs b {@code double} vblue.</ul>
      *
-     * <p>(In the foregoing descriptions, a floating-point value is
-     * considered to be an integer if and only if it is finite and a
+     * <p>(In the foregoing descriptions, b flobting-point vblue is
+     * considered to be bn integer if bnd only if it is finite bnd b
      * fixed point of the method {@link #ceil ceil} or,
-     * equivalently, a fixed point of the method {@link #floor
-     * floor}. A value is a fixed point of a one-argument
-     * method if and only if the result of applying the method to the
-     * value is equal to the value.)
+     * equivblently, b fixed point of the method {@link #floor
+     * floor}. A vblue is b fixed point of b one-brgument
+     * method if bnd only if the result of bpplying the method to the
+     * vblue is equbl to the vblue.)
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   a   the base.
-     * @param   b   the exponent.
-     * @return  the value {@code a}<sup>{@code b}</sup>.
+     * @pbrbm   b   the bbse.
+     * @pbrbm   b   the exponent.
+     * @return  the vblue {@code b}<sup>{@code b}</sup>.
      */
-    public static double pow(double a, double b) {
-        return StrictMath.pow(a, b); // default impl. delegates to StrictMath
+    public stbtic double pow(double b, double b) {
+        return StrictMbth.pow(b, b); // defbult impl. delegbtes to StrictMbth
     }
 
     /**
-     * Returns the closest {@code int} to the argument, with ties
+     * Returns the closest {@code int} to the brgument, with ties
      * rounding to positive infinity.
      *
      * <p>
-     * Special cases:
-     * <ul><li>If the argument is NaN, the result is 0.
-     * <li>If the argument is negative infinity or any value less than or
-     * equal to the value of {@code Integer.MIN_VALUE}, the result is
-     * equal to the value of {@code Integer.MIN_VALUE}.
-     * <li>If the argument is positive infinity or any value greater than or
-     * equal to the value of {@code Integer.MAX_VALUE}, the result is
-     * equal to the value of {@code Integer.MAX_VALUE}.</ul>
+     * Specibl cbses:
+     * <ul><li>If the brgument is NbN, the result is 0.
+     * <li>If the brgument is negbtive infinity or bny vblue less thbn or
+     * equbl to the vblue of {@code Integer.MIN_VALUE}, the result is
+     * equbl to the vblue of {@code Integer.MIN_VALUE}.
+     * <li>If the brgument is positive infinity or bny vblue grebter thbn or
+     * equbl to the vblue of {@code Integer.MAX_VALUE}, the result is
+     * equbl to the vblue of {@code Integer.MAX_VALUE}.</ul>
      *
-     * @param   a   a floating-point value to be rounded to an integer.
-     * @return  the value of the argument rounded to the nearest
-     *          {@code int} value.
-     * @see     java.lang.Integer#MAX_VALUE
-     * @see     java.lang.Integer#MIN_VALUE
+     * @pbrbm   b   b flobting-point vblue to be rounded to bn integer.
+     * @return  the vblue of the brgument rounded to the nebrest
+     *          {@code int} vblue.
+     * @see     jbvb.lbng.Integer#MAX_VALUE
+     * @see     jbvb.lbng.Integer#MIN_VALUE
      */
-    public static int round(float a) {
-        int intBits = Float.floatToRawIntBits(a);
-        int biasedExp = (intBits & FloatConsts.EXP_BIT_MASK)
-                >> (FloatConsts.SIGNIFICAND_WIDTH - 1);
-        int shift = (FloatConsts.SIGNIFICAND_WIDTH - 2
-                + FloatConsts.EXP_BIAS) - biasedExp;
+    public stbtic int round(flobt b) {
+        int intBits = Flobt.flobtToRbwIntBits(b);
+        int bibsedExp = (intBits & FlobtConsts.EXP_BIT_MASK)
+                >> (FlobtConsts.SIGNIFICAND_WIDTH - 1);
+        int shift = (FlobtConsts.SIGNIFICAND_WIDTH - 2
+                + FlobtConsts.EXP_BIAS) - bibsedExp;
         if ((shift & -32) == 0) { // shift >= 0 && shift < 32
-            // a is a finite number such that pow(2,-32) <= ulp(a) < 1
-            int r = ((intBits & FloatConsts.SIGNIF_BIT_MASK)
-                    | (FloatConsts.SIGNIF_BIT_MASK + 1));
+            // b is b finite number such thbt pow(2,-32) <= ulp(b) < 1
+            int r = ((intBits & FlobtConsts.SIGNIF_BIT_MASK)
+                    | (FlobtConsts.SIGNIF_BIT_MASK + 1));
             if (intBits < 0) {
                 r = -r;
             }
-            // In the comments below each Java expression evaluates to the value
-            // the corresponding mathematical expression:
-            // (r) evaluates to a / ulp(a)
-            // (r >> shift) evaluates to floor(a * 2)
-            // ((r >> shift) + 1) evaluates to floor((a + 1/2) * 2)
-            // (((r >> shift) + 1) >> 1) evaluates to floor(a + 1/2)
+            // In the comments below ebch Jbvb expression evblubtes to the vblue
+            // the corresponding mbthembticbl expression:
+            // (r) evblubtes to b / ulp(b)
+            // (r >> shift) evblubtes to floor(b * 2)
+            // ((r >> shift) + 1) evblubtes to floor((b + 1/2) * 2)
+            // (((r >> shift) + 1) >> 1) evblubtes to floor(b + 1/2)
             return ((r >> shift) + 1) >> 1;
         } else {
-            // a is either
-            // - a finite number with abs(a) < exp(2,FloatConsts.SIGNIFICAND_WIDTH-32) < 1/2
-            // - a finite number with ulp(a) >= 1 and hence a is a mathematical integer
-            // - an infinity or NaN
-            return (int) a;
+            // b is either
+            // - b finite number with bbs(b) < exp(2,FlobtConsts.SIGNIFICAND_WIDTH-32) < 1/2
+            // - b finite number with ulp(b) >= 1 bnd hence b is b mbthembticbl integer
+            // - bn infinity or NbN
+            return (int) b;
         }
     }
 
     /**
-     * Returns the closest {@code long} to the argument, with ties
+     * Returns the closest {@code long} to the brgument, with ties
      * rounding to positive infinity.
      *
-     * <p>Special cases:
-     * <ul><li>If the argument is NaN, the result is 0.
-     * <li>If the argument is negative infinity or any value less than or
-     * equal to the value of {@code Long.MIN_VALUE}, the result is
-     * equal to the value of {@code Long.MIN_VALUE}.
-     * <li>If the argument is positive infinity or any value greater than or
-     * equal to the value of {@code Long.MAX_VALUE}, the result is
-     * equal to the value of {@code Long.MAX_VALUE}.</ul>
+     * <p>Specibl cbses:
+     * <ul><li>If the brgument is NbN, the result is 0.
+     * <li>If the brgument is negbtive infinity or bny vblue less thbn or
+     * equbl to the vblue of {@code Long.MIN_VALUE}, the result is
+     * equbl to the vblue of {@code Long.MIN_VALUE}.
+     * <li>If the brgument is positive infinity or bny vblue grebter thbn or
+     * equbl to the vblue of {@code Long.MAX_VALUE}, the result is
+     * equbl to the vblue of {@code Long.MAX_VALUE}.</ul>
      *
-     * @param   a   a floating-point value to be rounded to a
+     * @pbrbm   b   b flobting-point vblue to be rounded to b
      *          {@code long}.
-     * @return  the value of the argument rounded to the nearest
-     *          {@code long} value.
-     * @see     java.lang.Long#MAX_VALUE
-     * @see     java.lang.Long#MIN_VALUE
+     * @return  the vblue of the brgument rounded to the nebrest
+     *          {@code long} vblue.
+     * @see     jbvb.lbng.Long#MAX_VALUE
+     * @see     jbvb.lbng.Long#MIN_VALUE
      */
-    public static long round(double a) {
-        long longBits = Double.doubleToRawLongBits(a);
-        long biasedExp = (longBits & DoubleConsts.EXP_BIT_MASK)
+    public stbtic long round(double b) {
+        long longBits = Double.doubleToRbwLongBits(b);
+        long bibsedExp = (longBits & DoubleConsts.EXP_BIT_MASK)
                 >> (DoubleConsts.SIGNIFICAND_WIDTH - 1);
         long shift = (DoubleConsts.SIGNIFICAND_WIDTH - 2
-                + DoubleConsts.EXP_BIAS) - biasedExp;
+                + DoubleConsts.EXP_BIAS) - bibsedExp;
         if ((shift & -64) == 0) { // shift >= 0 && shift < 64
-            // a is a finite number such that pow(2,-64) <= ulp(a) < 1
+            // b is b finite number such thbt pow(2,-64) <= ulp(b) < 1
             long r = ((longBits & DoubleConsts.SIGNIF_BIT_MASK)
                     | (DoubleConsts.SIGNIF_BIT_MASK + 1));
             if (longBits < 0) {
                 r = -r;
             }
-            // In the comments below each Java expression evaluates to the value
-            // the corresponding mathematical expression:
-            // (r) evaluates to a / ulp(a)
-            // (r >> shift) evaluates to floor(a * 2)
-            // ((r >> shift) + 1) evaluates to floor((a + 1/2) * 2)
-            // (((r >> shift) + 1) >> 1) evaluates to floor(a + 1/2)
+            // In the comments below ebch Jbvb expression evblubtes to the vblue
+            // the corresponding mbthembticbl expression:
+            // (r) evblubtes to b / ulp(b)
+            // (r >> shift) evblubtes to floor(b * 2)
+            // ((r >> shift) + 1) evblubtes to floor((b + 1/2) * 2)
+            // (((r >> shift) + 1) >> 1) evblubtes to floor(b + 1/2)
             return ((r >> shift) + 1) >> 1;
         } else {
-            // a is either
-            // - a finite number with abs(a) < exp(2,DoubleConsts.SIGNIFICAND_WIDTH-64) < 1/2
-            // - a finite number with ulp(a) >= 1 and hence a is a mathematical integer
-            // - an infinity or NaN
-            return (long) a;
+            // b is either
+            // - b finite number with bbs(b) < exp(2,DoubleConsts.SIGNIFICAND_WIDTH-64) < 1/2
+            // - b finite number with ulp(b) >= 1 bnd hence b is b mbthembticbl integer
+            // - bn infinity or NbN
+            return (long) b;
         }
     }
 
-    private static final class RandomNumberGeneratorHolder {
-        static final Random randomNumberGenerator = new Random();
+    privbte stbtic finbl clbss RbndomNumberGenerbtorHolder {
+        stbtic finbl Rbndom rbndomNumberGenerbtor = new Rbndom();
     }
 
     /**
-     * Returns a {@code double} value with a positive sign, greater
-     * than or equal to {@code 0.0} and less than {@code 1.0}.
-     * Returned values are chosen pseudorandomly with (approximately)
-     * uniform distribution from that range.
+     * Returns b {@code double} vblue with b positive sign, grebter
+     * thbn or equbl to {@code 0.0} bnd less thbn {@code 1.0}.
+     * Returned vblues bre chosen pseudorbndomly with (bpproximbtely)
+     * uniform distribution from thbt rbnge.
      *
-     * <p>When this method is first called, it creates a single new
-     * pseudorandom-number generator, exactly as if by the expression
+     * <p>When this method is first cblled, it crebtes b single new
+     * pseudorbndom-number generbtor, exbctly bs if by the expression
      *
-     * <blockquote>{@code new java.util.Random()}</blockquote>
+     * <blockquote>{@code new jbvb.util.Rbndom()}</blockquote>
      *
-     * This new pseudorandom-number generator is used thereafter for
-     * all calls to this method and is used nowhere else.
+     * This new pseudorbndom-number generbtor is used therebfter for
+     * bll cblls to this method bnd is used nowhere else.
      *
-     * <p>This method is properly synchronized to allow correct use by
-     * more than one thread. However, if many threads need to generate
-     * pseudorandom numbers at a great rate, it may reduce contention
-     * for each thread to have its own pseudorandom-number generator.
+     * <p>This method is properly synchronized to bllow correct use by
+     * more thbn one threbd. However, if mbny threbds need to generbte
+     * pseudorbndom numbers bt b grebt rbte, it mby reduce contention
+     * for ebch threbd to hbve its own pseudorbndom-number generbtor.
      *
-     * @apiNote
-     * As the largest {@code double} value less than {@code 1.0}
-     * is {@code Math.nextDown(1.0)}, a value {@code x} in the closed range
-     * {@code [x1,x2]} where {@code x1<=x2} may be defined by the statements
+     * @bpiNote
+     * As the lbrgest {@code double} vblue less thbn {@code 1.0}
+     * is {@code Mbth.nextDown(1.0)}, b vblue {@code x} in the closed rbnge
+     * {@code [x1,x2]} where {@code x1<=x2} mby be defined by the stbtements
      *
      * <blockquote><pre>{@code
-     * double f = Math.random()/Math.nextDown(1.0);
+     * double f = Mbth.rbndom()/Mbth.nextDown(1.0);
      * double x = x1*(1.0 - f) + x2*f;
      * }</pre></blockquote>
      *
-     * @return  a pseudorandom {@code double} greater than or equal
-     * to {@code 0.0} and less than {@code 1.0}.
+     * @return  b pseudorbndom {@code double} grebter thbn or equbl
+     * to {@code 0.0} bnd less thbn {@code 1.0}.
      * @see #nextDown(double)
-     * @see Random#nextDouble()
+     * @see Rbndom#nextDouble()
      */
-    public static double random() {
-        return RandomNumberGeneratorHolder.randomNumberGenerator.nextDouble();
+    public stbtic double rbndom() {
+        return RbndomNumberGenerbtorHolder.rbndomNumberGenerbtor.nextDouble();
     }
 
     /**
-     * Returns the sum of its arguments,
-     * throwing an exception if the result overflows an {@code int}.
+     * Returns the sum of its brguments,
+     * throwing bn exception if the result overflows bn {@code int}.
      *
-     * @param x the first value
-     * @param y the second value
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int addExact(int x, int y) {
+    public stbtic int bddExbct(int x, int y) {
         int r = x + y;
-        // HD 2-12 Overflow iff both arguments have the opposite sign of the result
+        // HD 2-12 Overflow iff both brguments hbve the opposite sign of the result
         if (((x ^ r) & (y ^ r)) < 0) {
             throw new ArithmeticException("integer overflow");
         }
@@ -804,18 +804,18 @@ public final class Math {
     }
 
     /**
-     * Returns the sum of its arguments,
-     * throwing an exception if the result overflows a {@code long}.
+     * Returns the sum of its brguments,
+     * throwing bn exception if the result overflows b {@code long}.
      *
-     * @param x the first value
-     * @param y the second value
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long addExact(long x, long y) {
+    public stbtic long bddExbct(long x, long y) {
         long r = x + y;
-        // HD 2-12 Overflow iff both arguments have the opposite sign of the result
+        // HD 2-12 Overflow iff both brguments hbve the opposite sign of the result
         if (((x ^ r) & (y ^ r)) < 0) {
             throw new ArithmeticException("long overflow");
         }
@@ -823,19 +823,19 @@ public final class Math {
     }
 
     /**
-     * Returns the difference of the arguments,
-     * throwing an exception if the result overflows an {@code int}.
+     * Returns the difference of the brguments,
+     * throwing bn exception if the result overflows bn {@code int}.
      *
-     * @param x the first value
-     * @param y the second value to subtract from the first
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue to subtrbct from the first
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int subtractExact(int x, int y) {
+    public stbtic int subtrbctExbct(int x, int y) {
         int r = x - y;
-        // HD 2-12 Overflow iff the arguments have different signs and
-        // the sign of the result is different than the sign of x
+        // HD 2-12 Overflow iff the brguments hbve different signs bnd
+        // the sign of the result is different thbn the sign of x
         if (((x ^ y) & (x ^ r)) < 0) {
             throw new ArithmeticException("integer overflow");
         }
@@ -843,19 +843,19 @@ public final class Math {
     }
 
     /**
-     * Returns the difference of the arguments,
-     * throwing an exception if the result overflows a {@code long}.
+     * Returns the difference of the brguments,
+     * throwing bn exception if the result overflows b {@code long}.
      *
-     * @param x the first value
-     * @param y the second value to subtract from the first
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue to subtrbct from the first
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long subtractExact(long x, long y) {
+    public stbtic long subtrbctExbct(long x, long y) {
         long r = x - y;
-        // HD 2-12 Overflow iff the arguments have different signs and
-        // the sign of the result is different than the sign of x
+        // HD 2-12 Overflow iff the brguments hbve different signs bnd
+        // the sign of the result is different thbn the sign of x
         if (((x ^ y) & (x ^ r)) < 0) {
             throw new ArithmeticException("long overflow");
         }
@@ -863,16 +863,16 @@ public final class Math {
     }
 
     /**
-     * Returns the product of the arguments,
-     * throwing an exception if the result overflows an {@code int}.
+     * Returns the product of the brguments,
+     * throwing bn exception if the result overflows bn {@code int}.
      *
-     * @param x the first value
-     * @param y the second value
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int multiplyExact(int x, int y) {
+    public stbtic int multiplyExbct(int x, int y) {
         long r = (long)x * (long)y;
         if ((int)r != r) {
             throw new ArithmeticException("integer overflow");
@@ -881,23 +881,23 @@ public final class Math {
     }
 
     /**
-     * Returns the product of the arguments,
-     * throwing an exception if the result overflows a {@code long}.
+     * Returns the product of the brguments,
+     * throwing bn exception if the result overflows b {@code long}.
      *
-     * @param x the first value
-     * @param y the second value
+     * @pbrbm x the first vblue
+     * @pbrbm y the second vblue
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long multiplyExact(long x, long y) {
+    public stbtic long multiplyExbct(long x, long y) {
         long r = x * y;
-        long ax = Math.abs(x);
-        long ay = Math.abs(y);
-        if (((ax | ay) >>> 31 != 0)) {
-            // Some bits greater than 2^31 that might cause overflow
-            // Check the result using the divide operator
-            // and check for the special case of Long.MIN_VALUE * -1
+        long bx = Mbth.bbs(x);
+        long by = Mbth.bbs(y);
+        if (((bx | by) >>> 31 != 0)) {
+            // Some bits grebter thbn 2^31 thbt might cbuse overflow
+            // Check the result using the divide operbtor
+            // bnd check for the specibl cbse of Long.MIN_VALUE * -1
            if (((y != 0) && (r / y != x)) ||
                (x == Long.MIN_VALUE && y == -1)) {
                 throw new ArithmeticException("long overflow");
@@ -907,160 +907,160 @@ public final class Math {
     }
 
     /**
-     * Returns the argument incremented by one, throwing an exception if the
-     * result overflows an {@code int}.
+     * Returns the brgument incremented by one, throwing bn exception if the
+     * result overflows bn {@code int}.
      *
-     * @param a the value to increment
+     * @pbrbm b the vblue to increment
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int incrementExact(int a) {
-        if (a == Integer.MAX_VALUE) {
+    public stbtic int incrementExbct(int b) {
+        if (b == Integer.MAX_VALUE) {
             throw new ArithmeticException("integer overflow");
         }
 
-        return a + 1;
+        return b + 1;
     }
 
     /**
-     * Returns the argument incremented by one, throwing an exception if the
-     * result overflows a {@code long}.
+     * Returns the brgument incremented by one, throwing bn exception if the
+     * result overflows b {@code long}.
      *
-     * @param a the value to increment
+     * @pbrbm b the vblue to increment
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long incrementExact(long a) {
-        if (a == Long.MAX_VALUE) {
+    public stbtic long incrementExbct(long b) {
+        if (b == Long.MAX_VALUE) {
             throw new ArithmeticException("long overflow");
         }
 
-        return a + 1L;
+        return b + 1L;
     }
 
     /**
-     * Returns the argument decremented by one, throwing an exception if the
-     * result overflows an {@code int}.
+     * Returns the brgument decremented by one, throwing bn exception if the
+     * result overflows bn {@code int}.
      *
-     * @param a the value to decrement
+     * @pbrbm b the vblue to decrement
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int decrementExact(int a) {
-        if (a == Integer.MIN_VALUE) {
+    public stbtic int decrementExbct(int b) {
+        if (b == Integer.MIN_VALUE) {
             throw new ArithmeticException("integer overflow");
         }
 
-        return a - 1;
+        return b - 1;
     }
 
     /**
-     * Returns the argument decremented by one, throwing an exception if the
-     * result overflows a {@code long}.
+     * Returns the brgument decremented by one, throwing bn exception if the
+     * result overflows b {@code long}.
      *
-     * @param a the value to decrement
+     * @pbrbm b the vblue to decrement
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long decrementExact(long a) {
-        if (a == Long.MIN_VALUE) {
+    public stbtic long decrementExbct(long b) {
+        if (b == Long.MIN_VALUE) {
             throw new ArithmeticException("long overflow");
         }
 
-        return a - 1L;
+        return b - 1L;
     }
 
     /**
-     * Returns the negation of the argument, throwing an exception if the
-     * result overflows an {@code int}.
+     * Returns the negbtion of the brgument, throwing bn exception if the
+     * result overflows bn {@code int}.
      *
-     * @param a the value to negate
+     * @pbrbm b the vblue to negbte
      * @return the result
-     * @throws ArithmeticException if the result overflows an int
+     * @throws ArithmeticException if the result overflows bn int
      * @since 1.8
      */
-    public static int negateExact(int a) {
-        if (a == Integer.MIN_VALUE) {
+    public stbtic int negbteExbct(int b) {
+        if (b == Integer.MIN_VALUE) {
             throw new ArithmeticException("integer overflow");
         }
 
-        return -a;
+        return -b;
     }
 
     /**
-     * Returns the negation of the argument, throwing an exception if the
-     * result overflows a {@code long}.
+     * Returns the negbtion of the brgument, throwing bn exception if the
+     * result overflows b {@code long}.
      *
-     * @param a the value to negate
+     * @pbrbm b the vblue to negbte
      * @return the result
-     * @throws ArithmeticException if the result overflows a long
+     * @throws ArithmeticException if the result overflows b long
      * @since 1.8
      */
-    public static long negateExact(long a) {
-        if (a == Long.MIN_VALUE) {
+    public stbtic long negbteExbct(long b) {
+        if (b == Long.MIN_VALUE) {
             throw new ArithmeticException("long overflow");
         }
 
-        return -a;
+        return -b;
     }
 
     /**
-     * Returns the value of the {@code long} argument;
-     * throwing an exception if the value overflows an {@code int}.
+     * Returns the vblue of the {@code long} brgument;
+     * throwing bn exception if the vblue overflows bn {@code int}.
      *
-     * @param value the long value
-     * @return the argument as an int
-     * @throws ArithmeticException if the {@code argument} overflows an int
+     * @pbrbm vblue the long vblue
+     * @return the brgument bs bn int
+     * @throws ArithmeticException if the {@code brgument} overflows bn int
      * @since 1.8
      */
-    public static int toIntExact(long value) {
-        if ((int)value != value) {
+    public stbtic int toIntExbct(long vblue) {
+        if ((int)vblue != vblue) {
             throw new ArithmeticException("integer overflow");
         }
-        return (int)value;
+        return (int)vblue;
     }
 
     /**
-     * Returns the largest (closest to positive infinity)
-     * {@code int} value that is less than or equal to the algebraic quotient.
-     * There is one special case, if the dividend is the
-     * {@linkplain Integer#MIN_VALUE Integer.MIN_VALUE} and the divisor is {@code -1},
-     * then integer overflow occurs and
-     * the result is equal to the {@code Integer.MIN_VALUE}.
+     * Returns the lbrgest (closest to positive infinity)
+     * {@code int} vblue thbt is less thbn or equbl to the blgebrbic quotient.
+     * There is one specibl cbse, if the dividend is the
+     * {@linkplbin Integer#MIN_VALUE Integer.MIN_VALUE} bnd the divisor is {@code -1},
+     * then integer overflow occurs bnd
+     * the result is equbl to the {@code Integer.MIN_VALUE}.
      * <p>
-     * Normal integer division operates under the round to zero rounding mode
-     * (truncation).  This operation instead acts under the round toward
-     * negative infinity (floor) rounding mode.
-     * The floor rounding mode gives different results than truncation
-     * when the exact result is negative.
+     * Normbl integer division operbtes under the round to zero rounding mode
+     * (truncbtion).  This operbtion instebd bcts under the round towbrd
+     * negbtive infinity (floor) rounding mode.
+     * The floor rounding mode gives different results thbn truncbtion
+     * when the exbct result is negbtive.
      * <ul>
-     *   <li>If the signs of the arguments are the same, the results of
-     *       {@code floorDiv} and the {@code /} operator are the same.  <br>
-     *       For example, {@code floorDiv(4, 3) == 1} and {@code (4 / 3) == 1}.</li>
-     *   <li>If the signs of the arguments are different,  the quotient is negative and
-     *       {@code floorDiv} returns the integer less than or equal to the quotient
-     *       and the {@code /} operator returns the integer closest to zero.<br>
-     *       For example, {@code floorDiv(-4, 3) == -2},
-     *       whereas {@code (-4 / 3) == -1}.
+     *   <li>If the signs of the brguments bre the sbme, the results of
+     *       {@code floorDiv} bnd the {@code /} operbtor bre the sbme.  <br>
+     *       For exbmple, {@code floorDiv(4, 3) == 1} bnd {@code (4 / 3) == 1}.</li>
+     *   <li>If the signs of the brguments bre different,  the quotient is negbtive bnd
+     *       {@code floorDiv} returns the integer less thbn or equbl to the quotient
+     *       bnd the {@code /} operbtor returns the integer closest to zero.<br>
+     *       For exbmple, {@code floorDiv(-4, 3) == -2},
+     *       wherebs {@code (-4 / 3) == -1}.
      *   </li>
      * </ul>
      *
-     * @param x the dividend
-     * @param y the divisor
-     * @return the largest (closest to positive infinity)
-     * {@code int} value that is less than or equal to the algebraic quotient.
+     * @pbrbm x the dividend
+     * @pbrbm y the divisor
+     * @return the lbrgest (closest to positive infinity)
+     * {@code int} vblue thbt is less thbn or equbl to the blgebrbic quotient.
      * @throws ArithmeticException if the divisor {@code y} is zero
      * @see #floorMod(int, int)
      * @see #floor(double)
      * @since 1.8
      */
-    public static int floorDiv(int x, int y) {
+    public stbtic int floorDiv(int x, int y) {
         int r = x / y;
-        // if the signs are different and modulo not zero, round down
+        // if the signs bre different bnd modulo not zero, round down
         if ((x ^ y) < 0 && (r * y != x)) {
             r--;
         }
@@ -1068,33 +1068,33 @@ public final class Math {
     }
 
     /**
-     * Returns the largest (closest to positive infinity)
-     * {@code long} value that is less than or equal to the algebraic quotient.
-     * There is one special case, if the dividend is the
-     * {@linkplain Long#MIN_VALUE Long.MIN_VALUE} and the divisor is {@code -1},
-     * then integer overflow occurs and
-     * the result is equal to the {@code Long.MIN_VALUE}.
+     * Returns the lbrgest (closest to positive infinity)
+     * {@code long} vblue thbt is less thbn or equbl to the blgebrbic quotient.
+     * There is one specibl cbse, if the dividend is the
+     * {@linkplbin Long#MIN_VALUE Long.MIN_VALUE} bnd the divisor is {@code -1},
+     * then integer overflow occurs bnd
+     * the result is equbl to the {@code Long.MIN_VALUE}.
      * <p>
-     * Normal integer division operates under the round to zero rounding mode
-     * (truncation).  This operation instead acts under the round toward
-     * negative infinity (floor) rounding mode.
-     * The floor rounding mode gives different results than truncation
-     * when the exact result is negative.
+     * Normbl integer division operbtes under the round to zero rounding mode
+     * (truncbtion).  This operbtion instebd bcts under the round towbrd
+     * negbtive infinity (floor) rounding mode.
+     * The floor rounding mode gives different results thbn truncbtion
+     * when the exbct result is negbtive.
      * <p>
-     * For examples, see {@link #floorDiv(int, int)}.
+     * For exbmples, see {@link #floorDiv(int, int)}.
      *
-     * @param x the dividend
-     * @param y the divisor
-     * @return the largest (closest to positive infinity)
-     * {@code long} value that is less than or equal to the algebraic quotient.
+     * @pbrbm x the dividend
+     * @pbrbm y the divisor
+     * @return the lbrgest (closest to positive infinity)
+     * {@code long} vblue thbt is less thbn or equbl to the blgebrbic quotient.
      * @throws ArithmeticException if the divisor {@code y} is zero
      * @see #floorMod(long, long)
      * @see #floor(double)
      * @since 1.8
      */
-    public static long floorDiv(long x, long y) {
+    public stbtic long floorDiv(long x, long y) {
         long r = x / y;
-        // if the signs are different and modulo not zero, round down
+        // if the signs bre different bnd modulo not zero, round down
         if ((x ^ y) < 0 && (r * y != x)) {
             r--;
         }
@@ -1102,360 +1102,360 @@ public final class Math {
     }
 
     /**
-     * Returns the floor modulus of the {@code int} arguments.
+     * Returns the floor modulus of the {@code int} brguments.
      * <p>
      * The floor modulus is {@code x - (floorDiv(x, y) * y)},
-     * has the same sign as the divisor {@code y}, and
-     * is in the range of {@code -abs(y) < r < +abs(y)}.
+     * hbs the sbme sign bs the divisor {@code y}, bnd
+     * is in the rbnge of {@code -bbs(y) < r < +bbs(y)}.
      *
      * <p>
-     * The relationship between {@code floorDiv} and {@code floorMod} is such that:
+     * The relbtionship between {@code floorDiv} bnd {@code floorMod} is such thbt:
      * <ul>
      *   <li>{@code floorDiv(x, y) * y + floorMod(x, y) == x}
      * </ul>
      * <p>
-     * The difference in values between {@code floorMod} and
-     * the {@code %} operator is due to the difference between
-     * {@code floorDiv} that returns the integer less than or equal to the quotient
-     * and the {@code /} operator that returns the integer closest to zero.
+     * The difference in vblues between {@code floorMod} bnd
+     * the {@code %} operbtor is due to the difference between
+     * {@code floorDiv} thbt returns the integer less thbn or equbl to the quotient
+     * bnd the {@code /} operbtor thbt returns the integer closest to zero.
      * <p>
-     * Examples:
+     * Exbmples:
      * <ul>
-     *   <li>If the signs of the arguments are the same, the results
-     *       of {@code floorMod} and the {@code %} operator are the same.  <br>
+     *   <li>If the signs of the brguments bre the sbme, the results
+     *       of {@code floorMod} bnd the {@code %} operbtor bre the sbme.  <br>
      *       <ul>
-     *       <li>{@code floorMod(4, 3) == 1}; &nbsp; and {@code (4 % 3) == 1}</li>
+     *       <li>{@code floorMod(4, 3) == 1}; &nbsp; bnd {@code (4 % 3) == 1}</li>
      *       </ul>
-     *   <li>If the signs of the arguments are different, the results differ from the {@code %} operator.<br>
+     *   <li>If the signs of the brguments bre different, the results differ from the {@code %} operbtor.<br>
      *      <ul>
-     *      <li>{@code floorMod(+4, -3) == -2}; &nbsp; and {@code (+4 % -3) == +1} </li>
-     *      <li>{@code floorMod(-4, +3) == +2}; &nbsp; and {@code (-4 % +3) == -1} </li>
-     *      <li>{@code floorMod(-4, -3) == -1}; &nbsp; and {@code (-4 % -3) == -1 } </li>
+     *      <li>{@code floorMod(+4, -3) == -2}; &nbsp; bnd {@code (+4 % -3) == +1} </li>
+     *      <li>{@code floorMod(-4, +3) == +2}; &nbsp; bnd {@code (-4 % +3) == -1} </li>
+     *      <li>{@code floorMod(-4, -3) == -1}; &nbsp; bnd {@code (-4 % -3) == -1 } </li>
      *      </ul>
      *   </li>
      * </ul>
      * <p>
-     * If the signs of arguments are unknown and a positive modulus
-     * is needed it can be computed as {@code (floorMod(x, y) + abs(y)) % abs(y)}.
+     * If the signs of brguments bre unknown bnd b positive modulus
+     * is needed it cbn be computed bs {@code (floorMod(x, y) + bbs(y)) % bbs(y)}.
      *
-     * @param x the dividend
-     * @param y the divisor
+     * @pbrbm x the dividend
+     * @pbrbm y the divisor
      * @return the floor modulus {@code x - (floorDiv(x, y) * y)}
      * @throws ArithmeticException if the divisor {@code y} is zero
      * @see #floorDiv(int, int)
      * @since 1.8
      */
-    public static int floorMod(int x, int y) {
+    public stbtic int floorMod(int x, int y) {
         int r = x - floorDiv(x, y) * y;
         return r;
     }
 
     /**
-     * Returns the floor modulus of the {@code long} arguments.
+     * Returns the floor modulus of the {@code long} brguments.
      * <p>
      * The floor modulus is {@code x - (floorDiv(x, y) * y)},
-     * has the same sign as the divisor {@code y}, and
-     * is in the range of {@code -abs(y) < r < +abs(y)}.
+     * hbs the sbme sign bs the divisor {@code y}, bnd
+     * is in the rbnge of {@code -bbs(y) < r < +bbs(y)}.
      *
      * <p>
-     * The relationship between {@code floorDiv} and {@code floorMod} is such that:
+     * The relbtionship between {@code floorDiv} bnd {@code floorMod} is such thbt:
      * <ul>
      *   <li>{@code floorDiv(x, y) * y + floorMod(x, y) == x}
      * </ul>
      * <p>
-     * For examples, see {@link #floorMod(int, int)}.
+     * For exbmples, see {@link #floorMod(int, int)}.
      *
-     * @param x the dividend
-     * @param y the divisor
+     * @pbrbm x the dividend
+     * @pbrbm y the divisor
      * @return the floor modulus {@code x - (floorDiv(x, y) * y)}
      * @throws ArithmeticException if the divisor {@code y} is zero
      * @see #floorDiv(long, long)
      * @since 1.8
      */
-    public static long floorMod(long x, long y) {
+    public stbtic long floorMod(long x, long y) {
         return x - floorDiv(x, y) * y;
     }
 
     /**
-     * Returns the absolute value of an {@code int} value.
-     * If the argument is not negative, the argument is returned.
-     * If the argument is negative, the negation of the argument is returned.
+     * Returns the bbsolute vblue of bn {@code int} vblue.
+     * If the brgument is not negbtive, the brgument is returned.
+     * If the brgument is negbtive, the negbtion of the brgument is returned.
      *
-     * <p>Note that if the argument is equal to the value of
-     * {@link Integer#MIN_VALUE}, the most negative representable
-     * {@code int} value, the result is that same value, which is
-     * negative.
+     * <p>Note thbt if the brgument is equbl to the vblue of
+     * {@link Integer#MIN_VALUE}, the most negbtive representbble
+     * {@code int} vblue, the result is thbt sbme vblue, which is
+     * negbtive.
      *
-     * @param   a   the argument whose absolute value is to be determined
-     * @return  the absolute value of the argument.
+     * @pbrbm   b   the brgument whose bbsolute vblue is to be determined
+     * @return  the bbsolute vblue of the brgument.
      */
-    public static int abs(int a) {
-        return (a < 0) ? -a : a;
+    public stbtic int bbs(int b) {
+        return (b < 0) ? -b : b;
     }
 
     /**
-     * Returns the absolute value of a {@code long} value.
-     * If the argument is not negative, the argument is returned.
-     * If the argument is negative, the negation of the argument is returned.
+     * Returns the bbsolute vblue of b {@code long} vblue.
+     * If the brgument is not negbtive, the brgument is returned.
+     * If the brgument is negbtive, the negbtion of the brgument is returned.
      *
-     * <p>Note that if the argument is equal to the value of
-     * {@link Long#MIN_VALUE}, the most negative representable
-     * {@code long} value, the result is that same value, which
-     * is negative.
+     * <p>Note thbt if the brgument is equbl to the vblue of
+     * {@link Long#MIN_VALUE}, the most negbtive representbble
+     * {@code long} vblue, the result is thbt sbme vblue, which
+     * is negbtive.
      *
-     * @param   a   the argument whose absolute value is to be determined
-     * @return  the absolute value of the argument.
+     * @pbrbm   b   the brgument whose bbsolute vblue is to be determined
+     * @return  the bbsolute vblue of the brgument.
      */
-    public static long abs(long a) {
-        return (a < 0) ? -a : a;
+    public stbtic long bbs(long b) {
+        return (b < 0) ? -b : b;
     }
 
     /**
-     * Returns the absolute value of a {@code float} value.
-     * If the argument is not negative, the argument is returned.
-     * If the argument is negative, the negation of the argument is returned.
-     * Special cases:
-     * <ul><li>If the argument is positive zero or negative zero, the
+     * Returns the bbsolute vblue of b {@code flobt} vblue.
+     * If the brgument is not negbtive, the brgument is returned.
+     * If the brgument is negbtive, the negbtion of the brgument is returned.
+     * Specibl cbses:
+     * <ul><li>If the brgument is positive zero or negbtive zero, the
      * result is positive zero.
-     * <li>If the argument is infinite, the result is positive infinity.
-     * <li>If the argument is NaN, the result is NaN.</ul>
-     * In other words, the result is the same as the value of the expression:
-     * <p>{@code Float.intBitsToFloat(0x7fffffff & Float.floatToIntBits(a))}
+     * <li>If the brgument is infinite, the result is positive infinity.
+     * <li>If the brgument is NbN, the result is NbN.</ul>
+     * In other words, the result is the sbme bs the vblue of the expression:
+     * <p>{@code Flobt.intBitsToFlobt(0x7fffffff & Flobt.flobtToIntBits(b))}
      *
-     * @param   a   the argument whose absolute value is to be determined
-     * @return  the absolute value of the argument.
+     * @pbrbm   b   the brgument whose bbsolute vblue is to be determined
+     * @return  the bbsolute vblue of the brgument.
      */
-    public static float abs(float a) {
-        return (a <= 0.0F) ? 0.0F - a : a;
+    public stbtic flobt bbs(flobt b) {
+        return (b <= 0.0F) ? 0.0F - b : b;
     }
 
     /**
-     * Returns the absolute value of a {@code double} value.
-     * If the argument is not negative, the argument is returned.
-     * If the argument is negative, the negation of the argument is returned.
-     * Special cases:
-     * <ul><li>If the argument is positive zero or negative zero, the result
+     * Returns the bbsolute vblue of b {@code double} vblue.
+     * If the brgument is not negbtive, the brgument is returned.
+     * If the brgument is negbtive, the negbtion of the brgument is returned.
+     * Specibl cbses:
+     * <ul><li>If the brgument is positive zero or negbtive zero, the result
      * is positive zero.
-     * <li>If the argument is infinite, the result is positive infinity.
-     * <li>If the argument is NaN, the result is NaN.</ul>
-     * In other words, the result is the same as the value of the expression:
-     * <p>{@code Double.longBitsToDouble((Double.doubleToLongBits(a)<<1)>>>1)}
+     * <li>If the brgument is infinite, the result is positive infinity.
+     * <li>If the brgument is NbN, the result is NbN.</ul>
+     * In other words, the result is the sbme bs the vblue of the expression:
+     * <p>{@code Double.longBitsToDouble((Double.doubleToLongBits(b)<<1)>>>1)}
      *
-     * @param   a   the argument whose absolute value is to be determined
-     * @return  the absolute value of the argument.
+     * @pbrbm   b   the brgument whose bbsolute vblue is to be determined
+     * @return  the bbsolute vblue of the brgument.
      */
-    public static double abs(double a) {
-        return (a <= 0.0D) ? 0.0D - a : a;
+    public stbtic double bbs(double b) {
+        return (b <= 0.0D) ? 0.0D - b : b;
     }
 
     /**
-     * Returns the greater of two {@code int} values. That is, the
-     * result is the argument closer to the value of
-     * {@link Integer#MAX_VALUE}. If the arguments have the same value,
-     * the result is that same value.
+     * Returns the grebter of two {@code int} vblues. Thbt is, the
+     * result is the brgument closer to the vblue of
+     * {@link Integer#MAX_VALUE}. If the brguments hbve the sbme vblue,
+     * the result is thbt sbme vblue.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the larger of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the lbrger of {@code b} bnd {@code b}.
      */
-    public static int max(int a, int b) {
-        return (a >= b) ? a : b;
+    public stbtic int mbx(int b, int b) {
+        return (b >= b) ? b : b;
     }
 
     /**
-     * Returns the greater of two {@code long} values. That is, the
-     * result is the argument closer to the value of
-     * {@link Long#MAX_VALUE}. If the arguments have the same value,
-     * the result is that same value.
+     * Returns the grebter of two {@code long} vblues. Thbt is, the
+     * result is the brgument closer to the vblue of
+     * {@link Long#MAX_VALUE}. If the brguments hbve the sbme vblue,
+     * the result is thbt sbme vblue.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the larger of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the lbrger of {@code b} bnd {@code b}.
      */
-    public static long max(long a, long b) {
-        return (a >= b) ? a : b;
+    public stbtic long mbx(long b, long b) {
+        return (b >= b) ? b : b;
     }
 
-    // Use raw bit-wise conversions on guaranteed non-NaN arguments.
-    private static long negativeZeroFloatBits  = Float.floatToRawIntBits(-0.0f);
-    private static long negativeZeroDoubleBits = Double.doubleToRawLongBits(-0.0d);
+    // Use rbw bit-wise conversions on gubrbnteed non-NbN brguments.
+    privbte stbtic long negbtiveZeroFlobtBits  = Flobt.flobtToRbwIntBits(-0.0f);
+    privbte stbtic long negbtiveZeroDoubleBits = Double.doubleToRbwLongBits(-0.0d);
 
     /**
-     * Returns the greater of two {@code float} values.  That is,
-     * the result is the argument closer to positive infinity. If the
-     * arguments have the same value, the result is that same
-     * value. If either value is NaN, then the result is NaN.  Unlike
-     * the numerical comparison operators, this method considers
-     * negative zero to be strictly smaller than positive zero. If one
-     * argument is positive zero and the other negative zero, the
+     * Returns the grebter of two {@code flobt} vblues.  Thbt is,
+     * the result is the brgument closer to positive infinity. If the
+     * brguments hbve the sbme vblue, the result is thbt sbme
+     * vblue. If either vblue is NbN, then the result is NbN.  Unlike
+     * the numericbl compbrison operbtors, this method considers
+     * negbtive zero to be strictly smbller thbn positive zero. If one
+     * brgument is positive zero bnd the other negbtive zero, the
      * result is positive zero.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the larger of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the lbrger of {@code b} bnd {@code b}.
      */
-    public static float max(float a, float b) {
-        if (a != a)
-            return a;   // a is NaN
-        if ((a == 0.0f) &&
+    public stbtic flobt mbx(flobt b, flobt b) {
+        if (b != b)
+            return b;   // b is NbN
+        if ((b == 0.0f) &&
             (b == 0.0f) &&
-            (Float.floatToRawIntBits(a) == negativeZeroFloatBits)) {
-            // Raw conversion ok since NaN can't map to -0.0.
+            (Flobt.flobtToRbwIntBits(b) == negbtiveZeroFlobtBits)) {
+            // Rbw conversion ok since NbN cbn't mbp to -0.0.
             return b;
         }
-        return (a >= b) ? a : b;
+        return (b >= b) ? b : b;
     }
 
     /**
-     * Returns the greater of two {@code double} values.  That
-     * is, the result is the argument closer to positive infinity. If
-     * the arguments have the same value, the result is that same
-     * value. If either value is NaN, then the result is NaN.  Unlike
-     * the numerical comparison operators, this method considers
-     * negative zero to be strictly smaller than positive zero. If one
-     * argument is positive zero and the other negative zero, the
+     * Returns the grebter of two {@code double} vblues.  Thbt
+     * is, the result is the brgument closer to positive infinity. If
+     * the brguments hbve the sbme vblue, the result is thbt sbme
+     * vblue. If either vblue is NbN, then the result is NbN.  Unlike
+     * the numericbl compbrison operbtors, this method considers
+     * negbtive zero to be strictly smbller thbn positive zero. If one
+     * brgument is positive zero bnd the other negbtive zero, the
      * result is positive zero.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the larger of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the lbrger of {@code b} bnd {@code b}.
      */
-    public static double max(double a, double b) {
-        if (a != a)
-            return a;   // a is NaN
-        if ((a == 0.0d) &&
+    public stbtic double mbx(double b, double b) {
+        if (b != b)
+            return b;   // b is NbN
+        if ((b == 0.0d) &&
             (b == 0.0d) &&
-            (Double.doubleToRawLongBits(a) == negativeZeroDoubleBits)) {
-            // Raw conversion ok since NaN can't map to -0.0.
+            (Double.doubleToRbwLongBits(b) == negbtiveZeroDoubleBits)) {
+            // Rbw conversion ok since NbN cbn't mbp to -0.0.
             return b;
         }
-        return (a >= b) ? a : b;
+        return (b >= b) ? b : b;
     }
 
     /**
-     * Returns the smaller of two {@code int} values. That is,
-     * the result the argument closer to the value of
-     * {@link Integer#MIN_VALUE}.  If the arguments have the same
-     * value, the result is that same value.
+     * Returns the smbller of two {@code int} vblues. Thbt is,
+     * the result the brgument closer to the vblue of
+     * {@link Integer#MIN_VALUE}.  If the brguments hbve the sbme
+     * vblue, the result is thbt sbme vblue.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the smaller of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the smbller of {@code b} bnd {@code b}.
      */
-    public static int min(int a, int b) {
-        return (a <= b) ? a : b;
+    public stbtic int min(int b, int b) {
+        return (b <= b) ? b : b;
     }
 
     /**
-     * Returns the smaller of two {@code long} values. That is,
-     * the result is the argument closer to the value of
-     * {@link Long#MIN_VALUE}. If the arguments have the same
-     * value, the result is that same value.
+     * Returns the smbller of two {@code long} vblues. Thbt is,
+     * the result is the brgument closer to the vblue of
+     * {@link Long#MIN_VALUE}. If the brguments hbve the sbme
+     * vblue, the result is thbt sbme vblue.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the smaller of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the smbller of {@code b} bnd {@code b}.
      */
-    public static long min(long a, long b) {
-        return (a <= b) ? a : b;
+    public stbtic long min(long b, long b) {
+        return (b <= b) ? b : b;
     }
 
     /**
-     * Returns the smaller of two {@code float} values.  That is,
-     * the result is the value closer to negative infinity. If the
-     * arguments have the same value, the result is that same
-     * value. If either value is NaN, then the result is NaN.  Unlike
-     * the numerical comparison operators, this method considers
-     * negative zero to be strictly smaller than positive zero.  If
-     * one argument is positive zero and the other is negative zero,
-     * the result is negative zero.
+     * Returns the smbller of two {@code flobt} vblues.  Thbt is,
+     * the result is the vblue closer to negbtive infinity. If the
+     * brguments hbve the sbme vblue, the result is thbt sbme
+     * vblue. If either vblue is NbN, then the result is NbN.  Unlike
+     * the numericbl compbrison operbtors, this method considers
+     * negbtive zero to be strictly smbller thbn positive zero.  If
+     * one brgument is positive zero bnd the other is negbtive zero,
+     * the result is negbtive zero.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the smaller of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the smbller of {@code b} bnd {@code b}.
      */
-    public static float min(float a, float b) {
-        if (a != a)
-            return a;   // a is NaN
-        if ((a == 0.0f) &&
+    public stbtic flobt min(flobt b, flobt b) {
+        if (b != b)
+            return b;   // b is NbN
+        if ((b == 0.0f) &&
             (b == 0.0f) &&
-            (Float.floatToRawIntBits(b) == negativeZeroFloatBits)) {
-            // Raw conversion ok since NaN can't map to -0.0.
+            (Flobt.flobtToRbwIntBits(b) == negbtiveZeroFlobtBits)) {
+            // Rbw conversion ok since NbN cbn't mbp to -0.0.
             return b;
         }
-        return (a <= b) ? a : b;
+        return (b <= b) ? b : b;
     }
 
     /**
-     * Returns the smaller of two {@code double} values.  That
-     * is, the result is the value closer to negative infinity. If the
-     * arguments have the same value, the result is that same
-     * value. If either value is NaN, then the result is NaN.  Unlike
-     * the numerical comparison operators, this method considers
-     * negative zero to be strictly smaller than positive zero. If one
-     * argument is positive zero and the other is negative zero, the
-     * result is negative zero.
+     * Returns the smbller of two {@code double} vblues.  Thbt
+     * is, the result is the vblue closer to negbtive infinity. If the
+     * brguments hbve the sbme vblue, the result is thbt sbme
+     * vblue. If either vblue is NbN, then the result is NbN.  Unlike
+     * the numericbl compbrison operbtors, this method considers
+     * negbtive zero to be strictly smbller thbn positive zero. If one
+     * brgument is positive zero bnd the other is negbtive zero, the
+     * result is negbtive zero.
      *
-     * @param   a   an argument.
-     * @param   b   another argument.
-     * @return  the smaller of {@code a} and {@code b}.
+     * @pbrbm   b   bn brgument.
+     * @pbrbm   b   bnother brgument.
+     * @return  the smbller of {@code b} bnd {@code b}.
      */
-    public static double min(double a, double b) {
-        if (a != a)
-            return a;   // a is NaN
-        if ((a == 0.0d) &&
+    public stbtic double min(double b, double b) {
+        if (b != b)
+            return b;   // b is NbN
+        if ((b == 0.0d) &&
             (b == 0.0d) &&
-            (Double.doubleToRawLongBits(b) == negativeZeroDoubleBits)) {
-            // Raw conversion ok since NaN can't map to -0.0.
+            (Double.doubleToRbwLongBits(b) == negbtiveZeroDoubleBits)) {
+            // Rbw conversion ok since NbN cbn't mbp to -0.0.
             return b;
         }
-        return (a <= b) ? a : b;
+        return (b <= b) ? b : b;
     }
 
     /**
-     * Returns the size of an ulp of the argument.  An ulp, unit in
-     * the last place, of a {@code double} value is the positive
-     * distance between this floating-point value and the {@code
-     * double} value next larger in magnitude.  Note that for non-NaN
+     * Returns the size of bn ulp of the brgument.  An ulp, unit in
+     * the lbst plbce, of b {@code double} vblue is the positive
+     * distbnce between this flobting-point vblue bnd the {@code
+     * double} vblue next lbrger in mbgnitude.  Note thbt for non-NbN
      * <i>x</i>, <code>ulp(-<i>x</i>) == ulp(<i>x</i>)</code>.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, then the result is NaN.
-     * <li> If the argument is positive or negative infinity, then the
+     * <li> If the brgument is NbN, then the result is NbN.
+     * <li> If the brgument is positive or negbtive infinity, then the
      * result is positive infinity.
-     * <li> If the argument is positive or negative zero, then the result is
+     * <li> If the brgument is positive or negbtive zero, then the result is
      * {@code Double.MIN_VALUE}.
-     * <li> If the argument is &plusmn;{@code Double.MAX_VALUE}, then
-     * the result is equal to 2<sup>971</sup>.
+     * <li> If the brgument is &plusmn;{@code Double.MAX_VALUE}, then
+     * the result is equbl to 2<sup>971</sup>.
      * </ul>
      *
-     * @param d the floating-point value whose ulp is to be returned
-     * @return the size of an ulp of the argument
-     * @author Joseph D. Darcy
+     * @pbrbm d the flobting-point vblue whose ulp is to be returned
+     * @return the size of bn ulp of the brgument
+     * @buthor Joseph D. Dbrcy
      * @since 1.5
      */
-    public static double ulp(double d) {
+    public stbtic double ulp(double d) {
         int exp = getExponent(d);
 
         switch(exp) {
-        case DoubleConsts.MAX_EXPONENT+1:       // NaN or infinity
-            return Math.abs(d);
+        cbse DoubleConsts.MAX_EXPONENT+1:       // NbN or infinity
+            return Mbth.bbs(d);
 
-        case DoubleConsts.MIN_EXPONENT-1:       // zero or subnormal
+        cbse DoubleConsts.MIN_EXPONENT-1:       // zero or subnormbl
             return Double.MIN_VALUE;
 
-        default:
-            assert exp <= DoubleConsts.MAX_EXPONENT && exp >= DoubleConsts.MIN_EXPONENT;
+        defbult:
+            bssert exp <= DoubleConsts.MAX_EXPONENT && exp >= DoubleConsts.MIN_EXPONENT;
 
-            // ulp(x) is usually 2^(SIGNIFICAND_WIDTH-1)*(2^ilogb(x))
+            // ulp(x) is usublly 2^(SIGNIFICAND_WIDTH-1)*(2^ilogb(x))
             exp = exp - (DoubleConsts.SIGNIFICAND_WIDTH-1);
             if (exp >= DoubleConsts.MIN_EXPONENT) {
                 return powerOfTwoD(exp);
             }
             else {
-                // return a subnormal result; left shift integer
-                // representation of Double.MIN_VALUE appropriate
+                // return b subnormbl result; left shift integer
+                // representbtion of Double.MIN_VALUE bppropribte
                 // number of positions
                 return Double.longBitsToDouble(1L <<
                 (exp - (DoubleConsts.MIN_EXPONENT - (DoubleConsts.SIGNIFICAND_WIDTH-1)) ));
@@ -1464,889 +1464,889 @@ public final class Math {
     }
 
     /**
-     * Returns the size of an ulp of the argument.  An ulp, unit in
-     * the last place, of a {@code float} value is the positive
-     * distance between this floating-point value and the {@code
-     * float} value next larger in magnitude.  Note that for non-NaN
+     * Returns the size of bn ulp of the brgument.  An ulp, unit in
+     * the lbst plbce, of b {@code flobt} vblue is the positive
+     * distbnce between this flobting-point vblue bnd the {@code
+     * flobt} vblue next lbrger in mbgnitude.  Note thbt for non-NbN
      * <i>x</i>, <code>ulp(-<i>x</i>) == ulp(<i>x</i>)</code>.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, then the result is NaN.
-     * <li> If the argument is positive or negative infinity, then the
+     * <li> If the brgument is NbN, then the result is NbN.
+     * <li> If the brgument is positive or negbtive infinity, then the
      * result is positive infinity.
-     * <li> If the argument is positive or negative zero, then the result is
-     * {@code Float.MIN_VALUE}.
-     * <li> If the argument is &plusmn;{@code Float.MAX_VALUE}, then
-     * the result is equal to 2<sup>104</sup>.
+     * <li> If the brgument is positive or negbtive zero, then the result is
+     * {@code Flobt.MIN_VALUE}.
+     * <li> If the brgument is &plusmn;{@code Flobt.MAX_VALUE}, then
+     * the result is equbl to 2<sup>104</sup>.
      * </ul>
      *
-     * @param f the floating-point value whose ulp is to be returned
-     * @return the size of an ulp of the argument
-     * @author Joseph D. Darcy
+     * @pbrbm f the flobting-point vblue whose ulp is to be returned
+     * @return the size of bn ulp of the brgument
+     * @buthor Joseph D. Dbrcy
      * @since 1.5
      */
-    public static float ulp(float f) {
+    public stbtic flobt ulp(flobt f) {
         int exp = getExponent(f);
 
         switch(exp) {
-        case FloatConsts.MAX_EXPONENT+1:        // NaN or infinity
-            return Math.abs(f);
+        cbse FlobtConsts.MAX_EXPONENT+1:        // NbN or infinity
+            return Mbth.bbs(f);
 
-        case FloatConsts.MIN_EXPONENT-1:        // zero or subnormal
-            return FloatConsts.MIN_VALUE;
+        cbse FlobtConsts.MIN_EXPONENT-1:        // zero or subnormbl
+            return FlobtConsts.MIN_VALUE;
 
-        default:
-            assert exp <= FloatConsts.MAX_EXPONENT && exp >= FloatConsts.MIN_EXPONENT;
+        defbult:
+            bssert exp <= FlobtConsts.MAX_EXPONENT && exp >= FlobtConsts.MIN_EXPONENT;
 
-            // ulp(x) is usually 2^(SIGNIFICAND_WIDTH-1)*(2^ilogb(x))
-            exp = exp - (FloatConsts.SIGNIFICAND_WIDTH-1);
-            if (exp >= FloatConsts.MIN_EXPONENT) {
+            // ulp(x) is usublly 2^(SIGNIFICAND_WIDTH-1)*(2^ilogb(x))
+            exp = exp - (FlobtConsts.SIGNIFICAND_WIDTH-1);
+            if (exp >= FlobtConsts.MIN_EXPONENT) {
                 return powerOfTwoF(exp);
             }
             else {
-                // return a subnormal result; left shift integer
-                // representation of FloatConsts.MIN_VALUE appropriate
+                // return b subnormbl result; left shift integer
+                // representbtion of FlobtConsts.MIN_VALUE bppropribte
                 // number of positions
-                return Float.intBitsToFloat(1 <<
-                (exp - (FloatConsts.MIN_EXPONENT - (FloatConsts.SIGNIFICAND_WIDTH-1)) ));
+                return Flobt.intBitsToFlobt(1 <<
+                (exp - (FlobtConsts.MIN_EXPONENT - (FlobtConsts.SIGNIFICAND_WIDTH-1)) ));
             }
         }
     }
 
     /**
-     * Returns the signum function of the argument; zero if the argument
-     * is zero, 1.0 if the argument is greater than zero, -1.0 if the
-     * argument is less than zero.
+     * Returns the signum function of the brgument; zero if the brgument
+     * is zero, 1.0 if the brgument is grebter thbn zero, -1.0 if the
+     * brgument is less thbn zero.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, then the result is NaN.
-     * <li> If the argument is positive zero or negative zero, then the
-     *      result is the same as the argument.
+     * <li> If the brgument is NbN, then the result is NbN.
+     * <li> If the brgument is positive zero or negbtive zero, then the
+     *      result is the sbme bs the brgument.
      * </ul>
      *
-     * @param d the floating-point value whose signum is to be returned
-     * @return the signum function of the argument
-     * @author Joseph D. Darcy
+     * @pbrbm d the flobting-point vblue whose signum is to be returned
+     * @return the signum function of the brgument
+     * @buthor Joseph D. Dbrcy
      * @since 1.5
      */
-    public static double signum(double d) {
-        return (d == 0.0 || Double.isNaN(d))?d:copySign(1.0, d);
+    public stbtic double signum(double d) {
+        return (d == 0.0 || Double.isNbN(d))?d:copySign(1.0, d);
     }
 
     /**
-     * Returns the signum function of the argument; zero if the argument
-     * is zero, 1.0f if the argument is greater than zero, -1.0f if the
-     * argument is less than zero.
+     * Returns the signum function of the brgument; zero if the brgument
+     * is zero, 1.0f if the brgument is grebter thbn zero, -1.0f if the
+     * brgument is less thbn zero.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, then the result is NaN.
-     * <li> If the argument is positive zero or negative zero, then the
-     *      result is the same as the argument.
+     * <li> If the brgument is NbN, then the result is NbN.
+     * <li> If the brgument is positive zero or negbtive zero, then the
+     *      result is the sbme bs the brgument.
      * </ul>
      *
-     * @param f the floating-point value whose signum is to be returned
-     * @return the signum function of the argument
-     * @author Joseph D. Darcy
+     * @pbrbm f the flobting-point vblue whose signum is to be returned
+     * @return the signum function of the brgument
+     * @buthor Joseph D. Dbrcy
      * @since 1.5
      */
-    public static float signum(float f) {
-        return (f == 0.0f || Float.isNaN(f))?f:copySign(1.0f, f);
+    public stbtic flobt signum(flobt f) {
+        return (f == 0.0f || Flobt.isNbN(f))?f:copySign(1.0f, f);
     }
 
     /**
-     * Returns the hyperbolic sine of a {@code double} value.
+     * Returns the hyperbolic sine of b {@code double} vblue.
      * The hyperbolic sine of <i>x</i> is defined to be
      * (<i>e<sup>x</sup>&nbsp;-&nbsp;e<sup>-x</sup></i>)/2
-     * where <i>e</i> is {@linkplain Math#E Euler's number}.
+     * where <i>e</i> is {@linkplbin Mbth#E Euler's number}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
      *
-     * <li>If the argument is NaN, then the result is NaN.
+     * <li>If the brgument is NbN, then the result is NbN.
      *
-     * <li>If the argument is infinite, then the result is an infinity
-     * with the same sign as the argument.
+     * <li>If the brgument is infinite, then the result is bn infinity
+     * with the sbme sign bs the brgument.
      *
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.
      *
      * </ul>
      *
-     * <p>The computed result must be within 2.5 ulps of the exact result.
+     * <p>The computed result must be within 2.5 ulps of the exbct result.
      *
-     * @param   x The number whose hyperbolic sine is to be returned.
+     * @pbrbm   x The number whose hyperbolic sine is to be returned.
      * @return  The hyperbolic sine of {@code x}.
      * @since 1.5
      */
-    public static double sinh(double x) {
-        return StrictMath.sinh(x);
+    public stbtic double sinh(double x) {
+        return StrictMbth.sinh(x);
     }
 
     /**
-     * Returns the hyperbolic cosine of a {@code double} value.
+     * Returns the hyperbolic cosine of b {@code double} vblue.
      * The hyperbolic cosine of <i>x</i> is defined to be
      * (<i>e<sup>x</sup>&nbsp;+&nbsp;e<sup>-x</sup></i>)/2
-     * where <i>e</i> is {@linkplain Math#E Euler's number}.
+     * where <i>e</i> is {@linkplbin Mbth#E Euler's number}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
      *
-     * <li>If the argument is NaN, then the result is NaN.
+     * <li>If the brgument is NbN, then the result is NbN.
      *
-     * <li>If the argument is infinite, then the result is positive
+     * <li>If the brgument is infinite, then the result is positive
      * infinity.
      *
-     * <li>If the argument is zero, then the result is {@code 1.0}.
+     * <li>If the brgument is zero, then the result is {@code 1.0}.
      *
      * </ul>
      *
-     * <p>The computed result must be within 2.5 ulps of the exact result.
+     * <p>The computed result must be within 2.5 ulps of the exbct result.
      *
-     * @param   x The number whose hyperbolic cosine is to be returned.
+     * @pbrbm   x The number whose hyperbolic cosine is to be returned.
      * @return  The hyperbolic cosine of {@code x}.
      * @since 1.5
      */
-    public static double cosh(double x) {
-        return StrictMath.cosh(x);
+    public stbtic double cosh(double x) {
+        return StrictMbth.cosh(x);
     }
 
     /**
-     * Returns the hyperbolic tangent of a {@code double} value.
-     * The hyperbolic tangent of <i>x</i> is defined to be
+     * Returns the hyperbolic tbngent of b {@code double} vblue.
+     * The hyperbolic tbngent of <i>x</i> is defined to be
      * (<i>e<sup>x</sup>&nbsp;-&nbsp;e<sup>-x</sup></i>)/(<i>e<sup>x</sup>&nbsp;+&nbsp;e<sup>-x</sup></i>),
-     * in other words, {@linkplain Math#sinh
-     * sinh(<i>x</i>)}/{@linkplain Math#cosh cosh(<i>x</i>)}.  Note
-     * that the absolute value of the exact tanh is always less than
+     * in other words, {@linkplbin Mbth#sinh
+     * sinh(<i>x</i>)}/{@linkplbin Mbth#cosh cosh(<i>x</i>)}.  Note
+     * thbt the bbsolute vblue of the exbct tbnh is blwbys less thbn
      * 1.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
      *
-     * <li>If the argument is NaN, then the result is NaN.
+     * <li>If the brgument is NbN, then the result is NbN.
      *
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.
      *
-     * <li>If the argument is positive infinity, then the result is
+     * <li>If the brgument is positive infinity, then the result is
      * {@code +1.0}.
      *
-     * <li>If the argument is negative infinity, then the result is
+     * <li>If the brgument is negbtive infinity, then the result is
      * {@code -1.0}.
      *
      * </ul>
      *
-     * <p>The computed result must be within 2.5 ulps of the exact result.
-     * The result of {@code tanh} for any finite input must have
-     * an absolute value less than or equal to 1.  Note that once the
-     * exact result of tanh is within 1/2 of an ulp of the limit value
+     * <p>The computed result must be within 2.5 ulps of the exbct result.
+     * The result of {@code tbnh} for bny finite input must hbve
+     * bn bbsolute vblue less thbn or equbl to 1.  Note thbt once the
+     * exbct result of tbnh is within 1/2 of bn ulp of the limit vblue
      * of &plusmn;1, correctly signed &plusmn;{@code 1.0} should
      * be returned.
      *
-     * @param   x The number whose hyperbolic tangent is to be returned.
-     * @return  The hyperbolic tangent of {@code x}.
+     * @pbrbm   x The number whose hyperbolic tbngent is to be returned.
+     * @return  The hyperbolic tbngent of {@code x}.
      * @since 1.5
      */
-    public static double tanh(double x) {
-        return StrictMath.tanh(x);
+    public stbtic double tbnh(double x) {
+        return StrictMbth.tbnh(x);
     }
 
     /**
      * Returns sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
-     * without intermediate overflow or underflow.
+     * without intermedibte overflow or underflow.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
      *
-     * <li> If either argument is infinite, then the result
+     * <li> If either brgument is infinite, then the result
      * is positive infinity.
      *
-     * <li> If either argument is NaN and neither argument is infinite,
-     * then the result is NaN.
+     * <li> If either brgument is NbN bnd neither brgument is infinite,
+     * then the result is NbN.
      *
      * </ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact
-     * result.  If one parameter is held constant, the results must be
-     * semi-monotonic in the other parameter.
+     * <p>The computed result must be within 1 ulp of the exbct
+     * result.  If one pbrbmeter is held constbnt, the results must be
+     * semi-monotonic in the other pbrbmeter.
      *
-     * @param x a value
-     * @param y a value
+     * @pbrbm x b vblue
+     * @pbrbm y b vblue
      * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
-     * without intermediate overflow or underflow
+     * without intermedibte overflow or underflow
      * @since 1.5
      */
-    public static double hypot(double x, double y) {
-        return StrictMath.hypot(x, y);
+    public stbtic double hypot(double x, double y) {
+        return StrictMbth.hypot(x, y);
     }
 
     /**
-     * Returns <i>e</i><sup>x</sup>&nbsp;-1.  Note that for values of
-     * <i>x</i> near 0, the exact sum of
+     * Returns <i>e</i><sup>x</sup>&nbsp;-1.  Note thbt for vblues of
+     * <i>x</i> nebr 0, the exbct sum of
      * {@code expm1(x)}&nbsp;+&nbsp;1 is much closer to the true
-     * result of <i>e</i><sup>x</sup> than {@code exp(x)}.
+     * result of <i>e</i><sup>x</sup> thbn {@code exp(x)}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
-     * <li>If the argument is NaN, the result is NaN.
+     * <li>If the brgument is NbN, the result is NbN.
      *
-     * <li>If the argument is positive infinity, then the result is
+     * <li>If the brgument is positive infinity, then the result is
      * positive infinity.
      *
-     * <li>If the argument is negative infinity, then the result is
+     * <li>If the brgument is negbtive infinity, then the result is
      * -1.0.
      *
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.
      *
      * </ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.  The result of
-     * {@code expm1} for any finite input must be greater than or
-     * equal to {@code -1.0}.  Note that once the exact result of
+     * {@code expm1} for bny finite input must be grebter thbn or
+     * equbl to {@code -1.0}.  Note thbt once the exbct result of
      * <i>e</i><sup>{@code x}</sup>&nbsp;-&nbsp;1 is within 1/2
-     * ulp of the limit value -1, {@code -1.0} should be
+     * ulp of the limit vblue -1, {@code -1.0} should be
      * returned.
      *
-     * @param   x   the exponent to raise <i>e</i> to in the computation of
+     * @pbrbm   x   the exponent to rbise <i>e</i> to in the computbtion of
      *              <i>e</i><sup>{@code x}</sup>&nbsp;-1.
-     * @return  the value <i>e</i><sup>{@code x}</sup>&nbsp;-&nbsp;1.
+     * @return  the vblue <i>e</i><sup>{@code x}</sup>&nbsp;-&nbsp;1.
      * @since 1.5
      */
-    public static double expm1(double x) {
-        return StrictMath.expm1(x);
+    public stbtic double expm1(double x) {
+        return StrictMbth.expm1(x);
     }
 
     /**
-     * Returns the natural logarithm of the sum of the argument and 1.
-     * Note that for small values {@code x}, the result of
+     * Returns the nbturbl logbrithm of the sum of the brgument bnd 1.
+     * Note thbt for smbll vblues {@code x}, the result of
      * {@code log1p(x)} is much closer to the true result of ln(1
-     * + {@code x}) than the floating-point evaluation of
+     * + {@code x}) thbn the flobting-point evblubtion of
      * {@code log(1.0+x)}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      *
      * <ul>
      *
-     * <li>If the argument is NaN or less than -1, then the result is
-     * NaN.
+     * <li>If the brgument is NbN or less thbn -1, then the result is
+     * NbN.
      *
-     * <li>If the argument is positive infinity, then the result is
+     * <li>If the brgument is positive infinity, then the result is
      * positive infinity.
      *
-     * <li>If the argument is negative one, then the result is
-     * negative infinity.
+     * <li>If the brgument is negbtive one, then the result is
+     * negbtive infinity.
      *
-     * <li>If the argument is zero, then the result is a zero with the
-     * same sign as the argument.
+     * <li>If the brgument is zero, then the result is b zero with the
+     * sbme sign bs the brgument.
      *
      * </ul>
      *
-     * <p>The computed result must be within 1 ulp of the exact result.
+     * <p>The computed result must be within 1 ulp of the exbct result.
      * Results must be semi-monotonic.
      *
-     * @param   x   a value
-     * @return the value ln({@code x}&nbsp;+&nbsp;1), the natural
+     * @pbrbm   x   b vblue
+     * @return the vblue ln({@code x}&nbsp;+&nbsp;1), the nbturbl
      * log of {@code x}&nbsp;+&nbsp;1
      * @since 1.5
      */
-    public static double log1p(double x) {
-        return StrictMath.log1p(x);
+    public stbtic double log1p(double x) {
+        return StrictMbth.log1p(x);
     }
 
     /**
-     * Returns the first floating-point argument with the sign of the
-     * second floating-point argument.  Note that unlike the {@link
-     * StrictMath#copySign(double, double) StrictMath.copySign}
-     * method, this method does not require NaN {@code sign}
-     * arguments to be treated as positive values; implementations are
-     * permitted to treat some NaN arguments as positive and other NaN
-     * arguments as negative to allow greater performance.
+     * Returns the first flobting-point brgument with the sign of the
+     * second flobting-point brgument.  Note thbt unlike the {@link
+     * StrictMbth#copySign(double, double) StrictMbth.copySign}
+     * method, this method does not require NbN {@code sign}
+     * brguments to be trebted bs positive vblues; implementbtions bre
+     * permitted to trebt some NbN brguments bs positive bnd other NbN
+     * brguments bs negbtive to bllow grebter performbnce.
      *
-     * @param magnitude  the parameter providing the magnitude of the result
-     * @param sign   the parameter providing the sign of the result
-     * @return a value with the magnitude of {@code magnitude}
-     * and the sign of {@code sign}.
+     * @pbrbm mbgnitude  the pbrbmeter providing the mbgnitude of the result
+     * @pbrbm sign   the pbrbmeter providing the sign of the result
+     * @return b vblue with the mbgnitude of {@code mbgnitude}
+     * bnd the sign of {@code sign}.
      * @since 1.6
      */
-    public static double copySign(double magnitude, double sign) {
-        return Double.longBitsToDouble((Double.doubleToRawLongBits(sign) &
+    public stbtic double copySign(double mbgnitude, double sign) {
+        return Double.longBitsToDouble((Double.doubleToRbwLongBits(sign) &
                                         (DoubleConsts.SIGN_BIT_MASK)) |
-                                       (Double.doubleToRawLongBits(magnitude) &
+                                       (Double.doubleToRbwLongBits(mbgnitude) &
                                         (DoubleConsts.EXP_BIT_MASK |
                                          DoubleConsts.SIGNIF_BIT_MASK)));
     }
 
     /**
-     * Returns the first floating-point argument with the sign of the
-     * second floating-point argument.  Note that unlike the {@link
-     * StrictMath#copySign(float, float) StrictMath.copySign}
-     * method, this method does not require NaN {@code sign}
-     * arguments to be treated as positive values; implementations are
-     * permitted to treat some NaN arguments as positive and other NaN
-     * arguments as negative to allow greater performance.
+     * Returns the first flobting-point brgument with the sign of the
+     * second flobting-point brgument.  Note thbt unlike the {@link
+     * StrictMbth#copySign(flobt, flobt) StrictMbth.copySign}
+     * method, this method does not require NbN {@code sign}
+     * brguments to be trebted bs positive vblues; implementbtions bre
+     * permitted to trebt some NbN brguments bs positive bnd other NbN
+     * brguments bs negbtive to bllow grebter performbnce.
      *
-     * @param magnitude  the parameter providing the magnitude of the result
-     * @param sign   the parameter providing the sign of the result
-     * @return a value with the magnitude of {@code magnitude}
-     * and the sign of {@code sign}.
+     * @pbrbm mbgnitude  the pbrbmeter providing the mbgnitude of the result
+     * @pbrbm sign   the pbrbmeter providing the sign of the result
+     * @return b vblue with the mbgnitude of {@code mbgnitude}
+     * bnd the sign of {@code sign}.
      * @since 1.6
      */
-    public static float copySign(float magnitude, float sign) {
-        return Float.intBitsToFloat((Float.floatToRawIntBits(sign) &
-                                     (FloatConsts.SIGN_BIT_MASK)) |
-                                    (Float.floatToRawIntBits(magnitude) &
-                                     (FloatConsts.EXP_BIT_MASK |
-                                      FloatConsts.SIGNIF_BIT_MASK)));
+    public stbtic flobt copySign(flobt mbgnitude, flobt sign) {
+        return Flobt.intBitsToFlobt((Flobt.flobtToRbwIntBits(sign) &
+                                     (FlobtConsts.SIGN_BIT_MASK)) |
+                                    (Flobt.flobtToRbwIntBits(mbgnitude) &
+                                     (FlobtConsts.EXP_BIT_MASK |
+                                      FlobtConsts.SIGNIF_BIT_MASK)));
     }
 
     /**
-     * Returns the unbiased exponent used in the representation of a
-     * {@code float}.  Special cases:
+     * Returns the unbibsed exponent used in the representbtion of b
+     * {@code flobt}.  Specibl cbses:
      *
      * <ul>
-     * <li>If the argument is NaN or infinite, then the result is
-     * {@link Float#MAX_EXPONENT} + 1.
-     * <li>If the argument is zero or subnormal, then the result is
-     * {@link Float#MIN_EXPONENT} -1.
+     * <li>If the brgument is NbN or infinite, then the result is
+     * {@link Flobt#MAX_EXPONENT} + 1.
+     * <li>If the brgument is zero or subnormbl, then the result is
+     * {@link Flobt#MIN_EXPONENT} -1.
      * </ul>
-     * @param f a {@code float} value
-     * @return the unbiased exponent of the argument
+     * @pbrbm f b {@code flobt} vblue
+     * @return the unbibsed exponent of the brgument
      * @since 1.6
      */
-    public static int getExponent(float f) {
+    public stbtic int getExponent(flobt f) {
         /*
-         * Bitwise convert f to integer, mask out exponent bits, shift
-         * to the right and then subtract out float's bias adjust to
-         * get true exponent value
+         * Bitwise convert f to integer, mbsk out exponent bits, shift
+         * to the right bnd then subtrbct out flobt's bibs bdjust to
+         * get true exponent vblue
          */
-        return ((Float.floatToRawIntBits(f) & FloatConsts.EXP_BIT_MASK) >>
-                (FloatConsts.SIGNIFICAND_WIDTH - 1)) - FloatConsts.EXP_BIAS;
+        return ((Flobt.flobtToRbwIntBits(f) & FlobtConsts.EXP_BIT_MASK) >>
+                (FlobtConsts.SIGNIFICAND_WIDTH - 1)) - FlobtConsts.EXP_BIAS;
     }
 
     /**
-     * Returns the unbiased exponent used in the representation of a
-     * {@code double}.  Special cases:
+     * Returns the unbibsed exponent used in the representbtion of b
+     * {@code double}.  Specibl cbses:
      *
      * <ul>
-     * <li>If the argument is NaN or infinite, then the result is
+     * <li>If the brgument is NbN or infinite, then the result is
      * {@link Double#MAX_EXPONENT} + 1.
-     * <li>If the argument is zero or subnormal, then the result is
+     * <li>If the brgument is zero or subnormbl, then the result is
      * {@link Double#MIN_EXPONENT} -1.
      * </ul>
-     * @param d a {@code double} value
-     * @return the unbiased exponent of the argument
+     * @pbrbm d b {@code double} vblue
+     * @return the unbibsed exponent of the brgument
      * @since 1.6
      */
-    public static int getExponent(double d) {
+    public stbtic int getExponent(double d) {
         /*
-         * Bitwise convert d to long, mask out exponent bits, shift
-         * to the right and then subtract out double's bias adjust to
-         * get true exponent value.
+         * Bitwise convert d to long, mbsk out exponent bits, shift
+         * to the right bnd then subtrbct out double's bibs bdjust to
+         * get true exponent vblue.
          */
-        return (int)(((Double.doubleToRawLongBits(d) & DoubleConsts.EXP_BIT_MASK) >>
+        return (int)(((Double.doubleToRbwLongBits(d) & DoubleConsts.EXP_BIT_MASK) >>
                       (DoubleConsts.SIGNIFICAND_WIDTH - 1)) - DoubleConsts.EXP_BIAS);
     }
 
     /**
-     * Returns the floating-point number adjacent to the first
-     * argument in the direction of the second argument.  If both
-     * arguments compare as equal the second argument is returned.
+     * Returns the flobting-point number bdjbcent to the first
+     * brgument in the direction of the second brgument.  If both
+     * brguments compbre bs equbl the second brgument is returned.
      *
      * <p>
-     * Special cases:
+     * Specibl cbses:
      * <ul>
-     * <li> If either argument is a NaN, then NaN is returned.
+     * <li> If either brgument is b NbN, then NbN is returned.
      *
-     * <li> If both arguments are signed zeros, {@code direction}
-     * is returned unchanged (as implied by the requirement of
-     * returning the second argument if the arguments compare as
-     * equal).
+     * <li> If both brguments bre signed zeros, {@code direction}
+     * is returned unchbnged (bs implied by the requirement of
+     * returning the second brgument if the brguments compbre bs
+     * equbl).
      *
-     * <li> If {@code start} is
-     * &plusmn;{@link Double#MIN_VALUE} and {@code direction}
-     * has a value such that the result should have a smaller
-     * magnitude, then a zero with the same sign as {@code start}
+     * <li> If {@code stbrt} is
+     * &plusmn;{@link Double#MIN_VALUE} bnd {@code direction}
+     * hbs b vblue such thbt the result should hbve b smbller
+     * mbgnitude, then b zero with the sbme sign bs {@code stbrt}
      * is returned.
      *
-     * <li> If {@code start} is infinite and
-     * {@code direction} has a value such that the result should
-     * have a smaller magnitude, {@link Double#MAX_VALUE} with the
-     * same sign as {@code start} is returned.
+     * <li> If {@code stbrt} is infinite bnd
+     * {@code direction} hbs b vblue such thbt the result should
+     * hbve b smbller mbgnitude, {@link Double#MAX_VALUE} with the
+     * sbme sign bs {@code stbrt} is returned.
      *
-     * <li> If {@code start} is equal to &plusmn;
-     * {@link Double#MAX_VALUE} and {@code direction} has a
-     * value such that the result should have a larger magnitude, an
-     * infinity with same sign as {@code start} is returned.
+     * <li> If {@code stbrt} is equbl to &plusmn;
+     * {@link Double#MAX_VALUE} bnd {@code direction} hbs b
+     * vblue such thbt the result should hbve b lbrger mbgnitude, bn
+     * infinity with sbme sign bs {@code stbrt} is returned.
      * </ul>
      *
-     * @param start  starting floating-point value
-     * @param direction value indicating which of
-     * {@code start}'s neighbors or {@code start} should
+     * @pbrbm stbrt  stbrting flobting-point vblue
+     * @pbrbm direction vblue indicbting which of
+     * {@code stbrt}'s neighbors or {@code stbrt} should
      * be returned
-     * @return The floating-point number adjacent to {@code start} in the
+     * @return The flobting-point number bdjbcent to {@code stbrt} in the
      * direction of {@code direction}.
      * @since 1.6
      */
-    public static double nextAfter(double start, double direction) {
+    public stbtic double nextAfter(double stbrt, double direction) {
         /*
-         * The cases:
+         * The cbses:
          *
          * nextAfter(+infinity, 0)  == MAX_VALUE
          * nextAfter(+infinity, +infinity)  == +infinity
          * nextAfter(-infinity, 0)  == -MAX_VALUE
          * nextAfter(-infinity, -infinity)  == -infinity
          *
-         * are naturally handled without any additional testing
+         * bre nbturblly hbndled without bny bdditionbl testing
          */
 
         /*
-         * IEEE 754 floating-point numbers are lexicographically
-         * ordered if treated as signed-magnitude integers.
-         * Since Java's integers are two's complement,
-         * incrementing the two's complement representation of a
-         * logically negative floating-point value *decrements*
-         * the signed-magnitude representation. Therefore, when
-         * the integer representation of a floating-point value
-         * is negative, the adjustment to the representation is in
-         * the opposite direction from what would initially be expected.
+         * IEEE 754 flobting-point numbers bre lexicogrbphicblly
+         * ordered if trebted bs signed-mbgnitude integers.
+         * Since Jbvb's integers bre two's complement,
+         * incrementing the two's complement representbtion of b
+         * logicblly negbtive flobting-point vblue *decrements*
+         * the signed-mbgnitude representbtion. Therefore, when
+         * the integer representbtion of b flobting-point vblue
+         * is negbtive, the bdjustment to the representbtion is in
+         * the opposite direction from whbt would initiblly be expected.
          */
 
-        // Branch to descending case first as it is more costly than ascending
-        // case due to start != 0.0d conditional.
-        if (start > direction) { // descending
-            if (start != 0.0d) {
-                final long transducer = Double.doubleToRawLongBits(start);
-                return Double.longBitsToDouble(transducer + ((transducer > 0L) ? -1L : 1L));
-            } else { // start == 0.0d && direction < 0.0d
+        // Brbnch to descending cbse first bs it is more costly thbn bscending
+        // cbse due to stbrt != 0.0d conditionbl.
+        if (stbrt > direction) { // descending
+            if (stbrt != 0.0d) {
+                finbl long trbnsducer = Double.doubleToRbwLongBits(stbrt);
+                return Double.longBitsToDouble(trbnsducer + ((trbnsducer > 0L) ? -1L : 1L));
+            } else { // stbrt == 0.0d && direction < 0.0d
                 return -Double.MIN_VALUE;
             }
-        } else if (start < direction) { // ascending
-            // Add +0.0 to get rid of a -0.0 (+0.0 + -0.0 => +0.0)
-            // then bitwise convert start to integer.
-            final long transducer = Double.doubleToRawLongBits(start + 0.0d);
-            return Double.longBitsToDouble(transducer + ((transducer >= 0L) ? 1L : -1L));
-        } else if (start == direction) {
+        } else if (stbrt < direction) { // bscending
+            // Add +0.0 to get rid of b -0.0 (+0.0 + -0.0 => +0.0)
+            // then bitwise convert stbrt to integer.
+            finbl long trbnsducer = Double.doubleToRbwLongBits(stbrt + 0.0d);
+            return Double.longBitsToDouble(trbnsducer + ((trbnsducer >= 0L) ? 1L : -1L));
+        } else if (stbrt == direction) {
             return direction;
-        } else { // isNaN(start) || isNaN(direction)
-            return start + direction;
+        } else { // isNbN(stbrt) || isNbN(direction)
+            return stbrt + direction;
         }
     }
 
     /**
-     * Returns the floating-point number adjacent to the first
-     * argument in the direction of the second argument.  If both
-     * arguments compare as equal a value equivalent to the second argument
+     * Returns the flobting-point number bdjbcent to the first
+     * brgument in the direction of the second brgument.  If both
+     * brguments compbre bs equbl b vblue equivblent to the second brgument
      * is returned.
      *
      * <p>
-     * Special cases:
+     * Specibl cbses:
      * <ul>
-     * <li> If either argument is a NaN, then NaN is returned.
+     * <li> If either brgument is b NbN, then NbN is returned.
      *
-     * <li> If both arguments are signed zeros, a value equivalent
+     * <li> If both brguments bre signed zeros, b vblue equivblent
      * to {@code direction} is returned.
      *
-     * <li> If {@code start} is
-     * &plusmn;{@link Float#MIN_VALUE} and {@code direction}
-     * has a value such that the result should have a smaller
-     * magnitude, then a zero with the same sign as {@code start}
+     * <li> If {@code stbrt} is
+     * &plusmn;{@link Flobt#MIN_VALUE} bnd {@code direction}
+     * hbs b vblue such thbt the result should hbve b smbller
+     * mbgnitude, then b zero with the sbme sign bs {@code stbrt}
      * is returned.
      *
-     * <li> If {@code start} is infinite and
-     * {@code direction} has a value such that the result should
-     * have a smaller magnitude, {@link Float#MAX_VALUE} with the
-     * same sign as {@code start} is returned.
+     * <li> If {@code stbrt} is infinite bnd
+     * {@code direction} hbs b vblue such thbt the result should
+     * hbve b smbller mbgnitude, {@link Flobt#MAX_VALUE} with the
+     * sbme sign bs {@code stbrt} is returned.
      *
-     * <li> If {@code start} is equal to &plusmn;
-     * {@link Float#MAX_VALUE} and {@code direction} has a
-     * value such that the result should have a larger magnitude, an
-     * infinity with same sign as {@code start} is returned.
+     * <li> If {@code stbrt} is equbl to &plusmn;
+     * {@link Flobt#MAX_VALUE} bnd {@code direction} hbs b
+     * vblue such thbt the result should hbve b lbrger mbgnitude, bn
+     * infinity with sbme sign bs {@code stbrt} is returned.
      * </ul>
      *
-     * @param start  starting floating-point value
-     * @param direction value indicating which of
-     * {@code start}'s neighbors or {@code start} should
+     * @pbrbm stbrt  stbrting flobting-point vblue
+     * @pbrbm direction vblue indicbting which of
+     * {@code stbrt}'s neighbors or {@code stbrt} should
      * be returned
-     * @return The floating-point number adjacent to {@code start} in the
+     * @return The flobting-point number bdjbcent to {@code stbrt} in the
      * direction of {@code direction}.
      * @since 1.6
      */
-    public static float nextAfter(float start, double direction) {
+    public stbtic flobt nextAfter(flobt stbrt, double direction) {
         /*
-         * The cases:
+         * The cbses:
          *
          * nextAfter(+infinity, 0)  == MAX_VALUE
          * nextAfter(+infinity, +infinity)  == +infinity
          * nextAfter(-infinity, 0)  == -MAX_VALUE
          * nextAfter(-infinity, -infinity)  == -infinity
          *
-         * are naturally handled without any additional testing
+         * bre nbturblly hbndled without bny bdditionbl testing
          */
 
         /*
-         * IEEE 754 floating-point numbers are lexicographically
-         * ordered if treated as signed-magnitude integers.
-         * Since Java's integers are two's complement,
-         * incrementing the two's complement representation of a
-         * logically negative floating-point value *decrements*
-         * the signed-magnitude representation. Therefore, when
-         * the integer representation of a floating-point value
-         * is negative, the adjustment to the representation is in
-         * the opposite direction from what would initially be expected.
+         * IEEE 754 flobting-point numbers bre lexicogrbphicblly
+         * ordered if trebted bs signed-mbgnitude integers.
+         * Since Jbvb's integers bre two's complement,
+         * incrementing the two's complement representbtion of b
+         * logicblly negbtive flobting-point vblue *decrements*
+         * the signed-mbgnitude representbtion. Therefore, when
+         * the integer representbtion of b flobting-point vblue
+         * is negbtive, the bdjustment to the representbtion is in
+         * the opposite direction from whbt would initiblly be expected.
          */
 
-        // Branch to descending case first as it is more costly than ascending
-        // case due to start != 0.0f conditional.
-        if (start > direction) { // descending
-            if (start != 0.0f) {
-                final int transducer = Float.floatToRawIntBits(start);
-                return Float.intBitsToFloat(transducer + ((transducer > 0) ? -1 : 1));
-            } else { // start == 0.0f && direction < 0.0f
-                return -Float.MIN_VALUE;
+        // Brbnch to descending cbse first bs it is more costly thbn bscending
+        // cbse due to stbrt != 0.0f conditionbl.
+        if (stbrt > direction) { // descending
+            if (stbrt != 0.0f) {
+                finbl int trbnsducer = Flobt.flobtToRbwIntBits(stbrt);
+                return Flobt.intBitsToFlobt(trbnsducer + ((trbnsducer > 0) ? -1 : 1));
+            } else { // stbrt == 0.0f && direction < 0.0f
+                return -Flobt.MIN_VALUE;
             }
-        } else if (start < direction) { // ascending
-            // Add +0.0 to get rid of a -0.0 (+0.0 + -0.0 => +0.0)
-            // then bitwise convert start to integer.
-            final int transducer = Float.floatToRawIntBits(start + 0.0f);
-            return Float.intBitsToFloat(transducer + ((transducer >= 0) ? 1 : -1));
-        } else if (start == direction) {
-            return (float)direction;
-        } else { // isNaN(start) || isNaN(direction)
-            return start + (float)direction;
+        } else if (stbrt < direction) { // bscending
+            // Add +0.0 to get rid of b -0.0 (+0.0 + -0.0 => +0.0)
+            // then bitwise convert stbrt to integer.
+            finbl int trbnsducer = Flobt.flobtToRbwIntBits(stbrt + 0.0f);
+            return Flobt.intBitsToFlobt(trbnsducer + ((trbnsducer >= 0) ? 1 : -1));
+        } else if (stbrt == direction) {
+            return (flobt)direction;
+        } else { // isNbN(stbrt) || isNbN(direction)
+            return stbrt + (flobt)direction;
         }
     }
 
     /**
-     * Returns the floating-point value adjacent to {@code d} in
+     * Returns the flobting-point vblue bdjbcent to {@code d} in
      * the direction of positive infinity.  This method is
-     * semantically equivalent to {@code nextAfter(d,
-     * Double.POSITIVE_INFINITY)}; however, a {@code nextUp}
-     * implementation may run faster than its equivalent
-     * {@code nextAfter} call.
+     * sembnticblly equivblent to {@code nextAfter(d,
+     * Double.POSITIVE_INFINITY)}; however, b {@code nextUp}
+     * implementbtion mby run fbster thbn its equivblent
+     * {@code nextAfter} cbll.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, the result is NaN.
+     * <li> If the brgument is NbN, the result is NbN.
      *
-     * <li> If the argument is positive infinity, the result is
+     * <li> If the brgument is positive infinity, the result is
      * positive infinity.
      *
-     * <li> If the argument is zero, the result is
+     * <li> If the brgument is zero, the result is
      * {@link Double#MIN_VALUE}
      *
      * </ul>
      *
-     * @param d starting floating-point value
-     * @return The adjacent floating-point value closer to positive
+     * @pbrbm d stbrting flobting-point vblue
+     * @return The bdjbcent flobting-point vblue closer to positive
      * infinity.
      * @since 1.6
      */
-    public static double nextUp(double d) {
-        // Use a single conditional and handle the likely cases first.
+    public stbtic double nextUp(double d) {
+        // Use b single conditionbl bnd hbndle the likely cbses first.
         if (d < Double.POSITIVE_INFINITY) {
-            // Add +0.0 to get rid of a -0.0 (+0.0 + -0.0 => +0.0).
-            final long transducer = Double.doubleToRawLongBits(d + 0.0D);
-            return Double.longBitsToDouble(transducer + ((transducer >= 0L) ? 1L : -1L));
-        } else { // d is NaN or +Infinity
+            // Add +0.0 to get rid of b -0.0 (+0.0 + -0.0 => +0.0).
+            finbl long trbnsducer = Double.doubleToRbwLongBits(d + 0.0D);
+            return Double.longBitsToDouble(trbnsducer + ((trbnsducer >= 0L) ? 1L : -1L));
+        } else { // d is NbN or +Infinity
             return d;
         }
     }
 
     /**
-     * Returns the floating-point value adjacent to {@code f} in
+     * Returns the flobting-point vblue bdjbcent to {@code f} in
      * the direction of positive infinity.  This method is
-     * semantically equivalent to {@code nextAfter(f,
-     * Float.POSITIVE_INFINITY)}; however, a {@code nextUp}
-     * implementation may run faster than its equivalent
-     * {@code nextAfter} call.
+     * sembnticblly equivblent to {@code nextAfter(f,
+     * Flobt.POSITIVE_INFINITY)}; however, b {@code nextUp}
+     * implementbtion mby run fbster thbn its equivblent
+     * {@code nextAfter} cbll.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, the result is NaN.
+     * <li> If the brgument is NbN, the result is NbN.
      *
-     * <li> If the argument is positive infinity, the result is
+     * <li> If the brgument is positive infinity, the result is
      * positive infinity.
      *
-     * <li> If the argument is zero, the result is
-     * {@link Float#MIN_VALUE}
+     * <li> If the brgument is zero, the result is
+     * {@link Flobt#MIN_VALUE}
      *
      * </ul>
      *
-     * @param f starting floating-point value
-     * @return The adjacent floating-point value closer to positive
+     * @pbrbm f stbrting flobting-point vblue
+     * @return The bdjbcent flobting-point vblue closer to positive
      * infinity.
      * @since 1.6
      */
-    public static float nextUp(float f) {
-        // Use a single conditional and handle the likely cases first.
-        if (f < Float.POSITIVE_INFINITY) {
-            // Add +0.0 to get rid of a -0.0 (+0.0 + -0.0 => +0.0).
-            final int transducer = Float.floatToRawIntBits(f + 0.0F);
-            return Float.intBitsToFloat(transducer + ((transducer >= 0) ? 1 : -1));
-        } else { // f is NaN or +Infinity
+    public stbtic flobt nextUp(flobt f) {
+        // Use b single conditionbl bnd hbndle the likely cbses first.
+        if (f < Flobt.POSITIVE_INFINITY) {
+            // Add +0.0 to get rid of b -0.0 (+0.0 + -0.0 => +0.0).
+            finbl int trbnsducer = Flobt.flobtToRbwIntBits(f + 0.0F);
+            return Flobt.intBitsToFlobt(trbnsducer + ((trbnsducer >= 0) ? 1 : -1));
+        } else { // f is NbN or +Infinity
             return f;
         }
     }
 
     /**
-     * Returns the floating-point value adjacent to {@code d} in
-     * the direction of negative infinity.  This method is
-     * semantically equivalent to {@code nextAfter(d,
-     * Double.NEGATIVE_INFINITY)}; however, a
-     * {@code nextDown} implementation may run faster than its
-     * equivalent {@code nextAfter} call.
+     * Returns the flobting-point vblue bdjbcent to {@code d} in
+     * the direction of negbtive infinity.  This method is
+     * sembnticblly equivblent to {@code nextAfter(d,
+     * Double.NEGATIVE_INFINITY)}; however, b
+     * {@code nextDown} implementbtion mby run fbster thbn its
+     * equivblent {@code nextAfter} cbll.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, the result is NaN.
+     * <li> If the brgument is NbN, the result is NbN.
      *
-     * <li> If the argument is negative infinity, the result is
-     * negative infinity.
+     * <li> If the brgument is negbtive infinity, the result is
+     * negbtive infinity.
      *
-     * <li> If the argument is zero, the result is
+     * <li> If the brgument is zero, the result is
      * {@code -Double.MIN_VALUE}
      *
      * </ul>
      *
-     * @param d  starting floating-point value
-     * @return The adjacent floating-point value closer to negative
+     * @pbrbm d  stbrting flobting-point vblue
+     * @return The bdjbcent flobting-point vblue closer to negbtive
      * infinity.
      * @since 1.8
      */
-    public static double nextDown(double d) {
-        if (Double.isNaN(d) || d == Double.NEGATIVE_INFINITY)
+    public stbtic double nextDown(double d) {
+        if (Double.isNbN(d) || d == Double.NEGATIVE_INFINITY)
             return d;
         else {
             if (d == 0.0)
                 return -Double.MIN_VALUE;
             else
-                return Double.longBitsToDouble(Double.doubleToRawLongBits(d) +
+                return Double.longBitsToDouble(Double.doubleToRbwLongBits(d) +
                                                ((d > 0.0d)?-1L:+1L));
         }
     }
 
     /**
-     * Returns the floating-point value adjacent to {@code f} in
-     * the direction of negative infinity.  This method is
-     * semantically equivalent to {@code nextAfter(f,
-     * Float.NEGATIVE_INFINITY)}; however, a
-     * {@code nextDown} implementation may run faster than its
-     * equivalent {@code nextAfter} call.
+     * Returns the flobting-point vblue bdjbcent to {@code f} in
+     * the direction of negbtive infinity.  This method is
+     * sembnticblly equivblent to {@code nextAfter(f,
+     * Flobt.NEGATIVE_INFINITY)}; however, b
+     * {@code nextDown} implementbtion mby run fbster thbn its
+     * equivblent {@code nextAfter} cbll.
      *
-     * <p>Special Cases:
+     * <p>Specibl Cbses:
      * <ul>
-     * <li> If the argument is NaN, the result is NaN.
+     * <li> If the brgument is NbN, the result is NbN.
      *
-     * <li> If the argument is negative infinity, the result is
-     * negative infinity.
+     * <li> If the brgument is negbtive infinity, the result is
+     * negbtive infinity.
      *
-     * <li> If the argument is zero, the result is
-     * {@code -Float.MIN_VALUE}
+     * <li> If the brgument is zero, the result is
+     * {@code -Flobt.MIN_VALUE}
      *
      * </ul>
      *
-     * @param f  starting floating-point value
-     * @return The adjacent floating-point value closer to negative
+     * @pbrbm f  stbrting flobting-point vblue
+     * @return The bdjbcent flobting-point vblue closer to negbtive
      * infinity.
      * @since 1.8
      */
-    public static float nextDown(float f) {
-        if (Float.isNaN(f) || f == Float.NEGATIVE_INFINITY)
+    public stbtic flobt nextDown(flobt f) {
+        if (Flobt.isNbN(f) || f == Flobt.NEGATIVE_INFINITY)
             return f;
         else {
             if (f == 0.0f)
-                return -Float.MIN_VALUE;
+                return -Flobt.MIN_VALUE;
             else
-                return Float.intBitsToFloat(Float.floatToRawIntBits(f) +
+                return Flobt.intBitsToFlobt(Flobt.flobtToRbwIntBits(f) +
                                             ((f > 0.0f)?-1:+1));
         }
     }
 
     /**
      * Returns {@code d} &times;
-     * 2<sup>{@code scaleFactor}</sup> rounded as if performed
-     * by a single correctly rounded floating-point multiply to a
-     * member of the double value set.  See the Java
-     * Language Specification for a discussion of floating-point
-     * value sets.  If the exponent of the result is between {@link
-     * Double#MIN_EXPONENT} and {@link Double#MAX_EXPONENT}, the
-     * answer is calculated exactly.  If the exponent of the result
-     * would be larger than {@code Double.MAX_EXPONENT}, an
-     * infinity is returned.  Note that if the result is subnormal,
-     * precision may be lost; that is, when {@code scalb(x, n)}
-     * is subnormal, {@code scalb(scalb(x, n), -n)} may not equal
-     * <i>x</i>.  When the result is non-NaN, the result has the same
-     * sign as {@code d}.
+     * 2<sup>{@code scbleFbctor}</sup> rounded bs if performed
+     * by b single correctly rounded flobting-point multiply to b
+     * member of the double vblue set.  See the Jbvb
+     * Lbngubge Specificbtion for b discussion of flobting-point
+     * vblue sets.  If the exponent of the result is between {@link
+     * Double#MIN_EXPONENT} bnd {@link Double#MAX_EXPONENT}, the
+     * bnswer is cblculbted exbctly.  If the exponent of the result
+     * would be lbrger thbn {@code Double.MAX_EXPONENT}, bn
+     * infinity is returned.  Note thbt if the result is subnormbl,
+     * precision mby be lost; thbt is, when {@code scblb(x, n)}
+     * is subnormbl, {@code scblb(scblb(x, n), -n)} mby not equbl
+     * <i>x</i>.  When the result is non-NbN, the result hbs the sbme
+     * sign bs {@code d}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
-     * <li> If the first argument is NaN, NaN is returned.
-     * <li> If the first argument is infinite, then an infinity of the
-     * same sign is returned.
-     * <li> If the first argument is zero, then a zero of the same
+     * <li> If the first brgument is NbN, NbN is returned.
+     * <li> If the first brgument is infinite, then bn infinity of the
+     * sbme sign is returned.
+     * <li> If the first brgument is zero, then b zero of the sbme
      * sign is returned.
      * </ul>
      *
-     * @param d number to be scaled by a power of two.
-     * @param scaleFactor power of 2 used to scale {@code d}
-     * @return {@code d} &times; 2<sup>{@code scaleFactor}</sup>
+     * @pbrbm d number to be scbled by b power of two.
+     * @pbrbm scbleFbctor power of 2 used to scble {@code d}
+     * @return {@code d} &times; 2<sup>{@code scbleFbctor}</sup>
      * @since 1.6
      */
-    public static double scalb(double d, int scaleFactor) {
+    public stbtic double scblb(double d, int scbleFbctor) {
         /*
-         * This method does not need to be declared strictfp to
-         * compute the same correct result on all platforms.  When
-         * scaling up, it does not matter what order the
-         * multiply-store operations are done; the result will be
-         * finite or overflow regardless of the operation ordering.
-         * However, to get the correct result when scaling down, a
-         * particular ordering must be used.
+         * This method does not need to be declbred strictfp to
+         * compute the sbme correct result on bll plbtforms.  When
+         * scbling up, it does not mbtter whbt order the
+         * multiply-store operbtions bre done; the result will be
+         * finite or overflow regbrdless of the operbtion ordering.
+         * However, to get the correct result when scbling down, b
+         * pbrticulbr ordering must be used.
          *
-         * When scaling down, the multiply-store operations are
-         * sequenced so that it is not possible for two consecutive
-         * multiply-stores to return subnormal results.  If one
-         * multiply-store result is subnormal, the next multiply will
-         * round it away to zero.  This is done by first multiplying
-         * by 2 ^ (scaleFactor % n) and then multiplying several
-         * times by by 2^n as needed where n is the exponent of number
-         * that is a covenient power of two.  In this way, at most one
-         * real rounding error occurs.  If the double value set is
-         * being used exclusively, the rounding will occur on a
-         * multiply.  If the double-extended-exponent value set is
-         * being used, the products will (perhaps) be exact but the
-         * stores to d are guaranteed to round to the double value
+         * When scbling down, the multiply-store operbtions bre
+         * sequenced so thbt it is not possible for two consecutive
+         * multiply-stores to return subnormbl results.  If one
+         * multiply-store result is subnormbl, the next multiply will
+         * round it bwby to zero.  This is done by first multiplying
+         * by 2 ^ (scbleFbctor % n) bnd then multiplying severbl
+         * times by by 2^n bs needed where n is the exponent of number
+         * thbt is b covenient power of two.  In this wby, bt most one
+         * rebl rounding error occurs.  If the double vblue set is
+         * being used exclusively, the rounding will occur on b
+         * multiply.  If the double-extended-exponent vblue set is
+         * being used, the products will (perhbps) be exbct but the
+         * stores to d bre gubrbnteed to round to the double vblue
          * set.
          *
-         * It is _not_ a valid implementation to first multiply d by
-         * 2^MIN_EXPONENT and then by 2 ^ (scaleFactor %
-         * MIN_EXPONENT) since even in a strictfp program double
-         * rounding on underflow could occur; e.g. if the scaleFactor
-         * argument was (MIN_EXPONENT - n) and the exponent of d was a
-         * little less than -(MIN_EXPONENT - n), meaning the final
-         * result would be subnormal.
+         * It is _not_ b vblid implementbtion to first multiply d by
+         * 2^MIN_EXPONENT bnd then by 2 ^ (scbleFbctor %
+         * MIN_EXPONENT) since even in b strictfp progrbm double
+         * rounding on underflow could occur; e.g. if the scbleFbctor
+         * brgument wbs (MIN_EXPONENT - n) bnd the exponent of d wbs b
+         * little less thbn -(MIN_EXPONENT - n), mebning the finbl
+         * result would be subnormbl.
          *
-         * Since exact reproducibility of this method can be achieved
-         * without any undue performance burden, there is no
-         * compelling reason to allow double rounding on underflow in
-         * scalb.
+         * Since exbct reproducibility of this method cbn be bchieved
+         * without bny undue performbnce burden, there is no
+         * compelling rebson to bllow double rounding on underflow in
+         * scblb.
          */
 
-        // magnitude of a power of two so large that scaling a finite
-        // nonzero value by it would be guaranteed to over or
-        // underflow; due to rounding, scaling down takes takes an
-        // additional power of two which is reflected here
-        final int MAX_SCALE = DoubleConsts.MAX_EXPONENT + -DoubleConsts.MIN_EXPONENT +
+        // mbgnitude of b power of two so lbrge thbt scbling b finite
+        // nonzero vblue by it would be gubrbnteed to over or
+        // underflow; due to rounding, scbling down tbkes tbkes bn
+        // bdditionbl power of two which is reflected here
+        finbl int MAX_SCALE = DoubleConsts.MAX_EXPONENT + -DoubleConsts.MIN_EXPONENT +
                               DoubleConsts.SIGNIFICAND_WIDTH + 1;
-        int exp_adjust = 0;
-        int scale_increment = 0;
-        double exp_delta = Double.NaN;
+        int exp_bdjust = 0;
+        int scble_increment = 0;
+        double exp_deltb = Double.NbN;
 
-        // Make sure scaling factor is in a reasonable range
+        // Mbke sure scbling fbctor is in b rebsonbble rbnge
 
-        if(scaleFactor < 0) {
-            scaleFactor = Math.max(scaleFactor, -MAX_SCALE);
-            scale_increment = -512;
-            exp_delta = twoToTheDoubleScaleDown;
+        if(scbleFbctor < 0) {
+            scbleFbctor = Mbth.mbx(scbleFbctor, -MAX_SCALE);
+            scble_increment = -512;
+            exp_deltb = twoToTheDoubleScbleDown;
         }
         else {
-            scaleFactor = Math.min(scaleFactor, MAX_SCALE);
-            scale_increment = 512;
-            exp_delta = twoToTheDoubleScaleUp;
+            scbleFbctor = Mbth.min(scbleFbctor, MAX_SCALE);
+            scble_increment = 512;
+            exp_deltb = twoToTheDoubleScbleUp;
         }
 
-        // Calculate (scaleFactor % +/-512), 512 = 2^9, using
-        // technique from "Hacker's Delight" section 10-2.
-        int t = (scaleFactor >> 9-1) >>> 32 - 9;
-        exp_adjust = ((scaleFactor + t) & (512 -1)) - t;
+        // Cblculbte (scbleFbctor % +/-512), 512 = 2^9, using
+        // technique from "Hbcker's Delight" section 10-2.
+        int t = (scbleFbctor >> 9-1) >>> 32 - 9;
+        exp_bdjust = ((scbleFbctor + t) & (512 -1)) - t;
 
-        d *= powerOfTwoD(exp_adjust);
-        scaleFactor -= exp_adjust;
+        d *= powerOfTwoD(exp_bdjust);
+        scbleFbctor -= exp_bdjust;
 
-        while(scaleFactor != 0) {
-            d *= exp_delta;
-            scaleFactor -= scale_increment;
+        while(scbleFbctor != 0) {
+            d *= exp_deltb;
+            scbleFbctor -= scble_increment;
         }
         return d;
     }
 
     /**
      * Returns {@code f} &times;
-     * 2<sup>{@code scaleFactor}</sup> rounded as if performed
-     * by a single correctly rounded floating-point multiply to a
-     * member of the float value set.  See the Java
-     * Language Specification for a discussion of floating-point
-     * value sets.  If the exponent of the result is between {@link
-     * Float#MIN_EXPONENT} and {@link Float#MAX_EXPONENT}, the
-     * answer is calculated exactly.  If the exponent of the result
-     * would be larger than {@code Float.MAX_EXPONENT}, an
-     * infinity is returned.  Note that if the result is subnormal,
-     * precision may be lost; that is, when {@code scalb(x, n)}
-     * is subnormal, {@code scalb(scalb(x, n), -n)} may not equal
-     * <i>x</i>.  When the result is non-NaN, the result has the same
-     * sign as {@code f}.
+     * 2<sup>{@code scbleFbctor}</sup> rounded bs if performed
+     * by b single correctly rounded flobting-point multiply to b
+     * member of the flobt vblue set.  See the Jbvb
+     * Lbngubge Specificbtion for b discussion of flobting-point
+     * vblue sets.  If the exponent of the result is between {@link
+     * Flobt#MIN_EXPONENT} bnd {@link Flobt#MAX_EXPONENT}, the
+     * bnswer is cblculbted exbctly.  If the exponent of the result
+     * would be lbrger thbn {@code Flobt.MAX_EXPONENT}, bn
+     * infinity is returned.  Note thbt if the result is subnormbl,
+     * precision mby be lost; thbt is, when {@code scblb(x, n)}
+     * is subnormbl, {@code scblb(scblb(x, n), -n)} mby not equbl
+     * <i>x</i>.  When the result is non-NbN, the result hbs the sbme
+     * sign bs {@code f}.
      *
-     * <p>Special cases:
+     * <p>Specibl cbses:
      * <ul>
-     * <li> If the first argument is NaN, NaN is returned.
-     * <li> If the first argument is infinite, then an infinity of the
-     * same sign is returned.
-     * <li> If the first argument is zero, then a zero of the same
+     * <li> If the first brgument is NbN, NbN is returned.
+     * <li> If the first brgument is infinite, then bn infinity of the
+     * sbme sign is returned.
+     * <li> If the first brgument is zero, then b zero of the sbme
      * sign is returned.
      * </ul>
      *
-     * @param f number to be scaled by a power of two.
-     * @param scaleFactor power of 2 used to scale {@code f}
-     * @return {@code f} &times; 2<sup>{@code scaleFactor}</sup>
+     * @pbrbm f number to be scbled by b power of two.
+     * @pbrbm scbleFbctor power of 2 used to scble {@code f}
+     * @return {@code f} &times; 2<sup>{@code scbleFbctor}</sup>
      * @since 1.6
      */
-    public static float scalb(float f, int scaleFactor) {
-        // magnitude of a power of two so large that scaling a finite
-        // nonzero value by it would be guaranteed to over or
-        // underflow; due to rounding, scaling down takes takes an
-        // additional power of two which is reflected here
-        final int MAX_SCALE = FloatConsts.MAX_EXPONENT + -FloatConsts.MIN_EXPONENT +
-                              FloatConsts.SIGNIFICAND_WIDTH + 1;
+    public stbtic flobt scblb(flobt f, int scbleFbctor) {
+        // mbgnitude of b power of two so lbrge thbt scbling b finite
+        // nonzero vblue by it would be gubrbnteed to over or
+        // underflow; due to rounding, scbling down tbkes tbkes bn
+        // bdditionbl power of two which is reflected here
+        finbl int MAX_SCALE = FlobtConsts.MAX_EXPONENT + -FlobtConsts.MIN_EXPONENT +
+                              FlobtConsts.SIGNIFICAND_WIDTH + 1;
 
-        // Make sure scaling factor is in a reasonable range
-        scaleFactor = Math.max(Math.min(scaleFactor, MAX_SCALE), -MAX_SCALE);
+        // Mbke sure scbling fbctor is in b rebsonbble rbnge
+        scbleFbctor = Mbth.mbx(Mbth.min(scbleFbctor, MAX_SCALE), -MAX_SCALE);
 
         /*
-         * Since + MAX_SCALE for float fits well within the double
-         * exponent range and + float -> double conversion is exact
-         * the multiplication below will be exact. Therefore, the
-         * rounding that occurs when the double product is cast to
-         * float will be the correctly rounded float result.  Since
-         * all operations other than the final multiply will be exact,
-         * it is not necessary to declare this method strictfp.
+         * Since + MAX_SCALE for flobt fits well within the double
+         * exponent rbnge bnd + flobt -> double conversion is exbct
+         * the multiplicbtion below will be exbct. Therefore, the
+         * rounding thbt occurs when the double product is cbst to
+         * flobt will be the correctly rounded flobt result.  Since
+         * bll operbtions other thbn the finbl multiply will be exbct,
+         * it is not necessbry to declbre this method strictfp.
          */
-        return (float)((double)f*powerOfTwoD(scaleFactor));
+        return (flobt)((double)f*powerOfTwoD(scbleFbctor));
     }
 
-    // Constants used in scalb
-    static double twoToTheDoubleScaleUp = powerOfTwoD(512);
-    static double twoToTheDoubleScaleDown = powerOfTwoD(-512);
+    // Constbnts used in scblb
+    stbtic double twoToTheDoubleScbleUp = powerOfTwoD(512);
+    stbtic double twoToTheDoubleScbleDown = powerOfTwoD(-512);
 
     /**
-     * Returns a floating-point power of two in the normal range.
+     * Returns b flobting-point power of two in the normbl rbnge.
      */
-    static double powerOfTwoD(int n) {
-        assert(n >= DoubleConsts.MIN_EXPONENT && n <= DoubleConsts.MAX_EXPONENT);
+    stbtic double powerOfTwoD(int n) {
+        bssert(n >= DoubleConsts.MIN_EXPONENT && n <= DoubleConsts.MAX_EXPONENT);
         return Double.longBitsToDouble((((long)n + (long)DoubleConsts.EXP_BIAS) <<
                                         (DoubleConsts.SIGNIFICAND_WIDTH-1))
                                        & DoubleConsts.EXP_BIT_MASK);
     }
 
     /**
-     * Returns a floating-point power of two in the normal range.
+     * Returns b flobting-point power of two in the normbl rbnge.
      */
-    static float powerOfTwoF(int n) {
-        assert(n >= FloatConsts.MIN_EXPONENT && n <= FloatConsts.MAX_EXPONENT);
-        return Float.intBitsToFloat(((n + FloatConsts.EXP_BIAS) <<
-                                     (FloatConsts.SIGNIFICAND_WIDTH-1))
-                                    & FloatConsts.EXP_BIT_MASK);
+    stbtic flobt powerOfTwoF(int n) {
+        bssert(n >= FlobtConsts.MIN_EXPONENT && n <= FlobtConsts.MAX_EXPONENT);
+        return Flobt.intBitsToFlobt(((n + FlobtConsts.EXP_BIAS) <<
+                                     (FlobtConsts.SIGNIFICAND_WIDTH-1))
+                                    & FlobtConsts.EXP_BIT_MASK);
     }
 }

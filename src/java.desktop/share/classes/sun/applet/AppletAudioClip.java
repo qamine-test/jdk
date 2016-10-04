@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.applet.AudioClip;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.bpplet.AudioClip;
 
-import com.sun.media.sound.JavaSoundAudioClip;
+import com.sun.medib.sound.JbvbSoundAudioClip;
 
 
 /**
- * Applet audio clip;
+ * Applet budio clip;
  *
- * @author Arthur van Hoff, Kara Kytle
+ * @buthor Arthur vbn Hoff, Kbrb Kytle
  */
 
-public class AppletAudioClip implements AudioClip {
+public clbss AppletAudioClip implements AudioClip {
 
-    // url that this AudioClip is based on
-    private URL url = null;
+    // url thbt this AudioClip is bbsed on
+    privbte URL url = null;
 
-    // the audio clip implementation
-    private AudioClip audioClip = null;
+    // the budio clip implementbtion
+    privbte AudioClip budioClip = null;
 
-    boolean DEBUG = false /*true*/;
+    boolebn DEBUG = fblse /*true*/;
 
     /**
-     * Constructs an AppletAudioClip from an URL.
+     * Constructs bn AppletAudioClip from bn URL.
      */
     public AppletAudioClip(URL url) {
 
@@ -60,92 +60,92 @@ public class AppletAudioClip implements AudioClip {
         this.url = url;
 
         try {
-            // create a stream from the url, and use it
+            // crebte b strebm from the url, bnd use it
             // in the clip.
-            InputStream in = url.openStream();
-            createAppletAudioClip(in);
+            InputStrebm in = url.openStrebm();
+            crebteAppletAudioClip(in);
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
                 /* just quell it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip" + e);
+                System.err.println("IOException crebting AppletAudioClip" + e);
             }
         }
     }
 
     /**
-     * Constructs an AppletAudioClip from a URLConnection.
+     * Constructs bn AppletAudioClip from b URLConnection.
      */
     public AppletAudioClip(URLConnection uc) {
 
         try {
-            // create a stream from the url, and use it
+            // crebte b strebm from the url, bnd use it
             // in the clip.
-            createAppletAudioClip(uc.getInputStream());
+            crebteAppletAudioClip(uc.getInputStrebm());
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
                 /* just quell it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip" + e);
+                System.err.println("IOException crebting AppletAudioClip" + e);
             }
         }
     }
 
 
     /**
-     * For constructing directly from Jar entries, or any other
-     * raw Audio data. Note that the data provided must include the format
-     * header.
+     * For constructing directly from Jbr entries, or bny other
+     * rbw Audio dbtb. Note thbt the dbtb provided must include the formbt
+     * hebder.
      */
-    public AppletAudioClip(byte [] data) {
+    public AppletAudioClip(byte [] dbtb) {
 
         try {
 
-            // construct a stream from the byte array
-            InputStream in = new ByteArrayInputStream(data);
+            // construct b strebm from the byte brrby
+            InputStrebm in = new ByteArrbyInputStrebm(dbtb);
 
-            createAppletAudioClip(in);
+            crebteAppletAudioClip(in);
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
                 /* just quell it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip " + e);
+                System.err.println("IOException crebting AppletAudioClip " + e);
             }
         }
     }
 
 
     /*
-     * Does the real work of creating an AppletAudioClip from an InputStream.
+     * Does the rebl work of crebting bn AppletAudioClip from bn InputStrebm.
      * This function is used by both constructors.
      */
-    void createAppletAudioClip(InputStream in) throws IOException {
+    void crebteAppletAudioClip(InputStrebm in) throws IOException {
 
         try {
-            audioClip = new JavaSoundAudioClip(in);
-        } catch (Exception e3) {
-            // no matter what happened, we throw an IOException to avoid changing the interfaces....
-            throw new IOException("Failed to construct the AudioClip: " + e3);
+            budioClip = new JbvbSoundAudioClip(in);
+        } cbtch (Exception e3) {
+            // no mbtter whbt hbppened, we throw bn IOException to bvoid chbnging the interfbces....
+            throw new IOException("Fbiled to construct the AudioClip: " + e3);
         }
     }
 
 
-    public synchronized void play() {
+    public synchronized void plby() {
 
-                if (audioClip != null)
-                        audioClip.play();
+                if (budioClip != null)
+                        budioClip.plby();
     }
 
 
     public synchronized void loop() {
 
-                if (audioClip != null)
-                        audioClip.loop();
+                if (budioClip != null)
+                        budioClip.loop();
     }
 
     public synchronized void stop() {
 
-                if (audioClip != null)
-                        audioClip.stop();
+                if (budioClip != null)
+                        budioClip.stop();
     }
 }

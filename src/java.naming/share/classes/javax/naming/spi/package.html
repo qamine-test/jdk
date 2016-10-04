@@ -1,88 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 
-Provides the means for dynamically plugging in support for accessing
-naming and directory services through the <tt>javax.naming</tt> 
-and related packages.
+Provides the mebns for dynbmicblly plugging in support for bccessing
+nbming bnd directory services through the <tt>jbvbx.nbming</tt> 
+bnd relbted pbckbges.
 
 <p>
-This package defines the service provider interface (SPI) of the Java Naming
-and Directory Interface<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
-JNDI provides naming and directory functionality to applications
-written in the Java programming language.  It is designed to be
-independent of any specific naming or directory service
-implementation.  Thus a variety of services--new, emerging, and
-already deployed ones--can be accessed in a common way.
+This pbckbge defines the service provider interfbce (SPI) of the Jbvb Nbming
+bnd Directory Interfbce<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI provides nbming bnd directory functionblity to bpplicbtions
+written in the Jbvb progrbmming lbngubge.  It is designed to be
+independent of bny specific nbming or directory service
+implementbtion.  Thus b vbriety of services--new, emerging, bnd
+blrebdy deployed ones--cbn be bccessed in b common wby.
 
 <p>
-The JNDI SPI provides the means for creating JNDI service providers,
-through which JNDI applications access different naming and
+The JNDI SPI provides the mebns for crebting JNDI service providers,
+through which JNDI bpplicbtions bccess different nbming bnd
 directory services.
 
 
 <h4>Plug-in Architecture</h4>
 
-The service provider package allows different implementations to be plugged in
-dynamically.
-These different implementations include those for the
-<em>initial context</em>,
-and implementations for contexts that can be reached 
-from the initial context.
+The service provider pbckbge bllows different implementbtions to be plugged in
+dynbmicblly.
+These different implementbtions include those for the
+<em>initibl context</em>,
+bnd implementbtions for contexts thbt cbn be rebched 
+from the initibl context.
 
-<h4>Java Object Support</h4>
+<h4>Jbvb Object Support</h4>
 
-The service provider package provides support 
+The service provider pbckbge provides support 
 for implementors of the
-<tt>javax.naming.Context.lookup()</tt> 
-method and related methods to return Java objects that are natural
-and intuitive for the Java programmer.
-For example, when looking up a printer name from the directory,
-it is natural for you to expect to get
-back a printer object on which to operate.
+<tt>jbvbx.nbming.Context.lookup()</tt> 
+method bnd relbted methods to return Jbvb objects thbt bre nbturbl
+bnd intuitive for the Jbvb progrbmmer.
+For exbmple, when looking up b printer nbme from the directory,
+it is nbturbl for you to expect to get
+bbck b printer object on which to operbte.
 
 
-<h4>Multiple Naming Systems (Federation)</h4>
+<h4>Multiple Nbming Systems (Federbtion)</h4>
 
-JNDI operations allow applications to supply names that span multiple
-naming systems.  So in the process of completing
-an operation, one service provider might need to interact
-with another service provider, for example, to pass on
-the operation to be continued in the next naming system.
-The service provider package provides support for
-different providers to cooperate to complete JNDI operations.
+JNDI operbtions bllow bpplicbtions to supply nbmes thbt spbn multiple
+nbming systems.  So in the process of completing
+bn operbtion, one service provider might need to interbct
+with bnother service provider, for exbmple, to pbss on
+the operbtion to be continued in the next nbming system.
+The service provider pbckbge provides support for
+different providers to cooperbte to complete JNDI operbtions.
 
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
-The JNDI SPI Specification and related documents can be found in the
-<a href="../../../../technotes/guides/jndi/index.html">JNDI documentation</a>.
+The JNDI SPI Specificbtion bnd relbted documents cbn be found in the
+<b href="../../../../technotes/guides/jndi/index.html">JNDI documentbtion</b>.
 
 @since 1.3
 

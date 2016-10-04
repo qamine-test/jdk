@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * Lanczos interpolation resampler.
+ * Lbnczos interpolbtion resbmpler.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftLanczosResampler extends SoftAbstractResampler {
+public finbl clbss SoftLbnczosResbmpler extends SoftAbstrbctResbmpler {
 
-    float[][] sinc_table;
-    int sinc_table_fsize = 2000;
-    int sinc_table_size = 5;
-    int sinc_table_center = sinc_table_size / 2;
+    flobt[][] sinc_tbble;
+    int sinc_tbble_fsize = 2000;
+    int sinc_tbble_size = 5;
+    int sinc_tbble_center = sinc_tbble_size / 2;
 
-    public SoftLanczosResampler() {
+    public SoftLbnczosResbmpler() {
         super();
-        sinc_table = new float[sinc_table_fsize][];
-        for (int i = 0; i < sinc_table_fsize; i++) {
-            sinc_table[i] = sincTable(sinc_table_size, -i
-                            / ((float) sinc_table_fsize));
+        sinc_tbble = new flobt[sinc_tbble_fsize][];
+        for (int i = 0; i < sinc_tbble_fsize; i++) {
+            sinc_tbble[i] = sincTbble(sinc_tbble_size, -i
+                            / ((flobt) sinc_tbble_fsize));
         }
     }
 
-    // Normalized sinc function
-    public static double sinc(double x) {
-        return (x == 0.0) ? 1.0 : Math.sin(Math.PI * x) / (Math.PI * x);
+    // Normblized sinc function
+    public stbtic double sinc(double x) {
+        return (x == 0.0) ? 1.0 : Mbth.sin(Mbth.PI * x) / (Mbth.PI * x);
     }
 
-    // Generate sinc table
-    public static float[] sincTable(int size, float offset) {
+    // Generbte sinc tbble
+    public stbtic flobt[] sincTbble(int size, flobt offset) {
         int center = size / 2;
-        float[] w = new float[size];
+        flobt[] w = new flobt[size];
         for (int k = 0; k < size; k++) {
-            float x = (-center + k + offset);
+            flobt x = (-center + k + offset);
             if (x < -2 || x > 2)
                 w[k] = 0;
             else if (x == 0)
                 w[k] = 1;
             else {
-                w[k] = (float)(2.0 * Math.sin(Math.PI * x)
-                                * Math.sin(Math.PI * x / 2.0)
-                                / ((Math.PI * x) * (Math.PI * x)));
+                w[k] = (flobt)(2.0 * Mbth.sin(Mbth.PI * x)
+                                * Mbth.sin(Mbth.PI * x / 2.0)
+                                / ((Mbth.PI * x) * (Mbth.PI * x)));
             }
         }
         return w;
     }
 
-    public int getPadding() // must be at least half of sinc_table_size
+    public int getPbdding() // must be bt lebst hblf of sinc_tbble_size
     {
-        return sinc_table_size / 2 + 2;
+        return sinc_tbble_size / 2 + 2;
     }
 
-    public void interpolate(float[] in, float[] in_offset, float in_end,
-            float[] startpitch, float pitchstep, float[] out, int[] out_offset,
+    public void interpolbte(flobt[] in, flobt[] in_offset, flobt in_end,
+            flobt[] stbrtpitch, flobt pitchstep, flobt[] out, int[] out_offset,
             int out_end) {
-        float pitch = startpitch[0];
-        float ix = in_offset[0];
+        flobt pitch = stbrtpitch[0];
+        flobt ix = in_offset[0];
         int ox = out_offset[0];
-        float ix_end = in_end;
+        flobt ix_end = in_end;
         int ox_end = out_end;
 
         if (pitchstep == 0) {
             while (ix < ix_end && ox < ox_end) {
                 int iix = (int) ix;
-                float[] sinc_table
-                        = this.sinc_table[(int) ((ix - iix) * sinc_table_fsize)];
-                int xx = iix - sinc_table_center;
-                float y = 0;
-                for (int i = 0; i < sinc_table_size; i++, xx++)
-                    y += in[xx] * sinc_table[i];
+                flobt[] sinc_tbble
+                        = this.sinc_tbble[(int) ((ix - iix) * sinc_tbble_fsize)];
+                int xx = iix - sinc_tbble_center;
+                flobt y = 0;
+                for (int i = 0; i < sinc_tbble_size; i++, xx++)
+                    y += in[xx] * sinc_tbble[i];
                 out[ox++] = y;
                 ix += pitch;
             }
         } else {
             while (ix < ix_end && ox < ox_end) {
                 int iix = (int) ix;
-                float[] sinc_table
-                        = this.sinc_table[(int) ((ix - iix) * sinc_table_fsize)];
-                int xx = iix - sinc_table_center;
-                float y = 0;
-                for (int i = 0; i < sinc_table_size; i++, xx++)
-                    y += in[xx] * sinc_table[i];
+                flobt[] sinc_tbble
+                        = this.sinc_tbble[(int) ((ix - iix) * sinc_tbble_fsize)];
+                int xx = iix - sinc_tbble_center;
+                flobt y = 0;
+                for (int i = 0; i < sinc_tbble_size; i++, xx++)
+                    y += in[xx] * sinc_tbble[i];
                 out[ox++] = y;
 
                 ix += pitch;
@@ -112,7 +112,7 @@ public final class SoftLanczosResampler extends SoftAbstractResampler {
         }
         in_offset[0] = ix;
         out_offset[0] = ox;
-        startpitch[0] = pitch;
+        stbrtpitch[0] = pitch;
 
     }
 }

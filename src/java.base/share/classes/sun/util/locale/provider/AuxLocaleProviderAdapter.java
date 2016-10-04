@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.spi.CalendarProvider;
+import jbvb.text.spi.BrebkIterbtorProvider;
+import jbvb.text.spi.CollbtorProvider;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.text.spi.DbteFormbtSymbolsProvider;
+import jbvb.text.spi.DecimblFormbtSymbolsProvider;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.spi.CblendbrDbtbProvider;
+import jbvb.util.spi.CblendbrNbmeProvider;
+import jbvb.util.spi.CurrencyNbmeProvider;
+import jbvb.util.spi.LocbleNbmeProvider;
+import jbvb.util.spi.LocbleServiceProvider;
+import jbvb.util.spi.TimeZoneNbmeProvider;
+import sun.util.spi.CblendbrProvider;
 
 /**
- * An abstract parent class for the
- * HostLocaleProviderAdapter/SPILocaleProviderAdapter.
+ * An bbstrbct pbrent clbss for the
+ * HostLocbleProviderAdbpter/SPILocbleProviderAdbpter.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public abstract class AuxLocaleProviderAdapter extends LocaleProviderAdapter {
+public bbstrbct clbss AuxLocbleProviderAdbpter extends LocbleProviderAdbpter {
     /**
-     * SPI implementations map
+     * SPI implementbtions mbp
      */
-    private ConcurrentMap<Class<? extends LocaleServiceProvider>, LocaleServiceProvider> providersMap =
-            new ConcurrentHashMap<>();
+    privbte ConcurrentMbp<Clbss<? extends LocbleServiceProvider>, LocbleServiceProvider> providersMbp =
+            new ConcurrentHbshMbp<>();
 
     /**
-     * Getter method for Locale Service Providers
+     * Getter method for Locble Service Providers
      */
     @Override
-    public <P extends LocaleServiceProvider> P getLocaleServiceProvider(Class<P> c) {
-        @SuppressWarnings("unchecked")
-        P lsp = (P) providersMap.get(c);
+    public <P extends LocbleServiceProvider> P getLocbleServiceProvider(Clbss<P> c) {
+        @SuppressWbrnings("unchecked")
+        P lsp = (P) providersMbp.get(c);
         if (lsp == null) {
-            lsp = findInstalledProvider(c);
-            providersMap.putIfAbsent(c, lsp == null ? NULL_PROVIDER : lsp);
+            lsp = findInstblledProvider(c);
+            providersMbp.putIfAbsent(c, lsp == null ? NULL_PROVIDER : lsp);
         }
 
         return lsp;
     }
 
     /**
-     * Real body to find an implementation for each SPI.
+     * Rebl body to find bn implementbtion for ebch SPI.
      *
-     * @param <P>
-     * @param c
+     * @pbrbm <P>
+     * @pbrbm c
      * @return
      */
-    protected abstract <P extends LocaleServiceProvider> P findInstalledProvider(final Class<P> c);
+    protected bbstrbct <P extends LocbleServiceProvider> P findInstblledProvider(finbl Clbss<P> c);
 
     @Override
-    public BreakIteratorProvider getBreakIteratorProvider() {
-        return getLocaleServiceProvider(BreakIteratorProvider.class);
+    public BrebkIterbtorProvider getBrebkIterbtorProvider() {
+        return getLocbleServiceProvider(BrebkIterbtorProvider.clbss);
     }
 
     @Override
-    public CollatorProvider getCollatorProvider() {
-        return getLocaleServiceProvider(CollatorProvider.class);
+    public CollbtorProvider getCollbtorProvider() {
+        return getLocbleServiceProvider(CollbtorProvider.clbss);
     }
 
     @Override
-    public DateFormatProvider getDateFormatProvider() {
-        return getLocaleServiceProvider(DateFormatProvider.class);
+    public DbteFormbtProvider getDbteFormbtProvider() {
+        return getLocbleServiceProvider(DbteFormbtProvider.clbss);
     }
 
     @Override
-    public DateFormatSymbolsProvider getDateFormatSymbolsProvider() {
-        return getLocaleServiceProvider(DateFormatSymbolsProvider.class);
+    public DbteFormbtSymbolsProvider getDbteFormbtSymbolsProvider() {
+        return getLocbleServiceProvider(DbteFormbtSymbolsProvider.clbss);
     }
 
     @Override
-    public DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider() {
-        return getLocaleServiceProvider(DecimalFormatSymbolsProvider.class);
+    public DecimblFormbtSymbolsProvider getDecimblFormbtSymbolsProvider() {
+        return getLocbleServiceProvider(DecimblFormbtSymbolsProvider.clbss);
     }
 
     @Override
-    public NumberFormatProvider getNumberFormatProvider() {
-        return getLocaleServiceProvider(NumberFormatProvider.class);
+    public NumberFormbtProvider getNumberFormbtProvider() {
+        return getLocbleServiceProvider(NumberFormbtProvider.clbss);
     }
 
     /**
-     * Getter methods for java.util.spi.* providers
+     * Getter methods for jbvb.util.spi.* providers
      */
     @Override
-    public CurrencyNameProvider getCurrencyNameProvider() {
-        return getLocaleServiceProvider(CurrencyNameProvider.class);
+    public CurrencyNbmeProvider getCurrencyNbmeProvider() {
+        return getLocbleServiceProvider(CurrencyNbmeProvider.clbss);
     }
 
     @Override
-    public LocaleNameProvider getLocaleNameProvider() {
-        return getLocaleServiceProvider(LocaleNameProvider.class);
+    public LocbleNbmeProvider getLocbleNbmeProvider() {
+        return getLocbleServiceProvider(LocbleNbmeProvider.clbss);
     }
 
     @Override
-    public TimeZoneNameProvider getTimeZoneNameProvider() {
-        return getLocaleServiceProvider(TimeZoneNameProvider.class);
+    public TimeZoneNbmeProvider getTimeZoneNbmeProvider() {
+        return getLocbleServiceProvider(TimeZoneNbmeProvider.clbss);
     }
 
     @Override
-    public CalendarDataProvider getCalendarDataProvider() {
-        return getLocaleServiceProvider(CalendarDataProvider.class);
+    public CblendbrDbtbProvider getCblendbrDbtbProvider() {
+        return getLocbleServiceProvider(CblendbrDbtbProvider.clbss);
     }
 
     @Override
-    public CalendarNameProvider getCalendarNameProvider() {
-        return getLocaleServiceProvider(CalendarNameProvider.class);
+    public CblendbrNbmeProvider getCblendbrNbmeProvider() {
+        return getLocbleServiceProvider(CblendbrNbmeProvider.clbss);
     }
 
     /**
      * Getter methods for sun.util.spi.* providers
      */
     @Override
-    public CalendarProvider getCalendarProvider() {
-        return getLocaleServiceProvider(CalendarProvider.class);
+    public CblendbrProvider getCblendbrProvider() {
+        return getLocbleServiceProvider(CblendbrProvider.clbss);
     }
 
     @Override
-    public LocaleResources getLocaleResources(Locale locale) {
+    public LocbleResources getLocbleResources(Locble locble) {
         return null;
     }
 
-    private static Locale[] availableLocales = null;
+    privbte stbtic Locble[] bvbilbbleLocbles = null;
 
     @Override
-    public Locale[] getAvailableLocales() {
-        if (availableLocales == null) {
-            Set<Locale> avail = new HashSet<>();
-            for (Class<? extends LocaleServiceProvider> c :
-                    LocaleServiceProviderPool.spiClasses) {
-                LocaleServiceProvider lsp = getLocaleServiceProvider(c);
+    public Locble[] getAvbilbbleLocbles() {
+        if (bvbilbbleLocbles == null) {
+            Set<Locble> bvbil = new HbshSet<>();
+            for (Clbss<? extends LocbleServiceProvider> c :
+                    LocbleServiceProviderPool.spiClbsses) {
+                LocbleServiceProvider lsp = getLocbleServiceProvider(c);
                 if (lsp != null) {
-                    avail.addAll(Arrays.asList(lsp.getAvailableLocales()));
+                    bvbil.bddAll(Arrbys.bsList(lsp.getAvbilbbleLocbles()));
                 }
             }
-            availableLocales = avail.toArray(new Locale[0]);
+            bvbilbbleLocbles = bvbil.toArrby(new Locble[0]);
         }
 
-        // assuming caller won't mutate the array.
-        return availableLocales;
+        // bssuming cbller won't mutbte the brrby.
+        return bvbilbbleLocbles;
     }
 
     /**
-     * A dummy locale service provider that indicates there is no
-     * provider available
+     * A dummy locble service provider thbt indicbtes there is no
+     * provider bvbilbble
      */
-    private static NullProvider NULL_PROVIDER = new NullProvider();
-    private static class NullProvider extends LocaleServiceProvider {
+    privbte stbtic NullProvider NULL_PROVIDER = new NullProvider();
+    privbte stbtic clbss NullProvider extends LocbleServiceProvider {
         @Override
-        public Locale[] getAvailableLocales() {
-            return new Locale[0];
+        public Locble[] getAvbilbbleLocbles() {
+            return new Locble[0];
         }
     }
 }

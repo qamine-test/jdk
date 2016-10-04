@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,133 +34,133 @@
 #define __THAILAYOUTENGINE_H
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "LayoutEngine.h"
+#include "LEFontInstbnce.h"
+#include "LbyoutEngine.h"
 
-#include "ThaiShaping.h"
+#include "ThbiShbping.h"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+clbss LEGlyphStorbge;
 
 /**
- * This class implements layout for the Thai script, using the ThaiShapingClass.
- * All existing Thai fonts use an encoding which assigns character codes to all
- * the variant forms needed to display accents and tone marks correctly in context.
- * This class can deal with fonts using the Microsoft, Macintosh, and WorldType encodings.
+ * This clbss implements lbyout for the Thbi script, using the ThbiShbpingClbss.
+ * All existing Thbi fonts use bn encoding which bssigns chbrbcter codes to bll
+ * the vbribnt forms needed to displby bccents bnd tone mbrks correctly in context.
+ * This clbss cbn debl with fonts using the Microsoft, Mbcintosh, bnd WorldType encodings.
  *
- * @internal
+ * @internbl
  */
-class ThaiLayoutEngine : public LayoutEngine
+clbss ThbiLbyoutEngine : public LbyoutEngine
 {
 public:
     /**
-     * This constructs an instance of ThaiLayoutEngine for the given font, script and
-     * language. It examines the font, using LEFontInstance::canDisplay, to set fGlyphSet
-     * and fErrorChar. (see below)
+     * This constructs bn instbnce of ThbiLbyoutEngine for the given font, script bnd
+     * lbngubge. It exbmines the font, using LEFontInstbnce::cbnDisplby, to set fGlyphSet
+     * bnd fErrorChbr. (see below)
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param languageCode - the language
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngubgeCode - the lbngubge
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LEFontInstance
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @see LEFontInstbnce
+     * @see ScriptAndLbngubgeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    ThaiLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags, LEErrorCode &success);
+    ThbiLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode, le_int32 typoFlbgs, LEErrorCode &success);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * The destructor, virtubl for correct polymorphic invocbtion.
      *
-     * @internal
+     * @internbl
      */
-    virtual ~ThaiLayoutEngine();
+    virtubl ~ThbiLbyoutEngine();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 protected:
     /**
-     * A small integer indicating which Thai encoding
+     * A smbll integer indicbting which Thbi encoding
      * the font uses.
      *
-     * @see ThaiShaping
+     * @see ThbiShbping
      *
-     * @internal
+     * @internbl
      */
     le_uint8 fGlyphSet;
 
     /**
-     * The character used as a base for vowels and
-     * tone marks that are out of sequence. Usually
-     * this will be Unicode 0x25CC, if the font can
-     * display it.
+     * The chbrbcter used bs b bbse for vowels bnd
+     * tone mbrks thbt bre out of sequence. Usublly
+     * this will be Unicode 0x25CC, if the font cbn
+     * displby it.
      *
-     * @see ThaiShaping
+     * @see ThbiShbping
      *
-     * @internal
+     * @internbl
      */
-    LEUnicode fErrorChar;
+    LEUnicode fErrorChbr;
 
     /**
-     * This method performs Thai layout. It calls ThaiShaping::compose to
-     * generate the correct contextual character codes, and then calls
-     * mapCharsToGlyphs to generate the glyph indices.
+     * This method performs Thbi lbyout. It cblls ThbiShbping::compose to
+     * generbte the correct contextubl chbrbcter codes, bnd then cblls
+     * mbpChbrsToGlyphs to generbte the glyph indices.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the text is in a right to left directional run
-     * @param glyphStorage - the glyph storage object. The glyph and char index arrays will be set.
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the index of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - <code>TRUE</code> if the text is in b right to left directionbl run
+     * @pbrbm glyphStorbge - the glyph storbge object. The glyph bnd chbr index brrbys will be set.
      *
-     * Output parameters:
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the number of glyphs in the glyph index array
+     * @return the number of glyphs in the glyph index brrby
      *
-     * @see ThaiShaping
+     * @see ThbiShbping
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-        LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 computeGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+        LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
     /**
-     * This method does positioning adjustments like accent positioning and
-     * kerning. The default implementation does nothing. Subclasses needing
-     * position adjustments must override this method.
+     * This method does positioning bdjustments like bccent positioning bnd
+     * kerning. The defbult implementbtion does nothing. Subclbsses needing
+     * position bdjustments must override this method.
      *
-     * Note that this method has both characters and glyphs as input so that
-     * it can use the character codes to determine glyph types if that information
-     * isn't directly available. (e.g. Some Arabic OpenType fonts don't have a GDEF
-     * table)
+     * Note thbt this method hbs both chbrbcters bnd glyphs bs input so thbt
+     * it cbn use the chbrbcter codes to determine glyph types if thbt informbtion
+     * isn't directly bvbilbble. (e.g. Some Arbbic OpenType fonts don't hbve b GDEF
+     * tbble)
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphStorage - the object which holds the per-glyph storage. The glyph positions will be
-     *                       adjusted as needed.
-     * @param success - output parameter set to an error code if the operation fails
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the offset of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm reverse - <code>TRUE</code> if the glyphs in the glyph brrby hbve been reordered
+     * @pbrbm glyphStorbge - the object which holds the per-glyph storbge. The glyph positions will be
+     *                       bdjusted bs needed.
+     * @pbrbm success - output pbrbmeter set to bn error code if the operbtion fbils
      *
-     * @internal
+     * @internbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
 };
 

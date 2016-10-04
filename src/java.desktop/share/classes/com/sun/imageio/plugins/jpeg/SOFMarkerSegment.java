@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-//import javax.imageio.IIOException;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
+//import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * An SOF (Start Of Frame)  marker segment.
+ * An SOF (Stbrt Of Frbme)  mbrker segment.
  */
-class SOFMarkerSegment extends MarkerSegment {
-    int samplePrecision;
+clbss SOFMbrkerSegment extends MbrkerSegment {
+    int sbmplePrecision;
     int numLines;
-    int samplesPerLine;
-    ComponentSpec [] componentSpecs;  // Array size is num components
+    int sbmplesPerLine;
+    ComponentSpec [] componentSpecs;  // Arrby size is num components
 
-    SOFMarkerSegment(boolean wantProg,
-                     boolean wantExtended,
-                     boolean willSubsample,
+    SOFMbrkerSegment(boolebn wbntProg,
+                     boolebn wbntExtended,
+                     boolebn willSubsbmple,
                      byte[] componentIDs,
                      int numComponents) {
-        super(wantProg ? JPEG.SOF2
-              : wantExtended ? JPEG.SOF1
+        super(wbntProg ? JPEG.SOF2
+              : wbntExtended ? JPEG.SOF1
               : JPEG.SOF0);
-        samplePrecision = 8;
+        sbmplePrecision = 8;
         numLines = 0;
-        samplesPerLine = 0;
+        sbmplesPerLine = 0;
         componentSpecs = new ComponentSpec[numComponents];
         for(int i = 0; i < numComponents; i++) {
-            int factor = 1;
+            int fbctor = 1;
             int qsel = 0;
-            if (willSubsample) {
-                factor = 2;
+            if (willSubsbmple) {
+                fbctor = 2;
                 if ((i == 1) || (i == 2)) {
-                    factor = 1;
+                    fbctor = 1;
                     qsel = 1;
                 }
             }
-            componentSpecs[i] = new ComponentSpec(componentIDs[i], factor, qsel);
+            componentSpecs[i] = new ComponentSpec(componentIDs[i], fbctor, qsel);
         }
     }
 
-    SOFMarkerSegment(JPEGBuffer buffer) throws IOException{
+    SOFMbrkerSegment(JPEGBuffer buffer) throws IOException{
         super(buffer);
-        samplePrecision = buffer.buf[buffer.bufPtr++];
+        sbmplePrecision = buffer.buf[buffer.bufPtr++];
         numLines = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
         numLines |= buffer.buf[buffer.bufPtr++] & 0xff;
-        samplesPerLine = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
-        samplesPerLine |= buffer.buf[buffer.bufPtr++] & 0xff;
+        sbmplesPerLine = (buffer.buf[buffer.bufPtr++] & 0xff) << 8;
+        sbmplesPerLine |= buffer.buf[buffer.bufPtr++] & 0xff;
         int numComponents = buffer.buf[buffer.bufPtr++] & 0xff;
         componentSpecs = new ComponentSpec [numComponents];
         for (int i = 0; i < numComponents; i++) {
             componentSpecs[i] = new ComponentSpec(buffer);
         }
-        buffer.bufAvail -= length;
+        buffer.bufAvbil -= length;
     }
 
-    SOFMarkerSegment(Node node) throws IIOInvalidTreeException {
-        // All attributes are optional, so setup defaults first
+    SOFMbrkerSegment(Node node) throws IIOInvblidTreeException {
+        // All bttributes bre optionbl, so setup defbults first
         super(JPEG.SOF0);
-        samplePrecision = 8;
+        sbmplePrecision = 8;
         numLines = 0;
-        samplesPerLine = 0;
-        updateFromNativeNode(node, true);
+        sbmplesPerLine = 0;
+        updbteFromNbtiveNode(node, true);
     }
 
     protected Object clone() {
-        SOFMarkerSegment newGuy = (SOFMarkerSegment) super.clone();
+        SOFMbrkerSegment newGuy = (SOFMbrkerSegment) super.clone();
         if (componentSpecs != null) {
             newGuy.componentSpecs = componentSpecs.clone();
             for (int i = 0; i < componentSpecs.length; i++) {
@@ -107,42 +107,42 @@ class SOFMarkerSegment extends MarkerSegment {
         return newGuy;
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("sof");
-        node.setAttribute("process", Integer.toString(tag-JPEG.SOF0));
-        node.setAttribute("samplePrecision",
-                          Integer.toString(samplePrecision));
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("sof");
+        node.setAttribute("process", Integer.toString(tbg-JPEG.SOF0));
+        node.setAttribute("sbmplePrecision",
+                          Integer.toString(sbmplePrecision));
         node.setAttribute("numLines",
                           Integer.toString(numLines));
-        node.setAttribute("samplesPerLine",
-                          Integer.toString(samplesPerLine));
-        node.setAttribute("numFrameComponents",
+        node.setAttribute("sbmplesPerLine",
+                          Integer.toString(sbmplesPerLine));
+        node.setAttribute("numFrbmeComponents",
                           Integer.toString(componentSpecs.length));
         for (int i = 0; i < componentSpecs.length; i++) {
-            node.appendChild(componentSpecs[i].getNativeNode());
+            node.bppendChild(componentSpecs[i].getNbtiveNode());
         }
 
         return node;
     }
 
-    void updateFromNativeNode(Node node, boolean fromScratch)
-        throws IIOInvalidTreeException {
-        NamedNodeMap attrs = node.getAttributes();
-        int value = getAttributeValue(node, attrs, "process", 0, 2, false);
-        tag = (value != -1) ? value+JPEG.SOF0 : tag;
-        // If samplePrecision is present, it must be 8.
-        // This just checks.  We don't bother to assign the value.
-        value = getAttributeValue(node, attrs, "samplePrecision", 8, 8, false);
-        value = getAttributeValue(node, attrs, "numLines", 0, 65535, false);
-        numLines = (value != -1) ? value : numLines;
-        value = getAttributeValue(node, attrs, "samplesPerLine", 0, 65535, false);
-        samplesPerLine = (value != -1) ? value : samplesPerLine;
-        int numComponents = getAttributeValue(node, attrs, "numFrameComponents",
-                                              1, 4, false);
+    void updbteFromNbtiveNode(Node node, boolebn fromScrbtch)
+        throws IIOInvblidTreeException {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        int vblue = getAttributeVblue(node, bttrs, "process", 0, 2, fblse);
+        tbg = (vblue != -1) ? vblue+JPEG.SOF0 : tbg;
+        // If sbmplePrecision is present, it must be 8.
+        // This just checks.  We don't bother to bssign the vblue.
+        vblue = getAttributeVblue(node, bttrs, "sbmplePrecision", 8, 8, fblse);
+        vblue = getAttributeVblue(node, bttrs, "numLines", 0, 65535, fblse);
+        numLines = (vblue != -1) ? vblue : numLines;
+        vblue = getAttributeVblue(node, bttrs, "sbmplesPerLine", 0, 65535, fblse);
+        sbmplesPerLine = (vblue != -1) ? vblue : sbmplesPerLine;
+        int numComponents = getAttributeVblue(node, bttrs, "numFrbmeComponents",
+                                              1, 4, fblse);
         NodeList children = node.getChildNodes();
         if (children.getLength() != numComponents) {
-            throw new IIOInvalidTreeException
-                ("numFrameComponents must match number of children", node);
+            throw new IIOInvblidTreeException
+                ("numFrbmeComponents must mbtch number of children", node);
         }
         componentSpecs = new ComponentSpec [numComponents];
         for (int i = 0; i < numComponents; i++) {
@@ -151,21 +151,21 @@ class SOFMarkerSegment extends MarkerSegment {
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        // We don't write SOF segments; the IJG library does.
+    void write(ImbgeOutputStrebm ios) throws IOException {
+        // We don't write SOF segments; the IJG librbry does.
     }
 
     void print () {
-        printTag("SOF");
-        System.out.print("Sample precision: ");
-        System.out.println(samplePrecision);
+        printTbg("SOF");
+        System.out.print("Sbmple precision: ");
+        System.out.println(sbmplePrecision);
         System.out.print("Number of lines: ");
         System.out.println(numLines);
-        System.out.print("Samples per line: ");
-        System.out.println(samplesPerLine);
+        System.out.print("Sbmples per line: ");
+        System.out.println(sbmplesPerLine);
         System.out.print("Number of components: ");
         System.out.println(componentSpecs.length);
         for(int i = 0; i<componentSpecs.length; i++) {
@@ -180,7 +180,7 @@ class SOFMarkerSegment extends MarkerSegment {
             }
         }
         switch(componentSpecs.length) {
-        case 3:
+        cbse 3:
             if ((componentSpecs[0].componentId == 'R')
                 &&(componentSpecs[0].componentId == 'G')
                 &&(componentSpecs[0].componentId == 'B')) {
@@ -191,8 +191,8 @@ class SOFMarkerSegment extends MarkerSegment {
                 &&(componentSpecs[0].componentId == 'c')) {
                 return JPEG.JCS_YCC;
             }
-            break;
-        case 4:
+            brebk;
+        cbse 4:
             if ((componentSpecs[0].componentId == 'R')
                 &&(componentSpecs[0].componentId == 'G')
                 &&(componentSpecs[0].componentId == 'B')
@@ -210,74 +210,74 @@ class SOFMarkerSegment extends MarkerSegment {
         return JPEG.JCS_UNKNOWN;
     }
 
-    ComponentSpec getComponentSpec(byte id, int factor, int qSelector) {
-        return new ComponentSpec(id, factor, qSelector);
+    ComponentSpec getComponentSpec(byte id, int fbctor, int qSelector) {
+        return new ComponentSpec(id, fbctor, qSelector);
     }
 
     /**
-     * A component spec within an SOF marker segment.
+     * A component spec within bn SOF mbrker segment.
      */
-    class ComponentSpec implements Cloneable {
+    clbss ComponentSpec implements Clonebble {
         int componentId;
-        int HsamplingFactor;
-        int VsamplingFactor;
-        int QtableSelector;
+        int HsbmplingFbctor;
+        int VsbmplingFbctor;
+        int QtbbleSelector;
 
-        ComponentSpec(byte id, int factor, int qSelector) {
+        ComponentSpec(byte id, int fbctor, int qSelector) {
             componentId = id;
-            HsamplingFactor = factor;
-            VsamplingFactor = factor;
-            QtableSelector = qSelector;
+            HsbmplingFbctor = fbctor;
+            VsbmplingFbctor = fbctor;
+            QtbbleSelector = qSelector;
         }
 
         ComponentSpec(JPEGBuffer buffer) {
-            // Parent already did a loadBuf
+            // Pbrent blrebdy did b lobdBuf
             componentId = buffer.buf[buffer.bufPtr++];
-            HsamplingFactor = buffer.buf[buffer.bufPtr] >>> 4;
-            VsamplingFactor = buffer.buf[buffer.bufPtr++] & 0xf;
-            QtableSelector = buffer.buf[buffer.bufPtr++];
+            HsbmplingFbctor = buffer.buf[buffer.bufPtr] >>> 4;
+            VsbmplingFbctor = buffer.buf[buffer.bufPtr++] & 0xf;
+            QtbbleSelector = buffer.buf[buffer.bufPtr++];
         }
 
-        ComponentSpec(Node node) throws IIOInvalidTreeException {
-            NamedNodeMap attrs = node.getAttributes();
-            componentId = getAttributeValue(node, attrs, "componentId", 0, 255, true);
-            HsamplingFactor = getAttributeValue(node, attrs, "HsamplingFactor",
+        ComponentSpec(Node node) throws IIOInvblidTreeException {
+            NbmedNodeMbp bttrs = node.getAttributes();
+            componentId = getAttributeVblue(node, bttrs, "componentId", 0, 255, true);
+            HsbmplingFbctor = getAttributeVblue(node, bttrs, "HsbmplingFbctor",
                                                 1, 255, true);
-            VsamplingFactor = getAttributeValue(node, attrs, "VsamplingFactor",
+            VsbmplingFbctor = getAttributeVblue(node, bttrs, "VsbmplingFbctor",
                                                 1, 255, true);
-            QtableSelector = getAttributeValue(node, attrs, "QtableSelector",
+            QtbbleSelector = getAttributeVblue(node, bttrs, "QtbbleSelector",
                                                0, 3, true);
         }
 
         protected Object clone() {
             try {
                 return super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
+            } cbtch (CloneNotSupportedException e) {} // won't hbppen
             return null;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("componentSpec");
+        IIOMetbdbtbNode getNbtiveNode() {
+            IIOMetbdbtbNode node = new IIOMetbdbtbNode("componentSpec");
             node.setAttribute("componentId",
                               Integer.toString(componentId));
-            node.setAttribute("HsamplingFactor",
-                              Integer.toString(HsamplingFactor));
-            node.setAttribute("VsamplingFactor",
-                              Integer.toString(VsamplingFactor));
-            node.setAttribute("QtableSelector",
-                              Integer.toString(QtableSelector));
+            node.setAttribute("HsbmplingFbctor",
+                              Integer.toString(HsbmplingFbctor));
+            node.setAttribute("VsbmplingFbctor",
+                              Integer.toString(VsbmplingFbctor));
+            node.setAttribute("QtbbleSelector",
+                              Integer.toString(QtbbleSelector));
             return node;
         }
 
         void print () {
             System.out.print("Component ID: ");
             System.out.println(componentId);
-            System.out.print("H sampling factor: ");
-            System.out.println(HsamplingFactor);
-            System.out.print("V sampling factor: ");
-            System.out.println(VsamplingFactor);
-            System.out.print("Q table selector: ");
-            System.out.println(QtableSelector);
+            System.out.print("H sbmpling fbctor: ");
+            System.out.println(HsbmplingFbctor);
+            System.out.print("V sbmpling fbctor: ");
+            System.out.println(VsbmplingFbctor);
+            System.out.print("Q tbble selector: ");
+            System.out.println(QtbbleSelector);
         }
     }
 

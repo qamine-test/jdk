@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.util;
+pbckbge sun.net.util;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 /**
- * URL Utility class.
+ * URL Utility clbss.
  */
-public class URLUtil {
+public clbss URLUtil {
     /**
-     * Returns a string form of the url suitable for use as a key in HashMap/Sets.
+     * Returns b string form of the url suitbble for use bs b key in HbshMbp/Sets.
      *
-     * The string form should be behave in the same manner as the URL when
-     * compared for equality in a HashMap/Set, except that no nameservice
-     * lookup is done on the hostname (only string comparison), and the fragment
+     * The string form should be behbve in the sbme mbnner bs the URL when
+     * compbred for equblity in b HbshMbp/Set, except thbt no nbmeservice
+     * lookup is done on the hostnbme (only string compbrison), bnd the frbgment
      * is not considered.
      *
-     * @see java.net.URLStreamHandler.sameFile(java.net.URL)
+     * @see jbvb.net.URLStrebmHbndler.sbmeFile(jbvb.net.URL)
      */
-    public static String urlNoFragString(URL url) {
+    public stbtic String urlNoFrbgString(URL url) {
         StringBuilder strForm = new StringBuilder();
 
         String protocol = url.getProtocol();
         if (protocol != null) {
-            /* protocol is compared case-insensitive, so convert to lowercase */
-            protocol = protocol.toLowerCase();
-            strForm.append(protocol);
-            strForm.append("://");
+            /* protocol is compbred cbse-insensitive, so convert to lowercbse */
+            protocol = protocol.toLowerCbse();
+            strForm.bppend(protocol);
+            strForm.bppend("://");
         }
 
         String host = url.getHost();
         if (host != null) {
-            /* host is compared case-insensitive, so convert to lowercase */
-            host = host.toLowerCase();
-            strForm.append(host);
+            /* host is compbred cbse-insensitive, so convert to lowercbse */
+            host = host.toLowerCbse();
+            strForm.bppend(host);
 
             int port = url.getPort();
             if (port == -1) {
                 /* if no port is specificed then use the protocols
-                 * default, if there is one */
-                port = url.getDefaultPort();
+                 * defbult, if there is one */
+                port = url.getDefbultPort();
             }
             if (port != -1) {
-                strForm.append(":").append(port);
+                strForm.bppend(":").bppend(port);
             }
         }
 
         String file = url.getFile();
         if (file != null) {
-            strForm.append(file);
+            strForm.bppend(file);
         }
 
         return strForm.toString();

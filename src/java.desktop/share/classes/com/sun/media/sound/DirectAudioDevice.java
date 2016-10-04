@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Vector;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Vector;
 
-import javax.sound.sampled.*;
+import jbvbx.sound.sbmpled.*;
 
 // IDEA:
-// Use java.util.concurrent.Semaphore,
-// java.util.concurrent.locks.ReentrantLock and other new classes/methods
-// to improve this class's thread safety.
+// Use jbvb.util.concurrent.Sembphore,
+// jbvb.util.concurrent.locks.ReentrbntLock bnd other new clbsses/methods
+// to improve this clbss's threbd sbfety.
 
 
 /**
- * A Mixer which provides direct access to audio devices
+ * A Mixer which provides direct bccess to budio devices
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-final class DirectAudioDevice extends AbstractMixer {
+finbl clbss DirectAudioDevice extends AbstrbctMixer {
 
     // CONSTANTS
-    private static final int CLIP_BUFFER_TIME = 1000; // in milliseconds
+    privbte stbtic finbl int CLIP_BUFFER_TIME = 1000; // in milliseconds
 
-    private static final int DEFAULT_LINE_BUFFER_TIME = 500; // in milliseconds
+    privbte stbtic finbl int DEFAULT_LINE_BUFFER_TIME = 500; // in milliseconds
 
     // INSTANCE VARIABLES
 
     /** number of opened lines */
-    private int deviceCountOpened = 0;
+    privbte int deviceCountOpened = 0;
 
-    /** number of started lines */
-    private int deviceCountStarted = 0;
+    /** number of stbrted lines */
+    privbte int deviceCountStbrted = 0;
 
     // CONSTRUCTOR
     DirectAudioDevice(DirectAudioDeviceProvider.DirectAudioDeviceInfo portMixerInfo) {
-        // pass in Line.Info, mixer, controls
+        // pbss in Line.Info, mixer, controls
         super(portMixerInfo,              // Mixer.Info
               null,                       // Control[]
               null,                       // Line.Info[] sourceLineInfo
-              null);                      // Line.Info[] targetLineInfo
+              null);                      // Line.Info[] tbrgetLineInfo
 
-        if (Printer.trace) Printer.trace(">> DirectAudioDevice: constructor");
+        if (Printer.trbce) Printer.trbce(">> DirectAudioDevice: constructor");
 
         // source lines
-        DirectDLI srcLineInfo = createDataLineInfo(true);
+        DirectDLI srcLineInfo = crebteDbtbLineInfo(true);
         if (srcLineInfo != null) {
             sourceLineInfo = new Line.Info[2];
-            // SourcedataLine
+            // SourcedbtbLine
             sourceLineInfo[0] = srcLineInfo;
             // Clip
-            sourceLineInfo[1] = new DirectDLI(Clip.class, srcLineInfo.getFormats(),
-                                              srcLineInfo.getHardwareFormats(),
-                                              32, // arbitrary minimum buffer size
+            sourceLineInfo[1] = new DirectDLI(Clip.clbss, srcLineInfo.getFormbts(),
+                                              srcLineInfo.getHbrdwbreFormbts(),
+                                              32, // brbitrbry minimum buffer size
                                               AudioSystem.NOT_SPECIFIED);
         } else {
             sourceLineInfo = new Line.Info[0];
         }
 
-        // TargetDataLine
-        DataLine.Info dstLineInfo = createDataLineInfo(false);
+        // TbrgetDbtbLine
+        DbtbLine.Info dstLineInfo = crebteDbtbLineInfo(fblse);
         if (dstLineInfo != null) {
-            targetLineInfo = new Line.Info[1];
-            targetLineInfo[0] = dstLineInfo;
+            tbrgetLineInfo = new Line.Info[1];
+            tbrgetLineInfo[0] = dstLineInfo;
         } else {
-            targetLineInfo = new Line.Info[0];
+            tbrgetLineInfo = new Line.Info[0];
         }
-        if (Printer.trace) Printer.trace("<< DirectAudioDevice: constructor completed");
+        if (Printer.trbce) Printer.trbce("<< DirectAudioDevice: constructor completed");
     }
 
-    private DirectDLI createDataLineInfo(boolean isSource) {
-        Vector<AudioFormat> formats = new Vector<>();
-        AudioFormat[] hardwareFormatArray = null;
-        AudioFormat[] formatArray = null;
+    privbte DirectDLI crebteDbtbLineInfo(boolebn isSource) {
+        Vector<AudioFormbt> formbts = new Vector<>();
+        AudioFormbt[] hbrdwbreFormbtArrby = null;
+        AudioFormbt[] formbtArrby = null;
 
-        synchronized(formats) {
-            nGetFormats(getMixerIndex(), getDeviceID(),
-                        isSource /* true:SourceDataLine/Clip, false:TargetDataLine */,
-                        formats);
-            if (formats.size() > 0) {
-                int size = formats.size();
-                int formatArraySize = size;
-                hardwareFormatArray = new AudioFormat[size];
+        synchronized(formbts) {
+            nGetFormbts(getMixerIndex(), getDeviceID(),
+                        isSource /* true:SourceDbtbLine/Clip, fblse:TbrgetDbtbLine */,
+                        formbts);
+            if (formbts.size() > 0) {
+                int size = formbts.size();
+                int formbtArrbySize = size;
+                hbrdwbreFormbtArrby = new AudioFormbt[size];
                 for (int i = 0; i < size; i++) {
-                    AudioFormat format = formats.elementAt(i);
-                    hardwareFormatArray[i] = format;
-                    int bits = format.getSampleSizeInBits();
-                    boolean isSigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED);
-                    boolean isUnsigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED);
+                    AudioFormbt formbt = formbts.elementAt(i);
+                    hbrdwbreFormbtArrby[i] = formbt;
+                    int bits = formbt.getSbmpleSizeInBits();
+                    boolebn isSigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED);
+                    boolebn isUnsigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED);
                     if ((isSigned || isUnsigned)) {
-                        // will insert a magically converted format here
-                        formatArraySize++;
+                        // will insert b mbgicblly converted formbt here
+                        formbtArrbySize++;
                     }
                 }
-                formatArray = new AudioFormat[formatArraySize];
-                int formatArrayIndex = 0;
+                formbtArrby = new AudioFormbt[formbtArrbySize];
+                int formbtArrbyIndex = 0;
                 for (int i = 0; i < size; i++) {
-                    AudioFormat format = hardwareFormatArray[i];
-                    formatArray[formatArrayIndex++] = format;
-                    int bits = format.getSampleSizeInBits();
-                    boolean isSigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED);
-                    boolean isUnsigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED);
-                    // add convenience formats (automatic conversion)
+                    AudioFormbt formbt = hbrdwbreFormbtArrby[i];
+                    formbtArrby[formbtArrbyIndex++] = formbt;
+                    int bits = formbt.getSbmpleSizeInBits();
+                    boolebn isSigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED);
+                    boolebn isUnsigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED);
+                    // bdd convenience formbts (butombtic conversion)
                     if (bits == 8) {
-                        // add the other signed'ness for 8-bit
+                        // bdd the other signed'ness for 8-bit
                         if (isSigned) {
-                            formatArray[formatArrayIndex++] =
-                                new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                    format.getSampleRate(), bits, format.getChannels(),
-                                    format.getFrameSize(), format.getSampleRate(),
-                                    format.isBigEndian());
+                            formbtArrby[formbtArrbyIndex++] =
+                                new AudioFormbt(AudioFormbt.Encoding.PCM_UNSIGNED,
+                                    formbt.getSbmpleRbte(), bits, formbt.getChbnnels(),
+                                    formbt.getFrbmeSize(), formbt.getSbmpleRbte(),
+                                    formbt.isBigEndibn());
                         }
                         else if (isUnsigned) {
-                            formatArray[formatArrayIndex++] =
-                                new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                    format.getSampleRate(), bits, format.getChannels(),
-                                    format.getFrameSize(), format.getSampleRate(),
-                                    format.isBigEndian());
+                            formbtArrby[formbtArrbyIndex++] =
+                                new AudioFormbt(AudioFormbt.Encoding.PCM_SIGNED,
+                                    formbt.getSbmpleRbte(), bits, formbt.getChbnnels(),
+                                    formbt.getFrbmeSize(), formbt.getSbmpleRbte(),
+                                    formbt.isBigEndibn());
                         }
                     } else if (bits > 8 && (isSigned || isUnsigned)) {
-                        // add the other endian'ness for more than 8-bit
-                        formatArray[formatArrayIndex++] =
-                            new AudioFormat(format.getEncoding(),
-                                              format.getSampleRate(), bits,
-                                              format.getChannels(),
-                                              format.getFrameSize(),
-                                              format.getSampleRate(),
-                                              !format.isBigEndian());
+                        // bdd the other endibn'ness for more thbn 8-bit
+                        formbtArrby[formbtArrbyIndex++] =
+                            new AudioFormbt(formbt.getEncoding(),
+                                              formbt.getSbmpleRbte(), bits,
+                                              formbt.getChbnnels(),
+                                              formbt.getFrbmeSize(),
+                                              formbt.getSbmpleRbte(),
+                                              !formbt.isBigEndibn());
                     }
                     //System.out.println("Adding "+v.get(v.size()-1));
                 }
             }
         }
-        // todo: find out more about the buffer size ?
-        if (formatArray != null) {
-            return new DirectDLI(isSource?SourceDataLine.class:TargetDataLine.class,
-                                 formatArray, hardwareFormatArray,
-                                 32, // arbitrary minimum buffer size
+        // todo: find out more bbout the buffer size ?
+        if (formbtArrby != null) {
+            return new DirectDLI(isSource?SourceDbtbLine.clbss:TbrgetDbtbLine.clbss,
+                                 formbtArrby, hbrdwbreFormbtArrby,
+                                 32, // brbitrbry minimum buffer size
                                  AudioSystem.NOT_SPECIFIED);
         }
         return null;
@@ -168,86 +168,86 @@ final class DirectAudioDevice extends AbstractMixer {
 
     // ABSTRACT MIXER: ABSTRACT METHOD IMPLEMENTATIONS
 
-    public Line getLine(Line.Info info) throws LineUnavailableException {
+    public Line getLine(Line.Info info) throws LineUnbvbilbbleException {
         Line.Info fullInfo = getLineInfo(info);
         if (fullInfo == null) {
-            throw new IllegalArgumentException("Line unsupported: " + info);
+            throw new IllegblArgumentException("Line unsupported: " + info);
         }
-        if (fullInfo instanceof DataLine.Info) {
+        if (fullInfo instbnceof DbtbLine.Info) {
 
-            DataLine.Info dataLineInfo = (DataLine.Info)fullInfo;
-            AudioFormat lineFormat;
+            DbtbLine.Info dbtbLineInfo = (DbtbLine.Info)fullInfo;
+            AudioFormbt lineFormbt;
             int lineBufferSize = AudioSystem.NOT_SPECIFIED;
 
-            // if a format is specified by the info class passed in, use it.
-            // otherwise use a format from fullInfo.
+            // if b formbt is specified by the info clbss pbssed in, use it.
+            // otherwise use b formbt from fullInfo.
 
-            AudioFormat[] supportedFormats = null;
+            AudioFormbt[] supportedFormbts = null;
 
-            if (info instanceof DataLine.Info) {
-                supportedFormats = ((DataLine.Info)info).getFormats();
-                lineBufferSize = ((DataLine.Info)info).getMaxBufferSize();
+            if (info instbnceof DbtbLine.Info) {
+                supportedFormbts = ((DbtbLine.Info)info).getFormbts();
+                lineBufferSize = ((DbtbLine.Info)info).getMbxBufferSize();
             }
 
-            if ((supportedFormats == null) || (supportedFormats.length == 0)) {
-                // use the default format
-                lineFormat = null;
+            if ((supportedFormbts == null) || (supportedFormbts.length == 0)) {
+                // use the defbult formbt
+                lineFormbt = null;
             } else {
-                // use the last format specified in the line.info object passed
-                // in by the app
-                lineFormat = supportedFormats[supportedFormats.length-1];
+                // use the lbst formbt specified in the line.info object pbssed
+                // in by the bpp
+                lineFormbt = supportedFormbts[supportedFormbts.length-1];
 
-                // if something is not specified, use default format
-                if (!Toolkit.isFullySpecifiedPCMFormat(lineFormat)) {
-                    lineFormat = null;
+                // if something is not specified, use defbult formbt
+                if (!Toolkit.isFullySpecifiedPCMFormbt(lineFormbt)) {
+                    lineFormbt = null;
                 }
             }
 
-            if (dataLineInfo.getLineClass().isAssignableFrom(DirectSDL.class)) {
-                return new DirectSDL(dataLineInfo, lineFormat, lineBufferSize, this);
+            if (dbtbLineInfo.getLineClbss().isAssignbbleFrom(DirectSDL.clbss)) {
+                return new DirectSDL(dbtbLineInfo, lineFormbt, lineBufferSize, this);
             }
-            if (dataLineInfo.getLineClass().isAssignableFrom(DirectClip.class)) {
-                return new DirectClip(dataLineInfo, lineFormat, lineBufferSize, this);
+            if (dbtbLineInfo.getLineClbss().isAssignbbleFrom(DirectClip.clbss)) {
+                return new DirectClip(dbtbLineInfo, lineFormbt, lineBufferSize, this);
             }
-            if (dataLineInfo.getLineClass().isAssignableFrom(DirectTDL.class)) {
-                return new DirectTDL(dataLineInfo, lineFormat, lineBufferSize, this);
+            if (dbtbLineInfo.getLineClbss().isAssignbbleFrom(DirectTDL.clbss)) {
+                return new DirectTDL(dbtbLineInfo, lineFormbt, lineBufferSize, this);
             }
         }
-        throw new IllegalArgumentException("Line unsupported: " + info);
+        throw new IllegblArgumentException("Line unsupported: " + info);
     }
 
 
-    public int getMaxLines(Line.Info info) {
+    public int getMbxLines(Line.Info info) {
         Line.Info fullInfo = getLineInfo(info);
 
-        // if it's not supported at all, return 0.
+        // if it's not supported bt bll, return 0.
         if (fullInfo == null) {
             return 0;
         }
 
-        if (fullInfo instanceof DataLine.Info) {
+        if (fullInfo instbnceof DbtbLine.Info) {
             // DirectAudioDevices should mix !
-            return getMaxSimulLines();
+            return getMbxSimulLines();
         }
 
         return 0;
     }
 
 
-    protected void implOpen() throws LineUnavailableException {
-        if (Printer.trace) Printer.trace("DirectAudioDevice: implOpen - void method");
+    protected void implOpen() throws LineUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce("DirectAudioDevice: implOpen - void method");
     }
 
     protected void implClose() {
-        if (Printer.trace) Printer.trace("DirectAudioDevice: implClose - void method");
+        if (Printer.trbce) Printer.trbce("DirectAudioDevice: implClose - void method");
     }
 
-    protected void implStart() {
-        if (Printer.trace) Printer.trace("DirectAudioDevice: implStart - void method");
+    protected void implStbrt() {
+        if (Printer.trbce) Printer.trbce("DirectAudioDevice: implStbrt - void method");
     }
 
     protected void implStop() {
-        if (Printer.trace) Printer.trace("DirectAudioDevice: implStop - void method");
+        if (Printer.trbce) Printer.trbce("DirectAudioDevice: implStop - void method");
     }
 
 
@@ -261,60 +261,60 @@ final class DirectAudioDevice extends AbstractMixer {
         return ((DirectAudioDeviceProvider.DirectAudioDeviceInfo) getMixerInfo()).getDeviceID();
     }
 
-    int getMaxSimulLines() {
-        return ((DirectAudioDeviceProvider.DirectAudioDeviceInfo) getMixerInfo()).getMaxSimulLines();
+    int getMbxSimulLines() {
+        return ((DirectAudioDeviceProvider.DirectAudioDeviceInfo) getMixerInfo()).getMbxSimulLines();
     }
 
-    private static void addFormat(Vector<AudioFormat> v, int bits, int frameSizeInBytes, int channels, float sampleRate,
-                                  int encoding, boolean signed, boolean bigEndian) {
-        AudioFormat.Encoding enc = null;
+    privbte stbtic void bddFormbt(Vector<AudioFormbt> v, int bits, int frbmeSizeInBytes, int chbnnels, flobt sbmpleRbte,
+                                  int encoding, boolebn signed, boolebn bigEndibn) {
+        AudioFormbt.Encoding enc = null;
         switch (encoding) {
-        case PCM:
-            enc = signed?AudioFormat.Encoding.PCM_SIGNED:AudioFormat.Encoding.PCM_UNSIGNED;
-            break;
-        case ULAW:
-            enc = AudioFormat.Encoding.ULAW;
+        cbse PCM:
+            enc = signed?AudioFormbt.Encoding.PCM_SIGNED:AudioFormbt.Encoding.PCM_UNSIGNED;
+            brebk;
+        cbse ULAW:
+            enc = AudioFormbt.Encoding.ULAW;
             if (bits != 8) {
-                if (Printer.err) Printer.err("DirectAudioDevice.addFormat called with ULAW, but bitsPerSample="+bits);
-                bits = 8; frameSizeInBytes = channels;
+                if (Printer.err) Printer.err("DirectAudioDevice.bddFormbt cblled with ULAW, but bitsPerSbmple="+bits);
+                bits = 8; frbmeSizeInBytes = chbnnels;
             }
-            break;
-        case ALAW:
-            enc = AudioFormat.Encoding.ALAW;
+            brebk;
+        cbse ALAW:
+            enc = AudioFormbt.Encoding.ALAW;
             if (bits != 8) {
-                if (Printer.err) Printer.err("DirectAudioDevice.addFormat called with ALAW, but bitsPerSample="+bits);
-                bits = 8; frameSizeInBytes = channels;
+                if (Printer.err) Printer.err("DirectAudioDevice.bddFormbt cblled with ALAW, but bitsPerSbmple="+bits);
+                bits = 8; frbmeSizeInBytes = chbnnels;
             }
-            break;
+            brebk;
         }
         if (enc==null) {
-            if (Printer.err) Printer.err("DirectAudioDevice.addFormat called with unknown encoding: "+encoding);
+            if (Printer.err) Printer.err("DirectAudioDevice.bddFormbt cblled with unknown encoding: "+encoding);
             return;
         }
-        if (frameSizeInBytes <= 0) {
-            if (channels > 0) {
-                frameSizeInBytes = ((bits + 7) / 8) * channels;
+        if (frbmeSizeInBytes <= 0) {
+            if (chbnnels > 0) {
+                frbmeSizeInBytes = ((bits + 7) / 8) * chbnnels;
             } else {
-                frameSizeInBytes = AudioSystem.NOT_SPECIFIED;
+                frbmeSizeInBytes = AudioSystem.NOT_SPECIFIED;
             }
         }
-        v.add(new AudioFormat(enc, sampleRate, bits, channels, frameSizeInBytes, sampleRate, bigEndian));
+        v.bdd(new AudioFormbt(enc, sbmpleRbte, bits, chbnnels, frbmeSizeInBytes, sbmpleRbte, bigEndibn));
     }
 
-    protected static AudioFormat getSignOrEndianChangedFormat(AudioFormat format) {
-        boolean isSigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED);
-        boolean isUnsigned = format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED);
-        if (format.getSampleSizeInBits() > 8 && isSigned) {
-            // if this is PCM_SIGNED and 16-bit or higher, then try with endian-ness magic
-            return new AudioFormat(format.getEncoding(),
-                                   format.getSampleRate(), format.getSampleSizeInBits(), format.getChannels(),
-                                   format.getFrameSize(), format.getFrameRate(), !format.isBigEndian());
+    protected stbtic AudioFormbt getSignOrEndibnChbngedFormbt(AudioFormbt formbt) {
+        boolebn isSigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED);
+        boolebn isUnsigned = formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED);
+        if (formbt.getSbmpleSizeInBits() > 8 && isSigned) {
+            // if this is PCM_SIGNED bnd 16-bit or higher, then try with endibn-ness mbgic
+            return new AudioFormbt(formbt.getEncoding(),
+                                   formbt.getSbmpleRbte(), formbt.getSbmpleSizeInBits(), formbt.getChbnnels(),
+                                   formbt.getFrbmeSize(), formbt.getFrbmeRbte(), !formbt.isBigEndibn());
         }
-        else if (format.getSampleSizeInBits() == 8 && (isSigned || isUnsigned)) {
-            // if this is PCM and 8-bit, then try with signed-ness magic
-            return new AudioFormat(isSigned?AudioFormat.Encoding.PCM_UNSIGNED:AudioFormat.Encoding.PCM_SIGNED,
-                                   format.getSampleRate(), format.getSampleSizeInBits(), format.getChannels(),
-                                   format.getFrameSize(), format.getFrameRate(), format.isBigEndian());
+        else if (formbt.getSbmpleSizeInBits() == 8 && (isSigned || isUnsigned)) {
+            // if this is PCM bnd 8-bit, then try with signed-ness mbgic
+            return new AudioFormbt(isSigned?AudioFormbt.Encoding.PCM_UNSIGNED:AudioFormbt.Encoding.PCM_SIGNED,
+                                   formbt.getSbmpleRbte(), formbt.getSbmpleSizeInBits(), formbt.getChbnnels(),
+                                   formbt.getFrbmeSize(), formbt.getFrbmeRbte(), formbt.isBigEndibn());
         }
         return null;
     }
@@ -326,90 +326,90 @@ final class DirectAudioDevice extends AbstractMixer {
 
 
     /**
-     * Private inner class for the DataLine.Info objects
-     * adds a little magic for the isFormatSupported so
-     * that the automagic conversion of endianness and sign
-     * does not show up in the formats array.
-     * I.e. the formats array contains only the formats
-     * that are really supported by the hardware,
-     * but isFormatSupported() also returns true
-     * for formats with wrong endianness.
+     * Privbte inner clbss for the DbtbLine.Info objects
+     * bdds b little mbgic for the isFormbtSupported so
+     * thbt the butombgic conversion of endibnness bnd sign
+     * does not show up in the formbts brrby.
+     * I.e. the formbts brrby contbins only the formbts
+     * thbt bre reblly supported by the hbrdwbre,
+     * but isFormbtSupported() blso returns true
+     * for formbts with wrong endibnness.
      */
-    private static final class DirectDLI extends DataLine.Info {
-        final AudioFormat[] hardwareFormats;
+    privbte stbtic finbl clbss DirectDLI extends DbtbLine.Info {
+        finbl AudioFormbt[] hbrdwbreFormbts;
 
-        private DirectDLI(Class<?> clazz, AudioFormat[] formatArray,
-                          AudioFormat[] hardwareFormatArray,
-                          int minBuffer, int maxBuffer) {
-            super(clazz, formatArray, minBuffer, maxBuffer);
-            this.hardwareFormats = hardwareFormatArray;
+        privbte DirectDLI(Clbss<?> clbzz, AudioFormbt[] formbtArrby,
+                          AudioFormbt[] hbrdwbreFormbtArrby,
+                          int minBuffer, int mbxBuffer) {
+            super(clbzz, formbtArrby, minBuffer, mbxBuffer);
+            this.hbrdwbreFormbts = hbrdwbreFormbtArrby;
         }
 
-        public boolean isFormatSupportedInHardware(AudioFormat format) {
-            if (format == null) return false;
-            for (int i = 0; i < hardwareFormats.length; i++) {
-                if (format.matches(hardwareFormats[i])) {
+        public boolebn isFormbtSupportedInHbrdwbre(AudioFormbt formbt) {
+            if (formbt == null) return fblse;
+            for (int i = 0; i < hbrdwbreFormbts.length; i++) {
+                if (formbt.mbtches(hbrdwbreFormbts[i])) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        /*public boolean isFormatSupported(AudioFormat format) {
-         *   return isFormatSupportedInHardware(format)
-         *      || isFormatSupportedInHardware(getSignOrEndianChangedFormat(format));
+        /*public boolebn isFormbtSupported(AudioFormbt formbt) {
+         *   return isFormbtSupportedInHbrdwbre(formbt)
+         *      || isFormbtSupportedInHbrdwbre(getSignOrEndibnChbngedFormbt(formbt));
          *}
          */
 
-         private AudioFormat[] getHardwareFormats() {
-             return hardwareFormats;
+         privbte AudioFormbt[] getHbrdwbreFormbts() {
+             return hbrdwbreFormbts;
          }
     }
 
     /**
-     * Private inner class as base class for direct lines
+     * Privbte inner clbss bs bbse clbss for direct lines
      */
-    private static class DirectDL extends AbstractDataLine implements EventDispatcher.LineMonitor {
-        protected final int mixerIndex;
-        protected final int deviceID;
+    privbte stbtic clbss DirectDL extends AbstrbctDbtbLine implements EventDispbtcher.LineMonitor {
+        protected finbl int mixerIndex;
+        protected finbl int deviceID;
         protected long id;
-        protected int waitTime;
-        protected volatile boolean flushing = false;
-        protected final boolean isSource;         // true for SourceDataLine, false for TargetDataLine
-        protected volatile long bytePosition;
-        protected volatile boolean doIO = false;     // true in between start() and stop() calls
-        protected volatile boolean stoppedWritten = false; // true if a write occurred in stopped state
-        protected volatile boolean drained = false; // set to true when drain function returns, set to false in write()
-        protected boolean monitoring = false;
+        protected int wbitTime;
+        protected volbtile boolebn flushing = fblse;
+        protected finbl boolebn isSource;         // true for SourceDbtbLine, fblse for TbrgetDbtbLine
+        protected volbtile long bytePosition;
+        protected volbtile boolebn doIO = fblse;     // true in between stbrt() bnd stop() cblls
+        protected volbtile boolebn stoppedWritten = fblse; // true if b write occurred in stopped stbte
+        protected volbtile boolebn drbined = fblse; // set to true when drbin function returns, set to fblse in write()
+        protected boolebn monitoring = fblse;
 
-        // if native needs to manually swap samples/convert sign, this
-        // is set to the framesize
-        protected int softwareConversionSize = 0;
-        protected AudioFormat hardwareFormat;
+        // if nbtive needs to mbnublly swbp sbmples/convert sign, this
+        // is set to the frbmesize
+        protected int softwbreConversionSize = 0;
+        protected AudioFormbt hbrdwbreFormbt;
 
-        private final Gain gainControl = new Gain();
-        private final Mute muteControl = new Mute();
-        private final Balance balanceControl = new Balance();
-        private final Pan panControl = new Pan();
-        private float leftGain, rightGain;
-        protected volatile boolean noService = false; // do not run the nService method
+        privbte finbl Gbin gbinControl = new Gbin();
+        privbte finbl Mute muteControl = new Mute();
+        privbte finbl Bblbnce bblbnceControl = new Bblbnce();
+        privbte finbl Pbn pbnControl = new Pbn();
+        privbte flobt leftGbin, rightGbin;
+        protected volbtile boolebn noService = fblse; // do not run the nService method
 
-        // Guards all native calls.
-        protected final Object lockNative = new Object();
+        // Gubrds bll nbtive cblls.
+        protected finbl Object lockNbtive = new Object();
 
         // CONSTRUCTOR
-        protected DirectDL(DataLine.Info info,
+        protected DirectDL(DbtbLine.Info info,
                            DirectAudioDevice mixer,
-                           AudioFormat format,
+                           AudioFormbt formbt,
                            int bufferSize,
                            int mixerIndex,
                            int deviceID,
-                           boolean isSource) {
-            super(info, mixer, null, format, bufferSize);
-            if (Printer.trace) Printer.trace("DirectDL CONSTRUCTOR: info: " + info);
+                           boolebn isSource) {
+            super(info, mixer, null, formbt, bufferSize);
+            if (Printer.trbce) Printer.trbce("DirectDL CONSTRUCTOR: info: " + info);
             this.mixerIndex = mixerIndex;
             this.deviceID = deviceID;
-            this.waitTime = 10; // 10 milliseconds default wait time
+            this.wbitTime = 10; // 10 milliseconds defbult wbit time
             this.isSource = isSource;
 
         }
@@ -419,347 +419,347 @@ final class DirectAudioDevice extends AbstractMixer {
 
         // ABSTRACT LINE / DATALINE
 
-        void implOpen(AudioFormat format, int bufferSize) throws LineUnavailableException {
-            if (Printer.trace) Printer.trace(">> DirectDL: implOpen("+format+", "+bufferSize+" bytes)");
+        void implOpen(AudioFormbt formbt, int bufferSize) throws LineUnbvbilbbleException {
+            if (Printer.trbce) Printer.trbce(">> DirectDL: implOpen("+formbt+", "+bufferSize+" bytes)");
 
-            // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-            Toolkit.isFullySpecifiedAudioFormat(format);
+            // $$fb pbrt of fix for 4679187: Clip.open() throws unexpected Exceptions
+            Toolkit.isFullySpecifiedAudioFormbt(formbt);
 
             // check for record permission
             if (!isSource) {
-                JSSecurityManager.checkRecordPermission();
+                JSSecurityMbnbger.checkRecordPermission();
             }
             int encoding = PCM;
-            if (format.getEncoding().equals(AudioFormat.Encoding.ULAW)) {
+            if (formbt.getEncoding().equbls(AudioFormbt.Encoding.ULAW)) {
                 encoding = ULAW;
             }
-            else if (format.getEncoding().equals(AudioFormat.Encoding.ALAW)) {
+            else if (formbt.getEncoding().equbls(AudioFormbt.Encoding.ALAW)) {
                 encoding = ALAW;
             }
 
             if (bufferSize <= AudioSystem.NOT_SPECIFIED) {
-                bufferSize = (int) Toolkit.millis2bytes(format, DEFAULT_LINE_BUFFER_TIME);
+                bufferSize = (int) Toolkit.millis2bytes(formbt, DEFAULT_LINE_BUFFER_TIME);
             }
 
             DirectDLI ddli = null;
-            if (info instanceof DirectDLI) {
+            if (info instbnceof DirectDLI) {
                 ddli = (DirectDLI) info;
             }
 
             /* set up controls */
             if (isSource) {
-                if (!format.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
-                    && !format.getEncoding().equals(AudioFormat.Encoding.PCM_UNSIGNED)) {
-                    // no controls for non-PCM formats */
+                if (!formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED)
+                    && !formbt.getEncoding().equbls(AudioFormbt.Encoding.PCM_UNSIGNED)) {
+                    // no controls for non-PCM formbts */
                     controls = new Control[0];
                 }
-                else if (format.getChannels() > 2
-                         || format.getSampleSizeInBits() > 16) {
-                    // no support for more than 2 channels or more than 16 bits
+                else if (formbt.getChbnnels() > 2
+                         || formbt.getSbmpleSizeInBits() > 16) {
+                    // no support for more thbn 2 chbnnels or more thbn 16 bits
                     controls = new Control[0];
                 } else {
-                    if (format.getChannels() == 1) {
+                    if (formbt.getChbnnels() == 1) {
                         controls = new Control[2];
                     } else {
                         controls = new Control[4];
-                        controls[2] = balanceControl;
-                        /* to keep compatibility with apps that rely on
-                         * MixerSourceLine's PanControl
+                        controls[2] = bblbnceControl;
+                        /* to keep compbtibility with bpps thbt rely on
+                         * MixerSourceLine's PbnControl
                          */
-                        controls[3] = panControl;
+                        controls[3] = pbnControl;
                     }
-                    controls[0] = gainControl;
+                    controls[0] = gbinControl;
                     controls[1] = muteControl;
                 }
             }
             if (Printer.debug) Printer.debug("DirectAudioDevice: got "+controls.length+" controls.");
 
-            hardwareFormat = format;
+            hbrdwbreFormbt = formbt;
 
-            /* some magic to account for not-supported endianness or signed-ness */
-            softwareConversionSize = 0;
-            if (ddli != null && !ddli.isFormatSupportedInHardware(format)) {
-                AudioFormat newFormat = getSignOrEndianChangedFormat(format);
-                if (ddli.isFormatSupportedInHardware(newFormat)) {
-                    // apparently, the new format can be used.
-                    hardwareFormat = newFormat;
-                    // So do endian/sign conversion in software
-                    softwareConversionSize = format.getFrameSize() / format.getChannels();
+            /* some mbgic to bccount for not-supported endibnness or signed-ness */
+            softwbreConversionSize = 0;
+            if (ddli != null && !ddli.isFormbtSupportedInHbrdwbre(formbt)) {
+                AudioFormbt newFormbt = getSignOrEndibnChbngedFormbt(formbt);
+                if (ddli.isFormbtSupportedInHbrdwbre(newFormbt)) {
+                    // bppbrently, the new formbt cbn be used.
+                    hbrdwbreFormbt = newFormbt;
+                    // So do endibn/sign conversion in softwbre
+                    softwbreConversionSize = formbt.getFrbmeSize() / formbt.getChbnnels();
                     if (Printer.debug) {
-                        Printer.debug("DirectAudioDevice: softwareConversionSize "
-                                      +softwareConversionSize+":");
-                        Printer.debug("  from "+format);
-                        Printer.debug("  to   "+newFormat);
+                        Printer.debug("DirectAudioDevice: softwbreConversionSize "
+                                      +softwbreConversionSize+":");
+                        Printer.debug("  from "+formbt);
+                        Printer.debug("  to   "+newFormbt);
                     }
                 }
             }
 
-            // align buffer to full frames
-            bufferSize = ( bufferSize / format.getFrameSize()) * format.getFrameSize();
+            // blign buffer to full frbmes
+            bufferSize = ( bufferSize / formbt.getFrbmeSize()) * formbt.getFrbmeSize();
 
             id = nOpen(mixerIndex, deviceID, isSource,
                     encoding,
-                    hardwareFormat.getSampleRate(),
-                    hardwareFormat.getSampleSizeInBits(),
-                    hardwareFormat.getFrameSize(),
-                    hardwareFormat.getChannels(),
-                    hardwareFormat.getEncoding().equals(
-                        AudioFormat.Encoding.PCM_SIGNED),
-                    hardwareFormat.isBigEndian(),
+                    hbrdwbreFormbt.getSbmpleRbte(),
+                    hbrdwbreFormbt.getSbmpleSizeInBits(),
+                    hbrdwbreFormbt.getFrbmeSize(),
+                    hbrdwbreFormbt.getChbnnels(),
+                    hbrdwbreFormbt.getEncoding().equbls(
+                        AudioFormbt.Encoding.PCM_SIGNED),
+                    hbrdwbreFormbt.isBigEndibn(),
                     bufferSize);
 
             if (id == 0) {
-                // TODO: nicer error messages...
-                throw new LineUnavailableException(
-                        "line with format "+format+" not supported.");
+                // TODO: nicer error messbges...
+                throw new LineUnbvbilbbleException(
+                        "line with formbt "+formbt+" not supported.");
             }
 
             this.bufferSize = nGetBufferSize(id, isSource);
             if (this.bufferSize < 1) {
-                // this is an error!
+                // this is bn error!
                 this.bufferSize = bufferSize;
             }
-            this.format = format;
-            // wait time = 1/4 of buffer time
-            waitTime = (int) Toolkit.bytes2millis(format, this.bufferSize) / 4;
-            if (waitTime < 10) {
-                waitTime = 1;
+            this.formbt = formbt;
+            // wbit time = 1/4 of buffer time
+            wbitTime = (int) Toolkit.bytes2millis(formbt, this.bufferSize) / 4;
+            if (wbitTime < 10) {
+                wbitTime = 1;
             }
-            else if (waitTime > 1000) {
-                // we have seen large buffer sizes!
-                // never wait for more than a second
-                waitTime = 1000;
+            else if (wbitTime > 1000) {
+                // we hbve seen lbrge buffer sizes!
+                // never wbit for more thbn b second
+                wbitTime = 1000;
             }
             bytePosition = 0;
-            stoppedWritten = false;
-            doIO = false;
-            calcVolume();
+            stoppedWritten = fblse;
+            doIO = fblse;
+            cblcVolume();
 
-            if (Printer.trace) Printer.trace("<< DirectDL: implOpen() succeeded");
+            if (Printer.trbce) Printer.trbce("<< DirectDL: implOpen() succeeded");
         }
 
 
-        void implStart() {
-            if (Printer.trace) Printer.trace(" >> DirectDL: implStart()");
+        void implStbrt() {
+            if (Printer.trbce) Printer.trbce(" >> DirectDL: implStbrt()");
 
             // check for record permission
             if (!isSource) {
-                JSSecurityManager.checkRecordPermission();
+                JSSecurityMbnbger.checkRecordPermission();
             }
 
-            synchronized (lockNative)
+            synchronized (lockNbtive)
             {
-                nStart(id, isSource);
+                nStbrt(id, isSource);
             }
             // check for monitoring/servicing
             monitoring = requiresServicing();
             if (monitoring) {
-                getEventDispatcher().addLineMonitor(this);
+                getEventDispbtcher().bddLineMonitor(this);
             }
 
             doIO = true;
 
-            // need to set Active and Started
-            // note: the current API always requires that
-            //       Started and Active are set at the same time...
+            // need to set Active bnd Stbrted
+            // note: the current API blwbys requires thbt
+            //       Stbrted bnd Active bre set bt the sbme time...
             if (isSource && stoppedWritten) {
-                setStarted(true);
+                setStbrted(true);
                 setActive(true);
             }
 
-            if (Printer.trace) Printer.trace("<< DirectDL: implStart() succeeded");
+            if (Printer.trbce) Printer.trbce("<< DirectDL: implStbrt() succeeded");
         }
 
         void implStop() {
-            if (Printer.trace) Printer.trace(">> DirectDL: implStop()");
+            if (Printer.trbce) Printer.trbce(">> DirectDL: implStop()");
 
             // check for record permission
             if (!isSource) {
-                JSSecurityManager.checkRecordPermission();
+                JSSecurityMbnbger.checkRecordPermission();
             }
 
             if (monitoring) {
-                getEventDispatcher().removeLineMonitor(this);
-                monitoring = false;
+                getEventDispbtcher().removeLineMonitor(this);
+                monitoring = fblse;
             }
-            synchronized (lockNative) {
+            synchronized (lockNbtive) {
                 nStop(id, isSource);
             }
-            // wake up any waiting threads
+            // wbke up bny wbiting threbds
             synchronized(lock) {
-                // need to set doIO to false before notifying the
-                // read/write thread, that's why isStartedRunning()
-                // cannot be used
-                doIO = false;
+                // need to set doIO to fblse before notifying the
+                // rebd/write threbd, thbt's why isStbrtedRunning()
+                // cbnnot be used
+                doIO = fblse;
                 lock.notifyAll();
             }
-            setActive(false);
-            setStarted(false);
-            stoppedWritten = false;
+            setActive(fblse);
+            setStbrted(fblse);
+            stoppedWritten = fblse;
 
-            if (Printer.trace) Printer.trace(" << DirectDL: implStop() succeeded");
+            if (Printer.trbce) Printer.trbce(" << DirectDL: implStop() succeeded");
         }
 
         void implClose() {
-            if (Printer.trace) Printer.trace(">> DirectDL: implClose()");
+            if (Printer.trbce) Printer.trbce(">> DirectDL: implClose()");
 
             // check for record permission
             if (!isSource) {
-                JSSecurityManager.checkRecordPermission();
+                JSSecurityMbnbger.checkRecordPermission();
             }
 
             // be sure to remove this monitor
             if (monitoring) {
-                getEventDispatcher().removeLineMonitor(this);
-                monitoring = false;
+                getEventDispbtcher().removeLineMonitor(this);
+                monitoring = fblse;
             }
 
-            doIO = false;
+            doIO = fblse;
             long oldID = id;
             id = 0;
-            synchronized (lockNative) {
+            synchronized (lockNbtive) {
                 nClose(oldID, isSource);
             }
             bytePosition = 0;
-            softwareConversionSize = 0;
-            if (Printer.trace) Printer.trace("<< DirectDL: implClose() succeeded");
+            softwbreConversionSize = 0;
+            if (Printer.trbce) Printer.trbce("<< DirectDL: implClose() succeeded");
         }
 
         // METHOD OVERRIDES
 
-        public int available() {
+        public int bvbilbble() {
             if (id == 0) {
                 return 0;
             }
-            int a;
-            synchronized (lockNative) {
-                a = nAvailable(id, isSource);
+            int b;
+            synchronized (lockNbtive) {
+                b = nAvbilbble(id, isSource);
             }
-            return a;
+            return b;
         }
 
 
-        public void drain() {
+        public void drbin() {
             noService = true;
-            // additional safeguard against draining forever
-            // this occurred on Solaris 8 x86, probably due to a bug
-            // in the audio driver
+            // bdditionbl sbfegubrd bgbinst drbining forever
+            // this occurred on Solbris 8 x86, probbbly due to b bug
+            // in the budio driver
             int counter = 0;
-            long startPos = getLongFramePosition();
-            boolean posChanged = false;
-            while (!drained) {
-                synchronized (lockNative) {
-                    if ((id == 0) || (!doIO) || !nIsStillDraining(id, isSource))
-                        break;
+            long stbrtPos = getLongFrbmePosition();
+            boolebn posChbnged = fblse;
+            while (!drbined) {
+                synchronized (lockNbtive) {
+                    if ((id == 0) || (!doIO) || !nIsStillDrbining(id, isSource))
+                        brebk;
                 }
-                // check every now and then for a new position
+                // check every now bnd then for b new position
                 if ((counter % 5) == 4) {
-                    long thisFramePos = getLongFramePosition();
-                    posChanged = posChanged | (thisFramePos != startPos);
+                    long thisFrbmePos = getLongFrbmePosition();
+                    posChbnged = posChbnged | (thisFrbmePos != stbrtPos);
                     if ((counter % 50) > 45) {
-                        // when some time elapsed, check that the frame position
-                        // really changed
-                        if (!posChanged) {
-                            if (Printer.err) Printer.err("Native reports isDraining, but frame position does not increase!");
-                            break;
+                        // when some time elbpsed, check thbt the frbme position
+                        // reblly chbnged
+                        if (!posChbnged) {
+                            if (Printer.err) Printer.err("Nbtive reports isDrbining, but frbme position does not increbse!");
+                            brebk;
                         }
-                        posChanged = false;
-                        startPos = thisFramePos;
+                        posChbnged = fblse;
+                        stbrtPos = thisFrbmePos;
                     }
                 }
                 counter++;
                 synchronized(lock) {
                     try {
-                        lock.wait(10);
-                    } catch (InterruptedException ie) {}
+                        lock.wbit(10);
+                    } cbtch (InterruptedException ie) {}
                 }
             }
 
             if (doIO && id != 0) {
-                drained = true;
+                drbined = true;
             }
-            noService = false;
+            noService = fblse;
         }
 
         public void flush() {
             if (id != 0) {
-                // first stop ongoing read/write method
+                // first stop ongoing rebd/write method
                 flushing = true;
                 synchronized(lock) {
                     lock.notifyAll();
                 }
-                synchronized (lockNative) {
+                synchronized (lockNbtive) {
                     if (id != 0) {
-                        // then flush native buffers
+                        // then flush nbtive buffers
                         nFlush(id, isSource);
                     }
                 }
-                drained = true;
+                drbined = true;
             }
         }
 
-        // replacement for getFramePosition (see AbstractDataLine)
-        public long getLongFramePosition() {
+        // replbcement for getFrbmePosition (see AbstrbctDbtbLine)
+        public long getLongFrbmePosition() {
             long pos;
-            synchronized (lockNative) {
+            synchronized (lockNbtive) {
                 pos = nGetBytePosition(id, isSource, bytePosition);
             }
-            // hack because ALSA sometimes reports wrong framepos
+            // hbck becbuse ALSA sometimes reports wrong frbmepos
             if (pos < 0) {
-                if (Printer.debug) Printer.debug("DirectLine.getLongFramePosition: Native reported pos="
-                                                 +pos+"! is changed to 0. byteposition="+bytePosition);
+                if (Printer.debug) Printer.debug("DirectLine.getLongFrbmePosition: Nbtive reported pos="
+                                                 +pos+"! is chbnged to 0. byteposition="+bytePosition);
                 pos = 0;
             }
-            return (pos / getFormat().getFrameSize());
+            return (pos / getFormbt().getFrbmeSize());
         }
 
 
         /*
-         * write() belongs into SourceDataLine and Clip,
-         * so define it here and make it accessible by
-         * declaring the respective interfaces with DirectSDL and DirectClip
+         * write() belongs into SourceDbtbLine bnd Clip,
+         * so define it here bnd mbke it bccessible by
+         * declbring the respective interfbces with DirectSDL bnd DirectClip
          */
         public int write(byte[] b, int off, int len) {
-            flushing = false;
+            flushing = fblse;
             if (len == 0) {
                 return 0;
             }
             if (len < 0) {
-                throw new IllegalArgumentException("illegal len: "+len);
+                throw new IllegblArgumentException("illegbl len: "+len);
             }
-            if (len % getFormat().getFrameSize() != 0) {
-                throw new IllegalArgumentException("illegal request to write "
-                                                   +"non-integral number of frames ("
+            if (len % getFormbt().getFrbmeSize() != 0) {
+                throw new IllegblArgumentException("illegbl request to write "
+                                                   +"non-integrbl number of frbmes ("
                                                    +len+" bytes, "
-                                                   +"frameSize = "+getFormat().getFrameSize()+" bytes)");
+                                                   +"frbmeSize = "+getFormbt().getFrbmeSize()+" bytes)");
             }
             if (off < 0) {
-                throw new ArrayIndexOutOfBoundsException(off);
+                throw new ArrbyIndexOutOfBoundsException(off);
             }
             if ((long)off + (long)len > (long)b.length) {
-                throw new ArrayIndexOutOfBoundsException(b.length);
+                throw new ArrbyIndexOutOfBoundsException(b.length);
             }
 
             if (!isActive() && doIO) {
-                // this is not exactly correct... would be nicer
-                // if the native sub system sent a callback when IO really starts
+                // this is not exbctly correct... would be nicer
+                // if the nbtive sub system sent b cbllbbck when IO reblly stbrts
                 setActive(true);
-                setStarted(true);
+                setStbrted(true);
             }
             int written = 0;
             while (!flushing) {
                 int thisWritten;
-                synchronized (lockNative) {
+                synchronized (lockNbtive) {
                     thisWritten = nWrite(id, b, off, len,
-                            softwareConversionSize,
-                            leftGain, rightGain);
+                            softwbreConversionSize,
+                            leftGbin, rightGbin);
                     if (thisWritten < 0) {
-                        // error in native layer
-                        break;
+                        // error in nbtive lbyer
+                        brebk;
                     }
                     bytePosition += thisWritten;
                     if (thisWritten > 0) {
-                        drained = false;
+                        drbined = fblse;
                     }
                 }
                 len -= thisWritten;
@@ -768,11 +768,11 @@ final class DirectAudioDevice extends AbstractMixer {
                     off += thisWritten;
                     synchronized (lock) {
                         try {
-                            lock.wait(waitTime);
-                        } catch (InterruptedException ie) {}
+                            lock.wbit(wbitTime);
+                        } cbtch (InterruptedException ie) {}
                     }
                 } else {
-                    break;
+                    brebk;
                 }
             }
             if (written > 0 && !doIO) {
@@ -781,13 +781,13 @@ final class DirectAudioDevice extends AbstractMixer {
             return written;
         }
 
-        protected boolean requiresServicing() {
+        protected boolebn requiresServicing() {
             return nRequiresServicing(id, isSource);
         }
 
-        // called from event dispatcher for lines that need servicing
+        // cblled from event dispbtcher for lines thbt need servicing
         public void checkLine() {
-            synchronized (lockNative) {
+            synchronized (lockNbtive) {
                 if (monitoring
                         && doIO
                         && id != 0
@@ -798,30 +798,30 @@ final class DirectAudioDevice extends AbstractMixer {
             }
         }
 
-        private void calcVolume() {
-            if (getFormat() == null) {
+        privbte void cblcVolume() {
+            if (getFormbt() == null) {
                 return;
             }
-            if (muteControl.getValue()) {
-                leftGain = 0.0f;
-                rightGain = 0.0f;
+            if (muteControl.getVblue()) {
+                leftGbin = 0.0f;
+                rightGbin = 0.0f;
                 return;
             }
-            float gain = gainControl.getLinearGain();
-            if (getFormat().getChannels() == 1) {
-                // trivial case: only use gain
-                leftGain = gain;
-                rightGain = gain;
+            flobt gbin = gbinControl.getLinebrGbin();
+            if (getFormbt().getChbnnels() == 1) {
+                // trivibl cbse: only use gbin
+                leftGbin = gbin;
+                rightGbin = gbin;
             } else {
-                // need to combine gain and balance
-                float bal = balanceControl.getValue();
-                if (bal < 0.0f) {
+                // need to combine gbin bnd bblbnce
+                flobt bbl = bblbnceControl.getVblue();
+                if (bbl < 0.0f) {
                     // left
-                    leftGain = gain;
-                    rightGain = gain * (bal + 1.0f);
+                    leftGbin = gbin;
+                    rightGbin = gbin * (bbl + 1.0f);
                 } else {
-                    leftGain = gain * (1.0f - bal);
-                    rightGain = gain;
+                    leftGbin = gbin * (1.0f - bbl);
+                    rightGbin = gbin;
                 }
             }
         }
@@ -829,664 +829,664 @@ final class DirectAudioDevice extends AbstractMixer {
 
         /////////////////// CONTROLS /////////////////////////////
 
-        protected final class Gain extends FloatControl {
+        protected finbl clbss Gbin extends FlobtControl {
 
-            private float linearGain = 1.0f;
+            privbte flobt linebrGbin = 1.0f;
 
-            private Gain() {
+            privbte Gbin() {
 
-                super(FloatControl.Type.MASTER_GAIN,
-                      Toolkit.linearToDB(0.0f),
-                      Toolkit.linearToDB(2.0f),
-                      Math.abs(Toolkit.linearToDB(1.0f)-Toolkit.linearToDB(0.0f))/128.0f,
+                super(FlobtControl.Type.MASTER_GAIN,
+                      Toolkit.linebrToDB(0.0f),
+                      Toolkit.linebrToDB(2.0f),
+                      Mbth.bbs(Toolkit.linebrToDB(1.0f)-Toolkit.linebrToDB(0.0f))/128.0f,
                       -1,
                       0.0f,
-                      "dB", "Minimum", "", "Maximum");
+                      "dB", "Minimum", "", "Mbximum");
             }
 
-            public void setValue(float newValue) {
-                // adjust value within range ?? spec says IllegalArgumentException
-                //newValue = Math.min(newValue, getMaximum());
-                //newValue = Math.max(newValue, getMinimum());
+            public void setVblue(flobt newVblue) {
+                // bdjust vblue within rbnge ?? spec sbys IllegblArgumentException
+                //newVblue = Mbth.min(newVblue, getMbximum());
+                //newVblue = Mbth.mbx(newVblue, getMinimum());
 
-                float newLinearGain = Toolkit.dBToLinear(newValue);
-                super.setValue(Toolkit.linearToDB(newLinearGain));
-                // if no exception, commit to our new gain
-                linearGain = newLinearGain;
-                calcVolume();
+                flobt newLinebrGbin = Toolkit.dBToLinebr(newVblue);
+                super.setVblue(Toolkit.linebrToDB(newLinebrGbin));
+                // if no exception, commit to our new gbin
+                linebrGbin = newLinebrGbin;
+                cblcVolume();
             }
 
-            float getLinearGain() {
-                return linearGain;
+            flobt getLinebrGbin() {
+                return linebrGbin;
             }
-        } // class Gain
+        } // clbss Gbin
 
 
-        private final class Mute extends BooleanControl {
+        privbte finbl clbss Mute extends BoolebnControl {
 
-            private Mute() {
-                super(BooleanControl.Type.MUTE, false, "True", "False");
+            privbte Mute() {
+                super(BoolebnControl.Type.MUTE, fblse, "True", "Fblse");
             }
 
-            public void setValue(boolean newValue) {
-                super.setValue(newValue);
-                calcVolume();
+            public void setVblue(boolebn newVblue) {
+                super.setVblue(newVblue);
+                cblcVolume();
             }
-        }  // class Mute
+        }  // clbss Mute
 
-        private final class Balance extends FloatControl {
+        privbte finbl clbss Bblbnce extends FlobtControl {
 
-            private Balance() {
-                super(FloatControl.Type.BALANCE, -1.0f, 1.0f, (1.0f / 128.0f), -1, 0.0f,
+            privbte Bblbnce() {
+                super(FlobtControl.Type.BALANCE, -1.0f, 1.0f, (1.0f / 128.0f), -1, 0.0f,
                       "", "Left", "Center", "Right");
             }
 
-            public void setValue(float newValue) {
-                setValueImpl(newValue);
-                panControl.setValueImpl(newValue);
-                calcVolume();
+            public void setVblue(flobt newVblue) {
+                setVblueImpl(newVblue);
+                pbnControl.setVblueImpl(newVblue);
+                cblcVolume();
             }
 
-            void setValueImpl(float newValue) {
-                super.setValue(newValue);
+            void setVblueImpl(flobt newVblue) {
+                super.setVblue(newVblue);
             }
 
-        } // class Balance
+        } // clbss Bblbnce
 
-        private final class Pan extends FloatControl {
+        privbte finbl clbss Pbn extends FlobtControl {
 
-            private Pan() {
-                super(FloatControl.Type.PAN, -1.0f, 1.0f, (1.0f / 128.0f), -1, 0.0f,
+            privbte Pbn() {
+                super(FlobtControl.Type.PAN, -1.0f, 1.0f, (1.0f / 128.0f), -1, 0.0f,
                       "", "Left", "Center", "Right");
             }
 
-            public void setValue(float newValue) {
-                setValueImpl(newValue);
-                balanceControl.setValueImpl(newValue);
-                calcVolume();
+            public void setVblue(flobt newVblue) {
+                setVblueImpl(newVblue);
+                bblbnceControl.setVblueImpl(newVblue);
+                cblcVolume();
             }
-            void setValueImpl(float newValue) {
-                super.setValue(newValue);
+            void setVblueImpl(flobt newVblue) {
+                super.setVblue(newVblue);
             }
-        } // class Pan
+        } // clbss Pbn
 
 
 
-    } // class DirectDL
+    } // clbss DirectDL
 
 
     /**
-     * Private inner class representing a SourceDataLine
+     * Privbte inner clbss representing b SourceDbtbLine
      */
-    private static final class DirectSDL extends DirectDL
-            implements SourceDataLine {
+    privbte stbtic finbl clbss DirectSDL extends DirectDL
+            implements SourceDbtbLine {
 
         // CONSTRUCTOR
-        private DirectSDL(DataLine.Info info,
-                          AudioFormat format,
+        privbte DirectSDL(DbtbLine.Info info,
+                          AudioFormbt formbt,
                           int bufferSize,
                           DirectAudioDevice mixer) {
-            super(info, mixer, format, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), true);
-            if (Printer.trace) Printer.trace("DirectSDL CONSTRUCTOR: completed");
+            super(info, mixer, formbt, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), true);
+            if (Printer.trbce) Printer.trbce("DirectSDL CONSTRUCTOR: completed");
         }
 
     }
 
     /**
-     * Private inner class representing a TargetDataLine
+     * Privbte inner clbss representing b TbrgetDbtbLine
      */
-    private static final class DirectTDL extends DirectDL
-            implements TargetDataLine {
+    privbte stbtic finbl clbss DirectTDL extends DirectDL
+            implements TbrgetDbtbLine {
 
         // CONSTRUCTOR
-        private DirectTDL(DataLine.Info info,
-                          AudioFormat format,
+        privbte DirectTDL(DbtbLine.Info info,
+                          AudioFormbt formbt,
                           int bufferSize,
                           DirectAudioDevice mixer) {
-            super(info, mixer, format, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), false);
-            if (Printer.trace) Printer.trace("DirectTDL CONSTRUCTOR: completed");
+            super(info, mixer, formbt, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), fblse);
+            if (Printer.trbce) Printer.trbce("DirectTDL CONSTRUCTOR: completed");
         }
 
         // METHOD OVERRIDES
 
-        public int read(byte[] b, int off, int len) {
-            flushing = false;
+        public int rebd(byte[] b, int off, int len) {
+            flushing = fblse;
             if (len == 0) {
                 return 0;
             }
             if (len < 0) {
-                throw new IllegalArgumentException("illegal len: "+len);
+                throw new IllegblArgumentException("illegbl len: "+len);
             }
-            if (len % getFormat().getFrameSize() != 0) {
-                throw new IllegalArgumentException("illegal request to read "
-                                                   +"non-integral number of frames ("
+            if (len % getFormbt().getFrbmeSize() != 0) {
+                throw new IllegblArgumentException("illegbl request to rebd "
+                                                   +"non-integrbl number of frbmes ("
                                                    +len+" bytes, "
-                                                   +"frameSize = "+getFormat().getFrameSize()+" bytes)");
+                                                   +"frbmeSize = "+getFormbt().getFrbmeSize()+" bytes)");
             }
             if (off < 0) {
-                throw new ArrayIndexOutOfBoundsException(off);
+                throw new ArrbyIndexOutOfBoundsException(off);
             }
             if ((long)off + (long)len > (long)b.length) {
-                throw new ArrayIndexOutOfBoundsException(b.length);
+                throw new ArrbyIndexOutOfBoundsException(b.length);
             }
             if (!isActive() && doIO) {
-                // this is not exactly correct... would be nicer
-                // if the native sub system sent a callback when IO really starts
+                // this is not exbctly correct... would be nicer
+                // if the nbtive sub system sent b cbllbbck when IO reblly stbrts
                 setActive(true);
-                setStarted(true);
+                setStbrted(true);
             }
-            int read = 0;
+            int rebd = 0;
             while (doIO && !flushing) {
-                int thisRead;
-                synchronized (lockNative) {
-                    thisRead = nRead(id, b, off, len, softwareConversionSize);
-                    if (thisRead < 0) {
-                        // error in native layer
-                        break;
+                int thisRebd;
+                synchronized (lockNbtive) {
+                    thisRebd = nRebd(id, b, off, len, softwbreConversionSize);
+                    if (thisRebd < 0) {
+                        // error in nbtive lbyer
+                        brebk;
                     }
-                    bytePosition += thisRead;
-                    if (thisRead > 0) {
-                        drained = false;
+                    bytePosition += thisRebd;
+                    if (thisRebd > 0) {
+                        drbined = fblse;
                     }
                 }
-                len -= thisRead;
-                read += thisRead;
+                len -= thisRebd;
+                rebd += thisRebd;
                 if (len > 0) {
-                    off += thisRead;
+                    off += thisRebd;
                     synchronized(lock) {
                         try {
-                            lock.wait(waitTime);
-                        } catch (InterruptedException ie) {}
+                            lock.wbit(wbitTime);
+                        } cbtch (InterruptedException ie) {}
                     }
                 } else {
-                    break;
+                    brebk;
                 }
             }
             if (flushing) {
-                read = 0;
+                rebd = 0;
             }
-            return read;
+            return rebd;
         }
 
     }
 
     /**
-     * Private inner class representing a Clip
-     * This clip is realized in software only
+     * Privbte inner clbss representing b Clip
+     * This clip is reblized in softwbre only
      */
-    private static final class DirectClip extends DirectDL
-            implements Clip, Runnable, AutoClosingClip {
+    privbte stbtic finbl clbss DirectClip extends DirectDL
+            implements Clip, Runnbble, AutoClosingClip {
 
-        private Thread thread;
-        private byte[] audioData = null;
-        private int frameSize;         // size of one frame in bytes
-        private int m_lengthInFrames;
-        private int loopCount;
-        private int clipBytePosition;   // index in the audioData array at current playback
-        private int newFramePosition;   // set in setFramePosition()
-        private int loopStartFrame;
-        private int loopEndFrame;      // the last sample included in the loop
+        privbte Threbd threbd;
+        privbte byte[] budioDbtb = null;
+        privbte int frbmeSize;         // size of one frbme in bytes
+        privbte int m_lengthInFrbmes;
+        privbte int loopCount;
+        privbte int clipBytePosition;   // index in the budioDbtb brrby bt current plbybbck
+        privbte int newFrbmePosition;   // set in setFrbmePosition()
+        privbte int loopStbrtFrbme;
+        privbte int loopEndFrbme;      // the lbst sbmple included in the loop
 
-        // auto closing clip support
-        private boolean autoclosing = false;
+        // buto closing clip support
+        privbte boolebn butoclosing = fblse;
 
         // CONSTRUCTOR
-        private DirectClip(DataLine.Info info,
-                           AudioFormat format,
+        privbte DirectClip(DbtbLine.Info info,
+                           AudioFormbt formbt,
                            int bufferSize,
                            DirectAudioDevice mixer) {
-            super(info, mixer, format, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), true);
-            if (Printer.trace) Printer.trace("DirectClip CONSTRUCTOR: completed");
+            super(info, mixer, formbt, bufferSize, mixer.getMixerIndex(), mixer.getDeviceID(), true);
+            if (Printer.trbce) Printer.trbce("DirectClip CONSTRUCTOR: completed");
         }
 
         // CLIP METHODS
 
-        public void open(AudioFormat format, byte[] data, int offset, int bufferSize)
-            throws LineUnavailableException {
+        public void open(AudioFormbt formbt, byte[] dbtb, int offset, int bufferSize)
+            throws LineUnbvbilbbleException {
 
-            // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-            Toolkit.isFullySpecifiedAudioFormat(format);
+            // $$fb pbrt of fix for 4679187: Clip.open() throws unexpected Exceptions
+            Toolkit.isFullySpecifiedAudioFormbt(formbt);
 
-            byte[] newData = new byte[bufferSize];
-            System.arraycopy(data, offset, newData, 0, bufferSize);
-            open(format, newData, bufferSize / format.getFrameSize());
+            byte[] newDbtb = new byte[bufferSize];
+            System.brrbycopy(dbtb, offset, newDbtb, 0, bufferSize);
+            open(formbt, newDbtb, bufferSize / formbt.getFrbmeSize());
         }
 
-        // this method does not copy the data array
-        private void open(AudioFormat format, byte[] data, int frameLength)
-            throws LineUnavailableException {
+        // this method does not copy the dbtb brrby
+        privbte void open(AudioFormbt formbt, byte[] dbtb, int frbmeLength)
+            throws LineUnbvbilbbleException {
 
-            // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-            Toolkit.isFullySpecifiedAudioFormat(format);
+            // $$fb pbrt of fix for 4679187: Clip.open() throws unexpected Exceptions
+            Toolkit.isFullySpecifiedAudioFormbt(formbt);
 
             synchronized (mixer) {
-                if (Printer.trace) Printer.trace("> DirectClip.open(format, data, frameLength)");
-                if (Printer.debug) Printer.debug("   data="+((data==null)?"null":""+data.length+" bytes"));
-                if (Printer.debug) Printer.debug("   frameLength="+frameLength);
+                if (Printer.trbce) Printer.trbce("> DirectClip.open(formbt, dbtb, frbmeLength)");
+                if (Printer.debug) Printer.debug("   dbtb="+((dbtb==null)?"null":""+dbtb.length+" bytes"));
+                if (Printer.debug) Printer.debug("   frbmeLength="+frbmeLength);
 
                 if (isOpen()) {
-                    throw new IllegalStateException("Clip is already open with format " + getFormat() +
-                                                    " and frame lengh of " + getFrameLength());
+                    throw new IllegblStbteException("Clip is blrebdy open with formbt " + getFormbt() +
+                                                    " bnd frbme lengh of " + getFrbmeLength());
                 } else {
-                    // if the line is not currently open, try to open it with this format and buffer size
-                    this.audioData = data;
-                    this.frameSize = format.getFrameSize();
-                    this.m_lengthInFrames = frameLength;
-                    // initialize loop selection with full range
+                    // if the line is not currently open, try to open it with this formbt bnd buffer size
+                    this.budioDbtb = dbtb;
+                    this.frbmeSize = formbt.getFrbmeSize();
+                    this.m_lengthInFrbmes = frbmeLength;
+                    // initiblize loop selection with full rbnge
                     bytePosition = 0;
                     clipBytePosition = 0;
-                    newFramePosition = -1; // means: do not set to a new readFramePos
-                    loopStartFrame = 0;
-                    loopEndFrame = frameLength - 1;
-                    loopCount = 0; // means: play the clip irrespective of loop points from beginning to end
+                    newFrbmePosition = -1; // mebns: do not set to b new rebdFrbmePos
+                    loopStbrtFrbme = 0;
+                    loopEndFrbme = frbmeLength - 1;
+                    loopCount = 0; // mebns: plby the clip irrespective of loop points from beginning to end
 
                     try {
                         // use DirectDL's open method to open it
-                        open(format, (int) Toolkit.millis2bytes(format, CLIP_BUFFER_TIME)); // one second buffer
-                    } catch (LineUnavailableException lue) {
-                        audioData = null;
+                        open(formbt, (int) Toolkit.millis2bytes(formbt, CLIP_BUFFER_TIME)); // one second buffer
+                    } cbtch (LineUnbvbilbbleException lue) {
+                        budioDbtb = null;
                         throw lue;
-                    } catch (IllegalArgumentException iae) {
-                        audioData = null;
-                        throw iae;
+                    } cbtch (IllegblArgumentException ibe) {
+                        budioDbtb = null;
+                        throw ibe;
                     }
 
-                    // if we got this far, we can instanciate the thread
-                    int priority = Thread.NORM_PRIORITY
-                        + (Thread.MAX_PRIORITY - Thread.NORM_PRIORITY) / 3;
-                    thread = JSSecurityManager.createThread(this,
-                                                            "Direct Clip", // name
-                                                            true,     // daemon
+                    // if we got this fbr, we cbn instbncibte the threbd
+                    int priority = Threbd.NORM_PRIORITY
+                        + (Threbd.MAX_PRIORITY - Threbd.NORM_PRIORITY) / 3;
+                    threbd = JSSecurityMbnbger.crebteThrebd(this,
+                                                            "Direct Clip", // nbme
+                                                            true,     // dbemon
                                                             priority, // priority
-                                                            false);  // doStart
-                    // cannot start in createThread, because the thread
-                    // uses the "thread" variable as indicator if it should
+                                                            fblse);  // doStbrt
+                    // cbnnot stbrt in crebteThrebd, becbuse the threbd
+                    // uses the "threbd" vbribble bs indicbtor if it should
                     // continue to run
-                    thread.start();
+                    threbd.stbrt();
                 }
             }
             if (isAutoClosing()) {
-                getEventDispatcher().autoClosingClipOpened(this);
+                getEventDispbtcher().butoClosingClipOpened(this);
             }
-            if (Printer.trace) Printer.trace("< DirectClip.open completed");
+            if (Printer.trbce) Printer.trbce("< DirectClip.open completed");
         }
 
 
-        public void open(AudioInputStream stream) throws LineUnavailableException, IOException {
+        public void open(AudioInputStrebm strebm) throws LineUnbvbilbbleException, IOException {
 
-            // $$fb part of fix for 4679187: Clip.open() throws unexpected Exceptions
-            Toolkit.isFullySpecifiedAudioFormat(format);
+            // $$fb pbrt of fix for 4679187: Clip.open() throws unexpected Exceptions
+            Toolkit.isFullySpecifiedAudioFormbt(formbt);
 
             synchronized (mixer) {
-                if (Printer.trace) Printer.trace("> DirectClip.open(stream)");
-                byte[] streamData = null;
+                if (Printer.trbce) Printer.trbce("> DirectClip.open(strebm)");
+                byte[] strebmDbtb = null;
 
                 if (isOpen()) {
-                    throw new IllegalStateException("Clip is already open with format " + getFormat() +
-                                                    " and frame lengh of " + getFrameLength());
+                    throw new IllegblStbteException("Clip is blrebdy open with formbt " + getFormbt() +
+                                                    " bnd frbme lengh of " + getFrbmeLength());
                 }
-                int lengthInFrames = (int)stream.getFrameLength();
-                if (Printer.debug) Printer.debug("DirectClip: open(AIS): lengthInFrames: " + lengthInFrames);
+                int lengthInFrbmes = (int)strebm.getFrbmeLength();
+                if (Printer.debug) Printer.debug("DirectClip: open(AIS): lengthInFrbmes: " + lengthInFrbmes);
 
-                int bytesRead = 0;
-                if (lengthInFrames != AudioSystem.NOT_SPECIFIED) {
-                    // read the data from the stream into an array in one fell swoop.
-                    int arraysize = lengthInFrames * stream.getFormat().getFrameSize();
-                    streamData = new byte[arraysize];
+                int bytesRebd = 0;
+                if (lengthInFrbmes != AudioSystem.NOT_SPECIFIED) {
+                    // rebd the dbtb from the strebm into bn brrby in one fell swoop.
+                    int brrbysize = lengthInFrbmes * strebm.getFormbt().getFrbmeSize();
+                    strebmDbtb = new byte[brrbysize];
 
-                    int bytesRemaining = arraysize;
-                    int thisRead = 0;
-                    while (bytesRemaining > 0 && thisRead >= 0) {
-                        thisRead = stream.read(streamData, bytesRead, bytesRemaining);
-                        if (thisRead > 0) {
-                            bytesRead += thisRead;
-                            bytesRemaining -= thisRead;
+                    int bytesRembining = brrbysize;
+                    int thisRebd = 0;
+                    while (bytesRembining > 0 && thisRebd >= 0) {
+                        thisRebd = strebm.rebd(strebmDbtb, bytesRebd, bytesRembining);
+                        if (thisRebd > 0) {
+                            bytesRebd += thisRebd;
+                            bytesRembining -= thisRebd;
                         }
-                        else if (thisRead == 0) {
-                            Thread.yield();
+                        else if (thisRebd == 0) {
+                            Threbd.yield();
                         }
                     }
                 } else {
-                    // read data from the stream until we reach the end of the stream
-                    // we use a slightly modified version of ByteArrayOutputStream
-                    // to get direct access to the byte array (we don't want a new array
-                    // to be allocated)
+                    // rebd dbtb from the strebm until we rebch the end of the strebm
+                    // we use b slightly modified version of ByteArrbyOutputStrebm
+                    // to get direct bccess to the byte brrby (we don't wbnt b new brrby
+                    // to be bllocbted)
                     int MAX_READ_LIMIT = 16384;
-                    DirectBAOS dbaos  = new DirectBAOS();
+                    DirectBAOS dbbos  = new DirectBAOS();
                     byte tmp[] = new byte[MAX_READ_LIMIT];
-                    int thisRead = 0;
-                    while (thisRead >= 0) {
-                        thisRead = stream.read(tmp, 0, tmp.length);
-                        if (thisRead > 0) {
-                            dbaos.write(tmp, 0, thisRead);
-                            bytesRead += thisRead;
+                    int thisRebd = 0;
+                    while (thisRebd >= 0) {
+                        thisRebd = strebm.rebd(tmp, 0, tmp.length);
+                        if (thisRebd > 0) {
+                            dbbos.write(tmp, 0, thisRebd);
+                            bytesRebd += thisRebd;
                         }
-                        else if (thisRead == 0) {
-                            Thread.yield();
+                        else if (thisRebd == 0) {
+                            Threbd.yield();
                         }
                     } // while
-                    streamData = dbaos.getInternalBuffer();
+                    strebmDbtb = dbbos.getInternblBuffer();
                 }
-                lengthInFrames = bytesRead / stream.getFormat().getFrameSize();
+                lengthInFrbmes = bytesRebd / strebm.getFormbt().getFrbmeSize();
 
-                if (Printer.debug) Printer.debug("Read to end of stream. lengthInFrames: " + lengthInFrames);
+                if (Printer.debug) Printer.debug("Rebd to end of strebm. lengthInFrbmes: " + lengthInFrbmes);
 
                 // now try to open the device
-                open(stream.getFormat(), streamData, lengthInFrames);
+                open(strebm.getFormbt(), strebmDbtb, lengthInFrbmes);
 
-                if (Printer.trace) Printer.trace("< DirectClip.open(stream) succeeded");
+                if (Printer.trbce) Printer.trbce("< DirectClip.open(strebm) succeeded");
             } // synchronized
         }
 
 
-        public int getFrameLength() {
-            return m_lengthInFrames;
+        public int getFrbmeLength() {
+            return m_lengthInFrbmes;
         }
 
 
         public long getMicrosecondLength() {
-            return Toolkit.frames2micros(getFormat(), getFrameLength());
+            return Toolkit.frbmes2micros(getFormbt(), getFrbmeLength());
         }
 
 
-        public void setFramePosition(int frames) {
-            if (Printer.trace) Printer.trace("> DirectClip: setFramePosition: " + frames);
+        public void setFrbmePosition(int frbmes) {
+            if (Printer.trbce) Printer.trbce("> DirectClip: setFrbmePosition: " + frbmes);
 
-            if (frames < 0) {
-                frames = 0;
+            if (frbmes < 0) {
+                frbmes = 0;
             }
-            else if (frames >= getFrameLength()) {
-                frames = getFrameLength();
+            else if (frbmes >= getFrbmeLength()) {
+                frbmes = getFrbmeLength();
             }
             if (doIO) {
-                newFramePosition = frames;
+                newFrbmePosition = frbmes;
             } else {
-                clipBytePosition = frames * frameSize;
-                newFramePosition = -1;
+                clipBytePosition = frbmes * frbmeSize;
+                newFrbmePosition = -1;
             }
-            // fix for failing test050
-            // $$fb although getFramePosition should return the number of rendered
-            // frames, it is intuitive that setFramePosition will modify that
-            // value.
-            bytePosition = frames * frameSize;
+            // fix for fbiling test050
+            // $$fb blthough getFrbmePosition should return the number of rendered
+            // frbmes, it is intuitive thbt setFrbmePosition will modify thbt
+            // vblue.
+            bytePosition = frbmes * frbmeSize;
 
-            // cease currently playing buffer
+            // cebse currently plbying buffer
             flush();
 
-            // set new native position (if necessary)
-            // this must come after the flush!
-            synchronized (lockNative) {
-                nSetBytePosition(id, isSource, frames * frameSize);
+            // set new nbtive position (if necessbry)
+            // this must come bfter the flush!
+            synchronized (lockNbtive) {
+                nSetBytePosition(id, isSource, frbmes * frbmeSize);
             }
 
-            if (Printer.debug) Printer.debug("  DirectClip.setFramePosition: "
+            if (Printer.debug) Printer.debug("  DirectClip.setFrbmePosition: "
                                              +" doIO="+doIO
-                                             +" newFramePosition="+newFramePosition
+                                             +" newFrbmePosition="+newFrbmePosition
                                              +" clipBytePosition="+clipBytePosition
                                              +" bytePosition="+bytePosition
-                                             +" getLongFramePosition()="+getLongFramePosition());
-            if (Printer.trace) Printer.trace("< DirectClip: setFramePosition");
+                                             +" getLongFrbmePosition()="+getLongFrbmePosition());
+            if (Printer.trbce) Printer.trbce("< DirectClip: setFrbmePosition");
         }
 
-        // replacement for getFramePosition (see AbstractDataLine)
-        public long getLongFramePosition() {
+        // replbcement for getFrbmePosition (see AbstrbctDbtbLine)
+        public long getLongFrbmePosition() {
             /* $$fb
-             * this would be intuitive, but the definition of getFramePosition
-             * is the number of frames rendered since opening the device...
-             * That also means that setFramePosition() means something very
-             * different from getFramePosition() for Clip.
+             * this would be intuitive, but the definition of getFrbmePosition
+             * is the number of frbmes rendered since opening the device...
+             * Thbt blso mebns thbt setFrbmePosition() mebns something very
+             * different from getFrbmePosition() for Clip.
              */
-            // take into account the case that a new position was set...
-            //if (!doIO && newFramePosition >= 0) {
-            //return newFramePosition;
+            // tbke into bccount the cbse thbt b new position wbs set...
+            //if (!doIO && newFrbmePosition >= 0) {
+            //return newFrbmePosition;
             //}
-            return super.getLongFramePosition();
+            return super.getLongFrbmePosition();
         }
 
 
         public synchronized void setMicrosecondPosition(long microseconds) {
-            if (Printer.trace) Printer.trace("> DirectClip: setMicrosecondPosition: " + microseconds);
+            if (Printer.trbce) Printer.trbce("> DirectClip: setMicrosecondPosition: " + microseconds);
 
-            long frames = Toolkit.micros2frames(getFormat(), microseconds);
-            setFramePosition((int) frames);
+            long frbmes = Toolkit.micros2frbmes(getFormbt(), microseconds);
+            setFrbmePosition((int) frbmes);
 
-            if (Printer.trace) Printer.trace("< DirectClip: setMicrosecondPosition succeeded");
+            if (Printer.trbce) Printer.trbce("< DirectClip: setMicrosecondPosition succeeded");
         }
 
-        public void setLoopPoints(int start, int end) {
-            if (Printer.trace) Printer.trace("> DirectClip: setLoopPoints: start: " + start + " end: " + end);
+        public void setLoopPoints(int stbrt, int end) {
+            if (Printer.trbce) Printer.trbce("> DirectClip: setLoopPoints: stbrt: " + stbrt + " end: " + end);
 
-            if (start < 0 || start >= getFrameLength()) {
-                throw new IllegalArgumentException("illegal value for start: "+start);
+            if (stbrt < 0 || stbrt >= getFrbmeLength()) {
+                throw new IllegblArgumentException("illegbl vblue for stbrt: "+stbrt);
             }
-            if (end >= getFrameLength()) {
-                throw new IllegalArgumentException("illegal value for end: "+end);
+            if (end >= getFrbmeLength()) {
+                throw new IllegblArgumentException("illegbl vblue for end: "+end);
             }
 
             if (end == -1) {
-                end = getFrameLength() - 1;
+                end = getFrbmeLength() - 1;
                 if (end < 0) {
                     end = 0;
                 }
             }
 
-            // if the end position is less than the start position, throw IllegalArgumentException
-            if (end < start) {
-                throw new IllegalArgumentException("End position " + end + "  preceeds start position " + start);
+            // if the end position is less thbn the stbrt position, throw IllegblArgumentException
+            if (end < stbrt) {
+                throw new IllegblArgumentException("End position " + end + "  preceeds stbrt position " + stbrt);
             }
 
-            // slight race condition with the run() method, but not a big problem
-            loopStartFrame = start;
-            loopEndFrame = end;
+            // slight rbce condition with the run() method, but not b big problem
+            loopStbrtFrbme = stbrt;
+            loopEndFrbme = end;
 
-            if (Printer.trace) Printer.trace("  loopStart: " + loopStartFrame + " loopEnd: " + loopEndFrame);
-            if (Printer.trace) Printer.trace("< DirectClip: setLoopPoints completed");
+            if (Printer.trbce) Printer.trbce("  loopStbrt: " + loopStbrtFrbme + " loopEnd: " + loopEndFrbme);
+            if (Printer.trbce) Printer.trbce("< DirectClip: setLoopPoints completed");
         }
 
 
         public void loop(int count) {
-            // note: when count reaches 0, it means that the entire clip
-            // will be played, i.e. it will play past the loop end point
+            // note: when count rebches 0, it mebns thbt the entire clip
+            // will be plbyed, i.e. it will plby pbst the loop end point
             loopCount = count;
-            start();
+            stbrt();
         }
 
         // ABSTRACT METHOD IMPLEMENTATIONS
 
         // ABSTRACT LINE
 
-        void implOpen(AudioFormat format, int bufferSize) throws LineUnavailableException {
-            // only if audioData wasn't set in a calling open(format, byte[], frameSize)
-            // this call is allowed.
-            if (audioData == null) {
-                throw new IllegalArgumentException("illegal call to open() in interface Clip");
+        void implOpen(AudioFormbt formbt, int bufferSize) throws LineUnbvbilbbleException {
+            // only if budioDbtb wbsn't set in b cblling open(formbt, byte[], frbmeSize)
+            // this cbll is bllowed.
+            if (budioDbtb == null) {
+                throw new IllegblArgumentException("illegbl cbll to open() in interfbce Clip");
             }
-            super.implOpen(format, bufferSize);
+            super.implOpen(formbt, bufferSize);
         }
 
         void implClose() {
-            if (Printer.trace) Printer.trace(">> DirectClip: implClose()");
+            if (Printer.trbce) Printer.trbce(">> DirectClip: implClose()");
 
-            // dispose of thread
-            Thread oldThread = thread;
-            thread = null;
-            doIO = false;
-            if (oldThread != null) {
-                // wake up the thread if it's in wait()
+            // dispose of threbd
+            Threbd oldThrebd = threbd;
+            threbd = null;
+            doIO = fblse;
+            if (oldThrebd != null) {
+                // wbke up the threbd if it's in wbit()
                 synchronized(lock) {
                     lock.notifyAll();
                 }
-                // wait for the thread to terminate itself,
-                // but max. 2 seconds. Must not be synchronized!
+                // wbit for the threbd to terminbte itself,
+                // but mbx. 2 seconds. Must not be synchronized!
                 try {
-                    oldThread.join(2000);
-                } catch (InterruptedException ie) {}
+                    oldThrebd.join(2000);
+                } cbtch (InterruptedException ie) {}
             }
             super.implClose();
-            // remove audioData reference and hand it over to gc
-            audioData = null;
-            newFramePosition = -1;
+            // remove budioDbtb reference bnd hbnd it over to gc
+            budioDbtb = null;
+            newFrbmePosition = -1;
 
-            // remove this instance from the list of auto closing clips
-            getEventDispatcher().autoClosingClipClosed(this);
+            // remove this instbnce from the list of buto closing clips
+            getEventDispbtcher().butoClosingClipClosed(this);
 
-            if (Printer.trace) Printer.trace("<< DirectClip: implClose() succeeded");
+            if (Printer.trbce) Printer.trbce("<< DirectClip: implClose() succeeded");
         }
 
 
-        void implStart() {
-            if (Printer.trace) Printer.trace("> DirectClip: implStart()");
-            super.implStart();
-            if (Printer.trace) Printer.trace("< DirectClip: implStart() succeeded");
+        void implStbrt() {
+            if (Printer.trbce) Printer.trbce("> DirectClip: implStbrt()");
+            super.implStbrt();
+            if (Printer.trbce) Printer.trbce("< DirectClip: implStbrt() succeeded");
         }
 
         void implStop() {
-            if (Printer.trace) Printer.trace(">> DirectClip: implStop()");
+            if (Printer.trbce) Printer.trbce(">> DirectClip: implStop()");
 
             super.implStop();
-            // reset loopCount field so that playback will be normal with
-            // next call to start()
+            // reset loopCount field so thbt plbybbck will be normbl with
+            // next cbll to stbrt()
             loopCount = 0;
 
-            if (Printer.trace) Printer.trace("<< DirectClip: implStop() succeeded");
+            if (Printer.trbce) Printer.trbce("<< DirectClip: implStop() succeeded");
         }
 
 
-        // main playback loop
+        // mbin plbybbck loop
         public void run() {
-            if (Printer.trace) Printer.trace(">>> DirectClip: run() threadID="+Thread.currentThread().getId());
-            while (thread != null) {
-                // doIO is volatile, but we could check it, then get
-                // pre-empted while another thread changes doIO and notifies,
-                // before we wait (so we sleep in wait forever).
+            if (Printer.trbce) Printer.trbce(">>> DirectClip: run() threbdID="+Threbd.currentThrebd().getId());
+            while (threbd != null) {
+                // doIO is volbtile, but we could check it, then get
+                // pre-empted while bnother threbd chbnges doIO bnd notifies,
+                // before we wbit (so we sleep in wbit forever).
                 synchronized(lock) {
                     if (!doIO) {
                         try {
-                            lock.wait();
-                        } catch(InterruptedException ie) {}
+                            lock.wbit();
+                        } cbtch(InterruptedException ie) {}
                     }
                 }
                 while (doIO) {
-                    if (newFramePosition >= 0) {
-                        clipBytePosition = newFramePosition * frameSize;
-                        newFramePosition = -1;
+                    if (newFrbmePosition >= 0) {
+                        clipBytePosition = newFrbmePosition * frbmeSize;
+                        newFrbmePosition = -1;
                     }
-                    int endFrame = getFrameLength() - 1;
+                    int endFrbme = getFrbmeLength() - 1;
                     if (loopCount > 0 || loopCount == LOOP_CONTINUOUSLY) {
-                        endFrame = loopEndFrame;
+                        endFrbme = loopEndFrbme;
                     }
-                    long framePos = (clipBytePosition / frameSize);
-                    int toWriteFrames = (int) (endFrame - framePos + 1);
-                    int toWriteBytes = toWriteFrames * frameSize;
+                    long frbmePos = (clipBytePosition / frbmeSize);
+                    int toWriteFrbmes = (int) (endFrbme - frbmePos + 1);
+                    int toWriteBytes = toWriteFrbmes * frbmeSize;
                     if (toWriteBytes > getBufferSize()) {
-                        toWriteBytes = Toolkit.align(getBufferSize(), frameSize);
+                        toWriteBytes = Toolkit.blign(getBufferSize(), frbmeSize);
                     }
-                    int written = write(audioData, clipBytePosition, toWriteBytes); // increases bytePosition
+                    int written = write(budioDbtb, clipBytePosition, toWriteBytes); // increbses bytePosition
                     clipBytePosition += written;
-                    // make sure nobody called setFramePosition, or stop() during the write() call
-                    if (doIO && newFramePosition < 0 && written >= 0) {
-                        framePos = clipBytePosition / frameSize;
-                        // since endFrame is the last frame to be played,
-                        // framePos is after endFrame when all frames, including framePos,
-                        // are played.
-                        if (framePos > endFrame) {
-                            // at end of playback. If looping is on, loop back to the beginning.
+                    // mbke sure nobody cblled setFrbmePosition, or stop() during the write() cbll
+                    if (doIO && newFrbmePosition < 0 && written >= 0) {
+                        frbmePos = clipBytePosition / frbmeSize;
+                        // since endFrbme is the lbst frbme to be plbyed,
+                        // frbmePos is bfter endFrbme when bll frbmes, including frbmePos,
+                        // bre plbyed.
+                        if (frbmePos > endFrbme) {
+                            // bt end of plbybbck. If looping is on, loop bbck to the beginning.
                             if (loopCount > 0 || loopCount == LOOP_CONTINUOUSLY) {
                                 if (loopCount != LOOP_CONTINUOUSLY) {
                                     loopCount--;
                                 }
-                                newFramePosition = loopStartFrame;
+                                newFrbmePosition = loopStbrtFrbme;
                             } else {
-                                // no looping, stop playback
+                                // no looping, stop plbybbck
                                 if (Printer.debug) Printer.debug("stop clip in run() loop:");
                                 if (Printer.debug) Printer.debug("  doIO="+doIO+" written="+written+" clipBytePosition="+clipBytePosition);
-                                if (Printer.debug) Printer.debug("  framePos="+framePos+" endFrame="+endFrame);
-                                drain();
+                                if (Printer.debug) Printer.debug("  frbmePos="+frbmePos+" endFrbme="+endFrbme);
+                                drbin();
                                 stop();
                             }
                         }
                     }
                 }
             }
-            if (Printer.trace) Printer.trace("<<< DirectClip: run() threadID="+Thread.currentThread().getId());
+            if (Printer.trbce) Printer.trbce("<<< DirectClip: run() threbdID="+Threbd.currentThrebd().getId());
         }
 
         // AUTO CLOSING CLIP SUPPORT
 
         /* $$mp 2003-10-01
-           The following two methods are common between this class and
-           MixerClip. They should be moved to a base class, together
-           with the instance variable 'autoclosing'. */
+           The following two methods bre common between this clbss bnd
+           MixerClip. They should be moved to b bbse clbss, together
+           with the instbnce vbribble 'butoclosing'. */
 
-        public boolean isAutoClosing() {
-            return autoclosing;
+        public boolebn isAutoClosing() {
+            return butoclosing;
         }
 
-        public void setAutoClosing(boolean value) {
-            if (value != autoclosing) {
+        public void setAutoClosing(boolebn vblue) {
+            if (vblue != butoclosing) {
                 if (isOpen()) {
-                    if (value) {
-                        getEventDispatcher().autoClosingClipOpened(this);
+                    if (vblue) {
+                        getEventDispbtcher().butoClosingClipOpened(this);
                     } else {
-                        getEventDispatcher().autoClosingClipClosed(this);
+                        getEventDispbtcher().butoClosingClipClosed(this);
                     }
                 }
-                autoclosing = value;
+                butoclosing = vblue;
             }
         }
 
-        protected boolean requiresServicing() {
+        protected boolebn requiresServicing() {
             // no need for servicing for Clips
-            return false;
+            return fblse;
         }
 
     } // DirectClip
 
     /*
-     * private inner class representing a ByteArrayOutputStream
-     * which allows retrieval of the internal array
+     * privbte inner clbss representing b ByteArrbyOutputStrebm
+     * which bllows retrievbl of the internbl brrby
      */
-    private static class DirectBAOS extends ByteArrayOutputStream {
+    privbte stbtic clbss DirectBAOS extends ByteArrbyOutputStrebm {
         DirectBAOS() {
             super();
         }
 
-        public byte[] getInternalBuffer() {
+        public byte[] getInternblBuffer() {
             return buf;
         }
 
-    } // class DirectBAOS
+    } // clbss DirectBAOS
 
-    @SuppressWarnings("rawtypes")
-    private static native void nGetFormats(int mixerIndex, int deviceID,
-                                           boolean isSource, Vector formats);
+    @SuppressWbrnings("rbwtypes")
+    privbte stbtic nbtive void nGetFormbts(int mixerIndex, int deviceID,
+                                           boolebn isSource, Vector formbts);
 
-    private static native long nOpen(int mixerIndex, int deviceID, boolean isSource,
+    privbte stbtic nbtive long nOpen(int mixerIndex, int deviceID, boolebn isSource,
                                      int encoding,
-                                     float sampleRate,
-                                     int sampleSizeInBits,
-                                     int frameSize,
-                                     int channels,
-                                     boolean signed,
-                                     boolean bigEndian,
-                                     int bufferSize) throws LineUnavailableException;
-    private static native void nStart(long id, boolean isSource);
-    private static native void nStop(long id, boolean isSource);
-    private static native void nClose(long id, boolean isSource);
-    private static native int nWrite(long id, byte[] b, int off, int len, int conversionSize,
-                                     float volLeft, float volRight);
-    private static native int nRead(long id, byte[] b, int off, int len, int conversionSize);
-    private static native int nGetBufferSize(long id, boolean isSource);
-    private static native boolean nIsStillDraining(long id, boolean isSource);
-    private static native void nFlush(long id, boolean isSource);
-    private static native int nAvailable(long id, boolean isSource);
-    // javaPos is number of bytes read/written in Java layer
-    private static native long nGetBytePosition(long id, boolean isSource, long javaPos);
-    private static native void nSetBytePosition(long id, boolean isSource, long pos);
+                                     flobt sbmpleRbte,
+                                     int sbmpleSizeInBits,
+                                     int frbmeSize,
+                                     int chbnnels,
+                                     boolebn signed,
+                                     boolebn bigEndibn,
+                                     int bufferSize) throws LineUnbvbilbbleException;
+    privbte stbtic nbtive void nStbrt(long id, boolebn isSource);
+    privbte stbtic nbtive void nStop(long id, boolebn isSource);
+    privbte stbtic nbtive void nClose(long id, boolebn isSource);
+    privbte stbtic nbtive int nWrite(long id, byte[] b, int off, int len, int conversionSize,
+                                     flobt volLeft, flobt volRight);
+    privbte stbtic nbtive int nRebd(long id, byte[] b, int off, int len, int conversionSize);
+    privbte stbtic nbtive int nGetBufferSize(long id, boolebn isSource);
+    privbte stbtic nbtive boolebn nIsStillDrbining(long id, boolebn isSource);
+    privbte stbtic nbtive void nFlush(long id, boolebn isSource);
+    privbte stbtic nbtive int nAvbilbble(long id, boolebn isSource);
+    // jbvbPos is number of bytes rebd/written in Jbvb lbyer
+    privbte stbtic nbtive long nGetBytePosition(long id, boolebn isSource, long jbvbPos);
+    privbte stbtic nbtive void nSetBytePosition(long id, boolebn isSource, long pos);
 
-    // returns if the native implementation needs regular calls to nService()
-    private static native boolean nRequiresServicing(long id, boolean isSource);
-    // called in irregular intervals
-    private static native void nService(long id, boolean isSource);
+    // returns if the nbtive implementbtion needs regulbr cblls to nService()
+    privbte stbtic nbtive boolebn nRequiresServicing(long id, boolebn isSource);
+    // cblled in irregulbr intervbls
+    privbte stbtic nbtive void nService(long id, boolebn isSource);
 
 }

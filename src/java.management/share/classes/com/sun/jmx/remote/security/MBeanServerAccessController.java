@@ -1,657 +1,657 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.security;
+pbckbge com.sun.jmx.remote.security;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import java.io.ObjectInputStream;
-import java.security.AccessController;
-import java.util.Set;
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.QueryExp;
-import javax.management.ReflectionException;
-import javax.management.loading.ClassLoaderRepository;
-import javax.management.remote.MBeanServerForwarder;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.security.AccessController;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.OperbtionsException;
+import jbvbx.mbnbgement.QueryExp;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.lobding.ClbssLobderRepository;
+import jbvbx.mbnbgement.remote.MBebnServerForwbrder;
 
 /**
- * <p>An object of this class implements the MBeanServer interface
- * and, for each of its methods, calls an appropriate checking method
- * and then forwards the request to a wrapped MBeanServer object.  The
- * checking method may throw a RuntimeException if the operation is
- * not allowed; in this case the request is not forwarded to the
- * wrapped object.</p>
+ * <p>An object of this clbss implements the MBebnServer interfbce
+ * bnd, for ebch of its methods, cblls bn bppropribte checking method
+ * bnd then forwbrds the request to b wrbpped MBebnServer object.  The
+ * checking method mby throw b RuntimeException if the operbtion is
+ * not bllowed; in this cbse the request is not forwbrded to the
+ * wrbpped object.</p>
  *
- * <p>A typical use of this class is to insert it between a connector server
- * such as the RMI connector and the MBeanServer with which the connector
- * is associated.  Requests from the connector client can then be filtered
- * and those operations that are not allowed, or not allowed in a particular
- * context, can be rejected by throwing a <code>SecurityException</code>
+ * <p>A typicbl use of this clbss is to insert it between b connector server
+ * such bs the RMI connector bnd the MBebnServer with which the connector
+ * is bssocibted.  Requests from the connector client cbn then be filtered
+ * bnd those operbtions thbt bre not bllowed, or not bllowed in b pbrticulbr
+ * context, cbn be rejected by throwing b <code>SecurityException</code>
  * in the corresponding <code>check*</code> method.</p>
  *
- * <p>This is an abstract class, because in its implementation none of
- * the checking methods does anything.  To be useful, it must be
- * subclassed and at least one of the checking methods overridden to
- * do some checking.  Some or all of the MBeanServer methods may also
- * be overridden, for instance if the default checking behavior is
- * inappropriate.</p>
+ * <p>This is bn bbstrbct clbss, becbuse in its implementbtion none of
+ * the checking methods does bnything.  To be useful, it must be
+ * subclbssed bnd bt lebst one of the checking methods overridden to
+ * do some checking.  Some or bll of the MBebnServer methods mby blso
+ * be overridden, for instbnce if the defbult checking behbvior is
+ * inbppropribte.</p>
  *
- * <p>If there is no SecurityManager, then the access controller will refuse
- * to create an MBean that is a ClassLoader, which includes MLets, or to
- * execute the method addURL on an MBean that is an MLet. This prevents
- * people from opening security holes unintentionally. Otherwise, it
- * would not be obvious that granting write access grants the ability to
- * download and execute arbitrary code in the target MBean server. Advanced
- * users who do want the ability to use MLets are presumably advanced enough
- * to handle policy files and security managers.</p>
+ * <p>If there is no SecurityMbnbger, then the bccess controller will refuse
+ * to crebte bn MBebn thbt is b ClbssLobder, which includes MLets, or to
+ * execute the method bddURL on bn MBebn thbt is bn MLet. This prevents
+ * people from opening security holes unintentionblly. Otherwise, it
+ * would not be obvious thbt grbnting write bccess grbnts the bbility to
+ * downlobd bnd execute brbitrbry code in the tbrget MBebn server. Advbnced
+ * users who do wbnt the bbility to use MLets bre presumbbly bdvbnced enough
+ * to hbndle policy files bnd security mbnbgers.</p>
  */
-public abstract class MBeanServerAccessController
-        implements MBeanServerForwarder {
+public bbstrbct clbss MBebnServerAccessController
+        implements MBebnServerForwbrder {
 
-    public MBeanServer getMBeanServer() {
+    public MBebnServer getMBebnServer() {
         return mbs;
     }
 
-    public void setMBeanServer(MBeanServer mbs) {
+    public void setMBebnServer(MBebnServer mbs) {
         if (mbs == null)
-            throw new IllegalArgumentException("Null MBeanServer");
+            throw new IllegblArgumentException("Null MBebnServer");
         if (this.mbs != null)
-            throw new IllegalArgumentException("MBeanServer object already " +
-                                               "initialized");
+            throw new IllegblArgumentException("MBebnServer object blrebdy " +
+                                               "initiblized");
         this.mbs = mbs;
     }
 
     /**
-     * Check if the caller can do read operations. This method does
+     * Check if the cbller cbn do rebd operbtions. This method does
      * nothing if so, otherwise throws SecurityException.
      */
-    protected abstract void checkRead();
+    protected bbstrbct void checkRebd();
 
     /**
-     * Check if the caller can do write operations.  This method does
+     * Check if the cbller cbn do write operbtions.  This method does
      * nothing if so, otherwise throws SecurityException.
      */
-    protected abstract void checkWrite();
+    protected bbstrbct void checkWrite();
 
     /**
-     * Check if the caller can create the named class.  The default
-     * implementation of this method calls {@link #checkWrite()}.
+     * Check if the cbller cbn crebte the nbmed clbss.  The defbult
+     * implementbtion of this method cblls {@link #checkWrite()}.
      */
-    protected void checkCreate(String className) {
+    protected void checkCrebte(String clbssNbme) {
         checkWrite();
     }
 
     /**
-     * Check if the caller can unregister the named MBean.  The default
-     * implementation of this method calls {@link #checkWrite()}.
+     * Check if the cbller cbn unregister the nbmed MBebn.  The defbult
+     * implementbtion of this method cblls {@link #checkWrite()}.
      */
-    protected void checkUnregister(ObjectName name) {
+    protected void checkUnregister(ObjectNbme nbme) {
         checkWrite();
     }
 
     //--------------------------------------------
     //--------------------------------------------
     //
-    // Implementation of the MBeanServer interface
+    // Implementbtion of the MBebnServer interfbce
     //
     //--------------------------------------------
     //--------------------------------------------
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void addNotificationListener(ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-        throws InstanceNotFoundException {
-        checkRead();
-        getMBeanServer().addNotificationListener(name, listener,
-                                                 filter, handback);
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        getMBebnServer().bddNotificbtionListener(nbme, listener,
+                                                 filter, hbndbbck);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void addNotificationListener(ObjectName name,
-                                        ObjectName listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-        throws InstanceNotFoundException {
-        checkRead();
-        getMBeanServer().addNotificationListener(name, listener,
-                                                 filter, handback);
+    public void bddNotificbtionListener(ObjectNbme nbme,
+                                        ObjectNbme listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        getMBebnServer().bddNotificbtionListener(nbme, listener,
+                                                 filter, hbndbbck);
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance createMBean(String className, ObjectName name)
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException {
-        checkCreate(className);
-        SecurityManager sm = System.getSecurityManager();
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException {
+        checkCrebte(clbssNbme);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            Object object = getMBeanServer().instantiate(className);
-            checkClassLoader(object);
-            return getMBeanServer().registerMBean(object, name);
+            Object object = getMBebnServer().instbntibte(clbssNbme);
+            checkClbssLobder(object);
+            return getMBebnServer().registerMBebn(object, nbme);
         } else {
-            return getMBeanServer().createMBean(className, name);
+            return getMBebnServer().crebteMBebn(clbssNbme, nbme);
         }
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      Object params[], String signature[])
+    public ObjectInstbnce crebteMBebn(String clbssNbme, ObjectNbme nbme,
+                                      Object pbrbms[], String signbture[])
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException {
-        checkCreate(className);
-        SecurityManager sm = System.getSecurityManager();
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException {
+        checkCrebte(clbssNbme);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            Object object = getMBeanServer().instantiate(className,
-                                                         params,
-                                                         signature);
-            checkClassLoader(object);
-            return getMBeanServer().registerMBean(object, name);
+            Object object = getMBebnServer().instbntibte(clbssNbme,
+                                                         pbrbms,
+                                                         signbture);
+            checkClbssLobder(object);
+            return getMBebnServer().registerMBebn(object, nbme);
         } else {
-            return getMBeanServer().createMBean(className, name,
-                                                params, signature);
+            return getMBebnServer().crebteMBebn(clbssNbme, nbme,
+                                                pbrbms, signbture);
         }
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      ObjectName loaderName)
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      ObjectNbme lobderNbme)
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException {
-        checkCreate(className);
-        SecurityManager sm = System.getSecurityManager();
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException {
+        checkCrebte(clbssNbme);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            Object object = getMBeanServer().instantiate(className,
-                                                         loaderName);
-            checkClassLoader(object);
-            return getMBeanServer().registerMBean(object, name);
+            Object object = getMBebnServer().instbntibte(clbssNbme,
+                                                         lobderNbme);
+            checkClbssLobder(object);
+            return getMBebnServer().registerMBebn(object, nbme);
         } else {
-            return getMBeanServer().createMBean(className, name, loaderName);
+            return getMBebnServer().crebteMBebn(clbssNbme, nbme, lobderNbme);
         }
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      ObjectName loaderName,
-                                      Object params[],
-                                      String signature[])
+    public ObjectInstbnce crebteMBebn(String clbssNbme,
+                                      ObjectNbme nbme,
+                                      ObjectNbme lobderNbme,
+                                      Object pbrbms[],
+                                      String signbture[])
         throws
         ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException {
-        checkCreate(className);
-        SecurityManager sm = System.getSecurityManager();
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        MBebnException,
+        NotComplibntMBebnException,
+        InstbnceNotFoundException {
+        checkCrebte(clbssNbme);
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            Object object = getMBeanServer().instantiate(className,
-                                                         loaderName,
-                                                         params,
-                                                         signature);
-            checkClassLoader(object);
-            return getMBeanServer().registerMBean(object, name);
+            Object object = getMBebnServer().instbntibte(clbssNbme,
+                                                         lobderNbme,
+                                                         pbrbms,
+                                                         signbture);
+            checkClbssLobder(object);
+            return getMBebnServer().registerMBebn(object, nbme);
         } else {
-            return getMBeanServer().createMBean(className, name, loaderName,
-                                                params, signature);
+            return getMBebnServer().crebteMBebn(clbssNbme, nbme, lobderNbme,
+                                                pbrbms, signbture);
         }
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(ObjectName name, byte[] data)
-        throws InstanceNotFoundException, OperationsException {
-        checkRead();
-        return getMBeanServer().deserialize(name, data);
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(ObjectNbme nbme, byte[] dbtb)
+        throws InstbnceNotFoundException, OperbtionsException {
+        checkRebd();
+        return getMBebnServer().deseriblize(nbme, dbtb);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className, byte[] data)
-        throws OperationsException, ReflectionException {
-        checkRead();
-        return getMBeanServer().deserialize(className, data);
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme, byte[] dbtb)
+        throws OperbtionsException, ReflectionException {
+        checkRebd();
+        return getMBebnServer().deseriblize(clbssNbme, dbtb);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className,
-                                         ObjectName loaderName,
-                                         byte[] data)
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme,
+                                         ObjectNbme lobderNbme,
+                                         byte[] dbtb)
         throws
-        InstanceNotFoundException,
-        OperationsException,
+        InstbnceNotFoundException,
+        OperbtionsException,
         ReflectionException {
-        checkRead();
-        return getMBeanServer().deserialize(className, loaderName, data);
+        checkRebd();
+        return getMBebnServer().deseriblize(clbssNbme, lobderNbme, dbtb);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object getAttribute(ObjectName name, String attribute)
+    public Object getAttribute(ObjectNbme nbme, String bttribute)
         throws
-        MBeanException,
+        MBebnException,
         AttributeNotFoundException,
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ReflectionException {
-        checkRead();
-        return getMBeanServer().getAttribute(name, attribute);
+        checkRebd();
+        return getMBebnServer().getAttribute(nbme, bttribute);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-        throws InstanceNotFoundException, ReflectionException {
-        checkRead();
-        return getMBeanServer().getAttributes(name, attributes);
+    public AttributeList getAttributes(ObjectNbme nbme, String[] bttributes)
+        throws InstbnceNotFoundException, ReflectionException {
+        checkRebd();
+        return getMBebnServer().getAttributes(nbme, bttributes);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ClassLoader getClassLoader(ObjectName loaderName)
-        throws InstanceNotFoundException {
-        checkRead();
-        return getMBeanServer().getClassLoader(loaderName);
+    public ClbssLobder getClbssLobder(ObjectNbme lobderNbme)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        return getMBebnServer().getClbssLobder(lobderNbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ClassLoader getClassLoaderFor(ObjectName mbeanName)
-        throws InstanceNotFoundException {
-        checkRead();
-        return getMBeanServer().getClassLoaderFor(mbeanName);
+    public ClbssLobder getClbssLobderFor(ObjectNbme mbebnNbme)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        return getMBebnServer().getClbssLobderFor(mbebnNbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ClassLoaderRepository getClassLoaderRepository() {
-        checkRead();
-        return getMBeanServer().getClassLoaderRepository();
+    public ClbssLobderRepository getClbssLobderRepository() {
+        checkRebd();
+        return getMBebnServer().getClbssLobderRepository();
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public String getDefaultDomain() {
-        checkRead();
-        return getMBeanServer().getDefaultDomain();
+    public String getDefbultDombin() {
+        checkRebd();
+        return getMBebnServer().getDefbultDombin();
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public String[] getDomains() {
-        checkRead();
-        return getMBeanServer().getDomains();
+    public String[] getDombins() {
+        checkRebd();
+        return getMBebnServer().getDombins();
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Integer getMBeanCount() {
-        checkRead();
-        return getMBeanServer().getMBeanCount();
+    public Integer getMBebnCount() {
+        checkRebd();
+        return getMBebnServer().getMBebnCount();
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public MBeanInfo getMBeanInfo(ObjectName name)
+    public MBebnInfo getMBebnInfo(ObjectNbme nbme)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         IntrospectionException,
         ReflectionException {
-        checkRead();
-        return getMBeanServer().getMBeanInfo(name);
+        checkRebd();
+        return getMBebnServer().getMBebnInfo(nbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance getObjectInstance(ObjectName name)
-        throws InstanceNotFoundException {
-        checkRead();
-        return getMBeanServer().getObjectInstance(name);
+    public ObjectInstbnce getObjectInstbnce(ObjectNbme nbme)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        return getMBebnServer().getObjectInstbnce(nbme);
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object instantiate(String className)
-        throws ReflectionException, MBeanException {
-        checkCreate(className);
-        return getMBeanServer().instantiate(className);
+    public Object instbntibte(String clbssNbme)
+        throws ReflectionException, MBebnException {
+        checkCrebte(clbssNbme);
+        return getMBebnServer().instbntibte(clbssNbme);
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object instantiate(String className,
-                              Object params[],
-                              String signature[])
-        throws ReflectionException, MBeanException {
-        checkCreate(className);
-        return getMBeanServer().instantiate(className, params, signature);
+    public Object instbntibte(String clbssNbme,
+                              Object pbrbms[],
+                              String signbture[])
+        throws ReflectionException, MBebnException {
+        checkCrebte(clbssNbme);
+        return getMBebnServer().instbntibte(clbssNbme, pbrbms, signbture);
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object instantiate(String className, ObjectName loaderName)
-        throws ReflectionException, MBeanException, InstanceNotFoundException {
-        checkCreate(className);
-        return getMBeanServer().instantiate(className, loaderName);
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme)
+        throws ReflectionException, MBebnException, InstbnceNotFoundException {
+        checkCrebte(clbssNbme);
+        return getMBebnServer().instbntibte(clbssNbme, lobderNbme);
     }
 
     /**
-     * Call <code>checkCreate(className)</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkCrebte(clbssNbme)</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object instantiate(String className, ObjectName loaderName,
-                              Object params[], String signature[])
-        throws ReflectionException, MBeanException, InstanceNotFoundException {
-        checkCreate(className);
-        return getMBeanServer().instantiate(className, loaderName,
-                                            params, signature);
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme,
+                              Object pbrbms[], String signbture[])
+        throws ReflectionException, MBebnException, InstbnceNotFoundException {
+        checkCrebte(clbssNbme);
+        return getMBebnServer().instbntibte(clbssNbme, lobderNbme,
+                                            pbrbms, signbture);
     }
 
     /**
-     * Call <code>checkWrite()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkWrite()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Object invoke(ObjectName name, String operationName,
-                         Object params[], String signature[])
+    public Object invoke(ObjectNbme nbme, String operbtionNbme,
+                         Object pbrbms[], String signbture[])
         throws
-        InstanceNotFoundException,
-        MBeanException,
+        InstbnceNotFoundException,
+        MBebnException,
         ReflectionException {
         checkWrite();
-        checkMLetMethods(name, operationName);
-        return getMBeanServer().invoke(name, operationName, params, signature);
+        checkMLetMethods(nbme, operbtionNbme);
+        return getMBebnServer().invoke(nbme, operbtionNbme, pbrbms, signbture);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public boolean isInstanceOf(ObjectName name, String className)
-        throws InstanceNotFoundException {
-        checkRead();
-        return getMBeanServer().isInstanceOf(name, className);
+    public boolebn isInstbnceOf(ObjectNbme nbme, String clbssNbme)
+        throws InstbnceNotFoundException {
+        checkRebd();
+        return getMBebnServer().isInstbnceOf(nbme, clbssNbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public boolean isRegistered(ObjectName name) {
-        checkRead();
-        return getMBeanServer().isRegistered(name);
+    public boolebn isRegistered(ObjectNbme nbme) {
+        checkRebd();
+        return getMBebnServer().isRegistered(nbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query) {
-        checkRead();
-        return getMBeanServer().queryMBeans(name, query);
+    public Set<ObjectInstbnce> queryMBebns(ObjectNbme nbme, QueryExp query) {
+        checkRebd();
+        return getMBebnServer().queryMBebns(nbme, query);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public Set<ObjectName> queryNames(ObjectName name, QueryExp query) {
-        checkRead();
-        return getMBeanServer().queryNames(name, query);
+    public Set<ObjectNbme> queryNbmes(ObjectNbme nbme, QueryExp query) {
+        checkRebd();
+        return getMBebnServer().queryNbmes(nbme, query);
     }
 
     /**
-     * Call <code>checkWrite()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkWrite()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public ObjectInstance registerMBean(Object object, ObjectName name)
+    public ObjectInstbnce registerMBebn(Object object, ObjectNbme nbme)
         throws
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        NotCompliantMBeanException {
+        InstbnceAlrebdyExistsException,
+        MBebnRegistrbtionException,
+        NotComplibntMBebnException {
         checkWrite();
-        return getMBeanServer().registerMBean(object, name);
+        return getMBebnServer().registerMBebn(object, nbme);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener)
-        throws InstanceNotFoundException, ListenerNotFoundException {
-        checkRead();
-        getMBeanServer().removeNotificationListener(name, listener);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener)
+        throws InstbnceNotFoundException, ListenerNotFoundException {
+        checkRebd();
+        getMBebnServer().removeNotificbtionListener(nbme, listener);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-        throws InstanceNotFoundException, ListenerNotFoundException {
-        checkRead();
-        getMBeanServer().removeNotificationListener(name, listener,
-                                                    filter, handback);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+        throws InstbnceNotFoundException, ListenerNotFoundException {
+        checkRebd();
+        getMBebnServer().removeNotificbtionListener(nbme, listener,
+                                                    filter, hbndbbck);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener)
-        throws InstanceNotFoundException, ListenerNotFoundException {
-        checkRead();
-        getMBeanServer().removeNotificationListener(name, listener);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener)
+        throws InstbnceNotFoundException, ListenerNotFoundException {
+        checkRebd();
+        getMBebnServer().removeNotificbtionListener(nbme, listener);
     }
 
     /**
-     * Call <code>checkRead()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkRebd()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-        throws InstanceNotFoundException, ListenerNotFoundException {
-        checkRead();
-        getMBeanServer().removeNotificationListener(name, listener,
-                                                    filter, handback);
+    public void removeNotificbtionListener(ObjectNbme nbme,
+                                           ObjectNbme listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
+        throws InstbnceNotFoundException, ListenerNotFoundException {
+        checkRebd();
+        getMBebnServer().removeNotificbtionListener(nbme, listener,
+                                                    filter, hbndbbck);
     }
 
     /**
-     * Call <code>checkWrite()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkWrite()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void setAttribute(ObjectName name, Attribute attribute)
+    public void setAttribute(ObjectNbme nbme, Attribute bttribute)
         throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         AttributeNotFoundException,
-        InvalidAttributeValueException,
-        MBeanException,
+        InvblidAttributeVblueException,
+        MBebnException,
         ReflectionException {
         checkWrite();
-        getMBeanServer().setAttribute(name, attribute);
+        getMBebnServer().setAttribute(nbme, bttribute);
     }
 
     /**
-     * Call <code>checkWrite()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkWrite()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public AttributeList setAttributes(ObjectName name,
-                                       AttributeList attributes)
-        throws InstanceNotFoundException, ReflectionException {
+    public AttributeList setAttributes(ObjectNbme nbme,
+                                       AttributeList bttributes)
+        throws InstbnceNotFoundException, ReflectionException {
         checkWrite();
-        return getMBeanServer().setAttributes(name, attributes);
+        return getMBebnServer().setAttributes(nbme, bttributes);
     }
 
     /**
-     * Call <code>checkUnregister()</code>, then forward this method to the
-     * wrapped object.
+     * Cbll <code>checkUnregister()</code>, then forwbrd this method to the
+     * wrbpped object.
      */
-    public void unregisterMBean(ObjectName name)
-        throws InstanceNotFoundException, MBeanRegistrationException {
-        checkUnregister(name);
-        getMBeanServer().unregisterMBean(name);
+    public void unregisterMBebn(ObjectNbme nbme)
+        throws InstbnceNotFoundException, MBebnRegistrbtionException {
+        checkUnregister(nbme);
+        getMBebnServer().unregisterMBebn(nbme);
     }
 
     //----------------
     // PRIVATE METHODS
     //----------------
 
-    private void checkClassLoader(Object object) {
-        if (object instanceof ClassLoader)
-            throw new SecurityException("Access denied! Creating an " +
-                                        "MBean that is a ClassLoader " +
-                                        "is forbidden unless a security " +
-                                        "manager is installed.");
+    privbte void checkClbssLobder(Object object) {
+        if (object instbnceof ClbssLobder)
+            throw new SecurityException("Access denied! Crebting bn " +
+                                        "MBebn thbt is b ClbssLobder " +
+                                        "is forbidden unless b security " +
+                                        "mbnbger is instblled.");
     }
 
-    private void checkMLetMethods(ObjectName name, String operation)
-    throws InstanceNotFoundException {
-        // Check if security manager installed
-        SecurityManager sm = System.getSecurityManager();
+    privbte void checkMLetMethods(ObjectNbme nbme, String operbtion)
+    throws InstbnceNotFoundException {
+        // Check if security mbnbger instblled
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             return;
         }
-        // Check for addURL and getMBeansFromURL methods
-        if (!operation.equals("addURL") &&
-                !operation.equals("getMBeansFromURL")) {
+        // Check for bddURL bnd getMBebnsFromURL methods
+        if (!operbtion.equbls("bddURL") &&
+                !operbtion.equbls("getMBebnsFromURL")) {
             return;
         }
-        // Check if MBean is instance of MLet
-        if (!getMBeanServer().isInstanceOf(name,
-                "javax.management.loading.MLet")) {
+        // Check if MBebn is instbnce of MLet
+        if (!getMBebnServer().isInstbnceOf(nbme,
+                "jbvbx.mbnbgement.lobding.MLet")) {
             return;
         }
         // Throw security exception
-        if (operation.equals("addURL")) { // addURL
-            throw new SecurityException("Access denied! MLet method addURL " +
-                    "cannot be invoked unless a security manager is installed.");
-        } else { // getMBeansFromURL
-            // Whether or not calling getMBeansFromURL is allowed is controlled
-            // by the value of the "jmx.remote.x.mlet.allow.getMBeansFromURL"
-            // system property. If the value of this property is true, calling
-            // the MLet's getMBeansFromURL method is allowed. The default value
-            // for this property is false.
-            final String propName = "jmx.remote.x.mlet.allow.getMBeansFromURL";
-            GetPropertyAction propAction = new GetPropertyAction(propName);
-            String propValue = AccessController.doPrivileged(propAction);
-            boolean allowGetMBeansFromURL = "true".equalsIgnoreCase(propValue);
-            if (!allowGetMBeansFromURL) {
+        if (operbtion.equbls("bddURL")) { // bddURL
+            throw new SecurityException("Access denied! MLet method bddURL " +
+                    "cbnnot be invoked unless b security mbnbger is instblled.");
+        } else { // getMBebnsFromURL
+            // Whether or not cblling getMBebnsFromURL is bllowed is controlled
+            // by the vblue of the "jmx.remote.x.mlet.bllow.getMBebnsFromURL"
+            // system property. If the vblue of this property is true, cblling
+            // the MLet's getMBebnsFromURL method is bllowed. The defbult vblue
+            // for this property is fblse.
+            finbl String propNbme = "jmx.remote.x.mlet.bllow.getMBebnsFromURL";
+            GetPropertyAction propAction = new GetPropertyAction(propNbme);
+            String propVblue = AccessController.doPrivileged(propAction);
+            boolebn bllowGetMBebnsFromURL = "true".equblsIgnoreCbse(propVblue);
+            if (!bllowGetMBebnsFromURL) {
                 throw new SecurityException("Access denied! MLet method " +
-                        "getMBeansFromURL cannot be invoked unless a " +
-                        "security manager is installed or the system property " +
-                        "-Djmx.remote.x.mlet.allow.getMBeansFromURL=true " +
+                        "getMBebnsFromURL cbnnot be invoked unless b " +
+                        "security mbnbger is instblled or the system property " +
+                        "-Djmx.remote.x.mlet.bllow.getMBebnsFromURL=true " +
                         "is specified.");
             }
         }
@@ -661,5 +661,5 @@ public abstract class MBeanServerAccessController
     // PRIVATE VARIABLES
     //------------------
 
-    private MBeanServer mbs;
+    privbte MBebnServer mbs;
 }

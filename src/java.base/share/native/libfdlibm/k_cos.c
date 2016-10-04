@@ -1,39 +1,39 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * __kernel_cos( x,  y )
  * kernel cos function on [-pi/4, pi/4], pi/4 ~ 0.785398164
- * Input x is assumed to be bounded by ~pi/4 in magnitude.
- * Input y is the tail of x.
+ * Input x is bssumed to be bounded by ~pi/4 in mbgnitude.
+ * Input y is the tbil of x.
  *
  * Algorithm
  *      1. Since cos(-x) = cos(x), we need only to consider positive x.
- *      2. if x < 2^-27 (hx<0x3e400000 0), return 1 with inexact if x!=0.
- *      3. cos(x) is approximated by a polynomial of degree 14 on
+ *      2. if x < 2^-27 (hx<0x3e400000 0), return 1 with inexbct if x!=0.
+ *      3. cos(x) is bpproximbted by b polynomibl of degree 14 on
  *         [0,pi/4]
  *                                       4            14
  *              cos(x) ~ 1 - x*x/2 + C1*x + ... + C6*x
@@ -48,23 +48,23 @@
  *             cos(x) = 1 - x*x/2 + r
  *         since cos(x+y) ~ cos(x) - sin(x)*y
  *                        ~ cos(x) - x*y,
- *         a correction term is necessary in cos(x) and hence
+ *         b correction term is necessbry in cos(x) bnd hence
  *              cos(x+y) = 1 - (x*x/2 - (r - x*y))
- *         For better accuracy when x > 0.3, let qx = |x|/4 with
- *         the last 32 bits mask off, and if x > 0.78125, let qx = 0.28125.
+ *         For better bccurbcy when x > 0.3, let qx = |x|/4 with
+ *         the lbst 32 bits mbsk off, bnd if x > 0.78125, let qx = 0.28125.
  *         Then
  *              cos(x+y) = (1-qx) - ((x*x/2-qx) - (r-x*y)).
- *         Note that 1-qx and (x*x/2-qx) is EXACT here, and the
- *         magnitude of the latter is at least a quarter of x*x/2,
- *         thus, reducing the rounding error in the subtraction.
+ *         Note thbt 1-qx bnd (x*x/2-qx) is EXACT here, bnd the
+ *         mbgnitude of the lbtter is bt lebst b qubrter of x*x/2,
+ *         thus, reducing the rounding error in the subtrbction.
  */
 
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static const double
+stbtic const double
 #else
-static double
+stbtic double
 #endif
 one =  1.00000000000000000000e+00, /* 0x3FF00000, 0x00000000 */
 C1  =  4.16666666666666019037e-02, /* 0x3FA55555, 0x5555554C */
@@ -81,11 +81,11 @@ C6  = -1.13596475577881948265e-11; /* 0xBDA8FAE9, 0xBE8838D4 */
         double x,y;
 #endif
 {
-        double a,hz,z,r,qx;
+        double b,hz,z,r,qx;
         int ix;
         ix = __HI(x)&0x7fffffff;        /* ix = |x|'s high word*/
         if(ix<0x3e400000) {                     /* if x < 2**27 */
-            if(((int)x)==0) return one;         /* generate inexact */
+            if(((int)x)==0) return one;         /* generbte inexbct */
         }
         z  = x*x;
         r  = z*(C1+z*(C2+z*(C3+z*(C4+z*(C5+z*C6)))));
@@ -99,7 +99,7 @@ C6  = -1.13596475577881948265e-11; /* 0xBDA8FAE9, 0xBE8838D4 */
                 __LO(qx) = 0;
             }
             hz = 0.5*z-qx;
-            a  = one-qx;
-            return a - (hz - (z*r-x*y));
+            b  = one-qx;
+            return b - (hz - (z*r-x*y));
         }
 }

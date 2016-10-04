@@ -1,247 +1,247 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * {@code StringJoiner} is used to construct a sequence of characters separated
- * by a delimiter and optionally starting with a supplied prefix
- * and ending with a supplied suffix.
+ * {@code StringJoiner} is used to construct b sequence of chbrbcters sepbrbted
+ * by b delimiter bnd optionblly stbrting with b supplied prefix
+ * bnd ending with b supplied suffix.
  * <p>
- * Prior to adding something to the {@code StringJoiner}, its
- * {@code sj.toString()} method will, by default, return {@code prefix + suffix}.
- * However, if the {@code setEmptyValue} method is called, the {@code emptyValue}
- * supplied will be returned instead. This can be used, for example, when
- * creating a string using set notation to indicate an empty set, i.e.
+ * Prior to bdding something to the {@code StringJoiner}, its
+ * {@code sj.toString()} method will, by defbult, return {@code prefix + suffix}.
+ * However, if the {@code setEmptyVblue} method is cblled, the {@code emptyVblue}
+ * supplied will be returned instebd. This cbn be used, for exbmple, when
+ * crebting b string using set notbtion to indicbte bn empty set, i.e.
  * <code>"{}"</code>, where the {@code prefix} is <code>"{"</code>, the
- * {@code suffix} is <code>"}"</code> and nothing has been added to the
+ * {@code suffix} is <code>"}"</code> bnd nothing hbs been bdded to the
  * {@code StringJoiner}.
  *
- * @apiNote
- * <p>The String {@code "[George:Sally:Fred]"} may be constructed as follows:
+ * @bpiNote
+ * <p>The String {@code "[George:Sblly:Fred]"} mby be constructed bs follows:
  *
  * <pre> {@code
  * StringJoiner sj = new StringJoiner(":", "[", "]");
- * sj.add("George").add("Sally").add("Fred");
+ * sj.bdd("George").bdd("Sblly").bdd("Fred");
  * String desiredString = sj.toString();
  * }</pre>
  * <p>
- * A {@code StringJoiner} may be employed to create formatted output from a
- * {@link java.util.stream.Stream} using
- * {@link java.util.stream.Collectors#joining(CharSequence)}. For example:
+ * A {@code StringJoiner} mby be employed to crebte formbtted output from b
+ * {@link jbvb.util.strebm.Strebm} using
+ * {@link jbvb.util.strebm.Collectors#joining(ChbrSequence)}. For exbmple:
  *
  * <pre> {@code
- * List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
- * String commaSeparatedNumbers = numbers.stream()
- *     .map(i -> i.toString())
+ * List<Integer> numbers = Arrbys.bsList(1, 2, 3, 4);
+ * String commbSepbrbtedNumbers = numbers.strebm()
+ *     .mbp(i -> i.toString())
  *     .collect(Collectors.joining(", "));
  * }</pre>
  *
- * @see java.util.stream.Collectors#joining(CharSequence)
- * @see java.util.stream.Collectors#joining(CharSequence, CharSequence, CharSequence)
+ * @see jbvb.util.strebm.Collectors#joining(ChbrSequence)
+ * @see jbvb.util.strebm.Collectors#joining(ChbrSequence, ChbrSequence, ChbrSequence)
  * @since  1.8
 */
-public final class StringJoiner {
-    private final String prefix;
-    private final String delimiter;
-    private final String suffix;
+public finbl clbss StringJoiner {
+    privbte finbl String prefix;
+    privbte finbl String delimiter;
+    privbte finbl String suffix;
 
     /*
-     * StringBuilder value -- at any time, the characters constructed from the
-     * prefix, the added element separated by the delimiter, but without the
-     * suffix, so that we can more easily add elements without having to jigger
-     * the suffix each time.
+     * StringBuilder vblue -- bt bny time, the chbrbcters constructed from the
+     * prefix, the bdded element sepbrbted by the delimiter, but without the
+     * suffix, so thbt we cbn more ebsily bdd elements without hbving to jigger
+     * the suffix ebch time.
      */
-    private StringBuilder value;
+    privbte StringBuilder vblue;
 
     /*
-     * By default, the string consisting of prefix+suffix, returned by
-     * toString(), or properties of value, when no elements have yet been added,
-     * i.e. when it is empty.  This may be overridden by the user to be some
-     * other value including the empty String.
+     * By defbult, the string consisting of prefix+suffix, returned by
+     * toString(), or properties of vblue, when no elements hbve yet been bdded,
+     * i.e. when it is empty.  This mby be overridden by the user to be some
+     * other vblue including the empty String.
      */
-    private String emptyValue;
+    privbte String emptyVblue;
 
     /**
-     * Constructs a {@code StringJoiner} with no characters in it, with no
-     * {@code prefix} or {@code suffix}, and a copy of the supplied
+     * Constructs b {@code StringJoiner} with no chbrbcters in it, with no
+     * {@code prefix} or {@code suffix}, bnd b copy of the supplied
      * {@code delimiter}.
-     * If no characters are added to the {@code StringJoiner} and methods
-     * accessing the value of it are invoked, it will not return a
+     * If no chbrbcters bre bdded to the {@code StringJoiner} bnd methods
+     * bccessing the vblue of it bre invoked, it will not return b
      * {@code prefix} or {@code suffix} (or properties thereof) in the result,
-     * unless {@code setEmptyValue} has first been called.
+     * unless {@code setEmptyVblue} hbs first been cblled.
      *
-     * @param  delimiter the sequence of characters to be used between each
-     *         element added to the {@code StringJoiner} value
+     * @pbrbm  delimiter the sequence of chbrbcters to be used between ebch
+     *         element bdded to the {@code StringJoiner} vblue
      * @throws NullPointerException if {@code delimiter} is {@code null}
      */
-    public StringJoiner(CharSequence delimiter) {
+    public StringJoiner(ChbrSequence delimiter) {
         this(delimiter, "", "");
     }
 
     /**
-     * Constructs a {@code StringJoiner} with no characters in it using copies
-     * of the supplied {@code prefix}, {@code delimiter} and {@code suffix}.
-     * If no characters are added to the {@code StringJoiner} and methods
-     * accessing the string value of it are invoked, it will return the
+     * Constructs b {@code StringJoiner} with no chbrbcters in it using copies
+     * of the supplied {@code prefix}, {@code delimiter} bnd {@code suffix}.
+     * If no chbrbcters bre bdded to the {@code StringJoiner} bnd methods
+     * bccessing the string vblue of it bre invoked, it will return the
      * {@code prefix + suffix} (or properties thereof) in the result, unless
-     * {@code setEmptyValue} has first been called.
+     * {@code setEmptyVblue} hbs first been cblled.
      *
-     * @param  delimiter the sequence of characters to be used between each
-     *         element added to the {@code StringJoiner}
-     * @param  prefix the sequence of characters to be used at the beginning
-     * @param  suffix the sequence of characters to be used at the end
+     * @pbrbm  delimiter the sequence of chbrbcters to be used between ebch
+     *         element bdded to the {@code StringJoiner}
+     * @pbrbm  prefix the sequence of chbrbcters to be used bt the beginning
+     * @pbrbm  suffix the sequence of chbrbcters to be used bt the end
      * @throws NullPointerException if {@code prefix}, {@code delimiter}, or
      *         {@code suffix} is {@code null}
      */
-    public StringJoiner(CharSequence delimiter,
-                        CharSequence prefix,
-                        CharSequence suffix) {
+    public StringJoiner(ChbrSequence delimiter,
+                        ChbrSequence prefix,
+                        ChbrSequence suffix) {
         Objects.requireNonNull(prefix, "The prefix must not be null");
         Objects.requireNonNull(delimiter, "The delimiter must not be null");
         Objects.requireNonNull(suffix, "The suffix must not be null");
-        // make defensive copies of arguments
+        // mbke defensive copies of brguments
         this.prefix = prefix.toString();
         this.delimiter = delimiter.toString();
         this.suffix = suffix.toString();
-        this.emptyValue = this.prefix + this.suffix;
+        this.emptyVblue = this.prefix + this.suffix;
     }
 
     /**
-     * Sets the sequence of characters to be used when determining the string
-     * representation of this {@code StringJoiner} and no elements have been
-     * added yet, that is, when it is empty.  A copy of the {@code emptyValue}
-     * parameter is made for this purpose. Note that once an add method has been
-     * called, the {@code StringJoiner} is no longer considered empty, even if
-     * the element(s) added correspond to the empty {@code String}.
+     * Sets the sequence of chbrbcters to be used when determining the string
+     * representbtion of this {@code StringJoiner} bnd no elements hbve been
+     * bdded yet, thbt is, when it is empty.  A copy of the {@code emptyVblue}
+     * pbrbmeter is mbde for this purpose. Note thbt once bn bdd method hbs been
+     * cblled, the {@code StringJoiner} is no longer considered empty, even if
+     * the element(s) bdded correspond to the empty {@code String}.
      *
-     * @param  emptyValue the characters to return as the value of an empty
+     * @pbrbm  emptyVblue the chbrbcters to return bs the vblue of bn empty
      *         {@code StringJoiner}
-     * @return this {@code StringJoiner} itself so the calls may be chained
-     * @throws NullPointerException when the {@code emptyValue} parameter is
+     * @return this {@code StringJoiner} itself so the cblls mby be chbined
+     * @throws NullPointerException when the {@code emptyVblue} pbrbmeter is
      *         {@code null}
      */
-    public StringJoiner setEmptyValue(CharSequence emptyValue) {
-        this.emptyValue = Objects.requireNonNull(emptyValue,
-            "The empty value must not be null").toString();
+    public StringJoiner setEmptyVblue(ChbrSequence emptyVblue) {
+        this.emptyVblue = Objects.requireNonNull(emptyVblue,
+            "The empty vblue must not be null").toString();
         return this;
     }
 
     /**
-     * Returns the current value, consisting of the {@code prefix}, the values
-     * added so far separated by the {@code delimiter}, and the {@code suffix},
-     * unless no elements have been added in which case, the
-     * {@code prefix + suffix} or the {@code emptyValue} characters are returned
+     * Returns the current vblue, consisting of the {@code prefix}, the vblues
+     * bdded so fbr sepbrbted by the {@code delimiter}, bnd the {@code suffix},
+     * unless no elements hbve been bdded in which cbse, the
+     * {@code prefix + suffix} or the {@code emptyVblue} chbrbcters bre returned
      *
-     * @return the string representation of this {@code StringJoiner}
+     * @return the string representbtion of this {@code StringJoiner}
      */
     @Override
     public String toString() {
-        if (value == null) {
-            return emptyValue;
+        if (vblue == null) {
+            return emptyVblue;
         } else {
-            if (suffix.equals("")) {
-                return value.toString();
+            if (suffix.equbls("")) {
+                return vblue.toString();
             } else {
-                int initialLength = value.length();
-                String result = value.append(suffix).toString();
-                // reset value to pre-append initialLength
-                value.setLength(initialLength);
+                int initiblLength = vblue.length();
+                String result = vblue.bppend(suffix).toString();
+                // reset vblue to pre-bppend initiblLength
+                vblue.setLength(initiblLength);
                 return result;
             }
         }
     }
 
     /**
-     * Adds a copy of the given {@code CharSequence} value as the next
-     * element of the {@code StringJoiner} value. If {@code newElement} is
-     * {@code null}, then {@code "null"} is added.
+     * Adds b copy of the given {@code ChbrSequence} vblue bs the next
+     * element of the {@code StringJoiner} vblue. If {@code newElement} is
+     * {@code null}, then {@code "null"} is bdded.
      *
-     * @param  newElement The element to add
-     * @return a reference to this {@code StringJoiner}
+     * @pbrbm  newElement The element to bdd
+     * @return b reference to this {@code StringJoiner}
      */
-    public StringJoiner add(CharSequence newElement) {
-        prepareBuilder().append(newElement);
+    public StringJoiner bdd(ChbrSequence newElement) {
+        prepbreBuilder().bppend(newElement);
         return this;
     }
 
     /**
-     * Adds the contents of the given {@code StringJoiner} without prefix and
-     * suffix as the next element if it is non-empty. If the given {@code
-     * StringJoiner} is empty, the call has no effect.
+     * Adds the contents of the given {@code StringJoiner} without prefix bnd
+     * suffix bs the next element if it is non-empty. If the given {@code
+     * StringJoiner} is empty, the cbll hbs no effect.
      *
-     * <p>A {@code StringJoiner} is empty if {@link #add(CharSequence) add()}
-     * has never been called, and if {@code merge()} has never been called
-     * with a non-empty {@code StringJoiner} argument.
+     * <p>A {@code StringJoiner} is empty if {@link #bdd(ChbrSequence) bdd()}
+     * hbs never been cblled, bnd if {@code merge()} hbs never been cblled
+     * with b non-empty {@code StringJoiner} brgument.
      *
-     * <p>If the other {@code StringJoiner} is using a different delimiter,
-     * then elements from the other {@code StringJoiner} are concatenated with
-     * that delimiter and the result is appended to this {@code StringJoiner}
-     * as a single element.
+     * <p>If the other {@code StringJoiner} is using b different delimiter,
+     * then elements from the other {@code StringJoiner} bre concbtenbted with
+     * thbt delimiter bnd the result is bppended to this {@code StringJoiner}
+     * bs b single element.
      *
-     * @param other The {@code StringJoiner} whose contents should be merged
+     * @pbrbm other The {@code StringJoiner} whose contents should be merged
      *              into this one
      * @throws NullPointerException if the other {@code StringJoiner} is null
      * @return This {@code StringJoiner}
      */
     public StringJoiner merge(StringJoiner other) {
         Objects.requireNonNull(other);
-        if (other.value != null) {
-            final int length = other.value.length();
-            // lock the length so that we can seize the data to be appended
-            // before initiate copying to avoid interference, especially when
+        if (other.vblue != null) {
+            finbl int length = other.vblue.length();
+            // lock the length so thbt we cbn seize the dbtb to be bppended
+            // before initibte copying to bvoid interference, especiblly when
             // merge 'this'
-            StringBuilder builder = prepareBuilder();
-            builder.append(other.value, other.prefix.length(), length);
+            StringBuilder builder = prepbreBuilder();
+            builder.bppend(other.vblue, other.prefix.length(), length);
         }
         return this;
     }
 
-    private StringBuilder prepareBuilder() {
-        if (value != null) {
-            value.append(delimiter);
+    privbte StringBuilder prepbreBuilder() {
+        if (vblue != null) {
+            vblue.bppend(delimiter);
         } else {
-            value = new StringBuilder().append(prefix);
+            vblue = new StringBuilder().bppend(prefix);
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the length of the {@code String} representation
-     * of this {@code StringJoiner}. Note that if
-     * no add methods have been called, then the length of the {@code String}
-     * representation (either {@code prefix + suffix} or {@code emptyValue})
-     * will be returned. The value should be equivalent to
+     * Returns the length of the {@code String} representbtion
+     * of this {@code StringJoiner}. Note thbt if
+     * no bdd methods hbve been cblled, then the length of the {@code String}
+     * representbtion (either {@code prefix + suffix} or {@code emptyVblue})
+     * will be returned. The vblue should be equivblent to
      * {@code toString().length()}.
      *
-     * @return the length of the current value of {@code StringJoiner}
+     * @return the length of the current vblue of {@code StringJoiner}
      */
     public int length() {
-        // Remember that we never actually append the suffix unless we return
-        // the full (present) value or some sub-string or length of it, so that
-        // we can add on more if we need to.
-        return (value != null ? value.length() + suffix.length() :
-                emptyValue.length());
+        // Remember thbt we never bctublly bppend the suffix unless we return
+        // the full (present) vblue or some sub-string or length of it, so thbt
+        // we cbn bdd on more if we need to.
+        return (vblue != null ? vblue.length() + suffix.length() :
+                emptyVblue.length());
     }
 }

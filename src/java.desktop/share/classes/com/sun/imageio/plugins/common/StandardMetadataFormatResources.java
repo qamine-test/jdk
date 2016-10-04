@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class StandardMetadataFormatResources extends ListResourceBundle {
+public clbss StbndbrdMetbdbtbFormbtResources extends ListResourceBundle {
 
-    public StandardMetadataFormatResources() {}
+    public StbndbrdMetbdbtbFormbtResources() {}
 
     protected Object[][] getContents() {
         return new Object[][] {
 
-        // Node name, followed by description, or
-        // Node name + "/" + AttributeName, followed by description
+        // Node nbme, followed by description, or
+        // Node nbme + "/" + AttributeNbme, followed by description
 
-        { "Chroma", "Chroma (color) information" },
+        { "Chromb", "Chromb (color) informbtion" },
 
-        { "ColorSpaceType", "The raw color space of the image" },
+        { "ColorSpbceType", "The rbw color spbce of the imbge" },
 
-        { "NumChannels",
-          "The number of channels in the raw image, including alpha" },
+        { "NumChbnnels",
+          "The number of chbnnels in the rbw imbge, including blphb" },
 
-        { "Gamma", "The image gamma" },
+        { "Gbmmb", "The imbge gbmmb" },
 
-        { "BlackIsZero",
-          "True if smaller values represent darker shades"},
+        { "BlbckIsZero",
+          "True if smbller vblues represent dbrker shbdes"},
 
-        { "Palette", "Palette-color information" },
+        { "Pblette", "Pblette-color informbtion" },
 
-        { "PaletteEntry", "A palette entry" },
-        { "PaletteEntry/index", "The index of the palette entry" },
-        { "PaletteEntry/red", "The red value for the palette entry" },
-        { "PaletteEntry/green", "The green value for the palette entry" },
-        { "PaletteEntry/blue", "The blue value for the palette entry" },
-        { "PaletteEntry/alpha", "The alpha value for the palette entry" },
+        { "PbletteEntry", "A pblette entry" },
+        { "PbletteEntry/index", "The index of the pblette entry" },
+        { "PbletteEntry/red", "The red vblue for the pblette entry" },
+        { "PbletteEntry/green", "The green vblue for the pblette entry" },
+        { "PbletteEntry/blue", "The blue vblue for the pblette entry" },
+        { "PbletteEntry/blphb", "The blphb vblue for the pblette entry" },
 
-        { "BackgroundIndex", "A palette index to be used as a background" },
+        { "BbckgroundIndex", "A pblette index to be used bs b bbckground" },
 
-        { "BackgroundColor", "An RGB triple to be used as a background" },
-        { "BackgroundColor/red", "The red background value" },
-        { "BackgroundColor/green", "The green background value" },
-        { "BackgroundColor/blue", "The blue background value" },
+        { "BbckgroundColor", "An RGB triple to be used bs b bbckground" },
+        { "BbckgroundColor/red", "The red bbckground vblue" },
+        { "BbckgroundColor/green", "The green bbckground vblue" },
+        { "BbckgroundColor/blue", "The blue bbckground vblue" },
 
-        { "Compression", "Compression information" },
+        { "Compression", "Compression informbtion" },
 
-        { "CompressionTypeName", "The name of the compression scheme in use" },
+        { "CompressionTypeNbme", "The nbme of the compression scheme in use" },
 
         { "Lossless",
           "True if the compression scheme is lossless" },
 
-        { "BitRate", "The estimated bit rate of the compression scheme" },
+        { "BitRbte", "The estimbted bit rbte of the compression scheme" },
 
-        { "NumProgressiveScans",
-          "The number of progressive scans used in the image encoding"},
+        { "NumProgressiveScbns",
+          "The number of progressive scbns used in the imbge encoding"},
 
-        { "Data", "Information on the image layout" },
+        { "Dbtb", "Informbtion on the imbge lbyout" },
 
-        { "PlanarConfiguration",
-          "The organization of image samples in the stream" },
+        { "PlbnbrConfigurbtion",
+          "The orgbnizbtion of imbge sbmples in the strebm" },
 
-        { "SampleFormat", "The numeric format of image samples" },
+        { "SbmpleFormbt", "The numeric formbt of imbge sbmples" },
 
-        { "BitsPerSample", "The number of bits per sample"},
-        { "BitsPerSample/value",
-          "A list of integers, one per channel" },
+        { "BitsPerSbmple", "The number of bits per sbmple"},
+        { "BitsPerSbmple/vblue",
+          "A list of integers, one per chbnnel" },
 
-        { "SignificantBitsPerSample",
-          "The number of significant bits per sample"},
-        { "SignificantBitsPerSample/value",
-          "A list of integers, one per channel" },
+        { "SignificbntBitsPerSbmple",
+          "The number of significbnt bits per sbmple"},
+        { "SignificbntBitsPerSbmple/vblue",
+          "A list of integers, one per chbnnel" },
 
-        { "SampleMSB",
-          "The position of the most significant bit of each sample"},
-        { "SampleMSB/value",
-          "A list of integers, one per channel" },
+        { "SbmpleMSB",
+          "The position of the most significbnt bit of ebch sbmple"},
+        { "SbmpleMSB/vblue",
+          "A list of integers, one per chbnnel" },
 
-        { "Dimension", "Dimension information" },
+        { "Dimension", "Dimension informbtion" },
 
-        { "PixelAspectRatio", "The width of a pixel divided by its height" },
+        { "PixelAspectRbtio", "The width of b pixel divided by its height" },
 
-        { "ImageOrientation", "The desired orientation of the image in terms of flips and counter-clockwise rotations" },
+        { "ImbgeOrientbtion", "The desired orientbtion of the imbge in terms of flips bnd counter-clockwise rotbtions" },
 
-        { "HorizontalPixelSize",
-  "The width of a pixel, in millimeters, as it should be rendered on media" },
+        { "HorizontblPixelSize",
+  "The width of b pixel, in millimeters, bs it should be rendered on medib" },
 
-        { "VerticalPixelSize",
-  "The height of a pixel, in millimeters, as it should be rendered on media" },
+        { "VerticblPixelSize",
+  "The height of b pixel, in millimeters, bs it should be rendered on medib" },
 
-        { "HorizontalPhysicalPixelSpacing",
-          "The horizontal distance in the subject of the image, in millimeters, represented by one pixel at the center of the image" },
+        { "HorizontblPhysicblPixelSpbcing",
+          "The horizontbl distbnce in the subject of the imbge, in millimeters, represented by one pixel bt the center of the imbge" },
 
-        { "VerticalPhysicalPixelSpacing",
-          "The vertical distance in the subject of the image, in millimeters, represented by one pixel at the center of the image" },
+        { "VerticblPhysicblPixelSpbcing",
+          "The verticbl distbnce in the subject of the imbge, in millimeters, represented by one pixel bt the center of the imbge" },
 
-        { "HorizontalPosition",
-          "The horizontal position, in millimeters, where the image should be rendered on media " },
+        { "HorizontblPosition",
+          "The horizontbl position, in millimeters, where the imbge should be rendered on medib " },
 
-        { "VerticalPosition",
-          "The vertical position, in millimeters, where the image should be rendered on media " },
+        { "VerticblPosition",
+          "The verticbl position, in millimeters, where the imbge should be rendered on medib " },
 
-        { "HorizontalPixelOffset",
-          "The horizontal position, in pixels, where the image should be rendered onto a raster display" },
+        { "HorizontblPixelOffset",
+          "The horizontbl position, in pixels, where the imbge should be rendered onto b rbster displby" },
 
-        { "VerticalPixelOffset",
-          "The vertical position, in pixels, where the image should be rendered onto a raster display" },
+        { "VerticblPixelOffset",
+          "The verticbl position, in pixels, where the imbge should be rendered onto b rbster displby" },
 
-        { "HorizontalScreenSize",
-          "The width, in pixels, of the raster display into which the image should be rendered" },
+        { "HorizontblScreenSize",
+          "The width, in pixels, of the rbster displby into which the imbge should be rendered" },
 
-        { "VerticalScreenSize",
-          "The height, in pixels, of the raster display into which the image should be rendered" },
+        { "VerticblScreenSize",
+          "The height, in pixels, of the rbster displby into which the imbge should be rendered" },
 
-        { "Document", "Document information" },
+        { "Document", "Document informbtion" },
 
-        { "FormatVersion",
-          "The version of the format used by the stream" },
+        { "FormbtVersion",
+          "The version of the formbt used by the strebm" },
 
-        { "SubimageInterpretation",
-          "The interpretation of this image in relation to the other images stored in the same stream" },
+        { "SubimbgeInterpretbtion",
+          "The interpretbtion of this imbge in relbtion to the other imbges stored in the sbme strebm" },
 
-        { "ImageCreationTime", "The time of image creation" },
-        { "ImageCreationTime/year",
-          "The full year (e.g., 1967, not 67)" },
-        { "ImageCreationTime/month",
-          "The month, with January = 1" },
-        { "ImageCreationTime/day",
-          "The day of the month" },
-        { "ImageCreationTime/hour",
+        { "ImbgeCrebtionTime", "The time of imbge crebtion" },
+        { "ImbgeCrebtionTime/yebr",
+          "The full yebr (e.g., 1967, not 67)" },
+        { "ImbgeCrebtionTime/month",
+          "The month, with Jbnubry = 1" },
+        { "ImbgeCrebtionTime/dby",
+          "The dby of the month" },
+        { "ImbgeCrebtionTime/hour",
           "The hour from 0 to 23" },
-        { "ImageCreationTime/minute",
+        { "ImbgeCrebtionTime/minute",
           "The minute from 0 to 59" },
-        { "ImageCreationTime/second",
-          "The second from 0 to 60 (60 = leap second)" },
+        { "ImbgeCrebtionTime/second",
+          "The second from 0 to 60 (60 = lebp second)" },
 
-        { "ImageModificationTime", "The time of the last image modification" },
-        { "ImageModificationTime/year",
-          "The full year (e.g., 1967, not 67)" },
-        { "ImageModificationTime/month",
-          "The month, with January = 1" },
-        { "ImageModificationTime/day",
-          "The day of the month" },
-        { "ImageModificationTime/hour",
+        { "ImbgeModificbtionTime", "The time of the lbst imbge modificbtion" },
+        { "ImbgeModificbtionTime/yebr",
+          "The full yebr (e.g., 1967, not 67)" },
+        { "ImbgeModificbtionTime/month",
+          "The month, with Jbnubry = 1" },
+        { "ImbgeModificbtionTime/dby",
+          "The dby of the month" },
+        { "ImbgeModificbtionTime/hour",
           "The hour from 0 to 23" },
-        { "ImageModificationTime/minute",
+        { "ImbgeModificbtionTime/minute",
           "The minute from 0 to 59" },
-        { "ImageModificationTime/second",
-          "The second from 0 to 60 (60 = leap second)" },
+        { "ImbgeModificbtionTime/second",
+          "The second from 0 to 60 (60 = lebp second)" },
 
-        { "Text", "Text information" },
+        { "Text", "Text informbtion" },
 
         { "TextEntry", "A text entry"},
-        { "TextEntry/keyword", "A keyword associated with the text entry" },
-        { "TextEntry/value", "the text entry" },
-        { "TextEntry/language", "The language of the text" },
+        { "TextEntry/keyword", "A keyword bssocibted with the text entry" },
+        { "TextEntry/vblue", "the text entry" },
+        { "TextEntry/lbngubge", "The lbngubge of the text" },
         { "TextEntry/encoding", "The encoding of the text" },
         { "TextEntry/compression", "The method used to compress the text" },
 
-        { "Transparency", "Transparency information" },
+        { "Trbnspbrency", "Trbnspbrency informbtion" },
 
-        { "Alpha", "The type of alpha information contained in the image" },
+        { "Alphb", "The type of blphb informbtion contbined in the imbge" },
 
-        { "TransparentIndex", "A palette index to be treated as transparent" },
+        { "TrbnspbrentIndex", "A pblette index to be trebted bs trbnspbrent" },
 
-        { "TransparentColor", "An RGB color to be treated as transparent" },
-        { "TransparentColor/red",
-          "The red channel of the transparent color" },
-        { "TransparentColor/green",
-          "The green channel of the transparent color" },
-        { "TransparentColor/blue",
-          "The blue channel of the transparent color" },
+        { "TrbnspbrentColor", "An RGB color to be trebted bs trbnspbrent" },
+        { "TrbnspbrentColor/red",
+          "The red chbnnel of the trbnspbrent color" },
+        { "TrbnspbrentColor/green",
+          "The green chbnnel of the trbnspbrent color" },
+        { "TrbnspbrentColor/blue",
+          "The blue chbnnel of the trbnspbrent color" },
 
-        { "TileTransparencies", "A list of completely transparent tiles" },
+        { "TileTrbnspbrencies", "A list of completely trbnspbrent tiles" },
 
-        { "TransparentTile", "The index of a completely transparent tile" },
-        { "TransparentTile/x", "The tile's X index" },
-        { "TransparentTile/y", "The tile's Y index" },
+        { "TrbnspbrentTile", "The index of b completely trbnspbrent tile" },
+        { "TrbnspbrentTile/x", "The tile's X index" },
+        { "TrbnspbrentTile/y", "The tile's Y index" },
 
-        { "TileOpacities", "A list of completely opaque tiles" },
+        { "TileOpbcities", "A list of completely opbque tiles" },
 
-        { "OpaqueTile", "The index of a completely opaque tile" },
-        { "OpaqueTile/x", "The tile's X index" },
-        { "OpaqueTile/y", "The tile's Y index" },
+        { "OpbqueTile", "The index of b completely opbque tile" },
+        { "OpbqueTile/x", "The tile's X index" },
+        { "OpbqueTile/y", "The tile's Y index" },
 
         };
     }

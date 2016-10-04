@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
-import javax.management.Notification;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import java.util.Collection;
-import java.util.Collections;
-import sun.management.GarbageCollectionNotifInfoCompositeData;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbView;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import sun.mbnbgement.GbrbbgeCollectionNotifInfoCompositeDbtb;
 
 /**
- * The information about a garbage collection
+ * The informbtion bbout b gbrbbge collection
  *
  * <p>
- * A garbage collection notification is emitted by {@link GarbageCollectorMXBean}
- * when the Java virtual machine completes a garbage collection action
- * The notification emitted will contain the garbage collection notification
- * information about the status of the memory:
+ * A gbrbbge collection notificbtion is emitted by {@link GbrbbgeCollectorMXBebn}
+ * when the Jbvb virtubl mbchine completes b gbrbbge collection bction
+ * The notificbtion emitted will contbin the gbrbbge collection notificbtion
+ * informbtion bbout the stbtus of the memory:
  * <u1>
- *   <li>The name of the garbage collector used perform the collection.</li>
- *   <li>The action performed by the garbage collector.</li>
- *   <li>The cause of the garbage collection action.</li>
- *   <li>A {@link GcInfo} object containing some statistics about the GC cycle
-          (start time, end time) and the memory usage before and after
+ *   <li>The nbme of the gbrbbge collector used perform the collection.</li>
+ *   <li>The bction performed by the gbrbbge collector.</li>
+ *   <li>The cbuse of the gbrbbge collection bction.</li>
+ *   <li>A {@link GcInfo} object contbining some stbtistics bbout the GC cycle
+          (stbrt time, end time) bnd the memory usbge before bnd bfter
           the GC cycle.</li>
  * </u1>
  *
  * <p>
- * A {@link CompositeData CompositeData} representing
- * the {@code GarbageCollectionNotificationInfo} object
+ * A {@link CompositeDbtb CompositeDbtb} representing
+ * the {@code GbrbbgeCollectionNotificbtionInfo} object
  * is stored in the
- * {@linkplain javax.management.Notification#setUserData userdata}
- * of a {@linkplain javax.management.Notification notification}.
+ * {@linkplbin jbvbx.mbnbgement.Notificbtion#setUserDbtb userdbtb}
+ * of b {@linkplbin jbvbx.mbnbgement.Notificbtion notificbtion}.
  * The {@link #from from} method is provided to convert from
- * a {@code CompositeData} to a {@code GarbageCollectionNotificationInfo}
- * object. For example:
+ * b {@code CompositeDbtb} to b {@code GbrbbgeCollectionNotificbtionInfo}
+ * object. For exbmple:
  *
  * <blockquote><pre>
- *      Notification notif;
+ *      Notificbtion notif;
  *
- *      // receive the notification emitted by a GarbageCollectorMXBean and set to notif
+ *      // receive the notificbtion emitted by b GbrbbgeCollectorMXBebn bnd set to notif
  *      ...
  *
  *      String notifType = notif.getType();
- *      if (notifType.equals(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
- *          // retrieve the garbage collection notification information
- *          CompositeData cd = (CompositeData) notif.getUserData();
- *          GarbageCollectionNotificationInfo info = GarbageCollectionNotificationInfo.from(cd);
+ *      if (notifType.equbls(GbrbbgeCollectionNotificbtionInfo.GARBAGE_COLLECTION_NOTIFICATION)) {
+ *          // retrieve the gbrbbge collection notificbtion informbtion
+ *          CompositeDbtb cd = (CompositeDbtb) notif.getUserDbtb();
+ *          GbrbbgeCollectionNotificbtionInfo info = GbrbbgeCollectionNotificbtionInfo.from(cd);
  *          ....
  *      }
  * </pre></blockquote>
  *
  * <p>
- * The type of the notification emitted by a {@code GarbageCollectorMXBean} is:
+ * The type of the notificbtion emitted by b {@code GbrbbgeCollectorMXBebn} is:
  * <ul>
- *   <li>A {@linkplain #GARBAGE_COLLECTION_NOTIFICATION garbage collection notification}.
- *       <br>Used by every notification emitted by the garbage collector, the details about
- *             the notification are provided in the {@linkplain #getGcAction action} String
+ *   <li>A {@linkplbin #GARBAGE_COLLECTION_NOTIFICATION gbrbbge collection notificbtion}.
+ *       <br>Used by every notificbtion emitted by the gbrbbge collector, the detbils bbout
+ *             the notificbtion bre provided in the {@linkplbin #getGcAction bction} String
  *       <p></li>
  * </ul>
  **/
 
 @jdk.Exported
-public class GarbageCollectionNotificationInfo implements  CompositeDataView {
+public clbss GbrbbgeCollectionNotificbtionInfo implements  CompositeDbtbView {
 
-    private final String gcName;
-    private final String gcAction;
-    private final String gcCause;
-    private final GcInfo gcInfo;
-    private final CompositeData cdata;
+    privbte finbl String gcNbme;
+    privbte finbl String gcAction;
+    privbte finbl String gcCbuse;
+    privbte finbl GcInfo gcInfo;
+    privbte finbl CompositeDbtb cdbtb;
 
     /**
-     * Notification type denoting that
-     * the Java virtual machine has completed a garbage collection cycle.
-     * This notification is emitted by a {@link GarbageCollectorMXBean}.
-     * The value of this notification type is
-     * {@code com.sun.management.gc.notification}.
+     * Notificbtion type denoting thbt
+     * the Jbvb virtubl mbchine hbs completed b gbrbbge collection cycle.
+     * This notificbtion is emitted by b {@link GbrbbgeCollectorMXBebn}.
+     * The vblue of this notificbtion type is
+     * {@code com.sun.mbnbgement.gc.notificbtion}.
      */
-    public static final String GARBAGE_COLLECTION_NOTIFICATION =
-        "com.sun.management.gc.notification";
+    public stbtic finbl String GARBAGE_COLLECTION_NOTIFICATION =
+        "com.sun.mbnbgement.gc.notificbtion";
 
     /**
-     * Constructs a {@code GarbageCollectionNotificationInfo} object.
+     * Constructs b {@code GbrbbgeCollectionNotificbtionInfo} object.
      *
-     * @param gcName The name of the garbage collector used to perform the collection
-     * @param gcAction The name of the action performed by the garbage collector
-     * @param gcCause The cause the garbage collection action
-     * @param gcInfo  a GcInfo object providing statistics about the GC cycle
+     * @pbrbm gcNbme The nbme of the gbrbbge collector used to perform the collection
+     * @pbrbm gcAction The nbme of the bction performed by the gbrbbge collector
+     * @pbrbm gcCbuse The cbuse the gbrbbge collection bction
+     * @pbrbm gcInfo  b GcInfo object providing stbtistics bbout the GC cycle
      */
-    public GarbageCollectionNotificationInfo(String gcName,
+    public GbrbbgeCollectionNotificbtionInfo(String gcNbme,
                                              String gcAction,
-                                             String gcCause,
+                                             String gcCbuse,
                                              GcInfo gcInfo)  {
-        if (gcName == null) {
-            throw new NullPointerException("Null gcName");
+        if (gcNbme == null) {
+            throw new NullPointerException("Null gcNbme");
         }
         if (gcAction == null) {
             throw new NullPointerException("Null gcAction");
         }
-        if (gcCause == null) {
-            throw new NullPointerException("Null gcCause");
+        if (gcCbuse == null) {
+            throw new NullPointerException("Null gcCbuse");
         }
-        this.gcName = gcName;
+        this.gcNbme = gcNbme;
         this.gcAction = gcAction;
-        this.gcCause = gcCause;
+        this.gcCbuse = gcCbuse;
         this.gcInfo = gcInfo;
-        this.cdata = new GarbageCollectionNotifInfoCompositeData(this);
+        this.cdbtb = new GbrbbgeCollectionNotifInfoCompositeDbtb(this);
     }
 
-    GarbageCollectionNotificationInfo(CompositeData cd) {
-        GarbageCollectionNotifInfoCompositeData.validateCompositeData(cd);
+    GbrbbgeCollectionNotificbtionInfo(CompositeDbtb cd) {
+        GbrbbgeCollectionNotifInfoCompositeDbtb.vblidbteCompositeDbtb(cd);
 
-        this.gcName = GarbageCollectionNotifInfoCompositeData.getGcName(cd);
-        this.gcAction = GarbageCollectionNotifInfoCompositeData.getGcAction(cd);
-        this.gcCause = GarbageCollectionNotifInfoCompositeData.getGcCause(cd);
-        this.gcInfo = GarbageCollectionNotifInfoCompositeData.getGcInfo(cd);
-        this.cdata = cd;
+        this.gcNbme = GbrbbgeCollectionNotifInfoCompositeDbtb.getGcNbme(cd);
+        this.gcAction = GbrbbgeCollectionNotifInfoCompositeDbtb.getGcAction(cd);
+        this.gcCbuse = GbrbbgeCollectionNotifInfoCompositeDbtb.getGcCbuse(cd);
+        this.gcInfo = GbrbbgeCollectionNotifInfoCompositeDbtb.getGcInfo(cd);
+        this.cdbtb = cd;
     }
 
     /**
-     * Returns the name of the garbage collector used to perform the collection
+     * Returns the nbme of the gbrbbge collector used to perform the collection
      *
-     * @return the name of the garbage collector used to perform the collection
+     * @return the nbme of the gbrbbge collector used to perform the collection
      */
-    public String getGcName() {
-        return gcName;
+    public String getGcNbme() {
+        return gcNbme;
     }
 
     /**
-     * Returns the action of the performed by the garbage collector
+     * Returns the bction of the performed by the gbrbbge collector
      *
-     * @return the the action of the performed by the garbage collector
+     * @return the the bction of the performed by the gbrbbge collector
      */
     public String getGcAction() {
         return gcAction;
     }
 
     /**
-     * Returns the cause  the garbage collection
+     * Returns the cbuse  the gbrbbge collection
      *
-     * @return the the cause  the garbage collection
+     * @return the the cbuse  the gbrbbge collection
      */
-    public String getGcCause() {
-        return gcCause;
+    public String getGcCbuse() {
+        return gcCbuse;
     }
 
     /**
-     * Returns the GC information related to the last garbage collection
+     * Returns the GC informbtion relbted to the lbst gbrbbge collection
      *
-     * @return the GC information related to the
-     * last garbage collection
+     * @return the GC informbtion relbted to the
+     * lbst gbrbbge collection
      */
     public GcInfo getGcInfo() {
         return gcInfo;
     }
 
     /**
-     * Returns a {@code GarbageCollectionNotificationInfo} object represented by the
-     * given {@code CompositeData}.
-     * The given {@code CompositeData} must contain
-     * the following attributes:
+     * Returns b {@code GbrbbgeCollectionNotificbtionInfo} object represented by the
+     * given {@code CompositeDbtb}.
+     * The given {@code CompositeDbtb} must contbin
+     * the following bttributes:
      * <blockquote>
-     * <table border>
+     * <tbble border>
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
-     *   <td>gcName</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>gcNbme</td>
+     *   <td>{@code jbvb.lbng.String}</td>
      * </tr>
      * <tr>
      *   <td>gcAction</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>{@code jbvb.lbng.String}</td>
      * </tr>
      * <tr>
-     *   <td>gcCause</td>
-     *   <td>{@code java.lang.String}</td>
+     *   <td>gcCbuse</td>
+     *   <td>{@code jbvb.lbng.String}</td>
      * </tr>
      * <tr>
      *   <td>gcInfo</td>
-     *   <td>{@code javax.management.openmbean.CompositeData}</td>
+     *   <td>{@code jbvbx.mbnbgement.openmbebn.CompositeDbtb}</td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @param cd {@code CompositeData} representing a
-     *           {@code GarbageCollectionNotificationInfo}
+     * @pbrbm cd {@code CompositeDbtb} representing b
+     *           {@code GbrbbgeCollectionNotificbtionInfo}
      *
-     * @throws IllegalArgumentException if {@code cd} does not
-     *   represent a {@code GarbaageCollectionNotificationInfo} object.
+     * @throws IllegblArgumentException if {@code cd} does not
+     *   represent b {@code GbrbbbgeCollectionNotificbtionInfo} object.
      *
-     * @return a {@code GarbageCollectionNotificationInfo} object represented
+     * @return b {@code GbrbbgeCollectionNotificbtionInfo} object represented
      *         by {@code cd} if {@code cd} is not {@code null};
      *         {@code null} otherwise.
      */
-    public static GarbageCollectionNotificationInfo from(CompositeData cd) {
+    public stbtic GbrbbgeCollectionNotificbtionInfo from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof GarbageCollectionNotifInfoCompositeData) {
-            return ((GarbageCollectionNotifInfoCompositeData) cd).getGarbageCollectionNotifInfo();
+        if (cd instbnceof GbrbbgeCollectionNotifInfoCompositeDbtb) {
+            return ((GbrbbgeCollectionNotifInfoCompositeDbtb) cd).getGbrbbgeCollectionNotifInfo();
         } else {
-            return new GarbageCollectionNotificationInfo(cd);
+            return new GbrbbgeCollectionNotificbtionInfo(cd);
         }
     }
 
-    public CompositeData toCompositeData(CompositeType ct) {
-        return cdata;
+    public CompositeDbtb toCompositeDbtb(CompositeType ct) {
+        return cdbtb;
     }
 
 }

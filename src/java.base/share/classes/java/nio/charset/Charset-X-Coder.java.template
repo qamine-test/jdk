@@ -1,355 +1,355 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn This file is preprocessed before being compiled
 
-package java.nio.charset;
+pbckbge jbvb.nio.chbrset;
 
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.BufferOverflowException;
-import java.nio.BufferUnderflowException;
-import java.lang.ref.WeakReference;
-import java.nio.charset.CoderMalfunctionError;                  // javadoc
-import java.util.Arrays;
+import jbvb.nio.Buffer;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.BufferOverflowException;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.nio.chbrset.CoderMblfunctionError;                  // jbvbdoc
+import jbvb.util.Arrbys;
 
 
 /**
- * An engine that can transform a sequence of $itypesPhrase$ into a sequence of
- * $otypesPhrase$.
+ * An engine thbt cbn trbnsform b sequence of $itypesPhrbse$ into b sequence of
+ * $otypesPhrbse$.
  *
- * <a name="steps"></a>
+ * <b nbme="steps"></b>
  *
- * <p> The input $itype$ sequence is provided in a $itype$ buffer or a series
- * of such buffers.  The output $otype$ sequence is written to a $otype$ buffer
- * or a series of such buffers.  $A$ $coder$ should always be used by making
- * the following sequence of method invocations, hereinafter referred to as $a$
- * <i>$coding$ operation</i>:
+ * <p> The input $itype$ sequence is provided in b $itype$ buffer or b series
+ * of such buffers.  The output $otype$ sequence is written to b $otype$ buffer
+ * or b series of such buffers.  $A$ $coder$ should blwbys be used by mbking
+ * the following sequence of method invocbtions, hereinbfter referred to bs $b$
+ * <i>$coding$ operbtion</i>:
  *
  * <ol>
  *
- *   <li><p> Reset the $coder$ via the {@link #reset reset} method, unless it
- *   has not been used before; </p></li>
+ *   <li><p> Reset the $coder$ vib the {@link #reset reset} method, unless it
+ *   hbs not been used before; </p></li>
  *
- *   <li><p> Invoke the {@link #$code$ $code$} method zero or more times, as
- *   long as additional input may be available, passing <tt>false</tt> for the
- *   <tt>endOfInput</tt> argument and filling the input buffer and flushing the
- *   output buffer between invocations; </p></li>
+ *   <li><p> Invoke the {@link #$code$ $code$} method zero or more times, bs
+ *   long bs bdditionbl input mby be bvbilbble, pbssing <tt>fblse</tt> for the
+ *   <tt>endOfInput</tt> brgument bnd filling the input buffer bnd flushing the
+ *   output buffer between invocbtions; </p></li>
  *
- *   <li><p> Invoke the {@link #$code$ $code$} method one final time, passing
- *   <tt>true</tt> for the <tt>endOfInput</tt> argument; and then </p></li>
+ *   <li><p> Invoke the {@link #$code$ $code$} method one finbl time, pbssing
+ *   <tt>true</tt> for the <tt>endOfInput</tt> brgument; bnd then </p></li>
  *
- *   <li><p> Invoke the {@link #flush flush} method so that the $coder$ can
- *   flush any internal state to the output buffer. </p></li>
+ *   <li><p> Invoke the {@link #flush flush} method so thbt the $coder$ cbn
+ *   flush bny internbl stbte to the output buffer. </p></li>
  *
  * </ol>
  *
- * Each invocation of the {@link #$code$ $code$} method will $code$ as many
- * $itype$s as possible from the input buffer, writing the resulting $otype$s
+ * Ebch invocbtion of the {@link #$code$ $code$} method will $code$ bs mbny
+ * $itype$s bs possible from the input buffer, writing the resulting $otype$s
  * to the output buffer.  The {@link #$code$ $code$} method returns when more
  * input is required, when there is not enough room in the output buffer, or
- * when $a$ $coding$ error has occurred.  In each case a {@link CoderResult}
- * object is returned to describe the reason for termination.  An invoker can
- * examine this object and fill the input buffer, flush the output buffer, or
- * attempt to recover from $a$ $coding$ error, as appropriate, and try again.
+ * when $b$ $coding$ error hbs occurred.  In ebch cbse b {@link CoderResult}
+ * object is returned to describe the rebson for terminbtion.  An invoker cbn
+ * exbmine this object bnd fill the input buffer, flush the output buffer, or
+ * bttempt to recover from $b$ $coding$ error, bs bppropribte, bnd try bgbin.
  *
- * <a name="ce"></a>
+ * <b nbme="ce"></b>
  *
- * <p> There are two general types of $coding$ errors.  If the input $itype$
- * sequence is $notLegal$ then the input is considered <i>malformed</i>.  If
- * the input $itype$ sequence is legal but cannot be mapped to a valid
- * $outSequence$ then an <i>unmappable character</i> has been encountered.
+ * <p> There bre two generbl types of $coding$ errors.  If the input $itype$
+ * sequence is $notLegbl$ then the input is considered <i>mblformed</i>.  If
+ * the input $itype$ sequence is legbl but cbnnot be mbpped to b vblid
+ * $outSequence$ then bn <i>unmbppbble chbrbcter</i> hbs been encountered.
  *
- * <a name="cae"></a>
+ * <b nbme="cbe"></b>
  *
- * <p> How $a$ $coding$ error is handled depends upon the action requested for
- * that type of error, which is described by an instance of the {@link
- * CodingErrorAction} class.  The possible error actions are to {@linkplain
- * CodingErrorAction#IGNORE ignore} the erroneous input, {@linkplain
- * CodingErrorAction#REPORT report} the error to the invoker via
- * the returned {@link CoderResult} object, or {@linkplain CodingErrorAction#REPLACE
- * replace} the erroneous input with the current value of the
- * replacement $replTypeName$.  The replacement
+ * <p> How $b$ $coding$ error is hbndled depends upon the bction requested for
+ * thbt type of error, which is described by bn instbnce of the {@link
+ * CodingErrorAction} clbss.  The possible error bctions bre to {@linkplbin
+ * CodingErrorAction#IGNORE ignore} the erroneous input, {@linkplbin
+ * CodingErrorAction#REPORT report} the error to the invoker vib
+ * the returned {@link CoderResult} object, or {@linkplbin CodingErrorAction#REPLACE
+ * replbce} the erroneous input with the current vblue of the
+ * replbcement $replTypeNbme$.  The replbcement
  *
 #if[encoder]
- * is initially set to the $coder$'s default replacement, which often
- * (but not always) has the initial value&nbsp;$defaultReplName$;
+ * is initiblly set to the $coder$'s defbult replbcement, which often
+ * (but not blwbys) hbs the initibl vblue&nbsp;$defbultReplNbme$;
 #end[encoder]
 #if[decoder]
- * has the initial value $defaultReplName$;
+ * hbs the initibl vblue $defbultReplNbme$;
 #end[decoder]
  *
- * its value may be changed via the {@link #replaceWith($replFQType$)
- * replaceWith} method.
+ * its vblue mby be chbnged vib the {@link #replbceWith($replFQType$)
+ * replbceWith} method.
  *
- * <p> The default action for malformed-input and unmappable-character errors
- * is to {@linkplain CodingErrorAction#REPORT report} them.  The
- * malformed-input error action may be changed via the {@link
- * #onMalformedInput(CodingErrorAction) onMalformedInput} method; the
- * unmappable-character action may be changed via the {@link
- * #onUnmappableCharacter(CodingErrorAction) onUnmappableCharacter} method.
+ * <p> The defbult bction for mblformed-input bnd unmbppbble-chbrbcter errors
+ * is to {@linkplbin CodingErrorAction#REPORT report} them.  The
+ * mblformed-input error bction mby be chbnged vib the {@link
+ * #onMblformedInput(CodingErrorAction) onMblformedInput} method; the
+ * unmbppbble-chbrbcter bction mby be chbnged vib the {@link
+ * #onUnmbppbbleChbrbcter(CodingErrorAction) onUnmbppbbleChbrbcter} method.
  *
- * <p> This class is designed to handle many of the details of the $coding$
- * process, including the implementation of error actions.  $A$ $coder$ for a
- * specific charset, which is a concrete subclass of this class, need only
- * implement the abstract {@link #$code$Loop $code$Loop} method, which
- * encapsulates the basic $coding$ loop.  A subclass that maintains internal
- * state should, additionally, override the {@link #implFlush implFlush} and
+ * <p> This clbss is designed to hbndle mbny of the detbils of the $coding$
+ * process, including the implementbtion of error bctions.  $A$ $coder$ for b
+ * specific chbrset, which is b concrete subclbss of this clbss, need only
+ * implement the bbstrbct {@link #$code$Loop $code$Loop} method, which
+ * encbpsulbtes the bbsic $coding$ loop.  A subclbss thbt mbintbins internbl
+ * stbte should, bdditionblly, override the {@link #implFlush implFlush} bnd
  * {@link #implReset implReset} methods.
  *
- * <p> Instances of this class are not safe for use by multiple concurrent
- * threads.  </p>
+ * <p> Instbnces of this clbss bre not sbfe for use by multiple concurrent
+ * threbds.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  *
  * @see ByteBuffer
- * @see CharBuffer
- * @see Charset
- * @see Charset$OtherCoder$
+ * @see ChbrBuffer
+ * @see Chbrset
+ * @see Chbrset$OtherCoder$
  */
 
-public abstract class Charset$Coder$ {
+public bbstrbct clbss Chbrset$Coder$ {
 
-    private final Charset charset;
-    private final float average$ItypesPerOtype$;
-    private final float max$ItypesPerOtype$;
+    privbte finbl Chbrset chbrset;
+    privbte finbl flobt bverbge$ItypesPerOtype$;
+    privbte finbl flobt mbx$ItypesPerOtype$;
 
-    private $replType$ replacement;
-    private CodingErrorAction malformedInputAction
+    privbte $replType$ replbcement;
+    privbte CodingErrorAction mblformedInputAction
         = CodingErrorAction.REPORT;
-    private CodingErrorAction unmappableCharacterAction
+    privbte CodingErrorAction unmbppbbleChbrbcterAction
         = CodingErrorAction.REPORT;
 
-    // Internal states
+    // Internbl stbtes
     //
-    private static final int ST_RESET   = 0;
-    private static final int ST_CODING  = 1;
-    private static final int ST_END     = 2;
-    private static final int ST_FLUSHED = 3;
+    privbte stbtic finbl int ST_RESET   = 0;
+    privbte stbtic finbl int ST_CODING  = 1;
+    privbte stbtic finbl int ST_END     = 2;
+    privbte stbtic finbl int ST_FLUSHED = 3;
 
-    private int state = ST_RESET;
+    privbte int stbte = ST_RESET;
 
-    private static String stateNames[]
+    privbte stbtic String stbteNbmes[]
         = { "RESET", "CODING", "CODING_END", "FLUSHED" };
 
 
     /**
-     * Initializes a new $coder$.  The new $coder$ will have the given
-     * $otypes-per-itype$ and replacement values.
+     * Initiblizes b new $coder$.  The new $coder$ will hbve the given
+     * $otypes-per-itype$ bnd replbcement vblues.
      *
-     * @param  cs
-     *         The charset that created this $coder$
+     * @pbrbm  cs
+     *         The chbrset thbt crebted this $coder$
      *
-     * @param  average$ItypesPerOtype$
-     *         A positive float value indicating the expected number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  bverbge$ItypesPerOtype$
+     *         A positive flobt vblue indicbting the expected number of
+     *         $otype$s thbt will be produced for ebch input $itype$
      *
-     * @param  max$ItypesPerOtype$
-     *         A positive float value indicating the maximum number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  mbx$ItypesPerOtype$
+     *         A positive flobt vblue indicbting the mbximum number of
+     *         $otype$s thbt will be produced for ebch input $itype$
      *
-     * @param  replacement
-     *         The initial replacement; must not be <tt>null</tt>, must have
-     *         non-zero length, must not be longer than max$ItypesPerOtype$,
-     *         and must be {@linkplain #isLegalReplacement legal}
+     * @pbrbm  replbcement
+     *         The initibl replbcement; must not be <tt>null</tt>, must hbve
+     *         non-zero length, must not be longer thbn mbx$ItypesPerOtype$,
+     *         bnd must be {@linkplbin #isLegblReplbcement legbl}
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeters do not hold
      */
-    {#if[encoder]?protected:private}
-    Charset$Coder$(Charset cs,
-                   float average$ItypesPerOtype$,
-                   float max$ItypesPerOtype$,
-                   $replType$ replacement)
+    {#if[encoder]?protected:privbte}
+    Chbrset$Coder$(Chbrset cs,
+                   flobt bverbge$ItypesPerOtype$,
+                   flobt mbx$ItypesPerOtype$,
+                   $replType$ replbcement)
     {
-        this.charset = cs;
-        if (average$ItypesPerOtype$ <= 0.0f)
-            throw new IllegalArgumentException("Non-positive "
-                                               + "average$ItypesPerOtype$");
-        if (max$ItypesPerOtype$ <= 0.0f)
-            throw new IllegalArgumentException("Non-positive "
-                                               + "max$ItypesPerOtype$");
-        if (!Charset.atBugLevel("1.4")) {
-            if (average$ItypesPerOtype$ > max$ItypesPerOtype$)
-                throw new IllegalArgumentException("average$ItypesPerOtype$"
+        this.chbrset = cs;
+        if (bverbge$ItypesPerOtype$ <= 0.0f)
+            throw new IllegblArgumentException("Non-positive "
+                                               + "bverbge$ItypesPerOtype$");
+        if (mbx$ItypesPerOtype$ <= 0.0f)
+            throw new IllegblArgumentException("Non-positive "
+                                               + "mbx$ItypesPerOtype$");
+        if (!Chbrset.btBugLevel("1.4")) {
+            if (bverbge$ItypesPerOtype$ > mbx$ItypesPerOtype$)
+                throw new IllegblArgumentException("bverbge$ItypesPerOtype$"
                                                    + " exceeds "
-                                                   + "max$ItypesPerOtype$");
+                                                   + "mbx$ItypesPerOtype$");
         }
-        this.replacement = replacement;
-        this.average$ItypesPerOtype$ = average$ItypesPerOtype$;
-        this.max$ItypesPerOtype$ = max$ItypesPerOtype$;
-        replaceWith(replacement);
+        this.replbcement = replbcement;
+        this.bverbge$ItypesPerOtype$ = bverbge$ItypesPerOtype$;
+        this.mbx$ItypesPerOtype$ = mbx$ItypesPerOtype$;
+        replbceWith(replbcement);
     }
 
     /**
-     * Initializes a new $coder$.  The new $coder$ will have the given
-     * $otypes-per-itype$ values and its replacement will be the
-     * $replTypeName$ $defaultReplName$.
+     * Initiblizes b new $coder$.  The new $coder$ will hbve the given
+     * $otypes-per-itype$ vblues bnd its replbcement will be the
+     * $replTypeNbme$ $defbultReplNbme$.
      *
-     * @param  cs
-     *         The charset that created this $coder$
+     * @pbrbm  cs
+     *         The chbrset thbt crebted this $coder$
      *
-     * @param  average$ItypesPerOtype$
-     *         A positive float value indicating the expected number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  bverbge$ItypesPerOtype$
+     *         A positive flobt vblue indicbting the expected number of
+     *         $otype$s thbt will be produced for ebch input $itype$
      *
-     * @param  max$ItypesPerOtype$
-     *         A positive float value indicating the maximum number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  mbx$ItypesPerOtype$
+     *         A positive flobt vblue indicbting the mbximum number of
+     *         $otype$s thbt will be produced for ebch input $itype$
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeters do not hold
      */
-    protected Charset$Coder$(Charset cs,
-                             float average$ItypesPerOtype$,
-                             float max$ItypesPerOtype$)
+    protected Chbrset$Coder$(Chbrset cs,
+                             flobt bverbge$ItypesPerOtype$,
+                             flobt mbx$ItypesPerOtype$)
     {
         this(cs,
-             average$ItypesPerOtype$, max$ItypesPerOtype$,
-             $defaultRepl$);
+             bverbge$ItypesPerOtype$, mbx$ItypesPerOtype$,
+             $defbultRepl$);
     }
 
     /**
-     * Returns the charset that created this $coder$.
+     * Returns the chbrset thbt crebted this $coder$.
      *
-     * @return  This $coder$'s charset
+     * @return  This $coder$'s chbrset
      */
-    public final Charset charset() {
-        return charset;
+    public finbl Chbrset chbrset() {
+        return chbrset;
     }
 
     /**
-     * Returns this $coder$'s replacement value.
+     * Returns this $coder$'s replbcement vblue.
      *
-     * @return  This $coder$'s current replacement,
-     *          which is never <tt>null</tt> and is never empty
+     * @return  This $coder$'s current replbcement,
+     *          which is never <tt>null</tt> bnd is never empty
      */
-    public final $replType$ replacement() {
+    public finbl $replType$ replbcement() {
 #if[decoder]
-        return replacement;
+        return replbcement;
 #end[decoder]
 #if[encoder]
-        return Arrays.copyOf(replacement, replacement.$replLength$);
+        return Arrbys.copyOf(replbcement, replbcement.$replLength$);
 #end[encoder]
     }
 
     /**
-     * Changes this $coder$'s replacement value.
+     * Chbnges this $coder$'s replbcement vblue.
      *
-     * <p> This method invokes the {@link #implReplaceWith implReplaceWith}
-     * method, passing the new replacement, after checking that the new
-     * replacement is acceptable.  </p>
+     * <p> This method invokes the {@link #implReplbceWith implReplbceWith}
+     * method, pbssing the new replbcement, bfter checking thbt the new
+     * replbcement is bcceptbble.  </p>
      *
-     * @param  newReplacement  The replacement value
+     * @pbrbm  newReplbcement  The replbcement vblue
      *
 #if[decoder]
-     *         The new replacement; must not be <tt>null</tt>
-     *         and must have non-zero length
+     *         The new replbcement; must not be <tt>null</tt>
+     *         bnd must hbve non-zero length
 #end[decoder]
 #if[encoder]
-     *         The new replacement; must not be <tt>null</tt>, must have
-     *         non-zero length, must not be longer than the value returned by
-     *         the {@link #max$ItypesPerOtype$() max$ItypesPerOtype$} method, and
-     *         must be {@link #isLegalReplacement legal}
+     *         The new replbcement; must not be <tt>null</tt>, must hbve
+     *         non-zero length, must not be longer thbn the vblue returned by
+     *         the {@link #mbx$ItypesPerOtype$() mbx$ItypesPerOtype$} method, bnd
+     *         must be {@link #isLegblReplbcement legbl}
 #end[encoder]
      *
      * @return  This $coder$
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameter do not hold
+     * @throws  IllegblArgumentException
+     *          If the preconditions on the pbrbmeter do not hold
      */
-    public final Charset$Coder$ replaceWith($replType$ newReplacement) {
-        if (newReplacement == null)
-            throw new IllegalArgumentException("Null replacement");
-        int len = newReplacement.$replLength$;
+    public finbl Chbrset$Coder$ replbceWith($replType$ newReplbcement) {
+        if (newReplbcement == null)
+            throw new IllegblArgumentException("Null replbcement");
+        int len = newReplbcement.$replLength$;
         if (len == 0)
-            throw new IllegalArgumentException("Empty replacement");
-        if (len > max$ItypesPerOtype$)
-            throw new IllegalArgumentException("Replacement too long");
+            throw new IllegblArgumentException("Empty replbcement");
+        if (len > mbx$ItypesPerOtype$)
+            throw new IllegblArgumentException("Replbcement too long");
 #if[decoder]
-        this.replacement = newReplacement;
+        this.replbcement = newReplbcement;
 #end[decoder]
 #if[encoder]
-        if (!isLegalReplacement(newReplacement))
-            throw new IllegalArgumentException("Illegal replacement");
-        this.replacement = Arrays.copyOf(newReplacement, newReplacement.$replLength$);
+        if (!isLegblReplbcement(newReplbcement))
+            throw new IllegblArgumentException("Illegbl replbcement");
+        this.replbcement = Arrbys.copyOf(newReplbcement, newReplbcement.$replLength$);
 #end[encoder]
-        implReplaceWith(this.replacement);
+        implReplbceWith(this.replbcement);
         return this;
     }
 
     /**
-     * Reports a change to this $coder$'s replacement value.
+     * Reports b chbnge to this $coder$'s replbcement vblue.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the replacement.  </p>
+     * <p> The defbult implementbtion of this method does nothing.  This method
+     * should be overridden by $coder$s thbt require notificbtion of chbnges to
+     * the replbcement.  </p>
      *
-     * @param  newReplacement    The replacement value
+     * @pbrbm  newReplbcement    The replbcement vblue
      */
-    protected void implReplaceWith($replType$ newReplacement) {
+    protected void implReplbceWith($replType$ newReplbcement) {
     }
 
 #if[encoder]
 
-    private WeakReference<CharsetDecoder> cachedDecoder = null;
+    privbte WebkReference<ChbrsetDecoder> cbchedDecoder = null;
 
     /**
-     * Tells whether or not the given byte array is a legal replacement value
+     * Tells whether or not the given byte brrby is b legbl replbcement vblue
      * for this encoder.
      *
-     * <p> A replacement is legal if, and only if, it is a legal sequence of
-     * bytes in this encoder's charset; that is, it must be possible to decode
-     * the replacement into one or more sixteen-bit Unicode characters.
+     * <p> A replbcement is legbl if, bnd only if, it is b legbl sequence of
+     * bytes in this encoder's chbrset; thbt is, it must be possible to decode
+     * the replbcement into one or more sixteen-bit Unicode chbrbcters.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> The defbult implementbtion of this method is not very efficient; it
+     * should generblly be overridden to improve performbnce.  </p>
      *
-     * @param  repl  The byte array to be tested
+     * @pbrbm  repl  The byte brrby to be tested
      *
-     * @return  <tt>true</tt> if, and only if, the given byte array
-     *          is a legal replacement value for this encoder
+     * @return  <tt>true</tt> if, bnd only if, the given byte brrby
+     *          is b legbl replbcement vblue for this encoder
      */
-    public boolean isLegalReplacement(byte[] repl) {
-        WeakReference<CharsetDecoder> wr = cachedDecoder;
-        CharsetDecoder dec = null;
+    public boolebn isLegblReplbcement(byte[] repl) {
+        WebkReference<ChbrsetDecoder> wr = cbchedDecoder;
+        ChbrsetDecoder dec = null;
         if ((wr == null) || ((dec = wr.get()) == null)) {
-            dec = charset().newDecoder();
-            dec.onMalformedInput(CodingErrorAction.REPORT);
-            dec.onUnmappableCharacter(CodingErrorAction.REPORT);
-            cachedDecoder = new WeakReference<CharsetDecoder>(dec);
+            dec = chbrset().newDecoder();
+            dec.onMblformedInput(CodingErrorAction.REPORT);
+            dec.onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
+            cbchedDecoder = new WebkReference<ChbrsetDecoder>(dec);
         } else {
             dec.reset();
         }
-        ByteBuffer bb = ByteBuffer.wrap(repl);
-        CharBuffer cb = CharBuffer.allocate((int)(bb.remaining()
-                                                  * dec.maxCharsPerByte()));
+        ByteBuffer bb = ByteBuffer.wrbp(repl);
+        ChbrBuffer cb = ChbrBuffer.bllocbte((int)(bb.rembining()
+                                                  * dec.mbxChbrsPerByte()));
         CoderResult cr = dec.decode(bb, cb, true);
         return !cr.isError();
     }
@@ -357,269 +357,269 @@ public abstract class Charset$Coder$ {
 #end[encoder]
 
     /**
-     * Returns this $coder$'s current action for malformed-input errors.
+     * Returns this $coder$'s current bction for mblformed-input errors.
      *
-     * @return The current malformed-input action, which is never <tt>null</tt>
+     * @return The current mblformed-input bction, which is never <tt>null</tt>
      */
-    public CodingErrorAction malformedInputAction() {
-        return malformedInputAction;
+    public CodingErrorAction mblformedInputAction() {
+        return mblformedInputAction;
     }
 
     /**
-     * Changes this $coder$'s action for malformed-input errors.
+     * Chbnges this $coder$'s bction for mblformed-input errors.
      *
-     * <p> This method invokes the {@link #implOnMalformedInput
-     * implOnMalformedInput} method, passing the new action.  </p>
+     * <p> This method invokes the {@link #implOnMblformedInput
+     * implOnMblformedInput} method, pbssing the new bction.  </p>
      *
-     * @param  newAction  The new action; must not be <tt>null</tt>
+     * @pbrbm  newAction  The new bction; must not be <tt>null</tt>
      *
      * @return  This $coder$
      *
-     * @throws IllegalArgumentException
-     *         If the precondition on the parameter does not hold
+     * @throws IllegblArgumentException
+     *         If the precondition on the pbrbmeter does not hold
      */
-    public final Charset$Coder$ onMalformedInput(CodingErrorAction newAction) {
+    public finbl Chbrset$Coder$ onMblformedInput(CodingErrorAction newAction) {
         if (newAction == null)
-            throw new IllegalArgumentException("Null action");
-        malformedInputAction = newAction;
-        implOnMalformedInput(newAction);
+            throw new IllegblArgumentException("Null bction");
+        mblformedInputAction = newAction;
+        implOnMblformedInput(newAction);
         return this;
     }
 
     /**
-     * Reports a change to this $coder$'s malformed-input action.
+     * Reports b chbnge to this $coder$'s mblformed-input bction.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the malformed-input action.  </p>
+     * <p> The defbult implementbtion of this method does nothing.  This method
+     * should be overridden by $coder$s thbt require notificbtion of chbnges to
+     * the mblformed-input bction.  </p>
      *
-     * @param  newAction  The new action
+     * @pbrbm  newAction  The new bction
      */
-    protected void implOnMalformedInput(CodingErrorAction newAction) { }
+    protected void implOnMblformedInput(CodingErrorAction newAction) { }
 
     /**
-     * Returns this $coder$'s current action for unmappable-character errors.
+     * Returns this $coder$'s current bction for unmbppbble-chbrbcter errors.
      *
-     * @return The current unmappable-character action, which is never
+     * @return The current unmbppbble-chbrbcter bction, which is never
      *         <tt>null</tt>
      */
-    public CodingErrorAction unmappableCharacterAction() {
-        return unmappableCharacterAction;
+    public CodingErrorAction unmbppbbleChbrbcterAction() {
+        return unmbppbbleChbrbcterAction;
     }
 
     /**
-     * Changes this $coder$'s action for unmappable-character errors.
+     * Chbnges this $coder$'s bction for unmbppbble-chbrbcter errors.
      *
-     * <p> This method invokes the {@link #implOnUnmappableCharacter
-     * implOnUnmappableCharacter} method, passing the new action.  </p>
+     * <p> This method invokes the {@link #implOnUnmbppbbleChbrbcter
+     * implOnUnmbppbbleChbrbcter} method, pbssing the new bction.  </p>
      *
-     * @param  newAction  The new action; must not be <tt>null</tt>
+     * @pbrbm  newAction  The new bction; must not be <tt>null</tt>
      *
      * @return  This $coder$
      *
-     * @throws IllegalArgumentException
-     *         If the precondition on the parameter does not hold
+     * @throws IllegblArgumentException
+     *         If the precondition on the pbrbmeter does not hold
      */
-    public final Charset$Coder$ onUnmappableCharacter(CodingErrorAction
+    public finbl Chbrset$Coder$ onUnmbppbbleChbrbcter(CodingErrorAction
                                                       newAction)
     {
         if (newAction == null)
-            throw new IllegalArgumentException("Null action");
-        unmappableCharacterAction = newAction;
-        implOnUnmappableCharacter(newAction);
+            throw new IllegblArgumentException("Null bction");
+        unmbppbbleChbrbcterAction = newAction;
+        implOnUnmbppbbleChbrbcter(newAction);
         return this;
     }
 
     /**
-     * Reports a change to this $coder$'s unmappable-character action.
+     * Reports b chbnge to this $coder$'s unmbppbble-chbrbcter bction.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the unmappable-character action.  </p>
+     * <p> The defbult implementbtion of this method does nothing.  This method
+     * should be overridden by $coder$s thbt require notificbtion of chbnges to
+     * the unmbppbble-chbrbcter bction.  </p>
      *
-     * @param  newAction  The new action
+     * @pbrbm  newAction  The new bction
      */
-    protected void implOnUnmappableCharacter(CodingErrorAction newAction) { }
+    protected void implOnUnmbppbbleChbrbcter(CodingErrorAction newAction) { }
 
     /**
-     * Returns the average number of $otype$s that will be produced for each
-     * $itype$ of input.  This heuristic value may be used to estimate the size
-     * of the output buffer required for a given input sequence.
+     * Returns the bverbge number of $otype$s thbt will be produced for ebch
+     * $itype$ of input.  This heuristic vblue mby be used to estimbte the size
+     * of the output buffer required for b given input sequence.
      *
-     * @return  The average number of $otype$s produced
+     * @return  The bverbge number of $otype$s produced
      *          per $itype$ of input
      */
-    public final float average$ItypesPerOtype$() {
-        return average$ItypesPerOtype$;
+    public finbl flobt bverbge$ItypesPerOtype$() {
+        return bverbge$ItypesPerOtype$;
     }
 
     /**
-     * Returns the maximum number of $otype$s that will be produced for each
-     * $itype$ of input.  This value may be used to compute the worst-case size
-     * of the output buffer required for a given input sequence.
+     * Returns the mbximum number of $otype$s thbt will be produced for ebch
+     * $itype$ of input.  This vblue mby be used to compute the worst-cbse size
+     * of the output buffer required for b given input sequence.
      *
-     * @return  The maximum number of $otype$s that will be produced per
+     * @return  The mbximum number of $otype$s thbt will be produced per
      *          $itype$ of input
      */
-    public final float max$ItypesPerOtype$() {
-        return max$ItypesPerOtype$;
+    public finbl flobt mbx$ItypesPerOtype$() {
+        return mbx$ItypesPerOtype$;
     }
 
     /**
-     * $Code$s as many $itype$s as possible from the given input buffer,
+     * $Code$s bs mbny $itype$s bs possible from the given input buffer,
      * writing the results to the given output buffer.
      *
-     * <p> The buffers are read from, and written to, starting at their current
-     * positions.  At most {@link Buffer#remaining in.remaining()} $itype$s
-     * will be read and at most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffers' positions will be advanced to
-     * reflect the $itype$s read and the $otype$s written, but their marks and
+     * <p> The buffers bre rebd from, bnd written to, stbrting bt their current
+     * positions.  At most {@link Buffer#rembining in.rembining()} $itype$s
+     * will be rebd bnd bt most {@link Buffer#rembining out.rembining()}
+     * $otype$s will be written.  The buffers' positions will be bdvbnced to
+     * reflect the $itype$s rebd bnd the $otype$s written, but their mbrks bnd
      * limits will not be modified.
      *
-     * <p> In addition to reading $itype$s from the input buffer and writing
-     * $otype$s to the output buffer, this method returns a {@link CoderResult}
-     * object to describe its reason for termination:
+     * <p> In bddition to rebding $itype$s from the input buffer bnd writing
+     * $otype$s to the output buffer, this method returns b {@link CoderResult}
+     * object to describe its rebson for terminbtion:
      *
      * <ul>
      *
-     *   <li><p> {@link CoderResult#UNDERFLOW} indicates that as much of the
-     *   input buffer as possible has been $code$d.  If there is no further
-     *   input then the invoker can proceed to the next step of the
-     *   <a href="#steps">$coding$ operation</a>.  Otherwise this method
-     *   should be invoked again with further input.  </p></li>
+     *   <li><p> {@link CoderResult#UNDERFLOW} indicbtes thbt bs much of the
+     *   input buffer bs possible hbs been $code$d.  If there is no further
+     *   input then the invoker cbn proceed to the next step of the
+     *   <b href="#steps">$coding$ operbtion</b>.  Otherwise this method
+     *   should be invoked bgbin with further input.  </p></li>
      *
-     *   <li><p> {@link CoderResult#OVERFLOW} indicates that there is
-     *   insufficient space in the output buffer to $code$ any more $itype$s.
-     *   This method should be invoked again with an output buffer that has
-     *   more {@linkplain Buffer#remaining remaining} $otype$s. This is
-     *   typically done by draining any $code$d $otype$s from the output
+     *   <li><p> {@link CoderResult#OVERFLOW} indicbtes thbt there is
+     *   insufficient spbce in the output buffer to $code$ bny more $itype$s.
+     *   This method should be invoked bgbin with bn output buffer thbt hbs
+     *   more {@linkplbin Buffer#rembining rembining} $otype$s. This is
+     *   typicblly done by drbining bny $code$d $otype$s from the output
      *   buffer.  </p></li>
      *
-     *   <li><p> A {@linkplain CoderResult#malformedForLength
-     *   malformed-input} result indicates that a malformed-input
-     *   error has been detected.  The malformed $itype$s begin at the input
-     *   buffer's (possibly incremented) position; the number of malformed
-     *   $itype$s may be determined by invoking the result object's {@link
-     *   CoderResult#length() length} method.  This case applies only if the
-     *   {@linkplain #onMalformedInput malformed action} of this $coder$
-     *   is {@link CodingErrorAction#REPORT}; otherwise the malformed input
-     *   will be ignored or replaced, as requested.  </p></li>
+     *   <li><p> A {@linkplbin CoderResult#mblformedForLength
+     *   mblformed-input} result indicbtes thbt b mblformed-input
+     *   error hbs been detected.  The mblformed $itype$s begin bt the input
+     *   buffer's (possibly incremented) position; the number of mblformed
+     *   $itype$s mby be determined by invoking the result object's {@link
+     *   CoderResult#length() length} method.  This cbse bpplies only if the
+     *   {@linkplbin #onMblformedInput mblformed bction} of this $coder$
+     *   is {@link CodingErrorAction#REPORT}; otherwise the mblformed input
+     *   will be ignored or replbced, bs requested.  </p></li>
      *
-     *   <li><p> An {@linkplain CoderResult#unmappableForLength
-     *   unmappable-character} result indicates that an
-     *   unmappable-character error has been detected.  The $itype$s that
-     *   $code$ the unmappable character begin at the input buffer's (possibly
-     *   incremented) position; the number of such $itype$s may be determined
+     *   <li><p> An {@linkplbin CoderResult#unmbppbbleForLength
+     *   unmbppbble-chbrbcter} result indicbtes thbt bn
+     *   unmbppbble-chbrbcter error hbs been detected.  The $itype$s thbt
+     *   $code$ the unmbppbble chbrbcter begin bt the input buffer's (possibly
+     *   incremented) position; the number of such $itype$s mby be determined
      *   by invoking the result object's {@link CoderResult#length() length}
-     *   method.  This case applies only if the {@linkplain #onUnmappableCharacter
-     *   unmappable action} of this $coder$ is {@link
-     *   CodingErrorAction#REPORT}; otherwise the unmappable character will be
-     *   ignored or replaced, as requested.  </p></li>
+     *   method.  This cbse bpplies only if the {@linkplbin #onUnmbppbbleChbrbcter
+     *   unmbppbble bction} of this $coder$ is {@link
+     *   CodingErrorAction#REPORT}; otherwise the unmbppbble chbrbcter will be
+     *   ignored or replbced, bs requested.  </p></li>
      *
      * </ul>
      *
-     * In any case, if this method is to be reinvoked in the same $coding$
-     * operation then care should be taken to preserve any $itype$s remaining
-     * in the input buffer so that they are available to the next invocation.
+     * In bny cbse, if this method is to be reinvoked in the sbme $coding$
+     * operbtion then cbre should be tbken to preserve bny $itype$s rembining
+     * in the input buffer so thbt they bre bvbilbble to the next invocbtion.
      *
-     * <p> The <tt>endOfInput</tt> parameter advises this method as to whether
-     * the invoker can provide further input beyond that contained in the given
-     * input buffer.  If there is a possibility of providing additional input
-     * then the invoker should pass <tt>false</tt> for this parameter; if there
+     * <p> The <tt>endOfInput</tt> pbrbmeter bdvises this method bs to whether
+     * the invoker cbn provide further input beyond thbt contbined in the given
+     * input buffer.  If there is b possibility of providing bdditionbl input
+     * then the invoker should pbss <tt>fblse</tt> for this pbrbmeter; if there
      * is no possibility of providing further input then the invoker should
-     * pass <tt>true</tt>.  It is not erroneous, and in fact it is quite
-     * common, to pass <tt>false</tt> in one invocation and later discover that
-     * no further input was actually available.  It is critical, however, that
-     * the final invocation of this method in a sequence of invocations always
-     * pass <tt>true</tt> so that any remaining un$code$d input will be treated
-     * as being malformed.
+     * pbss <tt>true</tt>.  It is not erroneous, bnd in fbct it is quite
+     * common, to pbss <tt>fblse</tt> in one invocbtion bnd lbter discover thbt
+     * no further input wbs bctublly bvbilbble.  It is criticbl, however, thbt
+     * the finbl invocbtion of this method in b sequence of invocbtions blwbys
+     * pbss <tt>true</tt> so thbt bny rembining un$code$d input will be trebted
+     * bs being mblformed.
      *
      * <p> This method works by invoking the {@link #$code$Loop $code$Loop}
-     * method, interpreting its results, handling error conditions, and
-     * reinvoking it as necessary.  </p>
+     * method, interpreting its results, hbndling error conditions, bnd
+     * reinvoking it bs necessbry.  </p>
      *
      *
-     * @param  in
+     * @pbrbm  in
      *         The input $itype$ buffer
      *
-     * @param  out
+     * @pbrbm  out
      *         The output $otype$ buffer
      *
-     * @param  endOfInput
-     *         <tt>true</tt> if, and only if, the invoker can provide no
-     *         additional input $itype$s beyond those in the given buffer
+     * @pbrbm  endOfInput
+     *         <tt>true</tt> if, bnd only if, the invoker cbn provide no
+     *         bdditionbl input $itype$s beyond those in the given buffer
      *
-     * @return  A coder-result object describing the reason for termination
+     * @return  A coder-result object describing the rebson for terminbtion
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress and the previous
-     *          step was an invocation neither of the {@link #reset reset}
-     *          method, nor of this method with a value of <tt>false</tt> for
-     *          the <tt>endOfInput</tt> parameter, nor of this method with a
-     *          value of <tt>true</tt> for the <tt>endOfInput</tt> parameter
-     *          but a return value indicating an incomplete $coding$ operation
+     * @throws  IllegblStbteException
+     *          If $b$ $coding$ operbtion is blrebdy in progress bnd the previous
+     *          step wbs bn invocbtion neither of the {@link #reset reset}
+     *          method, nor of this method with b vblue of <tt>fblse</tt> for
+     *          the <tt>endOfInput</tt> pbrbmeter, nor of this method with b
+     *          vblue of <tt>true</tt> for the <tt>endOfInput</tt> pbrbmeter
+     *          but b return vblue indicbting bn incomplete $coding$ operbtion
      *
-     * @throws  CoderMalfunctionError
-     *          If an invocation of the $code$Loop method threw
-     *          an unexpected exception
+     * @throws  CoderMblfunctionError
+     *          If bn invocbtion of the $code$Loop method threw
+     *          bn unexpected exception
      */
-    public final CoderResult $code$($Itype$Buffer in, $Otype$Buffer out,
-                                    boolean endOfInput)
+    public finbl CoderResult $code$($Itype$Buffer in, $Otype$Buffer out,
+                                    boolebn endOfInput)
     {
-        int newState = endOfInput ? ST_END : ST_CODING;
-        if ((state != ST_RESET) && (state != ST_CODING)
-            && !(endOfInput && (state == ST_END)))
-            throwIllegalStateException(state, newState);
-        state = newState;
+        int newStbte = endOfInput ? ST_END : ST_CODING;
+        if ((stbte != ST_RESET) && (stbte != ST_CODING)
+            && !(endOfInput && (stbte == ST_END)))
+            throwIllegblStbteException(stbte, newStbte);
+        stbte = newStbte;
 
         for (;;) {
 
             CoderResult cr;
             try {
                 cr = $code$Loop(in, out);
-            } catch (BufferUnderflowException x) {
-                throw new CoderMalfunctionError(x);
-            } catch (BufferOverflowException x) {
-                throw new CoderMalfunctionError(x);
+            } cbtch (BufferUnderflowException x) {
+                throw new CoderMblfunctionError(x);
+            } cbtch (BufferOverflowException x) {
+                throw new CoderMblfunctionError(x);
             }
 
             if (cr.isOverflow())
                 return cr;
 
             if (cr.isUnderflow()) {
-                if (endOfInput && in.hasRemaining()) {
-                    cr = CoderResult.malformedForLength(in.remaining());
-                    // Fall through to malformed-input case
+                if (endOfInput && in.hbsRembining()) {
+                    cr = CoderResult.mblformedForLength(in.rembining());
+                    // Fbll through to mblformed-input cbse
                 } else {
                     return cr;
                 }
             }
 
-            CodingErrorAction action = null;
-            if (cr.isMalformed())
-                action = malformedInputAction;
-            else if (cr.isUnmappable())
-                action = unmappableCharacterAction;
+            CodingErrorAction bction = null;
+            if (cr.isMblformed())
+                bction = mblformedInputAction;
+            else if (cr.isUnmbppbble())
+                bction = unmbppbbleChbrbcterAction;
             else
-                assert false : cr.toString();
+                bssert fblse : cr.toString();
 
-            if (action == CodingErrorAction.REPORT)
+            if (bction == CodingErrorAction.REPORT)
                 return cr;
 
-            if (action == CodingErrorAction.REPLACE) {
-                if (out.remaining() < replacement.$replLength$)
+            if (bction == CodingErrorAction.REPLACE) {
+                if (out.rembining() < replbcement.$replLength$)
                     return CoderResult.OVERFLOW;
-                out.put(replacement);
+                out.put(replbcement);
             }
 
-            if ((action == CodingErrorAction.IGNORE)
-                || (action == CodingErrorAction.REPLACE)) {
-                // Skip erroneous input either way
+            if ((bction == CodingErrorAction.IGNORE)
+                || (bction == CodingErrorAction.REPLACE)) {
+                // Skip erroneous input either wby
                 in.position(in.position() + cr.length());
                 continue;
             }
 
-            assert false;
+            bssert fblse;
         }
 
     }
@@ -627,65 +627,65 @@ public abstract class Charset$Coder$ {
     /**
      * Flushes this $coder$.
      *
-     * <p> Some $coder$s maintain internal state and may need to write some
-     * final $otype$s to the output buffer once the overall input sequence has
-     * been read.
+     * <p> Some $coder$s mbintbin internbl stbte bnd mby need to write some
+     * finbl $otype$s to the output buffer once the overbll input sequence hbs
+     * been rebd.
      *
-     * <p> Any additional output is written to the output buffer beginning at
-     * its current position.  At most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffer's position will be advanced
-     * appropriately, but its mark and limit will not be modified.
+     * <p> Any bdditionbl output is written to the output buffer beginning bt
+     * its current position.  At most {@link Buffer#rembining out.rembining()}
+     * $otype$s will be written.  The buffer's position will be bdvbnced
+     * bppropribtely, but its mbrk bnd limit will not be modified.
      *
      * <p> If this method completes successfully then it returns {@link
      * CoderResult#UNDERFLOW}.  If there is insufficient room in the output
-     * buffer then it returns {@link CoderResult#OVERFLOW}.  If this happens
-     * then this method must be invoked again, with an output buffer that has
-     * more room, in order to complete the current <a href="#steps">$coding$
-     * operation</a>.
+     * buffer then it returns {@link CoderResult#OVERFLOW}.  If this hbppens
+     * then this method must be invoked bgbin, with bn output buffer thbt hbs
+     * more room, in order to complete the current <b href="#steps">$coding$
+     * operbtion</b>.
      *
-     * <p> If this $coder$ has already been flushed then invoking this method
-     * has no effect.
+     * <p> If this $coder$ hbs blrebdy been flushed then invoking this method
+     * hbs no effect.
      *
      * <p> This method invokes the {@link #implFlush implFlush} method to
-     * perform the actual flushing operation.  </p>
+     * perform the bctubl flushing operbtion.  </p>
      *
-     * @param  out
+     * @pbrbm  out
      *         The output $otype$ buffer
      *
      * @return  A coder-result object, either {@link CoderResult#UNDERFLOW} or
      *          {@link CoderResult#OVERFLOW}
      *
-     * @throws  IllegalStateException
-     *          If the previous step of the current $coding$ operation was an
-     *          invocation neither of the {@link #flush flush} method nor of
-     *          the three-argument {@link
-     *          #$code$($Itype$Buffer,$Otype$Buffer,boolean) $code$} method
-     *          with a value of <tt>true</tt> for the <tt>endOfInput</tt>
-     *          parameter
+     * @throws  IllegblStbteException
+     *          If the previous step of the current $coding$ operbtion wbs bn
+     *          invocbtion neither of the {@link #flush flush} method nor of
+     *          the three-brgument {@link
+     *          #$code$($Itype$Buffer,$Otype$Buffer,boolebn) $code$} method
+     *          with b vblue of <tt>true</tt> for the <tt>endOfInput</tt>
+     *          pbrbmeter
      */
-    public final CoderResult flush($Otype$Buffer out) {
-        if (state == ST_END) {
+    public finbl CoderResult flush($Otype$Buffer out) {
+        if (stbte == ST_END) {
             CoderResult cr = implFlush(out);
             if (cr.isUnderflow())
-                state = ST_FLUSHED;
+                stbte = ST_FLUSHED;
             return cr;
         }
 
-        if (state != ST_FLUSHED)
-            throwIllegalStateException(state, ST_FLUSHED);
+        if (stbte != ST_FLUSHED)
+            throwIllegblStbteException(stbte, ST_FLUSHED);
 
-        return CoderResult.UNDERFLOW; // Already flushed
+        return CoderResult.UNDERFLOW; // Alrebdy flushed
     }
 
     /**
      * Flushes this $coder$.
      *
-     * <p> The default implementation of this method does nothing, and always
+     * <p> The defbult implementbtion of this method does nothing, bnd blwbys
      * returns {@link CoderResult#UNDERFLOW}.  This method should be overridden
-     * by $coder$s that may need to write final $otype$s to the output buffer
-     * once the entire input sequence has been read. </p>
+     * by $coder$s thbt mby need to write finbl $otype$s to the output buffer
+     * once the entire input sequence hbs been rebd. </p>
      *
-     * @param  out
+     * @pbrbm  out
      *         The output $otype$ buffer
      *
      * @return  A coder-result object, either {@link CoderResult#UNDERFLOW} or
@@ -696,118 +696,118 @@ public abstract class Charset$Coder$ {
     }
 
     /**
-     * Resets this $coder$, clearing any internal state.
+     * Resets this $coder$, clebring bny internbl stbte.
      *
-     * <p> This method resets charset-independent state and also invokes the
-     * {@link #implReset() implReset} method in order to perform any
-     * charset-specific reset actions.  </p>
+     * <p> This method resets chbrset-independent stbte bnd blso invokes the
+     * {@link #implReset() implReset} method in order to perform bny
+     * chbrset-specific reset bctions.  </p>
      *
      * @return  This $coder$
      *
      */
-    public final Charset$Coder$ reset() {
+    public finbl Chbrset$Coder$ reset() {
         implReset();
-        state = ST_RESET;
+        stbte = ST_RESET;
         return this;
     }
 
     /**
-     * Resets this $coder$, clearing any charset-specific internal state.
+     * Resets this $coder$, clebring bny chbrset-specific internbl stbte.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that maintain internal state.  </p>
+     * <p> The defbult implementbtion of this method does nothing.  This method
+     * should be overridden by $coder$s thbt mbintbin internbl stbte.  </p>
      */
     protected void implReset() { }
 
     /**
      * $Code$s one or more $itype$s into one or more $otype$s.
      *
-     * <p> This method encapsulates the basic $coding$ loop, $coding$ as many
-     * $itype$s as possible until it either runs out of input, runs out of room
-     * in the output buffer, or encounters $a$ $coding$ error.  This method is
-     * invoked by the {@link #$code$ $code$} method, which handles result
-     * interpretation and error recovery.
+     * <p> This method encbpsulbtes the bbsic $coding$ loop, $coding$ bs mbny
+     * $itype$s bs possible until it either runs out of input, runs out of room
+     * in the output buffer, or encounters $b$ $coding$ error.  This method is
+     * invoked by the {@link #$code$ $code$} method, which hbndles result
+     * interpretbtion bnd error recovery.
      *
-     * <p> The buffers are read from, and written to, starting at their current
-     * positions.  At most {@link Buffer#remaining in.remaining()} $itype$s
-     * will be read, and at most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffers' positions will be advanced to
-     * reflect the $itype$s read and the $otype$s written, but their marks and
+     * <p> The buffers bre rebd from, bnd written to, stbrting bt their current
+     * positions.  At most {@link Buffer#rembining in.rembining()} $itype$s
+     * will be rebd, bnd bt most {@link Buffer#rembining out.rembining()}
+     * $otype$s will be written.  The buffers' positions will be bdvbnced to
+     * reflect the $itype$s rebd bnd the $otype$s written, but their mbrks bnd
      * limits will not be modified.
      *
-     * <p> This method returns a {@link CoderResult} object to describe its
-     * reason for termination, in the same manner as the {@link #$code$ $code$}
-     * method.  Most implementations of this method will handle $coding$ errors
-     * by returning an appropriate result object for interpretation by the
-     * {@link #$code$ $code$} method.  An optimized implementation may instead
-     * examine the relevant error action and implement that action itself.
+     * <p> This method returns b {@link CoderResult} object to describe its
+     * rebson for terminbtion, in the sbme mbnner bs the {@link #$code$ $code$}
+     * method.  Most implementbtions of this method will hbndle $coding$ errors
+     * by returning bn bppropribte result object for interpretbtion by the
+     * {@link #$code$ $code$} method.  An optimized implementbtion mby instebd
+     * exbmine the relevbnt error bction bnd implement thbt bction itself.
      *
-     * <p> An implementation of this method may perform arbitrary lookahead by
+     * <p> An implementbtion of this method mby perform brbitrbry lookbhebd by
      * returning {@link CoderResult#UNDERFLOW} until it receives sufficient
      * input.  </p>
      *
-     * @param  in
+     * @pbrbm  in
      *         The input $itype$ buffer
      *
-     * @param  out
+     * @pbrbm  out
      *         The output $otype$ buffer
      *
-     * @return  A coder-result object describing the reason for termination
+     * @return  A coder-result object describing the rebson for terminbtion
      */
-    protected abstract CoderResult $code$Loop($Itype$Buffer in,
+    protected bbstrbct CoderResult $code$Loop($Itype$Buffer in,
                                               $Otype$Buffer out);
 
     /**
-     * Convenience method that $code$s the remaining content of a single input
-     * $itype$ buffer into a newly-allocated $otype$ buffer.
+     * Convenience method thbt $code$s the rembining content of b single input
+     * $itype$ buffer into b newly-bllocbted $otype$ buffer.
      *
-     * <p> This method implements an entire <a href="#steps">$coding$
-     * operation</a>; that is, it resets this $coder$, then it $code$s the
-     * $itype$s in the given $itype$ buffer, and finally it flushes this
-     * $coder$.  This method should therefore not be invoked if $a$ $coding$
-     * operation is already in progress.  </p>
+     * <p> This method implements bn entire <b href="#steps">$coding$
+     * operbtion</b>; thbt is, it resets this $coder$, then it $code$s the
+     * $itype$s in the given $itype$ buffer, bnd finblly it flushes this
+     * $coder$.  This method should therefore not be invoked if $b$ $coding$
+     * operbtion is blrebdy in progress.  </p>
      *
-     * @param  in
+     * @pbrbm  in
      *         The input $itype$ buffer
      *
-     * @return A newly-allocated $otype$ buffer containing the result of the
-     *         $coding$ operation.  The buffer's position will be zero and its
-     *         limit will follow the last $otype$ written.
+     * @return A newly-bllocbted $otype$ buffer contbining the result of the
+     *         $coding$ operbtion.  The buffer's position will be zero bnd its
+     *         limit will follow the lbst $otype$ written.
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @throws  IllegblStbteException
+     *          If $b$ $coding$ operbtion is blrebdy in progress
      *
-     * @throws  MalformedInputException
-     *          If the $itype$ sequence starting at the input buffer's current
-     *          position is $notLegal$ and the current malformed-input action
+     * @throws  MblformedInputException
+     *          If the $itype$ sequence stbrting bt the input buffer's current
+     *          position is $notLegbl$ bnd the current mblformed-input bction
      *          is {@link CodingErrorAction#REPORT}
      *
-     * @throws  UnmappableCharacterException
-     *          If the $itype$ sequence starting at the input buffer's current
-     *          position cannot be mapped to an equivalent $otype$ sequence and
-     *          the current unmappable-character action is {@link
+     * @throws  UnmbppbbleChbrbcterException
+     *          If the $itype$ sequence stbrting bt the input buffer's current
+     *          position cbnnot be mbpped to bn equivblent $otype$ sequence bnd
+     *          the current unmbppbble-chbrbcter bction is {@link
      *          CodingErrorAction#REPORT}
      */
-    public final $Otype$Buffer $code$($Itype$Buffer in)
-        throws CharacterCodingException
+    public finbl $Otype$Buffer $code$($Itype$Buffer in)
+        throws ChbrbcterCodingException
     {
-        int n = (int)(in.remaining() * average$ItypesPerOtype$());
-        $Otype$Buffer out = $Otype$Buffer.allocate(n);
+        int n = (int)(in.rembining() * bverbge$ItypesPerOtype$());
+        $Otype$Buffer out = $Otype$Buffer.bllocbte(n);
 
-        if ((n == 0) && (in.remaining() == 0))
+        if ((n == 0) && (in.rembining() == 0))
             return out;
         reset();
         for (;;) {
-            CoderResult cr = in.hasRemaining() ?
+            CoderResult cr = in.hbsRembining() ?
                 $code$(in, out, true) : CoderResult.UNDERFLOW;
             if (cr.isUnderflow())
                 cr = flush(out);
 
             if (cr.isUnderflow())
-                break;
+                brebk;
             if (cr.isOverflow()) {
                 n = 2*n + 1;    // Ensure progress; n might be 0!
-                $Otype$Buffer o = $Otype$Buffer.allocate(n);
+                $Otype$Buffer o = $Otype$Buffer.bllocbte(n);
                 out.flip();
                 o.put(out);
                 out = o;
@@ -822,175 +822,175 @@ public abstract class Charset$Coder$ {
 #if[decoder]
 
     /**
-     * Tells whether or not this decoder implements an auto-detecting charset.
+     * Tells whether or not this decoder implements bn buto-detecting chbrset.
      *
-     * <p> The default implementation of this method always returns
-     * <tt>false</tt>; it should be overridden by auto-detecting decoders to
+     * <p> The defbult implementbtion of this method blwbys returns
+     * <tt>fblse</tt>; it should be overridden by buto-detecting decoders to
      * return <tt>true</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this decoder implements an
-     *          auto-detecting charset
+     * @return  <tt>true</tt> if, bnd only if, this decoder implements bn
+     *          buto-detecting chbrset
      */
-    public boolean isAutoDetecting() {
-        return false;
+    public boolebn isAutoDetecting() {
+        return fblse;
     }
 
     /**
-     * Tells whether or not this decoder has yet detected a
-     * charset&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Tells whether or not this decoder hbs yet detected b
+     * chbrset&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> If this decoder implements an auto-detecting charset then at a
-     * single point during a decoding operation this method may start returning
-     * <tt>true</tt> to indicate that a specific charset has been detected in
-     * the input byte sequence.  Once this occurs, the {@link #detectedCharset
-     * detectedCharset} method may be invoked to retrieve the detected charset.
+     * <p> If this decoder implements bn buto-detecting chbrset then bt b
+     * single point during b decoding operbtion this method mby stbrt returning
+     * <tt>true</tt> to indicbte thbt b specific chbrset hbs been detected in
+     * the input byte sequence.  Once this occurs, the {@link #detectedChbrset
+     * detectedChbrset} method mby be invoked to retrieve the detected chbrset.
      *
-     * <p> That this method returns <tt>false</tt> does not imply that no bytes
-     * have yet been decoded.  Some auto-detecting decoders are capable of
-     * decoding some, or even all, of an input byte sequence without fixing on
-     * a particular charset.
+     * <p> Thbt this method returns <tt>fblse</tt> does not imply thbt no bytes
+     * hbve yet been decoded.  Some buto-detecting decoders bre cbpbble of
+     * decoding some, or even bll, of bn input byte sequence without fixing on
+     * b pbrticulbr chbrset.
      *
-     * <p> The default implementation of this method always throws an {@link
-     * UnsupportedOperationException}; it should be overridden by
-     * auto-detecting decoders to return <tt>true</tt> once the input charset
-     * has been determined.  </p>
+     * <p> The defbult implementbtion of this method blwbys throws bn {@link
+     * UnsupportedOperbtionException}; it should be overridden by
+     * buto-detecting decoders to return <tt>true</tt> once the input chbrset
+     * hbs been determined.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this decoder has detected a
-     *          specific charset
+     * @return  <tt>true</tt> if, bnd only if, this decoder hbs detected b
+     *          specific chbrset
      *
-     * @throws  UnsupportedOperationException
-     *          If this decoder does not implement an auto-detecting charset
+     * @throws  UnsupportedOperbtionException
+     *          If this decoder does not implement bn buto-detecting chbrset
      */
-    public boolean isCharsetDetected() {
-        throw new UnsupportedOperationException();
+    public boolebn isChbrsetDetected() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Retrieves the charset that was detected by this
-     * decoder&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Retrieves the chbrset thbt wbs detected by this
+     * decoder&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> If this decoder implements an auto-detecting charset then this
-     * method returns the actual charset once it has been detected.  After that
-     * point, this method returns the same value for the duration of the
-     * current decoding operation.  If not enough input bytes have yet been
-     * read to determine the actual charset then this method throws an {@link
-     * IllegalStateException}.
+     * <p> If this decoder implements bn buto-detecting chbrset then this
+     * method returns the bctubl chbrset once it hbs been detected.  After thbt
+     * point, this method returns the sbme vblue for the durbtion of the
+     * current decoding operbtion.  If not enough input bytes hbve yet been
+     * rebd to determine the bctubl chbrset then this method throws bn {@link
+     * IllegblStbteException}.
      *
-     * <p> The default implementation of this method always throws an {@link
-     * UnsupportedOperationException}; it should be overridden by
-     * auto-detecting decoders to return the appropriate value.  </p>
+     * <p> The defbult implementbtion of this method blwbys throws bn {@link
+     * UnsupportedOperbtionException}; it should be overridden by
+     * buto-detecting decoders to return the bppropribte vblue.  </p>
      *
-     * @return  The charset detected by this auto-detecting decoder,
-     *          or <tt>null</tt> if the charset has not yet been determined
+     * @return  The chbrset detected by this buto-detecting decoder,
+     *          or <tt>null</tt> if the chbrset hbs not yet been determined
      *
-     * @throws  IllegalStateException
-     *          If insufficient bytes have been read to determine a charset
+     * @throws  IllegblStbteException
+     *          If insufficient bytes hbve been rebd to determine b chbrset
      *
-     * @throws  UnsupportedOperationException
-     *          If this decoder does not implement an auto-detecting charset
+     * @throws  UnsupportedOperbtionException
+     *          If this decoder does not implement bn buto-detecting chbrset
      */
-    public Charset detectedCharset() {
-        throw new UnsupportedOperationException();
+    public Chbrset detectedChbrset() {
+        throw new UnsupportedOperbtionException();
     }
 
 #end[decoder]
 
 #if[encoder]
 
-    private boolean canEncode(CharBuffer cb) {
-        if (state == ST_FLUSHED)
+    privbte boolebn cbnEncode(ChbrBuffer cb) {
+        if (stbte == ST_FLUSHED)
             reset();
-        else if (state != ST_RESET)
-            throwIllegalStateException(state, ST_CODING);
-        CodingErrorAction ma = malformedInputAction();
-        CodingErrorAction ua = unmappableCharacterAction();
+        else if (stbte != ST_RESET)
+            throwIllegblStbteException(stbte, ST_CODING);
+        CodingErrorAction mb = mblformedInputAction();
+        CodingErrorAction ub = unmbppbbleChbrbcterAction();
         try {
-            onMalformedInput(CodingErrorAction.REPORT);
-            onUnmappableCharacter(CodingErrorAction.REPORT);
+            onMblformedInput(CodingErrorAction.REPORT);
+            onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
             encode(cb);
-        } catch (CharacterCodingException x) {
-            return false;
-        } finally {
-            onMalformedInput(ma);
-            onUnmappableCharacter(ua);
+        } cbtch (ChbrbcterCodingException x) {
+            return fblse;
+        } finblly {
+            onMblformedInput(mb);
+            onUnmbppbbleChbrbcter(ub);
             reset();
         }
         return true;
     }
 
     /**
-     * Tells whether or not this encoder can encode the given character.
+     * Tells whether or not this encoder cbn encode the given chbrbcter.
      *
-     * <p> This method returns <tt>false</tt> if the given character is a
-     * surrogate character; such characters can be interpreted only when they
-     * are members of a pair consisting of a high surrogate followed by a low
-     * surrogate.  The {@link #canEncode(java.lang.CharSequence)
-     * canEncode(CharSequence)} method may be used to test whether or not a
-     * character sequence can be encoded.
+     * <p> This method returns <tt>fblse</tt> if the given chbrbcter is b
+     * surrogbte chbrbcter; such chbrbcters cbn be interpreted only when they
+     * bre members of b pbir consisting of b high surrogbte followed by b low
+     * surrogbte.  The {@link #cbnEncode(jbvb.lbng.ChbrSequence)
+     * cbnEncode(ChbrSequence)} method mby be used to test whether or not b
+     * chbrbcter sequence cbn be encoded.
      *
-     * <p> This method may modify this encoder's state; it should therefore not
-     * be invoked if an <a href="#steps">encoding operation</a> is already in
+     * <p> This method mby modify this encoder's stbte; it should therefore not
+     * be invoked if bn <b href="#steps">encoding operbtion</b> is blrebdy in
      * progress.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> The defbult implementbtion of this method is not very efficient; it
+     * should generblly be overridden to improve performbnce.  </p>
      *
-     * @param   c
-     *          The given character
+     * @pbrbm   c
+     *          The given chbrbcter
      *
-     * @return  <tt>true</tt> if, and only if, this encoder can encode
-     *          the given character
+     * @return  <tt>true</tt> if, bnd only if, this encoder cbn encode
+     *          the given chbrbcter
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @throws  IllegblStbteException
+     *          If $b$ $coding$ operbtion is blrebdy in progress
      */
-    public boolean canEncode(char c) {
-        CharBuffer cb = CharBuffer.allocate(1);
+    public boolebn cbnEncode(chbr c) {
+        ChbrBuffer cb = ChbrBuffer.bllocbte(1);
         cb.put(c);
         cb.flip();
-        return canEncode(cb);
+        return cbnEncode(cb);
     }
 
     /**
-     * Tells whether or not this encoder can encode the given character
+     * Tells whether or not this encoder cbn encode the given chbrbcter
      * sequence.
      *
-     * <p> If this method returns <tt>false</tt> for a particular character
-     * sequence then more information about why the sequence cannot be encoded
-     * may be obtained by performing a full <a href="#steps">encoding
-     * operation</a>.
+     * <p> If this method returns <tt>fblse</tt> for b pbrticulbr chbrbcter
+     * sequence then more informbtion bbout why the sequence cbnnot be encoded
+     * mby be obtbined by performing b full <b href="#steps">encoding
+     * operbtion</b>.
      *
-     * <p> This method may modify this encoder's state; it should therefore not
-     * be invoked if an encoding operation is already in progress.
+     * <p> This method mby modify this encoder's stbte; it should therefore not
+     * be invoked if bn encoding operbtion is blrebdy in progress.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> The defbult implementbtion of this method is not very efficient; it
+     * should generblly be overridden to improve performbnce.  </p>
      *
-     * @param   cs
-     *          The given character sequence
+     * @pbrbm   cs
+     *          The given chbrbcter sequence
      *
-     * @return  <tt>true</tt> if, and only if, this encoder can encode
-     *          the given character without throwing any exceptions and without
-     *          performing any replacements
+     * @return  <tt>true</tt> if, bnd only if, this encoder cbn encode
+     *          the given chbrbcter without throwing bny exceptions bnd without
+     *          performing bny replbcements
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @throws  IllegblStbteException
+     *          If $b$ $coding$ operbtion is blrebdy in progress
      */
-    public boolean canEncode(CharSequence cs) {
-        CharBuffer cb;
-        if (cs instanceof CharBuffer)
-            cb = ((CharBuffer)cs).duplicate();
+    public boolebn cbnEncode(ChbrSequence cs) {
+        ChbrBuffer cb;
+        if (cs instbnceof ChbrBuffer)
+            cb = ((ChbrBuffer)cs).duplicbte();
         else
-            cb = CharBuffer.wrap(cs.toString());
-        return canEncode(cb);
+            cb = ChbrBuffer.wrbp(cs.toString());
+        return cbnEncode(cb);
     }
 
 #end[encoder]
 
 
-    private void throwIllegalStateException(int from, int to) {
-        throw new IllegalStateException("Current state = " + stateNames[from]
-                                        + ", new state = " + stateNames[to]);
+    privbte void throwIllegblStbteException(int from, int to) {
+        throw new IllegblStbteException("Current stbte = " + stbteNbmes[from]
+                                        + ", new stbte = " + stbteNbmes[to]);
     }
 
 }

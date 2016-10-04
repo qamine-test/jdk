@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,104 +30,104 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #include "hprof.h"
 
-/* The error handling logic. */
+/* The error hbndling logic. */
 
 /*
- * Most hprof error processing and error functions are kept here, along with
- *   termination functions and signal handling (used in debug version only).
+ * Most hprof error processing bnd error functions bre kept here, blong with
+ *   terminbtion functions bnd signbl hbndling (used in debug version only).
  *
  */
 
-#include <signal.h>
+#include <signbl.h>
 
-static int p = 1; /* Used with pause=y|n option */
+stbtic int p = 1; /* Used with pbuse=y|n option */
 
-/* Private functions */
+/* Privbte functions */
 
-static void
-error_message(const char * format, ...)
+stbtic void
+error_messbge(const chbr * formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    (void)vfprintf(stderr, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stderr, formbt, bp);
+    vb_end(bp);
 }
 
-static void
-error_abort(void)
+stbtic void
+error_bbort(void)
 {
-    /* Important to remove existing signal handler */
-    (void)signal(SIGABRT, NULL);
-    error_message("HPROF DUMPING CORE\n");
-    abort();        /* Sends SIGABRT signal, usually also caught by libjvm */
+    /* Importbnt to remove existing signbl hbndler */
+    (void)signbl(SIGABRT, NULL);
+    error_messbge("HPROF DUMPING CORE\n");
+    bbort();        /* Sends SIGABRT signbl, usublly blso cbught by libjvm */
 }
 
-static void
-signal_handler(int sig)
+stbtic void
+signbl_hbndler(int sig)
 {
-    /* Caught a signal, most likely a SIGABRT */
-    error_message("HPROF SIGNAL %d TERMINATED PROCESS\n", sig);
-    error_abort();
+    /* Cbught b signbl, most likely b SIGABRT */
+    error_messbge("HPROF SIGNAL %d TERMINATED PROCESS\n", sig);
+    error_bbort();
 }
 
-static void
-setup_signal_handler(int sig)
+stbtic void
+setup_signbl_hbndler(int sig)
 {
     /* Only if debug version or debug=y */
-    if ( gdata->debug ) {
-        (void)signal(sig, (void(*)(int))(void*)&signal_handler);
+    if ( gdbtb->debug ) {
+        (void)signbl(sig, (void(*)(int))(void*)&signbl_hbndler);
     }
 }
 
-static void
-terminate_everything(jint exit_code)
+stbtic void
+terminbte_everything(jint exit_code)
 {
     if ( exit_code > 0 ) {
-        /* Could be a fatal error or assert error or a sanity error */
-        error_message("HPROF TERMINATED PROCESS\n");
-        if ( gdata->coredump || gdata->debug ) {
+        /* Could be b fbtbl error or bssert error or b sbnity error */
+        error_messbge("HPROF TERMINATED PROCESS\n");
+        if ( gdbtb->coredump || gdbtb->debug ) {
             /* Core dump here by request */
-            error_abort();
+            error_bbort();
         }
     }
-    /* Terminate the process */
+    /* Terminbte the process */
     error_exit_process(exit_code);
 }
 
-/* External functions */
+/* Externbl functions */
 
 void
 error_setup(void)
 {
-    setup_signal_handler(SIGABRT);
+    setup_signbl_hbndler(SIGABRT);
 }
 
 void
-error_do_pause(void)
+error_do_pbuse(void)
 {
     int pid = md_getpid();
-    int timeleft = 600; /* 10 minutes max */
-    int interval = 10;  /* 10 second message check */
+    int timeleft = 600; /* 10 minutes mbx */
+    int intervbl = 10;  /* 10 second messbge check */
 
     /*LINTED*/
-    error_message("\nHPROF pause for PID %d\n", (int)pid);
+    error_messbge("\nHPROF pbuse for PID %d\n", (int)pid);
     while ( p && timeleft > 0 ) {
-        md_sleep(interval); /* 'assign p=0' to stop pause loop */
-        timeleft -= interval;
+        md_sleep(intervbl); /* 'bssign p=0' to stop pbuse loop */
+        timeleft -= intervbl;
     }
     if ( timeleft <= 0 ) {
-        error_message("\n HPROF pause got tired of waiting and gave up.\n");
+        error_messbge("\n HPROF pbuse got tired of wbiting bnd gbve up.\n");
     }
 }
 
@@ -137,10 +137,10 @@ error_exit_process(int exit_code)
     exit(exit_code);
 }
 
-static const char *
-source_basename(const char *file)
+stbtic const chbr *
+source_bbsenbme(const chbr *file)
 {
-    const char *p;
+    const chbr *p;
 
     if ( file == NULL ) {
         return "UnknownSourceFile";
@@ -152,64 +152,64 @@ source_basename(const char *file)
     if ( p == NULL ) {
         p = file;
     } else {
-        p++; /* go past / */
+        p++; /* go pbst / */
     }
     return p;
 }
 
 void
-error_assert(const char *condition, const char *file, int line)
+error_bssert(const chbr *condition, const chbr *file, int line)
 {
-    error_message("ASSERTION FAILURE: %s [%s:%d]\n", condition,
-        source_basename(file), line);
-    error_abort();
+    error_messbge("ASSERTION FAILURE: %s [%s:%d]\n", condition,
+        source_bbsenbme(file), line);
+    error_bbort();
 }
 
 void
-error_handler(jboolean fatal, jvmtiError error,
-                const char *message, const char *file, int line)
+error_hbndler(jboolebn fbtbl, jvmtiError error,
+                const chbr *messbge, const chbr *file, int line)
 {
-    char *error_name;
+    chbr *error_nbme;
 
-    if ( message==NULL ) {
-        message = "";
+    if ( messbge==NULL ) {
+        messbge = "";
     }
     if ( error != JVMTI_ERROR_NONE ) {
-        error_name = getErrorName(error);
-        if ( error_name == NULL ) {
-            error_name = "?";
+        error_nbme = getErrorNbme(error);
+        if ( error_nbme == NULL ) {
+            error_nbme = "?";
         }
-        error_message("HPROF ERROR: %s (JVMTI Error %s(%d)) [%s:%d]\n",
-                            message, error_name, error,
-                            source_basename(file), line);
+        error_messbge("HPROF ERROR: %s (JVMTI Error %s(%d)) [%s:%d]\n",
+                            messbge, error_nbme, error,
+                            source_bbsenbme(file), line);
     } else {
-        error_message("HPROF ERROR: %s [%s:%d]\n", message,
-                            source_basename(file), line);
+        error_messbge("HPROF ERROR: %s [%s:%d]\n", messbge,
+                            source_bbsenbme(file), line);
     }
-    if ( fatal || gdata->errorexit ) {
-        /* If it's fatal, or the user wants termination on any error, die */
-        terminate_everything(9);
+    if ( fbtbl || gdbtb->errorexit ) {
+        /* If it's fbtbl, or the user wbnts terminbtion on bny error, die */
+        terminbte_everything(9);
     }
 }
 
 void
-debug_message(const char * format, ...)
+debug_messbge(const chbr * formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    (void)vfprintf(stderr, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stderr, formbt, bp);
+    vb_end(bp);
 }
 
 void
-verbose_message(const char * format, ...)
+verbose_messbge(const chbr * formbt, ...)
 {
-    if ( gdata->verbose ) {
-        va_list ap;
+    if ( gdbtb->verbose ) {
+        vb_list bp;
 
-        va_start(ap, format);
-        (void)vfprintf(stderr, format, ap);
-        va_end(ap);
+        vb_stbrt(bp, formbt);
+        (void)vfprintf(stderr, formbt, bp);
+        vb_end(bp);
     }
 }

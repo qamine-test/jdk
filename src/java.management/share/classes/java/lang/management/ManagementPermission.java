@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The permission which the SecurityManager will check when code
- * that is running with a SecurityManager calls methods defined
- * in the management interface for the Java platform.
+ * The permission which the SecurityMbnbger will check when code
+ * thbt is running with b SecurityMbnbger cblls methods defined
+ * in the mbnbgement interfbce for the Jbvb plbtform.
  * <P>
- * The following table
- * provides a summary description of what the permission allows,
- * and discusses the risks of granting code the permission.
+ * The following tbble
+ * provides b summbry description of whbt the permission bllows,
+ * bnd discusses the risks of grbnting code the permission.
  *
- * <table border=1 cellpadding=5 summary="Table shows permission target name, what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="Tbble shows permission tbrget nbme, whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
  *   <td>control</td>
- *   <td>Ability to control the runtime characteristics of the Java virtual
- *       machine, for example, enabling and disabling the verbose output for
- *       the class loading or memory system, setting the threshold of a memory
- *       pool, and enabling and disabling the thread contention monitoring
- *       support. Some actions controlled by this permission can disclose
- *       information about the running application, like the -verbose:class
- *       flag.
+ *   <td>Ability to control the runtime chbrbcteristics of the Jbvb virtubl
+ *       mbchine, for exbmple, enbbling bnd disbbling the verbose output for
+ *       the clbss lobding or memory system, setting the threshold of b memory
+ *       pool, bnd enbbling bnd disbbling the threbd contention monitoring
+ *       support. Some bctions controlled by this permission cbn disclose
+ *       informbtion bbout the running bpplicbtion, like the -verbose:clbss
+ *       flbg.
  *   </td>
- *   <td>This allows an attacker to control the runtime characteristics
- *       of the Java virtual machine and cause the system to misbehave. An
- *       attacker can also access some information related to the running
- *       application.
+ *   <td>This bllows bn bttbcker to control the runtime chbrbcteristics
+ *       of the Jbvb virtubl mbchine bnd cbuse the system to misbehbve. An
+ *       bttbcker cbn blso bccess some informbtion relbted to the running
+ *       bpplicbtion.
  *   </td>
  * </tr>
  * <tr>
  *   <td>monitor</td>
- *   <td>Ability to retrieve runtime information about
- *       the Java virtual machine such as thread
- *       stack trace, a list of all loaded class names, and input arguments
- *       to the Java virtual machine.</td>
- *   <td>This allows malicious code to monitor runtime information and
- *       uncover vulnerabilities.</td>
+ *   <td>Ability to retrieve runtime informbtion bbout
+ *       the Jbvb virtubl mbchine such bs threbd
+ *       stbck trbce, b list of bll lobded clbss nbmes, bnd input brguments
+ *       to the Jbvb virtubl mbchine.</td>
+ *   <td>This bllows mblicious code to monitor runtime informbtion bnd
+ *       uncover vulnerbbilities.</td>
  * </tr>
  *
- * </table>
+ * </tbble>
  *
  * <p>
- * Programmers do not normally create ManagementPermission objects directly.
- * Instead they are created by the security policy code based on reading
+ * Progrbmmers do not normblly crebte MbnbgementPermission objects directly.
+ * Instebd they bre crebted by the security policy code bbsed on rebding
  * the security policy file.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  */
 
-public final class ManagementPermission extends java.security.BasicPermission {
-    private static final long serialVersionUID = 1897496590799378737L;
+public finbl clbss MbnbgementPermission extends jbvb.security.BbsicPermission {
+    privbte stbtic finbl long seriblVersionUID = 1897496590799378737L;
 
     /**
-     * Constructs a ManagementPermission with the specified name.
+     * Constructs b MbnbgementPermission with the specified nbme.
      *
-     * @param name Permission name. Must be either "monitor" or "control".
+     * @pbrbm nbme Permission nbme. Must be either "monitor" or "control".
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty or invalid.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty or invblid.
      */
-    public ManagementPermission(String name) {
-        super(name);
-        if (!name.equals("control") && !name.equals("monitor")) {
-            throw new IllegalArgumentException("name: " + name);
+    public MbnbgementPermission(String nbme) {
+        super(nbme);
+        if (!nbme.equbls("control") && !nbme.equbls("monitor")) {
+            throw new IllegblArgumentException("nbme: " + nbme);
         }
     }
 
     /**
-     * Constructs a new ManagementPermission object.
+     * Constructs b new MbnbgementPermission object.
      *
-     * @param name Permission name. Must be either "monitor" or "control".
-     * @param actions Must be either null or the empty string.
+     * @pbrbm nbme Permission nbme. Must be either "monitor" or "control".
+     * @pbrbm bctions Must be either null or the empty string.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty or
-     * if arguments are invalid.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty or
+     * if brguments bre invblid.
      */
-    public ManagementPermission(String name, String actions)
-        throws IllegalArgumentException {
-        super(name);
-        if (!name.equals("control") && !name.equals("monitor")) {
-            throw new IllegalArgumentException("name: " + name);
+    public MbnbgementPermission(String nbme, String bctions)
+        throws IllegblArgumentException {
+        super(nbme);
+        if (!nbme.equbls("control") && !nbme.equbls("monitor")) {
+            throw new IllegblArgumentException("nbme: " + nbme);
         }
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("actions: " + actions);
+        if (bctions != null && bctions.length() > 0) {
+            throw new IllegblArgumentException("bctions: " + bctions);
         }
     }
 }

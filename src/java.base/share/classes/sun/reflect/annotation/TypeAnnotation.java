@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
-import java.lang.reflect.AnnotatedElement;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.lbng.reflect.AnnotbtedElement;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * A TypeAnnotation contains all the information needed to transform type
- * annotations on declarations in the class file to actual Annotations in
- * AnnotatedType instances.
+ * A TypeAnnotbtion contbins bll the informbtion needed to trbnsform type
+ * bnnotbtions on declbrbtions in the clbss file to bctubl Annotbtions in
+ * AnnotbtedType instbnces.
  *
- * TypeAnnotaions contain a base Annotation, location info (which lets you
- * distinguish between '@A Inner.@B Outer' in for example nested types),
- * target info and the declaration the TypeAnnotaiton was parsed from.
+ * TypeAnnotbions contbin b bbse Annotbtion, locbtion info (which lets you
+ * distinguish between '@A Inner.@B Outer' in for exbmple nested types),
+ * tbrget info bnd the declbrbtion the TypeAnnotbiton wbs pbrsed from.
  */
-public final class TypeAnnotation {
-    private final TypeAnnotationTargetInfo targetInfo;
-    private final LocationInfo loc;
-    private final Annotation annotation;
-    private final AnnotatedElement baseDeclaration;
+public finbl clbss TypeAnnotbtion {
+    privbte finbl TypeAnnotbtionTbrgetInfo tbrgetInfo;
+    privbte finbl LocbtionInfo loc;
+    privbte finbl Annotbtion bnnotbtion;
+    privbte finbl AnnotbtedElement bbseDeclbrbtion;
 
-    public TypeAnnotation(TypeAnnotationTargetInfo targetInfo,
-                          LocationInfo loc,
-                          Annotation annotation,
-                          AnnotatedElement baseDeclaration) {
-        this.targetInfo = targetInfo;
+    public TypeAnnotbtion(TypeAnnotbtionTbrgetInfo tbrgetInfo,
+                          LocbtionInfo loc,
+                          Annotbtion bnnotbtion,
+                          AnnotbtedElement bbseDeclbrbtion) {
+        this.tbrgetInfo = tbrgetInfo;
         this.loc = loc;
-        this.annotation = annotation;
-        this.baseDeclaration = baseDeclaration;
+        this.bnnotbtion = bnnotbtion;
+        this.bbseDeclbrbtion = bbseDeclbrbtion;
     }
 
-    public TypeAnnotationTargetInfo getTargetInfo() {
-        return targetInfo;
+    public TypeAnnotbtionTbrgetInfo getTbrgetInfo() {
+        return tbrgetInfo;
     }
-    public Annotation getAnnotation() {
-        return annotation;
+    public Annotbtion getAnnotbtion() {
+        return bnnotbtion;
     }
-    public AnnotatedElement getBaseDeclaration() {
-        return baseDeclaration;
+    public AnnotbtedElement getBbseDeclbrbtion() {
+        return bbseDeclbrbtion;
     }
-    public LocationInfo getLocationInfo() {
+    public LocbtionInfo getLocbtionInfo() {
         return loc;
     }
 
-    public static List<TypeAnnotation> filter(TypeAnnotation[] typeAnnotations,
-                                              TypeAnnotationTarget predicate) {
-        ArrayList<TypeAnnotation> typeAnnos = new ArrayList<>(typeAnnotations.length);
-        for (TypeAnnotation t : typeAnnotations)
-            if (t.getTargetInfo().getTarget() == predicate)
-                typeAnnos.add(t);
+    public stbtic List<TypeAnnotbtion> filter(TypeAnnotbtion[] typeAnnotbtions,
+                                              TypeAnnotbtionTbrget predicbte) {
+        ArrbyList<TypeAnnotbtion> typeAnnos = new ArrbyList<>(typeAnnotbtions.length);
+        for (TypeAnnotbtion t : typeAnnotbtions)
+            if (t.getTbrgetInfo().getTbrget() == predicbte)
+                typeAnnos.bdd(t);
         typeAnnos.trimToSize();
         return typeAnnos;
     }
 
-    public static enum TypeAnnotationTarget {
+    public stbtic enum TypeAnnotbtionTbrget {
         CLASS_TYPE_PARAMETER,
         METHOD_TYPE_PARAMETER,
         CLASS_EXTENDS,
@@ -93,128 +93,128 @@ public final class TypeAnnotation {
         THROWS;
     }
 
-    public static final class TypeAnnotationTargetInfo {
-        private final TypeAnnotationTarget target;
-        private final int count;
-        private final int secondaryIndex;
-        private static final int UNUSED_INDEX = -2; // this is not a valid index in the 308 spec
+    public stbtic finbl clbss TypeAnnotbtionTbrgetInfo {
+        privbte finbl TypeAnnotbtionTbrget tbrget;
+        privbte finbl int count;
+        privbte finbl int secondbryIndex;
+        privbte stbtic finbl int UNUSED_INDEX = -2; // this is not b vblid index in the 308 spec
 
-        public TypeAnnotationTargetInfo(TypeAnnotationTarget target) {
-            this(target, UNUSED_INDEX, UNUSED_INDEX);
+        public TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget tbrget) {
+            this(tbrget, UNUSED_INDEX, UNUSED_INDEX);
         }
 
-        public TypeAnnotationTargetInfo(TypeAnnotationTarget target,
+        public TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget tbrget,
                                         int count) {
-            this(target, count, UNUSED_INDEX);
+            this(tbrget, count, UNUSED_INDEX);
         }
 
-        public TypeAnnotationTargetInfo(TypeAnnotationTarget target,
+        public TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget tbrget,
                                         int count,
-                                        int secondaryIndex) {
-            this.target = target;
+                                        int secondbryIndex) {
+            this.tbrget = tbrget;
             this.count = count;
-            this.secondaryIndex = secondaryIndex;
+            this.secondbryIndex = secondbryIndex;
         }
 
-        public TypeAnnotationTarget getTarget() {
-            return target;
+        public TypeAnnotbtionTbrget getTbrget() {
+            return tbrget;
         }
         public int getCount() {
             return count;
         }
-        public int getSecondaryIndex() {
-            return secondaryIndex;
+        public int getSecondbryIndex() {
+            return secondbryIndex;
         }
 
         @Override
         public String toString() {
-            return "" + target + ": " + count + ", " + secondaryIndex;
+            return "" + tbrget + ": " + count + ", " + secondbryIndex;
         }
     }
 
-    public static final class LocationInfo {
-        private final int depth;
-        private final Location[] locations;
+    public stbtic finbl clbss LocbtionInfo {
+        privbte finbl int depth;
+        privbte finbl Locbtion[] locbtions;
 
-        private LocationInfo() {
-            this(0, new Location[0]);
+        privbte LocbtionInfo() {
+            this(0, new Locbtion[0]);
         }
-        private LocationInfo(int depth, Location[] locations) {
+        privbte LocbtionInfo(int depth, Locbtion[] locbtions) {
             this.depth = depth;
-            this.locations = locations;
+            this.locbtions = locbtions;
         }
 
-        public static final LocationInfo BASE_LOCATION = new LocationInfo();
+        public stbtic finbl LocbtionInfo BASE_LOCATION = new LocbtionInfo();
 
-        public static LocationInfo parseLocationInfo(ByteBuffer buf) {
+        public stbtic LocbtionInfo pbrseLocbtionInfo(ByteBuffer buf) {
             int depth = buf.get() & 0xFF;
             if (depth == 0)
                 return BASE_LOCATION;
-            Location[] locations = new Location[depth];
+            Locbtion[] locbtions = new Locbtion[depth];
             for (int i = 0; i < depth; i++) {
-                byte tag = buf.get();
+                byte tbg = buf.get();
                 short index = (short)(buf.get() & 0xFF);
-                if (!(tag == 0 || tag == 1 | tag == 2 || tag == 3))
-                    throw new AnnotationFormatError("Bad Location encoding in Type Annotation");
-                if (tag != 3 && index != 0)
-                    throw new AnnotationFormatError("Bad Location encoding in Type Annotation");
-                locations[i] = new Location(tag, index);
+                if (!(tbg == 0 || tbg == 1 | tbg == 2 || tbg == 3))
+                    throw new AnnotbtionFormbtError("Bbd Locbtion encoding in Type Annotbtion");
+                if (tbg != 3 && index != 0)
+                    throw new AnnotbtionFormbtError("Bbd Locbtion encoding in Type Annotbtion");
+                locbtions[i] = new Locbtion(tbg, index);
             }
-            return new LocationInfo(depth, locations);
+            return new LocbtionInfo(depth, locbtions);
         }
 
-        public LocationInfo pushArray() {
-            return pushLocation((byte)0, (short)0);
+        public LocbtionInfo pushArrby() {
+            return pushLocbtion((byte)0, (short)0);
         }
 
-        public LocationInfo pushInner() {
-            return pushLocation((byte)1, (short)0);
+        public LocbtionInfo pushInner() {
+            return pushLocbtion((byte)1, (short)0);
         }
 
-        public LocationInfo pushWildcard() {
-            return pushLocation((byte) 2, (short) 0);
+        public LocbtionInfo pushWildcbrd() {
+            return pushLocbtion((byte) 2, (short) 0);
         }
 
-        public LocationInfo pushTypeArg(short index) {
-            return pushLocation((byte) 3, index);
+        public LocbtionInfo pushTypeArg(short index) {
+            return pushLocbtion((byte) 3, index);
         }
 
-        public LocationInfo pushLocation(byte tag, short index) {
+        public LocbtionInfo pushLocbtion(byte tbg, short index) {
             int newDepth = this.depth + 1;
-            Location[] res = new Location[newDepth];
-            System.arraycopy(this.locations, 0, res, 0, depth);
-            res[newDepth - 1] = new Location(tag, (short)(index & 0xFF));
-            return new LocationInfo(newDepth, res);
+            Locbtion[] res = new Locbtion[newDepth];
+            System.brrbycopy(this.locbtions, 0, res, 0, depth);
+            res[newDepth - 1] = new Locbtion(tbg, (short)(index & 0xFF));
+            return new LocbtionInfo(newDepth, res);
         }
 
-        public TypeAnnotation[] filter(TypeAnnotation[] ta) {
-            ArrayList<TypeAnnotation> l = new ArrayList<>(ta.length);
-            for (TypeAnnotation t : ta) {
-                if (isSameLocationInfo(t.getLocationInfo()))
-                    l.add(t);
+        public TypeAnnotbtion[] filter(TypeAnnotbtion[] tb) {
+            ArrbyList<TypeAnnotbtion> l = new ArrbyList<>(tb.length);
+            for (TypeAnnotbtion t : tb) {
+                if (isSbmeLocbtionInfo(t.getLocbtionInfo()))
+                    l.bdd(t);
             }
-            return l.toArray(new TypeAnnotation[0]);
+            return l.toArrby(new TypeAnnotbtion[0]);
         }
 
-        boolean isSameLocationInfo(LocationInfo other) {
+        boolebn isSbmeLocbtionInfo(LocbtionInfo other) {
             if (depth != other.depth)
-                return false;
+                return fblse;
             for (int i = 0; i < depth; i++)
-                if (!locations[i].isSameLocation(other.locations[i]))
-                    return false;
+                if (!locbtions[i].isSbmeLocbtion(other.locbtions[i]))
+                    return fblse;
             return true;
         }
 
-        public static final class Location {
-            public final byte tag;
-            public final short index;
+        public stbtic finbl clbss Locbtion {
+            public finbl byte tbg;
+            public finbl short index;
 
-            boolean isSameLocation(Location other) {
-                return tag == other.tag && index == other.index;
+            boolebn isSbmeLocbtion(Locbtion other) {
+                return tbg == other.tbg && index == other.index;
             }
 
-            public Location(byte tag, short index) {
-                this.tag = tag;
+            public Locbtion(byte tbg, short index) {
+                this.tbg = tbg;
                 this.index = index;
             }
         }
@@ -222,8 +222,8 @@ public final class TypeAnnotation {
 
     @Override
     public String toString() {
-        return annotation.toString() + " with Targetnfo: " +
-            targetInfo.toString() + " on base declaration: " +
-            baseDeclaration.toString();
+        return bnnotbtion.toString() + " with Tbrgetnfo: " +
+            tbrgetInfo.toString() + " on bbse declbrbtion: " +
+            bbseDeclbrbtion.toString();
     }
 }

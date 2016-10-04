@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,53 +46,53 @@
  */
 
 /*
- * platoform.h
+ * plbtoform.h
  * 10.12.2001
  *
- * declaration of all platform dependent functions used by pkcs11wrapper.c
+ * declbrbtion of bll plbtform dependent functions used by pkcs11wrbpper.c
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
  */
 
-/* defines for WIN32 platform *************************************************/
+/* defines for WIN32 plbtform *************************************************/
 
 #include <windows.h>
 
-/* statement according to PKCS11 docu */
-#pragma pack(push, cryptoki, 1)
+/* stbtement bccording to PKCS11 docu */
+#prbgmb pbck(push, cryptoki, 1)
 
-/* definitions according to PKCS#11 docu for Win32 environment */
+/* definitions bccording to PKCS#11 docu for Win32 environment */
 #define CK_PTR *
-#define CK_DEFINE_FUNCTION(returnType, name) returnType __declspec(dllexport) name
-#define CK_DECLARE_FUNCTION(returnType, name) returnType __declspec(dllimport) name
-#define CK_DECLARE_FUNCTION_POINTER(returnType, name) returnType __declspec(dllimport) (* name)
-#define CK_CALLBACK_FUNCTION(returnType, name) returnType (* name)
+#define CK_DEFINE_FUNCTION(returnType, nbme) returnType __declspec(dllexport) nbme
+#define CK_DECLARE_FUNCTION(returnType, nbme) returnType __declspec(dllimport) nbme
+#define CK_DECLARE_FUNCTION_POINTER(returnType, nbme) returnType __declspec(dllimport) (* nbme)
+#define CK_CALLBACK_FUNCTION(returnType, nbme) returnType (* nbme)
 #ifndef NULL_PTR
 #define NULL_PTR 0
 #endif /* NULL_PTR */
 
-/* to avoid clash with Win32 #define */
-#ifdef CreateMutex
-#undef CreateMutex
-#endif /* CreateMutex */
+/* to bvoid clbsh with Win32 #define */
+#ifdef CrebteMutex
+#undef CrebteMutex
+#endif /* CrebteMutex */
 
 #include "pkcs11.h"
 
-/* statement according to PKCS11 docu */
-#pragma pack(pop, cryptoki)
+/* stbtement bccording to PKCS11 docu */
+#prbgmb pbck(pop, cryptoki)
 
 #include "jni.h"
 
-/* A data structure to hold required information about a PKCS#11 module. */
-struct ModuleData {
+/* A dbtb structure to hold required informbtion bbout b PKCS#11 module. */
+struct ModuleDbtb {
 
     HINSTANCE hModule;
 
     /* The pointer to the PKCS#11 functions of this module. */
     CK_FUNCTION_LIST_PTR ckFunctionListPtr;
 
-    /* Reference to the object to use for mutex handling. NULL, if not used. */
-    jobject applicationMutexHandler;
+    /* Reference to the object to use for mutex hbndling. NULL, if not used. */
+    jobject bpplicbtionMutexHbndler;
 
 };
-typedef struct ModuleData ModuleData;
+typedef struct ModuleDbtb ModuleDbtb;

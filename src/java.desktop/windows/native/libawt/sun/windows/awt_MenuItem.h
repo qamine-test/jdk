@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_MENUITEM_H
 #define AWT_MENUITEM_H
 
-#include "awt_Object.h"
-#include "awt_Component.h"
+#include "bwt_Object.h"
+#include "bwt_Component.h"
 
-#include <java_awt_MenuItem.h>
-#include <sun_awt_windows_WMenuItemPeer.h>
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
-#include <java_awt_MenuComponent.h>
-#include <java_awt_FontMetrics.h>
+#include <jbvb_bwt_MenuItem.h>
+#include <sun_bwt_windows_WMenuItemPeer.h>
+#include <jbvb_bwt_Menu.h>
+#include <sun_bwt_windows_WMenuPeer.h>
+#include <jbvb_bwt_MenuComponent.h>
+#include <jbvb_bwt_FontMetrics.h>
 
-class AwtMenu;
+clbss AwtMenu;
 
 
 /************************************************************************
- * MenuItem class
+ * MenuItem clbss
  */
 
-class AwtMenuItem : public AwtObject {
+clbss AwtMenuItem : public AwtObject {
 public:
-    // id's for methods executed on toolkit thread
+    // id's for methods executed on toolkit threbd
     enum {
         MENUITEM_ENABLE,
         MENUITEM_SETSTATE,
         MENUITEM_LAST
     };
 
-    /* java.awt.MenuComponent fields */
-    static jfieldID fontID;
-    static jfieldID appContextID;
+    /* jbvb.bwt.MenuComponent fields */
+    stbtic jfieldID fontID;
+    stbtic jfieldID bppContextID;
 
-    /* java.awt.MenuItem fields */
-    static jfieldID labelID;
-    static jfieldID enabledID;
+    /* jbvb.bwt.MenuItem fields */
+    stbtic jfieldID lbbelID;
+    stbtic jfieldID enbbledID;
 
-    /* java.awt.CheckboxMenuItem fields */
-    static jfieldID stateID;
+    /* jbvb.bwt.CheckboxMenuItem fields */
+    stbtic jfieldID stbteID;
 
-    /* sun.awt.windows.WMenuItemPeer fields */
-    static jfieldID isCheckboxID;
-    static jfieldID shortcutLabelID;
+    /* sun.bwt.windows.WMenuItemPeer fields */
+    stbtic jfieldID isCheckboxID;
+    stbtic jfieldID shortcutLbbelID;
 
-    static jmethodID getDefaultFontMID;
+    stbtic jmethodID getDefbultFontMID;
 
     AwtMenuItem();
-    virtual ~AwtMenuItem();
+    virtubl ~AwtMenuItem();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    static AwtMenuItem* Create(jobject self, jobject menu);
+    stbtic AwtMenuItem* Crebte(jobject self, jobject menu);
 
-    INLINE AwtMenu* GetMenuContainer() { return m_menuContainer; }
-    INLINE void SetMenuContainer(AwtMenu* menu) { m_menuContainer = menu; }
+    INLINE AwtMenu* GetMenuContbiner() { return m_menuContbiner; }
+    INLINE void SetMenuContbiner(AwtMenu* menu) { m_menuContbiner = menu; }
     INLINE UINT GetID() { return m_Id; }
     INLINE void SetID(UINT id) { m_Id = id; }
     INLINE void SetNewID() {
         DASSERT(!m_freeId);
-        m_Id = AwtToolkit::GetInstance().CreateCmdID(this);
+        m_Id = AwtToolkit::GetInstbnce().CrebteCmdID(this);
         m_freeId = TRUE;
     }
 
-    // Convert Language ID to CodePage
-    static UINT LangToCodePage(LANGID idLang);
-    /* Execute the command associated with this item. */
-    virtual void DoCommand();
+    // Convert Lbngubge ID to CodePbge
+    stbtic UINT LbngToCodePbge(LANGID idLbng);
+    /* Execute the commbnd bssocibted with this item. */
+    virtubl void DoCommbnd();
 
     void LinkObjects(JNIEnv *env, jobject peer);
 
     /* for multifont menuitem */
-    INLINE jstring GetJavaString(JNIEnv *env) {
-        if (env->EnsureLocalCapacity(2) < 0) {
+    INLINE jstring GetJbvbString(JNIEnv *env) {
+        if (env->EnsureLocblCbpbcity(2) < 0) {
             return NULL;
         }
-        jobject target = GetTarget(env);
-        jstring res = (jstring)env->GetObjectField(target,
-                                                   AwtMenuItem::labelID);
-        env->DeleteLocalRef(target);
+        jobject tbrget = GetTbrget(env);
+        jstring res = (jstring)env->GetObjectField(tbrget,
+                                                   AwtMenuItem::lbbelID);
+        env->DeleteLocblRef(tbrget);
         return res;
     }
-// Added by waleed for BIDI Support
-    // returns the right to left status
-    INLINE static BOOL GetRTLReadingOrder() {
-        return sm_rtlReadingOrder;
+// Added by wbleed for BIDI Support
+    // returns the right to left stbtus
+    INLINE stbtic BOOL GetRTLRebdingOrder() {
+        return sm_rtlRebdingOrder;
     }
-    // returns the right to left status
-    INLINE static BOOL GetRTL() {
+    // returns the right to left stbtus
+    INLINE stbtic BOOL GetRTL() {
         return sm_rtl;
     }
-    INLINE static LANGID GetSubLanguage() {
-        return SUBLANGID(m_idLang);
+    INLINE stbtic LANGID GetSubLbngubge() {
+        return SUBLANGID(m_idLbng);
     }
-    // returns the current code page that should be used in
-    // all MultiByteToWideChar and WideCharToMultiByte calls.
-    // This code page should also be use in IsDBCSLeadByteEx.
-    INLINE static UINT GetCodePage() {
-        return m_CodePage;
+    // returns the current code pbge thbt should be used in
+    // bll MultiByteToWideChbr bnd WideChbrToMultiByte cblls.
+    // This code pbge should blso be use in IsDBCSLebdByteEx.
+    INLINE stbtic UINT GetCodePbge() {
+        return m_CodePbge;
     }
-    INLINE static LANGID GetInputLanguage() {
-        return m_idLang;
+    INLINE stbtic LANGID GetInputLbngubge() {
+        return m_idLbng;
     }
-// end waleed
+// end wbleed
 
-    virtual void DrawItem(DRAWITEMSTRUCT& drawInfo);
-    void DrawSelf(DRAWITEMSTRUCT& drawInfo);
-    static void AdjustCheckWidth(int& checkWidth);
+    virtubl void DrbwItem(DRAWITEMSTRUCT& drbwInfo);
+    void DrbwSelf(DRAWITEMSTRUCT& drbwInfo);
+    stbtic void AdjustCheckWidth(int& checkWidth);
 
-    virtual void MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
-    void MeasureSelf(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
+    virtubl void MebsureItem(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
+    void MebsureSelf(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
 
     jobject GetFont(JNIEnv *env);
     jobject GetFontMetrics(JNIEnv *env, jobject font);
-    jobject GetDefaultFont(JNIEnv *env);
+    jobject GetDefbultFont(JNIEnv *env);
 
-    virtual BOOL IsTopMenu();
-    void DrawCheck(HDC hDC, RECT rect);
+    virtubl BOOL IsTopMenu();
+    void DrbwCheck(HDC hDC, RECT rect);
 
-    void SetLabel(LPCTSTR sb);
-    virtual void Enable(BOOL isEnabled);
-    virtual void UpdateContainerLayout();
-    virtual void RedrawMenuBar();
-    void SetState(BOOL isChecked);
+    void SetLbbel(LPCTSTR sb);
+    virtubl void Enbble(BOOL isEnbbled);
+    virtubl void UpdbteContbinerLbyout();
+    virtubl void RedrbwMenuBbr();
+    void SetStbte(BOOL isChecked);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
     MsgRouting WmNotify(UINT notifyCode);
 
-    virtual LRESULT WinThreadExecProc(ExecuteArgs * args);
-    virtual BOOL IsDisabledAndPopup() {
+    virtubl LRESULT WinThrebdExecProc(ExecuteArgs * brgs);
+    virtubl BOOL IsDisbbledAndPopup() {
         return FALSE;
     }
-    virtual BOOL IsSeparator();
+    virtubl BOOL IsSepbrbtor();
 
-    // invoked on Toolkit thread
-    static void _SetLabel(void *param);
-    static void _UpdateLayout(void *param);
+    // invoked on Toolkit threbd
+    stbtic void _SetLbbel(void *pbrbm);
+    stbtic void _UpdbteLbyout(void *pbrbm);
 
 protected:
-    AwtMenu* m_menuContainer;  /* The menu object containing this item */
+    AwtMenu* m_menuContbiner;  /* The menu object contbining this item */
     UINT m_Id;                 /* The id of this item */
 
-    static BOOL CheckMenuCreation(JNIEnv *env, jobject self, HMENU hMenu);
-    virtual void RemoveCmdID();
+    stbtic BOOL CheckMenuCrebtion(JNIEnv *env, jobject self, HMENU hMenu);
+    virtubl void RemoveCmdID();
 
-private:
+privbte:
     INLINE BOOL IsCheckbox() { return m_isCheckbox; }
     INLINE void SetCheckbox() { m_isCheckbox = TRUE; }
     BOOL m_isCheckbox;
     BOOL m_freeId;
 
-    // Added for bi-di support By Waleed
-    static UINT m_CodePage;
-    // Current input language (=low word of keyboardlayout handle)
-    // m_idLang is shared by all instance of AwtComponent because
-    // keyboardlayout is shared.
-    static LANGID m_idLang;
-    static BOOL m_isWin95;
+    // Added for bi-di support By Wbleed
+    stbtic UINT m_CodePbge;
+    // Current input lbngubge (=low word of keybobrdlbyout hbndle)
+    // m_idLbng is shbred by bll instbnce of AwtComponent becbuse
+    // keybobrdlbyout is shbred.
+    stbtic LANGID m_idLbng;
+    stbtic BOOL m_isWin95;
 
-    static BOOL sm_rtl;
-    static BOOL sm_rtlReadingOrder;
+    stbtic BOOL sm_rtl;
+    stbtic BOOL sm_rtlRebdingOrder;
 
 public:
-    static HBITMAP bmpCheck;
-    static jobject systemFont;
+    stbtic HBITMAP bmpCheck;
+    stbtic jobject systemFont;
 };
 
 #endif /* AWT_MENUITEM_H */

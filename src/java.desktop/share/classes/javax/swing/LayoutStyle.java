@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Container;
-import javax.swing.plaf.ComponentUI;
-import sun.awt.AppContext;
+import jbvb.bwt.Contbiner;
+import jbvbx.swing.plbf.ComponentUI;
+import sun.bwt.AppContext;
 
 /**
- * <code>LayoutStyle</code> provides information about how to position
- * components.  This class is primarily useful for visual tools and
- * layout managers.  Most developers will not need to use this class.
+ * <code>LbyoutStyle</code> provides informbtion bbout how to position
+ * components.  This clbss is primbrily useful for visubl tools bnd
+ * lbyout mbnbgers.  Most developers will not need to use this clbss.
  * <p>
- * You typically don't set or create a
- * <code>LayoutStyle</code>.  Instead use the static method
- * <code>getInstance</code> to obtain the current instance.
+ * You typicblly don't set or crebte b
+ * <code>LbyoutStyle</code>.  Instebd use the stbtic method
+ * <code>getInstbnce</code> to obtbin the current instbnce.
  *
  * @since 1.6
  */
-public abstract class LayoutStyle {
+public bbstrbct clbss LbyoutStyle {
     /**
-     * Sets the shared instance of <code>LayoutStyle</code>.  Specifying
-     * <code>null</code> results in using the <code>LayoutStyle</code> from
+     * Sets the shbred instbnce of <code>LbyoutStyle</code>.  Specifying
+     * <code>null</code> results in using the <code>LbyoutStyle</code> from
      * the current <code>LookAndFeel</code>.
      *
-     * @param style the <code>LayoutStyle</code>, or <code>null</code>
-     * @see #getInstance
+     * @pbrbm style the <code>LbyoutStyle</code>, or <code>null</code>
+     * @see #getInstbnce
      */
-    public static void setInstance(LayoutStyle style) {
-        synchronized(LayoutStyle.class) {
+    public stbtic void setInstbnce(LbyoutStyle style) {
+        synchronized(LbyoutStyle.clbss) {
             if (style == null) {
-                AppContext.getAppContext().remove(LayoutStyle.class);
+                AppContext.getAppContext().remove(LbyoutStyle.clbss);
             }
             else {
-                AppContext.getAppContext().put(LayoutStyle.class, style);
+                AppContext.getAppContext().put(LbyoutStyle.clbss, style);
             }
         }
     }
 
     /**
-     * Returns the shared instance of <code>LayoutStyle</code>.  If an instance
-     * has not been specified in <code>setInstance</code>, this will return
-     * the <code>LayoutStyle</code> from the current <code>LookAndFeel</code>.
+     * Returns the shbred instbnce of <code>LbyoutStyle</code>.  If bn instbnce
+     * hbs not been specified in <code>setInstbnce</code>, this will return
+     * the <code>LbyoutStyle</code> from the current <code>LookAndFeel</code>.
      *
-     * @see LookAndFeel#getLayoutStyle
-     * @return the shared instance of <code>LayoutStyle</code>
+     * @see LookAndFeel#getLbyoutStyle
+     * @return the shbred instbnce of <code>LbyoutStyle</code>
      */
-    public static LayoutStyle getInstance() {
-        LayoutStyle style;
-        synchronized(LayoutStyle.class) {
-            style = (LayoutStyle)AppContext.getAppContext().
-                    get(LayoutStyle.class);
+    public stbtic LbyoutStyle getInstbnce() {
+        LbyoutStyle style;
+        synchronized(LbyoutStyle.clbss) {
+            style = (LbyoutStyle)AppContext.getAppContext().
+                    get(LbyoutStyle.clbss);
         }
         if (style == null) {
-            return UIManager.getLookAndFeel().getLayoutStyle();
+            return UIMbnbger.getLookAndFeel().getLbyoutStyle();
         }
         return style;
     }
 
 
     /**
-     * <code>ComponentPlacement</code> is an enumeration of the
-     * possible ways two components can be placed relative to each
-     * other.  <code>ComponentPlacement</code> is used by the
-     * <code>LayoutStyle</code> method <code>getPreferredGap</code>.  Refer to
-     * <code>LayoutStyle</code> for more information.
+     * <code>ComponentPlbcement</code> is bn enumerbtion of the
+     * possible wbys two components cbn be plbced relbtive to ebch
+     * other.  <code>ComponentPlbcement</code> is used by the
+     * <code>LbyoutStyle</code> method <code>getPreferredGbp</code>.  Refer to
+     * <code>LbyoutStyle</code> for more informbtion.
      *
-     * @see LayoutStyle#getPreferredGap(JComponent,JComponent,
-     *      ComponentPlacement,int,Container)
+     * @see LbyoutStyle#getPreferredGbp(JComponent,JComponent,
+     *      ComponentPlbcement,int,Contbiner)
      * @since 1.6
      */
-    public enum ComponentPlacement {
+    public enum ComponentPlbcement {
         /**
-         * Enumeration value indicating the two components are
-         * visually related and will be placed in the same parent.
-         * For example, a <code>JLabel</code> providing a label for a
-         * <code>JTextField</code> is typically visually associated
-         * with the <code>JTextField</code>; the constant <code>RELATED</code>
+         * Enumerbtion vblue indicbting the two components bre
+         * visublly relbted bnd will be plbced in the sbme pbrent.
+         * For exbmple, b <code>JLbbel</code> providing b lbbel for b
+         * <code>JTextField</code> is typicblly visublly bssocibted
+         * with the <code>JTextField</code>; the constbnt <code>RELATED</code>
          * is used for this.
          */
         RELATED,
 
         /**
-         * Enumeration value indicating the two components are
-         * visually unrelated and will be placed in the same parent.
-         * For example, groupings of components are usually visually
-         * separated; the constant <code>UNRELATED</code> is used for this.
+         * Enumerbtion vblue indicbting the two components bre
+         * visublly unrelbted bnd will be plbced in the sbme pbrent.
+         * For exbmple, groupings of components bre usublly visublly
+         * sepbrbted; the constbnt <code>UNRELATED</code> is used for this.
          */
         UNRELATED,
 
         /**
-         * Enumeration value indicating the distance to indent a component
-         * is being requested.  For example, often times the children of
-         * a label will be horizontally indented from the label.  To determine
-         * the preferred distance for such a gap use the
+         * Enumerbtion vblue indicbting the distbnce to indent b component
+         * is being requested.  For exbmple, often times the children of
+         * b lbbel will be horizontblly indented from the lbbel.  To determine
+         * the preferred distbnce for such b gbp use the
          * <code>INDENT</code> type.
          * <p>
-         * This value is typically only useful with a direction of
+         * This vblue is typicblly only useful with b direction of
          * <code>EAST</code> or <code>WEST</code>.
          */
         INDENT;
@@ -125,93 +125,93 @@ public abstract class LayoutStyle {
 
 
     /**
-     * Creates a new <code>LayoutStyle</code>.  You generally don't
-     * create a <code>LayoutStyle</code>.  Instead use the method
-     * <code>getInstance</code> to obtain the current
-     * <code>LayoutStyle</code>.
+     * Crebtes b new <code>LbyoutStyle</code>.  You generblly don't
+     * crebte b <code>LbyoutStyle</code>.  Instebd use the method
+     * <code>getInstbnce</code> to obtbin the current
+     * <code>LbyoutStyle</code>.
      */
-    public LayoutStyle() {
+    public LbyoutStyle() {
     }
 
     /**
-     * Returns the amount of space to use between two components.
-     * The return value indicates the distance to place
-     * <code>component2</code> relative to <code>component1</code>.
-     * For example, the following returns the amount of space to place
-     * between <code>component2</code> and <code>component1</code>
-     * when <code>component2</code> is placed vertically above
+     * Returns the bmount of spbce to use between two components.
+     * The return vblue indicbtes the distbnce to plbce
+     * <code>component2</code> relbtive to <code>component1</code>.
+     * For exbmple, the following returns the bmount of spbce to plbce
+     * between <code>component2</code> bnd <code>component1</code>
+     * when <code>component2</code> is plbced verticblly bbove
      * <code>component1</code>:
      * <pre>
-     *   int gap = getPreferredGap(component1, component2,
-     *                             ComponentPlacement.RELATED,
-     *                             SwingConstants.NORTH, parent);
+     *   int gbp = getPreferredGbp(component1, component2,
+     *                             ComponentPlbcement.RELATED,
+     *                             SwingConstbnts.NORTH, pbrent);
      * </pre>
-     * The <code>type</code> parameter indicates the relation between
-     * the two components.  If the two components will be contained in
-     * the same parent and are showing similar logically related
+     * The <code>type</code> pbrbmeter indicbtes the relbtion between
+     * the two components.  If the two components will be contbined in
+     * the sbme pbrent bnd bre showing similbr logicblly relbted
      * items, use <code>RELATED</code>.  If the two components will be
-     * contained in the same parent but show logically unrelated items
-     * use <code>UNRELATED</code>.  Some look and feels may not
-     * distinguish between the <code>RELATED</code> and
+     * contbined in the sbme pbrent but show logicblly unrelbted items
+     * use <code>UNRELATED</code>.  Some look bnd feels mby not
+     * distinguish between the <code>RELATED</code> bnd
      * <code>UNRELATED</code> types.
      * <p>
-     * The return value is not intended to take into account the
-     * current size and position of <code>component2</code> or
-     * <code>component1</code>.  The return value may take into
-     * consideration various properties of the components.  For
-     * example, the space may vary based on font size, or the preferred
+     * The return vblue is not intended to tbke into bccount the
+     * current size bnd position of <code>component2</code> or
+     * <code>component1</code>.  The return vblue mby tbke into
+     * considerbtion vbrious properties of the components.  For
+     * exbmple, the spbce mby vbry bbsed on font size, or the preferred
      * size of the component.
      *
-     * @param component1 the <code>JComponent</code>
-     *               <code>component2</code> is being placed relative to
-     * @param component2 the <code>JComponent</code> being placed
-     * @param position the position <code>component2</code> is being placed
-     *        relative to <code>component1</code>; one of
-     *        <code>SwingConstants.NORTH</code>,
-     *        <code>SwingConstants.SOUTH</code>,
-     *        <code>SwingConstants.EAST</code> or
-     *        <code>SwingConstants.WEST</code>
-     * @param type how the two components are being placed
-     * @param parent the parent of <code>component2</code>; this may differ
-     *        from the actual parent and it may be <code>null</code>
-     * @return the amount of space to place between the two components
+     * @pbrbm component1 the <code>JComponent</code>
+     *               <code>component2</code> is being plbced relbtive to
+     * @pbrbm component2 the <code>JComponent</code> being plbced
+     * @pbrbm position the position <code>component2</code> is being plbced
+     *        relbtive to <code>component1</code>; one of
+     *        <code>SwingConstbnts.NORTH</code>,
+     *        <code>SwingConstbnts.SOUTH</code>,
+     *        <code>SwingConstbnts.EAST</code> or
+     *        <code>SwingConstbnts.WEST</code>
+     * @pbrbm type how the two components bre being plbced
+     * @pbrbm pbrent the pbrent of <code>component2</code>; this mby differ
+     *        from the bctubl pbrent bnd it mby be <code>null</code>
+     * @return the bmount of spbce to plbce between the two components
      * @throws NullPointerException if <code>component1</code>,
      *         <code>component2</code> or <code>type</code> is
      *         <code>null</code>
-     * @throws IllegalArgumentException if <code>position</code> is not
-     *         one of <code>SwingConstants.NORTH</code>,
-     *         <code>SwingConstants.SOUTH</code>,
-     *         <code>SwingConstants.EAST</code> or
-     *         <code>SwingConstants.WEST</code>
-     * @see LookAndFeel#getLayoutStyle
+     * @throws IllegblArgumentException if <code>position</code> is not
+     *         one of <code>SwingConstbnts.NORTH</code>,
+     *         <code>SwingConstbnts.SOUTH</code>,
+     *         <code>SwingConstbnts.EAST</code> or
+     *         <code>SwingConstbnts.WEST</code>
+     * @see LookAndFeel#getLbyoutStyle
      * @since 1.6
      */
-    public abstract int getPreferredGap(JComponent component1,
+    public bbstrbct int getPreferredGbp(JComponent component1,
                                         JComponent component2,
-                                        ComponentPlacement type, int position,
-                                        Container parent);
+                                        ComponentPlbcement type, int position,
+                                        Contbiner pbrent);
 
     /**
-     * Returns the amount of space to place between the component and specified
-     * edge of its parent.
+     * Returns the bmount of spbce to plbce between the component bnd specified
+     * edge of its pbrent.
      *
-     * @param component the <code>JComponent</code> being positioned
-     * @param position the position <code>component</code> is being placed
-     *        relative to its parent; one of
-     *        <code>SwingConstants.NORTH</code>,
-     *        <code>SwingConstants.SOUTH</code>,
-     *        <code>SwingConstants.EAST</code> or
-     *        <code>SwingConstants.WEST</code>
-     * @param parent the parent of <code>component</code>; this may differ
-     *        from the actual parent and may be <code>null</code>
-     * @return the amount of space to place between the component and specified
+     * @pbrbm component the <code>JComponent</code> being positioned
+     * @pbrbm position the position <code>component</code> is being plbced
+     *        relbtive to its pbrent; one of
+     *        <code>SwingConstbnts.NORTH</code>,
+     *        <code>SwingConstbnts.SOUTH</code>,
+     *        <code>SwingConstbnts.EAST</code> or
+     *        <code>SwingConstbnts.WEST</code>
+     * @pbrbm pbrent the pbrent of <code>component</code>; this mby differ
+     *        from the bctubl pbrent bnd mby be <code>null</code>
+     * @return the bmount of spbce to plbce between the component bnd specified
      *         edge
-     * @throws IllegalArgumentException if <code>position</code> is not
-     *         one of <code>SwingConstants.NORTH</code>,
-     *         <code>SwingConstants.SOUTH</code>,
-     *         <code>SwingConstants.EAST</code> or
-     *         <code>SwingConstants.WEST</code>
+     * @throws IllegblArgumentException if <code>position</code> is not
+     *         one of <code>SwingConstbnts.NORTH</code>,
+     *         <code>SwingConstbnts.SOUTH</code>,
+     *         <code>SwingConstbnts.EAST</code> or
+     *         <code>SwingConstbnts.WEST</code>
      */
-    public abstract int getContainerGap(JComponent component, int position,
-                                        Container parent);
+    public bbstrbct int getContbinerGbp(JComponent component, int position,
+                                        Contbiner pbrent);
 }

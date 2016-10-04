@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttribute.Attribute;
 
 /**
- * Interface AttributeException is a mixin interface which a subclass of
+ * Interfbce AttributeException is b mixin interfbce which b subclbss of
  * {@link
- * PrintException PrintException} can implement to report an error condition
- * involving one or more printing attributes that a particular Print
- * Service instance does not support. Either the attribute is not supported at
- * all, or the attribute is supported but the particular specified value is not
- * supported. The Print Service API does not define any print exception
- * classes that implement interface AttributeException, that being left to the
+ * PrintException PrintException} cbn implement to report bn error condition
+ * involving one or more printing bttributes thbt b pbrticulbr Print
+ * Service instbnce does not support. Either the bttribute is not supported bt
+ * bll, or the bttribute is supported but the pbrticulbr specified vblue is not
+ * supported. The Print Service API does not define bny print exception
+ * clbsses thbt implement interfbce AttributeException, thbt being left to the
  * Print Service implementor's discretion.
  *
  */
 
-public interface AttributeException {
+public interfbce AttributeException {
 
 
     /**
-     * Returns the array of printing attribute classes for which the Print
-     * Service instance does not support the attribute at all, or null if
-     * there are no such attributes. The objects in the returned array are
-     * classes that extend the base interface
-     * {@link javax.print.attribute.Attribute Attribute}.
+     * Returns the brrby of printing bttribute clbsses for which the Print
+     * Service instbnce does not support the bttribute bt bll, or null if
+     * there bre no such bttributes. The objects in the returned brrby bre
+     * clbsses thbt extend the bbse interfbce
+     * {@link jbvbx.print.bttribute.Attribute Attribute}.
      *
-     * @return unsupported attribute classes
+     * @return unsupported bttribute clbsses
      */
-    public Class<?>[] getUnsupportedAttributes();
+    public Clbss<?>[] getUnsupportedAttributes();
 
     /**
-     * Returns the array of printing attributes for which the Print Service
-     * instance supports the attribute but does not support that particular
-     * value of the attribute, or null if there are no such attribute values.
+     * Returns the brrby of printing bttributes for which the Print Service
+     * instbnce supports the bttribute but does not support thbt pbrticulbr
+     * vblue of the bttribute, or null if there bre no such bttribute vblues.
      *
-     * @return unsupported attribute values
+     * @return unsupported bttribute vblues
      */
-    public Attribute[] getUnsupportedValues();
+    public Attribute[] getUnsupportedVblues();
 
     }

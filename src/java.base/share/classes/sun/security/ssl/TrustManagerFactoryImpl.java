@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.util.*;
-import java.io.*;
-import java.security.*;
-import java.security.cert.*;
-import javax.net.ssl.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvbx.net.ssl.*;
 
-import sun.security.validator.Validator;
+import sun.security.vblidbtor.Vblidbtor;
 
-abstract class TrustManagerFactoryImpl extends TrustManagerFactorySpi {
+bbstrbct clbss TrustMbnbgerFbctoryImpl extends TrustMbnbgerFbctorySpi {
 
-    private static final Debug debug = Debug.getInstance("ssl");
-    private X509TrustManager trustManager = null;
-    private boolean isInitialized = false;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
+    privbte X509TrustMbnbger trustMbnbger = null;
+    privbte boolebn isInitiblized = fblse;
 
-    TrustManagerFactoryImpl() {
+    TrustMbnbgerFbctoryImpl() {
         // empty
     }
 
@@ -47,78 +47,78 @@ abstract class TrustManagerFactoryImpl extends TrustManagerFactorySpi {
     protected void engineInit(KeyStore ks) throws KeyStoreException {
         if (ks == null) {
             try {
-                ks = getCacertsKeyStore("trustmanager");
-            } catch (SecurityException se) {
-                // eat security exceptions but report other throwables
-                if (debug != null && Debug.isOn("trustmanager")) {
+                ks = getCbcertsKeyStore("trustmbnbger");
+            } cbtch (SecurityException se) {
+                // ebt security exceptions but report other throwbbles
+                if (debug != null && Debug.isOn("trustmbnbger")) {
                     System.out.println(
-                        "SunX509: skip default keystore: " + se);
+                        "SunX509: skip defbult keystore: " + se);
                 }
-            } catch (Error err) {
-                if (debug != null && Debug.isOn("trustmanager")) {
+            } cbtch (Error err) {
+                if (debug != null && Debug.isOn("trustmbnbger")) {
                     System.out.println(
-                        "SunX509: skip default keystore: " + err);
+                        "SunX509: skip defbult keystore: " + err);
                 }
                 throw err;
-            } catch (RuntimeException re) {
-                if (debug != null && Debug.isOn("trustmanager")) {
+            } cbtch (RuntimeException re) {
+                if (debug != null && Debug.isOn("trustmbnbger")) {
                     System.out.println(
-                        "SunX509: skip default keystore: " + re);
+                        "SunX509: skip defbult keystore: " + re);
                 }
                 throw re;
-            } catch (Exception e) {
-                if (debug != null && Debug.isOn("trustmanager")) {
+            } cbtch (Exception e) {
+                if (debug != null && Debug.isOn("trustmbnbger")) {
                     System.out.println(
-                        "SunX509: skip default keystore: " + e);
+                        "SunX509: skip defbult keystore: " + e);
                 }
                 throw new KeyStoreException(
-                    "problem accessing trust store" + e);
+                    "problem bccessing trust store" + e);
             }
         }
-        trustManager = getInstance(ks);
-        isInitialized = true;
+        trustMbnbger = getInstbnce(ks);
+        isInitiblized = true;
     }
 
-    abstract X509TrustManager getInstance(KeyStore ks) throws KeyStoreException;
+    bbstrbct X509TrustMbnbger getInstbnce(KeyStore ks) throws KeyStoreException;
 
-    abstract X509TrustManager getInstance(ManagerFactoryParameters spec)
-            throws InvalidAlgorithmParameterException;
+    bbstrbct X509TrustMbnbger getInstbnce(MbnbgerFbctoryPbrbmeters spec)
+            throws InvblidAlgorithmPbrbmeterException;
 
     @Override
-    protected void engineInit(ManagerFactoryParameters spec) throws
-            InvalidAlgorithmParameterException {
-        trustManager = getInstance(spec);
-        isInitialized = true;
+    protected void engineInit(MbnbgerFbctoryPbrbmeters spec) throws
+            InvblidAlgorithmPbrbmeterException {
+        trustMbnbger = getInstbnce(spec);
+        isInitiblized = true;
     }
 
     /**
-     * Returns one trust manager for each type of trust material.
+     * Returns one trust mbnbger for ebch type of trust mbteribl.
      */
     @Override
-    protected TrustManager[] engineGetTrustManagers() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                        "TrustManagerFactoryImpl is not initialized");
+    protected TrustMbnbger[] engineGetTrustMbnbgers() {
+        if (!isInitiblized) {
+            throw new IllegblStbteException(
+                        "TrustMbnbgerFbctoryImpl is not initiblized");
         }
-        return new TrustManager[] { trustManager };
+        return new TrustMbnbger[] { trustMbnbger };
     }
 
     /*
-     * Try to get an InputStream based on the file we pass in.
+     * Try to get bn InputStrebm bbsed on the file we pbss in.
      */
-    private static FileInputStream getFileInputStream(final File file)
+    privbte stbtic FileInputStrebm getFileInputStrebm(finbl File file)
             throws Exception {
         return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<FileInputStream>() {
+                new PrivilegedExceptionAction<FileInputStrebm>() {
                     @Override
-                    public FileInputStream run() throws Exception {
+                    public FileInputStrebm run() throws Exception {
                         try {
                             if (file.exists()) {
-                                return new FileInputStream(file);
+                                return new FileInputStrebm(file);
                             } else {
                                 return null;
                             }
-                        } catch (FileNotFoundException e) {
+                        } cbtch (FileNotFoundException e) {
                             // couldn't find it, oh well.
                             return null;
                         }
@@ -127,112 +127,112 @@ abstract class TrustManagerFactoryImpl extends TrustManagerFactorySpi {
     }
 
     /**
-     * Returns the keystore with the configured CA certificates.
+     * Returns the keystore with the configured CA certificbtes.
      */
-    static KeyStore getCacertsKeyStore(String dbgname) throws Exception
+    stbtic KeyStore getCbcertsKeyStore(String dbgnbme) throws Exception
     {
-        String storeFileName = null;
+        String storeFileNbme = null;
         File storeFile = null;
-        FileInputStream fis = null;
-        String defaultTrustStoreType;
-        String defaultTrustStoreProvider;
-        final HashMap<String,String> props = new HashMap<>();
-        final String sep = File.separator;
+        FileInputStrebm fis = null;
+        String defbultTrustStoreType;
+        String defbultTrustStoreProvider;
+        finbl HbshMbp<String,String> props = new HbshMbp<>();
+        finbl String sep = File.sepbrbtor;
         KeyStore ks = null;
 
         AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
             @Override
             public Void run() throws Exception {
                 props.put("trustStore", System.getProperty(
-                                "javax.net.ssl.trustStore"));
-                props.put("javaHome", System.getProperty(
-                                        "java.home"));
+                                "jbvbx.net.ssl.trustStore"));
+                props.put("jbvbHome", System.getProperty(
+                                        "jbvb.home"));
                 props.put("trustStoreType", System.getProperty(
-                                "javax.net.ssl.trustStoreType",
-                                KeyStore.getDefaultType()));
+                                "jbvbx.net.ssl.trustStoreType",
+                                KeyStore.getDefbultType()));
                 props.put("trustStoreProvider", System.getProperty(
-                                "javax.net.ssl.trustStoreProvider", ""));
-                props.put("trustStorePasswd", System.getProperty(
-                                "javax.net.ssl.trustStorePassword", ""));
+                                "jbvbx.net.ssl.trustStoreProvider", ""));
+                props.put("trustStorePbsswd", System.getProperty(
+                                "jbvbx.net.ssl.trustStorePbssword", ""));
                 return null;
             }
         });
 
         /*
          * Try:
-         *      javax.net.ssl.trustStore  (if this variable exists, stop)
-         *      jssecacerts
-         *      cacerts
+         *      jbvbx.net.ssl.trustStore  (if this vbribble exists, stop)
+         *      jssecbcerts
+         *      cbcerts
          *
-         * If none exists, we use an empty keystore.
+         * If none exists, we use bn empty keystore.
          */
 
         try {
-            storeFileName = props.get("trustStore");
-            if (!"NONE".equals(storeFileName)) {
-                if (storeFileName != null) {
-                    storeFile = new File(storeFileName);
-                    fis = getFileInputStream(storeFile);
+            storeFileNbme = props.get("trustStore");
+            if (!"NONE".equbls(storeFileNbme)) {
+                if (storeFileNbme != null) {
+                    storeFile = new File(storeFileNbme);
+                    fis = getFileInputStrebm(storeFile);
                 } else {
-                    String javaHome = props.get("javaHome");
-                    storeFile = new File(javaHome + sep + "lib" + sep
+                    String jbvbHome = props.get("jbvbHome");
+                    storeFile = new File(jbvbHome + sep + "lib" + sep
                                                     + "security" + sep +
-                                                    "jssecacerts");
-                    if ((fis = getFileInputStream(storeFile)) == null) {
-                        storeFile = new File(javaHome + sep + "lib" + sep
+                                                    "jssecbcerts");
+                    if ((fis = getFileInputStrebm(storeFile)) == null) {
+                        storeFile = new File(jbvbHome + sep + "lib" + sep
                                                     + "security" + sep +
-                                                    "cacerts");
-                        fis = getFileInputStream(storeFile);
+                                                    "cbcerts");
+                        fis = getFileInputStrebm(storeFile);
                     }
                 }
 
                 if (fis != null) {
-                    storeFileName = storeFile.getPath();
+                    storeFileNbme = storeFile.getPbth();
                 } else {
-                    storeFileName = "No File Available, using empty keystore.";
+                    storeFileNbme = "No File Avbilbble, using empty keystore.";
                 }
             }
 
-            defaultTrustStoreType = props.get("trustStoreType");
-            defaultTrustStoreProvider = props.get("trustStoreProvider");
-            if (debug != null && Debug.isOn(dbgname)) {
-                System.out.println("trustStore is: " + storeFileName);
+            defbultTrustStoreType = props.get("trustStoreType");
+            defbultTrustStoreProvider = props.get("trustStoreProvider");
+            if (debug != null && Debug.isOn(dbgnbme)) {
+                System.out.println("trustStore is: " + storeFileNbme);
                 System.out.println("trustStore type is : " +
-                                    defaultTrustStoreType);
+                                    defbultTrustStoreType);
                 System.out.println("trustStore provider is : " +
-                                    defaultTrustStoreProvider);
+                                    defbultTrustStoreProvider);
             }
 
             /*
-             * Try to initialize trust store.
+             * Try to initiblize trust store.
              */
-            if (defaultTrustStoreType.length() != 0) {
-                if (debug != null && Debug.isOn(dbgname)) {
+            if (defbultTrustStoreType.length() != 0) {
+                if (debug != null && Debug.isOn(dbgnbme)) {
                     System.out.println("init truststore");
                 }
-                if (defaultTrustStoreProvider.length() == 0) {
-                    ks = KeyStore.getInstance(defaultTrustStoreType);
+                if (defbultTrustStoreProvider.length() == 0) {
+                    ks = KeyStore.getInstbnce(defbultTrustStoreType);
                 } else {
-                    ks = KeyStore.getInstance(defaultTrustStoreType,
-                                            defaultTrustStoreProvider);
+                    ks = KeyStore.getInstbnce(defbultTrustStoreType,
+                                            defbultTrustStoreProvider);
                 }
-                char[] passwd = null;
-                String defaultTrustStorePassword =
-                        props.get("trustStorePasswd");
-                if (defaultTrustStorePassword.length() != 0)
-                    passwd = defaultTrustStorePassword.toCharArray();
+                chbr[] pbsswd = null;
+                String defbultTrustStorePbssword =
+                        props.get("trustStorePbsswd");
+                if (defbultTrustStorePbssword.length() != 0)
+                    pbsswd = defbultTrustStorePbssword.toChbrArrby();
 
                 // if trustStore is NONE, fis will be null
-                ks.load(fis, passwd);
+                ks.lobd(fis, pbsswd);
 
-                // Zero out the temporary password storage
-                if (passwd != null) {
-                    for (int i = 0; i < passwd.length; i++) {
-                        passwd[i] = (char)0;
+                // Zero out the temporbry pbssword storbge
+                if (pbsswd != null) {
+                    for (int i = 0; i < pbsswd.length; i++) {
+                        pbsswd[i] = (chbr)0;
                     }
                 }
             }
-        } finally {
+        } finblly {
             if (fis != null) {
                 fis.close();
             }
@@ -241,40 +241,40 @@ abstract class TrustManagerFactoryImpl extends TrustManagerFactorySpi {
         return ks;
     }
 
-    public static final class SimpleFactory extends TrustManagerFactoryImpl {
+    public stbtic finbl clbss SimpleFbctory extends TrustMbnbgerFbctoryImpl {
         @Override
-        X509TrustManager getInstance(KeyStore ks) throws KeyStoreException {
-            return new X509TrustManagerImpl(Validator.TYPE_SIMPLE, ks);
+        X509TrustMbnbger getInstbnce(KeyStore ks) throws KeyStoreException {
+            return new X509TrustMbnbgerImpl(Vblidbtor.TYPE_SIMPLE, ks);
         }
         @Override
-        X509TrustManager getInstance(ManagerFactoryParameters spec)
-                throws InvalidAlgorithmParameterException {
-            throw new InvalidAlgorithmParameterException
-                ("SunX509 TrustManagerFactory does not use "
-                + "ManagerFactoryParameters");
+        X509TrustMbnbger getInstbnce(MbnbgerFbctoryPbrbmeters spec)
+                throws InvblidAlgorithmPbrbmeterException {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("SunX509 TrustMbnbgerFbctory does not use "
+                + "MbnbgerFbctoryPbrbmeters");
         }
    }
 
-    public static final class PKIXFactory extends TrustManagerFactoryImpl {
+    public stbtic finbl clbss PKIXFbctory extends TrustMbnbgerFbctoryImpl {
         @Override
-        X509TrustManager getInstance(KeyStore ks) throws KeyStoreException {
-            return new X509TrustManagerImpl(Validator.TYPE_PKIX, ks);
+        X509TrustMbnbger getInstbnce(KeyStore ks) throws KeyStoreException {
+            return new X509TrustMbnbgerImpl(Vblidbtor.TYPE_PKIX, ks);
         }
         @Override
-        X509TrustManager getInstance(ManagerFactoryParameters spec)
-                throws InvalidAlgorithmParameterException {
-            if (spec instanceof CertPathTrustManagerParameters == false) {
-                throw new InvalidAlgorithmParameterException
-                    ("Parameters must be CertPathTrustManagerParameters");
+        X509TrustMbnbger getInstbnce(MbnbgerFbctoryPbrbmeters spec)
+                throws InvblidAlgorithmPbrbmeterException {
+            if (spec instbnceof CertPbthTrustMbnbgerPbrbmeters == fblse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Pbrbmeters must be CertPbthTrustMbnbgerPbrbmeters");
             }
-            CertPathParameters params =
-                ((CertPathTrustManagerParameters)spec).getParameters();
-            if (params instanceof PKIXBuilderParameters == false) {
-                throw new InvalidAlgorithmParameterException
-                    ("Encapsulated parameters must be PKIXBuilderParameters");
+            CertPbthPbrbmeters pbrbms =
+                ((CertPbthTrustMbnbgerPbrbmeters)spec).getPbrbmeters();
+            if (pbrbms instbnceof PKIXBuilderPbrbmeters == fblse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Encbpsulbted pbrbmeters must be PKIXBuilderPbrbmeters");
             }
-            PKIXBuilderParameters pkixParams = (PKIXBuilderParameters)params;
-            return new X509TrustManagerImpl(Validator.TYPE_PKIX, pkixParams);
+            PKIXBuilderPbrbmeters pkixPbrbms = (PKIXBuilderPbrbmeters)pbrbms;
+            return new X509TrustMbnbgerImpl(Vblidbtor.TYPE_PKIX, pkixPbrbms);
         }
     }
 }

@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * A {@code BooleanControl} provides the ability to switch between two possible
- * settings that affect a line's audio. The settings are boolean values
- * ({@code true} and {@code false}). A graphical user interface might represent
- * the control by a two-state button, an on/off switch, two mutually exclusive
- * buttons, or a checkbox (among other possibilities). For example, depressing a
- * button might activate a {@link BooleanControl.Type#MUTE MUTE} control to
- * silence the line's audio.
+ * A {@code BoolebnControl} provides the bbility to switch between two possible
+ * settings thbt bffect b line's budio. The settings bre boolebn vblues
+ * ({@code true} bnd {@code fblse}). A grbphicbl user interfbce might represent
+ * the control by b two-stbte button, bn on/off switch, two mutublly exclusive
+ * buttons, or b checkbox (bmong other possibilities). For exbmple, depressing b
+ * button might bctivbte b {@link BoolebnControl.Type#MUTE MUTE} control to
+ * silence the line's budio.
  * <p>
- * As with other {@code Control} subclasses, a method is provided that returns
- * string labels for the values, suitable for display in the user interface.
+ * As with other {@code Control} subclbsses, b method is provided thbt returns
+ * string lbbels for the vblues, suitbble for displby in the user interfbce.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public abstract class BooleanControl extends Control {
+public bbstrbct clbss BoolebnControl extends Control {
 
     /**
-     * The {@code true} state label, such as "true" or "on".
+     * The {@code true} stbte lbbel, such bs "true" or "on".
      */
-    private final String trueStateLabel;
+    privbte finbl String trueStbteLbbel;
 
     /**
-     * The {@code false} state label, such as "false" or "off".
+     * The {@code fblse} stbte lbbel, such bs "fblse" or "off".
      */
-    private final String falseStateLabel;
+    privbte finbl String fblseStbteLbbel;
 
     /**
-     * The current value.
+     * The current vblue.
      */
-    private boolean value;
+    privbte boolebn vblue;
 
     /**
-     * Constructs a new boolean control object with the given parameters.
+     * Constructs b new boolebn control object with the given pbrbmeters.
      *
-     * @param  type the type of control represented this float control object
-     * @param  initialValue the initial control value
-     * @param  trueStateLabel the label for the state represented by
-     *         {@code true}, such as "true" or "on"
-     * @param  falseStateLabel the label for the state represented by
-     *         {@code false}, such as "false" or "off"
+     * @pbrbm  type the type of control represented this flobt control object
+     * @pbrbm  initiblVblue the initibl control vblue
+     * @pbrbm  trueStbteLbbel the lbbel for the stbte represented by
+     *         {@code true}, such bs "true" or "on"
+     * @pbrbm  fblseStbteLbbel the lbbel for the stbte represented by
+     *         {@code fblse}, such bs "fblse" or "off"
      */
-    protected BooleanControl(Type type, boolean initialValue, String trueStateLabel, String falseStateLabel) {
+    protected BoolebnControl(Type type, boolebn initiblVblue, String trueStbteLbbel, String fblseStbteLbbel) {
 
         super(type);
-        this.value = initialValue;
-        this.trueStateLabel = trueStateLabel;
-        this.falseStateLabel = falseStateLabel;
+        this.vblue = initiblVblue;
+        this.trueStbteLbbel = trueStbteLbbel;
+        this.fblseStbteLbbel = fblseStbteLbbel;
     }
 
     /**
-     * Constructs a new boolean control object with the given parameters. The
-     * labels for the {@code true} and {@code false} states default to "true"
-     * and "false".
+     * Constructs b new boolebn control object with the given pbrbmeters. The
+     * lbbels for the {@code true} bnd {@code fblse} stbtes defbult to "true"
+     * bnd "fblse".
      *
-     * @param  type the type of control represented by this float control object
-     * @param  initialValue the initial control value
+     * @pbrbm  type the type of control represented by this flobt control object
+     * @pbrbm  initiblVblue the initibl control vblue
      */
-    protected BooleanControl(Type type, boolean initialValue) {
-        this(type, initialValue, "true", "false");
+    protected BoolebnControl(Type type, boolebn initiblVblue) {
+        this(type, initiblVblue, "true", "fblse");
     }
 
     /**
-     * Sets the current value for the control. The default implementation simply
-     * sets the value as indicated. Some controls require that their line be
-     * open before they can be affected by setting a value.
+     * Sets the current vblue for the control. The defbult implementbtion simply
+     * sets the vblue bs indicbted. Some controls require thbt their line be
+     * open before they cbn be bffected by setting b vblue.
      *
-     * @param  value desired new value
+     * @pbrbm  vblue desired new vblue
      */
-    public void setValue(boolean value) {
-        this.value = value;
+    public void setVblue(boolebn vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Obtains this control's current value.
+     * Obtbins this control's current vblue.
      *
-     * @return current value
+     * @return current vblue
      */
-    public boolean getValue() {
-        return value;
+    public boolebn getVblue() {
+        return vblue;
     }
 
     /**
-     * Obtains the label for the specified state.
+     * Obtbins the lbbel for the specified stbte.
      *
-     * @param  state the state whose label will be returned
-     * @return the label for the specified state, such as "true" or "on" for
-     *         {@code true}, or "false" or "off" for {@code false}
+     * @pbrbm  stbte the stbte whose lbbel will be returned
+     * @return the lbbel for the specified stbte, such bs "true" or "on" for
+     *         {@code true}, or "fblse" or "off" for {@code fblse}
      */
-    public String getStateLabel(boolean state) {
-        return ((state == true) ? trueStateLabel : falseStateLabel);
+    public String getStbteLbbel(boolebn stbte) {
+        return ((stbte == true) ? trueStbteLbbel : fblseStbteLbbel);
     }
 
     /**
-     * Provides a string representation of the control.
+     * Provides b string representbtion of the control.
      *
-     * @return a string description
+     * @return b string description
      */
     @Override
     public String toString() {
-        return new String(super.toString() + " with current value: " + getStateLabel(getValue()));
+        return new String(super.toString() + " with current vblue: " + getStbteLbbel(getVblue()));
     }
 
     /**
-     * An instance of the {@code BooleanControl.Type} class identifies one kind
-     * of boolean control. Static instances are provided for the common types.
+     * An instbnce of the {@code BoolebnControl.Type} clbss identifies one kind
+     * of boolebn control. Stbtic instbnces bre provided for the common types.
      *
-     * @author Kara Kytle
+     * @buthor Kbrb Kytle
      * @since 1.3
      */
-    public static class Type extends Control.Type {
+    public stbtic clbss Type extends Control.Type {
 
         /**
-         * Represents a control for the mute status of a line. Note that mute
-         * status does not affect gain.
+         * Represents b control for the mute stbtus of b line. Note thbt mute
+         * stbtus does not bffect gbin.
          */
-        public static final Type MUTE                           = new Type("Mute");
+        public stbtic finbl Type MUTE                           = new Type("Mute");
 
         /**
-         * Represents a control for whether reverberation is applied to a line.
-         * Note that the status of this control not affect the reverberation
-         * settings for a line, but does affect whether these settings are used.
+         * Represents b control for whether reverberbtion is bpplied to b line.
+         * Note thbt the stbtus of this control not bffect the reverberbtion
+         * settings for b line, but does bffect whether these settings bre used.
          */
-        public static final Type APPLY_REVERB           = new Type("Apply Reverb");
+        public stbtic finbl Type APPLY_REVERB           = new Type("Apply Reverb");
 
         /**
-         * Constructs a new boolean control type.
+         * Constructs b new boolebn control type.
          *
-         * @param name the name of the new boolean control type
+         * @pbrbm nbme the nbme of the new boolebn control type
          */
-        protected Type(final String name) {
-            super(name);
+        protected Type(finbl String nbme) {
+            super(nbme);
         }
     }
 }

@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
 import sun.net.www.*;
-import java.util.Iterator;
-import java.util.HashMap;
+import jbvb.util.Iterbtor;
+import jbvb.util.HbshMbp;
 
 /**
- * This class is used to parse the information in WWW-Authenticate: and Proxy-Authenticate:
- * headers. It searches among multiple header lines and within each header line
- * for the best currently supported scheme. It can also return a HeaderParser
- * containing the challenge data for that particular scheme.
+ * This clbss is used to pbrse the informbtion in WWW-Authenticbte: bnd Proxy-Authenticbte:
+ * hebders. It sebrches bmong multiple hebder lines bnd within ebch hebder line
+ * for the best currently supported scheme. It cbn blso return b HebderPbrser
+ * contbining the chbllenge dbtb for thbt pbrticulbr scheme.
  *
- * Some examples:
+ * Some exbmples:
  *
- * WWW-Authenticate: Basic realm="foo" Digest realm="bar" NTLM
- *  Note the realm parameter must be associated with the particular scheme.
- *
- * or
- *
- * WWW-Authenticate: Basic realm="foo"
- * WWW-Authenticate: Digest realm="foo",qop="auth",nonce="thisisanunlikelynonce"
- * WWW-Authenticate: NTLM
+ * WWW-Authenticbte: Bbsic reblm="foo" Digest reblm="bbr" NTLM
+ *  Note the reblm pbrbmeter must be bssocibted with the pbrticulbr scheme.
  *
  * or
  *
- * WWW-Authenticate: Basic realm="foo"
- * WWW-Authenticate: NTLM ASKAJK9893289889QWQIOIONMNMN
+ * WWW-Authenticbte: Bbsic reblm="foo"
+ * WWW-Authenticbte: Digest reblm="foo",qop="buth",nonce="thisisbnunlikelynonce"
+ * WWW-Authenticbte: NTLM
  *
- * The last example shows how NTLM breaks the rules of rfc2617 for the structure of
- * the authentication header. This is the reason why the raw header field is used for ntlm.
+ * or
  *
- * At present, the class chooses schemes in following order :
- *      1. Negotiate (if supported)
+ * WWW-Authenticbte: Bbsic reblm="foo"
+ * WWW-Authenticbte: NTLM ASKAJK9893289889QWQIOIONMNMN
+ *
+ * The lbst exbmple shows how NTLM brebks the rules of rfc2617 for the structure of
+ * the buthenticbtion hebder. This is the rebson why the rbw hebder field is used for ntlm.
+ *
+ * At present, the clbss chooses schemes in following order :
+ *      1. Negotibte (if supported)
  *      2. Kerberos (if supported)
  *      3. Digest
  *      4. NTLM (if supported)
- *      5. Basic
+ *      5. Bbsic
  *
- * This choice can be modified by setting a system property:
+ * This choice cbn be modified by setting b system property:
  *
- *      -Dhttp.auth.preference="scheme"
+ *      -Dhttp.buth.preference="scheme"
  *
- * which in this case, specifies that "scheme" should be used as the auth scheme when offered
- * disregarding the default prioritisation. If scheme is not offered then the default priority
+ * which in this cbse, specifies thbt "scheme" should be used bs the buth scheme when offered
+ * disregbrding the defbult prioritisbtion. If scheme is not offered then the defbult priority
  * is used.
  *
- * Attention: when http.auth.preference is set as SPNEGO or Kerberos, it's actually "Negotiate
- * with SPNEGO" or "Negotiate with Kerberos", which means the user will prefer the Negotiate
- * scheme with GSS/SPNEGO or GSS/Kerberos mechanism.
+ * Attention: when http.buth.preference is set bs SPNEGO or Kerberos, it's bctublly "Negotibte
+ * with SPNEGO" or "Negotibte with Kerberos", which mebns the user will prefer the Negotibte
+ * scheme with GSS/SPNEGO or GSS/Kerberos mechbnism.
  *
- * This also means that the real "Kerberos" scheme can never be set as a preference.
+ * This blso mebns thbt the rebl "Kerberos" scheme cbn never be set bs b preference.
  */
 
-public class AuthenticationHeader {
+public clbss AuthenticbtionHebder {
 
-    MessageHeader rsp; // the response to be parsed
-    HeaderParser preferred;
-    String preferred_r; // raw Strings
-    private final HttpCallerInfo hci;   // un-schemed, need check
+    MessbgeHebder rsp; // the response to be pbrsed
+    HebderPbrser preferred;
+    String preferred_r; // rbw Strings
+    privbte finbl HttpCbllerInfo hci;   // un-schemed, need check
 
-    // When set true, do not use Negotiate even if the response
-    // headers suggest so.
-    boolean dontUseNegotiate = false;
-    static String authPref=null;
+    // When set true, do not use Negotibte even if the response
+    // hebders suggest so.
+    boolebn dontUseNegotibte = fblse;
+    stbtic String buthPref=null;
 
     public String toString() {
-        return "AuthenticationHeader: prefer " + preferred_r;
+        return "AuthenticbtionHebder: prefer " + preferred_r;
     }
 
-    static {
-        authPref = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("http.auth.preference"));
+    stbtic {
+        buthPref = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("http.buth.preference"));
 
-        // http.auth.preference can be set to SPNEGO or Kerberos.
-        // In fact they means "Negotiate with SPNEGO" and "Negotiate with
-        // Kerberos" separately, so here they are all translated into
-        // Negotiate. Read NegotiateAuthentication.java to see how they
-        // were used later.
+        // http.buth.preference cbn be set to SPNEGO or Kerberos.
+        // In fbct they mebns "Negotibte with SPNEGO" bnd "Negotibte with
+        // Kerberos" sepbrbtely, so here they bre bll trbnslbted into
+        // Negotibte. Rebd NegotibteAuthenticbtion.jbvb to see how they
+        // were used lbter.
 
-        if (authPref != null) {
-            authPref = authPref.toLowerCase();
-            if(authPref.equals("spnego") || authPref.equals("kerberos")) {
-                authPref = "negotiate";
+        if (buthPref != null) {
+            buthPref = buthPref.toLowerCbse();
+            if(buthPref.equbls("spnego") || buthPref.equbls("kerberos")) {
+                buthPref = "negotibte";
             }
         }
     }
 
-    String hdrname; // Name of the header to look for
+    String hdrnbme; // Nbme of the hebder to look for
 
     /**
-     * parse a set of authentication headers and choose the preferred scheme
-     * that we support for a given host
+     * pbrse b set of buthenticbtion hebders bnd choose the preferred scheme
+     * thbt we support for b given host
      */
-    public AuthenticationHeader (String hdrname, MessageHeader response,
-            HttpCallerInfo hci, boolean dontUseNegotiate) {
+    public AuthenticbtionHebder (String hdrnbme, MessbgeHebder response,
+            HttpCbllerInfo hci, boolebn dontUseNegotibte) {
         this.hci = hci;
-        this.dontUseNegotiate = dontUseNegotiate;
+        this.dontUseNegotibte = dontUseNegotibte;
         rsp = response;
-        this.hdrname = hdrname;
-        schemes = new HashMap<String,SchemeMapValue>();
-        parse();
+        this.hdrnbme = hdrnbme;
+        schemes = new HbshMbp<String,SchemeMbpVblue>();
+        pbrse();
     }
 
-    public HttpCallerInfo getHttpCallerInfo() {
+    public HttpCbllerInfo getHttpCbllerInfo() {
         return hci;
     }
-    /* we build up a map of scheme names mapped to SchemeMapValue objects */
-    static class SchemeMapValue {
-        SchemeMapValue (HeaderParser h, String r) {raw=r; parser=h;}
-        String raw;
-        HeaderParser parser;
+    /* we build up b mbp of scheme nbmes mbpped to SchemeMbpVblue objects */
+    stbtic clbss SchemeMbpVblue {
+        SchemeMbpVblue (HebderPbrser h, String r) {rbw=r; pbrser=h;}
+        String rbw;
+        HebderPbrser pbrser;
     }
 
-    HashMap<String, SchemeMapValue> schemes;
+    HbshMbp<String, SchemeMbpVblue> schemes;
 
-    /* Iterate through each header line, and then within each line.
-     * If multiple entries exist for a particular scheme (unlikely)
-     * then the last one will be used. The
-     * preferred scheme that we support will be used.
+    /* Iterbte through ebch hebder line, bnd then within ebch line.
+     * If multiple entries exist for b pbrticulbr scheme (unlikely)
+     * then the lbst one will be used. The
+     * preferred scheme thbt we support will be used.
      */
-    private void parse () {
-        Iterator<String> iter = rsp.multiValueIterator(hdrname);
-        while (iter.hasNext()) {
-            String raw = iter.next();
-            HeaderParser hp = new HeaderParser(raw);
-            Iterator<String> keys = hp.keys();
-            int i, lastSchemeIndex;
-            for (i=0, lastSchemeIndex = -1; keys.hasNext(); i++) {
+    privbte void pbrse () {
+        Iterbtor<String> iter = rsp.multiVblueIterbtor(hdrnbme);
+        while (iter.hbsNext()) {
+            String rbw = iter.next();
+            HebderPbrser hp = new HebderPbrser(rbw);
+            Iterbtor<String> keys = hp.keys();
+            int i, lbstSchemeIndex;
+            for (i=0, lbstSchemeIndex = -1; keys.hbsNext(); i++) {
                 keys.next();
-                if (hp.findValue(i) == null) { /* found a scheme name */
-                    if (lastSchemeIndex != -1) {
-                        HeaderParser hpn = hp.subsequence (lastSchemeIndex, i);
+                if (hp.findVblue(i) == null) { /* found b scheme nbme */
+                    if (lbstSchemeIndex != -1) {
+                        HebderPbrser hpn = hp.subsequence (lbstSchemeIndex, i);
                         String scheme = hpn.findKey(0);
-                        schemes.put (scheme, new SchemeMapValue (hpn, raw));
+                        schemes.put (scheme, new SchemeMbpVblue (hpn, rbw));
                     }
-                    lastSchemeIndex = i;
+                    lbstSchemeIndex = i;
                 }
             }
-            if (i > lastSchemeIndex) {
-                HeaderParser hpn = hp.subsequence (lastSchemeIndex, i);
+            if (i > lbstSchemeIndex) {
+                HebderPbrser hpn = hp.subsequence (lbstSchemeIndex, i);
                 String scheme = hpn.findKey(0);
-                schemes.put(scheme, new SchemeMapValue (hpn, raw));
+                schemes.put(scheme, new SchemeMbpVblue (hpn, rbw));
             }
         }
 
         /* choose the best of them, the order is
-         * negotiate -> kerberos -> digest -> ntlm -> basic
+         * negotibte -> kerberos -> digest -> ntlm -> bbsic
          */
-        SchemeMapValue v = null;
-        if (authPref == null || (v=schemes.get (authPref)) == null) {
+        SchemeMbpVblue v = null;
+        if (buthPref == null || (v=schemes.get (buthPref)) == null) {
 
-            if(v == null && !dontUseNegotiate) {
-                SchemeMapValue tmp = schemes.get("negotiate");
+            if(v == null && !dontUseNegotibte) {
+                SchemeMbpVblue tmp = schemes.get("negotibte");
                 if(tmp != null) {
-                    if(hci == null || !NegotiateAuthentication.isSupported(new HttpCallerInfo(hci, "Negotiate"))) {
+                    if(hci == null || !NegotibteAuthenticbtion.isSupported(new HttpCbllerInfo(hci, "Negotibte"))) {
                         tmp = null;
                     }
                     v = tmp;
                 }
             }
 
-            if(v == null && !dontUseNegotiate) {
-                SchemeMapValue tmp = schemes.get("kerberos");
+            if(v == null && !dontUseNegotibte) {
+                SchemeMbpVblue tmp = schemes.get("kerberos");
                 if(tmp != null) {
                     // the Kerberos scheme is only observed in MS ISA Server. In
-                    // fact i think it's a Kerberos-mechnism-only Negotiate.
-                    // Since the Kerberos scheme is always accompanied with the
-                    // Negotiate scheme, so it seems impossible to reach this
-                    // line. Even if the user explicitly set http.auth.preference
-                    // as Kerberos, it means Negotiate with Kerberos, and the code
-                    // will still tried to use Negotiate at first.
+                    // fbct i think it's b Kerberos-mechnism-only Negotibte.
+                    // Since the Kerberos scheme is blwbys bccompbnied with the
+                    // Negotibte scheme, so it seems impossible to rebch this
+                    // line. Even if the user explicitly set http.buth.preference
+                    // bs Kerberos, it mebns Negotibte with Kerberos, bnd the code
+                    // will still tried to use Negotibte bt first.
                     //
-                    // The only chance this line get executed is that the server
+                    // The only chbnce this line get executed is thbt the server
                     // only suggest the Kerberos scheme.
-                    if(hci == null || !NegotiateAuthentication.isSupported(new HttpCallerInfo(hci, "Kerberos"))) {
+                    if(hci == null || !NegotibteAuthenticbtion.isSupported(new HttpCbllerInfo(hci, "Kerberos"))) {
                         tmp = null;
                     }
                     v = tmp;
@@ -206,35 +206,35 @@ public class AuthenticationHeader {
 
             if(v == null) {
                 if ((v=schemes.get ("digest")) == null) {
-                    if (!NTLMAuthenticationProxy.supported
+                    if (!NTLMAuthenticbtionProxy.supported
                         || ((v=schemes.get("ntlm"))==null)) {
-                        v = schemes.get ("basic");
+                        v = schemes.get ("bbsic");
                     }
                 }
             }
-        } else {    // authPref != null && it's found in reponses'
-            if (dontUseNegotiate && authPref.equals("negotiate")) {
+        } else {    // buthPref != null && it's found in reponses'
+            if (dontUseNegotibte && buthPref.equbls("negotibte")) {
                 v = null;
             }
         }
 
         if (v != null) {
-            preferred = v.parser;
-            preferred_r = v.raw;
+            preferred = v.pbrser;
+            preferred_r = v.rbw;
         }
     }
 
     /**
-     * return a header parser containing the preferred authentication scheme (only).
+     * return b hebder pbrser contbining the preferred buthenticbtion scheme (only).
      * The preferred scheme is the strongest of the schemes proposed by the server.
-     * The returned HeaderParser will contain the relevant parameters for that scheme
+     * The returned HebderPbrser will contbin the relevbnt pbrbmeters for thbt scheme
      */
-    public HeaderParser headerParser() {
+    public HebderPbrser hebderPbrser() {
         return preferred;
     }
 
     /**
-     * return the name of the preferred scheme
+     * return the nbme of the preferred scheme
      */
     public String scheme() {
         if (preferred != null) {
@@ -244,16 +244,16 @@ public class AuthenticationHeader {
         }
     }
 
-    /* return the raw header field for the preferred/chosen scheme */
+    /* return the rbw hebder field for the preferred/chosen scheme */
 
-    public String raw () {
+    public String rbw () {
         return preferred_r;
     }
 
     /**
-     * returns true is the header exists and contains a recognised scheme
+     * returns true is the hebder exists bnd contbins b recognised scheme
      */
-    public boolean isPresent () {
+    public boolebn isPresent () {
         return preferred != null;
     }
 }

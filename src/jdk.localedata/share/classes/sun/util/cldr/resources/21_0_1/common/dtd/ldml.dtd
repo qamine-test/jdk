@@ -1,1318 +1,1318 @@
 <!--
-Copyright © 2003-2012 Unicode, Inc. and others. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+Copyright © 2003-2012 Unicode, Inc. bnd others. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of the Unicode data files and any associated documentation (the "Data Files") or Unicode software and any associated documentation (the "Software") to deal in the Data Files or Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or Software, and to permit persons to whom the Data Files or Software are furnished to do so, provided that (a) the above copyright notice(s) and this permission notice appear with all copies of the Data Files or Software, (b) both the above copyright notice(s) and this permission notice appear in associated documentation, and (c) there is clear notice in each modified Data File or in the Software as well as in the documentation associated with the Data File(s) or Software that the data or software has been modified.
+Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb Files") or Unicode softwbre bnd bny bssocibted documentbtion (the "Softwbre") to debl in the Dbtb Files or Softwbre without restriction, including without limitbtion the rights to use, copy, modify, merge, publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so, provided thbt (b) the bbove copyright notice(s) bnd this permission notice bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove copyright notice(s) bnd this permission notice bppebr in bssocibted documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
 
 THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.
 
-Except as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.
+Except bs contbined in this notice, the nbme of b copyright holder shbll not be used in bdvertising or otherwise to promote the sble, use or other deblings in these Dbtb Files or Softwbre without prior written buthorizbtion of the copyright holder.
 $Revision: 6708 $
-$Date: 2012-03-16 15:58:36 +0900 (Fri, 16 Mar 2012) $
+$Dbte: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $
 -->
 
-<!ELEMENT ldml (identity, (alias | (fallback*, localeDisplayNames?, layout?, contextTransforms?, characters?, delimiters?, measurement?, dates?, numbers?, units?, listPatterns?, collations?, posix?, segmentations?, rbnf?, metadata?, references?, special*))) >
-<!ATTLIST ldml draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT ldml (identity, (blibs | (fbllbbck*, locbleDisplbyNbmes?, lbyout?, contextTrbnsforms?, chbrbcters?, delimiters?, mebsurement?, dbtes?, numbers?, units?, listPbtterns?, collbtions?, posix?, segmentbtions?, rbnf?, metbdbtb?, references?, specibl*))) >
+<!ATTLIST ldml drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
 <!-- ######################################################### -->
 
-<!ELEMENT identity (alias | (version, generation?, language, script?, territory?, variant?, special*) ) >
+<!ELEMENT identity (blibs | (version, generbtion?, lbngubge, script?, territory?, vbribnt?, specibl*) ) >
 
 <!ELEMENT version EMPTY >
 <!ATTLIST version number CDATA #REQUIRED >
 <!ATTLIST version cldrVersion CDATA #FIXED "21.0" >
 
-<!ELEMENT generation EMPTY >
-<!ATTLIST generation date CDATA #REQUIRED >
+<!ELEMENT generbtion EMPTY >
+<!ATTLIST generbtion dbte CDATA #REQUIRED >
 
-<!ELEMENT language ( #PCDATA ) >
-<!ATTLIST language type NMTOKEN #REQUIRED >
-<!ATTLIST language draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST language references CDATA #IMPLIED >
-<!ATTLIST language alt NMTOKENS #IMPLIED >
+<!ELEMENT lbngubge ( #PCDATA ) >
+<!ATTLIST lbngubge type NMTOKEN #REQUIRED >
+<!ATTLIST lbngubge drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST lbngubge references CDATA #IMPLIED >
+<!ATTLIST lbngubge blt NMTOKENS #IMPLIED >
 
 
 <!ELEMENT script ( #PCDATA ) >
 <!ATTLIST script type NMTOKEN #REQUIRED >
-<!ATTLIST script draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST script drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST script references CDATA #IMPLIED >
-<!ATTLIST script alt NMTOKENS #IMPLIED >
+<!ATTLIST script blt NMTOKENS #IMPLIED >
 
 
 <!ELEMENT territory ( #PCDATA ) >
 <!ATTLIST territory type NMTOKEN #REQUIRED >
-<!ATTLIST territory draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST territory drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST territory references CDATA #IMPLIED >
-<!ATTLIST territory alt NMTOKENS #IMPLIED >
+<!ATTLIST territory blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT variant ( #PCDATA ) >
-<!ATTLIST variant type NMTOKEN #REQUIRED >
-<!ATTLIST variant draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST variant references CDATA #IMPLIED >
-<!ATTLIST variant alt NMTOKENS #IMPLIED >
+<!ELEMENT vbribnt ( #PCDATA ) >
+<!ATTLIST vbribnt type NMTOKEN #REQUIRED >
+<!ATTLIST vbribnt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST vbribnt references CDATA #IMPLIED >
+<!ATTLIST vbribnt blt NMTOKENS #IMPLIED >
 
 
 <!-- ######################################################### -->
 
-<!-- These elements are common to almost all elements defined  -->
+<!-- These elements bre common to blmost bll elements defined  -->
 <!-- ######################################################### -->
 
-<!ELEMENT alias  (special*) >
-<!ATTLIST alias source NMTOKEN #REQUIRED >
-<!ATTLIST alias path CDATA #IMPLIED>
-<!ATTLIST alias draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST alias alt NMTOKENS #IMPLIED >
+<!ELEMENT blibs  (specibl*) >
+<!ATTLIST blibs source NMTOKEN #REQUIRED >
+<!ATTLIST blibs pbth CDATA #IMPLIED>
+<!ATTLIST blibs drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST blibs blt NMTOKENS #IMPLIED >
 
-<!ELEMENT default (special*) >
-<!ATTLIST default type NMTOKEN #IMPLIED > <!-- deprecated in favor of choice -->
-<!ATTLIST default choice NMTOKEN #IMPLIED > <!-- really required, but needs to be optional to support type also -->
-<!ATTLIST default draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST default references CDATA #IMPLIED >
-<!ATTLIST default alt NMTOKENS #IMPLIED >
+<!ELEMENT defbult (specibl*) >
+<!ATTLIST defbult type NMTOKEN #IMPLIED > <!-- deprecbted in fbvor of choice -->
+<!ATTLIST defbult choice NMTOKEN #IMPLIED > <!-- reblly required, but needs to be optionbl to support type blso -->
+<!ATTLIST defbult drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST defbult references CDATA #IMPLIED >
+<!ATTLIST defbult blt NMTOKENS #IMPLIED >
 
-<!ELEMENT special ANY >
+<!ELEMENT specibl ANY >
 
-<!-- This element can occur anywhere there may be localizable data -->
-<!ELEMENT cp (special*) >
+<!-- This element cbn occur bnywhere there mby be locblizbble dbtb -->
+<!ELEMENT cp (specibl*) >
 <!ATTLIST cp hex NMTOKEN #REQUIRED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT fallback (#PCDATA) > <!-- deprecated -->
-<!ATTLIST fallback draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED  >
-<!ATTLIST fallback references CDATA #IMPLIED >
-<!ATTLIST fallback alt NMTOKENS #IMPLIED >
+<!ELEMENT fbllbbck (#PCDATA) > <!-- deprecbted -->
+<!ATTLIST fbllbbck drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED  >
+<!ATTLIST fbllbbck references CDATA #IMPLIED >
+<!ATTLIST fbllbbck blt NMTOKENS #IMPLIED >
 
-<!ELEMENT localeDisplayNames (alias | (localeDisplayPattern?, languages?, scripts?, territories?, variants?, keys?, types?, transformNames?, measurementSystemNames?, codePatterns?, special*)) >
-<!ATTLIST localeDisplayNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT locbleDisplbyNbmes (blibs | (locbleDisplbyPbttern?, lbngubges?, scripts?, territories?, vbribnts?, keys?, types?, trbnsformNbmes?, mebsurementSystemNbmes?, codePbtterns?, specibl*)) >
+<!ATTLIST locbleDisplbyNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
-<!-- Either 1 alias OR any specials, any order, zero or more language -->
-<!ELEMENT languages ( alias | (language | special)* ) >
-<!ATTLIST languages draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED  > <!-- true and false are deprecated. -->
-<!ATTLIST languages standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST languages references CDATA #IMPLIED >
-<!ATTLIST languages validSubLocales CDATA #IMPLIED >
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more lbngubge -->
+<!ELEMENT lbngubges ( blibs | (lbngubge | specibl)* ) >
+<!ATTLIST lbngubges drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED  > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST lbngubges stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST lbngubges references CDATA #IMPLIED >
+<!ATTLIST lbngubges vblidSubLocbles CDATA #IMPLIED >
 
-<!-- Either 1 alias OR any specials, any order, zero or more script -->
-<!ELEMENT scripts (alias |(script | special)* ) >
-<!ATTLIST scripts draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST scripts standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more script -->
+<!ELEMENT scripts (blibs |(script | specibl)* ) >
+<!ATTLIST scripts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST scripts stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST scripts references CDATA #IMPLIED >
-<!ATTLIST scripts validSubLocales CDATA #IMPLIED >
+<!ATTLIST scripts vblidSubLocbles CDATA #IMPLIED >
 
-<!-- Either 1 alias OR any specials, any order, zero or more territory -->
-<!ELEMENT territories ( alias | (territory | special)*) >
-<!ATTLIST territories draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST territories standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more territory -->
+<!ELEMENT territories ( blibs | (territory | specibl)*) >
+<!ATTLIST territories drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST territories stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST territories references CDATA #IMPLIED >
-<!ATTLIST territories validSubLocales CDATA #IMPLIED >
+<!ATTLIST territories vblidSubLocbles CDATA #IMPLIED >
 
-<!-- Either 1 alias OR any specials, any order, zero or more variant -->
-<!ELEMENT variants ( alias |(variant | special)*  ) >
-<!ATTLIST variants draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST variants standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST variants references CDATA #IMPLIED >
-<!ATTLIST variants validSubLocales CDATA #IMPLIED >
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more vbribnt -->
+<!ELEMENT vbribnts ( blibs |(vbribnt | specibl)*  ) >
+<!ATTLIST vbribnts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST vbribnts stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST vbribnts references CDATA #IMPLIED >
+<!ATTLIST vbribnts vblidSubLocbles CDATA #IMPLIED >
 
-<!-- Either 1 alias OR any specials, any order, zero or more key -->
-<!ELEMENT keys ( alias | (key | special)*) >
-<!ATTLIST keys draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST keys standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more key -->
+<!ELEMENT keys ( blibs | (key | specibl)*) >
+<!ATTLIST keys drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST keys stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST keys references CDATA #IMPLIED >
-<!ATTLIST keys validSubLocales CDATA #IMPLIED >
+<!ATTLIST keys vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT key ( #PCDATA ) >
 <!ATTLIST key type NMTOKEN #REQUIRED >
-<!ATTLIST key draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST key drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST key references CDATA #IMPLIED >
-<!ATTLIST key alt NMTOKENS #IMPLIED >
+<!ATTLIST key blt NMTOKENS #IMPLIED >
 
 
-<!-- Either 1 alias OR any specials, any order, zero or more type -->
-<!ELEMENT types ( alias | (type | special)* ) >
-<!ATTLIST types draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST types standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more type -->
+<!ELEMENT types ( blibs | (type | specibl)* ) >
+<!ATTLIST types drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST types stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST types references CDATA #IMPLIED >
-<!ATTLIST types validSubLocales CDATA #IMPLIED >
+<!ATTLIST types vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT type ( #PCDATA ) >
 <!ATTLIST type type NMTOKEN #REQUIRED >
 <!ATTLIST type key NMTOKEN #IMPLIED >
-<!ATTLIST type draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST type drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST type references CDATA #IMPLIED >
-<!ATTLIST type alt NMTOKENS #IMPLIED >
+<!ATTLIST type blt NMTOKENS #IMPLIED >
 
-<!ELEMENT transformNames ( alias | (transformName | special)* ) >
-<!ATTLIST transformNames draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST transformNames references CDATA #IMPLIED >
+<!ELEMENT trbnsformNbmes ( blibs | (trbnsformNbme | specibl)* ) >
+<!ATTLIST trbnsformNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST trbnsformNbmes references CDATA #IMPLIED >
 
-<!ELEMENT transformName ( #PCDATA ) >
-<!ATTLIST transformName type NMTOKEN #REQUIRED >
-<!ATTLIST transformName draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST transformName references CDATA #IMPLIED >
-<!ATTLIST transformName alt NMTOKENS #IMPLIED >
+<!ELEMENT trbnsformNbme ( #PCDATA ) >
+<!ATTLIST trbnsformNbme type NMTOKEN #REQUIRED >
+<!ATTLIST trbnsformNbme drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST trbnsformNbme references CDATA #IMPLIED >
+<!ATTLIST trbnsformNbme blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT codePatterns ( alias | (codePattern | special)* ) >
-<!ELEMENT codePattern ( #PCDATA ) >
-<!ATTLIST codePattern type NMTOKEN #REQUIRED >
-<!ATTLIST codePattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST codePattern references CDATA #IMPLIED >
-<!ATTLIST codePattern alt NMTOKENS #IMPLIED >
+<!ELEMENT codePbtterns ( blibs | (codePbttern | specibl)* ) >
+<!ELEMENT codePbttern ( #PCDATA ) >
+<!ATTLIST codePbttern type NMTOKEN #REQUIRED >
+<!ATTLIST codePbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST codePbttern references CDATA #IMPLIED >
+<!ATTLIST codePbttern blt NMTOKENS #IMPLIED >
 
-<!-- Either 1 alias OR any specials, any order, zero or more measurementSystemName -->
-<!ELEMENT measurementSystemNames ( alias | (measurementSystemName | special)* ) >
-<!ATTLIST measurementSystemNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST measurementSystemNames references CDATA #IMPLIED >
-<!ATTLIST measurementSystemNames validSubLocales CDATA #IMPLIED >
+<!-- Either 1 blibs OR bny specibls, bny order, zero or more mebsurementSystemNbme -->
+<!ELEMENT mebsurementSystemNbmes ( blibs | (mebsurementSystemNbme | specibl)* ) >
+<!ATTLIST mebsurementSystemNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST mebsurementSystemNbmes references CDATA #IMPLIED >
+<!ATTLIST mebsurementSystemNbmes vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT measurementSystemName ( #PCDATA ) >
-<!ATTLIST measurementSystemName type ( US | metric | UK ) #REQUIRED >
-<!ATTLIST measurementSystemName draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST measurementSystemName references CDATA #IMPLIED >
-<!ATTLIST measurementSystemName alt NMTOKENS #IMPLIED >
+<!ELEMENT mebsurementSystemNbme ( #PCDATA ) >
+<!ATTLIST mebsurementSystemNbme type ( US | metric | UK ) #REQUIRED >
+<!ATTLIST mebsurementSystemNbme drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST mebsurementSystemNbme references CDATA #IMPLIED >
+<!ATTLIST mebsurementSystemNbme blt NMTOKENS #IMPLIED >
 
-<!ELEMENT localeDisplayPattern ( alias | (localePattern*, localeSeparator*, localeKeyTypePattern*, special*) ) >
-<!ATTLIST localeDisplayPattern draft ( approved | contributed | provisional | unconfirmed) #IMPLIED >
-<!ATTLIST localeDisplayPattern references CDATA #IMPLIED >
-<!ATTLIST localeDisplayPattern alt NMTOKENS #IMPLIED >
+<!ELEMENT locbleDisplbyPbttern ( blibs | (locblePbttern*, locbleSepbrbtor*, locbleKeyTypePbttern*, specibl*) ) >
+<!ATTLIST locbleDisplbyPbttern drbft ( bpproved | contributed | provisionbl | unconfirmed) #IMPLIED >
+<!ATTLIST locbleDisplbyPbttern references CDATA #IMPLIED >
+<!ATTLIST locbleDisplbyPbttern blt NMTOKENS #IMPLIED >
 
-<!ELEMENT localePattern ( #PCDATA ) >
-<!ATTLIST localePattern draft ( approved | contributed | provisional | unconfirmed) #IMPLIED >
-<!ATTLIST localePattern references CDATA #IMPLIED >
-<!ATTLIST localePattern alt NMTOKENS #IMPLIED >
+<!ELEMENT locblePbttern ( #PCDATA ) >
+<!ATTLIST locblePbttern drbft ( bpproved | contributed | provisionbl | unconfirmed) #IMPLIED >
+<!ATTLIST locblePbttern references CDATA #IMPLIED >
+<!ATTLIST locblePbttern blt NMTOKENS #IMPLIED >
 
-<!ELEMENT localeSeparator ( #PCDATA ) >
-<!ATTLIST localeSeparator draft ( approved | contributed | provisional | unconfirmed) #IMPLIED >
-<!ATTLIST localeSeparator references CDATA #IMPLIED >
-<!ATTLIST localeSeparator alt NMTOKENS #IMPLIED >
+<!ELEMENT locbleSepbrbtor ( #PCDATA ) >
+<!ATTLIST locbleSepbrbtor drbft ( bpproved | contributed | provisionbl | unconfirmed) #IMPLIED >
+<!ATTLIST locbleSepbrbtor references CDATA #IMPLIED >
+<!ATTLIST locbleSepbrbtor blt NMTOKENS #IMPLIED >
 
-<!ELEMENT localeKeyTypePattern ( #PCDATA ) >
-<!ATTLIST localeKeyTypePattern draft ( approved | contributed | provisional | unconfirmed) #IMPLIED >
-<!ATTLIST localeKeyTypePattern references CDATA #IMPLIED >
-<!ATTLIST localeKeyTypePattern alt NMTOKENS #IMPLIED >
-
-<!-- ######################################################### -->
-
+<!ELEMENT locbleKeyTypePbttern ( #PCDATA ) >
+<!ATTLIST locbleKeyTypePbttern drbft ( bpproved | contributed | provisionbl | unconfirmed) #IMPLIED >
+<!ATTLIST locbleKeyTypePbttern references CDATA #IMPLIED >
+<!ATTLIST locbleKeyTypePbttern blt NMTOKENS #IMPLIED >
 
 <!-- ######################################################### -->
-<!-- layout and orientation are script specific, so validSublocales attribute is not required -->
-<!ELEMENT layout ( alias | (orientation*, inList*, inText*, special*) ) >
-<!ATTLIST layout draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST layout references CDATA #IMPLIED >
 
-<!ELEMENT orientation ( special* ) >
-<!ATTLIST orientation characters ( left-to-right | right-to-left | top-to-bottom | bottom-to-top ) "left-to-right" >
-<!ATTLIST orientation lines ( left-to-right | right-to-left | top-to-bottom | bottom-to-top ) "top-to-bottom" >
-<!ATTLIST orientation draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST orientation standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST orientation references CDATA #IMPLIED >
-<!ATTLIST orientation alt NMTOKENS #IMPLIED >
 
-<!ELEMENT inList ( #PCDATA ) > <!-- deprecated, use contextTransforms -->
-<!ATTLIST inList casing ( titlecase-words | titlecase-firstword | lowercase-words | mixed ) #IMPLIED > <!-- deprecated -->
-<!ATTLIST inList draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!-- ######################################################### -->
+<!-- lbyout bnd orientbtion bre script specific, so vblidSublocbles bttribute is not required -->
+<!ELEMENT lbyout ( blibs | (orientbtion*, inList*, inText*, specibl*) ) >
+<!ATTLIST lbyout drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST lbyout references CDATA #IMPLIED >
+
+<!ELEMENT orientbtion ( specibl* ) >
+<!ATTLIST orientbtion chbrbcters ( left-to-right | right-to-left | top-to-bottom | bottom-to-top ) "left-to-right" >
+<!ATTLIST orientbtion lines ( left-to-right | right-to-left | top-to-bottom | bottom-to-top ) "top-to-bottom" >
+<!ATTLIST orientbtion drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST orientbtion stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST orientbtion references CDATA #IMPLIED >
+<!ATTLIST orientbtion blt NMTOKENS #IMPLIED >
+
+<!ELEMENT inList ( #PCDATA ) > <!-- deprecbted, use contextTrbnsforms -->
+<!ATTLIST inList cbsing ( titlecbse-words | titlecbse-firstword | lowercbse-words | mixed ) #IMPLIED > <!-- deprecbted -->
+<!ATTLIST inList drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST inList references CDATA #IMPLIED >
-<!ATTLIST inList alt NMTOKENS #IMPLIED >
+<!ATTLIST inList blt NMTOKENS #IMPLIED >
 
-<!ELEMENT inText ( #PCDATA ) > <!-- deprecated, use contextTransforms -->
-<!ATTLIST inText type ( languages | scripts | territories | variants | keys | types | measurementSystemNames | monthWidth | dayWidth | quarterWidth | long | fields | currency ) #IMPLIED >
-<!ATTLIST inText draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > 
+<!ELEMENT inText ( #PCDATA ) > <!-- deprecbted, use contextTrbnsforms -->
+<!ATTLIST inText type ( lbngubges | scripts | territories | vbribnts | keys | types | mebsurementSystemNbmes | monthWidth | dbyWidth | qubrterWidth | long | fields | currency ) #IMPLIED >
+<!ATTLIST inText drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > 
 <!ATTLIST inText references CDATA #IMPLIED >
-<!ATTLIST inText alt NMTOKENS #IMPLIED >
+<!ATTLIST inText blt NMTOKENS #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT contextTransforms ( alias | (contextTransformUsage*, special*)) >
-<!ATTLIST contextTransforms draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST contextTransforms references CDATA #IMPLIED >
-<!ATTLIST contextTransforms alt NMTOKENS #IMPLIED >
-<!ATTLIST contextTransforms validSubLocales CDATA #IMPLIED >
+<!ELEMENT contextTrbnsforms ( blibs | (contextTrbnsformUsbge*, specibl*)) >
+<!ATTLIST contextTrbnsforms drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST contextTrbnsforms references CDATA #IMPLIED >
+<!ATTLIST contextTrbnsforms blt NMTOKENS #IMPLIED >
+<!ATTLIST contextTrbnsforms vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT contextTransformUsage ( alias | (contextTransform*, special*)) >
-<!ATTLIST contextTransformUsage type CDATA #REQUIRED >
-<!ATTLIST contextTransformUsage draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST contextTransformUsage references CDATA #IMPLIED >
-<!ATTLIST contextTransformUsage alt NMTOKENS #IMPLIED >
-<!ATTLIST contextTransformUsage validSubLocales CDATA #IMPLIED >
+<!ELEMENT contextTrbnsformUsbge ( blibs | (contextTrbnsform*, specibl*)) >
+<!ATTLIST contextTrbnsformUsbge type CDATA #REQUIRED >
+<!ATTLIST contextTrbnsformUsbge drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST contextTrbnsformUsbge references CDATA #IMPLIED >
+<!ATTLIST contextTrbnsformUsbge blt NMTOKENS #IMPLIED >
+<!ATTLIST contextTrbnsformUsbge vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT contextTransform ( #PCDATA ) >
-<!ATTLIST contextTransform type ( uiListOrMenu | stand-alone ) #REQUIRED >
-<!ATTLIST contextTransform draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST contextTransform references CDATA #IMPLIED >
-<!ATTLIST contextTransform alt NMTOKENS #IMPLIED >
+<!ELEMENT contextTrbnsform ( #PCDATA ) >
+<!ATTLIST contextTrbnsform type ( uiListOrMenu | stbnd-blone ) #REQUIRED >
+<!ATTLIST contextTrbnsform drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST contextTrbnsform references CDATA #IMPLIED >
+<!ATTLIST contextTrbnsform blt NMTOKENS #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT characters (alias | (exemplarCharacters*, ellipsis*, moreInformation*, stopwords*, indexLabels*, mapping*, special*))  >
-<!ATTLIST characters draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT chbrbcters (blibs | (exemplbrChbrbcters*, ellipsis*, moreInformbtion*, stopwords*, indexLbbels*, mbpping*, specibl*))  >
+<!ATTLIST chbrbcters drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT exemplarCharacters ( #PCDATA | cp )* >
-<!ATTLIST exemplarCharacters type ( auxiliary | standard | punctuation | currencySymbol | index ) #IMPLIED >
-<!ATTLIST exemplarCharacters draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST exemplarCharacters standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST exemplarCharacters references CDATA #IMPLIED >
-<!ATTLIST exemplarCharacters alt NMTOKENS #IMPLIED >
-<!ATTLIST exemplarCharacters validSubLocales CDATA #IMPLIED >
+<!ELEMENT exemplbrChbrbcters ( #PCDATA | cp )* >
+<!ATTLIST exemplbrChbrbcters type ( buxilibry | stbndbrd | punctubtion | currencySymbol | index ) #IMPLIED >
+<!ATTLIST exemplbrChbrbcters drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST exemplbrChbrbcters stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST exemplbrChbrbcters references CDATA #IMPLIED >
+<!ATTLIST exemplbrChbrbcters blt NMTOKENS #IMPLIED >
+<!ATTLIST exemplbrChbrbcters vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT ellipsis ( #PCDATA ) >
-<!ATTLIST ellipsis type ( initial | medial | final ) #IMPLIED >
-<!ATTLIST ellipsis draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
+<!ATTLIST ellipsis type ( initibl | medibl | finbl ) #IMPLIED >
+<!ATTLIST ellipsis drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
 <!ATTLIST ellipsis references CDATA #IMPLIED >
-<!ATTLIST ellipsis alt NMTOKENS #IMPLIED >
+<!ATTLIST ellipsis blt NMTOKENS #IMPLIED >
 
-<!ELEMENT moreInformation ( #PCDATA ) >
-<!ATTLIST moreInformation draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST moreInformation references CDATA #IMPLIED >
-<!ATTLIST moreInformation alt NMTOKENS #IMPLIED >
+<!ELEMENT moreInformbtion ( #PCDATA ) >
+<!ATTLIST moreInformbtion drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST moreInformbtion references CDATA #IMPLIED >
+<!ATTLIST moreInformbtion blt NMTOKENS #IMPLIED >
 
 <!ELEMENT stopwords ( stopwordList* ) >
 <!ELEMENT stopwordList ( #PCDATA ) >
 <!ATTLIST stopwordList type NMTOKEN #REQUIRED >
-<!ATTLIST stopwordList draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
+<!ATTLIST stopwordList drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
 <!ATTLIST stopwordList references CDATA #IMPLIED >
-<!ATTLIST stopwordList alt NMTOKENS #IMPLIED >
+<!ATTLIST stopwordList blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT indexLabels (indexSeparator*, compressedIndexSeparator*, indexRangePattern*, indexLabelBefore*, indexLabelAfter*, indexLabel*) >
+<!ELEMENT indexLbbels (indexSepbrbtor*, compressedIndexSepbrbtor*, indexRbngePbttern*, indexLbbelBefore*, indexLbbelAfter*, indexLbbel*) >
 
-<!ELEMENT indexSeparator ( #PCDATA ) >
-<!ATTLIST indexSeparator draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST indexSeparator references CDATA #IMPLIED >
-<!ATTLIST indexSeparator alt NMTOKENS #IMPLIED >
+<!ELEMENT indexSepbrbtor ( #PCDATA ) >
+<!ATTLIST indexSepbrbtor drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST indexSepbrbtor references CDATA #IMPLIED >
+<!ATTLIST indexSepbrbtor blt NMTOKENS #IMPLIED >
 
-<!ELEMENT compressedIndexSeparator ( #PCDATA ) >
-<!ATTLIST compressedIndexSeparator draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST compressedIndexSeparator references CDATA #IMPLIED >
-<!ATTLIST compressedIndexSeparator alt NMTOKENS #IMPLIED >
+<!ELEMENT compressedIndexSepbrbtor ( #PCDATA ) >
+<!ATTLIST compressedIndexSepbrbtor drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST compressedIndexSepbrbtor references CDATA #IMPLIED >
+<!ATTLIST compressedIndexSepbrbtor blt NMTOKENS #IMPLIED >
 
-<!ELEMENT indexRangePattern ( #PCDATA ) >
-<!ATTLIST indexRangePattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST indexRangePattern references CDATA #IMPLIED >
-<!ATTLIST indexRangePattern alt NMTOKENS #IMPLIED >
+<!ELEMENT indexRbngePbttern ( #PCDATA ) >
+<!ATTLIST indexRbngePbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST indexRbngePbttern references CDATA #IMPLIED >
+<!ATTLIST indexRbngePbttern blt NMTOKENS #IMPLIED >
 
-<!ELEMENT indexLabelBefore ( #PCDATA ) >
-<!ATTLIST indexLabelBefore draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST indexLabelBefore references CDATA #IMPLIED >
-<!ATTLIST indexLabelBefore alt NMTOKENS #IMPLIED >
+<!ELEMENT indexLbbelBefore ( #PCDATA ) >
+<!ATTLIST indexLbbelBefore drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST indexLbbelBefore references CDATA #IMPLIED >
+<!ATTLIST indexLbbelBefore blt NMTOKENS #IMPLIED >
 
-<!ELEMENT indexLabelAfter ( #PCDATA ) >
-<!ATTLIST indexLabelAfter draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST indexLabelAfter references CDATA #IMPLIED >
-<!ATTLIST indexLabelAfter alt NMTOKENS #IMPLIED >
+<!ELEMENT indexLbbelAfter ( #PCDATA ) >
+<!ATTLIST indexLbbelAfter drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST indexLbbelAfter references CDATA #IMPLIED >
+<!ATTLIST indexLbbelAfter blt NMTOKENS #IMPLIED >
 
-<!ELEMENT indexLabel ( #PCDATA ) >
-<!ATTLIST indexLabel indexSource CDATA #IMPLIED >
-<!ATTLIST indexLabel priority ( 1 | 2 | 3 ) #IMPLIED >
-<!ATTLIST indexLabel draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST indexLabel references CDATA #IMPLIED >
-<!ATTLIST indexLabel alt NMTOKENS #IMPLIED >
+<!ELEMENT indexLbbel ( #PCDATA ) >
+<!ATTLIST indexLbbel indexSource CDATA #IMPLIED >
+<!ATTLIST indexLbbel priority ( 1 | 2 | 3 ) #IMPLIED >
+<!ATTLIST indexLbbel drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST indexLbbel references CDATA #IMPLIED >
+<!ATTLIST indexLbbel blt NMTOKENS #IMPLIED >
 
-<!ELEMENT mapping (special*) >
-<!ATTLIST mapping registry NMTOKEN #REQUIRED >
-<!ATTLIST mapping type NMTOKEN #IMPLIED > <!-- deprecated in favor of choice -->
-<!ATTLIST mapping choice NMTOKEN #IMPLIED >
-<!ATTLIST mapping draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST mapping standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST mapping references CDATA #IMPLIED >
-<!ATTLIST mapping alt NMTOKENS #IMPLIED >
-<!ATTLIST mapping validSubLocales CDATA #IMPLIED >
-
-<!-- ######################################################### -->
-
+<!ELEMENT mbpping (specibl*) >
+<!ATTLIST mbpping registry NMTOKEN #REQUIRED >
+<!ATTLIST mbpping type NMTOKEN #IMPLIED > <!-- deprecbted in fbvor of choice -->
+<!ATTLIST mbpping choice NMTOKEN #IMPLIED >
+<!ATTLIST mbpping drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST mbpping stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST mbpping references CDATA #IMPLIED >
+<!ATTLIST mbpping blt NMTOKENS #IMPLIED >
+<!ATTLIST mbpping vblidSubLocbles CDATA #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT delimiters (alias | (quotationStart*, quotationEnd*, alternateQuotationStart*, alternateQuotationEnd*, special*)) >
-<!ATTLIST delimiters draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST delimiters standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+
+<!-- ######################################################### -->
+
+<!ELEMENT delimiters (blibs | (quotbtionStbrt*, quotbtionEnd*, blternbteQuotbtionStbrt*, blternbteQuotbtionEnd*, specibl*)) >
+<!ATTLIST delimiters drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST delimiters stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST delimiters references CDATA #IMPLIED >
-<!ATTLIST delimiters alt NMTOKENS #IMPLIED >
-<!ATTLIST delimiters validSubLocales CDATA #IMPLIED >
+<!ATTLIST delimiters blt NMTOKENS #IMPLIED >
+<!ATTLIST delimiters vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT quotationStart ( #PCDATA | cp )* >
-<!ATTLIST quotationStart draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quotationStart references CDATA #IMPLIED >
-<!ATTLIST quotationStart alt NMTOKENS #IMPLIED >
+<!ELEMENT quotbtionStbrt ( #PCDATA | cp )* >
+<!ATTLIST quotbtionStbrt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST quotbtionStbrt references CDATA #IMPLIED >
+<!ATTLIST quotbtionStbrt blt NMTOKENS #IMPLIED >
 
-<!ELEMENT quotationEnd ( #PCDATA | cp )* >
-<!ATTLIST quotationEnd draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quotationEnd references CDATA #IMPLIED >
-<!ATTLIST quotationEnd alt NMTOKENS #IMPLIED >
+<!ELEMENT quotbtionEnd ( #PCDATA | cp )* >
+<!ATTLIST quotbtionEnd drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST quotbtionEnd references CDATA #IMPLIED >
+<!ATTLIST quotbtionEnd blt NMTOKENS #IMPLIED >
  
-<!ELEMENT alternateQuotationStart ( #PCDATA | cp )* >
-<!ATTLIST alternateQuotationStart draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST alternateQuotationStart references CDATA #IMPLIED >
-<!ATTLIST alternateQuotationStart alt NMTOKENS #IMPLIED >
+<!ELEMENT blternbteQuotbtionStbrt ( #PCDATA | cp )* >
+<!ATTLIST blternbteQuotbtionStbrt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST blternbteQuotbtionStbrt references CDATA #IMPLIED >
+<!ATTLIST blternbteQuotbtionStbrt blt NMTOKENS #IMPLIED >
 
-<!ELEMENT alternateQuotationEnd ( #PCDATA | cp )* >
-<!ATTLIST alternateQuotationEnd draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST alternateQuotationEnd references CDATA #IMPLIED >
-<!ATTLIST alternateQuotationEnd alt NMTOKENS #IMPLIED >
-
-<!-- ######################################################### -->
-
+<!ELEMENT blternbteQuotbtionEnd ( #PCDATA | cp )* >
+<!ATTLIST blternbteQuotbtionEnd drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST blternbteQuotbtionEnd references CDATA #IMPLIED >
+<!ATTLIST blternbteQuotbtionEnd blt NMTOKENS #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT measurement (alias | (measurementSystem*, paperSize*, special*)) > <!-- deprecated, use measurementData in supplemental instead -->
-<!ATTLIST measurement draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST measurement standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST measurement references CDATA #IMPLIED >
-<!ATTLIST measurement alt NMTOKENS #IMPLIED >
-<!ATTLIST measurement validSubLocales CDATA #IMPLIED >
 
-<!ELEMENT paperSize (alias | (height*, width*, special*)) > <!-- deprecated, use paperSize in supplemental instead -->
-<!ATTLIST paperSize draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST paperSize standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST paperSize references CDATA #IMPLIED >
-<!ATTLIST paperSize alt NMTOKENS #IMPLIED >
-<!ATTLIST paperSize validSubLocales CDATA #IMPLIED >
+<!-- ######################################################### -->
 
-<!ELEMENT height ( #PCDATA ) > <!-- deprecated -->
-<!ATTLIST height draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT mebsurement (blibs | (mebsurementSystem*, pbperSize*, specibl*)) > <!-- deprecbted, use mebsurementDbtb in supplementbl instebd -->
+<!ATTLIST mebsurement drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST mebsurement stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST mebsurement references CDATA #IMPLIED >
+<!ATTLIST mebsurement blt NMTOKENS #IMPLIED >
+<!ATTLIST mebsurement vblidSubLocbles CDATA #IMPLIED >
+
+<!ELEMENT pbperSize (blibs | (height*, width*, specibl*)) > <!-- deprecbted, use pbperSize in supplementbl instebd -->
+<!ATTLIST pbperSize drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST pbperSize stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST pbperSize references CDATA #IMPLIED >
+<!ATTLIST pbperSize blt NMTOKENS #IMPLIED >
+<!ATTLIST pbperSize vblidSubLocbles CDATA #IMPLIED >
+
+<!ELEMENT height ( #PCDATA ) > <!-- deprecbted -->
+<!ATTLIST height drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST height references CDATA #IMPLIED >
-<!ATTLIST height alt NMTOKENS #IMPLIED >
+<!ATTLIST height blt NMTOKENS #IMPLIED >
 
-<!ELEMENT width ( #PCDATA ) > <!-- deprecated -->
-<!ATTLIST width draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT width ( #PCDATA ) > <!-- deprecbted -->
+<!ATTLIST width drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST width references CDATA #IMPLIED >
-<!ATTLIST width alt NMTOKENS #IMPLIED >
+<!ATTLIST width blt NMTOKENS #IMPLIED >
 
-<!ELEMENT measurementSystem (special*) > <!-- deprecated, use measurementSystem in supplemental instead -->
-<!ATTLIST measurementSystem type ( metric | US | UK ) #IMPLIED > <!-- deprecated in favor of choice -->
-<!ATTLIST measurementSystem choice ( metric | US | UK ) #IMPLIED > <!-- really required, but needs to be optional to support type also -->
-<!ATTLIST measurementSystem draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST measurementSystem standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST measurementSystem references CDATA #IMPLIED >
-<!ATTLIST measurementSystem alt NMTOKENS #IMPLIED >
-<!ATTLIST measurementSystem validSubLocales CDATA #IMPLIED >
-
-<!-- ######################################################### -->
-
+<!ELEMENT mebsurementSystem (specibl*) > <!-- deprecbted, use mebsurementSystem in supplementbl instebd -->
+<!ATTLIST mebsurementSystem type ( metric | US | UK ) #IMPLIED > <!-- deprecbted in fbvor of choice -->
+<!ATTLIST mebsurementSystem choice ( metric | US | UK ) #IMPLIED > <!-- reblly required, but needs to be optionbl to support type blso -->
+<!ATTLIST mebsurementSystem drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST mebsurementSystem stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST mebsurementSystem references CDATA #IMPLIED >
+<!ATTLIST mebsurementSystem blt NMTOKENS #IMPLIED >
+<!ATTLIST mebsurementSystem vblidSubLocbles CDATA #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT dates (alias | (localizedPatternChars*, dateRangePattern*, calendars?, timeZoneNames?, special*)) >
-<!ATTLIST dates draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dates standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dates references CDATA #IMPLIED >
-<!ATTLIST dates alt NMTOKENS #IMPLIED >
-<!ATTLIST dates validSubLocales CDATA #IMPLIED >
 
-<!ELEMENT localizedPatternChars ( #PCDATA | cp )* > <!-- deprecated. -->
-<!ATTLIST localizedPatternChars draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST localizedPatternChars standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST localizedPatternChars references CDATA #IMPLIED >
-<!ATTLIST localizedPatternChars alt NMTOKENS #IMPLIED >
-<!ATTLIST localizedPatternChars validSubLocales CDATA #IMPLIED >
+<!-- ######################################################### -->
 
-<!ELEMENT dateRangePattern ( #PCDATA ) > <!-- deprecated, use intervalFormats. -->
-<!ATTLIST dateRangePattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST dateRangePattern standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dateRangePattern references CDATA #IMPLIED >
-<!ATTLIST dateRangePattern alt NMTOKENS #IMPLIED >
-<!ATTLIST dateRangePattern validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbtes (blibs | (locblizedPbtternChbrs*, dbteRbngePbttern*, cblendbrs?, timeZoneNbmes?, specibl*)) >
+<!ATTLIST dbtes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbtes stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbtes references CDATA #IMPLIED >
+<!ATTLIST dbtes blt NMTOKENS #IMPLIED >
+<!ATTLIST dbtes vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT calendars (alias | (default*, calendar*, special*)) >
-<!ATTLIST calendars draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST calendars validSubLocales CDATA #IMPLIED >
+<!ELEMENT locblizedPbtternChbrs ( #PCDATA | cp )* > <!-- deprecbted. -->
+<!ATTLIST locblizedPbtternChbrs drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST locblizedPbtternChbrs stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST locblizedPbtternChbrs references CDATA #IMPLIED >
+<!ATTLIST locblizedPbtternChbrs blt NMTOKENS #IMPLIED >
+<!ATTLIST locblizedPbtternChbrs vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT calendar (alias | (months?, monthNames?, monthAbbr?, monthPatterns?, days?, dayNames?, dayAbbr?, quarters?, week?, am*, pm*, dayPeriods?, eras?, cyclicNameSets?, dateFormats?, timeFormats?, dateTimeFormats?, fields*, special*))>
-<!ATTLIST calendar type NMTOKEN #REQUIRED >
-<!ATTLIST calendar draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST calendar standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST calendar references CDATA #IMPLIED >
-<!ATTLIST calendar alt NMTOKENS #IMPLIED >
-<!ATTLIST calendar validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteRbngePbttern ( #PCDATA ) > <!-- deprecbted, use intervblFormbts. -->
+<!ATTLIST dbteRbngePbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST dbteRbngePbttern stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbteRbngePbttern references CDATA #IMPLIED >
+<!ATTLIST dbteRbngePbttern blt NMTOKENS #IMPLIED >
+<!ATTLIST dbteRbngePbttern vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT months ( alias | (default*, monthContext*, special*)) >
-<!ATTLIST months draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST months standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT cblendbrs (blibs | (defbult*, cblendbr*, specibl*)) >
+<!ATTLIST cblendbrs drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST cblendbrs vblidSubLocbles CDATA #IMPLIED >
+
+<!ELEMENT cblendbr (blibs | (months?, monthNbmes?, monthAbbr?, monthPbtterns?, dbys?, dbyNbmes?, dbyAbbr?, qubrters?, week?, bm*, pm*, dbyPeriods?, erbs?, cyclicNbmeSets?, dbteFormbts?, timeFormbts?, dbteTimeFormbts?, fields*, specibl*))>
+<!ATTLIST cblendbr type NMTOKEN #REQUIRED >
+<!ATTLIST cblendbr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST cblendbr stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST cblendbr references CDATA #IMPLIED >
+<!ATTLIST cblendbr blt NMTOKENS #IMPLIED >
+<!ATTLIST cblendbr vblidSubLocbles CDATA #IMPLIED >
+
+<!ELEMENT months ( blibs | (defbult*, monthContext*, specibl*)) >
+<!ATTLIST months drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST months stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST months references CDATA #IMPLIED >
-<!ATTLIST months alt NMTOKENS #IMPLIED >
-<!ATTLIST months validSubLocales CDATA #IMPLIED >
+<!ATTLIST months blt NMTOKENS #IMPLIED >
+<!ATTLIST months vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT monthContext ( alias | (default*, monthWidth*, special*)) >
-<!ATTLIST monthContext type ( format | stand-alone ) #REQUIRED >
-<!ATTLIST monthContext draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST monthContext standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT monthContext ( blibs | (defbult*, monthWidth*, specibl*)) >
+<!ATTLIST monthContext type ( formbt | stbnd-blone ) #REQUIRED >
+<!ATTLIST monthContext drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST monthContext stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST monthContext references CDATA #IMPLIED >
-<!ATTLIST monthContext alt NMTOKENS #IMPLIED >
-<!ATTLIST monthContext validSubLocales CDATA #IMPLIED >
+<!ATTLIST monthContext blt NMTOKENS #IMPLIED >
+<!ATTLIST monthContext vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT monthWidth ( alias | (month*, special*)) >
-<!ATTLIST monthWidth type ( abbreviated| narrow | wide) #REQUIRED >
-<!ATTLIST monthWidth draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST monthWidth standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT monthWidth ( blibs | (month*, specibl*)) >
+<!ATTLIST monthWidth type ( bbbrevibted| nbrrow | wide) #REQUIRED >
+<!ATTLIST monthWidth drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST monthWidth stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST monthWidth references CDATA #IMPLIED >
-<!ATTLIST monthWidth alt NMTOKENS #IMPLIED >
-<!ATTLIST monthWidth validSubLocales CDATA #IMPLIED >
+<!ATTLIST monthWidth blt NMTOKENS #IMPLIED >
+<!ATTLIST monthWidth vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT month ( #PCDATA | cp )* >
 <!ATTLIST month type ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 ) #REQUIRED >
-<!ATTLIST month yeartype ( standard | leap ) #IMPLIED >
+<!ATTLIST month yebrtype ( stbndbrd | lebp ) #IMPLIED >
 <!ATTLIST month references CDATA #IMPLIED >
-<!ATTLIST month alt NMTOKENS #IMPLIED >
-<!ATTLIST month draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST month blt NMTOKENS #IMPLIED >
+<!ATTLIST month drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT monthPatterns ( alias | (monthPatternContext*, special*)) >
-<!ATTLIST monthPatterns draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST monthPatterns references CDATA #IMPLIED >
-<!ATTLIST monthPatterns alt NMTOKENS #IMPLIED >
-<!ATTLIST monthPatterns validSubLocales CDATA #IMPLIED >
+<!ELEMENT monthPbtterns ( blibs | (monthPbtternContext*, specibl*)) >
+<!ATTLIST monthPbtterns drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST monthPbtterns references CDATA #IMPLIED >
+<!ATTLIST monthPbtterns blt NMTOKENS #IMPLIED >
+<!ATTLIST monthPbtterns vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT monthPatternContext ( alias | (monthPatternWidth*, special*)) >
-<!ATTLIST monthPatternContext type ( format | stand-alone | numeric ) #REQUIRED >
-<!ATTLIST monthPatternContext draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST monthPatternContext references CDATA #IMPLIED >
-<!ATTLIST monthPatternContext alt NMTOKENS #IMPLIED >
-<!ATTLIST monthPatternContext validSubLocales CDATA #IMPLIED >
+<!ELEMENT monthPbtternContext ( blibs | (monthPbtternWidth*, specibl*)) >
+<!ATTLIST monthPbtternContext type ( formbt | stbnd-blone | numeric ) #REQUIRED >
+<!ATTLIST monthPbtternContext drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST monthPbtternContext references CDATA #IMPLIED >
+<!ATTLIST monthPbtternContext blt NMTOKENS #IMPLIED >
+<!ATTLIST monthPbtternContext vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT monthPatternWidth ( alias | (monthPattern*, special*)) >
-<!ATTLIST monthPatternWidth type ( abbreviated| narrow | wide | all ) #REQUIRED >
-<!ATTLIST monthPatternWidth draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST monthPatternWidth references CDATA #IMPLIED >
-<!ATTLIST monthPatternWidth alt NMTOKENS #IMPLIED >
-<!ATTLIST monthPatternWidth validSubLocales CDATA #IMPLIED >
+<!ELEMENT monthPbtternWidth ( blibs | (monthPbttern*, specibl*)) >
+<!ATTLIST monthPbtternWidth type ( bbbrevibted| nbrrow | wide | bll ) #REQUIRED >
+<!ATTLIST monthPbtternWidth drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST monthPbtternWidth references CDATA #IMPLIED >
+<!ATTLIST monthPbtternWidth blt NMTOKENS #IMPLIED >
+<!ATTLIST monthPbtternWidth vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT monthPattern ( #PCDATA ) >
-<!ATTLIST monthPattern type ( leap | standardAfterLeap | combined ) #REQUIRED >
-<!ATTLIST monthPattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST monthPattern references CDATA #IMPLIED >
-<!ATTLIST monthPattern alt NMTOKENS #IMPLIED >
+<!ELEMENT monthPbttern ( #PCDATA ) >
+<!ATTLIST monthPbttern type ( lebp | stbndbrdAfterLebp | combined ) #REQUIRED >
+<!ATTLIST monthPbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST monthPbttern references CDATA #IMPLIED >
+<!ATTLIST monthPbttern blt NMTOKENS #IMPLIED >
 
 
 <!-- START_DEPRECATED -->
-<!ELEMENT monthNames ( alias | (month*, special*)) >
-<!ATTLIST monthNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT monthNbmes ( blibs | (month*, specibl*)) >
+<!ATTLIST monthNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT monthAbbr ( alias | (month*, special*)) >
-<!ATTLIST monthAbbr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT monthAbbr ( blibs | (month*, specibl*)) >
+<!ATTLIST monthAbbr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!-- END_DEPRECATED-->
 
-<!ELEMENT days ( alias | (default*, dayContext*, special*)) >
-<!ATTLIST days draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
-<!ATTLIST days standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST days references CDATA #IMPLIED >
-<!ATTLIST days alt NMTOKENS #IMPLIED >
-<!ATTLIST days validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbys ( blibs | (defbult*, dbyContext*, specibl*)) >
+<!ATTLIST dbys drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbys stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbys references CDATA #IMPLIED >
+<!ATTLIST dbys blt NMTOKENS #IMPLIED >
+<!ATTLIST dbys vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dayContext ( alias | (default*, dayWidth*, special*)) >
-<!ATTLIST dayContext draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dayContext type ( format | stand-alone ) #REQUIRED >
-<!ATTLIST dayContext standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dayContext references CDATA #IMPLIED >
-<!ATTLIST dayContext alt NMTOKENS #IMPLIED >
-<!ATTLIST dayContext validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbyContext ( blibs | (defbult*, dbyWidth*, specibl*)) >
+<!ATTLIST dbyContext drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbyContext type ( formbt | stbnd-blone ) #REQUIRED >
+<!ATTLIST dbyContext stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbyContext references CDATA #IMPLIED >
+<!ATTLIST dbyContext blt NMTOKENS #IMPLIED >
+<!ATTLIST dbyContext vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dayWidth ( alias | (day*, special*)) >
-<!ATTLIST dayWidth draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dayWidth type ( abbreviated| narrow | wide ) #REQUIRED >
-<!ATTLIST dayWidth standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dayWidth references CDATA #IMPLIED >
-<!ATTLIST dayWidth alt NMTOKENS #IMPLIED >
-<!ATTLIST dayWidth validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbyWidth ( blibs | (dby*, specibl*)) >
+<!ATTLIST dbyWidth drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbyWidth type ( bbbrevibted| nbrrow | wide ) #REQUIRED >
+<!ATTLIST dbyWidth stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbyWidth references CDATA #IMPLIED >
+<!ATTLIST dbyWidth blt NMTOKENS #IMPLIED >
+<!ATTLIST dbyWidth vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT day ( #PCDATA ) >
-<!ATTLIST day type ( sun | mon | tue | wed | thu | fri | sat ) #REQUIRED >
-<!ATTLIST day references CDATA #IMPLIED >
-<!ATTLIST day draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST day alt NMTOKENS #IMPLIED >
+<!ELEMENT dby ( #PCDATA ) >
+<!ATTLIST dby type ( sun | mon | tue | wed | thu | fri | sbt ) #REQUIRED >
+<!ATTLIST dby references CDATA #IMPLIED >
+<!ATTLIST dby drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dby blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT quarters ( alias | (default*, quarterContext*, special*)) >
-<!ATTLIST quarters draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quarters references CDATA #IMPLIED >
-<!ATTLIST quarters alt NMTOKENS #IMPLIED >
-<!ATTLIST quarters validSubLocales CDATA #IMPLIED >
+<!ELEMENT qubrters ( blibs | (defbult*, qubrterContext*, specibl*)) >
+<!ATTLIST qubrters drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST qubrters references CDATA #IMPLIED >
+<!ATTLIST qubrters blt NMTOKENS #IMPLIED >
+<!ATTLIST qubrters vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT quarterContext ( alias | (default*, quarterWidth*, special*)) >
-<!ATTLIST quarterContext draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quarterContext type ( format | stand-alone ) #REQUIRED >
-<!ATTLIST quarterContext references CDATA #IMPLIED >
-<!ATTLIST quarterContext alt NMTOKENS #IMPLIED >
-<!ATTLIST quarterContext validSubLocales CDATA #IMPLIED >
+<!ELEMENT qubrterContext ( blibs | (defbult*, qubrterWidth*, specibl*)) >
+<!ATTLIST qubrterContext drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST qubrterContext type ( formbt | stbnd-blone ) #REQUIRED >
+<!ATTLIST qubrterContext references CDATA #IMPLIED >
+<!ATTLIST qubrterContext blt NMTOKENS #IMPLIED >
+<!ATTLIST qubrterContext vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT quarterWidth ( alias | (quarter*, special*)) >
-<!ATTLIST quarterWidth draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quarterWidth type ( abbreviated| narrow | wide ) #REQUIRED >
-<!ATTLIST quarterWidth references CDATA #IMPLIED >
-<!ATTLIST quarterWidth alt NMTOKENS #IMPLIED >
-<!ATTLIST quarterWidth validSubLocales CDATA #IMPLIED >
+<!ELEMENT qubrterWidth ( blibs | (qubrter*, specibl*)) >
+<!ATTLIST qubrterWidth drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST qubrterWidth type ( bbbrevibted| nbrrow | wide ) #REQUIRED >
+<!ATTLIST qubrterWidth references CDATA #IMPLIED >
+<!ATTLIST qubrterWidth blt NMTOKENS #IMPLIED >
+<!ATTLIST qubrterWidth vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT quarter ( #PCDATA ) >
-<!ATTLIST quarter type ( 1 | 2 | 3 | 4 ) #REQUIRED >
-<!ATTLIST quarter references CDATA #IMPLIED >
-<!ATTLIST quarter draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST quarter alt NMTOKENS #IMPLIED >
+<!ELEMENT qubrter ( #PCDATA ) >
+<!ATTLIST qubrter type ( 1 | 2 | 3 | 4 ) #REQUIRED >
+<!ATTLIST qubrter references CDATA #IMPLIED >
+<!ATTLIST qubrter drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST qubrter blt NMTOKENS #IMPLIED >
 
 
 <!-- START_DEPRECATED-->
 
-<!ELEMENT dayAbbr ( alias | (day*, special*)) >
-<!ATTLIST dayAbbr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT dbyAbbr ( blibs | (dby*, specibl*)) >
+<!ATTLIST dbyAbbr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT dayNames ( alias | (day*, special*)) >
-<!ATTLIST dayNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT dbyNbmes ( blibs | (dby*, specibl*)) >
+<!ATTLIST dbyNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 
 
-<!ELEMENT week (alias | (minDays*, firstDay*, weekendStart*, weekendEnd*, special*)) >
-<!ATTLIST week draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST week standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT week (blibs | (minDbys*, firstDby*, weekendStbrt*, weekendEnd*, specibl*)) >
+<!ATTLIST week drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST week stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST week references CDATA #IMPLIED >
-<!ATTLIST week alt NMTOKENS #IMPLIED >
-<!ATTLIST week validSubLocales CDATA #IMPLIED >
+<!ATTLIST week blt NMTOKENS #IMPLIED >
+<!ATTLIST week vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT minDays (special*) >
-<!ATTLIST minDays count ( 1 | 2 | 3 | 4 | 5 | 6 | 7 ) #REQUIRED >
-<!ATTLIST minDays draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST minDays references CDATA #IMPLIED >
-<!ATTLIST minDays alt NMTOKENS #IMPLIED >
+<!ELEMENT minDbys (specibl*) >
+<!ATTLIST minDbys count ( 1 | 2 | 3 | 4 | 5 | 6 | 7 ) #REQUIRED >
+<!ATTLIST minDbys drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST minDbys references CDATA #IMPLIED >
+<!ATTLIST minDbys blt NMTOKENS #IMPLIED >
 
-<!ELEMENT firstDay (special*) >
-<!ATTLIST firstDay day NMTOKEN #REQUIRED >
-<!ATTLIST firstDay draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST firstDay references CDATA #IMPLIED >
-<!ATTLIST firstDay alt NMTOKENS #IMPLIED >
+<!ELEMENT firstDby (specibl*) >
+<!ATTLIST firstDby dby NMTOKEN #REQUIRED >
+<!ATTLIST firstDby drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST firstDby references CDATA #IMPLIED >
+<!ATTLIST firstDby blt NMTOKENS #IMPLIED >
 
-<!ELEMENT weekendStart (special*) >
-<!ATTLIST weekendStart day ( sun | mon | tue | wed | thu | fri | sat ) #REQUIRED >
-<!ATTLIST weekendStart time CDATA "00:00" > <!-- the "time" attribute is deprecated everywhere. -->
-<!ATTLIST weekendStart draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST weekendStart references CDATA #IMPLIED >
-<!ATTLIST weekendStart alt NMTOKENS #IMPLIED >
+<!ELEMENT weekendStbrt (specibl*) >
+<!ATTLIST weekendStbrt dby ( sun | mon | tue | wed | thu | fri | sbt ) #REQUIRED >
+<!ATTLIST weekendStbrt time CDATA "00:00" > <!-- the "time" bttribute is deprecbted everywhere. -->
+<!ATTLIST weekendStbrt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST weekendStbrt references CDATA #IMPLIED >
+<!ATTLIST weekendStbrt blt NMTOKENS #IMPLIED >
 
-<!ELEMENT weekendEnd (special*) >
-<!ATTLIST weekendEnd day ( sun | mon | tue | wed | thu | fri | sat ) #REQUIRED >
-<!ATTLIST weekendEnd time CDATA "24:00" > <!-- the "time" attribute is deprecated everywhere. -->
-<!ATTLIST weekendEnd draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT weekendEnd (specibl*) >
+<!ATTLIST weekendEnd dby ( sun | mon | tue | wed | thu | fri | sbt ) #REQUIRED >
+<!ATTLIST weekendEnd time CDATA "24:00" > <!-- the "time" bttribute is deprecbted everywhere. -->
+<!ATTLIST weekendEnd drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST weekendEnd references CDATA #IMPLIED >
-<!ATTLIST weekendEnd alt NMTOKENS #IMPLIED >
+<!ATTLIST weekendEnd blt NMTOKENS #IMPLIED >
 
 <!-- END_DEPRECATED-->
 
-<!ELEMENT dayPeriods ( alias | (dayPeriodContext*) ) >
-<!ATTLIST dayPeriods draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > 
-<!ATTLIST dayPeriods references CDATA #IMPLIED >
+<!ELEMENT dbyPeriods ( blibs | (dbyPeriodContext*) ) >
+<!ATTLIST dbyPeriods drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > 
+<!ATTLIST dbyPeriods references CDATA #IMPLIED >
 
-<!ELEMENT dayPeriodContext (alias | dayPeriodWidth*) >
-<!ATTLIST dayPeriodContext type NMTOKEN #REQUIRED >
-<!ATTLIST dayPeriodContext draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > 
-<!ATTLIST dayPeriodContext references CDATA #IMPLIED >
+<!ELEMENT dbyPeriodContext (blibs | dbyPeriodWidth*) >
+<!ATTLIST dbyPeriodContext type NMTOKEN #REQUIRED >
+<!ATTLIST dbyPeriodContext drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > 
+<!ATTLIST dbyPeriodContext references CDATA #IMPLIED >
 
-<!ELEMENT dayPeriodWidth (alias | dayPeriod*) >
-<!ATTLIST dayPeriodWidth type ( abbreviated| narrow | wide ) #REQUIRED >
-<!ATTLIST dayPeriodWidth draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > 
-<!ATTLIST dayPeriodWidth references CDATA #IMPLIED >
+<!ELEMENT dbyPeriodWidth (blibs | dbyPeriod*) >
+<!ATTLIST dbyPeriodWidth type ( bbbrevibted| nbrrow | wide ) #REQUIRED >
+<!ATTLIST dbyPeriodWidth drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > 
+<!ATTLIST dbyPeriodWidth references CDATA #IMPLIED >
 
-<!ELEMENT dayPeriod ( #PCDATA ) >
-<!ATTLIST dayPeriod type NMTOKEN #REQUIRED >
-<!ATTLIST dayPeriod alt NMTOKENS #IMPLIED >
-<!ATTLIST dayPeriod draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST dayPeriod references CDATA #IMPLIED > 
+<!ELEMENT dbyPeriod ( #PCDATA ) >
+<!ATTLIST dbyPeriod type NMTOKEN #REQUIRED >
+<!ATTLIST dbyPeriod blt NMTOKENS #IMPLIED >
+<!ATTLIST dbyPeriod drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST dbyPeriod references CDATA #IMPLIED > 
 
-<!ELEMENT am ( #PCDATA ) >
-<!ATTLIST am draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST am references CDATA #IMPLIED >
-<!ATTLIST am alt NMTOKENS #IMPLIED >
-<!ATTLIST am validSubLocales CDATA #IMPLIED >
+<!ELEMENT bm ( #PCDATA ) >
+<!ATTLIST bm drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST bm references CDATA #IMPLIED >
+<!ATTLIST bm blt NMTOKENS #IMPLIED >
+<!ATTLIST bm vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT pm ( #PCDATA ) >
-<!ATTLIST pm draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST pm drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST pm references CDATA #IMPLIED >
-<!ATTLIST pm alt NMTOKENS #IMPLIED >
-<!ATTLIST pm validSubLocales CDATA #IMPLIED >
+<!ATTLIST pm blt NMTOKENS #IMPLIED >
+<!ATTLIST pm vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT eras   (alias | (eraNames?, eraAbbr?, eraNarrow?, special*)) >
-<!ATTLIST eras draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST eras standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST eras references CDATA #IMPLIED >
-<!ATTLIST eras alt NMTOKENS #IMPLIED >
-<!ATTLIST eras validSubLocales CDATA #IMPLIED >
+<!ELEMENT erbs   (blibs | (erbNbmes?, erbAbbr?, erbNbrrow?, specibl*)) >
+<!ATTLIST erbs drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST erbs stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST erbs references CDATA #IMPLIED >
+<!ATTLIST erbs blt NMTOKENS #IMPLIED >
+<!ATTLIST erbs vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT eraNames ( alias | (era*, special*) ) >
-<!ATTLIST eraNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST eraNames references CDATA #IMPLIED >
-<!ATTLIST eraNames alt NMTOKENS #IMPLIED >
-<!ATTLIST eraNames validSubLocales CDATA #IMPLIED >
+<!ELEMENT erbNbmes ( blibs | (erb*, specibl*) ) >
+<!ATTLIST erbNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST erbNbmes references CDATA #IMPLIED >
+<!ATTLIST erbNbmes blt NMTOKENS #IMPLIED >
+<!ATTLIST erbNbmes vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT eraAbbr ( alias | (era*, special*) ) >
-<!ATTLIST eraAbbr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST eraAbbr references CDATA #IMPLIED >
-<!ATTLIST eraAbbr alt NMTOKENS #IMPLIED >
-<!ATTLIST eraAbbr validSubLocales CDATA #IMPLIED >
+<!ELEMENT erbAbbr ( blibs | (erb*, specibl*) ) >
+<!ATTLIST erbAbbr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST erbAbbr references CDATA #IMPLIED >
+<!ATTLIST erbAbbr blt NMTOKENS #IMPLIED >
+<!ATTLIST erbAbbr vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT eraNarrow ( alias | (era*, special*) ) >
-<!ATTLIST eraNarrow draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST eraNarrow references CDATA #IMPLIED >
-<!ATTLIST eraNarrow alt NMTOKENS #IMPLIED >
-<!ATTLIST eraNarrow validSubLocales CDATA #IMPLIED >
+<!ELEMENT erbNbrrow ( blibs | (erb*, specibl*) ) >
+<!ATTLIST erbNbrrow drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST erbNbrrow references CDATA #IMPLIED >
+<!ATTLIST erbNbrrow blt NMTOKENS #IMPLIED >
+<!ATTLIST erbNbrrow vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT era (#PCDATA) >
-<!ATTLIST era type NMTOKEN #REQUIRED >
-<!ATTLIST era draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST era references CDATA #IMPLIED >
-<!ATTLIST era alt NMTOKENS #IMPLIED >
+<!ELEMENT erb (#PCDATA) >
+<!ATTLIST erb type NMTOKEN #REQUIRED >
+<!ATTLIST erb drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST erb references CDATA #IMPLIED >
+<!ATTLIST erb blt NMTOKENS #IMPLIED >
 
-<!ELEMENT cyclicNameSets ( alias | (cyclicNameSet*, special*)) >
-<!ATTLIST cyclicNameSets draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST cyclicNameSets references CDATA #IMPLIED >
-<!ATTLIST cyclicNameSets alt NMTOKENS #IMPLIED >
-<!ATTLIST cyclicNameSets validSubLocales CDATA #IMPLIED >
+<!ELEMENT cyclicNbmeSets ( blibs | (cyclicNbmeSet*, specibl*)) >
+<!ATTLIST cyclicNbmeSets drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST cyclicNbmeSets references CDATA #IMPLIED >
+<!ATTLIST cyclicNbmeSets blt NMTOKENS #IMPLIED >
+<!ATTLIST cyclicNbmeSets vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT cyclicNameSet ( alias | (cyclicNameContext*, special*)) >
-<!ATTLIST cyclicNameSet type ( years | months | days | dayParts | zodiacs ) #REQUIRED >
-<!ATTLIST cyclicNameSet draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST cyclicNameSet references CDATA #IMPLIED >
-<!ATTLIST cyclicNameSet alt NMTOKENS #IMPLIED >
-<!ATTLIST cyclicNameSet validSubLocales CDATA #IMPLIED >
+<!ELEMENT cyclicNbmeSet ( blibs | (cyclicNbmeContext*, specibl*)) >
+<!ATTLIST cyclicNbmeSet type ( yebrs | months | dbys | dbyPbrts | zodibcs ) #REQUIRED >
+<!ATTLIST cyclicNbmeSet drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST cyclicNbmeSet references CDATA #IMPLIED >
+<!ATTLIST cyclicNbmeSet blt NMTOKENS #IMPLIED >
+<!ATTLIST cyclicNbmeSet vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT cyclicNameContext ( alias | (cyclicNameWidth*, special*)) >
-<!ATTLIST cyclicNameContext type ( format | stand-alone ) #REQUIRED >
-<!ATTLIST cyclicNameContext draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST cyclicNameContext references CDATA #IMPLIED >
-<!ATTLIST cyclicNameContext alt NMTOKENS #IMPLIED >
-<!ATTLIST cyclicNameContext validSubLocales CDATA #IMPLIED >
+<!ELEMENT cyclicNbmeContext ( blibs | (cyclicNbmeWidth*, specibl*)) >
+<!ATTLIST cyclicNbmeContext type ( formbt | stbnd-blone ) #REQUIRED >
+<!ATTLIST cyclicNbmeContext drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST cyclicNbmeContext references CDATA #IMPLIED >
+<!ATTLIST cyclicNbmeContext blt NMTOKENS #IMPLIED >
+<!ATTLIST cyclicNbmeContext vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT cyclicNameWidth ( alias | (cyclicName*, special*)) >
-<!ATTLIST cyclicNameWidth type ( abbreviated | narrow | wide ) #REQUIRED >
-<!ATTLIST cyclicNameWidth draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST cyclicNameWidth references CDATA #IMPLIED >
-<!ATTLIST cyclicNameWidth alt NMTOKENS #IMPLIED >
-<!ATTLIST cyclicNameWidth validSubLocales CDATA #IMPLIED >
+<!ELEMENT cyclicNbmeWidth ( blibs | (cyclicNbme*, specibl*)) >
+<!ATTLIST cyclicNbmeWidth type ( bbbrevibted | nbrrow | wide ) #REQUIRED >
+<!ATTLIST cyclicNbmeWidth drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST cyclicNbmeWidth references CDATA #IMPLIED >
+<!ATTLIST cyclicNbmeWidth blt NMTOKENS #IMPLIED >
+<!ATTLIST cyclicNbmeWidth vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT cyclicName ( #PCDATA ) >
-<!ATTLIST cyclicName type NMTOKEN #REQUIRED >
-<!ATTLIST cyclicName draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST cyclicName references CDATA #IMPLIED >
-<!ATTLIST cyclicName alt NMTOKENS #IMPLIED >
+<!ELEMENT cyclicNbme ( #PCDATA ) >
+<!ATTLIST cyclicNbme type NMTOKEN #REQUIRED >
+<!ATTLIST cyclicNbme drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST cyclicNbme references CDATA #IMPLIED >
+<!ATTLIST cyclicNbme blt NMTOKENS #IMPLIED >
 
-<!ELEMENT dateFormats (alias | (default*, dateFormatLength*, special*)) >
-<!ATTLIST dateFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateFormats validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteFormbts (blibs | (defbult*, dbteFormbtLength*, specibl*)) >
+<!ATTLIST dbteFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteFormbts vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateFormatLength (alias | (default*, dateFormat*, special*)) >
-<!ATTLIST dateFormatLength type ( full | long | medium | short ) #REQUIRED >
-<!ATTLIST dateFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dateFormatLength references CDATA #IMPLIED >
-<!ATTLIST dateFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST dateFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteFormbtLength (blibs | (defbult*, dbteFormbt*, specibl*)) >
+<!ATTLIST dbteFormbtLength type ( full | long | medium | short ) #REQUIRED >
+<!ATTLIST dbteFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbteFormbtLength references CDATA #IMPLIED >
+<!ATTLIST dbteFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST dbteFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateFormat (alias | (pattern*, displayName*, special*))  >
-<!ATTLIST dateFormat type NMTOKEN "standard">
-<!ATTLIST dateFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dateFormat references CDATA #IMPLIED >
-<!ATTLIST dateFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST dateFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteFormbt (blibs | (pbttern*, displbyNbme*, specibl*))  >
+<!ATTLIST dbteFormbt type NMTOKEN "stbndbrd">
+<!ATTLIST dbteFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbteFormbt references CDATA #IMPLIED >
+<!ATTLIST dbteFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST dbteFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT displayName ( #PCDATA ) >
-<!ATTLIST displayName count (0 | 1 | zero | one | two | few | many | other) #IMPLIED> <!-- only for currencies -->
-<!ATTLIST displayName draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST displayName references CDATA #IMPLIED >
-<!ATTLIST displayName alt NMTOKENS #IMPLIED >
+<!ELEMENT displbyNbme ( #PCDATA ) >
+<!ATTLIST displbyNbme count (0 | 1 | zero | one | two | few | mbny | other) #IMPLIED> <!-- only for currencies -->
+<!ATTLIST displbyNbme drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST displbyNbme references CDATA #IMPLIED >
+<!ATTLIST displbyNbme blt NMTOKENS #IMPLIED >
 
-<!ELEMENT timeFormats (alias | (default*, timeFormatLength*, special*)) >
-<!ATTLIST timeFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST timeFormats validSubLocales CDATA #IMPLIED >
+<!ELEMENT timeFormbts (blibs | (defbult*, timeFormbtLength*, specibl*)) >
+<!ATTLIST timeFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST timeFormbts vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT timeFormatLength (alias | (default*, timeFormat*, special*)) >
-<!ATTLIST timeFormatLength type ( full | long | medium | short ) #REQUIRED >
-<!ATTLIST timeFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST timeFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST timeFormatLength references CDATA #IMPLIED >
-<!ATTLIST timeFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST timeFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT timeFormbtLength (blibs | (defbult*, timeFormbt*, specibl*)) >
+<!ATTLIST timeFormbtLength type ( full | long | medium | short ) #REQUIRED >
+<!ATTLIST timeFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST timeFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST timeFormbtLength references CDATA #IMPLIED >
+<!ATTLIST timeFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST timeFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT timeFormat (alias | (pattern*, displayName*, special*)) >
-<!ATTLIST timeFormat type NMTOKEN "standard" >
-<!ATTLIST timeFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST timeFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST timeFormat references CDATA #IMPLIED >
-<!ATTLIST timeFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST timeFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT timeFormbt (blibs | (pbttern*, displbyNbme*, specibl*)) >
+<!ATTLIST timeFormbt type NMTOKEN "stbndbrd" >
+<!ATTLIST timeFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST timeFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST timeFormbt references CDATA #IMPLIED >
+<!ATTLIST timeFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST timeFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateTimeFormats (alias | (default*, dateTimeFormatLength*, availableFormats*, appendItems*, intervalFormats*, special*)) >
-<!ATTLIST dateTimeFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateTimeFormats validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteTimeFormbts (blibs | (defbult*, dbteTimeFormbtLength*, bvbilbbleFormbts*, bppendItems*, intervblFormbts*, specibl*)) >
+<!ATTLIST dbteTimeFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteTimeFormbts vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateTimeFormatLength (alias | (default*, dateTimeFormat*, special*)) >
-<!ATTLIST dateTimeFormatLength type ( full | long | medium | short ) #IMPLIED >
-<!ATTLIST dateTimeFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateTimeFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dateTimeFormatLength references CDATA #IMPLIED >
-<!ATTLIST dateTimeFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST dateTimeFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteTimeFormbtLength (blibs | (defbult*, dbteTimeFormbt*, specibl*)) >
+<!ATTLIST dbteTimeFormbtLength type ( full | long | medium | short ) #IMPLIED >
+<!ATTLIST dbteTimeFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteTimeFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbteTimeFormbtLength references CDATA #IMPLIED >
+<!ATTLIST dbteTimeFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST dbteTimeFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateTimeFormat (alias | (pattern*, displayName*, special*)) >
-<!ATTLIST dateTimeFormat type NMTOKEN "standard"  >
-<!ATTLIST dateTimeFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateTimeFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST dateTimeFormat references CDATA #IMPLIED >
-<!ATTLIST dateTimeFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST dateTimeFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT dbteTimeFormbt (blibs | (pbttern*, displbyNbme*, specibl*)) >
+<!ATTLIST dbteTimeFormbt type NMTOKEN "stbndbrd"  >
+<!ATTLIST dbteTimeFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteTimeFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST dbteTimeFormbt references CDATA #IMPLIED >
+<!ATTLIST dbteTimeFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST dbteTimeFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT availableFormats (alias | (dateFormatItem*, special*)) >
-<!ATTLIST availableFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST availableFormats references CDATA #IMPLIED >
-<!ATTLIST availableFormats alt NMTOKENS #IMPLIED >
-<!ATTLIST availableFormats validSubLocales CDATA #IMPLIED >
+<!ELEMENT bvbilbbleFormbts (blibs | (dbteFormbtItem*, specibl*)) >
+<!ATTLIST bvbilbbleFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST bvbilbbleFormbts references CDATA #IMPLIED >
+<!ATTLIST bvbilbbleFormbts blt NMTOKENS #IMPLIED >
+<!ATTLIST bvbilbbleFormbts vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT appendItems (alias | (appendItem*, special*)) >
-<!ATTLIST appendItems draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST appendItems references CDATA #IMPLIED >
-<!ATTLIST appendItems alt NMTOKENS #IMPLIED >
-<!ATTLIST appendItems validSubLocales CDATA #IMPLIED >
+<!ELEMENT bppendItems (blibs | (bppendItem*, specibl*)) >
+<!ATTLIST bppendItems drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST bppendItems references CDATA #IMPLIED >
+<!ATTLIST bppendItems blt NMTOKENS #IMPLIED >
+<!ATTLIST bppendItems vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT dateFormatItem ( #PCDATA ) >
-<!ATTLIST dateFormatItem id CDATA #REQUIRED >
-<!ATTLIST dateFormatItem draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST dateFormatItem references CDATA #IMPLIED >
-<!ATTLIST dateFormatItem alt NMTOKENS #IMPLIED >
+<!ELEMENT dbteFormbtItem ( #PCDATA ) >
+<!ATTLIST dbteFormbtItem id CDATA #REQUIRED >
+<!ATTLIST dbteFormbtItem drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbteFormbtItem references CDATA #IMPLIED >
+<!ATTLIST dbteFormbtItem blt NMTOKENS #IMPLIED >
 
-<!ELEMENT appendItem ( #PCDATA ) >
-<!ATTLIST appendItem request CDATA #REQUIRED >
-<!ATTLIST appendItem draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST appendItem references CDATA #IMPLIED >
-<!ATTLIST appendItem alt NMTOKENS #IMPLIED >
+<!ELEMENT bppendItem ( #PCDATA ) >
+<!ATTLIST bppendItem request CDATA #REQUIRED >
+<!ATTLIST bppendItem drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST bppendItem references CDATA #IMPLIED >
+<!ATTLIST bppendItem blt NMTOKENS #IMPLIED >
 
-<!ELEMENT intervalFormats (alias | (intervalFormatFallback*, intervalFormatItem*, special*)) >
-<!ATTLIST intervalFormats draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST intervalFormats references CDATA #IMPLIED >
-<!ATTLIST intervalFormats alt NMTOKENS #IMPLIED >
-<!ATTLIST intervalFormats validSubLocales CDATA #IMPLIED >
+<!ELEMENT intervblFormbts (blibs | (intervblFormbtFbllbbck*, intervblFormbtItem*, specibl*)) >
+<!ATTLIST intervblFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST intervblFormbts references CDATA #IMPLIED >
+<!ATTLIST intervblFormbts blt NMTOKENS #IMPLIED >
+<!ATTLIST intervblFormbts vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT intervalFormatFallback ( #PCDATA ) >
-<!ATTLIST intervalFormatFallback draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST intervalFormatFallback references CDATA #IMPLIED >
-<!ATTLIST intervalFormatFallback alt NMTOKENS #IMPLIED >
-<!ATTLIST intervalFormatFallback validSubLocales CDATA #IMPLIED >
+<!ELEMENT intervblFormbtFbllbbck ( #PCDATA ) >
+<!ATTLIST intervblFormbtFbllbbck drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST intervblFormbtFbllbbck references CDATA #IMPLIED >
+<!ATTLIST intervblFormbtFbllbbck blt NMTOKENS #IMPLIED >
+<!ATTLIST intervblFormbtFbllbbck vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT intervalFormatItem (alias | (greatestDifference*, special*)) >
-<!ATTLIST intervalFormatItem id NMTOKEN #REQUIRED >
-<!ATTLIST intervalFormatItem draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST intervalFormatItem references CDATA #IMPLIED >
-<!ATTLIST intervalFormatItem alt NMTOKENS #IMPLIED >
-<!ATTLIST intervalFormatItem validSubLocales CDATA #IMPLIED >
+<!ELEMENT intervblFormbtItem (blibs | (grebtestDifference*, specibl*)) >
+<!ATTLIST intervblFormbtItem id NMTOKEN #REQUIRED >
+<!ATTLIST intervblFormbtItem drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST intervblFormbtItem references CDATA #IMPLIED >
+<!ATTLIST intervblFormbtItem blt NMTOKENS #IMPLIED >
+<!ATTLIST intervblFormbtItem vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT greatestDifference ( #PCDATA ) >
-<!ATTLIST greatestDifference id NMTOKEN #REQUIRED >
-<!ATTLIST greatestDifference draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST greatestDifference references CDATA #IMPLIED >
-<!ATTLIST greatestDifference alt NMTOKENS #IMPLIED >
-<!ATTLIST greatestDifference validSubLocales CDATA #IMPLIED >
+<!ELEMENT grebtestDifference ( #PCDATA ) >
+<!ATTLIST grebtestDifference id NMTOKEN #REQUIRED >
+<!ATTLIST grebtestDifference drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST grebtestDifference references CDATA #IMPLIED >
+<!ATTLIST grebtestDifference blt NMTOKENS #IMPLIED >
+<!ATTLIST grebtestDifference vblidSubLocbles CDATA #IMPLIED >
 
 
-<!ELEMENT timeZoneNames (alias | (hourFormat*, hoursFormat*, gmtFormat*, gmtZeroFormat*, regionFormat*, fallbackFormat*, fallbackRegionFormat*, abbreviationFallback*, preferenceOrdering*, singleCountries*, default*, zone*, metazone*, special*)) >
-<!ATTLIST timeZoneNames draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST timeZoneNames validSubLocales CDATA #IMPLIED >
+<!ELEMENT timeZoneNbmes (blibs | (hourFormbt*, hoursFormbt*, gmtFormbt*, gmtZeroFormbt*, regionFormbt*, fbllbbckFormbt*, fbllbbckRegionFormbt*, bbbrevibtionFbllbbck*, preferenceOrdering*, singleCountries*, defbult*, zone*, metbzone*, specibl*)) >
+<!ATTLIST timeZoneNbmes drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST timeZoneNbmes vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT hourFormat ( #PCDATA ) >
-<!ATTLIST hourFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST hourFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST hourFormat references CDATA #IMPLIED >
+<!ELEMENT hourFormbt ( #PCDATA ) >
+<!ATTLIST hourFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST hourFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST hourFormbt references CDATA #IMPLIED >
 
-<!ELEMENT hoursFormat ( #PCDATA ) > <!-- deprecated. -->
-<!ATTLIST hoursFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST hoursFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST hoursFormat references CDATA #IMPLIED >
+<!ELEMENT hoursFormbt ( #PCDATA ) > <!-- deprecbted. -->
+<!ATTLIST hoursFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST hoursFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST hoursFormbt references CDATA #IMPLIED >
 
-<!ELEMENT gmtFormat ( #PCDATA ) >
-<!ATTLIST gmtFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST gmtFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST gmtFormat references CDATA #IMPLIED >
+<!ELEMENT gmtFormbt ( #PCDATA ) >
+<!ATTLIST gmtFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST gmtFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST gmtFormbt references CDATA #IMPLIED >
 
-<!ELEMENT gmtZeroFormat ( #PCDATA ) >
-<!ATTLIST gmtZeroFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST gmtZeroFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST gmtZeroFormat references CDATA #IMPLIED >
+<!ELEMENT gmtZeroFormbt ( #PCDATA ) >
+<!ATTLIST gmtZeroFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST gmtZeroFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST gmtZeroFormbt references CDATA #IMPLIED >
 
-<!ELEMENT regionFormat ( #PCDATA ) >
-<!ATTLIST regionFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST regionFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST regionFormat references CDATA #IMPLIED >
+<!ELEMENT regionFormbt ( #PCDATA ) >
+<!ATTLIST regionFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST regionFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST regionFormbt references CDATA #IMPLIED >
 
-<!ELEMENT fallbackFormat ( #PCDATA ) >
-<!ATTLIST fallbackFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST fallbackFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST fallbackFormat references CDATA #IMPLIED >
+<!ELEMENT fbllbbckFormbt ( #PCDATA ) >
+<!ATTLIST fbllbbckFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST fbllbbckFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST fbllbbckFormbt references CDATA #IMPLIED >
 
-<!ELEMENT fallbackRegionFormat ( #PCDATA ) >
-<!ATTLIST fallbackRegionFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST fallbackRegionFormat draft ( approved | contributed | provisional | unconfirmed) #IMPLIED >
-<!ATTLIST fallbackRegionFormat references CDATA #IMPLIED >
+<!ELEMENT fbllbbckRegionFormbt ( #PCDATA ) >
+<!ATTLIST fbllbbckRegionFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST fbllbbckRegionFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed) #IMPLIED >
+<!ATTLIST fbllbbckRegionFormbt references CDATA #IMPLIED >
 
-<!ELEMENT abbreviationFallback EMPTY > <!-- deprecated. -->
-<!ATTLIST abbreviationFallback type ( GMT | standard ) #IMPLIED > <!-- deprecated in favor of choice -->
-<!ATTLIST abbreviationFallback choice ( GMT | standard ) #IMPLIED > <!-- really required, but needs to be optional to support type also -->
-<!ATTLIST abbreviationFallback alt NMTOKENS #IMPLIED >
-<!ATTLIST abbreviationFallback draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST abbreviationFallback references CDATA #IMPLIED >
+<!ELEMENT bbbrevibtionFbllbbck EMPTY > <!-- deprecbted. -->
+<!ATTLIST bbbrevibtionFbllbbck type ( GMT | stbndbrd ) #IMPLIED > <!-- deprecbted in fbvor of choice -->
+<!ATTLIST bbbrevibtionFbllbbck choice ( GMT | stbndbrd ) #IMPLIED > <!-- reblly required, but needs to be optionbl to support type blso -->
+<!ATTLIST bbbrevibtionFbllbbck blt NMTOKENS #IMPLIED >
+<!ATTLIST bbbrevibtionFbllbbck drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST bbbrevibtionFbllbbck references CDATA #IMPLIED >
 
-<!ELEMENT preferenceOrdering EMPTY > <!-- deprecated, use metazones instead -->
-<!ATTLIST preferenceOrdering type CDATA #IMPLIED > <!-- deprecated in favor of choice -->
-<!ATTLIST preferenceOrdering choice CDATA #IMPLIED > <!-- really required, but needs to be optional to support type also -->
-<!ATTLIST preferenceOrdering alt NMTOKENS #IMPLIED >
-<!ATTLIST preferenceOrdering draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT preferenceOrdering EMPTY > <!-- deprecbted, use metbzones instebd -->
+<!ATTLIST preferenceOrdering type CDATA #IMPLIED > <!-- deprecbted in fbvor of choice -->
+<!ATTLIST preferenceOrdering choice CDATA #IMPLIED > <!-- reblly required, but needs to be optionbl to support type blso -->
+<!ATTLIST preferenceOrdering blt NMTOKENS #IMPLIED >
+<!ATTLIST preferenceOrdering drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST preferenceOrdering references CDATA #IMPLIED >
 
 <!ELEMENT singleCountries EMPTY >
 <!ATTLIST singleCountries list CDATA #REQUIRED >
-<!ATTLIST singleCountries alt NMTOKENS #IMPLIED >
-<!ATTLIST singleCountries draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST singleCountries blt NMTOKENS #IMPLIED >
+<!ATTLIST singleCountries drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST singleCountries references CDATA #IMPLIED >
 
-<!ELEMENT zone (alias | ( long*, short*, commonlyUsed*, exemplarCity*, special*)) >
+<!ELEMENT zone (blibs | ( long*, short*, commonlyUsed*, exemplbrCity*, specibl*)) >
 <!ATTLIST zone type CDATA #REQUIRED >
-<!ATTLIST zone draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST zone standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ATTLIST zone drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST zone stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST zone references CDATA #IMPLIED >
-<!ATTLIST zone alt NMTOKENS #IMPLIED >
-<!ATTLIST zone validSubLocales CDATA #IMPLIED >
+<!ATTLIST zone blt NMTOKENS #IMPLIED >
+<!ATTLIST zone vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT metazone (alias | ( long*, short*, commonlyUsed*, special*)) >
-<!ATTLIST metazone type CDATA #REQUIRED >
-<!ATTLIST metazone draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST metazone standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST metazone references CDATA #IMPLIED >
-<!ATTLIST metazone alt NMTOKENS #IMPLIED >
-<!ATTLIST metazone validSubLocales CDATA #IMPLIED >
+<!ELEMENT metbzone (blibs | ( long*, short*, commonlyUsed*, specibl*)) >
+<!ATTLIST metbzone type CDATA #REQUIRED >
+<!ATTLIST metbzone drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST metbzone stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST metbzone references CDATA #IMPLIED >
+<!ATTLIST metbzone blt NMTOKENS #IMPLIED >
+<!ATTLIST metbzone vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT long (alias | (generic*, standard*, daylight*, special*)) >
-<!ATTLIST long draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT long (blibs | (generic*, stbndbrd*, dbylight*, specibl*)) >
+<!ATTLIST long drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST long references CDATA #IMPLIED >
-<!ATTLIST long alt NMTOKENS #IMPLIED >
-<!ATTLIST long validSubLocales CDATA #IMPLIED >
+<!ATTLIST long blt NMTOKENS #IMPLIED >
+<!ATTLIST long vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT short (alias | (generic*, standard*, daylight*, special*)) >
-<!ATTLIST short draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT short (blibs | (generic*, stbndbrd*, dbylight*, specibl*)) >
+<!ATTLIST short drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST short references CDATA #IMPLIED >
-<!ATTLIST short alt NMTOKENS #IMPLIED >
-<!ATTLIST short validSubLocales CDATA #IMPLIED >
+<!ATTLIST short blt NMTOKENS #IMPLIED >
+<!ATTLIST short vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT generic ( #PCDATA ) >
-<!ATTLIST generic draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST generic drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST generic references CDATA #IMPLIED >
-<!ATTLIST generic alt NMTOKENS #IMPLIED >
+<!ATTLIST generic blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT standard ( #PCDATA ) >
-<!ATTLIST standard draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST standard references CDATA #IMPLIED >
-<!ATTLIST standard alt NMTOKENS #IMPLIED >
+<!ELEMENT stbndbrd ( #PCDATA ) >
+<!ATTLIST stbndbrd drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST stbndbrd references CDATA #IMPLIED >
+<!ATTLIST stbndbrd blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT daylight ( #PCDATA ) >
-<!ATTLIST daylight draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST daylight references CDATA #IMPLIED >
-<!ATTLIST daylight alt NMTOKENS #IMPLIED >
+<!ELEMENT dbylight ( #PCDATA ) >
+<!ATTLIST dbylight drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST dbylight references CDATA #IMPLIED >
+<!ATTLIST dbylight blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT commonlyUsed ( #PCDATA ) > <!-- deprecated -->
-<!ATTLIST commonlyUsed used ( true | false ) #IMPLIED >
-<!ATTLIST commonlyUsed draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT commonlyUsed ( #PCDATA ) > <!-- deprecbted -->
+<!ATTLIST commonlyUsed used ( true | fblse ) #IMPLIED >
+<!ATTLIST commonlyUsed drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST commonlyUsed references CDATA #IMPLIED >
-<!ATTLIST commonlyUsed alt NMTOKENS #IMPLIED >
+<!ATTLIST commonlyUsed blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT exemplarCity ( #PCDATA ) >
-<!ATTLIST exemplarCity draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST exemplarCity references CDATA #IMPLIED >
-<!ATTLIST exemplarCity alt NMTOKENS #IMPLIED >
+<!ELEMENT exemplbrCity ( #PCDATA ) >
+<!ATTLIST exemplbrCity drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST exemplbrCity references CDATA #IMPLIED >
+<!ATTLIST exemplbrCity blt NMTOKENS #IMPLIED >
 
-<!ELEMENT usesMetazone EMPTY >
-<!ATTLIST usesMetazone mzone NMTOKEN #REQUIRED >
-<!ATTLIST usesMetazone from CDATA #IMPLIED >
-<!ATTLIST usesMetazone to CDATA #IMPLIED >
-<!ATTLIST usesMetazone draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST usesMetazone references CDATA #IMPLIED >
-<!ATTLIST usesMetazone alt NMTOKENS #IMPLIED >
+<!ELEMENT usesMetbzone EMPTY >
+<!ATTLIST usesMetbzone mzone NMTOKEN #REQUIRED >
+<!ATTLIST usesMetbzone from CDATA #IMPLIED >
+<!ATTLIST usesMetbzone to CDATA #IMPLIED >
+<!ATTLIST usesMetbzone drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST usesMetbzone references CDATA #IMPLIED >
+<!ATTLIST usesMetbzone blt NMTOKENS #IMPLIED >
 
 
-<!ELEMENT fields ( alias | (field*, special*)) >
-<!ATTLIST fields draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST fields standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT fields ( blibs | (field*, specibl*)) >
+<!ATTLIST fields drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST fields stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST fields references CDATA #IMPLIED >
-<!ATTLIST fields alt NMTOKENS #IMPLIED >
-<!ATTLIST fields validSubLocales CDATA #IMPLIED >
+<!ATTLIST fields blt NMTOKENS #IMPLIED >
+<!ATTLIST fields vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT field ( alias | (displayName*, relative*, special*)) >
-<!ATTLIST field type ( era | year | month | week | day | weekday | dayperiod | hour | minute | second | zone ) #IMPLIED >
-<!ATTLIST field draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST field standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT field ( blibs | (displbyNbme*, relbtive*, specibl*)) >
+<!ATTLIST field type ( erb | yebr | month | week | dby | weekdby | dbyperiod | hour | minute | second | zone ) #IMPLIED >
+<!ATTLIST field drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST field stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST field references CDATA #IMPLIED >
-<!ATTLIST field alt NMTOKENS #IMPLIED >
-<!ATTLIST field validSubLocales CDATA #IMPLIED >
+<!ATTLIST field blt NMTOKENS #IMPLIED >
+<!ATTLIST field vblidSubLocbles CDATA #IMPLIED >
 
 
-<!ELEMENT relative (#PCDATA) >
-<!ATTLIST relative type NMTOKEN #IMPLIED >
-<!ATTLIST relative draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST relative references CDATA #IMPLIED >
-<!ATTLIST relative alt NMTOKENS #IMPLIED >
-<!ATTLIST relative validSubLocales CDATA #IMPLIED >
-
-
-<!-- ######################################################### -->
+<!ELEMENT relbtive (#PCDATA) >
+<!ATTLIST relbtive type NMTOKEN #IMPLIED >
+<!ATTLIST relbtive drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST relbtive references CDATA #IMPLIED >
+<!ATTLIST relbtive blt NMTOKENS #IMPLIED >
+<!ATTLIST relbtive vblidSubLocbles CDATA #IMPLIED >
 
 
 <!-- ######################################################### -->
 
-<!ELEMENT numbers (alias | (defaultNumberingSystem*, otherNumberingSystems*, symbols*, decimalFormats*, scientificFormats*, percentFormats*, currencyFormats*, currencies?, special*)) >
-<!ATTLIST numbers draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST numbers standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+
+<!-- ######################################################### -->
+
+<!ELEMENT numbers (blibs | (defbultNumberingSystem*, otherNumberingSystems*, symbols*, decimblFormbts*, scientificFormbts*, percentFormbts*, currencyFormbts*, currencies?, specibl*)) >
+<!ATTLIST numbers drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST numbers stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST numbers references CDATA #IMPLIED >
-<!ATTLIST numbers alt NMTOKENS #IMPLIED >
-<!ATTLIST numbers validSubLocales CDATA #IMPLIED >
+<!ATTLIST numbers blt NMTOKENS #IMPLIED >
+<!ATTLIST numbers vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT defaultNumberingSystem ( #PCDATA ) >
-<!ATTLIST defaultNumberingSystem references CDATA #IMPLIED >
-<!ATTLIST defaultNumberingSystem draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST defaultNumberingSystem alt NMTOKENS #IMPLIED >
+<!ELEMENT defbultNumberingSystem ( #PCDATA ) >
+<!ATTLIST defbultNumberingSystem references CDATA #IMPLIED >
+<!ATTLIST defbultNumberingSystem drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST defbultNumberingSystem blt NMTOKENS #IMPLIED >
 
-<!ELEMENT otherNumberingSystems ( alias | ( native*, traditional*, finance*)) >
-<!ATTLIST otherNumberingSystems draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST otherNumberingSystems alt NMTOKENS #IMPLIED >
+<!ELEMENT otherNumberingSystems ( blibs | ( nbtive*, trbditionbl*, finbnce*)) >
+<!ATTLIST otherNumberingSystems drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST otherNumberingSystems blt NMTOKENS #IMPLIED >
 
-<!ELEMENT native ( #PCDATA ) >
-<!ATTLIST native draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST native alt NMTOKENS #IMPLIED >
+<!ELEMENT nbtive ( #PCDATA ) >
+<!ATTLIST nbtive drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST nbtive blt NMTOKENS #IMPLIED >
 
-<!ELEMENT traditional ( #PCDATA ) >
-<!ATTLIST traditional draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST traditional alt NMTOKENS #IMPLIED >
+<!ELEMENT trbditionbl ( #PCDATA ) >
+<!ATTLIST trbditionbl drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST trbditionbl blt NMTOKENS #IMPLIED >
 
-<!ELEMENT finance ( #PCDATA ) >
-<!ATTLIST finance draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST finance alt NMTOKENS #IMPLIED >
+<!ELEMENT finbnce ( #PCDATA ) >
+<!ATTLIST finbnce drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST finbnce blt NMTOKENS #IMPLIED >
 
-<!ELEMENT symbols (alias | (decimal*, group*, list*, percentSign*, nativeZeroDigit*, patternDigit*, plusSign*, minusSign*, exponential*, perMille*, infinity*, nan*, currencyDecimal*, currencyGroup*, special*)) >
-<!ATTLIST symbols draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST symbols standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
+<!ELEMENT symbols (blibs | (decimbl*, group*, list*, percentSign*, nbtiveZeroDigit*, pbtternDigit*, plusSign*, minusSign*, exponentibl*, perMille*, infinity*, nbn*, currencyDecimbl*, currencyGroup*, specibl*)) >
+<!ATTLIST symbols drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST symbols stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
 <!ATTLIST symbols references CDATA #IMPLIED >
-<!ATTLIST symbols alt NMTOKENS #IMPLIED >
-<!ATTLIST symbols validSubLocales CDATA #IMPLIED >
+<!ATTLIST symbols blt NMTOKENS #IMPLIED >
+<!ATTLIST symbols vblidSubLocbles CDATA #IMPLIED >
 <!ATTLIST symbols numberSystem CDATA #IMPLIED >
 
-<!ELEMENT decimal ( #PCDATA ) >
-<!ATTLIST decimal references CDATA #IMPLIED >
-<!ATTLIST decimal draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST decimal alt NMTOKENS #IMPLIED >
-<!ATTLIST decimal numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT decimbl ( #PCDATA ) >
+<!ATTLIST decimbl references CDATA #IMPLIED >
+<!ATTLIST decimbl drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST decimbl blt NMTOKENS #IMPLIED >
+<!ATTLIST decimbl numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT group ( #PCDATA ) >
 <!ATTLIST group references CDATA #IMPLIED >
-<!ATTLIST group draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST group alt NMTOKENS #IMPLIED >
-<!ATTLIST group numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST group drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST group blt NMTOKENS #IMPLIED >
+<!ATTLIST group numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT list ( #PCDATA ) >
 <!ATTLIST list references CDATA #IMPLIED >
-<!ATTLIST list draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST list alt NMTOKENS #IMPLIED >
-<!ATTLIST list numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST list drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST list blt NMTOKENS #IMPLIED >
+<!ATTLIST list numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT percentSign ( #PCDATA ) >
 <!ATTLIST percentSign references CDATA #IMPLIED >
-<!ATTLIST percentSign draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST percentSign alt NMTOKENS #IMPLIED >
-<!ATTLIST percentSign numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST percentSign drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST percentSign blt NMTOKENS #IMPLIED >
+<!ATTLIST percentSign numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT nativeZeroDigit ( #PCDATA ) >
-<!ATTLIST nativeZeroDigit references CDATA #IMPLIED >
-<!ATTLIST nativeZeroDigit draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST nativeZeroDigit alt NMTOKENS #IMPLIED >
-<!ATTLIST nativeZeroDigit numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT nbtiveZeroDigit ( #PCDATA ) >
+<!ATTLIST nbtiveZeroDigit references CDATA #IMPLIED >
+<!ATTLIST nbtiveZeroDigit drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST nbtiveZeroDigit blt NMTOKENS #IMPLIED >
+<!ATTLIST nbtiveZeroDigit numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT patternDigit ( #PCDATA ) >
-<!ATTLIST patternDigit references CDATA #IMPLIED >
-<!ATTLIST patternDigit draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST patternDigit alt NMTOKENS #IMPLIED >
-<!ATTLIST patternDigit numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT pbtternDigit ( #PCDATA ) >
+<!ATTLIST pbtternDigit references CDATA #IMPLIED >
+<!ATTLIST pbtternDigit drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST pbtternDigit blt NMTOKENS #IMPLIED >
+<!ATTLIST pbtternDigit numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT plusSign ( #PCDATA ) >
 <!ATTLIST plusSign references CDATA #IMPLIED >
-<!ATTLIST plusSign draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST plusSign alt NMTOKENS #IMPLIED >
-<!ATTLIST plusSign numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST plusSign drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST plusSign blt NMTOKENS #IMPLIED >
+<!ATTLIST plusSign numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT minusSign ( #PCDATA ) >
 <!ATTLIST minusSign references CDATA #IMPLIED >
-<!ATTLIST minusSign draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST minusSign alt NMTOKENS #IMPLIED >
-<!ATTLIST minusSign numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST minusSign drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST minusSign blt NMTOKENS #IMPLIED >
+<!ATTLIST minusSign numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT exponential ( #PCDATA ) >
-<!ATTLIST exponential references CDATA #IMPLIED >
-<!ATTLIST exponential draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST exponential alt NMTOKENS #IMPLIED >
-<!ATTLIST exponential numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT exponentibl ( #PCDATA ) >
+<!ATTLIST exponentibl references CDATA #IMPLIED >
+<!ATTLIST exponentibl drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST exponentibl blt NMTOKENS #IMPLIED >
+<!ATTLIST exponentibl numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT perMille ( #PCDATA ) >
 <!ATTLIST perMille references CDATA #IMPLIED >
-<!ATTLIST perMille draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST perMille alt NMTOKENS #IMPLIED >
-<!ATTLIST perMille numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST perMille drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST perMille blt NMTOKENS #IMPLIED >
+<!ATTLIST perMille numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT infinity ( #PCDATA ) >
 <!ATTLIST infinity references CDATA #IMPLIED >
-<!ATTLIST infinity draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST infinity alt NMTOKENS #IMPLIED >
-<!ATTLIST infinity numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST infinity drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST infinity blt NMTOKENS #IMPLIED >
+<!ATTLIST infinity numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT nan ( #PCDATA ) >
-<!ATTLIST nan references CDATA #IMPLIED >
-<!ATTLIST nan draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST nan alt NMTOKENS #IMPLIED >
-<!ATTLIST nan numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT nbn ( #PCDATA ) >
+<!ATTLIST nbn references CDATA #IMPLIED >
+<!ATTLIST nbn drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST nbn blt NMTOKENS #IMPLIED >
+<!ATTLIST nbn numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT currencyDecimal ( #PCDATA ) >
-<!ATTLIST currencyDecimal references CDATA #IMPLIED >
-<!ATTLIST currencyDecimal draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyDecimal alt NMTOKENS #IMPLIED >
-<!ATTLIST currencyDecimal numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ELEMENT currencyDecimbl ( #PCDATA ) >
+<!ATTLIST currencyDecimbl references CDATA #IMPLIED >
+<!ATTLIST currencyDecimbl drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyDecimbl blt NMTOKENS #IMPLIED >
+<!ATTLIST currencyDecimbl numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
 <!ELEMENT currencyGroup ( #PCDATA ) >
 <!ATTLIST currencyGroup references CDATA #IMPLIED >
-<!ATTLIST currencyGroup draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyGroup alt NMTOKENS #IMPLIED >
-<!ATTLIST currencyGroup numberSystem CDATA #IMPLIED > <!-- deprecated -->
+<!ATTLIST currencyGroup drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyGroup blt NMTOKENS #IMPLIED >
+<!ATTLIST currencyGroup numberSystem CDATA #IMPLIED > <!-- deprecbted -->
 
-<!ELEMENT pattern ( #PCDATA ) >
-<!ATTLIST pattern type NMTOKEN "standard" >
-<!ATTLIST pattern draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST pattern numbers CDATA #IMPLIED >
-<!ATTLIST pattern references CDATA #IMPLIED >
-<!ATTLIST pattern alt NMTOKENS #IMPLIED >
+<!ELEMENT pbttern ( #PCDATA ) >
+<!ATTLIST pbttern type NMTOKEN "stbndbrd" >
+<!ATTLIST pbttern drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST pbttern numbers CDATA #IMPLIED >
+<!ATTLIST pbttern references CDATA #IMPLIED >
+<!ATTLIST pbttern blt NMTOKENS #IMPLIED >
 
-<!ELEMENT decimalFormats (alias | (default*, decimalFormatLength*, special*)) >
-<!ATTLIST decimalFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST decimalFormats validSubLocales CDATA #IMPLIED >
-<!ATTLIST decimalFormats numberSystem CDATA #IMPLIED >
+<!ELEMENT decimblFormbts (blibs | (defbult*, decimblFormbtLength*, specibl*)) >
+<!ATTLIST decimblFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST decimblFormbts vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST decimblFormbts numberSystem CDATA #IMPLIED >
 
-<!ELEMENT decimalFormatLength (alias | (default*, decimalFormat*, special*)) >
-<!ATTLIST decimalFormatLength type ( full | long | medium | short ) #IMPLIED >
-<!ATTLIST decimalFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST decimalFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST decimalFormatLength references CDATA #IMPLIED >
-<!ATTLIST decimalFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST decimalFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT decimblFormbtLength (blibs | (defbult*, decimblFormbt*, specibl*)) >
+<!ATTLIST decimblFormbtLength type ( full | long | medium | short ) #IMPLIED >
+<!ATTLIST decimblFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST decimblFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST decimblFormbtLength references CDATA #IMPLIED >
+<!ATTLIST decimblFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST decimblFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT decimalFormat (alias | (pattern*, special*)) >
-<!ATTLIST decimalFormat type NMTOKEN "standard" >
-<!ATTLIST decimalFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST decimalFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST decimalFormat references CDATA #IMPLIED >
-<!ATTLIST decimalFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST decimalFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT decimblFormbt (blibs | (pbttern*, specibl*)) >
+<!ATTLIST decimblFormbt type NMTOKEN "stbndbrd" >
+<!ATTLIST decimblFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST decimblFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST decimblFormbt references CDATA #IMPLIED >
+<!ATTLIST decimblFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST decimblFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT scientificFormats (alias | (default*, scientificFormatLength*, special*)) >
-<!ATTLIST scientificFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST scientificFormats validSubLocales CDATA #IMPLIED >
-<!ATTLIST scientificFormats numberSystem CDATA #IMPLIED >
+<!ELEMENT scientificFormbts (blibs | (defbult*, scientificFormbtLength*, specibl*)) >
+<!ATTLIST scientificFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST scientificFormbts vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST scientificFormbts numberSystem CDATA #IMPLIED >
 
-<!ELEMENT scientificFormatLength (alias | (default*, scientificFormat*, special*)) >
-<!ATTLIST scientificFormatLength type ( full | long | medium | short ) #IMPLIED >
-<!ATTLIST scientificFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST scientificFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST scientificFormatLength references CDATA #IMPLIED >
-<!ATTLIST scientificFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST scientificFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT scientificFormbtLength (blibs | (defbult*, scientificFormbt*, specibl*)) >
+<!ATTLIST scientificFormbtLength type ( full | long | medium | short ) #IMPLIED >
+<!ATTLIST scientificFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST scientificFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST scientificFormbtLength references CDATA #IMPLIED >
+<!ATTLIST scientificFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST scientificFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT scientificFormat (alias | (pattern*, special*)) >
-<!ATTLIST scientificFormat type NMTOKEN "standard" >
-<!ATTLIST scientificFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST scientificFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST scientificFormat references CDATA #IMPLIED >
-<!ATTLIST scientificFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST scientificFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT scientificFormbt (blibs | (pbttern*, specibl*)) >
+<!ATTLIST scientificFormbt type NMTOKEN "stbndbrd" >
+<!ATTLIST scientificFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST scientificFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST scientificFormbt references CDATA #IMPLIED >
+<!ATTLIST scientificFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST scientificFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT percentFormats (alias | (default*, percentFormatLength*, special*)) >
-<!ATTLIST percentFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST percentFormats validSubLocales CDATA #IMPLIED >
-<!ATTLIST percentFormats numberSystem CDATA #IMPLIED >
+<!ELEMENT percentFormbts (blibs | (defbult*, percentFormbtLength*, specibl*)) >
+<!ATTLIST percentFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST percentFormbts vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST percentFormbts numberSystem CDATA #IMPLIED >
 
-<!ELEMENT percentFormatLength (alias | (default*, percentFormat*, special*)) >
-<!ATTLIST percentFormatLength type ( full | long | medium | short ) #IMPLIED >
-<!ATTLIST percentFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST percentFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST percentFormatLength references CDATA #IMPLIED >
-<!ATTLIST percentFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST percentFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT percentFormbtLength (blibs | (defbult*, percentFormbt*, specibl*)) >
+<!ATTLIST percentFormbtLength type ( full | long | medium | short ) #IMPLIED >
+<!ATTLIST percentFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST percentFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST percentFormbtLength references CDATA #IMPLIED >
+<!ATTLIST percentFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST percentFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT percentFormat (alias | (pattern*, special*)) >
-<!ATTLIST percentFormat type NMTOKEN "standard" >
-<!ATTLIST percentFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST percentFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST percentFormat references CDATA #IMPLIED >
-<!ATTLIST percentFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST percentFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT percentFormbt (blibs | (pbttern*, specibl*)) >
+<!ATTLIST percentFormbt type NMTOKEN "stbndbrd" >
+<!ATTLIST percentFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST percentFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST percentFormbt references CDATA #IMPLIED >
+<!ATTLIST percentFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST percentFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT currencyFormats (alias | (default*, currencySpacing*, currencyFormatLength*, unitPattern*, special*)) >
-<!ATTLIST currencyFormats draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyFormats validSubLocales CDATA #IMPLIED >
-<!ATTLIST currencyFormats numberSystem CDATA #IMPLIED >
+<!ELEMENT currencyFormbts (blibs | (defbult*, currencySpbcing*, currencyFormbtLength*, unitPbttern*, specibl*)) >
+<!ATTLIST currencyFormbts drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyFormbts vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST currencyFormbts numberSystem CDATA #IMPLIED >
 
-<!ELEMENT currencySpacing (alias | (beforeCurrency*, afterCurrency*, special*)) >
-<!ELEMENT beforeCurrency (alias | (currencyMatch*, surroundingMatch*, insertBetween*)) >
-<!ELEMENT afterCurrency (alias | (currencyMatch*, surroundingMatch*, insertBetween*)) >
+<!ELEMENT currencySpbcing (blibs | (beforeCurrency*, bfterCurrency*, specibl*)) >
+<!ELEMENT beforeCurrency (blibs | (currencyMbtch*, surroundingMbtch*, insertBetween*)) >
+<!ELEMENT bfterCurrency (blibs | (currencyMbtch*, surroundingMbtch*, insertBetween*)) >
 
-<!ELEMENT surroundingMatch ( #PCDATA ) >
-<!ATTLIST surroundingMatch draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST surroundingMatch alt NMTOKENS #IMPLIED >
-<!ATTLIST surroundingMatch references CDATA #IMPLIED >
+<!ELEMENT surroundingMbtch ( #PCDATA ) >
+<!ATTLIST surroundingMbtch drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST surroundingMbtch blt NMTOKENS #IMPLIED >
+<!ATTLIST surroundingMbtch references CDATA #IMPLIED >
 
-<!ELEMENT currencyMatch ( #PCDATA ) >
-<!ATTLIST currencyMatch draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyMatch alt NMTOKENS #IMPLIED >
-<!ATTLIST currencyMatch references CDATA #IMPLIED >
+<!ELEMENT currencyMbtch ( #PCDATA ) >
+<!ATTLIST currencyMbtch drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyMbtch blt NMTOKENS #IMPLIED >
+<!ATTLIST currencyMbtch references CDATA #IMPLIED >
 
 <!ELEMENT insertBetween ( #PCDATA ) >
-<!ATTLIST insertBetween draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST insertBetween alt NMTOKENS #IMPLIED >
+<!ATTLIST insertBetween drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST insertBetween blt NMTOKENS #IMPLIED >
 <!ATTLIST insertBetween references CDATA #IMPLIED >
 
-<!ELEMENT currencyFormatLength (alias | (default*, currencyFormat*, special*)) >
-<!ATTLIST currencyFormatLength type ( full | long | medium | short ) #IMPLIED >
-<!ATTLIST currencyFormatLength draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyFormatLength standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST currencyFormatLength references CDATA #IMPLIED >
-<!ATTLIST currencyFormatLength alt NMTOKENS #IMPLIED >
-<!ATTLIST currencyFormatLength validSubLocales CDATA #IMPLIED >
+<!ELEMENT currencyFormbtLength (blibs | (defbult*, currencyFormbt*, specibl*)) >
+<!ATTLIST currencyFormbtLength type ( full | long | medium | short ) #IMPLIED >
+<!ATTLIST currencyFormbtLength drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyFormbtLength stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST currencyFormbtLength references CDATA #IMPLIED >
+<!ATTLIST currencyFormbtLength blt NMTOKENS #IMPLIED >
+<!ATTLIST currencyFormbtLength vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT currencyFormat (alias | (pattern*, special*)) >
-<!ATTLIST currencyFormat type NMTOKEN "standard" >
-<!ATTLIST currencyFormat draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencyFormat standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST currencyFormat references CDATA #IMPLIED >
-<!ATTLIST currencyFormat alt NMTOKENS #IMPLIED >
-<!ATTLIST currencyFormat validSubLocales CDATA #IMPLIED >
+<!ELEMENT currencyFormbt (blibs | (pbttern*, specibl*)) >
+<!ATTLIST currencyFormbt type NMTOKEN "stbndbrd" >
+<!ATTLIST currencyFormbt drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencyFormbt stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST currencyFormbt references CDATA #IMPLIED >
+<!ATTLIST currencyFormbt blt NMTOKENS #IMPLIED >
+<!ATTLIST currencyFormbt vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT currencies (alias | (default?, currency*, special*)) >
-<!ATTLIST currencies draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST currencies validSubLocales CDATA #IMPLIED >
+<!ELEMENT currencies (blibs | (defbult?, currency*, specibl*)) >
+<!ATTLIST currencies drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST currencies vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT currency (alias | (((pattern+, displayName*, symbol*) | (displayName+, symbol*, pattern*) | (symbol+, pattern*))?, decimal*, group*, special*)) >
-<!-- warning: pattern appears twice in the above. The first is for consistency with all other cases of
-    pattern + displayName; the second is for backwards compatibility -->
-<!ATTLIST currency type NMTOKEN "standard" >
-<!ATTLIST currency draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT currency (blibs | (((pbttern+, displbyNbme*, symbol*) | (displbyNbme+, symbol*, pbttern*) | (symbol+, pbttern*))?, decimbl*, group*, specibl*)) >
+<!-- wbrning: pbttern bppebrs twice in the bbove. The first is for consistency with bll other cbses of
+    pbttern + displbyNbme; the second is for bbckwbrds compbtibility -->
+<!ATTLIST currency type NMTOKEN "stbndbrd" >
+<!ATTLIST currency drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST currency references CDATA #IMPLIED >
-<!ATTLIST currency alt NMTOKENS #IMPLIED >
-<!ATTLIST currency validSubLocales CDATA #IMPLIED >
+<!ATTLIST currency blt NMTOKENS #IMPLIED >
+<!ATTLIST currency vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT symbol ( #PCDATA ) >
-<!ATTLIST symbol draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST symbol drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST symbol references CDATA #IMPLIED >
-<!ATTLIST symbol alt NMTOKENS #IMPLIED >
-<!ATTLIST symbol choice ( true | false ) #IMPLIED > <!-- deprecated -->
+<!ATTLIST symbol blt NMTOKENS #IMPLIED >
+<!ATTLIST symbol choice ( true | fblse ) #IMPLIED > <!-- deprecbted -->
 <!-- ######################################################### -->
 
-<!ELEMENT units (alias | (unit*, special*)) >
-<!ATTLIST units draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
+<!ELEMENT units (blibs | (unit*, specibl*)) >
+<!ATTLIST units drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
 <!ATTLIST units references CDATA #IMPLIED >
-<!ATTLIST units alt NMTOKENS #IMPLIED >
-<!ATTLIST units validSubLocales CDATA #IMPLIED >
+<!ATTLIST units blt NMTOKENS #IMPLIED >
+<!ATTLIST units vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT unit (alias | (unitPattern*, special*)) >
+<!ELEMENT unit (blibs | (unitPbttern*, specibl*)) >
 <!ATTLIST unit type NMTOKEN #REQUIRED >
-<!ATTLIST unit draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
+<!ATTLIST unit drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
 <!ATTLIST unit references CDATA #IMPLIED >
-<!ATTLIST unit alt NMTOKENS #IMPLIED >
-<!ATTLIST unit validSubLocales CDATA #IMPLIED >
+<!ATTLIST unit blt NMTOKENS #IMPLIED >
+<!ATTLIST unit vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT unitPattern ( #PCDATA ) >
-<!ATTLIST unitPattern count (0 | 1 | zero | one | two | few | many | other) #REQUIRED >
-<!ATTLIST unitPattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST unitPattern references CDATA #IMPLIED >
-<!ATTLIST unitPattern alt NMTOKENS #IMPLIED >
-<!ATTLIST unitPattern validSubLocales CDATA #IMPLIED >
+<!ELEMENT unitPbttern ( #PCDATA ) >
+<!ATTLIST unitPbttern count (0 | 1 | zero | one | two | few | mbny | other) #REQUIRED >
+<!ATTLIST unitPbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST unitPbttern references CDATA #IMPLIED >
+<!ATTLIST unitPbttern blt NMTOKENS #IMPLIED >
+<!ATTLIST unitPbttern vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT listPatterns (alias | (listPattern*, special*)) >
-<!ATTLIST listPatterns draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST listPatterns references CDATA #IMPLIED >
-<!ATTLIST listPatterns alt NMTOKENS #IMPLIED >
-<!ATTLIST listPatterns validSubLocales CDATA #IMPLIED >
+<!ELEMENT listPbtterns (blibs | (listPbttern*, specibl*)) >
+<!ATTLIST listPbtterns drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST listPbtterns references CDATA #IMPLIED >
+<!ATTLIST listPbtterns blt NMTOKENS #IMPLIED >
+<!ATTLIST listPbtterns vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT listPattern (alias | (listPatternPart*, special*)) >
-<!ATTLIST listPattern type (NMTOKEN) #IMPLIED >
-<!ATTLIST listPattern draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST listPattern references CDATA #IMPLIED >
-<!ATTLIST listPattern alt NMTOKENS #IMPLIED >
-<!ATTLIST listPattern validSubLocales CDATA #IMPLIED >
+<!ELEMENT listPbttern (blibs | (listPbtternPbrt*, specibl*)) >
+<!ATTLIST listPbttern type (NMTOKEN) #IMPLIED >
+<!ATTLIST listPbttern drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST listPbttern references CDATA #IMPLIED >
+<!ATTLIST listPbttern blt NMTOKENS #IMPLIED >
+<!ATTLIST listPbttern vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT listPatternPart ( #PCDATA ) >
-<!ATTLIST listPatternPart type (start | middle | end | 2 | 3) #REQUIRED >
-<!ATTLIST listPatternPart draft ( approved | contributed | provisional | unconfirmed ) #IMPLIED >
-<!ATTLIST listPatternPart references CDATA #IMPLIED >
-<!ATTLIST listPatternPart alt NMTOKENS #IMPLIED >
-<!ATTLIST listPatternPart validSubLocales CDATA #IMPLIED >
+<!ELEMENT listPbtternPbrt ( #PCDATA ) >
+<!ATTLIST listPbtternPbrt type (stbrt | middle | end | 2 | 3) #REQUIRED >
+<!ATTLIST listPbtternPbrt drbft ( bpproved | contributed | provisionbl | unconfirmed ) #IMPLIED >
+<!ATTLIST listPbtternPbrt references CDATA #IMPLIED >
+<!ATTLIST listPbtternPbrt blt NMTOKENS #IMPLIED >
+<!ATTLIST listPbtternPbrt vblidSubLocbles CDATA #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!ELEMENT collations (alias | (default*, collation*, special*)) >
-<!ATTLIST collations version NMTOKEN #IMPLIED >
-<!ATTLIST collations draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST collations validSubLocales CDATA #IMPLIED >
+<!ELEMENT collbtions (blibs | (defbult*, collbtion*, specibl*)) >
+<!ATTLIST collbtions version NMTOKEN #IMPLIED >
+<!ATTLIST collbtions drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST collbtions vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT collation (alias | (base?, settings?, suppress_contractions?, optimize?, rules?, special*)) >
-<!ATTLIST collation type NMTOKEN "standard" >
-<!ATTLIST collation draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST collation standard CDATA #IMPLIED > <!-- the "standard" attribute is deprecated everywhere. -->
-<!ATTLIST collation references CDATA #IMPLIED >
-<!ATTLIST collation alt NMTOKENS #IMPLIED >
-<!ATTLIST collation validSubLocales CDATA #IMPLIED >
+<!ELEMENT collbtion (blibs | (bbse?, settings?, suppress_contrbctions?, optimize?, rules?, specibl*)) >
+<!ATTLIST collbtion type NMTOKEN "stbndbrd" >
+<!ATTLIST collbtion drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST collbtion stbndbrd CDATA #IMPLIED > <!-- the "stbndbrd" bttribute is deprecbted everywhere. -->
+<!ATTLIST collbtion references CDATA #IMPLIED >
+<!ATTLIST collbtion blt NMTOKENS #IMPLIED >
+<!ATTLIST collbtion vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT base (alias|special) >
+<!ELEMENT bbse (blibs|specibl) >
 
-<!ELEMENT settings (special*) >
-<!ATTLIST settings strength             ( primary | secondary | tertiary | quaternary | identical ) #IMPLIED >
-<!ATTLIST settings alternate            ( non-ignorable | shifted ) #IMPLIED >
-<!ATTLIST settings backwards            ( on | off)  #IMPLIED >
-<!ATTLIST settings normalization        ( on | off ) #IMPLIED >
-<!ATTLIST settings caseLevel            ( on | off ) #IMPLIED >
-<!ATTLIST settings caseFirst            ( upper | lower | off ) #IMPLIED >
-<!ATTLIST settings hiraganaQuarternary  ( on | off ) #IMPLIED >
-<!ATTLIST settings hiraganaQuaternary   ( on | off ) #IMPLIED >
+<!ELEMENT settings (specibl*) >
+<!ATTLIST settings strength             ( primbry | secondbry | tertibry | qubternbry | identicbl ) #IMPLIED >
+<!ATTLIST settings blternbte            ( non-ignorbble | shifted ) #IMPLIED >
+<!ATTLIST settings bbckwbrds            ( on | off)  #IMPLIED >
+<!ATTLIST settings normblizbtion        ( on | off ) #IMPLIED >
+<!ATTLIST settings cbseLevel            ( on | off ) #IMPLIED >
+<!ATTLIST settings cbseFirst            ( upper | lower | off ) #IMPLIED >
+<!ATTLIST settings hirbgbnbQubrternbry  ( on | off ) #IMPLIED >
+<!ATTLIST settings hirbgbnbQubternbry   ( on | off ) #IMPLIED >
 <!ATTLIST settings numeric              ( on | off ) #IMPLIED >
-<!ATTLIST settings private              ( true | false ) #IMPLIED >
-<!ATTLIST settings variableTop          CDATA #IMPLIED >
+<!ATTLIST settings privbte              ( true | fblse ) #IMPLIED >
+<!ATTLIST settings vbribbleTop          CDATA #IMPLIED >
 <!ATTLIST settings reorder              NMTOKENS #IMPLIED >
 
-<!ELEMENT suppress_contractions (  #PCDATA | cp )* >
+<!ELEMENT suppress_contrbctions (  #PCDATA | cp )* >
 
 <!ELEMENT optimize ( #PCDATA | cp )* >
 
-<!ELEMENT rules (alias | ( ( reset | import ), ( reset | import | p | pc |  s | sc | t | tc | q | qc | i | ic | x)* )) >
+<!ELEMENT rules (blibs | ( ( reset | import ), ( reset | import | p | pc |  s | sc | t | tc | q | qc | i | ic | x)* )) >
 
-<!ELEMENT reset ( #PCDATA | cp  | first_variable| last_variable | first_tertiary_ignorable | last_tertiary_ignorable | first_secondary_ignorable | last_secondary_ignorable | first_primary_ignorable | last_primary_ignorable | first_non_ignorable | last_non_ignorable | first_trailing | last_trailing )* >
+<!ELEMENT reset ( #PCDATA | cp  | first_vbribble| lbst_vbribble | first_tertibry_ignorbble | lbst_tertibry_ignorbble | first_secondbry_ignorbble | lbst_secondbry_ignorbble | first_primbry_ignorbble | lbst_primbry_ignorbble | first_non_ignorbble | lbst_non_ignorbble | first_trbiling | lbst_trbiling )* >
 <!ATTLIST reset before NMTOKEN #IMPLIED >
 
 <!ELEMENT import EMPTY >
 <!ATTLIST import source CDATA #REQUIRED >
 <!ATTLIST import type CDATA #IMPLIED >
 
-<!ELEMENT p  ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT p  ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT pc ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT pc ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT s  ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT s  ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT sc ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT sc ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT t  ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT t  ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT tc ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT tc ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT q  ( #PCDATA  | cp | last_variable )* > <!-- deprecated -->
+<!ELEMENT q  ( #PCDATA  | cp | lbst_vbribble )* > <!-- deprecbted -->
 
-<!ELEMENT qc ( #PCDATA  | cp | last_variable )* > <!-- deprecated -->
+<!ELEMENT qc ( #PCDATA  | cp | lbst_vbribble )* > <!-- deprecbted -->
 
-<!ELEMENT i  ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT i  ( #PCDATA  | cp | lbst_vbribble )* >
 
-<!ELEMENT ic ( #PCDATA  | cp | last_variable )* >
+<!ELEMENT ic ( #PCDATA  | cp | lbst_vbribble )* >
 
 <!ELEMENT x (context?, (  p | pc |  s | sc | t | tc | q | qc | i | ic )*, extend? )  >
 
@@ -1320,117 +1320,117 @@ $Date: 2012-03-16 15:58:36 +0900 (Fri, 16 Mar 2012) $
 
 <!ELEMENT context (  #PCDATA | cp )* >
 
-<!ELEMENT first_variable EMPTY >
-<!ELEMENT last_variable EMPTY >
-<!ELEMENT first_tertiary_ignorable EMPTY >
-<!ELEMENT last_tertiary_ignorable EMPTY >
-<!ELEMENT first_secondary_ignorable EMPTY >
-<!ELEMENT last_secondary_ignorable EMPTY >
-<!ELEMENT first_primary_ignorable EMPTY >
-<!ELEMENT last_primary_ignorable EMPTY >
-<!ELEMENT first_non_ignorable EMPTY >
-<!ELEMENT last_non_ignorable EMPTY >
-<!ELEMENT first_trailing EMPTY >
-<!ELEMENT last_trailing EMPTY >
+<!ELEMENT first_vbribble EMPTY >
+<!ELEMENT lbst_vbribble EMPTY >
+<!ELEMENT first_tertibry_ignorbble EMPTY >
+<!ELEMENT lbst_tertibry_ignorbble EMPTY >
+<!ELEMENT first_secondbry_ignorbble EMPTY >
+<!ELEMENT lbst_secondbry_ignorbble EMPTY >
+<!ELEMENT first_primbry_ignorbble EMPTY >
+<!ELEMENT lbst_primbry_ignorbble EMPTY >
+<!ELEMENT first_non_ignorbble EMPTY >
+<!ELEMENT lbst_non_ignorbble EMPTY >
+<!ELEMENT first_trbiling EMPTY >
+<!ELEMENT lbst_trbiling EMPTY >
 
 <!-- ######################################################### -->
 
-<!ELEMENT posix (alias | (messages*, special*)) >
-<!ATTLIST posix draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ELEMENT posix (blibs | (messbges*, specibl*)) >
+<!ATTLIST posix drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST posix references CDATA #IMPLIED >
-<!ATTLIST posix validSubLocales CDATA #IMPLIED >
+<!ATTLIST posix vblidSubLocbles CDATA #IMPLIED >
 
-<!ELEMENT messages (alias | ( yesstr*, nostr*, yesexpr*, noexpr*)) >
-<!ATTLIST messages draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST messages references CDATA #IMPLIED >
-<!ATTLIST messages alt NMTOKENS #IMPLIED >
-<!ATTLIST messages validSubLocales CDATA #IMPLIED >
+<!ELEMENT messbges (blibs | ( yesstr*, nostr*, yesexpr*, noexpr*)) >
+<!ATTLIST messbges drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST messbges references CDATA #IMPLIED >
+<!ATTLIST messbges blt NMTOKENS #IMPLIED >
+<!ATTLIST messbges vblidSubLocbles CDATA #IMPLIED >
 
 <!ELEMENT yesstr ( #PCDATA ) >
-<!ATTLIST yesstr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST yesstr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST yesstr references CDATA #IMPLIED >
-<!ATTLIST yesstr alt NMTOKENS #IMPLIED >
+<!ATTLIST yesstr blt NMTOKENS #IMPLIED >
 
 <!ELEMENT nostr ( #PCDATA ) >
-<!ATTLIST nostr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST nostr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST nostr references CDATA #IMPLIED >
-<!ATTLIST nostr alt NMTOKENS #IMPLIED >
+<!ATTLIST nostr blt NMTOKENS #IMPLIED >
 
 <!-- START_DEPRECATED -->
 <!ELEMENT yesexpr ( #PCDATA ) >
-<!ATTLIST yesexpr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST yesexpr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST yesexpr references CDATA #IMPLIED >
-<!ATTLIST yesexpr alt NMTOKENS #IMPLIED >
+<!ATTLIST yesexpr blt NMTOKENS #IMPLIED >
 
 <!ELEMENT noexpr ( #PCDATA ) >
-<!ATTLIST noexpr draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
+<!ATTLIST noexpr drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
 <!ATTLIST noexpr references CDATA #IMPLIED >
-<!ATTLIST noexpr alt NMTOKENS #IMPLIED >
+<!ATTLIST noexpr blt NMTOKENS #IMPLIED >
 <!-- END_DEPRECATED -->
 
-<!ELEMENT segmentations ( alias | segmentation*) >
-<!ATTLIST segmentations draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
-<!ATTLIST segmentations alt NMTOKENS #IMPLIED >
-<!ATTLIST segmentations validSubLocales CDATA #IMPLIED >
-<!ATTLIST segmentations references CDATA #IMPLIED >
+<!ELEMENT segmentbtions ( blibs | segmentbtion*) >
+<!ATTLIST segmentbtions drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST segmentbtions blt NMTOKENS #IMPLIED >
+<!ATTLIST segmentbtions vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST segmentbtions references CDATA #IMPLIED >
 
-<!ELEMENT segmentation ( alias | (variables?, segmentRules?) | special*) >
-<!ATTLIST segmentation type NMTOKEN #REQUIRED >
-<!ATTLIST segmentation draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
-<!ATTLIST segmentation alt NMTOKENS #IMPLIED >
-<!ATTLIST segmentation validSubLocales CDATA #IMPLIED >
-<!ATTLIST segmentation references CDATA #IMPLIED >
+<!ELEMENT segmentbtion ( blibs | (vbribbles?, segmentRules?) | specibl*) >
+<!ATTLIST segmentbtion type NMTOKEN #REQUIRED >
+<!ATTLIST segmentbtion drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST segmentbtion blt NMTOKENS #IMPLIED >
+<!ATTLIST segmentbtion vblidSubLocbles CDATA #IMPLIED >
+<!ATTLIST segmentbtion references CDATA #IMPLIED >
 
-<!ELEMENT variables ( alias | variable*) >
+<!ELEMENT vbribbles ( blibs | vbribble*) >
 
-<!ELEMENT variable ( #PCDATA ) >
-<!ATTLIST variable id CDATA #REQUIRED >
-<!ATTLIST variable draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
-<!ATTLIST variable alt NMTOKENS #IMPLIED >
-<!ATTLIST variable references CDATA #IMPLIED >
+<!ELEMENT vbribble ( #PCDATA ) >
+<!ATTLIST vbribble id CDATA #REQUIRED >
+<!ATTLIST vbribble drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST vbribble blt NMTOKENS #IMPLIED >
+<!ATTLIST vbribble references CDATA #IMPLIED >
 
-<!ELEMENT segmentRules ( alias | rule*) >
+<!ELEMENT segmentRules ( blibs | rule*) >
 
 <!ELEMENT rule ( #PCDATA ) >
 <!ATTLIST rule id NMTOKEN #REQUIRED >
-<!ATTLIST rule draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
-<!ATTLIST rule alt NMTOKENS #IMPLIED >
+<!ATTLIST rule drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST rule blt NMTOKENS #IMPLIED >
 <!ATTLIST rule references CDATA #IMPLIED >
 
-<!ELEMENT rbnf ( alias | rulesetGrouping*) >
+<!ELEMENT rbnf ( blibs | rulesetGrouping*) >
 
-<!ELEMENT rulesetGrouping ( alias | ruleset*) >
+<!ELEMENT rulesetGrouping ( blibs | ruleset*) >
 <!ATTLIST rulesetGrouping type NMTOKEN #REQUIRED>
-<!ATTLIST rulesetGrouping draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
+<!ATTLIST rulesetGrouping drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT ruleset ( alias | rbnfrule*) >
+<!ELEMENT ruleset ( blibs | rbnfrule*) >
 <!ATTLIST ruleset type NMTOKEN #REQUIRED>
-<!ATTLIST ruleset access ( public | private ) #IMPLIED >
-<!ATTLIST ruleset allowsParsing ( true | false ) #IMPLIED >
-<!ATTLIST ruleset draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
+<!ATTLIST ruleset bccess ( public | privbte ) #IMPLIED >
+<!ATTLIST ruleset bllowsPbrsing ( true | fblse ) #IMPLIED >
+<!ATTLIST ruleset drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
 
 <!ELEMENT rbnfrule ( #PCDATA ) >
-<!ATTLIST rbnfrule value CDATA #REQUIRED >
-<!ATTLIST rbnfrule radix CDATA #IMPLIED >
+<!ATTLIST rbnfrule vblue CDATA #REQUIRED >
+<!ATTLIST rbnfrule rbdix CDATA #IMPLIED >
 <!ATTLIST rbnfrule decexp CDATA #IMPLIED >
-<!ATTLIST rbnfrule draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED ><!-- true and false are deprecated. -->
+<!ATTLIST rbnfrule drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED ><!-- true bnd fblse bre deprecbted. -->
 
-<!ELEMENT references ( reference* ) > <!-- deprecated. -->
+<!ELEMENT references ( reference* ) > <!-- deprecbted. -->
 <!ELEMENT reference ( #PCDATA ) >
 <!ATTLIST reference type NMTOKEN #REQUIRED>
-<!ATTLIST reference standard ( true | false ) #IMPLIED >
+<!ATTLIST reference stbndbrd ( true | fblse ) #IMPLIED >
 <!ATTLIST reference uri CDATA #IMPLIED >
-<!ATTLIST reference draft ( approved | contributed | provisional | unconfirmed | true | false ) #IMPLIED > <!-- true and false are deprecated. -->
-<!ATTLIST reference alt NMTOKENS #IMPLIED >
+<!ATTLIST reference drbft ( bpproved | contributed | provisionbl | unconfirmed | true | fblse ) #IMPLIED > <!-- true bnd fblse bre deprecbted. -->
+<!ATTLIST reference blt NMTOKENS #IMPLIED >
 
 <!-- ######################################################### -->
 
-<!-- This element contains metadata for Survey Tool internal use (optimization, etc). -->
+<!-- This element contbins metbdbtb for Survey Tool internbl use (optimizbtion, etc). -->
 
-<!ELEMENT metadata (casingData?)>
+<!ELEMENT metbdbtb (cbsingDbtb?)>
 
-<!ELEMENT casingData (casingItem*)>
+<!ELEMENT cbsingDbtb (cbsingItem*)>
 
-<!ELEMENT casingItem (#PCDATA) >
-<!ATTLIST casingItem type CDATA #REQUIRED >
+<!ELEMENT cbsingItem (#PCDATA) >
+<!ATTLIST cbsingItem type CDATA #REQUIRED >
 

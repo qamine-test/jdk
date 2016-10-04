@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
 /**
- * An interface to be implemented by objects that can determine the
- * settings of an <code>IIOParam</code> object, either by putting up a
- * GUI to obtain values from a user, or by other means.  This
- * interface merely specifies a generic <code>activate</code> method
- * that invokes the controller, without regard for how the controller
- * obtains values (<i>i.e.</i>, whether the controller puts up a GUI
- * or merely computes a set of values is irrelevant to this
- * interface).
+ * An interfbce to be implemented by objects thbt cbn determine the
+ * settings of bn <code>IIOPbrbm</code> object, either by putting up b
+ * GUI to obtbin vblues from b user, or by other mebns.  This
+ * interfbce merely specifies b generic <code>bctivbte</code> method
+ * thbt invokes the controller, without regbrd for how the controller
+ * obtbins vblues (<i>i.e.</i>, whether the controller puts up b GUI
+ * or merely computes b set of vblues is irrelevbnt to this
+ * interfbce).
  *
- * <p> Within the <code>activate</code> method, a controller obtains
- * initial values by querying the <code>IIOParam</code> object's
- * <code>get</code> methods, modifies values by whatever means, then
- * invokes the <code>IIOParam</code> object's <code>set</code> methods
- * to modify the appropriate settings.  Normally, these
- * <code>set</code> methods will be invoked all at once at a final
- * commit in order that a cancel operation not disturb existing
- * values.  In general, applications may expect that when the
- * <code>activate</code> method returns <code>true</code>, the
- * <code>IIOParam</code> object is ready for use in a read or write
- * operation.
+ * <p> Within the <code>bctivbte</code> method, b controller obtbins
+ * initibl vblues by querying the <code>IIOPbrbm</code> object's
+ * <code>get</code> methods, modifies vblues by whbtever mebns, then
+ * invokes the <code>IIOPbrbm</code> object's <code>set</code> methods
+ * to modify the bppropribte settings.  Normblly, these
+ * <code>set</code> methods will be invoked bll bt once bt b finbl
+ * commit in order thbt b cbncel operbtion not disturb existing
+ * vblues.  In generbl, bpplicbtions mby expect thbt when the
+ * <code>bctivbte</code> method returns <code>true</code>, the
+ * <code>IIOPbrbm</code> object is rebdy for use in b rebd or write
+ * operbtion.
  *
- * <p> Vendors may choose to provide GUIs for the
- * <code>IIOParam</code> subclasses they define for a particular
- * plug-in.  These can be set up as default controllers in the
- * corresponding <code>IIOParam</code> subclasses.
+ * <p> Vendors mby choose to provide GUIs for the
+ * <code>IIOPbrbm</code> subclbsses they define for b pbrticulbr
+ * plug-in.  These cbn be set up bs defbult controllers in the
+ * corresponding <code>IIOPbrbm</code> subclbsses.
  *
- * <p> Applications may override any default GUIs and provide their
- * own controllers embedded in their own framework.  All that is
- * required is that the<code>activate</code> method behave modally
- * (not returning until either cancelled or committed), though it need
- * not put up an explicitly modal dialog.  Such a non-modal GUI
- * component would be coded roughly as follows:
+ * <p> Applicbtions mby override bny defbult GUIs bnd provide their
+ * own controllers embedded in their own frbmework.  All thbt is
+ * required is thbt the<code>bctivbte</code> method behbve modblly
+ * (not returning until either cbncelled or committed), though it need
+ * not put up bn explicitly modbl diblog.  Such b non-modbl GUI
+ * component would be coded roughly bs follows:
  *
  * <br>
  * <pre>
- * class MyGUI extends SomeComponent implements IIOParamController {
+ * clbss MyGUI extends SomeComponent implements IIOPbrbmController {
  *
  *    public MyGUI() {
  *        // ...
- *        setEnabled(false);
+ *        setEnbbled(fblse);
  *    }
  *
- *    public boolean activate(IIOParam param) {
- *        // disable other components if desired
- *        setEnabled(true);
- *        // go to sleep until either cancelled or committed
- *        boolean ret = false;
- *        if (!cancelled) {
- *            // set values on param
+ *    public boolebn bctivbte(IIOPbrbm pbrbm) {
+ *        // disbble other components if desired
+ *        setEnbbled(true);
+ *        // go to sleep until either cbncelled or committed
+ *        boolebn ret = fblse;
+ *        if (!cbncelled) {
+ *            // set vblues on pbrbm
  *            ret = true;
  *        }
- *        setEnabled(false);
- *        // enable any components disabled above
+ *        setEnbbled(fblse);
+ *        // enbble bny components disbbled bbove
  *        return ret;
  *    }
  * </pre>
  *
- * <p> Alternatively, an algorithmic process such as a database lookup
- * or the parsing of a command line could be used as a controller, in
- * which case the <code>activate</code> method would simply look up or
- * compute the settings, call the <code>IIOParam.setXXX</code>
- * methods, and return <code>true</code>.
+ * <p> Alternbtively, bn blgorithmic process such bs b dbtbbbse lookup
+ * or the pbrsing of b commbnd line could be used bs b controller, in
+ * which cbse the <code>bctivbte</code> method would simply look up or
+ * compute the settings, cbll the <code>IIOPbrbm.setXXX</code>
+ * methods, bnd return <code>true</code>.
  *
- * @see IIOParam#setController
- * @see IIOParam#getController
- * @see IIOParam#getDefaultController
- * @see IIOParam#hasController
- * @see IIOParam#activateController
+ * @see IIOPbrbm#setController
+ * @see IIOPbrbm#getController
+ * @see IIOPbrbm#getDefbultController
+ * @see IIOPbrbm#hbsController
+ * @see IIOPbrbm#bctivbteController
  *
  */
-public interface IIOParamController {
+public interfbce IIOPbrbmController {
 
     /**
-     * Activates the controller.  If <code>true</code> is returned,
-     * all settings in the <code>IIOParam</code> object should be
-     * ready for use in a read or write operation.  If
-     * <code>false</code> is returned, no settings in the
-     * <code>IIOParam</code> object will be disturbed (<i>i.e.</i>,
-     * the user canceled the operation).
+     * Activbtes the controller.  If <code>true</code> is returned,
+     * bll settings in the <code>IIOPbrbm</code> object should be
+     * rebdy for use in b rebd or write operbtion.  If
+     * <code>fblse</code> is returned, no settings in the
+     * <code>IIOPbrbm</code> object will be disturbed (<i>i.e.</i>,
+     * the user cbnceled the operbtion).
      *
-     * @param param the <code>IIOParam</code> object to be modified.
+     * @pbrbm pbrbm the <code>IIOPbrbm</code> object to be modified.
      *
-     * @return <code>true</code> if the <code>IIOParam</code> has been
-     * modified, <code>false</code> otherwise.
+     * @return <code>true</code> if the <code>IIOPbrbm</code> hbs been
+     * modified, <code>fblse</code> otherwise.
      *
-     * @exception IllegalArgumentException if <code>param</code> is
-     * <code>null</code> or is not an instance of the correct class.
+     * @exception IllegblArgumentException if <code>pbrbm</code> is
+     * <code>null</code> or is not bn instbnce of the correct clbss.
      */
-    boolean activate(IIOParam param);
+    boolebn bctivbte(IIOPbrbm pbrbm);
 }

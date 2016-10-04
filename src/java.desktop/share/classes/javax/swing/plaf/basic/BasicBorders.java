@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.JTextComponent;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.awt.Graphics;
+import jbvb.bwt.Component;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
 
 /**
- * Factory object that can vend Borders appropriate for the basic L &amp; F.
- * @author Georges Saab
- * @author Amy Fowler
+ * Fbctory object thbt cbn vend Borders bppropribte for the bbsic L &bmp; F.
+ * @buthor Georges Sbbb
+ * @buthor Amy Fowler
  */
 
-public class BasicBorders {
+public clbss BbsicBorders {
 
     /**
-     * Returns a border instance for a {@code JButton}.
+     * Returns b border instbnce for b {@code JButton}.
      *
-     * @return a border instance for a {@code JButton}
+     * @return b border instbnce for b {@code JButton}
      */
-    public static Border getButtonBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
+    public stbtic Border getButtonBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
         Border buttonBorder = new BorderUIResource.CompoundBorderUIResource(
-                           new BasicBorders.ButtonBorder(
-                                           table.getColor("Button.shadow"),
-                                           table.getColor("Button.darkShadow"),
-                                           table.getColor("Button.light"),
-                                           table.getColor("Button.highlight")),
-                                     new MarginBorder());
+                           new BbsicBorders.ButtonBorder(
+                                           tbble.getColor("Button.shbdow"),
+                                           tbble.getColor("Button.dbrkShbdow"),
+                                           tbble.getColor("Button.light"),
+                                           tbble.getColor("Button.highlight")),
+                                     new MbrginBorder());
         return buttonBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JRadioButton}.
+     * Returns b border instbnce for b {@code JRbdioButton}.
      *
-     * @return a border instance for a {@code JRadioButton}
+     * @return b border instbnce for b {@code JRbdioButton}
      */
-    public static Border getRadioButtonBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border radioButtonBorder = new BorderUIResource.CompoundBorderUIResource(
-                           new BasicBorders.RadioButtonBorder(
-                                           table.getColor("RadioButton.shadow"),
-                                           table.getColor("RadioButton.darkShadow"),
-                                           table.getColor("RadioButton.light"),
-                                           table.getColor("RadioButton.highlight")),
-                                     new MarginBorder());
-        return radioButtonBorder;
+    public stbtic Border getRbdioButtonBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border rbdioButtonBorder = new BorderUIResource.CompoundBorderUIResource(
+                           new BbsicBorders.RbdioButtonBorder(
+                                           tbble.getColor("RbdioButton.shbdow"),
+                                           tbble.getColor("RbdioButton.dbrkShbdow"),
+                                           tbble.getColor("RbdioButton.light"),
+                                           tbble.getColor("RbdioButton.highlight")),
+                                     new MbrginBorder());
+        return rbdioButtonBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JToggleButton}.
+     * Returns b border instbnce for b {@code JToggleButton}.
      *
-     * @return a border instance for a {@code JToggleButton}
+     * @return b border instbnce for b {@code JToggleButton}
      */
-    public static Border getToggleButtonBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
+    public stbtic Border getToggleButtonBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
         Border toggleButtonBorder = new BorderUIResource.CompoundBorderUIResource(
-                                     new BasicBorders.ToggleButtonBorder(
-                                           table.getColor("ToggleButton.shadow"),
-                                           table.getColor("ToggleButton.darkShadow"),
-                                           table.getColor("ToggleButton.light"),
-                                           table.getColor("ToggleButton.highlight")),
-                                     new MarginBorder());
+                                     new BbsicBorders.ToggleButtonBorder(
+                                           tbble.getColor("ToggleButton.shbdow"),
+                                           tbble.getColor("ToggleButton.dbrkShbdow"),
+                                           tbble.getColor("ToggleButton.light"),
+                                           tbble.getColor("ToggleButton.highlight")),
+                                     new MbrginBorder());
         return toggleButtonBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JMenuBar}.
+     * Returns b border instbnce for b {@code JMenuBbr}.
      *
-     * @return a border instance for a {@code JMenuBar}
+     * @return b border instbnce for b {@code JMenuBbr}
      */
-    public static Border getMenuBarBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border menuBarBorder = new BasicBorders.MenuBarBorder(
-                                        table.getColor("MenuBar.shadow"),
-                                        table.getColor("MenuBar.highlight")
+    public stbtic Border getMenuBbrBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border menuBbrBorder = new BbsicBorders.MenuBbrBorder(
+                                        tbble.getColor("MenuBbr.shbdow"),
+                                        tbble.getColor("MenuBbr.highlight")
                                    );
-        return menuBarBorder;
+        return menuBbrBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JSplitPane}.
+     * Returns b border instbnce for b {@code JSplitPbne}.
      *
-     * @return a border instance for a {@code JSplitPane}
+     * @return b border instbnce for b {@code JSplitPbne}
      */
-    public static Border getSplitPaneBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border splitPaneBorder = new BasicBorders.SplitPaneBorder(
-                                     table.getColor("SplitPane.highlight"),
-                                     table.getColor("SplitPane.darkShadow"));
-        return splitPaneBorder;
+    public stbtic Border getSplitPbneBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border splitPbneBorder = new BbsicBorders.SplitPbneBorder(
+                                     tbble.getColor("SplitPbne.highlight"),
+                                     tbble.getColor("SplitPbne.dbrkShbdow"));
+        return splitPbneBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JSplitPane} divider.
+     * Returns b border instbnce for b {@code JSplitPbne} divider.
      *
-     * @return a border instance for a {@code JSplitPane} divider
+     * @return b border instbnce for b {@code JSplitPbne} divider
      * @since 1.3
      */
-    public static Border getSplitPaneDividerBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border splitPaneBorder = new BasicBorders.SplitPaneDividerBorder(
-                                     table.getColor("SplitPane.highlight"),
-                                     table.getColor("SplitPane.darkShadow"));
-        return splitPaneBorder;
+    public stbtic Border getSplitPbneDividerBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border splitPbneBorder = new BbsicBorders.SplitPbneDividerBorder(
+                                     tbble.getColor("SplitPbne.highlight"),
+                                     tbble.getColor("SplitPbne.dbrkShbdow"));
+        return splitPbneBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JTextField}.
+     * Returns b border instbnce for b {@code JTextField}.
      *
-     * @return a border instance for a {@code JTextField}
+     * @return b border instbnce for b {@code JTextField}
      */
-    public static Border getTextFieldBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border textFieldBorder = new BasicBorders.FieldBorder(
-                                           table.getColor("TextField.shadow"),
-                                           table.getColor("TextField.darkShadow"),
-                                           table.getColor("TextField.light"),
-                                           table.getColor("TextField.highlight"));
+    public stbtic Border getTextFieldBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border textFieldBorder = new BbsicBorders.FieldBorder(
+                                           tbble.getColor("TextField.shbdow"),
+                                           tbble.getColor("TextField.dbrkShbdow"),
+                                           tbble.getColor("TextField.light"),
+                                           tbble.getColor("TextField.highlight"));
         return textFieldBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JProgressBar}.
+     * Returns b border instbnce for b {@code JProgressBbr}.
      *
-     * @return a border instance for a {@code JProgressBar}
+     * @return b border instbnce for b {@code JProgressBbr}
      */
-    public static Border getProgressBarBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border progressBarBorder = new BorderUIResource.LineBorderUIResource(Color.green, 2);
-        return progressBarBorder;
+    public stbtic Border getProgressBbrBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border progressBbrBorder = new BorderUIResource.LineBorderUIResource(Color.green, 2);
+        return progressBbrBorder;
     }
 
     /**
-     * Returns a border instance for a {@code JInternalFrame}.
+     * Returns b border instbnce for b {@code JInternblFrbme}.
      *
-     * @return a border instance for a {@code JInternalFrame}
+     * @return b border instbnce for b {@code JInternblFrbme}
      */
-    public static Border getInternalFrameBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Border internalFrameBorder = new BorderUIResource.CompoundBorderUIResource(
+    public stbtic Border getInternblFrbmeBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        Border internblFrbmeBorder = new BorderUIResource.CompoundBorderUIResource(
                                 new BevelBorder(BevelBorder.RAISED,
-                                        table.getColor("InternalFrame.borderLight"),
-                                        table.getColor("InternalFrame.borderHighlight"),
-                                        table.getColor("InternalFrame.borderDarkShadow"),
-                                        table.getColor("InternalFrame.borderShadow")),
-                                BorderFactory.createLineBorder(
-                                        table.getColor("InternalFrame.borderColor"), 1));
+                                        tbble.getColor("InternblFrbme.borderLight"),
+                                        tbble.getColor("InternblFrbme.borderHighlight"),
+                                        tbble.getColor("InternblFrbme.borderDbrkShbdow"),
+                                        tbble.getColor("InternblFrbme.borderShbdow")),
+                                BorderFbctory.crebteLineBorder(
+                                        tbble.getColor("InternblFrbme.borderColor"), 1));
 
-        return internalFrameBorder;
+        return internblFrbmeBorder;
     }
 
     /**
-     * Special thin border for rollover toolbar buttons.
+     * Specibl thin border for rollover toolbbr buttons.
      * @since 1.4
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class RolloverButtonBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss RolloverButtonBorder extends ButtonBorder {
 
         /**
-         * Constructs a new instance of a {@code RolloverButtonBorder}.
+         * Constructs b new instbnce of b {@code RolloverButtonBorder}.
          *
-         * @param shadow a color of shadow
-         * @param darkShadow a color of dark shadow
-         * @param highlight a color of highlight
-         * @param lightHighlight a color of light highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm dbrkShbdow b color of dbrk shbdow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm lightHighlight b color of light highlight
          */
-        public RolloverButtonBorder(Color shadow, Color darkShadow,
+        public RolloverButtonBorder(Color shbdow, Color dbrkShbdow,
                                   Color highlight, Color lightHighlight) {
-            super(shadow, darkShadow, highlight, lightHighlight);
+            super(shbdow, dbrkShbdow, highlight, lightHighlight);
         }
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
-            AbstractButton b = (AbstractButton) c;
+        public void pbintBorder( Component c, Grbphics g, int x, int y, int w, int h ) {
+            AbstrbctButton b = (AbstrbctButton) c;
             ButtonModel model = b.getModel();
 
-            Color shade = shadow;
-            Component p = b.getParent();
-            if (p != null && p.getBackground().equals(shadow)) {
-                shade = darkShadow;
+            Color shbde = shbdow;
+            Component p = b.getPbrent();
+            if (p != null && p.getBbckground().equbls(shbdow)) {
+                shbde = dbrkShbdow;
             }
 
             if ((model.isRollover() && !(model.isPressed() && !model.isArmed())) ||
                 model.isSelected()) {
 
                 Color oldColor = g.getColor();
-                g.translate(x, y);
+                g.trbnslbte(x, y);
 
                 if (model.isPressed() && model.isArmed() || model.isSelected()) {
-                    // Draw the pressd button
-                    g.setColor(shade);
-                    g.drawRect(0, 0, w-1, h-1);
+                    // Drbw the pressd button
+                    g.setColor(shbde);
+                    g.drbwRect(0, 0, w-1, h-1);
                     g.setColor(lightHighlight);
-                    g.drawLine(w-1, 0, w-1, h-1);
-                    g.drawLine(0, h-1, w-1, h-1);
+                    g.drbwLine(w-1, 0, w-1, h-1);
+                    g.drbwLine(0, h-1, w-1, h-1);
                 } else {
-                    // Draw a rollover button
+                    // Drbw b rollover button
                     g.setColor(lightHighlight);
-                    g.drawRect(0, 0, w-1, h-1);
-                    g.setColor(shade);
-                    g.drawLine(w-1, 0, w-1, h-1);
-                    g.drawLine(0, h-1, w-1, h-1);
+                    g.drbwRect(0, 0, w-1, h-1);
+                    g.setColor(shbde);
+                    g.drbwLine(w-1, 0, w-1, h-1);
+                    g.drbwLine(0, h-1, w-1, h-1);
                 }
-                g.translate(-x, -y);
+                g.trbnslbte(-x, -y);
                 g.setColor(oldColor);
             }
         }
@@ -241,55 +241,55 @@ public class BasicBorders {
 
 
     /**
-     * A border which is like a Margin border but it will only honor the margin
-     * if the margin has been explicitly set by the developer.
+     * A border which is like b Mbrgin border but it will only honor the mbrgin
+     * if the mbrgin hbs been explicitly set by the developer.
      *
-     * Note: This is identical to the package private class
-     * MetalBorders.RolloverMarginBorder and should probably be consolidated.
+     * Note: This is identicbl to the pbckbge privbte clbss
+     * MetblBorders.RolloverMbrginBorder bnd should probbbly be consolidbted.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class RolloverMarginBorder extends EmptyBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss RolloverMbrginBorder extends EmptyBorder {
 
-        public RolloverMarginBorder() {
-            super(3,3,3,3); // hardcoded margin for JLF requirements.
+        public RolloverMbrginBorder() {
+            super(3,3,3,3); // hbrdcoded mbrgin for JLF requirements.
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
-            Insets margin = null;
+            Insets mbrgin = null;
 
-            if (c instanceof AbstractButton) {
-                margin = ((AbstractButton)c).getMargin();
+            if (c instbnceof AbstrbctButton) {
+                mbrgin = ((AbstrbctButton)c).getMbrgin();
             }
-            if (margin == null || margin instanceof UIResource) {
-                // default margin so replace
+            if (mbrgin == null || mbrgin instbnceof UIResource) {
+                // defbult mbrgin so replbce
                 insets.left = left;
                 insets.top = top;
                 insets.right = right;
                 insets.bottom = bottom;
             } else {
-                // Margin which has been explicitly set by the user.
-                insets.left = margin.left;
-                insets.top = margin.top;
-                insets.right = margin.right;
-                insets.bottom = margin.bottom;
+                // Mbrgin which hbs been explicitly set by the user.
+                insets.left = mbrgin.left;
+                insets.top = mbrgin.top;
+                insets.right = mbrgin.right;
+                insets.bottom = mbrgin.bottom;
             }
             return insets;
         }
     }
 
     /**
-     * Draws a border around a button.
+     * Drbws b border bround b button.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-   public static class ButtonBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+   public stbtic clbss ButtonBorder extends AbstrbctBorder implements UIResource {
         /**
-         * The color of shadow.
+         * The color of shbdow.
          */
-        protected Color shadow;
+        protected Color shbdow;
         /**
-         * The color of dark shadow.
+         * The color of dbrk shbdow.
          */
-        protected Color darkShadow;
+        protected Color dbrkShbdow;
         /**
          * The color of highlight.
          */
@@ -300,43 +300,43 @@ public class BasicBorders {
         protected Color lightHighlight;
 
         /**
-         * Constructs a new instance of a {@code ButtonBorder}.
+         * Constructs b new instbnce of b {@code ButtonBorder}.
          *
-         * @param shadow a color of shadow
-         * @param darkShadow a color of dark shadow
-         * @param highlight a color of highlight
-         * @param lightHighlight a color of light highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm dbrkShbdow b color of dbrk shbdow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm lightHighlight b color of light highlight
          */
-        public ButtonBorder(Color shadow, Color darkShadow,
+        public ButtonBorder(Color shbdow, Color dbrkShbdow,
                             Color highlight, Color lightHighlight) {
-            this.shadow = shadow;
-            this.darkShadow = darkShadow;
+            this.shbdow = shbdow;
+            this.dbrkShbdow = dbrkShbdow;
             this.highlight = highlight;
             this.lightHighlight = lightHighlight;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                             int width, int height) {
-            boolean isPressed = false;
-            boolean isDefault = false;
+            boolebn isPressed = fblse;
+            boolebn isDefbult = fblse;
 
-            if (c instanceof AbstractButton) {
-                AbstractButton b = (AbstractButton)c;
+            if (c instbnceof AbstrbctButton) {
+                AbstrbctButton b = (AbstrbctButton)c;
                 ButtonModel model = b.getModel();
 
                 isPressed = model.isPressed() && model.isArmed();
 
-                if (c instanceof JButton) {
-                    isDefault = ((JButton)c).isDefaultButton();
+                if (c instbnceof JButton) {
+                    isDefbult = ((JButton)c).isDefbultButton();
                 }
             }
-            BasicGraphicsUtils.drawBezel(g, x, y, width, height,
-                                   isPressed, isDefault, shadow,
-                                   darkShadow, highlight, lightHighlight);
+            BbsicGrbphicsUtils.drbwBezel(g, x, y, width, height,
+                                   isPressed, isDefbult, shbdow,
+                                   dbrkShbdow, highlight, lightHighlight);
         }
 
         public Insets getBorderInsets(Component c, Insets insets)       {
-            // leave room for default visual
+            // lebve room for defbult visubl
             insets.set(2, 3, 3, 3);
             return insets;
         }
@@ -344,29 +344,29 @@ public class BasicBorders {
     }
 
     /**
-     * Draws the border around a toggle button.
+     * Drbws the border bround b toggle button.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class ToggleButtonBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss ToggleButtonBorder extends ButtonBorder {
 
         /**
-         * Constructs a new instance of a {@code ToggleButtonBorder}.
+         * Constructs b new instbnce of b {@code ToggleButtonBorder}.
          *
-         * @param shadow a color of shadow
-         * @param darkShadow a color of dark shadow
-         * @param highlight a color of highlight
-         * @param lightHighlight a color of light highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm dbrkShbdow b color of dbrk shbdow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm lightHighlight b color of light highlight
          */
-        public ToggleButtonBorder(Color shadow, Color darkShadow,
+        public ToggleButtonBorder(Color shbdow, Color dbrkShbdow,
                                   Color highlight, Color lightHighlight) {
-            super(shadow, darkShadow, highlight, lightHighlight);
+            super(shbdow, dbrkShbdow, highlight, lightHighlight);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-                BasicGraphicsUtils.drawBezel(g, x, y, width, height,
-                                             false, false,
-                                             shadow, darkShadow,
+                BbsicGrbphicsUtils.drbwBezel(g, x, y, width, height,
+                                             fblse, fblse,
+                                             shbdow, dbrkShbdow,
                                              highlight, lightHighlight);
         }
 
@@ -377,44 +377,44 @@ public class BasicBorders {
     }
 
     /**
-     * Draws the border around a radio button.
+     * Drbws the border bround b rbdio button.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class RadioButtonBorder extends ButtonBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss RbdioButtonBorder extends ButtonBorder {
 
         /**
-         * Constructs a new instance of a {@code RadioButtonBorder}.
+         * Constructs b new instbnce of b {@code RbdioButtonBorder}.
          *
-         * @param shadow a color of shadow
-         * @param darkShadow a color of dark shadow
-         * @param highlight a color of highlight
-         * @param lightHighlight a color of light highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm dbrkShbdow b color of dbrk shbdow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm lightHighlight b color of light highlight
          */
-        public RadioButtonBorder(Color shadow, Color darkShadow,
+        public RbdioButtonBorder(Color shbdow, Color dbrkShbdow,
                                  Color highlight, Color lightHighlight) {
-            super(shadow, darkShadow, highlight, lightHighlight);
+            super(shbdow, dbrkShbdow, highlight, lightHighlight);
         }
 
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
 
-            if (c instanceof AbstractButton) {
-                AbstractButton b = (AbstractButton)c;
+            if (c instbnceof AbstrbctButton) {
+                AbstrbctButton b = (AbstrbctButton)c;
                 ButtonModel model = b.getModel();
 
                 if (model.isArmed() && model.isPressed() || model.isSelected()) {
-                    BasicGraphicsUtils.drawLoweredBezel(g, x, y, width, height,
-                                                        shadow, darkShadow,
+                    BbsicGrbphicsUtils.drbwLoweredBezel(g, x, y, width, height,
+                                                        shbdow, dbrkShbdow,
                                                         highlight, lightHighlight);
                 } else {
-                    BasicGraphicsUtils.drawBezel(g, x, y, width, height,
-                                               false, b.isFocusPainted() && b.hasFocus(),
-                                                 shadow, darkShadow,
+                    BbsicGrbphicsUtils.drbwBezel(g, x, y, width, height,
+                                               fblse, b.isFocusPbinted() && b.hbsFocus(),
+                                                 shbdow, dbrkShbdow,
                                                  highlight, lightHighlight);
                 }
             } else {
-                BasicGraphicsUtils.drawBezel(g, x, y, width, height, false, false,
-                                             shadow, darkShadow, highlight, lightHighlight);
+                BbsicGrbphicsUtils.drbwBezel(g, x, y, width, height, fblse, fblse,
+                                             shbdow, dbrkShbdow, highlight, lightHighlight);
             }
         }
 
@@ -425,38 +425,38 @@ public class BasicBorders {
     }
 
     /**
-     * Draws the border around a menu bar.
+     * Drbws the border bround b menu bbr.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MenuBarBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MenuBbrBorder extends AbstrbctBorder implements UIResource {
         /**
-         * The color of shadow.
+         * The color of shbdow.
          */
-        private Color shadow;
+        privbte Color shbdow;
         /**
          * The color of highlight.
          */
-        private Color highlight;
+        privbte Color highlight;
 
         /**
-         * Constructs a new instance of a {@code MenuBarBorder}.
+         * Constructs b new instbnce of b {@code MenuBbrBorder}.
          *
-         * @param shadow a color of shadow
-         * @param highlight a color of highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm highlight b color of highlight
          */
-        public MenuBarBorder(Color shadow, Color highlight) {
-            this.shadow = shadow;
+        public MenuBbrBorder(Color shbdow, Color highlight) {
+            this.shbdow = shbdow;
             this.highlight = highlight;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
             Color oldColor = g.getColor();
-            g.translate(x, y);
-            g.setColor(shadow);
-            g.drawLine(0, height-2, width, height-2);
+            g.trbnslbte(x, y);
+            g.setColor(shbdow);
+            g.drbwLine(0, height-2, width, height-2);
             g.setColor(highlight);
-            g.drawLine(0, height-1, width, height-1);
-            g.translate(-x,-y);
+            g.drbwLine(0, height-1, width, height-1);
+            g.trbnslbte(-x,-y);
             g.setColor(oldColor);
         }
 
@@ -467,49 +467,49 @@ public class BasicBorders {
     }
 
     /**
-     * Draws the border around components which support margins.
+     * Drbws the border bround components which support mbrgins.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class MarginBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss MbrginBorder extends AbstrbctBorder implements UIResource {
         public Insets getBorderInsets(Component c, Insets insets)       {
-            Insets margin = null;
+            Insets mbrgin = null;
             //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
+            // Ideblly we'd hbve bn interfbce defined for clbsses which
+            // support mbrgins (to bvoid this hbckery), but we've
+            // decided bgbinst it for simplicity
             //
-           if (c instanceof AbstractButton) {
-               AbstractButton b = (AbstractButton)c;
-               margin = b.getMargin();
-           } else if (c instanceof JToolBar) {
-               JToolBar t = (JToolBar)c;
-               margin = t.getMargin();
-           } else if (c instanceof JTextComponent) {
+           if (c instbnceof AbstrbctButton) {
+               AbstrbctButton b = (AbstrbctButton)c;
+               mbrgin = b.getMbrgin();
+           } else if (c instbnceof JToolBbr) {
+               JToolBbr t = (JToolBbr)c;
+               mbrgin = t.getMbrgin();
+           } else if (c instbnceof JTextComponent) {
                JTextComponent t = (JTextComponent)c;
-               margin = t.getMargin();
+               mbrgin = t.getMbrgin();
            }
-           insets.top = margin != null? margin.top : 0;
-           insets.left = margin != null? margin.left : 0;
-           insets.bottom = margin != null? margin.bottom : 0;
-           insets.right = margin != null? margin.right : 0;
+           insets.top = mbrgin != null? mbrgin.top : 0;
+           insets.left = mbrgin != null? mbrgin.left : 0;
+           insets.bottom = mbrgin != null? mbrgin.bottom : 0;
+           insets.right = mbrgin != null? mbrgin.right : 0;
 
            return insets;
         }
     }
 
     /**
-     * Draws the border around a field.
+     * Drbws the border bround b field.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class FieldBorder extends AbstractBorder implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss FieldBorder extends AbstrbctBorder implements UIResource {
         /**
-         * The color of shadow.
+         * The color of shbdow.
          */
-        protected Color shadow;
+        protected Color shbdow;
         /**
-         * The color of dark shadow.
+         * The color of dbrk shbdow.
          */
-        protected Color darkShadow;
+        protected Color dbrkShbdow;
         /**
          * The color of highlight.
          */
@@ -520,37 +520,37 @@ public class BasicBorders {
         protected Color lightHighlight;
 
         /**
-         * Constructs a new instance of a {@code FieldBorder}.
+         * Constructs b new instbnce of b {@code FieldBorder}.
          *
-         * @param shadow a color of shadow
-         * @param darkShadow a color of dark shadow
-         * @param highlight a color of highlight
-         * @param lightHighlight a color of light highlight
+         * @pbrbm shbdow b color of shbdow
+         * @pbrbm dbrkShbdow b color of dbrk shbdow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm lightHighlight b color of light highlight
          */
-        public FieldBorder(Color shadow, Color darkShadow,
+        public FieldBorder(Color shbdow, Color dbrkShbdow,
                            Color highlight, Color lightHighlight) {
-            this.shadow = shadow;
+            this.shbdow = shbdow;
             this.highlight = highlight;
-            this.darkShadow = darkShadow;
+            this.dbrkShbdow = dbrkShbdow;
             this.lightHighlight = lightHighlight;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                             int width, int height) {
-            BasicGraphicsUtils.drawEtchedRect(g, x, y, width, height,
-                                              shadow, darkShadow,
+            BbsicGrbphicsUtils.drbwEtchedRect(g, x, y, width, height,
+                                              shbdow, dbrkShbdow,
                                               highlight, lightHighlight);
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
-            Insets margin = null;
-            if (c instanceof JTextComponent) {
-                margin = ((JTextComponent)c).getMargin();
+            Insets mbrgin = null;
+            if (c instbnceof JTextComponent) {
+                mbrgin = ((JTextComponent)c).getMbrgin();
             }
-            insets.top = margin != null? 2+margin.top : 2;
-            insets.left = margin != null? 2+margin.left : 2;
-            insets.bottom = margin != null? 2+margin.bottom : 2;
-            insets.right = margin != null? 2+margin.right : 2;
+            insets.top = mbrgin != null? 2+mbrgin.top : 2;
+            insets.left = mbrgin != null? 2+mbrgin.left : 2;
+            insets.bottom = mbrgin != null? 2+mbrgin.bottom : 2;
+            insets.right = mbrgin != null? 2+mbrgin.right : 2;
 
             return insets;
         }
@@ -558,70 +558,70 @@ public class BasicBorders {
 
 
     /**
-     * Draws the border around the divider in a splitpane
-     * (when BasicSplitPaneUI is used). To get the appropriate effect, this
-     * needs to be used with a SplitPaneBorder.
+     * Drbws the border bround the divider in b splitpbne
+     * (when BbsicSplitPbneUI is used). To get the bppropribte effect, this
+     * needs to be used with b SplitPbneBorder.
      */
-    static class SplitPaneDividerBorder implements Border, UIResource {
+    stbtic clbss SplitPbneDividerBorder implements Border, UIResource {
         Color highlight;
-        Color shadow;
+        Color shbdow;
 
-        SplitPaneDividerBorder(Color highlight, Color shadow) {
+        SplitPbneDividerBorder(Color highlight, Color shbdow) {
             this.highlight = highlight;
-            this.shadow = shadow;
+            this.shbdow = shbdow;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            if (!(c instanceof BasicSplitPaneDivider)) {
+            if (!(c instbnceof BbsicSplitPbneDivider)) {
                 return;
             }
             Component          child;
-            Rectangle          cBounds;
-            JSplitPane         splitPane = ((BasicSplitPaneDivider)c).
-                                         getBasicSplitPaneUI().getSplitPane();
+            Rectbngle          cBounds;
+            JSplitPbne         splitPbne = ((BbsicSplitPbneDivider)c).
+                                         getBbsicSplitPbneUI().getSplitPbne();
             Dimension          size = c.getSize();
 
-            child = splitPane.getLeftComponent();
-            // This is needed for the space between the divider and end of
-            // splitpane.
-            g.setColor(c.getBackground());
-            g.drawRect(x, y, width - 1, height - 1);
-            if(splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+            child = splitPbne.getLeftComponent();
+            // This is needed for the spbce between the divider bnd end of
+            // splitpbne.
+            g.setColor(c.getBbckground());
+            g.drbwRect(x, y, width - 1, height - 1);
+            if(splitPbne.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT) {
                 if(child != null) {
                     g.setColor(highlight);
-                    g.drawLine(0, 0, 0, size.height);
+                    g.drbwLine(0, 0, 0, size.height);
                 }
-                child = splitPane.getRightComponent();
+                child = splitPbne.getRightComponent();
                 if(child != null) {
-                    g.setColor(shadow);
-                    g.drawLine(size.width - 1, 0, size.width - 1, size.height);
+                    g.setColor(shbdow);
+                    g.drbwLine(size.width - 1, 0, size.width - 1, size.height);
                 }
             } else {
                 if(child != null) {
                     g.setColor(highlight);
-                    g.drawLine(0, 0, size.width, 0);
+                    g.drbwLine(0, 0, size.width, 0);
                 }
-                child = splitPane.getRightComponent();
+                child = splitPbne.getRightComponent();
                 if(child != null) {
-                    g.setColor(shadow);
-                    g.drawLine(0, size.height - 1, size.width,
+                    g.setColor(shbdow);
+                    g.drbwLine(0, size.height - 1, size.width,
                                size.height - 1);
                 }
             }
         }
         public Insets getBorderInsets(Component c) {
             Insets insets = new Insets(0,0,0,0);
-            if (c instanceof BasicSplitPaneDivider) {
-                BasicSplitPaneUI bspui = ((BasicSplitPaneDivider)c).
-                                         getBasicSplitPaneUI();
+            if (c instbnceof BbsicSplitPbneDivider) {
+                BbsicSplitPbneUI bspui = ((BbsicSplitPbneDivider)c).
+                                         getBbsicSplitPbneUI();
 
                 if (bspui != null) {
-                    JSplitPane splitPane = bspui.getSplitPane();
+                    JSplitPbne splitPbne = bspui.getSplitPbne();
 
-                    if (splitPane != null) {
-                        if (splitPane.getOrientation() ==
-                            JSplitPane.HORIZONTAL_SPLIT) {
+                    if (splitPbne != null) {
+                        if (splitPbne.getOrientbtion() ==
+                            JSplitPbne.HORIZONTAL_SPLIT) {
                             insets.top = insets.bottom = 0;
                             insets.left = insets.right = 1;
                             return insets;
@@ -636,43 +636,43 @@ public class BasicBorders {
             insets.top = insets.bottom = insets.left = insets.right = 1;
             return insets;
         }
-        public boolean isBorderOpaque() { return true; }
+        public boolebn isBorderOpbque() { return true; }
     }
 
 
     /**
-     * Draws the border around the splitpane. To work correctly you should
-     * also install a border on the divider (property SplitPaneDivider.border).
+     * Drbws the border bround the splitpbne. To work correctly you should
+     * blso instbll b border on the divider (property SplitPbneDivider.border).
      */
-    public static class SplitPaneBorder implements Border, UIResource {
+    public stbtic clbss SplitPbneBorder implements Border, UIResource {
         /**
          * The color of highlight
          */
         protected Color highlight;
         /**
-         * The color of shadow
+         * The color of shbdow
          */
-        protected Color shadow;
+        protected Color shbdow;
 
         /**
-         * Constructs a new instance of a {@code SplitPaneBorder}.
+         * Constructs b new instbnce of b {@code SplitPbneBorder}.
          *
-         * @param highlight a color of highlight
-         * @param shadow a color of shadow
+         * @pbrbm highlight b color of highlight
+         * @pbrbm shbdow b color of shbdow
          */
-        public SplitPaneBorder(Color highlight, Color shadow) {
+        public SplitPbneBorder(Color highlight, Color shbdow) {
             this.highlight = highlight;
-            this.shadow = shadow;
+            this.shbdow = shbdow;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            if (!(c instanceof JSplitPane)) {
+            if (!(c instbnceof JSplitPbne)) {
                 return;
             }
-            // The only tricky part with this border is that the divider is
-            // not positioned at the top (for horizontal) or left (for vert),
-            // so this border draws to where the divider is:
+            // The only tricky pbrt with this border is thbt the divider is
+            // not positioned bt the top (for horizontbl) or left (for vert),
+            // so this border drbws to where the divider is:
             // -----------------
             // |xxxxxxx xxxxxxx|
             // |x     ---     x|
@@ -682,75 +682,75 @@ public class BasicBorders {
             // |x     ---     x|
             // |xxxxxxx xxxxxxx|
             // -----------------
-            // The above shows (rather excessively) what this looks like for
-            // a horizontal orientation. This border then draws the x's, with
-            // the SplitPaneDividerBorder drawing its own border.
+            // The bbove shows (rbther excessively) whbt this looks like for
+            // b horizontbl orientbtion. This border then drbws the x's, with
+            // the SplitPbneDividerBorder drbwing its own border.
 
             Component          child;
-            Rectangle          cBounds;
+            Rectbngle          cBounds;
 
-            JSplitPane splitPane = (JSplitPane)c;
+            JSplitPbne splitPbne = (JSplitPbne)c;
 
-            child = splitPane.getLeftComponent();
-            // This is needed for the space between the divider and end of
-            // splitpane.
-            g.setColor(c.getBackground());
-            g.drawRect(x, y, width - 1, height - 1);
-            if(splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+            child = splitPbne.getLeftComponent();
+            // This is needed for the spbce between the divider bnd end of
+            // splitpbne.
+            g.setColor(c.getBbckground());
+            g.drbwRect(x, y, width - 1, height - 1);
+            if(splitPbne.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT) {
                 if(child != null) {
                     cBounds = child.getBounds();
-                    g.setColor(shadow);
-                    g.drawLine(0, 0, cBounds.width + 1, 0);
-                    g.drawLine(0, 1, 0, cBounds.height + 1);
+                    g.setColor(shbdow);
+                    g.drbwLine(0, 0, cBounds.width + 1, 0);
+                    g.drbwLine(0, 1, 0, cBounds.height + 1);
 
                     g.setColor(highlight);
-                    g.drawLine(0, cBounds.height + 1, cBounds.width + 1,
+                    g.drbwLine(0, cBounds.height + 1, cBounds.width + 1,
                                cBounds.height + 1);
                 }
-                child = splitPane.getRightComponent();
+                child = splitPbne.getRightComponent();
                 if(child != null) {
                     cBounds = child.getBounds();
 
-                    int             maxX = cBounds.x + cBounds.width;
-                    int             maxY = cBounds.y + cBounds.height;
+                    int             mbxX = cBounds.x + cBounds.width;
+                    int             mbxY = cBounds.y + cBounds.height;
 
-                    g.setColor(shadow);
-                    g.drawLine(cBounds.x - 1, 0, maxX, 0);
+                    g.setColor(shbdow);
+                    g.drbwLine(cBounds.x - 1, 0, mbxX, 0);
                     g.setColor(highlight);
-                    g.drawLine(cBounds.x - 1, maxY, maxX, maxY);
-                    g.drawLine(maxX, 0, maxX, maxY + 1);
+                    g.drbwLine(cBounds.x - 1, mbxY, mbxX, mbxY);
+                    g.drbwLine(mbxX, 0, mbxX, mbxY + 1);
                 }
             } else {
                 if(child != null) {
                     cBounds = child.getBounds();
-                    g.setColor(shadow);
-                    g.drawLine(0, 0, cBounds.width + 1, 0);
-                    g.drawLine(0, 1, 0, cBounds.height);
+                    g.setColor(shbdow);
+                    g.drbwLine(0, 0, cBounds.width + 1, 0);
+                    g.drbwLine(0, 1, 0, cBounds.height);
                     g.setColor(highlight);
-                    g.drawLine(1 + cBounds.width, 0, 1 + cBounds.width,
+                    g.drbwLine(1 + cBounds.width, 0, 1 + cBounds.width,
                                cBounds.height + 1);
-                    g.drawLine(0, cBounds.height + 1, 0, cBounds.height + 1);
+                    g.drbwLine(0, cBounds.height + 1, 0, cBounds.height + 1);
                 }
-                child = splitPane.getRightComponent();
+                child = splitPbne.getRightComponent();
                 if(child != null) {
                     cBounds = child.getBounds();
 
-                    int             maxX = cBounds.x + cBounds.width;
-                    int             maxY = cBounds.y + cBounds.height;
+                    int             mbxX = cBounds.x + cBounds.width;
+                    int             mbxY = cBounds.y + cBounds.height;
 
-                    g.setColor(shadow);
-                    g.drawLine(0, cBounds.y - 1, 0, maxY);
-                    g.drawLine(maxX, cBounds.y - 1, maxX, cBounds.y - 1);
+                    g.setColor(shbdow);
+                    g.drbwLine(0, cBounds.y - 1, 0, mbxY);
+                    g.drbwLine(mbxX, cBounds.y - 1, mbxX, cBounds.y - 1);
                     g.setColor(highlight);
-                    g.drawLine(0, maxY, cBounds.width + 1, maxY);
-                    g.drawLine(maxX, cBounds.y, maxX, maxY);
+                    g.drbwLine(0, mbxY, cBounds.width + 1, mbxY);
+                    g.drbwLine(mbxX, cBounds.y, mbxX, mbxY);
                 }
             }
         }
         public Insets getBorderInsets(Component c) {
             return new Insets(1, 1, 1, 1);
         }
-        public boolean isBorderOpaque() { return true; }
+        public boolebn isBorderOpbque() { return true; }
     }
 
 }

@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.math.BigInteger;
-import java.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.io.*;
 import sun.security.util.*;
 import sun.security.x509.*;
-import java.security.AlgorithmParametersSpi;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.spec.MGF1ParameterSpec;
-import javax.crypto.spec.PSource;
-import javax.crypto.spec.OAEPParameterSpec;
+import jbvb.security.AlgorithmPbrbmetersSpi;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.spec.MGF1PbrbmeterSpec;
+import jbvbx.crypto.spec.PSource;
+import jbvbx.crypto.spec.OAEPPbrbmeterSpec;
 
 /**
- * This class implements the OAEP parameters used with the RSA
- * algorithm in OAEP padding. Here is its ASN.1 definition:
- * RSAES-OAEP-params ::= SEQUENCE {
- *   hashAlgorithm      [0] HashAlgorithm     DEFAULT sha1,
- *   maskGenAlgorithm   [1] MaskGenAlgorithm  DEFAULT mgf1SHA1,
+ * This clbss implements the OAEP pbrbmeters used with the RSA
+ * blgorithm in OAEP pbdding. Here is its ASN.1 definition:
+ * RSAES-OAEP-pbrbms ::= SEQUENCE {
+ *   hbshAlgorithm      [0] HbshAlgorithm     DEFAULT shb1,
+ *   mbskGenAlgorithm   [1] MbskGenAlgorithm  DEFAULT mgf1SHA1,
  *   pSourceAlgorithm   [2] PSourceAlgorithm  DEFAULT pSpecifiedEmpty
  * }
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  */
 
-public final class OAEPParameters extends AlgorithmParametersSpi {
+public finbl clbss OAEPPbrbmeters extends AlgorithmPbrbmetersSpi {
 
-    private String mdName;
-    private MGF1ParameterSpec mgfSpec;
-    private byte[] p;
-    private static ObjectIdentifier OID_MGF1;
-    private static ObjectIdentifier OID_PSpecified;
+    privbte String mdNbme;
+    privbte MGF1PbrbmeterSpec mgfSpec;
+    privbte byte[] p;
+    privbte stbtic ObjectIdentifier OID_MGF1;
+    privbte stbtic ObjectIdentifier OID_PSpecified;
 
-    static {
+    stbtic {
         try {
             OID_MGF1 = new ObjectIdentifier(new int[] {1,2,840,113549,1,1,8});
-        } catch (IOException ioe) {
-            // should not happen
+        } cbtch (IOException ioe) {
+            // should not hbppen
             OID_MGF1 = null;
         }
         try {
             OID_PSpecified =
                 new ObjectIdentifier(new int[] {1,2,840,113549,1,1,9});
-        } catch (IOException ioe) {
-            // should not happen
+        } cbtch (IOException ioe) {
+            // should not hbppen
             OID_PSpecified = null;
         }
     }
 
-    public OAEPParameters() {
+    public OAEPPbrbmeters() {
     }
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-        if (!(paramSpec instanceof OAEPParameterSpec)) {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
+        if (!(pbrbmSpec instbnceof OAEPPbrbmeterSpec)) {
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
-        OAEPParameterSpec spec = (OAEPParameterSpec) paramSpec;
-        mdName = spec.getDigestAlgorithm();
-        String mgfName = spec.getMGFAlgorithm();
-        if (!mgfName.equalsIgnoreCase("MGF1")) {
-            throw new InvalidParameterSpecException("Unsupported mgf " +
-                mgfName + "; MGF1 only");
+        OAEPPbrbmeterSpec spec = (OAEPPbrbmeterSpec) pbrbmSpec;
+        mdNbme = spec.getDigestAlgorithm();
+        String mgfNbme = spec.getMGFAlgorithm();
+        if (!mgfNbme.equblsIgnoreCbse("MGF1")) {
+            throw new InvblidPbrbmeterSpecException("Unsupported mgf " +
+                mgfNbme + "; MGF1 only");
         }
-        AlgorithmParameterSpec mgfSpec = spec.getMGFParameters();
-        if (!(mgfSpec instanceof MGF1ParameterSpec)) {
-            throw new InvalidParameterSpecException("Inappropriate mgf " +
-                "parameters; non-null MGF1ParameterSpec only");
+        AlgorithmPbrbmeterSpec mgfSpec = spec.getMGFPbrbmeters();
+        if (!(mgfSpec instbnceof MGF1PbrbmeterSpec)) {
+            throw new InvblidPbrbmeterSpecException("Inbppropribte mgf " +
+                "pbrbmeters; non-null MGF1PbrbmeterSpec only");
         }
-        this.mgfSpec = (MGF1ParameterSpec) mgfSpec;
+        this.mgfSpec = (MGF1PbrbmeterSpec) mgfSpec;
         PSource pSrc = spec.getPSource();
-        if (pSrc.getAlgorithm().equals("PSpecified")) {
-            p = ((PSource.PSpecified) pSrc).getValue();
+        if (pSrc.getAlgorithm().equbls("PSpecified")) {
+            p = ((PSource.PSpecified) pSrc).getVblue();
         } else {
-            throw new InvalidParameterSpecException("Unsupported pSource " +
+            throw new InvblidPbrbmeterSpecException("Unsupported pSource " +
                 pSrc.getAlgorithm() + "; PSpecified only");
         }
     }
 
     protected void engineInit(byte[] encoded)
         throws IOException {
-        DerInputStream der = new DerInputStream(encoded);
-        mdName = "SHA-1";
-        mgfSpec = MGF1ParameterSpec.SHA1;
+        DerInputStrebm der = new DerInputStrebm(encoded);
+        mdNbme = "SHA-1";
+        mgfSpec = MGF1PbrbmeterSpec.SHA1;
         p = new byte[0];
-        DerValue[] datum = der.getSequence(3);
-        for (int i=0; i<datum.length; i++) {
-            DerValue data = datum[i];
-            if (data.isContextSpecific((byte) 0x00)) {
-                // hash algid
-                mdName = AlgorithmId.parse
-                    (data.data.getDerValue()).getName();
-            } else if (data.isContextSpecific((byte) 0x01)) {
-                // mgf algid
-                AlgorithmId val = AlgorithmId.parse(data.data.getDerValue());
-                if (!val.getOID().equals((Object) OID_MGF1)) {
+        DerVblue[] dbtum = der.getSequence(3);
+        for (int i=0; i<dbtum.length; i++) {
+            DerVblue dbtb = dbtum[i];
+            if (dbtb.isContextSpecific((byte) 0x00)) {
+                // hbsh blgid
+                mdNbme = AlgorithmId.pbrse
+                    (dbtb.dbtb.getDerVblue()).getNbme();
+            } else if (dbtb.isContextSpecific((byte) 0x01)) {
+                // mgf blgid
+                AlgorithmId vbl = AlgorithmId.pbrse(dbtb.dbtb.getDerVblue());
+                if (!vbl.getOID().equbls((Object) OID_MGF1)) {
                     throw new IOException("Only MGF1 mgf is supported");
                 }
-                AlgorithmId params = AlgorithmId.parse(
-                    new DerValue(val.getEncodedParams()));
-                String mgfDigestName = params.getName();
-                if (mgfDigestName.equals("SHA-1")) {
-                    mgfSpec = MGF1ParameterSpec.SHA1;
-                } else if (mgfDigestName.equals("SHA-224")) {
-                    mgfSpec = MGF1ParameterSpec.SHA224;
-                } else if (mgfDigestName.equals("SHA-256")) {
-                    mgfSpec = MGF1ParameterSpec.SHA256;
-                } else if (mgfDigestName.equals("SHA-384")) {
-                    mgfSpec = MGF1ParameterSpec.SHA384;
-                } else if (mgfDigestName.equals("SHA-512")) {
-                    mgfSpec = MGF1ParameterSpec.SHA512;
+                AlgorithmId pbrbms = AlgorithmId.pbrse(
+                    new DerVblue(vbl.getEncodedPbrbms()));
+                String mgfDigestNbme = pbrbms.getNbme();
+                if (mgfDigestNbme.equbls("SHA-1")) {
+                    mgfSpec = MGF1PbrbmeterSpec.SHA1;
+                } else if (mgfDigestNbme.equbls("SHA-224")) {
+                    mgfSpec = MGF1PbrbmeterSpec.SHA224;
+                } else if (mgfDigestNbme.equbls("SHA-256")) {
+                    mgfSpec = MGF1PbrbmeterSpec.SHA256;
+                } else if (mgfDigestNbme.equbls("SHA-384")) {
+                    mgfSpec = MGF1PbrbmeterSpec.SHA384;
+                } else if (mgfDigestNbme.equbls("SHA-512")) {
+                    mgfSpec = MGF1PbrbmeterSpec.SHA512;
                 } else {
                     throw new IOException(
-                        "Unrecognized message digest algorithm");
+                        "Unrecognized messbge digest blgorithm");
                 }
-            } else if (data.isContextSpecific((byte) 0x02)) {
-                // pSource algid
-                AlgorithmId val = AlgorithmId.parse(data.data.getDerValue());
-                if (!val.getOID().equals((Object) OID_PSpecified)) {
+            } else if (dbtb.isContextSpecific((byte) 0x02)) {
+                // pSource blgid
+                AlgorithmId vbl = AlgorithmId.pbrse(dbtb.dbtb.getDerVblue());
+                if (!vbl.getOID().equbls((Object) OID_PSpecified)) {
                     throw new IOException("Wrong OID for pSpecified");
                 }
-                DerInputStream dis = new DerInputStream(val.getEncodedParams());
+                DerInputStrebm dis = new DerInputStrebm(vbl.getEncodedPbrbms());
                 p = dis.getOctetString();
-                if (dis.available() != 0) {
-                    throw new IOException("Extra data for pSpecified");
+                if (dis.bvbilbble() != 0) {
+                    throw new IOException("Extrb dbtb for pSpecified");
                 }
             } else {
-                throw new IOException("Invalid encoded OAEPParameters");
+                throw new IOException("Invblid encoded OAEPPbrbmeters");
             }
         }
     }
@@ -161,87 +161,87 @@ public final class OAEPParameters extends AlgorithmParametersSpi {
     protected void engineInit(byte[] encoded, String decodingMethod)
         throws IOException {
         if ((decodingMethod != null) &&
-            (!decodingMethod.equalsIgnoreCase("ASN.1"))) {
-            throw new IllegalArgumentException("Only support ASN.1 format");
+            (!decodingMethod.equblsIgnoreCbse("ASN.1"))) {
+            throw new IllegblArgumentException("Only support ASN.1 formbt");
         }
         engineInit(encoded);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
-        if (OAEPParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(
-                new OAEPParameterSpec(mdName, "MGF1", mgfSpec,
+    protected <T extends AlgorithmPbrbmeterSpec>
+        T engineGetPbrbmeterSpec(Clbss<T> pbrbmSpec)
+        throws InvblidPbrbmeterSpecException {
+        if (OAEPPbrbmeterSpec.clbss.isAssignbbleFrom(pbrbmSpec)) {
+            return pbrbmSpec.cbst(
+                new OAEPPbrbmeterSpec(mdNbme, "MGF1", mgfSpec,
                                       new PSource.PSpecified(p)));
         } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        DerOutputStream tmp2, tmp3;
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        DerOutputStrebm tmp2, tmp3;
 
         // MD
         AlgorithmId mdAlgId;
         try {
-            mdAlgId = AlgorithmId.get(mdName);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new IOException("AlgorithmId " + mdName +
+            mdAlgId = AlgorithmId.get(mdNbme);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new IOException("AlgorithmId " + mdNbme +
                                   " impl not found");
         }
-        tmp2 = new DerOutputStream();
+        tmp2 = new DerOutputStrebm();
         mdAlgId.derEncode(tmp2);
-        tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0),
+        tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0),
                       tmp2);
 
         // MGF
-        tmp2 = new DerOutputStream();
+        tmp2 = new DerOutputStrebm();
         tmp2.putOID(OID_MGF1);
         AlgorithmId mgfDigestId;
         try {
             mgfDigestId = AlgorithmId.get(mgfSpec.getDigestAlgorithm());
-        } catch (NoSuchAlgorithmException nase) {
+        } cbtch (NoSuchAlgorithmException nbse) {
             throw new IOException("AlgorithmId " +
                     mgfSpec.getDigestAlgorithm() + " impl not found");
         }
         mgfDigestId.encode(tmp2);
-        tmp3 = new DerOutputStream();
-        tmp3.write(DerValue.tag_Sequence, tmp2);
-        tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)1),
+        tmp3 = new DerOutputStrebm();
+        tmp3.write(DerVblue.tbg_Sequence, tmp2);
+        tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)1),
                   tmp3);
 
         // PSource
-        tmp2 = new DerOutputStream();
+        tmp2 = new DerOutputStrebm();
         tmp2.putOID(OID_PSpecified);
         tmp2.putOctetString(p);
-        tmp3 = new DerOutputStream();
-        tmp3.write(DerValue.tag_Sequence, tmp2);
-        tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)2),
+        tmp3 = new DerOutputStrebm();
+        tmp3.write(DerVblue.tbg_Sequence, tmp2);
+        tmp.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)2),
                   tmp3);
 
-        // Put all together under a SEQUENCE tag
-        DerOutputStream out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, tmp);
-        return out.toByteArray();
+        // Put bll together under b SEQUENCE tbg
+        DerOutputStrebm out = new DerOutputStrebm();
+        out.write(DerVblue.tbg_Sequence, tmp);
+        return out.toByteArrby();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
         throws IOException {
         if ((encodingMethod != null) &&
-            (!encodingMethod.equalsIgnoreCase("ASN.1"))) {
-            throw new IllegalArgumentException("Only support ASN.1 format");
+            (!encodingMethod.equblsIgnoreCbse("ASN.1"))) {
+            throw new IllegblArgumentException("Only support ASN.1 formbt");
         }
         return engineGetEncoded();
     }
 
     protected String engineToString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("MD: " + mdName + "\n");
-        sb.append("MGF: MGF1" + mgfSpec.getDigestAlgorithm() + "\n");
-        sb.append("PSource: PSpecified " +
+        sb.bppend("MD: " + mdNbme + "\n");
+        sb.bppend("MGF: MGF1" + mgfSpec.getDigestAlgorithm() + "\n");
+        sb.bppend("PSource: PSpecified " +
             (p.length==0? "":Debug.toHexString(new BigInteger(p))) + "\n");
         return sb.toString();
     }

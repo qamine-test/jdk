@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.Rectangle2D;
-import java.text.CharacterIterator;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.text.ChbrbcterIterbtor;
 
 /**
- * The <code>FontMetrics</code> class defines a font metrics object, which
- * encapsulates information about the rendering of a particular font on a
- * particular screen.
+ * The <code>FontMetrics</code> clbss defines b font metrics object, which
+ * encbpsulbtes informbtion bbout the rendering of b pbrticulbr font on b
+ * pbrticulbr screen.
  * <p>
- * <b>Note to subclassers</b>: Since many of these methods form closed,
- * mutually recursive loops, you must take care that you implement
- * at least one of the methods in each such loop to prevent
- * infinite recursion when your subclass is used.
- * In particular, the following is the minimal suggested set of methods
- * to override in order to ensure correctness and prevent infinite
- * recursion (though other subsets are equally feasible):
+ * <b>Note to subclbssers</b>: Since mbny of these methods form closed,
+ * mutublly recursive loops, you must tbke cbre thbt you implement
+ * bt lebst one of the methods in ebch such loop to prevent
+ * infinite recursion when your subclbss is used.
+ * In pbrticulbr, the following is the minimbl suggested set of methods
+ * to override in order to ensure correctness bnd prevent infinite
+ * recursion (though other subsets bre equblly febsible):
  * <ul>
  * <li>{@link #getAscent()}
- * <li>{@link #getLeading()}
- * <li>{@link #getMaxAdvance()}
- * <li>{@link #charWidth(char)}
- * <li>{@link #charsWidth(char[], int, int)}
+ * <li>{@link #getLebding()}
+ * <li>{@link #getMbxAdvbnce()}
+ * <li>{@link #chbrWidth(chbr)}
+ * <li>{@link #chbrsWidth(chbr[], int, int)}
  * </ul>
  * <p>
- * <img src="doc-files/FontMetrics-1.gif" alt="The letter 'p' showing its 'reference point'"
- * style="border:15px; float:right; margin: 7px 10px;">
- * Note that the implementations of these methods are
- * inefficient, so they are usually overridden with more efficient
- * toolkit-specific implementations.
+ * <img src="doc-files/FontMetrics-1.gif" blt="The letter 'p' showing its 'reference point'"
+ * style="border:15px; flobt:right; mbrgin: 7px 10px;">
+ * Note thbt the implementbtions of these methods bre
+ * inefficient, so they bre usublly overridden with more efficient
+ * toolkit-specific implementbtions.
  * <p>
- * When an application asks to place a character at the position
- * (<i>x</i>,&nbsp;<i>y</i>), the character is placed so that its
- * reference point (shown as the dot in the accompanying image) is
- * put at that position. The reference point specifies a horizontal
- * line called the <i>baseline</i> of the character. In normal
- * printing, the baselines of characters should align.
+ * When bn bpplicbtion bsks to plbce b chbrbcter bt the position
+ * (<i>x</i>,&nbsp;<i>y</i>), the chbrbcter is plbced so thbt its
+ * reference point (shown bs the dot in the bccompbnying imbge) is
+ * put bt thbt position. The reference point specifies b horizontbl
+ * line cblled the <i>bbseline</i> of the chbrbcter. In normbl
+ * printing, the bbselines of chbrbcters should blign.
  * <p>
- * In addition, every character in a font has an <i>ascent</i>, a
- * <i>descent</i>, and an <i>advance width</i>. The ascent is the
- * amount by which the character ascends above the baseline. The
- * descent is the amount by which the character descends below the
- * baseline. The advance width indicates the position at which AWT
- * should place the next character.
+ * In bddition, every chbrbcter in b font hbs bn <i>bscent</i>, b
+ * <i>descent</i>, bnd bn <i>bdvbnce width</i>. The bscent is the
+ * bmount by which the chbrbcter bscends bbove the bbseline. The
+ * descent is the bmount by which the chbrbcter descends below the
+ * bbseline. The bdvbnce width indicbtes the position bt which AWT
+ * should plbce the next chbrbcter.
  * <p>
- * An array of characters or a string can also have an ascent, a
- * descent, and an advance width. The ascent of the array is the
- * maximum ascent of any character in the array. The descent is the
- * maximum descent of any character in the array. The advance width
- * is the sum of the advance widths of each of the characters in the
- * character array.  The advance of a <code>String</code> is the
- * distance along the baseline of the <code>String</code>.  This
- * distance is the width that should be used for centering or
- * right-aligning the <code>String</code>.
- * <p>Note that the advance of a <code>String</code> is not necessarily
- * the sum of the advances of its characters measured in isolation
- * because the width of a character can vary depending on its context.
- * For example, in Arabic text, the shape of a character can change
- * in order to connect to other characters.  Also, in some scripts,
- * certain character sequences can be represented by a single shape,
- * called a <em>ligature</em>.  Measuring characters individually does
- * not account for these transformations.
- * <p>Font metrics are baseline-relative, meaning that they are
- * generally independent of the rotation applied to the font (modulo
- * possible grid hinting effects).  See {@link java.awt.Font Font}.
+ * An brrby of chbrbcters or b string cbn blso hbve bn bscent, b
+ * descent, bnd bn bdvbnce width. The bscent of the brrby is the
+ * mbximum bscent of bny chbrbcter in the brrby. The descent is the
+ * mbximum descent of bny chbrbcter in the brrby. The bdvbnce width
+ * is the sum of the bdvbnce widths of ebch of the chbrbcters in the
+ * chbrbcter brrby.  The bdvbnce of b <code>String</code> is the
+ * distbnce blong the bbseline of the <code>String</code>.  This
+ * distbnce is the width thbt should be used for centering or
+ * right-bligning the <code>String</code>.
+ * <p>Note thbt the bdvbnce of b <code>String</code> is not necessbrily
+ * the sum of the bdvbnces of its chbrbcters mebsured in isolbtion
+ * becbuse the width of b chbrbcter cbn vbry depending on its context.
+ * For exbmple, in Arbbic text, the shbpe of b chbrbcter cbn chbnge
+ * in order to connect to other chbrbcters.  Also, in some scripts,
+ * certbin chbrbcter sequences cbn be represented by b single shbpe,
+ * cblled b <em>ligbture</em>.  Mebsuring chbrbcters individublly does
+ * not bccount for these trbnsformbtions.
+ * <p>Font metrics bre bbseline-relbtive, mebning thbt they bre
+ * generblly independent of the rotbtion bpplied to the font (modulo
+ * possible grid hinting effects).  See {@link jbvb.bwt.Font Font}.
  *
- * @author      Jim Graham
- * @see         java.awt.Font
+ * @buthor      Jim Grbhbm
+ * @see         jbvb.bwt.Font
  * @since       1.0
  */
-public abstract class FontMetrics implements java.io.Serializable {
+public bbstrbct clbss FontMetrics implements jbvb.io.Seriblizbble {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
-    private static final FontRenderContext
-        DEFAULT_FRC = new FontRenderContext(null, false, false);
+    privbte stbtic finbl FontRenderContext
+        DEFAULT_FRC = new FontRenderContext(null, fblse, fblse);
 
     /**
-     * The actual {@link Font} from which the font metrics are
-     * created.
-     * This cannot be null.
+     * The bctubl {@link Font} from which the font metrics bre
+     * crebted.
+     * This cbnnot be null.
      *
-     * @serial
+     * @seribl
      * @see #getFont()
      */
     protected Font font;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 1681126225205050147L;
+    privbte stbtic finbl long seriblVersionUID = 1681126225205050147L;
 
     /**
-     * Creates a new <code>FontMetrics</code> object for finding out
-     * height and width information about the specified <code>Font</code>
-     * and specific character glyphs in that <code>Font</code>.
-     * @param     font the <code>Font</code>
-     * @see       java.awt.Font
+     * Crebtes b new <code>FontMetrics</code> object for finding out
+     * height bnd width informbtion bbout the specified <code>Font</code>
+     * bnd specific chbrbcter glyphs in thbt <code>Font</code>.
+     * @pbrbm     font the <code>Font</code>
+     * @see       jbvb.bwt.Font
      */
     protected FontMetrics(Font font) {
         this.font = font;
@@ -147,11 +147,11 @@ public abstract class FontMetrics implements java.io.Serializable {
 
     /**
      * Gets the <code>FontRenderContext</code> used by this
-     * <code>FontMetrics</code> object to measure text.
+     * <code>FontMetrics</code> object to mebsure text.
      * <p>
-     * Note that methods in this class which take a <code>Graphics</code>
-     * parameter measure text using the <code>FontRenderContext</code>
-     * of that <code>Graphics</code> object, and not this
+     * Note thbt methods in this clbss which tbke b <code>Grbphics</code>
+     * pbrbmeter mebsure text using the <code>FontRenderContext</code>
+     * of thbt <code>Grbphics</code> object, bnd not this
      * <code>FontRenderContext</code>
      * @return    the <code>FontRenderContext</code> used by this
      * <code>FontMetrics</code> object.
@@ -162,29 +162,29 @@ public abstract class FontMetrics implements java.io.Serializable {
     }
 
     /**
-     * Determines the <em>standard leading</em> of the
+     * Determines the <em>stbndbrd lebding</em> of the
      * <code>Font</code> described by this <code>FontMetrics</code>
-     * object.  The standard leading, or
-     * interline spacing, is the logical amount of space to be reserved
-     * between the descent of one line of text and the ascent of the next
-     * line. The height metric is calculated to include this extra space.
-     * @return    the standard leading of the <code>Font</code>.
+     * object.  The stbndbrd lebding, or
+     * interline spbcing, is the logicbl bmount of spbce to be reserved
+     * between the descent of one line of text bnd the bscent of the next
+     * line. The height metric is cblculbted to include this extrb spbce.
+     * @return    the stbndbrd lebding of the <code>Font</code>.
      * @see   #getHeight()
      * @see   #getAscent()
      * @see   #getDescent()
      */
-    public int getLeading() {
+    public int getLebding() {
         return 0;
     }
 
     /**
-     * Determines the <em>font ascent</em> of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object. The font ascent
-     * is the distance from the font's baseline to the top of most
-     * alphanumeric characters. Some characters in the <code>Font</code>
-     * might extend above the font ascent line.
-     * @return     the font ascent of the <code>Font</code>.
-     * @see        #getMaxAscent()
+     * Determines the <em>font bscent</em> of the <code>Font</code>
+     * described by this <code>FontMetrics</code> object. The font bscent
+     * is the distbnce from the font's bbseline to the top of most
+     * blphbnumeric chbrbcters. Some chbrbcters in the <code>Font</code>
+     * might extend bbove the font bscent line.
+     * @return     the font bscent of the <code>Font</code>.
+     * @see        #getMbxAscent()
      */
     public int getAscent() {
         return font.getSize();
@@ -193,449 +193,449 @@ public abstract class FontMetrics implements java.io.Serializable {
     /**
      * Determines the <em>font descent</em> of the <code>Font</code>
      * described by this
-     * <code>FontMetrics</code> object. The font descent is the distance
-     * from the font's baseline to the bottom of most alphanumeric
-     * characters with descenders. Some characters in the
+     * <code>FontMetrics</code> object. The font descent is the distbnce
+     * from the font's bbseline to the bottom of most blphbnumeric
+     * chbrbcters with descenders. Some chbrbcters in the
      * <code>Font</code> might extend
      * below the font descent line.
      * @return     the font descent of the <code>Font</code>.
-     * @see        #getMaxDescent()
+     * @see        #getMbxDescent()
      */
     public int getDescent() {
         return 0;
     }
 
     /**
-     * Gets the standard height of a line of text in this font.  This
-     * is the distance between the baseline of adjacent lines of text.
-     * It is the sum of the leading + ascent + descent. Due to rounding
-     * this may not be the same as getAscent() + getDescent() + getLeading().
-     * There is no guarantee that lines of text spaced at this distance are
-     * disjoint; such lines may overlap if some characters overshoot
-     * either the standard ascent or the standard descent metric.
-     * @return    the standard height of the font.
-     * @see       #getLeading()
+     * Gets the stbndbrd height of b line of text in this font.  This
+     * is the distbnce between the bbseline of bdjbcent lines of text.
+     * It is the sum of the lebding + bscent + descent. Due to rounding
+     * this mby not be the sbme bs getAscent() + getDescent() + getLebding().
+     * There is no gubrbntee thbt lines of text spbced bt this distbnce bre
+     * disjoint; such lines mby overlbp if some chbrbcters overshoot
+     * either the stbndbrd bscent or the stbndbrd descent metric.
+     * @return    the stbndbrd height of the font.
+     * @see       #getLebding()
      * @see       #getAscent()
      * @see       #getDescent()
      */
     public int getHeight() {
-        return getLeading() + getAscent() + getDescent();
+        return getLebding() + getAscent() + getDescent();
     }
 
     /**
-     * Determines the maximum ascent of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object.  No character
-     * extends further above the font's baseline than this height.
-     * @return    the maximum ascent of any character in the
+     * Determines the mbximum bscent of the <code>Font</code>
+     * described by this <code>FontMetrics</code> object.  No chbrbcter
+     * extends further bbove the font's bbseline thbn this height.
+     * @return    the mbximum bscent of bny chbrbcter in the
      * <code>Font</code>.
      * @see       #getAscent()
      */
-    public int getMaxAscent() {
+    public int getMbxAscent() {
         return getAscent();
     }
 
     /**
-     * Determines the maximum descent of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object.  No character
-     * extends further below the font's baseline than this height.
-     * @return    the maximum descent of any character in the
+     * Determines the mbximum descent of the <code>Font</code>
+     * described by this <code>FontMetrics</code> object.  No chbrbcter
+     * extends further below the font's bbseline thbn this height.
+     * @return    the mbximum descent of bny chbrbcter in the
      * <code>Font</code>.
      * @see       #getDescent()
      */
-    public int getMaxDescent() {
+    public int getMbxDescent() {
         return getDescent();
     }
 
     /**
-     * For backward compatibility only.
-     * @return    the maximum descent of any character in the
+     * For bbckwbrd compbtibility only.
+     * @return    the mbximum descent of bny chbrbcter in the
      * <code>Font</code>.
-     * @see #getMaxDescent()
-     * @deprecated As of JDK version 1.1.1,
-     * replaced by <code>getMaxDescent()</code>.
+     * @see #getMbxDescent()
+     * @deprecbted As of JDK version 1.1.1,
+     * replbced by <code>getMbxDescent()</code>.
      */
-    @Deprecated
-    public int getMaxDecent() {
-        return getMaxDescent();
+    @Deprecbted
+    public int getMbxDecent() {
+        return getMbxDescent();
     }
 
     /**
-     * Gets the maximum advance width of any character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code> is
-     * not necessarily the sum of the advances of its characters.
-     * @return    the maximum advance width of any character
+     * Gets the mbximum bdvbnce width of bny chbrbcter in this
+     * <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * string's bbseline.  The bdvbnce of b <code>String</code> is
+     * not necessbrily the sum of the bdvbnces of its chbrbcters.
+     * @return    the mbximum bdvbnce width of bny chbrbcter
      *            in the <code>Font</code>, or <code>-1</code> if the
-     *            maximum advance width is not known.
+     *            mbximum bdvbnce width is not known.
      */
-    public int getMaxAdvance() {
+    public int getMbxAdvbnce() {
         return -1;
     }
 
     /**
-     * Returns the advance width of the specified character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
+     * Returns the bdvbnce width of the specified chbrbcter in this
+     * <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * chbrbcter's bbseline.  Note thbt the bdvbnce of b
+     * <code>String</code> is not necessbrily the sum of the bdvbnces
+     * of its chbrbcters.
      *
-     * <p>This method doesn't validate the specified character to be a
-     * valid Unicode code point. The caller must validate the
-     * character value using {@link
-     * java.lang.Character#isValidCodePoint(int)
-     * Character.isValidCodePoint} if necessary.
+     * <p>This method doesn't vblidbte the specified chbrbcter to be b
+     * vblid Unicode code point. The cbller must vblidbte the
+     * chbrbcter vblue using {@link
+     * jbvb.lbng.Chbrbcter#isVblidCodePoint(int)
+     * Chbrbcter.isVblidCodePoint} if necessbry.
      *
-     * @param codePoint the character (Unicode code point) to be measured
-     * @return    the advance width of the specified character
+     * @pbrbm codePoint the chbrbcter (Unicode code point) to be mebsured
+     * @return    the bdvbnce width of the specified chbrbcter
      *            in the <code>Font</code> described by this
      *            <code>FontMetrics</code> object.
-     * @see   #charsWidth(char[], int, int)
+     * @see   #chbrsWidth(chbr[], int, int)
      * @see   #stringWidth(String)
      */
-    public int charWidth(int codePoint) {
-        if (!Character.isValidCodePoint(codePoint)) {
+    public int chbrWidth(int codePoint) {
+        if (!Chbrbcter.isVblidCodePoint(codePoint)) {
             codePoint = 0xffff; // substitute missing glyph width
         }
 
         if (codePoint < 256) {
             return getWidths()[codePoint];
         } else {
-            char[] buffer = new char[2];
-            int len = Character.toChars(codePoint, buffer, 0);
-            return charsWidth(buffer, 0, len);
+            chbr[] buffer = new chbr[2];
+            int len = Chbrbcter.toChbrs(codePoint, buffer, 0);
+            return chbrsWidth(buffer, 0, len);
         }
     }
 
     /**
-     * Returns the advance width of the specified character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
+     * Returns the bdvbnce width of the specified chbrbcter in this
+     * <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * chbrbcter's bbseline.  Note thbt the bdvbnce of b
+     * <code>String</code> is not necessbrily the sum of the bdvbnces
+     * of its chbrbcters.
      *
-     * <p><b>Note:</b> This method cannot handle <a
-     * href="../lang/Character.html#supplementary"> supplementary
-     * characters</a>. To support all Unicode characters, including
-     * supplementary characters, use the {@link #charWidth(int)} method.
+     * <p><b>Note:</b> This method cbnnot hbndle <b
+     * href="../lbng/Chbrbcter.html#supplementbry"> supplementbry
+     * chbrbcters</b>. To support bll Unicode chbrbcters, including
+     * supplementbry chbrbcters, use the {@link #chbrWidth(int)} method.
      *
-     * @param ch the character to be measured
-     * @return     the advance width of the specified character
+     * @pbrbm ch the chbrbcter to be mebsured
+     * @return     the bdvbnce width of the specified chbrbcter
      *                  in the <code>Font</code> described by this
      *                  <code>FontMetrics</code> object.
-     * @see        #charsWidth(char[], int, int)
+     * @see        #chbrsWidth(chbr[], int, int)
      * @see        #stringWidth(String)
      */
-    public int charWidth(char ch) {
+    public int chbrWidth(chbr ch) {
         if (ch < 256) {
             return getWidths()[ch];
         }
-        char data[] = {ch};
-        return charsWidth(data, 0, 1);
+        chbr dbtb[] = {ch};
+        return chbrsWidth(dbtb, 0, 1);
     }
 
     /**
-     * Returns the total advance width for showing the specified
-     * <code>String</code> in this <code>Font</code>.  The advance
-     * is the distance from the leftmost point to the rightmost point
-     * on the string's baseline.
+     * Returns the totbl bdvbnce width for showing the specified
+     * <code>String</code> in this <code>Font</code>.  The bdvbnce
+     * is the distbnce from the leftmost point to the rightmost point
+     * on the string's bbseline.
      * <p>
-     * Note that the advance of a <code>String</code> is
-     * not necessarily the sum of the advances of its characters.
-     * @param str the <code>String</code> to be measured
-     * @return    the advance width of the specified <code>String</code>
+     * Note thbt the bdvbnce of b <code>String</code> is
+     * not necessbrily the sum of the bdvbnces of its chbrbcters.
+     * @pbrbm str the <code>String</code> to be mebsured
+     * @return    the bdvbnce width of the specified <code>String</code>
      *                  in the <code>Font</code> described by this
      *                  <code>FontMetrics</code>.
      * @throws NullPointerException if str is null.
      * @see       #bytesWidth(byte[], int, int)
-     * @see       #charsWidth(char[], int, int)
-     * @see       #getStringBounds(String, Graphics)
+     * @see       #chbrsWidth(chbr[], int, int)
+     * @see       #getStringBounds(String, Grbphics)
      */
     public int stringWidth(String str) {
         int len = str.length();
-        char data[] = new char[len];
-        str.getChars(0, len, data, 0);
-        return charsWidth(data, 0, len);
+        chbr dbtb[] = new chbr[len];
+        str.getChbrs(0, len, dbtb, 0);
+        return chbrsWidth(dbtb, 0, len);
     }
 
     /**
-     * Returns the total advance width for showing the specified array
-     * of characters in this <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code>
-     * is not necessarily the sum of the advances of its characters.
-     * This is equivalent to measuring a <code>String</code> of the
-     * characters in the specified range.
-     * @param data the array of characters to be measured
-     * @param off the start offset of the characters in the array
-     * @param len the number of characters to be measured from the array
-     * @return    the advance width of the subarray of the specified
-     *               <code>char</code> array in the font described by
+     * Returns the totbl bdvbnce width for showing the specified brrby
+     * of chbrbcters in this <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * string's bbseline.  The bdvbnce of b <code>String</code>
+     * is not necessbrily the sum of the bdvbnces of its chbrbcters.
+     * This is equivblent to mebsuring b <code>String</code> of the
+     * chbrbcters in the specified rbnge.
+     * @pbrbm dbtb the brrby of chbrbcters to be mebsured
+     * @pbrbm off the stbrt offset of the chbrbcters in the brrby
+     * @pbrbm len the number of chbrbcters to be mebsured from the brrby
+     * @return    the bdvbnce width of the subbrrby of the specified
+     *               <code>chbr</code> brrby in the font described by
      *               this <code>FontMetrics</code> object.
-     * @throws    NullPointerException if <code>data</code> is null.
+     * @throws    NullPointerException if <code>dbtb</code> is null.
      * @throws    IndexOutOfBoundsException if the <code>off</code>
-     *            and <code>len</code> arguments index characters outside
-     *            the bounds of the <code>data</code> array.
-     * @see       #charWidth(int)
-     * @see       #charWidth(char)
+     *            bnd <code>len</code> brguments index chbrbcters outside
+     *            the bounds of the <code>dbtb</code> brrby.
+     * @see       #chbrWidth(int)
+     * @see       #chbrWidth(chbr)
      * @see       #bytesWidth(byte[], int, int)
      * @see       #stringWidth(String)
      */
-    public int charsWidth(char data[], int off, int len) {
-        return stringWidth(new String(data, off, len));
+    public int chbrsWidth(chbr dbtb[], int off, int len) {
+        return stringWidth(new String(dbtb, off, len));
     }
 
     /**
-     * Returns the total advance width for showing the specified array
-     * of bytes in this <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code>
-     * is not necessarily the sum of the advances of its characters.
-     * This is equivalent to measuring a <code>String</code> of the
-     * characters in the specified range.
-     * @param data the array of bytes to be measured
-     * @param off the start offset of the bytes in the array
-     * @param len the number of bytes to be measured from the array
-     * @return    the advance width of the subarray of the specified
-     *               <code>byte</code> array in the <code>Font</code>
+     * Returns the totbl bdvbnce width for showing the specified brrby
+     * of bytes in this <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * string's bbseline.  The bdvbnce of b <code>String</code>
+     * is not necessbrily the sum of the bdvbnces of its chbrbcters.
+     * This is equivblent to mebsuring b <code>String</code> of the
+     * chbrbcters in the specified rbnge.
+     * @pbrbm dbtb the brrby of bytes to be mebsured
+     * @pbrbm off the stbrt offset of the bytes in the brrby
+     * @pbrbm len the number of bytes to be mebsured from the brrby
+     * @return    the bdvbnce width of the subbrrby of the specified
+     *               <code>byte</code> brrby in the <code>Font</code>
      *                  described by
      *               this <code>FontMetrics</code> object.
-     * @throws    NullPointerException if <code>data</code> is null.
+     * @throws    NullPointerException if <code>dbtb</code> is null.
      * @throws    IndexOutOfBoundsException if the <code>off</code>
-     *            and <code>len</code> arguments index bytes outside
-     *            the bounds of the <code>data</code> array.
-     * @see       #charsWidth(char[], int, int)
+     *            bnd <code>len</code> brguments index bytes outside
+     *            the bounds of the <code>dbtb</code> brrby.
+     * @see       #chbrsWidth(chbr[], int, int)
      * @see       #stringWidth(String)
      */
-    public int bytesWidth(byte data[], int off, int len) {
-        return stringWidth(new String(data, 0, off, len));
+    public int bytesWidth(byte dbtb[], int off, int len) {
+        return stringWidth(new String(dbtb, 0, off, len));
     }
 
     /**
-     * Gets the advance widths of the first 256 characters in the
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
-     * @return    an array storing the advance widths of the
-     *                 characters in the <code>Font</code>
+     * Gets the bdvbnce widths of the first 256 chbrbcters in the
+     * <code>Font</code>.  The bdvbnce is the
+     * distbnce from the leftmost point to the rightmost point on the
+     * chbrbcter's bbseline.  Note thbt the bdvbnce of b
+     * <code>String</code> is not necessbrily the sum of the bdvbnces
+     * of its chbrbcters.
+     * @return    bn brrby storing the bdvbnce widths of the
+     *                 chbrbcters in the <code>Font</code>
      *                 described by this <code>FontMetrics</code> object.
      */
     public int[] getWidths() {
         int widths[] = new int[256];
-        for (char ch = 0 ; ch < 256 ; ch++) {
-            widths[ch] = charWidth(ch);
+        for (chbr ch = 0 ; ch < 256 ; ch++) {
+            widths[ch] = chbrWidth(ch);
         }
         return widths;
     }
 
     /**
-     * Checks to see if the <code>Font</code> has uniform line metrics.  A
-     * composite font may consist of several different fonts to cover
-     * various character sets.  In such cases, the
-     * <code>FontLineMetrics</code> objects are not uniform.
-     * Different fonts may have a different ascent, descent, metrics and
-     * so on.  This information is sometimes necessary for line
-     * measuring and line breaking.
-     * @return <code>true</code> if the font has uniform line metrics;
-     * <code>false</code> otherwise.
-     * @see java.awt.Font#hasUniformLineMetrics()
+     * Checks to see if the <code>Font</code> hbs uniform line metrics.  A
+     * composite font mby consist of severbl different fonts to cover
+     * vbrious chbrbcter sets.  In such cbses, the
+     * <code>FontLineMetrics</code> objects bre not uniform.
+     * Different fonts mby hbve b different bscent, descent, metrics bnd
+     * so on.  This informbtion is sometimes necessbry for line
+     * mebsuring bnd line brebking.
+     * @return <code>true</code> if the font hbs uniform line metrics;
+     * <code>fblse</code> otherwise.
+     * @see jbvb.bwt.Font#hbsUniformLineMetrics()
      */
-    public boolean hasUniformLineMetrics() {
-        return font.hasUniformLineMetrics();
+    public boolebn hbsUniformLineMetrics() {
+        return font.hbsUniformLineMetrics();
     }
 
     /**
      * Returns the {@link LineMetrics} object for the specified
-     * <code>String</code> in the specified {@link Graphics} context.
-     * @param str the specified <code>String</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified <code>String</code> and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(String, FontRenderContext)
+     * <code>String</code> in the specified {@link Grbphics} context.
+     * @pbrbm str the specified <code>String</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>LineMetrics</code> object crebted with the
+     * specified <code>String</code> bnd <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getLineMetrics(String, FontRenderContext)
      */
-    public LineMetrics getLineMetrics( String str, Graphics context) {
+    public LineMetrics getLineMetrics( String str, Grbphics context) {
         return font.getLineMetrics(str, myFRC(context));
     }
 
     /**
      * Returns the {@link LineMetrics} object for the specified
-     * <code>String</code> in the specified {@link Graphics} context.
-     * @param str the specified <code>String</code>
-     * @param beginIndex the initial offset of <code>str</code>
-     * @param limit the end offset of <code>str</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified <code>String</code> and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(String, int, int, FontRenderContext)
+     * <code>String</code> in the specified {@link Grbphics} context.
+     * @pbrbm str the specified <code>String</code>
+     * @pbrbm beginIndex the initibl offset of <code>str</code>
+     * @pbrbm limit the end offset of <code>str</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>LineMetrics</code> object crebted with the
+     * specified <code>String</code> bnd <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getLineMetrics(String, int, int, FontRenderContext)
      */
     public LineMetrics getLineMetrics( String str,
                                             int beginIndex, int limit,
-                                            Graphics context) {
+                                            Grbphics context) {
         return font.getLineMetrics(str, beginIndex, limit, myFRC(context));
     }
 
     /**
      * Returns the {@link LineMetrics} object for the specified
-     * character array in the specified {@link Graphics} context.
-     * @param chars the specified character array
-     * @param beginIndex the initial offset of <code>chars</code>
-     * @param limit the end offset of <code>chars</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified character array and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(char[], int, int, FontRenderContext)
+     * chbrbcter brrby in the specified {@link Grbphics} context.
+     * @pbrbm chbrs the specified chbrbcter brrby
+     * @pbrbm beginIndex the initibl offset of <code>chbrs</code>
+     * @pbrbm limit the end offset of <code>chbrs</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>LineMetrics</code> object crebted with the
+     * specified chbrbcter brrby bnd <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getLineMetrics(chbr[], int, int, FontRenderContext)
      */
-    public LineMetrics getLineMetrics(char [] chars,
+    public LineMetrics getLineMetrics(chbr [] chbrs,
                                             int beginIndex, int limit,
-                                            Graphics context) {
+                                            Grbphics context) {
         return font.getLineMetrics(
-                                chars, beginIndex, limit, myFRC(context));
+                                chbrs, beginIndex, limit, myFRC(context));
     }
 
     /**
      * Returns the {@link LineMetrics} object for the specified
-     * {@link CharacterIterator} in the specified {@link Graphics}
+     * {@link ChbrbcterIterbtor} in the specified {@link Grbphics}
      * context.
-     * @param ci the specified <code>CharacterIterator</code>
-     * @param beginIndex the initial offset in <code>ci</code>
-     * @param limit the end index of <code>ci</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified arguments.
-     * @see java.awt.Font#getLineMetrics(CharacterIterator, int, int, FontRenderContext)
+     * @pbrbm ci the specified <code>ChbrbcterIterbtor</code>
+     * @pbrbm beginIndex the initibl offset in <code>ci</code>
+     * @pbrbm limit the end index of <code>ci</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>LineMetrics</code> object crebted with the
+     * specified brguments.
+     * @see jbvb.bwt.Font#getLineMetrics(ChbrbcterIterbtor, int, int, FontRenderContext)
      */
-    public LineMetrics getLineMetrics(CharacterIterator ci,
+    public LineMetrics getLineMetrics(ChbrbcterIterbtor ci,
                                             int beginIndex, int limit,
-                                            Graphics context) {
+                                            Grbphics context) {
         return font.getLineMetrics(ci, beginIndex, limit, myFRC(context));
     }
 
     /**
      * Returns the bounds of the specified <code>String</code> in the
-     * specified <code>Graphics</code> context.  The bounds is used
-     * to layout the <code>String</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param str the specified <code>String</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a {@link Rectangle2D} that is the bounding box of the
+     * specified <code>Grbphics</code> context.  The bounds is used
+     * to lbyout the <code>String</code>.
+     * <p>Note: The returned bounds is in bbseline-relbtive coordinbtes
+     * (see {@link jbvb.bwt.FontMetrics clbss notes}).
+     * @pbrbm str the specified <code>String</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b {@link Rectbngle2D} thbt is the bounding box of the
      * specified <code>String</code> in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(String, FontRenderContext)
+     * <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getStringBounds(String, FontRenderContext)
      */
-    public Rectangle2D getStringBounds( String str, Graphics context) {
+    public Rectbngle2D getStringBounds( String str, Grbphics context) {
         return font.getStringBounds(str, myFRC(context));
     }
 
     /**
      * Returns the bounds of the specified <code>String</code> in the
-     * specified <code>Graphics</code> context.  The bounds is used
-     * to layout the <code>String</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param str the specified <code>String</code>
-     * @param beginIndex the offset of the beginning of <code>str</code>
-     * @param limit the end offset of <code>str</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
+     * specified <code>Grbphics</code> context.  The bounds is used
+     * to lbyout the <code>String</code>.
+     * <p>Note: The returned bounds is in bbseline-relbtive coordinbtes
+     * (see {@link jbvb.bwt.FontMetrics clbss notes}).
+     * @pbrbm str the specified <code>String</code>
+     * @pbrbm beginIndex the offset of the beginning of <code>str</code>
+     * @pbrbm limit the end offset of <code>str</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>Rectbngle2D</code> thbt is the bounding box of the
      * specified <code>String</code> in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(String, int, int, FontRenderContext)
+     * <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getStringBounds(String, int, int, FontRenderContext)
      */
-    public Rectangle2D getStringBounds( String str,
+    public Rectbngle2D getStringBounds( String str,
                                         int beginIndex, int limit,
-                                        Graphics context) {
+                                        Grbphics context) {
         return font.getStringBounds(str, beginIndex, limit,
                                         myFRC(context));
     }
 
    /**
-     * Returns the bounds of the specified array of characters
-     * in the specified <code>Graphics</code> context.
-     * The bounds is used to layout the <code>String</code>
-     * created with the specified array of characters,
-     * <code>beginIndex</code> and <code>limit</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param chars an array of characters
-     * @param beginIndex the initial offset of the array of
-     * characters
-     * @param limit the end offset of the array of characters
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
-     * specified character array in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(char[], int, int, FontRenderContext)
+     * Returns the bounds of the specified brrby of chbrbcters
+     * in the specified <code>Grbphics</code> context.
+     * The bounds is used to lbyout the <code>String</code>
+     * crebted with the specified brrby of chbrbcters,
+     * <code>beginIndex</code> bnd <code>limit</code>.
+     * <p>Note: The returned bounds is in bbseline-relbtive coordinbtes
+     * (see {@link jbvb.bwt.FontMetrics clbss notes}).
+     * @pbrbm chbrs bn brrby of chbrbcters
+     * @pbrbm beginIndex the initibl offset of the brrby of
+     * chbrbcters
+     * @pbrbm limit the end offset of the brrby of chbrbcters
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>Rectbngle2D</code> thbt is the bounding box of the
+     * specified chbrbcter brrby in the specified
+     * <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getStringBounds(chbr[], int, int, FontRenderContext)
      */
-    public Rectangle2D getStringBounds( char [] chars,
+    public Rectbngle2D getStringBounds( chbr [] chbrs,
                                         int beginIndex, int limit,
-                                        Graphics context) {
-        return font.getStringBounds(chars, beginIndex, limit,
+                                        Grbphics context) {
+        return font.getStringBounds(chbrs, beginIndex, limit,
                                         myFRC(context));
     }
 
    /**
-     * Returns the bounds of the characters indexed in the specified
-     * <code>CharacterIterator</code> in the
-     * specified <code>Graphics</code> context.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param ci the specified <code>CharacterIterator</code>
-     * @param beginIndex the initial offset in <code>ci</code>
-     * @param limit the end index of <code>ci</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
-     * characters indexed in the specified <code>CharacterIterator</code>
-     * in the specified <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(CharacterIterator, int, int, FontRenderContext)
+     * Returns the bounds of the chbrbcters indexed in the specified
+     * <code>ChbrbcterIterbtor</code> in the
+     * specified <code>Grbphics</code> context.
+     * <p>Note: The returned bounds is in bbseline-relbtive coordinbtes
+     * (see {@link jbvb.bwt.FontMetrics clbss notes}).
+     * @pbrbm ci the specified <code>ChbrbcterIterbtor</code>
+     * @pbrbm beginIndex the initibl offset in <code>ci</code>
+     * @pbrbm limit the end index of <code>ci</code>
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>Rectbngle2D</code> thbt is the bounding box of the
+     * chbrbcters indexed in the specified <code>ChbrbcterIterbtor</code>
+     * in the specified <code>Grbphics</code> context.
+     * @see jbvb.bwt.Font#getStringBounds(ChbrbcterIterbtor, int, int, FontRenderContext)
      */
-    public Rectangle2D getStringBounds(CharacterIterator ci,
+    public Rectbngle2D getStringBounds(ChbrbcterIterbtor ci,
                                         int beginIndex, int limit,
-                                        Graphics context) {
+                                        Grbphics context) {
         return font.getStringBounds(ci, beginIndex, limit,
                                         myFRC(context));
     }
 
     /**
-     * Returns the bounds for the character with the maximum bounds
-     * in the specified <code>Graphics</code> context.
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the
-     * bounding box for the character with the maximum bounds.
-     * @see java.awt.Font#getMaxCharBounds(FontRenderContext)
+     * Returns the bounds for the chbrbcter with the mbximum bounds
+     * in the specified <code>Grbphics</code> context.
+     * @pbrbm context the specified <code>Grbphics</code> context
+     * @return b <code>Rectbngle2D</code> thbt is the
+     * bounding box for the chbrbcter with the mbximum bounds.
+     * @see jbvb.bwt.Font#getMbxChbrBounds(FontRenderContext)
      */
-    public Rectangle2D getMaxCharBounds(Graphics context) {
-        return font.getMaxCharBounds(myFRC(context));
+    public Rectbngle2D getMbxChbrBounds(Grbphics context) {
+        return font.getMbxChbrBounds(myFRC(context));
     }
 
-    private FontRenderContext myFRC(Graphics context) {
-        if (context instanceof Graphics2D) {
-            return ((Graphics2D)context).getFontRenderContext();
+    privbte FontRenderContext myFRC(Grbphics context) {
+        if (context instbnceof Grbphics2D) {
+            return ((Grbphics2D)context).getFontRenderContext();
         }
         return DEFAULT_FRC;
     }
 
 
     /**
-     * Returns a representation of this <code>FontMetrics</code>
-     * object's values as a <code>String</code>.
-     * @return    a <code>String</code> representation of this
+     * Returns b representbtion of this <code>FontMetrics</code>
+     * object's vblues bs b <code>String</code>.
+     * @return    b <code>String</code> representbtion of this
      * <code>FontMetrics</code> object.
      */
     public String toString() {
-        return getClass().getName() +
+        return getClbss().getNbme() +
             "[font=" + getFont() +
-            "ascent=" + getAscent() +
+            "bscent=" + getAscent() +
             ", descent=" + getDescent() +
             ", height=" + getHeight() + "]";
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 }

@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.util.*;
+import jbvb.nio.file.*;
+import jbvb.util.*;
 
 /**
- * Base implementation class for watch keys.
+ * Bbse implementbtion clbss for wbtch keys.
  */
 
-abstract class AbstractWatchKey implements WatchKey {
+bbstrbct clbss AbstrbctWbtchKey implements WbtchKey {
 
     /**
-     * Maximum size of event list (in the future this may be tunable)
+     * Mbximum size of event list (in the future this mby be tunbble)
      */
-    static final int MAX_EVENT_LIST_SIZE    = 512;
+    stbtic finbl int MAX_EVENT_LIST_SIZE    = 512;
 
     /**
-     * Special event to signal overflow
+     * Specibl event to signbl overflow
      */
-    static final Event<Object> OVERFLOW_EVENT =
-        new Event<Object>(StandardWatchEventKinds.OVERFLOW, null);
+    stbtic finbl Event<Object> OVERFLOW_EVENT =
+        new Event<Object>(StbndbrdWbtchEventKinds.OVERFLOW, null);
 
     /**
-     * Possible key states
+     * Possible key stbtes
      */
-    private static enum State { READY, SIGNALLED };
+    privbte stbtic enum Stbte { READY, SIGNALLED };
 
-    // reference to watcher
-    private final AbstractWatchService watcher;
+    // reference to wbtcher
+    privbte finbl AbstrbctWbtchService wbtcher;
 
-    // reference to the original directory
-    private final Path dir;
+    // reference to the originbl directory
+    privbte finbl Pbth dir;
 
-    // key state
-    private State state;
+    // key stbte
+    privbte Stbte stbte;
 
     // pending events
-    private List<WatchEvent<?>> events;
+    privbte List<WbtchEvent<?>> events;
 
-    // maps a context to the last event for the context (iff the last queued
-    // event for the context is an ENTRY_MODIFY event).
-    private Map<Object,WatchEvent<?>> lastModifyEvents;
+    // mbps b context to the lbst event for the context (iff the lbst queued
+    // event for the context is bn ENTRY_MODIFY event).
+    privbte Mbp<Object,WbtchEvent<?>> lbstModifyEvents;
 
-    protected AbstractWatchKey(Path dir, AbstractWatchService watcher) {
-        this.watcher = watcher;
+    protected AbstrbctWbtchKey(Pbth dir, AbstrbctWbtchService wbtcher) {
+        this.wbtcher = wbtcher;
         this.dir = dir;
-        this.state = State.READY;
-        this.events = new ArrayList<WatchEvent<?>>();
-        this.lastModifyEvents = new HashMap<Object,WatchEvent<?>>();
+        this.stbte = Stbte.READY;
+        this.events = new ArrbyList<WbtchEvent<?>>();
+        this.lbstModifyEvents = new HbshMbp<Object,WbtchEvent<?>>();
     }
 
-    final AbstractWatchService watcher() {
-        return watcher;
+    finbl AbstrbctWbtchService wbtcher() {
+        return wbtcher;
     }
 
     /**
-     * Return the original watchable (Path)
+     * Return the originbl wbtchbble (Pbth)
      */
     @Override
-    public Path watchable() {
+    public Pbth wbtchbble() {
         return dir;
     }
 
     /**
-     * Enqueues this key to the watch service
+     * Enqueues this key to the wbtch service
      */
-    final void signal() {
+    finbl void signbl() {
         synchronized (this) {
-            if (state == State.READY) {
-                state = State.SIGNALLED;
-                watcher.enqueueKey(this);
+            if (stbte == Stbte.READY) {
+                stbte = Stbte.SIGNALLED;
+                wbtcher.enqueueKey(this);
             }
         }
     }
 
     /**
-     * Adds the event to this key and signals it.
+     * Adds the event to this key bnd signbls it.
      */
-    @SuppressWarnings("unchecked")
-    final void signalEvent(WatchEvent.Kind<?> kind, Object context) {
-        boolean isModify = (kind == StandardWatchEventKinds.ENTRY_MODIFY);
+    @SuppressWbrnings("unchecked")
+    finbl void signblEvent(WbtchEvent.Kind<?> kind, Object context) {
+        boolebn isModify = (kind == StbndbrdWbtchEventKinds.ENTRY_MODIFY);
         synchronized (this) {
             int size = events.size();
             if (size > 0) {
-                // if the previous event is an OVERFLOW event or this is a
-                // repeated event then we simply increment the counter
-                WatchEvent<?> prev = events.get(size-1);
-                if ((prev.kind() == StandardWatchEventKinds.OVERFLOW) ||
+                // if the previous event is bn OVERFLOW event or this is b
+                // repebted event then we simply increment the counter
+                WbtchEvent<?> prev = events.get(size-1);
+                if ((prev.kind() == StbndbrdWbtchEventKinds.OVERFLOW) ||
                     ((kind == prev.kind() &&
-                     Objects.equals(context, prev.context()))))
+                     Objects.equbls(context, prev.context()))))
                 {
                     ((Event<?>)prev).increment();
                     return;
                 }
 
-                // if this is a modify event and the last entry for the context
-                // is a modify event then we simply increment the count
-                if (!lastModifyEvents.isEmpty()) {
+                // if this is b modify event bnd the lbst entry for the context
+                // is b modify event then we simply increment the count
+                if (!lbstModifyEvents.isEmpty()) {
                     if (isModify) {
-                        WatchEvent<?> ev = lastModifyEvents.get(context);
+                        WbtchEvent<?> ev = lbstModifyEvents.get(context);
                         if (ev != null) {
-                            assert ev.kind() == StandardWatchEventKinds.ENTRY_MODIFY;
+                            bssert ev.kind() == StbndbrdWbtchEventKinds.ENTRY_MODIFY;
                             ((Event<?>)ev).increment();
                             return;
                         }
                     } else {
-                        // not a modify event so remove from the map as the
-                        // last event will no longer be a modify event.
-                        lastModifyEvents.remove(context);
+                        // not b modify event so remove from the mbp bs the
+                        // lbst event will no longer be b modify event.
+                        lbstModifyEvents.remove(context);
                     }
                 }
 
-                // if the list has reached the limit then drop pending events
-                // and queue an OVERFLOW event
+                // if the list hbs rebched the limit then drop pending events
+                // bnd queue bn OVERFLOW event
                 if (size >= MAX_EVENT_LIST_SIZE) {
-                    kind = StandardWatchEventKinds.OVERFLOW;
-                    isModify = false;
+                    kind = StbndbrdWbtchEventKinds.OVERFLOW;
+                    isModify = fblse;
                     context = null;
                 }
             }
 
-            // non-repeated event
+            // non-repebted event
             Event<Object> ev =
-                new Event<Object>((WatchEvent.Kind<Object>)kind, context);
+                new Event<Object>((WbtchEvent.Kind<Object>)kind, context);
             if (isModify) {
-                lastModifyEvents.put(context, ev);
-            } else if (kind == StandardWatchEventKinds.OVERFLOW) {
-                // drop all pending events
-                events.clear();
-                lastModifyEvents.clear();
+                lbstModifyEvents.put(context, ev);
+            } else if (kind == StbndbrdWbtchEventKinds.OVERFLOW) {
+                // drop bll pending events
+                events.clebr();
+                lbstModifyEvents.clebr();
             }
-            events.add(ev);
-            signal();
+            events.bdd(ev);
+            signbl();
         }
     }
 
     @Override
-    public final List<WatchEvent<?>> pollEvents() {
+    public finbl List<WbtchEvent<?>> pollEvents() {
         synchronized (this) {
-            List<WatchEvent<?>> result = events;
-            events = new ArrayList<WatchEvent<?>>();
-            lastModifyEvents.clear();
+            List<WbtchEvent<?>> result = events;
+            events = new ArrbyList<WbtchEvent<?>>();
+            lbstModifyEvents.clebr();
             return result;
         }
     }
 
     @Override
-    public final boolean reset() {
+    public finbl boolebn reset() {
         synchronized (this) {
-            if (state == State.SIGNALLED && isValid()) {
+            if (stbte == Stbte.SIGNALLED && isVblid()) {
                 if (events.isEmpty()) {
-                    state = State.READY;
+                    stbte = Stbte.READY;
                 } else {
                     // pending events so re-queue key
-                    watcher.enqueueKey(this);
+                    wbtcher.enqueueKey(this);
                 }
             }
-            return isValid();
+            return isVblid();
         }
     }
 
     /**
-     * WatchEvent implementation
+     * WbtchEvent implementbtion
      */
-    private static class Event<T> implements WatchEvent<T> {
-        private final WatchEvent.Kind<T> kind;
-        private final T context;
+    privbte stbtic clbss Event<T> implements WbtchEvent<T> {
+        privbte finbl WbtchEvent.Kind<T> kind;
+        privbte finbl T context;
 
-        // synchronize on watch key to access/increment count
-        private int count;
+        // synchronize on wbtch key to bccess/increment count
+        privbte int count;
 
-        Event(WatchEvent.Kind<T> type, T context) {
+        Event(WbtchEvent.Kind<T> type, T context) {
             this.kind = type;
             this.context = context;
             this.count = 1;
         }
 
         @Override
-        public WatchEvent.Kind<T> kind() {
+        public WbtchEvent.Kind<T> kind() {
             return kind;
         }
 
@@ -215,7 +215,7 @@ abstract class AbstractWatchKey implements WatchKey {
             return count;
         }
 
-        // for repeated events
+        // for repebted events
         void increment() {
             count++;
         }

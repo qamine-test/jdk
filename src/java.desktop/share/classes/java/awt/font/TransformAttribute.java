@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.geom.AffineTransform;
-import java.io.Serializable;
-import java.io.ObjectStreamException;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectStrebmException;
 
 /**
- * The <code>TransformAttribute</code> class provides an immutable
- * wrapper for a transform so that it is safe to use as an attribute.
+ * The <code>TrbnsformAttribute</code> clbss provides bn immutbble
+ * wrbpper for b trbnsform so thbt it is sbfe to use bs bn bttribute.
  */
-public final class TransformAttribute implements Serializable {
+public finbl clbss TrbnsformAttribute implements Seriblizbble {
 
     /**
-     * The <code>AffineTransform</code> for this
-     * <code>TransformAttribute</code>, or <code>null</code>
-     * if <code>AffineTransform</code> is the identity transform.
+     * The <code>AffineTrbnsform</code> for this
+     * <code>TrbnsformAttribute</code>, or <code>null</code>
+     * if <code>AffineTrbnsform</code> is the identity trbnsform.
      */
-    private AffineTransform transform;
+    privbte AffineTrbnsform trbnsform;
 
     /**
-     * Wraps the specified transform.  The transform is cloned and a
-     * reference to the clone is kept.  The original transform is unchanged.
-     * If null is passed as the argument, this constructor behaves as though
-     * it were the identity transform.  (Note that it is preferable to use
-     * {@link #IDENTITY} in this case.)
-     * @param transform the specified {@link AffineTransform} to be wrapped,
+     * Wrbps the specified trbnsform.  The trbnsform is cloned bnd b
+     * reference to the clone is kept.  The originbl trbnsform is unchbnged.
+     * If null is pbssed bs the brgument, this constructor behbves bs though
+     * it were the identity trbnsform.  (Note thbt it is preferbble to use
+     * {@link #IDENTITY} in this cbse.)
+     * @pbrbm trbnsform the specified {@link AffineTrbnsform} to be wrbpped,
      * or null.
      */
-    public TransformAttribute(AffineTransform transform) {
-        if (transform != null && !transform.isIdentity()) {
-            this.transform = new AffineTransform(transform);
+    public TrbnsformAttribute(AffineTrbnsform trbnsform) {
+        if (trbnsform != null && !trbnsform.isIdentity()) {
+            this.trbnsform = new AffineTrbnsform(trbnsform);
         }
     }
 
     /**
-     * Returns a copy of the wrapped transform.
-     * @return a <code>AffineTransform</code> that is a copy of the wrapped
-     * transform of this <code>TransformAttribute</code>.
+     * Returns b copy of the wrbpped trbnsform.
+     * @return b <code>AffineTrbnsform</code> thbt is b copy of the wrbpped
+     * trbnsform of this <code>TrbnsformAttribute</code>.
      */
-    public AffineTransform getTransform() {
-        AffineTransform at = transform;
-        return (at == null) ? new AffineTransform() : new AffineTransform(at);
+    public AffineTrbnsform getTrbnsform() {
+        AffineTrbnsform bt = trbnsform;
+        return (bt == null) ? new AffineTrbnsform() : new AffineTrbnsform(bt);
     }
 
     /**
-     * Returns <code>true</code> if the wrapped transform is
-     * an identity transform.
-     * @return <code>true</code> if the wrapped transform is
-     * an identity transform; <code>false</code> otherwise.
+     * Returns <code>true</code> if the wrbpped trbnsform is
+     * bn identity trbnsform.
+     * @return <code>true</code> if the wrbpped trbnsform is
+     * bn identity trbnsform; <code>fblse</code> otherwise.
      * @since 1.4
      */
-    public boolean isIdentity() {
-        return transform == null;
+    public boolebn isIdentity() {
+        return trbnsform == null;
     }
 
     /**
-     * A <code>TransformAttribute</code> representing the identity transform.
+     * A <code>TrbnsformAttribute</code> representing the identity trbnsform.
      * @since 1.6
      */
-    public static final TransformAttribute IDENTITY = new TransformAttribute(null);
+    public stbtic finbl TrbnsformAttribute IDENTITY = new TrbnsformAttribute(null);
 
-    private void writeObject(java.io.ObjectOutputStream s)
-      throws java.lang.ClassNotFoundException,
-             java.io.IOException
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+      throws jbvb.lbng.ClbssNotFoundException,
+             jbvb.io.IOException
     {
-        // sigh -- 1.3 expects transform is never null, so we need to always write one out
-        if (this.transform == null) {
-            this.transform = new AffineTransform();
+        // sigh -- 1.3 expects trbnsform is never null, so we need to blwbys write one out
+        if (this.trbnsform == null) {
+            this.trbnsform = new AffineTrbnsform();
         }
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /*
      * @since 1.6
      */
-    private Object readResolve() throws ObjectStreamException {
-        if (transform == null || transform.isIdentity()) {
+    privbte Object rebdResolve() throws ObjectStrebmException {
+        if (trbnsform == null || trbnsform.isIdentity()) {
             return IDENTITY;
         }
         return this;
     }
 
-    // Added for serial backwards compatibility (4348425)
-    static final long serialVersionUID = 3356247357827709530L;
+    // Added for seribl bbckwbrds compbtibility (4348425)
+    stbtic finbl long seriblVersionUID = 3356247357827709530L;
 
     /**
      * @since 1.6
      */
-    public int hashCode() {
-        return transform == null ? 0 : transform.hashCode();
+    public int hbshCode() {
+        return trbnsform == null ? 0 : trbnsform.hbshCode();
     }
 
     /**
-     * Returns <code>true</code> if rhs is a <code>TransformAttribute</code>
-     * whose transform is equal to this <code>TransformAttribute</code>'s
-     * transform.
-     * @param rhs the object to compare to
-     * @return <code>true</code> if the argument is a <code>TransformAttribute</code>
-     * whose transform is equal to this <code>TransformAttribute</code>'s
-     * transform.
+     * Returns <code>true</code> if rhs is b <code>TrbnsformAttribute</code>
+     * whose trbnsform is equbl to this <code>TrbnsformAttribute</code>'s
+     * trbnsform.
+     * @pbrbm rhs the object to compbre to
+     * @return <code>true</code> if the brgument is b <code>TrbnsformAttribute</code>
+     * whose trbnsform is equbl to this <code>TrbnsformAttribute</code>'s
+     * trbnsform.
      * @since 1.6
      */
-    public boolean equals(Object rhs) {
+    public boolebn equbls(Object rhs) {
         if (rhs != null) {
             try {
-                TransformAttribute that = (TransformAttribute)rhs;
-                if (transform == null) {
-                    return that.transform == null;
+                TrbnsformAttribute thbt = (TrbnsformAttribute)rhs;
+                if (trbnsform == null) {
+                    return thbt.trbnsform == null;
                 }
-                return transform.equals(that.transform);
+                return trbnsform.equbls(thbt.trbnsform);
             }
-            catch (ClassCastException e) {
+            cbtch (ClbssCbstException e) {
             }
         }
-        return false;
+        return fblse;
     }
 }

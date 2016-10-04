@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 
 /**
- * <code>ParsePosition</code> is a simple class used by <code>Format</code>
- * and its subclasses to keep track of the current position during parsing.
- * The <code>parseObject</code> method in the various <code>Format</code>
- * classes requires a <code>ParsePosition</code> object as an argument.
+ * <code>PbrsePosition</code> is b simple clbss used by <code>Formbt</code>
+ * bnd its subclbsses to keep trbck of the current position during pbrsing.
+ * The <code>pbrseObject</code> method in the vbrious <code>Formbt</code>
+ * clbsses requires b <code>PbrsePosition</code> object bs bn brgument.
  *
  * <p>
- * By design, as you parse through a string with different formats,
- * you can use the same <code>ParsePosition</code>, since the index parameter
+ * By design, bs you pbrse through b string with different formbts,
+ * you cbn use the sbme <code>PbrsePosition</code>, since the index pbrbmeter
  * records the current position.
  *
- * @author      Mark Davis
- * @see         java.text.Format
+ * @buthor      Mbrk Dbvis
+ * @see         jbvb.text.Formbt
  */
 
-public class ParsePosition {
+public clbss PbrsePosition {
 
     /**
-     * Input: the place you start parsing.
-     * <br>Output: position where the parse stopped.
-     * This is designed to be used serially,
-     * with each call setting index up for the next one.
+     * Input: the plbce you stbrt pbrsing.
+     * <br>Output: position where the pbrse stopped.
+     * This is designed to be used seriblly,
+     * with ebch cbll setting index up for the next one.
      */
     int index = 0;
     int errorIndex = -1;
 
     /**
-     * Retrieve the current parse position.  On input to a parse method, this
-     * is the index of the character at which parsing will begin; on output, it
-     * is the index of the character following the last character parsed.
+     * Retrieve the current pbrse position.  On input to b pbrse method, this
+     * is the index of the chbrbcter bt which pbrsing will begin; on output, it
+     * is the index of the chbrbcter following the lbst chbrbcter pbrsed.
      *
-     * @return the current parse position
+     * @return the current pbrse position
      */
     public int getIndex() {
         return index;
     }
 
     /**
-     * Set the current parse position.
+     * Set the current pbrse position.
      *
-     * @param index the current parse position
+     * @pbrbm index the current pbrse position
      */
     public void setIndex(int index) {
         this.index = index;
     }
 
     /**
-     * Create a new ParsePosition with the given initial index.
+     * Crebte b new PbrsePosition with the given initibl index.
      *
-     * @param index initial index
+     * @pbrbm index initibl index
      */
-    public ParsePosition(int index) {
+    public PbrsePosition(int index) {
         this.index = index;
     }
     /**
-     * Set the index at which a parse error occurred.  Formatters
-     * should set this before returning an error code from their
-     * parseObject method.  The default value is -1 if this is not set.
+     * Set the index bt which b pbrse error occurred.  Formbtters
+     * should set this before returning bn error code from their
+     * pbrseObject method.  The defbult vblue is -1 if this is not set.
      *
-     * @param ei the index at which an error occurred
+     * @pbrbm ei the index bt which bn error occurred
      * @since 1.2
      */
     public void setErrorIndex(int ei)
@@ -107,10 +107,10 @@ public class ParsePosition {
     }
 
     /**
-     * Retrieve the index at which an error occurred, or -1 if the
-     * error index has not been set.
+     * Retrieve the index bt which bn error occurred, or -1 if the
+     * error index hbs not been set.
      *
-     * @return the index at which an error occurred
+     * @return the index bt which bn error occurred
      * @since 1.2
      */
     public int getErrorIndex()
@@ -119,31 +119,31 @@ public class ParsePosition {
     }
 
     /**
-     * Overrides equals
+     * Overrides equbls
      */
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof ParsePosition))
-            return false;
-        ParsePosition other = (ParsePosition) obj;
+        if (obj == null) return fblse;
+        if (!(obj instbnceof PbrsePosition))
+            return fblse;
+        PbrsePosition other = (PbrsePosition) obj;
         return (index == other.index && errorIndex == other.errorIndex);
     }
 
     /**
-     * Returns a hash code for this ParsePosition.
-     * @return a hash code value for this object
+     * Returns b hbsh code for this PbrsePosition.
+     * @return b hbsh code vblue for this object
      */
-    public int hashCode() {
+    public int hbshCode() {
         return (errorIndex << 16) | index;
     }
 
     /**
-     * Return a string representation of this ParsePosition.
-     * @return  a string representation of this object
+     * Return b string representbtion of this PbrsePosition.
+     * @return  b string representbtion of this object
      */
     public String toString() {
-        return getClass().getName() +
+        return getClbss().getNbme() +
             "[index=" + index +
             ",errorIndex=" + errorIndex + ']';
     }

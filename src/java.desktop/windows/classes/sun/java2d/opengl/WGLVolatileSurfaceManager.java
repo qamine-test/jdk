@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.BufferCapabilities;
-import static java.awt.BufferCapabilities.FlipContents.*;
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.SurfaceData;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import sun.java2d.pipe.hw.ExtendedBufferCapabilities;
-import static sun.java2d.pipe.hw.ExtendedBufferCapabilities.VSyncType.*;
+import jbvb.bwt.BufferCbpbbilities;
+import stbtic jbvb.bwt.BufferCbpbbilities.FlipContents.*;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.VolbtileSurfbceMbnbger;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.SurfbceDbtb;
+import stbtic sun.jbvb2d.opengl.OGLContext.OGLContextCbps.*;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
+import sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities;
+import stbtic sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities.VSyncType.*;
 
-public class WGLVolatileSurfaceManager
-    extends VolatileSurfaceManager
+public clbss WGLVolbtileSurfbceMbnbger
+    extends VolbtileSurfbceMbnbger
 {
-    private boolean accelerationEnabled;
+    privbte boolebn bccelerbtionEnbbled;
 
-    public WGLVolatileSurfaceManager(SunVolatileImage vImg, Object context) {
+    public WGLVolbtileSurfbceMbnbger(SunVolbtileImbge vImg, Object context) {
         super(vImg, context);
 
         /*
-         * We will attempt to accelerate this image only under the
+         * We will bttempt to bccelerbte this imbge only under the
          * following conditions:
-         *   - the image is opaque OR
-         *   - the image is translucent AND
-         *       - the GraphicsConfig supports the FBO extension OR
-         *       - the GraphicsConfig has a stored alpha channel
+         *   - the imbge is opbque OR
+         *   - the imbge is trbnslucent AND
+         *       - the GrbphicsConfig supports the FBO extension OR
+         *       - the GrbphicsConfig hbs b stored blphb chbnnel
          */
-        int transparency = vImg.getTransparency();
-        WGLGraphicsConfig gc = (WGLGraphicsConfig)vImg.getGraphicsConfig();
-        accelerationEnabled =
-            (transparency == Transparency.OPAQUE) ||
-            ((transparency == Transparency.TRANSLUCENT) &&
-             (gc.isCapPresent(CAPS_EXT_FBOBJECT) ||
-              gc.isCapPresent(CAPS_STORED_ALPHA)));
+        int trbnspbrency = vImg.getTrbnspbrency();
+        WGLGrbphicsConfig gc = (WGLGrbphicsConfig)vImg.getGrbphicsConfig();
+        bccelerbtionEnbbled =
+            (trbnspbrency == Trbnspbrency.OPAQUE) ||
+            ((trbnspbrency == Trbnspbrency.TRANSLUCENT) &&
+             (gc.isCbpPresent(CAPS_EXT_FBOBJECT) ||
+              gc.isCbpPresent(CAPS_STORED_ALPHA)));
     }
 
-    protected boolean isAccelerationEnabled() {
-        return accelerationEnabled;
+    protected boolebn isAccelerbtionEnbbled() {
+        return bccelerbtionEnbbled;
     }
 
     /**
-     * Create a pbuffer-based SurfaceData object (or init the backbuffer
-     * of an existing window if this is a double buffered GraphicsConfig).
+     * Crebte b pbuffer-bbsed SurfbceDbtb object (or init the bbckbuffer
+     * of bn existing window if this is b double buffered GrbphicsConfig).
      */
-    protected SurfaceData initAcceleratedSurface() {
-        SurfaceData sData;
+    protected SurfbceDbtb initAccelerbtedSurfbce() {
+        SurfbceDbtb sDbtb;
         Component comp = vImg.getComponent();
         WComponentPeer peer =
             (comp != null) ? (WComponentPeer)comp.getPeer() : null;
 
         try {
-            boolean createVSynced = false;
-            boolean forceback = false;
-            if (context instanceof Boolean) {
-                forceback = ((Boolean)context).booleanValue();
-                if (forceback) {
-                    BufferCapabilities caps = peer.getBackBufferCaps();
-                    if (caps instanceof ExtendedBufferCapabilities) {
-                        ExtendedBufferCapabilities ebc =
-                            (ExtendedBufferCapabilities)caps;
+            boolebn crebteVSynced = fblse;
+            boolebn forcebbck = fblse;
+            if (context instbnceof Boolebn) {
+                forcebbck = ((Boolebn)context).boolebnVblue();
+                if (forcebbck) {
+                    BufferCbpbbilities cbps = peer.getBbckBufferCbps();
+                    if (cbps instbnceof ExtendedBufferCbpbbilities) {
+                        ExtendedBufferCbpbbilities ebc =
+                            (ExtendedBufferCbpbbilities)cbps;
                         if (ebc.getVSync() == VSYNC_ON &&
                             ebc.getFlipContents() == COPIED)
                         {
-                            createVSynced = true;
-                            forceback = false;
+                            crebteVSynced = true;
+                            forcebbck = fblse;
                         }
                     }
                 }
             }
 
-            if (forceback) {
-                // peer must be non-null in this case
-                sData = WGLSurfaceData.createData(peer, vImg, FLIP_BACKBUFFER);
+            if (forcebbck) {
+                // peer must be non-null in this cbse
+                sDbtb = WGLSurfbceDbtb.crebteDbtb(peer, vImg, FLIP_BACKBUFFER);
             } else {
-                WGLGraphicsConfig gc =
-                    (WGLGraphicsConfig)vImg.getGraphicsConfig();
-                ColorModel cm = gc.getColorModel(vImg.getTransparency());
-                int type = vImg.getForcedAccelSurfaceType();
-                // if acceleration type is forced (type != UNDEFINED) then
-                // use the forced type, otherwise choose one based on caps
-                if (type == OGLSurfaceData.UNDEFINED) {
-                    type = gc.isCapPresent(CAPS_EXT_FBOBJECT) ?
-                        OGLSurfaceData.FBOBJECT : OGLSurfaceData.PBUFFER;
+                WGLGrbphicsConfig gc =
+                    (WGLGrbphicsConfig)vImg.getGrbphicsConfig();
+                ColorModel cm = gc.getColorModel(vImg.getTrbnspbrency());
+                int type = vImg.getForcedAccelSurfbceType();
+                // if bccelerbtion type is forced (type != UNDEFINED) then
+                // use the forced type, otherwise choose one bbsed on cbps
+                if (type == OGLSurfbceDbtb.UNDEFINED) {
+                    type = gc.isCbpPresent(CAPS_EXT_FBOBJECT) ?
+                        OGLSurfbceDbtb.FBOBJECT : OGLSurfbceDbtb.PBUFFER;
                 }
-                if (createVSynced) {
-                    sData = WGLSurfaceData.createData(peer, vImg, type);
+                if (crebteVSynced) {
+                    sDbtb = WGLSurfbceDbtb.crebteDbtb(peer, vImg, type);
                 } else {
-                    sData = WGLSurfaceData.createData(gc,
+                    sDbtb = WGLSurfbceDbtb.crebteDbtb(gc,
                                                       vImg.getWidth(),
                                                       vImg.getHeight(),
                                                       cm, vImg, type);
                 }
             }
-        } catch (NullPointerException ex) {
-            sData = null;
-        } catch (OutOfMemoryError er) {
-            sData = null;
+        } cbtch (NullPointerException ex) {
+            sDbtb = null;
+        } cbtch (OutOfMemoryError er) {
+            sDbtb = null;
         }
 
-        return sData;
+        return sDbtb;
     }
 
     @Override
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
+    protected boolebn isConfigVblid(GrbphicsConfigurbtion gc) {
         return ((gc == null) ||
-                ((gc instanceof WGLGraphicsConfig) &&
-                 (gc == vImg.getGraphicsConfig())));
+                ((gc instbnceof WGLGrbphicsConfig) &&
+                 (gc == vImg.getGrbphicsConfig())));
     }
 
     @Override
     public void initContents() {
-        if (vImg.getForcedAccelSurfaceType() != OGLSurfaceData.TEXTURE) {
+        if (vImg.getForcedAccelSurfbceType() != OGLSurfbceDbtb.TEXTURE) {
             super.initContents();
         }
     }

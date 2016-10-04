@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.shell;
+pbckbge sun.bwt.shell;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.concurrent.Callable;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.util.concurrent.Cbllbble;
 
 /**
- * @author Michael Martak
+ * @buthor Michbel Mbrtbk
  * @since 1.4
  */
 
-class ShellFolderManager {
+clbss ShellFolderMbnbger {
     /**
-     * Create a shell folder from a file.
-     * Override to return machine-dependent behavior.
+     * Crebte b shell folder from b file.
+     * Override to return mbchine-dependent behbvior.
      */
-    public ShellFolder createShellFolder(File file) throws FileNotFoundException {
-        return new DefaultShellFolder(null, file);
+    public ShellFolder crebteShellFolder(File file) throws FileNotFoundException {
+        return new DefbultShellFolder(null, file);
     }
 
     /**
-     * @param key a <code>String</code>
-     *  "fileChooserDefaultFolder":
-     *    Returns a <code>File</code> - the default shellfolder for a new filechooser
+     * @pbrbm key b <code>String</code>
+     *  "fileChooserDefbultFolder":
+     *    Returns b <code>File</code> - the defbult shellfolder for b new filechooser
      *  "roots":
-     *    Returns a <code>File[]</code> - containing the root(s) of the displayable hierarchy
+     *    Returns b <code>File[]</code> - contbining the root(s) of the displbybble hierbrchy
      *  "fileChooserComboBoxFolders":
-     *    Returns a <code>File[]</code> - an array of shellfolders representing the list to
-     *    show by default in the file chooser's combobox
-     *   "fileChooserShortcutPanelFolders":
-     *    Returns a <code>File[]</code> - an array of shellfolders representing well-known
-     *    folders, such as Desktop, Documents, History, Network, Home, etc.
-     *    This is used in the shortcut panel of the filechooser on Windows 2000
-     *    and Windows Me.
+     *    Returns b <code>File[]</code> - bn brrby of shellfolders representing the list to
+     *    show by defbult in the file chooser's combobox
+     *   "fileChooserShortcutPbnelFolders":
+     *    Returns b <code>File[]</code> - bn brrby of shellfolders representing well-known
+     *    folders, such bs Desktop, Documents, History, Network, Home, etc.
+     *    This is used in the shortcut pbnel of the filechooser on Windows 2000
+     *    bnd Windows Me.
      *  "fileChooserIcon <icon>":
-     *    Returns an <code>Image</code> - icon can be ListView, DetailsView, UpFolder, NewFolder or
+     *    Returns bn <code>Imbge</code> - icon cbn be ListView, DetbilsView, UpFolder, NewFolder or
      *    ViewMenu (Windows only).
      *
-     * @return An Object matching the key string.
+     * @return An Object mbtching the key string.
      */
     public Object get(String key) {
-        if (key.equals("fileChooserDefaultFolder")) {
-            // Return the default shellfolder for a new filechooser
+        if (key.equbls("fileChooserDefbultFolder")) {
+            // Return the defbult shellfolder for b new filechooser
             File homeDir = new File(System.getProperty("user.home"));
             try {
-                return createShellFolder(homeDir);
-            } catch (FileNotFoundException e) {
+                return crebteShellFolder(homeDir);
+            } cbtch (FileNotFoundException e) {
                 return homeDir;
             }
-        } else if (key.equals("roots")) {
-            // The root(s) of the displayable hierarchy
+        } else if (key.equbls("roots")) {
+            // The root(s) of the displbybble hierbrchy
             return File.listRoots();
-        } else if (key.equals("fileChooserComboBoxFolders")) {
-            // Return an array of ShellFolders representing the list to
-            // show by default in the file chooser's combobox
+        } else if (key.equbls("fileChooserComboBoxFolders")) {
+            // Return bn brrby of ShellFolders representing the list to
+            // show by defbult in the file chooser's combobox
             return get("roots");
-        } else if (key.equals("fileChooserShortcutPanelFolders")) {
-            // Return an array of ShellFolders representing well-known
-            // folders, such as Desktop, Documents, History, Network, Home, etc.
-            // This is used in the shortcut panel of the filechooser on Windows 2000
-            // and Windows Me
-            return new File[] { (File)get("fileChooserDefaultFolder") };
+        } else if (key.equbls("fileChooserShortcutPbnelFolders")) {
+            // Return bn brrby of ShellFolders representing well-known
+            // folders, such bs Desktop, Documents, History, Network, Home, etc.
+            // This is used in the shortcut pbnel of the filechooser on Windows 2000
+            // bnd Windows Me
+            return new File[] { (File)get("fileChooserDefbultFolder") };
         }
         return null;
     }
 
     /**
-     * Does <code>dir</code> represent a "computer" such as a node on the network, or
+     * Does <code>dir</code> represent b "computer" such bs b node on the network, or
      * "My Computer" on the desktop.
      */
-    public boolean isComputerNode(File dir) {
-        return false;
+    public boolebn isComputerNode(File dir) {
+        return fblse;
     }
 
-    public boolean isFileSystemRoot(File dir) {
-        if (dir instanceof ShellFolder && !((ShellFolder) dir).isFileSystem()) {
-            return false;
+    public boolebn isFileSystemRoot(File dir) {
+        if (dir instbnceof ShellFolder && !((ShellFolder) dir).isFileSystem()) {
+            return fblse;
         }
-        return (dir.getParentFile() == null);
+        return (dir.getPbrentFile() == null);
     }
 
-    protected ShellFolder.Invoker createInvoker() {
+    protected ShellFolder.Invoker crebteInvoker() {
         return new DirectInvoker();
     }
 
-    private static class DirectInvoker implements ShellFolder.Invoker {
-        public <T> T invoke(Callable<T> task) throws Exception {
-            return task.call();
+    privbte stbtic clbss DirectInvoker implements ShellFolder.Invoker {
+        public <T> T invoke(Cbllbble<T> tbsk) throws Exception {
+            return tbsk.cbll();
         }
     }
 }

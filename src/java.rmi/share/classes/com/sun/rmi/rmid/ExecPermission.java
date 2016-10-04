@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rmi.rmid;
+pbckbge com.sun.rmi.rmid;
 
-import java.security.*;
-import java.io.*;
-import java.util.*;
+import jbvb.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * The ExecPermission class represents permission for rmid to execute
- * a specific command to launch an activation group.  An ExecPermission
- * consists of a pathname of a command to launch an activation group.
+ * The ExecPermission clbss represents permission for rmid to execute
+ * b specific commbnd to lbunch bn bctivbtion group.  An ExecPermission
+ * consists of b pbthnbme of b commbnd to lbunch bn bctivbtion group.
  * <P>
- * Pathname is the pathname of the file or directory to grant rmid
- * execute permission.  A pathname that ends in "/*" (where "/" is
- * the file separator character, <code>File.separatorChar</code>) indicates
- * all the files and directories contained in that directory. A pathname
- * that ends with "/-" indicates (recursively) all files
- * and subdirectories contained in that directory. A pathname consisting of
- * the special token "&lt;&lt;ALL FILES&gt;&gt;" matches <bold>any</bold> file.
+ * Pbthnbme is the pbthnbme of the file or directory to grbnt rmid
+ * execute permission.  A pbthnbme thbt ends in "/*" (where "/" is
+ * the file sepbrbtor chbrbcter, <code>File.sepbrbtorChbr</code>) indicbtes
+ * bll the files bnd directories contbined in thbt directory. A pbthnbme
+ * thbt ends with "/-" indicbtes (recursively) bll files
+ * bnd subdirectories contbined in thbt directory. A pbthnbme consisting of
+ * the specibl token "&lt;&lt;ALL FILES&gt;&gt;" mbtches <bold>bny</bold> file.
  * <P>
- * Note: A pathname consisting of a single "*" indicates all the files
- * in the current directory, while a pathname consisting of a single "-"
- * indicates all the files in the current directory and
- * (recursively) all files and subdirectories contained in the current
+ * Note: A pbthnbme consisting of b single "*" indicbtes bll the files
+ * in the current directory, while b pbthnbme consisting of b single "-"
+ * indicbtes bll the files in the current directory bnd
+ * (recursively) bll files bnd subdirectories contbined in the current
  * directory.
  * <P>
  *
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  *
- * @serial exclude
+ * @seribl exclude
  */
-public final class ExecPermission extends Permission
+public finbl clbss ExecPermission extends Permission
 {
     /**
-     * UID for serialization
+     * UID for seriblizbtion
      */
-    private static final long serialVersionUID = -6208470287358147919L;
+    privbte stbtic finbl long seriblVersionUID = -6208470287358147919L;
 
-    private transient FilePermission fp;
+    privbte trbnsient FilePermission fp;
 
     /**
-     * Creates a new ExecPermission object with the specified path.
-     * <i>path</i> is the pathname of a file or directory.
+     * Crebtes b new ExecPermission object with the specified pbth.
+     * <i>pbth</i> is the pbthnbme of b file or directory.
      *
-     * <p>A pathname that ends in "/*" (where "/" is
-     * the file separator character, <code>File.separatorChar</code>) indicates
-     * a directory and all the files contained in that directory. A pathname
-     * that ends with "/-" indicates a directory and (recursively) all files
-     * and subdirectories contained in that directory. The special pathname
-     * "&lt;&lt;ALL FILES&gt;&gt;" matches all files.
+     * <p>A pbthnbme thbt ends in "/*" (where "/" is
+     * the file sepbrbtor chbrbcter, <code>File.sepbrbtorChbr</code>) indicbtes
+     * b directory bnd bll the files contbined in thbt directory. A pbthnbme
+     * thbt ends with "/-" indicbtes b directory bnd (recursively) bll files
+     * bnd subdirectories contbined in thbt directory. The specibl pbthnbme
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtches bll files.
      *
-     * <p>A pathname consisting of a single "*" indicates all the files
-     * in the current directory, while a pathname consisting of a single "-"
-     * indicates all the files in the current directory and
-     * (recursively) all files and subdirectories contained in the current
+     * <p>A pbthnbme consisting of b single "*" indicbtes bll the files
+     * in the current directory, while b pbthnbme consisting of b single "-"
+     * indicbtes bll the files in the current directory bnd
+     * (recursively) bll files bnd subdirectories contbined in the current
      * directory.
      *
-     * @param path the pathname of the file/directory.
+     * @pbrbm pbth the pbthnbme of the file/directory.
      */
-    public ExecPermission(String path) {
-        super(path);
-        init(path);
+    public ExecPermission(String pbth) {
+        super(pbth);
+        init(pbth);
     }
 
     /**
-     * Creates a new ExecPermission object with the specified path.
-     * <i>path</i> is the pathname of a file or directory.
+     * Crebtes b new ExecPermission object with the specified pbth.
+     * <i>pbth</i> is the pbthnbme of b file or directory.
      *
-     * <p>A pathname that ends in "/*" (where "/" is
-     * the file separator character, <code>File.separatorChar</code>) indicates
-     * a directory and all the files contained in that directory. A pathname
-     * that ends with "/-" indicates a directory and (recursively) all files
-     * and subdirectories contained in that directory. The special pathname
-     * "&lt;&lt;ALL FILES&gt;&gt;" matches all files.
+     * <p>A pbthnbme thbt ends in "/*" (where "/" is
+     * the file sepbrbtor chbrbcter, <code>File.sepbrbtorChbr</code>) indicbtes
+     * b directory bnd bll the files contbined in thbt directory. A pbthnbme
+     * thbt ends with "/-" indicbtes b directory bnd (recursively) bll files
+     * bnd subdirectories contbined in thbt directory. The specibl pbthnbme
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtches bll files.
      *
-     * <p>A pathname consisting of a single "*" indicates all the files
-     * in the current directory, while a pathname consisting of a single "-"
-     * indicates all the files in the current directory and
-     * (recursively) all files and subdirectories contained in the current
+     * <p>A pbthnbme consisting of b single "*" indicbtes bll the files
+     * in the current directory, while b pbthnbme consisting of b single "-"
+     * indicbtes bll the files in the current directory bnd
+     * (recursively) bll files bnd subdirectories contbined in the current
      * directory.
      *
-     * @param path the pathname of the file/directory.
-     * @param actions the action string (unused)
+     * @pbrbm pbth the pbthnbme of the file/directory.
+     * @pbrbm bctions the bction string (unused)
      */
-    public ExecPermission(String path, String actions) {
-        this(path);
+    public ExecPermission(String pbth, String bctions) {
+        this(pbth);
     }
 
     /**
      * Checks if this ExecPermission object "implies" the specified permission.
      * <P>
-     * More specifically, this method returns true if:<p>
+     * More specificblly, this method returns true if:<p>
      * <ul>
-     * <li> <i>p</i> is an instanceof ExecPermission,<p> and
-     * <li> <i>p</i>'s pathname is implied by this object's
-     *      pathname. For example, "/tmp/*" implies "/tmp/foo", since
-     *      "/tmp/*" encompasses the "/tmp" directory and all files in that
-     *      directory, including the one named "foo".
+     * <li> <i>p</i> is bn instbnceof ExecPermission,<p> bnd
+     * <li> <i>p</i>'s pbthnbme is implied by this object's
+     *      pbthnbme. For exbmple, "/tmp/*" implies "/tmp/foo", since
+     *      "/tmp/*" encompbsses the "/tmp" directory bnd bll files in thbt
+     *      directory, including the one nbmed "foo".
      * </ul>
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof ExecPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof ExecPermission))
+            return fblse;
 
-        ExecPermission that = (ExecPermission) p;
+        ExecPermission thbt = (ExecPermission) p;
 
-        return fp.implies(that.fp);
+        return fp.implies(thbt.fp);
     }
 
     /**
-     * Checks two ExecPermission objects for equality.
-     * Checks that <i>obj</i>'s class is the same as this object's class
-     * and has the same name as this object.
+     * Checks two ExecPermission objects for equblity.
+     * Checks thbt <i>obj</i>'s clbss is the sbme bs this object's clbss
+     * bnd hbs the sbme nbme bs this object.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an ExecPermission, and has the same
-     * pathname as this ExecPermission object, false otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if <i>obj</i> is bn ExecPermission, bnd hbs the sbme
+     * pbthnbme bs this ExecPermission object, fblse otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof ExecPermission))
-            return false;
+        if (! (obj instbnceof ExecPermission))
+            return fblse;
 
-        ExecPermission that = (ExecPermission) obj;
+        ExecPermission thbt = (ExecPermission) obj;
 
-        return fp.equals(that.fp);
+        return fp.equbls(thbt.fp);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return this.fp.hashCode();
+    public int hbshCode() {
+        return this.fp.hbshCode();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
+     * Returns the cbnonicbl string representbtion of the bctions.
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
     public String getActions() {
         return "";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
+     * Returns b new PermissionCollection object for storing
      * ExecPermission objects.
      * <p>
-     * A ExecPermissionCollection stores a collection of
+     * A ExecPermissionCollection stores b collection of
      * ExecPermission permissions.
      *
-     * <p>ExecPermission objects must be stored in a manner that allows
-     * them to be inserted in any order, but that also enables the
+     * <p>ExecPermission objects must be stored in b mbnner thbt bllows
+     * them to be inserted in bny order, but thbt blso enbbles the
      * PermissionCollection <code>implies</code> method
-     * to be implemented in an efficient (and consistent) manner.
+     * to be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for
+     * @return b new PermissionCollection object suitbble for
      * storing ExecPermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -195,103 +195,103 @@ public final class ExecPermission extends Permission
     }
 
     /**
-     * readObject is called to restore the state of the ExecPermission
-     * from a stream.
+     * rebdObject is cblled to restore the stbte of the ExecPermission
+     * from b strebm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        // init is called to initialize the rest of the values.
-        init(getName());
+        s.defbultRebdObject();
+        // init is cblled to initiblize the rest of the vblues.
+        init(getNbme());
     }
 
     /**
-     * Initialize a ExecPermission object. Common to all constructors.
-     * Also called during de-serialization.
+     * Initiblize b ExecPermission object. Common to bll constructors.
+     * Also cblled during de-seriblizbtion.
      */
-    private void init(String path) {
-        this.fp = new FilePermission(path, "execute");
+    privbte void init(String pbth) {
+        this.fp = new FilePermission(pbth, "execute");
     }
 
     /**
-     * A ExecPermissionCollection stores a collection
+     * A ExecPermissionCollection stores b collection
      * of ExecPermission permissions. ExecPermission objects
-     * must be stored in a manner that allows them to be inserted in any
-     * order, but enable the implies function to evaluate the implies
-     * method in an efficient (and consistent) manner.
+     * must be stored in b mbnner thbt bllows them to be inserted in bny
+     * order, but enbble the implies function to evblubte the implies
+     * method in bn efficient (bnd consistent) mbnner.
      *
-     * @serial include
+     * @seribl include
      */
-    private static class ExecPermissionCollection
+    privbte stbtic clbss ExecPermissionCollection
         extends PermissionCollection
-        implements java.io.Serializable
+        implements jbvb.io.Seriblizbble
     {
-        private Vector<Permission> permissions;
+        privbte Vector<Permission> permissions;
 
-        private static final long serialVersionUID = -3352558508888368273L;
+        privbte stbtic finbl long seriblVersionUID = -3352558508888368273L;
 
         /**
-         * Create an empty ExecPermissionCollection.
+         * Crebte bn empty ExecPermissionCollection.
          */
         public ExecPermissionCollection() {
             permissions = new Vector<>();
         }
 
         /**
-         * Adds a permission to the collection.
+         * Adds b permission to the collection.
          *
-         * @param permission the Permission object to add.
+         * @pbrbm permission the Permission object to bdd.
          *
-         * @exception IllegalArgumentException - if the permission is not a
+         * @exception IllegblArgumentException - if the permission is not b
          *                                       ExecPermission
          *
          * @exception SecurityException - if this ExecPermissionCollection
-         *                                object has been marked readonly
+         *                                object hbs been mbrked rebdonly
          */
-        public void add(Permission permission)
+        public void bdd(Permission permission)
         {
-            if (! (permission instanceof ExecPermission))
-                throw new IllegalArgumentException("invalid permission: "+
+            if (! (permission instbnceof ExecPermission))
+                throw new IllegblArgumentException("invblid permission: "+
                                                    permission);
-            if (isReadOnly())
-                throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+            if (isRebdOnly())
+                throw new SecurityException("bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
-            permissions.addElement(permission);
+            permissions.bddElement(permission);
         }
 
         /**
-         * Check and see if this set of permissions implies the permissions
+         * Check bnd see if this set of permissions implies the permissions
          * expressed in "permission".
          *
-         * @param p the Permission object to compare
+         * @pbrbm p the Permission object to compbre
          *
-         * @return true if "permission" is a proper subset of a permission in
-         * the set, false if not.
+         * @return true if "permission" is b proper subset of b permission in
+         * the set, fblse if not.
          */
-        public boolean implies(Permission permission)
+        public boolebn implies(Permission permission)
         {
-            if (! (permission instanceof ExecPermission))
-                return false;
+            if (! (permission instbnceof ExecPermission))
+                return fblse;
 
-            Enumeration<Permission> e = permissions.elements();
+            Enumerbtion<Permission> e = permissions.elements();
 
-            while (e.hasMoreElements()) {
+            while (e.hbsMoreElements()) {
                 ExecPermission x = (ExecPermission)e.nextElement();
                 if (x.implies(permission)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Returns an enumeration of all the ExecPermission objects in the
-         * container.
+         * Returns bn enumerbtion of bll the ExecPermission objects in the
+         * contbiner.
          *
-         * @return an enumeration of all the ExecPermission objects.
+         * @return bn enumerbtion of bll the ExecPermission objects.
          */
-        public Enumeration<Permission> elements()
+        public Enumerbtion<Permission> elements()
         {
             return permissions.elements();
         }

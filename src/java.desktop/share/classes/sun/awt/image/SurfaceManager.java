@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Color;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
-import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Iterator;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.loops.CompositeType;
+import jbvb.bwt.Color;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.Iterbtor;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.loops.CompositeType;
 
 /**
- * The abstract base class that manages the various SurfaceData objects that
- * represent an Image's contents.  Subclasses can customize how the surfaces
- * are organized, whether to cache the original contents in an accelerated
- * surface, and so on.
+ * The bbstrbct bbse clbss thbt mbnbges the vbrious SurfbceDbtb objects thbt
+ * represent bn Imbge's contents.  Subclbsses cbn customize how the surfbces
+ * bre orgbnized, whether to cbche the originbl contents in bn bccelerbted
+ * surfbce, bnd so on.
  * <p>
- * The SurfaceManager also maintains an arbitrary "cache" mechanism which
- * allows other agents to store data in it specific to their use of this
- * image.  The most common use of the caching mechanism is for destination
- * SurfaceData objects to store cached copies of the source image.
+ * The SurfbceMbnbger blso mbintbins bn brbitrbry "cbche" mechbnism which
+ * bllows other bgents to store dbtb in it specific to their use of this
+ * imbge.  The most common use of the cbching mechbnism is for destinbtion
+ * SurfbceDbtb objects to store cbched copies of the source imbge.
  */
-public abstract class SurfaceManager {
+public bbstrbct clbss SurfbceMbnbger {
 
-    public static abstract class ImageAccessor {
-        public abstract SurfaceManager getSurfaceManager(Image img);
-        public abstract void setSurfaceManager(Image img, SurfaceManager mgr);
+    public stbtic bbstrbct clbss ImbgeAccessor {
+        public bbstrbct SurfbceMbnbger getSurfbceMbnbger(Imbge img);
+        public bbstrbct void setSurfbceMbnbger(Imbge img, SurfbceMbnbger mgr);
     }
 
-    private static ImageAccessor imgaccessor;
+    privbte stbtic ImbgeAccessor imgbccessor;
 
-    public static void setImageAccessor(ImageAccessor ia) {
-        if (imgaccessor != null) {
-            throw new InternalError("Attempt to set ImageAccessor twice");
+    public stbtic void setImbgeAccessor(ImbgeAccessor ib) {
+        if (imgbccessor != null) {
+            throw new InternblError("Attempt to set ImbgeAccessor twice");
         }
-        imgaccessor = ia;
+        imgbccessor = ib;
     }
 
     /**
-     * Returns the SurfaceManager object contained within the given Image.
+     * Returns the SurfbceMbnbger object contbined within the given Imbge.
      */
-    public static SurfaceManager getManager(Image img) {
-        SurfaceManager sMgr = imgaccessor.getSurfaceManager(img);
+    public stbtic SurfbceMbnbger getMbnbger(Imbge img) {
+        SurfbceMbnbger sMgr = imgbccessor.getSurfbceMbnbger(img);
         if (sMgr == null) {
             /*
-             * In practice only a BufferedImage will get here.
+             * In prbctice only b BufferedImbge will get here.
              */
             try {
-                BufferedImage bi = (BufferedImage) img;
-                sMgr = new BufImgSurfaceManager(bi);
-                setManager(bi, sMgr);
-            } catch (ClassCastException e) {
-                throw new IllegalArgumentException("Invalid Image variant");
+                BufferedImbge bi = (BufferedImbge) img;
+                sMgr = new BufImgSurfbceMbnbger(bi);
+                setMbnbger(bi, sMgr);
+            } cbtch (ClbssCbstException e) {
+                throw new IllegblArgumentException("Invblid Imbge vbribnt");
             }
         }
         return sMgr;
     }
 
-    public static void setManager(Image img, SurfaceManager mgr) {
-        imgaccessor.setSurfaceManager(img, mgr);
+    public stbtic void setMbnbger(Imbge img, SurfbceMbnbger mgr) {
+        imgbccessor.setSurfbceMbnbger(img, mgr);
     }
 
-    private ConcurrentHashMap<Object,Object> cacheMap;
+    privbte ConcurrentHbshMbp<Object,Object> cbcheMbp;
 
     /**
-     * Return an arbitrary cached object for an arbitrary cache key.
-     * Other objects can use this mechanism to store cached data about
-     * the source image that will let them save time when using or
-     * manipulating the image in the future.
+     * Return bn brbitrbry cbched object for bn brbitrbry cbche key.
+     * Other objects cbn use this mechbnism to store cbched dbtb bbout
+     * the source imbge thbt will let them sbve time when using or
+     * mbnipulbting the imbge in the future.
      * <p>
-     * Note that the cache is maintained as a simple Map with no
-     * attempts to keep it up to date or invalidate it so any data
-     * stored here must either not be dependent on the state of the
-     * image or it must be individually tracked to see if it is
-     * outdated or obsolete.
+     * Note thbt the cbche is mbintbined bs b simple Mbp with no
+     * bttempts to keep it up to dbte or invblidbte it so bny dbtb
+     * stored here must either not be dependent on the stbte of the
+     * imbge or it must be individublly trbcked to see if it is
+     * outdbted or obsolete.
      * <p>
-     * The SurfaceData object of the primary (destination) surface
-     * has a StateTracker mechanism which can help track the validity
-     * and "currentness" of any data stored here.
-     * For convenience and expediency an object stored as cached
-     * data may implement the FlushableCacheData interface specified
-     * below so that it may be notified immediately if the flush()
-     * method is ever called.
+     * The SurfbceDbtb object of the primbry (destinbtion) surfbce
+     * hbs b StbteTrbcker mechbnism which cbn help trbck the vblidity
+     * bnd "currentness" of bny dbtb stored here.
+     * For convenience bnd expediency bn object stored bs cbched
+     * dbtb mby implement the FlushbbleCbcheDbtb interfbce specified
+     * below so thbt it mby be notified immedibtely if the flush()
+     * method is ever cblled.
      */
-    public Object getCacheData(Object key) {
-        return (cacheMap == null) ? null : cacheMap.get(key);
+    public Object getCbcheDbtb(Object key) {
+        return (cbcheMbp == null) ? null : cbcheMbp.get(key);
     }
 
     /**
-     * Store an arbitrary cached object for an arbitrary cache key.
-     * See the getCacheData() method for notes on tracking the
-     * validity of data stored using this mechanism.
+     * Store bn brbitrbry cbched object for bn brbitrbry cbche key.
+     * See the getCbcheDbtb() method for notes on trbcking the
+     * vblidity of dbtb stored using this mechbnism.
      */
-    public void setCacheData(Object key, Object value) {
-        if (cacheMap == null) {
+    public void setCbcheDbtb(Object key, Object vblue) {
+        if (cbcheMbp == null) {
             synchronized (this) {
-                if (cacheMap == null) {
-                    cacheMap = new ConcurrentHashMap<>(2);
+                if (cbcheMbp == null) {
+                    cbcheMbp = new ConcurrentHbshMbp<>(2);
                 }
             }
         }
-        cacheMap.put(key, value);
+        cbcheMbp.put(key, vblue);
     }
 
     /**
-     * Returns the main SurfaceData object that "owns" the pixels for
-     * this SurfaceManager.  This SurfaceData is used as the destination
-     * surface in a rendering operation and is the most authoritative
-     * storage for the current state of the pixels, though other
-     * versions might be cached in other locations for efficiency.
+     * Returns the mbin SurfbceDbtb object thbt "owns" the pixels for
+     * this SurfbceMbnbger.  This SurfbceDbtb is used bs the destinbtion
+     * surfbce in b rendering operbtion bnd is the most buthoritbtive
+     * storbge for the current stbte of the pixels, though other
+     * versions might be cbched in other locbtions for efficiency.
      */
-    public abstract SurfaceData getPrimarySurfaceData();
+    public bbstrbct SurfbceDbtb getPrimbrySurfbceDbtb();
 
     /**
-     * Restores the primary surface being managed, and then returns the
-     * replacement surface.  This is called when an accelerated surface has
-     * been "lost", in an attempt to auto-restore its contents.
+     * Restores the primbry surfbce being mbnbged, bnd then returns the
+     * replbcement surfbce.  This is cblled when bn bccelerbted surfbce hbs
+     * been "lost", in bn bttempt to buto-restore its contents.
      */
-    public abstract SurfaceData restoreContents();
+    public bbstrbct SurfbceDbtb restoreContents();
 
     /**
-     * Notification that any accelerated surfaces associated with this manager
-     * have been "lost", which might mean that they need to be manually
-     * restored or recreated.
+     * Notificbtion thbt bny bccelerbted surfbces bssocibted with this mbnbger
+     * hbve been "lost", which might mebn thbt they need to be mbnublly
+     * restored or recrebted.
      *
-     * The default implementation does nothing, but platform-specific
-     * variants which have accelerated surfaces should perform any necessary
-     * actions.
+     * The defbult implementbtion does nothing, but plbtform-specific
+     * vbribnts which hbve bccelerbted surfbces should perform bny necessbry
+     * bctions.
      */
-    public void acceleratedSurfaceLost() {}
+    public void bccelerbtedSurfbceLost() {}
 
     /**
-     * Returns an ImageCapabilities object which can be
-     * inquired as to the specific capabilities of this
-     * Image.  The capabilities object will return true for
-     * isAccelerated() if the image has a current and valid
-     * SurfaceDataProxy object cached for the specified
-     * GraphicsConfiguration parameter.
+     * Returns bn ImbgeCbpbbilities object which cbn be
+     * inquired bs to the specific cbpbbilities of this
+     * Imbge.  The cbpbbilities object will return true for
+     * isAccelerbted() if the imbge hbs b current bnd vblid
+     * SurfbceDbtbProxy object cbched for the specified
+     * GrbphicsConfigurbtion pbrbmeter.
      * <p>
-     * This class provides a default implementation of the
-     * ImageCapabilities that will try to determine if there
-     * is an associated SurfaceDataProxy object and if it is
-     * up to date, but only works for GraphicsConfiguration
-     * objects which implement the ProxiedGraphicsConfig
-     * interface defined below.  In practice, all configs
-     * which can be accelerated are currently implementing
-     * that interface.
+     * This clbss provides b defbult implementbtion of the
+     * ImbgeCbpbbilities thbt will try to determine if there
+     * is bn bssocibted SurfbceDbtbProxy object bnd if it is
+     * up to dbte, but only works for GrbphicsConfigurbtion
+     * objects which implement the ProxiedGrbphicsConfig
+     * interfbce defined below.  In prbctice, bll configs
+     * which cbn be bccelerbted bre currently implementing
+     * thbt interfbce.
      * <p>
-     * A null GraphicsConfiguration returns a value based on whether the
-     * image is currently accelerated on its default GraphicsConfiguration.
+     * A null GrbphicsConfigurbtion returns b vblue bbsed on whether the
+     * imbge is currently bccelerbted on its defbult GrbphicsConfigurbtion.
      *
-     * @see java.awt.Image#getCapabilities
+     * @see jbvb.bwt.Imbge#getCbpbbilities
      * @since 1.5
      */
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        return new ImageCapabilitiesGc(gc);
+    public ImbgeCbpbbilities getCbpbbilities(GrbphicsConfigurbtion gc) {
+        return new ImbgeCbpbbilitiesGc(gc);
     }
 
-    class ImageCapabilitiesGc extends ImageCapabilities {
-        GraphicsConfiguration gc;
+    clbss ImbgeCbpbbilitiesGc extends ImbgeCbpbbilities {
+        GrbphicsConfigurbtion gc;
 
-        public ImageCapabilitiesGc(GraphicsConfiguration gc) {
-            super(false);
+        public ImbgeCbpbbilitiesGc(GrbphicsConfigurbtion gc) {
+            super(fblse);
             this.gc = gc;
         }
 
-        public boolean isAccelerated() {
-            // Note that when img.getAccelerationPriority() gets set to 0
-            // we remove SurfaceDataProxy objects from the cache and the
-            // answer will be false.
-            GraphicsConfiguration tmpGc = gc;
+        public boolebn isAccelerbted() {
+            // Note thbt when img.getAccelerbtionPriority() gets set to 0
+            // we remove SurfbceDbtbProxy objects from the cbche bnd the
+            // bnswer will be fblse.
+            GrbphicsConfigurbtion tmpGc = gc;
             if (tmpGc == null) {
-                tmpGc = GraphicsEnvironment.getLocalGraphicsEnvironment().
-                    getDefaultScreenDevice().getDefaultConfiguration();
+                tmpGc = GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+                    getDefbultScreenDevice().getDefbultConfigurbtion();
             }
-            if (tmpGc instanceof ProxiedGraphicsConfig) {
+            if (tmpGc instbnceof ProxiedGrbphicsConfig) {
                 Object proxyKey =
-                    ((ProxiedGraphicsConfig) tmpGc).getProxyKey();
+                    ((ProxiedGrbphicsConfig) tmpGc).getProxyKey();
                 if (proxyKey != null) {
-                    SurfaceDataProxy sdp =
-                        (SurfaceDataProxy) getCacheData(proxyKey);
-                    return (sdp != null && sdp.isAccelerated());
+                    SurfbceDbtbProxy sdp =
+                        (SurfbceDbtbProxy) getCbcheDbtb(proxyKey);
+                    return (sdp != null && sdp.isAccelerbted());
                 }
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * An interface for GraphicsConfiguration objects to implement if
-     * their surfaces accelerate images using SurfaceDataProxy objects.
+     * An interfbce for GrbphicsConfigurbtion objects to implement if
+     * their surfbces bccelerbte imbges using SurfbceDbtbProxy objects.
      *
-     * Implementing this interface facilitates the default
-     * implementation of getImageCapabilities() above.
+     * Implementing this interfbce fbcilitbtes the defbult
+     * implementbtion of getImbgeCbpbbilities() bbove.
      */
-    public static interface ProxiedGraphicsConfig {
+    public stbtic interfbce ProxiedGrbphicsConfig {
         /**
-         * Return the key that destination surfaces created on the
-         * given GraphicsConfiguration use to store SurfaceDataProxy
-         * objects for their cached copies.
+         * Return the key thbt destinbtion surfbces crebted on the
+         * given GrbphicsConfigurbtion use to store SurfbceDbtbProxy
+         * objects for their cbched copies.
          */
         public Object getProxyKey();
     }
 
     /**
-     * Releases system resources in use by ancillary SurfaceData objects,
-     * such as surfaces cached in accelerated memory.  Subclasses should
-     * override to release any of their flushable data.
+     * Relebses system resources in use by bncillbry SurfbceDbtb objects,
+     * such bs surfbces cbched in bccelerbted memory.  Subclbsses should
+     * override to relebse bny of their flushbble dbtb.
      * <p>
-     * The default implementation will visit all of the value objects
-     * in the cacheMap and flush them if they implement the
-     * FlushableCacheData interface.
+     * The defbult implementbtion will visit bll of the vblue objects
+     * in the cbcheMbp bnd flush them if they implement the
+     * FlushbbleCbcheDbtb interfbce.
      */
     public synchronized void flush() {
-        flush(false);
+        flush(fblse);
     }
 
-    synchronized void flush(boolean deaccelerate) {
-        if (cacheMap != null) {
-            Iterator<Object> i = cacheMap.values().iterator();
-            while (i.hasNext()) {
+    synchronized void flush(boolebn debccelerbte) {
+        if (cbcheMbp != null) {
+            Iterbtor<Object> i = cbcheMbp.vblues().iterbtor();
+            while (i.hbsNext()) {
                 Object o = i.next();
-                if (o instanceof FlushableCacheData) {
-                    if (((FlushableCacheData) o).flush(deaccelerate)) {
+                if (o instbnceof FlushbbleCbcheDbtb) {
+                    if (((FlushbbleCbcheDbtb) o).flush(debccelerbte)) {
                         i.remove();
                     }
                 }
@@ -259,47 +259,47 @@ public abstract class SurfaceManager {
     }
 
     /**
-     * An interface for Objects used in the SurfaceManager cache
-     * to implement if they have data that should be flushed when
-     * the Image is flushed.
+     * An interfbce for Objects used in the SurfbceMbnbger cbche
+     * to implement if they hbve dbtb thbt should be flushed when
+     * the Imbge is flushed.
      */
-    public static interface FlushableCacheData {
+    public stbtic interfbce FlushbbleCbcheDbtb {
         /**
-         * Flush all cached resources.
-         * The deaccelerated parameter indicates if the flush is
-         * happening because the associated surface is no longer
-         * being accelerated (for instance the acceleration priority
-         * is set below the threshold needed for acceleration).
-         * Returns a boolean that indicates if the cached object is
-         * no longer needed and should be removed from the cache.
+         * Flush bll cbched resources.
+         * The debccelerbted pbrbmeter indicbtes if the flush is
+         * hbppening becbuse the bssocibted surfbce is no longer
+         * being bccelerbted (for instbnce the bccelerbtion priority
+         * is set below the threshold needed for bccelerbtion).
+         * Returns b boolebn thbt indicbtes if the cbched object is
+         * no longer needed bnd should be removed from the cbche.
          */
-        public boolean flush(boolean deaccelerated);
+        public boolebn flush(boolebn debccelerbted);
     }
 
     /**
-     * Called when image's acceleration priority is changed.
+     * Cblled when imbge's bccelerbtion priority is chbnged.
      * <p>
-     * The default implementation will visit all of the value objects
-     * in the cacheMap when the priority gets set to 0.0 and flush them
-     * if they implement the FlushableCacheData interface.
+     * The defbult implementbtion will visit bll of the vblue objects
+     * in the cbcheMbp when the priority gets set to 0.0 bnd flush them
+     * if they implement the FlushbbleCbcheDbtb interfbce.
      */
-    public void setAccelerationPriority(float priority) {
+    public void setAccelerbtionPriority(flobt priority) {
         if (priority == 0.0f) {
             flush(true);
         }
     }
 
     /**
-     * Returns a scale factor of the image. This is utility method, which
-     * fetches information from the SurfaceData of the image.
+     * Returns b scble fbctor of the imbge. This is utility method, which
+     * fetches informbtion from the SurfbceDbtb of the imbge.
      *
-     * @see SurfaceData#getDefaultScale
+     * @see SurfbceDbtb#getDefbultScble
      */
-    public static int getImageScale(final Image img) {
-        if (!(img instanceof VolatileImage)) {
+    public stbtic int getImbgeScble(finbl Imbge img) {
+        if (!(img instbnceof VolbtileImbge)) {
             return 1;
         }
-        final SurfaceManager sm = getManager(img);
-        return sm.getPrimarySurfaceData().getDefaultScale();
+        finbl SurfbceMbnbger sm = getMbnbger(img);
+        return sm.getPrimbrySurfbceDbtb().getDefbultScble();
     }
 }

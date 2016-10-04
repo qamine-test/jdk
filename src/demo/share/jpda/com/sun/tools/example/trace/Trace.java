@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.trace;
+pbckbge com.sun.tools.exbmple.trbce;
 
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.Bootstrap;
+import com.sun.jdi.VirtublMbchine;
+import com.sun.jdi.Bootstrbp;
 import com.sun.jdi.connect.*;
 
-import java.util.Map;
-import java.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.List;
 
-import java.io.PrintWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import jbvb.io.PrintWriter;
+import jbvb.io.FileWriter;
+import jbvb.io.IOException;
 
 /**
- * This program traces the execution of another program.
- * See "java Trace -help".
- * It is a simple example of the use of the Java Debug Interface.
+ * This progrbm trbces the execution of bnother progrbm.
+ * See "jbvb Trbce -help".
+ * It is b simple exbmple of the use of the Jbvb Debug Interfbce.
  *
- * @author Robert Field
+ * @buthor Robert Field
  */
-public class Trace {
+public clbss Trbce {
 
     // Running remote VM
-    private final VirtualMachine vm;
+    privbte finbl VirtublMbchine vm;
 
-    // Thread transferring remote error stream to our error stream
-    private Thread errThread = null;
+    // Threbd trbnsferring remote error strebm to our error strebm
+    privbte Threbd errThrebd = null;
 
-    // Thread transferring remote output stream to our output stream
-    private Thread outThread = null;
+    // Threbd trbnsferring remote output strebm to our output strebm
+    privbte Threbd outThrebd = null;
 
-    // Mode for tracing the Trace program (default= 0 off)
-    private int debugTraceMode = 0;
+    // Mode for trbcing the Trbce progrbm (defbult= 0 off)
+    privbte int debugTrbceMode = 0;
 
-    //  Do we want to watch assignments to fields
-    private boolean watchFields = false;
+    //  Do we wbnt to wbtch bssignments to fields
+    privbte boolebn wbtchFields = fblse;
 
-    // Class patterns for which we don't want events
-    private String[] excludes = {"java.*", "javax.*", "sun.*",
+    // Clbss pbtterns for which we don't wbnt events
+    privbte String[] excludes = {"jbvb.*", "jbvbx.*", "sun.*",
                                  "com.sun.*"};
 
     /**
-     * main
+     * mbin
      */
-    public static void main(String[] args) {
-        new Trace(args);
+    public stbtic void mbin(String[] brgs) {
+        new Trbce(brgs);
     }
 
     /**
-     * Parse the command line arguments.
-     * Launch target VM.
-     * Generate the trace.
+     * Pbrse the commbnd line brguments.
+     * Lbunch tbrget VM.
+     * Generbte the trbce.
      */
-    Trace(String[] args) {
+    Trbce(String[] brgs) {
         PrintWriter writer = new PrintWriter(System.out);
         int inx;
-        for (inx = 0; inx < args.length; ++inx) {
-            String arg = args[inx];
-            if (arg.charAt(0) != '-') {
-                break;
+        for (inx = 0; inx < brgs.length; ++inx) {
+            String brg = brgs[inx];
+            if (brg.chbrAt(0) != '-') {
+                brebk;
             }
-            if (arg.equals("-output")) {
+            if (brg.equbls("-output")) {
                 try {
-                    writer = new PrintWriter(new FileWriter(args[++inx]));
-                } catch (IOException exc) {
-                    System.err.println("Cannot open output file: " + args[inx]
+                    writer = new PrintWriter(new FileWriter(brgs[++inx]));
+                } cbtch (IOException exc) {
+                    System.err.println("Cbnnot open output file: " + brgs[inx]
                                        + " - " +  exc);
                     System.exit(1);
                 }
-            } else if (arg.equals("-all")) {
+            } else if (brg.equbls("-bll")) {
                 excludes = new String[0];
-            } else if (arg.equals("-fields")) {
-                watchFields = true;
-            } else if (arg.equals("-dbgtrace")) {
-                debugTraceMode = Integer.parseInt(args[++inx]);
-            } else if (arg.equals("-help")) {
-                usage();
+            } else if (brg.equbls("-fields")) {
+                wbtchFields = true;
+            } else if (brg.equbls("-dbgtrbce")) {
+                debugTrbceMode = Integer.pbrseInt(brgs[++inx]);
+            } else if (brg.equbls("-help")) {
+                usbge();
                 System.exit(0);
             } else {
-                System.err.println("No option: " + arg);
-                usage();
+                System.err.println("No option: " + brg);
+                usbge();
                 System.exit(1);
             }
         }
-        if (inx >= args.length) {
-            System.err.println("<class> missing");
-            usage();
+        if (inx >= brgs.length) {
+            System.err.println("<clbss> missing");
+            usbge();
             System.exit(1);
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(args[inx]);
-        for (++inx; inx < args.length; ++inx) {
-            sb.append(' ');
-            sb.append(args[inx]);
+        sb.bppend(brgs[inx]);
+        for (++inx; inx < brgs.length; ++inx) {
+            sb.bppend(' ');
+            sb.bppend(brgs[inx]);
         }
-        vm = launchTarget(sb.toString());
-        generateTrace(writer);
+        vm = lbunchTbrget(sb.toString());
+        generbteTrbce(writer);
     }
 
 
     /**
-     * Generate the trace.
-     * Enable events, start thread to display events,
-     * start threads to forward remote error and output streams,
-     * resume the remote VM, wait for the final event, and shutdown.
+     * Generbte the trbce.
+     * Enbble events, stbrt threbd to displby events,
+     * stbrt threbds to forwbrd remote error bnd output strebms,
+     * resume the remote VM, wbit for the finbl event, bnd shutdown.
      */
-    void generateTrace(PrintWriter writer) {
-        vm.setDebugTraceMode(debugTraceMode);
-        EventThread eventThread = new EventThread(vm, excludes, writer);
-        eventThread.setEventRequests(watchFields);
-        eventThread.start();
+    void generbteTrbce(PrintWriter writer) {
+        vm.setDebugTrbceMode(debugTrbceMode);
+        EventThrebd eventThrebd = new EventThrebd(vm, excludes, writer);
+        eventThrebd.setEventRequests(wbtchFields);
+        eventThrebd.stbrt();
         redirectOutput();
         vm.resume();
 
-        // Shutdown begins when event thread terminates
+        // Shutdown begins when event threbd terminbtes
         try {
-            eventThread.join();
-            errThread.join(); // Make sure output is forwarded
-            outThread.join(); // before we exit
-        } catch (InterruptedException exc) {
+            eventThrebd.join();
+            errThrebd.join(); // Mbke sure output is forwbrded
+            outThrebd.join(); // before we exit
+        } cbtch (InterruptedException exc) {
             // we don't interrupt
         }
         writer.close();
     }
 
     /**
-     * Launch target VM.
-     * Forward target's output and error.
+     * Lbunch tbrget VM.
+     * Forwbrd tbrget's output bnd error.
      */
-    VirtualMachine launchTarget(String mainArgs) {
-        LaunchingConnector connector = findLaunchingConnector();
-        Map<String, Connector.Argument> arguments =
-           connectorArguments(connector, mainArgs);
+    VirtublMbchine lbunchTbrget(String mbinArgs) {
+        LbunchingConnector connector = findLbunchingConnector();
+        Mbp<String, Connector.Argument> brguments =
+           connectorArguments(connector, mbinArgs);
         try {
-            return connector.launch(arguments);
-        } catch (IOException exc) {
-            throw new Error("Unable to launch target VM: " + exc);
-        } catch (IllegalConnectorArgumentsException exc) {
-            throw new Error("Internal error: " + exc);
-        } catch (VMStartException exc) {
-            throw new Error("Target VM failed to initialize: " +
-                            exc.getMessage());
+            return connector.lbunch(brguments);
+        } cbtch (IOException exc) {
+            throw new Error("Unbble to lbunch tbrget VM: " + exc);
+        } cbtch (IllegblConnectorArgumentsException exc) {
+            throw new Error("Internbl error: " + exc);
+        } cbtch (VMStbrtException exc) {
+            throw new Error("Tbrget VM fbiled to initiblize: " +
+                            exc.getMessbge());
         }
     }
 
     void redirectOutput() {
         Process process = vm.process();
 
-        // Copy target's output and error to our output and error.
-        errThread = new StreamRedirectThread("error reader",
-                                             process.getErrorStream(),
+        // Copy tbrget's output bnd error to our output bnd error.
+        errThrebd = new StrebmRedirectThrebd("error rebder",
+                                             process.getErrorStrebm(),
                                              System.err);
-        outThread = new StreamRedirectThread("output reader",
-                                             process.getInputStream(),
+        outThrebd = new StrebmRedirectThrebd("output rebder",
+                                             process.getInputStrebm(),
                                              System.out);
-        errThread.start();
-        outThread.start();
+        errThrebd.stbrt();
+        outThrebd.stbrt();
     }
 
     /**
-     * Find a com.sun.jdi.CommandLineLaunch connector
+     * Find b com.sun.jdi.CommbndLineLbunch connector
      */
-    LaunchingConnector findLaunchingConnector() {
-        List<Connector> connectors = Bootstrap.virtualMachineManager().allConnectors();
+    LbunchingConnector findLbunchingConnector() {
+        List<Connector> connectors = Bootstrbp.virtublMbchineMbnbger().bllConnectors();
         for (Connector connector : connectors) {
-            if (connector.name().equals("com.sun.jdi.CommandLineLaunch")) {
-                return (LaunchingConnector)connector;
+            if (connector.nbme().equbls("com.sun.jdi.CommbndLineLbunch")) {
+                return (LbunchingConnector)connector;
             }
         }
-        throw new Error("No launching connector");
+        throw new Error("No lbunching connector");
     }
 
     /**
-     * Return the launching connector's arguments.
+     * Return the lbunching connector's brguments.
      */
-    Map<String, Connector.Argument> connectorArguments(LaunchingConnector connector, String mainArgs) {
-        Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        Connector.Argument mainArg =
-                           (Connector.Argument)arguments.get("main");
-        if (mainArg == null) {
-            throw new Error("Bad launching connector");
+    Mbp<String, Connector.Argument> connectorArguments(LbunchingConnector connector, String mbinArgs) {
+        Mbp<String, Connector.Argument> brguments = connector.defbultArguments();
+        Connector.Argument mbinArg =
+                           (Connector.Argument)brguments.get("mbin");
+        if (mbinArg == null) {
+            throw new Error("Bbd lbunching connector");
         }
-        mainArg.setValue(mainArgs);
+        mbinArg.setVblue(mbinArgs);
 
-        if (watchFields) {
-            // We need a VM that supports watchpoints
+        if (wbtchFields) {
+            // We need b VM thbt supports wbtchpoints
             Connector.Argument optionArg =
-                (Connector.Argument)arguments.get("options");
+                (Connector.Argument)brguments.get("options");
             if (optionArg == null) {
-                throw new Error("Bad launching connector");
+                throw new Error("Bbd lbunching connector");
             }
-            optionArg.setValue("-classic");
+            optionArg.setVblue("-clbssic");
         }
-        return arguments;
+        return brguments;
     }
 
     /**
-     * Print command line usage help
+     * Print commbnd line usbge help
      */
-    void usage() {
-        System.err.println("Usage: java Trace <options> <class> <args>");
-        System.err.println("<options> are:");
+    void usbge() {
+        System.err.println("Usbge: jbvb Trbce <options> <clbss> <brgs>");
+        System.err.println("<options> bre:");
         System.err.println(
-"  -output <filename>   Output trace to <filename>");
+"  -output <filenbme>   Output trbce to <filenbme>");
         System.err.println(
-"  -all                 Include system classes in output");
+"  -bll                 Include system clbsses in output");
         System.err.println(
-"  -help                Print this help message");
-        System.err.println("<class> is the program to trace");
-        System.err.println("<args> are the arguments to <class>");
+"  -help                Print this help messbge");
+        System.err.println("<clbss> is the progrbm to trbce");
+        System.err.println("<brgs> bre the brguments to <clbss>");
     }
 }

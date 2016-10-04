@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,19 +29,19 @@
  * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
  * the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so,
+ * provided thbt (b) the bbove copyright notice(s) bnd this permission notice
+ * bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove
+ * copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -53,23 +53,23 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written buthorizbtion
  * of the copyright holder.
  */
 
-//  Note: this file has been generated by a tool.
+//  Note: this file hbs been generbted by b tool.
 
-package sun.text.resources.da;
+pbckbge sun.text.resources.db;
 
 import sun.util.resources.OpenListResourceBundle;
 
-public class JavaTimeSupplementary_da extends OpenListResourceBundle {
+public clbss JbvbTimeSupplementbry_db extends OpenListResourceBundle {
     @Override
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "QuarterAbbreviations",
+            { "QubrterAbbrevibtions",
                 new String[] {
                     "K1",
                     "K2",
@@ -77,15 +77,15 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "K4",
                 }
             },
-            { "QuarterNames",
+            { "QubrterNbmes",
                 new String[] {
-                    "1. kvartal",
-                    "2. kvartal",
-                    "3. kvartal",
-                    "4. kvartal",
+                    "1. kvbrtbl",
+                    "2. kvbrtbl",
+                    "3. kvbrtbl",
+                    "4. kvbrtbl",
                 }
             },
-            { "QuarterNarrows",
+            { "QubrterNbrrows",
                 new String[] {
                     "1",
                     "2",
@@ -93,26 +93,26 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "4",
                 }
             },
-            { "calendarname.buddhist",
-                "buddhistisk kalender" },
-            { "calendarname.gregorian",
-                "gregoriansk kalender" },
-            { "calendarname.gregory",
-                "gregoriansk kalender" },
-            { "calendarname.islamic",
-                "islamisk kalender" },
-            { "calendarname.islamic-civil",
-                "verdslig islamisk kalender" },
-            { "calendarname.islamicc",
-                "verdslig islamisk kalender" },
-            { "calendarname.japanese",
-                "japansk kalender" },
-            { "calendarname.roc",
-                "kalender for Republikken Kina" },
-            { "field.dayperiod",
-                "dagtid" },
-            { "field.era",
-                "\u00e6ra" },
+            { "cblendbrnbme.buddhist",
+                "buddhistisk kblender" },
+            { "cblendbrnbme.gregoribn",
+                "gregoribnsk kblender" },
+            { "cblendbrnbme.gregory",
+                "gregoribnsk kblender" },
+            { "cblendbrnbme.islbmic",
+                "islbmisk kblender" },
+            { "cblendbrnbme.islbmic-civil",
+                "verdslig islbmisk kblender" },
+            { "cblendbrnbme.islbmicc",
+                "verdslig islbmisk kblender" },
+            { "cblendbrnbme.jbpbnese",
+                "jbpbnsk kblender" },
+            { "cblendbrnbme.roc",
+                "kblender for Republikken Kinb" },
+            { "field.dbyperiod",
+                "dbgtid" },
+            { "field.erb",
+                "\u00e6rb" },
             { "field.hour",
                 "time" },
             { "field.minute",
@@ -123,13 +123,13 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                 "sekund" },
             { "field.week",
                 "uge" },
-            { "field.weekday",
-                "ugedag" },
-            { "field.year",
+            { "field.weekdby",
+                "ugedbg" },
+            { "field.yebr",
                 "\u00e5r" },
             { "field.zone",
                 "tidszone" },
-            { "islamic.DatePatterns",
+            { "islbmic.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y GGGG",
                     "d. MMMM y GGGG",
@@ -137,7 +137,7 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "d/M/y GGGG",
                 }
             },
-            { "java.time.buddhist.DatePatterns",
+            { "jbvb.time.buddhist.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y G",
                     "d. MMMM y G",
@@ -145,7 +145,7 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "d/M/yyyy",
                 }
             },
-            { "java.time.islamic.DatePatterns",
+            { "jbvb.time.islbmic.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y G",
                     "d. MMMM y G",
@@ -153,7 +153,7 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "d/M/y G",
                 }
             },
-            { "java.time.japanese.DatePatterns",
+            { "jbvb.time.jbpbnese.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y G",
                     "d. MMMM y G",
@@ -161,13 +161,13 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "d/M/y GGGGG",
                 }
             },
-            { "java.time.long.Eras",
+            { "jbvb.time.long.Erbs",
                 new String[] {
                     "f.Kr.",
                     "e.Kr.",
                 }
             },
-            { "java.time.roc.DatePatterns",
+            { "jbvb.time.roc.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y G",
                     "d. MMMM y G",
@@ -175,13 +175,13 @@ public class JavaTimeSupplementary_da extends OpenListResourceBundle {
                     "d/M/y GGGGG",
                 }
             },
-            { "java.time.short.Eras",
+            { "jbvb.time.short.Erbs",
                 new String[] {
                     "f.Kr.",
                     "e.Kr.",
                 }
             },
-            { "roc.DatePatterns",
+            { "roc.DbtePbtterns",
                 new String[] {
                     "EEEE d. MMMM y GGGG",
                     "d. MMMM y GGGG",

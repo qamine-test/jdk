@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import sun.awt.X11CustomCursor;
-import java.awt.*;
+import sun.bwt.X11CustomCursor;
+import jbvb.bwt.*;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A clbss to encbpsulbte b custom imbge-bbsed cursor.
  *
  * @see Component#setCursor
- * @author      Thomas Ball
- * @author      Bino George
+ * @buthor      Thombs Bbll
+ * @buthor      Bino George
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class XCustomCursor extends X11CustomCursor {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss XCustomCursor extends X11CustomCursor {
 
-    public XCustomCursor(Image cursor, Point hotSpot, String name)
+    public XCustomCursor(Imbge cursor, Point hotSpot, String nbme)
       throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+        super(cursor, hotSpot, nbme);
     }
 
     /**
      * Returns the supported cursor size
      */
-    static Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
+    stbtic Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
 
-        // Fix for bug 4212593 The Toolkit.createCustomCursor does not
-        //                     check absence of the image of cursor
-        // We use XQueryBestCursor which accepts unsigned ints to obtain
-        // the largest cursor size that could be dislpayed
-        //Dimension d = new Dimension(Math.abs(preferredWidth), Math.abs(preferredHeight));
+        // Fix for bug 4212593 The Toolkit.crebteCustomCursor does not
+        //                     check bbsence of the imbge of cursor
+        // We use XQueryBestCursor which bccepts unsigned ints to obtbin
+        // the lbrgest cursor size thbt could be dislpbyed
+        //Dimension d = new Dimension(Mbth.bbs(preferredWidth), Mbth.bbs(preferredHeight));
         Dimension d;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            long display = XToolkit.getDisplay();
-            long root_window = XlibWrapper.RootWindow(display,
-                    XlibWrapper.DefaultScreen(display));
+            long displby = XToolkit.getDisplby();
+            long root_window = XlibWrbpper.RootWindow(displby,
+                    XlibWrbpper.DefbultScreen(displby));
 
-            XlibWrapper.XQueryBestCursor(display,root_window, Math.abs(preferredWidth),Math.abs(preferredHeight),XlibWrapper.larg1,XlibWrapper.larg2);
-            d = new Dimension(XlibWrapper.unsafe.getInt(XlibWrapper.larg1),XlibWrapper.unsafe.getInt(XlibWrapper.larg2));
+            XlibWrbpper.XQueryBestCursor(displby,root_window, Mbth.bbs(preferredWidth),Mbth.bbs(preferredHeight),XlibWrbpper.lbrg1,XlibWrbpper.lbrg2);
+            d = new Dimension(XlibWrbpper.unsbfe.getInt(XlibWrbpper.lbrg1),XlibWrbpper.unsbfe.getInt(XlibWrbpper.lbrg2));
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
         return d;
     }
 
-    protected void createCursor(byte[] xorMask, byte[] andMask,
+    protected void crebteCursor(byte[] xorMbsk, byte[] bndMbsk,
                                 int width, int height,
                                 int fcolor, int bcolor,
                                 int xHotSpot, int yHotSpot)
     {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            long display = XToolkit.getDisplay();
-            long root_window = XlibWrapper.RootWindow(display,
-                    XlibWrapper.DefaultScreen(display));
+            long displby = XToolkit.getDisplby();
+            long root_window = XlibWrbpper.RootWindow(displby,
+                    XlibWrbpper.DefbultScreen(displby));
 
-            long colormap = XToolkit.getDefaultXColormap();
+            long colormbp = XToolkit.getDefbultXColormbp();
             XColor fore_color = new XColor();
 
-            fore_color.set_flags((byte) (XConstants.DoRed | XConstants.DoGreen | XConstants.DoBlue));
+            fore_color.set_flbgs((byte) (XConstbnts.DoRed | XConstbnts.DoGreen | XConstbnts.DoBlue));
             fore_color.set_red((short)(((fcolor >> 16) & 0x000000ff) << 8));
             fore_color.set_green((short) (((fcolor >> 8) & 0x000000ff) << 8));
             fore_color.set_blue((short)(((fcolor >> 0) & 0x000000ff) << 8));
 
-            XlibWrapper.XAllocColor(display,colormap,fore_color.pData);
+            XlibWrbpper.XAllocColor(displby,colormbp,fore_color.pDbtb);
 
 
-            XColor back_color = new XColor();
-            back_color.set_flags((byte) (XConstants.DoRed | XConstants.DoGreen | XConstants.DoBlue));
+            XColor bbck_color = new XColor();
+            bbck_color.set_flbgs((byte) (XConstbnts.DoRed | XConstbnts.DoGreen | XConstbnts.DoBlue));
 
-            back_color.set_red((short) (((bcolor >> 16) & 0x000000ff) << 8));
-            back_color.set_green((short) (((bcolor >> 8) & 0x000000ff) << 8));
-            back_color.set_blue((short) (((bcolor >> 0) & 0x000000ff) << 8));
+            bbck_color.set_red((short) (((bcolor >> 16) & 0x000000ff) << 8));
+            bbck_color.set_green((short) (((bcolor >> 8) & 0x000000ff) << 8));
+            bbck_color.set_blue((short) (((bcolor >> 0) & 0x000000ff) << 8));
 
-            XlibWrapper.XAllocColor(display,colormap,back_color.pData);
+            XlibWrbpper.XAllocColor(displby,colormbp,bbck_color.pDbtb);
 
 
-            long nativeXorMask = Native.toData(xorMask);
-            long source = XlibWrapper.XCreateBitmapFromData(display,root_window,nativeXorMask,width,height);
+            long nbtiveXorMbsk = Nbtive.toDbtb(xorMbsk);
+            long source = XlibWrbpper.XCrebteBitmbpFromDbtb(displby,root_window,nbtiveXorMbsk,width,height);
 
-            long nativeAndMask = Native.toData(andMask);
-            long mask =  XlibWrapper.XCreateBitmapFromData(display,root_window,nativeAndMask,width,height);
+            long nbtiveAndMbsk = Nbtive.toDbtb(bndMbsk);
+            long mbsk =  XlibWrbpper.XCrebteBitmbpFromDbtb(displby,root_window,nbtiveAndMbsk,width,height);
 
-            long cursor = XlibWrapper.XCreatePixmapCursor(display,source,mask,fore_color.pData,back_color.pData,xHotSpot,yHotSpot);
+            long cursor = XlibWrbpper.XCrebtePixmbpCursor(displby,source,mbsk,fore_color.pDbtb,bbck_color.pDbtb,xHotSpot,yHotSpot);
 
-            XlibWrapper.unsafe.freeMemory(nativeXorMask);
-            XlibWrapper.unsafe.freeMemory(nativeAndMask);
-            XlibWrapper.XFreePixmap(display,source);
-            XlibWrapper.XFreePixmap(display,mask);
-            back_color.dispose();
+            XlibWrbpper.unsbfe.freeMemory(nbtiveXorMbsk);
+            XlibWrbpper.unsbfe.freeMemory(nbtiveAndMbsk);
+            XlibWrbpper.XFreePixmbp(displby,source);
+            XlibWrbpper.XFreePixmbp(displby,mbsk);
+            bbck_color.dispose();
             fore_color.dispose();
 
-            XGlobalCursorManager.setPData(this,cursor);
+            XGlobblCursorMbnbger.setPDbtb(this,cursor);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
 
     }

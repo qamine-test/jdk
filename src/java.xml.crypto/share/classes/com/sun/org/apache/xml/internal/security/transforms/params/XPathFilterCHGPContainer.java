@@ -3,231 +3,231 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms;
 
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformPbrbm;
+import com.sun.org.bpbche.xml.internbl.security.utils.ElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Implements the parameters for a custom Transform which has a better performance
- * than the xfilter2.
+ * Implements the pbrbmeters for b custom Trbnsform which hbs b better performbnce
+ * thbn the xfilter2.
  *
- * @author $Author: coheigea $
+ * @buthor $Author: coheigeb $
  */
-public class XPathFilterCHGPContainer extends ElementProxy implements TransformParam {
+public clbss XPbthFilterCHGPContbiner extends ElementProxy implements TrbnsformPbrbm {
 
-    public static final String TRANSFORM_XPATHFILTERCHGP =
-        "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmann/#xpathFilter";
+    public stbtic finbl String TRANSFORM_XPATHFILTERCHGP =
+        "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmbnn/#xpbthFilter";
 
     /** Field _ATT_FILTER_VALUE_INTERSECT */
-    private static final String _TAG_INCLUDE_BUT_SEARCH = "IncludeButSearch";
+    privbte stbtic finbl String _TAG_INCLUDE_BUT_SEARCH = "IncludeButSebrch";
 
     /** Field _ATT_FILTER_VALUE_SUBTRACT */
-    private static final String _TAG_EXCLUDE_BUT_SEARCH = "ExcludeButSearch";
+    privbte stbtic finbl String _TAG_EXCLUDE_BUT_SEARCH = "ExcludeButSebrch";
 
     /** Field _ATT_FILTER_VALUE_UNION */
-    private static final String _TAG_EXCLUDE = "Exclude";
+    privbte stbtic finbl String _TAG_EXCLUDE = "Exclude";
 
     /** Field _TAG_XPATHCHGP */
-    public static final String _TAG_XPATHCHGP = "XPathAlternative";
+    public stbtic finbl String _TAG_XPATHCHGP = "XPbthAlternbtive";
 
     /** Field _ATT_INCLUDESLASH */
-    public static final String _ATT_INCLUDESLASH = "IncludeSlashPolicy";
+    public stbtic finbl String _ATT_INCLUDESLASH = "IncludeSlbshPolicy";
 
-    /** Field IncludeSlash           */
-    public static final boolean IncludeSlash = true;
+    /** Field IncludeSlbsh           */
+    public stbtic finbl boolebn IncludeSlbsh = true;
 
-    /** Field ExcludeSlash           */
-    public static final boolean ExcludeSlash = false;
+    /** Field ExcludeSlbsh           */
+    public stbtic finbl boolebn ExcludeSlbsh = fblse;
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Constructor XPbthFilterCHGPContbiner
      *
      */
-    private XPathFilterCHGPContainer() {
-        // no instantiation
+    privbte XPbthFilterCHGPContbiner() {
+        // no instbntibtion
     }
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Constructor XPbthFilterCHGPContbiner
      *
-     * @param doc
-     * @param includeSlashPolicy
-     * @param includeButSearch
-     * @param excludeButSearch
-     * @param exclude
+     * @pbrbm doc
+     * @pbrbm includeSlbshPolicy
+     * @pbrbm includeButSebrch
+     * @pbrbm excludeButSebrch
+     * @pbrbm exclude
      */
-    private XPathFilterCHGPContainer(
-        Document doc, boolean includeSlashPolicy, String includeButSearch,
-        String excludeButSearch, String exclude
+    privbte XPbthFilterCHGPContbiner(
+        Document doc, boolebn includeSlbshPolicy, String includeButSebrch,
+        String excludeButSebrch, String exclude
     ) {
         super(doc);
 
-        if (includeSlashPolicy) {
+        if (includeSlbshPolicy) {
             this.constructionElement.setAttributeNS(
-                null, XPathFilterCHGPContainer._ATT_INCLUDESLASH, "true"
+                null, XPbthFilterCHGPContbiner._ATT_INCLUDESLASH, "true"
             );
         } else {
             this.constructionElement.setAttributeNS(
-                null, XPathFilterCHGPContainer._ATT_INCLUDESLASH, "false"
+                null, XPbthFilterCHGPContbiner._ATT_INCLUDESLASH, "fblse"
             );
         }
 
-        if ((includeButSearch != null) && (includeButSearch.trim().length() > 0)) {
-            Element includeButSearchElem =
-                ElementProxy.createElementForFamily(
-                    doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH
+        if ((includeButSebrch != null) && (includeButSebrch.trim().length() > 0)) {
+            Element includeButSebrchElem =
+                ElementProxy.crebteElementForFbmily(
+                    doc, this.getBbseNbmespbce(), XPbthFilterCHGPContbiner._TAG_INCLUDE_BUT_SEARCH
                 );
 
-            includeButSearchElem.appendChild(
-                this.doc.createTextNode(indentXPathText(includeButSearch))
+            includeButSebrchElem.bppendChild(
+                this.doc.crebteTextNode(indentXPbthText(includeButSebrch))
             );
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(includeButSearchElem);
+            XMLUtils.bddReturnToElement(this.constructionElement);
+            this.constructionElement.bppendChild(includeButSebrchElem);
         }
 
-        if ((excludeButSearch != null) && (excludeButSearch.trim().length() > 0)) {
-            Element excludeButSearchElem =
-                ElementProxy.createElementForFamily(
-                    doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH
+        if ((excludeButSebrch != null) && (excludeButSebrch.trim().length() > 0)) {
+            Element excludeButSebrchElem =
+                ElementProxy.crebteElementForFbmily(
+                    doc, this.getBbseNbmespbce(), XPbthFilterCHGPContbiner._TAG_EXCLUDE_BUT_SEARCH
                 );
 
-            excludeButSearchElem.appendChild(
-                this.doc.createTextNode(indentXPathText(excludeButSearch)));
+            excludeButSebrchElem.bppendChild(
+                this.doc.crebteTextNode(indentXPbthText(excludeButSebrch)));
 
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(excludeButSearchElem);
+            XMLUtils.bddReturnToElement(this.constructionElement);
+            this.constructionElement.bppendChild(excludeButSebrchElem);
         }
 
         if ((exclude != null) && (exclude.trim().length() > 0)) {
             Element excludeElem =
-                ElementProxy.createElementForFamily(
-                   doc, this.getBaseNamespace(), XPathFilterCHGPContainer._TAG_EXCLUDE);
+                ElementProxy.crebteElementForFbmily(
+                   doc, this.getBbseNbmespbce(), XPbthFilterCHGPContbiner._TAG_EXCLUDE);
 
-            excludeElem.appendChild(this.doc.createTextNode(indentXPathText(exclude)));
-            XMLUtils.addReturnToElement(this.constructionElement);
-            this.constructionElement.appendChild(excludeElem);
+            excludeElem.bppendChild(this.doc.crebteTextNode(indentXPbthText(exclude)));
+            XMLUtils.bddReturnToElement(this.constructionElement);
+            this.constructionElement.bppendChild(excludeElem);
         }
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * Method indentXPathText
+     * Method indentXPbthText
      *
-     * @param xp
+     * @pbrbm xp
      * @return the string with enters
      */
-    static String indentXPathText(String xp) {
-        if ((xp.length() > 2) && (!Character.isWhitespace(xp.charAt(0)))) {
+    stbtic String indentXPbthText(String xp) {
+        if ((xp.length() > 2) && (!Chbrbcter.isWhitespbce(xp.chbrAt(0)))) {
             return "\n" + xp + "\n";
         }
         return xp;
     }
 
     /**
-     * Constructor XPathFilterCHGPContainer
+     * Constructor XPbthFilterCHGPContbiner
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    private XPathFilterCHGPContainer(Element element, String BaseURI)
+    privbte XPbthFilterCHGPContbiner(Element element, String BbseURI)
         throws XMLSecurityException {
-        super(element, BaseURI);
+        super(element, BbseURI);
     }
 
     /**
-     * Creates a new XPathFilterCHGPContainer; needed for generation.
+     * Crebtes b new XPbthFilterCHGPContbiner; needed for generbtion.
      *
-     * @param doc
-     * @param includeSlashPolicy
-     * @param includeButSearch
-     * @param excludeButSearch
-     * @param exclude
-     * @return the created object
+     * @pbrbm doc
+     * @pbrbm includeSlbshPolicy
+     * @pbrbm includeButSebrch
+     * @pbrbm excludeButSebrch
+     * @pbrbm exclude
+     * @return the crebted object
      */
-    public static XPathFilterCHGPContainer getInstance(
-        Document doc, boolean includeSlashPolicy, String includeButSearch,
-        String excludeButSearch, String exclude
+    public stbtic XPbthFilterCHGPContbiner getInstbnce(
+        Document doc, boolebn includeSlbshPolicy, String includeButSebrch,
+        String excludeButSebrch, String exclude
     ) {
-        return new XPathFilterCHGPContainer(
-            doc, includeSlashPolicy, includeButSearch, excludeButSearch, exclude);
+        return new XPbthFilterCHGPContbiner(
+            doc, includeSlbshPolicy, includeButSebrch, excludeButSebrch, exclude);
     }
 
     /**
-     * Creates a XPathFilterCHGPContainer from an existing Element; needed for verification.
+     * Crebtes b XPbthFilterCHGPContbiner from bn existing Element; needed for verificbtion.
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      *
      * @throws XMLSecurityException
-     * @return the created object.
+     * @return the crebted object.
      */
-    public static XPathFilterCHGPContainer getInstance(
-        Element element, String BaseURI
+    public stbtic XPbthFilterCHGPContbiner getInstbnce(
+        Element element, String BbseURI
     ) throws XMLSecurityException {
-        return new XPathFilterCHGPContainer(element, BaseURI);
+        return new XPbthFilterCHGPContbiner(element, BbseURI);
     }
 
     /**
      * Method getXStr
      *
-     * @param type
+     * @pbrbm type
      * @return The Xstr
      */
-    private String getXStr(String type) {
-        if (this.length(this.getBaseNamespace(), type) != 1) {
+    privbte String getXStr(String type) {
+        if (this.length(this.getBbseNbmespbce(), type) != 1) {
             return "";
         }
 
         Element xElem =
             XMLUtils.selectNode(
-                this.constructionElement.getFirstChild(), this.getBaseNamespace(), type, 0
+                this.constructionElement.getFirstChild(), this.getBbseNbmespbce(), type, 0
             );
 
         return XMLUtils.getFullTextChildrenFromElement(xElem);
     }
 
     /**
-     * Method getIncludeButSearch
+     * Method getIncludeButSebrch
      *
      * @return the string
      */
-    public String getIncludeButSearch() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH);
+    public String getIncludeButSebrch() {
+        return this.getXStr(XPbthFilterCHGPContbiner._TAG_INCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getExcludeButSearch
+     * Method getExcludeButSebrch
      *
      * @return the string
      */
-    public String getExcludeButSearch() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH);
+    public String getExcludeButSebrch() {
+        return this.getXStr(XPbthFilterCHGPContbiner._TAG_EXCLUDE_BUT_SEARCH);
     }
 
     /**
@@ -236,55 +236,55 @@ public class XPathFilterCHGPContainer extends ElementProxy implements TransformP
      * @return the string
      */
     public String getExclude() {
-        return this.getXStr(XPathFilterCHGPContainer._TAG_EXCLUDE);
+        return this.getXStr(XPbthFilterCHGPContbiner._TAG_EXCLUDE);
     }
 
     /**
-     * Method getIncludeSlashPolicy
+     * Method getIncludeSlbshPolicy
      *
      * @return the string
      */
-    public boolean getIncludeSlashPolicy() {
+    public boolebn getIncludeSlbshPolicy() {
         return this.constructionElement.getAttributeNS(
-            null, XPathFilterCHGPContainer._ATT_INCLUDESLASH).equals("true");
+            null, XPbthFilterCHGPContbiner._ATT_INCLUDESLASH).equbls("true");
     }
 
     /**
-     * Returns the first Text node which contains information from the XPath
-     * Filter String. We must use this stupid hook to enable the here() function
+     * Returns the first Text node which contbins informbtion from the XPbth
+     * Filter String. We must use this stupid hook to enbble the here() function
      * to work.
      *
-     * $todo$ I dunno whether this crashes: <XPath> he<!-- comment -->re()/ds:Signature[1]</XPath>
-     * @param type
-     * @return the first Text node which contains information from the XPath 2 Filter String
+     * $todo$ I dunno whether this crbshes: <XPbth> he<!-- comment -->re()/ds:Signbture[1]</XPbth>
+     * @pbrbm type
+     * @return the first Text node which contbins informbtion from the XPbth 2 Filter String
      */
-    private Node getHereContextNode(String type) {
+    privbte Node getHereContextNode(String type) {
 
-        if (this.length(this.getBaseNamespace(), type) != 1) {
+        if (this.length(this.getBbseNbmespbce(), type) != 1) {
             return null;
         }
 
         return XMLUtils.selectNodeText(
-            this.constructionElement.getFirstChild(), this.getBaseNamespace(), type, 0
+            this.constructionElement.getFirstChild(), this.getBbseNbmespbce(), type, 0
         );
     }
 
     /**
-     * Method getHereContextNodeIncludeButSearch
+     * Method getHereContextNodeIncludeButSebrch
      *
      * @return the string
      */
-    public Node getHereContextNodeIncludeButSearch() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_INCLUDE_BUT_SEARCH);
+    public Node getHereContextNodeIncludeButSebrch() {
+        return this.getHereContextNode(XPbthFilterCHGPContbiner._TAG_INCLUDE_BUT_SEARCH);
     }
 
     /**
-     * Method getHereContextNodeExcludeButSearch
+     * Method getHereContextNodeExcludeButSebrch
      *
      * @return the string
      */
-    public Node getHereContextNodeExcludeButSearch() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_EXCLUDE_BUT_SEARCH);
+    public Node getHereContextNodeExcludeButSebrch() {
+        return this.getHereContextNode(XPbthFilterCHGPContbiner._TAG_EXCLUDE_BUT_SEARCH);
     }
 
     /**
@@ -293,24 +293,24 @@ public class XPathFilterCHGPContainer extends ElementProxy implements TransformP
      * @return the string
      */
     public Node getHereContextNodeExclude() {
-        return this.getHereContextNode(XPathFilterCHGPContainer._TAG_EXCLUDE);
+        return this.getHereContextNode(XPbthFilterCHGPContbiner._TAG_EXCLUDE);
     }
 
     /**
-     * Method getBaseLocalName
+     * Method getBbseLocblNbme
      *
      * @inheritDoc
      */
-    public final String getBaseLocalName() {
-        return XPathFilterCHGPContainer._TAG_XPATHCHGP;
+    public finbl String getBbseLocblNbme() {
+        return XPbthFilterCHGPContbiner._TAG_XPATHCHGP;
     }
 
     /**
-     * Method getBaseNamespace
+     * Method getBbseNbmespbce
      *
      * @inheritDoc
      */
-    public final String getBaseNamespace() {
+    public finbl String getBbseNbmespbce() {
         return TRANSFORM_XPATHFILTERCHGP;
     }
 }

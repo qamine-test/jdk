@@ -1,36 +1,36 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Set;
-import java.lang.Comparable; // to be substituted for jdk1.1.x
+import jbvb.util.Set;
+import jbvb.lbng.Compbrbble; // to be substituted for jdk1.1.x
 
 
 // jmx import
@@ -38,173 +38,173 @@ import java.lang.Comparable; // to be substituted for jdk1.1.x
 
 
 /**
- * <p>Describes a parameter used in one or more operations or
- * constructors of an open MBean.</p>
+ * <p>Describes b pbrbmeter used in one or more operbtions or
+ * constructors of bn open MBebn.</p>
  *
- * <p>This interface declares the same methods as the class {@link
- * javax.management.MBeanParameterInfo}.  A class implementing this
- * interface (typically {@link OpenMBeanParameterInfoSupport}) should
- * extend {@link javax.management.MBeanParameterInfo}.</p>
+ * <p>This interfbce declbres the sbme methods bs the clbss {@link
+ * jbvbx.mbnbgement.MBebnPbrbmeterInfo}.  A clbss implementing this
+ * interfbce (typicblly {@link OpenMBebnPbrbmeterInfoSupport}) should
+ * extend {@link jbvbx.mbnbgement.MBebnPbrbmeterInfo}.</p>
  *
  *
  * @since 1.5
  */
-public interface OpenMBeanParameterInfo {
+public interfbce OpenMBebnPbrbmeterInfo {
 
 
-    // Re-declares methods that are in class MBeanParameterInfo of JMX 1.0
-    // (these will be removed when MBeanParameterInfo is made a parent interface of this interface)
+    // Re-declbres methods thbt bre in clbss MBebnPbrbmeterInfo of JMX 1.0
+    // (these will be removed when MBebnPbrbmeterInfo is mbde b pbrent interfbce of this interfbce)
 
     /**
-     * Returns a human readable description of the parameter
-     * described by this <tt>OpenMBeanParameterInfo</tt> instance.
+     * Returns b humbn rebdbble description of the pbrbmeter
+     * described by this <tt>OpenMBebnPbrbmeterInfo</tt> instbnce.
      *
      * @return the description.
      */
     public String getDescription() ;
 
     /**
-     * Returns the name of the parameter
-     * described by this <tt>OpenMBeanParameterInfo</tt> instance.
+     * Returns the nbme of the pbrbmeter
+     * described by this <tt>OpenMBebnPbrbmeterInfo</tt> instbnce.
      *
-     * @return the name.
+     * @return the nbme.
      */
-    public String getName() ;
+    public String getNbme() ;
 
 
-    // Now declares methods that are specific to open MBeans
+    // Now declbres methods thbt bre specific to open MBebns
     //
 
     /**
-     * Returns the <i>open type</i> of the values of the parameter
-     * described by this <tt>OpenMBeanParameterInfo</tt> instance.
+     * Returns the <i>open type</i> of the vblues of the pbrbmeter
+     * described by this <tt>OpenMBebnPbrbmeterInfo</tt> instbnce.
      *
      * @return the open type.
      */
     public OpenType<?> getOpenType() ;
 
     /**
-     * Returns the default value for this parameter, if it has one, or
+     * Returns the defbult vblue for this pbrbmeter, if it hbs one, or
      * <tt>null</tt> otherwise.
      *
-     * @return the default value.
+     * @return the defbult vblue.
      */
-    public Object getDefaultValue() ;
+    public Object getDefbultVblue() ;
 
     /**
-     * Returns the set of legal values for this parameter, if it has
+     * Returns the set of legbl vblues for this pbrbmeter, if it hbs
      * one, or <tt>null</tt> otherwise.
      *
-     * @return the set of legal values.
+     * @return the set of legbl vblues.
      */
-    public Set<?> getLegalValues() ;
+    public Set<?> getLegblVblues() ;
 
     /**
-     * Returns the minimal value for this parameter, if it has one, or
+     * Returns the minimbl vblue for this pbrbmeter, if it hbs one, or
      * <tt>null</tt> otherwise.
      *
-     * @return the minimum value.
+     * @return the minimum vblue.
      */
-    public Comparable<?> getMinValue() ;
+    public Compbrbble<?> getMinVblue() ;
 
     /**
-     * Returns the maximal value for this parameter, if it has one, or
+     * Returns the mbximbl vblue for this pbrbmeter, if it hbs one, or
      * <tt>null</tt> otherwise.
      *
-     * @return the maximum value.
+     * @return the mbximum vblue.
      */
-    public Comparable<?> getMaxValue() ;
+    public Compbrbble<?> getMbxVblue() ;
 
     /**
-     * Returns <tt>true</tt> if this parameter has a specified default
-     * value, or <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if this pbrbmeter hbs b specified defbult
+     * vblue, or <tt>fblse</tt> otherwise.
      *
-     * @return true if there is a default value.
+     * @return true if there is b defbult vblue.
      */
-    public boolean hasDefaultValue() ;
+    public boolebn hbsDefbultVblue() ;
 
     /**
-     * Returns <tt>true</tt> if this parameter has a specified set of
-     * legal values, or <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if this pbrbmeter hbs b specified set of
+     * legbl vblues, or <tt>fblse</tt> otherwise.
      *
-     * @return true if there is a set of legal values.
+     * @return true if there is b set of legbl vblues.
      */
-    public boolean hasLegalValues() ;
+    public boolebn hbsLegblVblues() ;
 
     /**
-     * Returns <tt>true</tt> if this parameter has a specified minimal
-     * value, or <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if this pbrbmeter hbs b specified minimbl
+     * vblue, or <tt>fblse</tt> otherwise.
      *
-     * @return true if there is a minimum value.
+     * @return true if there is b minimum vblue.
      */
-    public boolean hasMinValue() ;
+    public boolebn hbsMinVblue() ;
 
     /**
-     * Returns <tt>true</tt> if this parameter has a specified maximal
-     * value, or <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if this pbrbmeter hbs b specified mbximbl
+     * vblue, or <tt>fblse</tt> otherwise.
      *
-     * @return true if there is a maximum value.
+     * @return true if there is b mbximum vblue.
      */
-    public boolean hasMaxValue() ;
+    public boolebn hbsMbxVblue() ;
 
     /**
-     * Tests whether <var>obj</var> is a valid value for the parameter
-     * described by this <code>OpenMBeanParameterInfo</code> instance.
+     * Tests whether <vbr>obj</vbr> is b vblid vblue for the pbrbmeter
+     * described by this <code>OpenMBebnPbrbmeterInfo</code> instbnce.
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj the object to be tested.
      *
-     * @return <code>true</code> if <var>obj</var> is a valid value
-     * for the parameter described by this
-     * <code>OpenMBeanParameterInfo</code> instance,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if <vbr>obj</vbr> is b vblid vblue
+     * for the pbrbmeter described by this
+     * <code>OpenMBebnPbrbmeterInfo</code> instbnce,
+     * <code>fblse</code> otherwise.
      */
-    public boolean isValue(Object obj) ;
+    public boolebn isVblue(Object obj) ;
 
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>OpenMBeanParameterInfo</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this <code>OpenMBebnPbrbmeterInfo</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>OpenMBeanParameterInfo</code> interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>OpenMBebnPbrbmeterInfo</code> interfbce,</li>
+     * <li>their nbmes bre equbl</li>
+     * <li>their open types bre equbl</li>
+     * <li>their defbult, min, mbx bnd legbl vblues bre equbl.</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>OpenMBeanParameterInfo</code> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for <vbr>obj</vbr> pbrbmeters which bre
+     * different implementbtions of the <code>OpenMBebnPbrbmeterInfo</code> interfbce.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>OpenMBeanParameterInfo</code> instance;
+     * @pbrbm  obj  the object to be compbred for equblity with this <code>OpenMBebnPbrbmeterInfo</code> instbnce;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanParameterInfo</code> instance.
+     * @return  <code>true</code> if the specified object is equbl to this <code>OpenMBebnPbrbmeterInfo</code> instbnce.
      */
-    public boolean equals(Object obj);
+    public boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this <code>OpenMBeanParameterInfo</code> instance.
+     * Returns the hbsh code vblue for this <code>OpenMBebnPbrbmeterInfo</code> instbnce.
      * <p>
-     * The hash code of an <code>OpenMBeanParameterInfo</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its name, its <i>open type</i>, and its default, min, max and legal values).
+     * The hbsh code of bn <code>OpenMBebnPbrbmeterInfo</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its nbme, its <i>open type</i>, bnd its defbult, min, mbx bnd legbl vblues).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>OpenMBeanParameterInfo</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>OpenMBebnPbrbmeterInfo</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      *
-     * @return  the hash code value for this <code>OpenMBeanParameterInfo</code> instance
+     * @return  the hbsh code vblue for this <code>OpenMBebnPbrbmeterInfo</code> instbnce
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Returns a string representation of this <code>OpenMBeanParameterInfo</code> instance.
+     * Returns b string representbtion of this <code>OpenMBebnPbrbmeterInfo</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.OpenMBeanParameterInfo</code>),
-     * the string representation of the name and open type of the described parameter,
-     * and the string representation of its default, min, max and legal values.
+     * The string representbtion consists of the nbme of this clbss (ie <code>jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo</code>),
+     * the string representbtion of the nbme bnd open type of the described pbrbmeter,
+     * bnd the string representbtion of its defbult, min, mbx bnd legbl vblues.
      *
-     * @return  a string representation of this <code>OpenMBeanParameterInfo</code> instance
+     * @return  b string representbtion of this <code>OpenMBebnPbrbmeterInfo</code> instbnce
      */
     public String toString();
 

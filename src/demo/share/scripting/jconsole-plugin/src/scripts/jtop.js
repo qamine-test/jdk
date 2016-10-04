@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,84 +30,84 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  * This code is "ported" from JTop demo. This file defines
- * 'jtop' function. jtop prints threads sorting by CPU time. 
- * jtop can be called once or periodically from a timer thread. 
- * To call this once, just call 'jtop()' in script console prompt. 
- * To call jtop in a timer thread, you can use
+ * 'jtop' function. jtop prints threbds sorting by CPU time. 
+ * jtop cbn be cblled once or periodicblly from b timer threbd. 
+ * To cbll this once, just cbll 'jtop()' in script console prompt. 
+ * To cbll jtop in b timer threbd, you cbn use
  *
- *     var t = setInterval(function () { jtop(print); }, 2000); 
+ *     vbr t = setIntervbl(function () { jtop(print); }, 2000); 
  *
- * The above call prints threads in sorted order for every 2 seconds.
- * The print output goes to OS console window from which jconsole was 
- * started. The timer can be cancelled later by clearTimeout() function
- * as shown below:
+ * The bbove cbll prints threbds in sorted order for every 2 seconds.
+ * The print output goes to OS console window from which jconsole wbs 
+ * stbrted. The timer cbn be cbncelled lbter by clebrTimeout() function
+ * bs shown below:
  *
- *     clearInterval(t);
+ *     clebrIntervbl(t);
  */
 
 /**
- * This function returns a List of Map.Entry objects
- * in which each entry maps cpu time to ThreadInfo.
+ * This function returns b List of Mbp.Entry objects
+ * in which ebch entry mbps cpu time to ThrebdInfo.
  */
-function getThreadList() {
-    var tmbean = newPlatformMXBeanProxy(
-        "java.lang:type=Threading",
-        java.lang.management.ThreadMXBean.class);
+function getThrebdList() {
+    vbr tmbebn = newPlbtformMXBebnProxy(
+        "jbvb.lbng:type=Threbding",
+        jbvb.lbng.mbnbgement.ThrebdMXBebn.clbss);
 
-    if (!tmbean.isThreadCpuTimeSupported()) {
-        return java.util.Collections.EMPTY_LIST;
+    if (!tmbebn.isThrebdCpuTimeSupported()) {
+        return jbvb.util.Collections.EMPTY_LIST;
     }
 
-    tmbean.setThreadCpuTimeEnabled(true);
+    tmbebn.setThrebdCpuTimeEnbbled(true);
 
-    var tids = tmbean.allThreadIds;
-    var tinfos = tmbean["getThreadInfo(long[])"](tids);
+    vbr tids = tmbebn.bllThrebdIds;
+    vbr tinfos = tmbebn["getThrebdInfo(long[])"](tids);
 
-    var map = new java.util.TreeMap();
-    for (var i in tids) {
-        var cpuTime = tmbean.getThreadCpuTime(tids[i]);
+    vbr mbp = new jbvb.util.TreeMbp();
+    for (vbr i in tids) {
+        vbr cpuTime = tmbebn.getThrebdCpuTime(tids[i]);
         if (cpuTime != -1 && tinfos[i] != null) {
-            map.put(cpuTime, tinfos[i]);
+            mbp.put(cpuTime, tinfos[i]);
         }
     }
-    var list = new java.util.ArrayList(map.entrySet());
-    java.util.Collections.reverse(list);
+    vbr list = new jbvb.util.ArrbyList(mbp.entrySet());
+    jbvb.util.Collections.reverse(list);
     return list;
 }
 
 /**
- * This function prints threads sorted by CPU time.
+ * This function prints threbds sorted by CPU time.
  *
- * @param printFunc function called back to print [optional]
+ * @pbrbm printFunc function cblled bbck to print [optionbl]
  *
- * By default, it uses 'echo' function to print in screen.
- * Other choices could be 'print' (prints in console), 'alert'
- * to show message box. Or you can define a function that writes
- * the output to a text file.
+ * By defbult, it uses 'echo' function to print in screen.
+ * Other choices could be 'print' (prints in console), 'blert'
+ * to show messbge box. Or you cbn define b function thbt writes
+ * the output to b text file.
  */ 
 function jtop(printFunc) {
     if (printFunc == undefined) {
         printFunc = echo;
     }
-    var list = getThreadList();
-    var itr = list.iterator();
-    printFunc("time - state - name");
-    while (itr.hasNext()) {
-        var entry = itr.next();
-        // time is in nanoseconds - convert to seconds
-        var time = entry.key / 1.0e9;
-        var name = entry.value.threadName;
-        var state = entry.value.threadState;
-        printFunc(time + " - " + state + " - " + name); 
+    vbr list = getThrebdList();
+    vbr itr = list.iterbtor();
+    printFunc("time - stbte - nbme");
+    while (itr.hbsNext()) {
+        vbr entry = itr.next();
+        // time is in nbnoseconds - convert to seconds
+        vbr time = entry.key / 1.0e9;
+        vbr nbme = entry.vblue.threbdNbme;
+        vbr stbte = entry.vblue.threbdStbte;
+        printFunc(time + " - " + stbte + " - " + nbme); 
     }
 }

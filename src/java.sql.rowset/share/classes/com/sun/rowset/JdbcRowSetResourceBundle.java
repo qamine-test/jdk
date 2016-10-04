@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset;
+pbckbge com.sun.rowset;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * This class is used to help in localization of resources,
- * especially the exception strings.
+ * This clbss is used to help in locblizbtion of resources,
+ * especiblly the exception strings.
  *
- * @author Amit Handa
+ * @buthor Amit Hbndb
  */
 
-public class JdbcRowSetResourceBundle implements Serializable {
+public clbss JdbcRowSetResourceBundle implements Seriblizbble {
 
     /**
-     * This <code>String</code> variable stores the location
-     * of the resource bundle location.
+     * This <code>String</code> vbribble stores the locbtion
+     * of the resource bundle locbtion.
      */
-    private static String fileName;
+    privbte stbtic String fileNbme;
 
     /**
-     * This variable will hold the <code>PropertyResourceBundle</code>
-     * of the text to be internationalized.
+     * This vbribble will hold the <code>PropertyResourceBundle</code>
+     * of the text to be internbtionblized.
      */
-    private transient PropertyResourceBundle propResBundle;
+    privbte trbnsient PropertyResourceBundle propResBundle;
 
     /**
-     * The constructor initializes to this object
+     * The constructor initiblizes to this object
      *
      */
-    private static volatile JdbcRowSetResourceBundle jpResBundle;
+    privbte stbtic volbtile JdbcRowSetResourceBundle jpResBundle;
 
     /**
-     * The variable which will represent the properties
+     * The vbribble which will represent the properties
      * the suffix or extension of the resource bundle.
      **/
-    private static final String PROPERTIES = "properties";
+    privbte stbtic finbl String PROPERTIES = "properties";
 
     /**
-     * The variable to represent underscore
+     * The vbribble to represent underscore
      **/
-    private static final String UNDERSCORE = "_";
+    privbte stbtic finbl String UNDERSCORE = "_";
 
     /**
-     * The variable which will represent dot
+     * The vbribble which will represent dot
      **/
-    private static final String DOT = ".";
+    privbte stbtic finbl String DOT = ".";
 
     /**
-     * The variable which will represent the slash.
+     * The vbribble which will represent the slbsh.
      **/
-    private static final String SLASH = "/";
+    privbte stbtic finbl String SLASH = "/";
 
     /**
-     * The variable where the default resource bundle will
-     * be placed.
+     * The vbribble where the defbult resource bundle will
+     * be plbced.
      **/
-    private static final String PATH = "com/sun/rowset/RowSetResourceBundle";
+    privbte stbtic finbl String PATH = "com/sun/rowset/RowSetResourceBundle";
 
     /**
-     * The constructor which initializes the resource bundle.
-     * Note this is a private constructor and follows Singleton
-     * Design Pattern.
+     * The constructor which initiblizes the resource bundle.
+     * Note this is b privbte constructor bnd follows Singleton
+     * Design Pbttern.
      *
-     * @throws IOException if unable to load the ResourceBundle
-     * according to locale or the default one.
+     * @throws IOException if unbble to lobd the ResourceBundle
+     * bccording to locble or the defbult one.
      */
-    private JdbcRowSetResourceBundle () throws IOException {
-        // Try to load the resource bundle according
-        // to the locale. Else if no bundle found according
-        // to the locale load the default.
+    privbte JdbcRowSetResourceBundle () throws IOException {
+        // Try to lobd the resource bundle bccording
+        // to the locble. Else if no bundle found bccording
+        // to the locble lobd the defbult.
 
-        // In default case the default locale resource bundle
-        // should always be loaded else it
-        // will be difficult to throw appropriate
-        // exception string messages.
-        Locale locale = Locale.getDefault();
+        // In defbult cbse the defbult locble resource bundle
+        // should blwbys be lobded else it
+        // will be difficult to throw bppropribte
+        // exception string messbges.
+        Locble locble = Locble.getDefbult();
 
-        // Load appropriate bundle according to locale
+        // Lobd bppropribte bundle bccording to locble
          propResBundle = (PropertyResourceBundle) ResourceBundle.getBundle(PATH,
-                           locale, Thread.currentThread().getContextClassLoader());
+                           locble, Threbd.currentThrebd().getContextClbssLobder());
 
    }
 
     /**
-     * This method is used to get a handle to the
-     * initialized instance of this class. Note that
-     * at any time there is only one instance of this
-     * class initialized which will be returned.
+     * This method is used to get b hbndle to the
+     * initiblized instbnce of this clbss. Note thbt
+     * bt bny time there is only one instbnce of this
+     * clbss initiblized which will be returned.
      *
-     * @throws IOException if unable to find the RowSetResourceBundle.properties
+     * @throws IOException if unbble to find the RowSetResourceBundle.properties
      */
-    public static JdbcRowSetResourceBundle getJdbcRowSetResourceBundle()
+    public stbtic JdbcRowSetResourceBundle getJdbcRowSetResourceBundle()
     throws IOException {
 
          if(jpResBundle == null){
-             synchronized(JdbcRowSetResourceBundle.class) {
+             synchronized(JdbcRowSetResourceBundle.clbss) {
                 if(jpResBundle == null){
                     jpResBundle = new JdbcRowSetResourceBundle();
                 } //end if
@@ -129,29 +129,29 @@ public class JdbcRowSetResourceBundle implements Serializable {
     }
 
     /**
-     * This method returns an enumerated handle of the keys
-     * which correspond to values translated to various locales.
+     * This method returns bn enumerbted hbndle of the keys
+     * which correspond to vblues trbnslbted to vbrious locbles.
      *
-     * @return an enumeration of keys which have messages tranlated to
-     * corresponding locales.
+     * @return bn enumerbtion of keys which hbve messbges trbnlbted to
+     * corresponding locbles.
      */
-    @SuppressWarnings("rawtypes")
-    public Enumeration getKeys() {
+    @SuppressWbrnings("rbwtypes")
+    public Enumerbtion getKeys() {
        return propResBundle.getKeys();
     }
 
 
     /**
-     * This method takes the key as an argument and
-     * returns the corresponding value reading it
-     * from the Resource Bundle loaded earlier.
+     * This method tbkes the key bs bn brgument bnd
+     * returns the corresponding vblue rebding it
+     * from the Resource Bundle lobded ebrlier.
      *
-     * @return value in locale specific language
-     * according to the key passed.
+     * @return vblue in locble specific lbngubge
+     * bccording to the key pbssed.
      */
-    public Object handleGetObject(String key) {
-       return propResBundle.handleGetObject(key);
+    public Object hbndleGetObject(String key) {
+       return propResBundle.hbndleGetObject(key);
     }
 
-    static final long serialVersionUID = 436199386225359954L;
+    stbtic finbl long seriblVersionUID = 436199386225359954L;
 }

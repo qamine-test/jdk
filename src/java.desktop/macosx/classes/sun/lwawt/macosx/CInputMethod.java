@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.im.spi.*;
-import java.util.*;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.im.*;
-import java.awt.font.*;
-import java.lang.Character.Subset;
-import java.lang.reflect.InvocationTargetException;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.*;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.im.spi.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.im.*;
+import jbvb.bwt.font.*;
+import jbvb.lbng.Chbrbcter.Subset;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.text.*;
+import jbvbx.swing.text.JTextComponent;
 
-import sun.awt.im.InputMethodAdapter;
-import sun.lwawt.*;
+import sun.bwt.im.InputMethodAdbpter;
+import sun.lwbwt.*;
 
-public class CInputMethod extends InputMethodAdapter {
-    private InputMethodContext fIMContext;
-    private Component fAwtFocussedComponent;
-    private LWComponentPeer<?, ?> fAwtFocussedComponentPeer;
-    private boolean isActive;
+public clbss CInputMethod extends InputMethodAdbpter {
+    privbte InputMethodContext fIMContext;
+    privbte Component fAwtFocussedComponent;
+    privbte LWComponentPeer<?, ?> fAwtFocussedComponentPeer;
+    privbte boolebn isActive;
 
-    private static Map<TextAttribute, Integer>[] sHighlightStyles;
+    privbte stbtic Mbp<TextAttribute, Integer>[] sHighlightStyles;
 
-    // Intitalize highlight mapping table and its mapper.
-    static {
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        Map<TextAttribute, Integer> styles[] = new Map[4];
-        HashMap<TextAttribute, Integer> map;
+    // Intitblize highlight mbpping tbble bnd its mbpper.
+    stbtic {
+        @SuppressWbrnings({"rbwtypes", "unchecked"})
+        Mbp<TextAttribute, Integer> styles[] = new Mbp[4];
+        HbshMbp<TextAttribute, Integer> mbp;
 
         // UNSELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
+        mbp = new HbshMbp<TextAttribute, Integer>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE,
                 TextAttribute.UNDERLINE_LOW_GRAY);
-        styles[0] = Collections.unmodifiableMap(map);
+        styles[0] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
+        mbp = new HbshMbp<TextAttribute, Integer>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE,
                 TextAttribute.UNDERLINE_LOW_GRAY);
-        styles[1] = Collections.unmodifiableMap(map);
+        styles[1] = Collections.unmodifibbleMbp(mbp);
 
         // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
+        mbp = new HbshMbp<TextAttribute, Integer>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE,
                 TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        styles[2] = Collections.unmodifiableMap(map);
+        styles[2] = Collections.unmodifibbleMbp(mbp);
 
         // SELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
+        mbp = new HbshMbp<TextAttribute, Integer>(1);
+        mbp.put(TextAttribute.INPUT_METHOD_UNDERLINE,
                 TextAttribute.UNDERLINE_LOW_TWO_PIXEL);
-        styles[3] = Collections.unmodifiableMap(map);
+        styles[3] = Collections.unmodifibbleMbp(mbp);
 
         sHighlightStyles = styles;
 
-        nativeInit();
+        nbtiveInit();
 
     }
 
@@ -90,14 +90,14 @@ public class CInputMethod extends InputMethodAdapter {
 
 
     /**
-        * Sets the input method context, which is used to dispatch input method
-     * events to the client component and to request information from
+        * Sets the input method context, which is used to dispbtch input method
+     * events to the client component bnd to request informbtion from
      * the client component.
      * <p>
-     * This method is called once immediately after instantiating this input
+     * This method is cblled once immedibtely bfter instbntibting this input
      * method.
      *
-     * @param context the input method context for this input method
+     * @pbrbm context the input method context for this input method
      * @exception NullPointerException if <code>context</code> is null
      */
     public void setInputMethodContext(InputMethodContext context) {
@@ -105,213 +105,213 @@ public class CInputMethod extends InputMethodAdapter {
     }
 
     /**
-        * Attempts to set the input locale. If the input method supports the
-     * desired locale, it changes its behavior to support input for the locale
-     * and returns true.
-     * Otherwise, it returns false and does not change its behavior.
+        * Attempts to set the input locble. If the input method supports the
+     * desired locble, it chbnges its behbvior to support input for the locble
+     * bnd returns true.
+     * Otherwise, it returns fblse bnd does not chbnge its behbvior.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
-     * <li>when switching to this input method through the user interface if the user
-     *     specified a locale or if the previously selected input method's
-     *     {@link java.awt.im.spi.InputMethod#getLocale getLocale} method
-     *     returns a non-null value.
+     * <li>by {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
+     * <li>when switching to this input method through the user interfbce if the user
+     *     specified b locble or if the previously selected input method's
+     *     {@link jbvb.bwt.im.spi.InputMethod#getLocble getLocble} method
+     *     returns b non-null vblue.
      * </ul>
      *
-     * @param lang locale to input
-     * @return whether the specified locale is supported
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm lbng locble to input
+     * @return whether the specified locble is supported
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public boolean setLocale(Locale lang) {
-        return setLocale(lang, false);
+    public boolebn setLocble(Locble lbng) {
+        return setLocble(lbng, fblse);
     }
 
-    private boolean setLocale(Locale lang, boolean onActivate) {
-        Object[] available = CInputMethodDescriptor.getAvailableLocalesInternal();
-        for (int i = 0; i < available.length; i++) {
-            Locale locale = (Locale)available[i];
-            if (lang.equals(locale) ||
-                // special compatibility rule for Japanese and Korean
-                locale.equals(Locale.JAPAN) && lang.equals(Locale.JAPANESE) ||
-                locale.equals(Locale.KOREA) && lang.equals(Locale.KOREAN)) {
+    privbte boolebn setLocble(Locble lbng, boolebn onActivbte) {
+        Object[] bvbilbble = CInputMethodDescriptor.getAvbilbbleLocblesInternbl();
+        for (int i = 0; i < bvbilbble.length; i++) {
+            Locble locble = (Locble)bvbilbble[i];
+            if (lbng.equbls(locble) ||
+                // specibl compbtibility rule for Jbpbnese bnd Korebn
+                locble.equbls(Locble.JAPAN) && lbng.equbls(Locble.JAPANESE) ||
+                locble.equbls(Locble.KOREA) && lbng.equbls(Locble.KOREAN)) {
                 if (isActive) {
-                    setNativeLocale(locale.toString(), onActivate);
+                    setNbtiveLocble(locble.toString(), onActivbte);
                 }
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-        * Returns the current input locale. Might return null in exceptional cases.
+        * Returns the current input locble. Might return null in exceptionbl cbses.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#getLocale InputContext.getLocale} and
-     * <li>when switching from this input method to a different one through the
-     *     user interface.
+     * <li>by {@link jbvb.bwt.im.InputContext#getLocble InputContext.getLocble} bnd
+     * <li>when switching from this input method to b different one through the
+     *     user interfbce.
      * </ul>
      *
-     * @return the current input locale, or null
+     * @return the current input locble, or null
      */
-    public Locale getLocale() {
-        // On Mac OS X we'll ask the currently active input method what its locale is.
-        Locale returnValue = getNativeLocale();
-        if (returnValue == null) {
-            returnValue = Locale.getDefault();
+    public Locble getLocble() {
+        // On Mbc OS X we'll bsk the currently bctive input method whbt its locble is.
+        Locble returnVblue = getNbtiveLocble();
+        if (returnVblue == null) {
+            returnVblue = Locble.getDefbult();
         }
 
-        return returnValue;
+        return returnVblue;
     }
 
     /**
-        * Sets the subsets of the Unicode character set that this input method
-     * is allowed to input. Null may be passed in to indicate that all
-     * characters are allowed.
+        * Sets the subsets of the Unicode chbrbcter set thbt this input method
+     * is bllowed to input. Null mby be pbssed in to indicbte thbt bll
+     * chbrbcters bre bllowed.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>immediately after instantiating this input method,
-     * <li>when switching to this input method from a different one, and
-     * <li>by {@link java.awt.im.InputContext#setCharacterSubsets InputContext.setCharacterSubsets}.
+     * <li>immedibtely bfter instbntibting this input method,
+     * <li>when switching to this input method from b different one, bnd
+     * <li>by {@link jbvb.bwt.im.InputContext#setChbrbcterSubsets InputContext.setChbrbcterSubsets}.
      * </ul>
      *
-     * @param subsets the subsets of the Unicode character set from which
-     * characters may be input
+     * @pbrbm subsets the subsets of the Unicode chbrbcter set from which
+     * chbrbcters mby be input
      */
-    public void setCharacterSubsets(Subset[] subsets) {
-        // -- SAK: Does mac OS X support this?
+    public void setChbrbcterSubsets(Subset[] subsets) {
+        // -- SAK: Does mbc OS X support this?
     }
 
     /**
-        * Composition cannot be set on Mac OS X -- the input method remembers this
+        * Composition cbnnot be set on Mbc OS X -- the input method remembers this
      */
-    public void setCompositionEnabled(boolean enable) {
-        throw new UnsupportedOperationException("Can't adjust composition mode on Mac OS X.");
+    public void setCompositionEnbbled(boolebn enbble) {
+        throw new UnsupportedOperbtionException("Cbn't bdjust composition mode on Mbc OS X.");
     }
 
-    public boolean isCompositionEnabled() {
-        throw new UnsupportedOperationException("Can't adjust composition mode on Mac OS X.");
+    public boolebn isCompositionEnbbled() {
+        throw new UnsupportedOperbtionException("Cbn't bdjust composition mode on Mbc OS X.");
     }
 
     /**
-     * Dispatches the event to the input method. If input method support is
-     * enabled for the focussed component, incoming events of certain types
-     * are dispatched to the current input method for this component before
-     * they are dispatched to the component's methods or event listeners.
-     * The input method decides whether it needs to handle the event. If it
-     * does, it also calls the event's <code>consume</code> method; this
-     * causes the event to not get dispatched to the component's event
+     * Dispbtches the event to the input method. If input method support is
+     * enbbled for the focussed component, incoming events of certbin types
+     * bre dispbtched to the current input method for this component before
+     * they bre dispbtched to the component's methods or event listeners.
+     * The input method decides whether it needs to hbndle the event. If it
+     * does, it blso cblls the event's <code>consume</code> method; this
+     * cbuses the event to not get dispbtched to the component's event
      * processing methods or event listeners.
      * <p>
-     * Events are dispatched if they are instances of InputEvent or its
-     * subclasses.
-     * This includes instances of the AWT classes KeyEvent and MouseEvent.
+     * Events bre dispbtched if they bre instbnces of InputEvent or its
+     * subclbsses.
+     * This includes instbnces of the AWT clbsses KeyEvent bnd MouseEvent.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}.
+     * This method is cblled by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}.
      *
-     * @param event the event being dispatched to the input method
+     * @pbrbm event the event being dispbtched to the input method
      * @exception NullPointerException if <code>event</code> is null
      */
-    public void dispatchEvent(final AWTEvent event) {
-        // No-op for Mac OS X.
+    public void dispbtchEvent(finbl AWTEvent event) {
+        // No-op for Mbc OS X.
     }
 
 
     /**
-     * Activate and deactivate are no-ops on Mac OS X.
-     * A non-US keyboard layout is an 'input method' in that it generates events the same way as
-     * a CJK input method. A component that doesn't want input method events still wants the dead-key
+     * Activbte bnd debctivbte bre no-ops on Mbc OS X.
+     * A non-US keybobrd lbyout is bn 'input method' in thbt it generbtes events the sbme wby bs
+     * b CJK input method. A component thbt doesn't wbnt input method events still wbnts the debd-key
      * events.
      *
      *
      */
-    public void activate() {
+    public void bctivbte() {
         isActive = true;
     }
 
-    public void deactivate(boolean isTemporary) {
-        isActive = false;
+    public void debctivbte(boolebn isTemporbry) {
+        isActive = fblse;
     }
 
     /**
-     * Closes or hides all windows opened by this input method instance or
-     * its class.  Deactivate hides windows for us on Mac OS X.
+     * Closes or hides bll windows opened by this input method instbnce or
+     * its clbss.  Debctivbte hides windows for us on Mbc OS X.
      */
     public void hideWindows() {
     }
 
-    long getNativeViewPtr(LWComponentPeer<?, ?> peer) {
-        if (peer.getPlatformWindow() instanceof CPlatformWindow) {
-            CPlatformWindow platformWindow = (CPlatformWindow) peer.getPlatformWindow();
-            CPlatformView platformView = platformWindow.getContentView();
-            return platformView.getAWTView();
+    long getNbtiveViewPtr(LWComponentPeer<?, ?> peer) {
+        if (peer.getPlbtformWindow() instbnceof CPlbtformWindow) {
+            CPlbtformWindow plbtformWindow = (CPlbtformWindow) peer.getPlbtformWindow();
+            CPlbtformView plbtformView = plbtformWindow.getContentView();
+            return plbtformView.getAWTView();
         } else {
             return 0;
         }
     }
 
     /**
-        * Notifies the input method that a client component has been
-     * removed from its containment hierarchy, or that input method
-     * support has been disabled for the component.
+        * Notifies the input method thbt b client component hbs been
+     * removed from its contbinment hierbrchy, or thbt input method
+     * support hbs been disbbled for the component.
      */
     public void removeNotify() {
         if (fAwtFocussedComponentPeer != null) {
-            nativeEndComposition(getNativeViewPtr(fAwtFocussedComponentPeer));
+            nbtiveEndComposition(getNbtiveViewPtr(fAwtFocussedComponentPeer));
         }
 
         fAwtFocussedComponentPeer = null;
     }
 
     /**
-     * Informs the input method adapter about the component that has the AWT
-     * focus if it's using the input context owning this adapter instance.
-     * We also take the opportunity to tell the native side that we are the input method
-     * to talk to when responding to key events.
+     * Informs the input method bdbpter bbout the component thbt hbs the AWT
+     * focus if it's using the input context owning this bdbpter instbnce.
+     * We blso tbke the opportunity to tell the nbtive side thbt we bre the input method
+     * to tblk to when responding to key events.
      */
     protected void setAWTFocussedComponent(Component component) {
         LWComponentPeer<?, ?> peer = null;
         long modelPtr = 0;
-        CInputMethod imInstance = this;
+        CInputMethod imInstbnce = this;
 
-        // component will be null when we are told there's no focused component.
-        // When that happens we need to notify the native architecture to stop generating IMEs
+        // component will be null when we bre told there's no focused component.
+        // When thbt hbppens we need to notify the nbtive brchitecture to stop generbting IMEs
         if (component == null) {
             peer = fAwtFocussedComponentPeer;
-            imInstance = null;
+            imInstbnce = null;
         } else {
-            peer = getNearestNativePeer(component);
+            peer = getNebrestNbtivePeer(component);
 
-            // If we have a passive client, don't pass input method events to it.
+            // If we hbve b pbssive client, don't pbss input method events to it.
             if (component.getInputMethodRequests() == null) {
-                imInstance = null;
+                imInstbnce = null;
             }
         }
 
         if (peer != null) {
-            modelPtr = getNativeViewPtr(peer);
+            modelPtr = getNbtiveViewPtr(peer);
 
-            // modelPtr refers to the ControlModel that either got or lost focus.
-            nativeNotifyPeer(modelPtr, imInstance);
+            // modelPtr refers to the ControlModel thbt either got or lost focus.
+            nbtiveNotifyPeer(modelPtr, imInstbnce);
         }
 
-        // Track the focused component and its nearest peer.
+        // Trbck the focused component bnd its nebrest peer.
         fAwtFocussedComponent = component;
-        fAwtFocussedComponentPeer = getNearestNativePeer(component);
+        fAwtFocussedComponentPeer = getNebrestNbtivePeer(component);
     }
 
     /**
-        * @see java.awt.Toolkit#mapInputMethodHighlight
+        * @see jbvb.bwt.Toolkit#mbpInputMethodHighlight
      */
-    public static Map<TextAttribute, ?> mapInputMethodHighlight(InputMethodHighlight highlight) {
+    public stbtic Mbp<TextAttribute, ?> mbpInputMethodHighlight(InputMethodHighlight highlight) {
         int index;
-        int state = highlight.getState();
-        if (state == InputMethodHighlight.RAW_TEXT) {
+        int stbte = highlight.getStbte();
+        if (stbte == InputMethodHighlight.RAW_TEXT) {
             index = 0;
-        } else if (state == InputMethodHighlight.CONVERTED_TEXT) {
+        } else if (stbte == InputMethodHighlight.CONVERTED_TEXT) {
             index = 2;
         } else {
             return null;
@@ -323,41 +323,41 @@ public class CInputMethod extends InputMethodAdapter {
     }
 
     /**
-        * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
+        * Ends bny input composition thbt mby currently be going on in this
+     * context. Depending on the plbtform bnd possibly user preferences,
+     * this mby commit or delete uncommitted text. Any chbnges to the text
+     * bre communicbted to the bctive component using bn input method event.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
+     * A text editing component mby cbll this in b vbriety of situbtions,
+     * for exbmple, when the user moves the insertion point within the text
      * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * sbved to b file or copied to the clipbobrd.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#endComposition InputContext.endComposition},
-     * <li>by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}
-     *     when switching to a different client component
-     * <li>when switching from this input method to a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
+     * <li>by {@link jbvb.bwt.im.InputContext#endComposition InputContext.endComposition},
+     * <li>by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}
+     *     when switching to b different client component
+     * <li>when switching from this input method to b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
      * </ul>
      */
     public void endComposition() {
         if (fAwtFocussedComponentPeer != null)
-            nativeEndComposition(getNativeViewPtr(fAwtFocussedComponentPeer));
+            nbtiveEndComposition(getNbtiveViewPtr(fAwtFocussedComponentPeer));
     }
 
     /**
-        * Disposes of the input method and releases the resources used by it.
-     * In particular, the input method should dispose windows and close files that are no
+        * Disposes of the input method bnd relebses the resources used by it.
+     * In pbrticulbr, the input method should dispose windows bnd close files thbt bre no
      * longer needed.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispose InputContext.dispose}.
+     * This method is cblled by {@link jbvb.bwt.im.InputContext#dispose InputContext.dispose}.
      * <p>
-     * The method is only called when the input method is inactive.
-     * No method of this interface is called on this instance after dispose.
+     * The method is only cblled when the input method is inbctive.
+     * No method of this interfbce is cblled on this instbnce bfter dispose.
      */
     public void dispose() {
         fIMContext = null;
@@ -366,26 +366,26 @@ public class CInputMethod extends InputMethodAdapter {
     }
 
     /**
-        * Returns a control object from this input method, or null. A
-     * control object provides methods that control the behavior of the
-     * input method or obtain information from the input method. The type
-     * of the object is an input method specific class. Clients have to
-     * compare the result against known input method control object
-     * classes and cast to the appropriate class to invoke the methods
+        * Returns b control object from this input method, or null. A
+     * control object provides methods thbt control the behbvior of the
+     * input method or obtbin informbtion from the input method. The type
+     * of the object is bn input method specific clbss. Clients hbve to
+     * compbre the result bgbinst known input method control object
+     * clbsses bnd cbst to the bppropribte clbss to invoke the methods
      * provided.
      * <p>
-     * This method is called by
-     * {@link java.awt.im.InputContext#getInputMethodControlObject InputContext.getInputMethodControlObject}.
+     * This method is cblled by
+     * {@link jbvb.bwt.im.InputContext#getInputMethodControlObject InputContext.getInputMethodControlObject}.
      *
-     * @return a control object from this input method, or null
+     * @return b control object from this input method, or null
      */
     public Object getControlObject() {
         return null;
     }
 
-    // java.awt.Toolkit#getNativeContainer() is not available
-    //    from this package
-    private LWComponentPeer<?, ?> getNearestNativePeer(Component comp) {
+    // jbvb.bwt.Toolkit#getNbtiveContbiner() is not bvbilbble
+    //    from this pbckbge
+    privbte LWComponentPeer<?, ?> getNebrestNbtivePeer(Component comp) {
         if (comp==null)
             return null;
 
@@ -393,8 +393,8 @@ public class CInputMethod extends InputMethodAdapter {
         if (peer==null)
             return null;
 
-        while (peer instanceof java.awt.peer.LightweightPeer) {
-            comp = comp.getParent();
+        while (peer instbnceof jbvb.bwt.peer.LightweightPeer) {
+            comp = comp.getPbrent();
             if (comp==null)
                 return null;
             peer = comp.getPeer();
@@ -402,338 +402,338 @@ public class CInputMethod extends InputMethodAdapter {
                 return null;
         }
 
-        if (peer instanceof LWComponentPeer)
+        if (peer instbnceof LWComponentPeer)
             return (LWComponentPeer)peer;
 
         return null;
     }
 
-    // =========================== NSTextInput callbacks ===========================
-    // The 'marked text' that we get from Cocoa.  We need to track this separately, since
-    // Java doesn't let us ask the IM context for it.
-    private AttributedString fCurrentText = null;
-    private String fCurrentTextAsString = null;
-    private int fCurrentTextLength = 0;
+    // =========================== NSTextInput cbllbbcks ===========================
+    // The 'mbrked text' thbt we get from Cocob.  We need to trbck this sepbrbtely, since
+    // Jbvb doesn't let us bsk the IM context for it.
+    privbte AttributedString fCurrentText = null;
+    privbte String fCurrentTextAsString = null;
+    privbte int fCurrentTextLength = 0;
 
     /**
-     * Tell the component to commit all of the characters in the string to the current
-     * text view. This effectively wipes out any text in progress.
+     * Tell the component to commit bll of the chbrbcters in the string to the current
+     * text view. This effectively wipes out bny text in progress.
      */
-    synchronized private void insertText(String aString) {
-        AttributedString attribString = new AttributedString(aString);
+    synchronized privbte void insertText(String bString) {
+        AttributedString bttribString = new AttributedString(bString);
 
-        // Set locale information on the new string.
-        attribString.addAttribute(Attribute.LANGUAGE, getLocale(), 0, aString.length());
+        // Set locble informbtion on the new string.
+        bttribString.bddAttribute(Attribute.LANGUAGE, getLocble(), 0, bString.length());
 
-        TextHitInfo theCaret = TextHitInfo.afterOffset(aString.length() - 1);
+        TextHitInfo theCbret = TextHitInfo.bfterOffset(bString.length() - 1);
         InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
                                                       InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      attribString.getIterator(),
-                                                      aString.length(),
-                                                      theCaret,
-                                                      theCaret);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
+                                                      bttribString.getIterbtor(),
+                                                      bString.length(),
+                                                      theCbret,
+                                                      theCbret);
+        LWCToolkit.postEvent(LWCToolkit.tbrgetToAppContext(fAwtFocussedComponent), event);
         fCurrentText = null;
         fCurrentTextAsString = null;
         fCurrentTextLength = 0;
     }
 
-    private void startIMUpdate (String rawText) {
-        fCurrentTextAsString = new String(rawText);
+    privbte void stbrtIMUpdbte (String rbwText) {
+        fCurrentTextAsString = new String(rbwText);
         fCurrentText = new AttributedString(fCurrentTextAsString);
-        fCurrentTextLength = rawText.length();
+        fCurrentTextLength = rbwText.length();
     }
 
-    static private final int kCaretPosition = 0;
-    static private final int kRawText = 1;
-    static private final int kSelectedRawText = 2;
-    static private final int kConvertedText = 3;
-    static private final int kSelectedConvertedText = 4;
+    stbtic privbte finbl int kCbretPosition = 0;
+    stbtic privbte finbl int kRbwText = 1;
+    stbtic privbte finbl int kSelectedRbwText = 2;
+    stbtic privbte finbl int kConvertedText = 3;
+    stbtic privbte finbl int kSelectedConvertedText = 4;
 
     /**
-     * Convert Cocoa text highlight attributes into Java input method highlighting.
+     * Convert Cocob text highlight bttributes into Jbvb input method highlighting.
      */
-    private void addAttribute (boolean isThickUnderline, boolean isGray, int start, int length) {
-        int begin = start;
-        int end = start + length;
-        int markupType = kRawText;
+    privbte void bddAttribute (boolebn isThickUnderline, boolebn isGrby, int stbrt, int length) {
+        int begin = stbrt;
+        int end = stbrt + length;
+        int mbrkupType = kRbwText;
 
-        if (isThickUnderline && isGray) {
-            markupType = kRawText;
-        } else if (!isThickUnderline && isGray) {
-            markupType = kRawText;
-        } else if (isThickUnderline && !isGray) {
-            markupType = kSelectedConvertedText;
-        } else if (!isThickUnderline && !isGray) {
-            markupType = kConvertedText;
+        if (isThickUnderline && isGrby) {
+            mbrkupType = kRbwText;
+        } else if (!isThickUnderline && isGrby) {
+            mbrkupType = kRbwText;
+        } else if (isThickUnderline && !isGrby) {
+            mbrkupType = kSelectedConvertedText;
+        } else if (!isThickUnderline && !isGrby) {
+            mbrkupType = kConvertedText;
         }
 
         InputMethodHighlight theHighlight;
 
-        switch (markupType) {
-            case kSelectedRawText:
+        switch (mbrkupType) {
+            cbse kSelectedRbwText:
                 theHighlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-                break;
-            case kConvertedText:
+                brebk;
+            cbse kConvertedText:
                 theHighlight = InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                break;
-            case kSelectedConvertedText:
+                brebk;
+            cbse kSelectedConvertedText:
                 theHighlight = InputMethodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                break;
-            case kRawText:
-            default:
+                brebk;
+            cbse kRbwText:
+            defbult:
                 theHighlight = InputMethodHighlight.UNSELECTED_RAW_TEXT_HIGHLIGHT;
-                break;
+                brebk;
         }
 
-        fCurrentText.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT, theHighlight, begin, end);
+        fCurrentText.bddAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT, theHighlight, begin, end);
     }
 
-   /* Called from JNI to select the previously typed glyph during press and hold */
-    private void selectPreviousGlyph() {
+   /* Cblled from JNI to select the previously typed glyph during press bnd hold */
+    privbte void selectPreviousGlyph() {
         if (fIMContext == null) return; // ???
         try {
-            LWCToolkit.invokeLater(new Runnable() {
+            LWCToolkit.invokeLbter(new Runnbble() {
                 public void run() {
-                    final int offset = fIMContext.getInsertPositionOffset();
+                    finbl int offset = fIMContext.getInsertPositionOffset();
                     if (offset < 1) return; // ???
 
-                    if (fAwtFocussedComponent instanceof JTextComponent) {
+                    if (fAwtFocussedComponent instbnceof JTextComponent) {
                         ((JTextComponent) fAwtFocussedComponent).select(offset - 1, offset);
                         return;
                     }
 
-                    if (fAwtFocussedComponent instanceof TextComponent) {
+                    if (fAwtFocussedComponent instbnceof TextComponent) {
                         ((TextComponent) fAwtFocussedComponent).select(offset - 1, offset);
                         return;
                     }
-                    // TODO: Ideally we want to disable press-and-hold in this case
+                    // TODO: Ideblly we wbnt to disbble press-bnd-hold in this cbse
                 }
             }, fAwtFocussedComponent);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
         }
     }
 
-    private void selectNextGlyph() {
-        if (fIMContext == null || !(fAwtFocussedComponent instanceof JTextComponent)) return;
+    privbte void selectNextGlyph() {
+        if (fIMContext == null || !(fAwtFocussedComponent instbnceof JTextComponent)) return;
         try {
-            LWCToolkit.invokeLater(new Runnable() {
+            LWCToolkit.invokeLbter(new Runnbble() {
                 public void run() {
-                    final int offset = fIMContext.getInsertPositionOffset();
+                    finbl int offset = fIMContext.getInsertPositionOffset();
                     if (offset < 0) return;
                     ((JTextComponent) fAwtFocussedComponent).select(offset, offset + 1);
                     return;
                 }
             }, fAwtFocussedComponent);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
         }
     }
 
-    private void dispatchText(int selectStart, int selectLength, boolean pressAndHold) {
-        // Nothing to do if we have no text.
+    privbte void dispbtchText(int selectStbrt, int selectLength, boolebn pressAndHold) {
+        // Nothing to do if we hbve no text.
         if (fCurrentText == null)
             return;
 
-        TextHitInfo theCaret = (selectLength == 0 ? TextHitInfo.beforeOffset(selectStart) : null);
+        TextHitInfo theCbret = (selectLength == 0 ? TextHitInfo.beforeOffset(selectStbrt) : null);
         TextHitInfo visiblePosition = TextHitInfo.beforeOffset(0);
 
         InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
                                                       InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      fCurrentText.getIterator(),
+                                                      fCurrentText.getIterbtor(),
                                                       0,
-                                                      theCaret,
+                                                      theCbret,
                                                       visiblePosition);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
+        LWCToolkit.postEvent(LWCToolkit.tbrgetToAppContext(fAwtFocussedComponent), event);
 
         if (pressAndHold) selectNextGlyph();
     }
 
     /**
-     * Frequent callbacks from NSTextInput.  I think we're supposed to commit it here?
+     * Frequent cbllbbcks from NSTextInput.  I think we're supposed to commit it here?
      */
-    synchronized private void unmarkText() {
+    synchronized privbte void unmbrkText() {
         if (fCurrentText == null)
             return;
 
-        TextHitInfo theCaret = TextHitInfo.afterOffset(fCurrentTextLength);
-        TextHitInfo visiblePosition = theCaret;
+        TextHitInfo theCbret = TextHitInfo.bfterOffset(fCurrentTextLength);
+        TextHitInfo visiblePosition = theCbret;
         InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
                                                       InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      fCurrentText.getIterator(),
+                                                      fCurrentText.getIterbtor(),
                                                       fCurrentTextLength,
-                                                      theCaret,
+                                                      theCbret,
                                                       visiblePosition);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
+        LWCToolkit.postEvent(LWCToolkit.tbrgetToAppContext(fAwtFocussedComponent), event);
         fCurrentText = null;
         fCurrentTextAsString = null;
         fCurrentTextLength = 0;
     }
 
-    synchronized private boolean hasMarkedText() {
+    synchronized privbte boolebn hbsMbrkedText() {
         return fCurrentText != null;
     }
 
     /**
-        * Cocoa assumes the marked text and committed text is all stored in the same storage, but
-     * Java does not.  So, we have to see where the request is and based on that return the right
+        * Cocob bssumes the mbrked text bnd committed text is bll stored in the sbme storbge, but
+     * Jbvb does not.  So, we hbve to see where the request is bnd bbsed on thbt return the right
      * substring.
      */
-    synchronized private String attributedSubstringFromRange(final int locationIn, final int lengthIn) {
-        final String[] retString = new String[1];
+    synchronized privbte String bttributedSubstringFromRbnge(finbl int locbtionIn, finbl int lengthIn) {
+        finbl String[] retString = new String[1];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 public void run() { synchronized(retString) {
-                    int location = locationIn;
+                    int locbtion = locbtionIn;
                     int length = lengthIn;
 
-                    if ((location + length) > (fIMContext.getCommittedTextLength() + fCurrentTextLength)) {
-                        length = fIMContext.getCommittedTextLength() - location;
+                    if ((locbtion + length) > (fIMContext.getCommittedTextLength() + fCurrentTextLength)) {
+                        length = fIMContext.getCommittedTextLength() - locbtion;
                     }
 
-                    AttributedCharacterIterator theIterator = null;
+                    AttributedChbrbcterIterbtor theIterbtor = null;
 
                     if (fCurrentText == null) {
-                        theIterator = fIMContext.getCommittedText(location, location + length, null);
+                        theIterbtor = fIMContext.getCommittedText(locbtion, locbtion + length, null);
                     } else {
                         int insertSpot = fIMContext.getInsertPositionOffset();
 
-                        if (location < insertSpot) {
-                            theIterator = fIMContext.getCommittedText(location, location + length, null);
-                        } else if (location >= insertSpot && location < insertSpot + fCurrentTextLength) {
-                            theIterator = fCurrentText.getIterator(null, location - insertSpot, location - insertSpot +length);
+                        if (locbtion < insertSpot) {
+                            theIterbtor = fIMContext.getCommittedText(locbtion, locbtion + length, null);
+                        } else if (locbtion >= insertSpot && locbtion < insertSpot + fCurrentTextLength) {
+                            theIterbtor = fCurrentText.getIterbtor(null, locbtion - insertSpot, locbtion - insertSpot +length);
                         } else  {
-                            theIterator = fIMContext.getCommittedText(location - fCurrentTextLength, location - fCurrentTextLength + length, null);
+                            theIterbtor = fIMContext.getCommittedText(locbtion - fCurrentTextLength, locbtion - fCurrentTextLength + length, null);
                         }
                     }
 
-                    // Get the characters from the iterator
-                    char selectedText[] = new char[theIterator.getEndIndex() - theIterator.getBeginIndex()];
-                    char current = theIterator.first();
+                    // Get the chbrbcters from the iterbtor
+                    chbr selectedText[] = new chbr[theIterbtor.getEndIndex() - theIterbtor.getBeginIndex()];
+                    chbr current = theIterbtor.first();
                     int index = 0;
-                    while (current != CharacterIterator.DONE) {
+                    while (current != ChbrbcterIterbtor.DONE) {
                         selectedText[index++] = current;
-                        current = theIterator.next();
+                        current = theIterbtor.next();
                     }
 
                     retString[0] = new String(selectedText);
                 }}
             }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+        } cbtch (InvocbtionTbrgetException ite) { ite.printStbckTrbce(); }
 
         synchronized(retString) { return retString[0]; }
     }
 
     /**
-     * Cocoa wants the range of characters that are currently selected.  We have to synthesize this
-     * by getting the insert location and the length of the selected text. NB:  This does NOT allow
-     * for the fact that the insert point in Swing can come AFTER the selected text, making this
-     * potentially incorrect.
+     * Cocob wbnts the rbnge of chbrbcters thbt bre currently selected.  We hbve to synthesize this
+     * by getting the insert locbtion bnd the length of the selected text. NB:  This does NOT bllow
+     * for the fbct thbt the insert point in Swing cbn come AFTER the selected text, mbking this
+     * potentiblly incorrect.
      */
-    synchronized private int[] selectedRange() {
-        final int[] returnValue = new int[2];
+    synchronized privbte int[] selectedRbnge() {
+        finbl int[] returnVblue = new int[2];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(returnValue) {
-                    AttributedCharacterIterator theIterator = fIMContext.getSelectedText(null);
-                    if (theIterator == null) {
-                        returnValue[0] = fIMContext.getInsertPositionOffset();
-                        returnValue[1] = 0;
+            LWCToolkit.invokeAndWbit(new Runnbble() {
+                public void run() { synchronized(returnVblue) {
+                    AttributedChbrbcterIterbtor theIterbtor = fIMContext.getSelectedText(null);
+                    if (theIterbtor == null) {
+                        returnVblue[0] = fIMContext.getInsertPositionOffset();
+                        returnVblue[1] = 0;
                         return;
                     }
 
-                    int startLocation;
+                    int stbrtLocbtion;
 
-                    if (fAwtFocussedComponent instanceof JTextComponent) {
+                    if (fAwtFocussedComponent instbnceof JTextComponent) {
                         JTextComponent theComponent = (JTextComponent)fAwtFocussedComponent;
-                        startLocation = theComponent.getSelectionStart();
-                    } else if (fAwtFocussedComponent instanceof TextComponent) {
+                        stbrtLocbtion = theComponent.getSelectionStbrt();
+                    } else if (fAwtFocussedComponent instbnceof TextComponent) {
                         TextComponent theComponent = (TextComponent)fAwtFocussedComponent;
-                        startLocation = theComponent.getSelectionStart();
+                        stbrtLocbtion = theComponent.getSelectionStbrt();
                     } else {
-                        // If we don't have a Swing or AWT component, we have to guess whether the selection is before or after the input spot.
-                        startLocation = fIMContext.getInsertPositionOffset() - (theIterator.getEndIndex() - theIterator.getBeginIndex());
+                        // If we don't hbve b Swing or AWT component, we hbve to guess whether the selection is before or bfter the input spot.
+                        stbrtLocbtion = fIMContext.getInsertPositionOffset() - (theIterbtor.getEndIndex() - theIterbtor.getBeginIndex());
 
-                        // If the calculated spot is negative the insert spot must be at the beginning of
+                        // If the cblculbted spot is negbtive the insert spot must be bt the beginning of
                         // the selection.
-                        if (startLocation <  0) {
-                            startLocation = fIMContext.getInsertPositionOffset() + (theIterator.getEndIndex() - theIterator.getBeginIndex());
+                        if (stbrtLocbtion <  0) {
+                            stbrtLocbtion = fIMContext.getInsertPositionOffset() + (theIterbtor.getEndIndex() - theIterbtor.getBeginIndex());
                         }
                     }
 
-                    returnValue[0] = startLocation;
-                    returnValue[1] = theIterator.getEndIndex() - theIterator.getBeginIndex();
+                    returnVblue[0] = stbrtLocbtion;
+                    returnVblue[1] = theIterbtor.getEndIndex() - theIterbtor.getBeginIndex();
 
                 }}
             }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+        } cbtch (InvocbtionTbrgetException ite) { ite.printStbckTrbce(); }
 
-        synchronized(returnValue) { return returnValue; }
+        synchronized(returnVblue) { return returnVblue; }
     }
 
     /**
-     * Cocoa wants the range of characters that are currently marked.  Since Java doesn't store committed and
-     * text in progress (composed text) together, we have to synthesize it.  We know where the text will be
-     * inserted, so we can return that position, and the length of the text in progress.  If there is no marked text
+     * Cocob wbnts the rbnge of chbrbcters thbt bre currently mbrked.  Since Jbvb doesn't store committed bnd
+     * text in progress (composed text) together, we hbve to synthesize it.  We know where the text will be
+     * inserted, so we cbn return thbt position, bnd the length of the text in progress.  If there is no mbrked text
      * return null.
      */
-    synchronized private int[] markedRange() {
+    synchronized privbte int[] mbrkedRbnge() {
         if (fCurrentText == null)
             return null;
 
-        final int[] returnValue = new int[2];
+        finbl int[] returnVblue = new int[2];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(returnValue) {
-                    // The insert position is always after the composed text, so the range start is the
+            LWCToolkit.invokeAndWbit(new Runnbble() {
+                public void run() { synchronized(returnVblue) {
+                    // The insert position is blwbys bfter the composed text, so the rbnge stbrt is the
                     // insert spot less the length of the composed text.
-                    returnValue[0] = fIMContext.getInsertPositionOffset();
+                    returnVblue[0] = fIMContext.getInsertPositionOffset();
                 }}
             }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+        } cbtch (InvocbtionTbrgetException ite) { ite.printStbckTrbce(); }
 
-        returnValue[1] = fCurrentTextLength;
-        synchronized(returnValue) { return returnValue; }
+        returnVblue[1] = fCurrentTextLength;
+        synchronized(returnVblue) { return returnVblue; }
     }
 
     /**
-     * Cocoa wants a rectangle that describes where a particular range is on screen, but only cares about the
-     * location of that rectangle.  We are given the index of the character for which we want the location on
-     * screen, which will be a character in the in-progress text.  By subtracting the current insert position,
-     * which is always in front of the in-progress text, we get the offset into the composed text, and we get
-     * that location from the input method context.
+     * Cocob wbnts b rectbngle thbt describes where b pbrticulbr rbnge is on screen, but only cbres bbout the
+     * locbtion of thbt rectbngle.  We bre given the index of the chbrbcter for which we wbnt the locbtion on
+     * screen, which will be b chbrbcter in the in-progress text.  By subtrbcting the current insert position,
+     * which is blwbys in front of the in-progress text, we get the offset into the composed text, bnd we get
+     * thbt locbtion from the input method context.
      */
-    synchronized private int[] firstRectForCharacterRange(final int absoluteTextOffset) {
-        final int[] rect = new int[4];
+    synchronized privbte int[] firstRectForChbrbcterRbnge(finbl int bbsoluteTextOffset) {
+        finbl int[] rect = new int[4];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 public void run() { synchronized(rect) {
                     int insertOffset = fIMContext.getInsertPositionOffset();
-                    int composedTextOffset = absoluteTextOffset - insertOffset;
+                    int composedTextOffset = bbsoluteTextOffset - insertOffset;
                     if (composedTextOffset < 0) composedTextOffset = 0;
-                    Rectangle r = fIMContext.getTextLocation(TextHitInfo.beforeOffset(composedTextOffset));
+                    Rectbngle r = fIMContext.getTextLocbtion(TextHitInfo.beforeOffset(composedTextOffset));
                     rect[0] = r.x;
                     rect[1] = r.y;
                     rect[2] = r.width;
                     rect[3] = r.height;
 
-                    // This next if-block is a hack to work around a bug in JTextComponent. getTextLocation ignores
-                    // the TextHitInfo passed to it and always returns the location of the insertion point, which is
-                    // at the start of the composed text.  We'll do some calculation so the candidate window for Kotoeri
+                    // This next if-block is b hbck to work bround b bug in JTextComponent. getTextLocbtion ignores
+                    // the TextHitInfo pbssed to it bnd blwbys returns the locbtion of the insertion point, which is
+                    // bt the stbrt of the composed text.  We'll do some cblculbtion so the cbndidbte window for Kotoeri
                     // follows the requested offset into the composed text.
-                    if (composedTextOffset > 0 && (fAwtFocussedComponent instanceof JTextComponent)) {
-                        Rectangle r2 = fIMContext.getTextLocation(TextHitInfo.beforeOffset(0));
+                    if (composedTextOffset > 0 && (fAwtFocussedComponent instbnceof JTextComponent)) {
+                        Rectbngle r2 = fIMContext.getTextLocbtion(TextHitInfo.beforeOffset(0));
 
-                        if (r.equals(r2)) {
-                            // FIXME: (SAK) If the candidate text wraps over two lines, this calculation pushes the candidate
+                        if (r.equbls(r2)) {
+                            // FIXME: (SAK) If the cbndidbte text wrbps over two lines, this cblculbtion pushes the cbndidbte
                             // window off the right edge of the component.
                             String inProgressSubstring = fCurrentTextAsString.substring(0, composedTextOffset);
-                            Graphics g = fAwtFocussedComponent.getGraphics();
+                            Grbphics g = fAwtFocussedComponent.getGrbphics();
                             int xOffset = g.getFontMetrics().stringWidth(inProgressSubstring);
                             rect[0] += xOffset;
                             g.dispose();
@@ -741,73 +741,73 @@ public class CInputMethod extends InputMethodAdapter {
                     }
                 }}
             }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+        } cbtch (InvocbtionTbrgetException ite) { ite.printStbckTrbce(); }
 
         synchronized(rect) { return rect; }
     }
 
-    /* This method returns the index for the character that is nearest to the point described by screenX and screenY.
-     * The coordinates are in Java screen coordinates.  If no character in the composed text was hit, we return -1, indicating
+    /* This method returns the index for the chbrbcter thbt is nebrest to the point described by screenX bnd screenY.
+     * The coordinbtes bre in Jbvb screen coordinbtes.  If no chbrbcter in the composed text wbs hit, we return -1, indicbting
      * not found.
      */
-    synchronized private int characterIndexForPoint(final int screenX, final int screenY) {
-        final TextHitInfo[] offsetInfo = new TextHitInfo[1];
-        final int[] insertPositionOffset = new int[1];
+    synchronized privbte int chbrbcterIndexForPoint(finbl int screenX, finbl int screenY) {
+        finbl TextHitInfo[] offsetInfo = new TextHitInfo[1];
+        finbl int[] insertPositionOffset = new int[1];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
+            LWCToolkit.invokeAndWbit(new Runnbble() {
                 public void run() { synchronized(offsetInfo) {
-                    offsetInfo[0] = fIMContext.getLocationOffset(screenX, screenY);
+                    offsetInfo[0] = fIMContext.getLocbtionOffset(screenX, screenY);
                     insertPositionOffset[0] = fIMContext.getInsertPositionOffset();
                 }}
             }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+        } cbtch (InvocbtionTbrgetException ite) { ite.printStbckTrbce(); }
 
-        // This bit of gymnastics ensures that the returned location is within the composed text.
-        // If it falls outside that region, the input method will commit the text, which is inconsistent with native
-        // Cocoa apps (see TextEdit, for example.)  Clicking to the left of or above the selected text moves the
-        // cursor to the start of the composed text, and to the right or below moves it to one character before the end.
+        // This bit of gymnbstics ensures thbt the returned locbtion is within the composed text.
+        // If it fblls outside thbt region, the input method will commit the text, which is inconsistent with nbtive
+        // Cocob bpps (see TextEdit, for exbmple.)  Clicking to the left of or bbove the selected text moves the
+        // cursor to the stbrt of the composed text, bnd to the right or below moves it to one chbrbcter before the end.
         if (offsetInfo[0] == null) {
             return insertPositionOffset[0];
         }
 
-        int returnValue = offsetInfo[0].getCharIndex() + insertPositionOffset[0];
+        int returnVblue = offsetInfo[0].getChbrIndex() + insertPositionOffset[0];
 
-        if (offsetInfo[0].getCharIndex() == fCurrentTextLength)
-            returnValue --;
+        if (offsetInfo[0].getChbrIndex() == fCurrentTextLength)
+            returnVblue --;
 
-        return returnValue;
+        return returnVblue;
     }
 
-    // On Mac OS X we effectively disabled the input method when focus was lost, so
-    // this call can be ignored.
-    public void disableInputMethod()
+    // On Mbc OS X we effectively disbbled the input method when focus wbs lost, so
+    // this cbll cbn be ignored.
+    public void disbbleInputMethod()
     {
-        // Deliberately ignored. See setAWTFocussedComponent above.
+        // Deliberbtely ignored. See setAWTFocussedComponent bbove.
     }
 
-    public String getNativeInputMethodInfo()
+    public String getNbtiveInputMethodInfo()
     {
-        return nativeGetCurrentInputMethodInfo();
+        return nbtiveGetCurrentInputMethodInfo();
     }
 
 
-    // =========================== Native methods ===========================
-    // Note that if nativePeer isn't something that normally accepts keystrokes (i.e., a CPanel)
-    // these calls will be ignored.
-    private native void nativeNotifyPeer(long nativePeer, CInputMethod imInstance);
-    private native void nativeEndComposition(long nativePeer);
-    private native void nativeHandleEvent(LWComponentPeer<?, ?> peer, AWTEvent event);
+    // =========================== Nbtive methods ===========================
+    // Note thbt if nbtivePeer isn't something thbt normblly bccepts keystrokes (i.e., b CPbnel)
+    // these cblls will be ignored.
+    privbte nbtive void nbtiveNotifyPeer(long nbtivePeer, CInputMethod imInstbnce);
+    privbte nbtive void nbtiveEndComposition(long nbtivePeer);
+    privbte nbtive void nbtiveHbndleEvent(LWComponentPeer<?, ?> peer, AWTEvent event);
 
-    // Returns the locale of the active input method.
-    static native Locale getNativeLocale();
+    // Returns the locble of the bctive input method.
+    stbtic nbtive Locble getNbtiveLocble();
 
-    // Switches to the input method with language indicated in localeName
-    static native boolean setNativeLocale(String localeName, boolean onActivate);
+    // Switches to the input method with lbngubge indicbted in locbleNbme
+    stbtic nbtive boolebn setNbtiveLocble(String locbleNbme, boolebn onActivbte);
 
-    // Returns information about the currently selected input method.
-    static native String nativeGetCurrentInputMethodInfo();
+    // Returns informbtion bbout the currently selected input method.
+    stbtic nbtive String nbtiveGetCurrentInputMethodInfo();
 
-    // Initialize toolbox routines
-    static native void nativeInit();
+    // Initiblize toolbox routines
+    stbtic nbtive void nbtiveInit();
 }

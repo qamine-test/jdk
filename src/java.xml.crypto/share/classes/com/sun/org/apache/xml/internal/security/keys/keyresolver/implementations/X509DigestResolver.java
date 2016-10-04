@@ -2,57 +2,57 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.Iterator;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Digest;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.X509Dbtb;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509Digest;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * KeyResolverSpi implementation which resolves public keys and X.509 certificates from a
+ * KeyResolverSpi implementbtion which resolves public keys bnd X.509 certificbtes from b
  * <code>dsig11:X509Digest</code> element.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @buthor Brent Putmbn (putmbnb@georgetown.edu)
  */
-public class X509DigestResolver extends KeyResolverSpi {
+public clbss X509DigestResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(X509DigestResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(X509DigestResolver.clbss.getNbme());
 
     /** {@inheritDoc}. */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_X509DATA)) {
+    public boolebn engineCbnResolve(Element element, String bbseURI, StorbgeResolver storbge) {
+        if (XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_X509DATA)) {
             try {
-                X509Data x509Data = new X509Data(element, baseURI);
-                return x509Data.containsDigest();
-            } catch (XMLSecurityException e) {
-                return false;
+                X509Dbtb x509Dbtb = new X509Dbtb(element, bbseURI);
+                return x509Dbtb.contbinsDigest();
+            } cbtch (XMLSecurityException e) {
+                return fblse;
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /** {@inheritDoc}. */
-    public PublicKey engineLookupAndResolvePublicKey(Element element, String baseURI, StorageResolver storage)
+    public PublicKey engineLookupAndResolvePublicKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        X509Certificate cert = this.engineLookupResolveX509Certificate(element, baseURI, storage);
+        X509Certificbte cert = this.engineLookupResolveX509Certificbte(element, bbseURI, storbge);
 
         if (cert != null) {
             return cert.getPublicKey();
@@ -62,22 +62,22 @@ public class X509DigestResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public X509Certificate engineLookupResolveX509Certificate(Element element, String baseURI, StorageResolver storage)
+    public X509Certificbte engineLookupResolveX509Certificbte(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName());
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme());
         }
 
-        if (!engineCanResolve(element, baseURI, storage)) {
+        if (!engineCbnResolve(element, bbseURI, storbge)) {
             return null;
         }
 
         try {
-            return resolveCertificate(element, baseURI, storage);
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", e);
+            return resolveCertificbte(element, bbseURI, storbge);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", e);
             }
         }
 
@@ -85,51 +85,51 @@ public class X509DigestResolver extends KeyResolverSpi {
     }
 
     /** {@inheritDoc}. */
-    public SecretKey engineLookupAndResolveSecretKey(Element element, String baseURI, StorageResolver storage)
+    public SecretKey engineLookupAndResolveSecretKey(Element element, String bbseURI, StorbgeResolver storbge)
         throws KeyResolverException {
         return null;
     }
 
     /**
-     * Resolves from the storage resolver the actual certificate represented by the digest.
+     * Resolves from the storbge resolver the bctubl certificbte represented by the digest.
      *
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @return
      * @throws XMLSecurityException
      */
-    private X509Certificate resolveCertificate(Element element, String baseURI, StorageResolver storage)
+    privbte X509Certificbte resolveCertificbte(Element element, String bbseURI, StorbgeResolver storbge)
         throws XMLSecurityException {
 
         XMLX509Digest x509Digests[] = null;
 
-        Element x509childNodes[] = XMLUtils.selectDs11Nodes(element.getFirstChild(), Constants._TAG_X509DIGEST);
+        Element x509childNodes[] = XMLUtils.selectDs11Nodes(element.getFirstChild(), Constbnts._TAG_X509DIGEST);
 
         if (x509childNodes == null || x509childNodes.length <= 0) {
             return null;
         }
 
         try {
-            checkStorage(storage);
+            checkStorbge(storbge);
 
             x509Digests = new XMLX509Digest[x509childNodes.length];
 
             for (int i = 0; i < x509childNodes.length; i++) {
-                x509Digests[i] = new XMLX509Digest(x509childNodes[i], baseURI);
+                x509Digests[i] = new XMLX509Digest(x509childNodes[i], bbseURI);
             }
 
-            Iterator<Certificate> storageIterator = storage.getIterator();
-            while (storageIterator.hasNext()) {
-                X509Certificate cert = (X509Certificate) storageIterator.next();
+            Iterbtor<Certificbte> storbgeIterbtor = storbge.getIterbtor();
+            while (storbgeIterbtor.hbsNext()) {
+                X509Certificbte cert = (X509Certificbte) storbgeIterbtor.next();
 
                 for (int i = 0; i < x509Digests.length; i++) {
                     XMLX509Digest keyInfoDigest = x509Digests[i];
                     byte[] certDigestBytes = XMLX509Digest.getDigestBytesFromCert(cert, keyInfoDigest.getAlgorithm());
 
-                    if (Arrays.equals(keyInfoDigest.getDigestBytes(), certDigestBytes)) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "Found certificate with: " + cert.getSubjectX500Principal().getName());
+                    if (Arrbys.equbls(keyInfoDigest.getDigestBytes(), certDigestBytes)) {
+                        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                            log.log(jbvb.util.logging.Level.FINE, "Found certificbte with: " + cert.getSubjectX500Principbl().getNbme());
                         }
                         return cert;
                     }
@@ -137,7 +137,7 @@ public class X509DigestResolver extends KeyResolverSpi {
                 }
             }
 
-        } catch (XMLSecurityException ex) {
+        } cbtch (XMLSecurityException ex) {
             throw new KeyResolverException("empty", ex);
         }
 
@@ -145,17 +145,17 @@ public class X509DigestResolver extends KeyResolverSpi {
     }
 
     /**
-     * Method checkSrorage
+     * Method checkSrorbge
      *
-     * @param storage
+     * @pbrbm storbge
      * @throws KeyResolverException
      */
-    private void checkStorage(StorageResolver storage) throws KeyResolverException {
-        if (storage == null) {
-            Object exArgs[] = { Constants._TAG_X509DIGEST };
-            KeyResolverException ex = new KeyResolverException("KeyResolver.needStorageResolver", exArgs);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "", ex);
+    privbte void checkStorbge(StorbgeResolver storbge) throws KeyResolverException {
+        if (storbge == null) {
+            Object exArgs[] = { Constbnts._TAG_X509DIGEST };
+            KeyResolverException ex = new KeyResolverException("KeyResolver.needStorbgeResolver", exArgs);
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "", ex);
             }
             throw ex;
         }

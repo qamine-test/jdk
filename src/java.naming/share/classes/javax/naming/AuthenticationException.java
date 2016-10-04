@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
-  * This exception is thrown when an authentication error occurs while
-  * accessing the naming or directory service.
-  * An authentication error can happen, for example, when the credentials
-  * supplied by the user program are invalid or otherwise fail to
-  * authenticate the user to the naming/directory service.
+  * This exception is thrown when bn buthenticbtion error occurs while
+  * bccessing the nbming or directory service.
+  * An buthenticbtion error cbn hbppen, for exbmple, when the credentibls
+  * supplied by the user progrbm bre invblid or otherwise fbil to
+  * buthenticbte the user to the nbming/directory service.
   *<p>
-  * If the program wants to handle this exception in particular, it
-  * should catch AuthenticationException explicitly before attempting to
-  * catch NamingException. After catching AuthenticationException, the
-  * program could reattempt the authentication by updating
-  * the resolved context's environment properties with the appropriate
-  * credentials.
+  * If the progrbm wbnts to hbndle this exception in pbrticulbr, it
+  * should cbtch AuthenticbtionException explicitly before bttempting to
+  * cbtch NbmingException. After cbtching AuthenticbtionException, the
+  * progrbm could rebttempt the buthenticbtion by updbting
+  * the resolved context's environment properties with the bppropribte
+  * credentibls.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Synchronizbtion bnd seriblizbtion issues thbt bpply to NbmingException
+  * bpply directly here.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
-public class AuthenticationException extends NamingSecurityException {
+public clbss AuthenticbtionException extends NbmingSecurityException {
     /**
-     * Constructs a new instance of AuthenticationException using the
-     * explanation supplied. All other fields default to null.
+     * Constructs b new instbnce of AuthenticbtionException using the
+     * explbnbtion supplied. All other fields defbult to null.
      *
-     * @param   explanation     A possibly null string containing
-     *                          additional detail about this exception.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   explbnbtion     A possibly null string contbining
+     *                          bdditionbl detbil bbout this exception.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public AuthenticationException(String explanation) {
-        super(explanation);
+    public AuthenticbtionException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of AuthenticationException.
-      * All fields are set to null.
+      * Constructs b new instbnce of AuthenticbtionException.
+      * All fields bre set to null.
       */
-    public AuthenticationException() {
+    public AuthenticbtionException() {
         super();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 3678497619904568096L;
+    privbte stbtic finbl long seriblVersionUID = 3678497619904568096L;
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,29 +28,29 @@
 
 /*
  * This file is currently collecting system-specific dregs for the
- * JNI conversion, which should be sorted out later.
+ * JNI conversion, which should be sorted out lbter.
  */
 
 #include <windef.h>
-#include <winbase.h>
+#include <winbbse.h>
 
 #include "jni.h"
 
-#define JNI_ONLOAD_SYMBOLS   {"_JNI_OnLoad@8", "JNI_OnLoad"}
-#define JNI_ONUNLOAD_SYMBOLS {"_JNI_OnUnload@8", "JNI_OnUnload"}
+#define JNI_ONLOAD_SYMBOLS   {"_JNI_OnLobd@8", "JNI_OnLobd"}
+#define JNI_ONUNLOAD_SYMBOLS {"_JNI_OnUnlobd@8", "JNI_OnUnlobd"}
 
 #define JNI_LIB_PREFIX ""
 #define JNI_LIB_SUFFIX ".dll"
 
 struct dirent {
-    char d_name[MAX_PATH];
+    chbr d_nbme[MAX_PATH];
 };
 
 typedef struct {
     struct dirent dirent;
-    char *path;
-    HANDLE handle;
-    WIN32_FIND_DATA find_data;
+    chbr *pbth;
+    HANDLE hbndle;
+    WIN32_FIND_DATA find_dbtb;
 } DIR;
 
 #include <stddef.h>  /* For uintptr_t */
@@ -64,32 +64,32 @@ typedef struct {
 #define JVM_F_OK    0
 
 JNIEXPORT void * JNICALL
-JVM_GetThreadInterruptEvent();
+JVM_GetThrebdInterruptEvent();
 
 /*
- * These routines are only reentrant on Windows
+ * These routines bre only reentrbnt on Windows
  */
 
 JNIEXPORT struct protoent * JNICALL
-JVM_GetProtoByName(char* name);
+JVM_GetProtoByNbme(chbr* nbme);
 
 JNIEXPORT struct hostent* JNICALL
-JVM_GetHostByAddr(const char* name, int len, int type);
+JVM_GetHostByAddr(const chbr* nbme, int len, int type);
 
 JNIEXPORT struct hostent* JNICALL
-JVM_GetHostByName(char* name);
+JVM_GetHostByNbme(chbr* nbme);
 
 /*
  * File I/O
  */
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <signal.h>
+#include <signbl.h>
 
-/* O Flags */
+/* O Flbgs */
 
 #define JVM_O_RDONLY     O_RDONLY
 #define JVM_O_WRONLY     O_WRONLY
@@ -99,7 +99,7 @@ JVM_GetHostByName(char* name);
 #define JVM_O_CREAT      O_CREAT
 #define JVM_O_DELETE     O_TEMPORARY
 
-/* Signals */
+/* Signbls */
 
 #define JVM_SIGINT     SIGINT
 #define JVM_SIGTERM    SIGTERM

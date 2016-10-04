@@ -1,314 +1,314 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.Serializable;
-import java.text.ParseException;
-import javax.swing.JFormattedTextField;
+import jbvb.io.Seriblizbble;
+import jbvb.text.PbrseException;
+import jbvbx.swing.JFormbttedTextField;
 
 /**
- * An implementation of
- * <code>JFormattedTextField.AbstractFormatterFactory</code>.
- * <code>DefaultFormatterFactory</code> allows specifying a number of
- * different <code>JFormattedTextField.AbstractFormatter</code>s that are to
+ * An implementbtion of
+ * <code>JFormbttedTextField.AbstrbctFormbtterFbctory</code>.
+ * <code>DefbultFormbtterFbctory</code> bllows specifying b number of
+ * different <code>JFormbttedTextField.AbstrbctFormbtter</code>s thbt bre to
  * be used.
- * The most important one is the default one
- * (<code>setDefaultFormatter</code>). The default formatter will be used
- * if a more specific formatter could not be found. The following process
- * is used to determine the appropriate formatter to use.
+ * The most importbnt one is the defbult one
+ * (<code>setDefbultFormbtter</code>). The defbult formbtter will be used
+ * if b more specific formbtter could not be found. The following process
+ * is used to determine the bppropribte formbtter to use.
  * <ol>
- *   <li>Is the passed in value null? Use the null formatter.
- *   <li>Does the <code>JFormattedTextField</code> have focus? Use the edit
- *       formatter.
- *   <li>Otherwise, use the display formatter.
- *   <li>If a non-null <code>AbstractFormatter</code> has not been found, use
- *       the default formatter.
+ *   <li>Is the pbssed in vblue null? Use the null formbtter.
+ *   <li>Does the <code>JFormbttedTextField</code> hbve focus? Use the edit
+ *       formbtter.
+ *   <li>Otherwise, use the displby formbtter.
+ *   <li>If b non-null <code>AbstrbctFormbtter</code> hbs not been found, use
+ *       the defbult formbtter.
  * </ol>
  * <p>
- * The following code shows how to configure a
- * <code>JFormattedTextField</code> with two
- * <code>JFormattedTextField.AbstractFormatter</code>s, one for display and
+ * The following code shows how to configure b
+ * <code>JFormbttedTextField</code> with two
+ * <code>JFormbttedTextField.AbstrbctFormbtter</code>s, one for displby bnd
  * one for editing.
  * <pre>
- * JFormattedTextField.AbstractFormatter editFormatter = ...;
- * JFormattedTextField.AbstractFormatter displayFormatter = ...;
- * DefaultFormatterFactory factory = new DefaultFormatterFactory(
- *                 displayFormatter, displayFormatter, editFormatter);
- * JFormattedTextField tf = new JFormattedTextField(factory);
+ * JFormbttedTextField.AbstrbctFormbtter editFormbtter = ...;
+ * JFormbttedTextField.AbstrbctFormbtter displbyFormbtter = ...;
+ * DefbultFormbtterFbctory fbctory = new DefbultFormbtterFbctory(
+ *                 displbyFormbtter, displbyFormbtter, editFormbtter);
+ * JFormbttedTextField tf = new JFormbttedTextField(fbctory);
  * </pre>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see javax.swing.JFormattedTextField
+ * @see jbvbx.swing.JFormbttedTextField
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultFormatterFactory extends JFormattedTextField.AbstractFormatterFactory implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultFormbtterFbctory extends JFormbttedTextField.AbstrbctFormbtterFbctory implements Seriblizbble {
     /**
-     * Default <code>AbstractFormatter</code> to use if a more specific one has
+     * Defbult <code>AbstrbctFormbtter</code> to use if b more specific one hbs
      * not been specified.
      */
-    private JFormattedTextField.AbstractFormatter defaultFormat;
+    privbte JFormbttedTextField.AbstrbctFormbtter defbultFormbt;
 
     /**
-     * <code>JFormattedTextField.AbstractFormatter</code> to use for display.
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code> to use for displby.
      */
-    private JFormattedTextField.AbstractFormatter displayFormat;
+    privbte JFormbttedTextField.AbstrbctFormbtter displbyFormbt;
 
     /**
-     * <code>JFormattedTextField.AbstractFormatter</code> to use for editing.
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code> to use for editing.
      */
-    private JFormattedTextField.AbstractFormatter editFormat;
+    privbte JFormbttedTextField.AbstrbctFormbtter editFormbt;
 
     /**
-     * <code>JFormattedTextField.AbstractFormatter</code> to use if the value
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code> to use if the vblue
      * is null.
      */
-    private JFormattedTextField.AbstractFormatter nullFormat;
+    privbte JFormbttedTextField.AbstrbctFormbtter nullFormbt;
 
 
-    public DefaultFormatterFactory() {
+    public DefbultFormbtterFbctory() {
     }
 
     /**
-     * Creates a <code>DefaultFormatterFactory</code> with the specified
-     * <code>JFormattedTextField.AbstractFormatter</code>.
+     * Crebtes b <code>DefbultFormbtterFbctory</code> with the specified
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code>.
      *
-     * @param defaultFormat JFormattedTextField.AbstractFormatter to be used
-     *                      if a more specific
-     *                      JFormattedTextField.AbstractFormatter can not be
+     * @pbrbm defbultFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      if b more specific
+     *                      JFormbttedTextField.AbstrbctFormbtter cbn not be
      *                      found.
      */
-    public DefaultFormatterFactory(JFormattedTextField.
-                                       AbstractFormatter defaultFormat) {
-        this(defaultFormat, null);
+    public DefbultFormbtterFbctory(JFormbttedTextField.
+                                       AbstrbctFormbtter defbultFormbt) {
+        this(defbultFormbt, null);
     }
 
     /**
-     * Creates a <code>DefaultFormatterFactory</code> with the specified
-     * <code>JFormattedTextField.AbstractFormatter</code>s.
+     * Crebtes b <code>DefbultFormbtterFbctory</code> with the specified
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code>s.
      *
-     * @param defaultFormat JFormattedTextField.AbstractFormatter to be used
-     *                      if a more specific
-     *                      JFormattedTextField.AbstractFormatter can not be
+     * @pbrbm defbultFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      if b more specific
+     *                      JFormbttedTextField.AbstrbctFormbtter cbn not be
      *                      found.
-     * @param displayFormat JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField does not have focus.
+     * @pbrbm displbyFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField does not hbve focus.
      */
-    public DefaultFormatterFactory(
-                     JFormattedTextField.AbstractFormatter defaultFormat,
-                     JFormattedTextField.AbstractFormatter displayFormat) {
-        this(defaultFormat, displayFormat, null);
+    public DefbultFormbtterFbctory(
+                     JFormbttedTextField.AbstrbctFormbtter defbultFormbt,
+                     JFormbttedTextField.AbstrbctFormbtter displbyFormbt) {
+        this(defbultFormbt, displbyFormbt, null);
     }
 
     /**
-     * Creates a DefaultFormatterFactory with the specified
-     * JFormattedTextField.AbstractFormatters.
+     * Crebtes b DefbultFormbtterFbctory with the specified
+     * JFormbttedTextField.AbstrbctFormbtters.
      *
-     * @param defaultFormat JFormattedTextField.AbstractFormatter to be used
-     *                      if a more specific
-     *                      JFormattedTextField.AbstractFormatter can not be
+     * @pbrbm defbultFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      if b more specific
+     *                      JFormbttedTextField.AbstrbctFormbtter cbn not be
      *                      found.
-     * @param displayFormat JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField does not have focus.
-     * @param editFormat    JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField has focus.
+     * @pbrbm displbyFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField does not hbve focus.
+     * @pbrbm editFormbt    JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField hbs focus.
      */
-    public DefaultFormatterFactory(
-                   JFormattedTextField.AbstractFormatter defaultFormat,
-                   JFormattedTextField.AbstractFormatter displayFormat,
-                   JFormattedTextField.AbstractFormatter editFormat) {
-        this(defaultFormat, displayFormat, editFormat, null);
+    public DefbultFormbtterFbctory(
+                   JFormbttedTextField.AbstrbctFormbtter defbultFormbt,
+                   JFormbttedTextField.AbstrbctFormbtter displbyFormbt,
+                   JFormbttedTextField.AbstrbctFormbtter editFormbt) {
+        this(defbultFormbt, displbyFormbt, editFormbt, null);
     }
 
     /**
-     * Creates a DefaultFormatterFactory with the specified
-     * JFormattedTextField.AbstractFormatters.
+     * Crebtes b DefbultFormbtterFbctory with the specified
+     * JFormbttedTextField.AbstrbctFormbtters.
      *
-     * @param defaultFormat JFormattedTextField.AbstractFormatter to be used
-     *                      if a more specific
-     *                      JFormattedTextField.AbstractFormatter can not be
+     * @pbrbm defbultFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      if b more specific
+     *                      JFormbttedTextField.AbstrbctFormbtter cbn not be
      *                      found.
-     * @param displayFormat JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField does not have focus.
-     * @param editFormat    JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField has focus.
-     * @param nullFormat    JFormattedTextField.AbstractFormatter to be used
-     *                      when the JFormattedTextField has a null value.
+     * @pbrbm displbyFormbt JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField does not hbve focus.
+     * @pbrbm editFormbt    JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField hbs focus.
+     * @pbrbm nullFormbt    JFormbttedTextField.AbstrbctFormbtter to be used
+     *                      when the JFormbttedTextField hbs b null vblue.
      */
-    public DefaultFormatterFactory(
-                  JFormattedTextField.AbstractFormatter defaultFormat,
-                  JFormattedTextField.AbstractFormatter displayFormat,
-                  JFormattedTextField.AbstractFormatter editFormat,
-                  JFormattedTextField.AbstractFormatter nullFormat) {
-        this.defaultFormat = defaultFormat;
-        this.displayFormat = displayFormat;
-        this.editFormat = editFormat;
-        this.nullFormat = nullFormat;
+    public DefbultFormbtterFbctory(
+                  JFormbttedTextField.AbstrbctFormbtter defbultFormbt,
+                  JFormbttedTextField.AbstrbctFormbtter displbyFormbt,
+                  JFormbttedTextField.AbstrbctFormbtter editFormbt,
+                  JFormbttedTextField.AbstrbctFormbtter nullFormbt) {
+        this.defbultFormbt = defbultFormbt;
+        this.displbyFormbt = displbyFormbt;
+        this.editFormbt = editFormbt;
+        this.nullFormbt = nullFormbt;
     }
 
     /**
-     * Sets the <code>JFormattedTextField.AbstractFormatter</code> to use as
-     * a last resort, eg in case a display, edit or null
-     * <code>JFormattedTextField.AbstractFormatter</code> has not been
+     * Sets the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use bs
+     * b lbst resort, eg in cbse b displby, edit or null
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code> hbs not been
      * specified.
      *
-     * @param atf JFormattedTextField.AbstractFormatter used if a more
+     * @pbrbm btf JFormbttedTextField.AbstrbctFormbtter used if b more
      *            specific is not specified
      */
-    public void setDefaultFormatter(JFormattedTextField.AbstractFormatter atf){
-        defaultFormat = atf;
+    public void setDefbultFormbtter(JFormbttedTextField.AbstrbctFormbtter btf){
+        defbultFormbt = btf;
     }
 
     /**
-     * Returns the <code>JFormattedTextField.AbstractFormatter</code> to use
-     * as a last resort, eg in case a display, edit or null
-     * <code>JFormattedTextField.AbstractFormatter</code>
-     * has not been specified.
+     * Returns the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use
+     * bs b lbst resort, eg in cbse b displby, edit or null
+     * <code>JFormbttedTextField.AbstrbctFormbtter</code>
+     * hbs not been specified.
      *
-     * @return JFormattedTextField.AbstractFormatter used if a more specific
+     * @return JFormbttedTextField.AbstrbctFormbtter used if b more specific
      *         one is not specified.
      */
-    public JFormattedTextField.AbstractFormatter getDefaultFormatter() {
-        return defaultFormat;
+    public JFormbttedTextField.AbstrbctFormbtter getDefbultFormbtter() {
+        return defbultFormbt;
     }
 
     /**
-     * Sets the <code>JFormattedTextField.AbstractFormatter</code> to use if
-     * the <code>JFormattedTextField</code> is not being edited and either
-     * the value is not-null, or the value is null and a null formatter has
-     * has not been specified.
+     * Sets the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use if
+     * the <code>JFormbttedTextField</code> is not being edited bnd either
+     * the vblue is not-null, or the vblue is null bnd b null formbtter hbs
+     * hbs not been specified.
      *
-     * @param atf JFormattedTextField.AbstractFormatter to use when the
-     *            JFormattedTextField does not have focus
+     * @pbrbm btf JFormbttedTextField.AbstrbctFormbtter to use when the
+     *            JFormbttedTextField does not hbve focus
      */
-    public void setDisplayFormatter(JFormattedTextField.AbstractFormatter atf){
-        displayFormat = atf;
+    public void setDisplbyFormbtter(JFormbttedTextField.AbstrbctFormbtter btf){
+        displbyFormbt = btf;
     }
 
     /**
-     * Returns the <code>JFormattedTextField.AbstractFormatter</code> to use
-     * if the <code>JFormattedTextField</code> is not being edited and either
-     * the value is not-null, or the value is null and a null formatter has
-     * has not been specified.
+     * Returns the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use
+     * if the <code>JFormbttedTextField</code> is not being edited bnd either
+     * the vblue is not-null, or the vblue is null bnd b null formbtter hbs
+     * hbs not been specified.
      *
-     * @return JFormattedTextField.AbstractFormatter to use when the
-     *         JFormattedTextField does not have focus
+     * @return JFormbttedTextField.AbstrbctFormbtter to use when the
+     *         JFormbttedTextField does not hbve focus
      */
-    public JFormattedTextField.AbstractFormatter getDisplayFormatter() {
-        return displayFormat;
+    public JFormbttedTextField.AbstrbctFormbtter getDisplbyFormbtter() {
+        return displbyFormbt;
     }
 
     /**
-     * Sets the <code>JFormattedTextField.AbstractFormatter</code> to use if
-     * the <code>JFormattedTextField</code> is being edited and either
-     * the value is not-null, or the value is null and a null formatter has
-     * has not been specified.
+     * Sets the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use if
+     * the <code>JFormbttedTextField</code> is being edited bnd either
+     * the vblue is not-null, or the vblue is null bnd b null formbtter hbs
+     * hbs not been specified.
      *
-     * @param atf JFormattedTextField.AbstractFormatter to use when the
-     *            component has focus
+     * @pbrbm btf JFormbttedTextField.AbstrbctFormbtter to use when the
+     *            component hbs focus
      */
-    public void setEditFormatter(JFormattedTextField.AbstractFormatter atf) {
-        editFormat = atf;
+    public void setEditFormbtter(JFormbttedTextField.AbstrbctFormbtter btf) {
+        editFormbt = btf;
     }
 
     /**
-     * Returns the <code>JFormattedTextField.AbstractFormatter</code> to use
-     * if the <code>JFormattedTextField</code> is being edited and either
-     * the value is not-null, or the value is null and a null formatter has
-     * has not been specified.
+     * Returns the <code>JFormbttedTextField.AbstrbctFormbtter</code> to use
+     * if the <code>JFormbttedTextField</code> is being edited bnd either
+     * the vblue is not-null, or the vblue is null bnd b null formbtter hbs
+     * hbs not been specified.
      *
-     * @return JFormattedTextField.AbstractFormatter to use when the
-     *         component has focus
+     * @return JFormbttedTextField.AbstrbctFormbtter to use when the
+     *         component hbs focus
      */
-    public JFormattedTextField.AbstractFormatter getEditFormatter() {
-        return editFormat;
+    public JFormbttedTextField.AbstrbctFormbtter getEditFormbtter() {
+        return editFormbt;
     }
 
     /**
-     * Sets the formatter to use if the value of the JFormattedTextField is
+     * Sets the formbtter to use if the vblue of the JFormbttedTextField is
      * null.
      *
-     * @param atf JFormattedTextField.AbstractFormatter to use when
-     * the value of the JFormattedTextField is null.
+     * @pbrbm btf JFormbttedTextField.AbstrbctFormbtter to use when
+     * the vblue of the JFormbttedTextField is null.
      */
-    public void setNullFormatter(JFormattedTextField.AbstractFormatter atf) {
-        nullFormat = atf;
+    public void setNullFormbtter(JFormbttedTextField.AbstrbctFormbtter btf) {
+        nullFormbt = btf;
     }
 
     /**
-     * Returns the formatter to use if the value is null.
+     * Returns the formbtter to use if the vblue is null.
      *
-     * @return JFormattedTextField.AbstractFormatter to use when the value is
+     * @return JFormbttedTextField.AbstrbctFormbtter to use when the vblue is
      *         null
      */
-    public JFormattedTextField.AbstractFormatter getNullFormatter() {
-        return nullFormat;
+    public JFormbttedTextField.AbstrbctFormbtter getNullFormbtter() {
+        return nullFormbt;
     }
 
     /**
-     * Returns either the default formatter, display formatter, editor
-     * formatter or null formatter based on the state of the
-     * JFormattedTextField.
+     * Returns either the defbult formbtter, displby formbtter, editor
+     * formbtter or null formbtter bbsed on the stbte of the
+     * JFormbttedTextField.
      *
-     * @param source JFormattedTextField requesting
-     *               JFormattedTextField.AbstractFormatter
-     * @return JFormattedTextField.AbstractFormatter to handle
-     *         formatting duties.
+     * @pbrbm source JFormbttedTextField requesting
+     *               JFormbttedTextField.AbstrbctFormbtter
+     * @return JFormbttedTextField.AbstrbctFormbtter to hbndle
+     *         formbtting duties.
      */
-    public JFormattedTextField.AbstractFormatter getFormatter(
-                     JFormattedTextField source) {
-        JFormattedTextField.AbstractFormatter format = null;
+    public JFormbttedTextField.AbstrbctFormbtter getFormbtter(
+                     JFormbttedTextField source) {
+        JFormbttedTextField.AbstrbctFormbtter formbt = null;
 
         if (source == null) {
             return null;
         }
-        Object value = source.getValue();
+        Object vblue = source.getVblue();
 
-        if (value == null) {
-            format = getNullFormatter();
+        if (vblue == null) {
+            formbt = getNullFormbtter();
         }
-        if (format == null) {
-            if (source.hasFocus()) {
-                format = getEditFormatter();
+        if (formbt == null) {
+            if (source.hbsFocus()) {
+                formbt = getEditFormbtter();
             }
             else {
-                format = getDisplayFormatter();
+                formbt = getDisplbyFormbtter();
             }
-            if (format == null) {
-                format = getDefaultFormatter();
+            if (formbt == null) {
+                formbt = getDefbultFormbtter();
             }
         }
-        return format;
+        return formbt;
     }
 }

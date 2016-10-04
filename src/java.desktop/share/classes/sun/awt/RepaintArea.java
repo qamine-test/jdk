@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.event.PaintEvent;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.PbintEvent;
 
 /**
- * The <code>RepaintArea</code> is a geometric construct created for the
- * purpose of holding the geometry of several coalesced paint events.
- * This geometry is accessed synchronously, although it is written such
- * that painting may still be executed asynchronously.
+ * The <code>RepbintAreb</code> is b geometric construct crebted for the
+ * purpose of holding the geometry of severbl coblesced pbint events.
+ * This geometry is bccessed synchronously, blthough it is written such
+ * thbt pbinting mby still be executed bsynchronously.
  *
- * @author      Eric Hawkes
+ * @buthor      Eric Hbwkes
  * @since       1.3
  */
-public class RepaintArea {
+public clbss RepbintAreb {
 
     /**
-     * Maximum ratio of bounding rectangle to benefit for which
-     * both the vertical and horizontal unions are repainted.
-     * For smaller ratios the whole bounding rectangle is repainted.
-     * @see #paint
+     * Mbximum rbtio of bounding rectbngle to benefit for which
+     * both the verticbl bnd horizontbl unions bre repbinted.
+     * For smbller rbtios the whole bounding rectbngle is repbinted.
+     * @see #pbint
      */
-    private static final int MAX_BENEFIT_RATIO = 4;
+    privbte stbtic finbl int MAX_BENEFIT_RATIO = 4;
 
-    private static final int HORIZONTAL = 0;
-    private static final int VERTICAL = 1;
-    private static final int UPDATE = 2;
+    privbte stbtic finbl int HORIZONTAL = 0;
+    privbte stbtic finbl int VERTICAL = 1;
+    privbte stbtic finbl int UPDATE = 2;
 
-    private static final int RECT_COUNT = UPDATE + 1;
+    privbte stbtic finbl int RECT_COUNT = UPDATE + 1;
 
-    private Rectangle paintRects[] = new Rectangle[RECT_COUNT];
+    privbte Rectbngle pbintRects[] = new Rectbngle[RECT_COUNT];
 
 
     /**
-     * Constructs a new <code>RepaintArea</code>
+     * Constructs b new <code>RepbintAreb</code>
      * @since   1.3
      */
-    public RepaintArea() {
+    public RepbintAreb() {
     }
 
     /**
-     * Constructs a new <code>RepaintArea</code> initialized to match
-     * the values of the specified RepaintArea.
+     * Constructs b new <code>RepbintAreb</code> initiblized to mbtch
+     * the vblues of the specified RepbintAreb.
      *
-     * @param   ra  the <code>RepaintArea</code> from which to copy initial
-     *              values to a newly constructed RepaintArea
+     * @pbrbm   rb  the <code>RepbintAreb</code> from which to copy initibl
+     *              vblues to b newly constructed RepbintAreb
      * @since   1.3
      */
-    private RepaintArea(RepaintArea ra) {
-        // This constructor is private because it should only be called
+    privbte RepbintAreb(RepbintAreb rb) {
+        // This constructor is privbte becbuse it should only be cblled
         // from the cloneAndReset method
         for (int i = 0; i < RECT_COUNT; i++) {
-            paintRects[i] = ra.paintRects[i];
+            pbintRects[i] = rb.pbintRects[i];
         }
     }
 
     /**
-     * Adds a <code>Rectangle</code> to this <code>RepaintArea</code>.
-     * PAINT Rectangles are divided into mostly vertical and mostly horizontal.
-     * Each group is unioned together.
-     * UPDATE Rectangles are unioned.
+     * Adds b <code>Rectbngle</code> to this <code>RepbintAreb</code>.
+     * PAINT Rectbngles bre divided into mostly verticbl bnd mostly horizontbl.
+     * Ebch group is unioned together.
+     * UPDATE Rectbngles bre unioned.
      *
-     * @param   r   the specified <code>Rectangle</code>
-     * @param   id  possible values PaintEvent.UPDATE or PaintEvent.PAINT
+     * @pbrbm   r   the specified <code>Rectbngle</code>
+     * @pbrbm   id  possible vblues PbintEvent.UPDATE or PbintEvent.PAINT
      * @since   1.3
      */
-    public synchronized void add(Rectangle r, int id) {
-        // Make sure this new rectangle has positive dimensions
+    public synchronized void bdd(Rectbngle r, int id) {
+        // Mbke sure this new rectbngle hbs positive dimensions
         if (r.isEmpty()) {
             return;
         }
-        int addTo = UPDATE;
-        if (id == PaintEvent.PAINT) {
-            addTo = (r.width > r.height) ? HORIZONTAL : VERTICAL;
+        int bddTo = UPDATE;
+        if (id == PbintEvent.PAINT) {
+            bddTo = (r.width > r.height) ? HORIZONTAL : VERTICAL;
         }
-        if (paintRects[addTo] != null) {
-            paintRects[addTo].add(r);
+        if (pbintRects[bddTo] != null) {
+            pbintRects[bddTo].bdd(r);
         } else {
-            paintRects[addTo] = new Rectangle(r);
+            pbintRects[bddTo] = new Rectbngle(r);
         }
     }
 
 
     /**
-     * Creates a new <code>RepaintArea</code> with the same geometry as this
-     * RepaintArea, then removes all of the geometry from this
-     * RepaintArea and restores it to an empty RepaintArea.
+     * Crebtes b new <code>RepbintAreb</code> with the sbme geometry bs this
+     * RepbintAreb, then removes bll of the geometry from this
+     * RepbintAreb bnd restores it to bn empty RepbintAreb.
      *
-     * @return  ra a new <code>RepaintArea</code> having the same geometry as
-     *          this RepaintArea.
+     * @return  rb b new <code>RepbintAreb</code> hbving the sbme geometry bs
+     *          this RepbintAreb.
      * @since   1.3
      */
-    private synchronized RepaintArea cloneAndReset() {
-        RepaintArea ra = new RepaintArea(this);
+    privbte synchronized RepbintAreb cloneAndReset() {
+        RepbintAreb rb = new RepbintAreb(this);
         for (int i = 0; i < RECT_COUNT; i++) {
-            paintRects[i] = null;
+            pbintRects[i] = null;
         }
-        return ra;
+        return rb;
     }
 
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         for (int i = 0; i < RECT_COUNT; i++) {
-            if (paintRects[i] != null) {
-                return false;
+            if (pbintRects[i] != null) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Constrains the size of the repaint area to the passed in bounds.
+     * Constrbins the size of the repbint breb to the pbssed in bounds.
      */
-    public synchronized void constrain(int x, int y, int w, int h) {
+    public synchronized void constrbin(int x, int y, int w, int h) {
         for (int i = 0; i < RECT_COUNT; i++) {
-            Rectangle rect = paintRects[i];
+            Rectbngle rect = pbintRects[i];
             if (rect != null) {
                 if (rect.x < x) {
                     rect.width -= (x - rect.x);
@@ -149,48 +149,48 @@ public class RepaintArea {
                     rect.height -= (y - rect.y);
                     rect.y = y;
                 }
-                int xDelta = rect.x + rect.width - x - w;
-                if (xDelta > 0) {
-                    rect.width -= xDelta;
+                int xDeltb = rect.x + rect.width - x - w;
+                if (xDeltb > 0) {
+                    rect.width -= xDeltb;
                 }
-                int yDelta = rect.y + rect.height - y - h;
-                if (yDelta > 0) {
-                    rect.height -= yDelta;
+                int yDeltb = rect.y + rect.height - y - h;
+                if (yDeltb > 0) {
+                    rect.height -= yDeltb;
                 }
                 if (rect.width <= 0 || rect.height <= 0) {
-                    paintRects[i] = null;
+                    pbintRects[i] = null;
                 }
             }
         }
     }
 
     /**
-     * Marks the passed in region as not needing to be painted. It's possible
+     * Mbrks the pbssed in region bs not needing to be pbinted. It's possible
      * this will do nothing.
      */
-    public synchronized void subtract(int x, int y, int w, int h) {
-        Rectangle subtract = new Rectangle(x, y, w, h);
+    public synchronized void subtrbct(int x, int y, int w, int h) {
+        Rectbngle subtrbct = new Rectbngle(x, y, w, h);
         for (int i = 0; i < RECT_COUNT; i++) {
-            if (subtract(paintRects[i], subtract)) {
-                if (paintRects[i] != null && paintRects[i].isEmpty()) {
-                    paintRects[i] = null;
+            if (subtrbct(pbintRects[i], subtrbct)) {
+                if (pbintRects[i] != null && pbintRects[i].isEmpty()) {
+                    pbintRects[i] = null;
                 }
             }
         }
     }
 
     /**
-     * Invokes paint and update on target Component with optimal
-     * rectangular clip region.
-     * If PAINT bounding rectangle is less than
-     * MAX_BENEFIT_RATIO times the benefit, then the vertical and horizontal unions are
-     * painted separately.  Otherwise the entire bounding rectangle is painted.
+     * Invokes pbint bnd updbte on tbrget Component with optimbl
+     * rectbngulbr clip region.
+     * If PAINT bounding rectbngle is less thbn
+     * MAX_BENEFIT_RATIO times the benefit, then the verticbl bnd horizontbl unions bre
+     * pbinted sepbrbtely.  Otherwise the entire bounding rectbngle is pbinted.
      *
-     * @param   target Component to <code>paint</code> or <code>update</code>
+     * @pbrbm   tbrget Component to <code>pbint</code> or <code>updbte</code>
      * @since   1.4
      */
-    public void paint(Object target, boolean shouldClearRectBeforePaint) {
-        Component comp = (Component)target;
+    public void pbint(Object tbrget, boolebn shouldClebrRectBeforePbint) {
+        Component comp = (Component)tbrget;
 
         if (isEmpty()) {
             return;
@@ -200,46 +200,46 @@ public class RepaintArea {
             return;
         }
 
-        RepaintArea ra = this.cloneAndReset();
+        RepbintAreb rb = this.cloneAndReset();
 
-        if (!subtract(ra.paintRects[VERTICAL], ra.paintRects[HORIZONTAL])) {
-            subtract(ra.paintRects[HORIZONTAL], ra.paintRects[VERTICAL]);
+        if (!subtrbct(rb.pbintRects[VERTICAL], rb.pbintRects[HORIZONTAL])) {
+            subtrbct(rb.pbintRects[HORIZONTAL], rb.pbintRects[VERTICAL]);
         }
 
-        if (ra.paintRects[HORIZONTAL] != null && ra.paintRects[VERTICAL] != null) {
-            Rectangle paintRect = ra.paintRects[HORIZONTAL].union(ra.paintRects[VERTICAL]);
-            int square = paintRect.width * paintRect.height;
-            int benefit = square - ra.paintRects[HORIZONTAL].width
-                * ra.paintRects[HORIZONTAL].height - ra.paintRects[VERTICAL].width
-                * ra.paintRects[VERTICAL].height;
-            // if benefit is comparable with bounding box
-            if (MAX_BENEFIT_RATIO * benefit < square) {
-                ra.paintRects[HORIZONTAL] = paintRect;
-                ra.paintRects[VERTICAL] = null;
+        if (rb.pbintRects[HORIZONTAL] != null && rb.pbintRects[VERTICAL] != null) {
+            Rectbngle pbintRect = rb.pbintRects[HORIZONTAL].union(rb.pbintRects[VERTICAL]);
+            int squbre = pbintRect.width * pbintRect.height;
+            int benefit = squbre - rb.pbintRects[HORIZONTAL].width
+                * rb.pbintRects[HORIZONTAL].height - rb.pbintRects[VERTICAL].width
+                * rb.pbintRects[VERTICAL].height;
+            // if benefit is compbrbble with bounding box
+            if (MAX_BENEFIT_RATIO * benefit < squbre) {
+                rb.pbintRects[HORIZONTAL] = pbintRect;
+                rb.pbintRects[VERTICAL] = null;
             }
         }
-        for (int i = 0; i < paintRects.length; i++) {
-            if (ra.paintRects[i] != null
-                && !ra.paintRects[i].isEmpty())
+        for (int i = 0; i < pbintRects.length; i++) {
+            if (rb.pbintRects[i] != null
+                && !rb.pbintRects[i].isEmpty())
             {
-                // Should use separate Graphics for each paint() call,
-                // since paint() can change Graphics state for next call.
-                Graphics g = comp.getGraphics();
+                // Should use sepbrbte Grbphics for ebch pbint() cbll,
+                // since pbint() cbn chbnge Grbphics stbte for next cbll.
+                Grbphics g = comp.getGrbphics();
                 if (g != null) {
                     try {
-                        g.setClip(ra.paintRects[i]);
+                        g.setClip(rb.pbintRects[i]);
                         if (i == UPDATE) {
-                            updateComponent(comp, g);
+                            updbteComponent(comp, g);
                         } else {
-                            if (shouldClearRectBeforePaint) {
-                                g.clearRect( ra.paintRects[i].x,
-                                             ra.paintRects[i].y,
-                                             ra.paintRects[i].width,
-                                             ra.paintRects[i].height);
+                            if (shouldClebrRectBeforePbint) {
+                                g.clebrRect( rb.pbintRects[i].x,
+                                             rb.pbintRects[i].y,
+                                             rb.pbintRects[i].width,
+                                             rb.pbintRects[i].height);
                             }
-                            paintComponent(comp, g);
+                            pbintComponent(comp, g);
                         }
-                    } finally {
+                    } finblly {
                         g.dispose();
                     }
                 }
@@ -248,32 +248,32 @@ public class RepaintArea {
     }
 
     /**
-     * Calls <code>Component.update(Graphics)</code> with given Graphics.
+     * Cblls <code>Component.updbte(Grbphics)</code> with given Grbphics.
      */
-    protected void updateComponent(Component comp, Graphics g) {
+    protected void updbteComponent(Component comp, Grbphics g) {
         if (comp != null) {
-            comp.update(g);
+            comp.updbte(g);
         }
     }
 
     /**
-     * Calls <code>Component.paint(Graphics)</code> with given Graphics.
+     * Cblls <code>Component.pbint(Grbphics)</code> with given Grbphics.
      */
-    protected void paintComponent(Component comp, Graphics g) {
+    protected void pbintComponent(Component comp, Grbphics g) {
         if (comp != null) {
-            comp.paint(g);
+            comp.pbint(g);
         }
     }
 
     /**
-     * Subtracts subtr from rect. If the result is rectangle
-     * changes rect and returns true. Otherwise false.
+     * Subtrbcts subtr from rect. If the result is rectbngle
+     * chbnges rect bnd returns true. Otherwise fblse.
      */
-    static boolean subtract(Rectangle rect, Rectangle subtr) {
+    stbtic boolebn subtrbct(Rectbngle rect, Rectbngle subtr) {
         if (rect == null || subtr == null) {
             return true;
         }
-        Rectangle common = rect.intersection(subtr);
+        Rectbngle common = rect.intersection(subtr);
         if (common.isEmpty()) {
             return true;
         }
@@ -301,12 +301,12 @@ public class RepaintArea {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     public String toString() {
-        return super.toString() + "[ horizontal=" + paintRects[0] +
-            " vertical=" + paintRects[1] +
-            " update=" + paintRects[2] + "]";
+        return super.toString() + "[ horizontbl=" + pbintRects[0] +
+            " verticbl=" + pbintRects[1] +
+            " updbte=" + pbintRects[2] + "]";
     }
 }

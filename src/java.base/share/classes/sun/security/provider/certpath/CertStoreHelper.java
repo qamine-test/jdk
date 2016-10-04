@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.security.AccessController;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.X509CertSelector;
-import java.security.cert.X509CRLSelector;
-import javax.security.auth.x500.X500Principal;
-import java.io.IOException;
+import jbvb.net.URI;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.security.AccessController;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.cert.CertStore;
+import jbvb.security.cert.CertStoreException;
+import jbvb.security.cert.X509CertSelector;
+import jbvb.security.cert.X509CRLSelector;
+import jbvbx.security.buth.x500.X500Principbl;
+import jbvb.io.IOException;
 
-import sun.security.util.Cache;
+import sun.security.util.Cbche;
 
 /**
- * Helper used by URICertStore and others when delegating to another CertStore
- * to fetch certs and CRLs.
+ * Helper used by URICertStore bnd others when delegbting to bnother CertStore
+ * to fetch certs bnd CRLs.
  */
 
-public abstract class CertStoreHelper {
+public bbstrbct clbss CertStoreHelper {
 
-    private static final int NUM_TYPES = 2;
-    private final static Map<String,String> classMap = new HashMap<>(NUM_TYPES);
-    static {
-        classMap.put(
+    privbte stbtic finbl int NUM_TYPES = 2;
+    privbte finbl stbtic Mbp<String,String> clbssMbp = new HbshMbp<>(NUM_TYPES);
+    stbtic {
+        clbssMbp.put(
             "LDAP",
-            "sun.security.provider.certpath.ldap.LDAPCertStoreHelper");
-        classMap.put(
+            "sun.security.provider.certpbth.ldbp.LDAPCertStoreHelper");
+        clbssMbp.put(
             "SSLServer",
-            "sun.security.provider.certpath.ssl.SSLServerCertStoreHelper");
+            "sun.security.provider.certpbth.ssl.SSLServerCertStoreHelper");
     };
-    private static Cache<String, CertStoreHelper> cache
-        = Cache.newSoftMemoryCache(NUM_TYPES);
+    privbte stbtic Cbche<String, CertStoreHelper> cbche
+        = Cbche.newSoftMemoryCbche(NUM_TYPES);
 
-    public static CertStoreHelper getInstance(final String type)
+    public stbtic CertStoreHelper getInstbnce(finbl String type)
         throws NoSuchAlgorithmException
     {
-        CertStoreHelper helper = cache.get(type);
+        CertStoreHelper helper = cbche.get(type);
         if (helper != null) {
             return helper;
         }
-        final String cl = classMap.get(type);
+        finbl String cl = clbssMbp.get(type);
         if (cl == null) {
-            throw new NoSuchAlgorithmException(type + " not available");
+            throw new NoSuchAlgorithmException(type + " not bvbilbble");
         }
         try {
             helper = AccessController.doPrivileged(
                 new PrivilegedExceptionAction<CertStoreHelper>() {
-                    public CertStoreHelper run() throws ClassNotFoundException {
+                    public CertStoreHelper run() throws ClbssNotFoundException {
                         try {
-                            Class<?> c = Class.forName(cl, true, null);
+                            Clbss<?> c = Clbss.forNbme(cl, true, null);
                             CertStoreHelper csh
-                                = (CertStoreHelper)c.newInstance();
-                            cache.put(type, csh);
+                                = (CertStoreHelper)c.newInstbnce();
+                            cbche.put(type, csh);
                             return csh;
-                        } catch (InstantiationException |
-                                 IllegalAccessException e) {
+                        } cbtch (InstbntibtionException |
+                                 IllegblAccessException e) {
                             throw new AssertionError(e);
                         }
                     }
             });
             return helper;
-        } catch (PrivilegedActionException e) {
-            throw new NoSuchAlgorithmException(type + " not available",
+        } cbtch (PrivilegedActionException e) {
+            throw new NoSuchAlgorithmException(type + " not bvbilbble",
                                                e.getException());
         }
     }
 
-    static boolean isCausedByNetworkIssue(String type, CertStoreException cse) {
+    stbtic boolebn isCbusedByNetworkIssue(String type, CertStoreException cse) {
         switch (type) {
-            case "LDAP":
-            case "SSLServer":
+            cbse "LDAP":
+            cbse "SSLServer":
                 try {
-                    CertStoreHelper csh = CertStoreHelper.getInstance(type);
-                    return csh.isCausedByNetworkIssue(cse);
-                } catch (NoSuchAlgorithmException nsae) {
-                    return false;
+                    CertStoreHelper csh = CertStoreHelper.getInstbnce(type);
+                    return csh.isCbusedByNetworkIssue(cse);
+                } cbtch (NoSuchAlgorithmException nsbe) {
+                    return fblse;
                 }
-            case "URI":
-                Throwable t = cse.getCause();
-                return (t != null && t instanceof IOException);
-            default:
-                // we don't know about any other remote CertStore types
-                return false;
+            cbse "URI":
+                Throwbble t = cse.getCbuse();
+                return (t != null && t instbnceof IOException);
+            defbult:
+                // we don't know bbout bny other remote CertStore types
+                return fblse;
         }
     }
 
     /**
-     * Returns a CertStore using the given URI as parameters.
+     * Returns b CertStore using the given URI bs pbrbmeters.
      */
-    public abstract CertStore getCertStore(URI uri)
-        throws NoSuchAlgorithmException, InvalidAlgorithmParameterException;
+    public bbstrbct CertStore getCertStore(URI uri)
+        throws NoSuchAlgorithmException, InvblidAlgorithmPbrbmeterException;
 
     /**
-     * Wraps an existing X509CertSelector when needing to avoid DN matching
+     * Wrbps bn existing X509CertSelector when needing to bvoid DN mbtching
      * issues.
      */
-    public abstract X509CertSelector wrap(X509CertSelector selector,
-                          X500Principal certSubject,
+    public bbstrbct X509CertSelector wrbp(X509CertSelector selector,
+                          X500Principbl certSubject,
                           String dn)
         throws IOException;
 
     /**
-     * Wraps an existing X509CRLSelector when needing to avoid DN matching
+     * Wrbps bn existing X509CRLSelector when needing to bvoid DN mbtching
      * issues.
      */
-    public abstract X509CRLSelector wrap(X509CRLSelector selector,
-                         Collection<X500Principal> certIssuers,
+    public bbstrbct X509CRLSelector wrbp(X509CRLSelector selector,
+                         Collection<X500Principbl> certIssuers,
                          String dn)
         throws IOException;
 
     /**
-     * Returns true if the cause of the CertStoreException is a network
-     * related issue.
+     * Returns true if the cbuse of the CertStoreException is b network
+     * relbted issue.
      */
-    public abstract boolean isCausedByNetworkIssue(CertStoreException e);
+    public bbstrbct boolebn isCbusedByNetworkIssue(CertStoreException e);
 }

@@ -1,51 +1,51 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
- * HangulLayoutEngine.cpp: OpenType processing for Han fonts.
+ * HbngulLbyoutEngine.cpp: OpenType processing for Hbn fonts.
  *
  * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved.
  */
 
 #include "LETypes.h"
 #include "LEScripts.h"
-#include "LELanguages.h"
+#include "LELbngubges.h"
 
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
-#include "HangulLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "LEGlyphStorage.h"
-#include "OpenTypeTables.h"
+#include "LbyoutEngine.h"
+#include "OpenTypeLbyoutEngine.h"
+#include "HbngulLbyoutEngine.h"
+#include "ScriptAndLbngubgeTbgs.h"
+#include "LEGlyphStorbge.h"
+#include "OpenTypeTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HangulOpenTypeLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HbngulOpenTypeLbyoutEngine)
 
 
-#define FEATURE_MAP(name) {name ## FeatureTag, name ## FeatureMask}
+#define FEATURE_MAP(nbme) {nbme ## FebtureTbg, nbme ## FebtureMbsk}
 
 #define LJMO_FIRST 0x1100
 #define LJMO_LAST  0x1159
@@ -65,7 +65,7 @@ UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HangulOpenTypeLayoutEngine)
 #define HSYL_COUNT 11172
 #define HSYL_LVCNT (VJMO_COUNT * TJMO_COUNT)
 
-// Character classes
+// Chbrbcter clbsses
 enum
 {
     CC_L = 0,
@@ -77,67 +77,67 @@ enum
     CC_COUNT
 };
 
-// Action flags
+// Action flbgs
 #define AF_L 1
 #define AF_V 2
 #define AF_T 4
 
 // Actions
-#define a_N   0
-#define a_L   (AF_L)
-#define a_V   (AF_V)
-#define a_T   (AF_T)
-#define a_VT  (AF_V | AF_T)
-#define a_LV  (AF_L | AF_V)
-#define a_LVT (AF_L | AF_V | AF_T)
+#define b_N   0
+#define b_L   (AF_L)
+#define b_V   (AF_V)
+#define b_T   (AF_T)
+#define b_VT  (AF_V | AF_T)
+#define b_LV  (AF_L | AF_V)
+#define b_LVT (AF_L | AF_V | AF_T)
 
 typedef struct
 {
-    le_int32 newState;
-    le_int32 actionFlags;
-} StateTransition;
+    le_int32 newStbte;
+    le_int32 bctionFlbgs;
+} StbteTrbnsition;
 
-static const StateTransition stateTable[][CC_COUNT] =
+stbtic const StbteTrbnsition stbteTbble[][CC_COUNT] =
 {
 //       L          V          T          LV         LVT           X
-    { {1, a_L},  {2, a_LV}, {3, a_LVT}, {2, a_LV}, {3, a_LVT},  {4, a_T}}, // 0 - start
-    { {1, a_L},  {2, a_V},  {3, a_VT},  {2, a_LV}, {3, a_LVT}, {-1, a_V}}, // 1 - L+
-    {{-1, a_N},  {2, a_V},  {3, a_T},  {-1, a_N}, {-1, a_N},   {-1, a_N}}, // 2 - L+V+
-    {{-1, a_N}, {-1, a_N},  {3, a_T},  {-1, a_N}, {-1, a_N},   {-1, a_N}}, // 3 - L+V+T*
-    {{-1, a_N}, {-1, a_N}, {-1, a_N},  {-1, a_N}, {-1, a_N},    {4, a_T}}  // 4 - X+
+    { {1, b_L},  {2, b_LV}, {3, b_LVT}, {2, b_LV}, {3, b_LVT},  {4, b_T}}, // 0 - stbrt
+    { {1, b_L},  {2, b_V},  {3, b_VT},  {2, b_LV}, {3, b_LVT}, {-1, b_V}}, // 1 - L+
+    {{-1, b_N},  {2, b_V},  {3, b_T},  {-1, b_N}, {-1, b_N},   {-1, b_N}}, // 2 - L+V+
+    {{-1, b_N}, {-1, b_N},  {3, b_T},  {-1, b_N}, {-1, b_N},   {-1, b_N}}, // 3 - L+V+T*
+    {{-1, b_N}, {-1, b_N}, {-1, b_N},  {-1, b_N}, {-1, b_N},    {4, b_T}}  // 4 - X+
 };
 
 
-#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
-#define ljmoFeatureTag LE_LJMO_FEATURE_TAG
-#define vjmoFeatureTag LE_VJMO_FEATURE_TAG
-#define tjmoFeatureTag LE_TJMO_FEATURE_TAG
+#define ccmpFebtureTbg LE_CCMP_FEATURE_TAG
+#define ljmoFebtureTbg LE_LJMO_FEATURE_TAG
+#define vjmoFebtureTbg LE_VJMO_FEATURE_TAG
+#define tjmoFebtureTbg LE_TJMO_FEATURE_TAG
 
-#define ccmpFeatureMask 0x80000000UL
-#define ljmoFeatureMask 0x40000000UL
-#define vjmoFeatureMask 0x20000000UL
-#define tjmoFeatureMask 0x10000000UL
+#define ccmpFebtureMbsk 0x80000000UL
+#define ljmoFebtureMbsk 0x40000000UL
+#define vjmoFebtureMbsk 0x20000000UL
+#define tjmoFebtureMbsk 0x10000000UL
 
-static const FeatureMap featureMap[] =
+stbtic const FebtureMbp febtureMbp[] =
 {
-    {ccmpFeatureTag, ccmpFeatureMask},
-    {ljmoFeatureTag, ljmoFeatureMask},
-    {vjmoFeatureTag, vjmoFeatureMask},
-    {tjmoFeatureTag, tjmoFeatureMask}
+    {ccmpFebtureTbg, ccmpFebtureMbsk},
+    {ljmoFebtureTbg, ljmoFebtureMbsk},
+    {vjmoFebtureTbg, vjmoFebtureMbsk},
+    {tjmoFebtureTbg, tjmoFebtureMbsk}
 };
 
-static const le_int32 featureMapCount = LE_ARRAY_SIZE(featureMap);
+stbtic const le_int32 febtureMbpCount = LE_ARRAY_SIZE(febtureMbp);
 
-#define nullFeatures 0
-#define ljmoFeatures (ccmpFeatureMask | ljmoFeatureMask)
-#define vjmoFeatures (ccmpFeatureMask | vjmoFeatureMask | ljmoFeatureMask | tjmoFeatureMask)
-#define tjmoFeatures (ccmpFeatureMask | tjmoFeatureMask | ljmoFeatureMask | vjmoFeatureMask)
+#define nullFebtures 0
+#define ljmoFebtures (ccmpFebtureMbsk | ljmoFebtureMbsk)
+#define vjmoFebtures (ccmpFebtureMbsk | vjmoFebtureMbsk | ljmoFebtureMbsk | tjmoFebtureMbsk)
+#define tjmoFebtures (ccmpFebtureMbsk | tjmoFebtureMbsk | ljmoFebtureMbsk | vjmoFebtureMbsk)
 
-static le_int32 compose(LEUnicode lead, LEUnicode vowel, LEUnicode trail, LEUnicode &syllable)
+stbtic le_int32 compose(LEUnicode lebd, LEUnicode vowel, LEUnicode trbil, LEUnicode &syllbble)
 {
-    le_int32 lIndex = lead  - LJMO_FIRST;
+    le_int32 lIndex = lebd  - LJMO_FIRST;
     le_int32 vIndex = vowel - VJMO_FIRST;
-    le_int32 tIndex = trail - TJMO_FIRST;
+    le_int32 tIndex = trbil - TJMO_FIRST;
     le_int32 result = 3;
 
     if ((lIndex < 0 || lIndex >= LJMO_COUNT ) || (vIndex < 0 || vIndex >= VJMO_COUNT)) {
@@ -149,38 +149,38 @@ static le_int32 compose(LEUnicode lead, LEUnicode vowel, LEUnicode trail, LEUnic
         result = 2;
     }
 
-    syllable = (LEUnicode) ((lIndex * VJMO_COUNT + vIndex) * TJMO_COUNT + tIndex + HSYL_FIRST);
+    syllbble = (LEUnicode) ((lIndex * VJMO_COUNT + vIndex) * TJMO_COUNT + tIndex + HSYL_FIRST);
 
     return result;
 }
 
-static le_int32 decompose(LEUnicode syllable, LEUnicode &lead, LEUnicode &vowel, LEUnicode &trail)
+stbtic le_int32 decompose(LEUnicode syllbble, LEUnicode &lebd, LEUnicode &vowel, LEUnicode &trbil)
 {
-    le_int32 sIndex = syllable - HSYL_FIRST;
+    le_int32 sIndex = syllbble - HSYL_FIRST;
 
     if (sIndex < 0 || sIndex >= HSYL_COUNT) {
         return 0;
     }
 
-    lead  = (LEUnicode)(LJMO_FIRST + (sIndex / HSYL_LVCNT));
+    lebd  = (LEUnicode)(LJMO_FIRST + (sIndex / HSYL_LVCNT));
     vowel = VJMO_FIRST + (sIndex % HSYL_LVCNT) / TJMO_COUNT;
-    trail = TJMO_FIRST + (sIndex % TJMO_COUNT);
+    trbil = TJMO_FIRST + (sIndex % TJMO_COUNT);
 
-    if (trail == TJMO_FIRST) {
+    if (trbil == TJMO_FIRST) {
         return 2;
     }
 
     return 3;
 }
 
-static le_int32 getCharClass(LEUnicode ch, LEUnicode &lead, LEUnicode &vowel, LEUnicode &trail)
+stbtic le_int32 getChbrClbss(LEUnicode ch, LEUnicode &lebd, LEUnicode &vowel, LEUnicode &trbil)
 {
-    lead  = LJMO_FILL;
+    lebd  = LJMO_FILL;
     vowel = VJMO_FILL;
-    trail = TJMO_FIRST;
+    trbil = TJMO_FIRST;
 
     if (ch >= LJMO_FIRST && ch <= LJMO_LAST) {
-        lead  = ch;
+        lebd  = ch;
         return CC_L;
     }
 
@@ -190,11 +190,11 @@ static le_int32 getCharClass(LEUnicode ch, LEUnicode &lead, LEUnicode &vowel, LE
     }
 
     if (ch > TJMO_FIRST && ch <= TJMO_LAST) {
-        trail = ch;
+        trbil = ch;
         return CC_T;
     }
 
-    le_int32 c = decompose(ch, lead, vowel, trail);
+    le_int32 c = decompose(ch, lebd, vowel, trbil);
 
     if (c == 2) {
         return CC_LV;
@@ -204,122 +204,122 @@ static le_int32 getCharClass(LEUnicode ch, LEUnicode &lead, LEUnicode &vowel, LE
         return CC_LVT;
     }
 
-    trail = ch;
+    trbil = ch;
     return CC_X;
 }
 
-HangulOpenTypeLayoutEngine::HangulOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 /*languageCode*/,
-                                                       le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, korLanguageCode, typoFlags, gsubTable, success)
+HbngulOpenTypeLbyoutEngine::HbngulOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 /*lbngubgeCode*/,
+                                                       le_int32 typoFlbgs, const LEReferenceTo<GlyphSubstitutionTbbleHebder> &gsubTbble, LEErrorCode &success)
+    : OpenTypeLbyoutEngine(fontInstbnce, scriptCode, korLbngubgeCode, typoFlbgs, gsubTbble, success)
 {
-    fFeatureMap = featureMap;
-    fFeatureMapCount = featureMapCount;
-    fFeatureOrder = TRUE;
+    fFebtureMbp = febtureMbp;
+    fFebtureMbpCount = febtureMbpCount;
+    fFebtureOrder = TRUE;
 }
 
-HangulOpenTypeLayoutEngine::HangulOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 /*languageCode*/,
-                                                           le_int32 typoFlags, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, korLanguageCode, typoFlags, success)
+HbngulOpenTypeLbyoutEngine::HbngulOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 /*lbngubgeCode*/,
+                                                           le_int32 typoFlbgs, LEErrorCode &success)
+    : OpenTypeLbyoutEngine(fontInstbnce, scriptCode, korLbngubgeCode, typoFlbgs, success)
 {
-    fFeatureMap = featureMap;
-    fFeatureMapCount = featureMapCount;
-    fFeatureOrder = TRUE;
+    fFebtureMbp = febtureMbp;
+    fFebtureMbpCount = febtureMbpCount;
+    fFebtureOrder = TRUE;
 }
 
-HangulOpenTypeLayoutEngine::~HangulOpenTypeLayoutEngine()
+HbngulOpenTypeLbyoutEngine::~HbngulOpenTypeLbyoutEngine()
 {
     // nothing to do
 }
 
-le_int32 HangulOpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-        LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 HbngulOpenTypeLbyoutEngine::chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+        LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    le_int32 worstCase = count * 3;
+    le_int32 worstCbse = count * 3;
 
-    outChars = LE_NEW_ARRAY(LEUnicode, worstCase);
+    outChbrs = LE_NEW_ARRAY(LEUnicode, worstCbse);
 
-    if (outChars == NULL) {
+    if (outChbrs == NULL) {
         success = LE_MEMORY_ALLOCATION_ERROR;
         return 0;
     }
 
-    glyphStorage.allocateGlyphArray(worstCase, rightToLeft, success);
-    glyphStorage.allocateAuxData(success);
+    glyphStorbge.bllocbteGlyphArrby(worstCbse, rightToLeft, success);
+    glyphStorbge.bllocbteAuxDbtb(success);
 
     if (LE_FAILURE(success)) {
-        LE_DELETE_ARRAY(outChars);
+        LE_DELETE_ARRAY(outChbrs);
         return 0;
     }
 
-    le_int32 outCharCount = 0;
+    le_int32 outChbrCount = 0;
     le_int32 limit = offset + count;
     le_int32 i = offset;
 
     while (i < limit) {
-        le_int32 state    = 0;
-        le_int32 inStart  = i;
-        le_int32 outStart = outCharCount;
+        le_int32 stbte    = 0;
+        le_int32 inStbrt  = i;
+        le_int32 outStbrt = outChbrCount;
 
         while( i < limit) {
-            LEUnicode lead  = 0;
+            LEUnicode lebd  = 0;
             LEUnicode vowel = 0;
-            LEUnicode trail = 0;
-            le_int32 chClass = getCharClass(chars[i], lead, vowel, trail);
-            const StateTransition transition = stateTable[state][chClass];
+            LEUnicode trbil = 0;
+            le_int32 chClbss = getChbrClbss(chbrs[i], lebd, vowel, trbil);
+            const StbteTrbnsition trbnsition = stbteTbble[stbte][chClbss];
 
-            if (chClass == CC_X) {
-                /* Any character of type X will be stored as a trail jamo */
-                if ((transition.actionFlags & AF_T) != 0) {
-                    outChars[outCharCount] = trail;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+            if (chClbss == CC_X) {
+                /* Any chbrbcter of type X will be stored bs b trbil jbmo */
+                if ((trbnsition.bctionFlbgs & AF_T) != 0) {
+                    outChbrs[outChbrCount] = trbil;
+                    glyphStorbge.setChbrIndex(outChbrCount, i-offset, success);
+                    glyphStorbge.setAuxDbtb(outChbrCount++, nullFebtures, success);
                 }
             } else {
-                /* Any Hangul will be fully decomposed. Output the decomposed characters. */
-                if ((transition.actionFlags & AF_L) != 0) {
-                    outChars[outCharCount] = lead;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, ljmoFeatures, success);
+                /* Any Hbngul will be fully decomposed. Output the decomposed chbrbcters. */
+                if ((trbnsition.bctionFlbgs & AF_L) != 0) {
+                    outChbrs[outChbrCount] = lebd;
+                    glyphStorbge.setChbrIndex(outChbrCount, i-offset, success);
+                    glyphStorbge.setAuxDbtb(outChbrCount++, ljmoFebtures, success);
                 }
 
-                if ((transition.actionFlags & AF_V) != 0) {
-                    outChars[outCharCount] = vowel;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, vjmoFeatures, success);
+                if ((trbnsition.bctionFlbgs & AF_V) != 0) {
+                    outChbrs[outChbrCount] = vowel;
+                    glyphStorbge.setChbrIndex(outChbrCount, i-offset, success);
+                    glyphStorbge.setAuxDbtb(outChbrCount++, vjmoFebtures, success);
                 }
 
-                if ((transition.actionFlags & AF_T) != 0) {
-                    outChars[outCharCount] = trail;
-                    glyphStorage.setCharIndex(outCharCount, i-offset, success);
-                    glyphStorage.setAuxData(outCharCount++, tjmoFeatures, success);
+                if ((trbnsition.bctionFlbgs & AF_T) != 0) {
+                    outChbrs[outChbrCount] = trbil;
+                    glyphStorbge.setChbrIndex(outChbrCount, i-offset, success);
+                    glyphStorbge.setAuxDbtb(outChbrCount++, tjmoFebtures, success);
                 }
             }
 
-            state = transition.newState;
+            stbte = trbnsition.newStbte;
 
-            /* Negative next state means stop. */
-            if (state < 0) {
-                break;
+            /* Negbtive next stbte mebns stop. */
+            if (stbte < 0) {
+                brebk;
             }
 
             i += 1;
         }
 
-        le_int32 inLength  = i - inStart;
-        le_int32 outLength = outCharCount - outStart;
+        le_int32 inLength  = i - inStbrt;
+        le_int32 outLength = outChbrCount - outStbrt;
 
         /*
-         * See if the syllable can be composed into a single character. There are 5
-         * possible cases:
+         * See if the syllbble cbn be composed into b single chbrbcter. There bre 5
+         * possible cbses:
          *
          *   Input     Decomposed to    Compose to
          *   LV        L, V             LV
@@ -329,35 +329,35 @@ le_int32 HangulOpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[]
          *   L, V, T   L, V, T          LVT, DEL, DEL
          */
         if ((inLength >= 1 && inLength <= 3) && (outLength == 2 || outLength == 3)) {
-            LEUnicode syllable = 0x0000;
-            LEUnicode lead  = outChars[outStart];
-            LEUnicode vowel = outChars[outStart + 1];
-            LEUnicode trail = outLength == 3? outChars[outStart + 2] : TJMO_FIRST;
+            LEUnicode syllbble = 0x0000;
+            LEUnicode lebd  = outChbrs[outStbrt];
+            LEUnicode vowel = outChbrs[outStbrt + 1];
+            LEUnicode trbil = outLength == 3? outChbrs[outStbrt + 2] : TJMO_FIRST;
 
             /*
-             * If the composition consumes the whole decomposed syllable,
-             * we can use it.
+             * If the composition consumes the whole decomposed syllbble,
+             * we cbn use it.
              */
-            if (compose(lead, vowel, trail, syllable) == outLength) {
-                outCharCount = outStart;
-                outChars[outCharCount] = syllable;
-                glyphStorage.setCharIndex(outCharCount, inStart-offset, success);
-                glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+            if (compose(lebd, vowel, trbil, syllbble) == outLength) {
+                outChbrCount = outStbrt;
+                outChbrs[outChbrCount] = syllbble;
+                glyphStorbge.setChbrIndex(outChbrCount, inStbrt-offset, success);
+                glyphStorbge.setAuxDbtb(outChbrCount++, nullFebtures, success);
 
                 /*
-                 * Replace the rest of the input characters with DEL.
+                 * Replbce the rest of the input chbrbcters with DEL.
                  */
-                for(le_int32 d = inStart + 1; d < i; d += 1) {
-                    outChars[outCharCount] = 0xFFFF;
-                    glyphStorage.setCharIndex(outCharCount, d - offset, success);
-                    glyphStorage.setAuxData(outCharCount++, nullFeatures, success);
+                for(le_int32 d = inStbrt + 1; d < i; d += 1) {
+                    outChbrs[outChbrCount] = 0xFFFF;
+                    glyphStorbge.setChbrIndex(outChbrCount, d - offset, success);
+                    glyphStorbge.setAuxDbtb(outChbrCount++, nullFebtures, success);
                 }
             }
         }
     }
 
-    glyphStorage.adoptGlyphCount(outCharCount);
-    return outCharCount;
+    glyphStorbge.bdoptGlyphCount(outChbrCount);
+    return outChbrCount;
 }
 
 U_NAMESPACE_END

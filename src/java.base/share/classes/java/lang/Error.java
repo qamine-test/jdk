@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * An {@code Error} is a subclass of {@code Throwable}
- * that indicates serious problems that a reasonable application
- * should not try to catch. Most such errors are abnormal conditions.
- * The {@code ThreadDeath} error, though a "normal" condition,
- * is also a subclass of {@code Error} because most applications
- * should not try to catch it.
+ * An {@code Error} is b subclbss of {@code Throwbble}
+ * thbt indicbtes serious problems thbt b rebsonbble bpplicbtion
+ * should not try to cbtch. Most such errors bre bbnormbl conditions.
+ * The {@code ThrebdDebth} error, though b "normbl" condition,
+ * is blso b subclbss of {@code Error} becbuse most bpplicbtions
+ * should not try to cbtch it.
  * <p>
- * A method is not required to declare in its {@code throws}
- * clause any subclasses of {@code Error} that might be thrown
- * during the execution of the method but not caught, since these
- * errors are abnormal conditions that should never occur.
+ * A method is not required to declbre in its {@code throws}
+ * clbuse bny subclbsses of {@code Error} thbt might be thrown
+ * during the execution of the method but not cbught, since these
+ * errors bre bbnormbl conditions thbt should never occur.
  *
- * That is, {@code Error} and its subclasses are regarded as unchecked
+ * Thbt is, {@code Error} bnd its subclbsses bre regbrded bs unchecked
  * exceptions for the purposes of compile-time checking of exceptions.
  *
- * @author  Frank Yellin
- * @see     java.lang.ThreadDeath
+ * @buthor  Frbnk Yellin
+ * @see     jbvb.lbng.ThrebdDebth
  * @jls 11.2 Compile-Time Checking of Exceptions
  * @since   1.0
  */
-public class Error extends Throwable {
-    static final long serialVersionUID = 4980196508277280342L;
+public clbss Error extends Throwbble {
+    stbtic finbl long seriblVersionUID = 4980196508277280342L;
 
     /**
-     * Constructs a new error with {@code null} as its detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
+     * Constructs b new error with {@code null} bs its detbil messbge.
+     * The cbuse is not initiblized, bnd mby subsequently be initiblized by b
+     * cbll to {@link #initCbuse}.
      */
     public Error() {
         super();
     }
 
     /**
-     * Constructs a new error with the specified detail message.  The
-     * cause is not initialized, and may subsequently be initialized by
-     * a call to {@link #initCause}.
+     * Constructs b new error with the specified detbil messbge.  The
+     * cbuse is not initiblized, bnd mby subsequently be initiblized by
+     * b cbll to {@link #initCbuse}.
      *
-     * @param   message   the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
+     * @pbrbm   messbge   the detbil messbge. The detbil messbge is sbved for
+     *          lbter retrievbl by the {@link #getMessbge()} method.
      */
-    public Error(String message) {
-        super(message);
+    public Error(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new error with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this error's detail message.
+     * Constructs b new error with the specified detbil messbge bnd
+     * cbuse.  <p>Note thbt the detbil messbge bssocibted with
+     * {@code cbuse} is <i>not</i> butombticblly incorporbted in
+     * this error's detbil messbge.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  messbge the detbil messbge (which is sbved for lbter retrievbl
+     *         by the {@link #getMessbge()} method).
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A {@code null} vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public Error(String message, Throwable cause) {
-        super(message, cause);
+    public Error(String messbge, Throwbble cbuse) {
+        super(messbge, cbuse);
     }
 
     /**
-     * Constructs a new error with the specified cause and a detail
-     * message of {@code (cause==null ? null : cause.toString())} (which
-     * typically contains the class and detail message of {@code cause}).
-     * This constructor is useful for errors that are little more than
-     * wrappers for other throwables.
+     * Constructs b new error with the specified cbuse bnd b detbil
+     * messbge of {@code (cbuse==null ? null : cbuse.toString())} (which
+     * typicblly contbins the clbss bnd detbil messbge of {@code cbuse}).
+     * This constructor is useful for errors thbt bre little more thbn
+     * wrbppers for other throwbbles.
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A {@code null} vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public Error(Throwable cause) {
-        super(cause);
+    public Error(Throwbble cbuse) {
+        super(cbuse);
     }
 
     /**
-     * Constructs a new error with the specified detail message,
-     * cause, suppression enabled or disabled, and writable stack
-     * trace enabled or disabled.
+     * Constructs b new error with the specified detbil messbge,
+     * cbuse, suppression enbbled or disbbled, bnd writbble stbck
+     * trbce enbbled or disbbled.
      *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled
-     *                          or disabled
-     * @param writableStackTrace whether or not the stack trace should
-     *                           be writable
+     * @pbrbm  messbge the detbil messbge.
+     * @pbrbm cbuse the cbuse.  (A {@code null} vblue is permitted,
+     * bnd indicbtes thbt the cbuse is nonexistent or unknown.)
+     * @pbrbm enbbleSuppression whether or not suppression is enbbled
+     *                          or disbbled
+     * @pbrbm writbbleStbckTrbce whether or not the stbck trbce should
+     *                           be writbble
      *
      * @since 1.7
      */
-    protected Error(String message, Throwable cause,
-                    boolean enableSuppression,
-                    boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    protected Error(String messbge, Throwbble cbuse,
+                    boolebn enbbleSuppression,
+                    boolebn writbbleStbckTrbce) {
+        super(messbge, cbuse, enbbleSuppression, writbbleStbckTrbce);
     }
 }

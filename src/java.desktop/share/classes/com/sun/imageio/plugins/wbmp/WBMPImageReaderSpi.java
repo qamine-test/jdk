@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbckbge com.sun.imbgeio.plugins.wbmp;
 
-import java.util.Locale;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ServiceRegistry;
-import java.io.IOException;
-import javax.imageio.ImageReader;
-import javax.imageio.IIOException;
-import com.sun.imageio.plugins.common.ReaderUtil;
+import jbvb.util.Locble;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.spi.ServiceRegistry;
+import jbvb.io.IOException;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.IIOException;
+import com.sun.imbgeio.plugins.common.RebderUtil;
 
-public class WBMPImageReaderSpi extends ImageReaderSpi {
+public clbss WBMPImbgeRebderSpi extends ImbgeRebderSpi {
 
-    private static final int MAX_WBMP_WIDTH = 1024;
-    private static final int MAX_WBMP_HEIGHT = 768;
+    privbte stbtic finbl int MAX_WBMP_WIDTH = 1024;
+    privbte stbtic finbl int MAX_WBMP_HEIGHT = 768;
 
-    private static String [] writerSpiNames =
-        {"com.sun.imageio.plugins.wbmp.WBMPImageWriterSpi"};
-    private static String[] formatNames = {"wbmp", "WBMP"};
-    private static String[] entensions = {"wbmp"};
-    private static String[] mimeType = {"image/vnd.wap.wbmp"};
+    privbte stbtic String [] writerSpiNbmes =
+        {"com.sun.imbgeio.plugins.wbmp.WBMPImbgeWriterSpi"};
+    privbte stbtic String[] formbtNbmes = {"wbmp", "WBMP"};
+    privbte stbtic String[] entensions = {"wbmp"};
+    privbte stbtic String[] mimeType = {"imbge/vnd.wbp.wbmp"};
 
-    private boolean registered = false;
+    privbte boolebn registered = fblse;
 
-    public WBMPImageReaderSpi() {
-        super("Oracle Corporation",
+    public WBMPImbgeRebderSpi() {
+        super("Orbcle Corporbtion",
               "1.0",
-              formatNames,
+              formbtNbmes,
               entensions,
               mimeType,
-              "com.sun.imageio.plugins.wbmp.WBMPImageReader",
-              new Class<?>[] { ImageInputStream.class },
-              writerSpiNames,
+              "com.sun.imbgeio.plugins.wbmp.WBMPImbgeRebder",
+              new Clbss<?>[] { ImbgeInputStrebm.clbss },
+              writerSpiNbmes,
               true,
               null, null, null, null,
               true,
-              WBMPMetadata.nativeMetadataFormatName,
-              "com.sun.imageio.plugins.wbmp.WBMPMetadataFormat",
+              WBMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
+              "com.sun.imbgeio.plugins.wbmp.WBMPMetbdbtbFormbt",
               null, null);
     }
 
-    public void onRegistration(ServiceRegistry registry,
-                               Class<?> category) {
+    public void onRegistrbtion(ServiceRegistry registry,
+                               Clbss<?> cbtegory) {
         if (registered) {
             return;
         }
         registered = true;
     }
 
-    public String getDescription(Locale locale) {
-        return "Standard WBMP Image Reader";
+    public String getDescription(Locble locble) {
+        return "Stbndbrd WBMP Imbge Rebder";
     }
 
-    public boolean canDecodeInput(Object source) throws IOException {
-        if (!(source instanceof ImageInputStream)) {
-            return false;
+    public boolebn cbnDecodeInput(Object source) throws IOException {
+        if (!(source instbnceof ImbgeInputStrebm)) {
+            return fblse;
         }
 
-        ImageInputStream stream = (ImageInputStream)source;
+        ImbgeInputStrebm strebm = (ImbgeInputStrebm)source;
 
-        stream.mark();
+        strebm.mbrk();
         try {
-            int type = stream.readByte();   // TypeField
-            int fixHeaderField = stream.readByte();
-            // check WBMP "header"
-            if (type != 0 || fixHeaderField != 0) {
-                // while WBMP reader does not support ext WBMP headers
-                return false;
+            int type = strebm.rebdByte();   // TypeField
+            int fixHebderField = strebm.rebdByte();
+            // check WBMP "hebder"
+            if (type != 0 || fixHebderField != 0) {
+                // while WBMP rebder does not support ext WBMP hebders
+                return fblse;
             }
 
-            int width = ReaderUtil.readMultiByteInteger(stream);
-            int height = ReaderUtil.readMultiByteInteger(stream);
-            // check image dimension
+            int width = RebderUtil.rebdMultiByteInteger(strebm);
+            int height = RebderUtil.rebdMultiByteInteger(strebm);
+            // check imbge dimension
             if (width <= 0 || height <= 0) {
-                return false;
+                return fblse;
             }
 
-            long dataLength = stream.length();
-            if (dataLength == -1) {
-                // We can't verify that amount of data in the stream
-                // corresponds to image dimension because we do not know
-                // the length of the data stream.
-                // Assuming that wbmp image are used for mobile devices,
-                // let's introduce an upper limit for image dimension.
-                // In case if exact amount of raster data is unknown,
-                // let's reject images with dimension above the limit.
+            long dbtbLength = strebm.length();
+            if (dbtbLength == -1) {
+                // We cbn't verify thbt bmount of dbtb in the strebm
+                // corresponds to imbge dimension becbuse we do not know
+                // the length of the dbtb strebm.
+                // Assuming thbt wbmp imbge bre used for mobile devices,
+                // let's introduce bn upper limit for imbge dimension.
+                // In cbse if exbct bmount of rbster dbtb is unknown,
+                // let's reject imbges with dimension bbove the limit.
                 return (width < MAX_WBMP_WIDTH) && (height < MAX_WBMP_HEIGHT);
             }
 
-            dataLength -= stream.getStreamPosition();
+            dbtbLength -= strebm.getStrebmPosition();
 
-            long scanSize = (width / 8) + ((width % 8) == 0 ? 0 : 1);
+            long scbnSize = (width / 8) + ((width % 8) == 0 ? 0 : 1);
 
-            return (dataLength == scanSize * height);
-        } finally {
-            stream.reset();
+            return (dbtbLength == scbnSize * height);
+        } finblly {
+            strebm.reset();
         }
     }
 
-    public ImageReader createReaderInstance(Object extension)
+    public ImbgeRebder crebteRebderInstbnce(Object extension)
         throws IIOException {
-        return new WBMPImageReader(this);
+        return new WBMPImbgeRebder(this);
     }
 }

@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.ServerSocket;
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.Activatable;
-import java.rmi.activation.ActivationDesc;
-import java.rmi.activation.ActivationException;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.ActivationID;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RMISocketFactory;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.net.ServerSocket;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.bctivbtion.Activbtbble;
+import jbvb.rmi.bctivbtion.ActivbtionDesc;
+import jbvb.rmi.bctivbtion.ActivbtionException;
+import jbvb.rmi.bctivbtion.ActivbtionGroup;
+import jbvb.rmi.bctivbtion.ActivbtionGroupID;
+import jbvb.rmi.bctivbtion.ActivbtionID;
+import jbvb.rmi.bctivbtion.UnknownObjectException;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.RMISocketFbctory;
+import jbvb.rmi.server.UnicbstRemoteObject;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbble;
+import jbvb.util.List;
 import sun.rmi.registry.RegistryImpl;
 
 /**
- * The default activation group implementation.
+ * The defbult bctivbtion group implementbtion.
  *
- * @author      Ann Wollrath
+ * @buthor      Ann Wollrbth
  * @since       1.2
- * @see         java.rmi.activation.ActivationGroup
+ * @see         jbvb.rmi.bctivbtion.ActivbtionGroup
  */
-public class ActivationGroupImpl extends ActivationGroup {
+public clbss ActivbtionGroupImpl extends ActivbtionGroup {
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = 5758693559430427303L;
+    // use seriblVersionUID from JDK 1.2.2 for interoperbbility
+    privbte stbtic finbl long seriblVersionUID = 5758693559430427303L;
 
-    /** maps persistent IDs to activated remote objects */
-    private final Hashtable<ActivationID,ActiveEntry> active =
-        new Hashtable<>();
-    private boolean groupInactive = false;
-    private final ActivationGroupID groupID;
-    private final List<ActivationID> lockedIDs = new ArrayList<>();
+    /** mbps persistent IDs to bctivbted remote objects */
+    privbte finbl Hbshtbble<ActivbtionID,ActiveEntry> bctive =
+        new Hbshtbble<>();
+    privbte boolebn groupInbctive = fblse;
+    privbte finbl ActivbtionGroupID groupID;
+    privbte finbl List<ActivbtionID> lockedIDs = new ArrbyList<>();
 
     /**
-     * Creates a default activation group implementation.
+     * Crebtes b defbult bctivbtion group implementbtion.
      *
-     * @param id the group's identifier
-     * @param data ignored
+     * @pbrbm id the group's identifier
+     * @pbrbm dbtb ignored
      */
-    public ActivationGroupImpl(ActivationGroupID id, MarshalledObject<?> data)
+    public ActivbtionGroupImpl(ActivbtionGroupID id, MbrshblledObject<?> dbtb)
         throws RemoteException
     {
         super(id);
         groupID = id;
 
         /*
-         * Unexport activation group impl and attempt to export it on
-         * an unshared anonymous port.  See 4692286.
+         * Unexport bctivbtion group impl bnd bttempt to export it on
+         * bn unshbred bnonymous port.  See 4692286.
          */
         unexportObject(this, true);
-        RMIServerSocketFactory ssf = new ServerSocketFactoryImpl();
-        UnicastRemoteObject.exportObject(this, 0, null, ssf);
+        RMIServerSocketFbctory ssf = new ServerSocketFbctoryImpl();
+        UnicbstRemoteObject.exportObject(this, 0, null, ssf);
 
-        if (System.getSecurityManager() == null) {
+        if (System.getSecurityMbnbger() == null) {
             try {
-                // Provide a default security manager.
-                System.setSecurityManager(new SecurityManager());
+                // Provide b defbult security mbnbger.
+                System.setSecurityMbnbger(new SecurityMbnbger());
 
-            } catch (Exception e) {
-                throw new RemoteException("unable to set security manager", e);
+            } cbtch (Exception e) {
+                throw new RemoteException("unbble to set security mbnbger", e);
             }
         }
     }
 
     /**
-     * Trivial server socket factory used to export the activation group
-     * impl on an unshared port.
+     * Trivibl server socket fbctory used to export the bctivbtion group
+     * impl on bn unshbred port.
      */
-    private static class ServerSocketFactoryImpl
-        implements RMIServerSocketFactory
+    privbte stbtic clbss ServerSocketFbctoryImpl
+        implements RMIServerSocketFbctory
     {
-        public ServerSocket createServerSocket(int port) throws IOException
+        public ServerSocket crebteServerSocket(int port) throws IOException
         {
-            RMISocketFactory sf = RMISocketFactory.getSocketFactory();
+            RMISocketFbctory sf = RMISocketFbctory.getSocketFbctory();
             if (sf == null) {
-                sf = RMISocketFactory.getDefaultSocketFactory();
+                sf = RMISocketFbctory.getDefbultSocketFbctory();
             }
-            return sf.createServerSocket(port);
+            return sf.crebteServerSocket(port);
         }
     }
 
     /*
-     * Obtains a lock on the ActivationID id before returning. Allows only one
-     * thread at a time to hold a lock on a particular id.  If the lock for id
-     * is in use, all requests for an equivalent (in the Object.equals sense)
-     * id will wait for the id to be notified and use the supplied id as the
-     * next lock. The caller of "acquireLock" must execute the "releaseLock"
-     * method" to release the lock and "notifyAll" waiters for the id lock
-     * obtained from this method.  The typical usage pattern is as follows:
+     * Obtbins b lock on the ActivbtionID id before returning. Allows only one
+     * threbd bt b time to hold b lock on b pbrticulbr id.  If the lock for id
+     * is in use, bll requests for bn equivblent (in the Object.equbls sense)
+     * id will wbit for the id to be notified bnd use the supplied id bs the
+     * next lock. The cbller of "bcquireLock" must execute the "relebseLock"
+     * method" to relebse the lock bnd "notifyAll" wbiters for the id lock
+     * obtbined from this method.  The typicbl usbge pbttern is bs follows:
      *
      * try {
-     *    acquireLock(id);
-     *    // do stuff pertaining to id...
-     * } finally {
-     *    releaseLock(id);
-     *    checkInactiveGroup();
+     *    bcquireLock(id);
+     *    // do stuff pertbining to id...
+     * } finblly {
+     *    relebseLock(id);
+     *    checkInbctiveGroup();
      * }
      */
-    private void acquireLock(ActivationID id) {
+    privbte void bcquireLock(ActivbtionID id) {
 
-        ActivationID waitForID;
+        ActivbtionID wbitForID;
 
         for (;;) {
 
             synchronized (lockedIDs) {
                 int index = lockedIDs.indexOf(id);
                 if (index < 0) {
-                    lockedIDs.add(id);
+                    lockedIDs.bdd(id);
                     return;
                 } else {
-                    waitForID = lockedIDs.get(index);
+                    wbitForID = lockedIDs.get(index);
                 }
             }
 
-            synchronized (waitForID) {
+            synchronized (wbitForID) {
                 synchronized (lockedIDs) {
-                    int index = lockedIDs.indexOf(waitForID);
+                    int index = lockedIDs.indexOf(wbitForID);
                     if (index < 0) continue;
-                    ActivationID actualID = lockedIDs.get(index);
-                    if (actualID != waitForID)
+                    ActivbtionID bctublID = lockedIDs.get(index);
+                    if (bctublID != wbitForID)
                         /*
-                         * don't wait on an id that won't be notified.
+                         * don't wbit on bn id thbt won't be notified.
                          */
                         continue;
                 }
 
                 try {
-                    waitForID.wait();
-                } catch (InterruptedException ignore) {
+                    wbitForID.wbit();
+                } cbtch (InterruptedException ignore) {
                 }
             }
         }
@@ -174,10 +174,10 @@ public class ActivationGroupImpl extends ActivationGroup {
     }
 
     /*
-     * Releases the id lock obtained via the "acquireLock" method and then
-     * notifies all threads waiting on the lock.
+     * Relebses the id lock obtbined vib the "bcquireLock" method bnd then
+     * notifies bll threbds wbiting on the lock.
      */
-    private void releaseLock(ActivationID id) {
+    privbte void relebseLock(ActivbtionID id) {
         synchronized (lockedIDs) {
             id = lockedIDs.remove(lockedIDs.indexOf(id));
         }
@@ -188,313 +188,313 @@ public class ActivationGroupImpl extends ActivationGroup {
     }
 
     /**
-     * Creates a new instance of an activatable remote object. The
-     * <code>Activator</code> calls this method to create an activatable
-     * object in this group. This method should be idempotent; a call to
-     * activate an already active object should return the previously
-     * activated object.
+     * Crebtes b new instbnce of bn bctivbtbble remote object. The
+     * <code>Activbtor</code> cblls this method to crebte bn bctivbtbble
+     * object in this group. This method should be idempotent; b cbll to
+     * bctivbte bn blrebdy bctive object should return the previously
+     * bctivbted object.
      *
-     * Note: this method assumes that the Activator will only invoke
-     * newInstance for the same object in a serial fashion (i.e.,
-     * the activator will not allow the group to see concurrent requests
-     * to activate the same object.
+     * Note: this method bssumes thbt the Activbtor will only invoke
+     * newInstbnce for the sbme object in b seribl fbshion (i.e.,
+     * the bctivbtor will not bllow the group to see concurrent requests
+     * to bctivbte the sbme object.
      *
-     * @param id the object's activation identifier
-     * @param desc the object's activation descriptor
-     * @return a marshalled object containing the activated object's stub
+     * @pbrbm id the object's bctivbtion identifier
+     * @pbrbm desc the object's bctivbtion descriptor
+     * @return b mbrshblled object contbining the bctivbted object's stub
      */
-    public MarshalledObject<? extends Remote>
-                                      newInstance(final ActivationID id,
-                                                  final ActivationDesc desc)
-        throws ActivationException, RemoteException
+    public MbrshblledObject<? extends Remote>
+                                      newInstbnce(finbl ActivbtionID id,
+                                                  finbl ActivbtionDesc desc)
+        throws ActivbtionException, RemoteException
     {
-        RegistryImpl.checkAccess("ActivationInstantiator.newInstance");
+        RegistryImpl.checkAccess("ActivbtionInstbntibtor.newInstbnce");
 
-        if (!groupID.equals(desc.getGroupID()))
-            throw new ActivationException("newInstance in wrong group");
+        if (!groupID.equbls(desc.getGroupID()))
+            throw new ActivbtionException("newInstbnce in wrong group");
 
         try {
-            acquireLock(id);
+            bcquireLock(id);
             synchronized (this) {
-                if (groupInactive == true)
-                    throw new InactiveGroupException("group is inactive");
+                if (groupInbctive == true)
+                    throw new InbctiveGroupException("group is inbctive");
             }
 
-            ActiveEntry entry = active.get(id);
+            ActiveEntry entry = bctive.get(id);
             if (entry != null)
                 return entry.mobj;
 
-            String className = desc.getClassName();
+            String clbssNbme = desc.getClbssNbme();
 
-            final Class<? extends Remote> cl =
-                RMIClassLoader.loadClass(desc.getLocation(), className)
-                .asSubclass(Remote.class);
+            finbl Clbss<? extends Remote> cl =
+                RMIClbssLobder.lobdClbss(desc.getLocbtion(), clbssNbme)
+                .bsSubclbss(Remote.clbss);
             Remote impl = null;
 
-            final Thread t = Thread.currentThread();
-            final ClassLoader savedCcl = t.getContextClassLoader();
-            ClassLoader objcl = cl.getClassLoader();
-            final ClassLoader ccl = covers(objcl, savedCcl) ? objcl : savedCcl;
+            finbl Threbd t = Threbd.currentThrebd();
+            finbl ClbssLobder sbvedCcl = t.getContextClbssLobder();
+            ClbssLobder objcl = cl.getClbssLobder();
+            finbl ClbssLobder ccl = covers(objcl, sbvedCcl) ? objcl : sbvedCcl;
 
             /*
-             * Fix for 4164971: allow non-public activatable class
-             * and/or constructor, create the activatable object in a
+             * Fix for 4164971: bllow non-public bctivbtbble clbss
+             * bnd/or constructor, crebte the bctivbtbble object in b
              * privileged block
              */
             try {
                 /*
-                 * The code below is in a doPrivileged block to
-                 * protect against user code which code might have set
-                 * a global socket factory (in which case application
-                 * code would be on the stack).
+                 * The code below is in b doPrivileged block to
+                 * protect bgbinst user code which code might hbve set
+                 * b globbl socket fbctory (in which cbse bpplicbtion
+                 * code would be on the stbck).
                  */
                 impl = AccessController.doPrivileged(
                       new PrivilegedExceptionAction<Remote>() {
-                      public Remote run() throws InstantiationException,
-                          NoSuchMethodException, IllegalAccessException,
-                          InvocationTargetException
+                      public Remote run() throws InstbntibtionException,
+                          NoSuchMethodException, IllegblAccessException,
+                          InvocbtionTbrgetException
                       {
                           Constructor<? extends Remote> constructor =
-                              cl.getDeclaredConstructor(
-                                  ActivationID.class, MarshalledObject.class);
+                              cl.getDeclbredConstructor(
+                                  ActivbtionID.clbss, MbrshblledObject.clbss);
                           constructor.setAccessible(true);
                           try {
                               /*
-                               * Fix for 4289544: make sure to set the
-                               * context class loader to be the class
-                               * loader of the impl class before
-                               * constructing that class.
+                               * Fix for 4289544: mbke sure to set the
+                               * context clbss lobder to be the clbss
+                               * lobder of the impl clbss before
+                               * constructing thbt clbss.
                                */
-                              t.setContextClassLoader(ccl);
-                              return constructor.newInstance(id,
-                                                             desc.getData());
-                          } finally {
-                              t.setContextClassLoader(savedCcl);
+                              t.setContextClbssLobder(ccl);
+                              return constructor.newInstbnce(id,
+                                                             desc.getDbtb());
+                          } finblly {
+                              t.setContextClbssLobder(sbvedCcl);
                           }
                       }
                   });
-            } catch (PrivilegedActionException pae) {
-                Throwable e = pae.getException();
+            } cbtch (PrivilegedActionException pbe) {
+                Throwbble e = pbe.getException();
 
-                // narrow the exception's type and rethrow it
-                if (e instanceof InstantiationException) {
-                    throw (InstantiationException) e;
-                } else if (e instanceof NoSuchMethodException) {
+                // nbrrow the exception's type bnd rethrow it
+                if (e instbnceof InstbntibtionException) {
+                    throw (InstbntibtionException) e;
+                } else if (e instbnceof NoSuchMethodException) {
                     throw (NoSuchMethodException) e;
-                } else if (e instanceof IllegalAccessException) {
-                    throw (IllegalAccessException) e;
-                } else if (e instanceof InvocationTargetException) {
-                    throw (InvocationTargetException) e;
-                } else if (e instanceof RuntimeException) {
+                } else if (e instbnceof IllegblAccessException) {
+                    throw (IllegblAccessException) e;
+                } else if (e instbnceof InvocbtionTbrgetException) {
+                    throw (InvocbtionTbrgetException) e;
+                } else if (e instbnceof RuntimeException) {
                     throw (RuntimeException) e;
-                } else if (e instanceof Error) {
+                } else if (e instbnceof Error) {
                     throw (Error) e;
                 }
             }
 
             entry = new ActiveEntry(impl);
-            active.put(id, entry);
+            bctive.put(id, entry);
             return entry.mobj;
 
-        } catch (NoSuchMethodException | NoSuchMethodError e) {
-            /* user forgot to provide activatable constructor?
-             * or code recompiled and user forgot to provide
-             *  activatable constructor?
+        } cbtch (NoSuchMethodException | NoSuchMethodError e) {
+            /* user forgot to provide bctivbtbble constructor?
+             * or code recompiled bnd user forgot to provide
+             *  bctivbtbble constructor?
              */
-            throw new ActivationException
-                ("Activatable object must provide an activation"+
+            throw new ActivbtionException
+                ("Activbtbble object must provide bn bctivbtion"+
                  " constructor", e );
 
-        } catch (InvocationTargetException e) {
-            throw new ActivationException("exception in object constructor",
-                                          e.getTargetException());
+        } cbtch (InvocbtionTbrgetException e) {
+            throw new ActivbtionException("exception in object constructor",
+                                          e.getTbrgetException());
 
-        } catch (Exception e) {
-            throw new ActivationException("unable to activate object", e);
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+        } cbtch (Exception e) {
+            throw new ActivbtionException("unbble to bctivbte object", e);
+        } finblly {
+            relebseLock(id);
+            checkInbctiveGroup();
         }
     }
 
 
    /**
-    * The group's <code>inactiveObject</code> method is called
-    * indirectly via a call to the <code>Activatable.inactive</code>
-    * method. A remote object implementation must call
-    * <code>Activatable</code>'s <code>inactive</code> method when
-    * that object deactivates (the object deems that it is no longer
-    * active). If the object does not call
-    * <code>Activatable.inactive</code> when it deactivates, the
-    * object will never be garbage collected since the group keeps
-    * strong references to the objects it creates. <p>
+    * The group's <code>inbctiveObject</code> method is cblled
+    * indirectly vib b cbll to the <code>Activbtbble.inbctive</code>
+    * method. A remote object implementbtion must cbll
+    * <code>Activbtbble</code>'s <code>inbctive</code> method when
+    * thbt object debctivbtes (the object deems thbt it is no longer
+    * bctive). If the object does not cbll
+    * <code>Activbtbble.inbctive</code> when it debctivbtes, the
+    * object will never be gbrbbge collected since the group keeps
+    * strong references to the objects it crebtes. <p>
     *
-    * The group's <code>inactiveObject</code> method
-    * unexports the remote object from the RMI runtime so that the
-    * object can no longer receive incoming RMI calls. This call will
-    * only succeed if the object has no pending/executing calls. If
-    * the object does have pending/executing RMI calls, then false
+    * The group's <code>inbctiveObject</code> method
+    * unexports the remote object from the RMI runtime so thbt the
+    * object cbn no longer receive incoming RMI cblls. This cbll will
+    * only succeed if the object hbs no pending/executing cblls. If
+    * the object does hbve pending/executing RMI cblls, then fblse
     * will be returned.
     *
-    * If the object has no pending/executing calls, the object is
-    * removed from the RMI runtime and the group informs its
-    * <code>ActivationMonitor</code> (via the monitor's
-    * <code>inactiveObject</code> method) that the remote object is
-    * not currently active so that the remote object will be
-    * re-activated by the activator upon a subsequent activation
+    * If the object hbs no pending/executing cblls, the object is
+    * removed from the RMI runtime bnd the group informs its
+    * <code>ActivbtionMonitor</code> (vib the monitor's
+    * <code>inbctiveObject</code> method) thbt the remote object is
+    * not currently bctive so thbt the remote object will be
+    * re-bctivbted by the bctivbtor upon b subsequent bctivbtion
     * request.
     *
-    * @param id the object's activation identifier
-    * @returns true if the operation succeeds (the operation will
-    * succeed if the object in currently known to be active and is
-    * either already unexported or is currently exported and has no
-    * pending/executing calls); false is returned if the object has
-    * pending/executing calls in which case it cannot be deactivated
-    * @exception UnknownObjectException if object is unknown (may already
-    * be inactive)
-    * @exception RemoteException if call informing monitor fails
+    * @pbrbm id the object's bctivbtion identifier
+    * @returns true if the operbtion succeeds (the operbtion will
+    * succeed if the object in currently known to be bctive bnd is
+    * either blrebdy unexported or is currently exported bnd hbs no
+    * pending/executing cblls); fblse is returned if the object hbs
+    * pending/executing cblls in which cbse it cbnnot be debctivbted
+    * @exception UnknownObjectException if object is unknown (mby blrebdy
+    * be inbctive)
+    * @exception RemoteException if cbll informing monitor fbils
     */
-    public boolean inactiveObject(ActivationID id)
-        throws ActivationException, UnknownObjectException, RemoteException
+    public boolebn inbctiveObject(ActivbtionID id)
+        throws ActivbtionException, UnknownObjectException, RemoteException
     {
 
         try {
-            acquireLock(id);
+            bcquireLock(id);
             synchronized (this) {
-                if (groupInactive == true)
-                    throw new ActivationException("group is inactive");
+                if (groupInbctive == true)
+                    throw new ActivbtionException("group is inbctive");
             }
 
-            ActiveEntry entry = active.get(id);
+            ActiveEntry entry = bctive.get(id);
             if (entry == null) {
                 // REMIND: should this be silent?
-                throw new UnknownObjectException("object not active");
+                throw new UnknownObjectException("object not bctive");
             }
 
             try {
-                if (Activatable.unexportObject(entry.impl, false) == false)
-                    return false;
-            } catch (NoSuchObjectException allowUnexportedObjects) {
+                if (Activbtbble.unexportObject(entry.impl, fblse) == fblse)
+                    return fblse;
+            } cbtch (NoSuchObjectException bllowUnexportedObjects) {
             }
 
             try {
-                super.inactiveObject(id);
-            } catch (UnknownObjectException allowUnregisteredObjects) {
+                super.inbctiveObject(id);
+            } cbtch (UnknownObjectException bllowUnregisteredObjects) {
             }
 
-            active.remove(id);
+            bctive.remove(id);
 
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+        } finblly {
+            relebseLock(id);
+            checkInbctiveGroup();
         }
 
         return true;
     }
 
     /*
-     * Determines if the group has become inactive and
-     * marks it as such.
+     * Determines if the group hbs become inbctive bnd
+     * mbrks it bs such.
      */
-    private void checkInactiveGroup() {
-        boolean groupMarkedInactive = false;
+    privbte void checkInbctiveGroup() {
+        boolebn groupMbrkedInbctive = fblse;
         synchronized (this) {
-            if (active.size() == 0 && lockedIDs.size() == 0 &&
-                groupInactive == false)
+            if (bctive.size() == 0 && lockedIDs.size() == 0 &&
+                groupInbctive == fblse)
             {
-                groupInactive = true;
-                groupMarkedInactive = true;
+                groupInbctive = true;
+                groupMbrkedInbctive = true;
             }
         }
 
-        if (groupMarkedInactive) {
+        if (groupMbrkedInbctive) {
             try {
-                super.inactiveGroup();
-            } catch (Exception ignoreDeactivateFailure) {
+                super.inbctiveGroup();
+            } cbtch (Exception ignoreDebctivbteFbilure) {
             }
 
             try {
-                UnicastRemoteObject.unexportObject(this, true);
-            } catch (NoSuchObjectException allowUnexportedGroup) {
+                UnicbstRemoteObject.unexportObject(this, true);
+            } cbtch (NoSuchObjectException bllowUnexportedGroup) {
             }
         }
     }
 
     /**
-     * The group's <code>activeObject</code> method is called when an
-     * object is exported (either by <code>Activatable</code> object
-     * construction or an explicit call to
-     * <code>Activatable.exportObject</code>. The group must inform its
-     * <code>ActivationMonitor</code> that the object is active (via
-     * the monitor's <code>activeObject</code> method) if the group
-     * hasn't already done so.
+     * The group's <code>bctiveObject</code> method is cblled when bn
+     * object is exported (either by <code>Activbtbble</code> object
+     * construction or bn explicit cbll to
+     * <code>Activbtbble.exportObject</code>. The group must inform its
+     * <code>ActivbtionMonitor</code> thbt the object is bctive (vib
+     * the monitor's <code>bctiveObject</code> method) if the group
+     * hbsn't blrebdy done so.
      *
-     * @param id the object's identifier
-     * @param obj the remote object implementation
+     * @pbrbm id the object's identifier
+     * @pbrbm obj the remote object implementbtion
      * @exception UnknownObjectException if object is not registered
-     * @exception RemoteException if call informing monitor fails
+     * @exception RemoteException if cbll informing monitor fbils
      */
-    public void activeObject(ActivationID id, Remote impl)
-        throws ActivationException, UnknownObjectException, RemoteException
+    public void bctiveObject(ActivbtionID id, Remote impl)
+        throws ActivbtionException, UnknownObjectException, RemoteException
     {
 
         try {
-            acquireLock(id);
+            bcquireLock(id);
             synchronized (this) {
-                if (groupInactive == true)
-                    throw new ActivationException("group is inactive");
+                if (groupInbctive == true)
+                    throw new ActivbtionException("group is inbctive");
             }
-            if (!active.contains(id)) {
+            if (!bctive.contbins(id)) {
                 ActiveEntry entry = new ActiveEntry(impl);
-                active.put(id, entry);
-                // created new entry, so inform monitor of active object
+                bctive.put(id, entry);
+                // crebted new entry, so inform monitor of bctive object
                 try {
-                    super.activeObject(id, entry.mobj);
-                } catch (RemoteException e) {
-                    // daemon can still find it by calling newInstance
+                    super.bctiveObject(id, entry.mobj);
+                } cbtch (RemoteException e) {
+                    // dbemon cbn still find it by cblling newInstbnce
                 }
             }
-        } finally {
-            releaseLock(id);
-            checkInactiveGroup();
+        } finblly {
+            relebseLock(id);
+            checkInbctiveGroup();
         }
     }
 
     /**
-     * Entry in table for active object.
+     * Entry in tbble for bctive object.
      */
-    private static class ActiveEntry {
+    privbte stbtic clbss ActiveEntry {
         Remote impl;
-        MarshalledObject<Remote> mobj;
+        MbrshblledObject<Remote> mobj;
 
-        ActiveEntry(Remote impl) throws ActivationException {
+        ActiveEntry(Remote impl) throws ActivbtionException {
             this.impl =  impl;
             try {
-                this.mobj = new MarshalledObject<Remote>(impl);
-            } catch (IOException e) {
+                this.mobj = new MbrshblledObject<Remote>(impl);
+            } cbtch (IOException e) {
                 throw new
-                    ActivationException("failed to marshal remote object", e);
+                    ActivbtionException("fbiled to mbrshbl remote object", e);
             }
         }
     }
 
     /**
-     * Returns true if the first argument is either equal to, or is a
-     * descendant of, the second argument.  Null is treated as the root of
+     * Returns true if the first brgument is either equbl to, or is b
+     * descendbnt of, the second brgument.  Null is trebted bs the root of
      * the tree.
      */
-    private static boolean covers(ClassLoader sub, ClassLoader sup) {
+    privbte stbtic boolebn covers(ClbssLobder sub, ClbssLobder sup) {
         if (sup == null) {
             return true;
         } else if (sub == null) {
-            return false;
+            return fblse;
         }
         do {
             if (sub == sup) {
                 return true;
             }
-            sub = sub.getParent();
+            sub = sub.getPbrent();
         } while (sub != null);
-        return false;
+        return fblse;
     }
 }

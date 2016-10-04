@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.event.PaintEvent;
-import java.security.AccessController;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.event.IgnorePaintEvent;
-import sun.security.action.GetBooleanAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.PbintEvent;
+import jbvb.security.AccessController;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
+import sun.bwt.event.IgnorePbintEvent;
+import sun.security.bction.GetBoolebnAction;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Swing's PaintEventDispatcher.  If the component specified by the PaintEvent
- * is a top level Swing component (JFrame, JWindow, JDialog, JApplet), this
- * will forward the request to the RepaintManager for eventual painting.
+ * Swing's PbintEventDispbtcher.  If the component specified by the PbintEvent
+ * is b top level Swing component (JFrbme, JWindow, JDiblog, JApplet), this
+ * will forwbrd the request to the RepbintMbnbger for eventubl pbinting.
  *
  */
-class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
-    private static final boolean SHOW_FROM_DOUBLE_BUFFER;
-    private static final boolean ERASE_BACKGROUND;
+clbss SwingPbintEventDispbtcher extends sun.bwt.PbintEventDispbtcher {
+    privbte stbtic finbl boolebn SHOW_FROM_DOUBLE_BUFFER;
+    privbte stbtic finbl boolebn ERASE_BACKGROUND;
 
-    static {
-        SHOW_FROM_DOUBLE_BUFFER = "true".equals(AccessController.doPrivileged(
+    stbtic {
+        SHOW_FROM_DOUBLE_BUFFER = "true".equbls(AccessController.doPrivileged(
               new GetPropertyAction("swing.showFromDoubleBuffer", "true")));
         ERASE_BACKGROUND = AccessController.doPrivileged(
-                                 new GetBooleanAction("swing.nativeErase"));
+                                 new GetBoolebnAction("swing.nbtiveErbse"));
     }
 
-    public PaintEvent createPaintEvent(Component component, int x, int y,
+    public PbintEvent crebtePbintEvent(Component component, int x, int y,
                                          int w, int h) {
-        if (component instanceof RootPaneContainer) {
-            AppContext appContext = SunToolkit.targetToAppContext(component);
-            RepaintManager rm = RepaintManager.currentManager(appContext);
+        if (component instbnceof RootPbneContbiner) {
+            AppContext bppContext = SunToolkit.tbrgetToAppContext(component);
+            RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(bppContext);
             if (!SHOW_FROM_DOUBLE_BUFFER ||
-                  !rm.show((Container)component, x, y, w, h)) {
-                rm.nativeAddDirtyRegion(appContext, (Container)component,
+                  !rm.show((Contbiner)component, x, y, w, h)) {
+                rm.nbtiveAddDirtyRegion(bppContext, (Contbiner)component,
                                         x, y, w, h);
             }
-            // For backward compatibility generate an empty paint
-            // event.  Not doing this broke parts of Netbeans.
-            return new IgnorePaintEvent(component, PaintEvent.PAINT,
-                                        new Rectangle(x, y, w, h));
+            // For bbckwbrd compbtibility generbte bn empty pbint
+            // event.  Not doing this broke pbrts of Netbebns.
+            return new IgnorePbintEvent(component, PbintEvent.PAINT,
+                                        new Rectbngle(x, y, w, h));
         }
-        else if (component instanceof SwingHeavyWeight) {
-            AppContext appContext = SunToolkit.targetToAppContext(component);
-            RepaintManager rm = RepaintManager.currentManager(appContext);
-            rm.nativeAddDirtyRegion(appContext, (Container)component,
+        else if (component instbnceof SwingHebvyWeight) {
+            AppContext bppContext = SunToolkit.tbrgetToAppContext(component);
+            RepbintMbnbger rm = RepbintMbnbger.currentMbnbger(bppContext);
+            rm.nbtiveAddDirtyRegion(bppContext, (Contbiner)component,
                                     x, y, w, h);
-            return new IgnorePaintEvent(component, PaintEvent.PAINT,
-                                        new Rectangle(x, y, w, h));
+            return new IgnorePbintEvent(component, PbintEvent.PAINT,
+                                        new Rectbngle(x, y, w, h));
         }
-        return super.createPaintEvent(component, x, y, w, h);
+        return super.crebtePbintEvent(component, x, y, w, h);
     }
 
-    public boolean shouldDoNativeBackgroundErase(Component c) {
-        return ERASE_BACKGROUND || !(c instanceof RootPaneContainer);
+    public boolebn shouldDoNbtiveBbckgroundErbse(Component c) {
+        return ERASE_BACKGROUND || !(c instbnceof RootPbneContbiner);
     }
 
-    public boolean queueSurfaceDataReplacing(Component c, Runnable r) {
-        if (c instanceof RootPaneContainer) {
-            AppContext appContext = SunToolkit.targetToAppContext(c);
-            RepaintManager.currentManager(appContext).
-                    nativeQueueSurfaceDataRunnable(appContext, c, r);
+    public boolebn queueSurfbceDbtbReplbcing(Component c, Runnbble r) {
+        if (c instbnceof RootPbneContbiner) {
+            AppContext bppContext = SunToolkit.tbrgetToAppContext(c);
+            RepbintMbnbger.currentMbnbger(bppContext).
+                    nbtiveQueueSurfbceDbtbRunnbble(bppContext, c, r);
             return true;
         }
-        return super.queueSurfaceDataReplacing(c, r);
+        return super.queueSurfbceDbtbReplbcing(c, r);
     }
 }

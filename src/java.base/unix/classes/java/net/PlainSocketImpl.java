@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Collections;
 import jdk.net.*;
 
-import static sun.net.ExtendedOptionsImpl.*;
+import stbtic sun.net.ExtendedOptionsImpl.*;
 
 /*
- * On Unix systems we simply delegate to native methods.
+ * On Unix systems we simply delegbte to nbtive methods.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class PlainSocketImpl extends AbstractPlainSocketImpl
+clbss PlbinSocketImpl extends AbstrbctPlbinSocketImpl
 {
-    static {
+    stbtic {
         initProto();
     }
 
     /**
-     * Constructs an empty instance.
+     * Constructs bn empty instbnce.
      */
-    PlainSocketImpl() { }
+    PlbinSocketImpl() { }
 
     /**
-     * Constructs an instance with the given file descriptor.
+     * Constructs bn instbnce with the given file descriptor.
      */
-    PlainSocketImpl(FileDescriptor fd) {
+    PlbinSocketImpl(FileDescriptor fd) {
         this.fd = fd;
     }
 
-    protected <T> void setOption(SocketOption<T> name, T value) throws IOException {
-        if (!name.equals(ExtendedSocketOptions.SO_FLOW_SLA)) {
-            super.setOption(name, value);
+    protected <T> void setOption(SocketOption<T> nbme, T vblue) throws IOException {
+        if (!nbme.equbls(ExtendedSocketOptions.SO_FLOW_SLA)) {
+            super.setOption(nbme, vblue);
         } else {
             if (isClosedOrPending()) {
                 throw new SocketException("Socket closed");
             }
-            checkSetOptionPermission(name);
-            checkValueType(value, SocketFlow.class);
-            setFlowOption(getFileDescriptor(), (SocketFlow)value);
+            checkSetOptionPermission(nbme);
+            checkVblueType(vblue, SocketFlow.clbss);
+            setFlowOption(getFileDescriptor(), (SocketFlow)vblue);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T> T getOption(SocketOption<T> name) throws IOException {
-        if (!name.equals(ExtendedSocketOptions.SO_FLOW_SLA)) {
-            return super.getOption(name);
+    @SuppressWbrnings("unchecked")
+    protected <T> T getOption(SocketOption<T> nbme) throws IOException {
+        if (!nbme.equbls(ExtendedSocketOptions.SO_FLOW_SLA)) {
+            return super.getOption(nbme);
         }
         if (isClosedOrPending()) {
             throw new SocketException("Socket closed");
         }
-        checkGetOptionPermission(name);
-        SocketFlow flow = SocketFlow.create();
+        checkGetOptionPermission(nbme);
+        SocketFlow flow = SocketFlow.crebte();
         getFlowOption(getFileDescriptor(), flow);
         return (T)flow;
     }
 
     protected Set<SocketOption<?>> supportedOptions() {
-        HashSet<SocketOption<?>> options = new HashSet<>(
+        HbshSet<SocketOption<?>> options = new HbshSet<>(
             super.supportedOptions());
 
         if (getSocket() != null && flowSupported()) {
-            options.add(ExtendedSocketOptions.SO_FLOW_SLA);
+            options.bdd(ExtendedSocketOptions.SO_FLOW_SLA);
         }
         return options;
     }
 
-    native void socketCreate(boolean isServer) throws IOException;
+    nbtive void socketCrebte(boolebn isServer) throws IOException;
 
-    native void socketConnect(InetAddress address, int port, int timeout)
+    nbtive void socketConnect(InetAddress bddress, int port, int timeout)
         throws IOException;
 
-    native void socketBind(InetAddress address, int port)
+    nbtive void socketBind(InetAddress bddress, int port)
         throws IOException;
 
-    native void socketListen(int count) throws IOException;
+    nbtive void socketListen(int count) throws IOException;
 
-    native void socketAccept(SocketImpl s) throws IOException;
+    nbtive void socketAccept(SocketImpl s) throws IOException;
 
-    native int socketAvailable() throws IOException;
+    nbtive int socketAvbilbble() throws IOException;
 
-    native void socketClose0(boolean useDeferredClose) throws IOException;
+    nbtive void socketClose0(boolebn useDeferredClose) throws IOException;
 
-    native void socketShutdown(int howto) throws IOException;
+    nbtive void socketShutdown(int howto) throws IOException;
 
-    static native void initProto();
+    stbtic nbtive void initProto();
 
-    native void socketSetOption(int cmd, boolean on, Object value)
+    nbtive void socketSetOption(int cmd, boolebn on, Object vblue)
         throws SocketException;
 
-    native int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
+    nbtive int socketGetOption(int opt, Object ibContbinerObj) throws SocketException;
 
-    native void socketSendUrgentData(int data) throws IOException;
+    nbtive void socketSendUrgentDbtb(int dbtb) throws IOException;
 }

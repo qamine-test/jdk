@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.SecureRandom;
-import java.security.KeyManagementException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.SecureRbndom;
+import jbvb.security.KeyMbnbgementException;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.Cipher;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.IvPbrbmeterSpec;
+import jbvbx.crypto.spec.SecretKeySpec;
 
-import static sun.security.ssl.CipherSuite.KeyExchange.*;
-import static sun.security.ssl.CipherSuite.PRF.*;
-import static sun.security.ssl.CipherSuite.CipherType.*;
-import static sun.security.ssl.JsseJce.*;
+import stbtic sun.security.ssl.CipherSuite.KeyExchbnge.*;
+import stbtic sun.security.ssl.CipherSuite.PRF.*;
+import stbtic sun.security.ssl.CipherSuite.CipherType.*;
+import stbtic sun.security.ssl.JsseJce.*;
 
 /**
- * An SSL/TLS CipherSuite. Constants for the standard key exchange, cipher,
- * and mac algorithms are also defined in this class.
+ * An SSL/TLS CipherSuite. Constbnts for the stbndbrd key exchbnge, cipher,
+ * bnd mbc blgorithms bre blso defined in this clbss.
  *
- * The CipherSuite class and the inner classes defined in this file roughly
- * follow the type safe enum pattern described in Effective Java. This means:
+ * The CipherSuite clbss bnd the inner clbsses defined in this file roughly
+ * follow the type sbfe enum pbttern described in Effective Jbvb. This mebns:
  *
- *  . instances are immutable, classes are final
+ *  . instbnces bre immutbble, clbsses bre finbl
  *
- *  . there is a unique instance of every value, i.e. there are never two
- *    instances representing the same CipherSuite, etc. This means equality
- *    tests can be performed using == instead of equals() (although that works
- *    as well). [A minor exception are *unsupported* CipherSuites read from a
- *    handshake message, but this is usually irrelevant]
+ *  . there is b unique instbnce of every vblue, i.e. there bre never two
+ *    instbnces representing the sbme CipherSuite, etc. This mebns equblity
+ *    tests cbn be performed using == instebd of equbls() (blthough thbt works
+ *    bs well). [A minor exception bre *unsupported* CipherSuites rebd from b
+ *    hbndshbke messbge, but this is usublly irrelevbnt]
  *
- *  . instances are obtained using the static valueOf() factory methods.
+ *  . instbnces bre obtbined using the stbtic vblueOf() fbctory methods.
  *
- *  . properties are defined as final variables and made available as
- *    package private variables without method accessors
+ *  . properties bre defined bs finbl vbribbles bnd mbde bvbilbble bs
+ *    pbckbge privbte vbribbles without method bccessors
  *
- *  . if the member variable allowed is false, the given algorithm is either
- *    unavailable or disabled at compile time
+ *  . if the member vbribble bllowed is fblse, the given blgorithm is either
+ *    unbvbilbble or disbbled bt compile time
  *
  */
-final class CipherSuite implements Comparable<CipherSuite> {
+finbl clbss CipherSuite implements Compbrbble<CipherSuite> {
 
     // minimum priority for supported CipherSuites
-    final static int SUPPORTED_SUITES_PRIORITY = 1;
+    finbl stbtic int SUPPORTED_SUITES_PRIORITY = 1;
 
-    // minimum priority for default enabled CipherSuites
-    final static int DEFAULT_SUITES_PRIORITY = 300;
+    // minimum priority for defbult enbbled CipherSuites
+    finbl stbtic int DEFAULT_SUITES_PRIORITY = 300;
 
-    // Flag indicating if CipherSuite availability can change dynamically.
-    // This is the case when we rely on a JCE cipher implementation that
-    // may not be available in the installed JCE providers.
-    // It is true because we might not have an ECC implementation.
-    final static boolean DYNAMIC_AVAILABILITY = true;
+    // Flbg indicbting if CipherSuite bvbilbbility cbn chbnge dynbmicblly.
+    // This is the cbse when we rely on b JCE cipher implementbtion thbt
+    // mby not be bvbilbble in the instblled JCE providers.
+    // It is true becbuse we might not hbve bn ECC implementbtion.
+    finbl stbtic boolebn DYNAMIC_AVAILABILITY = true;
 
-    private final static boolean ALLOW_ECC = Debug.getBooleanProperty
-        ("com.sun.net.ssl.enableECC", true);
+    privbte finbl stbtic boolebn ALLOW_ECC = Debug.getBoolebnProperty
+        ("com.sun.net.ssl.enbbleECC", true);
 
-    // Map Integer(id) -> CipherSuite
-    // contains all known CipherSuites
-    private final static Map<Integer,CipherSuite> idMap;
+    // Mbp Integer(id) -> CipherSuite
+    // contbins bll known CipherSuites
+    privbte finbl stbtic Mbp<Integer,CipherSuite> idMbp;
 
-    // Map String(name) -> CipherSuite
-    // contains only supported CipherSuites (i.e. allowed == true)
-    private final static Map<String,CipherSuite> nameMap;
+    // Mbp String(nbme) -> CipherSuite
+    // contbins only supported CipherSuites (i.e. bllowed == true)
+    privbte finbl stbtic Mbp<String,CipherSuite> nbmeMbp;
 
-    // Protocol defined CipherSuite name, e.g. SSL_RSA_WITH_RC4_128_MD5
+    // Protocol defined CipherSuite nbme, e.g. SSL_RSA_WITH_RC4_128_MD5
     // we use TLS_* only for new CipherSuites, still SSL_* for old ones
-    final String name;
+    finbl String nbme;
 
-    // id in 16 bit MSB format, i.e. 0x0004 for SSL_RSA_WITH_RC4_128_MD5
-    final int id;
+    // id in 16 bit MSB formbt, i.e. 0x0004 for SSL_RSA_WITH_RC4_128_MD5
+    finbl int id;
 
-    // priority for the internal default preference order. the higher the
-    // better. Each supported CipherSuite *must* have a unique priority.
-    // Ciphersuites with priority >= DEFAULT_SUITES_PRIORITY are enabled
-    // by default
-    final int priority;
+    // priority for the internbl defbult preference order. the higher the
+    // better. Ebch supported CipherSuite *must* hbve b unique priority.
+    // Ciphersuites with priority >= DEFAULT_SUITES_PRIORITY bre enbbled
+    // by defbult
+    finbl int priority;
 
-    // key exchange, bulk cipher, mac and prf algorithms. See those
-    // classes below.
-    final KeyExchange keyExchange;
-    final BulkCipher cipher;
-    final MacAlg macAlg;
-    final PRF prfAlg;
+    // key exchbnge, bulk cipher, mbc bnd prf blgorithms. See those
+    // clbsses below.
+    finbl KeyExchbnge keyExchbnge;
+    finbl BulkCipher cipher;
+    finbl MbcAlg mbcAlg;
+    finbl PRF prfAlg;
 
-    // whether a CipherSuite qualifies as exportable under 512/40 bit rules.
-    // TLS 1.1+ (RFC 4346) must not negotiate to these suites.
-    final boolean exportable;
+    // whether b CipherSuite qublifies bs exportbble under 512/40 bit rules.
+    // TLS 1.1+ (RFC 4346) must not negotibte to these suites.
+    finbl boolebn exportbble;
 
-    // true iff implemented and enabled at compile time
-    final boolean allowed;
+    // true iff implemented bnd enbbled bt compile time
+    finbl boolebn bllowed;
 
     // obsoleted since protocol version
-    final int obsoleted;
+    finbl int obsoleted;
 
     // supported since protocol version
-    final int supported;
+    finbl int supported;
 
     /**
      * Constructor for implemented CipherSuites.
      */
-    private CipherSuite(String name, int id, int priority,
-            KeyExchange keyExchange, BulkCipher cipher,
-            boolean allowed, int obsoleted, int supported, PRF prfAlg) {
-        this.name = name;
+    privbte CipherSuite(String nbme, int id, int priority,
+            KeyExchbnge keyExchbnge, BulkCipher cipher,
+            boolebn bllowed, int obsoleted, int supported, PRF prfAlg) {
+        this.nbme = nbme;
         this.id = id;
         this.priority = priority;
-        this.keyExchange = keyExchange;
+        this.keyExchbnge = keyExchbnge;
         this.cipher = cipher;
-        this.exportable = cipher.exportable;
+        this.exportbble = cipher.exportbble;
         if (cipher.cipherType == CipherType.AEAD_CIPHER) {
-            macAlg = M_NULL;
-        } else if (name.endsWith("_MD5")) {
-            macAlg = M_MD5;
-        } else if (name.endsWith("_SHA")) {
-            macAlg = M_SHA;
-        } else if (name.endsWith("_SHA256")) {
-            macAlg = M_SHA256;
-        } else if (name.endsWith("_SHA384")) {
-            macAlg = M_SHA384;
-        } else if (name.endsWith("_NULL")) {
-            macAlg = M_NULL;
-        } else if (name.endsWith("_SCSV")) {
-            macAlg = M_NULL;
+            mbcAlg = M_NULL;
+        } else if (nbme.endsWith("_MD5")) {
+            mbcAlg = M_MD5;
+        } else if (nbme.endsWith("_SHA")) {
+            mbcAlg = M_SHA;
+        } else if (nbme.endsWith("_SHA256")) {
+            mbcAlg = M_SHA256;
+        } else if (nbme.endsWith("_SHA384")) {
+            mbcAlg = M_SHA384;
+        } else if (nbme.endsWith("_NULL")) {
+            mbcAlg = M_NULL;
+        } else if (nbme.endsWith("_SCSV")) {
+            mbcAlg = M_NULL;
         } else {
-            throw new IllegalArgumentException
-                    ("Unknown MAC algorithm for ciphersuite " + name);
+            throw new IllegblArgumentException
+                    ("Unknown MAC blgorithm for ciphersuite " + nbme);
         }
 
-        allowed &= keyExchange.allowed;
-        allowed &= cipher.allowed;
-        this.allowed = allowed;
+        bllowed &= keyExchbnge.bllowed;
+        bllowed &= cipher.bllowed;
+        this.bllowed = bllowed;
         this.obsoleted = obsoleted;
         this.supported = supported;
         this.prfAlg = prfAlg;
@@ -167,89 +167,89 @@ final class CipherSuite implements Comparable<CipherSuite> {
     /**
      * Constructor for unimplemented CipherSuites.
      */
-    private CipherSuite(String name, int id) {
-        this.name = name;
+    privbte CipherSuite(String nbme, int id) {
+        this.nbme = nbme;
         this.id = id;
-        this.allowed = false;
+        this.bllowed = fblse;
 
         this.priority = 0;
-        this.keyExchange = null;
+        this.keyExchbnge = null;
         this.cipher = null;
-        this.macAlg = null;
-        this.exportable = false;
+        this.mbcAlg = null;
+        this.exportbble = fblse;
         this.obsoleted = ProtocolVersion.LIMIT_MAX_VALUE;
         this.supported = ProtocolVersion.LIMIT_MIN_VALUE;
         this.prfAlg = P_NONE;
     }
 
     /**
-     * Return whether this CipherSuite is available for use. A
-     * CipherSuite may be unavailable even if it is supported
-     * (i.e. allowed == true) if the required JCE cipher is not installed.
-     * In some configuration, this situation may change over time, call
-     * CipherSuiteList.clearAvailableCache() before this method to obtain
-     * the most current status.
+     * Return whether this CipherSuite is bvbilbble for use. A
+     * CipherSuite mby be unbvbilbble even if it is supported
+     * (i.e. bllowed == true) if the required JCE cipher is not instblled.
+     * In some configurbtion, this situbtion mby chbnge over time, cbll
+     * CipherSuiteList.clebrAvbilbbleCbche() before this method to obtbin
+     * the most current stbtus.
      */
-    boolean isAvailable() {
-        return allowed && keyExchange.isAvailable() && cipher.isAvailable();
+    boolebn isAvbilbble() {
+        return bllowed && keyExchbnge.isAvbilbble() && cipher.isAvbilbble();
     }
 
-    boolean isNegotiable() {
-        return this != C_SCSV && isAvailable();
+    boolebn isNegotibble() {
+        return this != C_SCSV && isAvbilbble();
     }
 
     /**
-     * Compares CipherSuites based on their priority. Has the effect of
-     * sorting CipherSuites when put in a sorted collection, which is
-     * used by CipherSuiteList. Follows standard Comparable contract.
+     * Compbres CipherSuites bbsed on their priority. Hbs the effect of
+     * sorting CipherSuites when put in b sorted collection, which is
+     * used by CipherSuiteList. Follows stbndbrd Compbrbble contrbct.
      *
-     * Note that for unsupported CipherSuites parsed from a handshake
-     * message we violate the equals() contract.
+     * Note thbt for unsupported CipherSuites pbrsed from b hbndshbke
+     * messbge we violbte the equbls() contrbct.
      */
     @Override
-    public int compareTo(CipherSuite o) {
+    public int compbreTo(CipherSuite o) {
         return o.priority - priority;
     }
 
     /**
-     * Returns this.name.
+     * Returns this.nbme.
      */
     @Override
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * Return a CipherSuite for the given name. The returned CipherSuite
-     * is supported by this implementation but may not actually be
-     * currently useable. See isAvailable().
+     * Return b CipherSuite for the given nbme. The returned CipherSuite
+     * is supported by this implementbtion but mby not bctublly be
+     * currently usebble. See isAvbilbble().
      *
-     * @exception IllegalArgumentException if the CipherSuite is unknown or
+     * @exception IllegblArgumentException if the CipherSuite is unknown or
      * unsupported.
      */
-    static CipherSuite valueOf(String s) {
+    stbtic CipherSuite vblueOf(String s) {
         if (s == null) {
-            throw new IllegalArgumentException("Name must not be null");
+            throw new IllegblArgumentException("Nbme must not be null");
         }
 
-        CipherSuite c = nameMap.get(s);
-        if ((c == null) || (c.allowed == false)) {
-            throw new IllegalArgumentException("Unsupported ciphersuite " + s);
+        CipherSuite c = nbmeMbp.get(s);
+        if ((c == null) || (c.bllowed == fblse)) {
+            throw new IllegblArgumentException("Unsupported ciphersuite " + s);
         }
 
         return c;
     }
 
     /**
-     * Return a CipherSuite with the given ID. A temporary object is
-     * constructed if the ID is unknown. Use isAvailable() to verify that
-     * the CipherSuite can actually be used.
+     * Return b CipherSuite with the given ID. A temporbry object is
+     * constructed if the ID is unknown. Use isAvbilbble() to verify thbt
+     * the CipherSuite cbn bctublly be used.
      */
-    static CipherSuite valueOf(int id1, int id2) {
+    stbtic CipherSuite vblueOf(int id1, int id2) {
         id1 &= 0xff;
         id2 &= 0xff;
         int id = (id1 << 8) | id2;
-        CipherSuite c = idMap.get(id);
+        CipherSuite c = idMbp.get(id);
         if (c == null) {
             String h1 = Integer.toString(id1, 16);
             String h2 = Integer.toString(id2, 16);
@@ -259,333 +259,333 @@ final class CipherSuite implements Comparable<CipherSuite> {
     }
 
     // for use by CipherSuiteList only
-    static Collection<CipherSuite> allowedCipherSuites() {
-        return nameMap.values();
+    stbtic Collection<CipherSuite> bllowedCipherSuites() {
+        return nbmeMbp.vblues();
     }
 
     /*
-     * Use this method when all of the values need to be specified.
-     * This is primarily used when defining a new ciphersuite for
-     * TLS 1.2+ that doesn't use the "default" PRF.
+     * Use this method when bll of the vblues need to be specified.
+     * This is primbrily used when defining b new ciphersuite for
+     * TLS 1.2+ thbt doesn't use the "defbult" PRF.
      */
-    private static void add(String name, int id, int priority,
-            KeyExchange keyExchange, BulkCipher cipher,
-            boolean allowed, int obsoleted, int supported, PRF prf) {
+    privbte stbtic void bdd(String nbme, int id, int priority,
+            KeyExchbnge keyExchbnge, BulkCipher cipher,
+            boolebn bllowed, int obsoleted, int supported, PRF prf) {
 
-        CipherSuite c = new CipherSuite(name, id, priority, keyExchange,
-            cipher, allowed, obsoleted, supported, prf);
-        if (idMap.put(id, c) != null) {
-            throw new RuntimeException("Duplicate ciphersuite definition: "
-                                        + id + ", " + name);
+        CipherSuite c = new CipherSuite(nbme, id, priority, keyExchbnge,
+            cipher, bllowed, obsoleted, supported, prf);
+        if (idMbp.put(id, c) != null) {
+            throw new RuntimeException("Duplicbte ciphersuite definition: "
+                                        + id + ", " + nbme);
         }
-        if (c.allowed) {
-            if (nameMap.put(name, c) != null) {
-                throw new RuntimeException("Duplicate ciphersuite definition: "
-                                            + id + ", " + name);
+        if (c.bllowed) {
+            if (nbmeMbp.put(nbme, c) != null) {
+                throw new RuntimeException("Duplicbte ciphersuite definition: "
+                                            + id + ", " + nbme);
             }
         }
     }
 
     /*
      * Use this method when there is no lower protocol limit where this
-     * suite can be used, and the PRF is P_SHA256.  That is, the
+     * suite cbn be used, bnd the PRF is P_SHA256.  Thbt is, the
      * existing ciphersuites.  From RFC 5246:
      *
      *     All cipher suites in this document use P_SHA256.
      */
-    private static void add(String name, int id, int priority,
-            KeyExchange keyExchange, BulkCipher cipher,
-            boolean allowed, int obsoleted) {
-        // If this is an obsoleted suite, then don't let the TLS 1.2
-        // protocol have a valid PRF value.
+    privbte stbtic void bdd(String nbme, int id, int priority,
+            KeyExchbnge keyExchbnge, BulkCipher cipher,
+            boolebn bllowed, int obsoleted) {
+        // If this is bn obsoleted suite, then don't let the TLS 1.2
+        // protocol hbve b vblid PRF vblue.
         PRF prf = P_SHA256;
         if (obsoleted < ProtocolVersion.TLS12.v) {
             prf = P_NONE;
         }
 
-        add(name, id, priority, keyExchange, cipher, allowed, obsoleted,
+        bdd(nbme, id, priority, keyExchbnge, cipher, bllowed, obsoleted,
             ProtocolVersion.LIMIT_MIN_VALUE, prf);
     }
 
     /*
-     * Use this method when there is no upper protocol limit.  That is,
-     * suites which have not been obsoleted.
+     * Use this method when there is no upper protocol limit.  Thbt is,
+     * suites which hbve not been obsoleted.
      */
-    private static void add(String name, int id, int priority,
-            KeyExchange keyExchange, BulkCipher cipher, boolean allowed) {
-        add(name, id, priority, keyExchange,
-            cipher, allowed, ProtocolVersion.LIMIT_MAX_VALUE);
+    privbte stbtic void bdd(String nbme, int id, int priority,
+            KeyExchbnge keyExchbnge, BulkCipher cipher, boolebn bllowed) {
+        bdd(nbme, id, priority, keyExchbnge,
+            cipher, bllowed, ProtocolVersion.LIMIT_MAX_VALUE);
     }
 
     /*
-     * Use this method to define an unimplemented suite.  This provides
-     * a number<->name mapping that can be used for debugging.
+     * Use this method to define bn unimplemented suite.  This provides
+     * b number<->nbme mbpping thbt cbn be used for debugging.
      */
-    private static void add(String name, int id) {
-        CipherSuite c = new CipherSuite(name, id);
-        if (idMap.put(id, c) != null) {
-            throw new RuntimeException("Duplicate ciphersuite definition: "
-                                        + id + ", " + name);
+    privbte stbtic void bdd(String nbme, int id) {
+        CipherSuite c = new CipherSuite(nbme, id);
+        if (idMbp.put(id, c) != null) {
+            throw new RuntimeException("Duplicbte ciphersuite definition: "
+                                        + id + ", " + nbme);
         }
     }
 
     /**
-     * An SSL/TLS key exchange algorithm.
+     * An SSL/TLS key exchbnge blgorithm.
      */
-    static enum KeyExchange {
+    stbtic enum KeyExchbnge {
 
-        // key exchange algorithms
-        K_NULL       ("NULL",       false),
+        // key exchbnge blgorithms
+        K_NULL       ("NULL",       fblse),
         K_RSA        ("RSA",        true),
         K_RSA_EXPORT ("RSA_EXPORT", true),
-        K_DH_RSA     ("DH_RSA",     false),
-        K_DH_DSS     ("DH_DSS",     false),
+        K_DH_RSA     ("DH_RSA",     fblse),
+        K_DH_DSS     ("DH_DSS",     fblse),
         K_DHE_DSS    ("DHE_DSS",    true),
         K_DHE_RSA    ("DHE_RSA",    true),
-        K_DH_ANON    ("DH_anon",    true),
+        K_DH_ANON    ("DH_bnon",    true),
 
         K_ECDH_ECDSA ("ECDH_ECDSA",  ALLOW_ECC),
         K_ECDH_RSA   ("ECDH_RSA",    ALLOW_ECC),
         K_ECDHE_ECDSA("ECDHE_ECDSA", ALLOW_ECC),
         K_ECDHE_RSA  ("ECDHE_RSA",   ALLOW_ECC),
-        K_ECDH_ANON  ("ECDH_anon",   ALLOW_ECC),
+        K_ECDH_ANON  ("ECDH_bnon",   ALLOW_ECC),
 
         // Kerberos cipher suites
         K_KRB5       ("KRB5", true),
         K_KRB5_EXPORT("KRB5_EXPORT", true),
 
-        // renegotiation protection request signaling cipher suite
+        // renegotibtion protection request signbling cipher suite
         K_SCSV       ("SCSV",        true);
 
-        // name of the key exchange algorithm, e.g. DHE_DSS
-        final String name;
-        final boolean allowed;
-        private final boolean alwaysAvailable;
+        // nbme of the key exchbnge blgorithm, e.g. DHE_DSS
+        finbl String nbme;
+        finbl boolebn bllowed;
+        privbte finbl boolebn blwbysAvbilbble;
 
-        KeyExchange(String name, boolean allowed) {
-            this.name = name;
-            this.allowed = allowed;
-            this.alwaysAvailable = allowed &&
-                (!name.startsWith("EC")) && (!name.startsWith("KRB"));
+        KeyExchbnge(String nbme, boolebn bllowed) {
+            this.nbme = nbme;
+            this.bllowed = bllowed;
+            this.blwbysAvbilbble = bllowed &&
+                (!nbme.stbrtsWith("EC")) && (!nbme.stbrtsWith("KRB"));
         }
 
-        boolean isAvailable() {
-            if (alwaysAvailable) {
+        boolebn isAvbilbble() {
+            if (blwbysAvbilbble) {
                 return true;
             }
 
-            if (name.startsWith("EC")) {
-                return (allowed && JsseJce.isEcAvailable());
-            } else if (name.startsWith("KRB")) {
-                return (allowed && JsseJce.isKerberosAvailable());
+            if (nbme.stbrtsWith("EC")) {
+                return (bllowed && JsseJce.isEcAvbilbble());
+            } else if (nbme.stbrtsWith("KRB")) {
+                return (bllowed && JsseJce.isKerberosAvbilbble());
             } else {
-                return allowed;
+                return bllowed;
             }
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
     }
 
-    static enum CipherType {
-        STREAM_CIPHER,         // null or stream cipher
+    stbtic enum CipherType {
+        STREAM_CIPHER,         // null or strebm cipher
         BLOCK_CIPHER,          // block cipher in CBC mode
         AEAD_CIPHER            // AEAD cipher
     }
 
     /**
-     * An SSL/TLS bulk cipher algorithm. One instance per combination of
-     * cipher and key length.
+     * An SSL/TLS bulk cipher blgorithm. One instbnce per combinbtion of
+     * cipher bnd key length.
      *
-     * Also contains a factory method to obtain in initialized CipherBox
-     * for this algorithm.
+     * Also contbins b fbctory method to obtbin in initiblized CipherBox
+     * for this blgorithm.
      */
-    final static class BulkCipher {
+    finbl stbtic clbss BulkCipher {
 
-        // Map BulkCipher -> Boolean(available)
-        private final static Map<BulkCipher,Boolean> availableCache =
-                                            new HashMap<>(8);
+        // Mbp BulkCipher -> Boolebn(bvbilbble)
+        privbte finbl stbtic Mbp<BulkCipher,Boolebn> bvbilbbleCbche =
+                                            new HbshMbp<>(8);
 
-        // descriptive name including key size, e.g. AES/128
-        final String description;
+        // descriptive nbme including key size, e.g. AES/128
+        finbl String description;
 
-        // JCE cipher transformation string, e.g. AES/CBC/NoPadding
-        final String transformation;
+        // JCE cipher trbnsformbtion string, e.g. AES/CBC/NoPbdding
+        finbl String trbnsformbtion;
 
-        // algorithm name, e.g. AES
-        final String algorithm;
+        // blgorithm nbme, e.g. AES
+        finbl String blgorithm;
 
-        // supported and compile time enabled. Also see isAvailable()
-        final boolean allowed;
+        // supported bnd compile time enbbled. Also see isAvbilbble()
+        finbl boolebn bllowed;
 
         // number of bytes of entropy in the key
-        final int keySize;
+        finbl int keySize;
 
-        // length of the actual cipher key in bytes.
-        // for non-exportable ciphers, this is the same as keySize
-        final int expandedKeySize;
+        // length of the bctubl cipher key in bytes.
+        // for non-exportbble ciphers, this is the sbme bs keySize
+        finbl int expbndedKeySize;
 
         // size of the IV
-        final int ivSize;
+        finbl int ivSize;
 
         // size of fixed IV
         //
         // record_iv_length = ivSize - fixedIvSize
-        final int fixedIvSize;
+        finbl int fixedIvSize;
 
-        // exportable under 512/40 bit rules
-        final boolean exportable;
+        // exportbble under 512/40 bit rules
+        finbl boolebn exportbble;
 
-        // Is the cipher algorithm of Cipher Block Chaining (CBC) mode?
-        final CipherType cipherType;
+        // Is the cipher blgorithm of Cipher Block Chbining (CBC) mode?
+        finbl CipherType cipherType;
 
-        // size of the authentication tag, only applicable to cipher suites in
-        // Galois Counter Mode (GCM)
+        // size of the buthenticbtion tbg, only bpplicbble to cipher suites in
+        // Gblois Counter Mode (GCM)
         //
-        // As far as we know, all supported GCM cipher suites use 128-bits
-        // authentication tags.
-        final int tagSize = 16;
+        // As fbr bs we know, bll supported GCM cipher suites use 128-bits
+        // buthenticbtion tbgs.
+        finbl int tbgSize = 16;
 
-        // The secure random used to detect the cipher availability.
-        private final static SecureRandom secureRandom;
+        // The secure rbndom used to detect the cipher bvbilbbility.
+        privbte finbl stbtic SecureRbndom secureRbndom;
 
-        static {
+        stbtic {
             try {
-                secureRandom = JsseJce.getSecureRandom();
-            } catch (KeyManagementException kme) {
+                secureRbndom = JsseJce.getSecureRbndom();
+            } cbtch (KeyMbnbgementException kme) {
                 throw new RuntimeException(kme);
             }
         }
 
-        BulkCipher(String transformation, CipherType cipherType, int keySize,
-                int expandedKeySize, int ivSize,
-                int fixedIvSize, boolean allowed) {
+        BulkCipher(String trbnsformbtion, CipherType cipherType, int keySize,
+                int expbndedKeySize, int ivSize,
+                int fixedIvSize, boolebn bllowed) {
 
-            this.transformation = transformation;
-            String[] splits = transformation.split("/");
-            this.algorithm = splits[0];
+            this.trbnsformbtion = trbnsformbtion;
+            String[] splits = trbnsformbtion.split("/");
+            this.blgorithm = splits[0];
             this.cipherType = cipherType;
-            this.description = this.algorithm + "/" + (keySize << 3);
+            this.description = this.blgorithm + "/" + (keySize << 3);
             this.keySize = keySize;
             this.ivSize = ivSize;
             this.fixedIvSize = fixedIvSize;
-            this.allowed = allowed;
+            this.bllowed = bllowed;
 
-            this.expandedKeySize = expandedKeySize;
-            this.exportable = true;
+            this.expbndedKeySize = expbndedKeySize;
+            this.exportbble = true;
         }
 
-        BulkCipher(String transformation, CipherType cipherType, int keySize,
-                int ivSize, int fixedIvSize, boolean allowed) {
-            this.transformation = transformation;
-            String[] splits = transformation.split("/");
-            this.algorithm = splits[0];
+        BulkCipher(String trbnsformbtion, CipherType cipherType, int keySize,
+                int ivSize, int fixedIvSize, boolebn bllowed) {
+            this.trbnsformbtion = trbnsformbtion;
+            String[] splits = trbnsformbtion.split("/");
+            this.blgorithm = splits[0];
             this.cipherType = cipherType;
-            this.description = this.algorithm + "/" + (keySize << 3);
+            this.description = this.blgorithm + "/" + (keySize << 3);
             this.keySize = keySize;
             this.ivSize = ivSize;
             this.fixedIvSize = fixedIvSize;
-            this.allowed = allowed;
+            this.bllowed = bllowed;
 
-            this.expandedKeySize = keySize;
-            this.exportable = false;
+            this.expbndedKeySize = keySize;
+            this.exportbble = fblse;
         }
 
         /**
-         * Return an initialized CipherBox for this BulkCipher.
-         * IV must be null for stream ciphers.
+         * Return bn initiblized CipherBox for this BulkCipher.
+         * IV must be null for strebm ciphers.
          *
-         * @exception NoSuchAlgorithmException if anything goes wrong
+         * @exception NoSuchAlgorithmException if bnything goes wrong
          */
         CipherBox newCipher(ProtocolVersion version, SecretKey key,
-                IvParameterSpec iv, SecureRandom random,
-                boolean encrypt) throws NoSuchAlgorithmException {
+                IvPbrbmeterSpec iv, SecureRbndom rbndom,
+                boolebn encrypt) throws NoSuchAlgorithmException {
             return CipherBox.newCipherBox(version, this,
-                                            key, iv, random, encrypt);
+                                            key, iv, rbndom, encrypt);
         }
 
         /**
-         * Test if this bulk cipher is available. For use by CipherSuite.
+         * Test if this bulk cipher is bvbilbble. For use by CipherSuite.
          *
-         * Currently all supported ciphers except AES are always available
-         * via the JSSE internal implementations. We also assume AES/128 of
-         * CBC mode is always available since it is shipped with the SunJCE
-         * provider.  However, AES/256 is unavailable when the default JCE
-         * policy jurisdiction files are installed because of key length
-         * restrictions, and AEAD is unavailable when the underlying providers
+         * Currently bll supported ciphers except AES bre blwbys bvbilbble
+         * vib the JSSE internbl implementbtions. We blso bssume AES/128 of
+         * CBC mode is blwbys bvbilbble since it is shipped with the SunJCE
+         * provider.  However, AES/256 is unbvbilbble when the defbult JCE
+         * policy jurisdiction files bre instblled becbuse of key length
+         * restrictions, bnd AEAD is unbvbilbble when the underlying providers
          * do not support AEAD/GCM mode.
          */
-        boolean isAvailable() {
-            if (allowed == false) {
-                return false;
+        boolebn isAvbilbble() {
+            if (bllowed == fblse) {
+                return fblse;
             }
 
             if ((this == B_AES_256) ||
                     (this.cipherType == CipherType.AEAD_CIPHER)) {
-                return isAvailable(this);
+                return isAvbilbble(this);
             }
 
-            // always available
+            // blwbys bvbilbble
             return true;
         }
 
-        // for use by CipherSuiteList.clearAvailableCache();
-        static synchronized void clearAvailableCache() {
+        // for use by CipherSuiteList.clebrAvbilbbleCbche();
+        stbtic synchronized void clebrAvbilbbleCbche() {
             if (DYNAMIC_AVAILABILITY) {
-                availableCache.clear();
+                bvbilbbleCbche.clebr();
             }
         }
 
-        private static synchronized boolean isAvailable(BulkCipher cipher) {
-            Boolean b = availableCache.get(cipher);
+        privbte stbtic synchronized boolebn isAvbilbble(BulkCipher cipher) {
+            Boolebn b = bvbilbbleCbche.get(cipher);
             if (b == null) {
                 int keySizeInBits = cipher.keySize * 8;
                 if (keySizeInBits > 128) {    // need the JCE unlimited
                                                // strength jurisdiction policy
                     try {
-                        if (Cipher.getMaxAllowedKeyLength(
-                                cipher.transformation) < keySizeInBits) {
-                            b = Boolean.FALSE;
+                        if (Cipher.getMbxAllowedKeyLength(
+                                cipher.trbnsformbtion) < keySizeInBits) {
+                            b = Boolebn.FALSE;
                         }
-                    } catch (Exception e) {
-                        b = Boolean.FALSE;
+                    } cbtch (Exception e) {
+                        b = Boolebn.FALSE;
                     }
                 }
 
                 if (b == null) {
-                    b = Boolean.FALSE;          // may be reset to TRUE if
-                                                // the cipher is available
-                    CipherBox temporary = null;
+                    b = Boolebn.FALSE;          // mby be reset to TRUE if
+                                                // the cipher is bvbilbble
+                    CipherBox temporbry = null;
                     try {
                         SecretKey key = new SecretKeySpec(
-                                            new byte[cipher.expandedKeySize],
-                                            cipher.algorithm);
-                        IvParameterSpec iv;
+                                            new byte[cipher.expbndedKeySize],
+                                            cipher.blgorithm);
+                        IvPbrbmeterSpec iv;
                         if (cipher.cipherType == CipherType.AEAD_CIPHER) {
-                            iv = new IvParameterSpec(
+                            iv = new IvPbrbmeterSpec(
                                             new byte[cipher.fixedIvSize]);
                         } else {
-                            iv = new IvParameterSpec(new byte[cipher.ivSize]);
+                            iv = new IvPbrbmeterSpec(new byte[cipher.ivSize]);
                         }
-                        temporary = cipher.newCipher(
+                        temporbry = cipher.newCipher(
                                             ProtocolVersion.DEFAULT,
-                                            key, iv, secureRandom, true);
-                        b = temporary.isAvailable();
-                    } catch (NoSuchAlgorithmException e) {
-                        // not available
-                    } finally {
-                        if (temporary != null) {
-                            temporary.dispose();
+                                            key, iv, secureRbndom, true);
+                        b = temporbry.isAvbilbble();
+                    } cbtch (NoSuchAlgorithmException e) {
+                        // not bvbilbble
+                    } finblly {
+                        if (temporbry != null) {
+                            temporbry.dispose();
                         }
                     }
                 }
 
-                availableCache.put(cipher, b);
+                bvbilbbleCbche.put(cipher, b);
             }
 
-            return b.booleanValue();
+            return b.boolebnVblue();
         }
 
         @Override
@@ -595,120 +595,120 @@ final class CipherSuite implements Comparable<CipherSuite> {
     }
 
     /**
-     * An SSL/TLS key MAC algorithm.
+     * An SSL/TLS key MAC blgorithm.
      *
-     * Also contains a factory method to obtain an initialized MAC
-     * for this algorithm.
+     * Also contbins b fbctory method to obtbin bn initiblized MAC
+     * for this blgorithm.
      */
-    final static class MacAlg {
+    finbl stbtic clbss MbcAlg {
 
-        // descriptive name, e.g. MD5
-        final String name;
+        // descriptive nbme, e.g. MD5
+        finbl String nbme;
 
-        // size of the MAC value (and MAC key) in bytes
-        final int size;
+        // size of the MAC vblue (bnd MAC key) in bytes
+        finbl int size;
 
-        // block size of the underlying hash algorithm
-        final int hashBlockSize;
+        // block size of the underlying hbsh blgorithm
+        finbl int hbshBlockSize;
 
-        // minimal padding size of the underlying hash algorithm
-        final int minimalPaddingSize;
+        // minimbl pbdding size of the underlying hbsh blgorithm
+        finbl int minimblPbddingSize;
 
-        MacAlg(String name, int size,
-                int hashBlockSize, int minimalPaddingSize) {
-            this.name = name;
+        MbcAlg(String nbme, int size,
+                int hbshBlockSize, int minimblPbddingSize) {
+            this.nbme = nbme;
             this.size = size;
-            this.hashBlockSize = hashBlockSize;
-            this.minimalPaddingSize = minimalPaddingSize;
+            this.hbshBlockSize = hbshBlockSize;
+            this.minimblPbddingSize = minimblPbddingSize;
         }
 
         /**
-         * Return an initialized MAC for this MacAlg. ProtocolVersion
+         * Return bn initiblized MAC for this MbcAlg. ProtocolVersion
          * must either be SSL30 (SSLv3 custom MAC) or TLS10 (std. HMAC).
          *
-         * @exception NoSuchAlgorithmException if anything goes wrong
+         * @exception NoSuchAlgorithmException if bnything goes wrong
          */
-        MAC newMac(ProtocolVersion protocolVersion, SecretKey secret)
-                throws NoSuchAlgorithmException, InvalidKeyException {
+        MAC newMbc(ProtocolVersion protocolVersion, SecretKey secret)
+                throws NoSuchAlgorithmException, InvblidKeyException {
             return new MAC(this, protocolVersion, secret);
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
     }
 
     // export strength ciphers
-    final static BulkCipher B_NULL    =
+    finbl stbtic BulkCipher B_NULL    =
         new BulkCipher("NULL",          STREAM_CIPHER,    0,  0,  0, 0, true);
-    final static BulkCipher B_RC4_40  =
+    finbl stbtic BulkCipher B_RC4_40  =
         new BulkCipher(CIPHER_RC4,      STREAM_CIPHER,    5, 16,  0, 0, true);
-    final static BulkCipher B_RC2_40  =
-        new BulkCipher("RC2",           BLOCK_CIPHER,     5, 16,  8, 0, false);
-    final static BulkCipher B_DES_40  =
+    finbl stbtic BulkCipher B_RC2_40  =
+        new BulkCipher("RC2",           BLOCK_CIPHER,     5, 16,  8, 0, fblse);
+    finbl stbtic BulkCipher B_DES_40  =
         new BulkCipher(CIPHER_DES,      BLOCK_CIPHER,     5,  8,  8, 0, true);
 
     // domestic strength ciphers
-    final static BulkCipher B_RC4_128 =
+    finbl stbtic BulkCipher B_RC4_128 =
         new BulkCipher(CIPHER_RC4,      STREAM_CIPHER,   16,  0,  0, true);
-    final static BulkCipher B_DES     =
+    finbl stbtic BulkCipher B_DES     =
         new BulkCipher(CIPHER_DES,      BLOCK_CIPHER,     8,  8,  0, true);
-    final static BulkCipher B_3DES    =
+    finbl stbtic BulkCipher B_3DES    =
         new BulkCipher(CIPHER_3DES,     BLOCK_CIPHER,    24,  8,  0, true);
-    final static BulkCipher B_IDEA    =
-        new BulkCipher("IDEA",          BLOCK_CIPHER,    16,  8,  0, false);
-    final static BulkCipher B_AES_128 =
+    finbl stbtic BulkCipher B_IDEA    =
+        new BulkCipher("IDEA",          BLOCK_CIPHER,    16,  8,  0, fblse);
+    finbl stbtic BulkCipher B_AES_128 =
         new BulkCipher(CIPHER_AES,      BLOCK_CIPHER,    16, 16,  0, true);
-    final static BulkCipher B_AES_256 =
+    finbl stbtic BulkCipher B_AES_256 =
         new BulkCipher(CIPHER_AES,      BLOCK_CIPHER,    32, 16,  0, true);
-    final static BulkCipher B_AES_128_GCM =
+    finbl stbtic BulkCipher B_AES_128_GCM =
         new BulkCipher(CIPHER_AES_GCM,  AEAD_CIPHER,     16, 12,  4, true);
-    final static BulkCipher B_AES_256_GCM =
+    finbl stbtic BulkCipher B_AES_256_GCM =
         new BulkCipher(CIPHER_AES_GCM,  AEAD_CIPHER,     32, 12,  4, true);
 
     // MACs
-    final static MacAlg M_NULL    = new MacAlg("NULL",     0,   0,   0);
-    final static MacAlg M_MD5     = new MacAlg("MD5",     16,  64,   9);
-    final static MacAlg M_SHA     = new MacAlg("SHA",     20,  64,   9);
-    final static MacAlg M_SHA256  = new MacAlg("SHA256",  32,  64,   9);
-    final static MacAlg M_SHA384  = new MacAlg("SHA384",  48, 128,  17);
+    finbl stbtic MbcAlg M_NULL    = new MbcAlg("NULL",     0,   0,   0);
+    finbl stbtic MbcAlg M_MD5     = new MbcAlg("MD5",     16,  64,   9);
+    finbl stbtic MbcAlg M_SHA     = new MbcAlg("SHA",     20,  64,   9);
+    finbl stbtic MbcAlg M_SHA256  = new MbcAlg("SHA256",  32,  64,   9);
+    finbl stbtic MbcAlg M_SHA384  = new MbcAlg("SHA384",  48, 128,  17);
 
     /**
-     * PRFs (PseudoRandom Function) from TLS specifications.
+     * PRFs (PseudoRbndom Function) from TLS specificbtions.
      *
-     * TLS 1.1- uses a single MD5/SHA1-based PRF algorithm for generating
-     * the necessary material.
+     * TLS 1.1- uses b single MD5/SHA1-bbsed PRF blgorithm for generbting
+     * the necessbry mbteribl.
      *
-     * In TLS 1.2+, all existing/known CipherSuites use SHA256, however
-     * new Ciphersuites (e.g. RFC 5288) can define specific PRF hash
-     * algorithms.
+     * In TLS 1.2+, bll existing/known CipherSuites use SHA256, however
+     * new Ciphersuites (e.g. RFC 5288) cbn define specific PRF hbsh
+     * blgorithms.
      */
-    static enum PRF {
+    stbtic enum PRF {
 
-        // PRF algorithms
+        // PRF blgorithms
         P_NONE(     "NONE",  0,   0),
         P_SHA256("SHA-256", 32,  64),
         P_SHA384("SHA-384", 48, 128),
         P_SHA512("SHA-512", 64, 128);  // not currently used.
 
-        // PRF characteristics
-        private final String prfHashAlg;
-        private final int prfHashLength;
-        private final int prfBlockSize;
+        // PRF chbrbcteristics
+        privbte finbl String prfHbshAlg;
+        privbte finbl int prfHbshLength;
+        privbte finbl int prfBlockSize;
 
-        PRF(String prfHashAlg, int prfHashLength, int prfBlockSize) {
-            this.prfHashAlg = prfHashAlg;
-            this.prfHashLength = prfHashLength;
+        PRF(String prfHbshAlg, int prfHbshLength, int prfBlockSize) {
+            this.prfHbshAlg = prfHbshAlg;
+            this.prfHbshLength = prfHbshLength;
             this.prfBlockSize = prfBlockSize;
         }
 
-        String getPRFHashAlg() {
-            return prfHashAlg;
+        String getPRFHbshAlg() {
+            return prfHbshAlg;
         }
 
-        int getPRFHashLength() {
-            return prfHashLength;
+        int getPRFHbshLength() {
+            return prfHbshLength;
         }
 
         int getPRFBlockSize() {
@@ -716,26 +716,26 @@ final class CipherSuite implements Comparable<CipherSuite> {
         }
     }
 
-    static {
-        idMap = new HashMap<Integer,CipherSuite>();
-        nameMap = new HashMap<String,CipherSuite>();
+    stbtic {
+        idMbp = new HbshMbp<Integer,CipherSuite>();
+        nbmeMbp = new HbshMbp<String,CipherSuite>();
 
-        final boolean F = false;
-        final boolean T = true;
-        // N: ciphersuites only allowed if we are not in FIPS mode
-        final boolean N = (SunJSSE.isFIPS() == false);
+        finbl boolebn F = fblse;
+        finbl boolebn T = true;
+        // N: ciphersuites only bllowed if we bre not in FIPS mode
+        finbl boolebn N = (SunJSSE.isFIPS() == fblse);
 
         /*
-         * TLS Cipher Suite Registry, as of August 2010.
+         * TLS Cipher Suite Registry, bs of August 2010.
          *
-         * http://www.iana.org/assignments/tls-parameters/tls-parameters.xml
+         * http://www.ibnb.org/bssignments/tls-pbrbmeters/tls-pbrbmeters.xml
          *
-         * Range      Registration Procedures   Notes
-         * 000-191    Standards Action          Refers to value of first byte
-         * 192-254    Specification Required    Refers to value of first byte
-         * 255        Reserved for Private Use  Refers to value of first byte
+         * Rbnge      Registrbtion Procedures   Notes
+         * 000-191    Stbndbrds Action          Refers to vblue of first byte
+         * 192-254    Specificbtion Required    Refers to vblue of first byte
+         * 255        Reserved for Privbte Use  Refers to vblue of first byte
          *
-         * Value      Description                               Reference
+         * Vblue      Description                               Reference
          * 0x00,0x00  TLS_NULL_WITH_NULL_NULL                   [RFC5246]
          * 0x00,0x01  TLS_RSA_WITH_NULL_MD5                     [RFC5246]
          * 0x00,0x02  TLS_RSA_WITH_NULL_SHA                     [RFC5246]
@@ -759,12 +759,12 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0x14  TLS_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA     [RFC4346]
          * 0x00,0x15  TLS_DHE_RSA_WITH_DES_CBC_SHA              [RFC5469]
          * 0x00,0x16  TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA         [RFC5246]
-         * 0x00,0x17  TLS_DH_anon_EXPORT_WITH_RC4_40_MD5        [RFC4346]
-         * 0x00,0x18  TLS_DH_anon_WITH_RC4_128_MD5              [RFC5246]
-         * 0x00,0x19  TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA     [RFC4346]
-         * 0x00,0x1A  TLS_DH_anon_WITH_DES_CBC_SHA              [RFC5469]
-         * 0x00,0x1B  TLS_DH_anon_WITH_3DES_EDE_CBC_SHA         [RFC5246]
-         * 0x00,0x1C-1D Reserved to avoid conflicts with SSLv3  [RFC5246]
+         * 0x00,0x17  TLS_DH_bnon_EXPORT_WITH_RC4_40_MD5        [RFC4346]
+         * 0x00,0x18  TLS_DH_bnon_WITH_RC4_128_MD5              [RFC5246]
+         * 0x00,0x19  TLS_DH_bnon_EXPORT_WITH_DES40_CBC_SHA     [RFC4346]
+         * 0x00,0x1A  TLS_DH_bnon_WITH_DES_CBC_SHA              [RFC5469]
+         * 0x00,0x1B  TLS_DH_bnon_WITH_3DES_EDE_CBC_SHA         [RFC5246]
+         * 0x00,0x1C-1D Reserved to bvoid conflicts with SSLv3  [RFC5246]
          * 0x00,0x1E  TLS_KRB5_WITH_DES_CBC_SHA                 [RFC2712]
          * 0x00,0x1F  TLS_KRB5_WITH_3DES_EDE_CBC_SHA            [RFC2712]
          * 0x00,0x20  TLS_KRB5_WITH_RC4_128_SHA                 [RFC2712]
@@ -787,13 +787,13 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0x31  TLS_DH_RSA_WITH_AES_128_CBC_SHA           [RFC5246]
          * 0x00,0x32  TLS_DHE_DSS_WITH_AES_128_CBC_SHA          [RFC5246]
          * 0x00,0x33  TLS_DHE_RSA_WITH_AES_128_CBC_SHA          [RFC5246]
-         * 0x00,0x34  TLS_DH_anon_WITH_AES_128_CBC_SHA          [RFC5246]
+         * 0x00,0x34  TLS_DH_bnon_WITH_AES_128_CBC_SHA          [RFC5246]
          * 0x00,0x35  TLS_RSA_WITH_AES_256_CBC_SHA              [RFC5246]
          * 0x00,0x36  TLS_DH_DSS_WITH_AES_256_CBC_SHA           [RFC5246]
          * 0x00,0x37  TLS_DH_RSA_WITH_AES_256_CBC_SHA           [RFC5246]
          * 0x00,0x38  TLS_DHE_DSS_WITH_AES_256_CBC_SHA          [RFC5246]
          * 0x00,0x39  TLS_DHE_RSA_WITH_AES_256_CBC_SHA          [RFC5246]
-         * 0x00,0x3A  TLS_DH_anon_WITH_AES_256_CBC_SHA          [RFC5246]
+         * 0x00,0x3A  TLS_DH_bnon_WITH_AES_256_CBC_SHA          [RFC5246]
          * 0x00,0x3B  TLS_RSA_WITH_NULL_SHA256                  [RFC5246]
          * 0x00,0x3C  TLS_RSA_WITH_AES_128_CBC_SHA256           [RFC5246]
          * 0x00,0x3D  TLS_RSA_WITH_AES_256_CBC_SHA256           [RFC5246]
@@ -805,29 +805,29 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0x43  TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA      [RFC5932]
          * 0x00,0x44  TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA     [RFC5932]
          * 0x00,0x45  TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA     [RFC5932]
-         * 0x00,0x46  TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA     [RFC5932]
-         * 0x00,0x47-4F Reserved to avoid conflicts with
-         *            deployed implementations                  [Pasi_Eronen]
-         * 0x00,0x50-58 Reserved to avoid conflicts             [Pasi Eronen]
-         * 0x00,0x59-5C Reserved to avoid conflicts with
-         *            deployed implementations                  [Pasi_Eronen]
-         * 0x00,0x5D-5F Unassigned
-         * 0x00,0x60-66 Reserved to avoid conflicts with widely
-         *            deployed implementations                  [Pasi_Eronen]
+         * 0x00,0x46  TLS_DH_bnon_WITH_CAMELLIA_128_CBC_SHA     [RFC5932]
+         * 0x00,0x47-4F Reserved to bvoid conflicts with
+         *            deployed implementbtions                  [Pbsi_Eronen]
+         * 0x00,0x50-58 Reserved to bvoid conflicts             [Pbsi Eronen]
+         * 0x00,0x59-5C Reserved to bvoid conflicts with
+         *            deployed implementbtions                  [Pbsi_Eronen]
+         * 0x00,0x5D-5F Unbssigned
+         * 0x00,0x60-66 Reserved to bvoid conflicts with widely
+         *            deployed implementbtions                  [Pbsi_Eronen]
          * 0x00,0x67  TLS_DHE_RSA_WITH_AES_128_CBC_SHA256       [RFC5246]
          * 0x00,0x68  TLS_DH_DSS_WITH_AES_256_CBC_SHA256        [RFC5246]
          * 0x00,0x69  TLS_DH_RSA_WITH_AES_256_CBC_SHA256        [RFC5246]
          * 0x00,0x6A  TLS_DHE_DSS_WITH_AES_256_CBC_SHA256       [RFC5246]
          * 0x00,0x6B  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256       [RFC5246]
-         * 0x00,0x6C  TLS_DH_anon_WITH_AES_128_CBC_SHA256       [RFC5246]
-         * 0x00,0x6D  TLS_DH_anon_WITH_AES_256_CBC_SHA256       [RFC5246]
-         * 0x00,0x6E-83 Unassigned
+         * 0x00,0x6C  TLS_DH_bnon_WITH_AES_128_CBC_SHA256       [RFC5246]
+         * 0x00,0x6D  TLS_DH_bnon_WITH_AES_256_CBC_SHA256       [RFC5246]
+         * 0x00,0x6E-83 Unbssigned
          * 0x00,0x84  TLS_RSA_WITH_CAMELLIA_256_CBC_SHA         [RFC5932]
          * 0x00,0x85  TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA      [RFC5932]
          * 0x00,0x86  TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA      [RFC5932]
          * 0x00,0x87  TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA     [RFC5932]
          * 0x00,0x88  TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA     [RFC5932]
-         * 0x00,0x89  TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA     [RFC5932]
+         * 0x00,0x89  TLS_DH_bnon_WITH_CAMELLIA_256_CBC_SHA     [RFC5932]
          * 0x00,0x8A  TLS_PSK_WITH_RC4_128_SHA                  [RFC4279]
          * 0x00,0x8B  TLS_PSK_WITH_3DES_EDE_CBC_SHA             [RFC4279]
          * 0x00,0x8C  TLS_PSK_WITH_AES_128_CBC_SHA              [RFC4279]
@@ -845,7 +845,7 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0x98  TLS_DH_RSA_WITH_SEED_CBC_SHA              [RFC4162]
          * 0x00,0x99  TLS_DHE_DSS_WITH_SEED_CBC_SHA             [RFC4162]
          * 0x00,0x9A  TLS_DHE_RSA_WITH_SEED_CBC_SHA             [RFC4162]
-         * 0x00,0x9B  TLS_DH_anon_WITH_SEED_CBC_SHA             [RFC4162]
+         * 0x00,0x9B  TLS_DH_bnon_WITH_SEED_CBC_SHA             [RFC4162]
          * 0x00,0x9C  TLS_RSA_WITH_AES_128_GCM_SHA256           [RFC5288]
          * 0x00,0x9D  TLS_RSA_WITH_AES_256_GCM_SHA384           [RFC5288]
          * 0x00,0x9E  TLS_DHE_RSA_WITH_AES_128_GCM_SHA256       [RFC5288]
@@ -856,8 +856,8 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0xA3  TLS_DHE_DSS_WITH_AES_256_GCM_SHA384       [RFC5288]
          * 0x00,0xA4  TLS_DH_DSS_WITH_AES_128_GCM_SHA256        [RFC5288]
          * 0x00,0xA5  TLS_DH_DSS_WITH_AES_256_GCM_SHA384        [RFC5288]
-         * 0x00,0xA6  TLS_DH_anon_WITH_AES_128_GCM_SHA256       [RFC5288]
-         * 0x00,0xA7  TLS_DH_anon_WITH_AES_256_GCM_SHA384       [RFC5288]
+         * 0x00,0xA6  TLS_DH_bnon_WITH_AES_128_GCM_SHA256       [RFC5288]
+         * 0x00,0xA7  TLS_DH_bnon_WITH_AES_256_GCM_SHA384       [RFC5288]
          * 0x00,0xA8  TLS_PSK_WITH_AES_128_GCM_SHA256           [RFC5487]
          * 0x00,0xA9  TLS_PSK_WITH_AES_256_GCM_SHA384           [RFC5487]
          * 0x00,0xAA  TLS_DHE_PSK_WITH_AES_128_GCM_SHA256       [RFC5487]
@@ -881,16 +881,16 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0x00,0xBC  TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256   [RFC5932]
          * 0x00,0xBD  TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256  [RFC5932]
          * 0x00,0xBE  TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256  [RFC5932]
-         * 0x00,0xBF  TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA256  [RFC5932]
+         * 0x00,0xBF  TLS_DH_bnon_WITH_CAMELLIA_128_CBC_SHA256  [RFC5932]
          * 0x00,0xC0  TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256      [RFC5932]
          * 0x00,0xC1  TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256   [RFC5932]
          * 0x00,0xC2  TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256   [RFC5932]
          * 0x00,0xC3  TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256  [RFC5932]
          * 0x00,0xC4  TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256  [RFC5932]
-         * 0x00,0xC5  TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA256  [RFC5932]
-         * 0x00,0xC6-FE         Unassigned
+         * 0x00,0xC5  TLS_DH_bnon_WITH_CAMELLIA_256_CBC_SHA256  [RFC5932]
+         * 0x00,0xC6-FE         Unbssigned
          * 0x00,0xFF  TLS_EMPTY_RENEGOTIATION_INFO_SCSV         [RFC5746]
-         * 0x01-BF,*  Unassigned
+         * 0x01-BF,*  Unbssigned
          * 0xC0,0x01  TLS_ECDH_ECDSA_WITH_NULL_SHA              [RFC4492]
          * 0xC0,0x02  TLS_ECDH_ECDSA_WITH_RC4_128_SHA           [RFC4492]
          * 0xC0,0x03  TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA      [RFC4492]
@@ -911,11 +911,11 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0xC0,0x12  TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA       [RFC4492]
          * 0xC0,0x13  TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA        [RFC4492]
          * 0xC0,0x14  TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA        [RFC4492]
-         * 0xC0,0x15  TLS_ECDH_anon_WITH_NULL_SHA               [RFC4492]
-         * 0xC0,0x16  TLS_ECDH_anon_WITH_RC4_128_SHA            [RFC4492]
-         * 0xC0,0x17  TLS_ECDH_anon_WITH_3DES_EDE_CBC_SHA       [RFC4492]
-         * 0xC0,0x18  TLS_ECDH_anon_WITH_AES_128_CBC_SHA        [RFC4492]
-         * 0xC0,0x19  TLS_ECDH_anon_WITH_AES_256_CBC_SHA        [RFC4492]
+         * 0xC0,0x15  TLS_ECDH_bnon_WITH_NULL_SHA               [RFC4492]
+         * 0xC0,0x16  TLS_ECDH_bnon_WITH_RC4_128_SHA            [RFC4492]
+         * 0xC0,0x17  TLS_ECDH_bnon_WITH_3DES_EDE_CBC_SHA       [RFC4492]
+         * 0xC0,0x18  TLS_ECDH_bnon_WITH_AES_128_CBC_SHA        [RFC4492]
+         * 0xC0,0x19  TLS_ECDH_bnon_WITH_AES_256_CBC_SHA        [RFC4492]
          * 0xC0,0x1A  TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA         [RFC5054]
          * 0xC0,0x1B  TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA     [RFC5054]
          * 0xC0,0x1C  TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA     [RFC5054]
@@ -950,456 +950,456 @@ final class CipherSuite implements Comparable<CipherSuite> {
          * 0xC0,0x39  TLS_ECDHE_PSK_WITH_NULL_SHA               [RFC5489]
          * 0xC0,0x3A  TLS_ECDHE_PSK_WITH_NULL_SHA256            [RFC5489]
          * 0xC0,0x3B  TLS_ECDHE_PSK_WITH_NULL_SHA384            [RFC5489]
-         * 0xC0,0x3C-FF Unassigned
-         * 0xC1-FD,*  Unassigned
-         * 0xFE,0x00-FD Unassigned
-         * 0xFE,0xFE-FF Reserved to avoid conflicts with widely
-         *            deployed implementations                  [Pasi_Eronen]
-         * 0xFF,0x00-FF Reserved for Private Use                [RFC5246]
+         * 0xC0,0x3C-FF Unbssigned
+         * 0xC1-FD,*  Unbssigned
+         * 0xFE,0x00-FD Unbssigned
+         * 0xFE,0xFE-FF Reserved to bvoid conflicts with widely
+         *            deployed implementbtions                  [Pbsi_Eronen]
+         * 0xFF,0x00-FF Reserved for Privbte Use                [RFC5246]
          */
 
-        add("SSL_NULL_WITH_NULL_NULL",
+        bdd("SSL_NULL_WITH_NULL_NULL",
                               0x0000,   1, K_NULL,       B_NULL,    F);
 
         /*
-         * Definition of the CipherSuites that are enabled by default.
-         * They are listed in preference order, most preferred first, using
-         * the following criteria:
-         * 1. Prefer Suite B compliant cipher suites, see RFC6460 (To be
-         *    changed later, see below).
+         * Definition of the CipherSuites thbt bre enbbled by defbult.
+         * They bre listed in preference order, most preferred first, using
+         * the following criterib:
+         * 1. Prefer Suite B complibnt cipher suites, see RFC6460 (To be
+         *    chbnged lbter, see below).
          * 2. Prefer the stronger bulk cipher, in the order of AES_256(GCM),
          *    AES_128(GCM), AES_256, AES_128, RC-4, 3DES-EDE.
-         * 3. Prefer the stronger MAC algorithm, in the order of SHA384,
+         * 3. Prefer the stronger MAC blgorithm, in the order of SHA384,
          *    SHA256, SHA, MD5.
-         * 4. Prefer the better performance of key exchange and digital
-         *    signature algorithm, in the order of ECDHE-ECDSA, ECDHE-RSA,
+         * 4. Prefer the better performbnce of key exchbnge bnd digitbl
+         *    signbture blgorithm, in the order of ECDHE-ECDSA, ECDHE-RSA,
          *    RSA, ECDH-ECDSA, ECDH-RSA, DHE-RSA, DHE-DSS.
          */
         int p = DEFAULT_SUITES_PRIORITY * 2;
 
-        // shorten names to fit the following table cleanly.
-        int max = ProtocolVersion.LIMIT_MAX_VALUE;
+        // shorten nbmes to fit the following tbble clebnly.
+        int mbx = ProtocolVersion.LIMIT_MAX_VALUE;
         int tls11 = ProtocolVersion.TLS11.v;
         int tls12 = ProtocolVersion.TLS12.v;
 
-        //  ID           Key Exchange   Cipher     A  obs  suprt  PRF
+        //  ID           Key Exchbnge   Cipher     A  obs  suprt  PRF
         //  ======       ============   =========  =  ===  =====  ========
 
-        // Suite B compliant cipher suites, see RFC 6460.
+        // Suite B complibnt cipher suites, see RFC 6460.
         //
-        // Note that, at present this provider is not Suite B compliant. The
+        // Note thbt, bt present this provider is not Suite B complibnt. The
         // preference order of the GCM cipher suites does not follow the spec
-        // of RFC 6460.  In this section, only two cipher suites are listed
-        // so that applications can make use of Suite-B compliant cipher
+        // of RFC 6460.  In this section, only two cipher suites bre listed
+        // so thbt bpplicbtions cbn mbke use of Suite-B complibnt cipher
         // suite firstly.
-        add("TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
-            0xc02c, --p, K_ECDHE_ECDSA, B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
-            0xc02b, --p, K_ECDHE_ECDSA, B_AES_128_GCM, T, max, tls12, P_SHA256);
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+            0xc02c, --p, K_ECDHE_ECDSA, B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+            0xc02b, --p, K_ECDHE_ECDSA, B_AES_128_GCM, T, mbx, tls12, P_SHA256);
 
         // AES_256(GCM)
-        add("TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-            0xc030, --p, K_ECDHE_RSA,   B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_RSA_WITH_AES_256_GCM_SHA384",
-            0x009d, --p, K_RSA,         B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384",
-            0xc02e, --p, K_ECDH_ECDSA,  B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384",
-            0xc032, --p, K_ECDH_RSA,    B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_DHE_RSA_WITH_AES_256_GCM_SHA384",
-            0x009f, --p, K_DHE_RSA,     B_AES_256_GCM, T, max, tls12, P_SHA384);
-        add("TLS_DHE_DSS_WITH_AES_256_GCM_SHA384",
-            0x00a3, --p, K_DHE_DSS,     B_AES_256_GCM, T, max, tls12, P_SHA384);
+        bdd("TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+            0xc030, --p, K_ECDHE_RSA,   B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_RSA_WITH_AES_256_GCM_SHA384",
+            0x009d, --p, K_RSA,         B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384",
+            0xc02e, --p, K_ECDH_ECDSA,  B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384",
+            0xc032, --p, K_ECDH_RSA,    B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_DHE_RSA_WITH_AES_256_GCM_SHA384",
+            0x009f, --p, K_DHE_RSA,     B_AES_256_GCM, T, mbx, tls12, P_SHA384);
+        bdd("TLS_DHE_DSS_WITH_AES_256_GCM_SHA384",
+            0x00b3, --p, K_DHE_DSS,     B_AES_256_GCM, T, mbx, tls12, P_SHA384);
 
         // AES_128(GCM)
-        add("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-            0xc02f, --p, K_ECDHE_RSA,   B_AES_128_GCM, T, max, tls12, P_SHA256);
-        add("TLS_RSA_WITH_AES_128_GCM_SHA256",
-            0x009c, --p, K_RSA,         B_AES_128_GCM, T, max, tls12, P_SHA256);
-        add("TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256",
-            0xc02d, --p, K_ECDH_ECDSA,  B_AES_128_GCM, T, max, tls12, P_SHA256);
-        add("TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256",
-            0xc031, --p, K_ECDH_RSA,    B_AES_128_GCM, T, max, tls12, P_SHA256);
-        add("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256",
-            0x009e, --p, K_DHE_RSA,     B_AES_128_GCM, T, max, tls12, P_SHA256);
-        add("TLS_DHE_DSS_WITH_AES_128_GCM_SHA256",
-            0x00a2, --p, K_DHE_DSS,     B_AES_128_GCM, T, max, tls12, P_SHA256);
+        bdd("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+            0xc02f, --p, K_ECDHE_RSA,   B_AES_128_GCM, T, mbx, tls12, P_SHA256);
+        bdd("TLS_RSA_WITH_AES_128_GCM_SHA256",
+            0x009c, --p, K_RSA,         B_AES_128_GCM, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256",
+            0xc02d, --p, K_ECDH_ECDSA,  B_AES_128_GCM, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256",
+            0xc031, --p, K_ECDH_RSA,    B_AES_128_GCM, T, mbx, tls12, P_SHA256);
+        bdd("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256",
+            0x009e, --p, K_DHE_RSA,     B_AES_128_GCM, T, mbx, tls12, P_SHA256);
+        bdd("TLS_DHE_DSS_WITH_AES_128_GCM_SHA256",
+            0x00b2, --p, K_DHE_DSS,     B_AES_128_GCM, T, mbx, tls12, P_SHA256);
 
         // AES_256(CBC)
-        add("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
-            0xc024, --p, K_ECDHE_ECDSA, B_AES_256, T, max, tls12, P_SHA384);
-        add("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
-            0xc028, --p, K_ECDHE_RSA,   B_AES_256, T, max, tls12, P_SHA384);
-        add("TLS_RSA_WITH_AES_256_CBC_SHA256",
-            0x003d, --p, K_RSA,         B_AES_256, T, max, tls12, P_SHA256);
-        add("TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384",
-            0xc026, --p, K_ECDH_ECDSA,  B_AES_256, T, max, tls12, P_SHA384);
-        add("TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384",
-            0xc02a, --p, K_ECDH_RSA,    B_AES_256, T, max, tls12, P_SHA384);
-        add("TLS_DHE_RSA_WITH_AES_256_CBC_SHA256",
-            0x006b, --p, K_DHE_RSA,     B_AES_256, T, max, tls12, P_SHA256);
-        add("TLS_DHE_DSS_WITH_AES_256_CBC_SHA256",
-            0x006a, --p, K_DHE_DSS,     B_AES_256, T, max, tls12, P_SHA256);
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384",
+            0xc024, --p, K_ECDHE_ECDSA, B_AES_256, T, mbx, tls12, P_SHA384);
+        bdd("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
+            0xc028, --p, K_ECDHE_RSA,   B_AES_256, T, mbx, tls12, P_SHA384);
+        bdd("TLS_RSA_WITH_AES_256_CBC_SHA256",
+            0x003d, --p, K_RSA,         B_AES_256, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384",
+            0xc026, --p, K_ECDH_ECDSA,  B_AES_256, T, mbx, tls12, P_SHA384);
+        bdd("TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384",
+            0xc02b, --p, K_ECDH_RSA,    B_AES_256, T, mbx, tls12, P_SHA384);
+        bdd("TLS_DHE_RSA_WITH_AES_256_CBC_SHA256",
+            0x006b, --p, K_DHE_RSA,     B_AES_256, T, mbx, tls12, P_SHA256);
+        bdd("TLS_DHE_DSS_WITH_AES_256_CBC_SHA256",
+            0x006b, --p, K_DHE_DSS,     B_AES_256, T, mbx, tls12, P_SHA256);
 
-        add("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
             0xC00A, --p, K_ECDHE_ECDSA, B_AES_256, T);
-        add("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
             0xC014, --p, K_ECDHE_RSA,   B_AES_256, T);
-        add("TLS_RSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_RSA_WITH_AES_256_CBC_SHA",
             0x0035, --p, K_RSA,         B_AES_256, T);
-        add("TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA",
             0xC005, --p, K_ECDH_ECDSA,  B_AES_256, T);
-        add("TLS_ECDH_RSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_ECDH_RSA_WITH_AES_256_CBC_SHA",
             0xC00F, --p, K_ECDH_RSA,    B_AES_256, T);
-        add("TLS_DHE_RSA_WITH_AES_256_CBC_SHA",
+        bdd("TLS_DHE_RSA_WITH_AES_256_CBC_SHA",
             0x0039, --p, K_DHE_RSA,     B_AES_256, T);
-        add("TLS_DHE_DSS_WITH_AES_256_CBC_SHA",
+        bdd("TLS_DHE_DSS_WITH_AES_256_CBC_SHA",
             0x0038, --p, K_DHE_DSS,     B_AES_256, T);
 
         // AES_128(CBC)
-        add("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
-            0xc023, --p, K_ECDHE_ECDSA, B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
-            0xc027, --p, K_ECDHE_RSA,   B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_RSA_WITH_AES_128_CBC_SHA256",
-            0x003c, --p, K_RSA,         B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256",
-            0xc025, --p, K_ECDH_ECDSA,  B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256",
-            0xc029, --p, K_ECDH_RSA,    B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_DHE_RSA_WITH_AES_128_CBC_SHA256",
-            0x0067, --p, K_DHE_RSA,     B_AES_128, T, max, tls12, P_SHA256);
-        add("TLS_DHE_DSS_WITH_AES_128_CBC_SHA256",
-            0x0040, --p, K_DHE_DSS,     B_AES_128, T, max, tls12, P_SHA256);
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+            0xc023, --p, K_ECDHE_ECDSA, B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+            0xc027, --p, K_ECDHE_RSA,   B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_RSA_WITH_AES_128_CBC_SHA256",
+            0x003c, --p, K_RSA,         B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256",
+            0xc025, --p, K_ECDH_ECDSA,  B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256",
+            0xc029, --p, K_ECDH_RSA,    B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_DHE_RSA_WITH_AES_128_CBC_SHA256",
+            0x0067, --p, K_DHE_RSA,     B_AES_128, T, mbx, tls12, P_SHA256);
+        bdd("TLS_DHE_DSS_WITH_AES_128_CBC_SHA256",
+            0x0040, --p, K_DHE_DSS,     B_AES_128, T, mbx, tls12, P_SHA256);
 
-        add("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
             0xC009, --p, K_ECDHE_ECDSA, B_AES_128, T);
-        add("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
             0xC013, --p, K_ECDHE_RSA,   B_AES_128, T);
-        add("TLS_RSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_RSA_WITH_AES_128_CBC_SHA",
             0x002f, --p, K_RSA,         B_AES_128, T);
-        add("TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA",
             0xC004, --p, K_ECDH_ECDSA,  B_AES_128, T);
-        add("TLS_ECDH_RSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_ECDH_RSA_WITH_AES_128_CBC_SHA",
             0xC00E, --p, K_ECDH_RSA,    B_AES_128, T);
-        add("TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+        bdd("TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
             0x0033, --p, K_DHE_RSA,     B_AES_128, T);
-        add("TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
+        bdd("TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
             0x0032, --p, K_DHE_DSS,     B_AES_128, T);
 
         // RC-4
-        add("TLS_ECDHE_ECDSA_WITH_RC4_128_SHA",
+        bdd("TLS_ECDHE_ECDSA_WITH_RC4_128_SHA",
             0xC007, --p, K_ECDHE_ECDSA, B_RC4_128, N);
-        add("TLS_ECDHE_RSA_WITH_RC4_128_SHA",
+        bdd("TLS_ECDHE_RSA_WITH_RC4_128_SHA",
             0xC011, --p, K_ECDHE_RSA,   B_RC4_128, N);
-        add("SSL_RSA_WITH_RC4_128_SHA",
+        bdd("SSL_RSA_WITH_RC4_128_SHA",
             0x0005, --p, K_RSA,         B_RC4_128, N);
-        add("TLS_ECDH_ECDSA_WITH_RC4_128_SHA",
+        bdd("TLS_ECDH_ECDSA_WITH_RC4_128_SHA",
             0xC002, --p, K_ECDH_ECDSA,  B_RC4_128, N);
-        add("TLS_ECDH_RSA_WITH_RC4_128_SHA",
+        bdd("TLS_ECDH_RSA_WITH_RC4_128_SHA",
             0xC00C, --p, K_ECDH_RSA,    B_RC4_128, N);
 
         // 3DES_EDE
-        add("TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA",
+        bdd("TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA",
             0xC008, --p, K_ECDHE_ECDSA, B_3DES,    T);
-        add("TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA",
+        bdd("TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA",
             0xC012, --p, K_ECDHE_RSA,   B_3DES,    T);
-        add("SSL_RSA_WITH_3DES_EDE_CBC_SHA",
-            0x000a, --p, K_RSA,         B_3DES,    T);
-        add("TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA",
+        bdd("SSL_RSA_WITH_3DES_EDE_CBC_SHA",
+            0x000b, --p, K_RSA,         B_3DES,    T);
+        bdd("TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA",
             0xC003, --p, K_ECDH_ECDSA,  B_3DES,    T);
-        add("TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA",
+        bdd("TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA",
             0xC00D, --p, K_ECDH_RSA,    B_3DES,    T);
-        add("SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA",
+        bdd("SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA",
             0x0016, --p, K_DHE_RSA,     B_3DES,    T);
-        add("SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
+        bdd("SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
             0x0013, --p, K_DHE_DSS,     B_3DES,    N);
 
-        add("SSL_RSA_WITH_RC4_128_MD5",
+        bdd("SSL_RSA_WITH_RC4_128_MD5",
             0x0004, --p, K_RSA,         B_RC4_128, N);
 
-        // Renegotiation protection request Signalling Cipher Suite Value (SCSV)
-        add("TLS_EMPTY_RENEGOTIATION_INFO_SCSV",
+        // Renegotibtion protection request Signblling Cipher Suite Vblue (SCSV)
+        bdd("TLS_EMPTY_RENEGOTIATION_INFO_SCSV",
             0x00ff, --p, K_SCSV,        B_NULL,    T);
 
         /*
-         * Definition of the CipherSuites that are supported but not enabled
-         * by default.
-         * They are listed in preference order, preferred first, using the
-         * following criteria:
-         * 1. CipherSuites for KRB5 need additional KRB5 service
-         *    configuration, and these suites are not common in practice,
-         *    so we put KRB5 based cipher suites at the end of the supported
+         * Definition of the CipherSuites thbt bre supported but not enbbled
+         * by defbult.
+         * They bre listed in preference order, preferred first, using the
+         * following criterib:
+         * 1. CipherSuites for KRB5 need bdditionbl KRB5 service
+         *    configurbtion, bnd these suites bre not common in prbctice,
+         *    so we put KRB5 bbsed cipher suites bt the end of the supported
          *    list.
-         * 2. If a cipher suite has been obsoleted, we put it at the end of
+         * 2. If b cipher suite hbs been obsoleted, we put it bt the end of
          *    the list.
          * 3. Prefer the stronger bulk cipher, in the order of AES_256,
          *    AES_128, RC-4, 3DES-EDE, DES, RC4_40, DES40, NULL.
-         * 4. Prefer the stronger MAC algorithm, in the order of SHA384,
+         * 4. Prefer the stronger MAC blgorithm, in the order of SHA384,
          *    SHA256, SHA, MD5.
-         * 5. Prefer the better performance of key exchange and digital
-         *    signature algorithm, in the order of ECDHE-ECDSA, ECDHE-RSA,
-         *    RSA, ECDH-ECDSA, ECDH-RSA, DHE-RSA, DHE-DSS, anonymous.
+         * 5. Prefer the better performbnce of key exchbnge bnd digitbl
+         *    signbture blgorithm, in the order of ECDHE-ECDSA, ECDHE-RSA,
+         *    RSA, ECDH-ECDSA, ECDH-RSA, DHE-RSA, DHE-DSS, bnonymous.
          */
         p = DEFAULT_SUITES_PRIORITY;
 
-        add("TLS_DH_anon_WITH_AES_256_GCM_SHA384",
-            0x00a7, --p, K_DH_ANON,     B_AES_256_GCM, N, max, tls12, P_SHA384);
-        add("TLS_DH_anon_WITH_AES_128_GCM_SHA256",
-            0x00a6, --p, K_DH_ANON,     B_AES_128_GCM, N, max, tls12, P_SHA256);
+        bdd("TLS_DH_bnon_WITH_AES_256_GCM_SHA384",
+            0x00b7, --p, K_DH_ANON,     B_AES_256_GCM, N, mbx, tls12, P_SHA384);
+        bdd("TLS_DH_bnon_WITH_AES_128_GCM_SHA256",
+            0x00b6, --p, K_DH_ANON,     B_AES_128_GCM, N, mbx, tls12, P_SHA256);
 
-        add("TLS_DH_anon_WITH_AES_256_CBC_SHA256",
-            0x006d, --p, K_DH_ANON,     B_AES_256, N, max, tls12, P_SHA256);
-        add("TLS_ECDH_anon_WITH_AES_256_CBC_SHA",
+        bdd("TLS_DH_bnon_WITH_AES_256_CBC_SHA256",
+            0x006d, --p, K_DH_ANON,     B_AES_256, N, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_bnon_WITH_AES_256_CBC_SHA",
             0xC019, --p, K_ECDH_ANON,   B_AES_256, N);
-        add("TLS_DH_anon_WITH_AES_256_CBC_SHA",
-            0x003a, --p, K_DH_ANON,     B_AES_256, N);
+        bdd("TLS_DH_bnon_WITH_AES_256_CBC_SHA",
+            0x003b, --p, K_DH_ANON,     B_AES_256, N);
 
-        add("TLS_DH_anon_WITH_AES_128_CBC_SHA256",
-            0x006c, --p, K_DH_ANON,     B_AES_128, N, max, tls12, P_SHA256);
-        add("TLS_ECDH_anon_WITH_AES_128_CBC_SHA",
+        bdd("TLS_DH_bnon_WITH_AES_128_CBC_SHA256",
+            0x006c, --p, K_DH_ANON,     B_AES_128, N, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDH_bnon_WITH_AES_128_CBC_SHA",
             0xC018, --p, K_ECDH_ANON,   B_AES_128, N);
-        add("TLS_DH_anon_WITH_AES_128_CBC_SHA",
+        bdd("TLS_DH_bnon_WITH_AES_128_CBC_SHA",
             0x0034, --p, K_DH_ANON,     B_AES_128, N);
 
-        add("TLS_ECDH_anon_WITH_RC4_128_SHA",
+        bdd("TLS_ECDH_bnon_WITH_RC4_128_SHA",
             0xC016, --p, K_ECDH_ANON,   B_RC4_128, N);
-        add("SSL_DH_anon_WITH_RC4_128_MD5",
+        bdd("SSL_DH_bnon_WITH_RC4_128_MD5",
             0x0018, --p, K_DH_ANON,     B_RC4_128, N);
 
-        add("TLS_ECDH_anon_WITH_3DES_EDE_CBC_SHA",
+        bdd("TLS_ECDH_bnon_WITH_3DES_EDE_CBC_SHA",
             0xC017, --p, K_ECDH_ANON,   B_3DES,    N);
-        add("SSL_DH_anon_WITH_3DES_EDE_CBC_SHA",
+        bdd("SSL_DH_bnon_WITH_3DES_EDE_CBC_SHA",
             0x001b, --p, K_DH_ANON,     B_3DES,    N);
 
-        add("TLS_RSA_WITH_NULL_SHA256",
-            0x003b, --p, K_RSA,         B_NULL,    N, max, tls12, P_SHA256);
-        add("TLS_ECDHE_ECDSA_WITH_NULL_SHA",
+        bdd("TLS_RSA_WITH_NULL_SHA256",
+            0x003b, --p, K_RSA,         B_NULL,    N, mbx, tls12, P_SHA256);
+        bdd("TLS_ECDHE_ECDSA_WITH_NULL_SHA",
             0xC006, --p, K_ECDHE_ECDSA, B_NULL,    N);
-        add("TLS_ECDHE_RSA_WITH_NULL_SHA",
+        bdd("TLS_ECDHE_RSA_WITH_NULL_SHA",
             0xC010, --p, K_ECDHE_RSA,   B_NULL,    N);
-        add("SSL_RSA_WITH_NULL_SHA",
+        bdd("SSL_RSA_WITH_NULL_SHA",
             0x0002, --p, K_RSA,         B_NULL,    N);
-        add("TLS_ECDH_ECDSA_WITH_NULL_SHA",
+        bdd("TLS_ECDH_ECDSA_WITH_NULL_SHA",
             0xC001, --p, K_ECDH_ECDSA,  B_NULL,    N);
-        add("TLS_ECDH_RSA_WITH_NULL_SHA",
+        bdd("TLS_ECDH_RSA_WITH_NULL_SHA",
             0xC00B, --p, K_ECDH_RSA,    B_NULL,    N);
-        add("TLS_ECDH_anon_WITH_NULL_SHA",
+        bdd("TLS_ECDH_bnon_WITH_NULL_SHA",
             0xC015, --p, K_ECDH_ANON,   B_NULL,    N);
-        add("SSL_RSA_WITH_NULL_MD5",
+        bdd("SSL_RSA_WITH_NULL_MD5",
             0x0001, --p, K_RSA,         B_NULL,    N);
 
-        // weak cipher suites obsoleted in TLS 1.2
-        add("SSL_RSA_WITH_DES_CBC_SHA",
+        // webk cipher suites obsoleted in TLS 1.2
+        bdd("SSL_RSA_WITH_DES_CBC_SHA",
             0x0009, --p, K_RSA,         B_DES,     N, tls12);
-        add("SSL_DHE_RSA_WITH_DES_CBC_SHA",
+        bdd("SSL_DHE_RSA_WITH_DES_CBC_SHA",
             0x0015, --p, K_DHE_RSA,     B_DES,     N, tls12);
-        add("SSL_DHE_DSS_WITH_DES_CBC_SHA",
+        bdd("SSL_DHE_DSS_WITH_DES_CBC_SHA",
             0x0012, --p, K_DHE_DSS,     B_DES,     N, tls12);
-        add("SSL_DH_anon_WITH_DES_CBC_SHA",
-            0x001a, --p, K_DH_ANON,     B_DES,     N, tls12);
+        bdd("SSL_DH_bnon_WITH_DES_CBC_SHA",
+            0x001b, --p, K_DH_ANON,     B_DES,     N, tls12);
 
-        // weak cipher suites obsoleted in TLS 1.1
-        add("SSL_RSA_EXPORT_WITH_RC4_40_MD5",
+        // webk cipher suites obsoleted in TLS 1.1
+        bdd("SSL_RSA_EXPORT_WITH_RC4_40_MD5",
             0x0003, --p, K_RSA_EXPORT,  B_RC4_40,  N, tls11);
-        add("SSL_DH_anon_EXPORT_WITH_RC4_40_MD5",
+        bdd("SSL_DH_bnon_EXPORT_WITH_RC4_40_MD5",
             0x0017, --p, K_DH_ANON,     B_RC4_40,  N, tls11);
 
-        add("SSL_RSA_EXPORT_WITH_DES40_CBC_SHA",
+        bdd("SSL_RSA_EXPORT_WITH_DES40_CBC_SHA",
             0x0008, --p, K_RSA_EXPORT,  B_DES_40,  N, tls11);
-        add("SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA",
+        bdd("SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA",
             0x0014, --p, K_DHE_RSA,     B_DES_40,  N, tls11);
-        add("SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA",
+        bdd("SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA",
             0x0011, --p, K_DHE_DSS,     B_DES_40,  N, tls11);
-        add("SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA",
+        bdd("SSL_DH_bnon_EXPORT_WITH_DES40_CBC_SHA",
             0x0019, --p, K_DH_ANON,     B_DES_40,  N, tls11);
 
         // Supported Kerberos ciphersuites from RFC2712
-        add("TLS_KRB5_WITH_RC4_128_SHA",
+        bdd("TLS_KRB5_WITH_RC4_128_SHA",
             0x0020, --p, K_KRB5,        B_RC4_128, N);
-        add("TLS_KRB5_WITH_RC4_128_MD5",
+        bdd("TLS_KRB5_WITH_RC4_128_MD5",
             0x0024, --p, K_KRB5,        B_RC4_128, N);
-        add("TLS_KRB5_WITH_3DES_EDE_CBC_SHA",
+        bdd("TLS_KRB5_WITH_3DES_EDE_CBC_SHA",
             0x001f, --p, K_KRB5,        B_3DES,    N);
-        add("TLS_KRB5_WITH_3DES_EDE_CBC_MD5",
+        bdd("TLS_KRB5_WITH_3DES_EDE_CBC_MD5",
             0x0023, --p, K_KRB5,        B_3DES,    N);
-        add("TLS_KRB5_WITH_DES_CBC_SHA",
+        bdd("TLS_KRB5_WITH_DES_CBC_SHA",
             0x001e, --p, K_KRB5,        B_DES,     N, tls12);
-        add("TLS_KRB5_WITH_DES_CBC_MD5",
+        bdd("TLS_KRB5_WITH_DES_CBC_MD5",
             0x0022, --p, K_KRB5,        B_DES,     N, tls12);
-        add("TLS_KRB5_EXPORT_WITH_RC4_40_SHA",
+        bdd("TLS_KRB5_EXPORT_WITH_RC4_40_SHA",
             0x0028, --p, K_KRB5_EXPORT, B_RC4_40,  N, tls11);
-        add("TLS_KRB5_EXPORT_WITH_RC4_40_MD5",
+        bdd("TLS_KRB5_EXPORT_WITH_RC4_40_MD5",
             0x002b, --p, K_KRB5_EXPORT, B_RC4_40,  N, tls11);
-        add("TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA",
+        bdd("TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA",
             0x0026, --p, K_KRB5_EXPORT, B_DES_40,  N, tls11);
-        add("TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5",
+        bdd("TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5",
             0x0029, --p, K_KRB5_EXPORT, B_DES_40,  N, tls11);
 
         /*
-         * Other values from the TLS Cipher Suite Registry, as of August 2010.
+         * Other vblues from the TLS Cipher Suite Registry, bs of August 2010.
          *
-         * http://www.iana.org/assignments/tls-parameters/tls-parameters.xml
+         * http://www.ibnb.org/bssignments/tls-pbrbmeters/tls-pbrbmeters.xml
          *
-         * Range      Registration Procedures   Notes
-         * 000-191    Standards Action          Refers to value of first byte
-         * 192-254    Specification Required    Refers to value of first byte
-         * 255        Reserved for Private Use  Refers to value of first byte
+         * Rbnge      Registrbtion Procedures   Notes
+         * 000-191    Stbndbrds Action          Refers to vblue of first byte
+         * 192-254    Specificbtion Required    Refers to vblue of first byte
+         * 255        Reserved for Privbte Use  Refers to vblue of first byte
          */
 
-        // Register the names of a few additional CipherSuites.
-        // Makes them show up as names instead of numbers in
+        // Register the nbmes of b few bdditionbl CipherSuites.
+        // Mbkes them show up bs nbmes instebd of numbers in
         // the debug output.
 
-        // remaining unsupported ciphersuites defined in RFC2246.
-        add("SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5",          0x0006);
-        add("SSL_RSA_WITH_IDEA_CBC_SHA",                   0x0007);
-        add("SSL_DH_DSS_EXPORT_WITH_DES40_CBC_SHA",        0x000b);
-        add("SSL_DH_DSS_WITH_DES_CBC_SHA",                 0x000c);
-        add("SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA",            0x000d);
-        add("SSL_DH_RSA_EXPORT_WITH_DES40_CBC_SHA",        0x000e);
-        add("SSL_DH_RSA_WITH_DES_CBC_SHA",                 0x000f);
-        add("SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA",            0x0010);
+        // rembining unsupported ciphersuites defined in RFC2246.
+        bdd("SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5",          0x0006);
+        bdd("SSL_RSA_WITH_IDEA_CBC_SHA",                   0x0007);
+        bdd("SSL_DH_DSS_EXPORT_WITH_DES40_CBC_SHA",        0x000b);
+        bdd("SSL_DH_DSS_WITH_DES_CBC_SHA",                 0x000c);
+        bdd("SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA",            0x000d);
+        bdd("SSL_DH_RSA_EXPORT_WITH_DES40_CBC_SHA",        0x000e);
+        bdd("SSL_DH_RSA_WITH_DES_CBC_SHA",                 0x000f);
+        bdd("SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA",            0x0010);
 
-        // SSL 3.0 Fortezza ciphersuites
-        add("SSL_FORTEZZA_DMS_WITH_NULL_SHA",              0x001c);
-        add("SSL_FORTEZZA_DMS_WITH_FORTEZZA_CBC_SHA",      0x001d);
+        // SSL 3.0 Fortezzb ciphersuites
+        bdd("SSL_FORTEZZA_DMS_WITH_NULL_SHA",              0x001c);
+        bdd("SSL_FORTEZZA_DMS_WITH_FORTEZZA_CBC_SHA",      0x001d);
 
-        // 1024/56 bit exportable ciphersuites from expired internet draft
-        add("SSL_RSA_EXPORT1024_WITH_DES_CBC_SHA",         0x0062);
-        add("SSL_DHE_DSS_EXPORT1024_WITH_DES_CBC_SHA",     0x0063);
-        add("SSL_RSA_EXPORT1024_WITH_RC4_56_SHA",          0x0064);
-        add("SSL_DHE_DSS_EXPORT1024_WITH_RC4_56_SHA",      0x0065);
-        add("SSL_DHE_DSS_WITH_RC4_128_SHA",                0x0066);
+        // 1024/56 bit exportbble ciphersuites from expired internet drbft
+        bdd("SSL_RSA_EXPORT1024_WITH_DES_CBC_SHA",         0x0062);
+        bdd("SSL_DHE_DSS_EXPORT1024_WITH_DES_CBC_SHA",     0x0063);
+        bdd("SSL_RSA_EXPORT1024_WITH_RC4_56_SHA",          0x0064);
+        bdd("SSL_DHE_DSS_EXPORT1024_WITH_RC4_56_SHA",      0x0065);
+        bdd("SSL_DHE_DSS_WITH_RC4_128_SHA",                0x0066);
 
-        // Netscape old and new SSL 3.0 FIPS ciphersuites
-        // see http://www.mozilla.org/projects/security/pki/nss/ssl/fips-ssl-ciphersuites.html
-        add("NETSCAPE_RSA_FIPS_WITH_3DES_EDE_CBC_SHA",     0xffe0);
-        add("NETSCAPE_RSA_FIPS_WITH_DES_CBC_SHA",          0xffe1);
-        add("SSL_RSA_FIPS_WITH_DES_CBC_SHA",               0xfefe);
-        add("SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA",          0xfeff);
+        // Netscbpe old bnd new SSL 3.0 FIPS ciphersuites
+        // see http://www.mozillb.org/projects/security/pki/nss/ssl/fips-ssl-ciphersuites.html
+        bdd("NETSCAPE_RSA_FIPS_WITH_3DES_EDE_CBC_SHA",     0xffe0);
+        bdd("NETSCAPE_RSA_FIPS_WITH_DES_CBC_SHA",          0xffe1);
+        bdd("SSL_RSA_FIPS_WITH_DES_CBC_SHA",               0xfefe);
+        bdd("SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA",          0xfeff);
 
         // Unsupported Kerberos cipher suites from RFC 2712
-        add("TLS_KRB5_WITH_IDEA_CBC_SHA",                  0x0021);
-        add("TLS_KRB5_WITH_IDEA_CBC_MD5",                  0x0025);
-        add("TLS_KRB5_EXPORT_WITH_RC2_CBC_40_SHA",         0x0027);
-        add("TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5",         0x002a);
+        bdd("TLS_KRB5_WITH_IDEA_CBC_SHA",                  0x0021);
+        bdd("TLS_KRB5_WITH_IDEA_CBC_MD5",                  0x0025);
+        bdd("TLS_KRB5_EXPORT_WITH_RC2_CBC_40_SHA",         0x0027);
+        bdd("TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5",         0x002b);
 
         // Unsupported cipher suites from RFC 4162
-        add("TLS_RSA_WITH_SEED_CBC_SHA",                   0x0096);
-        add("TLS_DH_DSS_WITH_SEED_CBC_SHA",                0x0097);
-        add("TLS_DH_RSA_WITH_SEED_CBC_SHA",                0x0098);
-        add("TLS_DHE_DSS_WITH_SEED_CBC_SHA",               0x0099);
-        add("TLS_DHE_RSA_WITH_SEED_CBC_SHA",               0x009a);
-        add("TLS_DH_anon_WITH_SEED_CBC_SHA",               0x009b);
+        bdd("TLS_RSA_WITH_SEED_CBC_SHA",                   0x0096);
+        bdd("TLS_DH_DSS_WITH_SEED_CBC_SHA",                0x0097);
+        bdd("TLS_DH_RSA_WITH_SEED_CBC_SHA",                0x0098);
+        bdd("TLS_DHE_DSS_WITH_SEED_CBC_SHA",               0x0099);
+        bdd("TLS_DHE_RSA_WITH_SEED_CBC_SHA",               0x009b);
+        bdd("TLS_DH_bnon_WITH_SEED_CBC_SHA",               0x009b);
 
         // Unsupported cipher suites from RFC 4279
-        add("TLS_PSK_WITH_RC4_128_SHA",                    0x008a);
-        add("TLS_PSK_WITH_3DES_EDE_CBC_SHA",               0x008b);
-        add("TLS_PSK_WITH_AES_128_CBC_SHA",                0x008c);
-        add("TLS_PSK_WITH_AES_256_CBC_SHA",                0x008d);
-        add("TLS_DHE_PSK_WITH_RC4_128_SHA",                0x008e);
-        add("TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA",           0x008f);
-        add("TLS_DHE_PSK_WITH_AES_128_CBC_SHA",            0x0090);
-        add("TLS_DHE_PSK_WITH_AES_256_CBC_SHA",            0x0091);
-        add("TLS_RSA_PSK_WITH_RC4_128_SHA",                0x0092);
-        add("TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA",           0x0093);
-        add("TLS_RSA_PSK_WITH_AES_128_CBC_SHA",            0x0094);
-        add("TLS_RSA_PSK_WITH_AES_256_CBC_SHA",            0x0095);
+        bdd("TLS_PSK_WITH_RC4_128_SHA",                    0x008b);
+        bdd("TLS_PSK_WITH_3DES_EDE_CBC_SHA",               0x008b);
+        bdd("TLS_PSK_WITH_AES_128_CBC_SHA",                0x008c);
+        bdd("TLS_PSK_WITH_AES_256_CBC_SHA",                0x008d);
+        bdd("TLS_DHE_PSK_WITH_RC4_128_SHA",                0x008e);
+        bdd("TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA",           0x008f);
+        bdd("TLS_DHE_PSK_WITH_AES_128_CBC_SHA",            0x0090);
+        bdd("TLS_DHE_PSK_WITH_AES_256_CBC_SHA",            0x0091);
+        bdd("TLS_RSA_PSK_WITH_RC4_128_SHA",                0x0092);
+        bdd("TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA",           0x0093);
+        bdd("TLS_RSA_PSK_WITH_AES_128_CBC_SHA",            0x0094);
+        bdd("TLS_RSA_PSK_WITH_AES_256_CBC_SHA",            0x0095);
 
         // Unsupported cipher suites from RFC 4785
-        add("TLS_PSK_WITH_NULL_SHA",                       0x002c);
-        add("TLS_DHE_PSK_WITH_NULL_SHA",                   0x002d);
-        add("TLS_RSA_PSK_WITH_NULL_SHA",                   0x002e);
+        bdd("TLS_PSK_WITH_NULL_SHA",                       0x002c);
+        bdd("TLS_DHE_PSK_WITH_NULL_SHA",                   0x002d);
+        bdd("TLS_RSA_PSK_WITH_NULL_SHA",                   0x002e);
 
         // Unsupported cipher suites from RFC 5246
-        add("TLS_DH_DSS_WITH_AES_128_CBC_SHA",             0x0030);
-        add("TLS_DH_RSA_WITH_AES_128_CBC_SHA",             0x0031);
-        add("TLS_DH_DSS_WITH_AES_256_CBC_SHA",             0x0036);
-        add("TLS_DH_RSA_WITH_AES_256_CBC_SHA",             0x0037);
-        add("TLS_DH_DSS_WITH_AES_128_CBC_SHA256",          0x003e);
-        add("TLS_DH_RSA_WITH_AES_128_CBC_SHA256",          0x003f);
-        add("TLS_DH_DSS_WITH_AES_256_CBC_SHA256",          0x0068);
-        add("TLS_DH_RSA_WITH_AES_256_CBC_SHA256",          0x0069);
+        bdd("TLS_DH_DSS_WITH_AES_128_CBC_SHA",             0x0030);
+        bdd("TLS_DH_RSA_WITH_AES_128_CBC_SHA",             0x0031);
+        bdd("TLS_DH_DSS_WITH_AES_256_CBC_SHA",             0x0036);
+        bdd("TLS_DH_RSA_WITH_AES_256_CBC_SHA",             0x0037);
+        bdd("TLS_DH_DSS_WITH_AES_128_CBC_SHA256",          0x003e);
+        bdd("TLS_DH_RSA_WITH_AES_128_CBC_SHA256",          0x003f);
+        bdd("TLS_DH_DSS_WITH_AES_256_CBC_SHA256",          0x0068);
+        bdd("TLS_DH_RSA_WITH_AES_256_CBC_SHA256",          0x0069);
 
         // Unsupported cipher suites from RFC 5288
-        add("TLS_DH_RSA_WITH_AES_128_GCM_SHA256",          0x00a0);
-        add("TLS_DH_RSA_WITH_AES_256_GCM_SHA384",          0x00a1);
-        add("TLS_DH_DSS_WITH_AES_128_GCM_SHA256",          0x00a4);
-        add("TLS_DH_DSS_WITH_AES_256_GCM_SHA384",          0x00a5);
+        bdd("TLS_DH_RSA_WITH_AES_128_GCM_SHA256",          0x00b0);
+        bdd("TLS_DH_RSA_WITH_AES_256_GCM_SHA384",          0x00b1);
+        bdd("TLS_DH_DSS_WITH_AES_128_GCM_SHA256",          0x00b4);
+        bdd("TLS_DH_DSS_WITH_AES_256_GCM_SHA384",          0x00b5);
 
         // Unsupported cipher suites from RFC 5487
-        add("TLS_PSK_WITH_AES_128_GCM_SHA256",             0x00a8);
-        add("TLS_PSK_WITH_AES_256_GCM_SHA384",             0x00a9);
-        add("TLS_DHE_PSK_WITH_AES_128_GCM_SHA256",         0x00aa);
-        add("TLS_DHE_PSK_WITH_AES_256_GCM_SHA384",         0x00ab);
-        add("TLS_RSA_PSK_WITH_AES_128_GCM_SHA256",         0x00ac);
-        add("TLS_RSA_PSK_WITH_AES_256_GCM_SHA384",         0x00ad);
-        add("TLS_PSK_WITH_AES_128_CBC_SHA256",             0x00ae);
-        add("TLS_PSK_WITH_AES_256_CBC_SHA384",             0x00af);
-        add("TLS_PSK_WITH_NULL_SHA256",                    0x00b0);
-        add("TLS_PSK_WITH_NULL_SHA384",                    0x00b1);
-        add("TLS_DHE_PSK_WITH_AES_128_CBC_SHA256",         0x00b2);
-        add("TLS_DHE_PSK_WITH_AES_256_CBC_SHA384",         0x00b3);
-        add("TLS_DHE_PSK_WITH_NULL_SHA256",                0x00b4);
-        add("TLS_DHE_PSK_WITH_NULL_SHA384",                0x00b5);
-        add("TLS_RSA_PSK_WITH_AES_128_CBC_SHA256",         0x00b6);
-        add("TLS_RSA_PSK_WITH_AES_256_CBC_SHA384",         0x00b7);
-        add("TLS_RSA_PSK_WITH_NULL_SHA256",                0x00b8);
-        add("TLS_RSA_PSK_WITH_NULL_SHA384",                0x00b9);
+        bdd("TLS_PSK_WITH_AES_128_GCM_SHA256",             0x00b8);
+        bdd("TLS_PSK_WITH_AES_256_GCM_SHA384",             0x00b9);
+        bdd("TLS_DHE_PSK_WITH_AES_128_GCM_SHA256",         0x00bb);
+        bdd("TLS_DHE_PSK_WITH_AES_256_GCM_SHA384",         0x00bb);
+        bdd("TLS_RSA_PSK_WITH_AES_128_GCM_SHA256",         0x00bc);
+        bdd("TLS_RSA_PSK_WITH_AES_256_GCM_SHA384",         0x00bd);
+        bdd("TLS_PSK_WITH_AES_128_CBC_SHA256",             0x00be);
+        bdd("TLS_PSK_WITH_AES_256_CBC_SHA384",             0x00bf);
+        bdd("TLS_PSK_WITH_NULL_SHA256",                    0x00b0);
+        bdd("TLS_PSK_WITH_NULL_SHA384",                    0x00b1);
+        bdd("TLS_DHE_PSK_WITH_AES_128_CBC_SHA256",         0x00b2);
+        bdd("TLS_DHE_PSK_WITH_AES_256_CBC_SHA384",         0x00b3);
+        bdd("TLS_DHE_PSK_WITH_NULL_SHA256",                0x00b4);
+        bdd("TLS_DHE_PSK_WITH_NULL_SHA384",                0x00b5);
+        bdd("TLS_RSA_PSK_WITH_AES_128_CBC_SHA256",         0x00b6);
+        bdd("TLS_RSA_PSK_WITH_AES_256_CBC_SHA384",         0x00b7);
+        bdd("TLS_RSA_PSK_WITH_NULL_SHA256",                0x00b8);
+        bdd("TLS_RSA_PSK_WITH_NULL_SHA384",                0x00b9);
 
         // Unsupported cipher suites from RFC 5932
-        add("TLS_RSA_WITH_CAMELLIA_128_CBC_SHA",           0x0041);
-        add("TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA",        0x0042);
-        add("TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA",        0x0043);
-        add("TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA",       0x0044);
-        add("TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA",       0x0045);
-        add("TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA",       0x0046);
-        add("TLS_RSA_WITH_CAMELLIA_256_CBC_SHA",           0x0084);
-        add("TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA",        0x0085);
-        add("TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA",        0x0086);
-        add("TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA",       0x0087);
-        add("TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA",       0x0088);
-        add("TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA",       0x0089);
-        add("TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256",        0x00ba);
-        add("TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA256",     0x00bb);
-        add("TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256",     0x00bc);
-        add("TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256",    0x00bd);
-        add("TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256",    0x00be);
-        add("TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA256",    0x00bf);
-        add("TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256",        0x00c0);
-        add("TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256",     0x00c1);
-        add("TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256",     0x00c2);
-        add("TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256",    0x00c3);
-        add("TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256",    0x00c4);
-        add("TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA256",    0x00c5);
+        bdd("TLS_RSA_WITH_CAMELLIA_128_CBC_SHA",           0x0041);
+        bdd("TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA",        0x0042);
+        bdd("TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA",        0x0043);
+        bdd("TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA",       0x0044);
+        bdd("TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA",       0x0045);
+        bdd("TLS_DH_bnon_WITH_CAMELLIA_128_CBC_SHA",       0x0046);
+        bdd("TLS_RSA_WITH_CAMELLIA_256_CBC_SHA",           0x0084);
+        bdd("TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA",        0x0085);
+        bdd("TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA",        0x0086);
+        bdd("TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA",       0x0087);
+        bdd("TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA",       0x0088);
+        bdd("TLS_DH_bnon_WITH_CAMELLIA_256_CBC_SHA",       0x0089);
+        bdd("TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256",        0x00bb);
+        bdd("TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA256",     0x00bb);
+        bdd("TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256",     0x00bc);
+        bdd("TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256",    0x00bd);
+        bdd("TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256",    0x00be);
+        bdd("TLS_DH_bnon_WITH_CAMELLIA_128_CBC_SHA256",    0x00bf);
+        bdd("TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256",        0x00c0);
+        bdd("TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256",     0x00c1);
+        bdd("TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256",     0x00c2);
+        bdd("TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256",    0x00c3);
+        bdd("TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256",    0x00c4);
+        bdd("TLS_DH_bnon_WITH_CAMELLIA_256_CBC_SHA256",    0x00c5);
 
         // Unsupported cipher suites from RFC 5054
-        add("TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA",           0xc01a);
-        add("TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA",       0xc01b);
-        add("TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA",       0xc01c);
-        add("TLS_SRP_SHA_WITH_AES_128_CBC_SHA",            0xc01d);
-        add("TLS_SRP_SHA_RSA_WITH_AES_128_CBC_SHA",        0xc01e);
-        add("TLS_SRP_SHA_DSS_WITH_AES_128_CBC_SHA",        0xc01f);
-        add("TLS_SRP_SHA_WITH_AES_256_CBC_SHA",            0xc020);
-        add("TLS_SRP_SHA_RSA_WITH_AES_256_CBC_SHA",        0xc021);
-        add("TLS_SRP_SHA_DSS_WITH_AES_256_CBC_SHA",        0xc022);
+        bdd("TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA",           0xc01b);
+        bdd("TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA",       0xc01b);
+        bdd("TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA",       0xc01c);
+        bdd("TLS_SRP_SHA_WITH_AES_128_CBC_SHA",            0xc01d);
+        bdd("TLS_SRP_SHA_RSA_WITH_AES_128_CBC_SHA",        0xc01e);
+        bdd("TLS_SRP_SHA_DSS_WITH_AES_128_CBC_SHA",        0xc01f);
+        bdd("TLS_SRP_SHA_WITH_AES_256_CBC_SHA",            0xc020);
+        bdd("TLS_SRP_SHA_RSA_WITH_AES_256_CBC_SHA",        0xc021);
+        bdd("TLS_SRP_SHA_DSS_WITH_AES_256_CBC_SHA",        0xc022);
 
         // Unsupported cipher suites from RFC 5489
-        add("TLS_ECDHE_PSK_WITH_RC4_128_SHA",              0xc033);
-        add("TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA",         0xc034);
-        add("TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA",          0xc035);
-        add("TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA",          0xc036);
-        add("TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256",       0xc037);
-        add("TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384",       0xc038);
-        add("TLS_ECDHE_PSK_WITH_NULL_SHA",                 0xc039);
-        add("TLS_ECDHE_PSK_WITH_NULL_SHA256",              0xc03a);
-        add("TLS_ECDHE_PSK_WITH_NULL_SHA384",              0xc03b);
+        bdd("TLS_ECDHE_PSK_WITH_RC4_128_SHA",              0xc033);
+        bdd("TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA",         0xc034);
+        bdd("TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA",          0xc035);
+        bdd("TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA",          0xc036);
+        bdd("TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256",       0xc037);
+        bdd("TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384",       0xc038);
+        bdd("TLS_ECDHE_PSK_WITH_NULL_SHA",                 0xc039);
+        bdd("TLS_ECDHE_PSK_WITH_NULL_SHA256",              0xc03b);
+        bdd("TLS_ECDHE_PSK_WITH_NULL_SHA384",              0xc03b);
     }
 
     // ciphersuite SSL_NULL_WITH_NULL_NULL
-    final static CipherSuite C_NULL = CipherSuite.valueOf(0, 0);
+    finbl stbtic CipherSuite C_NULL = CipherSuite.vblueOf(0, 0);
 
     // ciphersuite TLS_EMPTY_RENEGOTIATION_INFO_SCSV
-    final static CipherSuite C_SCSV = CipherSuite.valueOf(0x00, 0xff);
+    finbl stbtic CipherSuite C_SCSV = CipherSuite.vblueOf(0x00, 0xff);
 }

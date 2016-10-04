@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt.event;
+pbckbge com.bpple.ebwt.event;
 
 /**
- * Abstract adapter class for receiving gesture events. This class is provided
- * as a convenience for creating listeners.
+ * Abstrbct bdbpter clbss for receiving gesture events. This clbss is provided
+ * bs b convenience for crebting listeners.
  *
- * Subclasses registered with {@link GestureUtilities#addGestureListenerTo()}
- * will receive all phase, magnification, rotation, and swipe events.
+ * Subclbsses registered with {@link GestureUtilities#bddGestureListenerTo()}
+ * will receive bll phbse, mbgnificbtion, rotbtion, bnd swipe events.
  *
  * @see GestureUtilities
  *
- * @since Java for Mac OS X 10.5 Update 7, Java for Mac OS X 10.6 Update 2
+ * @since Jbvb for Mbc OS X 10.5 Updbte 7, Jbvb for Mbc OS X 10.6 Updbte 2
  */
-public abstract class GestureAdapter implements GesturePhaseListener, MagnificationListener, RotationListener, SwipeListener {
-    public void gestureBegan(final GesturePhaseEvent e) { }
-    public void gestureEnded(final GesturePhaseEvent e) { }
-    public void magnify(final MagnificationEvent e) { }
-    public void rotate(final RotationEvent e) { }
-    public void swipedDown(final SwipeEvent e) { }
-    public void swipedLeft(final SwipeEvent e) { }
-    public void swipedRight(final SwipeEvent e) { }
-    public void swipedUp(final SwipeEvent e) { }
+public bbstrbct clbss GestureAdbpter implements GesturePhbseListener, MbgnificbtionListener, RotbtionListener, SwipeListener {
+    public void gestureBegbn(finbl GesturePhbseEvent e) { }
+    public void gestureEnded(finbl GesturePhbseEvent e) { }
+    public void mbgnify(finbl MbgnificbtionEvent e) { }
+    public void rotbte(finbl RotbtionEvent e) { }
+    public void swipedDown(finbl SwipeEvent e) { }
+    public void swipedLeft(finbl SwipeEvent e) { }
+    public void swipedRight(finbl SwipeEvent e) { }
+    public void swipedUp(finbl SwipeEvent e) { }
 }

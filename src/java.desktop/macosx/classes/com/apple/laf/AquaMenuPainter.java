@@ -1,421 +1,421 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.bbsic.BbsicHTML;
+import jbvbx.swing.text.View;
 
 import sun.swing.SwingUtilities2;
 
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaIcon.InvertableIcon;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubIcon.InvertbbleIcon;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
 /**
- * AquaMenuPainter, implements paintMenuItem to avoid code duplication
+ * AqubMenuPbinter, implements pbintMenuItem to bvoid code duplicbtion
  *
- * BasicMenuItemUI didn't factor out the various parts of the Menu, and
- * we subclass it and its subclasses BasicMenuUI
- * Our classes need an implementation of paintMenuItem
- * that allows them to paint their own backgrounds
+ * BbsicMenuItemUI didn't fbctor out the vbrious pbrts of the Menu, bnd
+ * we subclbss it bnd its subclbsses BbsicMenuUI
+ * Our clbsses need bn implementbtion of pbintMenuItem
+ * thbt bllows them to pbint their own bbckgrounds
  */
 
-public class AquaMenuPainter {
-    // Glyph statics:
-    // ASCII character codes
-    static final byte
+public clbss AqubMenuPbinter {
+    // Glyph stbtics:
+    // ASCII chbrbcter codes
+    stbtic finbl byte
         kShiftGlyph = 0x05,
         kOptionGlyph = 0x07,
         kControlGlyph = 0x06,
         kPencilGlyph = 0x0F,
-        kCommandMark = 0x11;
+        kCommbndMbrk = 0x11;
 
-    // Unicode character codes
-    static final char
-        kUBlackDiamond = 0x25C6,
-        kUCheckMark = 0x2713,
+    // Unicode chbrbcter codes
+    stbtic finbl chbr
+        kUBlbckDibmond = 0x25C6,
+        kUCheckMbrk = 0x2713,
         kUControlGlyph = 0x2303,
         kUOptionGlyph = 0x2325,
         kUEnterGlyph = 0x2324,
-        kUCommandGlyph = 0x2318,
+        kUCommbndGlyph = 0x2318,
         kULeftDeleteGlyph = 0x232B,
         kURightDeleteGlyph = 0x2326,
         kUShiftGlyph = 0x21E7,
-        kUCapsLockGlyph = 0x21EA;
+        kUCbpsLockGlyph = 0x21EA;
 
-    static final int ALT_GRAPH_MASK = 1 << 5; // New to Java2
-    static final int sUnsupportedModifiersMask = ~(InputEvent.CTRL_MASK | InputEvent.ALT_MASK | InputEvent.SHIFT_MASK | InputEvent.META_MASK | ALT_GRAPH_MASK);
+    stbtic finbl int ALT_GRAPH_MASK = 1 << 5; // New to Jbvb2
+    stbtic finbl int sUnsupportedModifiersMbsk = ~(InputEvent.CTRL_MASK | InputEvent.ALT_MASK | InputEvent.SHIFT_MASK | InputEvent.META_MASK | ALT_GRAPH_MASK);
 
-    interface Client {
-        public void paintBackground(Graphics g, JComponent c, int menuWidth, int menuHeight);
+    interfbce Client {
+        public void pbintBbckground(Grbphics g, JComponent c, int menuWidth, int menuHeight);
     }
 
-    // Return a string with the proper modifier glyphs
-    static String getKeyModifiersText(final int modifiers, final boolean isLeftToRight) {
+    // Return b string with the proper modifier glyphs
+    stbtic String getKeyModifiersText(finbl int modifiers, finbl boolebn isLeftToRight) {
         return getKeyModifiersUnicode(modifiers, isLeftToRight);
     }
 
-    // Return a string with the proper modifier glyphs
-    private static String getKeyModifiersUnicode(final int modifiers, final boolean isLeftToRight) {
-        final StringBuilder buf = new StringBuilder(2);
-        // Order (from StandardMenuDef.c): control, option(alt), shift, cmd
+    // Return b string with the proper modifier glyphs
+    privbte stbtic String getKeyModifiersUnicode(finbl int modifiers, finbl boolebn isLeftToRight) {
+        finbl StringBuilder buf = new StringBuilder(2);
+        // Order (from StbndbrdMenuDef.c): control, option(blt), shift, cmd
         // reverse for right-to-left
-        //$ check for substitute key glyphs for localization
+        //$ check for substitute key glyphs for locblizbtion
         if (isLeftToRight) {
             if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-                buf.append(kUControlGlyph);
+                buf.bppend(kUControlGlyph);
             }
             if ((modifiers & (InputEvent.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
-                buf.append(kUOptionGlyph);
+                buf.bppend(kUOptionGlyph);
             }
             if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-                buf.append(kUShiftGlyph);
+                buf.bppend(kUShiftGlyph);
             }
             if ((modifiers & InputEvent.META_MASK) != 0) {
-                buf.append(kUCommandGlyph);
+                buf.bppend(kUCommbndGlyph);
             }
         } else {
             if ((modifiers & InputEvent.META_MASK) != 0) {
-                buf.append(kUCommandGlyph);
+                buf.bppend(kUCommbndGlyph);
             }
             if ((modifiers & InputEvent.SHIFT_MASK) != 0) {
-                buf.append(kUShiftGlyph);
+                buf.bppend(kUShiftGlyph);
             }
             if ((modifiers & (InputEvent.ALT_MASK | ALT_GRAPH_MASK)) != 0) {
-                buf.append(kUOptionGlyph);
+                buf.bppend(kUOptionGlyph);
             }
             if ((modifiers & InputEvent.CTRL_MASK) != 0) {
-                buf.append(kUControlGlyph);
+                buf.bppend(kUControlGlyph);
             }
         }
         return buf.toString();
     }
 
-    static final RecyclableSingleton<AquaMenuPainter> sPainter = new RecyclableSingletonFromDefaultConstructor<AquaMenuPainter>(AquaMenuPainter.class);
-    static AquaMenuPainter instance() {
-        return sPainter.get();
+    stbtic finbl RecyclbbleSingleton<AqubMenuPbinter> sPbinter = new RecyclbbleSingletonFromDefbultConstructor<AqubMenuPbinter>(AqubMenuPbinter.clbss);
+    stbtic AqubMenuPbinter instbnce() {
+        return sPbinter.get();
     }
 
-    static final int defaultMenuItemGap = 2;
-    static final int kAcceleratorArrowSpace = 16; // Accel space doesn't overlap arrow space, even though items can't have both
+    stbtic finbl int defbultMenuItemGbp = 2;
+    stbtic finbl int kAccelerbtorArrowSpbce = 16; // Accel spbce doesn't overlbp brrow spbce, even though items cbn't hbve both
 
-    static class RecyclableBorder extends RecyclableSingleton<Border> {
-        final String borderName;
-        RecyclableBorder(final String borderName) { this.borderName = borderName; }
-        protected Border getInstance() { return UIManager.getBorder(borderName); }
+    stbtic clbss RecyclbbleBorder extends RecyclbbleSingleton<Border> {
+        finbl String borderNbme;
+        RecyclbbleBorder(finbl String borderNbme) { this.borderNbme = borderNbme; }
+        protected Border getInstbnce() { return UIMbnbger.getBorder(borderNbme); }
     }
 
-    protected final RecyclableBorder menuBarPainter = new RecyclableBorder("MenuBar.backgroundPainter");
-    protected final RecyclableBorder selectedMenuBarItemPainter = new RecyclableBorder("MenuBar.selectedBackgroundPainter");
-    protected final RecyclableBorder selectedMenuItemPainter = new RecyclableBorder("MenuItem.selectedBackgroundPainter");
+    protected finbl RecyclbbleBorder menuBbrPbinter = new RecyclbbleBorder("MenuBbr.bbckgroundPbinter");
+    protected finbl RecyclbbleBorder selectedMenuBbrItemPbinter = new RecyclbbleBorder("MenuBbr.selectedBbckgroundPbinter");
+    protected finbl RecyclbbleBorder selectedMenuItemPbinter = new RecyclbbleBorder("MenuItem.selectedBbckgroundPbinter");
 
-    public void paintMenuBarBackground(final Graphics g, final int width, final int height, final JComponent c) {
-        g.setColor(c == null ? Color.white : c.getBackground());
+    public void pbintMenuBbrBbckground(finbl Grbphics g, finbl int width, finbl int height, finbl JComponent c) {
+        g.setColor(c == null ? Color.white : c.getBbckground());
         g.fillRect(0, 0, width, height);
-        menuBarPainter.get().paintBorder(null, g, 0, 0, width, height);
+        menuBbrPbinter.get().pbintBorder(null, g, 0, 0, width, height);
     }
 
-    public void paintSelectedMenuTitleBackground(final Graphics g, final int width, final int height) {
-        selectedMenuBarItemPainter.get().paintBorder(null, g, -1, 0, width + 2, height);
+    public void pbintSelectedMenuTitleBbckground(finbl Grbphics g, finbl int width, finbl int height) {
+        selectedMenuBbrItemPbinter.get().pbintBorder(null, g, -1, 0, width + 2, height);
     }
 
-    public void paintSelectedMenuItemBackground(final Graphics g, final int width, final int height) {
-        selectedMenuItemPainter.get().paintBorder(null, g, 0, 0, width, height);
+    public void pbintSelectedMenuItemBbckground(finbl Grbphics g, finbl int width, finbl int height) {
+        selectedMenuItemPbinter.get().pbintBorder(null, g, 0, 0, width, height);
     }
 
-    protected void paintMenuItem(final Client client, final Graphics g, final JComponent c, final Icon checkIcon, final Icon arrowIcon, final Color background, final Color foreground, final Color disabledForeground, final Color selectionForeground, final int defaultTextIconGap, final Font acceleratorFont) {
-        final JMenuItem b = (JMenuItem)c;
-        final ButtonModel model = b.getModel();
+    protected void pbintMenuItem(finbl Client client, finbl Grbphics g, finbl JComponent c, finbl Icon checkIcon, finbl Icon brrowIcon, finbl Color bbckground, finbl Color foreground, finbl Color disbbledForeground, finbl Color selectionForeground, finbl int defbultTextIconGbp, finbl Font bccelerbtorFont) {
+        finbl JMenuItem b = (JMenuItem)c;
+        finbl ButtonModel model = b.getModel();
 
 //        Dimension size = b.getSize();
-        final int menuWidth = b.getWidth();
-        final int menuHeight = b.getHeight();
-        final Insets i = c.getInsets();
+        finbl int menuWidth = b.getWidth();
+        finbl int menuHeight = b.getHeight();
+        finbl Insets i = c.getInsets();
 
-        Rectangle viewRect = new Rectangle(0, 0, menuWidth, menuHeight);
+        Rectbngle viewRect = new Rectbngle(0, 0, menuWidth, menuHeight);
 
         viewRect.x += i.left;
         viewRect.y += i.top;
         viewRect.width -= (i.right + viewRect.x);
         viewRect.height -= (i.bottom + viewRect.y);
 
-        final Font holdf = g.getFont();
-        final Color holdc = g.getColor();
-        final Font f = c.getFont();
+        finbl Font holdf = g.getFont();
+        finbl Color holdc = g.getColor();
+        finbl Font f = c.getFont();
         g.setFont(f);
-        final FontMetrics fm = g.getFontMetrics(f);
+        finbl FontMetrics fm = g.getFontMetrics(f);
 
-        final FontMetrics fmAccel = g.getFontMetrics(acceleratorFont);
+        finbl FontMetrics fmAccel = g.getFontMetrics(bccelerbtorFont);
 
-        // Paint background (doesn't touch the Graphics object's color)
-        if (c.isOpaque()) {
-            client.paintBackground(g, c, menuWidth, menuHeight);
+        // Pbint bbckground (doesn't touch the Grbphics object's color)
+        if (c.isOpbque()) {
+            client.pbintBbckground(g, c, menuWidth, menuHeight);
         }
 
-        // get Accelerator text
-        final KeyStroke accelerator = b.getAccelerator();
+        // get Accelerbtor text
+        finbl KeyStroke bccelerbtor = b.getAccelerbtor();
         String modifiersString = "", keyString = "";
-        final boolean leftToRight = AquaUtils.isLeftToRight(c);
-        if (accelerator != null) {
-            final int modifiers = accelerator.getModifiers();
+        finbl boolebn leftToRight = AqubUtils.isLeftToRight(c);
+        if (bccelerbtor != null) {
+            finbl int modifiers = bccelerbtor.getModifiers();
             if (modifiers > 0) {
                 modifiersString = getKeyModifiersText(modifiers, leftToRight);
             }
-            final int keyCode = accelerator.getKeyCode();
+            finbl int keyCode = bccelerbtor.getKeyCode();
             if (keyCode != 0) {
                 keyString = KeyEvent.getKeyText(keyCode);
             } else {
-                keyString += accelerator.getKeyChar();
+                keyString += bccelerbtor.getKeyChbr();
             }
         }
 
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle acceleratorRect = new Rectangle();
-        Rectangle checkIconRect = new Rectangle();
-        Rectangle arrowIconRect = new Rectangle();
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
+        Rectbngle bccelerbtorRect = new Rectbngle();
+        Rectbngle checkIconRect = new Rectbngle();
+        Rectbngle brrowIconRect = new Rectbngle();
 
-        // layout the text and icon
-        final String text = layoutMenuItem(b, fm, b.getText(), fmAccel, keyString, modifiersString, b.getIcon(), checkIcon, arrowIcon, b.getVerticalAlignment(), b.getHorizontalAlignment(), b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect, iconRect, textRect, acceleratorRect, checkIconRect, arrowIconRect, b.getText() == null ? 0 : defaultTextIconGap, defaultTextIconGap);
+        // lbyout the text bnd icon
+        finbl String text = lbyoutMenuItem(b, fm, b.getText(), fmAccel, keyString, modifiersString, b.getIcon(), checkIcon, brrowIcon, b.getVerticblAlignment(), b.getHorizontblAlignment(), b.getVerticblTextPosition(), b.getHorizontblTextPosition(), viewRect, iconRect, textRect, bccelerbtorRect, checkIconRect, brrowIconRect, b.getText() == null ? 0 : defbultTextIconGbp, defbultTextIconGbp);
 
-        // if this is in a AquaScreenMenuBar that's attached to a DialogPeer
-        // the native menu will be disabled, though the awt Menu won't know about it
-        // so the JPopupMenu will not have visibility set and the items should draw disabled
-        // If it's not on a JPopupMenu then it should just use the model's enable state
-        final Container parent = b.getParent();
-        final boolean parentIsMenuBar = parent instanceof JMenuBar;
+        // if this is in b AqubScreenMenuBbr thbt's bttbched to b DiblogPeer
+        // the nbtive menu will be disbbled, though the bwt Menu won't know bbout it
+        // so the JPopupMenu will not hbve visibility set bnd the items should drbw disbbled
+        // If it's not on b JPopupMenu then it should just use the model's enbble stbte
+        finbl Contbiner pbrent = b.getPbrent();
+        finbl boolebn pbrentIsMenuBbr = pbrent instbnceof JMenuBbr;
 
-        Container ancestor = parent;
-        while (ancestor != null && !(ancestor instanceof JPopupMenu)) ancestor = ancestor.getParent();
+        Contbiner bncestor = pbrent;
+        while (bncestor != null && !(bncestor instbnceof JPopupMenu)) bncestor = bncestor.getPbrent();
 
-        boolean isEnabled = model.isEnabled() && (ancestor == null || ancestor.isVisible());
+        boolebn isEnbbled = model.isEnbbled() && (bncestor == null || bncestor.isVisible());
 
-        // Set the accel/normal text color
-        boolean isSelected = false;
-        if (!isEnabled) {
-            // *** paint the text disabled
-            g.setColor(disabledForeground);
+        // Set the bccel/normbl text color
+        boolebn isSelected = fblse;
+        if (!isEnbbled) {
+            // *** pbint the text disbbled
+            g.setColor(disbbledForeground);
         } else {
-            // *** paint the text normally
-            if (model.isArmed() || (c instanceof JMenu && model.isSelected())) {
+            // *** pbint the text normblly
+            if (model.isArmed() || (c instbnceof JMenu && model.isSelected())) {
                 g.setColor(selectionForeground);
                 isSelected = true;
             } else {
-                g.setColor(parentIsMenuBar ? parent.getForeground() : b.getForeground()); // Which is either MenuItem.foreground or the user's choice
+                g.setColor(pbrentIsMenuBbr ? pbrent.getForeground() : b.getForeground()); // Which is either MenuItem.foreground or the user's choice
             }
         }
 
-        // We want to paint the icon after the text color is set since some icon painting depends on the correct
-        // graphics color being set
-        // See <rdar://problem/3792383> Menu icons missing in Java2D's Lines.Joins demo
-        // Paint the Icon
+        // We wbnt to pbint the icon bfter the text color is set since some icon pbinting depends on the correct
+        // grbphics color being set
+        // See <rdbr://problem/3792383> Menu icons missing in Jbvb2D's Lines.Joins demo
+        // Pbint the Icon
         if (b.getIcon() != null) {
-            paintIcon(g, b, iconRect, isEnabled);
+            pbintIcon(g, b, iconRect, isEnbbled);
         }
 
-        // Paint the Check using the current text color
+        // Pbint the Check using the current text color
         if (checkIcon != null) {
-            paintCheck(g, b, checkIcon, checkIconRect);
+            pbintCheck(g, b, checkIcon, checkIconRect);
         }
 
-        // Draw the accelerator first in case the HTML renderer changes the color
-        if (keyString != null && !keyString.equals("")) {
-            final int yAccel = acceleratorRect.y + fm.getAscent();
-            if (modifiersString.equals("")) {
-                // just draw the keyString
-                SwingUtilities2.drawString(c, g, keyString, acceleratorRect.x, yAccel);
+        // Drbw the bccelerbtor first in cbse the HTML renderer chbnges the color
+        if (keyString != null && !keyString.equbls("")) {
+            finbl int yAccel = bccelerbtorRect.y + fm.getAscent();
+            if (modifiersString.equbls("")) {
+                // just drbw the keyString
+                SwingUtilities2.drbwString(c, g, keyString, bccelerbtorRect.x, yAccel);
             } else {
-                final int modifiers = accelerator.getModifiers();
-                int underlinedChar = 0;
-                if ((modifiers & ALT_GRAPH_MASK) > 0) underlinedChar = kUOptionGlyph; // This is a Java2 thing, we won't be getting kOptionGlyph
-                // The keyStrings should all line up, so always adjust the width by the same amount
-                // (if they're multi-char, they won't line up but at least they won't be cut off)
-                final int emWidth = Math.max(fm.charWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
+                finbl int modifiers = bccelerbtor.getModifiers();
+                int underlinedChbr = 0;
+                if ((modifiers & ALT_GRAPH_MASK) > 0) underlinedChbr = kUOptionGlyph; // This is b Jbvb2 thing, we won't be getting kOptionGlyph
+                // The keyStrings should bll line up, so blwbys bdjust the width by the sbme bmount
+                // (if they're multi-chbr, they won't line up but bt lebst they won't be cut off)
+                finbl int emWidth = Mbth.mbx(fm.chbrWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
 
                 if (leftToRight) {
-                    g.setFont(acceleratorFont);
-                    drawString(g, c, modifiersString, underlinedChar, acceleratorRect.x, yAccel, isEnabled, isSelected);
+                    g.setFont(bccelerbtorFont);
+                    drbwString(g, c, modifiersString, underlinedChbr, bccelerbtorRect.x, yAccel, isEnbbled, isSelected);
                     g.setFont(f);
-                    SwingUtilities2.drawString(c, g, keyString, acceleratorRect.x + acceleratorRect.width - emWidth, yAccel);
+                    SwingUtilities2.drbwString(c, g, keyString, bccelerbtorRect.x + bccelerbtorRect.width - emWidth, yAccel);
                 } else {
-                    final int xAccel = acceleratorRect.x + emWidth;
-                    g.setFont(acceleratorFont);
-                    drawString(g, c, modifiersString, underlinedChar, xAccel, yAccel, isEnabled, isSelected);
+                    finbl int xAccel = bccelerbtorRect.x + emWidth;
+                    g.setFont(bccelerbtorFont);
+                    drbwString(g, c, modifiersString, underlinedChbr, xAccel, yAccel, isEnbbled, isSelected);
                     g.setFont(f);
-                    SwingUtilities2.drawString(c, g, keyString, xAccel - fm.stringWidth(keyString), yAccel);
+                    SwingUtilities2.drbwString(c, g, keyString, xAccel - fm.stringWidth(keyString), yAccel);
                 }
             }
         }
 
-        // Draw the Text
-        if (text != null && !text.equals("")) {
-            final View v = (View)c.getClientProperty(BasicHTML.propertyKey);
+        // Drbw the Text
+        if (text != null && !text.equbls("")) {
+            finbl View v = (View)c.getClientProperty(BbsicHTML.propertyKey);
             if (v != null) {
-                v.paint(g, textRect);
+                v.pbint(g, textRect);
             } else {
-                final int mnemonic = (AquaMnemonicHandler.isMnemonicHidden() ? -1 : model.getMnemonic());
-                drawString(g, c, text, mnemonic, textRect.x, textRect.y + fm.getAscent(), isEnabled, isSelected);
+                finbl int mnemonic = (AqubMnemonicHbndler.isMnemonicHidden() ? -1 : model.getMnemonic());
+                drbwString(g, c, text, mnemonic, textRect.x, textRect.y + fm.getAscent(), isEnbbled, isSelected);
             }
         }
 
-        // Paint the Arrow
-        if (arrowIcon != null) {
-            paintArrow(g, b, model, arrowIcon, arrowIconRect);
+        // Pbint the Arrow
+        if (brrowIcon != null) {
+            pbintArrow(g, b, model, brrowIcon, brrowIconRect);
         }
 
         g.setColor(holdc);
         g.setFont(holdf);
     }
 
-    // All this had to be copied from BasicMenuItemUI, just to get the right keyModifiersText fn
-    // and a few Mac tweaks
-    protected Dimension getPreferredMenuItemSize(final JComponent c, final Icon checkIcon, final Icon arrowIcon, final int defaultTextIconGap, final Font acceleratorFont) {
-        final JMenuItem b = (JMenuItem)c;
-        final Icon icon = b.getIcon();
-        final String text = b.getText();
-        final KeyStroke accelerator = b.getAccelerator();
+    // All this hbd to be copied from BbsicMenuItemUI, just to get the right keyModifiersText fn
+    // bnd b few Mbc twebks
+    protected Dimension getPreferredMenuItemSize(finbl JComponent c, finbl Icon checkIcon, finbl Icon brrowIcon, finbl int defbultTextIconGbp, finbl Font bccelerbtorFont) {
+        finbl JMenuItem b = (JMenuItem)c;
+        finbl Icon icon = b.getIcon();
+        finbl String text = b.getText();
+        finbl KeyStroke bccelerbtor = b.getAccelerbtor();
         String keyString = "", modifiersString = "";
 
-        if (accelerator != null) {
-            final int modifiers = accelerator.getModifiers();
+        if (bccelerbtor != null) {
+            finbl int modifiers = bccelerbtor.getModifiers();
             if (modifiers > 0) {
-                modifiersString = getKeyModifiersText(modifiers, true); // doesn't matter, this is just for metrics
+                modifiersString = getKeyModifiersText(modifiers, true); // doesn't mbtter, this is just for metrics
             }
-            final int keyCode = accelerator.getKeyCode();
+            finbl int keyCode = bccelerbtor.getKeyCode();
             if (keyCode != 0) {
                 keyString = KeyEvent.getKeyText(keyCode);
             } else {
-                keyString += accelerator.getKeyChar();
+                keyString += bccelerbtor.getKeyChbr();
             }
         }
 
-        final Font font = b.getFont();
-        final FontMetrics fm = b.getFontMetrics(font);
-        final FontMetrics fmAccel = b.getFontMetrics(acceleratorFont);
+        finbl Font font = b.getFont();
+        finbl FontMetrics fm = b.getFontMetrics(font);
+        finbl FontMetrics fmAccel = b.getFontMetrics(bccelerbtorFont);
 
-        Rectangle iconRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle acceleratorRect = new Rectangle();
-        Rectangle checkIconRect = new Rectangle();
-        Rectangle arrowIconRect = new Rectangle();
-        Rectangle viewRect = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
+        Rectbngle iconRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
+        Rectbngle bccelerbtorRect = new Rectbngle();
+        Rectbngle checkIconRect = new Rectbngle();
+        Rectbngle brrowIconRect = new Rectbngle();
+        Rectbngle viewRect = new Rectbngle(Short.MAX_VALUE, Short.MAX_VALUE);
 
-        layoutMenuItem(b, fm, text, fmAccel, keyString, modifiersString, icon, checkIcon, arrowIcon, b.getVerticalAlignment(), b.getHorizontalAlignment(), b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect, iconRect, textRect, acceleratorRect, checkIconRect, arrowIconRect, text == null ? 0 : defaultTextIconGap, defaultTextIconGap);
-        // find the union of the icon and text rects
-        Rectangle r = new Rectangle();
+        lbyoutMenuItem(b, fm, text, fmAccel, keyString, modifiersString, icon, checkIcon, brrowIcon, b.getVerticblAlignment(), b.getHorizontblAlignment(), b.getVerticblTextPosition(), b.getHorizontblTextPosition(), viewRect, iconRect, textRect, bccelerbtorRect, checkIconRect, brrowIconRect, text == null ? 0 : defbultTextIconGbp, defbultTextIconGbp);
+        // find the union of the icon bnd text rects
+        Rectbngle r = new Rectbngle();
         r.setBounds(textRect);
         r = SwingUtilities.computeUnion(iconRect.x, iconRect.y, iconRect.width, iconRect.height, r);
         //   r = iconRect.union(textRect);
 
-        // Add in the accelerator
-        boolean acceleratorTextIsEmpty = (keyString == null) || keyString.equals("");
+        // Add in the bccelerbtor
+        boolebn bccelerbtorTextIsEmpty = (keyString == null) || keyString.equbls("");
 
-        if (!acceleratorTextIsEmpty) {
-            r.width += acceleratorRect.width;
+        if (!bccelerbtorTextIsEmpty) {
+            r.width += bccelerbtorRect.width;
         }
 
         if (!isTopLevelMenu(b)) {
             // Add in the checkIcon
             r.width += checkIconRect.width;
-            r.width += defaultTextIconGap;
+            r.width += defbultTextIconGbp;
 
-            // Add in the arrowIcon space
-            r.width += defaultTextIconGap;
-            r.width += arrowIconRect.width;
+            // Add in the brrowIcon spbce
+            r.width += defbultTextIconGbp;
+            r.width += brrowIconRect.width;
         }
 
-        final Insets insets = b.getInsets();
+        finbl Insets insets = b.getInsets();
         if (insets != null) {
             r.width += insets.left + insets.right;
             r.height += insets.top + insets.bottom;
         }
 
-        // Tweak for Mac
-        r.width += 4 + defaultTextIconGap;
-        r.height = Math.max(r.height, 18);
+        // Twebk for Mbc
+        r.width += 4 + defbultTextIconGbp;
+        r.height = Mbth.mbx(r.height, 18);
 
         return r.getSize();
     }
 
-    protected void paintCheck(final Graphics g, final JMenuItem item, Icon checkIcon, Rectangle checkIconRect) {
+    protected void pbintCheck(finbl Grbphics g, finbl JMenuItem item, Icon checkIcon, Rectbngle checkIconRect) {
         if (isTopLevelMenu(item) || !item.isSelected()) return;
 
-        if (item.isArmed() && checkIcon instanceof InvertableIcon) {
-            ((InvertableIcon)checkIcon).getInvertedIcon().paintIcon(item, g, checkIconRect.x, checkIconRect.y);
+        if (item.isArmed() && checkIcon instbnceof InvertbbleIcon) {
+            ((InvertbbleIcon)checkIcon).getInvertedIcon().pbintIcon(item, g, checkIconRect.x, checkIconRect.y);
         } else {
-            checkIcon.paintIcon(item, g, checkIconRect.x, checkIconRect.y);
+            checkIcon.pbintIcon(item, g, checkIconRect.x, checkIconRect.y);
         }
     }
 
-    protected void paintIcon(final Graphics g, final JMenuItem c, final Rectangle localIconRect, boolean isEnabled) {
-        final ButtonModel model = c.getModel();
+    protected void pbintIcon(finbl Grbphics g, finbl JMenuItem c, finbl Rectbngle locblIconRect, boolebn isEnbbled) {
+        finbl ButtonModel model = c.getModel();
         Icon icon;
-        if (!isEnabled) {
-            icon = c.getDisabledIcon();
+        if (!isEnbbled) {
+            icon = c.getDisbbledIcon();
         } else if (model.isPressed() && model.isArmed()) {
             icon = c.getPressedIcon();
             if (icon == null) {
-                // Use default icon
+                // Use defbult icon
                 icon = c.getIcon();
             }
         } else {
             icon = c.getIcon();
         }
 
-        if (icon != null) icon.paintIcon(c, g, localIconRect.x, localIconRect.y);
+        if (icon != null) icon.pbintIcon(c, g, locblIconRect.x, locblIconRect.y);
     }
 
-    protected void paintArrow(Graphics g, JMenuItem c, ButtonModel model, Icon arrowIcon, Rectangle arrowIconRect) {
+    protected void pbintArrow(Grbphics g, JMenuItem c, ButtonModel model, Icon brrowIcon, Rectbngle brrowIconRect) {
         if (isTopLevelMenu(c)) return;
 
-        if (c instanceof JMenu && (model.isArmed() || model.isSelected()) && arrowIcon instanceof InvertableIcon) {
-            ((InvertableIcon)arrowIcon).getInvertedIcon().paintIcon(c, g, arrowIconRect.x, arrowIconRect.y);
+        if (c instbnceof JMenu && (model.isArmed() || model.isSelected()) && brrowIcon instbnceof InvertbbleIcon) {
+            ((InvertbbleIcon)brrowIcon).getInvertedIcon().pbintIcon(c, g, brrowIconRect.x, brrowIconRect.y);
         } else {
-            arrowIcon.paintIcon(c, g, arrowIconRect.x, arrowIconRect.y);
+            brrowIcon.pbintIcon(c, g, brrowIconRect.x, brrowIconRect.y);
         }
     }
 
-    /** Draw a string with the graphics g at location (x,y) just like g.drawString() would.
-     *  The first occurrence of underlineChar in text will be underlined. The matching is
-     *  not case sensitive.
+    /** Drbw b string with the grbphics g bt locbtion (x,y) just like g.drbwString() would.
+     *  The first occurrence of underlineChbr in text will be underlined. The mbtching is
+     *  not cbse sensitive.
      */
-    public void drawString(final Graphics g, final JComponent c, final String text, final int underlinedChar, final int x, final int y, final boolean isEnabled, final boolean isSelected) {
-        char lc, uc;
+    public void drbwString(finbl Grbphics g, finbl JComponent c, finbl String text, finbl int underlinedChbr, finbl int x, finbl int y, finbl boolebn isEnbbled, finbl boolebn isSelected) {
+        chbr lc, uc;
         int index = -1, lci, uci;
 
-        if (underlinedChar != '\0') {
-            uc = Character.toUpperCase((char)underlinedChar);
-            lc = Character.toLowerCase((char)underlinedChar);
+        if (underlinedChbr != '\0') {
+            uc = Chbrbcter.toUpperCbse((chbr)underlinedChbr);
+            lc = Chbrbcter.toLowerCbse((chbr)underlinedChbr);
 
             uci = text.indexOf(uc);
             lci = text.indexOf(lc);
@@ -425,39 +425,39 @@ public class AquaMenuPainter {
             else index = (lci < uci) ? lci : uci;
         }
 
-        SwingUtilities2.drawStringUnderlineCharAt(c, g, text, index, x, y);
+        SwingUtilities2.drbwStringUnderlineChbrAt(c, g, text, index, x, y);
     }
 
     /*
-     * Returns false if the component is a JMenu and it is a top
-     * level menu (on the menubar).
+     * Returns fblse if the component is b JMenu bnd it is b top
+     * level menu (on the menubbr).
      */
-    private static boolean isTopLevelMenu(final JMenuItem menuItem) {
-        return (menuItem instanceof JMenu) && (((JMenu)menuItem).isTopLevelMenu());
+    privbte stbtic boolebn isTopLevelMenu(finbl JMenuItem menuItem) {
+        return (menuItem instbnceof JMenu) && (((JMenu)menuItem).isTopLevelMenu());
     }
 
-    private String layoutMenuItem(final JMenuItem menuItem, final FontMetrics fm, final String text, final FontMetrics fmAccel, String keyString, final String modifiersString, final Icon icon, final Icon checkIcon, final Icon arrowIcon, final int verticalAlignment, final int horizontalAlignment, final int verticalTextPosition, final int horizontalTextPosition, final Rectangle viewR, final Rectangle iconR, final Rectangle textR, final Rectangle acceleratorR, final Rectangle checkIconR, final Rectangle arrowIconR, final int textIconGap, final int menuItemGap) {
+    privbte String lbyoutMenuItem(finbl JMenuItem menuItem, finbl FontMetrics fm, finbl String text, finbl FontMetrics fmAccel, String keyString, finbl String modifiersString, finbl Icon icon, finbl Icon checkIcon, finbl Icon brrowIcon, finbl int verticblAlignment, finbl int horizontblAlignment, finbl int verticblTextPosition, finbl int horizontblTextPosition, finbl Rectbngle viewR, finbl Rectbngle iconR, finbl Rectbngle textR, finbl Rectbngle bccelerbtorR, finbl Rectbngle checkIconR, finbl Rectbngle brrowIconR, finbl int textIconGbp, finbl int menuItemGbp) {
         // Force it to do "LEFT", then flip the rects if we're right-to-left
-        SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment, SwingConstants.LEFT, verticalTextPosition, horizontalTextPosition, viewR, iconR, textR, textIconGap);
+        SwingUtilities.lbyoutCompoundLbbel(menuItem, fm, text, icon, verticblAlignment, SwingConstbnts.LEFT, verticblTextPosition, horizontblTextPosition, viewR, iconR, textR, textIconGbp);
 
-        final boolean acceleratorTextIsEmpty = (keyString == null) || keyString.equals("");
+        finbl boolebn bccelerbtorTextIsEmpty = (keyString == null) || keyString.equbls("");
 
-        if (acceleratorTextIsEmpty) {
-            acceleratorR.width = acceleratorR.height = 0;
+        if (bccelerbtorTextIsEmpty) {
+            bccelerbtorR.width = bccelerbtorR.height = 0;
             keyString = "";
         } else {
-            // Accel space doesn't overlap arrow space, even though items can't have both
-            acceleratorR.width = SwingUtilities.computeStringWidth(fmAccel, modifiersString);
-            // The keyStrings should all line up, so always adjust the width by the same amount
-            // (if they're multi-char, they won't line up but at least they won't be cut off)
-            acceleratorR.width += Math.max(fm.charWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
-            acceleratorR.height = fmAccel.getHeight();
+            // Accel spbce doesn't overlbp brrow spbce, even though items cbn't hbve both
+            bccelerbtorR.width = SwingUtilities.computeStringWidth(fmAccel, modifiersString);
+            // The keyStrings should bll line up, so blwbys bdjust the width by the sbme bmount
+            // (if they're multi-chbr, they won't line up but bt lebst they won't be cut off)
+            bccelerbtorR.width += Mbth.mbx(fm.chbrWidth('M'), SwingUtilities.computeStringWidth(fm, keyString));
+            bccelerbtorR.height = fmAccel.getHeight();
         }
 
-        /* Initialize the checkIcon bounds rectangle checkIconR.
+        /* Initiblize the checkIcon bounds rectbngle checkIconR.
          */
 
-        final boolean isTopLevelMenu = isTopLevelMenu(menuItem);
+        finbl boolebn isTopLevelMenu = isTopLevelMenu(menuItem);
         if (!isTopLevelMenu) {
             if (checkIcon != null) {
                 checkIconR.width = checkIcon.getIconWidth();
@@ -466,74 +466,74 @@ public class AquaMenuPainter {
                 checkIconR.width = checkIconR.height = 16;
             }
 
-            /* Initialize the arrowIcon bounds rectangle arrowIconR.
+            /* Initiblize the brrowIcon bounds rectbngle brrowIconR.
              */
 
-            if (arrowIcon != null) {
-                arrowIconR.width = arrowIcon.getIconWidth();
-                arrowIconR.height = arrowIcon.getIconHeight();
+            if (brrowIcon != null) {
+                brrowIconR.width = brrowIcon.getIconWidth();
+                brrowIconR.height = brrowIcon.getIconHeight();
             } else {
-                arrowIconR.width = arrowIconR.height = 16;
+                brrowIconR.width = brrowIconR.height = 16;
             }
 
             textR.x += 12;
             iconR.x += 12;
         }
 
-        final Rectangle labelR = iconR.union(textR);
+        finbl Rectbngle lbbelR = iconR.union(textR);
 
-        // Position the Accelerator text rect
-        // Menu shortcut text *ought* to have the letters left-justified - look at a menu with an "M" in it
-        acceleratorR.x += (viewR.width - arrowIconR.width - acceleratorR.width);
-        acceleratorR.y = viewR.y + (viewR.height / 2) - (acceleratorR.height / 2);
+        // Position the Accelerbtor text rect
+        // Menu shortcut text *ought* to hbve the letters left-justified - look bt b menu with bn "M" in it
+        bccelerbtorR.x += (viewR.width - brrowIconR.width - bccelerbtorR.width);
+        bccelerbtorR.y = viewR.y + (viewR.height / 2) - (bccelerbtorR.height / 2);
 
         if (!isTopLevelMenu) {
             //    if ( GetSysDirection() < 0 ) hierRect.right = hierRect.left + w + 4;
             //    else hierRect.left = hierRect.right - w - 4;
-            arrowIconR.x = (viewR.width - arrowIconR.width) + 1;
-            arrowIconR.y = viewR.y + (labelR.height / 2) - (arrowIconR.height / 2) + 1;
+            brrowIconR.x = (viewR.width - brrowIconR.width) + 1;
+            brrowIconR.y = viewR.y + (lbbelR.height / 2) - (brrowIconR.height / 2) + 1;
 
-            checkIconR.y = viewR.y + (labelR.height / 2) - (checkIconR.height / 2);
+            checkIconR.y = viewR.y + (lbbelR.height / 2) - (checkIconR.height / 2);
             checkIconR.x = 5;
 
             textR.width += 8;
         }
 
-        /*System.out.println("Layout: " +horizontalAlignment+ " v=" +viewR+"  c="+checkIconR+" i="+
-         iconR+" t="+textR+" acc="+acceleratorR+" a="+arrowIconR);*/
+        /*System.out.println("Lbyout: " +horizontblAlignment+ " v=" +viewR+"  c="+checkIconR+" i="+
+         iconR+" t="+textR+" bcc="+bccelerbtorR+" b="+brrowIconR);*/
 
-        if (!AquaUtils.isLeftToRight(menuItem)) {
-            // Flip the rectangles so that instead of [check][icon][text][accel/arrow] it's [accel/arrow][text][icon][check]
-            final int w = viewR.width;
+        if (!AqubUtils.isLeftToRight(menuItem)) {
+            // Flip the rectbngles so thbt instebd of [check][icon][text][bccel/brrow] it's [bccel/brrow][text][icon][check]
+            finbl int w = viewR.width;
             checkIconR.x = w - (checkIconR.x + checkIconR.width);
             iconR.x = w - (iconR.x + iconR.width);
             textR.x = w - (textR.x + textR.width);
-            acceleratorR.x = w - (acceleratorR.x + acceleratorR.width);
-            arrowIconR.x = w - (arrowIconR.x + arrowIconR.width);
+            bccelerbtorR.x = w - (bccelerbtorR.x + bccelerbtorR.width);
+            brrowIconR.x = w - (brrowIconR.x + brrowIconR.width);
         }
-        textR.x += menuItemGap;
-        iconR.x += menuItemGap;
+        textR.x += menuItemGbp;
+        iconR.x += menuItemGbp;
 
         return text;
     }
 
-    public static Border getMenuBarPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_BAR);
+    public stbtic Border getMenuBbrPbinter() {
+        finbl AqubBorder border = new AqubBorder.Defbult();
+        border.pbinter.stbte.set(Widget.MENU_BAR);
         return border;
     }
 
-    public static Border getSelectedMenuBarItemPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_TITLE);
-        border.painter.state.set(State.PRESSED);
+    public stbtic Border getSelectedMenuBbrItemPbinter() {
+        finbl AqubBorder border = new AqubBorder.Defbult();
+        border.pbinter.stbte.set(Widget.MENU_TITLE);
+        border.pbinter.stbte.set(Stbte.PRESSED);
         return border;
     }
 
-    public static Border getSelectedMenuItemPainter() {
-        final AquaBorder border = new AquaBorder.Default();
-        border.painter.state.set(Widget.MENU_ITEM);
-        border.painter.state.set(State.PRESSED);
+    public stbtic Border getSelectedMenuItemPbinter() {
+        finbl AqubBorder border = new AqubBorder.Defbult();
+        border.pbinter.stbte.set(Widget.MENU_ITEM);
+        border.pbinter.stbte.set(Stbte.PRESSED);
         return border;
     }
 }

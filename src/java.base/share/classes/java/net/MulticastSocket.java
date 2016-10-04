@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.util.Enumerbtion;
 
 /**
- * The multicast datagram socket class is useful for sending
- * and receiving IP multicast packets.  A MulticastSocket is
- * a (UDP) DatagramSocket, with additional capabilities for
- * joining "groups" of other multicast hosts on the internet.
+ * The multicbst dbtbgrbm socket clbss is useful for sending
+ * bnd receiving IP multicbst pbckets.  A MulticbstSocket is
+ * b (UDP) DbtbgrbmSocket, with bdditionbl cbpbbilities for
+ * joining "groups" of other multicbst hosts on the internet.
  * <P>
- * A multicast group is specified by a class D IP address
- * and by a standard UDP port number. Class D IP addresses
- * are in the range <CODE>224.0.0.0</CODE> to <CODE>239.255.255.255</CODE>,
- * inclusive. The address 224.0.0.0 is reserved and should not be used.
+ * A multicbst group is specified by b clbss D IP bddress
+ * bnd by b stbndbrd UDP port number. Clbss D IP bddresses
+ * bre in the rbnge <CODE>224.0.0.0</CODE> to <CODE>239.255.255.255</CODE>,
+ * inclusive. The bddress 224.0.0.0 is reserved bnd should not be used.
  * <P>
- * One would join a multicast group by first creating a MulticastSocket
+ * One would join b multicbst group by first crebting b MulticbstSocket
  * with the desired port, then invoking the
  * <CODE>joinGroup(InetAddress groupAddr)</CODE>
  * method:
  * <PRE>
- * // join a Multicast group and send the group salutations
+ * // join b Multicbst group bnd send the group sblutbtions
  * ...
  * String msg = "Hello";
- * InetAddress group = InetAddress.getByName("228.5.6.7");
- * MulticastSocket s = new MulticastSocket(6789);
+ * InetAddress group = InetAddress.getByNbme("228.5.6.7");
+ * MulticbstSocket s = new MulticbstSocket(6789);
  * s.joinGroup(group);
- * DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),
+ * DbtbgrbmPbcket hi = new DbtbgrbmPbcket(msg.getBytes(), msg.length(),
  *                             group, 6789);
  * s.send(hi);
  * // get their responses!
  * byte[] buf = new byte[1000];
- * DatagramPacket recv = new DatagramPacket(buf, buf.length);
+ * DbtbgrbmPbcket recv = new DbtbgrbmPbcket(buf, buf.length);
  * s.receive(recv);
  * ...
- * // OK, I'm done talking - leave the group...
- * s.leaveGroup(group);
+ * // OK, I'm done tblking - lebve the group...
+ * s.lebveGroup(group);
  * </PRE>
  *
- * When one sends a message to a multicast group, <B>all</B> subscribing
- * recipients to that host and port receive the message (within the
- * time-to-live range of the packet, see below).  The socket needn't
- * be a member of the multicast group to send messages to it.
+ * When one sends b messbge to b multicbst group, <B>bll</B> subscribing
+ * recipients to thbt host bnd port receive the messbge (within the
+ * time-to-live rbnge of the pbcket, see below).  The socket needn't
+ * be b member of the multicbst group to send messbges to it.
  * <P>
- * When a socket subscribes to a multicast group/port, it receives
- * datagrams sent by other hosts to the group/port, as do all other
- * members of the group and port.  A socket relinquishes membership
- * in a group by the leaveGroup(InetAddress addr) method.  <B>
- * Multiple MulticastSocket's</B> may subscribe to a multicast group
- * and port concurrently, and they will all receive group datagrams.
+ * When b socket subscribes to b multicbst group/port, it receives
+ * dbtbgrbms sent by other hosts to the group/port, bs do bll other
+ * members of the group bnd port.  A socket relinquishes membership
+ * in b group by the lebveGroup(InetAddress bddr) method.  <B>
+ * Multiple MulticbstSocket's</B> mby subscribe to b multicbst group
+ * bnd port concurrently, bnd they will bll receive group dbtbgrbms.
  * <P>
- * Currently applets are not allowed to use multicast sockets.
+ * Currently bpplets bre not bllowed to use multicbst sockets.
  *
- * @author Pavani Diwanji
+ * @buthor Pbvbni Diwbnji
  * @since  1.1
  */
 public
-class MulticastSocket extends DatagramSocket {
+clbss MulticbstSocket extends DbtbgrbmSocket {
 
     /**
-     * Used on some platforms to record if an outgoing interface
-     * has been set for this socket.
+     * Used on some plbtforms to record if bn outgoing interfbce
+     * hbs been set for this socket.
      */
-    private boolean interfaceSet;
+    privbte boolebn interfbceSet;
 
     /**
-     * Create a multicast socket.
+     * Crebte b multicbst socket.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with 0 as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with 0 bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * When the socket is crebted the
+     * {@link DbtbgrbmSocket#setReuseAddress(boolebn)} method is
+     * cblled to enbble the SO_REUSEADDR socket option.
      *
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @exception IOException if bn I/O exception occurs
+     * while crebting the MulticbstSocket
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
+     * @see SecurityMbnbger#checkListen
+     * @see jbvb.net.DbtbgrbmSocket#setReuseAddress(boolebn)
      */
-    public MulticastSocket() throws IOException {
+    public MulticbstSocket() throws IOException {
         this(new InetSocketAddress(0));
     }
 
     /**
-     * Create a multicast socket and bind it to a specific port.
+     * Crebte b multicbst socket bnd bind it to b specific port.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with the {@code port} brgument
+     * bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * When the socket is crebted the
+     * {@link DbtbgrbmSocket#setReuseAddress(boolebn)} method is
+     * cblled to enbble the SO_REUSEADDR socket option.
      *
-     * @param port port to use
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @pbrbm port port to use
+     * @exception IOException if bn I/O exception occurs
+     * while crebting the MulticbstSocket
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
+     * @see SecurityMbnbger#checkListen
+     * @see jbvb.net.DbtbgrbmSocket#setReuseAddress(boolebn)
      */
-    public MulticastSocket(int port) throws IOException {
+    public MulticbstSocket(int port) throws IOException {
         this(new InetSocketAddress(port));
     }
 
     /**
-     * Create a MulticastSocket bound to the specified socket address.
+     * Crebte b MulticbstSocket bound to the specified socket bddress.
      * <p>
-     * Or, if the address is {@code null}, create an unbound socket.
+     * Or, if the bddress is {@code null}, crebte bn unbound socket.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the SocketAddress port as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger,
+     * its {@code checkListen} method is first cblled
+     * with the SocketAddress port bs its brgument to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * When the socket is crebted the
+     * {@link DbtbgrbmSocket#setReuseAddress(boolebn)} method is
+     * cblled to enbble the SO_REUSEADDR socket option.
      *
-     * @param bindaddr Socket address to bind to, or {@code null} for
-     *                 an unbound socket.
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @pbrbm bindbddr Socket bddress to bind to, or {@code null} for
+     *                 bn unbound socket.
+     * @exception IOException if bn I/O exception occurs
+     * while crebting the MulticbstSocket
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkListen} method doesn't bllow the operbtion.
+     * @see SecurityMbnbger#checkListen
+     * @see jbvb.net.DbtbgrbmSocket#setReuseAddress(boolebn)
      *
      * @since 1.4
      */
-    public MulticastSocket(SocketAddress bindaddr) throws IOException {
+    public MulticbstSocket(SocketAddress bindbddr) throws IOException {
         super((SocketAddress) null);
 
-        // Enable SO_REUSEADDR before binding
+        // Enbble SO_REUSEADDR before binding
         setReuseAddress(true);
 
-        if (bindaddr != null) {
+        if (bindbddr != null) {
             try {
-                bind(bindaddr);
-            } finally {
+                bind(bindbddr);
+            } finblly {
                 if (!isBound())
                     close();
             }
@@ -178,39 +178,39 @@ class MulticastSocket extends DatagramSocket {
     }
 
     /**
-     * The lock on the socket's TTL. This is for set/getTTL and
-     * send(packet,ttl).
+     * The lock on the socket's TTL. This is for set/getTTL bnd
+     * send(pbcket,ttl).
      */
-    private Object ttlLock = new Object();
+    privbte Object ttlLock = new Object();
 
     /**
-     * The lock on the socket's interface - used by setInterface
-     * and getInterface
+     * The lock on the socket's interfbce - used by setInterfbce
+     * bnd getInterfbce
      */
-    private Object infLock = new Object();
+    privbte Object infLock = new Object();
 
     /**
-     * The "last" interface set by setInterface on this MulticastSocket
+     * The "lbst" interfbce set by setInterfbce on this MulticbstSocket
      */
-    private InetAddress infAddress = null;
+    privbte InetAddress infAddress = null;
 
 
     /**
-     * Set the default time-to-live for multicast packets sent out
-     * on this {@code MulticastSocket} in order to control the
-     * scope of the multicasts.
+     * Set the defbult time-to-live for multicbst pbckets sent out
+     * on this {@code MulticbstSocket} in order to control the
+     * scope of the multicbsts.
      *
-     * <p>The ttl is an <b>unsigned</b> 8-bit quantity, and so <B>must</B> be
-     * in the range {@code 0 <= ttl <= 0xFF }.
+     * <p>The ttl is bn <b>unsigned</b> 8-bit qubntity, bnd so <B>must</B> be
+     * in the rbnge {@code 0 <= ttl <= 0xFF }.
      *
-     * @param ttl the time-to-live
-     * @exception IOException if an I/O exception occurs
-     * while setting the default time-to-live value
-     * @deprecated use the setTimeToLive method instead, which uses
-     * <b>int</b> instead of <b>byte</b> as the type for ttl.
+     * @pbrbm ttl the time-to-live
+     * @exception IOException if bn I/O exception occurs
+     * while setting the defbult time-to-live vblue
+     * @deprecbted use the setTimeToLive method instebd, which uses
+     * <b>int</b> instebd of <b>byte</b> bs the type for ttl.
      * @see #getTTL()
      */
-    @Deprecated
+    @Deprecbted
     public void setTTL(byte ttl) throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -218,27 +218,27 @@ class MulticastSocket extends DatagramSocket {
     }
 
     /**
-     * Set the default time-to-live for multicast packets sent out
-     * on this {@code MulticastSocket} in order to control the
-     * scope of the multicasts.
+     * Set the defbult time-to-live for multicbst pbckets sent out
+     * on this {@code MulticbstSocket} in order to control the
+     * scope of the multicbsts.
      *
-     * <P> The ttl <B>must</B> be in the range {@code  0 <= ttl <=
-     * 255} or an {@code IllegalArgumentException} will be thrown.
-     * Multicast packets sent with a TTL of {@code 0} are not transmitted
-     * on the network but may be delivered locally.
+     * <P> The ttl <B>must</B> be in the rbnge {@code  0 <= ttl <=
+     * 255} or bn {@code IllegblArgumentException} will be thrown.
+     * Multicbst pbckets sent with b TTL of {@code 0} bre not trbnsmitted
+     * on the network but mby be delivered locblly.
      *
-     * @param  ttl
+     * @pbrbm  ttl
      *         the time-to-live
      *
      * @throws  IOException
-     *          if an I/O exception occurs while setting the
-     *          default time-to-live value
+     *          if bn I/O exception occurs while setting the
+     *          defbult time-to-live vblue
      *
      * @see #getTimeToLive()
      */
     public void setTimeToLive(int ttl) throws IOException {
         if (ttl < 0 || ttl > 255) {
-            throw new IllegalArgumentException("ttl out of range");
+            throw new IllegblArgumentException("ttl out of rbnge");
         }
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -246,17 +246,17 @@ class MulticastSocket extends DatagramSocket {
     }
 
     /**
-     * Get the default time-to-live for multicast packets sent out on
+     * Get the defbult time-to-live for multicbst pbckets sent out on
      * the socket.
      *
-     * @exception IOException if an I/O exception occurs
-     * while getting the default time-to-live value
-     * @return the default time-to-live value
-     * @deprecated use the getTimeToLive method instead, which returns
-     * an <b>int</b> instead of a <b>byte</b>.
+     * @exception IOException if bn I/O exception occurs
+     * while getting the defbult time-to-live vblue
+     * @return the defbult time-to-live vblue
+     * @deprecbted use the getTimeToLive method instebd, which returns
+     * bn <b>int</b> instebd of b <b>byte</b>.
      * @see #setTTL(byte)
      */
-    @Deprecated
+    @Deprecbted
     public byte getTTL() throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -264,11 +264,11 @@ class MulticastSocket extends DatagramSocket {
     }
 
     /**
-     * Get the default time-to-live for multicast packets sent out on
+     * Get the defbult time-to-live for multicbst pbckets sent out on
      * the socket.
-     * @exception IOException if an I/O exception occurs while
-     * getting the default time-to-live value
-     * @return the default time-to-live value
+     * @exception IOException if bn I/O exception occurs while
+     * getting the defbult time-to-live vblue
+     * @return the defbult time-to-live vblue
      * @see #setTimeToLive(int)
      */
     public int getTimeToLive() throws IOException {
@@ -278,399 +278,399 @@ class MulticastSocket extends DatagramSocket {
     }
 
     /**
-     * Joins a multicast group. Its behavior may be affected by
-     * {@code setInterface} or {@code setNetworkInterface}.
+     * Joins b multicbst group. Its behbvior mby be bffected by
+     * {@code setInterfbce} or {@code setNetworkInterfbce}.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkMulticbst} method
+     * with the {@code mcbstbddr} brgument
+     * bs its brgument.
      *
-     * @param mcastaddr is the multicast address to join
+     * @pbrbm mcbstbddr is the multicbst bddress to join
      *
-     * @exception IOException if there is an error joining
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the join.
+     * @exception IOException if there is bn error joining
+     * or when the bddress is not b multicbst bddress.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkMulticbst} method doesn't bllow the join.
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @see SecurityMbnbger#checkMulticbst(InetAddress)
      */
-    public void joinGroup(InetAddress mcastaddr) throws IOException {
+    public void joinGroup(InetAddress mcbstbddr) throws IOException {
         if (isClosed()) {
             throw new SocketException("Socket is closed");
         }
 
-        checkAddress(mcastaddr, "joinGroup");
-        SecurityManager security = System.getSecurityManager();
+        checkAddress(mcbstbddr, "joinGroup");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkMulticast(mcastaddr);
+            security.checkMulticbst(mcbstbddr);
         }
 
-        if (!mcastaddr.isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!mcbstbddr.isMulticbstAddress()) {
+            throw new SocketException("Not b multicbst bddress");
         }
 
         /**
-         * required for some platforms where it's not possible to join
-         * a group without setting the interface first.
+         * required for some plbtforms where it's not possible to join
+         * b group without setting the interfbce first.
          */
-        NetworkInterface defaultInterface = NetworkInterface.getDefault();
+        NetworkInterfbce defbultInterfbce = NetworkInterfbce.getDefbult();
 
-        if (!interfaceSet && defaultInterface != null) {
-            setNetworkInterface(defaultInterface);
+        if (!interfbceSet && defbultInterfbce != null) {
+            setNetworkInterfbce(defbultInterfbce);
         }
 
-        getImpl().join(mcastaddr);
+        getImpl().join(mcbstbddr);
     }
 
     /**
-     * Leave a multicast group. Its behavior may be affected by
-     * {@code setInterface} or {@code setNetworkInterface}.
+     * Lebve b multicbst group. Its behbvior mby be bffected by
+     * {@code setInterfbce} or {@code setNetworkInterfbce}.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkMulticbst} method
+     * with the {@code mcbstbddr} brgument
+     * bs its brgument.
      *
-     * @param mcastaddr is the multicast address to leave
-     * @exception IOException if there is an error leaving
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the operation.
+     * @pbrbm mcbstbddr is the multicbst bddress to lebve
+     * @exception IOException if there is bn error lebving
+     * or when the bddress is not b multicbst bddress.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkMulticbst} method doesn't bllow the operbtion.
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @see SecurityMbnbger#checkMulticbst(InetAddress)
      */
-    public void leaveGroup(InetAddress mcastaddr) throws IOException {
+    public void lebveGroup(InetAddress mcbstbddr) throws IOException {
         if (isClosed()) {
             throw new SocketException("Socket is closed");
         }
 
-        checkAddress(mcastaddr, "leaveGroup");
-        SecurityManager security = System.getSecurityManager();
+        checkAddress(mcbstbddr, "lebveGroup");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkMulticast(mcastaddr);
+            security.checkMulticbst(mcbstbddr);
         }
 
-        if (!mcastaddr.isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!mcbstbddr.isMulticbstAddress()) {
+            throw new SocketException("Not b multicbst bddress");
         }
 
-        getImpl().leave(mcastaddr);
+        getImpl().lebve(mcbstbddr);
     }
 
     /**
-     * Joins the specified multicast group at the specified interface.
+     * Joins the specified multicbst group bt the specified interfbce.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkMulticbst} method
+     * with the {@code mcbstbddr} brgument
+     * bs its brgument.
      *
-     * @param mcastaddr is the multicast address to join
-     * @param netIf specifies the local interface to receive multicast
-     *        datagram packets, or <i>null</i> to defer to the interface set by
-     *       {@link MulticastSocket#setInterface(InetAddress)} or
-     *       {@link MulticastSocket#setNetworkInterface(NetworkInterface)}
+     * @pbrbm mcbstbddr is the multicbst bddress to join
+     * @pbrbm netIf specifies the locbl interfbce to receive multicbst
+     *        dbtbgrbm pbckets, or <i>null</i> to defer to the interfbce set by
+     *       {@link MulticbstSocket#setInterfbce(InetAddress)} or
+     *       {@link MulticbstSocket#setNetworkInterfbce(NetworkInterfbce)}
      *
-     * @exception IOException if there is an error joining
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the join.
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @exception IOException if there is bn error joining
+     * or when the bddress is not b multicbst bddress.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkMulticbst} method doesn't bllow the join.
+     * @throws  IllegblArgumentException if mcbstbddr is null or is b
+     *          SocketAddress subclbss not supported by this socket
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @see SecurityMbnbger#checkMulticbst(InetAddress)
      * @since 1.4
      */
-    public void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf)
+    public void joinGroup(SocketAddress mcbstbddr, NetworkInterfbce netIf)
         throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
 
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (mcbstbddr == null || !(mcbstbddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
 
         if (oldImpl)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
 
-        checkAddress(((InetSocketAddress)mcastaddr).getAddress(), "joinGroup");
-        SecurityManager security = System.getSecurityManager();
+        checkAddress(((InetSocketAddress)mcbstbddr).getAddress(), "joinGroup");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkMulticast(((InetSocketAddress)mcastaddr).getAddress());
+            security.checkMulticbst(((InetSocketAddress)mcbstbddr).getAddress());
         }
 
-        if (!((InetSocketAddress)mcastaddr).getAddress().isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!((InetSocketAddress)mcbstbddr).getAddress().isMulticbstAddress()) {
+            throw new SocketException("Not b multicbst bddress");
         }
 
-        getImpl().joinGroup(mcastaddr, netIf);
+        getImpl().joinGroup(mcbstbddr, netIf);
     }
 
     /**
-     * Leave a multicast group on a specified local interface.
+     * Lebve b multicbst group on b specified locbl interfbce.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If there is b security mbnbger, this method first
+     * cblls its {@code checkMulticbst} method
+     * with the {@code mcbstbddr} brgument
+     * bs its brgument.
      *
-     * @param mcastaddr is the multicast address to leave
-     * @param netIf specifies the local interface or <i>null</i> to defer
-     *             to the interface set by
-     *             {@link MulticastSocket#setInterface(InetAddress)} or
-     *             {@link MulticastSocket#setNetworkInterface(NetworkInterface)}
-     * @exception IOException if there is an error leaving
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the operation.
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm mcbstbddr is the multicbst bddress to lebve
+     * @pbrbm netIf specifies the locbl interfbce or <i>null</i> to defer
+     *             to the interfbce set by
+     *             {@link MulticbstSocket#setInterfbce(InetAddress)} or
+     *             {@link MulticbstSocket#setNetworkInterfbce(NetworkInterfbce)}
+     * @exception IOException if there is bn error lebving
+     * or when the bddress is not b multicbst bddress.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     * {@code checkMulticbst} method doesn't bllow the operbtion.
+     * @throws  IllegblArgumentException if mcbstbddr is null or is b
+     *          SocketAddress subclbss not supported by this socket
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @see SecurityMbnbger#checkMulticbst(InetAddress)
      * @since 1.4
      */
-    public void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf)
+    public void lebveGroup(SocketAddress mcbstbddr, NetworkInterfbce netIf)
         throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
 
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (mcbstbddr == null || !(mcbstbddr instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
 
         if (oldImpl)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
 
-        checkAddress(((InetSocketAddress)mcastaddr).getAddress(), "leaveGroup");
-        SecurityManager security = System.getSecurityManager();
+        checkAddress(((InetSocketAddress)mcbstbddr).getAddress(), "lebveGroup");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkMulticast(((InetSocketAddress)mcastaddr).getAddress());
+            security.checkMulticbst(((InetSocketAddress)mcbstbddr).getAddress());
         }
 
-        if (!((InetSocketAddress)mcastaddr).getAddress().isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!((InetSocketAddress)mcbstbddr).getAddress().isMulticbstAddress()) {
+            throw new SocketException("Not b multicbst bddress");
         }
 
-        getImpl().leaveGroup(mcastaddr, netIf);
+        getImpl().lebveGroup(mcbstbddr, netIf);
      }
 
     /**
-     * Set the multicast network interface used by methods
-     * whose behavior would be affected by the value of the
-     * network interface. Useful for multihomed hosts.
-     * @param inf the InetAddress
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @see #getInterface()
+     * Set the multicbst network interfbce used by methods
+     * whose behbvior would be bffected by the vblue of the
+     * network interfbce. Useful for multihomed hosts.
+     * @pbrbm inf the InetAddress
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs b TCP error.
+     * @see #getInterfbce()
      */
-    public void setInterface(InetAddress inf) throws SocketException {
+    public void setInterfbce(InetAddress inf) throws SocketException {
         if (isClosed()) {
             throw new SocketException("Socket is closed");
         }
-        checkAddress(inf, "setInterface");
+        checkAddress(inf, "setInterfbce");
         synchronized (infLock) {
             getImpl().setOption(SocketOptions.IP_MULTICAST_IF, inf);
             infAddress = inf;
-            interfaceSet = true;
+            interfbceSet = true;
         }
     }
 
     /**
-     * Retrieve the address of the network interface used for
-     * multicast packets.
+     * Retrieve the bddress of the network interfbce used for
+     * multicbst pbckets.
      *
      * @return An {@code InetAddress} representing
-     *  the address of the network interface used for
-     *  multicast packets.
+     *  the bddress of the network interfbce used for
+     *  multicbst pbckets.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs b TCP error.
      *
-     * @see #setInterface(java.net.InetAddress)
+     * @see #setInterfbce(jbvb.net.InetAddress)
      */
-    public InetAddress getInterface() throws SocketException {
+    public InetAddress getInterfbce() throws SocketException {
         if (isClosed()) {
             throw new SocketException("Socket is closed");
         }
         synchronized (infLock) {
-            InetAddress ia =
+            InetAddress ib =
                 (InetAddress)getImpl().getOption(SocketOptions.IP_MULTICAST_IF);
 
             /**
-             * No previous setInterface or interface can be
-             * set using setNetworkInterface
+             * No previous setInterfbce or interfbce cbn be
+             * set using setNetworkInterfbce
              */
             if (infAddress == null) {
-                return ia;
+                return ib;
             }
 
             /**
-             * Same interface set with setInterface?
+             * Sbme interfbce set with setInterfbce?
              */
-            if (ia.equals(infAddress)) {
-                return ia;
+            if (ib.equbls(infAddress)) {
+                return ib;
             }
 
             /**
-             * Different InetAddress from what we set with setInterface
-             * so enumerate the current interface to see if the
-             * address set by setInterface is bound to this interface.
+             * Different InetAddress from whbt we set with setInterfbce
+             * so enumerbte the current interfbce to see if the
+             * bddress set by setInterfbce is bound to this interfbce.
              */
             try {
-                NetworkInterface ni = NetworkInterface.getByInetAddress(ia);
-                Enumeration<InetAddress> addrs = ni.getInetAddresses();
-                while (addrs.hasMoreElements()) {
-                    InetAddress addr = addrs.nextElement();
-                    if (addr.equals(infAddress)) {
+                NetworkInterfbce ni = NetworkInterfbce.getByInetAddress(ib);
+                Enumerbtion<InetAddress> bddrs = ni.getInetAddresses();
+                while (bddrs.hbsMoreElements()) {
+                    InetAddress bddr = bddrs.nextElement();
+                    if (bddr.equbls(infAddress)) {
                         return infAddress;
                     }
                 }
 
                 /**
-                 * No match so reset infAddress to indicate that the
-                 * interface has changed via means
+                 * No mbtch so reset infAddress to indicbte thbt the
+                 * interfbce hbs chbnged vib mebns
                  */
                 infAddress = null;
-                return ia;
-            } catch (Exception e) {
-                return ia;
+                return ib;
+            } cbtch (Exception e) {
+                return ib;
             }
         }
     }
 
     /**
-     * Specify the network interface for outgoing multicast datagrams
+     * Specify the network interfbce for outgoing multicbst dbtbgrbms
      * sent on this socket.
      *
-     * @param netIf the interface
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @see #getNetworkInterface()
+     * @pbrbm netIf the interfbce
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs b TCP error.
+     * @see #getNetworkInterfbce()
      * @since 1.4
      */
-    public void setNetworkInterface(NetworkInterface netIf)
+    public void setNetworkInterfbce(NetworkInterfbce netIf)
         throws SocketException {
 
         synchronized (infLock) {
             getImpl().setOption(SocketOptions.IP_MULTICAST_IF2, netIf);
             infAddress = null;
-            interfaceSet = true;
+            interfbceSet = true;
         }
     }
 
     /**
-     * Get the multicast network interface set.
+     * Get the multicbst network interfbce set.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @return the multicast {@code NetworkInterface} currently set
-     * @see #setNetworkInterface(NetworkInterface)
+     * @exception SocketException if there is bn error in
+     * the underlying protocol, such bs b TCP error.
+     * @return the multicbst {@code NetworkInterfbce} currently set
+     * @see #setNetworkInterfbce(NetworkInterfbce)
      * @since 1.4
      */
-    public NetworkInterface getNetworkInterface() throws SocketException {
-        NetworkInterface ni
-            = (NetworkInterface)getImpl().getOption(SocketOptions.IP_MULTICAST_IF2);
+    public NetworkInterfbce getNetworkInterfbce() throws SocketException {
+        NetworkInterfbce ni
+            = (NetworkInterfbce)getImpl().getOption(SocketOptions.IP_MULTICAST_IF2);
         if (ni.getIndex() == 0) {
-            InetAddress[] addrs = new InetAddress[1];
-            addrs[0] = InetAddress.anyLocalAddress();
-            return new NetworkInterface(addrs[0].getHostName(), 0, addrs);
+            InetAddress[] bddrs = new InetAddress[1];
+            bddrs[0] = InetAddress.bnyLocblAddress();
+            return new NetworkInterfbce(bddrs[0].getHostNbme(), 0, bddrs);
         } else {
             return ni;
         }
     }
 
     /**
-     * Disable/Enable local loopback of multicast datagrams
-     * The option is used by the platform's networking code as a hint
-     * for setting whether multicast data will be looped back to
-     * the local socket.
+     * Disbble/Enbble locbl loopbbck of multicbst dbtbgrbms
+     * The option is used by the plbtform's networking code bs b hint
+     * for setting whether multicbst dbtb will be looped bbck to
+     * the locbl socket.
      *
-     * <p>Because this option is a hint, applications that want to
-     * verify what loopback mode is set to should call
-     * {@link #getLoopbackMode()}
-     * @param disable {@code true} to disable the LoopbackMode
-     * @throws SocketException if an error occurs while setting the value
+     * <p>Becbuse this option is b hint, bpplicbtions thbt wbnt to
+     * verify whbt loopbbck mode is set to should cbll
+     * {@link #getLoopbbckMode()}
+     * @pbrbm disbble {@code true} to disbble the LoopbbckMode
+     * @throws SocketException if bn error occurs while setting the vblue
      * @since 1.4
-     * @see #getLoopbackMode
+     * @see #getLoopbbckMode
      */
-    public void setLoopbackMode(boolean disable) throws SocketException {
-        getImpl().setOption(SocketOptions.IP_MULTICAST_LOOP, Boolean.valueOf(disable));
+    public void setLoopbbckMode(boolebn disbble) throws SocketException {
+        getImpl().setOption(SocketOptions.IP_MULTICAST_LOOP, Boolebn.vblueOf(disbble));
     }
 
     /**
-     * Get the setting for local loopback of multicast datagrams.
+     * Get the setting for locbl loopbbck of multicbst dbtbgrbms.
      *
-     * @throws SocketException  if an error occurs while getting the value
-     * @return true if the LoopbackMode has been disabled
+     * @throws SocketException  if bn error occurs while getting the vblue
+     * @return true if the LoopbbckMode hbs been disbbled
      * @since 1.4
-     * @see #setLoopbackMode
+     * @see #setLoopbbckMode
      */
-    public boolean getLoopbackMode() throws SocketException {
-        return ((Boolean)getImpl().getOption(SocketOptions.IP_MULTICAST_LOOP)).booleanValue();
+    public boolebn getLoopbbckMode() throws SocketException {
+        return ((Boolebn)getImpl().getOption(SocketOptions.IP_MULTICAST_LOOP)).boolebnVblue();
     }
 
     /**
-     * Sends a datagram packet to the destination, with a TTL (time-
-     * to-live) other than the default for the socket.  This method
-     * need only be used in instances where a particular TTL is desired;
-     * otherwise it is preferable to set a TTL once on the socket, and
-     * use that default TTL for all packets.  This method does <B>not
-     * </B> alter the default TTL for the socket. Its behavior may be
-     * affected by {@code setInterface}.
+     * Sends b dbtbgrbm pbcket to the destinbtion, with b TTL (time-
+     * to-live) other thbn the defbult for the socket.  This method
+     * need only be used in instbnces where b pbrticulbr TTL is desired;
+     * otherwise it is preferbble to set b TTL once on the socket, bnd
+     * use thbt defbult TTL for bll pbckets.  This method does <B>not
+     * </B> blter the defbult TTL for the socket. Its behbvior mby be
+     * bffected by {@code setInterfbce}.
      *
-     * <p>If there is a security manager, this method first performs some
-     * security checks. First, if {@code p.getAddress().isMulticastAddress()}
-     * is true, this method calls the
-     * security manager's {@code checkMulticast} method
-     * with {@code p.getAddress()} and {@code ttl} as its arguments.
-     * If the evaluation of that expression is false,
-     * this method instead calls the security manager's
-     * {@code checkConnect} method with arguments
-     * {@code p.getAddress().getHostAddress()} and
-     * {@code p.getPort()}. Each call to a security manager method
-     * could result in a SecurityException if the operation is not allowed.
+     * <p>If there is b security mbnbger, this method first performs some
+     * security checks. First, if {@code p.getAddress().isMulticbstAddress()}
+     * is true, this method cblls the
+     * security mbnbger's {@code checkMulticbst} method
+     * with {@code p.getAddress()} bnd {@code ttl} bs its brguments.
+     * If the evblubtion of thbt expression is fblse,
+     * this method instebd cblls the security mbnbger's
+     * {@code checkConnect} method with brguments
+     * {@code p.getAddress().getHostAddress()} bnd
+     * {@code p.getPort()}. Ebch cbll to b security mbnbger method
+     * could result in b SecurityException if the operbtion is not bllowed.
      *
-     * @param p is the packet to be sent. The packet should contain
-     * the destination multicast ip address and the data to be sent.
+     * @pbrbm p is the pbcket to be sent. The pbcket should contbin
+     * the destinbtion multicbst ip bddress bnd the dbtb to be sent.
      * One does not need to be the member of the group to send
-     * packets to a destination multicast address.
-     * @param ttl optional time to live for multicast packet.
-     * default ttl is 1.
+     * pbckets to b destinbtion multicbst bddress.
+     * @pbrbm ttl optionbl time to live for multicbst pbcket.
+     * defbult ttl is 1.
      *
-     * @exception IOException is raised if an error occurs i.e
+     * @exception IOException is rbised if bn error occurs i.e
      * error while setting ttl.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkMulticast} or {@code checkConnect}
-     *             method doesn't allow the send.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkMulticbst} or {@code checkConnect}
+     *             method doesn't bllow the send.
      *
-     * @deprecated Use the following code or its equivalent instead:
+     * @deprecbted Use the following code or its equivblent instebd:
      *  ......
-     *  int ttl = mcastSocket.getTimeToLive();
-     *  mcastSocket.setTimeToLive(newttl);
-     *  mcastSocket.send(p);
-     *  mcastSocket.setTimeToLive(ttl);
+     *  int ttl = mcbstSocket.getTimeToLive();
+     *  mcbstSocket.setTimeToLive(newttl);
+     *  mcbstSocket.send(p);
+     *  mcbstSocket.setTimeToLive(ttl);
      *  ......
      *
-     * @see DatagramSocket#send
-     * @see DatagramSocket#receive
-     * @see SecurityManager#checkMulticast(java.net.InetAddress, byte)
-     * @see SecurityManager#checkConnect
+     * @see DbtbgrbmSocket#send
+     * @see DbtbgrbmSocket#receive
+     * @see SecurityMbnbger#checkMulticbst(jbvb.net.InetAddress, byte)
+     * @see SecurityMbnbger#checkConnect
      */
-    @Deprecated
-    public void send(DatagramPacket p, byte ttl)
+    @Deprecbted
+    public void send(DbtbgrbmPbcket p, byte ttl)
         throws IOException {
             if (isClosed())
                 throw new SocketException("Socket is closed");
             checkAddress(p.getAddress(), "send");
             synchronized(ttlLock) {
                 synchronized(p) {
-                    if (connectState == ST_NOT_CONNECTED) {
-                        // Security manager makes sure that the multicast address
-                        // is allowed one and that the ttl used is less
-                        // than the allowed maxttl.
-                        SecurityManager security = System.getSecurityManager();
+                    if (connectStbte == ST_NOT_CONNECTED) {
+                        // Security mbnbger mbkes sure thbt the multicbst bddress
+                        // is bllowed one bnd thbt the ttl used is less
+                        // thbn the bllowed mbxttl.
+                        SecurityMbnbger security = System.getSecurityMbnbger();
                         if (security != null) {
-                            if (p.getAddress().isMulticastAddress()) {
-                                security.checkMulticast(p.getAddress(), ttl);
+                            if (p.getAddress().isMulticbstAddress()) {
+                                security.checkMulticbst(p.getAddress(), ttl);
                             } else {
                                 security.checkConnect(p.getAddress().getHostAddress(),
                                                       p.getPort());
@@ -678,14 +678,14 @@ class MulticastSocket extends DatagramSocket {
                         }
                     } else {
                         // we're connected
-                        InetAddress packetAddress = null;
-                        packetAddress = p.getAddress();
-                        if (packetAddress == null) {
+                        InetAddress pbcketAddress = null;
+                        pbcketAddress = p.getAddress();
+                        if (pbcketAddress == null) {
                             p.setAddress(connectedAddress);
                             p.setPort(connectedPort);
-                        } else if ((!packetAddress.equals(connectedAddress)) ||
+                        } else if ((!pbcketAddress.equbls(connectedAddress)) ||
                                    p.getPort() != connectedPort) {
-                            throw new SecurityException("connected address and packet address" +
+                            throw new SecurityException("connected bddress bnd pbcket bddress" +
                                                         " differ");
                         }
                     }
@@ -695,10 +695,10 @@ class MulticastSocket extends DatagramSocket {
                             // set the ttl
                             getImpl().setTTL(ttl);
                         }
-                        // call the datagram method to send
+                        // cbll the dbtbgrbm method to send
                         getImpl().send(p);
-                    } finally {
-                        // set it back to default
+                    } finblly {
+                        // set it bbck to defbult
                         if (ttl != dttl) {
                             getImpl().setTTL(dttl);
                         }

@@ -3,327 +3,327 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="pt"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="pt"/>
 		<territory type="PT"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="af">afrikaans</language>
-			<language type="art">idioma artifical</language>
-			<language type="awa">Awadhi</language>
-			<language type="az" alt="short" draft="contributed">Azerbaijano</language>
-			<language type="bai">bamileke Languages</language>
-			<language type="bug">Buginese</language>
-			<language type="ce">chechene</language>
-			<language type="cel">idioma céltico</language>
-			<language type="chn" draft="contributed">jargão chinook</language>
-			<language type="cpe">crioulo ou pidgin do inglês</language>
-			<language type="cpf">crioulo ou pidgin do francês</language>
-			<language type="cpp" draft="contributed">crioulo ou pidgin do português</language>
-			<language type="cs">checo</language>
-			<language type="cus">idioma cuchita</language>
-			<language type="de_CH" draft="contributed">Alto Alemão Suíço</language>
-			<language type="dra">idioma dravítico</language>
-			<language type="dyu" draft="contributed">diula</language>
-			<language type="egy">egípcio clássico</language>
-			<language type="en_GB" draft="contributed">Inglês Britânico</language>
-			<language type="en_US" draft="contributed">Inglês (EUA)</language>
-			<language type="enm">inglês medieval</language>
-			<language type="et">estónio</language>
-			<language type="fiu" draft="contributed">idioma ugro-finês</language>
-			<language type="frm">francês medieval</language>
-			<language type="frs" draft="contributed">frísio oriental</language>
-			<language type="gmh">alemão medieval alto</language>
-			<language type="grc">grego clássico</language>
-			<language type="gsw" draft="contributed">alemão da Suíça</language>
-			<language type="hi" draft="contributed">Hindi</language>
-			<language type="hsb" draft="contributed">sorbiano superior</language>
-			<language type="hy">arménio</language>
-			<language type="iba">Iban</language>
-			<language type="ig" draft="contributed">igbo</language>
-			<language type="ik">Inupiaq</language>
-			<language type="jv">jv</language>
-			<language type="kea" draft="unconfirmed">cabo-verdiano</language>
-			<language type="khi">khoisan</language>
-			<language type="lez" draft="contributed">lezghiano</language>
-			<language type="mga">irlandês, medieval (900-1200)</language>
-			<language type="mk" draft="contributed">macedónio</language>
-			<language type="nah" draft="contributed">Nauatle</language>
-			<language type="nds" draft="contributed">baixo alemão</language>
-			<language type="nic" draft="contributed">nigeriano - cordofano</language>
-			<language type="nl_BE" draft="contributed">Flamengo</language>
-			<language type="non">norse, old</language>
-			<language type="oc" draft="contributed">provençal</language>
-			<language type="os" draft="contributed">ossético</language>
-			<language type="peo">persa arcaico (aprox. 600-400 a.C.)</language>
-			<language type="pl">polaco</language>
-			<language type="pra" draft="contributed">idioma prácito</language>
-			<language type="pro">provençal, arcaico (até 1500)</language>
-			<language type="ps" alt="variant" draft="contributed">Pastó</language>
-			<language type="pt_PT" draft="contributed">português europeu</language>
-			<language type="rm" draft="contributed">Romanche</language>
-			<language type="rom" draft="contributed">romanês</language>
-			<language type="sai">idioma indígeno sul-americano</language>
-			<language type="sal">salishan languages</language>
-			<language type="sgn">linguages de sinais</language>
-			<language type="ssa">idioma nilo-sariano</language>
-			<language type="swb">língua comoriana</language>
-			<language type="ta" draft="contributed">Tâmil</language>
-			<language type="tai" draft="contributed">idioma tailândes</language>
-			<language type="tet" draft="contributed">Tétum</language>
-			<language type="tg" draft="contributed">tajique</language>
-			<language type="tl" draft="provisional">tagalogue</language>
-			<language type="to">tonga</language>
-			<language type="tog" draft="contributed">toganês</language>
-			<language type="tyv" draft="contributed">tuviniano</language>
-			<language type="ug" alt="variant" draft="contributed">Uigur</language>
-			<language type="wen" draft="contributed">idioma sórbio</language>
-			<language type="zh_Hans" draft="contributed">Chinês Simplificado</language>
-			<language type="zh_Hant" draft="contributed">Chinês Tradicional</language>
-			<language type="zza" draft="provisional">zazaki</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bf">bfrikbbns</lbngubge>
+			<lbngubge type="brt">idiomb brtificbl</lbngubge>
+			<lbngubge type="bwb">Awbdhi</lbngubge>
+			<lbngubge type="bz" blt="short" drbft="contributed">Azerbbijbno</lbngubge>
+			<lbngubge type="bbi">bbmileke Lbngubges</lbngubge>
+			<lbngubge type="bug">Buginese</lbngubge>
+			<lbngubge type="ce">chechene</lbngubge>
+			<lbngubge type="cel">idiomb céltico</lbngubge>
+			<lbngubge type="chn" drbft="contributed">jbrgão chinook</lbngubge>
+			<lbngubge type="cpe">crioulo ou pidgin do inglês</lbngubge>
+			<lbngubge type="cpf">crioulo ou pidgin do frbncês</lbngubge>
+			<lbngubge type="cpp" drbft="contributed">crioulo ou pidgin do português</lbngubge>
+			<lbngubge type="cs">checo</lbngubge>
+			<lbngubge type="cus">idiomb cuchitb</lbngubge>
+			<lbngubge type="de_CH" drbft="contributed">Alto Alemão Suíço</lbngubge>
+			<lbngubge type="drb">idiomb drbvítico</lbngubge>
+			<lbngubge type="dyu" drbft="contributed">diulb</lbngubge>
+			<lbngubge type="egy">egípcio clássico</lbngubge>
+			<lbngubge type="en_GB" drbft="contributed">Inglês Britânico</lbngubge>
+			<lbngubge type="en_US" drbft="contributed">Inglês (EUA)</lbngubge>
+			<lbngubge type="enm">inglês medievbl</lbngubge>
+			<lbngubge type="et">estónio</lbngubge>
+			<lbngubge type="fiu" drbft="contributed">idiomb ugro-finês</lbngubge>
+			<lbngubge type="frm">frbncês medievbl</lbngubge>
+			<lbngubge type="frs" drbft="contributed">frísio orientbl</lbngubge>
+			<lbngubge type="gmh">blemão medievbl blto</lbngubge>
+			<lbngubge type="grc">grego clássico</lbngubge>
+			<lbngubge type="gsw" drbft="contributed">blemão db Suíçb</lbngubge>
+			<lbngubge type="hi" drbft="contributed">Hindi</lbngubge>
+			<lbngubge type="hsb" drbft="contributed">sorbibno superior</lbngubge>
+			<lbngubge type="hy">brménio</lbngubge>
+			<lbngubge type="ibb">Ibbn</lbngubge>
+			<lbngubge type="ig" drbft="contributed">igbo</lbngubge>
+			<lbngubge type="ik">Inupibq</lbngubge>
+			<lbngubge type="jv">jv</lbngubge>
+			<lbngubge type="keb" drbft="unconfirmed">cbbo-verdibno</lbngubge>
+			<lbngubge type="khi">khoisbn</lbngubge>
+			<lbngubge type="lez" drbft="contributed">lezghibno</lbngubge>
+			<lbngubge type="mgb">irlbndês, medievbl (900-1200)</lbngubge>
+			<lbngubge type="mk" drbft="contributed">mbcedónio</lbngubge>
+			<lbngubge type="nbh" drbft="contributed">Nbubtle</lbngubge>
+			<lbngubge type="nds" drbft="contributed">bbixo blemão</lbngubge>
+			<lbngubge type="nic" drbft="contributed">nigeribno - cordofbno</lbngubge>
+			<lbngubge type="nl_BE" drbft="contributed">Flbmengo</lbngubge>
+			<lbngubge type="non">norse, old</lbngubge>
+			<lbngubge type="oc" drbft="contributed">provençbl</lbngubge>
+			<lbngubge type="os" drbft="contributed">ossético</lbngubge>
+			<lbngubge type="peo">persb brcbico (bprox. 600-400 b.C.)</lbngubge>
+			<lbngubge type="pl">polbco</lbngubge>
+			<lbngubge type="prb" drbft="contributed">idiomb prácito</lbngubge>
+			<lbngubge type="pro">provençbl, brcbico (bté 1500)</lbngubge>
+			<lbngubge type="ps" blt="vbribnt" drbft="contributed">Pbstó</lbngubge>
+			<lbngubge type="pt_PT" drbft="contributed">português europeu</lbngubge>
+			<lbngubge type="rm" drbft="contributed">Rombnche</lbngubge>
+			<lbngubge type="rom" drbft="contributed">rombnês</lbngubge>
+			<lbngubge type="sbi">idiomb indígeno sul-bmericbno</lbngubge>
+			<lbngubge type="sbl">sblishbn lbngubges</lbngubge>
+			<lbngubge type="sgn">lingubges de sinbis</lbngubge>
+			<lbngubge type="ssb">idiomb nilo-sbribno</lbngubge>
+			<lbngubge type="swb">língub comoribnb</lbngubge>
+			<lbngubge type="tb" drbft="contributed">Tâmil</lbngubge>
+			<lbngubge type="tbi" drbft="contributed">idiomb tbilândes</lbngubge>
+			<lbngubge type="tet" drbft="contributed">Tétum</lbngubge>
+			<lbngubge type="tg" drbft="contributed">tbjique</lbngubge>
+			<lbngubge type="tl" drbft="provisionbl">tbgblogue</lbngubge>
+			<lbngubge type="to">tongb</lbngubge>
+			<lbngubge type="tog" drbft="contributed">togbnês</lbngubge>
+			<lbngubge type="tyv" drbft="contributed">tuvinibno</lbngubge>
+			<lbngubge type="ug" blt="vbribnt" drbft="contributed">Uigur</lbngubge>
+			<lbngubge type="wen" drbft="contributed">idiomb sórbio</lbngubge>
+			<lbngubge type="zh_Hbns" drbft="contributed">Chinês Simplificbdo</lbngubge>
+			<lbngubge type="zh_Hbnt" drbft="contributed">Chinês Trbdicionbl</lbngubge>
+			<lbngubge type="zzb" drbft="provisionbl">zbzbki</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab" alt="variant" draft="contributed">Persa/Arábico</script>
-			<script type="Armi" draft="provisional">aramaico imperial</script>
-			<script type="Armn">arménio</script>
+			<script type="Arbb" blt="vbribnt" drbft="contributed">Persb/Arábico</script>
+			<script type="Armi" drbft="provisionbl">brbmbico imperibl</script>
+			<script type="Armn">brménio</script>
 			<script type="Blis">símbolos Bliss</script>
-			<script type="Cakm" draft="provisional">chakma</script>
-			<script type="Egyd" draft="contributed">egípcio demótico</script>
-			<script type="Egyh" draft="contributed">egípcio hierático</script>
-			<script type="Hans" alt="stand-alone" draft="contributed">Han Simplificado</script>
-			<script type="Hant" alt="stand-alone" draft="contributed">Han Tradicional</script>
+			<script type="Cbkm" drbft="provisionbl">chbkmb</script>
+			<script type="Egyd" drbft="contributed">egípcio demótico</script>
+			<script type="Egyh" drbft="contributed">egípcio hierático</script>
+			<script type="Hbns" blt="stbnd-blone" drbft="contributed">Hbn Simplificbdo</script>
+			<script type="Hbnt" blt="stbnd-blone" drbft="contributed">Hbn Trbdicionbl</script>
 			<script type="Inds">indus</script>
-			<script type="Kthi" draft="provisional">kaithi</script>
-			<script type="Laoo" draft="contributed">Lao</script>
-			<script type="Lina" draft="contributed">linear A</script>
-			<script type="Linb">linear B</script>
-			<script type="Mand" draft="provisional">mandeu</script>
-			<script type="Nkoo" draft="provisional">n’ko</script>
-			<script type="Phli" draft="provisional">pahlavi escrito</script>
-			<script type="Prti" draft="provisional">parthian escrito</script>
-			<script type="Sgnw" draft="provisional">escrita gestual</script>
-			<script type="Sylo">siloti nagri</script>
-			<script type="Tale">tai le</script>
-			<script type="Taml">tamil</script>
+			<script type="Kthi" drbft="provisionbl">kbithi</script>
+			<script type="Lboo" drbft="contributed">Lbo</script>
+			<script type="Linb" drbft="contributed">linebr A</script>
+			<script type="Linb">linebr B</script>
+			<script type="Mbnd" drbft="provisionbl">mbndeu</script>
+			<script type="Nkoo" drbft="provisionbl">n’ko</script>
+			<script type="Phli" drbft="provisionbl">pbhlbvi escrito</script>
+			<script type="Prti" drbft="provisionbl">pbrthibn escrito</script>
+			<script type="Sgnw" drbft="provisionbl">escritb gestubl</script>
+			<script type="Sylo">siloti nbgri</script>
+			<script type="Tble">tbi le</script>
+			<script type="Tbml">tbmil</script>
 			<script type="Telu">telugu</script>
-			<script type="Xsux">cuneiforme sumero-acadiano</script>
+			<script type="Xsux">cuneiforme sumero-bcbdibno</script>
 			<script type="Zxxx">não escrito</script>
 			<script type="Zzzz">inválido ou desconhecido</script>
 		</scripts>
 		<territories>
-			<territory type="009" draft="contributed">Oceânia</territory>
-			<territory type="015" draft="contributed">Norte de África</territory>
+			<territory type="009" drbft="contributed">Oceânib</territory>
+			<territory type="015" drbft="contributed">Norte de Áfricb</territory>
 			<territory type="035">Sudeste Asiático</territory>
-			<territory type="154">Europa do Norte</territory>
+			<territory type="154">Europb do Norte</territory>
 			<territory type="AC">Ascensão</territory>
-			<territory type="AE">Emiratos Árabes Unidos</territory>
-			<territory type="AI">Anguila</territory>
-			<territory type="AM">Arménia</territory>
-			<territory type="AQ">Antárctica</territory>
-			<territory type="AX" draft="contributed">Ilhas Åland</territory>
-			<territory type="BF" draft="contributed">Burkina-Faso</territory>
-			<territory type="BH">Bahrein</territory>
+			<territory type="AE">Emirbtos Árbbes Unidos</territory>
+			<territory type="AI">Anguilb</territory>
+			<territory type="AM">Arménib</territory>
+			<territory type="AQ">Antárcticb</territory>
+			<territory type="AX" drbft="contributed">Ilhbs Ålbnd</territory>
+			<territory type="BF" drbft="contributed">Burkinb-Fbso</territory>
+			<territory type="BH">Bbhrein</territory>
 			<territory type="BJ">Benim</territory>
-			<territory type="BW">Botswana</territory>
-			<territory type="BY">Bielorrússia</territory>
-			<territory type="CC" draft="contributed">Ilhas Cocos</territory>
-			<territory type="CG">Congo-Brazzaville</territory>
-			<territory type="CG" alt="variant">República do Congo</territory>
-			<territory type="CM" draft="contributed">Camarões</territory>
-			<territory type="CX">Ilha do Natal</territory>
-			<territory type="CZ">República Checa</territory>
-			<territory type="EE">Estónia</territory>
+			<territory type="BW">Botswbnb</territory>
+			<territory type="BY">Bielorrússib</territory>
+			<territory type="CC" drbft="contributed">Ilhbs Cocos</territory>
+			<territory type="CG">Congo-Brbzzbville</territory>
+			<territory type="CG" blt="vbribnt">Repúblicb do Congo</territory>
+			<territory type="CM" drbft="contributed">Cbmbrões</territory>
+			<territory type="CX">Ilhb do Nbtbl</territory>
+			<territory type="CZ">Repúblicb Checb</territory>
+			<territory type="EE">Estónib</territory>
 			<territory type="EG">Egipto</territory>
-			<territory type="EH" draft="contributed">Sara Ocidental</territory>
-			<territory type="FK">Ilhas Falkland</territory>
-			<territory type="FM">Estados Federados da Micronésia</territory>
-			<territory type="FO" draft="contributed">Ilhas Faroé</territory>
-			<territory type="FX" draft="contributed">França (continental)</territory>
-			<territory type="GL">Gronelândia</territory>
-			<territory type="GW">Guiné-Bissau</territory>
-			<territory type="HK">Região Administrativa Especial de Hong Kong</territory>
+			<territory type="EH" drbft="contributed">Sbrb Ocidentbl</territory>
+			<territory type="FK">Ilhbs Fblklbnd</territory>
+			<territory type="FM">Estbdos Federbdos db Micronésib</territory>
+			<territory type="FO" drbft="contributed">Ilhbs Fbroé</territory>
+			<territory type="FX" drbft="contributed">Frbnçb (continentbl)</territory>
+			<territory type="GL">Gronelândib</territory>
+			<territory type="GW">Guiné-Bissbu</territory>
+			<territory type="HK">Região Administrbtivb Especibl de Hong Kong</territory>
 			<territory type="IR">Irão</territory>
-			<territory type="KE">Quénia</territory>
+			<territory type="KE">Quénib</territory>
 			<territory type="KG">Quirguizistão</territory>
-			<territory type="KN">Saint Kitts e Nevis</territory>
-			<territory type="KY">Ilhas Caimão</territory>
-			<territory type="KZ">Cazaquistão</territory>
-			<territory type="LA">Laos, República Popular Democrática do</territory>
-			<territory type="LV">Letónia</territory>
-			<territory type="MC">Mónaco</territory>
-			<territory type="MD">Moldávia, República da</territory>
-			<territory type="MG">Madagáscar</territory>
-			<territory type="MK">Macedónia</territory>
-			<territory type="MK" alt="variant">Antiga República jugoslava da Macedónia</territory>
-			<territory type="MM">Mianmar</territory>
-			<territory type="MO">Região Administrativa Especial de Macau</territory>
-			<territory type="MP">Ilhas Mariana do Norte</territory>
-			<territory type="MS" draft="contributed">Monserrate</territory>
-			<territory type="MU">Maurícias</territory>
-			<territory type="NC">Nova Caledónia</territory>
-			<territory type="NL">Países Baixos</territory>
-			<territory type="PG">Papuásia-Nova Guiné</territory>
-			<territory type="PL">Polónia</territory>
-			<territory type="PS">Território Palestiniano</territory>
-			<territory type="QA">Qatar</territory>
-			<territory type="QO" draft="contributed">Oceânia Insular</territory>
-			<territory type="RO">Roménia</territory>
+			<territory type="KN">Sbint Kitts e Nevis</territory>
+			<territory type="KY">Ilhbs Cbimão</territory>
+			<territory type="KZ">Cbzbquistão</territory>
+			<territory type="LA">Lbos, Repúblicb Populbr Democráticb do</territory>
+			<territory type="LV">Letónib</territory>
+			<territory type="MC">Mónbco</territory>
+			<territory type="MD">Moldávib, Repúblicb db</territory>
+			<territory type="MG">Mbdbgáscbr</territory>
+			<territory type="MK">Mbcedónib</territory>
+			<territory type="MK" blt="vbribnt">Antigb Repúblicb jugoslbvb db Mbcedónib</territory>
+			<territory type="MM">Mibnmbr</territory>
+			<territory type="MO">Região Administrbtivb Especibl de Mbcbu</territory>
+			<territory type="MP">Ilhbs Mbribnb do Norte</territory>
+			<territory type="MS" drbft="contributed">Monserrbte</territory>
+			<territory type="MU">Mburícibs</territory>
+			<territory type="NC">Novb Cbledónib</territory>
+			<territory type="NL">Pbíses Bbixos</territory>
+			<territory type="PG">Pbpuásib-Novb Guiné</territory>
+			<territory type="PL">Polónib</territory>
+			<territory type="PS">Território Pblestinibno</territory>
+			<territory type="QA">Qbtbr</territory>
+			<territory type="QO" drbft="contributed">Oceânib Insulbr</territory>
+			<territory type="RO">Roménib</territory>
 			<territory type="SC">Seicheles</territory>
-			<territory type="SG">Singapura</territory>
-			<territory type="SI">Eslovénia</territory>
-			<territory type="SM">São Marino</territory>
-			<territory type="TC">Ilhas Turcas e Caicos</territory>
-			<territory type="TJ">Tajiquistão</territory>
+			<territory type="SG">Singbpurb</territory>
+			<territory type="SI">Eslovénib</territory>
+			<territory type="SM">São Mbrino</territory>
+			<territory type="TC">Ilhbs Turcbs e Cbicos</territory>
+			<territory type="TJ">Tbjiquistão</territory>
 			<territory type="TM">Turquemenistão</territory>
-			<territory type="TT">Trindade e Tobago</territory>
-			<territory type="UZ" draft="contributed">Usbequistão</territory>
-			<territory type="VI">Ilhas Virgens E.U.A.</territory>
-			<territory type="VN">Vietname</territory>
+			<territory type="TT">Trindbde e Tobbgo</territory>
+			<territory type="UZ" drbft="contributed">Usbequistão</territory>
+			<territory type="VI">Ilhbs Virgens E.U.A.</territory>
+			<territory type="VN">Vietnbme</territory>
 			<territory type="YE">Iémen</territory>
-			<territory type="ZW">Zimbabwe</territory>
+			<territory type="ZW">Zimbbbwe</territory>
 		</territories>
-		<variants>
-			<variant type="1901" draft="provisional">Ortografia alemã tradicional</variant>
-			<variant type="1994" draft="provisional">Ortografia resiana padronizada</variant>
-			<variant type="1996" draft="provisional">Ortografia alemã de 1996</variant>
-			<variant type="1606NICT" draft="provisional">Francês antigo de 1606</variant>
-			<variant type="1694ACAD" draft="provisional">Francês da idade moderna</variant>
-			<variant type="1959ACAD" draft="provisional">Académica</variant>
-			<variant type="AREVELA" draft="contributed">arménio oriental</variant>
-			<variant type="AREVMDA" draft="contributed">arménio ocidental</variant>
-			<variant type="BAKU1926" draft="provisional">Alfabeto latino turco unificado</variant>
-			<variant type="BISKE" draft="contributed">dialecto san giorgio/bila</variant>
-			<variant type="BOONT" draft="contributed">buntlingue</variant>
-			<variant type="FONIPA" draft="provisional">Fonética do Alfabeto Fonético Internacional</variant>
-			<variant type="FONUPA" draft="provisional">Fonética do Alfabeto Fonético Urálico</variant>
-			<variant type="KKCOR" draft="provisional">Ortografia Comum</variant>
-			<variant type="LIPAW" draft="contributed">dialecto lipovaz de Resian</variant>
-			<variant type="MONOTON" draft="contributed">monotónico</variant>
-			<variant type="NEDIS" draft="contributed">dialecto natisone</variant>
-			<variant type="NJIVA" draft="contributed">dialecto gniva/njiva</variant>
-			<variant type="OSOJS" draft="contributed">dialecto oseacco/osojane</variant>
-			<variant type="PINYIN">Romanização pinyin</variant>
-			<variant type="POLYTON" draft="contributed">politónico</variant>
-			<variant type="POSIX" draft="provisional">Computador</variant>
-			<variant type="REVISED" draft="provisional">Ortografia Modificada</variant>
-			<variant type="ROZAJ" draft="provisional">Resiano</variant>
-			<variant type="SAAHO" draft="provisional">Saho</variant>
-			<variant type="SCOTLAND" draft="provisional">Inglês padrão escocês</variant>
-			<variant type="SCOUSE" draft="provisional">Scouse</variant>
-			<variant type="SOLBA" draft="contributed">dialecto stolvizza/solbica</variant>
-			<variant type="TARASK" draft="provisional">Ortografia taraskievica</variant>
-			<variant type="UCCOR" draft="provisional">Ortografia Unificada</variant>
-			<variant type="UCRCOR" draft="provisional">Ortografia Modificada Unificada</variant>
-			<variant type="VALENCIA" draft="provisional">Valenciano</variant>
-			<variant type="WADEGILE">Romanização Wade-Giles</variant>
-		</variants>
+		<vbribnts>
+			<vbribnt type="1901" drbft="provisionbl">Ortogrbfib blemã trbdicionbl</vbribnt>
+			<vbribnt type="1994" drbft="provisionbl">Ortogrbfib resibnb pbdronizbdb</vbribnt>
+			<vbribnt type="1996" drbft="provisionbl">Ortogrbfib blemã de 1996</vbribnt>
+			<vbribnt type="1606NICT" drbft="provisionbl">Frbncês bntigo de 1606</vbribnt>
+			<vbribnt type="1694ACAD" drbft="provisionbl">Frbncês db idbde modernb</vbribnt>
+			<vbribnt type="1959ACAD" drbft="provisionbl">Acbdémicb</vbribnt>
+			<vbribnt type="AREVELA" drbft="contributed">brménio orientbl</vbribnt>
+			<vbribnt type="AREVMDA" drbft="contributed">brménio ocidentbl</vbribnt>
+			<vbribnt type="BAKU1926" drbft="provisionbl">Alfbbeto lbtino turco unificbdo</vbribnt>
+			<vbribnt type="BISKE" drbft="contributed">diblecto sbn giorgio/bilb</vbribnt>
+			<vbribnt type="BOONT" drbft="contributed">buntlingue</vbribnt>
+			<vbribnt type="FONIPA" drbft="provisionbl">Fonéticb do Alfbbeto Fonético Internbcionbl</vbribnt>
+			<vbribnt type="FONUPA" drbft="provisionbl">Fonéticb do Alfbbeto Fonético Urálico</vbribnt>
+			<vbribnt type="KKCOR" drbft="provisionbl">Ortogrbfib Comum</vbribnt>
+			<vbribnt type="LIPAW" drbft="contributed">diblecto lipovbz de Resibn</vbribnt>
+			<vbribnt type="MONOTON" drbft="contributed">monotónico</vbribnt>
+			<vbribnt type="NEDIS" drbft="contributed">diblecto nbtisone</vbribnt>
+			<vbribnt type="NJIVA" drbft="contributed">diblecto gnivb/njivb</vbribnt>
+			<vbribnt type="OSOJS" drbft="contributed">diblecto osebcco/osojbne</vbribnt>
+			<vbribnt type="PINYIN">Rombnizbção pinyin</vbribnt>
+			<vbribnt type="POLYTON" drbft="contributed">politónico</vbribnt>
+			<vbribnt type="POSIX" drbft="provisionbl">Computbdor</vbribnt>
+			<vbribnt type="REVISED" drbft="provisionbl">Ortogrbfib Modificbdb</vbribnt>
+			<vbribnt type="ROZAJ" drbft="provisionbl">Resibno</vbribnt>
+			<vbribnt type="SAAHO" drbft="provisionbl">Sbho</vbribnt>
+			<vbribnt type="SCOTLAND" drbft="provisionbl">Inglês pbdrão escocês</vbribnt>
+			<vbribnt type="SCOUSE" drbft="provisionbl">Scouse</vbribnt>
+			<vbribnt type="SOLBA" drbft="contributed">diblecto stolvizzb/solbicb</vbribnt>
+			<vbribnt type="TARASK" drbft="provisionbl">Ortogrbfib tbrbskievicb</vbribnt>
+			<vbribnt type="UCCOR" drbft="provisionbl">Ortogrbfib Unificbdb</vbribnt>
+			<vbribnt type="UCRCOR" drbft="provisionbl">Ortogrbfib Modificbdb Unificbdb</vbribnt>
+			<vbribnt type="VALENCIA" drbft="provisionbl">Vblencibno</vbribnt>
+			<vbribnt type="WADEGILE">Rombnizbção Wbde-Giles</vbribnt>
+		</vbribnts>
 		<keys>
-			<key type="calendar" draft="contributed">calendário</key>
-			<key type="collation" draft="contributed">ordenação</key>
-			<key type="currency" draft="contributed">moeda</key>
-			<key type="x" draft="contributed">Utilização Privada</key>
+			<key type="cblendbr" drbft="contributed">cblendário</key>
+			<key type="collbtion" drbft="contributed">ordenbção</key>
+			<key type="currency" drbft="contributed">moedb</key>
+			<key type="x" drbft="contributed">Utilizbção Privbdb</key>
 		</keys>
 		<types>
-			<type type="arab" key="numbers" draft="contributed">Algarismos Árabe/Índico</type>
-			<type type="arabext" key="numbers" draft="contributed">Algarismos Árabe/Índico Expandidos</type>
-			<type type="armn" key="numbers" draft="contributed">Algarismos Arménios</type>
-			<type type="armnlow" key="numbers" draft="contributed">Numeração Arménia Minúscula</type>
-			<type type="beng" key="numbers" draft="contributed">Algarismos Bengalis</type>
-			<type type="coptic" key="calendar" draft="contributed">Calendário Copta</type>
-			<type type="deva" key="numbers" draft="contributed">Algarismos Devanágaris</type>
-			<type type="dictionary" key="collation" draft="contributed">Ordenação do Dicionário</type>
-			<type type="ducet" key="collation" draft="contributed">Ordenação Unicode Predefinida</type>
-			<type type="ethi" key="numbers" draft="contributed">Numeração Etíope</type>
-			<type type="ethiopic" key="calendar" draft="contributed">Calendário Etíope</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">Calendário Etíope Amete Alem</type>
-			<type type="fullwide" key="numbers" draft="contributed">Algarismos de Largura Completa</type>
-			<type type="geor" key="numbers" draft="contributed">Numeração Georgiana</type>
-			<type type="grek" key="numbers" draft="contributed">Numeração Grega</type>
-			<type type="greklow" key="numbers" draft="contributed">Numeração Grega Minúscula</type>
-			<type type="gujr" key="numbers" draft="contributed">Algarismos de Guzerate</type>
-			<type type="hanidec" key="numbers" draft="contributed">Numeração Decimal Chinesa</type>
-			<type type="hans" key="numbers" draft="contributed">Numeração Chinês Simplificado</type>
-			<type type="hansfin" key="numbers" draft="contributed">Numeração Financeira Chinês Simplificado</type>
-			<type type="hant" key="numbers" draft="contributed">Numeração Chinês Tradicional</type>
-			<type type="hantfin" key="numbers" draft="contributed">Numeração Financeira Chinês Tradicional</type>
-			<type type="hebr" key="numbers" draft="contributed">Numeração Hebraica</type>
-			<type type="islamic-civil" key="calendar" draft="contributed">Calendário Islâmico/Civil</type>
-			<type type="jpan" key="numbers" draft="contributed">Numeração Japonesa</type>
-			<type type="jpanfin" key="numbers" draft="contributed">Numeração Financeira Japonesa</type>
-			<type type="khmr" key="numbers" draft="contributed">Algarismo Khmer</type>
-			<type type="knda" key="numbers" draft="contributed">Algarismos de Canarim</type>
-			<type type="laoo" key="numbers" draft="contributed">Algarismos de Laos</type>
-			<type type="latn" key="numbers" draft="contributed">Algarismos Ocidentais</type>
-			<type type="mlym" key="numbers" draft="contributed">Algarismos Malaiala</type>
-			<type type="mong" key="numbers" draft="contributed">Algarismos Mongóis</type>
-			<type type="mymr" key="numbers" draft="contributed">Algarismos de Mianmar</type>
-			<type type="orya" key="numbers" draft="contributed">Algarismos Oriá</type>
-			<type type="persian" key="calendar" draft="contributed">Calendário Persa</type>
-			<type type="phonebook" key="collation">Ordem da Lista Telefónica</type>
-			<type type="pinyin" key="collation" draft="contributed">Ordem do Chinês Simplificado Pinyin</type>
-			<type type="reformed" key="collation" draft="contributed">Reforma da Ordenação</type>
-			<type type="roman" key="numbers" draft="contributed">Numeração Romana</type>
-			<type type="romanlow" key="numbers" draft="contributed">Numeração Romana Minúscula</type>
-			<type type="search" key="collation" draft="contributed">Pesquisa por Objectivo/Geral</type>
-			<type type="stroke" key="collation">Ordem por traços</type>
-			<type type="taml" key="numbers" draft="contributed">Numeração Tâmil</type>
-			<type type="telu" key="numbers" draft="contributed">Algarismos de Telugu</type>
-			<type type="thai" key="numbers" draft="contributed">Algarismos Tailandeses</type>
-			<type type="tibt" key="numbers" draft="contributed">Algarismos Tibetanos</type>
-			<type type="traditional" key="collation" draft="contributed">Ordem tradicional</type>
-			<type type="unihan" key="collation">Ordem por radical e traços</type>
+			<type type="brbb" key="numbers" drbft="contributed">Algbrismos Árbbe/Índico</type>
+			<type type="brbbext" key="numbers" drbft="contributed">Algbrismos Árbbe/Índico Expbndidos</type>
+			<type type="brmn" key="numbers" drbft="contributed">Algbrismos Arménios</type>
+			<type type="brmnlow" key="numbers" drbft="contributed">Numerbção Arménib Minúsculb</type>
+			<type type="beng" key="numbers" drbft="contributed">Algbrismos Bengblis</type>
+			<type type="coptic" key="cblendbr" drbft="contributed">Cblendário Coptb</type>
+			<type type="devb" key="numbers" drbft="contributed">Algbrismos Devbnágbris</type>
+			<type type="dictionbry" key="collbtion" drbft="contributed">Ordenbção do Dicionário</type>
+			<type type="ducet" key="collbtion" drbft="contributed">Ordenbção Unicode Predefinidb</type>
+			<type type="ethi" key="numbers" drbft="contributed">Numerbção Etíope</type>
+			<type type="ethiopic" key="cblendbr" drbft="contributed">Cblendário Etíope</type>
+			<type type="ethiopic-bmete-blem" key="cblendbr" drbft="contributed">Cblendário Etíope Amete Alem</type>
+			<type type="fullwide" key="numbers" drbft="contributed">Algbrismos de Lbrgurb Completb</type>
+			<type type="geor" key="numbers" drbft="contributed">Numerbção Georgibnb</type>
+			<type type="grek" key="numbers" drbft="contributed">Numerbção Gregb</type>
+			<type type="greklow" key="numbers" drbft="contributed">Numerbção Gregb Minúsculb</type>
+			<type type="gujr" key="numbers" drbft="contributed">Algbrismos de Guzerbte</type>
+			<type type="hbnidec" key="numbers" drbft="contributed">Numerbção Decimbl Chinesb</type>
+			<type type="hbns" key="numbers" drbft="contributed">Numerbção Chinês Simplificbdo</type>
+			<type type="hbnsfin" key="numbers" drbft="contributed">Numerbção Finbnceirb Chinês Simplificbdo</type>
+			<type type="hbnt" key="numbers" drbft="contributed">Numerbção Chinês Trbdicionbl</type>
+			<type type="hbntfin" key="numbers" drbft="contributed">Numerbção Finbnceirb Chinês Trbdicionbl</type>
+			<type type="hebr" key="numbers" drbft="contributed">Numerbção Hebrbicb</type>
+			<type type="islbmic-civil" key="cblendbr" drbft="contributed">Cblendário Islâmico/Civil</type>
+			<type type="jpbn" key="numbers" drbft="contributed">Numerbção Jbponesb</type>
+			<type type="jpbnfin" key="numbers" drbft="contributed">Numerbção Finbnceirb Jbponesb</type>
+			<type type="khmr" key="numbers" drbft="contributed">Algbrismo Khmer</type>
+			<type type="kndb" key="numbers" drbft="contributed">Algbrismos de Cbnbrim</type>
+			<type type="lboo" key="numbers" drbft="contributed">Algbrismos de Lbos</type>
+			<type type="lbtn" key="numbers" drbft="contributed">Algbrismos Ocidentbis</type>
+			<type type="mlym" key="numbers" drbft="contributed">Algbrismos Mblbiblb</type>
+			<type type="mong" key="numbers" drbft="contributed">Algbrismos Mongóis</type>
+			<type type="mymr" key="numbers" drbft="contributed">Algbrismos de Mibnmbr</type>
+			<type type="oryb" key="numbers" drbft="contributed">Algbrismos Oriá</type>
+			<type type="persibn" key="cblendbr" drbft="contributed">Cblendário Persb</type>
+			<type type="phonebook" key="collbtion">Ordem db Listb Telefónicb</type>
+			<type type="pinyin" key="collbtion" drbft="contributed">Ordem do Chinês Simplificbdo Pinyin</type>
+			<type type="reformed" key="collbtion" drbft="contributed">Reformb db Ordenbção</type>
+			<type type="rombn" key="numbers" drbft="contributed">Numerbção Rombnb</type>
+			<type type="rombnlow" key="numbers" drbft="contributed">Numerbção Rombnb Minúsculb</type>
+			<type type="sebrch" key="collbtion" drbft="contributed">Pesquisb por Objectivo/Gerbl</type>
+			<type type="stroke" key="collbtion">Ordem por trbços</type>
+			<type type="tbml" key="numbers" drbft="contributed">Numerbção Tâmil</type>
+			<type type="telu" key="numbers" drbft="contributed">Algbrismos de Telugu</type>
+			<type type="thbi" key="numbers" drbft="contributed">Algbrismos Tbilbndeses</type>
+			<type type="tibt" key="numbers" drbft="contributed">Algbrismos Tibetbnos</type>
+			<type type="trbditionbl" key="collbtion" drbft="contributed">Ordem trbdicionbl</type>
+			<type type="unihbn" key="collbtion">Ordem por rbdicbl e trbços</type>
 		</types>
-		<transformNames>
-			<transformName type="x-Accents" draft="contributed">Acentos</transformName>
-			<transformName type="x-Fullwidth" draft="contributed">Largura Completa</transformName>
-			<transformName type="x-Halfwidth" draft="contributed">Meia Largura</transformName>
-		</transformNames>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Métrico</measurementSystemName>
-			<measurementSystemName type="US" draft="contributed">Estados Unidos</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="script" draft="provisional">Escrita: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters type="auxiliary">[ª ă å ä ā æ è ĕ ë ē ì ĭ î ï ī ñ º ŏ ö ø ō œ ù ŭ û ü ū ÿ]</exemplarCharacters>
-	</characters>
+		<trbnsformNbmes>
+			<trbnsformNbme type="x-Accents" drbft="contributed">Acentos</trbnsformNbme>
+			<trbnsformNbme type="x-Fullwidth" drbft="contributed">Lbrgurb Completb</trbnsformNbme>
+			<trbnsformNbme type="x-Hblfwidth" drbft="contributed">Meib Lbrgurb</trbnsformNbme>
+		</trbnsformNbmes>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">Métrico</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US" drbft="contributed">Estbdos Unidos</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="script" drbft="provisionbl">Escritb: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[ª ă å ä ā æ è ĕ ë ē ì ĭ î ï ī ñ º ŏ ö ø ō œ ù ŭ û ü ū ÿ]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>“</alternateQuotationStart>
-		<alternateQuotationEnd>”</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>“</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>”</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
-						<dateFormatItem id="yQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yyQ">QQQ 'de' yy G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="buddhist">
+				<dbteFormbts>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<!-- per cldrbug 2835, bdded from gregoribn bnd bdjusted for G -->
+						<dbteFormbtItem id="yQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">QQQ 'de' yy G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Jbn</month>
 							<month type="2">Fev</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Abr</month>
-							<month type="5">Mai</month>
+							<month type="5">Mbi</month>
 							<month type="6">Jun</month>
 							<month type="7">Jul</month>
 							<month type="8">Ago</month>
@@ -333,11 +333,11 @@
 							<month type="12">Dez</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Janeiro</month>
+							<month type="1">Jbneiro</month>
 							<month type="2">Fevereiro</month>
-							<month type="3">Março</month>
+							<month type="3">Mbrço</month>
 							<month type="4">Abril</month>
-							<month type="5">Maio</month>
+							<month type="5">Mbio</month>
 							<month type="6">Junho</month>
 							<month type="7">Julho</month>
 							<month type="8">Agosto</month>
@@ -348,1617 +348,1617 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">Domingo</day>
-							<day type="mon">Segunda-feira</day>
-							<day type="tue">Terça-feira</day>
-							<day type="wed">Quarta-feira</day>
-							<day type="thu">Quinta-feira</day>
-							<day type="fri">Sexta-feira</day>
-							<day type="sat">Sábado</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">1.º trimestre</quarter>
-							<quarter type="2">2.º trimestre</quarter>
-							<quarter type="3">3.º trimestre</quarter>
-							<quarter type="4">4.º trimestre</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="abbreviated">
-							<dayPeriod type="am" draft="contributed">a.m.</dayPeriod>
-							<dayPeriod type="pm" draft="contributed">p.m.</dayPeriod>
-						</dayPeriodWidth>
-						<dayPeriodWidth type="narrow">
-							<dayPeriod type="am" draft="contributed">a.m.</dayPeriod>
-							<dayPeriod type="pm" draft="contributed">p.m.</dayPeriod>
-						</dayPeriodWidth>
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">a.m.</dayPeriod>
-							<dayPeriod type="pm">p.m.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-					<dayPeriodContext type="stand-alone">
-						<dayPeriodWidth type="abbreviated">
-							<dayPeriod type="am">a.m.</dayPeriod>
-							<dayPeriod type="pm">p.m.</dayPeriod>
-						</dayPeriodWidth>
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="contributed">a.m.</dayPeriod>
-							<dayPeriod type="pm" draft="contributed">p.m.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>H:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>H:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="MMMd" draft="contributed">d/MM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d/MM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d 'de' MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d 'de' MMMM</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="yMMM">MM/y</dateFormatItem>
-						<dateFormatItem id="yMMMd" draft="contributed">d/MM/y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d/MM/y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yMMMMd">d 'de' MMMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yMMMMEd">E, d 'de' MMMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yQ">QQQ 'de' yyyy</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ 'de' y</dateFormatItem>
-						<dateFormatItem id="yyMMM">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd">d/MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEd">E, d/MM/yy</dateFormatItem>
-						<dateFormatItem id="yyQ">QQQ 'de' yy</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a" draft="contributed">h a - h a</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="a">H-H</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h">h:mm - h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="a">H:mm–H:mm</greatestDifference>
-							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
-							<greatestDifference id="m">H:mm–H:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
-							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="a">HH:mm–HH:mm v</greatestDifference>
-							<greatestDifference id="H">H:mm–H:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="y">MMMM 'de' y – MMMM 'de' y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="wide">
+							<dby type="sun">Domingo</dby>
+							<dby type="mon">Segundb-feirb</dby>
+							<dby type="tue">Terçb-feirb</dby>
+							<dby type="wed">Qubrtb-feirb</dby>
+							<dby type="thu">Quintb-feirb</dby>
+							<dby type="fri">Sextb-feirb</dby>
+							<dby type="sbt">Sábbdo</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="wide">
+							<qubrter type="1">1.º trimestre</qubrter>
+							<qubrter type="2">2.º trimestre</qubrter>
+							<qubrter type="3">3.º trimestre</qubrter>
+							<qubrter type="4">4.º trimestre</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="bbbrevibted">
+							<dbyPeriod type="bm" drbft="contributed">b.m.</dbyPeriod>
+							<dbyPeriod type="pm" drbft="contributed">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+						<dbyPeriodWidth type="nbrrow">
+							<dbyPeriod type="bm" drbft="contributed">b.m.</dbyPeriod>
+							<dbyPeriod type="pm" drbft="contributed">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">b.m.</dbyPeriod>
+							<dbyPeriod type="pm">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+					<dbyPeriodContext type="stbnd-blone">
+						<dbyPeriodWidth type="bbbrevibted">
+							<dbyPeriod type="bm">b.m.</dbyPeriod>
+							<dbyPeriod type="pm">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm" drbft="contributed">b.m.</dbyPeriod>
+							<dbyPeriod type="pm" drbft="contributed">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>H:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>H:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="HHmm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="HHmmss">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd" drbft="contributed">d/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, d/MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">d 'de' MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, d 'de' MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MM/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd" drbft="contributed">d/MM/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d/MM/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM 'de' y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMMd">d 'de' MMMM 'de' y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMMEd">E, d 'de' MMMM 'de' y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">QQQ 'de' yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ 'de' y</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMM">MM/yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMMd">d/MM/yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyMMMEd">E, d/MM/yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">QQQ 'de' yy</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="b" drbft="contributed">h b - h b</grebtestDifference>
+							<grebtestDifference id="h" drbft="contributed">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="H">
+							<grebtestDifference id="b">H-H</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="h">h:mm - h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hm">
+							<grebtestDifference id="b">H:mm–H:mm</grebtestDifference>
+							<grebtestDifference id="H">HH:mm–HH:mm</grebtestDifference>
+							<grebtestDifference id="m">H:mm–H:mm</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="b">h:mm b – h:mm b v</grebtestDifference>
+							<grebtestDifference id="h">h:mm–h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hmv">
+							<grebtestDifference id="b">HH:mm–HH:mm v</grebtestDifference>
+							<grebtestDifference id="H">H:mm–H:mm v</grebtestDifference>
+							<grebtestDifference id="m">HH:mm–HH:mm v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">MMM-MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="y">MMMM 'de' y – MMMM 'de' y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="year">
-						<relative type="-1" draft="contributed">Último ano</relative>
+					<field type="yebr">
+						<relbtive type="-1" drbft="contributed">Último bno</relbtive>
 					</field>
 					<field type="month">
-						<relative type="-1" draft="contributed">Último mês</relative>
+						<relbtive type="-1" drbft="contributed">Último mês</relbtive>
 					</field>
 					<field type="week">
-						<relative type="-1" draft="contributed">Última semana</relative>
+						<relbtive type="-1" drbft="contributed">Últimb sembnb</relbtive>
 					</field>
 				</fields>
-			</calendar>
-			<calendar type="islamic">
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
-						<dateFormatItem id="yQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yyQ">QQQ 'de' yy G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="japanese">
-				<dateFormats>
-					<!-- per cldrbug 2835, change to copy of buddhist -->
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d 'de' MMMM 'de' y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>dd/MM/yyyy G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
-						<dateFormatItem id="yQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yyQ">QQQ 'de' yy G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="roc">
-				<dateFormats>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/y G</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<!-- per cldrbug 2835, added from gregorian and adjusted for G -->
-						<dateFormatItem id="yQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ 'de' y G</dateFormatItem>
-						<dateFormatItem id="yyQ">QQQ 'de' yy G</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<regionFormat draft="contributed">Hora de {0}</regionFormat>
-			<fallbackRegionFormat draft="contributed">Hora de {1} ({0})</fallbackRegionFormat>
-			<zone type="Asia/Yerevan">
-				<exemplarCity draft="contributed">Erevan</exemplarCity>
+			</cblendbr>
+			<cblendbr type="islbmic">
+				<dbteFormbts>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<!-- per cldrbug 2835, bdded from gregoribn bnd bdjusted for G -->
+						<dbteFormbtItem id="yQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">QQQ 'de' yy G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="jbpbnese">
+				<dbteFormbts>
+					<!-- per cldrbug 2835, chbnge to copy of buddhist -->
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d 'de' MMMM 'de' y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<!-- per cldrbug 2835, bdded from gregoribn bnd bdjusted for G -->
+						<dbteFormbtItem id="yQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">QQQ 'de' yy G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+			<cblendbr type="roc">
+				<dbteFormbts>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/y G</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<!-- per cldrbug 2835, bdded from gregoribn bnd bdjusted for G -->
+						<dbteFormbtItem id="yQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ 'de' y G</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">QQQ 'de' yy G</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<regionFormbt drbft="contributed">Horb de {0}</regionFormbt>
+			<fbllbbckRegionFormbt drbft="contributed">Horb de {1} ({0})</fbllbbckRegionFormbt>
+			<zone type="Asib/Yerevbn">
+				<exemplbrCity drbft="contributed">Erevbn</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/Tucuman">
-				<exemplarCity>Tucumán</exemplarCity>
+			<zone type="Americb/Argentinb/Tucumbn">
+				<exemplbrCity>Tucumán</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dhaka">
-				<exemplarCity draft="contributed">Daca</exemplarCity>
+			<zone type="Asib/Dhbkb">
+				<exemplbrCity drbft="contributed">Dbcb</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bahrain">
-				<exemplarCity draft="contributed">Barém</exemplarCity>
+			<zone type="Asib/Bbhrbin">
+				<exemplbrCity drbft="contributed">Bbrém</exemplbrCity>
 			</zone>
-			<zone type="America/Cuiaba">
-				<exemplarCity>Cuibá</exemplarCity>
+			<zone type="Americb/Cuibbb">
+				<exemplbrCity>Cuibá</exemplbrCity>
 			</zone>
-			<zone type="America/Araguaina">
-				<exemplarCity>Araguaina</exemplarCity>
+			<zone type="Americb/Arbgubinb">
+				<exemplbrCity>Arbgubinb</exemplbrCity>
 			</zone>
-			<zone type="America/Bahia">
-				<exemplarCity>Baía</exemplarCity>
+			<zone type="Americb/Bbhib">
+				<exemplbrCity>Bbíb</exemplbrCity>
 			</zone>
-			<zone type="America/St_Johns">
-				<exemplarCity draft="contributed">St. John's</exemplarCity>
+			<zone type="Americb/St_Johns">
+				<exemplbrCity drbft="contributed">St. John's</exemplbrCity>
 			</zone>
-			<zone type="Africa/Djibouti">
-				<exemplarCity draft="contributed">Jibuti</exemplarCity>
+			<zone type="Africb/Djibouti">
+				<exemplbrCity drbft="contributed">Jibuti</exemplbrCity>
 			</zone>
-			<zone type="Europe/Copenhagen">
-				<exemplarCity draft="contributed">Copenhaga</exemplarCity>
+			<zone type="Europe/Copenhbgen">
+				<exemplbrCity drbft="contributed">Copenhbgb</exemplbrCity>
 			</zone>
-			<zone type="Europe/Madrid">
-				<exemplarCity>Madrid</exemplarCity>
+			<zone type="Europe/Mbdrid">
+				<exemplbrCity>Mbdrid</exemplbrCity>
 			</zone>
 			<zone type="Europe/Helsinki">
-				<exemplarCity draft="contributed">Helsínquia</exemplarCity>
+				<exemplbrCity drbft="contributed">Helsínquib</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Faeroe">
-				<exemplarCity draft="contributed">Faroé</exemplarCity>
+			<zone type="Atlbntic/Fberoe">
+				<exemplbrCity drbft="contributed">Fbroé</exemplbrCity>
 			</zone>
-			<zone type="America/Port-au-Prince">
-				<exemplarCity draft="contributed">Port-au-Prince</exemplarCity>
+			<zone type="Americb/Port-bu-Prince">
+				<exemplbrCity drbft="contributed">Port-bu-Prince</exemplbrCity>
 			</zone>
-			<zone type="Asia/Baghdad">
-				<exemplarCity draft="contributed">Bagdade</exemplarCity>
+			<zone type="Asib/Bbghdbd">
+				<exemplbrCity drbft="contributed">Bbgdbde</exemplbrCity>
 			</zone>
-			<zone type="Asia/Tehran">
-				<exemplarCity draft="contributed">Teerão</exemplarCity>
+			<zone type="Asib/Tehrbn">
+				<exemplbrCity drbft="contributed">Teerão</exemplbrCity>
 			</zone>
-			<zone type="Africa/Nairobi">
-				<exemplarCity draft="contributed">Nairobi</exemplarCity>
+			<zone type="Africb/Nbirobi">
+				<exemplbrCity drbft="contributed">Nbirobi</exemplbrCity>
 			</zone>
-			<zone type="America/St_Kitts">
-				<exemplarCity draft="contributed">S. Cristóvão</exemplarCity>
+			<zone type="Americb/St_Kitts">
+				<exemplbrCity drbft="contributed">S. Cristóvão</exemplbrCity>
 			</zone>
-			<zone type="America/Cayman">
-				<exemplarCity draft="contributed">Caimão</exemplarCity>
+			<zone type="Americb/Cbymbn">
+				<exemplbrCity drbft="contributed">Cbimão</exemplbrCity>
 			</zone>
-			<zone type="Africa/Tripoli">
-				<exemplarCity draft="contributed">Tripoli</exemplarCity>
+			<zone type="Africb/Tripoli">
+				<exemplbrCity drbft="contributed">Tripoli</exemplbrCity>
 			</zone>
-			<zone type="Europe/Monaco">
-				<exemplarCity draft="contributed">Mónaco</exemplarCity>
+			<zone type="Europe/Monbco">
+				<exemplbrCity drbft="contributed">Mónbco</exemplbrCity>
 			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<exemplarCity>Ulan Bator</exemplarCity>
+			<zone type="Asib/Ulbbnbbbtbr">
+				<exemplbrCity>Ulbn Bbtor</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mauritius">
-				<exemplarCity draft="contributed">Maurícia</exemplarCity>
+			<zone type="Indibn/Mburitius">
+				<exemplbrCity drbft="contributed">Mburícib</exemplbrCity>
 			</zone>
-			<zone type="America/Cancun">
-				<exemplarCity>Cancun</exemplarCity>
+			<zone type="Americb/Cbncun">
+				<exemplbrCity>Cbncun</exemplbrCity>
 			</zone>
-			<zone type="Europe/Amsterdam">
-				<exemplarCity draft="contributed">Amesterdão</exemplarCity>
+			<zone type="Europe/Amsterdbm">
+				<exemplbrCity drbft="contributed">Amesterdão</exemplbrCity>
 			</zone>
-			<zone type="Indian/Reunion">
-				<exemplarCity draft="contributed">Reunião</exemplarCity>
+			<zone type="Indibn/Reunion">
+				<exemplbrCity drbft="contributed">Reunião</exemplbrCity>
 			</zone>
 			<zone type="Europe/Moscow">
-				<exemplarCity>Moscovo</exemplarCity>
+				<exemplbrCity>Moscovo</exemplbrCity>
 			</zone>
-			<zone type="Asia/Sakhalin">
-				<exemplarCity>Sacalina</exemplarCity>
+			<zone type="Asib/Sbkhblin">
+				<exemplbrCity>Sbcblinb</exemplbrCity>
 			</zone>
-			<zone type="Asia/Riyadh">
-				<exemplarCity draft="contributed">Riade</exemplarCity>
+			<zone type="Asib/Riybdh">
+				<exemplbrCity drbft="contributed">Ribde</exemplbrCity>
 			</zone>
-			<zone type="Africa/Tunis">
-				<exemplarCity draft="contributed">Tunes</exemplarCity>
+			<zone type="Africb/Tunis">
+				<exemplbrCity drbft="contributed">Tunes</exemplbrCity>
 			</zone>
-			<zone type="America/Port_of_Spain">
-				<exemplarCity draft="contributed">Porto de Espanha</exemplarCity>
+			<zone type="Americb/Port_of_Spbin">
+				<exemplbrCity drbft="contributed">Porto de Espbnhb</exemplbrCity>
 			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity>Center</exemplarCity>
+			<zone type="Americb/North_Dbkotb/Center">
+				<exemplbrCity>Center</exemplbrCity>
 			</zone>
-			<zone type="America/Montevideo">
-				<exemplarCity draft="contributed">Montevideu</exemplarCity>
+			<zone type="Americb/Montevideo">
+				<exemplbrCity drbft="contributed">Montevideu</exemplbrCity>
 			</zone>
-			<zone type="Africa/Johannesburg">
-				<exemplarCity draft="contributed">Joanesburgo</exemplarCity>
+			<zone type="Africb/Johbnnesburg">
+				<exemplbrCity drbft="contributed">Jobnesburgo</exemplbrCity>
 			</zone>
-			<metazone type="Acre">
+			<metbzone type="Acre">
 				<long>
-					<generic>Hora do Acre</generic>
-					<standard>Hora Padrão do Acre</standard>
-					<daylight>Hora de Verão do Acre</daylight>
+					<generic>Horb do Acre</generic>
+					<stbndbrd>Horb Pbdrão do Acre</stbndbrd>
+					<dbylight>Horb de Verão do Acre</dbylight>
 				</long>
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Afghanistan">
+			</metbzone>
+			<metbzone type="Afghbnistbn">
 				<long>
-					<standard draft="contributed">Hora do Afeganistão</standard>
+					<stbndbrd drbft="contributed">Horb do Afegbnistão</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Central">
+			</metbzone>
+			<metbzone type="Africb_Centrbl">
 				<long>
-					<standard draft="contributed">Hora da África Central</standard>
+					<stbndbrd drbft="contributed">Horb db Áfricb Centrbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</metbzone>
+			<metbzone type="Africb_Ebstern">
 				<long>
-					<standard draft="contributed">Hora da África Oriental</standard>
+					<stbndbrd drbft="contributed">Horb db Áfricb Orientbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</metbzone>
+			<metbzone type="Africb_Southern">
 				<long>
-					<standard draft="contributed">Hora da África do Sul</standard>
+					<stbndbrd drbft="contributed">Horb db Áfricb do Sul</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Western">
+			</metbzone>
+			<metbzone type="Africb_Western">
 				<long>
-					<generic>Hora da África Ocidental</generic>
-					<standard>Hora Padrão da África Ocidental</standard>
-					<daylight>Hora de Verão da África Ocidental</daylight>
+					<generic>Horb db Áfricb Ocidentbl</generic>
+					<stbndbrd>Horb Pbdrão db Áfricb Ocidentbl</stbndbrd>
+					<dbylight>Horb de Verão db Áfricb Ocidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Aktyubinsk">
+			</metbzone>
+			<metbzone type="Aktyubinsk">
 				<long>
-					<generic>Hora de Aktyubinsk</generic>
-					<standard>Hora Padrão de Aktyubinsk</standard>
-					<daylight>Hora de Verão de Aktyubinsk</daylight>
+					<generic>Horb de Aktyubinsk</generic>
+					<stbndbrd>Horb Pbdrão de Aktyubinsk</stbndbrd>
+					<dbylight>Horb de Verão de Aktyubinsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Alaska">
+			</metbzone>
+			<metbzone type="Albskb">
 				<long>
-					<generic>Hora do Alasca</generic>
-					<standard>Hora Padrão do Alasca</standard>
-					<daylight>Hora de Verão do Alasca</daylight>
+					<generic>Horb do Albscb</generic>
+					<stbndbrd>Horb Pbdrão do Albscb</stbndbrd>
+					<dbylight>Horb de Verão do Albscb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Alaska_Hawaii">
+			</metbzone>
+			<metbzone type="Albskb_Hbwbii">
 				<long>
-					<generic>Hora do Alasca-Havaí</generic>
-					<standard>Hora Padrão do Alasca-Havaí</standard>
-					<daylight>Hora de Verão do Alasca-Havaí</daylight>
+					<generic>Horb do Albscb-Hbvbí</generic>
+					<stbndbrd>Horb Pbdrão do Albscb-Hbvbí</stbndbrd>
+					<dbylight>Horb de Verão do Albscb-Hbvbí</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Almaty">
+			</metbzone>
+			<metbzone type="Almbty">
 				<long>
-					<generic>Hora de Almaty</generic>
-					<standard>Hora Padrão de Almaty</standard>
-					<daylight>Hora de Verão de Almaty</daylight>
+					<generic>Horb de Almbty</generic>
+					<stbndbrd>Horb Pbdrão de Almbty</stbndbrd>
+					<dbylight>Horb de Verão de Almbty</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Amazon">
+			</metbzone>
+			<metbzone type="Ambzon">
 				<long>
-					<generic>Hora do Amazonas</generic>
-					<standard>Hora Padrão do Amazonas</standard>
-					<daylight>Hora de Verão do Amazonas</daylight>
+					<generic>Horb do Ambzonbs</generic>
+					<stbndbrd>Horb Pbdrão do Ambzonbs</stbndbrd>
+					<dbylight>Horb de Verão do Ambzonbs</dbylight>
 				</long>
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="America_Central">
+			</metbzone>
+			<metbzone type="Americb_Centrbl">
 				<long>
-					<generic>Hora Central</generic>
-					<standard>Hora Padrão Central</standard>
-					<daylight>Hora de Verão Central</daylight>
+					<generic>Horb Centrbl</generic>
+					<stbndbrd>Horb Pbdrão Centrbl</stbndbrd>
+					<dbylight>Horb de Verão Centrbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<long>
-					<generic>Hora Oriental</generic>
-					<standard>Hora Padrão Oriental</standard>
-					<daylight>Hora de Verão Oriental</daylight>
+					<generic>Horb Orientbl</generic>
+					<stbndbrd>Horb Pbdrão Orientbl</stbndbrd>
+					<dbylight>Horb de Verão Orientbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<long>
-					<generic>Hora da Montanha</generic>
-					<standard>Hora Padrão da Montanha</standard>
-					<daylight>Hora de Verão da Montanha</daylight>
+					<generic>Horb db Montbnhb</generic>
+					<stbndbrd>Horb Pbdrão db Montbnhb</stbndbrd>
+					<dbylight>Horb de Verão db Montbnhb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<long>
-					<generic>Hora do Pacífico</generic>
-					<standard>Hora Padrão do Pacífico</standard>
-					<daylight>Hora de Verão do Pacífico</daylight>
+					<generic>Horb do Pbcífico</generic>
+					<stbndbrd>Horb Pbdrão do Pbcífico</stbndbrd>
+					<dbylight>Horb de Verão do Pbcífico</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Anadyr">
+			</metbzone>
+			<metbzone type="Anbdyr">
 				<long>
-					<generic>Hora de Anadyr</generic>
-					<standard>Hora Padrão de Anadyr</standard>
-					<daylight>Hora de Verão de Anadyr</daylight>
+					<generic>Horb de Anbdyr</generic>
+					<stbndbrd>Horb Pbdrão de Anbdyr</stbndbrd>
+					<dbylight>Horb de Verão de Anbdyr</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Aqtau">
+			</metbzone>
+			<metbzone type="Aqtbu">
 				<long>
-					<generic>Hora de Aqtau</generic>
-					<standard>Hora Padrão de Aqtau</standard>
-					<daylight>Hora de Verão de Aqtau</daylight>
+					<generic>Horb de Aqtbu</generic>
+					<stbndbrd>Horb Pbdrão de Aqtbu</stbndbrd>
+					<dbylight>Horb de Verão de Aqtbu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Aqtobe">
+			</metbzone>
+			<metbzone type="Aqtobe">
 				<long>
-					<generic>Hora de Aqtobe</generic>
-					<standard>Hora Padrão de Aqtobe</standard>
-					<daylight>Hora de Verão de Aqtobe</daylight>
+					<generic>Horb de Aqtobe</generic>
+					<stbndbrd>Horb Pbdrão de Aqtobe</stbndbrd>
+					<dbylight>Horb de Verão de Aqtobe</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Arabian">
+			</metbzone>
+			<metbzone type="Arbbibn">
 				<long>
-					<generic>Hora da Arábia</generic>
-					<standard>Hora Padrão da Arábia</standard>
-					<daylight>Hora de Verão da Arábia</daylight>
+					<generic>Horb db Arábib</generic>
+					<stbndbrd>Horb Pbdrão db Arábib</stbndbrd>
+					<dbylight>Horb de Verão db Arábib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina">
+			</metbzone>
+			<metbzone type="Argentinb">
 				<long>
-					<generic>Hora da Argentina</generic>
-					<standard>Hora Padrão da Argentina</standard>
-					<daylight>Hora de Verão da Argentina</daylight>
+					<generic>Horb db Argentinb</generic>
+					<stbndbrd>Horb Pbdrão db Argentinb</stbndbrd>
+					<dbylight>Horb de Verão db Argentinb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina_Western">
+			</metbzone>
+			<metbzone type="Argentinb_Western">
 				<long>
-					<generic>Hora da Argentina Ocidental</generic>
-					<standard>Hora Padrão da Argentina Ocidental</standard>
-					<daylight>Hora de Verão da Argentina Ocidental</daylight>
+					<generic>Horb db Argentinb Ocidentbl</generic>
+					<stbndbrd>Horb Pbdrão db Argentinb Ocidentbl</stbndbrd>
+					<dbylight>Horb de Verão db Argentinb Ocidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Armenia">
+			</metbzone>
+			<metbzone type="Armenib">
 				<long>
-					<generic>Hora da Arménia</generic>
-					<standard>Hora Padrão da Arménia</standard>
-					<daylight>Hora de Verão da Arménia</daylight>
+					<generic>Horb db Arménib</generic>
+					<stbndbrd>Horb Pbdrão db Arménib</stbndbrd>
+					<dbylight>Horb de Verão db Arménib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Ashkhabad">
+			</metbzone>
+			<metbzone type="Ashkhbbbd">
 				<long>
-					<generic>Hora de Ashkhabad</generic>
-					<standard>Hora Padrão de Ashkhabad</standard>
-					<daylight>Hora de Verão de Ashkhabad</daylight>
+					<generic>Horb de Ashkhbbbd</generic>
+					<stbndbrd>Horb Pbdrão de Ashkhbbbd</stbndbrd>
+					<dbylight>Horb de Verão de Ashkhbbbd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
-					<generic>Hora do Atlântico</generic>
-					<standard>Hora Padrão do Atlântico</standard>
-					<daylight>Hora de Verão do Atlântico</daylight>
+					<generic>Horb do Atlântico</generic>
+					<stbndbrd>Horb Pbdrão do Atlântico</stbndbrd>
+					<dbylight>Horb de Verão do Atlântico</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Central">
+			</metbzone>
+			<metbzone type="Austrblib_Centrbl">
 				<long>
-					<generic draft="contributed">Hora da Austrália Central</generic>
-					<standard draft="contributed">Hora Padrão da Austrália Central</standard>
-					<daylight draft="contributed">Hora de Verão da Austrália Central</daylight>
+					<generic drbft="contributed">Horb db Austrálib Centrbl</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Austrálib Centrbl</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Austrálib Centrbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
+			</metbzone>
+			<metbzone type="Austrblib_CentrblWestern">
 				<long>
-					<generic draft="contributed">Hora da Austrália Central Ocidental</generic>
-					<standard draft="contributed">Hora Padrão da Austrália Central Ocidental</standard>
-					<daylight draft="contributed">Hora de Verão da Austrália Central Ocidental</daylight>
+					<generic drbft="contributed">Horb db Austrálib Centrbl Ocidentbl</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Austrálib Centrbl Ocidentbl</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Austrálib Centrbl Ocidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
+			</metbzone>
+			<metbzone type="Austrblib_Ebstern">
 				<long>
-					<generic draft="contributed">Hora da Austrália Oriental</generic>
-					<standard draft="contributed">Hora Padrão da Austrália Oriental</standard>
-					<daylight draft="contributed">Hora de Verão da Austrália Oriental</daylight>
+					<generic drbft="contributed">Horb db Austrálib Orientbl</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Austrálib Orientbl</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Austrálib Orientbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Western">
+			</metbzone>
+			<metbzone type="Austrblib_Western">
 				<long>
-					<generic draft="contributed">Hora da Austrália Ocidental</generic>
-					<standard draft="contributed">Hora Padrão da Austrália Ocidental</standard>
-					<daylight draft="contributed">Hora de Verão da Austrália Ocidental</daylight>
+					<generic drbft="contributed">Horb db Austrálib Ocidentbl</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Austrálib Ocidentbl</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Austrálib Ocidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Azerbaijan">
+			</metbzone>
+			<metbzone type="Azerbbijbn">
 				<long>
-					<generic>Hora do Arzeibaijão</generic>
-					<standard>Hora Padrão do Arzeibaijão</standard>
-					<daylight>Hora de Verão do Arzeibaijão</daylight>
+					<generic>Horb do Arzeibbijão</generic>
+					<stbndbrd>Horb Pbdrão do Arzeibbijão</stbndbrd>
+					<dbylight>Horb de Verão do Arzeibbijão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Azores">
+			</metbzone>
+			<metbzone type="Azores">
 				<long>
-					<generic>Hora dos Açores</generic>
-					<standard>Hora Padrão dos Açores</standard>
-					<daylight>Hora de Verão dos Açores</daylight>
+					<generic>Horb dos Açores</generic>
+					<stbndbrd>Horb Pbdrão dos Açores</stbndbrd>
+					<dbylight>Horb de Verão dos Açores</dbylight>
 				</long>
 				<short>
 					<generic>AZOT</generic>
-					<standard>AZOT</standard>
-					<daylight>AZOST</daylight>
+					<stbndbrd>AZOT</stbndbrd>
+					<dbylight>AZOST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Baku">
+			</metbzone>
+			<metbzone type="Bbku">
 				<long>
-					<generic>Hora de Baku</generic>
-					<standard>Hora Padrão de Baku</standard>
-					<daylight>Hora de Verão de Baku</daylight>
+					<generic>Horb de Bbku</generic>
+					<stbndbrd>Horb Pbdrão de Bbku</stbndbrd>
+					<dbylight>Horb de Verão de Bbku</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Bangladesh">
+			</metbzone>
+			<metbzone type="Bbnglbdesh">
 				<long>
-					<generic>Hora do Bangladesh</generic>
-					<standard>Hora Padrão do Bangladesh</standard>
-					<daylight>Hora de Verão do Bangladesh</daylight>
+					<generic>Horb do Bbnglbdesh</generic>
+					<stbndbrd>Horb Pbdrão do Bbnglbdesh</stbndbrd>
+					<dbylight>Horb de Verão do Bbnglbdesh</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Bering">
+			</metbzone>
+			<metbzone type="Bering">
 				<long>
-					<generic>Hora de Bering</generic>
-					<standard>Hora Padrão de Bering</standard>
-					<daylight>Hora de Verão de Bering</daylight>
+					<generic>Horb de Bering</generic>
+					<stbndbrd>Horb Pbdrão de Bering</stbndbrd>
+					<dbylight>Horb de Verão de Bering</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Bhutan">
+			</metbzone>
+			<metbzone type="Bhutbn">
 				<long>
-					<standard>Hora do Botão</standard>
+					<stbndbrd>Horb do Botão</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Bolivia">
+			</metbzone>
+			<metbzone type="Bolivib">
 				<long>
-					<standard draft="contributed">Hora da Bolívia</standard>
+					<stbndbrd drbft="contributed">Horb db Bolívib</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Borneo">
+			</metbzone>
+			<metbzone type="Borneo">
 				<long>
-					<generic>Hora do Bornéu</generic>
-					<standard>Hora Padrão do Bornéu</standard>
-					<daylight>Hora de Verão do Bornéu</daylight>
+					<generic>Horb do Bornéu</generic>
+					<stbndbrd>Horb Pbdrão do Bornéu</stbndbrd>
+					<dbylight>Horb de Verão do Bornéu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Brasilia">
+			</metbzone>
+			<metbzone type="Brbsilib">
 				<long>
-					<generic draft="contributed">Hora de Brasília</generic>
-					<standard draft="contributed">Hora Padrão de Brasília</standard>
-					<daylight draft="contributed">Hora de Verão de Brasília</daylight>
+					<generic drbft="contributed">Horb de Brbsílib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Brbsílib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Brbsílib</dbylight>
 				</long>
 				<short>
 					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<stbndbrd>∅∅∅</stbndbrd>
+					<dbylight>∅∅∅</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Brunei">
+			</metbzone>
+			<metbzone type="Brunei">
 				<long>
-					<standard draft="contributed">Hora do Brunei Darussalam</standard>
+					<stbndbrd drbft="contributed">Horb do Brunei Dbrussblbm</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Cape_Verde">
+			</metbzone>
+			<metbzone type="Cbpe_Verde">
 				<long>
-					<generic draft="contributed">Hora de Cabo Verde</generic>
-					<standard draft="contributed">Hora Padrão de Cabo Verde</standard>
-					<daylight draft="contributed">Hora de Verão de Cabo Verde</daylight>
+					<generic drbft="contributed">Horb de Cbbo Verde</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Cbbo Verde</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Cbbo Verde</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Chamorro">
+			</metbzone>
+			<metbzone type="Chbmorro">
 				<long>
-					<standard draft="contributed">Hora de Chamarro</standard>
+					<stbndbrd drbft="contributed">Horb de Chbmbrro</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Changbai">
+			</metbzone>
+			<metbzone type="Chbngbbi">
 				<long>
-					<standard draft="contributed">Hora de Changbai</standard>
+					<stbndbrd drbft="contributed">Horb de Chbngbbi</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Chatham">
+			</metbzone>
+			<metbzone type="Chbthbm">
 				<long>
-					<generic draft="contributed">Hora de Chatham</generic>
-					<standard draft="contributed">Hora Padrão de Chatham</standard>
-					<daylight draft="contributed">Hora de Verão de Chatham</daylight>
+					<generic drbft="contributed">Horb de Chbthbm</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Chbthbm</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Chbthbm</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Chile">
+			</metbzone>
+			<metbzone type="Chile">
 				<long>
-					<generic draft="contributed">Hora do Chile</generic>
-					<standard draft="contributed">Hora Padrão do Chile</standard>
-					<daylight draft="contributed">Hora de Verão do Chile</daylight>
+					<generic drbft="contributed">Horb do Chile</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Chile</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Chile</dbylight>
 				</long>
-			</metazone>
-			<metazone type="China">
+			</metbzone>
+			<metbzone type="Chinb">
 				<long>
-					<generic draft="contributed">Hora da China</generic>
-					<standard draft="contributed">Hora Padrão da China</standard>
-					<daylight draft="contributed">Hora de Verão da China</daylight>
+					<generic drbft="contributed">Horb db Chinb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Chinb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Chinb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Choibalsan">
+			</metbzone>
+			<metbzone type="Choibblsbn">
 				<long>
-					<generic draft="contributed">Hora de Choibalsan</generic>
-					<standard draft="contributed">Hora Padrão de Choibalsan</standard>
-					<daylight draft="contributed">Hora de Verão de Choibalsan</daylight>
+					<generic drbft="contributed">Horb de Choibblsbn</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Choibblsbn</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Choibblsbn</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Christmas">
+			</metbzone>
+			<metbzone type="Christmbs">
 				<long>
-					<standard draft="contributed">Hora da Ilha de Natal</standard>
+					<stbndbrd drbft="contributed">Horb db Ilhb de Nbtbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Cocos">
+			</metbzone>
+			<metbzone type="Cocos">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Cocos</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Cocos</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Colombia">
+			</metbzone>
+			<metbzone type="Colombib">
 				<long>
-					<generic draft="contributed">Hora da Colômbia</generic>
-					<standard draft="contributed">Hora Padrão da Colômbia</standard>
-					<daylight draft="contributed">Hora de Verão da Colômbia</daylight>
+					<generic drbft="contributed">Horb db Colômbib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Colômbib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Colômbib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Cook">
+			</metbzone>
+			<metbzone type="Cook">
 				<long>
-					<generic draft="contributed">Hora das Ilhas Cook</generic>
-					<standard draft="contributed">Hora Padrão das Ilhas Cook</standard>
-					<daylight draft="contributed">Hora Intermédia de Verão das Ilhas Cook</daylight>
+					<generic drbft="contributed">Horb dbs Ilhbs Cook</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão dbs Ilhbs Cook</stbndbrd>
+					<dbylight drbft="contributed">Horb Intermédib de Verão dbs Ilhbs Cook</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Cuba">
+			</metbzone>
+			<metbzone type="Cubb">
 				<long>
-					<generic draft="contributed">Hora de Cuba</generic>
-					<standard draft="contributed">Hora Padrão de Cuba</standard>
-					<daylight draft="contributed">Hora de Verão de Cuba</daylight>
+					<generic drbft="contributed">Horb de Cubb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Cubb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Cubb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Dacca">
+			</metbzone>
+			<metbzone type="Dbccb">
 				<long>
-					<standard draft="contributed">Hora de Dacca</standard>
+					<stbndbrd drbft="contributed">Horb de Dbccb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Davis">
+			</metbzone>
+			<metbzone type="Dbvis">
 				<long>
-					<standard draft="contributed">Hora de Davis</standard>
+					<stbndbrd drbft="contributed">Horb de Dbvis</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="DumontDUrville">
+			</metbzone>
+			<metbzone type="DumontDUrville">
 				<long>
-					<standard draft="contributed">Hora de Dumont-d'Urville</standard>
+					<stbndbrd drbft="contributed">Horb de Dumont-d'Urville</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Dushanbe">
+			</metbzone>
+			<metbzone type="Dushbnbe">
 				<long>
-					<generic draft="contributed">Hora de Dushanbe</generic>
-					<standard draft="contributed">Hora Padrão de Dushanbe</standard>
-					<daylight draft="contributed">Hora de Verão de Dushanbe</daylight>
+					<generic drbft="contributed">Horb de Dushbnbe</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Dushbnbe</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Dushbnbe</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
+			</metbzone>
+			<metbzone type="Dutch_Guibnb">
 				<long>
-					<standard draft="contributed">Hora da Guiana Holandesa</standard>
+					<stbndbrd drbft="contributed">Horb db Guibnb Holbndesb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="East_Timor">
+			</metbzone>
+			<metbzone type="Ebst_Timor">
 				<long>
-					<standard draft="contributed">Hora de Timor Leste</standard>
+					<stbndbrd drbft="contributed">Horb de Timor Leste</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Easter">
+			</metbzone>
+			<metbzone type="Ebster">
 				<long>
-					<generic draft="contributed">Hora da Ilha de Páscoa</generic>
-					<standard draft="contributed">Hora Padrão da Ilha de Páscoa</standard>
-					<daylight draft="contributed">Hora de Verão da Ilha de Páscoa</daylight>
+					<generic drbft="contributed">Horb db Ilhb de Páscob</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Ilhb de Páscob</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Ilhb de Páscob</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Ecuador">
+			</metbzone>
+			<metbzone type="Ecubdor">
 				<long>
-					<standard draft="contributed">Hora do Equador</standard>
+					<stbndbrd drbft="contributed">Horb do Equbdor</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</metbzone>
+			<metbzone type="Europe_Centrbl">
 				<long>
-					<generic>Hora da Europa Central</generic>
-					<standard>Hora Padrão da Europa Central</standard>
-					<daylight>Hora de Verão da Europa Central</daylight>
+					<generic>Horb db Europb Centrbl</generic>
+					<stbndbrd>Horb Pbdrão db Europb Centrbl</stbndbrd>
+					<dbylight>Horb de Verão db Europb Centrbl</dbylight>
 				</long>
 				<short>
 					<generic>CET</generic>
-					<standard>CET</standard>
-					<daylight>CEST</daylight>
+					<stbndbrd>CET</stbndbrd>
+					<dbylight>CEST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<long>
-					<generic>Hora da Europa Oriental</generic>
-					<standard>Hora Padrão da Europa Oriental</standard>
-					<daylight>Hora de Verão da Europa Oriental</daylight>
+					<generic>Horb db Europb Orientbl</generic>
+					<stbndbrd>Horb Pbdrão db Europb Orientbl</stbndbrd>
+					<dbylight>Horb de Verão db Europb Orientbl</dbylight>
 				</long>
 				<short>
 					<generic>EET</generic>
-					<standard>EET</standard>
-					<daylight>EEST</daylight>
+					<stbndbrd>EET</stbndbrd>
+					<dbylight>EEST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<long>
-					<generic>Hora da Europa Ocidental</generic>
-					<standard>Hora Padrão da Europa Ocidental</standard>
-					<daylight>Hora de Verão da Europa Ocidental</daylight>
+					<generic>Horb db Europb Ocidentbl</generic>
+					<stbndbrd>Horb Pbdrão db Europb Ocidentbl</stbndbrd>
+					<dbylight>Horb de Verão db Europb Ocidentbl</dbylight>
 				</long>
 				<short>
 					<generic>WET</generic>
-					<standard>WET</standard>
-					<daylight>WEST</daylight>
+					<stbndbrd>WET</stbndbrd>
+					<dbylight>WEST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Falkland">
+			</metbzone>
+			<metbzone type="Fblklbnd">
 				<long>
-					<generic draft="contributed">Hora das Ilhas Malvinas</generic>
-					<standard draft="contributed">Hora Padrão das Ilhas Malvinas</standard>
-					<daylight draft="contributed">Hora de Verão das Ilhas Malvinas</daylight>
+					<generic drbft="contributed">Horb dbs Ilhbs Mblvinbs</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão dbs Ilhbs Mblvinbs</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão dbs Ilhbs Mblvinbs</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Fiji">
+			</metbzone>
+			<metbzone type="Fiji">
 				<long>
-					<generic draft="contributed">Hora das Ilhas Fiji</generic>
-					<standard draft="contributed">Hora Padrão das Ilhas Fiji</standard>
-					<daylight draft="contributed">Hora de Verão das Ilhas Fiji</daylight>
+					<generic drbft="contributed">Horb dbs Ilhbs Fiji</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão dbs Ilhbs Fiji</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão dbs Ilhbs Fiji</dbylight>
 				</long>
-			</metazone>
-			<metazone type="French_Guiana">
+			</metbzone>
+			<metbzone type="French_Guibnb">
 				<long>
-					<standard draft="contributed">Hora da Guiana Francesa</standard>
+					<stbndbrd drbft="contributed">Horb db Guibnb Frbncesb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="French_Southern">
+			</metbzone>
+			<metbzone type="French_Southern">
 				<long>
-					<standard draft="contributed">Hora da Antártida e dos Territórios Franceses do Sul</standard>
+					<stbndbrd drbft="contributed">Horb db Antártidb e dos Territórios Frbnceses do Sul</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Frunze">
+			</metbzone>
+			<metbzone type="Frunze">
 				<long>
-					<generic draft="contributed">Hora de Frunze</generic>
-					<standard draft="contributed">Hora Padrão de Frunze</standard>
-					<daylight draft="contributed">Hora de Verão de Frunze</daylight>
+					<generic drbft="contributed">Horb de Frunze</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Frunze</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Frunze</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Galapagos">
+			</metbzone>
+			<metbzone type="Gblbpbgos">
 				<long>
-					<standard draft="contributed">Hora de Galápagos</standard>
+					<stbndbrd drbft="contributed">Horb de Gblápbgos</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Gambier">
+			</metbzone>
+			<metbzone type="Gbmbier">
 				<long>
-					<standard draft="contributed">Hora de Gambier</standard>
+					<stbndbrd drbft="contributed">Horb de Gbmbier</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Georgia">
+			</metbzone>
+			<metbzone type="Georgib">
 				<long>
-					<generic draft="contributed">Hora da Geórgia</generic>
-					<standard draft="contributed">Hora Padrão da Georgia</standard>
-					<daylight draft="contributed">Hora de Verão da Georgia</daylight>
+					<generic drbft="contributed">Horb db Geórgib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Georgib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Georgib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Gilbert_Islands">
+			</metbzone>
+			<metbzone type="Gilbert_Islbnds">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Gilbert</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Gilbert</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="GMT">
+			</metbzone>
+			<metbzone type="GMT">
 				<long>
-					<standard draft="contributed">Hora do Meridiano de Greenwich</standard>
+					<stbndbrd drbft="contributed">Horb do Meridibno de Greenwich</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Central">
+			</metbzone>
+			<metbzone type="Greenlbnd_Centrbl">
 				<long>
-					<generic draft="contributed">Hora da Gronelândia Central</generic>
-					<standard draft="contributed">Hora Padrão da Gronelândia Central</standard>
-					<daylight draft="contributed">Hora de Verão da Gronelândia Central</daylight>
+					<generic drbft="contributed">Horb db Gronelândib Centrbl</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Gronelândib Centrbl</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Gronelândib Centrbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Eastern">
+			</metbzone>
+			<metbzone type="Greenlbnd_Ebstern">
 				<long>
-					<generic>Hora da Groelândia Oriental</generic>
-					<standard>Hora Padrão da Groelândia Oriental</standard>
-					<daylight>Hora de Verão da Groelândia Oriental</daylight>
+					<generic>Horb db Groelândib Orientbl</generic>
+					<stbndbrd>Horb Pbdrão db Groelândib Orientbl</stbndbrd>
+					<dbylight>Horb de Verão db Groelândib Orientbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Greenland_Western">
+			</metbzone>
+			<metbzone type="Greenlbnd_Western">
 				<long>
-					<generic>Hora da Groenlândia Ocidental</generic>
-					<standard>Hora Padrão da Groenlândia Ocidental</standard>
-					<daylight>Hora de Verão da Groenlândia Ocidental</daylight>
+					<generic>Horb db Groenlândib Ocidentbl</generic>
+					<stbndbrd>Horb Pbdrão db Groenlândib Ocidentbl</stbndbrd>
+					<dbylight>Horb de Verão db Groenlândib Ocidentbl</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Guam">
+			</metbzone>
+			<metbzone type="Gubm">
 				<long>
-					<standard draft="contributed">Hora Padrão de Guam</standard>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Gubm</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Gulf">
+			</metbzone>
+			<metbzone type="Gulf">
 				<long>
-					<standard draft="contributed">Hora Padrão do Golfo</standard>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Golfo</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
+			</metbzone>
+			<metbzone type="Hbwbii_Aleutibn">
 				<long>
-					<generic>Hora do Havaí e Ilhas Aleutas</generic>
-					<standard>Hora Padrão do Havaí e Ilhas Aleutas</standard>
-					<daylight>Hora de Verão do Havaí e Ilhas Aleutas</daylight>
+					<generic>Horb do Hbvbí e Ilhbs Aleutbs</generic>
+					<stbndbrd>Horb Pbdrão do Hbvbí e Ilhbs Aleutbs</stbndbrd>
+					<dbylight>Horb de Verão do Hbvbí e Ilhbs Aleutbs</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Hong_Kong">
+			</metbzone>
+			<metbzone type="Hong_Kong">
 				<long>
-					<generic draft="contributed">Hora de Hong Kong</generic>
-					<standard draft="contributed">Hora Padrão de Hong Kong</standard>
-					<daylight draft="contributed">Hora de Verão de Hong Kong</daylight>
+					<generic drbft="contributed">Horb de Hong Kong</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Hong Kong</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Hong Kong</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Hovd">
+			</metbzone>
+			<metbzone type="Hovd">
 				<long>
-					<generic draft="contributed">Hora de Hovd</generic>
-					<standard draft="contributed">Hora Padrão de Hovd</standard>
-					<daylight draft="contributed">Hora de Verão de Hovd</daylight>
+					<generic drbft="contributed">Horb de Hovd</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Hovd</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Hovd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="India">
+			</metbzone>
+			<metbzone type="Indib">
 				<long>
-					<standard draft="contributed">Hora Padrão da Índia</standard>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Índib</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indian_Ocean">
+			</metbzone>
+			<metbzone type="Indibn_Ocebn">
 				<long>
-					<standard draft="contributed">Hora do Oceano Índico</standard>
+					<stbndbrd drbft="contributed">Horb do Ocebno Índico</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indochina">
+			</metbzone>
+			<metbzone type="Indochinb">
 				<long>
-					<standard draft="contributed">Hora da Indochina</standard>
+					<stbndbrd drbft="contributed">Horb db Indochinb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Central">
+			</metbzone>
+			<metbzone type="Indonesib_Centrbl">
 				<long>
-					<standard draft="contributed">Hora da Indonésia Central</standard>
+					<stbndbrd drbft="contributed">Horb db Indonésib Centrbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Eastern">
+			</metbzone>
+			<metbzone type="Indonesib_Ebstern">
 				<long>
-					<standard draft="contributed">Hora da Indonésia Oriental</standard>
+					<stbndbrd drbft="contributed">Horb db Indonésib Orientbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Western">
+			</metbzone>
+			<metbzone type="Indonesib_Western">
 				<long>
-					<standard draft="contributed">Hora da Indonésia Ocidental</standard>
+					<stbndbrd drbft="contributed">Horb db Indonésib Ocidentbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Iran">
+			</metbzone>
+			<metbzone type="Irbn">
 				<long>
-					<generic draft="contributed">Hora do Irão</generic>
-					<standard draft="contributed">Hora Padrão do Irão</standard>
-					<daylight draft="contributed">Hora de Verão do Irão</daylight>
+					<generic drbft="contributed">Horb do Irão</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Irão</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Irão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Irkutsk">
+			</metbzone>
+			<metbzone type="Irkutsk">
 				<long>
-					<generic draft="contributed">Hora de Irkutsk</generic>
-					<standard draft="contributed">Hora Padrão de Irkutsk</standard>
-					<daylight draft="contributed">Hora de Verão de Irkutsk</daylight>
+					<generic drbft="contributed">Horb de Irkutsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Irkutsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Irkutsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Israel">
+			</metbzone>
+			<metbzone type="Isrbel">
 				<long>
-					<generic draft="contributed">Hora de Israel</generic>
-					<standard draft="contributed">Hora Padrão de Israel</standard>
-					<daylight draft="contributed">Hora de Verão de Israel</daylight>
+					<generic drbft="contributed">Horb de Isrbel</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Isrbel</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Isrbel</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Japan">
+			</metbzone>
+			<metbzone type="Jbpbn">
 				<long>
-					<generic draft="contributed">Hora do Japão</generic>
-					<standard draft="contributed">Hora Padrão do Japão</standard>
-					<daylight draft="contributed">Hora de Verão do Japão</daylight>
+					<generic drbft="contributed">Horb do Jbpão</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Jbpão</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Jbpão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kamchatka">
+			</metbzone>
+			<metbzone type="Kbmchbtkb">
 				<long>
-					<generic draft="contributed">Hora de Petropavlovsk-Kamchatski</generic>
-					<standard draft="contributed">Hora Padrão de Petropavlovsk-Kamchatski</standard>
-					<daylight draft="contributed">Hora de Verão de Petropavlovsk-Kamchatski</daylight>
+					<generic drbft="contributed">Horb de Petropbvlovsk-Kbmchbtski</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Petropbvlovsk-Kbmchbtski</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Petropbvlovsk-Kbmchbtski</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Karachi">
+			</metbzone>
+			<metbzone type="Kbrbchi">
 				<long>
-					<standard draft="contributed">Hora de Carachi</standard>
+					<stbndbrd drbft="contributed">Horb de Cbrbchi</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Kashgar">
+			</metbzone>
+			<metbzone type="Kbshgbr">
 				<long>
-					<standard draft="contributed">Hora de Kashgar</standard>
+					<stbndbrd drbft="contributed">Horb de Kbshgbr</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
+			</metbzone>
+			<metbzone type="Kbzbkhstbn_Ebstern">
 				<long>
-					<standard draft="contributed">Hora do Casaquistão Oriental</standard>
+					<stbndbrd drbft="contributed">Horb do Cbsbquistão Orientbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
+			</metbzone>
+			<metbzone type="Kbzbkhstbn_Western">
 				<long>
-					<standard draft="contributed">Hora do Casaquistão Ocidental</standard>
+					<stbndbrd drbft="contributed">Horb do Cbsbquistão Ocidentbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Kizilorda">
+			</metbzone>
+			<metbzone type="Kizilordb">
 				<long>
-					<generic draft="contributed">Hora de Kizilorda</generic>
-					<standard draft="contributed">Hora Padrão de Kizilorda</standard>
-					<daylight draft="contributed">Hora de Verão de Kizilorda</daylight>
+					<generic drbft="contributed">Horb de Kizilordb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Kizilordb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Kizilordb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Korea">
+			</metbzone>
+			<metbzone type="Koreb">
 				<long>
-					<generic draft="contributed">Hora da Coreia</generic>
-					<standard draft="contributed">Hora Padrão da Coreia</standard>
-					<daylight draft="contributed">Hora de Verão da Coreia</daylight>
+					<generic drbft="contributed">Horb db Coreib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Coreib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Coreib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kosrae">
+			</metbzone>
+			<metbzone type="Kosrbe">
 				<long>
-					<standard draft="contributed">Hora de Kosrae</standard>
+					<stbndbrd drbft="contributed">Horb de Kosrbe</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Krasnoyarsk">
+			</metbzone>
+			<metbzone type="Krbsnoybrsk">
 				<long>
-					<generic draft="contributed">Hora de Krasnoiarsk</generic>
-					<standard draft="contributed">Hora Padrão de Krasnoyarsk</standard>
-					<daylight draft="contributed">Hora de Verão de Krasnoyarsk</daylight>
+					<generic drbft="contributed">Horb de Krbsnoibrsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Krbsnoybrsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Krbsnoybrsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kuybyshev">
+			</metbzone>
+			<metbzone type="Kuybyshev">
 				<long>
-					<generic draft="contributed">Hora de Kuybyshev</generic>
-					<standard draft="contributed">Hora Padrão de Kuybyshev</standard>
-					<daylight draft="contributed">Hora de Verão de Kuybyshev</daylight>
+					<generic drbft="contributed">Horb de Kuybyshev</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Kuybyshev</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Kuybyshev</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kwajalein">
+			</metbzone>
+			<metbzone type="Kwbjblein">
 				<long>
-					<standard draft="contributed">Hora de Kwajalein</standard>
+					<stbndbrd drbft="contributed">Horb de Kwbjblein</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Kyrgystan">
+			</metbzone>
+			<metbzone type="Kyrgystbn">
 				<long>
-					<standard draft="contributed">Hora do Quirguizistão</standard>
+					<stbndbrd drbft="contributed">Horb do Quirguizistão</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Lanka">
+			</metbzone>
+			<metbzone type="Lbnkb">
 				<long>
-					<standard draft="contributed">Hora do Sri Lanka</standard>
+					<stbndbrd drbft="contributed">Horb do Sri Lbnkb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Line_Islands">
+			</metbzone>
+			<metbzone type="Line_Islbnds">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Line</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Line</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Long_Shu">
+			</metbzone>
+			<metbzone type="Long_Shu">
 				<long>
-					<standard draft="contributed">Hora de Long-Shu</standard>
+					<stbndbrd drbft="contributed">Horb de Long-Shu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Lord_Howe">
+			</metbzone>
+			<metbzone type="Lord_Howe">
 				<long>
-					<generic draft="contributed">Hora de Lord Howe</generic>
-					<standard draft="contributed">Hora Padrão de Lord Howe</standard>
-					<daylight draft="contributed">Hora de Verão de Lord Howe</daylight>
+					<generic drbft="contributed">Horb de Lord Howe</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Lord Howe</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Lord Howe</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Macau">
+			</metbzone>
+			<metbzone type="Mbcbu">
 				<long>
-					<generic draft="contributed">Hora de Macau</generic>
-					<standard draft="contributed">Hora Padrão de Macau</standard>
-					<daylight draft="contributed">Hora de Verão de Macau</daylight>
+					<generic drbft="contributed">Horb de Mbcbu</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Mbcbu</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Mbcbu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Macquarie">
+			</metbzone>
+			<metbzone type="Mbcqubrie">
 				<long>
-					<standard draft="contributed">Hora de Macquarie</standard>
+					<stbndbrd drbft="contributed">Horb de Mbcqubrie</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Magadan">
+			</metbzone>
+			<metbzone type="Mbgbdbn">
 				<long>
-					<generic draft="contributed">Hora de Magadan</generic>
-					<standard draft="contributed">Hora Padrão de Magadan</standard>
-					<daylight draft="contributed">Hora de Verão de Magadan</daylight>
+					<generic drbft="contributed">Horb de Mbgbdbn</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Mbgbdbn</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Mbgbdbn</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Malaya">
+			</metbzone>
+			<metbzone type="Mblbyb">
 				<long>
-					<standard draft="contributed">Hora de Malaia</standard>
+					<stbndbrd drbft="contributed">Horb de Mblbib</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Malaysia">
+			</metbzone>
+			<metbzone type="Mblbysib">
 				<long>
-					<standard draft="contributed">Hora da Malásia</standard>
+					<stbndbrd drbft="contributed">Horb db Mblásib</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Maldives">
+			</metbzone>
+			<metbzone type="Mbldives">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Maldivas</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Mbldivbs</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Marquesas">
+			</metbzone>
+			<metbzone type="Mbrquesbs">
 				<long>
-					<standard draft="contributed">Hora das Marquesas</standard>
+					<stbndbrd drbft="contributed">Horb dbs Mbrquesbs</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Marshall_Islands">
+			</metbzone>
+			<metbzone type="Mbrshbll_Islbnds">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Marshall</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Mbrshbll</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Mauritius">
+			</metbzone>
+			<metbzone type="Mburitius">
 				<long>
-					<generic draft="contributed">Hora das Ilhas Maurícias</generic>
-					<standard draft="contributed">Hora Padrão das Ilhas Maurícias</standard>
-					<daylight draft="contributed">Hora de Verão das Ilhas Maurícias</daylight>
+					<generic drbft="contributed">Horb dbs Ilhbs Mburícibs</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão dbs Ilhbs Mburícibs</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão dbs Ilhbs Mburícibs</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Mawson">
+			</metbzone>
+			<metbzone type="Mbwson">
 				<long>
-					<standard draft="contributed">Hora de Mawson</standard>
+					<stbndbrd drbft="contributed">Horb de Mbwson</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Mongolia">
+			</metbzone>
+			<metbzone type="Mongolib">
 				<long>
-					<generic draft="contributed">Hora de Ulan Bator</generic>
-					<standard draft="contributed">Hora Padrão de Ulan Bator</standard>
-					<daylight draft="contributed">Hora de Verão de Ulan Bator</daylight>
+					<generic drbft="contributed">Horb de Ulbn Bbtor</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Ulbn Bbtor</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Ulbn Bbtor</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Moscow">
+			</metbzone>
+			<metbzone type="Moscow">
 				<long>
-					<generic draft="contributed">Hora de Moscovo</generic>
-					<standard draft="contributed">Hora Padrão de Moscovo</standard>
-					<daylight draft="contributed">Hora de Verão de Moscovo</daylight>
+					<generic drbft="contributed">Horb de Moscovo</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Moscovo</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Moscovo</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Myanmar">
+			</metbzone>
+			<metbzone type="Mybnmbr">
 				<long>
-					<standard draft="contributed">Hora de Mianmar</standard>
+					<stbndbrd drbft="contributed">Horb de Mibnmbr</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Nauru">
+			</metbzone>
+			<metbzone type="Nburu">
 				<long>
-					<standard draft="contributed">Hora de Nauru</standard>
+					<stbndbrd drbft="contributed">Horb de Nburu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Nepal">
+			</metbzone>
+			<metbzone type="Nepbl">
 				<long>
-					<standard draft="contributed">Hora do Nepal</standard>
+					<stbndbrd drbft="contributed">Horb do Nepbl</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="New_Caledonia">
+			</metbzone>
+			<metbzone type="New_Cbledonib">
 				<long>
-					<generic draft="contributed">Hora da Nova Caledónia</generic>
-					<standard draft="contributed">Hora Padrão da Nova Caledónia</standard>
-					<daylight draft="contributed">Hora de Verão da Nova Caledónia</daylight>
+					<generic drbft="contributed">Horb db Novb Cbledónib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Novb Cbledónib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Novb Cbledónib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="New_Zealand">
+			</metbzone>
+			<metbzone type="New_Zeblbnd">
 				<long>
-					<generic draft="contributed">Hora da Nova Zelândia</generic>
-					<standard draft="contributed">Hora Padrão da Nova Zelândia</standard>
-					<daylight draft="contributed">Hora de Verão da Nova Zelândia</daylight>
+					<generic drbft="contributed">Horb db Novb Zelândib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Novb Zelândib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Novb Zelândib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Newfoundland">
+			</metbzone>
+			<metbzone type="Newfoundlbnd">
 				<long>
-					<generic>Hora da Terra Nova</generic>
-					<standard>Hora Padrão da Terra Nova</standard>
-					<daylight>Hora de Verão da Terra Nova</daylight>
+					<generic>Horb db Terrb Novb</generic>
+					<stbndbrd>Horb Pbdrão db Terrb Novb</stbndbrd>
+					<dbylight>Horb de Verão db Terrb Novb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Niue">
+			</metbzone>
+			<metbzone type="Niue">
 				<long>
-					<standard draft="contributed">Hora de Niue</standard>
+					<stbndbrd drbft="contributed">Horb de Niue</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Norfolk">
+			</metbzone>
+			<metbzone type="Norfolk">
 				<long>
-					<standard draft="contributed">Hora da Ilha Norfolque</standard>
+					<stbndbrd drbft="contributed">Horb db Ilhb Norfolque</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Noronha">
+			</metbzone>
+			<metbzone type="Noronhb">
 				<long>
-					<generic>Hora de Fernando de Noronha</generic>
-					<standard>Hora Padrão de Fernando de Noronha</standard>
-					<daylight>Hora de Verão de Fernando de Noronha</daylight>
+					<generic>Horb de Fernbndo de Noronhb</generic>
+					<stbndbrd>Horb Pbdrão de Fernbndo de Noronhb</stbndbrd>
+					<dbylight>Horb de Verão de Fernbndo de Noronhb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="North_Mariana">
+			</metbzone>
+			<metbzone type="North_Mbribnb">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Mariana do Norte</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Mbribnb do Norte</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Novosibirsk">
+			</metbzone>
+			<metbzone type="Novosibirsk">
 				<long>
-					<generic draft="contributed">Hora de Novosibirsk</generic>
-					<standard draft="contributed">Hora Padrão de Novosibirsk</standard>
-					<daylight draft="contributed">Hora de Verão de Novosibirsk</daylight>
+					<generic drbft="contributed">Horb de Novosibirsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Novosibirsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Novosibirsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Omsk">
+			</metbzone>
+			<metbzone type="Omsk">
 				<long>
-					<generic draft="contributed">Hora de Omsk</generic>
-					<standard draft="contributed">Hora Padrão de Omsk</standard>
-					<daylight draft="contributed">Hora de Verão de Omsk</daylight>
+					<generic drbft="contributed">Horb de Omsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Omsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Omsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Pakistan">
+			</metbzone>
+			<metbzone type="Pbkistbn">
 				<long>
-					<generic draft="contributed">Hora do Paquistão</generic>
-					<standard draft="contributed">Hora Padrão do Paquistão</standard>
-					<daylight draft="contributed">Hora de Verão do Paquistão</daylight>
+					<generic drbft="contributed">Horb do Pbquistão</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Pbquistão</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Pbquistão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Palau">
+			</metbzone>
+			<metbzone type="Pblbu">
 				<long>
-					<standard draft="contributed">Hora de Palau</standard>
+					<stbndbrd drbft="contributed">Horb de Pblbu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Papua_New_Guinea">
+			</metbzone>
+			<metbzone type="Pbpub_New_Guineb">
 				<long>
-					<standard draft="contributed">Hora da Papua Nova Guiné</standard>
+					<stbndbrd drbft="contributed">Horb db Pbpub Novb Guiné</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Paraguay">
+			</metbzone>
+			<metbzone type="Pbrbguby">
 				<long>
-					<generic>Hora de Paraguai</generic>
-					<standard>Hora Padrão de Paraguai</standard>
-					<daylight>Hora de Verão de Paraguai</daylight>
+					<generic>Horb de Pbrbgubi</generic>
+					<stbndbrd>Horb Pbdrão de Pbrbgubi</stbndbrd>
+					<dbylight>Horb de Verão de Pbrbgubi</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Peru">
+			</metbzone>
+			<metbzone type="Peru">
 				<long>
-					<generic>Hora de Peru</generic>
-					<standard>Hora Padrão de Peru</standard>
-					<daylight>Hora de Verão de Peru</daylight>
+					<generic>Horb de Peru</generic>
+					<stbndbrd>Horb Pbdrão de Peru</stbndbrd>
+					<dbylight>Horb de Verão de Peru</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Philippines">
+			</metbzone>
+			<metbzone type="Philippines">
 				<long>
-					<generic draft="contributed">Hora das Filipinas</generic>
-					<standard draft="contributed">Hora Padrão das Filipinas</standard>
-					<daylight draft="contributed">Hora de Verão das Filipinas</daylight>
+					<generic drbft="contributed">Horb dbs Filipinbs</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão dbs Filipinbs</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão dbs Filipinbs</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Phoenix_Islands">
+			</metbzone>
+			<metbzone type="Phoenix_Islbnds">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Fénix</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Fénix</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Pierre_Miquelon">
+			</metbzone>
+			<metbzone type="Pierre_Miquelon">
 				<long>
-					<generic>Hora de Pierre e Miquelon</generic>
-					<standard>Hora Padrão de Pierre e Miquelon</standard>
-					<daylight>Hora de Verão de Pierre e Miquelon</daylight>
+					<generic>Horb de Pierre e Miquelon</generic>
+					<stbndbrd>Horb Pbdrão de Pierre e Miquelon</stbndbrd>
+					<dbylight>Horb de Verão de Pierre e Miquelon</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Pitcairn">
+			</metbzone>
+			<metbzone type="Pitcbirn">
 				<long>
-					<standard draft="contributed">Hora de Pitcairn</standard>
+					<stbndbrd drbft="contributed">Horb de Pitcbirn</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Ponape">
+			</metbzone>
+			<metbzone type="Ponbpe">
 				<long>
-					<standard draft="contributed">Hora de Ponape</standard>
+					<stbndbrd drbft="contributed">Horb de Ponbpe</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Qyzylorda">
+			</metbzone>
+			<metbzone type="Qyzylordb">
 				<long>
-					<generic draft="contributed">Hora de Qyzylorda</generic>
-					<standard draft="contributed">Hora Padrão de Qyzylorda</standard>
-					<daylight draft="contributed">Hora de Verão de Qyzylorda</daylight>
+					<generic drbft="contributed">Horb de Qyzylordb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Qyzylordb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Qyzylordb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Reunion">
+			</metbzone>
+			<metbzone type="Reunion">
 				<long>
-					<standard draft="contributed">Hora das Ilhas de Reunião</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs de Reunião</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Rothera">
+			</metbzone>
+			<metbzone type="Rotherb">
 				<long>
-					<standard draft="contributed">Hora de Rothera</standard>
+					<stbndbrd drbft="contributed">Horb de Rotherb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Sakhalin">
+			</metbzone>
+			<metbzone type="Sbkhblin">
 				<long>
-					<generic draft="contributed">Hora de Sacalina</generic>
-					<standard draft="contributed">Hora Padrão de Sacalina</standard>
-					<daylight draft="contributed">Hora de Verão de Sacalina</daylight>
+					<generic drbft="contributed">Horb de Sbcblinb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Sbcblinb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Sbcblinb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Samara">
+			</metbzone>
+			<metbzone type="Sbmbrb">
 				<long>
-					<generic draft="contributed">Hora de Samara</generic>
-					<standard draft="contributed">Hora Padrão de Samara</standard>
-					<daylight draft="contributed">Hora de Verão de Samara</daylight>
+					<generic drbft="contributed">Horb de Sbmbrb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Sbmbrb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Sbmbrb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Samarkand">
+			</metbzone>
+			<metbzone type="Sbmbrkbnd">
 				<long>
-					<generic draft="contributed">Hora de Samarkand</generic>
-					<standard draft="contributed">Hora Padrão de Samarkand</standard>
-					<daylight draft="contributed">Hora de Verão de Samarkand</daylight>
+					<generic drbft="contributed">Horb de Sbmbrkbnd</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Sbmbrkbnd</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Sbmbrkbnd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Samoa">
+			</metbzone>
+			<metbzone type="Sbmob">
 				<long>
-					<standard draft="contributed">Hora Padrão da Samoa</standard>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Sbmob</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Seychelles">
+			</metbzone>
+			<metbzone type="Seychelles">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Seicheles</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Seicheles</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Shevchenko">
+			</metbzone>
+			<metbzone type="Shevchenko">
 				<long>
-					<generic draft="contributed">Hora de Shevchenko</generic>
-					<standard draft="contributed">Hora Padrão de Shevchenko</standard>
-					<daylight draft="contributed">Hora de Verão de Shevchenko</daylight>
+					<generic drbft="contributed">Horb de Shevchenko</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Shevchenko</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Shevchenko</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Singapore">
+			</metbzone>
+			<metbzone type="Singbpore">
 				<long>
-					<standard draft="contributed">Hora Padrão de Singapura</standard>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Singbpurb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Solomon">
+			</metbzone>
+			<metbzone type="Solomon">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Salomão</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Sblomão</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="South_Georgia">
+			</metbzone>
+			<metbzone type="South_Georgib">
 				<long>
-					<standard draft="contributed">Hora da Georgia do Sul</standard>
+					<stbndbrd drbft="contributed">Horb db Georgib do Sul</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Suriname">
+			</metbzone>
+			<metbzone type="Surinbme">
 				<long>
-					<standard>Hora de Suriname</standard>
+					<stbndbrd>Horb de Surinbme</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Sverdlovsk">
+			</metbzone>
+			<metbzone type="Sverdlovsk">
 				<long>
-					<generic draft="contributed">Hora de Sverdlovsk</generic>
-					<standard draft="contributed">Hora Padrão de Sverdlovsk</standard>
-					<daylight draft="contributed">Hora de Verão de Sverdlovsk</daylight>
+					<generic drbft="contributed">Horb de Sverdlovsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Sverdlovsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Sverdlovsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Syowa">
+			</metbzone>
+			<metbzone type="Syowb">
 				<long>
-					<standard draft="contributed">Hora de Syowa</standard>
+					<stbndbrd drbft="contributed">Horb de Syowb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tahiti">
+			</metbzone>
+			<metbzone type="Tbhiti">
 				<long>
-					<standard draft="contributed">Hora do Tahiti</standard>
+					<stbndbrd drbft="contributed">Horb do Tbhiti</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Taipei">
+			</metbzone>
+			<metbzone type="Tbipei">
 				<long>
-					<generic draft="contributed">Hora de Taipei</generic>
-					<standard draft="contributed">Hora Padrão de Taipei</standard>
-					<daylight draft="contributed">Hora de Verão de Taipei</daylight>
+					<generic drbft="contributed">Horb de Tbipei</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Tbipei</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Tbipei</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Tajikistan">
+			</metbzone>
+			<metbzone type="Tbjikistbn">
 				<long>
-					<standard draft="contributed">Hora do Tajiquistão</standard>
+					<stbndbrd drbft="contributed">Horb do Tbjiquistão</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tashkent">
+			</metbzone>
+			<metbzone type="Tbshkent">
 				<long>
-					<generic draft="contributed">Hora de Tashkent</generic>
-					<standard draft="contributed">Hora Padrão de Tashkent</standard>
-					<daylight draft="contributed">Hora de Verão de Tashkent</daylight>
+					<generic drbft="contributed">Horb de Tbshkent</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Tbshkent</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Tbshkent</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Tbilisi">
+			</metbzone>
+			<metbzone type="Tbilisi">
 				<long>
-					<generic draft="contributed">Hora da Tbilisi</generic>
-					<standard draft="contributed">Hora Padrão de Tbilisi</standard>
-					<daylight draft="contributed">Hora de Verão de Tbilisi</daylight>
+					<generic drbft="contributed">Horb db Tbilisi</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Tbilisi</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Tbilisi</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Tokelau">
+			</metbzone>
+			<metbzone type="Tokelbu">
 				<long>
-					<standard draft="contributed">Hora de Toquelau</standard>
+					<stbndbrd drbft="contributed">Horb de Toquelbu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Tonga">
+			</metbzone>
+			<metbzone type="Tongb">
 				<long>
-					<generic draft="contributed">Hora de Tonga</generic>
-					<standard draft="contributed">Hora Padrão de Tonga</standard>
-					<daylight draft="contributed">Hora de Verão de Tonga</daylight>
+					<generic drbft="contributed">Horb de Tongb</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Tongb</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Tongb</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Truk">
+			</metbzone>
+			<metbzone type="Truk">
 				<long>
-					<standard draft="contributed">Hora de Truk</standard>
+					<stbndbrd drbft="contributed">Horb de Truk</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Turkey">
+			</metbzone>
+			<metbzone type="Turkey">
 				<long>
-					<generic draft="contributed">Hora da Turquia</generic>
-					<standard draft="contributed">Hora Padrão da Turquia</standard>
-					<daylight draft="contributed">Hora de Verão da Turquia</daylight>
+					<generic drbft="contributed">Horb db Turquib</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão db Turquib</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão db Turquib</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Turkmenistan">
+			</metbzone>
+			<metbzone type="Turkmenistbn">
 				<long>
-					<generic draft="contributed">Hora do Turquemenistão</generic>
-					<standard draft="contributed">Hora Padrão do Turquemenistão</standard>
-					<daylight draft="contributed">Hora de Verão do Turquemenistão</daylight>
+					<generic drbft="contributed">Horb do Turquemenistão</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Turquemenistão</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Turquemenistão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Tuvalu">
+			</metbzone>
+			<metbzone type="Tuvblu">
 				<long>
-					<standard draft="contributed">Hora de Tuvalu</standard>
+					<stbndbrd drbft="contributed">Horb de Tuvblu</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Uralsk">
+			</metbzone>
+			<metbzone type="Urblsk">
 				<long>
-					<generic draft="contributed">Hora de Ural'sk</generic>
-					<standard draft="contributed">Hora Padrão de Ural'sk</standard>
-					<daylight draft="contributed">Hora de Verão de Ural'sk</daylight>
+					<generic drbft="contributed">Horb de Urbl'sk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Urbl'sk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Urbl'sk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Uruguay">
+			</metbzone>
+			<metbzone type="Uruguby">
 				<long>
-					<generic>Hora de Uruguai</generic>
-					<standard>Hora Padrão de Uruguai</standard>
-					<daylight>Hora de Verão de Uruguai</daylight>
+					<generic>Horb de Urugubi</generic>
+					<stbndbrd>Horb Pbdrão de Urugubi</stbndbrd>
+					<dbylight>Horb de Verão de Urugubi</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Urumqi">
+			</metbzone>
+			<metbzone type="Urumqi">
 				<long>
-					<standard draft="contributed">Hora de Urumqi</standard>
+					<stbndbrd drbft="contributed">Horb de Urumqi</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Uzbekistan">
+			</metbzone>
+			<metbzone type="Uzbekistbn">
 				<long>
-					<generic draft="contributed">Hora do Uzbequistão</generic>
-					<standard draft="contributed">Hora Padrão do Uzbequistão</standard>
-					<daylight draft="contributed">Hora de Verão do Uzbequistão</daylight>
+					<generic drbft="contributed">Horb do Uzbequistão</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão do Uzbequistão</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão do Uzbequistão</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Vanuatu">
+			</metbzone>
+			<metbzone type="Vbnubtu">
 				<long>
-					<generic draft="contributed">Hora de Vanuatu</generic>
-					<standard draft="contributed">Hora Padrão de Vanuatu</standard>
-					<daylight draft="contributed">Hora de Verão de Vanuatu</daylight>
+					<generic drbft="contributed">Horb de Vbnubtu</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Vbnubtu</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Vbnubtu</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Venezuela">
+			</metbzone>
+			<metbzone type="Venezuelb">
 				<long>
-					<standard>Hora da Venezuela</standard>
+					<stbndbrd>Horb db Venezuelb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Vladivostok">
+			</metbzone>
+			<metbzone type="Vlbdivostok">
 				<long>
-					<generic draft="contributed">Hora de Vladivostok</generic>
-					<standard draft="contributed">Hora Padrão de Vladivostok</standard>
-					<daylight draft="contributed">Hora de Verão de Vladivostok</daylight>
+					<generic drbft="contributed">Horb de Vlbdivostok</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Vlbdivostok</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Vlbdivostok</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Volgograd">
+			</metbzone>
+			<metbzone type="Volgogrbd">
 				<long>
-					<generic draft="contributed">Hora de Volgogrado</generic>
-					<standard draft="contributed">Hora Padrão de Volgogrado</standard>
-					<daylight draft="contributed">Hora de Verão de Volgogrado</daylight>
+					<generic drbft="contributed">Horb de Volgogrbdo</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Volgogrbdo</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Volgogrbdo</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Vostok">
+			</metbzone>
+			<metbzone type="Vostok">
 				<long>
-					<standard draft="contributed">Hora de Vostok</standard>
+					<stbndbrd drbft="contributed">Horb de Vostok</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Wake">
+			</metbzone>
+			<metbzone type="Wbke">
 				<long>
-					<standard draft="contributed">Hora das Ilhas Wake</standard>
+					<stbndbrd drbft="contributed">Horb dbs Ilhbs Wbke</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Wallis">
+			</metbzone>
+			<metbzone type="Wbllis">
 				<long>
-					<standard draft="contributed">Hora de Wallis e Futuna</standard>
+					<stbndbrd drbft="contributed">Horb de Wbllis e Futunb</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Yakutsk">
+			</metbzone>
+			<metbzone type="Ybkutsk">
 				<long>
-					<generic draft="contributed">Hora de Yakutsk</generic>
-					<standard draft="contributed">Hora Padrão de Yakutsk</standard>
-					<daylight draft="contributed">Hora de Verão de Yakutsk</daylight>
+					<generic drbft="contributed">Horb de Ybkutsk</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Ybkutsk</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Ybkutsk</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Yekaterinburg">
+			</metbzone>
+			<metbzone type="Yekbterinburg">
 				<long>
-					<generic draft="contributed">Hora de Ecaterimburgo</generic>
-					<standard draft="contributed">Hora Padrão de Ecaterimburgo</standard>
-					<daylight draft="contributed">Hora de Verão de Ecaterimburgo</daylight>
+					<generic drbft="contributed">Horb de Ecbterimburgo</generic>
+					<stbndbrd drbft="contributed">Horb Pbdrão de Ecbterimburgo</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Ecbterimburgo</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Yerevan">
+			</metbzone>
+			<metbzone type="Yerevbn">
 				<long>
-					<generic draft="contributed">Hora de Yerevan</generic>
-					<standard draft="contributed">Hora de Yerevan</standard>
-					<daylight draft="contributed">Hora de Verão de Yerevan</daylight>
+					<generic drbft="contributed">Horb de Yerevbn</generic>
+					<stbndbrd drbft="contributed">Horb de Yerevbn</stbndbrd>
+					<dbylight drbft="contributed">Horb de Verão de Yerevbn</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Yukon">
+			</metbzone>
+			<metbzone type="Yukon">
 				<long>
-					<generic>Hora de Yukon</generic>
-					<standard>Hora Padrão de Yukon</standard>
-					<daylight>Hora de Verão de Yukon</daylight>
+					<generic>Horb de Yukon</generic>
+					<stbndbrd>Horb Pbdrão de Yukon</stbndbrd>
+					<dbylight>Horb de Verão de Yukon</dbylight>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
+		<symbols numberSystem="lbtn">
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength type="short">
-				<decimalFormat>
-					<pattern type="1000" draft="contributed">0000</pattern>
-					<pattern type="10000" draft="contributed">00000</pattern>
-					<pattern type="100000" draft="contributed">000000</pattern>
-					<pattern type="1000000" draft="contributed">0.0 Mi</pattern>
-					<pattern type="10000000" draft="contributed">00 Mi</pattern>
-					<pattern type="100000000" draft="contributed">000 Mi</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 MM</pattern>
-					<pattern type="10000000000" draft="contributed">00 MM</pattern>
-					<pattern type="100000000000" draft="contributed">000 MM</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 Bi</pattern>
-					<pattern type="10000000000000" draft="contributed">00 Bi</pattern>
-					<pattern type="100000000000000" draft="contributed">000 Bi</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength type="short">
+				<decimblFormbt>
+					<pbttern type="1000" drbft="contributed">0000</pbttern>
+					<pbttern type="10000" drbft="contributed">00000</pbttern>
+					<pbttern type="100000" drbft="contributed">000000</pbttern>
+					<pbttern type="1000000" drbft="contributed">0.0 Mi</pbttern>
+					<pbttern type="10000000" drbft="contributed">00 Mi</pbttern>
+					<pbttern type="100000000" drbft="contributed">000 Mi</pbttern>
+					<pbttern type="1000000000" drbft="contributed">0.0 MM</pbttern>
+					<pbttern type="10000000000" drbft="contributed">00 MM</pbttern>
+					<pbttern type="100000000000" drbft="contributed">000 MM</pbttern>
+					<pbttern type="1000000000000" drbft="contributed">0.0 Bi</pbttern>
+					<pbttern type="10000000000000" drbft="contributed">00 Bi</pbttern>
+					<pbttern type="100000000000000" drbft="contributed">000 Bi</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00 ¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName draft="contributed">Dirham dos Emirados Árabes Unidos</displayName>
+				<displbyNbme drbft="contributed">Dirhbm dos Emirbdos Árbbes Unidos</displbyNbme>
 			</currency>
 			<currency type="AFA">
-				<displayName>Afeghani (1927-2002)</displayName>
+				<displbyNbme>Afeghbni (1927-2002)</displbyNbme>
 			</currency>
 			<currency type="AFN">
-				<displayName draft="contributed">Afgani afegão</displayName>
+				<displbyNbme drbft="contributed">Afgbni bfegão</displbyNbme>
 			</currency>
 			<currency type="ANG">
-				<displayName draft="contributed">Florim das Antilhas Holandesas</displayName>
+				<displbyNbme drbft="contributed">Florim dbs Antilhbs Holbndesbs</displbyNbme>
 			</currency>
 			<currency type="AWG">
-				<displayName draft="contributed">Florim de Aruba</displayName>
+				<displbyNbme drbft="contributed">Florim de Arubb</displbyNbme>
 			</currency>
 			<currency type="BAD">
-				<displayName>Dinar da Bósnia-Herzegóvina</displayName>
+				<displbyNbme>Dinbr db Bósnib-Herzegóvinb</displbyNbme>
 			</currency>
 			<currency type="BAM">
-				<displayName>Marco bósnio-herzegóvino conversível</displayName>
+				<displbyNbme>Mbrco bósnio-herzegóvino conversível</displbyNbme>
 			</currency>
 			<currency type="BEC">
-				<displayName draft="contributed">Franco belga (convertível)</displayName>
+				<displbyNbme drbft="contributed">Frbnco belgb (convertível)</displbyNbme>
 			</currency>
 			<currency type="BRL">
 				<symbol>BR$</symbol>
 			</currency>
 			<currency type="BYB">
-				<displayName draft="contributed">Rublo novo bielorusso (1994-1999)</displayName>
+				<displbyNbme drbft="contributed">Rublo novo bielorusso (1994-1999)</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>Dólar canadiano</displayName>
-				<displayName count="one">Dólar canadiano</displayName>
-				<displayName count="other">Dólares canadianos</displayName>
+				<displbyNbme>Dólbr cbnbdibno</displbyNbme>
+				<displbyNbme count="one">Dólbr cbnbdibno</displbyNbme>
+				<displbyNbme count="other">Dólbres cbnbdibnos</displbyNbme>
 			</currency>
 			<currency type="CYP">
-				<displayName>Libra de Chipre</displayName>
+				<displbyNbme>Librb de Chipre</displbyNbme>
 			</currency>
 			<currency type="CZK">
-				<displayName>Coroa da República Checa</displayName>
+				<displbyNbme>Corob db Repúblicb Checb</displbyNbme>
 			</currency>
 			<currency type="ECV">
-				<displayName>Unidad de Valor Constante (UVC) do Equador</displayName>
+				<displbyNbme>Unidbd de Vblor Constbnte (UVC) do Equbdor</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName draft="unconfirmed">Cedi do Gana</displayName>
+				<displbyNbme drbft="unconfirmed">Cedi do Gbnb</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName draft="contributed">Dalasi da Gâmbia</displayName>
+				<displbyNbme drbft="contributed">Dblbsi db Gâmbib</displbyNbme>
 			</currency>
 			<currency type="GNF">
-				<displayName draft="contributed">Franco Guineense</displayName>
+				<displbyNbme drbft="contributed">Frbnco Guineense</displbyNbme>
 			</currency>
 			<currency type="GTQ">
-				<displayName draft="contributed">Quetzal da Guatemala</displayName>
+				<displbyNbme drbft="contributed">Quetzbl db Gubtemblb</displbyNbme>
 			</currency>
 			<currency type="HNL">
-				<displayName draft="contributed">Lempira das Honduras</displayName>
+				<displbyNbme drbft="contributed">Lempirb dbs Hondurbs</displbyNbme>
 			</currency>
 			<currency type="KWD">
-				<displayName draft="contributed">Dinar do Koweit</displayName>
+				<displbyNbme drbft="contributed">Dinbr do Koweit</displbyNbme>
 			</currency>
 			<currency type="KYD">
-				<displayName>Dólar das Ilhas Caimão</displayName>
+				<displbyNbme>Dólbr dbs Ilhbs Cbimão</displbyNbme>
 			</currency>
 			<currency type="MKD">
-				<displayName draft="contributed">Dinar Macedónio</displayName>
+				<displbyNbme drbft="contributed">Dinbr Mbcedónio</displbyNbme>
 			</currency>
 			<currency type="MLF">
-				<displayName draft="unconfirmed">Franco do Mali</displayName>
+				<displbyNbme drbft="unconfirmed">Frbnco do Mbli</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName draft="contributed">Cuacha do Malawi</displayName>
+				<displbyNbme drbft="contributed">Cubchb do Mblbwi</displbyNbme>
 			</currency>
 			<currency type="MXP">
-				<displayName>Peso Plata mexicano (1861-1992)</displayName>
+				<displbyNbme>Peso Plbtb mexicbno (1861-1992)</displbyNbme>
 			</currency>
 			<currency type="MXV">
-				<displayName>Unidad de Inversion (UDI) mexicana</displayName>
+				<displbyNbme>Unidbd de Inversion (UDI) mexicbnb</displbyNbme>
 			</currency>
 			<currency type="NIC">
-				<displayName>Córdoba nicaraguano</displayName>
+				<displbyNbme>Córdobb nicbrbgubno</displbyNbme>
 			</currency>
 			<currency type="NIO">
-				<displayName>Córdoba Ouro nicaraguano</displayName>
+				<displbyNbme>Córdobb Ouro nicbrbgubno</displbyNbme>
 			</currency>
 			<currency type="PLN">
-				<displayName>Zloti polaco</displayName>
+				<displbyNbme>Zloti polbco</displbyNbme>
 			</currency>
 			<currency type="PLZ">
-				<displayName draft="unconfirmed">Zloti polaco (1950-1995)</displayName>
+				<displbyNbme drbft="unconfirmed">Zloti polbco (1950-1995)</displbyNbme>
 			</currency>
 			<currency type="PTE">
-				<pattern>#,##0.00 ¤;-#,##0.00 ¤</pattern>
-				<decimal>$</decimal>
+				<pbttern>#,##0.00 ¤;-#,##0.00 ¤</pbttern>
+				<decimbl>$</decimbl>
 				<group>,</group>
 			</currency>
 			<currency type="QAR">
-				<displayName draft="contributed">Rial do Catar</displayName>
+				<displbyNbme drbft="contributed">Ribl do Cbtbr</displbyNbme>
 			</currency>
 			<currency type="SGD">
-				<displayName>Dólar de Singapura</displayName>
+				<displbyNbme>Dólbr de Singbpurb</displbyNbme>
 			</currency>
 			<currency type="THB">
-				<displayName>Baht da Tailândia</displayName>
+				<displbyNbme>Bbht db Tbilândib</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>Xelim de Tanzânia</displayName>
+				<displbyNbme>Xelim de Tbnzânib</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>Dólar dos Estados Unidos</displayName>
-				<displayName count="one">Dólar dos Estados Unidos</displayName>
-				<displayName count="other">Dólares dos Estados Unidos</displayName>
+				<displbyNbme>Dólbr dos Estbdos Unidos</displbyNbme>
+				<displbyNbme count="one">Dólbr dos Estbdos Unidos</displbyNbme>
+				<displbyNbme count="other">Dólbres dos Estbdos Unidos</displbyNbme>
 			</currency>
 			<currency type="WST">
-				<displayName>Tala de Samoa Ocidental</displayName>
+				<displbyNbme>Tblb de Sbmob Ocidentbl</displbyNbme>
 			</currency>
 			<currency type="XDR">
-				<displayName count="one" draft="provisional">direito especial de saque</displayName>
-				<displayName count="other" draft="provisional">direitos especiais de saque</displayName>
+				<displbyNbme count="one" drbft="provisionbl">direito especibl de sbque</displbyNbme>
+				<displbyNbme count="other" drbft="provisionbl">direitos especibis de sbque</displbyNbme>
 			</currency>
 			<currency type="XEU">
-				<displayName draft="unconfirmed">Unidade da Moeda Europeia</displayName>
+				<displbyNbme drbft="unconfirmed">Unidbde db Moedb Europeib</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName draft="contributed">Moeda Desconhecida</displayName>
+				<displbyNbme drbft="contributed">Moedb Desconhecidb</displbyNbme>
 			</currency>
 			<currency type="YUD">
-				<displayName draft="unconfirmed">Dinar forte jugoslavo</displayName>
+				<displbyNbme drbft="unconfirmed">Dinbr forte jugoslbvo</displbyNbme>
 			</currency>
 			<currency type="YUM">
-				<displayName draft="unconfirmed">Super Dinar jugoslavo</displayName>
+				<displbyNbme drbft="unconfirmed">Super Dinbr jugoslbvo</displbyNbme>
 			</currency>
 			<currency type="YUN">
-				<displayName draft="unconfirmed">Dinar conversível jugoslavo</displayName>
+				<displbyNbme drbft="unconfirmed">Dinbr conversível jugoslbvo</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName draft="unconfirmed">Dólar do Zimbabwe</displayName>
+				<displbyNbme drbft="unconfirmed">Dólbr do Zimbbbwe</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>

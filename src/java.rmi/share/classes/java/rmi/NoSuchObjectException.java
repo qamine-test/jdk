@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi;
+pbckbge jbvb.rmi;
 
 /**
- * A <code>NoSuchObjectException</code> is thrown if an attempt is made to
- * invoke a method on an object that no longer exists in the remote virtual
- * machine.  If a <code>NoSuchObjectException</code> occurs attempting to
- * invoke a method on a remote object, the call may be retransmitted and still
- * preserve RMI's "at most once" call semantics.
+ * A <code>NoSuchObjectException</code> is thrown if bn bttempt is mbde to
+ * invoke b method on bn object thbt no longer exists in the remote virtubl
+ * mbchine.  If b <code>NoSuchObjectException</code> occurs bttempting to
+ * invoke b method on b remote object, the cbll mby be retrbnsmitted bnd still
+ * preserve RMI's "bt most once" cbll sembntics.
  *
- * A <code>NoSuchObjectException</code> is also thrown by the method
- * <code>java.rmi.server.RemoteObject.toStub</code> and by the
+ * A <code>NoSuchObjectException</code> is blso thrown by the method
+ * <code>jbvb.rmi.server.RemoteObject.toStub</code> bnd by the
  * <code>unexportObject</code> methods of
- * <code>java.rmi.server.UnicastRemoteObject</code> and
- * <code>java.rmi.activation.Activatable</code> and
+ * <code>jbvb.rmi.server.UnicbstRemoteObject</code> bnd
+ * <code>jbvb.rmi.bctivbtion.Activbtbble</code> bnd
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.1
- * @see     java.rmi.server.RemoteObject#toStub(Remote)
- * @see     java.rmi.server.UnicastRemoteObject#unexportObject(Remote,boolean)
- * @see     java.rmi.activation.Activatable#unexportObject(Remote,boolean)
+ * @see     jbvb.rmi.server.RemoteObject#toStub(Remote)
+ * @see     jbvb.rmi.server.UnicbstRemoteObject#unexportObject(Remote,boolebn)
+ * @see     jbvb.rmi.bctivbtion.Activbtbble#unexportObject(Remote,boolebn)
  */
-public class NoSuchObjectException extends RemoteException {
+public clbss NoSuchObjectException extends RemoteException {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 6619395951570472985L;
+    /* indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = 6619395951570472985L;
 
     /**
-     * Constructs a <code>NoSuchObjectException</code> with the specified
-     * detail message.
+     * Constructs b <code>NoSuchObjectException</code> with the specified
+     * detbil messbge.
      *
-     * @param s the detail message
+     * @pbrbm s the detbil messbge
      * @since   1.1
      */
     public NoSuchObjectException(String s) {

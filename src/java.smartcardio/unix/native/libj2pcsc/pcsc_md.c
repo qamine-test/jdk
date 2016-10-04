@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <bssert.h>
 
 #include <dlfcn.h>
 
-#include <winscard.h>
+#include <winscbrd.h>
 
-#include "sun_security_smartcardio_PlatformPCSC.h"
+#include "sun_security_smbrtcbrdio_PlbtformPCSC.h"
 
 #include "pcsc_md.h"
 
 void *hModule;
-FPTR_SCardEstablishContext scardEstablishContext;
-FPTR_SCardConnect scardConnect;
-FPTR_SCardDisconnect scardDisconnect;
-FPTR_SCardStatus scardStatus;
-FPTR_SCardGetStatusChange scardGetStatusChange;
-FPTR_SCardTransmit scardTransmit;
-FPTR_SCardListReaders scardListReaders;
-FPTR_SCardBeginTransaction scardBeginTransaction;
-FPTR_SCardEndTransaction scardEndTransaction;
-FPTR_SCardControl scardControl;
+FPTR_SCbrdEstbblishContext scbrdEstbblishContext;
+FPTR_SCbrdConnect scbrdConnect;
+FPTR_SCbrdDisconnect scbrdDisconnect;
+FPTR_SCbrdStbtus scbrdStbtus;
+FPTR_SCbrdGetStbtusChbnge scbrdGetStbtusChbnge;
+FPTR_SCbrdTrbnsmit scbrdTrbnsmit;
+FPTR_SCbrdListRebders scbrdListRebders;
+FPTR_SCbrdBeginTrbnsbction scbrdBeginTrbnsbction;
+FPTR_SCbrdEndTrbnsbction scbrdEndTrbnsbction;
+FPTR_SCbrdControl scbrdControl;
 
 /*
- * Throws a Java Exception by name
+ * Throws b Jbvb Exception by nbme
  */
-void throwByName(JNIEnv *env, const char *name, const char *msg)
+void throwByNbme(JNIEnv *env, const chbr *nbme, const chbr *msg)
 {
-    jclass cls = (*env)->FindClass(env, name);
+    jclbss cls = (*env)->FindClbss(env, nbme);
 
-    if (cls != 0) /* Otherwise an exception has already been thrown */
+    if (cls != 0) /* Otherwise bn exception hbs blrebdy been thrown */
         (*env)->ThrowNew(env, cls, msg);
 }
 
 /*
- * Throws java.lang.NullPointerException
+ * Throws jbvb.lbng.NullPointerException
  */
-void throwNullPointerException(JNIEnv *env, const char *msg)
+void throwNullPointerException(JNIEnv *env, const chbr *msg)
 {
-    throwByName(env, "java/lang/NullPointerException", msg);
+    throwByNbme(env, "jbvb/lbng/NullPointerException", msg);
 }
 
 /*
- * Throws java.io.IOException
+ * Throws jbvb.io.IOException
  */
-void throwIOException(JNIEnv *env, const char *msg)
+void throwIOException(JNIEnv *env, const chbr *msg)
 {
-    throwByName(env, "java/io/IOException", msg);
+    throwByNbme(env, "jbvb/io/IOException", msg);
 }
 
-void *findFunction(JNIEnv *env, void *hModule, char *functionName) {
-    void *fAddress = dlsym(hModule, functionName);
+void *findFunction(JNIEnv *env, void *hModule, chbr *functionNbme) {
+    void *fAddress = dlsym(hModule, functionNbme);
     if (fAddress == NULL) {
-        char errorMessage[256];
-        snprintf(errorMessage, sizeof(errorMessage), "Symbol not found: %s", functionName);
-        throwNullPointerException(env, errorMessage);
+        chbr errorMessbge[256];
+        snprintf(errorMessbge, sizeof(errorMessbge), "Symbol not found: %s", functionNbme);
+        throwNullPointerException(env, errorMessbge);
         return NULL;
     }
     return fAddress;
 }
 
-JNIEXPORT void JNICALL Java_sun_security_smartcardio_PlatformPCSC_initialize
-        (JNIEnv *env, jclass thisClass, jstring jLibName) {
-    const char *libName = (*env)->GetStringUTFChars(env, jLibName, NULL);
-    if (libName == NULL) {
-        throwNullPointerException(env, "PCSC library name is null");
+JNIEXPORT void JNICALL Jbvb_sun_security_smbrtcbrdio_PlbtformPCSC_initiblize
+        (JNIEnv *env, jclbss thisClbss, jstring jLibNbme) {
+    const chbr *libNbme = (*env)->GetStringUTFChbrs(env, jLibNbme, NULL);
+    if (libNbme == NULL) {
+        throwNullPointerException(env, "PCSC librbry nbme is null");
         return;
     }
-    hModule = dlopen(libName, RTLD_LAZY);
-    (*env)->ReleaseStringUTFChars(env, jLibName, libName);
+    hModule = dlopen(libNbme, RTLD_LAZY);
+    (*env)->RelebseStringUTFChbrs(env, jLibNbme, libNbme);
 
     if (hModule == NULL) {
         throwIOException(env, dlerror());
         return;
     }
-    scardEstablishContext = (FPTR_SCardEstablishContext)findFunction(env, hModule, "SCardEstablishContext");
+    scbrdEstbblishContext = (FPTR_SCbrdEstbblishContext)findFunction(env, hModule, "SCbrdEstbblishContext");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardConnect          = (FPTR_SCardConnect)         findFunction(env, hModule, "SCardConnect");
+    scbrdConnect          = (FPTR_SCbrdConnect)         findFunction(env, hModule, "SCbrdConnect");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardDisconnect       = (FPTR_SCardDisconnect)      findFunction(env, hModule, "SCardDisconnect");
+    scbrdDisconnect       = (FPTR_SCbrdDisconnect)      findFunction(env, hModule, "SCbrdDisconnect");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardStatus           = (FPTR_SCardStatus)          findFunction(env, hModule, "SCardStatus");
+    scbrdStbtus           = (FPTR_SCbrdStbtus)          findFunction(env, hModule, "SCbrdStbtus");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardGetStatusChange  = (FPTR_SCardGetStatusChange) findFunction(env, hModule, "SCardGetStatusChange");
+    scbrdGetStbtusChbnge  = (FPTR_SCbrdGetStbtusChbnge) findFunction(env, hModule, "SCbrdGetStbtusChbnge");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardTransmit         = (FPTR_SCardTransmit)        findFunction(env, hModule, "SCardTransmit");
+    scbrdTrbnsmit         = (FPTR_SCbrdTrbnsmit)        findFunction(env, hModule, "SCbrdTrbnsmit");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardListReaders      = (FPTR_SCardListReaders)     findFunction(env, hModule, "SCardListReaders");
+    scbrdListRebders      = (FPTR_SCbrdListRebders)     findFunction(env, hModule, "SCbrdListRebders");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardBeginTransaction = (FPTR_SCardBeginTransaction)findFunction(env, hModule, "SCardBeginTransaction");
+    scbrdBeginTrbnsbction = (FPTR_SCbrdBeginTrbnsbction)findFunction(env, hModule, "SCbrdBeginTrbnsbction");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
-    scardEndTransaction   = (FPTR_SCardEndTransaction)  findFunction(env, hModule, "SCardEndTransaction");
+    scbrdEndTrbnsbction   = (FPTR_SCbrdEndTrbnsbction)  findFunction(env, hModule, "SCbrdEndTrbnsbction");
     if ((*env)->ExceptionCheck(env)) {
          return;
     }
 #ifndef __APPLE__
-    scardControl          = (FPTR_SCardControl)         findFunction(env, hModule, "SCardControl");
+    scbrdControl          = (FPTR_SCbrdControl)         findFunction(env, hModule, "SCbrdControl");
 #else
-    scardControl          = (FPTR_SCardControl)         findFunction(env, hModule, "SCardControl132");
+    scbrdControl          = (FPTR_SCbrdControl)         findFunction(env, hModule, "SCbrdControl132");
 #endif // __APPLE__
 }

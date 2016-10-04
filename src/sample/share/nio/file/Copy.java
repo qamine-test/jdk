@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,180 +30,180 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.file.*;
-import static java.nio.file.StandardCopyOption.*;
-import java.nio.file.attribute.*;
-import static java.nio.file.FileVisitResult.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.file.*;
+import stbtic jbvb.nio.file.StbndbrdCopyOption.*;
+import jbvb.nio.file.bttribute.*;
+import stbtic jbvb.nio.file.FileVisitResult.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
 /**
- * Sample code that copies files in a similar manner to the cp(1) program.
+ * Sbmple code thbt copies files in b similbr mbnner to the cp(1) progrbm.
  */
 
-public class Copy {
+public clbss Copy {
 
     /**
-     * Returns {@code true} if okay to overwrite a  file ("cp -i")
+     * Returns {@code true} if okby to overwrite b  file ("cp -i")
      */
-    static boolean okayToOverwrite(Path file) {
-        String answer = System.console().readLine("overwrite %s (yes/no)? ", file);
-        return (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes"));
+    stbtic boolebn okbyToOverwrite(Pbth file) {
+        String bnswer = System.console().rebdLine("overwrite %s (yes/no)? ", file);
+        return (bnswer.equblsIgnoreCbse("y") || bnswer.equblsIgnoreCbse("yes"));
     }
 
     /**
-     * Copy source file to target location. If {@code prompt} is true then
-     * prompt user to overwrite target if it exists. The {@code preserve}
-     * parameter determines if file attributes should be copied/preserved.
+     * Copy source file to tbrget locbtion. If {@code prompt} is true then
+     * prompt user to overwrite tbrget if it exists. The {@code preserve}
+     * pbrbmeter determines if file bttributes should be copied/preserved.
      */
-    static void copyFile(Path source, Path target, boolean prompt, boolean preserve) {
+    stbtic void copyFile(Pbth source, Pbth tbrget, boolebn prompt, boolebn preserve) {
         CopyOption[] options = (preserve) ?
             new CopyOption[] { COPY_ATTRIBUTES, REPLACE_EXISTING } :
             new CopyOption[] { REPLACE_EXISTING };
-        if (!prompt || Files.notExists(target) || okayToOverwrite(target)) {
+        if (!prompt || Files.notExists(tbrget) || okbyToOverwrite(tbrget)) {
             try {
-                Files.copy(source, target, options);
-            } catch (IOException x) {
-                System.err.format("Unable to copy: %s: %s%n", source, x);
+                Files.copy(source, tbrget, options);
+            } cbtch (IOException x) {
+                System.err.formbt("Unbble to copy: %s: %s%n", source, x);
             }
         }
     }
 
     /**
-     * A {@code FileVisitor} that copies a file-tree ("cp -r")
+     * A {@code FileVisitor} thbt copies b file-tree ("cp -r")
      */
-    static class TreeCopier implements FileVisitor<Path> {
-        private final Path source;
-        private final Path target;
-        private final boolean prompt;
-        private final boolean preserve;
+    stbtic clbss TreeCopier implements FileVisitor<Pbth> {
+        privbte finbl Pbth source;
+        privbte finbl Pbth tbrget;
+        privbte finbl boolebn prompt;
+        privbte finbl boolebn preserve;
 
-        TreeCopier(Path source, Path target, boolean prompt, boolean preserve) {
+        TreeCopier(Pbth source, Pbth tbrget, boolebn prompt, boolebn preserve) {
             this.source = source;
-            this.target = target;
+            this.tbrget = tbrget;
             this.prompt = prompt;
             this.preserve = preserve;
         }
 
         @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-            // before visiting entries in a directory we copy the directory
-            // (okay if directory already exists).
+        public FileVisitResult preVisitDirectory(Pbth dir, BbsicFileAttributes bttrs) {
+            // before visiting entries in b directory we copy the directory
+            // (okby if directory blrebdy exists).
             CopyOption[] options = (preserve) ?
                 new CopyOption[] { COPY_ATTRIBUTES } : new CopyOption[0];
 
-            Path newdir = target.resolve(source.relativize(dir));
+            Pbth newdir = tbrget.resolve(source.relbtivize(dir));
             try {
                 Files.copy(dir, newdir, options);
-            } catch (FileAlreadyExistsException x) {
+            } cbtch (FileAlrebdyExistsException x) {
                 // ignore
-            } catch (IOException x) {
-                System.err.format("Unable to create: %s: %s%n", newdir, x);
+            } cbtch (IOException x) {
+                System.err.formbt("Unbble to crebte: %s: %s%n", newdir, x);
                 return SKIP_SUBTREE;
             }
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            copyFile(file, target.resolve(source.relativize(file)),
+        public FileVisitResult visitFile(Pbth file, BbsicFileAttributes bttrs) {
+            copyFile(file, tbrget.resolve(source.relbtivize(file)),
                      prompt, preserve);
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-            // fix up modification time of directory when done
+        public FileVisitResult postVisitDirectory(Pbth dir, IOException exc) {
+            // fix up modificbtion time of directory when done
             if (exc == null && preserve) {
-                Path newdir = target.resolve(source.relativize(dir));
+                Pbth newdir = tbrget.resolve(source.relbtivize(dir));
                 try {
-                    FileTime time = Files.getLastModifiedTime(dir);
-                    Files.setLastModifiedTime(newdir, time);
-                } catch (IOException x) {
-                    System.err.format("Unable to copy all attributes to: %s: %s%n", newdir, x);
+                    FileTime time = Files.getLbstModifiedTime(dir);
+                    Files.setLbstModifiedTime(newdir, time);
+                } cbtch (IOException x) {
+                    System.err.formbt("Unbble to copy bll bttributes to: %s: %s%n", newdir, x);
                 }
             }
             return CONTINUE;
         }
 
         @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) {
-            if (exc instanceof FileSystemLoopException) {
+        public FileVisitResult visitFileFbiled(Pbth file, IOException exc) {
+            if (exc instbnceof FileSystemLoopException) {
                 System.err.println("cycle detected: " + file);
             } else {
-                System.err.format("Unable to copy: %s: %s%n", file, exc);
+                System.err.formbt("Unbble to copy: %s: %s%n", file, exc);
             }
             return CONTINUE;
         }
     }
 
-    static void usage() {
-        System.err.println("java Copy [-ip] source... target");
-        System.err.println("java Copy -r [-ip] source-dir... target");
+    stbtic void usbge() {
+        System.err.println("jbvb Copy [-ip] source... tbrget");
+        System.err.println("jbvb Copy -r [-ip] source-dir... tbrget");
         System.exit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        boolean recursive = false;
-        boolean prompt = false;
-        boolean preserve = false;
+    public stbtic void mbin(String[] brgs) throws IOException {
+        boolebn recursive = fblse;
+        boolebn prompt = fblse;
+        boolebn preserve = fblse;
 
         // process options
-        int argi = 0;
-        while (argi < args.length) {
-            String arg = args[argi];
-            if (!arg.startsWith("-"))
-                break;
-            if (arg.length() < 2)
-                usage();
-            for (int i=1; i<arg.length(); i++) {
-                char c = arg.charAt(i);
+        int brgi = 0;
+        while (brgi < brgs.length) {
+            String brg = brgs[brgi];
+            if (!brg.stbrtsWith("-"))
+                brebk;
+            if (brg.length() < 2)
+                usbge();
+            for (int i=1; i<brg.length(); i++) {
+                chbr c = brg.chbrAt(i);
                 switch (c) {
-                    case 'r' : recursive = true; break;
-                    case 'i' : prompt = true; break;
-                    case 'p' : preserve = true; break;
-                    default : usage();
+                    cbse 'r' : recursive = true; brebk;
+                    cbse 'i' : prompt = true; brebk;
+                    cbse 'p' : preserve = true; brebk;
+                    defbult : usbge();
                 }
             }
-            argi++;
+            brgi++;
         }
 
-        // remaining arguments are the source files(s) and the target location
-        int remaining = args.length - argi;
-        if (remaining < 2)
-            usage();
-        Path[] source = new Path[remaining-1];
+        // rembining brguments bre the source files(s) bnd the tbrget locbtion
+        int rembining = brgs.length - brgi;
+        if (rembining < 2)
+            usbge();
+        Pbth[] source = new Pbth[rembining-1];
         int i=0;
-        while (remaining > 1) {
-            source[i++] = Paths.get(args[argi++]);
-            remaining--;
+        while (rembining > 1) {
+            source[i++] = Pbths.get(brgs[brgi++]);
+            rembining--;
         }
-        Path target = Paths.get(args[argi]);
+        Pbth tbrget = Pbths.get(brgs[brgi]);
 
-        // check if target is a directory
-        boolean isDir = Files.isDirectory(target);
+        // check if tbrget is b directory
+        boolebn isDir = Files.isDirectory(tbrget);
 
-        // copy each source file/directory to target
+        // copy ebch source file/directory to tbrget
         for (i=0; i<source.length; i++) {
-            Path dest = (isDir) ? target.resolve(source[i].getFileName()) : target;
+            Pbth dest = (isDir) ? tbrget.resolve(source[i].getFileNbme()) : tbrget;
 
             if (recursive) {
                 // follow links when copying files
                 EnumSet<FileVisitOption> opts = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
                 TreeCopier tc = new TreeCopier(source[i], dest, prompt, preserve);
-                Files.walkFileTree(source[i], opts, Integer.MAX_VALUE, tc);
+                Files.wblkFileTree(source[i], opts, Integer.MAX_VALUE, tc);
             } else {
-                // not recursive so source must not be a directory
+                // not recursive so source must not be b directory
                 if (Files.isDirectory(source[i])) {
-                    System.err.format("%s: is a directory%n", source[i]);
+                    System.err.formbt("%s: is b directory%n", source[i]);
                     continue;
                 }
                 copyFile(source[i], dest, prompt, preserve);

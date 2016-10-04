@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 /**
- * an optimized ShortMessage that does not need an array
+ * bn optimized ShortMessbge thbt does not need bn brrby
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-final class FastShortMessage extends ShortMessage {
-    private int packedMsg;
+finbl clbss FbstShortMessbge extends ShortMessbge {
+    privbte int pbckedMsg;
 
-    FastShortMessage(int packedMsg) throws InvalidMidiDataException {
-        this.packedMsg = packedMsg;
-        getDataLength(packedMsg & 0xFF); // to check for validity
+    FbstShortMessbge(int pbckedMsg) throws InvblidMidiDbtbException {
+        this.pbckedMsg = pbckedMsg;
+        getDbtbLength(pbckedMsg & 0xFF); // to check for vblidity
     }
 
-    /** Creates a FastShortMessage from this ShortMessage */
-    FastShortMessage(ShortMessage msg) {
-        this.packedMsg = msg.getStatus()
-            | (msg.getData1() << 8)
-            | (msg.getData2() << 16);
+    /** Crebtes b FbstShortMessbge from this ShortMessbge */
+    FbstShortMessbge(ShortMessbge msg) {
+        this.pbckedMsg = msg.getStbtus()
+            | (msg.getDbtb1() << 8)
+            | (msg.getDbtb2() << 16);
     }
 
-    int getPackedMsg() {
-        return packedMsg;
+    int getPbckedMsg() {
+        return pbckedMsg;
     }
 
-    public byte[] getMessage() {
+    public byte[] getMessbge() {
         int length = 0;
         try {
-            // fix for bug 4851018: MidiMessage.getLength and .getData return wrong values
-            // fix for bug 4890405: Reading MidiMessage byte array fails in 1.4.2
-            length = getDataLength(packedMsg & 0xFF) + 1;
-        } catch (InvalidMidiDataException imde) {
-            // should never happen
+            // fix for bug 4851018: MidiMessbge.getLength bnd .getDbtb return wrong vblues
+            // fix for bug 4890405: Rebding MidiMessbge byte brrby fbils in 1.4.2
+            length = getDbtbLength(pbckedMsg & 0xFF) + 1;
+        } cbtch (InvblidMidiDbtbException imde) {
+            // should never hbppen
         }
-        byte[] returnedArray = new byte[length];
+        byte[] returnedArrby = new byte[length];
         if (length>0) {
-            returnedArray[0] = (byte) (packedMsg & 0xFF);
+            returnedArrby[0] = (byte) (pbckedMsg & 0xFF);
             if (length>1) {
-                returnedArray[1] = (byte) ((packedMsg & 0xFF00) >> 8);
+                returnedArrby[1] = (byte) ((pbckedMsg & 0xFF00) >> 8);
                 if (length>2) {
-                    returnedArray[2] = (byte) ((packedMsg & 0xFF0000) >> 16);
+                    returnedArrby[2] = (byte) ((pbckedMsg & 0xFF0000) >> 16);
                 }
             }
         }
-        return returnedArray;
+        return returnedArrby;
     }
 
     public int getLength() {
         try {
-            return getDataLength(packedMsg & 0xFF) + 1;
-        } catch (InvalidMidiDataException imde) {
-            // should never happen
+            return getDbtbLength(pbckedMsg & 0xFF) + 1;
+        } cbtch (InvblidMidiDbtbException imde) {
+            // should never hbppen
         }
         return 0;
     }
 
-    public void setMessage(int status) throws InvalidMidiDataException {
-        // check for valid values
-        int dataLength = getDataLength(status); // can throw InvalidMidiDataException
-        if (dataLength != 0) {
-            super.setMessage(status); // throws Exception
+    public void setMessbge(int stbtus) throws InvblidMidiDbtbException {
+        // check for vblid vblues
+        int dbtbLength = getDbtbLength(stbtus); // cbn throw InvblidMidiDbtbException
+        if (dbtbLength != 0) {
+            super.setMessbge(stbtus); // throws Exception
         }
-        packedMsg = (packedMsg & 0xFFFF00) | (status & 0xFF);
+        pbckedMsg = (pbckedMsg & 0xFFFF00) | (stbtus & 0xFF);
     }
 
 
-    public void setMessage(int status, int data1, int data2) throws InvalidMidiDataException {
-        getDataLength(status); // can throw InvalidMidiDataException
-        packedMsg = (status & 0xFF) | ((data1 & 0xFF) << 8) | ((data2 & 0xFF) << 16);
+    public void setMessbge(int stbtus, int dbtb1, int dbtb2) throws InvblidMidiDbtbException {
+        getDbtbLength(stbtus); // cbn throw InvblidMidiDbtbException
+        pbckedMsg = (stbtus & 0xFF) | ((dbtb1 & 0xFF) << 8) | ((dbtb2 & 0xFF) << 16);
     }
 
 
-    public void setMessage(int command, int channel, int data1, int data2) throws InvalidMidiDataException {
-        getDataLength(command); // can throw InvalidMidiDataException
-        packedMsg = (command & 0xF0) | (channel & 0x0F) | ((data1 & 0xFF) << 8) | ((data2 & 0xFF) << 16);
+    public void setMessbge(int commbnd, int chbnnel, int dbtb1, int dbtb2) throws InvblidMidiDbtbException {
+        getDbtbLength(commbnd); // cbn throw InvblidMidiDbtbException
+        pbckedMsg = (commbnd & 0xF0) | (chbnnel & 0x0F) | ((dbtb1 & 0xFF) << 8) | ((dbtb2 & 0xFF) << 16);
     }
 
 
-    public int getChannel() {
-        return packedMsg & 0x0F;
+    public int getChbnnel() {
+        return pbckedMsg & 0x0F;
     }
 
-    public int getCommand() {
-        return packedMsg & 0xF0;
+    public int getCommbnd() {
+        return pbckedMsg & 0xF0;
     }
 
-    public int getData1() {
-        return (packedMsg & 0xFF00) >> 8;
+    public int getDbtb1() {
+        return (pbckedMsg & 0xFF00) >> 8;
     }
 
-    public int getData2() {
-        return (packedMsg & 0xFF0000) >> 16;
+    public int getDbtb2() {
+        return (pbckedMsg & 0xFF0000) >> 16;
     }
 
-    public int getStatus() {
-        return packedMsg & 0xFF;
+    public int getStbtus() {
+        return pbckedMsg & 0xFF;
     }
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
-     * @return a clone of this instance.
+     * Crebtes b new object of the sbme clbss bnd with the sbme contents
+     * bs this object.
+     * @return b clone of this instbnce.
      */
     public Object clone() {
         try {
-            return new FastShortMessage(packedMsg);
-        } catch (InvalidMidiDataException imde) {
-            // should never happen
+            return new FbstShortMessbge(pbckedMsg);
+        } cbtch (InvblidMidiDbtbException imde) {
+            // should never hbppen
         }
         return null;
     }
 
-} // class FastShortMsg
+} // clbss FbstShortMsg

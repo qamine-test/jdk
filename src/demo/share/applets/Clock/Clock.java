@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,184 +30,184 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.Dbte;
+import jbvb.util.Locble;
 
 
 /**
  * Time!
  *
- * @author Rachel Gollub
- * @author Daniel Peek replaced circle drawing calculation, few more changes
+ * @buthor Rbchel Gollub
+ * @buthor Dbniel Peek replbced circle drbwing cblculbtion, few more chbnges
  */
-@SuppressWarnings("serial")
-public class Clock extends Applet implements Runnable {
+@SuppressWbrnings("seribl")
+public clbss Clock extends Applet implements Runnbble {
 
-    private volatile Thread timer;       // The thread that displays clock
-    private int lastxs, lastys, lastxm,
-            lastym, lastxh, lastyh;  // Dimensions used to draw hands
-    private SimpleDateFormat formatter;  // Formats the date displayed
-    private String lastdate;             // String to hold date displayed
-    private Font clockFaceFont;          // Font for number display on clock
-    private Date currentDate;            // Used to get date to display
-    private Color handColor;             // Color of main hands and dial
-    private Color numberColor;           // Color of second hand and numbers
-    private int xcenter = 80, ycenter = 55; // Center position
+    privbte volbtile Threbd timer;       // The threbd thbt displbys clock
+    privbte int lbstxs, lbstys, lbstxm,
+            lbstym, lbstxh, lbstyh;  // Dimensions used to drbw hbnds
+    privbte SimpleDbteFormbt formbtter;  // Formbts the dbte displbyed
+    privbte String lbstdbte;             // String to hold dbte displbyed
+    privbte Font clockFbceFont;          // Font for number displby on clock
+    privbte Dbte currentDbte;            // Used to get dbte to displby
+    privbte Color hbndColor;             // Color of mbin hbnds bnd dibl
+    privbte Color numberColor;           // Color of second hbnd bnd numbers
+    privbte int xcenter = 80, ycenter = 55; // Center position
 
     @Override
     public void init() {
-        lastxs = lastys = lastxm = lastym = lastxh = lastyh = 0;
-        formatter = new SimpleDateFormat("EEE MMM dd hh:mm:ss yyyy",
-                Locale.getDefault());
-        currentDate = new Date();
-        lastdate = formatter.format(currentDate);
-        clockFaceFont = new Font("Serif", Font.PLAIN, 14);
-        handColor = Color.blue;
-        numberColor = Color.darkGray;
+        lbstxs = lbstys = lbstxm = lbstym = lbstxh = lbstyh = 0;
+        formbtter = new SimpleDbteFormbt("EEE MMM dd hh:mm:ss yyyy",
+                Locble.getDefbult());
+        currentDbte = new Dbte();
+        lbstdbte = formbtter.formbt(currentDbte);
+        clockFbceFont = new Font("Serif", Font.PLAIN, 14);
+        hbndColor = Color.blue;
+        numberColor = Color.dbrkGrby;
 
         try {
-            setBackground(new Color(Integer.parseInt(getParameter("bgcolor"),
+            setBbckground(new Color(Integer.pbrseInt(getPbrbmeter("bgcolor"),
                     16)));
-        } catch (NullPointerException e) {
-        } catch (NumberFormatException e) {
+        } cbtch (NullPointerException e) {
+        } cbtch (NumberFormbtException e) {
         }
         try {
-            handColor = new Color(Integer.parseInt(getParameter("fgcolor1"),
+            hbndColor = new Color(Integer.pbrseInt(getPbrbmeter("fgcolor1"),
                     16));
-        } catch (NullPointerException e) {
-        } catch (NumberFormatException e) {
+        } cbtch (NullPointerException e) {
+        } cbtch (NumberFormbtException e) {
         }
         try {
-            numberColor = new Color(Integer.parseInt(getParameter("fgcolor2"),
+            numberColor = new Color(Integer.pbrseInt(getPbrbmeter("fgcolor2"),
                     16));
-        } catch (NullPointerException e) {
-        } catch (NumberFormatException e) {
+        } cbtch (NullPointerException e) {
+        } cbtch (NumberFormbtException e) {
         }
         resize(300, 300);              // Set clock window size
     }
 
     /**
-     * Paint is the main part of the program
+     * Pbint is the mbin pbrt of the progrbm
      */
     @Override
-    public void update(Graphics g) {
+    public void updbte(Grbphics g) {
         int xh, yh, xm, ym, xs, ys;
         int s = 0, m = 10, h = 10;
-        String today;
+        String todby;
 
-        currentDate = new Date();
+        currentDbte = new Dbte();
 
-        formatter.applyPattern("s");
+        formbtter.bpplyPbttern("s");
         try {
-            s = Integer.parseInt(formatter.format(currentDate));
-        } catch (NumberFormatException n) {
+            s = Integer.pbrseInt(formbtter.formbt(currentDbte));
+        } cbtch (NumberFormbtException n) {
             s = 0;
         }
-        formatter.applyPattern("m");
+        formbtter.bpplyPbttern("m");
         try {
-            m = Integer.parseInt(formatter.format(currentDate));
-        } catch (NumberFormatException n) {
+            m = Integer.pbrseInt(formbtter.formbt(currentDbte));
+        } cbtch (NumberFormbtException n) {
             m = 10;
         }
-        formatter.applyPattern("h");
+        formbtter.bpplyPbttern("h");
         try {
-            h = Integer.parseInt(formatter.format(currentDate));
-        } catch (NumberFormatException n) {
+            h = Integer.pbrseInt(formbtter.formbt(currentDbte));
+        } cbtch (NumberFormbtException n) {
             h = 10;
         }
 
-        // Set position of the ends of the hands
-        xs = (int) (Math.cos(s * Math.PI / 30 - Math.PI / 2) * 45 + xcenter);
-        ys = (int) (Math.sin(s * Math.PI / 30 - Math.PI / 2) * 45 + ycenter);
-        xm = (int) (Math.cos(m * Math.PI / 30 - Math.PI / 2) * 40 + xcenter);
-        ym = (int) (Math.sin(m * Math.PI / 30 - Math.PI / 2) * 40 + ycenter);
-        xh = (int) (Math.cos((h * 30 + m / 2) * Math.PI / 180 - Math.PI / 2)
+        // Set position of the ends of the hbnds
+        xs = (int) (Mbth.cos(s * Mbth.PI / 30 - Mbth.PI / 2) * 45 + xcenter);
+        ys = (int) (Mbth.sin(s * Mbth.PI / 30 - Mbth.PI / 2) * 45 + ycenter);
+        xm = (int) (Mbth.cos(m * Mbth.PI / 30 - Mbth.PI / 2) * 40 + xcenter);
+        ym = (int) (Mbth.sin(m * Mbth.PI / 30 - Mbth.PI / 2) * 40 + ycenter);
+        xh = (int) (Mbth.cos((h * 30 + m / 2) * Mbth.PI / 180 - Mbth.PI / 2)
                 * 30
                 + xcenter);
-        yh = (int) (Math.sin((h * 30 + m / 2) * Math.PI / 180 - Math.PI / 2)
+        yh = (int) (Mbth.sin((h * 30 + m / 2) * Mbth.PI / 180 - Mbth.PI / 2)
                 * 30
                 + ycenter);
 
-        // Get the date to print at the bottom
-        formatter.applyPattern("EEE MMM dd HH:mm:ss yyyy");
-        today = formatter.format(currentDate);
+        // Get the dbte to print bt the bottom
+        formbtter.bpplyPbttern("EEE MMM dd HH:mm:ss yyyy");
+        todby = formbtter.formbt(currentDbte);
 
-        g.setFont(clockFaceFont);
-        // Erase if necessary
-        g.setColor(getBackground());
-        if (xs != lastxs || ys != lastys) {
-            g.drawLine(xcenter, ycenter, lastxs, lastys);
-            g.drawString(lastdate, 5, 125);
+        g.setFont(clockFbceFont);
+        // Erbse if necessbry
+        g.setColor(getBbckground());
+        if (xs != lbstxs || ys != lbstys) {
+            g.drbwLine(xcenter, ycenter, lbstxs, lbstys);
+            g.drbwString(lbstdbte, 5, 125);
         }
-        if (xm != lastxm || ym != lastym) {
-            g.drawLine(xcenter, ycenter - 1, lastxm, lastym);
-            g.drawLine(xcenter - 1, ycenter, lastxm, lastym);
+        if (xm != lbstxm || ym != lbstym) {
+            g.drbwLine(xcenter, ycenter - 1, lbstxm, lbstym);
+            g.drbwLine(xcenter - 1, ycenter, lbstxm, lbstym);
         }
-        if (xh != lastxh || yh != lastyh) {
-            g.drawLine(xcenter, ycenter - 1, lastxh, lastyh);
-            g.drawLine(xcenter - 1, ycenter, lastxh, lastyh);
+        if (xh != lbstxh || yh != lbstyh) {
+            g.drbwLine(xcenter, ycenter - 1, lbstxh, lbstyh);
+            g.drbwLine(xcenter - 1, ycenter, lbstxh, lbstyh);
         }
 
-        // Draw date and hands
+        // Drbw dbte bnd hbnds
         g.setColor(numberColor);
-        g.drawString(today, 5, 125);
-        g.drawLine(xcenter, ycenter, xs, ys);
-        g.setColor(handColor);
-        g.drawLine(xcenter, ycenter - 1, xm, ym);
-        g.drawLine(xcenter - 1, ycenter, xm, ym);
-        g.drawLine(xcenter, ycenter - 1, xh, yh);
-        g.drawLine(xcenter - 1, ycenter, xh, yh);
-        lastxs = xs;
-        lastys = ys;
-        lastxm = xm;
-        lastym = ym;
-        lastxh = xh;
-        lastyh = yh;
-        lastdate = today;
-        currentDate = null;
+        g.drbwString(todby, 5, 125);
+        g.drbwLine(xcenter, ycenter, xs, ys);
+        g.setColor(hbndColor);
+        g.drbwLine(xcenter, ycenter - 1, xm, ym);
+        g.drbwLine(xcenter - 1, ycenter, xm, ym);
+        g.drbwLine(xcenter, ycenter - 1, xh, yh);
+        g.drbwLine(xcenter - 1, ycenter, xh, yh);
+        lbstxs = xs;
+        lbstys = ys;
+        lbstxm = xm;
+        lbstym = ym;
+        lbstxh = xh;
+        lbstyh = yh;
+        lbstdbte = todby;
+        currentDbte = null;
     }
 
     @Override
-    public void paint(Graphics g) {
-        g.setFont(clockFaceFont);
-        // Draw the circle and numbers
-        g.setColor(handColor);
-        g.drawArc(xcenter - 50, ycenter - 50, 100, 100, 0, 360);
+    public void pbint(Grbphics g) {
+        g.setFont(clockFbceFont);
+        // Drbw the circle bnd numbers
+        g.setColor(hbndColor);
+        g.drbwArc(xcenter - 50, ycenter - 50, 100, 100, 0, 360);
         g.setColor(numberColor);
-        g.drawString("9", xcenter - 45, ycenter + 3);
-        g.drawString("3", xcenter + 40, ycenter + 3);
-        g.drawString("12", xcenter - 5, ycenter - 37);
-        g.drawString("6", xcenter - 3, ycenter + 45);
+        g.drbwString("9", xcenter - 45, ycenter + 3);
+        g.drbwString("3", xcenter + 40, ycenter + 3);
+        g.drbwString("12", xcenter - 5, ycenter - 37);
+        g.drbwString("6", xcenter - 3, ycenter + 45);
 
-        // Draw date and hands
+        // Drbw dbte bnd hbnds
         g.setColor(numberColor);
-        g.drawString(lastdate, 5, 125);
-        g.drawLine(xcenter, ycenter, lastxs, lastys);
-        g.setColor(handColor);
-        g.drawLine(xcenter, ycenter - 1, lastxm, lastym);
-        g.drawLine(xcenter - 1, ycenter, lastxm, lastym);
-        g.drawLine(xcenter, ycenter - 1, lastxh, lastyh);
-        g.drawLine(xcenter - 1, ycenter, lastxh, lastyh);
+        g.drbwString(lbstdbte, 5, 125);
+        g.drbwLine(xcenter, ycenter, lbstxs, lbstys);
+        g.setColor(hbndColor);
+        g.drbwLine(xcenter, ycenter - 1, lbstxm, lbstym);
+        g.drbwLine(xcenter - 1, ycenter, lbstxm, lbstym);
+        g.drbwLine(xcenter, ycenter - 1, lbstxh, lbstyh);
+        g.drbwLine(xcenter - 1, ycenter, lbstxh, lbstyh);
     }
 
     @Override
-    public void start() {
-        timer = new Thread(this);
-        timer.start();
+    public void stbrt() {
+        timer = new Threbd(this);
+        timer.stbrt();
     }
 
     @Override
@@ -216,34 +216,34 @@ public class Clock extends Applet implements Runnable {
     }
 
     @Override
-    @SuppressWarnings("SleepWhileHoldingLock")
+    @SuppressWbrnings("SleepWhileHoldingLock")
     public void run() {
-        Thread me = Thread.currentThread();
+        Threbd me = Threbd.currentThrebd();
         while (timer == me) {
             try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
+                Threbd.sleep(100);
+            } cbtch (InterruptedException e) {
             }
-            repaint();
+            repbint();
         }
     }
 
     @Override
     public String getAppletInfo() {
         return "Title: A Clock \n"
-                + "Author: Rachel Gollub, 1995 \n"
-                + "An analog clock.";
+                + "Author: Rbchel Gollub, 1995 \n"
+                + "An bnblog clock.";
     }
 
     @Override
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         String[][] info = {
-            { "bgcolor", "hexadecimal RGB number",
-                "The background color. Default is the color of your browser." },
-            { "fgcolor1", "hexadecimal RGB number",
-                "The color of the hands and dial. Default is blue." },
-            { "fgcolor2", "hexadecimal RGB number",
-                "The color of the second hand and numbers. Default is dark gray." }
+            { "bgcolor", "hexbdecimbl RGB number",
+                "The bbckground color. Defbult is the color of your browser." },
+            { "fgcolor1", "hexbdecimbl RGB number",
+                "The color of the hbnds bnd dibl. Defbult is blue." },
+            { "fgcolor2", "hexbdecimbl RGB number",
+                "The color of the second hbnd bnd numbers. Defbult is dbrk grby." }
         };
         return info;
     }

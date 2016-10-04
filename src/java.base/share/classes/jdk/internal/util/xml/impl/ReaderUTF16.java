@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml.impl;
+pbckbge jdk.internbl.util.xml.impl;
 
-import java.io.Reader;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.Rebder;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 
 /**
- * UTF-16 encoded stream reader.
+ * UTF-16 encoded strebm rebder.
  */
-public class ReaderUTF16 extends Reader {
+public clbss RebderUTF16 extends Rebder {
 
-    private InputStream is;
-    private char bo;
+    privbte InputStrebm is;
+    privbte chbr bo;
 
     /**
      * Constructor.
      *
-     * Byte order argument can be: 'l' for little-endian or 'b' for big-endian.
+     * Byte order brgument cbn be: 'l' for little-endibn or 'b' for big-endibn.
      *
-     * @param is A byte input stream.
-     * @param bo A byte order in the input stream.
+     * @pbrbm is A byte input strebm.
+     * @pbrbm bo A byte order in the input strebm.
      */
-    public ReaderUTF16(InputStream is, char bo) {
+    public RebderUTF16(InputStrebm is, chbr bo) {
         switch (bo) {
-            case 'l':
-                break;
+            cbse 'l':
+                brebk;
 
-            case 'b':
-                break;
+            cbse 'b':
+                brebk;
 
-            default:
-                throw new IllegalArgumentException("");
+            defbult:
+                throw new IllegblArgumentException("");
         }
         this.bo = bo;
         this.is = is;
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rebds chbrbcters into b portion of bn brrby.
      *
-     * @param cbuf Destination buffer.
-     * @param off Offset at which to start storing characters.
-     * @param len Maximum number of characters to read.
-     * @exception IOException If any IO errors occur.
+     * @pbrbm cbuf Destinbtion buffer.
+     * @pbrbm off Offset bt which to stbrt storing chbrbcters.
+     * @pbrbm len Mbximum number of chbrbcters to rebd.
+     * @exception IOException If bny IO errors occur.
      */
-    public int read(char[] cbuf, int off, int len) throws IOException {
+    public int rebd(chbr[] cbuf, int off, int len) throws IOException {
         int num = 0;
-        int val;
+        int vbl;
         if (bo == 'b') {
             while (num < len) {
-                if ((val = is.read()) < 0) {
+                if ((vbl = is.rebd()) < 0) {
                     return (num != 0) ? num : -1;
                 }
-                cbuf[off++] = (char) ((val << 8) | (is.read() & 0xff));
+                cbuf[off++] = (chbr) ((vbl << 8) | (is.rebd() & 0xff));
                 num++;
             }
         } else {
             while (num < len) {
-                if ((val = is.read()) < 0) {
+                if ((vbl = is.rebd()) < 0) {
                     return (num != 0) ? num : -1;
                 }
-                cbuf[off++] = (char) ((is.read() << 8) | (val & 0xff));
+                cbuf[off++] = (chbr) ((is.rebd() << 8) | (vbl & 0xff));
                 num++;
             }
         }
@@ -92,29 +92,29 @@ public class ReaderUTF16 extends Reader {
     }
 
     /**
-     * Reads a single character.
+     * Rebds b single chbrbcter.
      *
-     * @return The character read, as an integer in the range 0 to 65535
-     *  (0x0000-0xffff), or -1 if the end of the stream has been reached.
-     * @exception IOException If any IO errors occur.
+     * @return The chbrbcter rebd, bs bn integer in the rbnge 0 to 65535
+     *  (0x0000-0xffff), or -1 if the end of the strebm hbs been rebched.
+     * @exception IOException If bny IO errors occur.
      */
-    public int read() throws IOException {
-        int val;
-        if ((val = is.read()) < 0) {
+    public int rebd() throws IOException {
+        int vbl;
+        if ((vbl = is.rebd()) < 0) {
             return -1;
         }
         if (bo == 'b') {
-            val = (char) ((val << 8) | (is.read() & 0xff));
+            vbl = (chbr) ((vbl << 8) | (is.rebd() & 0xff));
         } else {
-            val = (char) ((is.read() << 8) | (val & 0xff));
+            vbl = (chbr) ((is.rebd() << 8) | (vbl & 0xff));
         }
-        return val;
+        return vbl;
     }
 
     /**
-     * Closes the stream.
+     * Closes the strebm.
      *
-     * @exception IOException If any IO errors occur.
+     * @exception IOException If bny IO errors occur.
      */
     public void close() throws IOException {
         is.close();

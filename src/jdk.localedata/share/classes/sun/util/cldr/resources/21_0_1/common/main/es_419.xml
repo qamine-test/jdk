@@ -3,229 +3,229 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="es"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="es"/>
 		<territory type="419"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ps" alt="variant" draft="contributed">Pastú</language>
-			<language type="ug" alt="variant" draft="contributed">Uyghur</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="ps" blt="vbribnt" drbft="contributed">Pbstú</lbngubge>
+			<lbngubge type="ug" blt="vbribnt" drbft="contributed">Uyghur</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Hans" alt="stand-alone" draft="contributed">Han simplificado</script>
-			<script type="Hant" alt="stand-alone" draft="contributed">Han tradicional</script>
+			<script type="Hbns" blt="stbnd-blone" drbft="contributed">Hbn simplificbdo</script>
+			<script type="Hbnt" blt="stbnd-blone" drbft="contributed">Hbn trbdicionbl</script>
 		</scripts>
 		<keys>
-			<key type="numbers" draft="contributed">Números</key>
+			<key type="numbers" drbft="contributed">Números</key>
 		</keys>
 		<types>
-			<type type="arab" key="numbers" draft="contributed">Dígitos arábigo-índicos</type>
-			<type type="arabext" key="numbers" draft="contributed">Dígitos árabe-hindú extendidos</type>
-			<type type="armn" key="numbers" draft="contributed">Números armenios</type>
-			<type type="armnlow" key="numbers" draft="contributed">Números armenios en minúscula</type>
-			<type type="beng" key="numbers" draft="contributed">Dígitos en bengalí</type>
-			<type type="coptic" key="calendar" draft="contributed">Calendario cóptico</type>
-			<type type="deva" key="numbers" draft="contributed">Dígitos en devanagari</type>
-			<type type="dictionary" key="collation" draft="contributed">Orden de clasificación del diccionario</type>
-			<type type="ducet" key="collation" draft="contributed">Orden de clasificación de Unicode predeterminado</type>
-			<type type="ethi" key="numbers" draft="contributed">Números etíopes</type>
-			<type type="ethiopic" key="calendar" draft="contributed">Calendario etíope</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">Calendario etíope Amete Alem</type>
-			<type type="fullwide" key="numbers" draft="contributed">Dígitos en formato completo</type>
-			<type type="geor" key="numbers" draft="contributed">Números georgianos</type>
-			<type type="grek" key="numbers" draft="contributed">Números griegos</type>
-			<type type="greklow" key="numbers" draft="contributed">Números griegos en minúscula</type>
-			<type type="gujr" key="numbers" draft="contributed">Dígitos en guyaratí</type>
-			<type type="guru" key="numbers" draft="contributed">Dígitos en gurumuji</type>
-			<type type="hanidec" key="numbers" draft="contributed">Numerales decimales chinos</type>
-			<type type="hans" key="numbers" draft="contributed">Números simplificados chinos</type>
-			<type type="hansfin" key="numbers" draft="contributed">Números financieros simplificados chinos</type>
-			<type type="hant" key="numbers" draft="contributed">Números chinos tradicionales</type>
-			<type type="hantfin" key="numbers" draft="contributed">Números financieros chinos tradicionales</type>
-			<type type="hebr" key="numbers" draft="contributed">Números hebreos</type>
-			<type type="jpan" key="numbers" draft="contributed">Números en japonés</type>
-			<type type="jpanfin" key="numbers" draft="contributed">Números financieros japoneses</type>
-			<type type="khmr" key="numbers" draft="contributed">Dígitos en jemer</type>
-			<type type="knda" key="numbers" draft="contributed">Dígitos en canarés</type>
-			<type type="laoo" key="numbers" draft="contributed">Dígitos de Lao</type>
-			<type type="latn" key="numbers" draft="contributed">Dígitos occidentales</type>
-			<type type="mlym" key="numbers" draft="contributed">Dígitos malabares</type>
-			<type type="mong" key="numbers" draft="contributed">Dígitos en mongol</type>
-			<type type="mymr" key="numbers" draft="contributed">Dígitos en birmano</type>
-			<type type="orya" key="numbers" draft="contributed">Dígitos en oriya</type>
-			<type type="persian" key="calendar" draft="contributed">Calendario persa</type>
-			<type type="reformed" key="collation" draft="contributed">Orden de clasificación reformado</type>
-			<type type="roman" key="numbers" draft="contributed">Números romanos</type>
-			<type type="romanlow" key="numbers" draft="contributed">Números romanos en minúscula</type>
-			<type type="search" key="collation" draft="contributed">Búsqueda generalizada</type>
-			<type type="taml" key="numbers" draft="contributed">Números en Tamil</type>
-			<type type="telu" key="numbers" draft="contributed">Dígitos en telugu</type>
-			<type type="thai" key="numbers" draft="contributed">Dígitos en tailandés</type>
-			<type type="tibt" key="numbers" draft="contributed">Dígitos tibetanos</type>
-			<type type="unihan" key="collation" draft="contributed">Orden de clasificación de trazos radicales</type>
+			<type type="brbb" key="numbers" drbft="contributed">Dígitos brábigo-índicos</type>
+			<type type="brbbext" key="numbers" drbft="contributed">Dígitos árbbe-hindú extendidos</type>
+			<type type="brmn" key="numbers" drbft="contributed">Números brmenios</type>
+			<type type="brmnlow" key="numbers" drbft="contributed">Números brmenios en minúsculb</type>
+			<type type="beng" key="numbers" drbft="contributed">Dígitos en bengblí</type>
+			<type type="coptic" key="cblendbr" drbft="contributed">Cblendbrio cóptico</type>
+			<type type="devb" key="numbers" drbft="contributed">Dígitos en devbnbgbri</type>
+			<type type="dictionbry" key="collbtion" drbft="contributed">Orden de clbsificbción del diccionbrio</type>
+			<type type="ducet" key="collbtion" drbft="contributed">Orden de clbsificbción de Unicode predeterminbdo</type>
+			<type type="ethi" key="numbers" drbft="contributed">Números etíopes</type>
+			<type type="ethiopic" key="cblendbr" drbft="contributed">Cblendbrio etíope</type>
+			<type type="ethiopic-bmete-blem" key="cblendbr" drbft="contributed">Cblendbrio etíope Amete Alem</type>
+			<type type="fullwide" key="numbers" drbft="contributed">Dígitos en formbto completo</type>
+			<type type="geor" key="numbers" drbft="contributed">Números georgibnos</type>
+			<type type="grek" key="numbers" drbft="contributed">Números griegos</type>
+			<type type="greklow" key="numbers" drbft="contributed">Números griegos en minúsculb</type>
+			<type type="gujr" key="numbers" drbft="contributed">Dígitos en guybrbtí</type>
+			<type type="guru" key="numbers" drbft="contributed">Dígitos en gurumuji</type>
+			<type type="hbnidec" key="numbers" drbft="contributed">Numerbles decimbles chinos</type>
+			<type type="hbns" key="numbers" drbft="contributed">Números simplificbdos chinos</type>
+			<type type="hbnsfin" key="numbers" drbft="contributed">Números finbncieros simplificbdos chinos</type>
+			<type type="hbnt" key="numbers" drbft="contributed">Números chinos trbdicionbles</type>
+			<type type="hbntfin" key="numbers" drbft="contributed">Números finbncieros chinos trbdicionbles</type>
+			<type type="hebr" key="numbers" drbft="contributed">Números hebreos</type>
+			<type type="jpbn" key="numbers" drbft="contributed">Números en jbponés</type>
+			<type type="jpbnfin" key="numbers" drbft="contributed">Números finbncieros jbponeses</type>
+			<type type="khmr" key="numbers" drbft="contributed">Dígitos en jemer</type>
+			<type type="kndb" key="numbers" drbft="contributed">Dígitos en cbnbrés</type>
+			<type type="lboo" key="numbers" drbft="contributed">Dígitos de Lbo</type>
+			<type type="lbtn" key="numbers" drbft="contributed">Dígitos occidentbles</type>
+			<type type="mlym" key="numbers" drbft="contributed">Dígitos mblbbbres</type>
+			<type type="mong" key="numbers" drbft="contributed">Dígitos en mongol</type>
+			<type type="mymr" key="numbers" drbft="contributed">Dígitos en birmbno</type>
+			<type type="oryb" key="numbers" drbft="contributed">Dígitos en oriyb</type>
+			<type type="persibn" key="cblendbr" drbft="contributed">Cblendbrio persb</type>
+			<type type="reformed" key="collbtion" drbft="contributed">Orden de clbsificbción reformbdo</type>
+			<type type="rombn" key="numbers" drbft="contributed">Números rombnos</type>
+			<type type="rombnlow" key="numbers" drbft="contributed">Números rombnos en minúsculb</type>
+			<type type="sebrch" key="collbtion" drbft="contributed">Búsquedb generblizbdb</type>
+			<type type="tbml" key="numbers" drbft="contributed">Números en Tbmil</type>
+			<type type="telu" key="numbers" drbft="contributed">Dígitos en telugu</type>
+			<type type="thbi" key="numbers" drbft="contributed">Dígitos en tbilbndés</type>
+			<type type="tibt" key="numbers" drbft="contributed">Dígitos tibetbnos</type>
+			<type type="unihbn" key="collbtion" drbft="contributed">Orden de clbsificbción de trbzos rbdicbles</type>
 		</types>
-		<transformNames>
-			<transformName type="Numeric" draft="contributed">Numéricas</transformName>
-		</transformNames>
-		<measurementSystemNames>
-			<measurementSystemName type="UK" draft="contributed">Reino Unido</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
+		<trbnsformNbmes>
+			<trbnsformNbme type="Numeric" drbft="contributed">Numéricbs</trbnsformNbme>
+		</trbnsformNbmes>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="UK" drbft="contributed">Reino Unido</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
 		<stopwords>
-			<stopwordList type="collation" draft="provisional">artículos</stopwordList>
+			<stopwordList type="collbtion" drbft="provisionbl">brtículos</stopwordList>
 		</stopwords>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<days>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">D</day>
-							<day type="mon">L</day>
-							<day type="tue">M</day>
-							<day type="wed">M</day>
-							<day type="thu">J</day>
-							<day type="fri">V</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="narrow">
-							<quarter type="1" draft="contributed">1</quarter>
-							<quarter type="2" draft="contributed">2</quarter>
-							<quarter type="3" draft="contributed">3</quarter>
-							<quarter type="4" draft="contributed">4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
+				<dbys>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">D</dby>
+							<dby type="mon">L</dby>
+							<dby type="tue">M</dby>
+							<dby type="wed">M</dby>
+							<dby type="thu">J</dby>
+							<dby type="fri">V</dby>
+							<dby type="sbt">S</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="nbrrow">
+							<qubrter type="1" drbft="contributed">1</qubrter>
+							<qubrter type="2" drbft="contributed">2</qubrter>
+							<qubrter type="3" drbft="contributed">3</qubrter>
+							<qubrter type="4" drbft="contributed">4</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
 				<fields>
-					<field type="year">
-						<relative type="-1" draft="contributed">Año pasado</relative>
-						<relative type="0" draft="contributed">Este año</relative>
-						<relative type="1" draft="contributed">Año próximo</relative>
+					<field type="yebr">
+						<relbtive type="-1" drbft="contributed">Año pbsbdo</relbtive>
+						<relbtive type="0" drbft="contributed">Este bño</relbtive>
+						<relbtive type="1" drbft="contributed">Año próximo</relbtive>
 					</field>
 					<field type="month">
-						<relative type="-1" draft="contributed">El mes pasado</relative>
-						<relative type="0" draft="contributed">Este mes</relative>
-						<relative type="1" draft="contributed">Mes próximo</relative>
+						<relbtive type="-1" drbft="contributed">El mes pbsbdo</relbtive>
+						<relbtive type="0" drbft="contributed">Este mes</relbtive>
+						<relbtive type="1" drbft="contributed">Mes próximo</relbtive>
 					</field>
 					<field type="week">
-						<relative type="-1" draft="contributed">Semana pasada</relative>
-						<relative type="0" draft="contributed">Esta semana</relative>
-						<relative type="1" draft="contributed">Próxima semana</relative>
+						<relbtive type="-1" drbft="contributed">Sembnb pbsbdb</relbtive>
+						<relbtive type="0" drbft="contributed">Estb sembnb</relbtive>
+						<relbtive type="1" drbft="contributed">Próximb sembnb</relbtive>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="America_Central">
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<metbzone type="Americb_Centrbl">
 				<short>
 					<generic>CT</generic>
-					<standard>CST</standard>
-					<daylight>CDT</daylight>
+					<stbndbrd>CST</stbndbrd>
+					<dbylight>CDT</dbylight>
 				</short>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<short>
 					<generic>ET</generic>
-					<standard>EST</standard>
-					<daylight>EDT</daylight>
+					<stbndbrd>EST</stbndbrd>
+					<dbylight>EDT</dbylight>
 				</short>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<short>
 					<generic>MT</generic>
-					<standard>MST</standard>
-					<daylight>MDT</daylight>
+					<stbndbrd>MST</stbndbrd>
+					<dbylight>MDT</dbylight>
 				</short>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<short>
 					<generic>PT</generic>
-					<standard>PST</standard>
-					<daylight>PDT</daylight>
+					<stbndbrd>PST</stbndbrd>
+					<dbylight>PDT</dbylight>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>.</decimbl>
 			<group>,</group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength type="short">
-				<decimalFormat>
-					<pattern type="1000" draft="contributed">0000</pattern>
-					<pattern type="10000" draft="contributed">00k</pattern>
-					<pattern type="100000" draft="contributed">000k</pattern>
-					<pattern type="1000000" draft="contributed">0.0 M</pattern>
-					<pattern type="10000000" draft="contributed">00 M</pattern>
-					<pattern type="100000000" draft="contributed">000 M</pattern>
-					<pattern type="1000000000" draft="contributed">0.0k M</pattern>
-					<pattern type="10000000000" draft="contributed">00k M</pattern>
-					<pattern type="100000000000" draft="contributed">000k M</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 B</pattern>
-					<pattern type="10000000000000" draft="contributed">00 B</pattern>
-					<pattern type="100000000000000" draft="contributed">000 B</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="contributed">¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength type="short">
+				<decimblFormbt>
+					<pbttern type="1000" drbft="contributed">0000</pbttern>
+					<pbttern type="10000" drbft="contributed">00k</pbttern>
+					<pbttern type="100000" drbft="contributed">000k</pbttern>
+					<pbttern type="1000000" drbft="contributed">0.0 M</pbttern>
+					<pbttern type="10000000" drbft="contributed">00 M</pbttern>
+					<pbttern type="100000000" drbft="contributed">000 M</pbttern>
+					<pbttern type="1000000000" drbft="contributed">0.0k M</pbttern>
+					<pbttern type="10000000000" drbft="contributed">00k M</pbttern>
+					<pbttern type="100000000000" drbft="contributed">000k M</pbttern>
+					<pbttern type="1000000000000" drbft="contributed">0.0 B</pbttern>
+					<pbttern type="10000000000000" drbft="contributed">00 B</pbttern>
+					<pbttern type="100000000000000" drbft="contributed">000 B</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern drbft="contributed">¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 	<units>
-		<unit type="day-future">
-			<unitPattern count="0" draft="contributed">En 0 días</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 día</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} día</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} días</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="0" drbft="contributed">En 0 díbs</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 díb</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} díb</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} díbs</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0" draft="contributed">En 0 horas</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 hora</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} hora</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} horas</unitPattern>
+			<unitPbttern count="0" drbft="contributed">En 0 horbs</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 horb</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} horb</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} horbs</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0" draft="contributed">En 0 minutos</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 minuto</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} minuto</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} minutos</unitPattern>
+			<unitPbttern count="0" drbft="contributed">En 0 minutos</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 minuto</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} minuto</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} minutos</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0" draft="contributed">En 0 meses</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 mes</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} mes</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} meses</unitPattern>
+			<unitPbttern count="0" drbft="contributed">En 0 meses</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 mes</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} mes</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} meses</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0" draft="contributed">En 0 segundos</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 segundo</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} segundo</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} segundos</unitPattern>
+			<unitPbttern count="0" drbft="contributed">En 0 segundos</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 segundo</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} segundo</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} segundos</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0" draft="contributed">En 0 semanas</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 semana</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} semana</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} semanas</unitPattern>
+			<unitPbttern count="0" drbft="contributed">En 0 sembnbs</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 sembnb</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} sembnb</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} sembnbs</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="0" draft="contributed">En 0 años</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 año</unitPattern>
-			<unitPattern count="one" draft="contributed">En {0} año</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} años</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="0" drbft="contributed">En 0 bños</unitPbttern>
+			<unitPbttern count="1" drbft="contributed">En 1 bño</unitPbttern>
+			<unitPbttern count="one" drbft="contributed">En {0} bño</unitPbttern>
+			<unitPbttern count="other" drbft="contributed">En {0} bños</unitPbttern>
 		</unit>
 	</units>
 </ldml>

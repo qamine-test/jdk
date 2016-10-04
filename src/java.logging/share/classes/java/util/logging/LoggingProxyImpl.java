@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
 import sun.util.logging.LoggingProxy;
 
 /**
- * Implementation of LoggingProxy when java.util.logging classes exist.
+ * Implementbtion of LoggingProxy when jbvb.util.logging clbsses exist.
  */
-class LoggingProxyImpl implements LoggingProxy {
-    static final LoggingProxy INSTANCE = new LoggingProxyImpl();
+clbss LoggingProxyImpl implements LoggingProxy {
+    stbtic finbl LoggingProxy INSTANCE = new LoggingProxyImpl();
 
-    private LoggingProxyImpl() { }
+    privbte LoggingProxyImpl() { }
 
     @Override
-    public Object getLogger(String name) {
-        // always create a platform logger with the resource bundle name
-        return Logger.getPlatformLogger(name);
+    public Object getLogger(String nbme) {
+        // blwbys crebte b plbtform logger with the resource bundle nbme
+        return Logger.getPlbtformLogger(nbme);
     }
 
     @Override
@@ -52,8 +52,8 @@ class LoggingProxyImpl implements LoggingProxy {
     }
 
     @Override
-    public boolean isLoggable(Object logger, Object level) {
-        return ((Logger) logger).isLoggable((Level) level);
+    public boolebn isLoggbble(Object logger, Object level) {
+        return ((Logger) logger).isLoggbble((Level) level);
     }
 
     @Override
@@ -62,56 +62,56 @@ class LoggingProxyImpl implements LoggingProxy {
     }
 
     @Override
-    public void log(Object logger, Object level, String msg, Throwable t) {
+    public void log(Object logger, Object level, String msg, Throwbble t) {
         ((Logger) logger).log((Level) level, msg, t);
     }
 
     @Override
-    public void log(Object logger, Object level, String msg, Object... params) {
-        ((Logger) logger).log((Level) level, msg, params);
+    public void log(Object logger, Object level, String msg, Object... pbrbms) {
+        ((Logger) logger).log((Level) level, msg, pbrbms);
     }
 
     @Override
-    public java.util.List<String> getLoggerNames() {
-        return LogManager.getLoggingMXBean().getLoggerNames();
+    public jbvb.util.List<String> getLoggerNbmes() {
+        return LogMbnbger.getLoggingMXBebn().getLoggerNbmes();
     }
 
     @Override
-    public String getLoggerLevel(String loggerName) {
-        return LogManager.getLoggingMXBean().getLoggerLevel(loggerName);
+    public String getLoggerLevel(String loggerNbme) {
+        return LogMbnbger.getLoggingMXBebn().getLoggerLevel(loggerNbme);
     }
 
     @Override
-    public void setLoggerLevel(String loggerName, String levelName) {
-        LogManager.getLoggingMXBean().setLoggerLevel(loggerName, levelName);
+    public void setLoggerLevel(String loggerNbme, String levelNbme) {
+        LogMbnbger.getLoggingMXBebn().setLoggerLevel(loggerNbme, levelNbme);
     }
 
     @Override
-    public String getParentLoggerName(String loggerName) {
-        return LogManager.getLoggingMXBean().getParentLoggerName(loggerName);
+    public String getPbrentLoggerNbme(String loggerNbme) {
+        return LogMbnbger.getLoggingMXBebn().getPbrentLoggerNbme(loggerNbme);
     }
 
     @Override
-    public Object parseLevel(String levelName) {
-        Level level = Level.findLevel(levelName);
+    public Object pbrseLevel(String levelNbme) {
+        Level level = Level.findLevel(levelNbme);
         if (level == null) {
-            throw new IllegalArgumentException("Unknown level \"" + levelName + "\"");
+            throw new IllegblArgumentException("Unknown level \"" + levelNbme + "\"");
         }
         return level;
     }
 
     @Override
-    public String getLevelName(Object level) {
-        return ((Level) level).getLevelName();
+    public String getLevelNbme(Object level) {
+        return ((Level) level).getLevelNbme();
     }
 
     @Override
-    public int getLevelValue(Object level) {
-        return ((Level) level).intValue();
+    public int getLevelVblue(Object level) {
+        return ((Level) level).intVblue();
     }
 
     @Override
     public String getProperty(String key) {
-        return LogManager.getLogManager().getProperty(key);
+        return LogMbnbger.getLogMbnbger().getProperty(key);
     }
 }

@@ -3,155 +3,155 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.util.Iterator;
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
+import jbvb.util.Iterbtor;
+import com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo;
 import org.w3c.dom.Element;
 
 /**
- * A Key Agreement algorithm provides for the derivation of a shared secret key
- * based on a shared secret computed from certain types of compatible public
- * keys from both the sender and the recipient. Information from the originator
- * to determine the secret is indicated by an optional OriginatorKeyInfo
- * parameter child of an <code>AgreementMethod</code> element while that
- * associated with the recipient is indicated by an optional RecipientKeyInfo. A
- * shared key is derived from this shared secret by a method determined by the
- * Key Agreement algorithm.
+ * A Key Agreement blgorithm provides for the derivbtion of b shbred secret key
+ * bbsed on b shbred secret computed from certbin types of compbtible public
+ * keys from both the sender bnd the recipient. Informbtion from the originbtor
+ * to determine the secret is indicbted by bn optionbl OriginbtorKeyInfo
+ * pbrbmeter child of bn <code>AgreementMethod</code> element while thbt
+ * bssocibted with the recipient is indicbted by bn optionbl RecipientKeyInfo. A
+ * shbred key is derived from this shbred secret by b method determined by the
+ * Key Agreement blgorithm.
  * <p>
- * <b>Note:</b> XML Encryption does not provide an on-line key agreement
- * negotiation protocol. The <code>AgreementMethod</code> element can be used by
- * the originator to identify the keys and computational procedure that were
- * used to obtain a shared encryption key. The method used to obtain or select
- * the keys or algorithm used for the agreement computation is beyond the scope
- * of this specification.
+ * <b>Note:</b> XML Encryption does not provide bn on-line key bgreement
+ * negotibtion protocol. The <code>AgreementMethod</code> element cbn be used by
+ * the originbtor to identify the keys bnd computbtionbl procedure thbt were
+ * used to obtbin b shbred encryption key. The method used to obtbin or select
+ * the keys or blgorithm used for the bgreement computbtion is beyond the scope
+ * of this specificbtion.
  * <p>
- * The <code>AgreementMethod</code> element appears as the content of a
+ * The <code>AgreementMethod</code> element bppebrs bs the content of b
  * <code>ds:KeyInfo</code> since, like other <code>ds:KeyInfo</code> children,
- * it yields a key. This <code>ds:KeyInfo</code> is in turn a child of an
- * <code>EncryptedData</code> or <code>EncryptedKey</code> element. The
- * Algorithm attribute and KeySize child of the <code>EncryptionMethod</code>
- * element under this <code>EncryptedData</code> or <code>EncryptedKey</code>
- * element are implicit parameters to the key agreement computation. In cases
- * where this <code>EncryptionMethod</code> algorithm <code>URI</code> is
- * insufficient to determine the key length, a KeySize MUST have been included.
- * In addition, the sender may place a KA-Nonce element under
- * <code>AgreementMethod</code> to assure that different keying material is
- * generated even for repeated agreements using the same sender and recipient
+ * it yields b key. This <code>ds:KeyInfo</code> is in turn b child of bn
+ * <code>EncryptedDbtb</code> or <code>EncryptedKey</code> element. The
+ * Algorithm bttribute bnd KeySize child of the <code>EncryptionMethod</code>
+ * element under this <code>EncryptedDbtb</code> or <code>EncryptedKey</code>
+ * element bre implicit pbrbmeters to the key bgreement computbtion. In cbses
+ * where this <code>EncryptionMethod</code> blgorithm <code>URI</code> is
+ * insufficient to determine the key length, b KeySize MUST hbve been included.
+ * In bddition, the sender mby plbce b KA-Nonce element under
+ * <code>AgreementMethod</code> to bssure thbt different keying mbteribl is
+ * generbted even for repebted bgreements using the sbme sender bnd recipient
  * public keys.
  * <p>
- * If the agreed key is being used to wrap a key, then
- * <code>AgreementMethod</code> would appear inside a <code>ds:KeyInfo</code>
- * inside an <code>EncryptedKey</code> element.
+ * If the bgreed key is being used to wrbp b key, then
+ * <code>AgreementMethod</code> would bppebr inside b <code>ds:KeyInfo</code>
+ * inside bn <code>EncryptedKey</code> element.
  * <p>
- * The Schema for AgreementMethod is as follows:
+ * The Schemb for AgreementMethod is bs follows:
  * <xmp>
- * <element name="AgreementMethod" type="xenc:AgreementMethodType"/>
- * <complexType name="AgreementMethodType" mixed="true">
+ * <element nbme="AgreementMethod" type="xenc:AgreementMethodType"/>
+ * <complexType nbme="AgreementMethodType" mixed="true">
  *     <sequence>
- *         <element name="KA-Nonce" minOccurs="0" type="base64Binary"/>
+ *         <element nbme="KA-Nonce" minOccurs="0" type="bbse64Binbry"/>
  *         <!-- <element ref="ds:DigestMethod" minOccurs="0"/> -->
- *         <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
- *         <element name="OriginatorKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
- *         <element name="RecipientKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
+ *         <bny nbmespbce="##other" minOccurs="0" mbxOccurs="unbounded"/>
+ *         <element nbme="OriginbtorKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
+ *         <element nbme="RecipientKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
  *     </sequence>
- *     <attribute name="Algorithm" type="anyURI" use="required"/>
+ *     <bttribute nbme="Algorithm" type="bnyURI" use="required"/>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface AgreementMethod {
+public interfbce AgreementMethod {
 
     /**
-     * Returns a <code>byte</code> array.
-     * @return a <code>byte</code> array.
+     * Returns b <code>byte</code> brrby.
+     * @return b <code>byte</code> brrby.
      */
     byte[] getKANonce();
 
     /**
      * Sets the KANonce.jj
-     * @param kanonce
+     * @pbrbm kbnonce
      */
-    void setKANonce(byte[] kanonce);
+    void setKANonce(byte[] kbnonce);
 
     /**
-     * Returns additional information regarding the <code>AgreementMethod</code>.
-     * @return additional information regarding the <code>AgreementMethod</code>.
+     * Returns bdditionbl informbtion regbrding the <code>AgreementMethod</code>.
+     * @return bdditionbl informbtion regbrding the <code>AgreementMethod</code>.
      */
-    Iterator<Element> getAgreementMethodInformation();
+    Iterbtor<Element> getAgreementMethodInformbtion();
 
     /**
-     * Adds additional <code>AgreementMethod</code> information.
+     * Adds bdditionbl <code>AgreementMethod</code> informbtion.
      *
-     * @param info a <code>Element</code> that represents additional information
+     * @pbrbm info b <code>Element</code> thbt represents bdditionbl informbtion
      * specified by
      *   <xmp>
-     *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+     *     <bny nbmespbce="##other" minOccurs="0" mbxOccurs="unbounded"/>
      *   </xmp>
      */
-    void addAgreementMethodInformation(Element info);
+    void bddAgreementMethodInformbtion(Element info);
 
     /**
-     * Removes additional <code>AgreementMethod</code> information.
+     * Removes bdditionbl <code>AgreementMethod</code> informbtion.
      *
-     * @param info a <code>Element</code> that represents additional information
+     * @pbrbm info b <code>Element</code> thbt represents bdditionbl informbtion
      * specified by
      *   <xmp>
-     *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+     *     <bny nbmespbce="##other" minOccurs="0" mbxOccurs="unbounded"/>
      *   </xmp>
      */
-    void revoveAgreementMethodInformation(Element info);
+    void revoveAgreementMethodInformbtion(Element info);
 
     /**
-     * Returns information relating to the originator's shared secret.
+     * Returns informbtion relbting to the originbtor's shbred secret.
      *
-     * @return information relating to the originator's shared secret.
+     * @return informbtion relbting to the originbtor's shbred secret.
      */
-    KeyInfo getOriginatorKeyInfo();
+    KeyInfo getOriginbtorKeyInfo();
 
     /**
-     * Sets the information relating to the originator's shared secret.
+     * Sets the informbtion relbting to the originbtor's shbred secret.
      *
-     * @param keyInfo information relating to the originator's shared secret.
+     * @pbrbm keyInfo informbtion relbting to the originbtor's shbred secret.
      */
-    void setOriginatorKeyInfo(KeyInfo keyInfo);
+    void setOriginbtorKeyInfo(KeyInfo keyInfo);
 
     /**
-     * Returns information relating to the recipient's shared secret.
+     * Returns informbtion relbting to the recipient's shbred secret.
      *
-     * @return information relating to the recipient's shared secret.
+     * @return informbtion relbting to the recipient's shbred secret.
      */
     KeyInfo getRecipientKeyInfo();
 
     /**
-     * Sets the information relating to the recipient's shared secret.
+     * Sets the informbtion relbting to the recipient's shbred secret.
      *
-     * @param keyInfo information relating to the recipient's shared secret.
+     * @pbrbm keyInfo informbtion relbting to the recipient's shbred secret.
      */
     void setRecipientKeyInfo(KeyInfo keyInfo);
 
     /**
-     * Returns the algorithm URI of this <code>CryptographicMethod</code>.
+     * Returns the blgorithm URI of this <code>CryptogrbphicMethod</code>.
      *
-     * @return the algorithm URI of this <code>CryptographicMethod</code>
+     * @return the blgorithm URI of this <code>CryptogrbphicMethod</code>
      */
     String getAlgorithm();
 }

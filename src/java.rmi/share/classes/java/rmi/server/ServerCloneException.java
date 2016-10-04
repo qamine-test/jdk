@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
 /**
- * A <code>ServerCloneException</code> is thrown if a remote exception occurs
- * during the cloning of a <code>UnicastRemoteObject</code>.
+ * A <code>ServerCloneException</code> is thrown if b remote exception occurs
+ * during the cloning of b <code>UnicbstRemoteObject</code>.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "nested exception"
- * that may be provided at construction time and accessed via the public
- * {@link #detail} field is now known as the <i>cause</i>, and may be
- * accessed via the {@link Throwable#getCause()} method, as well as
- * the aforementioned "legacy field."
+ * <p>As of relebse 1.4, this exception hbs been retrofitted to conform to
+ * the generbl purpose exception-chbining mechbnism.  The "nested exception"
+ * thbt mby be provided bt construction time bnd bccessed vib the public
+ * {@link #detbil} field is now known bs the <i>cbuse</i>, bnd mby be
+ * bccessed vib the {@link Throwbble#getCbuse()} method, bs well bs
+ * the bforementioned "legbcy field."
  *
- * <p>Invoking the method {@link Throwable#initCause(Throwable)} on an
- * instance of <code>ServerCloneException</code> always throws {@link
- * IllegalStateException}.
+ * <p>Invoking the method {@link Throwbble#initCbuse(Throwbble)} on bn
+ * instbnce of <code>ServerCloneException</code> blwbys throws {@link
+ * IllegblStbteException}.
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.1
- * @see     java.rmi.server.UnicastRemoteObject#clone()
+ * @see     jbvb.rmi.server.UnicbstRemoteObject#clone()
  */
-public class ServerCloneException extends CloneNotSupportedException {
+public clbss ServerCloneException extends CloneNotSupportedException {
 
     /**
-     * The cause of the exception.
+     * The cbuse of the exception.
      *
-     * <p>This field predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>This field predbtes the generbl-purpose exception chbining fbcility.
+     * The {@link Throwbble#getCbuse()} method is now the preferred mebns of
+     * obtbining this informbtion.
      *
-     * @serial
+     * @seribl
      */
-    public Exception detail;
+    public Exception detbil;
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 6617456357664815945L;
+    /* indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = 6617456357664815945L;
 
     /**
-     * Constructs a <code>ServerCloneException</code> with the specified
-     * detail message.
+     * Constructs b <code>ServerCloneException</code> with the specified
+     * detbil messbge.
      *
-     * @param s the detail message.
+     * @pbrbm s the detbil messbge.
      */
     public ServerCloneException(String s) {
         super(s);
-        initCause(null);  // Disallow subsequent initCause
+        initCbuse(null);  // Disbllow subsequent initCbuse
     }
 
     /**
-     * Constructs a <code>ServerCloneException</code> with the specified
-     * detail message and cause.
+     * Constructs b <code>ServerCloneException</code> with the specified
+     * detbil messbge bnd cbuse.
      *
-     * @param s the detail message.
-     * @param cause the cause
+     * @pbrbm s the detbil messbge.
+     * @pbrbm cbuse the cbuse
      */
-    public ServerCloneException(String s, Exception cause) {
+    public ServerCloneException(String s, Exception cbuse) {
         super(s);
-        initCause(null);  // Disallow subsequent initCause
-        detail = cause;
+        initCbuse(null);  // Disbllow subsequent initCbuse
+        detbil = cbuse;
     }
 
     /**
-     * Returns the detail message, including the message from the cause, if
-     * any, of this exception.
+     * Returns the detbil messbge, including the messbge from the cbuse, if
+     * bny, of this exception.
      *
-     * @return the detail message
+     * @return the detbil messbge
      */
-    public String getMessage() {
-        if (detail == null)
-            return super.getMessage();
+    public String getMessbge() {
+        if (detbil == null)
+            return super.getMessbge();
         else
-            return super.getMessage() +
+            return super.getMessbge() +
                 "; nested exception is: \n\t" +
-                detail.toString();
+                detbil.toString();
     }
 
     /**
-     * Returns the cause of this exception.  This method returns the value
-     * of the {@link #detail} field.
+     * Returns the cbuse of this exception.  This method returns the vblue
+     * of the {@link #detbil} field.
      *
-     * @return  the cause, which may be <tt>null</tt>.
+     * @return  the cbuse, which mby be <tt>null</tt>.
      * @since   1.4
      */
-    public Throwable getCause() {
-        return detail;
+    public Throwbble getCbuse() {
+        return detbil;
     }
 }

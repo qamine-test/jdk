@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTError;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
-import java.awt.peer.ComponentPeer;
-import java.io.File;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import sun.awt.DisplayChangedListener;
-import sun.awt.SunDisplayChanger;
-import sun.awt.windows.WPrinterJob;
-import sun.awt.windows.WToolkit;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.java2d.SurfaceManagerFactory;
-import sun.java2d.WindowsSurfaceManagerFactory;
-import sun.java2d.d3d.D3DGraphicsDevice;
-import sun.java2d.windows.WindowsFlags;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.ArrbyList;
+import jbvb.util.ListIterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.StringTokenizer;
+import sun.bwt.DisplbyChbngedListener;
+import sun.bwt.SunDisplbyChbnger;
+import sun.bwt.windows.WPrinterJob;
+import sun.bwt.windows.WToolkit;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.jbvb2d.SurfbceMbnbgerFbctory;
+import sun.jbvb2d.WindowsSurfbceMbnbgerFbctory;
+import sun.jbvb2d.d3d.D3DGrbphicsDevice;
+import sun.jbvb2d.windows.WindowsFlbgs;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the
- * default local GraphicsEnvironment used by the Java Runtime Environment
+ * This is bn implementbtion of b GrbphicsEnvironment object for the
+ * defbult locbl GrbphicsEnvironment used by the Jbvb Runtime Environment
  * for Windows.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @see GrbphicsDevice
+ * @see GrbphicsConfigurbtion
  */
 
-public class Win32GraphicsEnvironment
-    extends SunGraphicsEnvironment
+public clbss Win32GrbphicsEnvironment
+    extends SunGrbphicsEnvironment
 {
-    static {
-        // Ensure awt is loaded already.  Also, this forces static init
-        // of WToolkit and Toolkit, which we depend upon
-        WToolkit.loadLibraries();
-        // setup flags before initializing native layer
-        WindowsFlags.initFlags();
-        initDisplayWrapper();
+    stbtic {
+        // Ensure bwt is lobded blrebdy.  Also, this forces stbtic init
+        // of WToolkit bnd Toolkit, which we depend upon
+        WToolkit.lobdLibrbries();
+        // setup flbgs before initiblizing nbtive lbyer
+        WindowsFlbgs.initFlbgs();
+        initDisplbyWrbpper();
 
-        // Install correct surface manager factory.
-        SurfaceManagerFactory.setInstance(new WindowsSurfaceManagerFactory());
+        // Instbll correct surfbce mbnbger fbctory.
+        SurfbceMbnbgerFbctory.setInstbnce(new WindowsSurfbceMbnbgerFbctory());
     }
 
     /**
-     * Initializes native components of the graphics environment.  This
-     * includes everything from the native GraphicsDevice elements to
-     * the DirectX rendering layer.
+     * Initiblizes nbtive components of the grbphics environment.  This
+     * includes everything from the nbtive GrbphicsDevice elements to
+     * the DirectX rendering lbyer.
      */
-    private static native void initDisplay();
+    privbte stbtic nbtive void initDisplby();
 
-    private static boolean displayInitialized;      // = false;
-    public static void initDisplayWrapper() {
-        if (!displayInitialized) {
-            displayInitialized = true;
-            initDisplay();
+    privbte stbtic boolebn displbyInitiblized;      // = fblse;
+    public stbtic void initDisplbyWrbpper() {
+        if (!displbyInitiblized) {
+            displbyInitiblized = true;
+            initDisplby();
         }
     }
 
-    public Win32GraphicsEnvironment() {
+    public Win32GrbphicsEnvironment() {
     }
 
-    protected native int getNumScreens();
-    protected native int getDefaultScreen();
+    protected nbtive int getNumScreens();
+    protected nbtive int getDefbultScreen();
 
-    public GraphicsDevice getDefaultScreenDevice() {
-        GraphicsDevice[] screens = getScreenDevices();
+    public GrbphicsDevice getDefbultScreenDevice() {
+        GrbphicsDevice[] screens = getScreenDevices();
         if (screens.length == 0) {
             throw new AWTError("no screen devices");
         }
-        int index = getDefaultScreen();
+        int index = getDefbultScreen();
         return screens[0 < index && index < screens.length ? index : 0];
     }
 
     /**
-     * Returns the number of pixels per logical inch along the screen width.
-     * In a system with multiple display monitors, this value is the same for
-     * all monitors.
-     * @returns number of pixels per logical inch in X direction
+     * Returns the number of pixels per logicbl inch blong the screen width.
+     * In b system with multiple displby monitors, this vblue is the sbme for
+     * bll monitors.
+     * @returns number of pixels per logicbl inch in X direction
      */
-    public native int getXResolution();
+    public nbtive int getXResolution();
     /**
-     * Returns the number of pixels per logical inch along the screen height.
-     * In a system with multiple display monitors, this value is the same for
-     * all monitors.
-     * @returns number of pixels per logical inch in Y direction
+     * Returns the number of pixels per logicbl inch blong the screen height.
+     * In b system with multiple displby monitors, this vblue is the sbme for
+     * bll monitors.
+     * @returns number of pixels per logicbl inch in Y direction
      */
-    public native int getYResolution();
+    public nbtive int getYResolution();
 
 
 /*
  * ----DISPLAY CHANGE SUPPORT----
  */
 
-    // list of invalidated graphics devices (those which were removed)
-    private ArrayList<WeakReference<Win32GraphicsDevice>> oldDevices;
+    // list of invblidbted grbphics devices (those which were removed)
+    privbte ArrbyList<WebkReference<Win32GrbphicsDevice>> oldDevices;
     /*
-     * From DisplayChangeListener interface.
-     * Called from WToolkit and executed on the event thread when the
-     * display settings are changed.
+     * From DisplbyChbngeListener interfbce.
+     * Cblled from WToolkit bnd executed on the event threbd when the
+     * displby settings bre chbnged.
      */
     @Override
-    public void displayChanged() {
+    public void displbyChbnged() {
         // getNumScreens() will return the correct current number of screens
-        GraphicsDevice newDevices[] = new GraphicsDevice[getNumScreens()];
-        GraphicsDevice oldScreens[] = screens;
-        // go through the list of current devices and determine if they
-        // could be reused, or will have to be replaced
+        GrbphicsDevice newDevices[] = new GrbphicsDevice[getNumScreens()];
+        GrbphicsDevice oldScreens[] = screens;
+        // go through the list of current devices bnd determine if they
+        // could be reused, or will hbve to be replbced
         if (oldScreens != null) {
             for (int i = 0; i < oldScreens.length; i++) {
-                if (!(screens[i] instanceof Win32GraphicsDevice)) {
-                    // REMIND: can we ever have anything other than Win32GD?
-                    assert (false) : oldScreens[i];
+                if (!(screens[i] instbnceof Win32GrbphicsDevice)) {
+                    // REMIND: cbn we ever hbve bnything other thbn Win32GD?
+                    bssert (fblse) : oldScreens[i];
                     continue;
                 }
-                Win32GraphicsDevice gd = (Win32GraphicsDevice)oldScreens[i];
-                // devices may be invalidated from the native code when the
-                // display change happens (device add/removal also causes a
-                // display change)
-                if (!gd.isValid()) {
+                Win32GrbphicsDevice gd = (Win32GrbphicsDevice)oldScreens[i];
+                // devices mby be invblidbted from the nbtive code when the
+                // displby chbnge hbppens (device bdd/removbl blso cbuses b
+                // displby chbnge)
+                if (!gd.isVblid()) {
                     if (oldDevices == null) {
                         oldDevices =
-                            new ArrayList<WeakReference<Win32GraphicsDevice>>();
+                            new ArrbyList<WebkReference<Win32GrbphicsDevice>>();
                     }
-                    oldDevices.add(new WeakReference<Win32GraphicsDevice>(gd));
+                    oldDevices.bdd(new WebkReference<Win32GrbphicsDevice>(gd));
                 } else if (i < newDevices.length) {
                     // reuse the device
                     newDevices[i] = gd;
@@ -160,47 +160,47 @@ public class Win32GraphicsEnvironment
             }
             oldScreens = null;
         }
-        // create the new devices (those that weren't reused)
+        // crebte the new devices (those thbt weren't reused)
         for (int i = 0; i < newDevices.length; i++) {
             if (newDevices[i] == null) {
-                newDevices[i] = makeScreenDevice(i);
+                newDevices[i] = mbkeScreenDevice(i);
             }
         }
-        // install the new array of devices
-        // Note: no synchronization here, it doesn't matter if a thread gets
-        // a new or an old array this time around
+        // instbll the new brrby of devices
+        // Note: no synchronizbtion here, it doesn't mbtter if b threbd gets
+        // b new or bn old brrby this time bround
         screens = newDevices;
-        for (GraphicsDevice gd : screens) {
-            if (gd instanceof DisplayChangedListener) {
-                ((DisplayChangedListener)gd).displayChanged();
+        for (GrbphicsDevice gd : screens) {
+            if (gd instbnceof DisplbyChbngedListener) {
+                ((DisplbyChbngedListener)gd).displbyChbnged();
             }
         }
-        // re-invalidate all old devices. It's needed because those in the list
-        // may become "invalid" again - if the current default device is removed,
-        // for example. Also, they need to be notified about display
-        // changes as well.
+        // re-invblidbte bll old devices. It's needed becbuse those in the list
+        // mby become "invblid" bgbin - if the current defbult device is removed,
+        // for exbmple. Also, they need to be notified bbout displby
+        // chbnges bs well.
         if (oldDevices != null) {
-            int defScreen = getDefaultScreen();
-            for (ListIterator<WeakReference<Win32GraphicsDevice>> it =
-                    oldDevices.listIterator(); it.hasNext();)
+            int defScreen = getDefbultScreen();
+            for (ListIterbtor<WebkReference<Win32GrbphicsDevice>> it =
+                    oldDevices.listIterbtor(); it.hbsNext();)
             {
-                Win32GraphicsDevice gd = it.next().get();
+                Win32GrbphicsDevice gd = it.next().get();
                 if (gd != null) {
-                    gd.invalidate(defScreen);
-                    gd.displayChanged();
+                    gd.invblidbte(defScreen);
+                    gd.displbyChbnged();
                 } else {
                     // no more references to this device, remove it
                     it.remove();
                 }
             }
         }
-        // Reset the static GC for the (possibly new) default screen
+        // Reset the stbtic GC for the (possibly new) defbult screen
         WToolkit.resetGC();
 
-        // notify SunDisplayChanger list (e.g. VolatileSurfaceManagers and
-        // CachingSurfaceManagers) about the display change event
-        displayChanger.notifyListeners();
-        // note: do not call super.displayChanged, we've already done everything
+        // notify SunDisplbyChbnger list (e.g. VolbtileSurfbceMbnbgers bnd
+        // CbchingSurfbceMbnbgers) bbout the displby chbnge event
+        displbyChbnger.notifyListeners();
+        // note: do not cbll super.displbyChbnged, we've blrebdy done everything
     }
 
 
@@ -208,60 +208,60 @@ public class Win32GraphicsEnvironment
  * ----END DISPLAY CHANGE SUPPORT----
  */
 
-    protected GraphicsDevice makeScreenDevice(int screennum) {
-        GraphicsDevice device = null;
-        if (WindowsFlags.isD3DEnabled()) {
-            device = D3DGraphicsDevice.createDevice(screennum);
+    protected GrbphicsDevice mbkeScreenDevice(int screennum) {
+        GrbphicsDevice device = null;
+        if (WindowsFlbgs.isD3DEnbbled()) {
+            device = D3DGrbphicsDevice.crebteDevice(screennum);
         }
         if (device == null) {
-            device = new Win32GraphicsDevice(screennum);
+            device = new Win32GrbphicsDevice(screennum);
         }
         return device;
     }
 
-    public boolean isDisplayLocal() {
+    public boolebn isDisplbyLocbl() {
         return true;
     }
 
     @Override
-    public boolean isFlipStrategyPreferred(ComponentPeer peer) {
-        GraphicsConfiguration gc;
-        if (peer != null && (gc = peer.getGraphicsConfiguration()) != null) {
-            GraphicsDevice gd = gc.getDevice();
-            if (gd instanceof D3DGraphicsDevice) {
-                return ((D3DGraphicsDevice)gd).isD3DEnabledOnDevice();
+    public boolebn isFlipStrbtegyPreferred(ComponentPeer peer) {
+        GrbphicsConfigurbtion gc;
+        if (peer != null && (gc = peer.getGrbphicsConfigurbtion()) != null) {
+            GrbphicsDevice gd = gc.getDevice();
+            if (gd instbnceof D3DGrbphicsDevice) {
+                return ((D3DGrbphicsDevice)gd).isD3DEnbbledOnDevice();
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static volatile boolean isDWMCompositionEnabled;
+    privbte stbtic volbtile boolebn isDWMCompositionEnbbled;
     /**
-     * Returns true if dwm composition is currently enabled, false otherwise.
+     * Returns true if dwm composition is currently enbbled, fblse otherwise.
      *
-     * @return true if dwm composition is enabled, false otherwise
+     * @return true if dwm composition is enbbled, fblse otherwise
      */
-    public static boolean isDWMCompositionEnabled() {
-        return isDWMCompositionEnabled;
-    }
-
-    /**
-     * Called from the native code when DWM composition state changed.
-     * May be called multiple times during the lifetime of the application.
-     * REMIND: we may want to create a listener mechanism for this.
-     *
-     * Note: called on the Toolkit thread, no user code or locks are allowed.
-     *
-     * @param enabled indicates the state of dwm composition
-     */
-    private static void dwmCompositionChanged(boolean enabled) {
-        isDWMCompositionEnabled = enabled;
+    public stbtic boolebn isDWMCompositionEnbbled() {
+        return isDWMCompositionEnbbled;
     }
 
     /**
-     * Used to find out if the OS is Windows Vista or later.
+     * Cblled from the nbtive code when DWM composition stbte chbnged.
+     * Mby be cblled multiple times during the lifetime of the bpplicbtion.
+     * REMIND: we mby wbnt to crebte b listener mechbnism for this.
      *
-     * @return {@code true} if the OS is Vista or later, {@code false} otherwise
+     * Note: cblled on the Toolkit threbd, no user code or locks bre bllowed.
+     *
+     * @pbrbm enbbled indicbtes the stbte of dwm composition
      */
-    public static native boolean isVistaOS();
+    privbte stbtic void dwmCompositionChbnged(boolebn enbbled) {
+        isDWMCompositionEnbbled = enbbled;
+    }
+
+    /**
+     * Used to find out if the OS is Windows Vistb or lbter.
+     *
+     * @return {@code true} if the OS is Vistb or lbter, {@code fblse} otherwise
+     */
+    public stbtic nbtive boolebn isVistbOS();
 }

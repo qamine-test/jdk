@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * This class is used to store information  to describe soundbanks, instruments
- * and samples. It is stored inside a "INFO" List Chunk inside DLS files.
+ * This clbss is used to store informbtion  to describe soundbbnks, instruments
+ * bnd sbmples. It is stored inside b "INFO" List Chunk inside DLS files.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class DLSInfo {
+public finbl clbss DLSInfo {
 
     /**
      * (INAM) Title or subject.
      */
-    public String name = "untitled";
+    public String nbme = "untitled";
     /**
-     * (ICRD) Date of creation, the format is: YYYY-MM-DD.
-     *        For example 2007-01-01 for 1. january of year 2007.
+     * (ICRD) Dbte of crebtion, the formbt is: YYYY-MM-DD.
+     *        For exbmple 2007-01-01 for 1. jbnubry of yebr 2007.
      */
-    public String creationDate = null;
+    public String crebtionDbte = null;
     /**
-     * (IENG) Name of engineer who created the object.
+     * (IENG) Nbme of engineer who crebted the object.
      */
     public String engineers = null;
     /**
-     * (IPRD) Name of the product which the object is intended for.
+     * (IPRD) Nbme of the product which the object is intended for.
      */
     public String product = null;
     /**
-     * (ICOP) Copyright information.
+     * (ICOP) Copyright informbtion.
      */
     public String copyright = null;
     /**
-     * (ICMT) General comments. Doesn't contain newline characters.
+     * (ICMT) Generbl comments. Doesn't contbin newline chbrbcters.
      */
     public String comments = null;
     /**
-     * (ISFT) Name of software package used to create the file.
+     * (ISFT) Nbme of softwbre pbckbge used to crebte the file.
      */
     public String tools = null;
     /**
-     * (IARL) Where content is archived.
+     * (IARL) Where content is brchived.
      */
-    public String archival_location = null;
+    public String brchivbl_locbtion = null;
     /**
-     * (IART) Artists of original content.
+     * (IART) Artists of originbl content.
      */
-    public String artist = null;
+    public String brtist = null;
     /**
-     * (ICMS) Names of persons or orginizations who commissioned the file.
+     * (ICMS) Nbmes of persons or orginizbtions who commissioned the file.
      */
     public String commissioned = null;
     /**
      * (IGNR) Genre of the work.
-     *        Example: jazz, classical, rock, etc.
+     *        Exbmple: jbzz, clbssicbl, rock, etc.
      */
     public String genre = null;
     /**
-     * (IKEY) List of keyword that describe the content.
-     *        Examples: FX, bird, piano, etc.
+     * (IKEY) List of keyword thbt describe the content.
+     *        Exbmples: FX, bird, pibno, etc.
      */
     public String keywords = null;
     /**
-     * (IMED) Describes original medium of the data.
-     *        For example: record, CD, etc.
+     * (IMED) Describes originbl medium of the dbtb.
+     *        For exbmple: record, CD, etc.
      */
     public String medium = null;
     /**
@@ -93,17 +93,17 @@ public final class DLSInfo {
      */
     public String subject = null;
     /**
-     * (ISRC) Name of person or orginization who supplied
-     *        orginal material for the file.
+     * (ISRC) Nbme of person or orginizbtion who supplied
+     *        orginbl mbteribl for the file.
      */
     public String source = null;
     /**
-     * (ISRF) Source media for sample data is from.
-     *        For example: CD, TV, etc.
+     * (ISRF) Source medib for sbmple dbtb is from.
+     *        For exbmple: CD, TV, etc.
      */
     public String source_form = null;
     /**
-     * (ITCH) Technician who sample the file/object.
+     * (ITCH) Technicibn who sbmple the file/object.
      */
-    public String technician = null;
+    public String technicibn = null;
 }

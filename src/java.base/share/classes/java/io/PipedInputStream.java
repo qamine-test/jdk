@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A piped input stream should be connected
- * to a piped output stream; the piped  input
- * stream then provides whatever data bytes
- * are written to the piped output  stream.
- * Typically, data is read from a <code>PipedInputStream</code>
- * object by one thread  and data is written
- * to the corresponding <code>PipedOutputStream</code>
- * by some  other thread. Attempting to use
- * both objects from a single thread is not
- * recommended, as it may deadlock the thread.
- * The piped input stream contains a buffer,
- * decoupling read operations from write operations,
+ * A piped input strebm should be connected
+ * to b piped output strebm; the piped  input
+ * strebm then provides whbtever dbtb bytes
+ * bre written to the piped output  strebm.
+ * Typicblly, dbtb is rebd from b <code>PipedInputStrebm</code>
+ * object by one threbd  bnd dbtb is written
+ * to the corresponding <code>PipedOutputStrebm</code>
+ * by some  other threbd. Attempting to use
+ * both objects from b single threbd is not
+ * recommended, bs it mby debdlock the threbd.
+ * The piped input strebm contbins b buffer,
+ * decoupling rebd operbtions from write operbtions,
  * within limits.
- * A pipe is said to be <a name="BROKEN"> <i>broken</i> </a> if a
- * thread that was providing data bytes to the connected
- * piped output stream is no longer alive.
+ * A pipe is sbid to be <b nbme="BROKEN"> <i>broken</i> </b> if b
+ * threbd thbt wbs providing dbtb bytes to the connected
+ * piped output strebm is no longer blive.
  *
- * @author  James Gosling
- * @see     java.io.PipedOutputStream
+ * @buthor  Jbmes Gosling
+ * @see     jbvb.io.PipedOutputStrebm
  * @since   1.0
  */
-public class PipedInputStream extends InputStream {
-    boolean closedByWriter = false;
-    volatile boolean closedByReader = false;
-    boolean connected = false;
+public clbss PipedInputStrebm extends InputStrebm {
+    boolebn closedByWriter = fblse;
+    volbtile boolebn closedByRebder = fblse;
+    boolebn connected = fblse;
 
-        /* REMIND: identification of the read and write sides needs to be
-           more sophisticated.  Either using thread groups (but what about
-           pipes within a thread?) or using finalization (but it may be a
+        /* REMIND: identificbtion of the rebd bnd write sides needs to be
+           more sophisticbted.  Either using threbd groups (but whbt bbout
+           pipes within b threbd?) or using finblizbtion (but it mby be b
            long time until the next GC). */
-    Thread readSide;
-    Thread writeSide;
+    Threbd rebdSide;
+    Threbd writeSide;
 
-    private static final int DEFAULT_PIPE_SIZE = 1024;
+    privbte stbtic finbl int DEFAULT_PIPE_SIZE = 1024;
 
     /**
-     * The default size of the pipe's circular input buffer.
+     * The defbult size of the pipe's circulbr input buffer.
      * @since   1.1
      */
-    // This used to be a constant before the pipe size was allowed
-    // to change. This field will continue to be maintained
-    // for backward compatibility.
-    protected static final int PIPE_SIZE = DEFAULT_PIPE_SIZE;
+    // This used to be b constbnt before the pipe size wbs bllowed
+    // to chbnge. This field will continue to be mbintbined
+    // for bbckwbrd compbtibility.
+    protected stbtic finbl int PIPE_SIZE = DEFAULT_PIPE_SIZE;
 
     /**
-     * The circular buffer into which incoming data is placed.
+     * The circulbr buffer into which incoming dbtb is plbced.
      * @since   1.1
      */
     protected byte buffer[];
 
     /**
-     * The index of the position in the circular buffer at which the
-     * next byte of data will be stored when received from the connected
-     * piped output stream. <code>in&lt;0</code> implies the buffer is empty,
+     * The index of the position in the circulbr buffer bt which the
+     * next byte of dbtb will be stored when received from the connected
+     * piped output strebm. <code>in&lt;0</code> implies the buffer is empty,
      * <code>in==out</code> implies the buffer is full
      * @since   1.1
      */
     protected int in = -1;
 
     /**
-     * The index of the position in the circular buffer at which the next
-     * byte of data will be read by this piped input stream.
+     * The index of the position in the circulbr buffer bt which the next
+     * byte of dbtb will be rebd by this piped input strebm.
      * @since   1.1
      */
     protected int out = 0;
 
     /**
-     * Creates a <code>PipedInputStream</code> so
-     * that it is connected to the piped output
-     * stream <code>src</code>. Data bytes written
-     * to <code>src</code> will then be  available
-     * as input from this stream.
+     * Crebtes b <code>PipedInputStrebm</code> so
+     * thbt it is connected to the piped output
+     * strebm <code>src</code>. Dbtb bytes written
+     * to <code>src</code> will then be  bvbilbble
+     * bs input from this strebm.
      *
-     * @param      src   the stream to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      src   the strebm to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public PipedInputStream(PipedOutputStream src) throws IOException {
+    public PipedInputStrebm(PipedOutputStrebm src) throws IOException {
         this(src, DEFAULT_PIPE_SIZE);
     }
 
     /**
-     * Creates a <code>PipedInputStream</code> so that it is
-     * connected to the piped output stream
-     * <code>src</code> and uses the specified pipe size for
+     * Crebtes b <code>PipedInputStrebm</code> so thbt it is
+     * connected to the piped output strebm
+     * <code>src</code> bnd uses the specified pipe size for
      * the pipe's buffer.
-     * Data bytes written to <code>src</code> will then
-     * be available as input from this stream.
+     * Dbtb bytes written to <code>src</code> will then
+     * be bvbilbble bs input from this strebm.
      *
-     * @param      src   the stream to connect to.
-     * @param      pipeSize the size of the pipe's buffer.
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  IllegalArgumentException if {@code pipeSize <= 0}.
+     * @pbrbm      src   the strebm to connect to.
+     * @pbrbm      pipeSize the size of the pipe's buffer.
+     * @exception  IOException  if bn I/O error occurs.
+     * @exception  IllegblArgumentException if {@code pipeSize <= 0}.
      * @since      1.6
      */
-    public PipedInputStream(PipedOutputStream src, int pipeSize)
+    public PipedInputStrebm(PipedOutputStrebm src, int pipeSize)
             throws IOException {
          initPipe(pipeSize);
          connect(src);
     }
 
     /**
-     * Creates a <code>PipedInputStream</code> so
-     * that it is not yet {@linkplain #connect(java.io.PipedOutputStream)
+     * Crebtes b <code>PipedInputStrebm</code> so
+     * thbt it is not yet {@linkplbin #connect(jbvb.io.PipedOutputStrebm)
      * connected}.
-     * It must be {@linkplain java.io.PipedOutputStream#connect(
-     * java.io.PipedInputStream) connected} to a
-     * <code>PipedOutputStream</code> before being used.
+     * It must be {@linkplbin jbvb.io.PipedOutputStrebm#connect(
+     * jbvb.io.PipedInputStrebm) connected} to b
+     * <code>PipedOutputStrebm</code> before being used.
      */
-    public PipedInputStream() {
+    public PipedInputStrebm() {
         initPipe(DEFAULT_PIPE_SIZE);
     }
 
     /**
-     * Creates a <code>PipedInputStream</code> so that it is not yet
-     * {@linkplain #connect(java.io.PipedOutputStream) connected} and
+     * Crebtes b <code>PipedInputStrebm</code> so thbt it is not yet
+     * {@linkplbin #connect(jbvb.io.PipedOutputStrebm) connected} bnd
      * uses the specified pipe size for the pipe's buffer.
-     * It must be {@linkplain java.io.PipedOutputStream#connect(
-     * java.io.PipedInputStream)
-     * connected} to a <code>PipedOutputStream</code> before being used.
+     * It must be {@linkplbin jbvb.io.PipedOutputStrebm#connect(
+     * jbvb.io.PipedInputStrebm)
+     * connected} to b <code>PipedOutputStrebm</code> before being used.
      *
-     * @param      pipeSize the size of the pipe's buffer.
-     * @exception  IllegalArgumentException if {@code pipeSize <= 0}.
+     * @pbrbm      pipeSize the size of the pipe's buffer.
+     * @exception  IllegblArgumentException if {@code pipeSize <= 0}.
      * @since      1.6
      */
-    public PipedInputStream(int pipeSize) {
+    public PipedInputStrebm(int pipeSize) {
         initPipe(pipeSize);
     }
 
-    private void initPipe(int pipeSize) {
+    privbte void initPipe(int pipeSize) {
          if (pipeSize <= 0) {
-            throw new IllegalArgumentException("Pipe Size <= 0");
+            throw new IllegblArgumentException("Pipe Size <= 0");
          }
          buffer = new byte[pipeSize];
     }
 
     /**
-     * Causes this piped input stream to be connected
-     * to the piped  output stream <code>src</code>.
-     * If this object is already connected to some
-     * other piped output  stream, an <code>IOException</code>
+     * Cbuses this piped input strebm to be connected
+     * to the piped  output strebm <code>src</code>.
+     * If this object is blrebdy connected to some
+     * other piped output  strebm, bn <code>IOException</code>
      * is thrown.
      * <p>
-     * If <code>src</code> is an
-     * unconnected piped output stream and <code>snk</code>
-     * is an unconnected piped input stream, they
-     * may be connected by either the call:
+     * If <code>src</code> is bn
+     * unconnected piped output strebm bnd <code>snk</code>
+     * is bn unconnected piped input strebm, they
+     * mby be connected by either the cbll:
      *
      * <pre><code>snk.connect(src)</code> </pre>
      * <p>
-     * or the call:
+     * or the cbll:
      *
      * <pre><code>src.connect(snk)</code> </pre>
      * <p>
-     * The two calls have the same effect.
+     * The two cblls hbve the sbme effect.
      *
-     * @param      src   The piped output stream to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      src   The piped output strebm to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public void connect(PipedOutputStream src) throws IOException {
+    public void connect(PipedOutputStrebm src) throws IOException {
         src.connect(this);
     }
 
     /**
-     * Receives a byte of data.  This method will block if no input is
-     * available.
-     * @param b the byte being received
-     * @exception IOException If the pipe is <a href="#BROKEN"> <code>broken</code></a>,
-     *          {@link #connect(java.io.PipedOutputStream) unconnected},
-     *          closed, or if an I/O error occurs.
+     * Receives b byte of dbtb.  This method will block if no input is
+     * bvbilbble.
+     * @pbrbm b the byte being received
+     * @exception IOException If the pipe is <b href="#BROKEN"> <code>broken</code></b>,
+     *          {@link #connect(jbvb.io.PipedOutputStrebm) unconnected},
+     *          closed, or if bn I/O error occurs.
      * @since     1.1
      */
     protected synchronized void receive(int b) throws IOException {
-        checkStateForReceive();
-        writeSide = Thread.currentThread();
+        checkStbteForReceive();
+        writeSide = Threbd.currentThrebd();
         if (in == out)
-            awaitSpace();
+            bwbitSpbce();
         if (in < 0) {
             in = 0;
             out = 0;
@@ -213,119 +213,119 @@ public class PipedInputStream extends InputStream {
     }
 
     /**
-     * Receives data into an array of bytes.  This method will
-     * block until some input is available.
-     * @param b the buffer into which the data is received
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes received
-     * @exception IOException If the pipe is <a href="#BROKEN"> broken</a>,
-     *           {@link #connect(java.io.PipedOutputStream) unconnected},
-     *           closed,or if an I/O error occurs.
+     * Receives dbtb into bn brrby of bytes.  This method will
+     * block until some input is bvbilbble.
+     * @pbrbm b the buffer into which the dbtb is received
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the mbximum number of bytes received
+     * @exception IOException If the pipe is <b href="#BROKEN"> broken</b>,
+     *           {@link #connect(jbvb.io.PipedOutputStrebm) unconnected},
+     *           closed,or if bn I/O error occurs.
      */
     synchronized void receive(byte b[], int off, int len)  throws IOException {
-        checkStateForReceive();
-        writeSide = Thread.currentThread();
-        int bytesToTransfer = len;
-        while (bytesToTransfer > 0) {
+        checkStbteForReceive();
+        writeSide = Threbd.currentThrebd();
+        int bytesToTrbnsfer = len;
+        while (bytesToTrbnsfer > 0) {
             if (in == out)
-                awaitSpace();
-            int nextTransferAmount = 0;
+                bwbitSpbce();
+            int nextTrbnsferAmount = 0;
             if (out < in) {
-                nextTransferAmount = buffer.length - in;
+                nextTrbnsferAmount = buffer.length - in;
             } else if (in < out) {
                 if (in == -1) {
                     in = out = 0;
-                    nextTransferAmount = buffer.length - in;
+                    nextTrbnsferAmount = buffer.length - in;
                 } else {
-                    nextTransferAmount = out - in;
+                    nextTrbnsferAmount = out - in;
                 }
             }
-            if (nextTransferAmount > bytesToTransfer)
-                nextTransferAmount = bytesToTransfer;
-            assert(nextTransferAmount > 0);
-            System.arraycopy(b, off, buffer, in, nextTransferAmount);
-            bytesToTransfer -= nextTransferAmount;
-            off += nextTransferAmount;
-            in += nextTransferAmount;
+            if (nextTrbnsferAmount > bytesToTrbnsfer)
+                nextTrbnsferAmount = bytesToTrbnsfer;
+            bssert(nextTrbnsferAmount > 0);
+            System.brrbycopy(b, off, buffer, in, nextTrbnsferAmount);
+            bytesToTrbnsfer -= nextTrbnsferAmount;
+            off += nextTrbnsferAmount;
+            in += nextTrbnsferAmount;
             if (in >= buffer.length) {
                 in = 0;
             }
         }
     }
 
-    private void checkStateForReceive() throws IOException {
+    privbte void checkStbteForReceive() throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
-        } else if (closedByWriter || closedByReader) {
+        } else if (closedByWriter || closedByRebder) {
             throw new IOException("Pipe closed");
-        } else if (readSide != null && !readSide.isAlive()) {
-            throw new IOException("Read end dead");
+        } else if (rebdSide != null && !rebdSide.isAlive()) {
+            throw new IOException("Rebd end debd");
         }
     }
 
-    private void awaitSpace() throws IOException {
+    privbte void bwbitSpbce() throws IOException {
         while (in == out) {
-            checkStateForReceive();
+            checkStbteForReceive();
 
-            /* full: kick any waiting readers */
+            /* full: kick bny wbiting rebders */
             notifyAll();
             try {
-                wait(1000);
-            } catch (InterruptedException ex) {
-                throw new java.io.InterruptedIOException();
+                wbit(1000);
+            } cbtch (InterruptedException ex) {
+                throw new jbvb.io.InterruptedIOException();
             }
         }
     }
 
     /**
-     * Notifies all waiting threads that the last byte of data has been
+     * Notifies bll wbiting threbds thbt the lbst byte of dbtb hbs been
      * received.
      */
-    synchronized void receivedLast() {
+    synchronized void receivedLbst() {
         closedByWriter = true;
         notifyAll();
     }
 
     /**
-     * Reads the next byte of data from this piped input stream. The
-     * value byte is returned as an <code>int</code> in the range
+     * Rebds the next byte of dbtb from this piped input strebm. The
+     * vblue byte is returned bs bn <code>int</code> in the rbnge
      * <code>0</code> to <code>255</code>.
-     * This method blocks until input data is available, the end of the
-     * stream is detected, or an exception is thrown.
+     * This method blocks until input dbtb is bvbilbble, the end of the
+     * strebm is detected, or bn exception is thrown.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
      * @exception  IOException  if the pipe is
-     *           {@link #connect(java.io.PipedOutputStream) unconnected},
-     *           <a href="#BROKEN"> <code>broken</code></a>, closed,
-     *           or if an I/O error occurs.
+     *           {@link #connect(jbvb.io.PipedOutputStrebm) unconnected},
+     *           <b href="#BROKEN"> <code>broken</code></b>, closed,
+     *           or if bn I/O error occurs.
      */
-    public synchronized int read()  throws IOException {
+    public synchronized int rebd()  throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
-        } else if (closedByReader) {
+        } else if (closedByRebder) {
             throw new IOException("Pipe closed");
         } else if (writeSide != null && !writeSide.isAlive()
                    && !closedByWriter && (in < 0)) {
-            throw new IOException("Write end dead");
+            throw new IOException("Write end debd");
         }
 
-        readSide = Thread.currentThread();
-        int trials = 2;
+        rebdSide = Threbd.currentThrebd();
+        int tribls = 2;
         while (in < 0) {
             if (closedByWriter) {
                 /* closed by writer, return EOF */
                 return -1;
             }
-            if ((writeSide != null) && (!writeSide.isAlive()) && (--trials < 0)) {
+            if ((writeSide != null) && (!writeSide.isAlive()) && (--tribls < 0)) {
                 throw new IOException("Pipe broken");
             }
-            /* might be a writer waiting */
+            /* might be b writer wbiting */
             notifyAll();
             try {
-                wait(1000);
-            } catch (InterruptedException ex) {
-                throw new java.io.InterruptedIOException();
+                wbit(1000);
+            } cbtch (InterruptedException ex) {
+                throw new jbvb.io.InterruptedIOException();
             }
         }
         int ret = buffer[out++] & 0xFF;
@@ -341,30 +341,30 @@ public class PipedInputStream extends InputStream {
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this piped input
-     * stream into an array of bytes. Less than <code>len</code> bytes
-     * will be read if the end of the data stream is reached or if
+     * Rebds up to <code>len</code> bytes of dbtb from this piped input
+     * strebm into bn brrby of bytes. Less thbn <code>len</code> bytes
+     * will be rebd if the end of the dbtb strebm is rebched or if
      * <code>len</code> exceeds the pipe's buffer size.
-     * If <code>len </code> is zero, then no bytes are read and 0 is returned;
-     * otherwise, the method blocks until at least 1 byte of input is
-     * available, end of the stream has been detected, or an exception is
+     * If <code>len </code> is zero, then no bytes bre rebd bnd 0 is returned;
+     * otherwise, the method blocks until bt lebst 1 byte of input is
+     * bvbilbble, end of the strebm hbs been detected, or bn exception is
      * thrown.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in the destination array <code>b</code>
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end of
+     *             the strebm hbs been rebched.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception  IOException if the pipe is <a href="#BROKEN"> <code>broken</code></a>,
-     *           {@link #connect(java.io.PipedOutputStream) unconnected},
-     *           closed, or if an I/O error occurs.
+     * @exception  IOException if the pipe is <b href="#BROKEN"> <code>broken</code></b>,
+     *           {@link #connect(jbvb.io.PipedOutputStrebm) unconnected},
+     *           closed, or if bn I/O error occurs.
      */
-    public synchronized int read(byte b[], int off, int len)  throws IOException {
+    public synchronized int rebd(byte b[], int off, int len)  throws IOException {
         if (b == null) {
             throw new NullPointerException();
         } else if (off < 0 || len < 0 || len > b.length - off) {
@@ -373,8 +373,8 @@ public class PipedInputStream extends InputStream {
             return 0;
         }
 
-        /* possibly wait on the first character */
-        int c = read();
+        /* possibly wbit on the first chbrbcter */
+        int c = rebd();
         if (c < 0) {
             return -1;
         }
@@ -382,22 +382,22 @@ public class PipedInputStream extends InputStream {
         int rlen = 1;
         while ((in >= 0) && (len > 1)) {
 
-            int available;
+            int bvbilbble;
 
             if (in > out) {
-                available = Math.min((buffer.length - out), (in - out));
+                bvbilbble = Mbth.min((buffer.length - out), (in - out));
             } else {
-                available = buffer.length - out;
+                bvbilbble = buffer.length - out;
             }
 
-            // A byte is read beforehand outside the loop
-            if (available > (len - 1)) {
-                available = len - 1;
+            // A byte is rebd beforehbnd outside the loop
+            if (bvbilbble > (len - 1)) {
+                bvbilbble = len - 1;
             }
-            System.arraycopy(buffer, out, b, off + rlen, available);
-            out += available;
-            rlen += available;
-            len -= available;
+            System.brrbycopy(buffer, out, b, off + rlen, bvbilbble);
+            out += bvbilbble;
+            rlen += bvbilbble;
+            len -= bvbilbble;
 
             if (out >= buffer.length) {
                 out = 0;
@@ -411,19 +411,19 @@ public class PipedInputStream extends InputStream {
     }
 
     /**
-     * Returns the number of bytes that can be read from this input
-     * stream without blocking.
+     * Returns the number of bytes thbt cbn be rebd from this input
+     * strebm without blocking.
      *
-     * @return the number of bytes that can be read from this input stream
-     *         without blocking, or {@code 0} if this input stream has been
+     * @return the number of bytes thbt cbn be rebd from this input strebm
+     *         without blocking, or {@code 0} if this input strebm hbs been
      *         closed by invoking its {@link #close()} method, or if the pipe
-     *         is {@link #connect(java.io.PipedOutputStream) unconnected}, or
-     *          <a href="#BROKEN"> <code>broken</code></a>.
+     *         is {@link #connect(jbvb.io.PipedOutputStrebm) unconnected}, or
+     *          <b href="#BROKEN"> <code>broken</code></b>.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      * @since   1.0.2
      */
-    public synchronized int available() throws IOException {
+    public synchronized int bvbilbble() throws IOException {
         if(in < 0)
             return 0;
         else if(in == out)
@@ -435,13 +435,13 @@ public class PipedInputStream extends InputStream {
     }
 
     /**
-     * Closes this piped input stream and releases any system resources
-     * associated with the stream.
+     * Closes this piped input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close()  throws IOException {
-        closedByReader = true;
+        closedByRebder = true;
         synchronized (this) {
             in = -1;
         }

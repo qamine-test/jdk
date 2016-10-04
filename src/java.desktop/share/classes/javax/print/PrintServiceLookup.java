@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.print.attribute.AttributeSet;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvbx.print.bttribute.AttributeSet;
 
-import sun.awt.AppContext;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import sun.bwt.AppContext;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 
-/** Implementations of this class provide lookup services for
-  * print services (typically equivalent to printers) of a particular type.
+/** Implementbtions of this clbss provide lookup services for
+  * print services (typicblly equivblent to printers) of b pbrticulbr type.
   * <p>
-  * Multiple implementations may be installed concurrently.
-  * All implementations must be able to describe the located printers
-  * as instances of a PrintService.
-  * Typically implementations of this service class are located
-  * automatically in JAR files (see the SPI JAR file specification).
-  * These classes must be instantiable using a default constructor.
-  * Alternatively applications may explicitly register instances
-  * at runtime.
+  * Multiple implementbtions mby be instblled concurrently.
+  * All implementbtions must be bble to describe the locbted printers
+  * bs instbnces of b PrintService.
+  * Typicblly implementbtions of this service clbss bre locbted
+  * butombticblly in JAR files (see the SPI JAR file specificbtion).
+  * These clbsses must be instbntibble using b defbult constructor.
+  * Alternbtively bpplicbtions mby explicitly register instbnces
+  * bt runtime.
   * <p>
-  * Applications use only the static methods of this abstract class.
-  * The instance methods are implemented by a service provider in a subclass
-  * and the unification of the results from all installed lookup classes
-  * are reported by the static methods of this class when called by
-  * the application.
+  * Applicbtions use only the stbtic methods of this bbstrbct clbss.
+  * The instbnce methods bre implemented by b service provider in b subclbss
+  * bnd the unificbtion of the results from bll instblled lookup clbsses
+  * bre reported by the stbtic methods of this clbss when cblled by
+  * the bpplicbtion.
   * <p>
   * A PrintServiceLookup implementor is recommended to check for the
-  * SecurityManager.checkPrintJobAccess() to deny access to untrusted code.
-  * Following this recommended policy means that untrusted code may not
-  * be able to locate any print services. Downloaded applets are the most
-  * common example of untrusted code.
+  * SecurityMbnbger.checkPrintJobAccess() to deny bccess to untrusted code.
+  * Following this recommended policy mebns thbt untrusted code mby not
+  * be bble to locbte bny print services. Downlobded bpplets bre the most
+  * common exbmple of untrusted code.
   * <p>
-  * This check is made on a per lookup service basis to allow flexibility in
+  * This check is mbde on b per lookup service bbsis to bllow flexibility in
   * the policy to reflect the needs of different lookup services.
   * <p>
-  * Services which are registered by registerService(PrintService)
-  * will not be included in lookup results if a security manager is
-  * installed and its checkPrintJobAccess() method denies access.
+  * Services which bre registered by registerService(PrintService)
+  * will not be included in lookup results if b security mbnbger is
+  * instblled bnd its checkPrintJobAccess() method denies bccess.
   */
 
-public abstract class PrintServiceLookup {
+public bbstrbct clbss PrintServiceLookup {
 
-    static class Services {
-        private ArrayList<PrintServiceLookup> listOfLookupServices = null;
-        private ArrayList<PrintService> registeredServices = null;
+    stbtic clbss Services {
+        privbte ArrbyList<PrintServiceLookup> listOfLookupServices = null;
+        privbte ArrbyList<PrintService> registeredServices = null;
     }
 
-    private static Services getServicesForContext() {
+    privbte stbtic Services getServicesForContext() {
         Services services =
-            (Services)AppContext.getAppContext().get(Services.class);
+            (Services)AppContext.getAppContext().get(Services.clbss);
         if (services == null) {
             services = new Services();
-            AppContext.getAppContext().put(Services.class, services);
+            AppContext.getAppContext().put(Services.clbss, services);
         }
         return services;
     }
 
-    private static ArrayList<PrintServiceLookup> getListOfLookupServices() {
+    privbte stbtic ArrbyList<PrintServiceLookup> getListOfLookupServices() {
         return getServicesForContext().listOfLookupServices;
     }
 
-    private static ArrayList<PrintServiceLookup> initListOfLookupServices() {
-        ArrayList<PrintServiceLookup> listOfLookupServices = new ArrayList<>();
+    privbte stbtic ArrbyList<PrintServiceLookup> initListOfLookupServices() {
+        ArrbyList<PrintServiceLookup> listOfLookupServices = new ArrbyList<>();
         getServicesForContext().listOfLookupServices = listOfLookupServices;
         return listOfLookupServices;
     }
 
 
-    private static ArrayList<PrintService> getRegisteredServices() {
+    privbte stbtic ArrbyList<PrintService> getRegisteredServices() {
         return getServicesForContext().registeredServices;
     }
 
-    private static ArrayList<PrintService> initRegisteredServices() {
-        ArrayList<PrintService> registeredServices = new ArrayList<>();
+    privbte stbtic ArrbyList<PrintService> initRegisteredServices() {
+        ArrbyList<PrintService> registeredServices = new ArrbyList<>();
         getServicesForContext().registeredServices = registeredServices;
         return registeredServices;
     }
 
     /**
-     * Locates print services capable of printing the specified
-     * {@link DocFlavor}.
+     * Locbtes print services cbpbble of printing the specified
+     * {@link DocFlbvor}.
      *
-     * @param flavor the flavor to print. If null, this constraint is not
+     * @pbrbm flbvor the flbvor to print. If null, this constrbint is not
      *        used.
-     * @param attributes attributes that the print service must support.
-     * If null this constraint is not used.
+     * @pbrbm bttributes bttributes thbt the print service must support.
+     * If null this constrbint is not used.
      *
-     * @return array of matching <code>PrintService</code> objects
-     * representing print services that support the specified flavor
-     * attributes.  If no services match, the array is zero-length.
+     * @return brrby of mbtching <code>PrintService</code> objects
+     * representing print services thbt support the specified flbvor
+     * bttributes.  If no services mbtch, the brrby is zero-length.
      */
-    public static final PrintService[]
-        lookupPrintServices(DocFlavor flavor,
-                            AttributeSet attributes) {
-        ArrayList<PrintService> list = getServices(flavor, attributes);
-        return list.toArray(new PrintService[list.size()]);
+    public stbtic finbl PrintService[]
+        lookupPrintServices(DocFlbvor flbvor,
+                            AttributeSet bttributes) {
+        ArrbyList<PrintService> list = getServices(flbvor, bttributes);
+        return list.toArrby(new PrintService[list.size()]);
     }
 
 
     /**
-     * Locates MultiDoc print Services capable of printing MultiDocs
-     * containing all the specified doc flavors.
-     * <P> This method is useful to help locate a service that can print
-     * a <code>MultiDoc</code> in which the elements may be different
-     * flavors. An application could perform this itself by multiple lookups
-     * on each <code>DocFlavor</code> in turn and collating the results,
-     * but the lookup service may be able to do this more efficiently.
+     * Locbtes MultiDoc print Services cbpbble of printing MultiDocs
+     * contbining bll the specified doc flbvors.
+     * <P> This method is useful to help locbte b service thbt cbn print
+     * b <code>MultiDoc</code> in which the elements mby be different
+     * flbvors. An bpplicbtion could perform this itself by multiple lookups
+     * on ebch <code>DocFlbvor</code> in turn bnd collbting the results,
+     * but the lookup service mby be bble to do this more efficiently.
      *
-     * @param flavors the flavors to print. If null or empty this
-     *        constraint is not used.
-     * Otherwise return only multidoc print services that can print all
-     * specified doc flavors.
-     * @param attributes attributes that the print service must
-     * support.  If null this constraint is not used.
+     * @pbrbm flbvors the flbvors to print. If null or empty this
+     *        constrbint is not used.
+     * Otherwise return only multidoc print services thbt cbn print bll
+     * specified doc flbvors.
+     * @pbrbm bttributes bttributes thbt the print service must
+     * support.  If null this constrbint is not used.
      *
-     * @return array of matching {@link MultiDocPrintService} objects.
-     * If no services match, the array is zero-length.
+     * @return brrby of mbtching {@link MultiDocPrintService} objects.
+     * If no services mbtch, the brrby is zero-length.
      *
      */
-    public static final MultiDocPrintService[]
-        lookupMultiDocPrintServices(DocFlavor[] flavors,
-                                    AttributeSet attributes) {
-        ArrayList<MultiDocPrintService> list = getMultiDocServices(flavors, attributes);
-        return list.toArray(new MultiDocPrintService[list.size()]);
+    public stbtic finbl MultiDocPrintService[]
+        lookupMultiDocPrintServices(DocFlbvor[] flbvors,
+                                    AttributeSet bttributes) {
+        ArrbyList<MultiDocPrintService> list = getMultiDocServices(flbvors, bttributes);
+        return list.toArrby(new MultiDocPrintService[list.size()]);
     }
 
 
     /**
-     * Locates the default print service for this environment.
-     * This may return null.
-     * If multiple lookup services each specify a default, the
-     * chosen service is not precisely defined, but a
-     * platform native service, rather than an installed service,
-     * is usually returned as the default.  If there is no clearly
-     * identifiable
-     * platform native default print service, the default is the first
-     * to be located in an implementation-dependent manner.
+     * Locbtes the defbult print service for this environment.
+     * This mby return null.
+     * If multiple lookup services ebch specify b defbult, the
+     * chosen service is not precisely defined, but b
+     * plbtform nbtive service, rbther thbn bn instblled service,
+     * is usublly returned bs the defbult.  If there is no clebrly
+     * identifibble
+     * plbtform nbtive defbult print service, the defbult is the first
+     * to be locbted in bn implementbtion-dependent mbnner.
      * <p>
-     * This may include making use of any preferences API that is available
-     * as part of the Java or native platform.
-     * This algorithm may be overridden by a user setting the property
-     * javax.print.defaultPrinter.
-     * A service specified must be discovered to be valid and currently
-     * available to be returned as the default.
+     * This mby include mbking use of bny preferences API thbt is bvbilbble
+     * bs pbrt of the Jbvb or nbtive plbtform.
+     * This blgorithm mby be overridden by b user setting the property
+     * jbvbx.print.defbultPrinter.
+     * A service specified must be discovered to be vblid bnd currently
+     * bvbilbble to be returned bs the defbult.
      *
-     * @return the default PrintService.
+     * @return the defbult PrintService.
      */
 
-    public static final PrintService lookupDefaultPrintService() {
+    public stbtic finbl PrintService lookupDefbultPrintService() {
 
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        Iterbtor<PrintServiceLookup> psIterbtor = getAllLookupServices().iterbtor();
+        while (psIterbtor.hbsNext()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
-                PrintService service = lus.getDefaultPrintService();
+                PrintServiceLookup lus = psIterbtor.next();
+                PrintService service = lus.getDefbultPrintService();
                 if (service != null) {
                     return service;
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
         }
         return null;
@@ -192,32 +192,32 @@ public abstract class PrintServiceLookup {
 
 
     /**
-     * Allows an application to explicitly register a class that
-     * implements lookup services. The registration will not persist
-     * across VM invocations.
-     * This is useful if an application needs to make a new service
-     * available that is not part of the installation.
-     * If the lookup service is already registered, or cannot be registered,
-     * the method returns false.
+     * Allows bn bpplicbtion to explicitly register b clbss thbt
+     * implements lookup services. The registrbtion will not persist
+     * bcross VM invocbtions.
+     * This is useful if bn bpplicbtion needs to mbke b new service
+     * bvbilbble thbt is not pbrt of the instbllbtion.
+     * If the lookup service is blrebdy registered, or cbnnot be registered,
+     * the method returns fblse.
      *
-     * @param sp an implementation of a lookup service.
+     * @pbrbm sp bn implementbtion of b lookup service.
      * @return <code>true</code> if the new lookup service is newly
-     *         registered; <code>false</code> otherwise.
+     *         registered; <code>fblse</code> otherwise.
      */
-    public static boolean registerServiceProvider(PrintServiceLookup sp) {
-        synchronized (PrintServiceLookup.class) {
-            Iterator<PrintServiceLookup> psIterator =
-                getAllLookupServices().iterator();
-            while (psIterator.hasNext()) {
+    public stbtic boolebn registerServiceProvider(PrintServiceLookup sp) {
+        synchronized (PrintServiceLookup.clbss) {
+            Iterbtor<PrintServiceLookup> psIterbtor =
+                getAllLookupServices().iterbtor();
+            while (psIterbtor.hbsNext()) {
                 try {
-                    Object lus = psIterator.next();
-                    if (lus.getClass() == sp.getClass()) {
-                        return false;
+                    Object lus = psIterbtor.next();
+                    if (lus.getClbss() == sp.getClbss()) {
+                        return fblse;
                     }
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                 }
             }
-            getListOfLookupServices().add(sp);
+            getListOfLookupServices().bdd(sp);
             return true;
         }
 
@@ -225,128 +225,128 @@ public abstract class PrintServiceLookup {
 
 
     /**
-     * Allows an application to directly register an instance of a
-     * class which implements a print service.
-     * The lookup operations for this service will be
-     * performed by the PrintServiceLookup class using the attribute
-     * values and classes reported by the service.
-     * This may be less efficient than a lookup
-     * service tuned for that service.
-     * Therefore registering a <code>PrintServiceLookup</code> instance
-     * instead is recommended.
+     * Allows bn bpplicbtion to directly register bn instbnce of b
+     * clbss which implements b print service.
+     * The lookup operbtions for this service will be
+     * performed by the PrintServiceLookup clbss using the bttribute
+     * vblues bnd clbsses reported by the service.
+     * This mby be less efficient thbn b lookup
+     * service tuned for thbt service.
+     * Therefore registering b <code>PrintServiceLookup</code> instbnce
+     * instebd is recommended.
      * The method returns true if this service is not previously
-     * registered and is now successfully registered.
-     * This method should not be called with StreamPrintService instances.
-     * They will always fail to register and the method will return false.
-     * @param service an implementation of a print service.
+     * registered bnd is now successfully registered.
+     * This method should not be cblled with StrebmPrintService instbnces.
+     * They will blwbys fbil to register bnd the method will return fblse.
+     * @pbrbm service bn implementbtion of b print service.
      * @return <code>true</code> if the service is newly
-     *         registered; <code>false</code> otherwise.
+     *         registered; <code>fblse</code> otherwise.
      */
 
-    public static boolean registerService(PrintService service) {
-        synchronized (PrintServiceLookup.class) {
-            if (service instanceof StreamPrintService) {
-                return false;
+    public stbtic boolebn registerService(PrintService service) {
+        synchronized (PrintServiceLookup.clbss) {
+            if (service instbnceof StrebmPrintService) {
+                return fblse;
             }
-            ArrayList<PrintService> registeredServices = getRegisteredServices();
+            ArrbyList<PrintService> registeredServices = getRegisteredServices();
             if (registeredServices == null) {
                 registeredServices = initRegisteredServices();
             }
             else {
-              if (registeredServices.contains(service)) {
-                return false;
+              if (registeredServices.contbins(service)) {
+                return fblse;
               }
             }
-            registeredServices.add(service);
+            registeredServices.bdd(service);
             return true;
         }
     }
 
 
    /**
-    * Locates services that can be positively confirmed to support
-    * the combination of attributes and DocFlavors specified.
-    * This method is not called directly by applications.
+    * Locbtes services thbt cbn be positively confirmed to support
+    * the combinbtion of bttributes bnd DocFlbvors specified.
+    * This method is not cblled directly by bpplicbtions.
     * <p>
-    * Implemented by a service provider, used by the static methods
-    * of this class.
+    * Implemented by b service provider, used by the stbtic methods
+    * of this clbss.
     * <p>
-    * The results should be the same as obtaining all the PrintServices
-    * and querying each one individually on its support for the
-    * specified attributes and flavors, but the process can be more
-    * efficient by taking advantage of the capabilities of lookup services
+    * The results should be the sbme bs obtbining bll the PrintServices
+    * bnd querying ebch one individublly on its support for the
+    * specified bttributes bnd flbvors, but the process cbn be more
+    * efficient by tbking bdvbntbge of the cbpbbilities of lookup services
     * for the print services.
     *
-    * @param flavor of document required.  If null it is ignored.
-    * @param attributes required to be supported. If null this
-    * constraint is not used.
-    * @return array of matching PrintServices. If no services match, the
-    * array is zero-length.
+    * @pbrbm flbvor of document required.  If null it is ignored.
+    * @pbrbm bttributes required to be supported. If null this
+    * constrbint is not used.
+    * @return brrby of mbtching PrintServices. If no services mbtch, the
+    * brrby is zero-length.
     */
-    public abstract PrintService[] getPrintServices(DocFlavor flavor,
-                                                    AttributeSet attributes);
+    public bbstrbct PrintService[] getPrintServices(DocFlbvor flbvor,
+                                                    AttributeSet bttributes);
 
     /**
-     * Not called directly by applications.
-     * Implemented by a service provider, used by the static methods
-     * of this class.
-     * @return array of all PrintServices known to this lookup service
-     * class. If none are found, the array is zero-length.
+     * Not cblled directly by bpplicbtions.
+     * Implemented by b service provider, used by the stbtic methods
+     * of this clbss.
+     * @return brrby of bll PrintServices known to this lookup service
+     * clbss. If none bre found, the brrby is zero-length.
      */
-    public abstract PrintService[] getPrintServices() ;
+    public bbstrbct PrintService[] getPrintServices() ;
 
 
    /**
-    * Not called directly by applications.
+    * Not cblled directly by bpplicbtions.
     * <p>
-    * Implemented by a service provider, used by the static methods
-    * of this class.
+    * Implemented by b service provider, used by the stbtic methods
+    * of this clbss.
     * <p>
-    * Locates MultiDoc print services which can be positively confirmed
-    * to support the combination of attributes and DocFlavors specified.
+    * Locbtes MultiDoc print services which cbn be positively confirmed
+    * to support the combinbtion of bttributes bnd DocFlbvors specified.
     *
-    * @param flavors of documents required. If null or empty it is ignored.
-    * @param attributes required to be supported. If null this
-     * constraint is not used.
-    * @return array of matching PrintServices. If no services match, the
-    * array is zero-length.
+    * @pbrbm flbvors of documents required. If null or empty it is ignored.
+    * @pbrbm bttributes required to be supported. If null this
+     * constrbint is not used.
+    * @return brrby of mbtching PrintServices. If no services mbtch, the
+    * brrby is zero-length.
     */
-    public abstract MultiDocPrintService[]
-        getMultiDocPrintServices(DocFlavor[] flavors,
-                                 AttributeSet attributes);
+    public bbstrbct MultiDocPrintService[]
+        getMultiDocPrintServices(DocFlbvor[] flbvors,
+                                 AttributeSet bttributes);
 
     /**
-     * Not called directly by applications.
-     * Implemented by a service provider, and called by the print lookup
+     * Not cblled directly by bpplicbtions.
+     * Implemented by b service provider, bnd cblled by the print lookup
      * service
-     * @return the default PrintService for this lookup service.
-     * If there is no default, returns null.
+     * @return the defbult PrintService for this lookup service.
+     * If there is no defbult, returns null.
      */
-    public abstract PrintService getDefaultPrintService();
+    public bbstrbct PrintService getDefbultPrintService();
 
-    private static ArrayList<PrintServiceLookup> getAllLookupServices() {
-        synchronized (PrintServiceLookup.class) {
-            ArrayList<PrintServiceLookup> listOfLookupServices = getListOfLookupServices();
+    privbte stbtic ArrbyList<PrintServiceLookup> getAllLookupServices() {
+        synchronized (PrintServiceLookup.clbss) {
+            ArrbyList<PrintServiceLookup> listOfLookupServices = getListOfLookupServices();
             if (listOfLookupServices != null) {
                 return listOfLookupServices;
             } else {
                 listOfLookupServices = initListOfLookupServices();
             }
             try {
-                java.security.AccessController.doPrivileged(
-                     new java.security.PrivilegedExceptionAction<Object>() {
+                jbvb.security.AccessController.doPrivileged(
+                     new jbvb.security.PrivilegedExceptionAction<Object>() {
                         public Object run() {
-                            Iterator<PrintServiceLookup> iterator =
-                                ServiceLoader.load(PrintServiceLookup.class).
-                                iterator();
-                            ArrayList<PrintServiceLookup> los = getListOfLookupServices();
-                            while (iterator.hasNext()) {
+                            Iterbtor<PrintServiceLookup> iterbtor =
+                                ServiceLobder.lobd(PrintServiceLookup.clbss).
+                                iterbtor();
+                            ArrbyList<PrintServiceLookup> los = getListOfLookupServices();
+                            while (iterbtor.hbsNext()) {
                                 try {
-                                    los.add(iterator.next());
-                                }  catch (ServiceConfigurationError err) {
-                                    /* In the applet case, we continue */
-                                    if (System.getSecurityManager() != null) {
-                                        err.printStackTrace();
+                                    los.bdd(iterbtor.next());
+                                }  cbtch (ServiceConfigurbtionError err) {
+                                    /* In the bpplet cbse, we continue */
+                                    if (System.getSecurityMbnbger() != null) {
+                                        err.printStbckTrbce();
                                     } else {
                                         throw err;
                                     }
@@ -355,62 +355,62 @@ public abstract class PrintServiceLookup {
                             return null;
                         }
                 });
-            } catch (java.security.PrivilegedActionException e) {
+            } cbtch (jbvb.security.PrivilegedActionException e) {
             }
 
             return listOfLookupServices;
         }
     }
 
-    private static ArrayList<PrintService> getServices(DocFlavor flavor,
-                                                       AttributeSet attributes) {
+    privbte stbtic ArrbyList<PrintService> getServices(DocFlbvor flbvor,
+                                                       AttributeSet bttributes) {
 
-        ArrayList<PrintService> listOfServices = new ArrayList<>();
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        ArrbyList<PrintService> listOfServices = new ArrbyList<>();
+        Iterbtor<PrintServiceLookup> psIterbtor = getAllLookupServices().iterbtor();
+        while (psIterbtor.hbsNext()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
+                PrintServiceLookup lus = psIterbtor.next();
                 PrintService[] services=null;
-                if (flavor == null && attributes == null) {
+                if (flbvor == null && bttributes == null) {
                     try {
                     services = lus.getPrintServices();
-                    } catch (Throwable tr) {
+                    } cbtch (Throwbble tr) {
                     }
                 } else {
-                    services = lus.getPrintServices(flavor, attributes);
+                    services = lus.getPrintServices(flbvor, bttributes);
                 }
                 if (services == null) {
                     continue;
                 }
                 for (int i=0; i<services.length; i++) {
-                    listOfServices.add(services[i]);
+                    listOfServices.bdd(services[i]);
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
         }
-        /* add any directly registered services */
-        ArrayList<PrintService> registeredServices = null;
+        /* bdd bny directly registered services */
+        ArrbyList<PrintService> registeredServices = null;
         try {
-          SecurityManager security = System.getSecurityManager();
+          SecurityMbnbger security = System.getSecurityMbnbger();
           if (security != null) {
             security.checkPrintJobAccess();
           }
           registeredServices = getRegisteredServices();
-        } catch (SecurityException se) {
+        } cbtch (SecurityException se) {
         }
         if (registeredServices != null) {
-            PrintService[] services = registeredServices.toArray(
+            PrintService[] services = registeredServices.toArrby(
                            new PrintService[registeredServices.size()]);
             for (int i=0; i<services.length; i++) {
-                if (!listOfServices.contains(services[i])) {
-                    if (flavor == null && attributes == null) {
-                        listOfServices.add(services[i]);
-                    } else if (((flavor != null &&
-                                 services[i].isDocFlavorSupported(flavor)) ||
-                                flavor == null) &&
+                if (!listOfServices.contbins(services[i])) {
+                    if (flbvor == null && bttributes == null) {
+                        listOfServices.bdd(services[i]);
+                    } else if (((flbvor != null &&
+                                 services[i].isDocFlbvorSupported(flbvor)) ||
+                                flbvor == null) &&
                                null == services[i].getUnsupportedAttributes(
-                                                      flavor, attributes)) {
-                        listOfServices.add(services[i]);
+                                                      flbvor, bttributes)) {
+                        listOfServices.bdd(services[i]);
                     }
                 }
             }
@@ -418,61 +418,61 @@ public abstract class PrintServiceLookup {
         return listOfServices;
     }
 
-    private static ArrayList<MultiDocPrintService> getMultiDocServices(DocFlavor[] flavors,
-                                                                       AttributeSet attributes) {
+    privbte stbtic ArrbyList<MultiDocPrintService> getMultiDocServices(DocFlbvor[] flbvors,
+                                                                       AttributeSet bttributes) {
 
 
-        ArrayList<MultiDocPrintService> listOfServices = new ArrayList<>();
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        ArrbyList<MultiDocPrintService> listOfServices = new ArrbyList<>();
+        Iterbtor<PrintServiceLookup> psIterbtor = getAllLookupServices().iterbtor();
+        while (psIterbtor.hbsNext()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
+                PrintServiceLookup lus = psIterbtor.next();
                 MultiDocPrintService[] services  =
-                    lus.getMultiDocPrintServices(flavors, attributes);
+                    lus.getMultiDocPrintServices(flbvors, bttributes);
                 if (services == null) {
                     continue;
                 }
                 for (int i=0; i<services.length; i++) {
-                    listOfServices.add(services[i]);
+                    listOfServices.bdd(services[i]);
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
         }
-        /* add any directly registered services */
-        ArrayList<PrintService> registeredServices = null;
+        /* bdd bny directly registered services */
+        ArrbyList<PrintService> registeredServices = null;
         try {
-          SecurityManager security = System.getSecurityManager();
+          SecurityMbnbger security = System.getSecurityMbnbger();
           if (security != null) {
             security.checkPrintJobAccess();
           }
           registeredServices = getRegisteredServices();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
         if (registeredServices != null) {
             PrintService[] services =
-                registeredServices.toArray(new PrintService[registeredServices.size()]);
+                registeredServices.toArrby(new PrintService[registeredServices.size()]);
             for (int i=0; i<services.length; i++) {
-                if (services[i] instanceof MultiDocPrintService &&
-                    !listOfServices.contains(services[i])) {
-                    if (flavors == null || flavors.length == 0) {
-                        listOfServices.add((MultiDocPrintService)services[i]);
+                if (services[i] instbnceof MultiDocPrintService &&
+                    !listOfServices.contbins(services[i])) {
+                    if (flbvors == null || flbvors.length == 0) {
+                        listOfServices.bdd((MultiDocPrintService)services[i]);
                     } else {
-                        boolean supported = true;
-                        for (int f=0; f<flavors.length; f++) {
-                            if (services[i].isDocFlavorSupported(flavors[f])) {
+                        boolebn supported = true;
+                        for (int f=0; f<flbvors.length; f++) {
+                            if (services[i].isDocFlbvorSupported(flbvors[f])) {
 
                                 if (services[i].getUnsupportedAttributes(
-                                     flavors[f], attributes) != null) {
-                                        supported = false;
-                                        break;
+                                     flbvors[f], bttributes) != null) {
+                                        supported = fblse;
+                                        brebk;
                                 }
                             } else {
-                                supported = false;
-                                break;
+                                supported = fblse;
+                                brebk;
                             }
                         }
                         if (supported) {
-                            listOfServices.add((MultiDocPrintService)services[i]);
+                            listOfServices.bdd((MultiDocPrintService)services[i]);
                         }
                     }
                 }

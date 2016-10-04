@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.text.spi;
+pbckbge jbvb.text.spi;
 
-import java.text.DateFormatSymbols;
-import java.util.Locale;
-import java.util.spi.LocaleServiceProvider;
+import jbvb.text.DbteFormbtSymbols;
+import jbvb.util.Locble;
+import jbvb.util.spi.LocbleServiceProvider;
 
 /**
- * An abstract class for service providers that
- * provide instances of the
- * {@link java.text.DateFormatSymbols DateFormatSymbols} class.
+ * An bbstrbct clbss for service providers thbt
+ * provide instbnces of the
+ * {@link jbvb.text.DbteFormbtSymbols DbteFormbtSymbols} clbss.
  *
  * @since        1.6
  */
-public abstract class DateFormatSymbolsProvider extends LocaleServiceProvider {
+public bbstrbct clbss DbteFormbtSymbolsProvider extends LocbleServiceProvider {
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected DateFormatSymbolsProvider() {
+    protected DbteFormbtSymbolsProvider() {
     }
 
     /**
-     * Returns a new <code>DateFormatSymbols</code> instance for the
-     * specified locale.
+     * Returns b new <code>DbteFormbtSymbols</code> instbnce for the
+     * specified locble.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a <code>DateFormatSymbols</code> instance.
-     * @see java.text.DateFormatSymbols#getInstance(java.util.Locale)
+     * @pbrbm locble the desired locble
+     * @exception NullPointerException if <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @return b <code>DbteFormbtSymbols</code> instbnce.
+     * @see jbvb.text.DbteFormbtSymbols#getInstbnce(jbvb.util.Locble)
      */
-    public abstract DateFormatSymbols getInstance(Locale locale);
+    public bbstrbct DbteFormbtSymbols getInstbnce(Locble locble);
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-abstract class WObjectPeer {
+bbstrbct clbss WObjectPeer {
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    // The Windows handle for the native widget.
-    long pData;
-    // if the native peer has been destroyed
-    boolean destroyed = false;
-    // The associated AWT object.
-    Object target;
+    // The Windows hbndle for the nbtive widget.
+    long pDbtb;
+    // if the nbtive peer hbs been destroyed
+    boolebn destroyed = fblse;
+    // The bssocibted AWT object.
+    Object tbrget;
 
-    private volatile boolean disposed;
+    privbte volbtile boolebn disposed;
 
-    // set from JNI if any errors in creating the peer occur
-    protected Error createError = null;
+    // set from JNI if bny errors in crebting the peer occur
+    protected Error crebteError = null;
 
-    // used to synchronize the state of this peer
-    private final Object stateLock = new Object();
+    // used to synchronize the stbte of this peer
+    privbte finbl Object stbteLock = new Object();
 
-    public static WObjectPeer getPeerForTarget(Object t) {
-        WObjectPeer peer = (WObjectPeer) WToolkit.targetToPeer(t);
+    public stbtic WObjectPeer getPeerForTbrget(Object t) {
+        WObjectPeer peer = (WObjectPeer) WToolkit.tbrgetToPeer(t);
         return peer;
     }
 
-    public long getData() {
-        return pData;
+    public long getDbtb() {
+        return pDbtb;
     }
 
-    public Object getTarget() {
-        return target;
+    public Object getTbrget() {
+        return tbrget;
     }
 
-    public final Object getStateLock() {
-        return stateLock;
+    public finbl Object getStbteLock() {
+        return stbteLock;
     }
 
     /*
-     * Subclasses should override disposeImpl() instead of dispose(). Client
-     * code should always invoke dispose(), never disposeImpl().
+     * Subclbsses should override disposeImpl() instebd of dispose(). Client
+     * code should blwbys invoke dispose(), never disposeImpl().
      */
-    abstract protected void disposeImpl();
-    public final void dispose() {
-        boolean call_disposeImpl = false;
+    bbstrbct protected void disposeImpl();
+    public finbl void dispose() {
+        boolebn cbll_disposeImpl = fblse;
 
         synchronized (this) {
             if (!disposed) {
-                disposed = call_disposeImpl = true;
+                disposed = cbll_disposeImpl = true;
             }
         }
 
-        if (call_disposeImpl) {
+        if (cbll_disposeImpl) {
             disposeImpl();
         }
     }
-    protected final boolean isDisposed() {
+    protected finbl boolebn isDisposed() {
         return disposed;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 }

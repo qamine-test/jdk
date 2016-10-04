@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.*;
 import com.sun.jdi.connect.*;
 
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-public class TTY implements EventNotifier {
-    EventHandler handler = null;
-
-    /**
-     * List of Strings to execute at each stop.
-     */
-    private List<String> monitorCommands = new ArrayList<String>();
-    private int monitorCount = 0;
+public clbss TTY implements EventNotifier {
+    EventHbndler hbndler = null;
 
     /**
-     * The name of this tool.
+     * List of Strings to execute bt ebch stop.
      */
-    private static final String progname = "jdb";
+    privbte List<String> monitorCommbnds = new ArrbyList<String>();
+    privbte int monitorCount = 0;
+
+    /**
+     * The nbme of this tool.
+     */
+    privbte stbtic finbl String prognbme = "jdb";
 
     @Override
-    public void vmStartEvent(VMStartEvent se)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("VM Started:");
+    public void vmStbrtEvent(VMStbrtEvent se)  {
+        Threbd.yield();  // fetch output
+        MessbgeOutput.lnprint("VM Stbrted:");
     }
 
     @Override
-    public void vmDeathEvent(VMDeathEvent e)  {
+    public void vmDebthEvent(VMDebthEvent e)  {
     }
 
     @Override
@@ -71,216 +71,216 @@ public class TTY implements EventNotifier {
     }
 
     @Override
-    public void threadStartEvent(ThreadStartEvent e)  {
+    public void threbdStbrtEvent(ThrebdStbrtEvent e)  {
     }
 
     @Override
-    public void threadDeathEvent(ThreadDeathEvent e)  {
+    public void threbdDebthEvent(ThrebdDebthEvent e)  {
     }
 
     @Override
-    public void classPrepareEvent(ClassPrepareEvent e)  {
+    public void clbssPrepbreEvent(ClbssPrepbreEvent e)  {
     }
 
     @Override
-    public void classUnloadEvent(ClassUnloadEvent e)  {
+    public void clbssUnlobdEvent(ClbssUnlobdEvent e)  {
     }
 
     @Override
-    public void breakpointEvent(BreakpointEvent be)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("Breakpoint hit:");
+    public void brebkpointEvent(BrebkpointEvent be)  {
+        Threbd.yield();  // fetch output
+        MessbgeOutput.lnprint("Brebkpoint hit:");
     }
 
     @Override
-    public void fieldWatchEvent(WatchpointEvent fwe)  {
+    public void fieldWbtchEvent(WbtchpointEvent fwe)  {
         Field field = fwe.field();
         ObjectReference obj = fwe.object();
-        Thread.yield();  // fetch output
+        Threbd.yield();  // fetch output
 
-        if (fwe instanceof ModificationWatchpointEvent) {
-            MessageOutput.lnprint("Field access encountered before after",
+        if (fwe instbnceof ModificbtionWbtchpointEvent) {
+            MessbgeOutput.lnprint("Field bccess encountered before bfter",
                                   new Object [] {field,
-                                                 fwe.valueCurrent(),
-                                                 ((ModificationWatchpointEvent)fwe).valueToBe()});
+                                                 fwe.vblueCurrent(),
+                                                 ((ModificbtionWbtchpointEvent)fwe).vblueToBe()});
         } else {
-            MessageOutput.lnprint("Field access encountered", field.toString());
+            MessbgeOutput.lnprint("Field bccess encountered", field.toString());
         }
     }
 
     @Override
     public void stepEvent(StepEvent se)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("Step completed:");
+        Threbd.yield();  // fetch output
+        MessbgeOutput.lnprint("Step completed:");
     }
 
     @Override
     public void exceptionEvent(ExceptionEvent ee) {
-        Thread.yield();  // fetch output
-        Location catchLocation = ee.catchLocation();
-        if (catchLocation == null) {
-            MessageOutput.lnprint("Exception occurred uncaught",
-                                  ee.exception().referenceType().name());
+        Threbd.yield();  // fetch output
+        Locbtion cbtchLocbtion = ee.cbtchLocbtion();
+        if (cbtchLocbtion == null) {
+            MessbgeOutput.lnprint("Exception occurred uncbught",
+                                  ee.exception().referenceType().nbme());
         } else {
-            MessageOutput.lnprint("Exception occurred caught",
-                                  new Object [] {ee.exception().referenceType().name(),
-                                                 Commands.locationString(catchLocation)});
+            MessbgeOutput.lnprint("Exception occurred cbught",
+                                  new Object [] {ee.exception().referenceType().nbme(),
+                                                 Commbnds.locbtionString(cbtchLocbtion)});
         }
     }
 
     @Override
     public void methodEntryEvent(MethodEntryEvent me) {
-        Thread.yield();  // fetch output
+        Threbd.yield();  // fetch output
         /*
-         * These can be very numerous, so be as efficient as possible.
-         * If we are stopping here, then we will see the normal location
+         * These cbn be very numerous, so be bs efficient bs possible.
+         * If we bre stopping here, then we will see the normbl locbtion
          * info printed.
          */
         if (me.request().suspendPolicy() != EventRequest.SUSPEND_NONE) {
-            // We are stopping; the name will be shown by the normal mechanism
-            MessageOutput.lnprint("Method entered:");
+            // We bre stopping; the nbme will be shown by the normbl mechbnism
+            MessbgeOutput.lnprint("Method entered:");
         } else {
-            // We aren't stopping, show the name
-            MessageOutput.print("Method entered:");
-            printLocationOfEvent(me);
+            // We bren't stopping, show the nbme
+            MessbgeOutput.print("Method entered:");
+            printLocbtionOfEvent(me);
         }
     }
 
     @Override
-    public boolean methodExitEvent(MethodExitEvent me) {
-        Thread.yield();  // fetch output
+    public boolebn methodExitEvent(MethodExitEvent me) {
+        Threbd.yield();  // fetch output
         /*
-         * These can be very numerous, so be as efficient as possible.
+         * These cbn be very numerous, so be bs efficient bs possible.
          */
-        Method mmm = Env.atExitMethod();
+        Method mmm = Env.btExitMethod();
         Method meMethod = me.method();
 
-        if (mmm == null || mmm.equals(meMethod)) {
-            // Either we are not tracing a specific method, or we are
-            // and we are exitting that method.
+        if (mmm == null || mmm.equbls(meMethod)) {
+            // Either we bre not trbcing b specific method, or we bre
+            // bnd we bre exitting thbt method.
 
             if (me.request().suspendPolicy() != EventRequest.SUSPEND_NONE) {
-                // We will be stopping here, so do a newline
-                MessageOutput.println();
+                // We will be stopping here, so do b newline
+                MessbgeOutput.println();
             }
-            if (Env.vm().canGetMethodReturnValues()) {
-                MessageOutput.print("Method exitedValue:", me.returnValue() + "");
+            if (Env.vm().cbnGetMethodReturnVblues()) {
+                MessbgeOutput.print("Method exitedVblue:", me.returnVblue() + "");
             } else {
-                MessageOutput.print("Method exited:");
+                MessbgeOutput.print("Method exited:");
             }
 
             if (me.request().suspendPolicy() == EventRequest.SUSPEND_NONE) {
-                // We won't be stopping here, so show the method name
-                printLocationOfEvent(me);
+                // We won't be stopping here, so show the method nbme
+                printLocbtionOfEvent(me);
 
             }
 
-            // In case we want to have a one shot trace exit some day, this
-            // code disables the request so we don't hit it again.
-            if (false) {
-                // This is a one shot deal; we don't want to stop
+            // In cbse we wbnt to hbve b one shot trbce exit some dby, this
+            // code disbbles the request so we don't hit it bgbin.
+            if (fblse) {
+                // This is b one shot debl; we don't wbnt to stop
                 // here the next time.
                 Env.setAtExitMethod(null);
-                EventRequestManager erm = Env.vm().eventRequestManager();
+                EventRequestMbnbger erm = Env.vm().eventRequestMbnbger();
                 for (EventRequest eReq : erm.methodExitRequests()) {
-                    if (eReq.equals(me.request())) {
-                        eReq.disable();
+                    if (eReq.equbls(me.request())) {
+                        eReq.disbble();
                     }
                 }
             }
             return true;
         }
 
-        // We are tracing a specific method, and this isn't it.  Keep going.
-        return false;
+        // We bre trbcing b specific method, bnd this isn't it.  Keep going.
+        return fblse;
     }
 
     @Override
     public void vmInterrupted() {
-        Thread.yield();  // fetch output
-        printCurrentLocation();
-        for (String cmd : monitorCommands) {
+        Threbd.yield();  // fetch output
+        printCurrentLocbtion();
+        for (String cmd : monitorCommbnds) {
             StringTokenizer t = new StringTokenizer(cmd);
             t.nextToken();  // get rid of monitor number
-            executeCommand(t);
+            executeCommbnd(t);
         }
-        MessageOutput.printPrompt();
+        MessbgeOutput.printPrompt();
     }
 
     @Override
     public void receivedEvent(Event event) {
     }
 
-    private void printBaseLocation(String threadName, Location loc) {
-        MessageOutput.println("location",
-                              new Object [] {threadName,
-                                             Commands.locationString(loc)});
+    privbte void printBbseLocbtion(String threbdNbme, Locbtion loc) {
+        MessbgeOutput.println("locbtion",
+                              new Object [] {threbdNbme,
+                                             Commbnds.locbtionString(loc)});
     }
 
-    private void printCurrentLocation() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        StackFrame frame;
+    privbte void printCurrentLocbtion() {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        StbckFrbme frbme;
         try {
-            frame = threadInfo.getCurrentFrame();
-        } catch (IncompatibleThreadStateException exc) {
-            MessageOutput.println("<location unavailable>");
+            frbme = threbdInfo.getCurrentFrbme();
+        } cbtch (IncompbtibleThrebdStbteException exc) {
+            MessbgeOutput.println("<locbtion unbvbilbble>");
             return;
         }
-        if (frame == null) {
-            MessageOutput.println("No frames on the current call stack");
+        if (frbme == null) {
+            MessbgeOutput.println("No frbmes on the current cbll stbck");
         } else {
-            Location loc = frame.location();
-            printBaseLocation(threadInfo.getThread().name(), loc);
+            Locbtion loc = frbme.locbtion();
+            printBbseLocbtion(threbdInfo.getThrebd().nbme(), loc);
             // Output the current source line, if possible
             if (loc.lineNumber() != -1) {
                 String line;
                 try {
                     line = Env.sourceLine(loc, loc.lineNumber());
-                } catch (java.io.IOException e) {
+                } cbtch (jbvb.io.IOException e) {
                     line = null;
                 }
                 if (line != null) {
-                    MessageOutput.println("source line number and line",
+                    MessbgeOutput.println("source line number bnd line",
                                           new Object [] {loc.lineNumber(),
                                                          line});
                 }
             }
         }
-        MessageOutput.println();
+        MessbgeOutput.println();
     }
 
-    private void printLocationOfEvent(LocatableEvent theEvent) {
-        printBaseLocation(theEvent.thread().name(), theEvent.location());
+    privbte void printLocbtionOfEvent(LocbtbbleEvent theEvent) {
+        printBbseLocbtion(theEvent.threbd().nbme(), theEvent.locbtion());
     }
 
     void help() {
-        MessageOutput.println("zz help text");
+        MessbgeOutput.println("zz help text");
     }
 
-    private static final String[][] commandList = {
+    privbte stbtic finbl String[][] commbndList = {
         /*
-         * NOTE: this list must be kept sorted in ascending ASCII
-         *       order by element [0].  Ref: isCommand() below.
+         * NOTE: this list must be kept sorted in bscending ASCII
+         *       order by element [0].  Ref: isCommbnd() below.
          *
-         *Command      OK when        OK when
-         * name      disconnected?   readonly?
+         *Commbnd      OK when        OK when
+         * nbme      disconnected?   rebdonly?
          *------------------------------------
          */
         {"!!",           "n",         "y"},
         {"?",            "y",         "y"},
         {"bytecodes",    "n",         "y"},
-        {"catch",        "y",         "n"},
-        {"class",        "n",         "y"},
-        {"classes",      "n",         "y"},
-        {"classpath",    "n",         "y"},
-        {"clear",        "y",         "n"},
+        {"cbtch",        "y",         "n"},
+        {"clbss",        "n",         "y"},
+        {"clbsses",      "n",         "y"},
+        {"clbsspbth",    "n",         "y"},
+        {"clebr",        "y",         "n"},
         {"connectors",   "y",         "y"},
         {"cont",         "n",         "n"},
-        {"disablegc",    "n",         "n"},
+        {"disbblegc",    "n",         "n"},
         {"down",         "n",         "y"},
         {"dump",         "n",         "y"},
-        {"enablegc",     "n",         "n"},
-        {"eval",         "n",         "y"},
+        {"enbblegc",     "n",         "n"},
+        {"evbl",         "n",         "y"},
         {"exclude",      "y",         "n"},
         {"exit",         "y",         "y"},
         {"extension",    "n",         "y"},
@@ -292,8 +292,8 @@ public class TTY implements EventNotifier {
         {"kill",         "n",         "n"},
         {"lines",        "n",         "y"},
         {"list",         "n",         "y"},
-        {"load",         "n",         "y"},
-        {"locals",       "n",         "y"},
+        {"lobd",         "n",         "y"},
+        {"locbls",       "n",         "y"},
         {"lock",         "n",         "n"},
         {"memory",       "n",         "y"},
         {"methods",      "n",         "y"},
@@ -302,52 +302,52 @@ public class TTY implements EventNotifier {
         {"pop",          "n",         "n"},
         {"print",        "n",         "y"},
         {"quit",         "y",         "y"},
-        {"read",         "y",         "y"},
+        {"rebd",         "y",         "y"},
         {"redefine",     "n",         "n"},
         {"reenter",      "n",         "n"},
         {"resume",       "n",         "n"},
         {"run",          "y",         "n"},
-        {"save",         "n",         "n"},
+        {"sbve",         "n",         "n"},
         {"set",          "n",         "n"},
-        {"sourcepath",   "y",         "y"},
+        {"sourcepbth",   "y",         "y"},
         {"step",         "n",         "n"},
         {"stepi",        "n",         "n"},
         {"stop",         "y",         "n"},
         {"suspend",      "n",         "n"},
-        {"thread",       "n",         "y"},
-        {"threadgroup",  "n",         "y"},
-        {"threadgroups", "n",         "y"},
-        {"threadlocks",  "n",         "y"},
-        {"threads",      "n",         "y"},
-        {"trace",        "n",         "n"},
+        {"threbd",       "n",         "y"},
+        {"threbdgroup",  "n",         "y"},
+        {"threbdgroups", "n",         "y"},
+        {"threbdlocks",  "n",         "y"},
+        {"threbds",      "n",         "y"},
+        {"trbce",        "n",         "n"},
         {"unmonitor",    "n",         "n"},
-        {"untrace",      "n",         "n"},
-        {"unwatch",      "y",         "n"},
+        {"untrbce",      "n",         "n"},
+        {"unwbtch",      "y",         "n"},
         {"up",           "n",         "y"},
         {"use",          "y",         "y"},
         {"version",      "y",         "y"},
-        {"watch",        "y",         "n"},
+        {"wbtch",        "y",         "n"},
         {"where",        "n",         "y"},
         {"wherei",       "n",         "y"},
     };
 
     /*
-     * Look up the command string in commandList.
+     * Look up the commbnd string in commbndList.
      * If found, return the index.
      * If not found, return index < 0
      */
-    private int isCommand(String key) {
-        //Reference: binarySearch() in java/util/Arrays.java
-        //           Adapted for use with String[][0].
+    privbte int isCommbnd(String key) {
+        //Reference: binbrySebrch() in jbvb/util/Arrbys.jbvb
+        //           Adbpted for use with String[][0].
         int low = 0;
-        int high = commandList.length - 1;
+        int high = commbndList.length - 1;
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            String midVal = commandList[mid][0];
-            int compare = midVal.compareTo(key);
-            if (compare < 0) {
+            String midVbl = commbndList[mid][0];
+            int compbre = midVbl.compbreTo(key);
+            if (compbre < 0) {
                 low = mid + 1;
-            } else if (compare > 0) {
+            } else if (compbre > 0) {
                 high = mid - 1;
             }
             else {
@@ -358,305 +358,305 @@ public class TTY implements EventNotifier {
     };
 
     /*
-     * Return true if the command is OK when disconnected.
+     * Return true if the commbnd is OK when disconnected.
      */
-    private boolean isDisconnectCmd(int ii) {
-        if (ii < 0 || ii >= commandList.length) {
-            return false;
+    privbte boolebn isDisconnectCmd(int ii) {
+        if (ii < 0 || ii >= commbndList.length) {
+            return fblse;
         }
-        return (commandList[ii][1].equals("y"));
+        return (commbndList[ii][1].equbls("y"));
     }
 
     /*
-     * Return true if the command is OK when readonly.
+     * Return true if the commbnd is OK when rebdonly.
      */
-    private boolean isReadOnlyCmd(int ii) {
-        if (ii < 0 || ii >= commandList.length) {
-            return false;
+    privbte boolebn isRebdOnlyCmd(int ii) {
+        if (ii < 0 || ii >= commbndList.length) {
+            return fblse;
         }
-        return (commandList[ii][2].equals("y"));
+        return (commbndList[ii][2].equbls("y"));
     };
 
 
-    void executeCommand(StringTokenizer t) {
-        String cmd = t.nextToken().toLowerCase();
-        // Normally, prompt for the next command after this one is done
-        boolean showPrompt = true;
+    void executeCommbnd(StringTokenizer t) {
+        String cmd = t.nextToken().toLowerCbse();
+        // Normblly, prompt for the next commbnd bfter this one is done
+        boolebn showPrompt = true;
 
 
         /*
-         * Anything starting with # is discarded as a no-op or 'comment'.
+         * Anything stbrting with # is discbrded bs b no-op or 'comment'.
          */
-        if (!cmd.startsWith("#")) {
+        if (!cmd.stbrtsWith("#")) {
             /*
-             * Next check for an integer repetition prefix.  If found,
-             * recursively execute cmd that number of times.
+             * Next check for bn integer repetition prefix.  If found,
+             * recursively execute cmd thbt number of times.
              */
-            if (Character.isDigit(cmd.charAt(0)) && t.hasMoreTokens()) {
+            if (Chbrbcter.isDigit(cmd.chbrAt(0)) && t.hbsMoreTokens()) {
                 try {
-                    int repeat = Integer.parseInt(cmd);
+                    int repebt = Integer.pbrseInt(cmd);
                     String subcom = t.nextToken("");
-                    while (repeat-- > 0) {
-                        executeCommand(new StringTokenizer(subcom));
-                        showPrompt = false; // Bypass the printPrompt() below.
+                    while (repebt-- > 0) {
+                        executeCommbnd(new StringTokenizer(subcom));
+                        showPrompt = fblse; // Bypbss the printPrompt() below.
                     }
-                } catch (NumberFormatException exc) {
-                    MessageOutput.println("Unrecognized command.  Try help...", cmd);
+                } cbtch (NumberFormbtException exc) {
+                    MessbgeOutput.println("Unrecognized commbnd.  Try help...", cmd);
                 }
             } else {
-                int commandNumber = isCommand(cmd);
+                int commbndNumber = isCommbnd(cmd);
                 /*
-                 * Check for an unknown command
+                 * Check for bn unknown commbnd
                  */
-                if (commandNumber < 0) {
-                    MessageOutput.println("Unrecognized command.  Try help...", cmd);
-                } else if (!Env.connection().isOpen() && !isDisconnectCmd(commandNumber)) {
-                    MessageOutput.println("Command not valid until the VM is started with the run command",
+                if (commbndNumber < 0) {
+                    MessbgeOutput.println("Unrecognized commbnd.  Try help...", cmd);
+                } else if (!Env.connection().isOpen() && !isDisconnectCmd(commbndNumber)) {
+                    MessbgeOutput.println("Commbnd not vblid until the VM is stbrted with the run commbnd",
                                           cmd);
-                } else if (Env.connection().isOpen() && !Env.vm().canBeModified() &&
-                           !isReadOnlyCmd(commandNumber)) {
-                    MessageOutput.println("Command is not supported on a read-only VM connection",
+                } else if (Env.connection().isOpen() && !Env.vm().cbnBeModified() &&
+                           !isRebdOnlyCmd(commbndNumber)) {
+                    MessbgeOutput.println("Commbnd is not supported on b rebd-only VM connection",
                                           cmd);
                 } else {
 
-                    Commands evaluator = new Commands();
+                    Commbnds evblubtor = new Commbnds();
                     try {
-                        if (cmd.equals("print")) {
-                            evaluator.commandPrint(t, false);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("eval")) {
-                            evaluator.commandPrint(t, false);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("set")) {
-                            evaluator.commandSet(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("dump")) {
-                            evaluator.commandPrint(t, true);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("locals")) {
-                            evaluator.commandLocals();
-                        } else if (cmd.equals("classes")) {
-                            evaluator.commandClasses();
-                        } else if (cmd.equals("class")) {
-                            evaluator.commandClass(t);
-                        } else if (cmd.equals("connectors")) {
-                            evaluator.commandConnectors(Bootstrap.virtualMachineManager());
-                        } else if (cmd.equals("methods")) {
-                            evaluator.commandMethods(t);
-                        } else if (cmd.equals("fields")) {
-                            evaluator.commandFields(t);
-                        } else if (cmd.equals("threads")) {
-                            evaluator.commandThreads(t);
-                        } else if (cmd.equals("thread")) {
-                            evaluator.commandThread(t);
-                        } else if (cmd.equals("suspend")) {
-                            evaluator.commandSuspend(t);
-                        } else if (cmd.equals("resume")) {
-                            evaluator.commandResume(t);
-                        } else if (cmd.equals("cont")) {
-                            evaluator.commandCont();
-                        } else if (cmd.equals("threadgroups")) {
-                            evaluator.commandThreadGroups();
-                        } else if (cmd.equals("threadgroup")) {
-                            evaluator.commandThreadGroup(t);
-                        } else if (cmd.equals("catch")) {
-                            evaluator.commandCatchException(t);
-                        } else if (cmd.equals("ignore")) {
-                            evaluator.commandIgnoreException(t);
-                        } else if (cmd.equals("step")) {
-                            evaluator.commandStep(t);
-                        } else if (cmd.equals("stepi")) {
-                            evaluator.commandStepi();
-                        } else if (cmd.equals("next")) {
-                            evaluator.commandNext();
-                        } else if (cmd.equals("kill")) {
-                            evaluator.commandKill(t);
-                        } else if (cmd.equals("interrupt")) {
-                            evaluator.commandInterrupt(t);
-                        } else if (cmd.equals("trace")) {
-                            evaluator.commandTrace(t);
-                        } else if (cmd.equals("untrace")) {
-                            evaluator.commandUntrace(t);
-                        } else if (cmd.equals("where")) {
-                            evaluator.commandWhere(t, false);
-                        } else if (cmd.equals("wherei")) {
-                            evaluator.commandWhere(t, true);
-                        } else if (cmd.equals("up")) {
-                            evaluator.commandUp(t);
-                        } else if (cmd.equals("down")) {
-                            evaluator.commandDown(t);
-                        } else if (cmd.equals("load")) {
-                            evaluator.commandLoad(t);
-                        } else if (cmd.equals("run")) {
-                            evaluator.commandRun(t);
+                        if (cmd.equbls("print")) {
+                            evblubtor.commbndPrint(t, fblse);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("evbl")) {
+                            evblubtor.commbndPrint(t, fblse);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("set")) {
+                            evblubtor.commbndSet(t);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("dump")) {
+                            evblubtor.commbndPrint(t, true);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("locbls")) {
+                            evblubtor.commbndLocbls();
+                        } else if (cmd.equbls("clbsses")) {
+                            evblubtor.commbndClbsses();
+                        } else if (cmd.equbls("clbss")) {
+                            evblubtor.commbndClbss(t);
+                        } else if (cmd.equbls("connectors")) {
+                            evblubtor.commbndConnectors(Bootstrbp.virtublMbchineMbnbger());
+                        } else if (cmd.equbls("methods")) {
+                            evblubtor.commbndMethods(t);
+                        } else if (cmd.equbls("fields")) {
+                            evblubtor.commbndFields(t);
+                        } else if (cmd.equbls("threbds")) {
+                            evblubtor.commbndThrebds(t);
+                        } else if (cmd.equbls("threbd")) {
+                            evblubtor.commbndThrebd(t);
+                        } else if (cmd.equbls("suspend")) {
+                            evblubtor.commbndSuspend(t);
+                        } else if (cmd.equbls("resume")) {
+                            evblubtor.commbndResume(t);
+                        } else if (cmd.equbls("cont")) {
+                            evblubtor.commbndCont();
+                        } else if (cmd.equbls("threbdgroups")) {
+                            evblubtor.commbndThrebdGroups();
+                        } else if (cmd.equbls("threbdgroup")) {
+                            evblubtor.commbndThrebdGroup(t);
+                        } else if (cmd.equbls("cbtch")) {
+                            evblubtor.commbndCbtchException(t);
+                        } else if (cmd.equbls("ignore")) {
+                            evblubtor.commbndIgnoreException(t);
+                        } else if (cmd.equbls("step")) {
+                            evblubtor.commbndStep(t);
+                        } else if (cmd.equbls("stepi")) {
+                            evblubtor.commbndStepi();
+                        } else if (cmd.equbls("next")) {
+                            evblubtor.commbndNext();
+                        } else if (cmd.equbls("kill")) {
+                            evblubtor.commbndKill(t);
+                        } else if (cmd.equbls("interrupt")) {
+                            evblubtor.commbndInterrupt(t);
+                        } else if (cmd.equbls("trbce")) {
+                            evblubtor.commbndTrbce(t);
+                        } else if (cmd.equbls("untrbce")) {
+                            evblubtor.commbndUntrbce(t);
+                        } else if (cmd.equbls("where")) {
+                            evblubtor.commbndWhere(t, fblse);
+                        } else if (cmd.equbls("wherei")) {
+                            evblubtor.commbndWhere(t, true);
+                        } else if (cmd.equbls("up")) {
+                            evblubtor.commbndUp(t);
+                        } else if (cmd.equbls("down")) {
+                            evblubtor.commbndDown(t);
+                        } else if (cmd.equbls("lobd")) {
+                            evblubtor.commbndLobd(t);
+                        } else if (cmd.equbls("run")) {
+                            evblubtor.commbndRun(t);
                             /*
-                             * Fire up an event handler, if the connection was just
-                             * opened. Since this was done from the run command
-                             * we don't stop the VM on its VM start event (so
-                             * arg 2 is false).
+                             * Fire up bn event hbndler, if the connection wbs just
+                             * opened. Since this wbs done from the run commbnd
+                             * we don't stop the VM on its VM stbrt event (so
+                             * brg 2 is fblse).
                              */
-                            if ((handler == null) && Env.connection().isOpen()) {
-                                handler = new EventHandler(this, false);
+                            if ((hbndler == null) && Env.connection().isOpen()) {
+                                hbndler = new EventHbndler(this, fblse);
                             }
-                        } else if (cmd.equals("memory")) {
-                            evaluator.commandMemory();
-                        } else if (cmd.equals("gc")) {
-                            evaluator.commandGC();
-                        } else if (cmd.equals("stop")) {
-                            evaluator.commandStop(t);
-                        } else if (cmd.equals("clear")) {
-                            evaluator.commandClear(t);
-                        } else if (cmd.equals("watch")) {
-                            evaluator.commandWatch(t);
-                        } else if (cmd.equals("unwatch")) {
-                            evaluator.commandUnwatch(t);
-                        } else if (cmd.equals("list")) {
-                            evaluator.commandList(t);
-                        } else if (cmd.equals("lines")) { // Undocumented command: useful for testing.
-                            evaluator.commandLines(t);
-                        } else if (cmd.equals("classpath")) {
-                            evaluator.commandClasspath(t);
-                        } else if (cmd.equals("use") || cmd.equals("sourcepath")) {
-                            evaluator.commandUse(t);
-                        } else if (cmd.equals("monitor")) {
-                            monitorCommand(t);
-                        } else if (cmd.equals("unmonitor")) {
-                            unmonitorCommand(t);
-                        } else if (cmd.equals("lock")) {
-                            evaluator.commandLock(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("threadlocks")) {
-                            evaluator.commandThreadlocks(t);
-                        } else if (cmd.equals("disablegc")) {
-                            evaluator.commandDisableGC(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("enablegc")) {
-                            evaluator.commandEnableGC(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("save")) { // Undocumented command: useful for testing.
-                            evaluator.commandSave(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("bytecodes")) { // Undocumented command: useful for testing.
-                            evaluator.commandBytecodes(t);
-                        } else if (cmd.equals("redefine")) {
-                            evaluator.commandRedefine(t);
-                        } else if (cmd.equals("pop")) {
-                            evaluator.commandPopFrames(t, false);
-                        } else if (cmd.equals("reenter")) {
-                            evaluator.commandPopFrames(t, true);
-                        } else if (cmd.equals("extension")) {
-                            evaluator.commandExtension(t);
-                        } else if (cmd.equals("exclude")) {
-                            evaluator.commandExclude(t);
-                        } else if (cmd.equals("read")) {
-                            readCommand(t);
-                        } else if (cmd.equals("help") || cmd.equals("?")) {
+                        } else if (cmd.equbls("memory")) {
+                            evblubtor.commbndMemory();
+                        } else if (cmd.equbls("gc")) {
+                            evblubtor.commbndGC();
+                        } else if (cmd.equbls("stop")) {
+                            evblubtor.commbndStop(t);
+                        } else if (cmd.equbls("clebr")) {
+                            evblubtor.commbndClebr(t);
+                        } else if (cmd.equbls("wbtch")) {
+                            evblubtor.commbndWbtch(t);
+                        } else if (cmd.equbls("unwbtch")) {
+                            evblubtor.commbndUnwbtch(t);
+                        } else if (cmd.equbls("list")) {
+                            evblubtor.commbndList(t);
+                        } else if (cmd.equbls("lines")) { // Undocumented commbnd: useful for testing.
+                            evblubtor.commbndLines(t);
+                        } else if (cmd.equbls("clbsspbth")) {
+                            evblubtor.commbndClbsspbth(t);
+                        } else if (cmd.equbls("use") || cmd.equbls("sourcepbth")) {
+                            evblubtor.commbndUse(t);
+                        } else if (cmd.equbls("monitor")) {
+                            monitorCommbnd(t);
+                        } else if (cmd.equbls("unmonitor")) {
+                            unmonitorCommbnd(t);
+                        } else if (cmd.equbls("lock")) {
+                            evblubtor.commbndLock(t);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("threbdlocks")) {
+                            evblubtor.commbndThrebdlocks(t);
+                        } else if (cmd.equbls("disbblegc")) {
+                            evblubtor.commbndDisbbleGC(t);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("enbblegc")) {
+                            evblubtor.commbndEnbbleGC(t);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("sbve")) { // Undocumented commbnd: useful for testing.
+                            evblubtor.commbndSbve(t);
+                            showPrompt = fblse;        // bsynchronous commbnd
+                        } else if (cmd.equbls("bytecodes")) { // Undocumented commbnd: useful for testing.
+                            evblubtor.commbndBytecodes(t);
+                        } else if (cmd.equbls("redefine")) {
+                            evblubtor.commbndRedefine(t);
+                        } else if (cmd.equbls("pop")) {
+                            evblubtor.commbndPopFrbmes(t, fblse);
+                        } else if (cmd.equbls("reenter")) {
+                            evblubtor.commbndPopFrbmes(t, true);
+                        } else if (cmd.equbls("extension")) {
+                            evblubtor.commbndExtension(t);
+                        } else if (cmd.equbls("exclude")) {
+                            evblubtor.commbndExclude(t);
+                        } else if (cmd.equbls("rebd")) {
+                            rebdCommbnd(t);
+                        } else if (cmd.equbls("help") || cmd.equbls("?")) {
                             help();
-                        } else if (cmd.equals("version")) {
-                            evaluator.commandVersion(progname,
-                                                     Bootstrap.virtualMachineManager());
-                        } else if (cmd.equals("quit") || cmd.equals("exit")) {
-                            if (handler != null) {
-                                handler.shutdown();
+                        } else if (cmd.equbls("version")) {
+                            evblubtor.commbndVersion(prognbme,
+                                                     Bootstrbp.virtublMbchineMbnbger());
+                        } else if (cmd.equbls("quit") || cmd.equbls("exit")) {
+                            if (hbndler != null) {
+                                hbndler.shutdown();
                             }
                             Env.shutdown();
                         } else {
-                            MessageOutput.println("Unrecognized command.  Try help...", cmd);
+                            MessbgeOutput.println("Unrecognized commbnd.  Try help...", cmd);
                         }
-                    } catch (VMCannotBeModifiedException rovm) {
-                        MessageOutput.println("Command is not supported on a read-only VM connection", cmd);
-                    } catch (UnsupportedOperationException uoe) {
-                        MessageOutput.println("Command is not supported on the target VM", cmd);
-                    } catch (VMNotConnectedException vmnse) {
-                        MessageOutput.println("Command not valid until the VM is started with the run command",
+                    } cbtch (VMCbnnotBeModifiedException rovm) {
+                        MessbgeOutput.println("Commbnd is not supported on b rebd-only VM connection", cmd);
+                    } cbtch (UnsupportedOperbtionException uoe) {
+                        MessbgeOutput.println("Commbnd is not supported on the tbrget VM", cmd);
+                    } cbtch (VMNotConnectedException vmnse) {
+                        MessbgeOutput.println("Commbnd not vblid until the VM is stbrted with the run commbnd",
                                               cmd);
-                    } catch (Exception e) {
-                        MessageOutput.printException("Internal exception:", e);
+                    } cbtch (Exception e) {
+                        MessbgeOutput.printException("Internbl exception:", e);
                     }
                 }
             }
         }
         if (showPrompt) {
-            MessageOutput.printPrompt();
+            MessbgeOutput.printPrompt();
         }
     }
 
     /*
-     * Maintain a list of commands to execute each time the VM is suspended.
+     * Mbintbin b list of commbnds to execute ebch time the VM is suspended.
      */
-    void monitorCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
+    void monitorCommbnd(StringTokenizer t) {
+        if (t.hbsMoreTokens()) {
             ++monitorCount;
-            monitorCommands.add(monitorCount + ": " + t.nextToken(""));
+            monitorCommbnds.bdd(monitorCount + ": " + t.nextToken(""));
         } else {
-            for (String cmd : monitorCommands) {
-                MessageOutput.printDirectln(cmd);// Special case: use printDirectln()
+            for (String cmd : monitorCommbnds) {
+                MessbgeOutput.printDirectln(cmd);// Specibl cbse: use printDirectln()
             }
         }
     }
 
-    void unmonitorCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
+    void unmonitorCommbnd(StringTokenizer t) {
+        if (t.hbsMoreTokens()) {
             String monTok = t.nextToken();
             int monNum;
             try {
-                monNum = Integer.parseInt(monTok);
-            } catch (NumberFormatException exc) {
-                MessageOutput.println("Not a monitor number:", monTok);
+                monNum = Integer.pbrseInt(monTok);
+            } cbtch (NumberFormbtException exc) {
+                MessbgeOutput.println("Not b monitor number:", monTok);
                 return;
             }
             String monStr = monTok + ":";
-            for (String cmd : monitorCommands) {
+            for (String cmd : monitorCommbnds) {
                 StringTokenizer ct = new StringTokenizer(cmd);
-                if (ct.nextToken().equals(monStr)) {
-                    monitorCommands.remove(cmd);
-                    MessageOutput.println("Unmonitoring", cmd);
+                if (ct.nextToken().equbls(monStr)) {
+                    monitorCommbnds.remove(cmd);
+                    MessbgeOutput.println("Unmonitoring", cmd);
                     return;
                 }
             }
-            MessageOutput.println("No monitor numbered:", monTok);
+            MessbgeOutput.println("No monitor numbered:", monTok);
         } else {
-            MessageOutput.println("Usage: unmonitor <monitor#>");
+            MessbgeOutput.println("Usbge: unmonitor <monitor#>");
         }
     }
 
 
-    void readCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
-            String cmdfname = t.nextToken();
-            if (!readCommandFile(new File(cmdfname))) {
-                MessageOutput.println("Could not open:", cmdfname);
+    void rebdCommbnd(StringTokenizer t) {
+        if (t.hbsMoreTokens()) {
+            String cmdfnbme = t.nextToken();
+            if (!rebdCommbndFile(new File(cmdfnbme))) {
+                MessbgeOutput.println("Could not open:", cmdfnbme);
             }
         } else {
-            MessageOutput.println("Usage: read <command-filename>");
+            MessbgeOutput.println("Usbge: rebd <commbnd-filenbme>");
         }
     }
 
     /**
-     * Read and execute a command file.  Return true if the file was read
-     * else false;
+     * Rebd bnd execute b commbnd file.  Return true if the file wbs rebd
+     * else fblse;
      */
-    boolean readCommandFile(File f) {
-        BufferedReader inFile = null;
+    boolebn rebdCommbndFile(File f) {
+        BufferedRebder inFile = null;
         try {
-            if (f.canRead()) {
-                // Process initial commands.
-                MessageOutput.println("*** Reading commands from", f.getPath());
-                inFile = new BufferedReader(new FileReader(f));
+            if (f.cbnRebd()) {
+                // Process initibl commbnds.
+                MessbgeOutput.println("*** Rebding commbnds from", f.getPbth());
+                inFile = new BufferedRebder(new FileRebder(f));
                 String ln;
-                while ((ln = inFile.readLine()) != null) {
+                while ((ln = inFile.rebdLine()) != null) {
                     StringTokenizer t = new StringTokenizer(ln);
-                    if (t.hasMoreTokens()) {
-                        executeCommand(t);
+                    if (t.hbsMoreTokens()) {
+                        executeCommbnd(t);
                     }
                 }
             }
-        } catch (IOException e) {
-        } finally {
+        } cbtch (IOException e) {
+        } finblly {
             if (inFile != null) {
                 try {
                     inFile.close();
-                } catch (Exception exc) {
+                } cbtch (Exception exc) {
                 }
             }
         }
@@ -664,409 +664,409 @@ public class TTY implements EventNotifier {
     }
 
     /**
-     * Try to read commands from dir/fname, unless
-     * the canonical path passed in is the same as that
-     * for dir/fname.
-     * Return null if that file doesn't exist,
-     * else return the canonical path of that file.
+     * Try to rebd commbnds from dir/fnbme, unless
+     * the cbnonicbl pbth pbssed in is the sbme bs thbt
+     * for dir/fnbme.
+     * Return null if thbt file doesn't exist,
+     * else return the cbnonicbl pbth of thbt file.
      */
-    String readStartupCommandFile(String dir, String fname, String canonPath) {
-        File dotInitFile = new File(dir, fname);
+    String rebdStbrtupCommbndFile(String dir, String fnbme, String cbnonPbth) {
+        File dotInitFile = new File(dir, fnbme);
         if (!dotInitFile.exists()) {
             return null;
         }
 
-        String myCanonFile;
+        String myCbnonFile;
         try {
-            myCanonFile = dotInitFile.getCanonicalPath();
-        } catch (IOException ee) {
-            MessageOutput.println("Could not open:", dotInitFile.getPath());
+            myCbnonFile = dotInitFile.getCbnonicblPbth();
+        } cbtch (IOException ee) {
+            MessbgeOutput.println("Could not open:", dotInitFile.getPbth());
             return null;
         }
-        if (canonPath == null || !canonPath.equals(myCanonFile)) {
-            if (!readCommandFile(dotInitFile)) {
-                MessageOutput.println("Could not open:", dotInitFile.getPath());
+        if (cbnonPbth == null || !cbnonPbth.equbls(myCbnonFile)) {
+            if (!rebdCommbndFile(dotInitFile)) {
+                MessbgeOutput.println("Could not open:", dotInitFile.getPbth());
             }
         }
-        return myCanonFile;
+        return myCbnonFile;
     }
 
 
     public TTY() throws Exception {
 
-        MessageOutput.println("Initializing progname", progname);
+        MessbgeOutput.println("Initiblizing prognbme", prognbme);
 
-        if (Env.connection().isOpen() && Env.vm().canBeModified()) {
+        if (Env.connection().isOpen() && Env.vm().cbnBeModified()) {
             /*
-             * Connection opened on startup. Start event handler
-             * immediately, telling it (through arg 2) to stop on the
-             * VM start event.
+             * Connection opened on stbrtup. Stbrt event hbndler
+             * immedibtely, telling it (through brg 2) to stop on the
+             * VM stbrt event.
              */
-            this.handler = new EventHandler(this, true);
+            this.hbndler = new EventHbndler(this, true);
         }
         try {
-            BufferedReader in =
-                    new BufferedReader(new InputStreamReader(System.in));
+            BufferedRebder in =
+                    new BufferedRebder(new InputStrebmRebder(System.in));
 
-            String lastLine = null;
+            String lbstLine = null;
 
-            Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+            Threbd.currentThrebd().setPriority(Threbd.NORM_PRIORITY);
 
             /*
-             * Read start up files.  This mimics the behavior
-             * of gdb which will read both ~/.gdbinit and then
-             * ./.gdbinit if they exist.  We have the twist that
-             * we allow two different names, so we do this:
+             * Rebd stbrt up files.  This mimics the behbvior
+             * of gdb which will rebd both ~/.gdbinit bnd then
+             * ./.gdbinit if they exist.  We hbve the twist thbt
+             * we bllow two different nbmes, so we do this:
              *  if ~/jdb.ini exists,
-             *      read it
+             *      rebd it
              *  else if ~/.jdbrc exists,
-             *      read it
+             *      rebd it
              *
              *  if ./jdb.ini exists,
-             *      if it hasn't been read, read it
-             *      It could have been read above because ~ == .
-             *      or because of symlinks, ...
+             *      if it hbsn't been rebd, rebd it
+             *      It could hbve been rebd bbove becbuse ~ == .
+             *      or becbuse of symlinks, ...
              *  else if ./jdbrx exists
-             *      if it hasn't been read, read it
+             *      if it hbsn't been rebd, rebd it
              */
             {
                 String userHome = System.getProperty("user.home");
-                String canonPath;
+                String cbnonPbth;
 
-                if ((canonPath = readStartupCommandFile(userHome, "jdb.ini", null)) == null) {
-                    // Doesn't exist, try alternate spelling
-                    canonPath = readStartupCommandFile(userHome, ".jdbrc", null);
+                if ((cbnonPbth = rebdStbrtupCommbndFile(userHome, "jdb.ini", null)) == null) {
+                    // Doesn't exist, try blternbte spelling
+                    cbnonPbth = rebdStbrtupCommbndFile(userHome, ".jdbrc", null);
                 }
 
                 String userDir = System.getProperty("user.dir");
-                if (readStartupCommandFile(userDir, "jdb.ini", canonPath) == null) {
-                    // Doesn't exist, try alternate spelling
-                    readStartupCommandFile(userDir, ".jdbrc", canonPath);
+                if (rebdStbrtupCommbndFile(userDir, "jdb.ini", cbnonPbth) == null) {
+                    // Doesn't exist, try blternbte spelling
+                    rebdStbrtupCommbndFile(userDir, ".jdbrc", cbnonPbth);
                 }
             }
 
-            // Process interactive commands.
-            MessageOutput.printPrompt();
+            // Process interbctive commbnds.
+            MessbgeOutput.printPrompt();
             while (true) {
-                String ln = in.readLine();
+                String ln = in.rebdLine();
                 if (ln == null) {
-                    MessageOutput.println("Input stream closed.");
+                    MessbgeOutput.println("Input strebm closed.");
                     ln = "quit";
                 }
 
-                if (ln.startsWith("!!") && lastLine != null) {
-                    ln = lastLine + ln.substring(2);
-                    MessageOutput.printDirectln(ln);// Special case: use printDirectln()
+                if (ln.stbrtsWith("!!") && lbstLine != null) {
+                    ln = lbstLine + ln.substring(2);
+                    MessbgeOutput.printDirectln(ln);// Specibl cbse: use printDirectln()
                 }
 
                 StringTokenizer t = new StringTokenizer(ln);
-                if (t.hasMoreTokens()) {
-                    lastLine = ln;
-                    executeCommand(t);
+                if (t.hbsMoreTokens()) {
+                    lbstLine = ln;
+                    executeCommbnd(t);
                 } else {
-                    MessageOutput.printPrompt();
+                    MessbgeOutput.printPrompt();
                 }
             }
-        } catch (VMDisconnectedException e) {
-            handler.handleDisconnectedException();
+        } cbtch (VMDisconnectedException e) {
+            hbndler.hbndleDisconnectedException();
         }
     }
 
-    private static void usage() {
-        MessageOutput.println("zz usage text", new Object [] {progname,
-                                                     File.pathSeparator});
+    privbte stbtic void usbge() {
+        MessbgeOutput.println("zz usbge text", new Object [] {prognbme,
+                                                     File.pbthSepbrbtor});
         System.exit(1);
     }
 
-    static void usageError(String messageKey) {
-        MessageOutput.println(messageKey);
-        MessageOutput.println();
-        usage();
+    stbtic void usbgeError(String messbgeKey) {
+        MessbgeOutput.println(messbgeKey);
+        MessbgeOutput.println();
+        usbge();
     }
 
-    static void usageError(String messageKey, String argument) {
-        MessageOutput.println(messageKey, argument);
-        MessageOutput.println();
-        usage();
+    stbtic void usbgeError(String messbgeKey, String brgument) {
+        MessbgeOutput.println(messbgeKey, brgument);
+        MessbgeOutput.println();
+        usbge();
     }
 
-    private static boolean supportsSharedMemory() {
+    privbte stbtic boolebn supportsShbredMemory() {
         for (Connector connector :
-                 Bootstrap.virtualMachineManager().allConnectors()) {
-            if (connector.transport() == null) {
+                 Bootstrbp.virtublMbchineMbnbger().bllConnectors()) {
+            if (connector.trbnsport() == null) {
                 continue;
             }
-            if ("dt_shmem".equals(connector.transport().name())) {
+            if ("dt_shmem".equbls(connector.trbnsport().nbme())) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static String addressToSocketArgs(String address) {
-        int index = address.indexOf(':');
+    privbte stbtic String bddressToSocketArgs(String bddress) {
+        int index = bddress.indexOf(':');
         if (index != -1) {
-            String hostString = address.substring(0, index);
-            String portString = address.substring(index + 1);
-            return "hostname=" + hostString + ",port=" + portString;
+            String hostString = bddress.substring(0, index);
+            String portString = bddress.substring(index + 1);
+            return "hostnbme=" + hostString + ",port=" + portString;
         } else {
-            return "port=" + address;
+            return "port=" + bddress;
         }
     }
 
-    private static boolean hasWhitespace(String string) {
+    privbte stbtic boolebn hbsWhitespbce(String string) {
         int length = string.length();
         for (int i = 0; i < length; i++) {
-            if (Character.isWhitespace(string.charAt(i))) {
+            if (Chbrbcter.isWhitespbce(string.chbrAt(i))) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static String addArgument(String string, String argument) {
-        if (hasWhitespace(argument) || argument.indexOf(',') != -1) {
-            // Quotes were stripped out for this argument, add 'em back.
+    privbte stbtic String bddArgument(String string, String brgument) {
+        if (hbsWhitespbce(brgument) || brgument.indexOf(',') != -1) {
+            // Quotes were stripped out for this brgument, bdd 'em bbck.
             StringBuilder sb = new StringBuilder(string);
-            sb.append('"');
-            for (int i = 0; i < argument.length(); i++) {
-                char c = argument.charAt(i);
+            sb.bppend('"');
+            for (int i = 0; i < brgument.length(); i++) {
+                chbr c = brgument.chbrAt(i);
                 if (c == '"') {
-                    sb.append('\\');
+                    sb.bppend('\\');
                 }
-                sb.append(c);
+                sb.bppend(c);
             }
-            sb.append("\" ");
+            sb.bppend("\" ");
             return sb.toString();
         } else {
-            return string + argument + ' ';
+            return string + brgument + ' ';
         }
     }
 
-    public static void main(String argv[]) throws MissingResourceException {
+    public stbtic void mbin(String brgv[]) throws MissingResourceException {
         String cmdLine = "";
-        String javaArgs = "";
-        int traceFlags = VirtualMachine.TRACE_NONE;
-        boolean launchImmediately = false;
+        String jbvbArgs = "";
+        int trbceFlbgs = VirtublMbchine.TRACE_NONE;
+        boolebn lbunchImmedibtely = fblse;
         String connectSpec = null;
 
-        MessageOutput.textResources = ResourceBundle.getBundle
-            ("com.sun.tools.example.debug.tty.TTYResources",
-             Locale.getDefault());
+        MessbgeOutput.textResources = ResourceBundle.getBundle
+            ("com.sun.tools.exbmple.debug.tty.TTYResources",
+             Locble.getDefbult());
 
-        for (int i = 0; i < argv.length; i++) {
-            String token = argv[i];
-            if (token.equals("-dbgtrace")) {
-                if ((i == argv.length - 1) ||
-                    ! Character.isDigit(argv[i+1].charAt(0))) {
-                    traceFlags = VirtualMachine.TRACE_ALL;
+        for (int i = 0; i < brgv.length; i++) {
+            String token = brgv[i];
+            if (token.equbls("-dbgtrbce")) {
+                if ((i == brgv.length - 1) ||
+                    ! Chbrbcter.isDigit(brgv[i+1].chbrAt(0))) {
+                    trbceFlbgs = VirtublMbchine.TRACE_ALL;
                 } else {
-                    String flagStr = "";
+                    String flbgStr = "";
                     try {
-                        flagStr = argv[++i];
-                        traceFlags = Integer.decode(flagStr).intValue();
-                    } catch (NumberFormatException nfe) {
-                        usageError("dbgtrace flag value must be an integer:",
-                                   flagStr);
+                        flbgStr = brgv[++i];
+                        trbceFlbgs = Integer.decode(flbgStr).intVblue();
+                    } cbtch (NumberFormbtException nfe) {
+                        usbgeError("dbgtrbce flbg vblue must be bn integer:",
+                                   flbgStr);
                         return;
                     }
                 }
-            } else if (token.equals("-X")) {
-                usageError("Use java minus X to see");
+            } else if (token.equbls("-X")) {
+                usbgeError("Use jbvb minus X to see");
                 return;
             } else if (
-                   // Standard VM options passed on
-                   token.equals("-v") || token.startsWith("-v:") ||  // -v[:...]
-                   token.startsWith("-verbose") ||                  // -verbose[:...]
-                   token.startsWith("-D") ||
-                   // -classpath handled below
-                   // NonStandard options passed on
-                   token.startsWith("-X") ||
-                   // Old-style options (These should remain in place as long as
-                   //  the standard VM accepts them)
-                   token.equals("-noasyncgc") || token.equals("-prof") ||
-                   token.equals("-verify") || token.equals("-noverify") ||
-                   token.equals("-verifyremote") ||
-                   token.equals("-verbosegc") ||
-                   token.startsWith("-ms") || token.startsWith("-mx") ||
-                   token.startsWith("-ss") || token.startsWith("-oss") ) {
+                   // Stbndbrd VM options pbssed on
+                   token.equbls("-v") || token.stbrtsWith("-v:") ||  // -v[:...]
+                   token.stbrtsWith("-verbose") ||                  // -verbose[:...]
+                   token.stbrtsWith("-D") ||
+                   // -clbsspbth hbndled below
+                   // NonStbndbrd options pbssed on
+                   token.stbrtsWith("-X") ||
+                   // Old-style options (These should rembin in plbce bs long bs
+                   //  the stbndbrd VM bccepts them)
+                   token.equbls("-nobsyncgc") || token.equbls("-prof") ||
+                   token.equbls("-verify") || token.equbls("-noverify") ||
+                   token.equbls("-verifyremote") ||
+                   token.equbls("-verbosegc") ||
+                   token.stbrtsWith("-ms") || token.stbrtsWith("-mx") ||
+                   token.stbrtsWith("-ss") || token.stbrtsWith("-oss") ) {
 
-                javaArgs = addArgument(javaArgs, token);
-            } else if (token.equals("-tclassic")) {
-                usageError("Classic VM no longer supported.");
+                jbvbArgs = bddArgument(jbvbArgs, token);
+            } else if (token.equbls("-tclbssic")) {
+                usbgeError("Clbssic VM no longer supported.");
                 return;
-            } else if (token.equals("-tclient")) {
+            } else if (token.equbls("-tclient")) {
                 // -client must be the first one
-                javaArgs = "-client " + javaArgs;
-            } else if (token.equals("-tserver")) {
+                jbvbArgs = "-client " + jbvbArgs;
+            } else if (token.equbls("-tserver")) {
                 // -server must be the first one
-                javaArgs = "-server " + javaArgs;
-            } else if (token.equals("-sourcepath")) {
-                if (i == (argv.length - 1)) {
-                    usageError("No sourcepath specified.");
+                jbvbArgs = "-server " + jbvbArgs;
+            } else if (token.equbls("-sourcepbth")) {
+                if (i == (brgv.length - 1)) {
+                    usbgeError("No sourcepbth specified.");
                     return;
                 }
-                Env.setSourcePath(argv[++i]);
-            } else if (token.equals("-classpath")) {
-                if (i == (argv.length - 1)) {
-                    usageError("No classpath specified.");
+                Env.setSourcePbth(brgv[++i]);
+            } else if (token.equbls("-clbsspbth")) {
+                if (i == (brgv.length - 1)) {
+                    usbgeError("No clbsspbth specified.");
                     return;
                 }
-                javaArgs = addArgument(javaArgs, token);
-                javaArgs = addArgument(javaArgs, argv[++i]);
-            } else if (token.equals("-attach")) {
+                jbvbArgs = bddArgument(jbvbArgs, token);
+                jbvbArgs = bddArgument(jbvbArgs, brgv[++i]);
+            } else if (token.equbls("-bttbch")) {
                 if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
+                    usbgeError("cbnnot redefine existing connection", token);
                     return;
                 }
-                if (i == (argv.length - 1)) {
-                    usageError("No attach address specified.");
+                if (i == (brgv.length - 1)) {
+                    usbgeError("No bttbch bddress specified.");
                     return;
                 }
-                String address = argv[++i];
+                String bddress = brgv[++i];
 
                 /*
-                 * -attach is shorthand for one of the reference implementation's
-                 * attaching connectors. Use the shared memory attach if it's
-                 * available; otherwise, use sockets. Build a connect
-                 * specification string based on this decision.
+                 * -bttbch is shorthbnd for one of the reference implementbtion's
+                 * bttbching connectors. Use the shbred memory bttbch if it's
+                 * bvbilbble; otherwise, use sockets. Build b connect
+                 * specificbtion string bbsed on this decision.
                  */
-                if (supportsSharedMemory()) {
-                    connectSpec = "com.sun.jdi.SharedMemoryAttach:name=" +
-                                   address;
+                if (supportsShbredMemory()) {
+                    connectSpec = "com.sun.jdi.ShbredMemoryAttbch:nbme=" +
+                                   bddress;
                 } else {
-                    String suboptions = addressToSocketArgs(address);
-                    connectSpec = "com.sun.jdi.SocketAttach:" + suboptions;
+                    String suboptions = bddressToSocketArgs(bddress);
+                    connectSpec = "com.sun.jdi.SocketAttbch:" + suboptions;
                 }
-            } else if (token.equals("-listen") || token.equals("-listenany")) {
+            } else if (token.equbls("-listen") || token.equbls("-listenbny")) {
                 if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
+                    usbgeError("cbnnot redefine existing connection", token);
                     return;
                 }
-                String address = null;
-                if (token.equals("-listen")) {
-                    if (i == (argv.length - 1)) {
-                        usageError("No attach address specified.");
+                String bddress = null;
+                if (token.equbls("-listen")) {
+                    if (i == (brgv.length - 1)) {
+                        usbgeError("No bttbch bddress specified.");
                         return;
                     }
-                    address = argv[++i];
+                    bddress = brgv[++i];
                 }
 
                 /*
-                 * -listen[any] is shorthand for one of the reference implementation's
-                 * listening connectors. Use the shared memory listen if it's
-                 * available; otherwise, use sockets. Build a connect
-                 * specification string based on this decision.
+                 * -listen[bny] is shorthbnd for one of the reference implementbtion's
+                 * listening connectors. Use the shbred memory listen if it's
+                 * bvbilbble; otherwise, use sockets. Build b connect
+                 * specificbtion string bbsed on this decision.
                  */
-                if (supportsSharedMemory()) {
-                    connectSpec = "com.sun.jdi.SharedMemoryListen:";
-                    if (address != null) {
-                        connectSpec += ("name=" + address);
+                if (supportsShbredMemory()) {
+                    connectSpec = "com.sun.jdi.ShbredMemoryListen:";
+                    if (bddress != null) {
+                        connectSpec += ("nbme=" + bddress);
                     }
                 } else {
                     connectSpec = "com.sun.jdi.SocketListen:";
-                    if (address != null) {
-                        connectSpec += addressToSocketArgs(address);
+                    if (bddress != null) {
+                        connectSpec += bddressToSocketArgs(bddress);
                     }
                 }
-            } else if (token.equals("-launch")) {
-                launchImmediately = true;
-            } else if (token.equals("-listconnectors")) {
-                Commands evaluator = new Commands();
-                evaluator.commandConnectors(Bootstrap.virtualMachineManager());
+            } else if (token.equbls("-lbunch")) {
+                lbunchImmedibtely = true;
+            } else if (token.equbls("-listconnectors")) {
+                Commbnds evblubtor = new Commbnds();
+                evblubtor.commbndConnectors(Bootstrbp.virtublMbchineMbnbger());
                 return;
-            } else if (token.equals("-connect")) {
+            } else if (token.equbls("-connect")) {
                 /*
-                 * -connect allows the user to pick the connector
-                 * used in bringing up the target VM. This allows
-                 * use of connectors other than those in the reference
-                 * implementation.
+                 * -connect bllows the user to pick the connector
+                 * used in bringing up the tbrget VM. This bllows
+                 * use of connectors other thbn those in the reference
+                 * implementbtion.
                  */
                 if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
+                    usbgeError("cbnnot redefine existing connection", token);
                     return;
                 }
-                if (i == (argv.length - 1)) {
-                    usageError("No connect specification.");
+                if (i == (brgv.length - 1)) {
+                    usbgeError("No connect specificbtion.");
                     return;
                 }
-                connectSpec = argv[++i];
-            } else if (token.equals("-help")) {
-                usage();
-            } else if (token.equals("-version")) {
-                Commands evaluator = new Commands();
-                evaluator.commandVersion(progname,
-                                         Bootstrap.virtualMachineManager());
+                connectSpec = brgv[++i];
+            } else if (token.equbls("-help")) {
+                usbge();
+            } else if (token.equbls("-version")) {
+                Commbnds evblubtor = new Commbnds();
+                evblubtor.commbndVersion(prognbme,
+                                         Bootstrbp.virtublMbchineMbnbger());
                 System.exit(0);
-            } else if (token.startsWith("-")) {
-                usageError("invalid option", token);
+            } else if (token.stbrtsWith("-")) {
+                usbgeError("invblid option", token);
                 return;
             } else {
-                // Everything from here is part of the command line
-                cmdLine = addArgument("", token);
-                for (i++; i < argv.length; i++) {
-                    cmdLine = addArgument(cmdLine, argv[i]);
+                // Everything from here is pbrt of the commbnd line
+                cmdLine = bddArgument("", token);
+                for (i++; i < brgv.length; i++) {
+                    cmdLine = bddArgument(cmdLine, brgv[i]);
                 }
-                break;
+                brebk;
             }
         }
 
         /*
-         * Unless otherwise specified, set the default connect spec.
+         * Unless otherwise specified, set the defbult connect spec.
          */
 
         /*
-         * Here are examples of jdb command lines and how the options
-         * are interpreted as arguments to the program being debugged.
-         * arg1       arg2
+         * Here bre exbmples of jdb commbnd lines bnd how the options
+         * bre interpreted bs brguments to the progrbm being debugged.
+         * brg1       brg2
          * ----       ----
-         * jdb hello a b       a          b
-         * jdb hello "a b"     a b
-         * jdb hello a,b       a,b
-         * jdb hello a, b      a,         b
-         * jdb hello "a, b"    a, b
-         * jdb -connect "com.sun.jdi.CommandLineLaunch:main=hello  a,b"   illegal
-         * jdb -connect  com.sun.jdi.CommandLineLaunch:main=hello "a,b"   illegal
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a,b"'  arg1 = a,b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a b"'  arg1 = a b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello  a b'   arg1 = a  arg2 = b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a," b' arg1 = a, arg2 = b
+         * jdb hello b b       b          b
+         * jdb hello "b b"     b b
+         * jdb hello b,b       b,b
+         * jdb hello b, b      b,         b
+         * jdb hello "b, b"    b, b
+         * jdb -connect "com.sun.jdi.CommbndLineLbunch:mbin=hello  b,b"   illegbl
+         * jdb -connect  com.sun.jdi.CommbndLineLbunch:mbin=hello "b,b"   illegbl
+         * jdb -connect 'com.sun.jdi.CommbndLineLbunch:mbin=hello "b,b"'  brg1 = b,b
+         * jdb -connect 'com.sun.jdi.CommbndLineLbunch:mbin=hello "b b"'  brg1 = b b
+         * jdb -connect 'com.sun.jdi.CommbndLineLbunch:mbin=hello  b b'   brg1 = b  brg2 = b
+         * jdb -connect 'com.sun.jdi.CommbndLineLbunch:mbin=hello "b," b' brg1 = b, brg2 = b
          */
         if (connectSpec == null) {
-            connectSpec = "com.sun.jdi.CommandLineLaunch:";
+            connectSpec = "com.sun.jdi.CommbndLineLbunch:";
         } else if (!connectSpec.endsWith(",") && !connectSpec.endsWith(":")) {
             connectSpec += ","; // (Bug ID 4285874)
         }
 
         cmdLine = cmdLine.trim();
-        javaArgs = javaArgs.trim();
+        jbvbArgs = jbvbArgs.trim();
 
         if (cmdLine.length() > 0) {
-            if (!connectSpec.startsWith("com.sun.jdi.CommandLineLaunch:")) {
-                usageError("Cannot specify command line with connector:",
+            if (!connectSpec.stbrtsWith("com.sun.jdi.CommbndLineLbunch:")) {
+                usbgeError("Cbnnot specify commbnd line with connector:",
                            connectSpec);
                 return;
             }
-            connectSpec += "main=" + cmdLine + ",";
+            connectSpec += "mbin=" + cmdLine + ",";
         }
 
-        if (javaArgs.length() > 0) {
-            if (!connectSpec.startsWith("com.sun.jdi.CommandLineLaunch:")) {
-                usageError("Cannot specify target vm arguments with connector:",
+        if (jbvbArgs.length() > 0) {
+            if (!connectSpec.stbrtsWith("com.sun.jdi.CommbndLineLbunch:")) {
+                usbgeError("Cbnnot specify tbrget vm brguments with connector:",
                            connectSpec);
                 return;
             }
-            connectSpec += "options=" + javaArgs + ",";
+            connectSpec += "options=" + jbvbArgs + ",";
         }
 
         try {
             if (! connectSpec.endsWith(",")) {
                 connectSpec += ","; // (Bug ID 4285874)
             }
-            Env.init(connectSpec, launchImmediately, traceFlags);
+            Env.init(connectSpec, lbunchImmedibtely, trbceFlbgs);
             new TTY();
-        } catch(Exception e) {
-            MessageOutput.printException("Internal exception:", e);
+        } cbtch(Exception e) {
+            MessbgeOutput.printException("Internbl exception:", e);
         }
     }
 }

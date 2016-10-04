@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collection;
-import java.util.Set;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Collection;
+import jbvb.util.Set;
 
 /**
- * A simple implementation of Bindings backed by
- * a <code>HashMap</code> or some other specified <code>Map</code>.
+ * A simple implementbtion of Bindings bbcked by
+ * b <code>HbshMbp</code> or some other specified <code>Mbp</code>.
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
-public class SimpleBindings implements Bindings {
+public clbss SimpleBindings implements Bindings {
 
     /**
-     * The <code>Map</code> field stores the attributes.
+     * The <code>Mbp</code> field stores the bttributes.
      */
-    private Map<String,Object> map;
+    privbte Mbp<String,Object> mbp;
 
     /**
-     * Constructor uses an existing <code>Map</code> to store the values.
-     * @param m The <code>Map</code> backing this <code>SimpleBindings</code>.
+     * Constructor uses bn existing <code>Mbp</code> to store the vblues.
+     * @pbrbm m The <code>Mbp</code> bbcking this <code>SimpleBindings</code>.
      * @throws NullPointerException if m is null
      */
-    public SimpleBindings(Map<String,Object> m) {
+    public SimpleBindings(Mbp<String,Object> m) {
         if (m == null) {
             throw new NullPointerException();
         }
-        this.map = m;
+        this.mbp = m;
     }
 
     /**
-     * Default constructor uses a <code>HashMap</code>.
+     * Defbult constructor uses b <code>HbshMbp</code>.
      */
     public SimpleBindings() {
-        this(new HashMap<String,Object>());
+        this(new HbshMbp<String,Object>());
     }
 
     /**
-     * Sets the specified key/value in the underlying <code>map</code> field.
+     * Sets the specified key/vblue in the underlying <code>mbp</code> field.
      *
-     * @param name Name of value
-     * @param value Value to set.
+     * @pbrbm nbme Nbme of vblue
+     * @pbrbm vblue Vblue to set.
      *
-     * @return Previous value for the specified key.  Returns null if key was previously
+     * @return Previous vblue for the specified key.  Returns null if key wbs previously
      * unset.
      *
-     * @throws NullPointerException if the name is null.
-     * @throws IllegalArgumentException if the name is empty.
+     * @throws NullPointerException if the nbme is null.
+     * @throws IllegblArgumentException if the nbme is empty.
      */
-    public Object put(String name, Object value) {
-        checkKey(name);
-        return map.put(name,value);
+    public Object put(String nbme, Object vblue) {
+        checkKey(nbme);
+        return mbp.put(nbme,vblue);
     }
 
     /**
-     * <code>putAll</code> is implemented using <code>Map.putAll</code>.
+     * <code>putAll</code> is implemented using <code>Mbp.putAll</code>.
      *
-     * @param toMerge The <code>Map</code> of values to add.
+     * @pbrbm toMerge The <code>Mbp</code> of vblues to bdd.
      *
      * @throws NullPointerException
-     *         if toMerge map is null or if some key in the map is null.
-     * @throws IllegalArgumentException
-     *         if some key in the map is an empty String.
+     *         if toMerge mbp is null or if some key in the mbp is null.
+     * @throws IllegblArgumentException
+     *         if some key in the mbp is bn empty String.
      */
-    public void putAll(Map<? extends String, ? extends Object> toMerge) {
+    public void putAll(Mbp<? extends String, ? extends Object> toMerge) {
         if (toMerge == null) {
-            throw new NullPointerException("toMerge map is null");
+            throw new NullPointerException("toMerge mbp is null");
         }
-        for (Map.Entry<? extends String, ? extends Object> entry : toMerge.entrySet()) {
+        for (Mbp.Entry<? extends String, ? extends Object> entry : toMerge.entrySet()) {
             String key = entry.getKey();
             checkKey(key);
-            put(key, entry.getValue());
+            put(key, entry.getVblue());
         }
     }
 
     /** {@inheritDoc} */
-    public void clear() {
-        map.clear();
+    public void clebr() {
+        mbp.clebr();
     }
 
     /**
-     * Returns <tt>true</tt> if this map contains a mapping for the specified
-     * key.  More formally, returns <tt>true</tt> if and only if
-     * this map contains a mapping for a key <tt>k</tt> such that
-     * <tt>(key==null ? k==null : key.equals(k))</tt>.  (There can be
-     * at most one such mapping.)
+     * Returns <tt>true</tt> if this mbp contbins b mbpping for the specified
+     * key.  More formblly, returns <tt>true</tt> if bnd only if
+     * this mbp contbins b mbpping for b key <tt>k</tt> such thbt
+     * <tt>(key==null ? k==null : key.equbls(k))</tt>.  (There cbn be
+     * bt most one such mbpping.)
      *
-     * @param key key whose presence in this map is to be tested.
-     * @return <tt>true</tt> if this map contains a mapping for the specified
+     * @pbrbm key key whose presence in this mbp is to be tested.
+     * @return <tt>true</tt> if this mbp contbins b mbpping for the specified
      *         key.
      *
      * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @throws ClbssCbstException if key is not String
+     * @throws IllegblArgumentException if key is empty String
      */
-    public boolean containsKey(Object key) {
+    public boolebn contbinsKey(Object key) {
         checkKey(key);
-        return map.containsKey(key);
+        return mbp.contbinsKey(key);
     }
 
     /** {@inheritDoc} */
-    public boolean containsValue(Object value) {
-        return map.containsValue(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return mbp.contbinsVblue(vblue);
     }
 
     /** {@inheritDoc} */
-    public Set<Map.Entry<String, Object>> entrySet() {
-        return map.entrySet();
+    public Set<Mbp.Entry<String, Object>> entrySet() {
+        return mbp.entrySet();
     }
 
     /**
-     * Returns the value to which this map maps the specified key.  Returns
-     * <tt>null</tt> if the map contains no mapping for this key.  A return
-     * value of <tt>null</tt> does not <i>necessarily</i> indicate that the
-     * map contains no mapping for the key; it's also possible that the map
-     * explicitly maps the key to <tt>null</tt>.  The <tt>containsKey</tt>
-     * operation may be used to distinguish these two cases.
+     * Returns the vblue to which this mbp mbps the specified key.  Returns
+     * <tt>null</tt> if the mbp contbins no mbpping for this key.  A return
+     * vblue of <tt>null</tt> does not <i>necessbrily</i> indicbte thbt the
+     * mbp contbins no mbpping for the key; it's blso possible thbt the mbp
+     * explicitly mbps the key to <tt>null</tt>.  The <tt>contbinsKey</tt>
+     * operbtion mby be used to distinguish these two cbses.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * <tt>k</tt> to a value <tt>v</tt> such that <tt>(key==null ? k==null :
-     * key.equals(k))</tt>, then this method returns <tt>v</tt>; otherwise
-     * it returns <tt>null</tt>.  (There can be at most one such mapping.)
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * <tt>k</tt> to b vblue <tt>v</tt> such thbt <tt>(key==null ? k==null :
+     * key.equbls(k))</tt>, then this method returns <tt>v</tt>; otherwise
+     * it returns <tt>null</tt>.  (There cbn be bt most one such mbpping.)
      *
-     * @param key key whose associated value is to be returned.
-     * @return the value to which this map maps the specified key, or
-     *         <tt>null</tt> if the map contains no mapping for this key.
+     * @pbrbm key key whose bssocibted vblue is to be returned.
+     * @return the vblue to which this mbp mbps the specified key, or
+     *         <tt>null</tt> if the mbp contbins no mbpping for this key.
      *
      * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @throws ClbssCbstException if key is not String
+     * @throws IllegblArgumentException if key is empty String
      */
     public Object get(Object key) {
         checkKey(key);
-        return map.get(key);
+        return mbp.get(key);
     }
 
     /** {@inheritDoc} */
-    public boolean isEmpty() {
-        return map.isEmpty();
+    public boolebn isEmpty() {
+        return mbp.isEmpty();
     }
 
     /** {@inheritDoc} */
     public Set<String> keySet() {
-        return map.keySet();
+        return mbp.keySet();
     }
 
     /**
-     * Removes the mapping for this key from this map if it is present
-     * (optional operation).   More formally, if this map contains a mapping
-     * from key <tt>k</tt> to value <tt>v</tt> such that
-     * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping
-     * is removed.  (The map can contain at most one such mapping.)
+     * Removes the mbpping for this key from this mbp if it is present
+     * (optionbl operbtion).   More formblly, if this mbp contbins b mbpping
+     * from key <tt>k</tt> to vblue <tt>v</tt> such thbt
+     * <code>(key==null ?  k==null : key.equbls(k))</code>, thbt mbpping
+     * is removed.  (The mbp cbn contbin bt most one such mbpping.)
      *
-     * <p>Returns the value to which the map previously associated the key, or
-     * <tt>null</tt> if the map contained no mapping for this key.  (A
-     * <tt>null</tt> return can also indicate that the map previously
-     * associated <tt>null</tt> with the specified key if the implementation
-     * supports <tt>null</tt> values.)  The map will not contain a mapping for
-     * the specified  key once the call returns.
+     * <p>Returns the vblue to which the mbp previously bssocibted the key, or
+     * <tt>null</tt> if the mbp contbined no mbpping for this key.  (A
+     * <tt>null</tt> return cbn blso indicbte thbt the mbp previously
+     * bssocibted <tt>null</tt> with the specified key if the implementbtion
+     * supports <tt>null</tt> vblues.)  The mbp will not contbin b mbpping for
+     * the specified  key once the cbll returns.
      *
-     * @param key key whose mapping is to be removed from the map.
-     * @return previous value associated with specified key, or <tt>null</tt>
-     *         if there was no mapping for key.
+     * @pbrbm key key whose mbpping is to be removed from the mbp.
+     * @return previous vblue bssocibted with specified key, or <tt>null</tt>
+     *         if there wbs no mbpping for key.
      *
      * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @throws ClbssCbstException if key is not String
+     * @throws IllegblArgumentException if key is empty String
      */
     public Object remove(Object key) {
         checkKey(key);
-        return map.remove(key);
+        return mbp.remove(key);
     }
 
     /** {@inheritDoc} */
     public int size() {
-        return map.size();
+        return mbp.size();
     }
 
     /** {@inheritDoc} */
-    public Collection<Object> values() {
-        return map.values();
+    public Collection<Object> vblues() {
+        return mbp.vblues();
     }
 
-    private void checkKey(Object key) {
+    privbte void checkKey(Object key) {
         if (key == null) {
-            throw new NullPointerException("key can not be null");
+            throw new NullPointerException("key cbn not be null");
         }
-        if (!(key instanceof String)) {
-            throw new ClassCastException("key should be a String");
+        if (!(key instbnceof String)) {
+            throw new ClbssCbstException("key should be b String");
         }
-        if (key.equals("")) {
-            throw new IllegalArgumentException("key can not be empty");
+        if (key.equbls("")) {
+            throw new IllegblArgumentException("key cbn not be empty");
         }
     }
 }

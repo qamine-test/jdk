@@ -1,438 +1,438 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea, Bill Scherer, and Michael Scott with
- * assistance from members of JCP JSR-166 Expert Group and released to
- * the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb, Bill Scherer, bnd Michbel Scott with
+ * bssistbnce from members of JCP JSR-166 Expert Group bnd relebsed to
+ * the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicReference;
+import jbvb.util.concurrent.locks.LockSupport;
 
 /**
- * A synchronization point at which threads can pair and swap elements
- * within pairs.  Each thread presents some object on entry to the
- * {@link #exchange exchange} method, matches with a partner thread,
- * and receives its partner's object on return.  An Exchanger may be
- * viewed as a bidirectional form of a {@link SynchronousQueue}.
- * Exchangers may be useful in applications such as genetic algorithms
- * and pipeline designs.
+ * A synchronizbtion point bt which threbds cbn pbir bnd swbp elements
+ * within pbirs.  Ebch threbd presents some object on entry to the
+ * {@link #exchbnge exchbnge} method, mbtches with b pbrtner threbd,
+ * bnd receives its pbrtner's object on return.  An Exchbnger mby be
+ * viewed bs b bidirectionbl form of b {@link SynchronousQueue}.
+ * Exchbngers mby be useful in bpplicbtions such bs genetic blgorithms
+ * bnd pipeline designs.
  *
- * <p><b>Sample Usage:</b>
- * Here are the highlights of a class that uses an {@code Exchanger}
- * to swap buffers between threads so that the thread filling the
- * buffer gets a freshly emptied one when it needs it, handing off the
- * filled one to the thread emptying the buffer.
+ * <p><b>Sbmple Usbge:</b>
+ * Here bre the highlights of b clbss thbt uses bn {@code Exchbnger}
+ * to swbp buffers between threbds so thbt the threbd filling the
+ * buffer gets b freshly emptied one when it needs it, hbnding off the
+ * filled one to the threbd emptying the buffer.
  *  <pre> {@code
- * class FillAndEmpty {
- *   Exchanger<DataBuffer> exchanger = new Exchanger<DataBuffer>();
- *   DataBuffer initialEmptyBuffer = ... a made-up type
- *   DataBuffer initialFullBuffer = ...
+ * clbss FillAndEmpty {
+ *   Exchbnger<DbtbBuffer> exchbnger = new Exchbnger<DbtbBuffer>();
+ *   DbtbBuffer initiblEmptyBuffer = ... b mbde-up type
+ *   DbtbBuffer initiblFullBuffer = ...
  *
- *   class FillingLoop implements Runnable {
+ *   clbss FillingLoop implements Runnbble {
  *     public void run() {
- *       DataBuffer currentBuffer = initialEmptyBuffer;
+ *       DbtbBuffer currentBuffer = initiblEmptyBuffer;
  *       try {
  *         while (currentBuffer != null) {
- *           addToBuffer(currentBuffer);
+ *           bddToBuffer(currentBuffer);
  *           if (currentBuffer.isFull())
- *             currentBuffer = exchanger.exchange(currentBuffer);
+ *             currentBuffer = exchbnger.exchbnge(currentBuffer);
  *         }
- *       } catch (InterruptedException ex) { ... handle ... }
+ *       } cbtch (InterruptedException ex) { ... hbndle ... }
  *     }
  *   }
  *
- *   class EmptyingLoop implements Runnable {
+ *   clbss EmptyingLoop implements Runnbble {
  *     public void run() {
- *       DataBuffer currentBuffer = initialFullBuffer;
+ *       DbtbBuffer currentBuffer = initiblFullBuffer;
  *       try {
  *         while (currentBuffer != null) {
- *           takeFromBuffer(currentBuffer);
+ *           tbkeFromBuffer(currentBuffer);
  *           if (currentBuffer.isEmpty())
- *             currentBuffer = exchanger.exchange(currentBuffer);
+ *             currentBuffer = exchbnger.exchbnge(currentBuffer);
  *         }
- *       } catch (InterruptedException ex) { ... handle ...}
+ *       } cbtch (InterruptedException ex) { ... hbndle ...}
  *     }
  *   }
  *
- *   void start() {
- *     new Thread(new FillingLoop()).start();
- *     new Thread(new EmptyingLoop()).start();
+ *   void stbrt() {
+ *     new Threbd(new FillingLoop()).stbrt();
+ *     new Threbd(new EmptyingLoop()).stbrt();
  *   }
  * }}</pre>
  *
- * <p>Memory consistency effects: For each pair of threads that
- * successfully exchange objects via an {@code Exchanger}, actions
- * prior to the {@code exchange()} in each thread
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * those subsequent to a return from the corresponding {@code exchange()}
- * in the other thread.
+ * <p>Memory consistency effects: For ebch pbir of threbds thbt
+ * successfully exchbnge objects vib bn {@code Exchbnger}, bctions
+ * prior to the {@code exchbnge()} in ebch threbd
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * those subsequent to b return from the corresponding {@code exchbnge()}
+ * in the other threbd.
  *
  * @since 1.5
- * @author Doug Lea and Bill Scherer and Michael Scott
- * @param <V> The type of objects that may be exchanged
+ * @buthor Doug Leb bnd Bill Scherer bnd Michbel Scott
+ * @pbrbm <V> The type of objects thbt mby be exchbnged
  */
-public class Exchanger<V> {
+public clbss Exchbnger<V> {
 
     /*
-     * Overview: The core algorithm is, for an exchange "slot",
-     * and a participant (caller) with an item:
+     * Overview: The core blgorithm is, for bn exchbnge "slot",
+     * bnd b pbrticipbnt (cbller) with bn item:
      *
      * for (;;) {
      *   if (slot is empty) {                       // offer
-     *     place item in a Node;
-     *     if (can CAS slot from empty to node) {
-     *       wait for release;
-     *       return matching item in node;
+     *     plbce item in b Node;
+     *     if (cbn CAS slot from empty to node) {
+     *       wbit for relebse;
+     *       return mbtching item in node;
      *     }
      *   }
-     *   else if (can CAS slot from node to empty) { // release
+     *   else if (cbn CAS slot from node to empty) { // relebse
      *     get the item in node;
-     *     set matching item in node;
-     *     release waiting thread;
+     *     set mbtching item in node;
+     *     relebse wbiting threbd;
      *   }
-     *   // else retry on CAS failure
+     *   // else retry on CAS fbilure
      * }
      *
-     * This is among the simplest forms of a "dual data structure" --
-     * see Scott and Scherer's DISC 04 paper and
-     * http://www.cs.rochester.edu/research/synchronization/pseudocode/duals.html
+     * This is bmong the simplest forms of b "dubl dbtb structure" --
+     * see Scott bnd Scherer's DISC 04 pbper bnd
+     * http://www.cs.rochester.edu/resebrch/synchronizbtion/pseudocode/dubls.html
      *
-     * This works great in principle. But in practice, like many
-     * algorithms centered on atomic updates to a single location, it
-     * scales horribly when there are more than a few participants
-     * using the same Exchanger. So the implementation instead uses a
-     * form of elimination arena, that spreads out this contention by
-     * arranging that some threads typically use different slots,
-     * while still ensuring that eventually, any two parties will be
-     * able to exchange items. That is, we cannot completely partition
-     * across threads, but instead give threads arena indices that
-     * will on average grow under contention and shrink under lack of
-     * contention. We approach this by defining the Nodes that we need
-     * anyway as ThreadLocals, and include in them per-thread index
-     * and related bookkeeping state. (We can safely reuse per-thread
-     * nodes rather than creating them fresh each time because slots
-     * alternate between pointing to a node vs null, so cannot
-     * encounter ABA problems. However, we do need some care in
+     * This works grebt in principle. But in prbctice, like mbny
+     * blgorithms centered on btomic updbtes to b single locbtion, it
+     * scbles horribly when there bre more thbn b few pbrticipbnts
+     * using the sbme Exchbnger. So the implementbtion instebd uses b
+     * form of eliminbtion brenb, thbt sprebds out this contention by
+     * brrbnging thbt some threbds typicblly use different slots,
+     * while still ensuring thbt eventublly, bny two pbrties will be
+     * bble to exchbnge items. Thbt is, we cbnnot completely pbrtition
+     * bcross threbds, but instebd give threbds brenb indices thbt
+     * will on bverbge grow under contention bnd shrink under lbck of
+     * contention. We bpprobch this by defining the Nodes thbt we need
+     * bnywby bs ThrebdLocbls, bnd include in them per-threbd index
+     * bnd relbted bookkeeping stbte. (We cbn sbfely reuse per-threbd
+     * nodes rbther thbn crebting them fresh ebch time becbuse slots
+     * blternbte between pointing to b node vs null, so cbnnot
+     * encounter ABA problems. However, we do need some cbre in
      * resetting them between uses.)
      *
-     * Implementing an effective arena requires allocating a bunch of
-     * space, so we only do so upon detecting contention (except on
-     * uniprocessors, where they wouldn't help, so aren't used).
-     * Otherwise, exchanges use the single-slot slotExchange method.
+     * Implementing bn effective brenb requires bllocbting b bunch of
+     * spbce, so we only do so upon detecting contention (except on
+     * uniprocessors, where they wouldn't help, so bren't used).
+     * Otherwise, exchbnges use the single-slot slotExchbnge method.
      * On contention, not only must the slots be in different
-     * locations, but the locations must not encounter memory
-     * contention due to being on the same cache line (or more
-     * generally, the same coherence unit).  Because, as of this
-     * writing, there is no way to determine cacheline size, we define
-     * a value that is enough for common platforms.  Additionally,
-     * extra care elsewhere is taken to avoid other false/unintended
-     * sharing and to enhance locality, including adding padding (via
-     * sun.misc.Contended) to Nodes, embedding "bound" as an Exchanger
-     * field, and reworking some park/unpark mechanics compared to
+     * locbtions, but the locbtions must not encounter memory
+     * contention due to being on the sbme cbche line (or more
+     * generblly, the sbme coherence unit).  Becbuse, bs of this
+     * writing, there is no wby to determine cbcheline size, we define
+     * b vblue thbt is enough for common plbtforms.  Additionblly,
+     * extrb cbre elsewhere is tbken to bvoid other fblse/unintended
+     * shbring bnd to enhbnce locblity, including bdding pbdding (vib
+     * sun.misc.Contended) to Nodes, embedding "bound" bs bn Exchbnger
+     * field, bnd reworking some pbrk/unpbrk mechbnics compbred to
      * LockSupport versions.
      *
-     * The arena starts out with only one used slot. We expand the
-     * effective arena size by tracking collisions; i.e., failed CASes
-     * while trying to exchange. By nature of the above algorithm, the
-     * only kinds of collision that reliably indicate contention are
-     * when two attempted releases collide -- one of two attempted
-     * offers can legitimately fail to CAS without indicating
-     * contention by more than one other thread. (Note: it is possible
+     * The brenb stbrts out with only one used slot. We expbnd the
+     * effective brenb size by trbcking collisions; i.e., fbiled CASes
+     * while trying to exchbnge. By nbture of the bbove blgorithm, the
+     * only kinds of collision thbt relibbly indicbte contention bre
+     * when two bttempted relebses collide -- one of two bttempted
+     * offers cbn legitimbtely fbil to CAS without indicbting
+     * contention by more thbn one other threbd. (Note: it is possible
      * but not worthwhile to more precisely detect contention by
-     * reading slot values after CAS failures.)  When a thread has
-     * collided at each slot within the current arena bound, it tries
-     * to expand the arena size by one. We track collisions within
-     * bounds by using a version (sequence) number on the "bound"
-     * field, and conservatively reset collision counts when a
-     * participant notices that bound has been updated (in either
+     * rebding slot vblues bfter CAS fbilures.)  When b threbd hbs
+     * collided bt ebch slot within the current brenb bound, it tries
+     * to expbnd the brenb size by one. We trbck collisions within
+     * bounds by using b version (sequence) number on the "bound"
+     * field, bnd conservbtively reset collision counts when b
+     * pbrticipbnt notices thbt bound hbs been updbted (in either
      * direction).
      *
-     * The effective arena size is reduced (when there is more than
-     * one slot) by giving up on waiting after a while and trying to
-     * decrement the arena size on expiration. The value of "a while"
-     * is an empirical matter.  We implement by piggybacking on the
-     * use of spin->yield->block that is essential for reasonable
-     * waiting performance anyway -- in a busy exchanger, offers are
-     * usually almost immediately released, in which case context
-     * switching on multiprocessors is extremely slow/wasteful.  Arena
-     * waits just omit the blocking part, and instead cancel. The spin
-     * count is empirically chosen to be a value that avoids blocking
-     * 99% of the time under maximum sustained exchange rates on a
-     * range of test machines. Spins and yields entail some limited
-     * randomness (using a cheap xorshift) to avoid regular patterns
-     * that can induce unproductive grow/shrink cycles. (Using a
-     * pseudorandom also helps regularize spin cycle duration by
-     * making branches unpredictable.)  Also, during an offer, a
-     * waiter can "know" that it will be released when its slot has
-     * changed, but cannot yet proceed until match is set.  In the
-     * mean time it cannot cancel the offer, so instead spins/yields.
-     * Note: It is possible to avoid this secondary check by changing
-     * the linearization point to be a CAS of the match field (as done
-     * in one case in the Scott & Scherer DISC paper), which also
-     * increases asynchrony a bit, at the expense of poorer collision
-     * detection and inability to always reuse per-thread nodes. So
-     * the current scheme is typically a better tradeoff.
+     * The effective brenb size is reduced (when there is more thbn
+     * one slot) by giving up on wbiting bfter b while bnd trying to
+     * decrement the brenb size on expirbtion. The vblue of "b while"
+     * is bn empiricbl mbtter.  We implement by piggybbcking on the
+     * use of spin->yield->block thbt is essentibl for rebsonbble
+     * wbiting performbnce bnywby -- in b busy exchbnger, offers bre
+     * usublly blmost immedibtely relebsed, in which cbse context
+     * switching on multiprocessors is extremely slow/wbsteful.  Arenb
+     * wbits just omit the blocking pbrt, bnd instebd cbncel. The spin
+     * count is empiricblly chosen to be b vblue thbt bvoids blocking
+     * 99% of the time under mbximum sustbined exchbnge rbtes on b
+     * rbnge of test mbchines. Spins bnd yields entbil some limited
+     * rbndomness (using b chebp xorshift) to bvoid regulbr pbtterns
+     * thbt cbn induce unproductive grow/shrink cycles. (Using b
+     * pseudorbndom blso helps regulbrize spin cycle durbtion by
+     * mbking brbnches unpredictbble.)  Also, during bn offer, b
+     * wbiter cbn "know" thbt it will be relebsed when its slot hbs
+     * chbnged, but cbnnot yet proceed until mbtch is set.  In the
+     * mebn time it cbnnot cbncel the offer, so instebd spins/yields.
+     * Note: It is possible to bvoid this secondbry check by chbnging
+     * the linebrizbtion point to be b CAS of the mbtch field (bs done
+     * in one cbse in the Scott & Scherer DISC pbper), which blso
+     * increbses bsynchrony b bit, bt the expense of poorer collision
+     * detection bnd inbbility to blwbys reuse per-threbd nodes. So
+     * the current scheme is typicblly b better trbdeoff.
      *
-     * On collisions, indices traverse the arena cyclically in reverse
-     * order, restarting at the maximum index (which will tend to be
-     * sparsest) when bounds change. (On expirations, indices instead
-     * are halved until reaching 0.) It is possible (and has been
-     * tried) to use randomized, prime-value-stepped, or double-hash
-     * style traversal instead of simple cyclic traversal to reduce
-     * bunching.  But empirically, whatever benefits these may have
-     * don't overcome their added overhead: We are managing operations
-     * that occur very quickly unless there is sustained contention,
-     * so simpler/faster control policies work better than more
-     * accurate but slower ones.
+     * On collisions, indices trbverse the brenb cyclicblly in reverse
+     * order, restbrting bt the mbximum index (which will tend to be
+     * spbrsest) when bounds chbnge. (On expirbtions, indices instebd
+     * bre hblved until rebching 0.) It is possible (bnd hbs been
+     * tried) to use rbndomized, prime-vblue-stepped, or double-hbsh
+     * style trbversbl instebd of simple cyclic trbversbl to reduce
+     * bunching.  But empiricblly, whbtever benefits these mby hbve
+     * don't overcome their bdded overhebd: We bre mbnbging operbtions
+     * thbt occur very quickly unless there is sustbined contention,
+     * so simpler/fbster control policies work better thbn more
+     * bccurbte but slower ones.
      *
-     * Because we use expiration for arena size control, we cannot
+     * Becbuse we use expirbtion for brenb size control, we cbnnot
      * throw TimeoutExceptions in the timed version of the public
-     * exchange method until the arena size has shrunken to zero (or
-     * the arena isn't enabled). This may delay response to timeout
+     * exchbnge method until the brenb size hbs shrunken to zero (or
+     * the brenb isn't enbbled). This mby delby response to timeout
      * but is still within spec.
      *
-     * Essentially all of the implementation is in methods
-     * slotExchange and arenaExchange. These have similar overall
-     * structure, but differ in too many details to combine. The
-     * slotExchange method uses the single Exchanger field "slot"
-     * rather than arena array elements. However, it still needs
-     * minimal collision detection to trigger arena construction.
-     * (The messiest part is making sure interrupt status and
-     * InterruptedExceptions come out right during transitions when
-     * both methods may be called. This is done by using null return
-     * as a sentinel to recheck interrupt status.)
+     * Essentiblly bll of the implementbtion is in methods
+     * slotExchbnge bnd brenbExchbnge. These hbve similbr overbll
+     * structure, but differ in too mbny detbils to combine. The
+     * slotExchbnge method uses the single Exchbnger field "slot"
+     * rbther thbn brenb brrby elements. However, it still needs
+     * minimbl collision detection to trigger brenb construction.
+     * (The messiest pbrt is mbking sure interrupt stbtus bnd
+     * InterruptedExceptions come out right during trbnsitions when
+     * both methods mby be cblled. This is done by using null return
+     * bs b sentinel to recheck interrupt stbtus.)
      *
-     * As is too common in this sort of code, methods are monolithic
-     * because most of the logic relies on reads of fields that are
-     * maintained as local variables so can't be nicely factored --
-     * mainly, here, bulky spin->yield->block/cancel code), and
-     * heavily dependent on intrinsics (Unsafe) to use inlined
-     * embedded CAS and related memory access operations (that tend
-     * not to be as readily inlined by dynamic compilers when they are
-     * hidden behind other methods that would more nicely name and
-     * encapsulate the intended effects). This includes the use of
-     * putOrderedX to clear fields of the per-thread Nodes between
-     * uses. Note that field Node.item is not declared as volatile
-     * even though it is read by releasing threads, because they only
-     * do so after CAS operations that must precede access, and all
-     * uses by the owning thread are otherwise acceptably ordered by
-     * other operations. (Because the actual points of atomicity are
-     * slot CASes, it would also be legal for the write to Node.match
-     * in a release to be weaker than a full volatile write. However,
-     * this is not done because it could allow further postponement of
-     * the write, delaying progress.)
+     * As is too common in this sort of code, methods bre monolithic
+     * becbuse most of the logic relies on rebds of fields thbt bre
+     * mbintbined bs locbl vbribbles so cbn't be nicely fbctored --
+     * mbinly, here, bulky spin->yield->block/cbncel code), bnd
+     * hebvily dependent on intrinsics (Unsbfe) to use inlined
+     * embedded CAS bnd relbted memory bccess operbtions (thbt tend
+     * not to be bs rebdily inlined by dynbmic compilers when they bre
+     * hidden behind other methods thbt would more nicely nbme bnd
+     * encbpsulbte the intended effects). This includes the use of
+     * putOrderedX to clebr fields of the per-threbd Nodes between
+     * uses. Note thbt field Node.item is not declbred bs volbtile
+     * even though it is rebd by relebsing threbds, becbuse they only
+     * do so bfter CAS operbtions thbt must precede bccess, bnd bll
+     * uses by the owning threbd bre otherwise bcceptbbly ordered by
+     * other operbtions. (Becbuse the bctubl points of btomicity bre
+     * slot CASes, it would blso be legbl for the write to Node.mbtch
+     * in b relebse to be webker thbn b full volbtile write. However,
+     * this is not done becbuse it could bllow further postponement of
+     * the write, delbying progress.)
      */
 
     /**
-     * The byte distance (as a shift value) between any two used slots
-     * in the arena.  1 << ASHIFT should be at least cacheline size.
+     * The byte distbnce (bs b shift vblue) between bny two used slots
+     * in the brenb.  1 << ASHIFT should be bt lebst cbcheline size.
      */
-    private static final int ASHIFT = 7;
+    privbte stbtic finbl int ASHIFT = 7;
 
     /**
-     * The maximum supported arena index. The maximum allocatable
-     * arena size is MMASK + 1. Must be a power of two minus one, less
-     * than (1<<(31-ASHIFT)). The cap of 255 (0xff) more than suffices
-     * for the expected scaling limits of the main algorithms.
+     * The mbximum supported brenb index. The mbximum bllocbtbble
+     * brenb size is MMASK + 1. Must be b power of two minus one, less
+     * thbn (1<<(31-ASHIFT)). The cbp of 255 (0xff) more thbn suffices
+     * for the expected scbling limits of the mbin blgorithms.
      */
-    private static final int MMASK = 0xff;
+    privbte stbtic finbl int MMASK = 0xff;
 
     /**
-     * Unit for sequence/version bits of bound field. Each successful
-     * change to the bound also adds SEQ.
+     * Unit for sequence/version bits of bound field. Ebch successful
+     * chbnge to the bound blso bdds SEQ.
      */
-    private static final int SEQ = MMASK + 1;
+    privbte stbtic finbl int SEQ = MMASK + 1;
 
-    /** The number of CPUs, for sizing and spin control */
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    /** The number of CPUs, for sizing bnd spin control */
+    privbte stbtic finbl int NCPU = Runtime.getRuntime().bvbilbbleProcessors();
 
     /**
-     * The maximum slot index of the arena: The number of slots that
-     * can in principle hold all threads without contention, or at
-     * most the maximum indexable value.
+     * The mbximum slot index of the brenb: The number of slots thbt
+     * cbn in principle hold bll threbds without contention, or bt
+     * most the mbximum indexbble vblue.
      */
-    static final int FULL = (NCPU >= (MMASK << 1)) ? MMASK : NCPU >>> 1;
+    stbtic finbl int FULL = (NCPU >= (MMASK << 1)) ? MMASK : NCPU >>> 1;
 
     /**
-     * The bound for spins while waiting for a match. The actual
-     * number of iterations will on average be about twice this value
-     * due to randomization. Note: Spinning is disabled when NCPU==1.
+     * The bound for spins while wbiting for b mbtch. The bctubl
+     * number of iterbtions will on bverbge be bbout twice this vblue
+     * due to rbndomizbtion. Note: Spinning is disbbled when NCPU==1.
      */
-    private static final int SPINS = 1 << 10;
+    privbte stbtic finbl int SPINS = 1 << 10;
 
     /**
-     * Value representing null arguments/returns from public
-     * methods. Needed because the API originally didn't disallow null
-     * arguments, which it should have.
+     * Vblue representing null brguments/returns from public
+     * methods. Needed becbuse the API originblly didn't disbllow null
+     * brguments, which it should hbve.
      */
-    private static final Object NULL_ITEM = new Object();
+    privbte stbtic finbl Object NULL_ITEM = new Object();
 
     /**
-     * Sentinel value returned by internal exchange methods upon
-     * timeout, to avoid need for separate timed versions of these
+     * Sentinel vblue returned by internbl exchbnge methods upon
+     * timeout, to bvoid need for sepbrbte timed versions of these
      * methods.
      */
-    private static final Object TIMED_OUT = new Object();
+    privbte stbtic finbl Object TIMED_OUT = new Object();
 
     /**
-     * Nodes hold partially exchanged data, plus other per-thread
-     * bookkeeping. Padded via @sun.misc.Contended to reduce memory
+     * Nodes hold pbrtiblly exchbnged dbtb, plus other per-threbd
+     * bookkeeping. Pbdded vib @sun.misc.Contended to reduce memory
      * contention.
      */
-    @sun.misc.Contended static final class Node {
-        int index;              // Arena index
-        int bound;              // Last recorded value of Exchanger.bound
-        int collides;           // Number of CAS failures at current bound
-        int hash;               // Pseudo-random for spins
-        Object item;            // This thread's current item
-        volatile Object match;  // Item provided by releasing thread
-        volatile Thread parked; // Set to this thread when parked, else null
+    @sun.misc.Contended stbtic finbl clbss Node {
+        int index;              // Arenb index
+        int bound;              // Lbst recorded vblue of Exchbnger.bound
+        int collides;           // Number of CAS fbilures bt current bound
+        int hbsh;               // Pseudo-rbndom for spins
+        Object item;            // This threbd's current item
+        volbtile Object mbtch;  // Item provided by relebsing threbd
+        volbtile Threbd pbrked; // Set to this threbd when pbrked, else null
     }
 
-    /** The corresponding thread local class */
-    static final class Participant extends ThreadLocal<Node> {
-        public Node initialValue() { return new Node(); }
+    /** The corresponding threbd locbl clbss */
+    stbtic finbl clbss Pbrticipbnt extends ThrebdLocbl<Node> {
+        public Node initiblVblue() { return new Node(); }
     }
 
     /**
-     * Per-thread state
+     * Per-threbd stbte
      */
-    private final Participant participant;
+    privbte finbl Pbrticipbnt pbrticipbnt;
 
     /**
-     * Elimination array; null until enabled (within slotExchange).
-     * Element accesses use emulation of volatile gets and CAS.
+     * Eliminbtion brrby; null until enbbled (within slotExchbnge).
+     * Element bccesses use emulbtion of volbtile gets bnd CAS.
      */
-    private volatile Node[] arena;
+    privbte volbtile Node[] brenb;
 
     /**
      * Slot used until contention detected.
      */
-    private volatile Node slot;
+    privbte volbtile Node slot;
 
     /**
-     * The index of the largest valid arena position, OR'ed with SEQ
-     * number in high bits, incremented on each update.  The initial
-     * update from 0 to SEQ is used to ensure that the arena array is
+     * The index of the lbrgest vblid brenb position, OR'ed with SEQ
+     * number in high bits, incremented on ebch updbte.  The initibl
+     * updbte from 0 to SEQ is used to ensure thbt the brenb brrby is
      * constructed only once.
      */
-    private volatile int bound;
+    privbte volbtile int bound;
 
     /**
-     * Exchange function when arenas enabled. See above for explanation.
+     * Exchbnge function when brenbs enbbled. See bbove for explbnbtion.
      *
-     * @param item the (non-null) item to exchange
-     * @param timed true if the wait is timed
-     * @param ns if timed, the maximum wait time, else 0L
-     * @return the other thread's item; or null if interrupted; or
-     * TIMED_OUT if timed and timed out
+     * @pbrbm item the (non-null) item to exchbnge
+     * @pbrbm timed true if the wbit is timed
+     * @pbrbm ns if timed, the mbximum wbit time, else 0L
+     * @return the other threbd's item; or null if interrupted; or
+     * TIMED_OUT if timed bnd timed out
      */
-    private final Object arenaExchange(Object item, boolean timed, long ns) {
-        Node[] a = arena;
-        Node p = participant.get();
-        for (int i = p.index;;) {                      // access slot at i
-            int b, m, c; long j;                       // j is raw array offset
-            Node q = (Node)U.getObjectVolatile(a, j = (i << ASHIFT) + ABASE);
-            if (q != null && U.compareAndSwapObject(a, j, q, null)) {
-                Object v = q.item;                     // release
-                q.match = item;
-                Thread w = q.parked;
+    privbte finbl Object brenbExchbnge(Object item, boolebn timed, long ns) {
+        Node[] b = brenb;
+        Node p = pbrticipbnt.get();
+        for (int i = p.index;;) {                      // bccess slot bt i
+            int b, m, c; long j;                       // j is rbw brrby offset
+            Node q = (Node)U.getObjectVolbtile(b, j = (i << ASHIFT) + ABASE);
+            if (q != null && U.compbreAndSwbpObject(b, j, q, null)) {
+                Object v = q.item;                     // relebse
+                q.mbtch = item;
+                Threbd w = q.pbrked;
                 if (w != null)
-                    U.unpark(w);
+                    U.unpbrk(w);
                 return v;
             }
             else if (i <= (m = (b = bound) & MMASK) && q == null) {
                 p.item = item;                         // offer
-                if (U.compareAndSwapObject(a, j, null, p)) {
-                    long end = (timed && m == 0) ? System.nanoTime() + ns : 0L;
-                    Thread t = Thread.currentThread(); // wait
-                    for (int h = p.hash, spins = SPINS;;) {
-                        Object v = p.match;
+                if (U.compbreAndSwbpObject(b, j, null, p)) {
+                    long end = (timed && m == 0) ? System.nbnoTime() + ns : 0L;
+                    Threbd t = Threbd.currentThrebd(); // wbit
+                    for (int h = p.hbsh, spins = SPINS;;) {
+                        Object v = p.mbtch;
                         if (v != null) {
                             U.putOrderedObject(p, MATCH, null);
-                            p.item = null;             // clear for next use
-                            p.hash = h;
+                            p.item = null;             // clebr for next use
+                            p.hbsh = h;
                             return v;
                         }
                         else if (spins > 0) {
                             h ^= h << 1; h ^= h >>> 3; h ^= h << 10; // xorshift
-                            if (h == 0)                // initialize hash
+                            if (h == 0)                // initiblize hbsh
                                 h = SPINS | (int)t.getId();
-                            else if (h < 0 &&          // approx 50% true
+                            else if (h < 0 &&          // bpprox 50% true
                                      (--spins & ((SPINS >>> 1) - 1)) == 0)
-                                Thread.yield();        // two yields per wait
+                                Threbd.yield();        // two yields per wbit
                         }
-                        else if (U.getObjectVolatile(a, j) != p)
-                            spins = SPINS;       // releaser hasn't set match yet
+                        else if (U.getObjectVolbtile(b, j) != p)
+                            spins = SPINS;       // relebser hbsn't set mbtch yet
                         else if (!t.isInterrupted() && m == 0 &&
                                  (!timed ||
-                                  (ns = end - System.nanoTime()) > 0L)) {
-                            U.putObject(t, BLOCKER, this); // emulate LockSupport
-                            p.parked = t;              // minimize window
-                            if (U.getObjectVolatile(a, j) == p)
-                                U.park(false, ns);
-                            p.parked = null;
+                                  (ns = end - System.nbnoTime()) > 0L)) {
+                            U.putObject(t, BLOCKER, this); // emulbte LockSupport
+                            p.pbrked = t;              // minimize window
+                            if (U.getObjectVolbtile(b, j) == p)
+                                U.pbrk(fblse, ns);
+                            p.pbrked = null;
                             U.putObject(t, BLOCKER, null);
                         }
-                        else if (U.getObjectVolatile(a, j) == p &&
-                                 U.compareAndSwapObject(a, j, p, null)) {
+                        else if (U.getObjectVolbtile(b, j) == p &&
+                                 U.compbreAndSwbpObject(b, j, p, null)) {
                             if (m != 0)                // try to shrink
-                                U.compareAndSwapInt(this, BOUND, b, b + SEQ - 1);
+                                U.compbreAndSwbpInt(this, BOUND, b, b + SEQ - 1);
                             p.item = null;
-                            p.hash = h;
+                            p.hbsh = h;
                             i = p.index >>>= 1;        // descend
-                            if (Thread.interrupted())
+                            if (Threbd.interrupted())
                                 return null;
                             if (timed && m == 0 && ns <= 0L)
                                 return TIMED_OUT;
-                            break;                     // expired; restart
+                            brebk;                     // expired; restbrt
                         }
                     }
                 }
                 else
-                    p.item = null;                     // clear offer
+                    p.item = null;                     // clebr offer
             }
             else {
-                if (p.bound != b) {                    // stale; reset
+                if (p.bound != b) {                    // stble; reset
                     p.bound = b;
                     p.collides = 0;
                     i = (i != m || m == 0) ? m : m - 1;
                 }
                 else if ((c = p.collides) < m || m == FULL ||
-                         !U.compareAndSwapInt(this, BOUND, b, b + SEQ + 1)) {
+                         !U.compbreAndSwbpInt(this, BOUND, b, b + SEQ + 1)) {
                     p.collides = c + 1;
-                    i = (i == 0) ? m : i - 1;          // cyclically traverse
+                    i = (i == 0) ? m : i - 1;          // cyclicblly trbverse
                 }
                 else
                     i = m + 1;                         // grow
@@ -442,223 +442,223 @@ public class Exchanger<V> {
     }
 
     /**
-     * Exchange function used until arenas enabled. See above for explanation.
+     * Exchbnge function used until brenbs enbbled. See bbove for explbnbtion.
      *
-     * @param item the item to exchange
-     * @param timed true if the wait is timed
-     * @param ns if timed, the maximum wait time, else 0L
-     * @return the other thread's item; or null if either the arena
-     * was enabled or the thread was interrupted before completion; or
-     * TIMED_OUT if timed and timed out
+     * @pbrbm item the item to exchbnge
+     * @pbrbm timed true if the wbit is timed
+     * @pbrbm ns if timed, the mbximum wbit time, else 0L
+     * @return the other threbd's item; or null if either the brenb
+     * wbs enbbled or the threbd wbs interrupted before completion; or
+     * TIMED_OUT if timed bnd timed out
      */
-    private final Object slotExchange(Object item, boolean timed, long ns) {
-        Node p = participant.get();
-        Thread t = Thread.currentThread();
-        if (t.isInterrupted()) // preserve interrupt status so caller can recheck
+    privbte finbl Object slotExchbnge(Object item, boolebn timed, long ns) {
+        Node p = pbrticipbnt.get();
+        Threbd t = Threbd.currentThrebd();
+        if (t.isInterrupted()) // preserve interrupt stbtus so cbller cbn recheck
             return null;
 
         for (Node q;;) {
             if ((q = slot) != null) {
-                if (U.compareAndSwapObject(this, SLOT, q, null)) {
+                if (U.compbreAndSwbpObject(this, SLOT, q, null)) {
                     Object v = q.item;
-                    q.match = item;
-                    Thread w = q.parked;
+                    q.mbtch = item;
+                    Threbd w = q.pbrked;
                     if (w != null)
-                        U.unpark(w);
+                        U.unpbrk(w);
                     return v;
                 }
-                // create arena on contention, but continue until slot null
+                // crebte brenb on contention, but continue until slot null
                 if (NCPU > 1 && bound == 0 &&
-                    U.compareAndSwapInt(this, BOUND, 0, SEQ))
-                    arena = new Node[(FULL + 2) << ASHIFT];
+                    U.compbreAndSwbpInt(this, BOUND, 0, SEQ))
+                    brenb = new Node[(FULL + 2) << ASHIFT];
             }
-            else if (arena != null)
-                return null; // caller must reroute to arenaExchange
+            else if (brenb != null)
+                return null; // cbller must reroute to brenbExchbnge
             else {
                 p.item = item;
-                if (U.compareAndSwapObject(this, SLOT, null, p))
-                    break;
+                if (U.compbreAndSwbpObject(this, SLOT, null, p))
+                    brebk;
                 p.item = null;
             }
         }
 
-        // await release
-        int h = p.hash;
-        long end = timed ? System.nanoTime() + ns : 0L;
+        // bwbit relebse
+        int h = p.hbsh;
+        long end = timed ? System.nbnoTime() + ns : 0L;
         int spins = (NCPU > 1) ? SPINS : 1;
         Object v;
-        while ((v = p.match) == null) {
+        while ((v = p.mbtch) == null) {
             if (spins > 0) {
                 h ^= h << 1; h ^= h >>> 3; h ^= h << 10;
                 if (h == 0)
                     h = SPINS | (int)t.getId();
                 else if (h < 0 && (--spins & ((SPINS >>> 1) - 1)) == 0)
-                    Thread.yield();
+                    Threbd.yield();
             }
             else if (slot != p)
                 spins = SPINS;
-            else if (!t.isInterrupted() && arena == null &&
-                     (!timed || (ns = end - System.nanoTime()) > 0L)) {
+            else if (!t.isInterrupted() && brenb == null &&
+                     (!timed || (ns = end - System.nbnoTime()) > 0L)) {
                 U.putObject(t, BLOCKER, this);
-                p.parked = t;
+                p.pbrked = t;
                 if (slot == p)
-                    U.park(false, ns);
-                p.parked = null;
+                    U.pbrk(fblse, ns);
+                p.pbrked = null;
                 U.putObject(t, BLOCKER, null);
             }
-            else if (U.compareAndSwapObject(this, SLOT, p, null)) {
+            else if (U.compbreAndSwbpObject(this, SLOT, p, null)) {
                 v = timed && ns <= 0L && !t.isInterrupted() ? TIMED_OUT : null;
-                break;
+                brebk;
             }
         }
         U.putOrderedObject(p, MATCH, null);
         p.item = null;
-        p.hash = h;
+        p.hbsh = h;
         return v;
     }
 
     /**
-     * Creates a new Exchanger.
+     * Crebtes b new Exchbnger.
      */
-    public Exchanger() {
-        participant = new Participant();
+    public Exchbnger() {
+        pbrticipbnt = new Pbrticipbnt();
     }
 
     /**
-     * Waits for another thread to arrive at this exchange point (unless
-     * the current thread is {@linkplain Thread#interrupt interrupted}),
-     * and then transfers the given object to it, receiving its object
+     * Wbits for bnother threbd to brrive bt this exchbnge point (unless
+     * the current threbd is {@linkplbin Threbd#interrupt interrupted}),
+     * bnd then trbnsfers the given object to it, receiving its object
      * in return.
      *
-     * <p>If another thread is already waiting at the exchange point then
-     * it is resumed for thread scheduling purposes and receives the object
-     * passed in by the current thread.  The current thread returns immediately,
-     * receiving the object passed to the exchange by that other thread.
+     * <p>If bnother threbd is blrebdy wbiting bt the exchbnge point then
+     * it is resumed for threbd scheduling purposes bnd receives the object
+     * pbssed in by the current threbd.  The current threbd returns immedibtely,
+     * receiving the object pbssed to the exchbnge by thbt other threbd.
      *
-     * <p>If no other thread is already waiting at the exchange then the
-     * current thread is disabled for thread scheduling purposes and lies
-     * dormant until one of two things happens:
+     * <p>If no other threbd is blrebdy wbiting bt the exchbnge then the
+     * current threbd is disbbled for threbd scheduling purposes bnd lies
+     * dormbnt until one of two things hbppens:
      * <ul>
-     * <li>Some other thread enters the exchange; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Some other threbd enters the exchbnge; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd.
      * </ul>
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for the exchange,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * for the exchbnge,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * @param x the object to exchange
-     * @return the object provided by the other thread
-     * @throws InterruptedException if the current thread was
-     *         interrupted while waiting
+     * @pbrbm x the object to exchbnge
+     * @return the object provided by the other threbd
+     * @throws InterruptedException if the current threbd wbs
+     *         interrupted while wbiting
      */
-    @SuppressWarnings("unchecked")
-    public V exchange(V x) throws InterruptedException {
+    @SuppressWbrnings("unchecked")
+    public V exchbnge(V x) throws InterruptedException {
         Object v;
-        Object item = (x == null) ? NULL_ITEM : x; // translate null args
-        if ((arena != null ||
-             (v = slotExchange(item, false, 0L)) == null) &&
-            ((Thread.interrupted() || // disambiguates null return
-              (v = arenaExchange(item, false, 0L)) == null)))
+        Object item = (x == null) ? NULL_ITEM : x; // trbnslbte null brgs
+        if ((brenb != null ||
+             (v = slotExchbnge(item, fblse, 0L)) == null) &&
+            ((Threbd.interrupted() || // disbmbigubtes null return
+              (v = brenbExchbnge(item, fblse, 0L)) == null)))
             throw new InterruptedException();
         return (v == NULL_ITEM) ? null : (V)v;
     }
 
     /**
-     * Waits for another thread to arrive at this exchange point (unless
-     * the current thread is {@linkplain Thread#interrupt interrupted} or
-     * the specified waiting time elapses), and then transfers the given
+     * Wbits for bnother threbd to brrive bt this exchbnge point (unless
+     * the current threbd is {@linkplbin Threbd#interrupt interrupted} or
+     * the specified wbiting time elbpses), bnd then trbnsfers the given
      * object to it, receiving its object in return.
      *
-     * <p>If another thread is already waiting at the exchange point then
-     * it is resumed for thread scheduling purposes and receives the object
-     * passed in by the current thread.  The current thread returns immediately,
-     * receiving the object passed to the exchange by that other thread.
+     * <p>If bnother threbd is blrebdy wbiting bt the exchbnge point then
+     * it is resumed for threbd scheduling purposes bnd receives the object
+     * pbssed in by the current threbd.  The current threbd returns immedibtely,
+     * receiving the object pbssed to the exchbnge by thbt other threbd.
      *
-     * <p>If no other thread is already waiting at the exchange then the
-     * current thread is disabled for thread scheduling purposes and lies
-     * dormant until one of three things happens:
+     * <p>If no other threbd is blrebdy wbiting bt the exchbnge then the
+     * current threbd is disbbled for threbd scheduling purposes bnd lies
+     * dormbnt until one of three things hbppens:
      * <ul>
-     * <li>Some other thread enters the exchange; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Some other threbd enters the exchbnge; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd; or
+     * <li>The specified wbiting time elbpses.
      * </ul>
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for the exchange,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * for the exchbnge,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>If the specified waiting time elapses then {@link
-     * TimeoutException} is thrown.  If the time is less than or equal
-     * to zero, the method will not wait at all.
+     * <p>If the specified wbiting time elbpses then {@link
+     * TimeoutException} is thrown.  If the time is less thbn or equbl
+     * to zero, the method will not wbit bt bll.
      *
-     * @param x the object to exchange
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the {@code timeout} argument
-     * @return the object provided by the other thread
-     * @throws InterruptedException if the current thread was
-     *         interrupted while waiting
-     * @throws TimeoutException if the specified waiting time elapses
-     *         before another thread enters the exchange
+     * @pbrbm x the object to exchbnge
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the {@code timeout} brgument
+     * @return the object provided by the other threbd
+     * @throws InterruptedException if the current threbd wbs
+     *         interrupted while wbiting
+     * @throws TimeoutException if the specified wbiting time elbpses
+     *         before bnother threbd enters the exchbnge
      */
-    @SuppressWarnings("unchecked")
-    public V exchange(V x, long timeout, TimeUnit unit)
+    @SuppressWbrnings("unchecked")
+    public V exchbnge(V x, long timeout, TimeUnit unit)
         throws InterruptedException, TimeoutException {
         Object v;
         Object item = (x == null) ? NULL_ITEM : x;
-        long ns = unit.toNanos(timeout);
-        if ((arena != null ||
-             (v = slotExchange(item, true, ns)) == null) &&
-            ((Thread.interrupted() ||
-              (v = arenaExchange(item, true, ns)) == null)))
+        long ns = unit.toNbnos(timeout);
+        if ((brenb != null ||
+             (v = slotExchbnge(item, true, ns)) == null) &&
+            ((Threbd.interrupted() ||
+              (v = brenbExchbnge(item, true, ns)) == null)))
             throw new InterruptedException();
         if (v == TIMED_OUT)
             throw new TimeoutException();
         return (v == NULL_ITEM) ? null : (V)v;
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long BOUND;
-    private static final long SLOT;
-    private static final long MATCH;
-    private static final long BLOCKER;
-    private static final int ABASE;
-    static {
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long BOUND;
+    privbte stbtic finbl long SLOT;
+    privbte stbtic finbl long MATCH;
+    privbte stbtic finbl long BLOCKER;
+    privbte stbtic finbl int ABASE;
+    stbtic {
         int s;
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> ek = Exchanger.class;
-            Class<?> nk = Node.class;
-            Class<?> ak = Node[].class;
-            Class<?> tk = Thread.class;
+            U = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> ek = Exchbnger.clbss;
+            Clbss<?> nk = Node.clbss;
+            Clbss<?> bk = Node[].clbss;
+            Clbss<?> tk = Threbd.clbss;
             BOUND = U.objectFieldOffset
-                (ek.getDeclaredField("bound"));
+                (ek.getDeclbredField("bound"));
             SLOT = U.objectFieldOffset
-                (ek.getDeclaredField("slot"));
+                (ek.getDeclbredField("slot"));
             MATCH = U.objectFieldOffset
-                (nk.getDeclaredField("match"));
+                (nk.getDeclbredField("mbtch"));
             BLOCKER = U.objectFieldOffset
-                (tk.getDeclaredField("parkBlocker"));
-            s = U.arrayIndexScale(ak);
-            // ABASE absorbs padding in front of element 0
-            ABASE = U.arrayBaseOffset(ak) + (1 << ASHIFT);
+                (tk.getDeclbredField("pbrkBlocker"));
+            s = U.brrbyIndexScble(bk);
+            // ABASE bbsorbs pbdding in front of element 0
+            ABASE = U.brrbyBbseOffset(bk) + (1 << ASHIFT);
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new Error(e);
         }
         if ((s & (s-1)) != 0 || s > (1 << ASHIFT))
-            throw new Error("Unsupported array scale");
+            throw new Error("Unsupported brrby scble");
     }
 
 }

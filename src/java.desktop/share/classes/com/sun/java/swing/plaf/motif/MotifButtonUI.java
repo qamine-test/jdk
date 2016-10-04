@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * MotifButton implementation
+ * MotifButton implementbtion
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Rich Schiavi
+ * @buthor Rich Schibvi
  */
-public class MotifButtonUI extends BasicButtonUI {
+public clbss MotifButtonUI extends BbsicButtonUI {
 
     protected Color selectColor;
 
-    private boolean defaults_initialized = false;
+    privbte boolebn defbults_initiblized = fblse;
 
-    private static final Object MOTIF_BUTTON_UI_KEY = new Object();
+    privbte stbtic finbl Object MOTIF_BUTTON_UI_KEY = new Object();
 
     // ********************************
-    //          Create PLAF
+    //          Crebte PLAF
     // ********************************
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        AppContext bppContext = AppContext.getAppContext();
         MotifButtonUI motifButtonUI =
-                (MotifButtonUI) appContext.get(MOTIF_BUTTON_UI_KEY);
+                (MotifButtonUI) bppContext.get(MOTIF_BUTTON_UI_KEY);
         if (motifButtonUI == null) {
             motifButtonUI = new MotifButtonUI();
-            appContext.put(MOTIF_BUTTON_UI_KEY, motifButtonUI);
+            bppContext.put(MOTIF_BUTTON_UI_KEY, motifButtonUI);
         }
         return motifButtonUI;
     }
 
     // ********************************
-    //         Create Listeners
+    //         Crebte Listeners
     // ********************************
-    protected BasicButtonListener createButtonListener(AbstractButton b){
+    protected BbsicButtonListener crebteButtonListener(AbstrbctButton b){
         return new MotifButtonListener(b);
     }
 
     // ********************************
-    //          Install Defaults
+    //          Instbll Defbults
     // ********************************
-    public void installDefaults(AbstractButton b) {
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            selectColor = UIManager.getColor(getPropertyPrefix() + "select");
-            defaults_initialized = true;
+    public void instbllDefbults(AbstrbctButton b) {
+        super.instbllDefbults(b);
+        if(!defbults_initiblized) {
+            selectColor = UIMbnbger.getColor(getPropertyPrefix() + "select");
+            defbults_initiblized = true;
         }
-        LookAndFeel.installProperty(b, "opaque", Boolean.FALSE);
+        LookAndFeel.instbllProperty(b, "opbque", Boolebn.FALSE);
     }
 
-    protected void uninstallDefaults(AbstractButton b) {
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    protected void uninstbllDefbults(AbstrbctButton b) {
+        super.uninstbllDefbults(b);
+        defbults_initiblized = fblse;
     }
 
     // ********************************
-    //          Default Accessors
+    //          Defbult Accessors
     // ********************************
 
     protected Color getSelectColor() {
@@ -101,50 +101,50 @@ public class MotifButtonUI extends BasicButtonUI {
     }
 
     // ********************************
-    //          Paint Methods
+    //          Pbint Methods
     // ********************************
-    public void paint(Graphics g, JComponent c) {
-        fillContentArea( g, (AbstractButton)c , c.getBackground() );
-        super.paint(g,c);
+    public void pbint(Grbphics g, JComponent c) {
+        fillContentAreb( g, (AbstrbctButton)c , c.getBbckground() );
+        super.pbint(g,c);
     }
 
-    // Overridden to ensure we don't paint icon over button borders.
-    protected void paintIcon(Graphics g, JComponent c, Rectangle iconRect) {
-        Shape oldClip = g.getClip();
-        Rectangle newClip =
-            AbstractBorder.getInteriorRectangle(c, c.getBorder(), 0, 0,
+    // Overridden to ensure we don't pbint icon over button borders.
+    protected void pbintIcon(Grbphics g, JComponent c, Rectbngle iconRect) {
+        Shbpe oldClip = g.getClip();
+        Rectbngle newClip =
+            AbstrbctBorder.getInteriorRectbngle(c, c.getBorder(), 0, 0,
                                                 c.getWidth(), c.getHeight());
 
-        Rectangle r = oldClip.getBounds();
+        Rectbngle r = oldClip.getBounds();
         newClip =
             SwingUtilities.computeIntersection(r.x, r.y, r.width, r.height,
                                                newClip);
         g.setClip(newClip);
-        super.paintIcon(g, c, iconRect);
+        super.pbintIcon(g, c, iconRect);
         g.setClip(oldClip);
     }
 
-    protected void paintFocus(Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect){
-        // focus painting is handled by the border
+    protected void pbintFocus(Grbphics g, AbstrbctButton b, Rectbngle viewRect, Rectbngle textRect, Rectbngle iconRect){
+        // focus pbinting is hbndled by the border
     }
 
-    protected void paintButtonPressed(Graphics g, AbstractButton b) {
+    protected void pbintButtonPressed(Grbphics g, AbstrbctButton b) {
 
-        fillContentArea( g, b , selectColor );
+        fillContentAreb( g, b , selectColor );
 
     }
 
-    protected void fillContentArea( Graphics g, AbstractButton b, Color fillColor) {
+    protected void fillContentAreb( Grbphics g, AbstrbctButton b, Color fillColor) {
 
-        if (b.isContentAreaFilled()) {
-            Insets margin = b.getMargin();
+        if (b.isContentArebFilled()) {
+            Insets mbrgin = b.getMbrgin();
             Insets insets = b.getInsets();
             Dimension size = b.getSize();
             g.setColor(fillColor);
-            g.fillRect(insets.left - margin.left,
-                       insets.top - margin.top,
-                       size.width - (insets.left-margin.left) - (insets.right - margin.right),
-                       size.height - (insets.top-margin.top) - (insets.bottom - margin.bottom));
+            g.fillRect(insets.left - mbrgin.left,
+                       insets.top - mbrgin.top,
+                       size.width - (insets.left-mbrgin.left) - (insets.right - mbrgin.right),
+                       size.height - (insets.top-mbrgin.top) - (insets.bottom - mbrgin.bottom));
         }
     }
 }

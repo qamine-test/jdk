@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 
 /**
- * The class PasswordAuthentication is a data holder that is used by
- * Authenticator.  It is simply a repository for a user name and a password.
+ * The clbss PbsswordAuthenticbtion is b dbtb holder thbt is used by
+ * Authenticbtor.  It is simply b repository for b user nbme bnd b pbssword.
  *
- * @see java.net.Authenticator
- * @see java.net.Authenticator#getPasswordAuthentication()
+ * @see jbvb.net.Authenticbtor
+ * @see jbvb.net.Authenticbtor#getPbsswordAuthenticbtion()
  *
- * @author  Bill Foote
+ * @buthor  Bill Foote
  * @since   1.2
  */
 
-public final class PasswordAuthentication {
+public finbl clbss PbsswordAuthenticbtion {
 
-    private String userName;
-    private char[] password;
+    privbte String userNbme;
+    privbte chbr[] pbssword;
 
     /**
-     * Creates a new {@code PasswordAuthentication} object from the given
-     * user name and password.
+     * Crebtes b new {@code PbsswordAuthenticbtion} object from the given
+     * user nbme bnd pbssword.
      *
-     * <p> Note that the given user password is cloned before it is stored in
-     * the new {@code PasswordAuthentication} object.
+     * <p> Note thbt the given user pbssword is cloned before it is stored in
+     * the new {@code PbsswordAuthenticbtion} object.
      *
-     * @param userName the user name
-     * @param password the user's password
+     * @pbrbm userNbme the user nbme
+     * @pbrbm pbssword the user's pbssword
      */
-    public PasswordAuthentication(String userName, char[] password) {
-        this.userName = userName;
-        this.password = password.clone();
+    public PbsswordAuthenticbtion(String userNbme, chbr[] pbssword) {
+        this.userNbme = userNbme;
+        this.pbssword = pbssword.clone();
     }
 
     /**
-     * Returns the user name.
+     * Returns the user nbme.
      *
-     * @return the user name
+     * @return the user nbme
      */
-    public String getUserName() {
-        return userName;
+    public String getUserNbme() {
+        return userNbme;
     }
 
     /**
-     * Returns the user password.
+     * Returns the user pbssword.
      *
-     * <p> Note that this method returns a reference to the password. It is
-     * the caller's responsibility to zero out the password information after
+     * <p> Note thbt this method returns b reference to the pbssword. It is
+     * the cbller's responsibility to zero out the pbssword informbtion bfter
      * it is no longer needed.
      *
-     * @return the password
+     * @return the pbssword
      */
-    public char[] getPassword() {
-        return password;
+    public chbr[] getPbssword() {
+        return pbssword;
     }
 }

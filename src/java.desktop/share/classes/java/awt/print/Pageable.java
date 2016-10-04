@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.print;
+pbckbge jbvb.bwt.print;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * The <code>Pageable</code> implementation represents a set of
- * pages to be printed. The <code>Pageable</code> object returns
- * the total number of pages in the set as well as the
- * {@link PageFormat} and {@link Printable} for a specified page.
- * @see java.awt.print.PageFormat
- * @see java.awt.print.Printable
+ * The <code>Pbgebble</code> implementbtion represents b set of
+ * pbges to be printed. The <code>Pbgebble</code> object returns
+ * the totbl number of pbges in the set bs well bs the
+ * {@link PbgeFormbt} bnd {@link Printbble} for b specified pbge.
+ * @see jbvb.bwt.print.PbgeFormbt
+ * @see jbvb.bwt.print.Printbble
  */
-public interface Pageable {
+public interfbce Pbgebble {
 
     /**
-     * This constant is returned from the
-     * {@link #getNumberOfPages() getNumberOfPages}
-     * method if a <code>Pageable</code> implementation does not know
-     * the number of pages in its set.
+     * This constbnt is returned from the
+     * {@link #getNumberOfPbges() getNumberOfPbges}
+     * method if b <code>Pbgebble</code> implementbtion does not know
+     * the number of pbges in its set.
      */
-    @Native int UNKNOWN_NUMBER_OF_PAGES = -1;
+    @Nbtive int UNKNOWN_NUMBER_OF_PAGES = -1;
 
     /**
-     * Returns the number of pages in the set.
-     * To enable advanced printing features,
-     * it is recommended that <code>Pageable</code>
-     * implementations return the true number of pages
-     * rather than the
-     * UNKNOWN_NUMBER_OF_PAGES constant.
-     * @return the number of pages in this <code>Pageable</code>.
+     * Returns the number of pbges in the set.
+     * To enbble bdvbnced printing febtures,
+     * it is recommended thbt <code>Pbgebble</code>
+     * implementbtions return the true number of pbges
+     * rbther thbn the
+     * UNKNOWN_NUMBER_OF_PAGES constbnt.
+     * @return the number of pbges in this <code>Pbgebble</code>.
      */
-    int getNumberOfPages();
+    int getNumberOfPbges();
 
     /**
-     * Returns the <code>PageFormat</code> of the page specified by
-     * <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *            <code>PageFormat</code> is being requested
-     * @return the <code>PageFormat</code> describing the size and
-     *          orientation.
+     * Returns the <code>PbgeFormbt</code> of the pbge specified by
+     * <code>pbgeIndex</code>.
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge whose
+     *            <code>PbgeFormbt</code> is being requested
+     * @return the <code>PbgeFormbt</code> describing the size bnd
+     *          orientbtion.
      * @throws IndexOutOfBoundsException if
-     *          the <code>Pageable</code> does not contain the requested
-     *          page.
+     *          the <code>Pbgebble</code> does not contbin the requested
+     *          pbge.
      */
-    PageFormat getPageFormat(int pageIndex)
+    PbgeFormbt getPbgeFormbt(int pbgeIndex)
         throws IndexOutOfBoundsException;
 
     /**
-     * Returns the <code>Printable</code> instance responsible for
-     * rendering the page specified by <code>pageIndex</code>.
-     * @param pageIndex the zero based index of the page whose
-     *            <code>Printable</code> is being requested
-     * @return the <code>Printable</code> that renders the page.
+     * Returns the <code>Printbble</code> instbnce responsible for
+     * rendering the pbge specified by <code>pbgeIndex</code>.
+     * @pbrbm pbgeIndex the zero bbsed index of the pbge whose
+     *            <code>Printbble</code> is being requested
+     * @return the <code>Printbble</code> thbt renders the pbge.
      * @throws IndexOutOfBoundsException if
-     *            the <code>Pageable</code> does not contain the requested
-     *            page.
+     *            the <code>Pbgebble</code> does not contbin the requested
+     *            pbge.
      */
-    Printable getPrintable(int pageIndex)
+    Printbble getPrintbble(int pbgeIndex)
         throws IndexOutOfBoundsException;
 }

@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class CommandInterpreter {
+public clbss CommbndInterpreter {
 
-    boolean echo;
+    boolebn echo;
 
     Environment env;
 
-    private ContextManager context;
-    private ExecutionManager runtime;
-    private ClassManager classManager;
-    private SourceManager sourceManager;
+    privbte ContextMbnbger context;
+    privbte ExecutionMbnbger runtime;
+    privbte ClbssMbnbger clbssMbnbger;
+    privbte SourceMbnbger sourceMbnbger;
 
-    private OutputSink out; //### Hack!  Should be local in each method used.
-    private String lastCommand = "help";
+    privbte OutputSink out; //### Hbck!  Should be locbl in ebch method used.
+    privbte String lbstCommbnd = "help";
 
-    public CommandInterpreter(Environment env) {
+    public CommbndInterpreter(Environment env) {
         this(env, true);
     }
 
-    public CommandInterpreter(Environment env, boolean echo) {
+    public CommbndInterpreter(Environment env, boolebn echo) {
         this.env = env;
         this.echo = echo;
-        this.runtime = env.getExecutionManager();
-        this.context = env.getContextManager();
-        this.classManager = env.getClassManager();
-        this.sourceManager = env.getSourceManager();
+        this.runtime = env.getExecutionMbnbger();
+        this.context = env.getContextMbnbger();
+        this.clbssMbnbger = env.getClbssMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
     }
 
-    private ThreadReference[] threads = null;
+    privbte ThrebdReference[] threbds = null;
 
     /*
-     * The numbering of threads is relative to the current set of threads,
-     * and may be affected by the creation and termination of new threads.
-     * Commands issued using such thread ids will only give reliable behavior
-     * relative to what was shown earlier in 'list' commands if the VM is interrupted.
-     * We need a better scheme.
+     * The numbering of threbds is relbtive to the current set of threbds,
+     * bnd mby be bffected by the crebtion bnd terminbtion of new threbds.
+     * Commbnds issued using such threbd ids will only give relibble behbvior
+     * relbtive to whbt wbs shown ebrlier in 'list' commbnds if the VM is interrupted.
+     * We need b better scheme.
      */
 
-    private ThreadReference[] threads() throws NoSessionException {
-        if (threads == null) {
-            ThreadIterator ti = new ThreadIterator(getDefaultThreadGroup());
-            List<ThreadReference> tlist = new ArrayList<ThreadReference>();
-            while (ti.hasNext()) {
-                tlist.add(ti.nextThread());
+    privbte ThrebdReference[] threbds() throws NoSessionException {
+        if (threbds == null) {
+            ThrebdIterbtor ti = new ThrebdIterbtor(getDefbultThrebdGroup());
+            List<ThrebdReference> tlist = new ArrbyList<ThrebdReference>();
+            while (ti.hbsNext()) {
+                tlist.bdd(ti.nextThrebd());
             }
-            threads = tlist.toArray(new ThreadReference[tlist.size()]);
+            threbds = tlist.toArrby(new ThrebdReference[tlist.size()]);
         }
-        return threads;
+        return threbds;
     }
 
-    private ThreadReference findThread(String idToken) throws NoSessionException {
+    privbte ThrebdReference findThrebd(String idToken) throws NoSessionException {
         String id;
-        ThreadReference thread = null;
-        if (idToken.startsWith("t@")) {
+        ThrebdReference threbd = null;
+        if (idToken.stbrtsWith("t@")) {
             id = idToken.substring(2);
         } else {
             id = idToken;
         }
         try {
-            ThreadReference[] threads = threads();
-            long threadID = Long.parseLong(id, 16);
-            for (ThreadReference thread2 : threads) {
-                if (thread2.uniqueID() == threadID) {
-                    thread = thread2;
-                    break;
+            ThrebdReference[] threbds = threbds();
+            long threbdID = Long.pbrseLong(id, 16);
+            for (ThrebdReference threbd2 : threbds) {
+                if (threbd2.uniqueID() == threbdID) {
+                    threbd = threbd2;
+                    brebk;
                 }
             }
-            if (thread == null) {
-                //env.failure("No thread for id \"" + idToken + "\"");
-                env.failure("\"" + idToken + "\" is not a valid thread id.");
+            if (threbd == null) {
+                //env.fbilure("No threbd for id \"" + idToken + "\"");
+                env.fbilure("\"" + idToken + "\" is not b vblid threbd id.");
             }
-        } catch (NumberFormatException e) {
-            env.error("Thread id \"" + idToken + "\" is ill-formed.");
-            thread = null;
+        } cbtch (NumberFormbtException e) {
+            env.error("Threbd id \"" + idToken + "\" is ill-formed.");
+            threbd = null;
         }
-        return thread;
+        return threbd;
     }
 
-    private ThreadIterator allThreads() throws NoSessionException {
-        threads = null;
-        //### Why not use runtime.allThreads().iterator() ?
-        return new ThreadIterator(runtime.topLevelThreadGroups());
+    privbte ThrebdIterbtor bllThrebds() throws NoSessionException {
+        threbds = null;
+        //### Why not use runtime.bllThrebds().iterbtor() ?
+        return new ThrebdIterbtor(runtime.topLevelThrebdGroups());
     }
 
-    private ThreadIterator currentThreadGroupThreads() throws NoSessionException {
-        threads = null;
-        return new ThreadIterator(getDefaultThreadGroup());
+    privbte ThrebdIterbtor currentThrebdGroupThrebds() throws NoSessionException {
+        threbds = null;
+        return new ThrebdIterbtor(getDefbultThrebdGroup());
     }
 
-    private ThreadGroupIterator allThreadGroups() throws NoSessionException {
-        threads = null;
-        return new ThreadGroupIterator(runtime.topLevelThreadGroups());
+    privbte ThrebdGroupIterbtor bllThrebdGroups() throws NoSessionException {
+        threbds = null;
+        return new ThrebdGroupIterbtor(runtime.topLevelThrebdGroups());
     }
 
-    private ThreadGroupReference defaultThreadGroup;
+    privbte ThrebdGroupReference defbultThrebdGroup;
 
-    private ThreadGroupReference getDefaultThreadGroup() throws NoSessionException {
-        if (defaultThreadGroup == null) {
-            defaultThreadGroup = runtime.systemThreadGroup();
+    privbte ThrebdGroupReference getDefbultThrebdGroup() throws NoSessionException {
+        if (defbultThrebdGroup == null) {
+            defbultThrebdGroup = runtime.systemThrebdGroup();
         }
-        return defaultThreadGroup;
+        return defbultThrebdGroup;
     }
 
-    private void setDefaultThreadGroup(ThreadGroupReference tg) {
-        defaultThreadGroup = tg;
+    privbte void setDefbultThrebdGroup(ThrebdGroupReference tg) {
+        defbultThrebdGroup = tg;
     }
 
     /*
-     * Command handlers.
+     * Commbnd hbndlers.
      */
 
-    // Command: classes
+    // Commbnd: clbsses
 
-    private void commandClasses() throws NoSessionException {
+    privbte void commbndClbsses() throws NoSessionException {
         OutputSink out = env.getOutputSink();
-        //out.println("** classes list **");
-        for (ReferenceType refType : runtime.allClasses()) {
-            out.println(refType.name());
+        //out.println("** clbsses list **");
+        for (ReferenceType refType : runtime.bllClbsses()) {
+            out.println(refType.nbme());
         }
         out.show();
     }
 
 
-    // Command: methods
+    // Commbnd: methods
 
-    private void commandMethods(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            env.error("No class specified.");
+    privbte void commbndMethods(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            env.error("No clbss specified.");
             return;
         }
-        String idClass = t.nextToken();
-        ReferenceType cls = findClass(idClass);
+        String idClbss = t.nextToken();
+        ReferenceType cls = findClbss(idClbss);
         if (cls != null) {
-            List<Method> methods = cls.allMethods();
+            List<Method> methods = cls.bllMethods();
             OutputSink out = env.getOutputSink();
             for (int i = 0; i < methods.size(); i++) {
                 Method method = methods.get(i);
-                out.print(method.declaringType().name() + " " +
-                            method.name() + "(");
-                Iterator<String> it = method.argumentTypeNames().iterator();
-                if (it.hasNext()) {
+                out.print(method.declbringType().nbme() + " " +
+                            method.nbme() + "(");
+                Iterbtor<String> it = method.brgumentTypeNbmes().iterbtor();
+                if (it.hbsNext()) {
                     while (true) {
                         out.print(it.next());
-                        if (!it.hasNext()) {
-                            break;
+                        if (!it.hbsNext()) {
+                            brebk;
                         }
                         out.print(", ");
                     }
@@ -192,419 +192,419 @@ public class CommandInterpreter {
             }
             out.show();
         } else {
-            //### Should validate class name syntax.
-            env.failure("\"" + idClass + "\" is not a valid id or class name.");
+            //### Should vblidbte clbss nbme syntbx.
+            env.fbilure("\"" + idClbss + "\" is not b vblid id or clbss nbme.");
         }
     }
 
-    private ReferenceType findClass(String pattern) throws NoSessionException {
-        List<ReferenceType> results = runtime.findClassesMatchingPattern(pattern);
+    privbte ReferenceType findClbss(String pbttern) throws NoSessionException {
+        List<ReferenceType> results = runtime.findClbssesMbtchingPbttern(pbttern);
         if (results.size() > 0) {
-            //### Should handle multiple results sensibly.
+            //### Should hbndle multiple results sensibly.
             return results.get(0);
         }
         return null;
     }
 
-    // Command: threads
+    // Commbnd: threbds
 
-    private void commandThreads(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
+    privbte void commbndThrebds(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
             OutputSink out = env.getOutputSink();
-            printThreadGroup(out, getDefaultThreadGroup(), 0);
+            printThrebdGroup(out, getDefbultThrebdGroup(), 0);
             out.show();
             return;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = findThreadGroup(name);
+        String nbme = t.nextToken();
+        ThrebdGroupReference tg = findThrebdGroup(nbme);
         if (tg == null) {
-            env.failure(name + " is not a valid threadgroup name.");
+            env.fbilure(nbme + " is not b vblid threbdgroup nbme.");
         } else {
             OutputSink out = env.getOutputSink();
-            printThreadGroup(out, tg, 0);
+            printThrebdGroup(out, tg, 0);
             out.show();
         }
     }
 
-    private ThreadGroupReference findThreadGroup(String name) throws NoSessionException {
-        //### Issue: Uniqueness of thread group names is not enforced.
-        ThreadGroupIterator tgi = allThreadGroups();
-        while (tgi.hasNext()) {
-            ThreadGroupReference tg = tgi.nextThreadGroup();
-            if (tg.name().equals(name)) {
+    privbte ThrebdGroupReference findThrebdGroup(String nbme) throws NoSessionException {
+        //### Issue: Uniqueness of threbd group nbmes is not enforced.
+        ThrebdGroupIterbtor tgi = bllThrebdGroups();
+        while (tgi.hbsNext()) {
+            ThrebdGroupReference tg = tgi.nextThrebdGroup();
+            if (tg.nbme().equbls(nbme)) {
                 return tg;
             }
         }
         return null;
     }
 
-    private int printThreadGroup(OutputSink out, ThreadGroupReference tg, int iThread) {
-        out.println("Group " + tg.name() + ":");
-        List<ThreadReference> tlist = tg.threads();
-        int maxId = 0;
-        int maxName = 0;
+    privbte int printThrebdGroup(OutputSink out, ThrebdGroupReference tg, int iThrebd) {
+        out.println("Group " + tg.nbme() + ":");
+        List<ThrebdReference> tlist = tg.threbds();
+        int mbxId = 0;
+        int mbxNbme = 0;
         for (int i = 0 ; i < tlist.size() ; i++) {
-            ThreadReference thr = tlist.get(i);
+            ThrebdReference thr = tlist.get(i);
             int len = Utils.description(thr).length();
-            if (len > maxId) {
-                maxId = len;
+            if (len > mbxId) {
+                mbxId = len;
             }
-            String name = thr.name();
-            int iDot = name.lastIndexOf('.');
-            if (iDot >= 0 && name.length() > iDot) {
-                name = name.substring(iDot + 1);
+            String nbme = thr.nbme();
+            int iDot = nbme.lbstIndexOf('.');
+            if (iDot >= 0 && nbme.length() > iDot) {
+                nbme = nbme.substring(iDot + 1);
             }
-            if (name.length() > maxName) {
-                maxName = name.length();
+            if (nbme.length() > mbxNbme) {
+                mbxNbme = nbme.length();
         }
         }
-        String maxNumString = String.valueOf(iThread + tlist.size());
-        int maxNumDigits = maxNumString.length();
+        String mbxNumString = String.vblueOf(iThrebd + tlist.size());
+        int mbxNumDigits = mbxNumString.length();
         for (int i = 0 ; i < tlist.size() ; i++) {
-            ThreadReference thr = tlist.get(i);
-            char buf[] = new char[80];
+            ThrebdReference thr = tlist.get(i);
+            chbr buf[] = new chbr[80];
             for (int j = 0; j < 79; j++) {
                 buf[j] = ' ';
             }
             buf[79] = '\0';
             StringBuilder sbOut = new StringBuilder();
-            sbOut.append(buf);
+            sbOut.bppend(buf);
 
-            // Right-justify the thread number at start of output string
-            String numString = String.valueOf(iThread + i + 1);
-            sbOut.insert(maxNumDigits - numString.length(),
+            // Right-justify the threbd number bt stbrt of output string
+            String numString = String.vblueOf(iThrebd + i + 1);
+            sbOut.insert(mbxNumDigits - numString.length(),
                          numString);
-            sbOut.insert(maxNumDigits, ".");
+            sbOut.insert(mbxNumDigits, ".");
 
-            int iBuf = maxNumDigits + 2;
+            int iBuf = mbxNumDigits + 2;
             sbOut.insert(iBuf, Utils.description(thr));
-            iBuf += maxId + 1;
-            String name = thr.name();
-            int iDot = name.lastIndexOf('.');
-            if (iDot >= 0 && name.length() > iDot) {
-                name = name.substring(iDot + 1);
+            iBuf += mbxId + 1;
+            String nbme = thr.nbme();
+            int iDot = nbme.lbstIndexOf('.');
+            if (iDot >= 0 && nbme.length() > iDot) {
+                nbme = nbme.substring(iDot + 1);
             }
-            sbOut.insert(iBuf, name);
-            iBuf += maxName + 1;
-            sbOut.insert(iBuf, Utils.getStatus(thr));
+            sbOut.insert(iBuf, nbme);
+            iBuf += mbxNbme + 1;
+            sbOut.insert(iBuf, Utils.getStbtus(thr));
             sbOut.setLength(79);
             out.println(sbOut.toString());
         }
-        for (ThreadGroupReference tg0 : tg.threadGroups()) {
-            if (!tg.equals(tg0)) {  // TODO ref mgt
-                iThread += printThreadGroup(out, tg0, iThread + tlist.size());
+        for (ThrebdGroupReference tg0 : tg.threbdGroups()) {
+            if (!tg.equbls(tg0)) {  // TODO ref mgt
+                iThrebd += printThrebdGroup(out, tg0, iThrebd + tlist.size());
             }
         }
         return tlist.size();
     }
 
-    // Command: threadgroups
+    // Commbnd: threbdgroups
 
-    private void commandThreadGroups() throws NoSessionException {
-        ThreadGroupIterator it = allThreadGroups();
+    privbte void commbndThrebdGroups() throws NoSessionException {
+        ThrebdGroupIterbtor it = bllThrebdGroups();
         int cnt = 0;
         OutputSink out = env.getOutputSink();
-        while (it.hasNext()) {
-            ThreadGroupReference tg = it.nextThreadGroup();
+        while (it.hbsNext()) {
+            ThrebdGroupReference tg = it.nextThrebdGroup();
             ++cnt;
-            out.println("" + cnt + ". " + Utils.description(tg) + " " + tg.name());
+            out.println("" + cnt + ". " + Utils.description(tg) + " " + tg.nbme());
         }
         out.show();
     }
 
-    // Command: thread
+    // Commbnd: threbd
 
-    private void commandThread(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            env.error("Thread number not specified.");
+    privbte void commbndThrebd(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            env.error("Threbd number not specified.");
             return;
         }
-        ThreadReference thread = findThread(t.nextToken());
-        if (thread != null) {
+        ThrebdReference threbd = findThrebd(t.nextToken());
+        if (threbd != null) {
             //### Should notify user.
-            context.setCurrentThread(thread);
+            context.setCurrentThrebd(threbd);
         }
     }
 
-    // Command: threadgroup
+    // Commbnd: threbdgroup
 
-    private void commandThreadGroup(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            env.error("Threadgroup name not specified.");
+    privbte void commbndThrebdGroup(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            env.error("Threbdgroup nbme not specified.");
             return;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = findThreadGroup(name);
+        String nbme = t.nextToken();
+        ThrebdGroupReference tg = findThrebdGroup(nbme);
         if (tg == null) {
-            env.failure(name + " is not a valid threadgroup name.");
+            env.fbilure(nbme + " is not b vblid threbdgroup nbme.");
         } else {
             //### Should notify user.
-            setDefaultThreadGroup(tg);
+            setDefbultThrebdGroup(tg);
         }
     }
 
-    // Command: run
+    // Commbnd: run
 
-    private void commandRun(StringTokenizer t) throws NoSessionException {
-        if (doLoad(false, t)) {
+    privbte void commbndRun(StringTokenizer t) throws NoSessionException {
+        if (doLobd(fblse, t)) {
             env.notice("Running ...");
         }
     }
 
-    // Command: load
+    // Commbnd: lobd
 
-    private void commandLoad(StringTokenizer t) throws NoSessionException {
-        if (doLoad(true, t)) {}
+    privbte void commbndLobd(StringTokenizer t) throws NoSessionException {
+        if (doLobd(true, t)) {}
     }
 
-    private boolean doLoad(boolean suspended,
+    privbte boolebn doLobd(boolebn suspended,
                            StringTokenizer t) throws NoSessionException {
 
-        String clname;
+        String clnbme;
 
-        if (!t.hasMoreTokens()) {
-            clname = context.getMainClassName();
-            if (!clname.equals("")) {
-                // Run from prevously-set class name.
+        if (!t.hbsMoreTokens()) {
+            clnbme = context.getMbinClbssNbme();
+            if (!clnbme.equbls("")) {
+                // Run from prevously-set clbss nbme.
                 try {
                     String vmArgs = context.getVmArguments();
                     runtime.run(suspended,
                                 vmArgs,
-                                clname,
-                                context.getProgramArguments());
+                                clnbme,
+                                context.getProgrbmArguments());
                     return true;
-                } catch (VMLaunchFailureException e) {
-                    env.failure("Attempt to launch main class \"" + clname + "\" failed.");
+                } cbtch (VMLbunchFbilureException e) {
+                    env.fbilure("Attempt to lbunch mbin clbss \"" + clnbme + "\" fbiled.");
                 }
             } else {
-                env.failure("No main class specified and no current default defined.");
+                env.fbilure("No mbin clbss specified bnd no current defbult defined.");
             }
         } else {
-            clname = t.nextToken();
+            clnbme = t.nextToken();
             StringBuilder str = new StringBuilder();
-            // Allow VM arguments to be specified here?
-            while (t.hasMoreTokens()) {
+            // Allow VM brguments to be specified here?
+            while (t.hbsMoreTokens()) {
                 String tok = t.nextToken();
-                str.append(tok);
-                if (t.hasMoreTokens()) {
-                    str.append(' ');
+                str.bppend(tok);
+                if (t.hbsMoreTokens()) {
+                    str.bppend(' ');
                 }
             }
-            String args = str.toString();
+            String brgs = str.toString();
             try {
                 String vmArgs = context.getVmArguments();
-                runtime.run(suspended, vmArgs, clname, args);
-                context.setMainClassName(clname);
+                runtime.run(suspended, vmArgs, clnbme, brgs);
+                context.setMbinClbssNbme(clnbme);
                 //context.setVmArguments(vmArgs);
-                context.setProgramArguments(args);
+                context.setProgrbmArguments(brgs);
                 return true;
-            } catch (VMLaunchFailureException e) {
-                env.failure("Attempt to launch main class \"" + clname + "\" failed.");
+            } cbtch (VMLbunchFbilureException e) {
+                env.fbilure("Attempt to lbunch mbin clbss \"" + clnbme + "\" fbiled.");
             }
         }
-        return false;
+        return fblse;
     }
 
-    // Command: connect
+    // Commbnd: connect
 
-    private void commandConnect(StringTokenizer t) {
+    privbte void commbndConnect(StringTokenizer t) {
         try {
-            LaunchTool.queryAndLaunchVM(runtime);
-        } catch (VMLaunchFailureException e) {
-            env.failure("Attempt to connect failed.");
+            LbunchTool.queryAndLbunchVM(runtime);
+        } cbtch (VMLbunchFbilureException e) {
+            env.fbilure("Attempt to connect fbiled.");
         }
     }
 
-    // Command: attach
+    // Commbnd: bttbch
 
-    private void commandAttach(StringTokenizer t) {
-        String portName;
-        if (!t.hasMoreTokens()) {
-            portName = context.getRemotePort();
-            if (!portName.equals("")) {
+    privbte void commbndAttbch(StringTokenizer t) {
+        String portNbme;
+        if (!t.hbsMoreTokens()) {
+            portNbme = context.getRemotePort();
+            if (!portNbme.equbls("")) {
                 try {
-                    runtime.attach(portName);
-                } catch (VMLaunchFailureException e) {
-                    env.failure("Attempt to attach to port \"" + portName + "\" failed.");
+                    runtime.bttbch(portNbme);
+                } cbtch (VMLbunchFbilureException e) {
+                    env.fbilure("Attempt to bttbch to port \"" + portNbme + "\" fbiled.");
                 }
             } else {
-                env.failure("No port specified and no current default defined.");
+                env.fbilure("No port specified bnd no current defbult defined.");
             }
         } else {
-            portName = t.nextToken();
+            portNbme = t.nextToken();
             try {
-                runtime.attach(portName);
-            } catch (VMLaunchFailureException e) {
-                env.failure("Attempt to attach to port \"" + portName + "\" failed.");
+                runtime.bttbch(portNbme);
+            } cbtch (VMLbunchFbilureException e) {
+                env.fbilure("Attempt to bttbch to port \"" + portNbme + "\" fbiled.");
             }
-            context.setRemotePort(portName);
+            context.setRemotePort(portNbme);
         }
     }
 
-    // Command: detach
+    // Commbnd: detbch
 
-    private void commandDetach(StringTokenizer t) throws NoSessionException {
-        runtime.detach();
+    privbte void commbndDetbch(StringTokenizer t) throws NoSessionException {
+        runtime.detbch();
     }
 
-    // Command: interrupt
+    // Commbnd: interrupt
 
-    private void commandInterrupt(StringTokenizer t) throws NoSessionException {
+    privbte void commbndInterrupt(StringTokenizer t) throws NoSessionException {
         runtime.interrupt();
     }
 
-    // Command: suspend
+    // Commbnd: suspend
 
-    private void commandSuspend(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            // Suspend all threads in the current thread group.
-            //### Issue: help message says default is all threads.
-            //### Behavior here agrees with 'jdb', however.
-            ThreadIterator ti = currentThreadGroupThreads();
-            while (ti.hasNext()) {
-                // TODO - don't suspend debugger threads
-                ti.nextThread().suspend();
+    privbte void commbndSuspend(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            // Suspend bll threbds in the current threbd group.
+            //### Issue: help messbge sbys defbult is bll threbds.
+            //### Behbvior here bgrees with 'jdb', however.
+            ThrebdIterbtor ti = currentThrebdGroupThrebds();
+            while (ti.hbsNext()) {
+                // TODO - don't suspend debugger threbds
+                ti.nextThrebd().suspend();
             }
-            env.notice("All (non-system) threads suspended.");
+            env.notice("All (non-system) threbds suspended.");
         } else {
-            while (t.hasMoreTokens()) {
-                ThreadReference thread = findThread(t.nextToken());
-                if (thread != null) {
-                    //thread.suspend();
-                    runtime.suspendThread(thread);
+            while (t.hbsMoreTokens()) {
+                ThrebdReference threbd = findThrebd(t.nextToken());
+                if (threbd != null) {
+                    //threbd.suspend();
+                    runtime.suspendThrebd(threbd);
                 }
             }
         }
     }
 
-    // Command: resume
+    // Commbnd: resume
 
-    private void commandResume(StringTokenizer t) throws NoSessionException {
-         if (!t.hasMoreTokens()) {
-            // Suspend all threads in the current thread group.
-            //### Issue: help message says default is all threads.
-            //### Behavior here agrees with 'jdb', however.
-            ThreadIterator ti = currentThreadGroupThreads();
-            while (ti.hasNext()) {
-                // TODO - don't suspend debugger threads
-                ti.nextThread().resume();
+    privbte void commbndResume(StringTokenizer t) throws NoSessionException {
+         if (!t.hbsMoreTokens()) {
+            // Suspend bll threbds in the current threbd group.
+            //### Issue: help messbge sbys defbult is bll threbds.
+            //### Behbvior here bgrees with 'jdb', however.
+            ThrebdIterbtor ti = currentThrebdGroupThrebds();
+            while (ti.hbsNext()) {
+                // TODO - don't suspend debugger threbds
+                ti.nextThrebd().resume();
             }
-            env.notice("All threads resumed.");
+            env.notice("All threbds resumed.");
          } else {
-             while (t.hasMoreTokens()) {
-                ThreadReference thread = findThread(t.nextToken());
-                if (thread != null) {
-                    //thread.resume();
-                    runtime.resumeThread(thread);
+             while (t.hbsMoreTokens()) {
+                ThrebdReference threbd = findThrebd(t.nextToken());
+                if (threbd != null) {
+                    //threbd.resume();
+                    runtime.resumeThrebd(threbd);
                 }
              }
          }
     }
 
-    // Command: cont
+    // Commbnd: cont
 
-    private void commandCont() throws NoSessionException {
+    privbte void commbndCont() throws NoSessionException {
         try {
             runtime.go();
-        } catch (VMNotInterruptedException e) {
-            //### failure?
-            env.notice("Target VM is already running.");
+        } cbtch (VMNotInterruptedException e) {
+            //### fbilure?
+            env.notice("Tbrget VM is blrebdy running.");
         }
     }
 
-    // Command: step
+    // Commbnd: step
 
-    private void commandStep(StringTokenizer t) throws NoSessionException{
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndStep(StringTokenizer t) throws NoSessionException{
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
         try {
-            if (t.hasMoreTokens() &&
-                t.nextToken().toLowerCase().equals("up")) {
+            if (t.hbsMoreTokens() &&
+                t.nextToken().toLowerCbse().equbls("up")) {
                 runtime.stepOut(current);
             } else {
                 runtime.stepIntoLine(current);
             }
-        } catch (AbsentInformationException e) {
-            env.failure("No linenumber information available -- " +
+        } cbtch (AbsentInformbtionException e) {
+            env.fbilure("No linenumber informbtion bvbilbble -- " +
                             "Try \"stepi\" to step by instructions.");
         }
     }
 
-    // Command: stepi
+    // Commbnd: stepi
 
-    private void commandStepi() throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndStepi() throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
         runtime.stepIntoInstruction(current);
     }
 
-    // Command: next
+    // Commbnd: next
 
-    private void commandNext() throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndNext() throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
         try {
             runtime.stepOverLine(current);
-        } catch (AbsentInformationException e) {
-            env.failure("No linenumber information available -- " +
+        } cbtch (AbsentInformbtionException e) {
+            env.fbilure("No linenumber informbtion bvbilbble -- " +
                             "Try \"nexti\" to step by instructions.");
         }
     }
 
-    // Command: nexti  (NEW)
+    // Commbnd: nexti  (NEW)
 
-    private void commandNexti() throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndNexti() throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
         runtime.stepOverInstruction(current);
     }
 
-    // Command: kill
+    // Commbnd: kill
 
-    private void commandKill(StringTokenizer t) throws NoSessionException {
-        //### Should change the way in which thread ids and threadgroup names
-        //### are distinguished.
-         if (!t.hasMoreTokens()) {
-            env.error("Usage: kill <threadgroup name> or <thread id>");
+    privbte void commbndKill(StringTokenizer t) throws NoSessionException {
+        //### Should chbnge the wby in which threbd ids bnd threbdgroup nbmes
+        //### bre distinguished.
+         if (!t.hbsMoreTokens()) {
+            env.error("Usbge: kill <threbdgroup nbme> or <threbd id>");
             return;
         }
-        while (t.hasMoreTokens()) {
+        while (t.hbsMoreTokens()) {
             String idToken = t.nextToken();
-            ThreadReference thread = findThread(idToken);
-            if (thread != null) {
-                runtime.stopThread(thread);
-                env.notice("Thread " + thread.name() + " killed.");
+            ThrebdReference threbd = findThrebd(idToken);
+            if (threbd != null) {
+                runtime.stopThrebd(threbd);
+                env.notice("Threbd " + threbd.nbme() + " killed.");
                 return;
             } else {
-                /* Check for threadgroup name, NOT skipping "system". */
-                //### Should skip "system"?  Classic 'jdb' does this.
-                //### Should deal with possible non-uniqueness of threadgroup names.
-                ThreadGroupIterator itg = allThreadGroups();
-                while (itg.hasNext()) {
-                    ThreadGroupReference tg = itg.nextThreadGroup();
-                    if (tg.name().equals(idToken)) {
-                        ThreadIterator it = new ThreadIterator(tg);
-                        while (it.hasNext()) {
-                            runtime.stopThread(it.nextThread());
+                /* Check for threbdgroup nbme, NOT skipping "system". */
+                //### Should skip "system"?  Clbssic 'jdb' does this.
+                //### Should debl with possible non-uniqueness of threbdgroup nbmes.
+                ThrebdGroupIterbtor itg = bllThrebdGroups();
+                while (itg.hbsNext()) {
+                    ThrebdGroupReference tg = itg.nextThrebdGroup();
+                    if (tg.nbme().equbls(idToken)) {
+                        ThrebdIterbtor it = new ThrebdIterbtor(tg);
+                        while (it.hbsNext()) {
+                            runtime.stopThrebd(it.nextThrebd());
                         }
-                        env.notice("Threadgroup " + tg.name() + "killed.");
+                        env.notice("Threbdgroup " + tg.nbme() + "killed.");
                         return;
                     }
                 }
-                env.failure("\"" + idToken +
-                            "\" is not a valid threadgroup or id.");
+                env.fbilure("\"" + idToken +
+                            "\" is not b vblid threbdgroup or id.");
             }
         }
     }
@@ -612,184 +612,184 @@ public class CommandInterpreter {
 
     /*************
     // TODO
-    private void commandCatchException(StringTokenizer t) throws NoSessionException {}
+    privbte void commbndCbtchException(StringTokenizer t) throws NoSessionException {}
     // TODO
-    private void commandIgnoreException(StringTokenizer t) throws NoSessionException {}
+    privbte void commbndIgnoreException(StringTokenizer t) throws NoSessionException {}
     *************/
 
-    // Command: up
+    // Commbnd: up
 
-    //### Print current frame after command?
+    //### Print current frbme bfter commbnd?
 
-    int readCount(StringTokenizer t) {
+    int rebdCount(StringTokenizer t) {
         int cnt = 1;
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             String idToken = t.nextToken();
             try {
-                cnt = Integer.valueOf(idToken).intValue();
-            } catch (NumberFormatException e) {
+                cnt = Integer.vblueOf(idToken).intVblue();
+            } cbtch (NumberFormbtException e) {
                 cnt = -1;
             }
         }
         return cnt;
     }
 
-    void commandUp(StringTokenizer t) throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    void commbndUp(StringTokenizer t) throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
-        int nLevels = readCount(t);
+        int nLevels = rebdCount(t);
         if (nLevels <= 0) {
-            env.error("usage: up [n frames]");
+            env.error("usbge: up [n frbmes]");
             return;
         }
         try {
-            int delta = context.moveCurrentFrameIndex(current, -nLevels);
-            if (delta == 0) {
-                env.notice("Already at top of stack.");
-            } else if (-delta < nLevels) {
-                env.notice("Moved up " + delta + " frames to top of stack.");
+            int deltb = context.moveCurrentFrbmeIndex(current, -nLevels);
+            if (deltb == 0) {
+                env.notice("Alrebdy bt top of stbck.");
+            } else if (-deltb < nLevels) {
+                env.notice("Moved up " + deltb + " frbmes to top of stbck.");
             }
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
         }
     }
 
-    private void commandDown(StringTokenizer t) throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndDown(StringTokenizer t) throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
-        int nLevels = readCount(t);
+        int nLevels = rebdCount(t);
         if (nLevels <= 0) {
-            env.error("usage: down [n frames]");
+            env.error("usbge: down [n frbmes]");
             return;
         }
         try {
-            int delta = context.moveCurrentFrameIndex(current, nLevels);
-            if (delta == 0) {
-                env.notice("Already at bottom of stack.");
-            } else if (delta < nLevels) {
-                env.notice("Moved down " + delta + " frames to bottom of stack.");
+            int deltb = context.moveCurrentFrbmeIndex(current, nLevels);
+            if (deltb == 0) {
+                env.notice("Alrebdy bt bottom of stbck.");
+            } else if (deltb < nLevels) {
+                env.notice("Moved down " + deltb + " frbmes to bottom of stbck.");
             }
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
         }
     }
 
-    // Command: frame
+    // Commbnd: frbme
 
-    private void commandFrame(StringTokenizer t) throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndFrbme(StringTokenizer t) throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No current thread.");
+            env.fbilure("No current threbd.");
             return;
         }
-        if (!t.hasMoreTokens()) {
-            env.error("usage: frame <frame-index>");
+        if (!t.hbsMoreTokens()) {
+            env.error("usbge: frbme <frbme-index>");
             return;
         }
         String idToken = t.nextToken();
         int n;
         try {
-            n = Integer.valueOf(idToken).intValue();
-        } catch (NumberFormatException e) {
+            n = Integer.vblueOf(idToken).intVblue();
+        } cbtch (NumberFormbtException e) {
             n = 0;
         }
         if (n <= 0) {
-            env.error("use positive frame index");
+            env.error("use positive frbme index");
             return;
         }
         try {
-            int delta = context.setCurrentFrameIndex(current, n);
-            if (delta == 0) {
-                env.notice("Frame unchanged.");
-            } else if (delta < 0) {
-                env.notice("Moved up " + -delta + " frames.");
+            int deltb = context.setCurrentFrbmeIndex(current, n);
+            if (deltb == 0) {
+                env.notice("Frbme unchbnged.");
+            } else if (deltb < 0) {
+                env.notice("Moved up " + -deltb + " frbmes.");
             } else {
-                env.notice("Moved down " + delta + " frames.");
+                env.notice("Moved down " + deltb + " frbmes.");
             }
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
         }
     }
 
-    // Command: where
+    // Commbnd: where
 
-    //### Should we insist that VM be interrupted here?
-    //### There is an inconsistency between the 'where' command
-    //### and 'up' and 'down' in this respect.
+    //### Should we insist thbt VM be interrupted here?
+    //### There is bn inconsistency between the 'where' commbnd
+    //### bnd 'up' bnd 'down' in this respect.
 
-    private void commandWhere(StringTokenizer t, boolean showPC)
+    privbte void commbndWhere(StringTokenizer t, boolebn showPC)
                                                 throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
-        if (!t.hasMoreTokens()) {
+        ThrebdReference current = context.getCurrentThrebd();
+        if (!t.hbsMoreTokens()) {
             if (current == null) {
-                env.error("No thread specified.");
+                env.error("No threbd specified.");
                 return;
             }
-            dumpStack(current, showPC);
+            dumpStbck(current, showPC);
         } else {
             String token = t.nextToken();
-            if (token.toLowerCase().equals("all")) {
-                ThreadIterator it = allThreads();
-                while (it.hasNext()) {
-                    ThreadReference thread = it.next();
-                    out.println(thread.name() + ": ");
-                    dumpStack(thread, showPC);
+            if (token.toLowerCbse().equbls("bll")) {
+                ThrebdIterbtor it = bllThrebds();
+                while (it.hbsNext()) {
+                    ThrebdReference threbd = it.next();
+                    out.println(threbd.nbme() + ": ");
+                    dumpStbck(threbd, showPC);
                 }
             } else {
-                ThreadReference thread = findThread(t.nextToken());
-                //### Do we want to set current thread here?
-                //### Should notify user of change.
-                if (thread != null) {
-                    context.setCurrentThread(thread);
+                ThrebdReference threbd = findThrebd(t.nextToken());
+                //### Do we wbnt to set current threbd here?
+                //### Should notify user of chbnge.
+                if (threbd != null) {
+                    context.setCurrentThrebd(threbd);
                 }
-                dumpStack(thread, showPC);
+                dumpStbck(threbd, showPC);
             }
         }
     }
 
-    private void dumpStack(ThreadReference thread, boolean showPC) {
+    privbte void dumpStbck(ThrebdReference threbd, boolebn showPC) {
         //### Check for these.
-        //env.failure("Thread no longer exists.");
-        //env.failure("Target VM must be in interrupted state.");
-        //env.failure("Current thread isn't suspended.");
-        //### Should handle extremely long stack traces sensibly for user.
-        List<StackFrame> stack = null;
+        //env.fbilure("Threbd no longer exists.");
+        //env.fbilure("Tbrget VM must be in interrupted stbte.");
+        //env.fbilure("Current threbd isn't suspended.");
+        //### Should hbndle extremely long stbck trbces sensibly for user.
+        List<StbckFrbme> stbck = null;
         try {
-            stack = thread.frames();
-        } catch (IncompatibleThreadStateException e) {
-            env.failure("Thread is not suspended.");
+            stbck = threbd.frbmes();
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            env.fbilure("Threbd is not suspended.");
         }
         //### Fix this!
-        //### Previously mishandled cases where thread was not current.
-        //### Now, prints all of the stack regardless of current frame.
-        int frameIndex = 0;
-        //int frameIndex = context.getCurrentFrameIndex();
-        if (stack == null) {
-            env.failure("Thread is not running (no stack).");
+        //### Previously mishbndled cbses where threbd wbs not current.
+        //### Now, prints bll of the stbck regbrdless of current frbme.
+        int frbmeIndex = 0;
+        //int frbmeIndex = context.getCurrentFrbmeIndex();
+        if (stbck == null) {
+            env.fbilure("Threbd is not running (no stbck).");
         } else {
             OutputSink out = env.getOutputSink();
-            int nFrames = stack.size();
-            for (int i = frameIndex; i < nFrames; i++) {
-                StackFrame frame = stack.get(i);
-                Location loc = frame.location();
+            int nFrbmes = stbck.size();
+            for (int i = frbmeIndex; i < nFrbmes; i++) {
+                StbckFrbme frbme = stbck.get(i);
+                Locbtion loc = frbme.locbtion();
                 Method meth = loc.method();
                 out.print("  [" + (i + 1) + "] ");
-                out.print(meth.declaringType().name());
+                out.print(meth.declbringType().nbme());
                 out.print('.');
-                out.print(meth.name());
+                out.print(meth.nbme());
                 out.print(" (");
-                if (meth.isNative()) {
-                    out.print("native method");
+                if (meth.isNbtive()) {
+                    out.print("nbtive method");
                 } else if (loc.lineNumber() != -1) {
                     try {
-                        out.print(loc.sourceName());
-                    } catch (AbsentInformationException e) {
+                        out.print(loc.sourceNbme());
+                    } cbtch (AbsentInformbtionException e) {
                         out.print("<unknown>");
                     }
                     out.print(':');
@@ -808,14 +808,14 @@ public class CommandInterpreter {
         }
     }
 
-    private void listEventRequests() throws NoSessionException {
-        // Print set breakpoints
+    privbte void listEventRequests() throws NoSessionException {
+        // Print set brebkpoints
         List<EventRequestSpec> specs = runtime.eventRequestSpecs();
         if (specs.isEmpty()) {
-            env.notice("No breakpoints/watchpoints/exceptions set.");
+            env.notice("No brebkpoints/wbtchpoints/exceptions set.");
         } else {
             OutputSink out = env.getOutputSink();
-            out.println("Current breakpoints/watchpoints/exceptions set:");
+            out.println("Current brebkpoints/wbtchpoints/exceptions set:");
             for (EventRequestSpec bp : specs) {
                 out.println("\t" + bp);
             }
@@ -823,204 +823,204 @@ public class CommandInterpreter {
         }
     }
 
-    private BreakpointSpec parseBreakpointSpec(String bptSpec) {
+    privbte BrebkpointSpec pbrseBrebkpointSpec(String bptSpec) {
         StringTokenizer t = new StringTokenizer(bptSpec);
-        BreakpointSpec bpSpec = null;
+        BrebkpointSpec bpSpec = null;
 //        try {
             String token = t.nextToken("@:( \t\n\r");
-            // We can't use hasMoreTokens here because it will cause any leading
-            // paren to be lost.
+            // We cbn't use hbsMoreTokens here becbuse it will cbuse bny lebding
+            // pbren to be lost.
             String rest;
             try {
                 rest = t.nextToken("").trim();
-            } catch (NoSuchElementException e) {
+            } cbtch (NoSuchElementException e) {
                 rest = null;
             }
-            if ((rest != null) && rest.startsWith("@")) {
+            if ((rest != null) && rest.stbrtsWith("@")) {
                 t = new StringTokenizer(rest.substring(1));
-                String sourceName = token;
+                String sourceNbme = token;
                 String lineToken = t.nextToken();
-                int lineNumber = Integer.valueOf(lineToken).intValue();
-                if (t.hasMoreTokens()) {
+                int lineNumber = Integer.vblueOf(lineToken).intVblue();
+                if (t.hbsMoreTokens()) {
                     return null;
                 }
-                bpSpec = runtime.createSourceLineBreakpoint(sourceName,
+                bpSpec = runtime.crebteSourceLineBrebkpoint(sourceNbme,
                                                             lineNumber);
-            } else if ((rest != null) && rest.startsWith(":")) {
+            } else if ((rest != null) && rest.stbrtsWith(":")) {
                 t = new StringTokenizer(rest.substring(1));
-                String classId = token;
+                String clbssId = token;
                 String lineToken = t.nextToken();
-                int lineNumber = Integer.valueOf(lineToken).intValue();
-                if (t.hasMoreTokens()) {
+                int lineNumber = Integer.vblueOf(lineToken).intVblue();
+                if (t.hbsMoreTokens()) {
                     return null;
                 }
-                bpSpec = runtime.createClassLineBreakpoint(classId, lineNumber);
+                bpSpec = runtime.crebteClbssLineBrebkpoint(clbssId, lineNumber);
             } else {
-                // Try stripping method from class.method token.
-                int idot = token.lastIndexOf('.');
-                if ( (idot <= 0) ||        /* No dot or dot in first char */
-                     (idot >= token.length() - 1) ) { /* dot in last char */
+                // Try stripping method from clbss.method token.
+                int idot = token.lbstIndexOf('.');
+                if ( (idot <= 0) ||        /* No dot or dot in first chbr */
+                     (idot >= token.length() - 1) ) { /* dot in lbst chbr */
                     return null;
                 }
-                String methodName = token.substring(idot + 1);
-                String classId = token.substring(0, idot);
-                List<String> argumentList = null;
+                String methodNbme = token.substring(idot + 1);
+                String clbssId = token.substring(0, idot);
+                List<String> brgumentList = null;
                 if (rest != null) {
-                    if (!rest.startsWith("(") || !rest.endsWith(")")) {
-                        //### Should throw exception with error message
-                        //out.println("Invalid method specification: "
-                        //            + methodName + rest);
+                    if (!rest.stbrtsWith("(") || !rest.endsWith(")")) {
+                        //### Should throw exception with error messbge
+                        //out.println("Invblid method specificbtion: "
+                        //            + methodNbme + rest);
                         return null;
                     }
-                    // Trim the parens
-                    //### What about spaces in arglist?
+                    // Trim the pbrens
+                    //### Whbt bbout spbces in brglist?
                     rest = rest.substring(1, rest.length() - 1);
-                    argumentList = new ArrayList<String>();
+                    brgumentList = new ArrbyList<String>();
                     t = new StringTokenizer(rest, ",");
-                    while (t.hasMoreTokens()) {
-                        argumentList.add(t.nextToken());
+                    while (t.hbsMoreTokens()) {
+                        brgumentList.bdd(t.nextToken());
                     }
                 }
-                bpSpec = runtime.createMethodBreakpoint(classId,
-                                                       methodName,
-                                                       argumentList);
+                bpSpec = runtime.crebteMethodBrebkpoint(clbssId,
+                                                       methodNbme,
+                                                       brgumentList);
             }
-//        } catch (Exception e) {
-//            env.error("Exception attempting to create breakpoint: " + e);
+//        } cbtch (Exception e) {
+//            env.error("Exception bttempting to crebte brebkpoint: " + e);
 //            return null;
 //        }
         return bpSpec;
     }
 
-    private void commandStop(StringTokenizer t) throws NoSessionException {
+    privbte void commbndStop(StringTokenizer t) throws NoSessionException {
         String token;
 
-        if (!t.hasMoreTokens()) {
+        if (!t.hbsMoreTokens()) {
             listEventRequests();
         } else {
             token = t.nextToken();
-            // Ignore optional "at" or "in" token.
-            // Allowed for backward compatibility.
-            if (token.equals("at") || token.equals("in")) {
-                if (t.hasMoreTokens()) {
+            // Ignore optionbl "bt" or "in" token.
+            // Allowed for bbckwbrd compbtibility.
+            if (token.equbls("bt") || token.equbls("in")) {
+                if (t.hbsMoreTokens()) {
                     token = t.nextToken();
                 } else {
-                    env.error("Missing breakpoint specification.");
+                    env.error("Missing brebkpoint specificbtion.");
                     return;
                 }
             }
-            BreakpointSpec bpSpec = parseBreakpointSpec(token);
+            BrebkpointSpec bpSpec = pbrseBrebkpointSpec(token);
             if (bpSpec != null) {
-                //### Add sanity-checks for deferred breakpoint.
-                runtime.install(bpSpec);
+                //### Add sbnity-checks for deferred brebkpoint.
+                runtime.instbll(bpSpec);
             } else {
-                env.error("Ill-formed breakpoint specification.");
+                env.error("Ill-formed brebkpoint specificbtion.");
             }
         }
     }
 
-    private void commandClear(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            // Print set breakpoints
+    privbte void commbndClebr(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            // Print set brebkpoints
             listEventRequests();
             return;
         }
-        //### need 'clear all'
-        BreakpointSpec bpSpec = parseBreakpointSpec(t.nextToken());
+        //### need 'clebr bll'
+        BrebkpointSpec bpSpec = pbrseBrebkpointSpec(t.nextToken());
         if (bpSpec != null) {
             List<EventRequestSpec> specs = runtime.eventRequestSpecs();
 
             if (specs.isEmpty()) {
-                env.notice("No breakpoints set.");
+                env.notice("No brebkpoints set.");
             } else {
-                List<EventRequestSpec> toDelete = new ArrayList<EventRequestSpec>();
+                List<EventRequestSpec> toDelete = new ArrbyList<EventRequestSpec>();
                 for (EventRequestSpec spec : specs) {
-                    if (spec.equals(bpSpec)) {
-                        toDelete.add(spec);
+                    if (spec.equbls(bpSpec)) {
+                        toDelete.bdd(spec);
                     }
                 }
-                // The request used for matching should be found
+                // The request used for mbtching should be found
                 if (toDelete.size() <= 1) {
-                    env.notice("No matching breakpoint set.");
+                    env.notice("No mbtching brebkpoint set.");
                 }
                 for (EventRequestSpec spec : toDelete) {
                     runtime.delete(spec);
                 }
             }
         } else {
-            env.error("Ill-formed breakpoint specification.");
+            env.error("Ill-formed brebkpoint specificbtion.");
         }
     }
 
-    // Command: list
+    // Commbnd: list
 
-    private void commandList(StringTokenizer t) throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndList(StringTokenizer t) throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.error("No thread specified.");
+            env.error("No threbd specified.");
             return;
         }
-        Location loc;
+        Locbtion loc;
         try {
-            StackFrame frame = context.getCurrentFrame(current);
-            if (frame == null) {
-                env.failure("Thread has not yet begun execution.");
+            StbckFrbme frbme = context.getCurrentFrbme(current);
+            if (frbme == null) {
+                env.fbilure("Threbd hbs not yet begun execution.");
                 return;
             }
-            loc = frame.location();
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+            loc = frbme.locbtion();
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
             return;
         }
-        SourceModel source = sourceManager.sourceForLocation(loc);
+        SourceModel source = sourceMbnbger.sourceForLocbtion(loc);
         if (source == null) {
-            if (loc.method().isNative()) {
-                env.failure("Current method is native.");
+            if (loc.method().isNbtive()) {
+                env.fbilure("Current method is nbtive.");
                 return;
             }
-            env.failure("No source available for " + Utils.locationString(loc) + ".");
+            env.fbilure("No source bvbilbble for " + Utils.locbtionString(loc) + ".");
             return;
         }
-        ReferenceType refType = loc.declaringType();
+        ReferenceType refType = loc.declbringType();
         int lineno = loc.lineNumber();
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             String id = t.nextToken();
-            // See if token is a line number.
+            // See if token is b line number.
             try {
-                lineno = Integer.valueOf(id).intValue();
-            } catch (NumberFormatException nfe) {
-                // It isn't -- see if it's a method name.
-                List<Method> meths = refType.methodsByName(id);
+                lineno = Integer.vblueOf(id).intVblue();
+            } cbtch (NumberFormbtException nfe) {
+                // It isn't -- see if it's b method nbme.
+                List<Method> meths = refType.methodsByNbme(id);
                 if (meths == null || meths.size() == 0) {
-                    env.failure(id +
-                                " is not a valid line number or " +
-                                "method name for class " +
-                                refType.name());
+                    env.fbilure(id +
+                                " is not b vblid line number or " +
+                                "method nbme for clbss " +
+                                refType.nbme());
                     return;
                 } else if (meths.size() > 1) {
-                    env.failure(id +
-                                " is an ambiguous method name in" +
-                                refType.name());
+                    env.fbilure(id +
+                                " is bn bmbiguous method nbme in" +
+                                refType.nbme());
                     return;
                 }
-                loc = meths.get(0).location();
+                loc = meths.get(0).locbtion();
                 lineno = loc.lineNumber();
             }
         }
-        int startLine = (lineno > 4) ? lineno - 4 : 1;
-        int endLine = startLine + 9;
+        int stbrtLine = (lineno > 4) ? lineno - 4 : 1;
+        int endLine = stbrtLine + 9;
         String sourceLine = source.sourceLine(lineno);
         if (sourceLine == null) {
-            env.failure("" +
+            env.fbilure("" +
                         lineno +
-                        " is an invalid line number for " +
-                        refType.name());
+                        " is bn invblid line number for " +
+                        refType.nbme());
         } else {
             OutputSink out = env.getOutputSink();
-            for (int i = startLine; i <= endLine; i++) {
+            for (int i = stbrtLine; i <= endLine; i++) {
                 sourceLine = source.sourceLine(i);
                 if (sourceLine == null) {
-                    break;
+                    brebk;
                 }
                 out.print(i);
                 out.print("\t");
@@ -1035,118 +1035,118 @@ public class CommandInterpreter {
         }
     }
 
-    // Command: use
-    // Get or set the source file path list.
+    // Commbnd: use
+    // Get or set the source file pbth list.
 
-    private void commandUse(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            out.println(sourceManager.getSourcePath().asString());
+    privbte void commbndUse(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            out.println(sourceMbnbger.getSourcePbth().bsString());
         } else {
-            //### Should throw exception for invalid path.
-            //### E.g., vetoable property change.
-            sourceManager.setSourcePath(new SearchPath(t.nextToken()));
+            //### Should throw exception for invblid pbth.
+            //### E.g., vetobble property chbnge.
+            sourceMbnbger.setSourcePbth(new SebrchPbth(t.nextToken()));
         }
     }
 
-    // Command: sourcepath
-    // Get or set the source file path list.  (Alternate to 'use'.)
+    // Commbnd: sourcepbth
+    // Get or set the source file pbth list.  (Alternbte to 'use'.)
 
-    private void commandSourcepath(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            out.println(sourceManager.getSourcePath().asString());
+    privbte void commbndSourcepbth(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            out.println(sourceMbnbger.getSourcePbth().bsString());
         } else {
-            //### Should throw exception for invalid path.
-            //### E.g., vetoable property change.
-            sourceManager.setSourcePath(new SearchPath(t.nextToken()));
+            //### Should throw exception for invblid pbth.
+            //### E.g., vetobble property chbnge.
+            sourceMbnbger.setSourcePbth(new SebrchPbth(t.nextToken()));
         }
     }
 
-    // Command: classpath
-    // Get or set the class file path list.
+    // Commbnd: clbsspbth
+    // Get or set the clbss file pbth list.
 
-    private void commandClasspath(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            out.println(classManager.getClassPath().asString());
+    privbte void commbndClbsspbth(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            out.println(clbssMbnbger.getClbssPbth().bsString());
         } else {
-            //### Should throw exception for invalid path.
-            //### E.g., vetoable property change.
-            classManager.setClassPath(new SearchPath(t.nextToken()));
+            //### Should throw exception for invblid pbth.
+            //### E.g., vetobble property chbnge.
+            clbssMbnbger.setClbssPbth(new SebrchPbth(t.nextToken()));
         }
     }
 
-    // Command: view
-    // Display source for source file or class.
+    // Commbnd: view
+    // Displby source for source file or clbss.
 
-    private void commandView(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
+    privbte void commbndView(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
             env.error("Argument required");
         } else {
-            String name = t.nextToken();
-            if (name.endsWith(".java") ||
-                name.indexOf(File.separatorChar) >= 0) {
-                env.viewSource(name);
+            String nbme = t.nextToken();
+            if (nbme.endsWith(".jbvb") ||
+                nbme.indexOf(File.sepbrbtorChbr) >= 0) {
+                env.viewSource(nbme);
             } else {
-                //### JDI crashes taking line number for class.
+                //### JDI crbshes tbking line number for clbss.
                 /*****
-                ReferenceType cls = findClass(name);
+                ReferenceType cls = findClbss(nbme);
                 if (cls != null) {
-                    env.viewLocation(cls.location());
+                    env.viewLocbtion(cls.locbtion());
                 } else {
-                    env.failure("No such class");
+                    env.fbilure("No such clbss");
                 }
                 *****/
-                String fileName = name.replace('.', File.separatorChar) + ".java";
-                env.viewSource(fileName);
+                String fileNbme = nbme.replbce('.', File.sepbrbtorChbr) + ".jbvb";
+                env.viewSource(fileNbme);
             }
         }
     }
 
-    // Command: locals
-    // Print all local variables in current stack frame.
+    // Commbnd: locbls
+    // Print bll locbl vbribbles in current stbck frbme.
 
-    private void commandLocals() throws NoSessionException {
-        ThreadReference current = context.getCurrentThread();
+    privbte void commbndLocbls() throws NoSessionException {
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No default thread specified: " +
-                        "use the \"thread\" command first.");
+            env.fbilure("No defbult threbd specified: " +
+                        "use the \"threbd\" commbnd first.");
             return;
         }
-        StackFrame frame;
+        StbckFrbme frbme;
         try {
-            frame = context.getCurrentFrame(current);
-            if (frame == null) {
-                env.failure("Thread has not yet created any stack frames.");
+            frbme = context.getCurrentFrbme(current);
+            if (frbme == null) {
+                env.fbilure("Threbd hbs not yet crebted bny stbck frbmes.");
                 return;
             }
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
             return;
         }
 
-        List<LocalVariable> vars;
+        List<LocblVbribble> vbrs;
         try {
-            vars = frame.visibleVariables();
-            if (vars == null || vars.size() == 0) {
-                env.failure("No local variables");
+            vbrs = frbme.visibleVbribbles();
+            if (vbrs == null || vbrs.size() == 0) {
+                env.fbilure("No locbl vbribbles");
                 return;
             }
-        } catch (AbsentInformationException e) {
-            env.failure("Local variable information not available." +
-                        " Compile with -g to generate variable information");
+        } cbtch (AbsentInformbtionException e) {
+            env.fbilure("Locbl vbribble informbtion not bvbilbble." +
+                        " Compile with -g to generbte vbribble informbtion");
             return;
         }
 
         OutputSink out = env.getOutputSink();
-        out.println("Method arguments:");
-        for (LocalVariable var : vars) {
-            if (var.isArgument()) {
-                printVar(out, var, frame);
+        out.println("Method brguments:");
+        for (LocblVbribble vbr : vbrs) {
+            if (vbr.isArgument()) {
+                printVbr(out, vbr, frbme);
             }
         }
-        out.println("Local variables:");
-        for (LocalVariable var : vars) {
-            if (!var.isArgument()) {
-                printVar(out, var, frame);
+        out.println("Locbl vbribbles:");
+        for (LocblVbribble vbr : vbrs) {
+            if (!vbr.isArgument()) {
+                printVbr(out, vbr, frbme);
             }
         }
         out.show();
@@ -1154,314 +1154,314 @@ public class CommandInterpreter {
     }
 
     /**
-     * Command: monitor
-     * Monitor an expression
+     * Commbnd: monitor
+     * Monitor bn expression
      */
-    private void commandMonitor(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
+    privbte void commbndMonitor(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
             env.error("Argument required");
         } else {
-            env.getMonitorListModel().add(t.nextToken(""));
+            env.getMonitorListModel().bdd(t.nextToken(""));
         }
     }
 
     /**
-     * Command: unmonitor
-     * Unmonitor an expression
+     * Commbnd: unmonitor
+     * Unmonitor bn expression
      */
-    private void commandUnmonitor(StringTokenizer t) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
+    privbte void commbndUnmonitor(StringTokenizer t) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
             env.error("Argument required");
         } else {
             env.getMonitorListModel().remove(t.nextToken(""));
         }
     }
 
-    // Print a stack variable.
+    // Print b stbck vbribble.
 
-    private void printVar(OutputSink out, LocalVariable var, StackFrame frame) {
-        out.print("  " + var.name());
-        if (var.isVisible(frame)) {
-            Value val = frame.getValue(var);
-            out.println(" = " + val.toString());
+    privbte void printVbr(OutputSink out, LocblVbribble vbr, StbckFrbme frbme) {
+        out.print("  " + vbr.nbme());
+        if (vbr.isVisible(frbme)) {
+            Vblue vbl = frbme.getVblue(vbr);
+            out.println(" = " + vbl.toString());
         } else {
             out.println(" is not in scope");
         }
     }
 
-    // Command: print
-    // Evaluate an expression.
+    // Commbnd: print
+    // Evblubte bn expression.
 
-    private void commandPrint(StringTokenizer t, boolean dumpObject) throws NoSessionException {
-        if (!t.hasMoreTokens()) {
-            //### Probably confused if expresion contains whitespace.
+    privbte void commbndPrint(StringTokenizer t, boolebn dumpObject) throws NoSessionException {
+        if (!t.hbsMoreTokens()) {
+            //### Probbbly confused if expresion contbins whitespbce.
             env.error("No expression specified.");
             return;
         }
-        ThreadReference current = context.getCurrentThread();
+        ThrebdReference current = context.getCurrentThrebd();
         if (current == null) {
-            env.failure("No default thread specified: " +
-                        "use the \"thread\" command first.");
+            env.fbilure("No defbult threbd specified: " +
+                        "use the \"threbd\" commbnd first.");
             return;
         }
-        StackFrame frame;
+        StbckFrbme frbme;
         try {
-            frame = context.getCurrentFrame(current);
-            if (frame == null) {
-                env.failure("Thread has not yet created any stack frames.");
+            frbme = context.getCurrentFrbme(current);
+            if (frbme == null) {
+                env.fbilure("Threbd hbs not yet crebted bny stbck frbmes.");
                 return;
             }
-        } catch (VMNotInterruptedException e) {
-            env.failure("Target VM must be in interrupted state.");
+        } cbtch (VMNotInterruptedException e) {
+            env.fbilure("Tbrget VM must be in interrupted stbte.");
             return;
         }
-        while (t.hasMoreTokens()) {
+        while (t.hbsMoreTokens()) {
             String expr = t.nextToken("");
-            Value val = null;
+            Vblue vbl = null;
             try {
-                val = runtime.evaluate(frame, expr);
-            } catch(Exception e) {
+                vbl = runtime.evblubte(frbme, expr);
+            } cbtch(Exception e) {
                 env.error("Exception: " + e);
                 //### Fix this!
             }
-            if (val == null) {
-                return;  // Error message already printed
+            if (vbl == null) {
+                return;  // Error messbge blrebdy printed
             }
             OutputSink out = env.getOutputSink();
-            if (dumpObject && (val instanceof ObjectReference) &&
-                                 !(val instanceof StringReference)) {
-                ObjectReference obj = (ObjectReference)val;
+            if (dumpObject && (vbl instbnceof ObjectReference) &&
+                                 !(vbl instbnceof StringReference)) {
+                ObjectReference obj = (ObjectReference)vbl;
                 ReferenceType refType = obj.referenceType();
-                out.println(expr + " = " + val.toString() + " {");
+                out.println(expr + " = " + vbl.toString() + " {");
                 dump(out, obj, refType, refType);
                 out.println("}");
             } else {
-                out.println(expr + " = " + val.toString());
+                out.println(expr + " = " + vbl.toString());
             }
             out.show();
         }
     }
 
-    private void dump(OutputSink out,
+    privbte void dump(OutputSink out,
                       ObjectReference obj, ReferenceType refType,
-                      ReferenceType refTypeBase) {
+                      ReferenceType refTypeBbse) {
         for (Field field : refType.fields()) {
             out.print("    ");
-            if (!refType.equals(refTypeBase)) {
-                out.print(refType.name() + ".");
+            if (!refType.equbls(refTypeBbse)) {
+                out.print(refType.nbme() + ".");
             }
-            out.print(field.name() + ": ");
-            Object o = obj.getValue(field);
+            out.print(field.nbme() + ": ");
+            Object o = obj.getVblue(field);
             out.println((o == null) ? "null" : o.toString()); // Bug ID 4374471
         }
-        if (refType instanceof ClassType) {
-            ClassType sup = ((ClassType)refType).superclass();
+        if (refType instbnceof ClbssType) {
+            ClbssType sup = ((ClbssType)refType).superclbss();
             if (sup != null) {
-                dump(out, obj, sup, refTypeBase);
+                dump(out, obj, sup, refTypeBbse);
             }
-        } else if (refType instanceof InterfaceType) {
-            for (InterfaceType sup : ((InterfaceType)refType).superinterfaces()) {
-                dump(out, obj, sup, refTypeBase);
+        } else if (refType instbnceof InterfbceType) {
+            for (InterfbceType sup : ((InterfbceType)refType).superinterfbces()) {
+                dump(out, obj, sup, refTypeBbse);
             }
         }
     }
 
     /*
-     * Display help message.
+     * Displby help messbge.
      */
 
-    private void help() {
-        out.println("** command list **");
-        out.println("threads [threadgroup]     -- list threads");
-        out.println("thread <thread id>        -- set default thread");
-        out.println("suspend [thread id(s)]    -- suspend threads (default: all)");
-        out.println("resume [thread id(s)]     -- resume threads (default: all)");
-        out.println("where [thread id] | all   -- dump a thread's stack");
-        out.println("wherei [thread id] | all  -- dump a thread's stack, with pc info");
-        out.println("threadgroups              -- list threadgroups");
-        out.println("threadgroup <name>        -- set current threadgroup\n");
-//      out.println("print <expression>        -- print value of expression");
-        out.println("dump <expression>         -- print all object information\n");
-//      out.println("eval <expression>         -- evaluate expression (same as print)");
-        out.println("locals                    -- print all local variables in current stack frame\n");
-        out.println("classes                   -- list currently known classes");
-        out.println("methods <class id>        -- list a class's methods\n");
-        out.println("stop [in] <class id>.<method>[(argument_type,...)] -- set a breakpoint in a method");
-        out.println("stop [at] <class id>:<line> -- set a breakpoint at a line");
-        out.println("up [n frames]             -- move up a thread's stack");
-        out.println("down [n frames]           -- move down a thread's stack");
-        out.println("frame <frame-id>           -- to a frame");
-        out.println("clear <class id>.<method>[(argument_type,...)]   -- clear a breakpoint in a method");
-        out.println("clear <class id>:<line>   -- clear a breakpoint at a line");
-        out.println("clear                     -- list breakpoints");
+    privbte void help() {
+        out.println("** commbnd list **");
+        out.println("threbds [threbdgroup]     -- list threbds");
+        out.println("threbd <threbd id>        -- set defbult threbd");
+        out.println("suspend [threbd id(s)]    -- suspend threbds (defbult: bll)");
+        out.println("resume [threbd id(s)]     -- resume threbds (defbult: bll)");
+        out.println("where [threbd id] | bll   -- dump b threbd's stbck");
+        out.println("wherei [threbd id] | bll  -- dump b threbd's stbck, with pc info");
+        out.println("threbdgroups              -- list threbdgroups");
+        out.println("threbdgroup <nbme>        -- set current threbdgroup\n");
+//      out.println("print <expression>        -- print vblue of expression");
+        out.println("dump <expression>         -- print bll object informbtion\n");
+//      out.println("evbl <expression>         -- evblubte expression (sbme bs print)");
+        out.println("locbls                    -- print bll locbl vbribbles in current stbck frbme\n");
+        out.println("clbsses                   -- list currently known clbsses");
+        out.println("methods <clbss id>        -- list b clbss's methods\n");
+        out.println("stop [in] <clbss id>.<method>[(brgument_type,...)] -- set b brebkpoint in b method");
+        out.println("stop [bt] <clbss id>:<line> -- set b brebkpoint bt b line");
+        out.println("up [n frbmes]             -- move up b threbd's stbck");
+        out.println("down [n frbmes]           -- move down b threbd's stbck");
+        out.println("frbme <frbme-id>           -- to b frbme");
+        out.println("clebr <clbss id>.<method>[(brgument_type,...)]   -- clebr b brebkpoint in b method");
+        out.println("clebr <clbss id>:<line>   -- clebr b brebkpoint bt b line");
+        out.println("clebr                     -- list brebkpoints");
         out.println("step                      -- execute current line");
-        out.println("step up                   -- execute until the current method returns to its caller");
+        out.println("step up                   -- execute until the current method returns to its cbller");
         out.println("stepi                     -- execute current instruction");
-        out.println("next                      -- step one line (step OVER calls)");
-        out.println("nexti                     -- step one instruction (step OVER calls)");
-        out.println("cont                      -- continue execution from breakpoint\n");
-//      out.println("catch <class id>          -- break for the specified exception");
-//      out.println("ignore <class id>         -- ignore when the specified exception\n");
-        out.println("view classname|filename   -- display source file");
-        out.println("list [line number|method] -- print source code context at line or method");
-        out.println("use <source file path>    -- display or change the source path\n");
+        out.println("next                      -- step one line (step OVER cblls)");
+        out.println("nexti                     -- step one instruction (step OVER cblls)");
+        out.println("cont                      -- continue execution from brebkpoint\n");
+//      out.println("cbtch <clbss id>          -- brebk for the specified exception");
+//      out.println("ignore <clbss id>         -- ignore when the specified exception\n");
+        out.println("view clbssnbme|filenbme   -- displby source file");
+        out.println("list [line number|method] -- print source code context bt line or method");
+        out.println("use <source file pbth>    -- displby or chbnge the source pbth\n");
 //### new
-        out.println("sourcepath <source file path>    -- display or change the source path\n");
+        out.println("sourcepbth <source file pbth>    -- displby or chbnge the source pbth\n");
 //### new
-        out.println("classpath <class file path>    -- display or change the class path\n");
-        out.println("monitor <expression>      -- evaluate an expression each time the program stops\n");
-        out.println("unmonitor <monitor#>      -- delete a monitor\n");
-        out.println("read <filename>           -- read and execute a command file\n");
-//      out.println("memory                    -- report memory usage");
+        out.println("clbsspbth <clbss file pbth>    -- displby or chbnge the clbss pbth\n");
+        out.println("monitor <expression>      -- evblubte bn expression ebch time the progrbm stops\n");
+        out.println("unmonitor <monitor#>      -- delete b monitor\n");
+        out.println("rebd <filenbme>           -- rebd bnd execute b commbnd file\n");
+//      out.println("memory                    -- report memory usbge");
 //      out.println("gc                        -- free unused objects\n");
-        out.println("run <class> [args]        -- start execution of a Java class");
-        out.println("run                       -- re-execute last class run");
-        out.println("load <class> [args]       -- start execution of a Java class, initially suspended");
-        out.println("load                      -- re-execute last class run, initially suspended");
-        out.println("attach <portname>         -- debug existing process\n");
-        out.println("detach                    -- detach from debuggee process\n");
-        out.println("kill <thread(group)>      -- kill a thread or threadgroup\n");
-        out.println("!!                        -- repeat last command");
-        out.println("help (or ?)               -- list commands");
+        out.println("run <clbss> [brgs]        -- stbrt execution of b Jbvb clbss");
+        out.println("run                       -- re-execute lbst clbss run");
+        out.println("lobd <clbss> [brgs]       -- stbrt execution of b Jbvb clbss, initiblly suspended");
+        out.println("lobd                      -- re-execute lbst clbss run, initiblly suspended");
+        out.println("bttbch <portnbme>         -- debug existing process\n");
+        out.println("detbch                    -- detbch from debuggee process\n");
+        out.println("kill <threbd(group)>      -- kill b threbd or threbdgroup\n");
+        out.println("!!                        -- repebt lbst commbnd");
+        out.println("help (or ?)               -- list commbnds");
         out.println("exit (or quit)            -- exit debugger");
     }
 
     /*
-     * Execute a command.
+     * Execute b commbnd.
      */
 
-    public void executeCommand(String command) {
-        //### Treatment of 'out' here is dirty...
+    public void executeCommbnd(String commbnd) {
+        //### Trebtment of 'out' here is dirty...
         out = env.getOutputSink();
         if (echo) {
-            out.println(">>> " + command);
+            out.println(">>> " + commbnd);
         }
-        StringTokenizer t = new StringTokenizer(command);
+        StringTokenizer t = new StringTokenizer(commbnd);
         try {
             String cmd;
-            if (t.hasMoreTokens()) {
-                cmd = t.nextToken().toLowerCase();
-                lastCommand = cmd;
+            if (t.hbsMoreTokens()) {
+                cmd = t.nextToken().toLowerCbse();
+                lbstCommbnd = cmd;
             } else {
-                cmd = lastCommand;
+                cmd = lbstCommbnd;
             }
-            if (cmd.equals("print")) {
-                commandPrint(t, false);
-            } else if (cmd.equals("eval")) {
-                commandPrint(t, false);
-            } else if (cmd.equals("dump")) {
-                commandPrint(t, true);
-            } else if (cmd.equals("locals")) {
-                commandLocals();
-            } else if (cmd.equals("classes")) {
-                commandClasses();
-            } else if (cmd.equals("methods")) {
-                commandMethods(t);
-            } else if (cmd.equals("threads")) {
-                commandThreads(t);
-            } else if (cmd.equals("thread")) {
-                commandThread(t);
-            } else if (cmd.equals("suspend")) {
-                commandSuspend(t);
-            } else if (cmd.equals("resume")) {
-                commandResume(t);
-            } else if (cmd.equals("cont")) {
-                commandCont();
-            } else if (cmd.equals("threadgroups")) {
-                commandThreadGroups();
-            } else if (cmd.equals("threadgroup")) {
-                commandThreadGroup(t);
-            } else if (cmd.equals("run")) {
-                commandRun(t);
-            } else if (cmd.equals("load")) {
-                commandLoad(t);
-            } else if (cmd.equals("connect")) {
-                commandConnect(t);
-            } else if (cmd.equals("attach")) {
-                commandAttach(t);
-            } else if (cmd.equals("detach")) {
-                commandDetach(t);
-            } else if (cmd.equals("interrupt")) {
-                commandInterrupt(t);
+            if (cmd.equbls("print")) {
+                commbndPrint(t, fblse);
+            } else if (cmd.equbls("evbl")) {
+                commbndPrint(t, fblse);
+            } else if (cmd.equbls("dump")) {
+                commbndPrint(t, true);
+            } else if (cmd.equbls("locbls")) {
+                commbndLocbls();
+            } else if (cmd.equbls("clbsses")) {
+                commbndClbsses();
+            } else if (cmd.equbls("methods")) {
+                commbndMethods(t);
+            } else if (cmd.equbls("threbds")) {
+                commbndThrebds(t);
+            } else if (cmd.equbls("threbd")) {
+                commbndThrebd(t);
+            } else if (cmd.equbls("suspend")) {
+                commbndSuspend(t);
+            } else if (cmd.equbls("resume")) {
+                commbndResume(t);
+            } else if (cmd.equbls("cont")) {
+                commbndCont();
+            } else if (cmd.equbls("threbdgroups")) {
+                commbndThrebdGroups();
+            } else if (cmd.equbls("threbdgroup")) {
+                commbndThrebdGroup(t);
+            } else if (cmd.equbls("run")) {
+                commbndRun(t);
+            } else if (cmd.equbls("lobd")) {
+                commbndLobd(t);
+            } else if (cmd.equbls("connect")) {
+                commbndConnect(t);
+            } else if (cmd.equbls("bttbch")) {
+                commbndAttbch(t);
+            } else if (cmd.equbls("detbch")) {
+                commbndDetbch(t);
+            } else if (cmd.equbls("interrupt")) {
+                commbndInterrupt(t);
 //### Not implemented.
-//          } else if (cmd.equals("catch")) {
-//              commandCatchException(t);
+//          } else if (cmd.equbls("cbtch")) {
+//              commbndCbtchException(t);
 //### Not implemented.
-//          } else if (cmd.equals("ignore")) {
-//              commandIgnoreException(t);
-            } else if (cmd.equals("step")) {
-                commandStep(t);
-            } else if (cmd.equals("stepi")) {
-                commandStepi();
-            } else if (cmd.equals("next")) {
-                commandNext();
-            } else if (cmd.equals("nexti")) {
-                commandNexti();
-            } else if (cmd.equals("kill")) {
-                commandKill(t);
-            } else if (cmd.equals("where")) {
-                commandWhere(t, false);
-            } else if (cmd.equals("wherei")) {
-                commandWhere(t, true);
-            } else if (cmd.equals("up")) {
-                commandUp(t);
-            } else if (cmd.equals("down")) {
-                commandDown(t);
-            } else if (cmd.equals("frame")) {
-                commandFrame(t);
-            } else if (cmd.equals("stop")) {
-                commandStop(t);
-            } else if (cmd.equals("clear")) {
-                commandClear(t);
-            } else if (cmd.equals("list")) {
-                commandList(t);
-            } else if (cmd.equals("use")) {
-                commandUse(t);
-            } else if (cmd.equals("sourcepath")) {
-                commandSourcepath(t);
-            } else if (cmd.equals("classpath")) {
-                commandClasspath(t);
-            } else if (cmd.equals("monitor")) {
-                commandMonitor(t);
-            } else if (cmd.equals("unmonitor")) {
-                commandUnmonitor(t);
-            } else if (cmd.equals("view")) {
-                commandView(t);
-//          } else if (cmd.equals("read")) {
-//              readCommand(t);
-            } else if (cmd.equals("help") || cmd.equals("?")) {
+//          } else if (cmd.equbls("ignore")) {
+//              commbndIgnoreException(t);
+            } else if (cmd.equbls("step")) {
+                commbndStep(t);
+            } else if (cmd.equbls("stepi")) {
+                commbndStepi();
+            } else if (cmd.equbls("next")) {
+                commbndNext();
+            } else if (cmd.equbls("nexti")) {
+                commbndNexti();
+            } else if (cmd.equbls("kill")) {
+                commbndKill(t);
+            } else if (cmd.equbls("where")) {
+                commbndWhere(t, fblse);
+            } else if (cmd.equbls("wherei")) {
+                commbndWhere(t, true);
+            } else if (cmd.equbls("up")) {
+                commbndUp(t);
+            } else if (cmd.equbls("down")) {
+                commbndDown(t);
+            } else if (cmd.equbls("frbme")) {
+                commbndFrbme(t);
+            } else if (cmd.equbls("stop")) {
+                commbndStop(t);
+            } else if (cmd.equbls("clebr")) {
+                commbndClebr(t);
+            } else if (cmd.equbls("list")) {
+                commbndList(t);
+            } else if (cmd.equbls("use")) {
+                commbndUse(t);
+            } else if (cmd.equbls("sourcepbth")) {
+                commbndSourcepbth(t);
+            } else if (cmd.equbls("clbsspbth")) {
+                commbndClbsspbth(t);
+            } else if (cmd.equbls("monitor")) {
+                commbndMonitor(t);
+            } else if (cmd.equbls("unmonitor")) {
+                commbndUnmonitor(t);
+            } else if (cmd.equbls("view")) {
+                commbndView(t);
+//          } else if (cmd.equbls("rebd")) {
+//              rebdCommbnd(t);
+            } else if (cmd.equbls("help") || cmd.equbls("?")) {
                 help();
-            } else if (cmd.equals("quit") || cmd.equals("exit")) {
+            } else if (cmd.equbls("quit") || cmd.equbls("exit")) {
                 try {
-                    runtime.detach();
-                } catch (NoSessionException e) {
+                    runtime.detbch();
+                } cbtch (NoSessionException e) {
                     // ignore
                 }
-                env.terminate();
+                env.terminbte();
             } else {
-                //### Dubious repeat-count feature inherited from 'jdb'
-                if (t.hasMoreTokens()) {
+                //### Dubious repebt-count febture inherited from 'jdb'
+                if (t.hbsMoreTokens()) {
                     try {
-                        int repeat = Integer.parseInt(cmd);
+                        int repebt = Integer.pbrseInt(cmd);
                         String subcom = t.nextToken("");
-                        while (repeat-- > 0) {
-                            executeCommand(subcom);
+                        while (repebt-- > 0) {
+                            executeCommbnd(subcom);
                         }
                         return;
-                    } catch (NumberFormatException exc) {
+                    } cbtch (NumberFormbtException exc) {
                     }
                 }
                 out.println("huh? Try help...");
                 out.flush();
             }
-        } catch (NoSessionException e) {
-            out.println("There is no currently attached VM session.");
+        } cbtch (NoSessionException e) {
+            out.println("There is no currently bttbched VM session.");
             out.flush();
-        } catch (Exception e) {
-            out.println("Internal exception: " + e.toString());
+        } cbtch (Exception e) {
+            out.println("Internbl exception: " + e.toString());
             out.flush();
-            System.out.println("JDB internal exception: " + e.toString());
-            e.printStackTrace();
+            System.out.println("JDB internbl exception: " + e.toString());
+            e.printStbckTrbce();
         }
         out.show();
     }

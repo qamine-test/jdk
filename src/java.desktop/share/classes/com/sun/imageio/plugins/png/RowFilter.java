@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-public class RowFilter {
+public clbss RowFilter {
 
-    private static final int abs(int x) {
+    privbte stbtic finbl int bbs(int x) {
         return (x < 0) ? -x : x;
     }
 
-    // Returns the sum of absolute differences
-    protected static int subFilter(byte[] currRow,
+    // Returns the sum of bbsolute differences
+    protected stbtic int subFilter(byte[] currRow,
                                    byte[] subFilteredRow,
                                    int bytesPerPixel,
                                    int bytesPerRow) {
-        int badness = 0;
+        int bbdness = 0;
         for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++) {
             int curr = currRow[i] & 0xff;
             int left = currRow[i - bytesPerPixel] & 0xff;
             int difference = curr - left;
             subFilteredRow[i] = (byte)difference;
 
-            badness += abs(difference);
+            bbdness += bbs(difference);
         }
 
-        return badness;
+        return bbdness;
     }
 
-    // Returns the sum of absolute differences
-    protected static int upFilter(byte[] currRow,
+    // Returns the sum of bbsolute differences
+    protected stbtic int upFilter(byte[] currRow,
                                   byte[] prevRow,
                                   byte[] upFilteredRow,
                                   int bytesPerPixel,
                                   int bytesPerRow) {
-        int badness = 0;
+        int bbdness = 0;
         for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++) {
             int curr = currRow[i] & 0xff;
             int up = prevRow[i] & 0xff;
             int difference = curr - up;
             upFilteredRow[i] = (byte)difference;
 
-            badness += abs(difference);
+            bbdness += bbs(difference);
         }
 
-        return badness;
+        return bbdness;
     }
 
-    protected final int paethPredictor(int a, int b, int c) {
-        int p = a + b - c;
-        int pa = abs(p - a);
-        int pb = abs(p - b);
-        int pc = abs(p - c);
+    protected finbl int pbethPredictor(int b, int b, int c) {
+        int p = b + b - c;
+        int pb = bbs(p - b);
+        int pb = bbs(p - b);
+        int pc = bbs(p - c);
 
-        if ((pa <= pb) && (pa <= pc)) {
-            return a;
+        if ((pb <= pb) && (pb <= pc)) {
+            return b;
         } else if (pb <= pc) {
             return b;
         } else {
@@ -86,104 +86,104 @@ public class RowFilter {
     public int filterRow(int colorType,
                          byte[] currRow,
                          byte[] prevRow,
-                         byte[][] scratchRows,
+                         byte[][] scrbtchRows,
                          int bytesPerRow,
                          int bytesPerPixel) {
 
-        // Use type 0 for palette images
-        if (colorType != PNGImageReader.PNG_COLOR_PALETTE) {
-            System.arraycopy(currRow, bytesPerPixel,
-                             scratchRows[0], bytesPerPixel,
+        // Use type 0 for pblette imbges
+        if (colorType != PNGImbgeRebder.PNG_COLOR_PALETTE) {
+            System.brrbycopy(currRow, bytesPerPixel,
+                             scrbtchRows[0], bytesPerPixel,
                              bytesPerRow);
             return 0;
         }
 
-        int[] filterBadness = new int[5];
+        int[] filterBbdness = new int[5];
         for (int i = 0; i < 5; i++) {
-            filterBadness[i] = Integer.MAX_VALUE;
+            filterBbdness[i] = Integer.MAX_VALUE;
         }
 
         {
-            int badness = 0;
+            int bbdness = 0;
 
             for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++) {
                 int curr = currRow[i] & 0xff;
-                badness += curr;
+                bbdness += curr;
             }
 
-            filterBadness[0] = badness;
+            filterBbdness[0] = bbdness;
         }
 
         {
-            byte[] subFilteredRow = scratchRows[1];
-            int badness = subFilter(currRow,
+            byte[] subFilteredRow = scrbtchRows[1];
+            int bbdness = subFilter(currRow,
                                     subFilteredRow,
                                     bytesPerPixel,
                                     bytesPerRow);
 
-            filterBadness[1] = badness;
+            filterBbdness[1] = bbdness;
         }
 
         {
-            byte[] upFilteredRow = scratchRows[2];
-            int badness = upFilter(currRow,
+            byte[] upFilteredRow = scrbtchRows[2];
+            int bbdness = upFilter(currRow,
                                    prevRow,
                                    upFilteredRow,
                                    bytesPerPixel,
                                    bytesPerRow);
 
-            filterBadness[2] = badness;
+            filterBbdness[2] = bbdness;
         }
 
         {
-            byte[] averageFilteredRow = scratchRows[3];
-            int badness = 0;
+            byte[] bverbgeFilteredRow = scrbtchRows[3];
+            int bbdness = 0;
 
             for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++) {
                 int curr = currRow[i] & 0xff;
                 int left = currRow[i - bytesPerPixel] & 0xff;
                 int up = prevRow[i] & 0xff;
                 int difference = curr - (left + up)/2;;
-                averageFilteredRow[i] = (byte)difference;
+                bverbgeFilteredRow[i] = (byte)difference;
 
-                badness += abs(difference);
+                bbdness += bbs(difference);
             }
 
-            filterBadness[3] = badness;
+            filterBbdness[3] = bbdness;
         }
 
         {
-            byte[] paethFilteredRow = scratchRows[4];
-            int badness = 0;
+            byte[] pbethFilteredRow = scrbtchRows[4];
+            int bbdness = 0;
 
             for (int i = bytesPerPixel; i < bytesPerRow + bytesPerPixel; i++) {
                 int curr = currRow[i] & 0xff;
                 int left = currRow[i - bytesPerPixel] & 0xff;
                 int up = prevRow[i] & 0xff;
                 int upleft = prevRow[i - bytesPerPixel] & 0xff;
-                int predictor = paethPredictor(left, up, upleft);
+                int predictor = pbethPredictor(left, up, upleft);
                 int difference = curr - predictor;
-                paethFilteredRow[i] = (byte)difference;
+                pbethFilteredRow[i] = (byte)difference;
 
-                badness += abs(difference);
+                bbdness += bbs(difference);
             }
 
-            filterBadness[4] = badness;
+            filterBbdness[4] = bbdness;
         }
 
-        int minBadness = filterBadness[0];
+        int minBbdness = filterBbdness[0];
         int filterType = 0;
 
         for (int i = 1; i < 5; i++) {
-            if (filterBadness[i] < minBadness) {
-                minBadness = filterBadness[i];
+            if (filterBbdness[i] < minBbdness) {
+                minBbdness = filterBbdness[i];
                 filterType = i;
             }
         }
 
         if (filterType == 0) {
-            System.arraycopy(currRow, bytesPerPixel,
-                             scratchRows[0], bytesPerPixel,
+            System.brrbycopy(currRow, bytesPerPixel,
+                             scrbtchRows[0], bytesPerPixel,
                              bytesPerRow);
         }
 

@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
 /**
- * A RelationSupport object is used internally by the Relation Service to
- * represent simple relations (only roles, no properties or methods), with an
- * unlimited number of roles, of any relation type. As internal representation,
+ * A RelbtionSupport object is used internblly by the Relbtion Service to
+ * represent simple relbtions (only roles, no properties or methods), with bn
+ * unlimited number of roles, of bny relbtion type. As internbl representbtion,
  * it is not exposed to the user.
- * <P>RelationSupport class conforms to the design patterns of standard MBean. So
- * the user can decide to instantiate a RelationSupport object himself as
- * a MBean (as it follows the MBean design patterns), to register it in the
- * MBean Server, and then to add it in the Relation Service.
- * <P>The user can also, when creating his own MBean relation class, have it
- * extending RelationSupport, to retrieve the implementations of required
- * interfaces (see below).
- * <P>It is also possible to have in a user relation MBean class a member
- * being a RelationSupport object, and to implement the required interfaces by
- * delegating all to this member.
- * <P> RelationSupport implements the Relation interface (to be handled by the
- * Relation Service).
+ * <P>RelbtionSupport clbss conforms to the design pbtterns of stbndbrd MBebn. So
+ * the user cbn decide to instbntibte b RelbtionSupport object himself bs
+ * b MBebn (bs it follows the MBebn design pbtterns), to register it in the
+ * MBebn Server, bnd then to bdd it in the Relbtion Service.
+ * <P>The user cbn blso, when crebting his own MBebn relbtion clbss, hbve it
+ * extending RelbtionSupport, to retrieve the implementbtions of required
+ * interfbces (see below).
+ * <P>It is blso possible to hbve in b user relbtion MBebn clbss b member
+ * being b RelbtionSupport object, bnd to implement the required interfbces by
+ * delegbting bll to this member.
+ * <P> RelbtionSupport implements the Relbtion interfbce (to be hbndled by the
+ * Relbtion Service).
  *
  * @since 1.5
  */
-public interface RelationSupportMBean
-    extends Relation {
+public interfbce RelbtionSupportMBebn
+    extends Relbtion {
 
     /**
-     * Returns an internal flag specifying if the object is still handled by
-     * the Relation Service.
+     * Returns bn internbl flbg specifying if the object is still hbndled by
+     * the Relbtion Service.
      *
-     * @return a Boolean equal to {@link Boolean#TRUE} if the object
-     * is still handled by the Relation Service and {@link
-     * Boolean#FALSE} otherwise.
+     * @return b Boolebn equbl to {@link Boolebn#TRUE} if the object
+     * is still hbndled by the Relbtion Service bnd {@link
+     * Boolebn#FALSE} otherwise.
      */
-    public Boolean isInRelationService();
+    public Boolebn isInRelbtionService();
 
     /**
-     * <p>Specifies whether this relation is handled by the Relation
+     * <p>Specifies whether this relbtion is hbndled by the Relbtion
      * Service.</p>
-     * <P>BEWARE, this method has to be exposed as the Relation Service will
-     * access the relation through its management interface. It is RECOMMENDED
-     * NOT to use this method. Using it does not affect the registration of the
-     * relation object in the Relation Service, but will provide wrong
-     * information about it!
+     * <P>BEWARE, this method hbs to be exposed bs the Relbtion Service will
+     * bccess the relbtion through its mbnbgement interfbce. It is RECOMMENDED
+     * NOT to use this method. Using it does not bffect the registrbtion of the
+     * relbtion object in the Relbtion Service, but will provide wrong
+     * informbtion bbout it!
      *
-     * @param flag whether the relation is handled by the Relation Service.
+     * @pbrbm flbg whether the relbtion is hbndled by the Relbtion Service.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public void setRelationServiceManagementFlag(Boolean flag)
-        throws IllegalArgumentException;
+    public void setRelbtionServiceMbnbgementFlbg(Boolebn flbg)
+        throws IllegblArgumentException;
 }

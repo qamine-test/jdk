@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*****************************************************************************/
-/*                    Copyright (c) IBM Corporation 1998                     */
+/*                    Copyright (c) IBM Corporbtion 1998                     */
 /*                                                                           */
 /* (C) Copyright IBM Corp. 1998                                              */
 /*                                                                           */
 /*****************************************************************************/
 
-package sun.rmi.rmic;
+pbckbge sun.rmi.rmic;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import sun.tools.java.ClassPath;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Collection;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.util.jbr.Attributes;
+import sun.tools.jbvb.ClbssPbth;
 
 /**
- * BatchEnvironment for rmic extends javac's version in four ways:
- * 1. It overrides errorString() to handle looking for rmic-specific
- * error messages in rmic's resource bundle
- * 2. It provides a mechanism for recording intermediate generated
- * files so that they can be deleted later.
- * 3. It holds a reference to the Main instance so that generators
- * can refer to it.
- * 4. It provides access to the ClassPath passed to the constructor.
+ * BbtchEnvironment for rmic extends jbvbc's version in four wbys:
+ * 1. It overrides errorString() to hbndle looking for rmic-specific
+ * error messbges in rmic's resource bundle
+ * 2. It provides b mechbnism for recording intermedibte generbted
+ * files so thbt they cbn be deleted lbter.
+ * 3. It holds b reference to the Mbin instbnce so thbt generbtors
+ * cbn refer to it.
+ * 4. It provides bccess to the ClbssPbth pbssed to the constructor.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 
-public class BatchEnvironment extends sun.tools.javac.BatchEnvironment {
+public clbss BbtchEnvironment extends sun.tools.jbvbc.BbtchEnvironment {
 
-    /** instance of Main which created this environment */
-    private Main main;
+    /** instbnce of Mbin which crebted this environment */
+    privbte Mbin mbin;
 
     /**
-     * Create a ClassPath object for rmic from a class path string.
+     * Crebte b ClbssPbth object for rmic from b clbss pbth string.
      */
-    public static ClassPath createClassPath(String classPathString) {
-        ClassPath[] paths = classPaths(null, classPathString, null, null);
-        return paths[1];
+    public stbtic ClbssPbth crebteClbssPbth(String clbssPbthString) {
+        ClbssPbth[] pbths = clbssPbths(null, clbssPbthString, null, null);
+        return pbths[1];
     }
 
     /**
-     * Create a ClassPath object for rmic from the relevant command line
-     * options for class path, boot class path, and extension directories.
+     * Crebte b ClbssPbth object for rmic from the relevbnt commbnd line
+     * options for clbss pbth, boot clbss pbth, bnd extension directories.
      */
-    public static ClassPath createClassPath(String classPathString,
-                                            String sysClassPathString,
+    public stbtic ClbssPbth crebteClbssPbth(String clbssPbthString,
+                                            String sysClbssPbthString,
                                             String extDirsString)
     {
         /**
-         * Previously, this method delegated to the
-         * sun.tools.javac.BatchEnvironment.classPaths method in order
-         * to supply default values for paths not specified on the
-         * command line, expand extensions directories into specific
-         * JAR files, and construct the ClassPath object-- but as part
-         * of the fix for 6473331, which adds support for Class-Path
-         * manifest entries in JAR files, those steps are now handled
-         * here directly, with the help of a Path utility class copied
-         * from the new javac implementation (see below).
+         * Previously, this method delegbted to the
+         * sun.tools.jbvbc.BbtchEnvironment.clbssPbths method in order
+         * to supply defbult vblues for pbths not specified on the
+         * commbnd line, expbnd extensions directories into specific
+         * JAR files, bnd construct the ClbssPbth object-- but bs pbrt
+         * of the fix for 6473331, which bdds support for Clbss-Pbth
+         * mbnifest entries in JAR files, those steps bre now hbndled
+         * here directly, with the help of b Pbth utility clbss copied
+         * from the new jbvbc implementbtion (see below).
          */
-        Path path = new Path();
+        Pbth pbth = new Pbth();
 
-        if (sysClassPathString == null) {
-            sysClassPathString = System.getProperty("sun.boot.class.path");
+        if (sysClbssPbthString == null) {
+            sysClbssPbthString = System.getProperty("sun.boot.clbss.pbth");
         }
-        if (sysClassPathString != null) {
-            path.addFiles(sysClassPathString);
+        if (sysClbssPbthString != null) {
+            pbth.bddFiles(sysClbssPbthString);
         }
 
         /*
-         * Class-Path manifest entries are supported for JAR files
-         * everywhere except in the boot class path.
+         * Clbss-Pbth mbnifest entries bre supported for JAR files
+         * everywhere except in the boot clbss pbth.
          */
-        path.expandJarClassPaths(true);
+        pbth.expbndJbrClbssPbths(true);
 
         if (extDirsString == null) {
-            extDirsString = System.getProperty("java.ext.dirs");
+            extDirsString = System.getProperty("jbvb.ext.dirs");
         }
         if (extDirsString != null) {
-            path.addDirectories(extDirsString);
+            pbth.bddDirectories(extDirsString);
         }
 
         /*
-         * In the application class path, an empty element means
+         * In the bpplicbtion clbss pbth, bn empty element mebns
          * the current working directory.
          */
-        path.emptyPathDefault(".");
+        pbth.emptyPbthDefbult(".");
 
-        if (classPathString == null) {
-            // The env.class.path property is the user's CLASSPATH
-            // environment variable, and it set by the wrapper (ie,
-            // javac.exe).
-            classPathString = System.getProperty("env.class.path");
-            if (classPathString == null) {
-                classPathString = ".";
+        if (clbssPbthString == null) {
+            // The env.clbss.pbth property is the user's CLASSPATH
+            // environment vbribble, bnd it set by the wrbpper (ie,
+            // jbvbc.exe).
+            clbssPbthString = System.getProperty("env.clbss.pbth");
+            if (clbssPbthString == null) {
+                clbssPbthString = ".";
             }
         }
-        path.addFiles(classPathString);
+        pbth.bddFiles(clbssPbthString);
 
-        return new ClassPath(path.toArray(new String[path.size()]));
+        return new ClbssPbth(pbth.toArrby(new String[pbth.size()]));
     }
 
     /**
-     * Create a BatchEnvironment for rmic with the given class path,
-     * stream for messages and Main.
+     * Crebte b BbtchEnvironment for rmic with the given clbss pbth,
+     * strebm for messbges bnd Mbin.
      */
-    public BatchEnvironment(OutputStream out, ClassPath path, Main main) {
-        super(out, new ClassPath(""), path);
-                                // use empty "sourcePath" (see 4666958)
-        this.main = main;
+    public BbtchEnvironment(OutputStrebm out, ClbssPbth pbth, Mbin mbin) {
+        super(out, new ClbssPbth(""), pbth);
+                                // use empty "sourcePbth" (see 4666958)
+        this.mbin = mbin;
     }
 
     /**
-     * Get the instance of Main which created this environment.
+     * Get the instbnce of Mbin which crebted this environment.
      */
-    public Main getMain() {
-        return main;
+    public Mbin getMbin() {
+        return mbin;
     }
 
     /**
-     * Get the ClassPath.
+     * Get the ClbssPbth.
      */
-    public ClassPath getClassPath() {
-        return binaryPath;
+    public ClbssPbth getClbssPbth() {
+        return binbryPbth;
     }
 
-    /** list of generated source files created in this environment */
-    private Vector<File> generatedFiles = new Vector<>();
+    /** list of generbted source files crebted in this environment */
+    privbte Vector<File> generbtedFiles = new Vector<>();
 
     /**
-     * Remember a generated source file generated so that it
-     * can be removed later, if appropriate.
+     * Remember b generbted source file generbted so thbt it
+     * cbn be removed lbter, if bppropribte.
      */
-    public void addGeneratedFile(File file) {
-        generatedFiles.addElement(file);
+    public void bddGenerbtedFile(File file) {
+        generbtedFiles.bddElement(file);
     }
 
     /**
-     * Delete all the generated source files made during the execution
-     * of this environment (those that have been registered with the
-     * "addGeneratedFile" method).
+     * Delete bll the generbted source files mbde during the execution
+     * of this environment (those thbt hbve been registered with the
+     * "bddGenerbtedFile" method).
      */
-    public void deleteGeneratedFiles() {
-        synchronized(generatedFiles) {
-            Enumeration<File> enumeration = generatedFiles.elements();
-            while (enumeration.hasMoreElements()) {
-                File file = enumeration.nextElement();
+    public void deleteGenerbtedFiles() {
+        synchronized(generbtedFiles) {
+            Enumerbtion<File> enumerbtion = generbtedFiles.elements();
+            while (enumerbtion.hbsMoreElements()) {
+                File file = enumerbtion.nextElement();
                 file.delete();
             }
-            generatedFiles.removeAllElements();
+            generbtedFiles.removeAllElements();
         }
     }
 
     /**
-     * Release resources, if any.
+     * Relebse resources, if bny.
      */
     public void shutdown() {
-        main = null;
-        generatedFiles = null;
+        mbin = null;
+        generbtedFiles = null;
         super.shutdown();
     }
 
     /**
-     * Return the formatted, localized string for a named error message
-     * and supplied arguments.  For rmic error messages, with names that
-     * being with "rmic.", look up the error message in rmic's resource
-     * bundle; otherwise, defer to java's superclass method.
+     * Return the formbtted, locblized string for b nbmed error messbge
+     * bnd supplied brguments.  For rmic error messbges, with nbmes thbt
+     * being with "rmic.", look up the error messbge in rmic's resource
+     * bundle; otherwise, defer to jbvb's superclbss method.
      */
     public String errorString(String err,
-                              Object arg0, Object arg1, Object arg2)
+                              Object brg0, Object brg1, Object brg2)
     {
-        if (err.startsWith("rmic.") || err.startsWith("warn.rmic.")) {
-            String result =  Main.getText(err,
-                                          (arg0 != null ? arg0.toString() : null),
-                                          (arg1 != null ? arg1.toString() : null),
-                                          (arg2 != null ? arg2.toString() : null));
+        if (err.stbrtsWith("rmic.") || err.stbrtsWith("wbrn.rmic.")) {
+            String result =  Mbin.getText(err,
+                                          (brg0 != null ? brg0.toString() : null),
+                                          (brg1 != null ? brg1.toString() : null),
+                                          (brg2 != null ? brg2.toString() : null));
 
-            if (err.startsWith("warn.")) {
-                result = "warning: " + result;
+            if (err.stbrtsWith("wbrn.")) {
+                result = "wbrning: " + result;
             }
             return result;
         } else {
-            return super.errorString(err, arg0, arg1, arg2);
+            return super.errorString(err, brg0, brg1, brg2);
         }
     }
     public void reset() {
     }
 
     /**
-     * Utility for building paths of directories and JAR files.  This
-     * class was copied from com.sun.tools.javac.util.Paths as part of
-     * the fix for 6473331, which adds support for Class-Path manifest
-     * entries in JAR files.  Diagnostic code is simply commented out
-     * because rmic silently ignored these conditions historically.
+     * Utility for building pbths of directories bnd JAR files.  This
+     * clbss wbs copied from com.sun.tools.jbvbc.util.Pbths bs pbrt of
+     * the fix for 6473331, which bdds support for Clbss-Pbth mbnifest
+     * entries in JAR files.  Dibgnostic code is simply commented out
+     * becbuse rmic silently ignored these conditions historicblly.
      */
-    private static class Path extends LinkedHashSet<String> {
-        private static final long serialVersionUID = 0;
-        private static final boolean warn = false;
+    privbte stbtic clbss Pbth extends LinkedHbshSet<String> {
+        privbte stbtic finbl long seriblVersionUID = 0;
+        privbte stbtic finbl boolebn wbrn = fblse;
 
-        private static class PathIterator implements Collection<String> {
-            private int pos = 0;
-            private final String path;
-            private final String emptyPathDefault;
+        privbte stbtic clbss PbthIterbtor implements Collection<String> {
+            privbte int pos = 0;
+            privbte finbl String pbth;
+            privbte finbl String emptyPbthDefbult;
 
-            public PathIterator(String path, String emptyPathDefault) {
-                this.path = path;
-                this.emptyPathDefault = emptyPathDefault;
+            public PbthIterbtor(String pbth, String emptyPbthDefbult) {
+                this.pbth = pbth;
+                this.emptyPbthDefbult = emptyPbthDefbult;
             }
-            public PathIterator(String path) { this(path, null); }
-            public Iterator<String> iterator() {
-                return new Iterator<String>() {
-                    public boolean hasNext() {
-                        return pos <= path.length();
+            public PbthIterbtor(String pbth) { this(pbth, null); }
+            public Iterbtor<String> iterbtor() {
+                return new Iterbtor<String>() {
+                    public boolebn hbsNext() {
+                        return pos <= pbth.length();
                     }
                     public String next() {
                         int beg = pos;
-                        int end = path.indexOf(File.pathSeparator, beg);
+                        int end = pbth.indexOf(File.pbthSepbrbtor, beg);
                         if (end == -1)
-                            end = path.length();
+                            end = pbth.length();
                         pos = end + 1;
 
-                        if (beg == end && emptyPathDefault != null)
-                            return emptyPathDefault;
+                        if (beg == end && emptyPbthDefbult != null)
+                            return emptyPbthDefbult;
                         else
-                            return path.substring(beg, end);
+                            return pbth.substring(beg, end);
                     }
                     public void remove() {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
                 };
             }
 
             // required for Collection.
             public int size() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
-            public boolean isEmpty() {
-                throw new UnsupportedOperationException();
+            public boolebn isEmpty() {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean contains(Object o) {
-                throw new UnsupportedOperationException();
+            public boolebn contbins(Object o) {
+                throw new UnsupportedOperbtionException();
             }
-            public Object[] toArray() {
-                throw new UnsupportedOperationException();
+            public Object[] toArrby() {
+                throw new UnsupportedOperbtionException();
             }
-            public <T> T[] toArray(T[] a) {
-                throw new UnsupportedOperationException();
+            public <T> T[] toArrby(T[] b) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean add(String o) {
-                throw new UnsupportedOperationException();
+            public boolebn bdd(String o) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean remove(Object o) {
-                throw new UnsupportedOperationException();
+            public boolebn remove(Object o) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean containsAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            public boolebn contbinsAll(Collection<?> c) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean addAll(Collection<? extends String> c) {
-                throw new UnsupportedOperationException();
+            public boolebn bddAll(Collection<? extends String> c) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean removeAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            public boolebn removeAll(Collection<?> c) {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean retainAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            public boolebn retbinAll(Collection<?> c) {
+                throw new UnsupportedOperbtionException();
             }
-            public void clear() {
-                throw new UnsupportedOperationException();
+            public void clebr() {
+                throw new UnsupportedOperbtionException();
             }
-            public boolean equals(Object o) {
-                throw new UnsupportedOperationException();
+            public boolebn equbls(Object o) {
+                throw new UnsupportedOperbtionException();
             }
-            public int hashCode() {
-                throw new UnsupportedOperationException();
+            public int hbshCode() {
+                throw new UnsupportedOperbtionException();
             }
         }
 
-        /** Is this the name of a zip file? */
-        private static boolean isZip(String name) {
-            return new File(name).isFile();
+        /** Is this the nbme of b zip file? */
+        privbte stbtic boolebn isZip(String nbme) {
+            return new File(nbme).isFile();
         }
 
-        private boolean expandJarClassPaths = false;
+        privbte boolebn expbndJbrClbssPbths = fblse;
 
-        public Path expandJarClassPaths(boolean x) {
-            expandJarClassPaths = x;
+        public Pbth expbndJbrClbssPbths(boolebn x) {
+            expbndJbrClbssPbths = x;
             return this;
         }
 
-        /** What to use when path element is the empty string */
-        private String emptyPathDefault = null;
+        /** Whbt to use when pbth element is the empty string */
+        privbte String emptyPbthDefbult = null;
 
-        public Path emptyPathDefault(String x) {
-            emptyPathDefault = x;
+        public Pbth emptyPbthDefbult(String x) {
+            emptyPbthDefbult = x;
             return this;
         }
 
-        public Path() { super(); }
+        public Pbth() { super(); }
 
-        public Path addDirectories(String dirs, boolean warn) {
+        public Pbth bddDirectories(String dirs, boolebn wbrn) {
             if (dirs != null)
-                for (String dir : new PathIterator(dirs))
-                    addDirectory(dir, warn);
+                for (String dir : new PbthIterbtor(dirs))
+                    bddDirectory(dir, wbrn);
             return this;
         }
 
-        public Path addDirectories(String dirs) {
-            return addDirectories(dirs, warn);
+        public Pbth bddDirectories(String dirs) {
+            return bddDirectories(dirs, wbrn);
         }
 
-        private void addDirectory(String dir, boolean warn) {
+        privbte void bddDirectory(String dir, boolebn wbrn) {
             if (! new File(dir).isDirectory()) {
-//              if (warn)
-//                  log.warning(Position.NOPOS,
-//                              "dir.path.element.not.found", dir);
+//              if (wbrn)
+//                  log.wbrning(Position.NOPOS,
+//                              "dir.pbth.element.not.found", dir);
                 return;
             }
 
             for (String direntry : new File(dir).list()) {
-                String canonicalized = direntry.toLowerCase();
-                if (canonicalized.endsWith(".jar") ||
-                    canonicalized.endsWith(".zip"))
-                    addFile(dir + File.separator + direntry, warn);
+                String cbnonicblized = direntry.toLowerCbse();
+                if (cbnonicblized.endsWith(".jbr") ||
+                    cbnonicblized.endsWith(".zip"))
+                    bddFile(dir + File.sepbrbtor + direntry, wbrn);
             }
         }
 
-        public Path addFiles(String files, boolean warn) {
+        public Pbth bddFiles(String files, boolebn wbrn) {
             if (files != null)
-                for (String file : new PathIterator(files, emptyPathDefault))
-                    addFile(file, warn);
+                for (String file : new PbthIterbtor(files, emptyPbthDefbult))
+                    bddFile(file, wbrn);
             return this;
         }
 
-        public Path addFiles(String files) {
-            return addFiles(files, warn);
+        public Pbth bddFiles(String files) {
+            return bddFiles(files, wbrn);
         }
 
-        private void addFile(String file, boolean warn) {
-            if (contains(file)) {
-                /* Discard duplicates and avoid infinite recursion */
+        privbte void bddFile(String file, boolebn wbrn) {
+            if (contbins(file)) {
+                /* Discbrd duplicbtes bnd bvoid infinite recursion */
                 return;
             }
 
             File ele = new File(file);
             if (! ele.exists()) {
                 /* No such file or directory exist */
-                if (warn)
-//                      log.warning(Position.NOPOS,
-//                          "path.element.not.found", file);
+                if (wbrn)
+//                      log.wbrning(Position.NOPOS,
+//                          "pbth.element.not.found", file);
                     return;
             }
 
             if (ele.isFile()) {
-                /* File is an ordinay file  */
-                String arcname = file.toLowerCase();
-                if (! (arcname.endsWith(".zip") ||
-                       arcname.endsWith(".jar"))) {
-                    /* File name don't have right extension */
-//                      if (warn)
-//                          log.warning(Position.NOPOS,
-//                              "invalid.archive.file", file);
+                /* File is bn ordinby file  */
+                String brcnbme = file.toLowerCbse();
+                if (! (brcnbme.endsWith(".zip") ||
+                       brcnbme.endsWith(".jbr"))) {
+                    /* File nbme don't hbve right extension */
+//                      if (wbrn)
+//                          log.wbrning(Position.NOPOS,
+//                              "invblid.brchive.file", file);
                     return;
                 }
             }
 
-            /* Now what we have left is either a directory or a file name
-               confirming to archive naming convention */
+            /* Now whbt we hbve left is either b directory or b file nbme
+               confirming to brchive nbming convention */
 
-            super.add(file);
-            if (expandJarClassPaths && isZip(file))
-                addJarClassPath(file, warn);
+            super.bdd(file);
+            if (expbndJbrClbssPbths && isZip(file))
+                bddJbrClbssPbth(file, wbrn);
         }
 
-        // Adds referenced classpath elements from a jar's Class-Path
-        // Manifest entry.  In some future release, we may want to
-        // update this code to recognize URLs rather than simple
-        // filenames, but if we do, we should redo all path-related code.
-        private void addJarClassPath(String jarFileName, boolean warn) {
+        // Adds referenced clbsspbth elements from b jbr's Clbss-Pbth
+        // Mbnifest entry.  In some future relebse, we mby wbnt to
+        // updbte this code to recognize URLs rbther thbn simple
+        // filenbmes, but if we do, we should redo bll pbth-relbted code.
+        privbte void bddJbrClbssPbth(String jbrFileNbme, boolebn wbrn) {
             try {
-                String jarParent = new File(jarFileName).getParent();
-                JarFile jar = new JarFile(jarFileName);
+                String jbrPbrent = new File(jbrFileNbme).getPbrent();
+                JbrFile jbr = new JbrFile(jbrFileNbme);
 
                 try {
-                    Manifest man = jar.getManifest();
-                    if (man == null) return;
+                    Mbnifest mbn = jbr.getMbnifest();
+                    if (mbn == null) return;
 
-                    Attributes attr = man.getMainAttributes();
-                    if (attr == null) return;
+                    Attributes bttr = mbn.getMbinAttributes();
+                    if (bttr == null) return;
 
-                    String path = attr.getValue(Attributes.Name.CLASS_PATH);
-                    if (path == null) return;
+                    String pbth = bttr.getVblue(Attributes.Nbme.CLASS_PATH);
+                    if (pbth == null) return;
 
-                    for (StringTokenizer st = new StringTokenizer(path);
-                        st.hasMoreTokens();) {
+                    for (StringTokenizer st = new StringTokenizer(pbth);
+                        st.hbsMoreTokens();) {
                         String elt = st.nextToken();
-                        if (jarParent != null)
-                            elt = new File(jarParent, elt).getCanonicalPath();
-                        addFile(elt, warn);
+                        if (jbrPbrent != null)
+                            elt = new File(jbrPbrent, elt).getCbnonicblPbth();
+                        bddFile(elt, wbrn);
                     }
-                } finally {
-                    jar.close();
+                } finblly {
+                    jbr.close();
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
 //              log.error(Position.NOPOS,
-//                        "error.reading.file", jarFileName,
-//                        e.getLocalizedMessage());
+//                        "error.rebding.file", jbrFileNbme,
+//                        e.getLocblizedMessbge());
             }
         }
     }

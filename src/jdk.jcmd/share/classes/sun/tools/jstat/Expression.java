@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
 /**
- * A class that represents a mathematical expression as a tree structure
- * containing operators as interior nodes and operands as leaves. The
- * operands can be literals or lazily bound variables.
+ * A clbss thbt represents b mbthembticbl expression bs b tree structure
+ * contbining operbtors bs interior nodes bnd operbnds bs lebves. The
+ * operbnds cbn be literbls or lbzily bound vbribbles.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class Expression {
-    private static int nextOrdinal;
-    private boolean debug = Boolean.getBoolean("Expression.debug");
-    private Expression left;
-    private Expression right;
-    private Operator operator;
-    private int ordinal = nextOrdinal++;
+public clbss Expression {
+    privbte stbtic int nextOrdinbl;
+    privbte boolebn debug = Boolebn.getBoolebn("Expression.debug");
+    privbte Expression left;
+    privbte Expression right;
+    privbte Operbtor operbtor;
+    privbte int ordinbl = nextOrdinbl++;
 
     Expression() {
         if (debug) {
-            System.out.println("Expression " + ordinal + " created");
+            System.out.println("Expression " + ordinbl + " crebted");
         }
     }
 
     void setLeft(Expression left) {
         if (debug) {
-            System.out.println("Setting left on " + ordinal + " to " + left);
+            System.out.println("Setting left on " + ordinbl + " to " + left);
         }
         this.left = left;
     }
@@ -60,7 +60,7 @@ public class Expression {
 
     void setRight(Expression right) {
         if (debug) {
-            System.out.println("Setting right on " + ordinal + " to " + right);
+            System.out.println("Setting right on " + ordinbl + " to " + right);
         }
         this.right = right;
     }
@@ -69,30 +69,30 @@ public class Expression {
         return right;
     }
 
-    void setOperator(Operator o) {
+    void setOperbtor(Operbtor o) {
         if (debug) {
-            System.out.println("Setting operator on " + ordinal + " to " + o);
+            System.out.println("Setting operbtor on " + ordinbl + " to " + o);
         }
-        this.operator = o;
+        this.operbtor = o;
     }
 
-    Operator getOperator() {
-        return operator;
+    Operbtor getOperbtor() {
+        return operbtor;
     }
 
     public String toString() {
         StringBuilder b = new StringBuilder();
-        b.append('(');
+        b.bppend('(');
         if (left != null) {
-            b.append(left.toString());
+            b.bppend(left.toString());
         }
-        if (operator != null) {
-            b.append(operator.toString());
+        if (operbtor != null) {
+            b.bppend(operbtor.toString());
             if (right != null) {
-                b.append(right.toString());
+                b.bppend(right.toString());
             }
         }
-        b.append(')');
+        b.bppend(')');
         return b.toString();
     }
 }

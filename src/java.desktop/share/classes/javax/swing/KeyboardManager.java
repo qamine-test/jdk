@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.*;
-import java.beans.*;
-import javax.swing.event.*;
-import sun.awt.EmbeddedFrame;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bpplet.*;
+import jbvb.bebns.*;
+import jbvbx.swing.event.*;
+import sun.bwt.EmbeddedFrbme;
 
 /**
-  * The KeyboardManager class is used to help dispatch keyboard actions for the
-  * WHEN_IN_FOCUSED_WINDOW style actions.  Actions with other conditions are handled
+  * The KeybobrdMbnbger clbss is used to help dispbtch keybobrd bctions for the
+  * WHEN_IN_FOCUSED_WINDOW style bctions.  Actions with other conditions bre hbndled
   * directly in JComponent.
   *
-  * Here's a description of the symantics of how keyboard dispatching should work
-  * atleast as I understand it.
+  * Here's b description of the symbntics of how keybobrd dispbtching should work
+  * btlebst bs I understbnd it.
   *
-  * KeyEvents are dispatched to the focused component.  The focus manager gets first
-  * crack at processing this event.  If the focus manager doesn't want it, then
-  * the JComponent calls super.processKeyEvent() this allows listeners a chance
+  * KeyEvents bre dispbtched to the focused component.  The focus mbnbger gets first
+  * crbck bt processing this event.  If the focus mbnbger doesn't wbnt it, then
+  * the JComponent cblls super.processKeyEvent() this bllows listeners b chbnce
   * to process the event.
   *
-  * If none of the listeners "consumes" the event then the keybindings get a shot.
-  * This is where things start to get interesting.  First, KeyStokes defined with the
-  * WHEN_FOCUSED condition get a chance.  If none of these want the event, then the component
-  * walks though it's parents looked for actions of type WHEN_ANCESTOR_OF_FOCUSED_COMPONENT.
+  * If none of the listeners "consumes" the event then the keybindings get b shot.
+  * This is where things stbrt to get interesting.  First, KeyStokes defined with the
+  * WHEN_FOCUSED condition get b chbnce.  If none of these wbnt the event, then the component
+  * wblks though it's pbrents looked for bctions of type WHEN_ANCESTOR_OF_FOCUSED_COMPONENT.
   *
-  * If no one has taken it yet, then it winds up here.  We then look for components registered
-  * for WHEN_IN_FOCUSED_WINDOW events and fire to them.  Note that if none of those are found
-  * then we pass the event to the menubars and let them have a crack at it.  They're handled differently.
+  * If no one hbs tbken it yet, then it winds up here.  We then look for components registered
+  * for WHEN_IN_FOCUSED_WINDOW events bnd fire to them.  Note thbt if none of those bre found
+  * then we pbss the event to the menubbrs bnd let them hbve b crbck bt it.  They're hbndled differently.
   *
-  * Lastly, we check if we're looking at an internal frame.  If we are and no one wanted the event
-  * then we move up to the InternalFrame's creator and see if anyone wants the event (and so on and so on).
+  * Lbstly, we check if we're looking bt bn internbl frbme.  If we bre bnd no one wbnted the event
+  * then we move up to the InternblFrbme's crebtor bnd see if bnyone wbnts the event (bnd so on bnd so on).
   *
   *
-  * @see InputMap
+  * @see InputMbp
   */
-class KeyboardManager {
+clbss KeybobrdMbnbger {
 
-    static KeyboardManager currentManager = new KeyboardManager();
-
-    /**
-      * maps top-level containers to a sub-hashtable full of keystrokes
-      */
-    Hashtable<Container, Hashtable<Object, Object>> containerMap = new Hashtable<>();
+    stbtic KeybobrdMbnbger currentMbnbger = new KeybobrdMbnbger();
 
     /**
-      * Maps component/keystroke pairs to a topLevel container
-      * This is mainly used for fast unregister operations
+      * mbps top-level contbiners to b sub-hbshtbble full of keystrokes
       */
-    Hashtable<ComponentKeyStrokePair, Container> componentKeyStrokeMap = new Hashtable<>();
+    Hbshtbble<Contbiner, Hbshtbble<Object, Object>> contbinerMbp = new Hbshtbble<>();
 
-    public static KeyboardManager getCurrentManager() {
-        return currentManager;
+    /**
+      * Mbps component/keystroke pbirs to b topLevel contbiner
+      * This is mbinly used for fbst unregister operbtions
+      */
+    Hbshtbble<ComponentKeyStrokePbir, Contbiner> componentKeyStrokeMbp = new Hbshtbble<>();
+
+    public stbtic KeybobrdMbnbger getCurrentMbnbger() {
+        return currentMbnbger;
     }
 
-    public static void setCurrentManager(KeyboardManager km) {
-        currentManager = km;
+    public stbtic void setCurrentMbnbger(KeybobrdMbnbger km) {
+        currentMbnbger = km;
     }
 
     /**
-      * register keystrokes here which are for the WHEN_IN_FOCUSED_WINDOW
-      * case.
-      * Other types of keystrokes will be handled by walking the hierarchy
-      * That simplifies some potentially hairy stuff.
+      * register keystrokes here which bre for the WHEN_IN_FOCUSED_WINDOW
+      * cbse.
+      * Other types of keystrokes will be hbndled by wblking the hierbrchy
+      * Thbt simplifies some potentiblly hbiry stuff.
       */
      public void registerKeyStroke(KeyStroke k, JComponent c) {
-         Container topContainer = getTopAncestor(c);
-         if (topContainer == null) {
+         Contbiner topContbiner = getTopAncestor(c);
+         if (topContbiner == null) {
              return;
          }
-         Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
+         Hbshtbble<Object, Object> keyMbp = contbinerMbp.get(topContbiner);
 
-         if (keyMap ==  null) {  // lazy evaluate one
-             keyMap = registerNewTopContainer(topContainer);
+         if (keyMbp ==  null) {  // lbzy evblubte one
+             keyMbp = registerNewTopContbiner(topContbiner);
          }
 
-         Object tmp = keyMap.get(k);
+         Object tmp = keyMbp.get(k);
          if (tmp == null) {
-             keyMap.put(k,c);
-         } else if (tmp instanceof Vector) {  // if there's a Vector there then add to it.
-             @SuppressWarnings("unchecked")
+             keyMbp.put(k,c);
+         } else if (tmp instbnceof Vector) {  // if there's b Vector there then bdd to it.
+             @SuppressWbrnings("unchecked")
              Vector<Object> v = (Vector)tmp;
-             if (!v.contains(c)) {  // only add if this keystroke isn't registered for this component
-                 v.addElement(c);
+             if (!v.contbins(c)) {  // only bdd if this keystroke isn't registered for this component
+                 v.bddElement(c);
              }
-         } else if (tmp instanceof JComponent) {
-           // if a JComponent is there then remove it and replace it with a vector
-           // Then add the old compoennt and the new compoent to the vector
-           // then insert the vector in the table
-           if (tmp != c) {  // this means this is already registered for this component, no need to dup
+         } else if (tmp instbnceof JComponent) {
+           // if b JComponent is there then remove it bnd replbce it with b vector
+           // Then bdd the old compoennt bnd the new compoent to the vector
+           // then insert the vector in the tbble
+           if (tmp != c) {  // this mebns this is blrebdy registered for this component, no need to dup
                Vector<JComponent> v = new Vector<>();
-               v.addElement((JComponent) tmp);
-               v.addElement(c);
-               keyMap.put(k, v);
+               v.bddElement((JComponent) tmp);
+               v.bddElement(c);
+               keyMbp.put(k, v);
            }
          } else {
              System.out.println("Unexpected condition in registerKeyStroke");
-             Thread.dumpStack();
+             Threbd.dumpStbck();
          }
 
-         componentKeyStrokeMap.put(new ComponentKeyStrokePair(c,k), topContainer);
+         componentKeyStrokeMbp.put(new ComponentKeyStrokePbir(c,k), topContbiner);
 
-         // Check for EmbeddedFrame case, they know how to process accelerators even
-         // when focus is not in Java
-         if (topContainer instanceof EmbeddedFrame) {
-             ((EmbeddedFrame)topContainer).registerAccelerator(k);
+         // Check for EmbeddedFrbme cbse, they know how to process bccelerbtors even
+         // when focus is not in Jbvb
+         if (topContbiner instbnceof EmbeddedFrbme) {
+             ((EmbeddedFrbme)topContbiner).registerAccelerbtor(k);
          }
      }
 
      /**
-       * Find the top focusable Window, Applet, or InternalFrame
+       * Find the top focusbble Window, Applet, or InternblFrbme
        */
-     private static Container getTopAncestor(JComponent c) {
-        for(Container p = c.getParent(); p != null; p = p.getParent()) {
-            if (p instanceof Window && ((Window)p).isFocusableWindow() ||
-                p instanceof Applet || p instanceof JInternalFrame) {
+     privbte stbtic Contbiner getTopAncestor(JComponent c) {
+        for(Contbiner p = c.getPbrent(); p != null; p = p.getPbrent()) {
+            if (p instbnceof Window && ((Window)p).isFocusbbleWindow() ||
+                p instbnceof Applet || p instbnceof JInternblFrbme) {
 
                 return p;
             }
@@ -150,77 +150,77 @@ class KeyboardManager {
 
      public void unregisterKeyStroke(KeyStroke ks, JComponent c) {
 
-       // component may have already been removed from the hierarchy, we
-       // need to look up the container using the componentKeyStrokeMap.
+       // component mby hbve blrebdy been removed from the hierbrchy, we
+       // need to look up the contbiner using the componentKeyStrokeMbp.
 
-         ComponentKeyStrokePair ckp = new ComponentKeyStrokePair(c,ks);
+         ComponentKeyStrokePbir ckp = new ComponentKeyStrokePbir(c,ks);
 
-         Container topContainer = componentKeyStrokeMap.get(ckp);
+         Contbiner topContbiner = componentKeyStrokeMbp.get(ckp);
 
-         if (topContainer == null) {  // never heard of this pairing, so bail
+         if (topContbiner == null) {  // never hebrd of this pbiring, so bbil
              return;
          }
 
-         Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
-         if  (keyMap == null) { // this should never happen, but I'm being safe
-             Thread.dumpStack();
+         Hbshtbble<Object, Object> keyMbp = contbinerMbp.get(topContbiner);
+         if  (keyMbp == null) { // this should never hbppen, but I'm being sbfe
+             Threbd.dumpStbck();
              return;
          }
 
-         Object tmp = keyMap.get(ks);
-         if (tmp == null) {  // this should never happen, but I'm being safe
-             Thread.dumpStack();
+         Object tmp = keyMbp.get(ks);
+         if (tmp == null) {  // this should never hbppen, but I'm being sbfe
+             Threbd.dumpStbck();
              return;
          }
 
-         if (tmp instanceof JComponent && tmp == c) {
-             keyMap.remove(ks);  // remove the KeyStroke from the Map
-             //System.out.println("removed a stroke" + ks);
-         } else if (tmp instanceof Vector ) {  // this means there is more than one component reg for this key
+         if (tmp instbnceof JComponent && tmp == c) {
+             keyMbp.remove(ks);  // remove the KeyStroke from the Mbp
+             //System.out.println("removed b stroke" + ks);
+         } else if (tmp instbnceof Vector ) {  // this mebns there is more thbn one component reg for this key
              Vector<?> v = (Vector)tmp;
              v.removeElement(c);
              if ( v.isEmpty() ) {
-                 keyMap.remove(ks);  // remove the KeyStroke from the Map
-                 //System.out.println("removed a ks vector");
+                 keyMbp.remove(ks);  // remove the KeyStroke from the Mbp
+                 //System.out.println("removed b ks vector");
              }
          }
 
-         if ( keyMap.isEmpty() ) {  // if no more bindings in this table
-             containerMap.remove(topContainer);  // remove table to enable GC
-             //System.out.println("removed a container");
+         if ( keyMbp.isEmpty() ) {  // if no more bindings in this tbble
+             contbinerMbp.remove(topContbiner);  // remove tbble to enbble GC
+             //System.out.println("removed b contbiner");
          }
 
-         componentKeyStrokeMap.remove(ckp);
+         componentKeyStrokeMbp.remove(ckp);
 
-         // Check for EmbeddedFrame case, they know how to process accelerators even
-         // when focus is not in Java
-         if (topContainer instanceof EmbeddedFrame) {
-             ((EmbeddedFrame)topContainer).unregisterAccelerator(ks);
+         // Check for EmbeddedFrbme cbse, they know how to process bccelerbtors even
+         // when focus is not in Jbvb
+         if (topContbiner instbnceof EmbeddedFrbme) {
+             ((EmbeddedFrbme)topContbiner).unregisterAccelerbtor(ks);
          }
      }
 
     /**
-      * This method is called when the focused component (and none of
-      * its ancestors) want the key event.  This will look up the keystroke
-      * to see if any chidren (or subchildren) of the specified container
-      * want a crack at the event.
-      * If one of them wants it, then it will "DO-THE-RIGHT-THING"
+      * This method is cblled when the focused component (bnd none of
+      * its bncestors) wbnt the key event.  This will look up the keystroke
+      * to see if bny chidren (or subchildren) of the specified contbiner
+      * wbnt b crbck bt the event.
+      * If one of them wbnts it, then it will "DO-THE-RIGHT-THING"
       */
-    public boolean fireKeyboardAction(KeyEvent e, boolean pressed, Container topAncestor) {
+    public boolebn fireKeybobrdAction(KeyEvent e, boolebn pressed, Contbiner topAncestor) {
 
          if (e.isConsumed()) {
               System.out.println("Acquired pre-used event!");
-              Thread.dumpStack();
+              Threbd.dumpStbck();
          }
 
-         // There may be two keystrokes associated with a low-level key event;
-         // in this case a keystroke made of an extended key code has a priority.
+         // There mby be two keystrokes bssocibted with b low-level key event;
+         // in this cbse b keystroke mbde of bn extended key code hbs b priority.
          KeyStroke ks;
          KeyStroke ksE = null;
 
 
          if(e.getID() == KeyEvent.KEY_TYPED) {
-               ks=KeyStroke.getKeyStroke(e.getKeyChar());
+               ks=KeyStroke.getKeyStroke(e.getKeyChbr());
          } else {
                if(e.getKeyCode() != e.getExtendedKeyCode()) {
                    ksE=KeyStroke.getKeyStroke(e.getExtendedKeyCode(), e.getModifiers(), !pressed);
@@ -228,66 +228,66 @@ class KeyboardManager {
                ks=KeyStroke.getKeyStroke(e.getKeyCode(), e.getModifiers(), !pressed);
          }
 
-         Hashtable<Object, Object> keyMap = containerMap.get(topAncestor);
-         if (keyMap != null) { // this container isn't registered, so bail
+         Hbshtbble<Object, Object> keyMbp = contbinerMbp.get(topAncestor);
+         if (keyMbp != null) { // this contbiner isn't registered, so bbil
 
              Object tmp = null;
-             // extended code has priority
+             // extended code hbs priority
              if( ksE != null ) {
-                 tmp = keyMap.get(ksE);
+                 tmp = keyMbp.get(ksE);
                  if( tmp != null ) {
                      ks = ksE;
                  }
              }
              if( tmp == null ) {
-                 tmp = keyMap.get(ks);
+                 tmp = keyMbp.get(ks);
              }
 
              if (tmp == null) {
-               // don't do anything
-             } else if ( tmp instanceof JComponent) {
+               // don't do bnything
+             } else if ( tmp instbnceof JComponent) {
                  JComponent c = (JComponent)tmp;
-                 if ( c.isShowing() && c.isEnabled() ) { // only give it out if enabled and visible
+                 if ( c.isShowing() && c.isEnbbled() ) { // only give it out if enbbled bnd visible
                      fireBinding(c, ks, e, pressed);
                  }
-             } else if ( tmp instanceof Vector) { //more than one comp registered for this
+             } else if ( tmp instbnceof Vector) { //more thbn one comp registered for this
                  Vector<?> v = (Vector)tmp;
                  // There is no well defined order for WHEN_IN_FOCUSED_WINDOW
                  // bindings, but we give precedence to those bindings just
-                 // added. This is done so that JMenus WHEN_IN_FOCUSED_WINDOW
-                 // bindings are accessed before those of the JRootPane (they
-                 // both have a WHEN_IN_FOCUSED_WINDOW binding for enter).
+                 // bdded. This is done so thbt JMenus WHEN_IN_FOCUSED_WINDOW
+                 // bindings bre bccessed before those of the JRootPbne (they
+                 // both hbve b WHEN_IN_FOCUSED_WINDOW binding for enter).
                  for (int counter = v.size() - 1; counter >= 0; counter--) {
                      JComponent c = (JComponent)v.elementAt(counter);
                      //System.out.println("Trying collision: " + c + " vector = "+ v.size());
-                     if ( c.isShowing() && c.isEnabled() ) { // don't want to give these out
+                     if ( c.isShowing() && c.isEnbbled() ) { // don't wbnt to give these out
                          fireBinding(c, ks, e, pressed);
                          if (e.isConsumed())
                              return true;
                      }
                  }
              } else  {
-                 System.out.println( "Unexpected condition in fireKeyboardAction " + tmp);
-                 // This means that tmp wasn't null, a JComponent, or a Vector.  What is it?
-                 Thread.dumpStack();
+                 System.out.println( "Unexpected condition in fireKeybobrdAction " + tmp);
+                 // This mebns thbt tmp wbsn't null, b JComponent, or b Vector.  Whbt is it?
+                 Threbd.dumpStbck();
              }
          }
 
          if (e.isConsumed()) {
              return true;
          }
-         // if no one else handled it, then give the menus a crack
-         // The're handled differently.  The key is to let any JMenuBars
+         // if no one else hbndled it, then give the menus b crbck
+         // The're hbndled differently.  The key is to let bny JMenuBbrs
          // process the event
-         if ( keyMap != null) {
-             @SuppressWarnings("unchecked")
-             Vector<JMenuBar> v = (Vector)keyMap.get(JMenuBar.class);
+         if ( keyMbp != null) {
+             @SuppressWbrnings("unchecked")
+             Vector<JMenuBbr> v = (Vector)keyMbp.get(JMenuBbr.clbss);
              if (v != null) {
-                 Enumeration<JMenuBar> iter = v.elements();
-                 while (iter.hasMoreElements()) {
-                     JMenuBar mb = iter.nextElement();
-                     if ( mb.isShowing() && mb.isEnabled() ) { // don't want to give these out
-                         boolean extended = (ksE != null) && !ksE.equals(ks);
+                 Enumerbtion<JMenuBbr> iter = v.elements();
+                 while (iter.hbsMoreElements()) {
+                     JMenuBbr mb = iter.nextElement();
+                     if ( mb.isShowing() && mb.isEnbbled() ) { // don't wbnt to give these out
+                         boolebn extended = (ksE != null) && !ksE.equbls(ks);
                          if (extended) {
                              fireBinding(mb, ksE, e, pressed);
                          }
@@ -305,91 +305,91 @@ class KeyboardManager {
          return e.isConsumed();
     }
 
-    void fireBinding(JComponent c, KeyStroke ks, KeyEvent e, boolean pressed) {
+    void fireBinding(JComponent c, KeyStroke ks, KeyEvent e, boolebn pressed) {
         if (c.processKeyBinding(ks, e, JComponent.WHEN_IN_FOCUSED_WINDOW,
                                 pressed)) {
             e.consume();
         }
     }
 
-    public void registerMenuBar(JMenuBar mb) {
-        Container top = getTopAncestor(mb);
+    public void registerMenuBbr(JMenuBbr mb) {
+        Contbiner top = getTopAncestor(mb);
         if (top == null) {
             return;
         }
-        Hashtable<Object, Object> keyMap = containerMap.get(top);
+        Hbshtbble<Object, Object> keyMbp = contbinerMbp.get(top);
 
-        if (keyMap ==  null) {  // lazy evaluate one
-             keyMap = registerNewTopContainer(top);
+        if (keyMbp ==  null) {  // lbzy evblubte one
+             keyMbp = registerNewTopContbiner(top);
         }
-        // use the menubar class as the key
-        @SuppressWarnings("unchecked")
-        Vector<Object> menuBars = (Vector)keyMap.get(JMenuBar.class);
+        // use the menubbr clbss bs the key
+        @SuppressWbrnings("unchecked")
+        Vector<Object> menuBbrs = (Vector)keyMbp.get(JMenuBbr.clbss);
 
-        if (menuBars == null) {  // if we don't have a list of menubars,
-                                 // then make one.
-            menuBars = new Vector<>();
-            keyMap.put(JMenuBar.class, menuBars);
+        if (menuBbrs == null) {  // if we don't hbve b list of menubbrs,
+                                 // then mbke one.
+            menuBbrs = new Vector<>();
+            keyMbp.put(JMenuBbr.clbss, menuBbrs);
         }
 
-        if (!menuBars.contains(mb)) {
-            menuBars.addElement(mb);
+        if (!menuBbrs.contbins(mb)) {
+            menuBbrs.bddElement(mb);
         }
     }
 
 
-    public void unregisterMenuBar(JMenuBar mb) {
-        Container topContainer = getTopAncestor(mb);
-        if (topContainer == null) {
+    public void unregisterMenuBbr(JMenuBbr mb) {
+        Contbiner topContbiner = getTopAncestor(mb);
+        if (topContbiner == null) {
             return;
         }
-        Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
-        if (keyMap!=null) {
-            Vector<?> v = (Vector)keyMap.get(JMenuBar.class);
+        Hbshtbble<Object, Object> keyMbp = contbinerMbp.get(topContbiner);
+        if (keyMbp!=null) {
+            Vector<?> v = (Vector)keyMbp.get(JMenuBbr.clbss);
             if (v != null) {
                 v.removeElement(mb);
                 if (v.isEmpty()) {
-                    keyMap.remove(JMenuBar.class);
-                    if (keyMap.isEmpty()) {
-                        // remove table to enable GC
-                        containerMap.remove(topContainer);
+                    keyMbp.remove(JMenuBbr.clbss);
+                    if (keyMbp.isEmpty()) {
+                        // remove tbble to enbble GC
+                        contbinerMbp.remove(topContbiner);
                     }
                 }
             }
         }
     }
-    protected Hashtable<Object, Object> registerNewTopContainer(Container topContainer) {
-             Hashtable<Object, Object> keyMap = new Hashtable<>();
-             containerMap.put(topContainer, keyMap);
-             return keyMap;
+    protected Hbshtbble<Object, Object> registerNewTopContbiner(Contbiner topContbiner) {
+             Hbshtbble<Object, Object> keyMbp = new Hbshtbble<>();
+             contbinerMbp.put(topContbiner, keyMbp);
+             return keyMbp;
     }
 
     /**
-      * This class is used to create keys for a hashtable
-      * which looks up topContainers based on component, keystroke pairs
-      * This is used to make unregistering KeyStrokes fast
+      * This clbss is used to crebte keys for b hbshtbble
+      * which looks up topContbiners bbsed on component, keystroke pbirs
+      * This is used to mbke unregistering KeyStrokes fbst
       */
-    class ComponentKeyStrokePair {
+    clbss ComponentKeyStrokePbir {
         Object component;
         Object keyStroke;
 
-        public ComponentKeyStrokePair(Object comp, Object key) {
+        public ComponentKeyStrokePbir(Object comp, Object key) {
             component = comp;
             keyStroke = key;
         }
 
-        public boolean equals(Object o) {
-            if ( !(o instanceof ComponentKeyStrokePair)) {
-                return false;
+        public boolebn equbls(Object o) {
+            if ( !(o instbnceof ComponentKeyStrokePbir)) {
+                return fblse;
             }
-            ComponentKeyStrokePair ckp = (ComponentKeyStrokePair)o;
-            return ((component.equals(ckp.component)) && (keyStroke.equals(ckp.keyStroke)));
+            ComponentKeyStrokePbir ckp = (ComponentKeyStrokePbir)o;
+            return ((component.equbls(ckp.component)) && (keyStroke.equbls(ckp.keyStroke)));
         }
 
-        public int hashCode() {
-            return component.hashCode() * keyStroke.hashCode();
+        public int hbshCode() {
+            return component.hbshCode() * keyStroke.hbshCode();
         }
 
     }
 
-} // end KeyboardManager
+} // end KeybobrdMbnbger

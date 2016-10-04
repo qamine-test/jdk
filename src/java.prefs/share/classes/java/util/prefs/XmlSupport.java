@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
-import java.util.*;
-import java.io.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.xml.sax.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvbx.xml.pbrsers.*;
+import jbvbx.xml.trbnsform.*;
+import jbvbx.xml.trbnsform.dom.*;
+import jbvbx.xml.trbnsform.strebm.*;
+import org.xml.sbx.*;
 import org.w3c.dom.*;
 
 /**
- * XML Support for java.util.prefs. Methods to import and export preference
- * nodes and subtrees.
+ * XML Support for jbvb.util.prefs. Methods to import bnd export preference
+ * nodes bnd subtrees.
  *
- * @author  Josh Bloch and Mark Reinhold
+ * @buthor  Josh Bloch bnd Mbrk Reinhold
  * @see     Preferences
  * @since   1.4
  */
-class XmlSupport {
+clbss XmlSupport {
     // The required DTD URI for exported preferences
-    private static final String PREFS_DTD_URI =
-        "http://java.sun.com/dtd/preferences.dtd";
+    privbte stbtic finbl String PREFS_DTD_URI =
+        "http://jbvb.sun.com/dtd/preferences.dtd";
 
-    // The actual DTD corresponding to the URI
-    private static final String PREFS_DTD =
+    // The bctubl DTD corresponding to the URI
+    privbte stbtic finbl String PREFS_DTD =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
 
         "<!-- DTD for preferences -->"               +
@@ -57,66 +57,66 @@ class XmlSupport {
         "<!ATTLIST preferences"                      +
         " EXTERNAL_XML_VERSION CDATA \"0.0\"  >"     +
 
-        "<!ELEMENT root (map, node*) >"              +
+        "<!ELEMENT root (mbp, node*) >"              +
         "<!ATTLIST root"                             +
         "          type (system|user) #REQUIRED >"   +
 
-        "<!ELEMENT node (map, node*) >"              +
+        "<!ELEMENT node (mbp, node*) >"              +
         "<!ATTLIST node"                             +
-        "          name CDATA #REQUIRED >"           +
+        "          nbme CDATA #REQUIRED >"           +
 
-        "<!ELEMENT map (entry*) >"                   +
-        "<!ATTLIST map"                              +
+        "<!ELEMENT mbp (entry*) >"                   +
+        "<!ATTLIST mbp"                              +
         "  MAP_XML_VERSION CDATA \"0.0\"  >"         +
         "<!ELEMENT entry EMPTY >"                    +
         "<!ATTLIST entry"                            +
         "          key CDATA #REQUIRED"              +
-        "          value CDATA #REQUIRED >"          ;
+        "          vblue CDATA #REQUIRED >"          ;
     /**
-     * Version number for the format exported preferences files.
+     * Version number for the formbt exported preferences files.
      */
-    private static final String EXTERNAL_XML_VERSION = "1.0";
+    privbte stbtic finbl String EXTERNAL_XML_VERSION = "1.0";
 
     /*
-     * Version number for the internal map files.
+     * Version number for the internbl mbp files.
      */
-    private static final String MAP_XML_VERSION = "1.0";
+    privbte stbtic finbl String MAP_XML_VERSION = "1.0";
 
     /**
-     * Export the specified preferences node and, if subTree is true, all
-     * subnodes, to the specified output stream.  Preferences are exported as
-     * an XML document conforming to the definition in the Preferences spec.
+     * Export the specified preferences node bnd, if subTree is true, bll
+     * subnodes, to the specified output strebm.  Preferences bre exported bs
+     * bn XML document conforming to the definition in the Preferences spec.
      *
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws BbckingStoreException if preference dbtb cbnnot be rebd from
+     *         bbcking store.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link Preferences#removeNode()} method.
      */
-    static void export(OutputStream os, final Preferences p, boolean subTree)
-        throws IOException, BackingStoreException {
-        if (((AbstractPreferences)p).isRemoved())
-            throw new IllegalStateException("Node has been removed");
-        Document doc = createPrefsDoc("preferences");
+    stbtic void export(OutputStrebm os, finbl Preferences p, boolebn subTree)
+        throws IOException, BbckingStoreException {
+        if (((AbstrbctPreferences)p).isRemoved())
+            throw new IllegblStbteException("Node hbs been removed");
+        Document doc = crebtePrefsDoc("preferences");
         Element preferences =  doc.getDocumentElement() ;
         preferences.setAttribute("EXTERNAL_XML_VERSION", EXTERNAL_XML_VERSION);
         Element xmlRoot =  (Element)
-        preferences.appendChild(doc.createElement("root"));
+        preferences.bppendChild(doc.crebteElement("root"));
         xmlRoot.setAttribute("type", (p.isUserNode() ? "user" : "system"));
 
         // Get bottom-up list of nodes from p to root, excluding root
-        List<Preferences> ancestors = new ArrayList<>();
+        List<Preferences> bncestors = new ArrbyList<>();
 
-        for (Preferences kid = p, dad = kid.parent(); dad != null;
-                                   kid = dad, dad = kid.parent()) {
-            ancestors.add(kid);
+        for (Preferences kid = p, dbd = kid.pbrent(); dbd != null;
+                                   kid = dbd, dbd = kid.pbrent()) {
+            bncestors.bdd(kid);
         }
         Element e = xmlRoot;
-        for (int i=ancestors.size()-1; i >= 0; i--) {
-            e.appendChild(doc.createElement("map"));
-            e = (Element) e.appendChild(doc.createElement("node"));
-            e.setAttribute("name", ancestors.get(i).name());
+        for (int i=bncestors.size()-1; i >= 0; i--) {
+            e.bppendChild(doc.crebteElement("mbp"));
+            e = (Element) e.bppendChild(doc.crebteElement("node"));
+            e.setAttribute("nbme", bncestors.get(i).nbme());
         }
         putPreferencesInXml(e, doc, p, subTree);
 
@@ -125,183 +125,183 @@ class XmlSupport {
 
     /**
      * Put the preferences in the specified Preferences node into the
-     * specified XML element which is assumed to represent a node
-     * in the specified XML document which is assumed to conform to
-     * PREFS_DTD.  If subTree is true, create children of the specified
-     * XML node conforming to all of the children of the specified
-     * Preferences node and recurse.
+     * specified XML element which is bssumed to represent b node
+     * in the specified XML document which is bssumed to conform to
+     * PREFS_DTD.  If subTree is true, crebte children of the specified
+     * XML node conforming to bll of the children of the specified
+     * Preferences node bnd recurse.
      *
-     * @throws BackingStoreException if it is not possible to read
+     * @throws BbckingStoreException if it is not possible to rebd
      *         the preferences or children out of the specified
      *         preferences node.
      */
-    private static void putPreferencesInXml(Element elt, Document doc,
-               Preferences prefs, boolean subTree) throws BackingStoreException
+    privbte stbtic void putPreferencesInXml(Element elt, Document doc,
+               Preferences prefs, boolebn subTree) throws BbckingStoreException
     {
         Preferences[] kidsCopy = null;
-        String[] kidNames = null;
+        String[] kidNbmes = null;
 
-        // Node is locked to export its contents and get a
-        // copy of children, then lock is released,
-        // and, if subTree = true, recursive calls are made on children
-        synchronized (((AbstractPreferences)prefs).lock) {
-            // Check if this node was concurrently removed. If yes
-            // remove it from XML Document and return.
-            if (((AbstractPreferences)prefs).isRemoved()) {
-                elt.getParentNode().removeChild(elt);
+        // Node is locked to export its contents bnd get b
+        // copy of children, then lock is relebsed,
+        // bnd, if subTree = true, recursive cblls bre mbde on children
+        synchronized (((AbstrbctPreferences)prefs).lock) {
+            // Check if this node wbs concurrently removed. If yes
+            // remove it from XML Document bnd return.
+            if (((AbstrbctPreferences)prefs).isRemoved()) {
+                elt.getPbrentNode().removeChild(elt);
                 return;
             }
-            // Put map in xml element
+            // Put mbp in xml element
             String[] keys = prefs.keys();
-            Element map = (Element) elt.appendChild(doc.createElement("map"));
+            Element mbp = (Element) elt.bppendChild(doc.crebteElement("mbp"));
             for (String key : keys) {
                 Element entry = (Element)
-                    map.appendChild(doc.createElement("entry"));
+                    mbp.bppendChild(doc.crebteElement("entry"));
                 entry.setAttribute("key", key);
                 // NEXT STATEMENT THROWS NULL PTR EXC INSTEAD OF ASSERT FAIL
-                entry.setAttribute("value", prefs.get(key, null));
+                entry.setAttribute("vblue", prefs.get(key, null));
             }
-            // Recurse if appropriate
+            // Recurse if bppropribte
             if (subTree) {
-                /* Get a copy of kids while lock is held */
-                kidNames = prefs.childrenNames();
-                kidsCopy = new Preferences[kidNames.length];
-                for (int i = 0; i <  kidNames.length; i++)
-                    kidsCopy[i] = prefs.node(kidNames[i]);
+                /* Get b copy of kids while lock is held */
+                kidNbmes = prefs.childrenNbmes();
+                kidsCopy = new Preferences[kidNbmes.length];
+                for (int i = 0; i <  kidNbmes.length; i++)
+                    kidsCopy[i] = prefs.node(kidNbmes[i]);
             }
-            // release lock
+            // relebse lock
         }
 
         if (subTree) {
-            for (int i=0; i < kidNames.length; i++) {
+            for (int i=0; i < kidNbmes.length; i++) {
                 Element xmlKid = (Element)
-                    elt.appendChild(doc.createElement("node"));
-                xmlKid.setAttribute("name", kidNames[i]);
+                    elt.bppendChild(doc.crebteElement("node"));
+                xmlKid.setAttribute("nbme", kidNbmes[i]);
                 putPreferencesInXml(xmlKid, doc, kidsCopy[i], subTree);
             }
         }
     }
 
     /**
-     * Import preferences from the specified input stream, which is assumed
-     * to contain an XML document in the format described in the Preferences
+     * Import preferences from the specified input strebm, which is bssumed
+     * to contbin bn XML document in the formbt described in the Preferences
      * spec.
      *
-     * @throws IOException if reading from the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
+     * @throws IOException if rebding from the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws InvblidPreferencesFormbtException Dbtb on input strebm does not
+     *         constitute b vblid XML document with the mbndbted document type.
      */
-    static void importPreferences(InputStream is)
-        throws IOException, InvalidPreferencesFormatException
+    stbtic void importPreferences(InputStrebm is)
+        throws IOException, InvblidPreferencesFormbtException
     {
         try {
-            Document doc = loadPrefsDoc(is);
+            Document doc = lobdPrefsDoc(is);
             String xmlVersion =
                 doc.getDocumentElement().getAttribute("EXTERNAL_XML_VERSION");
-            if (xmlVersion.compareTo(EXTERNAL_XML_VERSION) > 0)
-                throw new InvalidPreferencesFormatException(
-                "Exported preferences file format version " + xmlVersion +
-                " is not supported. This java installation can read" +
-                " versions " + EXTERNAL_XML_VERSION + " or older. You may need" +
-                " to install a newer version of JDK.");
+            if (xmlVersion.compbreTo(EXTERNAL_XML_VERSION) > 0)
+                throw new InvblidPreferencesFormbtException(
+                "Exported preferences file formbt version " + xmlVersion +
+                " is not supported. This jbvb instbllbtion cbn rebd" +
+                " versions " + EXTERNAL_XML_VERSION + " or older. You mby need" +
+                " to instbll b newer version of JDK.");
 
             Element xmlRoot = (Element) doc.getDocumentElement().
                                                getChildNodes().item(0);
             Preferences prefsRoot =
-                (xmlRoot.getAttribute("type").equals("user") ?
+                (xmlRoot.getAttribute("type").equbls("user") ?
                             Preferences.userRoot() : Preferences.systemRoot());
             ImportSubtree(prefsRoot, xmlRoot);
-        } catch(SAXException e) {
-            throw new InvalidPreferencesFormatException(e);
+        } cbtch(SAXException e) {
+            throw new InvblidPreferencesFormbtException(e);
         }
     }
 
     /**
-     * Create a new prefs XML document.
+     * Crebte b new prefs XML document.
      */
-    private static Document createPrefsDoc( String qname ) {
+    privbte stbtic Document crebtePrefsDoc( String qnbme ) {
         try {
-            DOMImplementation di = DocumentBuilderFactory.newInstance().
-                newDocumentBuilder().getDOMImplementation();
-            DocumentType dt = di.createDocumentType(qname, null, PREFS_DTD_URI);
-            return di.createDocument(null, qname, dt);
-        } catch(ParserConfigurationException e) {
+            DOMImplementbtion di = DocumentBuilderFbctory.newInstbnce().
+                newDocumentBuilder().getDOMImplementbtion();
+            DocumentType dt = di.crebteDocumentType(qnbme, null, PREFS_DTD_URI);
+            return di.crebteDocument(null, qnbme, dt);
+        } cbtch(PbrserConfigurbtionException e) {
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Load an XML document from specified input stream, which must
-     * have the requisite DTD URI.
+     * Lobd bn XML document from specified input strebm, which must
+     * hbve the requisite DTD URI.
      */
-    private static Document loadPrefsDoc(InputStream in)
+    privbte stbtic Document lobdPrefsDoc(InputStrebm in)
         throws SAXException, IOException
     {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringElementContentWhitespace(true);
-        dbf.setValidating(true);
-        dbf.setCoalescing(true);
+        DocumentBuilderFbctory dbf = DocumentBuilderFbctory.newInstbnce();
+        dbf.setIgnoringElementContentWhitespbce(true);
+        dbf.setVblidbting(true);
+        dbf.setCoblescing(true);
         dbf.setIgnoringComments(true);
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             db.setEntityResolver(new Resolver());
-            db.setErrorHandler(new EH());
-            return db.parse(new InputSource(in));
-        } catch (ParserConfigurationException e) {
+            db.setErrorHbndler(new EH());
+            return db.pbrse(new InputSource(in));
+        } cbtch (PbrserConfigurbtionException e) {
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Write XML document to the specified output stream.
+     * Write XML document to the specified output strebm.
      */
-    private static final void writeDoc(Document doc, OutputStream out)
+    privbte stbtic finbl void writeDoc(Document doc, OutputStrebm out)
         throws IOException
     {
         try {
-            TransformerFactory tf = TransformerFactory.newInstance();
+            TrbnsformerFbctory tf = TrbnsformerFbctory.newInstbnce();
             try {
                 tf.setAttribute("indent-number", 2);
-            } catch (IllegalArgumentException iae) {
-                //Ignore the IAE. Should not fail the writeout even the
-                //transformer provider does not support "indent-number".
+            } cbtch (IllegblArgumentException ibe) {
+                //Ignore the IAE. Should not fbil the writeout even the
+                //trbnsformer provider does not support "indent-number".
             }
-            Transformer t = tf.newTransformer();
+            Trbnsformer t = tf.newTrbnsformer();
             t.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doc.getDoctype().getSystemId());
             t.setOutputProperty(OutputKeys.INDENT, "yes");
-            //Transformer resets the "indent" info if the "result" is a StreamResult with
-            //an OutputStream object embedded, creating a Writer object on top of that
-            //OutputStream object however works.
-            t.transform(new DOMSource(doc),
-                        new StreamResult(new BufferedWriter(new OutputStreamWriter(out, "UTF-8"))));
-        } catch(TransformerException e) {
+            //Trbnsformer resets the "indent" info if the "result" is b StrebmResult with
+            //bn OutputStrebm object embedded, crebting b Writer object on top of thbt
+            //OutputStrebm object however works.
+            t.trbnsform(new DOMSource(doc),
+                        new StrebmResult(new BufferedWriter(new OutputStrebmWriter(out, "UTF-8"))));
+        } cbtch(TrbnsformerException e) {
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Recursively traverse the specified preferences node and store
+     * Recursively trbverse the specified preferences node bnd store
      * the described preferences into the system or current user
-     * preferences tree, as appropriate.
+     * preferences tree, bs bppropribte.
      */
-    private static void ImportSubtree(Preferences prefsNode, Element xmlNode) {
+    privbte stbtic void ImportSubtree(Preferences prefsNode, Element xmlNode) {
         NodeList xmlKids = xmlNode.getChildNodes();
         int numXmlKids = xmlKids.getLength();
         /*
-         * We first lock the node, import its contents and get
-         * child nodes. Then we unlock the node and go to children
-         * Since some of the children might have been concurrently
+         * We first lock the node, import its contents bnd get
+         * child nodes. Then we unlock the node bnd go to children
+         * Since some of the children might hbve been concurrently
          * deleted we check for this.
          */
         Preferences[] prefsKids;
         /* Lock the node */
-        synchronized (((AbstractPreferences)prefsNode).lock) {
+        synchronized (((AbstrbctPreferences)prefsNode).lock) {
             //If removed, return silently
-            if (((AbstractPreferences)prefsNode).isRemoved())
+            if (((AbstrbctPreferences)prefsNode).isRemoved())
                 return;
 
-            // Import any preferences at this node
+            // Import bny preferences bt this node
             Element firstXmlKid = (Element) xmlKids.item(0);
             ImportPrefs(prefsNode, firstXmlKid);
             prefsKids = new Preferences[numXmlKids - 1];
@@ -309,7 +309,7 @@ class XmlSupport {
             // Get involved children
             for (int i=1; i < numXmlKids; i++) {
                 Element xmlKid = (Element) xmlKids.item(i);
-                prefsKids[i-1] = prefsNode.node(xmlKid.getAttribute("name"));
+                prefsKids[i-1] = prefsNode.node(xmlKid.getAttribute("nbme"));
             }
         } // unlocked the node
         // import children
@@ -319,101 +319,101 @@ class XmlSupport {
 
     /**
      * Import the preferences described by the specified XML element
-     * (a map from a preferences document) into the specified
+     * (b mbp from b preferences document) into the specified
      * preferences node.
      */
-    private static void ImportPrefs(Preferences prefsNode, Element map) {
-        NodeList entries = map.getChildNodes();
+    privbte stbtic void ImportPrefs(Preferences prefsNode, Element mbp) {
+        NodeList entries = mbp.getChildNodes();
         for (int i=0, numEntries = entries.getLength(); i < numEntries; i++) {
             Element entry = (Element) entries.item(i);
             prefsNode.put(entry.getAttribute("key"),
-                          entry.getAttribute("value"));
+                          entry.getAttribute("vblue"));
         }
     }
 
     /**
-     * Export the specified Map<String,String> to a map document on
-     * the specified OutputStream as per the prefs DTD.  This is used
-     * as the internal (undocumented) format for FileSystemPrefs.
+     * Export the specified Mbp<String,String> to b mbp document on
+     * the specified OutputStrebm bs per the prefs DTD.  This is used
+     * bs the internbl (undocumented) formbt for FileSystemPrefs.
      *
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
      */
-    static void exportMap(OutputStream os, Map<String, String> map) throws IOException {
-        Document doc = createPrefsDoc("map");
-        Element xmlMap = doc.getDocumentElement( ) ;
-        xmlMap.setAttribute("MAP_XML_VERSION", MAP_XML_VERSION);
+    stbtic void exportMbp(OutputStrebm os, Mbp<String, String> mbp) throws IOException {
+        Document doc = crebtePrefsDoc("mbp");
+        Element xmlMbp = doc.getDocumentElement( ) ;
+        xmlMbp.setAttribute("MAP_XML_VERSION", MAP_XML_VERSION);
 
-        for (Map.Entry<String, String> e : map.entrySet()) {
+        for (Mbp.Entry<String, String> e : mbp.entrySet()) {
             Element xe = (Element)
-                xmlMap.appendChild(doc.createElement("entry"));
+                xmlMbp.bppendChild(doc.crebteElement("entry"));
             xe.setAttribute("key",   e.getKey());
-            xe.setAttribute("value", e.getValue());
+            xe.setAttribute("vblue", e.getVblue());
         }
 
         writeDoc(doc, os);
     }
 
     /**
-     * Import Map from the specified input stream, which is assumed
-     * to contain a map document as per the prefs DTD.  This is used
-     * as the internal (undocumented) format for FileSystemPrefs.  The
-     * key-value pairs specified in the XML document will be put into
-     * the specified Map.  (If this Map is empty, it will contain exactly
-     * the key-value pairs int the XML-document when this method returns.)
+     * Import Mbp from the specified input strebm, which is bssumed
+     * to contbin b mbp document bs per the prefs DTD.  This is used
+     * bs the internbl (undocumented) formbt for FileSystemPrefs.  The
+     * key-vblue pbirs specified in the XML document will be put into
+     * the specified Mbp.  (If this Mbp is empty, it will contbin exbctly
+     * the key-vblue pbirs int the XML-document when this method returns.)
      *
-     * @throws IOException if reading from the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
+     * @throws IOException if rebding from the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws InvblidPreferencesFormbtException Dbtb on input strebm does not
+     *         constitute b vblid XML document with the mbndbted document type.
      */
-    static void importMap(InputStream is, Map<String, String> m)
-        throws IOException, InvalidPreferencesFormatException
+    stbtic void importMbp(InputStrebm is, Mbp<String, String> m)
+        throws IOException, InvblidPreferencesFormbtException
     {
         try {
-            Document doc = loadPrefsDoc(is);
-            Element xmlMap = doc.getDocumentElement();
+            Document doc = lobdPrefsDoc(is);
+            Element xmlMbp = doc.getDocumentElement();
             // check version
-            String mapVersion = xmlMap.getAttribute("MAP_XML_VERSION");
-            if (mapVersion.compareTo(MAP_XML_VERSION) > 0)
-                throw new InvalidPreferencesFormatException(
-                "Preferences map file format version " + mapVersion +
-                " is not supported. This java installation can read" +
-                " versions " + MAP_XML_VERSION + " or older. You may need" +
-                " to install a newer version of JDK.");
+            String mbpVersion = xmlMbp.getAttribute("MAP_XML_VERSION");
+            if (mbpVersion.compbreTo(MAP_XML_VERSION) > 0)
+                throw new InvblidPreferencesFormbtException(
+                "Preferences mbp file formbt version " + mbpVersion +
+                " is not supported. This jbvb instbllbtion cbn rebd" +
+                " versions " + MAP_XML_VERSION + " or older. You mby need" +
+                " to instbll b newer version of JDK.");
 
-            NodeList entries = xmlMap.getChildNodes();
+            NodeList entries = xmlMbp.getChildNodes();
             for (int i=0, numEntries=entries.getLength(); i<numEntries; i++) {
                 Element entry = (Element) entries.item(i);
-                m.put(entry.getAttribute("key"), entry.getAttribute("value"));
+                m.put(entry.getAttribute("key"), entry.getAttribute("vblue"));
             }
-        } catch(SAXException e) {
-            throw new InvalidPreferencesFormatException(e);
+        } cbtch(SAXException e) {
+            throw new InvblidPreferencesFormbtException(e);
         }
     }
 
-    private static class Resolver implements EntityResolver {
+    privbte stbtic clbss Resolver implements EntityResolver {
         public InputSource resolveEntity(String pid, String sid)
             throws SAXException
         {
-            if (sid.equals(PREFS_DTD_URI)) {
+            if (sid.equbls(PREFS_DTD_URI)) {
                 InputSource is;
-                is = new InputSource(new StringReader(PREFS_DTD));
+                is = new InputSource(new StringRebder(PREFS_DTD));
                 is.setSystemId(PREFS_DTD_URI);
                 return is;
             }
-            throw new SAXException("Invalid system identifier: " + sid);
+            throw new SAXException("Invblid system identifier: " + sid);
         }
     }
 
-    private static class EH implements ErrorHandler {
-        public void error(SAXParseException x) throws SAXException {
+    privbte stbtic clbss EH implements ErrorHbndler {
+        public void error(SAXPbrseException x) throws SAXException {
             throw x;
         }
-        public void fatalError(SAXParseException x) throws SAXException {
+        public void fbtblError(SAXPbrseException x) throws SAXException {
             throw x;
         }
-        public void warning(SAXParseException x) throws SAXException {
+        public void wbrning(SAXPbrseException x) throws SAXException {
             throw x;
         }
     }

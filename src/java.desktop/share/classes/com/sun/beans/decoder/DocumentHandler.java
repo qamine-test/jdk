@@ -1,410 +1,410 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
-import com.sun.beans.finder.ClassFinder;
+import com.sun.bebns.finder.ClbssFinder;
 
-import java.beans.ExceptionListener;
+import jbvb.bebns.ExceptionListener;
 
-import java.io.IOException;
-import java.io.StringReader;
+import jbvb.io.IOException;
+import jbvb.io.StringRebder;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.WebkReference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
+import jbvbx.xml.pbrsers.SAXPbrserFbctory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sbx.Attributes;
+import org.xml.sbx.InputSource;
+import org.xml.sbx.SAXException;
+import org.xml.sbx.helpers.DefbultHbndler;
 
-import sun.misc.SharedSecrets;
+import sun.misc.ShbredSecrets;
 
 /**
- * The main class to parse JavaBeans XML archive.
+ * The mbin clbss to pbrse JbvbBebns XML brchive.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  *
- * @see ElementHandler
+ * @see ElementHbndler
  */
-public final class DocumentHandler extends DefaultHandler {
-    private final AccessControlContext acc = AccessController.getContext();
-    private final Map<String, Class<? extends ElementHandler>> handlers = new HashMap<>();
-    private final Map<String, Object> environment = new HashMap<>();
-    private final List<Object> objects = new ArrayList<>();
+public finbl clbss DocumentHbndler extends DefbultHbndler {
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
+    privbte finbl Mbp<String, Clbss<? extends ElementHbndler>> hbndlers = new HbshMbp<>();
+    privbte finbl Mbp<String, Object> environment = new HbshMbp<>();
+    privbte finbl List<Object> objects = new ArrbyList<>();
 
-    private Reference<ClassLoader> loader;
-    private ExceptionListener listener;
-    private Object owner;
+    privbte Reference<ClbssLobder> lobder;
+    privbte ExceptionListener listener;
+    privbte Object owner;
 
-    private ElementHandler handler;
+    privbte ElementHbndler hbndler;
 
     /**
-     * Creates new instance of document handler.
+     * Crebtes new instbnce of document hbndler.
      */
-    public DocumentHandler() {
-        setElementHandler("java", JavaElementHandler.class); // NON-NLS: the element name
-        setElementHandler("null", NullElementHandler.class); // NON-NLS: the element name
-        setElementHandler("array", ArrayElementHandler.class); // NON-NLS: the element name
-        setElementHandler("class", ClassElementHandler.class); // NON-NLS: the element name
-        setElementHandler("string", StringElementHandler.class); // NON-NLS: the element name
-        setElementHandler("object", ObjectElementHandler.class); // NON-NLS: the element name
+    public DocumentHbndler() {
+        setElementHbndler("jbvb", JbvbElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("null", NullElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("brrby", ArrbyElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("clbss", ClbssElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("string", StringElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("object", ObjectElementHbndler.clbss); // NON-NLS: the element nbme
 
-        setElementHandler("void", VoidElementHandler.class); // NON-NLS: the element name
-        setElementHandler("char", CharElementHandler.class); // NON-NLS: the element name
-        setElementHandler("byte", ByteElementHandler.class); // NON-NLS: the element name
-        setElementHandler("short", ShortElementHandler.class); // NON-NLS: the element name
-        setElementHandler("int", IntElementHandler.class); // NON-NLS: the element name
-        setElementHandler("long", LongElementHandler.class); // NON-NLS: the element name
-        setElementHandler("float", FloatElementHandler.class); // NON-NLS: the element name
-        setElementHandler("double", DoubleElementHandler.class); // NON-NLS: the element name
-        setElementHandler("boolean", BooleanElementHandler.class); // NON-NLS: the element name
+        setElementHbndler("void", VoidElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("chbr", ChbrElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("byte", ByteElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("short", ShortElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("int", IntElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("long", LongElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("flobt", FlobtElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("double", DoubleElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("boolebn", BoolebnElementHbndler.clbss); // NON-NLS: the element nbme
 
-        // some handlers for new elements
-        setElementHandler("new", NewElementHandler.class); // NON-NLS: the element name
-        setElementHandler("var", VarElementHandler.class); // NON-NLS: the element name
-        setElementHandler("true", TrueElementHandler.class); // NON-NLS: the element name
-        setElementHandler("false", FalseElementHandler.class); // NON-NLS: the element name
-        setElementHandler("field", FieldElementHandler.class); // NON-NLS: the element name
-        setElementHandler("method", MethodElementHandler.class); // NON-NLS: the element name
-        setElementHandler("property", PropertyElementHandler.class); // NON-NLS: the element name
+        // some hbndlers for new elements
+        setElementHbndler("new", NewElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("vbr", VbrElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("true", TrueElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("fblse", FblseElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("field", FieldElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("method", MethodElementHbndler.clbss); // NON-NLS: the element nbme
+        setElementHbndler("property", PropertyElementHbndler.clbss); // NON-NLS: the element nbme
     }
 
     /**
-     * Returns the class loader used to instantiate objects.
-     * If the class loader has not been explicitly set
+     * Returns the clbss lobder used to instbntibte objects.
+     * If the clbss lobder hbs not been explicitly set
      * then {@code null} is returned.
      *
-     * @return the class loader used to instantiate objects
+     * @return the clbss lobder used to instbntibte objects
      */
-    public ClassLoader getClassLoader() {
-        return (this.loader != null)
-                ? this.loader.get()
+    public ClbssLobder getClbssLobder() {
+        return (this.lobder != null)
+                ? this.lobder.get()
                 : null;
     }
 
     /**
-     * Sets the class loader used to instantiate objects.
-     * If the class loader is not set
-     * then default class loader will be used.
+     * Sets the clbss lobder used to instbntibte objects.
+     * If the clbss lobder is not set
+     * then defbult clbss lobder will be used.
      *
-     * @param loader  a classloader to use
+     * @pbrbm lobder  b clbsslobder to use
      */
-    public void setClassLoader(ClassLoader loader) {
-        this.loader = new WeakReference<ClassLoader>(loader);
+    public void setClbssLobder(ClbssLobder lobder) {
+        this.lobder = new WebkReference<ClbssLobder>(lobder);
     }
 
     /**
-     * Returns the exception listener for parsing.
+     * Returns the exception listener for pbrsing.
      * The exception listener is notified
-     * when handler catches recoverable exceptions.
-     * If the exception listener has not been explicitly set
-     * then default exception listener is returned.
+     * when hbndler cbtches recoverbble exceptions.
+     * If the exception listener hbs not been explicitly set
+     * then defbult exception listener is returned.
      *
-     * @return the exception listener for parsing
+     * @return the exception listener for pbrsing
      */
     public ExceptionListener getExceptionListener() {
         return this.listener;
     }
 
     /**
-     * Sets the exception listener for parsing.
+     * Sets the exception listener for pbrsing.
      * The exception listener is notified
-     * when handler catches recoverable exceptions.
+     * when hbndler cbtches recoverbble exceptions.
      *
-     * @param listener  the exception listener for parsing
+     * @pbrbm listener  the exception listener for pbrsing
      */
     public void setExceptionListener(ExceptionListener listener) {
         this.listener = listener;
     }
 
     /**
-     * Returns the owner of this document handler.
+     * Returns the owner of this document hbndler.
      *
-     * @return the owner of this document handler
+     * @return the owner of this document hbndler
      */
     public Object getOwner() {
         return this.owner;
     }
 
     /**
-     * Sets the owner of this document handler.
+     * Sets the owner of this document hbndler.
      *
-     * @param owner  the owner of this document handler
+     * @pbrbm owner  the owner of this document hbndler
      */
     public void setOwner(Object owner) {
         this.owner = owner;
     }
 
     /**
-     * Returns the handler for the element with specified name.
+     * Returns the hbndler for the element with specified nbme.
      *
-     * @param name  the name of the element
-     * @return the corresponding element handler
+     * @pbrbm nbme  the nbme of the element
+     * @return the corresponding element hbndler
      */
-    public Class<? extends ElementHandler> getElementHandler(String name) {
-        Class<? extends ElementHandler> type = this.handlers.get(name);
+    public Clbss<? extends ElementHbndler> getElementHbndler(String nbme) {
+        Clbss<? extends ElementHbndler> type = this.hbndlers.get(nbme);
         if (type == null) {
-            throw new IllegalArgumentException("Unsupported element: " + name);
+            throw new IllegblArgumentException("Unsupported element: " + nbme);
         }
         return type;
     }
 
     /**
-     * Sets the handler for the element with specified name.
+     * Sets the hbndler for the element with specified nbme.
      *
-     * @param name     the name of the element
-     * @param handler  the corresponding element handler
+     * @pbrbm nbme     the nbme of the element
+     * @pbrbm hbndler  the corresponding element hbndler
      */
-    public void setElementHandler(String name, Class<? extends ElementHandler> handler) {
-        this.handlers.put(name, handler);
+    public void setElementHbndler(String nbme, Clbss<? extends ElementHbndler> hbndler) {
+        this.hbndlers.put(nbme, hbndler);
     }
 
     /**
-     * Indicates whether the variable with specified identifier is defined.
+     * Indicbtes whether the vbribble with specified identifier is defined.
      *
-     * @param id  the identifier
-     * @return @{code true} if the variable is defined;
-     *         @{code false} otherwise
+     * @pbrbm id  the identifier
+     * @return @{code true} if the vbribble is defined;
+     *         @{code fblse} otherwise
      */
-    public boolean hasVariable(String id) {
-        return this.environment.containsKey(id);
+    public boolebn hbsVbribble(String id) {
+        return this.environment.contbinsKey(id);
     }
 
     /**
-     * Returns the value of the variable with specified identifier.
+     * Returns the vblue of the vbribble with specified identifier.
      *
-     * @param id  the identifier
-     * @return the value of the variable
+     * @pbrbm id  the identifier
+     * @return the vblue of the vbribble
      */
-    public Object getVariable(String id) {
-        if (!this.environment.containsKey(id)) {
-            throw new IllegalArgumentException("Unbound variable: " + id);
+    public Object getVbribble(String id) {
+        if (!this.environment.contbinsKey(id)) {
+            throw new IllegblArgumentException("Unbound vbribble: " + id);
         }
         return this.environment.get(id);
     }
 
     /**
-     * Sets new value of the variable with specified identifier.
+     * Sets new vblue of the vbribble with specified identifier.
      *
-     * @param id     the identifier
-     * @param value  new value of the variable
+     * @pbrbm id     the identifier
+     * @pbrbm vblue  new vblue of the vbribble
      */
-    public void setVariable(String id, Object value) {
-        this.environment.put(id, value);
+    public void setVbribble(String id, Object vblue) {
+        this.environment.put(id, vblue);
     }
 
     /**
-     * Returns the array of readed objects.
+     * Returns the brrby of rebded objects.
      *
-     * @return the array of readed objects
+     * @return the brrby of rebded objects
      */
     public Object[] getObjects() {
-        return this.objects.toArray();
+        return this.objects.toArrby();
     }
 
     /**
-     * Adds the object to the list of readed objects.
+     * Adds the object to the list of rebded objects.
      *
-     * @param object  the object that is readed from XML document
+     * @pbrbm object  the object thbt is rebded from XML document
      */
-    void addObject(Object object) {
-        this.objects.add(object);
+    void bddObject(Object object) {
+        this.objects.bdd(object);
     }
 
     /**
-     * Disables any external entities.
+     * Disbbles bny externbl entities.
      */
     @Override
     public InputSource resolveEntity(String publicId, String systemId) {
-        return new InputSource(new StringReader(""));
+        return new InputSource(new StringRebder(""));
     }
 
     /**
-     * Prepares this handler to read objects from XML document.
+     * Prepbres this hbndler to rebd objects from XML document.
      */
     @Override
-    public void startDocument() {
-        this.objects.clear();
-        this.handler = null;
+    public void stbrtDocument() {
+        this.objects.clebr();
+        this.hbndler = null;
     }
 
     /**
-     * Parses opening tag of XML element
-     * using corresponding element handler.
+     * Pbrses opening tbg of XML element
+     * using corresponding element hbndler.
      *
-     * @param uri         the namespace URI, or the empty string
-     *                    if the element has no namespace URI or
-     *                    if namespace processing is not being performed
-     * @param localName   the local name (without prefix), or the empty string
-     *                    if namespace processing is not being performed
-     * @param qName       the qualified name (with prefix), or the empty string
-     *                    if qualified names are not available
-     * @param attributes  the attributes attached to the element
+     * @pbrbm uri         the nbmespbce URI, or the empty string
+     *                    if the element hbs no nbmespbce URI or
+     *                    if nbmespbce processing is not being performed
+     * @pbrbm locblNbme   the locbl nbme (without prefix), or the empty string
+     *                    if nbmespbce processing is not being performed
+     * @pbrbm qNbme       the qublified nbme (with prefix), or the empty string
+     *                    if qublified nbmes bre not bvbilbble
+     * @pbrbm bttributes  the bttributes bttbched to the element
      */
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        ElementHandler parent = this.handler;
+    public void stbrtElement(String uri, String locblNbme, String qNbme, Attributes bttributes) throws SAXException {
+        ElementHbndler pbrent = this.hbndler;
         try {
-            this.handler = getElementHandler(qName).newInstance();
-            this.handler.setOwner(this);
-            this.handler.setParent(parent);
+            this.hbndler = getElementHbndler(qNbme).newInstbnce();
+            this.hbndler.setOwner(this);
+            this.hbndler.setPbrent(pbrent);
         }
-        catch (Exception exception) {
+        cbtch (Exception exception) {
             throw new SAXException(exception);
         }
-        for (int i = 0; i < attributes.getLength(); i++)
+        for (int i = 0; i < bttributes.getLength(); i++)
             try {
-                String name = attributes.getQName(i);
-                String value = attributes.getValue(i);
-                this.handler.addAttribute(name, value);
+                String nbme = bttributes.getQNbme(i);
+                String vblue = bttributes.getVblue(i);
+                this.hbndler.bddAttribute(nbme, vblue);
             }
-            catch (RuntimeException exception) {
-                handleException(exception);
+            cbtch (RuntimeException exception) {
+                hbndleException(exception);
             }
 
-        this.handler.startElement();
+        this.hbndler.stbrtElement();
     }
 
     /**
-     * Parses closing tag of XML element
-     * using corresponding element handler.
+     * Pbrses closing tbg of XML element
+     * using corresponding element hbndler.
      *
-     * @param uri        the namespace URI, or the empty string
-     *                   if the element has no namespace URI or
-     *                   if namespace processing is not being performed
-     * @param localName  the local name (without prefix), or the empty string
-     *                   if namespace processing is not being performed
-     * @param qName      the qualified name (with prefix), or the empty string
-     *                   if qualified names are not available
+     * @pbrbm uri        the nbmespbce URI, or the empty string
+     *                   if the element hbs no nbmespbce URI or
+     *                   if nbmespbce processing is not being performed
+     * @pbrbm locblNbme  the locbl nbme (without prefix), or the empty string
+     *                   if nbmespbce processing is not being performed
+     * @pbrbm qNbme      the qublified nbme (with prefix), or the empty string
+     *                   if qublified nbmes bre not bvbilbble
      */
     @Override
-    public void endElement(String uri, String localName, String qName) {
+    public void endElement(String uri, String locblNbme, String qNbme) {
         try {
-            this.handler.endElement();
+            this.hbndler.endElement();
         }
-        catch (RuntimeException exception) {
-            handleException(exception);
+        cbtch (RuntimeException exception) {
+            hbndleException(exception);
         }
-        finally {
-            this.handler = this.handler.getParent();
+        finblly {
+            this.hbndler = this.hbndler.getPbrent();
         }
     }
 
     /**
-     * Parses character data inside XML element.
+     * Pbrses chbrbcter dbtb inside XML element.
      *
-     * @param chars   the array of characters
-     * @param start   the start position in the character array
-     * @param length  the number of characters to use
+     * @pbrbm chbrs   the brrby of chbrbcters
+     * @pbrbm stbrt   the stbrt position in the chbrbcter brrby
+     * @pbrbm length  the number of chbrbcters to use
      */
     @Override
-    public void characters(char[] chars, int start, int length) {
-        if (this.handler != null) {
+    public void chbrbcters(chbr[] chbrs, int stbrt, int length) {
+        if (this.hbndler != null) {
             try {
                 while (0 < length--) {
-                    this.handler.addCharacter(chars[start++]);
+                    this.hbndler.bddChbrbcter(chbrs[stbrt++]);
                 }
             }
-            catch (RuntimeException exception) {
-                handleException(exception);
+            cbtch (RuntimeException exception) {
+                hbndleException(exception);
             }
         }
     }
 
     /**
-     * Handles an exception using current exception listener.
+     * Hbndles bn exception using current exception listener.
      *
-     * @param exception  an exception to handle
+     * @pbrbm exception  bn exception to hbndle
      * @see #setExceptionListener
      */
-    public void handleException(Exception exception) {
+    public void hbndleException(Exception exception) {
         if (this.listener == null) {
-            throw new IllegalStateException(exception);
+            throw new IllegblStbteException(exception);
         }
         this.listener.exceptionThrown(exception);
     }
 
     /**
-     * Starts parsing of the specified input source.
+     * Stbrts pbrsing of the specified input source.
      *
-     * @param input  the input source to parse
+     * @pbrbm input  the input source to pbrse
      */
-    public void parse(final InputSource input) {
-        if ((this.acc == null) && (null != System.getSecurityManager())) {
+    public void pbrse(finbl InputSource input) {
+        if ((this.bcc == null) && (null != System.getSecurityMbnbger())) {
             throw new SecurityException("AccessControlContext is not set");
         }
-        AccessControlContext stack = AccessController.getContext();
-        SharedSecrets.getJavaSecurityAccess().doIntersectionPrivilege(new PrivilegedAction<Void>() {
+        AccessControlContext stbck = AccessController.getContext();
+        ShbredSecrets.getJbvbSecurityAccess().doIntersectionPrivilege(new PrivilegedAction<Void>() {
             public Void run() {
                 try {
-                    SAXParserFactory.newInstance().newSAXParser().parse(input, DocumentHandler.this);
+                    SAXPbrserFbctory.newInstbnce().newSAXPbrser().pbrse(input, DocumentHbndler.this);
                 }
-                catch (ParserConfigurationException exception) {
-                    handleException(exception);
+                cbtch (PbrserConfigurbtionException exception) {
+                    hbndleException(exception);
                 }
-                catch (SAXException wrapper) {
-                    Exception exception = wrapper.getException();
+                cbtch (SAXException wrbpper) {
+                    Exception exception = wrbpper.getException();
                     if (exception == null) {
-                        exception = wrapper;
+                        exception = wrbpper;
                     }
-                    handleException(exception);
+                    hbndleException(exception);
                 }
-                catch (IOException exception) {
-                    handleException(exception);
+                cbtch (IOException exception) {
+                    hbndleException(exception);
                 }
                 return null;
             }
-        }, stack, this.acc);
+        }, stbck, this.bcc);
     }
 
     /**
-     * Resolves class by name using current class loader.
-     * This method handles exception using current exception listener.
+     * Resolves clbss by nbme using current clbss lobder.
+     * This method hbndles exception using current exception listener.
      *
-     * @param name  the name of the class
-     * @return the object that represents the class
+     * @pbrbm nbme  the nbme of the clbss
+     * @return the object thbt represents the clbss
      */
-    public Class<?> findClass(String name) {
+    public Clbss<?> findClbss(String nbme) {
         try {
-            return ClassFinder.resolveClass(name, getClassLoader());
+            return ClbssFinder.resolveClbss(nbme, getClbssLobder());
         }
-        catch (ClassNotFoundException exception) {
-            handleException(exception);
+        cbtch (ClbssNotFoundException exception) {
+            hbndleException(exception);
             return null;
         }
     }

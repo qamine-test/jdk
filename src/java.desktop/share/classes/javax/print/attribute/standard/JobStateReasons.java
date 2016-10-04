@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Collection;
-import java.util.HashSet;
+import jbvb.util.Collection;
+import jbvb.util.HbshSet;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobStateReasons is a printing attribute class, a set of enumeration
- * values, that provides additional information about the job's current state,
- * i.e., information that augments the value of the job's {@link JobState
- * JobState} attribute.
+ * Clbss JobStbteRebsons is b printing bttribute clbss, b set of enumerbtion
+ * vblues, thbt provides bdditionbl informbtion bbout the job's current stbte,
+ * i.e., informbtion thbt bugments the vblue of the job's {@link JobStbte
+ * JobStbte} bttribute.
  * <P>
- * Instances of {@link JobStateReason JobStateReason} do not appear in a Print
- * Job's attribute set directly. Rather, a JobStateReasons attribute appears in
- * the Print Job's attribute set. The JobStateReasons attribute contains zero,
- * one, or more than one {@link JobStateReason JobStateReason} objects which
- * pertain to the Print Job's status. The printer adds a {@link JobStateReason
- * JobStateReason} object to the Print Job's JobStateReasons attribute when the
- * corresponding condition becomes true of the Print Job, and the printer
- * removes the {@link JobStateReason JobStateReason} object again when the
- * corresponding condition becomes false, regardless of whether the Print Job's
- * overall {@link JobState JobState} also changed.
+ * Instbnces of {@link JobStbteRebson JobStbteRebson} do not bppebr in b Print
+ * Job's bttribute set directly. Rbther, b JobStbteRebsons bttribute bppebrs in
+ * the Print Job's bttribute set. The JobStbteRebsons bttribute contbins zero,
+ * one, or more thbn one {@link JobStbteRebson JobStbteRebson} objects which
+ * pertbin to the Print Job's stbtus. The printer bdds b {@link JobStbteRebson
+ * JobStbteRebson} object to the Print Job's JobStbteRebsons bttribute when the
+ * corresponding condition becomes true of the Print Job, bnd the printer
+ * removes the {@link JobStbteRebson JobStbteRebson} object bgbin when the
+ * corresponding condition becomes fblse, regbrdless of whether the Print Job's
+ * overbll {@link JobStbte JobStbte} blso chbnged.
  * <P>
- * Class JobStateReasons inherits its implementation from class {@link
- * java.util.HashSet java.util.HashSet}. Unlike most printing attributes which
- * are immutable once constructed, class JobStateReasons is designed to be
- * mutable; you can add {@link JobStateReason JobStateReason} objects to an
- * existing JobStateReasons object and remove them again. However, like class
- * {@link java.util.HashSet java.util.HashSet}, class JobStateReasons is not
- * multiple thread safe. If a JobStateReasons object will be used by multiple
- * threads, be sure to synchronize its operations (e.g., using a synchronized
- * set view obtained from class {@link java.util.Collections
- * java.util.Collections}).
+ * Clbss JobStbteRebsons inherits its implementbtion from clbss {@link
+ * jbvb.util.HbshSet jbvb.util.HbshSet}. Unlike most printing bttributes which
+ * bre immutbble once constructed, clbss JobStbteRebsons is designed to be
+ * mutbble; you cbn bdd {@link JobStbteRebson JobStbteRebson} objects to bn
+ * existing JobStbteRebsons object bnd remove them bgbin. However, like clbss
+ * {@link jbvb.util.HbshSet jbvb.util.HbshSet}, clbss JobStbteRebsons is not
+ * multiple threbd sbfe. If b JobStbteRebsons object will be used by multiple
+ * threbds, be sure to synchronize its operbtions (e.g., using b synchronized
+ * set view obtbined from clbss {@link jbvb.util.Collections
+ * jbvb.util.Collections}).
  * <P>
- * <B>IPP Compatibility:</B> The string value returned by each individual {@link
- * JobStateReason JobStateReason} object's <CODE>toString()</CODE> method gives
- * the IPP keyword value. The category name returned by <CODE>getName()</CODE>
- * gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The string vblue returned by ebch individubl {@link
+ * JobStbteRebson JobStbteRebson} object's <CODE>toString()</CODE> method gives
+ * the IPP keyword vblue. The cbtegory nbme returned by <CODE>getNbme()</CODE>
+ * gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobStateReasons
-    extends HashSet<JobStateReason> implements PrintJobAttribute {
+public finbl clbss JobStbteRebsons
+    extends HbshSet<JobStbteRebson> implements PrintJobAttribute {
 
-    private static final long serialVersionUID = 8849088261264331812L;
+    privbte stbtic finbl long seriblVersionUID = 8849088261264331812L;
 
     /**
-     * Construct a new, empty job state reasons attribute; the underlying hash
-     * set has the default initial capacity and load factor.
+     * Construct b new, empty job stbte rebsons bttribute; the underlying hbsh
+     * set hbs the defbult initibl cbpbcity bnd lobd fbctor.
      */
-    public JobStateReasons() {
+    public JobStbteRebsons() {
         super();
     }
 
     /**
-     * Construct a new, empty job state reasons attribute; the underlying hash
-     * set has the given initial capacity and the default load factor.
+     * Construct b new, empty job stbte rebsons bttribute; the underlying hbsh
+     * set hbs the given initibl cbpbcity bnd the defbult lobd fbctor.
      *
-     * @param  initialCapacity  Initial capacity.
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @pbrbm  initiblCbpbcity  Initibl cbpbcity.
+     * @throws IllegblArgumentException if the initibl cbpbcity is less
+     *     thbn zero.
      */
-    public JobStateReasons(int initialCapacity) {
-        super (initialCapacity);
+    public JobStbteRebsons(int initiblCbpbcity) {
+        super (initiblCbpbcity);
     }
 
     /**
-     * Construct a new, empty job state reasons attribute; the underlying hash
-     * set has the given initial capacity and load factor.
+     * Construct b new, empty job stbte rebsons bttribute; the underlying hbsh
+     * set hbs the given initibl cbpbcity bnd lobd fbctor.
      *
-     * @param  initialCapacity  Initial capacity.
-     * @param  loadFactor       Load factor.
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @pbrbm  initiblCbpbcity  Initibl cbpbcity.
+     * @pbrbm  lobdFbctor       Lobd fbctor.
+     * @throws IllegblArgumentException if the initibl cbpbcity is less
+     *     thbn zero.
      */
-    public JobStateReasons(int initialCapacity, float loadFactor) {
-        super (initialCapacity, loadFactor);
+    public JobStbteRebsons(int initiblCbpbcity, flobt lobdFbctor) {
+        super (initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Construct a new job state reasons attribute that contains the same
-     * {@link JobStateReason JobStateReason} objects as the given collection.
-     * The underlying hash set's initial capacity and load factor are as
-     * specified in the superclass constructor {@link
-     * java.util.HashSet#HashSet(java.util.Collection)
-     * HashSet(Collection)}.
+     * Construct b new job stbte rebsons bttribute thbt contbins the sbme
+     * {@link JobStbteRebson JobStbteRebson} objects bs the given collection.
+     * The underlying hbsh set's initibl cbpbcity bnd lobd fbctor bre bs
+     * specified in the superclbss constructor {@link
+     * jbvb.util.HbshSet#HbshSet(jbvb.util.Collection)
+     * HbshSet(Collection)}.
      *
-     * @param  collection  Collection to copy.
+     * @pbrbm  collection  Collection to copy.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>collection</CODE> is null or
-     *     if any element in <CODE>collection</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if any element in
-     *     <CODE>collection</CODE> is not an instance of class {@link
-     *     JobStateReason JobStateReason}.
+     *     if bny element in <CODE>collection</CODE> is null.
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if bny element in
+     *     <CODE>collection</CODE> is not bn instbnce of clbss {@link
+     *     JobStbteRebson JobStbteRebson}.
      */
-   public JobStateReasons(Collection<JobStateReason> collection) {
+   public JobStbteRebsons(Collection<JobStbteRebson> collection) {
        super (collection);
    }
 
     /**
-     * Adds the specified element to this job state reasons attribute if it is
-     * not already present. The element to be added must be an instance of class
-     * {@link JobStateReason JobStateReason}. If this job state reasons
-     * attribute already contains the specified element, the call leaves this
-     * job state reasons attribute unchanged and returns <tt>false</tt>.
+     * Adds the specified element to this job stbte rebsons bttribute if it is
+     * not blrebdy present. The element to be bdded must be bn instbnce of clbss
+     * {@link JobStbteRebson JobStbteRebson}. If this job stbte rebsons
+     * bttribute blrebdy contbins the specified element, the cbll lebves this
+     * job stbte rebsons bttribute unchbnged bnd returns <tt>fblse</tt>.
      *
-     * @param  o  Element to be added to this job state reasons attribute.
+     * @pbrbm  o  Element to be bdded to this job stbte rebsons bttribute.
      *
-     * @return  <tt>true</tt> if this job state reasons attribute did not
-     *          already contain the specified element.
+     * @return  <tt>true</tt> if this job stbte rebsons bttribute did not
+     *          blrebdy contbin the specified element.
      *
      * @throws  NullPointerException
      *     (unchecked exception) Thrown if the specified element is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if the specified element is not an
-     *     instance of class {@link JobStateReason JobStateReason}.
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if the specified element is not bn
+     *     instbnce of clbss {@link JobStbteRebson JobStbteRebson}.
      * @since 1.5
      */
-    public boolean add(JobStateReason o) {
+    public boolebn bdd(JobStbteRebson o) {
         if (o == null) {
             throw new NullPointerException();
         }
-        return super.add(o);
+        return super.bdd(o);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobStateReasons, the category is class JobStateReasons itself.
+     * For clbss JobStbteRebsons, the cbtegory is clbss JobStbteRebsons itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobStateReasons.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobStbteRebsons.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobStateReasons, the category
-     * name is <CODE>"job-state-reasons"</CODE>.
+     * For clbss JobStbteRebsons, the cbtegory
+     * nbme is <CODE>"job-stbte-rebsons"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "job-state-reasons";
+    public finbl String getNbme() {
+        return "job-stbte-rebsons";
     }
 
 }

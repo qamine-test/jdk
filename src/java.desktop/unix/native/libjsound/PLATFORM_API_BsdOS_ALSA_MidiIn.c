@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,72 +29,72 @@
 #if USE_PLATFORM_MIDI_IN == TRUE
 
 
-#include <alsa/asoundlib.h>
-#include "PlatformMidi.h"
+#include <blsb/bsoundlib.h>
+#include "PlbtformMidi.h"
 #include "PLATFORM_API_BsdOS_ALSA_MidiUtils.h"
 #if defined(i586)
-#include <sys/utsname.h>
+#include <sys/utsnbme.h>
 #endif
 
 /*
  * Helper methods
  */
 
-static inline UINT32 packMessage(int status, int data1, int data2) {
-    return ((status & 0xFF) | ((data1 & 0xFF) << 8) | ((data2 & 0xFF) << 16));
+stbtic inline UINT32 pbckMessbge(int stbtus, int dbtb1, int dbtb2) {
+    return ((stbtus & 0xFF) | ((dbtb1 & 0xFF) << 8) | ((dbtb2 & 0xFF) << 16));
 }
 
 
-static void setShortMessage(MidiMessage* message,
-                            int status, int data1, int data2) {
-    message->type = SHORT_MESSAGE;
-    message->data.s.packedMsg = packMessage(status, data1, data2);
+stbtic void setShortMessbge(MidiMessbge* messbge,
+                            int stbtus, int dbtb1, int dbtb2) {
+    messbge->type = SHORT_MESSAGE;
+    messbge->dbtb.s.pbckedMsg = pbckMessbge(stbtus, dbtb1, dbtb2);
 }
 
 
-static void setRealtimeMessage(MidiMessage* message, int status) {
-    setShortMessage(message, status, 0, 0);
+stbtic void setRebltimeMessbge(MidiMessbge* messbge, int stbtus) {
+    setShortMessbge(messbge, stbtus, 0, 0);
 }
 
 
-static void set14bitMessage(MidiMessage* message, int status, int value) {
-    TRACE3("14bit value: %d, lsb: %d, msb: %d\n", value, value & 0x7F, (value >> 7) & 0x7F);
-    value &= 0x3FFF;
-    TRACE3("14bit value (2): %d, lsb: %d, msb: %d\n", value, value & 0x7F, (value >> 7) & 0x7F);
-    setShortMessage(message, status,
-                    value & 0x7F,
-                    (value >> 7) & 0x7F);
+stbtic void set14bitMessbge(MidiMessbge* messbge, int stbtus, int vblue) {
+    TRACE3("14bit vblue: %d, lsb: %d, msb: %d\n", vblue, vblue & 0x7F, (vblue >> 7) & 0x7F);
+    vblue &= 0x3FFF;
+    TRACE3("14bit vblue (2): %d, lsb: %d, msb: %d\n", vblue, vblue & 0x7F, (vblue >> 7) & 0x7F);
+    setShortMessbge(messbge, stbtus,
+                    vblue & 0x7F,
+                    (vblue >> 7) & 0x7F);
 }
 
 
 /*
- * implementation of the platform-dependent
- * MIDI in functions declared in PlatformMidi.h
+ * implementbtion of the plbtform-dependent
+ * MIDI in functions declbred in PlbtformMidi.h
  */
 
-char* MIDI_IN_GetErrorStr(INT32 err) {
-    return (char*) getErrorStr(err);
+chbr* MIDI_IN_GetErrorStr(INT32 err) {
+    return (chbr*) getErrorStr(err);
 }
 
 INT32 MIDI_IN_GetNumDevices() {
-/* Workaround for 6842956: 32bit app on 64bit bsd
- * gets assertion failure trying to open midiIn ports.
+/* Workbround for 6842956: 32bit bpp on 64bit bsd
+ * gets bssertion fbilure trying to open midiIn ports.
  * Untill the issue is fixed in ALSA
- * (https://bugtrack.alsa-project.org/alsa-bug/view.php?id=4807)
- * report no midi in devices in the configuration.
+ * (https://bugtrbck.blsb-project.org/blsb-bug/view.php?id=4807)
+ * report no midi in devices in the configurbtion.
  */
 #if defined(i586)
-    static int jre32onbsd64 = -1;
+    stbtic int jre32onbsd64 = -1;
     if (jre32onbsd64 < 0) {
         jre32onbsd64 = 0;
-        /* The workaround may be disabled setting "JAVASOUND_ENABLE_MIDIIN"
-         * environment variable.
+        /* The workbround mby be disbbled setting "JAVASOUND_ENABLE_MIDIIN"
+         * environment vbribble.
          */
         if (getenv("JAVASOUND_ENABLE_MIDIIN") == NULL) {
-            struct utsname u;
+            struct utsnbme u;
             jre32onbsd64 = 0;
-            if (uname(&u) == 0) {
-                if (strstr(u.machine, "64") != NULL) {
+            if (unbme(&u) == 0) {
+                if (strstr(u.mbchine, "64") != NULL) {
                     TRACE0("jre32 on bsd64 detected - report no midiIn devices\n");
                     jre32onbsd64 = 1;
                 }
@@ -112,241 +112,241 @@ INT32 MIDI_IN_GetNumDevices() {
 }
 
 
-INT32 MIDI_IN_GetDeviceName(INT32 deviceIndex, char *name, UINT32 nameLength) {
-    int ret = getMidiDeviceName(SND_RAWMIDI_STREAM_INPUT, deviceIndex,
-                                name, nameLength);
+INT32 MIDI_IN_GetDeviceNbme(INT32 deviceIndex, chbr *nbme, UINT32 nbmeLength) {
+    int ret = getMidiDeviceNbme(SND_RAWMIDI_STREAM_INPUT, deviceIndex,
+                                nbme, nbmeLength);
     return ret;
 }
 
 
-INT32 MIDI_IN_GetDeviceVendor(INT32 deviceIndex, char *name, UINT32 nameLength) {
-    int ret = getMidiDeviceVendor(deviceIndex, name, nameLength);
+INT32 MIDI_IN_GetDeviceVendor(INT32 deviceIndex, chbr *nbme, UINT32 nbmeLength) {
+    int ret = getMidiDeviceVendor(deviceIndex, nbme, nbmeLength);
     return ret;
 }
 
 
-INT32 MIDI_IN_GetDeviceDescription(INT32 deviceIndex, char *name, UINT32 nameLength) {
+INT32 MIDI_IN_GetDeviceDescription(INT32 deviceIndex, chbr *nbme, UINT32 nbmeLength) {
     int ret = getMidiDeviceDescription(SND_RAWMIDI_STREAM_INPUT, deviceIndex,
-                                       name, nameLength);
+                                       nbme, nbmeLength);
     return ret;
 }
 
 
-INT32 MIDI_IN_GetDeviceVersion(INT32 deviceIndex, char *name, UINT32 nameLength) {
-    int ret = getMidiDeviceVersion(deviceIndex, name, nameLength);
+INT32 MIDI_IN_GetDeviceVersion(INT32 deviceIndex, chbr *nbme, UINT32 nbmeLength) {
+    int ret = getMidiDeviceVersion(deviceIndex, nbme, nbmeLength);
     return ret;
 }
 
 /*************************************************************************/
 
-INT32 MIDI_IN_OpenDevice(INT32 deviceIndex, MidiDeviceHandle** handle) {
+INT32 MIDI_IN_OpenDevice(INT32 deviceIndex, MidiDeviceHbndle** hbndle) {
     INT32 ret;
     TRACE0("> MIDI_IN_OpenDevice\n");
-    ret = openMidiDevice(SND_RAWMIDI_STREAM_INPUT, deviceIndex, handle);
+    ret = openMidiDevice(SND_RAWMIDI_STREAM_INPUT, deviceIndex, hbndle);
     TRACE1("< MIDI_IN_OpenDevice: returning %d\n", (int) ret);
     return ret;
 }
 
 
-INT32 MIDI_IN_CloseDevice(MidiDeviceHandle* handle) {
+INT32 MIDI_IN_CloseDevice(MidiDeviceHbndle* hbndle) {
     INT32 ret;
     TRACE0("> MIDI_IN_CloseDevice\n");
-    ret = closeMidiDevice(handle);
+    ret = closeMidiDevice(hbndle);
     TRACE1("< MIDI_IN_CloseDevice: returning %d\n", (int) ret);
     return ret;
 }
 
 
-INT32 MIDI_IN_StartDevice(MidiDeviceHandle* handle) {
-    TRACE0("MIDI_IN_StartDevice\n");
+INT32 MIDI_IN_StbrtDevice(MidiDeviceHbndle* hbndle) {
+    TRACE0("MIDI_IN_StbrtDevice\n");
     return MIDI_SUCCESS;
 }
 
 
-INT32 MIDI_IN_StopDevice(MidiDeviceHandle* handle) {
+INT32 MIDI_IN_StopDevice(MidiDeviceHbndle* hbndle) {
     TRACE0("MIDI_IN_StopDevice\n");
     return MIDI_SUCCESS;
 }
 
 
-INT64 MIDI_IN_GetTimeStamp(MidiDeviceHandle* handle) {
-    return getMidiTimestamp(handle);
+INT64 MIDI_IN_GetTimeStbmp(MidiDeviceHbndle* hbndle) {
+    return getMidiTimestbmp(hbndle);
 }
 
 
-/* read the next message from the queue */
-MidiMessage* MIDI_IN_GetMessage(MidiDeviceHandle* handle) {
-    snd_seq_event_t alsa_message;
-    MidiMessage* jdk_message;
+/* rebd the next messbge from the queue */
+MidiMessbge* MIDI_IN_GetMessbge(MidiDeviceHbndle* hbndle) {
+    snd_seq_event_t blsb_messbge;
+    MidiMessbge* jdk_messbge;
     int err;
-    char buffer[1];
-    int status;
+    chbr buffer[1];
+    int stbtus;
 
-    TRACE0("> MIDI_IN_GetMessage\n");
-    if (!handle) {
-        ERROR0("< ERROR: MIDI_IN_GetMessage(): handle is NULL\n");
+    TRACE0("> MIDI_IN_GetMessbge\n");
+    if (!hbndle) {
+        ERROR0("< ERROR: MIDI_IN_GetMessbge(): hbndle is NULL\n");
         return NULL;
     }
-    if (!handle->deviceHandle) {
-        ERROR0("< ERROR: MIDI_IN_GetMessage(): native handle is NULL\n");
+    if (!hbndle->deviceHbndle) {
+        ERROR0("< ERROR: MIDI_IN_GetMessbge(): nbtive hbndle is NULL\n");
         return NULL;
     }
-    if (!handle->platformData) {
-        ERROR0("< ERROR: MIDI_IN_GetMessage(): platformData is NULL\n");
+    if (!hbndle->plbtformDbtb) {
+        ERROR0("< ERROR: MIDI_IN_GetMessbge(): plbtformDbtb is NULL\n");
         return NULL;
     }
 
     /* For MIDI In, the device is left in non blocking mode. So if there is
-       no data from the device, snd_rawmidi_read() returns with -11 (EAGAIN).
-       This results in jumping back to the Java layer. */
+       no dbtb from the device, snd_rbwmidi_rebd() returns with -11 (EAGAIN).
+       This results in jumping bbck to the Jbvb lbyer. */
     while (TRUE) {
-        TRACE0("before snd_rawmidi_read()\n");
-        err = snd_rawmidi_read((snd_rawmidi_t*) handle->deviceHandle, buffer, 1);
-        TRACE0("after snd_rawmidi_read()\n");
+        TRACE0("before snd_rbwmidi_rebd()\n");
+        err = snd_rbwmidi_rebd((snd_rbwmidi_t*) hbndle->deviceHbndle, buffer, 1);
+        TRACE0("bfter snd_rbwmidi_rebd()\n");
         if (err != 1) {
-            ERROR2("< ERROR: MIDI_IN_GetMessage(): snd_rawmidi_read() returned %d : %s\n", err, snd_strerror(err));
+            ERROR2("< ERROR: MIDI_IN_GetMessbge(): snd_rbwmidi_rebd() returned %d : %s\n", err, snd_strerror(err));
             return NULL;
         }
         // printf("received byte: %d\n", buffer[0]);
-        err = snd_midi_event_encode_byte((snd_midi_event_t*) handle->platformData,
+        err = snd_midi_event_encode_byte((snd_midi_event_t*) hbndle->plbtformDbtb,
                                          (int) buffer[0],
-                                         &alsa_message);
+                                         &blsb_messbge);
         if (err == 1) {
-            break;
+            brebk;
         } else if (err < 0) {
-            ERROR1("< ERROR: MIDI_IN_GetMessage(): snd_midi_event_encode_byte() returned %d\n", err);
+            ERROR1("< ERROR: MIDI_IN_GetMessbge(): snd_midi_event_encode_byte() returned %d\n", err);
             return NULL;
         }
     }
-    jdk_message = (MidiMessage*) calloc(sizeof(MidiMessage), 1);
-    if (!jdk_message) {
-        ERROR0("< ERROR: MIDI_IN_GetMessage(): out of memory\n");
+    jdk_messbge = (MidiMessbge*) cblloc(sizeof(MidiMessbge), 1);
+    if (!jdk_messbge) {
+        ERROR0("< ERROR: MIDI_IN_GetMessbge(): out of memory\n");
         return NULL;
     }
-    // TODO: tra
-    switch (alsa_message.type) {
-    case SND_SEQ_EVENT_NOTEON:
-    case SND_SEQ_EVENT_NOTEOFF:
-    case SND_SEQ_EVENT_KEYPRESS:
-        status = (alsa_message.type == SND_SEQ_EVENT_KEYPRESS) ? 0xA0 :
-            (alsa_message.type == SND_SEQ_EVENT_NOTEON) ? 0x90 : 0x80;
-        status |= alsa_message.data.note.channel;
-        setShortMessage(jdk_message, status,
-                        alsa_message.data.note.note,
-                        alsa_message.data.note.velocity);
-        break;
+    // TODO: trb
+    switch (blsb_messbge.type) {
+    cbse SND_SEQ_EVENT_NOTEON:
+    cbse SND_SEQ_EVENT_NOTEOFF:
+    cbse SND_SEQ_EVENT_KEYPRESS:
+        stbtus = (blsb_messbge.type == SND_SEQ_EVENT_KEYPRESS) ? 0xA0 :
+            (blsb_messbge.type == SND_SEQ_EVENT_NOTEON) ? 0x90 : 0x80;
+        stbtus |= blsb_messbge.dbtb.note.chbnnel;
+        setShortMessbge(jdk_messbge, stbtus,
+                        blsb_messbge.dbtb.note.note,
+                        blsb_messbge.dbtb.note.velocity);
+        brebk;
 
-    case SND_SEQ_EVENT_CONTROLLER:
-        status = 0xB0 | alsa_message.data.control.channel;
-        setShortMessage(jdk_message, status,
-                        alsa_message.data.control.param,
-                        alsa_message.data.control.value);
-        break;
+    cbse SND_SEQ_EVENT_CONTROLLER:
+        stbtus = 0xB0 | blsb_messbge.dbtb.control.chbnnel;
+        setShortMessbge(jdk_messbge, stbtus,
+                        blsb_messbge.dbtb.control.pbrbm,
+                        blsb_messbge.dbtb.control.vblue);
+        brebk;
 
-    case SND_SEQ_EVENT_PGMCHANGE:
-    case SND_SEQ_EVENT_CHANPRESS:
-        status = (alsa_message.type == SND_SEQ_EVENT_PGMCHANGE) ? 0xC0 : 0xD0;
-        status |= alsa_message.data.control.channel;
-        setShortMessage(jdk_message, status,
-                        alsa_message.data.control.value, 0);
-        break;
+    cbse SND_SEQ_EVENT_PGMCHANGE:
+    cbse SND_SEQ_EVENT_CHANPRESS:
+        stbtus = (blsb_messbge.type == SND_SEQ_EVENT_PGMCHANGE) ? 0xC0 : 0xD0;
+        stbtus |= blsb_messbge.dbtb.control.chbnnel;
+        setShortMessbge(jdk_messbge, stbtus,
+                        blsb_messbge.dbtb.control.vblue, 0);
+        brebk;
 
-    case SND_SEQ_EVENT_PITCHBEND:
-        status = 0xE0 | alsa_message.data.control.channel;
+    cbse SND_SEQ_EVENT_PITCHBEND:
+        stbtus = 0xE0 | blsb_messbge.dbtb.control.chbnnel;
         // $$mp 2003-09-23:
-        // possible hack to work around a bug in ALSA. Necessary for
-        // ALSA 0.9.2. May be fixed in newer versions of ALSA.
-        // alsa_message.data.control.value ^= 0x2000;
-        // TRACE1("pitchbend value: %d\n", alsa_message.data.control.value);
-        set14bitMessage(jdk_message, status,
-                        alsa_message.data.control.value);
-        break;
+        // possible hbck to work bround b bug in ALSA. Necessbry for
+        // ALSA 0.9.2. Mby be fixed in newer versions of ALSA.
+        // blsb_messbge.dbtb.control.vblue ^= 0x2000;
+        // TRACE1("pitchbend vblue: %d\n", blsb_messbge.dbtb.control.vblue);
+        set14bitMessbge(jdk_messbge, stbtus,
+                        blsb_messbge.dbtb.control.vblue);
+        brebk;
 
-        /* System exclusive messages */
+        /* System exclusive messbges */
 
-    case SND_SEQ_EVENT_SYSEX:
-        jdk_message->type = LONG_MESSAGE;
-        jdk_message->data.l.size = alsa_message.data.ext.len;
-        jdk_message->data.l.data = malloc(alsa_message.data.ext.len);
-        if (jdk_message->data.l.data == NULL) {
-            ERROR0("< ERROR: MIDI_IN_GetMessage(): out of memory\n");
-            free(jdk_message);
-            jdk_message = NULL;
+    cbse SND_SEQ_EVENT_SYSEX:
+        jdk_messbge->type = LONG_MESSAGE;
+        jdk_messbge->dbtb.l.size = blsb_messbge.dbtb.ext.len;
+        jdk_messbge->dbtb.l.dbtb = mblloc(blsb_messbge.dbtb.ext.len);
+        if (jdk_messbge->dbtb.l.dbtb == NULL) {
+            ERROR0("< ERROR: MIDI_IN_GetMessbge(): out of memory\n");
+            free(jdk_messbge);
+            jdk_messbge = NULL;
         } else {
-            memcpy(jdk_message->data.l.data, alsa_message.data.ext.ptr, alsa_message.data.ext.len);
+            memcpy(jdk_messbge->dbtb.l.dbtb, blsb_messbge.dbtb.ext.ptr, blsb_messbge.dbtb.ext.len);
         }
-        break;
+        brebk;
 
-        /* System common messages */
+        /* System common messbges */
 
-    case SND_SEQ_EVENT_QFRAME:
-        setShortMessage(jdk_message, 0xF1,
-                        alsa_message.data.control.value & 0x7F, 0);
-        break;
+    cbse SND_SEQ_EVENT_QFRAME:
+        setShortMessbge(jdk_messbge, 0xF1,
+                        blsb_messbge.dbtb.control.vblue & 0x7F, 0);
+        brebk;
 
-    case SND_SEQ_EVENT_SONGPOS:
-        set14bitMessage(jdk_message, 0xF2,
-                        alsa_message.data.control.value);
-        break;
+    cbse SND_SEQ_EVENT_SONGPOS:
+        set14bitMessbge(jdk_messbge, 0xF2,
+                        blsb_messbge.dbtb.control.vblue);
+        brebk;
 
-    case SND_SEQ_EVENT_SONGSEL:
-        setShortMessage(jdk_message, 0xF3,
-                        alsa_message.data.control.value & 0x7F, 0);
-        break;
+    cbse SND_SEQ_EVENT_SONGSEL:
+        setShortMessbge(jdk_messbge, 0xF3,
+                        blsb_messbge.dbtb.control.vblue & 0x7F, 0);
+        brebk;
 
-    case SND_SEQ_EVENT_TUNE_REQUEST:
-        setRealtimeMessage(jdk_message, 0xF6);
-        break;
+    cbse SND_SEQ_EVENT_TUNE_REQUEST:
+        setRebltimeMessbge(jdk_messbge, 0xF6);
+        brebk;
 
-        /* System realtime messages */
+        /* System rebltime messbges */
 
-    case SND_SEQ_EVENT_CLOCK:
-        setRealtimeMessage(jdk_message, 0xF8);
-        break;
+    cbse SND_SEQ_EVENT_CLOCK:
+        setRebltimeMessbge(jdk_messbge, 0xF8);
+        brebk;
 
-    case SND_SEQ_EVENT_START:
-        setRealtimeMessage(jdk_message, 0xFA);
-        break;
+    cbse SND_SEQ_EVENT_START:
+        setRebltimeMessbge(jdk_messbge, 0xFA);
+        brebk;
 
-    case SND_SEQ_EVENT_CONTINUE:
-        setRealtimeMessage(jdk_message, 0xFB);
-        break;
+    cbse SND_SEQ_EVENT_CONTINUE:
+        setRebltimeMessbge(jdk_messbge, 0xFB);
+        brebk;
 
-    case SND_SEQ_EVENT_STOP:
-        setRealtimeMessage(jdk_message, 0xFC);
-        break;
+    cbse SND_SEQ_EVENT_STOP:
+        setRebltimeMessbge(jdk_messbge, 0xFC);
+        brebk;
 
-    case SND_SEQ_EVENT_SENSING:
-        setRealtimeMessage(jdk_message, 0xFE);
-        break;
+    cbse SND_SEQ_EVENT_SENSING:
+        setRebltimeMessbge(jdk_messbge, 0xFE);
+        brebk;
 
-    case SND_SEQ_EVENT_RESET:
-        setRealtimeMessage(jdk_message, 0xFF);
-        break;
+    cbse SND_SEQ_EVENT_RESET:
+        setRebltimeMessbge(jdk_messbge, 0xFF);
+        brebk;
 
-    default:
-        ERROR0("< ERROR: MIDI_IN_GetMessage(): unhandled ALSA MIDI message type\n");
-        free(jdk_message);
-        jdk_message = NULL;
+    defbult:
+        ERROR0("< ERROR: MIDI_IN_GetMessbge(): unhbndled ALSA MIDI messbge type\n");
+        free(jdk_messbge);
+        jdk_messbge = NULL;
 
     }
 
-    // set timestamp
-    if (jdk_message != NULL) {
-        jdk_message->timestamp = getMidiTimestamp(handle);
+    // set timestbmp
+    if (jdk_messbge != NULL) {
+        jdk_messbge->timestbmp = getMidiTimestbmp(hbndle);
     }
-    TRACE1("< MIDI_IN_GetMessage: returning %p\n", jdk_message);
-    return jdk_message;
+    TRACE1("< MIDI_IN_GetMessbge: returning %p\n", jdk_messbge);
+    return jdk_messbge;
 }
 
 
-void MIDI_IN_ReleaseMessage(MidiDeviceHandle* handle, MidiMessage* msg) {
+void MIDI_IN_RelebseMessbge(MidiDeviceHbndle* hbndle, MidiMessbge* msg) {
     if (!msg) {
-        ERROR0("< ERROR: MIDI_IN_ReleaseMessage(): message is NULL\n");
+        ERROR0("< ERROR: MIDI_IN_RelebseMessbge(): messbge is NULL\n");
         return;
     }
-    if (msg->type == LONG_MESSAGE && msg->data.l.data) {
-        free(msg->data.l.data);
+    if (msg->type == LONG_MESSAGE && msg->dbtb.l.dbtb) {
+        free(msg->dbtb.l.dbtb);
     }
     free(msg);
 }

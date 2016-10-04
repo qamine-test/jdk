@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.security;
+pbckbge com.sun.jmx.remote.security;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.security.auth.Subject;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
+import jbvb.util.regex.Pbttern;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.security.buth.Subject;
 
 /**
- * <p>An object of this class implements the MBeanServerAccessController
- * interface and, for each of its methods, calls an appropriate checking
- * method and then forwards the request to a wrapped MBeanServer object.
- * The checking method may throw a SecurityException if the operation is
- * not allowed; in this case the request is not forwarded to the
- * wrapped object.</p>
+ * <p>An object of this clbss implements the MBebnServerAccessController
+ * interfbce bnd, for ebch of its methods, cblls bn bppropribte checking
+ * method bnd then forwbrds the request to b wrbpped MBebnServer object.
+ * The checking method mby throw b SecurityException if the operbtion is
+ * not bllowed; in this cbse the request is not forwbrded to the
+ * wrbpped object.</p>
  *
- * <p>This class implements the {@link #checkRead()}, {@link #checkWrite()},
- * {@link #checkCreate(String)}, and {@link #checkUnregister(ObjectName)}
- * methods based on an access level properties file containing username/access
- * level pairs. The set of username/access level pairs is passed either as a
- * filename which denotes a properties file on disk, or directly as an instance
- * of the {@link Properties} class.  In both cases, the name of each property
- * represents a username, and the value of the property is the associated access
- * level.  Thus, any given username either does not exist in the properties or
- * has exactly one access level. The same access level can be shared by several
- * usernames.</p>
+ * <p>This clbss implements the {@link #checkRebd()}, {@link #checkWrite()},
+ * {@link #checkCrebte(String)}, bnd {@link #checkUnregister(ObjectNbme)}
+ * methods bbsed on bn bccess level properties file contbining usernbme/bccess
+ * level pbirs. The set of usernbme/bccess level pbirs is pbssed either bs b
+ * filenbme which denotes b properties file on disk, or directly bs bn instbnce
+ * of the {@link Properties} clbss.  In both cbses, the nbme of ebch property
+ * represents b usernbme, bnd the vblue of the property is the bssocibted bccess
+ * level.  Thus, bny given usernbme either does not exist in the properties or
+ * hbs exbctly one bccess level. The sbme bccess level cbn be shbred by severbl
+ * usernbmes.</p>
  *
- * <p>The supported access level values are {@code readonly} and
- * {@code readwrite}.  The {@code readwrite} access level can be
- * qualified by one or more <i>clauses</i>, where each clause looks
- * like <code>create <i>classNamePattern</i></code> or {@code
- * unregister}.  For example:</p>
+ * <p>The supported bccess level vblues bre {@code rebdonly} bnd
+ * {@code rebdwrite}.  The {@code rebdwrite} bccess level cbn be
+ * qublified by one or more <i>clbuses</i>, where ebch clbuse looks
+ * like <code>crebte <i>clbssNbmePbttern</i></code> or {@code
+ * unregister}.  For exbmple:</p>
  *
  * <pre>
- * monitorRole  readonly
- * controlRole  readwrite \
- *              create javax.management.timer.*,javax.management.monitor.* \
+ * monitorRole  rebdonly
+ * controlRole  rebdwrite \
+ *              crebte jbvbx.mbnbgement.timer.*,jbvbx.mbnbgement.monitor.* \
  *              unregister
  * </pre>
  *
- * <p>(The continuation lines with {@code \} come from the parser for
+ * <p>(The continubtion lines with {@code \} come from the pbrser for
  * Properties files.)</p>
  */
-public class MBeanServerFileAccessController
-    extends MBeanServerAccessController {
+public clbss MBebnServerFileAccessController
+    extends MBebnServerAccessController {
 
-    static final String READONLY = "readonly";
-    static final String READWRITE = "readwrite";
+    stbtic finbl String READONLY = "rebdonly";
+    stbtic finbl String READWRITE = "rebdwrite";
 
-    static final String CREATE = "create";
-    static final String UNREGISTER = "unregister";
+    stbtic finbl String CREATE = "crebte";
+    stbtic finbl String UNREGISTER = "unregister";
 
-    private enum AccessType {READ, WRITE, CREATE, UNREGISTER};
+    privbte enum AccessType {READ, WRITE, CREATE, UNREGISTER};
 
-    private static class Access {
-        final boolean write;
-        final String[] createPatterns;
-        private boolean unregister;
+    privbte stbtic clbss Access {
+        finbl boolebn write;
+        finbl String[] crebtePbtterns;
+        privbte boolebn unregister;
 
-        Access(boolean write, boolean unregister, List<String> createPatternList) {
+        Access(boolebn write, boolebn unregister, List<String> crebtePbtternList) {
             this.write = write;
-            int npats = (createPatternList == null) ? 0 : createPatternList.size();
-            if (npats == 0)
-                this.createPatterns = NO_STRINGS;
+            int npbts = (crebtePbtternList == null) ? 0 : crebtePbtternList.size();
+            if (npbts == 0)
+                this.crebtePbtterns = NO_STRINGS;
             else
-                this.createPatterns = createPatternList.toArray(new String[npats]);
+                this.crebtePbtterns = crebtePbtternList.toArrby(new String[npbts]);
             this.unregister = unregister;
         }
 
-        private final String[] NO_STRINGS = new String[0];
+        privbte finbl String[] NO_STRINGS = new String[0];
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
+     * <p>Crebte b new MBebnServerAccessController thbt forwbrds bll the
+     * MBebnServer requests to the MBebnServer set by invoking the {@link
+     * #setMBebnServer} method bfter doing bccess checks bbsed on rebd bnd
      * write permissions.</p>
      *
-     * <p>This instance is initialized from the specified properties file.</p>
+     * <p>This instbnce is initiblized from the specified properties file.</p>
      *
-     * @param accessFileName name of the file which denotes a properties
-     * file on disk containing the username/access level entries.
+     * @pbrbm bccessFileNbme nbme of the file which denotes b properties
+     * file on disk contbining the usernbme/bccess level entries.
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @exception IOException if the file does not exist, is b
+     * directory rbther thbn b regulbr file, or for some other
+     * rebson cbnnot be opened for rebding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @exception IllegblArgumentException if bny of the supplied bccess
+     * level vblues differs from "rebdonly" or "rebdwrite".
      */
-    public MBeanServerFileAccessController(String accessFileName)
+    public MBebnServerFileAccessController(String bccessFileNbme)
         throws IOException {
         super();
-        this.accessFileName = accessFileName;
-        Properties props = propertiesFromFile(accessFileName);
-        parseProperties(props);
+        this.bccessFileNbme = bccessFileNbme;
+        Properties props = propertiesFromFile(bccessFileNbme);
+        pbrseProperties(props);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to <code>mbs</code> after doing access checks
-     * based on read and write permissions.</p>
+     * <p>Crebte b new MBebnServerAccessController thbt forwbrds bll the
+     * MBebnServer requests to <code>mbs</code> bfter doing bccess checks
+     * bbsed on rebd bnd write permissions.</p>
      *
-     * <p>This instance is initialized from the specified properties file.</p>
+     * <p>This instbnce is initiblized from the specified properties file.</p>
      *
-     * @param accessFileName name of the file which denotes a properties
-     * file on disk containing the username/access level entries.
+     * @pbrbm bccessFileNbme nbme of the file which denotes b properties
+     * file on disk contbining the usernbme/bccess level entries.
      *
-     * @param mbs the MBeanServer object to which requests will be forwarded.
+     * @pbrbm mbs the MBebnServer object to which requests will be forwbrded.
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @exception IOException if the file does not exist, is b
+     * directory rbther thbn b regulbr file, or for some other
+     * rebson cbnnot be opened for rebding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @exception IllegblArgumentException if bny of the supplied bccess
+     * level vblues differs from "rebdonly" or "rebdwrite".
      */
-    public MBeanServerFileAccessController(String accessFileName,
-                                           MBeanServer mbs)
+    public MBebnServerFileAccessController(String bccessFileNbme,
+                                           MBebnServer mbs)
         throws IOException {
-        this(accessFileName);
-        setMBeanServer(mbs);
+        this(bccessFileNbme);
+        setMBebnServer(mbs);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
+     * <p>Crebte b new MBebnServerAccessController thbt forwbrds bll the
+     * MBebnServer requests to the MBebnServer set by invoking the {@link
+     * #setMBebnServer} method bfter doing bccess checks bbsed on rebd bnd
      * write permissions.</p>
      *
-     * <p>This instance is initialized from the specified properties
-     * instance.  This constructor makes a copy of the properties
-     * instance and it is the copy that is consulted to check the
-     * username and access level of an incoming connection. The
-     * original properties object can be modified without affecting
-     * the copy. If the {@link #refresh} method is then called, the
-     * <code>MBeanServerFileAccessController</code> will make a new
-     * copy of the properties object at that time.</p>
+     * <p>This instbnce is initiblized from the specified properties
+     * instbnce.  This constructor mbkes b copy of the properties
+     * instbnce bnd it is the copy thbt is consulted to check the
+     * usernbme bnd bccess level of bn incoming connection. The
+     * originbl properties object cbn be modified without bffecting
+     * the copy. If the {@link #refresh} method is then cblled, the
+     * <code>MBebnServerFileAccessController</code> will mbke b new
+     * copy of the properties object bt thbt time.</p>
      *
-     * @param accessFileProps properties list containing the username/access
+     * @pbrbm bccessFileProps properties list contbining the usernbme/bccess
      * level entries.
      *
-     * @exception IllegalArgumentException if <code>accessFileProps</code> is
-     * <code>null</code> or if any of the supplied access level values differs
-     * from "readonly" or "readwrite".
+     * @exception IllegblArgumentException if <code>bccessFileProps</code> is
+     * <code>null</code> or if bny of the supplied bccess level vblues differs
+     * from "rebdonly" or "rebdwrite".
      */
-    public MBeanServerFileAccessController(Properties accessFileProps)
+    public MBebnServerFileAccessController(Properties bccessFileProps)
         throws IOException {
         super();
-        if (accessFileProps == null)
-            throw new IllegalArgumentException("Null properties");
-        originalProps = accessFileProps;
-        parseProperties(accessFileProps);
+        if (bccessFileProps == null)
+            throw new IllegblArgumentException("Null properties");
+        originblProps = bccessFileProps;
+        pbrseProperties(bccessFileProps);
     }
 
     /**
-     * <p>Create a new MBeanServerAccessController that forwards all the
-     * MBeanServer requests to the MBeanServer set by invoking the {@link
-     * #setMBeanServer} method after doing access checks based on read and
+     * <p>Crebte b new MBebnServerAccessController thbt forwbrds bll the
+     * MBebnServer requests to the MBebnServer set by invoking the {@link
+     * #setMBebnServer} method bfter doing bccess checks bbsed on rebd bnd
      * write permissions.</p>
      *
-     * <p>This instance is initialized from the specified properties
-     * instance.  This constructor makes a copy of the properties
-     * instance and it is the copy that is consulted to check the
-     * username and access level of an incoming connection. The
-     * original properties object can be modified without affecting
-     * the copy. If the {@link #refresh} method is then called, the
-     * <code>MBeanServerFileAccessController</code> will make a new
-     * copy of the properties object at that time.</p>
+     * <p>This instbnce is initiblized from the specified properties
+     * instbnce.  This constructor mbkes b copy of the properties
+     * instbnce bnd it is the copy thbt is consulted to check the
+     * usernbme bnd bccess level of bn incoming connection. The
+     * originbl properties object cbn be modified without bffecting
+     * the copy. If the {@link #refresh} method is then cblled, the
+     * <code>MBebnServerFileAccessController</code> will mbke b new
+     * copy of the properties object bt thbt time.</p>
      *
-     * @param accessFileProps properties list containing the username/access
+     * @pbrbm bccessFileProps properties list contbining the usernbme/bccess
      * level entries.
      *
-     * @param mbs the MBeanServer object to which requests will be forwarded.
+     * @pbrbm mbs the MBebnServer object to which requests will be forwbrded.
      *
-     * @exception IllegalArgumentException if <code>accessFileProps</code> is
-     * <code>null</code> or if any of the supplied access level values differs
-     * from "readonly" or "readwrite".
+     * @exception IllegblArgumentException if <code>bccessFileProps</code> is
+     * <code>null</code> or if bny of the supplied bccess level vblues differs
+     * from "rebdonly" or "rebdwrite".
      */
-    public MBeanServerFileAccessController(Properties accessFileProps,
-                                           MBeanServer mbs)
+    public MBebnServerFileAccessController(Properties bccessFileProps,
+                                           MBebnServer mbs)
         throws IOException {
-        this(accessFileProps);
-        setMBeanServer(mbs);
+        this(bccessFileProps);
+        setMBebnServer(mbs);
     }
 
     /**
-     * Check if the caller can do read operations. This method does
+     * Check if the cbller cbn do rebd operbtions. This method does
      * nothing if so, otherwise throws SecurityException.
      */
     @Override
-    public void checkRead() {
+    public void checkRebd() {
         checkAccess(AccessType.READ, null);
     }
 
     /**
-     * Check if the caller can do write operations.  This method does
+     * Check if the cbller cbn do write operbtions.  This method does
      * nothing if so, otherwise throws SecurityException.
      */
     @Override
@@ -241,180 +241,180 @@ public class MBeanServerFileAccessController
     }
 
     /**
-     * Check if the caller can create MBeans or instances of the given class.
+     * Check if the cbller cbn crebte MBebns or instbnces of the given clbss.
      * This method does nothing if so, otherwise throws SecurityException.
      */
     @Override
-    public void checkCreate(String className) {
-        checkAccess(AccessType.CREATE, className);
+    public void checkCrebte(String clbssNbme) {
+        checkAccess(AccessType.CREATE, clbssNbme);
     }
 
     /**
-     * Check if the caller can do unregister operations.  This method does
+     * Check if the cbller cbn do unregister operbtions.  This method does
      * nothing if so, otherwise throws SecurityException.
      */
     @Override
-    public void checkUnregister(ObjectName name) {
+    public void checkUnregister(ObjectNbme nbme) {
         checkAccess(AccessType.UNREGISTER, null);
     }
 
     /**
-     * <p>Refresh the set of username/access level entries.</p>
+     * <p>Refresh the set of usernbme/bccess level entries.</p>
      *
-     * <p>If this instance was created using the
-     * {@link #MBeanServerFileAccessController(String)} or
-     * {@link #MBeanServerFileAccessController(String,MBeanServer)}
-     * constructors to specify a file from which the entries are read,
-     * the file is re-read.</p>
+     * <p>If this instbnce wbs crebted using the
+     * {@link #MBebnServerFileAccessController(String)} or
+     * {@link #MBebnServerFileAccessController(String,MBebnServer)}
+     * constructors to specify b file from which the entries bre rebd,
+     * the file is re-rebd.</p>
      *
-     * <p>If this instance was created using the
-     * {@link #MBeanServerFileAccessController(Properties)} or
-     * {@link #MBeanServerFileAccessController(Properties,MBeanServer)}
-     * constructors then a new copy of the <code>Properties</code> object
-     * is made.</p>
+     * <p>If this instbnce wbs crebted using the
+     * {@link #MBebnServerFileAccessController(Properties)} or
+     * {@link #MBebnServerFileAccessController(Properties,MBebnServer)}
+     * constructors then b new copy of the <code>Properties</code> object
+     * is mbde.</p>
      *
-     * @exception IOException if the file does not exist, is a
-     * directory rather than a regular file, or for some other
-     * reason cannot be opened for reading.
+     * @exception IOException if the file does not exist, is b
+     * directory rbther thbn b regulbr file, or for some other
+     * rebson cbnnot be opened for rebding.
      *
-     * @exception IllegalArgumentException if any of the supplied access
-     * level values differs from "readonly" or "readwrite".
+     * @exception IllegblArgumentException if bny of the supplied bccess
+     * level vblues differs from "rebdonly" or "rebdwrite".
      */
     public synchronized void refresh() throws IOException {
         Properties props;
-        if (accessFileName == null)
-            props = originalProps;
+        if (bccessFileNbme == null)
+            props = originblProps;
         else
-            props = propertiesFromFile(accessFileName);
-        parseProperties(props);
+            props = propertiesFromFile(bccessFileNbme);
+        pbrseProperties(props);
     }
 
-    private static Properties propertiesFromFile(String fname)
+    privbte stbtic Properties propertiesFromFile(String fnbme)
         throws IOException {
-        FileInputStream fin = new FileInputStream(fname);
+        FileInputStrebm fin = new FileInputStrebm(fnbme);
         try {
             Properties p = new Properties();
-            p.load(fin);
+            p.lobd(fin);
             return p;
-        } finally {
+        } finblly {
             fin.close();
         }
     }
 
-    private synchronized void checkAccess(AccessType requiredAccess, String arg) {
-        final AccessControlContext acc = AccessController.getContext();
-        final Subject s =
+    privbte synchronized void checkAccess(AccessType requiredAccess, String brg) {
+        finbl AccessControlContext bcc = AccessController.getContext();
+        finbl Subject s =
             AccessController.doPrivileged(new PrivilegedAction<Subject>() {
                     public Subject run() {
-                        return Subject.getSubject(acc);
+                        return Subject.getSubject(bcc);
                     }
                 });
-        if (s == null) return; /* security has not been enabled */
-        final Set<Principal> principals = s.getPrincipals();
-        String newPropertyValue = null;
-        for (Iterator<Principal> i = principals.iterator(); i.hasNext(); ) {
-            final Principal p = i.next();
-            Access access = accessMap.get(p.getName());
-            if (access != null) {
-                boolean ok;
+        if (s == null) return; /* security hbs not been enbbled */
+        finbl Set<Principbl> principbls = s.getPrincipbls();
+        String newPropertyVblue = null;
+        for (Iterbtor<Principbl> i = principbls.iterbtor(); i.hbsNext(); ) {
+            finbl Principbl p = i.next();
+            Access bccess = bccessMbp.get(p.getNbme());
+            if (bccess != null) {
+                boolebn ok;
                 switch (requiredAccess) {
-                    case READ:
-                        ok = true;  // all access entries imply read
-                        break;
-                    case WRITE:
-                        ok = access.write;
-                        break;
-                    case UNREGISTER:
-                        ok = access.unregister;
-                        if (!ok && access.write)
-                            newPropertyValue = "unregister";
-                        break;
-                    case CREATE:
-                        ok = checkCreateAccess(access, arg);
-                        if (!ok && access.write)
-                            newPropertyValue = "create " + arg;
-                        break;
-                    default:
+                    cbse READ:
+                        ok = true;  // bll bccess entries imply rebd
+                        brebk;
+                    cbse WRITE:
+                        ok = bccess.write;
+                        brebk;
+                    cbse UNREGISTER:
+                        ok = bccess.unregister;
+                        if (!ok && bccess.write)
+                            newPropertyVblue = "unregister";
+                        brebk;
+                    cbse CREATE:
+                        ok = checkCrebteAccess(bccess, brg);
+                        if (!ok && bccess.write)
+                            newPropertyVblue = "crebte " + brg;
+                        brebk;
+                    defbult:
                         throw new AssertionError();
                 }
                 if (ok)
                     return;
             }
         }
-        SecurityException se = new SecurityException("Access denied! Invalid " +
-                "access level for requested MBeanServer operation.");
-        // Add some more information to help people with deployments that
-        // worked before we required explicit create clauses. We're not giving
-        // any information to the bad guys, other than that the access control
-        // is based on a file, which they could have worked out from the stack
-        // trace anyway.
-        if (newPropertyValue != null) {
+        SecurityException se = new SecurityException("Access denied! Invblid " +
+                "bccess level for requested MBebnServer operbtion.");
+        // Add some more informbtion to help people with deployments thbt
+        // worked before we required explicit crebte clbuses. We're not giving
+        // bny informbtion to the bbd guys, other thbn thbt the bccess control
+        // is bbsed on b file, which they could hbve worked out from the stbck
+        // trbce bnywby.
+        if (newPropertyVblue != null) {
             SecurityException se2 = new SecurityException("Access property " +
-                    "for this identity should be similar to: " + READWRITE +
-                    " " + newPropertyValue);
-            se.initCause(se2);
+                    "for this identity should be similbr to: " + READWRITE +
+                    " " + newPropertyVblue);
+            se.initCbuse(se2);
         }
         throw se;
     }
 
-    private static boolean checkCreateAccess(Access access, String className) {
-        for (String classNamePattern : access.createPatterns) {
-            if (classNameMatch(classNamePattern, className))
+    privbte stbtic boolebn checkCrebteAccess(Access bccess, String clbssNbme) {
+        for (String clbssNbmePbttern : bccess.crebtePbtterns) {
+            if (clbssNbmeMbtch(clbssNbmePbttern, clbssNbme))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
-    private static boolean classNameMatch(String pattern, String className) {
-        // We studiously avoided regexes when parsing the properties file,
-        // because that is done whenever the VM is started with the
-        // appropriate -Dcom.sun.management options, even if nobody ever
-        // creates an MBean.  We don't want to incur the overhead of loading
-        // all the regex code whenever those options are specified, but if we
-        // get as far as here then the VM is already running and somebody is
-        // doing the very unusual operation of remotely creating an MBean.
-        // Because that operation is so unusual, we don't try to optimize
-        // by hand-matching or by caching compiled Pattern objects.
+    privbte stbtic boolebn clbssNbmeMbtch(String pbttern, String clbssNbme) {
+        // We studiously bvoided regexes when pbrsing the properties file,
+        // becbuse thbt is done whenever the VM is stbrted with the
+        // bppropribte -Dcom.sun.mbnbgement options, even if nobody ever
+        // crebtes bn MBebn.  We don't wbnt to incur the overhebd of lobding
+        // bll the regex code whenever those options bre specified, but if we
+        // get bs fbr bs here then the VM is blrebdy running bnd somebody is
+        // doing the very unusubl operbtion of remotely crebting bn MBebn.
+        // Becbuse thbt operbtion is so unusubl, we don't try to optimize
+        // by hbnd-mbtching or by cbching compiled Pbttern objects.
         StringBuilder sb = new StringBuilder();
-        StringTokenizer stok = new StringTokenizer(pattern, "*", true);
-        while (stok.hasMoreTokens()) {
+        StringTokenizer stok = new StringTokenizer(pbttern, "*", true);
+        while (stok.hbsMoreTokens()) {
             String tok = stok.nextToken();
-            if (tok.equals("*"))
-                sb.append("[^.]*");
+            if (tok.equbls("*"))
+                sb.bppend("[^.]*");
             else
-                sb.append(Pattern.quote(tok));
+                sb.bppend(Pbttern.quote(tok));
         }
-        return className.matches(sb.toString());
+        return clbssNbme.mbtches(sb.toString());
     }
 
-    private void parseProperties(Properties props) {
-        this.accessMap = new HashMap<String, Access>();
-        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+    privbte void pbrseProperties(Properties props) {
+        this.bccessMbp = new HbshMbp<String, Access>();
+        for (Mbp.Entry<Object, Object> entry : props.entrySet()) {
             String identity = (String) entry.getKey();
-            String accessString = (String) entry.getValue();
-            Access access = Parser.parseAccess(identity, accessString);
-            accessMap.put(identity, access);
+            String bccessString = (String) entry.getVblue();
+            Access bccess = Pbrser.pbrseAccess(identity, bccessString);
+            bccessMbp.put(identity, bccess);
         }
     }
 
-    private static class Parser {
-        private final static int EOS = -1;  // pseudo-codepoint "end of string"
-        static {
-            assert !Character.isWhitespace(EOS);
+    privbte stbtic clbss Pbrser {
+        privbte finbl stbtic int EOS = -1;  // pseudo-codepoint "end of string"
+        stbtic {
+            bssert !Chbrbcter.isWhitespbce(EOS);
         }
 
-        private final String identity;  // just for better error messages
-        private final String s;  // the string we're parsing
-        private final int len;   // s.length()
-        private int i;
-        private int c;
-        // At any point, either c is s.codePointAt(i), or i == len and
-        // c is EOS.  We use int rather than char because it is conceivable
-        // (if unlikely) that a classname in a create clause might contain
-        // "supplementary characters", the ones that don't fit in the original
+        privbte finbl String identity;  // just for better error messbges
+        privbte finbl String s;  // the string we're pbrsing
+        privbte finbl int len;   // s.length()
+        privbte int i;
+        privbte int c;
+        // At bny point, either c is s.codePointAt(i), or i == len bnd
+        // c is EOS.  We use int rbther thbn chbr becbuse it is conceivbble
+        // (if unlikely) thbt b clbssnbme in b crebte clbuse might contbin
+        // "supplementbry chbrbcters", the ones thbt don't fit in the originbl
         // 16 bits for Unicode.
 
-        private Parser(String identity, String s) {
+        privbte Pbrser(String identity, String s) {
             this.identity = identity;
             this.s = s;
             this.len = s.length();
@@ -425,89 +425,89 @@ public class MBeanServerFileAccessController
                 this.c = EOS;
         }
 
-        static Access parseAccess(String identity, String s) {
-            return new Parser(identity, s).parseAccess();
+        stbtic Access pbrseAccess(String identity, String s) {
+            return new Pbrser(identity, s).pbrseAccess();
         }
 
-        private Access parseAccess() {
-            skipSpace();
-            String type = parseWord();
-            Access access;
-            if (type.equals(READONLY))
-                access = new Access(false, false, null);
-            else if (type.equals(READWRITE))
-                access = parseReadWrite();
+        privbte Access pbrseAccess() {
+            skipSpbce();
+            String type = pbrseWord();
+            Access bccess;
+            if (type.equbls(READONLY))
+                bccess = new Access(fblse, fblse, null);
+            else if (type.equbls(READWRITE))
+                bccess = pbrseRebdWrite();
             else {
-                throw syntax("Expected " + READONLY + " or " + READWRITE +
+                throw syntbx("Expected " + READONLY + " or " + READWRITE +
                         ": " + type);
             }
             if (c != EOS)
-                throw syntax("Extra text at end of line");
-            return access;
+                throw syntbx("Extrb text bt end of line");
+            return bccess;
         }
 
-        private Access parseReadWrite() {
-            List<String> createClasses = new ArrayList<String>();
-            boolean unregister = false;
+        privbte Access pbrseRebdWrite() {
+            List<String> crebteClbsses = new ArrbyList<String>();
+            boolebn unregister = fblse;
             while (true) {
-                skipSpace();
+                skipSpbce();
                 if (c == EOS)
-                    break;
-                String type = parseWord();
-                if (type.equals(UNREGISTER))
+                    brebk;
+                String type = pbrseWord();
+                if (type.equbls(UNREGISTER))
                     unregister = true;
-                else if (type.equals(CREATE))
-                    parseCreate(createClasses);
+                else if (type.equbls(CREATE))
+                    pbrseCrebte(crebteClbsses);
                 else
-                    throw syntax("Unrecognized keyword " + type);
+                    throw syntbx("Unrecognized keyword " + type);
             }
-            return new Access(true, unregister, createClasses);
+            return new Access(true, unregister, crebteClbsses);
         }
 
-        private void parseCreate(List<String> createClasses) {
+        privbte void pbrseCrebte(List<String> crebteClbsses) {
             while (true) {
-                skipSpace();
-                createClasses.add(parseClassName());
-                skipSpace();
+                skipSpbce();
+                crebteClbsses.bdd(pbrseClbssNbme());
+                skipSpbce();
                 if (c == ',')
                     next();
                 else
-                    break;
+                    brebk;
             }
         }
 
-        private String parseClassName() {
-            // We don't check that classname components begin with suitable
-            // characters (so we accept 1.2.3 for example).  This means that
-            // there are only two states, which we can call dotOK and !dotOK
-            // according as a dot (.) is legal or not.  Initially we're in
-            // !dotOK since a classname can't start with a dot; after a dot
-            // we're in !dotOK again; and after any other characters we're in
-            // dotOK.  The classname is only accepted if we end in dotOK,
-            // so we reject an empty name or a name that ends with a dot.
-            final int start = i;
-            boolean dotOK = false;
+        privbte String pbrseClbssNbme() {
+            // We don't check thbt clbssnbme components begin with suitbble
+            // chbrbcters (so we bccept 1.2.3 for exbmple).  This mebns thbt
+            // there bre only two stbtes, which we cbn cbll dotOK bnd !dotOK
+            // bccording bs b dot (.) is legbl or not.  Initiblly we're in
+            // !dotOK since b clbssnbme cbn't stbrt with b dot; bfter b dot
+            // we're in !dotOK bgbin; bnd bfter bny other chbrbcters we're in
+            // dotOK.  The clbssnbme is only bccepted if we end in dotOK,
+            // so we reject bn empty nbme or b nbme thbt ends with b dot.
+            finbl int stbrt = i;
+            boolebn dotOK = fblse;
             while (true) {
                 if (c == '.') {
                     if (!dotOK)
-                        throw syntax("Bad . in class name");
-                    dotOK = false;
-                } else if (c == '*' || Character.isJavaIdentifierPart(c))
+                        throw syntbx("Bbd . in clbss nbme");
+                    dotOK = fblse;
+                } else if (c == '*' || Chbrbcter.isJbvbIdentifierPbrt(c))
                     dotOK = true;
                 else
-                    break;
+                    brebk;
                 next();
             }
-            String className = s.substring(start, i);
+            String clbssNbme = s.substring(stbrt, i);
             if (!dotOK)
-                throw syntax("Bad class name " + className);
-            return className;
+                throw syntbx("Bbd clbss nbme " + clbssNbme);
+            return clbssNbme;
         }
 
-        // Advance c and i to the next character, unless already at EOS.
-        private void next() {
+        // Advbnce c bnd i to the next chbrbcter, unless blrebdy bt EOS.
+        privbte void next() {
             if (c != EOS) {
-                i += Character.charCount(c);
+                i += Chbrbcter.chbrCount(c);
                 if (i < len)
                     c = s.codePointAt(i);
                 else
@@ -515,30 +515,30 @@ public class MBeanServerFileAccessController
             }
         }
 
-        private void skipSpace() {
-            while (Character.isWhitespace(c))
+        privbte void skipSpbce() {
+            while (Chbrbcter.isWhitespbce(c))
                 next();
         }
 
-        private String parseWord() {
-            skipSpace();
+        privbte String pbrseWord() {
+            skipSpbce();
             if (c == EOS)
-                throw syntax("Expected word at end of line");
-            final int start = i;
-            while (c != EOS && !Character.isWhitespace(c))
+                throw syntbx("Expected word bt end of line");
+            finbl int stbrt = i;
+            while (c != EOS && !Chbrbcter.isWhitespbce(c))
                 next();
-            String word = s.substring(start, i);
-            skipSpace();
+            String word = s.substring(stbrt, i);
+            skipSpbce();
             return word;
         }
 
-        private IllegalArgumentException syntax(String msg) {
-            return new IllegalArgumentException(
+        privbte IllegblArgumentException syntbx(String msg) {
+            return new IllegblArgumentException(
                     msg + " [" + identity + " " + s + "]");
         }
     }
 
-    private Map<String, Access> accessMap;
-    private Properties originalProps;
-    private String accessFileName;
+    privbte Mbp<String, Access> bccessMbp;
+    privbte Properties originblProps;
+    privbte String bccessFileNbme;
 }

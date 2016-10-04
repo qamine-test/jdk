@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #define USE_ERROR
 #define USE_TRACE
 
-#include "PLATFORM_API_SolarisOS_Utils.h"
+#include "PLATFORM_API_SolbrisOS_Utils.h"
 #include "DirectAudio.h"
 
 #if USE_DAUDIO == TRUE
 
 
-// The default buffer time
+// The defbult buffer time
 #define DEFAULT_PERIOD_TIME_MILLIS 50
 
 ///// implemented functions of DirectAudio.h
@@ -47,15 +47,15 @@ INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex,
     AudioDeviceDescription desc;
 
     if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, TRUE)) {
-        description->maxSimulLines = desc.maxSimulLines;
-        strncpy(description->name, desc.name, DAUDIO_STRING_LENGTH-1);
-        description->name[DAUDIO_STRING_LENGTH-1] = 0;
+        description->mbxSimulLines = desc.mbxSimulLines;
+        strncpy(description->nbme, desc.nbme, DAUDIO_STRING_LENGTH-1);
+        description->nbme[DAUDIO_STRING_LENGTH-1] = 0;
         strncpy(description->vendor, desc.vendor, DAUDIO_STRING_LENGTH-1);
         description->vendor[DAUDIO_STRING_LENGTH-1] = 0;
         strncpy(description->version, desc.version, DAUDIO_STRING_LENGTH-1);
         description->version[DAUDIO_STRING_LENGTH-1] = 0;
         /*strncpy(description->description, desc.description, DAUDIO_STRING_LENGTH-1);*/
-        strncpy(description->description, "Solaris Mixer", DAUDIO_STRING_LENGTH-1);
+        strncpy(description->description, "Solbris Mixer", DAUDIO_STRING_LENGTH-1);
         description->description[DAUDIO_STRING_LENGTH-1] = 0;
         return TRUE;
     }
@@ -65,85 +65,85 @@ INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex,
 
 #define MAX_SAMPLE_RATES   20
 
-void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* creator) {
+void DAUDIO_GetFormbts(INT32 mixerIndex, INT32 deviceID, int isSource, void* crebtor) {
     int fd = -1;
     AudioDeviceDescription desc;
-    am_sample_rates_t      *sr;
-    /* hardcoded bits and channels */
+    bm_sbmple_rbtes_t      *sr;
+    /* hbrdcoded bits bnd chbnnels */
     int bits[] = {8, 16};
     int bitsCount = 2;
-    int channels[] = {1, 2};
-    int channelsCount = 2;
-    /* for querying sample rates */
+    int chbnnels[] = {1, 2};
+    int chbnnelsCount = 2;
+    /* for querying sbmple rbtes */
     int err;
     int ch, b, s;
 
-    TRACE2("DAUDIO_GetFormats, mixer %d, isSource=%d\n", mixerIndex, isSource);
+    TRACE2("DAUDIO_GetFormbts, mixer %d, isSource=%d\n", mixerIndex, isSource);
     if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, FALSE)) {
-        fd = open(desc.pathctl, O_RDONLY);
+        fd = open(desc.pbthctl, O_RDONLY);
     }
     if (fd < 0) {
-        ERROR1("Couldn't open audio device ctl for device %d!\n", mixerIndex);
+        ERROR1("Couldn't open budio device ctl for device %d!\n", mixerIndex);
         return;
     }
 
-    /* get sample rates */
-    sr = (am_sample_rates_t*) malloc(AUDIO_MIXER_SAMP_RATES_STRUCT_SIZE(MAX_SAMPLE_RATES));
+    /* get sbmple rbtes */
+    sr = (bm_sbmple_rbtes_t*) mblloc(AUDIO_MIXER_SAMP_RATES_STRUCT_SIZE(MAX_SAMPLE_RATES));
     if (sr == NULL) {
-        ERROR1("DAUDIO_GetFormats: out of memory for mixer %d\n", (int) mixerIndex);
+        ERROR1("DAUDIO_GetFormbts: out of memory for mixer %d\n", (int) mixerIndex);
         close(fd);
         return;
     }
 
-    sr->num_samp_rates = MAX_SAMPLE_RATES;
+    sr->num_sbmp_rbtes = MAX_SAMPLE_RATES;
     sr->type = isSource?AUDIO_PLAY:AUDIO_RECORD;
-    sr->samp_rates[0] = -2;
+    sr->sbmp_rbtes[0] = -2;
     err = ioctl(fd, AUDIO_MIXER_GET_SAMPLE_RATES, sr);
     if (err < 0) {
-        ERROR1("  DAUDIO_GetFormats: AUDIO_MIXER_GET_SAMPLE_RATES failed for mixer %d!\n",
+        ERROR1("  DAUDIO_GetFormbts: AUDIO_MIXER_GET_SAMPLE_RATES fbiled for mixer %d!\n",
                (int)mixerIndex);
-        ERROR2(" -> num_sample_rates=%d sample_rates[0] = %d\n",
-               (int) sr->num_samp_rates,
-               (int) sr->samp_rates[0]);
-        /* Some Solaris 8 drivers fail for get sample rates!
-         * Do as if we support all sample rates
+        ERROR2(" -> num_sbmple_rbtes=%d sbmple_rbtes[0] = %d\n",
+               (int) sr->num_sbmp_rbtes,
+               (int) sr->sbmp_rbtes[0]);
+        /* Some Solbris 8 drivers fbil for get sbmple rbtes!
+         * Do bs if we support bll sbmple rbtes
          */
-        sr->flags = MIXER_SR_LIMITS;
+        sr->flbgs = MIXER_SR_LIMITS;
     }
-    if ((sr->flags & MIXER_SR_LIMITS)
-        || (sr->num_samp_rates > MAX_SAMPLE_RATES)) {
+    if ((sr->flbgs & MIXER_SR_LIMITS)
+        || (sr->num_sbmp_rbtes > MAX_SAMPLE_RATES)) {
 #ifdef USE_TRACE
-        if ((sr->flags & MIXER_SR_LIMITS)) {
-            TRACE1("  DAUDIO_GetFormats: floating sample rate allowed by mixer %d\n",
+        if ((sr->flbgs & MIXER_SR_LIMITS)) {
+            TRACE1("  DAUDIO_GetFormbts: flobting sbmple rbte bllowed by mixer %d\n",
                    (int)mixerIndex);
         }
-        if (sr->num_samp_rates > MAX_SAMPLE_RATES) {
-            TRACE2("  DAUDIO_GetFormats: more than %d formats. Use -1 for sample rates mixer %d\n",
+        if (sr->num_sbmp_rbtes > MAX_SAMPLE_RATES) {
+            TRACE2("  DAUDIO_GetFormbts: more thbn %d formbts. Use -1 for sbmple rbtes mixer %d\n",
                    MAX_SAMPLE_RATES, (int)mixerIndex);
         }
 #endif
         /*
-         * Fake it to have only one sample rate: -1
+         * Fbke it to hbve only one sbmple rbte: -1
          */
-        sr->num_samp_rates = 1;
-        sr->samp_rates[0] = -1;
+        sr->num_sbmp_rbtes = 1;
+        sr->sbmp_rbtes[0] = -1;
     }
     close(fd);
 
-    for (ch = 0; ch < channelsCount; ch++) {
+    for (ch = 0; ch < chbnnelsCount; ch++) {
         for (b = 0; b < bitsCount; b++) {
-            for (s = 0; s < sr->num_samp_rates; s++) {
-                DAUDIO_AddAudioFormat(creator,
-                                      bits[b], /* significant bits */
-                                      0, /* frameSize: let it be calculated */
-                                      channels[ch],
-                                      (float) ((int) sr->samp_rates[s]),
+            for (s = 0; s < sr->num_sbmp_rbtes; s++) {
+                DAUDIO_AddAudioFormbt(crebtor,
+                                      bits[b], /* significbnt bits */
+                                      0, /* frbmeSize: let it be cblculbted */
+                                      chbnnels[ch],
+                                      (flobt) ((int) sr->sbmp_rbtes[s]),
                                       DAUDIO_PCM, /* encoding - let's only do PCM */
                                       (bits[b] > 8)?TRUE:TRUE, /* isSigned */
 #ifdef _LITTLE_ENDIAN
-                                      FALSE /* little endian */
+                                      FALSE /* little endibn */
 #else
-                                      (bits[b] > 8)?TRUE:FALSE  /* big endian */
+                                      (bits[b] > 8)?TRUE:FALSE  /* big endibn */
 #endif
                                       );
             }
@@ -155,13 +155,13 @@ void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* cre
 
 typedef struct {
     int fd;
-    audio_info_t info;
+    budio_info_t info;
     int bufferSizeInBytes;
-    int frameSize; /* storage size in Bytes */
-    /* how many bytes were written or read */
-    INT32 transferedBytes;
-    /* if transferedBytes exceed 32-bit boundary,
-     * it will be reset and positionOffset will receive
+    int frbmeSize; /* storbge size in Bytes */
+    /* how mbny bytes were written or rebd */
+    INT32 trbnsferedBytes;
+    /* if trbnsferedBytes exceed 32-bit boundbry,
+     * it will be reset bnd positionOffset will receive
      * the offset
      */
     INT64 positionOffset;
@@ -169,9 +169,9 @@ typedef struct {
 
 
 void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
-                  int encoding, float sampleRate, int sampleSizeInBits,
-                  int frameSize, int channels,
-                  int isSigned, int isBigEndian, int bufferSizeInBytes) {
+                  int encoding, flobt sbmpleRbte, int sbmpleSizeInBits,
+                  int frbmeSize, int chbnnels,
+                  int isSigned, int isBigEndibn, int bufferSizeInBytes) {
     int err = 0;
     int openMode;
     AudioDeviceDescription desc;
@@ -179,17 +179,17 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
 
     TRACE0("> DAUDIO_Open\n");
     if (encoding != DAUDIO_PCM) {
-        ERROR1(" DAUDIO_Open: invalid encoding %d\n", (int) encoding);
+        ERROR1(" DAUDIO_Open: invblid encoding %d\n", (int) encoding);
         return NULL;
     }
 
-    info = (SolPcmInfo*) malloc(sizeof(SolPcmInfo));
+    info = (SolPcmInfo*) mblloc(sizeof(SolPcmInfo));
     if (!info) {
         ERROR0("Out of memory\n");
         return NULL;
     }
     memset(info, 0, sizeof(SolPcmInfo));
-    info->frameSize = frameSize;
+    info->frbmeSize = frbmeSize;
     info->fd = -1;
 
     if (isSource) {
@@ -199,46 +199,46 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
     }
 
 #ifndef __linux__
-    /* blackdown does not use NONBLOCK */
+    /* blbckdown does not use NONBLOCK */
     openMode |= O_NONBLOCK;
 #endif
 
     if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, FALSE)) {
-        info->fd = open(desc.path, openMode);
+        info->fd = open(desc.pbth, openMode);
     }
     if (info->fd < 0) {
-        ERROR1("Couldn't open audio device for mixer %d!\n", mixerIndex);
+        ERROR1("Couldn't open budio device for mixer %d!\n", mixerIndex);
         free(info);
         return NULL;
     }
     /* set to multiple open */
     if (ioctl(info->fd, AUDIO_MIXER_MULTIPLE_OPEN, NULL) >= 0) {
-        TRACE1("DAUDIO_Open: %s set to multiple open\n", desc.path);
+        TRACE1("DAUDIO_Open: %s set to multiple open\n", desc.pbth);
     } else {
-        ERROR1("DAUDIO_Open: ioctl AUDIO_MIXER_MULTIPLE_OPEN failed on %s!\n", desc.path);
+        ERROR1("DAUDIO_Open: ioctl AUDIO_MIXER_MULTIPLE_OPEN fbiled on %s!\n", desc.pbth);
     }
 
     AUDIO_INITINFO(&(info->info));
-    /* need AUDIO_GETINFO ioctl to get this to work on solaris x86  */
+    /* need AUDIO_GETINFO ioctl to get this to work on solbris x86  */
     err = ioctl(info->fd, AUDIO_GETINFO, &(info->info));
 
-    /* not valid to call AUDIO_SETINFO ioctl with all the fields from AUDIO_GETINFO. */
+    /* not vblid to cbll AUDIO_SETINFO ioctl with bll the fields from AUDIO_GETINFO. */
     AUDIO_INITINFO(&(info->info));
 
     if (isSource) {
-        info->info.play.sample_rate = sampleRate;
-        info->info.play.precision = sampleSizeInBits;
-        info->info.play.channels = channels;
-        info->info.play.encoding = AUDIO_ENCODING_LINEAR;
-        info->info.play.buffer_size = bufferSizeInBytes;
-        info->info.play.pause = 1;
+        info->info.plby.sbmple_rbte = sbmpleRbte;
+        info->info.plby.precision = sbmpleSizeInBits;
+        info->info.plby.chbnnels = chbnnels;
+        info->info.plby.encoding = AUDIO_ENCODING_LINEAR;
+        info->info.plby.buffer_size = bufferSizeInBytes;
+        info->info.plby.pbuse = 1;
     } else {
-        info->info.record.sample_rate = sampleRate;
-        info->info.record.precision = sampleSizeInBits;
-        info->info.record.channels = channels;
+        info->info.record.sbmple_rbte = sbmpleRbte;
+        info->info.record.precision = sbmpleSizeInBits;
+        info->info.record.chbnnels = chbnnels;
         info->info.record.encoding = AUDIO_ENCODING_LINEAR;
         info->info.record.buffer_size = bufferSizeInBytes;
-        info->info.record.pause = 1;
+        info->info.record.pbuse = 1;
     }
     err = ioctl(info->fd, AUDIO_SETINFO,  &(info->info));
     if (err < 0) {
@@ -251,7 +251,7 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
     err = ioctl(info->fd, AUDIO_GETINFO, &(info->info));
     if (err >= 0) {
         if (isSource) {
-            info->bufferSizeInBytes = info->info.play.buffer_size;
+            info->bufferSizeInBytes = info->info.plby.buffer_size;
         } else {
             info->bufferSizeInBytes = info->info.record.buffer_size;
         }
@@ -259,7 +259,7 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
                (int) bufferSizeInBytes,
                (int) info->bufferSizeInBytes);
     } else {
-        ERROR0("DAUDIO_Open: cannot get info!\n");
+        ERROR0("DAUDIO_Open: cbnnot get info!\n");
         DAUDIO_Close((void*) info, isSource);
         return NULL;
     }
@@ -268,57 +268,57 @@ void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
 }
 
 
-int DAUDIO_Start(void* id, int isSource) {
+int DAUDIO_Stbrt(void* id, int isSource) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int err, modified;
-    audio_info_t audioInfo;
+    budio_info_t budioInfo;
 
-    TRACE0("> DAUDIO_Start\n");
+    TRACE0("> DAUDIO_Stbrt\n");
 
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
+    AUDIO_INITINFO(&budioInfo);
+    err = ioctl(info->fd, AUDIO_GETINFO, &budioInfo);
     if (err >= 0) {
-        // unpause
+        // unpbuse
         modified = FALSE;
-        if (isSource && audioInfo.play.pause) {
-            audioInfo.play.pause = 0;
+        if (isSource && budioInfo.plby.pbuse) {
+            budioInfo.plby.pbuse = 0;
             modified = TRUE;
         }
-        if (!isSource && audioInfo.record.pause) {
-            audioInfo.record.pause = 0;
+        if (!isSource && budioInfo.record.pbuse) {
+            budioInfo.record.pbuse = 0;
             modified = TRUE;
         }
         if (modified) {
-            err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
+            err = ioctl(info->fd, AUDIO_SETINFO, &budioInfo);
         }
     }
 
-    TRACE1("< DAUDIO_Start %s\n", (err>=0)?"success":"error");
+    TRACE1("< DAUDIO_Stbrt %s\n", (err>=0)?"success":"error");
     return (err >= 0)?TRUE:FALSE;
 }
 
 int DAUDIO_Stop(void* id, int isSource) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int err, modified;
-    audio_info_t audioInfo;
+    budio_info_t budioInfo;
 
     TRACE0("> DAUDIO_Stop\n");
 
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
+    AUDIO_INITINFO(&budioInfo);
+    err = ioctl(info->fd, AUDIO_GETINFO, &budioInfo);
     if (err >= 0) {
-        // pause
+        // pbuse
         modified = FALSE;
-        if (isSource && !audioInfo.play.pause) {
-            audioInfo.play.pause = 1;
+        if (isSource && !budioInfo.plby.pbuse) {
+            budioInfo.plby.pbuse = 1;
             modified = TRUE;
         }
-        if (!isSource && !audioInfo.record.pause) {
-            audioInfo.record.pause = 1;
+        if (!isSource && !budioInfo.record.pbuse) {
+            budioInfo.record.pbuse = 1;
             modified = TRUE;
         }
         if (modified) {
-            err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
+            err = ioctl(info->fd, AUDIO_SETINFO, &budioInfo);
         }
     }
 
@@ -347,85 +347,85 @@ void DAUDIO_Close(void* id, int isSource) {
 #define POSITION_MAX 1000000
 #endif
 
-void resetErrorFlagAndAdjustPosition(SolPcmInfo* info, int isSource, int count) {
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
+void resetErrorFlbgAndAdjustPosition(SolPcmInfo* info, int isSource, int count) {
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
     int err;
     int offset = -1;
     int underrun = FALSE;
     int devBytes = 0;
 
     if (count > 0) {
-        info->transferedBytes += count;
+        info->trbnsferedBytes += count;
 
         if (isSource) {
-            prinfo = &(audioInfo.play);
+            prinfo = &(budioInfo.plby);
         } else {
-            prinfo = &(audioInfo.record);
+            prinfo = &(budioInfo.record);
         }
-        AUDIO_INITINFO(&audioInfo);
-        err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
+        AUDIO_INITINFO(&budioInfo);
+        err = ioctl(info->fd, AUDIO_GETINFO, &budioInfo);
         if (err >= 0) {
             underrun = prinfo->error;
-            devBytes = prinfo->samples * info->frameSize;
+            devBytes = prinfo->sbmples * info->frbmeSize;
         }
-        AUDIO_INITINFO(&audioInfo);
+        AUDIO_INITINFO(&budioInfo);
         if (underrun) {
-            /* if an underrun occurred, reset */
-            ERROR1("DAUDIO_Write/Read: Underrun/overflow: adjusting positionOffset by %d:\n",
-                   (devBytes - info->transferedBytes));
+            /* if bn underrun occurred, reset */
+            ERROR1("DAUDIO_Write/Rebd: Underrun/overflow: bdjusting positionOffset by %d:\n",
+                   (devBytes - info->trbnsferedBytes));
             ERROR1("    devBytes from %d to 0, ", devBytes);
             ERROR2(" positionOffset from %d to %d ",
                    (int) info->positionOffset,
-                   (int) (info->positionOffset + info->transferedBytes));
-            ERROR1(" transferedBytes from %d to 0\n",
-                   (int) info->transferedBytes);
-            prinfo->samples = 0;
-            info->positionOffset += info->transferedBytes;
-            info->transferedBytes = 0;
+                   (int) (info->positionOffset + info->trbnsferedBytes));
+            ERROR1(" trbnsferedBytes from %d to 0\n",
+                   (int) info->trbnsferedBytes);
+            prinfo->sbmples = 0;
+            info->positionOffset += info->trbnsferedBytes;
+            info->trbnsferedBytes = 0;
         }
-        else if (info->transferedBytes > POSITION_MAX) {
-            /* we will reset transferedBytes and
-             * the samples field in prinfo
+        else if (info->trbnsferedBytes > POSITION_MAX) {
+            /* we will reset trbnsferedBytes bnd
+             * the sbmples field in prinfo
              */
             offset = devBytes;
-            prinfo->samples = 0;
+            prinfo->sbmples = 0;
         }
-        /* reset error flag */
+        /* reset error flbg */
         prinfo->error = 0;
 
-        err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
+        err = ioctl(info->fd, AUDIO_SETINFO, &budioInfo);
         if (err >= 0) {
             if (offset > 0) {
-                /* upon exit of AUDIO_SETINFO, the samples parameter
-                 * was set to the previous value. This is our
+                /* upon exit of AUDIO_SETINFO, the sbmples pbrbmeter
+                 * wbs set to the previous vblue. This is our
                  * offset.
                  */
-                TRACE1("Adjust samplePos: offset=%d, ", (int) offset);
-                TRACE2("transferedBytes=%d -> %d, ",
-                       (int) info->transferedBytes,
-                       (int) (info->transferedBytes - offset));
+                TRACE1("Adjust sbmplePos: offset=%d, ", (int) offset);
+                TRACE2("trbnsferedBytes=%d -> %d, ",
+                       (int) info->trbnsferedBytes,
+                       (int) (info->trbnsferedBytes - offset));
                 TRACE2("positionOffset=%d -> %d\n",
                        (int) (info->positionOffset),
                        (int) (((int) info->positionOffset) + offset));
-                info->transferedBytes -= offset;
+                info->trbnsferedBytes -= offset;
                 info->positionOffset += offset;
             }
         } else {
-            ERROR0("DAUDIO: resetErrorFlagAndAdjustPosition ioctl failed!\n");
+            ERROR0("DAUDIO: resetErrorFlbgAndAdjustPosition ioctl fbiled!\n");
         }
     }
 }
 
 // returns -1 on error
-int DAUDIO_Write(void* id, char* data, int byteSize) {
+int DAUDIO_Write(void* id, chbr* dbtb, int byteSize) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int ret = -1;
 
     TRACE1("> DAUDIO_Write %d bytes\n", byteSize);
     if (info!=NULL) {
-        ret = write(info->fd, data, byteSize);
-        resetErrorFlagAndAdjustPosition(info, TRUE, ret);
+        ret = write(info->fd, dbtb, byteSize);
+        resetErrorFlbgAndAdjustPosition(info, TRUE, ret);
         /* sets ret to -1 if buffer full, no error! */
         if (ret < 0) {
             ret = 0;
@@ -436,20 +436,20 @@ int DAUDIO_Write(void* id, char* data, int byteSize) {
 }
 
 // returns -1 on error
-int DAUDIO_Read(void* id, char* data, int byteSize) {
+int DAUDIO_Rebd(void* id, chbr* dbtb, int byteSize) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int ret = -1;
 
-    TRACE1("> DAUDIO_Read %d bytes\n", byteSize);
+    TRACE1("> DAUDIO_Rebd %d bytes\n", byteSize);
     if (info != NULL) {
-        ret = read(info->fd, data, byteSize);
-        resetErrorFlagAndAdjustPosition(info, TRUE, ret);
+        ret = rebd(info->fd, dbtb, byteSize);
+        resetErrorFlbgAndAdjustPosition(info, TRUE, ret);
         /* sets ret to -1 if buffer full, no error! */
         if (ret < 0) {
             ret = 0;
         }
     }
-    TRACE1("< DAUDIO_Read: returning %d bytes.\n", ret);
+    TRACE1("< DAUDIO_Rebd: returning %d bytes.\n", ret);
     return ret;
 }
 
@@ -462,21 +462,21 @@ int DAUDIO_GetBufferSize(void* id, int isSource) {
     return 0;
 }
 
-int DAUDIO_StillDraining(void* id, int isSource) {
+int DAUDIO_StillDrbining(void* id, int isSource) {
     SolPcmInfo* info = (SolPcmInfo*) id;
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
     int ret = FALSE;
 
     if (info!=NULL) {
         if (isSource) {
-            prinfo = &(audioInfo.play);
+            prinfo = &(budioInfo.plby);
         } else {
-            prinfo = &(audioInfo.record);
+            prinfo = &(budioInfo.record);
         }
-        /* check error flag */
-        AUDIO_INITINFO(&audioInfo);
-        ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
+        /* check error flbg */
+        AUDIO_INITINFO(&budioInfo);
+        ioctl(info->fd, AUDIO_GETINFO, &budioInfo);
         ret = (prinfo->error != 0)?FALSE:TRUE;
     }
     return ret;
@@ -484,24 +484,24 @@ int DAUDIO_StillDraining(void* id, int isSource) {
 
 
 int getDevicePosition(SolPcmInfo* info, int isSource) {
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
     int err;
 
     if (isSource) {
-        prinfo = &(audioInfo.play);
+        prinfo = &(budioInfo.plby);
     } else {
-        prinfo = &(audioInfo.record);
+        prinfo = &(budioInfo.record);
     }
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
+    AUDIO_INITINFO(&budioInfo);
+    err = ioctl(info->fd, AUDIO_GETINFO, &budioInfo);
     if (err >= 0) {
-        /*TRACE2("---> device paused: %d  eof=%d\n",
-               prinfo->pause, prinfo->eof);
+        /*TRACE2("---> device pbused: %d  eof=%d\n",
+               prinfo->pbuse, prinfo->eof);
         */
-        return (int) (prinfo->samples * info->frameSize);
+        return (int) (prinfo->sbmples * info->frbmeSize);
     }
-    ERROR0("DAUDIO: getDevicePosition: ioctl failed!\n");
+    ERROR0("DAUDIO: getDevicePosition: ioctl fbiled!\n");
     return -1;
 }
 
@@ -518,12 +518,12 @@ int DAUDIO_Flush(void* id, int isSource) {
             err = ioctl(info->fd, I_FLUSH, FLUSHR);
         }
         if (err >= 0) {
-            /* resets the transferedBytes parameter to
-             * the current samples count of the device
+            /* resets the trbnsferedBytes pbrbmeter to
+             * the current sbmples count of the device
              */
             pos = getDevicePosition(info, isSource);
             if (pos >= 0) {
-                info->transferedBytes = pos;
+                info->trbnsferedBytes = pos;
             }
         }
     }
@@ -533,56 +533,56 @@ int DAUDIO_Flush(void* id, int isSource) {
     return (err < 0)?FALSE:TRUE;
 }
 
-int DAUDIO_GetAvailable(void* id, int isSource) {
+int DAUDIO_GetAvbilbble(void* id, int isSource) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int ret = 0;
     int pos;
 
     if (info) {
-        /* unfortunately, the STREAMS architecture
-         * seems to not have a method for querying
-         * the available bytes to read/write!
-         * estimate it...
+        /* unfortunbtely, the STREAMS brchitecture
+         * seems to not hbve b method for querying
+         * the bvbilbble bytes to rebd/write!
+         * estimbte it...
          */
         pos = getDevicePosition(info, isSource);
         if (pos >= 0) {
             if (isSource) {
-                /* we usually have written more bytes
-                 * to the queue than the device position should be
+                /* we usublly hbve written more bytes
+                 * to the queue thbn the device position should be
                  */
-                ret = (info->bufferSizeInBytes) - (info->transferedBytes - pos);
+                ret = (info->bufferSizeInBytes) - (info->trbnsferedBytes - pos);
             } else {
-                /* for record, the device stream should
-                 * be usually ahead of our read actions
+                /* for record, the device strebm should
+                 * be usublly bhebd of our rebd bctions
                  */
-                ret = pos - info->transferedBytes;
+                ret = pos - info->trbnsferedBytes;
             }
             if (ret > info->bufferSizeInBytes) {
-                ERROR2("DAUDIO_GetAvailable: available=%d, too big at bufferSize=%d!\n",
+                ERROR2("DAUDIO_GetAvbilbble: bvbilbble=%d, too big bt bufferSize=%d!\n",
                        (int) ret, (int) info->bufferSizeInBytes);
-                ERROR2("                     devicePos=%d, transferedBytes=%d\n",
-                       (int) pos, (int) info->transferedBytes);
+                ERROR2("                     devicePos=%d, trbnsferedBytes=%d\n",
+                       (int) pos, (int) info->trbnsferedBytes);
                 ret = info->bufferSizeInBytes;
             }
             else if (ret < 0) {
-                ERROR1("DAUDIO_GetAvailable: available=%d, in theory not possible!\n",
+                ERROR1("DAUDIO_GetAvbilbble: bvbilbble=%d, in theory not possible!\n",
                        (int) ret);
-                ERROR2("                     devicePos=%d, transferedBytes=%d\n",
-                       (int) pos, (int) info->transferedBytes);
+                ERROR2("                     devicePos=%d, trbnsferedBytes=%d\n",
+                       (int) pos, (int) info->trbnsferedBytes);
                 ret = 0;
             }
         }
     }
 
-    TRACE1("DAUDIO_GetAvailable returns %d bytes\n", ret);
+    TRACE1("DAUDIO_GetAvbilbble returns %d bytes\n", ret);
     return ret;
 }
 
-INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos) {
+INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 jbvbBytePos) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int ret;
     int pos;
-    INT64 result = javaBytePos;
+    INT64 result = jbvbBytePos;
 
     if (info) {
         pos = getDevicePosition(info, isSource);
@@ -591,12 +591,12 @@ INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos) {
         }
     }
 
-    //printf("getbyteposition: javaBytePos=%d , return=%d\n", (int) javaBytePos, (int) result);
+    //printf("getbyteposition: jbvbBytePos=%d , return=%d\n", (int) jbvbBytePos, (int) result);
     return result;
 }
 
 
-void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos) {
+void DAUDIO_SetBytePosition(void* id, int isSource, INT64 jbvbBytePos) {
     SolPcmInfo* info = (SolPcmInfo*) id;
     int ret;
     int pos;
@@ -604,18 +604,18 @@ void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos) {
     if (info) {
         pos = getDevicePosition(info, isSource);
         if (pos >= 0) {
-            info->positionOffset = javaBytePos - pos;
+            info->positionOffset = jbvbBytePos - pos;
         }
     }
 }
 
 int DAUDIO_RequiresServicing(void* id, int isSource) {
-    // never need servicing on Solaris
+    // never need servicing on Solbris
     return FALSE;
 }
 
 void DAUDIO_Service(void* id, int isSource) {
-    // never need servicing on Solaris
+    // never need servicing on Solbris
 }
 
 

@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-/* remember that the API requires a Font use a
- * consistent glyph id. for a code point, and this is a
- * problem if a particular strike uses native scaler sometimes
- * and T2K others. That needs to be dealt with somewhere, but
- * here we can just always get the same glyph code without
- * needing a strike.
+/* remember thbt the API requires b Font use b
+ * consistent glyph id. for b code point, bnd this is b
+ * problem if b pbrticulbr strike uses nbtive scbler sometimes
+ * bnd T2K others. Thbt needs to be deblt with somewhere, but
+ * here we cbn just blwbys get the sbme glyph code without
+ * needing b strike.
  *
- * The C implementation would cache the results of anything up
- * to the maximum surrogate pair code point.
- * This implementation will not cache as much, since the storage
- * requirements are not justifiable. Even so it still can use up
- * to 216*256*4 bytes of storage per composite font. If an app
- * calls canDisplay on this range for all 20 composite fonts that's
- * over 1Mb of cached data. May need to employ WeakReferences if
- * this appears to cause problems.
+ * The C implementbtion would cbche the results of bnything up
+ * to the mbximum surrogbte pbir code point.
+ * This implementbtion will not cbche bs much, since the storbge
+ * requirements bre not justifibble. Even so it still cbn use up
+ * to 216*256*4 bytes of storbge per composite font. If bn bpp
+ * cblls cbnDisplby on this rbnge for bll 20 composite fonts thbt's
+ * over 1Mb of cbched dbtb. Mby need to employ WebkReferences if
+ * this bppebrs to cbuse problems.
  */
 
-public final class CompositeGlyphMapper extends CharToGlyphMapper {
+public finbl clbss CompositeGlyphMbpper extends ChbrToGlyphMbpper {
 
-    public static final int SLOTMASK =  0xff000000;
-    public static final int GLYPHMASK = 0x00ffffff;
+    public stbtic finbl int SLOTMASK =  0xff000000;
+    public stbtic finbl int GLYPHMASK = 0x00ffffff;
 
-    public static final int NBLOCKS = 216;
-    public static final int BLOCKSZ = 256;
-    public static final int MAXUNICODE = NBLOCKS*BLOCKSZ;
+    public stbtic finbl int NBLOCKS = 216;
+    public stbtic finbl int BLOCKSZ = 256;
+    public stbtic finbl int MAXUNICODE = NBLOCKS*BLOCKSZ;
 
 
     CompositeFont font;
-    CharToGlyphMapper slotMappers[];
-    int[][] glyphMaps;
-    private boolean hasExcludes;
+    ChbrToGlyphMbpper slotMbppers[];
+    int[][] glyphMbps;
+    privbte boolebn hbsExcludes;
 
-    public CompositeGlyphMapper(CompositeFont compFont) {
+    public CompositeGlyphMbpper(CompositeFont compFont) {
         font = compFont;
-        initMapper();
-        /* This is often false which saves the overhead of a
-         * per-mapped char method call.
+        initMbpper();
+        /* This is often fblse which sbves the overhebd of b
+         * per-mbpped chbr method cbll.
          */
-        hasExcludes = compFont.exclusionRanges != null &&
-                      compFont.maxIndices != null;
+        hbsExcludes = compFont.exclusionRbnges != null &&
+                      compFont.mbxIndices != null;
     }
 
-    public final int compositeGlyphCode(int slot, int glyphCode) {
+    public finbl int compositeGlyphCode(int slot, int glyphCode) {
         return (slot << 24 | (glyphCode & GLYPHMASK));
     }
 
-    private final void initMapper() {
-        if (missingGlyph == CharToGlyphMapper.UNINITIALIZED_GLYPH) {
-            if (glyphMaps == null) {
-                glyphMaps = new int[NBLOCKS][];
+    privbte finbl void initMbpper() {
+        if (missingGlyph == ChbrToGlyphMbpper.UNINITIALIZED_GLYPH) {
+            if (glyphMbps == null) {
+                glyphMbps = new int[NBLOCKS][];
             }
-            slotMappers = new CharToGlyphMapper[font.numSlots];
-            /* This requires that slot 0 is never empty. */
+            slotMbppers = new ChbrToGlyphMbpper[font.numSlots];
+            /* This requires thbt slot 0 is never empty. */
             missingGlyph = font.getSlotFont(0).getMissingGlyphCode();
             missingGlyph = compositeGlyphCode(0, missingGlyph);
         }
     }
 
-    private int getCachedGlyphCode(int unicode) {
+    privbte int getCbchedGlyphCode(int unicode) {
         if (unicode >= MAXUNICODE) {
-            return UNINITIALIZED_GLYPH; // don't cache surrogates
+            return UNINITIALIZED_GLYPH; // don't cbche surrogbtes
         }
-        int[] gmap;
-        if ((gmap = glyphMaps[unicode >> 8]) == null) {
+        int[] gmbp;
+        if ((gmbp = glyphMbps[unicode >> 8]) == null) {
             return UNINITIALIZED_GLYPH;
         }
-        return gmap[unicode & 0xff];
+        return gmbp[unicode & 0xff];
     }
 
-    private void setCachedGlyphCode(int unicode, int glyphCode) {
+    privbte void setCbchedGlyphCode(int unicode, int glyphCode) {
         if (unicode >= MAXUNICODE) {
-            return;     // don't cache surrogates
+            return;     // don't cbche surrogbtes
         }
         int index0 = unicode >> 8;
-        if (glyphMaps[index0] == null) {
-            glyphMaps[index0] = new int[BLOCKSZ];
+        if (glyphMbps[index0] == null) {
+            glyphMbps[index0] = new int[BLOCKSZ];
             for (int i=0;i<BLOCKSZ;i++) {
-                glyphMaps[index0][i] = UNINITIALIZED_GLYPH;
+                glyphMbps[index0][i] = UNINITIALIZED_GLYPH;
             }
         }
-        glyphMaps[index0][unicode & 0xff] = glyphCode;
+        glyphMbps[index0][unicode & 0xff] = glyphCode;
     }
 
-    private final CharToGlyphMapper getSlotMapper(int slot) {
-        CharToGlyphMapper mapper = slotMappers[slot];
-        if (mapper == null) {
-            mapper = font.getSlotFont(slot).getMapper();
-            slotMappers[slot] = mapper;
+    privbte finbl ChbrToGlyphMbpper getSlotMbpper(int slot) {
+        ChbrToGlyphMbpper mbpper = slotMbppers[slot];
+        if (mbpper == null) {
+            mbpper = font.getSlotFont(slot).getMbpper();
+            slotMbppers[slot] = mbpper;
         }
-        return mapper;
+        return mbpper;
     }
 
-    private final int convertToGlyph(int unicode) {
+    privbte finbl int convertToGlyph(int unicode) {
 
         for (int slot = 0; slot < font.numSlots; slot++) {
-            if (!hasExcludes || !font.isExcludedChar(slot, unicode)) {
-                CharToGlyphMapper mapper = getSlotMapper(slot);
-                int glyphCode = mapper.charToGlyph(unicode);
-                if (glyphCode != mapper.getMissingGlyphCode()) {
+            if (!hbsExcludes || !font.isExcludedChbr(slot, unicode)) {
+                ChbrToGlyphMbpper mbpper = getSlotMbpper(slot);
+                int glyphCode = mbpper.chbrToGlyph(unicode);
+                if (glyphCode != mbpper.getMissingGlyphCode()) {
                     glyphCode = compositeGlyphCode(slot, glyphCode);
-                    setCachedGlyphCode(unicode, glyphCode);
+                    setCbchedGlyphCode(unicode, glyphCode);
                     return glyphCode;
                 }
             }
@@ -135,68 +135,68 @@ public final class CompositeGlyphMapper extends CharToGlyphMapper {
 
     public int getNumGlyphs() {
         int numGlyphs = 0;
-        /* The number of glyphs in a composite is affected by
-         * exclusion ranges and duplicates (ie the same code point is
-         * mapped by two different fonts) and also whether or not to
-         * count fallback fonts. A nearly correct answer would be very
-         * expensive to generate. A rough ballpark answer would
-         * just count the glyphs in all the slots. However this would
-         * initialize mappers for all slots when they aren't necessarily
-         * needed. For now just use the first slot as JDK 1.4 did.
+        /* The number of glyphs in b composite is bffected by
+         * exclusion rbnges bnd duplicbtes (ie the sbme code point is
+         * mbpped by two different fonts) bnd blso whether or not to
+         * count fbllbbck fonts. A nebrly correct bnswer would be very
+         * expensive to generbte. A rough bbllpbrk bnswer would
+         * just count the glyphs in bll the slots. However this would
+         * initiblize mbppers for bll slots when they bren't necessbrily
+         * needed. For now just use the first slot bs JDK 1.4 did.
          */
         for (int slot=0; slot<1 /*font.numSlots*/; slot++) {
-           CharToGlyphMapper mapper = slotMappers[slot];
-           if (mapper == null) {
-               mapper = font.getSlotFont(slot).getMapper();
-               slotMappers[slot] = mapper;
+           ChbrToGlyphMbpper mbpper = slotMbppers[slot];
+           if (mbpper == null) {
+               mbpper = font.getSlotFont(slot).getMbpper();
+               slotMbppers[slot] = mbpper;
            }
-           numGlyphs += mapper.getNumGlyphs();
+           numGlyphs += mbpper.getNumGlyphs();
         }
         return numGlyphs;
     }
 
-    public int charToGlyph(int unicode) {
+    public int chbrToGlyph(int unicode) {
 
-        int glyphCode = getCachedGlyphCode(unicode);
+        int glyphCode = getCbchedGlyphCode(unicode);
         if (glyphCode == UNINITIALIZED_GLYPH) {
             glyphCode = convertToGlyph(unicode);
         }
         return glyphCode;
     }
 
-    public int charToGlyph(int unicode, int prefSlot) {
+    public int chbrToGlyph(int unicode, int prefSlot) {
         if (prefSlot >= 0) {
-            CharToGlyphMapper mapper = getSlotMapper(prefSlot);
-            int glyphCode = mapper.charToGlyph(unicode);
-            if (glyphCode != mapper.getMissingGlyphCode()) {
+            ChbrToGlyphMbpper mbpper = getSlotMbpper(prefSlot);
+            int glyphCode = mbpper.chbrToGlyph(unicode);
+            if (glyphCode != mbpper.getMissingGlyphCode()) {
                 return compositeGlyphCode(prefSlot, glyphCode);
             }
         }
-        return charToGlyph(unicode);
+        return chbrToGlyph(unicode);
     }
 
-    public int charToGlyph(char unicode) {
+    public int chbrToGlyph(chbr unicode) {
 
-        int glyphCode  = getCachedGlyphCode(unicode);
+        int glyphCode  = getCbchedGlyphCode(unicode);
         if (glyphCode == UNINITIALIZED_GLYPH) {
             glyphCode = convertToGlyph(unicode);
         }
         return glyphCode;
     }
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* This vbribnt checks if shbping is needed bnd immedibtely
+     * returns true if it does. A cbller of this method should be expecting
+     * to check the return type becbuse it needs to know how to hbndle
+     * the chbrbcter dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    public boolebn chbrsToGlyphsNS(int count, chbr[] unicodes, int[] glyphs) {
 
         for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+            int code = unicodes[i]; // chbr is unsigned.
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
@@ -206,7 +206,7 @@ public final class CompositeGlyphMapper extends CharToGlyphMapper {
                 }
             }
 
-            int gc = glyphs[i] = getCachedGlyphCode(code);
+            int gc = glyphs[i] = getCbchedGlyphCode(code);
             if (gc == UNINITIALIZED_GLYPH) {
                 glyphs[i] = convertToGlyph(code);
             }
@@ -214,56 +214,56 @@ public final class CompositeGlyphMapper extends CharToGlyphMapper {
             if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
                 continue;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
+            else if (FontUtilities.isComplexChbrCode(code)) {
                 return true;
             }
             else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+                i += 1; // Empty glyph slot bfter surrogbte
                 continue;
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    /* The conversion is not very efficient - looping as it does, converting
-     * one char at a time. However the cache should fill very rapidly.
+    /* The conversion is not very efficient - looping bs it does, converting
+     * one chbr bt b time. However the cbche should fill very rbpidly.
      */
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
+    public void chbrsToGlyphs(int count, chbr[] unicodes, int[] glyphs) {
         for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+            int code = unicodes[i]; // chbr is unsigned.
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
                     code = (code - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
 
-                    int gc = glyphs[i] = getCachedGlyphCode(code);
+                    int gc = glyphs[i] = getCbchedGlyphCode(code);
                     if (gc == UNINITIALIZED_GLYPH) {
                         glyphs[i] = convertToGlyph(code);
                     }
-                    i += 1; // Empty glyph slot after surrogate
+                    i += 1; // Empty glyph slot bfter surrogbte
                     glyphs[i] = INVISIBLE_GLYPH_ID;
                     continue;
                 }
             }
 
-            int gc = glyphs[i] = getCachedGlyphCode(code);
+            int gc = glyphs[i] = getCbchedGlyphCode(code);
             if (gc == UNINITIALIZED_GLYPH) {
                 glyphs[i] = convertToGlyph(code);
             }
         }
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
+    public void chbrsToGlyphs(int count, int[] unicodes, int[] glyphs) {
         for (int i=0; i<count; i++) {
             int code = unicodes[i];
 
-            glyphs[i] = getCachedGlyphCode(code);
+            glyphs[i] = getCbchedGlyphCode(code);
             if (glyphs[i] == UNINITIALIZED_GLYPH) {
                 glyphs[i] = convertToGlyph(code);
             }

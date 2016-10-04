@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tracing.dtrace;
+pbckbge sun.trbcing.dtrbce;
 
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
-import java.security.Permission;
-import java.util.HashSet;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.security.Permission;
+import jbvb.util.HbshSet;
 
-class Activation {
-    private SystemResource resource;
-    private int referenceCount;
+clbss Activbtion {
+    privbte SystemResource resource;
+    privbte int referenceCount;
 
-    Activation(String moduleName, DTraceProvider[] providers) {
-        SecurityManager security = System.getSecurityManager();
+    Activbtion(String moduleNbme, DTrbceProvider[] providers) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             Permission perm =
-                new RuntimePermission("com.sun.tracing.dtrace.createProvider");
+                new RuntimePermission("com.sun.trbcing.dtrbce.crebteProvider");
             security.checkPermission(perm);
         }
         referenceCount = providers.length;
-        for (DTraceProvider p : providers) {
-            p.setActivation(this);
+        for (DTrbceProvider p : providers) {
+            p.setActivbtion(this);
         }
         resource = new SystemResource(
-            this, JVM.activate(moduleName, providers));
+            this, JVM.bctivbte(moduleNbme, providers));
     }
 
-    void disposeProvider(DTraceProvider p) {
+    void disposeProvider(DTrbceProvider p) {
         if (--referenceCount == 0) {
             resource.dispose();
         }
@@ -57,48 +57,48 @@ class Activation {
 }
 
 /**
- * The native resource part of an Activation.
+ * The nbtive resource pbrt of bn Activbtion.
  *
- * This holds the native handle.
+ * This holds the nbtive hbndle.
  *
- * If the user loses a reference to a set of Providers without disposing them,
- * and GC determines the Activation is unreachable, then the next
- * activation or flush call will automatically dispose the unreachable objects
+ * If the user loses b reference to b set of Providers without disposing them,
+ * bnd GC determines the Activbtion is unrebchbble, then the next
+ * bctivbtion or flush cbll will butombticblly dispose the unrebchbble objects
  *
- * The SystemResource instances are creating during activation, and
- * unattached during disposal.  When created, they always have a
- * strong reference to them via the {@code resources} static member.  Explicit
- * {@code dispose} calls will unregister the native resource and remove
- * references to the SystemResource object.  Absent an explicit dispose,
- * when their associated Activation object becomes garbage, the SystemResource
- * object will be enqueued on the reference queue and disposed at the
- * next call to {@code flush}.
+ * The SystemResource instbnces bre crebting during bctivbtion, bnd
+ * unbttbched during disposbl.  When crebted, they blwbys hbve b
+ * strong reference to them vib the {@code resources} stbtic member.  Explicit
+ * {@code dispose} cblls will unregister the nbtive resource bnd remove
+ * references to the SystemResource object.  Absent bn explicit dispose,
+ * when their bssocibted Activbtion object becomes gbrbbge, the SystemResource
+ * object will be enqueued on the reference queue bnd disposed bt the
+ * next cbll to {@code flush}.
  */
-class SystemResource extends WeakReference<Activation> {
+clbss SystemResource extends WebkReference<Activbtion> {
 
-    private long handle;
+    privbte long hbndle;
 
-    private static ReferenceQueue<Activation> referenceQueue =
-        referenceQueue = new ReferenceQueue<Activation>();
-    static HashSet<SystemResource> resources = new HashSet<SystemResource>();
+    privbte stbtic ReferenceQueue<Activbtion> referenceQueue =
+        referenceQueue = new ReferenceQueue<Activbtion>();
+    stbtic HbshSet<SystemResource> resources = new HbshSet<SystemResource>();
 
-    SystemResource(Activation activation, long handle) {
-        super(activation, referenceQueue);
-        this.handle = handle;
+    SystemResource(Activbtion bctivbtion, long hbndle) {
+        super(bctivbtion, referenceQueue);
+        this.hbndle = hbndle;
         flush();
-        resources.add(this);
+        resources.bdd(this);
     }
 
     void dispose() {
-        JVM.dispose(handle);
+        JVM.dispose(hbndle);
         resources.remove(this);
-        handle = 0;
+        hbndle = 0;
     }
 
-    static void flush() {
+    stbtic void flush() {
         SystemResource resource = null;
         while ((resource = (SystemResource)referenceQueue.poll()) != null) {
-            if (resource.handle != 0) {
+            if (resource.hbndle != 0) {
                 resource.dispose();
             }
         }

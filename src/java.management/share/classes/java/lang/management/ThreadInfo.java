@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import javax.management.openmbean.CompositeData;
-import sun.management.ManagementFactoryHelper;
-import sun.management.ThreadInfoCompositeData;
-import static java.lang.Thread.State.*;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import sun.mbnbgement.MbnbgementFbctoryHelper;
+import sun.mbnbgement.ThrebdInfoCompositeDbtb;
+import stbtic jbvb.lbng.Threbd.Stbte.*;
 
 /**
- * Thread information. <tt>ThreadInfo</tt> contains the information
- * about a thread including:
- * <h3>General thread information</h3>
+ * Threbd informbtion. <tt>ThrebdInfo</tt> contbins the informbtion
+ * bbout b threbd including:
+ * <h3>Generbl threbd informbtion</h3>
  * <ul>
- *   <li>Thread ID.</li>
- *   <li>Name of the thread.</li>
+ *   <li>Threbd ID.</li>
+ *   <li>Nbme of the threbd.</li>
  * </ul>
  *
- * <h3>Execution information</h3>
+ * <h3>Execution informbtion</h3>
  * <ul>
- *   <li>Thread state.</li>
- *   <li>The object upon which the thread is blocked due to:
+ *   <li>Threbd stbte.</li>
+ *   <li>The object upon which the threbd is blocked due to:
  *       <ul>
- *       <li>waiting to enter a synchronization block/method, or</li>
- *       <li>waiting to be notified in a {@link Object#wait Object.wait} method,
+ *       <li>wbiting to enter b synchronizbtion block/method, or</li>
+ *       <li>wbiting to be notified in b {@link Object#wbit Object.wbit} method,
  *           or</li>
- *       <li>parking due to a {@link java.util.concurrent.locks.LockSupport#park
- *           LockSupport.park} call.</li>
+ *       <li>pbrking due to b {@link jbvb.util.concurrent.locks.LockSupport#pbrk
+ *           LockSupport.pbrk} cbll.</li>
  *       </ul>
  *   </li>
- *   <li>The ID of the thread that owns the object
- *       that the thread is blocked.</li>
- *   <li>Stack trace of the thread.</li>
- *   <li>List of object monitors locked by the thread.</li>
- *   <li>List of <a href="LockInfo.html#OwnableSynchronizer">
- *       ownable synchronizers</a> locked by the thread.</li>
+ *   <li>The ID of the threbd thbt owns the object
+ *       thbt the threbd is blocked.</li>
+ *   <li>Stbck trbce of the threbd.</li>
+ *   <li>List of object monitors locked by the threbd.</li>
+ *   <li>List of <b href="LockInfo.html#OwnbbleSynchronizer">
+ *       ownbble synchronizers</b> locked by the threbd.</li>
  * </ul>
  *
- * <h4><a name="SyncStats">Synchronization Statistics</a></h4>
+ * <h4><b nbme="SyncStbts">Synchronizbtion Stbtistics</b></h4>
  * <ul>
- *   <li>The number of times that the thread has blocked for
- *       synchronization or waited for notification.</li>
- *   <li>The accumulated elapsed time that the thread has blocked
- *       for synchronization or waited for notification
- *       since {@link ThreadMXBean#setThreadContentionMonitoringEnabled
- *       thread contention monitoring}
- *       was enabled. Some Java virtual machine implementation
- *       may not support this.  The
- *       {@link ThreadMXBean#isThreadContentionMonitoringSupported()}
- *       method can be used to determine if a Java virtual machine
+ *   <li>The number of times thbt the threbd hbs blocked for
+ *       synchronizbtion or wbited for notificbtion.</li>
+ *   <li>The bccumulbted elbpsed time thbt the threbd hbs blocked
+ *       for synchronizbtion or wbited for notificbtion
+ *       since {@link ThrebdMXBebn#setThrebdContentionMonitoringEnbbled
+ *       threbd contention monitoring}
+ *       wbs enbbled. Some Jbvb virtubl mbchine implementbtion
+ *       mby not support this.  The
+ *       {@link ThrebdMXBebn#isThrebdContentionMonitoringSupported()}
+ *       method cbn be used to determine if b Jbvb virtubl mbchine
  *       supports this.</li>
  * </ul>
  *
- * <p>This thread information class is designed for use in monitoring of
- * the system, not for synchronization control.
+ * <p>This threbd informbtion clbss is designed for use in monitoring of
+ * the system, not for synchronizbtion control.
  *
- * <h4>MXBean Mapping</h4>
- * <tt>ThreadInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in
+ * <h4>MXBebn Mbpping</h4>
+ * <tt>ThrebdInfo</tt> is mbpped to b {@link CompositeDbtb CompositeDbtb}
+ * with bttributes bs specified in
  * the {@link #from from} method.
  *
- * @see ThreadMXBean#getThreadInfo
- * @see ThreadMXBean#dumpAllThreads
+ * @see ThrebdMXBebn#getThrebdInfo
+ * @see ThrebdMXBebn#dumpAllThrebds
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
 
-public class ThreadInfo {
-    private String       threadName;
-    private long         threadId;
-    private long         blockedTime;
-    private long         blockedCount;
-    private long         waitedTime;
-    private long         waitedCount;
-    private LockInfo     lock;
-    private String       lockName;
-    private long         lockOwnerId;
-    private String       lockOwnerName;
-    private boolean      inNative;
-    private boolean      suspended;
-    private Thread.State threadState;
-    private StackTraceElement[] stackTrace;
-    private MonitorInfo[]       lockedMonitors;
-    private LockInfo[]          lockedSynchronizers;
+public clbss ThrebdInfo {
+    privbte String       threbdNbme;
+    privbte long         threbdId;
+    privbte long         blockedTime;
+    privbte long         blockedCount;
+    privbte long         wbitedTime;
+    privbte long         wbitedCount;
+    privbte LockInfo     lock;
+    privbte String       lockNbme;
+    privbte long         lockOwnerId;
+    privbte String       lockOwnerNbme;
+    privbte boolebn      inNbtive;
+    privbte boolebn      suspended;
+    privbte Threbd.Stbte threbdStbte;
+    privbte StbckTrbceElement[] stbckTrbce;
+    privbte MonitorInfo[]       lockedMonitors;
+    privbte LockInfo[]          lockedSynchronizers;
 
-    private static MonitorInfo[] EMPTY_MONITORS = new MonitorInfo[0];
-    private static LockInfo[] EMPTY_SYNCS = new LockInfo[0];
+    privbte stbtic MonitorInfo[] EMPTY_MONITORS = new MonitorInfo[0];
+    privbte stbtic LockInfo[] EMPTY_SYNCS = new LockInfo[0];
 
     /**
-     * Constructor of ThreadInfo created by the JVM
+     * Constructor of ThrebdInfo crebted by the JVM
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
+     * @pbrbm t             Threbd
+     * @pbrbm stbte         Threbd stbte
+     * @pbrbm lockObj       Object on which the threbd is blocked
+     * @pbrbm lockOwner     the threbd holding the lock
+     * @pbrbm blockedCount  Number of times blocked to enter b lock
+     * @pbrbm blockedTime   Approx time blocked to enter b lock
+     * @pbrbm wbitedCount   Number of times wbited on b lock
+     * @pbrbm wbitedTime    Approx time wbited on b lock
+     * @pbrbm stbckTrbce    Threbd stbck trbce
      */
-    private ThreadInfo(Thread t, int state, Object lockObj, Thread lockOwner,
+    privbte ThrebdInfo(Threbd t, int stbte, Object lockObj, Threbd lockOwner,
                        long blockedCount, long blockedTime,
-                       long waitedCount, long waitedTime,
-                       StackTraceElement[] stackTrace) {
-        initialize(t, state, lockObj, lockOwner,
+                       long wbitedCount, long wbitedTime,
+                       StbckTrbceElement[] stbckTrbce) {
+        initiblize(t, stbte, lockObj, lockOwner,
                    blockedCount, blockedTime,
-                   waitedCount, waitedTime, stackTrace,
+                   wbitedCount, wbitedTime, stbckTrbce,
                    EMPTY_MONITORS, EMPTY_SYNCS);
     }
 
     /**
-     * Constructor of ThreadInfo created by the JVM
-     * for {@link ThreadMXBean#getThreadInfo(long[],boolean,boolean)}
-     * and {@link ThreadMXBean#dumpAllThreads}
+     * Constructor of ThrebdInfo crebted by the JVM
+     * for {@link ThrebdMXBebn#getThrebdInfo(long[],boolebn,boolebn)}
+     * bnd {@link ThrebdMXBebn#dumpAllThrebds}
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
-     * @param monitors      List of locked monitors
-     * @param stackDepths   List of stack depths
-     * @param synchronizers List of locked synchronizers
+     * @pbrbm t             Threbd
+     * @pbrbm stbte         Threbd stbte
+     * @pbrbm lockObj       Object on which the threbd is blocked
+     * @pbrbm lockOwner     the threbd holding the lock
+     * @pbrbm blockedCount  Number of times blocked to enter b lock
+     * @pbrbm blockedTime   Approx time blocked to enter b lock
+     * @pbrbm wbitedCount   Number of times wbited on b lock
+     * @pbrbm wbitedTime    Approx time wbited on b lock
+     * @pbrbm stbckTrbce    Threbd stbck trbce
+     * @pbrbm monitors      List of locked monitors
+     * @pbrbm stbckDepths   List of stbck depths
+     * @pbrbm synchronizers List of locked synchronizers
      */
-    private ThreadInfo(Thread t, int state, Object lockObj, Thread lockOwner,
+    privbte ThrebdInfo(Threbd t, int stbte, Object lockObj, Threbd lockOwner,
                        long blockedCount, long blockedTime,
-                       long waitedCount, long waitedTime,
-                       StackTraceElement[] stackTrace,
+                       long wbitedCount, long wbitedTime,
+                       StbckTrbceElement[] stbckTrbce,
                        Object[] monitors,
-                       int[] stackDepths,
+                       int[] stbckDepths,
                        Object[] synchronizers) {
         int numMonitors = (monitors == null ? 0 : monitors.length);
         MonitorInfo[] lockedMonitors;
@@ -166,13 +166,13 @@ public class ThreadInfo {
             lockedMonitors = new MonitorInfo[numMonitors];
             for (int i = 0; i < numMonitors; i++) {
                 Object lock = monitors[i];
-                String className = lock.getClass().getName();
-                int identityHashCode = System.identityHashCode(lock);
-                int depth = stackDepths[i];
-                StackTraceElement ste = (depth >= 0 ? stackTrace[depth]
+                String clbssNbme = lock.getClbss().getNbme();
+                int identityHbshCode = System.identityHbshCode(lock);
+                int depth = stbckDepths[i];
+                StbckTrbceElement ste = (depth >= 0 ? stbckTrbce[depth]
                                                     : null);
-                lockedMonitors[i] = new MonitorInfo(className,
-                                                    identityHashCode,
+                lockedMonitors[i] = new MonitorInfo(clbssNbme,
+                                                    identityHbshCode,
                                                     depth,
                                                     ste);
             }
@@ -186,112 +186,112 @@ public class ThreadInfo {
             lockedSynchronizers = new LockInfo[numSyncs];
             for (int i = 0; i < numSyncs; i++) {
                 Object lock = synchronizers[i];
-                String className = lock.getClass().getName();
-                int identityHashCode = System.identityHashCode(lock);
-                lockedSynchronizers[i] = new LockInfo(className,
-                                                      identityHashCode);
+                String clbssNbme = lock.getClbss().getNbme();
+                int identityHbshCode = System.identityHbshCode(lock);
+                lockedSynchronizers[i] = new LockInfo(clbssNbme,
+                                                      identityHbshCode);
             }
         }
 
-        initialize(t, state, lockObj, lockOwner,
+        initiblize(t, stbte, lockObj, lockOwner,
                    blockedCount, blockedTime,
-                   waitedCount, waitedTime, stackTrace,
+                   wbitedCount, wbitedTime, stbckTrbce,
                    lockedMonitors, lockedSynchronizers);
     }
 
     /**
-     * Initialize ThreadInfo object
+     * Initiblize ThrebdInfo object
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
-     * @param lockedMonitors List of locked monitors
-     * @param lockedSynchronizers List of locked synchronizers
+     * @pbrbm t             Threbd
+     * @pbrbm stbte         Threbd stbte
+     * @pbrbm lockObj       Object on which the threbd is blocked
+     * @pbrbm lockOwner     the threbd holding the lock
+     * @pbrbm blockedCount  Number of times blocked to enter b lock
+     * @pbrbm blockedTime   Approx time blocked to enter b lock
+     * @pbrbm wbitedCount   Number of times wbited on b lock
+     * @pbrbm wbitedTime    Approx time wbited on b lock
+     * @pbrbm stbckTrbce    Threbd stbck trbce
+     * @pbrbm lockedMonitors List of locked monitors
+     * @pbrbm lockedSynchronizers List of locked synchronizers
      */
-    private void initialize(Thread t, int state, Object lockObj, Thread lockOwner,
+    privbte void initiblize(Threbd t, int stbte, Object lockObj, Threbd lockOwner,
                             long blockedCount, long blockedTime,
-                            long waitedCount, long waitedTime,
-                            StackTraceElement[] stackTrace,
+                            long wbitedCount, long wbitedTime,
+                            StbckTrbceElement[] stbckTrbce,
                             MonitorInfo[] lockedMonitors,
                             LockInfo[] lockedSynchronizers) {
-        this.threadId = t.getId();
-        this.threadName = t.getName();
-        this.threadState = ManagementFactoryHelper.toThreadState(state);
-        this.suspended = ManagementFactoryHelper.isThreadSuspended(state);
-        this.inNative = ManagementFactoryHelper.isThreadRunningNative(state);
+        this.threbdId = t.getId();
+        this.threbdNbme = t.getNbme();
+        this.threbdStbte = MbnbgementFbctoryHelper.toThrebdStbte(stbte);
+        this.suspended = MbnbgementFbctoryHelper.isThrebdSuspended(stbte);
+        this.inNbtive = MbnbgementFbctoryHelper.isThrebdRunningNbtive(stbte);
         this.blockedCount = blockedCount;
         this.blockedTime = blockedTime;
-        this.waitedCount = waitedCount;
-        this.waitedTime = waitedTime;
+        this.wbitedCount = wbitedCount;
+        this.wbitedTime = wbitedTime;
 
         if (lockObj == null) {
             this.lock = null;
-            this.lockName = null;
+            this.lockNbme = null;
         } else {
             this.lock = new LockInfo(lockObj);
-            this.lockName =
-                lock.getClassName() + '@' +
-                    Integer.toHexString(lock.getIdentityHashCode());
+            this.lockNbme =
+                lock.getClbssNbme() + '@' +
+                    Integer.toHexString(lock.getIdentityHbshCode());
         }
         if (lockOwner == null) {
             this.lockOwnerId = -1;
-            this.lockOwnerName = null;
+            this.lockOwnerNbme = null;
         } else {
             this.lockOwnerId = lockOwner.getId();
-            this.lockOwnerName = lockOwner.getName();
+            this.lockOwnerNbme = lockOwner.getNbme();
         }
-        if (stackTrace == null) {
-            this.stackTrace = NO_STACK_TRACE;
+        if (stbckTrbce == null) {
+            this.stbckTrbce = NO_STACK_TRACE;
         } else {
-            this.stackTrace = stackTrace;
+            this.stbckTrbce = stbckTrbce;
         }
         this.lockedMonitors = lockedMonitors;
         this.lockedSynchronizers = lockedSynchronizers;
     }
 
     /*
-     * Constructs a <tt>ThreadInfo</tt> object from a
-     * {@link CompositeData CompositeData}.
+     * Constructs b <tt>ThrebdInfo</tt> object from b
+     * {@link CompositeDbtb CompositeDbtb}.
      */
-    private ThreadInfo(CompositeData cd) {
-        ThreadInfoCompositeData ticd = ThreadInfoCompositeData.getInstance(cd);
+    privbte ThrebdInfo(CompositeDbtb cd) {
+        ThrebdInfoCompositeDbtb ticd = ThrebdInfoCompositeDbtb.getInstbnce(cd);
 
-        threadId = ticd.threadId();
-        threadName = ticd.threadName();
+        threbdId = ticd.threbdId();
+        threbdNbme = ticd.threbdNbme();
         blockedTime = ticd.blockedTime();
         blockedCount = ticd.blockedCount();
-        waitedTime = ticd.waitedTime();
-        waitedCount = ticd.waitedCount();
-        lockName = ticd.lockName();
+        wbitedTime = ticd.wbitedTime();
+        wbitedCount = ticd.wbitedCount();
+        lockNbme = ticd.lockNbme();
         lockOwnerId = ticd.lockOwnerId();
-        lockOwnerName = ticd.lockOwnerName();
-        threadState = ticd.threadState();
+        lockOwnerNbme = ticd.lockOwnerNbme();
+        threbdStbte = ticd.threbdStbte();
         suspended = ticd.suspended();
-        inNative = ticd.inNative();
-        stackTrace = ticd.stackTrace();
+        inNbtive = ticd.inNbtive();
+        stbckTrbce = ticd.stbckTrbce();
 
-        // 6.0 attributes
+        // 6.0 bttributes
         if (ticd.isCurrentVersion()) {
             lock = ticd.lockInfo();
             lockedMonitors = ticd.lockedMonitors();
             lockedSynchronizers = ticd.lockedSynchronizers();
         } else {
-            // lockInfo is a new attribute added in 1.6 ThreadInfo
-            // If cd is a 5.0 version, construct the LockInfo object
-            //  from the lockName value.
-            if (lockName != null) {
-                String result[] = lockName.split("@");
+            // lockInfo is b new bttribute bdded in 1.6 ThrebdInfo
+            // If cd is b 5.0 version, construct the LockInfo object
+            //  from the lockNbme vblue.
+            if (lockNbme != null) {
+                String result[] = lockNbme.split("@");
                 if (result.length == 2) {
-                    int identityHashCode = Integer.parseInt(result[1], 16);
-                    lock = new LockInfo(result[0], identityHashCode);
+                    int identityHbshCode = Integer.pbrseInt(result[1], 16);
+                    lock = new LockInfo(result[0], identityHbshCode);
                 } else {
-                    assert result.length == 2;
+                    bssert result.length == 2;
                     lock = null;
                 }
             } else {
@@ -303,156 +303,156 @@ public class ThreadInfo {
     }
 
     /**
-     * Returns the ID of the thread associated with this <tt>ThreadInfo</tt>.
+     * Returns the ID of the threbd bssocibted with this <tt>ThrebdInfo</tt>.
      *
-     * @return the ID of the associated thread.
+     * @return the ID of the bssocibted threbd.
      */
-    public long getThreadId() {
-        return threadId;
+    public long getThrebdId() {
+        return threbdId;
     }
 
     /**
-     * Returns the name of the thread associated with this <tt>ThreadInfo</tt>.
+     * Returns the nbme of the threbd bssocibted with this <tt>ThrebdInfo</tt>.
      *
-     * @return the name of the associated thread.
+     * @return the nbme of the bssocibted threbd.
      */
-    public String getThreadName() {
-        return threadName;
+    public String getThrebdNbme() {
+        return threbdNbme;
     }
 
     /**
-     * Returns the state of the thread associated with this <tt>ThreadInfo</tt>.
+     * Returns the stbte of the threbd bssocibted with this <tt>ThrebdInfo</tt>.
      *
-     * @return <tt>Thread.State</tt> of the associated thread.
+     * @return <tt>Threbd.Stbte</tt> of the bssocibted threbd.
      */
-    public Thread.State getThreadState() {
-         return threadState;
+    public Threbd.Stbte getThrebdStbte() {
+         return threbdStbte;
     }
 
     /**
-     * Returns the approximate accumulated elapsed time (in milliseconds)
-     * that the thread associated with this <tt>ThreadInfo</tt>
-     * has blocked to enter or reenter a monitor
-     * since thread contention monitoring is enabled.
-     * I.e. the total accumulated time the thread has been in the
-     * {@link java.lang.Thread.State#BLOCKED BLOCKED} state since thread
-     * contention monitoring was last enabled.
-     * This method returns <tt>-1</tt> if thread contention monitoring
-     * is disabled.
+     * Returns the bpproximbte bccumulbted elbpsed time (in milliseconds)
+     * thbt the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * hbs blocked to enter or reenter b monitor
+     * since threbd contention monitoring is enbbled.
+     * I.e. the totbl bccumulbted time the threbd hbs been in the
+     * {@link jbvb.lbng.Threbd.Stbte#BLOCKED BLOCKED} stbte since threbd
+     * contention monitoring wbs lbst enbbled.
+     * This method returns <tt>-1</tt> if threbd contention monitoring
+     * is disbbled.
      *
-     * <p>The Java virtual machine may measure the time with a high
-     * resolution timer.  This statistic is reset when
-     * the thread contention monitoring is reenabled.
+     * <p>The Jbvb virtubl mbchine mby mebsure the time with b high
+     * resolution timer.  This stbtistic is reset when
+     * the threbd contention monitoring is reenbbled.
      *
-     * @return the approximate accumulated elapsed time in milliseconds
-     * that a thread entered the <tt>BLOCKED</tt> state;
-     * <tt>-1</tt> if thread contention monitoring is disabled.
+     * @return the bpproximbte bccumulbted elbpsed time in milliseconds
+     * thbt b threbd entered the <tt>BLOCKED</tt> stbte;
+     * <tt>-1</tt> if threbd contention monitoring is disbbled.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support this operation.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support this operbtion.
      *
-     * @see ThreadMXBean#isThreadContentionMonitoringSupported
-     * @see ThreadMXBean#setThreadContentionMonitoringEnabled
+     * @see ThrebdMXBebn#isThrebdContentionMonitoringSupported
+     * @see ThrebdMXBebn#setThrebdContentionMonitoringEnbbled
      */
     public long getBlockedTime() {
         return blockedTime;
     }
 
     /**
-     * Returns the total number of times that
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * blocked to enter or reenter a monitor.
-     * I.e. the number of times a thread has been in the
-     * {@link java.lang.Thread.State#BLOCKED BLOCKED} state.
+     * Returns the totbl number of times thbt
+     * the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * blocked to enter or reenter b monitor.
+     * I.e. the number of times b threbd hbs been in the
+     * {@link jbvb.lbng.Threbd.Stbte#BLOCKED BLOCKED} stbte.
      *
-     * @return the total number of times that the thread
-     * entered the <tt>BLOCKED</tt> state.
+     * @return the totbl number of times thbt the threbd
+     * entered the <tt>BLOCKED</tt> stbte.
      */
     public long getBlockedCount() {
         return blockedCount;
     }
 
     /**
-     * Returns the approximate accumulated elapsed time (in milliseconds)
-     * that the thread associated with this <tt>ThreadInfo</tt>
-     * has waited for notification
-     * since thread contention monitoring is enabled.
-     * I.e. the total accumulated time the thread has been in the
-     * {@link java.lang.Thread.State#WAITING WAITING}
-     * or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     * since thread contention monitoring is enabled.
-     * This method returns <tt>-1</tt> if thread contention monitoring
-     * is disabled.
+     * Returns the bpproximbte bccumulbted elbpsed time (in milliseconds)
+     * thbt the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * hbs wbited for notificbtion
+     * since threbd contention monitoring is enbbled.
+     * I.e. the totbl bccumulbted time the threbd hbs been in the
+     * {@link jbvb.lbng.Threbd.Stbte#WAITING WAITING}
+     * or {@link jbvb.lbng.Threbd.Stbte#TIMED_WAITING TIMED_WAITING} stbte
+     * since threbd contention monitoring is enbbled.
+     * This method returns <tt>-1</tt> if threbd contention monitoring
+     * is disbbled.
      *
-     * <p>The Java virtual machine may measure the time with a high
-     * resolution timer.  This statistic is reset when
-     * the thread contention monitoring is reenabled.
+     * <p>The Jbvb virtubl mbchine mby mebsure the time with b high
+     * resolution timer.  This stbtistic is reset when
+     * the threbd contention monitoring is reenbbled.
      *
-     * @return the approximate accumulated elapsed time in milliseconds
-     * that a thread has been in the <tt>WAITING</tt> or
-     * <tt>TIMED_WAITING</tt> state;
-     * <tt>-1</tt> if thread contention monitoring is disabled.
+     * @return the bpproximbte bccumulbted elbpsed time in milliseconds
+     * thbt b threbd hbs been in the <tt>WAITING</tt> or
+     * <tt>TIMED_WAITING</tt> stbte;
+     * <tt>-1</tt> if threbd contention monitoring is disbbled.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support this operation.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support this operbtion.
      *
-     * @see ThreadMXBean#isThreadContentionMonitoringSupported
-     * @see ThreadMXBean#setThreadContentionMonitoringEnabled
+     * @see ThrebdMXBebn#isThrebdContentionMonitoringSupported
+     * @see ThrebdMXBebn#setThrebdContentionMonitoringEnbbled
      */
-    public long getWaitedTime() {
-        return waitedTime;
+    public long getWbitedTime() {
+        return wbitedTime;
     }
 
     /**
-     * Returns the total number of times that
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * waited for notification.
-     * I.e. the number of times that a thread has been
-     * in the {@link java.lang.Thread.State#WAITING WAITING}
-     * or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state.
+     * Returns the totbl number of times thbt
+     * the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * wbited for notificbtion.
+     * I.e. the number of times thbt b threbd hbs been
+     * in the {@link jbvb.lbng.Threbd.Stbte#WAITING WAITING}
+     * or {@link jbvb.lbng.Threbd.Stbte#TIMED_WAITING TIMED_WAITING} stbte.
      *
-     * @return the total number of times that the thread
-     * was in the <tt>WAITING</tt> or <tt>TIMED_WAITING</tt> state.
+     * @return the totbl number of times thbt the threbd
+     * wbs in the <tt>WAITING</tt> or <tt>TIMED_WAITING</tt> stbte.
      */
-    public long getWaitedCount() {
-        return waitedCount;
+    public long getWbitedCount() {
+        return wbitedCount;
     }
 
     /**
-     * Returns the <tt>LockInfo</tt> of an object for which
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * A thread can be blocked waiting for one of the following:
+     * Returns the <tt>LockInfo</tt> of bn object for which
+     * the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * is blocked wbiting.
+     * A threbd cbn be blocked wbiting for one of the following:
      * <ul>
-     * <li>an object monitor to be acquired for entering or reentering
-     *     a synchronization block/method.
-     *     <br>The thread is in the {@link java.lang.Thread.State#BLOCKED BLOCKED}
-     *     state waiting to enter the <tt>synchronized</tt> statement
+     * <li>bn object monitor to be bcquired for entering or reentering
+     *     b synchronizbtion block/method.
+     *     <br>The threbd is in the {@link jbvb.lbng.Threbd.Stbte#BLOCKED BLOCKED}
+     *     stbte wbiting to enter the <tt>synchronized</tt> stbtement
      *     or method.
      *     </li>
-     * <li>an object monitor to be notified by another thread.
-     *     <br>The thread is in the {@link java.lang.Thread.State#WAITING WAITING}
-     *     or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     *     due to a call to the {@link Object#wait Object.wait} method.
+     * <li>bn object monitor to be notified by bnother threbd.
+     *     <br>The threbd is in the {@link jbvb.lbng.Threbd.Stbte#WAITING WAITING}
+     *     or {@link jbvb.lbng.Threbd.Stbte#TIMED_WAITING TIMED_WAITING} stbte
+     *     due to b cbll to the {@link Object#wbit Object.wbit} method.
      *     </li>
-     * <li>a synchronization object responsible for the thread parking.
-     *     <br>The thread is in the {@link java.lang.Thread.State#WAITING WAITING}
-     *     or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     *     due to a call to the
-     *     {@link java.util.concurrent.locks.LockSupport#park(Object)
-     *     LockSupport.park} method.  The synchronization object
+     * <li>b synchronizbtion object responsible for the threbd pbrking.
+     *     <br>The threbd is in the {@link jbvb.lbng.Threbd.Stbte#WAITING WAITING}
+     *     or {@link jbvb.lbng.Threbd.Stbte#TIMED_WAITING TIMED_WAITING} stbte
+     *     due to b cbll to the
+     *     {@link jbvb.util.concurrent.locks.LockSupport#pbrk(Object)
+     *     LockSupport.pbrk} method.  The synchronizbtion object
      *     is the object returned from
-     *     {@link java.util.concurrent.locks.LockSupport#getBlocker
-     *     LockSupport.getBlocker} method. Typically it is an
-     *     <a href="LockInfo.html#OwnableSynchronizer"> ownable synchronizer</a>
-     *     or a {@link java.util.concurrent.locks.Condition Condition}.</li>
+     *     {@link jbvb.util.concurrent.locks.LockSupport#getBlocker
+     *     LockSupport.getBlocker} method. Typicblly it is bn
+     *     <b href="LockInfo.html#OwnbbleSynchronizer"> ownbble synchronizer</b>
+     *     or b {@link jbvb.util.concurrent.locks.Condition Condition}.</li>
      * </ul>
      *
-     * <p>This method returns <tt>null</tt> if the thread is not in any of
-     * the above conditions.
+     * <p>This method returns <tt>null</tt> if the threbd is not in bny of
+     * the bbove conditions.
      *
-     * @return <tt>LockInfo</tt> of an object for which the thread
-     *         is blocked waiting if any; <tt>null</tt> otherwise.
+     * @return <tt>LockInfo</tt> of bn object for which the threbd
+     *         is blocked wbiting if bny; <tt>null</tt> otherwise.
      * @since 1.6
      */
     public LockInfo getLockInfo() {
@@ -460,39 +460,39 @@ public class ThreadInfo {
     }
 
     /**
-     * Returns the {@link LockInfo#toString string representation}
-     * of an object for which the thread associated with this
-     * <tt>ThreadInfo</tt> is blocked waiting.
-     * This method is equivalent to calling:
+     * Returns the {@link LockInfo#toString string representbtion}
+     * of bn object for which the threbd bssocibted with this
+     * <tt>ThrebdInfo</tt> is blocked wbiting.
+     * This method is equivblent to cblling:
      * <blockquote>
      * <pre>
      * getLockInfo().toString()
      * </pre></blockquote>
      *
-     * <p>This method will return <tt>null</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * <p>This method will return <tt>null</tt> if this threbd is not blocked
+     * wbiting for bny object or if the object is not owned by bny threbd.
      *
-     * @return the string representation of the object on which
-     * the thread is blocked if any;
+     * @return the string representbtion of the object on which
+     * the threbd is blocked if bny;
      * <tt>null</tt> otherwise.
      *
      * @see #getLockInfo
      */
-    public String getLockName() {
-        return lockName;
+    public String getLockNbme() {
+        return lockNbme;
     }
 
     /**
-     * Returns the ID of the thread which owns the object
-     * for which the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * This method will return <tt>-1</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * Returns the ID of the threbd which owns the object
+     * for which the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * is blocked wbiting.
+     * This method will return <tt>-1</tt> if this threbd is not blocked
+     * wbiting for bny object or if the object is not owned by bny threbd.
      *
-     * @return the thread ID of the owner thread of the object
-     * this thread is blocked on;
-     * <tt>-1</tt> if this thread is not blocked
-     * or if the object is not owned by any thread.
+     * @return the threbd ID of the owner threbd of the object
+     * this threbd is blocked on;
+     * <tt>-1</tt> if this threbd is not blocked
+     * or if the object is not owned by bny threbd.
      *
      * @see #getLockInfo
      */
@@ -501,310 +501,310 @@ public class ThreadInfo {
     }
 
     /**
-     * Returns the name of the thread which owns the object
-     * for which the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * This method will return <tt>null</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * Returns the nbme of the threbd which owns the object
+     * for which the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * is blocked wbiting.
+     * This method will return <tt>null</tt> if this threbd is not blocked
+     * wbiting for bny object or if the object is not owned by bny threbd.
      *
-     * @return the name of the thread that owns the object
-     * this thread is blocked on;
-     * <tt>null</tt> if this thread is not blocked
-     * or if the object is not owned by any thread.
+     * @return the nbme of the threbd thbt owns the object
+     * this threbd is blocked on;
+     * <tt>null</tt> if this threbd is not blocked
+     * or if the object is not owned by bny threbd.
      *
      * @see #getLockInfo
      */
-    public String getLockOwnerName() {
-        return lockOwnerName;
+    public String getLockOwnerNbme() {
+        return lockOwnerNbme;
     }
 
     /**
-     * Returns the stack trace of the thread
-     * associated with this <tt>ThreadInfo</tt>.
-     * If no stack trace was requested for this thread info, this method
-     * will return a zero-length array.
-     * If the returned array is of non-zero length then the first element of
-     * the array represents the top of the stack, which is the most recent
-     * method invocation in the sequence.  The last element of the array
-     * represents the bottom of the stack, which is the least recent method
-     * invocation in the sequence.
+     * Returns the stbck trbce of the threbd
+     * bssocibted with this <tt>ThrebdInfo</tt>.
+     * If no stbck trbce wbs requested for this threbd info, this method
+     * will return b zero-length brrby.
+     * If the returned brrby is of non-zero length then the first element of
+     * the brrby represents the top of the stbck, which is the most recent
+     * method invocbtion in the sequence.  The lbst element of the brrby
+     * represents the bottom of the stbck, which is the lebst recent method
+     * invocbtion in the sequence.
      *
-     * <p>Some Java virtual machines may, under some circumstances, omit one
-     * or more stack frames from the stack trace.  In the extreme case,
-     * a virtual machine that has no stack trace information concerning
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * is permitted to return a zero-length array from this method.
+     * <p>Some Jbvb virtubl mbchines mby, under some circumstbnces, omit one
+     * or more stbck frbmes from the stbck trbce.  In the extreme cbse,
+     * b virtubl mbchine thbt hbs no stbck trbce informbtion concerning
+     * the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * is permitted to return b zero-length brrby from this method.
      *
-     * @return an array of <tt>StackTraceElement</tt> objects of the thread.
+     * @return bn brrby of <tt>StbckTrbceElement</tt> objects of the threbd.
      */
-    public StackTraceElement[] getStackTrace() {
-        return stackTrace;
+    public StbckTrbceElement[] getStbckTrbce() {
+        return stbckTrbce;
     }
 
     /**
-     * Tests if the thread associated with this <tt>ThreadInfo</tt>
+     * Tests if the threbd bssocibted with this <tt>ThrebdInfo</tt>
      * is suspended.  This method returns <tt>true</tt> if
-     * {@link Thread#suspend} has been called.
+     * {@link Threbd#suspend} hbs been cblled.
      *
-     * @return <tt>true</tt> if the thread is suspended;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the threbd is suspended;
+     *         <tt>fblse</tt> otherwise.
      */
-    public boolean isSuspended() {
+    public boolebn isSuspended() {
          return suspended;
     }
 
     /**
-     * Tests if the thread associated with this <tt>ThreadInfo</tt>
-     * is executing native code via the Java Native Interface (JNI).
-     * The JNI native code does not include
-     * the virtual machine support code or the compiled native
-     * code generated by the virtual machine.
+     * Tests if the threbd bssocibted with this <tt>ThrebdInfo</tt>
+     * is executing nbtive code vib the Jbvb Nbtive Interfbce (JNI).
+     * The JNI nbtive code does not include
+     * the virtubl mbchine support code or the compiled nbtive
+     * code generbted by the virtubl mbchine.
      *
-     * @return <tt>true</tt> if the thread is executing native code;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the threbd is executing nbtive code;
+     *         <tt>fblse</tt> otherwise.
      */
-    public boolean isInNative() {
-         return inNative;
+    public boolebn isInNbtive() {
+         return inNbtive;
     }
 
     /**
-     * Returns a string representation of this thread info.
-     * The format of this string depends on the implementation.
-     * The returned string will typically include
-     * the {@linkplain #getThreadName thread name},
-     * the {@linkplain #getThreadId thread ID},
-     * its {@linkplain #getThreadState state},
-     * and a {@linkplain #getStackTrace stack trace} if any.
+     * Returns b string representbtion of this threbd info.
+     * The formbt of this string depends on the implementbtion.
+     * The returned string will typicblly include
+     * the {@linkplbin #getThrebdNbme threbd nbme},
+     * the {@linkplbin #getThrebdId threbd ID},
+     * its {@linkplbin #getThrebdStbte stbte},
+     * bnd b {@linkplbin #getStbckTrbce stbck trbce} if bny.
      *
-     * @return a string representation of this thread info.
+     * @return b string representbtion of this threbd info.
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder("\"" + getThreadName() + "\"" +
-                                             " Id=" + getThreadId() + " " +
-                                             getThreadState());
-        if (getLockName() != null) {
-            sb.append(" on " + getLockName());
+        StringBuilder sb = new StringBuilder("\"" + getThrebdNbme() + "\"" +
+                                             " Id=" + getThrebdId() + " " +
+                                             getThrebdStbte());
+        if (getLockNbme() != null) {
+            sb.bppend(" on " + getLockNbme());
         }
-        if (getLockOwnerName() != null) {
-            sb.append(" owned by \"" + getLockOwnerName() +
+        if (getLockOwnerNbme() != null) {
+            sb.bppend(" owned by \"" + getLockOwnerNbme() +
                       "\" Id=" + getLockOwnerId());
         }
         if (isSuspended()) {
-            sb.append(" (suspended)");
+            sb.bppend(" (suspended)");
         }
-        if (isInNative()) {
-            sb.append(" (in native)");
+        if (isInNbtive()) {
+            sb.bppend(" (in nbtive)");
         }
-        sb.append('\n');
+        sb.bppend('\n');
         int i = 0;
-        for (; i < stackTrace.length && i < MAX_FRAMES; i++) {
-            StackTraceElement ste = stackTrace[i];
-            sb.append("\tat " + ste.toString());
-            sb.append('\n');
+        for (; i < stbckTrbce.length && i < MAX_FRAMES; i++) {
+            StbckTrbceElement ste = stbckTrbce[i];
+            sb.bppend("\tbt " + ste.toString());
+            sb.bppend('\n');
             if (i == 0 && getLockInfo() != null) {
-                Thread.State ts = getThreadState();
+                Threbd.Stbte ts = getThrebdStbte();
                 switch (ts) {
-                    case BLOCKED:
-                        sb.append("\t-  blocked on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    case WAITING:
-                        sb.append("\t-  waiting on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    case TIMED_WAITING:
-                        sb.append("\t-  waiting on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    default:
+                    cbse BLOCKED:
+                        sb.bppend("\t-  blocked on " + getLockInfo());
+                        sb.bppend('\n');
+                        brebk;
+                    cbse WAITING:
+                        sb.bppend("\t-  wbiting on " + getLockInfo());
+                        sb.bppend('\n');
+                        brebk;
+                    cbse TIMED_WAITING:
+                        sb.bppend("\t-  wbiting on " + getLockInfo());
+                        sb.bppend('\n');
+                        brebk;
+                    defbult:
                 }
             }
 
             for (MonitorInfo mi : lockedMonitors) {
-                if (mi.getLockedStackDepth() == i) {
-                    sb.append("\t-  locked " + mi);
-                    sb.append('\n');
+                if (mi.getLockedStbckDepth() == i) {
+                    sb.bppend("\t-  locked " + mi);
+                    sb.bppend('\n');
                 }
             }
        }
-       if (i < stackTrace.length) {
-           sb.append("\t...");
-           sb.append('\n');
+       if (i < stbckTrbce.length) {
+           sb.bppend("\t...");
+           sb.bppend('\n');
        }
 
        LockInfo[] locks = getLockedSynchronizers();
        if (locks.length > 0) {
-           sb.append("\n\tNumber of locked synchronizers = " + locks.length);
-           sb.append('\n');
+           sb.bppend("\n\tNumber of locked synchronizers = " + locks.length);
+           sb.bppend('\n');
            for (LockInfo li : locks) {
-               sb.append("\t- " + li);
-               sb.append('\n');
+               sb.bppend("\t- " + li);
+               sb.bppend('\n');
            }
        }
-       sb.append('\n');
+       sb.bppend('\n');
        return sb.toString();
     }
-    private static final int MAX_FRAMES = 8;
+    privbte stbtic finbl int MAX_FRAMES = 8;
 
     /**
-     * Returns a <tt>ThreadInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain the following attributes
+     * Returns b <tt>ThrebdInfo</tt> object represented by the
+     * given <tt>CompositeDbtb</tt>.
+     * The given <tt>CompositeDbtb</tt> must contbin the following bttributes
      * unless otherwise specified below:
      * <blockquote>
-     * <table border summary="The attributes and their types the given CompositeData contains">
+     * <tbble border summbry="The bttributes bnd their types the given CompositeDbtb contbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
-     *   <td>threadId</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>threbdId</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>threadName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>threbdNbme</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>threadState</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>threbdStbte</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
      *   <td>suspended</td>
-     *   <td><tt>java.lang.Boolean</tt></td>
+     *   <td><tt>jbvb.lbng.Boolebn</tt></td>
      * </tr>
      * <tr>
-     *   <td>inNative</td>
-     *   <td><tt>java.lang.Boolean</tt></td>
+     *   <td>inNbtive</td>
+     *   <td><tt>jbvb.lbng.Boolebn</tt></td>
      * </tr>
      * <tr>
      *   <td>blockedCount</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
      *   <td>blockedTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>waitedCount</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>wbitedCount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>waitedTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>wbitedTime</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
      *   <td>lockInfo</td>
-     *   <td><tt>javax.management.openmbean.CompositeData</tt>
-     *       - the mapped type for {@link LockInfo} as specified in the
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.CompositeDbtb</tt>
+     *       - the mbpped type for {@link LockInfo} bs specified in the
      *         {@link LockInfo#from} method.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
+     *       If <tt>cd</tt> does not contbin this bttribute,
      *       the <tt>LockInfo</tt> object will be constructed from
-     *       the value of the <tt>lockName</tt> attribute. </td>
+     *       the vblue of the <tt>lockNbme</tt> bttribute. </td>
      * </tr>
      * <tr>
-     *   <td>lockName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>lockNbme</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
      *   <td>lockOwnerId</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>lockOwnerName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>lockOwnerNbme</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td><a name="StackTrace">stackTrace</a></td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
+     *   <td><b nbme="StbckTrbce">stbckTrbce</b></td>
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.CompositeDbtb[]</tt>
      *       <p>
-     *       Each element is a <tt>CompositeData</tt> representing
-     *       StackTraceElement containing the following attributes:
+     *       Ebch element is b <tt>CompositeDbtb</tt> representing
+     *       StbckTrbceElement contbining the following bttributes:
      *       <blockquote>
-     *       <table cellspacing=1 cellpadding=0 summary="The attributes and their types the given CompositeData contains">
+     *       <tbble cellspbcing=1 cellpbdding=0 summbry="The bttributes bnd their types the given CompositeDbtb contbins">
      *       <tr>
-     *         <th align=left>Attribute Name</th>
-     *         <th align=left>Type</th>
+     *         <th blign=left>Attribute Nbme</th>
+     *         <th blign=left>Type</th>
      *       </tr>
      *       <tr>
-     *         <td>className</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>clbssNbme</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>methodName</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>methodNbme</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>fileName</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>fileNbme</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
      *         <td>lineNumber</td>
-     *         <td><tt>java.lang.Integer</tt></td>
+     *         <td><tt>jbvb.lbng.Integer</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>nativeMethod</td>
-     *         <td><tt>java.lang.Boolean</tt></td>
+     *         <td>nbtiveMethod</td>
+     *         <td><tt>jbvb.lbng.Boolebn</tt></td>
      *       </tr>
-     *       </table>
+     *       </tbble>
      *       </blockquote>
      *   </td>
      * </tr>
      * <tr>
      *   <td>lockedMonitors</td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
-     *       whose element type is the mapped type for
-     *       {@link MonitorInfo} as specified in the
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.CompositeDbtb[]</tt>
+     *       whose element type is the mbpped type for
+     *       {@link MonitorInfo} bs specified in the
      *       {@link MonitorInfo#from Monitor.from} method.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
-     *       this attribute will be set to an empty array. </td>
+     *       If <tt>cd</tt> does not contbin this bttribute,
+     *       this bttribute will be set to bn empty brrby. </td>
      * </tr>
      * <tr>
      *   <td>lockedSynchronizers</td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
-     *       whose element type is the mapped type for
-     *       {@link LockInfo} as specified in the {@link LockInfo#from} method.
+     *   <td><tt>jbvbx.mbnbgement.openmbebn.CompositeDbtb[]</tt>
+     *       whose element type is the mbpped type for
+     *       {@link LockInfo} bs specified in the {@link LockInfo#from} method.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
-     *       this attribute will be set to an empty array. </td>
+     *       If <tt>cd</tt> does not contbin this bttribute,
+     *       this bttribute will be set to bn empty brrby. </td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>ThreadInfo</tt>
+     * @pbrbm cd <tt>CompositeDbtb</tt> representing b <tt>ThrebdInfo</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>ThreadInfo</tt> with the attributes described
-     *   above.
+     * @throws IllegblArgumentException if <tt>cd</tt> does not
+     *   represent b <tt>ThrebdInfo</tt> with the bttributes described
+     *   bbove.
      *
-     * @return a <tt>ThreadInfo</tt> object represented
+     * @return b <tt>ThrebdInfo</tt> object represented
      *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
      *         <tt>null</tt> otherwise.
      */
-    public static ThreadInfo from(CompositeData cd) {
+    public stbtic ThrebdInfo from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof ThreadInfoCompositeData) {
-            return ((ThreadInfoCompositeData) cd).getThreadInfo();
+        if (cd instbnceof ThrebdInfoCompositeDbtb) {
+            return ((ThrebdInfoCompositeDbtb) cd).getThrebdInfo();
         } else {
-            return new ThreadInfo(cd);
+            return new ThrebdInfo(cd);
         }
     }
 
     /**
-     * Returns an array of {@link MonitorInfo} objects, each of which
-     * represents an object monitor currently locked by the thread
-     * associated with this <tt>ThreadInfo</tt>.
-     * If no locked monitor was requested for this thread info or
-     * no monitor is locked by the thread, this method
-     * will return a zero-length array.
+     * Returns bn brrby of {@link MonitorInfo} objects, ebch of which
+     * represents bn object monitor currently locked by the threbd
+     * bssocibted with this <tt>ThrebdInfo</tt>.
+     * If no locked monitor wbs requested for this threbd info or
+     * no monitor is locked by the threbd, this method
+     * will return b zero-length brrby.
      *
-     * @return an array of <tt>MonitorInfo</tt> objects representing
-     *         the object monitors locked by the thread.
+     * @return bn brrby of <tt>MonitorInfo</tt> objects representing
+     *         the object monitors locked by the threbd.
      *
      * @since 1.6
      */
@@ -813,15 +813,15 @@ public class ThreadInfo {
     }
 
     /**
-     * Returns an array of {@link LockInfo} objects, each of which
-     * represents an <a href="LockInfo.html#OwnableSynchronizer">ownable
-     * synchronizer</a> currently locked by the thread associated with
-     * this <tt>ThreadInfo</tt>.  If no locked synchronizer was
-     * requested for this thread info or no synchronizer is locked by
-     * the thread, this method will return a zero-length array.
+     * Returns bn brrby of {@link LockInfo} objects, ebch of which
+     * represents bn <b href="LockInfo.html#OwnbbleSynchronizer">ownbble
+     * synchronizer</b> currently locked by the threbd bssocibted with
+     * this <tt>ThrebdInfo</tt>.  If no locked synchronizer wbs
+     * requested for this threbd info or no synchronizer is locked by
+     * the threbd, this method will return b zero-length brrby.
      *
-     * @return an array of <tt>LockInfo</tt> objects representing
-     *         the ownable synchronizers locked by the thread.
+     * @return bn brrby of <tt>LockInfo</tt> objects representing
+     *         the ownbble synchronizers locked by the threbd.
      *
      * @since 1.6
      */
@@ -829,6 +829,6 @@ public class ThreadInfo {
         return lockedSynchronizers;
     }
 
-    private static final StackTraceElement[] NO_STACK_TRACE =
-        new StackTraceElement[0];
+    privbte stbtic finbl StbckTrbceElement[] NO_STACK_TRACE =
+        new StbckTrbceElement[0];
 }

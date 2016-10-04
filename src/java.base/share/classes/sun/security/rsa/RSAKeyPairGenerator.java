@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.RSAKeyGenParameterSpec;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.RSAKeyGenPbrbmeterSpec;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * RSA keypair generation. Standard algorithm, minimum key length 512 bit.
- * We generate two random primes until we find two where phi is relative
- * prime to the public exponent. Default exponent is 65537. It has only bit 0
- * and bit 4 set, which makes it particularly efficient.
+ * RSA keypbir generbtion. Stbndbrd blgorithm, minimum key length 512 bit.
+ * We generbte two rbndom primes until we find two where phi is relbtive
+ * prime to the public exponent. Defbult exponent is 65537. It hbs only bit 0
+ * bnd bit 4 set, which mbkes it pbrticulbrly efficient.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class RSAKeyPairGenerator extends KeyPairGeneratorSpi {
+public finbl clbss RSAKeyPbirGenerbtor extends KeyPbirGenerbtorSpi {
 
     // public exponent to use
-    private BigInteger publicExponent;
+    privbte BigInteger publicExponent;
 
-    // size of the key to generate, >= RSAKeyFactory.MIN_MODLEN
-    private int keySize;
+    // size of the key to generbte, >= RSAKeyFbctory.MIN_MODLEN
+    privbte int keySize;
 
     // PRNG to use
-    private SecureRandom random;
+    privbte SecureRbndom rbndom;
 
-    public RSAKeyPairGenerator() {
-        // initialize to default in case the app does not call initialize()
-        initialize(1024, null);
+    public RSAKeyPbirGenerbtor() {
+        // initiblize to defbult in cbse the bpp does not cbll initiblize()
+        initiblize(1024, null);
     }
 
-    // initialize the generator. See JCA doc
-    public void initialize(int keySize, SecureRandom random) {
+    // initiblize the generbtor. See JCA doc
+    public void initiblize(int keySize, SecureRbndom rbndom) {
 
-        // do not allow unreasonably small or large key sizes,
-        // probably user error
+        // do not bllow unrebsonbbly smbll or lbrge key sizes,
+        // probbbly user error
         try {
-            RSAKeyFactory.checkKeyLengths(keySize, RSAKeyGenParameterSpec.F4,
+            RSAKeyFbctory.checkKeyLengths(keySize, RSAKeyGenPbrbmeterSpec.F4,
                 512, 64 * 1024);
-        } catch (InvalidKeyException e) {
-            throw new InvalidParameterException(e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidPbrbmeterException(e.getMessbge());
         }
 
         this.keySize = keySize;
-        this.random = random;
-        this.publicExponent = RSAKeyGenParameterSpec.F4;
+        this.rbndom = rbndom;
+        this.publicExponent = RSAKeyGenPbrbmeterSpec.F4;
     }
 
-    // second initialize method. See JCA doc.
-    public void initialize(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
+    // second initiblize method. See JCA doc.
+    public void initiblize(AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidAlgorithmPbrbmeterException {
 
-        if (params instanceof RSAKeyGenParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException
-                ("Params must be instance of RSAKeyGenParameterSpec");
+        if (pbrbms instbnceof RSAKeyGenPbrbmeterSpec == fblse) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Pbrbms must be instbnce of RSAKeyGenPbrbmeterSpec");
         }
 
-        RSAKeyGenParameterSpec rsaSpec = (RSAKeyGenParameterSpec)params;
-        int tmpKeySize = rsaSpec.getKeysize();
-        BigInteger tmpPublicExponent = rsaSpec.getPublicExponent();
+        RSAKeyGenPbrbmeterSpec rsbSpec = (RSAKeyGenPbrbmeterSpec)pbrbms;
+        int tmpKeySize = rsbSpec.getKeysize();
+        BigInteger tmpPublicExponent = rsbSpec.getPublicExponent();
 
         if (tmpPublicExponent == null) {
-            tmpPublicExponent = RSAKeyGenParameterSpec.F4;
+            tmpPublicExponent = RSAKeyGenPbrbmeterSpec.F4;
         } else {
-            if (tmpPublicExponent.compareTo(RSAKeyGenParameterSpec.F0) < 0) {
-                throw new InvalidAlgorithmParameterException
-                        ("Public exponent must be 3 or larger");
+            if (tmpPublicExponent.compbreTo(RSAKeyGenPbrbmeterSpec.F0) < 0) {
+                throw new InvblidAlgorithmPbrbmeterException
+                        ("Public exponent must be 3 or lbrger");
             }
             if (tmpPublicExponent.bitLength() > tmpKeySize) {
-                throw new InvalidAlgorithmParameterException
-                        ("Public exponent must be smaller than key size");
+                throw new InvblidAlgorithmPbrbmeterException
+                        ("Public exponent must be smbller thbn key size");
             }
         }
 
-        // do not allow unreasonably large key sizes, probably user error
+        // do not bllow unrebsonbbly lbrge key sizes, probbbly user error
         try {
-            RSAKeyFactory.checkKeyLengths(tmpKeySize, tmpPublicExponent,
+            RSAKeyFbctory.checkKeyLengths(tmpKeySize, tmpPublicExponent,
                 512, 64 * 1024);
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException(
-                "Invalid key sizes", e);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                "Invblid key sizes", e);
         }
 
         this.keySize = tmpKeySize;
         this.publicExponent = tmpPublicExponent;
-        this.random = random;
+        this.rbndom = rbndom;
     }
 
-    // generate the keypair. See JCA doc
-    public KeyPair generateKeyPair() {
-        // accommodate odd key sizes in case anybody wants to use them
+    // generbte the keypbir. See JCA doc
+    public KeyPbir generbteKeyPbir() {
+        // bccommodbte odd key sizes in cbse bnybody wbnts to use them
         int lp = (keySize + 1) >> 1;
         int lq = keySize - lp;
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+        if (rbndom == null) {
+            rbndom = JCAUtil.getSecureRbndom();
         }
         BigInteger e = publicExponent;
         while (true) {
-            // generate two random primes of size lp/lq
-            BigInteger p = BigInteger.probablePrime(lp, random);
+            // generbte two rbndom primes of size lp/lq
+            BigInteger p = BigInteger.probbblePrime(lp, rbndom);
             BigInteger q, n;
             do {
-                q = BigInteger.probablePrime(lq, random);
+                q = BigInteger.probbblePrime(lq, rbndom);
                 // convention is for p > q
-                if (p.compareTo(q) < 0) {
+                if (p.compbreTo(q) < 0) {
                     BigInteger tmp = p;
                     p = q;
                     q = tmp;
                 }
                 // modulus n = p * q
                 n = p.multiply(q);
-                // even with correctly sized p and q, there is a chance that
-                // n will be one bit short. re-generate the smaller prime if so
+                // even with correctly sized p bnd q, there is b chbnce thbt
+                // n will be one bit short. re-generbte the smbller prime if so
             } while (n.bitLength() < keySize);
 
-            // phi = (p - 1) * (q - 1) must be relative prime to e
+            // phi = (p - 1) * (q - 1) must be relbtive prime to e
             // otherwise RSA just won't work ;-)
-            BigInteger p1 = p.subtract(BigInteger.ONE);
-            BigInteger q1 = q.subtract(BigInteger.ONE);
+            BigInteger p1 = p.subtrbct(BigInteger.ONE);
+            BigInteger q1 = q.subtrbct(BigInteger.ONE);
             BigInteger phi = p1.multiply(q1);
-            // generate new p and q until they work. typically
+            // generbte new p bnd q until they work. typicblly
             // the first try will succeed when using F4
-            if (e.gcd(phi).equals(BigInteger.ONE) == false) {
+            if (e.gcd(phi).equbls(BigInteger.ONE) == fblse) {
                 continue;
             }
 
-            // private exponent d is the inverse of e mod phi
+            // privbte exponent d is the inverse of e mod phi
             BigInteger d = e.modInverse(phi);
 
             // 1st prime exponent pe = d mod (p - 1)
@@ -166,12 +166,12 @@ public final class RSAKeyPairGenerator extends KeyPairGeneratorSpi {
 
             try {
                 PublicKey publicKey = new RSAPublicKeyImpl(n, e);
-                PrivateKey privateKey =
-                        new RSAPrivateCrtKeyImpl(n, e, d, p, q, pe, qe, coeff);
-                return new KeyPair(publicKey, privateKey);
-            } catch (InvalidKeyException exc) {
-                // invalid key exception only thrown for keys < 512 bit,
-                // will not happen here
+                PrivbteKey privbteKey =
+                        new RSAPrivbteCrtKeyImpl(n, e, d, p, q, pe, qe, coeff);
+                return new KeyPbir(publicKey, privbteKey);
+            } cbtch (InvblidKeyException exc) {
+                // invblid key exception only thrown for keys < 512 bit,
+                // will not hbppen here
                 throw new RuntimeException(exc);
             }
         }

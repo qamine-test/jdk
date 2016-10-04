@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Rectangle;
+import jbvb.bwt.Component;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rectbngle;
 
-import java.io.Serializable;
-import sun.swing.DefaultLookup;
+import jbvb.io.Seriblizbble;
+import sun.swing.DefbultLookup;
 
 
 /**
- * The standard class for rendering (displaying) individual cells
- * in a <code>JTable</code>.
+ * The stbndbrd clbss for rendering (displbying) individubl cells
+ * in b <code>JTbble</code>.
  * <p>
  *
- * <strong><a name="override">Implementation Note:</a></strong>
- * This class inherits from <code>JLabel</code>, a standard component class.
- * However <code>JTable</code> employs a unique mechanism for rendering
- * its cells and therefore requires some slightly modified behavior
+ * <strong><b nbme="override">Implementbtion Note:</b></strong>
+ * This clbss inherits from <code>JLbbel</code>, b stbndbrd component clbss.
+ * However <code>JTbble</code> employs b unique mechbnism for rendering
+ * its cells bnd therefore requires some slightly modified behbvior
  * from its cell renderer.
- * The table class defines a single cell renderer and uses it as a
- * as a rubber-stamp for rendering all cells in the table;
+ * The tbble clbss defines b single cell renderer bnd uses it bs b
+ * bs b rubber-stbmp for rendering bll cells in the tbble;
  * it renders the first cell,
- * changes the contents of that cell renderer,
- * shifts the origin to the new location, re-draws it, and so on.
- * The standard <code>JLabel</code> component was not
- * designed to be used this way and we want to avoid
- * triggering a <code>revalidate</code> each time the
- * cell is drawn. This would greatly decrease performance because the
- * <code>revalidate</code> message would be
- * passed up the hierarchy of the container to determine whether any other
- * components would be affected.
- * As the renderer is only parented for the lifetime of a painting operation
- * we similarly want to avoid the overhead associated with walking the
- * hierarchy for painting operations.
- * So this class
- * overrides the <code>validate</code>, <code>invalidate</code>,
- * <code>revalidate</code>, <code>repaint</code>, and
- * <code>firePropertyChange</code> methods to be
- * no-ops and override the <code>isOpaque</code> method solely to improve
- * performance.  If you write your own renderer,
- * please keep this performance consideration in mind.
+ * chbnges the contents of thbt cell renderer,
+ * shifts the origin to the new locbtion, re-drbws it, bnd so on.
+ * The stbndbrd <code>JLbbel</code> component wbs not
+ * designed to be used this wby bnd we wbnt to bvoid
+ * triggering b <code>revblidbte</code> ebch time the
+ * cell is drbwn. This would grebtly decrebse performbnce becbuse the
+ * <code>revblidbte</code> messbge would be
+ * pbssed up the hierbrchy of the contbiner to determine whether bny other
+ * components would be bffected.
+ * As the renderer is only pbrented for the lifetime of b pbinting operbtion
+ * we similbrly wbnt to bvoid the overhebd bssocibted with wblking the
+ * hierbrchy for pbinting operbtions.
+ * So this clbss
+ * overrides the <code>vblidbte</code>, <code>invblidbte</code>,
+ * <code>revblidbte</code>, <code>repbint</code>, bnd
+ * <code>firePropertyChbnge</code> methods to be
+ * no-ops bnd override the <code>isOpbque</code> method solely to improve
+ * performbnce.  If you write your own renderer,
+ * plebse keep this performbnce considerbtion in mind.
  * <p>
  *
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Philip Milne
- * @see JTable
+ * @buthor Philip Milne
+ * @see JTbble
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableCellRenderer extends JLabel
-    implements TableCellRenderer, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultTbbleCellRenderer extends JLbbel
+    implements TbbleCellRenderer, Seriblizbble
 {
 
    /**
-    * An empty <code>Border</code>. This field might not be used. To change the
+    * An empty <code>Border</code>. This field might not be used. To chbnge the
     * <code>Border</code> used by this renderer override the
-    * <code>getTableCellRendererComponent</code> method and set the border
+    * <code>getTbbleCellRendererComponent</code> method bnd set the border
     * of the returned component directly.
     */
-    private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    protected static Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
+    privbte stbtic finbl Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    privbte stbtic finbl Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    protected stbtic Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
 
-    // We need a place to store the color the JLabel should be returned
-    // to after its foreground and background colors have been set
-    // to the selection background color.
-    // These ivars will be made protected when their names are finalized.
-    private Color unselectedForeground;
-    private Color unselectedBackground;
+    // We need b plbce to store the color the JLbbel should be returned
+    // to bfter its foreground bnd bbckground colors hbve been set
+    // to the selection bbckground color.
+    // These ivbrs will be mbde protected when their nbmes bre finblized.
+    privbte Color unselectedForeground;
+    privbte Color unselectedBbckground;
 
     /**
-     * Creates a default table cell renderer.
+     * Crebtes b defbult tbble cell renderer.
      */
-    public DefaultTableCellRenderer() {
+    public DefbultTbbleCellRenderer() {
         super();
-        setOpaque(true);
+        setOpbque(true);
         setBorder(getNoFocusBorder());
-        setName("Table.cellRenderer");
+        setNbme("Tbble.cellRenderer");
     }
 
-    private Border getNoFocusBorder() {
-        Border border = DefaultLookup.getBorder(this, ui, "Table.cellNoFocusBorder");
-        if (System.getSecurityManager() != null) {
+    privbte Border getNoFocusBorder() {
+        Border border = DefbultLookup.getBorder(this, ui, "Tbble.cellNoFocusBorder");
+        if (System.getSecurityMbnbger() != null) {
             if (border != null) return border;
             return SAFE_NO_FOCUS_BORDER;
         } else if (border != null) {
@@ -128,10 +128,10 @@ public class DefaultTableCellRenderer extends JLabel
     }
 
     /**
-     * Overrides <code>JComponent.setForeground</code> to assign
+     * Overrides <code>JComponent.setForeground</code> to bssign
      * the unselected-foreground color to the specified color.
      *
-     * @param c set the foreground color to this value
+     * @pbrbm c set the foreground color to this vblue
      */
     public void setForeground(Color c) {
         super.setForeground(c);
@@ -139,262 +139,262 @@ public class DefaultTableCellRenderer extends JLabel
     }
 
     /**
-     * Overrides <code>JComponent.setBackground</code> to assign
-     * the unselected-background color to the specified color.
+     * Overrides <code>JComponent.setBbckground</code> to bssign
+     * the unselected-bbckground color to the specified color.
      *
-     * @param c set the background color to this value
+     * @pbrbm c set the bbckground color to this vblue
      */
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        unselectedBackground = c;
+    public void setBbckground(Color c) {
+        super.setBbckground(c);
+        unselectedBbckground = c;
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * [L&amp;F] has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the look bnd feel
+     * [L&bmp;F] hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        super.updateUI();
+    public void updbteUI() {
+        super.updbteUI();
         setForeground(null);
-        setBackground(null);
+        setBbckground(null);
     }
 
-    // implements javax.swing.table.TableCellRenderer
+    // implements jbvbx.swing.tbble.TbbleCellRenderer
     /**
      *
-     * Returns the default table cell renderer.
+     * Returns the defbult tbble cell renderer.
      * <p>
-     * During a printing operation, this method will be called with
-     * <code>isSelected</code> and <code>hasFocus</code> values of
-     * <code>false</code> to prevent selection and focus from appearing
-     * in the printed output. To do other customization based on whether
-     * or not the table is being printed, check the return value from
-     * {@link javax.swing.JComponent#isPaintingForPrint()}.
+     * During b printing operbtion, this method will be cblled with
+     * <code>isSelected</code> bnd <code>hbsFocus</code> vblues of
+     * <code>fblse</code> to prevent selection bnd focus from bppebring
+     * in the printed output. To do other customizbtion bbsed on whether
+     * or not the tbble is being printed, check the return vblue from
+     * {@link jbvbx.swing.JComponent#isPbintingForPrint()}.
      *
-     * @param table  the <code>JTable</code>
-     * @param value  the value to assign to the cell at
+     * @pbrbm tbble  the <code>JTbble</code>
+     * @pbrbm vblue  the vblue to bssign to the cell bt
      *                  <code>[row, column]</code>
-     * @param isSelected true if cell is selected
-     * @param hasFocus true if cell has focus
-     * @param row  the row of the cell to render
-     * @param column the column of the cell to render
-     * @return the default table cell renderer
-     * @see javax.swing.JComponent#isPaintingForPrint()
+     * @pbrbm isSelected true if cell is selected
+     * @pbrbm hbsFocus true if cell hbs focus
+     * @pbrbm row  the row of the cell to render
+     * @pbrbm column the column of the cell to render
+     * @return the defbult tbble cell renderer
+     * @see jbvbx.swing.JComponent#isPbintingForPrint()
      */
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                          boolean isSelected, boolean hasFocus, int row, int column) {
-        if (table == null) {
+    public Component getTbbleCellRendererComponent(JTbble tbble, Object vblue,
+                          boolebn isSelected, boolebn hbsFocus, int row, int column) {
+        if (tbble == null) {
             return this;
         }
 
         Color fg = null;
         Color bg = null;
 
-        JTable.DropLocation dropLocation = table.getDropLocation();
-        if (dropLocation != null
-                && !dropLocation.isInsertRow()
-                && !dropLocation.isInsertColumn()
-                && dropLocation.getRow() == row
-                && dropLocation.getColumn() == column) {
+        JTbble.DropLocbtion dropLocbtion = tbble.getDropLocbtion();
+        if (dropLocbtion != null
+                && !dropLocbtion.isInsertRow()
+                && !dropLocbtion.isInsertColumn()
+                && dropLocbtion.getRow() == row
+                && dropLocbtion.getColumn() == column) {
 
-            fg = DefaultLookup.getColor(this, ui, "Table.dropCellForeground");
-            bg = DefaultLookup.getColor(this, ui, "Table.dropCellBackground");
+            fg = DefbultLookup.getColor(this, ui, "Tbble.dropCellForeground");
+            bg = DefbultLookup.getColor(this, ui, "Tbble.dropCellBbckground");
 
             isSelected = true;
         }
 
         if (isSelected) {
-            super.setForeground(fg == null ? table.getSelectionForeground()
+            super.setForeground(fg == null ? tbble.getSelectionForeground()
                                            : fg);
-            super.setBackground(bg == null ? table.getSelectionBackground()
+            super.setBbckground(bg == null ? tbble.getSelectionBbckground()
                                            : bg);
         } else {
-            Color background = unselectedBackground != null
-                                    ? unselectedBackground
-                                    : table.getBackground();
-            if (background == null || background instanceof javax.swing.plaf.UIResource) {
-                Color alternateColor = DefaultLookup.getColor(this, ui, "Table.alternateRowColor");
-                if (alternateColor != null && row % 2 != 0) {
-                    background = alternateColor;
+            Color bbckground = unselectedBbckground != null
+                                    ? unselectedBbckground
+                                    : tbble.getBbckground();
+            if (bbckground == null || bbckground instbnceof jbvbx.swing.plbf.UIResource) {
+                Color blternbteColor = DefbultLookup.getColor(this, ui, "Tbble.blternbteRowColor");
+                if (blternbteColor != null && row % 2 != 0) {
+                    bbckground = blternbteColor;
                 }
             }
             super.setForeground(unselectedForeground != null
                                     ? unselectedForeground
-                                    : table.getForeground());
-            super.setBackground(background);
+                                    : tbble.getForeground());
+            super.setBbckground(bbckground);
         }
 
-        setFont(table.getFont());
+        setFont(tbble.getFont());
 
-        if (hasFocus) {
+        if (hbsFocus) {
             Border border = null;
             if (isSelected) {
-                border = DefaultLookup.getBorder(this, ui, "Table.focusSelectedCellHighlightBorder");
+                border = DefbultLookup.getBorder(this, ui, "Tbble.focusSelectedCellHighlightBorder");
             }
             if (border == null) {
-                border = DefaultLookup.getBorder(this, ui, "Table.focusCellHighlightBorder");
+                border = DefbultLookup.getBorder(this, ui, "Tbble.focusCellHighlightBorder");
             }
             setBorder(border);
 
-            if (!isSelected && table.isCellEditable(row, column)) {
+            if (!isSelected && tbble.isCellEditbble(row, column)) {
                 Color col;
-                col = DefaultLookup.getColor(this, ui, "Table.focusCellForeground");
+                col = DefbultLookup.getColor(this, ui, "Tbble.focusCellForeground");
                 if (col != null) {
                     super.setForeground(col);
                 }
-                col = DefaultLookup.getColor(this, ui, "Table.focusCellBackground");
+                col = DefbultLookup.getColor(this, ui, "Tbble.focusCellBbckground");
                 if (col != null) {
-                    super.setBackground(col);
+                    super.setBbckground(col);
                 }
             }
         } else {
             setBorder(getNoFocusBorder());
         }
 
-        setValue(value);
+        setVblue(vblue);
 
         return this;
     }
 
     /*
-     * The following methods are overridden as a performance measure to
-     * to prune code-paths are often called in the case of renders
-     * but which we know are unnecessary.  Great care should be taken
-     * when writing your own renderer to weigh the benefits and
-     * drawbacks of overriding methods like these.
+     * The following methods bre overridden bs b performbnce mebsure to
+     * to prune code-pbths bre often cblled in the cbse of renders
+     * but which we know bre unnecessbry.  Grebt cbre should be tbken
+     * when writing your own renderer to weigh the benefits bnd
+     * drbwbbcks of overriding methods like these.
      */
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public boolean isOpaque() {
-        Color back = getBackground();
-        Component p = getParent();
+    public boolebn isOpbque() {
+        Color bbck = getBbckground();
+        Component p = getPbrent();
         if (p != null) {
-            p = p.getParent();
+            p = p.getPbrent();
         }
 
-        // p should now be the JTable.
-        boolean colorMatch = (back != null) && (p != null) &&
-            back.equals(p.getBackground()) &&
-                        p.isOpaque();
-        return !colorMatch && super.isOpaque();
+        // p should now be the JTbble.
+        boolebn colorMbtch = (bbck != null) && (p != null) &&
+            bbck.equbls(p.getBbckground()) &&
+                        p.isOpbque();
+        return !colorMbtch && super.isOpbque();
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      *
      * @since 1.5
      */
-    public void invalidate() {}
+    public void invblidbte() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public void validate() {}
+    public void vblidbte() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public void revalidate() {}
+    public void revblidbte() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public void repaint(long tm, int x, int y, int width, int height) {}
+    public void repbint(long tm, int x, int y, int width, int height) {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public void repaint(Rectangle r) { }
+    public void repbint(Rectbngle r) { }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      *
      * @since 1.5
      */
-    public void repaint() {
+    public void repbint() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    protected void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
         // Strings get interned...
-        if (propertyName=="text"
-                || propertyName == "labelFor"
-                || propertyName == "displayedMnemonic"
-                || ((propertyName == "font" || propertyName == "foreground")
-                    && oldValue != newValue
-                    && getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null)) {
+        if (propertyNbme=="text"
+                || propertyNbme == "lbbelFor"
+                || propertyNbme == "displbyedMnemonic"
+                || ((propertyNbme == "font" || propertyNbme == "foreground")
+                    && oldVblue != newVblue
+                    && getClientProperty(jbvbx.swing.plbf.bbsic.BbsicHTML.propertyKey) != null)) {
 
-            super.firePropertyChange(propertyName, oldValue, newValue);
+            super.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
         }
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performbnce rebsons.
+     * See the <b href="#override">Implementbtion Note</b>
+     * for more informbtion.
      */
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) { }
+    public void firePropertyChbnge(String propertyNbme, boolebn oldVblue, boolebn newVblue) { }
 
 
     /**
      * Sets the <code>String</code> object for the cell being rendered to
-     * <code>value</code>.
+     * <code>vblue</code>.
      *
-     * @param value  the string value for this cell; if value is
-     *          <code>null</code> it sets the text value to an empty string
-     * @see JLabel#setText
+     * @pbrbm vblue  the string vblue for this cell; if vblue is
+     *          <code>null</code> it sets the text vblue to bn empty string
+     * @see JLbbel#setText
      *
      */
-    protected void setValue(Object value) {
-        setText((value == null) ? "" : value.toString());
+    protected void setVblue(Object vblue) {
+        setText((vblue == null) ? "" : vblue.toString());
     }
 
 
     /**
-     * A subclass of <code>DefaultTableCellRenderer</code> that
+     * A subclbss of <code>DefbultTbbleCellRenderer</code> thbt
      * implements <code>UIResource</code>.
-     * <code>DefaultTableCellRenderer</code> doesn't implement
+     * <code>DefbultTbbleCellRenderer</code> doesn't implement
      * <code>UIResource</code>
-     * directly so that applications can safely override the
+     * directly so thbt bpplicbtions cbn sbfely override the
      * <code>cellRenderer</code> property with
-     * <code>DefaultTableCellRenderer</code> subclasses.
+     * <code>DefbultTbbleCellRenderer</code> subclbsses.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends DefaultTableCellRenderer
-        implements javax.swing.plaf.UIResource
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UIResource extends DefbultTbbleCellRenderer
+        implements jbvbx.swing.plbf.UIResource
     {
     }
 

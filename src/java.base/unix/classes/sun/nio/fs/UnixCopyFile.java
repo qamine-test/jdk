@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.util.concurrent.TimeUnit;
 import com.sun.nio.file.ExtendedCopyOption;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 
 /**
- * Unix implementation of Path#copyTo and Path#moveTo methods.
+ * Unix implementbtion of Pbth#copyTo bnd Pbth#moveTo methods.
  */
 
-class UnixCopyFile {
-    private UnixCopyFile() {  }
+clbss UnixCopyFile {
+    privbte UnixCopyFile() {  }
 
-    // The flags that control how a file is copied or moved
-    private static class Flags {
-        boolean replaceExisting;
-        boolean atomicMove;
-        boolean followLinks;
-        boolean interruptible;
+    // The flbgs thbt control how b file is copied or moved
+    privbte stbtic clbss Flbgs {
+        boolebn replbceExisting;
+        boolebn btomicMove;
+        boolebn followLinks;
+        boolebn interruptible;
 
-        // the attributes to copy
-        boolean copyBasicAttributes;
-        boolean copyPosixAttributes;
-        boolean copyNonPosixAttributes;
+        // the bttributes to copy
+        boolebn copyBbsicAttributes;
+        boolebn copyPosixAttributes;
+        boolebn copyNonPosixAttributes;
 
-        // flags that indicate if we should fail if attributes cannot be copied
-        boolean failIfUnableToCopyBasic;
-        boolean failIfUnableToCopyPosix;
-        boolean failIfUnableToCopyNonPosix;
+        // flbgs thbt indicbte if we should fbil if bttributes cbnnot be copied
+        boolebn fbilIfUnbbleToCopyBbsic;
+        boolebn fbilIfUnbbleToCopyPosix;
+        boolebn fbilIfUnbbleToCopyNonPosix;
 
-        static Flags fromCopyOptions(CopyOption... options) {
-            Flags flags = new Flags();
-            flags.followLinks = true;
+        stbtic Flbgs fromCopyOptions(CopyOption... options) {
+            Flbgs flbgs = new Flbgs();
+            flbgs.followLinks = true;
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    flags.replaceExisting = true;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.replbceExisting = true;
                     continue;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    flags.followLinks = false;
+                    flbgs.followLinks = fblse;
                     continue;
                 }
-                if (option == StandardCopyOption.COPY_ATTRIBUTES) {
-                    // copy all attributes but only fail if basic attributes
-                    // cannot be copied
-                    flags.copyBasicAttributes = true;
-                    flags.copyPosixAttributes = true;
-                    flags.copyNonPosixAttributes = true;
-                    flags.failIfUnableToCopyBasic = true;
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                    // copy bll bttributes but only fbil if bbsic bttributes
+                    // cbnnot be copied
+                    flbgs.copyBbsicAttributes = true;
+                    flbgs.copyPosixAttributes = true;
+                    flbgs.copyNonPosixAttributes = true;
+                    flbgs.fbilIfUnbbleToCopyBbsic = true;
                     continue;
                 }
                 if (option == ExtendedCopyOption.INTERRUPTIBLE) {
-                    flags.interruptible = true;
+                    flbgs.interruptible = true;
                     continue;
                 }
                 if (option == null)
                     throw new NullPointerException();
-                throw new UnsupportedOperationException("Unsupported copy option");
+                throw new UnsupportedOperbtionException("Unsupported copy option");
             }
-            return flags;
+            return flbgs;
         }
 
-        static Flags fromMoveOptions(CopyOption... options) {
-            Flags flags = new Flags();
+        stbtic Flbgs fromMoveOptions(CopyOption... options) {
+            Flbgs flbgs = new Flbgs();
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.ATOMIC_MOVE) {
-                    flags.atomicMove = true;
+                if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                    flbgs.btomicMove = true;
                     continue;
                 }
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    flags.replaceExisting = true;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.replbceExisting = true;
                     continue;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
@@ -110,75 +110,75 @@ class UnixCopyFile {
                 }
                 if (option == null)
                     throw new NullPointerException();
-                throw new UnsupportedOperationException("Unsupported copy option");
+                throw new UnsupportedOperbtionException("Unsupported copy option");
             }
 
-            // a move requires that all attributes be copied but only fail if
-            // the basic attributes cannot be copied
-            flags.copyBasicAttributes = true;
-            flags.copyPosixAttributes = true;
-            flags.copyNonPosixAttributes = true;
-            flags.failIfUnableToCopyBasic = true;
-            return flags;
+            // b move requires thbt bll bttributes be copied but only fbil if
+            // the bbsic bttributes cbnnot be copied
+            flbgs.copyBbsicAttributes = true;
+            flbgs.copyPosixAttributes = true;
+            flbgs.copyNonPosixAttributes = true;
+            flbgs.fbilIfUnbbleToCopyBbsic = true;
+            return flbgs;
         }
     }
 
-    // copy directory from source to target
-    private static void copyDirectory(UnixPath source,
-                                      UnixFileAttributes attrs,
-                                      UnixPath target,
-                                      Flags flags)
+    // copy directory from source to tbrget
+    privbte stbtic void copyDirectory(UnixPbth source,
+                                      UnixFileAttributes bttrs,
+                                      UnixPbth tbrget,
+                                      Flbgs flbgs)
         throws IOException
     {
         try {
-            mkdir(target, attrs.mode());
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+            mkdir(tbrget, bttrs.mode());
+        } cbtch (UnixException x) {
+            x.rethrowAsIOException(tbrget);
         }
 
-        // no attributes to copy
-        if (!flags.copyBasicAttributes &&
-            !flags.copyPosixAttributes &&
-            !flags.copyNonPosixAttributes) return;
+        // no bttributes to copy
+        if (!flbgs.copyBbsicAttributes &&
+            !flbgs.copyPosixAttributes &&
+            !flbgs.copyNonPosixAttributes) return;
 
-        // open target directory if possible (this can fail when copying a
-        // directory for which we don't have read access).
+        // open tbrget directory if possible (this cbn fbil when copying b
+        // directory for which we don't hbve rebd bccess).
         int dfd = -1;
         try {
-            dfd = open(target, O_RDONLY, 0);
-        } catch (UnixException x) {
-            // access to target directory required to copy named attributes
-            if (flags.copyNonPosixAttributes && flags.failIfUnableToCopyNonPosix) {
-                try { rmdir(target); } catch (UnixException ignore) { }
-                x.rethrowAsIOException(target);
+            dfd = open(tbrget, O_RDONLY, 0);
+        } cbtch (UnixException x) {
+            // bccess to tbrget directory required to copy nbmed bttributes
+            if (flbgs.copyNonPosixAttributes && flbgs.fbilIfUnbbleToCopyNonPosix) {
+                try { rmdir(tbrget); } cbtch (UnixException ignore) { }
+                x.rethrowAsIOException(tbrget);
             }
         }
 
-        boolean done = false;
+        boolebn done = fblse;
         try {
             // copy owner/group/permissions
-            if (flags.copyPosixAttributes){
+            if (flbgs.copyPosixAttributes){
                 try {
                     if (dfd >= 0) {
-                        fchown(dfd, attrs.uid(), attrs.gid());
-                        fchmod(dfd, attrs.mode());
+                        fchown(dfd, bttrs.uid(), bttrs.gid());
+                        fchmod(dfd, bttrs.mode());
                     } else {
-                        chown(target, attrs.uid(), attrs.gid());
-                        chmod(target, attrs.mode());
+                        chown(tbrget, bttrs.uid(), bttrs.gid());
+                        chmod(tbrget, bttrs.mode());
                     }
-                } catch (UnixException x) {
-                    // unable to set owner/group
-                    if (flags.failIfUnableToCopyPosix)
-                        x.rethrowAsIOException(target);
+                } cbtch (UnixException x) {
+                    // unbble to set owner/group
+                    if (flbgs.fbilIfUnbbleToCopyPosix)
+                        x.rethrowAsIOException(tbrget);
                 }
             }
-            // copy other attributes
-            if (flags.copyNonPosixAttributes && (dfd >= 0)) {
+            // copy other bttributes
+            if (flbgs.copyNonPosixAttributes && (dfd >= 0)) {
                 int sfd = -1;
                 try {
                     sfd = open(source, O_RDONLY, 0);
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyNonPosix)
+                } cbtch (UnixException x) {
+                    if (flbgs.fbilIfUnbbleToCopyNonPosix)
                         x.rethrowAsIOException(source);
                 }
                 if (sfd >= 0) {
@@ -186,47 +186,47 @@ class UnixCopyFile {
                     close(sfd);
                 }
             }
-            // copy time stamps last
-            if (flags.copyBasicAttributes) {
+            // copy time stbmps lbst
+            if (flbgs.copyBbsicAttributes) {
                 try {
                     if (dfd >= 0 && futimesSupported()) {
                         futimes(dfd,
-                                attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                                bttrs.lbstAccessTime().to(TimeUnit.MICROSECONDS),
+                                bttrs.lbstModifiedTime().to(TimeUnit.MICROSECONDS));
                     } else {
-                        utimes(target,
-                               attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                               attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                        utimes(tbrget,
+                               bttrs.lbstAccessTime().to(TimeUnit.MICROSECONDS),
+                               bttrs.lbstModifiedTime().to(TimeUnit.MICROSECONDS));
                     }
-                } catch (UnixException x) {
-                    // unable to set times
-                    if (flags.failIfUnableToCopyBasic)
-                        x.rethrowAsIOException(target);
+                } cbtch (UnixException x) {
+                    // unbble to set times
+                    if (flbgs.fbilIfUnbbleToCopyBbsic)
+                        x.rethrowAsIOException(tbrget);
                 }
             }
             done = true;
-        } finally {
+        } finblly {
             if (dfd >= 0)
                 close(dfd);
             if (!done) {
-                // rollback
-                try { rmdir(target); } catch (UnixException ignore) { }
+                // rollbbck
+                try { rmdir(tbrget); } cbtch (UnixException ignore) { }
             }
         }
     }
 
-    // copy regular file from source to target
-    private static void copyFile(UnixPath source,
-                                 UnixFileAttributes attrs,
-                                 UnixPath  target,
-                                 Flags flags,
-                                 long addressToPollForCancel)
+    // copy regulbr file from source to tbrget
+    privbte stbtic void copyFile(UnixPbth source,
+                                 UnixFileAttributes bttrs,
+                                 UnixPbth  tbrget,
+                                 Flbgs flbgs,
+                                 long bddressToPollForCbncel)
         throws IOException
     {
         int fi = -1;
         try {
             fi = open(source, O_RDONLY, 0);
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(source);
         }
 
@@ -234,241 +234,241 @@ class UnixCopyFile {
             // open new file
             int fo = -1;
             try {
-                fo = open(target,
+                fo = open(tbrget,
                            (O_WRONLY |
                             O_CREAT |
                             O_EXCL),
-                           attrs.mode());
-            } catch (UnixException x) {
-                x.rethrowAsIOException(target);
+                           bttrs.mode());
+            } cbtch (UnixException x) {
+                x.rethrowAsIOException(tbrget);
             }
 
-            // set to true when file and attributes copied
-            boolean complete = false;
+            // set to true when file bnd bttributes copied
+            boolebn complete = fblse;
             try {
-                // transfer bytes to target file
+                // trbnsfer bytes to tbrget file
                 try {
-                    transfer(fo, fi, addressToPollForCancel);
-                } catch (UnixException x) {
-                    x.rethrowAsIOException(source, target);
+                    trbnsfer(fo, fi, bddressToPollForCbncel);
+                } cbtch (UnixException x) {
+                    x.rethrowAsIOException(source, tbrget);
                 }
                 // copy owner/permissions
-                if (flags.copyPosixAttributes) {
+                if (flbgs.copyPosixAttributes) {
                     try {
-                        fchown(fo, attrs.uid(), attrs.gid());
-                        fchmod(fo, attrs.mode());
-                    } catch (UnixException x) {
-                        if (flags.failIfUnableToCopyPosix)
-                            x.rethrowAsIOException(target);
+                        fchown(fo, bttrs.uid(), bttrs.gid());
+                        fchmod(fo, bttrs.mode());
+                    } cbtch (UnixException x) {
+                        if (flbgs.fbilIfUnbbleToCopyPosix)
+                            x.rethrowAsIOException(tbrget);
                     }
                 }
-                // copy non POSIX attributes (depends on file system)
-                if (flags.copyNonPosixAttributes) {
+                // copy non POSIX bttributes (depends on file system)
+                if (flbgs.copyNonPosixAttributes) {
                     source.getFileSystem().copyNonPosixAttributes(fi, fo);
                 }
-                // copy time attributes
-                if (flags.copyBasicAttributes) {
+                // copy time bttributes
+                if (flbgs.copyBbsicAttributes) {
                     try {
                         if (futimesSupported()) {
                             futimes(fo,
-                                    attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                    attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                                    bttrs.lbstAccessTime().to(TimeUnit.MICROSECONDS),
+                                    bttrs.lbstModifiedTime().to(TimeUnit.MICROSECONDS));
                         } else {
-                            utimes(target,
-                                   attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                                   attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
+                            utimes(tbrget,
+                                   bttrs.lbstAccessTime().to(TimeUnit.MICROSECONDS),
+                                   bttrs.lbstModifiedTime().to(TimeUnit.MICROSECONDS));
                         }
-                    } catch (UnixException x) {
-                        if (flags.failIfUnableToCopyBasic)
-                            x.rethrowAsIOException(target);
+                    } cbtch (UnixException x) {
+                        if (flbgs.fbilIfUnbbleToCopyBbsic)
+                            x.rethrowAsIOException(tbrget);
                     }
                 }
                 complete = true;
-            } finally {
+            } finblly {
                 close(fo);
 
-                // copy of file or attributes failed so rollback
+                // copy of file or bttributes fbiled so rollbbck
                 if (!complete) {
                     try {
-                        unlink(target);
-                    } catch (UnixException ignore) { }
+                        unlink(tbrget);
+                    } cbtch (UnixException ignore) { }
                 }
             }
-        } finally {
+        } finblly {
             close(fi);
         }
     }
 
-    // copy symbolic link from source to target
-    private static void copyLink(UnixPath source,
-                                 UnixFileAttributes attrs,
-                                 UnixPath  target,
-                                 Flags flags)
+    // copy symbolic link from source to tbrget
+    privbte stbtic void copyLink(UnixPbth source,
+                                 UnixFileAttributes bttrs,
+                                 UnixPbth  tbrget,
+                                 Flbgs flbgs)
         throws IOException
     {
-        byte[] linktarget = null;
+        byte[] linktbrget = null;
         try {
-            linktarget = readlink(source);
-        } catch (UnixException x) {
+            linktbrget = rebdlink(source);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(source);
         }
         try {
-            symlink(linktarget, target);
+            symlink(linktbrget, tbrget);
 
-            if (flags.copyPosixAttributes) {
+            if (flbgs.copyPosixAttributes) {
                 try {
-                    lchown(target, attrs.uid(), attrs.gid());
-                } catch (UnixException x) {
-                    // ignore since link attributes not required to be copied
+                    lchown(tbrget, bttrs.uid(), bttrs.gid());
+                } cbtch (UnixException x) {
+                    // ignore since link bttributes not required to be copied
                 }
             }
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+        } cbtch (UnixException x) {
+            x.rethrowAsIOException(tbrget);
         }
     }
 
-    // copy special file from source to target
-    private static void copySpecial(UnixPath source,
-                                    UnixFileAttributes attrs,
-                                    UnixPath  target,
-                                    Flags flags)
+    // copy specibl file from source to tbrget
+    privbte stbtic void copySpecibl(UnixPbth source,
+                                    UnixFileAttributes bttrs,
+                                    UnixPbth  tbrget,
+                                    Flbgs flbgs)
         throws IOException
     {
         try {
-            mknod(target, attrs.mode(), attrs.rdev());
-        } catch (UnixException x) {
-            x.rethrowAsIOException(target);
+            mknod(tbrget, bttrs.mode(), bttrs.rdev());
+        } cbtch (UnixException x) {
+            x.rethrowAsIOException(tbrget);
         }
-        boolean done = false;
+        boolebn done = fblse;
         try {
-            if (flags.copyPosixAttributes) {
+            if (flbgs.copyPosixAttributes) {
                 try {
-                    chown(target, attrs.uid(), attrs.gid());
-                    chmod(target, attrs.mode());
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyPosix)
-                        x.rethrowAsIOException(target);
+                    chown(tbrget, bttrs.uid(), bttrs.gid());
+                    chmod(tbrget, bttrs.mode());
+                } cbtch (UnixException x) {
+                    if (flbgs.fbilIfUnbbleToCopyPosix)
+                        x.rethrowAsIOException(tbrget);
                 }
             }
-            if (flags.copyBasicAttributes) {
+            if (flbgs.copyBbsicAttributes) {
                 try {
-                    utimes(target,
-                           attrs.lastAccessTime().to(TimeUnit.MICROSECONDS),
-                           attrs.lastModifiedTime().to(TimeUnit.MICROSECONDS));
-                } catch (UnixException x) {
-                    if (flags.failIfUnableToCopyBasic)
-                        x.rethrowAsIOException(target);
+                    utimes(tbrget,
+                           bttrs.lbstAccessTime().to(TimeUnit.MICROSECONDS),
+                           bttrs.lbstModifiedTime().to(TimeUnit.MICROSECONDS));
+                } cbtch (UnixException x) {
+                    if (flbgs.fbilIfUnbbleToCopyBbsic)
+                        x.rethrowAsIOException(tbrget);
                 }
             }
             done = true;
-        } finally {
+        } finblly {
             if (!done) {
-                try { unlink(target); } catch (UnixException ignore) { }
+                try { unlink(tbrget); } cbtch (UnixException ignore) { }
             }
         }
     }
 
-    // move file from source to target
-    static void move(UnixPath source, UnixPath target, CopyOption... options)
+    // move file from source to tbrget
+    stbtic void move(UnixPbth source, UnixPbth tbrget, CopyOption... options)
         throws IOException
     {
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             source.checkWrite();
-            target.checkWrite();
+            tbrget.checkWrite();
         }
 
-        // translate options into flags
-        Flags flags = Flags.fromMoveOptions(options);
+        // trbnslbte options into flbgs
+        Flbgs flbgs = Flbgs.fromMoveOptions(options);
 
-        // handle atomic rename case
-        if (flags.atomicMove) {
+        // hbndle btomic renbme cbse
+        if (flbgs.btomicMove) {
             try {
-                rename(source, target);
-            } catch (UnixException x) {
+                renbme(source, tbrget);
+            } cbtch (UnixException x) {
                 if (x.errno() == EXDEV) {
                     throw new AtomicMoveNotSupportedException(
-                        source.getPathForExceptionMessage(),
-                        target.getPathForExceptionMessage(),
+                        source.getPbthForExceptionMessbge(),
+                        tbrget.getPbthForExceptionMessbge(),
                         x.errorString());
                 }
-                x.rethrowAsIOException(source, target);
+                x.rethrowAsIOException(source, tbrget);
             }
             return;
         }
 
-        // move using rename or copy+delete
+        // move using renbme or copy+delete
         UnixFileAttributes sourceAttrs = null;
-        UnixFileAttributes targetAttrs = null;
+        UnixFileAttributes tbrgetAttrs = null;
 
-        // get attributes of source file (don't follow links)
+        // get bttributes of source file (don't follow links)
         try {
-            sourceAttrs = UnixFileAttributes.get(source, false);
-        } catch (UnixException x) {
+            sourceAttrs = UnixFileAttributes.get(source, fblse);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(source);
         }
 
-        // get attributes of target file (don't follow links)
+        // get bttributes of tbrget file (don't follow links)
         try {
-            targetAttrs = UnixFileAttributes.get(target, false);
-        } catch (UnixException x) {
+            tbrgetAttrs = UnixFileAttributes.get(tbrget, fblse);
+        } cbtch (UnixException x) {
             // ignore
         }
-        boolean targetExists = (targetAttrs != null);
+        boolebn tbrgetExists = (tbrgetAttrs != null);
 
-        // if the target exists:
-        // 1. check if source and target are the same file
+        // if the tbrget exists:
+        // 1. check if source bnd tbrget bre the sbme file
         // 2. throw exception if REPLACE_EXISTING option is not set
-        // 3. delete target if REPLACE_EXISTING option set
-        if (targetExists) {
-            if (sourceAttrs.isSameFile(targetAttrs))
-                return;  // nothing to do as files are identical
-            if (!flags.replaceExisting) {
-                throw new FileAlreadyExistsException(
-                    target.getPathForExceptionMessage());
+        // 3. delete tbrget if REPLACE_EXISTING option set
+        if (tbrgetExists) {
+            if (sourceAttrs.isSbmeFile(tbrgetAttrs))
+                return;  // nothing to do bs files bre identicbl
+            if (!flbgs.replbceExisting) {
+                throw new FileAlrebdyExistsException(
+                    tbrget.getPbthForExceptionMessbge());
             }
 
-            // attempt to delete target
+            // bttempt to delete tbrget
             try {
-                if (targetAttrs.isDirectory()) {
-                    rmdir(target);
+                if (tbrgetAttrs.isDirectory()) {
+                    rmdir(tbrget);
                 } else {
-                    unlink(target);
+                    unlink(tbrget);
                 }
-            } catch (UnixException x) {
-                // target is non-empty directory that can't be replaced.
-                if (targetAttrs.isDirectory() &&
+            } cbtch (UnixException x) {
+                // tbrget is non-empty directory thbt cbn't be replbced.
+                if (tbrgetAttrs.isDirectory() &&
                    (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
                 {
                     throw new DirectoryNotEmptyException(
-                        target.getPathForExceptionMessage());
+                        tbrget.getPbthForExceptionMessbge());
                 }
-                x.rethrowAsIOException(target);
+                x.rethrowAsIOException(tbrget);
             }
         }
 
-        // first try rename
+        // first try renbme
         try {
-            rename(source, target);
+            renbme(source, tbrget);
             return;
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             if (x.errno() != EXDEV && x.errno() != EISDIR) {
-                x.rethrowAsIOException(source, target);
+                x.rethrowAsIOException(source, tbrget);
             }
         }
 
-        // copy source to target
+        // copy source to tbrget
         if (sourceAttrs.isDirectory()) {
-            copyDirectory(source, sourceAttrs, target, flags);
+            copyDirectory(source, sourceAttrs, tbrget, flbgs);
         } else {
             if (sourceAttrs.isSymbolicLink()) {
-                copyLink(source, sourceAttrs, target, flags);
+                copyLink(source, sourceAttrs, tbrget, flbgs);
             } else {
                 if (sourceAttrs.isDevice()) {
-                    copySpecial(source, sourceAttrs, target, flags);
+                    copySpecibl(source, sourceAttrs, tbrget, flbgs);
                 } else {
-                    copyFile(source, sourceAttrs, target, flags, 0L);
+                    copyFile(source, sourceAttrs, tbrget, flbgs, 0L);
                 }
             }
         }
@@ -480,49 +480,49 @@ class UnixCopyFile {
             } else {
                 unlink(source);
             }
-        } catch (UnixException x) {
-            // file was copied but unable to unlink the source file so attempt
-            // to remove the target and throw a reasonable exception
+        } cbtch (UnixException x) {
+            // file wbs copied but unbble to unlink the source file so bttempt
+            // to remove the tbrget bnd throw b rebsonbble exception
             try {
                 if (sourceAttrs.isDirectory()) {
-                    rmdir(target);
+                    rmdir(tbrget);
                 } else {
-                    unlink(target);
+                    unlink(tbrget);
                 }
-            } catch (UnixException ignore) { }
+            } cbtch (UnixException ignore) { }
 
             if (sourceAttrs.isDirectory() &&
                 (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
             {
                 throw new DirectoryNotEmptyException(
-                    source.getPathForExceptionMessage());
+                    source.getPbthForExceptionMessbge());
             }
             x.rethrowAsIOException(source);
         }
     }
 
-    // copy file from source to target
-    static void copy(final UnixPath source,
-                     final UnixPath target,
+    // copy file from source to tbrget
+    stbtic void copy(finbl UnixPbth source,
+                     finbl UnixPbth tbrget,
                      CopyOption... options) throws IOException
     {
         // permission checks
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            source.checkRead();
-            target.checkWrite();
+            source.checkRebd();
+            tbrget.checkWrite();
         }
 
-        // translate options into flags
-        final Flags flags = Flags.fromCopyOptions(options);
+        // trbnslbte options into flbgs
+        finbl Flbgs flbgs = Flbgs.fromCopyOptions(options);
 
         UnixFileAttributes sourceAttrs = null;
-        UnixFileAttributes targetAttrs = null;
+        UnixFileAttributes tbrgetAttrs = null;
 
-        // get attributes of source file
+        // get bttributes of source file
         try {
-            sourceAttrs = UnixFileAttributes.get(source, flags.followLinks);
-        } catch (UnixException x) {
+            sourceAttrs = UnixFileAttributes.get(source, flbgs.followLinks);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(source);
         }
 
@@ -531,85 +531,85 @@ class UnixCopyFile {
             sm.checkPermission(new LinkPermission("symbolic"));
         }
 
-        // get attributes of target file (don't follow links)
+        // get bttributes of tbrget file (don't follow links)
         try {
-            targetAttrs = UnixFileAttributes.get(target, false);
-        } catch (UnixException x) {
+            tbrgetAttrs = UnixFileAttributes.get(tbrget, fblse);
+        } cbtch (UnixException x) {
             // ignore
         }
-        boolean targetExists = (targetAttrs != null);
+        boolebn tbrgetExists = (tbrgetAttrs != null);
 
-        // if the target exists:
-        // 1. check if source and target are the same file
+        // if the tbrget exists:
+        // 1. check if source bnd tbrget bre the sbme file
         // 2. throw exception if REPLACE_EXISTING option is not set
-        // 3. try to unlink the target
-        if (targetExists) {
-            if (sourceAttrs.isSameFile(targetAttrs))
-                return;  // nothing to do as files are identical
-            if (!flags.replaceExisting)
-                throw new FileAlreadyExistsException(
-                    target.getPathForExceptionMessage());
+        // 3. try to unlink the tbrget
+        if (tbrgetExists) {
+            if (sourceAttrs.isSbmeFile(tbrgetAttrs))
+                return;  // nothing to do bs files bre identicbl
+            if (!flbgs.replbceExisting)
+                throw new FileAlrebdyExistsException(
+                    tbrget.getPbthForExceptionMessbge());
             try {
-                if (targetAttrs.isDirectory()) {
-                    rmdir(target);
+                if (tbrgetAttrs.isDirectory()) {
+                    rmdir(tbrget);
                 } else {
-                    unlink(target);
+                    unlink(tbrget);
                 }
-            } catch (UnixException x) {
-                // target is non-empty directory that can't be replaced.
-                if (targetAttrs.isDirectory() &&
+            } cbtch (UnixException x) {
+                // tbrget is non-empty directory thbt cbn't be replbced.
+                if (tbrgetAttrs.isDirectory() &&
                    (x.errno() == EEXIST || x.errno() == ENOTEMPTY))
                 {
                     throw new DirectoryNotEmptyException(
-                        target.getPathForExceptionMessage());
+                        tbrget.getPbthForExceptionMessbge());
                 }
-                x.rethrowAsIOException(target);
+                x.rethrowAsIOException(tbrget);
             }
         }
 
         // do the copy
         if (sourceAttrs.isDirectory()) {
-            copyDirectory(source, sourceAttrs, target, flags);
+            copyDirectory(source, sourceAttrs, tbrget, flbgs);
             return;
         }
         if (sourceAttrs.isSymbolicLink()) {
-            copyLink(source, sourceAttrs, target, flags);
+            copyLink(source, sourceAttrs, tbrget, flbgs);
             return;
         }
-        if (!flags.interruptible) {
+        if (!flbgs.interruptible) {
             // non-interruptible file copy
-            copyFile(source, sourceAttrs, target, flags, 0L);
+            copyFile(source, sourceAttrs, tbrget, flbgs, 0L);
             return;
         }
 
         // interruptible file copy
-        final UnixFileAttributes attrsToCopy = sourceAttrs;
-        Cancellable copyTask = new Cancellable() {
+        finbl UnixFileAttributes bttrsToCopy = sourceAttrs;
+        Cbncellbble copyTbsk = new Cbncellbble() {
             @Override public void implRun() throws IOException {
-                copyFile(source, attrsToCopy, target, flags,
-                    addressToPollForCancel());
+                copyFile(source, bttrsToCopy, tbrget, flbgs,
+                    bddressToPollForCbncel());
             }
         };
         try {
-            Cancellable.runInterruptibly(copyTask);
-        } catch (ExecutionException e) {
-            Throwable t = e.getCause();
-            if (t instanceof IOException)
+            Cbncellbble.runInterruptibly(copyTbsk);
+        } cbtch (ExecutionException e) {
+            Throwbble t = e.getCbuse();
+            if (t instbnceof IOException)
                 throw (IOException)t;
             throw new IOException(t);
         }
     }
 
-    // -- native methods --
+    // -- nbtive methods --
 
-    static native void transfer(int dst, int src, long addressToPollForCancel)
+    stbtic nbtive void trbnsfer(int dst, int src, long bddressToPollForCbncel)
         throws UnixException;
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                System.loadLibrary("nio");
+                System.lobdLibrbry("nio");
                 return null;
             }});
     }

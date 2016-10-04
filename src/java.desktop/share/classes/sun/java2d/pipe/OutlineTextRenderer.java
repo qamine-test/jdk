@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
+import sun.jbvb2d.SunGrbphics2D;
 import sun.font.GlyphList;
-import sun.awt.SunHints;
+import sun.bwt.SunHints;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.font.TextLbyout;
 
 /**
- * A delegate pipe of SG2D for drawing "large" text with
- * a solid source colour to an opaque destination.
- * The text is drawn as a filled outline.
- * Since the developer is not explicitly requesting this way of
- * rendering, this should not be used if the current paint is not
- * a solid colour.
+ * A delegbte pipe of SG2D for drbwing "lbrge" text with
+ * b solid source colour to bn opbque destinbtion.
+ * The text is drbwn bs b filled outline.
+ * Since the developer is not explicitly requesting this wby of
+ * rendering, this should not be used if the current pbint is not
+ * b solid colour.
  *
- * If text anti-aliasing is requested by the application, and
- * filling path, an anti-aliasing fill pipe needs to
+ * If text bnti-blibsing is requested by the bpplicbtion, bnd
+ * filling pbth, bn bnti-blibsing fill pipe needs to
  * be invoked.
- * This involves making some of the same decisions as in the
- * validatePipe call, which may be in a SurfaceData subclass, so
- * its awkward to always ensure that the correct pipe is used.
- * The easiest thing, rather than reproducing much of that logic
- * is to call validatePipe() which works but is expensive, although
- * probably not compared to the cost of filling the path.
+ * This involves mbking some of the sbme decisions bs in the
+ * vblidbtePipe cbll, which mby be in b SurfbceDbtb subclbss, so
+ * its bwkwbrd to blwbys ensure thbt the correct pipe is used.
+ * The ebsiest thing, rbther thbn reproducing much of thbt logic
+ * is to cbll vblidbtePipe() which works but is expensive, blthough
+ * probbbly not compbred to the cost of filling the pbth.
  * Note if AA hint is ON but text-AA hint is OFF this logic will
- * produce AA text which perhaps isn't what the user expected.
- * Note that the glyphvector obeys its FRC, not the G2D.
+ * produce AA text which perhbps isn't whbt the user expected.
+ * Note thbt the glyphvector obeys its FRC, not the G2D.
  */
 
-public class OutlineTextRenderer implements TextPipe {
+public clbss OutlineTextRenderer implements TextPipe {
 
-    // Text with a height greater than the threshhold will be
-    // drawn via this pipe.
-    public static final int THRESHHOLD = 100;
+    // Text with b height grebter thbn the threshhold will be
+    // drbwn vib this pipe.
+    public stbtic finbl int THRESHHOLD = 100;
 
-    public void drawChars(SunGraphics2D g2d,
-                          char data[], int offset, int length,
+    public void drbwChbrs(SunGrbphics2D g2d,
+                          chbr dbtb[], int offset, int length,
                           int x, int y) {
 
-        String s = new String(data, offset, length);
-        drawString(g2d, s, x, y);
+        String s = new String(dbtb, offset, length);
+        drbwString(g2d, s, x, y);
     }
 
-    public void drawString(SunGraphics2D g2d, String str, double x, double y) {
+    public void drbwString(SunGrbphics2D g2d, String str, double x, double y) {
 
-        if ("".equals(str)) {
-            return; // TextLayout constructor throws IAE on "".
+        if ("".equbls(str)) {
+            return; // TextLbyout constructor throws IAE on "".
         }
-        TextLayout tl = new TextLayout(str, g2d.getFont(),
+        TextLbyout tl = new TextLbyout(str, g2d.getFont(),
                                        g2d.getFontRenderContext());
-        Shape s = tl.getOutline(AffineTransform.getTranslateInstance(x, y));
+        Shbpe s = tl.getOutline(AffineTrbnsform.getTrbnslbteInstbnce(x, y));
 
-        int textAAHint = g2d.getFontInfo().aaHint;
+        int textAAHint = g2d.getFontInfo().bbHint;
 
-        int prevaaHint = - 1;
+        int prevbbHint = - 1;
         if (textAAHint != SunHints.INTVAL_TEXT_ANTIALIAS_OFF &&
-            g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_ON;
-            g2d.validatePipe();
+            g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prevbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtePipe();
         } else if (textAAHint == SunHints.INTVAL_TEXT_ANTIALIAS_OFF
-            && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_OFF) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_OFF;
-            g2d.validatePipe();
+            && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prevbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtePipe();
         }
 
         g2d.fill(s);
 
-        if (prevaaHint != -1) {
-             g2d.antialiasHint = prevaaHint;
-             g2d.validatePipe();
+        if (prevbbHint != -1) {
+             g2d.bntiblibsHint = prevbbHint;
+             g2d.vblidbtePipe();
         }
     }
 
-    public void drawGlyphVector(SunGraphics2D g2d, GlyphVector gv,
-                                float x, float y) {
+    public void drbwGlyphVector(SunGrbphics2D g2d, GlyphVector gv,
+                                flobt x, flobt y) {
 
 
-        Shape s = gv.getOutline(x, y);
-        int prevaaHint = - 1;
+        Shbpe s = gv.getOutline(x, y);
+        int prevbbHint = - 1;
         FontRenderContext frc = gv.getFontRenderContext();
-        boolean aa = frc.isAntiAliased();
+        boolebn bb = frc.isAntiAlibsed();
 
-        /* aa will be true if any AA mode has been specified.
-         * ie for LCD and 'gasp' modes too.
-         * We will check if 'gasp' has resolved AA to be "OFF", and
-         * in all other cases (ie AA ON and all LCD modes) use AA outlines.
+        /* bb will be true if bny AA mode hbs been specified.
+         * ie for LCD bnd 'gbsp' modes too.
+         * We will check if 'gbsp' hbs resolved AA to be "OFF", bnd
+         * in bll other cbses (ie AA ON bnd bll LCD modes) use AA outlines.
          */
-        if (aa) {
-            if (g2d.getGVFontInfo(gv.getFont(), frc).aaHint ==
+        if (bb) {
+            if (g2d.getGVFontInfo(gv.getFont(), frc).bbHint ==
                 SunHints.INTVAL_TEXT_ANTIALIAS_OFF) {
-                aa = false;
+                bb = fblse;
             }
         }
 
-        if (aa && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_ON;
-            g2d.validatePipe();
-        } else if (!aa && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_OFF) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_OFF;
-            g2d.validatePipe();
+        if (bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prevbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtePipe();
+        } else if (!bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prevbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtePipe();
         }
 
         g2d.fill(s);
 
-        if (prevaaHint != -1) {
-             g2d.antialiasHint = prevaaHint;
-             g2d.validatePipe();
+        if (prevbbHint != -1) {
+             g2d.bntiblibsHint = prevbbHint;
+             g2d.vblidbtePipe();
         }
     }
 }

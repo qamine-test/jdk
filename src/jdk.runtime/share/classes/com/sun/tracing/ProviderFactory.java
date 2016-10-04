@@ -1,99 +1,99 @@
 
-package com.sun.tracing;
+pbckbge com.sun.trbcing;
 
-import java.util.HashSet;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.util.HbshSet;
+import jbvb.io.PrintStrebm;
+import jbvb.lbng.reflect.Field;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
 
-import sun.tracing.NullProviderFactory;
-import sun.tracing.PrintStreamProviderFactory;
-import sun.tracing.MultiplexProviderFactory;
-import sun.tracing.dtrace.DTraceProviderFactory;
+import sun.trbcing.NullProviderFbctory;
+import sun.trbcing.PrintStrebmProviderFbctory;
+import sun.trbcing.MultiplexProviderFbctory;
+import sun.trbcing.dtrbce.DTrbceProviderFbctory;
 
 /**
- * {@code ProviderFactory} is a factory class used to create instances of
+ * {@code ProviderFbctory} is b fbctory clbss used to crebte instbnces of
  * providers.
  *
- * To enable tracing in an application, this class must be used to create
- * instances of the provider interfaces defined by users.
- * The system-defined factory is obtained by using the
- * {@code getDefaultFactory()} static method.  The resulting instance can be
- * used to create any number of providers.
+ * To enbble trbcing in bn bpplicbtion, this clbss must be used to crebte
+ * instbnces of the provider interfbces defined by users.
+ * The system-defined fbctory is obtbined by using the
+ * {@code getDefbultFbctory()} stbtic method.  The resulting instbnce cbn be
+ * used to crebte bny number of providers.
  *
  * @since 1.7
  */
-public abstract class ProviderFactory {
+public bbstrbct clbss ProviderFbctory {
 
-    protected ProviderFactory() {}
+    protected ProviderFbctory() {}
 
     /**
-     * Creates an implementation of a Provider interface.
+     * Crebtes bn implementbtion of b Provider interfbce.
      *
-     * @param cls the provider interface to be defined.
-     * @return an implementation of {@code cls}, whose methods, when called,
-     * will trigger tracepoints in the application.
+     * @pbrbm cls the provider interfbce to be defined.
+     * @return bn implementbtion of {@code cls}, whose methods, when cblled,
+     * will trigger trbcepoints in the bpplicbtion.
      * @throws NullPointerException if cls is null
-     * @throws IllegalArgumentException if the class definition contains
+     * @throws IllegblArgumentException if the clbss definition contbins
      * non-void methods
      */
-    public abstract <T extends Provider> T createProvider(Class<T> cls);
+    public bbstrbct <T extends Provider> T crebteProvider(Clbss<T> cls);
 
     /**
-     * Returns an implementation of a {@code ProviderFactory} which
-     * creates instances of Providers.
+     * Returns bn implementbtion of b {@code ProviderFbctory} which
+     * crebtes instbnces of Providers.
      *
-     * The created Provider instances will be linked to all appropriate
-     * and enabled system-defined tracing mechanisms in the JDK.
+     * The crebted Provider instbnces will be linked to bll bppropribte
+     * bnd enbbled system-defined trbcing mechbnisms in the JDK.
      *
-     * @return a {@code ProviderFactory} that is used to create Providers.
+     * @return b {@code ProviderFbctory} thbt is used to crebte Providers.
      */
-    public static ProviderFactory getDefaultFactory() {
-        HashSet<ProviderFactory> factories = new HashSet<ProviderFactory>();
+    public stbtic ProviderFbctory getDefbultFbctory() {
+        HbshSet<ProviderFbctory> fbctories = new HbshSet<ProviderFbctory>();
 
-        // Try to instantiate a DTraceProviderFactory
+        // Try to instbntibte b DTrbceProviderFbctory
         String prop = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("com.sun.tracing.dtrace"));
+            (PrivilegedAction<String>) () -> System.getProperty("com.sun.trbcing.dtrbce"));
 
-        if ( (prop == null || !prop.equals("disable")) &&
-             DTraceProviderFactory.isSupported() ) {
-            factories.add(new DTraceProviderFactory());
+        if ( (prop == null || !prop.equbls("disbble")) &&
+             DTrbceProviderFbctory.isSupported() ) {
+            fbctories.bdd(new DTrbceProviderFbctory());
         }
 
-        // Try to instantiate an output stream factory
+        // Try to instbntibte bn output strebm fbctory
         prop = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.tracing.stream"));
+            (PrivilegedAction<String>) () -> System.getProperty("sun.trbcing.strebm"));
         if (prop != null) {
             for (String spec : prop.split(",")) {
-                PrintStream ps = getPrintStreamFromSpec(spec);
+                PrintStrebm ps = getPrintStrebmFromSpec(spec);
                 if (ps != null) {
-                    factories.add(new PrintStreamProviderFactory(ps));
+                    fbctories.bdd(new PrintStrebmProviderFbctory(ps));
                 }
             }
         }
 
-        // See how many factories we instantiated, and return an appropriate
-        // factory that encapsulates that.
-        if (factories.size() == 0) {
-            return new NullProviderFactory();
-        } else if (factories.size() == 1) {
-            return factories.toArray(new ProviderFactory[1])[0];
+        // See how mbny fbctories we instbntibted, bnd return bn bppropribte
+        // fbctory thbt encbpsulbtes thbt.
+        if (fbctories.size() == 0) {
+            return new NullProviderFbctory();
+        } else if (fbctories.size() == 1) {
+            return fbctories.toArrby(new ProviderFbctory[1])[0];
         } else {
-            return new MultiplexProviderFactory(factories);
+            return new MultiplexProviderFbctory(fbctories);
         }
     }
 
-    private static PrintStream getPrintStreamFromSpec(final String spec) {
+    privbte stbtic PrintStrebm getPrintStrebmFromSpec(finbl String spec) {
         try {
-            // spec is in the form of <class>.<field>, where <class> is
-            // a fully specified class name, and <field> is a static member
-            // in that class.  The <field> must be a 'PrintStream' or subtype
+            // spec is in the form of <clbss>.<field>, where <clbss> is
+            // b fully specified clbss nbme, bnd <field> is b stbtic member
+            // in thbt clbss.  The <field> must be b 'PrintStrebm' or subtype
             // in order to be used.
-            final int fieldpos = spec.lastIndexOf('.');
-            final Class<?> cls = Class.forName(spec.substring(0, fieldpos));
+            finbl int fieldpos = spec.lbstIndexOf('.');
+            finbl Clbss<?> cls = Clbss.forNbme(spec.substring(0, fieldpos));
 
             Field f = AccessController.doPrivileged(new PrivilegedExceptionAction<Field>() {
                 public Field run() throws NoSuchFieldException {
@@ -101,12 +101,12 @@ public abstract class ProviderFactory {
                 }
             });
 
-            return (PrintStream)f.get(null);
-        } catch (ClassNotFoundException e) {
+            return (PrintStrebm)f.get(null);
+        } cbtch (ClbssNotFoundException e) {
             throw new AssertionError(e);
-        } catch (IllegalAccessException e) {
+        } cbtch (IllegblAccessException e) {
             throw new AssertionError(e);
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
             throw new AssertionError(e);
         }
     }

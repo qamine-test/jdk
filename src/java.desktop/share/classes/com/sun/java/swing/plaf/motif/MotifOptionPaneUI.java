@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
-import javax.swing.plaf.ComponentUI;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.BbsicOptionPbneUI;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
 
 /**
- * Provides the CDE/Motif look and feel for a JOptionPane.
+ * Provides the CDE/Motif look bnd feel for b JOptionPbne.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class MotifOptionPaneUI extends BasicOptionPaneUI
+public clbss MotifOptionPbneUI extends BbsicOptionPbneUI
 {
     /**
-      * Creates a new MotifOptionPaneUI instance.
+      * Crebtes b new MotifOptionPbneUI instbnce.
       */
-    public static ComponentUI createUI(JComponent x) {
-        return new MotifOptionPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new MotifOptionPbneUI();
     }
 
     /**
-     * Creates and returns a Container containin the buttons. The buttons
-     * are created by calling <code>getButtons</code>.
+     * Crebtes bnd returns b Contbiner contbinin the buttons. The buttons
+     * bre crebted by cblling <code>getButtons</code>.
      */
-    protected Container createButtonArea() {
-        Container          b = super.createButtonArea();
+    protected Contbiner crebteButtonAreb() {
+        Contbiner          b = super.crebteButtonAreb();
 
-        if(b != null && b.getLayout() instanceof ButtonAreaLayout) {
-            ((ButtonAreaLayout)b.getLayout()).setCentersChildren(false);
+        if(b != null && b.getLbyout() instbnceof ButtonArebLbyout) {
+            ((ButtonArebLbyout)b.getLbyout()).setCentersChildren(fblse);
         }
         return b;
     }
 
     /**
-     * Returns null, CDE/Motif does not impose a minimum size.
+     * Returns null, CDE/Motif does not impose b minimum size.
      */
-    public Dimension getMinimumOptionPaneSize() {
+    public Dimension getMinimumOptionPbneSize() {
         return null;
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected Container createSeparator() {
-        return new JPanel() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected Contbiner crebteSepbrbtor() {
+        return new JPbnel() {
 
             public Dimension getPreferredSize() {
                 return new Dimension(10, 2);
             }
 
-            public void paint(Graphics g) {
+            public void pbint(Grbphics g) {
                 int width = getWidth();
-                g.setColor(Color.darkGray);
-                g.drawLine(0, 0, width, 0);
+                g.setColor(Color.dbrkGrby);
+                g.drbwLine(0, 0, width, 0);
                 g.setColor(Color.white);
-                g.drawLine(0, 1, width, 1);
+                g.drbwLine(0, 1, width, 1);
             }
         };
     }
 
     /**
-     * Creates and adds a JLabel representing the icon returned from
-     * <code>getIcon</code> to <code>top</code>. This is messaged from
-     * <code>createMessageArea</code>
+     * Crebtes bnd bdds b JLbbel representing the icon returned from
+     * <code>getIcon</code> to <code>top</code>. This is messbged from
+     * <code>crebteMessbgeAreb</code>
      */
-    protected void addIcon(Container top) {
-        /* Create the icon. */
+    protected void bddIcon(Contbiner top) {
+        /* Crebte the icon. */
         Icon                  sideIcon = getIcon();
 
         if (sideIcon != null) {
-            JLabel            iconLabel = new JLabel(sideIcon);
+            JLbbel            iconLbbel = new JLbbel(sideIcon);
 
-            iconLabel.setVerticalAlignment(SwingConstants.CENTER);
-            top.add(iconLabel, "West");
+            iconLbbel.setVerticblAlignment(SwingConstbnts.CENTER);
+            top.bdd(iconLbbel, "West");
         }
     }
 

@@ -1,508 +1,508 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountedCompleter;
-import java.util.concurrent.ForkJoinTask;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.CountedCompleter;
+import jbvb.util.concurrent.ForkJoinTbsk;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.LongConsumer;
 
 /**
- * Factory for creating instances of {@code TerminalOp} that perform an
- * action for every element of a stream.  Supported variants include unordered
- * traversal (elements are provided to the {@code Consumer} as soon as they are
- * available), and ordered traversal (elements are provided to the
+ * Fbctory for crebting instbnces of {@code TerminblOp} thbt perform bn
+ * bction for every element of b strebm.  Supported vbribnts include unordered
+ * trbversbl (elements bre provided to the {@code Consumer} bs soon bs they bre
+ * bvbilbble), bnd ordered trbversbl (elements bre provided to the
  * {@code Consumer} in encounter order.)
  *
- * <p>Elements are provided to the {@code Consumer} on whatever thread and
- * whatever order they become available.  For ordered traversals, it is
- * guaranteed that processing an element <em>happens-before</em> processing
+ * <p>Elements bre provided to the {@code Consumer} on whbtever threbd bnd
+ * whbtever order they become bvbilbble.  For ordered trbversbls, it is
+ * gubrbnteed thbt processing bn element <em>hbppens-before</em> processing
  * subsequent elements in the encounter order.
  *
- * <p>Exceptions occurring as a result of sending an element to the
- * {@code Consumer} will be relayed to the caller and traversal will be
- * prematurely terminated.
+ * <p>Exceptions occurring bs b result of sending bn element to the
+ * {@code Consumer} will be relbyed to the cbller bnd trbversbl will be
+ * prembturely terminbted.
  *
  * @since 1.8
  */
-final class ForEachOps {
+finbl clbss ForEbchOps {
 
-    private ForEachOps() { }
+    privbte ForEbchOps() { }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a stream.
+     * Constructs b {@code TerminblOp} thbt perform bn bction for every element
+     * of b strebm.
      *
-     * @param action the {@code Consumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @param <T> the type of the stream elements
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bction the {@code Consumer} thbt receives bll elements of b
+     *        strebm
+     * @pbrbm ordered whether bn ordered trbversbl is requested
+     * @pbrbm <T> the type of the strebm elements
+     * @return the {@code TerminblOp} instbnce
      */
-    public static <T> TerminalOp<T, Void> makeRef(Consumer<? super T> action,
-                                                  boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfRef<>(action, ordered);
+    public stbtic <T> TerminblOp<T, Void> mbkeRef(Consumer<? super T> bction,
+                                                  boolebn ordered) {
+        Objects.requireNonNull(bction);
+        return new ForEbchOp.OfRef<>(bction, ordered);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of an {@code IntStream}.
+     * Constructs b {@code TerminblOp} thbt perform bn bction for every element
+     * of bn {@code IntStrebm}.
      *
-     * @param action the {@code IntConsumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bction the {@code IntConsumer} thbt receives bll elements of b
+     *        strebm
+     * @pbrbm ordered whether bn ordered trbversbl is requested
+     * @return the {@code TerminblOp} instbnce
      */
-    public static TerminalOp<Integer, Void> makeInt(IntConsumer action,
-                                                    boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfInt(action, ordered);
+    public stbtic TerminblOp<Integer, Void> mbkeInt(IntConsumer bction,
+                                                    boolebn ordered) {
+        Objects.requireNonNull(bction);
+        return new ForEbchOp.OfInt(bction, ordered);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a {@code LongStream}.
+     * Constructs b {@code TerminblOp} thbt perform bn bction for every element
+     * of b {@code LongStrebm}.
      *
-     * @param action the {@code LongConsumer} that receives all elements of a
-     *        stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bction the {@code LongConsumer} thbt receives bll elements of b
+     *        strebm
+     * @pbrbm ordered whether bn ordered trbversbl is requested
+     * @return the {@code TerminblOp} instbnce
      */
-    public static TerminalOp<Long, Void> makeLong(LongConsumer action,
-                                                  boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfLong(action, ordered);
+    public stbtic TerminblOp<Long, Void> mbkeLong(LongConsumer bction,
+                                                  boolebn ordered) {
+        Objects.requireNonNull(bction);
+        return new ForEbchOp.OfLong(bction, ordered);
     }
 
     /**
-     * Constructs a {@code TerminalOp} that perform an action for every element
-     * of a {@code DoubleStream}.
+     * Constructs b {@code TerminblOp} thbt perform bn bction for every element
+     * of b {@code DoubleStrebm}.
      *
-     * @param action the {@code DoubleConsumer} that receives all elements of
-     *        a stream
-     * @param ordered whether an ordered traversal is requested
-     * @return the {@code TerminalOp} instance
+     * @pbrbm bction the {@code DoubleConsumer} thbt receives bll elements of
+     *        b strebm
+     * @pbrbm ordered whether bn ordered trbversbl is requested
+     * @return the {@code TerminblOp} instbnce
      */
-    public static TerminalOp<Double, Void> makeDouble(DoubleConsumer action,
-                                                      boolean ordered) {
-        Objects.requireNonNull(action);
-        return new ForEachOp.OfDouble(action, ordered);
+    public stbtic TerminblOp<Double, Void> mbkeDouble(DoubleConsumer bction,
+                                                      boolebn ordered) {
+        Objects.requireNonNull(bction);
+        return new ForEbchOp.OfDouble(bction, ordered);
     }
 
     /**
-     * A {@code TerminalOp} that evaluates a stream pipeline and sends the
-     * output to itself as a {@code TerminalSink}.  Elements will be sent in
-     * whatever thread they become available.  If the traversal is unordered,
-     * they will be sent independent of the stream's encounter order.
+     * A {@code TerminblOp} thbt evblubtes b strebm pipeline bnd sends the
+     * output to itself bs b {@code TerminblSink}.  Elements will be sent in
+     * whbtever threbd they become bvbilbble.  If the trbversbl is unordered,
+     * they will be sent independent of the strebm's encounter order.
      *
-     * <p>This terminal operation is stateless.  For parallel evaluation, each
-     * leaf instance of a {@code ForEachTask} will send elements to the same
-     * {@code TerminalSink} reference that is an instance of this class.
+     * <p>This terminbl operbtion is stbteless.  For pbrbllel evblubtion, ebch
+     * lebf instbnce of b {@code ForEbchTbsk} will send elements to the sbme
+     * {@code TerminblSink} reference thbt is bn instbnce of this clbss.
      *
-     * @param <T> the output type of the stream pipeline
+     * @pbrbm <T> the output type of the strebm pipeline
      */
-    static abstract class ForEachOp<T>
-            implements TerminalOp<T, Void>, TerminalSink<T, Void> {
-        private final boolean ordered;
+    stbtic bbstrbct clbss ForEbchOp<T>
+            implements TerminblOp<T, Void>, TerminblSink<T, Void> {
+        privbte finbl boolebn ordered;
 
-        protected ForEachOp(boolean ordered) {
+        protected ForEbchOp(boolebn ordered) {
             this.ordered = ordered;
         }
 
-        // TerminalOp
+        // TerminblOp
 
         @Override
-        public int getOpFlags() {
-            return ordered ? 0 : StreamOpFlag.NOT_ORDERED;
+        public int getOpFlbgs() {
+            return ordered ? 0 : StrebmOpFlbg.NOT_ORDERED;
         }
 
         @Override
-        public <S> Void evaluateSequential(PipelineHelper<T> helper,
-                                           Spliterator<S> spliterator) {
-            return helper.wrapAndCopyInto(this, spliterator).get();
+        public <S> Void evblubteSequentibl(PipelineHelper<T> helper,
+                                           Spliterbtor<S> spliterbtor) {
+            return helper.wrbpAndCopyInto(this, spliterbtor).get();
         }
 
         @Override
-        public <S> Void evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<S> spliterator) {
+        public <S> Void evblubtePbrbllel(PipelineHelper<T> helper,
+                                         Spliterbtor<S> spliterbtor) {
             if (ordered)
-                new ForEachOrderedTask<>(helper, spliterator, this).invoke();
+                new ForEbchOrderedTbsk<>(helper, spliterbtor, this).invoke();
             else
-                new ForEachTask<>(helper, spliterator, helper.wrapSink(this)).invoke();
+                new ForEbchTbsk<>(helper, spliterbtor, helper.wrbpSink(this)).invoke();
             return null;
         }
 
-        // TerminalSink
+        // TerminblSink
 
         @Override
         public Void get() {
             return null;
         }
 
-        // Implementations
+        // Implementbtions
 
-        /** Implementation class for reference streams */
-        static final class OfRef<T> extends ForEachOp<T> {
-            final Consumer<? super T> consumer;
+        /** Implementbtion clbss for reference strebms */
+        stbtic finbl clbss OfRef<T> extends ForEbchOp<T> {
+            finbl Consumer<? super T> consumer;
 
-            OfRef(Consumer<? super T> consumer, boolean ordered) {
+            OfRef(Consumer<? super T> consumer, boolebn ordered) {
                 super(ordered);
                 this.consumer = consumer;
             }
 
             @Override
-            public void accept(T t) {
-                consumer.accept(t);
+            public void bccept(T t) {
+                consumer.bccept(t);
             }
         }
 
-        /** Implementation class for {@code IntStream} */
-        static final class OfInt extends ForEachOp<Integer>
+        /** Implementbtion clbss for {@code IntStrebm} */
+        stbtic finbl clbss OfInt extends ForEbchOp<Integer>
                 implements Sink.OfInt {
-            final IntConsumer consumer;
+            finbl IntConsumer consumer;
 
-            OfInt(IntConsumer consumer, boolean ordered) {
+            OfInt(IntConsumer consumer, boolebn ordered) {
                 super(ordered);
                 this.consumer = consumer;
             }
 
             @Override
-            public StreamShape inputShape() {
-                return StreamShape.INT_VALUE;
+            public StrebmShbpe inputShbpe() {
+                return StrebmShbpe.INT_VALUE;
             }
 
             @Override
-            public void accept(int t) {
-                consumer.accept(t);
+            public void bccept(int t) {
+                consumer.bccept(t);
             }
         }
 
-        /** Implementation class for {@code LongStream} */
-        static final class OfLong extends ForEachOp<Long>
+        /** Implementbtion clbss for {@code LongStrebm} */
+        stbtic finbl clbss OfLong extends ForEbchOp<Long>
                 implements Sink.OfLong {
-            final LongConsumer consumer;
+            finbl LongConsumer consumer;
 
-            OfLong(LongConsumer consumer, boolean ordered) {
+            OfLong(LongConsumer consumer, boolebn ordered) {
                 super(ordered);
                 this.consumer = consumer;
             }
 
             @Override
-            public StreamShape inputShape() {
-                return StreamShape.LONG_VALUE;
+            public StrebmShbpe inputShbpe() {
+                return StrebmShbpe.LONG_VALUE;
             }
 
             @Override
-            public void accept(long t) {
-                consumer.accept(t);
+            public void bccept(long t) {
+                consumer.bccept(t);
             }
         }
 
-        /** Implementation class for {@code DoubleStream} */
-        static final class OfDouble extends ForEachOp<Double>
+        /** Implementbtion clbss for {@code DoubleStrebm} */
+        stbtic finbl clbss OfDouble extends ForEbchOp<Double>
                 implements Sink.OfDouble {
-            final DoubleConsumer consumer;
+            finbl DoubleConsumer consumer;
 
-            OfDouble(DoubleConsumer consumer, boolean ordered) {
+            OfDouble(DoubleConsumer consumer, boolebn ordered) {
                 super(ordered);
                 this.consumer = consumer;
             }
 
             @Override
-            public StreamShape inputShape() {
-                return StreamShape.DOUBLE_VALUE;
+            public StrebmShbpe inputShbpe() {
+                return StrebmShbpe.DOUBLE_VALUE;
             }
 
             @Override
-            public void accept(double t) {
-                consumer.accept(t);
+            public void bccept(double t) {
+                consumer.bccept(t);
             }
         }
     }
 
-    /** A {@code ForkJoinTask} for performing a parallel for-each operation */
-    @SuppressWarnings("serial")
-    static final class ForEachTask<S, T> extends CountedCompleter<Void> {
-        private Spliterator<S> spliterator;
-        private final Sink<S> sink;
-        private final PipelineHelper<T> helper;
-        private long targetSize;
+    /** A {@code ForkJoinTbsk} for performing b pbrbllel for-ebch operbtion */
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchTbsk<S, T> extends CountedCompleter<Void> {
+        privbte Spliterbtor<S> spliterbtor;
+        privbte finbl Sink<S> sink;
+        privbte finbl PipelineHelper<T> helper;
+        privbte long tbrgetSize;
 
-        ForEachTask(PipelineHelper<T> helper,
-                    Spliterator<S> spliterator,
+        ForEbchTbsk(PipelineHelper<T> helper,
+                    Spliterbtor<S> spliterbtor,
                     Sink<S> sink) {
             super(null);
             this.sink = sink;
             this.helper = helper;
-            this.spliterator = spliterator;
-            this.targetSize = 0L;
+            this.spliterbtor = spliterbtor;
+            this.tbrgetSize = 0L;
         }
 
-        ForEachTask(ForEachTask<S, T> parent, Spliterator<S> spliterator) {
-            super(parent);
-            this.spliterator = spliterator;
-            this.sink = parent.sink;
-            this.targetSize = parent.targetSize;
-            this.helper = parent.helper;
+        ForEbchTbsk(ForEbchTbsk<S, T> pbrent, Spliterbtor<S> spliterbtor) {
+            super(pbrent);
+            this.spliterbtor = spliterbtor;
+            this.sink = pbrent.sink;
+            this.tbrgetSize = pbrent.tbrgetSize;
+            this.helper = pbrent.helper;
         }
 
-        // Similar to AbstractTask but doesn't need to track child tasks
+        // Similbr to AbstrbctTbsk but doesn't need to trbck child tbsks
         public void compute() {
-            Spliterator<S> rightSplit = spliterator, leftSplit;
-            long sizeEstimate = rightSplit.estimateSize(), sizeThreshold;
-            if ((sizeThreshold = targetSize) == 0L)
-                targetSize = sizeThreshold = AbstractTask.suggestTargetSize(sizeEstimate);
-            boolean isShortCircuit = StreamOpFlag.SHORT_CIRCUIT.isKnown(helper.getStreamAndOpFlags());
-            boolean forkRight = false;
-            Sink<S> taskSink = sink;
-            ForEachTask<S, T> task = this;
-            while (!isShortCircuit || !taskSink.cancellationRequested()) {
-                if (sizeEstimate <= sizeThreshold ||
+            Spliterbtor<S> rightSplit = spliterbtor, leftSplit;
+            long sizeEstimbte = rightSplit.estimbteSize(), sizeThreshold;
+            if ((sizeThreshold = tbrgetSize) == 0L)
+                tbrgetSize = sizeThreshold = AbstrbctTbsk.suggestTbrgetSize(sizeEstimbte);
+            boolebn isShortCircuit = StrebmOpFlbg.SHORT_CIRCUIT.isKnown(helper.getStrebmAndOpFlbgs());
+            boolebn forkRight = fblse;
+            Sink<S> tbskSink = sink;
+            ForEbchTbsk<S, T> tbsk = this;
+            while (!isShortCircuit || !tbskSink.cbncellbtionRequested()) {
+                if (sizeEstimbte <= sizeThreshold ||
                     (leftSplit = rightSplit.trySplit()) == null) {
-                    task.helper.copyInto(taskSink, rightSplit);
-                    break;
+                    tbsk.helper.copyInto(tbskSink, rightSplit);
+                    brebk;
                 }
-                ForEachTask<S, T> leftTask = new ForEachTask<>(task, leftSplit);
-                task.addToPendingCount(1);
-                ForEachTask<S, T> taskToFork;
+                ForEbchTbsk<S, T> leftTbsk = new ForEbchTbsk<>(tbsk, leftSplit);
+                tbsk.bddToPendingCount(1);
+                ForEbchTbsk<S, T> tbskToFork;
                 if (forkRight) {
-                    forkRight = false;
+                    forkRight = fblse;
                     rightSplit = leftSplit;
-                    taskToFork = task;
-                    task = leftTask;
+                    tbskToFork = tbsk;
+                    tbsk = leftTbsk;
                 }
                 else {
                     forkRight = true;
-                    taskToFork = leftTask;
+                    tbskToFork = leftTbsk;
                 }
-                taskToFork.fork();
-                sizeEstimate = rightSplit.estimateSize();
+                tbskToFork.fork();
+                sizeEstimbte = rightSplit.estimbteSize();
             }
-            task.spliterator = null;
-            task.propagateCompletion();
+            tbsk.spliterbtor = null;
+            tbsk.propbgbteCompletion();
         }
     }
 
     /**
-     * A {@code ForkJoinTask} for performing a parallel for-each operation
+     * A {@code ForkJoinTbsk} for performing b pbrbllel for-ebch operbtion
      * which visits the elements in encounter order
      */
-    @SuppressWarnings("serial")
-    static final class ForEachOrderedTask<S, T> extends CountedCompleter<Void> {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchOrderedTbsk<S, T> extends CountedCompleter<Void> {
         /*
-         * Our goal is to ensure that the elements associated with a task are
-         * processed according to an in-order traversal of the computation tree.
-         * We use completion counts for representing these dependencies, so that
-         * a task does not complete until all the tasks preceding it in this
-         * order complete.  We use the "completion map" to associate the next
-         * task in this order for any left child.  We increase the pending count
-         * of any node on the right side of such a mapping by one to indicate
-         * its dependency, and when a node on the left side of such a mapping
+         * Our gobl is to ensure thbt the elements bssocibted with b tbsk bre
+         * processed bccording to bn in-order trbversbl of the computbtion tree.
+         * We use completion counts for representing these dependencies, so thbt
+         * b tbsk does not complete until bll the tbsks preceding it in this
+         * order complete.  We use the "completion mbp" to bssocibte the next
+         * tbsk in this order for bny left child.  We increbse the pending count
+         * of bny node on the right side of such b mbpping by one to indicbte
+         * its dependency, bnd when b node on the left side of such b mbpping
          * completes, it decrements the pending count of its corresponding right
-         * side.  As the computation tree is expanded by splitting, we must
-         * atomically update the mappings to maintain the invariant that the
-         * completion map maps left children to the next node in the in-order
-         * traversal.
+         * side.  As the computbtion tree is expbnded by splitting, we must
+         * btomicblly updbte the mbppings to mbintbin the invbribnt thbt the
+         * completion mbp mbps left children to the next node in the in-order
+         * trbversbl.
          *
-         * Take, for example, the following computation tree of tasks:
+         * Tbke, for exbmple, the following computbtion tree of tbsks:
          *
-         *       a
+         *       b
          *      / \
          *     b   c
          *    / \ / \
          *   d  e f  g
          *
-         * The complete map will contain (not necessarily all at the same time)
-         * the following associations:
+         * The complete mbp will contbin (not necessbrily bll bt the sbme time)
+         * the following bssocibtions:
          *
          *   d -> e
          *   b -> f
          *   f -> g
          *
-         * Tasks e, f, g will have their pending counts increased by 1.
+         * Tbsks e, f, g will hbve their pending counts increbsed by 1.
          *
-         * The following relationships hold:
+         * The following relbtionships hold:
          *
-         *   - completion of d "happens-before" e;
-         *   - completion of d and e "happens-before b;
-         *   - completion of b "happens-before" f; and
-         *   - completion of f "happens-before" g
+         *   - completion of d "hbppens-before" e;
+         *   - completion of d bnd e "hbppens-before b;
+         *   - completion of b "hbppens-before" f; bnd
+         *   - completion of f "hbppens-before" g
          *
-         * Thus overall the "happens-before" relationship holds for the
-         * reporting of elements, covered by tasks d, e, f and g, as specified
-         * by the forEachOrdered operation.
+         * Thus overbll the "hbppens-before" relbtionship holds for the
+         * reporting of elements, covered by tbsks d, e, f bnd g, bs specified
+         * by the forEbchOrdered operbtion.
          */
 
-        private final PipelineHelper<T> helper;
-        private Spliterator<S> spliterator;
-        private final long targetSize;
-        private final ConcurrentHashMap<ForEachOrderedTask<S, T>, ForEachOrderedTask<S, T>> completionMap;
-        private final Sink<T> action;
-        private final ForEachOrderedTask<S, T> leftPredecessor;
-        private Node<T> node;
+        privbte finbl PipelineHelper<T> helper;
+        privbte Spliterbtor<S> spliterbtor;
+        privbte finbl long tbrgetSize;
+        privbte finbl ConcurrentHbshMbp<ForEbchOrderedTbsk<S, T>, ForEbchOrderedTbsk<S, T>> completionMbp;
+        privbte finbl Sink<T> bction;
+        privbte finbl ForEbchOrderedTbsk<S, T> leftPredecessor;
+        privbte Node<T> node;
 
-        protected ForEachOrderedTask(PipelineHelper<T> helper,
-                                     Spliterator<S> spliterator,
-                                     Sink<T> action) {
+        protected ForEbchOrderedTbsk(PipelineHelper<T> helper,
+                                     Spliterbtor<S> spliterbtor,
+                                     Sink<T> bction) {
             super(null);
             this.helper = helper;
-            this.spliterator = spliterator;
-            this.targetSize = AbstractTask.suggestTargetSize(spliterator.estimateSize());
-            // Size map to avoid concurrent re-sizes
-            this.completionMap = new ConcurrentHashMap<>(Math.max(16, AbstractTask.LEAF_TARGET << 1));
-            this.action = action;
+            this.spliterbtor = spliterbtor;
+            this.tbrgetSize = AbstrbctTbsk.suggestTbrgetSize(spliterbtor.estimbteSize());
+            // Size mbp to bvoid concurrent re-sizes
+            this.completionMbp = new ConcurrentHbshMbp<>(Mbth.mbx(16, AbstrbctTbsk.LEAF_TARGET << 1));
+            this.bction = bction;
             this.leftPredecessor = null;
         }
 
-        ForEachOrderedTask(ForEachOrderedTask<S, T> parent,
-                           Spliterator<S> spliterator,
-                           ForEachOrderedTask<S, T> leftPredecessor) {
-            super(parent);
-            this.helper = parent.helper;
-            this.spliterator = spliterator;
-            this.targetSize = parent.targetSize;
-            this.completionMap = parent.completionMap;
-            this.action = parent.action;
+        ForEbchOrderedTbsk(ForEbchOrderedTbsk<S, T> pbrent,
+                           Spliterbtor<S> spliterbtor,
+                           ForEbchOrderedTbsk<S, T> leftPredecessor) {
+            super(pbrent);
+            this.helper = pbrent.helper;
+            this.spliterbtor = spliterbtor;
+            this.tbrgetSize = pbrent.tbrgetSize;
+            this.completionMbp = pbrent.completionMbp;
+            this.bction = pbrent.bction;
             this.leftPredecessor = leftPredecessor;
         }
 
         @Override
-        public final void compute() {
+        public finbl void compute() {
             doCompute(this);
         }
 
-        private static <S, T> void doCompute(ForEachOrderedTask<S, T> task) {
-            Spliterator<S> rightSplit = task.spliterator, leftSplit;
-            long sizeThreshold = task.targetSize;
-            boolean forkRight = false;
-            while (rightSplit.estimateSize() > sizeThreshold &&
+        privbte stbtic <S, T> void doCompute(ForEbchOrderedTbsk<S, T> tbsk) {
+            Spliterbtor<S> rightSplit = tbsk.spliterbtor, leftSplit;
+            long sizeThreshold = tbsk.tbrgetSize;
+            boolebn forkRight = fblse;
+            while (rightSplit.estimbteSize() > sizeThreshold &&
                    (leftSplit = rightSplit.trySplit()) != null) {
-                ForEachOrderedTask<S, T> leftChild =
-                    new ForEachOrderedTask<>(task, leftSplit, task.leftPredecessor);
-                ForEachOrderedTask<S, T> rightChild =
-                    new ForEachOrderedTask<>(task, rightSplit, leftChild);
+                ForEbchOrderedTbsk<S, T> leftChild =
+                    new ForEbchOrderedTbsk<>(tbsk, leftSplit, tbsk.leftPredecessor);
+                ForEbchOrderedTbsk<S, T> rightChild =
+                    new ForEbchOrderedTbsk<>(tbsk, rightSplit, leftChild);
 
-                // Fork the parent task
-                // Completion of the left and right children "happens-before"
-                // completion of the parent
-                task.addToPendingCount(1);
-                // Completion of the left child "happens-before" completion of
+                // Fork the pbrent tbsk
+                // Completion of the left bnd right children "hbppens-before"
+                // completion of the pbrent
+                tbsk.bddToPendingCount(1);
+                // Completion of the left child "hbppens-before" completion of
                 // the right child
-                rightChild.addToPendingCount(1);
-                task.completionMap.put(leftChild, rightChild);
+                rightChild.bddToPendingCount(1);
+                tbsk.completionMbp.put(leftChild, rightChild);
 
-                // If task is not on the left spine
-                if (task.leftPredecessor != null) {
+                // If tbsk is not on the left spine
+                if (tbsk.leftPredecessor != null) {
                     /*
                      * Completion of left-predecessor, or left subtree,
-                     * "happens-before" completion of left-most leaf node of
+                     * "hbppens-before" completion of left-most lebf node of
                      * right subtree.
-                     * The left child's pending count needs to be updated before
-                     * it is associated in the completion map, otherwise the
-                     * left child can complete prematurely and violate the
-                     * "happens-before" constraint.
+                     * The left child's pending count needs to be updbted before
+                     * it is bssocibted in the completion mbp, otherwise the
+                     * left child cbn complete prembturely bnd violbte the
+                     * "hbppens-before" constrbint.
                      */
-                    leftChild.addToPendingCount(1);
-                    // Update association of left-predecessor to left-most
-                    // leaf node of right subtree
-                    if (task.completionMap.replace(task.leftPredecessor, task, leftChild)) {
-                        // If replaced, adjust the pending count of the parent
+                    leftChild.bddToPendingCount(1);
+                    // Updbte bssocibtion of left-predecessor to left-most
+                    // lebf node of right subtree
+                    if (tbsk.completionMbp.replbce(tbsk.leftPredecessor, tbsk, leftChild)) {
+                        // If replbced, bdjust the pending count of the pbrent
                         // to complete when its children complete
-                        task.addToPendingCount(-1);
+                        tbsk.bddToPendingCount(-1);
                     } else {
-                        // Left-predecessor has already completed, parent's
-                        // pending count is adjusted by left-predecessor;
-                        // left child is ready to complete
-                        leftChild.addToPendingCount(-1);
+                        // Left-predecessor hbs blrebdy completed, pbrent's
+                        // pending count is bdjusted by left-predecessor;
+                        // left child is rebdy to complete
+                        leftChild.bddToPendingCount(-1);
                     }
                 }
 
-                ForEachOrderedTask<S, T> taskToFork;
+                ForEbchOrderedTbsk<S, T> tbskToFork;
                 if (forkRight) {
-                    forkRight = false;
+                    forkRight = fblse;
                     rightSplit = leftSplit;
-                    task = leftChild;
-                    taskToFork = rightChild;
+                    tbsk = leftChild;
+                    tbskToFork = rightChild;
                 }
                 else {
                     forkRight = true;
-                    task = rightChild;
-                    taskToFork = leftChild;
+                    tbsk = rightChild;
+                    tbskToFork = leftChild;
                 }
-                taskToFork.fork();
+                tbskToFork.fork();
             }
 
             /*
-             * Task's pending count is either 0 or 1.  If 1 then the completion
-             * map will contain a value that is task, and two calls to
-             * tryComplete are required for completion, one below and one
-             * triggered by the completion of task's left-predecessor in
-             * onCompletion.  Therefore there is no data race within the if
+             * Tbsk's pending count is either 0 or 1.  If 1 then the completion
+             * mbp will contbin b vblue thbt is tbsk, bnd two cblls to
+             * tryComplete bre required for completion, one below bnd one
+             * triggered by the completion of tbsk's left-predecessor in
+             * onCompletion.  Therefore there is no dbtb rbce within the if
              * block.
              */
-            if (task.getPendingCount() > 0) {
-                // Cannot complete just yet so buffer elements into a Node
+            if (tbsk.getPendingCount() > 0) {
+                // Cbnnot complete just yet so buffer elements into b Node
                 // for use when completion occurs
-                @SuppressWarnings("unchecked")
-                IntFunction<T[]> generator = size -> (T[]) new Object[size];
-                Node.Builder<T> nb = task.helper.makeNodeBuilder(
-                        task.helper.exactOutputSizeIfKnown(rightSplit),
-                        generator);
-                task.node = task.helper.wrapAndCopyInto(nb, rightSplit).build();
-                task.spliterator = null;
+                @SuppressWbrnings("unchecked")
+                IntFunction<T[]> generbtor = size -> (T[]) new Object[size];
+                Node.Builder<T> nb = tbsk.helper.mbkeNodeBuilder(
+                        tbsk.helper.exbctOutputSizeIfKnown(rightSplit),
+                        generbtor);
+                tbsk.node = tbsk.helper.wrbpAndCopyInto(nb, rightSplit).build();
+                tbsk.spliterbtor = null;
             }
-            task.tryComplete();
+            tbsk.tryComplete();
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> cbller) {
             if (node != null) {
-                // Dump buffered elements from this leaf into the sink
-                node.forEach(action);
+                // Dump buffered elements from this lebf into the sink
+                node.forEbch(bction);
                 node = null;
             }
-            else if (spliterator != null) {
-                // Dump elements output from this leaf's pipeline into the sink
-                helper.wrapAndCopyInto(action, spliterator);
-                spliterator = null;
+            else if (spliterbtor != null) {
+                // Dump elements output from this lebf's pipeline into the sink
+                helper.wrbpAndCopyInto(bction, spliterbtor);
+                spliterbtor = null;
             }
 
-            // The completion of this task *and* the dumping of elements
-            // "happens-before" completion of the associated left-most leaf task
-            // of right subtree (if any, which can be this task's right sibling)
+            // The completion of this tbsk *bnd* the dumping of elements
+            // "hbppens-before" completion of the bssocibted left-most lebf tbsk
+            // of right subtree (if bny, which cbn be this tbsk's right sibling)
             //
-            ForEachOrderedTask<S, T> leftDescendant = completionMap.remove(this);
-            if (leftDescendant != null)
-                leftDescendant.tryComplete();
+            ForEbchOrderedTbsk<S, T> leftDescendbnt = completionMbp.remove(this);
+            if (leftDescendbnt != null)
+                leftDescendbnt.tryComplete();
         }
     }
 }

@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query building mechanism for isInstanceOf expressions.
- * @serial include
+ * This clbss is used by the query building mechbnism for isInstbnceOf expressions.
+ * @seribl include
  *
  * @since 1.6
  */
-class InstanceOfQueryExp extends QueryEval implements QueryExp {
+clbss InstbnceOfQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -1081892073854801359L;
-
-    /**
-     * @serial The {@link StringValueExp} returning the name of the class
-     *         of which selected MBeans should be instances.
-     */
-    private StringValueExp classNameValue;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -1081892073854801359L;
 
     /**
-     * Creates a new InstanceOfExp with a specific class name.
-     * @param classNameValue The {@link StringValueExp} returning the name of
-     *        the class of which selected MBeans should be instances.
+     * @seribl The {@link StringVblueExp} returning the nbme of the clbss
+     *         of which selected MBebns should be instbnces.
      */
-    // We are using StringValueExp here to be consistent with other queries,
-    // although we should actually either use a simple string (the classname)
-    // or a ValueExp - which would allow more complex queries - like for
-    // instance evaluating the class name from an AttributeValueExp.
-    // As it stands - using StringValueExp instead of a simple constant string
-    // doesn't serve any useful purpose besides offering a consistent
+    privbte StringVblueExp clbssNbmeVblue;
+
+    /**
+     * Crebtes b new InstbnceOfExp with b specific clbss nbme.
+     * @pbrbm clbssNbmeVblue The {@link StringVblueExp} returning the nbme of
+     *        the clbss of which selected MBebns should be instbnces.
+     */
+    // We bre using StringVblueExp here to be consistent with other queries,
+    // blthough we should bctublly either use b simple string (the clbssnbme)
+    // or b VblueExp - which would bllow more complex queries - like for
+    // instbnce evblubting the clbss nbme from bn AttributeVblueExp.
+    // As it stbnds - using StringVblueExp instebd of b simple constbnt string
+    // doesn't serve bny useful purpose besides offering b consistent
     // look & feel.
-    public InstanceOfQueryExp(StringValueExp classNameValue) {
-        if (classNameValue == null) {
-            throw new IllegalArgumentException("Null class name.");
+    public InstbnceOfQueryExp(StringVblueExp clbssNbmeVblue) {
+        if (clbssNbmeVblue == null) {
+            throw new IllegblArgumentException("Null clbss nbme.");
         }
 
-        this.classNameValue = classNameValue;
+        this.clbssNbmeVblue = clbssNbmeVblue;
     }
 
     /**
-     * Returns the class name.
-     * @returns The {@link StringValueExp} returning the name of
-     *        the class of which selected MBeans should be instances.
+     * Returns the clbss nbme.
+     * @returns The {@link StringVblueExp} returning the nbme of
+     *        the clbss of which selected MBebns should be instbnces.
      */
-    public StringValueExp getClassNameValue()  {
-        return classNameValue;
+    public StringVblueExp getClbssNbmeVblue()  {
+        return clbssNbmeVblue;
     }
 
     /**
-     * Applies the InstanceOf on a MBean.
+     * Applies the InstbnceOf on b MBebn.
      *
-     * @param name The name of the MBean on which the InstanceOf will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the InstbnceOf will be bpplied.
      *
-     * @return  True if the MBean specified by the name is instance of the class.
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
+     * @return  True if the MBebn specified by the nbme is instbnce of the clbss.
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
      */
-    public boolean apply(ObjectName name)
-        throws BadStringOperationException,
-        BadBinaryOpValueExpException,
-        BadAttributeValueExpException,
-        InvalidApplicationException {
+    public boolebn bpply(ObjectNbme nbme)
+        throws BbdStringOperbtionException,
+        BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException,
+        InvblidApplicbtionException {
 
-        // Get the class name value
-        final StringValueExp val;
+        // Get the clbss nbme vblue
+        finbl StringVblueExp vbl;
         try {
-            val = (StringValueExp) classNameValue.apply(name);
-        } catch (ClassCastException x) {
-            // Should not happen - unless someone wrongly implemented
-            // StringValueExp.apply().
-            final BadStringOperationException y =
-                    new BadStringOperationException(x.toString());
-            y.initCause(x);
+            vbl = (StringVblueExp) clbssNbmeVblue.bpply(nbme);
+        } cbtch (ClbssCbstException x) {
+            // Should not hbppen - unless someone wrongly implemented
+            // StringVblueExp.bpply().
+            finbl BbdStringOperbtionException y =
+                    new BbdStringOperbtionException(x.toString());
+            y.initCbuse(x);
             throw y;
         }
 
-        // Test whether the MBean is an instance of that class.
+        // Test whether the MBebn is bn instbnce of thbt clbss.
         try {
-            return getMBeanServer().isInstanceOf(name, val.getValue());
-        } catch (InstanceNotFoundException infe) {
-            return false;
+            return getMBebnServer().isInstbnceOf(nbme, vbl.getVblue());
+        } cbtch (InstbnceNotFoundException infe) {
+            return fblse;
         }
     }
 
     /**
-     * Returns a string representation of this InstanceOfQueryExp.
-     * @return a string representation of this InstanceOfQueryExp.
+     * Returns b string representbtion of this InstbnceOfQueryExp.
+     * @return b string representbtion of this InstbnceOfQueryExp.
      */
     public String toString() {
-       return "InstanceOf " + classNameValue.toString();
+       return "InstbnceOf " + clbssNbmeVblue.toString();
    }
 }

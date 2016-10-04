@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.AWTKeyStroke;
-import java.awt.Point;
-import java.awt.Toolkit;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
 
-import sun.awt.EmbeddedFrame;
-import sun.lwawt.LWWindowPeer;
+import sun.bwt.EmbeddedFrbme;
+import sun.lwbwt.LWWindowPeer;
 
-@SuppressWarnings("serial") // JDK implementation class
-public class CEmbeddedFrame extends EmbeddedFrame {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss CEmbeddedFrbme extends EmbeddedFrbme {
 
-    private CPlatformResponder responder;
-    private static final Object classLock = new Object();
-    private static volatile CEmbeddedFrame focusedWindow;
-    private boolean parentWindowActive = true;
+    privbte CPlbtformResponder responder;
+    privbte stbtic finbl Object clbssLock = new Object();
+    privbte stbtic volbtile CEmbeddedFrbme focusedWindow;
+    privbte boolebn pbrentWindowActive = true;
 
-    public CEmbeddedFrame() {
+    public CEmbeddedFrbme() {
         show();
     }
 
-    public void addNotify() {
+    public void bddNotify() {
         if (getPeer() == null) {
-            LWCToolkit toolkit = (LWCToolkit)Toolkit.getDefaultToolkit();
-            LWWindowPeer peer = toolkit.createEmbeddedFrame(this);
+            LWCToolkit toolkit = (LWCToolkit)Toolkit.getDefbultToolkit();
+            LWWindowPeer peer = toolkit.crebteEmbeddedFrbme(this);
             setPeer(peer);
-            responder = new CPlatformResponder(peer, true);
+            responder = new CPlbtformResponder(peer, true);
         }
-        super.addNotify();
+        super.bddNotify();
     }
 
-    public void registerAccelerator(AWTKeyStroke stroke) {}
+    public void registerAccelerbtor(AWTKeyStroke stroke) {}
 
-    public void unregisterAccelerator(AWTKeyStroke stroke) {}
+    public void unregisterAccelerbtor(AWTKeyStroke stroke) {}
 
-    protected long getLayerPtr() {
+    protected long getLbyerPtr() {
         LWWindowPeer peer = (LWWindowPeer)getPeer();
-        return peer.getLayerPtr();
+        return peer.getLbyerPtr();
     }
 
     // -----------------------------------------------------------------------
     //                          SYNTHETIC EVENT DELIVERY
     // -----------------------------------------------------------------------
 
-    public void handleMouseEvent(int eventType, int modifierFlags, double pluginX,
+    public void hbndleMouseEvent(int eventType, int modifierFlbgs, double pluginX,
                                  double pluginY, int buttonNumber, int clickCount) {
         int x = (int)pluginX;
         int y = (int)pluginY;
-        Point locationOnScreen = getLocationOnScreen();
-        int screenX = locationOnScreen.x + x;
-        int screenY = locationOnScreen.y + y;
+        Point locbtionOnScreen = getLocbtionOnScreen();
+        int screenX = locbtionOnScreen.x + x;
+        int screenY = locbtionOnScreen.y + y;
 
-        if (eventType == CocoaConstants.NPCocoaEventMouseEntered) {
-            CCursorManager.nativeSetAllowsCursorSetInBackground(true);
-        } else if (eventType == CocoaConstants.NPCocoaEventMouseExited) {
-            CCursorManager.nativeSetAllowsCursorSetInBackground(false);
+        if (eventType == CocobConstbnts.NPCocobEventMouseEntered) {
+            CCursorMbnbger.nbtiveSetAllowsCursorSetInBbckground(true);
+        } else if (eventType == CocobConstbnts.NPCocobEventMouseExited) {
+            CCursorMbnbger.nbtiveSetAllowsCursorSetInBbckground(fblse);
         }
 
-        responder.handleMouseEvent(eventType, modifierFlags, buttonNumber,
+        responder.hbndleMouseEvent(eventType, modifierFlbgs, buttonNumber,
                                    clickCount, x, y, screenX, screenY);
     }
 
-    public void handleScrollEvent(double pluginX, double pluginY, int modifierFlags,
-                                  double deltaX, double deltaY, double deltaZ) {
+    public void hbndleScrollEvent(double pluginX, double pluginY, int modifierFlbgs,
+                                  double deltbX, double deltbY, double deltbZ) {
         int x = (int)pluginX;
         int y = (int)pluginY;
 
-        responder.handleScrollEvent(x, y, modifierFlags, deltaX, deltaY);
+        responder.hbndleScrollEvent(x, y, modifierFlbgs, deltbX, deltbY);
     }
 
-    public void handleKeyEvent(int eventType, int modifierFlags, String characters,
-                               String charsIgnoringMods, boolean isRepeat, short keyCode,
-                               boolean needsKeyTyped) {
-        responder.handleKeyEvent(eventType, modifierFlags, characters, charsIgnoringMods,
-                keyCode, needsKeyTyped, isRepeat);
+    public void hbndleKeyEvent(int eventType, int modifierFlbgs, String chbrbcters,
+                               String chbrsIgnoringMods, boolebn isRepebt, short keyCode,
+                               boolebn needsKeyTyped) {
+        responder.hbndleKeyEvent(eventType, modifierFlbgs, chbrbcters, chbrsIgnoringMods,
+                keyCode, needsKeyTyped, isRepebt);
     }
 
-    public void handleInputEvent(String text) {
-        responder.handleInputEvent(text);
+    public void hbndleInputEvent(String text) {
+        responder.hbndleInputEvent(text);
     }
 
-    // handleFocusEvent is called when the applet becames focused/unfocused.
-    // This method can be called from different threads.
-    public void handleFocusEvent(boolean focused) {
-        synchronized (classLock) {
-            // In some cases an applet may not receive the focus lost event
-            // from the parent window (see 8012330)
+    // hbndleFocusEvent is cblled when the bpplet becbmes focused/unfocused.
+    // This method cbn be cblled from different threbds.
+    public void hbndleFocusEvent(boolebn focused) {
+        synchronized (clbssLock) {
+            // In some cbses bn bpplet mby not receive the focus lost event
+            // from the pbrent window (see 8012330)
             focusedWindow = (focused) ? this
                     : ((focusedWindow == this) ? null : focusedWindow);
         }
         if (focusedWindow == this) {
             // see bug 8010925
-            // we can't put this to handleWindowFocusEvent because
-            // it won't be invoced if focuse is moved to a html element
-            // on the same page.
-            CClipboard clipboard = (CClipboard) Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.checkPasteboard();
+            // we cbn't put this to hbndleWindowFocusEvent becbuse
+            // it won't be invoced if focuse is moved to b html element
+            // on the sbme pbge.
+            CClipbobrd clipbobrd = (CClipbobrd) Toolkit.getDefbultToolkit().getSystemClipbobrd();
+            clipbobrd.checkPbstebobrd();
         }
-        if (parentWindowActive) {
-            responder.handleWindowFocusEvent(focused, null);
+        if (pbrentWindowActive) {
+            responder.hbndleWindowFocusEvent(focused, null);
         }
     }
 
     /**
-     * When the parent window is activated this method is called for all EmbeddedFrames in it.
+     * When the pbrent window is bctivbted this method is cblled for bll EmbeddedFrbmes in it.
      *
-     * For the CEmbeddedFrame which had focus before the deactivation this method triggers
+     * For the CEmbeddedFrbme which hbd focus before the debctivbtion this method triggers
      * focus events in the following order:
-     *  1. WINDOW_ACTIVATED for this EmbeddedFrame
-     *  2. WINDOW_GAINED_FOCUS for this EmbeddedFrame
-     *  3. FOCUS_GAINED for the most recent focus owner in this EmbeddedFrame
+     *  1. WINDOW_ACTIVATED for this EmbeddedFrbme
+     *  2. WINDOW_GAINED_FOCUS for this EmbeddedFrbme
+     *  3. FOCUS_GAINED for the most recent focus owner in this EmbeddedFrbme
      *
-     * The caller must not requestFocus on the EmbeddedFrame together with calling this method.
+     * The cbller must not requestFocus on the EmbeddedFrbme together with cblling this method.
      *
-     * @param parentWindowActive true if the window is activated, false otherwise
+     * @pbrbm pbrentWindowActive true if the window is bctivbted, fblse otherwise
      */
-    // handleWindowFocusEvent is called for all applets, when the browser
-    // becomes active/inactive. This event should be filtered out for
-    // non-focused applet. This method can be called from different threads.
-    public void handleWindowFocusEvent(boolean parentWindowActive) {
-        this.parentWindowActive = parentWindowActive;
-        // ignore focus "lost" native request as it may mistakenly
-        // deactivate active window (see 8001161)
-        if (focusedWindow == this && parentWindowActive) {
-            responder.handleWindowFocusEvent(parentWindowActive, null);
+    // hbndleWindowFocusEvent is cblled for bll bpplets, when the browser
+    // becomes bctive/inbctive. This event should be filtered out for
+    // non-focused bpplet. This method cbn be cblled from different threbds.
+    public void hbndleWindowFocusEvent(boolebn pbrentWindowActive) {
+        this.pbrentWindowActive = pbrentWindowActive;
+        // ignore focus "lost" nbtive request bs it mby mistbkenly
+        // debctivbte bctive window (see 8001161)
+        if (focusedWindow == this && pbrentWindowActive) {
+            responder.hbndleWindowFocusEvent(pbrentWindowActive, null);
         }
     }
 
-    public boolean isParentWindowActive() {
-        return parentWindowActive;
+    public boolebn isPbrentWindowActive() {
+        return pbrentWindowActive;
     }
 }

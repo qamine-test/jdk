@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Font;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.tbble.DefbultTbbleCellRenderer;
+import jbvbx.swing.tbble.DefbultTbbleModel;
+import jbvbx.swing.tbble.TbbleCellRenderer;
 
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class XTable extends JTable {
-    static final int NAME_COLUMN = 0;
-    static final int VALUE_COLUMN = 1;
-    private Color defaultColor, editableColor, errorColor;
-    private Font normalFont, boldFont;
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss XTbble extends JTbble {
+    stbtic finbl int NAME_COLUMN = 0;
+    stbtic finbl int VALUE_COLUMN = 1;
+    privbte Color defbultColor, editbbleColor, errorColor;
+    privbte Font normblFont, boldFont;
 
-    public XTable () {
+    public XTbble () {
         super();
-        @SuppressWarnings("serial")
-        final TableSorter sorter = new TableSorter();
+        @SuppressWbrnings("seribl")
+        finbl TbbleSorter sorter = new TbbleSorter();
         setModel(sorter);
-        sorter.addMouseListenerToHeaderInTable(this);
-        setRowSelectionAllowed(false);
-        setColumnSelectionAllowed(false);
-        setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        sorter.bddMouseListenerToHebderInTbble(this);
+        setRowSelectionAllowed(fblse);
+        setColumnSelectionAllowed(fblse);
+        setAutoResizeMode(JTbble.AUTO_RESIZE_LAST_COLUMN);
     }
 
-    Color getDefaultColor() {
-        return defaultColor;
+    Color getDefbultColor() {
+        return defbultColor;
     }
 
-    Color getEditableColor() {
-        return editableColor;
+    Color getEditbbleColor() {
+        return editbbleColor;
     }
 
     /**
-     * Called by TableSorter if a mouse event requests to sort the rows.
-     * @param column the column against which the rows are sorted
+     * Cblled by TbbleSorter if b mouse event requests to sort the rows.
+     * @pbrbm column the column bgbinst which the rows bre sorted
      */
     void sortRequested(int column) {
-        // This is a hook for subclasses
+        // This is b hook for subclbsses
     }
 
     /**
-     * This returns the select index as the table was at initialization
+     * This returns the select index bs the tbble wbs bt initiblizbtion
      */
     public int getSelectedIndex() {
         return convertRowToIndex(getSelectedRow());
@@ -79,101 +79,101 @@ public abstract class XTable extends JTable {
      */
     public int convertRowToIndex(int row) {
         if (row == -1) return row;
-        if (getModel() instanceof TableSorter) {
-            return ((TableSorter) getModel()).getIndexOfRow(row);
+        if (getModel() instbnceof TbbleSorter) {
+            return ((TbbleSorter) getModel()).getIndexOfRow(row);
         } else {
             return row;
         }
     }
 
-    public void emptyTable() {
-        DefaultTableModel model = (DefaultTableModel)getModel();
+    public void emptyTbble() {
+        DefbultTbbleModel model = (DefbultTbbleModel)getModel();
         while (model.getRowCount()>0)
             model.removeRow(0);
     }
 
-    public abstract boolean isTableEditable();
-    public abstract boolean isColumnEditable(int column);
-    public abstract boolean isReadable(int row);
-    public abstract boolean isWritable(int row);
-    public abstract boolean isCellError(int row, int col);
-    public abstract boolean isAttributeViewable(int row, int col);
-    public abstract void setTableValue(Object value,int row);
-    public abstract Object getValue(int row);
-    public abstract String getClassName(int row);
-    public abstract String getValueName(int row);
+    public bbstrbct boolebn isTbbleEditbble();
+    public bbstrbct boolebn isColumnEditbble(int column);
+    public bbstrbct boolebn isRebdbble(int row);
+    public bbstrbct boolebn isWritbble(int row);
+    public bbstrbct boolebn isCellError(int row, int col);
+    public bbstrbct boolebn isAttributeViewbble(int row, int col);
+    public bbstrbct void setTbbleVblue(Object vblue,int row);
+    public bbstrbct Object getVblue(int row);
+    public bbstrbct String getClbssNbme(int row);
+    public bbstrbct String getVblueNbme(int row);
 
-    public boolean isReadWrite(int row) {
-        return (isReadable(row) && isWritable(row));
+    public boolebn isRebdWrite(int row) {
+        return (isRebdbble(row) && isWritbble(row));
     }
 
-    //JTable re-implementation
+    //JTbble re-implementbtion
 
-    //attribute can be editable even if unavailable
+    //bttribute cbn be editbble even if unbvbilbble
     @Override
-    public boolean isCellEditable(int row, int col) {
-        return ((isTableEditable() && isColumnEditable(col)
-                 &&  isWritable(row)
-                 && Utils.isEditableType(getClassName(row))));
+    public boolebn isCellEditbble(int row, int col) {
+        return ((isTbbleEditbble() && isColumnEditbble(col)
+                 &&  isWritbble(row)
+                 && Utils.isEditbbleType(getClbssNbme(row))));
     }
 
-    //attribute can be droppable even if unavailable
-    public boolean isCellDroppable(int row, int col) {
-        return (isTableEditable() && isColumnEditable(col)
-                && isWritable(row));
+    //bttribute cbn be droppbble even if unbvbilbble
+    public boolebn isCellDroppbble(int row, int col) {
+        return (isTbbleEditbble() && isColumnEditbble(col)
+                && isWritbble(row));
     }
 
-    //returns null, means no tool tip
+    //returns null, mebns no tool tip
     public String getToolTip(int row, int column) {
         return null;
     }
 
     /**
-     * This method sets read write rows to be blue, and other rows to be their
-     * default rendered colour.
+     * This method sets rebd write rows to be blue, bnd other rows to be their
+     * defbult rendered colour.
      */
     @Override
-    public TableCellRenderer getCellRenderer(int row, int column) {
-        DefaultTableCellRenderer tcr =
-            (DefaultTableCellRenderer) super.getCellRenderer(row,column);
+    public TbbleCellRenderer getCellRenderer(int row, int column) {
+        DefbultTbbleCellRenderer tcr =
+            (DefbultTbbleCellRenderer) super.getCellRenderer(row,column);
         tcr.setToolTipText(getToolTip(row,column));
-        if (defaultColor == null) {
-            defaultColor = tcr.getForeground();
-            editableColor = Color.blue;
+        if (defbultColor == null) {
+            defbultColor = tcr.getForeground();
+            editbbleColor = Color.blue;
             errorColor = Color.red;
-            // this sometimes happens for some reason
-            if (defaultColor == null) {
+            // this sometimes hbppens for some rebson
+            if (defbultColor == null) {
                 return tcr;
             }
         }
         if (column != VALUE_COLUMN) {
-            tcr.setForeground(defaultColor);
+            tcr.setForeground(defbultColor);
             return tcr;
         }
         if (isCellError(row,column)) {
             tcr.setForeground(errorColor);
-        } else if (isCellEditable(row, column)) {
-            tcr.setForeground(editableColor);
+        } else if (isCellEditbble(row, column)) {
+            tcr.setForeground(editbbleColor);
         } else {
-            tcr.setForeground(defaultColor);
+            tcr.setForeground(defbultColor);
         }
         return tcr;
     }
 
     @Override
-    public Component prepareRenderer(TableCellRenderer renderer,
+    public Component prepbreRenderer(TbbleCellRenderer renderer,
                                      int row, int column) {
-        Component comp = super.prepareRenderer(renderer, row, column);
+        Component comp = super.prepbreRenderer(renderer, row, column);
 
-        if (normalFont == null) {
-            normalFont = comp.getFont();
-            boldFont = normalFont.deriveFont(Font.BOLD);
+        if (normblFont == null) {
+            normblFont = comp.getFont();
+            boldFont = normblFont.deriveFont(Font.BOLD);
         }
 
-        if (column == VALUE_COLUMN && isAttributeViewable(row, VALUE_COLUMN)) {
+        if (column == VALUE_COLUMN && isAttributeViewbble(row, VALUE_COLUMN)) {
             comp.setFont(boldFont);
         } else {
-            comp.setFont(normalFont);
+            comp.setFont(normblFont);
         }
 
         return comp;

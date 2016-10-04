@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EventListener;
-import java.util.EventListenerProxy;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.EventListener;
+import jbvb.util.EventListenerProxy;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Set;
 
 /**
- * This is an abstract class that provides base functionality
- * for the {@link PropertyChangeSupport PropertyChangeSupport} class
- * and the {@link VetoableChangeSupport VetoableChangeSupport} class.
+ * This is bn bbstrbct clbss thbt provides bbse functionblity
+ * for the {@link PropertyChbngeSupport PropertyChbngeSupport} clbss
+ * bnd the {@link VetobbleChbngeSupport VetobbleChbngeSupport} clbss.
  *
- * @see PropertyChangeListenerMap
- * @see VetoableChangeListenerMap
+ * @see PropertyChbngeListenerMbp
+ * @see VetobbleChbngeListenerMbp
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-abstract class ChangeListenerMap<L extends EventListener> {
-    private Map<String, L[]> map;
+bbstrbct clbss ChbngeListenerMbp<L extends EventListener> {
+    privbte Mbp<String, L[]> mbp;
 
     /**
-     * Creates an array of listeners.
-     * This method can be optimized by using
-     * the same instance of the empty array
-     * when {@code length} is equal to {@code 0}.
+     * Crebtes bn brrby of listeners.
+     * This method cbn be optimized by using
+     * the sbme instbnce of the empty brrby
+     * when {@code length} is equbl to {@code 0}.
      *
-     * @param length  the array length
-     * @return        an array with specified length
+     * @pbrbm length  the brrby length
+     * @return        bn brrby with specified length
      */
-    protected abstract L[] newArray(int length);
+    protected bbstrbct L[] newArrby(int length);
 
     /**
-     * Creates a proxy listener for the specified property.
+     * Crebtes b proxy listener for the specified property.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
-     * @return          a proxy listener
+     * @pbrbm nbme      the nbme of the property to listen on
+     * @pbrbm listener  the listener to process events
+     * @return          b proxy listener
      */
-    protected abstract L newProxy(String name, L listener);
+    protected bbstrbct L newProxy(String nbme, L listener);
 
     /**
-     * Adds a listener to the list of listeners for the specified property.
-     * This listener is called as many times as it was added.
+     * Adds b listener to the list of listeners for the specified property.
+     * This listener is cblled bs mbny times bs it wbs bdded.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
+     * @pbrbm nbme      the nbme of the property to listen on
+     * @pbrbm listener  the listener to process events
      */
-    public final synchronized void add(String name, L listener) {
-        if (this.map == null) {
-            this.map = new HashMap<>();
+    public finbl synchronized void bdd(String nbme, L listener) {
+        if (this.mbp == null) {
+            this.mbp = new HbshMbp<>();
         }
-        L[] array = this.map.get(name);
-        int size = (array != null)
-                ? array.length
+        L[] brrby = this.mbp.get(nbme);
+        int size = (brrby != null)
+                ? brrby.length
                 : 0;
 
-        L[] clone = newArray(size + 1);
+        L[] clone = newArrby(size + 1);
         clone[size] = listener;
-        if (array != null) {
-            System.arraycopy(array, 0, clone, 0, size);
+        if (brrby != null) {
+            System.brrbycopy(brrby, 0, clone, 0, size);
         }
-        this.map.put(name, clone);
+        this.mbp.put(nbme, clone);
     }
 
     /**
-     * Removes a listener from the list of listeners for the specified property.
-     * If the listener was added more than once to the same event source,
-     * this listener will be notified one less time after being removed.
+     * Removes b listener from the list of listeners for the specified property.
+     * If the listener wbs bdded more thbn once to the sbme event source,
+     * this listener will be notified one less time bfter being removed.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
+     * @pbrbm nbme      the nbme of the property to listen on
+     * @pbrbm listener  the listener to process events
      */
-    public final synchronized void remove(String name, L listener) {
-        if (this.map != null) {
-            L[] array = this.map.get(name);
-            if (array != null) {
-                for (int i = 0; i < array.length; i++) {
-                    if (listener.equals(array[i])) {
-                        int size = array.length - 1;
+    public finbl synchronized void remove(String nbme, L listener) {
+        if (this.mbp != null) {
+            L[] brrby = this.mbp.get(nbme);
+            if (brrby != null) {
+                for (int i = 0; i < brrby.length; i++) {
+                    if (listener.equbls(brrby[i])) {
+                        int size = brrby.length - 1;
                         if (size > 0) {
-                            L[] clone = newArray(size);
-                            System.arraycopy(array, 0, clone, 0, i);
-                            System.arraycopy(array, i + 1, clone, i, size - i);
-                            this.map.put(name, clone);
+                            L[] clone = newArrby(size);
+                            System.brrbycopy(brrby, 0, clone, 0, i);
+                            System.brrbycopy(brrby, i + 1, clone, i, size - i);
+                            this.mbp.put(nbme, clone);
                         }
                         else {
-                            this.map.remove(name);
-                            if (this.map.isEmpty()) {
-                                this.map = null;
+                            this.mbp.remove(nbme);
+                            if (this.mbp.isEmpty()) {
+                                this.mbp = null;
                             }
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -128,114 +128,114 @@ abstract class ChangeListenerMap<L extends EventListener> {
     /**
      * Returns the list of listeners for the specified property.
      *
-     * @param name  the name of the property
+     * @pbrbm nbme  the nbme of the property
      * @return      the corresponding list of listeners
      */
-    public final synchronized L[] get(String name) {
-        return (this.map != null)
-                ? this.map.get(name)
+    public finbl synchronized L[] get(String nbme) {
+        return (this.mbp != null)
+                ? this.mbp.get(nbme)
                 : null;
     }
 
     /**
      * Sets new list of listeners for the specified property.
      *
-     * @param name       the name of the property
-     * @param listeners  new list of listeners
+     * @pbrbm nbme       the nbme of the property
+     * @pbrbm listeners  new list of listeners
      */
-    public final void set(String name, L[] listeners) {
+    public finbl void set(String nbme, L[] listeners) {
         if (listeners != null) {
-            if (this.map == null) {
-                this.map = new HashMap<>();
+            if (this.mbp == null) {
+                this.mbp = new HbshMbp<>();
             }
-            this.map.put(name, listeners);
+            this.mbp.put(nbme, listeners);
         }
-        else if (this.map != null) {
-            this.map.remove(name);
-            if (this.map.isEmpty()) {
-                this.map = null;
+        else if (this.mbp != null) {
+            this.mbp.remove(nbme);
+            if (this.mbp.isEmpty()) {
+                this.mbp = null;
             }
         }
     }
 
     /**
-     * Returns all listeners in the map.
+     * Returns bll listeners in the mbp.
      *
-     * @return an array of all listeners
+     * @return bn brrby of bll listeners
      */
-    public final synchronized L[] getListeners() {
-        if (this.map == null) {
-            return newArray(0);
+    public finbl synchronized L[] getListeners() {
+        if (this.mbp == null) {
+            return newArrby(0);
         }
-        List<L> list = new ArrayList<>();
+        List<L> list = new ArrbyList<>();
 
-        L[] listeners = this.map.get(null);
+        L[] listeners = this.mbp.get(null);
         if (listeners != null) {
             for (L listener : listeners) {
-                list.add(listener);
+                list.bdd(listener);
             }
         }
-        for (Entry<String, L[]> entry : this.map.entrySet()) {
-            String name = entry.getKey();
-            if (name != null) {
-                for (L listener : entry.getValue()) {
-                    list.add(newProxy(name, listener));
+        for (Entry<String, L[]> entry : this.mbp.entrySet()) {
+            String nbme = entry.getKey();
+            if (nbme != null) {
+                for (L listener : entry.getVblue()) {
+                    list.bdd(newProxy(nbme, listener));
                 }
             }
         }
-        return list.toArray(newArray(list.size()));
+        return list.toArrby(newArrby(list.size()));
     }
 
     /**
-     * Returns listeners that have been associated with the named property.
+     * Returns listeners thbt hbve been bssocibted with the nbmed property.
      *
-     * @param name  the name of the property
-     * @return an array of listeners for the named property
+     * @pbrbm nbme  the nbme of the property
+     * @return bn brrby of listeners for the nbmed property
      */
-    public final L[] getListeners(String name) {
-        if (name != null) {
-            L[] listeners = get(name);
+    public finbl L[] getListeners(String nbme) {
+        if (nbme != null) {
+            L[] listeners = get(nbme);
             if (listeners != null) {
                 return listeners.clone();
             }
         }
-        return newArray(0);
+        return newArrby(0);
     }
 
     /**
-     * Indicates whether the map contains
-     * at least one listener to be notified.
+     * Indicbtes whether the mbp contbins
+     * bt lebst one listener to be notified.
      *
-     * @param name  the name of the property
-     * @return      {@code true} if at least one listener exists or
-     *              {@code false} otherwise
+     * @pbrbm nbme  the nbme of the property
+     * @return      {@code true} if bt lebst one listener exists or
+     *              {@code fblse} otherwise
      */
-    public final synchronized boolean hasListeners(String name) {
-        if (this.map == null) {
-            return false;
+    public finbl synchronized boolebn hbsListeners(String nbme) {
+        if (this.mbp == null) {
+            return fblse;
         }
-        L[] array = this.map.get(null);
-        return (array != null) || ((name != null) && (null != this.map.get(name)));
+        L[] brrby = this.mbp.get(null);
+        return (brrby != null) || ((nbme != null) && (null != this.mbp.get(nbme)));
     }
 
     /**
-     * Returns a set of entries from the map.
-     * Each entry is a pair consisted of the property name
-     * and the corresponding list of listeners.
+     * Returns b set of entries from the mbp.
+     * Ebch entry is b pbir consisted of the property nbme
+     * bnd the corresponding list of listeners.
      *
-     * @return a set of entries from the map
+     * @return b set of entries from the mbp
      */
-    public final Set<Entry<String, L[]>> getEntries() {
-        return (this.map != null)
-                ? this.map.entrySet()
+    public finbl Set<Entry<String, L[]>> getEntries() {
+        return (this.mbp != null)
+                ? this.mbp.entrySet()
                 : Collections.<Entry<String, L[]>>emptySet();
     }
 
     /**
-     * Extracts a real listener from the proxy listener.
-     * It is necessary because default proxy class is not serializable.
+     * Extrbcts b rebl listener from the proxy listener.
+     * It is necessbry becbuse defbult proxy clbss is not seriblizbble.
      *
-     * @return a real listener
+     * @return b rebl listener
      */
-    public abstract L extract(L listener);
+    public bbstrbct L extrbct(L listener);
 }

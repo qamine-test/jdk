@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown when an application tries to access an enum constant by name
- * and the enum type contains no constant with the specified name.
- * This exception can be thrown by the {@linkplain
- * java.lang.reflect.AnnotatedElement API used to read annotations
+ * Thrown when bn bpplicbtion tries to bccess bn enum constbnt by nbme
+ * bnd the enum type contbins no constbnt with the specified nbme.
+ * This exception cbn be thrown by the {@linkplbin
+ * jbvb.lbng.reflect.AnnotbtedElement API used to rebd bnnotbtions
  * reflectively}.
  *
- * @author  Josh Bloch
- * @see     java.lang.reflect.AnnotatedElement
+ * @buthor  Josh Bloch
+ * @see     jbvb.lbng.reflect.AnnotbtedElement
  * @since   1.5
  */
-@SuppressWarnings("rawtypes") /* rawtypes are part of the public api */
-public class EnumConstantNotPresentException extends RuntimeException {
-    private static final long serialVersionUID = -6046998521960521108L;
+@SuppressWbrnings("rbwtypes") /* rbwtypes bre pbrt of the public bpi */
+public clbss EnumConstbntNotPresentException extends RuntimeException {
+    privbte stbtic finbl long seriblVersionUID = -6046998521960521108L;
 
     /**
-     * The type of the missing enum constant.
+     * The type of the missing enum constbnt.
      */
-    private Class<? extends Enum> enumType;
+    privbte Clbss<? extends Enum> enumType;
 
     /**
-     * The name of the missing enum constant.
+     * The nbme of the missing enum constbnt.
      */
-    private String constantName;
+    privbte String constbntNbme;
 
     /**
-     * Constructs an <tt>EnumConstantNotPresentException</tt> for the
-     * specified constant.
+     * Constructs bn <tt>EnumConstbntNotPresentException</tt> for the
+     * specified constbnt.
      *
-     * @param enumType the type of the missing enum constant
-     * @param constantName the name of the missing enum constant
+     * @pbrbm enumType the type of the missing enum constbnt
+     * @pbrbm constbntNbme the nbme of the missing enum constbnt
      */
-    public EnumConstantNotPresentException(Class<? extends Enum> enumType,
-                                           String constantName) {
-        super(enumType.getName() + "." + constantName);
+    public EnumConstbntNotPresentException(Clbss<? extends Enum> enumType,
+                                           String constbntNbme) {
+        super(enumType.getNbme() + "." + constbntNbme);
         this.enumType = enumType;
-        this.constantName  = constantName;
+        this.constbntNbme  = constbntNbme;
     }
 
     /**
-     * Returns the type of the missing enum constant.
+     * Returns the type of the missing enum constbnt.
      *
-     * @return the type of the missing enum constant
+     * @return the type of the missing enum constbnt
      */
-    public Class<? extends Enum> enumType() { return enumType; }
+    public Clbss<? extends Enum> enumType() { return enumType; }
 
     /**
-     * Returns the name of the missing enum constant.
+     * Returns the nbme of the missing enum constbnt.
      *
-     * @return the name of the missing enum constant
+     * @return the nbme of the missing enum constbnt
      */
-    public String constantName() { return constantName; }
+    public String constbntNbme() { return constbntNbme; }
 }

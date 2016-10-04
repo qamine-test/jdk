@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
 import sun.invoke.util.BytecodeDescriptor;
-import sun.invoke.util.Wrapper;
-import static sun.invoke.util.Wrapper.*;
+import sun.invoke.util.Wrbpper;
+import stbtic sun.invoke.util.Wrbpper.*;
 
-class TypeConvertingMethodAdapter extends MethodVisitor {
+clbss TypeConvertingMethodAdbpter extends MethodVisitor {
 
-    TypeConvertingMethodAdapter(MethodVisitor mv) {
+    TypeConvertingMethodAdbpter(MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
     }
 
-    private static final int NUM_WRAPPERS = Wrapper.values().length;
+    privbte stbtic finbl int NUM_WRAPPERS = Wrbpper.vblues().length;
 
-    private static final String NAME_OBJECT = "java/lang/Object";
-    private static final String WRAPPER_PREFIX = "Ljava/lang/";
+    privbte stbtic finbl String NAME_OBJECT = "jbvb/lbng/Object";
+    privbte stbtic finbl String WRAPPER_PREFIX = "Ljbvb/lbng/";
 
-    // Same for all primitives; name of the boxing method
-    private static final String NAME_BOX_METHOD = "valueOf";
+    // Sbme for bll primitives; nbme of the boxing method
+    privbte stbtic finbl String NAME_BOX_METHOD = "vblueOf";
 
-    // Table of opcodes for widening primitive conversions; NOP = no conversion
-    private static final int[][] wideningOpcodes = new int[NUM_WRAPPERS][NUM_WRAPPERS];
+    // Tbble of opcodes for widening primitive conversions; NOP = no conversion
+    privbte stbtic finbl int[][] wideningOpcodes = new int[NUM_WRAPPERS][NUM_WRAPPERS];
 
-    private static final Wrapper[] FROM_WRAPPER_NAME = new Wrapper[16];
+    privbte stbtic finbl Wrbpper[] FROM_WRAPPER_NAME = new Wrbpper[16];
 
-    // Table of wrappers for primitives, indexed by ASM type sorts
-    private static final Wrapper[] FROM_TYPE_SORT = new Wrapper[16];
+    // Tbble of wrbppers for primitives, indexed by ASM type sorts
+    privbte stbtic finbl Wrbpper[] FROM_TYPE_SORT = new Wrbpper[16];
 
-    static {
-        for (Wrapper w : Wrapper.values()) {
-            if (w.basicTypeChar() != 'L') {
-                int wi = hashWrapperName(w.wrapperSimpleName());
-                assert (FROM_WRAPPER_NAME[wi] == null);
+    stbtic {
+        for (Wrbpper w : Wrbpper.vblues()) {
+            if (w.bbsicTypeChbr() != 'L') {
+                int wi = hbshWrbpperNbme(w.wrbpperSimpleNbme());
+                bssert (FROM_WRAPPER_NAME[wi] == null);
                 FROM_WRAPPER_NAME[wi] = w;
             }
         }
@@ -77,218 +77,218 @@ class TypeConvertingMethodAdapter extends MethodVisitor {
         initWidening(DOUBLE, Opcodes.F2D, FLOAT);
         initWidening(DOUBLE, Opcodes.L2D, LONG);
 
-        FROM_TYPE_SORT[Type.BYTE] = Wrapper.BYTE;
-        FROM_TYPE_SORT[Type.SHORT] = Wrapper.SHORT;
-        FROM_TYPE_SORT[Type.INT] = Wrapper.INT;
-        FROM_TYPE_SORT[Type.LONG] = Wrapper.LONG;
-        FROM_TYPE_SORT[Type.CHAR] = Wrapper.CHAR;
-        FROM_TYPE_SORT[Type.FLOAT] = Wrapper.FLOAT;
-        FROM_TYPE_SORT[Type.DOUBLE] = Wrapper.DOUBLE;
-        FROM_TYPE_SORT[Type.BOOLEAN] = Wrapper.BOOLEAN;
+        FROM_TYPE_SORT[Type.BYTE] = Wrbpper.BYTE;
+        FROM_TYPE_SORT[Type.SHORT] = Wrbpper.SHORT;
+        FROM_TYPE_SORT[Type.INT] = Wrbpper.INT;
+        FROM_TYPE_SORT[Type.LONG] = Wrbpper.LONG;
+        FROM_TYPE_SORT[Type.CHAR] = Wrbpper.CHAR;
+        FROM_TYPE_SORT[Type.FLOAT] = Wrbpper.FLOAT;
+        FROM_TYPE_SORT[Type.DOUBLE] = Wrbpper.DOUBLE;
+        FROM_TYPE_SORT[Type.BOOLEAN] = Wrbpper.BOOLEAN;
     }
 
-    private static void initWidening(Wrapper to, int opcode, Wrapper... from) {
-        for (Wrapper f : from) {
-            wideningOpcodes[f.ordinal()][to.ordinal()] = opcode;
+    privbte stbtic void initWidening(Wrbpper to, int opcode, Wrbpper... from) {
+        for (Wrbpper f : from) {
+            wideningOpcodes[f.ordinbl()][to.ordinbl()] = opcode;
         }
     }
 
     /**
-     * Class name to Wrapper hash, derived from Wrapper.hashWrap()
-     * @param xn
-     * @return The hash code 0-15
+     * Clbss nbme to Wrbpper hbsh, derived from Wrbpper.hbshWrbp()
+     * @pbrbm xn
+     * @return The hbsh code 0-15
      */
-    private static int hashWrapperName(String xn) {
+    privbte stbtic int hbshWrbpperNbme(String xn) {
         if (xn.length() < 3) {
             return 0;
         }
-        return (3 * xn.charAt(1) + xn.charAt(2)) % 16;
+        return (3 * xn.chbrAt(1) + xn.chbrAt(2)) % 16;
     }
 
-    private Wrapper wrapperOrNullFromDescriptor(String desc) {
-        if (!desc.startsWith(WRAPPER_PREFIX)) {
-            // Not a class type (array or method), so not a boxed type
-            // or not in the right package
+    privbte Wrbpper wrbpperOrNullFromDescriptor(String desc) {
+        if (!desc.stbrtsWith(WRAPPER_PREFIX)) {
+            // Not b clbss type (brrby or method), so not b boxed type
+            // or not in the right pbckbge
             return null;
         }
-        // Pare it down to the simple class name
-        String cname = desc.substring(WRAPPER_PREFIX.length(), desc.length() - 1);
-        // Hash to a Wrapper
-        Wrapper w = FROM_WRAPPER_NAME[hashWrapperName(cname)];
-        if (w == null || w.wrapperSimpleName().equals(cname)) {
+        // Pbre it down to the simple clbss nbme
+        String cnbme = desc.substring(WRAPPER_PREFIX.length(), desc.length() - 1);
+        // Hbsh to b Wrbpper
+        Wrbpper w = FROM_WRAPPER_NAME[hbshWrbpperNbme(cnbme)];
+        if (w == null || w.wrbpperSimpleNbme().equbls(cnbme)) {
             return w;
         } else {
             return null;
         }
     }
 
-    private static String wrapperName(Wrapper w) {
-        return "java/lang/" + w.wrapperSimpleName();
+    privbte stbtic String wrbpperNbme(Wrbpper w) {
+        return "jbvb/lbng/" + w.wrbpperSimpleNbme();
     }
 
-    private static String unboxMethod(Wrapper w) {
-        return w.primitiveSimpleName() + "Value";
+    privbte stbtic String unboxMethod(Wrbpper w) {
+        return w.primitiveSimpleNbme() + "Vblue";
     }
 
-    private static String boxingDescriptor(Wrapper w) {
-        return String.format("(%s)L%s;", w.basicTypeChar(), wrapperName(w));
+    privbte stbtic String boxingDescriptor(Wrbpper w) {
+        return String.formbt("(%s)L%s;", w.bbsicTypeChbr(), wrbpperNbme(w));
     }
 
-    private static String unboxingDescriptor(Wrapper w) {
-        return "()" + w.basicTypeChar();
+    privbte stbtic String unboxingDescriptor(Wrbpper w) {
+        return "()" + w.bbsicTypeChbr();
     }
 
     void boxIfTypePrimitive(Type t) {
-        Wrapper w = FROM_TYPE_SORT[t.getSort()];
+        Wrbpper w = FROM_TYPE_SORT[t.getSort()];
         if (w != null) {
             box(w);
         }
     }
 
-    void widen(Wrapper ws, Wrapper wt) {
+    void widen(Wrbpper ws, Wrbpper wt) {
         if (ws != wt) {
-            int opcode = wideningOpcodes[ws.ordinal()][wt.ordinal()];
+            int opcode = wideningOpcodes[ws.ordinbl()][wt.ordinbl()];
             if (opcode != Opcodes.NOP) {
                 visitInsn(opcode);
             }
         }
     }
 
-    void box(Wrapper w) {
+    void box(Wrbpper w) {
         visitMethodInsn(Opcodes.INVOKESTATIC,
-                wrapperName(w),
+                wrbpperNbme(w),
                 NAME_BOX_METHOD,
-                boxingDescriptor(w), false);
+                boxingDescriptor(w), fblse);
     }
 
     /**
-     * Convert types by unboxing. The source type is known to be a primitive wrapper.
-     * @param sname A primitive wrapper corresponding to wrapped reference source type
-     * @param wt A primitive wrapper being converted to
+     * Convert types by unboxing. The source type is known to be b primitive wrbpper.
+     * @pbrbm snbme A primitive wrbpper corresponding to wrbpped reference source type
+     * @pbrbm wt A primitive wrbpper being converted to
      */
-    void unbox(String sname, Wrapper wt) {
+    void unbox(String snbme, Wrbpper wt) {
         visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                sname,
+                snbme,
                 unboxMethod(wt),
-                unboxingDescriptor(wt), false);
+                unboxingDescriptor(wt), fblse);
     }
 
-    private String descriptorToName(String desc) {
-        int last = desc.length() - 1;
-        if (desc.charAt(0) == 'L' && desc.charAt(last) == ';') {
+    privbte String descriptorToNbme(String desc) {
+        int lbst = desc.length() - 1;
+        if (desc.chbrAt(0) == 'L' && desc.chbrAt(lbst) == ';') {
             // In descriptor form
-            return desc.substring(1, last);
+            return desc.substring(1, lbst);
         } else {
-            // Already in internal name form
+            // Alrebdy in internbl nbme form
             return desc;
         }
     }
 
-    void cast(String ds, String dt) {
-        String ns = descriptorToName(ds);
-        String nt = descriptorToName(dt);
-        if (!nt.equals(ns) && !nt.equals(NAME_OBJECT)) {
+    void cbst(String ds, String dt) {
+        String ns = descriptorToNbme(ds);
+        String nt = descriptorToNbme(dt);
+        if (!nt.equbls(ns) && !nt.equbls(NAME_OBJECT)) {
             visitTypeInsn(Opcodes.CHECKCAST, nt);
         }
     }
 
-    private boolean isPrimitive(Wrapper w) {
+    privbte boolebn isPrimitive(Wrbpper w) {
         return w != OBJECT;
     }
 
-    private Wrapper toWrapper(String desc) {
-        char first = desc.charAt(0);
+    privbte Wrbpper toWrbpper(String desc) {
+        chbr first = desc.chbrAt(0);
         if (first == '[' || first == '(') {
             first = 'L';
         }
-        return Wrapper.forBasicType(first);
+        return Wrbpper.forBbsicType(first);
     }
 
     /**
-     * Convert an argument of type 'arg' to be passed to 'target' assuring that it is 'functional'.
+     * Convert bn brgument of type 'brg' to be pbssed to 'tbrget' bssuring thbt it is 'functionbl'.
      * Insert the needed conversion instructions in the method code.
-     * @param arg
-     * @param target
-     * @param functional
+     * @pbrbm brg
+     * @pbrbm tbrget
+     * @pbrbm functionbl
      */
-    void convertType(Class<?> arg, Class<?> target, Class<?> functional) {
-        if (arg.equals(target) && arg.equals(functional)) {
+    void convertType(Clbss<?> brg, Clbss<?> tbrget, Clbss<?> functionbl) {
+        if (brg.equbls(tbrget) && brg.equbls(functionbl)) {
             return;
         }
-        if (arg == Void.TYPE || target == Void.TYPE) {
+        if (brg == Void.TYPE || tbrget == Void.TYPE) {
             return;
         }
-        if (arg.isPrimitive()) {
-            Wrapper wArg = Wrapper.forPrimitiveType(arg);
-            if (target.isPrimitive()) {
+        if (brg.isPrimitive()) {
+            Wrbpper wArg = Wrbpper.forPrimitiveType(brg);
+            if (tbrget.isPrimitive()) {
                 // Both primitives: widening
-                widen(wArg, Wrapper.forPrimitiveType(target));
+                widen(wArg, Wrbpper.forPrimitiveType(tbrget));
             } else {
-                // Primitive argument to reference target
-                String dTarget = BytecodeDescriptor.unparse(target);
-                Wrapper wPrimTarget = wrapperOrNullFromDescriptor(dTarget);
-                if (wPrimTarget != null) {
-                    // The target is a boxed primitive type, widen to get there before boxing
-                    widen(wArg, wPrimTarget);
-                    box(wPrimTarget);
+                // Primitive brgument to reference tbrget
+                String dTbrget = BytecodeDescriptor.unpbrse(tbrget);
+                Wrbpper wPrimTbrget = wrbpperOrNullFromDescriptor(dTbrget);
+                if (wPrimTbrget != null) {
+                    // The tbrget is b boxed primitive type, widen to get there before boxing
+                    widen(wArg, wPrimTbrget);
+                    box(wPrimTbrget);
                 } else {
-                    // Otherwise, box and cast
+                    // Otherwise, box bnd cbst
                     box(wArg);
-                    cast(wrapperName(wArg), dTarget);
+                    cbst(wrbpperNbme(wArg), dTbrget);
                 }
             }
         } else {
-            String dArg = BytecodeDescriptor.unparse(arg);
+            String dArg = BytecodeDescriptor.unpbrse(brg);
             String dSrc;
-            if (functional.isPrimitive()) {
+            if (functionbl.isPrimitive()) {
                 dSrc = dArg;
             } else {
-                // Cast to convert to possibly more specific type, and generate CCE for invalid arg
-                dSrc = BytecodeDescriptor.unparse(functional);
-                cast(dArg, dSrc);
+                // Cbst to convert to possibly more specific type, bnd generbte CCE for invblid brg
+                dSrc = BytecodeDescriptor.unpbrse(functionbl);
+                cbst(dArg, dSrc);
             }
-            String dTarget = BytecodeDescriptor.unparse(target);
-            if (target.isPrimitive()) {
-                Wrapper wTarget = toWrapper(dTarget);
-                // Reference argument to primitive target
-                Wrapper wps = wrapperOrNullFromDescriptor(dSrc);
+            String dTbrget = BytecodeDescriptor.unpbrse(tbrget);
+            if (tbrget.isPrimitive()) {
+                Wrbpper wTbrget = toWrbpper(dTbrget);
+                // Reference brgument to primitive tbrget
+                Wrbpper wps = wrbpperOrNullFromDescriptor(dSrc);
                 if (wps != null) {
-                    if (wps.isSigned() || wps.isFloating()) {
+                    if (wps.isSigned() || wps.isFlobting()) {
                         // Boxed number to primitive
-                        unbox(wrapperName(wps), wTarget);
+                        unbox(wrbpperNbme(wps), wTbrget);
                     } else {
-                        // Character or Boolean
-                        unbox(wrapperName(wps), wps);
-                        widen(wps, wTarget);
+                        // Chbrbcter or Boolebn
+                        unbox(wrbpperNbme(wps), wps);
+                        widen(wps, wTbrget);
                     }
                 } else {
                     // Source type is reference type, but not boxed type,
-                    // assume it is super type of target type
-                    String intermediate;
-                    if (wTarget.isSigned() || wTarget.isFloating()) {
+                    // bssume it is super type of tbrget type
+                    String intermedibte;
+                    if (wTbrget.isSigned() || wTbrget.isFlobting()) {
                         // Boxed number to primitive
-                        intermediate = "java/lang/Number";
+                        intermedibte = "jbvb/lbng/Number";
                     } else {
-                        // Character or Boolean
-                        intermediate = wrapperName(wTarget);
+                        // Chbrbcter or Boolebn
+                        intermedibte = wrbpperNbme(wTbrget);
                     }
-                    cast(dSrc, intermediate);
-                    unbox(intermediate, wTarget);
+                    cbst(dSrc, intermedibte);
+                    unbox(intermedibte, wTbrget);
                 }
             } else {
-                // Both reference types: just case to target type
-                cast(dSrc, dTarget);
+                // Both reference types: just cbse to tbrget type
+                cbst(dSrc, dTbrget);
             }
         }
     }
 
     /**
      * The following method is copied from
-     * org.objectweb.asm.commons.InstructionAdapter. Part of ASM: a very small
-     * and fast Java bytecode manipulation framework.
-     * Copyright (c) 2000-2005 INRIA, France Telecom All rights reserved.
+     * org.objectweb.bsm.commons.InstructionAdbpter. Pbrt of ASM: b very smbll
+     * bnd fbst Jbvb bytecode mbnipulbtion frbmework.
+     * Copyright (c) 2000-2005 INRIA, Frbnce Telecom All rights reserved.
      */
-    void iconst(final int cst) {
+    void iconst(finbl int cst) {
         if (cst >= -1 && cst <= 5) {
             mv.visitInsn(Opcodes.ICONST_0 + cst);
         } else if (cst >= Byte.MIN_VALUE && cst <= Byte.MAX_VALUE) {

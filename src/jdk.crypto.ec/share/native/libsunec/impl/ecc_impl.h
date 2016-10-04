@@ -1,38 +1,38 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * The Originbl Code is the Netscbpe security librbries.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * The Initibl Developer of the Originbl Code is
+ * Netscbpe Communicbtions Corporbtion.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 1994-2000
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Dr Vipul Gupta <vipul.gupta@sun.com> and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Dr Vipul Guptb <vipul.guptb@sun.com> bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -47,14 +47,14 @@ extern "C" {
 #include "ecl-exp.h"
 
 /*
- * Multi-platform definitions
+ * Multi-plbtform definitions
  */
 #ifdef __linux__
 #define B_FALSE FALSE
 #define B_TRUE TRUE
-typedef unsigned char uint8_t;
+typedef unsigned chbr uint8_t;
 typedef unsigned long ulong_t;
-typedef enum { B_FALSE, B_TRUE } boolean_t;
+typedef enum { B_FALSE, B_TRUE } boolebn_t;
 #endif /* __linux__ */
 
 #ifdef _ALLBSD_SOURCE
@@ -62,62 +62,62 @@ typedef enum { B_FALSE, B_TRUE } boolean_t;
 #define B_FALSE FALSE
 #define B_TRUE TRUE
 typedef unsigned long ulong_t;
-typedef enum boolean { B_FALSE, B_TRUE } boolean_t;
+typedef enum boolebn { B_FALSE, B_TRUE } boolebn_t;
 #endif /* _ALLBSD_SOURCE */
 
 #ifdef AIX
 #define B_FALSE FALSE
 #define B_TRUE TRUE
-typedef unsigned char uint8_t;
+typedef unsigned chbr uint8_t;
 typedef unsigned long ulong_t;
 #endif /* AIX */
 
 #ifdef _WIN32
-typedef unsigned char uint8_t;
+typedef unsigned chbr uint8_t;
 typedef unsigned long ulong_t;
-typedef enum boolean { B_FALSE, B_TRUE } boolean_t;
-#define strdup _strdup          /* Replace POSIX name with ISO C++ name */
+typedef enum boolebn { B_FALSE, B_TRUE } boolebn_t;
+#define strdup _strdup          /* Replbce POSIX nbme with ISO C++ nbme */
 #endif /* _WIN32 */
 
 #ifndef _KERNEL
 #include <stdlib.h>
 #endif  /* _KERNEL */
 
-#define EC_MAX_DIGEST_LEN 1024  /* max digest that can be signed */
-#define EC_MAX_POINT_LEN 145    /* max len of DER encoded Q */
-#define EC_MAX_VALUE_LEN 72     /* max len of ANSI X9.62 private value d */
-#define EC_MAX_SIG_LEN 144      /* max signature len for supported curves */
+#define EC_MAX_DIGEST_LEN 1024  /* mbx digest thbt cbn be signed */
+#define EC_MAX_POINT_LEN 145    /* mbx len of DER encoded Q */
+#define EC_MAX_VALUE_LEN 72     /* mbx len of ANSI X9.62 privbte vblue d */
+#define EC_MAX_SIG_LEN 144      /* mbx signbture len for supported curves */
 #define EC_MIN_KEY_LEN  112     /* min key length in bits */
-#define EC_MAX_KEY_LEN  571     /* max key length in bits */
-#define EC_MAX_OID_LEN 10       /* max length of OID buffer */
+#define EC_MAX_KEY_LEN  571     /* mbx key length in bits */
+#define EC_MAX_OID_LEN 10       /* mbx length of OID buffer */
 
 /*
- * Various structures and definitions from NSS are here.
+ * Vbrious structures bnd definitions from NSS bre here.
  */
 
 #ifdef _KERNEL
-#define PORT_ArenaAlloc(a, n, f)        kmem_alloc((n), (f))
-#define PORT_ArenaZAlloc(a, n, f)       kmem_zalloc((n), (f))
-#define PORT_ArenaGrow(a, b, c, d)      NULL
-#define PORT_ZAlloc(n, f)               kmem_zalloc((n), (f))
-#define PORT_Alloc(n, f)                kmem_alloc((n), (f))
+#define PORT_ArenbAlloc(b, n, f)        kmem_blloc((n), (f))
+#define PORT_ArenbZAlloc(b, n, f)       kmem_zblloc((n), (f))
+#define PORT_ArenbGrow(b, b, c, d)      NULL
+#define PORT_ZAlloc(n, f)               kmem_zblloc((n), (f))
+#define PORT_Alloc(n, f)                kmem_blloc((n), (f))
 #else
-#define PORT_ArenaAlloc(a, n, f)        malloc((n))
-#define PORT_ArenaZAlloc(a, n, f)       calloc(1, (n))
-#define PORT_ArenaGrow(a, b, c, d)      NULL
-#define PORT_ZAlloc(n, f)               calloc(1, (n))
-#define PORT_Alloc(n, f)                malloc((n))
+#define PORT_ArenbAlloc(b, n, f)        mblloc((n))
+#define PORT_ArenbZAlloc(b, n, f)       cblloc(1, (n))
+#define PORT_ArenbGrow(b, b, c, d)      NULL
+#define PORT_ZAlloc(n, f)               cblloc(1, (n))
+#define PORT_Alloc(n, f)                mblloc((n))
 #endif
 
-#define PORT_NewArena(b)                (char *)12345
-#define PORT_ArenaMark(a)               NULL
-#define PORT_ArenaUnmark(a, b)
-#define PORT_ArenaRelease(a, m)
-#define PORT_FreeArena(a, b)
+#define PORT_NewArenb(b)                (chbr *)12345
+#define PORT_ArenbMbrk(b)               NULL
+#define PORT_ArenbUnmbrk(b, b)
+#define PORT_ArenbRelebse(b, m)
+#define PORT_FreeArenb(b, b)
 #define PORT_Strlen(s)                  strlen((s))
 #define PORT_SetError(e)
 
-#define PRBool                          boolean_t
+#define PRBool                          boolebn_t
 #define PR_TRUE                         B_TRUE
 #define PR_FALSE                        B_FALSE
 
@@ -125,42 +125,42 @@ typedef enum boolean { B_FALSE, B_TRUE } boolean_t;
 #define PORT_Assert                     ASSERT
 #define PORT_Memcpy(t, f, l)            bcopy((f), (t), (l))
 #else
-#define PORT_Assert                     assert
+#define PORT_Assert                     bssert
 #define PORT_Memcpy(t, f, l)            memcpy((t), (f), (l))
 #endif
 
-#define CHECK_OK(func) if (func == NULL) goto cleanup
-#define CHECK_SEC_OK(func) if (SECSuccess != (rv = func)) goto cleanup
+#define CHECK_OK(func) if (func == NULL) goto clebnup
+#define CHECK_SEC_OK(func) if (SECSuccess != (rv = func)) goto clebnup
 
 typedef enum {
         siBuffer = 0,
-        siClearDataBuffer = 1,
-        siCipherDataBuffer = 2,
+        siClebrDbtbBuffer = 1,
+        siCipherDbtbBuffer = 2,
         siDERCertBuffer = 3,
         siEncodedCertBuffer = 4,
-        siDERNameBuffer = 5,
-        siEncodedNameBuffer = 6,
-        siAsciiNameString = 7,
+        siDERNbmeBuffer = 5,
+        siEncodedNbmeBuffer = 6,
+        siAsciiNbmeString = 7,
         siAsciiString = 8,
         siDEROID = 9,
         siUnsignedInteger = 10,
         siUTCTime = 11,
-        siGeneralizedTime = 12
+        siGenerblizedTime = 12
 } SECItemType;
 
 typedef struct SECItemStr SECItem;
 
 struct SECItemStr {
         SECItemType type;
-        unsigned char *data;
+        unsigned chbr *dbtb;
         unsigned int len;
 };
 
-typedef SECItem SECKEYECParams;
+typedef SECItem SECKEYECPbrbms;
 
-typedef enum { ec_params_explicit,
-               ec_params_named
-} ECParamsType;
+typedef enum { ec_pbrbms_explicit,
+               ec_pbrbms_nbmed
+} ECPbrbmsType;
 
 typedef enum { ec_field_GFp = 1,
                ec_field_GF2m
@@ -171,18 +171,18 @@ struct ECFieldIDStr {
     ECFieldType type;
     union {
         SECItem  prime; /* prime p for (GFp) */
-        SECItem  poly;  /* irreducible binary polynomial for (GF2m) */
+        SECItem  poly;  /* irreducible binbry polynomibl for (GF2m) */
     } u;
-    int         k1;     /* first coefficient of pentanomial or
-                         * the only coefficient of trinomial
+    int         k1;     /* first coefficient of pentbnomibl or
+                         * the only coefficient of trinomibl
                          */
-    int         k2;     /* two remaining coefficients of pentanomial */
+    int         k2;     /* two rembining coefficients of pentbnomibl */
     int         k3;
 };
 typedef struct ECFieldIDStr ECFieldID;
 
 struct ECCurveStr {
-        SECItem a;      /* contains octet stream encoding of
+        SECItem b;      /* contbins octet strebm encoding of
                          * field element (X9.62 section 4.3.3)
                          */
         SECItem b;
@@ -190,77 +190,77 @@ struct ECCurveStr {
 };
 typedef struct ECCurveStr ECCurve;
 
-typedef void PRArenaPool;
+typedef void PRArenbPool;
 
-struct ECParamsStr {
-    PRArenaPool * arena;
-    ECParamsType  type;
+struct ECPbrbmsStr {
+    PRArenbPool * brenb;
+    ECPbrbmsType  type;
     ECFieldID     fieldID;
     ECCurve       curve;
-    SECItem       base;
+    SECItem       bbse;
     SECItem       order;
-    int           cofactor;
+    int           cofbctor;
     SECItem       DEREncoding;
-    ECCurveName   name;
+    ECCurveNbme   nbme;
     SECItem       curveOID;
 };
-typedef struct ECParamsStr ECParams;
+typedef struct ECPbrbmsStr ECPbrbms;
 
 struct ECPublicKeyStr {
-    ECParams ecParams;
-    SECItem publicValue;   /* elliptic curve point encoded as
-                            * octet stream.
+    ECPbrbms ecPbrbms;
+    SECItem publicVblue;   /* elliptic curve point encoded bs
+                            * octet strebm.
                             */
 };
 typedef struct ECPublicKeyStr ECPublicKey;
 
-struct ECPrivateKeyStr {
-    ECParams ecParams;
-    SECItem publicValue;   /* encoded ec point */
-    SECItem privateValue;  /* private big integer */
+struct ECPrivbteKeyStr {
+    ECPbrbms ecPbrbms;
+    SECItem publicVblue;   /* encoded ec point */
+    SECItem privbteVblue;  /* privbte big integer */
     SECItem version;       /* As per SEC 1, Appendix C, Section C.4 */
 };
-typedef struct ECPrivateKeyStr ECPrivateKey;
+typedef struct ECPrivbteKeyStr ECPrivbteKey;
 
-typedef enum _SECStatus {
-        SECBufferTooSmall = -3,
+typedef enum _SECStbtus {
+        SECBufferTooSmbll = -3,
         SECWouldBlock = -2,
-        SECFailure = -1,
+        SECFbilure = -1,
         SECSuccess = 0
-} SECStatus;
+} SECStbtus;
 
 #ifdef _KERNEL
-#define RNG_GenerateGlobalRandomBytes(p,l) ecc_knzero_random_generator((p), (l))
+#define RNG_GenerbteGlobblRbndomBytes(p,l) ecc_knzero_rbndom_generbtor((p), (l))
 #else
 /*
- This function is no longer required because the random bytes are now
- supplied by the caller. Force a failure.
+ This function is no longer required becbuse the rbndom bytes bre now
+ supplied by the cbller. Force b fbilure.
 */
-#define RNG_GenerateGlobalRandomBytes(p,l) SECFailure
+#define RNG_GenerbteGlobblRbndomBytes(p,l) SECFbilure
 #endif
-#define CHECK_MPI_OK(func) if (MP_OKAY > (err = func)) goto cleanup
+#define CHECK_MPI_OK(func) if (MP_OKAY > (err = func)) goto clebnup
 #define MP_TO_SEC_ERROR(err)
 
 #define SECITEM_TO_MPINT(it, mp)                                        \
-        CHECK_MPI_OK(mp_read_unsigned_octets((mp), (it).data, (it).len))
+        CHECK_MPI_OK(mp_rebd_unsigned_octets((mp), (it).dbtb, (it).len))
 
-extern int ecc_knzero_random_generator(uint8_t *, size_t);
-extern ulong_t soft_nzero_random_generator(uint8_t *, ulong_t);
+extern int ecc_knzero_rbndom_generbtor(uint8_t *, size_t);
+extern ulong_t soft_nzero_rbndom_generbtor(uint8_t *, ulong_t);
 
-extern SECStatus EC_DecodeParams(const SECItem *, ECParams **, int);
-extern SECItem * SECITEM_AllocItem(PRArenaPool *, SECItem *, unsigned int, int);
-extern SECStatus SECITEM_CopyItem(PRArenaPool *, SECItem *, const SECItem *,
+extern SECStbtus EC_DecodePbrbms(const SECItem *, ECPbrbms **, int);
+extern SECItem * SECITEM_AllocItem(PRArenbPool *, SECItem *, unsigned int, int);
+extern SECStbtus SECITEM_CopyItem(PRArenbPool *, SECItem *, const SECItem *,
     int);
-extern void SECITEM_FreeItem(SECItem *, boolean_t);
-/* This function has been modified to accept an array of random bytes */
-extern SECStatus EC_NewKey(ECParams *ecParams, ECPrivateKey **privKey,
-    const unsigned char* random, int randomlen, int);
-/* This function has been modified to accept an array of random bytes */
-extern SECStatus ECDSA_SignDigest(ECPrivateKey *, SECItem *, const SECItem *,
-    const unsigned char* random, int randomlen, int);
-extern SECStatus ECDSA_VerifyDigest(ECPublicKey *, const SECItem *,
+extern void SECITEM_FreeItem(SECItem *, boolebn_t);
+/* This function hbs been modified to bccept bn brrby of rbndom bytes */
+extern SECStbtus EC_NewKey(ECPbrbms *ecPbrbms, ECPrivbteKey **privKey,
+    const unsigned chbr* rbndom, int rbndomlen, int);
+/* This function hbs been modified to bccept bn brrby of rbndom bytes */
+extern SECStbtus ECDSA_SignDigest(ECPrivbteKey *, SECItem *, const SECItem *,
+    const unsigned chbr* rbndom, int rbndomlen, int);
+extern SECStbtus ECDSA_VerifyDigest(ECPublicKey *, const SECItem *,
     const SECItem *, int);
-extern SECStatus ECDH_Derive(SECItem *, ECParams *, SECItem *, boolean_t,
+extern SECStbtus ECDH_Derive(SECItem *, ECPbrbms *, SECItem *, boolebn_t,
     SECItem *, int);
 
 #ifdef  __cplusplus

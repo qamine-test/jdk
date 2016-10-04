@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 /**
- * This class represents a datagram packet.
+ * This clbss represents b dbtbgrbm pbcket.
  * <p>
- * Datagram packets are used to implement a connectionless packet
- * delivery service. Each message is routed from one machine to
- * another based solely on information contained within that packet.
- * Multiple packets sent from one machine to another might be routed
- * differently, and might arrive in any order. Packet delivery is
- * not guaranteed.
+ * Dbtbgrbm pbckets bre used to implement b connectionless pbcket
+ * delivery service. Ebch messbge is routed from one mbchine to
+ * bnother bbsed solely on informbtion contbined within thbt pbcket.
+ * Multiple pbckets sent from one mbchine to bnother might be routed
+ * differently, bnd might brrive in bny order. Pbcket delivery is
+ * not gubrbnteed.
  *
- * @author  Pavani Diwanji
- * @author  Benjamin Renaud
+ * @buthor  Pbvbni Diwbnji
+ * @buthor  Benjbmin Renbud
  * @since   1.0
  */
-public final
-class DatagramPacket {
+public finbl
+clbss DbtbgrbmPbcket {
 
     /**
-     * Perform class initialization
+     * Perform clbss initiblizbtion
      */
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
@@ -57,146 +57,146 @@ class DatagramPacket {
     }
 
     /*
-     * The fields of this class are package-private since DatagramSocketImpl
-     * classes needs to access them.
+     * The fields of this clbss bre pbckbge-privbte since DbtbgrbmSocketImpl
+     * clbsses needs to bccess them.
      */
     byte[] buf;
     int offset;
     int length;
     int bufLength;
-    InetAddress address;
+    InetAddress bddress;
     int port;
 
     /**
-     * Constructs a {@code DatagramPacket} for receiving packets of
-     * length {@code length}, specifying an offset into the buffer.
+     * Constructs b {@code DbtbgrbmPbcket} for receiving pbckets of
+     * length {@code length}, specifying bn offset into the buffer.
      * <p>
-     * The {@code length} argument must be less than or equal to
+     * The {@code length} brgument must be less thbn or equbl to
      * {@code buf.length}.
      *
-     * @param   buf      buffer for holding the incoming datagram.
-     * @param   offset   the offset for the buffer
-     * @param   length   the number of bytes to read.
+     * @pbrbm   buf      buffer for holding the incoming dbtbgrbm.
+     * @pbrbm   offset   the offset for the buffer
+     * @pbrbm   length   the number of bytes to rebd.
      *
      * @since 1.2
      */
-    public DatagramPacket(byte buf[], int offset, int length) {
-        setData(buf, offset, length);
-        this.address = null;
+    public DbtbgrbmPbcket(byte buf[], int offset, int length) {
+        setDbtb(buf, offset, length);
+        this.bddress = null;
         this.port = -1;
     }
 
     /**
-     * Constructs a {@code DatagramPacket} for receiving packets of
+     * Constructs b {@code DbtbgrbmPbcket} for receiving pbckets of
      * length {@code length}.
      * <p>
-     * The {@code length} argument must be less than or equal to
+     * The {@code length} brgument must be less thbn or equbl to
      * {@code buf.length}.
      *
-     * @param   buf      buffer for holding the incoming datagram.
-     * @param   length   the number of bytes to read.
+     * @pbrbm   buf      buffer for holding the incoming dbtbgrbm.
+     * @pbrbm   length   the number of bytes to rebd.
      */
-    public DatagramPacket(byte buf[], int length) {
+    public DbtbgrbmPbcket(byte buf[], int length) {
         this (buf, 0, length);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
+     * Constructs b dbtbgrbm pbcket for sending pbckets of length
      * {@code length} with offset {@code ioffset}to the
      * specified port number on the specified host. The
-     * {@code length} argument must be less than or equal to
+     * {@code length} brgument must be less thbn or equbl to
      * {@code buf.length}.
      *
-     * @param   buf      the packet data.
-     * @param   offset   the packet data offset.
-     * @param   length   the packet data length.
-     * @param   address  the destination address.
-     * @param   port     the destination port number.
-     * @see java.net.InetAddress
+     * @pbrbm   buf      the pbcket dbtb.
+     * @pbrbm   offset   the pbcket dbtb offset.
+     * @pbrbm   length   the pbcket dbtb length.
+     * @pbrbm   bddress  the destinbtion bddress.
+     * @pbrbm   port     the destinbtion port number.
+     * @see jbvb.net.InetAddress
      *
      * @since 1.2
      */
-    public DatagramPacket(byte buf[], int offset, int length,
-                          InetAddress address, int port) {
-        setData(buf, offset, length);
-        setAddress(address);
+    public DbtbgrbmPbcket(byte buf[], int offset, int length,
+                          InetAddress bddress, int port) {
+        setDbtb(buf, offset, length);
+        setAddress(bddress);
         setPort(port);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
+     * Constructs b dbtbgrbm pbcket for sending pbckets of length
      * {@code length} with offset {@code ioffset}to the
      * specified port number on the specified host. The
-     * {@code length} argument must be less than or equal to
+     * {@code length} brgument must be less thbn or equbl to
      * {@code buf.length}.
      *
-     * @param   buf      the packet data.
-     * @param   offset   the packet data offset.
-     * @param   length   the packet data length.
-     * @param   address  the destination socket address.
-     * @throws  IllegalArgumentException if address type is not supported
-     * @see java.net.InetAddress
+     * @pbrbm   buf      the pbcket dbtb.
+     * @pbrbm   offset   the pbcket dbtb offset.
+     * @pbrbm   length   the pbcket dbtb length.
+     * @pbrbm   bddress  the destinbtion socket bddress.
+     * @throws  IllegblArgumentException if bddress type is not supported
+     * @see jbvb.net.InetAddress
      *
      * @since 1.4
      */
-    public DatagramPacket(byte buf[], int offset, int length, SocketAddress address) {
-        setData(buf, offset, length);
-        setSocketAddress(address);
+    public DbtbgrbmPbcket(byte buf[], int offset, int length, SocketAddress bddress) {
+        setDbtb(buf, offset, length);
+        setSocketAddress(bddress);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
+     * Constructs b dbtbgrbm pbcket for sending pbckets of length
      * {@code length} to the specified port number on the specified
-     * host. The {@code length} argument must be less than or equal
+     * host. The {@code length} brgument must be less thbn or equbl
      * to {@code buf.length}.
      *
-     * @param   buf      the packet data.
-     * @param   length   the packet length.
-     * @param   address  the destination address.
-     * @param   port     the destination port number.
-     * @see     java.net.InetAddress
+     * @pbrbm   buf      the pbcket dbtb.
+     * @pbrbm   length   the pbcket length.
+     * @pbrbm   bddress  the destinbtion bddress.
+     * @pbrbm   port     the destinbtion port number.
+     * @see     jbvb.net.InetAddress
      */
-    public DatagramPacket(byte buf[], int length,
-                          InetAddress address, int port) {
-        this(buf, 0, length, address, port);
+    public DbtbgrbmPbcket(byte buf[], int length,
+                          InetAddress bddress, int port) {
+        this(buf, 0, length, bddress, port);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
+     * Constructs b dbtbgrbm pbcket for sending pbckets of length
      * {@code length} to the specified port number on the specified
-     * host. The {@code length} argument must be less than or equal
+     * host. The {@code length} brgument must be less thbn or equbl
      * to {@code buf.length}.
      *
-     * @param   buf      the packet data.
-     * @param   length   the packet length.
-     * @param   address  the destination address.
-     * @throws  IllegalArgumentException if address type is not supported
+     * @pbrbm   buf      the pbcket dbtb.
+     * @pbrbm   length   the pbcket length.
+     * @pbrbm   bddress  the destinbtion bddress.
+     * @throws  IllegblArgumentException if bddress type is not supported
      * @since 1.4
-     * @see     java.net.InetAddress
+     * @see     jbvb.net.InetAddress
      */
-    public DatagramPacket(byte buf[], int length, SocketAddress address) {
-        this(buf, 0, length, address);
+    public DbtbgrbmPbcket(byte buf[], int length, SocketAddress bddress) {
+        this(buf, 0, length, bddress);
     }
 
     /**
-     * Returns the IP address of the machine to which this datagram is being
-     * sent or from which the datagram was received.
+     * Returns the IP bddress of the mbchine to which this dbtbgrbm is being
+     * sent or from which the dbtbgrbm wbs received.
      *
-     * @return  the IP address of the machine to which this datagram is being
-     *          sent or from which the datagram was received.
-     * @see     java.net.InetAddress
-     * @see #setAddress(java.net.InetAddress)
+     * @return  the IP bddress of the mbchine to which this dbtbgrbm is being
+     *          sent or from which the dbtbgrbm wbs received.
+     * @see     jbvb.net.InetAddress
+     * @see #setAddress(jbvb.net.InetAddress)
      */
     public synchronized InetAddress getAddress() {
-        return address;
+        return bddress;
     }
 
     /**
-     * Returns the port number on the remote host to which this datagram is
-     * being sent or from which the datagram was received.
+     * Returns the port number on the remote host to which this dbtbgrbm is
+     * being sent or from which the dbtbgrbm wbs received.
      *
-     * @return  the port number on the remote host to which this datagram is
-     *          being sent or from which the datagram was received.
+     * @return  the port number on the remote host to which this dbtbgrbm is
+     *          being sent or from which the dbtbgrbm wbs received.
      * @see #setPort(int)
      */
     public synchronized int getPort() {
@@ -204,23 +204,23 @@ class DatagramPacket {
     }
 
     /**
-     * Returns the data buffer. The data received or the data to be sent
-     * starts from the {@code offset} in the buffer,
-     * and runs for {@code length} long.
+     * Returns the dbtb buffer. The dbtb received or the dbtb to be sent
+     * stbrts from the {@code offset} in the buffer,
+     * bnd runs for {@code length} long.
      *
-     * @return  the buffer used to receive or  send data
-     * @see #setData(byte[], int, int)
+     * @return  the buffer used to receive or  send dbtb
+     * @see #setDbtb(byte[], int, int)
      */
-    public synchronized byte[] getData() {
+    public synchronized byte[] getDbtb() {
         return buf;
     }
 
     /**
-     * Returns the offset of the data to be sent or the offset of the
-     * data received.
+     * Returns the offset of the dbtb to be sent or the offset of the
+     * dbtb received.
      *
-     * @return  the offset of the data to be sent or the offset of the
-     *          data received.
+     * @return  the offset of the dbtb to be sent or the offset of the
+     *          dbtb received.
      *
      * @since 1.2
      */
@@ -229,11 +229,11 @@ class DatagramPacket {
     }
 
     /**
-     * Returns the length of the data to be sent or the length of the
-     * data received.
+     * Returns the length of the dbtb to be sent or the length of the
+     * dbtb received.
      *
-     * @return  the length of the data to be sent or the length of the
-     *          data received.
+     * @return  the length of the dbtb to be sent or the length of the
+     *          dbtb received.
      * @see #setLength(int)
      */
     public synchronized int getLength() {
@@ -241,30 +241,30 @@ class DatagramPacket {
     }
 
     /**
-     * Set the data buffer for this packet. This sets the
-     * data, length and offset of the packet.
+     * Set the dbtb buffer for this pbcket. This sets the
+     * dbtb, length bnd offset of the pbcket.
      *
-     * @param buf the buffer to set for this packet
+     * @pbrbm buf the buffer to set for this pbcket
      *
-     * @param offset the offset into the data
+     * @pbrbm offset the offset into the dbtb
      *
-     * @param length the length of the data
-     *       and/or the length of the buffer used to receive data
+     * @pbrbm length the length of the dbtb
+     *       bnd/or the length of the buffer used to receive dbtb
      *
-     * @exception NullPointerException if the argument is null
+     * @exception NullPointerException if the brgument is null
      *
-     * @see #getData
+     * @see #getDbtb
      * @see #getOffset
      * @see #getLength
      *
      * @since 1.2
      */
-    public synchronized void setData(byte[] buf, int offset, int length) {
+    public synchronized void setDbtb(byte[] buf, int offset, int length) {
         /* this will check to see if buf is null */
         if (length < 0 || offset < 0 ||
             (length + offset) < 0 ||
             ((length + offset) > buf.length)) {
-            throw new IllegalArgumentException("illegal length or offset");
+            throw new IllegblArgumentException("illegbl length or offset");
         }
         this.buf = buf;
         this.length = length;
@@ -273,54 +273,54 @@ class DatagramPacket {
     }
 
     /**
-     * Sets the IP address of the machine to which this datagram
+     * Sets the IP bddress of the mbchine to which this dbtbgrbm
      * is being sent.
-     * @param iaddr the {@code InetAddress}
+     * @pbrbm ibddr the {@code InetAddress}
      * @since   1.1
      * @see #getAddress()
      */
-    public synchronized void setAddress(InetAddress iaddr) {
-        address = iaddr;
+    public synchronized void setAddress(InetAddress ibddr) {
+        bddress = ibddr;
     }
 
     /**
-     * Sets the port number on the remote host to which this datagram
+     * Sets the port number on the remote host to which this dbtbgrbm
      * is being sent.
-     * @param iport the port number
+     * @pbrbm iport the port number
      * @since   1.1
      * @see #getPort()
      */
     public synchronized void setPort(int iport) {
         if (iport < 0 || iport > 0xFFFF) {
-            throw new IllegalArgumentException("Port out of range:"+ iport);
+            throw new IllegblArgumentException("Port out of rbnge:"+ iport);
         }
         port = iport;
     }
 
     /**
-     * Sets the SocketAddress (usually IP address + port number) of the remote
-     * host to which this datagram is being sent.
+     * Sets the SocketAddress (usublly IP bddress + port number) of the remote
+     * host to which this dbtbgrbm is being sent.
      *
-     * @param address the {@code SocketAddress}
-     * @throws  IllegalArgumentException if address is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm bddress the {@code SocketAddress}
+     * @throws  IllegblArgumentException if bddress is null or is b
+     *          SocketAddress subclbss not supported by this socket
      *
      * @since 1.4
      * @see #getSocketAddress
      */
-    public synchronized void setSocketAddress(SocketAddress address) {
-        if (address == null || !(address instanceof InetSocketAddress))
-            throw new IllegalArgumentException("unsupported address type");
-        InetSocketAddress addr = (InetSocketAddress) address;
-        if (addr.isUnresolved())
-            throw new IllegalArgumentException("unresolved address");
-        setAddress(addr.getAddress());
-        setPort(addr.getPort());
+    public synchronized void setSocketAddress(SocketAddress bddress) {
+        if (bddress == null || !(bddress instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("unsupported bddress type");
+        InetSocketAddress bddr = (InetSocketAddress) bddress;
+        if (bddr.isUnresolved())
+            throw new IllegblArgumentException("unresolved bddress");
+        setAddress(bddr.getAddress());
+        setPort(bddr.getPort());
     }
 
     /**
-     * Gets the SocketAddress (usually IP address + port number) of the remote
-     * host that this packet is being sent to or is coming from.
+     * Gets the SocketAddress (usublly IP bddress + port number) of the remote
+     * host thbt this pbcket is being sent to or is coming from.
      *
      * @return the {@code SocketAddress}
      * @since 1.4
@@ -331,22 +331,22 @@ class DatagramPacket {
     }
 
     /**
-     * Set the data buffer for this packet. With the offset of
-     * this DatagramPacket set to 0, and the length set to
+     * Set the dbtb buffer for this pbcket. With the offset of
+     * this DbtbgrbmPbcket set to 0, bnd the length set to
      * the length of {@code buf}.
      *
-     * @param buf the buffer to set for this packet.
+     * @pbrbm buf the buffer to set for this pbcket.
      *
-     * @exception NullPointerException if the argument is null.
+     * @exception NullPointerException if the brgument is null.
      *
      * @see #getLength
-     * @see #getData
+     * @see #getDbtb
      *
      * @since 1.1
      */
-    public synchronized void setData(byte[] buf) {
+    public synchronized void setDbtb(byte[] buf) {
         if (buf == null) {
-            throw new NullPointerException("null packet buffer");
+            throw new NullPointerException("null pbcket buffer");
         }
         this.buf = buf;
         this.offset = 0;
@@ -355,34 +355,34 @@ class DatagramPacket {
     }
 
     /**
-     * Set the length for this packet. The length of the packet is
-     * the number of bytes from the packet's data buffer that will be
-     * sent, or the number of bytes of the packet's data buffer that
-     * will be used for receiving data. The length must be lesser or
-     * equal to the offset plus the length of the packet's buffer.
+     * Set the length for this pbcket. The length of the pbcket is
+     * the number of bytes from the pbcket's dbtb buffer thbt will be
+     * sent, or the number of bytes of the pbcket's dbtb buffer thbt
+     * will be used for receiving dbtb. The length must be lesser or
+     * equbl to the offset plus the length of the pbcket's buffer.
      *
-     * @param length the length to set for this packet.
+     * @pbrbm length the length to set for this pbcket.
      *
-     * @exception IllegalArgumentException if the length is negative
-     * of if the length is greater than the packet's data buffer
+     * @exception IllegblArgumentException if the length is negbtive
+     * of if the length is grebter thbn the pbcket's dbtb buffer
      * length.
      *
      * @see #getLength
-     * @see #setData
+     * @see #setDbtb
      *
      * @since 1.1
      */
     public synchronized void setLength(int length) {
         if ((length + offset) > buf.length || length < 0 ||
             (length + offset) < 0) {
-            throw new IllegalArgumentException("illegal length");
+            throw new IllegblArgumentException("illegbl length");
         }
         this.length = length;
         this.bufLength = this.length;
     }
 
     /**
-     * Perform class load-time initializations.
+     * Perform clbss lobd-time initiblizbtions.
      */
-    private native static void init();
+    privbte nbtive stbtic void init();
 }

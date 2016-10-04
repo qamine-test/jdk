@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 /**
  * <p>
- * The <code>Document</code> is a container for text that serves
- * as the model for swing text components.  The goal for this
- * interface is to scale from very simple needs (a plain text textfield)
- * to complex needs (an HTML or XML document, for example).
+ * The <code>Document</code> is b contbiner for text thbt serves
+ * bs the model for swing text components.  The gobl for this
+ * interfbce is to scble from very simple needs (b plbin text textfield)
+ * to complex needs (bn HTML or XML document, for exbmple).
  *
  * <p><b>Content</b>
  * <p>
- * At the simplest level, text can be
- * modeled as a linear sequence of characters. To support
- * internationalization, the Swing text model uses
- * <a href="http://www.unicode.org/">unicode</a> characters.
- * The sequence of characters displayed in a text component is
- * generally referred to as the component's <em>content</em>.
+ * At the simplest level, text cbn be
+ * modeled bs b linebr sequence of chbrbcters. To support
+ * internbtionblizbtion, the Swing text model uses
+ * <b href="http://www.unicode.org/">unicode</b> chbrbcters.
+ * The sequence of chbrbcters displbyed in b text component is
+ * generblly referred to bs the component's <em>content</em>.
  * <p>
- * To refer to locations within the sequence, the coordinates
- * used are the location between two characters.  As the diagram
- * below shows, a location in a text document can be referred to
- * as a position, or an offset. This position is zero-based.
- * <p style="text-align:center"><img src="doc-files/Document-coord.gif"
- * alt="The following text describes this graphic.">
+ * To refer to locbtions within the sequence, the coordinbtes
+ * used bre the locbtion between two chbrbcters.  As the dibgrbm
+ * below shows, b locbtion in b text document cbn be referred to
+ * bs b position, or bn offset. This position is zero-bbsed.
+ * <p style="text-blign:center"><img src="doc-files/Document-coord.gif"
+ * blt="The following text describes this grbphic.">
  * <p>
- * In the example, if the content of a document is the
- * sequence "The quick brown fox," as shown in the preceding diagram,
- * the location just before the word "The" is 0, and the location after
- * the word "The" and before the whitespace that follows it is 3.
- * The entire sequence of characters in the sequence "The" is called a
- * <em>range</em>.
- * <p>The following methods give access to the character data
- * that makes up the content.
+ * In the exbmple, if the content of b document is the
+ * sequence "The quick brown fox," bs shown in the preceding dibgrbm,
+ * the locbtion just before the word "The" is 0, bnd the locbtion bfter
+ * the word "The" bnd before the whitespbce thbt follows it is 3.
+ * The entire sequence of chbrbcters in the sequence "The" is cblled b
+ * <em>rbnge</em>.
+ * <p>The following methods give bccess to the chbrbcter dbtb
+ * thbt mbkes up the content.
  * <ul>
  * <li>{@link #getLength()}
  * <li>{@link #getText(int, int)}
- * <li>{@link #getText(int, int, javax.swing.text.Segment)}
+ * <li>{@link #getText(int, int, jbvbx.swing.text.Segment)}
  * </ul>
  * <p><b>Structure</b>
  * <p>
- * Text is rarely represented simply as featureless content. Rather,
- * text typically has some sort of structure associated with it.
- * Exactly what structure is modeled is up to a particular Document
- * implementation.  It might be as simple as no structure (i.e. a
- * simple text field), or it might be something like diagram below.
- * <p style="text-align:center"><img src="doc-files/Document-structure.gif"
- * alt="Diagram shows Book->Chapter->Paragraph">
+ * Text is rbrely represented simply bs febtureless content. Rbther,
+ * text typicblly hbs some sort of structure bssocibted with it.
+ * Exbctly whbt structure is modeled is up to b pbrticulbr Document
+ * implementbtion.  It might be bs simple bs no structure (i.e. b
+ * simple text field), or it might be something like dibgrbm below.
+ * <p style="text-blign:center"><img src="doc-files/Document-structure.gif"
+ * blt="Dibgrbm shows Book->Chbpter->Pbrbgrbph">
  * <p>
- * The unit of structure (i.e. a node of the tree) is referred to
- * by the <a href="Element.html">Element</a> interface.  Each Element
- * can be tagged with a set of attributes.  These attributes
- * (name/value pairs) are defined by the
- * <a href="AttributeSet.html">AttributeSet</a> interface.
- * <p>The following methods give access to the document structure.
+ * The unit of structure (i.e. b node of the tree) is referred to
+ * by the <b href="Element.html">Element</b> interfbce.  Ebch Element
+ * cbn be tbgged with b set of bttributes.  These bttributes
+ * (nbme/vblue pbirs) bre defined by the
+ * <b href="AttributeSet.html">AttributeSet</b> interfbce.
+ * <p>The following methods give bccess to the document structure.
  * <ul>
- * <li>{@link #getDefaultRootElement()}
+ * <li>{@link #getDefbultRootElement()}
  * <li>{@link #getRootElements()}
  * </ul>
  *
- * <p><b>Mutations</b>
+ * <p><b>Mutbtions</b>
  * <p>
- * All documents need to be able to add and remove simple text.
- * Typically, text is inserted and removed via gestures from
- * a keyboard or a mouse.  What effect the insertion or removal
- * has upon the document structure is entirely up to the
- * implementation of the document.
- * <p>The following methods are related to mutation of the
+ * All documents need to be bble to bdd bnd remove simple text.
+ * Typicblly, text is inserted bnd removed vib gestures from
+ * b keybobrd or b mouse.  Whbt effect the insertion or removbl
+ * hbs upon the document structure is entirely up to the
+ * implementbtion of the document.
+ * <p>The following methods bre relbted to mutbtion of the
  * document content:
  * <ul>
- * <li>{@link #insertString(int, java.lang.String, javax.swing.text.AttributeSet)}
+ * <li>{@link #insertString(int, jbvb.lbng.String, jbvbx.swing.text.AttributeSet)}
  * <li>{@link #remove(int, int)}
- * <li>{@link #createPosition(int)}
+ * <li>{@link #crebtePosition(int)}
  * </ul>
  *
- * <p><b>Notification</b>
+ * <p><b>Notificbtion</b>
  * <p>
- * Mutations to the <code>Document</code> must be communicated to
- * interested observers.  The notification of change follows the event model
- * guidelines that are specified for JavaBeans.  In the JavaBeans
- * event model, once an event notification is dispatched, all listeners
- * must be notified before any further mutations occur to the source
- * of the event.  Further, order of delivery is not guaranteed.
+ * Mutbtions to the <code>Document</code> must be communicbted to
+ * interested observers.  The notificbtion of chbnge follows the event model
+ * guidelines thbt bre specified for JbvbBebns.  In the JbvbBebns
+ * event model, once bn event notificbtion is dispbtched, bll listeners
+ * must be notified before bny further mutbtions occur to the source
+ * of the event.  Further, order of delivery is not gubrbnteed.
  * <p>
- * Notification is provided as two separate events,
- * <a href="../event/DocumentEvent.html">DocumentEvent</a>, and
- * <a href="../event/UndoableEditEvent.html">UndoableEditEvent</a>.
- * If a mutation is made to a <code>Document</code> through its api,
- * a <code>DocumentEvent</code> will be sent to all of the registered
+ * Notificbtion is provided bs two sepbrbte events,
+ * <b href="../event/DocumentEvent.html">DocumentEvent</b>, bnd
+ * <b href="../event/UndobbleEditEvent.html">UndobbleEditEvent</b>.
+ * If b mutbtion is mbde to b <code>Document</code> through its bpi,
+ * b <code>DocumentEvent</code> will be sent to bll of the registered
  * <code>DocumentListeners</code>.  If the <code>Document</code>
- * implementation supports undo/redo capabilities, an
- * <code>UndoableEditEvent</code> will be sent
- * to all of the registered <code>UndoableEditListener</code>s.
- * If an undoable edit is undone, a <code>DocumentEvent</code> should be
- * fired from the Document to indicate it has changed again.
- * In this case however, there should be no <code>UndoableEditEvent</code>
- * generated since that edit is actually the source of the change
- * rather than a mutation to the <code>Document</code> made through its
- * api.
- * <p style="text-align:center"><img src="doc-files/Document-notification.gif"
- * alt="The preceding text describes this graphic.">
+ * implementbtion supports undo/redo cbpbbilities, bn
+ * <code>UndobbleEditEvent</code> will be sent
+ * to bll of the registered <code>UndobbleEditListener</code>s.
+ * If bn undobble edit is undone, b <code>DocumentEvent</code> should be
+ * fired from the Document to indicbte it hbs chbnged bgbin.
+ * In this cbse however, there should be no <code>UndobbleEditEvent</code>
+ * generbted since thbt edit is bctublly the source of the chbnge
+ * rbther thbn b mutbtion to the <code>Document</code> mbde through its
+ * bpi.
+ * <p style="text-blign:center"><img src="doc-files/Document-notificbtion.gif"
+ * blt="The preceding text describes this grbphic.">
  * <p>
- * Referring to the above diagram, suppose that the component shown
- * on the left mutates the document object represented by the blue
- * rectangle. The document responds by dispatching a DocumentEvent to
- * both component views and sends an UndoableEditEvent to the listening
- * logic, which maintains a history buffer.
+ * Referring to the bbove dibgrbm, suppose thbt the component shown
+ * on the left mutbtes the document object represented by the blue
+ * rectbngle. The document responds by dispbtching b DocumentEvent to
+ * both component views bnd sends bn UndobbleEditEvent to the listening
+ * logic, which mbintbins b history buffer.
  * <p>
- * Now suppose that the component shown on the right mutates the same
- * document.  Again, the document dispatches a DocumentEvent to both
- * component views and sends an UndoableEditEvent to the listening logic
- * that is maintaining the history buffer.
+ * Now suppose thbt the component shown on the right mutbtes the sbme
+ * document.  Agbin, the document dispbtches b DocumentEvent to both
+ * component views bnd sends bn UndobbleEditEvent to the listening logic
+ * thbt is mbintbining the history buffer.
  * <p>
- * If the history buffer is then rolled back (i.e. the last UndoableEdit
- * undone), a DocumentEvent is sent to both views, causing both of them to
- * reflect the undone mutation to the document (that is, the
- * removal of the right component's mutation). If the history buffer again
- * rolls back another change, another DocumentEvent is sent to both views,
- * causing them to reflect the undone mutation to the document -- that is,
- * the removal of the left component's mutation.
+ * If the history buffer is then rolled bbck (i.e. the lbst UndobbleEdit
+ * undone), b DocumentEvent is sent to both views, cbusing both of them to
+ * reflect the undone mutbtion to the document (thbt is, the
+ * removbl of the right component's mutbtion). If the history buffer bgbin
+ * rolls bbck bnother chbnge, bnother DocumentEvent is sent to both views,
+ * cbusing them to reflect the undone mutbtion to the document -- thbt is,
+ * the removbl of the left component's mutbtion.
  * <p>
- * The methods related to observing mutations to the document are:
+ * The methods relbted to observing mutbtions to the document bre:
  * <ul>
- * <li><a href="#addDocumentListener(javax.swing.event.DocumentListener)">addDocumentListener(DocumentListener)</a>
- * <li><a href="#removeDocumentListener(javax.swing.event.DocumentListener)">removeDocumentListener(DocumentListener)</a>
- * <li><a href="#addUndoableEditListener(javax.swing.event.UndoableEditListener)">addUndoableEditListener(UndoableEditListener)</a>
- * <li><a href="#removeUndoableEditListener(javax.swing.event.UndoableEditListener)">removeUndoableEditListener(UndoableEditListener)</a>
+ * <li><b href="#bddDocumentListener(jbvbx.swing.event.DocumentListener)">bddDocumentListener(DocumentListener)</b>
+ * <li><b href="#removeDocumentListener(jbvbx.swing.event.DocumentListener)">removeDocumentListener(DocumentListener)</b>
+ * <li><b href="#bddUndobbleEditListener(jbvbx.swing.event.UndobbleEditListener)">bddUndobbleEditListener(UndobbleEditListener)</b>
+ * <li><b href="#removeUndobbleEditListener(jbvbx.swing.event.UndobbleEditListener)">removeUndobbleEditListener(UndobbleEditListener)</b>
  * </ul>
  *
  * <p><b>Properties</b>
  * <p>
- * Document implementations will generally have some set of properties
- * associated with them at runtime.  Two well known properties are the
- * <a href="#StreamDescriptionProperty">StreamDescriptionProperty</a>,
- * which can be used to describe where the <code>Document</code> came from,
- * and the <a href="#TitleProperty">TitleProperty</a>, which can be used to
- * name the <code>Document</code>.  The methods related to the properties are:
+ * Document implementbtions will generblly hbve some set of properties
+ * bssocibted with them bt runtime.  Two well known properties bre the
+ * <b href="#StrebmDescriptionProperty">StrebmDescriptionProperty</b>,
+ * which cbn be used to describe where the <code>Document</code> cbme from,
+ * bnd the <b href="#TitleProperty">TitleProperty</b>, which cbn be used to
+ * nbme the <code>Document</code>.  The methods relbted to the properties bre:
  * <ul>
- * <li>{@link #getProperty(java.lang.Object)}
- * <li>{@link #putProperty(java.lang.Object, java.lang.Object)}
+ * <li>{@link #getProperty(jbvb.lbng.Object)}
+ * <li>{@link #putProperty(jbvb.lbng.Object, jbvb.lbng.Object)}
  * </ul>
  *
- * <p>For more information on the <code>Document</code> class, see
- * <a href="http://java.sun.com/products/jfc/tsc">The Swing Connection</a>
- * and most particularly the article,
- * <a href="http://java.sun.com/products/jfc/tsc/articles/text/element_interface">
- * The Element Interface</a>.
+ * <p>For more informbtion on the <code>Document</code> clbss, see
+ * <b href="http://jbvb.sun.com/products/jfc/tsc">The Swing Connection</b>
+ * bnd most pbrticulbrly the brticle,
+ * <b href="http://jbvb.sun.com/products/jfc/tsc/brticles/text/element_interfbce">
+ * The Element Interfbce</b>.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  *
- * @see javax.swing.event.DocumentEvent
- * @see javax.swing.event.DocumentListener
- * @see javax.swing.event.UndoableEditEvent
- * @see javax.swing.event.UndoableEditListener
+ * @see jbvbx.swing.event.DocumentEvent
+ * @see jbvbx.swing.event.DocumentListener
+ * @see jbvbx.swing.event.UndobbleEditEvent
+ * @see jbvbx.swing.event.UndobbleEditListener
  * @see Element
  * @see Position
  * @see AttributeSet
  */
-public interface Document {
+public interfbce Document {
 
     /**
-     * Returns number of characters of content currently
+     * Returns number of chbrbcters of content currently
      * in the document.
      *
-     * @return number of characters &gt;= 0
+     * @return number of chbrbcters &gt;= 0
      */
     public int getLength();
 
     /**
-     * Registers the given observer to begin receiving notifications
-     * when changes are made to the document.
+     * Registers the given observer to begin receiving notificbtions
+     * when chbnges bre mbde to the document.
      *
-     * @param listener the observer to register
+     * @pbrbm listener the observer to register
      * @see Document#removeDocumentListener
      */
-    public void addDocumentListener(DocumentListener listener);
+    public void bddDocumentListener(DocumentListener listener);
 
     /**
-     * Unregisters the given observer from the notification list
-     * so it will no longer receive change updates.
+     * Unregisters the given observer from the notificbtion list
+     * so it will no longer receive chbnge updbtes.
      *
-     * @param listener the observer to register
-     * @see Document#addDocumentListener
+     * @pbrbm listener the observer to register
+     * @see Document#bddDocumentListener
      */
     public void removeDocumentListener(DocumentListener listener);
 
     /**
-     * Registers the given observer to begin receiving notifications
-     * when undoable edits are made to the document.
+     * Registers the given observer to begin receiving notificbtions
+     * when undobble edits bre mbde to the document.
      *
-     * @param listener the observer to register
-     * @see javax.swing.event.UndoableEditEvent
+     * @pbrbm listener the observer to register
+     * @see jbvbx.swing.event.UndobbleEditEvent
      */
-    public void addUndoableEditListener(UndoableEditListener listener);
+    public void bddUndobbleEditListener(UndobbleEditListener listener);
 
     /**
-     * Unregisters the given observer from the notification list
-     * so it will no longer receive updates.
+     * Unregisters the given observer from the notificbtion list
+     * so it will no longer receive updbtes.
      *
-     * @param listener the observer to register
-     * @see javax.swing.event.UndoableEditEvent
+     * @pbrbm listener the observer to register
+     * @see jbvbx.swing.event.UndobbleEditEvent
      */
-    public void removeUndoableEditListener(UndoableEditListener listener);
+    public void removeUndobbleEditListener(UndobbleEditListener listener);
 
     /**
-     * Gets the properties associated with the document.
+     * Gets the properties bssocibted with the document.
      *
-     * @param key a non-<code>null</code> property key
+     * @pbrbm key b non-<code>null</code> property key
      * @return the properties
      * @see #putProperty(Object, Object)
      */
     public Object getProperty(Object key);
 
     /**
-     * Associates a property with the document.  Two standard
-     * property keys provided are: <a href="#StreamDescriptionProperty">
-     * <code>StreamDescriptionProperty</code></a> and
-     * <a href="#TitleProperty"><code>TitleProperty</code></a>.
-     * Other properties, such as author, may also be defined.
+     * Associbtes b property with the document.  Two stbndbrd
+     * property keys provided bre: <b href="#StrebmDescriptionProperty">
+     * <code>StrebmDescriptionProperty</code></b> bnd
+     * <b href="#TitleProperty"><code>TitleProperty</code></b>.
+     * Other properties, such bs buthor, mby blso be defined.
      *
-     * @param key the non-<code>null</code> property key
-     * @param value the property value
+     * @pbrbm key the non-<code>null</code> property key
+     * @pbrbm vblue the property vblue
      * @see #getProperty(Object)
      */
-    public void putProperty(Object key, Object value);
+    public void putProperty(Object key, Object vblue);
 
     /**
-     * Removes a portion of the content of the document.
-     * This will cause a DocumentEvent of type
+     * Removes b portion of the content of the document.
+     * This will cbuse b DocumentEvent of type
      * DocumentEvent.EventType.REMOVE to be sent to the
-     * registered DocumentListeners, unless an exception
-     * is thrown.  The notification will be sent to the
-     * listeners by calling the removeUpdate method on the
+     * registered DocumentListeners, unless bn exception
+     * is thrown.  The notificbtion will be sent to the
+     * listeners by cblling the removeUpdbte method on the
      * DocumentListeners.
      * <p>
-     * To ensure reasonable behavior in the face
-     * of concurrency, the event is dispatched after the
-     * mutation has occurred. This means that by the time a
-     * notification of removal is dispatched, the document
-     * has already been updated and any marks created by
-     * <code>createPosition</code> have already changed.
-     * For a removal, the end of the removal range is collapsed
-     * down to the start of the range, and any marks in the removal
-     * range are collapsed down to the start of the range.
-     * <p style="text-align:center"><img src="doc-files/Document-remove.gif"
-     *  alt="Diagram shows removal of 'quick' from 'The quick brown fox.'">
+     * To ensure rebsonbble behbvior in the fbce
+     * of concurrency, the event is dispbtched bfter the
+     * mutbtion hbs occurred. This mebns thbt by the time b
+     * notificbtion of removbl is dispbtched, the document
+     * hbs blrebdy been updbted bnd bny mbrks crebted by
+     * <code>crebtePosition</code> hbve blrebdy chbnged.
+     * For b removbl, the end of the removbl rbnge is collbpsed
+     * down to the stbrt of the rbnge, bnd bny mbrks in the removbl
+     * rbnge bre collbpsed down to the stbrt of the rbnge.
+     * <p style="text-blign:center"><img src="doc-files/Document-remove.gif"
+     *  blt="Dibgrbm shows removbl of 'quick' from 'The quick brown fox.'">
      * <p>
-     * If the Document structure changed as result of the removal,
-     * the details of what Elements were inserted and removed in
-     * response to the change will also be contained in the generated
-     * DocumentEvent. It is up to the implementation of a Document
-     * to decide how the structure should change in response to a
+     * If the Document structure chbnged bs result of the removbl,
+     * the detbils of whbt Elements were inserted bnd removed in
+     * response to the chbnge will blso be contbined in the generbted
+     * DocumentEvent. It is up to the implementbtion of b Document
+     * to decide how the structure should chbnge in response to b
      * remove.
      * <p>
-     * If the Document supports undo/redo, an UndoableEditEvent will
-     * also be generated.
+     * If the Document supports undo/redo, bn UndobbleEditEvent will
+     * blso be generbted.
      *
-     * @param offs  the offset from the beginning &gt;= 0
-     * @param len   the number of characters to remove &gt;= 0
-     * @exception BadLocationException  some portion of the removal range
-     *   was not a valid part of the document.  The location in the exception
-     *   is the first bad position encountered.
-     * @see javax.swing.event.DocumentEvent
-     * @see javax.swing.event.DocumentListener
-     * @see javax.swing.event.UndoableEditEvent
-     * @see javax.swing.event.UndoableEditListener
+     * @pbrbm offs  the offset from the beginning &gt;= 0
+     * @pbrbm len   the number of chbrbcters to remove &gt;= 0
+     * @exception BbdLocbtionException  some portion of the removbl rbnge
+     *   wbs not b vblid pbrt of the document.  The locbtion in the exception
+     *   is the first bbd position encountered.
+     * @see jbvbx.swing.event.DocumentEvent
+     * @see jbvbx.swing.event.DocumentListener
+     * @see jbvbx.swing.event.UndobbleEditEvent
+     * @see jbvbx.swing.event.UndobbleEditListener
      */
-    public void remove(int offs, int len) throws BadLocationException;
+    public void remove(int offs, int len) throws BbdLocbtionException;
 
     /**
-     * Inserts a string of content.  This will cause a DocumentEvent
+     * Inserts b string of content.  This will cbuse b DocumentEvent
      * of type DocumentEvent.EventType.INSERT to be sent to the
-     * registered DocumentListers, unless an exception is thrown.
-     * The DocumentEvent will be delivered by calling the
-     * insertUpdate method on the DocumentListener.
-     * The offset and length of the generated DocumentEvent
-     * will indicate what change was actually made to the Document.
-     * <p style="text-align:center"><img src="doc-files/Document-insert.gif"
-     *  alt="Diagram shows insertion of 'quick' in 'The quick brown fox'">
+     * registered DocumentListers, unless bn exception is thrown.
+     * The DocumentEvent will be delivered by cblling the
+     * insertUpdbte method on the DocumentListener.
+     * The offset bnd length of the generbted DocumentEvent
+     * will indicbte whbt chbnge wbs bctublly mbde to the Document.
+     * <p style="text-blign:center"><img src="doc-files/Document-insert.gif"
+     *  blt="Dibgrbm shows insertion of 'quick' in 'The quick brown fox'">
      * <p>
-     * If the Document structure changed as result of the insertion,
-     * the details of what Elements were inserted and removed in
-     * response to the change will also be contained in the generated
-     * DocumentEvent.  It is up to the implementation of a Document
-     * to decide how the structure should change in response to an
+     * If the Document structure chbnged bs result of the insertion,
+     * the detbils of whbt Elements were inserted bnd removed in
+     * response to the chbnge will blso be contbined in the generbted
+     * DocumentEvent.  It is up to the implementbtion of b Document
+     * to decide how the structure should chbnge in response to bn
      * insertion.
      * <p>
-     * If the Document supports undo/redo, an UndoableEditEvent will
-     * also be generated.
+     * If the Document supports undo/redo, bn UndobbleEditEvent will
+     * blso be generbted.
      *
-     * @param offset  the offset into the document to insert the content &gt;= 0.
-     *    All positions that track change at or after the given location
+     * @pbrbm offset  the offset into the document to insert the content &gt;= 0.
+     *    All positions thbt trbck chbnge bt or bfter the given locbtion
      *    will move.
-     * @param str    the string to insert
-     * @param a      the attributes to associate with the inserted
-     *   content.  This may be null if there are no attributes.
-     * @exception BadLocationException  the given insert position is not a valid
+     * @pbrbm str    the string to insert
+     * @pbrbm b      the bttributes to bssocibte with the inserted
+     *   content.  This mby be null if there bre no bttributes.
+     * @exception BbdLocbtionException  the given insert position is not b vblid
      * position within the document
-     * @see javax.swing.event.DocumentEvent
-     * @see javax.swing.event.DocumentListener
-     * @see javax.swing.event.UndoableEditEvent
-     * @see javax.swing.event.UndoableEditListener
+     * @see jbvbx.swing.event.DocumentEvent
+     * @see jbvbx.swing.event.DocumentListener
+     * @see jbvbx.swing.event.UndobbleEditEvent
+     * @see jbvbx.swing.event.UndobbleEditListener
      */
-    public void insertString(int offset, String str, AttributeSet a) throws BadLocationException;
+    public void insertString(int offset, String str, AttributeSet b) throws BbdLocbtionException;
 
     /**
-     * Fetches the text contained within the given portion
+     * Fetches the text contbined within the given portion
      * of the document.
      *
-     * @param offset  the offset into the document representing the desired
-     *   start of the text &gt;= 0
-     * @param length  the length of the desired string &gt;= 0
-     * @return the text, in a String of length &gt;= 0
-     * @exception BadLocationException  some portion of the given range
-     *   was not a valid part of the document.  The location in the exception
-     *   is the first bad position encountered.
+     * @pbrbm offset  the offset into the document representing the desired
+     *   stbrt of the text &gt;= 0
+     * @pbrbm length  the length of the desired string &gt;= 0
+     * @return the text, in b String of length &gt;= 0
+     * @exception BbdLocbtionException  some portion of the given rbnge
+     *   wbs not b vblid pbrt of the document.  The locbtion in the exception
+     *   is the first bbd position encountered.
      */
-    public String getText(int offset, int length) throws BadLocationException;
+    public String getText(int offset, int length) throws BbdLocbtionException;
 
     /**
-     * Fetches the text contained within the given portion
+     * Fetches the text contbined within the given portion
      * of the document.
      * <p>
-     * If the partialReturn property on the txt parameter is false, the
-     * data returned in the Segment will be the entire length requested and
-     * may or may not be a copy depending upon how the data was stored.
-     * If the partialReturn property is true, only the amount of text that
-     * can be returned without creating a copy is returned.  Using partial
-     * returns will give better performance for situations where large
-     * parts of the document are being scanned.  The following is an example
-     * of using the partial return to access the entire document:
+     * If the pbrtiblReturn property on the txt pbrbmeter is fblse, the
+     * dbtb returned in the Segment will be the entire length requested bnd
+     * mby or mby not be b copy depending upon how the dbtb wbs stored.
+     * If the pbrtiblReturn property is true, only the bmount of text thbt
+     * cbn be returned without crebting b copy is returned.  Using pbrtibl
+     * returns will give better performbnce for situbtions where lbrge
+     * pbrts of the document bre being scbnned.  The following is bn exbmple
+     * of using the pbrtibl return to bccess the entire document:
      *
      * <pre><code>
      *
      * &nbsp; int nleft = doc.getDocumentLength();
      * &nbsp; Segment text = new Segment();
      * &nbsp; int offs = 0;
-     * &nbsp; text.setPartialReturn(true);
+     * &nbsp; text.setPbrtiblReturn(true);
      * &nbsp; while (nleft &gt; 0) {
      * &nbsp;     doc.getText(offs, nleft, text);
      * &nbsp;     // do someting with text
@@ -370,67 +370,67 @@ public interface Document {
      *
      * </code></pre>
      *
-     * @param offset  the offset into the document representing the desired
-     *   start of the text &gt;= 0
-     * @param length  the length of the desired string &gt;= 0
-     * @param txt the Segment object to return the text in
+     * @pbrbm offset  the offset into the document representing the desired
+     *   stbrt of the text &gt;= 0
+     * @pbrbm length  the length of the desired string &gt;= 0
+     * @pbrbm txt the Segment object to return the text in
      *
-     * @exception BadLocationException  Some portion of the given range
-     *   was not a valid part of the document.  The location in the exception
-     *   is the first bad position encountered.
+     * @exception BbdLocbtionException  Some portion of the given rbnge
+     *   wbs not b vblid pbrt of the document.  The locbtion in the exception
+     *   is the first bbd position encountered.
      */
-    public void getText(int offset, int length, Segment txt) throws BadLocationException;
+    public void getText(int offset, int length, Segment txt) throws BbdLocbtionException;
 
     /**
-     * Returns a position that represents the start of the document.  The
-     * position returned can be counted on to track change and stay
-     * located at the beginning of the document.
+     * Returns b position thbt represents the stbrt of the document.  The
+     * position returned cbn be counted on to trbck chbnge bnd stby
+     * locbted bt the beginning of the document.
      *
      * @return the position
      */
-    public Position getStartPosition();
+    public Position getStbrtPosition();
 
     /**
-     * Returns a position that represents the end of the document.  The
-     * position returned can be counted on to track change and stay
-     * located at the end of the document.
+     * Returns b position thbt represents the end of the document.  The
+     * position returned cbn be counted on to trbck chbnge bnd stby
+     * locbted bt the end of the document.
      *
      * @return the position
      */
     public Position getEndPosition();
 
     /**
-     * This method allows an application to mark a place in
-     * a sequence of character content. This mark can then be
-     * used to tracks change as insertions and removals are made
-     * in the content. The policy is that insertions always
-     * occur prior to the current position (the most common case)
-     * unless the insertion location is zero, in which case the
-     * insertion is forced to a position that follows the
-     * original position.
+     * This method bllows bn bpplicbtion to mbrk b plbce in
+     * b sequence of chbrbcter content. This mbrk cbn then be
+     * used to trbcks chbnge bs insertions bnd removbls bre mbde
+     * in the content. The policy is thbt insertions blwbys
+     * occur prior to the current position (the most common cbse)
+     * unless the insertion locbtion is zero, in which cbse the
+     * insertion is forced to b position thbt follows the
+     * originbl position.
      *
-     * @param offs  the offset from the start of the document &gt;= 0
+     * @pbrbm offs  the offset from the stbrt of the document &gt;= 0
      * @return the position
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      */
-    public Position createPosition(int offs) throws BadLocationException;
+    public Position crebtePosition(int offs) throws BbdLocbtionException;
 
     /**
-     * Returns all of the root elements that are defined.
+     * Returns bll of the root elements thbt bre defined.
      * <p>
-     * Typically there will be only one document structure, but the interface
-     * supports building an arbitrary number of structural projections over the
-     * text data. The document can have multiple root elements to support
-     * multiple document structures.  Some examples might be:
+     * Typicblly there will be only one document structure, but the interfbce
+     * supports building bn brbitrbry number of structurbl projections over the
+     * text dbtb. The document cbn hbve multiple root elements to support
+     * multiple document structures.  Some exbmples might be:
      * </p>
      * <ul>
      * <li>Text direction.
-     * <li>Lexical token streams.
-     * <li>Parse trees.
-     * <li>Conversions to formats other than the native format.
-     * <li>Modification specifications.
-     * <li>Annotations.
+     * <li>Lexicbl token strebms.
+     * <li>Pbrse trees.
+     * <li>Conversions to formbts other thbn the nbtive formbt.
+     * <li>Modificbtion specificbtions.
+     * <li>Annotbtions.
      * </ul>
      *
      * @return the root element
@@ -438,39 +438,39 @@ public interface Document {
     public Element[] getRootElements();
 
     /**
-     * Returns the root element that views should be based upon,
-     * unless some other mechanism for assigning views to element
+     * Returns the root element thbt views should be bbsed upon,
+     * unless some other mechbnism for bssigning views to element
      * structures is provided.
      *
      * @return the root element
      */
-    public Element getDefaultRootElement();
+    public Element getDefbultRootElement();
 
     /**
-     * Allows the model to be safely rendered in the presence
-     * of concurrency, if the model supports being updated asynchronously.
-     * The given runnable will be executed in a way that allows it
-     * to safely read the model with no changes while the runnable
-     * is being executed.  The runnable itself may <em>not</em>
-     * make any mutations.
+     * Allows the model to be sbfely rendered in the presence
+     * of concurrency, if the model supports being updbted bsynchronously.
+     * The given runnbble will be executed in b wby thbt bllows it
+     * to sbfely rebd the model with no chbnges while the runnbble
+     * is being executed.  The runnbble itself mby <em>not</em>
+     * mbke bny mutbtions.
      *
-     * @param r a <code>Runnable</code> used to render the model
+     * @pbrbm r b <code>Runnbble</code> used to render the model
      */
-    public void render(Runnable r);
+    public void render(Runnbble r);
 
     /**
-     * The property name for the description of the stream
-     * used to initialize the document.  This should be used
-     * if the document was initialized from a stream and
-     * anything is known about the stream.
+     * The property nbme for the description of the strebm
+     * used to initiblize the document.  This should be used
+     * if the document wbs initiblized from b strebm bnd
+     * bnything is known bbout the strebm.
      */
-    public static final String StreamDescriptionProperty = "stream";
+    public stbtic finbl String StrebmDescriptionProperty = "strebm";
 
     /**
-     * The property name for the title of the document, if
+     * The property nbme for the title of the document, if
      * there is one.
      */
-    public static final String TitleProperty = "title";
+    public stbtic finbl String TitleProperty = "title";
 
 
 }

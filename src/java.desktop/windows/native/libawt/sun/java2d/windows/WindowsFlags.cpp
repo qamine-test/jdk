@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <awt.h>
-#include "Trace.h"
-#include "WindowsFlags.h"
+#include <bwt.h>
+#include "Trbce.h"
+#include "WindowsFlbgs.h"
 
-BOOL      accelReset;         // reset registry 2d acceleration settings
-BOOL      useD3D = TRUE;      // d3d enabled flag
-                              // initially is TRUE to allow D3D preloading
-BOOL      forceD3DUsage;      // force d3d on or off
-jboolean  g_offscreenSharing; // JAWT accelerated surface sharing
-BOOL      checkRegistry;      // Diagnostic tool: outputs 2d registry settings
-BOOL      disableRegistry;    // Diagnostic tool: disables registry interaction
-BOOL      setHighDPIAware;    // Whether to set the high-DPI awareness flag
+BOOL      bccelReset;         // reset registry 2d bccelerbtion settings
+BOOL      useD3D = TRUE;      // d3d enbbled flbg
+                              // initiblly is TRUE to bllow D3D prelobding
+BOOL      forceD3DUsbge;      // force d3d on or off
+jboolebn  g_offscreenShbring; // JAWT bccelerbted surfbce shbring
+BOOL      checkRegistry;      // Dibgnostic tool: outputs 2d registry settings
+BOOL      disbbleRegistry;    // Dibgnostic tool: disbbles registry interbction
+BOOL      setHighDPIAwbre;    // Whether to set the high-DPI bwbreness flbg
 
-extern WCHAR *j2dAccelKey;       // Name of java2d root key
-extern WCHAR *j2dAccelDriverKey; // Name of j2d per-device key
+extern WCHAR *j2dAccelKey;       // Nbme of jbvb2d root key
+extern WCHAR *j2dAccelDriverKey; // Nbme of j2d per-device key
 
-static jfieldID d3dEnabledID;
-static jfieldID d3dSetID;
-static jclass   wFlagsClassID;
+stbtic jfieldID d3dEnbbledID;
+stbtic jfieldID d3dSetID;
+stbtic jclbss   wFlbgsClbssID;
 
-void SetIDs(JNIEnv *env, jclass wFlagsClass)
+void SetIDs(JNIEnv *env, jclbss wFlbgsClbss)
 {
-    wFlagsClassID = (jclass)env->NewGlobalRef(wFlagsClass);
-    d3dEnabledID = env->GetStaticFieldID(wFlagsClass, "d3dEnabled", "Z");
-    CHECK_NULL(d3dEnabledID);
-    d3dSetID = env->GetStaticFieldID(wFlagsClass, "d3dSet", "Z");
+    wFlbgsClbssID = (jclbss)env->NewGlobblRef(wFlbgsClbss);
+    d3dEnbbledID = env->GetStbticFieldID(wFlbgsClbss, "d3dEnbbled", "Z");
+    CHECK_NULL(d3dEnbbledID);
+    d3dSetID = env->GetStbticFieldID(wFlbgsClbss, "d3dSet", "Z");
     CHECK_NULL(d3dSetID);
 }
 
-BOOL GetStaticBoolean(JNIEnv *env, jclass wfClass, const char *fieldName)
+BOOL GetStbticBoolebn(JNIEnv *env, jclbss wfClbss, const chbr *fieldNbme)
 {
-    jfieldID fieldID = env->GetStaticFieldID(wfClass, fieldName, "Z");
+    jfieldID fieldID = env->GetStbticFieldID(wfClbss, fieldNbme, "Z");
     CHECK_NULL_RETURN(fieldID, FALSE);
-    return env->GetStaticBooleanField(wfClass, fieldID);
+    return env->GetStbticBoolebnField(wfClbss, fieldID);
 }
 
-jobject GetStaticObject(JNIEnv *env, jclass wfClass, const char *fieldName,
-                        const char *signature)
+jobject GetStbticObject(JNIEnv *env, jclbss wfClbss, const chbr *fieldNbme,
+                        const chbr *signbture)
 {
-    jfieldID fieldID = env->GetStaticFieldID(wfClass, fieldName, signature);
+    jfieldID fieldID = env->GetStbticFieldID(wfClbss, fieldNbme, signbture);
     CHECK_NULL_RETURN(fieldID, NULL);
-    return env->GetStaticObjectField(wfClass, fieldID);
+    return env->GetStbticObjectField(wfClbss, fieldID);
 }
 
-void GetFlagValues(JNIEnv *env, jclass wFlagsClass)
+void GetFlbgVblues(JNIEnv *env, jclbss wFlbgsClbss)
 {
-    jboolean d3dEnabled = env->GetStaticBooleanField(wFlagsClass, d3dEnabledID);
-    jboolean d3dSet = env->GetStaticBooleanField(wFlagsClass, d3dSetID);
+    jboolebn d3dEnbbled = env->GetStbticBoolebnField(wFlbgsClbss, d3dEnbbledID);
+    jboolebn d3dSet = env->GetStbticBoolebnField(wFlbgsClbss, d3dSetID);
     if (!d3dSet) {
-        // Only check environment variable if user did not set Java
-        // command-line parameter; values of sun.java2d.d3d override
-        // any setting of J2D_D3D environment variable.
-        char *d3dEnv = getenv("J2D_D3D");
+        // Only check environment vbribble if user did not set Jbvb
+        // commbnd-line pbrbmeter; vblues of sun.jbvb2d.d3d override
+        // bny setting of J2D_D3D environment vbribble.
+        chbr *d3dEnv = getenv("J2D_D3D");
         if (d3dEnv) {
-            if (strcmp(d3dEnv, "false") == 0) {
-                // printf("Java2D Direct3D usage disabled by J2D_D3D env\n");
-                d3dEnabled = FALSE;
+            if (strcmp(d3dEnv, "fblse") == 0) {
+                // printf("Jbvb2D Direct3D usbge disbbled by J2D_D3D env\n");
+                d3dEnbbled = FALSE;
                 d3dSet = TRUE;
-                SetD3DEnabledFlag(env, d3dEnabled, d3dSet);
+                SetD3DEnbbledFlbg(env, d3dEnbbled, d3dSet);
             } else if (strcmp(d3dEnv, "true") == 0) {
-                // printf("Java2D Direct3D usage forced on by J2D_D3D env\n");
-                d3dEnabled = TRUE;
+                // printf("Jbvb2D Direct3D usbge forced on by J2D_D3D env\n");
+                d3dEnbbled = TRUE;
                 d3dSet = TRUE;
-                SetD3DEnabledFlag(env, d3dEnabled, d3dSet);
+                SetD3DEnbbledFlbg(env, d3dEnbbled, d3dSet);
             }
         }
     }
-    useD3D = d3dEnabled;
-    forceD3DUsage = d3dSet;
-    g_offscreenSharing = GetStaticBoolean(env, wFlagsClass,
-                                          "offscreenSharingEnabled");
+    useD3D = d3dEnbbled;
+    forceD3DUsbge = d3dSet;
+    g_offscreenShbring = GetStbticBoolebn(env, wFlbgsClbss,
+                                          "offscreenShbringEnbbled");
     JNU_CHECK_EXCEPTION(env);
-    accelReset = GetStaticBoolean(env, wFlagsClass, "accelReset");
+    bccelReset = GetStbticBoolebn(env, wFlbgsClbss, "bccelReset");
     JNU_CHECK_EXCEPTION(env);
-    checkRegistry = GetStaticBoolean(env, wFlagsClass, "checkRegistry");
+    checkRegistry = GetStbticBoolebn(env, wFlbgsClbss, "checkRegistry");
     JNU_CHECK_EXCEPTION(env);
-    disableRegistry = GetStaticBoolean(env, wFlagsClass, "disableRegistry");
-    JNU_CHECK_EXCEPTION(env);
-
-    setHighDPIAware =
-        (IS_WINVISTA && GetStaticBoolean(env, wFlagsClass, "setHighDPIAware"));
+    disbbleRegistry = GetStbticBoolebn(env, wFlbgsClbss, "disbbleRegistry");
     JNU_CHECK_EXCEPTION(env);
 
-    J2dTraceLn(J2D_TRACE_INFO, "WindowsFlags (native):");
-    J2dTraceLn1(J2D_TRACE_INFO, "  d3dEnabled = %s",
-                (useD3D ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  d3dSet = %s",
-                (forceD3DUsage ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  offscreenSharing = %s",
-                (g_offscreenSharing ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  accelReset = %s",
-                (accelReset ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  checkRegistry = %s",
-                (checkRegistry ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  disableRegistry = %s",
-                (disableRegistry ? "true" : "false"));
-    J2dTraceLn1(J2D_TRACE_INFO, "  setHighDPIAware = %s",
-                (setHighDPIAware ? "true" : "false"));
+    setHighDPIAwbre =
+        (IS_WINVISTA && GetStbticBoolebn(env, wFlbgsClbss, "setHighDPIAwbre"));
+    JNU_CHECK_EXCEPTION(env);
+
+    J2dTrbceLn(J2D_TRACE_INFO, "WindowsFlbgs (nbtive):");
+    J2dTrbceLn1(J2D_TRACE_INFO, "  d3dEnbbled = %s",
+                (useD3D ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  d3dSet = %s",
+                (forceD3DUsbge ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  offscreenShbring = %s",
+                (g_offscreenShbring ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  bccelReset = %s",
+                (bccelReset ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  checkRegistry = %s",
+                (checkRegistry ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  disbbleRegistry = %s",
+                (disbbleRegistry ? "true" : "fblse"));
+    J2dTrbceLn1(J2D_TRACE_INFO, "  setHighDPIAwbre = %s",
+                (setHighDPIAwbre ? "true" : "fblse"));
 }
 
-void SetD3DEnabledFlag(JNIEnv *env, BOOL d3dEnabled, BOOL d3dSet)
+void SetD3DEnbbledFlbg(JNIEnv *env, BOOL d3dEnbbled, BOOL d3dSet)
 {
-    useD3D = d3dEnabled;
-    forceD3DUsage = d3dSet;
+    useD3D = d3dEnbbled;
+    forceD3DUsbge = d3dSet;
     if (env == NULL) {
         env = (JNIEnv * ) JNU_GetEnv(jvm, JNI_VERSION_1_2);
     }
-    env->SetStaticBooleanField(wFlagsClassID, d3dEnabledID, d3dEnabled);
+    env->SetStbticBoolebnField(wFlbgsClbssID, d3dEnbbledID, d3dEnbbled);
     if (d3dSet) {
-        env->SetStaticBooleanField(wFlagsClassID, d3dSetID, d3dSet);
+        env->SetStbticBoolebnField(wFlbgsClbssID, d3dSetID, d3dSet);
     }
 }
 
-BOOL IsD3DEnabled() {
+BOOL IsD3DEnbbled() {
     return useD3D;
 }
 
 BOOL IsD3DForced() {
-    return forceD3DUsage;
+    return forceD3DUsbge;
 }
 
 extern "C" {
 
 /**
- * This function is called from WindowsFlags.initFlags() and initializes
- * the native side of our runtime flags.  There are a couple of important
- * things that happen at the native level after we set the Java flags:
- * - set native variables based on the java flag settings (such as useDD
- * based on whether ddraw was enabled by a runtime flag)
- * - override java level settings if there user has set an environment
- * variable but not a runtime flag.  For example, if the user runs
- * with sun.java2d.d3d=true but also uses the J2D_D3D=false environment
- * variable, then we use the java-level true value.  But if they do
- * not use the runtime flag, then the env variable will force d3d to
- * be disabled.  Any native env variable overriding must up-call to
- * Java to change the java level flag settings.
- * - A later error in initialization may result in disabling some
- * native property that must be propagated to the Java level.  For
- * example, d3d is enabled by default, but we may find later that
- * we must disable it do to some runtime configuration problem (such as
- * a bad video card).  This will happen through mechanisms in this native
- * file to change the value of the known Java flags (in this d3d example,
- * we would up-call to set the value of d3dEnabled to Boolean.FALSE).
+ * This function is cblled from WindowsFlbgs.initFlbgs() bnd initiblizes
+ * the nbtive side of our runtime flbgs.  There bre b couple of importbnt
+ * things thbt hbppen bt the nbtive level bfter we set the Jbvb flbgs:
+ * - set nbtive vbribbles bbsed on the jbvb flbg settings (such bs useDD
+ * bbsed on whether ddrbw wbs enbbled by b runtime flbg)
+ * - override jbvb level settings if there user hbs set bn environment
+ * vbribble but not b runtime flbg.  For exbmple, if the user runs
+ * with sun.jbvb2d.d3d=true but blso uses the J2D_D3D=fblse environment
+ * vbribble, then we use the jbvb-level true vblue.  But if they do
+ * not use the runtime flbg, then the env vbribble will force d3d to
+ * be disbbled.  Any nbtive env vbribble overriding must up-cbll to
+ * Jbvb to chbnge the jbvb level flbg settings.
+ * - A lbter error in initiblizbtion mby result in disbbling some
+ * nbtive property thbt must be propbgbted to the Jbvb level.  For
+ * exbmple, d3d is enbbled by defbult, but we mby find lbter thbt
+ * we must disbble it do to some runtime configurbtion problem (such bs
+ * b bbd video cbrd).  This will hbppen through mechbnisms in this nbtive
+ * file to chbnge the vblue of the known Jbvb flbgs (in this d3d exbmple,
+ * we would up-cbll to set the vblue of d3dEnbbled to Boolebn.FALSE).
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_windows_WindowsFlags_initNativeFlags(JNIEnv *env,
-                                                     jclass wFlagsClass)
+Jbvb_sun_jbvb2d_windows_WindowsFlbgs_initNbtiveFlbgs(JNIEnv *env,
+                                                     jclbss wFlbgsClbss)
 {
-    SetIDs(env, wFlagsClass);
+    SetIDs(env, wFlbgsClbss);
     JNU_CHECK_EXCEPTION(env);
-    GetFlagValues(env, wFlagsClass);
+    GetFlbgVblues(env, wFlbgsClbss);
 }
 
 } // extern "C"

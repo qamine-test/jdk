@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.io.*;
-import java.util.*;
-import java.rmi.server.LogStream;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.security.PrivilegedAction;
 
 import sun.rmi.runtime.Log;
 
 /**
- * ConnectionMultiplexer manages the transparent multiplexing of
- * multiple virtual connections from one endpoint to another through
- * one given real connection to that endpoint.  The input and output
- * streams for the the underlying real connection must be supplied.
- * A callback object is also supplied to be informed of new virtual
- * connections opened by the remote endpoint.  After creation, the
- * run() method must be called in a thread created for demultiplexing
- * the connections.  The openConnection() method is called to
- * initiate a virtual connection from this endpoint.
+ * ConnectionMultiplexer mbnbges the trbnspbrent multiplexing of
+ * multiple virtubl connections from one endpoint to bnother through
+ * one given rebl connection to thbt endpoint.  The input bnd output
+ * strebms for the the underlying rebl connection must be supplied.
+ * A cbllbbck object is blso supplied to be informed of new virtubl
+ * connections opened by the remote endpoint.  After crebtion, the
+ * run() method must be cblled in b threbd crebted for demultiplexing
+ * the connections.  The openConnection() method is cblled to
+ * initibte b virtubl connection from this endpoint.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  */
-@SuppressWarnings("deprecation")
-final class ConnectionMultiplexer {
+@SuppressWbrnings("deprecbtion")
+finbl clbss ConnectionMultiplexer {
 
     /** "multiplex" log level */
-    static int logLevel = LogStream.parseLevel(getLogLevel());
+    stbtic int logLevel = LogStrebm.pbrseLevel(getLogLevel());
 
-    private static String getLogLevel() {
-        return java.security.AccessController.doPrivileged(
-           (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.tcp.multiplex.logLevel"));
+    privbte stbtic String getLogLevel() {
+        return jbvb.security.AccessController.doPrivileged(
+           (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.trbnsport.tcp.multiplex.logLevel"));
     }
 
     /* multiplex system log */
-    static final Log multiplexLog =
-        Log.getLog("sun.rmi.transport.tcp.multiplex",
+    stbtic finbl Log multiplexLog =
+        Log.getLog("sun.rmi.trbnsport.tcp.multiplex",
                    "multiplex", ConnectionMultiplexer.logLevel);
 
-    /** multiplexing protocol operation codes */
-    private final static int OPEN     = 0xE1;
-    private final static int CLOSE    = 0xE2;
-    private final static int CLOSEACK = 0xE3;
-    private final static int REQUEST  = 0xE4;
-    private final static int TRANSMIT = 0xE5;
+    /** multiplexing protocol operbtion codes */
+    privbte finbl stbtic int OPEN     = 0xE1;
+    privbte finbl stbtic int CLOSE    = 0xE2;
+    privbte finbl stbtic int CLOSEACK = 0xE3;
+    privbte finbl stbtic int REQUEST  = 0xE4;
+    privbte finbl stbtic int TRANSMIT = 0xE5;
 
     /** object to notify for new connections from remote endpoint */
-    private TCPChannel channel;
+    privbte TCPChbnnel chbnnel;
 
-    /** input stream for underlying single connection */
-    private InputStream in;
+    /** input strebm for underlying single connection */
+    privbte InputStrebm in;
 
-    /** output stream for underlying single connection */
-    private OutputStream out;
+    /** output strebm for underlying single connection */
+    privbte OutputStrebm out;
 
-    /** true if underlying connection originated from this endpoint
-        (used for generating unique connection IDs) */
-    private boolean orig;
+    /** true if underlying connection originbted from this endpoint
+        (used for generbting unique connection IDs) */
+    privbte boolebn orig;
 
-    /** layered stream for reading formatted data from underlying connection */
-    private DataInputStream dataIn;
+    /** lbyered strebm for rebding formbtted dbtb from underlying connection */
+    privbte DbtbInputStrebm dbtbIn;
 
-    /** layered stream for writing formatted data to underlying connection */
-    private DataOutputStream dataOut;
+    /** lbyered strebm for writing formbtted dbtb to underlying connection */
+    privbte DbtbOutputStrebm dbtbOut;
 
-    /** table holding currently open connection IDs and related info */
-    private Hashtable<Integer, MultiplexConnectionInfo> connectionTable = new Hashtable<>(7);
+    /** tbble holding currently open connection IDs bnd relbted info */
+    privbte Hbshtbble<Integer, MultiplexConnectionInfo> connectionTbble = new Hbshtbble<>(7);
 
     /** number of currently open connections */
-    private int numConnections = 0;
+    privbte int numConnections = 0;
 
-    /** maximum allowed open connections */
-    private final static int maxConnections = 256;
+    /** mbximum bllowed open connections */
+    privbte finbl stbtic int mbxConnections = 256;
 
-    /** ID of last connection opened */
-    private int lastID = 0x1001;
+    /** ID of lbst connection opened */
+    privbte int lbstID = 0x1001;
 
-    /** true if this mechanism is still alive */
-    private boolean alive = true;
+    /** true if this mechbnism is still blive */
+    privbte boolebn blive = true;
 
     /**
-     * Create a new ConnectionMultiplexer using the given underlying
-     * input/output stream pair.  The run method must be called
-     * (possibly on a new thread) to handle the demultiplexing.
-     * @param channel object to notify when new connection is received
-     * @param in input stream of underlying connection
-     * @param out output stream of underlying connection
-     * @param orig true if this endpoint intiated the underlying
-     *        connection (needs to be set differently at both ends)
+     * Crebte b new ConnectionMultiplexer using the given underlying
+     * input/output strebm pbir.  The run method must be cblled
+     * (possibly on b new threbd) to hbndle the demultiplexing.
+     * @pbrbm chbnnel object to notify when new connection is received
+     * @pbrbm in input strebm of underlying connection
+     * @pbrbm out output strebm of underlying connection
+     * @pbrbm orig true if this endpoint intibted the underlying
+     *        connection (needs to be set differently bt both ends)
      */
     public ConnectionMultiplexer(
-        TCPChannel    channel,
-        InputStream   in,
-        OutputStream  out,
-        boolean       orig)
+        TCPChbnnel    chbnnel,
+        InputStrebm   in,
+        OutputStrebm  out,
+        boolebn       orig)
     {
-        this.channel = channel;
+        this.chbnnel = chbnnel;
         this.in      = in;
         this.out     = out;
         this.orig    = orig;
 
-        dataIn = new DataInputStream(in);
-        dataOut = new DataOutputStream(out);
+        dbtbIn = new DbtbInputStrebm(in);
+        dbtbOut = new DbtbOutputStrebm(out);
     }
 
     /**
@@ -137,167 +137,167 @@ final class ConnectionMultiplexer {
 
             while (true) {
 
-                // read next op code from remote endpoint
-                op = dataIn.readUnsignedByte();
+                // rebd next op code from remote endpoint
+                op = dbtbIn.rebdUnsignedByte();
                 switch (op) {
 
-                // remote endpoint initiating new connection
-                case OPEN:
-                    id = dataIn.readUnsignedShort();
+                // remote endpoint initibting new connection
+                cbse OPEN:
+                    id = dbtbIn.rebdUnsignedShort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE, "operation  OPEN " + id);
+                    if (multiplexLog.isLoggbble(Log.VERBOSE)) {
+                        multiplexLog.log(Log.VERBOSE, "operbtion  OPEN " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = connectionTbble.get(id);
                     if (info != null)
                         throw new IOException(
-                            "OPEN: Connection ID already exists");
+                            "OPEN: Connection ID blrebdy exists");
                     info = new MultiplexConnectionInfo(id);
-                    info.in = new MultiplexInputStream(this, info, 2048);
-                    info.out = new MultiplexOutputStream(this, info, 2048);
-                    synchronized (connectionTable) {
-                        connectionTable.put(id, info);
+                    info.in = new MultiplexInputStrebm(this, info, 2048);
+                    info.out = new MultiplexOutputStrebm(this, info, 2048);
+                    synchronized (connectionTbble) {
+                        connectionTbble.put(id, info);
                         ++ numConnections;
                     }
-                    sun.rmi.transport.Connection conn;
-                    conn = new TCPConnection(channel, info.in, info.out);
-                    channel.acceptMultiplexConnection(conn);
-                    break;
+                    sun.rmi.trbnsport.Connection conn;
+                    conn = new TCPConnection(chbnnel, info.in, info.out);
+                    chbnnel.bcceptMultiplexConnection(conn);
+                    brebk;
 
                 // remote endpoint closing connection
-                case CLOSE:
-                    id = dataIn.readUnsignedShort();
+                cbse CLOSE:
+                    id = dbtbIn.rebdUnsignedShort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
-                        multiplexLog.log(Log.VERBOSE, "operation  CLOSE " + id);
+                    if (multiplexLog.isLoggbble(Log.VERBOSE)) {
+                        multiplexLog.log(Log.VERBOSE, "operbtion  CLOSE " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = connectionTbble.get(id);
                     if (info == null)
                         throw new IOException(
-                            "CLOSE: Invalid connection ID");
+                            "CLOSE: Invblid connection ID");
                     info.in.disconnect();
                     info.out.disconnect();
                     if (!info.closed)
                         sendCloseAck(info);
-                    synchronized (connectionTable) {
-                        connectionTable.remove(id);
+                    synchronized (connectionTbble) {
+                        connectionTbble.remove(id);
                         -- numConnections;
                     }
-                    break;
+                    brebk;
 
-                // remote endpoint acknowledging close of connection
-                case CLOSEACK:
-                    id = dataIn.readUnsignedShort();
+                // remote endpoint bcknowledging close of connection
+                cbse CLOSEACK:
+                    id = dbtbIn.rebdUnsignedShort();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
+                    if (multiplexLog.isLoggbble(Log.VERBOSE)) {
                         multiplexLog.log(Log.VERBOSE,
-                            "operation  CLOSEACK " + id);
+                            "operbtion  CLOSEACK " + id);
                     }
 
-                    info = connectionTable.get(id);
+                    info = connectionTbble.get(id);
                     if (info == null)
                         throw new IOException(
-                            "CLOSEACK: Invalid connection ID");
+                            "CLOSEACK: Invblid connection ID");
                     if (!info.closed)
                         throw new IOException(
                             "CLOSEACK: Connection not closed");
                     info.in.disconnect();
                     info.out.disconnect();
-                    synchronized (connectionTable) {
-                        connectionTable.remove(id);
+                    synchronized (connectionTbble) {
+                        connectionTbble.remove(id);
                         -- numConnections;
                     }
-                    break;
+                    brebk;
 
-                // remote endpoint declaring additional bytes receivable
-                case REQUEST:
-                    id = dataIn.readUnsignedShort();
-                    info = connectionTable.get(id);
+                // remote endpoint declbring bdditionbl bytes receivbble
+                cbse REQUEST:
+                    id = dbtbIn.rebdUnsignedShort();
+                    info = connectionTbble.get(id);
                     if (info == null)
                         throw new IOException(
-                            "REQUEST: Invalid connection ID");
-                    length = dataIn.readInt();
+                            "REQUEST: Invblid connection ID");
+                    length = dbtbIn.rebdInt();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
+                    if (multiplexLog.isLoggbble(Log.VERBOSE)) {
                         multiplexLog.log(Log.VERBOSE,
-                            "operation  REQUEST " + id + ": " + length);
+                            "operbtion  REQUEST " + id + ": " + length);
                     }
 
                     info.out.request(length);
-                    break;
+                    brebk;
 
-                // remote endpoint transmitting data packet
-                case TRANSMIT:
-                    id = dataIn.readUnsignedShort();
-                    info = connectionTable.get(id);
+                // remote endpoint trbnsmitting dbtb pbcket
+                cbse TRANSMIT:
+                    id = dbtbIn.rebdUnsignedShort();
+                    info = connectionTbble.get(id);
                     if (info == null)
-                        throw new IOException("SEND: Invalid connection ID");
-                    length = dataIn.readInt();
+                        throw new IOException("SEND: Invblid connection ID");
+                    length = dbtbIn.rebdInt();
 
-                    if (multiplexLog.isLoggable(Log.VERBOSE)) {
+                    if (multiplexLog.isLoggbble(Log.VERBOSE)) {
                         multiplexLog.log(Log.VERBOSE,
-                            "operation  TRANSMIT " + id + ": " + length);
+                            "operbtion  TRANSMIT " + id + ": " + length);
                     }
 
-                    info.in.receive(length, dataIn);
-                    break;
+                    info.in.receive(length, dbtbIn);
+                    brebk;
 
-                default:
-                    throw new IOException("Invalid operation: " +
+                defbult:
+                    throw new IOException("Invblid operbtion: " +
                                           Integer.toHexString(op));
                 }
             }
-        } finally {
+        } finblly {
             shutDown();
         }
     }
 
     /**
-     * Initiate a new multiplexed connection through the underlying
+     * Initibte b new multiplexed connection through the underlying
      * connection.
      */
     public synchronized TCPConnection openConnection() throws IOException
     {
-        // generate ID that should not be already used
-        // If all possible 32768 IDs are used,
-        // this method will block searching for a new ID forever.
+        // generbte ID thbt should not be blrebdy used
+        // If bll possible 32768 IDs bre used,
+        // this method will block sebrching for b new ID forever.
         int id;
         do {
-            lastID = (++ lastID) & 0x7FFF;
-            id = lastID;
+            lbstID = (++ lbstID) & 0x7FFF;
+            id = lbstID;
 
-            // The orig flag (copied to the high bit of the ID) is used
-            // to have two distinct ranges to choose IDs from for the
+            // The orig flbg (copied to the high bit of the ID) is used
+            // to hbve two distinct rbnges to choose IDs from for the
             // two endpoints.
             if (orig)
                 id |= 0x8000;
-        } while (connectionTable.get(id) != null);
+        } while (connectionTbble.get(id) != null);
 
-        // create multiplexing streams and bookkeeping information
+        // crebte multiplexing strebms bnd bookkeeping informbtion
         MultiplexConnectionInfo info = new MultiplexConnectionInfo(id);
-        info.in = new MultiplexInputStream(this, info, 2048);
-        info.out = new MultiplexOutputStream(this, info, 2048);
+        info.in = new MultiplexInputStrebm(this, info, 2048);
+        info.out = new MultiplexOutputStrebm(this, info, 2048);
 
-        // add to connection table if multiplexer has not died
-        synchronized (connectionTable) {
-            if (!alive)
-                throw new IOException("Multiplexer connection dead");
-            if (numConnections >= maxConnections)
-                throw new IOException("Cannot exceed " + maxConnections +
-                    " simultaneous multiplexed connections");
-            connectionTable.put(id, info);
+        // bdd to connection tbble if multiplexer hbs not died
+        synchronized (connectionTbble) {
+            if (!blive)
+                throw new IOException("Multiplexer connection debd");
+            if (numConnections >= mbxConnections)
+                throw new IOException("Cbnnot exceed " + mbxConnections +
+                    " simultbneous multiplexed connections");
+            connectionTbble.put(id, info);
             ++ numConnections;
         }
 
         // inform remote endpoint of new connection
-        synchronized (dataOut) {
+        synchronized (dbtbOut) {
             try {
-                dataOut.writeByte(OPEN);
-                dataOut.writeShort(id);
-                dataOut.flush();
-            } catch (IOException e) {
+                dbtbOut.writeByte(OPEN);
+                dbtbOut.writeShort(id);
+                dbtbOut.flush();
+            } cbtch (IOException e) {
                 multiplexLog.log(Log.BRIEF, "exception: ", e);
 
                 shutDown();
@@ -305,58 +305,58 @@ final class ConnectionMultiplexer {
             }
         }
 
-        return new TCPConnection(channel, info.in, info.out);
+        return new TCPConnection(chbnnel, info.in, info.out);
     }
 
     /**
-     * Shut down all connections and clean up.
+     * Shut down bll connections bnd clebn up.
      */
     public void shutDown()
     {
-        // inform all associated streams
-        synchronized (connectionTable) {
-            // return if multiplexer already officially dead
-            if (!alive)
+        // inform bll bssocibted strebms
+        synchronized (connectionTbble) {
+            // return if multiplexer blrebdy officiblly debd
+            if (!blive)
                 return;
-            alive = false;
+            blive = fblse;
 
-            Enumeration<MultiplexConnectionInfo> enum_ =
-                    connectionTable.elements();
-            while (enum_.hasMoreElements()) {
+            Enumerbtion<MultiplexConnectionInfo> enum_ =
+                    connectionTbble.elements();
+            while (enum_.hbsMoreElements()) {
                 MultiplexConnectionInfo info = enum_.nextElement();
                 info.in.disconnect();
                 info.out.disconnect();
             }
-            connectionTable.clear();
+            connectionTbble.clebr();
             numConnections = 0;
         }
 
-        // close underlying connection, if possible (and not already done)
+        // close underlying connection, if possible (bnd not blrebdy done)
         try {
             in.close();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
         try {
             out.close();
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
     }
 
     /**
-     * Send request for more data on connection to remote endpoint.
-     * @param info connection information structure
-     * @param len number of more bytes that can be received
+     * Send request for more dbtb on connection to remote endpoint.
+     * @pbrbm info connection informbtion structure
+     * @pbrbm len number of more bytes thbt cbn be received
      */
     void sendRequest(MultiplexConnectionInfo info, int len) throws IOException
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        synchronized (dbtbOut) {
+            if (blive && !info.closed)
                 try {
-                    dataOut.writeByte(REQUEST);
-                    dataOut.writeShort(info.id);
-                    dataOut.writeInt(len);
-                    dataOut.flush();
-                } catch (IOException e) {
+                    dbtbOut.writeByte(REQUEST);
+                    dbtbOut.writeShort(info.id);
+                    dbtbOut.writeInt(len);
+                    dbtbOut.flush();
+                } cbtch (IOException e) {
                     multiplexLog.log(Log.BRIEF, "exception: ", e);
 
                     shutDown();
@@ -366,24 +366,24 @@ final class ConnectionMultiplexer {
     }
 
     /**
-     * Send packet of requested data on connection to remote endpoint.
-     * @param info connection information structure
-     * @param buf array containing bytes to send
-     * @param off offset of first array index of packet
-     * @param len number of bytes in packet to send
+     * Send pbcket of requested dbtb on connection to remote endpoint.
+     * @pbrbm info connection informbtion structure
+     * @pbrbm buf brrby contbining bytes to send
+     * @pbrbm off offset of first brrby index of pbcket
+     * @pbrbm len number of bytes in pbcket to send
      */
-    void sendTransmit(MultiplexConnectionInfo info,
+    void sendTrbnsmit(MultiplexConnectionInfo info,
                       byte buf[], int off, int len) throws IOException
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        synchronized (dbtbOut) {
+            if (blive && !info.closed)
                 try {
-                    dataOut.writeByte(TRANSMIT);
-                    dataOut.writeShort(info.id);
-                    dataOut.writeInt(len);
-                    dataOut.write(buf, off, len);
-                    dataOut.flush();
-                } catch (IOException e) {
+                    dbtbOut.writeByte(TRANSMIT);
+                    dbtbOut.writeShort(info.id);
+                    dbtbOut.writeInt(len);
+                    dbtbOut.write(buf, off, len);
+                    dbtbOut.flush();
+                } cbtch (IOException e) {
                     multiplexLog.log(Log.BRIEF, "exception: ", e);
 
                     shutDown();
@@ -393,20 +393,20 @@ final class ConnectionMultiplexer {
     }
 
     /**
-     * Inform remote endpoint that connection has been closed.
-     * @param info connection information structure
+     * Inform remote endpoint thbt connection hbs been closed.
+     * @pbrbm info connection informbtion structure
      */
     void sendClose(MultiplexConnectionInfo info) throws IOException
     {
         info.out.disconnect();
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        synchronized (dbtbOut) {
+            if (blive && !info.closed)
                 try {
-                    dataOut.writeByte(CLOSE);
-                    dataOut.writeShort(info.id);
-                    dataOut.flush();
+                    dbtbOut.writeByte(CLOSE);
+                    dbtbOut.writeShort(info.id);
+                    dbtbOut.flush();
                     info.closed = true;
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     multiplexLog.log(Log.BRIEF, "exception: ", e);
 
                     shutDown();
@@ -417,18 +417,18 @@ final class ConnectionMultiplexer {
 
     /**
      * Acknowledge remote endpoint's closing of connection.
-     * @param info connection information structure
+     * @pbrbm info connection informbtion structure
      */
     void sendCloseAck(MultiplexConnectionInfo info) throws IOException
     {
-        synchronized (dataOut) {
-            if (alive && !info.closed)
+        synchronized (dbtbOut) {
+            if (blive && !info.closed)
                 try {
-                    dataOut.writeByte(CLOSEACK);
-                    dataOut.writeShort(info.id);
-                    dataOut.flush();
+                    dbtbOut.writeByte(CLOSEACK);
+                    dbtbOut.writeShort(info.id);
+                    dbtbOut.flush();
                     info.closed = true;
-                } catch (IOException e) {
+                } cbtch (IOException e) {
                     multiplexLog.log(Log.BRIEF, "exception: ", e);
 
                     shutDown();
@@ -438,11 +438,11 @@ final class ConnectionMultiplexer {
     }
 
     /**
-     * Shut down connection upon finalization.
+     * Shut down connection upon finblizbtion.
      */
-    protected void finalize() throws Throwable
+    protected void finblize() throws Throwbble
     {
-        super.finalize();
+        super.finblize();
         shutDown();
     }
 }

@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
-import java.rmi.RemoteException;
-import java.rmi.MarshalException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.ObjID;
-import java.rmi.server.RemoteCall;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.MbrshblException;
+import jbvb.rmi.UnmbrshblException;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RemoteCbll;
 import sun.rmi.runtime.Log;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import sun.rmi.server.UnicbstRef;
+import sun.rmi.trbnsport.tcp.TCPEndpoint;
 
 /**
- * Stream-based implementation of the RemoteCall interface.
+ * Strebm-bbsed implementbtion of the RemoteCbll interfbce.
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-@SuppressWarnings("deprecation")
-public class StreamRemoteCall implements RemoteCall {
-    private ConnectionInputStream in = null;
-    private ConnectionOutputStream out = null;
-    private Connection conn;
-    private boolean resultStarted = false;
-    private Exception serverException = null;
+@SuppressWbrnings("deprecbtion")
+public clbss StrebmRemoteCbll implements RemoteCbll {
+    privbte ConnectionInputStrebm in = null;
+    privbte ConnectionOutputStrebm out = null;
+    privbte Connection conn;
+    privbte boolebn resultStbrted = fblse;
+    privbte Exception serverException = null;
 
-    public StreamRemoteCall(Connection c) {
+    public StrebmRemoteCbll(Connection c) {
         conn = c;
     }
 
-    public StreamRemoteCall(Connection c, ObjID id, int op, long hash)
+    public StrebmRemoteCbll(Connection c, ObjID id, int op, long hbsh)
         throws RemoteException
     {
         try {
             conn = c;
-            Transport.transportLog.log(Log.VERBOSE,
-                "write remote call header...");
+            Trbnsport.trbnsportLog.log(Log.VERBOSE,
+                "write remote cbll hebder...");
 
-            // write out remote call header info...
-            // call header, part 1 (read by Transport)
-            conn.getOutputStream().write(TransportConstants.Call);
-            getOutputStream();           // creates a MarshalOutputStream
-            id.write(out);               // object id (target of call)
-            // call header, part 2 (read by Dispatcher)
-            out.writeInt(op);            // method number (operation index)
-            out.writeLong(hash);         // stub/skeleton hash
-        } catch (IOException e) {
-            throw new MarshalException("Error marshaling call header", e);
+            // write out remote cbll hebder info...
+            // cbll hebder, pbrt 1 (rebd by Trbnsport)
+            conn.getOutputStrebm().write(TrbnsportConstbnts.Cbll);
+            getOutputStrebm();           // crebtes b MbrshblOutputStrebm
+            id.write(out);               // object id (tbrget of cbll)
+            // cbll hebder, pbrt 2 (rebd by Dispbtcher)
+            out.writeInt(op);            // method number (operbtion index)
+            out.writeLong(hbsh);         // stub/skeleton hbsh
+        } cbtch (IOException e) {
+            throw new MbrshblException("Error mbrshbling cbll hebder", e);
         }
     }
 
     /**
-     * Return the connection associated with this call.
+     * Return the connection bssocibted with this cbll.
      */
     public Connection getConnection() {
         return conn;
     }
 
     /**
-     * Return the output stream the stub/skeleton should put arguments/results
+     * Return the output strebm the stub/skeleton should put brguments/results
      * into.
      */
-    public ObjectOutput getOutputStream() throws IOException {
-        return getOutputStream(false);
+    public ObjectOutput getOutputStrebm() throws IOException {
+        return getOutputStrebm(fblse);
     }
 
-    private ObjectOutput getOutputStream(boolean resultStream)
+    privbte ObjectOutput getOutputStrebm(boolebn resultStrebm)
         throws IOException
     {
         if (out == null) {
-            Transport.transportLog.log(Log.VERBOSE, "getting output stream");
+            Trbnsport.trbnsportLog.log(Log.VERBOSE, "getting output strebm");
 
-            out = new ConnectionOutputStream(conn, resultStream);
+            out = new ConnectionOutputStrebm(conn, resultStrebm);
         }
         return out;
     }
 
     /**
-     * Release the outputStream  Currently, will not complain if the
-     * output stream is released more than once.
+     * Relebse the outputStrebm  Currently, will not complbin if the
+     * output strebm is relebsed more thbn once.
      */
-    public void releaseOutputStream() throws IOException {
+    public void relebseOutputStrebm() throws IOException {
         try {
             if (out != null) {
                 try {
                     out.flush();
-                } finally {
-                    out.done();         // always start DGC ack timer
+                } finblly {
+                    out.done();         // blwbys stbrt DGC bck timer
                 }
             }
-            conn.releaseOutputStream();
-        } finally {
+            conn.relebseOutputStrebm();
+        } finblly {
             out = null;
         }
     }
 
     /**
-     * Get the InputStream the stub/skeleton should get results/arguments
+     * Get the InputStrebm the stub/skeleton should get results/brguments
      * from.
      */
-    public ObjectInput getInputStream() throws IOException {
+    public ObjectInput getInputStrebm() throws IOException {
         if (in == null) {
-            Transport.transportLog.log(Log.VERBOSE, "getting input stream");
+            Trbnsport.trbnsportLog.log(Log.VERBOSE, "getting input strebm");
 
-            in = new ConnectionInputStream(conn.getInputStream());
+            in = new ConnectionInputStrebm(conn.getInputStrebm());
         }
         return in;
     }
 
     /**
-     * Release the input stream, this would allow some transports to release
-     * the channel early.
+     * Relebse the input strebm, this would bllow some trbnsports to relebse
+     * the chbnnel ebrly.
      */
-    public void releaseInputStream() throws IOException {
-        /* WARNING: Currently, the UnicastRef.java invoke methods rely
-         * upon this method not throwing an IOException.
+    public void relebseInputStrebm() throws IOException {
+        /* WARNING: Currently, the UnicbstRef.jbvb invoke methods rely
+         * upon this method not throwing bn IOException.
          */
 
         try {
             if (in != null) {
-                // execute MarshalInputStream "done" callbacks
+                // execute MbrshblInputStrebm "done" cbllbbcks
                 try {
                     in.done();
-                } catch (RuntimeException e) {
+                } cbtch (RuntimeException e) {
                 }
 
-                // add saved references to DGC table
+                // bdd sbved references to DGC tbble
                 in.registerRefs();
 
-                /* WARNING: The connection being passed to done may have
-                 * already been freed.
+                /* WARNING: The connection being pbssed to done mby hbve
+                 * blrebdy been freed.
                  */
                 in.done(conn);
             }
-            conn.releaseInputStream();
-        } finally {
+            conn.relebseInputStrebm();
+        } finblly {
             in = null;
         }
     }
 
     /**
-     * Returns an output stream (may put out header information
-     * relating to the success of the call).
-     * @param success If true, indicates normal return, else indicates
-     * exceptional return.
-     * @exception StreamCorruptedException If result stream previously
-     * acquired
-     * @exception IOException For any other problem with I/O.
+     * Returns bn output strebm (mby put out hebder informbtion
+     * relbting to the success of the cbll).
+     * @pbrbm success If true, indicbtes normbl return, else indicbtes
+     * exceptionbl return.
+     * @exception StrebmCorruptedException If result strebm previously
+     * bcquired
+     * @exception IOException For bny other problem with I/O.
      */
-    public ObjectOutput getResultStream(boolean success) throws IOException {
-        /* make sure result code only marshaled once. */
-        if (resultStarted)
-            throw new StreamCorruptedException("result already in progress");
+    public ObjectOutput getResultStrebm(boolebn success) throws IOException {
+        /* mbke sure result code only mbrshbled once. */
+        if (resultStbrted)
+            throw new StrebmCorruptedException("result blrebdy in progress");
         else
-            resultStarted = true;
+            resultStbrted = true;
 
-        // write out return header
-        // return header, part 1 (read by Transport)
-        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-        wr.writeByte(TransportConstants.Return);// transport op
-        getOutputStream(true);  // creates a MarshalOutputStream
-        // return header, part 2 (read by client-side RemoteCall)
+        // write out return hebder
+        // return hebder, pbrt 1 (rebd by Trbnsport)
+        DbtbOutputStrebm wr = new DbtbOutputStrebm(conn.getOutputStrebm());
+        wr.writeByte(TrbnsportConstbnts.Return);// trbnsport op
+        getOutputStrebm(true);  // crebtes b MbrshblOutputStrebm
+        // return hebder, pbrt 2 (rebd by client-side RemoteCbll)
         if (success)            //
-            out.writeByte(TransportConstants.NormalReturn);
+            out.writeByte(TrbnsportConstbnts.NormblReturn);
         else
-            out.writeByte(TransportConstants.ExceptionalReturn);
+            out.writeByte(TrbnsportConstbnts.ExceptionblReturn);
         out.writeID();          // write id for gcAck
         return out;
     }
 
     /**
-     * Do whatever it takes to execute the call.
+     * Do whbtever it tbkes to execute the cbll.
      */
-    @SuppressWarnings("fallthrough")
-    public void executeCall() throws Exception {
+    @SuppressWbrnings("fbllthrough")
+    public void executeCbll() throws Exception {
         byte returnType;
 
-        // read result header
-        DGCAckHandler ackHandler = null;
+        // rebd result hebder
+        DGCAckHbndler bckHbndler = null;
         try {
             if (out != null) {
-                ackHandler = out.getDGCAckHandler();
+                bckHbndler = out.getDGCAckHbndler();
             }
-            releaseOutputStream();
-            DataInputStream rd = new DataInputStream(conn.getInputStream());
-            byte op = rd.readByte();
-            if (op != TransportConstants.Return) {
-                if (Transport.transportLog.isLoggable(Log.BRIEF)) {
-                    Transport.transportLog.log(Log.BRIEF,
-                        "transport return code invalid: " + op);
+            relebseOutputStrebm();
+            DbtbInputStrebm rd = new DbtbInputStrebm(conn.getInputStrebm());
+            byte op = rd.rebdByte();
+            if (op != TrbnsportConstbnts.Return) {
+                if (Trbnsport.trbnsportLog.isLoggbble(Log.BRIEF)) {
+                    Trbnsport.trbnsportLog.log(Log.BRIEF,
+                        "trbnsport return code invblid: " + op);
                 }
-                throw new UnmarshalException("Transport return code invalid");
+                throw new UnmbrshblException("Trbnsport return code invblid");
             }
-            getInputStream();
-            returnType = in.readByte();
-            in.readID();        // id for DGC acknowledgement
-        } catch (UnmarshalException e) {
+            getInputStrebm();
+            returnType = in.rebdByte();
+            in.rebdID();        // id for DGC bcknowledgement
+        } cbtch (UnmbrshblException e) {
             throw e;
-        } catch (IOException e) {
-            throw new UnmarshalException("Error unmarshaling return header",
+        } cbtch (IOException e) {
+            throw new UnmbrshblException("Error unmbrshbling return hebder",
                                          e);
-        } finally {
-            if (ackHandler != null) {
-                ackHandler.release();
+        } finblly {
+            if (bckHbndler != null) {
+                bckHbndler.relebse();
             }
         }
 
-        // read return value
+        // rebd return vblue
         switch (returnType) {
-        case TransportConstants.NormalReturn:
-            break;
+        cbse TrbnsportConstbnts.NormblReturn:
+            brebk;
 
-        case TransportConstants.ExceptionalReturn:
+        cbse TrbnsportConstbnts.ExceptionblReturn:
             Object ex;
             try {
-                ex = in.readObject();
-            } catch (Exception e) {
-                throw new UnmarshalException("Error unmarshaling return", e);
+                ex = in.rebdObject();
+            } cbtch (Exception e) {
+                throw new UnmbrshblException("Error unmbrshbling return", e);
             }
 
-            // An exception should have been received,
-            // if so throw it, else flag error
-            if (ex instanceof Exception) {
+            // An exception should hbve been received,
+            // if so throw it, else flbg error
+            if (ex instbnceof Exception) {
                 exceptionReceivedFromServer((Exception) ex);
             } else {
-                throw new UnmarshalException("Return type not Exception");
+                throw new UnmbrshblException("Return type not Exception");
             }
-            // Exception is thrown before fallthrough can occur
-        default:
-            if (Transport.transportLog.isLoggable(Log.BRIEF)) {
-                Transport.transportLog.log(Log.BRIEF,
-                    "return code invalid: " + returnType);
+            // Exception is thrown before fbllthrough cbn occur
+        defbult:
+            if (Trbnsport.trbnsportLog.isLoggbble(Log.BRIEF)) {
+                Trbnsport.trbnsportLog.log(Log.BRIEF,
+                    "return code invblid: " + returnType);
             }
-            throw new UnmarshalException("Return code invalid");
+            throw new UnmbrshblException("Return code invblid");
         }
     }
 
     /**
-     * Routine that causes the stack traces of remote exceptions to be
-     * filled in with the current stack trace on the client.  Detail
-     * exceptions are filled in iteratively.
+     * Routine thbt cbuses the stbck trbces of remote exceptions to be
+     * filled in with the current stbck trbce on the client.  Detbil
+     * exceptions bre filled in iterbtively.
      */
     protected void exceptionReceivedFromServer(Exception ex) throws Exception {
         serverException = ex;
 
-        StackTraceElement[] serverTrace = ex.getStackTrace();
-        StackTraceElement[] clientTrace = (new Throwable()).getStackTrace();
-        StackTraceElement[] combinedTrace =
-            new StackTraceElement[serverTrace.length + clientTrace.length];
-        System.arraycopy(serverTrace, 0, combinedTrace, 0,
-                         serverTrace.length);
-        System.arraycopy(clientTrace, 0, combinedTrace, serverTrace.length,
-                         clientTrace.length);
-        ex.setStackTrace(combinedTrace);
+        StbckTrbceElement[] serverTrbce = ex.getStbckTrbce();
+        StbckTrbceElement[] clientTrbce = (new Throwbble()).getStbckTrbce();
+        StbckTrbceElement[] combinedTrbce =
+            new StbckTrbceElement[serverTrbce.length + clientTrbce.length];
+        System.brrbycopy(serverTrbce, 0, combinedTrbce, 0,
+                         serverTrbce.length);
+        System.brrbycopy(clientTrbce, 0, combinedTrbce, serverTrbce.length,
+                         clientTrbce.length);
+        ex.setStbckTrbce(combinedTrbce);
 
         /*
-         * Log the details of a server exception thrown as a result of a
-         * remote method invocation.
+         * Log the detbils of b server exception thrown bs b result of b
+         * remote method invocbtion.
          */
-        if (UnicastRef.clientCallLog.isLoggable(Log.BRIEF)) {
-            /* log call exception returned from server before it is rethrown */
-            TCPEndpoint ep = (TCPEndpoint) conn.getChannel().getEndpoint();
-            UnicastRef.clientCallLog.log(Log.BRIEF, "outbound call " +
+        if (UnicbstRef.clientCbllLog.isLoggbble(Log.BRIEF)) {
+            /* log cbll exception returned from server before it is rethrown */
+            TCPEndpoint ep = (TCPEndpoint) conn.getChbnnel().getEndpoint();
+            UnicbstRef.clientCbllLog.log(Log.BRIEF, "outbound cbll " +
                 "received exception: [" + ep.getHost() + ":" +
                 ep.getPort() + "] exception: ", ex);
         }
@@ -306,10 +306,10 @@ public class StreamRemoteCall implements RemoteCall {
     }
 
     public void done() throws IOException {
-        /* WARNING: Currently, the UnicastRef.java invoke methods rely
-         * upon this method not throwing an IOException.
+        /* WARNING: Currently, the UnicbstRef.jbvb invoke methods rely
+         * upon this method not throwing bn IOException.
          */
 
-        releaseInputStream();
+        relebseInputStrebm();
     }
 }

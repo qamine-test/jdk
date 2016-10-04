@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.event.*;
-import javax.swing.event.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.event.*;
 
 
 /**
- * A model for a potentially unbounded sequence of object values.  This model
- * is similar to <code>ListModel</code> however there are some important differences:
+ * A model for b potentiblly unbounded sequence of object vblues.  This model
+ * is similbr to <code>ListModel</code> however there bre some importbnt differences:
  * <ul>
- * <li> The number of sequence elements isn't necessarily bounded.
- * <li> The model doesn't support indexed random access to sequence elements.
- *      Only three sequence values are accessible at a time: current, next and
+ * <li> The number of sequence elements isn't necessbrily bounded.
+ * <li> The model doesn't support indexed rbndom bccess to sequence elements.
+ *      Only three sequence vblues bre bccessible bt b time: current, next bnd
  *      previous.
- * <li> The current sequence element, can be set.
+ * <li> The current sequence element, cbn be set.
  * </ul>
  * <p>
- * A <code>SpinnerModel</code> has three properties, only the first is read/write.
+ * A <code>SpinnerModel</code> hbs three properties, only the first is rebd/write.
  * <dl>
- *   <dt><code>value</code>
+ *   <dt><code>vblue</code>
  *   <dd>The current element of the sequence.
  *
- *   <dt><code>nextValue</code>
- *   <dd>The following element or null if <code>value</code> is the
- *     last element of the sequence.
+ *   <dt><code>nextVblue</code>
+ *   <dd>The following element or null if <code>vblue</code> is the
+ *     lbst element of the sequence.
  *
- *   <dt><code>previousValue</code>
- *   <dd>The preceding element or null if <code>value</code> is the
+ *   <dt><code>previousVblue</code>
+ *   <dd>The preceding element or null if <code>vblue</code> is the
  *     first element of the sequence.
  * </dl>
- * When the the <code>value</code> property changes,
- * <code>ChangeListeners</code> are notified.  <code>SpinnerModel</code> may
- * choose to notify the <code>ChangeListeners</code> under other circumstances.
+ * When the the <code>vblue</code> property chbnges,
+ * <code>ChbngeListeners</code> bre notified.  <code>SpinnerModel</code> mby
+ * choose to notify the <code>ChbngeListeners</code> under other circumstbnces.
  *
  * @see JSpinner
- * @see AbstractSpinnerModel
+ * @see AbstrbctSpinnerModel
  * @see SpinnerListModel
  * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @see SpinnerDbteModel
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.4
  */
-public interface SpinnerModel
+public interfbce SpinnerModel
 {
     /**
-     * The <i>current element</i> of the sequence.  This element is usually
-     * displayed by the <code>editor</code> part of a <code>JSpinner</code>.
+     * The <i>current element</i> of the sequence.  This element is usublly
+     * displbyed by the <code>editor</code> pbrt of b <code>JSpinner</code>.
      *
-     * @return the current spinner value.
-     * @see #setValue
+     * @return the current spinner vblue.
+     * @see #setVblue
      */
-    Object getValue();
+    Object getVblue();
 
 
     /**
-     * Changes current value of the model, typically this value is displayed
-     * by the <code>editor</code> part of a  <code>JSpinner</code>.
-     * If the <code>SpinnerModel</code> implementation doesn't support
-     * the specified value then an <code>IllegalArgumentException</code>
-     * is thrown.  For example a <code>SpinnerModel</code> for numbers might
-     * only support values that are integer multiples of ten. In
-     * that case, <code>model.setValue(new Number(11))</code>
-     * would throw an exception.
+     * Chbnges current vblue of the model, typicblly this vblue is displbyed
+     * by the <code>editor</code> pbrt of b  <code>JSpinner</code>.
+     * If the <code>SpinnerModel</code> implementbtion doesn't support
+     * the specified vblue then bn <code>IllegblArgumentException</code>
+     * is thrown.  For exbmple b <code>SpinnerModel</code> for numbers might
+     * only support vblues thbt bre integer multiples of ten. In
+     * thbt cbse, <code>model.setVblue(new Number(11))</code>
+     * would throw bn exception.
      *
-     * @param value  new value for the spinner
-     * @throws IllegalArgumentException if <code>value</code> isn't allowed
-     * @see #getValue
+     * @pbrbm vblue  new vblue for the spinner
+     * @throws IllegblArgumentException if <code>vblue</code> isn't bllowed
+     * @see #getVblue
      */
-    void setValue(Object value);
+    void setVblue(Object vblue);
 
 
     /**
-     * Return the object in the sequence that comes after the object returned
-     * by <code>getValue()</code>. If the end of the sequence has been reached
-     * then return null.  Calling this method does not effect <code>value</code>.
+     * Return the object in the sequence thbt comes bfter the object returned
+     * by <code>getVblue()</code>. If the end of the sequence hbs been rebched
+     * then return null.  Cblling this method does not effect <code>vblue</code>.
      *
-     * @return the next legal value or null if one doesn't exist
-     * @see #getValue
-     * @see #getPreviousValue
+     * @return the next legbl vblue or null if one doesn't exist
+     * @see #getVblue
+     * @see #getPreviousVblue
      */
-    Object getNextValue();
+    Object getNextVblue();
 
 
     /**
-     * Return the object in the sequence that comes before the object returned
-     * by <code>getValue()</code>.  If the end of the sequence has been reached then
-     * return null. Calling this method does not effect <code>value</code>.
+     * Return the object in the sequence thbt comes before the object returned
+     * by <code>getVblue()</code>.  If the end of the sequence hbs been rebched then
+     * return null. Cblling this method does not effect <code>vblue</code>.
      *
-     * @return the previous legal value or null if one doesn't exist
-     * @see #getValue
-     * @see #getNextValue
+     * @return the previous legbl vblue or null if one doesn't exist
+     * @see #getVblue
+     * @see #getNextVblue
      */
-    Object getPreviousValue();
+    Object getPreviousVblue();
 
 
     /**
-     * Adds a <code>ChangeListener</code> to the model's listener list.  The
-     * <code>ChangeListeners</code> must be notified when models <code>value</code>
-     * changes.
+     * Adds b <code>ChbngeListener</code> to the model's listener list.  The
+     * <code>ChbngeListeners</code> must be notified when models <code>vblue</code>
+     * chbnges.
      *
-     * @param l the ChangeListener to add
-     * @see #removeChangeListener
+     * @pbrbm l the ChbngeListener to bdd
+     * @see #removeChbngeListener
      */
-    void addChangeListener(ChangeListener l);
+    void bddChbngeListener(ChbngeListener l);
 
 
     /**
-     * Removes a <code>ChangeListener</code> from the model's listener list.
+     * Removes b <code>ChbngeListener</code> from the model's listener list.
      *
-     * @param l the ChangeListener to remove
-     * @see #addChangeListener
+     * @pbrbm l the ChbngeListener to remove
+     * @see #bddChbngeListener
      */
-    void removeChangeListener(ChangeListener l);
+    void removeChbngeListener(ChbngeListener l);
 }

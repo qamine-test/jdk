@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.peer.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.util.Set;
-import java.awt.AWTKeyStroke;
-import java.applet.Applet;
-import sun.applet.AppletPanel;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.peer.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.util.Set;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bpplet.Applet;
+import sun.bpplet.AppletPbnel;
 
 /**
- * A generic container used for embedding Java components, usually applets.
- * An EmbeddedFrame has two related uses:
+ * A generic contbiner used for embedding Jbvb components, usublly bpplets.
+ * An EmbeddedFrbme hbs two relbted uses:
  *
- * . Within a Java-based application, an EmbeddedFrame serves as a sort of
- *   firewall, preventing the contained components or applets from using
- *   getParent() to find parent components, such as menubars.
+ * . Within b Jbvb-bbsed bpplicbtion, bn EmbeddedFrbme serves bs b sort of
+ *   firewbll, preventing the contbined components or bpplets from using
+ *   getPbrent() to find pbrent components, such bs menubbrs.
  *
- * . Within a C-based application, an EmbeddedFrame contains a window handle
- *   which was created by the application, which serves as the top-level
- *   Java window.  EmbeddedFrames created for this purpose are passed-in a
- *   handle of an existing window created by the application.  The window
- *   handle should be of the appropriate native type for a specific
- *   platform, as stored in the pData field of the ComponentPeer.
+ * . Within b C-bbsed bpplicbtion, bn EmbeddedFrbme contbins b window hbndle
+ *   which wbs crebted by the bpplicbtion, which serves bs the top-level
+ *   Jbvb window.  EmbeddedFrbmes crebted for this purpose bre pbssed-in b
+ *   hbndle of bn existing window crebted by the bpplicbtion.  The window
+ *   hbndle should be of the bppropribte nbtive type for b specific
+ *   plbtform, bs stored in the pDbtb field of the ComponentPeer.
  *
- * @author      Thomas Ball
+ * @buthor      Thombs Bbll
  */
-public abstract class EmbeddedFrame extends Frame
-                          implements KeyEventDispatcher, PropertyChangeListener {
+public bbstrbct clbss EmbeddedFrbme extends Frbme
+                          implements KeyEventDispbtcher, PropertyChbngeListener {
 
-    private boolean isCursorAllowed = true;
-    private boolean supportsXEmbed = false;
-    private KeyboardFocusManager appletKFM;
-    // JDK 1.1 compatibility
-    private static final long serialVersionUID = 2967042741780317130L;
+    privbte boolebn isCursorAllowed = true;
+    privbte boolebn supportsXEmbed = fblse;
+    privbte KeybobrdFocusMbnbger bppletKFM;
+    // JDK 1.1 compbtibility
+    privbte stbtic finbl long seriblVersionUID = 2967042741780317130L;
 
     /*
-     * The constants define focus traversal directions.
-     * Use them in {@code traverseIn}, {@code traverseOut} methods.
+     * The constbnts define focus trbversbl directions.
+     * Use them in {@code trbverseIn}, {@code trbverseOut} methods.
      */
-    protected static final boolean FORWARD = true;
-    protected static final boolean BACKWARD = false;
+    protected stbtic finbl boolebn FORWARD = true;
+    protected stbtic finbl boolebn BACKWARD = fblse;
 
-    public boolean supportsXEmbed() {
+    public boolebn supportsXEmbed() {
         return supportsXEmbed && SunToolkit.needsXEmbed();
     }
 
-    protected EmbeddedFrame(boolean supportsXEmbed) {
+    protected EmbeddedFrbme(boolebn supportsXEmbed) {
         this((long)0, supportsXEmbed);
     }
 
 
-    protected EmbeddedFrame() {
+    protected EmbeddedFrbme() {
         this((long)0);
     }
 
     /**
-     * @deprecated This constructor will be removed in 1.5
+     * @deprecbted This constructor will be removed in 1.5
      */
-    @Deprecated
-    protected EmbeddedFrame(int handle) {
-        this((long)handle);
+    @Deprecbted
+    protected EmbeddedFrbme(int hbndle) {
+        this((long)hbndle);
     }
 
-    protected EmbeddedFrame(long handle) {
-        this(handle, false);
+    protected EmbeddedFrbme(long hbndle) {
+        this(hbndle, fblse);
     }
 
-    protected EmbeddedFrame(long handle, boolean supportsXEmbed) {
+    protected EmbeddedFrbme(long hbndle, boolebn supportsXEmbed) {
         this.supportsXEmbed = supportsXEmbed;
         registerListeners();
     }
 
     /**
-     * Block introspection of a parent window by this child.
+     * Block introspection of b pbrent window by this child.
      */
-    public Container getParent() {
+    public Contbiner getPbrent() {
         return null;
     }
 
     /**
-     * Needed to track which KeyboardFocusManager is current. We want to avoid memory
-     * leaks, so when KFM stops being current, we remove ourselves as listeners.
+     * Needed to trbck which KeybobrdFocusMbnbger is current. We wbnt to bvoid memory
+     * lebks, so when KFM stops being current, we remove ourselves bs listeners.
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        // We don't handle any other properties. Skip it.
-        if (!evt.getPropertyName().equals("managingFocus")) {
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        // We don't hbndle bny other properties. Skip it.
+        if (!evt.getPropertyNbme().equbls("mbnbgingFocus")) {
             return;
         }
 
-        // We only do it if it stops being current. Technically, we should
-        // never get an event about KFM starting being current.
-        if (evt.getNewValue() == Boolean.TRUE) {
+        // We only do it if it stops being current. Technicblly, we should
+        // never get bn event bbout KFM stbrting being current.
+        if (evt.getNewVblue() == Boolebn.TRUE) {
             return;
         }
 
-        // should be the same as appletKFM
-        removeTraversingOutListeners((KeyboardFocusManager)evt.getSource());
+        // should be the sbme bs bppletKFM
+        removeTrbversingOutListeners((KeybobrdFocusMbnbger)evt.getSource());
 
-        appletKFM = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        bppletKFM = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
         if (isVisible()) {
-            addTraversingOutListeners(appletKFM);
+            bddTrbversingOutListeners(bppletKFM);
         }
     }
 
     /**
-     * Register us as KeyEventDispatcher and property "managingFocus" listeners.
+     * Register us bs KeyEventDispbtcher bnd property "mbnbgingFocus" listeners.
      */
-    private void addTraversingOutListeners(KeyboardFocusManager kfm) {
-        kfm.addKeyEventDispatcher(this);
-        kfm.addPropertyChangeListener("managingFocus", this);
+    privbte void bddTrbversingOutListeners(KeybobrdFocusMbnbger kfm) {
+        kfm.bddKeyEventDispbtcher(this);
+        kfm.bddPropertyChbngeListener("mbnbgingFocus", this);
     }
 
     /**
-     * Deregister us as KeyEventDispatcher and property "managingFocus" listeners.
+     * Deregister us bs KeyEventDispbtcher bnd property "mbnbgingFocus" listeners.
      */
-    private void removeTraversingOutListeners(KeyboardFocusManager kfm) {
-        kfm.removeKeyEventDispatcher(this);
-        kfm.removePropertyChangeListener("managingFocus", this);
+    privbte void removeTrbversingOutListeners(KeybobrdFocusMbnbger kfm) {
+        kfm.removeKeyEventDispbtcher(this);
+        kfm.removePropertyChbngeListener("mbnbgingFocus", this);
     }
 
     /**
-     * Because there may be many AppContexts, and we can't be sure where this
-     * EmbeddedFrame is first created or shown, we can't automatically determine
-     * the correct KeyboardFocusManager to attach to as KeyEventDispatcher.
-     * Those who want to use the functionality of traversing out of the EmbeddedFrame
-     * must call this method on the Applet's AppContext. After that, all the changes
-     * can be handled automatically, including possible replacement of
-     * KeyboardFocusManager.
+     * Becbuse there mby be mbny AppContexts, bnd we cbn't be sure where this
+     * EmbeddedFrbme is first crebted or shown, we cbn't butombticblly determine
+     * the correct KeybobrdFocusMbnbger to bttbch to bs KeyEventDispbtcher.
+     * Those who wbnt to use the functionblity of trbversing out of the EmbeddedFrbme
+     * must cbll this method on the Applet's AppContext. After thbt, bll the chbnges
+     * cbn be hbndled butombticblly, including possible replbcement of
+     * KeybobrdFocusMbnbger.
      */
     public void registerListeners() {
-        if (appletKFM != null) {
-            removeTraversingOutListeners(appletKFM);
+        if (bppletKFM != null) {
+            removeTrbversingOutListeners(bppletKFM);
         }
-        appletKFM = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        bppletKFM = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
         if (isVisible()) {
-            addTraversingOutListeners(appletKFM);
+            bddTrbversingOutListeners(bppletKFM);
         }
     }
 
     /**
-     * Needed to avoid memory leak: we register this EmbeddedFrame as a listener with
-     * KeyboardFocusManager of applet's AppContext. We don't want the KFM to keep
-     * reference to our EmbeddedFrame forever if the Frame is no longer in use, so we
-     * add listeners in show() and remove them in hide().
+     * Needed to bvoid memory lebk: we register this EmbeddedFrbme bs b listener with
+     * KeybobrdFocusMbnbger of bpplet's AppContext. We don't wbnt the KFM to keep
+     * reference to our EmbeddedFrbme forever if the Frbme is no longer in use, so we
+     * bdd listeners in show() bnd remove them in hide().
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void show() {
-        if (appletKFM != null) {
-            addTraversingOutListeners(appletKFM);
+        if (bppletKFM != null) {
+            bddTrbversingOutListeners(bppletKFM);
         }
         super.show();
     }
 
     /**
-     * Needed to avoid memory leak: we register this EmbeddedFrame as a listener with
-     * KeyboardFocusManager of applet's AppContext. We don't want the KFM to keep
-     * reference to our EmbeddedFrame forever if the Frame is no longer in use, so we
-     * add listeners in show() and remove them in hide().
+     * Needed to bvoid memory lebk: we register this EmbeddedFrbme bs b listener with
+     * KeybobrdFocusMbnbger of bpplet's AppContext. We don't wbnt the KFM to keep
+     * reference to our EmbeddedFrbme forever if the Frbme is no longer in use, so we
+     * bdd listeners in show() bnd remove them in hide().
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void hide() {
-        if (appletKFM != null) {
-            removeTraversingOutListeners(appletKFM);
+        if (bppletKFM != null) {
+            removeTrbversingOutListeners(bppletKFM);
         }
         super.hide();
     }
 
     /**
-     * Need this method to detect when the focus may have chance to leave the
-     * focus cycle root which is EmbeddedFrame. Mostly, the code here is copied
-     * from DefaultKeyboardFocusManager.processKeyEvent with some minor
-     * modifications.
+     * Need this method to detect when the focus mby hbve chbnce to lebve the
+     * focus cycle root which is EmbeddedFrbme. Mostly, the code here is copied
+     * from DefbultKeybobrdFocusMbnbger.processKeyEvent with some minor
+     * modificbtions.
      */
-    public boolean dispatchKeyEvent(KeyEvent e) {
+    public boolebn dispbtchKeyEvent(KeyEvent e) {
 
-        Container currentRoot = AWTAccessor.getKeyboardFocusManagerAccessor()
+        Contbiner currentRoot = AWTAccessor.getKeybobrdFocusMbnbgerAccessor()
                                     .getCurrentFocusCycleRoot();
 
-        // if we are not in EmbeddedFrame's cycle, we should not try to leave.
+        // if we bre not in EmbeddedFrbme's cycle, we should not try to lebve.
         if (this != currentRoot) {
-            return false;
+            return fblse;
         }
 
-        // KEY_TYPED events cannot be focus traversal keys
+        // KEY_TYPED events cbnnot be focus trbversbl keys
         if (e.getID() == KeyEvent.KEY_TYPED) {
-            return false;
+            return fblse;
         }
 
-        if (!getFocusTraversalKeysEnabled() || e.isConsumed()) {
-            return false;
+        if (!getFocusTrbversblKeysEnbbled() || e.isConsumed()) {
+            return fblse;
         }
 
         AWTKeyStroke stroke = AWTKeyStroke.getAWTKeyStrokeForEvent(e);
         Set<AWTKeyStroke> toTest;
         Component currentFocused = e.getComponent();
 
-        toTest = getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-        if (toTest.contains(stroke)) {
-            // 6581899: performance improvement for SortingFocusTraversalPolicy
-            Component last = getFocusTraversalPolicy().getLastComponent(this);
-            if (currentFocused == last || last == null) {
-                if (traverseOut(FORWARD)) {
+        toTest = getFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS);
+        if (toTest.contbins(stroke)) {
+            // 6581899: performbnce improvement for SortingFocusTrbversblPolicy
+            Component lbst = getFocusTrbversblPolicy().getLbstComponent(this);
+            if (currentFocused == lbst || lbst == null) {
+                if (trbverseOut(FORWARD)) {
                     e.consume();
                     return true;
                 }
             }
         }
 
-        toTest = getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
-        if (toTest.contains(stroke)) {
-            // 6581899: performance improvement for SortingFocusTraversalPolicy
-            Component first = getFocusTraversalPolicy().getFirstComponent(this);
+        toTest = getFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS);
+        if (toTest.contbins(stroke)) {
+            // 6581899: performbnce improvement for SortingFocusTrbversblPolicy
+            Component first = getFocusTrbversblPolicy().getFirstComponent(this);
             if (currentFocused == first || first == null) {
-                if (traverseOut(BACKWARD)) {
+                if (trbverseOut(BACKWARD)) {
                     e.consume();
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * This method is called by the embedder when we should receive focus as element
-     * of the traversal chain.  The method requests focus on:
-     * 1. the first Component of this EmbeddedFrame if user moves focus forward
-     *    in the focus traversal cycle.
-     * 2. the last Component of this EmbeddedFrame if user moves focus backward
-     *    in the focus traversal cycle.
+     * This method is cblled by the embedder when we should receive focus bs element
+     * of the trbversbl chbin.  The method requests focus on:
+     * 1. the first Component of this EmbeddedFrbme if user moves focus forwbrd
+     *    in the focus trbversbl cycle.
+     * 2. the lbst Component of this EmbeddedFrbme if user moves focus bbckwbrd
+     *    in the focus trbversbl cycle.
      *
-     * The direction parameter specifies which of the two mentioned cases is
-     * happening. Use FORWARD and BACKWARD constants defined in the EmbeddedFrame class
-     * to avoid confusing boolean values.
+     * The direction pbrbmeter specifies which of the two mentioned cbses is
+     * hbppening. Use FORWARD bnd BACKWARD constbnts defined in the EmbeddedFrbme clbss
+     * to bvoid confusing boolebn vblues.
      *
-     * A concrete implementation of this method is defined in the platform-dependent
-     * subclasses.
+     * A concrete implementbtion of this method is defined in the plbtform-dependent
+     * subclbsses.
      *
-     * @param direction FORWARD or BACKWARD
-     * @return true, if the EmbeddedFrame wants to get focus, false otherwise.
+     * @pbrbm direction FORWARD or BACKWARD
+     * @return true, if the EmbeddedFrbme wbnts to get focus, fblse otherwise.
      */
-    public boolean traverseIn(boolean direction) {
+    public boolebn trbverseIn(boolebn direction) {
         Component comp = null;
 
         if (direction == FORWARD) {
-            comp = getFocusTraversalPolicy().getFirstComponent(this);
+            comp = getFocusTrbversblPolicy().getFirstComponent(this);
         } else {
-            comp = getFocusTraversalPolicy().getLastComponent(this);
+            comp = getFocusTrbversblPolicy().getLbstComponent(this);
         }
         if (comp != null) {
-            // comp.requestFocus(); - Leads to a hung.
+            // comp.requestFocus(); - Lebds to b hung.
 
-            AWTAccessor.getKeyboardFocusManagerAccessor().setMostRecentFocusOwner(this, comp);
-            synthesizeWindowActivation(true);
+            AWTAccessor.getKeybobrdFocusMbnbgerAccessor().setMostRecentFocusOwner(this, comp);
+            synthesizeWindowActivbtion(true);
         }
         return (null != comp);
     }
 
     /**
-     * This method is called from dispatchKeyEvent in the following two cases:
-     * 1. The focus is on the first Component of this EmbeddedFrame and we are
-     *    about to transfer the focus backward.
-     * 2. The focus in on the last Component of this EmbeddedFrame and we are
-     *    about to transfer the focus forward.
-     * This is needed to give the opportuity for keyboard focus to leave the
-     * EmbeddedFrame. Override this method, initiate focus transfer in it and
-     * return true if you want the focus to leave EmbeddedFrame's cycle.
-     * The direction parameter specifies which of the two mentioned cases is
-     * happening. Use FORWARD and BACKWARD constants defined in EmbeddedFrame
-     * to avoid confusing boolean values.
+     * This method is cblled from dispbtchKeyEvent in the following two cbses:
+     * 1. The focus is on the first Component of this EmbeddedFrbme bnd we bre
+     *    bbout to trbnsfer the focus bbckwbrd.
+     * 2. The focus in on the lbst Component of this EmbeddedFrbme bnd we bre
+     *    bbout to trbnsfer the focus forwbrd.
+     * This is needed to give the opportuity for keybobrd focus to lebve the
+     * EmbeddedFrbme. Override this method, initibte focus trbnsfer in it bnd
+     * return true if you wbnt the focus to lebve EmbeddedFrbme's cycle.
+     * The direction pbrbmeter specifies which of the two mentioned cbses is
+     * hbppening. Use FORWARD bnd BACKWARD constbnts defined in EmbeddedFrbme
+     * to bvoid confusing boolebn vblues.
      *
-     * @param direction FORWARD or BACKWARD
-     * @return true, if EmbeddedFrame wants the focus to leave it,
-     *         false otherwise.
+     * @pbrbm direction FORWARD or BACKWARD
+     * @return true, if EmbeddedFrbme wbnts the focus to lebve it,
+     *         fblse otherwise.
      */
-    protected boolean traverseOut(boolean direction) {
-        return false;
+    protected boolebn trbverseOut(boolebn direction) {
+        return fblse;
     }
 
     /**
-     * Block modifying any frame attributes, since they aren't applicable
-     * for EmbeddedFrames.
+     * Block modifying bny frbme bttributes, since they bren't bpplicbble
+     * for EmbeddedFrbmes.
      */
     public void setTitle(String title) {}
-    public void setIconImage(Image image) {}
-    public void setIconImages(java.util.List<? extends Image> icons) {}
-    public void setMenuBar(MenuBar mb) {}
-    public void setResizable(boolean resizable) {}
+    public void setIconImbge(Imbge imbge) {}
+    public void setIconImbges(jbvb.util.List<? extends Imbge> icons) {}
+    public void setMenuBbr(MenuBbr mb) {}
+    public void setResizbble(boolebn resizbble) {}
     public void remove(MenuComponent m) {}
 
-    public boolean isResizable() {
+    public boolebn isResizbble() {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
-    public void addNotify() {
+    @SuppressWbrnings("deprecbtion")
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (getPeer() == null) {
-                setPeer(new NullEmbeddedFramePeer());
+                setPeer(new NullEmbeddedFrbmePeer());
             }
-            super.addNotify();
+            super.bddNotify();
         }
     }
 
     // These three functions consitute RFE 4100710. Do not remove.
-    @SuppressWarnings("deprecation")
-    public void setCursorAllowed(boolean isCursorAllowed) {
+    @SuppressWbrnings("deprecbtion")
+    public void setCursorAllowed(boolebn isCursorAllowed) {
         this.isCursorAllowed = isCursorAllowed;
-        getPeer().updateCursorImmediately();
+        getPeer().updbteCursorImmedibtely();
     }
-    public boolean isCursorAllowed() {
+    public boolebn isCursorAllowed() {
         return isCursorAllowed;
     }
     public Cursor getCursor() {
@@ -345,147 +345,147 @@ public abstract class EmbeddedFrame extends Frame
             : Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
     }
 
-    @SuppressWarnings("deprecation")
-    protected void setPeer(final ComponentPeer p){
-        AWTAccessor.getComponentAccessor().setPeer(EmbeddedFrame.this, p);
+    @SuppressWbrnings("deprecbtion")
+    protected void setPeer(finbl ComponentPeer p){
+        AWTAccessor.getComponentAccessor().setPeer(EmbeddedFrbme.this, p);
     };
 
     /**
-     * Synthesize native message to activate or deactivate EmbeddedFrame window
-     * depending on the value of parameter <code>b</code>.
-     * Peers should override this method if they are to implement
-     * this functionality.
-     * @param doActivate  if <code>true</code>, activates the window;
-     * otherwise, deactivates the window
+     * Synthesize nbtive messbge to bctivbte or debctivbte EmbeddedFrbme window
+     * depending on the vblue of pbrbmeter <code>b</code>.
+     * Peers should override this method if they bre to implement
+     * this functionblity.
+     * @pbrbm doActivbte  if <code>true</code>, bctivbtes the window;
+     * otherwise, debctivbtes the window
      */
-    public void synthesizeWindowActivation(boolean doActivate) {}
+    public void synthesizeWindowActivbtion(boolebn doActivbte) {}
 
     /**
-     * Moves this embedded frame to a new location. The top-left corner of
-     * the new location is specified by the <code>x</code> and <code>y</code>
-     * parameters relative to the native parent component.
+     * Moves this embedded frbme to b new locbtion. The top-left corner of
+     * the new locbtion is specified by the <code>x</code> bnd <code>y</code>
+     * pbrbmeters relbtive to the nbtive pbrent component.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow moving embedded frame
-     * setLocationPrivate() and setBoundsPrivate() were introduced, and they
-     * work just the same way as setLocation() and setBounds() for usual,
+     * setLocbtion() bnd setBounds() for EmbeddedFrbme reblly don't move it
+     * within the nbtive pbrent. These methods blwbys put embedded frbme to
+     * (0, 0) for bbckwbrd compbtibility. To bllow moving embedded frbme
+     * setLocbtionPrivbte() bnd setBoundsPrivbte() were introduced, bnd they
+     * work just the sbme wby bs setLocbtion() bnd setBounds() for usubl,
      * non-embedded components.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl get/setLocbtion() bnd get/setBounds() together with new
+     * get/setLocbtionPrivbte() bnd get/setBoundsPrivbte() is not recommended.
+     * For exbmple, cblling getBoundsPrivbte() bfter setLocbtion() works fine,
+     * but getBounds() bfter setBoundsPrivbte() mby return unpredictbble vblue.
      * </p>
-     * @param x the new <i>x</i>-coordinate relative to the parent component
-     * @param y the new <i>y</i>-coordinate relative to the parent component
-     * @see java.awt.Component#setLocation
-     * @see #getLocationPrivate
-     * @see #setBoundsPrivate
-     * @see #getBoundsPrivate
+     * @pbrbm x the new <i>x</i>-coordinbte relbtive to the pbrent component
+     * @pbrbm y the new <i>y</i>-coordinbte relbtive to the pbrent component
+     * @see jbvb.bwt.Component#setLocbtion
+     * @see #getLocbtionPrivbte
+     * @see #setBoundsPrivbte
+     * @see #getBoundsPrivbte
      * @since 1.5
      */
-    protected void setLocationPrivate(int x, int y) {
+    protected void setLocbtionPrivbte(int x, int y) {
         Dimension size = getSize();
-        setBoundsPrivate(x, y, size.width, size.height);
+        setBoundsPrivbte(x, y, size.width, size.height);
     }
 
     /**
-     * Gets the location of this embedded frame as a point specifying the
-     * top-left corner relative to parent component.
+     * Gets the locbtion of this embedded frbme bs b point specifying the
+     * top-left corner relbtive to pbrent component.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow getting location and size
-     * of embedded frame getLocationPrivate() and getBoundsPrivate() were
-     * introduced, and they work just the same way as getLocation() and getBounds()
-     * for ususal, non-embedded components.
+     * setLocbtion() bnd setBounds() for EmbeddedFrbme reblly don't move it
+     * within the nbtive pbrent. These methods blwbys put embedded frbme to
+     * (0, 0) for bbckwbrd compbtibility. To bllow getting locbtion bnd size
+     * of embedded frbme getLocbtionPrivbte() bnd getBoundsPrivbte() were
+     * introduced, bnd they work just the sbme wby bs getLocbtion() bnd getBounds()
+     * for ususbl, non-embedded components.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl get/setLocbtion() bnd get/setBounds() together with new
+     * get/setLocbtionPrivbte() bnd get/setBoundsPrivbte() is not recommended.
+     * For exbmple, cblling getBoundsPrivbte() bfter setLocbtion() works fine,
+     * but getBounds() bfter setBoundsPrivbte() mby return unpredictbble vblue.
      * </p>
-     * @return a point indicating this embedded frame's top-left corner
-     * @see java.awt.Component#getLocation
-     * @see #setLocationPrivate
-     * @see #setBoundsPrivate
-     * @see #getBoundsPrivate
+     * @return b point indicbting this embedded frbme's top-left corner
+     * @see jbvb.bwt.Component#getLocbtion
+     * @see #setLocbtionPrivbte
+     * @see #setBoundsPrivbte
+     * @see #getBoundsPrivbte
      * @since 1.6
      */
-    protected Point getLocationPrivate() {
-        Rectangle bounds = getBoundsPrivate();
+    protected Point getLocbtionPrivbte() {
+        Rectbngle bounds = getBoundsPrivbte();
         return new Point(bounds.x, bounds.y);
     }
 
     /**
-     * Moves and resizes this embedded frame. The new location of the top-left
-     * corner is specified by <code>x</code> and <code>y</code> parameters
-     * relative to the native parent component. The new size is specified by
-     * <code>width</code> and <code>height</code>.
+     * Moves bnd resizes this embedded frbme. The new locbtion of the top-left
+     * corner is specified by <code>x</code> bnd <code>y</code> pbrbmeters
+     * relbtive to the nbtive pbrent component. The new size is specified by
+     * <code>width</code> bnd <code>height</code>.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow moving embedded frames
-     * setLocationPrivate() and setBoundsPrivate() were introduced, and they
-     * work just the same way as setLocation() and setBounds() for usual,
+     * setLocbtion() bnd setBounds() for EmbeddedFrbme reblly don't move it
+     * within the nbtive pbrent. These methods blwbys put embedded frbme to
+     * (0, 0) for bbckwbrd compbtibility. To bllow moving embedded frbmes
+     * setLocbtionPrivbte() bnd setBoundsPrivbte() were introduced, bnd they
+     * work just the sbme wby bs setLocbtion() bnd setBounds() for usubl,
      * non-embedded components.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl get/setLocbtion() bnd get/setBounds() together with new
+     * get/setLocbtionPrivbte() bnd get/setBoundsPrivbte() is not recommended.
+     * For exbmple, cblling getBoundsPrivbte() bfter setLocbtion() works fine,
+     * but getBounds() bfter setBoundsPrivbte() mby return unpredictbble vblue.
      * </p>
-     * @param x the new <i>x</i>-coordinate relative to the parent component
-     * @param y the new <i>y</i>-coordinate relative to the parent component
-     * @param width the new <code>width</code> of this embedded frame
-     * @param height the new <code>height</code> of this embedded frame
-     * @see java.awt.Component#setBounds
-     * @see #setLocationPrivate
-     * @see #getLocationPrivate
-     * @see #getBoundsPrivate
+     * @pbrbm x the new <i>x</i>-coordinbte relbtive to the pbrent component
+     * @pbrbm y the new <i>y</i>-coordinbte relbtive to the pbrent component
+     * @pbrbm width the new <code>width</code> of this embedded frbme
+     * @pbrbm height the new <code>height</code> of this embedded frbme
+     * @see jbvb.bwt.Component#setBounds
+     * @see #setLocbtionPrivbte
+     * @see #getLocbtionPrivbte
+     * @see #getBoundsPrivbte
      * @since 1.5
      */
-    @SuppressWarnings("deprecation")
-    protected void setBoundsPrivate(int x, int y, int width, int height) {
-        final FramePeer peer = (FramePeer)getPeer();
+    @SuppressWbrnings("deprecbtion")
+    protected void setBoundsPrivbte(int x, int y, int width, int height) {
+        finbl FrbmePeer peer = (FrbmePeer)getPeer();
         if (peer != null) {
-            peer.setBoundsPrivate(x, y, width, height);
+            peer.setBoundsPrivbte(x, y, width, height);
         }
     }
 
     /**
-     * Gets the bounds of this embedded frame as a rectangle specifying the
-     * width, height and location relative to the native parent component.
+     * Gets the bounds of this embedded frbme bs b rectbngle specifying the
+     * width, height bnd locbtion relbtive to the nbtive pbrent component.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow getting location and size
-     * of embedded frames getLocationPrivate() and getBoundsPrivate() were
-     * introduced, and they work just the same way as getLocation() and getBounds()
-     * for ususal, non-embedded components.
+     * setLocbtion() bnd setBounds() for EmbeddedFrbme reblly don't move it
+     * within the nbtive pbrent. These methods blwbys put embedded frbme to
+     * (0, 0) for bbckwbrd compbtibility. To bllow getting locbtion bnd size
+     * of embedded frbmes getLocbtionPrivbte() bnd getBoundsPrivbte() were
+     * introduced, bnd they work just the sbme wby bs getLocbtion() bnd getBounds()
+     * for ususbl, non-embedded components.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl get/setLocbtion() bnd get/setBounds() together with new
+     * get/setLocbtionPrivbte() bnd get/setBoundsPrivbte() is not recommended.
+     * For exbmple, cblling getBoundsPrivbte() bfter setLocbtion() works fine,
+     * but getBounds() bfter setBoundsPrivbte() mby return unpredictbble vblue.
      * </p>
-     * @return a rectangle indicating this embedded frame's bounds
-     * @see java.awt.Component#getBounds
-     * @see #setLocationPrivate
-     * @see #getLocationPrivate
-     * @see #setBoundsPrivate
+     * @return b rectbngle indicbting this embedded frbme's bounds
+     * @see jbvb.bwt.Component#getBounds
+     * @see #setLocbtionPrivbte
+     * @see #getLocbtionPrivbte
+     * @see #setBoundsPrivbte
      * @since 1.6
      */
-    @SuppressWarnings("deprecation")
-    protected Rectangle getBoundsPrivate() {
-        final FramePeer peer = (FramePeer)getPeer();
+    @SuppressWbrnings("deprecbtion")
+    protected Rectbngle getBoundsPrivbte() {
+        finbl FrbmePeer peer = (FrbmePeer)getPeer();
         if (peer != null) {
-            return peer.getBoundsPrivate();
+            return peer.getBoundsPrivbte();
         }
         else {
             return getBounds();
@@ -493,94 +493,94 @@ public abstract class EmbeddedFrame extends Frame
     }
 
     public void toFront() {}
-    public void toBack() {}
+    public void toBbck() {}
 
-    public abstract void registerAccelerator(AWTKeyStroke stroke);
-    public abstract void unregisterAccelerator(AWTKeyStroke stroke);
+    public bbstrbct void registerAccelerbtor(AWTKeyStroke stroke);
+    public bbstrbct void unregisterAccelerbtor(AWTKeyStroke stroke);
 
     /**
-     * Checks if the component is in an EmbeddedFrame. If so,
-     * returns the applet found in the hierarchy or null if
+     * Checks if the component is in bn EmbeddedFrbme. If so,
+     * returns the bpplet found in the hierbrchy or null if
      * not found.
-     * @return the parent applet or {@ null}
+     * @return the pbrent bpplet or {@ null}
      * @since 1.6
      */
-    public static Applet getAppletIfAncestorOf(Component comp) {
-        Container parent = comp.getParent();
-        Applet applet = null;
-        while (parent != null && !(parent instanceof EmbeddedFrame)) {
-            if (parent instanceof Applet) {
-                applet = (Applet)parent;
+    public stbtic Applet getAppletIfAncestorOf(Component comp) {
+        Contbiner pbrent = comp.getPbrent();
+        Applet bpplet = null;
+        while (pbrent != null && !(pbrent instbnceof EmbeddedFrbme)) {
+            if (pbrent instbnceof Applet) {
+                bpplet = (Applet)pbrent;
             }
-            parent = parent.getParent();
+            pbrent = pbrent.getPbrent();
         }
-        return parent == null ? null : applet;
+        return pbrent == null ? null : bpplet;
     }
 
     /**
-     * This method should be overriden in subclasses. It is
-     * called when window this frame is within should be blocked
-     * by some modal dialog.
+     * This method should be overriden in subclbsses. It is
+     * cblled when window this frbme is within should be blocked
+     * by some modbl diblog.
      */
-    public void notifyModalBlocked(Dialog blocker, boolean blocked) {
+    public void notifyModblBlocked(Diblog blocker, boolebn blocked) {
     }
 
-    private static class NullEmbeddedFramePeer
-        extends NullComponentPeer implements FramePeer {
+    privbte stbtic clbss NullEmbeddedFrbmePeer
+        extends NullComponentPeer implements FrbmePeer {
         public void setTitle(String title) {}
-        public void setIconImage(Image im) {}
-        public void updateIconImages() {}
-        public void setMenuBar(MenuBar mb) {}
-        public void setResizable(boolean resizeable) {}
-        public void setState(int state) {}
-        public int getState() { return Frame.NORMAL; }
-        public void setMaximizedBounds(Rectangle b) {}
+        public void setIconImbge(Imbge im) {}
+        public void updbteIconImbges() {}
+        public void setMenuBbr(MenuBbr mb) {}
+        public void setResizbble(boolebn resizebble) {}
+        public void setStbte(int stbte) {}
+        public int getStbte() { return Frbme.NORMAL; }
+        public void setMbximizedBounds(Rectbngle b) {}
         public void toFront() {}
-        public void toBack() {}
-        public void updateFocusableWindowState() {}
-        public void updateAlwaysOnTop() {}
-        public void updateAlwaysOnTopState() {}
-        public Component getGlobalHeavyweightFocusOwner() { return null; }
-        public void setBoundsPrivate(int x, int y, int width, int height) {
+        public void toBbck() {}
+        public void updbteFocusbbleWindowStbte() {}
+        public void updbteAlwbysOnTop() {}
+        public void updbteAlwbysOnTopStbte() {}
+        public Component getGlobblHebvyweightFocusOwner() { return null; }
+        public void setBoundsPrivbte(int x, int y, int width, int height) {
             setBounds(x, y, width, height, SET_BOUNDS);
         }
-        public Rectangle getBoundsPrivate() {
+        public Rectbngle getBoundsPrivbte() {
             return getBounds();
         }
-        public void setModalBlocked(Dialog blocker, boolean blocked) {}
+        public void setModblBlocked(Diblog blocker, boolebn blocked) {}
 
         /**
-         * @see java.awt.peer.ContainerPeer#restack
+         * @see jbvb.bwt.peer.ContbinerPeer#restbck
          */
-        public void restack() {
-            throw new UnsupportedOperationException();
+        public void restbck() {
+            throw new UnsupportedOperbtionException();
         }
 
         /**
-         * @see java.awt.peer.ContainerPeer#isRestackSupported
+         * @see jbvb.bwt.peer.ContbinerPeer#isRestbckSupported
          */
-        public boolean isRestackSupported() {
-            return false;
+        public boolebn isRestbckSupported() {
+            return fblse;
         }
-        public boolean requestWindowFocus() {
-            return false;
+        public boolebn requestWindowFocus() {
+            return fblse;
         }
-        public void updateMinimumSize() {
-        }
-
-        public void setOpacity(float opacity) {
+        public void updbteMinimumSize() {
         }
 
-        public void setOpaque(boolean isOpaque) {
+        public void setOpbcity(flobt opbcity) {
         }
 
-        public void updateWindow() {
+        public void setOpbque(boolebn isOpbque) {
         }
 
-        public void repositionSecurityWarning() {
+        public void updbteWindow() {
         }
 
-        public void emulateActivation(boolean activate) {
+        public void repositionSecurityWbrning() {
+        }
+
+        public void emulbteActivbtion(boolebn bctivbte) {
         }
     }
-} // class EmbeddedFrame
+} // clbss EmbeddedFrbme

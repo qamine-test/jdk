@@ -1,742 +1,742 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 //#define DND_DEBUG TRUE
 
-#import "CDropTarget.h"
+#import "CDropTbrget.h"
 #import "AWTView.h"
 
-#import "sun_lwawt_macosx_CDropTarget.h"
-#import "java_awt_dnd_DnDConstants.h"
+#import "sun_lwbwt_mbcosx_CDropTbrget.h"
+#import "jbvb_bwt_dnd_DnDConstbnts.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <JbvbRuntimeSupport/JbvbRuntimeSupport.h>
 #include <objc/objc-runtime.h>
 
 
-#import "CDragSource.h"
-#import "CDataTransferer.h"
+#import "CDrbgSource.h"
+#import "CDbtbTrbnsferer.h"
 #import "DnDUtilities.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
 
-static NSInteger        sDraggingSequenceNumber = -1;
-static NSDragOperation    sDragOperation;
-static NSDragOperation    sUpdateOperation;
-static jint                sJavaDropOperation;
-static NSPoint            sDraggingLocation;
-static BOOL                sDraggingExited;
-static BOOL                sDraggingError;
+stbtic NSInteger        sDrbggingSequenceNumber = -1;
+stbtic NSDrbgOperbtion    sDrbgOperbtion;
+stbtic NSDrbgOperbtion    sUpdbteOperbtion;
+stbtic jint                sJbvbDropOperbtion;
+stbtic NSPoint            sDrbggingLocbtion;
+stbtic BOOL                sDrbggingExited;
+stbtic BOOL                sDrbggingError;
 
-static NSUInteger        sPasteboardItemsCount = 0;
-static NSArray*            sPasteboardTypes = nil;
-static NSArray*            sPasteboardData = nil;
-static jlongArray        sDraggingFormats = nil;
+stbtic NSUInteger        sPbstebobrdItemsCount = 0;
+stbtic NSArrby*            sPbstebobrdTypes = nil;
+stbtic NSArrby*            sPbstebobrdDbtb = nil;
+stbtic jlongArrby        sDrbggingFormbts = nil;
 
-static CDropTarget*        sCurrentDropTarget;
+stbtic CDropTbrget*        sCurrentDropTbrget;
 
-extern JNFClassInfo jc_CDropTargetContextPeer;
+extern JNFClbssInfo jc_CDropTbrgetContextPeer;
 
-@implementation CDropTarget
+@implementbtion CDropTbrget
 
-+ (CDropTarget *) currentDropTarget {
-    return sCurrentDropTarget;
++ (CDropTbrget *) currentDropTbrget {
+    return sCurrentDropTbrget;
 }
 
-- (id)init:(jobject)jdropTarget component:(jobject)jcomponent control:(id)control
+- (id)init:(jobject)jdropTbrget component:(jobject)jcomponent control:(id)control
 {
     self = [super init];
-    DLog2(@"[CDropTarget init]: %@\n", self);
+    DLog2(@"[CDropTbrget init]: %@\n", self);
 
     fView = nil;
     fComponent = nil;
-    fDropTarget = nil;
-    fDropTargetContextPeer = nil;
+    fDropTbrget = nil;
+    fDropTbrgetContextPeer = nil;
 
 
     if (control != nil) {
-        JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-        fComponent = JNFNewGlobalRef(env, jcomponent);
-        fDropTarget = JNFNewGlobalRef(env, jdropTarget);
+        JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
+        fComponent = JNFNewGlobblRef(env, jcomponent);
+        fDropTbrget = JNFNewGlobblRef(env, jdropTbrget);
 
-        fView = [((AWTView *) control) retain];
-        [fView setDropTarget:self];
+        fView = [((AWTView *) control) retbin];
+        [fView setDropTbrget:self];
 
 
     } else {
-        // This would be an error.
-        [self release];
+        // This would be bn error.
+        [self relebse];
         self = nil;
     }
     return self;
 }
 
-// When [CDropTarget init] is called the ControlModel's fView may not have been set up yet. ControlModel
-// (soon after) calls [CDropTarget controlModelControlValid] on the native event thread, once per CDropTarget,
+// When [CDropTbrget init] is cblled the ControlModel's fView mby not hbve been set up yet. ControlModel
+// (soon bfter) cblls [CDropTbrget controlModelControlVblid] on the nbtive event threbd, once per CDropTbrget,
 // to let it know it's been set up now.
-- (void)controlModelControlValid
+- (void)controlModelControlVblid
 {
-    // 9-30-02 Note: [Radar 3065621]
-    // List all known pasteboard types here (see AppKit's NSPasteboard.h)
-    // How to register for non-standard data types remains to be determined.
-    NSArray* dataTypes = [[NSArray alloc] initWithObjects:
-        NSStringPboardType,
-        NSFilenamesPboardType,
-        NSPostScriptPboardType,
-        NSTIFFPboardType,
-        NSPasteboardTypePNG,
-        NSRTFPboardType,
-        NSTabularTextPboardType,
-        NSFontPboardType,
-        NSRulerPboardType,
-        NSFileContentsPboardType,
-        NSColorPboardType,
-        NSRTFDPboardType,
-        NSHTMLPboardType,
-        NSURLPboardType,
-        NSPDFPboardType,
-        NSVCardPboardType,
-        NSFilesPromisePboardType,
-        [DnDUtilities javaPboardType],
+    // 9-30-02 Note: [Rbdbr 3065621]
+    // List bll known pbstebobrd types here (see AppKit's NSPbstebobrd.h)
+    // How to register for non-stbndbrd dbtb types rembins to be determined.
+    NSArrby* dbtbTypes = [[NSArrby blloc] initWithObjects:
+        NSStringPbobrdType,
+        NSFilenbmesPbobrdType,
+        NSPostScriptPbobrdType,
+        NSTIFFPbobrdType,
+        NSPbstebobrdTypePNG,
+        NSRTFPbobrdType,
+        NSTbbulbrTextPbobrdType,
+        NSFontPbobrdType,
+        NSRulerPbobrdType,
+        NSFileContentsPbobrdType,
+        NSColorPbobrdType,
+        NSRTFDPbobrdType,
+        NSHTMLPbobrdType,
+        NSURLPbobrdType,
+        NSPDFPbobrdType,
+        NSVCbrdPbobrdType,
+        NSFilesPromisePbobrdType,
+        [DnDUtilities jbvbPbobrdType],
         (NSString*)kUTTypeJPEG,
         nil];
 
-    // Enable dragging events over this object:
-    [fView registerForDraggedTypes:dataTypes];
+    // Enbble drbgging events over this object:
+    [fView registerForDrbggedTypes:dbtbTypes];
 
-    [dataTypes release];
+    [dbtbTypes relebse];
 }
 
-- (void)releaseDraggingData
+- (void)relebseDrbggingDbtb
 {
-    DLog2(@"[CDropTarget releaseDraggingData]: %@\n", self);
+    DLog2(@"[CDropTbrget relebseDrbggingDbtb]: %@\n", self);
 
-    // Release any old pasteboard types, data and properties:
-    [sPasteboardTypes release];
-    sPasteboardTypes = nil;
+    // Relebse bny old pbstebobrd types, dbtb bnd properties:
+    [sPbstebobrdTypes relebse];
+    sPbstebobrdTypes = nil;
 
-    [sPasteboardData release];
-    sPasteboardData = nil;
+    [sPbstebobrdDbtb relebse];
+    sPbstebobrdDbtb = nil;
 
-    if (sDraggingFormats != NULL) {
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        JNFDeleteGlobalRef(env, sDraggingFormats);
-        sDraggingFormats = NULL;
+    if (sDrbggingFormbts != NULL) {
+        JNIEnv *env = [ThrebdUtilities getJNIEnv];
+        JNFDeleteGlobblRef(env, sDrbggingFormbts);
+        sDrbggingFormbts = NULL;
     }
 
-    sPasteboardItemsCount = 0;
-    sDraggingSequenceNumber = -1;
+    sPbstebobrdItemsCount = 0;
+    sDrbggingSequenceNumber = -1;
 }
 
 - (void)removeFromView:(JNIEnv *)env
 {
-    DLog2(@"[CDropTarget removeFromView]: %@\n", self);
+    DLog2(@"[CDropTbrget removeFromView]: %@\n", self);
 
-    // Remove this dragging destination from the view:
-    [((AWTView *) fView) setDropTarget:nil];
+    // Remove this drbgging destinbtion from the view:
+    [((AWTView *) fView) setDropTbrget:nil];
 
-    // Clean up JNI refs
+    // Clebn up JNI refs
     if (fComponent != NULL) {
-        JNFDeleteGlobalRef(env, fComponent);
+        JNFDeleteGlobblRef(env, fComponent);
         fComponent = NULL;
     }
-    if (fDropTarget != NULL) {
-        JNFDeleteGlobalRef(env, fDropTarget);
-        fDropTarget = NULL;
+    if (fDropTbrget != NULL) {
+        JNFDeleteGlobblRef(env, fDropTbrget);
+        fDropTbrget = NULL;
     }
-    if (fDropTargetContextPeer != NULL) {
-        JNFDeleteGlobalRef(env, fDropTargetContextPeer);
-        fDropTargetContextPeer = NULL;
+    if (fDropTbrgetContextPeer != NULL) {
+        JNFDeleteGlobblRef(env, fDropTbrgetContextPeer);
+        fDropTbrgetContextPeer = NULL;
     }
 
-    [self release];
+    [self relebse];
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    DLog2(@"[CDropTarget dealloc]: %@\n", self);
+    DLog2(@"[CDropTbrget deblloc]: %@\n", self);
 
-    if(sCurrentDropTarget == self) {
-        sCurrentDropTarget = nil;
+    if(sCurrentDropTbrget == self) {
+        sCurrentDropTbrget = nil;
     }
 
-    [fView release];
+    [fView relebse];
     fView = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (NSInteger) getDraggingSequenceNumber
+- (NSInteger) getDrbggingSequenceNumber
 {
-    return sDraggingSequenceNumber;
+    return sDrbggingSequenceNumber;
 }
 
 // Debugging help:
-- (void)dumpPasteboard:(NSPasteboard*)pasteboard
+- (void)dumpPbstebobrd:(NSPbstebobrd*)pbstebobrd
 {
-    NSArray* pasteboardTypes = [pasteboard types];
-    NSUInteger pasteboardItemsCount = [pasteboardTypes count];
+    NSArrby* pbstebobrdTypes = [pbstebobrd types];
+    NSUInteger pbstebobrdItemsCount = [pbstebobrdTypes count];
     NSUInteger i;
 
-    // For each flavor on the pasteboard show the type, its data, and its property if there is one:
-    for (i = 0; i < pasteboardItemsCount; i++) {
-        NSString* pbType = [pasteboardTypes objectAtIndex:i];
+    // For ebch flbvor on the pbstebobrd show the type, its dbtb, bnd its property if there is one:
+    for (i = 0; i < pbstebobrdItemsCount; i++) {
+        NSString* pbType = [pbstebobrdTypes objectAtIndex:i];
         CFShow(pbType);
 
-        NSData*    pbData = [pasteboard dataForType:pbType];
-        CFShow(pbData);
+        NSDbtb*    pbDbtb = [pbstebobrd dbtbForType:pbType];
+        CFShow(pbDbtb);
 
-        if ([pbType hasPrefix:@"CorePasteboardFlavorType"] == NO) {
-            id pbDataProperty = [pasteboard propertyListForType:pbType];
-            CFShow(pbDataProperty);
+        if ([pbType hbsPrefix:@"CorePbstebobrdFlbvorType"] == NO) {
+            id pbDbtbProperty = [pbstebobrd propertyListForType:pbType];
+            CFShow(pbDbtbProperty);
         }
     }
 }
 
-- (BOOL)copyDraggingTypes:(id<NSDraggingInfo>)sender
+- (BOOL)copyDrbggingTypes:(id<NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget copyDraggingTypes]: %@\n", self);
-    JNIEnv*    env = [ThreadUtilities getJNIEnv];
+    DLog2(@"[CDropTbrget copyDrbggingTypes]: %@\n", self);
+    JNIEnv*    env = [ThrebdUtilities getJNIEnv];
 
-    // Release any old pasteboard data:
-    [self releaseDraggingData];
+    // Relebse bny old pbstebobrd dbtb:
+    [self relebseDrbggingDbtb];
 
-    NSPasteboard* pb = [sender draggingPasteboard];
-    sPasteboardTypes = [[pb types] retain];
-    sPasteboardItemsCount = [sPasteboardTypes count];
-    if (sPasteboardItemsCount == 0)
+    NSPbstebobrd* pb = [sender drbggingPbstebobrd];
+    sPbstebobrdTypes = [[pb types] retbin];
+    sPbstebobrdItemsCount = [sPbstebobrdTypes count];
+    if (sPbstebobrdItemsCount == 0)
         return FALSE;
 
-    jlongArray formats = (*env)->NewLongArray(env, sPasteboardItemsCount);
-    if (formats == nil)
+    jlongArrby formbts = (*env)->NewLongArrby(env, sPbstebobrdItemsCount);
+    if (formbts == nil)
         return FALSE;
 
-    sDraggingFormats = (jlongArray) JNFNewGlobalRef(env, formats);
-    (*env)->DeleteLocalRef(env, formats);
-    if (sDraggingFormats == nil)
+    sDrbggingFormbts = (jlongArrby) JNFNewGlobblRef(env, formbts);
+    (*env)->DeleteLocblRef(env, formbts);
+    if (sDrbggingFormbts == nil)
         return FALSE;
 
-    jboolean isCopy;
-    jlong* jformats = (*env)->GetLongArrayElements(env, sDraggingFormats, &isCopy);
-    if (jformats == nil) {
+    jboolebn isCopy;
+    jlong* jformbts = (*env)->GetLongArrbyElements(env, sDrbggingFormbts, &isCopy);
+    if (jformbts == nil) {
         return FALSE;
     }
 
-    // Copy all data formats and properties. In case of properties, if they are nil, we need to use
-    // a special NilProperty since [NSArray addObject] would crash on adding a nil object.
-    DLog2(@"[CDropTarget copyDraggingTypes]: typesCount = %lu\n", (unsigned long) sPasteboardItemsCount);
+    // Copy bll dbtb formbts bnd properties. In cbse of properties, if they bre nil, we need to use
+    // b specibl NilProperty since [NSArrby bddObject] would crbsh on bdding b nil object.
+    DLog2(@"[CDropTbrget copyDrbggingTypes]: typesCount = %lu\n", (unsigned long) sPbstebobrdItemsCount);
     NSUInteger i;
-    for (i = 0; i < sPasteboardItemsCount; i++) {
-        NSString* pbType = [sPasteboardTypes objectAtIndex:i];
-        DLog3(@"[CDropTarget copyDraggingTypes]: type[%lu] = %@\n", (unsigned long) i, pbType);
+    for (i = 0; i < sPbstebobrdItemsCount; i++) {
+        NSString* pbType = [sPbstebobrdTypes objectAtIndex:i];
+        DLog3(@"[CDropTbrget copyDrbggingTypes]: type[%lu] = %@\n", (unsigned long) i, pbType);
 
-        // 01-10-03 Note: until we need data properties for doing something useful don't copy them.
-        // They're often copies of their flavor's data and copying them for all available pasteboard flavors
-        // (which are often auto-translation of one another) can be a significant time/space hit.
+        // 01-10-03 Note: until we need dbtb properties for doing something useful don't copy them.
+        // They're often copies of their flbvor's dbtb bnd copying them for bll bvbilbble pbstebobrd flbvors
+        // (which bre often buto-trbnslbtion of one bnother) cbn be b significbnt time/spbce hit.
 
-        // If this is a remote object type (not a pre-defined format) register it with the pasteboard:
-        jformats[i] = indexForFormat(pbType);
-        if (jformats[i] == -1 && [pbType hasPrefix:@"JAVA_DATAFLAVOR:application/x-java-remote-object;"])
-            jformats[i] = registerFormatWithPasteboard(pbType);
+        // If this is b remote object type (not b pre-defined formbt) register it with the pbstebobrd:
+        jformbts[i] = indexForFormbt(pbType);
+        if (jformbts[i] == -1 && [pbType hbsPrefix:@"JAVA_DATAFLAVOR:bpplicbtion/x-jbvb-remote-object;"])
+            jformbts[i] = registerFormbtWithPbstebobrd(pbType);
     }
 
-    (*env)->ReleaseLongArrayElements(env, sDraggingFormats, jformats, JNI_COMMIT);
+    (*env)->RelebseLongArrbyElements(env, sDrbggingFormbts, jformbts, JNI_COMMIT);
 
     return TRUE;
 }
 
-- (BOOL)copyDraggingData:(id<NSDraggingInfo>)sender
+- (BOOL)copyDrbggingDbtb:(id<NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget copyDraggingData]: %@\n", self);
+    DLog2(@"[CDropTbrget copyDrbggingDbtb]: %@\n", self);
 
-    sPasteboardData = [[NSMutableArray alloc] init];
-    if (sPasteboardData == nil)
+    sPbstebobrdDbtb = [[NSMutbbleArrby blloc] init];
+    if (sPbstebobrdDbtb == nil)
         return FALSE;
 
-    // Copy all data items to a safe place since the pasteboard may go away before we'll need them:
-    NSPasteboard* pb = [sender draggingPasteboard];
+    // Copy bll dbtb items to b sbfe plbce since the pbstebobrd mby go bwby before we'll need them:
+    NSPbstebobrd* pb = [sender drbggingPbstebobrd];
     NSUInteger i;
-    for (i = 0; i < sPasteboardItemsCount; i++) {
-        // Get a type and its data and save the data:
-        NSString* pbType = [sPasteboardTypes objectAtIndex:i];
-        // 01-10-03 Note: copying only NS-type data (until Java-specified types can make it through the AppKit)
-        // would be a good idea since we can't do anything with those CoreFoundation unknown types anyway.
-        // But I'm worried that it would break something in Fuller so I'm leaving this here as a reminder,
-        // to be evaluated later.
-        //id pbData = [pbType hasPrefix:@"NS"] ? [pb dataForType:pbType] : nil; // Copy only NS-type data!
-        id pbData = [pb dataForType:pbType];
+    for (i = 0; i < sPbstebobrdItemsCount; i++) {
+        // Get b type bnd its dbtb bnd sbve the dbtb:
+        NSString* pbType = [sPbstebobrdTypes objectAtIndex:i];
+        // 01-10-03 Note: copying only NS-type dbtb (until Jbvb-specified types cbn mbke it through the AppKit)
+        // would be b good ideb since we cbn't do bnything with those CoreFoundbtion unknown types bnywby.
+        // But I'm worried thbt it would brebk something in Fuller so I'm lebving this here bs b reminder,
+        // to be evblubted lbter.
+        //id pbDbtb = [pbType hbsPrefix:@"NS"] ? [pb dbtbForType:pbType] : nil; // Copy only NS-type dbtb!
+        id pbDbtb = [pb dbtbForType:pbType];
 
-        // If the data is null we can't store it in the array - an exception would be thrown.
-        // We use the special object NSNull instead which is kosher.
-        if (pbData == nil)
-            pbData = [NSNull null];
+        // If the dbtb is null we cbn't store it in the brrby - bn exception would be thrown.
+        // We use the specibl object NSNull instebd which is kosher.
+        if (pbDbtb == nil)
+            pbDbtb = [NSNull null];
 
-        [((NSMutableArray*) sPasteboardData) addObject:pbData];
+        [((NSMutbbleArrby*) sPbstebobrdDbtb) bddObject:pbDbtb];
     }
 
     return TRUE;
 }
 
-- (NSData*) getDraggingDataForURL:(NSData*)data
+- (NSDbtb*) getDrbggingDbtbForURL:(NSDbtb*)dbtb
 {
-    NSData* result = nil;
+    NSDbtb* result = nil;
 
-    // Convert data into a property list if possible:
-    NSPropertyListFormat propertyListFormat;
+    // Convert dbtb into b property list if possible:
+    NSPropertyListFormbt propertyListFormbt;
     NSString* errorString = nil;
-    id propertyList = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable
-        format:&propertyListFormat errorDescription:&errorString];
+    id propertyList = [NSPropertyListSeriblizbtion propertyListFromDbtb:dbtb mutbbilityOption:NSPropertyListImmutbble
+        formbt:&propertyListFormbt errorDescription:&errorString];
 
-    // URL types have only a single URL string in an array:
-    if (propertyList != nil && errorString == nil && [propertyList isKindOfClass:[NSArray class]]) {
-        NSArray*  array = (NSArray*) propertyList;
-        if ([array count] > 0) {
-            NSString* url = (NSString*) [array objectAtIndex:0];
+    // URL types hbve only b single URL string in bn brrby:
+    if (propertyList != nil && errorString == nil && [propertyList isKindOfClbss:[NSArrby clbss]]) {
+        NSArrby*  brrby = (NSArrby*) propertyList;
+        if ([brrby count] > 0) {
+            NSString* url = (NSString*) [brrby objectAtIndex:0];
             if (url != nil && [url length] > 0)
-                result = [url dataUsingEncoding:[url fastestEncoding]];
+                result = [url dbtbUsingEncoding:[url fbstestEncoding]];
         }
     }
 
     return result;
 }
 
-- (jobject) copyDraggingDataForFormat:(jlong)format
+- (jobject) copyDrbggingDbtbForFormbt:(jlong)formbt
 {
-    JNIEnv*      env = [ThreadUtilities getJNIEnvUncached]; // Join the main thread by requesting uncached environment
+    JNIEnv*      env = [ThrebdUtilities getJNIEnvUncbched]; // Join the mbin threbd by requesting uncbched environment
 
-    NSData*      data = nil;
+    NSDbtb*      dbtb = nil;
 
-    // Convert the Java format (datatransferer int index) to a pasteboard format (NSString):
-    NSString* pbType = formatForIndex(format);
-    if ([sPasteboardTypes containsObject:pbType]) {
-        NSUInteger dataIndex = [sPasteboardTypes indexOfObject:pbType];
-        data = [sPasteboardData objectAtIndex:dataIndex];
+    // Convert the Jbvb formbt (dbtbtrbnsferer int index) to b pbstebobrd formbt (NSString):
+    NSString* pbType = formbtForIndex(formbt);
+    if ([sPbstebobrdTypes contbinsObject:pbType]) {
+        NSUInteger dbtbIndex = [sPbstebobrdTypes indexOfObject:pbType];
+        dbtb = [sPbstebobrdDbtb objectAtIndex:dbtbIndex];
 
-        if ((id) data == [NSNull null])
-            data = nil;
+        if ((id) dbtb == [NSNull null])
+            dbtb = nil;
 
-        // format == 8 (CF_URL in CDataTransferer): we need a URL-to-String conversion:
-        else if ([pbType isEqualToString:@"Apple URL pasteboard type"])
-            data = [self getDraggingDataForURL:data];
+        // formbt == 8 (CF_URL in CDbtbTrbnsferer): we need b URL-to-String conversion:
+        else if ([pbType isEqublToString:@"Apple URL pbstebobrd type"])
+            dbtb = [self getDrbggingDbtbForURL:dbtb];
     }
 
-    // Get NS data:
-    char* dataBytes = (data != nil) ? (char*) [data bytes] : "Unsupported type";
-    NSUInteger dataLength = (data != nil) ? [data length] : sizeof("Unsupported type");
+    // Get NS dbtb:
+    chbr* dbtbBytes = (dbtb != nil) ? (chbr*) [dbtb bytes] : "Unsupported type";
+    NSUInteger dbtbLength = (dbtb != nil) ? [dbtb length] : sizeof("Unsupported type");
 
-    // Create a global byte array:
-    jbyteArray lbyteArray = (*env)->NewByteArray(env, dataLength);
-    if (lbyteArray == nil)
+    // Crebte b globbl byte brrby:
+    jbyteArrby lbyteArrby = (*env)->NewByteArrby(env, dbtbLength);
+    if (lbyteArrby == nil)
         return nil;
-    jbyteArray gbyteArray = (jbyteArray) JNFNewGlobalRef(env, lbyteArray);
-    (*env)->DeleteLocalRef(env, lbyteArray);
-    if (gbyteArray == nil)
+    jbyteArrby gbyteArrby = (jbyteArrby) JNFNewGlobblRef(env, lbyteArrby);
+    (*env)->DeleteLocblRef(env, lbyteArrby);
+    if (gbyteArrby == nil)
         return nil;
 
-    // Get byte array elements:
-    jboolean isCopy;
-    jbyte* jbytes = (*env)->GetByteArrayElements(env, gbyteArray, &isCopy);
+    // Get byte brrby elements:
+    jboolebn isCopy;
+    jbyte* jbytes = (*env)->GetByteArrbyElements(env, gbyteArrby, &isCopy);
     if (jbytes == nil)
         return nil;
 
-    // Copy data to byte array and release elements:
-    memcpy(jbytes, dataBytes, dataLength);
-    (*env)->ReleaseByteArrayElements(env, gbyteArray, jbytes, JNI_COMMIT);
+    // Copy dbtb to byte brrby bnd relebse elements:
+    memcpy(jbytes, dbtbBytes, dbtbLength);
+    (*env)->RelebseByteArrbyElements(env, gbyteArrby, jbytes, JNI_COMMIT);
 
-    // In case of an error make sure to return nil:
+    // In cbse of bn error mbke sure to return nil:
     if ((*env)->ExceptionOccurred(env)) {
                 (*env)->ExceptionDescribe(env);
-        gbyteArray = nil;
+        gbyteArrby = nil;
         }
 
-    return gbyteArray;
+    return gbyteArrby;
 }
 
-- (void)safeReleaseDraggingData:(NSNumber *)arg
+- (void)sbfeRelebseDrbggingDbtb:(NSNumber *)brg
 {
-    jlong draggingSequenceNumber = [arg longLongValue];
+    jlong drbggingSequenceNumber = [brg longLongVblue];
 
-    // Make sure dragging data is released only if no new drag is under way. If a new drag
-    // has been initiated it has released the old dragging data already. This has to be called
-    // on the native event thread - otherwise we'd need to start synchronizing.
-    if (draggingSequenceNumber == sDraggingSequenceNumber)
-        [self releaseDraggingData];
+    // Mbke sure drbgging dbtb is relebsed only if no new drbg is under wby. If b new drbg
+    // hbs been initibted it hbs relebsed the old drbgging dbtb blrebdy. This hbs to be cblled
+    // on the nbtive event threbd - otherwise we'd need to stbrt synchronizing.
+    if (drbggingSequenceNumber == sDrbggingSequenceNumber)
+        [self relebseDrbggingDbtb];
 }
 
-- (void)javaDraggingEnded:(jlong)draggingSequenceNumber success:(BOOL)jsuccess action:(jint)jdropaction
+- (void)jbvbDrbggingEnded:(jlong)drbggingSequenceNumber success:(BOOL)jsuccess bction:(jint)jdropbction
 {
-    NSNumber *draggingSequenceNumberID = [NSNumber numberWithLongLong:draggingSequenceNumber];
-        // Report back actual Swing success, not what AppKit thinks
-        sDraggingError = !jsuccess;
-        sDragOperation = [DnDUtilities mapJavaDragOperationToNS:jdropaction];
+    NSNumber *drbggingSequenceNumberID = [NSNumber numberWithLongLong:drbggingSequenceNumber];
+        // Report bbck bctubl Swing success, not whbt AppKit thinks
+        sDrbggingError = !jsuccess;
+        sDrbgOperbtion = [DnDUtilities mbpJbvbDrbgOperbtionToNS:jdropbction];
 
-    // Release dragging data if any when Java's AWT event thread is all finished.
-    // Make sure dragging data is released on the native event thread.
-    [ThreadUtilities performOnMainThread:@selector(safeReleaseDraggingData:) on:self withObject:draggingSequenceNumberID waitUntilDone:NO];
+    // Relebse drbgging dbtb if bny when Jbvb's AWT event threbd is bll finished.
+    // Mbke sure drbgging dbtb is relebsed on the nbtive event threbd.
+    [ThrebdUtilities performOnMbinThrebd:@selector(sbfeRelebseDrbggingDbtb:) on:self withObject:drbggingSequenceNumberID wbitUntilDone:NO];
 }
 
-- (jint)currentJavaActions {
-    return [DnDUtilities mapNSDragOperationToJava:sUpdateOperation];
+- (jint)currentJbvbActions {
+    return [DnDUtilities mbpNSDrbgOperbtionToJbvb:sUpdbteOperbtion];
 }
 
-/********************************  BEGIN NSDraggingDestination Interface  ********************************/
+/********************************  BEGIN NSDrbggingDestinbtion Interfbce  ********************************/
 
 
-// Private API to calculate the current Java actions
-- (void) calculateCurrentSourceActions:(jint *)actions dropAction:(jint *)dropAction
+// Privbte API to cblculbte the current Jbvb bctions
+- (void) cblculbteCurrentSourceActions:(jint *)bctions dropAction:(jint *)dropAction
 {
-    // Get the raw (unmodified by keys) source actions
-    id jrsDrag = objc_lookUpClass("JRSDrag");
-    if (jrsDrag != nil) {
-        NSDragOperation rawDragActions = (NSDragOperation) [jrsDrag performSelector:@selector(currentAllowableActions)];
-        if (rawDragActions != NSDragOperationNone) {
-            // Both actions and dropAction default to the rawActions
-            *actions = [DnDUtilities mapNSDragOperationMaskToJava:rawDragActions];
-            *dropAction = *actions;
+    // Get the rbw (unmodified by keys) source bctions
+    id jrsDrbg = objc_lookUpClbss("JRSDrbg");
+    if (jrsDrbg != nil) {
+        NSDrbgOperbtion rbwDrbgActions = (NSDrbgOperbtion) [jrsDrbg performSelector:@selector(currentAllowbbleActions)];
+        if (rbwDrbgActions != NSDrbgOperbtionNone) {
+            // Both bctions bnd dropAction defbult to the rbwActions
+            *bctions = [DnDUtilities mbpNSDrbgOperbtionMbskToJbvb:rbwDrbgActions];
+            *dropAction = *bctions;
 
             // Get the current key modifiers.
-            NSUInteger dragModifiers = (NSUInteger) [jrsDrag performSelector:@selector(currentModifiers)];
-            // Either the drop action is narrowed as per Java rules (MOVE, COPY, LINK, NONE) or by the drag modifiers
-            if (dragModifiers) {
-                // Get the user selected operation based on the drag modifiers, then return the intersection
-                NSDragOperation currentOp = [DnDUtilities nsDragOperationForModifiers:dragModifiers];
-                NSDragOperation allowedOp = rawDragActions & currentOp;
+            NSUInteger drbgModifiers = (NSUInteger) [jrsDrbg performSelector:@selector(currentModifiers)];
+            // Either the drop bction is nbrrowed bs per Jbvb rules (MOVE, COPY, LINK, NONE) or by the drbg modifiers
+            if (drbgModifiers) {
+                // Get the user selected operbtion bbsed on the drbg modifiers, then return the intersection
+                NSDrbgOperbtion currentOp = [DnDUtilities nsDrbgOperbtionForModifiers:drbgModifiers];
+                NSDrbgOperbtion bllowedOp = rbwDrbgActions & currentOp;
 
-                *dropAction = [DnDUtilities mapNSDragOperationToJava:allowedOp];
+                *dropAction = [DnDUtilities mbpNSDrbgOperbtionToJbvb:bllowedOp];
             }
         }
     }
-    *dropAction = [DnDUtilities narrowJavaDropActions:*dropAction];
+    *dropAction = [DnDUtilities nbrrowJbvbDropActions:*dropAction];
 }
 
-- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+- (NSDrbgOperbtion)drbggingEntered:(id<NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget draggingEntered]: %@\n", self);
+    DLog2(@"[CDropTbrget drbggingEntered]: %@\n", self);
 
-    sCurrentDropTarget = self;
+    sCurrentDropTbrget = self;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    NSInteger draggingSequenceNumber = [sender draggingSequenceNumber];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    NSInteger drbggingSequenceNumber = [sender drbggingSequenceNumber];
 
-    // Set the initial drag operation return value:
-    NSDragOperation dragOp = NSDragOperationNone;
-        sJavaDropOperation = java_awt_dnd_DnDConstants_ACTION_NONE;
+    // Set the initibl drbg operbtion return vblue:
+    NSDrbgOperbtion drbgOp = NSDrbgOperbtionNone;
+        sJbvbDropOperbtion = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    // We could probably special-case some stuff if drag and drop objects match:
-    //if ([sender dragSource] == fView)
+    // We could probbbly specibl-cbse some stuff if drbg bnd drop objects mbtch:
+    //if ([sender drbgSource] == fView)
 
-    if (draggingSequenceNumber != sDraggingSequenceNumber) {
-        sDraggingSequenceNumber = draggingSequenceNumber;
-        sDraggingError = FALSE;
+    if (drbggingSequenceNumber != sDrbggingSequenceNumber) {
+        sDrbggingSequenceNumber = drbggingSequenceNumber;
+        sDrbggingError = FALSE;
 
-        // Delete any drop target context peer left over from a previous drag:
-        if (fDropTargetContextPeer != NULL) {
-            JNFDeleteGlobalRef(env, fDropTargetContextPeer);
-            fDropTargetContextPeer = NULL;
+        // Delete bny drop tbrget context peer left over from b previous drbg:
+        if (fDropTbrgetContextPeer != NULL) {
+            JNFDeleteGlobblRef(env, fDropTbrgetContextPeer);
+            fDropTbrgetContextPeer = NULL;
         }
 
-        // Look up the CDropTargetContextPeer class:
-        JNF_STATIC_MEMBER_CACHE(getDropTargetContextPeerMethod, jc_CDropTargetContextPeer, "getDropTargetContextPeer", "()Lsun/lwawt/macosx/CDropTargetContextPeer;");
-        if (sDraggingError == FALSE) {
-            // Create a new drop target context peer:
-            jobject dropTargetContextPeer = JNFCallStaticObjectMethod(env, getDropTargetContextPeerMethod);
+        // Look up the CDropTbrgetContextPeer clbss:
+        JNF_STATIC_MEMBER_CACHE(getDropTbrgetContextPeerMethod, jc_CDropTbrgetContextPeer, "getDropTbrgetContextPeer", "()Lsun/lwbwt/mbcosx/CDropTbrgetContextPeer;");
+        if (sDrbggingError == FALSE) {
+            // Crebte b new drop tbrget context peer:
+            jobject dropTbrgetContextPeer = JNFCbllStbticObjectMethod(env, getDropTbrgetContextPeerMethod);
 
-            if (dropTargetContextPeer != nil) {
-                fDropTargetContextPeer = JNFNewGlobalRef(env, dropTargetContextPeer);
-                (*env)->DeleteLocalRef(env, dropTargetContextPeer);
+            if (dropTbrgetContextPeer != nil) {
+                fDropTbrgetContextPeer = JNFNewGlobblRef(env, dropTbrgetContextPeer);
+                (*env)->DeleteLocblRef(env, dropTbrgetContextPeer);
             }
         }
 
-        // Get dragging types (dragging data is only copied if dropped):
-        if (sDraggingError == FALSE && [self copyDraggingTypes:sender] == FALSE)
-            sDraggingError = TRUE;
+        // Get drbgging types (drbgging dbtb is only copied if dropped):
+        if (sDrbggingError == FALSE && [self copyDrbggingTypes:sender] == FALSE)
+            sDrbggingError = TRUE;
     }
 
-    if (sDraggingError == FALSE) {
-        sDraggingExited = FALSE;
-        sDraggingLocation = [sender draggingLocation];
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
+    if (sDrbggingError == FALSE) {
+        sDrbggingExited = FALSE;
+        sDrbggingLocbtion = [sender drbggingLocbtion];
+        NSPoint jbvbLocbtion = [fView convertPoint:sDrbggingLocbtion fromView:nil];
+        jbvbLocbtion.y = fView.window.frbme.size.height - jbvbLocbtion.y;
 
-        DLog5(@"+ dragEnter: loc native %f, %f, java %f, %f\n", sDraggingLocation.x, sDraggingLocation.y, javaLocation.x, javaLocation.y);
+        DLog5(@"+ drbgEnter: loc nbtive %f, %f, jbvb %f, %f\n", sDrbggingLocbtion.x, sDrbggingLocbtion.y, jbvbLocbtion.x, jbvbLocbtion.y);
 
-                ////////// BEGIN Calculate the current drag actions //////////
-                jint actions = java_awt_dnd_DnDConstants_ACTION_NONE;
-        jint dropAction = actions;
+                ////////// BEGIN Cblculbte the current drbg bctions //////////
+                jint bctions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAction = bctions;
 
-                [self calculateCurrentSourceActions:&actions dropAction:&dropAction];
+                [self cblculbteCurrentSourceActions:&bctions dropAction:&dropAction];
 
-                sJavaDropOperation = dropAction;
-                ////////// END Calculate the current drag actions //////////
+                sJbvbDropOperbtion = dropAction;
+                ////////// END Cblculbte the current drbg bctions //////////
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleEnterMessageMethod, jc_CDropTargetContextPeer, "handleEnterMessage", "(Ljava/awt/Component;IIII[JJ)I");
-        if (sDraggingError == FALSE) {
-            // Double-casting self gets rid of 'different size' compiler warning:
-            // AWT_THREADING Safe (CToolkitThreadBlockedHandler)
-            actions = JNFCallIntMethod(env, fDropTargetContextPeer, handleEnterMessageMethod,
-                                       fComponent, (jint) javaLocation.x, (jint) javaLocation.y,
-                                       dropAction, actions, formats, ptr_to_jlong(self));
+        JNF_MEMBER_CACHE(hbndleEnterMessbgeMethod, jc_CDropTbrgetContextPeer, "hbndleEnterMessbge", "(Ljbvb/bwt/Component;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            // Double-cbsting self gets rid of 'different size' compiler wbrning:
+            // AWT_THREADING Sbfe (CToolkitThrebdBlockedHbndler)
+            bctions = JNFCbllIntMethod(env, fDropTbrgetContextPeer, hbndleEnterMessbgeMethod,
+                                       fComponent, (jint) jbvbLocbtion.x, (jint) jbvbLocbtion.y,
+                                       dropAction, bctions, formbts, ptr_to_jlong(self));
         }
 
-        if (sDraggingError == FALSE) {
-            // Initialize drag operation:
-            sDragOperation = NSDragOperationNone;
+        if (sDrbggingError == FALSE) {
+            // Initiblize drbg operbtion:
+            sDrbgOperbtion = NSDrbgOperbtionNone;
 
-            // Map Java actions back to NSDragOperation.
-            // 1-6-03 Note: if the entry point of this CDropTarget isn't covered by a droppable component
-            // (as can be the case with lightweight children) we must not return NSDragOperationNone
-            // since that would prevent dropping into any of the contained drop targets.
-            // Unfortunately there is no easy way to test this so we just test actions and override them
-            // with GENERIC if necessary. Proper drag operations will be returned by draggingUpdated: which is
-            // called right away, taking care of setting the right cursor and snap-back action.
-            dragOp = ((actions != java_awt_dnd_DnDConstants_ACTION_NONE) ?
-                [DnDUtilities mapJavaDragOperationToNS:dropAction] : NSDragOperationGeneric);
+            // Mbp Jbvb bctions bbck to NSDrbgOperbtion.
+            // 1-6-03 Note: if the entry point of this CDropTbrget isn't covered by b droppbble component
+            // (bs cbn be the cbse with lightweight children) we must not return NSDrbgOperbtionNone
+            // since thbt would prevent dropping into bny of the contbined drop tbrgets.
+            // Unfortunbtely there is no ebsy wby to test this so we just test bctions bnd override them
+            // with GENERIC if necessbry. Proper drbg operbtions will be returned by drbggingUpdbted: which is
+            // cblled right bwby, tbking cbre of setting the right cursor bnd snbp-bbck bction.
+            drbgOp = ((bctions != jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE) ?
+                [DnDUtilities mbpJbvbDrbgOperbtionToNS:dropAction] : NSDrbgOperbtionGeneric);
 
-            // Remember the dragOp for no-op'd update messages:
-            sUpdateOperation = dragOp;
+            // Remember the drbgOp for no-op'd updbte messbges:
+            sUpdbteOperbtion = drbgOp;
         }
     }
 
-    // 9-11-02 Note: the native event thread would not handle an exception gracefully:
-    //if (sDraggingError == TRUE)
-    //    [NSException raise:NSGenericException format:@"[CDropTarget draggingEntered] failed."];
+    // 9-11-02 Note: the nbtive event threbd would not hbndle bn exception grbcefully:
+    //if (sDrbggingError == TRUE)
+    //    [NSException rbise:NSGenericException formbt:@"[CDropTbrget drbggingEntered] fbiled."];
 
-    DLog2(@"[CDropTarget draggingEntered]: returning %lu\n", (unsigned long) dragOp);
+    DLog2(@"[CDropTbrget drbggingEntered]: returning %lu\n", (unsigned long) drbgOp);
 
-    return dragOp;
+    return drbgOp;
 }
 
-- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
+- (NSDrbgOperbtion)drbggingUpdbted:(id<NSDrbggingInfo>)sender
 {
-    //DLog2(@"[CDropTarget draggingUpdated]: %@\n", self);
+    //DLog2(@"[CDropTbrget drbggingUpdbted]: %@\n", self);
 
-    sCurrentDropTarget = self;
+    sCurrentDropTbrget = self;
 
-    // Set the initial drag operation return value:
-    NSDragOperation dragOp = (sDraggingError == FALSE ? sUpdateOperation : NSDragOperationNone);
+    // Set the initibl drbg operbtion return vblue:
+    NSDrbgOperbtion drbgOp = (sDrbggingError == FALSE ? sUpdbteOperbtion : NSDrbgOperbtionNone);
 
-    // There are two things we would be interested in:
-    // a) mouse pointer has moved
-    // b) drag actions (key modifiers) have changed
+    // There bre two things we would be interested in:
+    // b) mouse pointer hbs moved
+    // b) drbg bctions (key modifiers) hbve chbnged
 
-    NSPoint draggingLocation = [sender draggingLocation];
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    NSPoint drbggingLocbtion = [sender drbggingLocbtion];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    BOOL notifyJava = FALSE;
+    BOOL notifyJbvb = FALSE;
 
-    // a) mouse pointer has moved:
-    if (NSEqualPoints(draggingLocation, sDraggingLocation) == FALSE) {
-        //DLog2(@"[CDropTarget draggingUpdated]: mouse moved, %@\n", self);
-        sDraggingLocation = draggingLocation;
-        notifyJava = TRUE;
+    // b) mouse pointer hbs moved:
+    if (NSEqublPoints(drbggingLocbtion, sDrbggingLocbtion) == FALSE) {
+        //DLog2(@"[CDropTbrget drbggingUpdbted]: mouse moved, %@\n", self);
+        sDrbggingLocbtion = drbggingLocbtion;
+        notifyJbvb = TRUE;
     }
 
-    // b) drag actions (key modifiers) have changed (handleMotionMessage() will do proper notifications):
-        ////////// BEGIN Calculate the current drag actions //////////
-        jint actions = java_awt_dnd_DnDConstants_ACTION_NONE;
-        jint dropAction = actions;
+    // b) drbg bctions (key modifiers) hbve chbnged (hbndleMotionMessbge() will do proper notificbtions):
+        ////////// BEGIN Cblculbte the current drbg bctions //////////
+        jint bctions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAction = bctions;
 
-        [self calculateCurrentSourceActions:&actions dropAction:&dropAction];
+        [self cblculbteCurrentSourceActions:&bctions dropAction:&dropAction];
 
-        if (sJavaDropOperation != dropAction) {
-            sJavaDropOperation = dropAction;
-            notifyJava = TRUE;
+        if (sJbvbDropOperbtion != dropAction) {
+            sJbvbDropOperbtion = dropAction;
+            notifyJbvb = TRUE;
         }
-        ////////// END Calculate the current drag actions //////////
+        ////////// END Cblculbte the current drbg bctions //////////
 
     jint userAction = dropAction;
 
-    // Should we notify Java things have changed?
-    if (sDraggingError == FALSE && notifyJava) {
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
-        //DLog5(@"  : dragMoved: loc native %f, %f, java %f, %f\n", sDraggingLocation.x, sDraggingLocation.y, javaLocation.x, javaLocation.y);
+    // Should we notify Jbvb things hbve chbnged?
+    if (sDrbggingError == FALSE && notifyJbvb) {
+        NSPoint jbvbLocbtion = [fView convertPoint:sDrbggingLocbtion fromView:nil];
+        jbvbLocbtion.y = fView.window.frbme.size.height - jbvbLocbtion.y;
+        //DLog5(@"  : drbgMoved: loc nbtive %f, %f, jbvb %f, %f\n", sDrbggingLocbtion.x, sDrbggingLocbtion.y, jbvbLocbtion.x, jbvbLocbtion.y);
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleMotionMessageMethod, jc_CDropTargetContextPeer, "handleMotionMessage", "(Ljava/awt/Component;IIII[JJ)I");
-        if (sDraggingError == FALSE) {
-            DLog3(@"  >> posting handleMotionMessage, point %f, %f", javaLocation.x, javaLocation.y);
-            userAction = JNFCallIntMethod(env, fDropTargetContextPeer, handleMotionMessageMethod, fComponent, (jint) javaLocation.x, (jint) javaLocation.y, dropAction, actions, formats, ptr_to_jlong(self)); // AWT_THREADING Safe (CToolkitThreadBlockedHandler)
+        JNF_MEMBER_CACHE(hbndleMotionMessbgeMethod, jc_CDropTbrgetContextPeer, "hbndleMotionMessbge", "(Ljbvb/bwt/Component;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  >> posting hbndleMotionMessbge, point %f, %f", jbvbLocbtion.x, jbvbLocbtion.y);
+            userAction = JNFCbllIntMethod(env, fDropTbrgetContextPeer, hbndleMotionMessbgeMethod, fComponent, (jint) jbvbLocbtion.x, (jint) jbvbLocbtion.y, dropAction, bctions, formbts, ptr_to_jlong(self)); // AWT_THREADING Sbfe (CToolkitThrebdBlockedHbndler)
         }
 
-        if (sDraggingError == FALSE) {
-            dragOp = [DnDUtilities mapJavaDragOperationToNS:userAction];
+        if (sDrbggingError == FALSE) {
+            drbgOp = [DnDUtilities mbpJbvbDrbgOperbtionToNS:userAction];
 
-            // Remember the dragOp for no-op'd update messages:
-            sUpdateOperation = dragOp;
+            // Remember the drbgOp for no-op'd updbte messbges:
+            sUpdbteOperbtion = drbgOp;
         } else {
-            dragOp = NSDragOperationNone;
+            drbgOp = NSDrbgOperbtionNone;
         }
     }
 
-    DLog2(@"[CDropTarget draggingUpdated]: returning %lu\n", (unsigned long) dragOp);
+    DLog2(@"[CDropTbrget drbggingUpdbted]: returning %lu\n", (unsigned long) drbgOp);
 
-    return dragOp;
+    return drbgOp;
 }
 
-- (void)draggingExited:(id<NSDraggingInfo>)sender
+- (void)drbggingExited:(id<NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget draggingExited]: %@\n", self);
+    DLog2(@"[CDropTbrget drbggingExited]: %@\n", self);
 
-    sCurrentDropTarget = nil;
+    sCurrentDropTbrget = nil;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    if (sDraggingExited == FALSE && sDraggingError == FALSE) {
-        JNF_MEMBER_CACHE(handleExitMessageMethod, jc_CDropTargetContextPeer, "handleExitMessage", "(Ljava/awt/Component;J)V");
-        if (sDraggingError == FALSE) {
-            DLog3(@"  - dragExit: loc native %f, %f\n", sDraggingLocation.x, sDraggingLocation.y);
-             // AWT_THREADING Safe (CToolkitThreadBlockedHandler) 
-            JNFCallVoidMethod(env, fDropTargetContextPeer,
-                              handleExitMessageMethod, fComponent, ptr_to_jlong(self));
+    if (sDrbggingExited == FALSE && sDrbggingError == FALSE) {
+        JNF_MEMBER_CACHE(hbndleExitMessbgeMethod, jc_CDropTbrgetContextPeer, "hbndleExitMessbge", "(Ljbvb/bwt/Component;J)V");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  - drbgExit: loc nbtive %f, %f\n", sDrbggingLocbtion.x, sDrbggingLocbtion.y);
+             // AWT_THREADING Sbfe (CToolkitThrebdBlockedHbndler) 
+            JNFCbllVoidMethod(env, fDropTbrgetContextPeer,
+                              hbndleExitMessbgeMethod, fComponent, ptr_to_jlong(self));
         }
 
-        // 5-27-03 Note: [Radar 3270455]
-        // -draggingExited: can be called both by the AppKit and by -performDragOperation: but shouldn't execute
-        // twice per drop since cleanup code like that in swing/plaf/basic/BasicDropTargetListener would throw NPEs.
-        sDraggingExited = TRUE;
+        // 5-27-03 Note: [Rbdbr 3270455]
+        // -drbggingExited: cbn be cblled both by the AppKit bnd by -performDrbgOperbtion: but shouldn't execute
+        // twice per drop since clebnup code like thbt in swing/plbf/bbsic/BbsicDropTbrgetListener would throw NPEs.
+        sDrbggingExited = TRUE;
     }
 
-    DLog(@"[CDropTarget draggingExited]: returning.\n");
+    DLog(@"[CDropTbrget drbggingExited]: returning.\n");
 }
 
-- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
+- (BOOL)prepbreForDrbgOperbtion:(id <NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget prepareForDragOperation]: %@\n", self);
-    DLog2(@"[CDropTarget prepareForDragOperation]: returning %@\n", (sDraggingError ? @"NO" : @"YES"));
+    DLog2(@"[CDropTbrget prepbreForDrbgOperbtion]: %@\n", self);
+    DLog2(@"[CDropTbrget prepbreForDrbgOperbtion]: returning %@\n", (sDrbggingError ? @"NO" : @"YES"));
 
-    return sDraggingError ? NO : YES;
+    return sDrbggingError ? NO : YES;
 }
 
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+- (BOOL)performDrbgOperbtion:(id<NSDrbggingInfo>)sender
 {
-    DLog2(@"[CDropTarget performDragOperation]: %@\n", self);
+    DLog2(@"[CDropTbrget performDrbgOperbtion]: %@\n", self);
 
-    sCurrentDropTarget = nil;
+    sCurrentDropTbrget = nil;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    // Now copy dragging data:
-    if (sDraggingError == FALSE && [self copyDraggingData:sender] == FALSE)
-        sDraggingError = TRUE;
+    // Now copy drbgging dbtb:
+    if (sDrbggingError == FALSE && [self copyDrbggingDbtb:sender] == FALSE)
+        sDrbggingError = TRUE;
 
-    if (sDraggingError == FALSE) {
-        sDraggingLocation = [sender draggingLocation];
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        // The y coordinate that comes in the NSDraggingInfo seems to be reversed - probably
-        // has to do something with the type of view it comes to.
-        // This is the earliest place where we can correct it.
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
+    if (sDrbggingError == FALSE) {
+        sDrbggingLocbtion = [sender drbggingLocbtion];
+        NSPoint jbvbLocbtion = [fView convertPoint:sDrbggingLocbtion fromView:nil];
+        // The y coordinbte thbt comes in the NSDrbggingInfo seems to be reversed - probbbly
+        // hbs to do something with the type of view it comes to.
+        // This is the ebrliest plbce where we cbn correct it.
+        jbvbLocbtion.y = fView.window.frbme.size.height - jbvbLocbtion.y;
 
-        jint actions = [DnDUtilities mapNSDragOperationMaskToJava:[sender draggingSourceOperationMask]];
-        jint dropAction = sJavaDropOperation;
+        jint bctions = [DnDUtilities mbpNSDrbgOperbtionMbskToJbvb:[sender drbggingSourceOperbtionMbsk]];
+        jint dropAction = sJbvbDropOperbtion;
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleDropMessageMethod, jc_CDropTargetContextPeer, "handleDropMessage", "(Ljava/awt/Component;IIII[JJ)V");
+        JNF_MEMBER_CACHE(hbndleDropMessbgeMethod, jc_CDropTbrgetContextPeer, "hbndleDropMessbge", "(Ljbvb/bwt/Component;IIII[JJ)V");
 
-        if (sDraggingError == FALSE) {
-            JNFCallVoidMethod(env, fDropTargetContextPeer, handleDropMessageMethod, fComponent, (jint) javaLocation.x, (jint) javaLocation.y, dropAction, actions, formats, ptr_to_jlong(self)); // AWT_THREADING Safe (event)
+        if (sDrbggingError == FALSE) {
+            JNFCbllVoidMethod(env, fDropTbrgetContextPeer, hbndleDropMessbgeMethod, fComponent, (jint) jbvbLocbtion.x, (jint) jbvbLocbtion.y, dropAction, bctions, formbts, ptr_to_jlong(self)); // AWT_THREADING Sbfe (event)
         }
 
-        if (sDraggingError == FALSE) {
-            JNF_MEMBER_CACHE(flushEventsMethod, jc_CDropTargetContextPeer, "flushEvents", "(Ljava/awt/Component;)V");
-            if (sDraggingError == FALSE) {
-                JNFCallVoidMethod(env, fDropTargetContextPeer, flushEventsMethod, fComponent); // AWT_THREADING Safe (AWTRunLoopMode)
+        if (sDrbggingError == FALSE) {
+            JNF_MEMBER_CACHE(flushEventsMethod, jc_CDropTbrgetContextPeer, "flushEvents", "(Ljbvb/bwt/Component;)V");
+            if (sDrbggingError == FALSE) {
+                JNFCbllVoidMethod(env, fDropTbrgetContextPeer, flushEventsMethod, fComponent); // AWT_THREADING Sbfe (AWTRunLoopMode)
             }
         }
     } else {
-        // 8-19-03 Note: [Radar 3368754]
-        // draggingExited: is not called after a drop - we must do that here ... but only in case
-        // of an error, instead of drop(). Otherwise we get twice the cleanup in shared code.
-        [self draggingExited:sender];
+        // 8-19-03 Note: [Rbdbr 3368754]
+        // drbggingExited: is not cblled bfter b drop - we must do thbt here ... but only in cbse
+        // of bn error, instebd of drop(). Otherwise we get twice the clebnup in shbred code.
+        [self drbggingExited:sender];
     }
 
 // TODO:BG
-//   [(id)sender _setLastDragDestinationOperation:sDragOperation];
+//   [(id)sender _setLbstDrbgDestinbtionOperbtion:sDrbgOperbtion];
 
 
-    DLog2(@"[CDropTarget performDragOperation]: returning %@\n", (sDraggingError ? @"NO" : @"YES"));
+    DLog2(@"[CDropTbrget performDrbgOperbtion]: returning %@\n", (sDrbggingError ? @"NO" : @"YES"));
 
-    return !sDraggingError;
+    return !sDrbggingError;
 }
 
-- (void)concludeDragOperation:(id<NSDraggingInfo>)sender
+- (void)concludeDrbgOperbtion:(id<NSDrbggingInfo>)sender
 {
-    sCurrentDropTarget = nil;
+    sCurrentDropTbrget = nil;
 
-    DLog2(@"[CDropTarget concludeDragOperation]: %@\n", self);
-    DLog(@"[CDropTarget concludeDragOperation]: returning.\n");
+    DLog2(@"[CDropTbrget concludeDrbgOperbtion]: %@\n", self);
+    DLog(@"[CDropTbrget concludeDrbgOperbtion]: returning.\n");
 }
 
-// 9-11-02 Note: draggingEnded is not yet implemented by the AppKit.
-- (void)draggingEnded:(id<NSDraggingInfo>)sender
+// 9-11-02 Note: drbggingEnded is not yet implemented by the AppKit.
+- (void)drbggingEnded:(id<NSDrbggingInfo>)sender
 {
-    sCurrentDropTarget = nil;
+    sCurrentDropTbrget = nil;
 
-    DLog2(@"[CDropTarget draggingEnded]: %@\n", self);
-    DLog(@"[CDropTarget draggingEnded]: returning.\n");
+    DLog2(@"[CDropTbrget drbggingEnded]: %@\n", self);
+    DLog(@"[CDropTbrget drbggingEnded]: returning.\n");
 }
 
-/********************************  END NSDraggingDestination Interface  ********************************/
+/********************************  END NSDrbggingDestinbtion Interfbce  ********************************/
 
 @end
 
 
 /*
- * Class:     sun_lwawt_macosx_CDropTarget
- * Method:    createNativeDropTarget
- * Signature: (Ljava/awt/dnd/DropTarget;Ljava/awt/Component;Ljava/awt/peer/ComponentPeer;J)J
+ * Clbss:     sun_lwbwt_mbcosx_CDropTbrget
+ * Method:    crebteNbtiveDropTbrget
+ * Signbture: (Ljbvb/bwt/dnd/DropTbrget;Ljbvb/bwt/Component;Ljbvb/bwt/peer/ComponentPeer;J)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CDropTarget_createNativeDropTarget
-  (JNIEnv *env, jobject jthis, jobject jdroptarget, jobject jcomponent, jlong jnativepeer)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CDropTbrget_crebteNbtiveDropTbrget
+  (JNIEnv *env, jobject jthis, jobject jdroptbrget, jobject jcomponent, jlong jnbtivepeer)
 {
-    CDropTarget* dropTarget = nil;
+    CDropTbrget* dropTbrget = nil;
 
 JNF_COCOA_ENTER(env);
-    id controlObj = (id) jlong_to_ptr(jnativepeer);
-    dropTarget = [[CDropTarget alloc] init:jdroptarget component:jcomponent control:controlObj];
+    id controlObj = (id) jlong_to_ptr(jnbtivepeer);
+    dropTbrget = [[CDropTbrget blloc] init:jdroptbrget component:jcomponent control:controlObj];
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(dropTarget);
+    return ptr_to_jlong(dropTbrget);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDropTarget
- * Method:    releaseNativeDropTarget
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbcosx_CDropTbrget
+ * Method:    relebseNbtiveDropTbrget
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDropTarget_releaseNativeDropTarget
-  (JNIEnv *env, jobject jthis, jlong nativeDropTargetVal)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CDropTbrget_relebseNbtiveDropTbrget
+  (JNIEnv *env, jobject jthis, jlong nbtiveDropTbrgetVbl)
 {
-    id dropTarget = (id)jlong_to_ptr(nativeDropTargetVal);
+    id dropTbrget = (id)jlong_to_ptr(nbtiveDropTbrgetVbl);
 
 JNF_COCOA_ENTER(env);
-    [dropTarget removeFromView:env];
+    [dropTbrget removeFromView:env];
 JNF_COCOA_EXIT(env);
 }

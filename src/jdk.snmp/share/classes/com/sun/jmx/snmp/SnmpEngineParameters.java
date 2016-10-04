@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * This class is used to pass some specific parameters to an <CODE>
- * SnmpEngineFactory </CODE>.
+ * This clbss is used to pbss some specific pbrbmeters to bn <CODE>
+ * SnmpEngineFbctory </CODE>.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public class SnmpEngineParameters implements Serializable {
-    private static final long serialVersionUID = 3720556613478400808L;
+public clbss SnmpEnginePbrbmeters implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 3720556613478400808L;
 
-    private UserAcl uacl = null;
-    private String securityFile = null;
-    private boolean encrypt = false;
-    private SnmpEngineId engineId = null;
+    privbte UserAcl ubcl = null;
+    privbte String securityFile = null;
+    privbte boolebn encrypt = fblse;
+    privbte SnmpEngineId engineId = null;
 
     /**
-     * Sets the file to use for SNMP Runtime Lcd. If no file is provided, the default location will be checked.
+     * Sets the file to use for SNMP Runtime Lcd. If no file is provided, the defbult locbtion will be checked.
      */
     public void setSecurityFile(String securityFile) {
         this.securityFile = securityFile;
@@ -58,13 +58,13 @@ public class SnmpEngineParameters implements Serializable {
         return securityFile;
     }
     /**
-     * Sets a customized user ACL. User Acl is used in order to check
-     * access for SNMP V3 requests. If no ACL is provided,
-     * <CODE>com.sun.jmx.snmp.usm.UserAcl.UserAcl</CODE> is instantiated.
-     * @param uacl The user ACL to use.
+     * Sets b customized user ACL. User Acl is used in order to check
+     * bccess for SNMP V3 requests. If no ACL is provided,
+     * <CODE>com.sun.jmx.snmp.usm.UserAcl.UserAcl</CODE> is instbntibted.
+     * @pbrbm ubcl The user ACL to use.
      */
-    public void setUserAcl(UserAcl uacl) {
-        this.uacl = uacl;
+    public void setUserAcl(UserAcl ubcl) {
+        this.ubcl = ubcl;
     }
 
     /**
@@ -72,36 +72,36 @@ public class SnmpEngineParameters implements Serializable {
      * @return The customized user ACL.
      */
     public UserAcl getUserAcl() {
-        return uacl;
+        return ubcl;
     }
 
     /**
-     * Activate SNMP V3 encryption. By default the encryption is not activated. Be sure that the security provider classes needed for DES are in your classpath (eg:JCE classes)
+     * Activbte SNMP V3 encryption. By defbult the encryption is not bctivbted. Be sure thbt the security provider clbsses needed for DES bre in your clbsspbth (eg:JCE clbsses)
      *
      */
-    public void activateEncryption() {
+    public void bctivbteEncryption() {
         this.encrypt = true;
     }
 
     /**
-     * Deactivate SNMP V3 encryption. By default the encryption is not activated. Be sure that the security provider classes needed for DES are in your classpath (eg:JCE classes)
+     * Debctivbte SNMP V3 encryption. By defbult the encryption is not bctivbted. Be sure thbt the security provider clbsses needed for DES bre in your clbsspbth (eg:JCE clbsses)
      *
      */
-    public void deactivateEncryption() {
-        this.encrypt = false;
+    public void debctivbteEncryption() {
+        this.encrypt = fblse;
     }
 
     /**
-     * Check if encryption is activated. By default the encryption is not activated.
-     * @return The encryption activation status.
+     * Check if encryption is bctivbted. By defbult the encryption is not bctivbted.
+     * @return The encryption bctivbtion stbtus.
      */
-    public boolean isEncryptionEnabled() {
+    public boolebn isEncryptionEnbbled() {
         return encrypt;
     }
 
     /**
      * Set the engine Id.
-     * @param engineId The engine Id to use.
+     * @pbrbm engineId The engine Id to use.
      */
     public void setEngineId(SnmpEngineId engineId) {
         this.engineId = engineId;

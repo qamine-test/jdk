@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.net.*;
 import com.sun.net.httpserver.*;
 import com.sun.net.httpserver.spi.*;
 
 /**
- * a class which allows the caller to write an arbitrary
- * number of bytes to an underlying stream.
- * normal close() does not close the underlying stream
+ * b clbss which bllows the cbller to write bn brbitrbry
+ * number of bytes to bn underlying strebm.
+ * normbl close() does not close the underlying strebm
  *
- * This class is buffered.
+ * This clbss is buffered.
  *
- * Each chunk is written in one go as :-
- * abcd\r\nxxxxxxxxxxxxxx\r\n
+ * Ebch chunk is written in one go bs :-
+ * bbcd\r\nxxxxxxxxxxxxxx\r\n
  *
- * abcd is the chunk-size, and xxx is the chunk data
- * If the length is less than 4 chars (in size) then the buffer
- * is written with an offset.
- * Final chunk is:
+ * bbcd is the chunk-size, bnd xxx is the chunk dbtb
+ * If the length is less thbn 4 chbrs (in size) then the buffer
+ * is written with bn offset.
+ * Finbl chunk is:
  * 0\r\n\r\n
  */
 
-class ChunkedOutputStream extends FilterOutputStream
+clbss ChunkedOutputStrebm extends FilterOutputStrebm
 {
-    private boolean closed = false;
-    /* max. amount of user data per chunk */
-    final static int CHUNK_SIZE = 4096;
-    /* allow 4 bytes for chunk-size plus 4 for CRLFs */
-    final static int OFFSET = 6; /* initial <=4 bytes for len + CRLF */
-    private int pos = OFFSET;
-    private int count = 0;
-    private byte[] buf = new byte [CHUNK_SIZE+OFFSET+2];
-    ExchangeImpl t;
+    privbte boolebn closed = fblse;
+    /* mbx. bmount of user dbtb per chunk */
+    finbl stbtic int CHUNK_SIZE = 4096;
+    /* bllow 4 bytes for chunk-size plus 4 for CRLFs */
+    finbl stbtic int OFFSET = 6; /* initibl <=4 bytes for len + CRLF */
+    privbte int pos = OFFSET;
+    privbte int count = 0;
+    privbte byte[] buf = new byte [CHUNK_SIZE+OFFSET+2];
+    ExchbngeImpl t;
 
-    ChunkedOutputStream (ExchangeImpl t, OutputStream src) {
+    ChunkedOutputStrebm (ExchbngeImpl t, OutputStrebm src) {
         super (src);
         this.t = t;
     }
 
     public void write (int b) throws IOException {
         if (closed) {
-            throw new StreamClosedException ();
+            throw new StrebmClosedException ();
         }
         buf [pos++] = (byte)b;
         count ++;
         if (count == CHUNK_SIZE) {
             writeChunk();
         }
-        assert count < CHUNK_SIZE;
+        bssert count < CHUNK_SIZE;
     }
 
     public void write (byte[]b, int off, int len) throws IOException {
         if (closed) {
-            throw new StreamClosedException ();
+            throw new StrebmClosedException ();
         }
-        int remain = CHUNK_SIZE - count;
-        if (len > remain) {
-            System.arraycopy (b,off,buf,pos,remain);
+        int rembin = CHUNK_SIZE - count;
+        if (len > rembin) {
+            System.brrbycopy (b,off,buf,pos,rembin);
             count = CHUNK_SIZE;
             writeChunk();
-            len -= remain;
-            off += remain;
+            len -= rembin;
+            off += rembin;
             while (len >= CHUNK_SIZE) {
-                System.arraycopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                System.brrbycopy (b,off,buf,OFFSET,CHUNK_SIZE);
                 len -= CHUNK_SIZE;
                 off += CHUNK_SIZE;
                 count = CHUNK_SIZE;
@@ -96,7 +96,7 @@ class ChunkedOutputStream extends FilterOutputStream
             }
         }
         if (len > 0) {
-            System.arraycopy (b,off,buf,pos,len);
+            System.brrbycopy (b,off,buf,pos,len);
             count += len;
             pos += len;
         }
@@ -106,23 +106,23 @@ class ChunkedOutputStream extends FilterOutputStream
     }
 
     /**
-     * write out a chunk , and reset the pointers
-     * chunk does not have to be CHUNK_SIZE bytes
+     * write out b chunk , bnd reset the pointers
+     * chunk does not hbve to be CHUNK_SIZE bytes
      * count must == number of user bytes (<= CHUNK_SIZE)
      */
-    private void writeChunk () throws IOException {
-        char[] c = Integer.toHexString (count).toCharArray();
+    privbte void writeChunk () throws IOException {
+        chbr[] c = Integer.toHexString (count).toChbrArrby();
         int clen = c.length;
-        int startByte = 4 - clen;
+        int stbrtByte = 4 - clen;
         int i;
         for (i=0; i<clen; i++) {
-            buf[startByte+i] = (byte)c[i];
+            buf[stbrtByte+i] = (byte)c[i];
         }
-        buf[startByte + (i++)] = '\r';
-        buf[startByte + (i++)] = '\n';
-        buf[startByte + (i++) + count] = '\r';
-        buf[startByte + (i++) + count] = '\n';
-        out.write (buf, startByte, i+count);
+        buf[stbrtByte + (i++)] = '\r';
+        buf[stbrtByte + (i++)] = '\n';
+        buf[stbrtByte + (i++) + count] = '\r';
+        buf[stbrtByte + (i++) + count] = '\n';
+        out.write (buf, stbrtByte, i+count);
         count = 0;
         pos = OFFSET;
     }
@@ -133,27 +133,27 @@ class ChunkedOutputStream extends FilterOutputStream
         }
         flush();
         try {
-            /* write an empty chunk */
+            /* write bn empty chunk */
             writeChunk();
             out.flush();
-            LeftOverInputStream is = t.getOriginalInputStream();
+            LeftOverInputStrebm is = t.getOriginblInputStrebm();
             if (!is.isClosed()) {
                 is.close();
             }
         /* some clients close the connection before empty chunk is sent */
-        } catch (IOException e) {
+        } cbtch (IOException e) {
 
-        } finally {
+        } finblly {
             closed = true;
         }
 
         WriteFinishedEvent e = new WriteFinishedEvent (t);
-        t.getHttpContext().getServerImpl().addEvent (e);
+        t.getHttpContext().getServerImpl().bddEvent (e);
     }
 
     public void flush () throws IOException {
         if (closed) {
-            throw new StreamClosedException ();
+            throw new StrebmClosedException ();
         }
         if (count > 0) {
             writeChunk();

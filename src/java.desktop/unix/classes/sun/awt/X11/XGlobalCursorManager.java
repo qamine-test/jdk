@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.ComponentPeer;
-import java.lang.ref.WeakReference;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.lbng.ref.WebkReference;
+import sun.bwt.AWTAccessor;
 
-import sun.awt.GlobalCursorManager;
-import sun.awt.SunToolkit;
+import sun.bwt.GlobblCursorMbnbger;
+import sun.bwt.SunToolkit;
 
-public final class XGlobalCursorManager extends GlobalCursorManager {
+public finbl clbss XGlobblCursorMbnbger extends GlobblCursorMbnbger {
 
-    // cached nativeContainer
-    private WeakReference<Component> nativeContainer;
+    // cbched nbtiveContbiner
+    privbte WebkReference<Component> nbtiveContbiner;
 
 
     /**
-     * The XGlobalCursorManager is a singleton.
+     * The XGlobblCursorMbnbger is b singleton.
      */
-    private static XGlobalCursorManager manager;
+    privbte stbtic XGlobblCursorMbnbger mbnbger;
 
 
-    static GlobalCursorManager getCursorManager() {
-        if (manager == null) {
-            manager = new XGlobalCursorManager();
+    stbtic GlobblCursorMbnbger getCursorMbnbger() {
+        if (mbnbger == null) {
+            mbnbger = new XGlobblCursorMbnbger();
         }
-        return manager;
+        return mbnbger;
     }
 
     /**
-     * Should be called in response to a native mouse enter or native mouse
-     * button released message. Should not be called during a mouse drag.
+     * Should be cblled in response to b nbtive mouse enter or nbtive mouse
+     * button relebsed messbge. Should not be cblled during b mouse drbg.
      */
-    static void nativeUpdateCursor(Component heavy) {
-        XGlobalCursorManager.getCursorManager().updateCursorLater(heavy);
+    stbtic void nbtiveUpdbteCursor(Component hebvy) {
+        XGlobblCursorMbnbger.getCursorMbnbger().updbteCursorLbter(hebvy);
     }
 
 
-    protected void setCursor(Component comp, Cursor cursor, boolean useCache) {
+    protected void setCursor(Component comp, Cursor cursor, boolebn useCbche) {
         if (comp == null) {
             return;
         }
 
-        Cursor cur = useCache ? cursor : getCapableCursor(comp);
+        Cursor cur = useCbche ? cursor : getCbpbbleCursor(comp);
 
         Component nc = null;
-        if (useCache) {
+        if (useCbche) {
             synchronized (this) {
-                nc = nativeContainer.get();
+                nc = nbtiveContbiner.get();
             }
         } else {
-           nc = SunToolkit.getHeavyweightComponent(comp);
+           nc = SunToolkit.getHebvyweightComponent(comp);
         }
 
         if (nc != null) {
             ComponentPeer nc_peer = AWTAccessor.getComponentAccessor().getPeer(nc);
-            if (nc_peer instanceof XComponentPeer) {
+            if (nc_peer instbnceof XComponentPeer) {
                 synchronized (this) {
-                    nativeContainer = new WeakReference<Component>(nc);
+                    nbtiveContbiner = new WebkReference<Component>(nc);
                 }
 
-                //6431076. A subcomponents (a XTextArea in particular)
-                //may want to override the cursor over some of their parts.
-                ((XComponentPeer)nc_peer).pSetCursor(cur, false);
-                // in case of grab we do for Swing we need to update keep cursor updated
-                // (we don't need this in case of AWT menus).  Window Manager consider
-                // the grabber as a current window and use its cursor.  So we need to
-                // change cursor on the grabber too.
-                updateGrabbedCursor(cur);
+                //6431076. A subcomponents (b XTextAreb in pbrticulbr)
+                //mby wbnt to override the cursor over some of their pbrts.
+                ((XComponentPeer)nc_peer).pSetCursor(cur, fblse);
+                // in cbse of grbb we do for Swing we need to updbte keep cursor updbted
+                // (we don't need this in cbse of AWT menus).  Window Mbnbger consider
+                // the grbbber bs b current window bnd use its cursor.  So we need to
+                // chbnge cursor on the grbbber too.
+                updbteGrbbbedCursor(cur);
             }
         }
     }
 
     /**
-     * Updates cursor on the grabber if it is window peer (i.e. current grab is for
+     * Updbtes cursor on the grbbber if it is window peer (i.e. current grbb is for
      * Swing, not for AWT.
      */
-    private static void updateGrabbedCursor(Cursor cur) {
-        XBaseWindow target = XAwtState.getGrabWindow();
-        if (target instanceof XWindowPeer) {
-            XWindowPeer grabber = (XWindowPeer) target;
-            grabber.pSetCursor(cur);
+    privbte stbtic void updbteGrbbbedCursor(Cursor cur) {
+        XBbseWindow tbrget = XAwtStbte.getGrbbWindow();
+        if (tbrget instbnceof XWindowPeer) {
+            XWindowPeer grbbber = (XWindowPeer) tbrget;
+            grbbber.pSetCursor(cur);
         }
     }
 
-    protected void updateCursorOutOfJava() {
-        // in case we have grabbed input for Swing we need to reset cursor
-        // when mouse pointer is out of any java toplevel.
-        // let's use default cursor for this.
-        updateGrabbedCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    protected void updbteCursorOutOfJbvb() {
+        // in cbse we hbve grbbbed input for Swing we need to reset cursor
+        // when mouse pointer is out of bny jbvb toplevel.
+        // let's use defbult cursor for this.
+        updbteGrbbbedCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     protected void getCursorPos(Point p) {
 
-        if (!((XToolkit)Toolkit.getDefaultToolkit()).getLastCursorPos(p)) {
-            XToolkit.awtLock();
+        if (!((XToolkit)Toolkit.getDefbultToolkit()).getLbstCursorPos(p)) {
+            XToolkit.bwtLock();
             try {
-                long display = XToolkit.getDisplay();
-                long root_window = XlibWrapper.RootWindow(display,
-                                                          XlibWrapper.DefaultScreen(display));
+                long displby = XToolkit.getDisplby();
+                long root_window = XlibWrbpper.RootWindow(displby,
+                                                          XlibWrbpper.DefbultScreen(displby));
 
-                XlibWrapper.XQueryPointer(display, root_window,
-                                          XlibWrapper.larg1,
-                                          XlibWrapper.larg2,
-                                          XlibWrapper.larg3,
-                                          XlibWrapper.larg4,
-                                          XlibWrapper.larg5,
-                                          XlibWrapper.larg6,
-                                          XlibWrapper.larg7);
+                XlibWrbpper.XQueryPointer(displby, root_window,
+                                          XlibWrbpper.lbrg1,
+                                          XlibWrbpper.lbrg2,
+                                          XlibWrbpper.lbrg3,
+                                          XlibWrbpper.lbrg4,
+                                          XlibWrbpper.lbrg5,
+                                          XlibWrbpper.lbrg6,
+                                          XlibWrbpper.lbrg7);
 
-                p.x = XlibWrapper.unsafe.getInt(XlibWrapper.larg3);
-                p.y = XlibWrapper.unsafe.getInt(XlibWrapper.larg4);
-            } finally {
-                XToolkit.awtUnlock();
+                p.x = XlibWrbpper.unsbfe.getInt(XlibWrbpper.lbrg3);
+                p.y = XlibWrbpper.unsbfe.getInt(XlibWrbpper.lbrg4);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
         }
     }
-    protected  Component findHeavyweightUnderCursor() {
-        return XAwtState.getComponentMouseEntered();
+    protected  Component findHebvyweightUnderCursor() {
+        return XAwtStbte.getComponentMouseEntered();
     }
 
     /*
-     * native method to call corresponding methods in Component
+     * nbtive method to cbll corresponding methods in Component
      */
-    protected  Point getLocationOnScreen(Component c) {
-        return c.getLocationOnScreen();
+    protected  Point getLocbtionOnScreen(Component c) {
+        return c.getLocbtionOnScreen();
     }
 
-    protected Component findHeavyweightUnderCursor(boolean useCache) {
-        return findHeavyweightUnderCursor();
+    protected Component findHebvyweightUnderCursor(boolebn useCbche) {
+        return findHebvyweightUnderCursor();
     }
 
-    private Cursor getCapableCursor(Component comp) {
+    privbte Cursor getCbpbbleCursor(Component comp) {
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
 
         Component c = comp;
-        while ((c != null) && !(c instanceof Window)
-               && compAccessor.isEnabled(c)
+        while ((c != null) && !(c instbnceof Window)
+               && compAccessor.isEnbbled(c)
                && compAccessor.isVisible(c)
-               && compAccessor.isDisplayable(c))
+               && compAccessor.isDisplbybble(c))
         {
-            c = compAccessor.getParent(c);
+            c = compAccessor.getPbrent(c);
         }
-        if (c instanceof Window) {
-            return (compAccessor.isEnabled(c)
+        if (c instbnceof Window) {
+            return (compAccessor.isEnbbled(c)
                     && compAccessor.isVisible(c)
-                    && compAccessor.isDisplayable(c)
-                    && compAccessor.isEnabled(comp))
+                    && compAccessor.isDisplbybble(c)
+                    && compAccessor.isEnbbled(comp))
                    ?
                     compAccessor.getCursor(comp)
                    :
@@ -178,92 +178,92 @@ public final class XGlobalCursorManager extends GlobalCursorManager {
         } else if (c == null) {
             return null;
         }
-        return getCapableCursor(compAccessor.getParent(c));
+        return getCbpbbleCursor(compAccessor.getPbrent(c));
     }
 
-    /* This methods needs to be called from within XToolkit.awtLock / XToolkit.awtUnlock section. */
+    /* This methods needs to be cblled from within XToolkit.bwtLock / XToolkit.bwtUnlock section. */
 
-    static long getCursor(Cursor c) {
+    stbtic long getCursor(Cursor c) {
 
-        long pData = 0;
+        long pDbtb = 0;
         int type = 0;
         try {
-            pData = AWTAccessor.getCursorAccessor().getPData(c);
+            pDbtb = AWTAccessor.getCursorAccessor().getPDbtb(c);
             type = AWTAccessor.getCursorAccessor().getType(c);
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
 
-        if (pData != 0) return pData;
+        if (pDbtb != 0) return pDbtb;
 
         int cursorType = 0;
         switch (type) {
-          case Cursor.DEFAULT_CURSOR:
-              cursorType = XCursorFontConstants.XC_left_ptr;
-              break;
-          case Cursor.CROSSHAIR_CURSOR:
-              cursorType = XCursorFontConstants.XC_crosshair;
-              break;
-          case Cursor.TEXT_CURSOR:
-              cursorType = XCursorFontConstants.XC_xterm;
-              break;
-          case Cursor.WAIT_CURSOR:
-              cursorType = XCursorFontConstants.XC_watch;
-              break;
-          case Cursor.SW_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_left_corner;
-              break;
-          case Cursor.NW_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_left_corner;
-              break;
-          case Cursor.SE_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_right_corner;
-              break;
-          case Cursor.NE_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_right_corner;
-              break;
-          case Cursor.S_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_side;
-              break;
-          case Cursor.N_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_side;
-              break;
-          case Cursor.W_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_left_side;
-              break;
-          case Cursor.E_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_right_side;
-              break;
-          case Cursor.HAND_CURSOR:
-              cursorType = XCursorFontConstants.XC_hand2;
-              break;
-          case Cursor.MOVE_CURSOR:
-              cursorType = XCursorFontConstants.XC_fleur;
-              break;
+          cbse Cursor.DEFAULT_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_left_ptr;
+              brebk;
+          cbse Cursor.CROSSHAIR_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_crosshbir;
+              brebk;
+          cbse Cursor.TEXT_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_xterm;
+              brebk;
+          cbse Cursor.WAIT_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_wbtch;
+              brebk;
+          cbse Cursor.SW_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_bottom_left_corner;
+              brebk;
+          cbse Cursor.NW_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_top_left_corner;
+              brebk;
+          cbse Cursor.SE_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_bottom_right_corner;
+              brebk;
+          cbse Cursor.NE_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_top_right_corner;
+              brebk;
+          cbse Cursor.S_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_bottom_side;
+              brebk;
+          cbse Cursor.N_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_top_side;
+              brebk;
+          cbse Cursor.W_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_left_side;
+              brebk;
+          cbse Cursor.E_RESIZE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_right_side;
+              brebk;
+          cbse Cursor.HAND_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_hbnd2;
+              brebk;
+          cbse Cursor.MOVE_CURSOR:
+              cursorType = XCursorFontConstbnts.XC_fleur;
+              brebk;
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            pData =(long) XlibWrapper.XCreateFontCursor(XToolkit.getDisplay(), cursorType);
+            pDbtb =(long) XlibWrbpper.XCrebteFontCursor(XToolkit.getDisplby(), cursorType);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlock();
         }
 
-        setPData(c,pData);
-        return pData;
+        setPDbtb(c,pDbtb);
+        return pDbtb;
     }
 
 
-    static void setPData(Cursor c, long pData) {
+    stbtic void setPDbtb(Cursor c, long pDbtb) {
         try {
-            AWTAccessor.getCursorAccessor().setPData(c, pData);
+            AWTAccessor.getCursorAccessor().setPDbtb(c, pDbtb);
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
 
     }

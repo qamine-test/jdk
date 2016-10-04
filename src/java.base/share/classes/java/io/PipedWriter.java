@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Piped character-output streams.
+ * Piped chbrbcter-output strebms.
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class PipedWriter extends Writer {
+public clbss PipedWriter extends Writer {
 
-    /* REMIND: identification of the read and write sides needs to be
-       more sophisticated.  Either using thread groups (but what about
-       pipes within a thread?) or using finalization (but it may be a
+    /* REMIND: identificbtion of the rebd bnd write sides needs to be
+       more sophisticbted.  Either using threbd groups (but whbt bbout
+       pipes within b threbd?) or using finblizbtion (but it mby be b
        long time until the next GC). */
-    private PipedReader sink;
+    privbte PipedRebder sink;
 
-    /* This flag records the open status of this particular writer. It
-     * is independent of the status flags defined in PipedReader. It is
-     * used to do a sanity check on connect.
+    /* This flbg records the open stbtus of this pbrticulbr writer. It
+     * is independent of the stbtus flbgs defined in PipedRebder. It is
+     * used to do b sbnity check on connect.
      */
-    private boolean closed = false;
+    privbte boolebn closed = fblse;
 
     /**
-     * Creates a piped writer connected to the specified piped
-     * reader. Data characters written to this stream will then be
-     * available as input from <code>snk</code>.
+     * Crebtes b piped writer connected to the specified piped
+     * rebder. Dbtb chbrbcters written to this strebm will then be
+     * bvbilbble bs input from <code>snk</code>.
      *
-     * @param      snk   The piped reader to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      snk   The piped rebder to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public PipedWriter(PipedReader snk)  throws IOException {
+    public PipedWriter(PipedRebder snk)  throws IOException {
         connect(snk);
     }
 
     /**
-     * Creates a piped writer that is not yet connected to a
-     * piped reader. It must be connected to a piped reader,
+     * Crebtes b piped writer thbt is not yet connected to b
+     * piped rebder. It must be connected to b piped rebder,
      * either by the receiver or the sender, before being used.
      *
-     * @see     java.io.PipedReader#connect(java.io.PipedWriter)
-     * @see     java.io.PipedWriter#connect(java.io.PipedReader)
+     * @see     jbvb.io.PipedRebder#connect(jbvb.io.PipedWriter)
+     * @see     jbvb.io.PipedWriter#connect(jbvb.io.PipedRebder)
      */
     public PipedWriter() {
     }
 
     /**
-     * Connects this piped writer to a receiver. If this object
-     * is already connected to some other piped reader, an
+     * Connects this piped writer to b receiver. If this object
+     * is blrebdy connected to some other piped rebder, bn
      * <code>IOException</code> is thrown.
      * <p>
-     * If <code>snk</code> is an unconnected piped reader and
-     * <code>src</code> is an unconnected piped writer, they may
-     * be connected by either the call:
+     * If <code>snk</code> is bn unconnected piped rebder bnd
+     * <code>src</code> is bn unconnected piped writer, they mby
+     * be connected by either the cbll:
      * <blockquote><pre>
      * src.connect(snk)</pre></blockquote>
-     * or the call:
+     * or the cbll:
      * <blockquote><pre>
      * snk.connect(src)</pre></blockquote>
-     * The two calls have the same effect.
+     * The two cblls hbve the sbme effect.
      *
-     * @param      snk   the piped reader to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      snk   the piped rebder to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public synchronized void connect(PipedReader snk) throws IOException {
+    public synchronized void connect(PipedRebder snk) throws IOException {
         if (snk == null) {
             throw new NullPointerException();
         } else if (sink != null || snk.connected) {
-            throw new IOException("Already connected");
-        } else if (snk.closedByReader || closed) {
+            throw new IOException("Alrebdy connected");
+        } else if (snk.closedByRebder || closed) {
             throw new IOException("Pipe closed");
         }
 
@@ -104,18 +104,18 @@ public class PipedWriter extends Writer {
     }
 
     /**
-     * Writes the specified <code>char</code> to the piped output stream.
-     * If a thread was reading data characters from the connected piped input
-     * stream, but the thread is no longer alive, then an
+     * Writes the specified <code>chbr</code> to the piped output strebm.
+     * If b threbd wbs rebding dbtb chbrbcters from the connected piped input
+     * strebm, but the threbd is no longer blive, then bn
      * <code>IOException</code> is thrown.
      * <p>
      * Implements the <code>write</code> method of <code>Writer</code>.
      *
-     * @param      c   the <code>char</code> to be written.
+     * @pbrbm      c   the <code>chbr</code> to be written.
      * @exception  IOException  if the pipe is
-     *          <a href=PipedOutputStream.html#BROKEN> <code>broken</code></a>,
-     *          {@link #connect(java.io.PipedReader) unconnected}, closed
-     *          or an I/O error occurs.
+     *          <b href=PipedOutputStrebm.html#BROKEN> <code>broken</code></b>,
+     *          {@link #connect(jbvb.io.PipedRebder) unconnected}, closed
+     *          or bn I/O error occurs.
      */
     public void write(int c)  throws IOException {
         if (sink == null) {
@@ -125,23 +125,23 @@ public class PipedWriter extends Writer {
     }
 
     /**
-     * Writes <code>len</code> characters from the specified character array
-     * starting at offset <code>off</code> to this piped output stream.
-     * This method blocks until all the characters are written to the output
-     * stream.
-     * If a thread was reading data characters from the connected piped input
-     * stream, but the thread is no longer alive, then an
+     * Writes <code>len</code> chbrbcters from the specified chbrbcter brrby
+     * stbrting bt offset <code>off</code> to this piped output strebm.
+     * This method blocks until bll the chbrbcters bre written to the output
+     * strebm.
+     * If b threbd wbs rebding dbtb chbrbcters from the connected piped input
+     * strebm, but the threbd is no longer blive, then bn
      * <code>IOException</code> is thrown.
      *
-     * @param      cbuf  the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of characters to write.
+     * @pbrbm      cbuf  the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of chbrbcters to write.
      * @exception  IOException  if the pipe is
-     *          <a href=PipedOutputStream.html#BROKEN> <code>broken</code></a>,
-     *          {@link #connect(java.io.PipedReader) unconnected}, closed
-     *          or an I/O error occurs.
+     *          <b href=PipedOutputStrebm.html#BROKEN> <code>broken</code></b>,
+     *          {@link #connect(jbvb.io.PipedRebder) unconnected}, closed
+     *          or bn I/O error occurs.
      */
-    public void write(char cbuf[], int off, int len) throws IOException {
+    public void write(chbr cbuf[], int off, int len) throws IOException {
         if (sink == null) {
             throw new IOException("Pipe not connected");
         } else if ((off | len | (off + len) | (cbuf.length - (off + len))) < 0) {
@@ -151,15 +151,15 @@ public class PipedWriter extends Writer {
     }
 
     /**
-     * Flushes this output stream and forces any buffered output characters
+     * Flushes this output strebm bnd forces bny buffered output chbrbcters
      * to be written out.
-     * This will notify any readers that characters are waiting in the pipe.
+     * This will notify bny rebders thbt chbrbcters bre wbiting in the pipe.
      *
-     * @exception  IOException  if the pipe is closed, or an I/O error occurs.
+     * @exception  IOException  if the pipe is closed, or bn I/O error occurs.
      */
     public synchronized void flush() throws IOException {
         if (sink != null) {
-            if (sink.closedByReader || closed) {
+            if (sink.closedByRebder || closed) {
                 throw new IOException("Pipe closed");
             }
             synchronized (sink) {
@@ -169,16 +169,16 @@ public class PipedWriter extends Writer {
     }
 
     /**
-     * Closes this piped output stream and releases any system resources
-     * associated with this stream. This stream may no longer be used for
-     * writing characters.
+     * Closes this piped output strebm bnd relebses bny system resources
+     * bssocibted with this strebm. This strebm mby no longer be used for
+     * writing chbrbcters.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close()  throws IOException {
         closed = true;
         if (sink != null) {
-            sink.receivedLast();
+            sink.receivedLbst();
         }
     }
 }

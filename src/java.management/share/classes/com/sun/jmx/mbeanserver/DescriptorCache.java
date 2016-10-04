@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.JMX;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.WebkHbshMbp;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.JMX;
 
-public class DescriptorCache {
-    private DescriptorCache() {
+public clbss DescriptorCbche {
+    privbte DescriptorCbche() {
     }
 
-    static DescriptorCache getInstance() {
-        return instance;
+    stbtic DescriptorCbche getInstbnce() {
+        return instbnce;
     }
 
-    public static DescriptorCache getInstance(JMX proof) {
+    public stbtic DescriptorCbche getInstbnce(JMX proof) {
         if (proof != null)
-            return instance;
+            return instbnce;
         else
             return null;
     }
 
-    public ImmutableDescriptor get(ImmutableDescriptor descriptor) {
-        WeakReference<ImmutableDescriptor> wr = map.get(descriptor);
-        ImmutableDescriptor got = (wr == null) ? null : wr.get();
+    public ImmutbbleDescriptor get(ImmutbbleDescriptor descriptor) {
+        WebkReference<ImmutbbleDescriptor> wr = mbp.get(descriptor);
+        ImmutbbleDescriptor got = (wr == null) ? null : wr.get();
         if (got != null)
             return got;
-        map.put(descriptor, new WeakReference<ImmutableDescriptor>(descriptor));
+        mbp.put(descriptor, new WebkReference<ImmutbbleDescriptor>(descriptor));
         return descriptor;
     }
 
-    public ImmutableDescriptor union(Descriptor... descriptors) {
-        return get(ImmutableDescriptor.union(descriptors));
+    public ImmutbbleDescriptor union(Descriptor... descriptors) {
+        return get(ImmutbbleDescriptor.union(descriptors));
     }
 
-    private final static DescriptorCache instance = new DescriptorCache();
-    private final WeakHashMap<ImmutableDescriptor,
-                              WeakReference<ImmutableDescriptor>>
-        map = new WeakHashMap<ImmutableDescriptor,
-                              WeakReference<ImmutableDescriptor>>();
+    privbte finbl stbtic DescriptorCbche instbnce = new DescriptorCbche();
+    privbte finbl WebkHbshMbp<ImmutbbleDescriptor,
+                              WebkReference<ImmutbbleDescriptor>>
+        mbp = new WebkHbshMbp<ImmutbbleDescriptor,
+                              WebkReference<ImmutbbleDescriptor>>();
 }

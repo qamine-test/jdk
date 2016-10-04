@@ -1,434 +1,434 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.GraphicsConfiguration;
-import java.awt.image.ColorModel;
-import java.awt.image.SampleModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBuffer;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.StateTrackable;
-import sun.java2d.StateTrackable.*;
-import sun.java2d.StateTracker;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.RenderLoops;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.StbteTrbckbble;
+import sun.jbvb2d.StbteTrbckbble.*;
+import sun.jbvb2d.StbteTrbcker;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.RenderLoops;
 
 
-public class BufImgSurfaceData extends SurfaceData {
-    BufferedImage bufImg;
-    private BufferedImageGraphicsConfig graphicsConfig;
+public clbss BufImgSurfbceDbtb extends SurfbceDbtb {
+    BufferedImbge bufImg;
+    privbte BufferedImbgeGrbphicsConfig grbphicsConfig;
     RenderLoops solidloops;
 
-    private static native void initIDs(Class<?> ICM, Class<?> ICMColorData);
+    privbte stbtic nbtive void initIDs(Clbss<?> ICM, Clbss<?> ICMColorDbtb);
 
-    private static final int DCM_RGBX_RED_MASK   = 0xff000000;
-    private static final int DCM_RGBX_GREEN_MASK = 0x00ff0000;
-    private static final int DCM_RGBX_BLUE_MASK  = 0x0000ff00;
-    private static final int DCM_555X_RED_MASK = 0xF800;
-    private static final int DCM_555X_GREEN_MASK = 0x07C0;
-    private static final int DCM_555X_BLUE_MASK = 0x003E;
-    private static final int DCM_4444_RED_MASK   = 0x0f00;
-    private static final int DCM_4444_GREEN_MASK = 0x00f0;
-    private static final int DCM_4444_BLUE_MASK  = 0x000f;
-    private static final int DCM_4444_ALPHA_MASK = 0xf000;
-    private static final int DCM_ARGBBM_ALPHA_MASK = 0x01000000;
-    private static final int DCM_ARGBBM_RED_MASK   = 0x00ff0000;
-    private static final int DCM_ARGBBM_GREEN_MASK = 0x0000ff00;
-    private static final int DCM_ARGBBM_BLUE_MASK  = 0x000000ff;
+    privbte stbtic finbl int DCM_RGBX_RED_MASK   = 0xff000000;
+    privbte stbtic finbl int DCM_RGBX_GREEN_MASK = 0x00ff0000;
+    privbte stbtic finbl int DCM_RGBX_BLUE_MASK  = 0x0000ff00;
+    privbte stbtic finbl int DCM_555X_RED_MASK = 0xF800;
+    privbte stbtic finbl int DCM_555X_GREEN_MASK = 0x07C0;
+    privbte stbtic finbl int DCM_555X_BLUE_MASK = 0x003E;
+    privbte stbtic finbl int DCM_4444_RED_MASK   = 0x0f00;
+    privbte stbtic finbl int DCM_4444_GREEN_MASK = 0x00f0;
+    privbte stbtic finbl int DCM_4444_BLUE_MASK  = 0x000f;
+    privbte stbtic finbl int DCM_4444_ALPHA_MASK = 0xf000;
+    privbte stbtic finbl int DCM_ARGBBM_ALPHA_MASK = 0x01000000;
+    privbte stbtic finbl int DCM_ARGBBM_RED_MASK   = 0x00ff0000;
+    privbte stbtic finbl int DCM_ARGBBM_GREEN_MASK = 0x0000ff00;
+    privbte stbtic finbl int DCM_ARGBBM_BLUE_MASK  = 0x000000ff;
 
-    static {
-        initIDs(IndexColorModel.class, ICMColorData.class);
+    stbtic {
+        initIDs(IndexColorModel.clbss, ICMColorDbtb.clbss);
     }
 
-    public static SurfaceData createData(BufferedImage bufImg) {
+    public stbtic SurfbceDbtb crebteDbtb(BufferedImbge bufImg) {
         if (bufImg == null) {
-            throw new NullPointerException("BufferedImage cannot be null");
+            throw new NullPointerException("BufferedImbge cbnnot be null");
         }
-        SurfaceData sData;
+        SurfbceDbtb sDbtb;
         ColorModel cm = bufImg.getColorModel();
         int type = bufImg.getType();
-        // REMIND: Check the image type and pick an appropriate subclass
+        // REMIND: Check the imbge type bnd pick bn bppropribte subclbss
         switch (type) {
-        case BufferedImage.TYPE_INT_BGR:
-            sData = createDataIC(bufImg, SurfaceType.IntBgr);
-            break;
-        case BufferedImage.TYPE_INT_RGB:
-            sData = createDataIC(bufImg, SurfaceType.IntRgb);
-            break;
-        case BufferedImage.TYPE_INT_ARGB:
-            sData = createDataIC(bufImg, SurfaceType.IntArgb);
-            break;
-        case BufferedImage.TYPE_INT_ARGB_PRE:
-            sData = createDataIC(bufImg, SurfaceType.IntArgbPre);
-            break;
-        case BufferedImage.TYPE_3BYTE_BGR:
-            sData = createDataBC(bufImg, SurfaceType.ThreeByteBgr, 2);
-            break;
-        case BufferedImage.TYPE_4BYTE_ABGR:
-            sData = createDataBC(bufImg, SurfaceType.FourByteAbgr, 3);
-            break;
-        case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-            sData = createDataBC(bufImg, SurfaceType.FourByteAbgrPre, 3);
-            break;
-        case BufferedImage.TYPE_USHORT_565_RGB:
-            sData = createDataSC(bufImg, SurfaceType.Ushort565Rgb, null);
-            break;
-        case BufferedImage.TYPE_USHORT_555_RGB:
-            sData = createDataSC(bufImg, SurfaceType.Ushort555Rgb, null);
-            break;
-        case BufferedImage.TYPE_BYTE_INDEXED:
+        cbse BufferedImbge.TYPE_INT_BGR:
+            sDbtb = crebteDbtbIC(bufImg, SurfbceType.IntBgr);
+            brebk;
+        cbse BufferedImbge.TYPE_INT_RGB:
+            sDbtb = crebteDbtbIC(bufImg, SurfbceType.IntRgb);
+            brebk;
+        cbse BufferedImbge.TYPE_INT_ARGB:
+            sDbtb = crebteDbtbIC(bufImg, SurfbceType.IntArgb);
+            brebk;
+        cbse BufferedImbge.TYPE_INT_ARGB_PRE:
+            sDbtb = crebteDbtbIC(bufImg, SurfbceType.IntArgbPre);
+            brebk;
+        cbse BufferedImbge.TYPE_3BYTE_BGR:
+            sDbtb = crebteDbtbBC(bufImg, SurfbceType.ThreeByteBgr, 2);
+            brebk;
+        cbse BufferedImbge.TYPE_4BYTE_ABGR:
+            sDbtb = crebteDbtbBC(bufImg, SurfbceType.FourByteAbgr, 3);
+            brebk;
+        cbse BufferedImbge.TYPE_4BYTE_ABGR_PRE:
+            sDbtb = crebteDbtbBC(bufImg, SurfbceType.FourByteAbgrPre, 3);
+            brebk;
+        cbse BufferedImbge.TYPE_USHORT_565_RGB:
+            sDbtb = crebteDbtbSC(bufImg, SurfbceType.Ushort565Rgb, null);
+            brebk;
+        cbse BufferedImbge.TYPE_USHORT_555_RGB:
+            sDbtb = crebteDbtbSC(bufImg, SurfbceType.Ushort555Rgb, null);
+            brebk;
+        cbse BufferedImbge.TYPE_BYTE_INDEXED:
             {
-                SurfaceType sType;
-                switch (cm.getTransparency()) {
-                case OPAQUE:
-                    if (isOpaqueGray((IndexColorModel)cm)) {
-                        sType = SurfaceType.Index8Gray;
+                SurfbceType sType;
+                switch (cm.getTrbnspbrency()) {
+                cbse OPAQUE:
+                    if (isOpbqueGrby((IndexColorModel)cm)) {
+                        sType = SurfbceType.Index8Grby;
                     } else {
-                        sType = SurfaceType.ByteIndexedOpaque;
+                        sType = SurfbceType.ByteIndexedOpbque;
                     }
-                    break;
-                case BITMASK:
-                    sType = SurfaceType.ByteIndexedBm;
-                    break;
-                case TRANSLUCENT:
-                    sType = SurfaceType.ByteIndexed;
-                    break;
-                default:
-                    throw new InternalError("Unrecognized transparency");
+                    brebk;
+                cbse BITMASK:
+                    sType = SurfbceType.ByteIndexedBm;
+                    brebk;
+                cbse TRANSLUCENT:
+                    sType = SurfbceType.ByteIndexed;
+                    brebk;
+                defbult:
+                    throw new InternblError("Unrecognized trbnspbrency");
                 }
-                sData = createDataBC(bufImg, sType, 0);
+                sDbtb = crebteDbtbBC(bufImg, sType, 0);
             }
-            break;
-        case BufferedImage.TYPE_BYTE_GRAY:
-            sData = createDataBC(bufImg, SurfaceType.ByteGray, 0);
-            break;
-        case BufferedImage.TYPE_USHORT_GRAY:
-            sData = createDataSC(bufImg, SurfaceType.UshortGray, null);
-            break;
-        case BufferedImage.TYPE_BYTE_BINARY:
+            brebk;
+        cbse BufferedImbge.TYPE_BYTE_GRAY:
+            sDbtb = crebteDbtbBC(bufImg, SurfbceType.ByteGrby, 0);
+            brebk;
+        cbse BufferedImbge.TYPE_USHORT_GRAY:
+            sDbtb = crebteDbtbSC(bufImg, SurfbceType.UshortGrby, null);
+            brebk;
+        cbse BufferedImbge.TYPE_BYTE_BINARY:
             {
-                SurfaceType sType;
-                SampleModel sm = bufImg.getRaster().getSampleModel();
-                switch (sm.getSampleSize(0)) {
-                case 1:
-                    sType = SurfaceType.ByteBinary1Bit;
-                    break;
-                case 2:
-                    sType = SurfaceType.ByteBinary2Bit;
-                    break;
-                case 4:
-                    sType = SurfaceType.ByteBinary4Bit;
-                    break;
-                default:
-                    throw new InternalError("Unrecognized pixel size");
+                SurfbceType sType;
+                SbmpleModel sm = bufImg.getRbster().getSbmpleModel();
+                switch (sm.getSbmpleSize(0)) {
+                cbse 1:
+                    sType = SurfbceType.ByteBinbry1Bit;
+                    brebk;
+                cbse 2:
+                    sType = SurfbceType.ByteBinbry2Bit;
+                    brebk;
+                cbse 4:
+                    sType = SurfbceType.ByteBinbry4Bit;
+                    brebk;
+                defbult:
+                    throw new InternblError("Unrecognized pixel size");
                 }
-                sData = createDataBP(bufImg, sType);
+                sDbtb = crebteDbtbBP(bufImg, sType);
             }
-            break;
-        case BufferedImage.TYPE_CUSTOM:
-        default:
+            brebk;
+        cbse BufferedImbge.TYPE_CUSTOM:
+        defbult:
             {
-                Raster raster = bufImg.getRaster();
-                int numBands = raster.getNumBands();
-                if (raster instanceof IntegerComponentRaster &&
-                    raster.getNumDataElements() == 1 &&
-                    ((IntegerComponentRaster)raster).getPixelStride() == 1)
+                Rbster rbster = bufImg.getRbster();
+                int numBbnds = rbster.getNumBbnds();
+                if (rbster instbnceof IntegerComponentRbster &&
+                    rbster.getNumDbtbElements() == 1 &&
+                    ((IntegerComponentRbster)rbster).getPixelStride() == 1)
                 {
-                    SurfaceType sType = SurfaceType.AnyInt;
-                    if (cm instanceof DirectColorModel) {
+                    SurfbceType sType = SurfbceType.AnyInt;
+                    if (cm instbnceof DirectColorModel) {
                         DirectColorModel dcm = (DirectColorModel) cm;
-                        int aMask = dcm.getAlphaMask();
-                        int rMask = dcm.getRedMask();
-                        int gMask = dcm.getGreenMask();
-                        int bMask = dcm.getBlueMask();
-                        if (numBands == 3 &&
-                            aMask == 0 &&
-                            rMask == DCM_RGBX_RED_MASK &&
-                            gMask == DCM_RGBX_GREEN_MASK &&
-                            bMask == DCM_RGBX_BLUE_MASK)
+                        int bMbsk = dcm.getAlphbMbsk();
+                        int rMbsk = dcm.getRedMbsk();
+                        int gMbsk = dcm.getGreenMbsk();
+                        int bMbsk = dcm.getBlueMbsk();
+                        if (numBbnds == 3 &&
+                            bMbsk == 0 &&
+                            rMbsk == DCM_RGBX_RED_MASK &&
+                            gMbsk == DCM_RGBX_GREEN_MASK &&
+                            bMbsk == DCM_RGBX_BLUE_MASK)
                         {
-                            sType = SurfaceType.IntRgbx;
-                        } else if (numBands == 4 &&
-                                   aMask == DCM_ARGBBM_ALPHA_MASK &&
-                                   rMask == DCM_ARGBBM_RED_MASK &&
-                                   gMask == DCM_ARGBBM_GREEN_MASK &&
-                                   bMask == DCM_ARGBBM_BLUE_MASK)
+                            sType = SurfbceType.IntRgbx;
+                        } else if (numBbnds == 4 &&
+                                   bMbsk == DCM_ARGBBM_ALPHA_MASK &&
+                                   rMbsk == DCM_ARGBBM_RED_MASK &&
+                                   gMbsk == DCM_ARGBBM_GREEN_MASK &&
+                                   bMbsk == DCM_ARGBBM_BLUE_MASK)
                         {
-                            sType = SurfaceType.IntArgbBm;
+                            sType = SurfbceType.IntArgbBm;
                         } else {
-                            sType = SurfaceType.AnyDcm;
+                            sType = SurfbceType.AnyDcm;
                         }
                     }
-                    sData = createDataIC(bufImg, sType);
-                    break;
-                } else if (raster instanceof ShortComponentRaster &&
-                           raster.getNumDataElements() == 1 &&
-                           ((ShortComponentRaster)raster).getPixelStride() == 1)
+                    sDbtb = crebteDbtbIC(bufImg, sType);
+                    brebk;
+                } else if (rbster instbnceof ShortComponentRbster &&
+                           rbster.getNumDbtbElements() == 1 &&
+                           ((ShortComponentRbster)rbster).getPixelStride() == 1)
                 {
-                    SurfaceType sType = SurfaceType.AnyShort;
+                    SurfbceType sType = SurfbceType.AnyShort;
                     IndexColorModel icm = null;
-                    if (cm instanceof DirectColorModel) {
+                    if (cm instbnceof DirectColorModel) {
                         DirectColorModel dcm = (DirectColorModel) cm;
-                        int aMask = dcm.getAlphaMask();
-                        int rMask = dcm.getRedMask();
-                        int gMask = dcm.getGreenMask();
-                        int bMask = dcm.getBlueMask();
-                        if (numBands == 3 &&
-                            aMask == 0 &&
-                            rMask == DCM_555X_RED_MASK &&
-                            gMask == DCM_555X_GREEN_MASK &&
-                            bMask == DCM_555X_BLUE_MASK)
+                        int bMbsk = dcm.getAlphbMbsk();
+                        int rMbsk = dcm.getRedMbsk();
+                        int gMbsk = dcm.getGreenMbsk();
+                        int bMbsk = dcm.getBlueMbsk();
+                        if (numBbnds == 3 &&
+                            bMbsk == 0 &&
+                            rMbsk == DCM_555X_RED_MASK &&
+                            gMbsk == DCM_555X_GREEN_MASK &&
+                            bMbsk == DCM_555X_BLUE_MASK)
                         {
-                            sType = SurfaceType.Ushort555Rgbx;
+                            sType = SurfbceType.Ushort555Rgbx;
                         } else
-                        if (numBands == 4 &&
-                            aMask == DCM_4444_ALPHA_MASK &&
-                            rMask == DCM_4444_RED_MASK &&
-                            gMask == DCM_4444_GREEN_MASK &&
-                            bMask == DCM_4444_BLUE_MASK)
+                        if (numBbnds == 4 &&
+                            bMbsk == DCM_4444_ALPHA_MASK &&
+                            rMbsk == DCM_4444_RED_MASK &&
+                            gMbsk == DCM_4444_GREEN_MASK &&
+                            bMbsk == DCM_4444_BLUE_MASK)
                         {
-                            sType = SurfaceType.Ushort4444Argb;
+                            sType = SurfbceType.Ushort4444Argb;
                         }
-                    } else if (cm instanceof IndexColorModel) {
+                    } else if (cm instbnceof IndexColorModel) {
                         icm = (IndexColorModel)cm;
                         if (icm.getPixelSize() == 12) {
-                            if (isOpaqueGray(icm)) {
-                                sType = SurfaceType.Index12Gray;
+                            if (isOpbqueGrby(icm)) {
+                                sType = SurfbceType.Index12Grby;
                             } else {
-                                sType = SurfaceType.UshortIndexed;
+                                sType = SurfbceType.UshortIndexed;
                             }
                         } else {
                             icm = null;
                         }
                     }
-                    sData = createDataSC(bufImg, sType, icm);
-                    break;
+                    sDbtb = crebteDbtbSC(bufImg, sType, icm);
+                    brebk;
                 }
-                sData = new BufImgSurfaceData(raster.getDataBuffer(),
-                                              bufImg, SurfaceType.Custom);
+                sDbtb = new BufImgSurfbceDbtb(rbster.getDbtbBuffer(),
+                                              bufImg, SurfbceType.Custom);
             }
-            break;
+            brebk;
         }
-        ((BufImgSurfaceData) sData).initSolidLoops();
-        return sData;
+        ((BufImgSurfbceDbtb) sDbtb).initSolidLoops();
+        return sDbtb;
     }
 
-    public static SurfaceData createData(Raster ras, ColorModel cm) {
-        throw new InternalError("SurfaceData not implemented for Raster/CM");
+    public stbtic SurfbceDbtb crebteDbtb(Rbster rbs, ColorModel cm) {
+        throw new InternblError("SurfbceDbtb not implemented for Rbster/CM");
     }
 
-    public static SurfaceData createDataIC(BufferedImage bImg,
-                                           SurfaceType sType) {
-        IntegerComponentRaster icRaster =
-            (IntegerComponentRaster)bImg.getRaster();
-        BufImgSurfaceData bisd =
-            new BufImgSurfaceData(icRaster.getDataBuffer(), bImg, sType);
-        bisd.initRaster(icRaster.getDataStorage(),
-                        icRaster.getDataOffset(0) * 4, 0,
-                        icRaster.getWidth(),
-                        icRaster.getHeight(),
-                        icRaster.getPixelStride() * 4,
-                        icRaster.getScanlineStride() * 4,
+    public stbtic SurfbceDbtb crebteDbtbIC(BufferedImbge bImg,
+                                           SurfbceType sType) {
+        IntegerComponentRbster icRbster =
+            (IntegerComponentRbster)bImg.getRbster();
+        BufImgSurfbceDbtb bisd =
+            new BufImgSurfbceDbtb(icRbster.getDbtbBuffer(), bImg, sType);
+        bisd.initRbster(icRbster.getDbtbStorbge(),
+                        icRbster.getDbtbOffset(0) * 4, 0,
+                        icRbster.getWidth(),
+                        icRbster.getHeight(),
+                        icRbster.getPixelStride() * 4,
+                        icRbster.getScbnlineStride() * 4,
                         null);
         return bisd;
     }
 
-    public static SurfaceData createDataSC(BufferedImage bImg,
-                                           SurfaceType sType,
+    public stbtic SurfbceDbtb crebteDbtbSC(BufferedImbge bImg,
+                                           SurfbceType sType,
                                            IndexColorModel icm) {
-        ShortComponentRaster scRaster =
-            (ShortComponentRaster)bImg.getRaster();
-        BufImgSurfaceData bisd =
-            new BufImgSurfaceData(scRaster.getDataBuffer(), bImg, sType);
-        bisd.initRaster(scRaster.getDataStorage(),
-                        scRaster.getDataOffset(0) * 2, 0,
-                        scRaster.getWidth(),
-                        scRaster.getHeight(),
-                        scRaster.getPixelStride() * 2,
-                        scRaster.getScanlineStride() * 2,
+        ShortComponentRbster scRbster =
+            (ShortComponentRbster)bImg.getRbster();
+        BufImgSurfbceDbtb bisd =
+            new BufImgSurfbceDbtb(scRbster.getDbtbBuffer(), bImg, sType);
+        bisd.initRbster(scRbster.getDbtbStorbge(),
+                        scRbster.getDbtbOffset(0) * 2, 0,
+                        scRbster.getWidth(),
+                        scRbster.getHeight(),
+                        scRbster.getPixelStride() * 2,
+                        scRbster.getScbnlineStride() * 2,
                         icm);
         return bisd;
     }
 
-    public static SurfaceData createDataBC(BufferedImage bImg,
-                                           SurfaceType sType,
-                                           int primaryBank) {
-        ByteComponentRaster bcRaster =
-            (ByteComponentRaster)bImg.getRaster();
-        BufImgSurfaceData bisd =
-            new BufImgSurfaceData(bcRaster.getDataBuffer(), bImg, sType);
+    public stbtic SurfbceDbtb crebteDbtbBC(BufferedImbge bImg,
+                                           SurfbceType sType,
+                                           int primbryBbnk) {
+        ByteComponentRbster bcRbster =
+            (ByteComponentRbster)bImg.getRbster();
+        BufImgSurfbceDbtb bisd =
+            new BufImgSurfbceDbtb(bcRbster.getDbtbBuffer(), bImg, sType);
         ColorModel cm = bImg.getColorModel();
-        IndexColorModel icm = ((cm instanceof IndexColorModel)
+        IndexColorModel icm = ((cm instbnceof IndexColorModel)
                                ? (IndexColorModel) cm
                                : null);
-        bisd.initRaster(bcRaster.getDataStorage(),
-                        bcRaster.getDataOffset(primaryBank), 0,
-                        bcRaster.getWidth(),
-                        bcRaster.getHeight(),
-                        bcRaster.getPixelStride(),
-                        bcRaster.getScanlineStride(),
+        bisd.initRbster(bcRbster.getDbtbStorbge(),
+                        bcRbster.getDbtbOffset(primbryBbnk), 0,
+                        bcRbster.getWidth(),
+                        bcRbster.getHeight(),
+                        bcRbster.getPixelStride(),
+                        bcRbster.getScbnlineStride(),
                         icm);
         return bisd;
     }
 
-    public static SurfaceData createDataBP(BufferedImage bImg,
-                                           SurfaceType sType) {
-        BytePackedRaster bpRaster =
-            (BytePackedRaster)bImg.getRaster();
-        BufImgSurfaceData bisd =
-            new BufImgSurfaceData(bpRaster.getDataBuffer(), bImg, sType);
+    public stbtic SurfbceDbtb crebteDbtbBP(BufferedImbge bImg,
+                                           SurfbceType sType) {
+        BytePbckedRbster bpRbster =
+            (BytePbckedRbster)bImg.getRbster();
+        BufImgSurfbceDbtb bisd =
+            new BufImgSurfbceDbtb(bpRbster.getDbtbBuffer(), bImg, sType);
         ColorModel cm = bImg.getColorModel();
-        IndexColorModel icm = ((cm instanceof IndexColorModel)
+        IndexColorModel icm = ((cm instbnceof IndexColorModel)
                                ? (IndexColorModel) cm
                                : null);
-        bisd.initRaster(bpRaster.getDataStorage(),
-                        bpRaster.getDataBitOffset() / 8,
-                        bpRaster.getDataBitOffset() & 7,
-                        bpRaster.getWidth(),
-                        bpRaster.getHeight(),
+        bisd.initRbster(bpRbster.getDbtbStorbge(),
+                        bpRbster.getDbtbBitOffset() / 8,
+                        bpRbster.getDbtbBitOffset() & 7,
+                        bpRbster.getWidth(),
+                        bpRbster.getHeight(),
                         0,
-                        bpRaster.getScanlineStride(),
+                        bpRbster.getScbnlineStride(),
                         icm);
         return bisd;
     }
 
-    public RenderLoops getRenderLoops(SunGraphics2D sg2d) {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY)
+    public RenderLoops getRenderLoops(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY)
         {
             return solidloops;
         }
         return super.getRenderLoops(sg2d);
     }
 
-    public java.awt.image.Raster getRaster(int x, int y, int w, int h) {
-        return bufImg.getRaster();
+    public jbvb.bwt.imbge.Rbster getRbster(int x, int y, int w, int h) {
+        return bufImg.getRbster();
     }
 
     /**
-     * Initializes the native Ops pointer.
+     * Initiblizes the nbtive Ops pointer.
      */
-    protected native void initRaster(Object theArray,
+    protected nbtive void initRbster(Object theArrby,
                                      int offset,
                                      int bitoffset,
                                      int width,
                                      int height,
                                      int pixStr,
-                                     int scanStr,
+                                     int scbnStr,
                                      IndexColorModel icm);
 
-    public BufImgSurfaceData(DataBuffer db,
-                             BufferedImage bufImg, SurfaceType sType)
+    public BufImgSurfbceDbtb(DbtbBuffer db,
+                             BufferedImbge bufImg, SurfbceType sType)
     {
-        super(SunWritableRaster.stealTrackable(db),
+        super(SunWritbbleRbster.steblTrbckbble(db),
               sType, bufImg.getColorModel());
         this.bufImg = bufImg;
     }
 
-    protected BufImgSurfaceData(SurfaceType surfaceType, ColorModel cm) {
-        super(surfaceType, cm);
+    protected BufImgSurfbceDbtb(SurfbceType surfbceType, ColorModel cm) {
+        super(surfbceType, cm);
     }
 
     public void initSolidLoops() {
-        this.solidloops = getSolidLoops(getSurfaceType());
+        this.solidloops = getSolidLoops(getSurfbceType());
     }
 
-    private static final int CACHE_SIZE = 5;
-    private static RenderLoops loopcache[] = new RenderLoops[CACHE_SIZE];
-    private static SurfaceType typecache[] = new SurfaceType[CACHE_SIZE];
-    public static synchronized RenderLoops getSolidLoops(SurfaceType type) {
+    privbte stbtic finbl int CACHE_SIZE = 5;
+    privbte stbtic RenderLoops loopcbche[] = new RenderLoops[CACHE_SIZE];
+    privbte stbtic SurfbceType typecbche[] = new SurfbceType[CACHE_SIZE];
+    public stbtic synchronized RenderLoops getSolidLoops(SurfbceType type) {
         for (int i = CACHE_SIZE - 1; i >= 0; i--) {
-            SurfaceType t = typecache[i];
+            SurfbceType t = typecbche[i];
             if (t == type) {
-                return loopcache[i];
+                return loopcbche[i];
             } else if (t == null) {
-                break;
+                brebk;
             }
         }
-        RenderLoops l = makeRenderLoops(SurfaceType.OpaqueColor,
-                                        CompositeType.SrcNoEa,
+        RenderLoops l = mbkeRenderLoops(SurfbceType.OpbqueColor,
+                                        CompositeType.SrcNoEb,
                                         type);
-        System.arraycopy(loopcache, 1, loopcache, 0, CACHE_SIZE-1);
-        System.arraycopy(typecache, 1, typecache, 0, CACHE_SIZE-1);
-        loopcache[CACHE_SIZE - 1] = l;
-        typecache[CACHE_SIZE - 1] = type;
+        System.brrbycopy(loopcbche, 1, loopcbche, 0, CACHE_SIZE-1);
+        System.brrbycopy(typecbche, 1, typecbche, 0, CACHE_SIZE-1);
+        loopcbche[CACHE_SIZE - 1] = l;
+        typecbche[CACHE_SIZE - 1] = type;
         return l;
     }
 
-    public SurfaceData getReplacement() {
-        // BufImgSurfaceData objects should never lose their contents,
-        // so this method should never be called.
+    public SurfbceDbtb getReplbcement() {
+        // BufImgSurfbceDbtb objects should never lose their contents,
+        // so this method should never be cblled.
         return restoreContents(bufImg);
     }
 
-    public synchronized GraphicsConfiguration getDeviceConfiguration() {
-        if (graphicsConfig == null) {
-            graphicsConfig = BufferedImageGraphicsConfig.getConfig(bufImg);
+    public synchronized GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        if (grbphicsConfig == null) {
+            grbphicsConfig = BufferedImbgeGrbphicsConfig.getConfig(bufImg);
         }
-        return graphicsConfig;
+        return grbphicsConfig;
     }
 
-    public java.awt.Rectangle getBounds() {
-        return new Rectangle(bufImg.getWidth(), bufImg.getHeight());
+    public jbvb.bwt.Rectbngle getBounds() {
+        return new Rectbngle(bufImg.getWidth(), bufImg.getHeight());
     }
 
     protected void checkCustomComposite() {
-        // BufferedImages always allow Custom Composite objects since
-        // their pixels are immediately retrievable anyway.
+        // BufferedImbges blwbys bllow Custom Composite objects since
+        // their pixels bre immedibtely retrievbble bnywby.
     }
 
-    private static native void freeNativeICMData(long pData);
+    privbte stbtic nbtive void freeNbtiveICMDbtb(long pDbtb);
 
     /**
-     * Returns destination Image associated with this SurfaceData.
+     * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
      */
-    public Object getDestination() {
+    public Object getDestinbtion() {
         return bufImg;
     }
 
-    public static final class ICMColorData {
-        private long pData = 0L;
+    public stbtic finbl clbss ICMColorDbtb {
+        privbte long pDbtb = 0L;
 
-        private ICMColorData(long pData) {
-            this.pData = pData;
+        privbte ICMColorDbtb(long pDbtb) {
+            this.pDbtb = pDbtb;
         }
 
-        public void finalize() {
-            if (pData != 0L) {
-                BufImgSurfaceData.freeNativeICMData(pData);
-                pData = 0L;
+        public void finblize() {
+            if (pDbtb != 0L) {
+                BufImgSurfbceDbtb.freeNbtiveICMDbtb(pDbtb);
+                pDbtb = 0L;
             }
         }
     }

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Shape;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Shbpe;
 
 /**
- * An interface for an object that allows one to mark up the background
- * with colored areas.
+ * An interfbce for bn object thbt bllows one to mbrk up the bbckground
+ * with colored brebs.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Highlighter {
+public interfbce Highlighter {
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  This can be used
-     * to gain access to the model that is being navigated
-     * by the implementation of this interface.
+     * Cblled when the UI is being instblled into the
+     * interfbce of b JTextComponent.  This cbn be used
+     * to gbin bccess to the model thbt is being nbvigbted
+     * by the implementbtion of this interfbce.
      *
-     * @param c the JTextComponent editor
+     * @pbrbm c the JTextComponent editor
      */
-    public void install(JTextComponent c);
+    public void instbll(JTextComponent c);
 
     /**
-     * Called when the UI is being removed from the
-     * interface of a JTextComponent.  This is used to
-     * unregister any listeners that were attached.
+     * Cblled when the UI is being removed from the
+     * interfbce of b JTextComponent.  This is used to
+     * unregister bny listeners thbt were bttbched.
      *
-     * @param c the JTextComponent editor
+     * @pbrbm c the JTextComponent editor
      */
-    public void deinstall(JTextComponent c);
+    public void deinstbll(JTextComponent c);
 
     /**
      * Renders the highlights.
      *
-     * @param g the graphics context.
+     * @pbrbm g the grbphics context.
      */
-    public void paint(Graphics g);
+    public void pbint(Grbphics g);
 
     /**
-     * Adds a highlight to the view.  Returns a tag that can be used
+     * Adds b highlight to the view.  Returns b tbg thbt cbn be used
      * to refer to the highlight.
      *
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @param p the painter to use for the actual highlighting
-     * @return an object that refers to the highlight
-     * @exception BadLocationException for an invalid range specification
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
+     * @pbrbm p the pbinter to use for the bctubl highlighting
+     * @return bn object thbt refers to the highlight
+     * @exception BbdLocbtionException for bn invblid rbnge specificbtion
      */
-    public Object addHighlight(int p0, int p1, HighlightPainter p) throws BadLocationException;
+    public Object bddHighlight(int p0, int p1, HighlightPbinter p) throws BbdLocbtionException;
 
     /**
-     * Removes a highlight from the view.
+     * Removes b highlight from the view.
      *
-     * @param tag  which highlight to remove
+     * @pbrbm tbg  which highlight to remove
      */
-    public void removeHighlight(Object tag);
+    public void removeHighlight(Object tbg);
 
     /**
-     * Removes all highlights this highlighter is responsible for.
+     * Removes bll highlights this highlighter is responsible for.
      */
     public void removeAllHighlights();
 
     /**
-     * Changes the given highlight to span a different portion of
-     * the document.  This may be more efficient than a remove/add
-     * when a selection is expanding/shrinking (such as a sweep
-     * with a mouse) by damaging only what changed.
+     * Chbnges the given highlight to spbn b different portion of
+     * the document.  This mby be more efficient thbn b remove/bdd
+     * when b selection is expbnding/shrinking (such bs b sweep
+     * with b mouse) by dbmbging only whbt chbnged.
      *
-     * @param tag  which highlight to change
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @exception BadLocationException for an invalid range specification
+     * @pbrbm tbg  which highlight to chbnge
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
+     * @exception BbdLocbtionException for bn invblid rbnge specificbtion
      */
-    public void changeHighlight(Object tag, int p0, int p1) throws BadLocationException;
+    public void chbngeHighlight(Object tbg, int p0, int p1) throws BbdLocbtionException;
 
     /**
      * Fetches the current list of highlights.
@@ -109,29 +109,29 @@ public interface Highlighter {
     /**
      * Highlight renderer.
      */
-    public interface HighlightPainter {
+    public interfbce HighlightPbinter {
 
         /**
          * Renders the highlight.
          *
-         * @param g the graphics context
-         * @param p0 the starting offset in the model &gt;= 0
-         * @param p1 the ending offset in the model &gt;= p0
-         * @param bounds the bounding box for the highlight
-         * @param c the editor
+         * @pbrbm g the grbphics context
+         * @pbrbm p0 the stbrting offset in the model &gt;= 0
+         * @pbrbm p1 the ending offset in the model &gt;= p0
+         * @pbrbm bounds the bounding box for the highlight
+         * @pbrbm c the editor
          */
-        public void paint(Graphics g, int p0, int p1, Shape bounds, JTextComponent c);
+        public void pbint(Grbphics g, int p0, int p1, Shbpe bounds, JTextComponent c);
 
     }
 
-    public interface Highlight {
+    public interfbce Highlight {
 
         /**
-         * Gets the starting model offset for the highlight.
+         * Gets the stbrting model offset for the highlight.
          *
-         * @return the starting offset &gt;= 0
+         * @return the stbrting offset &gt;= 0
          */
-        public int getStartOffset();
+        public int getStbrtOffset();
 
         /**
          * Gets the ending model offset for the highlight.
@@ -141,11 +141,11 @@ public interface Highlighter {
         public int getEndOffset();
 
         /**
-         * Gets the painter for the highlighter.
+         * Gets the pbinter for the highlighter.
          *
-         * @return the painter
+         * @return the pbinter
          */
-        public HighlightPainter getPainter();
+        public HighlightPbinter getPbinter();
 
     }
 

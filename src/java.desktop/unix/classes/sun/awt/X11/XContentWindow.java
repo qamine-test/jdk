@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.Insets;
+import jbvb.bwt.Component;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Insets;
 
-import java.awt.event.ComponentEvent;
+import jbvb.bwt.event.ComponentEvent;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
 /**
- * This class implements window which serves as content window for decorated frames.
- * Its purpose to provide correct events dispatching for the complex
- * constructs such as decorated frames.
+ * This clbss implements window which serves bs content window for decorbted frbmes.
+ * Its purpose to provide correct events dispbtching for the complex
+ * constructs such bs decorbted frbmes.
  *
- * It should always be located at (- left inset, - top inset) in the associated
- * decorated window.  So coordinates in it would be the same as java coordinates.
+ * It should blwbys be locbted bt (- left inset, - top inset) in the bssocibted
+ * decorbted window.  So coordinbtes in it would be the sbme bs jbvb coordinbtes.
  */
-public final class XContentWindow extends XWindow {
-    private static PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XContentWindow");
+public finbl clbss XContentWindow extends XWindow {
+    privbte stbtic PlbtformLogger insLog = PlbtformLogger.getLogger("sun.bwt.X11.insets.XContentWindow");
 
-    static XContentWindow createContent(XDecoratedPeer parentFrame) {
-        final WindowDimensions dims = parentFrame.getDimensions();
-        Rectangle rec = dims.getBounds();
-        // Fix for  - set the location of the content window to the (-left inset, -top inset)
+    stbtic XContentWindow crebteContent(XDecorbtedPeer pbrentFrbme) {
+        finbl WindowDimensions dims = pbrentFrbme.getDimensions();
+        Rectbngle rec = dims.getBounds();
+        // Fix for  - set the locbtion of the content window to the (-left inset, -top inset)
         Insets ins = dims.getInsets();
         if (ins != null) {
             rec.x = -ins.left;
@@ -57,125 +57,125 @@ public final class XContentWindow extends XWindow {
             rec.x = 0;
             rec.y = 0;
         }
-        final XContentWindow cw = new XContentWindow(parentFrame, rec);
+        finbl XContentWindow cw = new XContentWindow(pbrentFrbme, rec);
         cw.xSetVisible(true);
         return cw;
     }
 
-    private final XDecoratedPeer parentFrame;
+    privbte finbl XDecorbtedPeer pbrentFrbme;
 
-    // A list of expose events that come when the parentFrame is iconified
-    private final java.util.List<SavedExposeEvent> iconifiedExposeEvents =
-            new java.util.ArrayList<SavedExposeEvent>();
+    // A list of expose events thbt come when the pbrentFrbme is iconified
+    privbte finbl jbvb.util.List<SbvedExposeEvent> iconifiedExposeEvents =
+            new jbvb.util.ArrbyList<SbvedExposeEvent>();
 
-    private XContentWindow(XDecoratedPeer parentFrame, Rectangle bounds) {
-        super((Component)parentFrame.getTarget(), parentFrame.getShell(), bounds);
-        this.parentFrame = parentFrame;
+    privbte XContentWindow(XDecorbtedPeer pbrentFrbme, Rectbngle bounds) {
+        super((Component)pbrentFrbme.getTbrget(), pbrentFrbme.getShell(), bounds);
+        this.pbrentFrbme = pbrentFrbme;
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        params.putIfNull(BIT_GRAVITY, Integer.valueOf(XConstants.NorthWestGravity));
-        Long eventMask = (Long)params.get(EVENT_MASK);
-        if (eventMask != null) {
-            eventMask = eventMask & ~(XConstants.StructureNotifyMask);
-            params.put(EVENT_MASK, eventMask);
+    void preInit(XCrebteWindowPbrbms pbrbms) {
+        super.preInit(pbrbms);
+        pbrbms.putIfNull(BIT_GRAVITY, Integer.vblueOf(XConstbnts.NorthWestGrbvity));
+        Long eventMbsk = (Long)pbrbms.get(EVENT_MASK);
+        if (eventMbsk != null) {
+            eventMbsk = eventMbsk & ~(XConstbnts.StructureNotifyMbsk);
+            pbrbms.put(EVENT_MASK, eventMbsk);
         }
     }
 
-    protected String getWMName() {
+    protected String getWMNbme() {
         return "Content window";
     }
-    protected boolean isEventDisabled(XEvent e) {
+    protected boolebn isEventDisbbled(XEvent e) {
         switch (e.get_type()) {
-          // Override parentFrame to receive MouseEnter/Exit
-          case XConstants.EnterNotify:
-          case XConstants.LeaveNotify:
-              return false;
-          // We handle ConfigureNotify specifically in XDecoratedPeer
-          case XConstants.ConfigureNotify:
+          // Override pbrentFrbme to receive MouseEnter/Exit
+          cbse XConstbnts.EnterNotify:
+          cbse XConstbnts.LebveNotify:
+              return fblse;
+          // We hbndle ConfigureNotify specificblly in XDecorbtedPeer
+          cbse XConstbnts.ConfigureNotify:
               return true;
-          // We don't want SHOWN/HIDDEN on content window since it will duplicate XDecoratedPeer
-          case XConstants.MapNotify:
-          case XConstants.UnmapNotify:
+          // We don't wbnt SHOWN/HIDDEN on content window since it will duplicbte XDecorbtedPeer
+          cbse XConstbnts.MbpNotify:
+          cbse XConstbnts.UnmbpNotify:
               return true;
-          default:
-              return super.isEventDisabled(e) || parentFrame.isEventDisabled(e);
+          defbult:
+              return super.isEventDisbbled(e) || pbrentFrbme.isEventDisbbled(e);
         }
     }
 
-    // Coordinates are that of the shell
+    // Coordinbtes bre thbt of the shell
     void setContentBounds(WindowDimensions dims) {
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            // Bounds of content window are of the same size as bounds of Java window and with
-            // location as -(insets)
-            Rectangle newBounds = dims.getBounds();
+            // Bounds of content window bre of the sbme size bs bounds of Jbvb window bnd with
+            // locbtion bs -(insets)
+            Rectbngle newBounds = dims.getBounds();
             Insets in = dims.getInsets();
             if (in != null) {
-                newBounds.setLocation(-in.left, -in.top);
+                newBounds.setLocbtion(-in.left, -in.top);
             }
-            if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (insLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 insLog.fine("Setting content bounds {0}, old bounds {1}",
                             newBounds, getBounds());
             }
             // Fix for 5023533:
-            // Change in the size of the content window means, well, change of the size
-            // Change in the location of the content window means change in insets
-            boolean needHandleResize = !(newBounds.equals(getBounds()));
-            reshape(newBounds);
-            if (needHandleResize) {
+            // Chbnge in the size of the content window mebns, well, chbnge of the size
+            // Chbnge in the locbtion of the content window mebns chbnge in insets
+            boolebn needHbndleResize = !(newBounds.equbls(getBounds()));
+            reshbpe(newBounds);
+            if (needHbndleResize) {
                 insLog.fine("Sending RESIZED");
-                handleResize(newBounds);
+                hbndleResize(newBounds);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
-        validateSurface();
+        vblidbteSurfbce();
     }
 
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: This method mby be cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void handleResize(Rectangle bounds) {
-        AWTAccessor.getComponentAccessor().setSize(target, bounds.width, bounds.height);
-        postEvent(new ComponentEvent(target, ComponentEvent.COMPONENT_RESIZED));
+    public void hbndleResize(Rectbngle bounds) {
+        AWTAccessor.getComponentAccessor().setSize(tbrget, bounds.width, bounds.height);
+        postEvent(new ComponentEvent(tbrget, ComponentEvent.COMPONENT_RESIZED));
     }
 
 
-    public void postPaintEvent(Component target, int x, int y, int w, int h) {
+    public void postPbintEvent(Component tbrget, int x, int y, int w, int h) {
         // TODO: ?
-        // get rid of 'istanceof' by subclassing:
-        // XContentWindow -> XFrameContentWindow
+        // get rid of 'istbnceof' by subclbssing:
+        // XContentWindow -> XFrbmeContentWindow
 
-        // Expose event(s) that result from deiconification
-        // come before a deicinofication notification.
-        // We reorder these events by saving all expose events
-        // that come when the frame is iconified. Then we
-        // actually handle saved expose events on deiconification.
+        // Expose event(s) thbt result from deiconificbtion
+        // come before b deicinoficbtion notificbtion.
+        // We reorder these events by sbving bll expose events
+        // thbt come when the frbme is iconified. Then we
+        // bctublly hbndle sbved expose events on deiconificbtion.
 
-        if (parentFrame instanceof XFramePeer &&
-                (((XFramePeer)parentFrame).getState() & java.awt.Frame.ICONIFIED) != 0) {
-            // Save expose events if the frame is iconified
-            // in order to handle them on deiconification.
-            iconifiedExposeEvents.add(new SavedExposeEvent(target, x, y, w, h));
+        if (pbrentFrbme instbnceof XFrbmePeer &&
+                (((XFrbmePeer)pbrentFrbme).getStbte() & jbvb.bwt.Frbme.ICONIFIED) != 0) {
+            // Sbve expose events if the frbme is iconified
+            // in order to hbndle them on deiconificbtion.
+            iconifiedExposeEvents.bdd(new SbvedExposeEvent(tbrget, x, y, w, h));
         } else {
-            // Normal case: [it is not a frame or] the frame is not iconified.
-            super.postPaintEvent(target, x, y, w, h);
+            // Normbl cbse: [it is not b frbme or] the frbme is not iconified.
+            super.postPbintEvent(tbrget, x, y, w, h);
         }
     }
 
     void purgeIconifiedExposeEvents() {
-        for (SavedExposeEvent evt : iconifiedExposeEvents) {
-            super.postPaintEvent(evt.target, evt.x, evt.y, evt.w, evt.h);
+        for (SbvedExposeEvent evt : iconifiedExposeEvents) {
+            super.postPbintEvent(evt.tbrget, evt.x, evt.y, evt.w, evt.h);
         }
-        iconifiedExposeEvents.clear();
+        iconifiedExposeEvents.clebr();
     }
 
-    private static class SavedExposeEvent {
-        Component target;
+    privbte stbtic clbss SbvedExposeEvent {
+        Component tbrget;
         int x, y, w, h;
-        SavedExposeEvent(Component target, int x, int y, int w, int h) {
-            this.target = target;
+        SbvedExposeEvent(Component tbrget, int x, int y, int w, int h) {
+            this.tbrget = tbrget;
             this.x = x;
             this.y = y;
             this.w = w;
@@ -184,6 +184,6 @@ public final class XContentWindow extends XWindow {
     }
 
     public String toString() {
-        return getClass().getName() + "[" + getBounds() + "]";
+        return getClbss().getNbme() + "[" + getBounds() + "]";
     }
 }

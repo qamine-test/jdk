@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicOptionPbneUI;
 
-public class AquaOptionPaneUI extends BasicOptionPaneUI {
-    private static final int kOKCancelButtonWidth = 79;
-    private static final int kButtonHeight = 23;
+public clbss AqubOptionPbneUI extends BbsicOptionPbneUI {
+    privbte stbtic finbl int kOKCbncelButtonWidth = 79;
+    privbte stbtic finbl int kButtonHeight = 23;
 
-    private static final int kDialogSmallPadding = 4;
-    private static final int kDialogLargePadding = 23;
+    privbte stbtic finbl int kDiblogSmbllPbdding = 4;
+    privbte stbtic finbl int kDiblogLbrgePbdding = 23;
 
     /**
-     * Creates a new BasicOptionPaneUI instance.
+     * Crebtes b new BbsicOptionPbneUI instbnce.
      */
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaOptionPaneUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent x) {
+        return new AqubOptionPbneUI();
     }
 
     /**
-     * Creates and returns a Container containin the buttons. The buttons
-     * are created by calling <code>getButtons</code>.
+     * Crebtes bnd returns b Contbiner contbinin the buttons. The buttons
+     * bre crebted by cblling <code>getButtons</code>.
      */
-    protected Container createButtonArea() {
-        final Container bottom = super.createButtonArea();
-        // Now replace the Layout
-        bottom.setLayout(new AquaButtonAreaLayout(true, kDialogSmallPadding));
+    protected Contbiner crebteButtonAreb() {
+        finbl Contbiner bottom = super.crebteButtonAreb();
+        // Now replbce the Lbyout
+        bottom.setLbyout(new AqubButtonArebLbyout(true, kDiblogSmbllPbdding));
         return bottom;
     }
 
     /**
-     * Messaged from installComponents to create a Container containing the
-     * body of the message.
-     * The icon and body should be aligned on their top edges
+     * Messbged from instbllComponents to crebte b Contbiner contbining the
+     * body of the messbge.
+     * The icon bnd body should be bligned on their top edges
      */
-    protected Container createMessageArea() {
-        final JPanel top = new JPanel();
-        top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
-        top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
+    protected Contbiner crebteMessbgeAreb() {
+        finbl JPbnel top = new JPbnel();
+        top.setBorder(UIMbnbger.getBorder("OptionPbne.messbgeArebBorder"));
+        top.setLbyout(new BoxLbyout(top, BoxLbyout.X_AXIS));
 
         /* Fill the body. */
-        final Container body = new JPanel();
+        finbl Contbiner body = new JPbnel();
 
-        final Icon sideIcon = getIcon();
+        finbl Icon sideIcon = getIcon();
 
         if (sideIcon != null) {
-            final JLabel iconLabel = new JLabel(sideIcon);
-            iconLabel.setVerticalAlignment(SwingConstants.TOP);
+            finbl JLbbel iconLbbel = new JLbbel(sideIcon);
+            iconLbbel.setVerticblAlignment(SwingConstbnts.TOP);
 
-            final JPanel iconPanel = new JPanel();
-            iconPanel.add(iconLabel);
-            top.add(iconPanel);
-            top.add(Box.createHorizontalStrut(kDialogLargePadding));
+            finbl JPbnel iconPbnel = new JPbnel();
+            iconPbnel.bdd(iconLbbel);
+            top.bdd(iconPbnel);
+            top.bdd(Box.crebteHorizontblStrut(kDiblogLbrgePbdding));
         }
 
-        body.setLayout(new GridBagLayout());
-        final GridBagConstraints cons = new GridBagConstraints();
+        body.setLbyout(new GridBbgLbyout());
+        finbl GridBbgConstrbints cons = new GridBbgConstrbints();
         cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
+        cons.gridwidth = GridBbgConstrbints.REMAINDER;
         cons.gridheight = 1;
-        cons.anchor = GridBagConstraints.WEST;
+        cons.bnchor = GridBbgConstrbints.WEST;
         cons.insets = new Insets(0, 0, 3, 0);
 
-        addMessageComponents(body, cons, getMessage(), getMaxCharactersPerLineCount(), false);
-        top.add(body);
+        bddMessbgeComponents(body, cons, getMessbge(), getMbxChbrbctersPerLineCount(), fblse);
+        top.bdd(body);
 
         return top;
     }
 
     /**
-     * AquaButtonAreaLayout lays out all
-     *   components according to the HI Guidelines:
-     * The most important button is always on the far right
+     * AqubButtonArebLbyout lbys out bll
+     *   components bccording to the HI Guidelines:
+     * The most importbnt button is blwbys on the fbr right
      * The group of buttons is on the right for left-to-right,
      *         left for right-to-left
-     * The widths of each component will be set to the largest preferred size width.
+     * The widths of ebch component will be set to the lbrgest preferred size width.
      *
      *
-     * This inner class is marked &quot;public&quot; due to a compiler bug.
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicOptionPaneUI.
+     * This inner clbss is mbrked &quot;public&quot; due to b compiler bug.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicOptionPbneUI.
      *
-     * BasicOptionPaneUI expects that its buttons are layed out with
-     * a subclass of ButtonAreaLayout
+     * BbsicOptionPbneUI expects thbt its buttons bre lbyed out with
+     * b subclbss of ButtonArebLbyout
      */
-    public static class AquaButtonAreaLayout extends ButtonAreaLayout {
-        public AquaButtonAreaLayout(final boolean syncAllWidths, final int padding) {
-            super(true, padding);
+    public stbtic clbss AqubButtonArebLbyout extends ButtonArebLbyout {
+        public AqubButtonArebLbyout(finbl boolebn syncAllWidths, finbl int pbdding) {
+            super(true, pbdding);
         }
 
-        public void layoutContainer(final Container container) {
-            final Component[] children = container.getComponents();
+        public void lbyoutContbiner(finbl Contbiner contbiner) {
+            finbl Component[] children = contbiner.getComponents();
             if (children == null || 0 >= children.length) return;
 
-            final int numChildren = children.length;
-            final int yLocation = container.getInsets().top;
+            finbl int numChildren = children.length;
+            finbl int yLocbtion = contbiner.getInsets().top;
 
-            // Always syncAllWidths - and heights!
-            final Dimension maxSize = new Dimension(kOKCancelButtonWidth, kButtonHeight);
+            // Alwbys syncAllWidths - bnd heights!
+            finbl Dimension mbxSize = new Dimension(kOKCbncelButtonWidth, kButtonHeight);
             for (int i = 0; i < numChildren; i++) {
-                final Dimension sizes = children[i].getPreferredSize();
-                maxSize.width = Math.max(maxSize.width, sizes.width);
-                maxSize.height = Math.max(maxSize.height, sizes.height);
+                finbl Dimension sizes = children[i].getPreferredSize();
+                mbxSize.width = Mbth.mbx(mbxSize.width, sizes.width);
+                mbxSize.height = Mbth.mbx(mbxSize.height, sizes.height);
             }
 
-            // ignore getCentersChildren, because we don't
-            int xLocation = container.getSize().width - (maxSize.width * numChildren + (numChildren - 1) * padding);
-            final int xOffset = maxSize.width + padding;
+            // ignore getCentersChildren, becbuse we don't
+            int xLocbtion = contbiner.getSize().width - (mbxSize.width * numChildren + (numChildren - 1) * pbdding);
+            finbl int xOffset = mbxSize.width + pbdding;
 
-            // most important button (button zero) on far right
+            // most importbnt button (button zero) on fbr right
             for (int i = numChildren - 1; i >= 0; i--) {
-                children[i].setBounds(xLocation, yLocation, maxSize.width, maxSize.height);
-                xLocation += xOffset;
+                children[i].setBounds(xLocbtion, yLocbtion, mbxSize.width, mbxSize.height);
+                xLocbtion += xOffset;
             }
         }
     }

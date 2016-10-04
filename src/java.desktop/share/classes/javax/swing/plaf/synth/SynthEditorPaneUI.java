@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicEditorPaneUI;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicEditorPbneUI;
+import jbvb.bebns.PropertyChbngeEvent;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JEditorPane}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JEditorPbne}.
  *
- * @author  Shannon Hickey
+ * @buthor  Shbnnon Hickey
  * @since 1.7
  */
-public class SynthEditorPaneUI extends BasicEditorPaneUI implements SynthUI {
-    private SynthStyle style;
+public clbss SynthEditorPbneUI extends BbsicEditorPbneUI implements SynthUI {
+    privbte SynthStyle style;
     /*
-     * I would prefer to use UIResource instad of this.
-     * Unfortunately Boolean is a final class
+     * I would prefer to use UIResource instbd of this.
+     * Unfortunbtely Boolebn is b finbl clbss
      */
-    private Boolean localTrue = Boolean.TRUE;
+    privbte Boolebn locblTrue = Boolebn.TRUE;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthEditorPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthEditorPbneUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        // Installs the text cursor on the component
-        super.installDefaults();
+    protected void instbllDefbults() {
+        // Instblls the text cursor on the component
+        super.instbllDefbults();
         JComponent c = getComponent();
         Object clientProperty =
-            c.getClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES);
+            c.getClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES);
         if (clientProperty == null) {
-            c.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, localTrue);
+            c.putClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES, locblTrue);
         }
-        updateStyle(getComponent());
+        updbteStyle(getComponent());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         SynthContext context = getContext(getComponent(), ENABLED);
         JComponent c = getComponent();
-        c.putClientProperty("caretAspectRatio", null);
+        c.putClientProperty("cbretAspectRbtio", null);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
 
         Object clientProperty =
-            c.getClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES);
-        if (clientProperty == localTrue) {
-            c.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES,
-                                             Boolean.FALSE);
+            c.getClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES);
+        if (clientProperty == locblTrue) {
+            c.putClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES,
+                                             Boolebn.FALSE);
         }
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * This is implemented to rebuild the ActionMap based upon an
-     * EditorKit change.
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
+     * This is implemented to rebuild the ActionMbp bbsed upon bn
+     * EditorKit chbnge.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
     @Override
-    protected void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JTextComponent)evt.getSource());
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle((JTextComponent)evt.getSource());
         }
-        super.propertyChange(evt);
+        super.propertyChbnge(evt);
     }
 
-    private void updateStyle(JTextComponent comp) {
+    privbte void updbteStyle(JTextComponent comp) {
         SynthContext context = getContext(comp, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
-            SynthTextFieldUI.updateStyle(comp, context, getPropertyPrefix());
+            SynthTextFieldUI.updbteStyle(comp, context, getPropertyPrefix());
 
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -135,60 +135,60 @@ public class SynthEditorPaneUI extends BasicEditorPaneUI implements SynthUI {
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        paintBackground(context, g, c);
-        paint(context, g);
+        SynthLookAndFeel.updbte(context, g);
+        pbintBbckground(context, g, c);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        super.paint(g, getComponent());
+    protected void pbint(SynthContext context, Grbphics g) {
+        super.pbint(g, getComponent());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void paintBackground(Graphics g) {
-        // Overriden to do nothing, all our painting is done from update/paint.
+    protected void pbintBbckground(Grbphics g) {
+        // Overriden to do nothing, bll our pbinting is done from updbte/pbint.
     }
 
-    void paintBackground(SynthContext context, Graphics g, JComponent c) {
-        context.getPainter().paintEditorPaneBackground(context, g, 0, 0,
+    void pbintBbckground(SynthContext context, Grbphics g, JComponent c) {
+        context.getPbinter().pbintEditorPbneBbckground(context, g, 0, 0,
                                                   c.getWidth(), c.getHeight());
     }
 
@@ -196,8 +196,8 @@ public class SynthEditorPaneUI extends BasicEditorPaneUI implements SynthUI {
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintEditorPaneBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintEditorPbneBorder(context, g, x, y, w, h);
     }
 }

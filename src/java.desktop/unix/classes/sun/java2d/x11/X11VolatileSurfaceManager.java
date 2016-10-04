@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.x11;
+pbckbge sun.jbvb2d.x11;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import sun.awt.X11GraphicsConfig;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import sun.bwt.X11GrbphicsConfig;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.VolbtileSurfbceMbnbger;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
- * X11 platform implementation of the VolatileSurfaceManager class.
- * The class attempts to create and use a pixmap-based SurfaceData
- * object (X11PixmapSurfaceData).
- * If this object cannot be created or re-created as necessary, the
- * class falls back to a system memory based SurfaceData object
- * (BufImgSurfaceData) that will be used until the accelerated
- * SurfaceData can be restored.
+ * X11 plbtform implementbtion of the VolbtileSurfbceMbnbger clbss.
+ * The clbss bttempts to crebte bnd use b pixmbp-bbsed SurfbceDbtb
+ * object (X11PixmbpSurfbceDbtb).
+ * If this object cbnnot be crebted or re-crebted bs necessbry, the
+ * clbss fblls bbck to b system memory bbsed SurfbceDbtb object
+ * (BufImgSurfbceDbtb) thbt will be used until the bccelerbted
+ * SurfbceDbtb cbn be restored.
  */
-public class X11VolatileSurfaceManager extends VolatileSurfaceManager {
+public clbss X11VolbtileSurfbceMbnbger extends VolbtileSurfbceMbnbger {
 
-    private boolean accelerationEnabled;
+    privbte boolebn bccelerbtionEnbbled;
 
-    public X11VolatileSurfaceManager(SunVolatileImage vImg, Object context) {
+    public X11VolbtileSurfbceMbnbger(SunVolbtileImbge vImg, Object context) {
         super(vImg, context);
 
-        // We only accelerated opaque vImages currently
-        accelerationEnabled = X11SurfaceData.isAccelerationEnabled() &&
-            (vImg.getTransparency() == Transparency.OPAQUE);
+        // We only bccelerbted opbque vImbges currently
+        bccelerbtionEnbbled = X11SurfbceDbtb.isAccelerbtionEnbbled() &&
+            (vImg.getTrbnspbrency() == Trbnspbrency.OPAQUE);
 
-        if ((context != null) && !accelerationEnabled) {
-            // if we're wrapping a backbuffer drawable, we must ensure that
-            // the accelerated surface is initialized up front, regardless
-            // of whether acceleration is enabled. But we need to set
-            // the  accelerationEnabled field to true to reflect that this
-            // SM is actually accelerated.
-            accelerationEnabled = true;
-            sdAccel = initAcceleratedSurface();
+        if ((context != null) && !bccelerbtionEnbbled) {
+            // if we're wrbpping b bbckbuffer drbwbble, we must ensure thbt
+            // the bccelerbted surfbce is initiblized up front, regbrdless
+            // of whether bccelerbtion is enbbled. But we need to set
+            // the  bccelerbtionEnbbled field to true to reflect thbt this
+            // SM is bctublly bccelerbted.
+            bccelerbtionEnbbled = true;
+            sdAccel = initAccelerbtedSurfbce();
             sdCurrent = sdAccel;
 
-            if (sdBackup != null) {
-                // release the system memory backup surface, as we won't be
-                // needing it in this case
-                sdBackup = null;
+            if (sdBbckup != null) {
+                // relebse the system memory bbckup surfbce, bs we won't be
+                // needing it in this cbse
+                sdBbckup = null;
             }
         }
     }
 
-    protected boolean isAccelerationEnabled() {
-        return accelerationEnabled;
+    protected boolebn isAccelerbtionEnbbled() {
+        return bccelerbtionEnbbled;
     }
 
     /**
-     * Create a pixmap-based SurfaceData object
+     * Crebte b pixmbp-bbsed SurfbceDbtb object
      */
-    protected SurfaceData initAcceleratedSurface() {
-        SurfaceData sData;
+    protected SurfbceDbtb initAccelerbtedSurfbce() {
+        SurfbceDbtb sDbtb;
 
         try {
-            X11GraphicsConfig gc = (X11GraphicsConfig)vImg.getGraphicsConfig();
+            X11GrbphicsConfig gc = (X11GrbphicsConfig)vImg.getGrbphicsConfig();
             ColorModel cm = gc.getColorModel();
-            long drawable = 0;
-            if (context instanceof Long) {
-                drawable = ((Long)context).longValue();
+            long drbwbble = 0;
+            if (context instbnceof Long) {
+                drbwbble = ((Long)context).longVblue();
             }
-            sData = X11SurfaceData.createData(gc,
+            sDbtb = X11SurfbceDbtb.crebteDbtb(gc,
                                               vImg.getWidth(),
                                               vImg.getHeight(),
-                                              cm, vImg, drawable,
-                                              Transparency.OPAQUE);
-        } catch (NullPointerException ex) {
-            sData = null;
-        } catch (OutOfMemoryError er) {
-            sData = null;
+                                              cm, vImg, drbwbble,
+                                              Trbnspbrency.OPAQUE);
+        } cbtch (NullPointerException ex) {
+            sDbtb = null;
+        } cbtch (OutOfMemoryError er) {
+            sDbtb = null;
         }
 
-        return sData;
+        return sDbtb;
     }
 
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
-        // REMIND: we might be too paranoid here, requiring that
-        // the GC be exactly the same as the original one.  The
-        // real answer is one that guarantees that pixmap copies
-        // will be correct (which requires like bit depths and
-        // formats).
-        return ((gc == null) || (gc == vImg.getGraphicsConfig()));
+    protected boolebn isConfigVblid(GrbphicsConfigurbtion gc) {
+        // REMIND: we might be too pbrbnoid here, requiring thbt
+        // the GC be exbctly the sbme bs the originbl one.  The
+        // rebl bnswer is one thbt gubrbntees thbt pixmbp copies
+        // will be correct (which requires like bit depths bnd
+        // formbts).
+        return ((gc == null) || (gc == vImg.getGrbphicsConfig()));
     }
 
     /**
-     * Need to override the default behavior because Pixmaps-based
-     * images are accelerated but not volatile.
+     * Need to override the defbult behbvior becbuse Pixmbps-bbsed
+     * imbges bre bccelerbted but not volbtile.
      */
     @Override
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        if (isConfigValid(gc) && isAccelerationEnabled()) {
-            // accelerated but not volatile
-            return new ImageCapabilities(true);
+    public ImbgeCbpbbilities getCbpbbilities(GrbphicsConfigurbtion gc) {
+        if (isConfigVblid(gc) && isAccelerbtionEnbbled()) {
+            // bccelerbted but not volbtile
+            return new ImbgeCbpbbilities(true);
         }
-        // neither accelerated nor volatile
-        return new ImageCapabilities(false);
+        // neither bccelerbted nor volbtile
+        return new ImbgeCbpbbilities(fblse);
     }
 }

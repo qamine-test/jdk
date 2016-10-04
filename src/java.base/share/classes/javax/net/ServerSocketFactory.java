@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net;
+pbckbge jbvbx.net;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.SocketException;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
+import jbvb.net.SocketException;
 
 /**
- * This class creates server sockets.  It may be subclassed by other
- * factories, which create particular types of server sockets.  This
- * provides a general framework for the addition of public socket-level
- * functionality.  It is the server side analogue of a socket factory,
- * and similarly provides a way to capture a variety of policies related
+ * This clbss crebtes server sockets.  It mby be subclbssed by other
+ * fbctories, which crebte pbrticulbr types of server sockets.  This
+ * provides b generbl frbmework for the bddition of public socket-level
+ * functionblity.  It is the server side bnblogue of b socket fbctory,
+ * bnd similbrly provides b wby to cbpture b vbriety of policies relbted
  * to the sockets being constructed.
  *
- * <P> Like socket factories, server Socket factory instances have
- * methods used to create sockets. There is also an environment
- * specific default server socket factory; frameworks will often use
- * their own customized factory.
+ * <P> Like socket fbctories, server Socket fbctory instbnces hbve
+ * methods used to crebte sockets. There is blso bn environment
+ * specific defbult server socket fbctory; frbmeworks will often use
+ * their own customized fbctory.
  *
  * @since 1.4
- * @see SocketFactory
+ * @see SocketFbctory
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public abstract class ServerSocketFactory
+public bbstrbct clbss ServerSocketFbctory
 {
     //
-    // NOTE:  JDK 1.1 bug in class GC, this can get collected
-    // even though it's always accessible via getDefault().
+    // NOTE:  JDK 1.1 bug in clbss GC, this cbn get collected
+    // even though it's blwbys bccessible vib getDefbult().
     //
-    private static ServerSocketFactory          theFactory;
+    privbte stbtic ServerSocketFbctory          theFbctory;
 
 
     /**
-     * Creates a server socket factory.
+     * Crebtes b server socket fbctory.
      */
-    protected ServerSocketFactory() { /* NOTHING */ }
+    protected ServerSocketFbctory() { /* NOTHING */ }
 
     /**
-     * Returns a copy of the environment's default socket factory.
+     * Returns b copy of the environment's defbult socket fbctory.
      *
-     * @return the <code>ServerSocketFactory</code>
+     * @return the <code>ServerSocketFbctory</code>
      */
-    public static ServerSocketFactory getDefault()
+    public stbtic ServerSocketFbctory getDefbult()
     {
-        synchronized (ServerSocketFactory.class) {
-            if (theFactory == null) {
+        synchronized (ServerSocketFbctory.clbss) {
+            if (theFbctory == null) {
                 //
-                // Different implementations of this method could
-                // work rather differently.  For example, driving
-                // this from a system property, or using a different
-                // implementation than JavaSoft's.
+                // Different implementbtions of this method could
+                // work rbther differently.  For exbmple, driving
+                // this from b system property, or using b different
+                // implementbtion thbn JbvbSoft's.
                 //
-                theFactory = new DefaultServerSocketFactory();
+                theFbctory = new DefbultServerSocketFbctory();
             }
         }
 
-        return theFactory;
+        return theFbctory;
     }
 
 
     /**
-     * Returns an unbound server socket.  The socket is configured with
-     * the socket options (such as accept timeout) given to this factory.
+     * Returns bn unbound server socket.  The socket is configured with
+     * the socket options (such bs bccept timeout) given to this fbctory.
      *
      * @return the unbound socket
-     * @throws IOException if the socket cannot be created
-     * @see java.net.ServerSocket#bind(java.net.SocketAddress)
-     * @see java.net.ServerSocket#bind(java.net.SocketAddress, int)
-     * @see java.net.ServerSocket#ServerSocket()
+     * @throws IOException if the socket cbnnot be crebted
+     * @see jbvb.net.ServerSocket#bind(jbvb.net.SocketAddress)
+     * @see jbvb.net.ServerSocket#bind(jbvb.net.SocketAddress, int)
+     * @see jbvb.net.ServerSocket#ServerSocket()
      */
-    public ServerSocket createServerSocket() throws IOException {
+    public ServerSocket crebteServerSocket() throws IOException {
         throw new SocketException("Unbound server sockets not implemented");
     }
 
     /**
-     * Returns a server socket bound to the specified port.
+     * Returns b server socket bound to the specified port.
      * The socket is configured with the socket options
-     * (such as accept timeout) given to this factory.
+     * (such bs bccept timeout) given to this fbctory.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      *
-     * @param port the port to listen to
+     * @pbrbm port the port to listen to
      * @return the <code>ServerSocket</code>
      * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int)
+     * @see    SecurityMbnbger#checkListen
+     * @see jbvb.net.ServerSocket#ServerSocket(int)
      */
-    public abstract ServerSocket createServerSocket(int port)
+    public bbstrbct ServerSocket crebteServerSocket(int port)
         throws IOException;
 
 
     /**
-     * Returns a server socket bound to the specified port, and uses the
-     * specified connection backlog.  The socket is configured with
-     * the socket options (such as accept timeout) given to this factory.
+     * Returns b server socket bound to the specified port, bnd uses the
+     * specified connection bbcklog.  The socket is configured with
+     * the socket options (such bs bccept timeout) given to this fbctory.
      * <P>
-     * The <code>backlog</code> argument must be a positive
-     * value greater than 0. If the value passed if equal or less
-     * than 0, then the default value will be assumed.
+     * The <code>bbcklog</code> brgument must be b positive
+     * vblue grebter thbn 0. If the vblue pbssed if equbl or less
+     * thbn 0, then the defbult vblue will be bssumed.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      *
-     * @param port the port to listen to
-     * @param backlog how many connections are queued
+     * @pbrbm port the port to listen to
+     * @pbrbm bbcklog how mbny connections bre queued
      * @return the <code>ServerSocket</code>
      * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int, int)
+     * @see    SecurityMbnbger#checkListen
+     * @see jbvb.net.ServerSocket#ServerSocket(int, int)
      */
-    public abstract ServerSocket
-    createServerSocket(int port, int backlog)
+    public bbstrbct ServerSocket
+    crebteServerSocket(int port, int bbcklog)
     throws IOException;
 
 
     /**
-     * Returns a server socket bound to the specified port,
-     * with a specified listen backlog and local IP.
+     * Returns b server socket bound to the specified port,
+     * with b specified listen bbcklog bnd locbl IP.
      * <P>
-     * The <code>ifAddress</code> argument can be used on a multi-homed
-     * host for a <code>ServerSocket</code> that will only accept connect
-     * requests to one of its addresses. If <code>ifAddress</code> is null,
-     * it will accept connections on all local addresses. The socket is
-     * configured with the socket options (such as accept timeout) given
-     * to this factory.
+     * The <code>ifAddress</code> brgument cbn be used on b multi-homed
+     * host for b <code>ServerSocket</code> thbt will only bccept connect
+     * requests to one of its bddresses. If <code>ifAddress</code> is null,
+     * it will bccept connections on bll locbl bddresses. The socket is
+     * configured with the socket options (such bs bccept timeout) given
+     * to this fbctory.
      * <P>
-     * The <code>backlog</code> argument must be a positive
-     * value greater than 0. If the value passed if equal or less
-     * than 0, then the default value will be assumed.
+     * The <code>bbcklog</code> brgument must be b positive
+     * vblue grebter thbn 0. If the vblue pbssed if equbl or less
+     * thbn 0, then the defbult vblue will be bssumed.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      *
-     * @param port the port to listen to
-     * @param backlog how many connections are queued
-     * @param ifAddress the network interface address to use
+     * @pbrbm port the port to listen to
+     * @pbrbm bbcklog how mbny connections bre queued
+     * @pbrbm ifAddress the network interfbce bddress to use
      * @return the <code>ServerSocket</code>
      * @throws IOException for networking errors
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
-     * @see java.net.ServerSocket#ServerSocket(int, int, java.net.InetAddress)
+     * @see    SecurityMbnbger#checkListen
+     * @see jbvb.net.ServerSocket#ServerSocket(int, int, jbvb.net.InetAddress)
      */
-    public abstract ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
+    public bbstrbct ServerSocket
+    crebteServerSocket(int port, int bbcklog, InetAddress ifAddress)
     throws IOException;
 }
 
 
 //
-// The default factory has NO intelligence.  In fact it's not clear
-// what sort of intelligence servers need; the onus is on clients,
-// who have to know how to tunnel etc.
+// The defbult fbctory hbs NO intelligence.  In fbct it's not clebr
+// whbt sort of intelligence servers need; the onus is on clients,
+// who hbve to know how to tunnel etc.
 //
-class DefaultServerSocketFactory extends ServerSocketFactory {
+clbss DefbultServerSocketFbctory extends ServerSocketFbctory {
 
-    DefaultServerSocketFactory()
+    DefbultServerSocketFbctory()
     {
         /* NOTHING */
     }
 
-    public ServerSocket createServerSocket()
+    public ServerSocket crebteServerSocket()
     throws IOException
     {
         return new ServerSocket();
     }
 
-    public ServerSocket createServerSocket(int port)
+    public ServerSocket crebteServerSocket(int port)
     throws IOException
     {
         return new ServerSocket(port);
     }
 
-    public ServerSocket createServerSocket(int port, int backlog)
+    public ServerSocket crebteServerSocket(int port, int bbcklog)
     throws IOException
     {
-        return new ServerSocket(port, backlog);
+        return new ServerSocket(port, bbcklog);
     }
 
     public ServerSocket
-    createServerSocket(int port, int backlog, InetAddress ifAddress)
+    crebteServerSocket(int port, int bbcklog, InetAddress ifAddress)
     throws IOException
     {
-        return new ServerSocket(port, backlog, ifAddress);
+        return new ServerSocket(port, bbcklog, ifAddress);
     }
 }

@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.util.TimeZone;
+import jbvb.util.TimeZone;
 
 /**
- * The <code>BaseCalendar</code> provides basic calendar calculation
- * functions to support the Julian, Gregorian, and Gregorian-based
- * calendar systems.
+ * The <code>BbseCblendbr</code> provides bbsic cblendbr cblculbtion
+ * functions to support the Julibn, Gregoribn, bnd Gregoribn-bbsed
+ * cblendbr systems.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
 
-public abstract class BaseCalendar extends AbstractCalendar {
+public bbstrbct clbss BbseCblendbr extends AbstrbctCblendbr {
 
-    public static final int JANUARY = 1;
-    public static final int FEBRUARY = 2;
-    public static final int MARCH = 3;
-    public static final int APRIL = 4;
-    public static final int MAY = 5;
-    public static final int JUNE = 6;
-    public static final int JULY = 7;
-    public static final int AUGUST = 8;
-    public static final int SEPTEMBER = 9;
-    public static final int OCTOBER = 10;
-    public static final int NOVEMBER = 11;
-    public static final int DECEMBER = 12;
+    public stbtic finbl int JANUARY = 1;
+    public stbtic finbl int FEBRUARY = 2;
+    public stbtic finbl int MARCH = 3;
+    public stbtic finbl int APRIL = 4;
+    public stbtic finbl int MAY = 5;
+    public stbtic finbl int JUNE = 6;
+    public stbtic finbl int JULY = 7;
+    public stbtic finbl int AUGUST = 8;
+    public stbtic finbl int SEPTEMBER = 9;
+    public stbtic finbl int OCTOBER = 10;
+    public stbtic finbl int NOVEMBER = 11;
+    public stbtic finbl int DECEMBER = 12;
 
-    // day of week constants
-    public static final int SUNDAY = 1;
-    public static final int MONDAY = 2;
-    public static final int TUESDAY = 3;
-    public static final int WEDNESDAY = 4;
-    public static final int THURSDAY = 5;
-    public static final int FRIDAY = 6;
-    public static final int SATURDAY = 7;
+    // dby of week constbnts
+    public stbtic finbl int SUNDAY = 1;
+    public stbtic finbl int MONDAY = 2;
+    public stbtic finbl int TUESDAY = 3;
+    public stbtic finbl int WEDNESDAY = 4;
+    public stbtic finbl int THURSDAY = 5;
+    public stbtic finbl int FRIDAY = 6;
+    public stbtic finbl int SATURDAY = 7;
 
-    // The base Gregorian year of FIXED_DATES[]
-    private static final int BASE_YEAR = 1970;
+    // The bbse Gregoribn yebr of FIXED_DATES[]
+    privbte stbtic finbl int BASE_YEAR = 1970;
 
-    // Pre-calculated fixed dates of January 1 from BASE_YEAR
-    // (Gregorian). This table covers all the years that can be
-    // supported by the POSIX time_t (32-bit) after the Epoch. Note
-    // that the data type is int[].
-    private static final int[] FIXED_DATES = {
+    // Pre-cblculbted fixed dbtes of Jbnubry 1 from BASE_YEAR
+    // (Gregoribn). This tbble covers bll the yebrs thbt cbn be
+    // supported by the POSIX time_t (32-bit) bfter the Epoch. Note
+    // thbt the dbtb type is int[].
+    privbte stbtic finbl int[] FIXED_DATES = {
         719163, // 1970
         719528, // 1971
         719893, // 1972
@@ -140,362 +140,362 @@ public abstract class BaseCalendar extends AbstractCalendar {
         744365, // 2039
     };
 
-    public abstract static class Date extends CalendarDate {
-        protected Date() {
+    public bbstrbct stbtic clbss Dbte extends CblendbrDbte {
+        protected Dbte() {
             super();
         }
-        protected Date(TimeZone zone) {
+        protected Dbte(TimeZone zone) {
             super(zone);
         }
 
-        public Date setNormalizedDate(int normalizedYear, int month, int dayOfMonth) {
-            setNormalizedYear(normalizedYear);
-            setMonth(month).setDayOfMonth(dayOfMonth);
+        public Dbte setNormblizedDbte(int normblizedYebr, int month, int dbyOfMonth) {
+            setNormblizedYebr(normblizedYebr);
+            setMonth(month).setDbyOfMonth(dbyOfMonth);
             return this;
         }
 
-        public abstract int getNormalizedYear();
+        public bbstrbct int getNormblizedYebr();
 
-        public abstract void setNormalizedYear(int normalizedYear);
+        public bbstrbct void setNormblizedYebr(int normblizedYebr);
 
-        // Cache for the fixed date of January 1 and year length of the
-        // cachedYear. A simple benchmark showed 7% performance
-        // improvement with >90% cache hit. The initial values are for Gregorian.
-        int cachedYear = 2004;
-        long cachedFixedDateJan1 = 731581L;
-        long cachedFixedDateNextJan1 = cachedFixedDateJan1 + 366;
+        // Cbche for the fixed dbte of Jbnubry 1 bnd yebr length of the
+        // cbchedYebr. A simple benchmbrk showed 7% performbnce
+        // improvement with >90% cbche hit. The initibl vblues bre for Gregoribn.
+        int cbchedYebr = 2004;
+        long cbchedFixedDbteJbn1 = 731581L;
+        long cbchedFixedDbteNextJbn1 = cbchedFixedDbteJbn1 + 366;
 
-        protected final boolean hit(int year) {
-            return year == cachedYear;
+        protected finbl boolebn hit(int yebr) {
+            return yebr == cbchedYebr;
         }
 
-        protected final boolean hit(long fixedDate) {
-            return (fixedDate >= cachedFixedDateJan1 &&
-                    fixedDate < cachedFixedDateNextJan1);
+        protected finbl boolebn hit(long fixedDbte) {
+            return (fixedDbte >= cbchedFixedDbteJbn1 &&
+                    fixedDbte < cbchedFixedDbteNextJbn1);
         }
-        protected int getCachedYear() {
-            return cachedYear;
-        }
-
-        protected long getCachedJan1() {
-            return cachedFixedDateJan1;
+        protected int getCbchedYebr() {
+            return cbchedYebr;
         }
 
-        protected void setCache(int year, long jan1, int len) {
-            cachedYear = year;
-            cachedFixedDateJan1 = jan1;
-            cachedFixedDateNextJan1 = jan1 + len;
+        protected long getCbchedJbn1() {
+            return cbchedFixedDbteJbn1;
+        }
+
+        protected void setCbche(int yebr, long jbn1, int len) {
+            cbchedYebr = yebr;
+            cbchedFixedDbteJbn1 = jbn1;
+            cbchedFixedDbteNextJbn1 = jbn1 + len;
         }
     }
 
-    public boolean validate(CalendarDate date) {
-        Date bdate = (Date) date;
-        if (bdate.isNormalized()) {
+    public boolebn vblidbte(CblendbrDbte dbte) {
+        Dbte bdbte = (Dbte) dbte;
+        if (bdbte.isNormblized()) {
             return true;
         }
-        int month = bdate.getMonth();
+        int month = bdbte.getMonth();
         if (month < JANUARY || month > DECEMBER) {
-            return false;
+            return fblse;
         }
-        int d = bdate.getDayOfMonth();
-        if (d <= 0 || d > getMonthLength(bdate.getNormalizedYear(), month)) {
-            return false;
+        int d = bdbte.getDbyOfMonth();
+        if (d <= 0 || d > getMonthLength(bdbte.getNormblizedYebr(), month)) {
+            return fblse;
         }
-        int dow = bdate.getDayOfWeek();
-        if (dow != Date.FIELD_UNDEFINED && dow != getDayOfWeek(bdate)) {
-            return false;
-        }
-
-        if (!validateTime(date)) {
-            return false;
+        int dow = bdbte.getDbyOfWeek();
+        if (dow != Dbte.FIELD_UNDEFINED && dow != getDbyOfWeek(bdbte)) {
+            return fblse;
         }
 
-        bdate.setNormalized(true);
+        if (!vblidbteTime(dbte)) {
+            return fblse;
+        }
+
+        bdbte.setNormblized(true);
         return true;
     }
 
-    public boolean normalize(CalendarDate date) {
-        if (date.isNormalized()) {
+    public boolebn normblize(CblendbrDbte dbte) {
+        if (dbte.isNormblized()) {
             return true;
         }
 
-        Date bdate = (Date) date;
-        TimeZone zi = bdate.getZone();
+        Dbte bdbte = (Dbte) dbte;
+        TimeZone zi = bdbte.getZone();
 
-        // If the date has a time zone, then we need to recalculate
-        // the calendar fields. Let getTime() do it.
+        // If the dbte hbs b time zone, then we need to recblculbte
+        // the cblendbr fields. Let getTime() do it.
         if (zi != null) {
-            getTime(date);
+            getTime(dbte);
             return true;
         }
 
-        int days = normalizeTime(bdate);
-        normalizeMonth(bdate);
-        long d = (long)bdate.getDayOfMonth() + days;
-        int m = bdate.getMonth();
-        int y = bdate.getNormalizedYear();
+        int dbys = normblizeTime(bdbte);
+        normblizeMonth(bdbte);
+        long d = (long)bdbte.getDbyOfMonth() + dbys;
+        int m = bdbte.getMonth();
+        int y = bdbte.getNormblizedYebr();
         int ml = getMonthLength(y, m);
 
         if (!(d > 0 && d <= ml)) {
             if (d <= 0 && d > -28) {
                 ml = getMonthLength(y, --m);
                 d += ml;
-                bdate.setDayOfMonth((int) d);
+                bdbte.setDbyOfMonth((int) d);
                 if (m == 0) {
                     m = DECEMBER;
-                    bdate.setNormalizedYear(y - 1);
+                    bdbte.setNormblizedYebr(y - 1);
                 }
-                bdate.setMonth(m);
+                bdbte.setMonth(m);
             } else if (d > ml && d < (ml + 28)) {
                 d -= ml;
                 ++m;
-                bdate.setDayOfMonth((int)d);
+                bdbte.setDbyOfMonth((int)d);
                 if (m > DECEMBER) {
-                    bdate.setNormalizedYear(y + 1);
+                    bdbte.setNormblizedYebr(y + 1);
                     m = JANUARY;
                 }
-                bdate.setMonth(m);
+                bdbte.setMonth(m);
             } else {
-                long fixedDate = d + getFixedDate(y, m, 1, bdate) - 1L;
-                getCalendarDateFromFixedDate(bdate, fixedDate);
+                long fixedDbte = d + getFixedDbte(y, m, 1, bdbte) - 1L;
+                getCblendbrDbteFromFixedDbte(bdbte, fixedDbte);
             }
         } else {
-            bdate.setDayOfWeek(getDayOfWeek(bdate));
+            bdbte.setDbyOfWeek(getDbyOfWeek(bdbte));
         }
-        date.setLeapYear(isLeapYear(bdate.getNormalizedYear()));
-        date.setZoneOffset(0);
-        date.setDaylightSaving(0);
-        bdate.setNormalized(true);
+        dbte.setLebpYebr(isLebpYebr(bdbte.getNormblizedYebr()));
+        dbte.setZoneOffset(0);
+        dbte.setDbylightSbving(0);
+        bdbte.setNormblized(true);
         return true;
     }
 
-    void normalizeMonth(CalendarDate date) {
-        Date bdate = (Date) date;
-        int year = bdate.getNormalizedYear();
-        long month = bdate.getMonth();
+    void normblizeMonth(CblendbrDbte dbte) {
+        Dbte bdbte = (Dbte) dbte;
+        int yebr = bdbte.getNormblizedYebr();
+        long month = bdbte.getMonth();
         if (month <= 0) {
             long xm = 1L - month;
-            year -= (int)((xm / 12) + 1);
+            yebr -= (int)((xm / 12) + 1);
             month = 13 - (xm % 12);
-            bdate.setNormalizedYear(year);
-            bdate.setMonth((int) month);
+            bdbte.setNormblizedYebr(yebr);
+            bdbte.setMonth((int) month);
         } else if (month > DECEMBER) {
-            year += (int)((month - 1) / 12);
+            yebr += (int)((month - 1) / 12);
             month = ((month - 1)) % 12 + 1;
-            bdate.setNormalizedYear(year);
-            bdate.setMonth((int) month);
+            bdbte.setNormblizedYebr(yebr);
+            bdbte.setMonth((int) month);
         }
     }
 
     /**
-     * Returns 366 if the specified date is in a leap year, or 365
-     * otherwise This method does not perform the normalization with
-     * the specified <code>CalendarDate</code>. The
-     * <code>CalendarDate</code> must be normalized to get a correct
-     * value.
+     * Returns 366 if the specified dbte is in b lebp yebr, or 365
+     * otherwise This method does not perform the normblizbtion with
+     * the specified <code>CblendbrDbte</code>. The
+     * <code>CblendbrDbte</code> must be normblized to get b correct
+     * vblue.
      *
-     * @param a <code>CalendarDate</code>
-     * @return a year length in days
-     * @throws ClassCastException if the specified date is not a
-     * {@link BaseCalendar.Date}
+     * @pbrbm b <code>CblendbrDbte</code>
+     * @return b yebr length in dbys
+     * @throws ClbssCbstException if the specified dbte is not b
+     * {@link BbseCblendbr.Dbte}
      */
-    public int getYearLength(CalendarDate date) {
-        return isLeapYear(((Date)date).getNormalizedYear()) ? 366 : 365;
+    public int getYebrLength(CblendbrDbte dbte) {
+        return isLebpYebr(((Dbte)dbte).getNormblizedYebr()) ? 366 : 365;
     }
 
-    public int getYearLengthInMonths(CalendarDate date) {
+    public int getYebrLengthInMonths(CblendbrDbte dbte) {
         return 12;
     }
 
-    static final int[] DAYS_IN_MONTH
+    stbtic finbl int[] DAYS_IN_MONTH
         //  12   1   2   3   4   5   6   7   8   9  10  11  12
         = { 31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    static final int[] ACCUMULATED_DAYS_IN_MONTH
+    stbtic finbl int[] ACCUMULATED_DAYS_IN_MONTH
         //  12/1 1/1 2/1 3/1 4/1 5/1 6/1 7/1 8/1 9/1 10/1 11/1 12/1
         = {  -30,  0, 31, 59, 90,120,151,181,212,243, 273, 304, 334};
 
-    static final int[] ACCUMULATED_DAYS_IN_MONTH_LEAP
+    stbtic finbl int[] ACCUMULATED_DAYS_IN_MONTH_LEAP
         //  12/1 1/1 2/1   3/1   4/1   5/1   6/1   7/1   8/1   9/1   10/1   11/1   12/1
         = {  -30,  0, 31, 59+1, 90+1,120+1,151+1,181+1,212+1,243+1, 273+1, 304+1, 334+1};
 
-    public int getMonthLength(CalendarDate date) {
-        Date gdate = (Date) date;
-        int month = gdate.getMonth();
+    public int getMonthLength(CblendbrDbte dbte) {
+        Dbte gdbte = (Dbte) dbte;
+        int month = gdbte.getMonth();
         if (month < JANUARY || month > DECEMBER) {
-            throw new IllegalArgumentException("Illegal month value: " + month);
+            throw new IllegblArgumentException("Illegbl month vblue: " + month);
         }
-        return getMonthLength(gdate.getNormalizedYear(), month);
+        return getMonthLength(gdbte.getNormblizedYebr(), month);
     }
 
-    // accepts 0 (December in the previous year) to 12.
-    private int getMonthLength(int year, int month) {
-        int days = DAYS_IN_MONTH[month];
-        if (month == FEBRUARY && isLeapYear(year)) {
-            days++;
+    // bccepts 0 (December in the previous yebr) to 12.
+    privbte int getMonthLength(int yebr, int month) {
+        int dbys = DAYS_IN_MONTH[month];
+        if (month == FEBRUARY && isLebpYebr(yebr)) {
+            dbys++;
         }
-        return days;
+        return dbys;
     }
 
-    public long getDayOfYear(CalendarDate date) {
-        return getDayOfYear(((Date)date).getNormalizedYear(),
-                            date.getMonth(),
-                            date.getDayOfMonth());
+    public long getDbyOfYebr(CblendbrDbte dbte) {
+        return getDbyOfYebr(((Dbte)dbte).getNormblizedYebr(),
+                            dbte.getMonth(),
+                            dbte.getDbyOfMonth());
     }
 
-    final long getDayOfYear(int year, int month, int dayOfMonth) {
-        return (long) dayOfMonth
-            + (isLeapYear(year) ?
+    finbl long getDbyOfYebr(int yebr, int month, int dbyOfMonth) {
+        return (long) dbyOfMonth
+            + (isLebpYebr(yebr) ?
                ACCUMULATED_DAYS_IN_MONTH_LEAP[month] : ACCUMULATED_DAYS_IN_MONTH[month]);
     }
 
     // protected
-    public long getFixedDate(CalendarDate date) {
-        if (!date.isNormalized()) {
-            normalizeMonth(date);
+    public long getFixedDbte(CblendbrDbte dbte) {
+        if (!dbte.isNormblized()) {
+            normblizeMonth(dbte);
         }
-        return getFixedDate(((Date)date).getNormalizedYear(),
-                            date.getMonth(),
-                            date.getDayOfMonth(),
-                            (BaseCalendar.Date) date);
+        return getFixedDbte(((Dbte)dbte).getNormblizedYebr(),
+                            dbte.getMonth(),
+                            dbte.getDbyOfMonth(),
+                            (BbseCblendbr.Dbte) dbte);
     }
 
-    // public for java.util.GregorianCalendar
-    public long getFixedDate(int year, int month, int dayOfMonth, BaseCalendar.Date cache) {
-        boolean isJan1 = month == JANUARY && dayOfMonth == 1;
+    // public for jbvb.util.GregoribnCblendbr
+    public long getFixedDbte(int yebr, int month, int dbyOfMonth, BbseCblendbr.Dbte cbche) {
+        boolebn isJbn1 = month == JANUARY && dbyOfMonth == 1;
 
-        // Look up the one year cache
-        if (cache != null && cache.hit(year)) {
-            if (isJan1) {
-                return cache.getCachedJan1();
+        // Look up the one yebr cbche
+        if (cbche != null && cbche.hit(yebr)) {
+            if (isJbn1) {
+                return cbche.getCbchedJbn1();
             }
-            return cache.getCachedJan1() + getDayOfYear(year, month, dayOfMonth) - 1;
+            return cbche.getCbchedJbn1() + getDbyOfYebr(yebr, month, dbyOfMonth) - 1;
         }
 
-        // Look up the pre-calculated fixed date table
-        int n = year - BASE_YEAR;
+        // Look up the pre-cblculbted fixed dbte tbble
+        int n = yebr - BASE_YEAR;
         if (n >= 0 && n < FIXED_DATES.length) {
-            long jan1 = FIXED_DATES[n];
-            if (cache != null) {
-                cache.setCache(year, jan1, isLeapYear(year) ? 366 : 365);
+            long jbn1 = FIXED_DATES[n];
+            if (cbche != null) {
+                cbche.setCbche(yebr, jbn1, isLebpYebr(yebr) ? 366 : 365);
             }
-            return isJan1 ? jan1 : jan1 + getDayOfYear(year, month, dayOfMonth) - 1;
+            return isJbn1 ? jbn1 : jbn1 + getDbyOfYebr(yebr, month, dbyOfMonth) - 1;
         }
 
-        long prevyear = (long)year - 1;
-        long days = dayOfMonth;
+        long prevyebr = (long)yebr - 1;
+        long dbys = dbyOfMonth;
 
-        if (prevyear >= 0) {
-            days += (365 * prevyear)
-                   + (prevyear / 4)
-                   - (prevyear / 100)
-                   + (prevyear / 400)
+        if (prevyebr >= 0) {
+            dbys += (365 * prevyebr)
+                   + (prevyebr / 4)
+                   - (prevyebr / 100)
+                   + (prevyebr / 400)
                    + ((367 * month - 362) / 12);
         } else {
-            days += (365 * prevyear)
-                   + CalendarUtils.floorDivide(prevyear, 4)
-                   - CalendarUtils.floorDivide(prevyear, 100)
-                   + CalendarUtils.floorDivide(prevyear, 400)
-                   + CalendarUtils.floorDivide((367 * month - 362), 12);
+            dbys += (365 * prevyebr)
+                   + CblendbrUtils.floorDivide(prevyebr, 4)
+                   - CblendbrUtils.floorDivide(prevyebr, 100)
+                   + CblendbrUtils.floorDivide(prevyebr, 400)
+                   + CblendbrUtils.floorDivide((367 * month - 362), 12);
         }
 
         if (month > FEBRUARY) {
-            days -=  isLeapYear(year) ? 1 : 2;
+            dbys -=  isLebpYebr(yebr) ? 1 : 2;
         }
 
-        // If it's January 1, update the cache.
-        if (cache != null && isJan1) {
-            cache.setCache(year, days, isLeapYear(year) ? 366 : 365);
+        // If it's Jbnubry 1, updbte the cbche.
+        if (cbche != null && isJbn1) {
+            cbche.setCbche(yebr, dbys, isLebpYebr(yebr) ? 366 : 365);
         }
 
-        return days;
+        return dbys;
     }
 
     /**
-     * Calculates calendar fields and store them in the specified
-     * <code>CalendarDate</code>.
+     * Cblculbtes cblendbr fields bnd store them in the specified
+     * <code>CblendbrDbte</code>.
      */
     // should be 'protected'
-    public void getCalendarDateFromFixedDate(CalendarDate date,
-                                             long fixedDate) {
-        Date gdate = (Date) date;
-        int year;
-        long jan1;
-        boolean isLeap;
-        if (gdate.hit(fixedDate)) {
-            year = gdate.getCachedYear();
-            jan1 = gdate.getCachedJan1();
-            isLeap = isLeapYear(year);
+    public void getCblendbrDbteFromFixedDbte(CblendbrDbte dbte,
+                                             long fixedDbte) {
+        Dbte gdbte = (Dbte) dbte;
+        int yebr;
+        long jbn1;
+        boolebn isLebp;
+        if (gdbte.hit(fixedDbte)) {
+            yebr = gdbte.getCbchedYebr();
+            jbn1 = gdbte.getCbchedJbn1();
+            isLebp = isLebpYebr(yebr);
         } else {
-            // Looking up FIXED_DATES[] here didn't improve performance
-            // much. So we calculate year and jan1. getFixedDate()
-            // will look up FIXED_DATES[] actually.
-            year = getGregorianYearFromFixedDate(fixedDate);
-            jan1 = getFixedDate(year, JANUARY, 1, null);
-            isLeap = isLeapYear(year);
-            // Update the cache data
-            gdate.setCache (year, jan1, isLeap ? 366 : 365);
+            // Looking up FIXED_DATES[] here didn't improve performbnce
+            // much. So we cblculbte yebr bnd jbn1. getFixedDbte()
+            // will look up FIXED_DATES[] bctublly.
+            yebr = getGregoribnYebrFromFixedDbte(fixedDbte);
+            jbn1 = getFixedDbte(yebr, JANUARY, 1, null);
+            isLebp = isLebpYebr(yebr);
+            // Updbte the cbche dbtb
+            gdbte.setCbche (yebr, jbn1, isLebp ? 366 : 365);
         }
 
-        int priorDays = (int)(fixedDate - jan1);
-        long mar1 = jan1 + 31 + 28;
-        if (isLeap) {
-            ++mar1;
+        int priorDbys = (int)(fixedDbte - jbn1);
+        long mbr1 = jbn1 + 31 + 28;
+        if (isLebp) {
+            ++mbr1;
         }
-        if (fixedDate >= mar1) {
-            priorDays += isLeap ? 1 : 2;
+        if (fixedDbte >= mbr1) {
+            priorDbys += isLebp ? 1 : 2;
         }
-        int month = 12 * priorDays + 373;
+        int month = 12 * priorDbys + 373;
         if (month > 0) {
             month /= 367;
         } else {
-            month = CalendarUtils.floorDivide(month, 367);
+            month = CblendbrUtils.floorDivide(month, 367);
         }
-        long month1 = jan1 + ACCUMULATED_DAYS_IN_MONTH[month];
-        if (isLeap && month >= MARCH) {
+        long month1 = jbn1 + ACCUMULATED_DAYS_IN_MONTH[month];
+        if (isLebp && month >= MARCH) {
             ++month1;
         }
-        int dayOfMonth = (int)(fixedDate - month1) + 1;
-        int dayOfWeek = getDayOfWeekFromFixedDate(fixedDate);
-        assert dayOfWeek > 0 : "negative day of week " + dayOfWeek;
-        gdate.setNormalizedYear(year);
-        gdate.setMonth(month);
-        gdate.setDayOfMonth(dayOfMonth);
-        gdate.setDayOfWeek(dayOfWeek);
-        gdate.setLeapYear(isLeap);
-        gdate.setNormalized(true);
+        int dbyOfMonth = (int)(fixedDbte - month1) + 1;
+        int dbyOfWeek = getDbyOfWeekFromFixedDbte(fixedDbte);
+        bssert dbyOfWeek > 0 : "negbtive dby of week " + dbyOfWeek;
+        gdbte.setNormblizedYebr(yebr);
+        gdbte.setMonth(month);
+        gdbte.setDbyOfMonth(dbyOfMonth);
+        gdbte.setDbyOfWeek(dbyOfWeek);
+        gdbte.setLebpYebr(isLebp);
+        gdbte.setNormblized(true);
     }
 
     /**
-     * Returns the day of week of the given Gregorian date.
+     * Returns the dby of week of the given Gregoribn dbte.
      */
-    public int getDayOfWeek(CalendarDate date) {
-        long fixedDate = getFixedDate(date);
-        return getDayOfWeekFromFixedDate(fixedDate);
+    public int getDbyOfWeek(CblendbrDbte dbte) {
+        long fixedDbte = getFixedDbte(dbte);
+        return getDbyOfWeekFromFixedDbte(fixedDbte);
     }
 
-    public static final int getDayOfWeekFromFixedDate(long fixedDate) {
-        // The fixed day 1 (January 1, 1 Gregorian) is Monday.
-        if (fixedDate >= 0) {
-            return (int)(fixedDate % 7) + SUNDAY;
+    public stbtic finbl int getDbyOfWeekFromFixedDbte(long fixedDbte) {
+        // The fixed dby 1 (Jbnubry 1, 1 Gregoribn) is Mondby.
+        if (fixedDbte >= 0) {
+            return (int)(fixedDbte % 7) + SUNDAY;
         }
-        return (int)CalendarUtils.mod(fixedDate, 7) + SUNDAY;
+        return (int)CblendbrUtils.mod(fixedDbte, 7) + SUNDAY;
     }
 
-    public int getYearFromFixedDate(long fixedDate) {
-        return getGregorianYearFromFixedDate(fixedDate);
+    public int getYebrFromFixedDbte(long fixedDbte) {
+        return getGregoribnYebrFromFixedDbte(fixedDbte);
     }
 
     /**
-     * Returns the Gregorian year number of the given fixed date.
+     * Returns the Gregoribn yebr number of the given fixed dbte.
      */
-    final int getGregorianYearFromFixedDate(long fixedDate) {
+    finbl int getGregoribnYebrFromFixedDbte(long fixedDbte) {
         long d0;
         int  d1, d2, d3, d4;
         int  n400, n100, n4, n1;
-        int  year;
+        int  yebr;
 
-        if (fixedDate > 0) {
-            d0 = fixedDate - 1;
+        if (fixedDbte > 0) {
+            d0 = fixedDbte - 1;
             n400 = (int)(d0 / 146097);
             d1 = (int)(d0 % 146097);
             n100 = d1 / 36524;
@@ -505,33 +505,33 @@ public abstract class BaseCalendar extends AbstractCalendar {
             n1 = d3 / 365;
             d4 = (d3 % 365) + 1;
         } else {
-            d0 = fixedDate - 1;
-            n400 = (int)CalendarUtils.floorDivide(d0, 146097L);
-            d1 = (int)CalendarUtils.mod(d0, 146097L);
-            n100 = CalendarUtils.floorDivide(d1, 36524);
-            d2 = CalendarUtils.mod(d1, 36524);
-            n4 = CalendarUtils.floorDivide(d2, 1461);
-            d3 = CalendarUtils.mod(d2, 1461);
-            n1 = CalendarUtils.floorDivide(d3, 365);
-            d4 = CalendarUtils.mod(d3, 365) + 1;
+            d0 = fixedDbte - 1;
+            n400 = (int)CblendbrUtils.floorDivide(d0, 146097L);
+            d1 = (int)CblendbrUtils.mod(d0, 146097L);
+            n100 = CblendbrUtils.floorDivide(d1, 36524);
+            d2 = CblendbrUtils.mod(d1, 36524);
+            n4 = CblendbrUtils.floorDivide(d2, 1461);
+            d3 = CblendbrUtils.mod(d2, 1461);
+            n1 = CblendbrUtils.floorDivide(d3, 365);
+            d4 = CblendbrUtils.mod(d3, 365) + 1;
         }
-        year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
+        yebr = 400 * n400 + 100 * n100 + 4 * n4 + n1;
         if (!(n100 == 4 || n1 == 4)) {
-            ++year;
+            ++yebr;
         }
-        return year;
+        return yebr;
     }
 
     /**
-     * @return true if the specified year is a Gregorian leap year, or
-     * false otherwise.
-     * @see BaseCalendar#isGregorianLeapYear
+     * @return true if the specified yebr is b Gregoribn lebp yebr, or
+     * fblse otherwise.
+     * @see BbseCblendbr#isGregoribnLebpYebr
      */
-    protected boolean isLeapYear(CalendarDate date) {
-        return isLeapYear(((Date)date).getNormalizedYear());
+    protected boolebn isLebpYebr(CblendbrDbte dbte) {
+        return isLebpYebr(((Dbte)dbte).getNormblizedYebr());
     }
 
-    boolean isLeapYear(int normalizedYear) {
-        return CalendarUtils.isGregorianLeapYear(normalizedYear);
+    boolebn isLebpYebr(int normblizedYebr) {
+        return CblendbrUtils.isGregoribnLebpYebr(normblizedYebr);
     }
 }

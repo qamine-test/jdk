@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.InvalidKeyException;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactorySpi;
-import javax.crypto.spec.PBEKeySpec;
-import java.util.HashSet;
-import java.util.Locale;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.SecretKeyFbctorySpi;
+import jbvbx.crypto.spec.PBEKeySpec;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
 
 /**
- * This class implements a key factory for PBE keys according to PKCS#5,
- * meaning that the password must consist of printable ASCII characters
- * (values 32 to 126 decimal inclusive) and only the low order 8 bits
- * of each password character are used.
+ * This clbss implements b key fbctory for PBE keys bccording to PKCS#5,
+ * mebning thbt the pbssword must consist of printbble ASCII chbrbcters
+ * (vblues 32 to 126 decimbl inclusive) bnd only the low order 8 bits
+ * of ebch pbssword chbrbcter bre used.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
-abstract class PBEKeyFactory extends SecretKeyFactorySpi {
+bbstrbct clbss PBEKeyFbctory extends SecretKeyFbctorySpi {
 
-    private String type;
-    private static HashSet<String> validTypes;
+    privbte String type;
+    privbte stbtic HbshSet<String> vblidTypes;
 
     /**
      * Simple constructor
      */
-    private PBEKeyFactory(String keytype) {
+    privbte PBEKeyFbctory(String keytype) {
         type = keytype;
     }
 
-    static {
-        validTypes = new HashSet<String>(17);
-        validTypes.add("PBEWithMD5AndDES".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndDESede".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC2_40".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC2_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC4_40".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC4_128".toUpperCase(Locale.ENGLISH));
-        // Proprietary algorithm.
-        validTypes.add("PBEWithMD5AndTripleDES".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA1AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA224AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA256AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA384AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA512AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA1AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA224AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA256AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA384AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA512AndAES_256".toUpperCase(Locale.ENGLISH));
+    stbtic {
+        vblidTypes = new HbshSet<String>(17);
+        vblidTypes.bdd("PBEWithMD5AndDES".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithSHA1AndDESede".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithSHA1AndRC2_40".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithSHA1AndRC2_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithSHA1AndRC4_40".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithSHA1AndRC4_128".toUpperCbse(Locble.ENGLISH));
+        // Proprietbry blgorithm.
+        vblidTypes.bdd("PBEWithMD5AndTripleDES".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA1AndAES_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA224AndAES_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA256AndAES_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA384AndAES_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA512AndAES_128".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA1AndAES_256".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA224AndAES_256".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA256AndAES_256".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA384AndAES_256".toUpperCbse(Locble.ENGLISH));
+        vblidTypes.bdd("PBEWithHmbcSHA512AndAES_256".toUpperCbse(Locble.ENGLISH));
     }
 
-    public static final class PBEWithMD5AndDES
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithMD5AndDES
+            extends PBEKeyFbctory {
         public PBEWithMD5AndDES()  {
             super("PBEWithMD5AndDES");
         }
     }
 
-    public static final class PBEWithSHA1AndDESede
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithSHA1AndDESede
+            extends PBEKeyFbctory {
         public PBEWithSHA1AndDESede()  {
             super("PBEWithSHA1AndDESede");
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_40
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithSHA1AndRC2_40
+            extends PBEKeyFbctory {
         public PBEWithSHA1AndRC2_40()  {
             super("PBEWithSHA1AndRC2_40");
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_128
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithSHA1AndRC2_128
+            extends PBEKeyFbctory {
         public PBEWithSHA1AndRC2_128()  {
             super("PBEWithSHA1AndRC2_128");
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_40
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithSHA1AndRC4_40
+            extends PBEKeyFbctory {
         public PBEWithSHA1AndRC4_40()  {
             super("PBEWithSHA1AndRC4_40");
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_128
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithSHA1AndRC4_128
+            extends PBEKeyFbctory {
         public PBEWithSHA1AndRC4_128()  {
             super("PBEWithSHA1AndRC4_128");
         }
     }
 
     /*
-     * Private proprietary algorithm for supporting JCEKS.
+     * Privbte proprietbry blgorithm for supporting JCEKS.
      */
-    public static final class PBEWithMD5AndTripleDES
-            extends PBEKeyFactory {
+    public stbtic finbl clbss PBEWithMD5AndTripleDES
+            extends PBEKeyFbctory {
         public PBEWithMD5AndTripleDES()  {
             super("PBEWithMD5AndTripleDES");
         }
     }
 
-    public static final class PBEWithHmacSHA1AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA1AndAES_128()  {
-            super("PBEWithHmacSHA1AndAES_128");
+    public stbtic finbl clbss PBEWithHmbcSHA1AndAES_128
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA1AndAES_128()  {
+            super("PBEWithHmbcSHA1AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA224AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA224AndAES_128()  {
-            super("PBEWithHmacSHA224AndAES_128");
+    public stbtic finbl clbss PBEWithHmbcSHA224AndAES_128
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA224AndAES_128()  {
+            super("PBEWithHmbcSHA224AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA256AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA256AndAES_128()  {
-            super("PBEWithHmacSHA256AndAES_128");
+    public stbtic finbl clbss PBEWithHmbcSHA256AndAES_128
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA256AndAES_128()  {
+            super("PBEWithHmbcSHA256AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA384AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA384AndAES_128()  {
-            super("PBEWithHmacSHA384AndAES_128");
+    public stbtic finbl clbss PBEWithHmbcSHA384AndAES_128
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA384AndAES_128()  {
+            super("PBEWithHmbcSHA384AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA512AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA512AndAES_128()  {
-            super("PBEWithHmacSHA512AndAES_128");
+    public stbtic finbl clbss PBEWithHmbcSHA512AndAES_128
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA512AndAES_128()  {
+            super("PBEWithHmbcSHA512AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA1AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA1AndAES_256()  {
-            super("PBEWithHmacSHA1AndAES_256");
+    public stbtic finbl clbss PBEWithHmbcSHA1AndAES_256
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA1AndAES_256()  {
+            super("PBEWithHmbcSHA1AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA224AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA224AndAES_256()  {
-            super("PBEWithHmacSHA224AndAES_256");
+    public stbtic finbl clbss PBEWithHmbcSHA224AndAES_256
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA224AndAES_256()  {
+            super("PBEWithHmbcSHA224AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA256AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA256AndAES_256()  {
-            super("PBEWithHmacSHA256AndAES_256");
+    public stbtic finbl clbss PBEWithHmbcSHA256AndAES_256
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA256AndAES_256()  {
+            super("PBEWithHmbcSHA256AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA384AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA384AndAES_256()  {
-            super("PBEWithHmacSHA384AndAES_256");
+    public stbtic finbl clbss PBEWithHmbcSHA384AndAES_256
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA384AndAES_256()  {
+            super("PBEWithHmbcSHA384AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA512AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA512AndAES_256()  {
-            super("PBEWithHmacSHA512AndAES_256");
+    public stbtic finbl clbss PBEWithHmbcSHA512AndAES_256
+            extends PBEKeyFbctory {
+        public PBEWithHmbcSHA512AndAES_256()  {
+            super("PBEWithHmbcSHA512AndAES_256");
         }
     }
 
     /**
-     * Generates a <code>SecretKey</code> object from the provided key
-     * specification (key material).
+     * Generbtes b <code>SecretKey</code> object from the provided key
+     * specificbtion (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the secret key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the secret key
      *
      * @return the secret key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b public key.
      */
-    protected SecretKey engineGenerateSecret(KeySpec keySpec)
-        throws InvalidKeySpecException
+    protected SecretKey engineGenerbteSecret(KeySpec keySpec)
+        throws InvblidKeySpecException
     {
-        if (!(keySpec instanceof PBEKeySpec)) {
-            throw new InvalidKeySpecException("Invalid key spec");
+        if (!(keySpec instbnceof PBEKeySpec)) {
+            throw new InvblidKeySpecException("Invblid key spec");
         }
         return new PBEKey((PBEKeySpec)keySpec, type);
     }
 
     /**
-     * Returns a specification (key material) of the given key
-     * in the requested format.
+     * Returns b specificbtion (key mbteribl) of the given key
+     * in the requested formbt.
      *
-     * @param key the key
+     * @pbrbm key the key
      *
-     * @param keySpec the requested format in which the key material shall be
+     * @pbrbm keySpec the requested formbt in which the key mbteribl shbll be
      * returned
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @return the underlying key specificbtion (key mbteribl) in the
+     * requested formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key, or the given key cbnnot be processed
+     * (e.g., the given key hbs bn unrecognized blgorithm or formbt).
      */
-    protected KeySpec engineGetKeySpec(SecretKey key, Class<?> keySpecCl)
-        throws InvalidKeySpecException {
-        if ((key instanceof SecretKey)
-            && (validTypes.contains(key.getAlgorithm().toUpperCase(Locale.ENGLISH)))
-            && (key.getFormat().equalsIgnoreCase("RAW"))) {
+    protected KeySpec engineGetKeySpec(SecretKey key, Clbss<?> keySpecCl)
+        throws InvblidKeySpecException {
+        if ((key instbnceof SecretKey)
+            && (vblidTypes.contbins(key.getAlgorithm().toUpperCbse(Locble.ENGLISH)))
+            && (key.getFormbt().equblsIgnoreCbse("RAW"))) {
 
-            // Check if requested key spec is amongst the valid ones
+            // Check if requested key spec is bmongst the vblid ones
             if ((keySpecCl != null)
-                && PBEKeySpec.class.isAssignableFrom(keySpecCl)) {
-                byte[] passwdBytes = key.getEncoded();
-                char[] passwdChars = new char[passwdBytes.length];
-                for (int i=0; i<passwdChars.length; i++)
-                    passwdChars[i] = (char) (passwdBytes[i] & 0x7f);
-                PBEKeySpec ret = new PBEKeySpec(passwdChars);
-                // password char[] was cloned in PBEKeySpec constructor,
-                // so we can zero it out here
-                java.util.Arrays.fill(passwdChars, ' ');
-                java.util.Arrays.fill(passwdBytes, (byte)0x00);
+                && PBEKeySpec.clbss.isAssignbbleFrom(keySpecCl)) {
+                byte[] pbsswdBytes = key.getEncoded();
+                chbr[] pbsswdChbrs = new chbr[pbsswdBytes.length];
+                for (int i=0; i<pbsswdChbrs.length; i++)
+                    pbsswdChbrs[i] = (chbr) (pbsswdBytes[i] & 0x7f);
+                PBEKeySpec ret = new PBEKeySpec(pbsswdChbrs);
+                // pbssword chbr[] wbs cloned in PBEKeySpec constructor,
+                // so we cbn zero it out here
+                jbvb.util.Arrbys.fill(pbsswdChbrs, ' ');
+                jbvb.util.Arrbys.fill(pbsswdBytes, (byte)0x00);
                 return ret;
             } else {
-                throw new InvalidKeySpecException("Invalid key spec");
+                throw new InvblidKeySpecException("Invblid key spec");
             }
         } else {
-            throw new InvalidKeySpecException("Invalid key "
-                                              + "format/algorithm");
+            throw new InvblidKeySpecException("Invblid key "
+                                              + "formbt/blgorithm");
         }
     }
 
     /**
-     * Translates a <code>SecretKey</code> object, whose provider may be
-     * unknown or potentially untrusted, into a corresponding
-     * <code>SecretKey</code> object of this key factory.
+     * Trbnslbtes b <code>SecretKey</code> object, whose provider mby be
+     * unknown or potentiblly untrusted, into b corresponding
+     * <code>SecretKey</code> object of this key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm key the key whose provider is unknown or untrusted
      *
-     * @return the translated key
+     * @return the trbnslbted key
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed by
+     * this key fbctory.
      */
-    protected SecretKey engineTranslateKey(SecretKey key)
-        throws InvalidKeyException
+    protected SecretKey engineTrbnslbteKey(SecretKey key)
+        throws InvblidKeyException
     {
         try {
             if ((key != null) &&
-                (validTypes.contains(key.getAlgorithm().toUpperCase(Locale.ENGLISH))) &&
-                (key.getFormat().equalsIgnoreCase("RAW"))) {
+                (vblidTypes.contbins(key.getAlgorithm().toUpperCbse(Locble.ENGLISH))) &&
+                (key.getFormbt().equblsIgnoreCbse("RAW"))) {
 
-                // Check if key originates from this factory
-                if (key instanceof com.sun.crypto.provider.PBEKey) {
+                // Check if key originbtes from this fbctory
+                if (key instbnceof com.sun.crypto.provider.PBEKey) {
                     return key;
                 }
 
                 // Convert key to spec
                 PBEKeySpec pbeKeySpec = (PBEKeySpec)engineGetKeySpec
-                    (key, PBEKeySpec.class);
+                    (key, PBEKeySpec.clbss);
 
-                // Create key from spec, and return it
-                return engineGenerateSecret(pbeKeySpec);
+                // Crebte key from spec, bnd return it
+                return engineGenerbteSecret(pbeKeySpec);
             } else {
-                throw new InvalidKeyException("Invalid key format/algorithm");
+                throw new InvblidKeyException("Invblid key formbt/blgorithm");
             }
 
-        } catch (InvalidKeySpecException ikse) {
-            throw new InvalidKeyException("Cannot translate key: "
-                                          + ikse.getMessage());
+        } cbtch (InvblidKeySpecException ikse) {
+            throw new InvblidKeyException("Cbnnot trbnslbte key: "
+                                          + ikse.getMessbge());
         }
     }
 }

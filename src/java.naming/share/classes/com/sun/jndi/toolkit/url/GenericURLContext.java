@@ -1,528 +1,528 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.url;
+pbckbge com.sun.jndi.toolkit.url;
 
-import javax.naming.*;
-import javax.naming.spi.ResolveResult;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.ResolveResult;
+import jbvbx.nbming.spi.NbmingMbnbger;
 
-import java.util.Hashtable;
-import java.net.MalformedURLException;
+import jbvb.util.Hbshtbble;
+import jbvb.net.MblformedURLException;
 
 /**
- * This abstract class is a generic URL context that accepts as the
- * name argument either a string URL or a Name whose first component
- * is a URL. It resolves the URL to a target context and then continues
- * the operation using the remaining name in the target context as if
- * the first component names a junction.
+ * This bbstrbct clbss is b generic URL context thbt bccepts bs the
+ * nbme brgument either b string URL or b Nbme whose first component
+ * is b URL. It resolves the URL to b tbrget context bnd then continues
+ * the operbtion using the rembining nbme in the tbrget context bs if
+ * the first component nbmes b junction.
  *
- * A subclass must define getRootURLContext()
- * to process the URL into head/tail pieces. If it wants to control how
- * URL strings are parsed and compared for the rename() operation, then
- * it should override getNonRootURLSuffixes() and urlEquals().
+ * A subclbss must define getRootURLContext()
+ * to process the URL into hebd/tbil pieces. If it wbnts to control how
+ * URL strings bre pbrsed bnd compbred for the renbme() operbtion, then
+ * it should override getNonRootURLSuffixes() bnd urlEqubls().
  *
- * @author Scott Seligman
- * @author Rosanna Lee
+ * @buthor Scott Seligmbn
+ * @buthor Rosbnnb Lee
  */
-abstract public class GenericURLContext implements Context {
-    protected Hashtable<String, Object> myEnv = null;
+bbstrbct public clbss GenericURLContext implements Context {
+    protected Hbshtbble<String, Object> myEnv = null;
 
-    @SuppressWarnings("unchecked") // Expect Hashtable<String, Object>
-    public GenericURLContext(Hashtable<?,?> env) {
-        // context that is not tied to any specific URL
+    @SuppressWbrnings("unchecked") // Expect Hbshtbble<String, Object>
+    public GenericURLContext(Hbshtbble<?,?> env) {
+        // context thbt is not tied to bny specific URL
         myEnv =
-            (Hashtable<String, Object>)(env == null ? null : env.clone());
+            (Hbshtbble<String, Object>)(env == null ? null : env.clone());
     }
 
-    public void close() throws NamingException {
+    public void close() throws NbmingException {
         myEnv = null;
     }
 
-    public String getNameInNamespace() throws NamingException {
-        return ""; // %%% check this out: A URL context's name is ""
+    public String getNbmeInNbmespbce() throws NbmingException {
+        return ""; // %%% check this out: A URL context's nbme is ""
     }
 
     /**
-      * Resolves 'name' into a target context with remaining name.
-      * For example, with a JNDI URL "jndi://dnsname/rest_name",
-      * this method resolves "jndi://dnsname/" to a target context,
-      * and returns the target context with "rest_name".
-      * The definition of "root URL" and how much of the URL to
-      * consume is implementation specific.
-      * If rename() is supported for a particular URL scheme,
-      * getRootURLContext(), getURLPrefix(), and getURLSuffix()
-      * must be in sync wrt how URLs are parsed and returned.
+      * Resolves 'nbme' into b tbrget context with rembining nbme.
+      * For exbmple, with b JNDI URL "jndi://dnsnbme/rest_nbme",
+      * this method resolves "jndi://dnsnbme/" to b tbrget context,
+      * bnd returns the tbrget context with "rest_nbme".
+      * The definition of "root URL" bnd how much of the URL to
+      * consume is implementbtion specific.
+      * If renbme() is supported for b pbrticulbr URL scheme,
+      * getRootURLContext(), getURLPrefix(), bnd getURLSuffix()
+      * must be in sync wrt how URLs bre pbrsed bnd returned.
       */
-    abstract protected ResolveResult getRootURLContext(String url,
-        Hashtable<?,?> env) throws NamingException;
+    bbstrbct protected ResolveResult getRootURLContext(String url,
+        Hbshtbble<?,?> env) throws NbmingException;
 
     /**
-      * Returns the suffix of the url. The result should be identical to
-      * that of calling getRootURLContext().getRemainingName(), but
-      * without the overhead of doing anything with the prefix like
-      * creating a context.
+      * Returns the suffix of the url. The result should be identicbl to
+      * thbt of cblling getRootURLContext().getRembiningNbme(), but
+      * without the overhebd of doing bnything with the prefix like
+      * crebting b context.
       *<p>
-      * This method returns a Name instead of a String because to give
-      * the provider an opportunity to return a Name (for example,
-      * for weakly separated naming systems like COS naming).
+      * This method returns b Nbme instebd of b String becbuse to give
+      * the provider bn opportunity to return b Nbme (for exbmple,
+      * for webkly sepbrbted nbming systems like COS nbming).
       *<p>
-      * The default implementation uses skips 'prefix', calls
-      * UrlUtil.decode() on it, and returns the result as a single component
-      * CompositeName.
-      * Subclass should override if this is not appropriate.
-      * This method is used only by rename().
-      * If rename() is supported for a particular URL scheme,
-      * getRootURLContext(), getURLPrefix(), and getURLSuffix()
-      * must be in sync wrt how URLs are parsed and returned.
+      * The defbult implementbtion uses skips 'prefix', cblls
+      * UrlUtil.decode() on it, bnd returns the result bs b single component
+      * CompositeNbme.
+      * Subclbss should override if this is not bppropribte.
+      * This method is used only by renbme().
+      * If renbme() is supported for b pbrticulbr URL scheme,
+      * getRootURLContext(), getURLPrefix(), bnd getURLSuffix()
+      * must be in sync wrt how URLs bre pbrsed bnd returned.
       *<p>
-      * For many URL schemes, this method is very similar to URL.getFile(),
-      * except getFile() will return a leading slash in the
-      * 2nd, 3rd, and 4th cases. For schemes like "ldap" and "iiop",
-      * the leading slash must be skipped before the name is an acceptable
-      * format for operation by the Context methods. For schemes that treat the
-      * leading slash as significant (such as "file"),
-      * the subclass must override getURLSuffix() to get the correct behavior.
-      * Remember, the behavior must match getRootURLContext().
+      * For mbny URL schemes, this method is very similbr to URL.getFile(),
+      * except getFile() will return b lebding slbsh in the
+      * 2nd, 3rd, bnd 4th cbses. For schemes like "ldbp" bnd "iiop",
+      * the lebding slbsh must be skipped before the nbme is bn bcceptbble
+      * formbt for operbtion by the Context methods. For schemes thbt trebt the
+      * lebding slbsh bs significbnt (such bs "file"),
+      * the subclbss must override getURLSuffix() to get the correct behbvior.
+      * Remember, the behbvior must mbtch getRootURLContext().
       *
       * URL                                     Suffix
       * foo://host:port                         <empty string>
-      * foo://host:port/rest/of/name            rest/of/name
-      * foo:///rest/of/name                     rest/of/name
-      * foo:/rest/of/name                       rest/of/name
-      * foo:rest/of/name                        rest/of/name
+      * foo://host:port/rest/of/nbme            rest/of/nbme
+      * foo:///rest/of/nbme                     rest/of/nbme
+      * foo:/rest/of/nbme                       rest/of/nbme
+      * foo:rest/of/nbme                        rest/of/nbme
       */
-    protected Name getURLSuffix(String prefix, String url) throws NamingException {
+    protected Nbme getURLSuffix(String prefix, String url) throws NbmingException {
         String suffix = url.substring(prefix.length());
         if (suffix.length() == 0) {
-            return new CompositeName();
+            return new CompositeNbme();
         }
 
-        if (suffix.charAt(0) == '/') {
-            suffix = suffix.substring(1); // skip leading slash
+        if (suffix.chbrAt(0) == '/') {
+            suffix = suffix.substring(1); // skip lebding slbsh
         }
 
         try {
-            return new CompositeName().add(UrlUtil.decode(suffix));
-        } catch (MalformedURLException e) {
-            throw new InvalidNameException(e.getMessage());
+            return new CompositeNbme().bdd(UrlUtil.decode(suffix));
+        } cbtch (MblformedURLException e) {
+            throw new InvblidNbmeException(e.getMessbge());
         }
     }
 
     /**
-      * Finds the prefix of a URL.
-      * Default implementation looks for slashes and then extracts
+      * Finds the prefix of b URL.
+      * Defbult implementbtion looks for slbshes bnd then extrbcts
       * prefixes using String.substring().
-      * Subclass should override if this is not appropriate.
-      * This method is used only by rename().
-      * If rename() is supported for a particular URL scheme,
-      * getRootURLContext(), getURLPrefix(), and getURLSuffix()
-      * must be in sync wrt how URLs are parsed and returned.
+      * Subclbss should override if this is not bppropribte.
+      * This method is used only by renbme().
+      * If renbme() is supported for b pbrticulbr URL scheme,
+      * getRootURLContext(), getURLPrefix(), bnd getURLSuffix()
+      * must be in sync wrt how URLs bre pbrsed bnd returned.
       *<p>
       * URL                                     Prefix
       * foo://host:port                         foo://host:port
-      * foo://host:port/rest/of/name            foo://host:port
-      * foo:///rest/of/name                     foo://
-      * foo:/rest/of/name                       foo:
-      * foo:rest/of/name                        foo:
+      * foo://host:port/rest/of/nbme            foo://host:port
+      * foo:///rest/of/nbme                     foo://
+      * foo:/rest/of/nbme                       foo:
+      * foo:rest/of/nbme                        foo:
       */
-    protected String getURLPrefix(String url) throws NamingException {
-        int start = url.indexOf(':');
+    protected String getURLPrefix(String url) throws NbmingException {
+        int stbrt = url.indexOf(':');
 
-        if (start < 0) {
-            throw new OperationNotSupportedException("Invalid URL: " + url);
+        if (stbrt < 0) {
+            throw new OperbtionNotSupportedException("Invblid URL: " + url);
         }
-        ++start; // skip ':'
+        ++stbrt; // skip ':'
 
-        if (url.startsWith("//", start)) {
-            start += 2;  // skip double slash
+        if (url.stbrtsWith("//", stbrt)) {
+            stbrt += 2;  // skip double slbsh
 
-            // find last slash
-            int posn = url.indexOf('/', start);
+            // find lbst slbsh
+            int posn = url.indexOf('/', stbrt);
             if (posn >= 0) {
-                start = posn;
+                stbrt = posn;
             } else {
-                start = url.length();  // rest of URL
+                stbrt = url.length();  // rest of URL
             }
         }
 
-        // else 0 or 1 initial slashes; start is unchanged
-        return url.substring(0, start);
+        // else 0 or 1 initibl slbshes; stbrt is unchbnged
+        return url.substring(0, stbrt);
     }
 
     /**
-     * Determines whether two URLs are the same.
-     * Default implementation uses String.equals().
-     * Subclass should override if this is not appropriate.
-     * This method is used by rename().
+     * Determines whether two URLs bre the sbme.
+     * Defbult implementbtion uses String.equbls().
+     * Subclbss should override if this is not bppropribte.
+     * This method is used by renbme().
      */
-    protected boolean urlEquals(String url1, String url2) {
-        return url1.equals(url2);
+    protected boolebn urlEqubls(String url1, String url2) {
+        return url1.equbls(url2);
     }
 
     /**
-     * Gets the context in which to continue the operation. This method
-     * is called when this context is asked to process a multicomponent
-     * Name in which the first component is a URL.
-     * Treat the first component like a junction: resolve it and then use
-     * NamingManager.getContinuationContext() to get the target context in
-     * which to operate on the remainder of the name (n.getSuffix(1)).
+     * Gets the context in which to continue the operbtion. This method
+     * is cblled when this context is bsked to process b multicomponent
+     * Nbme in which the first component is b URL.
+     * Trebt the first component like b junction: resolve it bnd then use
+     * NbmingMbnbger.getContinubtionContext() to get the tbrget context in
+     * which to operbte on the rembinder of the nbme (n.getSuffix(1)).
      */
-    protected Context getContinuationContext(Name n) throws NamingException {
+    protected Context getContinubtionContext(Nbme n) throws NbmingException {
         Object obj = lookup(n.get(0));
-        CannotProceedException cpe = new CannotProceedException();
+        CbnnotProceedException cpe = new CbnnotProceedException();
         cpe.setResolvedObj(obj);
         cpe.setEnvironment(myEnv);
-        return NamingManager.getContinuationContext(cpe);
+        return NbmingMbnbger.getContinubtionContext(cpe);
     }
 
-    public Object lookup(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public Object lookup(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.lookup(res.getRemainingName());
-        } finally {
+            return ctx.lookup(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return lookup(name.get(0));
+    public Object lookup(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return lookup(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.lookup(name.getSuffix(1));
-            } finally {
+                return ctx.lookup(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public void bind(String nbme, Object obj) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            ctx.bind(res.getRemainingName(), obj);
-        } finally {
+            ctx.bind(res.getRembiningNbme(), obj);
+        } finblly {
             ctx.close();
         }
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        if (name.size() == 1) {
-            bind(name.get(0), obj);
+    public void bind(Nbme nbme, Object obj) throws NbmingException {
+        if (nbme.size() == 1) {
+            bind(nbme.get(0), obj);
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                ctx.bind(name.getSuffix(1), obj);
-            } finally {
+                ctx.bind(nbme.getSuffix(1), obj);
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public void rebind(String nbme, Object obj) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            ctx.rebind(res.getRemainingName(), obj);
-        } finally {
+            ctx.rebind(res.getRembiningNbme(), obj);
+        } finblly {
             ctx.close();
         }
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (name.size() == 1) {
-            rebind(name.get(0), obj);
+    public void rebind(Nbme nbme, Object obj) throws NbmingException {
+        if (nbme.size() == 1) {
+            rebind(nbme.get(0), obj);
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                ctx.rebind(name.getSuffix(1), obj);
-            } finally {
+                ctx.rebind(nbme.getSuffix(1), obj);
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public void unbind(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            ctx.unbind(res.getRemainingName());
-        } finally {
+            ctx.unbind(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public void unbind(Name name) throws NamingException {
-        if (name.size() == 1) {
-            unbind(name.get(0));
+    public void unbind(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            unbind(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                ctx.unbind(name.getSuffix(1));
-            } finally {
+                ctx.unbind(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        String oldPrefix = getURLPrefix(oldName);
-        String newPrefix = getURLPrefix(newName);
-        if (!urlEquals(oldPrefix, newPrefix)) {
-            throw new OperationNotSupportedException(
-                "Renaming using different URL prefixes not supported : " +
-                oldName + " " + newName);
+    public void renbme(String oldNbme, String newNbme) throws NbmingException {
+        String oldPrefix = getURLPrefix(oldNbme);
+        String newPrefix = getURLPrefix(newNbme);
+        if (!urlEqubls(oldPrefix, newPrefix)) {
+            throw new OperbtionNotSupportedException(
+                "Renbming using different URL prefixes not supported : " +
+                oldNbme + " " + newNbme);
         }
 
-        ResolveResult res = getRootURLContext(oldName, myEnv);
+        ResolveResult res = getRootURLContext(oldNbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            ctx.rename(res.getRemainingName(), getURLSuffix(newPrefix, newName));
-        } finally {
+            ctx.renbme(res.getRembiningNbme(), getURLSuffix(newPrefix, newNbme));
+        } finblly {
             ctx.close();
         }
     }
 
-    public void rename(Name name, Name newName) throws NamingException {
-        if (name.size() == 1) {
-            if (newName.size() != 1) {
-                throw new OperationNotSupportedException(
-            "Renaming to a Name with more components not supported: " + newName);
+    public void renbme(Nbme nbme, Nbme newNbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            if (newNbme.size() != 1) {
+                throw new OperbtionNotSupportedException(
+            "Renbming to b Nbme with more components not supported: " + newNbme);
             }
-            rename(name.get(0), newName.get(0));
+            renbme(nbme.get(0), newNbme.get(0));
         } else {
             // > 1 component with 1st one being URL
-            // URLs must be identical; cannot deal with diff URLs
-            if (!urlEquals(name.get(0), newName.get(0))) {
-                throw new OperationNotSupportedException(
-                    "Renaming using different URLs as first components not supported: " +
-                    name + " " + newName);
+            // URLs must be identicbl; cbnnot debl with diff URLs
+            if (!urlEqubls(nbme.get(0), newNbme.get(0))) {
+                throw new OperbtionNotSupportedException(
+                    "Renbming using different URLs bs first components not supported: " +
+                    nbme + " " + newNbme);
             }
 
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                ctx.rename(name.getSuffix(1), newName.getSuffix(1));
-            } finally {
+                ctx.renbme(nbme.getSuffix(1), newNbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)   throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme)   throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.list(res.getRemainingName());
-        } finally {
+            return ctx.list(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return list(name.get(0));
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return list(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.list(name.getSuffix(1));
-            } finally {
+                return ctx.list(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-        throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public NbmingEnumerbtion<Binding> listBindings(String nbme)
+        throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.listBindings(res.getRemainingName());
-        } finally {
+            return ctx.listBindings(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return listBindings(name.get(0));
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return listBindings(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.listBindings(name.getSuffix(1));
-            } finally {
+                return ctx.listBindings(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public void destroySubcontext(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            ctx.destroySubcontext(res.getRemainingName());
-        } finally {
+            ctx.destroySubcontext(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        if (name.size() == 1) {
-            destroySubcontext(name.get(0));
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            destroySubcontext(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                ctx.destroySubcontext(name.getSuffix(1));
-            } finally {
+                ctx.destroySubcontext(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.createSubcontext(res.getRemainingName());
-        } finally {
+            return ctx.crebteSubcontext(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return createSubcontext(name.get(0));
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return crebteSubcontext(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.createSubcontext(name.getSuffix(1));
-            } finally {
+                return ctx.crebteSubcontext(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public Object lookupLink(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.lookupLink(res.getRemainingName());
-        } finally {
+            return ctx.lookupLink(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return lookupLink(name.get(0));
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return lookupLink(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.lookupLink(name.getSuffix(1));
-            } finally {
+                return ctx.lookupLink(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         Context ctx = (Context)res.getResolvedObj();
         try {
-            return ctx.getNameParser(res.getRemainingName());
-        } finally {
+            return ctx.getNbmePbrser(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return getNameParser(name.get(0));
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return getNbmePbrser(nbme.get(0));
         } else {
-            Context ctx = getContinuationContext(name);
+            Context ctx = getContinubtionContext(nbme);
             try {
-                return ctx.getNameParser(name.getSuffix(1));
-            } finally {
+                return ctx.getNbmePbrser(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public String composeName(String name, String prefix)
-        throws NamingException {
-            if (prefix.equals("")) {
-                return name;
-            } else if (name.equals("")) {
+    public String composeNbme(String nbme, String prefix)
+        throws NbmingException {
+            if (prefix.equbls("")) {
+                return nbme;
+            } else if (nbme.equbls("")) {
                 return prefix;
             } else {
-                return (prefix + "/" + name);
+                return (prefix + "/" + nbme);
             }
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result = (Name)prefix.clone();
-        result.addAll(name);
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        Nbme result = (Nbme)prefix.clone();
+        result.bddAll(nbme);
         return result;
     }
 
-    public Object removeFromEnvironment(String propName)
-        throws NamingException {
+    public Object removeFromEnvironment(String propNbme)
+        throws NbmingException {
             if (myEnv == null) {
                 return null;
             }
-            return myEnv.remove(propName);
+            return myEnv.remove(propNbme);
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-        throws NamingException {
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+        throws NbmingException {
             if (myEnv == null) {
-                myEnv = new Hashtable<String, Object>(11, 0.75f);
+                myEnv = new Hbshtbble<String, Object>(11, 0.75f);
             }
-            return myEnv.put(propName, propVal);
+            return myEnv.put(propNbme, propVbl);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Hashtable<String, Object> getEnvironment() throws NamingException {
+    @SuppressWbrnings("unchecked") // clone()
+    public Hbshtbble<String, Object> getEnvironment() throws NbmingException {
         if (myEnv == null) {
-            return new Hashtable<>(5, 0.75f);
+            return new Hbshtbble<>(5, 0.75f);
         } else {
-            return (Hashtable<String, Object>)myEnv.clone();
+            return (Hbshtbble<String, Object>)myEnv.clone();
         }
     }
 
 /*
-// To test, declare getURLPrefix and getURLSuffix static.
+// To test, declbre getURLPrefix bnd getURLSuffix stbtic.
 
-    public static void main(String[] args) throws Exception {
+    public stbtic void mbin(String[] brgs) throws Exception {
         String[] tests = {"file://host:port",
-                          "file:///rest/of/name",
-                          "file://host:port/rest/of/name",
-                          "file:/rest/of/name",
-                          "file:rest/of/name"};
+                          "file:///rest/of/nbme",
+                          "file://host:port/rest/of/nbme",
+                          "file:/rest/of/nbme",
+                          "file:rest/of/nbme"};
         for (int i = 0; i < tests.length; i++) {
             String pre = getURLPrefix(tests[i]);
             System.out.println(pre);

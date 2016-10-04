@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
-#include "gtk2_interface.h"
-#include "com_sun_java_swing_plaf_gtk_GTKEngine.h"
+#include "gtk2_interfbce.h"
+#include "com_sun_jbvb_swing_plbf_gtk_GTKEngine.h"
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_arrow
- * Signature: (IIILjava/lang/String;IIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_brrow
+ * Signbture: (IIILjbvb/lbng/String;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1arrow(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1brrow(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
-        jint x, jint y, jint w, jint h, jint arrow_type)
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
+        jint x, jint y, jint w, jint h, jint brrow_type)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_arrow(widget_type, state, shadow_type, getStrFor(env, detail),
-            x, y, w, h, arrow_type, TRUE);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_brrow(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+            x, y, w, h, brrow_type, TRUE);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_box
- * Signature: (IIILjava/lang/String;IIIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_box
+ * Signbture: (IIILjbvb/lbng/String;IIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1box(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1box(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
         jint x, jint y, jint w, jint h,
-        jint synth_state, jint dir)
+        jint synth_stbte, jint dir)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_box(widget_type, state, shadow_type, getStrFor(env, detail),
-                   x, y, w, h, synth_state, dir);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_box(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+                   x, y, w, h, synth_stbte, dir);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_box_gap
- * Signature: (IIILjava/lang/String;IIIIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_box_gbp
+ * Signbture: (IIILjbvb/lbng/String;IIIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1box_1gap(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1box_1gbp(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
         jint x, jint y, jint w, jint h,
-        jint gap_side, jint gap_x, jint gap_w)
+        jint gbp_side, jint gbp_x, jint gbp_w)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_box_gap(widget_type, state, shadow_type, getStrFor(env, detail),
-            x, y, w, h, gap_side, gap_x, gap_w);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_box_gbp(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+            x, y, w, h, gbp_side, gbp_x, gbp_w);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_check
- * Signature: (IILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_check
+ * Signbture: (IILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1check(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1check(
         JNIEnv *env, jobject this,
-        jint widget_type, jint synth_state, jstring detail,
+        jint widget_type, jint synth_stbte, jstring detbil,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_check(widget_type, synth_state, getStrFor(env, detail),
+    fp_gdk_threbds_enter();
+    gtk2_pbint_check(widget_type, synth_stbte, getStrFor(env, detbil),
                      x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_expander
- * Signature: (IILjava/lang/String;IIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_expbnder
+ * Signbture: (IILjbvb/lbng/String;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1expander(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1expbnder(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jstring detail,
-        jint x, jint y, jint w, jint h, jint expander_style)
+        jint widget_type, jint stbte, jstring detbil,
+        jint x, jint y, jint w, jint h, jint expbnder_style)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_expander(widget_type, state, getStrFor(env, detail),
-            x, y, w, h, expander_style);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_expbnder(widget_type, stbte, getStrFor(env, detbil),
+            x, y, w, h, expbnder_style);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_extension
- * Signature: (IIILjava/lang/String;IIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_extension
+ * Signbture: (IIILjbvb/lbng/String;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1extension(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1extension(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
-        jint x, jint y, jint w, jint h, jint placement)
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
+        jint x, jint y, jint w, jint h, jint plbcement)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_extension(widget_type, state, shadow_type,
-            getStrFor(env, detail), x, y, w, h, placement);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_extension(widget_type, stbte, shbdow_type,
+            getStrFor(env, detbil), x, y, w, h, plbcement);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_flat_box
- * Signature: (IIILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_flbt_box
+ * Signbture: (IIILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1flat_1box(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1flbt_1box(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
-        jint x, jint y, jint w, jint h, jboolean has_focus)
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
+        jint x, jint y, jint w, jint h, jboolebn hbs_focus)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_flat_box(widget_type, state, shadow_type,
-            getStrFor(env, detail), x, y, w, h, has_focus);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_flbt_box(widget_type, stbte, shbdow_type,
+            getStrFor(env, detbil), x, y, w, h, hbs_focus);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_focus
- * Signature: (IILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_focus
+ * Signbture: (IILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1focus(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1focus(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jstring detail,
+        jint widget_type, jint stbte, jstring detbil,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_focus(widget_type, state, getStrFor(env, detail),
+    fp_gdk_threbds_enter();
+    gtk2_pbint_focus(widget_type, stbte, getStrFor(env, detbil),
             x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_handle
- * Signature: (IIILjava/lang/String;IIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_hbndle
+ * Signbture: (IIILjbvb/lbng/String;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1handle(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1hbndle(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
-        jint x, jint y, jint w, jint h, jint orientation)
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
+        jint x, jint y, jint w, jint h, jint orientbtion)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_handle(widget_type, state, shadow_type, getStrFor(env, detail),
-            x, y, w, h, orientation);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_hbndle(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+            x, y, w, h, orientbtion);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_hline
- * Signature: (IILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_hline
+ * Signbture: (IILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1hline(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1hline(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jstring detail,
+        jint widget_type, jint stbte, jstring detbil,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_hline(widget_type, state, getStrFor(env, detail),
+    fp_gdk_threbds_enter();
+    gtk2_pbint_hline(widget_type, stbte, getStrFor(env, detbil),
             x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_option
- * Signature: (IILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_option
+ * Signbture: (IILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1option(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1option(
         JNIEnv *env, jobject this,
-        jint widget_type, jint synth_state, jstring detail,
+        jint widget_type, jint synth_stbte, jstring detbil,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_option(widget_type, synth_state, getStrFor(env, detail),
+    fp_gdk_threbds_enter();
+    gtk2_pbint_option(widget_type, synth_stbte, getStrFor(env, detbil),
                       x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_shadow
- * Signature: (IIILjava/lang/String;IIIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_shbdow
+ * Signbture: (IIILjbvb/lbng/String;IIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1shadow(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1shbdow(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
         jint x, jint y, jint w, jint h,
-        jint synth_state, jint dir)
+        jint synth_stbte, jint dir)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_shadow(widget_type, state, shadow_type, getStrFor(env, detail),
-                      x, y, w, h, synth_state, dir);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_shbdow(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+                      x, y, w, h, synth_stbte, dir);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_slider
- * Signature: (IIILjava/lang/String;IIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_slider
+ * Signbture: (IIILjbvb/lbng/String;IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1slider(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1slider(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jint shadow_type, jstring detail,
-        jint x, jint y, jint w, jint h, jint orientation)
+        jint widget_type, jint stbte, jint shbdow_type, jstring detbil,
+        jint x, jint y, jint w, jint h, jint orientbtion)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_slider(widget_type, state, shadow_type, getStrFor(env, detail),
-            x, y, w, h, orientation);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_pbint_slider(widget_type, stbte, shbdow_type, getStrFor(env, detbil),
+            x, y, w, h, orientbtion);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_vline
- * Signature: (IILjava/lang/String;IIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_vline
+ * Signbture: (IILjbvb/lbng/String;IIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1vline(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1vline(
         JNIEnv *env, jobject this,
-        jint widget_type, jint state, jstring detail,
+        jint widget_type, jint stbte, jstring detbil,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_paint_vline(widget_type, state, getStrFor(env, detail),
+    fp_gdk_threbds_enter();
+    gtk2_pbint_vline(widget_type, stbte, getStrFor(env, detbil),
             x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_paint_background
- * Signature: (IIIIII)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_pbint_bbckground
+ * Signbture: (IIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1paint_1background(
-        JNIEnv *env, jobject this, jint widget_type, jint state,
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1pbint_1bbckground(
+        JNIEnv *env, jobject this, jint widget_type, jint stbte,
         jint x, jint y, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk_paint_background(widget_type, state, x, y, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk_pbint_bbckground(widget_type, stbte, x, y, w, h);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    nativeStartPainting
- * Signature: (II)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtiveStbrtPbinting
+ * Signbture: (II)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_nativeStartPainting(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtiveStbrtPbinting(
         JNIEnv *env, jobject this, jint w, jint h)
 {
-    fp_gdk_threads_enter();
-    gtk2_init_painting(env, w, h);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_init_pbinting(env, w, h);
+    fp_gdk_threbds_lebve();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    nativeFinishPainting
- * Signature: ([III)I
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtiveFinishPbinting
+ * Signbture: ([III)I
  */
 JNIEXPORT jint JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_nativeFinishPainting(
-        JNIEnv *env, jobject this, jintArray dest, jint width, jint height)
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtiveFinishPbinting(
+        JNIEnv *env, jobject this, jintArrby dest, jint width, jint height)
 {
-    jint transparency;
-    gint *buffer = (gint*) (*env)->GetPrimitiveArrayCritical(env, dest, 0);
-    fp_gdk_threads_enter();
-    transparency = gtk2_copy_image(buffer, width, height);
-    fp_gdk_threads_leave();
-    (*env)->ReleasePrimitiveArrayCritical(env, dest, buffer, 0);
-    return transparency;
+    jint trbnspbrency;
+    gint *buffer = (gint*) (*env)->GetPrimitiveArrbyCriticbl(env, dest, 0);
+    fp_gdk_threbds_enter();
+    trbnspbrency = gtk2_copy_imbge(buffer, width, height);
+    fp_gdk_threbds_lebve();
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, dest, buffer, 0);
+    return trbnspbrency;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_switch_theme
- * Signature: ()V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_switch_theme
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1switch_1theme(
+JNIEXPORT void JNICALL Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1switch_1theme(
         JNIEnv *env, jobject this)
 {
-    // Note that flush_gtk_event_loop takes care of locks (7053002)
+    // Note thbt flush_gtk_event_loop tbkes cbre of locks (7053002)
     flush_gtk_event_loop();
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    native_get_gtk_setting
- * Signature: (I)Ljava/lang/Object;
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtive_get_gtk_setting
+ * Signbture: (I)Ljbvb/lbng/Object;
  */
-JNIEXPORT jobject JNICALL Java_com_sun_java_swing_plaf_gtk_GTKEngine_native_1get_1gtk_1setting(
+JNIEXPORT jobject JNICALL Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtive_1get_1gtk_1setting(
         JNIEnv *env, jobject this, jint property)
 {
     jobject obj;
-    fp_gdk_threads_enter();
+    fp_gdk_threbds_enter();
     obj = gtk2_get_setting(env, property);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_lebve();
     return obj;
 }
 
 /*
- * Class:     com_sun_java_swing_plaf_gtk_GTKEngine
- * Method:    nativeSetRangeValue
- * Signature: (IDDDD)V
+ * Clbss:     com_sun_jbvb_swing_plbf_gtk_GTKEngine
+ * Method:    nbtiveSetRbngeVblue
+ * Signbture: (IDDDD)V
  */
 JNIEXPORT void JNICALL
-Java_com_sun_java_swing_plaf_gtk_GTKEngine_nativeSetRangeValue(
+Jbvb_com_sun_jbvb_swing_plbf_gtk_GTKEngine_nbtiveSetRbngeVblue(
         JNIEnv *env, jobject this, jint widget_type,
-        jdouble value, jdouble min, jdouble max, jdouble visible)
+        jdouble vblue, jdouble min, jdouble mbx, jdouble visible)
 {
-    fp_gdk_threads_enter();
-    gtk2_set_range_value(widget_type, value, min, max, visible);
-    fp_gdk_threads_leave();
+    fp_gdk_threbds_enter();
+    gtk2_set_rbnge_vblue(widget_type, vblue, min, mbx, visible);
+    fp_gdk_threbds_lebve();
 }

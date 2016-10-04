@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.Path;
-import java.nio.file.spi.FileTypeDetector;
-import java.util.Locale;
-import java.io.IOException;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.spi.FileTypeDetector;
+import jbvb.util.Locble;
+import jbvb.io.IOException;
 
 /**
- * Base implementation of FileTypeDetector
+ * Bbse implementbtion of FileTypeDetector
  */
 
-public abstract class AbstractFileTypeDetector
+public bbstrbct clbss AbstrbctFileTypeDetector
     extends FileTypeDetector
 {
-    protected AbstractFileTypeDetector() {
+    protected AbstrbctFileTypeDetector() {
         super();
     }
 
     /**
-     * Invokes the appropriate probe method to guess a file's content type,
-     * and checks that the content type's syntax is valid.
+     * Invokes the bppropribte probe method to guess b file's content type,
+     * bnd checks thbt the content type's syntbx is vblid.
      */
     @Override
-    public final String probeContentType(Path file) throws IOException {
+    public finbl String probeContentType(Pbth file) throws IOException {
         if (file == null)
             throw new NullPointerException("'file' is null");
         String result = implProbeContentType(file);
-        return (result == null) ? null : parse(result);
+        return (result == null) ? null : pbrse(result);
     }
 
     /**
      * Probes the given file to guess its content type.
      */
-    protected abstract String implProbeContentType(Path file)
+    protected bbstrbct String implProbeContentType(Pbth file)
         throws IOException;
 
     /**
-     * Parses a candidate content type into its type and subtype, returning
-     * null if either token is invalid.
+     * Pbrses b cbndidbte content type into its type bnd subtype, returning
+     * null if either token is invblid.
      */
-    private static String parse(String s) {
-        int slash = s.indexOf('/');
+    privbte stbtic String pbrse(String s) {
+        int slbsh = s.indexOf('/');
         int semicolon = s.indexOf(';');
-        if (slash < 0)
+        if (slbsh < 0)
             return null;  // no subtype
-        String type = s.substring(0, slash).trim().toLowerCase(Locale.ENGLISH);
-        if (!isValidToken(type))
-            return null;  // invalid type
-        String subtype = (semicolon < 0) ? s.substring(slash + 1) :
-            s.substring(slash + 1, semicolon);
-        subtype = subtype.trim().toLowerCase(Locale.ENGLISH);
-        if (!isValidToken(subtype))
-            return null;  // invalid subtype
+        String type = s.substring(0, slbsh).trim().toLowerCbse(Locble.ENGLISH);
+        if (!isVblidToken(type))
+            return null;  // invblid type
+        String subtype = (semicolon < 0) ? s.substring(slbsh + 1) :
+            s.substring(slbsh + 1, semicolon);
+        subtype = subtype.trim().toLowerCbse(Locble.ENGLISH);
+        if (!isVblidToken(subtype))
+            return null;  // invblid subtype
         StringBuilder sb = new StringBuilder(type.length() + subtype.length() + 1);
-        sb.append(type);
-        sb.append('/');
-        sb.append(subtype);
+        sb.bppend(type);
+        sb.bppend('/');
+        sb.bppend(subtype);
         return sb.toString();
     }
 
     /**
-     * Special characters
+     * Specibl chbrbcters
      */
-    private static final String TSPECIALS = "()<>@,;:/[]?=\\\"";
+    privbte stbtic finbl String TSPECIALS = "()<>@,;:/[]?=\\\"";
 
     /**
-     * Returns true if the character is a valid token character.
+     * Returns true if the chbrbcter is b vblid token chbrbcter.
      */
-    private static boolean isTokenChar(char c) {
+    privbte stbtic boolebn isTokenChbr(chbr c) {
         return (c > 040) && (c < 0177) && (TSPECIALS.indexOf(c) < 0);
     }
 
     /**
-     * Returns true if the given string is a legal type or subtype.
+     * Returns true if the given string is b legbl type or subtype.
      */
-    private static boolean isValidToken(String s) {
+    privbte stbtic boolebn isVblidToken(String s) {
         int len = s.length();
         if (len == 0)
-            return false;
+            return fblse;
         for (int i = 0; i < len; i++) {
-            if (!isTokenChar(s.charAt(i)))
-                return false;
+            if (!isTokenChbr(s.chbrAt(i)))
+                return fblse;
         }
         return true;
     }

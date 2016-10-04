@@ -1,345 +1,345 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package ${PACKAGE};
+pbckbge ${PACKAGE};
 
-import javax.swing.Painter;
-import java.awt.Graphics;
+import jbvbx.swing.Pbinter;
+import jbvb.bwt.Grbphics;
 import sun.font.FontUtilities;
-import sun.swing.plaf.synth.DefaultSynthStyle;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.DimensionUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.InsetsUIResource;
-import javax.swing.plaf.synth.Region;
-import javax.swing.plaf.synth.SynthStyle;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.image.BufferedImage;
-import static java.awt.image.BufferedImage.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import sun.swing.plbf.synth.DefbultSynthStyle;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JInternblFrbme;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.BorderUIResource;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.DimensionUIResource;
+import jbvbx.swing.plbf.FontUIResource;
+import jbvbx.swing.plbf.InsetsUIResource;
+import jbvbx.swing.plbf.synth.Region;
+import jbvbx.swing.plbf.synth.SynthStyle;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Insets;
+import jbvb.bwt.imbge.BufferedImbge;
+import stbtic jbvb.bwt.imbge.BufferedImbge.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * This class contains all the implementation details related to
- * ${LAF_NAME}. It contains all the code for initializing the UIDefaults table,
- * as well as for selecting
- * a SynthStyle based on a JComponent/Region pair.
+ * This clbss contbins bll the implementbtion detbils relbted to
+ * ${LAF_NAME}. It contbins bll the code for initiblizing the UIDefbults tbble,
+ * bs well bs for selecting
+ * b SynthStyle bbsed on b JComponent/Region pbir.
  *
- * @author Richard Bair
+ * @buthor Richbrd Bbir
  */
-final class ${LAF_NAME}Defaults {
+finbl clbss ${LAF_NAME}Defbults {
     /**
-     * The map of SynthStyles. This map is keyed by Region. Each Region maps
-     * to a List of LazyStyles. Each LazyStyle has a reference to the prefix
-     * that was registered with it. This reference can then be inspected to see
-     * if it is the proper lazy style.
+     * The mbp of SynthStyles. This mbp is keyed by Region. Ebch Region mbps
+     * to b List of LbzyStyles. Ebch LbzyStyle hbs b reference to the prefix
+     * thbt wbs registered with it. This reference cbn then be inspected to see
+     * if it is the proper lbzy style.
      * <p/>
-     * There can be more than one LazyStyle for a single Region if there is more
-     * than one prefix defined for a given region. For example, both Button and
-     * "MyButton" might be prefixes assigned to the Region.Button region.
+     * There cbn be more thbn one LbzyStyle for b single Region if there is more
+     * thbn one prefix defined for b given region. For exbmple, both Button bnd
+     * "MyButton" might be prefixes bssigned to the Region.Button region.
      */
-    private Map<Region, List<LazyStyle>> m;
+    privbte Mbp<Region, List<LbzyStyle>> m;
     /**
-     * A map of regions which have been registered.
-     * This mapping is maintained so that the Region can be found based on
-     * prefix in a very fast manner. This is used in the "matches" method of
-     * LazyStyle.
+     * A mbp of regions which hbve been registered.
+     * This mbpping is mbintbined so thbt the Region cbn be found bbsed on
+     * prefix in b very fbst mbnner. This is used in the "mbtches" method of
+     * LbzyStyle.
      */
-    private Map<String, Region> registeredRegions =
-            new HashMap<String, Region>();
+    privbte Mbp<String, Region> registeredRegions =
+            new HbshMbp<String, Region>();
 
-    private Map<JComponent, Map<Region, SynthStyle>> overridesCache =
-            new WeakHashMap<JComponent, Map<Region, SynthStyle>>();
+    privbte Mbp<JComponent, Mbp<Region, SynthStyle>> overridesCbche =
+            new WebkHbshMbp<JComponent, Mbp<Region, SynthStyle>>();
     
     /**
-     * Our fallback style to avoid NPEs if the proper style cannot be found in
-     * this class. Not sure if relying on DefaultSynthStyle is the best choice.
+     * Our fbllbbck style to bvoid NPEs if the proper style cbnnot be found in
+     * this clbss. Not sure if relying on DefbultSynthStyle is the best choice.
      */
-    private DefaultSynthStyle defaultStyle;
+    privbte DefbultSynthStyle defbultStyle;
     /**
-     * The default font that will be used. I store this value so that it can be
-     * set in the UIDefaults when requested.
+     * The defbult font thbt will be used. I store this vblue so thbt it cbn be
+     * set in the UIDefbults when requested.
      */
-    private FontUIResource defaultFont;
+    privbte FontUIResource defbultFont;
 
-    private ColorTree colorTree = new ColorTree();
+    privbte ColorTree colorTree = new ColorTree();
 
-    /** Listener for changes to user defaults table */
-    private DefaultsListener defaultsListener = new DefaultsListener();
+    /** Listener for chbnges to user defbults tbble */
+    privbte DefbultsListener defbultsListener = new DefbultsListener();
 
-    /** Called by UIManager when this look and feel is installed. */
-    void initialize() {
-        // add listener for derived colors
-        UIManager.addPropertyChangeListener(defaultsListener);
-        UIManager.getDefaults().addPropertyChangeListener(colorTree);
+    /** Cblled by UIMbnbger when this look bnd feel is instblled. */
+    void initiblize() {
+        // bdd listener for derived colors
+        UIMbnbger.bddPropertyChbngeListener(defbultsListener);
+        UIMbnbger.getDefbults().bddPropertyChbngeListener(colorTree);
     }
 
-    /** Called by UIManager when this look and feel is uninstalled. */
-    void uninitialize() {
+    /** Cblled by UIMbnbger when this look bnd feel is uninstblled. */
+    void uninitiblize() {
         // remove listener for derived colors
-        UIManager.removePropertyChangeListener(defaultsListener);
-        UIManager.getDefaults().removePropertyChangeListener(colorTree);
+        UIMbnbger.removePropertyChbngeListener(defbultsListener);
+        UIMbnbger.getDefbults().removePropertyChbngeListener(colorTree);
     }
 
     /**
-     * Create a new ${LAF_NAME}Defaults. This constructor is only called from
+     * Crebte b new ${LAF_NAME}Defbults. This constructor is only cblled from
      * within ${LAF_NAME}LookAndFeel.
      */
-    ${LAF_NAME}Defaults() {
-        m = new HashMap<Region, List<LazyStyle>>();
+    ${LAF_NAME}Defbults() {
+        m = new HbshMbp<Region, List<LbzyStyle>>();
 
-        //Create the default font and default style. Also register all of the
-        //regions and their states that this class will use for later lookup.
-        //Additional regions can be registered later by 3rd party components.
-        //These are simply the default registrations.
-        defaultFont = FontUtilities.getFontConfigFUIR("sans", Font.PLAIN, 12);
-        defaultStyle = new DefaultSynthStyle();
-        defaultStyle.setFont(defaultFont);
+        //Crebte the defbult font bnd defbult style. Also register bll of the
+        //regions bnd their stbtes thbt this clbss will use for lbter lookup.
+        //Additionbl regions cbn be registered lbter by 3rd pbrty components.
+        //These bre simply the defbult registrbtions.
+        defbultFont = FontUtilities.getFontConfigFUIR("sbns", Font.PLAIN, 12);
+        defbultStyle = new DefbultSynthStyle();
+        defbultStyle.setFont(defbultFont);
 
-        //initialize the map of styles
+        //initiblize the mbp of styles
 ${STYLE_INIT}
     }
 
-    //--------------- Methods called by ${LAF_NAME}LookAndFeel
+    //--------------- Methods cblled by ${LAF_NAME}LookAndFeel
 
     /**
-     * Called from ${LAF_NAME}LookAndFeel to initialize the UIDefaults.
+     * Cblled from ${LAF_NAME}LookAndFeel to initiblize the UIDefbults.
      *
-     * @param d UIDefaults table to initialize. This will never be null.
-     *          If listeners are attached to <code>d</code>, then you will
-     *          only receive notification of LookAndFeel level defaults, not
-     *          all defaults on the UIManager.
+     * @pbrbm d UIDefbults tbble to initiblize. This will never be null.
+     *          If listeners bre bttbched to <code>d</code>, then you will
+     *          only receive notificbtion of LookAndFeel level defbults, not
+     *          bll defbults on the UIMbnbger.
      */
-    void initializeDefaults(UIDefaults d) {
+    void initiblizeDefbults(UIDefbults d) {
 ${UI_DEFAULT_INIT}
     }
 
     /**
-     * <p>Registers the given region and prefix. The prefix, if it contains
-     * quoted sections, refers to certain named components. If there are not
-     * quoted sections, then the prefix refers to a generic component type.</p>
+     * <p>Registers the given region bnd prefix. The prefix, if it contbins
+     * quoted sections, refers to certbin nbmed components. If there bre not
+     * quoted sections, then the prefix refers to b generic component type.</p>
      *
-     * <p>If the given region/prefix combo has already been registered, then
-     * it will not be registered twice. The second registration attempt will
-     * fail silently.</p>
+     * <p>If the given region/prefix combo hbs blrebdy been registered, then
+     * it will not be registered twice. The second registrbtion bttempt will
+     * fbil silently.</p>
      *
-     * @param region The Synth Region that is being registered. Such as Button,
-     *        or ScrollBarThumb.
-     * @param prefix The UIDefault prefix. For example, could be ComboBox, or if
-     *        a named components, "MyComboBox", or even something like
-     *        ToolBar:"MyComboBox":"ComboBox.arrowButton"
+     * @pbrbm region The Synth Region thbt is being registered. Such bs Button,
+     *        or ScrollBbrThumb.
+     * @pbrbm prefix The UIDefbult prefix. For exbmple, could be ComboBox, or if
+     *        b nbmed components, "MyComboBox", or even something like
+     *        ToolBbr:"MyComboBox":"ComboBox.brrowButton"
      */
     void register(Region region, String prefix) {
-        //validate the method arguments
+        //vblidbte the method brguments
         if (region == null || prefix == null) {
-            throw new IllegalArgumentException(
-                    "Neither Region nor Prefix may be null");
+            throw new IllegblArgumentException(
+                    "Neither Region nor Prefix mby be null");
         }
 
-        //Add a LazyStyle for this region/prefix to m.
-        List<LazyStyle> styles = m.get(region);
+        //Add b LbzyStyle for this region/prefix to m.
+        List<LbzyStyle> styles = m.get(region);
         if (styles == null) {
-            styles = new LinkedList<LazyStyle>();
-            styles.add(new LazyStyle(prefix));
+            styles = new LinkedList<LbzyStyle>();
+            styles.bdd(new LbzyStyle(prefix));
             m.put(region, styles);
         } else {
-            //iterate over all the current styles and see if this prefix has
-            //already been registered. If not, then register it.
-            for (LazyStyle s : styles) {
-                if (prefix.equals(s.prefix)) {
+            //iterbte over bll the current styles bnd see if this prefix hbs
+            //blrebdy been registered. If not, then register it.
+            for (LbzyStyle s : styles) {
+                if (prefix.equbls(s.prefix)) {
                     return;
                 }
             }
-            styles.add(new LazyStyle(prefix));
+            styles.bdd(new LbzyStyle(prefix));
         }
 
-        //add this region to the map of registered regions
-        registeredRegions.put(region.getName(), region);
+        //bdd this region to the mbp of registered regions
+        registeredRegions.put(region.getNbme(), region);
     }
 
     /**
-     * <p>Locate the style associated with the given region, and component.
-     * This is called from ${LAF_NAME}LookAndFeel in the SynthStyleFactory
-     * implementation.</p>
+     * <p>Locbte the style bssocibted with the given region, bnd component.
+     * This is cblled from ${LAF_NAME}LookAndFeel in the SynthStyleFbctory
+     * implementbtion.</p>
      *
-     * <p>Lookup occurs as follows:<br/>
-     * Check the map of styles <code>m</code>. If the map contains no styles at
-     * all, then simply return the defaultStyle. If the map contains styles,
-     * then iterate over all of the styles for the Region <code>r</code> looking
-     * for the best match, based on prefix. If a match was made, then return
-     * that SynthStyle. Otherwise, return the defaultStyle.</p>
+     * <p>Lookup occurs bs follows:<br/>
+     * Check the mbp of styles <code>m</code>. If the mbp contbins no styles bt
+     * bll, then simply return the defbultStyle. If the mbp contbins styles,
+     * then iterbte over bll of the styles for the Region <code>r</code> looking
+     * for the best mbtch, bbsed on prefix. If b mbtch wbs mbde, then return
+     * thbt SynthStyle. Otherwise, return the defbultStyle.</p>
      *
-     * @param comp The component associated with this region. For example, if
-     *        the Region is Region.Button then the component will be a JButton.
-     *        If the Region is a subregion, such as ScrollBarThumb, then the
-     *        associated component will be the component that subregion belongs
-     *        to, such as JScrollBar. The JComponent may be named. It may not be
+     * @pbrbm comp The component bssocibted with this region. For exbmple, if
+     *        the Region is Region.Button then the component will be b JButton.
+     *        If the Region is b subregion, such bs ScrollBbrThumb, then the
+     *        bssocibted component will be the component thbt subregion belongs
+     *        to, such bs JScrollBbr. The JComponent mby be nbmed. It mby not be
      *        null.
-     * @param r The region we are looking for a style for. May not be null.
+     * @pbrbm r The region we bre looking for b style for. Mby not be null.
      */
     SynthStyle getStyle(JComponent comp, Region r) {
-        //validate method arguments
+        //vblidbte method brguments
         if (comp == null || r == null) {
-            throw new IllegalArgumentException(
-                    "Neither comp nor r may be null");
+            throw new IllegblArgumentException(
+                    "Neither comp nor r mby be null");
         }
 
-        //if there are no lazy styles registered for the region r, then return
-        //the default style
-        List<LazyStyle> styles = m.get(r);
+        //if there bre no lbzy styles registered for the region r, then return
+        //the defbult style
+        List<LbzyStyle> styles = m.get(r);
         if (styles == null || styles.size() == 0) {
-            return defaultStyle;
+            return defbultStyle;
         }
 
-        //Look for the best SynthStyle for this component/region pair.
-        LazyStyle foundStyle = null;
-        for (LazyStyle s : styles) {
-            if (s.matches(comp)) {
-                //replace the foundStyle if foundStyle is null, or
-                //if the new style "s" is more specific (ie, its path was
-                //longer), or if the foundStyle was "simple" and the new style
-                //was not (ie: the foundStyle was for something like Button and
-                //the new style was for something like "MyButton", hence, being
-                //more specific.) In all cases, favor the most specific style
+        //Look for the best SynthStyle for this component/region pbir.
+        LbzyStyle foundStyle = null;
+        for (LbzyStyle s : styles) {
+            if (s.mbtches(comp)) {
+                //replbce the foundStyle if foundStyle is null, or
+                //if the new style "s" is more specific (ie, its pbth wbs
+                //longer), or if the foundStyle wbs "simple" bnd the new style
+                //wbs not (ie: the foundStyle wbs for something like Button bnd
+                //the new style wbs for something like "MyButton", hence, being
+                //more specific.) In bll cbses, fbvor the most specific style
                 //found.
                 if (foundStyle == null ||
-                   (foundStyle.parts.length < s.parts.length) ||
-                   (foundStyle.parts.length == s.parts.length 
+                   (foundStyle.pbrts.length < s.pbrts.length) ||
+                   (foundStyle.pbrts.length == s.pbrts.length 
                     && foundStyle.simple && !s.simple)) {
                     foundStyle = s;
                 }
             }
         }
 
-        //return the style, if found, or the default style if not found
-        return foundStyle == null ? defaultStyle : foundStyle.getStyle(comp, r);
+        //return the style, if found, or the defbult style if not found
+        return foundStyle == null ? defbultStyle : foundStyle.getStyle(comp, r);
     }
 
-    public void clearOverridesCache(JComponent c) {
-        overridesCache.remove(c);
+    public void clebrOverridesCbche(JComponent c) {
+        overridesCbche.remove(c);
     }
 
     /*
-        Various public helper classes.
-        These may be used to register 3rd party values into UIDefaults
+        Vbrious public helper clbsses.
+        These mby be used to register 3rd pbrty vblues into UIDefbults
     */
 
     /**
-     * <p>Derives its font value based on a parent font and a set of offsets and
-     * attributes. This class is an ActiveValue, meaning that it will recompute
-     * its value each time it is requested from UIDefaults. It is therefore
-     * recommended to read this value once and cache it in the UI delegate class
-     * until asked to reinitialize.</p>
+     * <p>Derives its font vblue bbsed on b pbrent font bnd b set of offsets bnd
+     * bttributes. This clbss is bn ActiveVblue, mebning thbt it will recompute
+     * its vblue ebch time it is requested from UIDefbults. It is therefore
+     * recommended to rebd this vblue once bnd cbche it in the UI delegbte clbss
+     * until bsked to reinitiblize.</p>
      *
-     * <p>To use this class, create an instance with the key of the font in the
-     * UI defaults table from which to derive this font, along with a size
-     * offset (if any), and whether it is to be bold, italic, or left in its
-     * default form.</p>
+     * <p>To use this clbss, crebte bn instbnce with the key of the font in the
+     * UI defbults tbble from which to derive this font, blong with b size
+     * offset (if bny), bnd whether it is to be bold, itblic, or left in its
+     * defbult form.</p>
      */
-    static final class DerivedFont implements UIDefaults.ActiveValue {
-        private float sizeOffset;
-        private Boolean bold;
-        private Boolean italic;
-        private String parentKey;
+    stbtic finbl clbss DerivedFont implements UIDefbults.ActiveVblue {
+        privbte flobt sizeOffset;
+        privbte Boolebn bold;
+        privbte Boolebn itblic;
+        privbte String pbrentKey;
 
         /**
-         * Create a new DerivedFont.
+         * Crebte b new DerivedFont.
          *
-         * @param key The UIDefault key associated with this derived font's
-         *            parent or source. If this key leads to a null value, or a
-         *            value that is not a font, then null will be returned as
+         * @pbrbm key The UIDefbult key bssocibted with this derived font's
+         *            pbrent or source. If this key lebds to b null vblue, or b
+         *            vblue thbt is not b font, then null will be returned bs
          *            the derived font. The key must not be null.
-         * @param sizeOffset The size offset, as a percentage, to use. For
-         *                   example, if the source font was a 12pt font and the
-         *                   sizeOffset were specified as .9, then the new font
-         *                   will be 90% of what the source font was, or, 10.8
-         *                   pts which is rounded to 11pts. This fractional
-         *                   based offset allows for proper font scaling in high
-         *                   DPI or large system font scenarios.
-         * @param bold Whether the new font should be bold. If null, then this
+         * @pbrbm sizeOffset The size offset, bs b percentbge, to use. For
+         *                   exbmple, if the source font wbs b 12pt font bnd the
+         *                   sizeOffset were specified bs .9, then the new font
+         *                   will be 90% of whbt the source font wbs, or, 10.8
+         *                   pts which is rounded to 11pts. This frbctionbl
+         *                   bbsed offset bllows for proper font scbling in high
+         *                   DPI or lbrge system font scenbrios.
+         * @pbrbm bold Whether the new font should be bold. If null, then this
          *             new font will inherit the bold setting of the source
          *             font.
-         * @param italic Whether the new font should be italicized. If null,
-         *               then this new font will inherit the italic setting of
+         * @pbrbm itblic Whether the new font should be itblicized. If null,
+         *               then this new font will inherit the itblic setting of
          *               the source font.
          */
-        public DerivedFont(String key, float sizeOffset, Boolean bold,
-                           Boolean italic) {
-            //validate the constructor arguments
+        public DerivedFont(String key, flobt sizeOffset, Boolebn bold,
+                           Boolebn itblic) {
+            //vblidbte the constructor brguments
             if (key == null) {
-                throw new IllegalArgumentException("You must specify a key");
+                throw new IllegblArgumentException("You must specify b key");
             }
 
-            //set the values
-            this.parentKey = key;
+            //set the vblues
+            this.pbrentKey = key;
             this.sizeOffset = sizeOffset;
             this.bold = bold;
-            this.italic = italic;
+            this.itblic = itblic;
         }
 
         /**
          * @inheritDoc
          */
         @Override
-        public Object createValue(UIDefaults defaults) {
-            Font f = defaults.getFont(parentKey);
+        public Object crebteVblue(UIDefbults defbults) {
+            Font f = defbults.getFont(pbrentKey);
             if (f != null) {
-                // always round size for now so we have exact int font size
-                // (or we may have lame looking fonts)
-                float size = Math.round(f.getSize2D() * sizeOffset);
+                // blwbys round size for now so we hbve exbct int font size
+                // (or we mby hbve lbme looking fonts)
+                flobt size = Mbth.round(f.getSize2D() * sizeOffset);
                 int style = f.getStyle();
                 if (bold != null) {
-                    if (bold.booleanValue()) {
+                    if (bold.boolebnVblue()) {
                         style = style | Font.BOLD;
                     } else {
                         style = style & ~Font.BOLD;
                     }
                 }
-                if (italic != null) {
-                    if (italic.booleanValue()) {
+                if (itblic != null) {
+                    if (itblic.boolebnVblue()) {
                         style = style | Font.ITALIC;
                     } else {
                         style = style & ~Font.ITALIC;
@@ -354,184 +354,184 @@ ${UI_DEFAULT_INIT}
 
 
     /**
-     * This class is private because it relies on the constructor of the
-     * auto-generated AbstractRegionPainter subclasses. Hence, it is not
-     * generally useful, and is private.
+     * This clbss is privbte becbuse it relies on the constructor of the
+     * buto-generbted AbstrbctRegionPbinter subclbsses. Hence, it is not
+     * generblly useful, bnd is privbte.
      * <p/>
-     * LazyPainter is a LazyValue class. It will create the
-     * AbstractRegionPainter lazily, when asked. It uses reflection to load the
-     * proper class and invoke its constructor.
+     * LbzyPbinter is b LbzyVblue clbss. It will crebte the
+     * AbstrbctRegionPbinter lbzily, when bsked. It uses reflection to lobd the
+     * proper clbss bnd invoke its constructor.
      */
-    private static final class LazyPainter implements UIDefaults.LazyValue {
-        private int which;
-        private AbstractRegionPainter.PaintContext ctx;
-        private String className;
+    privbte stbtic finbl clbss LbzyPbinter implements UIDefbults.LbzyVblue {
+        privbte int which;
+        privbte AbstrbctRegionPbinter.PbintContext ctx;
+        privbte String clbssNbme;
 
-        LazyPainter(String className, int which, Insets insets,
-                    Dimension canvasSize, boolean inverted) {
-            if (className == null) {
-                throw new IllegalArgumentException(
-                        "The className must be specified");
+        LbzyPbinter(String clbssNbme, int which, Insets insets,
+                    Dimension cbnvbsSize, boolebn inverted) {
+            if (clbssNbme == null) {
+                throw new IllegblArgumentException(
+                        "The clbssNbme must be specified");
             }
 
-            this.className = className;
+            this.clbssNbme = clbssNbme;
             this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(
-                insets, canvasSize, inverted);
+            this.ctx = new AbstrbctRegionPbinter.PbintContext(
+                insets, cbnvbsSize, inverted);
         }
 
-        LazyPainter(String className, int which, Insets insets,
-                    Dimension canvasSize, boolean inverted,
-                    AbstractRegionPainter.PaintContext.CacheMode cacheMode,
-                    double maxH, double maxV) {
-            if (className == null) {
-                throw new IllegalArgumentException(
-                        "The className must be specified");
+        LbzyPbinter(String clbssNbme, int which, Insets insets,
+                    Dimension cbnvbsSize, boolebn inverted,
+                    AbstrbctRegionPbinter.PbintContext.CbcheMode cbcheMode,
+                    double mbxH, double mbxV) {
+            if (clbssNbme == null) {
+                throw new IllegblArgumentException(
+                        "The clbssNbme must be specified");
             }
 
-            this.className = className;
+            this.clbssNbme = clbssNbme;
             this.which = which;
-            this.ctx = new AbstractRegionPainter.PaintContext(
-                    insets, canvasSize, inverted, cacheMode, maxH, maxV);
+            this.ctx = new AbstrbctRegionPbinter.PbintContext(
+                    insets, cbnvbsSize, inverted, cbcheMode, mbxH, mbxV);
         }
 
         @Override
-        public Object createValue(UIDefaults table) {
+        public Object crebteVblue(UIDefbults tbble) {
             try {
-                Class<?> c;
+                Clbss<?> c;
                 Object cl;
-                // See if we should use a separate ClassLoader
-                if (table == null || !((cl = table.get("ClassLoader"))
-                                       instanceof ClassLoader)) {
-                    cl = Thread.currentThread().
-                                getContextClassLoader();
+                // See if we should use b sepbrbte ClbssLobder
+                if (tbble == null || !((cl = tbble.get("ClbssLobder"))
+                                       instbnceof ClbssLobder)) {
+                    cl = Threbd.currentThrebd().
+                                getContextClbssLobder();
                     if (cl == null) {
-                        // Fallback to the system class loader.
-                        cl = ClassLoader.getSystemClassLoader();
+                        // Fbllbbck to the system clbss lobder.
+                        cl = ClbssLobder.getSystemClbssLobder();
                     }
                 }
 
-                c = Class.forName(className, true, (ClassLoader)cl);
+                c = Clbss.forNbme(clbssNbme, true, (ClbssLobder)cl);
                 Constructor<?> constructor = c.getConstructor(
-                        AbstractRegionPainter.PaintContext.class, int.class);
+                        AbstrbctRegionPbinter.PbintContext.clbss, int.clbss);
                 if (constructor == null) {
                     throw new NullPointerException(
-                            "Failed to find the constructor for the class: " +
-                            className);
+                            "Fbiled to find the constructor for the clbss: " +
+                            clbssNbme);
                 }
-                return constructor.newInstance(ctx, which);
-            } catch (Exception e) {
-                e.printStackTrace();
+                return constructor.newInstbnce(ctx, which);
+            } cbtch (Exception e) {
+                e.printStbckTrbce();
                 return null;
             }
         }
     }
 
     /**
-     * A class which creates the NimbusStyle associated with it lazily, but also
-     * manages a lot more information about the style. It is less of a LazyValue
-     * type of class, and more of an Entry or Item type of class, as it
-     * represents an entry in the list of LazyStyles in the map m.
+     * A clbss which crebtes the NimbusStyle bssocibted with it lbzily, but blso
+     * mbnbges b lot more informbtion bbout the style. It is less of b LbzyVblue
+     * type of clbss, bnd more of bn Entry or Item type of clbss, bs it
+     * represents bn entry in the list of LbzyStyles in the mbp m.
      *
-     * The primary responsibilities of this class include:
+     * The primbry responsibilities of this clbss include:
      * <ul>
-     *   <li>Determining whether a given component/region pair matches this
+     *   <li>Determining whether b given component/region pbir mbtches this
      *       style</li>
      *   <li>Splitting the prefix specified in the constructor into its
-     *       constituent parts to facilitate quicker matching</li>
-     *   <li>Creating and vending a NimbusStyle lazily.</li>
+     *       constituent pbrts to fbcilitbte quicker mbtching</li>
+     *   <li>Crebting bnd vending b NimbusStyle lbzily.</li>
      * </ul>
      */
-    private final class LazyStyle {
+    privbte finbl clbss LbzyStyle {
         /**
-         * The prefix this LazyStyle was registered with. Something like
-         * Button or ComboBox:"ComboBox.arrowButton"
+         * The prefix this LbzyStyle wbs registered with. Something like
+         * Button or ComboBox:"ComboBox.brrowButton"
          */
-        private String prefix;
+        privbte String prefix;
         /**
-         * Whether or not this LazyStyle represents an unnamed component
+         * Whether or not this LbzyStyle represents bn unnbmed component
          */
-        private boolean simple = true;
+        privbte boolebn simple = true;
         /**
-         * The various parts, or sections, of the prefix. For example,
+         * The vbrious pbrts, or sections, of the prefix. For exbmple,
          * the prefix:
-         *     ComboBox:"ComboBox.arrowButton"
+         *     ComboBox:"ComboBox.brrowButton"
          *
-         * will be broken into two parts,
-         *     ComboBox and "ComboBox.arrowButton"
+         * will be broken into two pbrts,
+         *     ComboBox bnd "ComboBox.brrowButton"
          */
-        private Part[] parts;
+        privbte Pbrt[] pbrts;
         /**
-         * Cached shared style.
+         * Cbched shbred style.
          */
-        private NimbusStyle style;
+        privbte NimbusStyle style;
 
         /**
-         * Create a new LazyStyle.
+         * Crebte b new LbzyStyle.
          *
-         * @param prefix The prefix associated with this style. Cannot be null.
+         * @pbrbm prefix The prefix bssocibted with this style. Cbnnot be null.
          */
-        private LazyStyle(String prefix) {
+        privbte LbzyStyle(String prefix) {
             if (prefix == null) {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "The prefix must not be null");
             }
 
             this.prefix = prefix;
 
-            //there is one odd case that needs to be supported here: cell
-            //renderers. A cell renderer is defined as a named internal
-            //component, so for example:
+            //there is one odd cbse thbt needs to be supported here: cell
+            //renderers. A cell renderer is defined bs b nbmed internbl
+            //component, so for exbmple:
             // List."List.cellRenderer"
-            //The problem is that the component named List.cellRenderer is not a
-            //child of a JList. Rather, it is treated more as a direct component
-            //Thus, if the prefix ends with "cellRenderer", then remove all the
-            //previous dotted parts of the prefix name so that it becomes, for
-            //example: "List.cellRenderer"
-            //Likewise, we have a hacked work around for cellRenderer, renderer,
-            //and listRenderer.
+            //The problem is thbt the component nbmed List.cellRenderer is not b
+            //child of b JList. Rbther, it is trebted more bs b direct component
+            //Thus, if the prefix ends with "cellRenderer", then remove bll the
+            //previous dotted pbrts of the prefix nbme so thbt it becomes, for
+            //exbmple: "List.cellRenderer"
+            //Likewise, we hbve b hbcked work bround for cellRenderer, renderer,
+            //bnd listRenderer.
             String temp = prefix;
             if (temp.endsWith("cellRenderer\"")
                     || temp.endsWith("renderer\"")
                     || temp.endsWith("listRenderer\"")) {
-                temp = temp.substring(temp.lastIndexOf(":\"") + 1);
+                temp = temp.substring(temp.lbstIndexOf(":\"") + 1);
             }
 
-            //otherwise, normal code path
-            List<String> sparts = split(temp);
-            parts = new Part[sparts.size()];
-            for (int i = 0; i < parts.length; i++) {
-                parts[i] = new Part(sparts.get(i));
-                if (parts[i].named) {
-                    simple = false;
+            //otherwise, normbl code pbth
+            List<String> spbrts = split(temp);
+            pbrts = new Pbrt[spbrts.size()];
+            for (int i = 0; i < pbrts.length; i++) {
+                pbrts[i] = new Pbrt(spbrts.get(i));
+                if (pbrts[i].nbmed) {
+                    simple = fblse;
                 }
             }
         }
 
         /**
-         * Gets the style. Creates it if necessary.
+         * Gets the style. Crebtes it if necessbry.
          * @return the style
          */
         SynthStyle getStyle(JComponent c, Region r) {
-            // if the component has overrides, it gets its own unique style
-            // instead of the shared style.
+            // if the component hbs overrides, it gets its own unique style
+            // instebd of the shbred style.
             if (c.getClientProperty("Nimbus.Overrides") != null) {
-                Map<Region, SynthStyle> map = overridesCache.get(c);
+                Mbp<Region, SynthStyle> mbp = overridesCbche.get(c);
                 SynthStyle s = null;
-                if (map == null) {
-                    map = new HashMap<Region, SynthStyle>();
-                    overridesCache.put(c, map);
+                if (mbp == null) {
+                    mbp = new HbshMbp<Region, SynthStyle>();
+                    overridesCbche.put(c, mbp);
                 } else {
-                    s = map.get(r);
+                    s = mbp.get(r);
                 }
                 if (s == null) {
                     s = new NimbusStyle(prefix, c);
-                    map.put(r, s);
+                    mbp.put(r, s);
                 }
                 return s;
             }
             
-            // lazily create the style if necessary
+            // lbzily crebte the style if necessbry
             if (style == null)
                 style = new NimbusStyle(prefix, null);
             
@@ -540,311 +540,311 @@ ${UI_DEFAULT_INIT}
         }
 
         /**
-         * This LazyStyle is a match for the given component if, and only if,
-         * for each part of the prefix the component hierarchy matches exactly.
-         * That is, if given "a":something:"b", then:
-         * c.getName() must equals "b"
-         * c.getParent() can be anything
-         * c.getParent().getParent().getName() must equal "a".
+         * This LbzyStyle is b mbtch for the given component if, bnd only if,
+         * for ebch pbrt of the prefix the component hierbrchy mbtches exbctly.
+         * Thbt is, if given "b":something:"b", then:
+         * c.getNbme() must equbls "b"
+         * c.getPbrent() cbn be bnything
+         * c.getPbrent().getPbrent().getNbme() must equbl "b".
          */
-        boolean matches(JComponent c) {
-            return matches(c, parts.length - 1);
+        boolebn mbtches(JComponent c) {
+            return mbtches(c, pbrts.length - 1);
         }
 
-        private boolean matches(Component c, int partIndex) {
-            if (partIndex < 0) return true;
-            if (c == null) return false;
-            //only get here if partIndex > 0 and c == null
+        privbte boolebn mbtches(Component c, int pbrtIndex) {
+            if (pbrtIndex < 0) return true;
+            if (c == null) return fblse;
+            //only get here if pbrtIndex > 0 bnd c == null
 
-            String name = c.getName();
-            if (parts[partIndex].named && parts[partIndex].s.equals(name)) {
-                //so far so good, recurse
-                return matches(c.getParent(), partIndex - 1);
-            } else if (!parts[partIndex].named) {
-                //if c is not named, and parts[partIndex] has an expected class
-                //type registered, then check to make sure c is of the
+            String nbme = c.getNbme();
+            if (pbrts[pbrtIndex].nbmed && pbrts[pbrtIndex].s.equbls(nbme)) {
+                //so fbr so good, recurse
+                return mbtches(c.getPbrent(), pbrtIndex - 1);
+            } else if (!pbrts[pbrtIndex].nbmed) {
+                //if c is not nbmed, bnd pbrts[pbrtIndex] hbs bn expected clbss
+                //type registered, then check to mbke sure c is of the
                 //right type;
-                Class<?> clazz = parts[partIndex].c;
-                if (clazz != null && clazz.isAssignableFrom(c.getClass())) {
-                    //so far so good, recurse
-                    return matches(c.getParent(), partIndex - 1);
-                } else if (clazz == null &&
-                           registeredRegions.containsKey(parts[partIndex].s)) {
-                    Region r = registeredRegions.get(parts[partIndex].s);
-                    Component parent = r.isSubregion() ? c : c.getParent();
-                    //special case the JInternalFrameTitlePane, because it
+                Clbss<?> clbzz = pbrts[pbrtIndex].c;
+                if (clbzz != null && clbzz.isAssignbbleFrom(c.getClbss())) {
+                    //so fbr so good, recurse
+                    return mbtches(c.getPbrent(), pbrtIndex - 1);
+                } else if (clbzz == null &&
+                           registeredRegions.contbinsKey(pbrts[pbrtIndex].s)) {
+                    Region r = registeredRegions.get(pbrts[pbrtIndex].s);
+                    Component pbrent = r.isSubregion() ? c : c.getPbrent();
+                    //specibl cbse the JInternblFrbmeTitlePbne, becbuse it
                     //doesn't fit the mold. very, very funky.
-                    if (r == Region.INTERNAL_FRAME_TITLE_PANE && parent != null
-                        && parent instanceof JInternalFrame.JDesktopIcon) {
-                        JInternalFrame.JDesktopIcon icon =
-                                (JInternalFrame.JDesktopIcon) parent;
-                        parent = icon.getInternalFrame();
+                    if (r == Region.INTERNAL_FRAME_TITLE_PANE && pbrent != null
+                        && pbrent instbnceof JInternblFrbme.JDesktopIcon) {
+                        JInternblFrbme.JDesktopIcon icon =
+                                (JInternblFrbme.JDesktopIcon) pbrent;
+                        pbrent = icon.getInternblFrbme();
                     }
-                    //it was the name of a region. So far, so good. Recurse.
-                    return matches(parent, partIndex - 1);
+                    //it wbs the nbme of b region. So fbr, so good. Recurse.
+                    return mbtches(pbrent, pbrtIndex - 1);
                 }
             }
 
-            return false;
+            return fblse;
         }
 
         /**
-         * Given some dot separated prefix, split on the colons that are
-         * not within quotes, and not within brackets.
+         * Given some dot sepbrbted prefix, split on the colons thbt bre
+         * not within quotes, bnd not within brbckets.
          *
-         * @param prefix
+         * @pbrbm prefix
          * @return
          */
-        private List<String> split(String prefix) {
-            List<String> parts = new ArrayList<String>();
-            int bracketCount = 0;
-            boolean inquotes = false;
-            int lastIndex = 0;
+        privbte List<String> split(String prefix) {
+            List<String> pbrts = new ArrbyList<String>();
+            int brbcketCount = 0;
+            boolebn inquotes = fblse;
+            int lbstIndex = 0;
             for (int i = 0; i < prefix.length(); i++) {
-                char c = prefix.charAt(i);
+                chbr c = prefix.chbrAt(i);
 
                 if (c == '[') {
-                    bracketCount++;
+                    brbcketCount++;
                     continue;
                 } else if (c == '"') {
                     inquotes = !inquotes;
                     continue;
                 } else if (c == ']') {
-                    bracketCount--;
-                    if (bracketCount < 0) {
+                    brbcketCount--;
+                    if (brbcketCount < 0) {
                         throw new RuntimeException(
-                                "Malformed prefix: " + prefix);
+                                "Mblformed prefix: " + prefix);
                     }
                     continue;
                 }
 
-                if (c == ':' && !inquotes && bracketCount == 0) {
-                    //found a character to split on.
-                    parts.add(prefix.substring(lastIndex, i));
-                    lastIndex = i + 1;
+                if (c == ':' && !inquotes && brbcketCount == 0) {
+                    //found b chbrbcter to split on.
+                    pbrts.bdd(prefix.substring(lbstIndex, i));
+                    lbstIndex = i + 1;
                 }
             }
-            if (lastIndex < prefix.length() - 1 && !inquotes
-                    && bracketCount == 0) {
-                parts.add(prefix.substring(lastIndex));
+            if (lbstIndex < prefix.length() - 1 && !inquotes
+                    && brbcketCount == 0) {
+                pbrts.bdd(prefix.substring(lbstIndex));
             }
-            return parts;
+            return pbrts;
 
         }
 
-        private final class Part {
-            private String s;
-            //true if this part represents a component name
-            private boolean named;
-            private Class<?> c;
+        privbte finbl clbss Pbrt {
+            privbte String s;
+            //true if this pbrt represents b component nbme
+            privbte boolebn nbmed;
+            privbte Clbss<?> c;
 
-            Part(String s) {
-                named = s.charAt(0) == '"' && s.charAt(s.length() - 1) == '"';
-                if (named) {
+            Pbrt(String s) {
+                nbmed = s.chbrAt(0) == '"' && s.chbrAt(s.length() - 1) == '"';
+                if (nbmed) {
                     this.s = s.substring(1, s.length() - 1);
                 } else {
                     this.s = s;
-                    //TODO use a map of known regions for Synth and Swing, and
-                    //then use [classname] instead of org_class_name style
+                    //TODO use b mbp of known regions for Synth bnd Swing, bnd
+                    //then use [clbssnbme] instebd of org_clbss_nbme style
                     try {
-                        c = Class.forName("javax.swing.J" + s);
-                    } catch (Exception e) {
+                        c = Clbss.forNbme("jbvbx.swing.J" + s);
+                    } cbtch (Exception e) {
                     }
                     try {
-                        c = Class.forName(s.replace("_", "."));
-                    } catch (Exception e) {
+                        c = Clbss.forNbme(s.replbce("_", "."));
+                    } cbtch (Exception e) {
                     }
                 }
             }
         }
     }
 
-    private void addColor(UIDefaults d, String uin, int r, int g, int b, int a) {
-        Color color = new ColorUIResource(new Color(r, g, b, a));
-        colorTree.addColor(uin, color);
+    privbte void bddColor(UIDefbults d, String uin, int r, int g, int b, int b) {
+        Color color = new ColorUIResource(new Color(r, g, b, b));
+        colorTree.bddColor(uin, color);
         d.put(uin, color);
     }
 
-    private void addColor(UIDefaults d, String uin, String parentUin,
-            float hOffset, float sOffset, float bOffset, int aOffset) {
-        addColor(d, uin, parentUin, hOffset, sOffset, bOffset, aOffset, true);
+    privbte void bddColor(UIDefbults d, String uin, String pbrentUin,
+            flobt hOffset, flobt sOffset, flobt bOffset, int bOffset) {
+        bddColor(d, uin, pbrentUin, hOffset, sOffset, bOffset, bOffset, true);
     }
 
-    private void addColor(UIDefaults d, String uin, String parentUin,
-            float hOffset, float sOffset, float bOffset,
-            int aOffset, boolean uiResource) {
-        Color color = getDerivedColor(uin, parentUin,
-                hOffset, sOffset, bOffset, aOffset, uiResource);
+    privbte void bddColor(UIDefbults d, String uin, String pbrentUin,
+            flobt hOffset, flobt sOffset, flobt bOffset,
+            int bOffset, boolebn uiResource) {
+        Color color = getDerivedColor(uin, pbrentUin,
+                hOffset, sOffset, bOffset, bOffset, uiResource);
         d.put(uin, color);
     }
 
     /**
-     * Get a derived color, derived colors are shared instances and will be
-     * updated when its parent UIDefault color changes.
+     * Get b derived color, derived colors bre shbred instbnces bnd will be
+     * updbted when its pbrent UIDefbult color chbnges.
      *
-     * @param uiDefaultParentName The parent UIDefault key
-     * @param hOffset The hue offset
-     * @param sOffset The saturation offset
-     * @param bOffset The brightness offset
-     * @param aOffset The alpha offset
-     * @param uiResource True if the derived color should be a UIResource,
-     *        false if it should not be a UIResource
+     * @pbrbm uiDefbultPbrentNbme The pbrent UIDefbult key
+     * @pbrbm hOffset The hue offset
+     * @pbrbm sOffset The sbturbtion offset
+     * @pbrbm bOffset The brightness offset
+     * @pbrbm bOffset The blphb offset
+     * @pbrbm uiResource True if the derived color should be b UIResource,
+     *        fblse if it should not be b UIResource
      * @return The stored derived color
      */
-    public DerivedColor getDerivedColor(String parentUin,
-                                        float hOffset, float sOffset,
-                                        float bOffset, int aOffset,
-                                        boolean uiResource){
-        return getDerivedColor(null, parentUin,
-                hOffset, sOffset, bOffset, aOffset, uiResource);
+    public DerivedColor getDerivedColor(String pbrentUin,
+                                        flobt hOffset, flobt sOffset,
+                                        flobt bOffset, int bOffset,
+                                        boolebn uiResource){
+        return getDerivedColor(null, pbrentUin,
+                hOffset, sOffset, bOffset, bOffset, uiResource);
     }
 
-    private DerivedColor getDerivedColor(String uin, String parentUin,
-                                        float hOffset, float sOffset,
-                                        float bOffset, int aOffset,
-                                        boolean uiResource) {
+    privbte DerivedColor getDerivedColor(String uin, String pbrentUin,
+                                        flobt hOffset, flobt sOffset,
+                                        flobt bOffset, int bOffset,
+                                        boolebn uiResource) {
         DerivedColor color;
         if (uiResource) {
-            color = new DerivedColor.UIResource(parentUin,
-                    hOffset, sOffset, bOffset, aOffset);
+            color = new DerivedColor.UIResource(pbrentUin,
+                    hOffset, sOffset, bOffset, bOffset);
         } else {
-            color = new DerivedColor(parentUin, hOffset, sOffset,
-                bOffset, aOffset);
+            color = new DerivedColor(pbrentUin, hOffset, sOffset,
+                bOffset, bOffset);
         }
 
-        if (derivedColors.containsKey(color)) {
+        if (derivedColors.contbinsKey(color)) {
             return derivedColors.get(color);
         } else {
             derivedColors.put(color, color);
             color.rederiveColor(); /// move to ARP.decodeColor() ?
-            colorTree.addColor(uin, color);
+            colorTree.bddColor(uin, color);
             return color;
         }
     }
 
-    private Map<DerivedColor, DerivedColor> derivedColors =
-            new HashMap<DerivedColor, DerivedColor>();
+    privbte Mbp<DerivedColor, DerivedColor> derivedColors =
+            new HbshMbp<DerivedColor, DerivedColor>();
 
-    private class ColorTree implements PropertyChangeListener {
-        private Node root = new Node(null, null);
-        private Map<String, Node> nodes = new HashMap<String, Node>();
+    privbte clbss ColorTree implements PropertyChbngeListener {
+        privbte Node root = new Node(null, null);
+        privbte Mbp<String, Node> nodes = new HbshMbp<String, Node>();
 
         public Color getColor(String uin) {
             return nodes.get(uin).color;
         }
 
-        public void addColor(String uin, Color color) {
-            Node parent = getParentNode(color);
-            Node node = new Node(color, parent);
-            parent.children.add(node);
+        public void bddColor(String uin, Color color) {
+            Node pbrent = getPbrentNode(color);
+            Node node = new Node(color, pbrent);
+            pbrent.children.bdd(node);
             if (uin != null) {
                 nodes.put(uin, node);
             }
         }
 
-        private Node getParentNode(Color color) {
-            Node parent = root;
-            if (color instanceof DerivedColor) {
-                String parentUin = ((DerivedColor)color).getUiDefaultParentName();
-                Node p = nodes.get(parentUin);
+        privbte Node getPbrentNode(Color color) {
+            Node pbrent = root;
+            if (color instbnceof DerivedColor) {
+                String pbrentUin = ((DerivedColor)color).getUiDefbultPbrentNbme();
+                Node p = nodes.get(pbrentUin);
                 if (p != null) {
-                    parent = p;
+                    pbrent = p;
                 }
             }
-            return parent;
+            return pbrent;
         }
 
-        public void update() {
-            root.update();
+        public void updbte() {
+            root.updbte();
         }
 
         @Override
-        public void propertyChange(PropertyChangeEvent ev) {
-            String name = ev.getPropertyName();
-            Node node = nodes.get(name);
+        public void propertyChbnge(PropertyChbngeEvent ev) {
+            String nbme = ev.getPropertyNbme();
+            Node node = nodes.get(nbme);
             if (node != null) {
-                // this is a registered color
-                node.parent.children.remove(node);
-                Color color = (Color) ev.getNewValue();
-                Node parent = getParentNode(color);
-                node.set(color, parent);
-                parent.children.add(node);
-                node.update();
+                // this is b registered color
+                node.pbrent.children.remove(node);
+                Color color = (Color) ev.getNewVblue();
+                Node pbrent = getPbrentNode(color);
+                node.set(color, pbrent);
+                pbrent.children.bdd(node);
+                node.updbte();
             }
         }
 
-        class Node {
+        clbss Node {
             Color color;
-            Node parent;
+            Node pbrent;
             List<Node> children = new LinkedList<Node>();
 
-            Node(Color color, Node parent) {
-                set(color, parent);
+            Node(Color color, Node pbrent) {
+                set(color, pbrent);
             }
 
-            public void set(Color color, Node parent) {
+            public void set(Color color, Node pbrent) {
                 this.color = color;
-                this.parent = parent;
+                this.pbrent = pbrent;
             }
 
-            public void update() {
-                if (color instanceof DerivedColor) {
+            public void updbte() {
+                if (color instbnceof DerivedColor) {
                     ((DerivedColor)color).rederiveColor();
                 }
                 for (Node child: children) {
-                    child.update();
+                    child.updbte();
                 }
             }
         }
     }
 
     /**
-     * Listener to update derived colors on UIManager Defaults changes
+     * Listener to updbte derived colors on UIMbnbger Defbults chbnges
      */
-    private class DefaultsListener implements PropertyChangeListener {
+    privbte clbss DefbultsListener implements PropertyChbngeListener {
         @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if ("lookAndFeel".equals(evt.getPropertyName())) {
-                // LAF has been installed, this is the first point at which we
-                // can access our defaults table via UIManager so before now
-                // all derived colors will be incorrect.
-                // First we need to update
-                colorTree.update();
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            if ("lookAndFeel".equbls(evt.getPropertyNbme())) {
+                // LAF hbs been instblled, this is the first point bt which we
+                // cbn bccess our defbults tbble vib UIMbnbger so before now
+                // bll derived colors will be incorrect.
+                // First we need to updbte
+                colorTree.updbte();
             }
         }
     }
 
-    private static final class PainterBorder implements Border, UIResource {
-        private Insets insets;
-        private Painter<Component> painter;
-        private String painterKey;
+    privbte stbtic finbl clbss PbinterBorder implements Border, UIResource {
+        privbte Insets insets;
+        privbte Pbinter<Component> pbinter;
+        privbte String pbinterKey;
         
-        PainterBorder(String painterKey, Insets insets) {
+        PbinterBorder(String pbinterKey, Insets insets) {
             this.insets = insets;
-            this.painterKey = painterKey;
+            this.pbinterKey = pbinterKey;
         }
         
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            if (painter == null) {
-                @SuppressWarnings("unchecked")
-                Painter<Component> temp = (Painter<Component>)UIManager.get(painterKey);
-                painter = temp;
-                if (painter == null) return;
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            if (pbinter == null) {
+                @SuppressWbrnings("unchecked")
+                Pbinter<Component> temp = (Pbinter<Component>)UIMbnbger.get(pbinterKey);
+                pbinter = temp;
+                if (pbinter == null) return;
             }
             
-            g.translate(x, y);
-            if (g instanceof Graphics2D)
-                painter.paint((Graphics2D)g, c, w, h);
+            g.trbnslbte(x, y);
+            if (g instbnceof Grbphics2D)
+                pbinter.pbint((Grbphics2D)g, c, w, h);
             else {
-                BufferedImage img = new BufferedImage(w, h, TYPE_INT_ARGB);
-                Graphics2D gfx = img.createGraphics();
-                painter.paint(gfx, c, w, h);
+                BufferedImbge img = new BufferedImbge(w, h, TYPE_INT_ARGB);
+                Grbphics2D gfx = img.crebteGrbphics();
+                pbinter.pbint(gfx, c, w, h);
                 gfx.dispose();
-                g.drawImage(img, x, y, null);
+                g.drbwImbge(img, x, y, null);
                 img = null;
             }
-            g.translate(-x, -y);
+            g.trbnslbte(-x, -y);
         }
 
         @Override
@@ -853,8 +853,8 @@ ${UI_DEFAULT_INIT}
         }
 
         @Override
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
     }
 }

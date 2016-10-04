@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import sun.awt.EmbeddedFrame;
-import sun.awt.OSInfo;
+import sun.bwt.EmbeddedFrbme;
+import sun.bwt.OSInfo;
 import sun.swing.SwingAccessor;
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.security.AccessController;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static javax.swing.ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.*;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.security.AccessController;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import stbtic jbvbx.swing.ClientPropertyKey.PopupFbctory_FORCE_HEAVYWEIGHT_POPUP;
 
 /**
- * <code>PopupFactory</code>, as the name implies, is used to obtain
- * instances of <code>Popup</code>s. <code>Popup</code>s are used to
- * display a <code>Component</code> above all other <code>Component</code>s
- * in a particular containment hierarchy. The general contract is that
- * once you have obtained a <code>Popup</code> from a
- * <code>PopupFactory</code>, you must invoke <code>hide</code> on the
- * <code>Popup</code>. The typical usage is:
+ * <code>PopupFbctory</code>, bs the nbme implies, is used to obtbin
+ * instbnces of <code>Popup</code>s. <code>Popup</code>s bre used to
+ * displby b <code>Component</code> bbove bll other <code>Component</code>s
+ * in b pbrticulbr contbinment hierbrchy. The generbl contrbct is thbt
+ * once you hbve obtbined b <code>Popup</code> from b
+ * <code>PopupFbctory</code>, you must invoke <code>hide</code> on the
+ * <code>Popup</code>. The typicbl usbge is:
  * <pre>
- *   PopupFactory factory = PopupFactory.getSharedInstance();
- *   Popup popup = factory.getPopup(owner, contents, x, y);
+ *   PopupFbctory fbctory = PopupFbctory.getShbredInstbnce();
+ *   Popup popup = fbctory.getPopup(owner, contents, x, y);
  *   popup.show();
  *   ...
  *   popup.hide();
@@ -60,192 +60,192 @@ import static javax.swing.ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP
  *
  * @since 1.4
  */
-public class PopupFactory {
+public clbss PopupFbctory {
 
-    static {
-        SwingAccessor.setPopupFactoryAccessor(new SwingAccessor.PopupFactoryAccessor() {
+    stbtic {
+        SwingAccessor.setPopupFbctoryAccessor(new SwingAccessor.PopupFbctoryAccessor() {
             @Override
-            public Popup getHeavyWeightPopup(PopupFactory factory, Component owner,
+            public Popup getHebvyWeightPopup(PopupFbctory fbctory, Component owner,
                                              Component contents, int ownerX, int ownerY) {
-                return factory.getPopup(owner, contents, ownerX, ownerY, HEAVY_WEIGHT_POPUP);
+                return fbctory.getPopup(owner, contents, ownerX, ownerY, HEAVY_WEIGHT_POPUP);
             }
         });
     }
     /**
-     * The shared instanceof <code>PopupFactory</code> is per
+     * The shbred instbnceof <code>PopupFbctory</code> is per
      * <code>AppContext</code>. This is the key used in the
-     * <code>AppContext</code> to locate the <code>PopupFactory</code>.
+     * <code>AppContext</code> to locbte the <code>PopupFbctory</code>.
      */
-    private static final Object SharedInstanceKey =
-        new StringBuffer("PopupFactory.SharedInstanceKey");
+    privbte stbtic finbl Object ShbredInstbnceKey =
+        new StringBuffer("PopupFbctory.ShbredInstbnceKey");
 
     /**
-     * Max number of items to store in any one particular cache.
+     * Mbx number of items to store in bny one pbrticulbr cbche.
      */
-    private static final int MAX_CACHE_SIZE = 5;
+    privbte stbtic finbl int MAX_CACHE_SIZE = 5;
 
     /**
-     * Key used to indicate a light weight popup should be used.
+     * Key used to indicbte b light weight popup should be used.
      */
-    static final int LIGHT_WEIGHT_POPUP   = 0;
+    stbtic finbl int LIGHT_WEIGHT_POPUP   = 0;
 
     /**
-     * Key used to indicate a medium weight Popup should be used.
+     * Key used to indicbte b medium weight Popup should be used.
      */
-    static final int MEDIUM_WEIGHT_POPUP  = 1;
+    stbtic finbl int MEDIUM_WEIGHT_POPUP  = 1;
 
     /*
-     * Key used to indicate a heavy weight Popup should be used.
+     * Key used to indicbte b hebvy weight Popup should be used.
      */
-    static final int HEAVY_WEIGHT_POPUP   = 2;
+    stbtic finbl int HEAVY_WEIGHT_POPUP   = 2;
 
     /**
-     * Default type of Popup to create.
+     * Defbult type of Popup to crebte.
      */
-    private int popupType = LIGHT_WEIGHT_POPUP;
+    privbte int popupType = LIGHT_WEIGHT_POPUP;
 
 
     /**
-     * Sets the <code>PopupFactory</code> that will be used to obtain
+     * Sets the <code>PopupFbctory</code> thbt will be used to obtbin
      * <code>Popup</code>s.
-     * This will throw an <code>IllegalArgumentException</code> if
-     * <code>factory</code> is null.
+     * This will throw bn <code>IllegblArgumentException</code> if
+     * <code>fbctory</code> is null.
      *
-     * @param factory Shared PopupFactory
-     * @exception IllegalArgumentException if <code>factory</code> is null
+     * @pbrbm fbctory Shbred PopupFbctory
+     * @exception IllegblArgumentException if <code>fbctory</code> is null
      * @see #getPopup
      */
-    public static void setSharedInstance(PopupFactory factory) {
-        if (factory == null) {
-            throw new IllegalArgumentException("PopupFactory can not be null");
+    public stbtic void setShbredInstbnce(PopupFbctory fbctory) {
+        if (fbctory == null) {
+            throw new IllegblArgumentException("PopupFbctory cbn not be null");
         }
-        SwingUtilities.appContextPut(SharedInstanceKey, factory);
+        SwingUtilities.bppContextPut(ShbredInstbnceKey, fbctory);
     }
 
     /**
-     * Returns the shared <code>PopupFactory</code> which can be used
-     * to obtain <code>Popup</code>s.
+     * Returns the shbred <code>PopupFbctory</code> which cbn be used
+     * to obtbin <code>Popup</code>s.
      *
-     * @return Shared PopupFactory
+     * @return Shbred PopupFbctory
      */
-    public static PopupFactory getSharedInstance() {
-        PopupFactory factory = (PopupFactory)SwingUtilities.appContextGet(
-                         SharedInstanceKey);
+    public stbtic PopupFbctory getShbredInstbnce() {
+        PopupFbctory fbctory = (PopupFbctory)SwingUtilities.bppContextGet(
+                         ShbredInstbnceKey);
 
-        if (factory == null) {
-            factory = new PopupFactory();
-            setSharedInstance(factory);
+        if (fbctory == null) {
+            fbctory = new PopupFbctory();
+            setShbredInstbnce(fbctory);
         }
-        return factory;
+        return fbctory;
     }
 
 
     /**
-     * Provides a hint as to the type of <code>Popup</code> that should
-     * be created.
+     * Provides b hint bs to the type of <code>Popup</code> thbt should
+     * be crebted.
      */
     void setPopupType(int type) {
         popupType = type;
     }
 
     /**
-     * Returns the preferred type of Popup to create.
+     * Returns the preferred type of Popup to crebte.
      */
     int getPopupType() {
         return popupType;
     }
 
     /**
-     * Creates a <code>Popup</code> for the Component <code>owner</code>
-     * containing the Component <code>contents</code>. <code>owner</code>
+     * Crebtes b <code>Popup</code> for the Component <code>owner</code>
+     * contbining the Component <code>contents</code>. <code>owner</code>
      * is used to determine which <code>Window</code> the new
-     * <code>Popup</code> will parent the <code>Component</code> the
-     * <code>Popup</code> creates to. A null <code>owner</code> implies there
-     * is no valid parent. <code>x</code> and
-     * <code>y</code> specify the preferred initial location to place
-     * the <code>Popup</code> at. Based on screen size, or other paramaters,
-     * the <code>Popup</code> may not display at <code>x</code> and
+     * <code>Popup</code> will pbrent the <code>Component</code> the
+     * <code>Popup</code> crebtes to. A null <code>owner</code> implies there
+     * is no vblid pbrent. <code>x</code> bnd
+     * <code>y</code> specify the preferred initibl locbtion to plbce
+     * the <code>Popup</code> bt. Bbsed on screen size, or other pbrbmbters,
+     * the <code>Popup</code> mby not displby bt <code>x</code> bnd
      * <code>y</code>.
      *
-     * @param owner    Component mouse coordinates are relative to, may be null
-     * @param contents Contents of the Popup
-     * @param x        Initial x screen coordinate
-     * @param y        Initial y screen coordinate
-     * @exception IllegalArgumentException if contents is null
-     * @return Popup containing Contents
+     * @pbrbm owner    Component mouse coordinbtes bre relbtive to, mby be null
+     * @pbrbm contents Contents of the Popup
+     * @pbrbm x        Initibl x screen coordinbte
+     * @pbrbm y        Initibl y screen coordinbte
+     * @exception IllegblArgumentException if contents is null
+     * @return Popup contbining Contents
      */
     public Popup getPopup(Component owner, Component contents,
-                          int x, int y) throws IllegalArgumentException {
+                          int x, int y) throws IllegblArgumentException {
         if (contents == null) {
-            throw new IllegalArgumentException(
-                          "Popup.getPopup must be passed non-null contents");
+            throw new IllegblArgumentException(
+                          "Popup.getPopup must be pbssed non-null contents");
         }
 
         int popupType = getPopupType(owner, contents, x, y);
         Popup popup = getPopup(owner, contents, x, y, popupType);
 
         if (popup == null) {
-            // Didn't fit, force to heavy.
+            // Didn't fit, force to hebvy.
             popup = getPopup(owner, contents, x, y, HEAVY_WEIGHT_POPUP);
         }
         return popup;
     }
 
     /**
-     * Returns the popup type to use for the specified parameters.
+     * Returns the popup type to use for the specified pbrbmeters.
      */
-    private int getPopupType(Component owner, Component contents,
+    privbte int getPopupType(Component owner, Component contents,
                              int ownerX, int ownerY) {
         int popupType = getPopupType();
 
-        if (owner == null || invokerInHeavyWeightPopup(owner)) {
+        if (owner == null || invokerInHebvyWeightPopup(owner)) {
             popupType = HEAVY_WEIGHT_POPUP;
         }
         else if (popupType == LIGHT_WEIGHT_POPUP &&
-                 !(contents instanceof JToolTip) &&
-                 !(contents instanceof JPopupMenu)) {
+                 !(contents instbnceof JToolTip) &&
+                 !(contents instbnceof JPopupMenu)) {
             popupType = MEDIUM_WEIGHT_POPUP;
         }
 
-        // Check if the parent component is an option pane.  If so we need to
-        // force a heavy weight popup in order to have event dispatching work
+        // Check if the pbrent component is bn option pbne.  If so we need to
+        // force b hebvy weight popup in order to hbve event dispbtching work
         // correctly.
         Component c = owner;
         while (c != null) {
-            if (c instanceof JComponent) {
+            if (c instbnceof JComponent) {
                 if (((JComponent)c).getClientProperty(
-                            PopupFactory_FORCE_HEAVYWEIGHT_POPUP) == Boolean.TRUE) {
+                            PopupFbctory_FORCE_HEAVYWEIGHT_POPUP) == Boolebn.TRUE) {
                     popupType = HEAVY_WEIGHT_POPUP;
-                    break;
+                    brebk;
                 }
             }
-            c = c.getParent();
+            c = c.getPbrent();
         }
 
         return popupType;
     }
 
     /**
-     * Obtains the appropriate <code>Popup</code> based on
+     * Obtbins the bppropribte <code>Popup</code> bbsed on
      * <code>popupType</code>.
      */
-    private Popup getPopup(Component owner, Component contents,
+    privbte Popup getPopup(Component owner, Component contents,
                            int ownerX, int ownerY, int popupType) {
-        if (GraphicsEnvironment.isHeadless()) {
-            return getHeadlessPopup(owner, contents, ownerX, ownerY);
+        if (GrbphicsEnvironment.isHebdless()) {
+            return getHebdlessPopup(owner, contents, ownerX, ownerY);
         }
 
         switch(popupType) {
-        case LIGHT_WEIGHT_POPUP:
+        cbse LIGHT_WEIGHT_POPUP:
             return getLightWeightPopup(owner, contents, ownerX, ownerY);
-        case MEDIUM_WEIGHT_POPUP:
+        cbse MEDIUM_WEIGHT_POPUP:
             return getMediumWeightPopup(owner, contents, ownerX, ownerY);
-        case HEAVY_WEIGHT_POPUP:
-            Popup popup = getHeavyWeightPopup(owner, contents, ownerX, ownerY);
+        cbse HEAVY_WEIGHT_POPUP:
+            Popup popup = getHebvyWeightPopup(owner, contents, ownerX, ownerY);
             if ((AccessController.doPrivileged(OSInfo.getOSTypeAction()) ==
                 OSInfo.OSType.MACOSX) && (owner != null) &&
-                (EmbeddedFrame.getAppletIfAncestorOf(owner) != null)) {
-                ((HeavyWeightPopup)popup).setCacheEnabled(false);
+                (EmbeddedFrbme.getAppletIfAncestorOf(owner) != null)) {
+                ((HebvyWeightPopup)popup).setCbcheEnbbled(fblse);
             }
             return popup;
         }
@@ -253,94 +253,94 @@ public class PopupFactory {
     }
 
     /**
-     * Creates a headless popup
+     * Crebtes b hebdless popup
      */
-    private Popup getHeadlessPopup(Component owner, Component contents,
+    privbte Popup getHebdlessPopup(Component owner, Component contents,
                                    int ownerX, int ownerY) {
-        return HeadlessPopup.getHeadlessPopup(owner, contents, ownerX, ownerY);
+        return HebdlessPopup.getHebdlessPopup(owner, contents, ownerX, ownerY);
     }
 
     /**
-     * Creates a light weight popup.
+     * Crebtes b light weight popup.
      */
-    private Popup getLightWeightPopup(Component owner, Component contents,
+    privbte Popup getLightWeightPopup(Component owner, Component contents,
                                          int ownerX, int ownerY) {
         return LightWeightPopup.getLightWeightPopup(owner, contents, ownerX,
                                                     ownerY);
     }
 
     /**
-     * Creates a medium weight popup.
+     * Crebtes b medium weight popup.
      */
-    private Popup getMediumWeightPopup(Component owner, Component contents,
+    privbte Popup getMediumWeightPopup(Component owner, Component contents,
                                           int ownerX, int ownerY) {
         return MediumWeightPopup.getMediumWeightPopup(owner, contents,
                                                       ownerX, ownerY);
     }
 
     /**
-     * Creates a heavy weight popup.
+     * Crebtes b hebvy weight popup.
      */
-    private Popup getHeavyWeightPopup(Component owner, Component contents,
+    privbte Popup getHebvyWeightPopup(Component owner, Component contents,
                                          int ownerX, int ownerY) {
-        if (GraphicsEnvironment.isHeadless()) {
+        if (GrbphicsEnvironment.isHebdless()) {
             return getMediumWeightPopup(owner, contents, ownerX, ownerY);
         }
-        return HeavyWeightPopup.getHeavyWeightPopup(owner, contents, ownerX,
+        return HebvyWeightPopup.getHebvyWeightPopup(owner, contents, ownerX,
                                                     ownerY);
     }
 
     /**
-     * Returns true if the Component <code>i</code> inside a heavy weight
+     * Returns true if the Component <code>i</code> inside b hebvy weight
      * <code>Popup</code>.
      */
-    private boolean invokerInHeavyWeightPopup(Component i) {
+    privbte boolebn invokerInHebvyWeightPopup(Component i) {
         if (i != null) {
-            Container parent;
-            for(parent = i.getParent() ; parent != null ; parent =
-                    parent.getParent()) {
-                if (parent instanceof Popup.HeavyWeightWindow) {
+            Contbiner pbrent;
+            for(pbrent = i.getPbrent() ; pbrent != null ; pbrent =
+                    pbrent.getPbrent()) {
+                if (pbrent instbnceof Popup.HebvyWeightWindow) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Popup implementation that uses a Window as the popup.
+     * Popup implementbtion thbt uses b Window bs the popup.
      */
-    private static class HeavyWeightPopup extends Popup {
-        private static final Object heavyWeightPopupCacheKey =
-                 new StringBuffer("PopupFactory.heavyWeightPopupCache");
+    privbte stbtic clbss HebvyWeightPopup extends Popup {
+        privbte stbtic finbl Object hebvyWeightPopupCbcheKey =
+                 new StringBuffer("PopupFbctory.hebvyWeightPopupCbche");
 
-        private volatile boolean isCacheEnabled = true;
+        privbte volbtile boolebn isCbcheEnbbled = true;
 
         /**
-         * Returns either a new or recycled <code>Popup</code> containing
+         * Returns either b new or recycled <code>Popup</code> contbining
          * the specified children.
          */
-        static Popup getHeavyWeightPopup(Component owner, Component contents,
+        stbtic Popup getHebvyWeightPopup(Component owner, Component contents,
                                          int ownerX, int ownerY) {
             Window window = (owner != null) ? SwingUtilities.
                               getWindowAncestor(owner) : null;
-            HeavyWeightPopup popup = null;
+            HebvyWeightPopup popup = null;
 
             if (window != null) {
-                popup = getRecycledHeavyWeightPopup(window);
+                popup = getRecycledHebvyWeightPopup(window);
             }
 
-            boolean focusPopup = false;
-            if(contents != null && contents.isFocusable()) {
-                if(contents instanceof JPopupMenu) {
+            boolebn focusPopup = fblse;
+            if(contents != null && contents.isFocusbble()) {
+                if(contents instbnceof JPopupMenu) {
                     JPopupMenu jpm = (JPopupMenu) contents;
                     Component popComps[] = jpm.getComponents();
                     for (Component popComp : popComps) {
-                        if (!(popComp instanceof MenuElement) &&
-                                !(popComp instanceof JSeparator)) {
+                        if (!(popComp instbnceof MenuElement) &&
+                                !(popComp instbnceof JSepbrbtor)) {
                             focusPopup = true;
-                            break;
+                            brebk;
                         }
                     }
                 }
@@ -348,49 +348,49 @@ public class PopupFactory {
 
             if (popup == null ||
                 ((JWindow) popup.getComponent())
-                 .getFocusableWindowState() != focusPopup) {
+                 .getFocusbbleWindowStbte() != focusPopup) {
 
                 if(popup != null) {
-                    // The recycled popup can't serve us well
-                    // dispose it and create new one
+                    // The recycled popup cbn't serve us well
+                    // dispose it bnd crebte new one
                     popup._dispose();
                 }
 
-                popup = new HeavyWeightPopup();
+                popup = new HebvyWeightPopup();
             }
 
             popup.reset(owner, contents, ownerX, ownerY);
 
             if(focusPopup) {
                 JWindow wnd = (JWindow) popup.getComponent();
-                wnd.setFocusableWindowState(true);
-                // Set window name. We need this in BasicPopupMenuUI
-                // to identify focusable popup window.
-                wnd.setName("###focusableSwingPopup###");
+                wnd.setFocusbbleWindowStbte(true);
+                // Set window nbme. We need this in BbsicPopupMenuUI
+                // to identify focusbble popup window.
+                wnd.setNbme("###focusbbleSwingPopup###");
             }
 
             return popup;
         }
 
         /**
-         * Returns a previously disposed heavy weight <code>Popup</code>
-         * associated with <code>window</code>. This will return null if
-         * there is no <code>HeavyWeightPopup</code> associated with
+         * Returns b previously disposed hebvy weight <code>Popup</code>
+         * bssocibted with <code>window</code>. This will return null if
+         * there is no <code>HebvyWeightPopup</code> bssocibted with
          * <code>window</code>.
          */
-        private static HeavyWeightPopup getRecycledHeavyWeightPopup(Window w) {
-            synchronized (HeavyWeightPopup.class) {
-                List<HeavyWeightPopup> cache;
-                Map<Window, List<HeavyWeightPopup>> heavyPopupCache = getHeavyWeightPopupCache();
+        privbte stbtic HebvyWeightPopup getRecycledHebvyWeightPopup(Window w) {
+            synchronized (HebvyWeightPopup.clbss) {
+                List<HebvyWeightPopup> cbche;
+                Mbp<Window, List<HebvyWeightPopup>> hebvyPopupCbche = getHebvyWeightPopupCbche();
 
-                if (heavyPopupCache.containsKey(w)) {
-                    cache = heavyPopupCache.get(w);
+                if (hebvyPopupCbche.contbinsKey(w)) {
+                    cbche = hebvyPopupCbche.get(w);
                 } else {
                     return null;
                 }
-                if (cache.size() > 0) {
-                    HeavyWeightPopup r = cache.get(0);
-                    cache.remove(0);
+                if (cbche.size() > 0) {
+                    HebvyWeightPopup r = cbche.get(0);
+                    cbche.remove(0);
                     return r;
                 }
                 return null;
@@ -398,61 +398,61 @@ public class PopupFactory {
         }
 
         /**
-         * Returns the cache to use for heavy weight popups. Maps from
-         * <code>Window</code> to a <code>List</code> of
-         * <code>HeavyWeightPopup</code>s.
+         * Returns the cbche to use for hebvy weight popups. Mbps from
+         * <code>Window</code> to b <code>List</code> of
+         * <code>HebvyWeightPopup</code>s.
          */
-        @SuppressWarnings("unchecked")
-        private static Map<Window, List<HeavyWeightPopup>> getHeavyWeightPopupCache() {
-            synchronized (HeavyWeightPopup.class) {
-                Map<Window, List<HeavyWeightPopup>> cache = (Map<Window, List<HeavyWeightPopup>>)SwingUtilities.appContextGet(
-                                  heavyWeightPopupCacheKey);
+        @SuppressWbrnings("unchecked")
+        privbte stbtic Mbp<Window, List<HebvyWeightPopup>> getHebvyWeightPopupCbche() {
+            synchronized (HebvyWeightPopup.clbss) {
+                Mbp<Window, List<HebvyWeightPopup>> cbche = (Mbp<Window, List<HebvyWeightPopup>>)SwingUtilities.bppContextGet(
+                                  hebvyWeightPopupCbcheKey);
 
-                if (cache == null) {
-                    cache = new HashMap<>(2);
-                    SwingUtilities.appContextPut(heavyWeightPopupCacheKey,
-                                                 cache);
+                if (cbche == null) {
+                    cbche = new HbshMbp<>(2);
+                    SwingUtilities.bppContextPut(hebvyWeightPopupCbcheKey,
+                                                 cbche);
                 }
-                return cache;
+                return cbche;
             }
         }
 
         /**
-         * Recycles the passed in <code>HeavyWeightPopup</code>.
+         * Recycles the pbssed in <code>HebvyWeightPopup</code>.
          */
-        private static void recycleHeavyWeightPopup(HeavyWeightPopup popup) {
-            synchronized (HeavyWeightPopup.class) {
-                List<HeavyWeightPopup> cache;
+        privbte stbtic void recycleHebvyWeightPopup(HebvyWeightPopup popup) {
+            synchronized (HebvyWeightPopup.clbss) {
+                List<HebvyWeightPopup> cbche;
                 Window window = SwingUtilities.getWindowAncestor(
                                      popup.getComponent());
-                Map<Window, List<HeavyWeightPopup>> heavyPopupCache = getHeavyWeightPopupCache();
+                Mbp<Window, List<HebvyWeightPopup>> hebvyPopupCbche = getHebvyWeightPopupCbche();
 
-                if (window instanceof Popup.DefaultFrame ||
+                if (window instbnceof Popup.DefbultFrbme ||
                                       !window.isVisible()) {
-                    // If the Window isn't visible, we don't cache it as we
-                    // likely won't ever get a windowClosed event to clean up.
-                    // We also don't cache DefaultFrames as this indicates
-                    // there wasn't a valid Window parent, and thus we don't
-                    // know when to clean up.
+                    // If the Window isn't visible, we don't cbche it bs we
+                    // likely won't ever get b windowClosed event to clebn up.
+                    // We blso don't cbche DefbultFrbmes bs this indicbtes
+                    // there wbsn't b vblid Window pbrent, bnd thus we don't
+                    // know when to clebn up.
                     popup._dispose();
                     return;
-                } else if (heavyPopupCache.containsKey(window)) {
-                    cache = heavyPopupCache.get(window);
+                } else if (hebvyPopupCbche.contbinsKey(window)) {
+                    cbche = hebvyPopupCbche.get(window);
                 } else {
-                    cache = new ArrayList<HeavyWeightPopup>();
-                    heavyPopupCache.put(window, cache);
-                    // Clean up if the Window is closed
-                    final Window w = window;
+                    cbche = new ArrbyList<HebvyWeightPopup>();
+                    hebvyPopupCbche.put(window, cbche);
+                    // Clebn up if the Window is closed
+                    finbl Window w = window;
 
-                    w.addWindowListener(new WindowAdapter() {
+                    w.bddWindowListener(new WindowAdbpter() {
                         public void windowClosed(WindowEvent e) {
-                            List<HeavyWeightPopup> popups;
+                            List<HebvyWeightPopup> popups;
 
-                            synchronized(HeavyWeightPopup.class) {
-                                Map<Window, List<HeavyWeightPopup>> heavyPopupCache2 =
-                                              getHeavyWeightPopupCache();
+                            synchronized(HebvyWeightPopup.clbss) {
+                                Mbp<Window, List<HebvyWeightPopup>> hebvyPopupCbche2 =
+                                              getHebvyWeightPopupCbche();
 
-                                popups = heavyPopupCache2.remove(w);
+                                popups = hebvyPopupCbche2.remove(w);
                             }
                             if (popups != null) {
                                 for (int counter = popups.size() - 1;
@@ -464,8 +464,8 @@ public class PopupFactory {
                     });
                 }
 
-                if(cache.size() < MAX_CACHE_SIZE) {
-                    cache.add(popup);
+                if(cbche.size() < MAX_CACHE_SIZE) {
+                    cbche.bdd(popup);
                 } else {
                     popup._dispose();
                 }
@@ -473,10 +473,10 @@ public class PopupFactory {
         }
 
         /**
-         * Enables or disables cache for current object.
+         * Enbbles or disbbles cbche for current object.
          */
-        void setCacheEnabled(boolean enable) {
-            isCacheEnabled = enable;
+        void setCbcheEnbbled(boolebn enbble) {
+            isCbcheEnbbled = enbble;
         }
 
         //
@@ -484,17 +484,17 @@ public class PopupFactory {
         //
         public void hide() {
             super.hide();
-            if (isCacheEnabled) {
-                recycleHeavyWeightPopup(this);
+            if (isCbcheEnbbled) {
+                recycleHebvyWeightPopup(this);
             } else {
                 this._dispose();
             }
         }
 
         /**
-         * As we recycle the <code>Window</code>, we don't want to dispose it,
-         * thus this method does nothing, instead use <code>_dipose</code>
-         * which will handle the disposing.
+         * As we recycle the <code>Window</code>, we don't wbnt to dispose it,
+         * thus this method does nothing, instebd use <code>_dipose</code>
+         * which will hbndle the disposing.
          */
         void dispose() {
         }
@@ -507,34 +507,34 @@ public class PopupFactory {
 
 
     /**
-     * ContainerPopup consolidates the common code used in the light/medium
-     * weight implementations of <code>Popup</code>.
+     * ContbinerPopup consolidbtes the common code used in the light/medium
+     * weight implementbtions of <code>Popup</code>.
      */
-    private static class ContainerPopup extends Popup {
-        /** Component we are to be added to. */
+    privbte stbtic clbss ContbinerPopup extends Popup {
+        /** Component we bre to be bdded to. */
         Component owner;
-        /** Desired x location. */
+        /** Desired x locbtion. */
         int x;
-        /** Desired y location. */
+        /** Desired y locbtion. */
         int y;
 
         public void hide() {
             Component component = getComponent();
 
             if (component != null) {
-                Container parent = component.getParent();
+                Contbiner pbrent = component.getPbrent();
 
-                if (parent != null) {
-                    Rectangle bounds = component.getBounds();
+                if (pbrent != null) {
+                    Rectbngle bounds = component.getBounds();
 
-                    parent.remove(component);
-                    parent.repaint(bounds.x, bounds.y, bounds.width,
+                    pbrent.remove(component);
+                    pbrent.repbint(bounds.x, bounds.y, bounds.width,
                                    bounds.height);
                 }
             }
             owner = null;
         }
-        public void pack() {
+        public void pbck() {
             Component component = getComponent();
 
             if (component != null) {
@@ -544,11 +544,11 @@ public class PopupFactory {
 
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
-            if ((owner instanceof JFrame) || (owner instanceof JDialog) ||
-                                                 (owner instanceof JWindow)) {
-                // Force the content to be added to the layered pane, otherwise
-                // we'll get an exception when adding to the RootPaneContainer.
-                owner = ((RootPaneContainer)owner).getLayeredPane();
+            if ((owner instbnceof JFrbme) || (owner instbnceof JDiblog) ||
+                                                 (owner instbnceof JWindow)) {
+                // Force the content to be bdded to the lbyered pbne, otherwise
+                // we'll get bn exception when bdding to the RootPbneContbiner.
+                owner = ((RootPbneContbiner)owner).getLbyeredPbne();
             }
             super.reset(owner, contents, ownerX, ownerY);
 
@@ -557,16 +557,16 @@ public class PopupFactory {
             this.owner = owner;
         }
 
-        boolean overlappedByOwnedWindow() {
+        boolebn overlbppedByOwnedWindow() {
             Component component = getComponent();
             if(owner != null && component != null) {
                 Window w = SwingUtilities.getWindowAncestor(owner);
                 if (w == null) {
-                    return false;
+                    return fblse;
                 }
                 Window[] ownedWindows = w.getOwnedWindows();
                 if(ownedWindows != null) {
-                    Rectangle bnd = component.getBounds();
+                    Rectbngle bnd = component.getBounds();
                     for (Window window : ownedWindows) {
                         if (window.isVisible() &&
                                 bnd.intersects(window.getBounds())) {
@@ -576,68 +576,68 @@ public class PopupFactory {
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Returns true if popup can fit the screen and the owner's top parent.
-         * It determines can popup be lightweight or mediumweight.
+         * Returns true if popup cbn fit the screen bnd the owner's top pbrent.
+         * It determines cbn popup be lightweight or mediumweight.
          */
-        boolean fitsOnScreen() {
-            boolean result = false;
+        boolebn fitsOnScreen() {
+            boolebn result = fblse;
             Component component = getComponent();
             if (owner != null && component != null) {
                 int popupWidth = component.getWidth();
                 int popupHeight = component.getHeight();
 
-                Container parent = (Container) SwingUtilities.getRoot(owner);
-                if (parent instanceof JFrame ||
-                    parent instanceof JDialog ||
-                    parent instanceof JWindow) {
+                Contbiner pbrent = (Contbiner) SwingUtilities.getRoot(owner);
+                if (pbrent instbnceof JFrbme ||
+                    pbrent instbnceof JDiblog ||
+                    pbrent instbnceof JWindow) {
 
-                    Rectangle parentBounds = parent.getBounds();
-                    Insets i = parent.getInsets();
-                    parentBounds.x += i.left;
-                    parentBounds.y += i.top;
-                    parentBounds.width -= i.left + i.right;
-                    parentBounds.height -= i.top + i.bottom;
+                    Rectbngle pbrentBounds = pbrent.getBounds();
+                    Insets i = pbrent.getInsets();
+                    pbrentBounds.x += i.left;
+                    pbrentBounds.y += i.top;
+                    pbrentBounds.width -= i.left + i.right;
+                    pbrentBounds.height -= i.top + i.bottom;
 
-                    if (JPopupMenu.canPopupOverlapTaskBar()) {
-                        GraphicsConfiguration gc =
-                                parent.getGraphicsConfiguration();
-                        Rectangle popupArea = getContainerPopupArea(gc);
-                        result = parentBounds.intersection(popupArea)
-                                .contains(x, y, popupWidth, popupHeight);
+                    if (JPopupMenu.cbnPopupOverlbpTbskBbr()) {
+                        GrbphicsConfigurbtion gc =
+                                pbrent.getGrbphicsConfigurbtion();
+                        Rectbngle popupAreb = getContbinerPopupAreb(gc);
+                        result = pbrentBounds.intersection(popupAreb)
+                                .contbins(x, y, popupWidth, popupHeight);
                     } else {
-                        result = parentBounds
-                                .contains(x, y, popupWidth, popupHeight);
+                        result = pbrentBounds
+                                .contbins(x, y, popupWidth, popupHeight);
                     }
-                } else if (parent instanceof JApplet) {
-                    Rectangle parentBounds = parent.getBounds();
-                    Point p = parent.getLocationOnScreen();
-                    parentBounds.x = p.x;
-                    parentBounds.y = p.y;
-                    result = parentBounds.contains(x, y, popupWidth, popupHeight);
+                } else if (pbrent instbnceof JApplet) {
+                    Rectbngle pbrentBounds = pbrent.getBounds();
+                    Point p = pbrent.getLocbtionOnScreen();
+                    pbrentBounds.x = p.x;
+                    pbrentBounds.y = p.y;
+                    result = pbrentBounds.contbins(x, y, popupWidth, popupHeight);
                 }
             }
             return result;
         }
 
-        Rectangle getContainerPopupArea(GraphicsConfiguration gc) {
-            Rectangle screenBounds;
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Rectbngle getContbinerPopupAreb(GrbphicsConfigurbtion gc) {
+            Rectbngle screenBounds;
+            Toolkit toolkit = Toolkit.getDefbultToolkit();
             Insets insets;
             if(gc != null) {
-                // If we have GraphicsConfiguration use it
+                // If we hbve GrbphicsConfigurbtion use it
                 // to get screen bounds
                 screenBounds = gc.getBounds();
                 insets = toolkit.getScreenInsets(gc);
             } else {
-                // If we don't have GraphicsConfiguration use primary screen
-                screenBounds = new Rectangle(toolkit.getScreenSize());
+                // If we don't hbve GrbphicsConfigurbtion use primbry screen
+                screenBounds = new Rectbngle(toolkit.getScreenSize());
                 insets = new Insets(0, 0, 0, 0);
             }
-            // Take insets into account
+            // Tbke insets into bccount
             screenBounds.x += insets.left;
             screenBounds.y += insets.top;
             screenBounds.width -= (insets.left + insets.right);
@@ -648,18 +648,18 @@ public class PopupFactory {
 
 
     /**
-     * Popup implementation that is used in headless environment.
+     * Popup implementbtion thbt is used in hebdless environment.
      */
-    private static class HeadlessPopup extends ContainerPopup {
-        static Popup getHeadlessPopup(Component owner, Component contents,
+    privbte stbtic clbss HebdlessPopup extends ContbinerPopup {
+        stbtic Popup getHebdlessPopup(Component owner, Component contents,
                                       int ownerX, int ownerY) {
-            HeadlessPopup popup = new HeadlessPopup();
+            HebdlessPopup popup = new HebdlessPopup();
             popup.reset(owner, contents, ownerX, ownerY);
             return popup;
         }
 
-        Component createComponent(Component owner) {
-            return new Panel(new BorderLayout());
+        Component crebteComponent(Component owner) {
+            return new Pbnel(new BorderLbyout());
         }
 
         public void show() {
@@ -670,18 +670,18 @@ public class PopupFactory {
 
 
     /**
-     * Popup implementation that uses a JPanel as the popup.
+     * Popup implementbtion thbt uses b JPbnel bs the popup.
      */
-    private static class LightWeightPopup extends ContainerPopup {
-        private static final Object lightWeightPopupCacheKey =
-                         new StringBuffer("PopupFactory.lightPopupCache");
+    privbte stbtic clbss LightWeightPopup extends ContbinerPopup {
+        privbte stbtic finbl Object lightWeightPopupCbcheKey =
+                         new StringBuffer("PopupFbctory.lightPopupCbche");
 
         /**
-         * Returns a light weight <code>Popup</code> implementation. If
-         * the <code>Popup</code> needs more space that in available in
+         * Returns b light weight <code>Popup</code> implementbtion. If
+         * the <code>Popup</code> needs more spbce thbt in bvbilbble in
          * <code>owner</code>, this will return null.
          */
-        static Popup getLightWeightPopup(Component owner, Component contents,
+        stbtic Popup getLightWeightPopup(Component owner, Component contents,
                                          int ownerX, int ownerY) {
             LightWeightPopup popup = getRecycledLightWeightPopup();
 
@@ -690,7 +690,7 @@ public class PopupFactory {
             }
             popup.reset(owner, contents, ownerX, ownerY);
             if (!popup.fitsOnScreen() ||
-                 popup.overlappedByOwnedWindow()) {
+                 popup.overlbppedByOwnedWindow()) {
                 popup.hide();
                 return null;
             }
@@ -698,41 +698,41 @@ public class PopupFactory {
         }
 
         /**
-         * Returns the cache to use for heavy weight popups.
+         * Returns the cbche to use for hebvy weight popups.
          */
-        @SuppressWarnings("unchecked")
-        private static List<LightWeightPopup> getLightWeightPopupCache() {
-            List<LightWeightPopup> cache = (List<LightWeightPopup>)SwingUtilities.appContextGet(
-                                   lightWeightPopupCacheKey);
-            if (cache == null) {
-                cache = new ArrayList<>();
-                SwingUtilities.appContextPut(lightWeightPopupCacheKey, cache);
+        @SuppressWbrnings("unchecked")
+        privbte stbtic List<LightWeightPopup> getLightWeightPopupCbche() {
+            List<LightWeightPopup> cbche = (List<LightWeightPopup>)SwingUtilities.bppContextGet(
+                                   lightWeightPopupCbcheKey);
+            if (cbche == null) {
+                cbche = new ArrbyList<>();
+                SwingUtilities.bppContextPut(lightWeightPopupCbcheKey, cbche);
             }
-            return cache;
+            return cbche;
         }
 
         /**
          * Recycles the LightWeightPopup <code>popup</code>.
          */
-        private static void recycleLightWeightPopup(LightWeightPopup popup) {
-            synchronized (LightWeightPopup.class) {
-                List<LightWeightPopup> lightPopupCache = getLightWeightPopupCache();
-                if (lightPopupCache.size() < MAX_CACHE_SIZE) {
-                    lightPopupCache.add(popup);
+        privbte stbtic void recycleLightWeightPopup(LightWeightPopup popup) {
+            synchronized (LightWeightPopup.clbss) {
+                List<LightWeightPopup> lightPopupCbche = getLightWeightPopupCbche();
+                if (lightPopupCbche.size() < MAX_CACHE_SIZE) {
+                    lightPopupCbche.bdd(popup);
                 }
             }
         }
 
         /**
-         * Returns a previously used <code>LightWeightPopup</code>, or null
-         * if none of the popups have been recycled.
+         * Returns b previously used <code>LightWeightPopup</code>, or null
+         * if none of the popups hbve been recycled.
          */
-        private static LightWeightPopup getRecycledLightWeightPopup() {
-            synchronized (LightWeightPopup.class) {
-                List<LightWeightPopup> lightPopupCache = getLightWeightPopupCache();
-                if (lightPopupCache.size() > 0) {
-                    LightWeightPopup r = lightPopupCache.get(0);
-                    lightPopupCache.remove(0);
+        privbte stbtic LightWeightPopup getRecycledLightWeightPopup() {
+            synchronized (LightWeightPopup.clbss) {
+                List<LightWeightPopup> lightPopupCbche = getLightWeightPopupCbche();
+                if (lightPopupCbche.size() > 0) {
+                    LightWeightPopup r = lightPopupCbche.get(0);
+                    lightPopupCbche.remove(0);
                     return r;
                 }
                 return null;
@@ -747,65 +747,65 @@ public class PopupFactory {
         public void hide() {
             super.hide();
 
-            Container component = (Container)getComponent();
+            Contbiner component = (Contbiner)getComponent();
 
             component.removeAll();
             recycleLightWeightPopup(this);
         }
         public void show() {
-            Container parent = null;
+            Contbiner pbrent = null;
 
             if (owner != null) {
-                parent = (owner instanceof Container? (Container)owner : owner.getParent());
+                pbrent = (owner instbnceof Contbiner? (Contbiner)owner : owner.getPbrent());
             }
 
-            // Try to find a JLayeredPane and Window to add
-            for (Container p = parent; p != null; p = p.getParent()) {
-                if (p instanceof JRootPane) {
-                    if (p.getParent() instanceof JInternalFrame) {
+            // Try to find b JLbyeredPbne bnd Window to bdd
+            for (Contbiner p = pbrent; p != null; p = p.getPbrent()) {
+                if (p instbnceof JRootPbne) {
+                    if (p.getPbrent() instbnceof JInternblFrbme) {
                         continue;
                     }
-                    parent = ((JRootPane)p).getLayeredPane();
-                    // Continue, so that if there is a higher JRootPane, we'll
+                    pbrent = ((JRootPbne)p).getLbyeredPbne();
+                    // Continue, so thbt if there is b higher JRootPbne, we'll
                     // pick it up.
-                } else if(p instanceof Window) {
-                    if (parent == null) {
-                        parent = p;
+                } else if(p instbnceof Window) {
+                    if (pbrent == null) {
+                        pbrent = p;
                     }
-                    break;
-                } else if (p instanceof JApplet) {
-                    // Painting code stops at Applets, we don't want
-                    // to add to a Component above an Applet otherwise
-                    // you'll never see it painted.
-                    break;
+                    brebk;
+                } else if (p instbnceof JApplet) {
+                    // Pbinting code stops bt Applets, we don't wbnt
+                    // to bdd to b Component bbove bn Applet otherwise
+                    // you'll never see it pbinted.
+                    brebk;
                 }
             }
 
-            Point p = SwingUtilities.convertScreenLocationToParent(parent, x,
+            Point p = SwingUtilities.convertScreenLocbtionToPbrent(pbrent, x,
                                                                    y);
             Component component = getComponent();
 
-            component.setLocation(p.x, p.y);
-            if (parent instanceof JLayeredPane) {
-                parent.add(component, JLayeredPane.POPUP_LAYER, 0);
+            component.setLocbtion(p.x, p.y);
+            if (pbrent instbnceof JLbyeredPbne) {
+                pbrent.bdd(component, JLbyeredPbne.POPUP_LAYER, 0);
             } else {
-                parent.add(component);
+                pbrent.bdd(component);
             }
         }
 
-        Component createComponent(Component owner) {
-            JComponent component = new JPanel(new BorderLayout(), true);
+        Component crebteComponent(Component owner) {
+            JComponent component = new JPbnel(new BorderLbyout(), true);
 
-            component.setOpaque(true);
+            component.setOpbque(true);
             return component;
         }
 
         //
-        // Local methods
+        // Locbl methods
         //
 
         /**
-         * Resets the <code>Popup</code> to an initial state.
+         * Resets the <code>Popup</code> to bn initibl stbte.
          */
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
@@ -813,32 +813,32 @@ public class PopupFactory {
 
             JComponent component = (JComponent)getComponent();
 
-            component.setOpaque(contents.isOpaque());
-            component.setLocation(ownerX, ownerY);
-            component.add(contents, BorderLayout.CENTER);
-            contents.invalidate();
-            pack();
+            component.setOpbque(contents.isOpbque());
+            component.setLocbtion(ownerX, ownerY);
+            component.bdd(contents, BorderLbyout.CENTER);
+            contents.invblidbte();
+            pbck();
         }
     }
 
 
     /**
-     * Popup implementation that uses a Panel as the popup.
+     * Popup implementbtion thbt uses b Pbnel bs the popup.
      */
-    private static class MediumWeightPopup extends ContainerPopup {
-        private static final Object mediumWeightPopupCacheKey =
-                             new StringBuffer("PopupFactory.mediumPopupCache");
+    privbte stbtic clbss MediumWeightPopup extends ContbinerPopup {
+        privbte stbtic finbl Object mediumWeightPopupCbcheKey =
+                             new StringBuffer("PopupFbctory.mediumPopupCbche");
 
-        /** Child of the panel. The contents are added to this. */
-        private JRootPane rootPane;
+        /** Child of the pbnel. The contents bre bdded to this. */
+        privbte JRootPbne rootPbne;
 
 
         /**
-         * Returns a medium weight <code>Popup</code> implementation. If
-         * the <code>Popup</code> needs more space that in available in
+         * Returns b medium weight <code>Popup</code> implementbtion. If
+         * the <code>Popup</code> needs more spbce thbt in bvbilbble in
          * <code>owner</code>, this will return null.
          */
-        static Popup getMediumWeightPopup(Component owner, Component contents,
+        stbtic Popup getMediumWeightPopup(Component owner, Component contents,
                                           int ownerX, int ownerY) {
             MediumWeightPopup popup = getRecycledMediumWeightPopup();
 
@@ -847,7 +847,7 @@ public class PopupFactory {
             }
             popup.reset(owner, contents, ownerX, ownerY);
             if (!popup.fitsOnScreen() ||
-                 popup.overlappedByOwnedWindow()) {
+                 popup.overlbppedByOwnedWindow()) {
                 popup.hide();
                 return null;
             }
@@ -855,42 +855,42 @@ public class PopupFactory {
         }
 
         /**
-         * Returns the cache to use for medium weight popups.
+         * Returns the cbche to use for medium weight popups.
          */
-        @SuppressWarnings("unchecked")
-        private static List<MediumWeightPopup> getMediumWeightPopupCache() {
-            List<MediumWeightPopup> cache = (List<MediumWeightPopup>)SwingUtilities.appContextGet(
-                                    mediumWeightPopupCacheKey);
+        @SuppressWbrnings("unchecked")
+        privbte stbtic List<MediumWeightPopup> getMediumWeightPopupCbche() {
+            List<MediumWeightPopup> cbche = (List<MediumWeightPopup>)SwingUtilities.bppContextGet(
+                                    mediumWeightPopupCbcheKey);
 
-            if (cache == null) {
-                cache = new ArrayList<>();
-                SwingUtilities.appContextPut(mediumWeightPopupCacheKey, cache);
+            if (cbche == null) {
+                cbche = new ArrbyList<>();
+                SwingUtilities.bppContextPut(mediumWeightPopupCbcheKey, cbche);
             }
-            return cache;
+            return cbche;
         }
 
         /**
          * Recycles the MediumWeightPopup <code>popup</code>.
          */
-        private static void recycleMediumWeightPopup(MediumWeightPopup popup) {
-            synchronized (MediumWeightPopup.class) {
-                List<MediumWeightPopup> mediumPopupCache = getMediumWeightPopupCache();
-                if (mediumPopupCache.size() < MAX_CACHE_SIZE) {
-                    mediumPopupCache.add(popup);
+        privbte stbtic void recycleMediumWeightPopup(MediumWeightPopup popup) {
+            synchronized (MediumWeightPopup.clbss) {
+                List<MediumWeightPopup> mediumPopupCbche = getMediumWeightPopupCbche();
+                if (mediumPopupCbche.size() < MAX_CACHE_SIZE) {
+                    mediumPopupCbche.bdd(popup);
                 }
             }
         }
 
         /**
-         * Returns a previously used <code>MediumWeightPopup</code>, or null
-         * if none of the popups have been recycled.
+         * Returns b previously used <code>MediumWeightPopup</code>, or null
+         * if none of the popups hbve been recycled.
          */
-        private static MediumWeightPopup getRecycledMediumWeightPopup() {
-            synchronized (MediumWeightPopup.class) {
-                List<MediumWeightPopup> mediumPopupCache = getMediumWeightPopupCache();
-                if (mediumPopupCache.size() > 0) {
-                    MediumWeightPopup r = mediumPopupCache.get(0);
-                    mediumPopupCache.remove(0);
+        privbte stbtic MediumWeightPopup getRecycledMediumWeightPopup() {
+            synchronized (MediumWeightPopup.clbss) {
+                List<MediumWeightPopup> mediumPopupCbche = getMediumWeightPopupCbche();
+                if (mediumPopupCbche.size() > 0) {
+                    MediumWeightPopup r = mediumPopupCbche.get(0);
+                    mediumPopupCbche.remove(0);
                     return r;
                 }
                 return null;
@@ -904,63 +904,63 @@ public class PopupFactory {
 
         public void hide() {
             super.hide();
-            rootPane.getContentPane().removeAll();
+            rootPbne.getContentPbne().removeAll();
             recycleMediumWeightPopup(this);
         }
         public void show() {
             Component component = getComponent();
-            Container parent = null;
+            Contbiner pbrent = null;
 
             if (owner != null) {
-                parent = owner.getParent();
+                pbrent = owner.getPbrent();
             }
             /*
               Find the top level window,
-              if it has a layered pane,
-              add to that, otherwise
-              add to the window. */
-            while (!(parent instanceof Window || parent instanceof Applet) &&
-                   (parent!=null)) {
-                parent = parent.getParent();
+              if it hbs b lbyered pbne,
+              bdd to thbt, otherwise
+              bdd to the window. */
+            while (!(pbrent instbnceof Window || pbrent instbnceof Applet) &&
+                   (pbrent!=null)) {
+                pbrent = pbrent.getPbrent();
             }
-            // Set the visibility to false before adding to workaround a
-            // bug in Solaris in which the Popup gets added at the wrong
-            // location, which will result in a mouseExit, which will then
+            // Set the visibility to fblse before bdding to workbround b
+            // bug in Solbris in which the Popup gets bdded bt the wrong
+            // locbtion, which will result in b mouseExit, which will then
             // result in the ToolTip being removed.
-            if (parent instanceof RootPaneContainer) {
-                parent = ((RootPaneContainer)parent).getLayeredPane();
-                Point p = SwingUtilities.convertScreenLocationToParent(parent,
+            if (pbrent instbnceof RootPbneContbiner) {
+                pbrent = ((RootPbneContbiner)pbrent).getLbyeredPbne();
+                Point p = SwingUtilities.convertScreenLocbtionToPbrent(pbrent,
                                                                        x, y);
-                component.setVisible(false);
-                component.setLocation(p.x, p.y);
-                parent.add(component, JLayeredPane.POPUP_LAYER,
+                component.setVisible(fblse);
+                component.setLocbtion(p.x, p.y);
+                pbrent.bdd(component, JLbyeredPbne.POPUP_LAYER,
                                            0);
             } else {
-                Point p = SwingUtilities.convertScreenLocationToParent(parent,
+                Point p = SwingUtilities.convertScreenLocbtionToPbrent(pbrent,
                                                                        x, y);
 
-                component.setLocation(p.x, p.y);
-                component.setVisible(false);
-                parent.add(component);
+                component.setLocbtion(p.x, p.y);
+                component.setVisible(fblse);
+                pbrent.bdd(component);
             }
             component.setVisible(true);
         }
 
-        Component createComponent(Component owner) {
-            Panel component = new MediumWeightComponent();
+        Component crebteComponent(Component owner) {
+            Pbnel component = new MediumWeightComponent();
 
-            rootPane = new JRootPane();
-            // NOTE: this uses setOpaque vs LookAndFeel.installProperty as
-            // there is NO reason for the RootPane not to be opaque. For
-            // painting to work the contentPane must be opaque, therefor the
-            // RootPane can also be opaque.
-            rootPane.setOpaque(true);
-            component.add(rootPane, BorderLayout.CENTER);
+            rootPbne = new JRootPbne();
+            // NOTE: this uses setOpbque vs LookAndFeel.instbllProperty bs
+            // there is NO rebson for the RootPbne not to be opbque. For
+            // pbinting to work the contentPbne must be opbque, therefor the
+            // RootPbne cbn blso be opbque.
+            rootPbne.setOpbque(true);
+            component.bdd(rootPbne, BorderLbyout.CENTER);
             return component;
         }
 
         /**
-         * Resets the <code>Popup</code> to an initial state.
+         * Resets the <code>Popup</code> to bn initibl stbte.
          */
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
@@ -968,21 +968,21 @@ public class PopupFactory {
 
             Component component = getComponent();
 
-            component.setLocation(ownerX, ownerY);
-            rootPane.getContentPane().add(contents, BorderLayout.CENTER);
-            contents.invalidate();
-            component.validate();
-            pack();
+            component.setLocbtion(ownerX, ownerY);
+            rootPbne.getContentPbne().bdd(contents, BorderLbyout.CENTER);
+            contents.invblidbte();
+            component.vblidbte();
+            pbck();
         }
 
 
-        // This implements SwingHeavyWeight so that repaints on it
-        // are processed by the RepaintManager and SwingPaintEventDispatcher.
-        @SuppressWarnings("serial") // JDK-implementation class
-        private static class MediumWeightComponent extends Panel implements
-                                                           SwingHeavyWeight {
+        // This implements SwingHebvyWeight so thbt repbints on it
+        // bre processed by the RepbintMbnbger bnd SwingPbintEventDispbtcher.
+        @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+        privbte stbtic clbss MediumWeightComponent extends Pbnel implements
+                                                           SwingHebvyWeight {
             MediumWeightComponent() {
-                super(new BorderLayout());
+                super(new BorderLbyout());
             }
         }
     }

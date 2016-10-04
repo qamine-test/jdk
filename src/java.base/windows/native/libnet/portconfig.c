@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,75 +32,75 @@
 extern "C" {
 #endif
 
-struct portrange {
+struct portrbnge {
     int lower;
     int higher;
 };
 
-static int getPortRange(struct portrange *range)
+stbtic int getPortRbnge(struct portrbnge *rbnge)
 {
     OSVERSIONINFO ver;
     ver.dwOSVersionInfoSize = sizeof(ver);
     GetVersionEx(&ver);
 
-    /* Check for major version 5 or less = Windows XP/2003 or older */
-    if (ver.dwMajorVersion <= 5) {
+    /* Check for mbjor version 5 or less = Windows XP/2003 or older */
+    if (ver.dwMbjorVersion <= 5) {
         LONG ret;
         HKEY hKey;
-        range->lower = 1024;
-        range->higher = 4999;
+        rbnge->lower = 1024;
+        rbnge->higher = 4999;
 
-        /* check registry to see if upper limit was raised */
+        /* check registry to see if upper limit wbs rbised */
         ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                   "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+                   "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Pbrbmeters",
                    0, KEY_READ, (PHKEY)&hKey
         );
         if (ret == ERROR_SUCCESS) {
-            DWORD maxuserport;
+            DWORD mbxuserport;
             ULONG ulType;
-            DWORD dwLen = sizeof(maxuserport);
-            ret = RegQueryValueEx(hKey, "MaxUserPort",  NULL, &ulType,
-                             (LPBYTE)&maxuserport, &dwLen);
+            DWORD dwLen = sizeof(mbxuserport);
+            ret = RegQueryVblueEx(hKey, "MbxUserPort",  NULL, &ulType,
+                             (LPBYTE)&mbxuserport, &dwLen);
             RegCloseKey(hKey);
             if (ret == ERROR_SUCCESS) {
-                range->higher = maxuserport;
+                rbnge->higher = mbxuserport;
             }
         }
     } else {
-        /* There doesn't seem to be an API to access this. "MaxUserPort"
-          * is affected, but is not sufficient to determine.
-         * so we just use the defaults, which are less likely to change
+        /* There doesn't seem to be bn API to bccess this. "MbxUserPort"
+          * is bffected, but is not sufficient to determine.
+         * so we just use the defbults, which bre less likely to chbnge
           */
-        range->lower = 49152;
-        range->higher = 65535;
+        rbnge->lower = 49152;
+        rbnge->higher = 65535;
     }
     return 0;
 }
 
 /*
- * Class:     sun_net_PortConfig
+ * Clbss:     sun_net_PortConfig
  * Method:    getLower0
- * Signature: ()I
+ * Signbture: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_net_PortConfig_getLower0
-  (JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_sun_net_PortConfig_getLower0
+  (JNIEnv *env, jclbss clbzz)
 {
-    struct portrange range;
-    getPortRange(&range);
-    return range.lower;
+    struct portrbnge rbnge;
+    getPortRbnge(&rbnge);
+    return rbnge.lower;
 }
 
 /*
- * Class:     sun_net_PortConfig
+ * Clbss:     sun_net_PortConfig
  * Method:    getUpper0
- * Signature: ()I
+ * Signbture: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_net_PortConfig_getUpper0
-  (JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_sun_net_PortConfig_getUpper0
+  (JNIEnv *env, jclbss clbzz)
 {
-    struct portrange range;
-    getPortRange(&range);
-    return range.higher;
+    struct portrbnge rbnge;
+    getPortRbnge(&rbnge);
+    return rbnge.higher;
 }
 #ifdef __cplusplus
 }

@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.awt.KeyEventPostProcessor;
-import java.awt.Toolkit;
+import jbvb.bwt.Component;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.KeyEventPostProcessor;
+import jbvb.bwt.Toolkit;
 
-import java.awt.event.KeyEvent;
+import jbvb.bwt.event.KeyEvent;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.border.Border;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.border.Border;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.event.SwingPropertyChbngeSupport;
+import jbvb.bebns.PropertyChbngeListener;
 
-import java.io.Serializable;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.Seriblizbble;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
 
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.Locale;
+import jbvb.util.ArrbyList;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
 
-import sun.awt.SunToolkit;
-import sun.awt.OSInfo;
-import sun.security.action.GetPropertyAction;
+import sun.bwt.SunToolkit;
+import sun.bwt.OSInfo;
+import sun.security.bction.GetPropertyAction;
 import sun.swing.SwingUtilities2;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.HbshMbp;
+import sun.bwt.AppContext;
+import sun.bwt.AWTAccessor;
 
 
 /**
- * {@code UIManager} manages the current look and feel, the set of
- * available look and feels, {@code PropertyChangeListeners} that
- * are notified when the look and feel changes, look and feel defaults, and
- * convenience methods for obtaining various default values.
+ * {@code UIMbnbger} mbnbges the current look bnd feel, the set of
+ * bvbilbble look bnd feels, {@code PropertyChbngeListeners} thbt
+ * bre notified when the look bnd feel chbnges, look bnd feel defbults, bnd
+ * convenience methods for obtbining vbrious defbult vblues.
  *
- * <h3>Specifying the look and feel</h3>
+ * <h3>Specifying the look bnd feel</h3>
  *
- * The look and feel can be specified in two distinct ways: by
- * specifying the fully qualified name of the class for the look and
- * feel, or by creating an instance of {@code LookAndFeel} and passing
- * it to {@code setLookAndFeel}. The following example illustrates
- * setting the look and feel to the system look and feel:
+ * The look bnd feel cbn be specified in two distinct wbys: by
+ * specifying the fully qublified nbme of the clbss for the look bnd
+ * feel, or by crebting bn instbnce of {@code LookAndFeel} bnd pbssing
+ * it to {@code setLookAndFeel}. The following exbmple illustrbtes
+ * setting the look bnd feel to the system look bnd feel:
  * <pre>
- *   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+ *   UIMbnbger.setLookAndFeel(UIMbnbger.getSystemLookAndFeelClbssNbme());
  * </pre>
- * The following example illustrates setting the look and feel based on
- * class name:
+ * The following exbmple illustrbtes setting the look bnd feel bbsed on
+ * clbss nbme:
  * <pre>
- *   UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+ *   UIMbnbger.setLookAndFeel("jbvbx.swing.plbf.metbl.MetblLookAndFeel");
  * </pre>
- * Once the look and feel has been changed it is imperative to invoke
- * {@code updateUI} on all {@code JComponents}. The method {@link
- * SwingUtilities#updateComponentTreeUI} makes it easy to apply {@code
- * updateUI} to a containment hierarchy. Refer to it for
- * details. The exact behavior of not invoking {@code
- * updateUI} after changing the look and feel is
+ * Once the look bnd feel hbs been chbnged it is imperbtive to invoke
+ * {@code updbteUI} on bll {@code JComponents}. The method {@link
+ * SwingUtilities#updbteComponentTreeUI} mbkes it ebsy to bpply {@code
+ * updbteUI} to b contbinment hierbrchy. Refer to it for
+ * detbils. The exbct behbvior of not invoking {@code
+ * updbteUI} bfter chbnging the look bnd feel is
  * unspecified. It is very possible to receive unexpected exceptions,
- * painting problems, or worse.
+ * pbinting problems, or worse.
  *
- * <h3>Default look and feel</h3>
+ * <h3>Defbult look bnd feel</h3>
  *
- * The class used for the default look and feel is chosen in the following
- * manner:
+ * The clbss used for the defbult look bnd feel is chosen in the following
+ * mbnner:
  * <ol>
- *   <li>If the system property <code>swing.defaultlaf</code> is
- *       {@code non-null}, use its value as the default look and feel class
- *       name.
- *   <li>If the {@link java.util.Properties} file <code>swing.properties</code>
- *       exists and contains the key <code>swing.defaultlaf</code>,
- *       use its value as the default look and feel class name. The location
- *       that is checked for <code>swing.properties</code> may vary depending
- *       upon the implementation of the Java platform. Typically the
- *       <code>swing.properties</code> file is located in the <code>lib</code>
- *       subdirectory of the Java installation directory.
- *       Refer to the release notes of the implementation being used for
- *       further details.
- *   <li>Otherwise use the cross platform look and feel.
+ *   <li>If the system property <code>swing.defbultlbf</code> is
+ *       {@code non-null}, use its vblue bs the defbult look bnd feel clbss
+ *       nbme.
+ *   <li>If the {@link jbvb.util.Properties} file <code>swing.properties</code>
+ *       exists bnd contbins the key <code>swing.defbultlbf</code>,
+ *       use its vblue bs the defbult look bnd feel clbss nbme. The locbtion
+ *       thbt is checked for <code>swing.properties</code> mby vbry depending
+ *       upon the implementbtion of the Jbvb plbtform. Typicblly the
+ *       <code>swing.properties</code> file is locbted in the <code>lib</code>
+ *       subdirectory of the Jbvb instbllbtion directory.
+ *       Refer to the relebse notes of the implementbtion being used for
+ *       further detbils.
+ *   <li>Otherwise use the cross plbtform look bnd feel.
  * </ol>
  *
- * <h3>Defaults</h3>
+ * <h3>Defbults</h3>
  *
- * {@code UIManager} manages three sets of {@code UIDefaults}. In order, they
- * are:
+ * {@code UIMbnbger} mbnbges three sets of {@code UIDefbults}. In order, they
+ * bre:
  * <ol>
- *   <li>Developer defaults. With few exceptions Swing does not
- *       alter the developer defaults; these are intended to be modified
- *       and used by the developer.
- *   <li>Look and feel defaults. The look and feel defaults are
- *       supplied by the look and feel at the time it is installed as the
- *       current look and feel ({@code setLookAndFeel()} is invoked). The
- *       look and feel defaults can be obtained using the {@code
- *       getLookAndFeelDefaults()} method.
- *   <li>System defaults. The system defaults are provided by Swing.
+ *   <li>Developer defbults. With few exceptions Swing does not
+ *       blter the developer defbults; these bre intended to be modified
+ *       bnd used by the developer.
+ *   <li>Look bnd feel defbults. The look bnd feel defbults bre
+ *       supplied by the look bnd feel bt the time it is instblled bs the
+ *       current look bnd feel ({@code setLookAndFeel()} is invoked). The
+ *       look bnd feel defbults cbn be obtbined using the {@code
+ *       getLookAndFeelDefbults()} method.
+ *   <li>System defbults. The system defbults bre provided by Swing.
  * </ol>
- * Invoking any of the various {@code get} methods
- * results in checking each of the defaults, in order, returning
- * the first {@code non-null} value. For example, invoking
- * {@code UIManager.getString("Table.foreground")} results in first
- * checking developer defaults. If the developer defaults contain
- * a value for {@code "Table.foreground"} it is returned, otherwise
- * the look and feel defaults are checked, followed by the system defaults.
+ * Invoking bny of the vbrious {@code get} methods
+ * results in checking ebch of the defbults, in order, returning
+ * the first {@code non-null} vblue. For exbmple, invoking
+ * {@code UIMbnbger.getString("Tbble.foreground")} results in first
+ * checking developer defbults. If the developer defbults contbin
+ * b vblue for {@code "Tbble.foreground"} it is returned, otherwise
+ * the look bnd feel defbults bre checked, followed by the system defbults.
  * <p>
- * It's important to note that {@code getDefaults} returns a custom
- * instance of {@code UIDefaults} with this resolution logic built into it.
- * For example, {@code UIManager.getDefaults().getString("Table.foreground")}
- * is equivalent to {@code UIManager.getString("Table.foreground")}. Both
- * resolve using the algorithm just described. In many places the
- * documentation uses the word defaults to refer to the custom instance
- * of {@code UIDefaults} with the resolution logic as previously described.
+ * It's importbnt to note thbt {@code getDefbults} returns b custom
+ * instbnce of {@code UIDefbults} with this resolution logic built into it.
+ * For exbmple, {@code UIMbnbger.getDefbults().getString("Tbble.foreground")}
+ * is equivblent to {@code UIMbnbger.getString("Tbble.foreground")}. Both
+ * resolve using the blgorithm just described. In mbny plbces the
+ * documentbtion uses the word defbults to refer to the custom instbnce
+ * of {@code UIDefbults} with the resolution logic bs previously described.
  * <p>
- * When the look and feel is changed, {@code UIManager} alters only the
- * look and feel defaults; the developer and system defaults are not
- * altered by the {@code UIManager} in any way.
+ * When the look bnd feel is chbnged, {@code UIMbnbger} blters only the
+ * look bnd feel defbults; the developer bnd system defbults bre not
+ * bltered by the {@code UIMbnbger} in bny wby.
  * <p>
- * The set of defaults a particular look and feel supports is defined
- * and documented by that look and feel. In addition, each look and
- * feel, or {@code ComponentUI} provided by a look and feel, may
- * access the defaults at different times in their life cycle. Some
- * look and feels may aggressively look up defaults, so that changing a
- * default may not have an effect after installing the look and feel.
- * Other look and feels may lazily access defaults so that a change to
- * the defaults may effect an existing look and feel. Finally, other look
- * and feels might not configure themselves from the defaults table in
- * any way. None-the-less it is usually the case that a look and feel
- * expects certain defaults, so that in general
- * a {@code ComponentUI} provided by one look and feel will not
- * work with another look and feel.
+ * The set of defbults b pbrticulbr look bnd feel supports is defined
+ * bnd documented by thbt look bnd feel. In bddition, ebch look bnd
+ * feel, or {@code ComponentUI} provided by b look bnd feel, mby
+ * bccess the defbults bt different times in their life cycle. Some
+ * look bnd feels mby bggressively look up defbults, so thbt chbnging b
+ * defbult mby not hbve bn effect bfter instblling the look bnd feel.
+ * Other look bnd feels mby lbzily bccess defbults so thbt b chbnge to
+ * the defbults mby effect bn existing look bnd feel. Finblly, other look
+ * bnd feels might not configure themselves from the defbults tbble in
+ * bny wby. None-the-less it is usublly the cbse thbt b look bnd feel
+ * expects certbin defbults, so thbt in generbl
+ * b {@code ComponentUI} provided by one look bnd feel will not
+ * work with bnother look bnd feel.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Thomas Ball
- * @author Hans Muller
+ * @buthor Thombs Bbll
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class UIManager implements Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss UIMbnbger implements Seriblizbble
 {
     /**
-     * This class defines the state managed by the <code>UIManager</code>.  For
-     * Swing applications the fields in this class could just as well
-     * be static members of <code>UIManager</code> however we give them
+     * This clbss defines the stbte mbnbged by the <code>UIMbnbger</code>.  For
+     * Swing bpplicbtions the fields in this clbss could just bs well
+     * be stbtic members of <code>UIMbnbger</code> however we give them
      * "AppContext"
-     * scope instead so that applets (and potentially multiple lightweight
-     * applications running in a single VM) have their own state. For example,
-     * an applet can alter its look and feel, see <code>setLookAndFeel</code>.
-     * Doing so has no affect on other applets (or the browser).
+     * scope instebd so thbt bpplets (bnd potentiblly multiple lightweight
+     * bpplicbtions running in b single VM) hbve their own stbte. For exbmple,
+     * bn bpplet cbn blter its look bnd feel, see <code>setLookAndFeel</code>.
+     * Doing so hbs no bffect on other bpplets (or the browser).
      */
-    private static class LAFState
+    privbte stbtic clbss LAFStbte
     {
         Properties swingProps;
-        private UIDefaults[] tables = new UIDefaults[2];
+        privbte UIDefbults[] tbbles = new UIDefbults[2];
 
-        boolean initialized = false;
-        boolean focusPolicyInitialized = false;
-        MultiUIDefaults multiUIDefaults = new MultiUIDefaults(tables);
+        boolebn initiblized = fblse;
+        boolebn focusPolicyInitiblized = fblse;
+        MultiUIDefbults multiUIDefbults = new MultiUIDefbults(tbbles);
         LookAndFeel lookAndFeel;
         LookAndFeel multiLookAndFeel = null;
-        Vector<LookAndFeel> auxLookAndFeels = null;
-        SwingPropertyChangeSupport changeSupport;
+        Vector<LookAndFeel> buxLookAndFeels = null;
+        SwingPropertyChbngeSupport chbngeSupport;
 
-        LookAndFeelInfo[] installedLAFs;
+        LookAndFeelInfo[] instblledLAFs;
 
-        UIDefaults getLookAndFeelDefaults() { return tables[0]; }
-        void setLookAndFeelDefaults(UIDefaults x) { tables[0] = x; }
+        UIDefbults getLookAndFeelDefbults() { return tbbles[0]; }
+        void setLookAndFeelDefbults(UIDefbults x) { tbbles[0] = x; }
 
-        UIDefaults getSystemDefaults() { return tables[1]; }
-        void setSystemDefaults(UIDefaults x) { tables[1] = x; }
+        UIDefbults getSystemDefbults() { return tbbles[1]; }
+        void setSystemDefbults(UIDefbults x) { tbbles[1] = x; }
 
         /**
-         * Returns the SwingPropertyChangeSupport for the current
-         * AppContext.  If <code>create</code> is a true, a non-null
-         * <code>SwingPropertyChangeSupport</code> will be returned, if
-         * <code>create</code> is false and this has not been invoked
+         * Returns the SwingPropertyChbngeSupport for the current
+         * AppContext.  If <code>crebte</code> is b true, b non-null
+         * <code>SwingPropertyChbngeSupport</code> will be returned, if
+         * <code>crebte</code> is fblse bnd this hbs not been invoked
          * with true, null will be returned.
          */
-        public synchronized SwingPropertyChangeSupport
-                                 getPropertyChangeSupport(boolean create) {
-            if (create && changeSupport == null) {
-                changeSupport = new SwingPropertyChangeSupport(
-                                         UIManager.class);
+        public synchronized SwingPropertyChbngeSupport
+                                 getPropertyChbngeSupport(boolebn crebte) {
+            if (crebte && chbngeSupport == null) {
+                chbngeSupport = new SwingPropertyChbngeSupport(
+                                         UIMbnbger.clbss);
             }
-            return changeSupport;
+            return chbngeSupport;
         }
     }
 
 
 
 
-    /* Lock object used in place of class object for synchronization. (4187686)
+    /* Lock object used in plbce of clbss object for synchronizbtion. (4187686)
      */
-    private static final Object classLock = new Object();
+    privbte stbtic finbl Object clbssLock = new Object();
 
     /**
-     * Return the <code>LAFState</code> object, lazily create one if necessary.
-     * All access to the <code>LAFState</code> fields is done via this method,
-     * for example:
+     * Return the <code>LAFStbte</code> object, lbzily crebte one if necessbry.
+     * All bccess to the <code>LAFStbte</code> fields is done vib this method,
+     * for exbmple:
      * <pre>
-     *     getLAFState().initialized = true;
+     *     getLAFStbte().initiblized = true;
      * </pre>
      */
-    private static LAFState getLAFState() {
-        LAFState rv = (LAFState)SwingUtilities.appContextGet(
+    privbte stbtic LAFStbte getLAFStbte() {
+        LAFStbte rv = (LAFStbte)SwingUtilities.bppContextGet(
                 SwingUtilities2.LAF_STATE_KEY);
         if (rv == null) {
-            synchronized (classLock) {
-                rv = (LAFState)SwingUtilities.appContextGet(
+            synchronized (clbssLock) {
+                rv = (LAFStbte)SwingUtilities.bppContextGet(
                         SwingUtilities2.LAF_STATE_KEY);
                 if (rv == null) {
-                    SwingUtilities.appContextPut(
+                    SwingUtilities.bppContextPut(
                             SwingUtilities2.LAF_STATE_KEY,
-                            (rv = new LAFState()));
+                            (rv = new LAFStbte()));
                 }
             }
         }
@@ -260,903 +260,903 @@ public class UIManager implements Serializable
 
 
     /* Keys used in the <code>swing.properties</code> properties file.
-     * See loadUserProperties(), initialize().
+     * See lobdUserProperties(), initiblize().
      */
 
-    private static final String defaultLAFKey = "swing.defaultlaf";
-    private static final String auxiliaryLAFsKey = "swing.auxiliarylaf";
-    private static final String multiplexingLAFKey = "swing.plaf.multiplexinglaf";
-    private static final String installedLAFsKey = "swing.installedlafs";
-    private static final String disableMnemonicKey = "swing.disablenavaids";
+    privbte stbtic finbl String defbultLAFKey = "swing.defbultlbf";
+    privbte stbtic finbl String buxilibryLAFsKey = "swing.buxilibrylbf";
+    privbte stbtic finbl String multiplexingLAFKey = "swing.plbf.multiplexinglbf";
+    privbte stbtic finbl String instblledLAFsKey = "swing.instblledlbfs";
+    privbte stbtic finbl String disbbleMnemonicKey = "swing.disbblenbvbids";
 
     /**
-     * Return a <code>swing.properties</code> file key for the attribute of specified
-     * look and feel.  The attr is either "name" or "class", a typical
-     * key would be: "swing.installedlaf.windows.name"
+     * Return b <code>swing.properties</code> file key for the bttribute of specified
+     * look bnd feel.  The bttr is either "nbme" or "clbss", b typicbl
+     * key would be: "swing.instblledlbf.windows.nbme"
      */
-    private static String makeInstalledLAFKey(String laf, String attr) {
-        return "swing.installedlaf." + laf + "." + attr;
+    privbte stbtic String mbkeInstblledLAFKey(String lbf, String bttr) {
+        return "swing.instblledlbf." + lbf + "." + bttr;
     }
 
     /**
-     * The location of the <code>swing.properties</code> property file is
-     * implementation-specific.
-     * It is typically located in the <code>lib</code> subdirectory of the Java
-     * installation directory. This method returns a bogus filename
-     * if <code>java.home</code> isn't defined.
+     * The locbtion of the <code>swing.properties</code> property file is
+     * implementbtion-specific.
+     * It is typicblly locbted in the <code>lib</code> subdirectory of the Jbvb
+     * instbllbtion directory. This method returns b bogus filenbme
+     * if <code>jbvb.home</code> isn't defined.
      */
-    private static String makeSwingPropertiesFilename() {
-        String sep = File.separator;
-        // No need to wrap this in a doPrivileged as it's called from
-        // a doPrivileged.
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null) {
-            javaHome = "<java.home undefined>";
+    privbte stbtic String mbkeSwingPropertiesFilenbme() {
+        String sep = File.sepbrbtor;
+        // No need to wrbp this in b doPrivileged bs it's cblled from
+        // b doPrivileged.
+        String jbvbHome = System.getProperty("jbvb.home");
+        if (jbvbHome == null) {
+            jbvbHome = "<jbvb.home undefined>";
         }
-        return javaHome + sep + "lib" + sep + "swing.properties";
+        return jbvbHome + sep + "lib" + sep + "swing.properties";
     }
 
 
     /**
-     * Provides a little information about an installed
-     * <code>LookAndFeel</code> for the sake of configuring a menu or
-     * for initial application set up.
+     * Provides b little informbtion bbout bn instblled
+     * <code>LookAndFeel</code> for the sbke of configuring b menu or
+     * for initibl bpplicbtion set up.
      *
-     * @see UIManager#getInstalledLookAndFeels
+     * @see UIMbnbger#getInstblledLookAndFeels
      * @see LookAndFeel
      */
-    public static class LookAndFeelInfo {
-        private String name;
-        private String className;
+    public stbtic clbss LookAndFeelInfo {
+        privbte String nbme;
+        privbte String clbssNbme;
 
         /**
-         * Constructs a <code>UIManager</code>s
+         * Constructs b <code>UIMbnbger</code>s
          * <code>LookAndFeelInfo</code> object.
          *
-         * @param name      a <code>String</code> specifying the name of
-         *                      the look and feel
-         * @param className a <code>String</code> specifying the name of
-         *                      the class that implements the look and feel
+         * @pbrbm nbme      b <code>String</code> specifying the nbme of
+         *                      the look bnd feel
+         * @pbrbm clbssNbme b <code>String</code> specifying the nbme of
+         *                      the clbss thbt implements the look bnd feel
          */
-        public LookAndFeelInfo(String name, String className) {
-            this.name = name;
-            this.className = className;
+        public LookAndFeelInfo(String nbme, String clbssNbme) {
+            this.nbme = nbme;
+            this.clbssNbme = clbssNbme;
         }
 
         /**
-         * Returns the name of the look and feel in a form suitable
-         * for a menu or other presentation
-         * @return a <code>String</code> containing the name
-         * @see LookAndFeel#getName
+         * Returns the nbme of the look bnd feel in b form suitbble
+         * for b menu or other presentbtion
+         * @return b <code>String</code> contbining the nbme
+         * @see LookAndFeel#getNbme
          */
-        public String getName() {
-            return name;
+        public String getNbme() {
+            return nbme;
         }
 
         /**
-         * Returns the name of the class that implements this look and feel.
-         * @return the name of the class that implements this
+         * Returns the nbme of the clbss thbt implements this look bnd feel.
+         * @return the nbme of the clbss thbt implements this
          *              <code>LookAndFeel</code>
          * @see LookAndFeel
          */
-        public String getClassName() {
-            return className;
+        public String getClbssNbme() {
+            return clbssNbme;
         }
 
         /**
-         * Returns a string that displays and identifies this
+         * Returns b string thbt displbys bnd identifies this
          * object's properties.
          *
-         * @return a <code>String</code> representation of this object
+         * @return b <code>String</code> representbtion of this object
          */
         public String toString() {
-            return getClass().getName() + "[" + getName() + " " + getClassName() + "]";
+            return getClbss().getNbme() + "[" + getNbme() + " " + getClbssNbme() + "]";
         }
     }
 
 
     /**
-     * The default value of <code>installedLAFS</code> is used when no
+     * The defbult vblue of <code>instblledLAFS</code> is used when no
      * <code>swing.properties</code>
-     * file is available or if the file doesn't contain a "swing.installedlafs"
+     * file is bvbilbble or if the file doesn't contbin b "swing.instblledlbfs"
      * property.
      *
-     * @see #initializeInstalledLAFs
+     * @see #initiblizeInstblledLAFs
      */
-    private static LookAndFeelInfo[] installedLAFs;
+    privbte stbtic LookAndFeelInfo[] instblledLAFs;
 
-    static {
-        ArrayList<LookAndFeelInfo> iLAFs = new ArrayList<LookAndFeelInfo>(4);
-        iLAFs.add(new LookAndFeelInfo(
-                      "Metal", "javax.swing.plaf.metal.MetalLookAndFeel"));
-        iLAFs.add(new LookAndFeelInfo(
-                      "Nimbus", "javax.swing.plaf.nimbus.NimbusLookAndFeel"));
-        iLAFs.add(new LookAndFeelInfo("CDE/Motif",
-                  "com.sun.java.swing.plaf.motif.MotifLookAndFeel"));
+    stbtic {
+        ArrbyList<LookAndFeelInfo> iLAFs = new ArrbyList<LookAndFeelInfo>(4);
+        iLAFs.bdd(new LookAndFeelInfo(
+                      "Metbl", "jbvbx.swing.plbf.metbl.MetblLookAndFeel"));
+        iLAFs.bdd(new LookAndFeelInfo(
+                      "Nimbus", "jbvbx.swing.plbf.nimbus.NimbusLookAndFeel"));
+        iLAFs.bdd(new LookAndFeelInfo("CDE/Motif",
+                  "com.sun.jbvb.swing.plbf.motif.MotifLookAndFeel"));
 
         // Only include windows on Windows boxs.
         OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
         if (osType == OSInfo.OSType.WINDOWS) {
-            iLAFs.add(new LookAndFeelInfo("Windows",
-                        "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
-            if (Toolkit.getDefaultToolkit().getDesktopProperty(
+            iLAFs.bdd(new LookAndFeelInfo("Windows",
+                        "com.sun.jbvb.swing.plbf.windows.WindowsLookAndFeel"));
+            if (Toolkit.getDefbultToolkit().getDesktopProperty(
                     "win.xpstyle.themeActive") != null) {
-                iLAFs.add(new LookAndFeelInfo("Windows Classic",
-                 "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel"));
+                iLAFs.bdd(new LookAndFeelInfo("Windows Clbssic",
+                 "com.sun.jbvb.swing.plbf.windows.WindowsClbssicLookAndFeel"));
             }
         }
         else if (osType == OSInfo.OSType.MACOSX) {
-            iLAFs.add(new LookAndFeelInfo("Mac OS X", "com.apple.laf.AquaLookAndFeel"));
+            iLAFs.bdd(new LookAndFeelInfo("Mbc OS X", "com.bpple.lbf.AqubLookAndFeel"));
         }
         else {
             // GTK is not shipped on Windows.
-            iLAFs.add(new LookAndFeelInfo("GTK+",
-                  "com.sun.java.swing.plaf.gtk.GTKLookAndFeel"));
+            iLAFs.bdd(new LookAndFeelInfo("GTK+",
+                  "com.sun.jbvb.swing.plbf.gtk.GTKLookAndFeel"));
         }
-        installedLAFs = iLAFs.toArray(new LookAndFeelInfo[iLAFs.size()]);
+        instblledLAFs = iLAFs.toArrby(new LookAndFeelInfo[iLAFs.size()]);
     }
 
 
     /**
-     * Returns an array of {@code LookAndFeelInfo}s representing the
-     * {@code LookAndFeel} implementations currently available. The
-     * <code>LookAndFeelInfo</code> objects can be used by an
-     * application to construct a menu of look and feel options for
-     * the user, or to determine which look and feel to set at startup
-     * time. To avoid the penalty of creating numerous {@code
-     * LookAndFeel} objects, {@code LookAndFeelInfo} maintains the
-     * class name of the {@code LookAndFeel} class, not the actual
-     * {@code LookAndFeel} instance.
+     * Returns bn brrby of {@code LookAndFeelInfo}s representing the
+     * {@code LookAndFeel} implementbtions currently bvbilbble. The
+     * <code>LookAndFeelInfo</code> objects cbn be used by bn
+     * bpplicbtion to construct b menu of look bnd feel options for
+     * the user, or to determine which look bnd feel to set bt stbrtup
+     * time. To bvoid the penblty of crebting numerous {@code
+     * LookAndFeel} objects, {@code LookAndFeelInfo} mbintbins the
+     * clbss nbme of the {@code LookAndFeel} clbss, not the bctubl
+     * {@code LookAndFeel} instbnce.
      * <p>
-     * The following example illustrates setting the current look and feel
-     * from an instance of {@code LookAndFeelInfo}:
+     * The following exbmple illustrbtes setting the current look bnd feel
+     * from bn instbnce of {@code LookAndFeelInfo}:
      * <pre>
-     *   UIManager.setLookAndFeel(info.getClassName());
+     *   UIMbnbger.setLookAndFeel(info.getClbssNbme());
      * </pre>
      *
-     * @return an array of <code>LookAndFeelInfo</code> objects
+     * @return bn brrby of <code>LookAndFeelInfo</code> objects
      * @see #setLookAndFeel
      */
-    public static LookAndFeelInfo[] getInstalledLookAndFeels() {
-        maybeInitialize();
-        LookAndFeelInfo[] ilafs = getLAFState().installedLAFs;
-        if (ilafs == null) {
-            ilafs = installedLAFs;
+    public stbtic LookAndFeelInfo[] getInstblledLookAndFeels() {
+        mbybeInitiblize();
+        LookAndFeelInfo[] ilbfs = getLAFStbte().instblledLAFs;
+        if (ilbfs == null) {
+            ilbfs = instblledLAFs;
         }
-        LookAndFeelInfo[] rv = new LookAndFeelInfo[ilafs.length];
-        System.arraycopy(ilafs, 0, rv, 0, ilafs.length);
+        LookAndFeelInfo[] rv = new LookAndFeelInfo[ilbfs.length];
+        System.brrbycopy(ilbfs, 0, rv, 0, ilbfs.length);
         return rv;
     }
 
 
     /**
-     * Sets the set of available look and feels. While this method does
-     * not check to ensure all of the {@code LookAndFeelInfos} are
-     * {@code non-null}, it is strongly recommended that only {@code non-null}
-     * values are supplied in the {@code infos} array.
+     * Sets the set of bvbilbble look bnd feels. While this method does
+     * not check to ensure bll of the {@code LookAndFeelInfos} bre
+     * {@code non-null}, it is strongly recommended thbt only {@code non-null}
+     * vblues bre supplied in the {@code infos} brrby.
      *
-     * @param infos set of <code>LookAndFeelInfo</code> objects specifying
-     *        the available look and feels
+     * @pbrbm infos set of <code>LookAndFeelInfo</code> objects specifying
+     *        the bvbilbble look bnd feels
      *
-     * @see #getInstalledLookAndFeels
+     * @see #getInstblledLookAndFeels
      * @throws NullPointerException if {@code infos} is {@code null}
      */
-    public static void setInstalledLookAndFeels(LookAndFeelInfo[] infos)
+    public stbtic void setInstblledLookAndFeels(LookAndFeelInfo[] infos)
         throws SecurityException
     {
-        maybeInitialize();
+        mbybeInitiblize();
         LookAndFeelInfo[] newInfos = new LookAndFeelInfo[infos.length];
-        System.arraycopy(infos, 0, newInfos, 0, infos.length);
-        getLAFState().installedLAFs = newInfos;
+        System.brrbycopy(infos, 0, newInfos, 0, infos.length);
+        getLAFStbte().instblledLAFs = newInfos;
     }
 
 
     /**
-     * Adds the specified look and feel to the set of available look
-     * and feels. While this method allows a {@code null} {@code info},
-     * it is strongly recommended that a {@code non-null} value be used.
+     * Adds the specified look bnd feel to the set of bvbilbble look
+     * bnd feels. While this method bllows b {@code null} {@code info},
+     * it is strongly recommended thbt b {@code non-null} vblue be used.
      *
-     * @param info a <code>LookAndFeelInfo</code> object that names the
-     *          look and feel and identifies the class that implements it
-     * @see #setInstalledLookAndFeels
+     * @pbrbm info b <code>LookAndFeelInfo</code> object thbt nbmes the
+     *          look bnd feel bnd identifies the clbss thbt implements it
+     * @see #setInstblledLookAndFeels
      */
-    public static void installLookAndFeel(LookAndFeelInfo info) {
-        LookAndFeelInfo[] infos = getInstalledLookAndFeels();
+    public stbtic void instbllLookAndFeel(LookAndFeelInfo info) {
+        LookAndFeelInfo[] infos = getInstblledLookAndFeels();
         LookAndFeelInfo[] newInfos = new LookAndFeelInfo[infos.length + 1];
-        System.arraycopy(infos, 0, newInfos, 0, infos.length);
+        System.brrbycopy(infos, 0, newInfos, 0, infos.length);
         newInfos[infos.length] = info;
-        setInstalledLookAndFeels(newInfos);
+        setInstblledLookAndFeels(newInfos);
     }
 
 
     /**
-     * Adds the specified look and feel to the set of available look
-     * and feels. While this method does not check the
-     * arguments in any way, it is strongly recommended that {@code
-     * non-null} values be supplied.
+     * Adds the specified look bnd feel to the set of bvbilbble look
+     * bnd feels. While this method does not check the
+     * brguments in bny wby, it is strongly recommended thbt {@code
+     * non-null} vblues be supplied.
      *
-     * @param name descriptive name of the look and feel
-     * @param className name of the class that implements the look and feel
-     * @see #setInstalledLookAndFeels
+     * @pbrbm nbme descriptive nbme of the look bnd feel
+     * @pbrbm clbssNbme nbme of the clbss thbt implements the look bnd feel
+     * @see #setInstblledLookAndFeels
      */
-    public static void installLookAndFeel(String name, String className) {
-        installLookAndFeel(new LookAndFeelInfo(name, className));
+    public stbtic void instbllLookAndFeel(String nbme, String clbssNbme) {
+        instbllLookAndFeel(new LookAndFeelInfo(nbme, clbssNbme));
     }
 
 
     /**
-     * Returns the current look and feel or <code>null</code>.
+     * Returns the current look bnd feel or <code>null</code>.
      *
-     * @return current look and feel, or <code>null</code>
+     * @return current look bnd feel, or <code>null</code>
      * @see #setLookAndFeel
      */
-    public static LookAndFeel getLookAndFeel() {
-        maybeInitialize();
-        return getLAFState().lookAndFeel;
+    public stbtic LookAndFeel getLookAndFeel() {
+        mbybeInitiblize();
+        return getLAFStbte().lookAndFeel;
     }
 
 
     /**
-     * Sets the current look and feel to {@code newLookAndFeel}.
-     * If the current look and feel is {@code non-null} {@code
-     * uninitialize} is invoked on it. If {@code newLookAndFeel} is
-     * {@code non-null}, {@code initialize} is invoked on it followed
-     * by {@code getDefaults}. The defaults returned from {@code
-     * newLookAndFeel.getDefaults()} replace those of the defaults
-     * from the previous look and feel. If the {@code newLookAndFeel} is
-     * {@code null}, the look and feel defaults are set to {@code null}.
+     * Sets the current look bnd feel to {@code newLookAndFeel}.
+     * If the current look bnd feel is {@code non-null} {@code
+     * uninitiblize} is invoked on it. If {@code newLookAndFeel} is
+     * {@code non-null}, {@code initiblize} is invoked on it followed
+     * by {@code getDefbults}. The defbults returned from {@code
+     * newLookAndFeel.getDefbults()} replbce those of the defbults
+     * from the previous look bnd feel. If the {@code newLookAndFeel} is
+     * {@code null}, the look bnd feel defbults bre set to {@code null}.
      * <p>
-     * A value of {@code null} can be used to set the look and feel
+     * A vblue of {@code null} cbn be used to set the look bnd feel
      * to {@code null}. As the {@code LookAndFeel} is required for
      * most of Swing to function, setting the {@code LookAndFeel} to
-     * {@code null} is strongly discouraged.
+     * {@code null} is strongly discourbged.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param newLookAndFeel {@code LookAndFeel} to install
+     * @pbrbm newLookAndFeel {@code LookAndFeel} to instbll
      * @throws UnsupportedLookAndFeelException if
-     *          {@code newLookAndFeel} is {@code non-null} and
+     *          {@code newLookAndFeel} is {@code non-null} bnd
      *          {@code newLookAndFeel.isSupportedLookAndFeel()} returns
-     *          {@code false}
+     *          {@code fblse}
      * @see #getLookAndFeel
      */
-    public static void setLookAndFeel(LookAndFeel newLookAndFeel)
+    public stbtic void setLookAndFeel(LookAndFeel newLookAndFeel)
         throws UnsupportedLookAndFeelException
     {
         if ((newLookAndFeel != null) && !newLookAndFeel.isSupportedLookAndFeel()) {
-            String s = newLookAndFeel.toString() + " not supported on this platform";
+            String s = newLookAndFeel.toString() + " not supported on this plbtform";
             throw new UnsupportedLookAndFeelException(s);
         }
 
-        LAFState lafState = getLAFState();
-        LookAndFeel oldLookAndFeel = lafState.lookAndFeel;
+        LAFStbte lbfStbte = getLAFStbte();
+        LookAndFeel oldLookAndFeel = lbfStbte.lookAndFeel;
         if (oldLookAndFeel != null) {
-            oldLookAndFeel.uninitialize();
+            oldLookAndFeel.uninitiblize();
         }
 
-        lafState.lookAndFeel = newLookAndFeel;
+        lbfStbte.lookAndFeel = newLookAndFeel;
         if (newLookAndFeel != null) {
-            sun.swing.DefaultLookup.setDefaultLookup(null);
-            newLookAndFeel.initialize();
-            lafState.setLookAndFeelDefaults(newLookAndFeel.getDefaults());
+            sun.swing.DefbultLookup.setDefbultLookup(null);
+            newLookAndFeel.initiblize();
+            lbfStbte.setLookAndFeelDefbults(newLookAndFeel.getDefbults());
         }
         else {
-            lafState.setLookAndFeelDefaults(null);
+            lbfStbte.setLookAndFeelDefbults(null);
         }
 
-        SwingPropertyChangeSupport changeSupport = lafState.
-                                         getPropertyChangeSupport(false);
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange("lookAndFeel", oldLookAndFeel,
+        SwingPropertyChbngeSupport chbngeSupport = lbfStbte.
+                                         getPropertyChbngeSupport(fblse);
+        if (chbngeSupport != null) {
+            chbngeSupport.firePropertyChbnge("lookAndFeel", oldLookAndFeel,
                                              newLookAndFeel);
         }
     }
 
 
     /**
-     * Loads the {@code LookAndFeel} specified by the given class
-     * name, using the current thread's context class loader, and
-     * passes it to {@code setLookAndFeel(LookAndFeel)}.
+     * Lobds the {@code LookAndFeel} specified by the given clbss
+     * nbme, using the current threbd's context clbss lobder, bnd
+     * pbsses it to {@code setLookAndFeel(LookAndFeel)}.
      *
-     * @param className  a string specifying the name of the class that implements
-     *        the look and feel
-     * @exception ClassNotFoundException if the <code>LookAndFeel</code>
-     *           class could not be found
-     * @exception InstantiationException if a new instance of the class
-     *          couldn't be created
-     * @exception IllegalAccessException if the class or initializer isn't accessible
+     * @pbrbm clbssNbme  b string specifying the nbme of the clbss thbt implements
+     *        the look bnd feel
+     * @exception ClbssNotFoundException if the <code>LookAndFeel</code>
+     *           clbss could not be found
+     * @exception InstbntibtionException if b new instbnce of the clbss
+     *          couldn't be crebted
+     * @exception IllegblAccessException if the clbss or initiblizer isn't bccessible
      * @exception UnsupportedLookAndFeelException if
-     *          <code>lnf.isSupportedLookAndFeel()</code> is false
-     * @throws ClassCastException if {@code className} does not identify
-     *         a class that extends {@code LookAndFeel}
+     *          <code>lnf.isSupportedLookAndFeel()</code> is fblse
+     * @throws ClbssCbstException if {@code clbssNbme} does not identify
+     *         b clbss thbt extends {@code LookAndFeel}
      */
-    public static void setLookAndFeel(String className)
-        throws ClassNotFoundException,
-               InstantiationException,
-               IllegalAccessException,
+    public stbtic void setLookAndFeel(String clbssNbme)
+        throws ClbssNotFoundException,
+               InstbntibtionException,
+               IllegblAccessException,
                UnsupportedLookAndFeelException
     {
-        if ("javax.swing.plaf.metal.MetalLookAndFeel".equals(className)) {
-            // Avoid reflection for the common case of metal.
-            setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
+        if ("jbvbx.swing.plbf.metbl.MetblLookAndFeel".equbls(clbssNbme)) {
+            // Avoid reflection for the common cbse of metbl.
+            setLookAndFeel(new jbvbx.swing.plbf.metbl.MetblLookAndFeel());
         }
         else {
-            Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-            setLookAndFeel((LookAndFeel)(lnfClass.newInstance()));
+            Clbss<?> lnfClbss = SwingUtilities.lobdSystemClbss(clbssNbme);
+            setLookAndFeel((LookAndFeel)(lnfClbss.newInstbnce()));
         }
     }
 
     /**
-     * Returns the name of the <code>LookAndFeel</code> class that implements
-     * the native system look and feel if there is one, otherwise
-     * the name of the default cross platform <code>LookAndFeel</code>
-     * class. This value can be overriden by setting the
-     * <code>swing.systemlaf</code> system property.
+     * Returns the nbme of the <code>LookAndFeel</code> clbss thbt implements
+     * the nbtive system look bnd feel if there is one, otherwise
+     * the nbme of the defbult cross plbtform <code>LookAndFeel</code>
+     * clbss. This vblue cbn be overriden by setting the
+     * <code>swing.systemlbf</code> system property.
      *
      * @return the <code>String</code> of the <code>LookAndFeel</code>
-     *          class
+     *          clbss
      *
      * @see #setLookAndFeel
-     * @see #getCrossPlatformLookAndFeelClassName
+     * @see #getCrossPlbtformLookAndFeelClbssNbme
      */
-    public static String getSystemLookAndFeelClassName() {
+    public stbtic String getSystemLookAndFeelClbssNbme() {
         String systemLAF = AccessController.doPrivileged(
-                             new GetPropertyAction("swing.systemlaf"));
+                             new GetPropertyAction("swing.systemlbf"));
         if (systemLAF != null) {
             return systemLAF;
         }
         OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
         if (osType == OSInfo.OSType.WINDOWS) {
-            return "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+            return "com.sun.jbvb.swing.plbf.windows.WindowsLookAndFeel";
         } else {
             String desktop = AccessController.doPrivileged(new GetPropertyAction("sun.desktop"));
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            if ("gnome".equals(desktop) &&
-                    toolkit instanceof SunToolkit &&
-                    ((SunToolkit) toolkit).isNativeGTKAvailable()) {
-                // May be set on Linux and Solaris boxs.
-                return "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+            Toolkit toolkit = Toolkit.getDefbultToolkit();
+            if ("gnome".equbls(desktop) &&
+                    toolkit instbnceof SunToolkit &&
+                    ((SunToolkit) toolkit).isNbtiveGTKAvbilbble()) {
+                // Mby be set on Linux bnd Solbris boxs.
+                return "com.sun.jbvb.swing.plbf.gtk.GTKLookAndFeel";
             }
             if (osType == OSInfo.OSType.MACOSX) {
-                if (toolkit.getClass() .getName()
-                                       .equals("sun.lwawt.macosx.LWCToolkit")) {
-                    return "com.apple.laf.AquaLookAndFeel";
+                if (toolkit.getClbss() .getNbme()
+                                       .equbls("sun.lwbwt.mbcosx.LWCToolkit")) {
+                    return "com.bpple.lbf.AqubLookAndFeel";
                 }
             }
             if (osType == OSInfo.OSType.SOLARIS) {
-                return "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+                return "com.sun.jbvb.swing.plbf.motif.MotifLookAndFeel";
             }
         }
-        return getCrossPlatformLookAndFeelClassName();
+        return getCrossPlbtformLookAndFeelClbssNbme();
     }
 
 
     /**
-     * Returns the name of the <code>LookAndFeel</code> class that implements
-     * the default cross platform look and feel -- the Java
-     * Look and Feel (JLF).  This value can be overriden by setting the
-     * <code>swing.crossplatformlaf</code> system property.
+     * Returns the nbme of the <code>LookAndFeel</code> clbss thbt implements
+     * the defbult cross plbtform look bnd feel -- the Jbvb
+     * Look bnd Feel (JLF).  This vblue cbn be overriden by setting the
+     * <code>swing.crossplbtformlbf</code> system property.
      *
-     * @return  a string with the JLF implementation-class
+     * @return  b string with the JLF implementbtion-clbss
      * @see #setLookAndFeel
-     * @see #getSystemLookAndFeelClassName
+     * @see #getSystemLookAndFeelClbssNbme
      */
-    public static String getCrossPlatformLookAndFeelClassName() {
-        String laf = AccessController.doPrivileged(
-                             new GetPropertyAction("swing.crossplatformlaf"));
-        if (laf != null) {
-            return laf;
+    public stbtic String getCrossPlbtformLookAndFeelClbssNbme() {
+        String lbf = AccessController.doPrivileged(
+                             new GetPropertyAction("swing.crossplbtformlbf"));
+        if (lbf != null) {
+            return lbf;
         }
-        return "javax.swing.plaf.metal.MetalLookAndFeel";
+        return "jbvbx.swing.plbf.metbl.MetblLookAndFeel";
     }
 
 
     /**
-     * Returns the defaults. The returned defaults resolve using the
-     * logic specified in the class documentation.
+     * Returns the defbults. The returned defbults resolve using the
+     * logic specified in the clbss documentbtion.
      *
-     * @return a <code>UIDefaults</code> object containing the default values
+     * @return b <code>UIDefbults</code> object contbining the defbult vblues
      */
-    public static UIDefaults getDefaults() {
-        maybeInitialize();
-        return getLAFState().multiUIDefaults;
+    public stbtic UIDefbults getDefbults() {
+        mbybeInitiblize();
+        return getLAFStbte().multiUIDefbults;
     }
 
     /**
-     * Returns a font from the defaults. If the value for {@code key} is
-     * not a {@code Font}, {@code null} is returned.
+     * Returns b font from the defbults. If the vblue for {@code key} is
+     * not b {@code Font}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the font
+     * @pbrbm key  bn <code>Object</code> specifying the font
      * @return the <code>Font</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Font getFont(Object key) {
-        return getDefaults().getFont(key);
+    public stbtic Font getFont(Object key) {
+        return getDefbults().getFont(key);
     }
 
     /**
-     * Returns a font from the defaults that is appropriate
-     * for the given locale. If the value for {@code key} is
-     * not a {@code Font}, {@code null} is returned.
+     * Returns b font from the defbults thbt is bppropribte
+     * for the given locble. If the vblue for {@code key} is
+     * not b {@code Font}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the font
-     * @param l the <code>Locale</code> for which the font is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the font
+     * @pbrbm l the <code>Locble</code> for which the font is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Font</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Font getFont(Object key, Locale l) {
-        return getDefaults().getFont(key,l);
+    public stbtic Font getFont(Object key, Locble l) {
+        return getDefbults().getFont(key,l);
     }
 
     /**
-     * Returns a color from the defaults. If the value for {@code key} is
-     * not a {@code Color}, {@code null} is returned.
+     * Returns b color from the defbults. If the vblue for {@code key} is
+     * not b {@code Color}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the color
+     * @pbrbm key  bn <code>Object</code> specifying the color
      * @return the <code>Color</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Color getColor(Object key) {
-        return getDefaults().getColor(key);
+    public stbtic Color getColor(Object key) {
+        return getDefbults().getColor(key);
     }
 
     /**
-     * Returns a color from the defaults that is appropriate
-     * for the given locale. If the value for {@code key} is
-     * not a {@code Color}, {@code null} is returned.
+     * Returns b color from the defbults thbt is bppropribte
+     * for the given locble. If the vblue for {@code key} is
+     * not b {@code Color}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the color
-     * @param l the <code>Locale</code> for which the color is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the color
+     * @pbrbm l the <code>Locble</code> for which the color is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Color</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Color getColor(Object key, Locale l) {
-        return getDefaults().getColor(key,l);
+    public stbtic Color getColor(Object key, Locble l) {
+        return getDefbults().getColor(key,l);
     }
 
     /**
-     * Returns an <code>Icon</code> from the defaults. If the value for
-     * {@code key} is not an {@code Icon}, {@code null} is returned.
+     * Returns bn <code>Icon</code> from the defbults. If the vblue for
+     * {@code key} is not bn {@code Icon}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the icon
+     * @pbrbm key  bn <code>Object</code> specifying the icon
      * @return the <code>Icon</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Icon getIcon(Object key) {
-        return getDefaults().getIcon(key);
+    public stbtic Icon getIcon(Object key) {
+        return getDefbults().getIcon(key);
     }
 
     /**
-     * Returns an <code>Icon</code> from the defaults that is appropriate
-     * for the given locale. If the value for
-     * {@code key} is not an {@code Icon}, {@code null} is returned.
+     * Returns bn <code>Icon</code> from the defbults thbt is bppropribte
+     * for the given locble. If the vblue for
+     * {@code key} is not bn {@code Icon}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the icon
-     * @param l the <code>Locale</code> for which the icon is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the icon
+     * @pbrbm l the <code>Locble</code> for which the icon is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Icon</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Icon getIcon(Object key, Locale l) {
-        return getDefaults().getIcon(key,l);
+    public stbtic Icon getIcon(Object key, Locble l) {
+        return getDefbults().getIcon(key,l);
     }
 
     /**
-     * Returns a border from the defaults. If the value for
-     * {@code key} is not a {@code Border}, {@code null} is returned.
+     * Returns b border from the defbults. If the vblue for
+     * {@code key} is not b {@code Border}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the border
+     * @pbrbm key  bn <code>Object</code> specifying the border
      * @return the <code>Border</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Border getBorder(Object key) {
-        return getDefaults().getBorder(key);
+    public stbtic Border getBorder(Object key) {
+        return getDefbults().getBorder(key);
     }
 
     /**
-     * Returns a border from the defaults that is appropriate
-     * for the given locale.  If the value for
-     * {@code key} is not a {@code Border}, {@code null} is returned.
+     * Returns b border from the defbults thbt is bppropribte
+     * for the given locble.  If the vblue for
+     * {@code key} is not b {@code Border}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the border
-     * @param l the <code>Locale</code> for which the border is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the border
+     * @pbrbm l the <code>Locble</code> for which the border is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Border</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Border getBorder(Object key, Locale l) {
-        return getDefaults().getBorder(key,l);
+    public stbtic Border getBorder(Object key, Locble l) {
+        return getDefbults().getBorder(key,l);
     }
 
     /**
-     * Returns a string from the defaults. If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Returns b string from the defbults. If the vblue for
+     * {@code key} is not b {@code String}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the string
+     * @pbrbm key  bn <code>Object</code> specifying the string
      * @return the <code>String</code>
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static String getString(Object key) {
-        return getDefaults().getString(key);
+    public stbtic String getString(Object key) {
+        return getDefbults().getString(key);
     }
 
     /**
-     * Returns a string from the defaults that is appropriate for the
-     * given locale.  If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Returns b string from the defbults thbt is bppropribte for the
+     * given locble.  If the vblue for
+     * {@code key} is not b {@code String}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the string
-     * @param l the <code>Locale</code> for which the string is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the string
+     * @pbrbm l the <code>Locble</code> for which the string is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>String</code>
      * @since 1.4
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static String getString(Object key, Locale l) {
-        return getDefaults().getString(key,l);
+    public stbtic String getString(Object key, Locble l) {
+        return getDefbults().getString(key,l);
     }
 
     /**
-     * Returns a string from the defaults that is appropriate for the
-     * given locale.  If the value for
-     * {@code key} is not a {@code String}, {@code null} is returned.
+     * Returns b string from the defbults thbt is bppropribte for the
+     * given locble.  If the vblue for
+     * {@code key} is not b {@code String}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the string
-     * @param c {@code Component} used to determine the locale;
-     *          {@code null} implies the default locale as
-     *          returned by {@code Locale.getDefault()}
+     * @pbrbm key  bn <code>Object</code> specifying the string
+     * @pbrbm c {@code Component} used to determine the locble;
+     *          {@code null} implies the defbult locble bs
+     *          returned by {@code Locble.getDefbult()}
      * @return the <code>String</code>
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    static String getString(Object key, Component c) {
-        Locale l = (c == null) ? Locale.getDefault() : c.getLocale();
+    stbtic String getString(Object key, Component c) {
+        Locble l = (c == null) ? Locble.getDefbult() : c.getLocble();
         return getString(key, l);
     }
 
     /**
-     * Returns an integer from the defaults. If the value for
-     * {@code key} is not an {@code Integer}, or does not exist,
+     * Returns bn integer from the defbults. If the vblue for
+     * {@code key} is not bn {@code Integer}, or does not exist,
      * {@code 0} is returned.
      *
-     * @param key  an <code>Object</code> specifying the int
+     * @pbrbm key  bn <code>Object</code> specifying the int
      * @return the int
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static int getInt(Object key) {
-        return getDefaults().getInt(key);
+    public stbtic int getInt(Object key) {
+        return getDefbults().getInt(key);
     }
 
     /**
-     * Returns an integer from the defaults that is appropriate
-     * for the given locale. If the value for
-     * {@code key} is not an {@code Integer}, or does not exist,
+     * Returns bn integer from the defbults thbt is bppropribte
+     * for the given locble. If the vblue for
+     * {@code key} is not bn {@code Integer}, or does not exist,
      * {@code 0} is returned.
      *
-     * @param key  an <code>Object</code> specifying the int
-     * @param l the <code>Locale</code> for which the int is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the int
+     * @pbrbm l the <code>Locble</code> for which the int is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the int
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static int getInt(Object key, Locale l) {
-        return getDefaults().getInt(key,l);
+    public stbtic int getInt(Object key, Locble l) {
+        return getDefbults().getInt(key,l);
     }
 
     /**
-     * Returns a boolean from the defaults which is associated with
-     * the key value. If the key is not found or the key doesn't represent
-     * a boolean value then {@code false} is returned.
+     * Returns b boolebn from the defbults which is bssocibted with
+     * the key vblue. If the key is not found or the key doesn't represent
+     * b boolebn vblue then {@code fblse} is returned.
      *
-     * @param key  an <code>Object</code> specifying the key for the desired boolean value
-     * @return the boolean value corresponding to the key
+     * @pbrbm key  bn <code>Object</code> specifying the key for the desired boolebn vblue
+     * @return the boolebn vblue corresponding to the key
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static boolean getBoolean(Object key) {
-        return getDefaults().getBoolean(key);
+    public stbtic boolebn getBoolebn(Object key) {
+        return getDefbults().getBoolebn(key);
     }
 
     /**
-     * Returns a boolean from the defaults which is associated with
-     * the key value and the given <code>Locale</code>. If the key is not
+     * Returns b boolebn from the defbults which is bssocibted with
+     * the key vblue bnd the given <code>Locble</code>. If the key is not
      * found or the key doesn't represent
-     * a boolean value then {@code false} will be returned.
+     * b boolebn vblue then {@code fblse} will be returned.
      *
-     * @param key  an <code>Object</code> specifying the key for the desired
-     *             boolean value
-     * @param l the <code>Locale</code> for which the boolean is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
-     * @return the boolean value corresponding to the key
+     * @pbrbm key  bn <code>Object</code> specifying the key for the desired
+     *             boolebn vblue
+     * @pbrbm l the <code>Locble</code> for which the boolebn is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
+     * @return the boolebn vblue corresponding to the key
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static boolean getBoolean(Object key, Locale l) {
-        return getDefaults().getBoolean(key,l);
+    public stbtic boolebn getBoolebn(Object key, Locble l) {
+        return getDefbults().getBoolebn(key,l);
     }
 
     /**
-     * Returns an <code>Insets</code> object from the defaults. If the value
-     * for {@code key} is not an {@code Insets}, {@code null} is returned.
+     * Returns bn <code>Insets</code> object from the defbults. If the vblue
+     * for {@code key} is not bn {@code Insets}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the <code>Insets</code> object
+     * @pbrbm key  bn <code>Object</code> specifying the <code>Insets</code> object
      * @return the <code>Insets</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Insets getInsets(Object key) {
-        return getDefaults().getInsets(key);
+    public stbtic Insets getInsets(Object key) {
+        return getDefbults().getInsets(key);
     }
 
     /**
-     * Returns an <code>Insets</code> object from the defaults that is
-     * appropriate for the given locale. If the value
-     * for {@code key} is not an {@code Insets}, {@code null} is returned.
+     * Returns bn <code>Insets</code> object from the defbults thbt is
+     * bppropribte for the given locble. If the vblue
+     * for {@code key} is not bn {@code Insets}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the <code>Insets</code> object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the <code>Insets</code> object
+     * @pbrbm l the <code>Locble</code> for which the object is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Insets</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Insets getInsets(Object key, Locale l) {
-        return getDefaults().getInsets(key,l);
+    public stbtic Insets getInsets(Object key, Locble l) {
+        return getDefbults().getInsets(key,l);
     }
 
     /**
-     * Returns a dimension from the defaults. If the value
-     * for {@code key} is not a {@code Dimension}, {@code null} is returned.
+     * Returns b dimension from the defbults. If the vblue
+     * for {@code key} is not b {@code Dimension}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the dimension object
+     * @pbrbm key  bn <code>Object</code> specifying the dimension object
      * @return the <code>Dimension</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Dimension getDimension(Object key) {
-        return getDefaults().getDimension(key);
+    public stbtic Dimension getDimension(Object key) {
+        return getDefbults().getDimension(key);
     }
 
     /**
-     * Returns a dimension from the defaults that is appropriate
-     * for the given locale. If the value
-     * for {@code key} is not a {@code Dimension}, {@code null} is returned.
+     * Returns b dimension from the defbults thbt is bppropribte
+     * for the given locble. If the vblue
+     * for {@code key} is not b {@code Dimension}, {@code null} is returned.
      *
-     * @param key  an <code>Object</code> specifying the dimension object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the dimension object
+     * @pbrbm l the <code>Locble</code> for which the object is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Dimension</code> object
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Dimension getDimension(Object key, Locale l) {
-        return getDefaults().getDimension(key,l);
+    public stbtic Dimension getDimension(Object key, Locble l) {
+        return getDefbults().getDimension(key,l);
     }
 
     /**
-     * Returns an object from the defaults.
+     * Returns bn object from the defbults.
      *
-     * @param key  an <code>Object</code> specifying the desired object
+     * @pbrbm key  bn <code>Object</code> specifying the desired object
      * @return the <code>Object</code>
      * @throws NullPointerException if {@code key} is {@code null}
      */
-    public static Object get(Object key) {
-        return getDefaults().get(key);
+    public stbtic Object get(Object key) {
+        return getDefbults().get(key);
     }
 
     /**
-     * Returns an object from the defaults that is appropriate for
-     * the given locale.
+     * Returns bn object from the defbults thbt is bppropribte for
+     * the given locble.
      *
-     * @param key  an <code>Object</code> specifying the desired object
-     * @param l the <code>Locale</code> for which the object is desired; refer
-     *        to {@code UIDefaults} for details on how a {@code null}
-     *        {@code Locale} is handled
+     * @pbrbm key  bn <code>Object</code> specifying the desired object
+     * @pbrbm l the <code>Locble</code> for which the object is desired; refer
+     *        to {@code UIDefbults} for detbils on how b {@code null}
+     *        {@code Locble} is hbndled
      * @return the <code>Object</code>
      * @throws NullPointerException if {@code key} is {@code null}
      * @since 1.4
      */
-    public static Object get(Object key, Locale l) {
-        return getDefaults().get(key,l);
+    public stbtic Object get(Object key, Locble l) {
+        return getDefbults().get(key,l);
     }
 
     /**
-     * Stores an object in the developer defaults. This is a cover method
-     * for {@code getDefaults().put(key, value)}. This only effects the
-     * developer defaults, not the system or look and feel defaults.
+     * Stores bn object in the developer defbults. This is b cover method
+     * for {@code getDefbults().put(key, vblue)}. This only effects the
+     * developer defbults, not the system or look bnd feel defbults.
      *
-     * @param key    an <code>Object</code> specifying the retrieval key
-     * @param value  the <code>Object</code> to store; refer to
-     *               {@code UIDefaults} for details on how {@code null} is
-     *               handled
-     * @return the <code>Object</code> returned by {@link UIDefaults#put}
+     * @pbrbm key    bn <code>Object</code> specifying the retrievbl key
+     * @pbrbm vblue  the <code>Object</code> to store; refer to
+     *               {@code UIDefbults} for detbils on how {@code null} is
+     *               hbndled
+     * @return the <code>Object</code> returned by {@link UIDefbults#put}
      * @throws NullPointerException if {@code key} is {@code null}
-     * @see UIDefaults#put
+     * @see UIDefbults#put
      */
-    public static Object put(Object key, Object value) {
-        return getDefaults().put(key, value);
+    public stbtic Object put(Object key, Object vblue) {
+        return getDefbults().put(key, vblue);
     }
 
     /**
-     * Returns the appropriate {@code ComponentUI} implementation for
-     * {@code target}. Typically, this is a cover for
-     * {@code getDefaults().getUI(target)}. However, if an auxiliary
-     * look and feel has been installed, this first invokes
-     * {@code getUI(target)} on the multiplexing look and feel's
-     * defaults, and returns that value if it is {@code non-null}.
+     * Returns the bppropribte {@code ComponentUI} implementbtion for
+     * {@code tbrget}. Typicblly, this is b cover for
+     * {@code getDefbults().getUI(tbrget)}. However, if bn buxilibry
+     * look bnd feel hbs been instblled, this first invokes
+     * {@code getUI(tbrget)} on the multiplexing look bnd feel's
+     * defbults, bnd returns thbt vblue if it is {@code non-null}.
      *
-     * @param target the <code>JComponent</code> to return the
+     * @pbrbm tbrget the <code>JComponent</code> to return the
      *        {@code ComponentUI} for
-     * @return the <code>ComponentUI</code> object for {@code target}
-     * @throws NullPointerException if {@code target} is {@code null}
-     * @see UIDefaults#getUI
+     * @return the <code>ComponentUI</code> object for {@code tbrget}
+     * @throws NullPointerException if {@code tbrget} is {@code null}
+     * @see UIDefbults#getUI
      */
-    public static ComponentUI getUI(JComponent target) {
-        maybeInitialize();
-        maybeInitializeFocusPolicy(target);
+    public stbtic ComponentUI getUI(JComponent tbrget) {
+        mbybeInitiblize();
+        mbybeInitiblizeFocusPolicy(tbrget);
         ComponentUI ui = null;
-        LookAndFeel multiLAF = getLAFState().multiLookAndFeel;
+        LookAndFeel multiLAF = getLAFStbte().multiLookAndFeel;
         if (multiLAF != null) {
-            // This can return null if the multiplexing look and feel
-            // doesn't support a particular UI.
-            ui = multiLAF.getDefaults().getUI(target);
+            // This cbn return null if the multiplexing look bnd feel
+            // doesn't support b pbrticulbr UI.
+            ui = multiLAF.getDefbults().getUI(tbrget);
         }
         if (ui == null) {
-            ui = getDefaults().getUI(target);
+            ui = getDefbults().getUI(tbrget);
         }
         return ui;
     }
 
 
     /**
-     * Returns the {@code UIDefaults} from the current look and feel,
-     * that were obtained at the time the look and feel was installed.
+     * Returns the {@code UIDefbults} from the current look bnd feel,
+     * thbt were obtbined bt the time the look bnd feel wbs instblled.
      * <p>
-     * In general, developers should use the {@code UIDefaults} returned from
-     * {@code getDefaults()}. As the current look and feel may expect
-     * certain values to exist, altering the {@code UIDefaults} returned
-     * from this method could have unexpected results.
+     * In generbl, developers should use the {@code UIDefbults} returned from
+     * {@code getDefbults()}. As the current look bnd feel mby expect
+     * certbin vblues to exist, bltering the {@code UIDefbults} returned
+     * from this method could hbve unexpected results.
      *
-     * @return <code>UIDefaults</code> from the current look and feel
-     * @see #getDefaults
+     * @return <code>UIDefbults</code> from the current look bnd feel
+     * @see #getDefbults
      * @see #setLookAndFeel(LookAndFeel)
-     * @see LookAndFeel#getDefaults
+     * @see LookAndFeel#getDefbults
      */
-    public static UIDefaults getLookAndFeelDefaults() {
-        maybeInitialize();
-        return getLAFState().getLookAndFeelDefaults();
+    public stbtic UIDefbults getLookAndFeelDefbults() {
+        mbybeInitiblize();
+        return getLAFStbte().getLookAndFeelDefbults();
     }
 
     /**
      * Finds the Multiplexing <code>LookAndFeel</code>.
      */
-    private static LookAndFeel getMultiLookAndFeel() {
-        LookAndFeel multiLookAndFeel = getLAFState().multiLookAndFeel;
+    privbte stbtic LookAndFeel getMultiLookAndFeel() {
+        LookAndFeel multiLookAndFeel = getLAFStbte().multiLookAndFeel;
         if (multiLookAndFeel == null) {
-            String defaultName = "javax.swing.plaf.multi.MultiLookAndFeel";
-            String className = getLAFState().swingProps.getProperty(multiplexingLAFKey, defaultName);
+            String defbultNbme = "jbvbx.swing.plbf.multi.MultiLookAndFeel";
+            String clbssNbme = getLAFStbte().swingProps.getProperty(multiplexingLAFKey, defbultNbme);
             try {
-                Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-                multiLookAndFeel = (LookAndFeel)lnfClass.newInstance();
-            } catch (Exception exc) {
-                System.err.println("UIManager: failed loading " + className);
+                Clbss<?> lnfClbss = SwingUtilities.lobdSystemClbss(clbssNbme);
+                multiLookAndFeel = (LookAndFeel)lnfClbss.newInstbnce();
+            } cbtch (Exception exc) {
+                System.err.println("UIMbnbger: fbiled lobding " + clbssNbme);
             }
         }
         return multiLookAndFeel;
     }
 
     /**
-     * Adds a <code>LookAndFeel</code> to the list of auxiliary look and feels.
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are to be used
-     * in addition to the default <code>LookAndFeel</code> class when creating a
-     * multiplexing UI.  The change will only take effect when a new
-     * UI class is created or when the default look and feel is changed
-     * on a component instance.
-     * <p>Note these are not the same as the installed look and feels.
+     * Adds b <code>LookAndFeel</code> to the list of buxilibry look bnd feels.
+     * The buxilibry look bnd feels tell the multiplexing look bnd feel whbt
+     * other <code>LookAndFeel</code> clbsses for b component instbnce bre to be used
+     * in bddition to the defbult <code>LookAndFeel</code> clbss when crebting b
+     * multiplexing UI.  The chbnge will only tbke effect when b new
+     * UI clbss is crebted or when the defbult look bnd feel is chbnged
+     * on b component instbnce.
+     * <p>Note these bre not the sbme bs the instblled look bnd feels.
      *
-     * @param laf the <code>LookAndFeel</code> object
-     * @see #removeAuxiliaryLookAndFeel
+     * @pbrbm lbf the <code>LookAndFeel</code> object
+     * @see #removeAuxilibryLookAndFeel
      * @see #setLookAndFeel
-     * @see #getAuxiliaryLookAndFeels
-     * @see #getInstalledLookAndFeels
+     * @see #getAuxilibryLookAndFeels
+     * @see #getInstblledLookAndFeels
      */
-    static public void addAuxiliaryLookAndFeel(LookAndFeel laf) {
-        maybeInitialize();
+    stbtic public void bddAuxilibryLookAndFeel(LookAndFeel lbf) {
+        mbybeInitiblize();
 
-        if (!laf.isSupportedLookAndFeel()) {
-            // Ideally we would throw an exception here, but it's too late
-            // for that.
+        if (!lbf.isSupportedLookAndFeel()) {
+            // Ideblly we would throw bn exception here, but it's too lbte
+            // for thbt.
             return;
         }
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
+        Vector<LookAndFeel> v = getLAFStbte().buxLookAndFeels;
         if (v == null) {
             v = new Vector<LookAndFeel>();
         }
 
-        if (!v.contains(laf)) {
-            v.addElement(laf);
-            laf.initialize();
-            getLAFState().auxLookAndFeels = v;
+        if (!v.contbins(lbf)) {
+            v.bddElement(lbf);
+            lbf.initiblize();
+            getLAFStbte().buxLookAndFeels = v;
 
-            if (getLAFState().multiLookAndFeel == null) {
-                getLAFState().multiLookAndFeel = getMultiLookAndFeel();
+            if (getLAFStbte().multiLookAndFeel == null) {
+                getLAFStbte().multiLookAndFeel = getMultiLookAndFeel();
             }
         }
     }
 
     /**
-     * Removes a <code>LookAndFeel</code> from the list of auxiliary look and feels.
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are to be used
-     * in addition to the default <code>LookAndFeel</code> class when creating a
-     * multiplexing UI.  The change will only take effect when a new
-     * UI class is created or when the default look and feel is changed
-     * on a component instance.
-     * <p>Note these are not the same as the installed look and feels.
+     * Removes b <code>LookAndFeel</code> from the list of buxilibry look bnd feels.
+     * The buxilibry look bnd feels tell the multiplexing look bnd feel whbt
+     * other <code>LookAndFeel</code> clbsses for b component instbnce bre to be used
+     * in bddition to the defbult <code>LookAndFeel</code> clbss when crebting b
+     * multiplexing UI.  The chbnge will only tbke effect when b new
+     * UI clbss is crebted or when the defbult look bnd feel is chbnged
+     * on b component instbnce.
+     * <p>Note these bre not the sbme bs the instblled look bnd feels.
      *
-     * @param laf the {@code LookAndFeel} to be removed
-     * @return true if the <code>LookAndFeel</code> was removed from the list
-     * @see #removeAuxiliaryLookAndFeel
-     * @see #getAuxiliaryLookAndFeels
+     * @pbrbm lbf the {@code LookAndFeel} to be removed
+     * @return true if the <code>LookAndFeel</code> wbs removed from the list
+     * @see #removeAuxilibryLookAndFeel
+     * @see #getAuxilibryLookAndFeels
      * @see #setLookAndFeel
-     * @see #getInstalledLookAndFeels
+     * @see #getInstblledLookAndFeels
      */
-    static public boolean removeAuxiliaryLookAndFeel(LookAndFeel laf) {
-        maybeInitialize();
+    stbtic public boolebn removeAuxilibryLookAndFeel(LookAndFeel lbf) {
+        mbybeInitiblize();
 
-        boolean result;
+        boolebn result;
 
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
+        Vector<LookAndFeel> v = getLAFStbte().buxLookAndFeels;
         if ((v == null) || (v.size() == 0)) {
-            return false;
+            return fblse;
         }
 
-        result = v.removeElement(laf);
+        result = v.removeElement(lbf);
         if (result) {
             if (v.size() == 0) {
-                getLAFState().auxLookAndFeels = null;
-                getLAFState().multiLookAndFeel = null;
+                getLAFStbte().buxLookAndFeels = null;
+                getLAFStbte().multiLookAndFeel = null;
             } else {
-                getLAFState().auxLookAndFeels = v;
+                getLAFStbte().buxLookAndFeels = v;
             }
         }
-        laf.uninitialize();
+        lbf.uninitiblize();
 
         return result;
     }
 
     /**
-     * Returns the list of auxiliary look and feels (can be <code>null</code>).
-     * The auxiliary look and feels tell the multiplexing look and feel what
-     * other <code>LookAndFeel</code> classes for a component instance are
-     * to be used in addition to the default LookAndFeel class when creating a
+     * Returns the list of buxilibry look bnd feels (cbn be <code>null</code>).
+     * The buxilibry look bnd feels tell the multiplexing look bnd feel whbt
+     * other <code>LookAndFeel</code> clbsses for b component instbnce bre
+     * to be used in bddition to the defbult LookAndFeel clbss when crebting b
      * multiplexing UI.
-     * <p>Note these are not the same as the installed look and feels.
+     * <p>Note these bre not the sbme bs the instblled look bnd feels.
      *
-     * @return list of auxiliary <code>LookAndFeel</code>s or <code>null</code>
-     * @see #addAuxiliaryLookAndFeel
-     * @see #removeAuxiliaryLookAndFeel
+     * @return list of buxilibry <code>LookAndFeel</code>s or <code>null</code>
+     * @see #bddAuxilibryLookAndFeel
+     * @see #removeAuxilibryLookAndFeel
      * @see #setLookAndFeel
-     * @see #getInstalledLookAndFeels
+     * @see #getInstblledLookAndFeels
      */
-    static public LookAndFeel[] getAuxiliaryLookAndFeels() {
-        maybeInitialize();
+    stbtic public LookAndFeel[] getAuxilibryLookAndFeels() {
+        mbybeInitiblize();
 
-        Vector<LookAndFeel> v = getLAFState().auxLookAndFeels;
+        Vector<LookAndFeel> v = getLAFStbte().buxLookAndFeels;
         if ((v == null) || (v.size() == 0)) {
             return null;
         }
@@ -1171,95 +1171,95 @@ public class UIManager implements Serializable
 
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <code>PropertyChbngeListener</code> to the listener list.
+     * The listener is registered for bll properties.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be added
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listener  the <code>PropertyChbngeListener</code> to be bdded
+     * @see jbvb.bebns.PropertyChbngeSupport
      */
-    public static void addPropertyChangeListener(PropertyChangeListener listener)
+    public stbtic void bddPropertyChbngeListener(PropertyChbngeListener listener)
     {
-        synchronized (classLock) {
-            getLAFState().getPropertyChangeSupport(true).
-                             addPropertyChangeListener(listener);
+        synchronized (clbssLock) {
+            getLAFStbte().getPropertyChbngeSupport(true).
+                             bddPropertyChbngeListener(listener);
         }
     }
 
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * This removes a <code>PropertyChangeListener</code> that was registered
-     * for all properties.
+     * Removes b <code>PropertyChbngeListener</code> from the listener list.
+     * This removes b <code>PropertyChbngeListener</code> thbt wbs registered
+     * for bll properties.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be removed
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listener  the <code>PropertyChbngeListener</code> to be removed
+     * @see jbvb.bebns.PropertyChbngeSupport
      */
-    public static void removePropertyChangeListener(PropertyChangeListener listener)
+    public stbtic void removePropertyChbngeListener(PropertyChbngeListener listener)
     {
-        synchronized (classLock) {
-            getLAFState().getPropertyChangeSupport(true).
-                          removePropertyChangeListener(listener);
+        synchronized (clbssLock) {
+            getLAFStbte().getPropertyChbngeSupport(true).
+                          removePropertyChbngeListener(listener);
         }
     }
 
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this UIManager with addPropertyChangeListener().
+     * Returns bn brrby of bll the <code>PropertyChbngeListener</code>s bdded
+     * to this UIMbnbger with bddPropertyChbngeListener().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>PropertyChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public static PropertyChangeListener[] getPropertyChangeListeners() {
-        synchronized(classLock) {
-            return getLAFState().getPropertyChangeSupport(true).
-                      getPropertyChangeListeners();
+    public stbtic PropertyChbngeListener[] getPropertyChbngeListeners() {
+        synchronized(clbssLock) {
+            return getLAFStbte().getPropertyChbngeSupport(true).
+                      getPropertyChbngeListeners();
         }
     }
 
-    private static Properties loadSwingProperties()
+    privbte stbtic Properties lobdSwingProperties()
     {
-        /* Don't bother checking for Swing properties if untrusted, as
-         * there's no way to look them up without triggering SecurityExceptions.
+        /* Don't bother checking for Swing properties if untrusted, bs
+         * there's no wby to look them up without triggering SecurityExceptions.
          */
-        if (UIManager.class.getClassLoader() != null) {
+        if (UIMbnbger.clbss.getClbssLobder() != null) {
             return new Properties();
         }
         else {
-            final Properties props = new Properties();
+            finbl Properties props = new Properties();
 
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
                     OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
                     if (osType == OSInfo.OSType.MACOSX) {
-                        props.put(defaultLAFKey, getSystemLookAndFeelClassName());
+                        props.put(defbultLAFKey, getSystemLookAndFeelClbssNbme());
                     }
 
                     try {
-                        File file = new File(makeSwingPropertiesFilename());
+                        File file = new File(mbkeSwingPropertiesFilenbme());
 
                         if (file.exists()) {
-                            // InputStream has been buffered in Properties
-                            // class
-                            FileInputStream ins = new FileInputStream(file);
-                            props.load(ins);
+                            // InputStrebm hbs been buffered in Properties
+                            // clbss
+                            FileInputStrebm ins = new FileInputStrebm(file);
+                            props.lobd(ins);
                             ins.close();
                         }
                     }
-                    catch (Exception e) {
-                        // No such file, or file is otherwise non-readable.
+                    cbtch (Exception e) {
+                        // No such file, or file is otherwise non-rebdbble.
                     }
 
-                    // Check whether any properties were overridden at the
-                    // command line.
-                    checkProperty(props, defaultLAFKey);
-                    checkProperty(props, auxiliaryLAFsKey);
+                    // Check whether bny properties were overridden bt the
+                    // commbnd line.
+                    checkProperty(props, defbultLAFKey);
+                    checkProperty(props, buxilibryLAFsKey);
                     checkProperty(props, multiplexingLAFKey);
-                    checkProperty(props, installedLAFsKey);
-                    checkProperty(props, disableMnemonicKey);
-                    // Don't care about return value.
+                    checkProperty(props, instblledLAFsKey);
+                    checkProperty(props, disbbleMnemonicKey);
+                    // Don't cbre bbout return vblue.
                     return null;
                 }
             });
@@ -1267,188 +1267,188 @@ public class UIManager implements Serializable
         }
     }
 
-    private static void checkProperty(Properties props, String key) {
-        // No need to do catch the SecurityException here, this runs
-        // in a doPrivileged.
-        String value = System.getProperty(key);
-        if (value != null) {
-            props.put(key, value);
+    privbte stbtic void checkProperty(Properties props, String key) {
+        // No need to do cbtch the SecurityException here, this runs
+        // in b doPrivileged.
+        String vblue = System.getProperty(key);
+        if (vblue != null) {
+            props.put(key, vblue);
         }
     }
 
 
     /**
-     * If a <code>swing.properties</code> file exist and it has a
-     * <code>swing.installedlafs</code> property
-     * then initialize the <code>installedLAFs</code> field.
+     * If b <code>swing.properties</code> file exist bnd it hbs b
+     * <code>swing.instblledlbfs</code> property
+     * then initiblize the <code>instblledLAFs</code> field.
      *
-     * @see #getInstalledLookAndFeels
+     * @see #getInstblledLookAndFeels
      */
-    private static void initializeInstalledLAFs(Properties swingProps)
+    privbte stbtic void initiblizeInstblledLAFs(Properties swingProps)
     {
-        String ilafsString = swingProps.getProperty(installedLAFsKey);
-        if (ilafsString == null) {
+        String ilbfsString = swingProps.getProperty(instblledLAFsKey);
+        if (ilbfsString == null) {
             return;
         }
 
-        /* Create a vector that contains the value of the swing.installedlafs
-         * property.  For example given "swing.installedlafs=motif,windows"
-         * lafs = {"motif", "windows"}.
+        /* Crebte b vector thbt contbins the vblue of the swing.instblledlbfs
+         * property.  For exbmple given "swing.instblledlbfs=motif,windows"
+         * lbfs = {"motif", "windows"}.
          */
-        Vector<String> lafs = new Vector<String>();
-        StringTokenizer st = new StringTokenizer(ilafsString, ",", false);
-        while (st.hasMoreTokens()) {
-            lafs.addElement(st.nextToken());
+        Vector<String> lbfs = new Vector<String>();
+        StringTokenizer st = new StringTokenizer(ilbfsString, ",", fblse);
+        while (st.hbsMoreTokens()) {
+            lbfs.bddElement(st.nextToken());
         }
 
-        /* Look up the name and class for each name in the "swing.installedlafs"
-         * list.  If they both exist then add a LookAndFeelInfo to
-         * the installedLafs array.
+        /* Look up the nbme bnd clbss for ebch nbme in the "swing.instblledlbfs"
+         * list.  If they both exist then bdd b LookAndFeelInfo to
+         * the instblledLbfs brrby.
          */
-        Vector<LookAndFeelInfo> ilafs = new Vector<LookAndFeelInfo>(lafs.size());
-        for (String laf : lafs) {
-            String name = swingProps.getProperty(makeInstalledLAFKey(laf, "name"), laf);
-            String cls = swingProps.getProperty(makeInstalledLAFKey(laf, "class"));
+        Vector<LookAndFeelInfo> ilbfs = new Vector<LookAndFeelInfo>(lbfs.size());
+        for (String lbf : lbfs) {
+            String nbme = swingProps.getProperty(mbkeInstblledLAFKey(lbf, "nbme"), lbf);
+            String cls = swingProps.getProperty(mbkeInstblledLAFKey(lbf, "clbss"));
             if (cls != null) {
-                ilafs.addElement(new LookAndFeelInfo(name, cls));
+                ilbfs.bddElement(new LookAndFeelInfo(nbme, cls));
             }
         }
 
-        LookAndFeelInfo[] installedLAFs = new LookAndFeelInfo[ilafs.size()];
-        for(int i = 0; i < ilafs.size(); i++) {
-            installedLAFs[i] = ilafs.elementAt(i);
+        LookAndFeelInfo[] instblledLAFs = new LookAndFeelInfo[ilbfs.size()];
+        for(int i = 0; i < ilbfs.size(); i++) {
+            instblledLAFs[i] = ilbfs.elementAt(i);
         }
-        getLAFState().installedLAFs = installedLAFs;
+        getLAFStbte().instblledLAFs = instblledLAFs;
     }
 
 
     /**
-     * If the user has specified a default look and feel, use that.
-     * Otherwise use the look and feel that's native to this platform.
-     * If this code is called after the application has explicitly
-     * set it's look and feel, do nothing.
+     * If the user hbs specified b defbult look bnd feel, use thbt.
+     * Otherwise use the look bnd feel thbt's nbtive to this plbtform.
+     * If this code is cblled bfter the bpplicbtion hbs explicitly
+     * set it's look bnd feel, do nothing.
      *
-     * @see #maybeInitialize
+     * @see #mbybeInitiblize
      */
-    private static void initializeDefaultLAF(Properties swingProps)
+    privbte stbtic void initiblizeDefbultLAF(Properties swingProps)
     {
-        if (getLAFState().lookAndFeel != null) {
+        if (getLAFStbte().lookAndFeel != null) {
             return;
         }
 
-        // Try to get default LAF from system property, then from AppContext
-        // (6653395), then use cross-platform one by default.
-        String lafName = null;
-        @SuppressWarnings("unchecked")
-        HashMap<Object, String> lafData =
-                (HashMap) AppContext.getAppContext().remove("swing.lafdata");
-        if (lafData != null) {
-            lafName = lafData.remove("defaultlaf");
+        // Try to get defbult LAF from system property, then from AppContext
+        // (6653395), then use cross-plbtform one by defbult.
+        String lbfNbme = null;
+        @SuppressWbrnings("unchecked")
+        HbshMbp<Object, String> lbfDbtb =
+                (HbshMbp) AppContext.getAppContext().remove("swing.lbfdbtb");
+        if (lbfDbtb != null) {
+            lbfNbme = lbfDbtb.remove("defbultlbf");
         }
-        if (lafName == null) {
-            lafName = getCrossPlatformLookAndFeelClassName();
+        if (lbfNbme == null) {
+            lbfNbme = getCrossPlbtformLookAndFeelClbssNbme();
         }
-        lafName = swingProps.getProperty(defaultLAFKey, lafName);
+        lbfNbme = swingProps.getProperty(defbultLAFKey, lbfNbme);
 
         try {
-            setLookAndFeel(lafName);
-        } catch (Exception e) {
-            throw new Error("Cannot load " + lafName);
+            setLookAndFeel(lbfNbme);
+        } cbtch (Exception e) {
+            throw new Error("Cbnnot lobd " + lbfNbme);
         }
 
-        // Set any properties passed through AppContext (6653395).
-        if (lafData != null) {
-            for (Object key: lafData.keySet()) {
-                UIManager.put(key, lafData.get(key));
+        // Set bny properties pbssed through AppContext (6653395).
+        if (lbfDbtb != null) {
+            for (Object key: lbfDbtb.keySet()) {
+                UIMbnbger.put(key, lbfDbtb.get(key));
             }
         }
     }
 
 
-    private static void initializeAuxiliaryLAFs(Properties swingProps)
+    privbte stbtic void initiblizeAuxilibryLAFs(Properties swingProps)
     {
-        String auxLookAndFeelNames = swingProps.getProperty(auxiliaryLAFsKey);
-        if (auxLookAndFeelNames == null) {
+        String buxLookAndFeelNbmes = swingProps.getProperty(buxilibryLAFsKey);
+        if (buxLookAndFeelNbmes == null) {
             return;
         }
 
-        Vector<LookAndFeel> auxLookAndFeels = new Vector<LookAndFeel>();
+        Vector<LookAndFeel> buxLookAndFeels = new Vector<LookAndFeel>();
 
-        StringTokenizer p = new StringTokenizer(auxLookAndFeelNames,",");
-        String factoryName;
+        StringTokenizer p = new StringTokenizer(buxLookAndFeelNbmes,",");
+        String fbctoryNbme;
 
-        /* Try to load each LookAndFeel subclass in the list.
+        /* Try to lobd ebch LookAndFeel subclbss in the list.
          */
 
-        while (p.hasMoreTokens()) {
-            String className = p.nextToken();
+        while (p.hbsMoreTokens()) {
+            String clbssNbme = p.nextToken();
             try {
-                Class<?> lnfClass = SwingUtilities.loadSystemClass(className);
-                LookAndFeel newLAF = (LookAndFeel)lnfClass.newInstance();
-                newLAF.initialize();
-                auxLookAndFeels.addElement(newLAF);
+                Clbss<?> lnfClbss = SwingUtilities.lobdSystemClbss(clbssNbme);
+                LookAndFeel newLAF = (LookAndFeel)lnfClbss.newInstbnce();
+                newLAF.initiblize();
+                buxLookAndFeels.bddElement(newLAF);
             }
-            catch (Exception e) {
-                System.err.println("UIManager: failed loading auxiliary look and feel " + className);
+            cbtch (Exception e) {
+                System.err.println("UIMbnbger: fbiled lobding buxilibry look bnd feel " + clbssNbme);
             }
         }
 
-        /* If there were problems and no auxiliary look and feels were
-         * loaded, make sure we reset auxLookAndFeels to null.
-         * Otherwise, we are going to use the MultiLookAndFeel to get
-         * all component UI's, so we need to load it now.
+        /* If there were problems bnd no buxilibry look bnd feels were
+         * lobded, mbke sure we reset buxLookAndFeels to null.
+         * Otherwise, we bre going to use the MultiLookAndFeel to get
+         * bll component UI's, so we need to lobd it now.
          */
-        if (auxLookAndFeels.size() == 0) {
-            auxLookAndFeels = null;
+        if (buxLookAndFeels.size() == 0) {
+            buxLookAndFeels = null;
         }
         else {
-            getLAFState().multiLookAndFeel = getMultiLookAndFeel();
-            if (getLAFState().multiLookAndFeel == null) {
-                auxLookAndFeels = null;
+            getLAFStbte().multiLookAndFeel = getMultiLookAndFeel();
+            if (getLAFStbte().multiLookAndFeel == null) {
+                buxLookAndFeels = null;
             }
         }
 
-        getLAFState().auxLookAndFeels = auxLookAndFeels;
+        getLAFStbte().buxLookAndFeels = buxLookAndFeels;
     }
 
 
-    private static void initializeSystemDefaults(Properties swingProps) {
-        getLAFState().swingProps = swingProps;
+    privbte stbtic void initiblizeSystemDefbults(Properties swingProps) {
+        getLAFStbte().swingProps = swingProps;
     }
 
 
     /*
-     * This method is called before any code that depends on the
-     * <code>AppContext</code> specific LAFState object runs.  When the AppContext
-     * corresponds to a set of applets it's possible for this method
-     * to be re-entered, which is why we grab a lock before calling
-     * initialize().
+     * This method is cblled before bny code thbt depends on the
+     * <code>AppContext</code> specific LAFStbte object runs.  When the AppContext
+     * corresponds to b set of bpplets it's possible for this method
+     * to be re-entered, which is why we grbb b lock before cblling
+     * initiblize().
      */
-    private static void maybeInitialize() {
-        synchronized (classLock) {
-            if (!getLAFState().initialized) {
-                getLAFState().initialized = true;
-                initialize();
+    privbte stbtic void mbybeInitiblize() {
+        synchronized (clbssLock) {
+            if (!getLAFStbte().initiblized) {
+                getLAFStbte().initiblized = true;
+                initiblize();
             }
         }
     }
 
     /*
-     * Sets default swing focus traversal policy.
+     * Sets defbult swing focus trbversbl policy.
      */
-    private static void maybeInitializeFocusPolicy(JComponent comp) {
-        // Check for JRootPane which indicates that a swing toplevel
-        // is coming, in which case a swing default focus policy
-        // should be instatiated. See 7125044.
-        if (comp instanceof JRootPane) {
-            synchronized (classLock) {
-                if (!getLAFState().focusPolicyInitialized) {
-                    getLAFState().focusPolicyInitialized = true;
+    privbte stbtic void mbybeInitiblizeFocusPolicy(JComponent comp) {
+        // Check for JRootPbne which indicbtes thbt b swing toplevel
+        // is coming, in which cbse b swing defbult focus policy
+        // should be instbtibted. See 7125044.
+        if (comp instbnceof JRootPbne) {
+            synchronized (clbssLock) {
+                if (!getLAFStbte().focusPolicyInitiblized) {
+                    getLAFStbte().focusPolicyInitiblized = true;
 
-                    if (FocusManager.isFocusManagerEnabled()) {
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                            setDefaultFocusTraversalPolicy(
-                                new LayoutFocusTraversalPolicy());
+                    if (FocusMbnbger.isFocusMbnbgerEnbbled()) {
+                        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                            setDefbultFocusTrbversblPolicy(
+                                new LbyoutFocusTrbversblPolicy());
                     }
                 }
             }
@@ -1456,40 +1456,40 @@ public class UIManager implements Serializable
     }
 
     /*
-     * Only called by maybeInitialize().
+     * Only cblled by mbybeInitiblize().
      */
-    private static void initialize() {
-        Properties swingProps = loadSwingProperties();
-        initializeSystemDefaults(swingProps);
-        initializeDefaultLAF(swingProps);
-        initializeAuxiliaryLAFs(swingProps);
-        initializeInstalledLAFs(swingProps);
+    privbte stbtic void initiblize() {
+        Properties swingProps = lobdSwingProperties();
+        initiblizeSystemDefbults(swingProps);
+        initiblizeDefbultLAF(swingProps);
+        initiblizeAuxilibryLAFs(swingProps);
+        initiblizeInstblledLAFs(swingProps);
 
-        // Install Swing's PaintEventDispatcher
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            sun.awt.PaintEventDispatcher.setPaintEventDispatcher(
-                                        new SwingPaintEventDispatcher());
+        // Instbll Swing's PbintEventDispbtcher
+        if (RepbintMbnbger.HANDLE_TOP_LEVEL_PAINT) {
+            sun.bwt.PbintEventDispbtcher.setPbintEventDispbtcher(
+                                        new SwingPbintEventDispbtcher());
         }
-        // Install a hook that will be invoked if no one consumes the
-        // KeyEvent.  If the source isn't a JComponent this will process
-        // key bindings, if the source is a JComponent it implies that
-        // processKeyEvent was already invoked and thus no need to process
-        // the bindings again, unless the Component is disabled, in which
-        // case KeyEvents will no longer be dispatched to it so that we
-        // handle it here.
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                addKeyEventPostProcessor(new KeyEventPostProcessor() {
-                    public boolean postProcessKeyEvent(KeyEvent e) {
+        // Instbll b hook thbt will be invoked if no one consumes the
+        // KeyEvent.  If the source isn't b JComponent this will process
+        // key bindings, if the source is b JComponent it implies thbt
+        // processKeyEvent wbs blrebdy invoked bnd thus no need to process
+        // the bindings bgbin, unless the Component is disbbled, in which
+        // cbse KeyEvents will no longer be dispbtched to it so thbt we
+        // hbndle it here.
+        KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                bddKeyEventPostProcessor(new KeyEventPostProcessor() {
+                    public boolebn postProcessKeyEvent(KeyEvent e) {
                         Component c = e.getComponent();
 
-                        if ((!(c instanceof JComponent) ||
-                             (c != null && !c.isEnabled())) &&
-                                JComponent.KeyboardState.shouldProcess(e) &&
+                        if ((!(c instbnceof JComponent) ||
+                             (c != null && !c.isEnbbled())) &&
+                                JComponent.KeybobrdStbte.shouldProcess(e) &&
                                 SwingUtilities.processKeyBindings(e)) {
                             e.consume();
                             return true;
                         }
-                        return false;
+                        return fblse;
                     }
                 });
         AWTAccessor.getComponentAccessor().

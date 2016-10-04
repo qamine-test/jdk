@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Represents a role: includes a role name and referenced MBeans (via their
- * ObjectNames). The role value is always represented as an ArrayList
- * collection (of ObjectNames) to homogenize the access.
+ * Represents b role: includes b role nbme bnd referenced MBebns (vib their
+ * ObjectNbmes). The role vblue is blwbys represented bs bn ArrbyList
+ * collection (of ObjectNbmes) to homogenize the bccess.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-279985518429862552L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-279985518429862552L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class Role implements Serializable {
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss Role implements Seriblizbble {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -1959486389343113026L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -1959486389343113026L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -279985518429862552L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -279985518429862552L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("myName", String.class),
-      new ObjectStreamField("myObjNameList", ArrayList.class)
+      new ObjectStrebmField("myNbme", String.clbss),
+      new ObjectStrebmField("myObjNbmeList", ArrbyList.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("name", String.class),
-      new ObjectStreamField("objectNameList", List.class)
+      new ObjectStrebmField("nbme", String.clbss),
+      new ObjectStrebmField("objectNbmeList", List.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField name String Role name
-     * @serialField objectNameList List {@link List} of {@link ObjectName}s of referenced MBeans
+     * @seriblField nbme String Role nbme
+     * @seriblField objectNbmeList List {@link List} of {@link ObjectNbme}s of referenced MBebns
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Private members
+    // Privbte members
     //
 
     /**
-     * @serial Role name
+     * @seribl Role nbme
      */
-    private String name = null;
+    privbte String nbme = null;
 
     /**
-     * @serial {@link List} of {@link ObjectName}s of referenced MBeans
+     * @seribl {@link List} of {@link ObjectNbme}s of referenced MBebns
      */
-    private List<ObjectName> objectNameList = new ArrayList<ObjectName>();
+    privbte List<ObjectNbme> objectNbmeList = new ArrbyList<ObjectNbme>();
 
     //
     // Constructors
     //
 
     /**
-     * <p>Make a new Role object.
-     * No check is made that the ObjectNames in the role value exist in
-     * an MBean server.  That check will be made when the role is set
-     * in a relation.
+     * <p>Mbke b new Role object.
+     * No check is mbde thbt the ObjectNbmes in the role vblue exist in
+     * bn MBebn server.  Thbt check will be mbde when the role is set
+     * in b relbtion.
      *
-     * @param roleName  role name
-     * @param roleValue  role value (List of ObjectName objects)
+     * @pbrbm roleNbme  role nbme
+     * @pbrbm roleVblue  role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public Role(String roleName,
-                List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    public Role(String roleNbme,
+                List<ObjectNbme> roleVblue)
+        throws IllegblArgumentException {
 
-        if (roleName == null || roleValue == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+        if (roleNbme == null || roleVblue == null) {
+            String excMsg = "Invblid pbrbmeter";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        setRoleName(roleName);
-        setRoleValue(roleValue);
+        setRoleNbme(roleNbme);
+        setRoleVblue(roleVblue);
 
         return;
     }
@@ -156,84 +156,84 @@ public class Role implements Serializable {
     //
 
     /**
-     * Retrieves role name.
+     * Retrieves role nbme.
      *
-     * @return the role name.
+     * @return the role nbme.
      *
-     * @see #setRoleName
+     * @see #setRoleNbme
      */
-    public String getRoleName() {
-        return name;
+    public String getRoleNbme() {
+        return nbme;
     }
 
     /**
-     * Retrieves role value.
+     * Retrieves role vblue.
      *
-     * @return ArrayList of ObjectName objects for referenced MBeans.
+     * @return ArrbyList of ObjectNbme objects for referenced MBebns.
      *
-     * @see #setRoleValue
+     * @see #setRoleVblue
      */
-    public List<ObjectName> getRoleValue() {
-        return objectNameList;
+    public List<ObjectNbme> getRoleVblue() {
+        return objectNbmeList;
     }
 
     /**
-     * Sets role name.
+     * Sets role nbme.
      *
-     * @param roleName  role name
+     * @pbrbm roleNbme  role nbme
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      *
-     * @see #getRoleName
+     * @see #getRoleNbme
      */
-    public void setRoleName(String roleName)
-        throws IllegalArgumentException {
+    public void setRoleNbme(String roleNbme)
+        throws IllegblArgumentException {
 
-        if (roleName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (roleNbme == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        name = roleName;
+        nbme = roleNbme;
         return;
     }
 
     /**
-     * Sets role value.
+     * Sets role vblue.
      *
-     * @param roleValue  List of ObjectName objects for referenced
-     * MBeans.
+     * @pbrbm roleVblue  List of ObjectNbme objects for referenced
+     * MBebns.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      *
-     * @see #getRoleValue
+     * @see #getRoleVblue
      */
-    public void setRoleValue(List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    public void setRoleVblue(List<ObjectNbme> roleVblue)
+        throws IllegblArgumentException {
 
-        if (roleValue == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (roleVblue == null) {
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        objectNameList = new ArrayList<ObjectName>(roleValue);
+        objectNbmeList = new ArrbyList<ObjectNbme>(roleVblue);
         return;
     }
 
     /**
-     * Returns a string describing the role.
+     * Returns b string describing the role.
      *
      * @return the description of the role.
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("role name: " + name + "; role value: ");
-        for (Iterator<ObjectName> objNameIter = objectNameList.iterator();
-             objNameIter.hasNext();) {
-            ObjectName currObjName = objNameIter.next();
-            result.append(currObjName.toString());
-            if (objNameIter.hasNext()) {
-                result.append(", ");
+        result.bppend("role nbme: " + nbme + "; role vblue: ");
+        for (Iterbtor<ObjectNbme> objNbmeIter = objectNbmeList.iterbtor();
+             objNbmeIter.hbsNext();) {
+            ObjectNbme currObjNbme = objNbmeIter.next();
+            result.bppend(currObjNbme.toString());
+            if (objNbmeIter.hbsNext()) {
+                result.bppend(", ");
             }
         }
         return result.toString();
@@ -246,93 +246,93 @@ public class Role implements Serializable {
     /**
      * Clone the role object.
      *
-     * @return a Role that is an independent copy of the current Role object.
+     * @return b Role thbt is bn independent copy of the current Role object.
      */
     public Object clone() {
 
         try {
-            return new Role(name, objectNameList);
-        } catch (IllegalArgumentException exc) {
-            return null; // can't happen
+            return new Role(nbme, objectNbmeList);
+        } cbtch (IllegblArgumentException exc) {
+            return null; // cbn't hbppen
         }
     }
 
     /**
-     * Returns a string for the given role value.
+     * Returns b string for the given role vblue.
      *
-     * @param roleValue  List of ObjectName objects
+     * @pbrbm roleVblue  List of ObjectNbme objects
      *
-     * @return A String consisting of the ObjectNames separated by
+     * @return A String consisting of the ObjectNbmes sepbrbted by
      * newlines (\n).
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public static String roleValueToString(List<ObjectName> roleValue)
-        throws IllegalArgumentException {
+    public stbtic String roleVblueToString(List<ObjectNbme> roleVblue)
+        throws IllegblArgumentException {
 
-        if (roleValue == null) {
-            String excMsg = "Invalid parameter";
-            throw new IllegalArgumentException(excMsg);
+        if (roleVblue == null) {
+            String excMsg = "Invblid pbrbmeter";
+            throw new IllegblArgumentException(excMsg);
         }
 
         StringBuilder result = new StringBuilder();
-        for (ObjectName currObjName : roleValue) {
+        for (ObjectNbme currObjNbme : roleVblue) {
             if (result.length() > 0)
-                result.append("\n");
-            result.append(currObjName.toString());
+                result.bppend("\n");
+            result.bppend(currObjNbme.toString());
         }
         return result.toString();
     }
 
     /**
-     * Deserializes a {@link Role} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link Role} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        name = (String) fields.get("myName", null);
-        if (fields.defaulted("myName"))
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        nbme = (String) fields.get("myNbme", null);
+        if (fields.defbulted("myNbme"))
         {
-          throw new NullPointerException("myName");
+          throw new NullPointerException("myNbme");
         }
-        objectNameList = cast(fields.get("myObjNameList", null));
-        if (fields.defaulted("myObjNameList"))
+        objectNbmeList = cbst(fields.get("myObjNbmeList", null));
+        if (fields.defbulted("myObjNbmeList"))
         {
-          throw new NullPointerException("myObjNameList");
+          throw new NullPointerException("myObjNbmeList");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes a {@link Role} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link Role} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myName", name);
-        fields.put("myObjNameList", objectNameList);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("myNbme", nbme);
+        fields.put("myObjNbmeList", objectNbmeList);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

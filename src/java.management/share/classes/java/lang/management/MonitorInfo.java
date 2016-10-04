@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import javax.management.openmbean.CompositeData;
-import sun.management.MonitorInfoCompositeData;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import sun.mbnbgement.MonitorInfoCompositeDbtb;
 
 /**
- * Information about an object monitor lock.  An object monitor is locked
- * when entering a synchronization block or method on that object.
+ * Informbtion bbout bn object monitor lock.  An object monitor is locked
+ * when entering b synchronizbtion block or method on thbt object.
  *
- * <h3>MXBean Mapping</h3>
- * <tt>MonitorInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in
+ * <h3>MXBebn Mbpping</h3>
+ * <tt>MonitorInfo</tt> is mbpped to b {@link CompositeDbtb CompositeDbtb}
+ * with bttributes bs specified in
  * the {@link #from from} method.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.6
  */
-public class MonitorInfo extends LockInfo {
+public clbss MonitorInfo extends LockInfo {
 
-    private int    stackDepth;
-    private StackTraceElement stackFrame;
+    privbte int    stbckDepth;
+    privbte StbckTrbceElement stbckFrbme;
 
     /**
-     * Construct a <tt>MonitorInfo</tt> object.
+     * Construct b <tt>MonitorInfo</tt> object.
      *
-     * @param className the fully qualified name of the class of the lock object.
-     * @param identityHashCode the {@link System#identityHashCode
-     *                         identity hash code} of the lock object.
-     * @param stackDepth the depth in the stack trace where the object monitor
-     *                   was locked.
-     * @param stackFrame the stack frame that locked the object monitor.
-     * @throws IllegalArgumentException if
-     *    <tt>stackDepth</tt> &ge; 0 but <tt>stackFrame</tt> is <tt>null</tt>,
-     *    or <tt>stackDepth</tt> &lt; 0 but <tt>stackFrame</tt> is not
+     * @pbrbm clbssNbme the fully qublified nbme of the clbss of the lock object.
+     * @pbrbm identityHbshCode the {@link System#identityHbshCode
+     *                         identity hbsh code} of the lock object.
+     * @pbrbm stbckDepth the depth in the stbck trbce where the object monitor
+     *                   wbs locked.
+     * @pbrbm stbckFrbme the stbck frbme thbt locked the object monitor.
+     * @throws IllegblArgumentException if
+     *    <tt>stbckDepth</tt> &ge; 0 but <tt>stbckFrbme</tt> is <tt>null</tt>,
+     *    or <tt>stbckDepth</tt> &lt; 0 but <tt>stbckFrbme</tt> is not
      *       <tt>null</tt>.
      */
-    public MonitorInfo(String className,
-                       int identityHashCode,
-                       int stackDepth,
-                       StackTraceElement stackFrame) {
-        super(className, identityHashCode);
-        if (stackDepth >= 0 && stackFrame == null) {
-            throw new IllegalArgumentException("Parameter stackDepth is " +
-                stackDepth + " but stackFrame is null");
+    public MonitorInfo(String clbssNbme,
+                       int identityHbshCode,
+                       int stbckDepth,
+                       StbckTrbceElement stbckFrbme) {
+        super(clbssNbme, identityHbshCode);
+        if (stbckDepth >= 0 && stbckFrbme == null) {
+            throw new IllegblArgumentException("Pbrbmeter stbckDepth is " +
+                stbckDepth + " but stbckFrbme is null");
         }
-        if (stackDepth < 0 && stackFrame != null) {
-            throw new IllegalArgumentException("Parameter stackDepth is " +
-                stackDepth + " but stackFrame is not null");
+        if (stbckDepth < 0 && stbckFrbme != null) {
+            throw new IllegblArgumentException("Pbrbmeter stbckDepth is " +
+                stbckDepth + " but stbckFrbme is not null");
         }
-        this.stackDepth = stackDepth;
-        this.stackFrame = stackFrame;
+        this.stbckDepth = stbckDepth;
+        this.stbckFrbme = stbckFrbme;
     }
 
     /**
-     * Returns the depth in the stack trace where the object monitor
-     * was locked.  The depth is the index to the <tt>StackTraceElement</tt>
-     * array returned in the {@link ThreadInfo#getStackTrace} method.
+     * Returns the depth in the stbck trbce where the object monitor
+     * wbs locked.  The depth is the index to the <tt>StbckTrbceElement</tt>
+     * brrby returned in the {@link ThrebdInfo#getStbckTrbce} method.
      *
-     * @return the depth in the stack trace where the object monitor
-     *         was locked, or a negative number if not available.
+     * @return the depth in the stbck trbce where the object monitor
+     *         wbs locked, or b negbtive number if not bvbilbble.
      */
-    public int getLockedStackDepth() {
-        return stackDepth;
+    public int getLockedStbckDepth() {
+        return stbckDepth;
     }
 
     /**
-     * Returns the stack frame that locked the object monitor.
+     * Returns the stbck frbme thbt locked the object monitor.
      *
-     * @return <tt>StackTraceElement</tt> that locked the object monitor,
-     *         or <tt>null</tt> if not available.
+     * @return <tt>StbckTrbceElement</tt> thbt locked the object monitor,
+     *         or <tt>null</tt> if not bvbilbble.
      */
-    public StackTraceElement getLockedStackFrame() {
-        return stackFrame;
+    public StbckTrbceElement getLockedStbckFrbme() {
+        return stbckFrbme;
     }
 
     /**
-     * Returns a <tt>MonitorInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain the following attributes
-     * as well as the attributes specified in the
-     * <a href="LockInfo.html#MappedType">
-     * mapped type</a> for the {@link LockInfo} class:
+     * Returns b <tt>MonitorInfo</tt> object represented by the
+     * given <tt>CompositeDbtb</tt>.
+     * The given <tt>CompositeDbtb</tt> must contbin the following bttributes
+     * bs well bs the bttributes specified in the
+     * <b href="LockInfo.html#MbppedType">
+     * mbpped type</b> for the {@link LockInfo} clbss:
      * <blockquote>
-     * <table border summary="The attributes and their types the given CompositeData contains">
+     * <tbble border summbry="The bttributes bnd their types the given CompositeDbtb contbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
-     *   <td>lockedStackFrame</td>
-     *   <td><tt>CompositeData as specified in the
-     *       <a href="ThreadInfo.html#StackTrace">stackTrace</a>
-     *       attribute defined in the {@link ThreadInfo#from
-     *       ThreadInfo.from} method.
+     *   <td>lockedStbckFrbme</td>
+     *   <td><tt>CompositeDbtb bs specified in the
+     *       <b href="ThrebdInfo.html#StbckTrbce">stbckTrbce</b>
+     *       bttribute defined in the {@link ThrebdInfo#from
+     *       ThrebdInfo.from} method.
      *       </tt></td>
      * </tr>
      * <tr>
-     *   <td>lockedStackDepth</td>
-     *   <td><tt>java.lang.Integer</tt></td>
+     *   <td>lockedStbckDepth</td>
+     *   <td><tt>jbvb.lbng.Integer</tt></td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>MonitorInfo</tt>
+     * @pbrbm cd <tt>CompositeDbtb</tt> representing b <tt>MonitorInfo</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>MonitorInfo</tt> with the attributes described
-     *   above.
+     * @throws IllegblArgumentException if <tt>cd</tt> does not
+     *   represent b <tt>MonitorInfo</tt> with the bttributes described
+     *   bbove.
 
-     * @return a <tt>MonitorInfo</tt> object represented
+     * @return b <tt>MonitorInfo</tt> object represented
      *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
      *         <tt>null</tt> otherwise.
      */
-    public static MonitorInfo from(CompositeData cd) {
+    public stbtic MonitorInfo from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof MonitorInfoCompositeData) {
-            return ((MonitorInfoCompositeData) cd).getMonitorInfo();
+        if (cd instbnceof MonitorInfoCompositeDbtb) {
+            return ((MonitorInfoCompositeDbtb) cd).getMonitorInfo();
         } else {
-            MonitorInfoCompositeData.validateCompositeData(cd);
-            String className = MonitorInfoCompositeData.getClassName(cd);
-            int identityHashCode = MonitorInfoCompositeData.getIdentityHashCode(cd);
-            int stackDepth = MonitorInfoCompositeData.getLockedStackDepth(cd);
-            StackTraceElement stackFrame = MonitorInfoCompositeData.getLockedStackFrame(cd);
-            return new MonitorInfo(className,
-                                   identityHashCode,
-                                   stackDepth,
-                                   stackFrame);
+            MonitorInfoCompositeDbtb.vblidbteCompositeDbtb(cd);
+            String clbssNbme = MonitorInfoCompositeDbtb.getClbssNbme(cd);
+            int identityHbshCode = MonitorInfoCompositeDbtb.getIdentityHbshCode(cd);
+            int stbckDepth = MonitorInfoCompositeDbtb.getLockedStbckDepth(cd);
+            StbckTrbceElement stbckFrbme = MonitorInfoCompositeDbtb.getLockedStbckFrbme(cd);
+            return new MonitorInfo(clbssNbme,
+                                   identityHbshCode,
+                                   stbckDepth,
+                                   stbckFrbme);
         }
     }
 

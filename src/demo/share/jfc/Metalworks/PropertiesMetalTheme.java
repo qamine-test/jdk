@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,179 +30,179 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
 
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.metal.DefaultMetalTheme;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.metbl.DefbultMetblTheme;
 
 
 /**
- * This class allows you to load a theme from a file.
- * It uses the standard Java Properties file format.
- * To create a theme you provide a text file which contains
- * tags corresponding to colors of the theme along with a value
- * for that color.  For example:
+ * This clbss bllows you to lobd b theme from b file.
+ * It uses the stbndbrd Jbvb Properties file formbt.
+ * To crebte b theme you provide b text file which contbins
+ * tbgs corresponding to colors of the theme blong with b vblue
+ * for thbt color.  For exbmple:
  *
- * name=My Ugly Theme
- * primary1=255,0,0
- * primary2=0,255,0
- * primary3=0,0,255
+ * nbme=My Ugly Theme
+ * primbry1=255,0,0
+ * primbry2=0,255,0
+ * primbry3=0,0,255
  *
- * This class only loads colors from the properties file,
- * but it could easily be extended to load fonts -  or even icons.
+ * This clbss only lobds colors from the properties file,
+ * but it could ebsily be extended to lobd fonts -  or even icons.
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @buthor Steve Wilson
+ * @buthor Alexbnder Kouznetsov
  */
-public class PropertiesMetalTheme extends DefaultMetalTheme {
+public clbss PropertiesMetblTheme extends DefbultMetblTheme {
 
-    private String name = "Custom Theme";
-    private ColorUIResource primary1;
-    private ColorUIResource primary2;
-    private ColorUIResource primary3;
-    private ColorUIResource secondary1;
-    private ColorUIResource secondary2;
-    private ColorUIResource secondary3;
-    private ColorUIResource black;
-    private ColorUIResource white;
+    privbte String nbme = "Custom Theme";
+    privbte ColorUIResource primbry1;
+    privbte ColorUIResource primbry2;
+    privbte ColorUIResource primbry3;
+    privbte ColorUIResource secondbry1;
+    privbte ColorUIResource secondbry2;
+    privbte ColorUIResource secondbry3;
+    privbte ColorUIResource blbck;
+    privbte ColorUIResource white;
 
     /**
-     * pass an inputstream pointing to a properties file.
-     * Colors will be initialized to be the same as the DefaultMetalTheme,
-     * and then any colors provided in the properties file will override that.
+     * pbss bn inputstrebm pointing to b properties file.
+     * Colors will be initiblized to be the sbme bs the DefbultMetblTheme,
+     * bnd then bny colors provided in the properties file will override thbt.
      */
-    public PropertiesMetalTheme(InputStream stream) {
+    public PropertiesMetblTheme(InputStrebm strebm) {
         initColors();
-        loadProperties(stream);
+        lobdProperties(strebm);
     }
 
     /**
-     * Initialize all colors to be the same as the DefaultMetalTheme.
+     * Initiblize bll colors to be the sbme bs the DefbultMetblTheme.
      */
-    private void initColors() {
-        primary1 = super.getPrimary1();
-        primary2 = super.getPrimary2();
-        primary3 = super.getPrimary3();
+    privbte void initColors() {
+        primbry1 = super.getPrimbry1();
+        primbry2 = super.getPrimbry2();
+        primbry3 = super.getPrimbry3();
 
-        secondary1 = super.getSecondary1();
-        secondary2 = super.getSecondary2();
-        secondary3 = super.getSecondary3();
+        secondbry1 = super.getSecondbry1();
+        secondbry2 = super.getSecondbry2();
+        secondbry3 = super.getSecondbry3();
 
-        black = super.getBlack();
+        blbck = super.getBlbck();
         white = super.getWhite();
     }
 
     /**
-     * Load the theme name and colors from the properties file
-     * Items not defined in the properties file are ignored
+     * Lobd the theme nbme bnd colors from the properties file
+     * Items not defined in the properties file bre ignored
      */
-    private void loadProperties(InputStream stream) {
+    privbte void lobdProperties(InputStrebm strebm) {
         Properties prop = new Properties();
         try {
-            prop.load(stream);
-        } catch (IOException e) {
+            prop.lobd(strebm);
+        } cbtch (IOException e) {
             System.out.println(e);
         }
 
-        Object tempName = prop.get("name");
-        if (tempName != null) {
-            name = tempName.toString();
+        Object tempNbme = prop.get("nbme");
+        if (tempNbme != null) {
+            nbme = tempNbme.toString();
         }
 
         Object colorString = null;
 
-        colorString = prop.get("primary1");
+        colorString = prop.get("primbry1");
         if (colorString != null) {
-            primary1 = parseColor(colorString.toString());
+            primbry1 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("primary2");
+        colorString = prop.get("primbry2");
         if (colorString != null) {
-            primary2 = parseColor(colorString.toString());
+            primbry2 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("primary3");
+        colorString = prop.get("primbry3");
         if (colorString != null) {
-            primary3 = parseColor(colorString.toString());
+            primbry3 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("secondary1");
+        colorString = prop.get("secondbry1");
         if (colorString != null) {
-            secondary1 = parseColor(colorString.toString());
+            secondbry1 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("secondary2");
+        colorString = prop.get("secondbry2");
         if (colorString != null) {
-            secondary2 = parseColor(colorString.toString());
+            secondbry2 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("secondary3");
+        colorString = prop.get("secondbry3");
         if (colorString != null) {
-            secondary3 = parseColor(colorString.toString());
+            secondbry3 = pbrseColor(colorString.toString());
         }
 
-        colorString = prop.get("black");
+        colorString = prop.get("blbck");
         if (colorString != null) {
-            black = parseColor(colorString.toString());
+            blbck = pbrseColor(colorString.toString());
         }
 
         colorString = prop.get("white");
         if (colorString != null) {
-            white = parseColor(colorString.toString());
+            white = pbrseColor(colorString.toString());
         }
 
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     @Override
-    protected ColorUIResource getPrimary1() {
-        return primary1;
+    protected ColorUIResource getPrimbry1() {
+        return primbry1;
     }
 
     @Override
-    protected ColorUIResource getPrimary2() {
-        return primary2;
+    protected ColorUIResource getPrimbry2() {
+        return primbry2;
     }
 
     @Override
-    protected ColorUIResource getPrimary3() {
-        return primary3;
+    protected ColorUIResource getPrimbry3() {
+        return primbry3;
     }
 
     @Override
-    protected ColorUIResource getSecondary1() {
-        return secondary1;
+    protected ColorUIResource getSecondbry1() {
+        return secondbry1;
     }
 
     @Override
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
+    protected ColorUIResource getSecondbry2() {
+        return secondbry2;
     }
 
     @Override
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
+    protected ColorUIResource getSecondbry3() {
+        return secondbry3;
     }
 
     @Override
-    protected ColorUIResource getBlack() {
-        return black;
+    protected ColorUIResource getBlbck() {
+        return blbck;
     }
 
     @Override
@@ -211,22 +211,22 @@ public class PropertiesMetalTheme extends DefaultMetalTheme {
     }
 
     /**
-     * parse a comma delimited list of 3 strings into a Color
+     * pbrse b commb delimited list of 3 strings into b Color
      */
-    private ColorUIResource parseColor(String s) {
+    privbte ColorUIResource pbrseColor(String s) {
         int red = 0;
         int green = 0;
         int blue = 0;
         try {
             StringTokenizer st = new StringTokenizer(s, ",");
 
-            red = Integer.parseInt(st.nextToken());
-            green = Integer.parseInt(st.nextToken());
-            blue = Integer.parseInt(st.nextToken());
+            red = Integer.pbrseInt(st.nextToken());
+            green = Integer.pbrseInt(st.nextToken());
+            blue = Integer.pbrseInt(st.nextToken());
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.out.println(e);
-            System.out.println("Couldn't parse color :" + s);
+            System.out.println("Couldn't pbrse color :" + s);
         }
 
         return new ColorUIResource(red, green, blue);

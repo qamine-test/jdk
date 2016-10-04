@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.lang.ref.SoftReference;
-import java.nio.charset.Charset;
-import java.nio.charset.spi.CharsetProvider;
-import sun.nio.cs.AbstractCharsetProvider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.spi.ChbrsetProvider;
+import sun.nio.cs.AbstrbctChbrsetProvider;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Provider for extended charsets.
+ * Provider for extended chbrsets.
  */
 
-public class ExtendedCharsets
-    extends AbstractCharsetProvider
+public clbss ExtendedChbrsets
+    extends AbstrbctChbrsetProvider
 {
 
-    static volatile ExtendedCharsets instance = null;
+    stbtic volbtile ExtendedChbrsets instbnce = null;
 
-    public ExtendedCharsets() {
+    public ExtendedChbrsets() {
 
-        super("sun.nio.cs.ext");  // identify provider pkg name.
+        super("sun.nio.cs.ext");  // identify provider pkg nbme.
 
-        // Traditional Chinese
+        // Trbditionbl Chinese
 
-        charset("Big5", "Big5",
+        chbrset("Big5", "Big5",
                 new String[] {
-                    // IANA aliases
+                    // IANA blibses
                     "csBig5"
                 });
 
-        charset("x-MS950-HKSCS-XP", "MS950_HKSCS_XP",
+        chbrset("x-MS950-HKSCS-XP", "MS950_HKSCS_XP",
                 new String[] {
-                    "MS950_HKSCS_XP"  // JDK historical;
+                    "MS950_HKSCS_XP"  // JDK historicbl;
                 });
 
-        charset("x-MS950-HKSCS", "MS950_HKSCS",
+        chbrset("x-MS950-HKSCS", "MS950_HKSCS",
                 new String[] {
-                    // IANA aliases
-                    "MS950_HKSCS"     // JDK historical;
+                    // IANA blibses
+                    "MS950_HKSCS"     // JDK historicbl;
                 });
 
-        charset("x-windows-950", "MS950",
+        chbrset("x-windows-950", "MS950",
                 new String[] {
-                    "ms950",    // JDK historical
+                    "ms950",    // JDK historicbl
                     "windows-950"
                 });
 
-        charset("x-windows-874", "MS874",
+        chbrset("x-windows-874", "MS874",
                 new String[] {
-                    "ms874",  // JDK historical
+                    "ms874",  // JDK historicbl
                     "ms-874",
                     "windows-874" });
 
-        charset("x-EUC-TW", "EUC_TW",
+        chbrset("x-EUC-TW", "EUC_TW",
                 new String[] {
-                    "euc_tw", // JDK historical
+                    "euc_tw", // JDK historicbl
                     "euctw",
                     "cns11643",
                     "EUC-TW"
                 });
 
-        charset("Big5-HKSCS", "Big5_HKSCS",
+        chbrset("Big5-HKSCS", "Big5_HKSCS",
                 new String[] {
-                    "Big5_HKSCS", // JDK historical
+                    "Big5_HKSCS", // JDK historicbl
                     "big5hk",
                     "big5-hkscs",
-                    "big5hkscs"   // Linux alias
+                    "big5hkscs"   // Linux blibs
                 });
 
-        charset("x-Big5-HKSCS-2001", "Big5_HKSCS_2001",
+        chbrset("x-Big5-HKSCS-2001", "Big5_HKSCS_2001",
                 new String[] {
                     "Big5_HKSCS_2001",
                     "big5hk-2001",
@@ -102,79 +102,79 @@ public class ExtendedCharsets
                     "big5hkscs-2001",
                 });
 
-        charset("x-Big5-Solaris", "Big5_Solaris",
+        chbrset("x-Big5-Solbris", "Big5_Solbris",
                 new String[] {
-                    "Big5_Solaris", // JDK historical
+                    "Big5_Solbris", // JDK historicbl
                 });
 
         // Simplified Chinese
-        charset("GBK", "GBK",
+        chbrset("GBK", "GBK",
                 new String[] {
                     "windows-936",
                     "CP936"
                 });
 
-        charset("GB18030", "GB18030",
+        chbrset("GB18030", "GB18030",
                 new String[] {
                     "gb18030-2000"
                 });
 
-        charset("GB2312", "EUC_CN",
+        chbrset("GB2312", "EUC_CN",
                 new String[] {
-                    // IANA aliases
+                    // IANA blibses
                     "gb2312",
                     "gb2312-80",
                     "gb2312-1980",
                     "euc-cn",
                     "euccn",
-                    "x-EUC-CN", // 1.4 compatibility
-                    "EUC_CN" //JDK historical
+                    "x-EUC-CN", // 1.4 compbtibility
+                    "EUC_CN" //JDK historicbl
                 });
 
-        charset("x-mswin-936", "MS936",
+        chbrset("x-mswin-936", "MS936",
                 new String[] {
-                    "ms936", // historical
-                    // IANA aliases
+                    "ms936", // historicbl
+                    // IANA blibses
                     "ms_936"
                 });
 
-        // The definition of this charset may be overridden by the init method,
-        // below, if the sun.nio.cs.map property is defined.
+        // The definition of this chbrset mby be overridden by the init method,
+        // below, if the sun.nio.cs.mbp property is defined.
         //
-        charset("Shift_JIS", "SJIS",
+        chbrset("Shift_JIS", "SJIS",
                 new String[] {
-                    // IANA aliases
-                    "sjis", // historical
+                    // IANA blibses
+                    "sjis", // historicbl
                     "shift_jis",
                     "shift-jis",
-                    "ms_kanji",
+                    "ms_kbnji",
                     "x-sjis",
                     "csShiftJIS"
                 });
 
-        // The definition of this charset may be overridden by the init method,
-        // below, if the sun.nio.cs.map property is defined.
+        // The definition of this chbrset mby be overridden by the init method,
+        // below, if the sun.nio.cs.mbp property is defined.
         //
-        charset("windows-31j", "MS932",
+        chbrset("windows-31j", "MS932",
                 new String[] {
-                    "MS932", // JDK historical
+                    "MS932", // JDK historicbl
                     "windows-932",
                     "csWindows31J"
                 });
 
-        charset("JIS_X0201", "JIS_X_0201",
+        chbrset("JIS_X0201", "JIS_X_0201",
                 new String[] {
-                    "JIS0201", // JDK historical
-                    // IANA aliases
+                    "JIS0201", // JDK historicbl
+                    // IANA blibses
                     "JIS_X0201",
                     "X0201",
-                    "csHalfWidthKatakana"
+                    "csHblfWidthKbtbkbnb"
                 });
 
-        charset("x-JIS0208", "JIS_X_0208",
+        chbrset("x-JIS0208", "JIS_X_0208",
                 new String[] {
-                    "JIS0208", // JDK historical
-                    // IANA aliases
+                    "JIS0208", // JDK historicbl
+                    // IANA blibses
                     "JIS_C6226-1983",
                     "iso-ir-87",
                     "x0208",
@@ -182,17 +182,17 @@ public class ExtendedCharsets
                     "csISO87JISX0208"
                 });
 
-        charset("JIS_X0212-1990", "JIS_X_0212",
+        chbrset("JIS_X0212-1990", "JIS_X_0212",
                 new String[] {
-                    "JIS0212", // JDK historical
-                    // IANA aliases
+                    "JIS0212", // JDK historicbl
+                    // IANA blibses
                     "jis_x0212-1990",
                     "x0212",
                     "iso-ir-159",
                     "csISO159JISX02121990"
                 });
 
-        charset("x-SJIS_0213", "SJIS_0213",
+        chbrset("x-SJIS_0213", "SJIS_0213",
                 new String[] {
                     "sjis-0213",
                     "sjis_0213",
@@ -202,7 +202,7 @@ public class ExtendedCharsets
                     "shift_jis:2004"
                 });
 
-        charset("x-MS932_0213", "MS932_0213",
+        chbrset("x-MS932_0213", "MS932_0213",
                 new String[] {
                     "MS932-0213",
                     "MS932_0213",
@@ -211,80 +211,80 @@ public class ExtendedCharsets
                     "windows-932:2004"
                 });
 
-        charset("EUC-JP", "EUC_JP",
+        chbrset("EUC-JP", "EUC_JP",
                 new String[] {
-                    "euc_jp", // JDK historical
-                    // IANA aliases
+                    "euc_jp", // JDK historicbl
+                    // IANA blibses
                     "eucjis",
                     "eucjp",
-                    "Extended_UNIX_Code_Packed_Format_for_Japanese",
-                    "csEUCPkdFmtjapanese",
+                    "Extended_UNIX_Code_Pbcked_Formbt_for_Jbpbnese",
+                    "csEUCPkdFmtjbpbnese",
                     "x-euc-jp",
                     "x-eucjp"
                 });
 
-        charset("x-euc-jp-linux", "EUC_JP_LINUX",
+        chbrset("x-euc-jp-linux", "EUC_JP_LINUX",
                 new String[] {
-                    "euc_jp_linux", // JDK historical
+                    "euc_jp_linux", // JDK historicbl
                     "euc-jp-linux"
                 });
 
-        charset("x-eucjp-open", "EUC_JP_Open",
+        chbrset("x-eucjp-open", "EUC_JP_Open",
                 new String[] {
-                    "EUC_JP_Solaris",   // JDK historical
+                    "EUC_JP_Solbris",   // JDK historicbl
                     "eucJP-open"
                 });
 
-        charset("x-PCK", "PCK",
+        chbrset("x-PCK", "PCK",
                 new String[] {
-                    // IANA aliases
-                    "pck" // historical
+                    // IANA blibses
+                    "pck" // historicbl
                 });
 
-        charset("ISO-2022-JP", "ISO2022_JP",
+        chbrset("ISO-2022-JP", "ISO2022_JP",
             new String[] {
-            // IANA aliases
-            "iso2022jp", // historical
+            // IANA blibses
+            "iso2022jp", // historicbl
             "jis",
             "csISO2022JP",
             "jis_encoding",
             "csjisencoding"
         });
 
-        charset("ISO-2022-JP-2", "ISO2022_JP_2",
+        chbrset("ISO-2022-JP-2", "ISO2022_JP_2",
             new String[] {
-            // IANA aliases
+            // IANA blibses
             "csISO2022JP2",
             "iso2022jp2"
         });
 
-        charset("x-windows-50221", "MS50221",
+        chbrset("x-windows-50221", "MS50221",
             new String[] {
-            "ms50221", // historical
+            "ms50221", // historicbl
             "cp50221",
         });
 
-        charset("x-windows-50220", "MS50220",
+        chbrset("x-windows-50220", "MS50220",
             new String[] {
-            "ms50220", // historical
+            "ms50220", // historicbl
             "cp50220",
         });
 
-        charset("x-windows-iso2022jp", "MSISO2022JP",
+        chbrset("x-windows-iso2022jp", "MSISO2022JP",
             new String[] {
-            "windows-iso2022jp", // historical
+            "windows-iso2022jp", // historicbl
         });
 
-        charset("x-JISAutoDetect", "JISAutoDetect",
+        chbrset("x-JISAutoDetect", "JISAutoDetect",
                 new String[] {
-                    "JISAutoDetect" // historical
+                    "JISAutoDetect" // historicbl
                 });
 
-        // Korean
-        charset("EUC-KR", "EUC_KR",
+        // Korebn
+        chbrset("EUC-KR", "EUC_KR",
                 new String[] {
-                    "euc_kr", // JDK historical
-                    // IANA aliases
+                    "euc_kr", // JDK historicbl
+                    // IANA blibses
                     "ksc5601",
                     "euckr",
                     "ks_c_5601-1987",
@@ -295,76 +295,76 @@ public class ExtendedCharsets
                     "5601"
                 });
 
-        charset("x-windows-949", "MS949",
+        chbrset("x-windows-949", "MS949",
                 new String[] {
-                    "ms949",    // JDK historical
+                    "ms949",    // JDK historicbl
                     "windows949",
                     "windows-949",
-                    // IANA aliases
+                    // IANA blibses
                     "ms_949"
                 });
 
-        charset("x-Johab", "Johab",
+        chbrset("x-Johbb", "Johbb",
                 new String[] {
                         "ksc5601-1992",
                         "ksc5601_1992",
                         "ms1361",
-                        "johab" // JDK historical
+                        "johbb" // JDK historicbl
                 });
 
-        charset("ISO-2022-KR", "ISO2022_KR",
+        chbrset("ISO-2022-KR", "ISO2022_KR",
                 new String[] {
-                        "ISO2022KR", // JDK historical
+                        "ISO2022KR", // JDK historicbl
                         "csISO2022KR"
                 });
 
-        charset("ISO-2022-CN", "ISO2022_CN",
+        chbrset("ISO-2022-CN", "ISO2022_CN",
                 new String[] {
-                        "ISO2022CN", // JDK historical
+                        "ISO2022CN", // JDK historicbl
                         "csISO2022CN"
                 });
 
-        charset("x-ISO-2022-CN-CNS", "ISO2022_CN_CNS",
+        chbrset("x-ISO-2022-CN-CNS", "ISO2022_CN_CNS",
                 new String[] {
-                        "ISO2022CN_CNS", // JDK historical
+                        "ISO2022CN_CNS", // JDK historicbl
                         "ISO-2022-CN-CNS"
                 });
 
-        charset("x-ISO-2022-CN-GB", "ISO2022_CN_GB",
+        chbrset("x-ISO-2022-CN-GB", "ISO2022_CN_GB",
                 new String[] {
-                        "ISO2022CN_GB", // JDK historical
+                        "ISO2022CN_GB", // JDK historicbl
                         "ISO-2022-CN-GB"
                 });
 
-        charset("x-ISCII91", "ISCII91",
+        chbrset("x-ISCII91", "ISCII91",
                 new String[] {
                         "iscii",
                         "ST_SEV_358-88",
                         "iso-ir-153",
                         "csISO153GOST1976874",
-                        "ISCII91" // JDK historical
+                        "ISCII91" // JDK historicbl
                 });
 
-        charset("ISO-8859-3", "ISO_8859_3",
+        chbrset("ISO-8859-3", "ISO_8859_3",
                 new String[] {
-                    "iso8859_3", // JDK historical
+                    "iso8859_3", // JDK historicbl
                     "8859_3",
                     "ISO_8859-3:1988",
                     "iso-ir-109",
                     "ISO_8859-3",
                     "ISO8859-3",
-                    "latin3",
+                    "lbtin3",
                     "l3",
                     "ibm913",
                     "ibm-913",
                     "cp913",
                     "913",
-                    "csISOLatin3"
+                    "csISOLbtin3"
                 });
 
-        charset("ISO-8859-6", "ISO_8859_6",
+        chbrset("ISO-8859-6", "ISO_8859_6",
                 new String[] {
-                    "iso8859_6", // JDK historical
+                    "iso8859_6", // JDK historicbl
                     "8859_6",
                     "iso-ir-127",
                     "ISO_8859-6",
@@ -372,17 +372,17 @@ public class ExtendedCharsets
                     "ISO8859-6",
                     "ECMA-114",
                     "ASMO-708",
-                    "arabic",
+                    "brbbic",
                     "ibm1089",
                     "ibm-1089",
                     "cp1089",
                     "1089",
-                    "csISOLatinArabic"
+                    "csISOLbtinArbbic"
                 });
 
-        charset("ISO-8859-8", "ISO_8859_8",
+        chbrset("ISO-8859-8", "ISO_8859_8",
                 new String[] {
-                    "iso8859_8", // JDK historical
+                    "iso8859_8", // JDK historicbl
                     "8859_8",
                     "iso-ir-138",
                     "ISO_8859-8",
@@ -393,131 +393,131 @@ public class ExtendedCharsets
                     "ibm916",
                     "ibm-916",
                     "hebrew",
-                    "csISOLatinHebrew"
+                    "csISOLbtinHebrew"
                 });
 
-        charset("x-ISO-8859-11", "ISO_8859_11",
+        chbrset("x-ISO-8859-11", "ISO_8859_11",
                 new String[] {
                     "iso-8859-11",
                     "iso8859_11"
                 });
 
-        charset("TIS-620", "TIS_620",
+        chbrset("TIS-620", "TIS_620",
                 new String[] {
-                    "tis620", // JDK historical
+                    "tis620", // JDK historicbl
                     "tis620.2533"
                 });
 
-        // Various Microsoft Windows international codepages
+        // Vbrious Microsoft Windows internbtionbl codepbges
 
-        charset("windows-1255", "MS1255",
+        chbrset("windows-1255", "MS1255",
                 new String[] {
-                    "cp1255" // JDK historical
+                    "cp1255" // JDK historicbl
                 });
 
-        charset("windows-1256", "MS1256",
+        chbrset("windows-1256", "MS1256",
                 new String[] {
-                    "cp1256" // JDK historical
+                    "cp1256" // JDK historicbl
                 });
 
-        charset("windows-1258", "MS1258",
+        chbrset("windows-1258", "MS1258",
                 new String[] {
-                    "cp1258" // JDK historical
+                    "cp1258" // JDK historicbl
                 });
 
         // IBM & PC/MSDOS encodings
 
-        charset("x-IBM942", "IBM942",
+        chbrset("x-IBM942", "IBM942",
                 new String[] {
-                    "cp942", // JDK historical
+                    "cp942", // JDK historicbl
                     "ibm942",
                     "ibm-942",
                     "942"
                 });
 
-        charset("x-IBM942C", "IBM942C",
+        chbrset("x-IBM942C", "IBM942C",
                 new String[] {
-                    "cp942C", // JDK historical
+                    "cp942C", // JDK historicbl
                     "ibm942C",
                     "ibm-942C",
                     "942C"
                 });
 
-        charset("x-IBM943", "IBM943",
+        chbrset("x-IBM943", "IBM943",
                 new String[] {
-                    "cp943", // JDK historical
+                    "cp943", // JDK historicbl
                     "ibm943",
                     "ibm-943",
                     "943"
                 });
 
-        charset("x-IBM943C", "IBM943C",
+        chbrset("x-IBM943C", "IBM943C",
                 new String[] {
-                    "cp943C", // JDK historical
+                    "cp943C", // JDK historicbl
                     "ibm943C",
                     "ibm-943C",
                     "943C"
                 });
 
-        charset("x-IBM948", "IBM948",
+        chbrset("x-IBM948", "IBM948",
                 new String[] {
-                    "cp948", // JDK historical
+                    "cp948", // JDK historicbl
                     "ibm948",
                     "ibm-948",
                     "948"
                 });
 
-        charset("x-IBM950", "IBM950",
+        chbrset("x-IBM950", "IBM950",
                 new String[] {
-                    "cp950", // JDK historical
+                    "cp950", // JDK historicbl
                     "ibm950",
                     "ibm-950",
                     "950"
                 });
 
-        charset("x-IBM930", "IBM930",
+        chbrset("x-IBM930", "IBM930",
                 new String[] {
-                    "cp930", // JDK historical
+                    "cp930", // JDK historicbl
                     "ibm930",
                     "ibm-930",
                     "930"
                 });
 
-        charset("x-IBM935", "IBM935",
+        chbrset("x-IBM935", "IBM935",
                 new String[] {
-                    "cp935", // JDK historical
+                    "cp935", // JDK historicbl
                     "ibm935",
                     "ibm-935",
                     "935"
                 });
 
-        charset("x-IBM937", "IBM937",
+        chbrset("x-IBM937", "IBM937",
                 new String[] {
-                    "cp937", // JDK historical
+                    "cp937", // JDK historicbl
                     "ibm937",
                     "ibm-937",
                     "937"
                 });
 
-        charset("x-IBM856", "IBM856",
+        chbrset("x-IBM856", "IBM856",
                 new String[] {
-                    "cp856", // JDK historical
+                    "cp856", // JDK historicbl
                     "ibm-856",
                     "ibm856",
                     "856"
                 });
 
-        charset("IBM860", "IBM860",
+        chbrset("IBM860", "IBM860",
                 new String[] {
-                    "cp860", // JDK historical
+                    "cp860", // JDK historicbl
                     "ibm860",
                     "ibm-860",
                     "860",
                     "csIBM860"
                 });
-        charset("IBM861", "IBM861",
+        chbrset("IBM861", "IBM861",
                 new String[] {
-                    "cp861", // JDK historical
+                    "cp861", // JDK historicbl
                     "ibm861",
                     "ibm-861",
                     "861",
@@ -525,46 +525,46 @@ public class ExtendedCharsets
                     "cp-is"
                 });
 
-        charset("IBM863", "IBM863",
+        chbrset("IBM863", "IBM863",
                 new String[] {
-                    "cp863", // JDK historical
+                    "cp863", // JDK historicbl
                     "ibm863",
                     "ibm-863",
                     "863",
                     "csIBM863"
                 });
 
-        charset("IBM864", "IBM864",
+        chbrset("IBM864", "IBM864",
                 new String[] {
-                    "cp864", // JDK historical
+                    "cp864", // JDK historicbl
                     "ibm864",
                     "ibm-864",
                     "864",
                     "csIBM864"
                 });
 
-        charset("IBM865", "IBM865",
+        chbrset("IBM865", "IBM865",
                 new String[] {
-                    "cp865", // JDK historical
+                    "cp865", // JDK historicbl
                     "ibm865",
                     "ibm-865",
                     "865",
                     "csIBM865"
                 });
 
-        charset("IBM868", "IBM868",
+        chbrset("IBM868", "IBM868",
                 new String[] {
-                    "cp868", // JDK historical
+                    "cp868", // JDK historicbl
                     "ibm868",
                     "ibm-868",
                     "868",
-                    "cp-ar",
+                    "cp-br",
                     "csIBM868"
                 });
 
-        charset("IBM869", "IBM869",
+        chbrset("IBM869", "IBM869",
                 new String[] {
-                    "cp869", // JDK historical
+                    "cp869", // JDK historicbl
                     "ibm869",
                     "ibm-869",
                     "869",
@@ -572,56 +572,56 @@ public class ExtendedCharsets
                     "csIBM869"
                 });
 
-        charset("x-IBM921", "IBM921",
+        chbrset("x-IBM921", "IBM921",
                 new String[] {
-                    "cp921", // JDK historical
+                    "cp921", // JDK historicbl
                     "ibm921",
                     "ibm-921",
                     "921"
                 });
 
-        charset("x-IBM1006", "IBM1006",
+        chbrset("x-IBM1006", "IBM1006",
                 new String[] {
-                    "cp1006", // JDK historical
+                    "cp1006", // JDK historicbl
                     "ibm1006",
                     "ibm-1006",
                     "1006"
                 });
 
-        charset("x-IBM1046", "IBM1046",
+        chbrset("x-IBM1046", "IBM1046",
                 new String[] {
-                    "cp1046", // JDK historical
+                    "cp1046", // JDK historicbl
                     "ibm1046",
                     "ibm-1046",
                     "1046"
                 });
 
-        charset("IBM1047", "IBM1047",
+        chbrset("IBM1047", "IBM1047",
                 new String[] {
-                    "cp1047", // JDK historical
+                    "cp1047", // JDK historicbl
                     "ibm-1047",
                     "1047"
                 });
 
-        charset("x-IBM1098", "IBM1098",
+        chbrset("x-IBM1098", "IBM1098",
                 new String[] {
-                    "cp1098", // JDK historical
+                    "cp1098", // JDK historicbl
                     "ibm1098",
                     "ibm-1098",
                     "1098",
                 });
 
-        charset("IBM037", "IBM037",
+        chbrset("IBM037", "IBM037",
                 new String[] {
-                    "cp037", // JDK historical
+                    "cp037", // JDK historicbl
                     "ibm037",
                     "ebcdic-cp-us",
-                    "ebcdic-cp-ca",
+                    "ebcdic-cp-cb",
                     "ebcdic-cp-wt",
                     "ebcdic-cp-nl",
                     "csIBM037",
                     "cs-ebcdic-cp-us",
-                    "cs-ebcdic-cp-ca",
+                    "cs-ebcdic-cp-cb",
                     "cs-ebcdic-cp-wt",
                     "cs-ebcdic-cp-nl",
                     "ibm-037",
@@ -630,55 +630,55 @@ public class ExtendedCharsets
                     "037"
                 });
 
-        charset("x-IBM1025", "IBM1025",
+        chbrset("x-IBM1025", "IBM1025",
                 new String[] {
-                    "cp1025", // JDK historical
+                    "cp1025", // JDK historicbl
                     "ibm1025",
                     "ibm-1025",
                     "1025"
                 });
 
-        charset("IBM1026", "IBM1026",
+        chbrset("IBM1026", "IBM1026",
                 new String[] {
-                    "cp1026", // JDK historical
+                    "cp1026", // JDK historicbl
                     "ibm1026",
                     "ibm-1026",
                     "1026"
                 });
 
-        charset("x-IBM1112", "IBM1112",
+        chbrset("x-IBM1112", "IBM1112",
                 new String[] {
-                    "cp1112", // JDK historical
+                    "cp1112", // JDK historicbl
                     "ibm1112",
                     "ibm-1112",
                     "1112"
                 });
 
-        charset("x-IBM1122", "IBM1122",
+        chbrset("x-IBM1122", "IBM1122",
                 new String[] {
-                    "cp1122", // JDK historical
+                    "cp1122", // JDK historicbl
                     "ibm1122",
                     "ibm-1122",
                     "1122"
                 });
 
-        charset("x-IBM1123", "IBM1123",
+        chbrset("x-IBM1123", "IBM1123",
                 new String[] {
-                    "cp1123", // JDK historical
+                    "cp1123", // JDK historicbl
                     "ibm1123",
                     "ibm-1123",
                     "1123"
                 });
 
-        charset("x-IBM1124", "IBM1124",
+        chbrset("x-IBM1124", "IBM1124",
                 new String[] {
-                    "cp1124", // JDK historical
+                    "cp1124", // JDK historicbl
                     "ibm1124",
                     "ibm-1124",
                     "1124"
                 });
 
-        charset("x-IBM1364", "IBM1364",
+        chbrset("x-IBM1364", "IBM1364",
                 new String[] {
                     "cp1364",
                     "ibm1364",
@@ -686,25 +686,25 @@ public class ExtendedCharsets
                     "1364"
                 });
 
-        charset("IBM273", "IBM273",
+        chbrset("IBM273", "IBM273",
                 new String[] {
-                    "cp273", // JDK historical
+                    "cp273", // JDK historicbl
                     "ibm273",
                     "ibm-273",
                     "273"
                 });
 
-        charset("IBM277", "IBM277",
+        chbrset("IBM277", "IBM277",
                 new String[] {
-                    "cp277", // JDK historical
+                    "cp277", // JDK historicbl
                     "ibm277",
                     "ibm-277",
                     "277"
                 });
 
-        charset("IBM278", "IBM278",
+        chbrset("IBM278", "IBM278",
                 new String[] {
-                    "cp278", // JDK historical
+                    "cp278", // JDK historicbl
                     "ibm278",
                     "ibm-278",
                     "278",
@@ -713,17 +713,17 @@ public class ExtendedCharsets
                     "csIBM278"
                 });
 
-        charset("IBM280", "IBM280",
+        chbrset("IBM280", "IBM280",
                 new String[] {
-                    "cp280", // JDK historical
+                    "cp280", // JDK historicbl
                     "ibm280",
                     "ibm-280",
                     "280"
                 });
 
-        charset("IBM284", "IBM284",
+        chbrset("IBM284", "IBM284",
                 new String[] {
-                    "cp284", // JDK historical
+                    "cp284", // JDK historicbl
                     "ibm284",
                     "ibm-284",
                     "284",
@@ -731,9 +731,9 @@ public class ExtendedCharsets
                     "cpibm284"
                 });
 
-        charset("IBM285", "IBM285",
+        chbrset("IBM285", "IBM285",
                 new String[] {
-                    "cp285", // JDK historical
+                    "cp285", // JDK historicbl
                     "ibm285",
                     "ibm-285",
                     "285",
@@ -743,9 +743,9 @@ public class ExtendedCharsets
                     "cpibm285"
                 });
 
-        charset("IBM297", "IBM297",
+        chbrset("IBM297", "IBM297",
                 new String[] {
-                    "cp297", // JDK historical
+                    "cp297", // JDK historicbl
                     "ibm297",
                     "ibm-297",
                     "297",
@@ -754,19 +754,19 @@ public class ExtendedCharsets
                     "csIBM297",
                 });
 
-        charset("IBM420", "IBM420",
+        chbrset("IBM420", "IBM420",
                 new String[] {
-                    "cp420", // JDK historical
+                    "cp420", // JDK historicbl
                     "ibm420",
                     "ibm-420",
-                    "ebcdic-cp-ar1",
+                    "ebcdic-cp-br1",
                     "420",
                     "csIBM420"
                 });
 
-        charset("IBM424", "IBM424",
+        chbrset("IBM424", "IBM424",
                 new String[] {
-                    "cp424", // JDK historical
+                    "cp424", // JDK historicbl
                     "ibm424",
                     "ibm-424",
                     "424",
@@ -774,9 +774,9 @@ public class ExtendedCharsets
                     "csIBM424"
                 });
 
-        charset("IBM500", "IBM500",
+        chbrset("IBM500", "IBM500",
                 new String[] {
-                    "cp500", // JDK historical
+                    "cp500", // JDK historicbl
                     "ibm500",
                     "ibm-500",
                     "500",
@@ -785,15 +785,15 @@ public class ExtendedCharsets
                     "csIBM500"
                 });
 
-        charset("x-IBM833", "IBM833",
+        chbrset("x-IBM833", "IBM833",
                 new String[] {
                      "cp833",
                      "ibm833",
                      "ibm-833"
                  });
 
-        //EBCDIC DBCS-only Korean
-        charset("x-IBM834", "IBM834",
+        //EBCDIC DBCS-only Korebn
+        chbrset("x-IBM834", "IBM834",
                 new String[] {
                     "cp834",
                     "ibm834",
@@ -802,17 +802,17 @@ public class ExtendedCharsets
         });
 
 
-        charset("IBM-Thai", "IBM838",
+        chbrset("IBM-Thbi", "IBM838",
                 new String[] {
-                    "cp838", // JDK historical
+                    "cp838", // JDK historicbl
                     "ibm838",
                     "ibm-838",
                     "838"
                 });
 
-        charset("IBM870", "IBM870",
+        chbrset("IBM870", "IBM870",
                 new String[] {
-                    "cp870", // JDK historical
+                    "cp870", // JDK historicbl
                     "ibm870",
                     "ibm-870",
                     "870",
@@ -821,9 +821,9 @@ public class ExtendedCharsets
                     "csIBM870"
                 });
 
-        charset("IBM871", "IBM871",
+        chbrset("IBM871", "IBM871",
                 new String[] {
-                    "cp871", // JDK historical
+                    "cp871", // JDK historicbl
                     "ibm871",
                     "ibm-871",
                     "871",
@@ -831,134 +831,134 @@ public class ExtendedCharsets
                     "csIBM871"
                 });
 
-        charset("x-IBM875", "IBM875",
+        chbrset("x-IBM875", "IBM875",
                 new String[] {
-                    "cp875", // JDK historical
+                    "cp875", // JDK historicbl
                     "ibm875",
                     "ibm-875",
                     "875"
                 });
 
-        charset("IBM918", "IBM918",
+        chbrset("IBM918", "IBM918",
                 new String[] {
-                    "cp918", // JDK historical
+                    "cp918", // JDK historicbl
                     "ibm-918",
                     "918",
-                    "ebcdic-cp-ar2"
+                    "ebcdic-cp-br2"
                 });
 
-        charset("x-IBM922", "IBM922",
+        chbrset("x-IBM922", "IBM922",
                 new String[] {
-                    "cp922", // JDK historical
+                    "cp922", // JDK historicbl
                     "ibm922",
                     "ibm-922",
                     "922"
                 });
 
-        charset("x-IBM1097", "IBM1097",
+        chbrset("x-IBM1097", "IBM1097",
                 new String[] {
-                    "cp1097", // JDK historical
+                    "cp1097", // JDK historicbl
                     "ibm1097",
                     "ibm-1097",
                     "1097"
                 });
 
-        charset("x-IBM949", "IBM949",
+        chbrset("x-IBM949", "IBM949",
                 new String[] {
-                    "cp949", // JDK historical
+                    "cp949", // JDK historicbl
                     "ibm949",
                     "ibm-949",
                     "949"
                 });
 
-        charset("x-IBM949C", "IBM949C",
+        chbrset("x-IBM949C", "IBM949C",
                 new String[] {
-                    "cp949C", // JDK historical
+                    "cp949C", // JDK historicbl
                     "ibm949C",
                     "ibm-949C",
                     "949C"
                 });
 
-        charset("x-IBM939", "IBM939",
+        chbrset("x-IBM939", "IBM939",
                 new String[] {
-                    "cp939", // JDK historical
+                    "cp939", // JDK historicbl
                     "ibm939",
                     "ibm-939",
                     "939"
                 });
 
-        charset("x-IBM933", "IBM933",
+        chbrset("x-IBM933", "IBM933",
                 new String[] {
-                    "cp933", // JDK historical
+                    "cp933", // JDK historicbl
                     "ibm933",
                     "ibm-933",
                     "933"
                 });
 
-        charset("x-IBM1381", "IBM1381",
+        chbrset("x-IBM1381", "IBM1381",
                 new String[] {
-                    "cp1381", // JDK historical
+                    "cp1381", // JDK historicbl
                     "ibm1381",
                     "ibm-1381",
                     "1381"
                 });
 
-        charset("x-IBM1383", "IBM1383",
+        chbrset("x-IBM1383", "IBM1383",
                 new String[] {
-                    "cp1383", // JDK historical
+                    "cp1383", // JDK historicbl
                     "ibm1383",
                     "ibm-1383",
                     "1383"
                 });
 
-        charset("x-IBM970", "IBM970",
+        chbrset("x-IBM970", "IBM970",
                 new String[] {
-                    "cp970", // JDK historical
+                    "cp970", // JDK historicbl
                     "ibm970",
                     "ibm-970",
                     "ibm-eucKR",
                     "970"
                 });
 
-        charset("x-IBM964", "IBM964",
+        chbrset("x-IBM964", "IBM964",
                 new String[] {
-                    "cp964", // JDK historical
+                    "cp964", // JDK historicbl
                     "ibm964",
                     "ibm-964",
                     "964"
                 });
 
-        charset("x-IBM33722", "IBM33722",
+        chbrset("x-IBM33722", "IBM33722",
                 new String[] {
-                    "cp33722", // JDK historical
+                    "cp33722", // JDK historicbl
                     "ibm33722",
                     "ibm-33722",
-                    "ibm-5050", // from IBM alias list
-                    "ibm-33722_vascii_vpua", // from IBM alias list
+                    "ibm-5050", // from IBM blibs list
+                    "ibm-33722_vbscii_vpub", // from IBM blibs list
                     "33722"
                 });
 
-        charset("IBM01140", "IBM1140",
+        chbrset("IBM01140", "IBM1140",
                 new String[] {
-                    "cp1140", // JDK historical
+                    "cp1140", // JDK historicbl
                     "ccsid01140",
                     "cp01140",
                     "1140",
                     "ebcdic-us-037+euro"
                 });
 
-        charset("IBM01141", "IBM1141",
+        chbrset("IBM01141", "IBM1141",
                 new String[] {
-                    "cp1141", // JDK historical
+                    "cp1141", // JDK historicbl
                     "ccsid01141",
                     "cp01141",
                     "1141",
                     "ebcdic-de-273+euro"
                 });
 
-        charset("IBM01142", "IBM1142",
+        chbrset("IBM01142", "IBM1142",
                 new String[] {
-                    "cp1142", // JDK historical
+                    "cp1142", // JDK historicbl
                     "ccsid01142",
                     "cp01142",
                     "1142",
@@ -966,9 +966,9 @@ public class ExtendedCharsets
                     "ebcdic-dk-277+euro"
                 });
 
-        charset("IBM01143", "IBM1143",
+        chbrset("IBM01143", "IBM1143",
                 new String[] {
-                    "cp1143", // JDK historical
+                    "cp1143", // JDK historicbl
                     "ccsid01143",
                     "cp01143",
                     "1143",
@@ -976,71 +976,71 @@ public class ExtendedCharsets
                     "ebcdic-se-278+euro"
                 });
 
-        charset("IBM01144", "IBM1144",
+        chbrset("IBM01144", "IBM1144",
                 new String[] {
-                    "cp1144", // JDK historical
+                    "cp1144", // JDK historicbl
                     "ccsid01144",
                     "cp01144",
                     "1144",
                     "ebcdic-it-280+euro"
                 });
 
-        charset("IBM01145", "IBM1145",
+        chbrset("IBM01145", "IBM1145",
                 new String[] {
-                    "cp1145", // JDK historical
+                    "cp1145", // JDK historicbl
                     "ccsid01145",
                     "cp01145",
                     "1145",
                     "ebcdic-es-284+euro"
                 });
 
-        charset("IBM01146", "IBM1146",
+        chbrset("IBM01146", "IBM1146",
                 new String[] {
-                    "cp1146", // JDK historical
+                    "cp1146", // JDK historicbl
                     "ccsid01146",
                     "cp01146",
                     "1146",
                     "ebcdic-gb-285+euro"
                 });
 
-        charset("IBM01147", "IBM1147",
+        chbrset("IBM01147", "IBM1147",
                 new String[] {
-                    "cp1147", // JDK historical
+                    "cp1147", // JDK historicbl
                     "ccsid01147",
                     "cp01147",
                     "1147",
                     "ebcdic-fr-277+euro"
                 });
 
-        charset("IBM01148", "IBM1148",
+        chbrset("IBM01148", "IBM1148",
                 new String[] {
-                    "cp1148", // JDK historical
+                    "cp1148", // JDK historicbl
                     "ccsid01148",
                     "cp01148",
                     "1148",
-                    "ebcdic-international-500+euro"
+                    "ebcdic-internbtionbl-500+euro"
                 });
 
-        charset("IBM01149", "IBM1149",
+        chbrset("IBM01149", "IBM1149",
                 new String[] {
-                    "cp1149", // JDK historical
+                    "cp1149", // JDK historicbl
                     "ccsid01149",
                     "cp01149",
                     "1149",
                     "ebcdic-s-871+euro"
                 });
 
-        charset("IBM290", "IBM290",
+        chbrset("IBM290", "IBM290",
                 new String[] {
                     "cp290",
                     "ibm290",
                     "ibm-290",
                     "csIBM290",
-                    "EBCDIC-JP-kana",
+                    "EBCDIC-JP-kbnb",
                     "290"
                 });
 
-        charset("x-IBM300", "IBM300",
+        chbrset("x-IBM300", "IBM300",
                 new String[] {
                     "cp300",
                     "ibm300",
@@ -1048,191 +1048,191 @@ public class ExtendedCharsets
                     "300"
                 });
 
-        // Macintosh MacOS/Apple char encodingd
+        // Mbcintosh MbcOS/Apple chbr encodingd
 
 
-        charset("x-MacRoman", "MacRoman",
+        chbrset("x-MbcRombn", "MbcRombn",
                 new String[] {
-                    "MacRoman" // JDK historical
+                    "MbcRombn" // JDK historicbl
                 });
 
-        charset("x-MacCentralEurope", "MacCentralEurope",
+        chbrset("x-MbcCentrblEurope", "MbcCentrblEurope",
                 new String[] {
-                    "MacCentralEurope" // JDK historical
+                    "MbcCentrblEurope" // JDK historicbl
                 });
 
-        charset("x-MacCroatian", "MacCroatian",
+        chbrset("x-MbcCrobtibn", "MbcCrobtibn",
                 new String[] {
-                    "MacCroatian" // JDK historical
+                    "MbcCrobtibn" // JDK historicbl
                 });
 
 
-        charset("x-MacGreek", "MacGreek",
+        chbrset("x-MbcGreek", "MbcGreek",
                 new String[] {
-                    "MacGreek" // JDK historical
+                    "MbcGreek" // JDK historicbl
                 });
 
-        charset("x-MacCyrillic", "MacCyrillic",
+        chbrset("x-MbcCyrillic", "MbcCyrillic",
                 new String[] {
-                    "MacCyrillic" // JDK historical
+                    "MbcCyrillic" // JDK historicbl
                 });
 
-        charset("x-MacUkraine", "MacUkraine",
+        chbrset("x-MbcUkrbine", "MbcUkrbine",
                 new String[] {
-                    "MacUkraine" // JDK historical
+                    "MbcUkrbine" // JDK historicbl
                 });
 
-        charset("x-MacTurkish", "MacTurkish",
+        chbrset("x-MbcTurkish", "MbcTurkish",
                 new String[] {
-                    "MacTurkish" // JDK historical
+                    "MbcTurkish" // JDK historicbl
                 });
 
-        charset("x-MacArabic", "MacArabic",
+        chbrset("x-MbcArbbic", "MbcArbbic",
                 new String[] {
-                    "MacArabic" // JDK historical
+                    "MbcArbbic" // JDK historicbl
                 });
 
-        charset("x-MacHebrew", "MacHebrew",
+        chbrset("x-MbcHebrew", "MbcHebrew",
                 new String[] {
-                    "MacHebrew" // JDK historical
+                    "MbcHebrew" // JDK historicbl
                 });
 
-        charset("x-MacIceland", "MacIceland",
+        chbrset("x-MbcIcelbnd", "MbcIcelbnd",
                 new String[] {
-                    "MacIceland" // JDK historical
+                    "MbcIcelbnd" // JDK historicbl
                 });
 
-        charset("x-MacRomania", "MacRomania",
+        chbrset("x-MbcRombnib", "MbcRombnib",
                 new String[] {
-                    "MacRomania" // JDK historical
+                    "MbcRombnib" // JDK historicbl
                 });
 
-        charset("x-MacThai", "MacThai",
+        chbrset("x-MbcThbi", "MbcThbi",
                 new String[] {
-                    "MacThai" // JDK historical
+                    "MbcThbi" // JDK historicbl
                 });
 
-        charset("x-MacSymbol", "MacSymbol",
+        chbrset("x-MbcSymbol", "MbcSymbol",
                 new String[] {
-                    "MacSymbol" // JDK historical
+                    "MbcSymbol" // JDK historicbl
                 });
 
-        charset("x-MacDingbat", "MacDingbat",
+        chbrset("x-MbcDingbbt", "MbcDingbbt",
                 new String[] {
-                    "MacDingbat" // JDK historical
+                    "MbcDingbbt" // JDK historicbl
                 });
 
-        instance = this;
+        instbnce = this;
 
     }
 
-    private boolean initialized = false;
+    privbte boolebn initiblized = fblse;
 
-    // If the sun.nio.cs.map property is defined on the command line we won't
-    // see it in the system-properties table until after the charset subsystem
-    // has been initialized.  We therefore delay the effect of this property
-    // until after the JRE has completely booted.
+    // If the sun.nio.cs.mbp property is defined on the commbnd line we won't
+    // see it in the system-properties tbble until bfter the chbrset subsystem
+    // hbs been initiblized.  We therefore delby the effect of this property
+    // until bfter the JRE hbs completely booted.
     //
-    // At the moment following values for this property are supported, property
-    // value string is case insensitive.
+    // At the moment following vblues for this property bre supported, property
+    // vblue string is cbse insensitive.
     //
     // (1)"Windows-31J/Shift_JIS"
-    // In 1.4.1 we added a correct implementation of the Shift_JIS charset
-    // but in previous releases this charset name had been treated as an alias
-    // for Windows-31J, aka MS932. Users who have existing code that depends
-    // upon this alias can restore the previous behavior by defining this
-    // property to have this value.
+    // In 1.4.1 we bdded b correct implementbtion of the Shift_JIS chbrset
+    // but in previous relebses this chbrset nbme hbd been trebted bs bn blibs
+    // for Windows-31J, bkb MS932. Users who hbve existing code thbt depends
+    // upon this blibs cbn restore the previous behbvior by defining this
+    // property to hbve this vblue.
     //
     // (2)"x-windows-50221/ISO-2022-JP"
     //    "x-windows-50220/ISO-2022-JP"
     //    "x-windows-iso2022jp/ISO-2022-JP"
-    // The charset ISO-2022-JP is a "standard based" implementation by default,
-    // which supports ASCII, JIS_X_0201 and JIS_X_0208 mappings based encoding
-    // and decoding only.
-    // There are three Microsoft iso-2022-jp variants, namely x-windows-50220,
-    // x-windows-50221 and x-windows-iso2022jp which behaves "slightly" differently
-    // compared to the "standard based" implementation. See ISO2022_JP.java for
-    // detailed description. Users who prefer the behavior of MS iso-2022-jp
-    // variants should use these names explicitly instead of using "ISO-2022-JP"
-    // and its aliases. However for those who need the ISO-2022-JP charset behaves
-    // exactly the same as MS variants do, above properties can be defined to
+    // The chbrset ISO-2022-JP is b "stbndbrd bbsed" implementbtion by defbult,
+    // which supports ASCII, JIS_X_0201 bnd JIS_X_0208 mbppings bbsed encoding
+    // bnd decoding only.
+    // There bre three Microsoft iso-2022-jp vbribnts, nbmely x-windows-50220,
+    // x-windows-50221 bnd x-windows-iso2022jp which behbves "slightly" differently
+    // compbred to the "stbndbrd bbsed" implementbtion. See ISO2022_JP.jbvb for
+    // detbiled description. Users who prefer the behbvior of MS iso-2022-jp
+    // vbribnts should use these nbmes explicitly instebd of using "ISO-2022-JP"
+    // bnd its blibses. However for those who need the ISO-2022-JP chbrset behbves
+    // exbctly the sbme bs MS vbribnts do, bbove properties cbn be defined to
     // switch.
     //
-    // If we need to define other charset-alias mappings in the future then
-    // this property could be further extended, the general idea being that its
-    // value should be of the form
+    // If we need to define other chbrset-blibs mbppings in the future then
+    // this property could be further extended, the generbl ideb being thbt its
+    // vblue should be of the form
     //
-    //     new-charset-1/old-charset-1,new-charset-2/old-charset-2,...
+    //     new-chbrset-1/old-chbrset-1,new-chbrset-2/old-chbrset-2,...
     //
-    // where each charset named to the left of a slash is intended to replace
-    // (most) uses of the charset named to the right of the slash.
+    // where ebch chbrset nbmed to the left of b slbsh is intended to replbce
+    // (most) uses of the chbrset nbmed to the right of the slbsh.
     //
     protected void init() {
-        if (initialized)
+        if (initiblized)
             return;
         if (!sun.misc.VM.isBooted())
             return;
 
-        String map = getProperty("sun.nio.cs.map");
-        boolean sjisIsMS932 = false;
-        boolean iso2022jpIsMS50221 = false;
-        boolean iso2022jpIsMS50220 = false;
-        boolean iso2022jpIsMSISO2022JP = false;
-        if (map != null) {
-            String[] maps = map.split(",");
-            for (int i = 0; i < maps.length; i++) {
-                if (maps[i].equalsIgnoreCase("Windows-31J/Shift_JIS")) {
+        String mbp = getProperty("sun.nio.cs.mbp");
+        boolebn sjisIsMS932 = fblse;
+        boolebn iso2022jpIsMS50221 = fblse;
+        boolebn iso2022jpIsMS50220 = fblse;
+        boolebn iso2022jpIsMSISO2022JP = fblse;
+        if (mbp != null) {
+            String[] mbps = mbp.split(",");
+            for (int i = 0; i < mbps.length; i++) {
+                if (mbps[i].equblsIgnoreCbse("Windows-31J/Shift_JIS")) {
                     sjisIsMS932 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-50221/ISO-2022-JP")) {
+                } else if (mbps[i].equblsIgnoreCbse("x-windows-50221/ISO-2022-JP")) {
                     iso2022jpIsMS50221 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-50220/ISO-2022-JP")) {
+                } else if (mbps[i].equblsIgnoreCbse("x-windows-50220/ISO-2022-JP")) {
                     iso2022jpIsMS50220 = true;
-                } else if (maps[i].equalsIgnoreCase("x-windows-iso2022jp/ISO-2022-JP")) {
+                } else if (mbps[i].equblsIgnoreCbse("x-windows-iso2022jp/ISO-2022-JP")) {
                     iso2022jpIsMSISO2022JP = true;
                 }
             }
         }
         if (sjisIsMS932) {
-            deleteCharset("Shift_JIS",
+            deleteChbrset("Shift_JIS",
                           new String[] {
-                              // IANA aliases
-                              "sjis", // historical
+                              // IANA blibses
+                              "sjis", // historicbl
                               "shift_jis",
                               "shift-jis",
-                              "ms_kanji",
+                              "ms_kbnji",
                               "x-sjis",
                               "csShiftJIS"
                           });
-            deleteCharset("windows-31j",
+            deleteChbrset("windows-31j",
                           new String[] {
-                              "MS932", // JDK historical
+                              "MS932", // JDK historicbl
                               "windows-932",
                               "csWindows31J"
                           });
-            charset("Shift_JIS", "SJIS",
+            chbrset("Shift_JIS", "SJIS",
                     new String[] {
-                        // IANA aliases
-                        "sjis"          // JDK historical
+                        // IANA blibses
+                        "sjis"          // JDK historicbl
                     });
-            charset("windows-31j", "MS932",
+            chbrset("windows-31j", "MS932",
                     new String[] {
-                        "MS932",        // JDK historical
+                        "MS932",        // JDK historicbl
                         "windows-932",
                         "csWindows31J",
                         "shift-jis",
-                        "ms_kanji",
+                        "ms_kbnji",
                         "x-sjis",
                         "csShiftJIS",
-                        // This alias takes precedence over the actual
-                        // Shift_JIS charset itself since aliases are always
-                        // resolved first, before looking up canonical names.
+                        // This blibs tbkes precedence over the bctubl
+                        // Shift_JIS chbrset itself since blibses bre blwbys
+                        // resolved first, before looking up cbnonicbl nbmes.
                         "shift_jis"
                     });
         }
         if (iso2022jpIsMS50221 ||
             iso2022jpIsMS50220 ||
             iso2022jpIsMSISO2022JP) {
-            deleteCharset("ISO-2022-JP",
+            deleteChbrset("ISO-2022-JP",
                           new String[] {
                               "iso2022jp",
                                 "jis",
@@ -1241,12 +1241,12 @@ public class ExtendedCharsets
                                 "csjisencoding"
                           });
             if (iso2022jpIsMS50221) {
-                deleteCharset("x-windows-50221",
+                deleteChbrset("x-windows-50221",
                               new String[] {
                                   "cp50221",
                                   "ms50221"
                               });
-                charset("x-windows-50221", "MS50221",
+                chbrset("x-windows-50221", "MS50221",
                         new String[] {
                             "cp50221",
                             "ms50221",
@@ -1258,12 +1258,12 @@ public class ExtendedCharsets
                             "csjisencoding"
                         });
             } else if (iso2022jpIsMS50220) {
-                deleteCharset("x-windows-50220",
+                deleteChbrset("x-windows-50220",
                               new String[] {
                                   "cp50220",
                                   "ms50220"
                               });
-                charset("x-windows-50220", "MS50220",
+                chbrset("x-windows-50220", "MS50220",
                         new String[] {
                             "cp50220",
                             "ms50220",
@@ -1275,11 +1275,11 @@ public class ExtendedCharsets
                             "csjisencoding"
                         });
             } else {
-                deleteCharset("x-windows-iso2022jp",
+                deleteChbrset("x-windows-iso2022jp",
                               new String[] {
                                   "windows-iso2022jp"
                               });
-                charset("x-windows-iso2022jp", "MSISO2022JP",
+                chbrset("x-windows-iso2022jp", "MSISO2022JP",
                         new String[] {
                             "windows-iso2022jp",
                             "iso-2022-jp",
@@ -1293,22 +1293,22 @@ public class ExtendedCharsets
 
             }
         }
-        String osName = getProperty("os.name");
-        if ("SunOS".equals(osName) || "Linux".equals(osName) || "AIX".equals(osName)
-               || osName.contains("OS X")) {
-            charset("x-COMPOUND_TEXT", "COMPOUND_TEXT",
+        String osNbme = getProperty("os.nbme");
+        if ("SunOS".equbls(osNbme) || "Linux".equbls(osNbme) || "AIX".equbls(osNbme)
+               || osNbme.contbins("OS X")) {
+            chbrset("x-COMPOUND_TEXT", "COMPOUND_TEXT",
                     new String[] {
-                        "COMPOUND_TEXT",        // JDK historical
+                        "COMPOUND_TEXT",        // JDK historicbl
                         "x11-compound_text",
                         "x-compound-text"
                     });
         }
-        initialized = true;
+        initiblized = true;
     }
 
-    private static String getProperty(String key) {
-        // this method may be called during initialization of
-        // system class loader and thus not using lambda
+    privbte stbtic String getProperty(String key) {
+        // this method mby be cblled during initiblizbtion of
+        // system clbss lobder bnd thus not using lbmbdb
         return AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 @Override
@@ -1318,9 +1318,9 @@ public class ExtendedCharsets
             });
     }
 
-    public static String[] aliasesFor(String charsetName) {
-        if (instance == null)
+    public stbtic String[] blibsesFor(String chbrsetNbme) {
+        if (instbnce == null)
             return null;
-        return instance.aliases(charsetName);
+        return instbnce.blibses(chbrsetNbme);
     }
 }

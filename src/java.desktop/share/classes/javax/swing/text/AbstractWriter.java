@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.util.Enumeration;
+import jbvb.io.Writer;
+import jbvb.io.IOException;
+import jbvb.util.Enumerbtion;
 
 /**
- * AbstractWriter is an abstract class that actually
+ * AbstrbctWriter is bn bbstrbct clbss thbt bctublly
  * does the work of writing out the element tree
- * including the attributes.  In terms of how much is
- * written out per line, the writer defaults to 100.
- * But this value can be set by subclasses.
+ * including the bttributes.  In terms of how much is
+ * written out per line, the writer defbults to 100.
+ * But this vblue cbn be set by subclbsses.
  *
- * @author Sunita Mani
+ * @buthor Sunitb Mbni
  */
 
-public abstract class AbstractWriter {
+public bbstrbct clbss AbstrbctWriter {
 
-    private ElementIterator it;
-    private Writer out;
-    private int indentLevel = 0;
-    private int indentSpace = 2;
-    private Document doc = null;
-    private int maxLineLength = 100;
-    private int currLength = 0;
-    private int startOffset = 0;
-    private int endOffset = 0;
-    // If (indentLevel * indentSpace) becomes >= maxLineLength, this will
-    // get incremened instead of indentLevel to avoid indenting going greater
-    // than line length.
-    private int offsetIndent = 0;
+    privbte ElementIterbtor it;
+    privbte Writer out;
+    privbte int indentLevel = 0;
+    privbte int indentSpbce = 2;
+    privbte Document doc = null;
+    privbte int mbxLineLength = 100;
+    privbte int currLength = 0;
+    privbte int stbrtOffset = 0;
+    privbte int endOffset = 0;
+    // If (indentLevel * indentSpbce) becomes >= mbxLineLength, this will
+    // get incremened instebd of indentLevel to bvoid indenting going grebter
+    // thbn line length.
+    privbte int offsetIndent = 0;
 
     /**
-     * String used for end of line. If the Document has the property
+     * String used for end of line. If the Document hbs the property
      * EndOfLineStringProperty, it will be used for newlines. Otherwise
-     * the System property line.separator will be used. The line separator
-     * can also be set.
+     * the System property line.sepbrbtor will be used. The line sepbrbtor
+     * cbn blso be set.
      */
-    private String lineSeparator;
+    privbte String lineSepbrbtor;
 
     /**
-     * True indicates that when writing, the line can be split, false
-     * indicates that even if the line is > than max line length it should
+     * True indicbtes thbt when writing, the line cbn be split, fblse
+     * indicbtes thbt even if the line is > thbn mbx line length it should
      * not be split.
      */
-    private boolean canWrapLines;
+    privbte boolebn cbnWrbpLines;
 
     /**
-     * True while the current line is empty. This will remain true after
+     * True while the current line is empty. This will rembin true bfter
      * indenting.
      */
-    private boolean isLineEmpty;
+    privbte boolebn isLineEmpty;
 
     /**
-     * Used when indenting. Will contain the spaces.
+     * Used when indenting. Will contbin the spbces.
      */
-    private char[] indentChars;
+    privbte chbr[] indentChbrs;
 
     /**
-     * Used when writing out a string.
+     * Used when writing out b string.
      */
-    private char[] tempChars;
+    privbte chbr[] tempChbrs;
 
     /**
-     * This is used in <code>writeLineSeparator</code> instead of
-     * tempChars. If tempChars were used it would mean write couldn't invoke
-     * <code>writeLineSeparator</code> as it might have been passed
-     * tempChars.
+     * This is used in <code>writeLineSepbrbtor</code> instebd of
+     * tempChbrs. If tempChbrs were used it would mebn write couldn't invoke
+     * <code>writeLineSepbrbtor</code> bs it might hbve been pbssed
+     * tempChbrs.
      */
-    private char[] newlineChars;
+    privbte chbr[] newlineChbrs;
 
     /**
      * Used for writing text.
      */
-    private Segment segment;
+    privbte Segment segment;
 
     /**
-     * How the text packages models newlines.
-     * @see #getLineSeparator
+     * How the text pbckbges models newlines.
+     * @see #getLineSepbrbtor
      */
-    protected static final char NEWLINE = '\n';
+    protected stbtic finbl chbr NEWLINE = '\n';
 
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the default
+     * Crebtes b new AbstrbctWriter.
+     * Initiblizes the ElementIterbtor with the defbult
      * root of the document.
      *
-     * @param w a Writer.
-     * @param doc a Document
+     * @pbrbm w b Writer.
+     * @pbrbm doc b Document
      */
-    protected AbstractWriter(Writer w, Document doc) {
+    protected AbstrbctWriter(Writer w, Document doc) {
         this(w, doc, 0, doc.getLength());
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crebtes b new AbstrbctWriter.
+     * Initiblizes the ElementIterbtor with the
+     * element pbssed in.
      *
-     * @param w a Writer
-     * @param doc an Element
-     * @param pos The location in the document to fetch the
+     * @pbrbm w b Writer
+     * @pbrbm doc bn Element
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content.
-     * @param len The amount to write out.
+     * @pbrbm len The bmount to write out.
      */
-    protected AbstractWriter(Writer w, Document doc, int pos, int len) {
+    protected AbstrbctWriter(Writer w, Document doc, int pos, int len) {
         this.doc = doc;
-        it = new ElementIterator(doc.getDefaultRootElement());
+        it = new ElementIterbtor(doc.getDefbultRootElement());
         out = w;
-        startOffset = pos;
+        stbrtOffset = pos;
         endOffset = pos + len;
-        Object docNewline = doc.getProperty(DefaultEditorKit.
+        Object docNewline = doc.getProperty(DefbultEditorKit.
                                        EndOfLineStringProperty);
-        if (docNewline instanceof String) {
-            setLineSeparator((String)docNewline);
+        if (docNewline instbnceof String) {
+            setLineSepbrbtor((String)docNewline);
         }
         else {
-            String newline = System.lineSeparator();
+            String newline = System.lineSepbrbtor();
             if (newline == null) {
-                // Should not get here, but if we do it means we could not
-                // find a newline string, use \n in this case.
+                // Should not get here, but if we do it mebns we could not
+                // find b newline string, use \n in this cbse.
                 newline = "\n";
             }
-            setLineSeparator(newline);
+            setLineSepbrbtor(newline);
         }
-        canWrapLines = true;
+        cbnWrbpLines = true;
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crebtes b new AbstrbctWriter.
+     * Initiblizes the ElementIterbtor with the
+     * element pbssed in.
      *
-     * @param w a Writer
-     * @param root an Element
+     * @pbrbm w b Writer
+     * @pbrbm root bn Element
      */
-    protected AbstractWriter(Writer w, Element root) {
+    protected AbstrbctWriter(Writer w, Element root) {
         this(w, root, 0, root.getEndOffset());
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crebtes b new AbstrbctWriter.
+     * Initiblizes the ElementIterbtor with the
+     * element pbssed in.
      *
-     * @param w a Writer
-     * @param root an Element
-     * @param pos The location in the document to fetch the
+     * @pbrbm w b Writer
+     * @pbrbm root bn Element
+     * @pbrbm pos The locbtion in the document to fetch the
      *   content.
-     * @param len The amount to write out.
+     * @pbrbm len The bmount to write out.
      */
-    protected AbstractWriter(Writer w, Element root, int pos, int len) {
+    protected AbstrbctWriter(Writer w, Element root, int pos, int len) {
         this.doc = root.getDocument();
-        it = new ElementIterator(root);
+        it = new ElementIterbtor(root);
         out = w;
-        startOffset = pos;
+        stbrtOffset = pos;
         endOffset = pos + len;
-        canWrapLines = true;
+        cbnWrbpLines = true;
     }
 
     /**
@@ -189,12 +189,12 @@ public abstract class AbstractWriter {
      *
      * @since 1.3
      */
-    public int getStartOffset() {
-        return startOffset;
+    public int getStbrtOffset() {
+        return stbrtOffset;
     }
 
     /**
-     * Returns the last offset to be output.
+     * Returns the lbst offset to be output.
      *
      * @since 1.3
      */
@@ -203,16 +203,16 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * Fetches the ElementIterator.
+     * Fetches the ElementIterbtor.
      *
-     * @return the ElementIterator.
+     * @return the ElementIterbtor.
      */
-    protected ElementIterator getElementIterator() {
+    protected ElementIterbtor getElementIterbtor() {
         return it;
     }
 
     /**
-     * Returns the Writer that is used to output the content.
+     * Returns the Writer thbt is used to output the content.
      *
      * @since 1.3
      */
@@ -231,94 +231,94 @@ public abstract class AbstractWriter {
 
     /**
      * This method determines whether the current element
-     * is in the range specified.  When no range is specified,
-     * the range is initialized to be the entire document.
-     * inRange() returns true if the range specified intersects
-     * with the element's range.
+     * is in the rbnge specified.  When no rbnge is specified,
+     * the rbnge is initiblized to be the entire document.
+     * inRbnge() returns true if the rbnge specified intersects
+     * with the element's rbnge.
      *
-     * @param  next an Element.
-     * @return boolean that indicates whether the element
-     *         is in the range.
+     * @pbrbm  next bn Element.
+     * @return boolebn thbt indicbtes whether the element
+     *         is in the rbnge.
      */
-    protected boolean inRange(Element next) {
-        int startOffset = getStartOffset();
+    protected boolebn inRbnge(Element next) {
+        int stbrtOffset = getStbrtOffset();
         int endOffset = getEndOffset();
-        if ((next.getStartOffset() >= startOffset &&
-             next.getStartOffset()  < endOffset) ||
-            (startOffset >= next.getStartOffset() &&
-             startOffset < next.getEndOffset())) {
+        if ((next.getStbrtOffset() >= stbrtOffset &&
+             next.getStbrtOffset()  < endOffset) ||
+            (stbrtOffset >= next.getStbrtOffset() &&
+             stbrtOffset < next.getEndOffset())) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * This abstract method needs to be implemented
-     * by subclasses.  Its responsibility is to
-     * iterate over the elements and use the write()
-     * methods to generate output in the desired format.
+     * This bbstrbct method needs to be implemented
+     * by subclbsses.  Its responsibility is to
+     * iterbte over the elements bnd use the write()
+     * methods to generbte output in the desired formbt.
      */
-    abstract protected void write() throws IOException, BadLocationException;
+    bbstrbct protected void write() throws IOException, BbdLocbtionException;
 
     /**
-     * Returns the text associated with the element.
-     * The assumption here is that the element is a
-     * leaf element.  Throws a BadLocationException
+     * Returns the text bssocibted with the element.
+     * The bssumption here is thbt the element is b
+     * lebf element.  Throws b BbdLocbtionException
      * when encountered.
      *
-     * @param     elem an <code>Element</code>
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document
-     * @return    the text as a <code>String</code>
+     * @pbrbm     elem bn <code>Element</code>
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *            locbtion within the document
+     * @return    the text bs b <code>String</code>
      */
-    protected String getText(Element elem) throws BadLocationException {
-        return doc.getText(elem.getStartOffset(),
-                           elem.getEndOffset() - elem.getStartOffset());
+    protected String getText(Element elem) throws BbdLocbtionException {
+        return doc.getText(elem.getStbrtOffset(),
+                           elem.getEndOffset() - elem.getStbrtOffset());
     }
 
 
     /**
-     * Writes out text.  If a range is specified when the constructor
-     * is invoked, then only the appropriate range of text is written
+     * Writes out text.  If b rbnge is specified when the constructor
+     * is invoked, then only the bppropribte rbnge of text is written
      * out.
      *
-     * @param     elem an Element.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
+     * @pbrbm     elem bn Element.
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *            locbtion within the document.
      */
-    protected void text(Element elem) throws BadLocationException,
+    protected void text(Element elem) throws BbdLocbtionException,
                                              IOException {
-        int start = Math.max(getStartOffset(), elem.getStartOffset());
-        int end = Math.min(getEndOffset(), elem.getEndOffset());
-        if (start < end) {
+        int stbrt = Mbth.mbx(getStbrtOffset(), elem.getStbrtOffset());
+        int end = Mbth.min(getEndOffset(), elem.getEndOffset());
+        if (stbrt < end) {
             if (segment == null) {
                 segment = new Segment();
             }
-            getDocument().getText(start, end - start, segment);
+            getDocument().getText(stbrt, end - stbrt, segment);
             if (segment.count > 0) {
-                write(segment.array, segment.offset, segment.count);
+                write(segment.brrby, segment.offset, segment.count);
             }
         }
     }
 
     /**
-     * Enables subclasses to set the number of characters they
-     * want written per line.   The default is 100.
+     * Enbbles subclbsses to set the number of chbrbcters they
+     * wbnt written per line.   The defbult is 100.
      *
-     * @param l the maximum line length.
+     * @pbrbm l the mbximum line length.
      */
     protected void setLineLength(int l) {
-        maxLineLength = l;
+        mbxLineLength = l;
     }
 
     /**
-     * Returns the maximum line length.
+     * Returns the mbximum line length.
      *
      * @since 1.3
      */
     protected int getLineLength() {
-        return maxLineLength;
+        return mbxLineLength;
     }
 
     /**
@@ -343,64 +343,64 @@ public abstract class AbstractWriter {
     /**
      * Returns true if the current line should be considered empty. This
      * is true when <code>getCurrentLineLength</code> == 0 ||
-     * <code>indent</code> has been invoked on an empty line.
+     * <code>indent</code> hbs been invoked on bn empty line.
      *
      * @since 1.3
      */
-    protected boolean isLineEmpty() {
+    protected boolebn isLineEmpty() {
         return isLineEmpty;
     }
 
     /**
-     * Sets whether or not lines can be wrapped. This can be toggled
-     * during the writing of lines. For example, outputting HTML might
-     * set this to false when outputting a quoted string.
+     * Sets whether or not lines cbn be wrbpped. This cbn be toggled
+     * during the writing of lines. For exbmple, outputting HTML might
+     * set this to fblse when outputting b quoted string.
      *
      * @since 1.3
      */
-    protected void setCanWrapLines(boolean newValue) {
-        canWrapLines = newValue;
+    protected void setCbnWrbpLines(boolebn newVblue) {
+        cbnWrbpLines = newVblue;
     }
 
     /**
-     * Returns whether or not the lines can be wrapped. If this is false
-     * no lineSeparator's will be output.
+     * Returns whether or not the lines cbn be wrbpped. If this is fblse
+     * no lineSepbrbtor's will be output.
      *
      * @since 1.3
      */
-    protected boolean getCanWrapLines() {
-        return canWrapLines;
+    protected boolebn getCbnWrbpLines() {
+        return cbnWrbpLines;
     }
 
     /**
-     * Enables subclasses to specify how many spaces an indent
-     * maps to. When indentation takes place, the indent level
-     * is multiplied by this mapping.  The default is 2.
+     * Enbbles subclbsses to specify how mbny spbces bn indent
+     * mbps to. When indentbtion tbkes plbce, the indent level
+     * is multiplied by this mbpping.  The defbult is 2.
      *
-     * @param space an int representing the space to indent mapping.
+     * @pbrbm spbce bn int representing the spbce to indent mbpping.
      */
-    protected void setIndentSpace(int space) {
-        indentSpace = space;
+    protected void setIndentSpbce(int spbce) {
+        indentSpbce = spbce;
     }
 
     /**
-     * Returns the amount of space to indent.
+     * Returns the bmount of spbce to indent.
      *
      * @since 1.3
      */
-    protected int getIndentSpace() {
-        return indentSpace;
+    protected int getIndentSpbce() {
+        return indentSpbce;
     }
 
     /**
-     * Sets the String used to represent newlines. This is initialized
+     * Sets the String used to represent newlines. This is initiblized
      * in the constructor from either the Document, or the System property
-     * line.separator.
+     * line.sepbrbtor.
      *
      * @since 1.3
      */
-    public void setLineSeparator(String value) {
-        lineSeparator = value;
+    public void setLineSepbrbtor(String vblue) {
+        lineSepbrbtor = vblue;
     }
 
     /**
@@ -408,22 +408,22 @@ public abstract class AbstractWriter {
      *
      * @since 1.3
      */
-    public String getLineSeparator() {
-        return lineSeparator;
+    public String getLineSepbrbtor() {
+        return lineSepbrbtor;
     }
 
     /**
-     * Increments the indent level. If indenting would cause
-     * <code>getIndentSpace()</code> *<code>getIndentLevel()</code> to be &gt;
-     * than <code>getLineLength()</code> this will not cause an indent.
+     * Increments the indent level. If indenting would cbuse
+     * <code>getIndentSpbce()</code> *<code>getIndentLevel()</code> to be &gt;
+     * thbn <code>getLineLength()</code> this will not cbuse bn indent.
      */
     protected void incrIndent() {
-        // Only increment to a certain point.
+        // Only increment to b certbin point.
         if (offsetIndent > 0) {
             offsetIndent++;
         }
         else {
-            if (++indentLevel * getIndentSpace() >= getLineLength()) {
+            if (++indentLevel * getIndentSpbce() >= getLineLength()) {
                 offsetIndent++;
                 --indentLevel;
             }
@@ -443,9 +443,9 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * Returns the current indentation level. That is, the number of times
-     * <code>incrIndent</code> has been invoked minus the number of times
-     * <code>decrIndent</code> has been invoked.
+     * Returns the current indentbtion level. Thbt is, the number of times
+     * <code>incrIndent</code> hbs been invoked minus the number of times
+     * <code>decrIndent</code> hbs been invoked.
      *
      * @since 1.3
      */
@@ -454,204 +454,204 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * Does indentation. The number of spaces written
-     * out is indent level times the space to map mapping. If the current
-     * line is empty, this will not make it so that the current line is
+     * Does indentbtion. The number of spbces written
+     * out is indent level times the spbce to mbp mbpping. If the current
+     * line is empty, this will not mbke it so thbt the current line is
      * still considered empty.
      *
-     * @exception IOException on any I/O error
+     * @exception IOException on bny I/O error
      */
     protected void indent() throws IOException {
-        int max = getIndentLevel() * getIndentSpace();
-        if (indentChars == null || max > indentChars.length) {
-            indentChars = new char[max];
-            for (int counter = 0; counter < max; counter++) {
-                indentChars[counter] = ' ';
+        int mbx = getIndentLevel() * getIndentSpbce();
+        if (indentChbrs == null || mbx > indentChbrs.length) {
+            indentChbrs = new chbr[mbx];
+            for (int counter = 0; counter < mbx; counter++) {
+                indentChbrs[counter] = ' ';
             }
         }
         int length = getCurrentLineLength();
-        boolean wasEmpty = isLineEmpty();
-        output(indentChars, 0, max);
-        if (wasEmpty && length == 0) {
+        boolebn wbsEmpty = isLineEmpty();
+        output(indentChbrs, 0, mbx);
+        if (wbsEmpty && length == 0) {
             isLineEmpty = true;
         }
     }
 
     /**
-     * Writes out a character. This is implemented to invoke
-     * the <code>write</code> method that takes a char[].
+     * Writes out b chbrbcter. This is implemented to invoke
+     * the <code>write</code> method thbt tbkes b chbr[].
      *
-     * @param     ch a char.
-     * @exception IOException on any I/O error
+     * @pbrbm     ch b chbr.
+     * @exception IOException on bny I/O error
      */
-    protected void write(char ch) throws IOException {
-        if (tempChars == null) {
-            tempChars = new char[128];
+    protected void write(chbr ch) throws IOException {
+        if (tempChbrs == null) {
+            tempChbrs = new chbr[128];
         }
-        tempChars[0] = ch;
-        write(tempChars, 0, 1);
+        tempChbrs[0] = ch;
+        write(tempChbrs, 0, 1);
     }
 
     /**
-     * Writes out a string. This is implemented to invoke the
-     * <code>write</code> method that takes a char[].
+     * Writes out b string. This is implemented to invoke the
+     * <code>write</code> method thbt tbkes b chbr[].
      *
-     * @param     content a String.
-     * @exception IOException on any I/O error
+     * @pbrbm     content b String.
+     * @exception IOException on bny I/O error
      */
     protected void write(String content) throws IOException {
         if (content == null) {
             return;
         }
         int size = content.length();
-        if (tempChars == null || tempChars.length < size) {
-            tempChars = new char[size];
+        if (tempChbrs == null || tempChbrs.length < size) {
+            tempChbrs = new chbr[size];
         }
-        content.getChars(0, size, tempChars, 0);
-        write(tempChars, 0, size);
+        content.getChbrs(0, size, tempChbrs, 0);
+        write(tempChbrs, 0, size);
     }
 
     /**
-     * Writes the line separator. This invokes <code>output</code> directly
-     * as well as setting the <code>lineLength</code> to 0.
+     * Writes the line sepbrbtor. This invokes <code>output</code> directly
+     * bs well bs setting the <code>lineLength</code> to 0.
      *
      * @since 1.3
      */
-    protected void writeLineSeparator() throws IOException {
-        String newline = getLineSeparator();
+    protected void writeLineSepbrbtor() throws IOException {
+        String newline = getLineSepbrbtor();
         int length = newline.length();
-        if (newlineChars == null || newlineChars.length < length) {
-            newlineChars = new char[length];
+        if (newlineChbrs == null || newlineChbrs.length < length) {
+            newlineChbrs = new chbr[length];
         }
-        newline.getChars(0, length, newlineChars, 0);
-        output(newlineChars, 0, length);
+        newline.getChbrs(0, length, newlineChbrs, 0);
+        output(newlineChbrs, 0, length);
         setCurrentLineLength(0);
     }
 
     /**
-     * All write methods call into this one. If <code>getCanWrapLines()</code>
-     * returns false, this will call <code>output</code> with each sequence
-     * of <code>chars</code> that doesn't contain a NEWLINE, followed
-     * by a call to <code>writeLineSeparator</code>. On the other hand,
-     * if <code>getCanWrapLines()</code> returns true, this will split the
-     * string, as necessary, so <code>getLineLength</code> is honored.
-     * The only exception is if the current string contains no whitespace,
-     * and won't fit in which case the line length will exceed
+     * All write methods cbll into this one. If <code>getCbnWrbpLines()</code>
+     * returns fblse, this will cbll <code>output</code> with ebch sequence
+     * of <code>chbrs</code> thbt doesn't contbin b NEWLINE, followed
+     * by b cbll to <code>writeLineSepbrbtor</code>. On the other hbnd,
+     * if <code>getCbnWrbpLines()</code> returns true, this will split the
+     * string, bs necessbry, so <code>getLineLength</code> is honored.
+     * The only exception is if the current string contbins no whitespbce,
+     * bnd won't fit in which cbse the line length will exceed
      * <code>getLineLength</code>.
      *
      * @since 1.3
      */
-    protected void write(char[] chars, int startIndex, int length)
+    protected void write(chbr[] chbrs, int stbrtIndex, int length)
                    throws IOException {
-        if (!getCanWrapLines()) {
-            // We can not break string, just track if a newline
+        if (!getCbnWrbpLines()) {
+            // We cbn not brebk string, just trbck if b newline
             // is in it.
-            int lastIndex = startIndex;
-            int endIndex = startIndex + length;
-            int newlineIndex = indexOf(chars, NEWLINE, startIndex, endIndex);
+            int lbstIndex = stbrtIndex;
+            int endIndex = stbrtIndex + length;
+            int newlineIndex = indexOf(chbrs, NEWLINE, stbrtIndex, endIndex);
             while (newlineIndex != -1) {
-                if (newlineIndex > lastIndex) {
-                    output(chars, lastIndex, newlineIndex - lastIndex);
+                if (newlineIndex > lbstIndex) {
+                    output(chbrs, lbstIndex, newlineIndex - lbstIndex);
                 }
-                writeLineSeparator();
-                lastIndex = newlineIndex + 1;
-                newlineIndex = indexOf(chars, '\n', lastIndex, endIndex);
+                writeLineSepbrbtor();
+                lbstIndex = newlineIndex + 1;
+                newlineIndex = indexOf(chbrs, '\n', lbstIndex, endIndex);
             }
-            if (lastIndex < endIndex) {
-                output(chars, lastIndex, endIndex - lastIndex);
+            if (lbstIndex < endIndex) {
+                output(chbrs, lbstIndex, endIndex - lbstIndex);
             }
         }
         else {
-            // We can break chars if the length exceeds maxLength.
-            int lastIndex = startIndex;
-            int endIndex = startIndex + length;
+            // We cbn brebk chbrs if the length exceeds mbxLength.
+            int lbstIndex = stbrtIndex;
+            int endIndex = stbrtIndex + length;
             int lineLength = getCurrentLineLength();
-            int maxLength = getLineLength();
+            int mbxLength = getLineLength();
 
-            while (lastIndex < endIndex) {
-                int newlineIndex = indexOf(chars, NEWLINE, lastIndex,
+            while (lbstIndex < endIndex) {
+                int newlineIndex = indexOf(chbrs, NEWLINE, lbstIndex,
                                            endIndex);
-                boolean needsNewline = false;
-                boolean forceNewLine = false;
+                boolebn needsNewline = fblse;
+                boolebn forceNewLine = fblse;
 
                 lineLength = getCurrentLineLength();
                 if (newlineIndex != -1 && (lineLength +
-                              (newlineIndex - lastIndex)) < maxLength) {
-                    if (newlineIndex > lastIndex) {
-                        output(chars, lastIndex, newlineIndex - lastIndex);
+                              (newlineIndex - lbstIndex)) < mbxLength) {
+                    if (newlineIndex > lbstIndex) {
+                        output(chbrs, lbstIndex, newlineIndex - lbstIndex);
                     }
-                    lastIndex = newlineIndex + 1;
+                    lbstIndex = newlineIndex + 1;
                     forceNewLine = true;
                 }
                 else if (newlineIndex == -1 && (lineLength +
-                                (endIndex - lastIndex)) < maxLength) {
-                    if (endIndex > lastIndex) {
-                        output(chars, lastIndex, endIndex - lastIndex);
+                                (endIndex - lbstIndex)) < mbxLength) {
+                    if (endIndex > lbstIndex) {
+                        output(chbrs, lbstIndex, endIndex - lbstIndex);
                     }
-                    lastIndex = endIndex;
+                    lbstIndex = endIndex;
                 }
                 else {
-                    // Need to break chars, find a place to split chars at,
-                    // from lastIndex to endIndex,
-                    // or maxLength - lineLength whichever is smaller
-                    int breakPoint = -1;
-                    int maxBreak = Math.min(endIndex - lastIndex,
-                                            maxLength - lineLength - 1);
+                    // Need to brebk chbrs, find b plbce to split chbrs bt,
+                    // from lbstIndex to endIndex,
+                    // or mbxLength - lineLength whichever is smbller
+                    int brebkPoint = -1;
+                    int mbxBrebk = Mbth.min(endIndex - lbstIndex,
+                                            mbxLength - lineLength - 1);
                     int counter = 0;
-                    while (counter < maxBreak) {
-                        if (Character.isWhitespace(chars[counter +
-                                                        lastIndex])) {
-                            breakPoint = counter;
+                    while (counter < mbxBrebk) {
+                        if (Chbrbcter.isWhitespbce(chbrs[counter +
+                                                        lbstIndex])) {
+                            brebkPoint = counter;
                         }
                         counter++;
                     }
-                    if (breakPoint != -1) {
-                        // Found a place to break at.
-                        breakPoint += lastIndex + 1;
-                        output(chars, lastIndex, breakPoint - lastIndex);
-                        lastIndex = breakPoint;
+                    if (brebkPoint != -1) {
+                        // Found b plbce to brebk bt.
+                        brebkPoint += lbstIndex + 1;
+                        output(chbrs, lbstIndex, brebkPoint - lbstIndex);
+                        lbstIndex = brebkPoint;
                         needsNewline = true;
                     }
                     else {
-                        // No where good to break.
+                        // No where good to brebk.
 
-                        // find the next whitespace, or write out the
+                        // find the next whitespbce, or write out the
                         // whole string.
-                            // maxBreak will be negative if current line too
+                            // mbxBrebk will be negbtive if current line too
                             // long.
-                            counter = Math.max(0, maxBreak);
-                            maxBreak = endIndex - lastIndex;
-                            while (counter < maxBreak) {
-                                if (Character.isWhitespace(chars[counter +
-                                                                lastIndex])) {
-                                    breakPoint = counter;
-                                    break;
+                            counter = Mbth.mbx(0, mbxBrebk);
+                            mbxBrebk = endIndex - lbstIndex;
+                            while (counter < mbxBrebk) {
+                                if (Chbrbcter.isWhitespbce(chbrs[counter +
+                                                                lbstIndex])) {
+                                    brebkPoint = counter;
+                                    brebk;
                                 }
                                 counter++;
                             }
-                            if (breakPoint == -1) {
-                                output(chars, lastIndex, endIndex - lastIndex);
-                                breakPoint = endIndex;
+                            if (brebkPoint == -1) {
+                                output(chbrs, lbstIndex, endIndex - lbstIndex);
+                                brebkPoint = endIndex;
                             }
                             else {
-                                breakPoint += lastIndex;
-                                if (chars[breakPoint] == NEWLINE) {
-                                    output(chars, lastIndex, breakPoint++ -
-                                           lastIndex);
+                                brebkPoint += lbstIndex;
+                                if (chbrs[brebkPoint] == NEWLINE) {
+                                    output(chbrs, lbstIndex, brebkPoint++ -
+                                           lbstIndex);
                                 forceNewLine = true;
                                 }
                                 else {
-                                    output(chars, lastIndex, ++breakPoint -
-                                              lastIndex);
+                                    output(chbrs, lbstIndex, ++brebkPoint -
+                                              lbstIndex);
                                 needsNewline = true;
                                 }
                             }
-                            lastIndex = breakPoint;
+                            lbstIndex = brebkPoint;
                         }
                     }
-                if (forceNewLine || needsNewline || lastIndex < endIndex) {
-                    writeLineSeparator();
-                    if (lastIndex < endIndex || !forceNewLine) {
+                if (forceNewLine || needsNewline || lbstIndex < endIndex) {
+                    writeLineSepbrbtor();
+                    if (lbstIndex < endIndex || !forceNewLine) {
                         indent();
                     }
                 }
@@ -660,50 +660,50 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * Writes out the set of attributes as " &lt;name&gt;=&lt;value&gt;"
-     * pairs. It throws an IOException when encountered.
+     * Writes out the set of bttributes bs " &lt;nbme&gt;=&lt;vblue&gt;"
+     * pbirs. It throws bn IOException when encountered.
      *
-     * @param     attr an AttributeSet.
-     * @exception IOException on any I/O error
+     * @pbrbm     bttr bn AttributeSet.
+     * @exception IOException on bny I/O error
      */
-    protected void writeAttributes(AttributeSet attr) throws IOException {
+    protected void writeAttributes(AttributeSet bttr) throws IOException {
 
-        Enumeration<?> names = attr.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object name = names.nextElement();
-            write(" " + name + "=" + attr.getAttribute(name));
+        Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
+            write(" " + nbme + "=" + bttr.getAttribute(nbme));
         }
     }
 
     /**
-     * The last stop in writing out content. All the write methods eventually
-     * make it to this method, which invokes <code>write</code> on the
+     * The lbst stop in writing out content. All the write methods eventublly
+     * mbke it to this method, which invokes <code>write</code> on the
      * Writer.
-     * <p>This method also updates the line length based on
-     * <code>length</code>. If this is invoked to output a newline, the
-     * current line length will need to be reset as will no longer be
-     * valid. If it is up to the caller to do this. Use
-     * <code>writeLineSeparator</code> to write out a newline, which will
-     * property update the current line length.
+     * <p>This method blso updbtes the line length bbsed on
+     * <code>length</code>. If this is invoked to output b newline, the
+     * current line length will need to be reset bs will no longer be
+     * vblid. If it is up to the cbller to do this. Use
+     * <code>writeLineSepbrbtor</code> to write out b newline, which will
+     * property updbte the current line length.
      *
      * @since 1.3
      */
-    protected void output(char[] content, int start, int length)
+    protected void output(chbr[] content, int stbrt, int length)
                    throws IOException {
-        getWriter().write(content, start, length);
+        getWriter().write(content, stbrt, length);
         setCurrentLineLength(getCurrentLineLength() + length);
     }
 
     /**
-     * Support method to locate an occurrence of a particular character.
+     * Support method to locbte bn occurrence of b pbrticulbr chbrbcter.
      */
-    private int indexOf(char[] chars, char sChar, int startIndex,
+    privbte int indexOf(chbr[] chbrs, chbr sChbr, int stbrtIndex,
                         int endIndex) {
-        while(startIndex < endIndex) {
-            if (chars[startIndex] == sChar) {
-                return startIndex;
+        while(stbrtIndex < endIndex) {
+            if (chbrs[stbrtIndex] == sChbr) {
+                return stbrtIndex;
             }
-            startIndex++;
+            stbrtIndex++;
         }
         return -1;
     }

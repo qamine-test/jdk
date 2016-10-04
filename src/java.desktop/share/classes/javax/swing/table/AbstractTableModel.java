@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.io.Serializable;
-import java.util.EventListener;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.io.Seriblizbble;
+import jbvb.util.EventListener;
 
 /**
- *  This abstract class provides default implementations for most of
- *  the methods in the <code>TableModel</code> interface. It takes care of
- *  the management of listeners and provides some conveniences for generating
- *  <code>TableModelEvents</code> and dispatching them to the listeners.
- *  To create a concrete <code>TableModel</code> as a subclass of
- *  <code>AbstractTableModel</code> you need only provide implementations
+ *  This bbstrbct clbss provides defbult implementbtions for most of
+ *  the methods in the <code>TbbleModel</code> interfbce. It tbkes cbre of
+ *  the mbnbgement of listeners bnd provides some conveniences for generbting
+ *  <code>TbbleModelEvents</code> bnd dispbtching them to the listeners.
+ *  To crebte b concrete <code>TbbleModel</code> bs b subclbss of
+ *  <code>AbstrbctTbbleModel</code> you need only provide implementbtions
  *  for the following three methods:
  *
  *  <pre>
  *  public int getRowCount();
  *  public int getColumnCount();
- *  public Object getValueAt(int row, int column);
+ *  public Object getVblueAt(int row, int column);
  *  </pre>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
+ * @buthor Albn Chung
+ * @buthor Philip Milne
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractTableModel implements TableModel, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctTbbleModel implements TbbleModel, Seriblizbble
 {
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
     /** List of listeners */
     protected EventListenerList listenerList = new EventListenerList();
 
 //
-// Default Implementation of the Interface
+// Defbult Implementbtion of the Interfbce
 //
 
     /**
-     *  Returns a default name for the column using spreadsheet conventions:
-     *  A, B, C, ... Z, AA, AB, etc.  If <code>column</code> cannot be found,
-     *  returns an empty string.
+     *  Returns b defbult nbme for the column using sprebdsheet conventions:
+     *  A, B, C, ... Z, AA, AB, etc.  If <code>column</code> cbnnot be found,
+     *  returns bn empty string.
      *
-     * @param column  the column being queried
-     * @return a string containing the default name of <code>column</code>
+     * @pbrbm column  the column being queried
+     * @return b string contbining the defbult nbme of <code>column</code>
      */
-    public String getColumnName(int column) {
+    public String getColumnNbme(int column) {
         String result = "";
         for (; column >= 0; column = column / 26 - 1) {
-            result = (char)((char)(column%26)+'A') + result;
+            result = (chbr)((chbr)(column%26)+'A') + result;
         }
         return result;
     }
 
     /**
-     * Returns a column given its name.
-     * Implementation is naive so this should be overridden if
-     * this method is to be called often. This method is not
-     * in the <code>TableModel</code> interface and is not used by the
-     * <code>JTable</code>.
+     * Returns b column given its nbme.
+     * Implementbtion is nbive so this should be overridden if
+     * this method is to be cblled often. This method is not
+     * in the <code>TbbleModel</code> interfbce bnd is not used by the
+     * <code>JTbble</code>.
      *
-     * @param columnName string containing name of column to be located
-     * @return the column with <code>columnName</code>, or -1 if not found
+     * @pbrbm columnNbme string contbining nbme of column to be locbted
+     * @return the column with <code>columnNbme</code>, or -1 if not found
      */
-    public int findColumn(String columnName) {
+    public int findColumn(String columnNbme) {
         for (int i = 0; i < getColumnCount(); i++) {
-            if (columnName.equals(getColumnName(i))) {
+            if (columnNbme.equbls(getColumnNbme(i))) {
                 return i;
             }
         }
@@ -107,77 +107,77 @@ public abstract class AbstractTableModel implements TableModel, Serializable
     }
 
     /**
-     *  Returns <code>Object.class</code> regardless of <code>columnIndex</code>.
+     *  Returns <code>Object.clbss</code> regbrdless of <code>columnIndex</code>.
      *
-     *  @param columnIndex  the column being queried
-     *  @return the Object.class
+     *  @pbrbm columnIndex  the column being queried
+     *  @return the Object.clbss
      */
-    public Class<?> getColumnClass(int columnIndex) {
-        return Object.class;
+    public Clbss<?> getColumnClbss(int columnIndex) {
+        return Object.clbss;
     }
 
     /**
-     *  Returns false.  This is the default implementation for all cells.
+     *  Returns fblse.  This is the defbult implementbtion for bll cells.
      *
-     *  @param  rowIndex  the row being queried
-     *  @param  columnIndex the column being queried
-     *  @return false
+     *  @pbrbm  rowIndex  the row being queried
+     *  @pbrbm  columnIndex the column being queried
+     *  @return fblse
      */
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
+    public boolebn isCellEditbble(int rowIndex, int columnIndex) {
+        return fblse;
     }
 
     /**
-     *  This empty implementation is provided so users don't have to implement
-     *  this method if their data model is not editable.
+     *  This empty implementbtion is provided so users don't hbve to implement
+     *  this method if their dbtb model is not editbble.
      *
-     *  @param  aValue   value to assign to cell
-     *  @param  rowIndex   row of cell
-     *  @param  columnIndex  column of cell
+     *  @pbrbm  bVblue   vblue to bssign to cell
+     *  @pbrbm  rowIndex   row of cell
+     *  @pbrbm  columnIndex  column of cell
      */
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    public void setVblueAt(Object bVblue, int rowIndex, int columnIndex) {
     }
 
 
 //
-//  Managing Listeners
+//  Mbnbging Listeners
 //
 
     /**
-     * Adds a listener to the list that's notified each time a change
-     * to the data model occurs.
+     * Adds b listener to the list thbt's notified ebch time b chbnge
+     * to the dbtb model occurs.
      *
-     * @param   l               the TableModelListener
+     * @pbrbm   l               the TbbleModelListener
      */
-    public void addTableModelListener(TableModelListener l) {
-        listenerList.add(TableModelListener.class, l);
+    public void bddTbbleModelListener(TbbleModelListener l) {
+        listenerList.bdd(TbbleModelListener.clbss, l);
     }
 
     /**
-     * Removes a listener from the list that's notified each time a
-     * change to the data model occurs.
+     * Removes b listener from the list thbt's notified ebch time b
+     * chbnge to the dbtb model occurs.
      *
-     * @param   l               the TableModelListener
+     * @pbrbm   l               the TbbleModelListener
      */
-    public void removeTableModelListener(TableModelListener l) {
-        listenerList.remove(TableModelListener.class, l);
+    public void removeTbbleModelListener(TbbleModelListener l) {
+        listenerList.remove(TbbleModelListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the table model listeners
+     * Returns bn brrby of bll the tbble model listeners
      * registered on this model.
      *
-     * @return all of this model's <code>TableModelListener</code>s
-     *         or an empty
-     *         array if no table model listeners are currently registered
+     * @return bll of this model's <code>TbbleModelListener</code>s
+     *         or bn empty
+     *         brrby if no tbble model listeners bre currently registered
      *
-     * @see #addTableModelListener
-     * @see #removeTableModelListener
+     * @see #bddTbbleModelListener
+     * @see #removeTbbleModelListener
      *
      * @since 1.4
      */
-    public TableModelListener[] getTableModelListeners() {
-        return listenerList.getListeners(TableModelListener.class);
+    public TbbleModelListener[] getTbbleModelListeners() {
+        return listenerList.getListeners(TbbleModelListener.clbss);
     }
 
 //
@@ -185,157 +185,157 @@ public abstract class AbstractTableModel implements TableModel, Serializable
 //
 
     /**
-     * Notifies all listeners that all cell values in the table's
-     * rows may have changed. The number of rows may also have changed
-     * and the <code>JTable</code> should redraw the
-     * table from scratch. The structure of the table (as in the order of the
-     * columns) is assumed to be the same.
+     * Notifies bll listeners thbt bll cell vblues in the tbble's
+     * rows mby hbve chbnged. The number of rows mby blso hbve chbnged
+     * bnd the <code>JTbble</code> should redrbw the
+     * tbble from scrbtch. The structure of the tbble (bs in the order of the
+     * columns) is bssumed to be the sbme.
      *
-     * @see TableModelEvent
+     * @see TbbleModelEvent
      * @see EventListenerList
-     * @see javax.swing.JTable#tableChanged(TableModelEvent)
+     * @see jbvbx.swing.JTbble#tbbleChbnged(TbbleModelEvent)
      */
-    public void fireTableDataChanged() {
-        fireTableChanged(new TableModelEvent(this));
+    public void fireTbbleDbtbChbnged() {
+        fireTbbleChbnged(new TbbleModelEvent(this));
     }
 
     /**
-     * Notifies all listeners that the table's structure has changed.
-     * The number of columns in the table, and the names and types of
-     * the new columns may be different from the previous state.
-     * If the <code>JTable</code> receives this event and its
-     * <code>autoCreateColumnsFromModel</code>
-     * flag is set it discards any table columns that it had and reallocates
-     * default columns in the order they appear in the model. This is the
-     * same as calling <code>setModel(TableModel)</code> on the
-     * <code>JTable</code>.
+     * Notifies bll listeners thbt the tbble's structure hbs chbnged.
+     * The number of columns in the tbble, bnd the nbmes bnd types of
+     * the new columns mby be different from the previous stbte.
+     * If the <code>JTbble</code> receives this event bnd its
+     * <code>butoCrebteColumnsFromModel</code>
+     * flbg is set it discbrds bny tbble columns thbt it hbd bnd rebllocbtes
+     * defbult columns in the order they bppebr in the model. This is the
+     * sbme bs cblling <code>setModel(TbbleModel)</code> on the
+     * <code>JTbble</code>.
      *
-     * @see TableModelEvent
+     * @see TbbleModelEvent
      * @see EventListenerList
      */
-    public void fireTableStructureChanged() {
-        fireTableChanged(new TableModelEvent(this, TableModelEvent.HEADER_ROW));
+    public void fireTbbleStructureChbnged() {
+        fireTbbleChbnged(new TbbleModelEvent(this, TbbleModelEvent.HEADER_ROW));
     }
 
     /**
-     * Notifies all listeners that rows in the range
-     * <code>[firstRow, lastRow]</code>, inclusive, have been inserted.
+     * Notifies bll listeners thbt rows in the rbnge
+     * <code>[firstRow, lbstRow]</code>, inclusive, hbve been inserted.
      *
-     * @param  firstRow  the first row
-     * @param  lastRow   the last row
+     * @pbrbm  firstRow  the first row
+     * @pbrbm  lbstRow   the lbst row
      *
-     * @see TableModelEvent
+     * @see TbbleModelEvent
      * @see EventListenerList
      *
      */
-    public void fireTableRowsInserted(int firstRow, int lastRow) {
-        fireTableChanged(new TableModelEvent(this, firstRow, lastRow,
-                             TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT));
+    public void fireTbbleRowsInserted(int firstRow, int lbstRow) {
+        fireTbbleChbnged(new TbbleModelEvent(this, firstRow, lbstRow,
+                             TbbleModelEvent.ALL_COLUMNS, TbbleModelEvent.INSERT));
     }
 
     /**
-     * Notifies all listeners that rows in the range
-     * <code>[firstRow, lastRow]</code>, inclusive, have been updated.
+     * Notifies bll listeners thbt rows in the rbnge
+     * <code>[firstRow, lbstRow]</code>, inclusive, hbve been updbted.
      *
-     * @param firstRow  the first row
-     * @param lastRow   the last row
+     * @pbrbm firstRow  the first row
+     * @pbrbm lbstRow   the lbst row
      *
-     * @see TableModelEvent
+     * @see TbbleModelEvent
      * @see EventListenerList
      */
-    public void fireTableRowsUpdated(int firstRow, int lastRow) {
-        fireTableChanged(new TableModelEvent(this, firstRow, lastRow,
-                             TableModelEvent.ALL_COLUMNS, TableModelEvent.UPDATE));
+    public void fireTbbleRowsUpdbted(int firstRow, int lbstRow) {
+        fireTbbleChbnged(new TbbleModelEvent(this, firstRow, lbstRow,
+                             TbbleModelEvent.ALL_COLUMNS, TbbleModelEvent.UPDATE));
     }
 
     /**
-     * Notifies all listeners that rows in the range
-     * <code>[firstRow, lastRow]</code>, inclusive, have been deleted.
+     * Notifies bll listeners thbt rows in the rbnge
+     * <code>[firstRow, lbstRow]</code>, inclusive, hbve been deleted.
      *
-     * @param firstRow  the first row
-     * @param lastRow   the last row
+     * @pbrbm firstRow  the first row
+     * @pbrbm lbstRow   the lbst row
      *
-     * @see TableModelEvent
+     * @see TbbleModelEvent
      * @see EventListenerList
      */
-    public void fireTableRowsDeleted(int firstRow, int lastRow) {
-        fireTableChanged(new TableModelEvent(this, firstRow, lastRow,
-                             TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE));
+    public void fireTbbleRowsDeleted(int firstRow, int lbstRow) {
+        fireTbbleChbnged(new TbbleModelEvent(this, firstRow, lbstRow,
+                             TbbleModelEvent.ALL_COLUMNS, TbbleModelEvent.DELETE));
     }
 
     /**
-     * Notifies all listeners that the value of the cell at
-     * <code>[row, column]</code> has been updated.
+     * Notifies bll listeners thbt the vblue of the cell bt
+     * <code>[row, column]</code> hbs been updbted.
      *
-     * @param row  row of cell which has been updated
-     * @param column  column of cell which has been updated
-     * @see TableModelEvent
+     * @pbrbm row  row of cell which hbs been updbted
+     * @pbrbm column  column of cell which hbs been updbted
+     * @see TbbleModelEvent
      * @see EventListenerList
      */
-    public void fireTableCellUpdated(int row, int column) {
-        fireTableChanged(new TableModelEvent(this, row, row, column));
+    public void fireTbbleCellUpdbted(int row, int column) {
+        fireTbbleChbnged(new TbbleModelEvent(this, row, row, column));
     }
 
     /**
-     * Forwards the given notification event to all
-     * <code>TableModelListeners</code> that registered
-     * themselves as listeners for this table model.
+     * Forwbrds the given notificbtion event to bll
+     * <code>TbbleModelListeners</code> thbt registered
+     * themselves bs listeners for this tbble model.
      *
-     * @param e  the event to be forwarded
+     * @pbrbm e  the event to be forwbrded
      *
-     * @see #addTableModelListener
-     * @see TableModelEvent
+     * @see #bddTbbleModelListener
+     * @see TbbleModelEvent
      * @see EventListenerList
      */
-    public void fireTableChanged(TableModelEvent e) {
-        // Guaranteed to return a non-null array
+    public void fireTbbleChbnged(TbbleModelEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableModelListener.class) {
-                ((TableModelListener)listeners[i+1]).tableChanged(e);
+            if (listeners[i]==TbbleModelListener.clbss) {
+                ((TbbleModelListener)listeners[i+1]).tbbleChbnged(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>AbstractTableModel</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
+     * upon this <code>AbstrbctTbbleModel</code>.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,
+     * such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * model <code>m</code>
-     * for its table model listeners with the following code:
+     * for its tbble model listeners with the following code:
      *
-     * <pre>TableModelListener[] tmls = (TableModelListener[])(m.getListeners(TableModelListener.class));</pre>
+     * <pre>TbbleModelListener[] tmls = (TbbleModelListener[])(m.getListeners(TbbleModelListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
-     * @see #getTableModelListeners
+     * @see #getTbbleModelListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
-} // End of class AbstractTableModel
+} // End of clbss AbstrbctTbbleModel

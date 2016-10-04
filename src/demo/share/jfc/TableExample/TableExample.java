@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,265 +30,265 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
 /**
- * A a UI around the JDBCAdaptor, allowing database data to be interactively
- * fetched, sorted and displayed using Swing.
+ * A b UI bround the JDBCAdbptor, bllowing dbtbbbse dbtb to be interbctively
+ * fetched, sorted bnd displbyed using Swing.
  *
- * NOTE: This example uses a modal dialog via the static convenience methods in
- * the JOptionPane. Use of modal dialogs requires JDK 1.1.4 or greater.
+ * NOTE: This exbmple uses b modbl diblog vib the stbtic convenience methods in
+ * the JOptionPbne. Use of modbl diblogs requires JDK 1.1.4 or grebter.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.BevelBorder;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.JTextAreb;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.UIMbnbger.LookAndFeelInfo;
+import jbvbx.swing.border.BevelBorder;
 
 
-public final class TableExample implements LayoutManager {
+public finbl clbss TbbleExbmple implements LbyoutMbnbger {
 
-    static String[] ConnectOptionNames = { "Connect" };
-    static String ConnectTitle = "Connection Information";
+    stbtic String[] ConnectOptionNbmes = { "Connect" };
+    stbtic String ConnectTitle = "Connection Informbtion";
     Dimension origin = new Dimension(0, 0);
     JButton fetchButton;
     JButton showConnectionInfoButton;
-    JPanel connectionPanel;
-    JFrame frame; // The query/results window.
-    JLabel userNameLabel;
-    JTextField userNameField;
-    JLabel passwordLabel;
-    JTextField passwordField;
-    // JLabel      queryLabel;
-    JTextArea queryTextArea;
-    JComponent queryAggregate;
-    JLabel serverLabel;
+    JPbnel connectionPbnel;
+    JFrbme frbme; // The query/results window.
+    JLbbel userNbmeLbbel;
+    JTextField userNbmeField;
+    JLbbel pbsswordLbbel;
+    JTextField pbsswordField;
+    // JLbbel      queryLbbel;
+    JTextAreb queryTextAreb;
+    JComponent queryAggregbte;
+    JLbbel serverLbbel;
     JTextField serverField;
-    JLabel driverLabel;
+    JLbbel driverLbbel;
     JTextField driverField;
-    JPanel mainPanel;
-    TableSorter sorter;
-    JDBCAdapter dataBase;
-    JScrollPane tableAggregate;
+    JPbnel mbinPbnel;
+    TbbleSorter sorter;
+    JDBCAdbpter dbtbBbse;
+    JScrollPbne tbbleAggregbte;
 
     /**
-     * Brigs up a JDialog using JOptionPane containing the connectionPanel.
+     * Brigs up b JDiblog using JOptionPbne contbining the connectionPbnel.
      * If the user clicks on the 'Connect' button the connection is reset.
      */
-    void activateConnectionDialog() {
-        if (JOptionPane.showOptionDialog(tableAggregate, connectionPanel,
+    void bctivbteConnectionDiblog() {
+        if (JOptionPbne.showOptionDiblog(tbbleAggregbte, connectionPbnel,
                 ConnectTitle,
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, ConnectOptionNames, ConnectOptionNames[0]) == 0) {
+                JOptionPbne.DEFAULT_OPTION, JOptionPbne.INFORMATION_MESSAGE,
+                null, ConnectOptionNbmes, ConnectOptionNbmes[0]) == 0) {
             connect();
-            frame.setVisible(true);
-        } else if (!frame.isVisible()) {
+            frbme.setVisible(true);
+        } else if (!frbme.isVisible()) {
             System.exit(0);
         }
     }
 
     /**
-     * Creates the connectionPanel, which will contain all the fields for
-     * the connection information.
+     * Crebtes the connectionPbnel, which will contbin bll the fields for
+     * the connection informbtion.
      */
-    public void createConnectionDialog() {
-        // Create the labels and text fields.
-        userNameLabel = new JLabel("User name: ", JLabel.RIGHT);
-        userNameField = new JTextField("app");
+    public void crebteConnectionDiblog() {
+        // Crebte the lbbels bnd text fields.
+        userNbmeLbbel = new JLbbel("User nbme: ", JLbbel.RIGHT);
+        userNbmeField = new JTextField("bpp");
 
-        passwordLabel = new JLabel("Password: ", JLabel.RIGHT);
-        passwordField = new JTextField("app");
+        pbsswordLbbel = new JLbbel("Pbssword: ", JLbbel.RIGHT);
+        pbsswordField = new JTextField("bpp");
 
-        serverLabel = new JLabel("Database URL: ", JLabel.RIGHT);
-        serverField = new JTextField("jdbc:derby://localhost:1527/sample");
+        serverLbbel = new JLbbel("Dbtbbbse URL: ", JLbbel.RIGHT);
+        serverField = new JTextField("jdbc:derby://locblhost:1527/sbmple");
 
-        driverLabel = new JLabel("Driver: ", JLabel.RIGHT);
-        driverField = new JTextField("org.apache.derby.jdbc.ClientDriver");
+        driverLbbel = new JLbbel("Driver: ", JLbbel.RIGHT);
+        driverField = new JTextField("org.bpbche.derby.jdbc.ClientDriver");
 
 
-        connectionPanel = new JPanel(false);
-        connectionPanel.setLayout(new BoxLayout(connectionPanel,
-                BoxLayout.X_AXIS));
+        connectionPbnel = new JPbnel(fblse);
+        connectionPbnel.setLbyout(new BoxLbyout(connectionPbnel,
+                BoxLbyout.X_AXIS));
 
-        JPanel namePanel = new JPanel(false);
-        namePanel.setLayout(new GridLayout(0, 1));
-        namePanel.add(userNameLabel);
-        namePanel.add(passwordLabel);
-        namePanel.add(serverLabel);
-        namePanel.add(driverLabel);
+        JPbnel nbmePbnel = new JPbnel(fblse);
+        nbmePbnel.setLbyout(new GridLbyout(0, 1));
+        nbmePbnel.bdd(userNbmeLbbel);
+        nbmePbnel.bdd(pbsswordLbbel);
+        nbmePbnel.bdd(serverLbbel);
+        nbmePbnel.bdd(driverLbbel);
 
-        JPanel fieldPanel = new JPanel(false);
-        fieldPanel.setLayout(new GridLayout(0, 1));
-        fieldPanel.add(userNameField);
-        fieldPanel.add(passwordField);
-        fieldPanel.add(serverField);
-        fieldPanel.add(driverField);
+        JPbnel fieldPbnel = new JPbnel(fblse);
+        fieldPbnel.setLbyout(new GridLbyout(0, 1));
+        fieldPbnel.bdd(userNbmeField);
+        fieldPbnel.bdd(pbsswordField);
+        fieldPbnel.bdd(serverField);
+        fieldPbnel.bdd(driverField);
 
-        connectionPanel.add(namePanel);
-        connectionPanel.add(fieldPanel);
+        connectionPbnel.bdd(nbmePbnel);
+        connectionPbnel.bdd(fieldPbnel);
     }
 
-    public TableExample() {
-        mainPanel = new JPanel();
+    public TbbleExbmple() {
+        mbinPbnel = new JPbnel();
 
-        // Create the panel for the connection information
-        createConnectionDialog();
+        // Crebte the pbnel for the connection informbtion
+        crebteConnectionDiblog();
 
-        // Create the buttons.
-        showConnectionInfoButton = new JButton("Configuration");
-        showConnectionInfoButton.addActionListener(new ActionListener() {
+        // Crebte the buttons.
+        showConnectionInfoButton = new JButton("Configurbtion");
+        showConnectionInfoButton.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                activateConnectionDialog();
+            public void bctionPerformed(ActionEvent e) {
+                bctivbteConnectionDiblog();
             }
         });
 
         fetchButton = new JButton("Fetch");
-        fetchButton.addActionListener(new ActionListener() {
+        fetchButton.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 fetch();
             }
         });
 
-        // Create the query text area and label.
-        queryTextArea = new JTextArea("SELECT * FROM APP.CUSTOMER", 25, 25);
-        queryAggregate = new JScrollPane(queryTextArea);
-        queryAggregate.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        // Crebte the query text breb bnd lbbel.
+        queryTextAreb = new JTextAreb("SELECT * FROM APP.CUSTOMER", 25, 25);
+        queryAggregbte = new JScrollPbne(queryTextAreb);
+        queryAggregbte.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
-        // Create the table.
-        tableAggregate = createTable();
-        tableAggregate.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        // Crebte the tbble.
+        tbbleAggregbte = crebteTbble();
+        tbbleAggregbte.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
-        // Add all the components to the main panel.
-        mainPanel.add(fetchButton);
-        mainPanel.add(showConnectionInfoButton);
-        mainPanel.add(queryAggregate);
-        mainPanel.add(tableAggregate);
-        mainPanel.setLayout(this);
+        // Add bll the components to the mbin pbnel.
+        mbinPbnel.bdd(fetchButton);
+        mbinPbnel.bdd(showConnectionInfoButton);
+        mbinPbnel.bdd(queryAggregbte);
+        mbinPbnel.bdd(tbbleAggregbte);
+        mbinPbnel.setLbyout(this);
 
-        // Create a Frame and put the main panel in it.
-        frame = new JFrame("TableExample");
-        frame.addWindowListener(new WindowAdapter() {
+        // Crebte b Frbme bnd put the mbin pbnel in it.
+        frbme = new JFrbme("TbbleExbmple");
+        frbme.bddWindowListener(new WindowAdbpter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        frame.setBackground(Color.lightGray);
-        frame.getContentPane().add(mainPanel);
-        frame.pack();
-        frame.setVisible(false);
-        frame.setBounds(200, 200, 640, 480);
+        frbme.setBbckground(Color.lightGrby);
+        frbme.getContentPbne().bdd(mbinPbnel);
+        frbme.pbck();
+        frbme.setVisible(fblse);
+        frbme.setBounds(200, 200, 640, 480);
 
-        activateConnectionDialog();
+        bctivbteConnectionDiblog();
     }
 
     public void connect() {
-        dataBase = new JDBCAdapter(
+        dbtbBbse = new JDBCAdbpter(
                 serverField.getText(),
                 driverField.getText(),
-                userNameField.getText(),
-                passwordField.getText());
-        sorter.setModel(dataBase);
+                userNbmeField.getText(),
+                pbsswordField.getText());
+        sorter.setModel(dbtbBbse);
     }
 
     public void fetch() {
-        dataBase.executeQuery(queryTextArea.getText());
+        dbtbBbse.executeQuery(queryTextAreb.getText());
     }
 
-    public JScrollPane createTable() {
-        sorter = new TableSorter();
+    public JScrollPbne crebteTbble() {
+        sorter = new TbbleSorter();
 
         //connect();
         //fetch();
 
-        // Create the table
-        JTable table = new JTable(sorter);
-        // Use a scrollbar, in case there are many columns.
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        // Crebte the tbble
+        JTbble tbble = new JTbble(sorter);
+        // Use b scrollbbr, in cbse there bre mbny columns.
+        tbble.setAutoResizeMode(JTbble.AUTO_RESIZE_OFF);
 
-        // Install a mouse listener in the TableHeader as the sorter UI.
-        sorter.addMouseListenerToHeaderInTable(table);
+        // Instbll b mouse listener in the TbbleHebder bs the sorter UI.
+        sorter.bddMouseListenerToHebderInTbble(tbble);
 
-        JScrollPane scrollpane = new JScrollPane(table);
+        JScrollPbne scrollpbne = new JScrollPbne(tbble);
 
-        return scrollpane;
+        return scrollpbne;
     }
 
-    public static void main(String s[]) {
-        // Trying to set Nimbus look and feel
+    public stbtic void mbin(String s[]) {
+        // Trying to set Nimbus look bnd feel
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFeelInfo info : UIMbnbger.getInstblledLookAndFeels()) {
+                if ("Nimbus".equbls(info.getNbme())) {
+                    UIMbnbger.setLookAndFeel(info.getClbssNbme());
+                    brebk;
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(TableExample.class.getName()).log(Level.SEVERE,
-                    "Failed to apply Nimbus look and feel", ex);
+        } cbtch (Exception ex) {
+            Logger.getLogger(TbbleExbmple.clbss.getNbme()).log(Level.SEVERE,
+                    "Fbiled to bpply Nimbus look bnd feel", ex);
         }
 
-        new TableExample();
+        new TbbleExbmple();
     }
 
-    public Dimension preferredLayoutSize(Container c) {
+    public Dimension preferredLbyoutSize(Contbiner c) {
         return origin;
     }
 
-    public Dimension minimumLayoutSize(Container c) {
+    public Dimension minimumLbyoutSize(Contbiner c) {
         return origin;
     }
 
-    public void addLayoutComponent(String s, Component c) {
+    public void bddLbyoutComponent(String s, Component c) {
     }
 
-    public void removeLayoutComponent(Component c) {
+    public void removeLbyoutComponent(Component c) {
     }
 
-    public void layoutContainer(Container c) {
-        Rectangle b = c.getBounds();
+    public void lbyoutContbiner(Contbiner c) {
+        Rectbngle b = c.getBounds();
         int topHeight = 90;
         int inset = 4;
         showConnectionInfoButton.setBounds(b.width - 2 * inset - 120, inset, 120,
                 25);
         fetchButton.setBounds(b.width - 2 * inset - 120, 60, 120, 25);
-        // queryLabel.setBounds(10, 10, 100, 25);
-        queryAggregate.setBounds(inset, inset, b.width - 2 * inset - 150, 80);
-        tableAggregate.setBounds(new Rectangle(inset,
+        // queryLbbel.setBounds(10, 10, 100, 25);
+        queryAggregbte.setBounds(inset, inset, b.width - 2 * inset - 150, 80);
+        tbbleAggregbte.setBounds(new Rectbngle(inset,
                 inset + topHeight,
                 b.width - 2 * inset,
                 b.height - 2 * inset - topHeight));

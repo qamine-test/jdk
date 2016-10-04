@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.HttpsURLConnection
+ * NOTE:  this file wbs copied from jbvbx.net.ssl.HttpsURLConnection
  */
 
-package com.sun.net.ssl;
+pbckbge com.sun.net.ssl;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.IOException;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.net.URL;
+import jbvb.net.HttpURLConnection;
+import jbvb.io.IOException;
+import jbvbx.net.SocketFbctory;
+import jbvbx.net.ssl.SSLSocketFbctory;
 
-import javax.security.cert.X509Certificate;
+import jbvbx.security.cert.X509Certificbte;
 
 /**
- * HTTP URL connection with support for HTTPS-specific features. See
+ * HTTP URL connection with support for HTTPS-specific febtures. See
  * <A HREF="http://www.w3.org/pub/WWW/Protocols/"> the spec </A> for
- * details.
+ * detbils.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.HttpsURLConnection}.
+ * @deprecbted As of JDK 1.4, this implementbtion-specific clbss wbs
+ *      replbced by {@link jbvbx.net.ssl.HttpsURLConnection}.
  */
-@Deprecated
-abstract public
-class HttpsURLConnection extends HttpURLConnection
+@Deprecbted
+bbstrbct public
+clbss HttpsURLConnection extends HttpURLConnection
 {
     /*
-     * Initialize an HTTPS URLConnection ... could check that the URL
-     * is an "https" URL, and that the handler is also an HTTPS one,
-     * but that's established by other code in this package.
-     * @param url the URL
+     * Initiblize bn HTTPS URLConnection ... could check thbt the URL
+     * is bn "https" URL, bnd thbt the hbndler is blso bn HTTPS one,
+     * but thbt's estbblished by other code in this pbckbge.
+     * @pbrbm url the URL
      */
     public HttpsURLConnection(URL url) throws IOException {
         super(url);
@@ -63,136 +63,136 @@ class HttpsURLConnection extends HttpURLConnection
      * Returns the cipher suite in use on this connection.
      * @return the cipher suite
      */
-    public abstract String getCipherSuite();
+    public bbstrbct String getCipherSuite();
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
-     * @return the server certificate chain
+     * Returns the server's X.509 certificbte chbin, or null if
+     * the server did not buthenticbte.
+     * @return the server certificbte chbin
      */
-    public abstract X509Certificate [] getServerCertificateChain();
+    public bbstrbct X509Certificbte [] getServerCertificbteChbin();
 
     /**
-     * HostnameVerifier provides a callback mechanism so that
-     * implementers of this interface can supply a policy for
-     * handling the case where the host to connect to and
-     * the server name from the certificate mismatch.
+     * HostnbmeVerifier provides b cbllbbck mechbnism so thbt
+     * implementers of this interfbce cbn supply b policy for
+     * hbndling the cbse where the host to connect to bnd
+     * the server nbme from the certificbte mismbtch.
      *
-     * The default implementation will deny such connections.
+     * The defbult implementbtion will deny such connections.
      */
-    private static HostnameVerifier defaultHostnameVerifier =
-        new HostnameVerifier() {
-            public boolean verify(String urlHostname, String certHostname) {
-                return false;
+    privbte stbtic HostnbmeVerifier defbultHostnbmeVerifier =
+        new HostnbmeVerifier() {
+            public boolebn verify(String urlHostnbme, String certHostnbme) {
+                return fblse;
             }
         };
 
-    protected HostnameVerifier hostnameVerifier = defaultHostnameVerifier;
+    protected HostnbmeVerifier hostnbmeVerifier = defbultHostnbmeVerifier;
 
     /**
-     * Sets the default HostnameVerifier inherited when an instance
-     * of this class is created.
-     * @param v the default host name verifier
+     * Sets the defbult HostnbmeVerifier inherited when bn instbnce
+     * of this clbss is crebted.
+     * @pbrbm v the defbult host nbme verifier
      */
-    public static void setDefaultHostnameVerifier(HostnameVerifier v) {
+    public stbtic void setDefbultHostnbmeVerifier(HostnbmeVerifier v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no default HostnameVerifier specified");
+            throw new IllegblArgumentException(
+                "no defbult HostnbmeVerifier specified");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new SSLPermission("setHostnameVerifier"));
+            sm.checkPermission(new SSLPermission("setHostnbmeVerifier"));
         }
-        defaultHostnameVerifier = v;
+        defbultHostnbmeVerifier = v;
     }
 
     /**
-     * Gets the default HostnameVerifier.
-     * @return the default host name verifier
+     * Gets the defbult HostnbmeVerifier.
+     * @return the defbult host nbme verifier
      */
-    public static HostnameVerifier getDefaultHostnameVerifier() {
-        return defaultHostnameVerifier;
+    public stbtic HostnbmeVerifier getDefbultHostnbmeVerifier() {
+        return defbultHostnbmeVerifier;
     }
 
     /**
-     * Sets the HostnameVerifier.
-     * @param v the host name verifier
+     * Sets the HostnbmeVerifier.
+     * @pbrbm v the host nbme verifier
      */
-    public void setHostnameVerifier(HostnameVerifier v) {
+    public void setHostnbmeVerifier(HostnbmeVerifier v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no HostnameVerifier specified");
+            throw new IllegblArgumentException(
+                "no HostnbmeVerifier specified");
         }
 
-        hostnameVerifier = v;
+        hostnbmeVerifier = v;
     }
 
     /**
-     * Gets the HostnameVerifier.
-     * @return the host name verifier
+     * Gets the HostnbmeVerifier.
+     * @return the host nbme verifier
      */
-    public HostnameVerifier getHostnameVerifier() {
-        return hostnameVerifier;
+    public HostnbmeVerifier getHostnbmeVerifier() {
+        return hostnbmeVerifier;
     }
 
-    private static SSLSocketFactory defaultSSLSocketFactory = null;
+    privbte stbtic SSLSocketFbctory defbultSSLSocketFbctory = null;
 
-    private SSLSocketFactory sslSocketFactory = getDefaultSSLSocketFactory();
+    privbte SSLSocketFbctory sslSocketFbctory = getDefbultSSLSocketFbctory();
 
     /**
-     * Sets the default SSL socket factory inherited when an instance
-     * of this class is created.
-     * @param sf the default SSL socket factory
+     * Sets the defbult SSL socket fbctory inherited when bn instbnce
+     * of this clbss is crebted.
+     * @pbrbm sf the defbult SSL socket fbctory
      */
-    public static void setDefaultSSLSocketFactory(SSLSocketFactory sf) {
+    public stbtic void setDefbultSSLSocketFbctory(SSLSocketFbctory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no default SSLSocketFactory specified");
+            throw new IllegblArgumentException(
+                "no defbult SSLSocketFbctory specified");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.checkSetFbctory();
         }
-        defaultSSLSocketFactory = sf;
+        defbultSSLSocketFbctory = sf;
     }
 
     /**
-     * Gets the default SSL socket factory.
-     * @return the default SSL socket factory
+     * Gets the defbult SSL socket fbctory.
+     * @return the defbult SSL socket fbctory
      */
-    public static SSLSocketFactory getDefaultSSLSocketFactory() {
-        if (defaultSSLSocketFactory == null) {
-            defaultSSLSocketFactory =
-                (SSLSocketFactory)SSLSocketFactory.getDefault();
+    public stbtic SSLSocketFbctory getDefbultSSLSocketFbctory() {
+        if (defbultSSLSocketFbctory == null) {
+            defbultSSLSocketFbctory =
+                (SSLSocketFbctory)SSLSocketFbctory.getDefbult();
         }
-        return defaultSSLSocketFactory;
+        return defbultSSLSocketFbctory;
     }
 
     /**
-     * Sets the SSL socket factory.
-     * @param sf the SSL socket factory
+     * Sets the SSL socket fbctory.
+     * @pbrbm sf the SSL socket fbctory
      */
-    public void setSSLSocketFactory(SSLSocketFactory sf) {
+    public void setSSLSocketFbctory(SSLSocketFbctory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no SSLSocketFactory specified");
+            throw new IllegblArgumentException(
+                "no SSLSocketFbctory specified");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.checkSetFbctory();
         }
 
-        sslSocketFactory = sf;
+        sslSocketFbctory = sf;
     }
 
     /**
-     * Gets the SSL socket factory.
-     * @return the SSL socket factory
+     * Gets the SSL socket fbctory.
+     * @return the SSL socket fbctory
      */
-    public SSLSocketFactory getSSLSocketFactory() {
-        return sslSocketFactory;
+    public SSLSocketFbctory getSSLSocketFbctory() {
+        return sslSocketFbctory;
     }
 }

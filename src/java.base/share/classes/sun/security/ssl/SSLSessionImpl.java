@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.net.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.net.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-import java.security.Principal;
-import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateEncodingException;
+import jbvb.security.Principbl;
+import jbvb.security.PrivbteKey;
+import jbvb.security.SecureRbndom;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteEncodingException;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import javax.net.ssl.SSLSessionContext;
-import javax.net.ssl.SSLSessionBindingListener;
-import javax.net.ssl.SSLSessionBindingEvent;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.SSLPermission;
-import javax.net.ssl.ExtendedSSLSession;
-import javax.net.ssl.SNIServerName;
+import jbvbx.net.ssl.SSLSessionContext;
+import jbvbx.net.ssl.SSLSessionBindingListener;
+import jbvbx.net.ssl.SSLSessionBindingEvent;
+import jbvbx.net.ssl.SSLPeerUnverifiedException;
+import jbvbx.net.ssl.SSLPermission;
+import jbvbx.net.ssl.ExtendedSSLSession;
+import jbvbx.net.ssl.SNIServerNbme;
 
-import static sun.security.ssl.CipherSuite.KeyExchange.*;
+import stbtic sun.security.ssl.CipherSuite.KeyExchbnge.*;
 
 /**
- * Implements the SSL session interface, and exposes the session context
- * which is maintained by SSL servers.
+ * Implements the SSL session interfbce, bnd exposes the session context
+ * which is mbintbined by SSL servers.
  *
- * <P> Servers have the ability to manage the sessions associated with
- * their authentication context(s).  They can do this by enumerating the
- * IDs of the sessions which are cached, examining those sessions, and then
- * perhaps invalidating a given session so that it can't be used again.
- * If servers do not explicitly manage the cache, sessions will linger
- * until memory is low enough that the runtime environment purges cache
- * entries automatically to reclaim space.
+ * <P> Servers hbve the bbility to mbnbge the sessions bssocibted with
+ * their buthenticbtion context(s).  They cbn do this by enumerbting the
+ * IDs of the sessions which bre cbched, exbmining those sessions, bnd then
+ * perhbps invblidbting b given session so thbt it cbn't be used bgbin.
+ * If servers do not explicitly mbnbge the cbche, sessions will linger
+ * until memory is low enough thbt the runtime environment purges cbche
+ * entries butombticblly to reclbim spbce.
  *
- * <P><em> The only reason this class is not package-private is that
- * there's no other public way to get at the server session context which
- * is associated with any given authentication context. </em>
+ * <P><em> The only rebson this clbss is not pbckbge-privbte is thbt
+ * there's no other public wby to get bt the server session context which
+ * is bssocibted with bny given buthenticbtion context. </em>
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final class SSLSessionImpl extends ExtendedSSLSession {
+finbl clbss SSLSessionImpl extends ExtendedSSLSession {
 
     /*
-     * we only really need a single null session
+     * we only reblly need b single null session
      */
-    static final SSLSessionImpl         nullSession = new SSLSessionImpl();
+    stbtic finbl SSLSessionImpl         nullSession = new SSLSessionImpl();
 
     // compression methods
-    private static final byte           compression_null = 0;
+    privbte stbtic finbl byte           compression_null = 0;
 
     /*
-     * The state of a single session, as described in section 7.1
+     * The stbte of b single session, bs described in section 7.1
      * of the SSLv3 spec.
      */
-    private final ProtocolVersion       protocolVersion;
-    private final SessionId             sessionId;
-    private X509Certificate[]   peerCerts;
-    private byte                compressionMethod;
-    private CipherSuite         cipherSuite;
-    private SecretKey           masterSecret;
+    privbte finbl ProtocolVersion       protocolVersion;
+    privbte finbl SessionId             sessionId;
+    privbte X509Certificbte[]   peerCerts;
+    privbte byte                compressionMethod;
+    privbte CipherSuite         cipherSuite;
+    privbte SecretKey           mbsterSecret;
 
     /*
-     * Information not part of the SSLv3 protocol spec, but used
-     * to support session management policies.
+     * Informbtion not pbrt of the SSLv3 protocol spec, but used
+     * to support session mbnbgement policies.
      */
-    private final long          creationTime = System.currentTimeMillis();
-    private long                lastUsedTime = 0;
-    private final String        host;
-    private final int           port;
-    private SSLSessionContextImpl       context;
-    private int                 sessionCount;
-    private boolean             invalidated;
-    private X509Certificate[]   localCerts;
-    private PrivateKey          localPrivateKey;
-    private String[]            localSupportedSignAlgs;
-    private String[]            peerSupportedSignAlgs;
-    private List<SNIServerName>    requestedServerNames;
+    privbte finbl long          crebtionTime = System.currentTimeMillis();
+    privbte long                lbstUsedTime = 0;
+    privbte finbl String        host;
+    privbte finbl int           port;
+    privbte SSLSessionContextImpl       context;
+    privbte int                 sessionCount;
+    privbte boolebn             invblidbted;
+    privbte X509Certificbte[]   locblCerts;
+    privbte PrivbteKey          locblPrivbteKey;
+    privbte String[]            locblSupportedSignAlgs;
+    privbte String[]            peerSupportedSignAlgs;
+    privbte List<SNIServerNbme>    requestedServerNbmes;
 
 
-    // Principals for non-certificate based cipher suites
-    private Principal peerPrincipal;
-    private Principal localPrincipal;
+    // Principbls for non-certificbte bbsed cipher suites
+    privbte Principbl peerPrincipbl;
+    privbte Principbl locblPrincipbl;
 
     /*
-     * We count session creations, eventually for statistical data but
-     * also since counters make shorter debugging IDs than the big ones
+     * We count session crebtions, eventublly for stbtisticbl dbtb but
+     * blso since counters mbke shorter debugging IDs thbn the big ones
      * we use in the protocol for uniqueness-over-time.
      */
-    private static volatile int counter = 0;
+    privbte stbtic volbtile int counter = 0;
 
     /*
-     * Use of session caches is globally enabled/disabled.
+     * Use of session cbches is globblly enbbled/disbbled.
      */
-    private static boolean      defaultRejoinable = true;
+    privbte stbtic boolebn      defbultRejoinbble = true;
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subclbss dynbmic debugging support */
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
     /*
-     * Create a new non-rejoinable session, using the default (null)
-     * cipher spec.  This constructor returns a session which could
-     * be used either by a client or by a server, as a connection is
-     * first opened and before handshaking begins.
+     * Crebte b new non-rejoinbble session, using the defbult (null)
+     * cipher spec.  This constructor returns b session which could
+     * be used either by b client or by b server, bs b connection is
+     * first opened bnd before hbndshbking begins.
      */
-    private SSLSessionImpl() {
+    privbte SSLSessionImpl() {
         this(ProtocolVersion.NONE, CipherSuite.C_NULL, null,
-            new SessionId(false, null), null, -1);
+            new SessionId(fblse, null), null, -1);
     }
 
     /*
-     * Create a new session, using a given cipher spec.  This will
-     * be rejoinable if session caching is enabled; the constructor
+     * Crebte b new session, using b given cipher spec.  This will
+     * be rejoinbble if session cbching is enbbled; the constructor
      * is intended mostly for use by serves.
      */
     SSLSessionImpl(ProtocolVersion protocolVersion, CipherSuite cipherSuite,
-            Collection<SignatureAndHashAlgorithm> algorithms,
-            SecureRandom generator, String host, int port) {
-        this(protocolVersion, cipherSuite, algorithms,
-             new SessionId(defaultRejoinable, generator), host, port);
+            Collection<SignbtureAndHbshAlgorithm> blgorithms,
+            SecureRbndom generbtor, String host, int port) {
+        this(protocolVersion, cipherSuite, blgorithms,
+             new SessionId(defbultRejoinbble, generbtor), host, port);
     }
 
     /*
-     * Record a new session, using a given cipher spec and session ID.
+     * Record b new session, using b given cipher spec bnd session ID.
      */
     SSLSessionImpl(ProtocolVersion protocolVersion, CipherSuite cipherSuite,
-            Collection<SignatureAndHashAlgorithm> algorithms,
+            Collection<SignbtureAndHbshAlgorithm> blgorithms,
             SessionId id, String host, int port) {
         this.protocolVersion = protocolVersion;
         sessionId = id;
         peerCerts = null;
         compressionMethod = compression_null;
         this.cipherSuite = cipherSuite;
-        masterSecret = null;
+        mbsterSecret = null;
         this.host = host;
         this.port = port;
         sessionCount = ++counter;
-        localSupportedSignAlgs =
-            SignatureAndHashAlgorithm.getAlgorithmNames(algorithms);
+        locblSupportedSignAlgs =
+            SignbtureAndHbshAlgorithm.getAlgorithmNbmes(blgorithms);
 
         if (debug != null && Debug.isOn("session")) {
-            System.out.println("%% Initialized:  " + this);
+            System.out.println("%% Initiblized:  " + this);
         }
     }
 
-    void setMasterSecret(SecretKey secret) {
-        if (masterSecret == null) {
-            masterSecret = secret;
+    void setMbsterSecret(SecretKey secret) {
+        if (mbsterSecret == null) {
+            mbsterSecret = secret;
         } else {
-            throw new RuntimeException("setMasterSecret() error");
+            throw new RuntimeException("setMbsterSecret() error");
         }
     }
 
     /**
-     * Returns the master secret ... treat with extreme caution!
+     * Returns the mbster secret ... trebt with extreme cbution!
      */
-    SecretKey getMasterSecret() {
-        return masterSecret;
+    SecretKey getMbsterSecret() {
+        return mbsterSecret;
     }
 
-    void setPeerCertificates(X509Certificate[] peer) {
+    void setPeerCertificbtes(X509Certificbte[] peer) {
         if (peerCerts == null) {
             peerCerts = peer;
         }
     }
 
-    void setLocalCertificates(X509Certificate[] local) {
-        localCerts = local;
+    void setLocblCertificbtes(X509Certificbte[] locbl) {
+        locblCerts = locbl;
     }
 
-    void setLocalPrivateKey(PrivateKey privateKey) {
-        localPrivateKey = privateKey;
+    void setLocblPrivbteKey(PrivbteKey privbteKey) {
+        locblPrivbteKey = privbteKey;
     }
 
-    void setPeerSupportedSignatureAlgorithms(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
+    void setPeerSupportedSignbtureAlgorithms(
+            Collection<SignbtureAndHbshAlgorithm> blgorithms) {
         peerSupportedSignAlgs =
-            SignatureAndHashAlgorithm.getAlgorithmNames(algorithms);
+            SignbtureAndHbshAlgorithm.getAlgorithmNbmes(blgorithms);
     }
 
-    void setRequestedServerNames(List<SNIServerName> requestedServerNames) {
-        this.requestedServerNames = new ArrayList<>(requestedServerNames);
+    void setRequestedServerNbmes(List<SNIServerNbme> requestedServerNbmes) {
+        this.requestedServerNbmes = new ArrbyList<>(requestedServerNbmes);
     }
 
     /**
-     * Set the peer principal.
+     * Set the peer principbl.
      */
-    void setPeerPrincipal(Principal principal) {
-        if (peerPrincipal == null) {
-            peerPrincipal = principal;
+    void setPeerPrincipbl(Principbl principbl) {
+        if (peerPrincipbl == null) {
+            peerPrincipbl = principbl;
         }
     }
 
     /**
-     * Set the local principal.
+     * Set the locbl principbl.
      */
-    void setLocalPrincipal(Principal principal) {
-        localPrincipal = principal;
+    void setLocblPrincipbl(Principbl principbl) {
+        locblPrincipbl = principbl;
     }
 
     /**
-     * Returns true iff this session may be resumed ... sessions are
-     * usually resumable.  Security policies may suggest otherwise,
-     * for example sessions that haven't been used for a while (say,
-     * a working day) won't be resumable, and sessions might have a
-     * maximum lifetime in any case.
+     * Returns true iff this session mby be resumed ... sessions bre
+     * usublly resumbble.  Security policies mby suggest otherwise,
+     * for exbmple sessions thbt hbven't been used for b while (sby,
+     * b working dby) won't be resumbble, bnd sessions might hbve b
+     * mbximum lifetime in bny cbse.
      */
-    boolean isRejoinable() {
+    boolebn isRejoinbble() {
         return sessionId != null && sessionId.length() != 0 &&
-            !invalidated && isLocalAuthenticationValid();
+            !invblidbted && isLocblAuthenticbtionVblid();
     }
 
     @Override
-    public synchronized boolean isValid() {
-        return isRejoinable();
+    public synchronized boolebn isVblid() {
+        return isRejoinbble();
     }
 
     /**
-     * Check if the authentication used when establishing this session
-     * is still valid. Returns true if no authentication was used
+     * Check if the buthenticbtion used when estbblishing this session
+     * is still vblid. Returns true if no buthenticbtion wbs used
      */
-    boolean isLocalAuthenticationValid() {
-        if (localPrivateKey != null) {
+    boolebn isLocblAuthenticbtionVblid() {
+        if (locblPrivbteKey != null) {
             try {
-                // if the private key is no longer valid, getAlgorithm()
-                // should throw an exception
-                // (e.g. Smartcard has been removed from the reader)
-                localPrivateKey.getAlgorithm();
-            } catch (Exception e) {
-                invalidate();
-                return false;
+                // if the privbte key is no longer vblid, getAlgorithm()
+                // should throw bn exception
+                // (e.g. Smbrtcbrd hbs been removed from the rebder)
+                locblPrivbteKey.getAlgorithm();
+            } cbtch (Exception e) {
+                invblidbte();
+                return fblse;
             }
         }
         return true;
@@ -268,7 +268,7 @@ final class SSLSessionImpl extends ExtendedSSLSession {
 
     /**
      * Returns the ID for this session.  The ID is fixed for the
-     * duration of the session; neither it, nor its value, changes.
+     * durbtion of the session; neither it, nor its vblue, chbnges.
      */
     @Override
     public byte[] getId() {
@@ -277,23 +277,23 @@ final class SSLSessionImpl extends ExtendedSSLSession {
 
     /**
      * For server sessions, this returns the set of sessions which
-     * are currently valid in this process.  For client sessions,
+     * bre currently vblid in this process.  For client sessions,
      * this returns null.
      */
     @Override
     public SSLSessionContext getSessionContext() {
         /*
-         * An interim security policy until we can do something
-         * more specific in 1.2. Only allow trusted code (code which
-         * can set system properties) to get an
-         * SSLSessionContext. This is to limit the ability of code to
-         * look up specific sessions or enumerate over them. Otherwise,
-         * code can only get session objects from successful SSL
-         * connections which implies that they must have had permission
-         * to make the network connection in the first place.
+         * An interim security policy until we cbn do something
+         * more specific in 1.2. Only bllow trusted code (code which
+         * cbn set system properties) to get bn
+         * SSLSessionContext. This is to limit the bbility of code to
+         * look up specific sessions or enumerbte over them. Otherwise,
+         * code cbn only get session objects from successful SSL
+         * connections which implies thbt they must hbve hbd permission
+         * to mbke the network connection in the first plbce.
          */
-        SecurityManager sm;
-        if ((sm = System.getSecurityManager()) != null) {
+        SecurityMbnbger sm;
+        if ((sm = System.getSecurityMbnbger()) != null) {
             sm.checkPermission(new SSLPermission("getSSLSessionContext"));
         }
 
@@ -320,16 +320,16 @@ final class SSLSessionImpl extends ExtendedSSLSession {
        cipherSuite = suite;
 
        if (debug != null && Debug.isOn("session")) {
-           System.out.println("%% Negotiating:  " + this);
+           System.out.println("%% Negotibting:  " + this);
        }
     }
 
     /**
-     * Returns the name of the cipher suite in use on this session
+     * Returns the nbme of the cipher suite in use on this session
      */
     @Override
     public String getCipherSuite() {
-        return getSuite().name;
+        return getSuite().nbme;
     }
 
     ProtocolVersion getProtocolVersion() {
@@ -337,11 +337,11 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Returns the standard name of the protocol in use on this session
+     * Returns the stbndbrd nbme of the protocol in use on this session
      */
     @Override
     public String getProtocol() {
-        return getProtocolVersion().name;
+        return getProtocolVersion().nbme;
     }
 
     /**
@@ -352,122 +352,122 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Returns the hashcode for this session
+     * Returns the hbshcode for this session
      */
     @Override
-    public int hashCode() {
-        return sessionId.hashCode();
+    public int hbshCode() {
+        return sessionId.hbshCode();
     }
 
 
     /**
-     * Returns true if sessions have same ids, false otherwise.
+     * Returns true if sessions hbve sbme ids, fblse otherwise.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
         if (obj == this) {
             return true;
         }
 
-        if (obj instanceof SSLSessionImpl) {
+        if (obj instbnceof SSLSessionImpl) {
             SSLSessionImpl sess = (SSLSessionImpl) obj;
-            return (sessionId != null) && (sessionId.equals(
+            return (sessionId != null) && (sessionId.equbls(
                         sess.getSessionId()));
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Return the cert chain presented by the peer in the
-     * java.security.cert format.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Return the cert chbin presented by the peer in the
+     * jbvb.security.cert formbt.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @return brrby of peer X.509 certs, with the peer's own cert
+     *  first in the chbin, bnd with the "root" CA lbst.
      */
     @Override
-    public java.security.cert.Certificate[] getPeerCertificates()
+    public jbvb.security.cert.Certificbte[] getPeerCertificbtes()
             throws SSLPeerUnverifiedException {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
+        // clone to preserve integrity of session ... cbller cbn't
+        // chbnge record of peer identity even by bccident, much
+        // less do it intentionblly.
         //
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
+        if ((cipherSuite.keyExchbnge == K_KRB5) ||
+            (cipherSuite.keyExchbnge == K_KRB5_EXPORT)) {
+            throw new SSLPeerUnverifiedException("no certificbtes expected"
                         + " for Kerberos cipher suites");
         }
         if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+            throw new SSLPeerUnverifiedException("peer not buthenticbted");
         }
-        // Certs are immutable objects, therefore we don't clone them.
-        // But do need to clone the array, so that nothing is inserted
+        // Certs bre immutbble objects, therefore we don't clone them.
+        // But do need to clone the brrby, so thbt nothing is inserted
         // into peerCerts.
-        return (java.security.cert.Certificate[])peerCerts.clone();
+        return (jbvb.security.cert.Certificbte[])peerCerts.clone();
     }
 
     /**
-     * Return the cert chain presented to the peer in the
-     * java.security.cert format.
-     * Note: This method is useful only when using certificate-based
+     * Return the cert chbin presented to the peer in the
+     * jbvb.security.cert formbt.
+     * Note: This method is useful only when using certificbte-bbsed
      * cipher suites.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @return brrby of peer X.509 certs, with the peer's own cert
+     *  first in the chbin, bnd with the "root" CA lbst.
      */
     @Override
-    public java.security.cert.Certificate[] getLocalCertificates() {
+    public jbvb.security.cert.Certificbte[] getLocblCertificbtes() {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
-        return (localCerts == null ? null :
-            (java.security.cert.Certificate[])localCerts.clone());
+        // clone to preserve integrity of session ... cbller cbn't
+        // chbnge record of peer identity even by bccident, much
+        // less do it intentionblly.
+        return (locblCerts == null ? null :
+            (jbvb.security.cert.Certificbte[])locblCerts.clone());
     }
 
     /**
-     * Return the cert chain presented by the peer in the
-     * javax.security.cert format.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Return the cert chbin presented by the peer in the
+     * jbvbx.security.cert formbt.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @return brrby of peer X.509 certs, with the peer's own cert
+     *  first in the chbin, bnd with the "root" CA lbst.
      */
     @Override
-    public javax.security.cert.X509Certificate[] getPeerCertificateChain()
+    public jbvbx.security.cert.X509Certificbte[] getPeerCertificbteChbin()
             throws SSLPeerUnverifiedException {
         //
-        // clone to preserve integrity of session ... caller can't
-        // change record of peer identity even by accident, much
-        // less do it intentionally.
+        // clone to preserve integrity of session ... cbller cbn't
+        // chbnge record of peer identity even by bccident, much
+        // less do it intentionblly.
         //
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
+        if ((cipherSuite.keyExchbnge == K_KRB5) ||
+            (cipherSuite.keyExchbnge == K_KRB5_EXPORT)) {
+            throw new SSLPeerUnverifiedException("no certificbtes expected"
                         + " for Kerberos cipher suites");
         }
         if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+            throw new SSLPeerUnverifiedException("peer not buthenticbted");
         }
-        javax.security.cert.X509Certificate[] certs;
-        certs = new javax.security.cert.X509Certificate[peerCerts.length];
+        jbvbx.security.cert.X509Certificbte[] certs;
+        certs = new jbvbx.security.cert.X509Certificbte[peerCerts.length];
         for (int i = 0; i < peerCerts.length; i++) {
             byte[] der = null;
             try {
                 der = peerCerts[i].getEncoded();
-                certs[i] = javax.security.cert.X509Certificate.getInstance(der);
-            } catch (CertificateEncodingException e) {
-                throw new SSLPeerUnverifiedException(e.getMessage());
-            } catch (javax.security.cert.CertificateException e) {
-                throw new SSLPeerUnverifiedException(e.getMessage());
+                certs[i] = jbvbx.security.cert.X509Certificbte.getInstbnce(der);
+            } cbtch (CertificbteEncodingException e) {
+                throw new SSLPeerUnverifiedException(e.getMessbge());
+            } cbtch (jbvbx.security.cert.CertificbteException e) {
+                throw new SSLPeerUnverifiedException(e.getMessbge());
             }
         }
 
@@ -475,115 +475,115 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Return the cert chain presented by the peer.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Return the cert chbin presented by the peer.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return array of peer X.509 certs, with the peer's own cert
-     *  first in the chain, and with the "root" CA last.
+     * @return brrby of peer X.509 certs, with the peer's own cert
+     *  first in the chbin, bnd with the "root" CA lbst.
      */
-    public X509Certificate[] getCertificateChain()
+    public X509Certificbte[] getCertificbteChbin()
             throws SSLPeerUnverifiedException {
         /*
-         * clone to preserve integrity of session ... caller can't
-         * change record of peer identity even by accident, much
-         * less do it intentionally.
+         * clone to preserve integrity of session ... cbller cbn't
+         * chbnge record of peer identity even by bccident, much
+         * less do it intentionblly.
          */
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            throw new SSLPeerUnverifiedException("no certificates expected"
+        if ((cipherSuite.keyExchbnge == K_KRB5) ||
+            (cipherSuite.keyExchbnge == K_KRB5_EXPORT)) {
+            throw new SSLPeerUnverifiedException("no certificbtes expected"
                         + " for Kerberos cipher suites");
         }
         if (peerCerts != null) {
             return peerCerts.clone();
         } else {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+            throw new SSLPeerUnverifiedException("peer not buthenticbted");
         }
     }
 
     /**
-     * Returns the identity of the peer which was established as part of
+     * Returns the identity of the peer which wbs estbblished bs pbrt of
      * defining the session.
      *
-     * @return the peer's principal. Returns an X500Principal of the
-     * end-entity certificate for X509-based cipher suites, and
-     * Principal for Kerberos cipher suites.
+     * @return the peer's principbl. Returns bn X500Principbl of the
+     * end-entity certificbte for X509-bbsed cipher suites, bnd
+     * Principbl for Kerberos cipher suites.
      *
-     * @throws SSLPeerUnverifiedException if the peer's identity has not
+     * @throws SSLPeerUnverifiedException if the peer's identity hbs not
      *          been verified
      */
     @Override
-    public Principal getPeerPrincipal()
+    public Principbl getPeerPrincipbl()
                 throws SSLPeerUnverifiedException
     {
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-            if (peerPrincipal == null) {
-                throw new SSLPeerUnverifiedException("peer not authenticated");
+        if ((cipherSuite.keyExchbnge == K_KRB5) ||
+            (cipherSuite.keyExchbnge == K_KRB5_EXPORT)) {
+            if (peerPrincipbl == null) {
+                throw new SSLPeerUnverifiedException("peer not buthenticbted");
             } else {
-                // Eliminate dependency on KerberosPrincipal
-                return peerPrincipal;
+                // Eliminbte dependency on KerberosPrincipbl
+                return peerPrincipbl;
             }
         }
         if (peerCerts == null) {
-            throw new SSLPeerUnverifiedException("peer not authenticated");
+            throw new SSLPeerUnverifiedException("peer not buthenticbted");
         }
-        return peerCerts[0].getSubjectX500Principal();
+        return peerCerts[0].getSubjectX500Principbl();
     }
 
     /**
-     * Returns the principal that was sent to the peer during handshaking.
+     * Returns the principbl thbt wbs sent to the peer during hbndshbking.
      *
-     * @return the principal sent to the peer. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * Principal for Kerberos cipher suites. If no principal was
+     * @return the principbl sent to the peer. Returns bn X500Principbl
+     * of the end-entity certificbte for X509-bbsed cipher suites, bnd
+     * Principbl for Kerberos cipher suites. If no principbl wbs
      * sent, then null is returned.
      */
     @Override
-    public Principal getLocalPrincipal() {
+    public Principbl getLocblPrincipbl() {
 
-        if ((cipherSuite.keyExchange == K_KRB5) ||
-            (cipherSuite.keyExchange == K_KRB5_EXPORT)) {
-                // Eliminate dependency on KerberosPrincipal
-                return (localPrincipal == null ? null : localPrincipal);
+        if ((cipherSuite.keyExchbnge == K_KRB5) ||
+            (cipherSuite.keyExchbnge == K_KRB5_EXPORT)) {
+                // Eliminbte dependency on KerberosPrincipbl
+                return (locblPrincipbl == null ? null : locblPrincipbl);
         }
-        return (localCerts == null ? null :
-                localCerts[0].getSubjectX500Principal());
+        return (locblCerts == null ? null :
+                locblCerts[0].getSubjectX500Principbl());
     }
 
     /**
-     * Returns the time this session was created.
+     * Returns the time this session wbs crebted.
      */
     @Override
-    public long getCreationTime() {
-        return creationTime;
+    public long getCrebtionTime() {
+        return crebtionTime;
     }
 
     /**
-     * Returns the last time this session was used to initialize
-     * a connection.
+     * Returns the lbst time this session wbs used to initiblize
+     * b connection.
      */
     @Override
-    public long getLastAccessedTime() {
-        return (lastUsedTime != 0) ? lastUsedTime : creationTime;
+    public long getLbstAccessedTime() {
+        return (lbstUsedTime != 0) ? lbstUsedTime : crebtionTime;
     }
 
-    void setLastAccessedTime(long time) {
-        lastUsedTime = time;
+    void setLbstAccessedTime(long time) {
+        lbstUsedTime = time;
     }
 
 
     /**
-     * Returns the network address of the session's peer.  This
-     * implementation does not insist that connections between
-     * different ports on the same host must necessarily belong
-     * to different sessions, though that is of course allowed.
+     * Returns the network bddress of the session's peer.  This
+     * implementbtion does not insist thbt connections between
+     * different ports on the sbme host must necessbrily belong
+     * to different sessions, though thbt is of course bllowed.
      */
     public InetAddress getPeerAddress() {
         try {
-            return InetAddress.getByName(host);
-        } catch (java.net.UnknownHostException e) {
+            return InetAddress.getByNbme(host);
+        } cbtch (jbvb.net.UnknownHostException e) {
             return null;
         }
     }
@@ -594,8 +594,8 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Need to provide the port info for caching sessions based on
-     * host and port. Accessed by SSLSessionContextImpl
+     * Need to provide the port info for cbching sessions bbsed on
+     * host bnd port. Accessed by SSLSessionContextImpl
      */
     @Override
     public int getPeerPort() {
@@ -609,22 +609,22 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Invalidate a session.  Active connections may still exist, but
-     * no connections will be able to rejoin this session.
+     * Invblidbte b session.  Active connections mby still exist, but
+     * no connections will be bble to rejoin this session.
      */
     @Override
-    synchronized public void invalidate() {
+    synchronized public void invblidbte() {
         //
-        // Can't invalidate the NULL session -- this would be
-        // attempted when we get a handshaking error on a brand
-        // new connection, with no "real" session yet.
+        // Cbn't invblidbte the NULL session -- this would be
+        // bttempted when we get b hbndshbking error on b brbnd
+        // new connection, with no "rebl" session yet.
         //
         if (this == nullSession) {
             return;
         }
-        invalidated = true;
+        invblidbted = true;
         if (debug != null && Debug.isOn("session")) {
-            System.out.println("%% Invalidated:  " + this);
+            System.out.println("%% Invblidbted:  " + this);
         }
         if (context != null) {
             context.remove(sessionId);
@@ -633,161 +633,161 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /*
-     * Table of application-specific session data indexed by an application
-     * key and the calling security context. This is important since
-     * sessions can be shared across different protection domains.
+     * Tbble of bpplicbtion-specific session dbtb indexed by bn bpplicbtion
+     * key bnd the cblling security context. This is importbnt since
+     * sessions cbn be shbred bcross different protection dombins.
      */
-    private Hashtable<SecureKey, Object> table = new Hashtable<>();
+    privbte Hbshtbble<SecureKey, Object> tbble = new Hbshtbble<>();
 
     /**
-     * Assigns a session value.  Session change events are given if
-     * appropriate, to any original value as well as the new value.
+     * Assigns b session vblue.  Session chbnge events bre given if
+     * bppropribte, to bny originbl vblue bs well bs the new vblue.
      */
     @Override
-    public void putValue(String key, Object value) {
-        if ((key == null) || (value == null)) {
-            throw new IllegalArgumentException("arguments can not be null");
+    public void putVblue(String key, Object vblue) {
+        if ((key == null) || (vblue == null)) {
+            throw new IllegblArgumentException("brguments cbn not be null");
         }
 
         SecureKey secureKey = new SecureKey(key);
-        Object oldValue = table.put(secureKey, value);
+        Object oldVblue = tbble.put(secureKey, vblue);
 
-        if (oldValue instanceof SSLSessionBindingListener) {
+        if (oldVblue instbnceof SSLSessionBindingListener) {
             SSLSessionBindingEvent e;
 
             e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)oldValue).valueUnbound(e);
+            ((SSLSessionBindingListener)oldVblue).vblueUnbound(e);
         }
-        if (value instanceof SSLSessionBindingListener) {
+        if (vblue instbnceof SSLSessionBindingListener) {
             SSLSessionBindingEvent e;
 
             e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)value).valueBound(e);
+            ((SSLSessionBindingListener)vblue).vblueBound(e);
         }
     }
 
 
     /**
-     * Returns the specified session value.
+     * Returns the specified session vblue.
      */
     @Override
-    public Object getValue(String key) {
+    public Object getVblue(String key) {
         if (key == null) {
-            throw new IllegalArgumentException("argument can not be null");
+            throw new IllegblArgumentException("brgument cbn not be null");
         }
 
         SecureKey secureKey = new SecureKey(key);
-        return table.get(secureKey);
+        return tbble.get(secureKey);
     }
 
 
     /**
-     * Removes the specified session value, delivering a session changed
-     * event as appropriate.
+     * Removes the specified session vblue, delivering b session chbnged
+     * event bs bppropribte.
      */
     @Override
-    public void removeValue(String key) {
+    public void removeVblue(String key) {
         if (key == null) {
-            throw new IllegalArgumentException("argument can not be null");
+            throw new IllegblArgumentException("brgument cbn not be null");
         }
 
         SecureKey secureKey = new SecureKey(key);
-        Object value = table.remove(secureKey);
+        Object vblue = tbble.remove(secureKey);
 
-        if (value instanceof SSLSessionBindingListener) {
+        if (vblue instbnceof SSLSessionBindingListener) {
             SSLSessionBindingEvent e;
 
             e = new SSLSessionBindingEvent(this, key);
-            ((SSLSessionBindingListener)value).valueUnbound(e);
+            ((SSLSessionBindingListener)vblue).vblueUnbound(e);
         }
     }
 
 
     /**
-     * Lists the names of the session values.
+     * Lists the nbmes of the session vblues.
      */
     @Override
-    public String[] getValueNames() {
-        Enumeration<SecureKey> e;
+    public String[] getVblueNbmes() {
+        Enumerbtion<SecureKey> e;
         Vector<Object> v = new Vector<>();
         SecureKey key;
         Object securityCtx = SecureKey.getCurrentSecurityContext();
 
-        for (e = table.keys(); e.hasMoreElements(); ) {
+        for (e = tbble.keys(); e.hbsMoreElements(); ) {
             key = e.nextElement();
 
-            if (securityCtx.equals(key.getSecurityContext())) {
-                v.addElement(key.getAppKey());
+            if (securityCtx.equbls(key.getSecurityContext())) {
+                v.bddElement(key.getAppKey());
             }
         }
-        String[] names = new String[v.size()];
-        v.copyInto(names);
+        String[] nbmes = new String[v.size()];
+        v.copyInto(nbmes);
 
-        return names;
+        return nbmes;
     }
 
     /**
-     * Use large packet sizes now or follow RFC 2246 packet sizes (2^14)
-     * until changed.
+     * Use lbrge pbcket sizes now or follow RFC 2246 pbcket sizes (2^14)
+     * until chbnged.
      *
-     * In the TLS specification (section 6.2.1, RFC2246), it is not
-     * recommended that the plaintext has more than 2^14 bytes.
-     * However, some TLS implementations violate the specification.
-     * This is a workaround for interoperability with these stacks.
+     * In the TLS specificbtion (section 6.2.1, RFC2246), it is not
+     * recommended thbt the plbintext hbs more thbn 2^14 bytes.
+     * However, some TLS implementbtions violbte the specificbtion.
+     * This is b workbround for interoperbbility with these stbcks.
      *
-     * Application could accept large fragments up to 2^15 bytes by
-     * setting the system property jsse.SSLEngine.acceptLargeFragments
+     * Applicbtion could bccept lbrge frbgments up to 2^15 bytes by
+     * setting the system property jsse.SSLEngine.bcceptLbrgeFrbgments
      * to "true".
      */
-    private boolean acceptLargeFragments =
-        Debug.getBooleanProperty("jsse.SSLEngine.acceptLargeFragments", false);
+    privbte boolebn bcceptLbrgeFrbgments =
+        Debug.getBoolebnProperty("jsse.SSLEngine.bcceptLbrgeFrbgments", fblse);
 
     /**
-     * Expand the buffer size of both SSL/TLS network packet and
-     * application data.
+     * Expbnd the buffer size of both SSL/TLS network pbcket bnd
+     * bpplicbtion dbtb.
      */
-    protected synchronized void expandBufferSizes() {
-        acceptLargeFragments = true;
+    protected synchronized void expbndBufferSizes() {
+        bcceptLbrgeFrbgments = true;
     }
 
     /**
-     * Gets the current size of the largest SSL/TLS packet that is expected
+     * Gets the current size of the lbrgest SSL/TLS pbcket thbt is expected
      * when using this session.
      */
     @Override
-    public synchronized int getPacketBufferSize() {
-        return acceptLargeFragments ?
-                Record.maxLargeRecordSize : Record.maxRecordSize;
+    public synchronized int getPbcketBufferSize() {
+        return bcceptLbrgeFrbgments ?
+                Record.mbxLbrgeRecordSize : Record.mbxRecordSize;
     }
 
     /**
-     * Gets the current size of the largest application data that is
+     * Gets the current size of the lbrgest bpplicbtion dbtb thbt is
      * expected when using this session.
      */
     @Override
-    public synchronized int getApplicationBufferSize() {
-        return getPacketBufferSize() - Record.headerSize;
+    public synchronized int getApplicbtionBufferSize() {
+        return getPbcketBufferSize() - Record.hebderSize;
     }
 
     /**
-     * Gets an array of supported signature algorithms that the local side is
+     * Gets bn brrby of supported signbture blgorithms thbt the locbl side is
      * willing to verify.
      */
     @Override
-    public String[] getLocalSupportedSignatureAlgorithms() {
-        if (localSupportedSignAlgs != null) {
-            return localSupportedSignAlgs.clone();
+    public String[] getLocblSupportedSignbtureAlgorithms() {
+        if (locblSupportedSignAlgs != null) {
+            return locblSupportedSignAlgs.clone();
         }
 
         return new String[0];
     }
 
     /**
-     * Gets an array of supported signature algorithms that the peer is
-     * able to verify.
+     * Gets bn brrby of supported signbture blgorithms thbt the peer is
+     * bble to verify.
      */
     @Override
-    public String[] getPeerSupportedSignatureAlgorithms() {
+    public String[] getPeerSupportedSignbtureAlgorithms() {
         if (peerSupportedSignAlgs != null) {
             return peerSupportedSignAlgs.clone();
         }
@@ -796,20 +796,20 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * Obtains a <code>List</code> containing all {@link SNIServerName}s
-     * of the requested Server Name Indication (SNI) extension.
+     * Obtbins b <code>List</code> contbining bll {@link SNIServerNbme}s
+     * of the requested Server Nbme Indicbtion (SNI) extension.
      */
     @Override
-    public List<SNIServerName> getRequestedServerNames() {
-        if (requestedServerNames != null && !requestedServerNames.isEmpty()) {
-            return Collections.<SNIServerName>unmodifiableList(
-                                                requestedServerNames);
+    public List<SNIServerNbme> getRequestedServerNbmes() {
+        if (requestedServerNbmes != null && !requestedServerNbmes.isEmpty()) {
+            return Collections.<SNIServerNbme>unmodifibbleList(
+                                                requestedServerNbmes);
         }
 
-        return Collections.<SNIServerName>emptyList();
+        return Collections.<SNIServerNbme>emptyList();
     }
 
-    /** Returns a string representation of this SSL session */
+    /** Returns b string representbtion of this SSL session */
     @Override
     public String toString() {
         return "[Session-" + sessionCount
@@ -818,30 +818,30 @@ final class SSLSessionImpl extends ExtendedSSLSession {
     }
 
     /**
-     * When SSL sessions are finalized, all values bound to
-     * them are removed.
+     * When SSL sessions bre finblized, bll vblues bound to
+     * them bre removed.
      */
     @Override
-    protected void finalize() throws Throwable {
-        String[] names = getValueNames();
-        for (int i = 0; i < names.length; i++) {
-            removeValue(names[i]);
+    protected void finblize() throws Throwbble {
+        String[] nbmes = getVblueNbmes();
+        for (int i = 0; i < nbmes.length; i++) {
+            removeVblue(nbmes[i]);
         }
     }
 }
 
 
 /**
- * This "struct" class serves as a Hash Key that combines an
- * application-specific key and a security context.
+ * This "struct" clbss serves bs b Hbsh Key thbt combines bn
+ * bpplicbtion-specific key bnd b security context.
  */
-class SecureKey {
-    private static Object       nullObject = new Object();
-    private Object        appKey;
-    private Object      securityCtx;
+clbss SecureKey {
+    privbte stbtic Object       nullObject = new Object();
+    privbte Object        bppKey;
+    privbte Object      securityCtx;
 
-    static Object getCurrentSecurityContext() {
-        SecurityManager sm = System.getSecurityManager();
+    stbtic Object getCurrentSecurityContext() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         Object context = null;
 
         if (sm != null)
@@ -852,12 +852,12 @@ class SecureKey {
     }
 
     SecureKey(Object key) {
-        this.appKey = key;
+        this.bppKey = key;
         this.securityCtx = getCurrentSecurityContext();
     }
 
     Object getAppKey() {
-        return appKey;
+        return bppKey;
     }
 
     Object getSecurityContext() {
@@ -865,13 +865,13 @@ class SecureKey {
     }
 
     @Override
-    public int hashCode() {
-        return appKey.hashCode() ^ securityCtx.hashCode();
+    public int hbshCode() {
+        return bppKey.hbshCode() ^ securityCtx.hbshCode();
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o instanceof SecureKey && ((SecureKey)o).appKey.equals(appKey)
-                        && ((SecureKey)o).securityCtx.equals(securityCtx);
+    public boolebn equbls(Object o) {
+        return o instbnceof SecureKey && ((SecureKey)o).bppKey.equbls(bppKey)
+                        && ((SecureKey)o).securityCtx.equbls(securityCtx);
     }
 }

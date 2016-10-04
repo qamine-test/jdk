@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tree.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class SourceTreeTool extends JPanel {
+public clbss SourceTreeTool extends JPbnel {
 
-    private static final long serialVersionUID = 3336680912107956419L;
+    privbte stbtic finbl long seriblVersionUID = 3336680912107956419L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbte ExecutionMbnbger runtime;
+    privbte SourceMbnbger sourceMbnbger;
+    privbte ClbssMbnbger clbssMbnbger;
 
-    private JTree tree;
-    private SourceTreeNode root;
-    private SearchPath sourcePath;
-    private CommandInterpreter interpreter;
+    privbte JTree tree;
+    privbte SourceTreeNode root;
+    privbte SebrchPbth sourcePbth;
+    privbte CommbndInterpreter interpreter;
 
-    private static String HEADING = "SOURCES";
+    privbte stbtic String HEADING = "SOURCES";
 
     public SourceTreeTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        this.runtime = env.getExecutionMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
 
-        this.interpreter = new CommandInterpreter(env);
+        this.interpreter = new CommbndInterpreter(env);
 
-        sourcePath = sourceManager.getSourcePath();
-        root = createDirectoryTree(HEADING);
+        sourcePbth = sourceMbnbger.getSourcePbth();
+        root = crebteDirectoryTree(HEADING);
 
-        // Create a tree that allows one selection at a time.
-        tree = new JTree(new DefaultTreeModel(root));
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        // Crebte b tree thbt bllows one selection bt b time.
+        tree = new JTree(new DefbultTreeModel(root));
+        tree.setSelectionModel(new SingleLebfTreeSelectionModel());
 
         /******
-        // Listen for when the selection changes.
-        tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
+        // Listen for when the selection chbnges.
+        tree.bddTreeSelectionListener(new TreeSelectionListener() {
+            public void vblueChbnged(TreeSelectionEvent e) {
                 SourceTreeNode node = (SourceTreeNode)
-                    (e.getPath().getLastPathComponent());
-                interpreter.executeCommand("view " + node.getRelativePath());
+                    (e.getPbth().getLbstPbthComponent());
+                interpreter.executeCommbnd("view " + node.getRelbtivePbth());
             }
         });
         ******/
 
-        MouseListener ml = new MouseAdapter() {
+        MouseListener ml = new MouseAdbpter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+                int selRow = tree.getRowForLocbtion(e.getX(), e.getY());
+                TreePbth selPbth = tree.getPbthForLocbtion(e.getX(), e.getY());
                 if(selRow != -1) {
                     if(e.getClickCount() == 1) {
                         SourceTreeNode node =
-                            (SourceTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'view' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("view " + node.getRelativePath());
+                            (SourceTreeNode)selPbth.getLbstPbthComponent();
+                        // If user clicks on lebf, select it, bnd issue 'view' commbnd.
+                        if (node.isLebf()) {
+                            tree.setSelectionPbth(selPbth);
+                            interpreter.executeCommbnd("view " + node.getRelbtivePbth());
                         }
                     }
                 }
             }
         };
-        tree.addMouseListener(ml);
+        tree.bddMouseListener(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JScrollPbne treeView = new JScrollPbne(tree);
+        bdd(treeView);
 
-        // Create listener for source path changes.
+        // Crebte listener for source pbth chbnges.
 
         SourceTreeToolListener listener = new SourceTreeToolListener();
-        sourceManager.addSourceListener(listener);
+        sourceMbnbger.bddSourceListener(listener);
 
         //### remove listeners on exit!
     }
 
-    private class SourceTreeToolListener implements SourceListener {
+    privbte clbss SourceTreeToolListener implements SourceListener {
 
         @Override
-        public void sourcepathChanged(SourcepathChangedEvent e) {
-            sourcePath = sourceManager.getSourcePath();
-            root = createDirectoryTree(HEADING);
-            tree.setModel(new DefaultTreeModel(root));
+        public void sourcepbthChbnged(SourcepbthChbngedEvent e) {
+            sourcePbth = sourceMbnbger.getSourcePbth();
+            root = crebteDirectoryTree(HEADING);
+            tree.setModel(new DefbultTreeModel(root));
         }
 
     }
 
-    private static class SourceOrDirectoryFilter implements FilenameFilter {
+    privbte stbtic clbss SourceOrDirectoryFilter implements FilenbmeFilter {
         @Override
-        public boolean accept(File dir, String name) {
-            return (name.endsWith(".java") ||
-                    new File(dir, name).isDirectory());
+        public boolebn bccept(File dir, String nbme) {
+            return (nbme.endsWith(".jbvb") ||
+                    new File(dir, nbme).isDirectory());
         }
     }
 
-    private static FilenameFilter filter = new SourceOrDirectoryFilter();
+    privbte stbtic FilenbmeFilter filter = new SourceOrDirectoryFilter();
 
-    SourceTreeNode createDirectoryTree(String label) {
+    SourceTreeNode crebteDirectoryTree(String lbbel) {
         try {
-            return new SourceTreeNode(label, null, "", true);
-        } catch (SecurityException e) {
-            env.failure("Cannot access source file or directory");
+            return new SourceTreeNode(lbbel, null, "", true);
+        } cbtch (SecurityException e) {
+            env.fbilure("Cbnnot bccess source file or directory");
             return null;
         }
     }
 
 
-    class SourceTreeNode implements TreeNode {
+    clbss SourceTreeNode implements TreeNode {
 
-        private String name;
-        private boolean isDirectory;
-        private SourceTreeNode parent;
-        private SourceTreeNode[] children;
-        private String relativePath;
-        private boolean isExpanded;
+        privbte String nbme;
+        privbte boolebn isDirectory;
+        privbte SourceTreeNode pbrent;
+        privbte SourceTreeNode[] children;
+        privbte String relbtivePbth;
+        privbte boolebn isExpbnded;
 
-        private SourceTreeNode(String label,
-                               SourceTreeNode parent,
-                               String relativePath,
-                               boolean isDirectory) {
-            this.name = label;
-            this.relativePath = relativePath;
-            this.parent = parent;
+        privbte SourceTreeNode(String lbbel,
+                               SourceTreeNode pbrent,
+                               String relbtivePbth,
+                               boolebn isDirectory) {
+            this.nbme = lbbel;
+            this.relbtivePbth = relbtivePbth;
+            this.pbrent = pbrent;
             this.isDirectory = isDirectory;
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
 
-        public String getRelativePath() {
-            return relativePath;
+        public String getRelbtivePbth() {
+            return relbtivePbth;
         }
 
-        private void expandIfNeeded() {
+        privbte void expbndIfNeeded() {
             try {
-                if (!isExpanded && isDirectory) {
-                    String[] files = sourcePath.children(relativePath, filter);
+                if (!isExpbnded && isDirectory) {
+                    String[] files = sourcePbth.children(relbtivePbth, filter);
                     children = new SourceTreeNode[files.length];
                     for (int i = 0; i < files.length; i++) {
-                        String childName =
-                            (relativePath.equals(""))
+                        String childNbme =
+                            (relbtivePbth.equbls(""))
                             ? files[i]
-                            : relativePath + File.separator + files[i];
-                        File file = sourcePath.resolve(childName);
-                        boolean isDir = (file != null && file.isDirectory());
+                            : relbtivePbth + File.sepbrbtor + files[i];
+                        File file = sourcePbth.resolve(childNbme);
+                        boolebn isDir = (file != null && file.isDirectory());
                         children[i] =
-                            new SourceTreeNode(files[i], this, childName, isDir);
+                            new SourceTreeNode(files[i], this, childNbme, isDir);
                     }
                 }
-                isExpanded = true;
-            } catch (SecurityException e) {
+                isExpbnded = true;
+            } cbtch (SecurityException e) {
                 children = null;
-                env.failure("Cannot access source file or directory");
+                env.fbilure("Cbnnot bccess source file or directory");
             }
         }
 
-        // -- interface TreeNode --
+        // -- interfbce TreeNode --
 
         /*
-         * Returns the child <code>TreeNode</code> at index
+         * Returns the child <code>TreeNode</code> bt index
          * <code>childIndex</code>.
          */
         @Override
         public TreeNode getChildAt(int childIndex) {
-            expandIfNeeded();
+            expbndIfNeeded();
             return children[childIndex];
         }
 
         /**
          * Returns the number of children <code>TreeNode</code>s the receiver
-         * contains.
+         * contbins.
          */
         @Override
         public int getChildCount() {
-            expandIfNeeded();
+            expbndIfNeeded();
             return children.length;
         }
 
         /**
-         * Returns the parent <code>TreeNode</code> of the receiver.
+         * Returns the pbrent <code>TreeNode</code> of the receiver.
          */
         @Override
-        public TreeNode getParent() {
-            return parent;
+        public TreeNode getPbrent() {
+            return pbrent;
         }
 
         /**
          * Returns the index of <code>node</code> in the receivers children.
-         * If the receiver does not contain <code>node</code>, -1 will be
+         * If the receiver does not contbin <code>node</code>, -1 will be
          * returned.
          */
         @Override
         public int getIndex(TreeNode node) {
-            expandIfNeeded();
+            expbndIfNeeded();
             for (int i = 0; i < children.length; i++) {
                 if (children[i] == node) {
                     return i;
@@ -249,32 +249,32 @@ public class SourceTreeTool extends JPanel {
         }
 
         /**
-         * Returns true if the receiver allows children.
+         * Returns true if the receiver bllows children.
          */
         @Override
-        public boolean getAllowsChildren() {
+        public boolebn getAllowsChildren() {
             return isDirectory;
         }
 
         /**
-         * Returns true if the receiver is a leaf.
+         * Returns true if the receiver is b lebf.
          */
         @Override
-        public boolean isLeaf() {
-            expandIfNeeded();
+        public boolebn isLebf() {
+            expbndIfNeeded();
             return !isDirectory;
         }
 
         /**
-         * Returns the children of the receiver as an Enumeration.
+         * Returns the children of the receiver bs bn Enumerbtion.
          */
         @Override
-        public Enumeration children() {
-            expandIfNeeded();
-            return new Enumeration() {
+        public Enumerbtion children() {
+            expbndIfNeeded();
+            return new Enumerbtion() {
                 int i = 0;
                 @Override
-                public boolean hasMoreElements() {
+                public boolebn hbsMoreElements() {
                     return (i < children.length);
                 }
                 @Override

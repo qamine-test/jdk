@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving window events.
- * The class that is interested in processing a window event
- * either implements this interface (and all the methods it
- * contains) or extends the abstract <code>WindowAdapter</code> class
+ * The listener interfbce for receiving window events.
+ * The clbss thbt is interested in processing b window event
+ * either implements this interfbce (bnd bll the methods it
+ * contbins) or extends the bbstrbct <code>WindowAdbpter</code> clbss
  * (overriding only the methods of interest).
- * The listener object created from that class is then registered with a
- * Window using the window's <code>addWindowListener</code>
- * method. When the window's status changes by virtue of being opened,
- * closed, activated or deactivated, iconified or deiconified,
- * the relevant method in the listener object is invoked, and the
- * <code>WindowEvent</code> is passed to it.
+ * The listener object crebted from thbt clbss is then registered with b
+ * Window using the window's <code>bddWindowListener</code>
+ * method. When the window's stbtus chbnges by virtue of being opened,
+ * closed, bctivbted or debctivbted, iconified or deiconified,
+ * the relevbnt method in the listener object is invoked, bnd the
+ * <code>WindowEvent</code> is pbssed to it.
  *
- * @author Carl Quinn
+ * @buthor Cbrl Quinn
  *
- * @see WindowAdapter
+ * @see WindowAdbpter
  * @see WindowEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html">Tutorial: How to Write Window Listeners</a>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/windowlistener.html">Tutoribl: How to Write Window Listeners</b>
  *
  * @since 1.1
  */
-public interface WindowListener extends EventListener {
+public interfbce WindowListener extends EventListener {
     /**
-     * Invoked the first time a window is made visible.
-     * @param e the event to be processed
+     * Invoked the first time b window is mbde visible.
+     * @pbrbm e the event to be processed
      */
     public void windowOpened(WindowEvent e);
 
     /**
-     * Invoked when the user attempts to close the window
+     * Invoked when the user bttempts to close the window
      * from the window's system menu.
-     * @param e the event to be processed
+     * @pbrbm e the event to be processed
      */
     public void windowClosing(WindowEvent e);
 
     /**
-     * Invoked when a window has been closed as the result
-     * of calling dispose on the window.
-     * @param e the event to be processed
+     * Invoked when b window hbs been closed bs the result
+     * of cblling dispose on the window.
+     * @pbrbm e the event to be processed
      */
     public void windowClosed(WindowEvent e);
 
     /**
-     * Invoked when a window is changed from a normal to a
-     * minimized state. For many platforms, a minimized window
-     * is displayed as the icon specified in the window's
-     * iconImage property.
-     * @param e the event to be processed
-     * @see java.awt.Frame#setIconImage
+     * Invoked when b window is chbnged from b normbl to b
+     * minimized stbte. For mbny plbtforms, b minimized window
+     * is displbyed bs the icon specified in the window's
+     * iconImbge property.
+     * @pbrbm e the event to be processed
+     * @see jbvb.bwt.Frbme#setIconImbge
      */
     public void windowIconified(WindowEvent e);
 
     /**
-     * Invoked when a window is changed from a minimized
-     * to a normal state.
-     * @param e the event to be processed
+     * Invoked when b window is chbnged from b minimized
+     * to b normbl stbte.
+     * @pbrbm e the event to be processed
      */
     public void windowDeiconified(WindowEvent e);
 
     /**
-     * Invoked when the Window is set to be the active Window. Only a Frame or
-     * a Dialog can be the active Window. The native windowing system may
-     * denote the active Window or its children with special decorations, such
-     * as a highlighted title bar. The active Window is always either the
-     * focused Window, or the first Frame or Dialog that is an owner of the
+     * Invoked when the Window is set to be the bctive Window. Only b Frbme or
+     * b Diblog cbn be the bctive Window. The nbtive windowing system mby
+     * denote the bctive Window or its children with specibl decorbtions, such
+     * bs b highlighted title bbr. The bctive Window is blwbys either the
+     * focused Window, or the first Frbme or Diblog thbt is bn owner of the
      * focused Window.
-     * @param e the event to be processed
+     * @pbrbm e the event to be processed
      */
-    public void windowActivated(WindowEvent e);
+    public void windowActivbted(WindowEvent e);
 
     /**
-     * Invoked when a Window is no longer the active Window. Only a Frame or a
-     * Dialog can be the active Window. The native windowing system may denote
-     * the active Window or its children with special decorations, such as a
-     * highlighted title bar. The active Window is always either the focused
-     * Window, or the first Frame or Dialog that is an owner of the focused
+     * Invoked when b Window is no longer the bctive Window. Only b Frbme or b
+     * Diblog cbn be the bctive Window. The nbtive windowing system mby denote
+     * the bctive Window or its children with specibl decorbtions, such bs b
+     * highlighted title bbr. The bctive Window is blwbys either the focused
+     * Window, or the first Frbme or Diblog thbt is bn owner of the focused
      * Window.
-     * @param e the event to be processed
+     * @pbrbm e the event to be processed
      */
-    public void windowDeactivated(WindowEvent e);
+    public void windowDebctivbted(WindowEvent e);
 }

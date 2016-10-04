@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jcmd;
+pbckbge sun.tools.jcmd;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.net.URISyntaxException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
+import jbvb.net.URISyntbxException;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
+import com.sun.tools.bttbch.AttbchOperbtionFbiledException;
+import com.sun.tools.bttbch.VirtublMbchine;
+import com.sun.tools.bttbch.VirtublMbchineDescriptor;
+import com.sun.tools.bttbch.AgentLobdException;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
 
-import sun.tools.attach.HotSpotVirtualMachine;
-import sun.tools.jstat.JStatLogger;
-import sun.jvmstat.monitor.Monitor;
-import sun.jvmstat.monitor.MonitoredHost;
-import sun.jvmstat.monitor.MonitoredVm;
-import sun.jvmstat.monitor.MonitoredVmUtil;
-import sun.jvmstat.monitor.MonitorException;
-import sun.jvmstat.monitor.VmIdentifier;
+import sun.tools.bttbch.HotSpotVirtublMbchine;
+import sun.tools.jstbt.JStbtLogger;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.MonitoredHost;
+import sun.jvmstbt.monitor.MonitoredVm;
+import sun.jvmstbt.monitor.MonitoredVmUtil;
+import sun.jvmstbt.monitor.MonitorException;
+import sun.jvmstbt.monitor.VmIdentifier;
 
-public class JCmd {
-    public static void main(String[] args) {
-        Arguments arg = null;
+public clbss JCmd {
+    public stbtic void mbin(String[] brgs) {
+        Arguments brg = null;
         try {
-            arg = new Arguments(args);
-        } catch (IllegalArgumentException ex) {
-            System.err.println("Error parsing arguments: " + ex.getMessage()
+            brg = new Arguments(brgs);
+        } cbtch (IllegblArgumentException ex) {
+            System.err.println("Error pbrsing brguments: " + ex.getMessbge()
                                + "\n");
-            Arguments.usage();
+            Arguments.usbge();
             System.exit(1);
         }
 
-        if (arg.isShowUsage()) {
-            Arguments.usage();
+        if (brg.isShowUsbge()) {
+            Arguments.usbge();
             System.exit(1);
         }
 
-        if (arg.isListProcesses()) {
-            List<VirtualMachineDescriptor> vmds = VirtualMachine.list();
-            for (VirtualMachineDescriptor vmd : vmds) {
-                System.out.println(vmd.id() + " " + vmd.displayName());
+        if (brg.isListProcesses()) {
+            List<VirtublMbchineDescriptor> vmds = VirtublMbchine.list();
+            for (VirtublMbchineDescriptor vmd : vmds) {
+                System.out.println(vmd.id() + " " + vmd.displbyNbme());
             }
             System.exit(0);
         }
 
-        List<String> pids = new ArrayList<String>();
-        if (arg.getPid() == 0) {
-            // find all VMs
-            List<VirtualMachineDescriptor> vmds = VirtualMachine.list();
-            for (VirtualMachineDescriptor vmd : vmds) {
+        List<String> pids = new ArrbyList<String>();
+        if (brg.getPid() == 0) {
+            // find bll VMs
+            List<VirtublMbchineDescriptor> vmds = VirtublMbchine.list();
+            for (VirtublMbchineDescriptor vmd : vmds) {
                 if (!isJCmdProcess(vmd)) {
-                    pids.add(vmd.id());
+                    pids.bdd(vmd.id());
                 }
             }
-        } else if (arg.getProcessSubstring() != null) {
-            // use the partial class-name match
-            List<VirtualMachineDescriptor> vmds = VirtualMachine.list();
-            for (VirtualMachineDescriptor vmd : vmds) {
+        } else if (brg.getProcessSubstring() != null) {
+            // use the pbrtibl clbss-nbme mbtch
+            List<VirtublMbchineDescriptor> vmds = VirtublMbchine.list();
+            for (VirtublMbchineDescriptor vmd : vmds) {
                 if (isJCmdProcess(vmd)) {
                     continue;
                 }
                 try {
-                    String mainClass = getMainClass(vmd);
-                    if (mainClass != null
-                        && mainClass.indexOf(arg.getProcessSubstring()) != -1) {
-                            pids.add(vmd.id());
+                    String mbinClbss = getMbinClbss(vmd);
+                    if (mbinClbss != null
+                        && mbinClbss.indexOf(brg.getProcessSubstring()) != -1) {
+                            pids.bdd(vmd.id());
                     }
-                } catch (MonitorException|URISyntaxException e) {
-                    if (e.getMessage() != null) {
-                        System.err.println(e.getMessage());
+                } cbtch (MonitorException|URISyntbxException e) {
+                    if (e.getMessbge() != null) {
+                        System.err.println(e.getMessbge());
                     } else {
-                        Throwable cause = e.getCause();
-                        if ((cause != null) && (cause.getMessage() != null)) {
-                            System.err.println(cause.getMessage());
+                        Throwbble cbuse = e.getCbuse();
+                        if ((cbuse != null) && (cbuse.getMessbge() != null)) {
+                            System.err.println(cbuse.getMessbge());
                         } else {
-                            e.printStackTrace();
+                            e.printStbckTrbce();
                         }
                     }
                 }
             }
             if (pids.isEmpty()) {
-                System.err.println("Could not find any processes matching : '"
-                                   + arg.getProcessSubstring() + "'");
+                System.err.println("Could not find bny processes mbtching : '"
+                                   + brg.getProcessSubstring() + "'");
                 System.exit(1);
             }
-        } else if (arg.getPid() == -1) {
-            System.err.println("Invalid pid specified");
+        } else if (brg.getPid() == -1) {
+            System.err.println("Invblid pid specified");
             System.exit(1);
         } else {
             // Use the found pid
-            pids.add(arg.getPid() + "");
+            pids.bdd(brg.getPid() + "");
         }
 
-        boolean success = true;
+        boolebn success = true;
         for (String pid : pids) {
             System.out.println(pid + ":");
-            if (arg.isListCounters()) {
+            if (brg.isListCounters()) {
                 listCounters(pid);
             } else {
                 try {
-                    executeCommandForPid(pid, arg.getCommand());
-                } catch(AttachOperationFailedException ex) {
-                    System.err.println(ex.getMessage());
-                    success = false;
-                } catch(Exception ex) {
-                    ex.printStackTrace();
-                    success = false;
+                    executeCommbndForPid(pid, brg.getCommbnd());
+                } cbtch(AttbchOperbtionFbiledException ex) {
+                    System.err.println(ex.getMessbge());
+                    success = fblse;
+                } cbtch(Exception ex) {
+                    ex.printStbckTrbce();
+                    success = fblse;
                 }
             }
         }
         System.exit(success ? 0 : 1);
     }
 
-    private static void executeCommandForPid(String pid, String command)
-        throws AttachNotSupportedException, IOException,
+    privbte stbtic void executeCommbndForPid(String pid, String commbnd)
+        throws AttbchNotSupportedException, IOException,
                UnsupportedEncodingException {
-        VirtualMachine vm = VirtualMachine.attach(pid);
+        VirtublMbchine vm = VirtublMbchine.bttbch(pid);
 
-        // Cast to HotSpotVirtualMachine as this is an
-        // implementation specific method.
-        HotSpotVirtualMachine hvm = (HotSpotVirtualMachine) vm;
-        String lines[] = command.split("\\n");
+        // Cbst to HotSpotVirtublMbchine bs this is bn
+        // implementbtion specific method.
+        HotSpotVirtublMbchine hvm = (HotSpotVirtublMbchine) vm;
+        String lines[] = commbnd.split("\\n");
         for (String line : lines) {
-            if (line.trim().equals("stop")) {
-                break;
+            if (line.trim().equbls("stop")) {
+                brebk;
             }
-            try (InputStream in = hvm.executeJCmd(line);) {
-                // read to EOF and just print output
+            try (InputStrebm in = hvm.executeJCmd(line);) {
+                // rebd to EOF bnd just print output
                 byte b[] = new byte[256];
                 int n;
-                boolean messagePrinted = false;
+                boolebn messbgePrinted = fblse;
                 do {
-                    n = in.read(b);
+                    n = in.rebd(b);
                     if (n > 0) {
                         String s = new String(b, 0, n, "UTF-8");
                         System.out.print(s);
-                        messagePrinted = true;
+                        messbgePrinted = true;
                     }
                 } while (n > 0);
-                if (!messagePrinted) {
-                    System.out.println("Command executed successfully");
+                if (!messbgePrinted) {
+                    System.out.println("Commbnd executed successfully");
                 }
             }
         }
-        vm.detach();
+        vm.detbch();
     }
 
-    private static void listCounters(String pid) {
-        // Code from JStat (can't call it directly since it does System.exit)
+    privbte stbtic void listCounters(String pid) {
+        // Code from JStbt (cbn't cbll it directly since it does System.exit)
         VmIdentifier vmId = null;
         try {
             vmId = new VmIdentifier(pid);
-        } catch (URISyntaxException e) {
-            System.err.println("Malformed VM Identifier: " + pid);
+        } cbtch (URISyntbxException e) {
+            System.err.println("Mblformed VM Identifier: " + pid);
             return;
         }
         try {
             MonitoredHost monitoredHost = MonitoredHost.getMonitoredHost(vmId);
             MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, -1);
-            JStatLogger logger = new JStatLogger(monitoredVm);
-            logger.printSnapShot("\\w*", // all names
-                    new AscendingMonitorComparator(), // comparator
-                    false, // not verbose
+            JStbtLogger logger = new JStbtLogger(monitoredVm);
+            logger.printSnbpShot("\\w*", // bll nbmes
+                    new AscendingMonitorCompbrbtor(), // compbrbtor
+                    fblse, // not verbose
                     true, // show unsupported
                     System.out);
-            monitoredHost.detach(monitoredVm);
-        } catch (MonitorException ex) {
-            ex.printStackTrace();
+            monitoredHost.detbch(monitoredVm);
+        } cbtch (MonitorException ex) {
+            ex.printStbckTrbce();
         }
     }
 
-    private static boolean isJCmdProcess(VirtualMachineDescriptor vmd) {
+    privbte stbtic boolebn isJCmdProcess(VirtublMbchineDescriptor vmd) {
         try {
-            String mainClass = getMainClass(vmd);
-            return mainClass != null && mainClass.equals(JCmd.class.getName());
-        } catch (URISyntaxException|MonitorException ex) {
-            return false;
+            String mbinClbss = getMbinClbss(vmd);
+            return mbinClbss != null && mbinClbss.equbls(JCmd.clbss.getNbme());
+        } cbtch (URISyntbxException|MonitorException ex) {
+            return fblse;
         }
     }
 
-    private static String getMainClass(VirtualMachineDescriptor vmd)
-            throws URISyntaxException, MonitorException {
+    privbte stbtic String getMbinClbss(VirtublMbchineDescriptor vmd)
+            throws URISyntbxException, MonitorException {
         try {
-            String mainClass = null;
+            String mbinClbss = null;
             VmIdentifier vmId = new VmIdentifier(vmd.id());
             MonitoredHost monitoredHost = MonitoredHost.getMonitoredHost(vmId);
             MonitoredVm monitoredVm = monitoredHost.getMonitoredVm(vmId, -1);
-            mainClass = MonitoredVmUtil.mainClass(monitoredVm, true);
-            monitoredHost.detach(monitoredVm);
-            return mainClass;
-        } catch(NullPointerException e) {
-            // There is a potential race, where a running java app is being
-            // queried, unfortunately the java app has shutdown after this
-            // method is started but before getMonitoredVM is called.
-            // If this is the case, then the /tmp/hsperfdata_xxx/pid file
-            // will have disappeared and we will get a NullPointerException.
-            // Handle this gracefully....
+            mbinClbss = MonitoredVmUtil.mbinClbss(monitoredVm, true);
+            monitoredHost.detbch(monitoredVm);
+            return mbinClbss;
+        } cbtch(NullPointerException e) {
+            // There is b potentibl rbce, where b running jbvb bpp is being
+            // queried, unfortunbtely the jbvb bpp hbs shutdown bfter this
+            // method is stbrted but before getMonitoredVM is cblled.
+            // If this is the cbse, then the /tmp/hsperfdbtb_xxx/pid file
+            // will hbve disbppebred bnd we will get b NullPointerException.
+            // Hbndle this grbcefully....
             return null;
         }
     }
 
     /**
-     * Class to compare two Monitor objects by name in ascending order.
-     * (from jstat)
+     * Clbss to compbre two Monitor objects by nbme in bscending order.
+     * (from jstbt)
      */
-    static class AscendingMonitorComparator implements Comparator<Monitor> {
+    stbtic clbss AscendingMonitorCompbrbtor implements Compbrbtor<Monitor> {
 
-        public int compare(Monitor m1, Monitor m2) {
-            String name1 = m1.getName();
-            String name2 = m2.getName();
-            return name1.compareTo(name2);
+        public int compbre(Monitor m1, Monitor m2) {
+            String nbme1 = m1.getNbme();
+            String nbme2 = m2.getNbme();
+            return nbme1.compbreTo(nbme2);
         }
     }
 }

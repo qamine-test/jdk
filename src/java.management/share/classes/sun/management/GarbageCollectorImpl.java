@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import com.sun.management.GarbageCollectorMXBean;
-import com.sun.management.GarbageCollectionNotificationInfo;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
+import com.sun.mbnbgement.GbrbbgeCollectorMXBebn;
+import com.sun.mbnbgement.GbrbbgeCollectionNotificbtionInfo;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
 
-import com.sun.management.GcInfo;
-import javax.management.openmbean.CompositeData;
-import javax.management.MBeanInfo;
-import javax.management.MBeanAttributeInfo;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ListenerNotFoundException;
+import com.sun.mbnbgement.GcInfo;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.ListenerNotFoundException;
 
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Mbp;
 
 /**
- * Implementation class for the garbage collector.
- * Standard and committed hotspot-specific metrics if any.
+ * Implementbtion clbss for the gbrbbge collector.
+ * Stbndbrd bnd committed hotspot-specific metrics if bny.
  *
- * ManagementFactory.getGarbageCollectorMXBeans() returns a list
- * of instances of this class.
+ * MbnbgementFbctory.getGbrbbgeCollectorMXBebns() returns b list
+ * of instbnces of this clbss.
  */
-class GarbageCollectorImpl extends MemoryManagerImpl
-    implements GarbageCollectorMXBean {
+clbss GbrbbgeCollectorImpl extends MemoryMbnbgerImpl
+    implements GbrbbgeCollectorMXBebn {
 
-    GarbageCollectorImpl(String name) {
-        super(name);
+    GbrbbgeCollectorImpl(String nbme) {
+        super(nbme);
     }
 
-    public native long getCollectionCount();
-    public native long getCollectionTime();
+    public nbtive long getCollectionCount();
+    public nbtive long getCollectionTime();
 
 
-    // The memory pools are static and won't be changed.
-    // TODO: If the hotspot implementation begins to have pools
-    // dynamically created and removed, this needs to be modified.
-    private String[] poolNames = null;
-    synchronized String[] getAllPoolNames() {
-        if (poolNames == null) {
-            List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
-            poolNames = new String[pools.size()];
+    // The memory pools bre stbtic bnd won't be chbnged.
+    // TODO: If the hotspot implementbtion begins to hbve pools
+    // dynbmicblly crebted bnd removed, this needs to be modified.
+    privbte String[] poolNbmes = null;
+    synchronized String[] getAllPoolNbmes() {
+        if (poolNbmes == null) {
+            List<MemoryPoolMXBebn> pools = MbnbgementFbctory.getMemoryPoolMXBebns();
+            poolNbmes = new String[pools.size()];
             int i = 0;
-            for (MemoryPoolMXBean m : pools) {
-                poolNames[i++] = m.getName();
+            for (MemoryPoolMXBebn m : pools) {
+                poolNbmes[i++] = m.getNbme();
             }
         }
-        return poolNames;
+        return poolNbmes;
     }
 
     // Sun JDK extension
-    private GcInfoBuilder gcInfoBuilder;
+    privbte GcInfoBuilder gcInfoBuilder;
 
-    private synchronized GcInfoBuilder getGcInfoBuilder() {
+    privbte synchronized GcInfoBuilder getGcInfoBuilder() {
         if(gcInfoBuilder == null) {
-            gcInfoBuilder = new GcInfoBuilder(this, getAllPoolNames());
+            gcInfoBuilder = new GcInfoBuilder(this, getAllPoolNbmes());
         }
         return gcInfoBuilder;
     }
 
-    public GcInfo getLastGcInfo() {
-        GcInfo info = getGcInfoBuilder().getLastGcInfo();
+    public GcInfo getLbstGcInfo() {
+        GcInfo info = getGcInfoBuilder().getLbstGcInfo();
         return info;
     }
 
-    private final static String notifName =
-        "javax.management.Notification";
+    privbte finbl stbtic String notifNbme =
+        "jbvbx.mbnbgement.Notificbtion";
 
-    private final static String[] gcNotifTypes = {
-        GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION
+    privbte finbl stbtic String[] gcNotifTypes = {
+        GbrbbgeCollectionNotificbtionInfo.GARBAGE_COLLECTION_NOTIFICATION
     };
 
-    private MBeanNotificationInfo[] notifInfo = null;
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    privbte MBebnNotificbtionInfo[] notifInfo = null;
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         synchronized (this) {
             if (notifInfo == null) {
-                 notifInfo = new MBeanNotificationInfo[1];
-                 notifInfo[0] = new MBeanNotificationInfo(gcNotifTypes,
-                                                          notifName,
-                                                          "GC Notification");
+                 notifInfo = new MBebnNotificbtionInfo[1];
+                 notifInfo[0] = new MBebnNotificbtionInfo(gcNotifTypes,
+                                                          notifNbme,
+                                                          "GC Notificbtion");
             }
         }
         return notifInfo;
     }
 
-    private static long seqNumber = 0;
-    private static long getNextSeqNumber() {
+    privbte stbtic long seqNumber = 0;
+    privbte stbtic long getNextSeqNumber() {
         return ++seqNumber;
     }
 
-    void createGCNotification(long timestamp,
-                              String gcName,
+    void crebteGCNotificbtion(long timestbmp,
+                              String gcNbme,
                               String gcAction,
-                              String gcCause,
+                              String gcCbuse,
                               GcInfo gcInfo)  {
 
-        if (!hasListeners()) {
+        if (!hbsListeners()) {
             return;
         }
 
-        Notification notif = new Notification(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION,
-                                              getObjectName(),
+        Notificbtion notif = new Notificbtion(GbrbbgeCollectionNotificbtionInfo.GARBAGE_COLLECTION_NOTIFICATION,
+                                              getObjectNbme(),
                                               getNextSeqNumber(),
-                                              timestamp,
-                                              gcName);
-        GarbageCollectionNotificationInfo info =
-            new GarbageCollectionNotificationInfo(gcName,
+                                              timestbmp,
+                                              gcNbme);
+        GbrbbgeCollectionNotificbtionInfo info =
+            new GbrbbgeCollectionNotificbtionInfo(gcNbme,
                                                   gcAction,
-                                                  gcCause,
+                                                  gcCbuse,
                                                   gcInfo);
 
-        CompositeData cd =
-            GarbageCollectionNotifInfoCompositeData.toCompositeData(info);
-        notif.setUserData(cd);
-        sendNotification(notif);
+        CompositeDbtb cd =
+            GbrbbgeCollectionNotifInfoCompositeDbtb.toCompositeDbtb(info);
+        notif.setUserDbtb(cd);
+        sendNotificbtion(notif);
     }
 
-    public synchronized void addNotificationListener(NotificationListener listener,
-                                                     NotificationFilter filter,
-                                                     Object handback)
+    public synchronized void bddNotificbtionListener(NotificbtionListener listener,
+                                                     NotificbtionFilter filter,
+                                                     Object hbndbbck)
     {
-        boolean before = hasListeners();
-        super.addNotificationListener(listener, filter, handback);
-        boolean after = hasListeners();
-        if (!before && after) {
-            setNotificationEnabled(this, true);
+        boolebn before = hbsListeners();
+        super.bddNotificbtionListener(listener, filter, hbndbbck);
+        boolebn bfter = hbsListeners();
+        if (!before && bfter) {
+            setNotificbtionEnbbled(this, true);
         }
     }
 
-    public synchronized void removeNotificationListener(NotificationListener listener)
+    public synchronized void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(this,false);
+        boolebn before = hbsListeners();
+        super.removeNotificbtionListener(listener);
+        boolebn bfter = hbsListeners();
+        if (before && !bfter) {
+            setNotificbtionEnbbled(this,fblse);
         }
     }
 
-    public synchronized void removeNotificationListener(NotificationListener listener,
-                                                        NotificationFilter filter,
-                                                        Object handback)
+    public synchronized void removeNotificbtionListener(NotificbtionListener listener,
+                                                        NotificbtionFilter filter,
+                                                        Object hbndbbck)
             throws ListenerNotFoundException
     {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener,filter,handback);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(this,false);
+        boolebn before = hbsListeners();
+        super.removeNotificbtionListener(listener,filter,hbndbbck);
+        boolebn bfter = hbsListeners();
+        if (before && !bfter) {
+            setNotificbtionEnbbled(this,fblse);
         }
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE, getName());
+    public ObjectNbme getObjectNbme() {
+        return Util.newObjectNbme(MbnbgementFbctory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE, getNbme());
     }
 
-    native void setNotificationEnabled(GarbageCollectorMXBean gc,
-                                       boolean enabled);
+    nbtive void setNotificbtionEnbbled(GbrbbgeCollectorMXBebn gc,
+                                       boolebn enbbled);
 
 }

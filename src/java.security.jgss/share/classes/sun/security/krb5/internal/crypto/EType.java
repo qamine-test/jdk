@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
-import sun.security.krb5.internal.*;
+import sun.security.krb5.internbl.*;
 import sun.security.krb5.Config;
-import sun.security.krb5.EncryptedData;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.EncryptionKey;
 import sun.security.krb5.KrbException;
 import sun.security.krb5.KrbCryptoException;
-import javax.crypto.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import jbvbx.crypto.*;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-//only needed if dataSize() implementation changes back to spec;
-//see dataSize() below
+//only needed if dbtbSize() implementbtion chbnges bbck to spec;
+//see dbtbSize() below
 
-public abstract class EType {
+public bbstrbct clbss EType {
 
-    private static final boolean DEBUG = Krb5.DEBUG;
-    private static boolean allowWeakCrypto;
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
+    privbte stbtic boolebn bllowWebkCrypto;
 
-    static {
-        initStatic();
+    stbtic {
+        initStbtic();
     }
 
-    public static void initStatic() {
-        boolean allowed = false;
+    public stbtic void initStbtic() {
+        boolebn bllowed = fblse;
         try {
-            Config cfg = Config.getInstance();
-            allowed = cfg.getBooleanObject("libdefaults", "allow_weak_crypto")
-                    == Boolean.TRUE;
-        } catch (Exception exc) {
+            Config cfg = Config.getInstbnce();
+            bllowed = cfg.getBoolebnObject("libdefbults", "bllow_webk_crypto")
+                    == Boolebn.TRUE;
+        } cbtch (Exception exc) {
             if (DEBUG) {
-                System.out.println ("Exception in getting allow_weak_crypto, " +
-                                    "using default value " +
-                                    exc.getMessage());
+                System.out.println ("Exception in getting bllow_webk_crypto, " +
+                                    "using defbult vblue " +
+                                    exc.getMessbge());
             }
         }
-        allowWeakCrypto = allowed;
+        bllowWebkCrypto = bllowed;
     }
 
-    public static EType getInstance  (int eTypeConst)
+    public stbtic EType getInstbnce  (int eTypeConst)
         throws KdcErrException {
         EType eType = null;
-        String eTypeName = null;
+        String eTypeNbme = null;
         switch (eTypeConst) {
-        case EncryptedData.ETYPE_NULL:
+        cbse EncryptedDbtb.ETYPE_NULL:
             eType = new NullEType();
-            eTypeName = "sun.security.krb5.internal.crypto.NullEType";
-            break;
-        case EncryptedData.ETYPE_DES_CBC_CRC:
+            eTypeNbme = "sun.security.krb5.internbl.crypto.NullEType";
+            brebk;
+        cbse EncryptedDbtb.ETYPE_DES_CBC_CRC:
             eType = new DesCbcCrcEType();
-            eTypeName = "sun.security.krb5.internal.crypto.DesCbcCrcEType";
-            break;
-        case EncryptedData.ETYPE_DES_CBC_MD5:
+            eTypeNbme = "sun.security.krb5.internbl.crypto.DesCbcCrcEType";
+            brebk;
+        cbse EncryptedDbtb.ETYPE_DES_CBC_MD5:
             eType = new DesCbcMd5EType();
-            eTypeName = "sun.security.krb5.internal.crypto.DesCbcMd5EType";
-            break;
+            eTypeNbme = "sun.security.krb5.internbl.crypto.DesCbcMd5EType";
+            brebk;
 
-        case EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD:
-            eType = new Des3CbcHmacSha1KdEType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Des3CbcHmacSha1KdEType";
-            break;
+        cbse EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD:
+            eType = new Des3CbcHmbcShb1KdEType();
+            eTypeNbme =
+                "sun.security.krb5.internbl.crypto.Des3CbcHmbcShb1KdEType";
+            brebk;
 
-        case EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96:
-            eType = new Aes128CtsHmacSha1EType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Aes128CtsHmacSha1EType";
-            break;
+        cbse EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96:
+            eType = new Aes128CtsHmbcShb1EType();
+            eTypeNbme =
+                "sun.security.krb5.internbl.crypto.Aes128CtsHmbcShb1EType";
+            brebk;
 
-        case EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96:
-            eType = new Aes256CtsHmacSha1EType();
-            eTypeName =
-                "sun.security.krb5.internal.crypto.Aes256CtsHmacSha1EType";
-            break;
+        cbse EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96:
+            eType = new Aes256CtsHmbcShb1EType();
+            eTypeNbme =
+                "sun.security.krb5.internbl.crypto.Aes256CtsHmbcShb1EType";
+            brebk;
 
-        case EncryptedData.ETYPE_ARCFOUR_HMAC:
-            eType = new ArcFourHmacEType();
-            eTypeName = "sun.security.krb5.internal.crypto.ArcFourHmacEType";
-            break;
+        cbse EncryptedDbtb.ETYPE_ARCFOUR_HMAC:
+            eType = new ArcFourHmbcEType();
+            eTypeNbme = "sun.security.krb5.internbl.crypto.ArcFourHmbcEType";
+            brebk;
 
-        default:
+        defbult:
             String msg = "encryption type = " + toString(eTypeConst)
                 + " ("  + eTypeConst + ")";
             throw new KdcErrException(Krb5.KDC_ERR_ETYPE_NOSUPP, msg);
         }
         if (DEBUG) {
-            System.out.println(">>> EType: " + eTypeName);
+            System.out.println(">>> EType: " + eTypeNbme);
         }
         return eType;
     }
 
-    public abstract int eType();
+    public bbstrbct int eType();
 
-    public abstract int minimumPadSize();
+    public bbstrbct int minimumPbdSize();
 
-    public abstract int confounderSize();
+    public bbstrbct int confounderSize();
 
-    public abstract int checksumType();
+    public bbstrbct int checksumType();
 
-    public abstract int checksumSize();
+    public bbstrbct int checksumSize();
 
-    public abstract int blockSize();
+    public bbstrbct int blockSize();
 
-    public abstract int keyType();
+    public bbstrbct int keyType();
 
-    public abstract int keySize();
+    public bbstrbct int keySize();
 
-    public abstract byte[] encrypt(byte[] data, byte[] key, int usage)
+    public bbstrbct byte[] encrypt(byte[] dbtb, byte[] key, int usbge)
         throws KrbCryptoException;
 
-    public abstract byte[] encrypt(byte[] data, byte[] key, byte[] ivec,
-        int usage) throws KrbCryptoException;
+    public bbstrbct byte[] encrypt(byte[] dbtb, byte[] key, byte[] ivec,
+        int usbge) throws KrbCryptoException;
 
-    public abstract byte[] decrypt(byte[] cipher, byte[] key, int usage)
+    public bbstrbct byte[] decrypt(byte[] cipher, byte[] key, int usbge)
         throws KrbApErrException, KrbCryptoException;
 
-    public abstract byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec,
-        int usage) throws KrbApErrException, KrbCryptoException;
+    public bbstrbct byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec,
+        int usbge) throws KrbApErrException, KrbCryptoException;
 
-    public int dataSize(byte[] data)
+    public int dbtbSize(byte[] dbtb)
     // throws Asn1Exception
     {
-        // EncodeRef ref = new EncodeRef(data, startOfData());
-        // return ref.end - startOfData();
-        // should be the above according to spec, but in fact
-        // implementations include the pad bytes in the data size
-        return data.length - startOfData();
+        // EncodeRef ref = new EncodeRef(dbtb, stbrtOfDbtb());
+        // return ref.end - stbrtOfDbtb();
+        // should be the bbove bccording to spec, but in fbct
+        // implementbtions include the pbd bytes in the dbtb size
+        return dbtb.length - stbrtOfDbtb();
     }
 
-    public int padSize(byte[] data) {
-        return data.length - confounderSize() - checksumSize() -
-            dataSize(data);
+    public int pbdSize(byte[] dbtb) {
+        return dbtb.length - confounderSize() - checksumSize() -
+            dbtbSize(dbtb);
     }
 
-    public int startOfChecksum() {
+    public int stbrtOfChecksum() {
         return confounderSize();
     }
 
-    public int startOfData() {
+    public int stbrtOfDbtb() {
         return confounderSize() + checksumSize();
     }
 
-    public int startOfPad(byte[] data) {
-        return confounderSize() + checksumSize() + dataSize(data);
+    public int stbrtOfPbd(byte[] dbtb) {
+        return confounderSize() + checksumSize() + dbtbSize(dbtb);
     }
 
-    public byte[] decryptedData(byte[] data) {
-        int tempSize = dataSize(data);
+    public byte[] decryptedDbtb(byte[] dbtb) {
+        int tempSize = dbtbSize(dbtb);
         byte[] result = new byte[tempSize];
-        System.arraycopy(data, startOfData(), result, 0, tempSize);
+        System.brrbycopy(dbtb, stbrtOfDbtb(), result, 0, tempSize);
         return result;
     }
 
-    // Note: the first 2 entries of BUILTIN_ETYPES and BUILTIN_ETYPES_NOAES256
-    // should be kept DES-related. They will be removed when allow_weak_crypto
-    // is set to false.
+    // Note: the first 2 entries of BUILTIN_ETYPES bnd BUILTIN_ETYPES_NOAES256
+    // should be kept DES-relbted. They will be removed when bllow_webk_crypto
+    // is set to fblse.
 
-    private static final int[] BUILTIN_ETYPES = new int[] {
-        EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD,
-        EncryptedData.ETYPE_ARCFOUR_HMAC,
-        EncryptedData.ETYPE_DES_CBC_CRC,
-        EncryptedData.ETYPE_DES_CBC_MD5,
+    privbte stbtic finbl int[] BUILTIN_ETYPES = new int[] {
+        EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96,
+        EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96,
+        EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD,
+        EncryptedDbtb.ETYPE_ARCFOUR_HMAC,
+        EncryptedDbtb.ETYPE_DES_CBC_CRC,
+        EncryptedDbtb.ETYPE_DES_CBC_MD5,
     };
 
-    private static final int[] BUILTIN_ETYPES_NOAES256 = new int[] {
-        EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96,
-        EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD,
-        EncryptedData.ETYPE_ARCFOUR_HMAC,
-        EncryptedData.ETYPE_DES_CBC_CRC,
-        EncryptedData.ETYPE_DES_CBC_MD5,
+    privbte stbtic finbl int[] BUILTIN_ETYPES_NOAES256 = new int[] {
+        EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96,
+        EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD,
+        EncryptedDbtb.ETYPE_ARCFOUR_HMAC,
+        EncryptedDbtb.ETYPE_DES_CBC_CRC,
+        EncryptedDbtb.ETYPE_DES_CBC_MD5,
     };
 
 
     // used in Config
-    public static int[] getBuiltInDefaults() {
-        int allowed = 0;
+    public stbtic int[] getBuiltInDefbults() {
+        int bllowed = 0;
         try {
-            allowed = Cipher.getMaxAllowedKeyLength("AES");
-        } catch (Exception e) {
-            // should not happen
+            bllowed = Cipher.getMbxAllowedKeyLength("AES");
+        } cbtch (Exception e) {
+            // should not hbppen
         }
         int[] result;
-        if (allowed < 256) {
+        if (bllowed < 256) {
             result = BUILTIN_ETYPES_NOAES256;
         } else {
             result = BUILTIN_ETYPES;
         }
-        if (!allowWeakCrypto) {
-            // The last 2 etypes are now weak ones
-            return Arrays.copyOfRange(result, 0, result.length - 2);
+        if (!bllowWebkCrypto) {
+            // The lbst 2 etypes bre now webk ones
+            return Arrbys.copyOfRbnge(result, 0, result.length - 2);
         }
         return result;
     }
 
     /**
-     * Retrieves the default etypes from the configuration file, or
-     * if that's not available, return the built-in list of default etypes.
-     * This result is always non-empty. If no etypes are found,
-     * an exception is thrown.
+     * Retrieves the defbult etypes from the configurbtion file, or
+     * if thbt's not bvbilbble, return the built-in list of defbult etypes.
+     * This result is blwbys non-empty. If no etypes bre found,
+     * bn exception is thrown.
      */
-    public static int[] getDefaults(String configName)
+    public stbtic int[] getDefbults(String configNbme)
             throws KrbException {
         Config config = null;
         try {
-            config = Config.getInstance();
-        } catch (KrbException exc) {
+            config = Config.getInstbnce();
+        } cbtch (KrbException exc) {
             if (DEBUG) {
                 System.out.println("Exception while getting " +
-                    configName + exc.getMessage());
-                System.out.println("Using default builtin etypes");
+                    configNbme + exc.getMessbge());
+                System.out.println("Using defbult builtin etypes");
             }
-            return getBuiltInDefaults();
+            return getBuiltInDefbults();
         }
-        return config.defaultEtype(configName);
+        return config.defbultEtype(configNbme);
     }
 
     /**
-     * Retrieve the default etypes from the configuration file for
-     * those etypes for which there are corresponding keys.
-     * Used in scenario we have some keys from a keytab with etypes
-     * different from those named in configName. Then, in order
-     * to decrypt an AS-REP, we should only ask for etypes for which
-     * we have keys.
+     * Retrieve the defbult etypes from the configurbtion file for
+     * those etypes for which there bre corresponding keys.
+     * Used in scenbrio we hbve some keys from b keytbb with etypes
+     * different from those nbmed in configNbme. Then, in order
+     * to decrypt bn AS-REP, we should only bsk for etypes for which
+     * we hbve keys.
      */
-    public static int[] getDefaults(String configName, EncryptionKey[] keys)
+    public stbtic int[] getDefbults(String configNbme, EncryptionKey[] keys)
             throws KrbException {
-        int[] answer = getDefaults(configName);
+        int[] bnswer = getDefbults(configNbme);
 
-        List<Integer> list = new ArrayList<>(answer.length);
-        for (int i = 0; i < answer.length; i++) {
-            if (EncryptionKey.findKey(answer[i], keys) != null) {
-                list.add(answer[i]);
+        List<Integer> list = new ArrbyList<>(bnswer.length);
+        for (int i = 0; i < bnswer.length; i++) {
+            if (EncryptionKey.findKey(bnswer[i], keys) != null) {
+                list.bdd(bnswer[i]);
             }
         }
         int len = list.size();
         if (len <= 0) {
             StringBuilder keystr = new StringBuilder();
             for (int i = 0; i < keys.length; i++) {
-                keystr.append(toString(keys[i].getEType()));
-                keystr.append(" ");
+                keystr.bppend(toString(keys[i].getEType()));
+                keystr.bppend(" ");
             }
             throw new KrbException(
-                "Do not have keys of types listed in " + configName +
-                " available; only have keys of following type: " +
+                "Do not hbve keys of types listed in " + configNbme +
+                " bvbilbble; only hbve keys of following type: " +
                 keystr.toString());
         } else {
-            answer = new int[len];
+            bnswer = new int[len];
             for (int i = 0; i < len; i++) {
-                answer[i] = list.get(i);
+                bnswer[i] = list.get(i);
             }
-            return answer;
+            return bnswer;
         }
     }
 
-    public static boolean isSupported(int eTypeConst, int[] config) {
+    public stbtic boolebn isSupported(int eTypeConst, int[] config) {
         for (int i = 0; i < config.length; i++) {
             if (eTypeConst == config[i]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public static boolean isSupported(int eTypeConst) {
-        int[] enabledETypes = getBuiltInDefaults();
-        return isSupported(eTypeConst, enabledETypes);
+    public stbtic boolebn isSupported(int eTypeConst) {
+        int[] enbbledETypes = getBuiltInDefbults();
+        return isSupported(eTypeConst, enbbledETypes);
     }
 
-    public static String toString(int type) {
+    public stbtic String toString(int type) {
         switch (type) {
-        case 0:
+        cbse 0:
             return "NULL";
-        case 1:
+        cbse 1:
             return "DES CBC mode with CRC-32";
-        case 2:
+        cbse 2:
             return "DES CBC mode with MD4";
-        case 3:
+        cbse 3:
             return "DES CBC mode with MD5";
-        case 4:
+        cbse 4:
             return "reserved";
-        case 5:
+        cbse 5:
             return "DES3 CBC mode with MD5";
-        case 6:
+        cbse 6:
             return "reserved";
-        case 7:
+        cbse 7:
             return "DES3 CBC mode with SHA1";
-        case 9:
+        cbse 9:
             return "DSA with SHA1- Cms0ID";
-        case 10:
+        cbse 10:
             return "MD5 with RSA encryption - Cms0ID";
-        case 11:
+        cbse 11:
             return "SHA1 with RSA encryption - Cms0ID";
-        case 12:
+        cbse 12:
             return "RC2 CBC mode with Env0ID";
-        case 13:
+        cbse 13:
             return "RSA encryption with Env0ID";
-        case 14:
+        cbse 14:
             return "RSAES-0AEP-ENV-0ID";
-        case 15:
+        cbse 15:
             return "DES-EDE3-CBC-ENV-0ID";
-        case 16:
+        cbse 16:
             return "DES3 CBC mode with SHA1-KD";
-        case 17:
+        cbse 17:
             return "AES128 CTS mode with HMAC SHA1-96";
-        case 18:
+        cbse 18:
             return "AES256 CTS mode with HMAC SHA1-96";
-        case 23:
+        cbse 23:
             return "RC4 with HMAC";
-        case 24:
+        cbse 24:
             return "RC4 with HMAC EXP";
 
         }

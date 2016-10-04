@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,37 +27,37 @@
 #define D3DBADHARDWARE_H
 
 #include "D3DPipeline.h"
-#include "D3DPipelineManager.h"
+#include "D3DPipelineMbnbger.h"
 
 typedef struct ADAPTER_INFO {
   DWORD    VendorId;
   DWORD    DeviceId;
-  LONGLONG DriverVersion; // minimum driver version to pass, or NO_VERSION
-  USHORT   OsInfo;        // OSes where the DriverVersion is relevant or, OS_ALL
+  LONGLONG DriverVersion; // minimum driver version to pbss, or NO_VERSION
+  USHORT   OsInfo;        // OSes where the DriverVersion is relevbnt or, OS_ALL
 } ADAPTER_INFO;
 
-// this DeviceId means that all vendor boards are to be excluded
+// this DeviceId mebns thbt bll vendor bobrds bre to be excluded
 #define ALL_DEVICEIDS (0xffffffff)
 
 #define D_VERSION(H1, H2, L1, L2) \
   (((LONGLONG)((H1 << 16) | H2) << 32) | ((L1 << 16) | (L2)))
 
-// this driver version is used to pass the driver version check
-// as it is always greater than any driver version
+// this driver version is used to pbss the driver version check
+// bs it is blwbys grebter thbn bny driver version
 #define MAX_VERSION D_VERSION(0x7fff, 0x7fff, 0x7fff, 0x7fff)
-// this DriverVersion means that the version of the driver doesn't matter,
-// all versions must fail ("there's no version of the driver that passes")
+// this DriverVersion mebns thbt the version of the driver doesn't mbtter,
+// bll versions must fbil ("there's no version of the driver thbt pbsses")
 #define NO_VERSION D_VERSION(0xffff, 0xffff, 0xffff, 0xffff)
 
-static const ADAPTER_INFO badHardware[] = {
+stbtic const ADAPTER_INFO bbdHbrdwbre[] = {
 
     // Intel HD
-    // Clarkdale (Desktop) GMA HD Lines
+    // Clbrkdble (Desktop) GMA HD Lines
     { 0x8086, 0x0042, NO_VERSION, OS_ALL },
-    // Arrandale (Mobile) GMA HD Lines
+    // Arrbndble (Mobile) GMA HD Lines
     { 0x8086, 0x0046, NO_VERSION, OS_ALL },
 
-    // Sandy Bridge HD Graphics 3000/2000
+    // Sbndy Bridge HD Grbphics 3000/2000
     { 0x8086, 0x0102, NO_VERSION, OS_ALL },
     { 0x8086, 0x0106, NO_VERSION, OS_ALL },
     { 0x8086, 0x0112, NO_VERSION, OS_ALL },
@@ -80,7 +80,7 @@ static const ADAPTER_INFO badHardware[] = {
     { 0x8086, 0x015A, D_VERSION(6,14,10,5437), OS_WINXP | OS_WINXP_64 },
     { 0x8086, 0x015A, D_VERSION(9,18,10,3257), OS_VISTA | OS_WINDOWS7 },
 
-    // Haswell
+    // Hbswell
     { 0x8086, 0x0402, D_VERSION(6,14,10,5437), OS_WINXP | OS_WINXP_64 },
     { 0x8086, 0x0402, D_VERSION(9,18,10,3257), OS_VISTA | OS_WINDOWS7 },
     { 0x8086, 0x0406, D_VERSION(6,14,10,5437), OS_WINXP | OS_WINXP_64 },
@@ -112,7 +112,7 @@ static const ADAPTER_INFO badHardware[] = {
     { 0x8086, 0x0D22, D_VERSION(6,14,10,5437), OS_WINXP | OS_WINXP_64 },
     { 0x8086, 0x0D22, D_VERSION(9,18,10,3257), OS_VISTA | OS_WINDOWS7 },
 
-    // Reason: workaround for 6620073, 6612195
+    // Rebson: workbround for 6620073, 6612195
     // Intel 740
     { 0x8086, 0x7800, NO_VERSION, OS_ALL },
     { 0x8086, 0x1240, NO_VERSION, OS_ALL },
@@ -160,25 +160,25 @@ static const ADAPTER_INFO badHardware[] = {
     { 0x8086, 0x2A12, NO_VERSION, OS_ALL },
     { 0x8086, 0x2A13, NO_VERSION, OS_ALL },
 
-    // Eaglelake (Desktop) GMA 4500 Lines
+    // Ebglelbke (Desktop) GMA 4500 Lines
     { 0x8086, 0x2E42, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E43, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E92, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E93, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E12, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E13, NO_VERSION, OS_ALL },
-    // Eaglelake (Desktop) GMA X4500 Lines
+    // Ebglelbke (Desktop) GMA X4500 Lines
     { 0x8086, 0x2E32, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E33, NO_VERSION, OS_ALL },
     { 0x8086, 0x2E22, NO_VERSION, OS_ALL },
-    // Eaglelake (Desktop) GMA X4500HD Lines
+    // Ebglelbke (Desktop) GMA X4500HD Lines
     { 0x8086, 0x2E23, NO_VERSION, OS_ALL },
-    // Cantiga (Mobile) GMA 4500MHD Lines
+    // Cbntigb (Mobile) GMA 4500MHD Lines
     { 0x8086, 0x2A42, NO_VERSION, OS_ALL },
     { 0x8086, 0x2A43, NO_VERSION, OS_ALL },
 
-    // ATI Mobility Radeon X1600, X1400, X1450, X1300, X1350
-    // Reason: workaround for 6613066, 6687166
+    // ATI Mobility Rbdeon X1600, X1400, X1450, X1300, X1350
+    // Rebson: workbround for 6613066, 6687166
     // X1300 (four sub ids)
     { 0x1002, 0x714A, D_VERSION(6,14,10,6706), OS_WINXP },
     { 0x1002, 0x714A, D_VERSION(7,14,10,0567), OS_VISTA },
@@ -207,29 +207,29 @@ static const ADAPTER_INFO badHardware[] = {
     { 0x1002, 0x71C5, D_VERSION(6,14,10,6706), OS_WINXP },
     { 0x1002, 0x71C5, D_VERSION(7,14,10,0567), OS_VISTA },
 
-    // ATI Mobility Radeon 9700
-    // Reason: workaround for 6773336
+    // ATI Mobility Rbdeon 9700
+    // Rebson: workbround for 6773336
     { 0x1002, 0x4E50, D_VERSION(6,14,10,6561), OS_WINXP },
 
-    // Nvidia FX 5200
-    // Reason: workaround for 6717988
+    // Nvidib FX 5200
+    // Rebson: workbround for 6717988
     { 0x10DE, 0x0322, D_VERSION(6,14,11,6921), OS_WINXP },
 
-    // Nvidia FX Go5600, Go5700
-    // Reason: workaround for 6714579
+    // Nvidib FX Go5600, Go5700
+    // Rebson: workbround for 6714579
     { 0x10DE, 0x031A, D_VERSION(6,14,11,6921), OS_WINXP },
     { 0x10DE, 0x0347, D_VERSION(6,14,11,6921), OS_WINXP },
 
-    // Nvidia Quadro NVS 110M
-    // Reason: workaround for 6629891
+    // Nvidib Qubdro NVS 110M
+    // Rebson: workbround for 6629891
     { 0x10DE, 0x01D7, D_VERSION(6,14,11,5665), OS_WINXP },
 
-    // Nvidia Quadro PCI-E series
-    // Reason: workaround for 6653860
+    // Nvidib Qubdro PCI-E series
+    // Rebson: workbround for 6653860
     { 0x10DE, 0x00FD, D_VERSION(6,14,10,6573), OS_WINXP },
 
-    // Nvidia Quadro FX family
-    // Reason: workaround for 6772137
+    // Nvidib Qubdro FX fbmily
+    // Rebson: workbround for 6772137
     { 0x10DE, 0x00F8, D_VERSION(6,14,10,9381), OS_WINXP },
     { 0x10DE, 0x009D, D_VERSION(6,14,10,9381), OS_WINXP },
     { 0x10DE, 0x029C, D_VERSION(6,14,10,9381), OS_WINXP },
@@ -254,29 +254,29 @@ static const ADAPTER_INFO badHardware[] = {
     { 0x10DE, 0x014D, D_VERSION(6,14,10,9381), OS_WINXP },
     { 0x10DE, 0x014E, D_VERSION(6,14,10,9381), OS_WINXP },
 
-    // Nvidia GeForce 6200 TurboCache(TM)
-    // Reason: workaround for 6588384
+    // Nvidib GeForce 6200 TurboCbche(TM)
+    // Rebson: workbround for 6588384
     { 0x10DE, 0x0161, NO_VERSION, OS_VISTA },
 
-    // any Matrox board
-    // Reason: there are no known Matrox boards with proper Direct3D support
+    // bny Mbtrox bobrd
+    // Rebson: there bre no known Mbtrox bobrds with proper Direct3D support
     { 0x102B, ALL_DEVICEIDS, NO_VERSION, OS_ALL },
 
-    // any SiS board
-    // Reason: there aren't many PS2.0-capable SiS boards and they weren't
+    // bny SiS bobrd
+    // Rebson: there bren't mbny PS2.0-cbpbble SiS bobrds bnd they weren't
     // tested
     { 0x1039, ALL_DEVICEIDS, NO_VERSION, OS_ALL },
 
-    // any S3 board
-    // Reason: no available S3 Chrome (the only S3 boards with PS2.0 support)
+    // bny S3 bobrd
+    // Rebson: no bvbilbble S3 Chrome (the only S3 bobrds with PS2.0 support)
     // for testing
     { 0x5333, ALL_DEVICEIDS, NO_VERSION, OS_ALL },
 
-    // any S3 board (in VIA motherboards)
-    // Reason: These are S3 chips in VIA motherboards
+    // bny S3 bobrd (in VIA motherbobrds)
+    // Rebson: These bre S3 chips in VIA motherbobrds
     { 0x1106, ALL_DEVICEIDS, NO_VERSION, OS_ALL },
 
-    // last record must be empty
+    // lbst record must be empty
     { 0x0000, 0x0000, NO_VERSION, OS_ALL }
 };
 

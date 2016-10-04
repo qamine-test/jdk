@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+pbckbge jbvb.io;
+import jbvb.util.concurrent.btomic.AtomicReferenceFieldUpdbter;
 
 /**
- * A <code>BufferedInputStream</code> adds
- * functionality to another input stream-namely,
- * the ability to buffer the input and to
- * support the <code>mark</code> and <code>reset</code>
- * methods. When  the <code>BufferedInputStream</code>
- * is created, an internal buffer array is
- * created. As bytes  from the stream are read
- * or skipped, the internal buffer is refilled
- * as necessary  from the contained input stream,
- * many bytes at a time. The <code>mark</code>
- * operation  remembers a point in the input
- * stream and the <code>reset</code> operation
- * causes all the  bytes read since the most
- * recent <code>mark</code> operation to be
- * reread before new bytes are  taken from
- * the contained input stream.
+ * A <code>BufferedInputStrebm</code> bdds
+ * functionblity to bnother input strebm-nbmely,
+ * the bbility to buffer the input bnd to
+ * support the <code>mbrk</code> bnd <code>reset</code>
+ * methods. When  the <code>BufferedInputStrebm</code>
+ * is crebted, bn internbl buffer brrby is
+ * crebted. As bytes  from the strebm bre rebd
+ * or skipped, the internbl buffer is refilled
+ * bs necessbry  from the contbined input strebm,
+ * mbny bytes bt b time. The <code>mbrk</code>
+ * operbtion  remembers b point in the input
+ * strebm bnd the <code>reset</code> operbtion
+ * cbuses bll the  bytes rebd since the most
+ * recent <code>mbrk</code> operbtion to be
+ * rerebd before new bytes bre  tbken from
+ * the contbined input strebm.
  *
- * @author  Arthur van Hoff
+ * @buthor  Arthur vbn Hoff
  * @since   1.0
  */
 public
-class BufferedInputStream extends FilterInputStream {
+clbss BufferedInputStrebm extends FilterInputStrebm {
 
-    private static int DEFAULT_BUFFER_SIZE = 8192;
+    privbte stbtic int DEFAULT_BUFFER_SIZE = 8192;
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * The mbximum size of brrby to bllocbte.
+     * Some VMs reserve some hebder words in bn brrby.
+     * Attempts to bllocbte lbrger brrbys mby result in
+     * OutOfMemoryError: Requested brrby size exceeds VM limit
      */
-    private static int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
+    privbte stbtic int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
 
     /**
-     * The internal buffer array where the data is stored. When necessary,
-     * it may be replaced by another array of
-     * a different size.
+     * The internbl buffer brrby where the dbtb is stored. When necessbry,
+     * it mby be replbced by bnother brrby of
+     * b different size.
      */
-    protected volatile byte buf[];
+    protected volbtile byte buf[];
 
     /**
-     * Atomic updater to provide compareAndSet for buf. This is
-     * necessary because closes can be asynchronous. We use nullness
-     * of buf[] as primary indicator that this stream is closed. (The
-     * "in" field is also nulled out on close.)
+     * Atomic updbter to provide compbreAndSet for buf. This is
+     * necessbry becbuse closes cbn be bsynchronous. We use nullness
+     * of buf[] bs primbry indicbtor thbt this strebm is closed. (The
+     * "in" field is blso nulled out on close.)
      */
-    private static final
-        AtomicReferenceFieldUpdater<BufferedInputStream, byte[]> bufUpdater =
-        AtomicReferenceFieldUpdater.newUpdater
-        (BufferedInputStream.class,  byte[].class, "buf");
+    privbte stbtic finbl
+        AtomicReferenceFieldUpdbter<BufferedInputStrebm, byte[]> bufUpdbter =
+        AtomicReferenceFieldUpdbter.newUpdbter
+        (BufferedInputStrebm.clbss,  byte[].clbss, "buf");
 
     /**
-     * The index one greater than the index of the last valid byte in
+     * The index one grebter thbn the index of the lbst vblid byte in
      * the buffer.
-     * This value is always
-     * in the range <code>0</code> through <code>buf.length</code>;
+     * This vblue is blwbys
+     * in the rbnge <code>0</code> through <code>buf.length</code>;
      * elements <code>buf[0]</code>  through <code>buf[count-1]
-     * </code>contain buffered input data obtained
-     * from the underlying  input stream.
+     * </code>contbin buffered input dbtb obtbined
+     * from the underlying  input strebm.
      */
     protected int count;
 
     /**
      * The current position in the buffer. This is the index of the next
-     * character to be read from the <code>buf</code> array.
+     * chbrbcter to be rebd from the <code>buf</code> brrby.
      * <p>
-     * This value is always in the range <code>0</code>
+     * This vblue is blwbys in the rbnge <code>0</code>
      * through <code>count</code>. If it is less
-     * than <code>count</code>, then  <code>buf[pos]</code>
-     * is the next byte to be supplied as input;
-     * if it is equal to <code>count</code>, then
-     * the  next <code>read</code> or <code>skip</code>
-     * operation will require more bytes to be
-     * read from the contained  input stream.
+     * thbn <code>count</code>, then  <code>buf[pos]</code>
+     * is the next byte to be supplied bs input;
+     * if it is equbl to <code>count</code>, then
+     * the  next <code>rebd</code> or <code>skip</code>
+     * operbtion will require more bytes to be
+     * rebd from the contbined  input strebm.
      *
-     * @see     java.io.BufferedInputStream#buf
+     * @see     jbvb.io.BufferedInputStrebm#buf
      */
     protected int pos;
 
     /**
-     * The value of the <code>pos</code> field at the time the last
-     * <code>mark</code> method was called.
+     * The vblue of the <code>pos</code> field bt the time the lbst
+     * <code>mbrk</code> method wbs cblled.
      * <p>
-     * This value is always
-     * in the range <code>-1</code> through <code>pos</code>.
-     * If there is no marked position in  the input
-     * stream, this field is <code>-1</code>. If
-     * there is a marked position in the input
-     * stream,  then <code>buf[markpos]</code>
-     * is the first byte to be supplied as input
-     * after a <code>reset</code> operation. If
-     * <code>markpos</code> is not <code>-1</code>,
-     * then all bytes from positions <code>buf[markpos]</code>
-     * through  <code>buf[pos-1]</code> must remain
-     * in the buffer array (though they may be
-     * moved to  another place in the buffer array,
-     * with suitable adjustments to the values
+     * This vblue is blwbys
+     * in the rbnge <code>-1</code> through <code>pos</code>.
+     * If there is no mbrked position in  the input
+     * strebm, this field is <code>-1</code>. If
+     * there is b mbrked position in the input
+     * strebm,  then <code>buf[mbrkpos]</code>
+     * is the first byte to be supplied bs input
+     * bfter b <code>reset</code> operbtion. If
+     * <code>mbrkpos</code> is not <code>-1</code>,
+     * then bll bytes from positions <code>buf[mbrkpos]</code>
+     * through  <code>buf[pos-1]</code> must rembin
+     * in the buffer brrby (though they mby be
+     * moved to  bnother plbce in the buffer brrby,
+     * with suitbble bdjustments to the vblues
      * of <code>count</code>,  <code>pos</code>,
-     * and <code>markpos</code>); they may not
-     * be discarded unless and until the difference
-     * between <code>pos</code> and <code>markpos</code>
-     * exceeds <code>marklimit</code>.
+     * bnd <code>mbrkpos</code>); they mby not
+     * be discbrded unless bnd until the difference
+     * between <code>pos</code> bnd <code>mbrkpos</code>
+     * exceeds <code>mbrklimit</code>.
      *
-     * @see     java.io.BufferedInputStream#mark(int)
-     * @see     java.io.BufferedInputStream#pos
+     * @see     jbvb.io.BufferedInputStrebm#mbrk(int)
+     * @see     jbvb.io.BufferedInputStrebm#pos
      */
-    protected int markpos = -1;
+    protected int mbrkpos = -1;
 
     /**
-     * The maximum read ahead allowed after a call to the
-     * <code>mark</code> method before subsequent calls to the
-     * <code>reset</code> method fail.
+     * The mbximum rebd bhebd bllowed bfter b cbll to the
+     * <code>mbrk</code> method before subsequent cblls to the
+     * <code>reset</code> method fbil.
      * Whenever the difference between <code>pos</code>
-     * and <code>markpos</code> exceeds <code>marklimit</code>,
-     * then the  mark may be dropped by setting
-     * <code>markpos</code> to <code>-1</code>.
+     * bnd <code>mbrkpos</code> exceeds <code>mbrklimit</code>,
+     * then the  mbrk mby be dropped by setting
+     * <code>mbrkpos</code> to <code>-1</code>.
      *
-     * @see     java.io.BufferedInputStream#mark(int)
-     * @see     java.io.BufferedInputStream#reset()
+     * @see     jbvb.io.BufferedInputStrebm#mbrk(int)
+     * @see     jbvb.io.BufferedInputStrebm#reset()
      */
-    protected int marklimit;
+    protected int mbrklimit;
 
     /**
-     * Check to make sure that underlying input stream has not been
+     * Check to mbke sure thbt underlying input strebm hbs not been
      * nulled out due to close; if not return it;
      */
-    private InputStream getInIfOpen() throws IOException {
-        InputStream input = in;
+    privbte InputStrebm getInIfOpen() throws IOException {
+        InputStrebm input = in;
         if (input == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         return input;
     }
 
     /**
-     * Check to make sure that buffer has not been nulled out due to
+     * Check to mbke sure thbt buffer hbs not been nulled out due to
      * close; if not return it;
      */
-    private byte[] getBufIfOpen() throws IOException {
+    privbte byte[] getBufIfOpen() throws IOException {
         byte[] buffer = buf;
         if (buffer == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         return buffer;
     }
 
     /**
-     * Creates a <code>BufferedInputStream</code>
-     * and saves its  argument, the input stream
-     * <code>in</code>, for later use. An internal
-     * buffer array is created and  stored in <code>buf</code>.
+     * Crebtes b <code>BufferedInputStrebm</code>
+     * bnd sbves its  brgument, the input strebm
+     * <code>in</code>, for lbter use. An internbl
+     * buffer brrby is crebted bnd  stored in <code>buf</code>.
      *
-     * @param   in   the underlying input stream.
+     * @pbrbm   in   the underlying input strebm.
      */
-    public BufferedInputStream(InputStream in) {
+    public BufferedInputStrebm(InputStrebm in) {
         this(in, DEFAULT_BUFFER_SIZE);
     }
 
     /**
-     * Creates a <code>BufferedInputStream</code>
+     * Crebtes b <code>BufferedInputStrebm</code>
      * with the specified buffer size,
-     * and saves its  argument, the input stream
-     * <code>in</code>, for later use.  An internal
-     * buffer array of length  <code>size</code>
-     * is created and stored in <code>buf</code>.
+     * bnd sbves its  brgument, the input strebm
+     * <code>in</code>, for lbter use.  An internbl
+     * buffer brrby of length  <code>size</code>
+     * is crebted bnd stored in <code>buf</code>.
      *
-     * @param   in     the underlying input stream.
-     * @param   size   the buffer size.
-     * @exception IllegalArgumentException if {@code size <= 0}.
+     * @pbrbm   in     the underlying input strebm.
+     * @pbrbm   size   the buffer size.
+     * @exception IllegblArgumentException if {@code size <= 0}.
      */
-    public BufferedInputStream(InputStream in, int size) {
+    public BufferedInputStrebm(InputStrebm in, int size) {
         super(in);
         if (size <= 0) {
-            throw new IllegalArgumentException("Buffer size <= 0");
+            throw new IllegblArgumentException("Buffer size <= 0");
         }
         buf = new byte[size];
     }
 
     /**
-     * Fills the buffer with more data, taking into account
-     * shuffling and other tricks for dealing with marks.
-     * Assumes that it is being called by a synchronized method.
-     * This method also assumes that all data has already been read in,
+     * Fills the buffer with more dbtb, tbking into bccount
+     * shuffling bnd other tricks for debling with mbrks.
+     * Assumes thbt it is being cblled by b synchronized method.
+     * This method blso bssumes thbt bll dbtb hbs blrebdy been rebd in,
      * hence pos > count.
      */
-    private void fill() throws IOException {
+    privbte void fill() throws IOException {
         byte[] buffer = getBufIfOpen();
-        if (markpos < 0)
-            pos = 0;            /* no mark: throw away the buffer */
+        if (mbrkpos < 0)
+            pos = 0;            /* no mbrk: throw bwby the buffer */
         else if (pos >= buffer.length)  /* no room left in buffer */
-            if (markpos > 0) {  /* can throw away early part of the buffer */
-                int sz = pos - markpos;
-                System.arraycopy(buffer, markpos, buffer, 0, sz);
+            if (mbrkpos > 0) {  /* cbn throw bwby ebrly pbrt of the buffer */
+                int sz = pos - mbrkpos;
+                System.brrbycopy(buffer, mbrkpos, buffer, 0, sz);
                 pos = sz;
-                markpos = 0;
-            } else if (buffer.length >= marklimit) {
-                markpos = -1;   /* buffer got too big, invalidate mark */
+                mbrkpos = 0;
+            } else if (buffer.length >= mbrklimit) {
+                mbrkpos = -1;   /* buffer got too big, invblidbte mbrk */
                 pos = 0;        /* drop buffer contents */
             } else if (buffer.length >= MAX_BUFFER_SIZE) {
-                throw new OutOfMemoryError("Required array size too large");
+                throw new OutOfMemoryError("Required brrby size too lbrge");
             } else {            /* grow buffer */
                 int nsz = (pos <= MAX_BUFFER_SIZE - pos) ?
                         pos * 2 : MAX_BUFFER_SIZE;
-                if (nsz > marklimit)
-                    nsz = marklimit;
+                if (nsz > mbrklimit)
+                    nsz = mbrklimit;
                 byte nbuf[] = new byte[nsz];
-                System.arraycopy(buffer, 0, nbuf, 0, pos);
-                if (!bufUpdater.compareAndSet(this, buffer, nbuf)) {
-                    // Can't replace buf if there was an async close.
-                    // Note: This would need to be changed if fill()
-                    // is ever made accessible to multiple threads.
-                    // But for now, the only way CAS can fail is via close.
-                    // assert buf == null;
-                    throw new IOException("Stream closed");
+                System.brrbycopy(buffer, 0, nbuf, 0, pos);
+                if (!bufUpdbter.compbreAndSet(this, buffer, nbuf)) {
+                    // Cbn't replbce buf if there wbs bn bsync close.
+                    // Note: This would need to be chbnged if fill()
+                    // is ever mbde bccessible to multiple threbds.
+                    // But for now, the only wby CAS cbn fbil is vib close.
+                    // bssert buf == null;
+                    throw new IOException("Strebm closed");
                 }
                 buffer = nbuf;
             }
         count = pos;
-        int n = getInIfOpen().read(buffer, pos, buffer.length - pos);
+        int n = getInIfOpen().rebd(buffer, pos, buffer.length - pos);
         if (n > 0)
             count = n + pos;
     }
 
     /**
      * See
-     * the general contract of the <code>read</code>
-     * method of <code>InputStream</code>.
+     * the generbl contrbct of the <code>rebd</code>
+     * method of <code>InputStrebm</code>.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if this input stream has been closed by
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
+     * @exception  IOException  if this input strebm hbs been closed by
      *                          invoking its {@link #close()} method,
-     *                          or an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     *                          or bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public synchronized int read() throws IOException {
+    public synchronized int rebd() throws IOException {
         if (pos >= count) {
             fill();
             if (pos >= count)
@@ -270,70 +270,70 @@ class BufferedInputStream extends FilterInputStream {
     }
 
     /**
-     * Read characters into a portion of an array, reading from the underlying
-     * stream at most once if necessary.
+     * Rebd chbrbcters into b portion of bn brrby, rebding from the underlying
+     * strebm bt most once if necessbry.
      */
-    private int read1(byte[] b, int off, int len) throws IOException {
-        int avail = count - pos;
-        if (avail <= 0) {
-            /* If the requested length is at least as large as the buffer, and
-               if there is no mark/reset activity, do not bother to copy the
-               bytes into the local buffer.  In this way buffered streams will
-               cascade harmlessly. */
-            if (len >= getBufIfOpen().length && markpos < 0) {
-                return getInIfOpen().read(b, off, len);
+    privbte int rebd1(byte[] b, int off, int len) throws IOException {
+        int bvbil = count - pos;
+        if (bvbil <= 0) {
+            /* If the requested length is bt lebst bs lbrge bs the buffer, bnd
+               if there is no mbrk/reset bctivity, do not bother to copy the
+               bytes into the locbl buffer.  In this wby buffered strebms will
+               cbscbde hbrmlessly. */
+            if (len >= getBufIfOpen().length && mbrkpos < 0) {
+                return getInIfOpen().rebd(b, off, len);
             }
             fill();
-            avail = count - pos;
-            if (avail <= 0) return -1;
+            bvbil = count - pos;
+            if (bvbil <= 0) return -1;
         }
-        int cnt = (avail < len) ? avail : len;
-        System.arraycopy(getBufIfOpen(), pos, b, off, cnt);
+        int cnt = (bvbil < len) ? bvbil : len;
+        System.brrbycopy(getBufIfOpen(), pos, b, off, cnt);
         pos += cnt;
         return cnt;
     }
 
     /**
-     * Reads bytes from this byte-input stream into the specified byte array,
-     * starting at the given offset.
+     * Rebds bytes from this byte-input strebm into the specified byte brrby,
+     * stbrting bt the given offset.
      *
-     * <p> This method implements the general contract of the corresponding
-     * <code>{@link InputStream#read(byte[], int, int) read}</code> method of
-     * the <code>{@link InputStream}</code> class.  As an additional
-     * convenience, it attempts to read as many bytes as possible by repeatedly
-     * invoking the <code>read</code> method of the underlying stream.  This
-     * iterated <code>read</code> continues until one of the following
+     * <p> This method implements the generbl contrbct of the corresponding
+     * <code>{@link InputStrebm#rebd(byte[], int, int) rebd}</code> method of
+     * the <code>{@link InputStrebm}</code> clbss.  As bn bdditionbl
+     * convenience, it bttempts to rebd bs mbny bytes bs possible by repebtedly
+     * invoking the <code>rebd</code> method of the underlying strebm.  This
+     * iterbted <code>rebd</code> continues until one of the following
      * conditions becomes true: <ul>
      *
-     *   <li> The specified number of bytes have been read,
+     *   <li> The specified number of bytes hbve been rebd,
      *
-     *   <li> The <code>read</code> method of the underlying stream returns
-     *   <code>-1</code>, indicating end-of-file, or
+     *   <li> The <code>rebd</code> method of the underlying strebm returns
+     *   <code>-1</code>, indicbting end-of-file, or
      *
-     *   <li> The <code>available</code> method of the underlying stream
-     *   returns zero, indicating that further input requests would block.
+     *   <li> The <code>bvbilbble</code> method of the underlying strebm
+     *   returns zero, indicbting thbt further input requests would block.
      *
-     * </ul> If the first <code>read</code> on the underlying stream returns
-     * <code>-1</code> to indicate end-of-file then this method returns
+     * </ul> If the first <code>rebd</code> on the underlying strebm returns
+     * <code>-1</code> to indicbte end-of-file then this method returns
      * <code>-1</code>.  Otherwise this method returns the number of bytes
-     * actually read.
+     * bctublly rebd.
      *
-     * <p> Subclasses of this class are encouraged, but not required, to
-     * attempt to read as many bytes as possible in the same fashion.
+     * <p> Subclbsses of this clbss bre encourbged, but not required, to
+     * bttempt to rebd bs mbny bytes bs possible in the sbme fbshion.
      *
-     * @param      b     destination buffer.
-     * @param      off   offset at which to start storing bytes.
-     * @param      len   maximum number of bytes to read.
-     * @return     the number of bytes read, or <code>-1</code> if the end of
-     *             the stream has been reached.
-     * @exception  IOException  if this input stream has been closed by
+     * @pbrbm      b     destinbtion buffer.
+     * @pbrbm      off   offset bt which to stbrt storing bytes.
+     * @pbrbm      len   mbximum number of bytes to rebd.
+     * @return     the number of bytes rebd, or <code>-1</code> if the end of
+     *             the strebm hbs been rebched.
+     * @exception  IOException  if this input strebm hbs been closed by
      *                          invoking its {@link #close()} method,
-     *                          or an I/O error occurs.
+     *                          or bn I/O error occurs.
      */
-    public synchronized int read(byte b[], int off, int len)
+    public synchronized int rebd(byte b[], int off, int len)
         throws IOException
     {
-        getBufIfOpen(); // Check for closed stream
+        getBufIfOpen(); // Check for closed strebm
         if ((off | len | (off + len) | (b.length - (off + len))) < 0) {
             throw new IndexOutOfBoundsException();
         } else if (len == 0) {
@@ -342,148 +342,148 @@ class BufferedInputStream extends FilterInputStream {
 
         int n = 0;
         for (;;) {
-            int nread = read1(b, off + n, len - n);
-            if (nread <= 0)
-                return (n == 0) ? nread : n;
-            n += nread;
+            int nrebd = rebd1(b, off + n, len - n);
+            if (nrebd <= 0)
+                return (n == 0) ? nrebd : n;
+            n += nrebd;
             if (n >= len)
                 return n;
-            // if not closed but no bytes available, return
-            InputStream input = in;
-            if (input != null && input.available() <= 0)
+            // if not closed but no bytes bvbilbble, return
+            InputStrebm input = in;
+            if (input != null && input.bvbilbble() <= 0)
                 return n;
         }
     }
 
     /**
-     * See the general contract of the <code>skip</code>
-     * method of <code>InputStream</code>.
+     * See the generbl contrbct of the <code>skip</code>
+     * method of <code>InputStrebm</code>.
      *
-     * @exception  IOException  if the stream does not support seek,
-     *                          or if this input stream has been closed by
-     *                          invoking its {@link #close()} method, or an
+     * @exception  IOException  if the strebm does not support seek,
+     *                          or if this input strebm hbs been closed by
+     *                          invoking its {@link #close()} method, or bn
      *                          I/O error occurs.
      */
     public synchronized long skip(long n) throws IOException {
-        getBufIfOpen(); // Check for closed stream
+        getBufIfOpen(); // Check for closed strebm
         if (n <= 0) {
             return 0;
         }
-        long avail = count - pos;
+        long bvbil = count - pos;
 
-        if (avail <= 0) {
-            // If no mark position set then don't keep in buffer
-            if (markpos <0)
+        if (bvbil <= 0) {
+            // If no mbrk position set then don't keep in buffer
+            if (mbrkpos <0)
                 return getInIfOpen().skip(n);
 
-            // Fill in buffer to save bytes for reset
+            // Fill in buffer to sbve bytes for reset
             fill();
-            avail = count - pos;
-            if (avail <= 0)
+            bvbil = count - pos;
+            if (bvbil <= 0)
                 return 0;
         }
 
-        long skipped = (avail < n) ? avail : n;
+        long skipped = (bvbil < n) ? bvbil : n;
         pos += skipped;
         return skipped;
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from this input stream without blocking by the next
-     * invocation of a method for this input stream. The next invocation might be
-     * the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Returns bn estimbte of the number of bytes thbt cbn be rebd (or
+     * skipped over) from this input strebm without blocking by the next
+     * invocbtion of b method for this input strebm. The next invocbtion might be
+     * the sbme threbd or bnother threbd.  A single rebd or skip of this
+     * mbny bytes will not block, but mby rebd or skip fewer bytes.
      * <p>
-     * This method returns the sum of the number of bytes remaining to be read in
-     * the buffer (<code>count&nbsp;- pos</code>) and the result of calling the
-     * {@link java.io.FilterInputStream#in in}.available().
+     * This method returns the sum of the number of bytes rembining to be rebd in
+     * the buffer (<code>count&nbsp;- pos</code>) bnd the result of cblling the
+     * {@link jbvb.io.FilterInputStrebm#in in}.bvbilbble().
      *
-     * @return     an estimate of the number of bytes that can be read (or skipped
-     *             over) from this input stream without blocking.
-     * @exception  IOException  if this input stream has been closed by
+     * @return     bn estimbte of the number of bytes thbt cbn be rebd (or skipped
+     *             over) from this input strebm without blocking.
+     * @exception  IOException  if this input strebm hbs been closed by
      *                          invoking its {@link #close()} method,
-     *                          or an I/O error occurs.
+     *                          or bn I/O error occurs.
      */
-    public synchronized int available() throws IOException {
+    public synchronized int bvbilbble() throws IOException {
         int n = count - pos;
-        int avail = getInIfOpen().available();
-        return n > (Integer.MAX_VALUE - avail)
+        int bvbil = getInIfOpen().bvbilbble();
+        return n > (Integer.MAX_VALUE - bvbil)
                     ? Integer.MAX_VALUE
-                    : n + avail;
+                    : n + bvbil;
     }
 
     /**
-     * See the general contract of the <code>mark</code>
-     * method of <code>InputStream</code>.
+     * See the generbl contrbct of the <code>mbrk</code>
+     * method of <code>InputStrebm</code>.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.BufferedInputStream#reset()
+     * @pbrbm   rebdlimit   the mbximum limit of bytes thbt cbn be rebd before
+     *                      the mbrk position becomes invblid.
+     * @see     jbvb.io.BufferedInputStrebm#reset()
      */
-    public synchronized void mark(int readlimit) {
-        marklimit = readlimit;
-        markpos = pos;
+    public synchronized void mbrk(int rebdlimit) {
+        mbrklimit = rebdlimit;
+        mbrkpos = pos;
     }
 
     /**
-     * See the general contract of the <code>reset</code>
-     * method of <code>InputStream</code>.
+     * See the generbl contrbct of the <code>reset</code>
+     * method of <code>InputStrebm</code>.
      * <p>
-     * If <code>markpos</code> is <code>-1</code>
-     * (no mark has been set or the mark has been
-     * invalidated), an <code>IOException</code>
+     * If <code>mbrkpos</code> is <code>-1</code>
+     * (no mbrk hbs been set or the mbrk hbs been
+     * invblidbted), bn <code>IOException</code>
      * is thrown. Otherwise, <code>pos</code> is
-     * set equal to <code>markpos</code>.
+     * set equbl to <code>mbrkpos</code>.
      *
-     * @exception  IOException  if this stream has not been marked or,
-     *                  if the mark has been invalidated, or the stream
-     *                  has been closed by invoking its {@link #close()}
-     *                  method, or an I/O error occurs.
-     * @see        java.io.BufferedInputStream#mark(int)
+     * @exception  IOException  if this strebm hbs not been mbrked or,
+     *                  if the mbrk hbs been invblidbted, or the strebm
+     *                  hbs been closed by invoking its {@link #close()}
+     *                  method, or bn I/O error occurs.
+     * @see        jbvb.io.BufferedInputStrebm#mbrk(int)
      */
     public synchronized void reset() throws IOException {
-        getBufIfOpen(); // Cause exception if closed
-        if (markpos < 0)
-            throw new IOException("Resetting to invalid mark");
-        pos = markpos;
+        getBufIfOpen(); // Cbuse exception if closed
+        if (mbrkpos < 0)
+            throw new IOException("Resetting to invblid mbrk");
+        pos = mbrkpos;
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code>
-     * and <code>reset</code> methods. The <code>markSupported</code>
-     * method of <code>BufferedInputStream</code> returns
+     * Tests if this input strebm supports the <code>mbrk</code>
+     * bnd <code>reset</code> methods. The <code>mbrkSupported</code>
+     * method of <code>BufferedInputStrebm</code> returns
      * <code>true</code>.
      *
-     * @return  a <code>boolean</code> indicating if this stream type supports
-     *          the <code>mark</code> and <code>reset</code> methods.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @return  b <code>boolebn</code> indicbting if this strebm type supports
+     *          the <code>mbrk</code> bnd <code>reset</code> methods.
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         return true;
     }
 
     /**
-     * Closes this input stream and releases any system resources
-     * associated with the stream.
-     * Once the stream has been closed, further read(), available(), reset(),
-     * or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes this input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
+     * Once the strebm hbs been closed, further rebd(), bvbilbble(), reset(),
+     * or skip() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close() throws IOException {
         byte[] buffer;
         while ( (buffer = buf) != null) {
-            if (bufUpdater.compareAndSet(this, buffer, null)) {
-                InputStream input = in;
+            if (bufUpdbter.compbreAndSet(this, buffer, null)) {
+                InputStrebm input = in;
                 in = null;
                 if (input != null)
                     input.close();
                 return;
             }
-            // Else retry in case a new buf was CASed in fill()
+            // Else retry in cbse b new buf wbs CASed in fill()
         }
     }
 }

@@ -1,592 +1,592 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.interfaces.*;
-import java.security.spec.ECParameterSpec;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.ECPbrbmeterSpec;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.SecretKeySpec;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
-import javax.security.auth.Subject;
+import jbvbx.security.buth.Subject;
 
 import sun.security.util.KeyUtil;
-import sun.security.action.GetPropertyAction;
-import sun.security.ssl.HandshakeMessage.*;
+import sun.security.bction.GetPropertyAction;
+import sun.security.ssl.HbndshbkeMessbge.*;
 import sun.security.ssl.CipherSuite.*;
-import sun.security.ssl.SignatureAndHashAlgorithm.*;
-import static sun.security.ssl.CipherSuite.KeyExchange.*;
+import sun.security.ssl.SignbtureAndHbshAlgorithm.*;
+import stbtic sun.security.ssl.CipherSuite.KeyExchbnge.*;
 
 /**
- * ServerHandshaker does the protocol handshaking from the point
- * of view of a server.  It is driven asychronously by handshake messages
- * as delivered by the parent Handshaker class, and also uses
- * common functionality (e.g. key generation) that is provided there.
+ * ServerHbndshbker does the protocol hbndshbking from the point
+ * of view of b server.  It is driven bsychronously by hbndshbke messbges
+ * bs delivered by the pbrent Hbndshbker clbss, bnd blso uses
+ * common functionblity (e.g. key generbtion) thbt is provided there.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final class ServerHandshaker extends Handshaker {
+finbl clbss ServerHbndshbker extends Hbndshbker {
 
-    // is the server going to require the client to authenticate?
-    private byte                doClientAuth;
+    // is the server going to require the client to buthenticbte?
+    privbte byte                doClientAuth;
 
-    // our authentication info
-    private X509Certificate[]   certs;
-    private PrivateKey          privateKey;
+    // our buthenticbtion info
+    privbte X509Certificbte[]   certs;
+    privbte PrivbteKey          privbteKey;
 
-    private Object              serviceCreds;
+    privbte Object              serviceCreds;
 
-    // flag to check for clientCertificateVerify message
-    private boolean             needClientVerify = false;
-
-    /*
-     * For exportable ciphersuites using non-exportable key sizes, we use
-     * ephemeral RSA keys. We could also do anonymous RSA in the same way
-     * but there are no such ciphersuites currently defined.
-     */
-    private PrivateKey          tempPrivateKey;
-    private PublicKey           tempPublicKey;
+    // flbg to check for clientCertificbteVerify messbge
+    privbte boolebn             needClientVerify = fblse;
 
     /*
-     * For anonymous and ephemeral Diffie-Hellman key exchange, we use
-     * ephemeral Diffie-Hellman keys.
+     * For exportbble ciphersuites using non-exportbble key sizes, we use
+     * ephemerbl RSA keys. We could blso do bnonymous RSA in the sbme wby
+     * but there bre no such ciphersuites currently defined.
      */
-    private DHCrypt dh;
+    privbte PrivbteKey          tempPrivbteKey;
+    privbte PublicKey           tempPublicKey;
 
-    // Helper for ECDH based key exchanges
-    private ECDHCrypt ecdh;
+    /*
+     * For bnonymous bnd ephemerbl Diffie-Hellmbn key exchbnge, we use
+     * ephemerbl Diffie-Hellmbn keys.
+     */
+    privbte DHCrypt dh;
+
+    // Helper for ECDH bbsed key exchbnges
+    privbte ECDHCrypt ecdh;
 
     // version request by the client in its ClientHello
-    // we remember it for the RSA premaster secret version check
-    private ProtocolVersion clientRequestedVersion;
+    // we remember it for the RSA prembster secret version check
+    privbte ProtocolVersion clientRequestedVersion;
 
-    private SupportedEllipticCurvesExtension supportedCurves;
+    privbte SupportedEllipticCurvesExtension supportedCurves;
 
-    // the preferable signature algorithm used by ServerKeyExchange message
-    SignatureAndHashAlgorithm preferableSignatureAlgorithm;
+    // the preferbble signbture blgorithm used by ServerKeyExchbnge messbge
+    SignbtureAndHbshAlgorithm preferbbleSignbtureAlgorithm;
 
-    // Flag to use smart ephemeral DH key which size matches the corresponding
-    // authentication key
-    private static final boolean useSmartEphemeralDHKeys;
+    // Flbg to use smbrt ephemerbl DH key which size mbtches the corresponding
+    // buthenticbtion key
+    privbte stbtic finbl boolebn useSmbrtEphemerblDHKeys;
 
-    // Flag to use legacy ephemeral DH key which size is 512 bits for
-    // exportable cipher suites, and 768 bits for others
-    private static final boolean useLegacyEphemeralDHKeys;
+    // Flbg to use legbcy ephemerbl DH key which size is 512 bits for
+    // exportbble cipher suites, bnd 768 bits for others
+    privbte stbtic finbl boolebn useLegbcyEphemerblDHKeys;
 
-    // The customized ephemeral DH key size for non-exportable cipher suites.
-    private static final int customizedDHKeySize;
+    // The customized ephemerbl DH key size for non-exportbble cipher suites.
+    privbte stbtic finbl int customizedDHKeySize;
 
-    static {
+    stbtic {
         String property = AccessController.doPrivileged(
-                    new GetPropertyAction("jdk.tls.ephemeralDHKeySize"));
+                    new GetPropertyAction("jdk.tls.ephemerblDHKeySize"));
         if (property == null || property.length() == 0) {
-            useLegacyEphemeralDHKeys = false;
-            useSmartEphemeralDHKeys = false;
+            useLegbcyEphemerblDHKeys = fblse;
+            useSmbrtEphemerblDHKeys = fblse;
             customizedDHKeySize = -1;
-        } else if ("matched".equals(property)) {
-            useLegacyEphemeralDHKeys = false;
-            useSmartEphemeralDHKeys = true;
+        } else if ("mbtched".equbls(property)) {
+            useLegbcyEphemerblDHKeys = fblse;
+            useSmbrtEphemerblDHKeys = true;
             customizedDHKeySize = -1;
-        } else if ("legacy".equals(property)) {
-            useLegacyEphemeralDHKeys = true;
-            useSmartEphemeralDHKeys = false;
+        } else if ("legbcy".equbls(property)) {
+            useLegbcyEphemerblDHKeys = true;
+            useSmbrtEphemerblDHKeys = fblse;
             customizedDHKeySize = -1;
         } else {
-            useLegacyEphemeralDHKeys = false;
-            useSmartEphemeralDHKeys = false;
+            useLegbcyEphemerblDHKeys = fblse;
+            useSmbrtEphemerblDHKeys = fblse;
 
             try {
-                customizedDHKeySize = Integer.parseUnsignedInt(property);
+                customizedDHKeySize = Integer.pbrseUnsignedInt(property);
                 if (customizedDHKeySize < 1024 || customizedDHKeySize > 2048) {
-                    throw new IllegalArgumentException(
+                    throw new IllegblArgumentException(
                         "Customized DH key size should be positive integer " +
-                        "between 1024 and 2048 bits, inclusive");
+                        "between 1024 bnd 2048 bits, inclusive");
                 }
-            } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(
-                        "Invalid system property jdk.tls.ephemeralDHKeySize");
+            } cbtch (NumberFormbtException nfe) {
+                throw new IllegblArgumentException(
+                        "Invblid system property jdk.tls.ephemerblDHKeySize");
             }
         }
     }
 
     /*
-     * Constructor ... use the keys found in the auth context.
+     * Constructor ... use the keys found in the buth context.
      */
-    ServerHandshaker(SSLSocketImpl socket, SSLContextImpl context,
-            ProtocolList enabledProtocols, byte clientAuth,
-            ProtocolVersion activeProtocolVersion, boolean isInitialHandshake,
-            boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    ServerHbndshbker(SSLSocketImpl socket, SSLContextImpl context,
+            ProtocolList enbbledProtocols, byte clientAuth,
+            ProtocolVersion bctiveProtocolVersion, boolebn isInitiblHbndshbke,
+            boolebn secureRenegotibtion,
+            byte[] clientVerifyDbtb, byte[] serverVerifyDbtb) {
 
-        super(socket, context, enabledProtocols,
-                (clientAuth != SSLEngineImpl.clauth_none), false,
-                activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-                clientVerifyData, serverVerifyData);
+        super(socket, context, enbbledProtocols,
+                (clientAuth != SSLEngineImpl.clbuth_none), fblse,
+                bctiveProtocolVersion, isInitiblHbndshbke, secureRenegotibtion,
+                clientVerifyDbtb, serverVerifyDbtb);
         doClientAuth = clientAuth;
     }
 
     /*
-     * Constructor ... use the keys found in the auth context.
+     * Constructor ... use the keys found in the buth context.
      */
-    ServerHandshaker(SSLEngineImpl engine, SSLContextImpl context,
-            ProtocolList enabledProtocols, byte clientAuth,
-            ProtocolVersion activeProtocolVersion,
-            boolean isInitialHandshake, boolean secureRenegotiation,
-            byte[] clientVerifyData, byte[] serverVerifyData) {
+    ServerHbndshbker(SSLEngineImpl engine, SSLContextImpl context,
+            ProtocolList enbbledProtocols, byte clientAuth,
+            ProtocolVersion bctiveProtocolVersion,
+            boolebn isInitiblHbndshbke, boolebn secureRenegotibtion,
+            byte[] clientVerifyDbtb, byte[] serverVerifyDbtb) {
 
-        super(engine, context, enabledProtocols,
-                (clientAuth != SSLEngineImpl.clauth_none), false,
-                activeProtocolVersion, isInitialHandshake, secureRenegotiation,
-                clientVerifyData, serverVerifyData);
+        super(engine, context, enbbledProtocols,
+                (clientAuth != SSLEngineImpl.clbuth_none), fblse,
+                bctiveProtocolVersion, isInitiblHbndshbke, secureRenegotibtion,
+                clientVerifyDbtb, serverVerifyDbtb);
         doClientAuth = clientAuth;
     }
 
     /*
-     * As long as handshaking has not started, we can change
-     * whether client authentication is required.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs hbndshbking hbs not stbrted, we cbn chbnge
+     * whether client buthenticbtion is required.  Otherwise,
+     * we will need to wbit for the next hbndshbke.
      */
     void setClientAuth(byte clientAuth) {
         doClientAuth = clientAuth;
     }
 
     /*
-     * This routine handles all the server side handshake messages, one at
-     * a time.  Given the message type (and in some cases the pending cipher
-     * spec) it parses the type-specific message.  Then it calls a function
-     * that handles that specific message.
+     * This routine hbndles bll the server side hbndshbke messbges, one bt
+     * b time.  Given the messbge type (bnd in some cbses the pending cipher
+     * spec) it pbrses the type-specific messbge.  Then it cblls b function
+     * thbt hbndles thbt specific messbge.
      *
-     * It updates the state machine as each message is processed, and writes
-     * responses as needed using the connection in the constructor.
+     * It updbtes the stbte mbchine bs ebch messbge is processed, bnd writes
+     * responses bs needed using the connection in the constructor.
      */
     @Override
-    void processMessage(byte type, int message_len)
+    void processMessbge(byte type, int messbge_len)
             throws IOException {
         //
-        // In SSLv3 and TLS, messages follow strictly increasing
-        // numerical order _except_ for one annoying special case.
+        // In SSLv3 bnd TLS, messbges follow strictly increbsing
+        // numericbl order _except_ for one bnnoying specibl cbse.
         //
-        if ((state >= type)
-                && (state != HandshakeMessage.ht_client_key_exchange
-                    && type != HandshakeMessage.ht_certificate_verify)) {
+        if ((stbte >= type)
+                && (stbte != HbndshbkeMessbge.ht_client_key_exchbnge
+                    && type != HbndshbkeMessbge.ht_certificbte_verify)) {
             throw new SSLProtocolException(
-                    "Handshake message sequence violation, state = " + state
+                    "Hbndshbke messbge sequence violbtion, stbte = " + stbte
                     + ", type = " + type);
         }
 
         switch (type) {
-            case HandshakeMessage.ht_client_hello:
-                ClientHello ch = new ClientHello(input, message_len);
+            cbse HbndshbkeMessbge.ht_client_hello:
+                ClientHello ch = new ClientHello(input, messbge_len);
                 /*
                  * send it off for processing.
                  */
                 this.clientHello(ch);
-                break;
+                brebk;
 
-            case HandshakeMessage.ht_certificate:
-                if (doClientAuth == SSLEngineImpl.clauth_none) {
-                    fatalSE(Alerts.alert_unexpected_message,
-                                "client sent unsolicited cert chain");
+            cbse HbndshbkeMessbge.ht_certificbte:
+                if (doClientAuth == SSLEngineImpl.clbuth_none) {
+                    fbtblSE(Alerts.blert_unexpected_messbge,
+                                "client sent unsolicited cert chbin");
                     // NOTREACHED
                 }
-                this.clientCertificate(new CertificateMsg(input));
-                break;
+                this.clientCertificbte(new CertificbteMsg(input));
+                brebk;
 
-            case HandshakeMessage.ht_client_key_exchange:
-                SecretKey preMasterSecret;
-                switch (keyExchange) {
-                case K_RSA:
-                case K_RSA_EXPORT:
+            cbse HbndshbkeMessbge.ht_client_key_exchbnge:
+                SecretKey preMbsterSecret;
+                switch (keyExchbnge) {
+                cbse K_RSA:
+                cbse K_RSA_EXPORT:
                     /*
-                     * The client's pre-master secret is decrypted using
-                     * either the server's normal private RSA key, or the
-                     * temporary one used for non-export or signing-only
-                     * certificates/keys.
+                     * The client's pre-mbster secret is decrypted using
+                     * either the server's normbl privbte RSA key, or the
+                     * temporbry one used for non-export or signing-only
+                     * certificbtes/keys.
                      */
-                    RSAClientKeyExchange pms = new RSAClientKeyExchange(
+                    RSAClientKeyExchbnge pms = new RSAClientKeyExchbnge(
                             protocolVersion, clientRequestedVersion,
-                            sslContext.getSecureRandom(), input,
-                            message_len, privateKey);
-                    preMasterSecret = this.clientKeyExchange(pms);
-                    break;
-                case K_KRB5:
-                case K_KRB5_EXPORT:
-                    preMasterSecret = this.clientKeyExchange(
-                        new KerberosClientKeyExchange(protocolVersion,
+                            sslContext.getSecureRbndom(), input,
+                            messbge_len, privbteKey);
+                    preMbsterSecret = this.clientKeyExchbnge(pms);
+                    brebk;
+                cbse K_KRB5:
+                cbse K_KRB5_EXPORT:
+                    preMbsterSecret = this.clientKeyExchbnge(
+                        new KerberosClientKeyExchbnge(protocolVersion,
                             clientRequestedVersion,
-                            sslContext.getSecureRandom(),
+                            sslContext.getSecureRbndom(),
                             input,
                             this.getAccSE(),
                             serviceCreds));
-                    break;
-                case K_DHE_RSA:
-                case K_DHE_DSS:
-                case K_DH_ANON:
+                    brebk;
+                cbse K_DHE_RSA:
+                cbse K_DHE_DSS:
+                cbse K_DH_ANON:
                     /*
-                     * The pre-master secret is derived using the normal
-                     * Diffie-Hellman calculation.   Note that the main
-                     * protocol difference in these five flavors is in how
-                     * the ServerKeyExchange message was constructed!
+                     * The pre-mbster secret is derived using the normbl
+                     * Diffie-Hellmbn cblculbtion.   Note thbt the mbin
+                     * protocol difference in these five flbvors is in how
+                     * the ServerKeyExchbnge messbge wbs constructed!
                      */
-                    preMasterSecret = this.clientKeyExchange(
-                            new DHClientKeyExchange(input));
-                    break;
-                case K_ECDH_RSA:
-                case K_ECDH_ECDSA:
-                case K_ECDHE_RSA:
-                case K_ECDHE_ECDSA:
-                case K_ECDH_ANON:
-                    preMasterSecret = this.clientKeyExchange
-                                            (new ECDHClientKeyExchange(input));
-                    break;
-                default:
+                    preMbsterSecret = this.clientKeyExchbnge(
+                            new DHClientKeyExchbnge(input));
+                    brebk;
+                cbse K_ECDH_RSA:
+                cbse K_ECDH_ECDSA:
+                cbse K_ECDHE_RSA:
+                cbse K_ECDHE_ECDSA:
+                cbse K_ECDH_ANON:
+                    preMbsterSecret = this.clientKeyExchbnge
+                                            (new ECDHClientKeyExchbnge(input));
+                    brebk;
+                defbult:
                     throw new SSLProtocolException
-                        ("Unrecognized key exchange: " + keyExchange);
+                        ("Unrecognized key exchbnge: " + keyExchbnge);
                 }
 
                 //
-                // All keys are calculated from the premaster secret
-                // and the exchanged nonces in the same way.
+                // All keys bre cblculbted from the prembster secret
+                // bnd the exchbnged nonces in the sbme wby.
                 //
-                calculateKeys(preMasterSecret, clientRequestedVersion);
-                break;
+                cblculbteKeys(preMbsterSecret, clientRequestedVersion);
+                brebk;
 
-            case HandshakeMessage.ht_certificate_verify:
-                this.clientCertificateVerify(new CertificateVerify(input,
-                            localSupportedSignAlgs, protocolVersion));
-                break;
+            cbse HbndshbkeMessbge.ht_certificbte_verify:
+                this.clientCertificbteVerify(new CertificbteVerify(input,
+                            locblSupportedSignAlgs, protocolVersion));
+                brebk;
 
-            case HandshakeMessage.ht_finished:
+            cbse HbndshbkeMessbge.ht_finished:
                 this.clientFinished(
                     new Finished(protocolVersion, input, cipherSuite));
-                break;
+                brebk;
 
-            default:
+            defbult:
                 throw new SSLProtocolException(
-                        "Illegal server handshake msg, " + type);
+                        "Illegbl server hbndshbke msg, " + type);
         }
 
         //
-        // Move state machine forward if the message handling
-        // code didn't already do so
+        // Move stbte mbchine forwbrd if the messbge hbndling
+        // code didn't blrebdy do so
         //
-        if (state < type) {
-            if(type == HandshakeMessage.ht_certificate_verify) {
-                state = type + 2;    // an annoying special case
+        if (stbte < type) {
+            if(type == HbndshbkeMessbge.ht_certificbte_verify) {
+                stbte = type + 2;    // bn bnnoying specibl cbse
             } else {
-                state = type;
+                stbte = type;
             }
         }
     }
 
 
     /*
-     * ClientHello presents the server with a bunch of options, to which the
-     * server replies with a ServerHello listing the ones which this session
-     * will use.  If needed, it also writes its Certificate plus in some cases
-     * a ServerKeyExchange message.  It may also write a CertificateRequest,
-     * to elicit a client certificate.
+     * ClientHello presents the server with b bunch of options, to which the
+     * server replies with b ServerHello listing the ones which this session
+     * will use.  If needed, it blso writes its Certificbte plus in some cbses
+     * b ServerKeyExchbnge messbge.  It mby blso write b CertificbteRequest,
+     * to elicit b client certificbte.
      *
-     * All these messages are terminated by a ServerHelloDone message.  In
-     * most cases, all this can be sent in a single Record.
+     * All these messbges bre terminbted by b ServerHelloDone messbge.  In
+     * most cbses, bll this cbn be sent in b single Record.
      */
-    private void clientHello(ClientHello mesg) throws IOException {
-        if (debug != null && Debug.isOn("handshake")) {
+    privbte void clientHello(ClientHello mesg) throws IOException {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
 
-        // Reject client initiated renegotiation?
+        // Reject client initibted renegotibtion?
         //
-        // If server side should reject client-initiated renegotiation,
-        // send an alert_handshake_failure fatal alert, not a no_renegotiation
-        // warning alert (no_renegotiation must be a warning: RFC 2246).
-        // no_renegotiation might seem more natural at first, but warnings
-        // are not appropriate because the sending party does not know how
-        // the receiving party will behave.  This state must be treated as
-        // a fatal server condition.
+        // If server side should reject client-initibted renegotibtion,
+        // send bn blert_hbndshbke_fbilure fbtbl blert, not b no_renegotibtion
+        // wbrning blert (no_renegotibtion must be b wbrning: RFC 2246).
+        // no_renegotibtion might seem more nbturbl bt first, but wbrnings
+        // bre not bppropribte becbuse the sending pbrty does not know how
+        // the receiving pbrty will behbve.  This stbte must be trebted bs
+        // b fbtbl server condition.
         //
-        // This will not have any impact on server initiated renegotiation.
-        if (rejectClientInitiatedRenego && !isInitialHandshake &&
-                state != HandshakeMessage.ht_hello_request) {
-            fatalSE(Alerts.alert_handshake_failure,
-                "Client initiated renegotiation is not allowed");
+        // This will not hbve bny impbct on server initibted renegotibtion.
+        if (rejectClientInitibtedRenego && !isInitiblHbndshbke &&
+                stbte != HbndshbkeMessbge.ht_hello_request) {
+            fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                "Client initibted renegotibtion is not bllowed");
         }
 
-        // check the server name indication if required
-        ServerNameExtension clientHelloSNIExt = (ServerNameExtension)
+        // check the server nbme indicbtion if required
+        ServerNbmeExtension clientHelloSNIExt = (ServerNbmeExtension)
                     mesg.extensions.get(ExtensionType.EXT_SERVER_NAME);
-        if (!sniMatchers.isEmpty()) {
+        if (!sniMbtchers.isEmpty()) {
             // we do not reject client without SNI extension
             if (clientHelloSNIExt != null &&
-                        !clientHelloSNIExt.isMatched(sniMatchers)) {
-                fatalSE(Alerts.alert_unrecognized_name,
-                    "Unrecognized server name indication");
+                        !clientHelloSNIExt.isMbtched(sniMbtchers)) {
+                fbtblSE(Alerts.blert_unrecognized_nbme,
+                    "Unrecognized server nbme indicbtion");
             }
         }
 
-        // Does the message include security renegotiation indication?
-        boolean renegotiationIndicated = false;
+        // Does the messbge include security renegotibtion indicbtion?
+        boolebn renegotibtionIndicbted = fblse;
 
         // check the TLS_EMPTY_RENEGOTIATION_INFO_SCSV
         CipherSuiteList cipherSuites = mesg.getCipherSuites();
-        if (cipherSuites.contains(CipherSuite.C_SCSV)) {
-            renegotiationIndicated = true;
-            if (isInitialHandshake) {
-                secureRenegotiation = true;
+        if (cipherSuites.contbins(CipherSuite.C_SCSV)) {
+            renegotibtionIndicbted = true;
+            if (isInitiblHbndshbke) {
+                secureRenegotibtion = true;
             } else {
-                // abort the handshake with a fatal handshake_failure alert
-                if (secureRenegotiation) {
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "The SCSV is present in a secure renegotiation");
+                // bbort the hbndshbke with b fbtbl hbndshbke_fbilure blert
+                if (secureRenegotibtion) {
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "The SCSV is present in b secure renegotibtion");
                 } else {
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "The SCSV is present in a insecure renegotiation");
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "The SCSV is present in b insecure renegotibtion");
                 }
             }
         }
 
-        // check the "renegotiation_info" extension
-        RenegotiationInfoExtension clientHelloRI = (RenegotiationInfoExtension)
+        // check the "renegotibtion_info" extension
+        RenegotibtionInfoExtension clientHelloRI = (RenegotibtionInfoExtension)
                     mesg.extensions.get(ExtensionType.EXT_RENEGOTIATION_INFO);
         if (clientHelloRI != null) {
-            renegotiationIndicated = true;
-            if (isInitialHandshake) {
-                // verify the length of the "renegotiated_connection" field
+            renegotibtionIndicbted = true;
+            if (isInitiblHbndshbke) {
+                // verify the length of the "renegotibted_connection" field
                 if (!clientHelloRI.isEmpty()) {
-                    // abort the handshake with a fatal handshake_failure alert
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "The renegotiation_info field is not empty");
+                    // bbort the hbndshbke with b fbtbl hbndshbke_fbilure blert
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "The renegotibtion_info field is not empty");
                 }
 
-                secureRenegotiation = true;
+                secureRenegotibtion = true;
             } else {
-                if (!secureRenegotiation) {
-                    // unexpected RI extension for insecure renegotiation,
-                    // abort the handshake with a fatal handshake_failure alert
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "The renegotiation_info is present in a insecure " +
-                        "renegotiation");
+                if (!secureRenegotibtion) {
+                    // unexpected RI extension for insecure renegotibtion,
+                    // bbort the hbndshbke with b fbtbl hbndshbke_fbilure blert
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "The renegotibtion_info is present in b insecure " +
+                        "renegotibtion");
                 }
 
-                // verify the client_verify_data value
-                if (!Arrays.equals(clientVerifyData,
-                                clientHelloRI.getRenegotiatedConnection())) {
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "Incorrect verify data in ClientHello " +
-                        "renegotiation_info message");
+                // verify the client_verify_dbtb vblue
+                if (!Arrbys.equbls(clientVerifyDbtb,
+                                clientHelloRI.getRenegotibtedConnection())) {
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "Incorrect verify dbtb in ClientHello " +
+                        "renegotibtion_info messbge");
                 }
             }
-        } else if (!isInitialHandshake && secureRenegotiation) {
-           // if the connection's "secure_renegotiation" flag is set to TRUE
-           // and the "renegotiation_info" extension is not present, abort
-           // the handshake.
-            fatalSE(Alerts.alert_handshake_failure,
-                        "Inconsistent secure renegotiation indication");
+        } else if (!isInitiblHbndshbke && secureRenegotibtion) {
+           // if the connection's "secure_renegotibtion" flbg is set to TRUE
+           // bnd the "renegotibtion_info" extension is not present, bbort
+           // the hbndshbke.
+            fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "Inconsistent secure renegotibtion indicbtion");
         }
 
-        // if there is no security renegotiation indication or the previous
-        // handshake is insecure.
-        if (!renegotiationIndicated || !secureRenegotiation) {
-            if (isInitialHandshake) {
-                if (!allowLegacyHelloMessages) {
-                    // abort the handshake with a fatal handshake_failure alert
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "Failed to negotiate the use of secure renegotiation");
+        // if there is no security renegotibtion indicbtion or the previous
+        // hbndshbke is insecure.
+        if (!renegotibtionIndicbted || !secureRenegotibtion) {
+            if (isInitiblHbndshbke) {
+                if (!bllowLegbcyHelloMessbges) {
+                    // bbort the hbndshbke with b fbtbl hbndshbke_fbilure blert
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "Fbiled to negotibte the use of secure renegotibtion");
                 }
 
-                // continue with legacy ClientHello
-                if (debug != null && Debug.isOn("handshake")) {
-                    System.out.println("Warning: No renegotiation " +
-                        "indication in ClientHello, allow legacy ClientHello");
+                // continue with legbcy ClientHello
+                if (debug != null && Debug.isOn("hbndshbke")) {
+                    System.out.println("Wbrning: No renegotibtion " +
+                        "indicbtion in ClientHello, bllow legbcy ClientHello");
                 }
-            } else if (!allowUnsafeRenegotiation) {
-                // abort the handshake
-                if (activeProtocolVersion.v >= ProtocolVersion.TLS10.v) {
-                    // respond with a no_renegotiation warning
-                    warningSE(Alerts.alert_no_renegotiation);
+            } else if (!bllowUnsbfeRenegotibtion) {
+                // bbort the hbndshbke
+                if (bctiveProtocolVersion.v >= ProtocolVersion.TLS10.v) {
+                    // respond with b no_renegotibtion wbrning
+                    wbrningSE(Alerts.blert_no_renegotibtion);
 
-                    // invalidate the handshake so that the caller can
+                    // invblidbte the hbndshbke so thbt the cbller cbn
                     // dispose this object.
-                    invalidated = true;
+                    invblidbted = true;
 
-                    // If there is still unread block in the handshake
-                    // input stream, it would be truncated with the disposal
-                    // and the next handshake message will become incomplete.
+                    // If there is still unrebd block in the hbndshbke
+                    // input strebm, it would be truncbted with the disposbl
+                    // bnd the next hbndshbke messbge will become incomplete.
                     //
-                    // However, according to SSL/TLS specifications, no more
-                    // handshake message could immediately follow ClientHello
-                    // or HelloRequest. But in case of any improper messages,
-                    // we'd better check to ensure there is no remaining bytes
-                    // in the handshake input stream.
-                    if (input.available() > 0) {
-                        fatalSE(Alerts.alert_unexpected_message,
-                            "ClientHello followed by an unexpected  " +
-                            "handshake message");
+                    // However, bccording to SSL/TLS specificbtions, no more
+                    // hbndshbke messbge could immedibtely follow ClientHello
+                    // or HelloRequest. But in cbse of bny improper messbges,
+                    // we'd better check to ensure there is no rembining bytes
+                    // in the hbndshbke input strebm.
+                    if (input.bvbilbble() > 0) {
+                        fbtblSE(Alerts.blert_unexpected_messbge,
+                            "ClientHello followed by bn unexpected  " +
+                            "hbndshbke messbge");
                     }
 
                     return;
                 } else {
-                    // For SSLv3, send the handshake_failure fatal error.
-                    // Note that SSLv3 does not define a no_renegotiation
-                    // alert like TLSv1. However we cannot ignore the message
-                    // simply, otherwise the other side was waiting for a
-                    // response that would never come.
-                    fatalSE(Alerts.alert_handshake_failure,
-                        "Renegotiation is not allowed");
+                    // For SSLv3, send the hbndshbke_fbilure fbtbl error.
+                    // Note thbt SSLv3 does not define b no_renegotibtion
+                    // blert like TLSv1. However we cbnnot ignore the messbge
+                    // simply, otherwise the other side wbs wbiting for b
+                    // response thbt would never come.
+                    fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "Renegotibtion is not bllowed");
                 }
-            } else {   // !isInitialHandshake && allowUnsafeRenegotiation
-                // continue with unsafe renegotiation.
-                if (debug != null && Debug.isOn("handshake")) {
+            } else {   // !isInitiblHbndshbke && bllowUnsbfeRenegotibtion
+                // continue with unsbfe renegotibtion.
+                if (debug != null && Debug.isOn("hbndshbke")) {
                     System.out.println(
-                            "Warning: continue with insecure renegotiation");
+                            "Wbrning: continue with insecure renegotibtion");
                 }
             }
         }
 
         /*
-         * Always make sure this entire record has been digested before we
-         * start emitting output, to ensure correct digesting order.
+         * Alwbys mbke sure this entire record hbs been digested before we
+         * stbrt emitting output, to ensure correct digesting order.
          */
         input.digestNow();
 
         /*
-         * FIRST, construct the ServerHello using the options and priorities
-         * from the ClientHello.  Update the (pending) cipher spec as we do
-         * so, and save the client's version to protect against rollback
-         * attacks.
+         * FIRST, construct the ServerHello using the options bnd priorities
+         * from the ClientHello.  Updbte the (pending) cipher spec bs we do
+         * so, bnd sbve the client's version to protect bgbinst rollbbck
+         * bttbcks.
          *
-         * There are a bunch of minor tasks here, and one major one: deciding
-         * if the short or the full handshake sequence will be used.
+         * There bre b bunch of minor tbsks here, bnd one mbjor one: deciding
+         * if the short or the full hbndshbke sequence will be used.
          */
         ServerHello m1 = new ServerHello();
 
         clientRequestedVersion = mesg.protocolVersion;
 
-        // select a proper protocol version.
+        // select b proper protocol version.
         ProtocolVersion selectedVersion =
                selectProtocolVersion(clientRequestedVersion);
         if (selectedVersion == null ||
                 selectedVersion.v == ProtocolVersion.SSL20Hello.v) {
-            fatalSE(Alerts.alert_handshake_failure,
+            fbtblSE(Alerts.blert_hbndshbke_fbilure,
                 "Client requested protocol " + clientRequestedVersion +
-                " not enabled or not supported");
+                " not enbbled or not supported");
         }
 
-        handshakeHash.protocolDetermined(selectedVersion);
+        hbndshbkeHbsh.protocolDetermined(selectedVersion);
         setVersion(selectedVersion);
 
         m1.protocolVersion = protocolVersion;
 
         //
-        // random ... save client and server values for later use
-        // in computing the master secret (from pre-master secret)
-        // and thence the other crypto keys.
+        // rbndom ... sbve client bnd server vblues for lbter use
+        // in computing the mbster secret (from pre-mbster secret)
+        // bnd thence the other crypto keys.
         //
-        // NOTE:  this use of three inputs to generating _each_ set
-        // of ciphers slows things down, but it does increase the
-        // security since each connection in the session can hold
-        // its own authenticated (and strong) keys.  One could make
-        // creation of a session a rare thing...
+        // NOTE:  this use of three inputs to generbting _ebch_ set
+        // of ciphers slows things down, but it does increbse the
+        // security since ebch connection in the session cbn hold
+        // its own buthenticbted (bnd strong) keys.  One could mbke
+        // crebtion of b session b rbre thing...
         //
-        clnt_random = mesg.clnt_random;
-        svr_random = new RandomCookie(sslContext.getSecureRandom());
-        m1.svr_random = svr_random;
+        clnt_rbndom = mesg.clnt_rbndom;
+        svr_rbndom = new RbndomCookie(sslContext.getSecureRbndom());
+        m1.svr_rbndom = svr_rbndom;
 
-        session = null; // forget about the current session
+        session = null; // forget bbout the current session
         //
-        // Here we go down either of two paths:  (a) the fast one, where
-        // the client's asked to rejoin an existing session, and the server
-        // permits this; (b) the other one, where a new session is created.
+        // Here we go down either of two pbths:  (b) the fbst one, where
+        // the client's bsked to rejoin bn existing session, bnd the server
+        // permits this; (b) the other one, where b new session is crebted.
         //
         if (mesg.sessionId.length() != 0) {
-            // client is trying to resume a session, let's see...
+            // client is trying to resume b session, let's see...
 
             SSLSessionImpl previous = ((SSLSessionContextImpl)sslContext
                         .engineGetServerSessionContext())
                         .get(mesg.sessionId.getId());
             //
-            // Check if we can use the fast path, resuming a session.  We
-            // can do so iff we have a valid record for that session, and
-            // the cipher suite for that session was on the list which the
-            // client requested, and if we're not forgetting any needed
-            // authentication on the part of the client.
+            // Check if we cbn use the fbst pbth, resuming b session.  We
+            // cbn do so iff we hbve b vblid record for thbt session, bnd
+            // the cipher suite for thbt session wbs on the list which the
+            // client requested, bnd if we're not forgetting bny needed
+            // buthenticbtion on the pbrt of the client.
             //
             if (previous != null) {
-                resumingSession = previous.isRejoinable();
+                resumingSession = previous.isRejoinbble();
 
                 if (resumingSession) {
                     ProtocolVersion oldVersion = previous.getProtocolVersion();
-                    // cannot resume session with different version
+                    // cbnnot resume session with different version
                     if (oldVersion != protocolVersion) {
-                        resumingSession = false;
+                        resumingSession = fblse;
                     }
                 }
 
-                // cannot resume session with different server name indication
+                // cbnnot resume session with different server nbme indicbtion
                 if (resumingSession) {
-                    List<SNIServerName> oldServerNames =
-                            previous.getRequestedServerNames();
+                    List<SNIServerNbme> oldServerNbmes =
+                            previous.getRequestedServerNbmes();
                     if (clientHelloSNIExt != null) {
-                        if (!clientHelloSNIExt.isIdentical(oldServerNames)) {
-                            resumingSession = false;
+                        if (!clientHelloSNIExt.isIdenticbl(oldServerNbmes)) {
+                            resumingSession = fblse;
                         }
-                    } else if (!oldServerNames.isEmpty()) {
-                        resumingSession = false;
+                    } else if (!oldServerNbmes.isEmpty()) {
+                        resumingSession = fblse;
                     }
 
                     if (!resumingSession &&
-                            debug != null && Debug.isOn("handshake")) {
+                            debug != null && Debug.isOn("hbndshbke")) {
                         System.out.println(
-                            "The requested server name indication " +
-                            "is not identical to the previous one");
+                            "The requested server nbme indicbtion " +
+                            "is not identicbl to the previous one");
                     }
                 }
 
                 if (resumingSession &&
-                        (doClientAuth == SSLEngineImpl.clauth_required)) {
+                        (doClientAuth == SSLEngineImpl.clbuth_required)) {
                     try {
-                        previous.getPeerPrincipal();
-                    } catch (SSLPeerUnverifiedException e) {
-                        resumingSession = false;
+                        previous.getPeerPrincipbl();
+                    } cbtch (SSLPeerUnverifiedException e) {
+                        resumingSession = fblse;
                     }
                 }
 
-                // validate subject identity
+                // vblidbte subject identity
                 if (resumingSession) {
                     CipherSuite suite = previous.getSuite();
-                    if (suite.keyExchange == K_KRB5 ||
-                        suite.keyExchange == K_KRB5_EXPORT) {
-                        Principal localPrincipal = previous.getLocalPrincipal();
+                    if (suite.keyExchbnge == K_KRB5 ||
+                        suite.keyExchbnge == K_KRB5_EXPORT) {
+                        Principbl locblPrincipbl = previous.getLocblPrincipbl();
 
                         Subject subject = null;
                         try {
@@ -597,49 +597,49 @@ final class ServerHandshaker extends Handshaker {
                                     return
                                         Krb5Helper.getServerSubject(getAccSE());
                             }});
-                        } catch (PrivilegedActionException e) {
+                        } cbtch (PrivilegedActionException e) {
                             subject = null;
                             if (debug != null && Debug.isOn("session")) {
-                                System.out.println("Attempt to obtain" +
-                                                " subject failed!");
+                                System.out.println("Attempt to obtbin" +
+                                                " subject fbiled!");
                             }
                         }
 
                         if (subject != null) {
-                            // Eliminate dependency on KerberosPrincipal
-                            if (Krb5Helper.isRelated(subject, localPrincipal)) {
+                            // Eliminbte dependency on KerberosPrincipbl
+                            if (Krb5Helper.isRelbted(subject, locblPrincipbl)) {
                                 if (debug != null && Debug.isOn("session"))
-                                    System.out.println("Subject can" +
+                                    System.out.println("Subject cbn" +
                                             " provide creds for princ");
                             } else {
-                                resumingSession = false;
+                                resumingSession = fblse;
                                 if (debug != null && Debug.isOn("session"))
-                                    System.out.println("Subject cannot" +
+                                    System.out.println("Subject cbnnot" +
                                             " provide creds for princ");
                             }
                         } else {
-                            resumingSession = false;
+                            resumingSession = fblse;
                             if (debug != null && Debug.isOn("session"))
-                                System.out.println("Kerberos credentials are" +
+                                System.out.println("Kerberos credentibls bre" +
                                     " not present in the current Subject;" +
                                     " check if " +
-                                    " javax.security.auth.useSubjectAsCreds" +
-                                    " system property has been set to false");
+                                    " jbvbx.security.buth.useSubjectAsCreds" +
+                                    " system property hbs been set to fblse");
                         }
                     }
                 }
 
                 if (resumingSession) {
                     CipherSuite suite = previous.getSuite();
-                    // verify that the ciphersuite from the cached session
-                    // is in the list of client requested ciphersuites and
-                    // we have it enabled
-                    if ((isNegotiable(suite) == false) ||
-                            (mesg.getCipherSuites().contains(suite) == false)) {
-                        resumingSession = false;
+                    // verify thbt the ciphersuite from the cbched session
+                    // is in the list of client requested ciphersuites bnd
+                    // we hbve it enbbled
+                    if ((isNegotibble(suite) == fblse) ||
+                            (mesg.getCipherSuites().contbins(suite) == fblse)) {
+                        resumingSession = fblse;
                     } else {
                         // everything looks ok, set the ciphersuite
-                        // this should be done last when we are sure we
+                        // this should be done lbst when we bre sure we
                         // will resume
                         setCipherSuite(suite);
                     }
@@ -648,7 +648,7 @@ final class ServerHandshaker extends Handshaker {
                 if (resumingSession) {
                     session = previous;
                     if (debug != null &&
-                        (Debug.isOn("handshake") || Debug.isOn("session"))) {
+                        (Debug.isOn("hbndshbke") || Debug.isOn("session"))) {
                         System.out.println("%% Resuming " + session);
                     }
                 }
@@ -656,331 +656,331 @@ final class ServerHandshaker extends Handshaker {
         } // else client did not try to resume
 
         //
-        // If client hasn't specified a session we can resume, start a
-        // new one and choose its cipher suite and compression options.
-        // Unless new session creation is disabled for this connection!
+        // If client hbsn't specified b session we cbn resume, stbrt b
+        // new one bnd choose its cipher suite bnd compression options.
+        // Unless new session crebtion is disbbled for this connection!
         //
         if (session == null) {
-            if (!enableNewSession) {
-                throw new SSLException("Client did not resume a session");
+            if (!enbbleNewSession) {
+                throw new SSLException("Client did not resume b session");
             }
 
             supportedCurves = (SupportedEllipticCurvesExtension)
                         mesg.extensions.get(ExtensionType.EXT_ELLIPTIC_CURVES);
 
-            // We only need to handle the "signature_algorithm" extension
-            // for full handshakes and TLS 1.2 or later.
+            // We only need to hbndle the "signbture_blgorithm" extension
+            // for full hbndshbkes bnd TLS 1.2 or lbter.
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                SignatureAlgorithmsExtension signAlgs =
-                    (SignatureAlgorithmsExtension)mesg.extensions.get(
+                SignbtureAlgorithmsExtension signAlgs =
+                    (SignbtureAlgorithmsExtension)mesg.extensions.get(
                                     ExtensionType.EXT_SIGNATURE_ALGORITHMS);
                 if (signAlgs != null) {
-                    Collection<SignatureAndHashAlgorithm> peerSignAlgs =
+                    Collection<SignbtureAndHbshAlgorithm> peerSignAlgs =
                                             signAlgs.getSignAlgorithms();
                     if (peerSignAlgs == null || peerSignAlgs.isEmpty()) {
-                        throw new SSLHandshakeException(
-                            "No peer supported signature algorithms");
+                        throw new SSLHbndshbkeException(
+                            "No peer supported signbture blgorithms");
                     }
 
-                    Collection<SignatureAndHashAlgorithm>
+                    Collection<SignbtureAndHbshAlgorithm>
                         supportedPeerSignAlgs =
-                            SignatureAndHashAlgorithm.getSupportedAlgorithms(
+                            SignbtureAndHbshAlgorithm.getSupportedAlgorithms(
                                                             peerSignAlgs);
                     if (supportedPeerSignAlgs.isEmpty()) {
-                        throw new SSLHandshakeException(
-                            "No supported signature and hash algorithm " +
+                        throw new SSLHbndshbkeException(
+                            "No supported signbture bnd hbsh blgorithm " +
                             "in common");
                     }
 
                     setPeerSupportedSignAlgs(supportedPeerSignAlgs);
-                } // else, need to use peer implicit supported signature algs
+                } // else, need to use peer implicit supported signbture blgs
             }
 
             session = new SSLSessionImpl(protocolVersion, CipherSuite.C_NULL,
-                        getLocalSupportedSignAlgs(),
-                        sslContext.getSecureRandom(),
+                        getLocblSupportedSignAlgs(),
+                        sslContext.getSecureRbndom(),
                         getHostAddressSE(), getPortSE());
 
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
                 if (peerSupportedSignAlgs != null) {
-                    session.setPeerSupportedSignatureAlgorithms(
+                    session.setPeerSupportedSignbtureAlgorithms(
                             peerSupportedSignAlgs);
-                }   // else, we will set the implicit peer supported signature
-                    // algorithms in chooseCipherSuite()
+                }   // else, we will set the implicit peer supported signbture
+                    // blgorithms in chooseCipherSuite()
             }
 
-            // set the server name indication in the session
-            List<SNIServerName> clientHelloSNI =
-                    Collections.<SNIServerName>emptyList();
+            // set the server nbme indicbtion in the session
+            List<SNIServerNbme> clientHelloSNI =
+                    Collections.<SNIServerNbme>emptyList();
             if (clientHelloSNIExt != null) {
-                clientHelloSNI = clientHelloSNIExt.getServerNames();
+                clientHelloSNI = clientHelloSNIExt.getServerNbmes();
             }
-            session.setRequestedServerNames(clientHelloSNI);
+            session.setRequestedServerNbmes(clientHelloSNI);
 
-            // set the handshake session
-            setHandshakeSessionSE(session);
+            // set the hbndshbke session
+            setHbndshbkeSessionSE(session);
 
-            // choose cipher suite and corresponding private key
+            // choose cipher suite bnd corresponding privbte key
             chooseCipherSuite(mesg);
 
             session.setSuite(cipherSuite);
-            session.setLocalPrivateKey(privateKey);
+            session.setLocblPrivbteKey(privbteKey);
 
             // chooseCompression(mesg);
         } else {
-            // set the handshake session
-            setHandshakeSessionSE(session);
+            // set the hbndshbke session
+            setHbndshbkeSessionSE(session);
         }
 
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            handshakeHash.setFinishedAlg(cipherSuite.prfAlg.getPRFHashAlg());
+            hbndshbkeHbsh.setFinishedAlg(cipherSuite.prfAlg.getPRFHbshAlg());
         }
 
         m1.cipherSuite = cipherSuite;
         m1.sessionId = session.getSessionId();
         m1.compression_method = session.getCompression();
 
-        if (secureRenegotiation) {
-            // For ServerHellos that are initial handshakes, then the
-            // "renegotiated_connection" field in "renegotiation_info"
+        if (secureRenegotibtion) {
+            // For ServerHellos thbt bre initibl hbndshbkes, then the
+            // "renegotibted_connection" field in "renegotibtion_info"
             // extension is of zero length.
             //
-            // For ServerHellos that are renegotiating, this field contains
-            // the concatenation of client_verify_data and server_verify_data.
+            // For ServerHellos thbt bre renegotibting, this field contbins
+            // the concbtenbtion of client_verify_dbtb bnd server_verify_dbtb.
             //
-            // Note that for initial handshakes, both the clientVerifyData
-            // variable and serverVerifyData variable are of zero length.
-            HelloExtension serverHelloRI = new RenegotiationInfoExtension(
-                                        clientVerifyData, serverVerifyData);
-            m1.extensions.add(serverHelloRI);
+            // Note thbt for initibl hbndshbkes, both the clientVerifyDbtb
+            // vbribble bnd serverVerifyDbtb vbribble bre of zero length.
+            HelloExtension serverHelloRI = new RenegotibtionInfoExtension(
+                                        clientVerifyDbtb, serverVerifyDbtb);
+            m1.extensions.bdd(serverHelloRI);
         }
 
-        if (!sniMatchers.isEmpty() && clientHelloSNIExt != null) {
-            // When resuming a session, the server MUST NOT include a
-            // server_name extension in the server hello.
+        if (!sniMbtchers.isEmpty() && clientHelloSNIExt != null) {
+            // When resuming b session, the server MUST NOT include b
+            // server_nbme extension in the server hello.
             if (!resumingSession) {
-                ServerNameExtension serverHelloSNI = new ServerNameExtension();
-                m1.extensions.add(serverHelloSNI);
+                ServerNbmeExtension serverHelloSNI = new ServerNbmeExtension();
+                m1.extensions.bdd(serverHelloSNI);
             }
         }
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             m1.print(System.out);
             System.out.println("Cipher suite:  " + session.getSuite());
         }
         m1.write(output);
 
         //
-        // If we are resuming a session, we finish writing handshake
-        // messages right now and then finish.
+        // If we bre resuming b session, we finish writing hbndshbke
+        // messbges right now bnd then finish.
         //
         if (resumingSession) {
-            calculateConnectionKeys(session.getMasterSecret());
-            sendChangeCipherAndFinish(false);
+            cblculbteConnectionKeys(session.getMbsterSecret());
+            sendChbngeCipherAndFinish(fblse);
             return;
         }
 
 
         /*
-         * SECOND, write the server Certificate(s) if we need to.
+         * SECOND, write the server Certificbte(s) if we need to.
          *
-         * NOTE:  while an "anonymous RSA" mode is explicitly allowed by
-         * the protocol, we can't support it since all of the SSL flavors
-         * defined in the protocol spec are explicitly stated to require
-         * using RSA certificates.
+         * NOTE:  while bn "bnonymous RSA" mode is explicitly bllowed by
+         * the protocol, we cbn't support it since bll of the SSL flbvors
+         * defined in the protocol spec bre explicitly stbted to require
+         * using RSA certificbtes.
          */
-        if (keyExchange == K_KRB5 || keyExchange == K_KRB5_EXPORT) {
-            // Server certificates are omitted for Kerberos ciphers
+        if (keyExchbnge == K_KRB5 || keyExchbnge == K_KRB5_EXPORT) {
+            // Server certificbtes bre omitted for Kerberos ciphers
 
-        } else if ((keyExchange != K_DH_ANON) && (keyExchange != K_ECDH_ANON)) {
+        } else if ((keyExchbnge != K_DH_ANON) && (keyExchbnge != K_ECDH_ANON)) {
             if (certs == null) {
-                throw new RuntimeException("no certificates");
+                throw new RuntimeException("no certificbtes");
             }
 
-            CertificateMsg m2 = new CertificateMsg(certs);
+            CertificbteMsg m2 = new CertificbteMsg(certs);
 
             /*
-             * Set local certs in the SSLSession, output
-             * debug info, and then actually write to the client.
+             * Set locbl certs in the SSLSession, output
+             * debug info, bnd then bctublly write to the client.
              */
-            session.setLocalCertificates(certs);
-            if (debug != null && Debug.isOn("handshake")) {
+            session.setLocblCertificbtes(certs);
+            if (debug != null && Debug.isOn("hbndshbke")) {
                 m2.print(System.out);
             }
             m2.write(output);
 
-            // XXX has some side effects with OS TCP buffering,
-            // leave it out for now
+            // XXX hbs some side effects with OS TCP buffering,
+            // lebve it out for now
 
-            // let client verify chain in the meantime...
+            // let client verify chbin in the mebntime...
             // output.flush();
         } else {
             if (certs != null) {
-                throw new RuntimeException("anonymous keyexchange with certs");
+                throw new RuntimeException("bnonymous keyexchbnge with certs");
             }
         }
 
         /*
-         * THIRD, the ServerKeyExchange message ... iff it's needed.
+         * THIRD, the ServerKeyExchbnge messbge ... iff it's needed.
          *
-         * It's usually needed unless there's an encryption-capable
-         * RSA cert, or a D-H cert.  The notable exception is that
-         * exportable ciphers used with big RSA keys need to downgrade
+         * It's usublly needed unless there's bn encryption-cbpbble
+         * RSA cert, or b D-H cert.  The notbble exception is thbt
+         * exportbble ciphers used with big RSA keys need to downgrbde
          * to use short RSA keys, even when the key/cert encrypts OK.
          */
 
-        ServerKeyExchange m3;
-        switch (keyExchange) {
-        case K_RSA:
-        case K_KRB5:
-        case K_KRB5_EXPORT:
-            // no server key exchange for RSA or KRB5 ciphersuites
+        ServerKeyExchbnge m3;
+        switch (keyExchbnge) {
+        cbse K_RSA:
+        cbse K_KRB5:
+        cbse K_KRB5_EXPORT:
+            // no server key exchbnge for RSA or KRB5 ciphersuites
             m3 = null;
-            break;
-        case K_RSA_EXPORT:
+            brebk;
+        cbse K_RSA_EXPORT:
             if (JsseJce.getRSAKeyLength(certs[0].getPublicKey()) > 512) {
                 try {
-                    m3 = new RSA_ServerKeyExchange(
-                        tempPublicKey, privateKey,
-                        clnt_random, svr_random,
-                        sslContext.getSecureRandom());
-                    privateKey = tempPrivateKey;
-                } catch (GeneralSecurityException e) {
+                    m3 = new RSA_ServerKeyExchbnge(
+                        tempPublicKey, privbteKey,
+                        clnt_rbndom, svr_rbndom,
+                        sslContext.getSecureRbndom());
+                    privbteKey = tempPrivbteKey;
+                } cbtch (GenerblSecurityException e) {
                     throwSSLException
-                        ("Error generating RSA server key exchange", e);
-                    m3 = null; // make compiler happy
+                        ("Error generbting RSA server key exchbnge", e);
+                    m3 = null; // mbke compiler hbppy
                 }
             } else {
-                // RSA_EXPORT with short key, don't need ServerKeyExchange
+                // RSA_EXPORT with short key, don't need ServerKeyExchbnge
                 m3 = null;
             }
-            break;
-        case K_DHE_RSA:
-        case K_DHE_DSS:
+            brebk;
+        cbse K_DHE_RSA:
+        cbse K_DHE_DSS:
             try {
-                m3 = new DH_ServerKeyExchange(dh,
-                    privateKey,
-                    clnt_random.random_bytes,
-                    svr_random.random_bytes,
-                    sslContext.getSecureRandom(),
-                    preferableSignatureAlgorithm,
+                m3 = new DH_ServerKeyExchbnge(dh,
+                    privbteKey,
+                    clnt_rbndom.rbndom_bytes,
+                    svr_rbndom.rbndom_bytes,
+                    sslContext.getSecureRbndom(),
+                    preferbbleSignbtureAlgorithm,
                     protocolVersion);
-            } catch (GeneralSecurityException e) {
-                throwSSLException("Error generating DH server key exchange", e);
-                m3 = null; // make compiler happy
+            } cbtch (GenerblSecurityException e) {
+                throwSSLException("Error generbting DH server key exchbnge", e);
+                m3 = null; // mbke compiler hbppy
             }
-            break;
-        case K_DH_ANON:
-            m3 = new DH_ServerKeyExchange(dh, protocolVersion);
-            break;
-        case K_ECDHE_RSA:
-        case K_ECDHE_ECDSA:
-        case K_ECDH_ANON:
+            brebk;
+        cbse K_DH_ANON:
+            m3 = new DH_ServerKeyExchbnge(dh, protocolVersion);
+            brebk;
+        cbse K_ECDHE_RSA:
+        cbse K_ECDHE_ECDSA:
+        cbse K_ECDH_ANON:
             try {
-                m3 = new ECDH_ServerKeyExchange(ecdh,
-                    privateKey,
-                    clnt_random.random_bytes,
-                    svr_random.random_bytes,
-                    sslContext.getSecureRandom(),
-                    preferableSignatureAlgorithm,
+                m3 = new ECDH_ServerKeyExchbnge(ecdh,
+                    privbteKey,
+                    clnt_rbndom.rbndom_bytes,
+                    svr_rbndom.rbndom_bytes,
+                    sslContext.getSecureRbndom(),
+                    preferbbleSignbtureAlgorithm,
                     protocolVersion);
-            } catch (GeneralSecurityException e) {
+            } cbtch (GenerblSecurityException e) {
                 throwSSLException(
-                    "Error generating ECDH server key exchange", e);
-                m3 = null; // make compiler happy
+                    "Error generbting ECDH server key exchbnge", e);
+                m3 = null; // mbke compiler hbppy
             }
-            break;
-        case K_ECDH_RSA:
-        case K_ECDH_ECDSA:
-            // ServerKeyExchange not used for fixed ECDH
+            brebk;
+        cbse K_ECDH_RSA:
+        cbse K_ECDH_ECDSA:
+            // ServerKeyExchbnge not used for fixed ECDH
             m3 = null;
-            break;
-        default:
-            throw new RuntimeException("internal error: " + keyExchange);
+            brebk;
+        defbult:
+            throw new RuntimeException("internbl error: " + keyExchbnge);
         }
         if (m3 != null) {
-            if (debug != null && Debug.isOn("handshake")) {
+            if (debug != null && Debug.isOn("hbndshbke")) {
                 m3.print(System.out);
             }
             m3.write(output);
         }
 
         //
-        // FOURTH, the CertificateRequest message.  The details of
-        // the message can be affected by the key exchange algorithm
-        // in use.  For example, certs with fixed Diffie-Hellman keys
-        // are only useful with the DH_DSS and DH_RSA key exchange
-        // algorithms.
+        // FOURTH, the CertificbteRequest messbge.  The detbils of
+        // the messbge cbn be bffected by the key exchbnge blgorithm
+        // in use.  For exbmple, certs with fixed Diffie-Hellmbn keys
+        // bre only useful with the DH_DSS bnd DH_RSA key exchbnge
+        // blgorithms.
         //
-        // Needed only if server requires client to authenticate self.
-        // Illegal for anonymous flavors, so we need to check that.
+        // Needed only if server requires client to buthenticbte self.
+        // Illegbl for bnonymous flbvors, so we need to check thbt.
         //
-        // CertificateRequest is omitted for Kerberos ciphers
-        if (doClientAuth != SSLEngineImpl.clauth_none &&
-                keyExchange != K_DH_ANON && keyExchange != K_ECDH_ANON &&
-                keyExchange != K_KRB5 && keyExchange != K_KRB5_EXPORT) {
+        // CertificbteRequest is omitted for Kerberos ciphers
+        if (doClientAuth != SSLEngineImpl.clbuth_none &&
+                keyExchbnge != K_DH_ANON && keyExchbnge != K_ECDH_ANON &&
+                keyExchbnge != K_KRB5 && keyExchbnge != K_KRB5_EXPORT) {
 
-            CertificateRequest m4;
-            X509Certificate caCerts[];
+            CertificbteRequest m4;
+            X509Certificbte cbCerts[];
 
-            Collection<SignatureAndHashAlgorithm> localSignAlgs = null;
+            Collection<SignbtureAndHbshAlgorithm> locblSignAlgs = null;
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                // We currently use all local upported signature and hash
-                // algorithms. However, to minimize the computation cost
-                // of requested hash algorithms, we may use a restricted
-                // set of signature algorithms in the future.
-                localSignAlgs = getLocalSupportedSignAlgs();
-                if (localSignAlgs.isEmpty()) {
-                    throw new SSLHandshakeException(
-                            "No supported signature algorithm");
+                // We currently use bll locbl upported signbture bnd hbsh
+                // blgorithms. However, to minimize the computbtion cost
+                // of requested hbsh blgorithms, we mby use b restricted
+                // set of signbture blgorithms in the future.
+                locblSignAlgs = getLocblSupportedSignAlgs();
+                if (locblSignAlgs.isEmpty()) {
+                    throw new SSLHbndshbkeException(
+                            "No supported signbture blgorithm");
                 }
 
-                Set<String> localHashAlgs =
-                    SignatureAndHashAlgorithm.getHashAlgorithmNames(
-                        localSignAlgs);
-                if (localHashAlgs.isEmpty()) {
-                    throw new SSLHandshakeException(
-                            "No supported signature algorithm");
+                Set<String> locblHbshAlgs =
+                    SignbtureAndHbshAlgorithm.getHbshAlgorithmNbmes(
+                        locblSignAlgs);
+                if (locblHbshAlgs.isEmpty()) {
+                    throw new SSLHbndshbkeException(
+                            "No supported signbture blgorithm");
                 }
             }
 
-            caCerts = sslContext.getX509TrustManager().getAcceptedIssuers();
-            m4 = new CertificateRequest(caCerts, keyExchange,
-                                            localSignAlgs, protocolVersion);
+            cbCerts = sslContext.getX509TrustMbnbger().getAcceptedIssuers();
+            m4 = new CertificbteRequest(cbCerts, keyExchbnge,
+                                            locblSignAlgs, protocolVersion);
 
-            if (debug != null && Debug.isOn("handshake")) {
+            if (debug != null && Debug.isOn("hbndshbke")) {
                 m4.print(System.out);
             }
             m4.write(output);
         }
 
         /*
-         * FIFTH, say ServerHelloDone.
+         * FIFTH, sby ServerHelloDone.
          */
         ServerHelloDone m5 = new ServerHelloDone();
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             m5.print(System.out);
         }
         m5.write(output);
 
         /*
-         * Flush any buffered messages so the client will see them.
-         * Ideally, all the messages above go in a single network level
-         * message to the client.  Without big Certificate chains, it's
-         * going to be the common case.
+         * Flush bny buffered messbges so the client will see them.
+         * Ideblly, bll the messbges bbove go in b single network level
+         * messbge to the client.  Without big Certificbte chbins, it's
+         * going to be the common cbse.
          */
         output.flush();
     }
 
     /*
-     * Choose cipher suite from among those supported by client. Sets
-     * the cipherSuite and keyExchange variables.
+     * Choose cipher suite from bmong those supported by client. Sets
+     * the cipherSuite bnd keyExchbnge vbribbles.
      */
-    private void chooseCipherSuite(ClientHello mesg) throws IOException {
+    privbte void chooseCipherSuite(ClientHello mesg) throws IOException {
         CipherSuiteList prefered;
         CipherSuiteList proposed;
-        if (preferLocalCipherSuites) {
+        if (preferLocblCipherSuites) {
             prefered = getActiveCipherSuites();
             proposed = mesg.getCipherSuites();
         } else {
@@ -989,860 +989,860 @@ final class ServerHandshaker extends Handshaker {
         }
 
         for (CipherSuite suite : prefered.collection()) {
-            if (isNegotiable(proposed, suite) == false) {
+            if (isNegotibble(proposed, suite) == fblse) {
                 continue;
             }
 
-            if (doClientAuth == SSLEngineImpl.clauth_required) {
-                if ((suite.keyExchange == K_DH_ANON) ||
-                    (suite.keyExchange == K_ECDH_ANON)) {
+            if (doClientAuth == SSLEngineImpl.clbuth_required) {
+                if ((suite.keyExchbnge == K_DH_ANON) ||
+                    (suite.keyExchbnge == K_ECDH_ANON)) {
                     continue;
                 }
             }
-            if (trySetCipherSuite(suite) == false) {
+            if (trySetCipherSuite(suite) == fblse) {
                 continue;
             }
             return;
         }
-        fatalSE(Alerts.alert_handshake_failure, "no cipher suites in common");
+        fbtblSE(Alerts.blert_hbndshbke_fbilure, "no cipher suites in common");
     }
 
     /**
      * Set the given CipherSuite, if possible. Return the result.
-     * The call succeeds if the CipherSuite is available and we have
-     * the necessary certificates to complete the handshake. We don't
-     * check if the CipherSuite is actually enabled.
+     * The cbll succeeds if the CipherSuite is bvbilbble bnd we hbve
+     * the necessbry certificbtes to complete the hbndshbke. We don't
+     * check if the CipherSuite is bctublly enbbled.
      *
-     * If successful, this method also generates ephemeral keys if
-     * required for this ciphersuite. This may take some time, so this
-     * method should only be called if you really want to use the
+     * If successful, this method blso generbtes ephemerbl keys if
+     * required for this ciphersuite. This mby tbke some time, so this
+     * method should only be cblled if you reblly wbnt to use the
      * CipherSuite.
      *
-     * This method is called from chooseCipherSuite() in this class.
+     * This method is cblled from chooseCipherSuite() in this clbss.
      */
-    boolean trySetCipherSuite(CipherSuite suite) {
+    boolebn trySetCipherSuite(CipherSuite suite) {
         /*
-         * If we're resuming a session we know we can
-         * support this key exchange algorithm and in fact
-         * have already cached the result of it in
-         * the session state.
+         * If we're resuming b session we know we cbn
+         * support this key exchbnge blgorithm bnd in fbct
+         * hbve blrebdy cbched the result of it in
+         * the session stbte.
          */
         if (resumingSession) {
             return true;
         }
 
-        if (suite.isNegotiable() == false) {
-            return false;
+        if (suite.isNegotibble() == fblse) {
+            return fblse;
         }
 
-        // must not negotiate the obsoleted weak cipher suites.
+        // must not negotibte the obsoleted webk cipher suites.
         if (protocolVersion.v >= suite.obsoleted) {
-            return false;
+            return fblse;
         }
 
-        // must not negotiate unsupported cipher suites.
+        // must not negotibte unsupported cipher suites.
         if (protocolVersion.v < suite.supported) {
-            return false;
+            return fblse;
         }
 
-        KeyExchange keyExchange = suite.keyExchange;
+        KeyExchbnge keyExchbnge = suite.keyExchbnge;
 
-        // null out any existing references
-        privateKey = null;
+        // null out bny existing references
+        privbteKey = null;
         certs = null;
         dh = null;
-        tempPrivateKey = null;
+        tempPrivbteKey = null;
         tempPublicKey = null;
 
-        Collection<SignatureAndHashAlgorithm> supportedSignAlgs = null;
+        Collection<SignbtureAndHbshAlgorithm> supportedSignAlgs = null;
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
             if (peerSupportedSignAlgs != null) {
                 supportedSignAlgs = peerSupportedSignAlgs;
             } else {
-                SignatureAndHashAlgorithm algorithm = null;
+                SignbtureAndHbshAlgorithm blgorithm = null;
 
-                // we may optimize the performance
-                switch (keyExchange) {
-                    // If the negotiated key exchange algorithm is one of
+                // we mby optimize the performbnce
+                switch (keyExchbnge) {
+                    // If the negotibted key exchbnge blgorithm is one of
                     // (RSA, DHE_RSA, DH_RSA, RSA_PSK, ECDH_RSA, ECDHE_RSA),
-                    // behave as if client had sent the value {sha1,rsa}.
-                    case K_RSA:
-                    case K_DHE_RSA:
-                    case K_DH_RSA:
-                    // case K_RSA_PSK:
-                    case K_ECDH_RSA:
-                    case K_ECDHE_RSA:
-                        algorithm = SignatureAndHashAlgorithm.valueOf(
-                                HashAlgorithm.SHA1.value,
-                                SignatureAlgorithm.RSA.value, 0);
-                        break;
-                    // If the negotiated key exchange algorithm is one of
-                    // (DHE_DSS, DH_DSS), behave as if the client had
-                    // sent the value {sha1,dsa}.
-                    case K_DHE_DSS:
-                    case K_DH_DSS:
-                        algorithm = SignatureAndHashAlgorithm.valueOf(
-                                HashAlgorithm.SHA1.value,
-                                SignatureAlgorithm.DSA.value, 0);
-                        break;
-                    // If the negotiated key exchange algorithm is one of
-                    // (ECDH_ECDSA, ECDHE_ECDSA), behave as if the client
-                    // had sent value {sha1,ecdsa}.
-                    case K_ECDH_ECDSA:
-                    case K_ECDHE_ECDSA:
-                        algorithm = SignatureAndHashAlgorithm.valueOf(
-                                HashAlgorithm.SHA1.value,
-                                SignatureAlgorithm.ECDSA.value, 0);
-                        break;
-                    default:
-                        // no peer supported signature algorithms
+                    // behbve bs if client hbd sent the vblue {shb1,rsb}.
+                    cbse K_RSA:
+                    cbse K_DHE_RSA:
+                    cbse K_DH_RSA:
+                    // cbse K_RSA_PSK:
+                    cbse K_ECDH_RSA:
+                    cbse K_ECDHE_RSA:
+                        blgorithm = SignbtureAndHbshAlgorithm.vblueOf(
+                                HbshAlgorithm.SHA1.vblue,
+                                SignbtureAlgorithm.RSA.vblue, 0);
+                        brebk;
+                    // If the negotibted key exchbnge blgorithm is one of
+                    // (DHE_DSS, DH_DSS), behbve bs if the client hbd
+                    // sent the vblue {shb1,dsb}.
+                    cbse K_DHE_DSS:
+                    cbse K_DH_DSS:
+                        blgorithm = SignbtureAndHbshAlgorithm.vblueOf(
+                                HbshAlgorithm.SHA1.vblue,
+                                SignbtureAlgorithm.DSA.vblue, 0);
+                        brebk;
+                    // If the negotibted key exchbnge blgorithm is one of
+                    // (ECDH_ECDSA, ECDHE_ECDSA), behbve bs if the client
+                    // hbd sent vblue {shb1,ecdsb}.
+                    cbse K_ECDH_ECDSA:
+                    cbse K_ECDHE_ECDSA:
+                        blgorithm = SignbtureAndHbshAlgorithm.vblueOf(
+                                HbshAlgorithm.SHA1.vblue,
+                                SignbtureAlgorithm.ECDSA.vblue, 0);
+                        brebk;
+                    defbult:
+                        // no peer supported signbture blgorithms
                 }
 
-                if (algorithm == null) {
+                if (blgorithm == null) {
                     supportedSignAlgs =
-                        Collections.<SignatureAndHashAlgorithm>emptySet();
+                        Collections.<SignbtureAndHbshAlgorithm>emptySet();
                 } else {
                     supportedSignAlgs =
-                        new ArrayList<SignatureAndHashAlgorithm>(1);
-                    supportedSignAlgs.add(algorithm);
+                        new ArrbyList<SignbtureAndHbshAlgorithm>(1);
+                    supportedSignAlgs.bdd(blgorithm);
                 }
 
-                // Sets the peer supported signature algorithm to use in KM
-                // temporarily.
-                session.setPeerSupportedSignatureAlgorithms(supportedSignAlgs);
+                // Sets the peer supported signbture blgorithm to use in KM
+                // temporbrily.
+                session.setPeerSupportedSignbtureAlgorithms(supportedSignAlgs);
             }
         }
 
-        switch (keyExchange) {
-        case K_RSA:
-            // need RSA certs for authentication
-            if (setupPrivateKeyAndChain("RSA") == false) {
-                return false;
+        switch (keyExchbnge) {
+        cbse K_RSA:
+            // need RSA certs for buthenticbtion
+            if (setupPrivbteKeyAndChbin("RSA") == fblse) {
+                return fblse;
             }
-            break;
-        case K_RSA_EXPORT:
-            // need RSA certs for authentication
-            if (setupPrivateKeyAndChain("RSA") == false) {
-                return false;
+            brebk;
+        cbse K_RSA_EXPORT:
+            // need RSA certs for buthenticbtion
+            if (setupPrivbteKeyAndChbin("RSA") == fblse) {
+                return fblse;
             }
 
             try {
                if (JsseJce.getRSAKeyLength(certs[0].getPublicKey()) > 512) {
-                    if (!setupEphemeralRSAKeys(suite.exportable)) {
-                        return false;
+                    if (!setupEphemerblRSAKeys(suite.exportbble)) {
+                        return fblse;
                     }
                }
-            } catch (RuntimeException e) {
+            } cbtch (RuntimeException e) {
                 // could not determine keylength, ignore key
-                return false;
+                return fblse;
             }
-            break;
-        case K_DHE_RSA:
-            // need RSA certs for authentication
-            if (setupPrivateKeyAndChain("RSA") == false) {
-                return false;
+            brebk;
+        cbse K_DHE_RSA:
+            // need RSA certs for buthenticbtion
+            if (setupPrivbteKeyAndChbin("RSA") == fblse) {
+                return fblse;
             }
 
-            // get preferable peer signature algorithm for server key exchange
+            // get preferbble peer signbture blgorithm for server key exchbnge
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                preferableSignatureAlgorithm =
-                    SignatureAndHashAlgorithm.getPreferableAlgorithm(
-                                        supportedSignAlgs, "RSA", privateKey);
-                if (preferableSignatureAlgorithm == null) {
-                    return false;
+                preferbbleSignbtureAlgorithm =
+                    SignbtureAndHbshAlgorithm.getPreferbbleAlgorithm(
+                                        supportedSignAlgs, "RSA", privbteKey);
+                if (preferbbleSignbtureAlgorithm == null) {
+                    return fblse;
                 }
             }
 
-            setupEphemeralDHKeys(suite.exportable, privateKey);
-            break;
-        case K_ECDHE_RSA:
-            // need RSA certs for authentication
-            if (setupPrivateKeyAndChain("RSA") == false) {
-                return false;
+            setupEphemerblDHKeys(suite.exportbble, privbteKey);
+            brebk;
+        cbse K_ECDHE_RSA:
+            // need RSA certs for buthenticbtion
+            if (setupPrivbteKeyAndChbin("RSA") == fblse) {
+                return fblse;
             }
 
-            // get preferable peer signature algorithm for server key exchange
+            // get preferbble peer signbture blgorithm for server key exchbnge
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                preferableSignatureAlgorithm =
-                    SignatureAndHashAlgorithm.getPreferableAlgorithm(
-                                        supportedSignAlgs, "RSA", privateKey);
-                if (preferableSignatureAlgorithm == null) {
-                    return false;
+                preferbbleSignbtureAlgorithm =
+                    SignbtureAndHbshAlgorithm.getPreferbbleAlgorithm(
+                                        supportedSignAlgs, "RSA", privbteKey);
+                if (preferbbleSignbtureAlgorithm == null) {
+                    return fblse;
                 }
             }
 
-            if (setupEphemeralECDHKeys() == false) {
-                return false;
+            if (setupEphemerblECDHKeys() == fblse) {
+                return fblse;
             }
-            break;
-        case K_DHE_DSS:
-            // get preferable peer signature algorithm for server key exchange
+            brebk;
+        cbse K_DHE_DSS:
+            // get preferbble peer signbture blgorithm for server key exchbnge
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                preferableSignatureAlgorithm =
-                    SignatureAndHashAlgorithm.getPreferableAlgorithm(
+                preferbbleSignbtureAlgorithm =
+                    SignbtureAndHbshAlgorithm.getPreferbbleAlgorithm(
                                                 supportedSignAlgs, "DSA");
-                if (preferableSignatureAlgorithm == null) {
-                    return false;
+                if (preferbbleSignbtureAlgorithm == null) {
+                    return fblse;
                 }
             }
 
-            // need DSS certs for authentication
-            if (setupPrivateKeyAndChain("DSA") == false) {
-                return false;
+            // need DSS certs for buthenticbtion
+            if (setupPrivbteKeyAndChbin("DSA") == fblse) {
+                return fblse;
             }
 
-            setupEphemeralDHKeys(suite.exportable, privateKey);
-            break;
-        case K_ECDHE_ECDSA:
-            // get preferable peer signature algorithm for server key exchange
+            setupEphemerblDHKeys(suite.exportbble, privbteKey);
+            brebk;
+        cbse K_ECDHE_ECDSA:
+            // get preferbble peer signbture blgorithm for server key exchbnge
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                preferableSignatureAlgorithm =
-                    SignatureAndHashAlgorithm.getPreferableAlgorithm(
+                preferbbleSignbtureAlgorithm =
+                    SignbtureAndHbshAlgorithm.getPreferbbleAlgorithm(
                                             supportedSignAlgs, "ECDSA");
-                if (preferableSignatureAlgorithm == null) {
-                    return false;
+                if (preferbbleSignbtureAlgorithm == null) {
+                    return fblse;
                 }
             }
 
             // need EC cert signed using EC
-            if (setupPrivateKeyAndChain("EC_EC") == false) {
-                return false;
+            if (setupPrivbteKeyAndChbin("EC_EC") == fblse) {
+                return fblse;
             }
-            if (setupEphemeralECDHKeys() == false) {
-                return false;
+            if (setupEphemerblECDHKeys() == fblse) {
+                return fblse;
             }
-            break;
-        case K_ECDH_RSA:
+            brebk;
+        cbse K_ECDH_RSA:
             // need EC cert signed using RSA
-            if (setupPrivateKeyAndChain("EC_RSA") == false) {
-                return false;
+            if (setupPrivbteKeyAndChbin("EC_RSA") == fblse) {
+                return fblse;
             }
-            setupStaticECDHKeys();
-            break;
-        case K_ECDH_ECDSA:
+            setupStbticECDHKeys();
+            brebk;
+        cbse K_ECDH_ECDSA:
             // need EC cert signed using EC
-            if (setupPrivateKeyAndChain("EC_EC") == false) {
-                return false;
+            if (setupPrivbteKeyAndChbin("EC_EC") == fblse) {
+                return fblse;
             }
-            setupStaticECDHKeys();
-            break;
-        case K_KRB5:
-        case K_KRB5_EXPORT:
+            setupStbticECDHKeys();
+            brebk;
+        cbse K_KRB5:
+        cbse K_KRB5_EXPORT:
             // need Kerberos Key
             if (!setupKerberosKeys()) {
-                return false;
+                return fblse;
             }
-            break;
-        case K_DH_ANON:
-            // no certs needed for anonymous
-            setupEphemeralDHKeys(suite.exportable, null);
-            break;
-        case K_ECDH_ANON:
-            // no certs needed for anonymous
-            if (setupEphemeralECDHKeys() == false) {
-                return false;
+            brebk;
+        cbse K_DH_ANON:
+            // no certs needed for bnonymous
+            setupEphemerblDHKeys(suite.exportbble, null);
+            brebk;
+        cbse K_ECDH_ANON:
+            // no certs needed for bnonymous
+            if (setupEphemerblECDHKeys() == fblse) {
+                return fblse;
             }
-            break;
-        default:
-            // internal error, unknown key exchange
+            brebk;
+        defbult:
+            // internbl error, unknown key exchbnge
             throw new RuntimeException("Unrecognized cipherSuite: " + suite);
         }
         setCipherSuite(suite);
 
-        // set the peer implicit supported signature algorithms
+        // set the peer implicit supported signbture blgorithms
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
             if (peerSupportedSignAlgs == null) {
                 setPeerSupportedSignAlgs(supportedSignAlgs);
-                // we had alreay update the session
+                // we hbd blreby updbte the session
             }
         }
         return true;
     }
 
     /*
-     * Get some "ephemeral" RSA keys for this context. This means
-     * generating them if it's not already been done.
+     * Get some "ephemerbl" RSA keys for this context. This mebns
+     * generbting them if it's not blrebdy been done.
      *
-     * Note that we currently do not implement any ciphersuites that use
-     * strong ephemeral RSA. (We do not support the EXPORT1024 ciphersuites
-     * and standard RSA ciphersuites prohibit ephemeral mode for some reason)
-     * This means that export is always true and 512 bit keys are generated.
+     * Note thbt we currently do not implement bny ciphersuites thbt use
+     * strong ephemerbl RSA. (We do not support the EXPORT1024 ciphersuites
+     * bnd stbndbrd RSA ciphersuites prohibit ephemerbl mode for some rebson)
+     * This mebns thbt export is blwbys true bnd 512 bit keys bre generbted.
      */
-    private boolean setupEphemeralRSAKeys(boolean export) {
-        KeyPair kp = sslContext.getEphemeralKeyManager().
-                        getRSAKeyPair(export, sslContext.getSecureRandom());
+    privbte boolebn setupEphemerblRSAKeys(boolebn export) {
+        KeyPbir kp = sslContext.getEphemerblKeyMbnbger().
+                        getRSAKeyPbir(export, sslContext.getSecureRbndom());
         if (kp == null) {
-            return false;
+            return fblse;
         } else {
             tempPublicKey = kp.getPublic();
-            tempPrivateKey = kp.getPrivate();
+            tempPrivbteKey = kp.getPrivbte();
             return true;
         }
     }
 
     /*
-     * Acquire some "ephemeral" Diffie-Hellman  keys for this handshake.
-     * We don't reuse these, for improved forward secrecy.
+     * Acquire some "ephemerbl" Diffie-Hellmbn  keys for this hbndshbke.
+     * We don't reuse these, for improved forwbrd secrecy.
      */
-    private void setupEphemeralDHKeys(boolean export, Key key) {
+    privbte void setupEphemerblDHKeys(boolebn export, Key key) {
         /*
-         * 768 bits ephemeral DH private keys were used to be used in
-         * ServerKeyExchange except that exportable ciphers max out at 512
-         * bits modulus values. We still adhere to this behavior in legacy
-         * mode (system property "jdk.tls.ephemeralDHKeySize" is defined
-         * as "legacy").
+         * 768 bits ephemerbl DH privbte keys were used to be used in
+         * ServerKeyExchbnge except thbt exportbble ciphers mbx out bt 512
+         * bits modulus vblues. We still bdhere to this behbvior in legbcy
+         * mode (system property "jdk.tls.ephemerblDHKeySize" is defined
+         * bs "legbcy").
          *
-         * Old JDK (JDK 7 and previous) releases don't support DH keys bigger
-         * than 1024 bits. We have to consider the compatibility requirement.
-         * 1024 bits DH key is always used for non-exportable cipher suites
-         * in default mode (system property "jdk.tls.ephemeralDHKeySize"
+         * Old JDK (JDK 7 bnd previous) relebses don't support DH keys bigger
+         * thbn 1024 bits. We hbve to consider the compbtibility requirement.
+         * 1024 bits DH key is blwbys used for non-exportbble cipher suites
+         * in defbult mode (system property "jdk.tls.ephemerblDHKeySize"
          * is not defined).
          *
-         * However, if applications want more stronger strength, setting
-         * system property "jdk.tls.ephemeralDHKeySize" to "matched"
-         * is a workaround to use ephemeral DH key which size matches the
-         * corresponding authentication key. For example, if the public key
-         * size of an authentication certificate is 2048 bits, then the
-         * ephemeral DH key size should be 2048 bits accordingly unless
-         * the cipher suite is exportable.  This key sizing scheme keeps
-         * the cryptographic strength consistent between authentication
-         * keys and key-exchange keys.
+         * However, if bpplicbtions wbnt more stronger strength, setting
+         * system property "jdk.tls.ephemerblDHKeySize" to "mbtched"
+         * is b workbround to use ephemerbl DH key which size mbtches the
+         * corresponding buthenticbtion key. For exbmple, if the public key
+         * size of bn buthenticbtion certificbte is 2048 bits, then the
+         * ephemerbl DH key size should be 2048 bits bccordingly unless
+         * the cipher suite is exportbble.  This key sizing scheme keeps
+         * the cryptogrbphic strength consistent between buthenticbtion
+         * keys bnd key-exchbnge keys.
          *
-         * Applications may also want to customize the ephemeral DH key size
-         * to a fixed length for non-exportable cipher suites. This can be
-         * approached by setting system property "jdk.tls.ephemeralDHKeySize"
-         * to a valid positive integer between 1024 and 2048 bits, inclusive.
+         * Applicbtions mby blso wbnt to customize the ephemerbl DH key size
+         * to b fixed length for non-exportbble cipher suites. This cbn be
+         * bpprobched by setting system property "jdk.tls.ephemerblDHKeySize"
+         * to b vblid positive integer between 1024 bnd 2048 bits, inclusive.
          *
-         * Note that the minimum acceptable key size is 1024 bits except
-         * exportable cipher suites or legacy mode.
+         * Note thbt the minimum bcceptbble key size is 1024 bits except
+         * exportbble cipher suites or legbcy mode.
          *
-         * Note that the maximum acceptable key size is 2048 bits because
-         * DH keys bigger than 2048 are not always supported by underlying
+         * Note thbt the mbximum bcceptbble key size is 2048 bits becbuse
+         * DH keys bigger thbn 2048 bre not blwbys supported by underlying
          * JCE providers.
          *
-         * Note that per RFC 2246, the key size limit of DH is 512 bits for
-         * exportable cipher suites.  Because of the weakness, exportable
-         * cipher suites are deprecated since TLS v1.1 and they are not
-         * enabled by default in Oracle provider. The legacy behavior is
-         * reserved and 512 bits DH key is always used for exportable
+         * Note thbt per RFC 2246, the key size limit of DH is 512 bits for
+         * exportbble cipher suites.  Becbuse of the webkness, exportbble
+         * cipher suites bre deprecbted since TLS v1.1 bnd they bre not
+         * enbbled by defbult in Orbcle provider. The legbcy behbvior is
+         * reserved bnd 512 bits DH key is blwbys used for exportbble
          * cipher suites.
          */
-        int keySize = export ? 512 : 1024;           // default mode
+        int keySize = export ? 512 : 1024;           // defbult mode
         if (!export) {
-            if (useLegacyEphemeralDHKeys) {          // legacy mode
+            if (useLegbcyEphemerblDHKeys) {          // legbcy mode
                 keySize = 768;
-            } else if (useSmartEphemeralDHKeys) {    // matched mode
+            } else if (useSmbrtEphemerblDHKeys) {    // mbtched mode
                 if (key != null) {
                     int ks = KeyUtil.getKeySize(key);
-                    // Note that SunJCE provider only supports 2048 bits DH
-                    // keys bigger than 1024.  Please DON'T use value other
-                    // than 1024 and 2048 at present.  We may improve the
-                    // underlying providers and key size here in the future.
+                    // Note thbt SunJCE provider only supports 2048 bits DH
+                    // keys bigger thbn 1024.  Plebse DON'T use vblue other
+                    // thbn 1024 bnd 2048 bt present.  We mby improve the
+                    // underlying providers bnd key size here in the future.
                     //
                     // keySize = ks <= 1024 ? 1024 : (ks >= 2048 ? 2048 : ks);
                     keySize = ks <= 1024 ? 1024 : 2048;
-                } // Otherwise, anonymous cipher suites, 1024-bit is used.
+                } // Otherwise, bnonymous cipher suites, 1024-bit is used.
             } else if (customizedDHKeySize > 0) {    // customized mode
                 keySize = customizedDHKeySize;
             }
         }
 
-        dh = new DHCrypt(keySize, sslContext.getSecureRandom());
+        dh = new DHCrypt(keySize, sslContext.getSecureRbndom());
     }
 
-    // Setup the ephemeral ECDH parameters.
-    // If we cannot continue because we do not support any of the curves that
-    // the client requested, return false. Otherwise (all is well), return true.
-    private boolean setupEphemeralECDHKeys() {
+    // Setup the ephemerbl ECDH pbrbmeters.
+    // If we cbnnot continue becbuse we do not support bny of the curves thbt
+    // the client requested, return fblse. Otherwise (bll is well), return true.
+    privbte boolebn setupEphemerblECDHKeys() {
         int index = -1;
         if (supportedCurves != null) {
             // if the client sent the supported curves extension, pick the
-            // first one that we support;
+            // first one thbt we support;
             for (int curveId : supportedCurves.curveIds()) {
                 if (SupportedEllipticCurvesExtension.isSupported(curveId)) {
                     index = curveId;
-                    break;
+                    brebk;
                 }
             }
             if (index < 0) {
-                // no match found, cannot use this ciphersuite
-                return false;
+                // no mbtch found, cbnnot use this ciphersuite
+                return fblse;
             }
         } else {
             // pick our preference
             index = SupportedEllipticCurvesExtension.DEFAULT.curveIds()[0];
         }
         String oid = SupportedEllipticCurvesExtension.getCurveOid(index);
-        ecdh = new ECDHCrypt(oid, sslContext.getSecureRandom());
+        ecdh = new ECDHCrypt(oid, sslContext.getSecureRbndom());
         return true;
     }
 
-    private void setupStaticECDHKeys() {
-        // don't need to check whether the curve is supported, already done
-        // in setupPrivateKeyAndChain().
-        ecdh = new ECDHCrypt(privateKey, certs[0].getPublicKey());
+    privbte void setupStbticECDHKeys() {
+        // don't need to check whether the curve is supported, blrebdy done
+        // in setupPrivbteKeyAndChbin().
+        ecdh = new ECDHCrypt(privbteKey, certs[0].getPublicKey());
     }
 
     /**
-     * Retrieve the server key and certificate for the specified algorithm
-     * from the KeyManager and set the instance variables.
+     * Retrieve the server key bnd certificbte for the specified blgorithm
+     * from the KeyMbnbger bnd set the instbnce vbribbles.
      *
-     * @return true if successful, false if not available or invalid
+     * @return true if successful, fblse if not bvbilbble or invblid
      */
-    private boolean setupPrivateKeyAndChain(String algorithm) {
-        X509ExtendedKeyManager km = sslContext.getX509KeyManager();
-        String alias;
+    privbte boolebn setupPrivbteKeyAndChbin(String blgorithm) {
+        X509ExtendedKeyMbnbger km = sslContext.getX509KeyMbnbger();
+        String blibs;
         if (conn != null) {
-            alias = km.chooseServerAlias(algorithm, null, conn);
+            blibs = km.chooseServerAlibs(blgorithm, null, conn);
         } else {
-            alias = km.chooseEngineServerAlias(algorithm, null, engine);
+            blibs = km.chooseEngineServerAlibs(blgorithm, null, engine);
         }
-        if (alias == null) {
-            return false;
+        if (blibs == null) {
+            return fblse;
         }
-        PrivateKey tempPrivateKey = km.getPrivateKey(alias);
-        if (tempPrivateKey == null) {
-            return false;
+        PrivbteKey tempPrivbteKey = km.getPrivbteKey(blibs);
+        if (tempPrivbteKey == null) {
+            return fblse;
         }
-        X509Certificate[] tempCerts = km.getCertificateChain(alias);
+        X509Certificbte[] tempCerts = km.getCertificbteChbin(blibs);
         if ((tempCerts == null) || (tempCerts.length == 0)) {
-            return false;
+            return fblse;
         }
-        String keyAlgorithm = algorithm.split("_")[0];
+        String keyAlgorithm = blgorithm.split("_")[0];
         PublicKey publicKey = tempCerts[0].getPublicKey();
-        if ((tempPrivateKey.getAlgorithm().equals(keyAlgorithm) == false)
-                || (publicKey.getAlgorithm().equals(keyAlgorithm) == false)) {
-            return false;
+        if ((tempPrivbteKey.getAlgorithm().equbls(keyAlgorithm) == fblse)
+                || (publicKey.getAlgorithm().equbls(keyAlgorithm) == fblse)) {
+            return fblse;
         }
-        // For ECC certs, check whether we support the EC domain parameters.
-        // If the client sent a SupportedEllipticCurves ClientHello extension,
-        // check against that too.
-        if (keyAlgorithm.equals("EC")) {
-            if (publicKey instanceof ECPublicKey == false) {
-                return false;
+        // For ECC certs, check whether we support the EC dombin pbrbmeters.
+        // If the client sent b SupportedEllipticCurves ClientHello extension,
+        // check bgbinst thbt too.
+        if (keyAlgorithm.equbls("EC")) {
+            if (publicKey instbnceof ECPublicKey == fblse) {
+                return fblse;
             }
-            ECParameterSpec params = ((ECPublicKey)publicKey).getParams();
-            int index = SupportedEllipticCurvesExtension.getCurveIndex(params);
-            if (SupportedEllipticCurvesExtension.isSupported(index) == false) {
-                return false;
+            ECPbrbmeterSpec pbrbms = ((ECPublicKey)publicKey).getPbrbms();
+            int index = SupportedEllipticCurvesExtension.getCurveIndex(pbrbms);
+            if (SupportedEllipticCurvesExtension.isSupported(index) == fblse) {
+                return fblse;
             }
-            if ((supportedCurves != null) && !supportedCurves.contains(index)) {
-                return false;
+            if ((supportedCurves != null) && !supportedCurves.contbins(index)) {
+                return fblse;
             }
         }
-        this.privateKey = tempPrivateKey;
+        this.privbteKey = tempPrivbteKey;
         this.certs = tempCerts;
         return true;
     }
 
     /**
-     * Retrieve the Kerberos key for the specified server principal
-     * from the JAAS configuration file.
+     * Retrieve the Kerberos key for the specified server principbl
+     * from the JAAS configurbtion file.
      *
-     * @return true if successful, false if not available or invalid
+     * @return true if successful, fblse if not bvbilbble or invblid
      */
-    private boolean setupKerberosKeys() {
+    privbte boolebn setupKerberosKeys() {
         if (serviceCreds != null) {
             return true;
         }
         try {
-            final AccessControlContext acc = getAccSE();
+            finbl AccessControlContext bcc = getAccSE();
             serviceCreds = AccessController.doPrivileged(
-                // Eliminate dependency on KerberosKey
+                // Eliminbte dependency on KerberosKey
                 new PrivilegedExceptionAction<Object>() {
                 @Override
                 public Object run() throws Exception {
-                    // get kerberos key for the default principal
-                    return Krb5Helper.getServiceCreds(acc);
+                    // get kerberos key for the defbult principbl
+                    return Krb5Helper.getServiceCreds(bcc);
                         }});
 
-            // check permission to access and use the secret key of the
+            // check permission to bccess bnd use the secret key of the
             // Kerberized "host" service
             if (serviceCreds != null) {
-                if (debug != null && Debug.isOn("handshake")) {
+                if (debug != null && Debug.isOn("hbndshbke")) {
                     System.out.println("Using Kerberos creds");
                 }
-                String serverPrincipal =
-                        Krb5Helper.getServerPrincipalName(serviceCreds);
-                if (serverPrincipal != null) {
+                String serverPrincipbl =
+                        Krb5Helper.getServerPrincipblNbme(serviceCreds);
+                if (serverPrincipbl != null) {
                     // When service is bound, we check ASAP. Otherwise,
-                    // will check after client request is received
-                    // in in Kerberos ClientKeyExchange
-                    SecurityManager sm = System.getSecurityManager();
+                    // will check bfter client request is received
+                    // in in Kerberos ClientKeyExchbnge
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     try {
                         if (sm != null) {
-                            // Eliminate dependency on ServicePermission
+                            // Eliminbte dependency on ServicePermission
                             sm.checkPermission(Krb5Helper.getServicePermission(
-                                    serverPrincipal, "accept"), acc);
+                                    serverPrincipbl, "bccept"), bcc);
                         }
-                    } catch (SecurityException se) {
+                    } cbtch (SecurityException se) {
                         serviceCreds = null;
-                        // Do not destroy keys. Will affect Subject
-                        if (debug != null && Debug.isOn("handshake")) {
-                            System.out.println("Permission to access Kerberos"
+                        // Do not destroy keys. Will bffect Subject
+                        if (debug != null && Debug.isOn("hbndshbke")) {
+                            System.out.println("Permission to bccess Kerberos"
                                     + " secret key denied");
                         }
-                        return false;
+                        return fblse;
                     }
                 }
             }
             return serviceCreds != null;
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
             // Likely exception here is LoginExceptin
-            if (debug != null && Debug.isOn("handshake")) {
-                System.out.println("Attempt to obtain Kerberos key failed: "
+            if (debug != null && Debug.isOn("hbndshbke")) {
+                System.out.println("Attempt to obtbin Kerberos key fbiled: "
                                 + e.toString());
             }
-            return false;
+            return fblse;
         }
     }
 
     /*
-     * For Kerberos ciphers, the premaster secret is encrypted using
+     * For Kerberos ciphers, the prembster secret is encrypted using
      * the session key. See RFC 2712.
      */
-    private SecretKey clientKeyExchange(KerberosClientKeyExchange mesg)
+    privbte SecretKey clientKeyExchbnge(KerberosClientKeyExchbnge mesg)
         throws IOException {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
 
-        // Record the principals involved in exchange
-        session.setPeerPrincipal(mesg.getPeerPrincipal());
-        session.setLocalPrincipal(mesg.getLocalPrincipal());
+        // Record the principbls involved in exchbnge
+        session.setPeerPrincipbl(mesg.getPeerPrincipbl());
+        session.setLocblPrincipbl(mesg.getLocblPrincipbl());
 
-        byte[] b = mesg.getUnencryptedPreMasterSecret();
-        return new SecretKeySpec(b, "TlsPremasterSecret");
+        byte[] b = mesg.getUnencryptedPreMbsterSecret();
+        return new SecretKeySpec(b, "TlsPrembsterSecret");
     }
 
     /*
-     * Diffie Hellman key exchange is used when the server presented
-     * D-H parameters in its certificate (signed using RSA or DSS/DSA),
-     * or else the server presented no certificate but sent D-H params
-     * in a ServerKeyExchange message.  Use of D-H is specified by the
+     * Diffie Hellmbn key exchbnge is used when the server presented
+     * D-H pbrbmeters in its certificbte (signed using RSA or DSS/DSA),
+     * or else the server presented no certificbte but sent D-H pbrbms
+     * in b ServerKeyExchbnge messbge.  Use of D-H is specified by the
      * cipher suite chosen.
      *
-     * The message optionally contains the client's D-H public key (if
-     * it wasn't not sent in a client certificate).  As always with D-H,
-     * if a client and a server have each other's D-H public keys and
-     * they use common algorithm parameters, they have a shared key
-     * that's derived via the D-H calculation.  That key becomes the
-     * pre-master secret.
+     * The messbge optionblly contbins the client's D-H public key (if
+     * it wbsn't not sent in b client certificbte).  As blwbys with D-H,
+     * if b client bnd b server hbve ebch other's D-H public keys bnd
+     * they use common blgorithm pbrbmeters, they hbve b shbred key
+     * thbt's derived vib the D-H cblculbtion.  Thbt key becomes the
+     * pre-mbster secret.
      */
-    private SecretKey clientKeyExchange(DHClientKeyExchange mesg)
+    privbte SecretKey clientKeyExchbnge(DHClientKeyExchbnge mesg)
             throws IOException {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
-        return dh.getAgreedSecret(mesg.getClientPublicKey(), false);
+        return dh.getAgreedSecret(mesg.getClientPublicKey(), fblse);
     }
 
-    private SecretKey clientKeyExchange(ECDHClientKeyExchange mesg)
+    privbte SecretKey clientKeyExchbnge(ECDHClientKeyExchbnge mesg)
             throws IOException {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
         return ecdh.getAgreedSecret(mesg.getEncodedPoint());
     }
 
     /*
-     * Client wrote a message to verify the certificate it sent earlier.
+     * Client wrote b messbge to verify the certificbte it sent ebrlier.
      *
-     * Note that this certificate isn't involved in key exchange.  Client
-     * authentication messages are included in the checksums used to
-     * validate the handshake (e.g. Finished messages).  Other than that,
-     * the _exact_ identity of the client is less fundamental to protocol
-     * security than its role in selecting keys via the pre-master secret.
+     * Note thbt this certificbte isn't involved in key exchbnge.  Client
+     * buthenticbtion messbges bre included in the checksums used to
+     * vblidbte the hbndshbke (e.g. Finished messbges).  Other thbn thbt,
+     * the _exbct_ identity of the client is less fundbmentbl to protocol
+     * security thbn its role in selecting keys vib the pre-mbster secret.
      */
-    private void clientCertificateVerify(CertificateVerify mesg)
+    privbte void clientCertificbteVerify(CertificbteVerify mesg)
             throws IOException {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
 
         if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-            SignatureAndHashAlgorithm signAlg =
-                mesg.getPreferableSignatureAlgorithm();
+            SignbtureAndHbshAlgorithm signAlg =
+                mesg.getPreferbbleSignbtureAlgorithm();
             if (signAlg == null) {
-                throw new SSLHandshakeException(
-                        "Illegal CertificateVerify message");
+                throw new SSLHbndshbkeException(
+                        "Illegbl CertificbteVerify messbge");
             }
 
-            String hashAlg =
-                SignatureAndHashAlgorithm.getHashAlgorithmName(signAlg);
-            if (hashAlg == null || hashAlg.length() == 0) {
-                throw new SSLHandshakeException(
-                        "No supported hash algorithm");
+            String hbshAlg =
+                SignbtureAndHbshAlgorithm.getHbshAlgorithmNbme(signAlg);
+            if (hbshAlg == null || hbshAlg.length() == 0) {
+                throw new SSLHbndshbkeException(
+                        "No supported hbsh blgorithm");
             }
         }
 
         try {
             PublicKey publicKey =
-                session.getPeerCertificates()[0].getPublicKey();
+                session.getPeerCertificbtes()[0].getPublicKey();
 
-            boolean valid = mesg.verify(protocolVersion, handshakeHash,
-                                        publicKey, session.getMasterSecret());
-            if (valid == false) {
-                fatalSE(Alerts.alert_bad_certificate,
-                            "certificate verify message signature error");
+            boolebn vblid = mesg.verify(protocolVersion, hbndshbkeHbsh,
+                                        publicKey, session.getMbsterSecret());
+            if (vblid == fblse) {
+                fbtblSE(Alerts.blert_bbd_certificbte,
+                            "certificbte verify messbge signbture error");
             }
-        } catch (GeneralSecurityException e) {
-            fatalSE(Alerts.alert_bad_certificate,
-                "certificate verify format error", e);
+        } cbtch (GenerblSecurityException e) {
+            fbtblSE(Alerts.blert_bbd_certificbte,
+                "certificbte verify formbt error", e);
         }
 
-        // reset the flag for clientCertificateVerify message
-        needClientVerify = false;
+        // reset the flbg for clientCertificbteVerify messbge
+        needClientVerify = fblse;
     }
 
 
     /*
-     * Client writes "finished" at the end of its handshake, after cipher
-     * spec is changed.   We verify it and then send ours.
+     * Client writes "finished" bt the end of its hbndshbke, bfter cipher
+     * spec is chbnged.   We verify it bnd then send ours.
      *
-     * When we're resuming a session, we'll have already sent our own
-     * Finished message so just the verification is needed.
+     * When we're resuming b session, we'll hbve blrebdy sent our own
+     * Finished messbge so just the verificbtion is needed.
      */
-    private void clientFinished(Finished mesg) throws IOException {
-        if (debug != null && Debug.isOn("handshake")) {
+    privbte void clientFinished(Finished mesg) throws IOException {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
 
         /*
-         * Verify if client did send the certificate when client
-         * authentication was required, otherwise server should not proceed
+         * Verify if client did send the certificbte when client
+         * buthenticbtion wbs required, otherwise server should not proceed
          */
-        if (doClientAuth == SSLEngineImpl.clauth_required) {
-           // get X500Principal of the end-entity certificate for X509-based
-           // ciphersuites, or Kerberos principal for Kerberos ciphersuites
-           session.getPeerPrincipal();
+        if (doClientAuth == SSLEngineImpl.clbuth_required) {
+           // get X500Principbl of the end-entity certificbte for X509-bbsed
+           // ciphersuites, or Kerberos principbl for Kerberos ciphersuites
+           session.getPeerPrincipbl();
         }
 
         /*
-         * Verify if client did send clientCertificateVerify message following
-         * the client Certificate, otherwise server should not proceed
+         * Verify if client did send clientCertificbteVerify messbge following
+         * the client Certificbte, otherwise server should not proceed
          */
         if (needClientVerify) {
-                fatalSE(Alerts.alert_handshake_failure,
-                        "client did not send certificate verify message");
+                fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "client did not send certificbte verify messbge");
         }
 
         /*
-         * Verify the client's message with the "before" digest of messages,
-         * and forget about continuing to use that digest.
+         * Verify the client's messbge with the "before" digest of messbges,
+         * bnd forget bbout continuing to use thbt digest.
          */
-        boolean verified = mesg.verify(handshakeHash, Finished.CLIENT,
-            session.getMasterSecret());
+        boolebn verified = mesg.verify(hbndshbkeHbsh, Finished.CLIENT,
+            session.getMbsterSecret());
 
         if (!verified) {
-            fatalSE(Alerts.alert_handshake_failure,
-                        "client 'finished' message doesn't verify");
+            fbtblSE(Alerts.blert_hbndshbke_fbilure,
+                        "client 'finished' messbge doesn't verify");
             // NOTREACHED
         }
 
         /*
-         * save client verify data for secure renegotiation
+         * sbve client verify dbtb for secure renegotibtion
          */
-        if (secureRenegotiation) {
-            clientVerifyData = mesg.getVerifyData();
+        if (secureRenegotibtion) {
+            clientVerifyDbtb = mesg.getVerifyDbtb();
         }
 
         /*
-         * OK, it verified.  If we're doing the full handshake, add that
-         * "Finished" message to the hash of handshake messages, then send
-         * the change_cipher_spec and Finished message.
+         * OK, it verified.  If we're doing the full hbndshbke, bdd thbt
+         * "Finished" messbge to the hbsh of hbndshbke messbges, then send
+         * the chbnge_cipher_spec bnd Finished messbge.
          */
         if (!resumingSession) {
             input.digestNow();
-            sendChangeCipherAndFinish(true);
+            sendChbngeCipherAndFinish(true);
         }
 
         /*
-         * Update the session cache only after the handshake completed, else
-         * we're open to an attack against a partially completed handshake.
+         * Updbte the session cbche only bfter the hbndshbke completed, else
+         * we're open to bn bttbck bgbinst b pbrtiblly completed hbndshbke.
          */
-        session.setLastAccessedTime(System.currentTimeMillis());
-        if (!resumingSession && session.isRejoinable()) {
+        session.setLbstAccessedTime(System.currentTimeMillis());
+        if (!resumingSession && session.isRejoinbble()) {
             ((SSLSessionContextImpl)sslContext.engineGetServerSessionContext())
                 .put(session);
             if (debug != null && Debug.isOn("session")) {
                 System.out.println(
-                    "%% Cached server session: " + session);
+                    "%% Cbched server session: " + session);
             }
         } else if (!resumingSession &&
                 debug != null && Debug.isOn("session")) {
             System.out.println(
-                "%% Didn't cache non-resumable server session: "
+                "%% Didn't cbche non-resumbble server session: "
                 + session);
         }
     }
 
     /*
-     * Compute finished message with the "server" digest (and then forget
-     * about that digest, it can't be used again).
+     * Compute finished messbge with the "server" digest (bnd then forget
+     * bbout thbt digest, it cbn't be used bgbin).
      */
-    private void sendChangeCipherAndFinish(boolean finishedTag)
+    privbte void sendChbngeCipherAndFinish(boolebn finishedTbg)
             throws IOException {
 
         output.flush();
 
-        Finished mesg = new Finished(protocolVersion, handshakeHash,
-            Finished.SERVER, session.getMasterSecret(), cipherSuite);
+        Finished mesg = new Finished(protocolVersion, hbndshbkeHbsh,
+            Finished.SERVER, session.getMbsterSecret(), cipherSuite);
 
         /*
-         * Send the change_cipher_spec record; then our Finished handshake
-         * message will be the last handshake message.  Flush, and now we
-         * are ready for application data!!
+         * Send the chbnge_cipher_spec record; then our Finished hbndshbke
+         * messbge will be the lbst hbndshbke messbge.  Flush, bnd now we
+         * bre rebdy for bpplicbtion dbtb!!
          */
-        sendChangeCipherSpec(mesg, finishedTag);
+        sendChbngeCipherSpec(mesg, finishedTbg);
 
         /*
-         * save server verify data for secure renegotiation
+         * sbve server verify dbtb for secure renegotibtion
          */
-        if (secureRenegotiation) {
-            serverVerifyData = mesg.getVerifyData();
+        if (secureRenegotibtion) {
+            serverVerifyDbtb = mesg.getVerifyDbtb();
         }
 
         /*
-         * Update state machine so client MUST send 'finished' next
-         * The update should only take place if it is not in the fast
-         * handshake mode since the server has to wait for a finished
-         * message from the client.
+         * Updbte stbte mbchine so client MUST send 'finished' next
+         * The updbte should only tbke plbce if it is not in the fbst
+         * hbndshbke mode since the server hbs to wbit for b finished
+         * messbge from the client.
          */
-        if (finishedTag) {
-            state = HandshakeMessage.ht_finished;
+        if (finishedTbg) {
+            stbte = HbndshbkeMessbge.ht_finished;
         }
     }
 
 
     /*
-     * Returns a HelloRequest message to kickstart renegotiations
+     * Returns b HelloRequest messbge to kickstbrt renegotibtions
      */
     @Override
-    HandshakeMessage getKickstartMessage() {
+    HbndshbkeMessbge getKickstbrtMessbge() {
         return new HelloRequest();
     }
 
 
     /*
-     * Fault detected during handshake.
+     * Fbult detected during hbndshbke.
      */
     @Override
-    void handshakeAlert(byte description) throws SSLProtocolException {
+    void hbndshbkeAlert(byte description) throws SSLProtocolException {
 
-        String message = Alerts.alertDescription(description);
+        String messbge = Alerts.blertDescription(description);
 
-        if (debug != null && Debug.isOn("handshake")) {
-            System.out.println("SSL -- handshake alert:  "
-                + message);
+        if (debug != null && Debug.isOn("hbndshbke")) {
+            System.out.println("SSL -- hbndshbke blert:  "
+                + messbge);
         }
 
         /*
-         * It's ok to get a no_certificate alert from a client of which
-         * we *requested* authentication information.
-         * However, if we *required* it, then this is not acceptable.
+         * It's ok to get b no_certificbte blert from b client of which
+         * we *requested* buthenticbtion informbtion.
+         * However, if we *required* it, then this is not bcceptbble.
          *
-         * Anyone calling getPeerCertificates() on the
-         * session will get an SSLPeerUnverifiedException.
+         * Anyone cblling getPeerCertificbtes() on the
+         * session will get bn SSLPeerUnverifiedException.
          */
-        if ((description == Alerts.alert_no_certificate) &&
-                (doClientAuth == SSLEngineImpl.clauth_requested)) {
+        if ((description == Alerts.blert_no_certificbte) &&
+                (doClientAuth == SSLEngineImpl.clbuth_requested)) {
             return;
         }
 
-        throw new SSLProtocolException("handshake alert: " + message);
+        throw new SSLProtocolException("hbndshbke blert: " + messbge);
     }
 
     /*
-     * RSA key exchange is normally used.  The client encrypts a "pre-master
-     * secret" with the server's public key, from the Certificate (or else
-     * ServerKeyExchange) message that was sent to it by the server.  That's
-     * decrypted using the private key before we get here.
+     * RSA key exchbnge is normblly used.  The client encrypts b "pre-mbster
+     * secret" with the server's public key, from the Certificbte (or else
+     * ServerKeyExchbnge) messbge thbt wbs sent to it by the server.  Thbt's
+     * decrypted using the privbte key before we get here.
      */
-    private SecretKey clientKeyExchange(RSAClientKeyExchange mesg)
+    privbte SecretKey clientKeyExchbnge(RSAClientKeyExchbnge mesg)
             throws IOException {
 
-        if (debug != null && Debug.isOn("handshake")) {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
-        return mesg.preMaster;
+        return mesg.preMbster;
     }
 
     /*
-     * Verify the certificate sent by the client. We'll only get one if we
-     * sent a CertificateRequest to request client authentication. If we
-     * are in TLS mode, the client may send a message with no certificates
-     * to indicate it does not have an appropriate chain. (In SSLv3 mode,
-     * it would send a no certificate alert).
+     * Verify the certificbte sent by the client. We'll only get one if we
+     * sent b CertificbteRequest to request client buthenticbtion. If we
+     * bre in TLS mode, the client mby send b messbge with no certificbtes
+     * to indicbte it does not hbve bn bppropribte chbin. (In SSLv3 mode,
+     * it would send b no certificbte blert).
      */
-    private void clientCertificate(CertificateMsg mesg) throws IOException {
-        if (debug != null && Debug.isOn("handshake")) {
+    privbte void clientCertificbte(CertificbteMsg mesg) throws IOException {
+        if (debug != null && Debug.isOn("hbndshbke")) {
             mesg.print(System.out);
         }
 
-        X509Certificate[] peerCerts = mesg.getCertificateChain();
+        X509Certificbte[] peerCerts = mesg.getCertificbteChbin();
 
         if (peerCerts.length == 0) {
             /*
-             * If the client authentication is only *REQUESTED* (e.g.
-             * not *REQUIRED*, this is an acceptable condition.)
+             * If the client buthenticbtion is only *REQUESTED* (e.g.
+             * not *REQUIRED*, this is bn bcceptbble condition.)
              */
-            if (doClientAuth == SSLEngineImpl.clauth_requested) {
+            if (doClientAuth == SSLEngineImpl.clbuth_requested) {
                 return;
             } else {
-                fatalSE(Alerts.alert_bad_certificate,
-                    "null cert chain");
+                fbtblSE(Alerts.blert_bbd_certificbte,
+                    "null cert chbin");
             }
         }
 
-        // ask the trust manager to verify the chain
-        X509TrustManager tm = sslContext.getX509TrustManager();
+        // bsk the trust mbnbger to verify the chbin
+        X509TrustMbnbger tm = sslContext.getX509TrustMbnbger();
 
         try {
-            // find out the types of client authentication used
+            // find out the types of client buthenticbtion used
             PublicKey key = peerCerts[0].getPublicKey();
             String keyAlgorithm = key.getAlgorithm();
-            String authType;
-            if (keyAlgorithm.equals("RSA")) {
-                authType = "RSA";
-            } else if (keyAlgorithm.equals("DSA")) {
-                authType = "DSA";
-            } else if (keyAlgorithm.equals("EC")) {
-                authType = "EC";
+            String buthType;
+            if (keyAlgorithm.equbls("RSA")) {
+                buthType = "RSA";
+            } else if (keyAlgorithm.equbls("DSA")) {
+                buthType = "DSA";
+            } else if (keyAlgorithm.equbls("EC")) {
+                buthType = "EC";
             } else {
                 // unknown public key type
-                authType = "UNKNOWN";
+                buthType = "UNKNOWN";
             }
 
-            if (tm instanceof X509ExtendedTrustManager) {
+            if (tm instbnceof X509ExtendedTrustMbnbger) {
                 if (conn != null) {
-                    ((X509ExtendedTrustManager)tm).checkClientTrusted(
+                    ((X509ExtendedTrustMbnbger)tm).checkClientTrusted(
                         peerCerts.clone(),
-                        authType,
+                        buthType,
                         conn);
                 } else {
-                    ((X509ExtendedTrustManager)tm).checkClientTrusted(
+                    ((X509ExtendedTrustMbnbger)tm).checkClientTrusted(
                         peerCerts.clone(),
-                        authType,
+                        buthType,
                         engine);
                 }
             } else {
-                // Unlikely to happen, because we have wrapped the old
-                // X509TrustManager with the new X509ExtendedTrustManager.
-                throw new CertificateException(
-                    "Improper X509TrustManager implementation");
+                // Unlikely to hbppen, becbuse we hbve wrbpped the old
+                // X509TrustMbnbger with the new X509ExtendedTrustMbnbger.
+                throw new CertificbteException(
+                    "Improper X509TrustMbnbger implementbtion");
             }
-        } catch (CertificateException e) {
-            // This will throw an exception, so include the original error.
-            fatalSE(Alerts.alert_certificate_unknown, e);
+        } cbtch (CertificbteException e) {
+            // This will throw bn exception, so include the originbl error.
+            fbtblSE(Alerts.blert_certificbte_unknown, e);
         }
-        // set the flag for clientCertificateVerify message
+        // set the flbg for clientCertificbteVerify messbge
         needClientVerify = true;
 
-        session.setPeerCertificates(peerCerts);
+        session.setPeerCertificbtes(peerCerts);
     }
 }

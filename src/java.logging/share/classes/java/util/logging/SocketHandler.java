@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 /**
- * Simple network logging <tt>Handler</tt>.
+ * Simple network logging <tt>Hbndler</tt>.
  * <p>
- * <tt>LogRecords</tt> are published to a network stream connection.  By default
- * the <tt>XMLFormatter</tt> class is used for formatting.
+ * <tt>LogRecords</tt> bre published to b network strebm connection.  By defbult
+ * the <tt>XMLFormbtter</tt> clbss is used for formbtting.
  * <p>
- * <b>Configuration:</b>
- * By default each <tt>SocketHandler</tt> is initialized using the following
- * <tt>LogManager</tt> configuration properties where <tt>&lt;handler-name&gt;</tt>
- * refers to the fully-qualified class name of the handler.
- * If properties are not defined
- * (or have invalid values) then the specified default values are used.
+ * <b>Configurbtion:</b>
+ * By defbult ebch <tt>SocketHbndler</tt> is initiblized using the following
+ * <tt>LogMbnbger</tt> configurbtion properties where <tt>&lt;hbndler-nbme&gt;</tt>
+ * refers to the fully-qublified clbss nbme of the hbndler.
+ * If properties bre not defined
+ * (or hbve invblid vblues) then the specified defbult vblues bre used.
  * <ul>
- * <li>   &lt;handler-name&gt;.level
- *        specifies the default level for the <tt>Handler</tt>
- *        (defaults to <tt>Level.ALL</tt>). </li>
- * <li>   &lt;handler-name&gt;.filter
- *        specifies the name of a <tt>Filter</tt> class to use
- *        (defaults to no <tt>Filter</tt>). </li>
- * <li>   &lt;handler-name&gt;.formatter
- *        specifies the name of a <tt>Formatter</tt> class to use
- *        (defaults to <tt>java.util.logging.XMLFormatter</tt>). </li>
- * <li>   &lt;handler-name&gt;.encoding
- *        the name of the character set encoding to use (defaults to
- *        the default platform encoding). </li>
- * <li>   &lt;handler-name&gt;.host
- *        specifies the target host name to connect to (no default). </li>
- * <li>   &lt;handler-name&gt;.port
- *        specifies the target TCP port to use (no default). </li>
+ * <li>   &lt;hbndler-nbme&gt;.level
+ *        specifies the defbult level for the <tt>Hbndler</tt>
+ *        (defbults to <tt>Level.ALL</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.filter
+ *        specifies the nbme of b <tt>Filter</tt> clbss to use
+ *        (defbults to no <tt>Filter</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.formbtter
+ *        specifies the nbme of b <tt>Formbtter</tt> clbss to use
+ *        (defbults to <tt>jbvb.util.logging.XMLFormbtter</tt>). </li>
+ * <li>   &lt;hbndler-nbme&gt;.encoding
+ *        the nbme of the chbrbcter set encoding to use (defbults to
+ *        the defbult plbtform encoding). </li>
+ * <li>   &lt;hbndler-nbme&gt;.host
+ *        specifies the tbrget host nbme to connect to (no defbult). </li>
+ * <li>   &lt;hbndler-nbme&gt;.port
+ *        specifies the tbrget TCP port to use (no defbult). </li>
  * </ul>
  * <p>
- * For example, the properties for {@code SocketHandler} would be:
+ * For exbmple, the properties for {@code SocketHbndler} would be:
  * <ul>
- * <li>   java.util.logging.SocketHandler.level=INFO </li>
- * <li>   java.util.logging.SocketHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   jbvb.util.logging.SocketHbndler.level=INFO </li>
+ * <li>   jbvb.util.logging.SocketHbndler.formbtter=jbvb.util.logging.SimpleFormbtter </li>
  * </ul>
  * <p>
- * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
+ * For b custom hbndler, e.g. com.foo.MyHbndler, the properties would be:
  * <ul>
- * <li>   com.foo.MyHandler.level=INFO </li>
- * <li>   com.foo.MyHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   com.foo.MyHbndler.level=INFO </li>
+ * <li>   com.foo.MyHbndler.formbtter=jbvb.util.logging.SimpleFormbtter </li>
  * </ul>
  * <p>
- * The output IO stream is buffered, but is flushed after each
+ * The output IO strebm is buffered, but is flushed bfter ebch
  * <tt>LogRecord</tt> is written.
  *
  * @since 1.4
  */
 
-public class SocketHandler extends StreamHandler {
-    private Socket sock;
-    private String host;
-    private int port;
+public clbss SocketHbndler extends StrebmHbndler {
+    privbte Socket sock;
+    privbte String host;
+    privbte int port;
 
     /**
-     * Create a <tt>SocketHandler</tt>, using only <tt>LogManager</tt> properties
-     * (or their defaults).
-     * @throws IllegalArgumentException if the host or port are invalid or
-     *          are not specified as LogManager properties.
-     * @throws IOException if we are unable to connect to the target
-     *         host and port.
+     * Crebte b <tt>SocketHbndler</tt>, using only <tt>LogMbnbger</tt> properties
+     * (or their defbults).
+     * @throws IllegblArgumentException if the host or port bre invblid or
+     *          bre not specified bs LogMbnbger properties.
+     * @throws IOException if we bre unbble to connect to the tbrget
+     *         host bnd port.
      */
-    public SocketHandler() throws IOException {
-        // configure with specific defaults for SocketHandler
-        super(Level.ALL, new XMLFormatter(), null);
+    public SocketHbndler() throws IOException {
+        // configure with specific defbults for SocketHbndler
+        super(Level.ALL, new XMLFormbtter(), null);
 
-        LogManager manager = LogManager.getLogManager();
-        String cname = getClass().getName();
-        port = manager.getIntProperty(cname + ".port", 0);
-        host = manager.getStringProperty(cname + ".host", null);
+        LogMbnbger mbnbger = LogMbnbger.getLogMbnbger();
+        String cnbme = getClbss().getNbme();
+        port = mbnbger.getIntProperty(cnbme + ".port", 0);
+        host = mbnbger.getStringProperty(cnbme + ".host", null);
 
         try {
             connect();
-        } catch (IOException ix) {
-            System.err.println("SocketHandler: connect failed to " + host + ":" + port);
+        } cbtch (IOException ix) {
+            System.err.println("SocketHbndler: connect fbiled to " + host + ":" + port);
             throw ix;
         }
     }
 
     /**
-     * Construct a <tt>SocketHandler</tt> using a specified host and port.
+     * Construct b <tt>SocketHbndler</tt> using b specified host bnd port.
      *
-     * The <tt>SocketHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given target host
-     * and port arguments are used. If the host argument is empty, but not
-     * null String then the localhost is used.
+     * The <tt>SocketHbndler</tt> is configured bbsed on <tt>LogMbnbger</tt>
+     * properties (or their defbult vblues) except thbt the given tbrget host
+     * bnd port brguments bre used. If the host brgument is empty, but not
+     * null String then the locblhost is used.
      *
-     * @param host target host.
-     * @param port target port.
+     * @pbrbm host tbrget host.
+     * @pbrbm port tbrget port.
      *
-     * @throws IllegalArgumentException if the host or port are invalid.
-     * @throws IOException if we are unable to connect to the target
-     *         host and port.
+     * @throws IllegblArgumentException if the host or port bre invblid.
+     * @throws IOException if we bre unbble to connect to the tbrget
+     *         host bnd port.
      */
-    public SocketHandler(String host, int port) throws IOException {
-        // configure with specific defaults for SocketHandler
-        super(Level.ALL, new XMLFormatter(), null);
+    public SocketHbndler(String host, int port) throws IOException {
+        // configure with specific defbults for SocketHbndler
+        super(Level.ALL, new XMLFormbtter(), null);
 
         this.port = port;
         this.host = host;
@@ -133,27 +133,27 @@ public class SocketHandler extends StreamHandler {
         connect();
     }
 
-    private void connect() throws IOException {
-        // Check the arguments are valid.
+    privbte void connect() throws IOException {
+        // Check the brguments bre vblid.
         if (port == 0) {
-            throw new IllegalArgumentException("Bad port: " + port);
+            throw new IllegblArgumentException("Bbd port: " + port);
         }
         if (host == null) {
-            throw new IllegalArgumentException("Null host name: " + host);
+            throw new IllegblArgumentException("Null host nbme: " + host);
         }
 
-        // Try to open a new socket.
+        // Try to open b new socket.
         sock = new Socket(host, port);
-        OutputStream out = sock.getOutputStream();
-        BufferedOutputStream bout = new BufferedOutputStream(out);
-        setOutputStreamPrivileged(bout);
+        OutputStrebm out = sock.getOutputStrebm();
+        BufferedOutputStrebm bout = new BufferedOutputStrebm(out);
+        setOutputStrebmPrivileged(bout);
     }
 
     /**
-     * Close this output stream.
+     * Close this output strebm.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @exception  SecurityException  if b security mbnbger exists bnd if
+     *             the cbller does not hbve <tt>LoggingPermission("control")</tt>.
      */
     @Override
     public synchronized void close() throws SecurityException {
@@ -161,7 +161,7 @@ public class SocketHandler extends StreamHandler {
         if (sock != null) {
             try {
                 sock.close();
-            } catch (IOException ix) {
+            } cbtch (IOException ix) {
                 // drop through.
             }
         }
@@ -169,14 +169,14 @@ public class SocketHandler extends StreamHandler {
     }
 
     /**
-     * Format and publish a <tt>LogRecord</tt>.
+     * Formbt bnd publish b <tt>LogRecord</tt>.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  record  description of the log event. A null record is
+     *                 silently ignored bnd is not published
      */
     @Override
     public synchronized void publish(LogRecord record) {
-        if (!isLoggable(record)) {
+        if (!isLoggbble(record)) {
             return;
         }
         super.publish(record);

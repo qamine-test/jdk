@@ -1,884 +1,884 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.DialogPeer;
-import java.awt.event.*;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicLong;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.accessibility.*;
-import sun.awt.AppContext;
-import sun.awt.AWTPermissions;
-import sun.awt.SunToolkit;
-import sun.awt.PeerEvent;
-import sun.awt.util.IdentityArrayList;
-import sun.awt.util.IdentityLinkedList;
-import java.security.AccessControlException;
-import java.util.function.BooleanSupplier;
+import jbvb.bwt.peer.DiblogPeer;
+import jbvb.bwt.event.*;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Iterbtor;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvbx.bccessibility.*;
+import sun.bwt.AppContext;
+import sun.bwt.AWTPermissions;
+import sun.bwt.SunToolkit;
+import sun.bwt.PeerEvent;
+import sun.bwt.util.IdentityArrbyList;
+import sun.bwt.util.IdentityLinkedList;
+import jbvb.security.AccessControlException;
+import jbvb.util.function.BoolebnSupplier;
 
 /**
- * A Dialog is a top-level window with a title and a border
- * that is typically used to take some form of input from the user.
+ * A Diblog is b top-level window with b title bnd b border
+ * thbt is typicblly used to tbke some form of input from the user.
  *
- * The size of the dialog includes any area designated for the
- * border.  The dimensions of the border area can be obtained
+ * The size of the diblog includes bny breb designbted for the
+ * border.  The dimensions of the border breb cbn be obtbined
  * using the <code>getInsets</code> method, however, since
- * these dimensions are platform-dependent, a valid insets
- * value cannot be obtained until the dialog is made displayable
- * by either calling <code>pack</code> or <code>show</code>.
- * Since the border area is included in the overall size of the
- * dialog, the border effectively obscures a portion of the dialog,
- * constraining the area available for rendering and/or displaying
- * subcomponents to the rectangle which has an upper-left corner
- * location of <code>(insets.left, insets.top)</code>, and has a size of
+ * these dimensions bre plbtform-dependent, b vblid insets
+ * vblue cbnnot be obtbined until the diblog is mbde displbybble
+ * by either cblling <code>pbck</code> or <code>show</code>.
+ * Since the border breb is included in the overbll size of the
+ * diblog, the border effectively obscures b portion of the diblog,
+ * constrbining the breb bvbilbble for rendering bnd/or displbying
+ * subcomponents to the rectbngle which hbs bn upper-left corner
+ * locbtion of <code>(insets.left, insets.top)</code>, bnd hbs b size of
  * <code>width - (insets.left + insets.right)</code> by
  * <code>height - (insets.top + insets.bottom)</code>.
  * <p>
- * The default layout for a dialog is <code>BorderLayout</code>.
+ * The defbult lbyout for b diblog is <code>BorderLbyout</code>.
  * <p>
- * A dialog may have its native decorations (i.e. Frame &amp; Titlebar) turned off
- * with <code>setUndecorated</code>.  This can only be done while the dialog
- * is not {@link Component#isDisplayable() displayable}.
+ * A diblog mby hbve its nbtive decorbtions (i.e. Frbme &bmp; Titlebbr) turned off
+ * with <code>setUndecorbted</code>.  This cbn only be done while the diblog
+ * is not {@link Component#isDisplbybble() displbybble}.
  * <p>
- * A dialog may have another window as its owner when it's constructed.  When
- * the owner window of a visible dialog is minimized, the dialog will
- * automatically be hidden from the user. When the owner window is subsequently
- * restored, the dialog is made visible to the user again.
+ * A diblog mby hbve bnother window bs its owner when it's constructed.  When
+ * the owner window of b visible diblog is minimized, the diblog will
+ * butombticblly be hidden from the user. When the owner window is subsequently
+ * restored, the diblog is mbde visible to the user bgbin.
  * <p>
- * In a multi-screen environment, you can create a <code>Dialog</code>
- * on a different screen device than its owner.  See {@link java.awt.Frame} for
- * more information.
+ * In b multi-screen environment, you cbn crebte b <code>Diblog</code>
+ * on b different screen device thbn its owner.  See {@link jbvb.bwt.Frbme} for
+ * more informbtion.
  * <p>
- * A dialog can be either modeless (the default) or modal.  A modal
- * dialog is one which blocks input to some other top-level windows
- * in the application, except for any windows created with the dialog
- * as their owner. See <a href="doc-files/Modality.html">AWT Modality</a>
- * specification for details.
+ * A diblog cbn be either modeless (the defbult) or modbl.  A modbl
+ * diblog is one which blocks input to some other top-level windows
+ * in the bpplicbtion, except for bny windows crebted with the diblog
+ * bs their owner. See <b href="doc-files/Modblity.html">AWT Modblity</b>
+ * specificbtion for detbils.
  * <p>
- * Dialogs are capable of generating the following
+ * Diblogs bre cbpbble of generbting the following
  * <code>WindowEvents</code>:
  * <code>WindowOpened</code>, <code>WindowClosing</code>,
- * <code>WindowClosed</code>, <code>WindowActivated</code>,
- * <code>WindowDeactivated</code>, <code>WindowGainedFocus</code>,
+ * <code>WindowClosed</code>, <code>WindowActivbted</code>,
+ * <code>WindowDebctivbted</code>, <code>WindowGbinedFocus</code>,
  * <code>WindowLostFocus</code>.
  *
  * @see WindowEvent
- * @see Window#addWindowListener
+ * @see Window#bddWindowListener
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public class Dialog extends Window {
+public clbss Diblog extends Window {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * A dialog's resizable property. Will be true
-     * if the Dialog is to be resizable, otherwise
-     * it will be false.
+     * A diblog's resizbble property. Will be true
+     * if the Diblog is to be resizbble, otherwise
+     * it will be fblse.
      *
-     * @serial
-     * @see #setResizable(boolean)
+     * @seribl
+     * @see #setResizbble(boolebn)
      */
-    boolean resizable = true;
+    boolebn resizbble = true;
 
 
     /**
-     * This field indicates whether the dialog is undecorated.
-     * This property can only be changed while the dialog is not displayable.
-     * <code>undecorated</code> will be true if the dialog is
-     * undecorated, otherwise it will be false.
+     * This field indicbtes whether the diblog is undecorbted.
+     * This property cbn only be chbnged while the diblog is not displbybble.
+     * <code>undecorbted</code> will be true if the diblog is
+     * undecorbted, otherwise it will be fblse.
      *
-     * @serial
-     * @see #setUndecorated(boolean)
-     * @see #isUndecorated()
-     * @see Component#isDisplayable()
+     * @seribl
+     * @see #setUndecorbted(boolebn)
+     * @see #isUndecorbted()
+     * @see Component#isDisplbybble()
      * @since 1.4
      */
-    boolean undecorated = false;
+    boolebn undecorbted = fblse;
 
-    private transient boolean initialized = false;
+    privbte trbnsient boolebn initiblized = fblse;
 
     /**
-     * Modal dialogs block all input to some top-level windows.
-     * Whether a particular window is blocked depends on dialog's type
-     * of modality; this is called the "scope of blocking". The
-     * <code>ModalityType</code> enum specifies modal types and their
-     * associated scopes.
+     * Modbl diblogs block bll input to some top-level windows.
+     * Whether b pbrticulbr window is blocked depends on diblog's type
+     * of modblity; this is cblled the "scope of blocking". The
+     * <code>ModblityType</code> enum specifies modbl types bnd their
+     * bssocibted scopes.
      *
-     * @see Dialog#getModalityType
-     * @see Dialog#setModalityType
-     * @see Toolkit#isModalityTypeSupported
+     * @see Diblog#getModblityType
+     * @see Diblog#setModblityType
+     * @see Toolkit#isModblityTypeSupported
      *
      * @since 1.6
      */
-    public static enum ModalityType {
+    public stbtic enum ModblityType {
         /**
-         * <code>MODELESS</code> dialog doesn't block any top-level windows.
+         * <code>MODELESS</code> diblog doesn't block bny top-level windows.
          */
         MODELESS,
         /**
-         * A <code>DOCUMENT_MODAL</code> dialog blocks input to all top-level windows
-         * from the same document except those from its own child hierarchy.
-         * A document is a top-level window without an owner. It may contain child
-         * windows that, together with the top-level window are treated as a single
+         * A <code>DOCUMENT_MODAL</code> diblog blocks input to bll top-level windows
+         * from the sbme document except those from its own child hierbrchy.
+         * A document is b top-level window without bn owner. It mby contbin child
+         * windows thbt, together with the top-level window bre trebted bs b single
          * solid document. Since every top-level window must belong to some
-         * document, its root can be found as the top-nearest window without an owner.
+         * document, its root cbn be found bs the top-nebrest window without bn owner.
          */
         DOCUMENT_MODAL,
         /**
-         * An <code>APPLICATION_MODAL</code> dialog blocks all top-level windows
-         * from the same Java application except those from its own child hierarchy.
-         * If there are several applets launched in a browser, they can be
-         * treated either as separate applications or a single one. This behavior
-         * is implementation-dependent.
+         * An <code>APPLICATION_MODAL</code> diblog blocks bll top-level windows
+         * from the sbme Jbvb bpplicbtion except those from its own child hierbrchy.
+         * If there bre severbl bpplets lbunched in b browser, they cbn be
+         * trebted either bs sepbrbte bpplicbtions or b single one. This behbvior
+         * is implementbtion-dependent.
          */
         APPLICATION_MODAL,
         /**
-         * A <code>TOOLKIT_MODAL</code> dialog blocks all top-level windows run
-         * from the same toolkit except those from its own child hierarchy. If there
-         * are several applets launched in a browser, all of them run with the same
-         * toolkit; thus, a toolkit-modal dialog displayed by an applet may affect
-         * other applets and all windows of the browser instance which embeds the
-         * Java runtime environment for this toolkit.
-         * Special <code>AWTPermission</code> "toolkitModality" must be granted to use
-         * toolkit-modal dialogs. If a <code>TOOLKIT_MODAL</code> dialog is being created
-         * and this permission is not granted, a <code>SecurityException</code> will be
-         * thrown, and no dialog will be created. If a modality type is being changed
-         * to <code>TOOLKIT_MODAL</code> and this permission is not granted, a
-         * <code>SecurityException</code> will be thrown, and the modality type will
-         * be left unchanged.
+         * A <code>TOOLKIT_MODAL</code> diblog blocks bll top-level windows run
+         * from the sbme toolkit except those from its own child hierbrchy. If there
+         * bre severbl bpplets lbunched in b browser, bll of them run with the sbme
+         * toolkit; thus, b toolkit-modbl diblog displbyed by bn bpplet mby bffect
+         * other bpplets bnd bll windows of the browser instbnce which embeds the
+         * Jbvb runtime environment for this toolkit.
+         * Specibl <code>AWTPermission</code> "toolkitModblity" must be grbnted to use
+         * toolkit-modbl diblogs. If b <code>TOOLKIT_MODAL</code> diblog is being crebted
+         * bnd this permission is not grbnted, b <code>SecurityException</code> will be
+         * thrown, bnd no diblog will be crebted. If b modblity type is being chbnged
+         * to <code>TOOLKIT_MODAL</code> bnd this permission is not grbnted, b
+         * <code>SecurityException</code> will be thrown, bnd the modblity type will
+         * be left unchbnged.
          */
         TOOLKIT_MODAL
     };
 
     /**
-     * Default modality type for modal dialogs. The default modality type is
-     * <code>APPLICATION_MODAL</code>. Calling the oldstyle <code>setModal(true)</code>
-     * is equal to <code>setModalityType(DEFAULT_MODALITY_TYPE)</code>.
+     * Defbult modblity type for modbl diblogs. The defbult modblity type is
+     * <code>APPLICATION_MODAL</code>. Cblling the oldstyle <code>setModbl(true)</code>
+     * is equbl to <code>setModblityType(DEFAULT_MODALITY_TYPE)</code>.
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
      *
      * @since 1.6
      */
-    public final static ModalityType DEFAULT_MODALITY_TYPE = ModalityType.APPLICATION_MODAL;
+    public finbl stbtic ModblityType DEFAULT_MODALITY_TYPE = ModblityType.APPLICATION_MODAL;
 
     /**
-     * True if this dialog is modal, false is the dialog is modeless.
-     * A modal dialog blocks user input to some application top-level
-     * windows. This field is kept only for backwards compatibility. Use the
-     * {@link Dialog.ModalityType ModalityType} enum instead.
+     * True if this diblog is modbl, fblse is the diblog is modeless.
+     * A modbl diblog blocks user input to some bpplicbtion top-level
+     * windows. This field is kept only for bbckwbrds compbtibility. Use the
+     * {@link Diblog.ModblityType ModblityType} enum instebd.
      *
-     * @serial
+     * @seribl
      *
-     * @see #isModal
-     * @see #setModal
-     * @see #getModalityType
-     * @see #setModalityType
-     * @see ModalityType
-     * @see ModalityType#MODELESS
+     * @see #isModbl
+     * @see #setModbl
+     * @see #getModblityType
+     * @see #setModblityType
+     * @see ModblityType
+     * @see ModblityType#MODELESS
      * @see #DEFAULT_MODALITY_TYPE
      */
-    boolean modal;
+    boolebn modbl;
 
     /**
-     * Modality type of this dialog. If the dialog's modality type is not
-     * {@link Dialog.ModalityType#MODELESS ModalityType.MODELESS}, it blocks all
-     * user input to some application top-level windows.
+     * Modblity type of this diblog. If the diblog's modblity type is not
+     * {@link Diblog.ModblityType#MODELESS ModblityType.MODELESS}, it blocks bll
+     * user input to some bpplicbtion top-level windows.
      *
-     * @serial
+     * @seribl
      *
-     * @see ModalityType
-     * @see #getModalityType
-     * @see #setModalityType
+     * @see ModblityType
+     * @see #getModblityType
+     * @see #setModblityType
      *
      * @since 1.6
      */
-    ModalityType modalityType;
+    ModblityType modblityType;
 
     /**
-     * Any top-level window can be marked not to be blocked by modal
-     * dialogs. This is called "modal exclusion". This enum specifies
-     * the possible modal exclusion types.
+     * Any top-level window cbn be mbrked not to be blocked by modbl
+     * diblogs. This is cblled "modbl exclusion". This enum specifies
+     * the possible modbl exclusion types.
      *
-     * @see Window#getModalExclusionType
-     * @see Window#setModalExclusionType
-     * @see Toolkit#isModalExclusionTypeSupported
+     * @see Window#getModblExclusionType
+     * @see Window#setModblExclusionType
+     * @see Toolkit#isModblExclusionTypeSupported
      *
      * @since 1.6
      */
-    public static enum ModalExclusionType {
+    public stbtic enum ModblExclusionType {
         /**
-         * No modal exclusion.
+         * No modbl exclusion.
          */
         NO_EXCLUDE,
         /**
-         * <code>APPLICATION_EXCLUDE</code> indicates that a top-level window
-         * won't be blocked by any application-modal dialogs. Also, it isn't
-         * blocked by document-modal dialogs from outside of its child hierarchy.
+         * <code>APPLICATION_EXCLUDE</code> indicbtes thbt b top-level window
+         * won't be blocked by bny bpplicbtion-modbl diblogs. Also, it isn't
+         * blocked by document-modbl diblogs from outside of its child hierbrchy.
          */
         APPLICATION_EXCLUDE,
         /**
-         * <code>TOOLKIT_EXCLUDE</code> indicates that a top-level window
-         * won't be blocked by  application-modal or toolkit-modal dialogs. Also,
-         * it isn't blocked by document-modal dialogs from outside of its
-         * child hierarchy.
-         * The "toolkitModality" <code>AWTPermission</code> must be granted
-         * for this exclusion. If an exclusion property is being changed to
-         * <code>TOOLKIT_EXCLUDE</code> and this permission is not granted, a
-         * <code>SecurityEcxeption</code> will be thrown, and the exclusion
-         * property will be left unchanged.
+         * <code>TOOLKIT_EXCLUDE</code> indicbtes thbt b top-level window
+         * won't be blocked by  bpplicbtion-modbl or toolkit-modbl diblogs. Also,
+         * it isn't blocked by document-modbl diblogs from outside of its
+         * child hierbrchy.
+         * The "toolkitModblity" <code>AWTPermission</code> must be grbnted
+         * for this exclusion. If bn exclusion property is being chbnged to
+         * <code>TOOLKIT_EXCLUDE</code> bnd this permission is not grbnted, b
+         * <code>SecurityEcxeption</code> will be thrown, bnd the exclusion
+         * property will be left unchbnged.
          */
         TOOLKIT_EXCLUDE
     };
 
-    /* operations with this list should be synchronized on tree lock*/
-    transient static IdentityArrayList<Dialog> modalDialogs = new IdentityArrayList<Dialog>();
+    /* operbtions with this list should be synchronized on tree lock*/
+    trbnsient stbtic IdentityArrbyList<Diblog> modblDiblogs = new IdentityArrbyList<Diblog>();
 
-    transient IdentityArrayList<Window> blockedWindows = new IdentityArrayList<Window>();
+    trbnsient IdentityArrbyList<Window> blockedWindows = new IdentityArrbyList<Window>();
 
     /**
-     * Specifies the title of the Dialog.
-     * This field can be null.
+     * Specifies the title of the Diblog.
+     * This field cbn be null.
      *
-     * @serial
+     * @seribl
      * @see #getTitle()
      * @see #setTitle(String)
      */
     String title;
 
-    private transient ModalEventFilter modalFilter;
-    private transient volatile SecondaryLoop secondaryLoop;
+    privbte trbnsient ModblEventFilter modblFilter;
+    privbte trbnsient volbtile SecondbryLoop secondbryLoop;
 
     /*
-     * Indicates that this dialog is being hidden. This flag is set to true at
-     * the beginning of hide() and to false at the end of hide().
+     * Indicbtes thbt this diblog is being hidden. This flbg is set to true bt
+     * the beginning of hide() bnd to fblse bt the end of hide().
      *
      * @see #hide()
-     * @see #hideAndDisposePreHandler()
-     * @see #hideAndDisposeHandler()
+     * @see #hideAndDisposePreHbndler()
+     * @see #hideAndDisposeHbndler()
      * @see #shouldBlock()
      */
-    transient volatile boolean isInHide = false;
+    trbnsient volbtile boolebn isInHide = fblse;
 
     /*
-     * Indicates that this dialog is being disposed. This flag is set to true at
-     * the beginning of doDispose() and to false at the end of doDispose().
+     * Indicbtes thbt this diblog is being disposed. This flbg is set to true bt
+     * the beginning of doDispose() bnd to fblse bt the end of doDispose().
      *
      * @see #hide()
-     * @see #hideAndDisposePreHandler()
-     * @see #hideAndDisposeHandler()
+     * @see #hideAndDisposePreHbndler()
+     * @see #hideAndDisposeHbndler()
      * @see #doDispose()
      */
-    transient volatile boolean isInDispose = false;
+    trbnsient volbtile boolebn isInDispose = fblse;
 
-    private static final String base = "dialog";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "diblog";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 5920926903803293709L;
+    privbte stbtic finbl long seriblVersionUID = 5920926903803293709L;
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Frame</code> and an empty title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code> with
+     * the specified owner <code>Frbme</code> bnd bn empty title.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm owner the owner of the diblog or <code>null</code> if
+     *     this diblog hbs no owner
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
      */
-     public Dialog(Frame owner) {
-         this(owner, "", false);
+     public Diblog(Frbme owner) {
+         this(owner, "", fblse);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the specified
-     * owner <code>Frame</code> and modality and an empty title.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the specified
+     * owner <code>Frbme</code> bnd modblity bnd bn empty title.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
+     * @pbrbm owner the owner of the diblog or <code>null</code> if
+     *     this diblog hbs no owner
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If <code>fblse</code>, the diblog is <code>MODELESS</code>;
+     *     if <code>true</code>, the modblity type property is set to
      *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-     public Dialog(Frame owner, boolean modal) {
-         this(owner, "", modal);
+     public Diblog(Frbme owner, boolebn modbl) {
+         this(owner, "", modbl);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Frame</code> and title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code> with
+     * the specified owner <code>Frbme</code> bnd title.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @exception IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm owner the owner of the diblog or <code>null</code> if
+     *     this diblog hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @exception IllegblArgumentException if the <code>owner</code>'s
+     *     <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
      */
-     public Dialog(Frame owner, String title) {
-         this(owner, title, false);
+     public Diblog(Frbme owner, String title) {
+         this(owner, title, fblse);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Frame</code>, title and modality.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Frbme</code>, title bnd modblity.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
+     * @pbrbm owner the owner of the diblog or <code>null</code> if
+     *     this diblog hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If <code>fblse</code>, the diblog is <code>MODELESS</code>;
+     *     if <code>true</code>, the modblity type property is set to
      *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
      */
-     public Dialog(Frame owner, String title, boolean modal) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+     public Diblog(Frbme owner, String title, boolebn modbl) {
+         this(owner, title, modbl ? DEFAULT_MODALITY_TYPE : ModblityType.MODELESS);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the specified owner
-     * <code>Frame</code>, title, modality, and <code>GraphicsConfiguration</code>.
-     * @param owner the owner of the dialog or <code>null</code> if this dialog
-     *     has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
+     * Constructs bn initiblly invisible <code>Diblog</code> with the specified owner
+     * <code>Frbme</code>, title, modblity, bnd <code>GrbphicsConfigurbtion</code>.
+     * @pbrbm owner the owner of the diblog or <code>null</code> if this diblog
+     *     hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If <code>fblse</code>, the diblog is <code>MODELESS</code>;
+     *     if <code>true</code>, the modblity type property is set to
      *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *     is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> of the tbrget screen device;
+     *     if <code>null</code>, the defbult system <code>GrbphicsConfigurbtion</code>
+     *     is bssumed
+     * @exception jbvb.lbng.IllegblArgumentException if <code>gc</code>
+     *     is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
      * @since 1.4
      */
-     public Dialog(Frame owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS, gc);
+     public Diblog(Frbme owner, String title, boolebn modbl,
+                   GrbphicsConfigurbtion gc) {
+         this(owner, title, modbl ? DEFAULT_MODALITY_TYPE : ModblityType.MODELESS, gc);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Dialog</code> and an empty title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code> with
+     * the specified owner <code>Diblog</code> bnd bn empty title.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm owner the owner of the diblog or <code>null</code> if this
+     *     diblog hbs no owner
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *     <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.2
      */
-     public Dialog(Dialog owner) {
-         this(owner, "", false);
+     public Diblog(Diblog owner) {
+         this(owner, "", fblse);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code>
-     * with the specified owner <code>Dialog</code> and title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code>
+     * with the specified owner <code>Diblog</code> bnd title.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm owner the owner of the diblog or <code>null</code> if this
+     *     hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *     <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.2
      */
-     public Dialog(Dialog owner, String title) {
-         this(owner, title, false);
+     public Diblog(Diblog owner, String title) {
+         this(owner, title, fblse);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Dialog</code>, title, and modality.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Diblog</code>, title, bnd modblity.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this
-     *     dialog has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
+     * @pbrbm owner the owner of the diblog or <code>null</code> if this
+     *     diblog hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this
+     *     diblog hbs no title
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If <code>fblse</code>, the diblog is <code>MODELESS</code>;
+     *     if <code>true</code>, the modblity type property is set to
      *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @exception IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      *
      * @since 1.2
      */
-     public Dialog(Dialog owner, String title, boolean modal) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+     public Diblog(Diblog owner, String title, boolebn modbl) {
+         this(owner, title, modbl ? DEFAULT_MODALITY_TYPE : ModblityType.MODELESS);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Dialog</code>, title, modality and
-     * <code>GraphicsConfiguration</code>.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Diblog</code>, title, modblity bnd
+     * <code>GrbphicsConfigurbtion</code>.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this
-     *     dialog has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
+     * @pbrbm owner the owner of the diblog or <code>null</code> if this
+     *     diblog hbs no owner
+     * @pbrbm title the title of the diblog or <code>null</code> if this
+     *     diblog hbs no title
+     * @pbrbm modbl specifies whether diblog blocks user input to other top-level
+     *     windows when shown. If <code>fblse</code>, the diblog is <code>MODELESS</code>;
+     *     if <code>true</code>, the modblity type property is set to
      *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *    is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> of the tbrget screen device;
+     *     if <code>null</code>, the defbult system <code>GrbphicsConfigurbtion</code>
+     *     is bssumed
+     * @exception jbvb.lbng.IllegblArgumentException if <code>gc</code>
+     *    is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
      *
      * @since 1.4
      */
-     public Dialog(Dialog owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS, gc);
+     public Diblog(Diblog owner, String title, boolebn modbl,
+                   GrbphicsConfigurbtion gc) {
+         this(owner, title, modbl ? DEFAULT_MODALITY_TYPE : ModblityType.MODELESS, gc);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with the
-     * specified owner <code>Window</code> and an empty title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code> with the
+     * specified owner <code>Window</code> bnd bn empty title.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
+     * @pbrbm owner the owner of the diblog. The owner must be bn instbnce of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbme Frbme}, bny
      *     of their descendents or <code>null</code>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>
+     *     is not bn instbnce of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbme Frbme}
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *     <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      *
      * @since 1.6
      */
-    public Dialog(Window owner) {
-        this(owner, "", ModalityType.MODELESS);
+    public Diblog(Window owner) {
+        this(owner, "", ModblityType.MODELESS);
     }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Window</code> and title.
+     * Constructs bn initiblly invisible, modeless <code>Diblog</code> with
+     * the specified owner <code>Window</code> bnd title.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *    {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
+     * @pbrbm owner the owner of the diblog. The owner must be bn instbnce of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbme Frbme}, bny
      *    of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *    has no title
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *    hbs no title
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *    is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *    java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>
+     *    is not bn instbnce of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbme Frbme}
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      *
      * @since 1.6
      */
-    public Dialog(Window owner, String title) {
-        this(owner, title, ModalityType.MODELESS);
+    public Diblog(Window owner, String title) {
+        this(owner, title, ModblityType.MODELESS);
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code> and modality and an empty title.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Window</code> bnd modblity bnd bn empty title.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *    {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
+     * @pbrbm owner the owner of the diblog. The owner must be bn instbnce of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbme Frbme}, bny
      *    of their descendents or <code>null</code>
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *    windows when shown. <code>null</code> vblue bnd unsupported modblity
+     *    types bre equivblent to <code>MODELESS</code>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *    is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *    java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *    to create modal dialogs with the given <code>modalityType</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>
+     *    is not bn instbnce of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbme Frbme}
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *    <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *    <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @exception SecurityException if the cblling threbd does not hbve permission
+     *    to crebte modbl diblogs with the given <code>modblityType</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see jbvb.bwt.Toolkit#isModblityTypeSupported
      *
      * @since 1.6
      */
-    public Dialog(Window owner, ModalityType modalityType) {
-        this(owner, "", modalityType);
+    public Diblog(Window owner, ModblityType modblityType) {
+        this(owner, "", modblityType);
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code>, title and modality.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Window</code>, title bnd modblity.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
+     * @pbrbm owner the owner of the diblog. The owner must be bn instbnce of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbme Frbme}, bny
      *     of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *    windows when shown. <code>null</code> vblue bnd unsupported modblity
+     *    types bre equivblent to <code>MODELESS</code>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>
+     *     is not bn instbnce of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbme Frbme}
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>'s
+     *     <code>GrbphicsConfigurbtion</code> is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @exception SecurityException if the cblling threbd does not hbve permission
+     *     to crebte modbl diblogs with the given <code>modblityType</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see jbvb.bwt.Toolkit#isModblityTypeSupported
      *
      * @since 1.6
      */
-    public Dialog(Window owner, String title, ModalityType modalityType) {
+    public Diblog(Window owner, String title, ModblityType modblityType) {
         super(owner);
 
         if ((owner != null) &&
-            !(owner instanceof Frame) &&
-            !(owner instanceof Dialog))
+            !(owner instbnceof Frbme) &&
+            !(owner instbnceof Diblog))
         {
-            throw new IllegalArgumentException("Wrong parent window");
+            throw new IllegblArgumentException("Wrong pbrent window");
         }
 
         this.title = title;
-        setModalityType(modalityType);
+        setModblityType(modblityType);
         SunToolkit.checkAndSetPolicy(this);
-        initialized = true;
+        initiblized = true;
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code>, title, modality and
-     * <code>GraphicsConfiguration</code>.
+     * Constructs bn initiblly invisible <code>Diblog</code> with the
+     * specified owner <code>Window</code>, title, modblity bnd
+     * <code>GrbphicsConfigurbtion</code>.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
+     * @pbrbm owner the owner of the diblog. The owner must be bn instbnce of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbme Frbme}, bny
      *     of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
+     * @pbrbm title the title of the diblog or <code>null</code> if this diblog
+     *     hbs no title
+     * @pbrbm modblityType specifies whether diblog blocks input to other
+     *    windows when shown. <code>null</code> vblue bnd unsupported modblity
+     *    types bre equivblent to <code>MODELESS</code>
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> of the tbrget screen device;
+     *     if <code>null</code>, the defbult system <code>GrbphicsConfigurbtion</code>
+     *     is bssumed
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *     is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @exception jbvb.lbng.IllegblArgumentException if the <code>owner</code>
+     *     is not bn instbnce of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbme Frbme}
+     * @exception jbvb.lbng.IllegblArgumentException if <code>gc</code>
+     *     is not from b screen device
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @exception SecurityException if the cblling threbd does not hbve permission
+     *     to crebte modbl diblogs with the given <code>modblityType</code>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @see jbvb.bwt.Diblog.ModblityType
+     * @see jbvb.bwt.Diblog#setModbl
+     * @see jbvb.bwt.Diblog#setModblityType
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see jbvb.bwt.Toolkit#isModblityTypeSupported
      *
      * @since 1.6
      */
-    public Dialog(Window owner, String title, ModalityType modalityType,
-                  GraphicsConfiguration gc) {
+    public Diblog(Window owner, String title, ModblityType modblityType,
+                  GrbphicsConfigurbtion gc) {
         super(owner, gc);
 
         if ((owner != null) &&
-            !(owner instanceof Frame) &&
-            !(owner instanceof Dialog))
+            !(owner instbnceof Frbme) &&
+            !(owner instbnceof Diblog))
         {
-            throw new IllegalArgumentException("wrong owner window");
+            throw new IllegblArgumentException("wrong owner window");
         }
 
         this.title = title;
-        setModalityType(modalityType);
+        setModblityType(modblityType);
         SunToolkit.checkAndSetPolicy(this);
-        initialized = true;
+        initiblized = true;
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (Dialog.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Diblog.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Makes this Dialog displayable by connecting it to
-     * a native screen resource.  Making a dialog displayable will
-     * cause any of its children to be made displayable.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
+     * Mbkes this Diblog displbybble by connecting it to
+     * b nbtive screen resource.  Mbking b diblog displbybble will
+     * cbuse bny of its children to be mbde displbybble.
+     * This method is cblled internblly by the toolkit bnd should
+     * not be cblled directly by progrbms.
+     * @see Component#isDisplbybble
      * @see #removeNotify
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
-            if (parent != null && parent.getPeer() == null) {
-                parent.addNotify();
+            if (pbrent != null && pbrent.getPeer() == null) {
+                pbrent.bddNotify();
             }
 
             if (peer == null) {
-                peer = getToolkit().createDialog(this);
+                peer = getToolkit().crebteDiblog(this);
             }
-            super.addNotify();
+            super.bddNotify();
         }
     }
 
     /**
-     * Indicates whether the dialog is modal.
+     * Indicbtes whether the diblog is modbl.
      * <p>
-     * This method is obsolete and is kept for backwards compatibility only.
-     * Use {@link #getModalityType getModalityType()} instead.
+     * This method is obsolete bnd is kept for bbckwbrds compbtibility only.
+     * Use {@link #getModblityType getModblityType()} instebd.
      *
-     * @return    <code>true</code> if this dialog window is modal;
-     *            <code>false</code> otherwise
+     * @return    <code>true</code> if this diblog window is modbl;
+     *            <code>fblse</code> otherwise
      *
-     * @see       java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see       java.awt.Dialog.ModalityType#MODELESS
-     * @see       java.awt.Dialog#setModal
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Dialog#setModalityType
+     * @see       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see       jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see       jbvb.bwt.Diblog#setModbl
+     * @see       jbvb.bwt.Diblog#getModblityType
+     * @see       jbvb.bwt.Diblog#setModblityType
      */
-    public boolean isModal() {
-        return isModal_NoClientCode();
+    public boolebn isModbl() {
+        return isModbl_NoClientCode();
     }
-    final boolean isModal_NoClientCode() {
-        return modalityType != ModalityType.MODELESS;
+    finbl boolebn isModbl_NoClientCode() {
+        return modblityType != ModblityType.MODELESS;
     }
 
     /**
-     * Specifies whether this dialog should be modal.
+     * Specifies whether this diblog should be modbl.
      * <p>
-     * This method is obsolete and is kept for backwards compatibility only.
-     * Use {@link #setModalityType setModalityType()} instead.
+     * This method is obsolete bnd is kept for bbckwbrds compbtibility only.
+     * Use {@link #setModblityType setModblityType()} instebd.
      * <p>
-     * Note: changing modality of the visible dialog may have no effect
-     * until it is hidden and then shown again.
+     * Note: chbnging modblity of the visible diblog mby hbve no effect
+     * until it is hidden bnd then shown bgbin.
      *
-     * @param modal specifies whether dialog blocks input to other windows
-     *     when shown; calling to <code>setModal(true)</code> is equivalent to
-     *     <code>setModalityType(Dialog.DEFAULT_MODALITY_TYPE)</code>, and
-     *     calling to <code>setModal(false)</code> is equvivalent to
-     *     <code>setModalityType(Dialog.ModalityType.MODELESS)</code>
+     * @pbrbm modbl specifies whether diblog blocks input to other windows
+     *     when shown; cblling to <code>setModbl(true)</code> is equivblent to
+     *     <code>setModblityType(Diblog.DEFAULT_MODALITY_TYPE)</code>, bnd
+     *     cblling to <code>setModbl(fblse)</code> is equvivblent to
+     *     <code>setModblityType(Diblog.ModblityType.MODELESS)</code>
      *
-     * @see       java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see       java.awt.Dialog.ModalityType#MODELESS
-     * @see       java.awt.Dialog#isModal
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Dialog#setModalityType
+     * @see       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @see       jbvb.bwt.Diblog.ModblityType#MODELESS
+     * @see       jbvb.bwt.Diblog#isModbl
+     * @see       jbvb.bwt.Diblog#getModblityType
+     * @see       jbvb.bwt.Diblog#setModblityType
      *
      * @since     1.1
      */
-    public void setModal(boolean modal) {
-        this.modal = modal;
-        setModalityType(modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+    public void setModbl(boolebn modbl) {
+        this.modbl = modbl;
+        setModblityType(modbl ? DEFAULT_MODALITY_TYPE : ModblityType.MODELESS);
     }
 
     /**
-     * Returns the modality type of this dialog.
+     * Returns the modblity type of this diblog.
      *
-     * @return modality type of this dialog
+     * @return modblity type of this diblog
      *
-     * @see java.awt.Dialog#setModalityType
+     * @see jbvb.bwt.Diblog#setModblityType
      *
      * @since 1.6
      */
-    public ModalityType getModalityType() {
-        return modalityType;
+    public ModblityType getModblityType() {
+        return modblityType;
     }
 
     /**
-     * Sets the modality type for this dialog. See {@link
-     * java.awt.Dialog.ModalityType ModalityType} for possible modality types.
+     * Sets the modblity type for this diblog. See {@link
+     * jbvb.bwt.Diblog.ModblityType ModblityType} for possible modblity types.
      * <p>
-     * If the given modality type is not supported, <code>MODELESS</code>
-     * is used. You may want to call <code>getModalityType()</code> after calling
-     * this method to ensure that the modality type has been set.
+     * If the given modblity type is not supported, <code>MODELESS</code>
+     * is used. You mby wbnt to cbll <code>getModblityType()</code> bfter cblling
+     * this method to ensure thbt the modblity type hbs been set.
      * <p>
-     * Note: changing modality of the visible dialog may have no effect
-     * until it is hidden and then shown again.
+     * Note: chbnging modblity of the visible diblog mby hbve no effect
+     * until it is hidden bnd then shown bgbin.
      *
-     * @param type specifies whether dialog blocks input to other
-     *     windows when shown. <code>null</code> value and unsupported modality
-     *     types are equivalent to <code>MODELESS</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @pbrbm type specifies whether diblog blocks input to other
+     *     windows when shown. <code>null</code> vblue bnd unsupported modblity
+     *     types bre equivblent to <code>MODELESS</code>
+     * @exception SecurityException if the cblling threbd does not hbve permission
+     *     to crebte modbl diblogs with the given <code>modblityType</code>
      *
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Toolkit#isModalityTypeSupported
+     * @see       jbvb.bwt.Diblog#getModblityType
+     * @see       jbvb.bwt.Toolkit#isModblityTypeSupported
      *
      * @since     1.6
      */
-    public void setModalityType(ModalityType type) {
+    public void setModblityType(ModblityType type) {
         if (type == null) {
-            type = Dialog.ModalityType.MODELESS;
+            type = Diblog.ModblityType.MODELESS;
         }
-        if (!Toolkit.getDefaultToolkit().isModalityTypeSupported(type)) {
-            type = Dialog.ModalityType.MODELESS;
+        if (!Toolkit.getDefbultToolkit().isModblityTypeSupported(type)) {
+            type = Diblog.ModblityType.MODELESS;
         }
-        if (modalityType == type) {
+        if (modblityType == type) {
             return;
         }
 
-        checkModalityPermission(type);
+        checkModblityPermission(type);
 
-        modalityType = type;
-        modal = (modalityType != ModalityType.MODELESS);
+        modblityType = type;
+        modbl = (modblityType != ModblityType.MODELESS);
     }
 
     /**
-     * Gets the title of the dialog. The title is displayed in the
-     * dialog's border.
-     * @return    the title of this dialog window. The title may be
+     * Gets the title of the diblog. The title is displbyed in the
+     * diblog's border.
+     * @return    the title of this diblog window. The title mby be
      *            <code>null</code>.
-     * @see       java.awt.Dialog#setTitle
+     * @see       jbvb.bwt.Diblog#setTitle
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Sets the title of the Dialog.
-     * @param title the title displayed in the dialog's border;
-         * a null value results in an empty title
+     * Sets the title of the Diblog.
+     * @pbrbm title the title displbyed in the diblog's border;
+         * b null vblue results in bn empty title
      * @see #getTitle
      */
     public void setTitle(String title) {
@@ -886,78 +886,78 @@ public class Dialog extends Window {
 
         synchronized(this) {
             this.title = title;
-            DialogPeer peer = (DialogPeer)this.peer;
+            DiblogPeer peer = (DiblogPeer)this.peer;
             if (peer != null) {
                 peer.setTitle(title);
             }
         }
-        firePropertyChange("title", oldTitle, title);
+        firePropertyChbnge("title", oldTitle, title);
     }
 
     /**
-     * @return true if we actually showed, false if we just called toFront()
+     * @return true if we bctublly showed, fblse if we just cblled toFront()
      */
-    private boolean conditionalShow(Component toFocus, AtomicLong time) {
-        boolean retval;
+    privbte boolebn conditionblShow(Component toFocus, AtomicLong time) {
+        boolebn retvbl;
 
-        closeSplashScreen();
+        closeSplbshScreen();
 
         synchronized (getTreeLock()) {
             if (peer == null) {
-                addNotify();
+                bddNotify();
             }
-            validateUnconditionally();
+            vblidbteUnconditionblly();
             if (visible) {
                 toFront();
-                retval = false;
+                retvbl = fblse;
             } else {
-                visible = retval = true;
+                visible = retvbl = true;
 
-                // check if this dialog should be modal blocked BEFORE calling peer.show(),
-                // otherwise, a pair of FOCUS_GAINED and FOCUS_LOST may be mistakenly
-                // generated for the dialog
-                if (!isModal()) {
+                // check if this diblog should be modbl blocked BEFORE cblling peer.show(),
+                // otherwise, b pbir of FOCUS_GAINED bnd FOCUS_LOST mby be mistbkenly
+                // generbted for the diblog
+                if (!isModbl()) {
                     checkShouldBeBlocked(this);
                 } else {
-                    modalDialogs.add(this);
-                    modalShow();
+                    modblDiblogs.bdd(this);
+                    modblShow();
                 }
 
-                if (toFocus != null && time != null && isFocusable() &&
-                    isEnabled() && !isModalBlocked()) {
-                    // keep the KeyEvents from being dispatched
-                    // until the focus has been transfered
+                if (toFocus != null && time != null && isFocusbble() &&
+                    isEnbbled() && !isModblBlocked()) {
+                    // keep the KeyEvents from being dispbtched
+                    // until the focus hbs been trbnsfered
                     time.set(Toolkit.getEventQueue().getMostRecentKeyEventTime());
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                         enqueueKeyEvents(time.get(), toFocus);
                 }
 
-                // This call is required as the show() method of the Dialog class
+                // This cbll is required bs the show() method of the Diblog clbss
                 // does not invoke the super.show(). So wried... :(
                 mixOnShowing();
 
-                peer.setVisible(true); // now guaranteed never to block
-                if (isModalBlocked()) {
-                    modalBlocker.toFront();
+                peer.setVisible(true); // now gubrbnteed never to block
+                if (isModblBlocked()) {
+                    modblBlocker.toFront();
                 }
 
-                setLocationByPlatform(false);
+                setLocbtionByPlbtform(fblse);
                 for (int i = 0; i < ownedWindowList.size(); i++) {
                     Window child = ownedWindowList.elementAt(i).get();
-                    if ((child != null) && child.showWithParent) {
+                    if ((child != null) && child.showWithPbrent) {
                         child.show();
-                        child.showWithParent = false;
+                        child.showWithPbrent = fblse;
                     }       // endif
                 }   // endfor
-                Window.updateChildFocusableWindowState(this);
+                Window.updbteChildFocusbbleWindowStbte(this);
 
-                createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED,
-                                      this, parent,
-                                      HierarchyEvent.SHOWING_CHANGED,
-                                      Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+                crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED,
+                                      this, pbrent,
+                                      HierbrchyEvent.SHOWING_CHANGED,
+                                      Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
                 if (componentListener != null ||
-                        (eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 ||
-                        Toolkit.enabledOnToolkit(AWTEvent.COMPONENT_EVENT_MASK)) {
+                        (eventMbsk & AWTEvent.COMPONENT_EVENT_MASK) != 0 ||
+                        Toolkit.enbbledOnToolkit(AWTEvent.COMPONENT_EVENT_MASK)) {
                     ComponentEvent e =
                         new ComponentEvent(this, ComponentEvent.COMPONENT_SHOWN);
                     Toolkit.getEventQueue().postEvent(e);
@@ -965,77 +965,77 @@ public class Dialog extends Window {
             }
         }
 
-        if (retval && (state & OPENED) == 0) {
+        if (retvbl && (stbte & OPENED) == 0) {
             postWindowEvent(WindowEvent.WINDOW_OPENED);
-            state |= OPENED;
+            stbte |= OPENED;
         }
 
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Shows or hides this {@code Dialog} depending on the value of parameter
+     * Shows or hides this {@code Diblog} depending on the vblue of pbrbmeter
      * {@code b}.
-     * @param b if {@code true}, makes the {@code Dialog} visible,
-     * otherwise hides the {@code Dialog}.
-     * If the dialog and/or its owner
-     * are not yet displayable, both are made displayable.  The
-     * dialog will be validated prior to being made visible.
-     * If {@code false}, hides the {@code Dialog} and then causes {@code setVisible(true)}
+     * @pbrbm b if {@code true}, mbkes the {@code Diblog} visible,
+     * otherwise hides the {@code Diblog}.
+     * If the diblog bnd/or its owner
+     * bre not yet displbybble, both bre mbde displbybble.  The
+     * diblog will be vblidbted prior to being mbde visible.
+     * If {@code fblse}, hides the {@code Diblog} bnd then cbuses {@code setVisible(true)}
      * to return if it is currently blocked.
      * <p>
-     * <b>Notes for modal dialogs</b>.
+     * <b>Notes for modbl diblogs</b>.
      * <ul>
-     * <li>{@code setVisible(true)}:  If the dialog is not already
-     * visible, this call will not return until the dialog is
-     * hidden by calling {@code setVisible(false)} or
+     * <li>{@code setVisible(true)}:  If the diblog is not blrebdy
+     * visible, this cbll will not return until the diblog is
+     * hidden by cblling {@code setVisible(fblse)} or
      * {@code dispose}.
-     * <li>{@code setVisible(false)}:  Hides the dialog and then
+     * <li>{@code setVisible(fblse)}:  Hides the diblog bnd then
      * returns on {@code setVisible(true)} if it is currently blocked.
-     * <li>It is OK to call this method from the event dispatching
-     * thread because the toolkit ensures that other events are
+     * <li>It is OK to cbll this method from the event dispbtching
+     * threbd becbuse the toolkit ensures thbt other events bre
      * not blocked while this method is blocked.
      * </ul>
-     * @see java.awt.Window#setVisible
-     * @see java.awt.Window#dispose
-     * @see java.awt.Component#isDisplayable
-     * @see java.awt.Component#validate
-     * @see java.awt.Dialog#isModal
+     * @see jbvb.bwt.Window#setVisible
+     * @see jbvb.bwt.Window#dispose
+     * @see jbvb.bwt.Component#isDisplbybble
+     * @see jbvb.bwt.Component#vblidbte
+     * @see jbvb.bwt.Diblog#isModbl
      */
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
         super.setVisible(b);
     }
 
    /**
-     * Makes the {@code Dialog} visible. If the dialog and/or its owner
-     * are not yet displayable, both are made displayable.  The
-     * dialog will be validated prior to being made visible.
-     * If the dialog is already visible, this will bring the dialog
+     * Mbkes the {@code Diblog} visible. If the diblog bnd/or its owner
+     * bre not yet displbybble, both bre mbde displbybble.  The
+     * diblog will be vblidbted prior to being mbde visible.
+     * If the diblog is blrebdy visible, this will bring the diblog
      * to the front.
      * <p>
-     * If the dialog is modal and is not already visible, this call
-     * will not return until the dialog is hidden by calling hide or
-     * dispose. It is permissible to show modal dialogs from the event
-     * dispatching thread because the toolkit will ensure that another
+     * If the diblog is modbl bnd is not blrebdy visible, this cbll
+     * will not return until the diblog is hidden by cblling hide or
+     * dispose. It is permissible to show modbl diblogs from the event
+     * dispbtching threbd becbuse the toolkit will ensure thbt bnother
      * event pump runs while the one which invoked this method is blocked.
      * @see Component#hide
-     * @see Component#isDisplayable
-     * @see Component#validate
-     * @see #isModal
-     * @see Window#setVisible(boolean)
-     * @deprecated As of JDK version 1.5, replaced by
-     * {@link #setVisible(boolean) setVisible(boolean)}.
+     * @see Component#isDisplbybble
+     * @see Component#vblidbte
+     * @see #isModbl
+     * @see Window#setVisible(boolebn)
+     * @deprecbted As of JDK version 1.5, replbced by
+     * {@link #setVisible(boolebn) setVisible(boolebn)}.
      */
-    @Deprecated
+    @Deprecbted
     public void show() {
-        if (!initialized) {
-            throw new IllegalStateException("The dialog component " +
-                "has not been initialized properly");
+        if (!initiblized) {
+            throw new IllegblStbteException("The diblog component " +
+                "hbs not been initiblized properly");
         }
 
-        beforeFirstShow = false;
-        if (!isModal()) {
-            conditionalShow(null, null);
+        beforeFirstShow = fblse;
+        if (!isModbl()) {
+            conditionblShow(null, null);
         } else {
             AppContext showAppContext = AppContext.getAppContext();
 
@@ -1043,266 +1043,266 @@ public class Dialog extends Window {
             Component predictedFocusOwner = null;
             try {
                 predictedFocusOwner = getMostRecentFocusOwner();
-                if (conditionalShow(predictedFocusOwner, time)) {
-                    modalFilter = ModalEventFilter.createFilterForDialog(this);
-                    // if this dialog is toolkit-modal, the filter should be added
-                    // to all EDTs (for all AppContexts)
-                    if (modalityType == ModalityType.TOOLKIT_MODAL) {
-                        Iterator<AppContext> it = AppContext.getAppContexts().iterator();
-                        while (it.hasNext()) {
-                            AppContext appContext = it.next();
-                            if (appContext == showAppContext) {
+                if (conditionblShow(predictedFocusOwner, time)) {
+                    modblFilter = ModblEventFilter.crebteFilterForDiblog(this);
+                    // if this diblog is toolkit-modbl, the filter should be bdded
+                    // to bll EDTs (for bll AppContexts)
+                    if (modblityType == ModblityType.TOOLKIT_MODAL) {
+                        Iterbtor<AppContext> it = AppContext.getAppContexts().iterbtor();
+                        while (it.hbsNext()) {
+                            AppContext bppContext = it.next();
+                            if (bppContext == showAppContext) {
                                 continue;
                             }
-                            EventQueue eventQueue = (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
-                            // it may occur that EDT for appContext hasn't been started yet, so
-                            // we post an empty invocation event to trigger EDT initialization
-                            eventQueue.postEvent(new InvocationEvent(this, () -> {}));
-                            EventDispatchThread edt = eventQueue.getDispatchThread();
-                            edt.addEventFilter(modalFilter);
+                            EventQueue eventQueue = (EventQueue)bppContext.get(AppContext.EVENT_QUEUE_KEY);
+                            // it mby occur thbt EDT for bppContext hbsn't been stbrted yet, so
+                            // we post bn empty invocbtion event to trigger EDT initiblizbtion
+                            eventQueue.postEvent(new InvocbtionEvent(this, () -> {}));
+                            EventDispbtchThrebd edt = eventQueue.getDispbtchThrebd();
+                            edt.bddEventFilter(modblFilter);
                         }
                     }
 
-                    modalityPushed();
+                    modblityPushed();
                     try {
-                        final EventQueue eventQueue = AccessController.doPrivileged(
-                                (PrivilegedAction<EventQueue>) Toolkit.getDefaultToolkit()::getSystemEventQueue);
-                        secondaryLoop = eventQueue.createSecondaryLoop(() -> true, modalFilter, 0);
-                        if (!secondaryLoop.enter()) {
-                            secondaryLoop = null;
+                        finbl EventQueue eventQueue = AccessController.doPrivileged(
+                                (PrivilegedAction<EventQueue>) Toolkit.getDefbultToolkit()::getSystemEventQueue);
+                        secondbryLoop = eventQueue.crebteSecondbryLoop(() -> true, modblFilter, 0);
+                        if (!secondbryLoop.enter()) {
+                            secondbryLoop = null;
                         }
-                    } finally {
-                        modalityPopped();
+                    } finblly {
+                        modblityPopped();
                     }
 
-                    // if this dialog is toolkit-modal, its filter must be removed
-                    // from all EDTs (for all AppContexts)
-                    if (modalityType == ModalityType.TOOLKIT_MODAL) {
-                        Iterator<AppContext> it = AppContext.getAppContexts().iterator();
-                        while (it.hasNext()) {
-                            AppContext appContext = it.next();
-                            if (appContext == showAppContext) {
+                    // if this diblog is toolkit-modbl, its filter must be removed
+                    // from bll EDTs (for bll AppContexts)
+                    if (modblityType == ModblityType.TOOLKIT_MODAL) {
+                        Iterbtor<AppContext> it = AppContext.getAppContexts().iterbtor();
+                        while (it.hbsNext()) {
+                            AppContext bppContext = it.next();
+                            if (bppContext == showAppContext) {
                                 continue;
                             }
-                            EventQueue eventQueue = (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
-                            EventDispatchThread edt = eventQueue.getDispatchThread();
-                            edt.removeEventFilter(modalFilter);
+                            EventQueue eventQueue = (EventQueue)bppContext.get(AppContext.EVENT_QUEUE_KEY);
+                            EventDispbtchThrebd edt = eventQueue.getDispbtchThrebd();
+                            edt.removeEventFilter(modblFilter);
                         }
                     }
                 }
-            } finally {
+            } finblly {
                 if (predictedFocusOwner != null) {
-                    // Restore normal key event dispatching
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    // Restore normbl key event dispbtching
+                    KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                         dequeueKeyEvents(time.get(), predictedFocusOwner);
                 }
             }
         }
     }
 
-    final void modalityPushed() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
+    finbl void modblityPushed() {
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof SunToolkit) {
             SunToolkit stk = (SunToolkit)tk;
-            stk.notifyModalityPushed(this);
+            stk.notifyModblityPushed(this);
         }
     }
 
-    final void modalityPopped() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
+    finbl void modblityPopped() {
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof SunToolkit) {
             SunToolkit stk = (SunToolkit)tk;
-            stk.notifyModalityPopped(this);
+            stk.notifyModblityPopped(this);
         }
     }
 
-    private void hideAndDisposePreHandler() {
+    privbte void hideAndDisposePreHbndler() {
         isInHide = true;
         synchronized (getTreeLock()) {
-            if (secondaryLoop != null) {
-                modalHide();
-                // dialog can be shown and then disposed before its
-                // modal filter is created
-                if (modalFilter != null) {
-                    modalFilter.disable();
+            if (secondbryLoop != null) {
+                modblHide();
+                // diblog cbn be shown bnd then disposed before its
+                // modbl filter is crebted
+                if (modblFilter != null) {
+                    modblFilter.disbble();
                 }
-                modalDialogs.remove(this);
+                modblDiblogs.remove(this);
             }
         }
     }
-    private void hideAndDisposeHandler() {
-        if (secondaryLoop != null) {
-            secondaryLoop.exit();
-            secondaryLoop = null;
+    privbte void hideAndDisposeHbndler() {
+        if (secondbryLoop != null) {
+            secondbryLoop.exit();
+            secondbryLoop = null;
         }
-        isInHide = false;
+        isInHide = fblse;
     }
 
     /**
-     * Hides the Dialog and then causes {@code show} to return if it is currently
+     * Hides the Diblog bnd then cbuses {@code show} to return if it is currently
      * blocked.
      * @see Window#show
      * @see Window#dispose
-     * @see Window#setVisible(boolean)
-     * @deprecated As of JDK version 1.5, replaced by
-     * {@link #setVisible(boolean) setVisible(boolean)}.
+     * @see Window#setVisible(boolebn)
+     * @deprecbted As of JDK version 1.5, replbced by
+     * {@link #setVisible(boolebn) setVisible(boolebn)}.
      */
-    @Deprecated
+    @Deprecbted
     public void hide() {
-        hideAndDisposePreHandler();
+        hideAndDisposePreHbndler();
         super.hide();
-        // fix for 5048370: if hide() is called from super.doDispose(), then
-        // hideAndDisposeHandler() should not be called here as it will be called
-        // at the end of doDispose()
+        // fix for 5048370: if hide() is cblled from super.doDispose(), then
+        // hideAndDisposeHbndler() should not be cblled here bs it will be cblled
+        // bt the end of doDispose()
         if (!isInDispose) {
-            hideAndDisposeHandler();
+            hideAndDisposeHbndler();
         }
     }
 
     /**
-     * Disposes the Dialog and then causes show() to return if it is currently
+     * Disposes the Diblog bnd then cbuses show() to return if it is currently
      * blocked.
      */
     void doDispose() {
-        // fix for 5048370: set isInDispose flag to true to prevent calling
-        // to hideAndDisposeHandler() from hide()
+        // fix for 5048370: set isInDispose flbg to true to prevent cblling
+        // to hideAndDisposeHbndler() from hide()
         isInDispose = true;
         super.doDispose();
-        hideAndDisposeHandler();
-        isInDispose = false;
+        hideAndDisposeHbndler();
+        isInDispose = fblse;
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * If this dialog is modal and blocks some windows, then all of them are
-     * also sent to the back to keep them below the blocking dialog.
+     * If this diblog is modbl bnd blocks some windows, then bll of them bre
+     * blso sent to the bbck to keep them below the blocking diblog.
      *
-     * @see java.awt.Window#toBack
+     * @see jbvb.bwt.Window#toBbck
      */
-    public void toBack() {
-        super.toBack();
+    public void toBbck() {
+        super.toBbck();
         if (visible) {
             synchronized (getTreeLock()) {
                 for (Window w : blockedWindows) {
-                    w.toBack_NoClientCode();
+                    w.toBbck_NoClientCode();
                 }
             }
         }
     }
 
     /**
-     * Indicates whether this dialog is resizable by the user.
-     * By default, all dialogs are initially resizable.
-     * @return    <code>true</code> if the user can resize the dialog;
-     *            <code>false</code> otherwise.
-     * @see       java.awt.Dialog#setResizable
+     * Indicbtes whether this diblog is resizbble by the user.
+     * By defbult, bll diblogs bre initiblly resizbble.
+     * @return    <code>true</code> if the user cbn resize the diblog;
+     *            <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Diblog#setResizbble
      */
-    public boolean isResizable() {
-        return resizable;
+    public boolebn isResizbble() {
+        return resizbble;
     }
 
     /**
-     * Sets whether this dialog is resizable by the user.
-     * @param     resizable <code>true</code> if the user can
-     *                 resize this dialog; <code>false</code> otherwise.
-     * @see       java.awt.Dialog#isResizable
+     * Sets whether this diblog is resizbble by the user.
+     * @pbrbm     resizbble <code>true</code> if the user cbn
+     *                 resize this diblog; <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Diblog#isResizbble
      */
-    public void setResizable(boolean resizable) {
-        boolean testvalid = false;
+    public void setResizbble(boolebn resizbble) {
+        boolebn testvblid = fblse;
 
         synchronized (this) {
-            this.resizable = resizable;
-            DialogPeer peer = (DialogPeer)this.peer;
+            this.resizbble = resizbble;
+            DiblogPeer peer = (DiblogPeer)this.peer;
             if (peer != null) {
-                peer.setResizable(resizable);
-                testvalid = true;
+                peer.setResizbble(resizbble);
+                testvblid = true;
             }
         }
 
-        // On some platforms, changing the resizable state affects
-        // the insets of the Dialog. If we could, we'd call invalidate()
-        // from the peer, but we need to guarantee that we're not holding
-        // the Dialog lock when we call invalidate().
-        if (testvalid) {
-            invalidateIfValid();
+        // On some plbtforms, chbnging the resizbble stbte bffects
+        // the insets of the Diblog. If we could, we'd cbll invblidbte()
+        // from the peer, but we need to gubrbntee thbt we're not holding
+        // the Diblog lock when we cbll invblidbte().
+        if (testvblid) {
+            invblidbteIfVblid();
         }
     }
 
 
     /**
-     * Disables or enables decorations for this dialog.
+     * Disbbles or enbbles decorbtions for this diblog.
      * <p>
-     * This method can only be called while the dialog is not displayable. To
-     * make this dialog decorated, it must be opaque and have the default shape,
-     * otherwise the {@code IllegalComponentStateException} will be thrown.
-     * Refer to {@link Window#setShape}, {@link Window#setOpacity} and {@link
-     * Window#setBackground} for details
+     * This method cbn only be cblled while the diblog is not displbybble. To
+     * mbke this diblog decorbted, it must be opbque bnd hbve the defbult shbpe,
+     * otherwise the {@code IllegblComponentStbteException} will be thrown.
+     * Refer to {@link Window#setShbpe}, {@link Window#setOpbcity} bnd {@link
+     * Window#setBbckground} for detbils
      *
-     * @param  undecorated {@code true} if no dialog decorations are to be
-     *         enabled; {@code false} if dialog decorations are to be enabled
+     * @pbrbm  undecorbted {@code true} if no diblog decorbtions bre to be
+     *         enbbled; {@code fblse} if diblog decorbtions bre to be enbbled
      *
-     * @throws IllegalComponentStateException if the dialog is displayable
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this dialog does not have the default shape
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this dialog opacity is less than {@code 1.0f}
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and the alpha value of this dialog background
-     *      color is less than {@code 1.0f}
+     * @throws IllegblComponentStbteException if the diblog is displbybble
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd this diblog does not hbve the defbult shbpe
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd this diblog opbcity is less thbn {@code 1.0f}
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd the blphb vblue of this diblog bbckground
+     *      color is less thbn {@code 1.0f}
      *
-     * @see    #isUndecorated
-     * @see    Component#isDisplayable
-     * @see    Window#getShape
-     * @see    Window#getOpacity
-     * @see    Window#getBackground
+     * @see    #isUndecorbted
+     * @see    Component#isDisplbybble
+     * @see    Window#getShbpe
+     * @see    Window#getOpbcity
+     * @see    Window#getBbckground
      *
      * @since 1.4
      */
-    public void setUndecorated(boolean undecorated) {
-        /* Make sure we don't run in the middle of peer creation.*/
+    public void setUndecorbted(boolebn undecorbted) {
+        /* Mbke sure we don't run in the middle of peer crebtion.*/
         synchronized (getTreeLock()) {
-            if (isDisplayable()) {
-                throw new IllegalComponentStateException("The dialog is displayable.");
+            if (isDisplbybble()) {
+                throw new IllegblComponentStbteException("The diblog is displbybble.");
             }
-            if (!undecorated) {
-                if (getOpacity() < 1.0f) {
-                    throw new IllegalComponentStateException("The dialog is not opaque");
+            if (!undecorbted) {
+                if (getOpbcity() < 1.0f) {
+                    throw new IllegblComponentStbteException("The diblog is not opbque");
                 }
-                if (getShape() != null) {
-                    throw new IllegalComponentStateException("The dialog does not have a default shape");
+                if (getShbpe() != null) {
+                    throw new IllegblComponentStbteException("The diblog does not hbve b defbult shbpe");
                 }
-                Color bg = getBackground();
-                if ((bg != null) && (bg.getAlpha() < 255)) {
-                    throw new IllegalComponentStateException("The dialog background color is not opaque");
+                Color bg = getBbckground();
+                if ((bg != null) && (bg.getAlphb() < 255)) {
+                    throw new IllegblComponentStbteException("The diblog bbckground color is not opbque");
                 }
             }
-            this.undecorated = undecorated;
+            this.undecorbted = undecorbted;
         }
     }
 
     /**
-     * Indicates whether this dialog is undecorated.
-     * By default, all dialogs are initially decorated.
-     * @return    <code>true</code> if dialog is undecorated;
-     *                        <code>false</code> otherwise.
-     * @see       java.awt.Dialog#setUndecorated
+     * Indicbtes whether this diblog is undecorbted.
+     * By defbult, bll diblogs bre initiblly decorbted.
+     * @return    <code>true</code> if diblog is undecorbted;
+     *                        <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Diblog#setUndecorbted
      * @since 1.4
      */
-    public boolean isUndecorated() {
-        return undecorated;
+    public boolebn isUndecorbted() {
+        return undecorbted;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setOpacity(float opacity) {
+    public void setOpbcity(flobt opbcity) {
         synchronized (getTreeLock()) {
-            if ((opacity < 1.0f) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+            if ((opbcity < 1.0f) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The diblog is decorbted");
             }
-            super.setOpacity(opacity);
+            super.setOpbcity(opbcity);
         }
     }
 
@@ -1310,12 +1310,12 @@ public class Dialog extends Window {
      * {@inheritDoc}
      */
     @Override
-    public void setShape(Shape shape) {
+    public void setShbpe(Shbpe shbpe) {
         synchronized (getTreeLock()) {
-            if ((shape != null) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+            if ((shbpe != null) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The diblog is decorbted");
             }
-            super.setShape(shape);
+            super.setShbpe(shbpe);
         }
     }
 
@@ -1323,26 +1323,26 @@ public class Dialog extends Window {
      * {@inheritDoc}
      */
     @Override
-    public void setBackground(Color bgColor) {
+    public void setBbckground(Color bgColor) {
         synchronized (getTreeLock()) {
-            if ((bgColor != null) && (bgColor.getAlpha() < 255) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+            if ((bgColor != null) && (bgColor.getAlphb() < 255) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The diblog is decorbted");
             }
-            super.setBackground(bgColor);
+            super.setBbckground(bgColor);
         }
     }
 
     /**
-     * Returns a string representing the state of this dialog. This
-     * method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this diblog. This
+     * method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return    the parameter string of this dialog window.
+     * @return    the pbrbmeter string of this diblog window.
      */
-    protected String paramString() {
-        String str = super.paramString() + "," + modalityType;
+    protected String pbrbmString() {
+        String str = super.pbrbmString() + "," + modblityType;
         if (title != null) {
             str += ",title=" + title;
         }
@@ -1350,46 +1350,46 @@ public class Dialog extends Window {
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /*
-     * --- Modality support ---
+     * --- Modblity support ---
      *
      */
 
     /*
-     * This method is called only for modal dialogs.
+     * This method is cblled only for modbl diblogs.
      *
-     * Goes through the list of all visible top-level windows and
-     * divide them into three distinct groups: blockers of this dialog,
-     * blocked by this dialog and all others. Then blocks this dialog
-     * by first met dialog from the first group (if any) and blocks all
+     * Goes through the list of bll visible top-level windows bnd
+     * divide them into three distinct groups: blockers of this diblog,
+     * blocked by this diblog bnd bll others. Then blocks this diblog
+     * by first met diblog from the first group (if bny) bnd blocks bll
      * the windows from the second group.
      */
-    void modalShow() {
-        // find all the dialogs that block this one
-        IdentityArrayList<Dialog> blockers = new IdentityArrayList<Dialog>();
-        for (Dialog d : modalDialogs) {
+    void modblShow() {
+        // find bll the diblogs thbt block this one
+        IdentityArrbyList<Diblog> blockers = new IdentityArrbyList<Diblog>();
+        for (Diblog d : modblDiblogs) {
             if (d.shouldBlock(this)) {
                 Window w = d;
                 while ((w != null) && (w != this)) {
                     w = w.getOwner_NoClientCode();
                 }
-                if ((w == this) || !shouldBlock(d) || (modalityType.compareTo(d.getModalityType()) < 0)) {
-                    blockers.add(d);
+                if ((w == this) || !shouldBlock(d) || (modblityType.compbreTo(d.getModblityType()) < 0)) {
+                    blockers.bdd(d);
                 }
             }
         }
 
-        // add all blockers' blockers to blockers :)
+        // bdd bll blockers' blockers to blockers :)
         for (int i = 0; i < blockers.size(); i++) {
-            Dialog blocker = blockers.get(i);
-            if (blocker.isModalBlocked()) {
-                Dialog blockerBlocker = blocker.getModalBlocker();
-                if (!blockers.contains(blockerBlocker)) {
-                    blockers.add(i + 1, blockerBlocker);
+            Diblog blocker = blockers.get(i);
+            if (blocker.isModblBlocked()) {
+                Diblog blockerBlocker = blocker.getModblBlocker();
+                if (!blockers.contbins(blockerBlocker)) {
+                    blockers.bdd(i + 1, blockerBlocker);
                 }
             }
         }
@@ -1398,62 +1398,62 @@ public class Dialog extends Window {
             blockers.get(0).blockWindow(this);
         }
 
-        // find all windows from blockers' hierarchies
-        IdentityArrayList<Window> blockersHierarchies = new IdentityArrayList<Window>(blockers);
+        // find bll windows from blockers' hierbrchies
+        IdentityArrbyList<Window> blockersHierbrchies = new IdentityArrbyList<Window>(blockers);
         int k = 0;
-        while (k < blockersHierarchies.size()) {
-            Window w = blockersHierarchies.get(k);
+        while (k < blockersHierbrchies.size()) {
+            Window w = blockersHierbrchies.get(k);
             Window[] ownedWindows = w.getOwnedWindows_NoClientCode();
             for (Window win : ownedWindows) {
-                blockersHierarchies.add(win);
+                blockersHierbrchies.bdd(win);
             }
             k++;
         }
 
-        java.util.List<Window> toBlock = new IdentityLinkedList<Window>();
-        // block all windows from scope of blocking except from blockers' hierarchies
-        IdentityArrayList<Window> unblockedWindows = Window.getAllUnblockedWindows();
+        jbvb.util.List<Window> toBlock = new IdentityLinkedList<Window>();
+        // block bll windows from scope of blocking except from blockers' hierbrchies
+        IdentityArrbyList<Window> unblockedWindows = Window.getAllUnblockedWindows();
         for (Window w : unblockedWindows) {
-            if (shouldBlock(w) && !blockersHierarchies.contains(w)) {
-                if ((w instanceof Dialog) && ((Dialog)w).isModal_NoClientCode()) {
-                    Dialog wd = (Dialog)w;
-                    if (wd.shouldBlock(this) && (modalDialogs.indexOf(wd) > modalDialogs.indexOf(this))) {
+            if (shouldBlock(w) && !blockersHierbrchies.contbins(w)) {
+                if ((w instbnceof Diblog) && ((Diblog)w).isModbl_NoClientCode()) {
+                    Diblog wd = (Diblog)w;
+                    if (wd.shouldBlock(this) && (modblDiblogs.indexOf(wd) > modblDiblogs.indexOf(this))) {
                         continue;
                     }
                 }
-                toBlock.add(w);
+                toBlock.bdd(w);
             }
         }
         blockWindows(toBlock);
 
-        if (!isModalBlocked()) {
-            updateChildrenBlocking();
+        if (!isModblBlocked()) {
+            updbteChildrenBlocking();
         }
     }
 
     /*
-     * This method is called only for modal dialogs.
+     * This method is cblled only for modbl diblogs.
      *
-     * Unblocks all the windows blocked by this modal dialog. After
-     * each of them has been unblocked, it is checked to be blocked by
-     * any other modal dialogs.
+     * Unblocks bll the windows blocked by this modbl diblog. After
+     * ebch of them hbs been unblocked, it is checked to be blocked by
+     * bny other modbl diblogs.
      */
-    void modalHide() {
-        // we should unblock all the windows first...
-        IdentityArrayList<Window> save = new IdentityArrayList<Window>();
+    void modblHide() {
+        // we should unblock bll the windows first...
+        IdentityArrbyList<Window> sbve = new IdentityArrbyList<Window>();
         int blockedWindowsCount = blockedWindows.size();
         for (int i = 0; i < blockedWindowsCount; i++) {
             Window w = blockedWindows.get(0);
-            save.add(w);
-            unblockWindow(w); // also removes w from blockedWindows
+            sbve.bdd(w);
+            unblockWindow(w); // blso removes w from blockedWindows
         }
-        // ... and only after that check if they should be blocked
-        // by another dialogs
+        // ... bnd only bfter thbt check if they should be blocked
+        // by bnother diblogs
         for (int i = 0; i < blockedWindowsCount; i++) {
-            Window w = save.get(i);
-            if ((w instanceof Dialog) && ((Dialog)w).isModal_NoClientCode()) {
-                Dialog d = (Dialog)w;
-                d.modalShow();
+            Window w = sbve.get(i);
+            if ((w instbnceof Diblog) && ((Diblog)w).isModbl_NoClientCode()) {
+                Diblog d = (Diblog)w;
+                d.modblShow();
             } else {
                 checkShouldBeBlocked(w);
             }
@@ -1462,165 +1462,165 @@ public class Dialog extends Window {
 
     /*
      * Returns whether the given top-level window should be blocked by
-     * this dialog. Note, that the given window can be also a modal dialog
-     * and it should block this dialog, but this method do not take such
-     * situations into consideration (such checks are performed in the
-     * modalShow() and modalHide() methods).
+     * this diblog. Note, thbt the given window cbn be blso b modbl diblog
+     * bnd it should block this diblog, but this method do not tbke such
+     * situbtions into considerbtion (such checks bre performed in the
+     * modblShow() bnd modblHide() methods).
      *
-     * This method should be called on the getTreeLock() lock.
+     * This method should be cblled on the getTreeLock() lock.
      */
-    boolean shouldBlock(Window w) {
+    boolebn shouldBlock(Window w) {
         if (!isVisible_NoClientCode() ||
             (!w.isVisible_NoClientCode() && !w.isInShow) ||
             isInHide ||
             (w == this) ||
-            !isModal_NoClientCode())
+            !isModbl_NoClientCode())
         {
-            return false;
+            return fblse;
         }
-        if ((w instanceof Dialog) && ((Dialog)w).isInHide) {
-            return false;
+        if ((w instbnceof Diblog) && ((Diblog)w).isInHide) {
+            return fblse;
         }
-        // check if w is from children hierarchy
-        // fix for 6271546: we should also take into consideration child hierarchies
-        // of this dialog's blockers
+        // check if w is from children hierbrchy
+        // fix for 6271546: we should blso tbke into considerbtion child hierbrchies
+        // of this diblog's blockers
         Window blockerToCheck = this;
         while (blockerToCheck != null) {
             Component c = w;
             while ((c != null) && (c != blockerToCheck)) {
-                c = c.getParent_NoClientCode();
+                c = c.getPbrent_NoClientCode();
             }
             if (c == blockerToCheck) {
-                return false;
+                return fblse;
             }
-            blockerToCheck = blockerToCheck.getModalBlocker();
+            blockerToCheck = blockerToCheck.getModblBlocker();
         }
-        switch (modalityType) {
-            case MODELESS:
-                return false;
-            case DOCUMENT_MODAL:
-                if (w.isModalExcluded(ModalExclusionType.APPLICATION_EXCLUDE)) {
-                    // application- and toolkit-excluded windows are not blocked by
-                    // document-modal dialogs from outside their children hierarchy
+        switch (modblityType) {
+            cbse MODELESS:
+                return fblse;
+            cbse DOCUMENT_MODAL:
+                if (w.isModblExcluded(ModblExclusionType.APPLICATION_EXCLUDE)) {
+                    // bpplicbtion- bnd toolkit-excluded windows bre not blocked by
+                    // document-modbl diblogs from outside their children hierbrchy
                     Component c = this;
                     while ((c != null) && (c != w)) {
-                        c = c.getParent_NoClientCode();
+                        c = c.getPbrent_NoClientCode();
                     }
                     return c == w;
                 } else {
                     return getDocumentRoot() == w.getDocumentRoot();
                 }
-            case APPLICATION_MODAL:
-                return !w.isModalExcluded(ModalExclusionType.APPLICATION_EXCLUDE) &&
-                    (appContext == w.appContext);
-            case TOOLKIT_MODAL:
-                return !w.isModalExcluded(ModalExclusionType.TOOLKIT_EXCLUDE);
+            cbse APPLICATION_MODAL:
+                return !w.isModblExcluded(ModblExclusionType.APPLICATION_EXCLUDE) &&
+                    (bppContext == w.bppContext);
+            cbse TOOLKIT_MODAL:
+                return !w.isModblExcluded(ModblExclusionType.TOOLKIT_EXCLUDE);
         }
 
-        return false;
+        return fblse;
     }
 
     /*
      * Adds the given top-level window to the list of blocked
-     * windows for this dialog and marks it as modal blocked.
-     * If the window is already blocked by some modal dialog,
+     * windows for this diblog bnd mbrks it bs modbl blocked.
+     * If the window is blrebdy blocked by some modbl diblog,
      * does nothing.
      */
     void blockWindow(Window w) {
-        if (!w.isModalBlocked()) {
-            w.setModalBlocked(this, true, true);
-            blockedWindows.add(w);
+        if (!w.isModblBlocked()) {
+            w.setModblBlocked(this, true, true);
+            blockedWindows.bdd(w);
         }
     }
 
-    void blockWindows(java.util.List<Window> toBlock) {
-        DialogPeer dpeer = (DialogPeer)peer;
+    void blockWindows(jbvb.util.List<Window> toBlock) {
+        DiblogPeer dpeer = (DiblogPeer)peer;
         if (dpeer == null) {
             return;
         }
-        Iterator<Window> it = toBlock.iterator();
-        while (it.hasNext()) {
+        Iterbtor<Window> it = toBlock.iterbtor();
+        while (it.hbsNext()) {
             Window w = it.next();
-            if (!w.isModalBlocked()) {
-                w.setModalBlocked(this, true, false);
+            if (!w.isModblBlocked()) {
+                w.setModblBlocked(this, true, fblse);
             } else {
                 it.remove();
             }
         }
         dpeer.blockWindows(toBlock);
-        blockedWindows.addAll(toBlock);
+        blockedWindows.bddAll(toBlock);
     }
 
     /*
      * Removes the given top-level window from the list of blocked
-     * windows for this dialog and marks it as unblocked. If the
-     * window is not modal blocked, does nothing.
+     * windows for this diblog bnd mbrks it bs unblocked. If the
+     * window is not modbl blocked, does nothing.
      */
     void unblockWindow(Window w) {
-        if (w.isModalBlocked() && blockedWindows.contains(w)) {
+        if (w.isModblBlocked() && blockedWindows.contbins(w)) {
             blockedWindows.remove(w);
-            w.setModalBlocked(this, false, true);
+            w.setModblBlocked(this, fblse, true);
         }
     }
 
     /*
-     * Checks if any other modal dialog D blocks the given window.
-     * If such D exists, mark the window as blocked by D.
+     * Checks if bny other modbl diblog D blocks the given window.
+     * If such D exists, mbrk the window bs blocked by D.
      */
-    static void checkShouldBeBlocked(Window w) {
+    stbtic void checkShouldBeBlocked(Window w) {
         synchronized (w.getTreeLock()) {
-            for (int i = 0; i < modalDialogs.size(); i++) {
-                Dialog modalDialog = modalDialogs.get(i);
-                if (modalDialog.shouldBlock(w)) {
-                    modalDialog.blockWindow(w);
-                    break;
+            for (int i = 0; i < modblDiblogs.size(); i++) {
+                Diblog modblDiblog = modblDiblogs.get(i);
+                if (modblDiblog.shouldBlock(w)) {
+                    modblDiblog.blockWindow(w);
+                    brebk;
                 }
             }
         }
     }
 
-    private void checkModalityPermission(ModalityType mt) {
-        if (mt == ModalityType.TOOLKIT_MODAL) {
-            SecurityManager sm = System.getSecurityManager();
+    privbte void checkModblityPermission(ModblityType mt) {
+        if (mt == ModblityType.TOOLKIT_MODAL) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkPermission(AWTPermissions.TOOLKIT_MODALITY_PERMISSION);
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbphicsEnvironment.checkHebdless();
 
-        java.io.ObjectInputStream.GetField fields =
-            s.readFields();
+        jbvb.io.ObjectInputStrebm.GetField fields =
+            s.rebdFields();
 
-        ModalityType localModalityType = (ModalityType)fields.get("modalityType", null);
+        ModblityType locblModblityType = (ModblityType)fields.get("modblityType", null);
 
         try {
-            checkModalityPermission(localModalityType);
-        } catch (AccessControlException ace) {
-            localModalityType = DEFAULT_MODALITY_TYPE;
+            checkModblityPermission(locblModblityType);
+        } cbtch (AccessControlException bce) {
+            locblModblityType = DEFAULT_MODALITY_TYPE;
         }
 
-        // in 1.5 or earlier modalityType was absent, so use "modal" instead
-        if (localModalityType == null) {
-            this.modal = fields.get("modal", false);
-            setModal(modal);
+        // in 1.5 or ebrlier modblityType wbs bbsent, so use "modbl" instebd
+        if (locblModblityType == null) {
+            this.modbl = fields.get("modbl", fblse);
+            setModbl(modbl);
         } else {
-            this.modalityType = localModalityType;
+            this.modblityType = locblModblityType;
         }
 
-        this.resizable = fields.get("resizable", true);
-        this.undecorated = fields.get("undecorated", false);
+        this.resizbble = fields.get("resizbble", true);
+        this.undecorbted = fields.get("undecorbted", fblse);
         this.title = (String)fields.get("title", "");
 
-        blockedWindows = new IdentityArrayList<>();
+        blockedWindows = new IdentityArrbyList<>();
 
         SunToolkit.checkAndSetPolicy(this);
 
-        initialized = true;
+        initiblized = true;
 
     }
 
@@ -1630,39 +1630,39 @@ public class Dialog extends Window {
      */
 
     /**
-     * Gets the AccessibleContext associated with this Dialog.
-     * For dialogs, the AccessibleContext takes the form of an
-     * AccessibleAWTDialog.
-     * A new AccessibleAWTDialog instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this Diblog.
+     * For diblogs, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTDiblog.
+     * A new AccessibleAWTDiblog instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTDialog that serves as the
-     *         AccessibleContext of this Dialog
+     * @return bn AccessibleAWTDiblog thbt serves bs the
+     *         AccessibleContext of this Diblog
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTDialog();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTDiblog();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Dialog</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to dialog user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Diblog</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to diblog user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTDialog extends AccessibleAWTWindow
+    protected clbss AccessibleAWTDiblog extends AccessibleAWTWindow
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 4837230331833941201L;
+        privbte stbtic finbl long seriblVersionUID = 4837230331833941201L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1671,25 +1671,25 @@ public class Dialog extends Window {
         }
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
             if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+                stbtes.bdd(AccessibleStbte.ACTIVE);
             }
-            if (isModal()) {
-                states.add(AccessibleState.MODAL);
+            if (isModbl()) {
+                stbtes.bdd(AccessibleStbte.MODAL);
             }
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isResizbble()) {
+                stbtes.bdd(AccessibleStbte.RESIZABLE);
             }
-            return states;
+            return stbtes;
         }
 
-    } // inner class AccessibleAWTDialog
+    } // inner clbss AccessibleAWTDiblog
 }

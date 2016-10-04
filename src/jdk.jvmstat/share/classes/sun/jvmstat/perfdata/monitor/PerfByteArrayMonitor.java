@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.nio.ByteBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.ByteBuffer;
 
 /**
- * Class for monitoring a PerfData Byte Array instrumentation object.
+ * Clbss for monitoring b PerfDbtb Byte Arrby instrumentbtion object.
  *
- * This class is provided to support the PerfStringMonitor classes.
- * Instrumentation objects of this direct type currently cannot be
- * created or monitored.
+ * This clbss is provided to support the PerfStringMonitor clbsses.
+ * Instrumentbtion objects of this direct type currently cbnnot be
+ * crebted or monitored.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
- * @see sun.jvmstat.instrument.ByteArrayInstrument
+ * @see sun.jvmstbt.instrument.ByteArrbyInstrument
  */
-public class PerfByteArrayMonitor extends AbstractMonitor
-       implements ByteArrayMonitor {
+public clbss PerfByteArrbyMonitor extends AbstrbctMonitor
+       implements ByteArrbyMonitor {
 
     /**
-     * The buffer containing the data for the byte array instrument.
+     * The buffer contbining the dbtb for the byte brrby instrument.
      */
     ByteBuffer bb;
 
     /**
-     * Constructor to create a ByteArrayMonitor for the byte array instrument
-     * represented by the data in the given buffer.
+     * Constructor to crebte b ByteArrbyMonitor for the byte brrby instrument
+     * represented by the dbtb in the given buffer.
      *
-     * @param name the name of the instrumentation object
-     * @param u the units of measure attribute
-     * @param v the variability attribute
-     * @param supported support level indicator
-     * @param bb the buffer containing the byte array instrument data
-     * @param vectorLength the length of the vector.
+     * @pbrbm nbme the nbme of the instrumentbtion object
+     * @pbrbm u the units of mebsure bttribute
+     * @pbrbm v the vbribbility bttribute
+     * @pbrbm supported support level indicbtor
+     * @pbrbm bb the buffer contbining the byte brrby instrument dbtb
+     * @pbrbm vectorLength the length of the vector.
      */
-    public PerfByteArrayMonitor(String name, Units u, Variability v,
-                                boolean supported, ByteBuffer bb,
+    public PerfByteArrbyMonitor(String nbme, Units u, Vbribbility v,
+                                boolebn supported, ByteBuffer bb,
                                 int vectorLength) {
-        super(name, u, v, supported, vectorLength);
+        super(nbme, u, v, supported, vectorLength);
         this.bb = bb;
     }
 
     /**
      * {@inheritDoc}
-     * The object returned contains a byte[] with a copy of the current
-     * elements of the ByteArrayInstrument.
+     * The object returned contbins b byte[] with b copy of the current
+     * elements of the ByteArrbyInstrument.
      *
-     * @return Object - a copy of the current value of the elements of the
-     *                  byte array instrument. The return type is guaranteed
+     * @return Object - b copy of the current vblue of the elements of the
+     *                  byte brrby instrument. The return type is gubrbnteed
      *                  to be of type byte[].
      */
-    public Object getValue() {
-        return byteArrayValue();
+    public Object getVblue() {
+        return byteArrbyVblue();
     }
 
     /**
-     * Get a copy of the elements of the byte array instrument.
+     * Get b copy of the elements of the byte brrby instrument.
      *
-     * @return byte[] - a copy of the current value of the elements of the
-     *                  byte array instrument.
+     * @return byte[] - b copy of the current vblue of the elements of the
+     *                  byte brrby instrument.
      */
-    public byte[] byteArrayValue() {
+    public byte[] byteArrbyVblue() {
         bb.position(0);
         byte[] b = new byte[bb.limit()];
 
@@ -95,10 +95,10 @@ public class PerfByteArrayMonitor extends AbstractMonitor
     }
 
     /**
-     * Get the current value of an element of the byte array instrument.
+     * Get the current vblue of bn element of the byte brrby instrument.
      *
-     * @return byte - a copy of the current value of the element at index
-     *                <tt>index</tt> of the byte array instrument.
+     * @return byte - b copy of the current vblue of the element bt index
+     *                <tt>index</tt> of the byte brrby instrument.
      */
     public byte byteAt(int index) {
         bb.position(index);
@@ -106,11 +106,11 @@ public class PerfByteArrayMonitor extends AbstractMonitor
     }
 
     /**
-     * Get the maximum length of the byte array for this byte array instrument.
+     * Get the mbximum length of the byte brrby for this byte brrby instrument.
      *
-     * @return int - the maximum length of the byte array.
+     * @return int - the mbximum length of the byte brrby.
      */
-    public int getMaximumLength() {
+    public int getMbximumLength() {
         return bb.limit();
     }
 }

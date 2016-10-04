@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.Point2D;
+import jbvb.lbng.ref.WebkReference;
 
-import sun.awt.IconInfo;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.IconInfo;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-class XWarningWindow extends XWindow {
-    private final static int SHOWING_DELAY = 330;
-    private final static int HIDING_DELAY = 2000;
+clbss XWbrningWindow extends XWindow {
+    privbte finbl stbtic int SHOWING_DELAY = 330;
+    privbte finbl stbtic int HIDING_DELAY = 2000;
 
-    private final Window ownerWindow;
-    private WeakReference<XWindowPeer> ownerPeer;
-    private long parentWindow;
+    privbte finbl Window ownerWindow;
+    privbte WebkReference<XWindowPeer> ownerPeer;
+    privbte long pbrentWindow;
 
-    private final static String OWNER = "OWNER";
-    private InfoWindow.Tooltip tooltip;
+    privbte finbl stbtic String OWNER = "OWNER";
+    privbte InfoWindow.Tooltip tooltip;
 
     /**
-     * Animation stage.
+     * Animbtion stbge.
      */
-    private volatile int currentIcon = 0;
+    privbte volbtile int currentIcon = 0;
 
-    /* -1 - uninitialized.
+    /* -1 - uninitiblized.
      * 0 - 16x16
      * 1 - 24x24
      * 2 - 32x32
      * 3 - 48x48
      */
-    private int currentSize = -1;
-    private static IconInfo[][] icons;
-    private static IconInfo getSecurityIconInfo(int size, int num) {
-        synchronized (XWarningWindow.class) {
+    privbte int currentSize = -1;
+    privbte stbtic IconInfo[][] icons;
+    privbte stbtic IconInfo getSecurityIconInfo(int size, int num) {
+        synchronized (XWbrningWindow.clbss) {
             if (icons == null) {
                 icons = new IconInfo[4][3];
-                if (XlibWrapper.dataModel == 32) {
-                    icons[0][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw16_png.security_icon_bw16_png);
-                    icons[0][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim16_png.security_icon_interim16_png);
-                    icons[0][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow16_png.security_icon_yellow16_png);
-                    icons[1][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw24_png.security_icon_bw24_png);
-                    icons[1][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim24_png.security_icon_interim24_png);
-                    icons[1][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow24_png.security_icon_yellow24_png);
-                    icons[2][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw32_png.security_icon_bw32_png);
-                    icons[2][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim32_png.security_icon_interim32_png);
-                    icons[2][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow32_png.security_icon_yellow32_png);
-                    icons[3][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw48_png.security_icon_bw48_png);
-                    icons[3][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim48_png.security_icon_interim48_png);
-                    icons[3][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow48_png.security_icon_yellow48_png);
+                if (XlibWrbpper.dbtbModel == 32) {
+                    icons[0][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw16_png.security_icon_bw16_png);
+                    icons[0][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim16_png.security_icon_interim16_png);
+                    icons[0][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow16_png.security_icon_yellow16_png);
+                    icons[1][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw24_png.security_icon_bw24_png);
+                    icons[1][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim24_png.security_icon_interim24_png);
+                    icons[1][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow24_png.security_icon_yellow24_png);
+                    icons[2][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw32_png.security_icon_bw32_png);
+                    icons[2][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim32_png.security_icon_interim32_png);
+                    icons[2][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow32_png.security_icon_yellow32_png);
+                    icons[3][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw48_png.security_icon_bw48_png);
+                    icons[3][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim48_png.security_icon_interim48_png);
+                    icons[3][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow48_png.security_icon_yellow48_png);
                 } else {
-                    icons[0][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw16_png.security_icon_bw16_png);
-                    icons[0][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim16_png.security_icon_interim16_png);
-                    icons[0][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow16_png.security_icon_yellow16_png);
-                    icons[1][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw24_png.security_icon_bw24_png);
-                    icons[1][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim24_png.security_icon_interim24_png);
-                    icons[1][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow24_png.security_icon_yellow24_png);
-                    icons[2][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw32_png.security_icon_bw32_png);
-                    icons[2][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim32_png.security_icon_interim32_png);
-                    icons[2][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow32_png.security_icon_yellow32_png);
-                    icons[3][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw48_png.security_icon_bw48_png);
-                    icons[3][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim48_png.security_icon_interim48_png);
-                    icons[3][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow48_png.security_icon_yellow48_png);
+                    icons[0][0] = new IconInfo(sun.bwt.AWTIcon64_security_icon_bw16_png.security_icon_bw16_png);
+                    icons[0][1] = new IconInfo(sun.bwt.AWTIcon64_security_icon_interim16_png.security_icon_interim16_png);
+                    icons[0][2] = new IconInfo(sun.bwt.AWTIcon64_security_icon_yellow16_png.security_icon_yellow16_png);
+                    icons[1][0] = new IconInfo(sun.bwt.AWTIcon64_security_icon_bw24_png.security_icon_bw24_png);
+                    icons[1][1] = new IconInfo(sun.bwt.AWTIcon64_security_icon_interim24_png.security_icon_interim24_png);
+                    icons[1][2] = new IconInfo(sun.bwt.AWTIcon64_security_icon_yellow24_png.security_icon_yellow24_png);
+                    icons[2][0] = new IconInfo(sun.bwt.AWTIcon64_security_icon_bw32_png.security_icon_bw32_png);
+                    icons[2][1] = new IconInfo(sun.bwt.AWTIcon64_security_icon_interim32_png.security_icon_interim32_png);
+                    icons[2][2] = new IconInfo(sun.bwt.AWTIcon64_security_icon_yellow32_png.security_icon_yellow32_png);
+                    icons[3][0] = new IconInfo(sun.bwt.AWTIcon64_security_icon_bw48_png.security_icon_bw48_png);
+                    icons[3][1] = new IconInfo(sun.bwt.AWTIcon64_security_icon_interim48_png.security_icon_interim48_png);
+                    icons[3][2] = new IconInfo(sun.bwt.AWTIcon64_security_icon_yellow48_png.security_icon_yellow48_png);
                 }
             }
         }
-        final int sizeIndex = size % icons.length;
+        finbl int sizeIndex = size % icons.length;
         return icons[sizeIndex][num % icons[sizeIndex].length];
     }
 
-    private void updateIconSize() {
+    privbte void updbteIconSize() {
         int newSize = -1;
 
         if (ownerWindow != null) {
             Insets insets = ownerWindow.getInsets();
-            int max = Math.max(insets.top, Math.max(insets.bottom,
-                        Math.max(insets.left, insets.right)));
-            if (max < 24) {
+            int mbx = Mbth.mbx(insets.top, Mbth.mbx(insets.bottom,
+                        Mbth.mbx(insets.left, insets.right)));
+            if (mbx < 24) {
                 newSize = 0;
-            } else if (max < 32) {
+            } else if (mbx < 32) {
                 newSize = 1;
-            } else if (max < 48) {
+            } else if (mbx < 48) {
                 newSize = 2;
             } else {
                 newSize = 3;
             }
         }
-        // Make sure we have a valid size
+        // Mbke sure we hbve b vblid size
         if (newSize == -1) {
             newSize = 0;
         }
 
-        // Note: this is not the most wise solution to use awtLock here,
-        // this should have been sync'ed with the stateLock. However,
-        // the awtLock must be taken first (see XBaseWindow.getStateLock()),
-        // and we need the awtLock anyway to update the shape of the icon.
-        // So it's easier to use just one lock instead.
-        XToolkit.awtLock();
+        // Note: this is not the most wise solution to use bwtLock here,
+        // this should hbve been sync'ed with the stbteLock. However,
+        // the bwtLock must be tbken first (see XBbseWindow.getStbteLock()),
+        // bnd we need the bwtLock bnywby to updbte the shbpe of the icon.
+        // So it's ebsier to use just one lock instebd.
+        XToolkit.bwtLock();
         try {
             if (newSize != currentSize) {
                 currentSize = newSize;
                 IconInfo ico = getSecurityIconInfo(currentSize, 0);
-                XlibWrapper.SetBitmapShape(XToolkit.getDisplay(), getWindow(),
-                        ico.getWidth(), ico.getHeight(), ico.getIntData());
-                AWTAccessor.getWindowAccessor().setSecurityWarningSize(
+                XlibWrbpper.SetBitmbpShbpe(XToolkit.getDisplby(), getWindow(),
+                        ico.getWidth(), ico.getHeight(), ico.getIntDbtb());
+                AWTAccessor.getWindowAccessor().setSecurityWbrningSize(
                         ownerWindow, ico.getWidth(), ico.getHeight());
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    private IconInfo getSecurityIconInfo() {
-        updateIconSize();
+    privbte IconInfo getSecurityIconInfo() {
+        updbteIconSize();
         return getSecurityIconInfo(currentSize, currentIcon);
     }
 
-    XWarningWindow(final Window ownerWindow, long parentWindow, XWindowPeer ownerPeer) {
-        super(new XCreateWindowParams(new Object[] {
+    XWbrningWindow(finbl Window ownerWindow, long pbrentWindow, XWindowPeer ownerPeer) {
+        super(new XCrebteWindowPbrbms(new Object[] {
                         TARGET, ownerWindow,
-                        OWNER, Long.valueOf(parentWindow)
+                        OWNER, Long.vblueOf(pbrentWindow)
         }));
         this.ownerWindow = ownerWindow;
-        this.parentWindow = parentWindow;
-        this.tooltip = new InfoWindow.Tooltip(null, getTarget(),
+        this.pbrentWindow = pbrentWindow;
+        this.tooltip = new InfoWindow.Tooltip(null, getTbrget(),
                 new InfoWindow.Tooltip.LiveArguments() {
-                    public boolean isDisposed() {
-                        return XWarningWindow.this.isDisposed();
+                    public boolebn isDisposed() {
+                        return XWbrningWindow.this.isDisposed();
                     }
-                    public Rectangle getBounds() {
-                        return XWarningWindow.this.getBounds();
+                    public Rectbngle getBounds() {
+                        return XWbrningWindow.this.getBounds();
                     }
                     public String getTooltipString() {
-                        return XWarningWindow.this.ownerWindow.getWarningString();
+                        return XWbrningWindow.this.ownerWindow.getWbrningString();
                     }
                 });
-        this.ownerPeer = new WeakReference<XWindowPeer>(ownerPeer);
+        this.ownerPeer = new WebkReference<XWindowPeer>(ownerPeer);
     }
 
-    private void requestNoTaskbar() {
+    privbte void requestNoTbskbbr() {
         XNETProtocol netProtocol = XWM.getWM().getNETProtocol();
         if (netProtocol != null) {
-            netProtocol.requestState(this, netProtocol.XA_NET_WM_STATE_SKIP_TASKBAR, true);
+            netProtocol.requestStbte(this, netProtocol.XA_NET_WM_STATE_SKIP_TASKBAR, true);
         }
     }
 
     @Override
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        XToolkit.awtLock();
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
+        XToolkit.bwtLock();
         try {
-            XWM.setMotifDecor(this, false, 0, 0);
-            XWM.setOLDecor(this, false, 0);
+            XWM.setMotifDecor(this, fblse, 0, 0);
+            XWM.setOLDecor(this, fblse, 0);
 
-            long parentWindow = ((Long)params.get(OWNER)).longValue();
-            XlibWrapper.XSetTransientFor(XToolkit.getDisplay(),
-                    getWindow(), parentWindow);
+            long pbrentWindow = ((Long)pbrbms.get(OWNER)).longVblue();
+            XlibWrbpper.XSetTrbnsientFor(XToolkit.getDisplby(),
+                    getWindow(), pbrentWindow);
 
             XWMHints hints = getWMHints();
-            hints.set_flags(hints.get_flags() | (int)XUtilConstants.InputHint | (int)XUtilConstants.StateHint);
-            hints.set_input(false);
-            hints.set_initial_state(XUtilConstants.NormalState);
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
+            hints.set_flbgs(hints.get_flbgs() | (int)XUtilConstbnts.InputHint | (int)XUtilConstbnts.StbteHint);
+            hints.set_input(fblse);
+            hints.set_initibl_stbte(XUtilConstbnts.NormblStbte);
+            XlibWrbpper.XSetWMHints(XToolkit.getDisplby(), getWindow(), hints.pDbtb);
 
             initWMProtocols();
-            requestNoTaskbar();
-        } finally {
-            XToolkit.awtUnlock();
+            requestNoTbskbbr();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * @param x,y,w,h coordinates of the untrusted window
+     * @pbrbm x,y,w,h coordinbtes of the untrusted window
      */
     public void reposition(int x, int y, int w, int h) {
         Point2D point = AWTAccessor.getWindowAccessor().
-            calculateSecurityWarningPosition(ownerWindow,
+            cblculbteSecurityWbrningPosition(ownerWindow,
                 x, y, w, h);
-        reshape((int)point.getX(), (int)point.getY(), getWidth(), getHeight());
+        reshbpe((int)point.getX(), (int)point.getY(), getWidth(), getHeight());
     }
 
-    protected String getWMName() {
-        return "Warning window";
+    protected String getWMNbme() {
+        return "Wbrning window";
     }
 
-    public Graphics getGraphics() {
-        if ((surfaceData == null) || (ownerWindow == null)) return null;
-        return getGraphics(surfaceData,
+    public Grbphics getGrbphics() {
+        if ((surfbceDbtb == null) || (ownerWindow == null)) return null;
+        return getGrbphics(surfbceDbtb,
                                  getColor(),
-                                 getBackground(),
+                                 getBbckground(),
                                  getFont());
     }
-    void paint(Graphics g, int x, int y, int width, int height) {
-        g.drawImage(getSecurityIconInfo().getImage(), 0, 0, null);
+    void pbint(Grbphics g, int x, int y, int width, int height) {
+        g.drbwImbge(getSecurityIconInfo().getImbge(), 0, 0, null);
     }
 
-    String getWarningString() {
-        return ownerWindow.getWarningString();
+    String getWbrningString() {
+        return ownerWindow.getWbrningString();
     }
 
     int getWidth() {
@@ -231,45 +231,45 @@ class XWarningWindow extends XWindow {
         return getSecurityIconInfo().getHeight();
     }
 
-    Color getBackground() {
+    Color getBbckground() {
         return SystemColor.window;
     }
     Color getColor() {
-        return Color.black;
+        return Color.blbck;
     }
     Font getFont () {
         return ownerWindow.getFont();
     }
 
     @Override
-    public void repaint() {
-        final Rectangle bounds = getBounds();
-        final Graphics g = getGraphics();
+    public void repbint() {
+        finbl Rectbngle bounds = getBounds();
+        finbl Grbphics g = getGrbphics();
         if (g != null) {
             try {
-                paint(g, 0, 0, bounds.width, bounds.height);
-            } finally {
+                pbint(g, 0, 0, bounds.width, bounds.height);
+            } finblly {
                 g.dispose();
             }
         }
     }
     @Override
-    public void handleExposeEvent(XEvent xev) {
-        super.handleExposeEvent(xev);
+    public void hbndleExposeEvent(XEvent xev) {
+        super.hbndleExposeEvent(xev);
 
         XExposeEvent xe = xev.get_xexpose();
-        final int x = xe.get_x();
-        final int y = xe.get_y();
-        final int width = xe.get_width();
-        final int height = xe.get_height();
-        SunToolkit.executeOnEventHandlerThread(target,
-                new Runnable() {
+        finbl int x = xe.get_x();
+        finbl int y = xe.get_y();
+        finbl int width = xe.get_width();
+        finbl int height = xe.get_height();
+        SunToolkit.executeOnEventHbndlerThrebd(tbrget,
+                new Runnbble() {
                     public void run() {
-                        final Graphics g = getGraphics();
+                        finbl Grbphics g = getGrbphics();
                         if (g != null) {
                             try {
-                                paint(g, x, y, width, height);
-                            } finally {
+                                pbint(g, x, y, width, height);
+                            } finblly {
                                 g.dispose();
                             }
                         }
@@ -278,62 +278,62 @@ class XWarningWindow extends XWindow {
     }
 
     @Override
-    protected boolean isEventDisabled(XEvent e) {
+    protected boolebn isEventDisbbled(XEvent e) {
         return true;
     }
 
-    /** Send a synthetic UnmapNotify in order to withdraw the window.
+    /** Send b synthetic UnmbpNotify in order to withdrbw the window.
      */
-    private void withdraw() {
+    privbte void withdrbw() {
         XEvent req = new XEvent();
         try {
             long root;
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                root = XlibWrapper.RootWindow(XToolkit.getDisplay(), getScreenNumber());
+                root = XlibWrbpper.RootWindow(XToolkit.getDisplby(), getScreenNumber());
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
 
-            req.set_type(XConstants.UnmapNotify);
+            req.set_type(XConstbnts.UnmbpNotify);
 
-            XUnmapEvent umev = req.get_xunmap();
+            XUnmbpEvent umev = req.get_xunmbp();
 
             umev.set_event(root);
             umev.set_window(getWindow());
-            umev.set_from_configure(false);
+            umev.set_from_configure(fblse);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
                         root,
-                        false,
-                        XConstants.SubstructureRedirectMask | XConstants.SubstructureNotifyMask,
-                        req.pData);
+                        fblse,
+                        XConstbnts.SubstructureRedirectMbsk | XConstbnts.SubstructureNotifyMbsk,
+                        req.pDbtb);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             req.dispose();
         }
     }
 
     @Override
-    protected void stateChanged(long time, int oldState, int newState) {
-        if (newState == XUtilConstants.IconicState) {
-            super.xSetVisible(false);
-            withdraw();
+    protected void stbteChbnged(long time, int oldStbte, int newStbte) {
+        if (newStbte == XUtilConstbnts.IconicStbte) {
+            super.xSetVisible(fblse);
+            withdrbw();
         }
     }
 
     @Override
-    protected void setMouseAbove(boolean above) {
-        super.setMouseAbove(above);
+    protected void setMouseAbove(boolebn bbove) {
+        super.setMouseAbove(bbove);
         XWindowPeer p = ownerPeer.get();
         if (p != null) {
-            p.updateSecurityWarningVisibility();
+            p.updbteSecurityWbrningVisibility();
         }
     }
 
@@ -346,70 +346,70 @@ class XWarningWindow extends XWindow {
     }
 
     @Override
-    protected void leaveNotify(long window) {
-        super.leaveNotify(window);
+    protected void lebveNotify(long window) {
+        super.lebveNotify(window);
         if (window == getWindow()) {
             tooltip.exit();
         }
     }
 
     @Override
-    public void xSetVisible(boolean visible) {
+    public void xSetVisible(boolebn visible) {
         super.xSetVisible(visible);
 
         // The _NET_WM_STATE_SKIP_TASKBAR got reset upon hiding/showing,
-        // so we request it every time whenever we change the visibility.
-        requestNoTaskbar();
+        // so we request it every time whenever we chbnge the visibility.
+        requestNoTbskbbr();
     }
 
-    private final Runnable hidingTask = new Runnable() {
+    privbte finbl Runnbble hidingTbsk = new Runnbble() {
         public void run() {
-            xSetVisible(false);
+            xSetVisible(fblse);
         }
     };
 
-    private final Runnable showingTask = new Runnable() {
+    privbte finbl Runnbble showingTbsk = new Runnbble() {
         public void run() {
             if (!isVisible()) {
                 xSetVisible(true);
-                updateIconSize();
+                updbteIconSize();
                 XWindowPeer peer = ownerPeer.get();
                 if (peer != null) {
-                    peer.repositionSecurityWarning();
+                    peer.repositionSecurityWbrning();
                 }
             }
-            repaint();
+            repbint();
             if (currentIcon > 0) {
                 currentIcon--;
-                XToolkit.schedule(showingTask, SHOWING_DELAY);
+                XToolkit.schedule(showingTbsk, SHOWING_DELAY);
             }
         }
     };
 
-    public void setSecurityWarningVisible(boolean visible, boolean doSchedule) {
+    public void setSecurityWbrningVisible(boolebn visible, boolebn doSchedule) {
         if (visible) {
-            XToolkit.remove(hidingTask);
-            XToolkit.remove(showingTask);
+            XToolkit.remove(hidingTbsk);
+            XToolkit.remove(showingTbsk);
             if (isVisible()) {
                 currentIcon = 0;
             } else {
                 currentIcon = 3;
             }
             if (doSchedule) {
-                XToolkit.schedule(showingTask, 1);
+                XToolkit.schedule(showingTbsk, 1);
             } else {
-                showingTask.run();
+                showingTbsk.run();
             }
         } else {
-            XToolkit.remove(showingTask);
-            XToolkit.remove(hidingTask);
+            XToolkit.remove(showingTbsk);
+            XToolkit.remove(hidingTbsk);
             if (!isVisible()) {
                 return;
             }
             if (doSchedule) {
-                XToolkit.schedule(hidingTask, HIDING_DELAY);
+                XToolkit.schedule(hidingTbsk, HIDING_DELAY);
             } else {
-                hidingTask.run();
+                hidingTbsk.run();
             }
         }
     }

@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 /**
- * Is used internally to signal that the size of a PDU exceeds the packet size limitation.
+ * Is used internblly to signbl thbt the size of b PDU exceeds the pbcket size limitbtion.
  * <p>
- * You will not usually need to use this class, except if you
+ * You will not usublly need to use this clbss, except if you
  * decide to implement your own
- * {@link com.sun.jmx.snmp.SnmpPduFactory SnmPduFactory} object.
+ * {@link com.sun.jmx.snmp.SnmpPduFbctory SnmPduFbctory} object.
  * <p>
- * The <CODE>varBindCount</CODE> property contains the
- * number of <CODE>SnmpVarBind</CODE> successfully encoded
- * before the exception was thrown. Its value is 0
+ * The <CODE>vbrBindCount</CODE> property contbins the
+ * number of <CODE>SnmpVbrBind</CODE> successfully encoded
+ * before the exception wbs thrown. Its vblue is 0
  * when this number is unknown.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpTooBigException extends Exception {
-  private static final long serialVersionUID = 4754796246674803969L;
+public clbss SnmpTooBigException extends Exception {
+  privbte stbtic finbl long seriblVersionUID = 4754796246674803969L;
 
   /**
-   * Builds an <CODE>SnmpTooBigException</CODE> with
-   * <CODE>varBindCount</CODE> set to 0.
+   * Builds bn <CODE>SnmpTooBigException</CODE> with
+   * <CODE>vbrBindCount</CODE> set to 0.
    */
   public SnmpTooBigException() {
-    varBindCount = 0 ;
+    vbrBindCount = 0 ;
   }
 
   /**
-   * Builds an <CODE>SnmpTooBigException</CODE> with
-   * <CODE>varBindCount</CODE> set to the specified value.
-   * @param n The <CODE>varBindCount</CODE> value.
+   * Builds bn <CODE>SnmpTooBigException</CODE> with
+   * <CODE>vbrBindCount</CODE> set to the specified vblue.
+   * @pbrbm n The <CODE>vbrBindCount</CODE> vblue.
    */
   public SnmpTooBigException(int n) {
-    varBindCount = n ;
+    vbrBindCount = n ;
   }
 
 
   /**
-   * Returns the number of <CODE>SnmpVarBind</CODE> successfully
-   * encoded before the exception was thrown.
+   * Returns the number of <CODE>SnmpVbrBind</CODE> successfully
+   * encoded before the exception wbs thrown.
    *
-   * @return A positive integer (0 means the number is unknown).
+   * @return A positive integer (0 mebns the number is unknown).
    */
-  public int getVarBindCount() {
-    return varBindCount ;
+  public int getVbrBindCount() {
+    return vbrBindCount ;
   }
 
   /**
-   * The <CODE>varBindCount</CODE>.
-   * @serial
+   * The <CODE>vbrBindCount</CODE>.
+   * @seribl
    */
-  private int varBindCount ;
+  privbte int vbrBindCount ;
 }

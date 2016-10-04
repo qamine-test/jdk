@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
-import java.util.List;
+pbckbge com.sun.jdi;
+import jbvb.util.List;
 
 /**
- * A thread object from the target VM.
- * A ThreadReference is an {@link ObjectReference} with additional
- * access to thread-specific information from the target VM.
+ * A threbd object from the tbrget VM.
+ * A ThrebdReference is bn {@link ObjectReference} with bdditionbl
+ * bccess to threbd-specific informbtion from the tbrget VM.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface ThreadReference extends ObjectReference {
-    /** Thread status is unknown */
-    public final int THREAD_STATUS_UNKNOWN  =-1;
-    /** Thread has completed execution */
-    public final int THREAD_STATUS_ZOMBIE = 0;
-    /** Thread is runnable */
-    public final int THREAD_STATUS_RUNNING = 1;
-    /** Thread is sleeping - Thread.sleep() or JVM_Sleep() was called */
-    public final int THREAD_STATUS_SLEEPING = 2;
-    /** Thread is waiting on a java monitor */
-    public final int THREAD_STATUS_MONITOR = 3;
-    /** Thread is waiting - Object.wait() or JVM_MonitorWait() was called */
-    public final int THREAD_STATUS_WAIT = 4;
-    /** Thread has not yet been started */
-    public final int THREAD_STATUS_NOT_STARTED = 5;
+public interfbce ThrebdReference extends ObjectReference {
+    /** Threbd stbtus is unknown */
+    public finbl int THREAD_STATUS_UNKNOWN  =-1;
+    /** Threbd hbs completed execution */
+    public finbl int THREAD_STATUS_ZOMBIE = 0;
+    /** Threbd is runnbble */
+    public finbl int THREAD_STATUS_RUNNING = 1;
+    /** Threbd is sleeping - Threbd.sleep() or JVM_Sleep() wbs cblled */
+    public finbl int THREAD_STATUS_SLEEPING = 2;
+    /** Threbd is wbiting on b jbvb monitor */
+    public finbl int THREAD_STATUS_MONITOR = 3;
+    /** Threbd is wbiting - Object.wbit() or JVM_MonitorWbit() wbs cblled */
+    public finbl int THREAD_STATUS_WAIT = 4;
+    /** Threbd hbs not yet been stbrted */
+    public finbl int THREAD_STATUS_NOT_STARTED = 5;
 
     /**
-     * Returns the name of this thread.
+     * Returns the nbme of this threbd.
      *
-     * @return the string containing the thread name.
+     * @return the string contbining the threbd nbme.
      */
-    String name();
+    String nbme();
 
     /**
-     * Suspends this thread. The thread can be resumed through
-     * {@link #resume} or resumed with other threads through
-     * {@link VirtualMachine#resume}.
+     * Suspends this threbd. The threbd cbn be resumed through
+     * {@link #resume} or resumed with other threbds through
+     * {@link VirtublMbchine#resume}.
      * <p>
-     * Unlike {@link java.lang.Thread#suspend},
-     * suspends of both the virtual machine and individual threads are
-     * counted. Before a thread will run again, it must be resumed
-     * (through {@link #resume} or {@link ThreadReference#resume})
-     * the same number of times it has been suspended.
+     * Unlike {@link jbvb.lbng.Threbd#suspend},
+     * suspends of both the virtubl mbchine bnd individubl threbds bre
+     * counted. Before b threbd will run bgbin, it must be resumed
+     * (through {@link #resume} or {@link ThrebdReference#resume})
+     * the sbme number of times it hbs been suspended.
      * <p>
-     * Suspending single threads with this method has the same dangers
-     * as {@link java.lang.Thread#suspend()}. If the suspended thread
-     * holds a monitor needed by another running thread, deadlock is
-     * possible in the target VM (at least until the suspended thread
-     * is resumed again).
+     * Suspending single threbds with this method hbs the sbme dbngers
+     * bs {@link jbvb.lbng.Threbd#suspend()}. If the suspended threbd
+     * holds b monitor needed by bnother running threbd, debdlock is
+     * possible in the tbrget VM (bt lebst until the suspended threbd
+     * is resumed bgbin).
      * <p>
-     * The suspended thread is guaranteed to remain suspended until
-     * resumed through one of the JDI resume methods mentioned above;
-     * the application in the target VM cannot resume the suspended thread
-     * through {@link java.lang.Thread#resume}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * The suspended threbd is gubrbnteed to rembin suspended until
+     * resumed through one of the JDI resume methods mentioned bbove;
+     * the bpplicbtion in the tbrget VM cbnnot resume the suspended threbd
+     * through {@link jbvb.lbng.Threbd#resume}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
     void suspend();
 
     /**
-     * Resumes this thread. If this thread was not previously suspended
-     * through {@link #suspend} or through {@link VirtualMachine#suspend},
-     * or because of a SUSPEND_ALL or SUSPEND_EVENT_THREAD event, then
-     * invoking this method has no effect. Otherwise, the count of pending
-     * suspends on this thread is decremented. If it is decremented to 0,
-     * the thread will continue to execute.
-     * Note: the normal way to resume from an event related suspension is
-     * via {@link com.sun.jdi.event.EventSet#resume}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Resumes this threbd. If this threbd wbs not previously suspended
+     * through {@link #suspend} or through {@link VirtublMbchine#suspend},
+     * or becbuse of b SUSPEND_ALL or SUSPEND_EVENT_THREAD event, then
+     * invoking this method hbs no effect. Otherwise, the count of pending
+     * suspends on this threbd is decremented. If it is decremented to 0,
+     * the threbd will continue to execute.
+     * Note: the normbl wby to resume from bn event relbted suspension is
+     * vib {@link com.sun.jdi.event.EventSet#resume}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
     void resume();
 
     /**
-     * Returns the number of pending suspends for this thread. See
-     * {@link #suspend} for an explanation of counted suspends.
-     * @return pending suspend count as an integer
+     * Returns the number of pending suspends for this threbd. See
+     * {@link #suspend} for bn explbnbtion of counted suspends.
+     * @return pending suspend count bs bn integer
      */
     int suspendCount();
 
     /**
-     * Stops this thread with an asynchronous exception.
-     * A debugger thread in the target VM will stop this thread
-     * with the given {@link java.lang.Throwable} object.
+     * Stops this threbd with bn bsynchronous exception.
+     * A debugger threbd in the tbrget VM will stop this threbd
+     * with the given {@link jbvb.lbng.Throwbble} object.
      *
-     * @param throwable the asynchronous exception to throw.
-     * @throws InvalidTypeException if <code>throwable</code> is not
-     * an instance of java.lang.Throwable in the target VM.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
-     * @see java.lang.Thread#stop(Throwable)
+     * @pbrbm throwbble the bsynchronous exception to throw.
+     * @throws InvblidTypeException if <code>throwbble</code> is not
+     * bn instbnce of jbvb.lbng.Throwbble in the tbrget VM.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
+     * @see jbvb.lbng.Threbd#stop(Throwbble)
      */
-    void stop(ObjectReference throwable) throws InvalidTypeException;
+    void stop(ObjectReference throwbble) throws InvblidTypeException;
 
     /**
-     * Interrupts this thread unless the thread has been suspended by the
+     * Interrupts this threbd unless the threbd hbs been suspended by the
      * debugger.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
-     * @see java.lang.Thread#interrupt()
+     * @see jbvb.lbng.Threbd#interrupt()
      */
     void interrupt();
 
     /**
-     * Returns the thread's status. If the thread is not suspended the
-     * thread's current status is returned. If the thread is suspended, the
-     * thread's status before the suspension is returned (or
-     * {@link #THREAD_STATUS_UNKNOWN} if this information is not available.
-     * {@link #isSuspended} can be used to determine if the thread has been
+     * Returns the threbd's stbtus. If the threbd is not suspended the
+     * threbd's current stbtus is returned. If the threbd is suspended, the
+     * threbd's stbtus before the suspension is returned (or
+     * {@link #THREAD_STATUS_UNKNOWN} if this informbtion is not bvbilbble.
+     * {@link #isSuspended} cbn be used to determine if the threbd hbs been
      * suspended.
      *
      * @return one of
@@ -144,186 +144,186 @@ public interface ThreadReference extends ObjectReference {
      * {@link #THREAD_STATUS_WAIT},
      * {@link #THREAD_STATUS_NOT_STARTED},
      */
-    int status();
+    int stbtus();
 
     /**
-     * Determines whether the thread has been suspended by the
+     * Determines whether the threbd hbs been suspended by the
      * the debugger.
      *
-     * @return <code>true</code> if the thread is currently suspended;
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the threbd is currently suspended;
+     * <code>fblse</code> otherwise.
      */
-    boolean isSuspended();
+    boolebn isSuspended();
 
     /**
-     * Determines whether the thread is suspended at a breakpoint.
+     * Determines whether the threbd is suspended bt b brebkpoint.
      *
-     * @return <code>true</code> if the thread is currently stopped at
-     * a breakpoint; <code>false</code> otherwise.
+     * @return <code>true</code> if the threbd is currently stopped bt
+     * b brebkpoint; <code>fblse</code> otherwise.
      */
-    boolean isAtBreakpoint();
+    boolebn isAtBrebkpoint();
 
     /**
-     * Returns this thread's thread group.
-     * @return a {@link ThreadGroupReference} that mirrors this thread's
-     * thread group in the target VM.
+     * Returns this threbd's threbd group.
+     * @return b {@link ThrebdGroupReference} thbt mirrors this threbd's
+     * threbd group in the tbrget VM.
      */
-    ThreadGroupReference threadGroup();
+    ThrebdGroupReference threbdGroup();
 
     /**
-     * Returns the number of stack frames in the thread's current
-     * call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Returns the number of stbck frbmes in the threbd's current
+     * cbll stbck.
+     * The threbd must be suspended (normblly through bn interruption
+     * to the VM) to get this informbtion, bnd
+     * it is only vblid until the threbd is resumed bgbin.
      *
-     * @return an integer frame count
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @return bn integer frbme count
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
      */
-    int frameCount() throws IncompatibleThreadStateException;
+    int frbmeCount() throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns a List containing each {@link StackFrame} in the
-     * thread's current call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Returns b List contbining ebch {@link StbckFrbme} in the
+     * threbd's current cbll stbck.
+     * The threbd must be suspended (normblly through bn interruption
+     * to the VM) to get this informbtion, bnd
+     * it is only vblid until the threbd is resumed bgbin.
      *
-     * @return a List of {@link StackFrame} with the current frame first
-     * followed by each caller's frame.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @return b List of {@link StbckFrbme} with the current frbme first
+     * followed by ebch cbller's frbme.
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
      */
-    List<StackFrame> frames() throws IncompatibleThreadStateException;
+    List<StbckFrbme> frbmes() throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns the {@link StackFrame} at the given index in the
-     * thread's current call stack. Index 0 retrieves the current
-     * frame; higher indices retrieve caller frames.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Returns the {@link StbckFrbme} bt the given index in the
+     * threbd's current cbll stbck. Index 0 retrieves the current
+     * frbme; higher indices retrieve cbller frbmes.
+     * The threbd must be suspended (normblly through bn interruption
+     * to the VM) to get this informbtion, bnd
+     * it is only vblid until the threbd is resumed bgbin.
      *
-     * @param index the desired frame
-     * @return the requested {@link StackFrame}
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
-     * @throws java.lang.IndexOutOfBoundsException if the index is greater than
-     * or equal to {@link #frameCount} or is negative.
+     * @pbrbm index the desired frbme
+     * @return the requested {@link StbckFrbme}
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
+     * @throws jbvb.lbng.IndexOutOfBoundsException if the index is grebter thbn
+     * or equbl to {@link #frbmeCount} or is negbtive.
      */
-    StackFrame frame(int index) throws IncompatibleThreadStateException;
+    StbckFrbme frbme(int index) throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns a List containing a range of {@link StackFrame} mirrors
-     * from the thread's current call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Returns b List contbining b rbnge of {@link StbckFrbme} mirrors
+     * from the threbd's current cbll stbck.
+     * The threbd must be suspended (normblly through bn interruption
+     * to the VM) to get this informbtion, bnd
+     * it is only vblid until the threbd is resumed bgbin.
      *
-     * @param start the index of the first frame to retrieve.
-     *       Index 0 represents the current frame.
-     * @param length the number of frames to retrieve
-     * @return a List of {@link StackFrame} with the current frame first
-     * followed by each caller's frame.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
-     * @throws IndexOutOfBoundsException if the specified range is not
-     * within the range of stack frame indicies.
-     * That is, the exception is thrown if any of the following are true:
-     * <pre>    start &lt; 0
-     *    start &gt;= {@link #frameCount}
+     * @pbrbm stbrt the index of the first frbme to retrieve.
+     *       Index 0 represents the current frbme.
+     * @pbrbm length the number of frbmes to retrieve
+     * @return b List of {@link StbckFrbme} with the current frbme first
+     * followed by ebch cbller's frbme.
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
+     * @throws IndexOutOfBoundsException if the specified rbnge is not
+     * within the rbnge of stbck frbme indicies.
+     * Thbt is, the exception is thrown if bny of the following bre true:
+     * <pre>    stbrt &lt; 0
+     *    stbrt &gt;= {@link #frbmeCount}
      *    length &lt; 0
-     *    (start+length) &gt; {@link #frameCount}</pre>
+     *    (stbrt+length) &gt; {@link #frbmeCount}</pre>
      */
-    List<StackFrame> frames(int start, int length)
-        throws IncompatibleThreadStateException;
+    List<StbckFrbme> frbmes(int stbrt, int length)
+        throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns a List containing an {@link ObjectReference} for
-     * each monitor owned by the thread.
-     * A monitor is owned by a thread if it has been entered
-     * (via the synchronized statement or entry into a synchronized
-     * method) and has not been relinquished through {@link Object#wait}.
+     * Returns b List contbining bn {@link ObjectReference} for
+     * ebch monitor owned by the threbd.
+     * A monitor is owned by b threbd if it hbs been entered
+     * (vib the synchronized stbtement or entry into b synchronized
+     * method) bnd hbs not been relinquished through {@link Object#wbit}.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetOwnedMonitorInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetOwnedMonitorInfo()}
+     * to determine if the operbtion is supported.
      *
-     * @return a List of {@link ObjectReference} objects. The list
-     * has zero length if no monitors are owned by this thread.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @return b List of {@link ObjectReference} objects. The list
+     * hbs zero length if no monitors bre owned by this threbd.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
      */
     List<ObjectReference> ownedMonitors()
-        throws IncompatibleThreadStateException;
+        throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns a List containing a {@link MonitorInfo} object for
-     * each monitor owned by the thread.
-     * A monitor is owned by a thread if it has been entered
-     * (via the synchronized statement or entry into a synchronized
-     * method) and has not been relinquished through {@link Object#wait}.
+     * Returns b List contbining b {@link MonitorInfo} object for
+     * ebch monitor owned by the threbd.
+     * A monitor is owned by b threbd if it hbs been entered
+     * (vib the synchronized stbtement or entry into b synchronized
+     * method) bnd hbs not been relinquished through {@link Object#wbit}.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetMonitorFrameInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetMonitorFrbmeInfo()}
+     * to determine if the operbtion is supported.
      *
-     * @return a List of {@link MonitorInfo} objects. The list
-     * has zero length if no monitors are owned by this thread.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @return b List of {@link MonitorInfo} objects. The list
+     * hbs zero length if no monitors bre owned by this threbd.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
      *
      * @since 1.6
      */
-    List<MonitorInfo> ownedMonitorsAndFrames()
-        throws IncompatibleThreadStateException;
+    List<MonitorInfo> ownedMonitorsAndFrbmes()
+        throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns an {@link ObjectReference} for the monitor, if any,
-     * for which this thread is currently waiting.
-     * The thread can be waiting for a monitor through entry into a
-     * synchronized method, the synchronized statement, or
-     * {@link Object#wait}.  The {@link #status} method can be used
-     * to differentiate between the first two cases and the third.
+     * Returns bn {@link ObjectReference} for the monitor, if bny,
+     * for which this threbd is currently wbiting.
+     * The threbd cbn be wbiting for b monitor through entry into b
+     * synchronized method, the synchronized stbtement, or
+     * {@link Object#wbit}.  The {@link #stbtus} method cbn be used
+     * to differentibte between the first two cbses bnd the third.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetCurrentContendedMonitor()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetCurrentContendedMonitor()}
+     * to determine if the operbtion is supported.
      *
      * @return the {@link ObjectReference} corresponding to the
-     * contended monitor, or null if it is not waiting for a monitor.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * contended monitor, or null if it is not wbiting for b monitor.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
+     * @throws IncompbtibleThrebdStbteException if the threbd is
+     * not suspended in the tbrget VM
      */
-    ObjectReference currentContendedMonitor() throws IncompatibleThreadStateException;
+    ObjectReference currentContendedMonitor() throws IncompbtibleThrebdStbteException;
 
     /**
-     * Pop stack frames.
+     * Pop stbck frbmes.
      * <P>
-     * All frames up to and including the <CODE>frame</CODE> are
-     * popped off the stack.
-     * The frame previous to the parameter <CODE>frame</CODE>
-     * will become the current frame.
+     * All frbmes up to bnd including the <CODE>frbme</CODE> bre
+     * popped off the stbck.
+     * The frbme previous to the pbrbmeter <CODE>frbme</CODE>
+     * will become the current frbme.
      * <P>
-     * After this operation, this thread will be
-     * suspended at the invoke instruction of the target method
-     * that created <CODE>frame</CODE>.
-     * The <CODE>frame</CODE>'s method can be reentered with a step into
+     * After this operbtion, this threbd will be
+     * suspended bt the invoke instruction of the tbrget method
+     * thbt crebted <CODE>frbme</CODE>.
+     * The <CODE>frbme</CODE>'s method cbn be reentered with b step into
      * the instruction.
      * <P>
-     * The operand stack is restored, however, any changes
-     * to the arguments that occurred in the called method, remain.
-     * For example, if the method <CODE>foo</CODE>:
+     * The operbnd stbck is restored, however, bny chbnges
+     * to the brguments thbt occurred in the cblled method, rembin.
+     * For exbmple, if the method <CODE>foo</CODE>:
      * <PRE>
      *    void foo(int x) {
      *        System.out.println("Foo: " + x);
@@ -331,143 +331,143 @@ public interface ThreadReference extends ObjectReference {
      *        System.out.println("pop here");
      *    }
      * </PRE>
-     * was called with <CODE>foo(7)</CODE> and <CODE>foo</CODE>
-     * is popped at the second <CODE>println</CODE> and resumed,
+     * wbs cblled with <CODE>foo(7)</CODE> bnd <CODE>foo</CODE>
+     * is popped bt the second <CODE>println</CODE> bnd resumed,
      * it will print: <CODE>Foo: 4</CODE>.
      * <P>
-     * Locks acquired by a popped frame are released when it
-     * is popped. This applies to synchronized methods that
-     * are popped, and to any synchronized blocks within them.
+     * Locks bcquired by b popped frbme bre relebsed when it
+     * is popped. This bpplies to synchronized methods thbt
+     * bre popped, bnd to bny synchronized blocks within them.
      * <P>
-     * Finally blocks are not executed.
+     * Finblly blocks bre not executed.
      * <P>
-     * No aspect of state, other than this thread's execution point and
-     * locks, is affected by this call.  Specifically, the values of
-     * fields are unchanged, as are external resources such as
-     * I/O streams.  Additionally, the target program might be
-     * placed in a state that is impossible with normal program flow;
-     * for example, order of lock acquisition might be perturbed.
-     * Thus the target program may
-     * proceed differently than the user would expect.
+     * No bspect of stbte, other thbn this threbd's execution point bnd
+     * locks, is bffected by this cbll.  Specificblly, the vblues of
+     * fields bre unchbnged, bs bre externbl resources such bs
+     * I/O strebms.  Additionblly, the tbrget progrbm might be
+     * plbced in b stbte thbt is impossible with normbl progrbm flow;
+     * for exbmple, order of lock bcquisition might be perturbed.
+     * Thus the tbrget progrbm mby
+     * proceed differently thbn the user would expect.
      * <P>
-     * The specified thread must be suspended.
+     * The specified threbd must be suspended.
      * <P>
-     * All <code>StackFrame</code> objects for this thread are
-     * invalidated.
+     * All <code>StbckFrbme</code> objects for this threbd bre
+     * invblidbted.
      * <P>
-     * No events are generated by this method.
+     * No events bre generbted by this method.
      * <P>
-     * None of the frames through and including the frame for the caller
-     * of <i>frame</i> may be native.
+     * None of the frbmes through bnd including the frbme for the cbller
+     * of <i>frbme</i> mby be nbtive.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canPopFrames() VirtualMachine.canPopFrames()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnPopFrbmes() VirtublMbchine.cbnPopFrbmes()}
+     * to determine if the operbtion is supported.
      *
-     * @param frame Stack frame to pop.  <CODE>frame</CODE> is on this
-     * thread's call stack.
+     * @pbrbm frbme Stbck frbme to pop.  <CODE>frbme</CODE> is on this
+     * threbd's cbll stbck.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canPopFrames() VirtualMachine.canPopFrames()}.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnPopFrbmes() VirtublMbchine.cbnPopFrbmes()}.
      *
-     * @throws IncompatibleThreadStateException if this
-     * thread is not suspended.
+     * @throws IncompbtibleThrebdStbteException if this
+     * threbd is not suspended.
      *
-     * @throws java.lang.IllegalArgumentException if <CODE>frame</CODE>
-     * is not on this thread's call stack.
+     * @throws jbvb.lbng.IllegblArgumentException if <CODE>frbme</CODE>
+     * is not on this threbd's cbll stbck.
      *
-     * @throws NativeMethodException if one of the frames that would be
-     * popped is that of a native method or if the frame previous to
-     * <i>frame</i> is native.
+     * @throws NbtiveMethodException if one of the frbmes thbt would be
+     * popped is thbt of b nbtive method or if the frbme previous to
+     * <i>frbme</i> is nbtive.
      *
-     * @throws InvalidStackFrameException if <CODE>frame</CODE> has become
-     * invalid. Once this thread is resumed, the stack frame is
-     * no longer valid.  This exception is also thrown if there are no
-     * more frames.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws InvblidStbckFrbmeException if <CODE>frbme</CODE> hbs become
+     * invblid. Once this threbd is resumed, the stbck frbme is
+     * no longer vblid.  This exception is blso thrown if there bre no
+     * more frbmes.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
      * @since 1.4 */
-    void popFrames(StackFrame frame) throws IncompatibleThreadStateException;
+    void popFrbmes(StbckFrbme frbme) throws IncompbtibleThrebdStbteException;
 
 
     /**
-     * Force a method to return before it reaches a return
-     * statement.
+     * Force b method to return before it rebches b return
+     * stbtement.
      * <p>
-     * The method which will return early is referred to as the
-     * called method. The called method is the current method (as
-     * defined by the Frames section in the Java Virtual Machine
-     * Specification) for the specified thread at the time this
-     * method is called.
+     * The method which will return ebrly is referred to bs the
+     * cblled method. The cblled method is the current method (bs
+     * defined by the Frbmes section in the Jbvb Virtubl Mbchine
+     * Specificbtion) for the specified threbd bt the time this
+     * method is cblled.
      * <p>
-     * The thread must be suspended.
-     * The return occurs when execution of Java programming
-     * language code is resumed on this thread. Between the call to
-     * this method and resumption of thread execution, the
-     * state of the stack is undefined.
+     * The threbd must be suspended.
+     * The return occurs when execution of Jbvb progrbmming
+     * lbngubge code is resumed on this threbd. Between the cbll to
+     * this method bnd resumption of threbd execution, the
+     * stbte of the stbck is undefined.
      * <p>
-     * No further instructions are executed in the called
-     * method. Specifically, finally blocks are not executed. Note:
-     * this can cause inconsistent states in the application.
+     * No further instructions bre executed in the cblled
+     * method. Specificblly, finblly blocks bre not executed. Note:
+     * this cbn cbuse inconsistent stbtes in the bpplicbtion.
      * <p>
-     * A lock acquired by calling the called method (if it is a
-     * synchronized method) and locks acquired by entering
-     * synchronized blocks within the called method are
-     * released. Note: this does not apply to native locks or
-     * java.util.concurrent.locks locks.
+     * A lock bcquired by cblling the cblled method (if it is b
+     * synchronized method) bnd locks bcquired by entering
+     * synchronized blocks within the cblled method bre
+     * relebsed. Note: this does not bpply to nbtive locks or
+     * jbvb.util.concurrent.locks locks.
      * <p>
-     * Events, such as MethodExit, are generated as they would be in
-     * a normal return.
+     * Events, such bs MethodExit, bre generbted bs they would be in
+     * b normbl return.
      * <p>
-     * The called method must be a non-native Java programming
-     * language method. Forcing return on a thread with only one
-     * frame on the stack causes the thread to exit when resumed.
+     * The cblled method must be b non-nbtive Jbvb progrbmming
+     * lbngubge method. Forcing return on b threbd with only one
+     * frbme on the stbck cbuses the threbd to exit when resumed.
      * <p>
-     * The <code>value</code> argument is the value that the
+     * The <code>vblue</code> brgument is the vblue thbt the
      * method is to return.
-     * If the return type of the method is void, then value must
-     * be a  {@link VoidValue VoidValue}.
-     * Object values must be assignment compatible with the method return type
-     * (This implies that the method return type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the method return type or must be
-     * convertible to the variable type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * If the return type of the method is void, then vblue must
+     * be b  {@link VoidVblue VoidVblue}.
+     * Object vblues must be bssignment compbtible with the method return type
+     * (This implies thbt the method return type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the method return type or must be
+     * convertible to the vbribble type without loss of informbtion.
+     * See JLS section 5.2 for more informbtion on bssignment
+     * compbtibility.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canForceEarlyReturn()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnForceEbrlyReturn()}
+     * to determine if the operbtion is supported.
      *
-     * @param value the value the method is to return.
+     * @pbrbm vblue the vblue the method is to return.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canForceEarlyReturn()}
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetInstbnceInfo() cbnForceEbrlyReturn()}
      *
-     * @throws IncompatibleThreadStateException if this
-     * thread is not suspended.
+     * @throws IncompbtibleThrebdStbteException if this
+     * threbd is not suspended.
      *
-     * @throws NativeMethodException if the frame to be returned from
-     * is that of a native method.
+     * @throws NbtiveMethodException if the frbme to be returned from
+     * is thbt of b nbtive method.
      *
-     * @throws InvalidStackFrameException if there are no frames.
+     * @throws InvblidStbckFrbmeException if there bre no frbmes.
      *
-     * @throws InvalidTypeException if the value's type does not match
+     * @throws InvblidTypeException if the vblue's type does not mbtch
      * the method's return type.
      *
-     * @throws ClassNotLoadedException if the method's return type has not yet
-     * been loaded through the appropriate class loader.
+     * @throws ClbssNotLobdedException if the method's return type hbs not yet
+     * been lobded through the bppropribte clbss lobder.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
      * @since 1.6
      */
-    void forceEarlyReturn(Value value) throws InvalidTypeException,
-                                              ClassNotLoadedException,
-                                              IncompatibleThreadStateException;
+    void forceEbrlyReturn(Vblue vblue) throws InvblidTypeException,
+                                              ClbssNotLobdedException,
+                                              IncompbtibleThrebdStbteException;
 
 }

@@ -1,88 +1,88 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.util.*;
-import java.io.IOException;
+import jbvb.io.IOException;
 
-public class EncASRepPart extends EncKDCRepPart {
+public clbss EncASRepPbrt extends EncKDCRepPbrt {
 
-    public EncASRepPart(
+    public EncASRepPbrt(
             EncryptionKey new_key,
-            LastReq new_lastReq,
+            LbstReq new_lbstReq,
             int new_nonce,
-            KerberosTime new_keyExpiration,
-            TicketFlags new_flags,
-            KerberosTime new_authtime,
-            KerberosTime new_starttime,
+            KerberosTime new_keyExpirbtion,
+            TicketFlbgs new_flbgs,
+            KerberosTime new_buthtime,
+            KerberosTime new_stbrttime,
             KerberosTime new_endtime,
             KerberosTime new_renewTill,
-            PrincipalName new_sname,
-            HostAddresses new_caddr) {
+            PrincipblNbme new_snbme,
+            HostAddresses new_cbddr) {
         super(
                 new_key,
-                new_lastReq,
+                new_lbstReq,
                 new_nonce,
-                new_keyExpiration,
-                new_flags,
-                new_authtime,
-                new_starttime,
+                new_keyExpirbtion,
+                new_flbgs,
+                new_buthtime,
+                new_stbrttime,
                 new_endtime,
                 new_renewTill,
-                new_sname,
-                new_caddr,
+                new_snbme,
+                new_cbddr,
                 Krb5.KRB_ENC_AS_REP_PART
                 );
-        //may need to use Krb5.KRB_ENC_TGS_REP_PART to mimic
-        //behavior of other implementaions, instead of above
+        //mby need to use Krb5.KRB_ENC_TGS_REP_PART to mimic
+        //behbvior of other implementbions, instebd of bbove
     }
 
-    public EncASRepPart(byte[] data) throws Asn1Exception,
+    public EncASRepPbrt(byte[] dbtb) throws Asn1Exception,
             IOException, KrbException {
-        init(new DerValue(data));
+        init(new DerVblue(dbtb));
     }
 
-    public EncASRepPart(DerValue encoding) throws Asn1Exception,
+    public EncASRepPbrt(DerVblue encoding) throws Asn1Exception,
             IOException, KrbException {
         init(encoding);
     }
 
-    private void init(DerValue encoding) throws Asn1Exception,
+    privbte void init(DerVblue encoding) throws Asn1Exception,
             IOException, KrbException {
         init(encoding, Krb5.KRB_ENC_AS_REP_PART);
     }
 
-    public byte[] asn1Encode() throws Asn1Exception,
+    public byte[] bsn1Encode() throws Asn1Exception,
             IOException {
-        return asn1Encode(Krb5.KRB_ENC_AS_REP_PART);
+        return bsn1Encode(Krb5.KRB_ENC_AS_REP_PART);
     }
 }

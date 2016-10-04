@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial")
-public class VariableGridLayout extends GridLayout {
+@SuppressWbrnings("seribl")
+public clbss VbribbleGridLbyout extends GridLbyout {
 
-    private boolean fillRows, fillColumns;
+    privbte boolebn fillRows, fillColumns;
 
-    public VariableGridLayout(int rows, int cols,
-                              int hgap, int vgap,
-                              boolean fillRows, boolean fillColumns) {
-        super(rows, cols, hgap, vgap);
+    public VbribbleGridLbyout(int rows, int cols,
+                              int hgbp, int vgbp,
+                              boolebn fillRows, boolebn fillColumns) {
+        super(rows, cols, hgbp, vgbp);
 
         this.fillRows    = fillRows;
         this.fillColumns = fillColumns;
     }
 
-    public void setFillRow(JComponent c, boolean b) {
-        c.putClientProperty("VariableGridLayout.fillRow", b);
+    public void setFillRow(JComponent c, boolebn b) {
+        c.putClientProperty("VbribbleGridLbyout.fillRow", b);
     }
 
-    public void setFillColumn(JComponent c, boolean b) {
-        c.putClientProperty("VariableGridLayout.fillColumn", b);
+    public void setFillColumn(JComponent c, boolebn b) {
+        c.putClientProperty("VbribbleGridLbyout.fillColumn", b);
     }
 
-    public boolean getFillRow(JComponent c) {
-        Boolean b = (Boolean)c.getClientProperty("VariableGridLayout.fillRow");
+    public boolebn getFillRow(JComponent c) {
+        Boolebn b = (Boolebn)c.getClientProperty("VbribbleGridLbyout.fillRow");
         return (b != null) ? b : fillRows;
     }
 
-    public boolean getFillColumn(JComponent c) {
-        Boolean b = (Boolean)c.getClientProperty("VariableGridLayout.fillColumn");
+    public boolebn getFillColumn(JComponent c) {
+        Boolebn b = (Boolebn)c.getClientProperty("VbribbleGridLbyout.fillColumn");
         return (b != null) ? b : fillColumns;
     }
 
-    public void layoutContainer(Container parent) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    public void lbyoutContbiner(Contbiner pbrent) {
+        Insets insets = pbrent.getInsets();
+        int ncomponents = pbrent.getComponentCount();
         int nrows = getRows();
         int ncols = getColumns();
-        int hgap =  getHgap();
-        int vgap =  getVgap();
+        int hgbp =  getHgbp();
+        int vgbp =  getVgbp();
 
         if (nrows > 0) {
             ncols = (ncomponents + nrows - 1) / nrows;
@@ -79,55 +79,55 @@ public class VariableGridLayout extends GridLayout {
         int x;
         int y;
         int nFills = 0;
-        boolean[] fills = new boolean[nrows];
-        int lastFillRow = -1;
-        int nComps = parent.getComponentCount();
+        boolebn[] fills = new boolebn[nrows];
+        int lbstFillRow = -1;
+        int nComps = pbrent.getComponentCount();
 
         y = insets.top;
         for (int row = 0; row < nrows; row++) {
-            // Find largest minimum height for this row
+            // Find lbrgest minimum height for this row
             int h = 0;
             for (int col = 0; col < ncols; col++) {
                 if (row * ncols + col < nComps) {
-                    Component c = parent.getComponent(row * ncols + col);
-                    h = Math.max(h, c.getMinimumSize().height);
+                    Component c = pbrent.getComponent(row * ncols + col);
+                    h = Mbth.mbx(h, c.getMinimumSize().height);
                 }
             }
             // Set heights for this row
             x = insets.left;
             for (int col = 0; col < ncols; col++) {
                 if (row * ncols + col < nComps) {
-                    JComponent c = (JComponent)parent.getComponent(row * ncols + col);
+                    JComponent c = (JComponent)pbrent.getComponent(row * ncols + col);
                     int w = c.getWidth();
                     c.setBounds(x, y, w, h);
-                    x += w + hgap;
+                    x += w + hgbp;
                     if (col == 0 && getFillRow(c)) {
                         fills[row] = true;
                     }
                 }
             }
-            y += h + vgap;
+            y += h + vgbp;
             if (fills[row]) {
                 nFills++;
-                lastFillRow = row;
+                lbstFillRow = row;
             }
         }
 
         // Fill heights
-        if (nFills > 0 && y < parent.getHeight()) {
-            // How much height to add
-            int hAdd = (parent.getHeight() - y) / nFills;
+        if (nFills > 0 && y < pbrent.getHeight()) {
+            // How much height to bdd
+            int hAdd = (pbrent.getHeight() - y) / nFills;
             int hAdded = 0;
             for (int row = 0; row < nrows; row++) {
                 if (fills[row]) {
-                    if (row == lastFillRow) {
-                        // Compensate for rounding error
-                        hAdd = parent.getHeight() - (y+hAdded);
+                    if (row == lbstFillRow) {
+                        // Compensbte for rounding error
+                        hAdd = pbrent.getHeight() - (y+hAdded);
                     }
                     for (int col = 0; col < ncols; col++) {
                         if (row * ncols + col < nComps) {
-                            Component c = parent.getComponent(row * ncols + col);
-                            Rectangle b = c.getBounds();
+                            Component c = pbrent.getComponent(row * ncols + col);
+                            Rectbngle b = c.getBounds();
                             c.setBounds(b.x, b.y + hAdded, b.width, b.height + hAdd);
                         }
                     }
@@ -138,53 +138,53 @@ public class VariableGridLayout extends GridLayout {
 
         // Set widths
         nFills = 0;
-        fills = new boolean[ncols];
-        int lastFillCol = -1;
+        fills = new boolebn[ncols];
+        int lbstFillCol = -1;
 
         x = insets.left;
         for (int col = 0; col < ncols; col++) {
-            // Find largest minimum width for this column
+            // Find lbrgest minimum width for this column
             int w = 0;
             for (int row = 0; row < nrows; row++) {
                 if (row * ncols + col < nComps) {
-                    Component c = parent.getComponent(row * ncols + col);
-                    w = Math.max(w, c.getMinimumSize().width);
+                    Component c = pbrent.getComponent(row * ncols + col);
+                    w = Mbth.mbx(w, c.getMinimumSize().width);
                 }
             }
             // Set widths for this column
             y = insets.top;
             for (int row = 0; row < nrows; row++) {
                 if (row * ncols + col < nComps) {
-                    JComponent c = (JComponent)parent.getComponent(row * ncols + col);
+                    JComponent c = (JComponent)pbrent.getComponent(row * ncols + col);
                     int h = c.getHeight();
                     c.setBounds(x, y, w, h);
-                    y += h + vgap;
+                    y += h + vgbp;
                     if (row == 0 && getFillColumn(c)) {
                         fills[col] = true;
                     }
                 }
             }
-            x += w + hgap;
+            x += w + hgbp;
             if (fills[col]) {
                 nFills++;
-                lastFillCol = col;
+                lbstFillCol = col;
             }
         }
 
         // Fill widths
-        if (nFills > 0 && x < parent.getWidth()) {
-            // How much width to add
-            int wAdd = (parent.getWidth() - x) / nFills;
+        if (nFills > 0 && x < pbrent.getWidth()) {
+            // How much width to bdd
+            int wAdd = (pbrent.getWidth() - x) / nFills;
             int wAdded = 0;
             for (int col = 0; col < ncols; col++) {
                 if (fills[col]) {
-                    if (col == lastFillCol) {
-                        wAdd = parent.getWidth() - (x+wAdded);
+                    if (col == lbstFillCol) {
+                        wAdd = pbrent.getWidth() - (x+wAdded);
                     }
                     for (int row = 0; row < nrows; row++) {
                         if (row * ncols + col < nComps) {
-                            Component c = parent.getComponent(row * ncols + col);
-                            Rectangle b = c.getBounds();
+                            Component c = pbrent.getComponent(row * ncols + col);
+                            Rectbngle b = c.getBounds();
                             c.setBounds(b.x + wAdded, b.y, b.width + wAdd, b.height);
                         }
                     }
@@ -194,13 +194,13 @@ public class VariableGridLayout extends GridLayout {
         }
     }
 
-    public Dimension preferredLayoutSize(Container parent) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+        Insets insets = pbrent.getInsets();
+        int ncomponents = pbrent.getComponentCount();
         int nrows = getRows();
         int ncols = getColumns();
-        int hgap =  getHgap();
-        int vgap =  getVgap();
+        int hgbp =  getHgbp();
+        int vgbp =  getVgbp();
 
         if (nrows > 0) {
             ncols = (ncomponents + nrows - 1) / nrows;
@@ -208,18 +208,18 @@ public class VariableGridLayout extends GridLayout {
             nrows = (ncomponents + ncols - 1) / ncols;
         }
 
-        int nComps = parent.getComponentCount();
+        int nComps = pbrent.getComponentCount();
 
         int y = insets.top;
         for (int row = 0; row < nrows; row++) {
             int h = 0;
             for (int col = 0; col < ncols; col++) {
                 if (row * ncols + col < nComps) {
-                    Component c = parent.getComponent(row * ncols + col);
-                    h = Math.max(h, c.getMinimumSize().height);
+                    Component c = pbrent.getComponent(row * ncols + col);
+                    h = Mbth.mbx(h, c.getMinimumSize().height);
                 }
             }
-            y += h + vgap;
+            y += h + vgbp;
         }
 
         int x = insets.left;
@@ -227,11 +227,11 @@ public class VariableGridLayout extends GridLayout {
             int w = 0;
             for (int row = 0; row < nrows; row++) {
                 if (row * ncols + col < nComps) {
-                    Component c = parent.getComponent(row * ncols + col);
-                    w = Math.max(w, c.getMinimumSize().width);
+                    Component c = pbrent.getComponent(row * ncols + col);
+                    w = Mbth.mbx(w, c.getMinimumSize().width);
                 }
             }
-            x += w + hgap;
+            x += w + hgbp;
         }
         return new Dimension(x, y);
     }

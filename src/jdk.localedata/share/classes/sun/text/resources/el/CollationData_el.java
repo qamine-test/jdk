@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,93 +27,93 @@
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.text.resources.el;
+pbckbge sun.text.resources.el;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class CollationData_el extends ListResourceBundle {
+public clbss CollbtionDbtb_el extends ListResourceBundle {
 
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
             { "Rule",
                 "& \u0361 = \u0387 = \u03f3 " // ?? \u03f3 is letter yot
-                // punctuations
+                // punctubtions
                 + "& \u00b5 "
-                + "< \u0374 "        // upper numeral sign
-                + "< \u0375 "        // lower numeral sign
-                + "< \u037a "        // ypogegrammeni
-                + "< \u037e "        // question mark
+                + "< \u0374 "        // upper numerbl sign
+                + "< \u0375 "        // lower numerbl sign
+                + "< \u037b "        // ypogegrbmmeni
+                + "< \u037e "        // question mbrk
                 + "< \u0384 "        // tonos
-                + "< \u0385 "        // dialytika tonos
-                // Greek letters sorts after Z's
-                + "& Z < \u03b1 , \u0391 "  // alpha
-                + "; \u03ac , \u0386 "  // alpha-tonos
-                + "< \u03b2 , \u0392 "  // beta
-                + "; \u03d0 "           // beta symbol
-                + "< \u03b3 , \u0393 "  // gamma
-                + "< \u03b4 , \u0394 "  // delta
+                + "< \u0385 "        // diblytikb tonos
+                // Greek letters sorts bfter Z's
+                + "& Z < \u03b1 , \u0391 "  // blphb
+                + "; \u03bc , \u0386 "  // blphb-tonos
+                + "< \u03b2 , \u0392 "  // betb
+                + "; \u03d0 "           // betb symbol
+                + "< \u03b3 , \u0393 "  // gbmmb
+                + "< \u03b4 , \u0394 "  // deltb
                 + "< \u03b5 , \u0395 "  // epsilon
-                + "; \u03ad , \u0388 "  // epsilon-tonos
-                + "< \u03b6 , \u0396 "  // zeta
-                + "< \u03b7 , \u0397 "  // eta
-                + "; \u03ae , \u0389 "  // eta-tonos
-                + "< \u03b8 , \u0398 "  // theta
-                + "; \u03d1 "           // theta-symbol
-                + "< \u03b9 , \u0399 "  // iota
-                + "; \u03af , \u038a "  // iota-tonos
-                + "; \u03ca , \u03aa "  // iota-dialytika
-                + "; \u0390 "           // iota-dialytika
-                + "< \u03ba , \u039a "  // kappa
-                + "; \u03f0 "           // kappa symbol
-                + "< \u03bb , \u039b "  // lamda
+                + "; \u03bd , \u0388 "  // epsilon-tonos
+                + "< \u03b6 , \u0396 "  // zetb
+                + "< \u03b7 , \u0397 "  // etb
+                + "; \u03be , \u0389 "  // etb-tonos
+                + "< \u03b8 , \u0398 "  // thetb
+                + "; \u03d1 "           // thetb-symbol
+                + "< \u03b9 , \u0399 "  // iotb
+                + "; \u03bf , \u038b "  // iotb-tonos
+                + "; \u03cb , \u03bb "  // iotb-diblytikb
+                + "; \u0390 "           // iotb-diblytikb
+                + "< \u03bb , \u039b "  // kbppb
+                + "; \u03f0 "           // kbppb symbol
+                + "< \u03bb , \u039b "  // lbmdb
                 + "< \u03bc , \u039c "  // mu
                 + "< \u03bd , \u039d "  // nu
                 + "< \u03be , \u039e "  // xi
                 + "< \u03bf , \u039f "  // omicron
                 + "; \u03cc , \u038c "  // omicron-tonos
-                + "< \u03c0 , \u03a0 "  // pi
+                + "< \u03c0 , \u03b0 "  // pi
                 + "; \u03d6 < \u03c1 "  // pi-symbol
-                + ", \u03a1 "           // rho
+                + ", \u03b1 "           // rho
                 + "; \u03f1 "           // rho-symbol
-                + "< \u03c3 , \u03c2 "  // sigma(final)
-                + ", \u03a3 "           // sigma
-                + "; \u03f2 "           // sigma-symbol
-                + "< \u03c4 , \u03a4 "  // tau
-                + "< \u03c5 , \u03a5 "  // upsilon
+                + "< \u03c3 , \u03c2 "  // sigmb(finbl)
+                + ", \u03b3 "           // sigmb
+                + "; \u03f2 "           // sigmb-symbol
+                + "< \u03c4 , \u03b4 "  // tbu
+                + "< \u03c5 , \u03b5 "  // upsilon
                 + "; \u03cd , \u038e "  // upsilon-tonos
-                + "; \u03cb , \u03ab "  // upsilon-dialytika
-                + "= \u03d4 "           // upsilon-diaeresis-hook
-                + "; \u03b0 "           // upsilon-dialytika-tonos
+                + "; \u03cb , \u03bb "  // upsilon-diblytikb
+                + "= \u03d4 "           // upsilon-diberesis-hook
+                + "; \u03b0 "           // upsilon-diblytikb-tonos
                 + "; \u03d2 "           // upsilon-hook symbol
-                + "; \u03d3 "           // upsilon-acute-hook
-                + "< \u03c6 , \u03a6 "  // phi
+                + "; \u03d3 "           // upsilon-bcute-hook
+                + "< \u03c6 , \u03b6 "  // phi
                 + "; \u03d5 "           // phi-symbol
-                + "< \u03c7 , \u03a7 "  // chi
-                + "< \u03c8 , \u03a8 "  // psi
-                + "< \u03c9 , \u03a9 "  // omega
-                + "; \u03ce , \u038f "  // omega-tonos
-                + ", \u03da , \u03dc "  // stigma, digamma
-                + ", \u03de , \u03e0 "  // koppa, sampi
+                + "< \u03c7 , \u03b7 "  // chi
+                + "< \u03c8 , \u03b8 "  // psi
+                + "< \u03c9 , \u03b9 "  // omegb
+                + "; \u03ce , \u038f "  // omegb-tonos
+                + ", \u03db , \u03dc "  // stigmb, digbmmb
+                + ", \u03de , \u03e0 "  // koppb, sbmpi
                 + "< \u03e3 , \u03e2 "  // shei
                 + "< \u03e5 , \u03e4 "  // fei
                 + "< \u03e7 , \u03e6 "  // khei
                 + "< \u03e9 , \u03e8 "  // hori
-                + "< \u03eb , \u03ea "  // gangia
-                + "< \u03ed , \u03ec "  // shima
+                + "< \u03eb , \u03eb "  // gbngib
+                + "< \u03ed , \u03ec "  // shimb
                 + "< \u03ef , \u03ee "  // dei
 
                 + "& \u03bc = \u00b5 "  // Micro symbol sorts with mu

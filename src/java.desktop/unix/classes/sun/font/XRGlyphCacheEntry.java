@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * Stores glyph-related data, used in the pure-java glyphcache.
+ * Stores glyph-relbted dbtb, used in the pure-jbvb glyphcbche.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRGlyphCacheEntry {
+public clbss XRGlyphCbcheEntry {
     long glyphInfoPtr;
 
-    int lastUsed;
-    boolean pinned;
+    int lbstUsed;
+    boolebn pinned;
 
     int xOff;
     int yOff;
 
     int glyphSet;
 
-    public XRGlyphCacheEntry(long glyphInfoPtr, GlyphList gl) {
+    public XRGlyphCbcheEntry(long glyphInfoPtr, GlyphList gl) {
         this.glyphInfoPtr = glyphInfoPtr;
 
-        /* TODO: Does it make sence to cache results? */
-        xOff = Math.round(getXAdvance());
-        yOff = Math.round(getYAdvance());
+        /* TODO: Does it mbke sence to cbche results? */
+        xOff = Mbth.round(getXAdvbnce());
+        yOff = Mbth.round(getYAdvbnce());
     }
 
     public int getXOff() {
@@ -68,29 +68,29 @@ public class XRGlyphCacheEntry {
         return glyphSet;
     }
 
-    public static int getGlyphID(long glyphInfoPtr) {
-        // We need to access the GlyphID with Unsafe.getAddress() because the
-        // corresponding field in the underlying C data-structure is of type
+    public stbtic int getGlyphID(long glyphInfoPtr) {
+        // We need to bccess the GlyphID with Unsbfe.getAddress() becbuse the
+        // corresponding field in the underlying C dbtb-structure is of type
         // 'void*' (see field 'cellInfo' of struct 'GlyphInfo'
-        // in src/share/native/sun/font/fontscalerdefs.h).
-        // On 64-bit Big-endian architectures it would be wrong to access this
-        // field with Unsafe.getInt().
-        return (int) StrikeCache.unsafe.getAddress(glyphInfoPtr +
-                                                   StrikeCache.cacheCellOffset);
+        // in src/shbre/nbtive/sun/font/fontscblerdefs.h).
+        // On 64-bit Big-endibn brchitectures it would be wrong to bccess this
+        // field with Unsbfe.getInt().
+        return (int) StrikeCbche.unsbfe.getAddress(glyphInfoPtr +
+                                                   StrikeCbche.cbcheCellOffset);
     }
 
-    public static void setGlyphID(long glyphInfoPtr, int id) {
-        // We need to access the GlyphID with Unsafe.putAddress() because the
-        // corresponding field in the underlying C data-structure is of type
+    public stbtic void setGlyphID(long glyphInfoPtr, int id) {
+        // We need to bccess the GlyphID with Unsbfe.putAddress() becbuse the
+        // corresponding field in the underlying C dbtb-structure is of type
         // 'void*' (see field 'cellInfo' of struct 'GlyphInfo' in
-        // src/share/native/sun/font/fontscalerdefs.h).
-        // On 64-bit Big-endian architectures it would be wrong to write this
-        // field with Unsafe.putInt() because it is also accessed from native
-        // code as a 'long'.
-        // See Java_sun_java2d_xr_XRBackendNative_XRAddGlyphsNative()
-        // in src/solaris/native/sun/java2d/x11/XRBackendNative.c
-        StrikeCache.unsafe.putAddress(glyphInfoPtr +
-                                      StrikeCache.cacheCellOffset, (long)id);
+        // src/shbre/nbtive/sun/font/fontscblerdefs.h).
+        // On 64-bit Big-endibn brchitectures it would be wrong to write this
+        // field with Unsbfe.putInt() becbuse it is blso bccessed from nbtive
+        // code bs b 'long'.
+        // See Jbvb_sun_jbvb2d_xr_XRBbckendNbtive_XRAddGlyphsNbtive()
+        // in src/solbris/nbtive/sun/jbvb2d/x11/XRBbckendNbtive.c
+        StrikeCbche.unsbfe.putAddress(glyphInfoPtr +
+                                      StrikeCbche.cbcheCellOffset, (long)id);
     }
 
     public int getGlyphID() {
@@ -101,62 +101,62 @@ public class XRGlyphCacheEntry {
         setGlyphID(glyphInfoPtr, id);
     }
 
-    public float getXAdvance() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.xAdvanceOffset);
+    public flobt getXAdvbnce() {
+        return StrikeCbche.unsbfe.getFlobt(glyphInfoPtr + StrikeCbche.xAdvbnceOffset);
     }
 
-    public float getYAdvance() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.yAdvanceOffset);
+    public flobt getYAdvbnce() {
+        return StrikeCbche.unsbfe.getFlobt(glyphInfoPtr + StrikeCbche.yAdvbnceOffset);
     }
 
     public int getSourceRowBytes() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.rowBytesOffset);
+        return StrikeCbche.unsbfe.getShort(glyphInfoPtr + StrikeCbche.rowBytesOffset);
     }
 
     public int getWidth() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.widthOffset);
+        return StrikeCbche.unsbfe.getShort(glyphInfoPtr + StrikeCbche.widthOffset);
     }
 
     public int getHeight() {
-        return StrikeCache.unsafe.getShort(glyphInfoPtr + StrikeCache.heightOffset);
+        return StrikeCbche.unsbfe.getShort(glyphInfoPtr + StrikeCbche.heightOffset);
     }
 
-    public void writePixelData(ByteArrayOutputStream os, boolean uploadAsLCD) {
-        long pixelDataAddress =
-            StrikeCache.unsafe.getAddress(glyphInfoPtr +
-                                          StrikeCache.pixelDataOffset);
-        if (pixelDataAddress == 0L) {
+    public void writePixelDbtb(ByteArrbyOutputStrebm os, boolebn uplobdAsLCD) {
+        long pixelDbtbAddress =
+            StrikeCbche.unsbfe.getAddress(glyphInfoPtr +
+                                          StrikeCbche.pixelDbtbOffset);
+        if (pixelDbtbAddress == 0L) {
             return;
         }
 
         int width = getWidth();
         int height = getHeight();
         int rowBytes = getSourceRowBytes();
-        int paddedWidth = getPaddedWidth(uploadAsLCD);
+        int pbddedWidth = getPbddedWidth(uplobdAsLCD);
 
-        if (!uploadAsLCD) {
+        if (!uplobdAsLCD) {
             for (int line = 0; line < height; line++) {
-                for(int x = 0; x < paddedWidth; x++) {
+                for(int x = 0; x < pbddedWidth; x++) {
                     if(x < width) {
-                        os.write(StrikeCache.unsafe.getByte(pixelDataAddress + (line * rowBytes + x)));
+                        os.write(StrikeCbche.unsbfe.getByte(pixelDbtbAddress + (line * rowBytes + x)));
                     }else {
-                         /*pad to multiple of 4 bytes per line*/
+                         /*pbd to multiple of 4 bytes per line*/
                          os.write(0);
                     }
                 }
             }
         } else {
             for (int line = 0; line < height; line++) {
-                int rowStart = line * rowBytes;
+                int rowStbrt = line * rowBytes;
                 int rowBytesWidth = width * 3;
                 int srcpix = 0;
                 while (srcpix < rowBytesWidth) {
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 2)));
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 1)));
-                    os.write(StrikeCache.unsafe.getByte
-                          (pixelDataAddress + (rowStart + srcpix + 0)));
+                    os.write(StrikeCbche.unsbfe.getByte
+                          (pixelDbtbAddress + (rowStbrt + srcpix + 2)));
+                    os.write(StrikeCbche.unsbfe.getByte
+                          (pixelDbtbAddress + (rowStbrt + srcpix + 1)));
+                    os.write(StrikeCbche.unsbfe.getByte
+                          (pixelDbtbAddress + (rowStbrt + srcpix + 0)));
                     os.write(255);
                     srcpix += 3;
                 }
@@ -164,34 +164,34 @@ public class XRGlyphCacheEntry {
         }
     }
 
-    public float getTopLeftXOffset() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.topLeftXOffset);
+    public flobt getTopLeftXOffset() {
+        return StrikeCbche.unsbfe.getFlobt(glyphInfoPtr + StrikeCbche.topLeftXOffset);
     }
 
-    public float getTopLeftYOffset() {
-        return StrikeCache.unsafe.getFloat(glyphInfoPtr + StrikeCache.topLeftYOffset);
+    public flobt getTopLeftYOffset() {
+        return StrikeCbche.unsbfe.getFlobt(glyphInfoPtr + StrikeCbche.topLeftYOffset);
     }
 
     public long getGlyphInfoPtr() {
         return glyphInfoPtr;
     }
 
-    public boolean isGrayscale(boolean listContainsLCDGlyphs) {
-        return getSourceRowBytes() == getWidth() && !(getWidth() == 0 && getHeight() == 0 && listContainsLCDGlyphs);
+    public boolebn isGrbyscble(boolebn listContbinsLCDGlyphs) {
+        return getSourceRowBytes() == getWidth() && !(getWidth() == 0 && getHeight() == 0 && listContbinsLCDGlyphs);
     }
 
-    public int getPaddedWidth(boolean listContainsLCDGlyphs) {
+    public int getPbddedWidth(boolebn listContbinsLCDGlyphs) {
         int width = getWidth();
-        return isGrayscale(listContainsLCDGlyphs) ? (int) Math.ceil(width / 4.0) * 4 : width;
+        return isGrbyscble(listContbinsLCDGlyphs) ? (int) Mbth.ceil(width / 4.0) * 4 : width;
     }
 
-    public int getDestinationRowBytes(boolean listContainsLCDGlyphs) {
-        boolean grayscale = isGrayscale(listContainsLCDGlyphs);
-        return grayscale ? getPaddedWidth(grayscale) : getWidth() * 4;
+    public int getDestinbtionRowBytes(boolebn listContbinsLCDGlyphs) {
+        boolebn grbyscble = isGrbyscble(listContbinsLCDGlyphs);
+        return grbyscble ? getPbddedWidth(grbyscble) : getWidth() * 4;
     }
 
-    public int getGlyphDataLenth(boolean listContainsLCDGlyphs) {
-        return getDestinationRowBytes(listContainsLCDGlyphs) * getHeight();
+    public int getGlyphDbtbLenth(boolebn listContbinsLCDGlyphs) {
+        return getDestinbtionRowBytes(listContbinsLCDGlyphs) * getHeight();
     }
 
     public void setPinned() {
@@ -199,22 +199,22 @@ public class XRGlyphCacheEntry {
     }
 
     public void setUnpinned() {
-        pinned = false;
+        pinned = fblse;
     }
 
-    public int getLastUsed() {
-        return lastUsed;
+    public int getLbstUsed() {
+        return lbstUsed;
     }
 
-    public void setLastUsed(int lastUsed) {
-        this.lastUsed = lastUsed;
+    public void setLbstUsed(int lbstUsed) {
+        this.lbstUsed = lbstUsed;
     }
 
     public int getPixelCnt() {
         return getWidth() * getHeight();
     }
 
-    public boolean isPinned() {
+    public boolebn isPinned() {
         return pinned;
     }
 }

@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.jules;
+pbckbge sun.jbvb2d.jules;
 
-public class TrapezoidList {
-    public static final int TRAP_START_INDEX = 5;
-    public static final int TRAP_SIZE = 10;
+public clbss TrbpezoidList {
+    public stbtic finbl int TRAP_START_INDEX = 5;
+    public stbtic finbl int TRAP_SIZE = 10;
 
-    int[] trapArray;
+    int[] trbpArrby;
 
-    public TrapezoidList(int[] trapArray) {
-        this.trapArray = trapArray;
+    public TrbpezoidList(int[] trbpArrby) {
+        this.trbpArrby = trbpArrby;
     }
 
-    public final int[] getTrapArray() {
-        return trapArray;
+    public finbl int[] getTrbpArrby() {
+        return trbpArrby;
     }
 
-    public final int getSize() {
-        return trapArray[0];
+    public finbl int getSize() {
+        return trbpArrby[0];
     }
 
-    public final void setSize(int size) {
-        trapArray[0] = 0;
+    public finbl void setSize(int size) {
+        trbpArrby[0] = 0;
     }
 
-    public final int getLeft() {
-        return trapArray[1];
+    public finbl int getLeft() {
+        return trbpArrby[1];
     }
 
-    public final int getTop() {
-        return trapArray[2];
+    public finbl int getTop() {
+        return trbpArrby[2];
     }
 
-    public final int getRight() {
-        return trapArray[3];
+    public finbl int getRight() {
+        return trbpArrby[3];
     }
 
-    public final int getBottom() {
-        return trapArray[4];
+    public finbl int getBottom() {
+        return trbpArrby[4];
     }
 
 
-    private final int getTrapStartAddresse(int pos) {
+    privbte finbl int getTrbpStbrtAddresse(int pos) {
         return TRAP_START_INDEX + TRAP_SIZE * pos;
     }
 
-    public final int getTop(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 0];
+    public finbl int getTop(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 0];
     }
 
-    public final int getBottom(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 1];
+    public finbl int getBottom(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 1];
     }
 
-    public final int getP1XLeft(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 2];
+    public finbl int getP1XLeft(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 2];
     }
 
-    public final int getP1YLeft(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 3];
+    public finbl int getP1YLeft(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 3];
     }
 
-    public final int getP2XLeft(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 4];
+    public finbl int getP2XLeft(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 4];
     }
 
-    public final int getP2YLeft(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 5];
+    public finbl int getP2YLeft(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 5];
     }
 
-    public final int getP1XRight(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 6];
+    public finbl int getP1XRight(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 6];
     }
 
-    public final int getP1YRight(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 7];
+    public finbl int getP1YRight(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 7];
     }
 
-    public final int getP2XRight(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 8];
+    public finbl int getP2XRight(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 8];
     }
 
-    public final int getP2YRight(int pos) {
-        return trapArray[getTrapStartAddresse(pos) + 9];
+    public finbl int getP2YRight(int pos) {
+        return trbpArrby[getTrbpStbrtAddresse(pos) + 9];
     }
 }

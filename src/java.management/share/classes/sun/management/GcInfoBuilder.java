@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.TabularType;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.TabularDataSupport;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
-import com.sun.management.GcInfo;
+import jbvb.lbng.mbnbgement.GbrbbgeCollectorMXBebn;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.SimpleType;
+import jbvbx.mbnbgement.openmbebn.TbbulbrType;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import com.sun.mbnbgement.GcInfo;
 
 /**
- * Helper class to build composite data.
+ * Helper clbss to build composite dbtb.
  */
-public class GcInfoBuilder {
-    private final GarbageCollectorMXBean gc;
-    private final String[] poolNames;
-    private String[] allItemNames;
+public clbss GcInfoBuilder {
+    privbte finbl GbrbbgeCollectorMXBebn gc;
+    privbte finbl String[] poolNbmes;
+    privbte String[] bllItemNbmes;
 
     // GC-specific composite type:
-    // Each GarbageCollectorMXBean may have different GC-specific attributes
+    // Ebch GbrbbgeCollectorMXBebn mby hbve different GC-specific bttributes
     // the CompositeType for the GcInfo could be different.
-    private CompositeType gcInfoCompositeType;
+    privbte CompositeType gcInfoCompositeType;
 
     // GC-specific items
-    private final int gcExtItemCount;
-    private final String[] gcExtItemNames;
-    private final String[] gcExtItemDescs;
-    private final char[] gcExtItemTypes;
+    privbte finbl int gcExtItemCount;
+    privbte finbl String[] gcExtItemNbmes;
+    privbte finbl String[] gcExtItemDescs;
+    privbte finbl chbr[] gcExtItemTypes;
 
-    GcInfoBuilder(GarbageCollectorMXBean gc, String[] poolNames) {
+    GcInfoBuilder(GbrbbgeCollectorMXBebn gc, String[] poolNbmes) {
         this.gc = gc;
-        this.poolNames = poolNames;
+        this.poolNbmes = poolNbmes;
         this.gcExtItemCount = getNumGcExtAttributes(gc);
-        this.gcExtItemNames = new String[gcExtItemCount];
+        this.gcExtItemNbmes = new String[gcExtItemCount];
         this.gcExtItemDescs = new String[gcExtItemCount];
-        this.gcExtItemTypes = new char[gcExtItemCount];
+        this.gcExtItemTypes = new chbr[gcExtItemCount];
 
-        // Fill the information about extension attributes
-        fillGcAttributeInfo(gc, gcExtItemCount, gcExtItemNames,
+        // Fill the informbtion bbout extension bttributes
+        fillGcAttributeInfo(gc, gcExtItemCount, gcExtItemNbmes,
                             gcExtItemTypes, gcExtItemDescs);
 
-        // lazily build the CompositeType for the GcInfo
-        // including the GC-specific extension attributes
+        // lbzily build the CompositeType for the GcInfo
+        // including the GC-specific extension bttributes
         this.gcInfoCompositeType = null;
     }
 
-    GcInfo getLastGcInfo() {
-        MemoryUsage[] usageBeforeGC = new MemoryUsage[poolNames.length];
-        MemoryUsage[] usageAfterGC = new MemoryUsage[poolNames.length];
-        Object[] values = new Object[gcExtItemCount];
+    GcInfo getLbstGcInfo() {
+        MemoryUsbge[] usbgeBeforeGC = new MemoryUsbge[poolNbmes.length];
+        MemoryUsbge[] usbgeAfterGC = new MemoryUsbge[poolNbmes.length];
+        Object[] vblues = new Object[gcExtItemCount];
 
-        return getLastGcInfo0(gc, gcExtItemCount, values, gcExtItemTypes,
-                              usageBeforeGC, usageAfterGC);
+        return getLbstGcInfo0(gc, gcExtItemCount, vblues, gcExtItemTypes,
+                              usbgeBeforeGC, usbgeAfterGC);
     }
 
-    public String[] getPoolNames() {
-        return poolNames;
+    public String[] getPoolNbmes() {
+        return poolNbmes;
     }
 
     int getGcExtItemCount() {
@@ -91,60 +91,60 @@ public class GcInfoBuilder {
     }
 
     // Returns the CompositeType for the GcInfo including
-    // the extension attributes
+    // the extension bttributes
     synchronized CompositeType getGcInfoCompositeType() {
         if (gcInfoCompositeType != null)
             return gcInfoCompositeType;
 
-        // First, fill with the attributes in the GcInfo
-        String[] gcInfoItemNames = GcInfoCompositeData.getBaseGcInfoItemNames();
-        OpenType<?>[] gcInfoItemTypes = GcInfoCompositeData.getBaseGcInfoItemTypes();
-        int numGcInfoItems = gcInfoItemNames.length;
+        // First, fill with the bttributes in the GcInfo
+        String[] gcInfoItemNbmes = GcInfoCompositeDbtb.getBbseGcInfoItemNbmes();
+        OpenType<?>[] gcInfoItemTypes = GcInfoCompositeDbtb.getBbseGcInfoItemTypes();
+        int numGcInfoItems = gcInfoItemNbmes.length;
 
         int itemCount = numGcInfoItems + gcExtItemCount;
-        allItemNames = new String[itemCount];
-        String[] allItemDescs = new String[itemCount];
-        OpenType<?>[] allItemTypes = new OpenType<?>[itemCount];
+        bllItemNbmes = new String[itemCount];
+        String[] bllItemDescs = new String[itemCount];
+        OpenType<?>[] bllItemTypes = new OpenType<?>[itemCount];
 
-        System.arraycopy(gcInfoItemNames, 0, allItemNames, 0, numGcInfoItems);
-        System.arraycopy(gcInfoItemNames, 0, allItemDescs, 0, numGcInfoItems);
-        System.arraycopy(gcInfoItemTypes, 0, allItemTypes, 0, numGcInfoItems);
+        System.brrbycopy(gcInfoItemNbmes, 0, bllItemNbmes, 0, numGcInfoItems);
+        System.brrbycopy(gcInfoItemNbmes, 0, bllItemDescs, 0, numGcInfoItems);
+        System.brrbycopy(gcInfoItemTypes, 0, bllItemTypes, 0, numGcInfoItems);
 
-        // Then fill with the extension GC-specific attributes, if any.
+        // Then fill with the extension GC-specific bttributes, if bny.
         if (gcExtItemCount > 0) {
-            fillGcAttributeInfo(gc, gcExtItemCount, gcExtItemNames,
+            fillGcAttributeInfo(gc, gcExtItemCount, gcExtItemNbmes,
                                 gcExtItemTypes, gcExtItemDescs);
-            System.arraycopy(gcExtItemNames, 0, allItemNames,
+            System.brrbycopy(gcExtItemNbmes, 0, bllItemNbmes,
                              numGcInfoItems, gcExtItemCount);
-            System.arraycopy(gcExtItemDescs, 0, allItemDescs,
+            System.brrbycopy(gcExtItemDescs, 0, bllItemDescs,
                              numGcInfoItems, gcExtItemCount);
             for (int i = numGcInfoItems, j = 0; j < gcExtItemCount; i++, j++) {
                 switch (gcExtItemTypes[j]) {
-                    case 'Z':
-                        allItemTypes[i] = SimpleType.BOOLEAN;
-                        break;
-                    case 'B':
-                        allItemTypes[i] = SimpleType.BYTE;
-                        break;
-                    case 'C':
-                        allItemTypes[i] = SimpleType.CHARACTER;
-                        break;
-                    case 'S':
-                        allItemTypes[i] = SimpleType.SHORT;
-                        break;
-                    case 'I':
-                        allItemTypes[i] = SimpleType.INTEGER;
-                        break;
-                    case 'J':
-                        allItemTypes[i] = SimpleType.LONG;
-                        break;
-                    case 'F':
-                        allItemTypes[i] = SimpleType.FLOAT;
-                        break;
-                    case 'D':
-                        allItemTypes[i] = SimpleType.DOUBLE;
-                        break;
-                    default:
+                    cbse 'Z':
+                        bllItemTypes[i] = SimpleType.BOOLEAN;
+                        brebk;
+                    cbse 'B':
+                        bllItemTypes[i] = SimpleType.BYTE;
+                        brebk;
+                    cbse 'C':
+                        bllItemTypes[i] = SimpleType.CHARACTER;
+                        brebk;
+                    cbse 'S':
+                        bllItemTypes[i] = SimpleType.SHORT;
+                        brebk;
+                    cbse 'I':
+                        bllItemTypes[i] = SimpleType.INTEGER;
+                        brebk;
+                    cbse 'J':
+                        bllItemTypes[i] = SimpleType.LONG;
+                        brebk;
+                    cbse 'F':
+                        bllItemTypes[i] = SimpleType.FLOAT;
+                        brebk;
+                    cbse 'D':
+                        bllItemTypes[i] = SimpleType.DOUBLE;
+                        brebk;
+                    defbult:
                         throw new AssertionError(
                             "Unsupported type [" + gcExtItemTypes[i] + "]");
                 }
@@ -153,17 +153,17 @@ public class GcInfoBuilder {
 
         CompositeType gict = null;
         try {
-            final String typeName =
-                "sun.management." + gc.getName() + ".GcInfoCompositeType";
+            finbl String typeNbme =
+                "sun.mbnbgement." + gc.getNbme() + ".GcInfoCompositeType";
 
-            gict = new CompositeType(typeName,
+            gict = new CompositeType(typeNbme,
                                      "CompositeType for GC info for " +
-                                         gc.getName(),
-                                     allItemNames,
-                                     allItemDescs,
-                                     allItemTypes);
-        } catch (OpenDataException e) {
-            // shouldn't reach here
+                                         gc.getNbme(),
+                                     bllItemNbmes,
+                                     bllItemDescs,
+                                     bllItemTypes);
+        } cbtch (OpenDbtbException e) {
+            // shouldn't rebch here
             throw Util.newException(e);
         }
         gcInfoCompositeType = gict;
@@ -171,35 +171,35 @@ public class GcInfoBuilder {
         return gcInfoCompositeType;
     }
 
-    synchronized String[] getItemNames() {
-        if (allItemNames == null) {
-            // initialize when forming the composite type
+    synchronized String[] getItemNbmes() {
+        if (bllItemNbmes == null) {
+            // initiblize when forming the composite type
             getGcInfoCompositeType();
         }
-        return allItemNames;
+        return bllItemNbmes;
     }
 
-    // Retrieve information about extension attributes
-    private native int getNumGcExtAttributes(GarbageCollectorMXBean gc);
-    private native void fillGcAttributeInfo(GarbageCollectorMXBean gc,
+    // Retrieve informbtion bbout extension bttributes
+    privbte nbtive int getNumGcExtAttributes(GbrbbgeCollectorMXBebn gc);
+    privbte nbtive void fillGcAttributeInfo(GbrbbgeCollectorMXBebn gc,
                                             int numAttributes,
-                                            String[] attributeNames,
-                                            char[] types,
+                                            String[] bttributeNbmes,
+                                            chbr[] types,
                                             String[] descriptions);
 
     /**
-     * Returns the last GcInfo
+     * Returns the lbst GcInfo
      *
-     * @param gc GarbageCollectorMXBean that the gc info is associated with.
-     * @param numExtAtts number of extension attributes
-     * @param extAttValues Values of extension attributes to be filled.
-     * @param before Memory usage before GC to be filled.
-     * @param after Memory usage after GC to be filled.
+     * @pbrbm gc GbrbbgeCollectorMXBebn thbt the gc info is bssocibted with.
+     * @pbrbm numExtAtts number of extension bttributes
+     * @pbrbm extAttVblues Vblues of extension bttributes to be filled.
+     * @pbrbm before Memory usbge before GC to be filled.
+     * @pbrbm bfter Memory usbge bfter GC to be filled.
      */
-    private native GcInfo getLastGcInfo0(GarbageCollectorMXBean gc,
+    privbte nbtive GcInfo getLbstGcInfo0(GbrbbgeCollectorMXBebn gc,
                                          int numExtAtts,
-                                         Object[] extAttValues,
-                                         char[] extAttTypes,
-                                         MemoryUsage[] before,
-                                         MemoryUsage[] after);
+                                         Object[] extAttVblues,
+                                         chbr[] extAttTypes,
+                                         MemoryUsbge[] before,
+                                         MemoryUsbge[] bfter);
 }

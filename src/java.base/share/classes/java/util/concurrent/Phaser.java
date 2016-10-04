@@ -1,1160 +1,1160 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.TimeoutException;
+import jbvb.util.concurrent.btomic.AtomicReference;
+import jbvb.util.concurrent.locks.LockSupport;
 
 /**
- * A reusable synchronization barrier, similar in functionality to
- * {@link java.util.concurrent.CyclicBarrier CyclicBarrier} and
- * {@link java.util.concurrent.CountDownLatch CountDownLatch}
- * but supporting more flexible usage.
+ * A reusbble synchronizbtion bbrrier, similbr in functionblity to
+ * {@link jbvb.util.concurrent.CyclicBbrrier CyclicBbrrier} bnd
+ * {@link jbvb.util.concurrent.CountDownLbtch CountDownLbtch}
+ * but supporting more flexible usbge.
  *
- * <p><b>Registration.</b> Unlike the case for other barriers, the
- * number of parties <em>registered</em> to synchronize on a phaser
- * may vary over time.  Tasks may be registered at any time (using
+ * <p><b>Registrbtion.</b> Unlike the cbse for other bbrriers, the
+ * number of pbrties <em>registered</em> to synchronize on b phbser
+ * mby vbry over time.  Tbsks mby be registered bt bny time (using
  * methods {@link #register}, {@link #bulkRegister}, or forms of
- * constructors establishing initial numbers of parties), and
- * optionally deregistered upon any arrival (using {@link
- * #arriveAndDeregister}).  As is the case with most basic
- * synchronization constructs, registration and deregistration affect
- * only internal counts; they do not establish any further internal
- * bookkeeping, so tasks cannot query whether they are registered.
- * (However, you can introduce such bookkeeping by subclassing this
- * class.)
+ * constructors estbblishing initibl numbers of pbrties), bnd
+ * optionblly deregistered upon bny brrivbl (using {@link
+ * #brriveAndDeregister}).  As is the cbse with most bbsic
+ * synchronizbtion constructs, registrbtion bnd deregistrbtion bffect
+ * only internbl counts; they do not estbblish bny further internbl
+ * bookkeeping, so tbsks cbnnot query whether they bre registered.
+ * (However, you cbn introduce such bookkeeping by subclbssing this
+ * clbss.)
  *
- * <p><b>Synchronization.</b> Like a {@code CyclicBarrier}, a {@code
- * Phaser} may be repeatedly awaited.  Method {@link
- * #arriveAndAwaitAdvance} has effect analogous to {@link
- * java.util.concurrent.CyclicBarrier#await CyclicBarrier.await}. Each
- * generation of a phaser has an associated phase number. The phase
- * number starts at zero, and advances when all parties arrive at the
- * phaser, wrapping around to zero after reaching {@code
- * Integer.MAX_VALUE}. The use of phase numbers enables independent
- * control of actions upon arrival at a phaser and upon awaiting
- * others, via two kinds of methods that may be invoked by any
- * registered party:
+ * <p><b>Synchronizbtion.</b> Like b {@code CyclicBbrrier}, b {@code
+ * Phbser} mby be repebtedly bwbited.  Method {@link
+ * #brriveAndAwbitAdvbnce} hbs effect bnblogous to {@link
+ * jbvb.util.concurrent.CyclicBbrrier#bwbit CyclicBbrrier.bwbit}. Ebch
+ * generbtion of b phbser hbs bn bssocibted phbse number. The phbse
+ * number stbrts bt zero, bnd bdvbnces when bll pbrties brrive bt the
+ * phbser, wrbpping bround to zero bfter rebching {@code
+ * Integer.MAX_VALUE}. The use of phbse numbers enbbles independent
+ * control of bctions upon brrivbl bt b phbser bnd upon bwbiting
+ * others, vib two kinds of methods thbt mby be invoked by bny
+ * registered pbrty:
  *
  * <ul>
  *
- *   <li> <b>Arrival.</b> Methods {@link #arrive} and
- *       {@link #arriveAndDeregister} record arrival.  These methods
- *       do not block, but return an associated <em>arrival phase
- *       number</em>; that is, the phase number of the phaser to which
- *       the arrival applied. When the final party for a given phase
- *       arrives, an optional action is performed and the phase
- *       advances.  These actions are performed by the party
- *       triggering a phase advance, and are arranged by overriding
- *       method {@link #onAdvance(int, int)}, which also controls
- *       termination. Overriding this method is similar to, but more
- *       flexible than, providing a barrier action to a {@code
- *       CyclicBarrier}.
+ *   <li> <b>Arrivbl.</b> Methods {@link #brrive} bnd
+ *       {@link #brriveAndDeregister} record brrivbl.  These methods
+ *       do not block, but return bn bssocibted <em>brrivbl phbse
+ *       number</em>; thbt is, the phbse number of the phbser to which
+ *       the brrivbl bpplied. When the finbl pbrty for b given phbse
+ *       brrives, bn optionbl bction is performed bnd the phbse
+ *       bdvbnces.  These bctions bre performed by the pbrty
+ *       triggering b phbse bdvbnce, bnd bre brrbnged by overriding
+ *       method {@link #onAdvbnce(int, int)}, which blso controls
+ *       terminbtion. Overriding this method is similbr to, but more
+ *       flexible thbn, providing b bbrrier bction to b {@code
+ *       CyclicBbrrier}.
  *
- *   <li> <b>Waiting.</b> Method {@link #awaitAdvance} requires an
- *       argument indicating an arrival phase number, and returns when
- *       the phaser advances to (or is already at) a different phase.
- *       Unlike similar constructions using {@code CyclicBarrier},
- *       method {@code awaitAdvance} continues to wait even if the
- *       waiting thread is interrupted. Interruptible and timeout
- *       versions are also available, but exceptions encountered while
- *       tasks wait interruptibly or with timeout do not change the
- *       state of the phaser. If necessary, you can perform any
- *       associated recovery within handlers of those exceptions,
- *       often after invoking {@code forceTermination}.  Phasers may
- *       also be used by tasks executing in a {@link ForkJoinPool},
- *       which will ensure sufficient parallelism to execute tasks
- *       when others are blocked waiting for a phase to advance.
+ *   <li> <b>Wbiting.</b> Method {@link #bwbitAdvbnce} requires bn
+ *       brgument indicbting bn brrivbl phbse number, bnd returns when
+ *       the phbser bdvbnces to (or is blrebdy bt) b different phbse.
+ *       Unlike similbr constructions using {@code CyclicBbrrier},
+ *       method {@code bwbitAdvbnce} continues to wbit even if the
+ *       wbiting threbd is interrupted. Interruptible bnd timeout
+ *       versions bre blso bvbilbble, but exceptions encountered while
+ *       tbsks wbit interruptibly or with timeout do not chbnge the
+ *       stbte of the phbser. If necessbry, you cbn perform bny
+ *       bssocibted recovery within hbndlers of those exceptions,
+ *       often bfter invoking {@code forceTerminbtion}.  Phbsers mby
+ *       blso be used by tbsks executing in b {@link ForkJoinPool},
+ *       which will ensure sufficient pbrbllelism to execute tbsks
+ *       when others bre blocked wbiting for b phbse to bdvbnce.
  *
  * </ul>
  *
- * <p><b>Termination.</b> A phaser may enter a <em>termination</em>
- * state, that may be checked using method {@link #isTerminated}. Upon
- * termination, all synchronization methods immediately return without
- * waiting for advance, as indicated by a negative return value.
- * Similarly, attempts to register upon termination have no effect.
- * Termination is triggered when an invocation of {@code onAdvance}
- * returns {@code true}. The default implementation returns {@code
- * true} if a deregistration has caused the number of registered
- * parties to become zero.  As illustrated below, when phasers control
- * actions with a fixed number of iterations, it is often convenient
- * to override this method to cause termination when the current phase
- * number reaches a threshold. Method {@link #forceTermination} is
- * also available to abruptly release waiting threads and allow them
- * to terminate.
+ * <p><b>Terminbtion.</b> A phbser mby enter b <em>terminbtion</em>
+ * stbte, thbt mby be checked using method {@link #isTerminbted}. Upon
+ * terminbtion, bll synchronizbtion methods immedibtely return without
+ * wbiting for bdvbnce, bs indicbted by b negbtive return vblue.
+ * Similbrly, bttempts to register upon terminbtion hbve no effect.
+ * Terminbtion is triggered when bn invocbtion of {@code onAdvbnce}
+ * returns {@code true}. The defbult implementbtion returns {@code
+ * true} if b deregistrbtion hbs cbused the number of registered
+ * pbrties to become zero.  As illustrbted below, when phbsers control
+ * bctions with b fixed number of iterbtions, it is often convenient
+ * to override this method to cbuse terminbtion when the current phbse
+ * number rebches b threshold. Method {@link #forceTerminbtion} is
+ * blso bvbilbble to bbruptly relebse wbiting threbds bnd bllow them
+ * to terminbte.
  *
- * <p><b>Tiering.</b> Phasers may be <em>tiered</em> (i.e.,
- * constructed in tree structures) to reduce contention. Phasers with
- * large numbers of parties that would otherwise experience heavy
- * synchronization contention costs may instead be set up so that
- * groups of sub-phasers share a common parent.  This may greatly
- * increase throughput even though it incurs greater per-operation
- * overhead.
+ * <p><b>Tiering.</b> Phbsers mby be <em>tiered</em> (i.e.,
+ * constructed in tree structures) to reduce contention. Phbsers with
+ * lbrge numbers of pbrties thbt would otherwise experience hebvy
+ * synchronizbtion contention costs mby instebd be set up so thbt
+ * groups of sub-phbsers shbre b common pbrent.  This mby grebtly
+ * increbse throughput even though it incurs grebter per-operbtion
+ * overhebd.
  *
- * <p>In a tree of tiered phasers, registration and deregistration of
- * child phasers with their parent are managed automatically.
- * Whenever the number of registered parties of a child phaser becomes
- * non-zero (as established in the {@link #Phaser(Phaser,int)}
+ * <p>In b tree of tiered phbsers, registrbtion bnd deregistrbtion of
+ * child phbsers with their pbrent bre mbnbged butombticblly.
+ * Whenever the number of registered pbrties of b child phbser becomes
+ * non-zero (bs estbblished in the {@link #Phbser(Phbser,int)}
  * constructor, {@link #register}, or {@link #bulkRegister}), the
- * child phaser is registered with its parent.  Whenever the number of
- * registered parties becomes zero as the result of an invocation of
- * {@link #arriveAndDeregister}, the child phaser is deregistered
- * from its parent.
+ * child phbser is registered with its pbrent.  Whenever the number of
+ * registered pbrties becomes zero bs the result of bn invocbtion of
+ * {@link #brriveAndDeregister}, the child phbser is deregistered
+ * from its pbrent.
  *
- * <p><b>Monitoring.</b> While synchronization methods may be invoked
- * only by registered parties, the current state of a phaser may be
- * monitored by any caller.  At any given moment there are {@link
- * #getRegisteredParties} parties in total, of which {@link
- * #getArrivedParties} have arrived at the current phase ({@link
- * #getPhase}).  When the remaining ({@link #getUnarrivedParties})
- * parties arrive, the phase advances.  The values returned by these
- * methods may reflect transient states and so are not in general
- * useful for synchronization control.  Method {@link #toString}
- * returns snapshots of these state queries in a form convenient for
- * informal monitoring.
+ * <p><b>Monitoring.</b> While synchronizbtion methods mby be invoked
+ * only by registered pbrties, the current stbte of b phbser mby be
+ * monitored by bny cbller.  At bny given moment there bre {@link
+ * #getRegisteredPbrties} pbrties in totbl, of which {@link
+ * #getArrivedPbrties} hbve brrived bt the current phbse ({@link
+ * #getPhbse}).  When the rembining ({@link #getUnbrrivedPbrties})
+ * pbrties brrive, the phbse bdvbnces.  The vblues returned by these
+ * methods mby reflect trbnsient stbtes bnd so bre not in generbl
+ * useful for synchronizbtion control.  Method {@link #toString}
+ * returns snbpshots of these stbte queries in b form convenient for
+ * informbl monitoring.
  *
- * <p><b>Sample usages:</b>
+ * <p><b>Sbmple usbges:</b>
  *
- * <p>A {@code Phaser} may be used instead of a {@code CountDownLatch}
- * to control a one-shot action serving a variable number of parties.
- * The typical idiom is for the method setting this up to first
- * register, then start the actions, then deregister, as in:
+ * <p>A {@code Phbser} mby be used instebd of b {@code CountDownLbtch}
+ * to control b one-shot bction serving b vbribble number of pbrties.
+ * The typicbl idiom is for the method setting this up to first
+ * register, then stbrt the bctions, then deregister, bs in:
  *
  *  <pre> {@code
- * void runTasks(List<Runnable> tasks) {
- *   final Phaser phaser = new Phaser(1); // "1" to register self
- *   // create and start threads
- *   for (final Runnable task : tasks) {
- *     phaser.register();
- *     new Thread() {
+ * void runTbsks(List<Runnbble> tbsks) {
+ *   finbl Phbser phbser = new Phbser(1); // "1" to register self
+ *   // crebte bnd stbrt threbds
+ *   for (finbl Runnbble tbsk : tbsks) {
+ *     phbser.register();
+ *     new Threbd() {
  *       public void run() {
- *         phaser.arriveAndAwaitAdvance(); // await all creation
- *         task.run();
+ *         phbser.brriveAndAwbitAdvbnce(); // bwbit bll crebtion
+ *         tbsk.run();
  *       }
- *     }.start();
+ *     }.stbrt();
  *   }
  *
- *   // allow threads to start and deregister self
- *   phaser.arriveAndDeregister();
+ *   // bllow threbds to stbrt bnd deregister self
+ *   phbser.brriveAndDeregister();
  * }}</pre>
  *
- * <p>One way to cause a set of threads to repeatedly perform actions
- * for a given number of iterations is to override {@code onAdvance}:
+ * <p>One wby to cbuse b set of threbds to repebtedly perform bctions
+ * for b given number of iterbtions is to override {@code onAdvbnce}:
  *
  *  <pre> {@code
- * void startTasks(List<Runnable> tasks, final int iterations) {
- *   final Phaser phaser = new Phaser() {
- *     protected boolean onAdvance(int phase, int registeredParties) {
- *       return phase >= iterations || registeredParties == 0;
+ * void stbrtTbsks(List<Runnbble> tbsks, finbl int iterbtions) {
+ *   finbl Phbser phbser = new Phbser() {
+ *     protected boolebn onAdvbnce(int phbse, int registeredPbrties) {
+ *       return phbse >= iterbtions || registeredPbrties == 0;
  *     }
  *   };
- *   phaser.register();
- *   for (final Runnable task : tasks) {
- *     phaser.register();
- *     new Thread() {
+ *   phbser.register();
+ *   for (finbl Runnbble tbsk : tbsks) {
+ *     phbser.register();
+ *     new Threbd() {
  *       public void run() {
  *         do {
- *           task.run();
- *           phaser.arriveAndAwaitAdvance();
- *         } while (!phaser.isTerminated());
+ *           tbsk.run();
+ *           phbser.brriveAndAwbitAdvbnce();
+ *         } while (!phbser.isTerminbted());
  *       }
- *     }.start();
+ *     }.stbrt();
  *   }
- *   phaser.arriveAndDeregister(); // deregister self, don't wait
+ *   phbser.brriveAndDeregister(); // deregister self, don't wbit
  * }}</pre>
  *
- * If the main task must later await termination, it
- * may re-register and then execute a similar loop:
+ * If the mbin tbsk must lbter bwbit terminbtion, it
+ * mby re-register bnd then execute b similbr loop:
  *  <pre> {@code
  *   // ...
- *   phaser.register();
- *   while (!phaser.isTerminated())
- *     phaser.arriveAndAwaitAdvance();}</pre>
+ *   phbser.register();
+ *   while (!phbser.isTerminbted())
+ *     phbser.brriveAndAwbitAdvbnce();}</pre>
  *
- * <p>Related constructions may be used to await particular phase numbers
- * in contexts where you are sure that the phase will never wrap around
- * {@code Integer.MAX_VALUE}. For example:
+ * <p>Relbted constructions mby be used to bwbit pbrticulbr phbse numbers
+ * in contexts where you bre sure thbt the phbse will never wrbp bround
+ * {@code Integer.MAX_VALUE}. For exbmple:
  *
  *  <pre> {@code
- * void awaitPhase(Phaser phaser, int phase) {
- *   int p = phaser.register(); // assumes caller not already registered
- *   while (p < phase) {
- *     if (phaser.isTerminated())
- *       // ... deal with unexpected termination
+ * void bwbitPhbse(Phbser phbser, int phbse) {
+ *   int p = phbser.register(); // bssumes cbller not blrebdy registered
+ *   while (p < phbse) {
+ *     if (phbser.isTerminbted())
+ *       // ... debl with unexpected terminbtion
  *     else
- *       p = phaser.arriveAndAwaitAdvance();
+ *       p = phbser.brriveAndAwbitAdvbnce();
  *   }
- *   phaser.arriveAndDeregister();
+ *   phbser.brriveAndDeregister();
  * }}</pre>
  *
  *
- * <p>To create a set of {@code n} tasks using a tree of phasers, you
- * could use code of the following form, assuming a Task class with a
- * constructor accepting a {@code Phaser} that it registers with upon
- * construction. After invocation of {@code build(new Task[n], 0, n,
- * new Phaser())}, these tasks could then be started, for example by
- * submitting to a pool:
+ * <p>To crebte b set of {@code n} tbsks using b tree of phbsers, you
+ * could use code of the following form, bssuming b Tbsk clbss with b
+ * constructor bccepting b {@code Phbser} thbt it registers with upon
+ * construction. After invocbtion of {@code build(new Tbsk[n], 0, n,
+ * new Phbser())}, these tbsks could then be stbrted, for exbmple by
+ * submitting to b pool:
  *
  *  <pre> {@code
- * void build(Task[] tasks, int lo, int hi, Phaser ph) {
+ * void build(Tbsk[] tbsks, int lo, int hi, Phbser ph) {
  *   if (hi - lo > TASKS_PER_PHASER) {
  *     for (int i = lo; i < hi; i += TASKS_PER_PHASER) {
- *       int j = Math.min(i + TASKS_PER_PHASER, hi);
- *       build(tasks, i, j, new Phaser(ph));
+ *       int j = Mbth.min(i + TASKS_PER_PHASER, hi);
+ *       build(tbsks, i, j, new Phbser(ph));
  *     }
  *   } else {
  *     for (int i = lo; i < hi; ++i)
- *       tasks[i] = new Task(ph);
- *       // assumes new Task(ph) performs ph.register()
+ *       tbsks[i] = new Tbsk(ph);
+ *       // bssumes new Tbsk(ph) performs ph.register()
  *   }
  * }}</pre>
  *
- * The best value of {@code TASKS_PER_PHASER} depends mainly on
- * expected synchronization rates. A value as low as four may
- * be appropriate for extremely small per-phase task bodies (thus
- * high rates), or up to hundreds for extremely large ones.
+ * The best vblue of {@code TASKS_PER_PHASER} depends mbinly on
+ * expected synchronizbtion rbtes. A vblue bs low bs four mby
+ * be bppropribte for extremely smbll per-phbse tbsk bodies (thus
+ * high rbtes), or up to hundreds for extremely lbrge ones.
  *
- * <p><b>Implementation notes</b>: This implementation restricts the
- * maximum number of parties to 65535. Attempts to register additional
- * parties result in {@code IllegalStateException}. However, you can and
- * should create tiered phasers to accommodate arbitrarily large sets
- * of participants.
+ * <p><b>Implementbtion notes</b>: This implementbtion restricts the
+ * mbximum number of pbrties to 65535. Attempts to register bdditionbl
+ * pbrties result in {@code IllegblStbteException}. However, you cbn bnd
+ * should crebte tiered phbsers to bccommodbte brbitrbrily lbrge sets
+ * of pbrticipbnts.
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class Phaser {
+public clbss Phbser {
     /*
-     * This class implements an extension of X10 "clocks".  Thanks to
-     * Vijay Saraswat for the idea, and to Vivek Sarkar for
-     * enhancements to extend functionality.
+     * This clbss implements bn extension of X10 "clocks".  Thbnks to
+     * Vijby Sbrbswbt for the ideb, bnd to Vivek Sbrkbr for
+     * enhbncements to extend functionblity.
      */
 
     /**
-     * Primary state representation, holding four bit-fields:
+     * Primbry stbte representbtion, holding four bit-fields:
      *
-     * unarrived  -- the number of parties yet to hit barrier (bits  0-15)
-     * parties    -- the number of parties to wait            (bits 16-31)
-     * phase      -- the generation of the barrier            (bits 32-62)
-     * terminated -- set if barrier is terminated             (bit  63 / sign)
+     * unbrrived  -- the number of pbrties yet to hit bbrrier (bits  0-15)
+     * pbrties    -- the number of pbrties to wbit            (bits 16-31)
+     * phbse      -- the generbtion of the bbrrier            (bits 32-62)
+     * terminbted -- set if bbrrier is terminbted             (bit  63 / sign)
      *
-     * Except that a phaser with no registered parties is
-     * distinguished by the otherwise illegal state of having zero
-     * parties and one unarrived parties (encoded as EMPTY below).
+     * Except thbt b phbser with no registered pbrties is
+     * distinguished by the otherwise illegbl stbte of hbving zero
+     * pbrties bnd one unbrrived pbrties (encoded bs EMPTY below).
      *
-     * To efficiently maintain atomicity, these values are packed into
-     * a single (atomic) long. Good performance relies on keeping
-     * state decoding and encoding simple, and keeping race windows
+     * To efficiently mbintbin btomicity, these vblues bre pbcked into
+     * b single (btomic) long. Good performbnce relies on keeping
+     * stbte decoding bnd encoding simple, bnd keeping rbce windows
      * short.
      *
-     * All state updates are performed via CAS except initial
-     * registration of a sub-phaser (i.e., one with a non-null
-     * parent).  In this (relatively rare) case, we use built-in
-     * synchronization to lock while first registering with its
-     * parent.
+     * All stbte updbtes bre performed vib CAS except initibl
+     * registrbtion of b sub-phbser (i.e., one with b non-null
+     * pbrent).  In this (relbtively rbre) cbse, we use built-in
+     * synchronizbtion to lock while first registering with its
+     * pbrent.
      *
-     * The phase of a subphaser is allowed to lag that of its
-     * ancestors until it is actually accessed -- see method
-     * reconcileState.
+     * The phbse of b subphbser is bllowed to lbg thbt of its
+     * bncestors until it is bctublly bccessed -- see method
+     * reconcileStbte.
      */
-    private volatile long state;
+    privbte volbtile long stbte;
 
-    private static final int  MAX_PARTIES     = 0xffff;
-    private static final int  MAX_PHASE       = Integer.MAX_VALUE;
-    private static final int  PARTIES_SHIFT   = 16;
-    private static final int  PHASE_SHIFT     = 32;
-    private static final int  UNARRIVED_MASK  = 0xffff;      // to mask ints
-    private static final long PARTIES_MASK    = 0xffff0000L; // to mask longs
-    private static final long COUNTS_MASK     = 0xffffffffL;
-    private static final long TERMINATION_BIT = 1L << 63;
+    privbte stbtic finbl int  MAX_PARTIES     = 0xffff;
+    privbte stbtic finbl int  MAX_PHASE       = Integer.MAX_VALUE;
+    privbte stbtic finbl int  PARTIES_SHIFT   = 16;
+    privbte stbtic finbl int  PHASE_SHIFT     = 32;
+    privbte stbtic finbl int  UNARRIVED_MASK  = 0xffff;      // to mbsk ints
+    privbte stbtic finbl long PARTIES_MASK    = 0xffff0000L; // to mbsk longs
+    privbte stbtic finbl long COUNTS_MASK     = 0xffffffffL;
+    privbte stbtic finbl long TERMINATION_BIT = 1L << 63;
 
-    // some special values
-    private static final int  ONE_ARRIVAL     = 1;
-    private static final int  ONE_PARTY       = 1 << PARTIES_SHIFT;
-    private static final int  ONE_DEREGISTER  = ONE_ARRIVAL|ONE_PARTY;
-    private static final int  EMPTY           = 1;
+    // some specibl vblues
+    privbte stbtic finbl int  ONE_ARRIVAL     = 1;
+    privbte stbtic finbl int  ONE_PARTY       = 1 << PARTIES_SHIFT;
+    privbte stbtic finbl int  ONE_DEREGISTER  = ONE_ARRIVAL|ONE_PARTY;
+    privbte stbtic finbl int  EMPTY           = 1;
 
-    // The following unpacking methods are usually manually inlined
+    // The following unpbcking methods bre usublly mbnublly inlined
 
-    private static int unarrivedOf(long s) {
+    privbte stbtic int unbrrivedOf(long s) {
         int counts = (int)s;
         return (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
     }
 
-    private static int partiesOf(long s) {
+    privbte stbtic int pbrtiesOf(long s) {
         return (int)s >>> PARTIES_SHIFT;
     }
 
-    private static int phaseOf(long s) {
+    privbte stbtic int phbseOf(long s) {
         return (int)(s >>> PHASE_SHIFT);
     }
 
-    private static int arrivedOf(long s) {
+    privbte stbtic int brrivedOf(long s) {
         int counts = (int)s;
         return (counts == EMPTY) ? 0 :
             (counts >>> PARTIES_SHIFT) - (counts & UNARRIVED_MASK);
     }
 
     /**
-     * The parent of this phaser, or null if none
+     * The pbrent of this phbser, or null if none
      */
-    private final Phaser parent;
+    privbte finbl Phbser pbrent;
 
     /**
-     * The root of phaser tree. Equals this if not in a tree.
+     * The root of phbser tree. Equbls this if not in b tree.
      */
-    private final Phaser root;
+    privbte finbl Phbser root;
 
     /**
-     * Heads of Treiber stacks for waiting threads. To eliminate
-     * contention when releasing some threads while adding others, we
-     * use two of them, alternating across even and odd phases.
-     * Subphasers share queues with root to speed up releases.
+     * Hebds of Treiber stbcks for wbiting threbds. To eliminbte
+     * contention when relebsing some threbds while bdding others, we
+     * use two of them, blternbting bcross even bnd odd phbses.
+     * Subphbsers shbre queues with root to speed up relebses.
      */
-    private final AtomicReference<QNode> evenQ;
-    private final AtomicReference<QNode> oddQ;
+    privbte finbl AtomicReference<QNode> evenQ;
+    privbte finbl AtomicReference<QNode> oddQ;
 
-    private AtomicReference<QNode> queueFor(int phase) {
-        return ((phase & 1) == 0) ? evenQ : oddQ;
+    privbte AtomicReference<QNode> queueFor(int phbse) {
+        return ((phbse & 1) == 0) ? evenQ : oddQ;
     }
 
     /**
-     * Returns message string for bounds exceptions on arrival.
+     * Returns messbge string for bounds exceptions on brrivbl.
      */
-    private String badArrive(long s) {
-        return "Attempted arrival of unregistered party for " +
-            stateToString(s);
+    privbte String bbdArrive(long s) {
+        return "Attempted brrivbl of unregistered pbrty for " +
+            stbteToString(s);
     }
 
     /**
-     * Returns message string for bounds exceptions on registration.
+     * Returns messbge string for bounds exceptions on registrbtion.
      */
-    private String badRegister(long s) {
-        return "Attempt to register more than " +
-            MAX_PARTIES + " parties for " + stateToString(s);
+    privbte String bbdRegister(long s) {
+        return "Attempt to register more thbn " +
+            MAX_PARTIES + " pbrties for " + stbteToString(s);
     }
 
     /**
-     * Main implementation for methods arrive and arriveAndDeregister.
-     * Manually tuned to speed up and minimize race windows for the
-     * common case of just decrementing unarrived field.
+     * Mbin implementbtion for methods brrive bnd brriveAndDeregister.
+     * Mbnublly tuned to speed up bnd minimize rbce windows for the
+     * common cbse of just decrementing unbrrived field.
      *
-     * @param adjust value to subtract from state;
-     *               ONE_ARRIVAL for arrive,
-     *               ONE_DEREGISTER for arriveAndDeregister
+     * @pbrbm bdjust vblue to subtrbct from stbte;
+     *               ONE_ARRIVAL for brrive,
+     *               ONE_DEREGISTER for brriveAndDeregister
      */
-    private int doArrive(int adjust) {
-        final Phaser root = this.root;
+    privbte int doArrive(int bdjust) {
+        finbl Phbser root = this.root;
         for (;;) {
-            long s = (root == this) ? state : reconcileState();
-            int phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                return phase;
+            long s = (root == this) ? stbte : reconcileStbte();
+            int phbse = (int)(s >>> PHASE_SHIFT);
+            if (phbse < 0)
+                return phbse;
             int counts = (int)s;
-            int unarrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
-            if (unarrived <= 0)
-                throw new IllegalStateException(badArrive(s));
-            if (UNSAFE.compareAndSwapLong(this, stateOffset, s, s-=adjust)) {
-                if (unarrived == 1) {
-                    long n = s & PARTIES_MASK;  // base of next state
-                    int nextUnarrived = (int)n >>> PARTIES_SHIFT;
+            int unbrrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
+            if (unbrrived <= 0)
+                throw new IllegblStbteException(bbdArrive(s));
+            if (UNSAFE.compbreAndSwbpLong(this, stbteOffset, s, s-=bdjust)) {
+                if (unbrrived == 1) {
+                    long n = s & PARTIES_MASK;  // bbse of next stbte
+                    int nextUnbrrived = (int)n >>> PARTIES_SHIFT;
                     if (root == this) {
-                        if (onAdvance(phase, nextUnarrived))
+                        if (onAdvbnce(phbse, nextUnbrrived))
                             n |= TERMINATION_BIT;
-                        else if (nextUnarrived == 0)
+                        else if (nextUnbrrived == 0)
                             n |= EMPTY;
                         else
-                            n |= nextUnarrived;
-                        int nextPhase = (phase + 1) & MAX_PHASE;
-                        n |= (long)nextPhase << PHASE_SHIFT;
-                        UNSAFE.compareAndSwapLong(this, stateOffset, s, n);
-                        releaseWaiters(phase);
+                            n |= nextUnbrrived;
+                        int nextPhbse = (phbse + 1) & MAX_PHASE;
+                        n |= (long)nextPhbse << PHASE_SHIFT;
+                        UNSAFE.compbreAndSwbpLong(this, stbteOffset, s, n);
+                        relebseWbiters(phbse);
                     }
-                    else if (nextUnarrived == 0) { // propagate deregistration
-                        phase = parent.doArrive(ONE_DEREGISTER);
-                        UNSAFE.compareAndSwapLong(this, stateOffset,
+                    else if (nextUnbrrived == 0) { // propbgbte deregistrbtion
+                        phbse = pbrent.doArrive(ONE_DEREGISTER);
+                        UNSAFE.compbreAndSwbpLong(this, stbteOffset,
                                                   s, s | EMPTY);
                     }
                     else
-                        phase = parent.doArrive(ONE_ARRIVAL);
+                        phbse = pbrent.doArrive(ONE_ARRIVAL);
                 }
-                return phase;
+                return phbse;
             }
         }
     }
 
     /**
-     * Implementation of register, bulkRegister
+     * Implementbtion of register, bulkRegister
      *
-     * @param registrations number to add to both parties and
-     * unarrived fields. Must be greater than zero.
+     * @pbrbm registrbtions number to bdd to both pbrties bnd
+     * unbrrived fields. Must be grebter thbn zero.
      */
-    private int doRegister(int registrations) {
-        // adjustment to state
-        long adjust = ((long)registrations << PARTIES_SHIFT) | registrations;
-        final Phaser parent = this.parent;
-        int phase;
+    privbte int doRegister(int registrbtions) {
+        // bdjustment to stbte
+        long bdjust = ((long)registrbtions << PARTIES_SHIFT) | registrbtions;
+        finbl Phbser pbrent = this.pbrent;
+        int phbse;
         for (;;) {
-            long s = (parent == null) ? state : reconcileState();
+            long s = (pbrent == null) ? stbte : reconcileStbte();
             int counts = (int)s;
-            int parties = counts >>> PARTIES_SHIFT;
-            int unarrived = counts & UNARRIVED_MASK;
-            if (registrations > MAX_PARTIES - parties)
-                throw new IllegalStateException(badRegister(s));
-            phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                break;
-            if (counts != EMPTY) {                  // not 1st registration
-                if (parent == null || reconcileState() == s) {
-                    if (unarrived == 0)             // wait out advance
-                        root.internalAwaitAdvance(phase, null);
-                    else if (UNSAFE.compareAndSwapLong(this, stateOffset,
-                                                       s, s + adjust))
-                        break;
+            int pbrties = counts >>> PARTIES_SHIFT;
+            int unbrrived = counts & UNARRIVED_MASK;
+            if (registrbtions > MAX_PARTIES - pbrties)
+                throw new IllegblStbteException(bbdRegister(s));
+            phbse = (int)(s >>> PHASE_SHIFT);
+            if (phbse < 0)
+                brebk;
+            if (counts != EMPTY) {                  // not 1st registrbtion
+                if (pbrent == null || reconcileStbte() == s) {
+                    if (unbrrived == 0)             // wbit out bdvbnce
+                        root.internblAwbitAdvbnce(phbse, null);
+                    else if (UNSAFE.compbreAndSwbpLong(this, stbteOffset,
+                                                       s, s + bdjust))
+                        brebk;
                 }
             }
-            else if (parent == null) {              // 1st root registration
-                long next = ((long)phase << PHASE_SHIFT) | adjust;
-                if (UNSAFE.compareAndSwapLong(this, stateOffset, s, next))
-                    break;
+            else if (pbrent == null) {              // 1st root registrbtion
+                long next = ((long)phbse << PHASE_SHIFT) | bdjust;
+                if (UNSAFE.compbreAndSwbpLong(this, stbteOffset, s, next))
+                    brebk;
             }
             else {
-                synchronized (this) {               // 1st sub registration
-                    if (state == s) {               // recheck under lock
-                        phase = parent.doRegister(1);
-                        if (phase < 0)
-                            break;
-                        // finish registration whenever parent registration
-                        // succeeded, even when racing with termination,
-                        // since these are part of the same "transaction".
-                        while (!UNSAFE.compareAndSwapLong
-                               (this, stateOffset, s,
-                                ((long)phase << PHASE_SHIFT) | adjust)) {
-                            s = state;
-                            phase = (int)(root.state >>> PHASE_SHIFT);
-                            // assert (int)s == EMPTY;
+                synchronized (this) {               // 1st sub registrbtion
+                    if (stbte == s) {               // recheck under lock
+                        phbse = pbrent.doRegister(1);
+                        if (phbse < 0)
+                            brebk;
+                        // finish registrbtion whenever pbrent registrbtion
+                        // succeeded, even when rbcing with terminbtion,
+                        // since these bre pbrt of the sbme "trbnsbction".
+                        while (!UNSAFE.compbreAndSwbpLong
+                               (this, stbteOffset, s,
+                                ((long)phbse << PHASE_SHIFT) | bdjust)) {
+                            s = stbte;
+                            phbse = (int)(root.stbte >>> PHASE_SHIFT);
+                            // bssert (int)s == EMPTY;
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
         }
-        return phase;
+        return phbse;
     }
 
     /**
-     * Resolves lagged phase propagation from root if necessary.
-     * Reconciliation normally occurs when root has advanced but
-     * subphasers have not yet done so, in which case they must finish
-     * their own advance by setting unarrived to parties (or if
-     * parties is zero, resetting to unregistered EMPTY state).
+     * Resolves lbgged phbse propbgbtion from root if necessbry.
+     * Reconcilibtion normblly occurs when root hbs bdvbnced but
+     * subphbsers hbve not yet done so, in which cbse they must finish
+     * their own bdvbnce by setting unbrrived to pbrties (or if
+     * pbrties is zero, resetting to unregistered EMPTY stbte).
      *
-     * @return reconciled state
+     * @return reconciled stbte
      */
-    private long reconcileState() {
-        final Phaser root = this.root;
-        long s = state;
+    privbte long reconcileStbte() {
+        finbl Phbser root = this.root;
+        long s = stbte;
         if (root != this) {
-            int phase, p;
-            // CAS to root phase with current parties, tripping unarrived
-            while ((phase = (int)(root.state >>> PHASE_SHIFT)) !=
+            int phbse, p;
+            // CAS to root phbse with current pbrties, tripping unbrrived
+            while ((phbse = (int)(root.stbte >>> PHASE_SHIFT)) !=
                    (int)(s >>> PHASE_SHIFT) &&
-                   !UNSAFE.compareAndSwapLong
-                   (this, stateOffset, s,
-                    s = (((long)phase << PHASE_SHIFT) |
-                         ((phase < 0) ? (s & COUNTS_MASK) :
+                   !UNSAFE.compbreAndSwbpLong
+                   (this, stbteOffset, s,
+                    s = (((long)phbse << PHASE_SHIFT) |
+                         ((phbse < 0) ? (s & COUNTS_MASK) :
                           (((p = (int)s >>> PARTIES_SHIFT) == 0) ? EMPTY :
                            ((s & PARTIES_MASK) | p))))))
-                s = state;
+                s = stbte;
         }
         return s;
     }
 
     /**
-     * Creates a new phaser with no initially registered parties, no
-     * parent, and initial phase number 0. Any thread using this
-     * phaser will need to first register for it.
+     * Crebtes b new phbser with no initiblly registered pbrties, no
+     * pbrent, bnd initibl phbse number 0. Any threbd using this
+     * phbser will need to first register for it.
      */
-    public Phaser() {
+    public Phbser() {
         this(null, 0);
     }
 
     /**
-     * Creates a new phaser with the given number of registered
-     * unarrived parties, no parent, and initial phase number 0.
+     * Crebtes b new phbser with the given number of registered
+     * unbrrived pbrties, no pbrent, bnd initibl phbse number 0.
      *
-     * @param parties the number of parties required to advance to the
-     * next phase
-     * @throws IllegalArgumentException if parties less than zero
-     * or greater than the maximum number of parties supported
+     * @pbrbm pbrties the number of pbrties required to bdvbnce to the
+     * next phbse
+     * @throws IllegblArgumentException if pbrties less thbn zero
+     * or grebter thbn the mbximum number of pbrties supported
      */
-    public Phaser(int parties) {
-        this(null, parties);
+    public Phbser(int pbrties) {
+        this(null, pbrties);
     }
 
     /**
-     * Equivalent to {@link #Phaser(Phaser, int) Phaser(parent, 0)}.
+     * Equivblent to {@link #Phbser(Phbser, int) Phbser(pbrent, 0)}.
      *
-     * @param parent the parent phaser
+     * @pbrbm pbrent the pbrent phbser
      */
-    public Phaser(Phaser parent) {
-        this(parent, 0);
+    public Phbser(Phbser pbrent) {
+        this(pbrent, 0);
     }
 
     /**
-     * Creates a new phaser with the given parent and number of
-     * registered unarrived parties.  When the given parent is non-null
-     * and the given number of parties is greater than zero, this
-     * child phaser is registered with its parent.
+     * Crebtes b new phbser with the given pbrent bnd number of
+     * registered unbrrived pbrties.  When the given pbrent is non-null
+     * bnd the given number of pbrties is grebter thbn zero, this
+     * child phbser is registered with its pbrent.
      *
-     * @param parent the parent phaser
-     * @param parties the number of parties required to advance to the
-     * next phase
-     * @throws IllegalArgumentException if parties less than zero
-     * or greater than the maximum number of parties supported
+     * @pbrbm pbrent the pbrent phbser
+     * @pbrbm pbrties the number of pbrties required to bdvbnce to the
+     * next phbse
+     * @throws IllegblArgumentException if pbrties less thbn zero
+     * or grebter thbn the mbximum number of pbrties supported
      */
-    public Phaser(Phaser parent, int parties) {
-        if (parties >>> PARTIES_SHIFT != 0)
-            throw new IllegalArgumentException("Illegal number of parties");
-        int phase = 0;
-        this.parent = parent;
-        if (parent != null) {
-            final Phaser root = parent.root;
+    public Phbser(Phbser pbrent, int pbrties) {
+        if (pbrties >>> PARTIES_SHIFT != 0)
+            throw new IllegblArgumentException("Illegbl number of pbrties");
+        int phbse = 0;
+        this.pbrent = pbrent;
+        if (pbrent != null) {
+            finbl Phbser root = pbrent.root;
             this.root = root;
             this.evenQ = root.evenQ;
             this.oddQ = root.oddQ;
-            if (parties != 0)
-                phase = parent.doRegister(1);
+            if (pbrties != 0)
+                phbse = pbrent.doRegister(1);
         }
         else {
             this.root = this;
             this.evenQ = new AtomicReference<QNode>();
             this.oddQ = new AtomicReference<QNode>();
         }
-        this.state = (parties == 0) ? (long)EMPTY :
-            ((long)phase << PHASE_SHIFT) |
-            ((long)parties << PARTIES_SHIFT) |
-            ((long)parties);
+        this.stbte = (pbrties == 0) ? (long)EMPTY :
+            ((long)phbse << PHASE_SHIFT) |
+            ((long)pbrties << PARTIES_SHIFT) |
+            ((long)pbrties);
     }
 
     /**
-     * Adds a new unarrived party to this phaser.  If an ongoing
-     * invocation of {@link #onAdvance} is in progress, this method
-     * may await its completion before returning.  If this phaser has
-     * a parent, and this phaser previously had no registered parties,
-     * this child phaser is also registered with its parent. If
-     * this phaser is terminated, the attempt to register has
-     * no effect, and a negative value is returned.
+     * Adds b new unbrrived pbrty to this phbser.  If bn ongoing
+     * invocbtion of {@link #onAdvbnce} is in progress, this method
+     * mby bwbit its completion before returning.  If this phbser hbs
+     * b pbrent, bnd this phbser previously hbd no registered pbrties,
+     * this child phbser is blso registered with its pbrent. If
+     * this phbser is terminbted, the bttempt to register hbs
+     * no effect, bnd b negbtive vblue is returned.
      *
-     * @return the arrival phase number to which this registration
-     * applied.  If this value is negative, then this phaser has
-     * terminated, in which case registration has no effect.
-     * @throws IllegalStateException if attempting to register more
-     * than the maximum supported number of parties
+     * @return the brrivbl phbse number to which this registrbtion
+     * bpplied.  If this vblue is negbtive, then this phbser hbs
+     * terminbted, in which cbse registrbtion hbs no effect.
+     * @throws IllegblStbteException if bttempting to register more
+     * thbn the mbximum supported number of pbrties
      */
     public int register() {
         return doRegister(1);
     }
 
     /**
-     * Adds the given number of new unarrived parties to this phaser.
-     * If an ongoing invocation of {@link #onAdvance} is in progress,
-     * this method may await its completion before returning.  If this
-     * phaser has a parent, and the given number of parties is greater
-     * than zero, and this phaser previously had no registered
-     * parties, this child phaser is also registered with its parent.
-     * If this phaser is terminated, the attempt to register has no
-     * effect, and a negative value is returned.
+     * Adds the given number of new unbrrived pbrties to this phbser.
+     * If bn ongoing invocbtion of {@link #onAdvbnce} is in progress,
+     * this method mby bwbit its completion before returning.  If this
+     * phbser hbs b pbrent, bnd the given number of pbrties is grebter
+     * thbn zero, bnd this phbser previously hbd no registered
+     * pbrties, this child phbser is blso registered with its pbrent.
+     * If this phbser is terminbted, the bttempt to register hbs no
+     * effect, bnd b negbtive vblue is returned.
      *
-     * @param parties the number of additional parties required to
-     * advance to the next phase
-     * @return the arrival phase number to which this registration
-     * applied.  If this value is negative, then this phaser has
-     * terminated, in which case registration has no effect.
-     * @throws IllegalStateException if attempting to register more
-     * than the maximum supported number of parties
-     * @throws IllegalArgumentException if {@code parties < 0}
+     * @pbrbm pbrties the number of bdditionbl pbrties required to
+     * bdvbnce to the next phbse
+     * @return the brrivbl phbse number to which this registrbtion
+     * bpplied.  If this vblue is negbtive, then this phbser hbs
+     * terminbted, in which cbse registrbtion hbs no effect.
+     * @throws IllegblStbteException if bttempting to register more
+     * thbn the mbximum supported number of pbrties
+     * @throws IllegblArgumentException if {@code pbrties < 0}
      */
-    public int bulkRegister(int parties) {
-        if (parties < 0)
-            throw new IllegalArgumentException();
-        if (parties == 0)
-            return getPhase();
-        return doRegister(parties);
+    public int bulkRegister(int pbrties) {
+        if (pbrties < 0)
+            throw new IllegblArgumentException();
+        if (pbrties == 0)
+            return getPhbse();
+        return doRegister(pbrties);
     }
 
     /**
-     * Arrives at this phaser, without waiting for others to arrive.
+     * Arrives bt this phbser, without wbiting for others to brrive.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbge error for bn unregistered pbrty to invoke this
+     * method.  However, this error mby result in bn {@code
+     * IllegblStbteException} only upon some subsequent operbtion on
+     * this phbser, if ever.
      *
-     * @return the arrival phase number, or a negative value if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of unarrived parties would become negative
+     * @return the brrivbl phbse number, or b negbtive vblue if terminbted
+     * @throws IllegblStbteException if not terminbted bnd the number
+     * of unbrrived pbrties would become negbtive
      */
-    public int arrive() {
+    public int brrive() {
         return doArrive(ONE_ARRIVAL);
     }
 
     /**
-     * Arrives at this phaser and deregisters from it without waiting
-     * for others to arrive. Deregistration reduces the number of
-     * parties required to advance in future phases.  If this phaser
-     * has a parent, and deregistration causes this phaser to have
-     * zero parties, this phaser is also deregistered from its parent.
+     * Arrives bt this phbser bnd deregisters from it without wbiting
+     * for others to brrive. Deregistrbtion reduces the number of
+     * pbrties required to bdvbnce in future phbses.  If this phbser
+     * hbs b pbrent, bnd deregistrbtion cbuses this phbser to hbve
+     * zero pbrties, this phbser is blso deregistered from its pbrent.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbge error for bn unregistered pbrty to invoke this
+     * method.  However, this error mby result in bn {@code
+     * IllegblStbteException} only upon some subsequent operbtion on
+     * this phbser, if ever.
      *
-     * @return the arrival phase number, or a negative value if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of registered or unarrived parties would become negative
+     * @return the brrivbl phbse number, or b negbtive vblue if terminbted
+     * @throws IllegblStbteException if not terminbted bnd the number
+     * of registered or unbrrived pbrties would become negbtive
      */
-    public int arriveAndDeregister() {
+    public int brriveAndDeregister() {
         return doArrive(ONE_DEREGISTER);
     }
 
     /**
-     * Arrives at this phaser and awaits others. Equivalent in effect
-     * to {@code awaitAdvance(arrive())}.  If you need to await with
-     * interruption or timeout, you can arrange this with an analogous
+     * Arrives bt this phbser bnd bwbits others. Equivblent in effect
+     * to {@code bwbitAdvbnce(brrive())}.  If you need to bwbit with
+     * interruption or timeout, you cbn brrbnge this with bn bnblogous
      * construction using one of the other forms of the {@code
-     * awaitAdvance} method.  If instead you need to deregister upon
-     * arrival, use {@code awaitAdvance(arriveAndDeregister())}.
+     * bwbitAdvbnce} method.  If instebd you need to deregister upon
+     * brrivbl, use {@code bwbitAdvbnce(brriveAndDeregister())}.
      *
-     * <p>It is a usage error for an unregistered party to invoke this
-     * method.  However, this error may result in an {@code
-     * IllegalStateException} only upon some subsequent operation on
-     * this phaser, if ever.
+     * <p>It is b usbge error for bn unregistered pbrty to invoke this
+     * method.  However, this error mby result in bn {@code
+     * IllegblStbteException} only upon some subsequent operbtion on
+     * this phbser, if ever.
      *
-     * @return the arrival phase number, or the (negative)
-     * {@linkplain #getPhase() current phase} if terminated
-     * @throws IllegalStateException if not terminated and the number
-     * of unarrived parties would become negative
+     * @return the brrivbl phbse number, or the (negbtive)
+     * {@linkplbin #getPhbse() current phbse} if terminbted
+     * @throws IllegblStbteException if not terminbted bnd the number
+     * of unbrrived pbrties would become negbtive
      */
-    public int arriveAndAwaitAdvance() {
-        // Specialization of doArrive+awaitAdvance eliminating some reads/paths
-        final Phaser root = this.root;
+    public int brriveAndAwbitAdvbnce() {
+        // Speciblizbtion of doArrive+bwbitAdvbnce eliminbting some rebds/pbths
+        finbl Phbser root = this.root;
         for (;;) {
-            long s = (root == this) ? state : reconcileState();
-            int phase = (int)(s >>> PHASE_SHIFT);
-            if (phase < 0)
-                return phase;
+            long s = (root == this) ? stbte : reconcileStbte();
+            int phbse = (int)(s >>> PHASE_SHIFT);
+            if (phbse < 0)
+                return phbse;
             int counts = (int)s;
-            int unarrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
-            if (unarrived <= 0)
-                throw new IllegalStateException(badArrive(s));
-            if (UNSAFE.compareAndSwapLong(this, stateOffset, s,
+            int unbrrived = (counts == EMPTY) ? 0 : (counts & UNARRIVED_MASK);
+            if (unbrrived <= 0)
+                throw new IllegblStbteException(bbdArrive(s));
+            if (UNSAFE.compbreAndSwbpLong(this, stbteOffset, s,
                                           s -= ONE_ARRIVAL)) {
-                if (unarrived > 1)
-                    return root.internalAwaitAdvance(phase, null);
+                if (unbrrived > 1)
+                    return root.internblAwbitAdvbnce(phbse, null);
                 if (root != this)
-                    return parent.arriveAndAwaitAdvance();
-                long n = s & PARTIES_MASK;  // base of next state
-                int nextUnarrived = (int)n >>> PARTIES_SHIFT;
-                if (onAdvance(phase, nextUnarrived))
+                    return pbrent.brriveAndAwbitAdvbnce();
+                long n = s & PARTIES_MASK;  // bbse of next stbte
+                int nextUnbrrived = (int)n >>> PARTIES_SHIFT;
+                if (onAdvbnce(phbse, nextUnbrrived))
                     n |= TERMINATION_BIT;
-                else if (nextUnarrived == 0)
+                else if (nextUnbrrived == 0)
                     n |= EMPTY;
                 else
-                    n |= nextUnarrived;
-                int nextPhase = (phase + 1) & MAX_PHASE;
-                n |= (long)nextPhase << PHASE_SHIFT;
-                if (!UNSAFE.compareAndSwapLong(this, stateOffset, s, n))
-                    return (int)(state >>> PHASE_SHIFT); // terminated
-                releaseWaiters(phase);
-                return nextPhase;
+                    n |= nextUnbrrived;
+                int nextPhbse = (phbse + 1) & MAX_PHASE;
+                n |= (long)nextPhbse << PHASE_SHIFT;
+                if (!UNSAFE.compbreAndSwbpLong(this, stbteOffset, s, n))
+                    return (int)(stbte >>> PHASE_SHIFT); // terminbted
+                relebseWbiters(phbse);
+                return nextPhbse;
             }
         }
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value, returning immediately if the current phase is not equal
-     * to the given phase value or this phaser is terminated.
+     * Awbits the phbse of this phbser to bdvbnce from the given phbse
+     * vblue, returning immedibtely if the current phbse is not equbl
+     * to the given phbse vblue or this phbser is terminbted.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
+     * @pbrbm phbse bn brrivbl phbse number, or negbtive vblue if
+     * terminbted; this brgument is normblly the vblue returned by b
+     * previous cbll to {@code brrive} or {@code brriveAndDeregister}.
+     * @return the next brrivbl phbse number, or the brgument if it is
+     * negbtive, or the (negbtive) {@linkplbin #getPhbse() current phbse}
+     * if terminbted
      */
-    public int awaitAdvance(int phase) {
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+    public int bwbitAdvbnce(int phbse) {
+        finbl Phbser root = this.root;
+        long s = (root == this) ? stbte : reconcileStbte();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase)
-            return root.internalAwaitAdvance(phase, null);
+        if (phbse < 0)
+            return phbse;
+        if (p == phbse)
+            return root.internblAwbitAdvbnce(phbse, null);
         return p;
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value, throwing {@code InterruptedException} if interrupted
-     * while waiting, or returning immediately if the current phase is
-     * not equal to the given phase value or this phaser is
-     * terminated.
+     * Awbits the phbse of this phbser to bdvbnce from the given phbse
+     * vblue, throwing {@code InterruptedException} if interrupted
+     * while wbiting, or returning immedibtely if the current phbse is
+     * not equbl to the given phbse vblue or this phbser is
+     * terminbted.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
-     * @throws InterruptedException if thread interrupted while waiting
+     * @pbrbm phbse bn brrivbl phbse number, or negbtive vblue if
+     * terminbted; this brgument is normblly the vblue returned by b
+     * previous cbll to {@code brrive} or {@code brriveAndDeregister}.
+     * @return the next brrivbl phbse number, or the brgument if it is
+     * negbtive, or the (negbtive) {@linkplbin #getPhbse() current phbse}
+     * if terminbted
+     * @throws InterruptedException if threbd interrupted while wbiting
      */
-    public int awaitAdvanceInterruptibly(int phase)
+    public int bwbitAdvbnceInterruptibly(int phbse)
         throws InterruptedException {
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+        finbl Phbser root = this.root;
+        long s = (root == this) ? stbte : reconcileStbte();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase) {
-            QNode node = new QNode(this, phase, true, false, 0L);
-            p = root.internalAwaitAdvance(phase, node);
-            if (node.wasInterrupted)
+        if (phbse < 0)
+            return phbse;
+        if (p == phbse) {
+            QNode node = new QNode(this, phbse, true, fblse, 0L);
+            p = root.internblAwbitAdvbnce(phbse, node);
+            if (node.wbsInterrupted)
                 throw new InterruptedException();
         }
         return p;
     }
 
     /**
-     * Awaits the phase of this phaser to advance from the given phase
-     * value or the given timeout to elapse, throwing {@code
-     * InterruptedException} if interrupted while waiting, or
-     * returning immediately if the current phase is not equal to the
-     * given phase value or this phaser is terminated.
+     * Awbits the phbse of this phbser to bdvbnce from the given phbse
+     * vblue or the given timeout to elbpse, throwing {@code
+     * InterruptedException} if interrupted while wbiting, or
+     * returning immedibtely if the current phbse is not equbl to the
+     * given phbse vblue or this phbser is terminbted.
      *
-     * @param phase an arrival phase number, or negative value if
-     * terminated; this argument is normally the value returned by a
-     * previous call to {@code arrive} or {@code arriveAndDeregister}.
-     * @param timeout how long to wait before giving up, in units of
+     * @pbrbm phbse bn brrivbl phbse number, or negbtive vblue if
+     * terminbted; this brgument is normblly the vblue returned by b
+     * previous cbll to {@code brrive} or {@code brriveAndDeregister}.
+     * @pbrbm timeout how long to wbit before giving up, in units of
      *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the next arrival phase number, or the argument if it is
-     * negative, or the (negative) {@linkplain #getPhase() current phase}
-     * if terminated
-     * @throws InterruptedException if thread interrupted while waiting
-     * @throws TimeoutException if timed out while waiting
+     * @pbrbm unit b {@code TimeUnit} determining how to interpret the
+     *        {@code timeout} pbrbmeter
+     * @return the next brrivbl phbse number, or the brgument if it is
+     * negbtive, or the (negbtive) {@linkplbin #getPhbse() current phbse}
+     * if terminbted
+     * @throws InterruptedException if threbd interrupted while wbiting
+     * @throws TimeoutException if timed out while wbiting
      */
-    public int awaitAdvanceInterruptibly(int phase,
+    public int bwbitAdvbnceInterruptibly(int phbse,
                                          long timeout, TimeUnit unit)
         throws InterruptedException, TimeoutException {
-        long nanos = unit.toNanos(timeout);
-        final Phaser root = this.root;
-        long s = (root == this) ? state : reconcileState();
+        long nbnos = unit.toNbnos(timeout);
+        finbl Phbser root = this.root;
+        long s = (root == this) ? stbte : reconcileStbte();
         int p = (int)(s >>> PHASE_SHIFT);
-        if (phase < 0)
-            return phase;
-        if (p == phase) {
-            QNode node = new QNode(this, phase, true, true, nanos);
-            p = root.internalAwaitAdvance(phase, node);
-            if (node.wasInterrupted)
+        if (phbse < 0)
+            return phbse;
+        if (p == phbse) {
+            QNode node = new QNode(this, phbse, true, true, nbnos);
+            p = root.internblAwbitAdvbnce(phbse, node);
+            if (node.wbsInterrupted)
                 throw new InterruptedException();
-            else if (p == phase)
+            else if (p == phbse)
                 throw new TimeoutException();
         }
         return p;
     }
 
     /**
-     * Forces this phaser to enter termination state.  Counts of
-     * registered parties are unaffected.  If this phaser is a member
-     * of a tiered set of phasers, then all of the phasers in the set
-     * are terminated.  If this phaser is already terminated, this
-     * method has no effect.  This method may be useful for
-     * coordinating recovery after one or more tasks encounter
+     * Forces this phbser to enter terminbtion stbte.  Counts of
+     * registered pbrties bre unbffected.  If this phbser is b member
+     * of b tiered set of phbsers, then bll of the phbsers in the set
+     * bre terminbted.  If this phbser is blrebdy terminbted, this
+     * method hbs no effect.  This method mby be useful for
+     * coordinbting recovery bfter one or more tbsks encounter
      * unexpected exceptions.
      */
-    public void forceTermination() {
-        // Only need to change root state
-        final Phaser root = this.root;
+    public void forceTerminbtion() {
+        // Only need to chbnge root stbte
+        finbl Phbser root = this.root;
         long s;
-        while ((s = root.state) >= 0) {
-            if (UNSAFE.compareAndSwapLong(root, stateOffset,
+        while ((s = root.stbte) >= 0) {
+            if (UNSAFE.compbreAndSwbpLong(root, stbteOffset,
                                           s, s | TERMINATION_BIT)) {
-                // signal all threads
-                releaseWaiters(0); // Waiters on evenQ
-                releaseWaiters(1); // Waiters on oddQ
+                // signbl bll threbds
+                relebseWbiters(0); // Wbiters on evenQ
+                relebseWbiters(1); // Wbiters on oddQ
                 return;
             }
         }
     }
 
     /**
-     * Returns the current phase number. The maximum phase number is
-     * {@code Integer.MAX_VALUE}, after which it restarts at
-     * zero. Upon termination, the phase number is negative,
-     * in which case the prevailing phase prior to termination
-     * may be obtained via {@code getPhase() + Integer.MIN_VALUE}.
+     * Returns the current phbse number. The mbximum phbse number is
+     * {@code Integer.MAX_VALUE}, bfter which it restbrts bt
+     * zero. Upon terminbtion, the phbse number is negbtive,
+     * in which cbse the prevbiling phbse prior to terminbtion
+     * mby be obtbined vib {@code getPhbse() + Integer.MIN_VALUE}.
      *
-     * @return the phase number, or a negative value if terminated
+     * @return the phbse number, or b negbtive vblue if terminbted
      */
-    public final int getPhase() {
-        return (int)(root.state >>> PHASE_SHIFT);
+    public finbl int getPhbse() {
+        return (int)(root.stbte >>> PHASE_SHIFT);
     }
 
     /**
-     * Returns the number of parties registered at this phaser.
+     * Returns the number of pbrties registered bt this phbser.
      *
-     * @return the number of parties
+     * @return the number of pbrties
      */
-    public int getRegisteredParties() {
-        return partiesOf(state);
+    public int getRegisteredPbrties() {
+        return pbrtiesOf(stbte);
     }
 
     /**
-     * Returns the number of registered parties that have arrived at
-     * the current phase of this phaser. If this phaser has terminated,
-     * the returned value is meaningless and arbitrary.
+     * Returns the number of registered pbrties thbt hbve brrived bt
+     * the current phbse of this phbser. If this phbser hbs terminbted,
+     * the returned vblue is mebningless bnd brbitrbry.
      *
-     * @return the number of arrived parties
+     * @return the number of brrived pbrties
      */
-    public int getArrivedParties() {
-        return arrivedOf(reconcileState());
+    public int getArrivedPbrties() {
+        return brrivedOf(reconcileStbte());
     }
 
     /**
-     * Returns the number of registered parties that have not yet
-     * arrived at the current phase of this phaser. If this phaser has
-     * terminated, the returned value is meaningless and arbitrary.
+     * Returns the number of registered pbrties thbt hbve not yet
+     * brrived bt the current phbse of this phbser. If this phbser hbs
+     * terminbted, the returned vblue is mebningless bnd brbitrbry.
      *
-     * @return the number of unarrived parties
+     * @return the number of unbrrived pbrties
      */
-    public int getUnarrivedParties() {
-        return unarrivedOf(reconcileState());
+    public int getUnbrrivedPbrties() {
+        return unbrrivedOf(reconcileStbte());
     }
 
     /**
-     * Returns the parent of this phaser, or {@code null} if none.
+     * Returns the pbrent of this phbser, or {@code null} if none.
      *
-     * @return the parent of this phaser, or {@code null} if none
+     * @return the pbrent of this phbser, or {@code null} if none
      */
-    public Phaser getParent() {
-        return parent;
+    public Phbser getPbrent() {
+        return pbrent;
     }
 
     /**
-     * Returns the root ancestor of this phaser, which is the same as
-     * this phaser if it has no parent.
+     * Returns the root bncestor of this phbser, which is the sbme bs
+     * this phbser if it hbs no pbrent.
      *
-     * @return the root ancestor of this phaser
+     * @return the root bncestor of this phbser
      */
-    public Phaser getRoot() {
+    public Phbser getRoot() {
         return root;
     }
 
     /**
-     * Returns {@code true} if this phaser has been terminated.
+     * Returns {@code true} if this phbser hbs been terminbted.
      *
-     * @return {@code true} if this phaser has been terminated
+     * @return {@code true} if this phbser hbs been terminbted
      */
-    public boolean isTerminated() {
-        return root.state < 0L;
+    public boolebn isTerminbted() {
+        return root.stbte < 0L;
     }
 
     /**
-     * Overridable method to perform an action upon impending phase
-     * advance, and to control termination. This method is invoked
-     * upon arrival of the party advancing this phaser (when all other
-     * waiting parties are dormant).  If this method returns {@code
-     * true}, this phaser will be set to a final termination state
-     * upon advance, and subsequent calls to {@link #isTerminated}
+     * Overridbble method to perform bn bction upon impending phbse
+     * bdvbnce, bnd to control terminbtion. This method is invoked
+     * upon brrivbl of the pbrty bdvbncing this phbser (when bll other
+     * wbiting pbrties bre dormbnt).  If this method returns {@code
+     * true}, this phbser will be set to b finbl terminbtion stbte
+     * upon bdvbnce, bnd subsequent cblls to {@link #isTerminbted}
      * will return true. Any (unchecked) Exception or Error thrown by
-     * an invocation of this method is propagated to the party
-     * attempting to advance this phaser, in which case no advance
+     * bn invocbtion of this method is propbgbted to the pbrty
+     * bttempting to bdvbnce this phbser, in which cbse no bdvbnce
      * occurs.
      *
-     * <p>The arguments to this method provide the state of the phaser
-     * prevailing for the current transition.  The effects of invoking
-     * arrival, registration, and waiting methods on this phaser from
-     * within {@code onAdvance} are unspecified and should not be
+     * <p>The brguments to this method provide the stbte of the phbser
+     * prevbiling for the current trbnsition.  The effects of invoking
+     * brrivbl, registrbtion, bnd wbiting methods on this phbser from
+     * within {@code onAdvbnce} bre unspecified bnd should not be
      * relied on.
      *
-     * <p>If this phaser is a member of a tiered set of phasers, then
-     * {@code onAdvance} is invoked only for its root phaser on each
-     * advance.
+     * <p>If this phbser is b member of b tiered set of phbsers, then
+     * {@code onAdvbnce} is invoked only for its root phbser on ebch
+     * bdvbnce.
      *
-     * <p>To support the most common use cases, the default
-     * implementation of this method returns {@code true} when the
-     * number of registered parties has become zero as the result of a
-     * party invoking {@code arriveAndDeregister}.  You can disable
-     * this behavior, thus enabling continuation upon future
-     * registrations, by overriding this method to always return
-     * {@code false}:
+     * <p>To support the most common use cbses, the defbult
+     * implementbtion of this method returns {@code true} when the
+     * number of registered pbrties hbs become zero bs the result of b
+     * pbrty invoking {@code brriveAndDeregister}.  You cbn disbble
+     * this behbvior, thus enbbling continubtion upon future
+     * registrbtions, by overriding this method to blwbys return
+     * {@code fblse}:
      *
      * <pre> {@code
-     * Phaser phaser = new Phaser() {
-     *   protected boolean onAdvance(int phase, int parties) { return false; }
+     * Phbser phbser = new Phbser() {
+     *   protected boolebn onAdvbnce(int phbse, int pbrties) { return fblse; }
      * }}</pre>
      *
-     * @param phase the current phase number on entry to this method,
-     * before this phaser is advanced
-     * @param registeredParties the current number of registered parties
-     * @return {@code true} if this phaser should terminate
+     * @pbrbm phbse the current phbse number on entry to this method,
+     * before this phbser is bdvbnced
+     * @pbrbm registeredPbrties the current number of registered pbrties
+     * @return {@code true} if this phbser should terminbte
      */
-    protected boolean onAdvance(int phase, int registeredParties) {
-        return registeredParties == 0;
+    protected boolebn onAdvbnce(int phbse, int registeredPbrties) {
+        return registeredPbrties == 0;
     }
 
     /**
-     * Returns a string identifying this phaser, as well as its
-     * state.  The state, in brackets, includes the String {@code
-     * "phase = "} followed by the phase number, {@code "parties = "}
-     * followed by the number of registered parties, and {@code
-     * "arrived = "} followed by the number of arrived parties.
+     * Returns b string identifying this phbser, bs well bs its
+     * stbte.  The stbte, in brbckets, includes the String {@code
+     * "phbse = "} followed by the phbse number, {@code "pbrties = "}
+     * followed by the number of registered pbrties, bnd {@code
+     * "brrived = "} followed by the number of brrived pbrties.
      *
-     * @return a string identifying this phaser, as well as its state
+     * @return b string identifying this phbser, bs well bs its stbte
      */
     public String toString() {
-        return stateToString(reconcileState());
+        return stbteToString(reconcileStbte());
     }
 
     /**
-     * Implementation of toString and string-based error messages
+     * Implementbtion of toString bnd string-bbsed error messbges
      */
-    private String stateToString(long s) {
+    privbte String stbteToString(long s) {
         return super.toString() +
-            "[phase = " + phaseOf(s) +
-            " parties = " + partiesOf(s) +
-            " arrived = " + arrivedOf(s) + "]";
+            "[phbse = " + phbseOf(s) +
+            " pbrties = " + pbrtiesOf(s) +
+            " brrived = " + brrivedOf(s) + "]";
     }
 
-    // Waiting mechanics
+    // Wbiting mechbnics
 
     /**
-     * Removes and signals threads from queue for phase.
+     * Removes bnd signbls threbds from queue for phbse.
      */
-    private void releaseWaiters(int phase) {
+    privbte void relebseWbiters(int phbse) {
         QNode q;   // first element of queue
-        Thread t;  // its thread
-        AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
-        while ((q = head.get()) != null &&
-               q.phase != (int)(root.state >>> PHASE_SHIFT)) {
-            if (head.compareAndSet(q, q.next) &&
-                (t = q.thread) != null) {
-                q.thread = null;
-                LockSupport.unpark(t);
+        Threbd t;  // its threbd
+        AtomicReference<QNode> hebd = (phbse & 1) == 0 ? evenQ : oddQ;
+        while ((q = hebd.get()) != null &&
+               q.phbse != (int)(root.stbte >>> PHASE_SHIFT)) {
+            if (hebd.compbreAndSet(q, q.next) &&
+                (t = q.threbd) != null) {
+                q.threbd = null;
+                LockSupport.unpbrk(t);
             }
         }
     }
 
     /**
-     * Variant of releaseWaiters that additionally tries to remove any
-     * nodes no longer waiting for advance due to timeout or
-     * interrupt. Currently, nodes are removed only if they are at
-     * head of queue, which suffices to reduce memory footprint in
-     * most usages.
+     * Vbribnt of relebseWbiters thbt bdditionblly tries to remove bny
+     * nodes no longer wbiting for bdvbnce due to timeout or
+     * interrupt. Currently, nodes bre removed only if they bre bt
+     * hebd of queue, which suffices to reduce memory footprint in
+     * most usbges.
      *
-     * @return current phase on exit
+     * @return current phbse on exit
      */
-    private int abortWait(int phase) {
-        AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
+    privbte int bbortWbit(int phbse) {
+        AtomicReference<QNode> hebd = (phbse & 1) == 0 ? evenQ : oddQ;
         for (;;) {
-            Thread t;
-            QNode q = head.get();
-            int p = (int)(root.state >>> PHASE_SHIFT);
-            if (q == null || ((t = q.thread) != null && q.phase == p))
+            Threbd t;
+            QNode q = hebd.get();
+            int p = (int)(root.stbte >>> PHASE_SHIFT);
+            if (q == null || ((t = q.threbd) != null && q.phbse == p))
                 return p;
-            if (head.compareAndSet(q, q.next) && t != null) {
-                q.thread = null;
-                LockSupport.unpark(t);
+            if (hebd.compbreAndSet(q, q.next) && t != null) {
+                q.threbd = null;
+                LockSupport.unpbrk(t);
             }
         }
     }
 
     /** The number of CPUs, for spin control */
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    privbte stbtic finbl int NCPU = Runtime.getRuntime().bvbilbbleProcessors();
 
     /**
-     * The number of times to spin before blocking while waiting for
-     * advance, per arrival while waiting. On multiprocessors, fully
-     * blocking and waking up a large number of threads all at once is
-     * usually a very slow process, so we use rechargeable spins to
-     * avoid it when threads regularly arrive: When a thread in
-     * internalAwaitAdvance notices another arrival before blocking,
-     * and there appear to be enough CPUs available, it spins
-     * SPINS_PER_ARRIVAL more times before blocking. The value trades
-     * off good-citizenship vs big unnecessary slowdowns.
+     * The number of times to spin before blocking while wbiting for
+     * bdvbnce, per brrivbl while wbiting. On multiprocessors, fully
+     * blocking bnd wbking up b lbrge number of threbds bll bt once is
+     * usublly b very slow process, so we use rechbrgebble spins to
+     * bvoid it when threbds regulbrly brrive: When b threbd in
+     * internblAwbitAdvbnce notices bnother brrivbl before blocking,
+     * bnd there bppebr to be enough CPUs bvbilbble, it spins
+     * SPINS_PER_ARRIVAL more times before blocking. The vblue trbdes
+     * off good-citizenship vs big unnecessbry slowdowns.
      */
-    static final int SPINS_PER_ARRIVAL = (NCPU < 2) ? 1 : 1 << 8;
+    stbtic finbl int SPINS_PER_ARRIVAL = (NCPU < 2) ? 1 : 1 << 8;
 
     /**
-     * Possibly blocks and waits for phase to advance unless aborted.
-     * Call only on root phaser.
+     * Possibly blocks bnd wbits for phbse to bdvbnce unless bborted.
+     * Cbll only on root phbser.
      *
-     * @param phase current phase
-     * @param node if non-null, the wait node to track interrupt and timeout;
-     * if null, denotes noninterruptible wait
-     * @return current phase
+     * @pbrbm phbse current phbse
+     * @pbrbm node if non-null, the wbit node to trbck interrupt bnd timeout;
+     * if null, denotes noninterruptible wbit
+     * @return current phbse
      */
-    private int internalAwaitAdvance(int phase, QNode node) {
-        // assert root == this;
-        releaseWaiters(phase-1);          // ensure old queue clean
-        boolean queued = false;           // true when node is enqueued
-        int lastUnarrived = 0;            // to increase spins upon change
+    privbte int internblAwbitAdvbnce(int phbse, QNode node) {
+        // bssert root == this;
+        relebseWbiters(phbse-1);          // ensure old queue clebn
+        boolebn queued = fblse;           // true when node is enqueued
+        int lbstUnbrrived = 0;            // to increbse spins upon chbnge
         int spins = SPINS_PER_ARRIVAL;
         long s;
         int p;
-        while ((p = (int)((s = state) >>> PHASE_SHIFT)) == phase) {
+        while ((p = (int)((s = stbte) >>> PHASE_SHIFT)) == phbse) {
             if (node == null) {           // spinning in noninterruptible mode
-                int unarrived = (int)s & UNARRIVED_MASK;
-                if (unarrived != lastUnarrived &&
-                    (lastUnarrived = unarrived) < NCPU)
+                int unbrrived = (int)s & UNARRIVED_MASK;
+                if (unbrrived != lbstUnbrrived &&
+                    (lbstUnbrrived = unbrrived) < NCPU)
                     spins += SPINS_PER_ARRIVAL;
-                boolean interrupted = Thread.interrupted();
+                boolebn interrupted = Threbd.interrupted();
                 if (interrupted || --spins < 0) { // need node to record intr
-                    node = new QNode(this, phase, false, false, 0L);
-                    node.wasInterrupted = interrupted;
+                    node = new QNode(this, phbse, fblse, fblse, 0L);
+                    node.wbsInterrupted = interrupted;
                 }
             }
-            else if (node.isReleasable()) // done or aborted
-                break;
+            else if (node.isRelebsbble()) // done or bborted
+                brebk;
             else if (!queued) {           // push onto queue
-                AtomicReference<QNode> head = (phase & 1) == 0 ? evenQ : oddQ;
-                QNode q = node.next = head.get();
-                if ((q == null || q.phase == phase) &&
-                    (int)(state >>> PHASE_SHIFT) == phase) // avoid stale enq
-                    queued = head.compareAndSet(q, node);
+                AtomicReference<QNode> hebd = (phbse & 1) == 0 ? evenQ : oddQ;
+                QNode q = node.next = hebd.get();
+                if ((q == null || q.phbse == phbse) &&
+                    (int)(stbte >>> PHASE_SHIFT) == phbse) // bvoid stble enq
+                    queued = hebd.compbreAndSet(q, node);
             }
             else {
                 try {
-                    ForkJoinPool.managedBlock(node);
-                } catch (InterruptedException ie) {
-                    node.wasInterrupted = true;
+                    ForkJoinPool.mbnbgedBlock(node);
+                } cbtch (InterruptedException ie) {
+                    node.wbsInterrupted = true;
                 }
             }
         }
 
         if (node != null) {
-            if (node.thread != null)
-                node.thread = null;       // avoid need for unpark()
-            if (node.wasInterrupted && !node.interruptible)
-                Thread.currentThread().interrupt();
-            if (p == phase && (p = (int)(state >>> PHASE_SHIFT)) == phase)
-                return abortWait(phase); // possibly clean up on abort
+            if (node.threbd != null)
+                node.threbd = null;       // bvoid need for unpbrk()
+            if (node.wbsInterrupted && !node.interruptible)
+                Threbd.currentThrebd().interrupt();
+            if (p == phbse && (p = (int)(stbte >>> PHASE_SHIFT)) == phbse)
+                return bbortWbit(phbse); // possibly clebn up on bbort
         }
-        releaseWaiters(phase);
+        relebseWbiters(phbse);
         return p;
     }
 
     /**
-     * Wait nodes for Treiber stack representing wait queue
+     * Wbit nodes for Treiber stbck representing wbit queue
      */
-    static final class QNode implements ForkJoinPool.ManagedBlocker {
-        final Phaser phaser;
-        final int phase;
-        final boolean interruptible;
-        final boolean timed;
-        boolean wasInterrupted;
-        long nanos;
-        final long deadline;
-        volatile Thread thread; // nulled to cancel wait
+    stbtic finbl clbss QNode implements ForkJoinPool.MbnbgedBlocker {
+        finbl Phbser phbser;
+        finbl int phbse;
+        finbl boolebn interruptible;
+        finbl boolebn timed;
+        boolebn wbsInterrupted;
+        long nbnos;
+        finbl long debdline;
+        volbtile Threbd threbd; // nulled to cbncel wbit
         QNode next;
 
-        QNode(Phaser phaser, int phase, boolean interruptible,
-              boolean timed, long nanos) {
-            this.phaser = phaser;
-            this.phase = phase;
+        QNode(Phbser phbser, int phbse, boolebn interruptible,
+              boolebn timed, long nbnos) {
+            this.phbser = phbser;
+            this.phbse = phbse;
             this.interruptible = interruptible;
-            this.nanos = nanos;
+            this.nbnos = nbnos;
             this.timed = timed;
-            this.deadline = timed ? System.nanoTime() + nanos : 0L;
-            thread = Thread.currentThread();
+            this.debdline = timed ? System.nbnoTime() + nbnos : 0L;
+            threbd = Threbd.currentThrebd();
         }
 
-        public boolean isReleasable() {
-            if (thread == null)
+        public boolebn isRelebsbble() {
+            if (threbd == null)
                 return true;
-            if (phaser.getPhase() != phase) {
-                thread = null;
+            if (phbser.getPhbse() != phbse) {
+                threbd = null;
                 return true;
             }
-            if (Thread.interrupted())
-                wasInterrupted = true;
-            if (wasInterrupted && interruptible) {
-                thread = null;
+            if (Threbd.interrupted())
+                wbsInterrupted = true;
+            if (wbsInterrupted && interruptible) {
+                threbd = null;
                 return true;
             }
             if (timed) {
-                if (nanos > 0L) {
-                    nanos = deadline - System.nanoTime();
+                if (nbnos > 0L) {
+                    nbnos = debdline - System.nbnoTime();
                 }
-                if (nanos <= 0L) {
-                    thread = null;
+                if (nbnos <= 0L) {
+                    threbd = null;
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public boolean block() {
-            if (isReleasable())
+        public boolebn block() {
+            if (isRelebsbble())
                 return true;
             else if (!timed)
-                LockSupport.park(this);
-            else if (nanos > 0L)
-                LockSupport.parkNanos(this, nanos);
-            return isReleasable();
+                LockSupport.pbrk(this);
+            else if (nbnos > 0L)
+                LockSupport.pbrkNbnos(this, nbnos);
+            return isRelebsbble();
         }
     }
 
-    // Unsafe mechanics
+    // Unsbfe mechbnics
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long stateOffset;
-    static {
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long stbteOffset;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = Phaser.class;
-            stateOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("state"));
-        } catch (Exception e) {
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = Phbser.clbss;
+            stbteOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("stbte"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

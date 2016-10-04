@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.io.*;
+import jbvb.lbng.ref.*;
 
-import java.security.*;
-import javax.security.auth.login.LoginException;
+import jbvb.security.*;
+import jbvbx.security.buth.login.LoginException;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.TemplateManager.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
  * PKCS#11 token.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-class Token implements Serializable {
+clbss Token implements Seriblizbble {
 
-    // need to be serializable to allow SecureRandom to be serialized
-    private static final long serialVersionUID = 2541527649100571747L;
+    // need to be seriblizbble to bllow SecureRbndom to be seriblized
+    privbte stbtic finbl long seriblVersionUID = 2541527649100571747L;
 
     // how often to check if the token is still present (in ms)
-    // this is different from checking if a token has been inserted,
-    // that is done in SunPKCS11. Currently 50 ms.
-    private final static long CHECK_INTERVAL = 50;
+    // this is different from checking if b token hbs been inserted,
+    // thbt is done in SunPKCS11. Currently 50 ms.
+    privbte finbl stbtic long CHECK_INTERVAL = 50;
 
-    final SunPKCS11 provider;
+    finbl SunPKCS11 provider;
 
-    final PKCS11 p11;
+    finbl PKCS11 p11;
 
-    final Config config;
+    finbl Config config;
 
-    final CK_TOKEN_INFO tokenInfo;
+    finbl CK_TOKEN_INFO tokenInfo;
 
-    // session manager to pool sessions
-    final SessionManager sessionManager;
+    // session mbnbger to pool sessions
+    finbl SessionMbnbger sessionMbnbger;
 
-    // template manager to customize the attributes used when creating objects
-    private final TemplateManager templateManager;
+    // templbte mbnbger to customize the bttributes used when crebting objects
+    privbte finbl TemplbteMbnbger templbteMbnbger;
 
-    // flag indicating whether we need to explicitly cancel operations
-    // we started on the token. If false, we assume operations are
-    // automatically cancelled once we start another one
-    final boolean explicitCancel;
+    // flbg indicbting whether we need to explicitly cbncel operbtions
+    // we stbrted on the token. If fblse, we bssume operbtions bre
+    // butombticblly cbncelled once we stbrt bnother one
+    finbl boolebn explicitCbncel;
 
-    // translation cache for secret keys
-    final KeyCache secretCache;
+    // trbnslbtion cbche for secret keys
+    finbl KeyCbche secretCbche;
 
-    // translation cache for asymmetric keys (public and private)
-    final KeyCache privateCache;
+    // trbnslbtion cbche for bsymmetric keys (public bnd privbte)
+    finbl KeyCbche privbteCbche;
 
-    // cached instances of the various key factories, initialized on demand
-    private volatile P11KeyFactory rsaFactory, dsaFactory, dhFactory, ecFactory;
+    // cbched instbnces of the vbrious key fbctories, initiblized on dembnd
+    privbte volbtile P11KeyFbctory rsbFbctory, dsbFbctory, dhFbctory, ecFbctory;
 
-    // table which maps mechanisms to the corresponding cached
-    // MechanismInfo objects
-    private final Map<Long, CK_MECHANISM_INFO> mechInfoMap;
+    // tbble which mbps mechbnisms to the corresponding cbched
+    // MechbnismInfo objects
+    privbte finbl Mbp<Long, CK_MECHANISM_INFO> mechInfoMbp;
 
-    // single SecureRandomSpi instance we use per token
-    // initialized on demand (if supported)
-    private volatile P11SecureRandom secureRandom;
+    // single SecureRbndomSpi instbnce we use per token
+    // initiblized on dembnd (if supported)
+    privbte volbtile P11SecureRbndom secureRbndom;
 
-    // single KeyStoreSpi instance we use per provider
-    // initialized on demand
-    private volatile P11KeyStore keyStore;
+    // single KeyStoreSpi instbnce we use per provider
+    // initiblized on dembnd
+    privbte volbtile P11KeyStore keyStore;
 
-    // whether this token is a removable token
-    private final boolean removable;
+    // whether this token is b removbble token
+    privbte finbl boolebn removbble;
 
-    // for removable tokens: whether this token is valid or has been removed
-    private volatile boolean valid;
+    // for removbble tokens: whether this token is vblid or hbs been removed
+    privbte volbtile boolebn vblid;
 
-    // for removable tokens: time last checked for token presence
-    private long lastPresentCheck;
+    // for removbble tokens: time lbst checked for token presence
+    privbte long lbstPresentCheck;
 
-    // unique token id, used for serialization only
-    private byte[] tokenId;
+    // unique token id, used for seriblizbtion only
+    privbte byte[] tokenId;
 
-    // flag indicating whether the token is write protected
-    private boolean writeProtected;
+    // flbg indicbting whether the token is write protected
+    privbte boolebn writeProtected;
 
-    // flag indicating whether we are logged in
-    private volatile boolean loggedIn;
+    // flbg indicbting whether we bre logged in
+    privbte volbtile boolebn loggedIn;
 
-    // time we last checked login status
-    private long lastLoginCheck;
+    // time we lbst checked login stbtus
+    privbte long lbstLoginCheck;
 
     // mutex for token-present-check
-    private final static Object CHECK_LOCK = new Object();
+    privbte finbl stbtic Object CHECK_LOCK = new Object();
 
-    // object for indicating unsupported mechanism in 'mechInfoMap'
-    private final static CK_MECHANISM_INFO INVALID_MECH =
+    // object for indicbting unsupported mechbnism in 'mechInfoMbp'
+    privbte finbl stbtic CK_MECHANISM_INFO INVALID_MECH =
         new CK_MECHANISM_INFO(0, 0, 0);
 
-    // flag indicating whether the token supports raw secret key material import
-    private Boolean supportsRawSecretKeyImport;
+    // flbg indicbting whether the token supports rbw secret key mbteribl import
+    privbte Boolebn supportsRbwSecretKeyImport;
 
     Token(SunPKCS11 provider) throws PKCS11Exception {
         this.provider = provider;
-        this.removable = provider.removable;
-        this.valid = true;
+        this.removbble = provider.removbble;
+        this.vblid = true;
         p11 = provider.p11;
         config = provider.config;
         tokenInfo = p11.C_GetTokenInfo(provider.slotID);
-        writeProtected = (tokenInfo.flags & CKF_WRITE_PROTECTED) != 0;
-        // create session manager and open a test session
-        SessionManager sessionManager;
+        writeProtected = (tokenInfo.flbgs & CKF_WRITE_PROTECTED) != 0;
+        // crebte session mbnbger bnd open b test session
+        SessionMbnbger sessionMbnbger;
         try {
-            sessionManager = new SessionManager(this);
-            Session s = sessionManager.getOpSession();
-            sessionManager.releaseSession(s);
-        } catch (PKCS11Exception e) {
+            sessionMbnbger = new SessionMbnbger(this);
+            Session s = sessionMbnbger.getOpSession();
+            sessionMbnbger.relebseSession(s);
+        } cbtch (PKCS11Exception e) {
             if (writeProtected) {
                 throw e;
             }
             // token might not permit RW sessions even though
             // CKF_WRITE_PROTECTED is not set
             writeProtected = true;
-            sessionManager = new SessionManager(this);
-            Session s = sessionManager.getOpSession();
-            sessionManager.releaseSession(s);
+            sessionMbnbger = new SessionMbnbger(this);
+            Session s = sessionMbnbger.getOpSession();
+            sessionMbnbger.relebseSession(s);
         }
-        this.sessionManager = sessionManager;
-        secretCache = new KeyCache();
-        privateCache = new KeyCache();
-        templateManager = config.getTemplateManager();
-        explicitCancel = config.getExplicitCancel();
-        mechInfoMap =
-            new ConcurrentHashMap<Long, CK_MECHANISM_INFO>(10);
+        this.sessionMbnbger = sessionMbnbger;
+        secretCbche = new KeyCbche();
+        privbteCbche = new KeyCbche();
+        templbteMbnbger = config.getTemplbteMbnbger();
+        explicitCbncel = config.getExplicitCbncel();
+        mechInfoMbp =
+            new ConcurrentHbshMbp<Long, CK_MECHANISM_INFO>(10);
     }
 
-    boolean isWriteProtected() {
+    boolebn isWriteProtected() {
         return writeProtected;
     }
 
-    // return whether the token supports raw secret key material import
-    boolean supportsRawSecretKeyImport() {
-        if (supportsRawSecretKeyImport == null) {
-            SecureRandom random = JCAUtil.getSecureRandom();
+    // return whether the token supports rbw secret key mbteribl import
+    boolebn supportsRbwSecretKeyImport() {
+        if (supportsRbwSecretKeyImport == null) {
+            SecureRbndom rbndom = JCAUtil.getSecureRbndom();
             byte[] encoded = new byte[48];
-            random.nextBytes(encoded);
+            rbndom.nextBytes(encoded);
 
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[3];
-            attributes[0] = new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
-            attributes[1] = new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET);
-            attributes[2] = new CK_ATTRIBUTE(CKA_VALUE, encoded);
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[3];
+            bttributes[0] = new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
+            bttributes[1] = new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_GENERIC_SECRET);
+            bttributes[2] = new CK_ATTRIBUTE(CKA_VALUE, encoded);
 
             Session session = null;
             try {
-                attributes = getAttributes(O_IMPORT,
-                        CKO_SECRET_KEY, CKK_GENERIC_SECRET, attributes);
+                bttributes = getAttributes(O_IMPORT,
+                        CKO_SECRET_KEY, CKK_GENERIC_SECRET, bttributes);
                 session = getObjSession();
-                long keyID = p11.C_CreateObject(session.id(), attributes);
+                long keyID = p11.C_CrebteObject(session.id(), bttributes);
 
-                supportsRawSecretKeyImport = Boolean.TRUE;
-            } catch (PKCS11Exception e) {
-                supportsRawSecretKeyImport = Boolean.FALSE;
-            } finally {
-                releaseSession(session);
+                supportsRbwSecretKeyImport = Boolebn.TRUE;
+            } cbtch (PKCS11Exception e) {
+                supportsRbwSecretKeyImport = Boolebn.FALSE;
+            } finblly {
+                relebseSession(session);
             }
         }
 
-        return supportsRawSecretKeyImport;
+        return supportsRbwSecretKeyImport;
     }
 
-    // return whether we are logged in
-    // uses cached result if current. session is optional and may be null
-    boolean isLoggedIn(Session session) throws PKCS11Exception {
-        // volatile load first
-        boolean loggedIn = this.loggedIn;
+    // return whether we bre logged in
+    // uses cbched result if current. session is optionbl bnd mby be null
+    boolebn isLoggedIn(Session session) throws PKCS11Exception {
+        // volbtile lobd first
+        boolebn loggedIn = this.loggedIn;
         long time = System.currentTimeMillis();
-        if (time - lastLoginCheck > CHECK_INTERVAL) {
+        if (time - lbstLoginCheck > CHECK_INTERVAL) {
             loggedIn = isLoggedInNow(session);
-            lastLoginCheck = time;
+            lbstLoginCheck = time;
         }
         return loggedIn;
     }
 
-    // return whether we are logged in now
-    // does not use cache
-    boolean isLoggedInNow(Session session) throws PKCS11Exception {
-        boolean allocSession = (session == null);
+    // return whether we bre logged in now
+    // does not use cbche
+    boolebn isLoggedInNow(Session session) throws PKCS11Exception {
+        boolebn bllocSession = (session == null);
         try {
-            if (allocSession) {
+            if (bllocSession) {
                 session = getOpSession();
             }
             CK_SESSION_INFO info = p11.C_GetSessionInfo(session.id());
-            boolean loggedIn = (info.state == CKS_RO_USER_FUNCTIONS) ||
-                                (info.state == CKS_RW_USER_FUNCTIONS);
+            boolebn loggedIn = (info.stbte == CKS_RO_USER_FUNCTIONS) ||
+                                (info.stbte == CKS_RW_USER_FUNCTIONS);
             this.loggedIn = loggedIn;
             return loggedIn;
-        } finally {
-            if (allocSession) {
-                releaseSession(session);
+        } finblly {
+            if (bllocSession) {
+                relebseSession(session);
             }
         }
     }
 
-    // ensure that we are logged in
-    // call provider.login() if not
+    // ensure thbt we bre logged in
+    // cbll provider.login() if not
     void ensureLoggedIn(Session session) throws PKCS11Exception, LoginException {
-        if (isLoggedIn(session) == false) {
+        if (isLoggedIn(session) == fblse) {
             provider.login(null, null);
         }
     }
 
-    // return whether this token object is valid (i.e. token not removed)
-    // returns value from last check, does not perform new check
-    boolean isValid() {
-        if (removable == false) {
+    // return whether this token object is vblid (i.e. token not removed)
+    // returns vblue from lbst check, does not perform new check
+    boolebn isVblid() {
+        if (removbble == fblse) {
             return true;
         }
-        return valid;
+        return vblid;
     }
 
-    void ensureValid() {
-        if (isValid() == false) {
-            throw new ProviderException("Token has been removed");
+    void ensureVblid() {
+        if (isVblid() == fblse) {
+            throw new ProviderException("Token hbs been removed");
         }
     }
 
-    // return whether a token is present (i.e. token not removed)
-    // returns cached value if current, otherwise performs new check
-    boolean isPresent(long sessionID) {
-        if (removable == false) {
+    // return whether b token is present (i.e. token not removed)
+    // returns cbched vblue if current, otherwise performs new check
+    boolebn isPresent(long sessionID) {
+        if (removbble == fblse) {
             return true;
         }
-        if (valid == false) {
-            return false;
+        if (vblid == fblse) {
+            return fblse;
         }
         long time = System.currentTimeMillis();
-        if ((time - lastPresentCheck) >= CHECK_INTERVAL) {
+        if ((time - lbstPresentCheck) >= CHECK_INTERVAL) {
             synchronized (CHECK_LOCK) {
-                if ((time - lastPresentCheck) >= CHECK_INTERVAL) {
-                    boolean ok = false;
+                if ((time - lbstPresentCheck) >= CHECK_INTERVAL) {
+                    boolebn ok = fblse;
                     try {
                         // check if token still present
                         CK_SLOT_INFO slotInfo =
                                 provider.p11.C_GetSlotInfo(provider.slotID);
-                        if ((slotInfo.flags & CKF_TOKEN_PRESENT) != 0) {
-                            // if the token has been removed and re-inserted,
-                            // the token should return an error
+                        if ((slotInfo.flbgs & CKF_TOKEN_PRESENT) != 0) {
+                            // if the token hbs been removed bnd re-inserted,
+                            // the token should return bn error
                             CK_SESSION_INFO sessInfo =
                                     provider.p11.C_GetSessionInfo
                                     (sessionID);
                             ok = true;
                         }
-                    } catch (PKCS11Exception e) {
+                    } cbtch (PKCS11Exception e) {
                         // empty
                     }
-                    valid = ok;
-                    lastPresentCheck = System.currentTimeMillis();
-                    if (ok == false) {
+                    vblid = ok;
+                    lbstPresentCheck = System.currentTimeMillis();
+                    if (ok == fblse) {
                         destroy();
                     }
                 }
             }
         }
-        return valid;
+        return vblid;
     }
 
     void destroy() {
-        valid = false;
+        vblid = fblse;
         provider.uninitToken(this);
     }
 
     Session getObjSession() throws PKCS11Exception {
-        return sessionManager.getObjSession();
+        return sessionMbnbger.getObjSession();
     }
 
     Session getOpSession() throws PKCS11Exception {
-        return sessionManager.getOpSession();
+        return sessionMbnbger.getOpSession();
     }
 
-    Session releaseSession(Session session) {
-        return sessionManager.releaseSession(session);
+    Session relebseSession(Session session) {
+        return sessionMbnbger.relebseSession(session);
     }
 
     Session killSession(Session session) {
-        return sessionManager.killSession(session);
+        return sessionMbnbger.killSession(session);
     }
 
-    CK_ATTRIBUTE[] getAttributes(String op, long type, long alg,
-            CK_ATTRIBUTE[] attrs) throws PKCS11Exception {
+    CK_ATTRIBUTE[] getAttributes(String op, long type, long blg,
+            CK_ATTRIBUTE[] bttrs) throws PKCS11Exception {
         CK_ATTRIBUTE[] newAttrs =
-                    templateManager.getAttributes(op, type, alg, attrs);
-        for (CK_ATTRIBUTE attr : newAttrs) {
-            if (attr.type == CKA_TOKEN) {
-                if (attr.getBoolean()) {
+                    templbteMbnbger.getAttributes(op, type, blg, bttrs);
+        for (CK_ATTRIBUTE bttr : newAttrs) {
+            if (bttr.type == CKA_TOKEN) {
+                if (bttr.getBoolebn()) {
                     try {
                         ensureLoggedIn(null);
-                    } catch (LoginException e) {
-                        throw new ProviderException("Login failed", e);
+                    } cbtch (LoginException e) {
+                        throw new ProviderException("Login fbiled", e);
                     }
                 }
-                // break once we have found a CKA_TOKEN attribute
-                break;
+                // brebk once we hbve found b CKA_TOKEN bttribute
+                brebk;
             }
         }
         return newAttrs;
     }
 
-    P11KeyFactory getKeyFactory(String algorithm) {
-        P11KeyFactory f;
-        if (algorithm.equals("RSA")) {
-            f = rsaFactory;
+    P11KeyFbctory getKeyFbctory(String blgorithm) {
+        P11KeyFbctory f;
+        if (blgorithm.equbls("RSA")) {
+            f = rsbFbctory;
             if (f == null) {
-                f = new P11RSAKeyFactory(this, algorithm);
-                rsaFactory = f;
+                f = new P11RSAKeyFbctory(this, blgorithm);
+                rsbFbctory = f;
             }
-        } else if (algorithm.equals("DSA")) {
-            f = dsaFactory;
+        } else if (blgorithm.equbls("DSA")) {
+            f = dsbFbctory;
             if (f == null) {
-                f = new P11DSAKeyFactory(this, algorithm);
-                dsaFactory = f;
+                f = new P11DSAKeyFbctory(this, blgorithm);
+                dsbFbctory = f;
             }
-        } else if (algorithm.equals("DH")) {
-            f = dhFactory;
+        } else if (blgorithm.equbls("DH")) {
+            f = dhFbctory;
             if (f == null) {
-                f = new P11DHKeyFactory(this, algorithm);
-                dhFactory = f;
+                f = new P11DHKeyFbctory(this, blgorithm);
+                dhFbctory = f;
             }
-        } else if (algorithm.equals("EC")) {
-            f = ecFactory;
+        } else if (blgorithm.equbls("EC")) {
+            f = ecFbctory;
             if (f == null) {
-                f = new P11ECKeyFactory(this, algorithm);
-                ecFactory = f;
+                f = new P11ECKeyFbctory(this, blgorithm);
+                ecFbctory = f;
             }
         } else {
-            throw new ProviderException("Unknown algorithm " + algorithm);
+            throw new ProviderException("Unknown blgorithm " + blgorithm);
         }
         return f;
     }
 
-    P11SecureRandom getRandom() {
-        if (secureRandom == null) {
-            secureRandom = new P11SecureRandom(this);
+    P11SecureRbndom getRbndom() {
+        if (secureRbndom == null) {
+            secureRbndom = new P11SecureRbndom(this);
         }
-        return secureRandom;
+        return secureRbndom;
     }
 
     P11KeyStore getKeyStore() {
@@ -377,18 +377,18 @@ class Token implements Serializable {
         return keyStore;
     }
 
-    CK_MECHANISM_INFO getMechanismInfo(long mechanism) throws PKCS11Exception {
-        CK_MECHANISM_INFO result = mechInfoMap.get(mechanism);
+    CK_MECHANISM_INFO getMechbnismInfo(long mechbnism) throws PKCS11Exception {
+        CK_MECHANISM_INFO result = mechInfoMbp.get(mechbnism);
         if (result == null) {
             try {
-                result = p11.C_GetMechanismInfo(provider.slotID,
-                                                mechanism);
-                mechInfoMap.put(mechanism, result);
-            } catch (PKCS11Exception e) {
-                if (e.getErrorCode() != PKCS11Constants.CKR_MECHANISM_INVALID) {
+                result = p11.C_GetMechbnismInfo(provider.slotID,
+                                                mechbnism);
+                mechInfoMbp.put(mechbnism, result);
+            } cbtch (PKCS11Exception e) {
+                if (e.getErrorCode() != PKCS11Constbnts.CKR_MECHANISM_INVALID) {
                     throw e;
                 } else {
-                    mechInfoMap.put(mechanism, INVALID_MECH);
+                    mechInfoMbp.put(mechbnism, INVALID_MECH);
                 }
             }
         } else if (result == INVALID_MECH) {
@@ -397,53 +397,53 @@ class Token implements Serializable {
         return result;
     }
 
-    private synchronized byte[] getTokenId() {
+    privbte synchronized byte[] getTokenId() {
         if (tokenId == null) {
-            SecureRandom random = JCAUtil.getSecureRandom();
+            SecureRbndom rbndom = JCAUtil.getSecureRbndom();
             tokenId = new byte[20];
-            random.nextBytes(tokenId);
-            serializedTokens.add(new WeakReference<Token>(this));
+            rbndom.nextBytes(tokenId);
+            seriblizedTokens.bdd(new WebkReference<Token>(this));
         }
         return tokenId;
     }
 
-    // list of all tokens that have been serialized within this VM
-    // NOTE that elements are never removed from this list
-    // the assumption is that the number of tokens that are serialized
-    // is relatively small
-    private static final List<Reference<Token>> serializedTokens =
-        new ArrayList<Reference<Token>>();
+    // list of bll tokens thbt hbve been seriblized within this VM
+    // NOTE thbt elements bre never removed from this list
+    // the bssumption is thbt the number of tokens thbt bre seriblized
+    // is relbtively smbll
+    privbte stbtic finbl List<Reference<Token>> seriblizedTokens =
+        new ArrbyList<Reference<Token>>();
 
-    private Object writeReplace() throws ObjectStreamException {
-        if (isValid() == false) {
-            throw new NotSerializableException("Token has been removed");
+    privbte Object writeReplbce() throws ObjectStrebmException {
+        if (isVblid() == fblse) {
+            throw new NotSeriblizbbleException("Token hbs been removed");
         }
         return new TokenRep(this);
     }
 
-    // serialized representation of a token
-    // tokens can only be de-serialized within the same VM invocation
-    // and if the token has not been removed in the meantime
-    private static class TokenRep implements Serializable {
+    // seriblized representbtion of b token
+    // tokens cbn only be de-seriblized within the sbme VM invocbtion
+    // bnd if the token hbs not been removed in the mebntime
+    privbte stbtic clbss TokenRep implements Seriblizbble {
 
-        private static final long serialVersionUID = 3503721168218219807L;
+        privbte stbtic finbl long seriblVersionUID = 3503721168218219807L;
 
-        private final byte[] tokenId;
+        privbte finbl byte[] tokenId;
 
         TokenRep(Token token) {
             tokenId = token.getTokenId();
         }
 
-        private Object readResolve() throws ObjectStreamException {
-            for (Reference<Token> tokenRef : serializedTokens) {
+        privbte Object rebdResolve() throws ObjectStrebmException {
+            for (Reference<Token> tokenRef : seriblizedTokens) {
                 Token token = tokenRef.get();
-                if ((token != null) && token.isValid()) {
-                    if (Arrays.equals(token.getTokenId(), tokenId)) {
+                if ((token != null) && token.isVblid()) {
+                    if (Arrbys.equbls(token.getTokenId(), tokenId)) {
                         return token;
                     }
                 }
             }
-            throw new NotSerializableException("Could not find token");
+            throw new NotSeriblizbbleException("Could not find token");
         }
     }
 

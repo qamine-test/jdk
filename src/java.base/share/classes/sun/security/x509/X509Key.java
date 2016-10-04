@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.*;
-import java.util.Arrays;
-import java.util.Properties;
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.KeyFactory;
-import java.security.Security;
-import java.security.Provider;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Properties;
+import jbvb.security.Key;
+import jbvb.security.PublicKey;
+import jbvb.security.KeyFbctory;
+import jbvb.security.Security;
+import jbvb.security.Provider;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.security.spec.X509EncodedKeySpec;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 /**
- * Holds an X.509 key, for example a public key found in an X.509
- * certificate.  Includes a description of the algorithm to be used
- * with the key; these keys normally are used as
+ * Holds bn X.509 key, for exbmple b public key found in bn X.509
+ * certificbte.  Includes b description of the blgorithm to be used
+ * with the key; these keys normblly bre used bs
  * "SubjectPublicKeyInfo".
  *
- * <P>While this class can represent any kind of X.509 key, it may be
- * desirable to provide subclasses which understand how to parse keying
- * data.   For example, RSA public keys have two members, one for the
- * public modulus and one for the prime exponent.  If such a class is
- * provided, it is used when parsing X.509 keys.  If one is not provided,
- * the key still parses correctly.
+ * <P>While this clbss cbn represent bny kind of X.509 key, it mby be
+ * desirbble to provide subclbsses which understbnd how to pbrse keying
+ * dbtb.   For exbmple, RSA public keys hbve two members, one for the
+ * public modulus bnd one for the prime exponent.  If such b clbss is
+ * provided, it is used when pbrsing X.509 keys.  If one is not provided,
+ * the key still pbrses correctly.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public class X509Key implements PublicKey {
+public clbss X509Key implements PublicKey {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -5359250853002055002L;
+    /** use seriblVersionUID from JDK 1.1. for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -5359250853002055002L;
 
-    /* The algorithm information (name, parameters, etc). */
-    protected AlgorithmId algid;
+    /* The blgorithm informbtion (nbme, pbrbmeters, etc). */
+    protected AlgorithmId blgid;
 
     /**
-     * The key bytes, without the algorithm information.
-     * @deprecated Use the BitArray form which does not require keys to
-     * be byte aligned.
-     * @see sun.security.x509.X509Key#setKey(BitArray)
+     * The key bytes, without the blgorithm informbtion.
+     * @deprecbted Use the BitArrby form which does not require keys to
+     * be byte bligned.
+     * @see sun.security.x509.X509Key#setKey(BitArrby)
      * @see sun.security.x509.X509Key#getKey()
      */
-    @Deprecated
+    @Deprecbted
     protected byte[] key = null;
 
     /*
-     * The number of bits unused in the last byte of the key.
-     * Added to keep the byte[] key form consistent with the BitArray
-     * form. Can de deleted when byte[] key is deleted.
+     * The number of bits unused in the lbst byte of the key.
+     * Added to keep the byte[] key form consistent with the BitArrby
+     * form. Cbn de deleted when byte[] key is deleted.
      */
-    @Deprecated
-    private int unusedBits = 0;
+    @Deprecbted
+    privbte int unusedBits = 0;
 
-    /* BitArray form of key */
-    private BitArray bitStringKey = null;
+    /* BitArrby form of key */
+    privbte BitArrby bitStringKey = null;
 
     /* The encoding for the key. */
     protected byte[] encodedKey;
 
     /**
-     * Default constructor.  The key constructed must have its key
-     * and algorithm initialized before it may be used, for example
+     * Defbult constructor.  The key constructed must hbve its key
+     * bnd blgorithm initiblized before it mby be used, for exbmple
      * by using <code>decode</code>.
      */
     public X509Key() { }
 
     /*
-     * Build and initialize as a "default" key.  All X.509 key
-     * data is stored and transmitted losslessly, but no knowledge
-     * about this particular algorithm is available.
+     * Build bnd initiblize bs b "defbult" key.  All X.509 key
+     * dbtb is stored bnd trbnsmitted losslessly, but no knowledge
+     * bbout this pbrticulbr blgorithm is bvbilbble.
      */
-    private X509Key(AlgorithmId algid, BitArray key)
-    throws InvalidKeyException {
-        this.algid = algid;
+    privbte X509Key(AlgorithmId blgid, BitArrby key)
+    throws InvblidKeyException {
+        this.blgid = blgid;
         setKey(key);
         encode();
     }
 
     /**
-     * Sets the key in the BitArray form.
+     * Sets the key in the BitArrby form.
      */
-    protected void setKey(BitArray key) {
-        this.bitStringKey = (BitArray)key.clone();
+    protected void setKey(BitArrby key) {
+        this.bitStringKey = (BitArrby)key.clone();
 
         /*
-         * Do this to keep the byte array form consistent with
-         * this. Can delete when byte[] key is deleted.
+         * Do this to keep the byte brrby form consistent with
+         * this. Cbn delete when byte[] key is deleted.
          */
-        this.key = key.toByteArray();
-        int remaining = key.length() % 8;
+        this.key = key.toByteArrby();
+        int rembining = key.length() % 8;
         this.unusedBits =
-            ((remaining == 0) ? 0 : 8 - remaining);
+            ((rembining == 0) ? 0 : 8 - rembining);
     }
 
     /**
-     * Gets the key. The key may or may not be byte aligned.
-     * @return a BitArray containing the key.
+     * Gets the key. The key mby or mby not be byte bligned.
+     * @return b BitArrby contbining the key.
      */
-    protected BitArray getKey() {
+    protected BitArrby getKey() {
         /*
-         * Do this for consistency in case a subclass
+         * Do this for consistency in cbse b subclbss
          * modifies byte[] key directly. Remove when
          * byte[] key is deleted.
-         * Note: the consistency checks fail when the subclass
-         * modifies a non byte-aligned key (into a byte-aligned key)
-         * using the deprecated byte[] key field.
+         * Note: the consistency checks fbil when the subclbss
+         * modifies b non byte-bligned key (into b byte-bligned key)
+         * using the deprecbted byte[] key field.
          */
-        this.bitStringKey = new BitArray(
+        this.bitStringKey = new BitArrby(
                           this.key.length * 8 - this.unusedBits,
                           this.key);
 
-        return (BitArray)bitStringKey.clone();
+        return (BitArrby)bitStringKey.clone();
     }
 
     /**
-     * Construct X.509 subject public key from a DER value.  If
-     * the runtime environment is configured with a specific class for
-     * this kind of key, a subclass is returned.  Otherwise, a generic
+     * Construct X.509 subject public key from b DER vblue.  If
+     * the runtime environment is configured with b specific clbss for
+     * this kind of key, b subclbss is returned.  Otherwise, b generic
      * X509Key object is returned.
      *
-     * <P>This mechanism gurantees that keys (and algorithms) may be
-     * freely manipulated and transferred, without risk of losing
-     * information.  Also, when a key (or algorithm) needs some special
-     * handling, that specific need can be accomodated.
+     * <P>This mechbnism gurbntees thbt keys (bnd blgorithms) mby be
+     * freely mbnipulbted bnd trbnsferred, without risk of losing
+     * informbtion.  Also, when b key (or blgorithm) needs some specibl
+     * hbndling, thbt specific need cbn be bccomodbted.
      *
-     * @param in the DER-encoded SubjectPublicKeyInfo value
-     * @exception IOException on data format errors
+     * @pbrbm in the DER-encoded SubjectPublicKeyInfo vblue
+     * @exception IOException on dbtb formbt errors
      */
-    public static PublicKey parse(DerValue in) throws IOException
+    public stbtic PublicKey pbrse(DerVblue in) throws IOException
     {
-        AlgorithmId     algorithm;
+        AlgorithmId     blgorithm;
         PublicKey       subjectKey;
 
-        if (in.tag != DerValue.tag_Sequence)
+        if (in.tbg != DerVblue.tbg_Sequence)
             throw new IOException("corrupt subject key");
 
-        algorithm = AlgorithmId.parse(in.data.getDerValue());
+        blgorithm = AlgorithmId.pbrse(in.dbtb.getDerVblue());
         try {
-            subjectKey = buildX509Key(algorithm,
-                                      in.data.getUnalignedBitString());
+            subjectKey = buildX509Key(blgorithm,
+                                      in.dbtb.getUnblignedBitString());
 
-        } catch (InvalidKeyException e) {
-            throw new IOException("subject key, " + e.getMessage(), e);
+        } cbtch (InvblidKeyException e) {
+            throw new IOException("subject key, " + e.getMessbge(), e);
         }
 
-        if (in.data.available() != 0)
+        if (in.dbtb.bvbilbble() != 0)
             throw new IOException("excess subject key");
         return subjectKey;
     }
 
     /**
-     * Parse the key bits.  This may be redefined by subclasses to take
-     * advantage of structure within the key.  For example, RSA public
-     * keys encapsulate two unsigned integers (modulus and exponent) as
-     * DER values within the <code>key</code> bits; Diffie-Hellman and
-     * DSS/DSA keys encapsulate a single unsigned integer.
+     * Pbrse the key bits.  This mby be redefined by subclbsses to tbke
+     * bdvbntbge of structure within the key.  For exbmple, RSA public
+     * keys encbpsulbte two unsigned integers (modulus bnd exponent) bs
+     * DER vblues within the <code>key</code> bits; Diffie-Hellmbn bnd
+     * DSS/DSA keys encbpsulbte b single unsigned integer.
      *
-     * <P>This function is called when creating X.509 SubjectPublicKeyInfo
-     * values using the X509Key member functions, such as <code>parse</code>
-     * and <code>decode</code>.
+     * <P>This function is cblled when crebting X.509 SubjectPublicKeyInfo
+     * vblues using the X509Key member functions, such bs <code>pbrse</code>
+     * bnd <code>decode</code>.
      *
-     * @exception IOException on parsing errors.
-     * @exception InvalidKeyException on invalid key encodings.
+     * @exception IOException on pbrsing errors.
+     * @exception InvblidKeyException on invblid key encodings.
      */
-    protected void parseKeyBits() throws IOException, InvalidKeyException {
+    protected void pbrseKeyBits() throws IOException, InvblidKeyException {
         encode();
     }
 
     /*
-     * Factory interface, building the kind of key associated with this
-     * specific algorithm ID or else returning this generic base class.
-     * See the description above.
+     * Fbctory interfbce, building the kind of key bssocibted with this
+     * specific blgorithm ID or else returning this generic bbse clbss.
+     * See the description bbove.
      */
-    static PublicKey buildX509Key(AlgorithmId algid, BitArray key)
-      throws IOException, InvalidKeyException
+    stbtic PublicKey buildX509Key(AlgorithmId blgid, BitArrby key)
+      throws IOException, InvblidKeyException
     {
         /*
-         * Use the algid and key parameters to produce the ASN.1 encoding
-         * of the key, which will then be used as the input to the
-         * key factory.
+         * Use the blgid bnd key pbrbmeters to produce the ASN.1 encoding
+         * of the key, which will then be used bs the input to the
+         * key fbctory.
          */
-        DerOutputStream x509EncodedKeyStream = new DerOutputStream();
-        encode(x509EncodedKeyStream, algid, key);
+        DerOutputStrebm x509EncodedKeyStrebm = new DerOutputStrebm();
+        encode(x509EncodedKeyStrebm, blgid, key);
         X509EncodedKeySpec x509KeySpec
-            = new X509EncodedKeySpec(x509EncodedKeyStream.toByteArray());
+            = new X509EncodedKeySpec(x509EncodedKeyStrebm.toByteArrby());
 
         try {
-            // Instantiate the key factory of the appropriate algorithm
-            KeyFactory keyFac = KeyFactory.getInstance(algid.getName());
+            // Instbntibte the key fbctory of the bppropribte blgorithm
+            KeyFbctory keyFbc = KeyFbctory.getInstbnce(blgid.getNbme());
 
-            // Generate the public key
-            return keyFac.generatePublic(x509KeySpec);
-        } catch (NoSuchAlgorithmException e) {
-            // Return generic X509Key with opaque key data (see below)
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException(e.getMessage(), e);
+            // Generbte the public key
+            return keyFbc.generbtePublic(x509KeySpec);
+        } cbtch (NoSuchAlgorithmException e) {
+            // Return generic X509Key with opbque key dbtb (see below)
+        } cbtch (InvblidKeySpecException e) {
+            throw new InvblidKeyException(e.getMessbge(), e);
         }
 
         /*
-         * Try again using JDK1.1-style for backwards compatibility.
+         * Try bgbin using JDK1.1-style for bbckwbrds compbtibility.
          */
-        String classname = "";
+        String clbssnbme = "";
         try {
             Properties props;
             String keytype;
@@ -238,90 +238,90 @@ public class X509Key implements PublicKey {
 
             sunProvider = Security.getProvider("SUN");
             if (sunProvider == null)
-                throw new InstantiationException();
-            classname = sunProvider.getProperty("PublicKey.X.509." +
-              algid.getName());
-            if (classname == null) {
-                throw new InstantiationException();
+                throw new InstbntibtionException();
+            clbssnbme = sunProvider.getProperty("PublicKey.X.509." +
+              blgid.getNbme());
+            if (clbssnbme == null) {
+                throw new InstbntibtionException();
             }
 
-            Class<?> keyClass = null;
+            Clbss<?> keyClbss = null;
             try {
-                keyClass = Class.forName(classname);
-            } catch (ClassNotFoundException e) {
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
+                keyClbss = Clbss.forNbme(clbssnbme);
+            } cbtch (ClbssNotFoundException e) {
+                ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                 if (cl != null) {
-                    keyClass = cl.loadClass(classname);
+                    keyClbss = cl.lobdClbss(clbssnbme);
                 }
             }
 
             Object      inst = null;
             X509Key     result;
 
-            if (keyClass != null)
-                inst = keyClass.newInstance();
-            if (inst instanceof X509Key) {
+            if (keyClbss != null)
+                inst = keyClbss.newInstbnce();
+            if (inst instbnceof X509Key) {
                 result = (X509Key) inst;
-                result.algid = algid;
+                result.blgid = blgid;
                 result.setKey(key);
-                result.parseKeyBits();
+                result.pbrseKeyBits();
                 return result;
             }
-        } catch (ClassNotFoundException e) {
-        } catch (InstantiationException e) {
-        } catch (IllegalAccessException e) {
-            // this should not happen.
-            throw new IOException (classname + " [internal error]");
+        } cbtch (ClbssNotFoundException e) {
+        } cbtch (InstbntibtionException e) {
+        } cbtch (IllegblAccessException e) {
+            // this should not hbppen.
+            throw new IOException (clbssnbme + " [internbl error]");
         }
 
-        X509Key result = new X509Key(algid, key);
+        X509Key result = new X509Key(blgid, key);
         return result;
     }
 
     /**
-     * Returns the algorithm to be used with this key.
+     * Returns the blgorithm to be used with this key.
      */
     public String getAlgorithm() {
-        return algid.getName();
+        return blgid.getNbme();
     }
 
     /**
-     * Returns the algorithm ID to be used with this key.
+     * Returns the blgorithm ID to be used with this key.
      */
-    public AlgorithmId  getAlgorithmId() { return algid; }
+    public AlgorithmId  getAlgorithmId() { return blgid; }
 
     /**
-     * Encode SubjectPublicKeyInfo sequence on the DER output stream.
+     * Encode SubjectPublicKeyInfo sequence on the DER output strebm.
      *
      * @exception IOException on encoding errors.
      */
-    public final void encode(DerOutputStream out) throws IOException
+    public finbl void encode(DerOutputStrebm out) throws IOException
     {
-        encode(out, this.algid, getKey());
+        encode(out, this.blgid, getKey());
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Returns the DER-encoded form of the key bs b byte brrby.
      */
     public byte[] getEncoded() {
         try {
-            return getEncodedInternal().clone();
-        } catch (InvalidKeyException e) {
+            return getEncodedInternbl().clone();
+        } cbtch (InvblidKeyException e) {
             // XXX
         }
         return null;
     }
 
-    public byte[] getEncodedInternal() throws InvalidKeyException {
+    public byte[] getEncodedInternbl() throws InvblidKeyException {
         byte[] encoded = encodedKey;
         if (encoded == null) {
             try {
-                DerOutputStream out = new DerOutputStream();
+                DerOutputStrebm out = new DerOutputStrebm();
                 encode(out);
-                encoded = out.toByteArray();
-            } catch (IOException e) {
-                throw new InvalidKeyException("IOException : " +
-                                               e.getMessage());
+                encoded = out.toByteArrby();
+            } cbtch (IOException e) {
+                throw new InvblidKeyException("IOException : " +
+                                               e.getMessbge());
             }
             encodedKey = encoded;
         }
@@ -329,149 +329,149 @@ public class X509Key implements PublicKey {
     }
 
     /**
-     * Returns the format for this key: "X.509"
+     * Returns the formbt for this key: "X.509"
      */
-    public String getFormat() {
+    public String getFormbt() {
         return "X.509";
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Returns the DER-encoded form of the key bs b byte brrby.
      *
-     * @exception InvalidKeyException on encoding errors.
+     * @exception InvblidKeyException on encoding errors.
      */
-    public byte[] encode() throws InvalidKeyException {
-        return getEncodedInternal().clone();
+    public byte[] encode() throws InvblidKeyException {
+        return getEncodedInternbl().clone();
     }
 
     /*
-     * Returns a printable representation of the key
+     * Returns b printbble representbtion of the key
      */
     public String toString()
     {
         HexDumpEncoder  encoder = new HexDumpEncoder();
 
-        return "algorithm = " + algid.toString()
-            + ", unparsed keybits = \n" + encoder.encodeBuffer(key);
+        return "blgorithm = " + blgid.toString()
+            + ", unpbrsed keybits = \n" + encoder.encodeBuffer(key);
     }
 
     /**
-     * Initialize an X509Key object from an input stream.  The data on that
-     * input stream must be encoded using DER, obeying the X.509
-     * <code>SubjectPublicKeyInfo</code> format.  That is, the data is a
-     * sequence consisting of an algorithm ID and a bit string which holds
-     * the key.  (That bit string is often used to encapsulate another DER
+     * Initiblize bn X509Key object from bn input strebm.  The dbtb on thbt
+     * input strebm must be encoded using DER, obeying the X.509
+     * <code>SubjectPublicKeyInfo</code> formbt.  Thbt is, the dbtb is b
+     * sequence consisting of bn blgorithm ID bnd b bit string which holds
+     * the key.  (Thbt bit string is often used to encbpsulbte bnother DER
      * encoded sequence.)
      *
-     * <P>Subclasses should not normally redefine this method; they should
-     * instead provide a <code>parseKeyBits</code> method to parse any
+     * <P>Subclbsses should not normblly redefine this method; they should
+     * instebd provide b <code>pbrseKeyBits</code> method to pbrse bny
      * fields inside the <code>key</code> member.
      *
-     * <P>The exception to this rule is that since private keys need not
-     * be encoded using the X.509 <code>SubjectPublicKeyInfo</code> format,
-     * private keys may override this method, <code>encode</code>, and
-     * of course <code>getFormat</code>.
+     * <P>The exception to this rule is thbt since privbte keys need not
+     * be encoded using the X.509 <code>SubjectPublicKeyInfo</code> formbt,
+     * privbte keys mby override this method, <code>encode</code>, bnd
+     * of course <code>getFormbt</code>.
      *
-     * @param in an input stream with a DER-encoded X.509
-     *          SubjectPublicKeyInfo value
-     * @exception InvalidKeyException on parsing errors.
+     * @pbrbm in bn input strebm with b DER-encoded X.509
+     *          SubjectPublicKeyInfo vblue
+     * @exception InvblidKeyException on pbrsing errors.
      */
-    public void decode(InputStream in)
-    throws InvalidKeyException
+    public void decode(InputStrebm in)
+    throws InvblidKeyException
     {
-        DerValue        val;
+        DerVblue        vbl;
 
         try {
-            val = new DerValue(in);
-            if (val.tag != DerValue.tag_Sequence)
-                throw new InvalidKeyException("invalid key format");
+            vbl = new DerVblue(in);
+            if (vbl.tbg != DerVblue.tbg_Sequence)
+                throw new InvblidKeyException("invblid key formbt");
 
-            algid = AlgorithmId.parse(val.data.getDerValue());
-            setKey(val.data.getUnalignedBitString());
-            parseKeyBits();
-            if (val.data.available() != 0)
-                throw new InvalidKeyException ("excess key data");
+            blgid = AlgorithmId.pbrse(vbl.dbtb.getDerVblue());
+            setKey(vbl.dbtb.getUnblignedBitString());
+            pbrseKeyBits();
+            if (vbl.dbtb.bvbilbble() != 0)
+                throw new InvblidKeyException ("excess key dbtb");
 
-        } catch (IOException e) {
-            // e.printStackTrace ();
-            throw new InvalidKeyException("IOException: " +
-                                          e.getMessage());
+        } cbtch (IOException e) {
+            // e.printStbckTrbce ();
+            throw new InvblidKeyException("IOException: " +
+                                          e.getMessbge());
         }
     }
 
-    public void decode(byte[] encodedKey) throws InvalidKeyException {
-        decode(new ByteArrayInputStream(encodedKey));
+    public void decode(byte[] encodedKey) throws InvblidKeyException {
+        decode(new ByteArrbyInputStrebm(encodedKey));
     }
 
     /**
-     * Serialization write ... X.509 keys serialize as
-     * themselves, and they're parsed when they get read back.
+     * Seriblizbtion write ... X.509 keys seriblize bs
+     * themselves, bnd they're pbrsed when they get rebd bbck.
      */
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.write(getEncoded());
+    privbte void writeObject(ObjectOutputStrebm strebm) throws IOException {
+        strebm.write(getEncoded());
     }
 
     /**
-     * Serialization read ... X.509 keys serialize as
-     * themselves, and they're parsed when they get read back.
+     * Seriblizbtion rebd ... X.509 keys seriblize bs
+     * themselves, bnd they're pbrsed when they get rebd bbck.
      */
-    private void readObject(ObjectInputStream stream) throws IOException {
+    privbte void rebdObject(ObjectInputStrebm strebm) throws IOException {
         try {
-            decode(stream);
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-            throw new IOException("deserialized key is invalid: " +
-                                  e.getMessage());
+            decode(strebm);
+        } cbtch (InvblidKeyException e) {
+            e.printStbckTrbce();
+            throw new IOException("deseriblized key is invblid: " +
+                                  e.getMessbge());
         }
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Key == false) {
-            return false;
+        if (obj instbnceof Key == fblse) {
+            return fblse;
         }
         try {
-            byte[] thisEncoded = this.getEncodedInternal();
+            byte[] thisEncoded = this.getEncodedInternbl();
             byte[] otherEncoded;
-            if (obj instanceof X509Key) {
-                otherEncoded = ((X509Key)obj).getEncodedInternal();
+            if (obj instbnceof X509Key) {
+                otherEncoded = ((X509Key)obj).getEncodedInternbl();
             } else {
                 otherEncoded = ((Key)obj).getEncoded();
             }
-            return Arrays.equals(thisEncoded, otherEncoded);
-        } catch (InvalidKeyException e) {
-            return false;
+            return Arrbys.equbls(thisEncoded, otherEncoded);
+        } cbtch (InvblidKeyException e) {
+            return fblse;
         }
     }
 
     /**
-     * Calculates a hash code value for the object. Objects
-     * which are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object. Objects
+     * which bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
+    public int hbshCode() {
         try {
-            byte[] b1 = getEncodedInternal();
+            byte[] b1 = getEncodedInternbl();
             int r = b1.length;
             for (int i = 0; i < b1.length; i++) {
                 r += (b1[i] & 0xff) * 37;
             }
             return r;
-        } catch (InvalidKeyException e) {
-            // should not happen
+        } cbtch (InvblidKeyException e) {
+            // should not hbppen
             return 0;
         }
     }
 
     /*
-     * Produce SubjectPublicKey encoding from algorithm id and key material.
+     * Produce SubjectPublicKey encoding from blgorithm id bnd key mbteribl.
      */
-    static void encode(DerOutputStream out, AlgorithmId algid, BitArray key)
+    stbtic void encode(DerOutputStrebm out, AlgorithmId blgid, BitArrby key)
         throws IOException {
-            DerOutputStream tmp = new DerOutputStream();
-            algid.encode(tmp);
-            tmp.putUnalignedBitString(key);
-            out.write(DerValue.tag_Sequence, tmp);
+            DerOutputStrebm tmp = new DerOutputStrebm();
+            blgid.encode(tmp);
+            tmp.putUnblignedBitString(key);
+            out.write(DerVblue.tbg_Sequence, tmp);
     }
 }

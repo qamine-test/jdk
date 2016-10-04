@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef ShaderList_h_Included
-#define ShaderList_h_Included
+#ifndef ShbderList_h_Included
+#define ShbderList_h_Included
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,53 +33,53 @@ extern "C" {
 #include "jni.h"
 #include "jlong.h"
 
-typedef void (ShaderDisposeFunc)(jlong programID);
+typedef void (ShbderDisposeFunc)(jlong progrbmID);
 
 /**
- * The following structures are used to maintain a list of fragment program
- * objects and their associated attributes.  Each logical shader (e.g.
- * RadialGradientPaint shader, ConvolveOp shader) can have a number of
- * different variants depending on a number of factors, such as whether
- * antialiasing is enabled or the current composite mode.  Since the number
- * of possible combinations of these factors is in the hundreds, we need
- * some way to create fragment programs on an as-needed basis, and also
- * keep them in a limited sized cache to avoid creating too many objects.
+ * The following structures bre used to mbintbin b list of frbgment progrbm
+ * objects bnd their bssocibted bttributes.  Ebch logicbl shbder (e.g.
+ * RbdiblGrbdientPbint shbder, ConvolveOp shbder) cbn hbve b number of
+ * different vbribnts depending on b number of fbctors, such bs whether
+ * bntiblibsing is enbbled or the current composite mode.  Since the number
+ * of possible combinbtions of these fbctors is in the hundreds, we need
+ * some wby to crebte frbgment progrbms on bn bs-needed bbsis, bnd blso
+ * keep them in b limited sized cbche to bvoid crebting too mbny objects.
  *
- * The ShaderInfo structure keeps a reference to the fragment program's
- * handle, as well as some other values that help differentiate one ShaderInfo
- * from another.  ShaderInfos can be chained together to form a linked list.
+ * The ShbderInfo structure keeps b reference to the frbgment progrbm's
+ * hbndle, bs well bs some other vblues thbt help differentibte one ShbderInfo
+ * from bnother.  ShbderInfos cbn be chbined together to form b linked list.
  *
- * The ShaderList structure acts as a cache for ShaderInfos, placing
- * most-recently used items at the front, and removing items from the
- * cache when its size exceeds the "maxItems" limit.
+ * The ShbderList structure bcts bs b cbche for ShbderInfos, plbcing
+ * most-recently used items bt the front, bnd removing items from the
+ * cbche when its size exceeds the "mbxItems" limit.
  */
-typedef struct _ShaderInfo ShaderInfo;
+typedef struct _ShbderInfo ShbderInfo;
 
 typedef struct {
-    ShaderInfo        *head;
-    ShaderDisposeFunc *dispose;
-    jint              maxItems;
-} ShaderList;
+    ShbderInfo        *hebd;
+    ShbderDisposeFunc *dispose;
+    jint              mbxItems;
+} ShbderList;
 
-struct _ShaderInfo {
-    ShaderInfo  *next;
-    jlong       programID;
+struct _ShbderInfo {
+    ShbderInfo  *next;
+    jlong       progrbmID;
     jint        compType;
     jint        compMode;
-    jint        flags;
+    jint        flbgs;
 };
 
-void ShaderList_AddProgram(ShaderList *programList,
-                           jlong programID,
+void ShbderList_AddProgrbm(ShbderList *progrbmList,
+                           jlong progrbmID,
                            jint compType, jint compMode,
-                           jint flags);
-jlong ShaderList_FindProgram(ShaderList *programList,
+                           jint flbgs);
+jlong ShbderList_FindProgrbm(ShbderList *progrbmList,
                              jint compType, jint compMode,
-                             jint flags);
-void ShaderList_Dispose(ShaderList *programList);
+                             jint flbgs);
+void ShbderList_Dispose(ShbderList *progrbmList);
 
 #ifdef __cplusplus
 };
 #endif
 
-#endif /* ShaderList_h_Included */
+#endif /* ShbderList_h_Included */

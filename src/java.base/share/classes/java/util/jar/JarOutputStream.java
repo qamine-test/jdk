@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.util.zip.*;
-import java.io.*;
+import jbvb.util.zip.*;
+import jbvb.io.*;
 
 /**
- * The <code>JarOutputStream</code> class is used to write the contents
- * of a JAR file to any output stream. It extends the class
- * <code>java.util.zip.ZipOutputStream</code> with support
- * for writing an optional <code>Manifest</code> entry. The
- * <code>Manifest</code> can be used to specify meta-information about
- * the JAR file and its entries.
+ * The <code>JbrOutputStrebm</code> clbss is used to write the contents
+ * of b JAR file to bny output strebm. It extends the clbss
+ * <code>jbvb.util.zip.ZipOutputStrebm</code> with support
+ * for writing bn optionbl <code>Mbnifest</code> entry. The
+ * <code>Mbnifest</code> cbn be used to specify metb-informbtion bbout
+ * the JAR file bnd its entries.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipOutputStream
+ * @buthor  Dbvid Connelly
+ * @see     Mbnifest
+ * @see     jbvb.util.zip.ZipOutputStrebm
  * @since   1.2
  */
 public
-class JarOutputStream extends ZipOutputStream {
-    private static final int JAR_MAGIC = 0xCAFE;
+clbss JbrOutputStrebm extends ZipOutputStrebm {
+    privbte stbtic finbl int JAR_MAGIC = 0xCAFE;
 
     /**
-     * Creates a new <code>JarOutputStream</code> with the specified
-     * <code>Manifest</code>. The manifest is written as the first
-     * entry to the output stream.
+     * Crebtes b new <code>JbrOutputStrebm</code> with the specified
+     * <code>Mbnifest</code>. The mbnifest is written bs the first
+     * entry to the output strebm.
      *
-     * @param out the actual output stream
-     * @param man the optional <code>Manifest</code>
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm out the bctubl output strebm
+     * @pbrbm mbn the optionbl <code>Mbnifest</code>
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public JarOutputStream(OutputStream out, Manifest man) throws IOException {
+    public JbrOutputStrebm(OutputStrebm out, Mbnifest mbn) throws IOException {
         super(out);
-        if (man == null) {
-            throw new NullPointerException("man");
+        if (mbn == null) {
+            throw new NullPointerException("mbn");
         }
-        ZipEntry e = new ZipEntry(JarFile.MANIFEST_NAME);
+        ZipEntry e = new ZipEntry(JbrFile.MANIFEST_NAME);
         putNextEntry(e);
-        man.write(new BufferedOutputStream(this));
+        mbn.write(new BufferedOutputStrebm(this));
         closeEntry();
     }
 
     /**
-     * Creates a new <code>JarOutputStream</code> with no manifest.
-     * @param out the actual output stream
-     * @exception IOException if an I/O error has occurred
+     * Crebtes b new <code>JbrOutputStrebm</code> with no mbnifest.
+     * @pbrbm out the bctubl output strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
-    public JarOutputStream(OutputStream out) throws IOException {
+    public JbrOutputStrebm(OutputStrebm out) throws IOException {
         super(out);
     }
 
     /**
-     * Begins writing a new JAR file entry and positions the stream
-     * to the start of the entry data. This method will also close
-     * any previous entry. The default compression method will be
-     * used if no compression method was specified for the entry.
-     * The current time will be used if the entry has no set modification
+     * Begins writing b new JAR file entry bnd positions the strebm
+     * to the stbrt of the entry dbtb. This method will blso close
+     * bny previous entry. The defbult compression method will be
+     * used if no compression method wbs specified for the entry.
+     * The current time will be used if the entry hbs no set modificbtion
      * time.
      *
-     * @param ze the ZIP/JAR entry to be written
-     * @exception ZipException if a ZIP error has occurred
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm ze the ZIP/JAR entry to be written
+     * @exception ZipException if b ZIP error hbs occurred
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void putNextEntry(ZipEntry ze) throws IOException {
         if (firstEntry) {
-            // Make sure that extra field data for first JAR
-            // entry includes JAR magic number id.
-            byte[] edata = ze.getExtra();
-            if (edata == null || !hasMagic(edata)) {
-                if (edata == null) {
-                    edata = new byte[4];
+            // Mbke sure thbt extrb field dbtb for first JAR
+            // entry includes JAR mbgic number id.
+            byte[] edbtb = ze.getExtrb();
+            if (edbtb == null || !hbsMbgic(edbtb)) {
+                if (edbtb == null) {
+                    edbtb = new byte[4];
                 } else {
-                    // Prepend magic to existing extra data
-                    byte[] tmp = new byte[edata.length + 4];
-                    System.arraycopy(edata, 0, tmp, 4, edata.length);
-                    edata = tmp;
+                    // Prepend mbgic to existing extrb dbtb
+                    byte[] tmp = new byte[edbtb.length + 4];
+                    System.brrbycopy(edbtb, 0, tmp, 4, edbtb.length);
+                    edbtb = tmp;
                 }
-                set16(edata, 0, JAR_MAGIC); // extra field id
-                set16(edata, 2, 0);         // extra field size
-                ze.setExtra(edata);
+                set16(edbtb, 0, JAR_MAGIC); // extrb field id
+                set16(edbtb, 2, 0);         // extrb field size
+                ze.setExtrb(edbtb);
             }
-            firstEntry = false;
+            firstEntry = fblse;
         }
         super.putNextEntry(ze);
     }
 
-    private boolean firstEntry = true;
+    privbte boolebn firstEntry = true;
 
     /*
-     * Returns true if specified byte array contains the
-     * jar magic extra field id.
+     * Returns true if specified byte brrby contbins the
+     * jbr mbgic extrb field id.
      */
-    private static boolean hasMagic(byte[] edata) {
+    privbte stbtic boolebn hbsMbgic(byte[] edbtb) {
         try {
             int i = 0;
-            while (i < edata.length) {
-                if (get16(edata, i) == JAR_MAGIC) {
+            while (i < edbtb.length) {
+                if (get16(edbtb, i) == JAR_MAGIC) {
                     return true;
                 }
-                i += get16(edata, i + 2) + 4;
+                i += get16(edbtb, i + 2) + 4;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // Invalid extra field data
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            // Invblid extrb field dbtb
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Fetches unsigned 16-bit value from byte array at specified offset.
-     * The bytes are assumed to be in Intel (little-endian) byte order.
+     * Fetches unsigned 16-bit vblue from byte brrby bt specified offset.
+     * The bytes bre bssumed to be in Intel (little-endibn) byte order.
      */
-    private static int get16(byte[] b, int off) {
+    privbte stbtic int get16(byte[] b, int off) {
         return Byte.toUnsignedInt(b[off]) | ( Byte.toUnsignedInt(b[off+1]) << 8);
     }
 
     /*
-     * Sets 16-bit value at specified offset. The bytes are assumed to
-     * be in Intel (little-endian) byte order.
+     * Sets 16-bit vblue bt specified offset. The bytes bre bssumed to
+     * be in Intel (little-endibn) byte order.
      */
-    private static void set16(byte[] b, int off, int value) {
-        b[off+0] = (byte)value;
-        b[off+1] = (byte)(value >> 8);
+    privbte stbtic void set16(byte[] b, int off, int vblue) {
+        b[off+0] = (byte)vblue;
+        b[off+1] = (byte)(vblue >> 8);
     }
 }

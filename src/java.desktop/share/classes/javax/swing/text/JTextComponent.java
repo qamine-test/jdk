@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import com.sun.beans.util.Cache;
+import com.sun.bebns.util.Cbche;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.beans.Transient;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.bebns.Trbnsient;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
-import java.util.concurrent.*;
+import jbvb.util.concurrent.*;
 
-import java.io.*;
+import jbvb.io.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.*;
-import java.awt.datatransfer.*;
-import java.awt.im.InputContext;
-import java.awt.im.InputMethodRequests;
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextAttribute;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.print.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bwt.im.InputContext;
+import jbvb.bwt.im.InputMethodRequests;
+import jbvb.bwt.font.TextHitInfo;
+import jbvb.bwt.font.TextAttribute;
 
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterException;
 
-import javax.print.PrintService;
-import javax.print.attribute.PrintRequestAttributeSet;
+import jbvbx.print.PrintService;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
 
-import java.text.*;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.text.*;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
-import javax.print.attribute.*;
+import jbvbx.print.bttribute.*;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
 
-import sun.swing.PrintingStatus;
+import sun.swing.PrintingStbtus;
 import sun.swing.SwingUtilities2;
-import sun.swing.text.TextComponentPrintable;
+import sun.swing.text.TextComponentPrintbble;
 import sun.swing.SwingAccessor;
 
 /**
- * <code>JTextComponent</code> is the base class for swing text
- * components.  It tries to be compatible with the
- * <code>java.awt.TextComponent</code> class
- * where it can reasonably do so.  Also provided are other services
- * for additional flexibility (beyond the pluggable UI and bean
+ * <code>JTextComponent</code> is the bbse clbss for swing text
+ * components.  It tries to be compbtible with the
+ * <code>jbvb.bwt.TextComponent</code> clbss
+ * where it cbn rebsonbbly do so.  Also provided bre other services
+ * for bdditionbl flexibility (beyond the pluggbble UI bnd bebn
  * support).
- * You can find information on how to use the functionality
- * this class provides in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/generaltext.html">General Rules for Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * You cbn find informbtion on how to use the functionblity
+ * this clbss provides in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/generbltext.html">Generbl Rules for Using Text Components</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
  * <dl>
- * <dt><b>Caret Changes</b>
+ * <dt><b>Cbret Chbnges</b>
  * <dd>
- * The caret is a pluggable object in swing text components.
- * Notification of changes to the caret position and the selection
- * are sent to implementations of the <code>CaretListener</code>
- * interface that have been registered with the text component.
- * The UI will install a default caret unless a customized caret
- * has been set. <br>
- * By default the caret tracks all the document changes
- * performed on the Event Dispatching Thread and updates it's position
- * accordingly if an insertion occurs before or at the caret position
- * or a removal occurs before the caret position. <code>DefaultCaret</code>
- * tries to make itself visible which may lead to scrolling
- * of a text component within <code>JScrollPane</code>. The default caret
- * behavior can be changed by the {@link DefaultCaret#setUpdatePolicy} method.
+ * The cbret is b pluggbble object in swing text components.
+ * Notificbtion of chbnges to the cbret position bnd the selection
+ * bre sent to implementbtions of the <code>CbretListener</code>
+ * interfbce thbt hbve been registered with the text component.
+ * The UI will instbll b defbult cbret unless b customized cbret
+ * hbs been set. <br>
+ * By defbult the cbret trbcks bll the document chbnges
+ * performed on the Event Dispbtching Threbd bnd updbtes it's position
+ * bccordingly if bn insertion occurs before or bt the cbret position
+ * or b removbl occurs before the cbret position. <code>DefbultCbret</code>
+ * tries to mbke itself visible which mby lebd to scrolling
+ * of b text component within <code>JScrollPbne</code>. The defbult cbret
+ * behbvior cbn be chbnged by the {@link DefbultCbret#setUpdbtePolicy} method.
  * <br>
- * <b>Note</b>: Non-editable text components also have a caret though
- * it may not be painted.
+ * <b>Note</b>: Non-editbble text components blso hbve b cbret though
+ * it mby not be pbinted.
  *
- * <dt><b>Commands</b>
+ * <dt><b>Commbnds</b>
  * <dd>
- * Text components provide a number of commands that can be used
- * to manipulate the component.  This is essentially the way that
- * the component expresses its capabilities.  These are expressed
- * in terms of the swing <code>Action</code> interface,
- * using the <code>TextAction</code> implementation.
- * The set of commands supported by the text component can be
- * found with the {@link #getActions} method.  These actions
- * can be bound to key events, fired from buttons, etc.
+ * Text components provide b number of commbnds thbt cbn be used
+ * to mbnipulbte the component.  This is essentiblly the wby thbt
+ * the component expresses its cbpbbilities.  These bre expressed
+ * in terms of the swing <code>Action</code> interfbce,
+ * using the <code>TextAction</code> implementbtion.
+ * The set of commbnds supported by the text component cbn be
+ * found with the {@link #getActions} method.  These bctions
+ * cbn be bound to key events, fired from buttons, etc.
  *
  * <dt><b>Text Input</b>
  * <dd>
- * The text components support flexible and internationalized text input, using
- * keymaps and the input method framework, while maintaining compatibility with
+ * The text components support flexible bnd internbtionblized text input, using
+ * keymbps bnd the input method frbmework, while mbintbining compbtibility with
  * the AWT listener model.
  * <p>
- * A {@link javax.swing.text.Keymap} lets an application bind key
- * strokes to actions.
- * In order to allow keymaps to be shared across multiple text components, they
- * can use actions that extend <code>TextAction</code>.
- * <code>TextAction</code> can determine which <code>JTextComponent</code>
- * most recently has or had focus and therefore is the subject of
- * the action (In the case that the <code>ActionEvent</code>
- * sent to the action doesn't contain the target text component as its source).
+ * A {@link jbvbx.swing.text.Keymbp} lets bn bpplicbtion bind key
+ * strokes to bctions.
+ * In order to bllow keymbps to be shbred bcross multiple text components, they
+ * cbn use bctions thbt extend <code>TextAction</code>.
+ * <code>TextAction</code> cbn determine which <code>JTextComponent</code>
+ * most recently hbs or hbd focus bnd therefore is the subject of
+ * the bction (In the cbse thbt the <code>ActionEvent</code>
+ * sent to the bction doesn't contbin the tbrget text component bs its source).
  * <p>
- * The <a href="../../../../technotes/guides/imf/spec.html">input method framework</a>
- * lets text components interact with input methods, separate software
- * components that preprocess events to let users enter thousands of
- * different characters using keyboards with far fewer keys.
- * <code>JTextComponent</code> is an <em>active client</em> of
- * the framework, so it implements the preferred user interface for interacting
- * with input methods. As a consequence, some key events do not reach the text
- * component because they are handled by an input method, and some text input
- * reaches the text component as committed text within an {@link
- * java.awt.event.InputMethodEvent} instead of as a key event.
- * The complete text input is the combination of the characters in
- * <code>keyTyped</code> key events and committed text in input method events.
+ * The <b href="../../../../technotes/guides/imf/spec.html">input method frbmework</b>
+ * lets text components interbct with input methods, sepbrbte softwbre
+ * components thbt preprocess events to let users enter thousbnds of
+ * different chbrbcters using keybobrds with fbr fewer keys.
+ * <code>JTextComponent</code> is bn <em>bctive client</em> of
+ * the frbmework, so it implements the preferred user interfbce for interbcting
+ * with input methods. As b consequence, some key events do not rebch the text
+ * component becbuse they bre hbndled by bn input method, bnd some text input
+ * rebches the text component bs committed text within bn {@link
+ * jbvb.bwt.event.InputMethodEvent} instebd of bs b key event.
+ * The complete text input is the combinbtion of the chbrbcters in
+ * <code>keyTyped</code> key events bnd committed text in input method events.
  * <p>
- * The AWT listener model lets applications attach event listeners to
- * components in order to bind events to actions. Swing encourages the
- * use of keymaps instead of listeners, but maintains compatibility
- * with listeners by giving the listeners a chance to steal an event
+ * The AWT listener model lets bpplicbtions bttbch event listeners to
+ * components in order to bind events to bctions. Swing encourbges the
+ * use of keymbps instebd of listeners, but mbintbins compbtibility
+ * with listeners by giving the listeners b chbnce to stebl bn event
  * by consuming it.
  * <p>
- * Keyboard event and input method events are handled in the following stages,
- * with each stage capable of consuming the event:
+ * Keybobrd event bnd input method events bre hbndled in the following stbges,
+ * with ebch stbge cbpbble of consuming the event:
  *
- * <table border=1 summary="Stages of keyboard and input method event handling">
+ * <tbble border=1 summbry="Stbges of keybobrd bnd input method event hbndling">
  * <tr>
- * <th id="stage"><p style="text-align:left">Stage</p></th>
- * <th id="ke"><p style="text-align:left">KeyEvent</p></th>
- * <th id="ime"><p style="text-align:left">InputMethodEvent</p></th></tr>
- * <tr><td headers="stage">1.   </td>
- *     <td headers="ke">input methods </td>
- *     <td headers="ime">(generated here)</td></tr>
- * <tr><td headers="stage">2.   </td>
- *     <td headers="ke">focus manager </td>
- *     <td headers="ime"></td>
+ * <th id="stbge"><p style="text-blign:left">Stbge</p></th>
+ * <th id="ke"><p style="text-blign:left">KeyEvent</p></th>
+ * <th id="ime"><p style="text-blign:left">InputMethodEvent</p></th></tr>
+ * <tr><td hebders="stbge">1.   </td>
+ *     <td hebders="ke">input methods </td>
+ *     <td hebders="ime">(generbted here)</td></tr>
+ * <tr><td hebders="stbge">2.   </td>
+ *     <td hebders="ke">focus mbnbger </td>
+ *     <td hebders="ime"></td>
  * </tr>
  * <tr>
- *     <td headers="stage">3.   </td>
- *     <td headers="ke">registered key listeners</td>
- *     <td headers="ime">registered input method listeners</tr>
+ *     <td hebders="stbge">3.   </td>
+ *     <td hebders="ke">registered key listeners</td>
+ *     <td hebders="ime">registered input method listeners</tr>
  * <tr>
- *     <td headers="stage">4.   </td>
- *     <td headers="ke"></td>
- *     <td headers="ime">input method handling in JTextComponent</tr>
+ *     <td hebders="stbge">4.   </td>
+ *     <td hebders="ke"></td>
+ *     <td hebders="ime">input method hbndling in JTextComponent</tr>
  * <tr>
- *     <td headers="stage">5.   </td><td headers="ke ime" colspan=2>keymap handling using the current keymap</td></tr>
- * <tr><td headers="stage">6.   </td><td headers="ke">keyboard handling in JComponent (e.g. accelerators, component navigation, etc.)</td>
- *     <td headers="ime"></td></tr>
- * </table>
+ *     <td hebders="stbge">5.   </td><td hebders="ke ime" colspbn=2>keymbp hbndling using the current keymbp</td></tr>
+ * <tr><td hebders="stbge">6.   </td><td hebders="ke">keybobrd hbndling in JComponent (e.g. bccelerbtors, component nbvigbtion, etc.)</td>
+ *     <td hebders="ime"></td></tr>
+ * </tbble>
  *
  * <p>
- * To maintain compatibility with applications that listen to key
- * events but are not aware of input method events, the input
- * method handling in stage 4 provides a compatibility mode for
- * components that do not process input method events. For these
+ * To mbintbin compbtibility with bpplicbtions thbt listen to key
+ * events but bre not bwbre of input method events, the input
+ * method hbndling in stbge 4 provides b compbtibility mode for
+ * components thbt do not process input method events. For these
  * components, the committed text is converted to keyTyped key events
- * and processed in the key event pipeline starting at stage 3
- * instead of in the input method event pipeline.
+ * bnd processed in the key event pipeline stbrting bt stbge 3
+ * instebd of in the input method event pipeline.
  * <p>
- * By default the component will create a keymap (named <b>DEFAULT_KEYMAP</b>)
- * that is shared by all JTextComponent instances as the default keymap.
- * Typically a look-and-feel implementation will install a different keymap
- * that resolves to the default keymap for those bindings not found in the
- * different keymap. The minimal bindings include:
+ * By defbult the component will crebte b keymbp (nbmed <b>DEFAULT_KEYMAP</b>)
+ * thbt is shbred by bll JTextComponent instbnces bs the defbult keymbp.
+ * Typicblly b look-bnd-feel implementbtion will instbll b different keymbp
+ * thbt resolves to the defbult keymbp for those bindings not found in the
+ * different keymbp. The minimbl bindings include:
  * <ul>
  * <li>inserting content into the editor for the
- *  printable keys.
- * <li>removing content with the backspace and del
+ *  printbble keys.
+ * <li>removing content with the bbckspbce bnd del
  *  keys.
- * <li>caret movement forward and backward
+ * <li>cbret movement forwbrd bnd bbckwbrd
  * </ul>
  *
  * <dt><b>Model/View Split</b>
  * <dd>
- * The text components have a model-view split.  A text component pulls
- * together the objects used to represent the model, view, and controller.
- * The text document model may be shared by other views which act as observers
- * of the model (e.g. a document may be shared by multiple components).
+ * The text components hbve b model-view split.  A text component pulls
+ * together the objects used to represent the model, view, bnd controller.
+ * The text document model mby be shbred by other views which bct bs observers
+ * of the model (e.g. b document mby be shbred by multiple components).
  *
- * <p style="text-align:center"><img src="doc-files/editor.gif" alt="Diagram showing interaction between Controller, Document, events, and ViewFactory"
+ * <p style="text-blign:center"><img src="doc-files/editor.gif" blt="Dibgrbm showing interbction between Controller, Document, events, bnd ViewFbctory"
  *                  HEIGHT=358 WIDTH=587></p>
  *
  * <p>
- * The model is defined by the {@link Document} interface.
- * This is intended to provide a flexible text storage mechanism
- * that tracks change during edits and can be extended to more sophisticated
- * models.  The model interfaces are meant to capture the capabilities of
- * expression given by SGML, a system used to express a wide variety of
+ * The model is defined by the {@link Document} interfbce.
+ * This is intended to provide b flexible text storbge mechbnism
+ * thbt trbcks chbnge during edits bnd cbn be extended to more sophisticbted
+ * models.  The model interfbces bre mebnt to cbpture the cbpbbilities of
+ * expression given by SGML, b system used to express b wide vbriety of
  * content.
- * Each modification to the document causes notification of the
- * details of the change to be sent to all observers in the form of a
- * {@link DocumentEvent} which allows the views to stay up to date with the model.
- * This event is sent to observers that have implemented the
+ * Ebch modificbtion to the document cbuses notificbtion of the
+ * detbils of the chbnge to be sent to bll observers in the form of b
+ * {@link DocumentEvent} which bllows the views to stby up to dbte with the model.
+ * This event is sent to observers thbt hbve implemented the
  * {@link DocumentListener}
- * interface and registered interest with the model being observed.
+ * interfbce bnd registered interest with the model being observed.
  *
- * <dt><b>Location Information</b>
+ * <dt><b>Locbtion Informbtion</b>
  * <dd>
- * The capability of determining the location of text in
- * the view is provided.  There are two methods, {@link #modelToView}
- * and {@link #viewToModel} for determining this information.
+ * The cbpbbility of determining the locbtion of text in
+ * the view is provided.  There bre two methods, {@link #modelToView}
+ * bnd {@link #viewToModel} for determining this informbtion.
  *
  * <dt><b>Undo/Redo support</b>
  * <dd>
- * Support for an edit history mechanism is provided to allow
- * undo/redo operations.  The text component does not itself
- * provide the history buffer by default, but does provide
- * the <code>UndoableEdit</code> records that can be used in conjunction
- * with a history buffer to provide the undo/redo support.
- * The support is provided by the Document model, which allows
- * one to attach UndoableEditListener implementations.
+ * Support for bn edit history mechbnism is provided to bllow
+ * undo/redo operbtions.  The text component does not itself
+ * provide the history buffer by defbult, but does provide
+ * the <code>UndobbleEdit</code> records thbt cbn be used in conjunction
+ * with b history buffer to provide the undo/redo support.
+ * The support is provided by the Document model, which bllows
+ * one to bttbch UndobbleEditListener implementbtions.
  *
- * <dt><b>Thread Safety</b>
+ * <dt><b>Threbd Sbfety</b>
  * <dd>
- * The swing text components provide some support of thread
- * safe operations.  Because of the high level of configurability
+ * The swing text components provide some support of threbd
+ * sbfe operbtions.  Becbuse of the high level of configurbbility
  * of the text components, it is possible to circumvent the
- * protection provided.  The protection primarily comes from
- * the model, so the documentation of <code>AbstractDocument</code>
- * describes the assumptions of the protection provided.
- * The methods that are safe to call asynchronously are marked
+ * protection provided.  The protection primbrily comes from
+ * the model, so the documentbtion of <code>AbstrbctDocument</code>
+ * describes the bssumptions of the protection provided.
+ * The methods thbt bre sbfe to cbll bsynchronously bre mbrked
  * with comments.
  *
  * <dt><b>Newlines</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b discussion on how newlines bre hbndled, see
+ * <b href="DefbultEditorKit.html">DefbultEditorKit</b>.
  *
  *
  * <dt><b>Printing support</b>
  * <dd>
- * Several {@link #print print} methods are provided for basic
- * document printing.  If more advanced printing is needed, use the
- * {@link #getPrintable} method.
+ * Severbl {@link #print print} methods bre provided for bbsic
+ * document printing.  If more bdvbnced printing is needed, use the
+ * {@link #getPrintbble} method.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *     attribute: isContainer false
+ * @bebninfo
+ *     bttribute: isContbiner fblse
  *
- * @author  Timothy Prinzing
- * @author Igor Kushnirskiy (printing support)
+ * @buthor  Timothy Prinzing
+ * @buthor Igor Kushnirskiy (printing support)
  * @see Document
  * @see DocumentEvent
  * @see DocumentListener
- * @see Caret
- * @see CaretEvent
- * @see CaretListener
+ * @see Cbret
+ * @see CbretEvent
+ * @see CbretListener
  * @see TextUI
  * @see View
- * @see ViewFactory
+ * @see ViewFbctory
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class JTextComponent extends JComponent implements Scrollable, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss JTextComponent extends JComponent implements Scrollbble, Accessible
 {
     /**
-     * Creates a new <code>JTextComponent</code>.
-     * Listeners for caret events are established, and the pluggable
-     * UI installed.  The component is marked as editable.  No layout manager
-     * is used, because layout is managed by the view subsystem of text.
+     * Crebtes b new <code>JTextComponent</code>.
+     * Listeners for cbret events bre estbblished, bnd the pluggbble
+     * UI instblled.  The component is mbrked bs editbble.  No lbyout mbnbger
+     * is used, becbuse lbyout is mbnbged by the view subsystem of text.
      * The document model is set to <code>null</code>.
      */
     public JTextComponent() {
         super();
-        // enable InputMethodEvent for on-the-spot pre-editing
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.INPUT_METHOD_EVENT_MASK);
-        caretEvent = new MutableCaretEvent(this);
-        addMouseListener(caretEvent);
-        addFocusListener(caretEvent);
-        setEditable(true);
-        setDragEnabled(false);
-        setLayout(null); // layout is managed by View hierarchy
-        updateUI();
+        // enbble InputMethodEvent for on-the-spot pre-editing
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.INPUT_METHOD_EVENT_MASK);
+        cbretEvent = new MutbbleCbretEvent(this);
+        bddMouseListener(cbretEvent);
+        bddFocusListener(cbretEvent);
+        setEditbble(true);
+        setDrbgEnbbled(fblse);
+        setLbyout(null); // lbyout is mbnbged by View hierbrchy
+        updbteUI();
     }
 
     /**
-     * Fetches the user-interface factory for this text-oriented editor.
+     * Fetches the user-interfbce fbctory for this text-oriented editor.
      *
-     * @return the factory
+     * @return the fbctory
      */
     public TextUI getUI() { return (TextUI)ui; }
 
     /**
-     * Sets the user-interface factory for this text-oriented editor.
+     * Sets the user-interfbce fbctory for this text-oriented editor.
      *
-     * @param ui the factory
+     * @pbrbm ui the fbctory
      */
     public void setUI(TextUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Reloads the pluggable UI.  The key used to fetch the
-     * new interface is <code>getUIClassID()</code>.  The type of
-     * the UI is <code>TextUI</code>.  <code>invalidate</code>
-     * is called after setting the UI.
+     * Relobds the pluggbble UI.  The key used to fetch the
+     * new interfbce is <code>getUIClbssID()</code>.  The type of
+     * the UI is <code>TextUI</code>.  <code>invblidbte</code>
+     * is cblled bfter setting the UI.
      */
-    public void updateUI() {
-        setUI((TextUI)UIManager.getUI(this));
-        invalidate();
+    public void updbteUI() {
+        setUI((TextUI)UIMbnbger.getUI(this));
+        invblidbte();
     }
 
     /**
-     * Adds a caret listener for notification of any changes
-     * to the caret.
+     * Adds b cbret listener for notificbtion of bny chbnges
+     * to the cbret.
      *
-     * @param listener the listener to be added
-     * @see javax.swing.event.CaretEvent
+     * @pbrbm listener the listener to be bdded
+     * @see jbvbx.swing.event.CbretEvent
      */
-    public void addCaretListener(CaretListener listener) {
-        listenerList.add(CaretListener.class, listener);
+    public void bddCbretListener(CbretListener listener) {
+        listenerList.bdd(CbretListener.clbss, listener);
     }
 
     /**
-     * Removes a caret listener.
+     * Removes b cbret listener.
      *
-     * @param listener the listener to be removed
-     * @see javax.swing.event.CaretEvent
+     * @pbrbm listener the listener to be removed
+     * @see jbvbx.swing.event.CbretEvent
      */
-    public void removeCaretListener(CaretListener listener) {
-        listenerList.remove(CaretListener.class, listener);
+    public void removeCbretListener(CbretListener listener) {
+        listenerList.remove(CbretListener.clbss, listener);
     }
 
     /**
-     * Returns an array of all the caret listeners
+     * Returns bn brrby of bll the cbret listeners
      * registered on this text component.
      *
-     * @return all of this component's <code>CaretListener</code>s
-     *         or an empty
-     *         array if no caret listeners are currently registered
+     * @return bll of this component's <code>CbretListener</code>s
+     *         or bn empty
+     *         brrby if no cbret listeners bre currently registered
      *
-     * @see #addCaretListener
-     * @see #removeCaretListener
+     * @see #bddCbretListener
+     * @see #removeCbretListener
      *
      * @since 1.4
      */
-    public CaretListener[] getCaretListeners() {
-        return listenerList.getListeners(CaretListener.class);
+    public CbretListener[] getCbretListeners() {
+        return listenerList.getListeners(CbretListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.  The listener list is processed in a
-     * last-to-first manner.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
+     * the fire method.  The listener list is processed in b
+     * lbst-to-first mbnner.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireCaretUpdate(CaretEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireCbretUpdbte(CbretEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==CaretListener.class) {
-                ((CaretListener)listeners[i+1]).caretUpdate(e);
+            if (listeners[i]==CbretListener.clbss) {
+                ((CbretListener)listeners[i+1]).cbretUpdbte(e);
             }
         }
     }
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor after revalidation.
-     * A PropertyChange event ("document") is propagated to each listener.
+     * Associbtes the editor with b text document.
+     * The currently registered fbctory is used to build b view for
+     * the document, which gets displbyed by the editor bfter revblidbtion.
+     * A PropertyChbnge event ("document") is propbgbted to ebch listener.
      *
-     * @param doc  the document to display/edit
+     * @pbrbm doc  the document to displby/edit
      * @see #getDocument
-     * @beaninfo
+     * @bebninfo
      *  description: the text document model
      *        bound: true
      *       expert: true
@@ -417,54 +417,54 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         Document old = model;
 
         /*
-         * acquire a read lock on the old model to prevent notification of
-         * mutations while we disconnecting the old model.
+         * bcquire b rebd lock on the old model to prevent notificbtion of
+         * mutbtions while we disconnecting the old model.
          */
         try {
-            if (old instanceof AbstractDocument) {
-                ((AbstractDocument)old).readLock();
+            if (old instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)old).rebdLock();
             }
-            if (accessibleContext != null) {
+            if (bccessibleContext != null) {
                 model.removeDocumentListener(
-                    ((AccessibleJTextComponent)accessibleContext));
+                    ((AccessibleJTextComponent)bccessibleContext));
             }
-            if (inputMethodRequestsHandler != null) {
-                model.removeDocumentListener((DocumentListener)inputMethodRequestsHandler);
+            if (inputMethodRequestsHbndler != null) {
+                model.removeDocumentListener((DocumentListener)inputMethodRequestsHbndler);
             }
             model = doc;
 
-            // Set the document's run direction property to match the
-            // component's ComponentOrientation property.
-            Boolean runDir = getComponentOrientation().isLeftToRight()
+            // Set the document's run direction property to mbtch the
+            // component's ComponentOrientbtion property.
+            Boolebn runDir = getComponentOrientbtion().isLeftToRight()
                              ? TextAttribute.RUN_DIRECTION_LTR
                              : TextAttribute.RUN_DIRECTION_RTL;
             if (runDir != doc.getProperty(TextAttribute.RUN_DIRECTION)) {
                 doc.putProperty(TextAttribute.RUN_DIRECTION, runDir );
             }
-            firePropertyChange("document", old, doc);
-        } finally {
-            if (old instanceof AbstractDocument) {
-                ((AbstractDocument)old).readUnlock();
+            firePropertyChbnge("document", old, doc);
+        } finblly {
+            if (old instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)old).rebdUnlock();
             }
         }
 
-        revalidate();
-        repaint();
-        if (accessibleContext != null) {
-            model.addDocumentListener(
-                ((AccessibleJTextComponent)accessibleContext));
+        revblidbte();
+        repbint();
+        if (bccessibleContext != null) {
+            model.bddDocumentListener(
+                ((AccessibleJTextComponent)bccessibleContext));
         }
-        if (inputMethodRequestsHandler != null) {
-            model.addDocumentListener((DocumentListener)inputMethodRequestsHandler);
+        if (inputMethodRequestsHbndler != null) {
+            model.bddDocumentListener((DocumentListener)inputMethodRequestsHbndler);
         }
     }
 
     /**
-     * Fetches the model associated with the editor.  This is
-     * primarily for the UI to get at the minimal amount of
-     * state required to be a text editor.  Subclasses will
-     * return the actual type of the model which will typically
-     * be something that extends Document.
+     * Fetches the model bssocibted with the editor.  This is
+     * primbrily for the UI to get bt the minimbl bmount of
+     * stbte required to be b text editor.  Subclbsses will
+     * return the bctubl type of the model which will typicblly
+     * be something thbt extends Document.
      *
      * @return the model
      */
@@ -472,129 +472,129 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         return model;
     }
 
-    // Override of Component.setComponentOrientation
-    public void setComponentOrientation( ComponentOrientation o ) {
-        // Set the document's run direction property to match the
-        // ComponentOrientation property.
+    // Override of Component.setComponentOrientbtion
+    public void setComponentOrientbtion( ComponentOrientbtion o ) {
+        // Set the document's run direction property to mbtch the
+        // ComponentOrientbtion property.
         Document doc = getDocument();
         if( doc !=  null ) {
-            Boolean runDir = o.isLeftToRight()
+            Boolebn runDir = o.isLeftToRight()
                              ? TextAttribute.RUN_DIRECTION_LTR
                              : TextAttribute.RUN_DIRECTION_RTL;
             doc.putProperty( TextAttribute.RUN_DIRECTION, runDir );
         }
-        super.setComponentOrientation( o );
+        super.setComponentOrientbtion( o );
     }
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the plugged-in UI
-     * augmented by the collection of commands that the
-     * editor itself supports.  These are useful for binding
-     * to events, such as in a keymap.
+     * Fetches the commbnd list for the editor.  This is
+     * the list of commbnds supported by the plugged-in UI
+     * bugmented by the collection of commbnds thbt the
+     * editor itself supports.  These bre useful for binding
+     * to events, such bs in b keymbp.
      *
-     * @return the command list
+     * @return the commbnd list
      */
     public Action[] getActions() {
         return getUI().getEditorKit(this).getActions();
     }
 
     /**
-     * Sets margin space between the text component's border
-     * and its text.  The text component's default <code>Border</code>
-     * object will use this value to create the proper margin.
-     * However, if a non-default border is set on the text component,
-     * it is that <code>Border</code> object's responsibility to create the
-     * appropriate margin space (else this property will effectively
-     * be ignored).  This causes a redraw of the component.
-     * A PropertyChange event ("margin") is sent to all listeners.
+     * Sets mbrgin spbce between the text component's border
+     * bnd its text.  The text component's defbult <code>Border</code>
+     * object will use this vblue to crebte the proper mbrgin.
+     * However, if b non-defbult border is set on the text component,
+     * it is thbt <code>Border</code> object's responsibility to crebte the
+     * bppropribte mbrgin spbce (else this property will effectively
+     * be ignored).  This cbuses b redrbw of the component.
+     * A PropertyChbnge event ("mbrgin") is sent to bll listeners.
      *
-     * @param m the space between the border and the text
-     * @beaninfo
-     *  description: desired space between the border and text area
+     * @pbrbm m the spbce between the border bnd the text
+     * @bebninfo
+     *  description: desired spbce between the border bnd text breb
      *        bound: true
      */
-    public void setMargin(Insets m) {
-        Insets old = margin;
-        margin = m;
-        firePropertyChange("margin", old, m);
-        invalidate();
+    public void setMbrgin(Insets m) {
+        Insets old = mbrgin;
+        mbrgin = m;
+        firePropertyChbnge("mbrgin", old, m);
+        invblidbte();
     }
 
     /**
-     * Returns the margin between the text component's border and
+     * Returns the mbrgin between the text component's border bnd
      * its text.
      *
-     * @return the margin
+     * @return the mbrgin
      */
-    public Insets getMargin() {
-        return margin;
+    public Insets getMbrgin() {
+        return mbrgin;
     }
 
     /**
-     * Sets the <code>NavigationFilter</code>. <code>NavigationFilter</code>
-     * is used by <code>DefaultCaret</code> and the default cursor movement
-     * actions as a way to restrict the cursor movement.
+     * Sets the <code>NbvigbtionFilter</code>. <code>NbvigbtionFilter</code>
+     * is used by <code>DefbultCbret</code> bnd the defbult cursor movement
+     * bctions bs b wby to restrict the cursor movement.
      *
      * @since 1.4
      */
-    public void setNavigationFilter(NavigationFilter filter) {
-        navigationFilter = filter;
+    public void setNbvigbtionFilter(NbvigbtionFilter filter) {
+        nbvigbtionFilter = filter;
     }
 
     /**
-     * Returns the <code>NavigationFilter</code>. <code>NavigationFilter</code>
-     * is used by <code>DefaultCaret</code> and the default cursor movement
-     * actions as a way to restrict the cursor movement. A null return value
-     * implies the cursor movement and selection should not be restricted.
+     * Returns the <code>NbvigbtionFilter</code>. <code>NbvigbtionFilter</code>
+     * is used by <code>DefbultCbret</code> bnd the defbult cursor movement
+     * bctions bs b wby to restrict the cursor movement. A null return vblue
+     * implies the cursor movement bnd selection should not be restricted.
      *
      * @since 1.4
-     * @return the NavigationFilter
+     * @return the NbvigbtionFilter
      */
-    public NavigationFilter getNavigationFilter() {
-        return navigationFilter;
+    public NbvigbtionFilter getNbvigbtionFilter() {
+        return nbvigbtionFilter;
     }
 
     /**
-     * Fetches the caret that allows text-oriented navigation over
+     * Fetches the cbret thbt bllows text-oriented nbvigbtion over
      * the view.
      *
-     * @return the caret
+     * @return the cbret
      */
-    @Transient
-    public Caret getCaret() {
-        return caret;
+    @Trbnsient
+    public Cbret getCbret() {
+        return cbret;
     }
 
     /**
-     * Sets the caret to be used.  By default this will be set
-     * by the UI that gets installed.  This can be changed to
-     * a custom caret if desired.  Setting the caret results in a
-     * PropertyChange event ("caret") being fired.
+     * Sets the cbret to be used.  By defbult this will be set
+     * by the UI thbt gets instblled.  This cbn be chbnged to
+     * b custom cbret if desired.  Setting the cbret results in b
+     * PropertyChbnge event ("cbret") being fired.
      *
-     * @param c the caret
-     * @see #getCaret
-     * @beaninfo
-     *  description: the caret used to select/navigate
+     * @pbrbm c the cbret
+     * @see #getCbret
+     * @bebninfo
+     *  description: the cbret used to select/nbvigbte
      *        bound: true
      *       expert: true
      */
-    public void setCaret(Caret c) {
-        if (caret != null) {
-            caret.removeChangeListener(caretEvent);
-            caret.deinstall(this);
+    public void setCbret(Cbret c) {
+        if (cbret != null) {
+            cbret.removeChbngeListener(cbretEvent);
+            cbret.deinstbll(this);
         }
-        Caret old = caret;
-        caret = c;
-        if (caret != null) {
-            caret.install(this);
-            caret.addChangeListener(caretEvent);
+        Cbret old = cbret;
+        cbret = c;
+        if (cbret != null) {
+            cbret.instbll(this);
+            cbret.bddChbngeListener(cbretEvent);
         }
-        firePropertyChange("caret", old, caret);
+        firePropertyChbnge("cbret", old, cbret);
     }
 
     /**
-     * Fetches the object responsible for making highlights.
+     * Fetches the object responsible for mbking highlights.
      *
      * @return the highlighter
      */
@@ -603,110 +603,110 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     }
 
     /**
-     * Sets the highlighter to be used.  By default this will be set
-     * by the UI that gets installed.  This can be changed to
-     * a custom highlighter if desired.  The highlighter can be set to
-     * <code>null</code> to disable it.
-     * A PropertyChange event ("highlighter") is fired
-     * when a new highlighter is installed.
+     * Sets the highlighter to be used.  By defbult this will be set
+     * by the UI thbt gets instblled.  This cbn be chbnged to
+     * b custom highlighter if desired.  The highlighter cbn be set to
+     * <code>null</code> to disbble it.
+     * A PropertyChbnge event ("highlighter") is fired
+     * when b new highlighter is instblled.
      *
-     * @param h the highlighter
+     * @pbrbm h the highlighter
      * @see #getHighlighter
-     * @beaninfo
-     *  description: object responsible for background highlights
+     * @bebninfo
+     *  description: object responsible for bbckground highlights
      *        bound: true
      *       expert: true
      */
     public void setHighlighter(Highlighter h) {
         if (highlighter != null) {
-            highlighter.deinstall(this);
+            highlighter.deinstbll(this);
         }
         Highlighter old = highlighter;
         highlighter = h;
         if (highlighter != null) {
-            highlighter.install(this);
+            highlighter.instbll(this);
         }
-        firePropertyChange("highlighter", old, h);
+        firePropertyChbnge("highlighter", old, h);
     }
 
     /**
-     * Sets the keymap to use for binding events to
-     * actions.  Setting to <code>null</code> effectively disables
-     * keyboard input.
-     * A PropertyChange event ("keymap") is fired when a new keymap
-     * is installed.
+     * Sets the keymbp to use for binding events to
+     * bctions.  Setting to <code>null</code> effectively disbbles
+     * keybobrd input.
+     * A PropertyChbnge event ("keymbp") is fired when b new keymbp
+     * is instblled.
      *
-     * @param map the keymap
-     * @see #getKeymap
-     * @beaninfo
-     *  description: set of key event to action bindings to use
+     * @pbrbm mbp the keymbp
+     * @see #getKeymbp
+     * @bebninfo
+     *  description: set of key event to bction bindings to use
      *        bound: true
      */
-    public void setKeymap(Keymap map) {
-        Keymap old = keymap;
-        keymap = map;
-        firePropertyChange("keymap", old, keymap);
-        updateInputMap(old, map);
+    public void setKeymbp(Keymbp mbp) {
+        Keymbp old = keymbp;
+        keymbp = mbp;
+        firePropertyChbnge("keymbp", old, keymbp);
+        updbteInputMbp(old, mbp);
     }
 
     /**
-     * Turns on or off automatic drag handling. In order to enable automatic
-     * drag handling, this property should be set to {@code true}, and the
-     * component's {@code TransferHandler} needs to be {@code non-null}.
-     * The default value of the {@code dragEnabled} property is {@code false}.
+     * Turns on or off butombtic drbg hbndling. In order to enbble butombtic
+     * drbg hbndling, this property should be set to {@code true}, bnd the
+     * component's {@code TrbnsferHbndler} needs to be {@code non-null}.
+     * The defbult vblue of the {@code drbgEnbbled} property is {@code fblse}.
      * <p>
-     * The job of honoring this property, and recognizing a user drag gesture,
-     * lies with the look and feel implementation, and in particular, the component's
-     * {@code TextUI}. When automatic drag handling is enabled, most look and
-     * feels (including those that subclass {@code BasicLookAndFeel}) begin a
-     * drag and drop operation whenever the user presses the mouse button over
-     * a selection and then moves the mouse a few pixels. Setting this property to
-     * {@code true} can therefore have a subtle effect on how selections behave.
+     * The job of honoring this property, bnd recognizing b user drbg gesture,
+     * lies with the look bnd feel implementbtion, bnd in pbrticulbr, the component's
+     * {@code TextUI}. When butombtic drbg hbndling is enbbled, most look bnd
+     * feels (including those thbt subclbss {@code BbsicLookAndFeel}) begin b
+     * drbg bnd drop operbtion whenever the user presses the mouse button over
+     * b selection bnd then moves the mouse b few pixels. Setting this property to
+     * {@code true} cbn therefore hbve b subtle effect on how selections behbve.
      * <p>
-     * If a look and feel is used that ignores this property, you can still
-     * begin a drag and drop operation by calling {@code exportAsDrag} on the
-     * component's {@code TransferHandler}.
+     * If b look bnd feel is used thbt ignores this property, you cbn still
+     * begin b drbg bnd drop operbtion by cblling {@code exportAsDrbg} on the
+     * component's {@code TrbnsferHbndler}.
      *
-     * @param b whether or not to enable automatic drag handling
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b whether or not to enbble butombtic drbg hbndling
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bebninfo
+     *  description: determines whether butombtic drbg hbndling is enbbled
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Returns whether or not automatic drag handling is enabled.
+     * Returns whether or not butombtic drbg hbndling is enbbled.
      *
-     * @return the value of the {@code dragEnabled} property
-     * @see #setDragEnabled
+     * @return the vblue of the {@code drbgEnbbled} property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     /**
-     * Sets the drop mode for this component. For backward compatibility,
-     * the default for this property is <code>DropMode.USE_SELECTION</code>.
-     * Usage of <code>DropMode.INSERT</code> is recommended, however,
-     * for an improved user experience. It offers similar behavior of dropping
-     * between text locations, but does so without affecting the actual text
-     * selection and caret location.
+     * Sets the drop mode for this component. For bbckwbrd compbtibility,
+     * the defbult for this property is <code>DropMode.USE_SELECTION</code>.
+     * Usbge of <code>DropMode.INSERT</code> is recommended, however,
+     * for bn improved user experience. It offers similbr behbvior of dropping
+     * between text locbtions, but does so without bffecting the bctubl text
+     * selection bnd cbret locbtion.
      * <p>
      * <code>JTextComponents</code> support the following drop modes:
      * <ul>
@@ -714,29 +714,29 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
      *    <li><code>DropMode.INSERT</code></li>
      * </ul>
      * <p>
-     * The drop mode is only meaningful if this component has a
-     * <code>TransferHandler</code> that accepts drops.
+     * The drop mode is only mebningful if this component hbs b
+     * <code>TrbnsferHbndler</code> thbt bccepts drops.
      *
-     * @param dropMode the drop mode to use
-     * @throws IllegalArgumentException if the drop mode is unsupported
+     * @pbrbm dropMode the drop mode to use
+     * @throws IllegblArgumentException if the drop mode is unsupported
      *         or <code>null</code>
      * @see #getDropMode
-     * @see #getDropLocation
-     * @see #setTransferHandler
-     * @see javax.swing.TransferHandler
+     * @see #getDropLocbtion
+     * @see #setTrbnsferHbndler
+     * @see jbvbx.swing.TrbnsferHbndler
      * @since 1.6
      */
-    public final void setDropMode(DropMode dropMode) {
+    public finbl void setDropMode(DropMode dropMode) {
         if (dropMode != null) {
             switch (dropMode) {
-                case USE_SELECTION:
-                case INSERT:
+                cbse USE_SELECTION:
+                cbse INSERT:
                     this.dropMode = dropMode;
                     return;
             }
         }
 
-        throw new IllegalArgumentException(dropMode + ": Unsupported drop mode for text");
+        throw new IllegblArgumentException(dropMode + ": Unsupported drop mode for text");
     }
 
     /**
@@ -746,380 +746,380 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
      * @see #setDropMode
      * @since 1.6
      */
-    public final DropMode getDropMode() {
+    public finbl DropMode getDropMode() {
         return dropMode;
     }
 
-    static {
+    stbtic {
         SwingAccessor.setJTextComponentAccessor(
             new SwingAccessor.JTextComponentAccessor() {
-                public TransferHandler.DropLocation dropLocationForPoint(JTextComponent textComp,
+                public TrbnsferHbndler.DropLocbtion dropLocbtionForPoint(JTextComponent textComp,
                                                                          Point p)
                 {
-                    return textComp.dropLocationForPoint(p);
+                    return textComp.dropLocbtionForPoint(p);
                 }
-                public Object setDropLocation(JTextComponent textComp,
-                                              TransferHandler.DropLocation location,
-                                              Object state, boolean forDrop)
+                public Object setDropLocbtion(JTextComponent textComp,
+                                              TrbnsferHbndler.DropLocbtion locbtion,
+                                              Object stbte, boolebn forDrop)
                 {
-                    return textComp.setDropLocation(location, state, forDrop);
+                    return textComp.setDropLocbtion(locbtion, stbte, forDrop);
                 }
             });
     }
 
 
     /**
-     * Calculates a drop location in this component, representing where a
-     * drop at the given point should insert data.
+     * Cblculbtes b drop locbtion in this component, representing where b
+     * drop bt the given point should insert dbtb.
      * <p>
-     * Note: This method is meant to override
-     * <code>JComponent.dropLocationForPoint()</code>, which is package-private
-     * in javax.swing. <code>TransferHandler</code> will detect text components
-     * and call this method instead via reflection. It's name should therefore
-     * not be changed.
+     * Note: This method is mebnt to override
+     * <code>JComponent.dropLocbtionForPoint()</code>, which is pbckbge-privbte
+     * in jbvbx.swing. <code>TrbnsferHbndler</code> will detect text components
+     * bnd cbll this method instebd vib reflection. It's nbme should therefore
+     * not be chbnged.
      *
-     * @param p the point to calculate a drop location for
-     * @return the drop location, or <code>null</code>
+     * @pbrbm p the point to cblculbte b drop locbtion for
+     * @return the drop locbtion, or <code>null</code>
      */
-    DropLocation dropLocationForPoint(Point p) {
-        Position.Bias[] bias = new Position.Bias[1];
-        int index = getUI().viewToModel(this, p, bias);
+    DropLocbtion dropLocbtionForPoint(Point p) {
+        Position.Bibs[] bibs = new Position.Bibs[1];
+        int index = getUI().viewToModel(this, p, bibs);
 
         // viewToModel currently returns null for some HTML content
         // when the point is within the component's top inset
-        if (bias[0] == null) {
-            bias[0] = Position.Bias.Forward;
+        if (bibs[0] == null) {
+            bibs[0] = Position.Bibs.Forwbrd;
         }
 
-        return new DropLocation(p, index, bias[0]);
+        return new DropLocbtion(p, index, bibs[0]);
     }
 
     /**
-     * Called to set or clear the drop location during a DnD operation.
-     * In some cases, the component may need to use it's internal selection
-     * temporarily to indicate the drop location. To help facilitate this,
-     * this method returns and accepts as a parameter a state object.
-     * This state object can be used to store, and later restore, the selection
-     * state. Whatever this method returns will be passed back to it in
-     * future calls, as the state parameter. If it wants the DnD system to
-     * continue storing the same state, it must pass it back every time.
+     * Cblled to set or clebr the drop locbtion during b DnD operbtion.
+     * In some cbses, the component mby need to use it's internbl selection
+     * temporbrily to indicbte the drop locbtion. To help fbcilitbte this,
+     * this method returns bnd bccepts bs b pbrbmeter b stbte object.
+     * This stbte object cbn be used to store, bnd lbter restore, the selection
+     * stbte. Whbtever this method returns will be pbssed bbck to it in
+     * future cblls, bs the stbte pbrbmeter. If it wbnts the DnD system to
+     * continue storing the sbme stbte, it must pbss it bbck every time.
      * Here's how this is used:
      * <p>
-     * Let's say that on the first call to this method the component decides
-     * to save some state (because it is about to use the selection to show
-     * a drop index). It can return a state object to the caller encapsulating
-     * any saved selection state. On a second call, let's say the drop location
-     * is being changed to something else. The component doesn't need to
-     * restore anything yet, so it simply passes back the same state object
-     * to have the DnD system continue storing it. Finally, let's say this
-     * method is messaged with <code>null</code>. This means DnD
-     * is finished with this component for now, meaning it should restore
-     * state. At this point, it can use the state parameter to restore
-     * said state, and of course return <code>null</code> since there's
-     * no longer anything to store.
+     * Let's sby thbt on the first cbll to this method the component decides
+     * to sbve some stbte (becbuse it is bbout to use the selection to show
+     * b drop index). It cbn return b stbte object to the cbller encbpsulbting
+     * bny sbved selection stbte. On b second cbll, let's sby the drop locbtion
+     * is being chbnged to something else. The component doesn't need to
+     * restore bnything yet, so it simply pbsses bbck the sbme stbte object
+     * to hbve the DnD system continue storing it. Finblly, let's sby this
+     * method is messbged with <code>null</code>. This mebns DnD
+     * is finished with this component for now, mebning it should restore
+     * stbte. At this point, it cbn use the stbte pbrbmeter to restore
+     * sbid stbte, bnd of course return <code>null</code> since there's
+     * no longer bnything to store.
      * <p>
-     * Note: This method is meant to override
-     * <code>JComponent.setDropLocation()</code>, which is package-private
-     * in javax.swing. <code>TransferHandler</code> will detect text components
-     * and call this method instead via reflection. It's name should therefore
-     * not be changed.
+     * Note: This method is mebnt to override
+     * <code>JComponent.setDropLocbtion()</code>, which is pbckbge-privbte
+     * in jbvbx.swing. <code>TrbnsferHbndler</code> will detect text components
+     * bnd cbll this method instebd vib reflection. It's nbme should therefore
+     * not be chbnged.
      *
-     * @param location the drop location (as calculated by
-     *        <code>dropLocationForPoint</code>) or <code>null</code>
-     *        if there's no longer a valid drop location
-     * @param state the state object saved earlier for this component,
+     * @pbrbm locbtion the drop locbtion (bs cblculbted by
+     *        <code>dropLocbtionForPoint</code>) or <code>null</code>
+     *        if there's no longer b vblid drop locbtion
+     * @pbrbm stbte the stbte object sbved ebrlier for this component,
      *        or <code>null</code>
-     * @param forDrop whether or not the method is being called because an
-     *        actual drop occurred
-     * @return any saved state for this component, or <code>null</code> if none
+     * @pbrbm forDrop whether or not the method is being cblled becbuse bn
+     *        bctubl drop occurred
+     * @return bny sbved stbte for this component, or <code>null</code> if none
      */
-    Object setDropLocation(TransferHandler.DropLocation location,
-                           Object state,
-                           boolean forDrop) {
+    Object setDropLocbtion(TrbnsferHbndler.DropLocbtion locbtion,
+                           Object stbte,
+                           boolebn forDrop) {
 
-        Object retVal = null;
-        DropLocation textLocation = (DropLocation)location;
+        Object retVbl = null;
+        DropLocbtion textLocbtion = (DropLocbtion)locbtion;
 
         if (dropMode == DropMode.USE_SELECTION) {
-            if (textLocation == null) {
-                if (state != null) {
+            if (textLocbtion == null) {
+                if (stbte != null) {
                     /*
-                     * This object represents the state saved earlier.
-                     *     If the caret is a DefaultCaret it will be
-                     *     an Object array containing, in order:
-                     *         - the saved caret mark (Integer)
-                     *         - the saved caret dot (Integer)
-                     *         - the saved caret visibility (Boolean)
-                     *         - the saved mark bias (Position.Bias)
-                     *         - the saved dot bias (Position.Bias)
-                     *     If the caret is not a DefaultCaret it will
-                     *     be similar, but will not contain the dot
-                     *     or mark bias.
+                     * This object represents the stbte sbved ebrlier.
+                     *     If the cbret is b DefbultCbret it will be
+                     *     bn Object brrby contbining, in order:
+                     *         - the sbved cbret mbrk (Integer)
+                     *         - the sbved cbret dot (Integer)
+                     *         - the sbved cbret visibility (Boolebn)
+                     *         - the sbved mbrk bibs (Position.Bibs)
+                     *         - the sbved dot bibs (Position.Bibs)
+                     *     If the cbret is not b DefbultCbret it will
+                     *     be similbr, but will not contbin the dot
+                     *     or mbrk bibs.
                      */
-                    Object[] vals = (Object[])state;
+                    Object[] vbls = (Object[])stbte;
 
                     if (!forDrop) {
-                        if (caret instanceof DefaultCaret) {
-                            ((DefaultCaret)caret).setDot(((Integer)vals[0]).intValue(),
-                                                         (Position.Bias)vals[3]);
-                            ((DefaultCaret)caret).moveDot(((Integer)vals[1]).intValue(),
-                                                         (Position.Bias)vals[4]);
+                        if (cbret instbnceof DefbultCbret) {
+                            ((DefbultCbret)cbret).setDot(((Integer)vbls[0]).intVblue(),
+                                                         (Position.Bibs)vbls[3]);
+                            ((DefbultCbret)cbret).moveDot(((Integer)vbls[1]).intVblue(),
+                                                         (Position.Bibs)vbls[4]);
                         } else {
-                            caret.setDot(((Integer)vals[0]).intValue());
-                            caret.moveDot(((Integer)vals[1]).intValue());
+                            cbret.setDot(((Integer)vbls[0]).intVblue());
+                            cbret.moveDot(((Integer)vbls[1]).intVblue());
                         }
                     }
 
-                    caret.setVisible(((Boolean)vals[2]).booleanValue());
+                    cbret.setVisible(((Boolebn)vbls[2]).boolebnVblue());
                 }
             } else {
-                if (dropLocation == null) {
-                    boolean visible;
+                if (dropLocbtion == null) {
+                    boolebn visible;
 
-                    if (caret instanceof DefaultCaret) {
-                        DefaultCaret dc = (DefaultCaret)caret;
+                    if (cbret instbnceof DefbultCbret) {
+                        DefbultCbret dc = (DefbultCbret)cbret;
                         visible = dc.isActive();
-                        retVal = new Object[] {Integer.valueOf(dc.getMark()),
-                                               Integer.valueOf(dc.getDot()),
-                                               Boolean.valueOf(visible),
-                                               dc.getMarkBias(),
-                                               dc.getDotBias()};
+                        retVbl = new Object[] {Integer.vblueOf(dc.getMbrk()),
+                                               Integer.vblueOf(dc.getDot()),
+                                               Boolebn.vblueOf(visible),
+                                               dc.getMbrkBibs(),
+                                               dc.getDotBibs()};
                     } else {
-                        visible = caret.isVisible();
-                        retVal = new Object[] {Integer.valueOf(caret.getMark()),
-                                               Integer.valueOf(caret.getDot()),
-                                               Boolean.valueOf(visible)};
+                        visible = cbret.isVisible();
+                        retVbl = new Object[] {Integer.vblueOf(cbret.getMbrk()),
+                                               Integer.vblueOf(cbret.getDot()),
+                                               Boolebn.vblueOf(visible)};
                     }
 
-                    caret.setVisible(true);
+                    cbret.setVisible(true);
                 } else {
-                    retVal = state;
+                    retVbl = stbte;
                 }
 
-                if (caret instanceof DefaultCaret) {
-                    ((DefaultCaret)caret).setDot(textLocation.getIndex(), textLocation.getBias());
+                if (cbret instbnceof DefbultCbret) {
+                    ((DefbultCbret)cbret).setDot(textLocbtion.getIndex(), textLocbtion.getBibs());
                 } else {
-                    caret.setDot(textLocation.getIndex());
+                    cbret.setDot(textLocbtion.getIndex());
                 }
             }
         } else {
-            if (textLocation == null) {
-                if (state != null) {
-                    caret.setVisible(((Boolean)state).booleanValue());
+            if (textLocbtion == null) {
+                if (stbte != null) {
+                    cbret.setVisible(((Boolebn)stbte).boolebnVblue());
                 }
             } else {
-                if (dropLocation == null) {
-                    boolean visible = caret instanceof DefaultCaret
-                                      ? ((DefaultCaret)caret).isActive()
-                                      : caret.isVisible();
-                    retVal = Boolean.valueOf(visible);
-                    caret.setVisible(false);
+                if (dropLocbtion == null) {
+                    boolebn visible = cbret instbnceof DefbultCbret
+                                      ? ((DefbultCbret)cbret).isActive()
+                                      : cbret.isVisible();
+                    retVbl = Boolebn.vblueOf(visible);
+                    cbret.setVisible(fblse);
                 } else {
-                    retVal = state;
+                    retVbl = stbte;
                 }
             }
         }
 
-        DropLocation old = dropLocation;
-        dropLocation = textLocation;
-        firePropertyChange("dropLocation", old, dropLocation);
+        DropLocbtion old = dropLocbtion;
+        dropLocbtion = textLocbtion;
+        firePropertyChbnge("dropLocbtion", old, dropLocbtion);
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Returns the location that this component should visually indicate
-     * as the drop location during a DnD operation over the component,
-     * or {@code null} if no location is to currently be shown.
+     * Returns the locbtion thbt this component should visublly indicbte
+     * bs the drop locbtion during b DnD operbtion over the component,
+     * or {@code null} if no locbtion is to currently be shown.
      * <p>
-     * This method is not meant for querying the drop location
-     * from a {@code TransferHandler}, as the drop location is only
-     * set after the {@code TransferHandler}'s <code>canImport</code>
-     * has returned and has allowed for the location to be shown.
+     * This method is not mebnt for querying the drop locbtion
+     * from b {@code TrbnsferHbndler}, bs the drop locbtion is only
+     * set bfter the {@code TrbnsferHbndler}'s <code>cbnImport</code>
+     * hbs returned bnd hbs bllowed for the locbtion to be shown.
      * <p>
-     * When this property changes, a property change event with
-     * name "dropLocation" is fired by the component.
+     * When this property chbnges, b property chbnge event with
+     * nbme "dropLocbtion" is fired by the component.
      *
-     * @return the drop location
+     * @return the drop locbtion
      * @see #setDropMode
-     * @see TransferHandler#canImport(TransferHandler.TransferSupport)
+     * @see TrbnsferHbndler#cbnImport(TrbnsferHbndler.TrbnsferSupport)
      * @since 1.6
      */
-    public final DropLocation getDropLocation() {
-        return dropLocation;
+    public finbl DropLocbtion getDropLocbtion() {
+        return dropLocbtion;
     }
 
 
     /**
-     * Updates the <code>InputMap</code>s in response to a
-     * <code>Keymap</code> change.
-     * @param oldKm  the old <code>Keymap</code>
-     * @param newKm  the new <code>Keymap</code>
+     * Updbtes the <code>InputMbp</code>s in response to b
+     * <code>Keymbp</code> chbnge.
+     * @pbrbm oldKm  the old <code>Keymbp</code>
+     * @pbrbm newKm  the new <code>Keymbp</code>
      */
-    void updateInputMap(Keymap oldKm, Keymap newKm) {
-        // Locate the current KeymapWrapper.
-        InputMap km = getInputMap(JComponent.WHEN_FOCUSED);
-        InputMap last = km;
-        while (km != null && !(km instanceof KeymapWrapper)) {
-            last = km;
-            km = km.getParent();
+    void updbteInputMbp(Keymbp oldKm, Keymbp newKm) {
+        // Locbte the current KeymbpWrbpper.
+        InputMbp km = getInputMbp(JComponent.WHEN_FOCUSED);
+        InputMbp lbst = km;
+        while (km != null && !(km instbnceof KeymbpWrbpper)) {
+            lbst = km;
+            km = km.getPbrent();
         }
         if (km != null) {
-            // Found it, tweak the InputMap that points to it, as well
-            // as anything it points to.
+            // Found it, twebk the InputMbp thbt points to it, bs well
+            // bs bnything it points to.
             if (newKm == null) {
-                if (last != km) {
-                    last.setParent(km.getParent());
+                if (lbst != km) {
+                    lbst.setPbrent(km.getPbrent());
                 }
                 else {
-                    last.setParent(null);
+                    lbst.setPbrent(null);
                 }
             }
             else {
-                InputMap newKM = new KeymapWrapper(newKm);
-                last.setParent(newKM);
-                if (last != km) {
-                    newKM.setParent(km.getParent());
+                InputMbp newKM = new KeymbpWrbpper(newKm);
+                lbst.setPbrent(newKM);
+                if (lbst != km) {
+                    newKM.setPbrent(km.getPbrent());
                 }
             }
         }
         else if (newKm != null) {
-            km = getInputMap(JComponent.WHEN_FOCUSED);
+            km = getInputMbp(JComponent.WHEN_FOCUSED);
             if (km != null) {
                 // Couldn't find it.
-                // Set the parent of WHEN_FOCUSED InputMap to be the new one.
-                InputMap newKM = new KeymapWrapper(newKm);
-                newKM.setParent(km.getParent());
-                km.setParent(newKM);
+                // Set the pbrent of WHEN_FOCUSED InputMbp to be the new one.
+                InputMbp newKM = new KeymbpWrbpper(newKm);
+                newKM.setPbrent(km.getPbrent());
+                km.setPbrent(newKM);
             }
         }
 
-        // Do the same thing with the ActionMap
-        ActionMap am = getActionMap();
-        ActionMap lastAM = am;
-        while (am != null && !(am instanceof KeymapActionMap)) {
-            lastAM = am;
-            am = am.getParent();
+        // Do the sbme thing with the ActionMbp
+        ActionMbp bm = getActionMbp();
+        ActionMbp lbstAM = bm;
+        while (bm != null && !(bm instbnceof KeymbpActionMbp)) {
+            lbstAM = bm;
+            bm = bm.getPbrent();
         }
-        if (am != null) {
-            // Found it, tweak the Actionap that points to it, as well
-            // as anything it points to.
+        if (bm != null) {
+            // Found it, twebk the Actionbp thbt points to it, bs well
+            // bs bnything it points to.
             if (newKm == null) {
-                if (lastAM != am) {
-                    lastAM.setParent(am.getParent());
+                if (lbstAM != bm) {
+                    lbstAM.setPbrent(bm.getPbrent());
                 }
                 else {
-                    lastAM.setParent(null);
+                    lbstAM.setPbrent(null);
                 }
             }
             else {
-                ActionMap newAM = new KeymapActionMap(newKm);
-                lastAM.setParent(newAM);
-                if (lastAM != am) {
-                    newAM.setParent(am.getParent());
+                ActionMbp newAM = new KeymbpActionMbp(newKm);
+                lbstAM.setPbrent(newAM);
+                if (lbstAM != bm) {
+                    newAM.setPbrent(bm.getPbrent());
                 }
             }
         }
         else if (newKm != null) {
-            am = getActionMap();
-            if (am != null) {
+            bm = getActionMbp();
+            if (bm != null) {
                 // Couldn't find it.
-                // Set the parent of ActionMap to be the new one.
-                ActionMap newAM = new KeymapActionMap(newKm);
-                newAM.setParent(am.getParent());
-                am.setParent(newAM);
+                // Set the pbrent of ActionMbp to be the new one.
+                ActionMbp newAM = new KeymbpActionMbp(newKm);
+                newAM.setPbrent(bm.getPbrent());
+                bm.setPbrent(newAM);
             }
         }
     }
 
     /**
-     * Fetches the keymap currently active in this text
+     * Fetches the keymbp currently bctive in this text
      * component.
      *
-     * @return the keymap
+     * @return the keymbp
      */
-    public Keymap getKeymap() {
-        return keymap;
+    public Keymbp getKeymbp() {
+        return keymbp;
     }
 
     /**
-     * Adds a new keymap into the keymap hierarchy.  Keymap bindings
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b new keymbp into the keymbp hierbrchy.  Keymbp bindings
+     * resolve from bottom up so bn bttribute specified in b child
+     * will override bn bttribute specified in the pbrent.
      *
-     * @param nm   the name of the keymap (must be unique within the
-     *   collection of named keymaps in the document); the name may
-     *   be <code>null</code> if the keymap is unnamed,
-     *   but the caller is responsible for managing the reference
-     *   returned as an unnamed keymap can't
-     *   be fetched by name
-     * @param parent the parent keymap; this may be <code>null</code> if
-     *   unspecified bindings need not be resolved in some other keymap
-     * @return the keymap
+     * @pbrbm nm   the nbme of the keymbp (must be unique within the
+     *   collection of nbmed keymbps in the document); the nbme mby
+     *   be <code>null</code> if the keymbp is unnbmed,
+     *   but the cbller is responsible for mbnbging the reference
+     *   returned bs bn unnbmed keymbp cbn't
+     *   be fetched by nbme
+     * @pbrbm pbrent the pbrent keymbp; this mby be <code>null</code> if
+     *   unspecified bindings need not be resolved in some other keymbp
+     * @return the keymbp
      */
-    public static Keymap addKeymap(String nm, Keymap parent) {
-        Keymap map = new DefaultKeymap(nm, parent);
+    public stbtic Keymbp bddKeymbp(String nm, Keymbp pbrent) {
+        Keymbp mbp = new DefbultKeymbp(nm, pbrent);
         if (nm != null) {
-            // add a named keymap, a class of bindings
-            getKeymapTable().put(nm, map);
+            // bdd b nbmed keymbp, b clbss of bindings
+            getKeymbpTbble().put(nm, mbp);
         }
-        return map;
+        return mbp;
     }
 
     /**
-     * Removes a named keymap previously added to the document.  Keymaps
-     * with <code>null</code> names may not be removed in this way.
+     * Removes b nbmed keymbp previously bdded to the document.  Keymbps
+     * with <code>null</code> nbmes mby not be removed in this wby.
      *
-     * @param nm  the name of the keymap to remove
-     * @return the keymap that was removed
+     * @pbrbm nm  the nbme of the keymbp to remove
+     * @return the keymbp thbt wbs removed
      */
-    public static Keymap removeKeymap(String nm) {
-        return getKeymapTable().remove(nm);
+    public stbtic Keymbp removeKeymbp(String nm) {
+        return getKeymbpTbble().remove(nm);
     }
 
     /**
-     * Fetches a named keymap previously added to the document.
-     * This does not work with <code>null</code>-named keymaps.
+     * Fetches b nbmed keymbp previously bdded to the document.
+     * This does not work with <code>null</code>-nbmed keymbps.
      *
-     * @param nm  the name of the keymap
-     * @return the keymap
+     * @pbrbm nm  the nbme of the keymbp
+     * @return the keymbp
      */
-    public static Keymap getKeymap(String nm) {
-        return getKeymapTable().get(nm);
+    public stbtic Keymbp getKeymbp(String nm) {
+        return getKeymbpTbble().get(nm);
     }
 
-    private static HashMap<String,Keymap> getKeymapTable() {
+    privbte stbtic HbshMbp<String,Keymbp> getKeymbpTbble() {
         synchronized (KEYMAP_TABLE) {
-            AppContext appContext = AppContext.getAppContext();
-            @SuppressWarnings("unchecked")
-            HashMap<String,Keymap> keymapTable =
-                (HashMap<String,Keymap>)appContext.get(KEYMAP_TABLE);
-            if (keymapTable == null) {
-                keymapTable = new HashMap<String,Keymap>(17);
-                appContext.put(KEYMAP_TABLE, keymapTable);
-                //initialize default keymap
-                Keymap binding = addKeymap(DEFAULT_KEYMAP, null);
-                binding.setDefaultAction(new
-                                         DefaultEditorKit.DefaultKeyTypedAction());
+            AppContext bppContext = AppContext.getAppContext();
+            @SuppressWbrnings("unchecked")
+            HbshMbp<String,Keymbp> keymbpTbble =
+                (HbshMbp<String,Keymbp>)bppContext.get(KEYMAP_TABLE);
+            if (keymbpTbble == null) {
+                keymbpTbble = new HbshMbp<String,Keymbp>(17);
+                bppContext.put(KEYMAP_TABLE, keymbpTbble);
+                //initiblize defbult keymbp
+                Keymbp binding = bddKeymbp(DEFAULT_KEYMAP, null);
+                binding.setDefbultAction(new
+                                         DefbultEditorKit.DefbultKeyTypedAction());
             }
-            return keymapTable;
+            return keymbpTbble;
         }
     }
 
     /**
-     * Binding record for creating key bindings.
+     * Binding record for crebting key bindings.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class KeyBinding {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss KeyBinding {
 
         /**
          * The key.
@@ -1127,98 +1127,98 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         public KeyStroke key;
 
         /**
-         * The name of the action for the key.
+         * The nbme of the bction for the key.
          */
-        public String actionName;
+        public String bctionNbme;
 
         /**
-         * Creates a new key binding.
+         * Crebtes b new key binding.
          *
-         * @param key the key
-         * @param actionName the name of the action for the key
+         * @pbrbm key the key
+         * @pbrbm bctionNbme the nbme of the bction for the key
          */
-        public KeyBinding(KeyStroke key, String actionName) {
+        public KeyBinding(KeyStroke key, String bctionNbme) {
             this.key = key;
-            this.actionName = actionName;
+            this.bctionNbme = bctionNbme;
         }
     }
 
     /**
      * <p>
-     * Loads a keymap with a bunch of
-     * bindings.  This can be used to take a static table of
-     * definitions and load them into some keymap.  The following
-     * example illustrates an example of binding some keys to
-     * the cut, copy, and paste actions associated with a
-     * JTextComponent.  A code fragment to accomplish
-     * this might look as follows:
+     * Lobds b keymbp with b bunch of
+     * bindings.  This cbn be used to tbke b stbtic tbble of
+     * definitions bnd lobd them into some keymbp.  The following
+     * exbmple illustrbtes bn exbmple of binding some keys to
+     * the cut, copy, bnd pbste bctions bssocibted with b
+     * JTextComponent.  A code frbgment to bccomplish
+     * this might look bs follows:
      * <pre><code>
      *
-     *   static final JTextComponent.KeyBinding[] defaultBindings = {
+     *   stbtic finbl JTextComponent.KeyBinding[] defbultBindings = {
      *     new JTextComponent.KeyBinding(
      *       KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK),
-     *       DefaultEditorKit.copyAction),
+     *       DefbultEditorKit.copyAction),
      *     new JTextComponent.KeyBinding(
      *       KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK),
-     *       DefaultEditorKit.pasteAction),
+     *       DefbultEditorKit.pbsteAction),
      *     new JTextComponent.KeyBinding(
      *       KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK),
-     *       DefaultEditorKit.cutAction),
+     *       DefbultEditorKit.cutAction),
      *   };
      *
-     *   JTextComponent c = new JTextPane();
-     *   Keymap k = c.getKeymap();
-     *   JTextComponent.loadKeymap(k, defaultBindings, c.getActions());
+     *   JTextComponent c = new JTextPbne();
+     *   Keymbp k = c.getKeymbp();
+     *   JTextComponent.lobdKeymbp(k, defbultBindings, c.getActions());
      *
      * </code></pre>
-     * The sets of bindings and actions may be empty but must be
+     * The sets of bindings bnd bctions mby be empty but must be
      * non-<code>null</code>.
      *
-     * @param map the keymap
-     * @param bindings the bindings
-     * @param actions the set of actions
+     * @pbrbm mbp the keymbp
+     * @pbrbm bindings the bindings
+     * @pbrbm bctions the set of bctions
      */
-    public static void loadKeymap(Keymap map, KeyBinding[] bindings, Action[] actions) {
-        Hashtable<String, Action> h = new Hashtable<String, Action>();
-        for (Action a : actions) {
-            String value = (String)a.getValue(Action.NAME);
-            h.put((value!=null ? value:""), a);
+    public stbtic void lobdKeymbp(Keymbp mbp, KeyBinding[] bindings, Action[] bctions) {
+        Hbshtbble<String, Action> h = new Hbshtbble<String, Action>();
+        for (Action b : bctions) {
+            String vblue = (String)b.getVblue(Action.NAME);
+            h.put((vblue!=null ? vblue:""), b);
         }
         for (KeyBinding binding : bindings) {
-            Action a = h.get(binding.actionName);
-            if (a != null) {
-                map.addActionForKeyStroke(binding.key, a);
+            Action b = h.get(binding.bctionNbme);
+            if (b != null) {
+                mbp.bddActionForKeyStroke(binding.key, b);
             }
         }
     }
 
     /**
      * Fetches the current color used to render the
-     * caret.
+     * cbret.
      *
      * @return the color
      */
-    public Color getCaretColor() {
-        return caretColor;
+    public Color getCbretColor() {
+        return cbretColor;
     }
 
     /**
-     * Sets the current color used to render the caret.
-     * Setting to <code>null</code> effectively restores the default color.
-     * Setting the color results in a PropertyChange event ("caretColor")
+     * Sets the current color used to render the cbret.
+     * Setting to <code>null</code> effectively restores the defbult color.
+     * Setting the color results in b PropertyChbnge event ("cbretColor")
      * being fired.
      *
-     * @param c the color
-     * @see #getCaretColor
-     * @beaninfo
-     *  description: the color used to render the caret
+     * @pbrbm c the color
+     * @see #getCbretColor
+     * @bebninfo
+     *  description: the color used to render the cbret
      *        bound: true
      *    preferred: true
      */
-    public void setCaretColor(Color c) {
-        Color old = caretColor;
-        caretColor = c;
-        firePropertyChange("caretColor", old, caretColor);
+    public void setCbretColor(Color c) {
+        Color old = cbretColor;
+        cbretColor = c;
+        firePropertyChbnge("cbretColor", old, cbretColor);
     }
 
     /**
@@ -1233,21 +1233,21 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
     /**
      * Sets the current color used to render the selection.
-     * Setting the color to <code>null</code> is the same as setting
-     * <code>Color.white</code>.  Setting the color results in a
-     * PropertyChange event ("selectionColor").
+     * Setting the color to <code>null</code> is the sbme bs setting
+     * <code>Color.white</code>.  Setting the color results in b
+     * PropertyChbnge event ("selectionColor").
      *
-     * @param c the color
+     * @pbrbm c the color
      * @see #getSelectionColor
-     * @beaninfo
-     *  description: color used to render selection background
+     * @bebninfo
+     *  description: color used to render selection bbckground
      *        bound: true
      *    preferred: true
      */
     public void setSelectionColor(Color c) {
         Color old = selectionColor;
         selectionColor = c;
-        firePropertyChange("selectionColor", old, selectionColor);
+        firePropertyChbnge("selectionColor", old, selectionColor);
     }
 
     /**
@@ -1262,13 +1262,13 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
     /**
      * Sets the current color used to render the selected text.
-     * Setting the color to <code>null</code> is the same as
-     * <code>Color.black</code>. Setting the color results in a
-     * PropertyChange event ("selectedTextColor") being fired.
+     * Setting the color to <code>null</code> is the sbme bs
+     * <code>Color.blbck</code>. Setting the color results in b
+     * PropertyChbnge event ("selectedTextColor") being fired.
      *
-     * @param c the color
+     * @pbrbm c the color
      * @see #getSelectedTextColor
-     * @beaninfo
+     * @bebninfo
      *  description: color used to render selected text
      *        bound: true
      *    preferred: true
@@ -1276,59 +1276,59 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     public void setSelectedTextColor(Color c) {
         Color old = selectedTextColor;
         selectedTextColor = c;
-        firePropertyChange("selectedTextColor", old, selectedTextColor);
+        firePropertyChbnge("selectedTextColor", old, selectedTextColor);
     }
 
     /**
      * Fetches the current color used to render the
-     * disabled text.
+     * disbbled text.
      *
      * @return the color
      */
-    public Color getDisabledTextColor() {
-        return disabledTextColor;
+    public Color getDisbbledTextColor() {
+        return disbbledTextColor;
     }
 
     /**
      * Sets the current color used to render the
-     * disabled text.  Setting the color fires off a
-     * PropertyChange event ("disabledTextColor").
+     * disbbled text.  Setting the color fires off b
+     * PropertyChbnge event ("disbbledTextColor").
      *
-     * @param c the color
-     * @see #getDisabledTextColor
-     * @beaninfo
-     *  description: color used to render disabled text
+     * @pbrbm c the color
+     * @see #getDisbbledTextColor
+     * @bebninfo
+     *  description: color used to render disbbled text
      *        bound: true
      *    preferred: true
      */
-    public void setDisabledTextColor(Color c) {
-        Color old = disabledTextColor;
-        disabledTextColor = c;
-        firePropertyChange("disabledTextColor", old, disabledTextColor);
+    public void setDisbbledTextColor(Color c) {
+        Color old = disbbledTextColor;
+        disbbledTextColor = c;
+        firePropertyChbnge("disbbledTextColor", old, disbbledTextColor);
     }
 
     /**
-     * Replaces the currently selected content with new content
+     * Replbces the currently selected content with new content
      * represented by the given string.  If there is no selection
-     * this amounts to an insert of the given text.  If there
-     * is no replacement text this amounts to a removal of the
+     * this bmounts to bn insert of the given text.  If there
+     * is no replbcement text this bmounts to b removbl of the
      * current selection.
      * <p>
-     * This is the method that is used by the default implementation
-     * of the action for inserting content that gets bound to the
-     * keymap actions.
+     * This is the method thbt is used by the defbult implementbtion
+     * of the bction for inserting content thbt gets bound to the
+     * keymbp bctions.
      *
-     * @param content  the content to replace the selection with
+     * @pbrbm content  the content to replbce the selection with
      */
-    public void replaceSelection(String content) {
+    public void replbceSelection(String content) {
         Document doc = getDocument();
         if (doc != null) {
             try {
-                boolean composedTextSaved = saveComposedText(caret.getDot());
-                int p0 = Math.min(caret.getDot(), caret.getMark());
-                int p1 = Math.max(caret.getDot(), caret.getMark());
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(p0, p1 - p0, content,null);
+                boolebn composedTextSbved = sbveComposedText(cbret.getDot());
+                int p0 = Mbth.min(cbret.getDot(), cbret.getMbrk());
+                int p1 = Mbth.mbx(cbret.getDot(), cbret.getMbrk());
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).replbce(p0, p1 - p0, content,null);
                 }
                 else {
                     if (p0 != p1) {
@@ -1338,59 +1338,59 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                         doc.insertString(p0, content, null);
                     }
                 }
-                if (composedTextSaved) {
+                if (composedTextSbved) {
                     restoreComposedText();
                 }
-            } catch (BadLocationException e) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JTextComponent.this);
+            } cbtch (BbdLocbtionException e) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextComponent.this);
             }
         }
     }
 
     /**
-     * Fetches a portion of the text represented by the
-     * component.  Returns an empty string if length is 0.
+     * Fetches b portion of the text represented by the
+     * component.  Returns bn empty string if length is 0.
      *
-     * @param offs the offset &ge; 0
-     * @param len the length &ge; 0
+     * @pbrbm offs the offset &ge; 0
+     * @pbrbm len the length &ge; 0
      * @return the text
-     * @exception BadLocationException if the offset or length are invalid
+     * @exception BbdLocbtionException if the offset or length bre invblid
      */
-    public String getText(int offs, int len) throws BadLocationException {
+    public String getText(int offs, int len) throws BbdLocbtionException {
         return getDocument().getText(offs, len);
     }
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
-     * The component must have a positive size for
-     * this translation to be computed (i.e. layout cannot
-     * be computed until the component has been sized).  The
-     * component does not have to be visible or painted.
+     * Converts the given locbtion in the model to b plbce in
+     * the view coordinbte system.
+     * The component must hbve b positive size for
+     * this trbnslbtion to be computed (i.e. lbyout cbnnot
+     * be computed until the component hbs been sized).  The
+     * component does not hbve to be visible or pbinted.
      *
-     * @param pos the position &ge; 0
-     * @return the coordinates as a rectangle, with (r.x, r.y) as the location
-     *   in the coordinate system, or null if the component does
-     *   not yet have a positive size.
-     * @exception BadLocationException if the given position does not
-     *   represent a valid location in the associated document
+     * @pbrbm pos the position &ge; 0
+     * @return the coordinbtes bs b rectbngle, with (r.x, r.y) bs the locbtion
+     *   in the coordinbte system, or null if the component does
+     *   not yet hbve b positive size.
+     * @exception BbdLocbtionException if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
      * @see TextUI#modelToView
      */
-    public Rectangle modelToView(int pos) throws BadLocationException {
+    public Rectbngle modelToView(int pos) throws BbdLocbtionException {
         return getUI().modelToView(this, pos);
     }
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
-     * The component must have a positive size for
-     * this translation to be computed (i.e. layout cannot
-     * be computed until the component has been sized).  The
-     * component does not have to be visible or painted.
+     * Converts the given plbce in the view coordinbte system
+     * to the nebrest representbtive locbtion in the model.
+     * The component must hbve b positive size for
+     * this trbnslbtion to be computed (i.e. lbyout cbnnot
+     * be computed until the component hbs been sized).  The
+     * component does not hbve to be visible or pbinted.
      *
-     * @param pt the location in the view to translate
-     * @return the offset &ge; 0 from the start of the document,
-     *   or -1 if the component does not yet have a positive
+     * @pbrbm pt the locbtion in the view to trbnslbte
+     * @return the offset &ge; 0 from the stbrt of the document,
+     *   or -1 if the component does not yet hbve b positive
      *   size.
      * @see TextUI#viewToModel
      */
@@ -1399,205 +1399,205 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     }
 
     /**
-     * Transfers the currently selected range in the associated
-     * text model to the system clipboard, removing the contents
+     * Trbnsfers the currently selected rbnge in the bssocibted
+     * text model to the system clipbobrd, removing the contents
      * from the model.  The current selection is reset.  Does nothing
      * for <code>null</code> selections.
      *
-     * @see java.awt.Toolkit#getSystemClipboard
-     * @see java.awt.datatransfer.Clipboard
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
+     * @see jbvb.bwt.dbtbtrbnsfer.Clipbobrd
      */
     public void cut() {
-        if (isEditable() && isEnabled()) {
-            invokeAction("cut", TransferHandler.getCutAction());
+        if (isEditbble() && isEnbbled()) {
+            invokeAction("cut", TrbnsferHbndler.getCutAction());
         }
     }
 
     /**
-     * Transfers the currently selected range in the associated
-     * text model to the system clipboard, leaving the contents
-     * in the text model.  The current selection remains intact.
+     * Trbnsfers the currently selected rbnge in the bssocibted
+     * text model to the system clipbobrd, lebving the contents
+     * in the text model.  The current selection rembins intbct.
      * Does nothing for <code>null</code> selections.
      *
-     * @see java.awt.Toolkit#getSystemClipboard
-     * @see java.awt.datatransfer.Clipboard
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
+     * @see jbvb.bwt.dbtbtrbnsfer.Clipbobrd
      */
     public void copy() {
-        invokeAction("copy", TransferHandler.getCopyAction());
+        invokeAction("copy", TrbnsferHbndler.getCopyAction());
     }
 
     /**
-     * Transfers the contents of the system clipboard into the
-     * associated text model.  If there is a selection in the
-     * associated view, it is replaced with the contents of the
-     * clipboard.  If there is no selection, the clipboard contents
-     * are inserted in front of the current insert position in
-     * the associated view.  If the clipboard is empty, does nothing.
+     * Trbnsfers the contents of the system clipbobrd into the
+     * bssocibted text model.  If there is b selection in the
+     * bssocibted view, it is replbced with the contents of the
+     * clipbobrd.  If there is no selection, the clipbobrd contents
+     * bre inserted in front of the current insert position in
+     * the bssocibted view.  If the clipbobrd is empty, does nothing.
      *
-     * @see #replaceSelection
-     * @see java.awt.Toolkit#getSystemClipboard
-     * @see java.awt.datatransfer.Clipboard
+     * @see #replbceSelection
+     * @see jbvb.bwt.Toolkit#getSystemClipbobrd
+     * @see jbvb.bwt.dbtbtrbnsfer.Clipbobrd
      */
-    public void paste() {
-        if (isEditable() && isEnabled()) {
-            invokeAction("paste", TransferHandler.getPasteAction());
+    public void pbste() {
+        if (isEditbble() && isEnbbled()) {
+            invokeAction("pbste", TrbnsferHbndler.getPbsteAction());
         }
     }
 
     /**
-     * This is a convenience method that is only useful for
-     * <code>cut</code>, <code>copy</code> and <code>paste</code>.  If
-     * an <code>Action</code> with the name <code>name</code> does not
-     * exist in the <code>ActionMap</code>, this will attempt to install a
-     * <code>TransferHandler</code> and then use <code>altAction</code>.
+     * This is b convenience method thbt is only useful for
+     * <code>cut</code>, <code>copy</code> bnd <code>pbste</code>.  If
+     * bn <code>Action</code> with the nbme <code>nbme</code> does not
+     * exist in the <code>ActionMbp</code>, this will bttempt to instbll b
+     * <code>TrbnsferHbndler</code> bnd then use <code>bltAction</code>.
      */
-    private void invokeAction(String name, Action altAction) {
-        ActionMap map = getActionMap();
-        Action action = null;
+    privbte void invokeAction(String nbme, Action bltAction) {
+        ActionMbp mbp = getActionMbp();
+        Action bction = null;
 
-        if (map != null) {
-            action = map.get(name);
+        if (mbp != null) {
+            bction = mbp.get(nbme);
         }
-        if (action == null) {
-            installDefaultTransferHandlerIfNecessary();
-            action = altAction;
+        if (bction == null) {
+            instbllDefbultTrbnsferHbndlerIfNecessbry();
+            bction = bltAction;
         }
-        action.actionPerformed(new ActionEvent(this,
-                               ActionEvent.ACTION_PERFORMED, (String)action.
-                               getValue(Action.NAME),
+        bction.bctionPerformed(new ActionEvent(this,
+                               ActionEvent.ACTION_PERFORMED, (String)bction.
+                               getVblue(Action.NAME),
                                EventQueue.getMostRecentEventTime(),
                                getCurrentEventModifiers()));
     }
 
     /**
-     * If the current <code>TransferHandler</code> is null, this will
-     * install a new one.
+     * If the current <code>TrbnsferHbndler</code> is null, this will
+     * instbll b new one.
      */
-    private void installDefaultTransferHandlerIfNecessary() {
-        if (getTransferHandler() == null) {
-            if (defaultTransferHandler == null) {
-                defaultTransferHandler = new DefaultTransferHandler();
+    privbte void instbllDefbultTrbnsferHbndlerIfNecessbry() {
+        if (getTrbnsferHbndler() == null) {
+            if (defbultTrbnsferHbndler == null) {
+                defbultTrbnsferHbndler = new DefbultTrbnsferHbndler();
             }
-            setTransferHandler(defaultTransferHandler);
+            setTrbnsferHbndler(defbultTrbnsferHbndler);
         }
     }
 
     /**
-     * Moves the caret to a new position, leaving behind a mark
-     * defined by the last time <code>setCaretPosition</code> was
-     * called.  This forms a selection.
+     * Moves the cbret to b new position, lebving behind b mbrk
+     * defined by the lbst time <code>setCbretPosition</code> wbs
+     * cblled.  This forms b selection.
      * If the document is <code>null</code>, does nothing. The position
-     * must be between 0 and the length of the component's text or else
-     * an exception is thrown.
+     * must be between 0 bnd the length of the component's text or else
+     * bn exception is thrown.
      *
-     * @param pos the position
-     * @exception    IllegalArgumentException if the value supplied
-     *               for <code>position</code> is less than zero or greater
-     *               than the component's text length
-     * @see #setCaretPosition
+     * @pbrbm pos the position
+     * @exception    IllegblArgumentException if the vblue supplied
+     *               for <code>position</code> is less thbn zero or grebter
+     *               thbn the component's text length
+     * @see #setCbretPosition
      */
-    public void moveCaretPosition(int pos) {
+    public void moveCbretPosition(int pos) {
         Document doc = getDocument();
         if (doc != null) {
             if (pos > doc.getLength() || pos < 0) {
-                throw new IllegalArgumentException("bad position: " + pos);
+                throw new IllegblArgumentException("bbd position: " + pos);
             }
-            caret.moveDot(pos);
+            cbret.moveDot(pos);
         }
     }
 
     /**
-     * The bound property name for the focus accelerator.
+     * The bound property nbme for the focus bccelerbtor.
      */
-    public static final String FOCUS_ACCELERATOR_KEY = "focusAcceleratorKey";
+    public stbtic finbl String FOCUS_ACCELERATOR_KEY = "focusAccelerbtorKey";
 
     /**
-     * Sets the key accelerator that will cause the receiving text
-     * component to get the focus.  The accelerator will be the
-     * key combination of the platform-specific modifier key and
-     * the character given (converted to upper case).  For example,
-     * the ALT key is used as a modifier on Windows and the CTRL+ALT
-     * combination is used on Mac.  By default, there is no focus
-     * accelerator key.  Any previous key accelerator setting will be
-     * superseded.  A '\0' key setting will be registered, and has the
-     * effect of turning off the focus accelerator.  When the new key
-     * is set, a PropertyChange event (FOCUS_ACCELERATOR_KEY) will be fired.
+     * Sets the key bccelerbtor thbt will cbuse the receiving text
+     * component to get the focus.  The bccelerbtor will be the
+     * key combinbtion of the plbtform-specific modifier key bnd
+     * the chbrbcter given (converted to upper cbse).  For exbmple,
+     * the ALT key is used bs b modifier on Windows bnd the CTRL+ALT
+     * combinbtion is used on Mbc.  By defbult, there is no focus
+     * bccelerbtor key.  Any previous key bccelerbtor setting will be
+     * superseded.  A '\0' key setting will be registered, bnd hbs the
+     * effect of turning off the focus bccelerbtor.  When the new key
+     * is set, b PropertyChbnge event (FOCUS_ACCELERATOR_KEY) will be fired.
      *
-     * @param aKey the key
-     * @see #getFocusAccelerator
-     * @beaninfo
-     *  description: accelerator character used to grab focus
+     * @pbrbm bKey the key
+     * @see #getFocusAccelerbtor
+     * @bebninfo
+     *  description: bccelerbtor chbrbcter used to grbb focus
      *        bound: true
      */
-    public void setFocusAccelerator(char aKey) {
-        aKey = Character.toUpperCase(aKey);
-        char old = focusAccelerator;
-        focusAccelerator = aKey;
-        // Fix for 4341002: value of FOCUS_ACCELERATOR_KEY is wrong.
-        // So we fire both FOCUS_ACCELERATOR_KEY, for compatibility,
-        // and the correct event here.
-        firePropertyChange(FOCUS_ACCELERATOR_KEY, old, focusAccelerator);
-        firePropertyChange("focusAccelerator", old, focusAccelerator);
+    public void setFocusAccelerbtor(chbr bKey) {
+        bKey = Chbrbcter.toUpperCbse(bKey);
+        chbr old = focusAccelerbtor;
+        focusAccelerbtor = bKey;
+        // Fix for 4341002: vblue of FOCUS_ACCELERATOR_KEY is wrong.
+        // So we fire both FOCUS_ACCELERATOR_KEY, for compbtibility,
+        // bnd the correct event here.
+        firePropertyChbnge(FOCUS_ACCELERATOR_KEY, old, focusAccelerbtor);
+        firePropertyChbnge("focusAccelerbtor", old, focusAccelerbtor);
     }
 
     /**
-     * Returns the key accelerator that will cause the receiving
+     * Returns the key bccelerbtor thbt will cbuse the receiving
      * text component to get the focus.  Return '\0' if no focus
-     * accelerator has been set.
+     * bccelerbtor hbs been set.
      *
      * @return the key
      */
-    public char getFocusAccelerator() {
-        return focusAccelerator;
+    public chbr getFocusAccelerbtor() {
+        return focusAccelerbtor;
     }
 
     /**
-     * Initializes from a stream.  This creates a
-     * model of the type appropriate for the component
-     * and initializes the model from the stream.
-     * By default this will load the model as plain
-     * text.  Previous contents of the model are discarded.
+     * Initiblizes from b strebm.  This crebtes b
+     * model of the type bppropribte for the component
+     * bnd initiblizes the model from the strebm.
+     * By defbult this will lobd the model bs plbin
+     * text.  Previous contents of the model bre discbrded.
      *
-     * @param in the stream to read from
-     * @param desc an object describing the stream; this
-     *   might be a string, a File, a URL, etc.  Some kinds
-     *   of documents (such as html for example) might be
-     *   able to make use of this information; if non-<code>null</code>,
-     *   it is added as a property of the document
-     * @exception IOException as thrown by the stream being
-     *  used to initialize
-     * @see EditorKit#createDefaultDocument
+     * @pbrbm in the strebm to rebd from
+     * @pbrbm desc bn object describing the strebm; this
+     *   might be b string, b File, b URL, etc.  Some kinds
+     *   of documents (such bs html for exbmple) might be
+     *   bble to mbke use of this informbtion; if non-<code>null</code>,
+     *   it is bdded bs b property of the document
+     * @exception IOException bs thrown by the strebm being
+     *  used to initiblize
+     * @see EditorKit#crebteDefbultDocument
      * @see #setDocument
-     * @see PlainDocument
+     * @see PlbinDocument
      */
-    public void read(Reader in, Object desc) throws IOException {
+    public void rebd(Rebder in, Object desc) throws IOException {
         EditorKit kit = getUI().getEditorKit(this);
-        Document doc = kit.createDefaultDocument();
+        Document doc = kit.crebteDefbultDocument();
         if (desc != null) {
-            doc.putProperty(Document.StreamDescriptionProperty, desc);
+            doc.putProperty(Document.StrebmDescriptionProperty, desc);
         }
         try {
-            kit.read(in, doc, 0);
+            kit.rebd(in, doc, 0);
             setDocument(doc);
-        } catch (BadLocationException e) {
-            throw new IOException(e.getMessage());
+        } cbtch (BbdLocbtionException e) {
+            throw new IOException(e.getMessbge());
         }
     }
 
     /**
      * Stores the contents of the model into the given
-     * stream.  By default this will store the model as plain
+     * strebm.  By defbult this will store the model bs plbin
      * text.
      *
-     * @param out the output stream
-     * @exception IOException on any I/O error
+     * @pbrbm out the output strebm
+     * @exception IOException on bny I/O error
      */
     public void write(Writer out) throws IOException {
         Document doc = getDocument();
         try {
             getUI().getEditorKit(this).write(out, doc, 0, doc.getLength());
-        } catch (BadLocationException e) {
-            throw new IOException(e.getMessage());
+        } cbtch (BbdLocbtionException e) {
+            throw new IOException(e.getMessbge());
         }
     }
 
@@ -1608,85 +1608,85 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
     }
 
-    // --- java.awt.TextComponent methods ------------------------
+    // --- jbvb.bwt.TextComponent methods ------------------------
 
     /**
-     * Sets the position of the text insertion caret for the
-     * <code>TextComponent</code>.  Note that the caret tracks change,
-     * so this may move if the underlying text of the component is changed.
+     * Sets the position of the text insertion cbret for the
+     * <code>TextComponent</code>.  Note thbt the cbret trbcks chbnge,
+     * so this mby move if the underlying text of the component is chbnged.
      * If the document is <code>null</code>, does nothing. The position
-     * must be between 0 and the length of the component's text or else
-     * an exception is thrown.
+     * must be between 0 bnd the length of the component's text or else
+     * bn exception is thrown.
      *
-     * @param position the position
-     * @exception    IllegalArgumentException if the value supplied
-     *               for <code>position</code> is less than zero or greater
-     *               than the component's text length
-     * @beaninfo
-     * description: the caret position
+     * @pbrbm position the position
+     * @exception    IllegblArgumentException if the vblue supplied
+     *               for <code>position</code> is less thbn zero or grebter
+     *               thbn the component's text length
+     * @bebninfo
+     * description: the cbret position
      */
-    public void setCaretPosition(int position) {
+    public void setCbretPosition(int position) {
         Document doc = getDocument();
         if (doc != null) {
             if (position > doc.getLength() || position < 0) {
-                throw new IllegalArgumentException("bad position: " + position);
+                throw new IllegblArgumentException("bbd position: " + position);
             }
-            caret.setDot(position);
+            cbret.setDot(position);
         }
     }
 
     /**
-     * Returns the position of the text insertion caret for the
+     * Returns the position of the text insertion cbret for the
      * text component.
      *
-     * @return the position of the text insertion caret for the
+     * @return the position of the text insertion cbret for the
      *  text component &ge; 0
      */
-    @Transient
-    public int getCaretPosition() {
-        return caret.getDot();
+    @Trbnsient
+    public int getCbretPosition() {
+        return cbret.getDot();
     }
 
     /**
      * Sets the text of this <code>TextComponent</code>
      * to the specified text.  If the text is <code>null</code>
-     * or empty, has the effect of simply deleting the old text.
-     * When text has been inserted, the resulting caret location
-     * is determined by the implementation of the caret class.
+     * or empty, hbs the effect of simply deleting the old text.
+     * When text hbs been inserted, the resulting cbret locbtion
+     * is determined by the implementbtion of the cbret clbss.
      *
      * <p>
-     * Note that text is not a bound property, so no <code>PropertyChangeEvent
-     * </code> is fired when it changes. To listen for changes to the text,
+     * Note thbt text is not b bound property, so no <code>PropertyChbngeEvent
+     * </code> is fired when it chbnges. To listen for chbnges to the text,
      * use <code>DocumentListener</code>.
      *
-     * @param t the new text to be set
+     * @pbrbm t the new text to be set
      * @see #getText
-     * @see DefaultCaret
-     * @beaninfo
+     * @see DefbultCbret
+     * @bebninfo
      * description: the text of this component
      */
     public void setText(String t) {
         try {
             Document doc = getDocument();
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).replace(0, doc.getLength(), t,null);
+            if (doc instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)doc).replbce(0, doc.getLength(), t,null);
             }
             else {
                 doc.remove(0, doc.getLength());
                 doc.insertString(0, t, null);
             }
-        } catch (BadLocationException e) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JTextComponent.this);
+        } cbtch (BbdLocbtionException e) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextComponent.this);
         }
     }
 
     /**
-     * Returns the text contained in this <code>TextComponent</code>.
+     * Returns the text contbined in this <code>TextComponent</code>.
      * If the underlying document is <code>null</code>,
-     * will give a <code>NullPointerException</code>.
+     * will give b <code>NullPointerException</code>.
      *
-     * Note that text is not a bound property, so no <code>PropertyChangeEvent
-     * </code> is fired when it changes. To listen for changes to the text,
+     * Note thbt text is not b bound property, so no <code>PropertyChbngeEvent
+     * </code> is fired when it chbnges. To listen for chbnges to the text,
      * use <code>DocumentListener</code>.
      *
      * @return the text
@@ -1698,354 +1698,354 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         String txt;
         try {
             txt = doc.getText(0, doc.getLength());
-        } catch (BadLocationException e) {
+        } cbtch (BbdLocbtionException e) {
             txt = null;
         }
         return txt;
     }
 
     /**
-     * Returns the selected text contained in this
+     * Returns the selected text contbined in this
      * <code>TextComponent</code>.  If the selection is
      * <code>null</code> or the document empty, returns <code>null</code>.
      *
      * @return the text
-     * @exception IllegalArgumentException if the selection doesn't
-     *  have a valid mapping into the document for some reason
+     * @exception IllegblArgumentException if the selection doesn't
+     *  hbve b vblid mbpping into the document for some rebson
      * @see #setText
      */
     public String getSelectedText() {
         String txt = null;
-        int p0 = Math.min(caret.getDot(), caret.getMark());
-        int p1 = Math.max(caret.getDot(), caret.getMark());
+        int p0 = Mbth.min(cbret.getDot(), cbret.getMbrk());
+        int p1 = Mbth.mbx(cbret.getDot(), cbret.getMbrk());
         if (p0 != p1) {
             try {
                 Document doc = getDocument();
                 txt = doc.getText(p0, p1 - p0);
-            } catch (BadLocationException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } cbtch (BbdLocbtionException e) {
+                throw new IllegblArgumentException(e.getMessbge());
             }
         }
         return txt;
     }
 
     /**
-     * Returns the boolean indicating whether this
-     * <code>TextComponent</code> is editable or not.
+     * Returns the boolebn indicbting whether this
+     * <code>TextComponent</code> is editbble or not.
      *
-     * @return the boolean value
-     * @see #setEditable
+     * @return the boolebn vblue
+     * @see #setEditbble
      */
-    public boolean isEditable() {
-        return editable;
+    public boolebn isEditbble() {
+        return editbble;
     }
 
     /**
-     * Sets the specified boolean to indicate whether or not this
-     * <code>TextComponent</code> should be editable.
-     * A PropertyChange event ("editable") is fired when the
-     * state is changed.
+     * Sets the specified boolebn to indicbte whether or not this
+     * <code>TextComponent</code> should be editbble.
+     * A PropertyChbnge event ("editbble") is fired when the
+     * stbte is chbnged.
      *
-     * @param b the boolean to be set
-     * @see #isEditable
-     * @beaninfo
-     * description: specifies if the text can be edited
+     * @pbrbm b the boolebn to be set
+     * @see #isEditbble
+     * @bebninfo
+     * description: specifies if the text cbn be edited
      *       bound: true
      */
-    public void setEditable(boolean b) {
-        if (b != editable) {
-            boolean oldVal = editable;
-            editable = b;
-            enableInputMethods(editable);
-            firePropertyChange("editable", Boolean.valueOf(oldVal), Boolean.valueOf(editable));
-            repaint();
+    public void setEditbble(boolebn b) {
+        if (b != editbble) {
+            boolebn oldVbl = editbble;
+            editbble = b;
+            enbbleInputMethods(editbble);
+            firePropertyChbnge("editbble", Boolebn.vblueOf(oldVbl), Boolebn.vblueOf(editbble));
+            repbint();
         }
     }
 
     /**
-     * Returns the selected text's start position.  Return 0 for an
-     * empty document, or the value of dot if no selection.
+     * Returns the selected text's stbrt position.  Return 0 for bn
+     * empty document, or the vblue of dot if no selection.
      *
-     * @return the start position &ge; 0
+     * @return the stbrt position &ge; 0
      */
-    @Transient
-    public int getSelectionStart() {
-        int start = Math.min(caret.getDot(), caret.getMark());
-        return start;
+    @Trbnsient
+    public int getSelectionStbrt() {
+        int stbrt = Mbth.min(cbret.getDot(), cbret.getMbrk());
+        return stbrt;
     }
 
     /**
-     * Sets the selection start to the specified position.  The new
-     * starting point is constrained to be before or at the current
+     * Sets the selection stbrt to the specified position.  The new
+     * stbrting point is constrbined to be before or bt the current
      * selection end.
      * <p>
-     * This is available for backward compatibility to code
-     * that called this method on <code>java.awt.TextComponent</code>.
-     * This is implemented to forward to the <code>Caret</code>
-     * implementation which is where the actual selection is maintained.
+     * This is bvbilbble for bbckwbrd compbtibility to code
+     * thbt cblled this method on <code>jbvb.bwt.TextComponent</code>.
+     * This is implemented to forwbrd to the <code>Cbret</code>
+     * implementbtion which is where the bctubl selection is mbintbined.
      *
-     * @param selectionStart the start position of the text &ge; 0
-     * @beaninfo
-     * description: starting location of the selection.
+     * @pbrbm selectionStbrt the stbrt position of the text &ge; 0
+     * @bebninfo
+     * description: stbrting locbtion of the selection.
      */
-    public void setSelectionStart(int selectionStart) {
+    public void setSelectionStbrt(int selectionStbrt) {
         /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+         * between selectionStbrt bnd selectionEnd.
          */
-        select(selectionStart, getSelectionEnd());
+        select(selectionStbrt, getSelectionEnd());
     }
 
     /**
      * Returns the selected text's end position.  Return 0 if the document
-     * is empty, or the value of dot if there is no selection.
+     * is empty, or the vblue of dot if there is no selection.
      *
      * @return the end position &ge; 0
      */
-    @Transient
+    @Trbnsient
     public int getSelectionEnd() {
-        int end = Math.max(caret.getDot(), caret.getMark());
+        int end = Mbth.mbx(cbret.getDot(), cbret.getMbrk());
         return end;
     }
 
     /**
      * Sets the selection end to the specified position.  The new
-     * end point is constrained to be at or after the current
-     * selection start.
+     * end point is constrbined to be bt or bfter the current
+     * selection stbrt.
      * <p>
-     * This is available for backward compatibility to code
-     * that called this method on <code>java.awt.TextComponent</code>.
-     * This is implemented to forward to the <code>Caret</code>
-     * implementation which is where the actual selection is maintained.
+     * This is bvbilbble for bbckwbrd compbtibility to code
+     * thbt cblled this method on <code>jbvb.bwt.TextComponent</code>.
+     * This is implemented to forwbrd to the <code>Cbret</code>
+     * implementbtion which is where the bctubl selection is mbintbined.
      *
-     * @param selectionEnd the end position of the text &ge; 0
-     * @beaninfo
-     * description: ending location of the selection.
+     * @pbrbm selectionEnd the end position of the text &ge; 0
+     * @bebninfo
+     * description: ending locbtion of the selection.
      */
     public void setSelectionEnd(int selectionEnd) {
         /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+         * between selectionStbrt bnd selectionEnd.
          */
-        select(getSelectionStart(), selectionEnd);
+        select(getSelectionStbrt(), selectionEnd);
     }
 
     /**
-     * Selects the text between the specified start and end positions.
+     * Selects the text between the specified stbrt bnd end positions.
      * <p>
-     * This method sets the start and end positions of the
-     * selected text, enforcing the restriction that the start position
-     * must be greater than or equal to zero.  The end position must be
-     * greater than or equal to the start position, and less than or
-     * equal to the length of the text component's text.
+     * This method sets the stbrt bnd end positions of the
+     * selected text, enforcing the restriction thbt the stbrt position
+     * must be grebter thbn or equbl to zero.  The end position must be
+     * grebter thbn or equbl to the stbrt position, bnd less thbn or
+     * equbl to the length of the text component's text.
      * <p>
-     * If the caller supplies values that are inconsistent or out of
-     * bounds, the method enforces these constraints silently, and
-     * without failure. Specifically, if the start position or end
-     * position is greater than the length of the text, it is reset to
-     * equal the text length. If the start position is less than zero,
-     * it is reset to zero, and if the end position is less than the
-     * start position, it is reset to the start position.
+     * If the cbller supplies vblues thbt bre inconsistent or out of
+     * bounds, the method enforces these constrbints silently, bnd
+     * without fbilure. Specificblly, if the stbrt position or end
+     * position is grebter thbn the length of the text, it is reset to
+     * equbl the text length. If the stbrt position is less thbn zero,
+     * it is reset to zero, bnd if the end position is less thbn the
+     * stbrt position, it is reset to the stbrt position.
      * <p>
-     * This call is provided for backward compatibility.
-     * It is routed to a call to <code>setCaretPosition</code>
-     * followed by a call to <code>moveCaretPosition</code>.
-     * The preferred way to manage selection is by calling
+     * This cbll is provided for bbckwbrd compbtibility.
+     * It is routed to b cbll to <code>setCbretPosition</code>
+     * followed by b cbll to <code>moveCbretPosition</code>.
+     * The preferred wby to mbnbge selection is by cblling
      * those methods directly.
      *
-     * @param selectionStart the start position of the text
-     * @param selectionEnd the end position of the text
-     * @see #setCaretPosition
-     * @see #moveCaretPosition
+     * @pbrbm selectionStbrt the stbrt position of the text
+     * @pbrbm selectionEnd the end position of the text
+     * @see #setCbretPosition
+     * @see #moveCbretPosition
      */
-    public void select(int selectionStart, int selectionEnd) {
-        // argument adjustment done by java.awt.TextComponent
+    public void select(int selectionStbrt, int selectionEnd) {
+        // brgument bdjustment done by jbvb.bwt.TextComponent
         int docLength = getDocument().getLength();
 
-        if (selectionStart < 0) {
-            selectionStart = 0;
+        if (selectionStbrt < 0) {
+            selectionStbrt = 0;
         }
-        if (selectionStart > docLength) {
-            selectionStart = docLength;
+        if (selectionStbrt > docLength) {
+            selectionStbrt = docLength;
         }
         if (selectionEnd > docLength) {
             selectionEnd = docLength;
         }
-        if (selectionEnd < selectionStart) {
-            selectionEnd = selectionStart;
+        if (selectionEnd < selectionStbrt) {
+            selectionEnd = selectionStbrt;
         }
 
-        setCaretPosition(selectionStart);
-        moveCaretPosition(selectionEnd);
+        setCbretPosition(selectionStbrt);
+        moveCbretPosition(selectionEnd);
     }
 
     /**
-     * Selects all the text in the <code>TextComponent</code>.
-     * Does nothing on a <code>null</code> or empty document.
+     * Selects bll the text in the <code>TextComponent</code>.
+     * Does nothing on b <code>null</code> or empty document.
      */
     public void selectAll() {
         Document doc = getDocument();
         if (doc != null) {
-            setCaretPosition(0);
-            moveCaretPosition(doc.getLength());
+            setCbretPosition(0);
+            moveCbretPosition(doc.getLength());
         }
     }
 
     // --- Tooltip Methods ---------------------------------------------
 
     /**
-     * Returns the string to be used as the tooltip for <code>event</code>.
+     * Returns the string to be used bs the tooltip for <code>event</code>.
      * This will return one of:
      * <ol>
-     *  <li>If <code>setToolTipText</code> has been invoked with a
+     *  <li>If <code>setToolTipText</code> hbs been invoked with b
      *      non-<code>null</code>
-     *      value, it will be returned, otherwise
-     *  <li>The value from invoking <code>getToolTipText</code> on
+     *      vblue, it will be returned, otherwise
+     *  <li>The vblue from invoking <code>getToolTipText</code> on
      *      the UI will be returned.
      * </ol>
-     * By default <code>JTextComponent</code> does not register
-     * itself with the <code>ToolTipManager</code>.
-     * This means that tooltips will NOT be shown from the
-     * <code>TextUI</code> unless <code>registerComponent</code> has
-     * been invoked on the <code>ToolTipManager</code>.
+     * By defbult <code>JTextComponent</code> does not register
+     * itself with the <code>ToolTipMbnbger</code>.
+     * This mebns thbt tooltips will NOT be shown from the
+     * <code>TextUI</code> unless <code>registerComponent</code> hbs
+     * been invoked on the <code>ToolTipMbnbger</code>.
      *
-     * @param event the event in question
-     * @return the string to be used as the tooltip for <code>event</code>
-     * @see javax.swing.JComponent#setToolTipText
-     * @see javax.swing.plaf.TextUI#getToolTipText
-     * @see javax.swing.ToolTipManager#registerComponent
+     * @pbrbm event the event in question
+     * @return the string to be used bs the tooltip for <code>event</code>
+     * @see jbvbx.swing.JComponent#setToolTipText
+     * @see jbvbx.swing.plbf.TextUI#getToolTipText
+     * @see jbvbx.swing.ToolTipMbnbger#registerComponent
      */
     public String getToolTipText(MouseEvent event) {
-        String retValue = super.getToolTipText(event);
+        String retVblue = super.getToolTipText(event);
 
-        if (retValue == null) {
+        if (retVblue == null) {
             TextUI ui = getUI();
             if (ui != null) {
-                retValue = ui.getToolTipText(this, new Point(event.getX(),
+                retVblue = ui.getToolTipText(this, new Point(event.getX(),
                                                              event.getY()));
             }
         }
-        return retValue;
+        return retVblue;
     }
 
-    // --- Scrollable methods ---------------------------------------------
+    // --- Scrollbble methods ---------------------------------------------
 
     /**
-     * Returns the preferred size of the viewport for a view component.
-     * This is implemented to do the default behavior of returning
+     * Returns the preferred size of the viewport for b view component.
+     * This is implemented to do the defbult behbvior of returning
      * the preferred size of the component.
      *
-     * @return the <code>preferredSize</code> of a <code>JViewport</code>
-     * whose view is this <code>Scrollable</code>
+     * @return the <code>preferredSize</code> of b <code>JViewport</code>
+     * whose view is this <code>Scrollbble</code>
      */
-    public Dimension getPreferredScrollableViewportSize() {
+    public Dimension getPreferredScrollbbleViewportSize() {
         return getPreferredSize();
     }
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one new row
-     * or column, depending on the value of orientation.  Ideally,
-     * components should handle a partially exposed row or column by
-     * returning the distance required to completely expose the item.
+     * Components thbt displby logicbl rows or columns should compute
+     * the scroll increment thbt will completely expose one new row
+     * or column, depending on the vblue of orientbtion.  Ideblly,
+     * components should hbndle b pbrtiblly exposed row or column by
+     * returning the distbnce required to completely expose the item.
      * <p>
-     * The default implementation of this is to simply return 10% of
-     * the visible area.  Subclasses are likely to be able to provide
-     * a much more reasonable value.
+     * The defbult implementbtion of this is to simply return 10% of
+     * the visible breb.  Subclbsses bre likely to be bble to provide
+     * b much more rebsonbble vblue.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation either <code>SwingConstants.VERTICAL</code> or
-     *   <code>SwingConstants.HORIZONTAL</code>
-     * @param direction less than zero to scroll up/left, greater than
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion either <code>SwingConstbnts.VERTICAL</code> or
+     *   <code>SwingConstbnts.HORIZONTAL</code>
+     * @pbrbm direction less thbn zero to scroll up/left, grebter thbn
      *   zero for down/right
      * @return the "unit" increment for scrolling in the specified direction
-     * @exception IllegalArgumentException for an invalid orientation
-     * @see JScrollBar#setUnitIncrement
+     * @exception IllegblArgumentException for bn invblid orientbtion
+     * @see JScrollBbr#setUnitIncrement
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch(orientation) {
-        case SwingConstants.VERTICAL:
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect, int orientbtion, int direction) {
+        switch(orientbtion) {
+        cbse SwingConstbnts.VERTICAL:
             return visibleRect.height / 10;
-        case SwingConstants.HORIZONTAL:
+        cbse SwingConstbnts.HORIZONTAL:
             return visibleRect.width / 10;
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+        defbult:
+            throw new IllegblArgumentException("Invblid orientbtion: " + orientbtion);
         }
     }
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one block
-     * of rows or columns, depending on the value of orientation.
+     * Components thbt displby logicbl rows or columns should compute
+     * the scroll increment thbt will completely expose one block
+     * of rows or columns, depending on the vblue of orientbtion.
      * <p>
-     * The default implementation of this is to simply return the visible
-     * area.  Subclasses will likely be able to provide a much more
-     * reasonable value.
+     * The defbult implementbtion of this is to simply return the visible
+     * breb.  Subclbsses will likely be bble to provide b much more
+     * rebsonbble vblue.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation either <code>SwingConstants.VERTICAL</code> or
-     *   <code>SwingConstants.HORIZONTAL</code>
-     * @param direction less than zero to scroll up/left, greater than zero
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion either <code>SwingConstbnts.VERTICAL</code> or
+     *   <code>SwingConstbnts.HORIZONTAL</code>
+     * @pbrbm direction less thbn zero to scroll up/left, grebter thbn zero
      *  for down/right
      * @return the "block" increment for scrolling in the specified direction
-     * @exception IllegalArgumentException for an invalid orientation
-     * @see JScrollBar#setBlockIncrement
+     * @exception IllegblArgumentException for bn invblid orientbtion
+     * @see JScrollBbr#setBlockIncrement
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch(orientation) {
-        case SwingConstants.VERTICAL:
+    public int getScrollbbleBlockIncrement(Rectbngle visibleRect, int orientbtion, int direction) {
+        switch(orientbtion) {
+        cbse SwingConstbnts.VERTICAL:
             return visibleRect.height;
-        case SwingConstants.HORIZONTAL:
+        cbse SwingConstbnts.HORIZONTAL:
             return visibleRect.width;
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+        defbult:
+            throw new IllegblArgumentException("Invblid orientbtion: " + orientbtion);
         }
     }
 
 
     /**
-     * Returns true if a viewport should always force the width of this
-     * <code>Scrollable</code> to match the width of the viewport.
-     * For example a normal text view that supported line wrapping
-     * would return true here, since it would be undesirable for
-     * wrapped lines to disappear beyond the right
-     * edge of the viewport.  Note that returning true for a
-     * <code>Scrollable</code> whose ancestor is a <code>JScrollPane</code>
-     * effectively disables horizontal scrolling.
+     * Returns true if b viewport should blwbys force the width of this
+     * <code>Scrollbble</code> to mbtch the width of the viewport.
+     * For exbmple b normbl text view thbt supported line wrbpping
+     * would return true here, since it would be undesirbble for
+     * wrbpped lines to disbppebr beyond the right
+     * edge of the viewport.  Note thbt returning true for b
+     * <code>Scrollbble</code> whose bncestor is b <code>JScrollPbne</code>
+     * effectively disbbles horizontbl scrolling.
      * <p>
-     * Scrolling containers, like <code>JViewport</code>,
-     * will use this method each time they are validated.
+     * Scrolling contbiners, like <code>JViewport</code>,
+     * will use this method ebch time they bre vblidbted.
      *
-     * @return true if a viewport should force the <code>Scrollable</code>s
-     *   width to match its own
+     * @return true if b viewport should force the <code>Scrollbble</code>s
+     *   width to mbtch its own
      */
-    public boolean getScrollableTracksViewportWidth() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getWidth() > getPreferredSize().width;
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getWidth() > getPreferredSize().width;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if a viewport should always force the height of this
-     * <code>Scrollable</code> to match the height of the viewport.
-     * For example a columnar text view that flowed text in left to
-     * right columns could effectively disable vertical scrolling by
+     * Returns true if b viewport should blwbys force the height of this
+     * <code>Scrollbble</code> to mbtch the height of the viewport.
+     * For exbmple b columnbr text view thbt flowed text in left to
+     * right columns could effectively disbble verticbl scrolling by
      * returning true here.
      * <p>
-     * Scrolling containers, like <code>JViewport</code>,
-     * will use this method each time they are validated.
+     * Scrolling contbiners, like <code>JViewport</code>,
+     * will use this method ebch time they bre vblidbted.
      *
-     * @return true if a viewport should force the Scrollables height
-     *   to match its own
+     * @return true if b viewport should force the Scrollbbles height
+     *   to mbtch its own
      */
-    public boolean getScrollableTracksViewportHeight() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getHeight() > getPreferredSize().height;
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getHeight() > getPreferredSize().height;
         }
-        return false;
+        return fblse;
     }
 
 
@@ -2054,59 +2054,59 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 //////////////////
 
     /**
-     * A convenience print method that displays a print dialog, and then
-     * prints this {@code JTextComponent} in <i>interactive</i> mode with no
-     * header or footer text. Note: this method
+     * A convenience print method thbt displbys b print diblog, bnd then
+     * prints this {@code JTextComponent} in <i>interbctive</i> mode with no
+     * hebder or footer text. Note: this method
      * blocks until printing is done.
      * <p>
-     * Note: In <i>headless</i> mode, no dialogs will be shown.
+     * Note: In <i>hebdless</i> mode, no diblogs will be shown.
      *
-     * <p> This method calls the full featured
-     * {@link #print(MessageFormat, MessageFormat, boolean, PrintService, PrintRequestAttributeSet, boolean)
+     * <p> This method cblls the full febtured
+     * {@link #print(MessbgeFormbt, MessbgeFormbt, boolebn, PrintService, PrintRequestAttributeSet, boolebn)
      * print} method to perform printing.
-     * @return {@code true}, unless printing is canceled by the user
-     * @throws PrinterException if an error in the print system causes the job
-     *         to be aborted
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
+     * @return {@code true}, unless printing is cbnceled by the user
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *         to be bborted
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
      *
-     * @see #print(MessageFormat, MessageFormat, boolean, PrintService, PrintRequestAttributeSet, boolean)
+     * @see #print(MessbgeFormbt, MessbgeFormbt, boolebn, PrintService, PrintRequestAttributeSet, boolebn)
      *
      * @since 1.6
      */
 
-    public boolean print() throws PrinterException {
+    public boolebn print() throws PrinterException {
         return print(null, null, true, null, null, true);
     }
 
     /**
-     * A convenience print method that displays a print dialog, and then
-     * prints this {@code JTextComponent} in <i>interactive</i> mode with
-     * the specified header and footer text. Note: this method
+     * A convenience print method thbt displbys b print diblog, bnd then
+     * prints this {@code JTextComponent} in <i>interbctive</i> mode with
+     * the specified hebder bnd footer text. Note: this method
      * blocks until printing is done.
      * <p>
-     * Note: In <i>headless</i> mode, no dialogs will be shown.
+     * Note: In <i>hebdless</i> mode, no diblogs will be shown.
      *
-     * <p> This method calls the full featured
-     * {@link #print(MessageFormat, MessageFormat, boolean, PrintService, PrintRequestAttributeSet, boolean)
+     * <p> This method cblls the full febtured
+     * {@link #print(MessbgeFormbt, MessbgeFormbt, boolebn, PrintService, PrintRequestAttributeSet, boolebn)
      * print} method to perform printing.
-     * @param headerFormat the text, in {@code MessageFormat}, to be
-     *        used as the header, or {@code null} for no header
-     * @param footerFormat the text, in {@code MessageFormat}, to be
-     *        used as the footer, or {@code null} for no footer
-     * @return {@code true}, unless printing is canceled by the user
-     * @throws PrinterException if an error in the print system causes the job
-     *         to be aborted
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
+     * @pbrbm hebderFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the hebder, or {@code null} for no hebder
+     * @pbrbm footerFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the footer, or {@code null} for no footer
+     * @return {@code true}, unless printing is cbnceled by the user
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *         to be bborted
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
      *
-     * @see #print(MessageFormat, MessageFormat, boolean, PrintService, PrintRequestAttributeSet, boolean)
-     * @see java.text.MessageFormat
+     * @see #print(MessbgeFormbt, MessbgeFormbt, boolebn, PrintService, PrintRequestAttributeSet, boolebn)
+     * @see jbvb.text.MessbgeFormbt
      * @since 1.6
      */
-    public boolean print(final MessageFormat headerFormat,
-            final MessageFormat footerFormat) throws PrinterException {
-        return print(headerFormat, footerFormat, true, null, null, true);
+    public boolebn print(finbl MessbgeFormbt hebderFormbt,
+            finbl MessbgeFormbt footerFormbt) throws PrinterException {
+        return print(hebderFormbt, footerFormbt, true, null, null, true);
     }
 
     /**
@@ -2114,278 +2114,278 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
      * blocks until printing is done.
      *
      * <p>
-     * Page header and footer text can be added to the output by providing
-     * {@code MessageFormat} arguments. The printing code requests
-     * {@code Strings} from the formats, providing a single item which may be
-     * included in the formatted string: an {@code Integer} representing the
-     * current page number.
+     * Pbge hebder bnd footer text cbn be bdded to the output by providing
+     * {@code MessbgeFormbt} brguments. The printing code requests
+     * {@code Strings} from the formbts, providing b single item which mby be
+     * included in the formbtted string: bn {@code Integer} representing the
+     * current pbge number.
      *
      * <p>
-     * {@code showPrintDialog boolean} parameter allows you to specify whether
-     * a print dialog is displayed to the user. When it is, the user
-     * may use the dialog to change printing attributes or even cancel the
+     * {@code showPrintDiblog boolebn} pbrbmeter bllows you to specify whether
+     * b print diblog is displbyed to the user. When it is, the user
+     * mby use the diblog to chbnge printing bttributes or even cbncel the
      * print.
      *
      * <p>
-     * {@code service} allows you to provide the initial
-     * {@code PrintService} for the print dialog, or to specify
-     * {@code PrintService} to print to when the dialog is not shown.
+     * {@code service} bllows you to provide the initibl
+     * {@code PrintService} for the print diblog, or to specify
+     * {@code PrintService} to print to when the diblog is not shown.
      *
      * <p>
-     * {@code attributes} can be used to provide the
-     * initial values for the print dialog, or to supply any needed
-     * attributes when the dialog is not shown. {@code attributes} can
-     * be used to control how the job will print, for example
+     * {@code bttributes} cbn be used to provide the
+     * initibl vblues for the print diblog, or to supply bny needed
+     * bttributes when the diblog is not shown. {@code bttributes} cbn
+     * be used to control how the job will print, for exbmple
      * <i>duplex</i> or <i>single-sided</i>.
      *
      * <p>
-     * {@code interactive boolean} parameter allows you to specify
-     * whether to perform printing in <i>interactive</i>
-     * mode. If {@code true}, a progress dialog, with an abort option,
-     * is displayed for the duration of printing.  This dialog is
-     * <i>modal</i> when {@code print} is invoked on the <i>Event Dispatch
-     * Thread</i> and <i>non-modal</i> otherwise. <b>Warning</b>:
-     * calling this method on the <i>Event Dispatch Thread</i> with {@code
-     * interactive false} blocks <i>all</i> events, including repaints, from
+     * {@code interbctive boolebn} pbrbmeter bllows you to specify
+     * whether to perform printing in <i>interbctive</i>
+     * mode. If {@code true}, b progress diblog, with bn bbort option,
+     * is displbyed for the durbtion of printing.  This diblog is
+     * <i>modbl</i> when {@code print} is invoked on the <i>Event Dispbtch
+     * Threbd</i> bnd <i>non-modbl</i> otherwise. <b>Wbrning</b>:
+     * cblling this method on the <i>Event Dispbtch Threbd</i> with {@code
+     * interbctive fblse} blocks <i>bll</i> events, including repbints, from
      * being processed until printing is complete. It is only
-     * recommended when printing from an application with no
+     * recommended when printing from bn bpplicbtion with no
      * visible GUI.
      *
      * <p>
-     * Note: In <i>headless</i> mode, {@code showPrintDialog} and
-     * {@code interactive} parameters are ignored and no dialogs are
+     * Note: In <i>hebdless</i> mode, {@code showPrintDiblog} bnd
+     * {@code interbctive} pbrbmeters bre ignored bnd no diblogs bre
      * shown.
      *
      * <p>
-     * This method ensures the {@code document} is not mutated during printing.
-     * To indicate it visually, {@code setEnabled(false)} is set for the
-     * duration of printing.
+     * This method ensures the {@code document} is not mutbted during printing.
+     * To indicbte it visublly, {@code setEnbbled(fblse)} is set for the
+     * durbtion of printing.
      *
      * <p>
-     * This method uses {@link #getPrintable} to render document content.
+     * This method uses {@link #getPrintbble} to render document content.
      *
      * <p>
-     * This method is thread-safe, although most Swing methods are not. Please
+     * This method is threbd-sbfe, blthough most Swing methods bre not. Plebse
      * see <A
-     * HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">
-     * Concurrency in Swing</A> for more information.
+     * HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">
+     * Concurrency in Swing</A> for more informbtion.
      *
      * <p>
-     * <b>Sample Usage</b>. This code snippet shows a cross-platform print
-     * dialog and then prints the {@code JTextComponent} in <i>interactive</i> mode
-     * unless the user cancels the dialog:
+     * <b>Sbmple Usbge</b>. This code snippet shows b cross-plbtform print
+     * diblog bnd then prints the {@code JTextComponent} in <i>interbctive</i> mode
+     * unless the user cbncels the diblog:
      *
      * <pre>
-     * textComponent.print(new MessageFormat(&quot;My text component header&quot;),
-     *     new MessageFormat(&quot;Footer. Page - {0}&quot;), true, null, null, true);
+     * textComponent.print(new MessbgeFormbt(&quot;My text component hebder&quot;),
+     *     new MessbgeFormbt(&quot;Footer. Pbge - {0}&quot;), true, null, null, true);
      * </pre>
      * <p>
-     * Executing this code off the <i>Event Dispatch Thread</i>
-     * performs printing on the <i>background</i>.
-     * The following pattern might be used for <i>background</i>
+     * Executing this code off the <i>Event Dispbtch Threbd</i>
+     * performs printing on the <i>bbckground</i>.
+     * The following pbttern might be used for <i>bbckground</i>
      * printing:
      * <pre>
-     *     FutureTask&lt;Boolean&gt; future =
-     *         new FutureTask&lt;Boolean&gt;(
-     *             new Callable&lt;Boolean&gt;() {
-     *                 public Boolean call() {
+     *     FutureTbsk&lt;Boolebn&gt; future =
+     *         new FutureTbsk&lt;Boolebn&gt;(
+     *             new Cbllbble&lt;Boolebn&gt;() {
+     *                 public Boolebn cbll() {
      *                     return textComponent.print(.....);
      *                 }
      *             });
      *     executor.execute(future);
      * </pre>
      *
-     * @param headerFormat the text, in {@code MessageFormat}, to be
-     *        used as the header, or {@code null} for no header
-     * @param footerFormat the text, in {@code MessageFormat}, to be
-     *        used as the footer, or {@code null} for no footer
-     * @param showPrintDialog {@code true} to display a print dialog,
-     *        {@code false} otherwise
-     * @param service initial {@code PrintService}, or {@code null} for the
-     *        default
-     * @param attributes the job attributes to be applied to the print job, or
+     * @pbrbm hebderFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the hebder, or {@code null} for no hebder
+     * @pbrbm footerFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the footer, or {@code null} for no footer
+     * @pbrbm showPrintDiblog {@code true} to displby b print diblog,
+     *        {@code fblse} otherwise
+     * @pbrbm service initibl {@code PrintService}, or {@code null} for the
+     *        defbult
+     * @pbrbm bttributes the job bttributes to be bpplied to the print job, or
      *        {@code null} for none
-     * @param interactive whether to print in an interactive mode
-     * @return {@code true}, unless printing is canceled by the user
-     * @throws PrinterException if an error in the print system causes the job
-     *         to be aborted
-     * @throws SecurityException if this thread is not allowed to
-     *                           initiate a print job request
+     * @pbrbm interbctive whether to print in bn interbctive mode
+     * @return {@code true}, unless printing is cbnceled by the user
+     * @throws PrinterException if bn error in the print system cbuses the job
+     *         to be bborted
+     * @throws SecurityException if this threbd is not bllowed to
+     *                           initibte b print job request
      *
-     * @see #getPrintable
-     * @see java.text.MessageFormat
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.util.concurrent.FutureTask
+     * @see #getPrintbble
+     * @see jbvb.text.MessbgeFormbt
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see jbvb.util.concurrent.FutureTbsk
      *
      * @since 1.6
      */
-    public boolean print(final MessageFormat headerFormat,
-            final MessageFormat footerFormat,
-            final boolean showPrintDialog,
-            final PrintService service,
-            final PrintRequestAttributeSet attributes,
-            final boolean interactive)
+    public boolebn print(finbl MessbgeFormbt hebderFormbt,
+            finbl MessbgeFormbt footerFormbt,
+            finbl boolebn showPrintDiblog,
+            finbl PrintService service,
+            finbl PrintRequestAttributeSet bttributes,
+            finbl boolebn interbctive)
             throws PrinterException {
 
-        final PrinterJob job = PrinterJob.getPrinterJob();
-        final Printable printable;
-        final PrintingStatus printingStatus;
-        final boolean isHeadless = GraphicsEnvironment.isHeadless();
-        final boolean isEventDispatchThread =
-            SwingUtilities.isEventDispatchThread();
-        final Printable textPrintable = getPrintable(headerFormat, footerFormat);
-        if (interactive && ! isHeadless) {
-            printingStatus =
-                PrintingStatus.createPrintingStatus(this, job);
-            printable =
-                printingStatus.createNotificationPrintable(textPrintable);
+        finbl PrinterJob job = PrinterJob.getPrinterJob();
+        finbl Printbble printbble;
+        finbl PrintingStbtus printingStbtus;
+        finbl boolebn isHebdless = GrbphicsEnvironment.isHebdless();
+        finbl boolebn isEventDispbtchThrebd =
+            SwingUtilities.isEventDispbtchThrebd();
+        finbl Printbble textPrintbble = getPrintbble(hebderFormbt, footerFormbt);
+        if (interbctive && ! isHebdless) {
+            printingStbtus =
+                PrintingStbtus.crebtePrintingStbtus(this, job);
+            printbble =
+                printingStbtus.crebteNotificbtionPrintbble(textPrintbble);
         } else {
-            printingStatus = null;
-            printable = textPrintable;
+            printingStbtus = null;
+            printbble = textPrintbble;
         }
 
         if (service != null) {
             job.setPrintService(service);
         }
 
-        job.setPrintable(printable);
+        job.setPrintbble(printbble);
 
-        final PrintRequestAttributeSet attr = (attributes == null)
-            ? new HashPrintRequestAttributeSet()
-            : attributes;
+        finbl PrintRequestAttributeSet bttr = (bttributes == null)
+            ? new HbshPrintRequestAttributeSet()
+            : bttributes;
 
-        if (showPrintDialog && ! isHeadless && ! job.printDialog(attr)) {
-            return false;
+        if (showPrintDiblog && ! isHebdless && ! job.printDiblog(bttr)) {
+            return fblse;
         }
 
         /*
-         * there are three cases for printing:
-         * 1. print non interactively (! interactive || isHeadless)
-         * 2. print interactively off EDT
-         * 3. print interactively on EDT
+         * there bre three cbses for printing:
+         * 1. print non interbctively (! interbctive || isHebdless)
+         * 2. print interbctively off EDT
+         * 3. print interbctively on EDT
          *
-         * 1 and 2 prints on the current thread (3 prints on another thread)
-         * 2 and 3 deal with PrintingStatusDialog
+         * 1 bnd 2 prints on the current threbd (3 prints on bnother threbd)
+         * 2 bnd 3 debl with PrintingStbtusDiblog
          */
-        final Callable<Object> doPrint =
-            new Callable<Object>() {
-                public Object call() throws Exception {
+        finbl Cbllbble<Object> doPrint =
+            new Cbllbble<Object>() {
+                public Object cbll() throws Exception {
                     try {
-                        job.print(attr);
-                    } finally {
-                        if (printingStatus != null) {
-                            printingStatus.dispose();
+                        job.print(bttr);
+                    } finblly {
+                        if (printingStbtus != null) {
+                            printingStbtus.dispose();
                         }
                     }
                     return null;
                 }
             };
 
-        final FutureTask<Object> futurePrinting =
-            new FutureTask<Object>(doPrint);
+        finbl FutureTbsk<Object> futurePrinting =
+            new FutureTbsk<Object>(doPrint);
 
-        final Runnable runnablePrinting =
-            new Runnable() {
+        finbl Runnbble runnbblePrinting =
+            new Runnbble() {
                 public void run() {
-                    //disable component
-                    boolean wasEnabled = false;
-                    if (isEventDispatchThread) {
-                        if (isEnabled()) {
-                            wasEnabled = true;
-                            setEnabled(false);
+                    //disbble component
+                    boolebn wbsEnbbled = fblse;
+                    if (isEventDispbtchThrebd) {
+                        if (isEnbbled()) {
+                            wbsEnbbled = true;
+                            setEnbbled(fblse);
                         }
                     } else {
                         try {
-                            wasEnabled = SwingUtilities2.submit(
-                                new Callable<Boolean>() {
-                                    public Boolean call() throws Exception {
-                                        boolean rv = isEnabled();
+                            wbsEnbbled = SwingUtilities2.submit(
+                                new Cbllbble<Boolebn>() {
+                                    public Boolebn cbll() throws Exception {
+                                        boolebn rv = isEnbbled();
                                         if (rv) {
-                                            setEnabled(false);
+                                            setEnbbled(fblse);
                                         }
                                         return rv;
                                     }
                                 }).get();
-                        } catch (InterruptedException e) {
+                        } cbtch (InterruptedException e) {
                             throw new RuntimeException(e);
-                        } catch (ExecutionException e) {
-                            Throwable cause = e.getCause();
-                            if (cause instanceof Error) {
-                                throw (Error) cause;
+                        } cbtch (ExecutionException e) {
+                            Throwbble cbuse = e.getCbuse();
+                            if (cbuse instbnceof Error) {
+                                throw (Error) cbuse;
                             }
-                            if (cause instanceof RuntimeException) {
-                                throw (RuntimeException) cause;
+                            if (cbuse instbnceof RuntimeException) {
+                                throw (RuntimeException) cbuse;
                             }
-                            throw new AssertionError(cause);
+                            throw new AssertionError(cbuse);
                         }
                     }
 
                     getDocument().render(futurePrinting);
 
-                    //enable component
-                    if (wasEnabled) {
-                        if (isEventDispatchThread) {
-                            setEnabled(true);
+                    //enbble component
+                    if (wbsEnbbled) {
+                        if (isEventDispbtchThrebd) {
+                            setEnbbled(true);
                         } else {
                             try {
                                 SwingUtilities2.submit(
-                                    new Runnable() {
+                                    new Runnbble() {
                                         public void run() {
-                                            setEnabled(true);
+                                            setEnbbled(true);
                                         }
                                     }, null).get();
-                            } catch (InterruptedException e) {
+                            } cbtch (InterruptedException e) {
                                 throw new RuntimeException(e);
-                            } catch (ExecutionException e) {
-                                Throwable cause = e.getCause();
-                                if (cause instanceof Error) {
-                                    throw (Error) cause;
+                            } cbtch (ExecutionException e) {
+                                Throwbble cbuse = e.getCbuse();
+                                if (cbuse instbnceof Error) {
+                                    throw (Error) cbuse;
                                 }
-                                if (cause instanceof RuntimeException) {
-                                    throw (RuntimeException) cause;
+                                if (cbuse instbnceof RuntimeException) {
+                                    throw (RuntimeException) cbuse;
                                 }
-                                throw new AssertionError(cause);
+                                throw new AssertionError(cbuse);
                             }
                         }
                     }
                 }
             };
 
-        if (! interactive || isHeadless) {
-            runnablePrinting.run();
+        if (! interbctive || isHebdless) {
+            runnbblePrinting.run();
         } else {
-            if (isEventDispatchThread) {
-                (new Thread(runnablePrinting)).start();
-                printingStatus.showModal(true);
+            if (isEventDispbtchThrebd) {
+                (new Threbd(runnbblePrinting)).stbrt();
+                printingStbtus.showModbl(true);
             } else {
-                printingStatus.showModal(false);
-                runnablePrinting.run();
+                printingStbtus.showModbl(fblse);
+                runnbblePrinting.run();
             }
         }
 
         //the printing is done successfully or otherwise.
-        //dialog is hidden if needed.
+        //diblog is hidden if needed.
         try {
             futurePrinting.get();
-        } catch (InterruptedException e) {
+        } cbtch (InterruptedException e) {
             throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof PrinterAbortException) {
-                if (printingStatus != null
-                    && printingStatus.isAborted()) {
-                    return false;
+        } cbtch (ExecutionException e) {
+            Throwbble cbuse = e.getCbuse();
+            if (cbuse instbnceof PrinterAbortException) {
+                if (printingStbtus != null
+                    && printingStbtus.isAborted()) {
+                    return fblse;
                 } else {
-                    throw (PrinterAbortException) cause;
+                    throw (PrinterAbortException) cbuse;
                 }
-            } else if (cause instanceof PrinterException) {
-                throw (PrinterException) cause;
-            } else if (cause instanceof RuntimeException) {
-                throw (RuntimeException) cause;
-            } else if (cause instanceof Error) {
-                throw (Error) cause;
+            } else if (cbuse instbnceof PrinterException) {
+                throw (PrinterException) cbuse;
+            } else if (cbuse instbnceof RuntimeException) {
+                throw (RuntimeException) cbuse;
+            } else if (cbuse instbnceof Error) {
+                throw (Error) cbuse;
             } else {
-                throw new AssertionError(cause);
+                throw new AssertionError(cbuse);
             }
         }
         return true;
@@ -2393,67 +2393,67 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
 
     /**
-     * Returns a {@code Printable} to use for printing the content of this
-     * {@code JTextComponent}. The returned {@code Printable} prints
-     * the document as it looks on the screen except being reformatted
-     * to fit the paper.
-     * The returned {@code Printable} can be wrapped inside another
-     * {@code Printable} in order to create complex reports and
+     * Returns b {@code Printbble} to use for printing the content of this
+     * {@code JTextComponent}. The returned {@code Printbble} prints
+     * the document bs it looks on the screen except being reformbtted
+     * to fit the pbper.
+     * The returned {@code Printbble} cbn be wrbpped inside bnother
+     * {@code Printbble} in order to crebte complex reports bnd
      * documents.
      *
      *
      * <p>
-     * The returned {@code Printable} shares the {@code document} with this
+     * The returned {@code Printbble} shbres the {@code document} with this
      * {@code JTextComponent}. It is the responsibility of the developer to
-     * ensure that the {@code document} is not mutated while this {@code Printable}
-     * is used. Printing behavior is undefined when the {@code document} is
-     * mutated during printing.
+     * ensure thbt the {@code document} is not mutbted while this {@code Printbble}
+     * is used. Printing behbvior is undefined when the {@code document} is
+     * mutbted during printing.
      *
      * <p>
-     * Page header and footer text can be added to the output by providing
-     * {@code MessageFormat} arguments. The printing code requests
-     * {@code Strings} from the formats, providing a single item which may be
-     * included in the formatted string: an {@code Integer} representing the
-     * current page number.
+     * Pbge hebder bnd footer text cbn be bdded to the output by providing
+     * {@code MessbgeFormbt} brguments. The printing code requests
+     * {@code Strings} from the formbts, providing b single item which mby be
+     * included in the formbtted string: bn {@code Integer} representing the
+     * current pbge number.
      *
      * <p>
-     * The returned {@code Printable} when printed, formats the
-     * document content appropriately for the page size. For correct
-     * line wrapping the {@code imageable width} of all pages must be the
-     * same. See {@link java.awt.print.PageFormat#getImageableWidth}.
+     * The returned {@code Printbble} when printed, formbts the
+     * document content bppropribtely for the pbge size. For correct
+     * line wrbpping the {@code imbgebble width} of bll pbges must be the
+     * sbme. See {@link jbvb.bwt.print.PbgeFormbt#getImbgebbleWidth}.
      *
      * <p>
-     * This method is thread-safe, although most Swing methods are not. Please
+     * This method is threbd-sbfe, blthough most Swing methods bre not. Plebse
      * see <A
-     * HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">
-     * Concurrency in Swing</A> for more information.
+     * HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">
+     * Concurrency in Swing</A> for more informbtion.
      *
      * <p>
-     * The returned {@code Printable} can be printed on any thread.
+     * The returned {@code Printbble} cbn be printed on bny threbd.
      *
      * <p>
-     * This implementation returned {@code Printable} performs all painting on
-     * the <i>Event Dispatch Thread</i>, regardless of what thread it is
+     * This implementbtion returned {@code Printbble} performs bll pbinting on
+     * the <i>Event Dispbtch Threbd</i>, regbrdless of whbt threbd it is
      * used on.
      *
-     * @param headerFormat the text, in {@code MessageFormat}, to be
-     *        used as the header, or {@code null} for no header
-     * @param footerFormat the text, in {@code MessageFormat}, to be
-     *        used as the footer, or {@code null} for no footer
-     * @return a {@code Printable} for use in printing content of this
+     * @pbrbm hebderFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the hebder, or {@code null} for no hebder
+     * @pbrbm footerFormbt the text, in {@code MessbgeFormbt}, to be
+     *        used bs the footer, or {@code null} for no footer
+     * @return b {@code Printbble} for use in printing content of this
      *         {@code JTextComponent}
      *
      *
-     * @see java.awt.print.Printable
-     * @see java.awt.print.PageFormat
-     * @see javax.swing.text.Document#render(java.lang.Runnable)
+     * @see jbvb.bwt.print.Printbble
+     * @see jbvb.bwt.print.PbgeFormbt
+     * @see jbvbx.swing.text.Document#render(jbvb.lbng.Runnbble)
      *
      * @since 1.6
      */
-    public Printable getPrintable(final MessageFormat headerFormat,
-                                  final MessageFormat footerFormat) {
-        return TextComponentPrintable.getPrintable(
-                   this, headerFormat, footerFormat);
+    public Printbble getPrintbble(finbl MessbgeFormbt hebderFormbt,
+                                  finbl MessbgeFormbt footerFormbt) {
+        return TextComponentPrintbble.getPrintbble(
+                   this, hebderFormbt, footerFormbt);
     }
 
 
@@ -2463,110 +2463,110 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
+     * Gets the <code>AccessibleContext</code> bssocibted with this
      * <code>JTextComponent</code>. For text components,
-     * the <code>AccessibleContext</code> takes the form of an
+     * the <code>AccessibleContext</code> tbkes the form of bn
      * <code>AccessibleJTextComponent</code>.
-     * A new <code>AccessibleJTextComponent</code> instance
-     * is created if necessary.
+     * A new <code>AccessibleJTextComponent</code> instbnce
+     * is crebted if necessbry.
      *
-     * @return an <code>AccessibleJTextComponent</code> that serves as the
+     * @return bn <code>AccessibleJTextComponent</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this
      *         <code>JTextComponent</code>
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTextComponent();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTextComponent();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTextComponent</code> class.  It provides an implementation of
-     * the Java Accessibility API appropriate to menu user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JTextComponent</code> clbss.  It provides bn implementbtion of
+     * the Jbvb Accessibility API bppropribte to menu user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class AccessibleJTextComponent extends AccessibleJComponent
-    implements AccessibleText, CaretListener, DocumentListener,
-               AccessibleAction, AccessibleEditableText,
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss AccessibleJTextComponent extends AccessibleJComponent
+    implements AccessibleText, CbretListener, DocumentListener,
+               AccessibleAction, AccessibleEditbbleText,
                AccessibleExtendedText {
 
-        int caretPos;
-        Point oldLocationOnScreen;
+        int cbretPos;
+        Point oldLocbtionOnScreen;
 
         /**
-         * Constructs an AccessibleJTextComponent.  Adds a listener to track
-         * caret change.
+         * Constructs bn AccessibleJTextComponent.  Adds b listener to trbck
+         * cbret chbnge.
          */
         public AccessibleJTextComponent() {
             Document doc = JTextComponent.this.getDocument();
             if (doc != null) {
-                doc.addDocumentListener(this);
+                doc.bddDocumentListener(this);
             }
-            JTextComponent.this.addCaretListener(this);
-            caretPos = getCaretPosition();
+            JTextComponent.this.bddCbretListener(this);
+            cbretPos = getCbretPosition();
 
             try {
-                oldLocationOnScreen = getLocationOnScreen();
-            } catch (IllegalComponentStateException iae) {
+                oldLocbtionOnScreen = getLocbtionOnScreen();
+            } cbtch (IllegblComponentStbteException ibe) {
             }
 
-            // Fire a ACCESSIBLE_VISIBLE_DATA_PROPERTY PropertyChangeEvent
+            // Fire b ACCESSIBLE_VISIBLE_DATA_PROPERTY PropertyChbngeEvent
             // when the text component moves (e.g., when scrolling).
-            // Using an anonymous class since making AccessibleJTextComponent
-            // implement ComponentListener would be an API change.
-            JTextComponent.this.addComponentListener(new ComponentAdapter() {
+            // Using bn bnonymous clbss since mbking AccessibleJTextComponent
+            // implement ComponentListener would be bn API chbnge.
+            JTextComponent.this.bddComponentListener(new ComponentAdbpter() {
 
                 public void componentMoved(ComponentEvent e) {
                     try {
-                        Point newLocationOnScreen = getLocationOnScreen();
-                        firePropertyChange(ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                                           oldLocationOnScreen,
-                                           newLocationOnScreen);
+                        Point newLocbtionOnScreen = getLocbtionOnScreen();
+                        firePropertyChbnge(ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                                           oldLocbtionOnScreen,
+                                           newLocbtionOnScreen);
 
-                        oldLocationOnScreen = newLocationOnScreen;
-                    } catch (IllegalComponentStateException iae) {
+                        oldLocbtionOnScreen = newLocbtionOnScreen;
+                    } cbtch (IllegblComponentStbteException ibe) {
                     }
                 }
             });
         }
 
         /**
-         * Handles caret updates (fire appropriate property change event,
-         * which are AccessibleContext.ACCESSIBLE_CARET_PROPERTY and
+         * Hbndles cbret updbtes (fire bppropribte property chbnge event,
+         * which bre AccessibleContext.ACCESSIBLE_CARET_PROPERTY bnd
          * AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY).
-         * This keeps track of the dot position internally.  When the caret
-         * moves, the internal position is updated after firing the event.
+         * This keeps trbck of the dot position internblly.  When the cbret
+         * moves, the internbl position is updbted bfter firing the event.
          *
-         * @param e the CaretEvent
+         * @pbrbm e the CbretEvent
          */
-        public void caretUpdate(CaretEvent e) {
+        public void cbretUpdbte(CbretEvent e) {
             int dot = e.getDot();
-            int mark = e.getMark();
-            if (caretPos != dot) {
-                // the caret moved
-                firePropertyChange(ACCESSIBLE_CARET_PROPERTY,
-                    caretPos, dot);
-                caretPos = dot;
+            int mbrk = e.getMbrk();
+            if (cbretPos != dot) {
+                // the cbret moved
+                firePropertyChbnge(ACCESSIBLE_CARET_PROPERTY,
+                    cbretPos, dot);
+                cbretPos = dot;
 
                 try {
-                    oldLocationOnScreen = getLocationOnScreen();
-                } catch (IllegalComponentStateException iae) {
+                    oldLocbtionOnScreen = getLocbtionOnScreen();
+                } cbtch (IllegblComponentStbteException ibe) {
                 }
             }
-            if (mark != dot) {
-                // there is a selection
-                firePropertyChange(ACCESSIBLE_SELECTION_PROPERTY, null,
+            if (mbrk != dot) {
+                // there is b selection
+                firePropertyChbnge(ACCESSIBLE_SELECTION_PROPERTY, null,
                     getSelectedText());
             }
         }
@@ -2574,97 +2574,97 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         // DocumentListener methods
 
         /**
-         * Handles document insert (fire appropriate property change event
+         * Hbndles document insert (fire bppropribte property chbnge event
          * which is AccessibleContext.ACCESSIBLE_TEXT_PROPERTY).
-         * This tracks the changed offset via the event.
+         * This trbcks the chbnged offset vib the event.
          *
-         * @param e the DocumentEvent
+         * @pbrbm e the DocumentEvent
          */
-        public void insertUpdate(DocumentEvent e) {
-            final Integer pos = new Integer (e.getOffset());
-            if (SwingUtilities.isEventDispatchThread()) {
-                firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, pos);
+        public void insertUpdbte(DocumentEvent e) {
+            finbl Integer pos = new Integer (e.getOffset());
+            if (SwingUtilities.isEventDispbtchThrebd()) {
+                firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY, null, pos);
             } else {
-                Runnable doFire = new Runnable() {
+                Runnbble doFire = new Runnbble() {
                     public void run() {
-                        firePropertyChange(ACCESSIBLE_TEXT_PROPERTY,
+                        firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY,
                                            null, pos);
                     }
                 };
-                SwingUtilities.invokeLater(doFire);
+                SwingUtilities.invokeLbter(doFire);
             }
         }
 
         /**
-         * Handles document remove (fire appropriate property change event,
+         * Hbndles document remove (fire bppropribte property chbnge event,
          * which is AccessibleContext.ACCESSIBLE_TEXT_PROPERTY).
-         * This tracks the changed offset via the event.
+         * This trbcks the chbnged offset vib the event.
          *
-         * @param e the DocumentEvent
+         * @pbrbm e the DocumentEvent
          */
-        public void removeUpdate(DocumentEvent e) {
-            final Integer pos = new Integer (e.getOffset());
-            if (SwingUtilities.isEventDispatchThread()) {
-                firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, pos);
+        public void removeUpdbte(DocumentEvent e) {
+            finbl Integer pos = new Integer (e.getOffset());
+            if (SwingUtilities.isEventDispbtchThrebd()) {
+                firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY, null, pos);
             } else {
-                Runnable doFire = new Runnable() {
+                Runnbble doFire = new Runnbble() {
                     public void run() {
-                        firePropertyChange(ACCESSIBLE_TEXT_PROPERTY,
+                        firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY,
                                            null, pos);
                     }
                 };
-                SwingUtilities.invokeLater(doFire);
+                SwingUtilities.invokeLbter(doFire);
             }
         }
 
         /**
-         * Handles document remove (fire appropriate property change event,
+         * Hbndles document remove (fire bppropribte property chbnge event,
          * which is AccessibleContext.ACCESSIBLE_TEXT_PROPERTY).
-         * This tracks the changed offset via the event.
+         * This trbcks the chbnged offset vib the event.
          *
-         * @param e the DocumentEvent
+         * @pbrbm e the DocumentEvent
          */
-        public void changedUpdate(DocumentEvent e) {
-            final Integer pos = new Integer (e.getOffset());
-            if (SwingUtilities.isEventDispatchThread()) {
-                firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, pos);
+        public void chbngedUpdbte(DocumentEvent e) {
+            finbl Integer pos = new Integer (e.getOffset());
+            if (SwingUtilities.isEventDispbtchThrebd()) {
+                firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY, null, pos);
             } else {
-                Runnable doFire = new Runnable() {
+                Runnbble doFire = new Runnbble() {
                     public void run() {
-                        firePropertyChange(ACCESSIBLE_TEXT_PROPERTY,
+                        firePropertyChbnge(ACCESSIBLE_TEXT_PROPERTY,
                                            null, pos);
                     }
                 };
-                SwingUtilities.invokeLater(doFire);
+                SwingUtilities.invokeLbter(doFire);
             }
         }
 
         /**
-         * Gets the state set of the JTextComponent.
-         * The AccessibleStateSet of an object is composed of a set of
-         * unique AccessibleState's.  A change in the AccessibleStateSet
-         * of an object will cause a PropertyChangeEvent to be fired
+         * Gets the stbte set of the JTextComponent.
+         * The AccessibleStbteSet of bn object is composed of b set of
+         * unique AccessibleStbte's.  A chbnge in the AccessibleStbteSet
+         * of bn object will cbuse b PropertyChbngeEvent to be fired
          * for the AccessibleContext.ACCESSIBLE_STATE_PROPERTY property.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @return bn instbnce of AccessibleStbteSet contbining the
+         * current stbte set of the object
+         * @see AccessibleStbteSet
+         * @see AccessibleStbte
+         * @see #bddPropertyChbngeListener
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (JTextComponent.this.isEditable()) {
-                states.add(AccessibleState.EDITABLE);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            if (JTextComponent.this.isEditbble()) {
+                stbtes.bdd(AccessibleStbte.EDITABLE);
             }
-            return states;
+            return stbtes;
         }
 
 
         /**
          * Gets the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object (AccessibleRole.TEXT)
          * @see AccessibleRole
          */
@@ -2673,10 +2673,10 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         /**
-         * Get the AccessibleText associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleText bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleText interface on behalf of itself.
+         * AccessibleText interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -2685,20 +2685,20 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
 
-        // --- interface AccessibleText methods ------------------------
+        // --- interfbce AccessibleText methods ------------------------
 
         /**
-         * Many of these methods are just convenience methods; they
-         * just call the equivalent on the parent
+         * Mbny of these methods bre just convenience methods; they
+         * just cbll the equivblent on the pbrent
          */
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
+         * Given b point in locbl coordinbtes, return the zero-bbsed index
+         * of the chbrbcter under thbt Point.  If the point is invblid,
          * this method returns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p.
+         * @pbrbm p the Point in locbl coordinbtes
+         * @return the zero-bbsed index of the chbrbcter under Point p.
          */
         public int getIndexAtPoint(Point p) {
             if (p == null) {
@@ -2708,55 +2708,55 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
             /**
-             * Gets the editor's drawing rectangle.  Stolen
-             * from the unfortunately named
-             * BasicTextUI.getVisibleEditorRect()
+             * Gets the editor's drbwing rectbngle.  Stolen
+             * from the unfortunbtely nbmed
+             * BbsicTextUI.getVisibleEditorRect()
              *
              * @return the bounding box for the root view
              */
-            Rectangle getRootEditorRect() {
-                Rectangle alloc = JTextComponent.this.getBounds();
-                if ((alloc.width > 0) && (alloc.height > 0)) {
-                        alloc.x = alloc.y = 0;
+            Rectbngle getRootEditorRect() {
+                Rectbngle blloc = JTextComponent.this.getBounds();
+                if ((blloc.width > 0) && (blloc.height > 0)) {
+                        blloc.x = blloc.y = 0;
                         Insets insets = JTextComponent.this.getInsets();
-                        alloc.x += insets.left;
-                        alloc.y += insets.top;
-                        alloc.width -= insets.left + insets.right;
-                        alloc.height -= insets.top + insets.bottom;
-                        return alloc;
+                        blloc.x += insets.left;
+                        blloc.y += insets.top;
+                        blloc.width -= insets.left + insets.right;
+                        blloc.height -= insets.top + insets.bottom;
+                        return blloc;
                 }
                 return null;
             }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid a null rectangle
+         * Determines the bounding box of the chbrbcter bt the given
+         * index into the string.  The bounds bre returned in locbl
+         * coordinbtes.  If the index is invblid b null rectbngle
          * is returned.
          *
-         * The screen coordinates returned are "unscrolled coordinates"
-         * if the JTextComponent is contained in a JScrollPane in which
-         * case the resulting rectangle should be composed with the parent
-         * coordinates.  A good algorithm to use is:
+         * The screen coordinbtes returned bre "unscrolled coordinbtes"
+         * if the JTextComponent is contbined in b JScrollPbne in which
+         * cbse the resulting rectbngle should be composed with the pbrent
+         * coordinbtes.  A good blgorithm to use is:
          * <pre>
-         * Accessible a:
-         * AccessibleText at = a.getAccessibleText();
-         * AccessibleComponent ac = a.getAccessibleComponent();
-         * Rectangle r = at.getCharacterBounds();
-         * Point p = ac.getLocation();
+         * Accessible b:
+         * AccessibleText bt = b.getAccessibleText();
+         * AccessibleComponent bc = b.getAccessibleComponent();
+         * Rectbngle r = bt.getChbrbcterBounds();
+         * Point p = bc.getLocbtion();
          * r.x += p.x;
          * r.y += p.y;
          * </pre>
          *
-         * Note: the JTextComponent must have a valid size (e.g. have
-         * been added to a parent container whose ancestor container
-         * is a valid top-level window) for this method to be able
-         * to return a meaningful (non-null) value.
+         * Note: the JTextComponent must hbve b vblid size (e.g. hbve
+         * been bdded to b pbrent contbiner whose bncestor contbiner
+         * is b vblid top-level window) for this method to be bble
+         * to return b mebningful (non-null) vblue.
          *
-         * @param i the index into the String &ge; 0
-         * @return the screen coordinates of the character's bounding box
+         * @pbrbm i the index into the String &ge; 0
+         * @return the screen coordinbtes of the chbrbcter's bounding box
          */
-        public Rectangle getCharacterBounds(int i) {
+        public Rectbngle getChbrbcterBounds(int i) {
             if (i < 0 || i > model.getLength()-1) {
                 return null;
             }
@@ -2764,77 +2764,77 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
             if (ui == null) {
                 return null;
             }
-            Rectangle rect = null;
-            Rectangle alloc = getRootEditorRect();
-            if (alloc == null) {
+            Rectbngle rect = null;
+            Rectbngle blloc = getRootEditorRect();
+            if (blloc == null) {
                 return null;
             }
-            if (model instanceof AbstractDocument) {
-                ((AbstractDocument)model).readLock();
+            if (model instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)model).rebdLock();
             }
             try {
                 View rootView = ui.getRootView(JTextComponent.this);
                 if (rootView != null) {
-                    rootView.setSize(alloc.width, alloc.height);
+                    rootView.setSize(blloc.width, blloc.height);
 
-                    Shape bounds = rootView.modelToView(i,
-                                    Position.Bias.Forward, i+1,
-                                    Position.Bias.Backward, alloc);
+                    Shbpe bounds = rootView.modelToView(i,
+                                    Position.Bibs.Forwbrd, i+1,
+                                    Position.Bibs.Bbckwbrd, blloc);
 
-                    rect = (bounds instanceof Rectangle) ?
-                     (Rectangle)bounds : bounds.getBounds();
+                    rect = (bounds instbnceof Rectbngle) ?
+                     (Rectbngle)bounds : bounds.getBounds();
 
                 }
-            } catch (BadLocationException e) {
-            } finally {
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readUnlock();
+            } cbtch (BbdLocbtionException e) {
+            } finblly {
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdUnlock();
                 }
             }
             return rect;
         }
 
         /**
-         * Returns the number of characters (valid indices)
+         * Returns the number of chbrbcters (vblid indices)
          *
-         * @return the number of characters &ge; 0
+         * @return the number of chbrbcters &ge; 0
          */
-        public int getCharCount() {
+        public int getChbrCount() {
             return model.getLength();
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Returns the zero-bbsed offset of the cbret.
          *
-         * Note: The character to the right of the caret will have the
-         * same index value as the offset (the caret is between
-         * two characters).
+         * Note: The chbrbcter to the right of the cbret will hbve the
+         * sbme index vblue bs the offset (the cbret is between
+         * two chbrbcters).
          *
-         * @return the zero-based offset of the caret.
+         * @return the zero-bbsed offset of the cbret.
          */
-        public int getCaretPosition() {
-            return JTextComponent.this.getCaretPosition();
+        public int getCbretPosition() {
+            return JTextComponent.this.getCbretPosition();
         }
 
         /**
-         * Returns the AttributeSet for a given character (at a given index).
+         * Returns the AttributeSet for b given chbrbcter (bt b given index).
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i the zero-bbsed index into the text
+         * @return the AttributeSet of the chbrbcter
          */
-        public AttributeSet getCharacterAttribute(int i) {
+        public AttributeSet getChbrbcterAttribute(int i) {
             Element e = null;
-            if (model instanceof AbstractDocument) {
-                ((AbstractDocument)model).readLock();
+            if (model instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)model).rebdLock();
             }
             try {
-                for (e = model.getDefaultRootElement(); ! e.isLeaf(); ) {
+                for (e = model.getDefbultRootElement(); ! e.isLebf(); ) {
                     int index = e.getElementIndex(i);
                     e = e.getElement(index);
                 }
-            } finally {
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readUnlock();
+            } finblly {
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdUnlock();
                 }
             }
             return e.getAttributes();
@@ -2842,23 +2842,23 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
 
         /**
-         * Returns the start offset within the selected text.
+         * Returns the stbrt offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
+         * b cbret, the stbrt bnd end offsets will be the sbme.
+         * Return 0 if the text is empty, or the cbret position
          * if no selection.
          *
-         * @return the index into the text of the start of the selection &ge; 0
+         * @return the index into the text of the stbrt of the selection &ge; 0
          */
-        public int getSelectionStart() {
-            return JTextComponent.this.getSelectionStart();
+        public int getSelectionStbrt() {
+            return JTextComponent.this.getSelectionStbrt();
         }
 
         /**
          * Returns the end offset within the selected text.
          * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
+         * b cbret, the stbrt bnd end offsets will be the sbme.
+         * Return 0 if the text is empty, or the cbret position
          * if no selection.
          *
          * @return the index into the text of the end of the selection &ge; 0
@@ -2868,7 +2868,7 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Returns the portion of the text thbt is selected.
          *
          * @return the text, null if no selection
          */
@@ -2877,12 +2877,12 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
        /**
-         * IndexedSegment extends Segment adding the offset into the
-         * the model the <code>Segment</code> was asked for.
+         * IndexedSegment extends Segment bdding the offset into the
+         * the model the <code>Segment</code> wbs bsked for.
          */
-        private class IndexedSegment extends Segment {
+        privbte clbss IndexedSegment extends Segment {
             /**
-             * Offset into the model that the position represents.
+             * Offset into the model thbt the position represents.
              */
             public int modelOffset;
         }
@@ -2890,70 +2890,70 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
         // TIGER - 4170173
         /**
-         * Returns the String at a given index. Whitespace
-         * between words is treated as a word.
+         * Returns the String bt b given index. Whitespbce
+         * between words is trebted bs b word.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence.
          *
          */
-        public String getAtIndex(int part, int index) {
-            return getAtIndex(part, index, 0);
+        public String getAtIndex(int pbrt, int index) {
+            return getAtIndex(pbrt, index, 0);
         }
 
 
         /**
-         * Returns the String after a given index. Whitespace
-         * between words is treated as a word.
+         * Returns the String bfter b given index. Whitespbce
+         * between words is trebted bs b word.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence.
          */
-        public String getAfterIndex(int part, int index) {
-            return getAtIndex(part, index, 1);
+        public String getAfterIndex(int pbrt, int index) {
+            return getAtIndex(pbrt, index, 1);
         }
 
 
         /**
-         * Returns the String before a given index. Whitespace
-         * between words is treated a word.
+         * Returns the String before b given index. Whitespbce
+         * between words is trebted b word.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
+         * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+         * @pbrbm index bn index within the text
          * @return the letter, word, or sentence.
          */
-        public String getBeforeIndex(int part, int index) {
-            return getAtIndex(part, index, -1);
+        public String getBeforeIndex(int pbrt, int index) {
+            return getAtIndex(pbrt, index, -1);
         }
 
 
         /**
-         * Gets the word, sentence, or character at <code>index</code>.
+         * Gets the word, sentence, or chbrbcter bt <code>index</code>.
          * If <code>direction</code> is non-null this will find the
-         * next/previous word/sentence/character.
+         * next/previous word/sentence/chbrbcter.
          */
-        private String getAtIndex(int part, int index, int direction) {
-            if (model instanceof AbstractDocument) {
-                ((AbstractDocument)model).readLock();
+        privbte String getAtIndex(int pbrt, int index, int direction) {
+            if (model instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)model).rebdLock();
             }
             try {
                 if (index < 0 || index >= model.getLength()) {
                     return null;
                 }
-                switch (part) {
-                case AccessibleText.CHARACTER:
+                switch (pbrt) {
+                cbse AccessibleText.CHARACTER:
                     if (index + direction < model.getLength() &&
                         index + direction >= 0) {
                         return model.getText(index + direction, 1);
                     }
-                    break;
+                    brebk;
 
 
-                case AccessibleText.WORD:
-                case AccessibleText.SENTENCE:
-                    IndexedSegment seg = getSegmentAt(part, index);
+                cbse AccessibleText.WORD:
+                cbse AccessibleText.SENTENCE:
+                    IndexedSegment seg = getSegmentAt(pbrt, index);
                     if (seg != null) {
                         if (direction != 0) {
                             int next;
@@ -2966,27 +2966,27 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                                 next = seg.modelOffset + direction * seg.count;
                             }
                             if (next >= 0 && next <= model.getLength()) {
-                                seg = getSegmentAt(part, next);
+                                seg = getSegmentAt(pbrt, next);
                             }
                             else {
                                 seg = null;
                             }
                         }
                         if (seg != null) {
-                            return new String(seg.array, seg.offset,
+                            return new String(seg.brrby, seg.offset,
                                                   seg.count);
                         }
                     }
-                    break;
+                    brebk;
 
 
-                default:
-                    break;
+                defbult:
+                    brebk;
                 }
-            } catch (BadLocationException e) {
-            } finally {
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readUnlock();
+            } cbtch (BbdLocbtionException e) {
+            } finblly {
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdUnlock();
                 }
             }
             return null;
@@ -2994,47 +2994,47 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
 
         /*
-         * Returns the paragraph element for the specified index.
+         * Returns the pbrbgrbph element for the specified index.
          */
-        private Element getParagraphElement(int index) {
-            if (model instanceof PlainDocument ) {
-                PlainDocument sdoc = (PlainDocument)model;
-                return sdoc.getParagraphElement(index);
-            } else if (model instanceof StyledDocument) {
+        privbte Element getPbrbgrbphElement(int index) {
+            if (model instbnceof PlbinDocument ) {
+                PlbinDocument sdoc = (PlbinDocument)model;
+                return sdoc.getPbrbgrbphElement(index);
+            } else if (model instbnceof StyledDocument) {
                 StyledDocument sdoc = (StyledDocument)model;
-                return sdoc.getParagraphElement(index);
+                return sdoc.getPbrbgrbphElement(index);
             } else {
-                Element para;
-                for (para = model.getDefaultRootElement(); ! para.isLeaf(); ) {
-                    int pos = para.getElementIndex(index);
-                    para = para.getElement(pos);
+                Element pbrb;
+                for (pbrb = model.getDefbultRootElement(); ! pbrb.isLebf(); ) {
+                    int pos = pbrb.getElementIndex(index);
+                    pbrb = pbrb.getElement(pos);
                 }
-                if (para == null) {
+                if (pbrb == null) {
                     return null;
                 }
-                return para.getParentElement();
+                return pbrb.getPbrentElement();
             }
         }
 
         /*
-         * Returns a <code>Segment</code> containing the paragraph text
-         * at <code>index</code>, or null if <code>index</code> isn't
-         * valid.
+         * Returns b <code>Segment</code> contbining the pbrbgrbph text
+         * bt <code>index</code>, or null if <code>index</code> isn't
+         * vblid.
          */
-        private IndexedSegment getParagraphElementText(int index)
-                                  throws BadLocationException {
-            Element para = getParagraphElement(index);
+        privbte IndexedSegment getPbrbgrbphElementText(int index)
+                                  throws BbdLocbtionException {
+            Element pbrb = getPbrbgrbphElement(index);
 
 
-            if (para != null) {
+            if (pbrb != null) {
                 IndexedSegment segment = new IndexedSegment();
                 try {
-                    int length = para.getEndOffset() - para.getStartOffset();
-                    model.getText(para.getStartOffset(), length, segment);
-                } catch (BadLocationException e) {
+                    int length = pbrb.getEndOffset() - pbrb.getStbrtOffset();
+                    model.getText(pbrb.getStbrtOffset(), length, segment);
+                } cbtch (BbdLocbtionException e) {
                     return null;
                 }
-                segment.modelOffset = para.getStartOffset();
+                segment.modelOffset = pbrb.getStbrtOffset();
                 return segment;
             }
             return null;
@@ -3042,41 +3042,41 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
 
         /**
-         * Returns the Segment at <code>index</code> representing either
-         * the paragraph or sentence as identified by <code>part</code>, or
-         * null if a valid paragraph/sentence can't be found. The offset
-         * will point to the start of the word/sentence in the array, and
-         * the modelOffset will point to the location of the word/sentence
+         * Returns the Segment bt <code>index</code> representing either
+         * the pbrbgrbph or sentence bs identified by <code>pbrt</code>, or
+         * null if b vblid pbrbgrbph/sentence cbn't be found. The offset
+         * will point to the stbrt of the word/sentence in the brrby, bnd
+         * the modelOffset will point to the locbtion of the word/sentence
          * in the model.
          */
-        private IndexedSegment getSegmentAt(int part, int index) throws
-                                  BadLocationException {
-            IndexedSegment seg = getParagraphElementText(index);
+        privbte IndexedSegment getSegmentAt(int pbrt, int index) throws
+                                  BbdLocbtionException {
+            IndexedSegment seg = getPbrbgrbphElementText(index);
             if (seg == null) {
                 return null;
             }
-            BreakIterator iterator;
-            switch (part) {
-            case AccessibleText.WORD:
-                iterator = BreakIterator.getWordInstance(getLocale());
-                break;
-            case AccessibleText.SENTENCE:
-                iterator = BreakIterator.getSentenceInstance(getLocale());
-                break;
-            default:
+            BrebkIterbtor iterbtor;
+            switch (pbrt) {
+            cbse AccessibleText.WORD:
+                iterbtor = BrebkIterbtor.getWordInstbnce(getLocble());
+                brebk;
+            cbse AccessibleText.SENTENCE:
+                iterbtor = BrebkIterbtor.getSentenceInstbnce(getLocble());
+                brebk;
+            defbult:
                 return null;
             }
             seg.first();
-            iterator.setText(seg);
-            int end = iterator.following(index - seg.modelOffset + seg.offset);
-            if (end == BreakIterator.DONE) {
+            iterbtor.setText(seg);
+            int end = iterbtor.following(index - seg.modelOffset + seg.offset);
+            if (end == BrebkIterbtor.DONE) {
                 return null;
             }
             if (end > seg.offset + seg.count) {
                 return null;
             }
-            int begin = iterator.previous();
-            if (begin == BreakIterator.DONE ||
+            int begin = iterbtor.previous();
+            if (begin == BrebkIterbtor.DONE ||
                          begin >= seg.offset + seg.count) {
                 return null;
             }
@@ -3086,23 +3086,23 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
             return seg;
         }
 
-        // begin AccessibleEditableText methods -----
+        // begin AccessibleEditbbleText methods -----
 
         /**
-         * Returns the AccessibleEditableText interface for
+         * Returns the AccessibleEditbbleText interfbce for
          * this text component.
          *
-         * @return the AccessibleEditableText interface
+         * @return the AccessibleEditbbleText interfbce
          * @since 1.4
          */
-        public AccessibleEditableText getAccessibleEditableText() {
+        public AccessibleEditbbleText getAccessibleEditbbleText() {
             return this;
         }
 
         /**
          * Sets the text contents to the specified string.
          *
-         * @param s the string to set the text contents
+         * @pbrbm s the string to set the text contents
          * @since 1.4
          */
         public void setTextContents(String s) {
@@ -3110,11 +3110,11 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         /**
-         * Inserts the specified string at the given index
+         * Inserts the specified string bt the given index
          *
-         * @param index the index in the text where the string will
+         * @pbrbm index the index in the text where the string will
          * be inserted
-         * @param s the string to insert in the text
+         * @pbrbm s the string to insert in the text
          * @since 1.4
          */
         public void insertTextAtIndex(int index, String s) {
@@ -3122,14 +3122,14 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
             if (doc != null) {
                 try {
                     if (s != null && s.length() > 0) {
-                        boolean composedTextSaved = saveComposedText(index);
+                        boolebn composedTextSbved = sbveComposedText(index);
                         doc.insertString(index, s, null);
-                        if (composedTextSaved) {
+                        if (composedTextSbved) {
                             restoreComposedText();
                         }
                     }
-                } catch (BadLocationException e) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(JTextComponent.this);
+                } cbtch (BbdLocbtionException e) {
+                    UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextComponent.this);
                 }
             }
         }
@@ -3137,21 +3137,21 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         /**
          * Returns the text string between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          * @return the text string between the indices
          * @since 1.4
          */
-        public String getTextRange(int startIndex, int endIndex) {
+        public String getTextRbnge(int stbrtIndex, int endIndex) {
             String txt = null;
-            int p0 = Math.min(startIndex, endIndex);
-            int p1 = Math.max(startIndex, endIndex);
+            int p0 = Mbth.min(stbrtIndex, endIndex);
+            int p1 = Mbth.mbx(stbrtIndex, endIndex);
             if (p0 != p1) {
                 try {
                     Document doc = JTextComponent.this.getDocument();
                     txt = doc.getText(p0, p1 - p0);
-                } catch (BadLocationException e) {
-                    throw new IllegalArgumentException(e.getMessage());
+                } cbtch (BbdLocbtionException e) {
+                    throw new IllegblArgumentException(e.getMessbge());
                 }
             }
             return txt;
@@ -3160,130 +3160,130 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         /**
          * Deletes the text between two indices
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          * @since 1.4
          */
-        public void delete(int startIndex, int endIndex) {
-            if (isEditable() && isEnabled()) {
+        public void delete(int stbrtIndex, int endIndex) {
+            if (isEditbble() && isEnbbled()) {
                 try {
-                    int p0 = Math.min(startIndex, endIndex);
-                    int p1 = Math.max(startIndex, endIndex);
+                    int p0 = Mbth.min(stbrtIndex, endIndex);
+                    int p1 = Mbth.mbx(stbrtIndex, endIndex);
                     if (p0 != p1) {
                         Document doc = getDocument();
                         doc.remove(p0, p1 - p0);
                     }
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                 }
             } else {
-                UIManager.getLookAndFeel().provideErrorFeedback(JTextComponent.this);
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JTextComponent.this);
             }
         }
 
         /**
-         * Cuts the text between two indices into the system clipboard.
+         * Cuts the text between two indices into the system clipbobrd.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          * @since 1.4
          */
-        public void cut(int startIndex, int endIndex) {
-            selectText(startIndex, endIndex);
+        public void cut(int stbrtIndex, int endIndex) {
+            selectText(stbrtIndex, endIndex);
             JTextComponent.this.cut();
         }
 
         /**
-         * Pastes the text from the system clipboard into the text
-         * starting at the specified index.
+         * Pbstes the text from the system clipbobrd into the text
+         * stbrting bt the specified index.
          *
-         * @param startIndex the starting index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
          * @since 1.4
          */
-        public void paste(int startIndex) {
-            setCaretPosition(startIndex);
-            JTextComponent.this.paste();
+        public void pbste(int stbrtIndex) {
+            setCbretPosition(stbrtIndex);
+            JTextComponent.this.pbste();
         }
 
         /**
-         * Replaces the text between two indices with the specified
+         * Replbces the text between two indices with the specified
          * string.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param s the string to replace the text between two indices
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
+         * @pbrbm s the string to replbce the text between two indices
          * @since 1.4
          */
-        public void replaceText(int startIndex, int endIndex, String s) {
-            selectText(startIndex, endIndex);
-            JTextComponent.this.replaceSelection(s);
+        public void replbceText(int stbrtIndex, int endIndex, String s) {
+            selectText(stbrtIndex, endIndex);
+            JTextComponent.this.replbceSelection(s);
         }
 
         /**
          * Selects the text between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
          * @since 1.4
          */
-        public void selectText(int startIndex, int endIndex) {
-            JTextComponent.this.select(startIndex, endIndex);
+        public void selectText(int stbrtIndex, int endIndex) {
+            JTextComponent.this.select(stbrtIndex, endIndex);
         }
 
         /**
-         * Sets attributes for the text between two indices.
+         * Sets bttributes for the text between two indices.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param as the attribute set
+         * @pbrbm stbrtIndex the stbrting index in the text
+         * @pbrbm endIndex the ending index in the text
+         * @pbrbm bs the bttribute set
          * @see AttributeSet
          * @since 1.4
          */
-        public void setAttributes(int startIndex, int endIndex,
-            AttributeSet as) {
+        public void setAttributes(int stbrtIndex, int endIndex,
+            AttributeSet bs) {
 
             // Fixes bug 4487492
             Document doc = JTextComponent.this.getDocument();
-            if (doc != null && doc instanceof StyledDocument) {
+            if (doc != null && doc instbnceof StyledDocument) {
                 StyledDocument sDoc = (StyledDocument)doc;
-                int offset = startIndex;
-                int length = endIndex - startIndex;
-                sDoc.setCharacterAttributes(offset, length, as, true);
+                int offset = stbrtIndex;
+                int length = endIndex - stbrtIndex;
+                sDoc.setChbrbcterAttributes(offset, length, bs, true);
             }
         }
 
-        // ----- end AccessibleEditableText methods
+        // ----- end AccessibleEditbbleText methods
 
 
         // ----- begin AccessibleExtendedText methods
 
-// Probably should replace the helper method getAtIndex() to return
-// instead an AccessibleTextSequence also for LINE & ATTRIBUTE_RUN
-// and then make the AccessibleText methods get[At|After|Before]Point
-// call this new method instead and return only the string portion
+// Probbbly should replbce the helper method getAtIndex() to return
+// instebd bn AccessibleTextSequence blso for LINE & ATTRIBUTE_RUN
+// bnd then mbke the AccessibleText methods get[At|After|Before]Point
+// cbll this new method instebd bnd return only the string portion
 
         /**
-         * Returns the AccessibleTextSequence at a given <code>index</code>.
+         * Returns the AccessibleTextSequence bt b given <code>index</code>.
          * If <code>direction</code> is non-null this will find the
-         * next/previous word/sentence/character.
+         * next/previous word/sentence/chbrbcter.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or
          * <code>ATTRIBUTE_RUN</code> to retrieve
-         * @param index an index within the text
-         * @param direction is either -1, 0, or 1
-         * @return an <code>AccessibleTextSequence</code> specifying the text
-         * if <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @pbrbm direction is either -1, 0, or 1
+         * @return bn <code>AccessibleTextSequence</code> specifying the text
+         * if <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned.
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        private AccessibleTextSequence getSequenceAtIndex(int part,
+        privbte AccessibleTextSequence getSequenceAtIndex(int pbrt,
             int index, int direction) {
             if (index < 0 || index >= model.getLength()) {
                 return null;
@@ -3292,39 +3292,39 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                 return null;    // direction must be 1, 0, or -1
             }
 
-            switch (part) {
-            case AccessibleText.CHARACTER:
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readLock();
+            switch (pbrt) {
+            cbse AccessibleText.CHARACTER:
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdLock();
                 }
-                AccessibleTextSequence charSequence = null;
+                AccessibleTextSequence chbrSequence = null;
                 try {
                     if (index + direction < model.getLength() &&
                         index + direction >= 0) {
-                        charSequence =
+                        chbrSequence =
                             new AccessibleTextSequence(index + direction,
                             index + direction + 1,
                             model.getText(index + direction, 1));
                     }
 
-                } catch (BadLocationException e) {
-                    // we are intentionally silent; our contract says we return
-                    // null if there is any failure in this method
-                } finally {
-                    if (model instanceof AbstractDocument) {
-                        ((AbstractDocument)model).readUnlock();
+                } cbtch (BbdLocbtionException e) {
+                    // we bre intentionblly silent; our contrbct sbys we return
+                    // null if there is bny fbilure in this method
+                } finblly {
+                    if (model instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)model).rebdUnlock();
                     }
                 }
-                return charSequence;
+                return chbrSequence;
 
-            case AccessibleText.WORD:
-            case AccessibleText.SENTENCE:
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readLock();
+            cbse AccessibleText.WORD:
+            cbse AccessibleText.SENTENCE:
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdLock();
                 }
-                AccessibleTextSequence rangeSequence = null;
+                AccessibleTextSequence rbngeSequence = null;
                 try {
-                    IndexedSegment seg = getSegmentAt(part, index);
+                    IndexedSegment seg = getSegmentAt(pbrt, index);
                     if (seg != null) {
                         if (direction != 0) {
                             int next;
@@ -3336,7 +3336,7 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                                 next = seg.modelOffset + seg.count;
                             }
                             if (next >= 0 && next <= model.getLength()) {
-                                seg = getSegmentAt(part, next);
+                                seg = getSegmentAt(pbrt, next);
                             }
                             else {
                                 seg = null;
@@ -3344,333 +3344,333 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                         }
                         if (seg != null &&
                             (seg.offset + seg.count) <= model.getLength()) {
-                            rangeSequence =
+                            rbngeSequence =
                                 new AccessibleTextSequence (seg.offset,
                                 seg.offset + seg.count,
-                                new String(seg.array, seg.offset, seg.count));
-                        } // else we leave rangeSequence set to null
+                                new String(seg.brrby, seg.offset, seg.count));
+                        } // else we lebve rbngeSequence set to null
                     }
-                } catch(BadLocationException e) {
-                    // we are intentionally silent; our contract says we return
-                    // null if there is any failure in this method
-                } finally {
-                    if (model instanceof AbstractDocument) {
-                        ((AbstractDocument)model).readUnlock();
+                } cbtch(BbdLocbtionException e) {
+                    // we bre intentionblly silent; our contrbct sbys we return
+                    // null if there is bny fbilure in this method
+                } finblly {
+                    if (model instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)model).rebdUnlock();
                     }
                 }
-                return rangeSequence;
+                return rbngeSequence;
 
-            case AccessibleExtendedText.LINE:
+            cbse AccessibleExtendedText.LINE:
                 AccessibleTextSequence lineSequence = null;
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readLock();
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdLock();
                 }
                 try {
-                    int startIndex =
-                        Utilities.getRowStart(JTextComponent.this, index);
+                    int stbrtIndex =
+                        Utilities.getRowStbrt(JTextComponent.this, index);
                     int endIndex =
                         Utilities.getRowEnd(JTextComponent.this, index);
-                    if (startIndex >= 0 && endIndex >= startIndex) {
+                    if (stbrtIndex >= 0 && endIndex >= stbrtIndex) {
                         if (direction == 0) {
                             lineSequence =
-                                new AccessibleTextSequence(startIndex, endIndex,
-                                    model.getText(startIndex,
-                                        endIndex - startIndex + 1));
-                        } else if (direction == -1 && startIndex > 0) {
+                                new AccessibleTextSequence(stbrtIndex, endIndex,
+                                    model.getText(stbrtIndex,
+                                        endIndex - stbrtIndex + 1));
+                        } else if (direction == -1 && stbrtIndex > 0) {
                             endIndex =
                                 Utilities.getRowEnd(JTextComponent.this,
-                                    startIndex - 1);
-                            startIndex =
-                                Utilities.getRowStart(JTextComponent.this,
-                                    startIndex - 1);
-                            if (startIndex >= 0 && endIndex >= startIndex) {
+                                    stbrtIndex - 1);
+                            stbrtIndex =
+                                Utilities.getRowStbrt(JTextComponent.this,
+                                    stbrtIndex - 1);
+                            if (stbrtIndex >= 0 && endIndex >= stbrtIndex) {
                                 lineSequence =
-                                    new AccessibleTextSequence(startIndex,
+                                    new AccessibleTextSequence(stbrtIndex,
                                         endIndex,
-                                        model.getText(startIndex,
-                                            endIndex - startIndex + 1));
+                                        model.getText(stbrtIndex,
+                                            endIndex - stbrtIndex + 1));
                             }
                         } else if (direction == 1 &&
                          endIndex < model.getLength()) {
-                            startIndex =
-                                Utilities.getRowStart(JTextComponent.this,
+                            stbrtIndex =
+                                Utilities.getRowStbrt(JTextComponent.this,
                                     endIndex + 1);
                             endIndex =
                                 Utilities.getRowEnd(JTextComponent.this,
                                     endIndex + 1);
-                            if (startIndex >= 0 && endIndex >= startIndex) {
+                            if (stbrtIndex >= 0 && endIndex >= stbrtIndex) {
                                 lineSequence =
-                                    new AccessibleTextSequence(startIndex,
-                                        endIndex, model.getText(startIndex,
-                                            endIndex - startIndex + 1));
+                                    new AccessibleTextSequence(stbrtIndex,
+                                        endIndex, model.getText(stbrtIndex,
+                                            endIndex - stbrtIndex + 1));
                             }
                         }
-                        // already validated 'direction' above...
+                        // blrebdy vblidbted 'direction' bbove...
                     }
-                } catch(BadLocationException e) {
-                    // we are intentionally silent; our contract says we return
-                    // null if there is any failure in this method
-                } finally {
-                    if (model instanceof AbstractDocument) {
-                        ((AbstractDocument)model).readUnlock();
+                } cbtch(BbdLocbtionException e) {
+                    // we bre intentionblly silent; our contrbct sbys we return
+                    // null if there is bny fbilure in this method
+                } finblly {
+                    if (model instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)model).rebdUnlock();
                     }
                 }
                 return lineSequence;
 
-            case AccessibleExtendedText.ATTRIBUTE_RUN:
-                // assumptions: (1) that all characters in a single element
-                // share the same attribute set; (2) that adjacent elements
-                // *may* share the same attribute set
+            cbse AccessibleExtendedText.ATTRIBUTE_RUN:
+                // bssumptions: (1) thbt bll chbrbcters in b single element
+                // shbre the sbme bttribute set; (2) thbt bdjbcent elements
+                // *mby* shbre the sbme bttribute set
 
-                int attributeRunStartIndex, attributeRunEndIndex;
+                int bttributeRunStbrtIndex, bttributeRunEndIndex;
                 String runText = null;
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readLock();
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdLock();
                 }
 
                 try {
-                    attributeRunStartIndex = attributeRunEndIndex =
+                    bttributeRunStbrtIndex = bttributeRunEndIndex =
                      Integer.MIN_VALUE;
                     int tempIndex = index;
                     switch (direction) {
-                    case -1:
-                        // going backwards, so find left edge of this run -
-                        // that'll be the end of the previous run
+                    cbse -1:
+                        // going bbckwbrds, so find left edge of this run -
+                        // thbt'll be the end of the previous run
                         // (off-by-one counting)
-                        attributeRunEndIndex = getRunEdge(index, direction);
+                        bttributeRunEndIndex = getRunEdge(index, direction);
                         // now set ourselves up to find the left edge of the
                         // prev. run
-                        tempIndex = attributeRunEndIndex - 1;
-                        break;
-                    case 1:
-                        // going forward, so find right edge of this run -
-                        // that'll be the start of the next run
+                        tempIndex = bttributeRunEndIndex - 1;
+                        brebk;
+                    cbse 1:
+                        // going forwbrd, so find right edge of this run -
+                        // thbt'll be the stbrt of the next run
                         // (off-by-one counting)
-                        attributeRunStartIndex = getRunEdge(index, direction);
+                        bttributeRunStbrtIndex = getRunEdge(index, direction);
                         // now set ourselves up to find the right edge of the
                         // next run
-                        tempIndex = attributeRunStartIndex;
-                        break;
-                    case 0:
-                        // interested in the current run, so nothing special to
-                        // set up in advance...
-                        break;
-                    default:
-                        // only those three values of direction allowed...
+                        tempIndex = bttributeRunStbrtIndex;
+                        brebk;
+                    cbse 0:
+                        // interested in the current run, so nothing specibl to
+                        // set up in bdvbnce...
+                        brebk;
+                    defbult:
+                        // only those three vblues of direction bllowed...
                         throw new AssertionError(direction);
                     }
 
                     // set the unset edge; if neither set then we're getting
-                    // both edges of the current run around our 'index'
-                    attributeRunStartIndex =
-                        (attributeRunStartIndex != Integer.MIN_VALUE) ?
-                        attributeRunStartIndex : getRunEdge(tempIndex, -1);
-                    attributeRunEndIndex =
-                        (attributeRunEndIndex != Integer.MIN_VALUE) ?
-                        attributeRunEndIndex : getRunEdge(tempIndex, 1);
+                    // both edges of the current run bround our 'index'
+                    bttributeRunStbrtIndex =
+                        (bttributeRunStbrtIndex != Integer.MIN_VALUE) ?
+                        bttributeRunStbrtIndex : getRunEdge(tempIndex, -1);
+                    bttributeRunEndIndex =
+                        (bttributeRunEndIndex != Integer.MIN_VALUE) ?
+                        bttributeRunEndIndex : getRunEdge(tempIndex, 1);
 
-                    runText = model.getText(attributeRunStartIndex,
-                                            attributeRunEndIndex -
-                                            attributeRunStartIndex);
-                } catch (BadLocationException e) {
-                    // we are intentionally silent; our contract says we return
-                    // null if there is any failure in this method
+                    runText = model.getText(bttributeRunStbrtIndex,
+                                            bttributeRunEndIndex -
+                                            bttributeRunStbrtIndex);
+                } cbtch (BbdLocbtionException e) {
+                    // we bre intentionblly silent; our contrbct sbys we return
+                    // null if there is bny fbilure in this method
                     return null;
-                } finally {
-                    if (model instanceof AbstractDocument) {
-                        ((AbstractDocument)model).readUnlock();
+                } finblly {
+                    if (model instbnceof AbstrbctDocument) {
+                        ((AbstrbctDocument)model).rebdUnlock();
                     }
                 }
-                return new AccessibleTextSequence(attributeRunStartIndex,
-                                                  attributeRunEndIndex,
+                return new AccessibleTextSequence(bttributeRunStbrtIndex,
+                                                  bttributeRunEndIndex,
                                                   runText);
 
-            default:
-                break;
+            defbult:
+                brebk;
             }
             return null;
         }
 
 
         /**
-         * Starting at text position <code>index</code>, and going in
-         * <code>direction</code>, return the edge of run that shares the
-         * same <code>AttributeSet</code> and parent element as those at
+         * Stbrting bt text position <code>index</code>, bnd going in
+         * <code>direction</code>, return the edge of run thbt shbres the
+         * sbme <code>AttributeSet</code> bnd pbrent element bs those bt
          * <code>index</code>.
          *
-         * Note: we assume the document is already locked...
+         * Note: we bssume the document is blrebdy locked...
          */
-        private int getRunEdge(int index, int direction) throws
-         BadLocationException {
+        privbte int getRunEdge(int index, int direction) throws
+         BbdLocbtionException {
             if (index < 0 || index >= model.getLength()) {
-                throw new BadLocationException("Location out of bounds", index);
+                throw new BbdLocbtionException("Locbtion out of bounds", index);
             }
-            // locate the Element at index
+            // locbte the Element bt index
             Element indexElement;
-            // locate the Element at our index/offset
-            int elementIndex = -1;        // test for initialization
-            for (indexElement = model.getDefaultRootElement();
-                 ! indexElement.isLeaf(); ) {
+            // locbte the Element bt our index/offset
+            int elementIndex = -1;        // test for initiblizbtion
+            for (indexElement = model.getDefbultRootElement();
+                 ! indexElement.isLebf(); ) {
                 elementIndex = indexElement.getElementIndex(index);
                 indexElement = indexElement.getElement(elementIndex);
             }
             if (elementIndex == -1) {
                 throw new AssertionError(index);
             }
-            // cache the AttributeSet and parentElement atindex
+            // cbche the AttributeSet bnd pbrentElement btindex
             AttributeSet indexAS = indexElement.getAttributes();
-            Element parent = indexElement.getParentElement();
+            Element pbrent = indexElement.getPbrentElement();
 
-            // find the first Element before/after ours w/the same AttributeSet
-            // if we are already at edge of the first element in our parent
-            // then return that edge
+            // find the first Element before/bfter ours w/the sbme AttributeSet
+            // if we bre blrebdy bt edge of the first element in our pbrent
+            // then return thbt edge
             Element edgeElement;
             switch (direction) {
-            case -1:
-            case 1:
+            cbse -1:
+            cbse 1:
                 int edgeElementIndex = elementIndex;
-                int elementCount = parent.getElementCount();
+                int elementCount = pbrent.getElementCount();
                 while ((edgeElementIndex + direction) > 0 &&
                        ((edgeElementIndex + direction) < elementCount) &&
-                       parent.getElement(edgeElementIndex
-                       + direction).getAttributes().isEqual(indexAS)) {
+                       pbrent.getElement(edgeElementIndex
+                       + direction).getAttributes().isEqubl(indexAS)) {
                     edgeElementIndex += direction;
                 }
-                edgeElement = parent.getElement(edgeElementIndex);
-                break;
-            default:
+                edgeElement = pbrent.getElement(edgeElementIndex);
+                brebk;
+            defbult:
                 throw new AssertionError(direction);
             }
             switch (direction) {
-            case -1:
-                return edgeElement.getStartOffset();
-            case 1:
+            cbse -1:
+                return edgeElement.getStbrtOffset();
+            cbse 1:
                 return edgeElement.getEndOffset();
-            default:
-                // we already caught this case earlier; this is to satisfy
+            defbult:
+                // we blrebdy cbught this cbse ebrlier; this is to sbtisfy
                 // the compiler...
                 return Integer.MIN_VALUE;
             }
         }
 
-        // getTextRange() not needed; defined in AccessibleEditableText
+        // getTextRbnge() not needed; defined in AccessibleEditbbleText
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> at a given
+         * Returns the <code>AccessibleTextSequence</code> bt b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or
          * <code>ATTRIBUTE_RUN</code> to retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text if
-         * <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text if
+         * <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceAt(int part, int index) {
-            return getSequenceAtIndex(part, index, 0);
+        public AccessibleTextSequence getTextSequenceAt(int pbrt, int index) {
+            return getSequenceAtIndex(pbrt, index, 0);
         }
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> after a given
+         * Returns the <code>AccessibleTextSequence</code> bfter b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or
          * <code>ATTRIBUTE_RUN</code> to retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text
-         * if <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text
+         * if <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceAfter(int part, int index) {
-            return getSequenceAtIndex(part, index, 1);
+        public AccessibleTextSequence getTextSequenceAfter(int pbrt, int index) {
+            return getSequenceAtIndex(pbrt, index, 1);
         }
 
         /**
-         * Returns the <code>AccessibleTextSequence</code> before a given
+         * Returns the <code>AccessibleTextSequence</code> before b given
          * <code>index</code>.
          *
-         * @param part the <code>CHARACTER</code>, <code>WORD</code>,
+         * @pbrbm pbrt the <code>CHARACTER</code>, <code>WORD</code>,
          * <code>SENTENCE</code>, <code>LINE</code> or
          * <code>ATTRIBUTE_RUN</code> to retrieve
-         * @param index an index within the text
-         * @return an <code>AccessibleTextSequence</code> specifying the text
-         * if <code>part</code> and <code>index</code> are valid.  Otherwise,
+         * @pbrbm index bn index within the text
+         * @return bn <code>AccessibleTextSequence</code> specifying the text
+         * if <code>pbrt</code> bnd <code>index</code> bre vblid.  Otherwise,
          * <code>null</code> is returned
          *
-         * @see javax.accessibility.AccessibleText#CHARACTER
-         * @see javax.accessibility.AccessibleText#WORD
-         * @see javax.accessibility.AccessibleText#SENTENCE
-         * @see javax.accessibility.AccessibleExtendedText#LINE
-         * @see javax.accessibility.AccessibleExtendedText#ATTRIBUTE_RUN
+         * @see jbvbx.bccessibility.AccessibleText#CHARACTER
+         * @see jbvbx.bccessibility.AccessibleText#WORD
+         * @see jbvbx.bccessibility.AccessibleText#SENTENCE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#LINE
+         * @see jbvbx.bccessibility.AccessibleExtendedText#ATTRIBUTE_RUN
          *
          * @since 1.6
          */
-        public AccessibleTextSequence getTextSequenceBefore(int part, int index) {
-            return getSequenceAtIndex(part, index, -1);
+        public AccessibleTextSequence getTextSequenceBefore(int pbrt, int index) {
+            return getSequenceAtIndex(pbrt, index, -1);
         }
 
         /**
-         * Returns the <code>Rectangle</code> enclosing the text between
+         * Returns the <code>Rectbngle</code> enclosing the text between
          * two indicies.
          *
-         * @param startIndex the start index in the text
-         * @param endIndex the end index in the text
-         * @return the bounding rectangle of the text if the indices are valid.
+         * @pbrbm stbrtIndex the stbrt index in the text
+         * @pbrbm endIndex the end index in the text
+         * @return the bounding rectbngle of the text if the indices bre vblid.
          * Otherwise, <code>null</code> is returned
          *
          * @since 1.6
          */
-        public Rectangle getTextBounds(int startIndex, int endIndex) {
-            if (startIndex < 0 || startIndex > model.getLength()-1 ||
+        public Rectbngle getTextBounds(int stbrtIndex, int endIndex) {
+            if (stbrtIndex < 0 || stbrtIndex > model.getLength()-1 ||
                 endIndex < 0 || endIndex > model.getLength()-1 ||
-                startIndex > endIndex) {
+                stbrtIndex > endIndex) {
                 return null;
             }
             TextUI ui = getUI();
             if (ui == null) {
                 return null;
             }
-            Rectangle rect = null;
-            Rectangle alloc = getRootEditorRect();
-            if (alloc == null) {
+            Rectbngle rect = null;
+            Rectbngle blloc = getRootEditorRect();
+            if (blloc == null) {
                 return null;
             }
-            if (model instanceof AbstractDocument) {
-                ((AbstractDocument)model).readLock();
+            if (model instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)model).rebdLock();
             }
             try {
                 View rootView = ui.getRootView(JTextComponent.this);
                 if (rootView != null) {
-                    Shape bounds = rootView.modelToView(startIndex,
-                                    Position.Bias.Forward, endIndex,
-                                    Position.Bias.Backward, alloc);
+                    Shbpe bounds = rootView.modelToView(stbrtIndex,
+                                    Position.Bibs.Forwbrd, endIndex,
+                                    Position.Bibs.Bbckwbrd, blloc);
 
-                    rect = (bounds instanceof Rectangle) ?
-                     (Rectangle)bounds : bounds.getBounds();
+                    rect = (bounds instbnceof Rectbngle) ?
+                     (Rectbngle)bounds : bounds.getBounds();
 
                 }
-            } catch (BadLocationException e) {
-            } finally {
-                if (model instanceof AbstractDocument) {
-                    ((AbstractDocument)model).readUnlock();
+            } cbtch (BbdLocbtionException e) {
+            } finblly {
+                if (model instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)model).rebdUnlock();
                 }
             }
             return rect;
@@ -3679,60 +3679,60 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         // ----- end AccessibleExtendedText methods
 
 
-        // --- interface AccessibleAction methods ------------------------
+        // --- interfbce AccessibleAction methods ------------------------
 
         public AccessibleAction getAccessibleAction() {
             return this;
         }
 
         /**
-         * Returns the number of accessible actions available in this object
-         * If there are more than one, the first one is considered the
-         * "default" action of the object.
+         * Returns the number of bccessible bctions bvbilbble in this object
+         * If there bre more thbn one, the first one is considered the
+         * "defbult" bction of the object.
          *
-         * @return the zero-based number of Actions in this object
+         * @return the zero-bbsed number of Actions in this object
          * @since 1.4
          */
         public int getAccessibleActionCount() {
-            Action [] actions = JTextComponent.this.getActions();
-            return actions.length;
+            Action [] bctions = JTextComponent.this.getActions();
+            return bctions.length;
         }
 
         /**
-         * Returns a description of the specified action of the object.
+         * Returns b description of the specified bction of the object.
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return b String description of the bction
          * @see #getAccessibleActionCount
          * @since 1.4
          */
         public String getAccessibleActionDescription(int i) {
-            Action [] actions = JTextComponent.this.getActions();
-            if (i < 0 || i >= actions.length) {
+            Action [] bctions = JTextComponent.this.getActions();
+            if (i < 0 || i >= bctions.length) {
                 return null;
             }
-            return (String)actions[i].getValue(Action.NAME);
+            return (String)bctions[i].getVblue(Action.NAME);
         }
 
         /**
          * Performs the specified Action on the object
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
+         * @pbrbm i zero-bbsed index of bctions
+         * @return true if the bction wbs performed; otherwise fblse.
          * @see #getAccessibleActionCount
          * @since 1.4
          */
-        public boolean doAccessibleAction(int i) {
-            Action [] actions = JTextComponent.this.getActions();
-            if (i < 0 || i >= actions.length) {
-                return false;
+        public boolebn doAccessibleAction(int i) {
+            Action [] bctions = JTextComponent.this.getActions();
+            if (i < 0 || i >= bctions.length) {
+                return fblse;
             }
-            ActionEvent ae =
+            ActionEvent be =
                 new ActionEvent(JTextComponent.this,
                                 ActionEvent.ACTION_PERFORMED, null,
                                 EventQueue.getMostRecentEventTime(),
                                 getCurrentEventModifiers());
-            actions[i].actionPerformed(ae);
+            bctions[i].bctionPerformed(be);
             return true;
         }
 
@@ -3742,97 +3742,97 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     }
 
 
-    // --- serialization ---------------------------------------------
+    // --- seriblizbtion ---------------------------------------------
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        caretEvent = new MutableCaretEvent(this);
-        addMouseListener(caretEvent);
-        addFocusListener(caretEvent);
+        s.defbultRebdObject();
+        cbretEvent = new MutbbleCbretEvent(this);
+        bddMouseListener(cbretEvent);
+        bddFocusListener(cbretEvent);
     }
 
-    // --- member variables ----------------------------------
+    // --- member vbribbles ----------------------------------
 
     /**
      * The document model.
      */
-    private Document model;
+    privbte Document model;
 
     /**
-     * The caret used to display the insert position
-     * and navigate throughout the document.
+     * The cbret used to displby the insert position
+     * bnd nbvigbte throughout the document.
      *
      * PENDING(prinz)
-     * This should be serializable, default installed
+     * This should be seriblizbble, defbult instblled
      * by UI.
      */
-    private transient Caret caret;
+    privbte trbnsient Cbret cbret;
 
     /**
-     * Object responsible for restricting the cursor navigation.
+     * Object responsible for restricting the cursor nbvigbtion.
      */
-    private NavigationFilter navigationFilter;
+    privbte NbvigbtionFilter nbvigbtionFilter;
 
     /**
-     * The object responsible for managing highlights.
+     * The object responsible for mbnbging highlights.
      *
      * PENDING(prinz)
-     * This should be serializable, default installed
+     * This should be seriblizbble, defbult instblled
      * by UI.
      */
-    private transient Highlighter highlighter;
+    privbte trbnsient Highlighter highlighter;
 
     /**
      * The current key bindings in effect.
      *
      * PENDING(prinz)
-     * This should be serializable, default installed
+     * This should be seriblizbble, defbult instblled
      * by UI.
      */
-    private transient Keymap keymap;
+    privbte trbnsient Keymbp keymbp;
 
-    private transient MutableCaretEvent caretEvent;
-    private Color caretColor;
-    private Color selectionColor;
-    private Color selectedTextColor;
-    private Color disabledTextColor;
-    private boolean editable;
-    private Insets margin;
-    private char focusAccelerator;
-    private boolean dragEnabled;
+    privbte trbnsient MutbbleCbretEvent cbretEvent;
+    privbte Color cbretColor;
+    privbte Color selectionColor;
+    privbte Color selectedTextColor;
+    privbte Color disbbledTextColor;
+    privbte boolebn editbble;
+    privbte Insets mbrgin;
+    privbte chbr focusAccelerbtor;
+    privbte boolebn drbgEnbbled;
 
     /**
      * The drop mode for this component.
      */
-    private DropMode dropMode = DropMode.USE_SELECTION;
+    privbte DropMode dropMode = DropMode.USE_SELECTION;
 
     /**
-     * The drop location.
+     * The drop locbtion.
      */
-    private transient DropLocation dropLocation;
+    privbte trbnsient DropLocbtion dropLocbtion;
 
     /**
-     * Represents a drop location for <code>JTextComponent</code>s.
+     * Represents b drop locbtion for <code>JTextComponent</code>s.
      *
-     * @see #getDropLocation
+     * @see #getDropLocbtion
      * @since 1.6
      */
-    public static final class DropLocation extends TransferHandler.DropLocation {
-        private final int index;
-        private final Position.Bias bias;
+    public stbtic finbl clbss DropLocbtion extends TrbnsferHbndler.DropLocbtion {
+        privbte finbl int index;
+        privbte finbl Position.Bibs bibs;
 
-        private DropLocation(Point p, int index, Position.Bias bias) {
+        privbte DropLocbtion(Point p, int index, Position.Bibs bibs) {
             super(p);
             this.index = index;
-            this.bias = bias;
+            this.bibs = bibs;
         }
 
         /**
-         * Returns the index where dropped data should be inserted into the
-         * associated component. This index represents a position between
-         * characters, as would be interpreted by a caret.
+         * Returns the index where dropped dbtb should be inserted into the
+         * bssocibted component. This index represents b position between
+         * chbrbcters, bs would be interpreted by b cbret.
          *
          * @return the drop index
          */
@@ -3841,61 +3841,61 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         /**
-         * Returns the bias for the drop index.
+         * Returns the bibs for the drop index.
          *
-         * @return the drop bias
+         * @return the drop bibs
          */
-        public Position.Bias getBias() {
-            return bias;
+        public Position.Bibs getBibs() {
+            return bibs;
         }
 
         /**
-         * Returns a string representation of this drop location.
+         * Returns b string representbtion of this drop locbtion.
          * This method is intended to be used for debugging purposes,
-         * and the content and format of the returned string may vary
-         * between implementations.
+         * bnd the content bnd formbt of the returned string mby vbry
+         * between implementbtions.
          *
-         * @return a string representation of this drop location
+         * @return b string representbtion of this drop locbtion
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                    + "[dropPoint=" + getDropPoint() + ","
                    + "index=" + index + ","
-                   + "bias=" + bias + "]";
+                   + "bibs=" + bibs + "]";
         }
     }
 
     /**
-     * TransferHandler used if one hasn't been supplied by the UI.
+     * TrbnsferHbndler used if one hbsn't been supplied by the UI.
      */
-    private static DefaultTransferHandler defaultTransferHandler;
+    privbte stbtic DefbultTrbnsferHbndler defbultTrbnsferHbndler;
 
     /**
-     * Maps from class name to Boolean indicating if
-     * <code>processInputMethodEvent</code> has been overriden.
+     * Mbps from clbss nbme to Boolebn indicbting if
+     * <code>processInputMethodEvent</code> hbs been overriden.
      */
-    private static Cache<Class<?>,Boolean> METHOD_OVERRIDDEN
-            = new Cache<Class<?>,Boolean>(Cache.Kind.WEAK, Cache.Kind.STRONG) {
+    privbte stbtic Cbche<Clbss<?>,Boolebn> METHOD_OVERRIDDEN
+            = new Cbche<Clbss<?>,Boolebn>(Cbche.Kind.WEAK, Cbche.Kind.STRONG) {
         /**
          * Returns {@code true} if the specified {@code type} extends {@link JTextComponent}
-         * and the {@link JTextComponent#processInputMethodEvent} method is overridden.
+         * bnd the {@link JTextComponent#processInputMethodEvent} method is overridden.
          */
         @Override
-        public Boolean create(final Class<?> type) {
-            if (JTextComponent.class == type) {
-                return Boolean.FALSE;
+        public Boolebn crebte(finbl Clbss<?> type) {
+            if (JTextComponent.clbss == type) {
+                return Boolebn.FALSE;
             }
-            if (get(type.getSuperclass())) {
-                return Boolean.TRUE;
+            if (get(type.getSuperclbss())) {
+                return Boolebn.TRUE;
             }
             return AccessController.doPrivileged(
-                    new PrivilegedAction<Boolean>() {
-                        public Boolean run() {
+                    new PrivilegedAction<Boolebn>() {
+                        public Boolebn run() {
                             try {
-                                type.getDeclaredMethod("processInputMethodEvent", InputMethodEvent.class);
-                                return Boolean.TRUE;
-                            } catch (NoSuchMethodException exception) {
-                                return Boolean.FALSE;
+                                type.getDeclbredMethod("processInputMethodEvent", InputMethodEvent.clbss);
+                                return Boolebn.TRUE;
+                            } cbtch (NoSuchMethodException exception) {
+                                return Boolebn.FALSE;
                             }
                         }
                     });
@@ -3903,110 +3903,110 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     };
 
     /**
-     * Returns a string representation of this <code>JTextComponent</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this <code>JTextComponent</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      * <P>
-     * Overriding <code>paramString</code> to provide information about the
-     * specific new aspects of the JFC components.
+     * Overriding <code>pbrbmString</code> to provide informbtion bbout the
+     * specific new bspects of the JFC components.
      *
-     * @return  a string representation of this <code>JTextComponent</code>
+     * @return  b string representbtion of this <code>JTextComponent</code>
      */
-    protected String paramString() {
-        String editableString = (editable ?
-                                 "true" : "false");
-        String caretColorString = (caretColor != null ?
-                                   caretColor.toString() : "");
+    protected String pbrbmString() {
+        String editbbleString = (editbble ?
+                                 "true" : "fblse");
+        String cbretColorString = (cbretColor != null ?
+                                   cbretColor.toString() : "");
         String selectionColorString = (selectionColor != null ?
                                        selectionColor.toString() : "");
         String selectedTextColorString = (selectedTextColor != null ?
                                           selectedTextColor.toString() : "");
-        String disabledTextColorString = (disabledTextColor != null ?
-                                          disabledTextColor.toString() : "");
-        String marginString = (margin != null ?
-                               margin.toString() : "");
+        String disbbledTextColorString = (disbbledTextColor != null ?
+                                          disbbledTextColor.toString() : "");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
 
-        return super.paramString() +
-        ",caretColor=" + caretColorString +
-        ",disabledTextColor=" + disabledTextColorString +
-        ",editable=" + editableString +
-        ",margin=" + marginString +
+        return super.pbrbmString() +
+        ",cbretColor=" + cbretColorString +
+        ",disbbledTextColor=" + disbbledTextColorString +
+        ",editbble=" + editbbleString +
+        ",mbrgin=" + mbrginString +
         ",selectedTextColor=" + selectedTextColorString +
         ",selectionColor=" + selectionColorString;
     }
 
 
     /**
-     * A Simple TransferHandler that exports the data as a String, and
-     * imports the data from the String clipboard.  This is only used
-     * if the UI hasn't supplied one, which would only happen if someone
-     * hasn't subclassed Basic.
+     * A Simple TrbnsferHbndler thbt exports the dbtb bs b String, bnd
+     * imports the dbtb from the String clipbobrd.  This is only used
+     * if the UI hbsn't supplied one, which would only hbppen if someone
+     * hbsn't subclbssed Bbsic.
      */
-    static class DefaultTransferHandler extends TransferHandler implements
+    stbtic clbss DefbultTrbnsferHbndler extends TrbnsferHbndler implements
                                         UIResource {
-        public void exportToClipboard(JComponent comp, Clipboard clipboard,
-                                      int action) throws IllegalStateException {
-            if (comp instanceof JTextComponent) {
+        public void exportToClipbobrd(JComponent comp, Clipbobrd clipbobrd,
+                                      int bction) throws IllegblStbteException {
+            if (comp instbnceof JTextComponent) {
                 JTextComponent text = (JTextComponent)comp;
-                int p0 = text.getSelectionStart();
+                int p0 = text.getSelectionStbrt();
                 int p1 = text.getSelectionEnd();
                 if (p0 != p1) {
                     try {
                         Document doc = text.getDocument();
-                        String srcData = doc.getText(p0, p1 - p0);
-                        StringSelection contents =new StringSelection(srcData);
+                        String srcDbtb = doc.getText(p0, p1 - p0);
+                        StringSelection contents =new StringSelection(srcDbtb);
 
-                        // this may throw an IllegalStateException,
-                        // but it will be caught and handled in the
-                        // action that invoked this method
-                        clipboard.setContents(contents, null);
+                        // this mby throw bn IllegblStbteException,
+                        // but it will be cbught bnd hbndled in the
+                        // bction thbt invoked this method
+                        clipbobrd.setContents(contents, null);
 
-                        if (action == TransferHandler.MOVE) {
+                        if (bction == TrbnsferHbndler.MOVE) {
                             doc.remove(p0, p1 - p0);
                         }
-                    } catch (BadLocationException ble) {}
+                    } cbtch (BbdLocbtionException ble) {}
                 }
             }
         }
-        public boolean importData(JComponent comp, Transferable t) {
-            if (comp instanceof JTextComponent) {
-                DataFlavor flavor = getFlavor(t.getTransferDataFlavors());
+        public boolebn importDbtb(JComponent comp, Trbnsferbble t) {
+            if (comp instbnceof JTextComponent) {
+                DbtbFlbvor flbvor = getFlbvor(t.getTrbnsferDbtbFlbvors());
 
-                if (flavor != null) {
+                if (flbvor != null) {
                     InputContext ic = comp.getInputContext();
                     if (ic != null) {
                         ic.endComposition();
                     }
                     try {
-                        String data = (String)t.getTransferData(flavor);
+                        String dbtb = (String)t.getTrbnsferDbtb(flbvor);
 
-                        ((JTextComponent)comp).replaceSelection(data);
+                        ((JTextComponent)comp).replbceSelection(dbtb);
                         return true;
-                    } catch (UnsupportedFlavorException ufe) {
-                    } catch (IOException ioe) {
+                    } cbtch (UnsupportedFlbvorException ufe) {
+                    } cbtch (IOException ioe) {
                     }
                 }
             }
-            return false;
+            return fblse;
         }
-        public boolean canImport(JComponent comp,
-                                 DataFlavor[] transferFlavors) {
+        public boolebn cbnImport(JComponent comp,
+                                 DbtbFlbvor[] trbnsferFlbvors) {
             JTextComponent c = (JTextComponent)comp;
-            if (!(c.isEditable() && c.isEnabled())) {
-                return false;
+            if (!(c.isEditbble() && c.isEnbbled())) {
+                return fblse;
             }
-            return (getFlavor(transferFlavors) != null);
+            return (getFlbvor(trbnsferFlbvors) != null);
         }
         public int getSourceActions(JComponent c) {
             return NONE;
         }
-        private DataFlavor getFlavor(DataFlavor[] flavors) {
-            if (flavors != null) {
-                for (DataFlavor flavor : flavors) {
-                    if (flavor.equals(DataFlavor.stringFlavor)) {
-                        return flavor;
+        privbte DbtbFlbvor getFlbvor(DbtbFlbvor[] flbvors) {
+            if (flbvors != null) {
+                for (DbtbFlbvor flbvor : flbvors) {
+                    if (flbvor.equbls(DbtbFlbvor.stringFlbvor)) {
+                        return flbvor;
                     }
                 }
             }
@@ -4015,134 +4015,134 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     }
 
     /**
-     * Returns the JTextComponent that most recently had focus. The returned
-     * value may currently have focus.
+     * Returns the JTextComponent thbt most recently hbd focus. The returned
+     * vblue mby currently hbve focus.
      */
-    static final JTextComponent getFocusedComponent() {
+    stbtic finbl JTextComponent getFocusedComponent() {
         return (JTextComponent)AppContext.getAppContext().
             get(FOCUSED_COMPONENT);
     }
 
-    private int getCurrentEventModifiers() {
+    privbte int getCurrentEventModifiers() {
         int modifiers = 0;
         AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
+        if (currentEvent instbnceof InputEvent) {
             modifiers = ((InputEvent)currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
+        } else if (currentEvent instbnceof ActionEvent) {
             modifiers = ((ActionEvent)currentEvent).getModifiers();
         }
         return modifiers;
     }
 
-    private static final Object KEYMAP_TABLE =
-        new StringBuilder("JTextComponent_KeymapTable");
+    privbte stbtic finbl Object KEYMAP_TABLE =
+        new StringBuilder("JTextComponent_KeymbpTbble");
 
     //
-    // member variables used for on-the-spot input method
+    // member vbribbles used for on-the-spot input method
     // editing style support
     //
-    private transient InputMethodRequests inputMethodRequestsHandler;
-    private SimpleAttributeSet composedTextAttribute;
-    private String composedTextContent;
-    private Position composedTextStart;
-    private Position composedTextEnd;
-    private Position latestCommittedTextStart;
-    private Position latestCommittedTextEnd;
-    private ComposedTextCaret composedTextCaret;
-    private transient Caret originalCaret;
+    privbte trbnsient InputMethodRequests inputMethodRequestsHbndler;
+    privbte SimpleAttributeSet composedTextAttribute;
+    privbte String composedTextContent;
+    privbte Position composedTextStbrt;
+    privbte Position composedTextEnd;
+    privbte Position lbtestCommittedTextStbrt;
+    privbte Position lbtestCommittedTextEnd;
+    privbte ComposedTextCbret composedTextCbret;
+    privbte trbnsient Cbret originblCbret;
     /**
-     * Set to true after the check for the override of processInputMethodEvent
-     * has been checked.
+     * Set to true bfter the check for the override of processInputMethodEvent
+     * hbs been checked.
      */
-    private boolean checkedInputOverride;
-    private boolean needToSendKeyTypedEvent;
+    privbte boolebn checkedInputOverride;
+    privbte boolebn needToSendKeyTypedEvent;
 
-    static class DefaultKeymap implements Keymap {
+    stbtic clbss DefbultKeymbp implements Keymbp {
 
-        DefaultKeymap(String nm, Keymap parent) {
+        DefbultKeymbp(String nm, Keymbp pbrent) {
             this.nm = nm;
-            this.parent = parent;
-            bindings = new Hashtable<KeyStroke, Action>();
+            this.pbrent = pbrent;
+            bindings = new Hbshtbble<KeyStroke, Action>();
         }
 
         /**
-         * Fetch the default action to fire if a
-         * key is typed (ie a KEY_TYPED KeyEvent is received)
-         * and there is no binding for it.  Typically this
-         * would be some action that inserts text so that
-         * the keymap doesn't require an action for each
+         * Fetch the defbult bction to fire if b
+         * key is typed (ie b KEY_TYPED KeyEvent is received)
+         * bnd there is no binding for it.  Typicblly this
+         * would be some bction thbt inserts text so thbt
+         * the keymbp doesn't require bn bction for ebch
          * possible key.
          */
-        public Action getDefaultAction() {
-            if (defaultAction != null) {
-                return defaultAction;
+        public Action getDefbultAction() {
+            if (defbultAction != null) {
+                return defbultAction;
             }
-            return (parent != null) ? parent.getDefaultAction() : null;
+            return (pbrent != null) ? pbrent.getDefbultAction() : null;
         }
 
         /**
-         * Set the default action to fire if a key is typed.
+         * Set the defbult bction to fire if b key is typed.
          */
-        public void setDefaultAction(Action a) {
-            defaultAction = a;
+        public void setDefbultAction(Action b) {
+            defbultAction = b;
         }
 
-        public String getName() {
+        public String getNbme() {
             return nm;
         }
 
         public Action getAction(KeyStroke key) {
-            Action a = bindings.get(key);
-            if ((a == null) && (parent != null)) {
-                a = parent.getAction(key);
+            Action b = bindings.get(key);
+            if ((b == null) && (pbrent != null)) {
+                b = pbrent.getAction(key);
             }
-            return a;
+            return b;
         }
 
         public KeyStroke[] getBoundKeyStrokes() {
             KeyStroke[] keys = new KeyStroke[bindings.size()];
             int i = 0;
-            for (Enumeration<KeyStroke> e = bindings.keys() ; e.hasMoreElements() ;) {
+            for (Enumerbtion<KeyStroke> e = bindings.keys() ; e.hbsMoreElements() ;) {
                 keys[i++] = e.nextElement();
             }
             return keys;
         }
 
         public Action[] getBoundActions() {
-            Action[] actions = new Action[bindings.size()];
+            Action[] bctions = new Action[bindings.size()];
             int i = 0;
-            for (Enumeration<Action> e = bindings.elements() ; e.hasMoreElements() ;) {
-                actions[i++] = e.nextElement();
+            for (Enumerbtion<Action> e = bindings.elements() ; e.hbsMoreElements() ;) {
+                bctions[i++] = e.nextElement();
             }
-            return actions;
+            return bctions;
         }
 
-        public KeyStroke[] getKeyStrokesForAction(Action a) {
-            if (a == null) {
+        public KeyStroke[] getKeyStrokesForAction(Action b) {
+            if (b == null) {
                 return null;
             }
-            KeyStroke[] retValue = null;
-            // Determine local bindings first.
+            KeyStroke[] retVblue = null;
+            // Determine locbl bindings first.
             Vector<KeyStroke> keyStrokes = null;
-            for (Enumeration<KeyStroke> keys = bindings.keys(); keys.hasMoreElements();) {
+            for (Enumerbtion<KeyStroke> keys = bindings.keys(); keys.hbsMoreElements();) {
                 KeyStroke key = keys.nextElement();
-                if (bindings.get(key) == a) {
+                if (bindings.get(key) == b) {
                     if (keyStrokes == null) {
                         keyStrokes = new Vector<KeyStroke>();
                     }
-                    keyStrokes.addElement(key);
+                    keyStrokes.bddElement(key);
                 }
             }
-            // See if the parent has any.
-            if (parent != null) {
-                KeyStroke[] pStrokes = parent.getKeyStrokesForAction(a);
+            // See if the pbrent hbs bny.
+            if (pbrent != null) {
+                KeyStroke[] pStrokes = pbrent.getKeyStrokesForAction(b);
                 if (pStrokes != null) {
-                    // Remove any bindings defined in the parent that
-                    // are locally defined.
+                    // Remove bny bindings defined in the pbrent thbt
+                    // bre locblly defined.
                     int rCount = 0;
                     for (int counter = pStrokes.length - 1; counter >= 0;
                          counter--) {
-                        if (isLocallyDefined(pStrokes[counter])) {
+                        if (isLocbllyDefined(pStrokes[counter])) {
                             pStrokes[counter] = null;
                             rCount++;
                         }
@@ -4154,19 +4154,19 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                         for (int counter = pStrokes.length - 1; counter >= 0;
                              counter--) {
                             if (pStrokes[counter] != null) {
-                                keyStrokes.addElement(pStrokes[counter]);
+                                keyStrokes.bddElement(pStrokes[counter]);
                             }
                         }
                     }
                     else if (rCount == 0) {
                         if (keyStrokes == null) {
-                            retValue = pStrokes;
+                            retVblue = pStrokes;
                         }
                         else {
-                            retValue = new KeyStroke[keyStrokes.size() +
+                            retVblue = new KeyStroke[keyStrokes.size() +
                                                     pStrokes.length];
-                            keyStrokes.copyInto(retValue);
-                            System.arraycopy(pStrokes, 0, retValue,
+                            keyStrokes.copyInto(retVblue);
+                            System.brrbycopy(pStrokes, 0, retVblue,
                                         keyStrokes.size(), pStrokes.length);
                             keyStrokes = null;
                         }
@@ -4174,18 +4174,18 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                 }
             }
             if (keyStrokes != null) {
-                retValue = new KeyStroke[keyStrokes.size()];
-                keyStrokes.copyInto(retValue);
+                retVblue = new KeyStroke[keyStrokes.size()];
+                keyStrokes.copyInto(retVblue);
             }
-            return retValue;
+            return retVblue;
         }
 
-        public boolean isLocallyDefined(KeyStroke key) {
-            return bindings.containsKey(key);
+        public boolebn isLocbllyDefined(KeyStroke key) {
+            return bindings.contbinsKey(key);
         }
 
-        public void addActionForKeyStroke(KeyStroke key, Action a) {
-            bindings.put(key, a);
+        public void bddActionForKeyStroke(KeyStroke key, Action b) {
+            bindings.put(key, b);
         }
 
         public void removeKeyStrokeBinding(KeyStroke key) {
@@ -4193,236 +4193,236 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         public void removeBindings() {
-            bindings.clear();
+            bindings.clebr();
         }
 
-        public Keymap getResolveParent() {
-            return parent;
+        public Keymbp getResolvePbrent() {
+            return pbrent;
         }
 
-        public void setResolveParent(Keymap parent) {
-            this.parent = parent;
+        public void setResolvePbrent(Keymbp pbrent) {
+            this.pbrent = pbrent;
         }
 
         /**
-         * String representation of the keymap... potentially
-         * a very long string.
+         * String representbtion of the keymbp... potentiblly
+         * b very long string.
          */
         public String toString() {
-            return "Keymap[" + nm + "]" + bindings;
+            return "Keymbp[" + nm + "]" + bindings;
         }
 
         String nm;
-        Keymap parent;
-        Hashtable<KeyStroke, Action> bindings;
-        Action defaultAction;
+        Keymbp pbrent;
+        Hbshtbble<KeyStroke, Action> bindings;
+        Action defbultAction;
     }
 
 
     /**
-     * KeymapWrapper wraps a Keymap inside an InputMap. For KeymapWrapper
-     * to be useful it must be used with a KeymapActionMap.
-     * KeymapWrapper for the most part, is an InputMap with two parents.
-     * The first parent visited is ALWAYS the Keymap, with the second
-     * parent being the parent inherited from InputMap. If
-     * <code>keymap.getAction</code> returns null, implying the Keymap
-     * does not have a binding for the KeyStroke,
-     * the parent is then visited. If the Keymap has a binding, the
-     * Action is returned, if not and the KeyStroke represents a
-     * KeyTyped event and the Keymap has a defaultAction,
-     * <code>DefaultActionKey</code> is returned.
-     * <p>KeymapActionMap is then able to transate the object passed in
-     * to either message the Keymap, or message its default implementation.
+     * KeymbpWrbpper wrbps b Keymbp inside bn InputMbp. For KeymbpWrbpper
+     * to be useful it must be used with b KeymbpActionMbp.
+     * KeymbpWrbpper for the most pbrt, is bn InputMbp with two pbrents.
+     * The first pbrent visited is ALWAYS the Keymbp, with the second
+     * pbrent being the pbrent inherited from InputMbp. If
+     * <code>keymbp.getAction</code> returns null, implying the Keymbp
+     * does not hbve b binding for the KeyStroke,
+     * the pbrent is then visited. If the Keymbp hbs b binding, the
+     * Action is returned, if not bnd the KeyStroke represents b
+     * KeyTyped event bnd the Keymbp hbs b defbultAction,
+     * <code>DefbultActionKey</code> is returned.
+     * <p>KeymbpActionMbp is then bble to trbnsbte the object pbssed in
+     * to either messbge the Keymbp, or messbge its defbult implementbtion.
      */
-    static class KeymapWrapper extends InputMap {
-        static final Object DefaultActionKey = new Object();
+    stbtic clbss KeymbpWrbpper extends InputMbp {
+        stbtic finbl Object DefbultActionKey = new Object();
 
-        private Keymap keymap;
+        privbte Keymbp keymbp;
 
-        KeymapWrapper(Keymap keymap) {
-            this.keymap = keymap;
+        KeymbpWrbpper(Keymbp keymbp) {
+            this.keymbp = keymbp;
         }
 
         public KeyStroke[] keys() {
             KeyStroke[] sKeys = super.keys();
-            KeyStroke[] keymapKeys = keymap.getBoundKeyStrokes();
+            KeyStroke[] keymbpKeys = keymbp.getBoundKeyStrokes();
             int sCount = (sKeys == null) ? 0 : sKeys.length;
-            int keymapCount = (keymapKeys == null) ? 0 : keymapKeys.length;
+            int keymbpCount = (keymbpKeys == null) ? 0 : keymbpKeys.length;
             if (sCount == 0) {
-                return keymapKeys;
+                return keymbpKeys;
             }
-            if (keymapCount == 0) {
+            if (keymbpCount == 0) {
                 return sKeys;
             }
-            KeyStroke[] retValue = new KeyStroke[sCount + keymapCount];
-            // There may be some duplication here...
-            System.arraycopy(sKeys, 0, retValue, 0, sCount);
-            System.arraycopy(keymapKeys, 0, retValue, sCount, keymapCount);
-            return retValue;
+            KeyStroke[] retVblue = new KeyStroke[sCount + keymbpCount];
+            // There mby be some duplicbtion here...
+            System.brrbycopy(sKeys, 0, retVblue, 0, sCount);
+            System.brrbycopy(keymbpKeys, 0, retVblue, sCount, keymbpCount);
+            return retVblue;
         }
 
         public int size() {
-            // There may be some duplication here...
-            KeyStroke[] keymapStrokes = keymap.getBoundKeyStrokes();
-            int keymapCount = (keymapStrokes == null) ? 0:
-                               keymapStrokes.length;
-            return super.size() + keymapCount;
+            // There mby be some duplicbtion here...
+            KeyStroke[] keymbpStrokes = keymbp.getBoundKeyStrokes();
+            int keymbpCount = (keymbpStrokes == null) ? 0:
+                               keymbpStrokes.length;
+            return super.size() + keymbpCount;
         }
 
         public Object get(KeyStroke keyStroke) {
-            Object retValue = keymap.getAction(keyStroke);
-            if (retValue == null) {
-                retValue = super.get(keyStroke);
-                if (retValue == null &&
-                    keyStroke.getKeyChar() != KeyEvent.CHAR_UNDEFINED &&
-                    keymap.getDefaultAction() != null) {
-                    // Implies this is a KeyTyped event, use the default
-                    // action.
-                    retValue = DefaultActionKey;
+            Object retVblue = keymbp.getAction(keyStroke);
+            if (retVblue == null) {
+                retVblue = super.get(keyStroke);
+                if (retVblue == null &&
+                    keyStroke.getKeyChbr() != KeyEvent.CHAR_UNDEFINED &&
+                    keymbp.getDefbultAction() != null) {
+                    // Implies this is b KeyTyped event, use the defbult
+                    // bction.
+                    retVblue = DefbultActionKey;
                 }
             }
-            return retValue;
+            return retVblue;
         }
     }
 
 
     /**
-     * Wraps a Keymap inside an ActionMap. This is used with
-     * a KeymapWrapper. If <code>get</code> is passed in
-     * <code>KeymapWrapper.DefaultActionKey</code>, the default action is
-     * returned, otherwise if the key is an Action, it is returned.
+     * Wrbps b Keymbp inside bn ActionMbp. This is used with
+     * b KeymbpWrbpper. If <code>get</code> is pbssed in
+     * <code>KeymbpWrbpper.DefbultActionKey</code>, the defbult bction is
+     * returned, otherwise if the key is bn Action, it is returned.
      */
-    static class KeymapActionMap extends ActionMap {
-        private Keymap keymap;
+    stbtic clbss KeymbpActionMbp extends ActionMbp {
+        privbte Keymbp keymbp;
 
-        KeymapActionMap(Keymap keymap) {
-            this.keymap = keymap;
+        KeymbpActionMbp(Keymbp keymbp) {
+            this.keymbp = keymbp;
         }
 
         public Object[] keys() {
             Object[] sKeys = super.keys();
-            Object[] keymapKeys = keymap.getBoundActions();
+            Object[] keymbpKeys = keymbp.getBoundActions();
             int sCount = (sKeys == null) ? 0 : sKeys.length;
-            int keymapCount = (keymapKeys == null) ? 0 : keymapKeys.length;
-            boolean hasDefault = (keymap.getDefaultAction() != null);
-            if (hasDefault) {
-                keymapCount++;
+            int keymbpCount = (keymbpKeys == null) ? 0 : keymbpKeys.length;
+            boolebn hbsDefbult = (keymbp.getDefbultAction() != null);
+            if (hbsDefbult) {
+                keymbpCount++;
             }
             if (sCount == 0) {
-                if (hasDefault) {
-                    Object[] retValue = new Object[keymapCount];
-                    if (keymapCount > 1) {
-                        System.arraycopy(keymapKeys, 0, retValue, 0,
-                                         keymapCount - 1);
+                if (hbsDefbult) {
+                    Object[] retVblue = new Object[keymbpCount];
+                    if (keymbpCount > 1) {
+                        System.brrbycopy(keymbpKeys, 0, retVblue, 0,
+                                         keymbpCount - 1);
                     }
-                    retValue[keymapCount - 1] = KeymapWrapper.DefaultActionKey;
-                    return retValue;
+                    retVblue[keymbpCount - 1] = KeymbpWrbpper.DefbultActionKey;
+                    return retVblue;
                 }
-                return keymapKeys;
+                return keymbpKeys;
             }
-            if (keymapCount == 0) {
+            if (keymbpCount == 0) {
                 return sKeys;
             }
-            Object[] retValue = new Object[sCount + keymapCount];
-            // There may be some duplication here...
-            System.arraycopy(sKeys, 0, retValue, 0, sCount);
-            if (hasDefault) {
-                if (keymapCount > 1) {
-                    System.arraycopy(keymapKeys, 0, retValue, sCount,
-                                     keymapCount - 1);
+            Object[] retVblue = new Object[sCount + keymbpCount];
+            // There mby be some duplicbtion here...
+            System.brrbycopy(sKeys, 0, retVblue, 0, sCount);
+            if (hbsDefbult) {
+                if (keymbpCount > 1) {
+                    System.brrbycopy(keymbpKeys, 0, retVblue, sCount,
+                                     keymbpCount - 1);
                 }
-                retValue[sCount + keymapCount - 1] = KeymapWrapper.
-                                                 DefaultActionKey;
+                retVblue[sCount + keymbpCount - 1] = KeymbpWrbpper.
+                                                 DefbultActionKey;
             }
             else {
-                System.arraycopy(keymapKeys, 0, retValue, sCount, keymapCount);
+                System.brrbycopy(keymbpKeys, 0, retVblue, sCount, keymbpCount);
             }
-            return retValue;
+            return retVblue;
         }
 
         public int size() {
-            // There may be some duplication here...
-            Object[] actions = keymap.getBoundActions();
-            int keymapCount = (actions == null) ? 0 : actions.length;
-            if (keymap.getDefaultAction() != null) {
-                keymapCount++;
+            // There mby be some duplicbtion here...
+            Object[] bctions = keymbp.getBoundActions();
+            int keymbpCount = (bctions == null) ? 0 : bctions.length;
+            if (keymbp.getDefbultAction() != null) {
+                keymbpCount++;
             }
-            return super.size() + keymapCount;
+            return super.size() + keymbpCount;
         }
 
         public Action get(Object key) {
-            Action retValue = super.get(key);
-            if (retValue == null) {
-                // Try the Keymap.
-                if (key == KeymapWrapper.DefaultActionKey) {
-                    retValue = keymap.getDefaultAction();
+            Action retVblue = super.get(key);
+            if (retVblue == null) {
+                // Try the Keymbp.
+                if (key == KeymbpWrbpper.DefbultActionKey) {
+                    retVblue = keymbp.getDefbultAction();
                 }
-                else if (key instanceof Action) {
-                    // This is a little iffy, technically an Action is
-                    // a valid Key. We're assuming the Action came from
-                    // the InputMap though.
-                    retValue = (Action)key;
+                else if (key instbnceof Action) {
+                    // This is b little iffy, technicblly bn Action is
+                    // b vblid Key. We're bssuming the Action cbme from
+                    // the InputMbp though.
+                    retVblue = (Action)key;
                 }
             }
-            return retValue;
+            return retVblue;
         }
     }
 
-    private static final Object FOCUSED_COMPONENT =
+    privbte stbtic finbl Object FOCUSED_COMPONENT =
         new StringBuilder("JTextComponent_FocusedComponent");
 
     /**
-     * The default keymap that will be shared by all
-     * <code>JTextComponent</code> instances unless they
-     * have had a different keymap set.
+     * The defbult keymbp thbt will be shbred by bll
+     * <code>JTextComponent</code> instbnces unless they
+     * hbve hbd b different keymbp set.
      */
-    public static final String DEFAULT_KEYMAP = "default";
+    public stbtic finbl String DEFAULT_KEYMAP = "defbult";
 
     /**
-     * Event to use when firing a notification of change to caret
-     * position.  This is mutable so that the event can be reused
-     * since caret events can be fairly high in bandwidth.
+     * Event to use when firing b notificbtion of chbnge to cbret
+     * position.  This is mutbble so thbt the event cbn be reused
+     * since cbret events cbn be fbirly high in bbndwidth.
      */
-    static class MutableCaretEvent extends CaretEvent implements ChangeListener, FocusListener, MouseListener {
+    stbtic clbss MutbbleCbretEvent extends CbretEvent implements ChbngeListener, FocusListener, MouseListener {
 
-        MutableCaretEvent(JTextComponent c) {
+        MutbbleCbretEvent(JTextComponent c) {
             super(c);
         }
 
-        final void fire() {
+        finbl void fire() {
             JTextComponent c = (JTextComponent) getSource();
             if (c != null) {
-                Caret caret = c.getCaret();
-                dot = caret.getDot();
-                mark = caret.getMark();
-                c.fireCaretUpdate(this);
+                Cbret cbret = c.getCbret();
+                dot = cbret.getDot();
+                mbrk = cbret.getMbrk();
+                c.fireCbretUpdbte(this);
             }
         }
 
-        public final String toString() {
-            return "dot=" + dot + "," + "mark=" + mark;
+        public finbl String toString() {
+            return "dot=" + dot + "," + "mbrk=" + mbrk;
         }
 
-        // --- CaretEvent methods -----------------------
+        // --- CbretEvent methods -----------------------
 
-        public final int getDot() {
+        public finbl int getDot() {
             return dot;
         }
 
-        public final int getMark() {
-            return mark;
+        public finbl int getMbrk() {
+            return mbrk;
         }
 
-        // --- ChangeListener methods -------------------
+        // --- ChbngeListener methods -------------------
 
-        public final void stateChanged(ChangeEvent e) {
-            if (! dragActive) {
+        public finbl void stbteChbnged(ChbngeEvent e) {
+            if (! drbgActive) {
                 fire();
             }
         }
 
         // --- FocusListener methods -----------------------------------
-        public void focusGained(FocusEvent fe) {
+        public void focusGbined(FocusEvent fe) {
             AppContext.getAppContext().put(FOCUSED_COMPONENT,
                                            fe.getSource());
         }
@@ -4433,65 +4433,65 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         // --- MouseListener methods -----------------------------------
 
         /**
-         * Requests focus on the associated
-         * text component, and try to set the cursor position.
+         * Requests focus on the bssocibted
+         * text component, bnd try to set the cursor position.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          * @see MouseListener#mousePressed
          */
-        public final void mousePressed(MouseEvent e) {
-            dragActive = true;
+        public finbl void mousePressed(MouseEvent e) {
+            drbgActive = true;
         }
 
         /**
-         * Called when the mouse is released.
+         * Cblled when the mouse is relebsed.
          *
-         * @param e the mouse event
-         * @see MouseListener#mouseReleased
+         * @pbrbm e the mouse event
+         * @see MouseListener#mouseRelebsed
          */
-        public final void mouseReleased(MouseEvent e) {
-            dragActive = false;
+        public finbl void mouseRelebsed(MouseEvent e) {
+            drbgActive = fblse;
             fire();
         }
 
-        public final void mouseClicked(MouseEvent e) {
+        public finbl void mouseClicked(MouseEvent e) {
         }
 
-        public final void mouseEntered(MouseEvent e) {
+        public finbl void mouseEntered(MouseEvent e) {
         }
 
-        public final void mouseExited(MouseEvent e) {
+        public finbl void mouseExited(MouseEvent e) {
         }
 
-        private boolean dragActive;
-        private int dot;
-        private int mark;
+        privbte boolebn drbgActive;
+        privbte int dot;
+        privbte int mbrk;
     }
 
     //
-    // Process any input method events that the component itself
-    // recognizes. The default on-the-spot handling for input method
-    // composed(uncommitted) text is done here after all input
-    // method listeners get called for stealing the events.
+    // Process bny input method events thbt the component itself
+    // recognizes. The defbult on-the-spot hbndling for input method
+    // composed(uncommitted) text is done here bfter bll input
+    // method listeners get cblled for stebling the events.
     //
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     protected void processInputMethodEvent(InputMethodEvent e) {
-        // let listeners handle the events
+        // let listeners hbndle the events
         super.processInputMethodEvent(e);
 
         if (!e.isConsumed()) {
-            if (! isEditable()) {
+            if (! isEditbble()) {
                 return;
             } else {
                 switch (e.getID()) {
-                case InputMethodEvent.INPUT_METHOD_TEXT_CHANGED:
-                    replaceInputMethodText(e);
+                cbse InputMethodEvent.INPUT_METHOD_TEXT_CHANGED:
+                    replbceInputMethodText(e);
 
-                    // fall through
+                    // fbll through
 
-                case InputMethodEvent.CARET_POSITION_CHANGED:
-                    setInputMethodCaretPosition(e);
-                    break;
+                cbse InputMethodEvent.CARET_POSITION_CHANGED:
+                    setInputMethodCbretPosition(e);
+                    brebk;
                 }
             }
 
@@ -4500,83 +4500,83 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
     }
 
     //
-    // Overrides this method to become an active input method client.
+    // Overrides this method to become bn bctive input method client.
     //
     public InputMethodRequests getInputMethodRequests() {
-        if (inputMethodRequestsHandler == null) {
-            inputMethodRequestsHandler = new InputMethodRequestsHandler();
+        if (inputMethodRequestsHbndler == null) {
+            inputMethodRequestsHbndler = new InputMethodRequestsHbndler();
             Document doc = getDocument();
             if (doc != null) {
-                doc.addDocumentListener((DocumentListener)inputMethodRequestsHandler);
+                doc.bddDocumentListener((DocumentListener)inputMethodRequestsHbndler);
             }
         }
 
-        return inputMethodRequestsHandler;
+        return inputMethodRequestsHbndler;
     }
 
     //
-    // Overrides this method to watch the listener installed.
+    // Overrides this method to wbtch the listener instblled.
     //
-    public void addInputMethodListener(InputMethodListener l) {
-        super.addInputMethodListener(l);
+    public void bddInputMethodListener(InputMethodListener l) {
+        super.bddInputMethodListener(l);
         if (l != null) {
-            needToSendKeyTypedEvent = false;
+            needToSendKeyTypedEvent = fblse;
             checkedInputOverride = true;
         }
     }
 
 
     //
-    // Default implementation of the InputMethodRequests interface.
+    // Defbult implementbtion of the InputMethodRequests interfbce.
     //
-    class InputMethodRequestsHandler implements InputMethodRequests, DocumentListener {
+    clbss InputMethodRequestsHbndler implements InputMethodRequests, DocumentListener {
 
         // --- InputMethodRequests methods ---
 
-        public AttributedCharacterIterator cancelLatestCommittedText(
-                                                Attribute[] attributes) {
+        public AttributedChbrbcterIterbtor cbncelLbtestCommittedText(
+                                                Attribute[] bttributes) {
             Document doc = getDocument();
-            if ((doc != null) && (latestCommittedTextStart != null)
-                && (!latestCommittedTextStart.equals(latestCommittedTextEnd))) {
+            if ((doc != null) && (lbtestCommittedTextStbrt != null)
+                && (!lbtestCommittedTextStbrt.equbls(lbtestCommittedTextEnd))) {
                 try {
-                    int startIndex = latestCommittedTextStart.getOffset();
-                    int endIndex = latestCommittedTextEnd.getOffset();
-                    String latestCommittedText =
-                        doc.getText(startIndex, endIndex - startIndex);
-                    doc.remove(startIndex, endIndex - startIndex);
-                    return new AttributedString(latestCommittedText).getIterator();
-                } catch (BadLocationException ble) {}
+                    int stbrtIndex = lbtestCommittedTextStbrt.getOffset();
+                    int endIndex = lbtestCommittedTextEnd.getOffset();
+                    String lbtestCommittedText =
+                        doc.getText(stbrtIndex, endIndex - stbrtIndex);
+                    doc.remove(stbrtIndex, endIndex - stbrtIndex);
+                    return new AttributedString(lbtestCommittedText).getIterbtor();
+                } cbtch (BbdLocbtionException ble) {}
             }
             return null;
         }
 
-        public AttributedCharacterIterator getCommittedText(int beginIndex,
-                                        int endIndex, Attribute[] attributes) {
-            int composedStartIndex = 0;
+        public AttributedChbrbcterIterbtor getCommittedText(int beginIndex,
+                                        int endIndex, Attribute[] bttributes) {
+            int composedStbrtIndex = 0;
             int composedEndIndex = 0;
             if (composedTextExists()) {
-                composedStartIndex = composedTextStart.getOffset();
+                composedStbrtIndex = composedTextStbrt.getOffset();
                 composedEndIndex = composedTextEnd.getOffset();
             }
 
             String committed;
             try {
-                if (beginIndex < composedStartIndex) {
-                    if (endIndex <= composedStartIndex) {
+                if (beginIndex < composedStbrtIndex) {
+                    if (endIndex <= composedStbrtIndex) {
                         committed = getText(beginIndex, endIndex - beginIndex);
                     } else {
-                        int firstPartLength = composedStartIndex - beginIndex;
-                        committed = getText(beginIndex, firstPartLength) +
-                            getText(composedEndIndex, endIndex - beginIndex - firstPartLength);
+                        int firstPbrtLength = composedStbrtIndex - beginIndex;
+                        committed = getText(beginIndex, firstPbrtLength) +
+                            getText(composedEndIndex, endIndex - beginIndex - firstPbrtLength);
                     }
                 } else {
-                    committed = getText(beginIndex + (composedEndIndex - composedStartIndex),
+                    committed = getText(beginIndex + (composedEndIndex - composedStbrtIndex),
                                         endIndex - beginIndex);
                 }
-            } catch (BadLocationException ble) {
-                throw new IllegalArgumentException("Invalid range");
+            } cbtch (BbdLocbtionException ble) {
+                throw new IllegblArgumentException("Invblid rbnge");
             }
-            return new AttributedString(committed).getIterator();
+            return new AttributedString(committed).getIterbtor();
         }
 
         public int getCommittedTextLength() {
@@ -4586,18 +4586,18 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                 length = doc.getLength();
                 if (composedTextContent != null) {
                     if (composedTextEnd == null
-                          || composedTextStart == null) {
+                          || composedTextStbrt == null) {
                         /*
                          * fix for : 6355666
-                         * this is the case when this method is invoked
+                         * this is the cbse when this method is invoked
                          * from DocumentListener. At this point
-                         * composedTextEnd and composedTextStart are
+                         * composedTextEnd bnd composedTextStbrt bre
                          * not defined yet.
                          */
                         length -= composedTextContent.length();
                     } else {
                         length -= composedTextEnd.getOffset() -
-                            composedTextStart.getOffset();
+                            composedTextStbrt.getOffset();
                     }
                 }
             }
@@ -4605,64 +4605,64 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
         }
 
         public int getInsertPositionOffset() {
-            int composedStartIndex = 0;
+            int composedStbrtIndex = 0;
             int composedEndIndex = 0;
             if (composedTextExists()) {
-                composedStartIndex = composedTextStart.getOffset();
+                composedStbrtIndex = composedTextStbrt.getOffset();
                 composedEndIndex = composedTextEnd.getOffset();
             }
-            int caretIndex = getCaretPosition();
+            int cbretIndex = getCbretPosition();
 
-            if (caretIndex < composedStartIndex) {
-                return caretIndex;
-            } else if (caretIndex < composedEndIndex) {
-                return composedStartIndex;
+            if (cbretIndex < composedStbrtIndex) {
+                return cbretIndex;
+            } else if (cbretIndex < composedEndIndex) {
+                return composedStbrtIndex;
             } else {
-                return caretIndex - (composedEndIndex - composedStartIndex);
+                return cbretIndex - (composedEndIndex - composedStbrtIndex);
             }
         }
 
-        public TextHitInfo getLocationOffset(int x, int y) {
+        public TextHitInfo getLocbtionOffset(int x, int y) {
             if (composedTextAttribute == null) {
                 return null;
             } else {
-                Point p = getLocationOnScreen();
+                Point p = getLocbtionOnScreen();
                 p.x = x - p.x;
                 p.y = y - p.y;
                 int pos = viewToModel(p);
-                if ((pos >= composedTextStart.getOffset()) &&
+                if ((pos >= composedTextStbrt.getOffset()) &&
                     (pos <= composedTextEnd.getOffset())) {
-                    return TextHitInfo.leading(pos - composedTextStart.getOffset());
+                    return TextHitInfo.lebding(pos - composedTextStbrt.getOffset());
                 } else {
                     return null;
                 }
             }
         }
 
-        public Rectangle getTextLocation(TextHitInfo offset) {
-            Rectangle r;
+        public Rectbngle getTextLocbtion(TextHitInfo offset) {
+            Rectbngle r;
 
             try {
-                r = modelToView(getCaretPosition());
+                r = modelToView(getCbretPosition());
                 if (r != null) {
-                    Point p = getLocationOnScreen();
-                    r.translate(p.x, p.y);
+                    Point p = getLocbtionOnScreen();
+                    r.trbnslbte(p.x, p.y);
                 }
-            } catch (BadLocationException ble) {
+            } cbtch (BbdLocbtionException ble) {
                 r = null;
             }
 
             if (r == null)
-                r = new Rectangle();
+                r = new Rectbngle();
 
             return r;
         }
 
-        public AttributedCharacterIterator getSelectedText(
-                                                Attribute[] attributes) {
+        public AttributedChbrbcterIterbtor getSelectedText(
+                                                Attribute[] bttributes) {
             String selection = JTextComponent.this.getSelectedText();
             if (selection != null) {
-                return new AttributedString(selection).getIterator();
+                return new AttributedString(selection).getIterbtor();
             } else {
                 return null;
             }
@@ -4670,56 +4670,56 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
 
         // --- DocumentListener methods ---
 
-        public void changedUpdate(DocumentEvent e) {
-            latestCommittedTextStart = latestCommittedTextEnd = null;
+        public void chbngedUpdbte(DocumentEvent e) {
+            lbtestCommittedTextStbrt = lbtestCommittedTextEnd = null;
         }
 
-        public void insertUpdate(DocumentEvent e) {
-            latestCommittedTextStart = latestCommittedTextEnd = null;
+        public void insertUpdbte(DocumentEvent e) {
+            lbtestCommittedTextStbrt = lbtestCommittedTextEnd = null;
         }
 
-        public void removeUpdate(DocumentEvent e) {
-            latestCommittedTextStart = latestCommittedTextEnd = null;
+        public void removeUpdbte(DocumentEvent e) {
+            lbtestCommittedTextStbrt = lbtestCommittedTextEnd = null;
         }
     }
 
     //
-    // Replaces the current input method (composed) text according to
-    // the passed input method event. This method also inserts the
+    // Replbces the current input method (composed) text bccording to
+    // the pbssed input method event. This method blso inserts the
     // committed text into the document.
     //
-    private void replaceInputMethodText(InputMethodEvent e) {
-        int commitCount = e.getCommittedCharacterCount();
-        AttributedCharacterIterator text = e.getText();
+    privbte void replbceInputMethodText(InputMethodEvent e) {
+        int commitCount = e.getCommittedChbrbcterCount();
+        AttributedChbrbcterIterbtor text = e.getText();
         int composedTextIndex;
 
         // old composed text deletion
         Document doc = getDocument();
         if (composedTextExists()) {
             try {
-                doc.remove(composedTextStart.getOffset(),
+                doc.remove(composedTextStbrt.getOffset(),
                            composedTextEnd.getOffset() -
-                           composedTextStart.getOffset());
-            } catch (BadLocationException ble) {}
-            composedTextStart = composedTextEnd = null;
+                           composedTextStbrt.getOffset());
+            } cbtch (BbdLocbtionException ble) {}
+            composedTextStbrt = composedTextEnd = null;
             composedTextAttribute = null;
             composedTextContent = null;
         }
 
         if (text != null) {
             text.first();
-            int committedTextStartIndex = 0;
+            int committedTextStbrtIndex = 0;
             int committedTextEndIndex = 0;
 
             // committed text insertion
             if (commitCount > 0) {
-                // Remember latest committed text start index
-                committedTextStartIndex = caret.getDot();
+                // Remember lbtest committed text stbrt index
+                committedTextStbrtIndex = cbret.getDot();
 
-                // Need to generate KeyTyped events for the committed text for components
-                // that are not aware they are active input method clients.
+                // Need to generbte KeyTyped events for the committed text for components
+                // thbt bre not bwbre they bre bctive input method clients.
                 if (shouldSynthensizeKeyEvents()) {
-                    for (char c = text.current(); commitCount > 0;
+                    for (chbr c = text.current(); commitCount > 0;
                          c = text.next(), commitCount--) {
                         KeyEvent ke = new KeyEvent(this, KeyEvent.KEY_TYPED,
                                                    EventQueue.getMostRecentEventTime(),
@@ -4728,305 +4728,305 @@ public abstract class JTextComponent extends JComponent implements Scrollable, A
                     }
                 } else {
                     StringBuilder strBuf = new StringBuilder();
-                    for (char c = text.current(); commitCount > 0;
+                    for (chbr c = text.current(); commitCount > 0;
                          c = text.next(), commitCount--) {
-                        strBuf.append(c);
+                        strBuf.bppend(c);
                     }
 
-                    // map it to an ActionEvent
-                    mapCommittedTextToAction(strBuf.toString());
+                    // mbp it to bn ActionEvent
+                    mbpCommittedTextToAction(strBuf.toString());
                 }
 
-                // Remember latest committed text end index
-                committedTextEndIndex = caret.getDot();
+                // Remember lbtest committed text end index
+                committedTextEndIndex = cbret.getDot();
             }
 
             // new composed text insertion
             composedTextIndex = text.getIndex();
             if (composedTextIndex < text.getEndIndex()) {
-                createComposedTextAttribute(composedTextIndex, text);
+                crebteComposedTextAttribute(composedTextIndex, text);
                 try {
-                    replaceSelection(null);
-                    doc.insertString(caret.getDot(), composedTextContent,
+                    replbceSelection(null);
+                    doc.insertString(cbret.getDot(), composedTextContent,
                                         composedTextAttribute);
-                    composedTextStart = doc.createPosition(caret.getDot() -
+                    composedTextStbrt = doc.crebtePosition(cbret.getDot() -
                                                 composedTextContent.length());
-                    composedTextEnd = doc.createPosition(caret.getDot());
-                } catch (BadLocationException ble) {
-                    composedTextStart = composedTextEnd = null;
+                    composedTextEnd = doc.crebtePosition(cbret.getDot());
+                } cbtch (BbdLocbtionException ble) {
+                    composedTextStbrt = composedTextEnd = null;
                     composedTextAttribute = null;
                     composedTextContent = null;
                 }
             }
 
-            // Save the latest committed text information
-            if (committedTextStartIndex != committedTextEndIndex) {
+            // Sbve the lbtest committed text informbtion
+            if (committedTextStbrtIndex != committedTextEndIndex) {
                 try {
-                    latestCommittedTextStart = doc.
-                        createPosition(committedTextStartIndex);
-                    latestCommittedTextEnd = doc.
-                        createPosition(committedTextEndIndex);
-                } catch (BadLocationException ble) {
-                    latestCommittedTextStart =
-                        latestCommittedTextEnd = null;
+                    lbtestCommittedTextStbrt = doc.
+                        crebtePosition(committedTextStbrtIndex);
+                    lbtestCommittedTextEnd = doc.
+                        crebtePosition(committedTextEndIndex);
+                } cbtch (BbdLocbtionException ble) {
+                    lbtestCommittedTextStbrt =
+                        lbtestCommittedTextEnd = null;
                 }
             } else {
-                latestCommittedTextStart =
-                    latestCommittedTextEnd = null;
+                lbtestCommittedTextStbrt =
+                    lbtestCommittedTextEnd = null;
             }
         }
     }
 
-    private void createComposedTextAttribute(int composedIndex,
-                                        AttributedCharacterIterator text) {
+    privbte void crebteComposedTextAttribute(int composedIndex,
+                                        AttributedChbrbcterIterbtor text) {
         Document doc = getDocument();
         StringBuilder strBuf = new StringBuilder();
 
-        // create attributed string with no attributes
-        for (char c = text.setIndex(composedIndex);
-             c != CharacterIterator.DONE; c = text.next()) {
-            strBuf.append(c);
+        // crebte bttributed string with no bttributes
+        for (chbr c = text.setIndex(composedIndex);
+             c != ChbrbcterIterbtor.DONE; c = text.next()) {
+            strBuf.bppend(c);
         }
 
         composedTextContent = strBuf.toString();
         composedTextAttribute = new SimpleAttributeSet();
-        composedTextAttribute.addAttribute(StyleConstants.ComposedTextAttribute,
+        composedTextAttribute.bddAttribute(StyleConstbnts.ComposedTextAttribute,
                 new AttributedString(text, composedIndex, text.getEndIndex()));
     }
 
     /**
-     * Saves composed text around the specified position.
+     * Sbves composed text bround the specified position.
      *
-     * The composed text (if any) around the specified position is saved
-     * in a backing store and removed from the document.
+     * The composed text (if bny) bround the specified position is sbved
+     * in b bbcking store bnd removed from the document.
      *
-     * @param pos  document position to identify the composed text location
-     * @return  {@code true} if the composed text exists and is saved,
-     *          {@code false} otherwise
+     * @pbrbm pos  document position to identify the composed text locbtion
+     * @return  {@code true} if the composed text exists bnd is sbved,
+     *          {@code fblse} otherwise
      * @see #restoreComposedText
      * @since 1.7
      */
-    protected boolean saveComposedText(int pos) {
+    protected boolebn sbveComposedText(int pos) {
         if (composedTextExists()) {
-            int start = composedTextStart.getOffset();
+            int stbrt = composedTextStbrt.getOffset();
             int len = composedTextEnd.getOffset() -
-                composedTextStart.getOffset();
-            if (pos >= start && pos <= start + len) {
+                composedTextStbrt.getOffset();
+            if (pos >= stbrt && pos <= stbrt + len) {
                 try {
-                    getDocument().remove(start, len);
+                    getDocument().remove(stbrt, len);
                     return true;
-                } catch (BadLocationException ble) {}
+                } cbtch (BbdLocbtionException ble) {}
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Restores composed text previously saved by {@code saveComposedText}.
+     * Restores composed text previously sbved by {@code sbveComposedText}.
      *
-     * The saved composed text is inserted back into the document. This method
-     * should be invoked only if {@code saveComposedText} returns {@code true}.
+     * The sbved composed text is inserted bbck into the document. This method
+     * should be invoked only if {@code sbveComposedText} returns {@code true}.
      *
-     * @see #saveComposedText
+     * @see #sbveComposedText
      * @since 1.7
      */
     protected void restoreComposedText() {
         Document doc = getDocument();
         try {
-            doc.insertString(caret.getDot(),
+            doc.insertString(cbret.getDot(),
                              composedTextContent,
                              composedTextAttribute);
-            composedTextStart = doc.createPosition(caret.getDot() -
+            composedTextStbrt = doc.crebtePosition(cbret.getDot() -
                                 composedTextContent.length());
-            composedTextEnd = doc.createPosition(caret.getDot());
-        } catch (BadLocationException ble) {}
+            composedTextEnd = doc.crebtePosition(cbret.getDot());
+        } cbtch (BbdLocbtionException ble) {}
     }
 
     //
-    // Map committed text to an ActionEvent. If the committed text length is 1,
-    // treat it as a KeyStroke, otherwise or there is no KeyStroke defined,
-    // treat it just as a default action.
+    // Mbp committed text to bn ActionEvent. If the committed text length is 1,
+    // trebt it bs b KeyStroke, otherwise or there is no KeyStroke defined,
+    // trebt it just bs b defbult bction.
     //
-    private void mapCommittedTextToAction(String committedText) {
-        Keymap binding = getKeymap();
+    privbte void mbpCommittedTextToAction(String committedText) {
+        Keymbp binding = getKeymbp();
         if (binding != null) {
-            Action a = null;
+            Action b = null;
             if (committedText.length() == 1) {
-                KeyStroke k = KeyStroke.getKeyStroke(committedText.charAt(0));
-                a = binding.getAction(k);
+                KeyStroke k = KeyStroke.getKeyStroke(committedText.chbrAt(0));
+                b = binding.getAction(k);
             }
 
-            if (a == null) {
-                a = binding.getDefaultAction();
+            if (b == null) {
+                b = binding.getDefbultAction();
             }
 
-            if (a != null) {
-                ActionEvent ae =
+            if (b != null) {
+                ActionEvent be =
                     new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
                                     committedText,
                                     EventQueue.getMostRecentEventTime(),
                                     getCurrentEventModifiers());
-                a.actionPerformed(ae);
+                b.bctionPerformed(be);
             }
         }
     }
 
     //
-    // Sets the caret position according to the passed input method
-    // event. Also, sets/resets composed text caret appropriately.
+    // Sets the cbret position bccording to the pbssed input method
+    // event. Also, sets/resets composed text cbret bppropribtely.
     //
-    private void setInputMethodCaretPosition(InputMethodEvent e) {
+    privbte void setInputMethodCbretPosition(InputMethodEvent e) {
         int dot;
 
         if (composedTextExists()) {
-            dot = composedTextStart.getOffset();
-            if (!(caret instanceof ComposedTextCaret)) {
-                if (composedTextCaret == null) {
-                    composedTextCaret = new ComposedTextCaret();
+            dot = composedTextStbrt.getOffset();
+            if (!(cbret instbnceof ComposedTextCbret)) {
+                if (composedTextCbret == null) {
+                    composedTextCbret = new ComposedTextCbret();
                 }
-                originalCaret = caret;
-                // Sets composed text caret
-                exchangeCaret(originalCaret, composedTextCaret);
+                originblCbret = cbret;
+                // Sets composed text cbret
+                exchbngeCbret(originblCbret, composedTextCbret);
             }
 
-            TextHitInfo caretPos = e.getCaret();
-            if (caretPos != null) {
-                int index = caretPos.getInsertionIndex();
+            TextHitInfo cbretPos = e.getCbret();
+            if (cbretPos != null) {
+                int index = cbretPos.getInsertionIndex();
                 dot += index;
                 if (index == 0) {
-                    // Scroll the component if needed so that the composed text
+                    // Scroll the component if needed so thbt the composed text
                     // becomes visible.
                     try {
-                        Rectangle d = modelToView(dot);
-                        Rectangle end = modelToView(composedTextEnd.getOffset());
-                        Rectangle b = getBounds();
-                        d.x += Math.min(end.x - d.x, b.width);
+                        Rectbngle d = modelToView(dot);
+                        Rectbngle end = modelToView(composedTextEnd.getOffset());
+                        Rectbngle b = getBounds();
+                        d.x += Mbth.min(end.x - d.x, b.width);
                         scrollRectToVisible(d);
-                    } catch (BadLocationException ble) {}
+                    } cbtch (BbdLocbtionException ble) {}
                 }
             }
-            caret.setDot(dot);
-        } else if (caret instanceof ComposedTextCaret) {
-            dot = caret.getDot();
-            // Restores original caret
-            exchangeCaret(caret, originalCaret);
-            caret.setDot(dot);
+            cbret.setDot(dot);
+        } else if (cbret instbnceof ComposedTextCbret) {
+            dot = cbret.getDot();
+            // Restores originbl cbret
+            exchbngeCbret(cbret, originblCbret);
+            cbret.setDot(dot);
         }
     }
 
-    private void exchangeCaret(Caret oldCaret, Caret newCaret) {
-        int blinkRate = oldCaret.getBlinkRate();
-        setCaret(newCaret);
-        caret.setBlinkRate(blinkRate);
-        caret.setVisible(hasFocus());
+    privbte void exchbngeCbret(Cbret oldCbret, Cbret newCbret) {
+        int blinkRbte = oldCbret.getBlinkRbte();
+        setCbret(newCbret);
+        cbret.setBlinkRbte(blinkRbte);
+        cbret.setVisible(hbsFocus());
     }
 
     /**
-     * Returns true if KeyEvents should be synthesized from an InputEvent.
+     * Returns true if KeyEvents should be synthesized from bn InputEvent.
      */
-    private boolean shouldSynthensizeKeyEvents() {
+    privbte boolebn shouldSynthensizeKeyEvents() {
         if (!checkedInputOverride) {
             // Checks whether the client code overrides processInputMethodEvent.
-            // If it is overridden, need not to generate KeyTyped events for committed text.
-            // If it's not, behave as an passive input method client.
-            needToSendKeyTypedEvent = !METHOD_OVERRIDDEN.get(getClass());
+            // If it is overridden, need not to generbte KeyTyped events for committed text.
+            // If it's not, behbve bs bn pbssive input method client.
+            needToSendKeyTypedEvent = !METHOD_OVERRIDDEN.get(getClbss());
             checkedInputOverride = true;
         }
         return needToSendKeyTypedEvent;
     }
 
     //
-    // Checks whether a composed text in this text component
+    // Checks whether b composed text in this text component
     //
-    boolean composedTextExists() {
-        return (composedTextStart != null);
+    boolebn composedTextExists() {
+        return (composedTextStbrt != null);
     }
 
     //
-    // Caret implementation for editing the composed text.
+    // Cbret implementbtion for editing the composed text.
     //
-    class ComposedTextCaret extends DefaultCaret implements Serializable {
+    clbss ComposedTextCbret extends DefbultCbret implements Seriblizbble {
         Color bg;
 
         //
-        // Get the background color of the component
+        // Get the bbckground color of the component
         //
-        public void install(JTextComponent c) {
-            super.install(c);
+        public void instbll(JTextComponent c) {
+            super.instbll(c);
 
             Document doc = c.getDocument();
-            if (doc instanceof StyledDocument) {
+            if (doc instbnceof StyledDocument) {
                 StyledDocument sDoc = (StyledDocument)doc;
-                Element elem = sDoc.getCharacterElement(c.composedTextStart.getOffset());
-                AttributeSet attr = elem.getAttributes();
-                bg = sDoc.getBackground(attr);
+                Element elem = sDoc.getChbrbcterElement(c.composedTextStbrt.getOffset());
+                AttributeSet bttr = elem.getAttributes();
+                bg = sDoc.getBbckground(bttr);
             }
 
             if (bg == null) {
-                bg = c.getBackground();
+                bg = c.getBbckground();
             }
         }
 
         //
-        // Draw caret in XOR mode.
+        // Drbw cbret in XOR mode.
         //
-        public void paint(Graphics g) {
+        public void pbint(Grbphics g) {
             if(isVisible()) {
                 try {
-                    Rectangle r = component.modelToView(getDot());
+                    Rectbngle r = component.modelToView(getDot());
                     g.setXORMode(bg);
-                    g.drawLine(r.x, r.y, r.x, r.y + r.height - 1);
-                    g.setPaintMode();
-                } catch (BadLocationException e) {
-                    // can't render I guess
-                    //System.err.println("Can't render cursor");
+                    g.drbwLine(r.x, r.y, r.x, r.y + r.height - 1);
+                    g.setPbintMode();
+                } cbtch (BbdLocbtionException e) {
+                    // cbn't render I guess
+                    //System.err.println("Cbn't render cursor");
                 }
             }
         }
 
         //
-        // If some area other than the composed text is clicked by mouse,
+        // If some breb other thbn the composed text is clicked by mouse,
         // issue endComposition() to force commit the composed text.
         //
-        protected void positionCaret(MouseEvent me) {
+        protected void positionCbret(MouseEvent me) {
             JTextComponent host = component;
             Point pt = new Point(me.getX(), me.getY());
             int offset = host.viewToModel(pt);
-            int composedStartIndex = host.composedTextStart.getOffset();
-            if ((offset < composedStartIndex) ||
+            int composedStbrtIndex = host.composedTextStbrt.getOffset();
+            if ((offset < composedStbrtIndex) ||
                 (offset > composedTextEnd.getOffset())) {
                 try {
                     // Issue endComposition
-                    Position newPos = host.getDocument().createPosition(offset);
+                    Position newPos = host.getDocument().crebtePosition(offset);
                     host.getInputContext().endComposition();
 
-                    // Post a caret positioning runnable to assure that the positioning
-                    // occurs *after* committing the composed text.
-                    EventQueue.invokeLater(new DoSetCaretPosition(host, newPos));
-                } catch (BadLocationException ble) {
+                    // Post b cbret positioning runnbble to bssure thbt the positioning
+                    // occurs *bfter* committing the composed text.
+                    EventQueue.invokeLbter(new DoSetCbretPosition(host, newPos));
+                } cbtch (BbdLocbtionException ble) {
                     System.err.println(ble);
                 }
             } else {
-                // Normal processing
-                super.positionCaret(me);
+                // Normbl processing
+                super.positionCbret(me);
             }
         }
     }
 
     //
-    // Runnable class for invokeLater() to set caret position later.
+    // Runnbble clbss for invokeLbter() to set cbret position lbter.
     //
-    private class DoSetCaretPosition implements Runnable {
+    privbte clbss DoSetCbretPosition implements Runnbble {
         JTextComponent host;
         Position newPos;
 
-        DoSetCaretPosition(JTextComponent host, Position newPos) {
+        DoSetCbretPosition(JTextComponent host, Position newPos) {
             this.host = host;
             this.newPos = newPos;
         }
 
         public void run() {
-            host.setCaretPosition(newPos.getOffset());
+            host.setCbretPosition(newPos.getOffset());
         }
     }
 }

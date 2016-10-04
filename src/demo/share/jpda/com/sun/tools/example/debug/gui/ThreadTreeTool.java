@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.util.*;
-import java.util.List;  // Must import explicitly due to conflict with javax.awt.List
+import jbvb.util.*;
+import jbvb.util.List;  // Must import explicitly due to conflict with jbvbx.bwt.List
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tree.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.event.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-//### Bug: If the name of a thread is changed via Thread.setName(), the
-//### thread tree view does not reflect this.  The name of the thread at
-//### the time it is created is used throughout its lifetime.
+//### Bug: If the nbme of b threbd is chbnged vib Threbd.setNbme(), the
+//### threbd tree view does not reflect this.  The nbme of the threbd bt
+//### the time it is crebted is used throughout its lifetime.
 
-public class ThreadTreeTool extends JPanel {
+public clbss ThrebdTreeTool extends JPbnel {
 
-    private static final long serialVersionUID = 4168599992853038878L;
+    privbte stbtic finbl long seriblVersionUID = 4168599992853038878L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbte ExecutionMbnbger runtime;
+    privbte SourceMbnbger sourceMbnbger;
+    privbte ClbssMbnbger clbssMbnbger;
 
-    private JTree tree;
-    private DefaultTreeModel treeModel;
-    private ThreadTreeNode root;
-    private SearchPath sourcePath;
+    privbte JTree tree;
+    privbte DefbultTreeModel treeModel;
+    privbte ThrebdTreeNode root;
+    privbte SebrchPbth sourcePbth;
 
-    private CommandInterpreter interpreter;
+    privbte CommbndInterpreter interpreter;
 
-    private static String HEADING = "THREADS";
+    privbte stbtic String HEADING = "THREADS";
 
-    public ThreadTreeTool(Environment env) {
+    public ThrebdTreeTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        this.runtime = env.getExecutionMbnbger();
+        this.sourceMbnbger = env.getSourceMbnbger();
 
-        this.interpreter = new CommandInterpreter(env);
+        this.interpreter = new CommbndInterpreter(env);
 
-        root = createThreadTree(HEADING);
-        treeModel = new DefaultTreeModel(root);
+        root = crebteThrebdTree(HEADING);
+        treeModel = new DefbultTreeModel(root);
 
-        // Create a tree that allows one selection at a time.
+        // Crebte b tree thbt bllows one selection bt b time.
 
         tree = new JTree(treeModel);
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        tree.setSelectionModel(new SingleLebfTreeSelectionModel());
 
-        MouseListener ml = new MouseAdapter() {
+        MouseListener ml = new MouseAdbpter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+                int selRow = tree.getRowForLocbtion(e.getX(), e.getY());
+                TreePbth selPbth = tree.getPbthForLocbtion(e.getX(), e.getY());
                 if(selRow != -1) {
                     if(e.getClickCount() == 1) {
-                        ThreadTreeNode node =
-                            (ThreadTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'thread' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("thread " +
-                                                       node.getThreadId() +
+                        ThrebdTreeNode node =
+                            (ThrebdTreeNode)selPbth.getLbstPbthComponent();
+                        // If user clicks on lebf, select it, bnd issue 'threbd' commbnd.
+                        if (node.isLebf()) {
+                            tree.setSelectionPbth(selPbth);
+                            interpreter.executeCommbnd("threbd " +
+                                                       node.getThrebdId() +
                                                        "  (\"" +
-                                                       node.getName() + "\")");
+                                                       node.getNbme() + "\")");
                         }
                     }
                 }
             }
         };
 
-        tree.addMouseListener(ml);
+        tree.bddMouseListener(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JScrollPbne treeView = new JScrollPbne(tree);
+        bdd(treeView);
 
-        // Create listener.
-        ThreadTreeToolListener listener = new ThreadTreeToolListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        // Crebte listener.
+        ThrebdTreeToolListener listener = new ThrebdTreeToolListener();
+        runtime.bddJDIListener(listener);
+        runtime.bddSessionListener(listener);
 
         //### remove listeners on exit!
     }
 
-    HashMap<ThreadReference, List<String>> threadTable = new HashMap<ThreadReference, List<String>>();
+    HbshMbp<ThrebdReference, List<String>> threbdTbble = new HbshMbp<ThrebdReference, List<String>>();
 
-    private List<String> threadPath(ThreadReference thread) {
-        // May exit abnormally if VM disconnects.
-        List<String> l = new ArrayList<String>();
-        l.add(0, thread.name());
-        ThreadGroupReference group = thread.threadGroup();
+    privbte List<String> threbdPbth(ThrebdReference threbd) {
+        // Mby exit bbnormblly if VM disconnects.
+        List<String> l = new ArrbyList<String>();
+        l.bdd(0, threbd.nbme());
+        ThrebdGroupReference group = threbd.threbdGroup();
         while (group != null) {
-            l.add(0, group.name());
-            group = group.parent();
+            l.bdd(0, group.nbme());
+            group = group.pbrent();
         }
         return l;
     }
 
-    private class ThreadTreeToolListener extends JDIAdapter
+    privbte clbss ThrebdTreeToolListener extends JDIAdbpter
                               implements JDIListener, SessionListener {
 
         // SessionListener
 
         @Override
-        public void sessionStart(EventObject e) {
+        public void sessionStbrt(EventObject e) {
             try {
-                for (ThreadReference thread : runtime.allThreads()) {
-                    root.addThread(thread);
+                for (ThrebdReference threbd : runtime.bllThrebds()) {
+                    root.bddThrebd(threbd);
                 }
-            } catch (VMDisconnectedException ee) {
-                // VM went away unexpectedly.
-            } catch (NoSessionException ee) {
-                // Ignore.  Should not happen.
+            } cbtch (VMDisconnectedException ee) {
+                // VM went bwby unexpectedly.
+            } cbtch (NoSessionException ee) {
+                // Ignore.  Should not hbppen.
             }
         }
 
@@ -163,49 +163,49 @@ public class ThreadTreeTool extends JPanel {
         // JDIListener
 
         @Override
-        public void threadStart(ThreadStartEventSet e) {
-            root.addThread(e.getThread());
+        public void threbdStbrt(ThrebdStbrtEventSet e) {
+            root.bddThrebd(e.getThrebd());
         }
 
         @Override
-        public void threadDeath(ThreadDeathEventSet e) {
-            root.removeThread(e.getThread());
+        public void threbdDebth(ThrebdDebthEventSet e) {
+            root.removeThrebd(e.getThrebd());
         }
 
         @Override
         public void vmDisconnect(VMDisconnectEventSet e) {
-            // Clear the contents of this view.
-            root = createThreadTree(HEADING);
-            treeModel = new DefaultTreeModel(root);
+            // Clebr the contents of this view.
+            root = crebteThrebdTree(HEADING);
+            treeModel = new DefbultTreeModel(root);
             tree.setModel(treeModel);
-            threadTable = new HashMap<ThreadReference, List<String>>();
+            threbdTbble = new HbshMbp<ThrebdReference, List<String>>();
         }
 
     }
 
-    ThreadTreeNode createThreadTree(String label) {
-        return new ThreadTreeNode(label, null);
+    ThrebdTreeNode crebteThrebdTree(String lbbel) {
+        return new ThrebdTreeNode(lbbel, null);
     }
 
-    class ThreadTreeNode extends DefaultMutableTreeNode {
+    clbss ThrebdTreeNode extends DefbultMutbbleTreeNode {
 
-        String name;
-        ThreadReference thread; // null if thread group
+        String nbme;
+        ThrebdReference threbd; // null if threbd group
         long uid;
         String description;
 
-        ThreadTreeNode(String name, ThreadReference thread) {
-            if (name == null) {
-                name = "<unnamed>";
+        ThrebdTreeNode(String nbme, ThrebdReference threbd) {
+            if (nbme == null) {
+                nbme = "<unnbmed>";
             }
-            this.name = name;
-            this.thread = thread;
-            if (thread == null) {
+            this.nbme = nbme;
+            this.threbd = threbd;
+            if (threbd == null) {
                 this.uid = -1;
-                this.description = name;
+                this.description = nbme;
             } else {
-                this.uid = thread.uniqueID();
-                this.description = name + " (t@" + Long.toHexString(uid) + ")";
+                this.uid = threbd.uniqueID();
+                this.description = nbme + " (t@" + Long.toHexString(uid) + ")";
             }
         }
 
@@ -214,139 +214,139 @@ public class ThreadTreeTool extends JPanel {
             return description;
         }
 
-        public String getName() {
-            return name;
+        public String getNbme() {
+            return nbme;
         }
 
-        public ThreadReference getThread() {
-            return thread;
+        public ThrebdReference getThrebd() {
+            return threbd;
         }
 
-        public String getThreadId() {
+        public String getThrebdId() {
             return "t@" + Long.toHexString(uid);
         }
 
-        private boolean isThreadGroup() {
-            return (thread == null);
+        privbte boolebn isThrebdGroup() {
+            return (threbd == null);
         }
 
         @Override
-        public boolean isLeaf() {
-            return !isThreadGroup();
+        public boolebn isLebf() {
+            return !isThrebdGroup();
         }
 
-        public void addThread(ThreadReference thread) {
-            // This can fail if the VM disconnects.
-            // It is important to do all necessary JDI calls
-            // before modifying the tree, so we don't abort
-            // midway through!
-            if (threadTable.get(thread) == null) {
-                // Add thread only if not already present.
+        public void bddThrebd(ThrebdReference threbd) {
+            // This cbn fbil if the VM disconnects.
+            // It is importbnt to do bll necessbry JDI cblls
+            // before modifying the tree, so we don't bbort
+            // midwby through!
+            if (threbdTbble.get(threbd) == null) {
+                // Add threbd only if not blrebdy present.
                 try {
-                    List<String> path = threadPath(thread);
-                    // May not get here due to exception.
-                    // If we get here, we are committed.
-                    // We must not leave the tree partially updated.
+                    List<String> pbth = threbdPbth(threbd);
+                    // Mby not get here due to exception.
+                    // If we get here, we bre committed.
+                    // We must not lebve the tree pbrtiblly updbted.
                     try {
-                        threadTable.put(thread, path);
-                        addThread(path, thread);
-                    } catch (Throwable tt) {
-                        //### Assertion failure.
-                        throw new RuntimeException("ThreadTree corrupted");
+                        threbdTbble.put(threbd, pbth);
+                        bddThrebd(pbth, threbd);
+                    } cbtch (Throwbble tt) {
+                        //### Assertion fbilure.
+                        throw new RuntimeException("ThrebdTree corrupted");
                     }
-                } catch (VMDisconnectedException ee) {
-                    // Ignore.  Thread will not be added.
+                } cbtch (VMDisconnectedException ee) {
+                    // Ignore.  Threbd will not be bdded.
                 }
             }
         }
 
-        private void addThread(List<String> threadPath, ThreadReference thread) {
-            int size = threadPath.size();
+        privbte void bddThrebd(List<String> threbdPbth, ThrebdReference threbd) {
+            int size = threbdPbth.size();
             if (size == 0) {
                 return;
             } else if (size == 1) {
-                String name = threadPath.get(0);
-                insertNode(name, thread);
+                String nbme = threbdPbth.get(0);
+                insertNode(nbme, threbd);
             } else {
-                String head = threadPath.get(0);
-                List<String> tail = threadPath.subList(1, size);
-                ThreadTreeNode child = insertNode(head, null);
-                child.addThread(tail, thread);
+                String hebd = threbdPbth.get(0);
+                List<String> tbil = threbdPbth.subList(1, size);
+                ThrebdTreeNode child = insertNode(hebd, null);
+                child.bddThrebd(tbil, threbd);
             }
         }
 
-        private ThreadTreeNode insertNode(String name, ThreadReference thread) {
+        privbte ThrebdTreeNode insertNode(String nbme, ThrebdReference threbd) {
             for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.getName());
-                if (cmp == 0 && thread == null) {
-                    // A like-named interior node already exists.
+                ThrebdTreeNode child = (ThrebdTreeNode)getChildAt(i);
+                int cmp = nbme.compbreTo(child.getNbme());
+                if (cmp == 0 && threbd == null) {
+                    // A like-nbmed interior node blrebdy exists.
                     return child;
                 } else if (cmp < 0) {
                     // Insert new node before the child.
-                    ThreadTreeNode newChild = new ThreadTreeNode(name, thread);
+                    ThrebdTreeNode newChild = new ThrebdTreeNode(nbme, threbd);
                     treeModel.insertNodeInto(newChild, this, i);
                     return newChild;
                 }
             }
-            // Insert new node after last child.
-            ThreadTreeNode newChild = new ThreadTreeNode(name, thread);
+            // Insert new node bfter lbst child.
+            ThrebdTreeNode newChild = new ThrebdTreeNode(nbme, threbd);
             treeModel.insertNodeInto(newChild, this, getChildCount());
             return newChild;
         }
 
-        public void removeThread(ThreadReference thread) {
-            List<String> threadPath = threadTable.get(thread);
-            // Only remove thread if we recorded it in table.
-            // Original add may have failed due to VM disconnect.
-            if (threadPath != null) {
-                removeThread(threadPath, thread);
+        public void removeThrebd(ThrebdReference threbd) {
+            List<String> threbdPbth = threbdTbble.get(threbd);
+            // Only remove threbd if we recorded it in tbble.
+            // Originbl bdd mby hbve fbiled due to VM disconnect.
+            if (threbdPbth != null) {
+                removeThrebd(threbdPbth, threbd);
             }
         }
 
-        private void removeThread(List<String> threadPath, ThreadReference thread) {
-            int size = threadPath.size();
+        privbte void removeThrebd(List<String> threbdPbth, ThrebdReference threbd) {
+            int size = threbdPbth.size();
             if (size == 0) {
                 return;
             } else if (size == 1) {
-                String name = threadPath.get(0);
-                ThreadTreeNode child = findLeafNode(thread, name);
-                treeModel.removeNodeFromParent(child);
+                String nbme = threbdPbth.get(0);
+                ThrebdTreeNode child = findLebfNode(threbd, nbme);
+                treeModel.removeNodeFromPbrent(child);
             } else {
-                String head = threadPath.get(0);
-                List<String> tail = threadPath.subList(1, size);
-                ThreadTreeNode child = findInternalNode(head);
-                child.removeThread(tail, thread);
-                if (child.isThreadGroup() && child.getChildCount() < 1) {
-                    // Prune non-leaf nodes with no children.
-                    treeModel.removeNodeFromParent(child);
+                String hebd = threbdPbth.get(0);
+                List<String> tbil = threbdPbth.subList(1, size);
+                ThrebdTreeNode child = findInternblNode(hebd);
+                child.removeThrebd(tbil, threbd);
+                if (child.isThrebdGroup() && child.getChildCount() < 1) {
+                    // Prune non-lebf nodes with no children.
+                    treeModel.removeNodeFromPbrent(child);
                 }
             }
         }
 
-        private ThreadTreeNode findLeafNode(ThreadReference thread, String name) {
+        privbte ThrebdTreeNode findLebfNode(ThrebdReference threbd, String nbme) {
             for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                if (child.getThread() == thread) {
-                    if (!name.equals(child.getName())) {
-                        //### Assertion failure.
-                        throw new RuntimeException("name mismatch");
+                ThrebdTreeNode child = (ThrebdTreeNode)getChildAt(i);
+                if (child.getThrebd() == threbd) {
+                    if (!nbme.equbls(child.getNbme())) {
+                        //### Assertion fbilure.
+                        throw new RuntimeException("nbme mismbtch");
                     }
                     return child;
                 }
             }
-            //### Assertion failure.
+            //### Assertion fbilure.
             throw new RuntimeException("not found");
         }
 
-        private ThreadTreeNode findInternalNode(String name) {
+        privbte ThrebdTreeNode findInternblNode(String nbme) {
             for (int i = 0; i < getChildCount(); i++) {
-                ThreadTreeNode child = (ThreadTreeNode)getChildAt(i);
-                if (name.equals(child.getName())) {
+                ThrebdTreeNode child = (ThrebdTreeNode)getChildAt(i);
+                if (nbme.equbls(child.getNbme())) {
                     return child;
                 }
             }
-            //### Assertion failure.
+            //### Assertion fbilure.
             throw new RuntimeException("not found");
         }
 

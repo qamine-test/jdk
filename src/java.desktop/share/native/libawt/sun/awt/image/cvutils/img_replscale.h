@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Scaling category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Scbling cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation uses a simple equation which simply chooses
- * the closest input pixel to the location which is obtained from
- * mapping inversely from the output rectangle to the input rectangle.
- * The input pixels will be replicated when scaling larger than the
- * original image size since the same input pixel will be chosen for
- * more than one output pixel.  Conversely, when scaling smaller than
- * the original image size, the input pixels will be omitted as needed
- * to pare them down to the required number of samples for the output
- * image.  If there is no scaling occurring in one or both directions
- * the macros attempt to short-circuit most of the more complicated
- * calculations in an attempt to impose little cost for using this
- * implementation in the general case.  The calculations also do not
- * impose any restrictions on the order of delivery of the pixels.
+ * This implementbtion uses b simple equbtion which simply chooses
+ * the closest input pixel to the locbtion which is obtbined from
+ * mbpping inversely from the output rectbngle to the input rectbngle.
+ * The input pixels will be replicbted when scbling lbrger thbn the
+ * originbl imbge size since the sbme input pixel will be chosen for
+ * more thbn one output pixel.  Conversely, when scbling smbller thbn
+ * the originbl imbge size, the input pixels will be omitted bs needed
+ * to pbre them down to the required number of sbmples for the output
+ * imbge.  If there is no scbling occurring in one or both directions
+ * the mbcros bttempt to short-circuit most of the more complicbted
+ * cblculbtions in bn bttempt to impose little cost for using this
+ * implementbtion in the generbl cbse.  The cblculbtions blso do not
+ * impose bny restrictions on the order of delivery of the pixels.
  *
- * This file can be used to provide the default implementation of the
- * Scaling macros, handling both scaled and unscaled cases and any
+ * This file cbn be used to provide the defbult implementbtion of the
+ * Scbling mbcros, hbndling both scbled bnd unscbled cbses bnd bny
  * order of pixel delivery.
  */
 
-#define DeclareScaleVars                                        \
+#define DeclbreScbleVbrs                                        \
     int dstX1, dstY1, dstX, dstY, dstX2, dstY2;                 \
     int srcX1, srcXinc, srcXrem, srcXincrem, srcX1increm;       \
-    int srcX, srcY, inputadjust;
+    int srcX, srcY, inputbdjust;
 
 #define SRCX    srcX
 #define SRCY    srcY
@@ -60,13 +60,13 @@
 #define DSTX2   dstX2
 #define DSTY2   dstY2
 
-#define InitScale(pixels, srcOff, srcScan,                              \
+#define InitScble(pixels, srcOff, srcScbn,                              \
                   srcOX, srcOY, srcW, srcH,                             \
                   srcTW, srcTH, dstTW, dstTH)                           \
     do {                                                                \
-        inputadjust = srcScan;                                          \
+        inputbdjust = srcScbn;                                          \
         if (srcTW == dstTW) {                                           \
-            inputadjust -= srcW;                                        \
+            inputbdjust -= srcW;                                        \
             dstX1 = srcOX;                                              \
             dstX2 = srcOX + srcW;                                       \
         } else {                                                        \
@@ -84,7 +84,7 @@
         if (srcTH == dstTH) {                                           \
             dstY1 = srcOY;                                              \
             dstY2 = srcOY + srcH;                                       \
-            SetInputRow(pixels, srcOff, srcScan, srcOY, srcOY);         \
+            SetInputRow(pixels, srcOff, srcScbn, srcOY, srcOY);         \
         } else {                                                        \
             dstY1 = DEST_XY_RANGE_START(srcOY, srcTH, dstTH);           \
             dstY2 = DEST_XY_RANGE_START(srcOY+srcH, srcTH, dstTH);      \
@@ -98,13 +98,13 @@
     for (dstY = dstY1; dstY < dstY2; dstY++)
 
 #define RowSetup(srcTH, dstTH, srcTW, dstTW,                            \
-                 srcOY, pixels, srcOff, srcScan)                        \
+                 srcOY, pixels, srcOff, srcScbn)                        \
         do {                                                            \
             if (srcTH == dstTH) {                                       \
                 srcY = dstY;                                            \
             } else {                                                    \
                 srcY = SRC_XY(dstY, srcTH, dstTH);                      \
-                SetInputRow(pixels, srcOff, srcScan, srcY, srcOY);      \
+                SetInputRow(pixels, srcOff, srcScbn, srcY, srcOY);      \
             }                                                           \
             if (srcTW != dstTW) {                                       \
                 srcXincrem = srcX1increm;                               \
@@ -131,9 +131,9 @@
                 }                                                       \
             } while (0)
 
-#define RowEnd(srcTH, dstTH, srcW, srcScan)                             \
+#define RowEnd(srcTH, dstTH, srcW, srcScbn)                             \
         do {                                                            \
             if (srcTH == dstTH) {                                       \
-                InputPixelInc(inputadjust);                             \
+                InputPixelInc(inputbdjust);                             \
             }                                                           \
         } while (0)

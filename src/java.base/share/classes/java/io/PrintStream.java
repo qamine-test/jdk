@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.Formatter;
-import java.util.Locale;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
+import jbvb.util.Formbtter;
+import jbvb.util.Locble;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
 
 /**
- * A <code>PrintStream</code> adds functionality to another output stream,
- * namely the ability to print representations of various data values
- * conveniently.  Two other features are provided as well.  Unlike other output
- * streams, a <code>PrintStream</code> never throws an
- * <code>IOException</code>; instead, exceptional situations merely set an
- * internal flag that can be tested via the <code>checkError</code> method.
- * Optionally, a <code>PrintStream</code> can be created so as to flush
- * automatically; this means that the <code>flush</code> method is
- * automatically invoked after a byte array is written, one of the
- * <code>println</code> methods is invoked, or a newline character or byte
+ * A <code>PrintStrebm</code> bdds functionblity to bnother output strebm,
+ * nbmely the bbility to print representbtions of vbrious dbtb vblues
+ * conveniently.  Two other febtures bre provided bs well.  Unlike other output
+ * strebms, b <code>PrintStrebm</code> never throws bn
+ * <code>IOException</code>; instebd, exceptionbl situbtions merely set bn
+ * internbl flbg thbt cbn be tested vib the <code>checkError</code> method.
+ * Optionblly, b <code>PrintStrebm</code> cbn be crebted so bs to flush
+ * butombticblly; this mebns thbt the <code>flush</code> method is
+ * butombticblly invoked bfter b byte brrby is written, one of the
+ * <code>println</code> methods is invoked, or b newline chbrbcter or byte
  * (<code>'\n'</code>) is written.
  *
- * <p> All characters printed by a <code>PrintStream</code> are converted into
- * bytes using the platform's default character encoding.  The <code>{@link
- * PrintWriter}</code> class should be used in situations that require writing
- * characters rather than bytes.
+ * <p> All chbrbcters printed by b <code>PrintStrebm</code> bre converted into
+ * bytes using the plbtform's defbult chbrbcter encoding.  The <code>{@link
+ * PrintWriter}</code> clbss should be used in situbtions thbt require writing
+ * chbrbcters rbther thbn bytes.
  *
- * @author     Frank Yellin
- * @author     Mark Reinhold
+ * @buthor     Frbnk Yellin
+ * @buthor     Mbrk Reinhold
  * @since      1.0
  */
 
-public class PrintStream extends FilterOutputStream
-    implements Appendable, Closeable
+public clbss PrintStrebm extends FilterOutputStrebm
+    implements Appendbble, Closebble
 {
 
-    private final boolean autoFlush;
-    private boolean trouble = false;
-    private Formatter formatter;
+    privbte finbl boolebn butoFlush;
+    privbte boolebn trouble = fblse;
+    privbte Formbtter formbtter;
 
     /**
-     * Track both the text- and character-output streams, so that their buffers
-     * can be flushed without flushing the entire stream.
+     * Trbck both the text- bnd chbrbcter-output strebms, so thbt their buffers
+     * cbn be flushed without flushing the entire strebm.
      */
-    private BufferedWriter textOut;
-    private OutputStreamWriter charOut;
+    privbte BufferedWriter textOut;
+    privbte OutputStrebmWriter chbrOut;
 
     /**
-     * requireNonNull is explicitly declared here so as not to create an extra
-     * dependency on java.util.Objects.requireNonNull. PrintStream is loaded
-     * early during system initialization.
+     * requireNonNull is explicitly declbred here so bs not to crebte bn extrb
+     * dependency on jbvb.util.Objects.requireNonNull. PrintStrebm is lobded
+     * ebrly during system initiblizbtion.
      */
-    private static <T> T requireNonNull(T obj, String message) {
+    privbte stbtic <T> T requireNonNull(T obj, String messbge) {
         if (obj == null)
-            throw new NullPointerException(message);
+            throw new NullPointerException(messbge);
         return obj;
     }
 
     /**
-     * Returns a charset object for the given charset name.
+     * Returns b chbrset object for the given chbrset nbme.
      * @throws NullPointerException          is csn is null
-     * @throws UnsupportedEncodingException  if the charset is not supported
+     * @throws UnsupportedEncodingException  if the chbrset is not supported
      */
-    private static Charset toCharset(String csn)
+    privbte stbtic Chbrset toChbrset(String csn)
         throws UnsupportedEncodingException
     {
-        requireNonNull(csn, "charsetName");
+        requireNonNull(csn, "chbrsetNbme");
         try {
-            return Charset.forName(csn);
-        } catch (IllegalCharsetNameException|UnsupportedCharsetException unused) {
+            return Chbrset.forNbme(csn);
+        } cbtch (IllegblChbrsetNbmeException|UnsupportedChbrsetException unused) {
             // UnsupportedEncodingException should be thrown
             throw new UnsupportedEncodingException(csn);
         }
     }
 
-    /* Private constructors */
-    private PrintStream(boolean autoFlush, OutputStream out) {
+    /* Privbte constructors */
+    privbte PrintStrebm(boolebn butoFlush, OutputStrebm out) {
         super(out);
-        this.autoFlush = autoFlush;
-        this.charOut = new OutputStreamWriter(this);
-        this.textOut = new BufferedWriter(charOut);
+        this.butoFlush = butoFlush;
+        this.chbrOut = new OutputStrebmWriter(this);
+        this.textOut = new BufferedWriter(chbrOut);
     }
 
-    private PrintStream(boolean autoFlush, OutputStream out, Charset charset) {
+    privbte PrintStrebm(boolebn butoFlush, OutputStrebm out, Chbrset chbrset) {
         super(out);
-        this.autoFlush = autoFlush;
-        this.charOut = new OutputStreamWriter(this, charset);
-        this.textOut = new BufferedWriter(charOut);
+        this.butoFlush = butoFlush;
+        this.chbrOut = new OutputStrebmWriter(this, chbrset);
+        this.textOut = new BufferedWriter(chbrOut);
     }
 
-    /* Variant of the private constructor so that the given charset name
-     * can be verified before evaluating the OutputStream argument. Used
-     * by constructors creating a FileOutputStream that also take a
-     * charset name.
+    /* Vbribnt of the privbte constructor so thbt the given chbrset nbme
+     * cbn be verified before evblubting the OutputStrebm brgument. Used
+     * by constructors crebting b FileOutputStrebm thbt blso tbke b
+     * chbrset nbme.
      */
-    private PrintStream(boolean autoFlush, Charset charset, OutputStream out)
+    privbte PrintStrebm(boolebn butoFlush, Chbrset chbrset, OutputStrebm out)
         throws UnsupportedEncodingException
     {
-        this(autoFlush, out, charset);
+        this(butoFlush, out, chbrset);
     }
 
     /**
-     * Creates a new print stream.  This stream will not flush automatically.
+     * Crebtes b new print strebm.  This strebm will not flush butombticblly.
      *
-     * @param  out        The output stream to which values and objects will be
+     * @pbrbm  out        The output strebm to which vblues bnd objects will be
      *                    printed
      *
-     * @see java.io.PrintWriter#PrintWriter(java.io.OutputStream)
+     * @see jbvb.io.PrintWriter#PrintWriter(jbvb.io.OutputStrebm)
      */
-    public PrintStream(OutputStream out) {
-        this(out, false);
+    public PrintStrebm(OutputStrebm out) {
+        this(out, fblse);
     }
 
     /**
-     * Creates a new print stream.
+     * Crebtes b new print strebm.
      *
-     * @param  out        The output stream to which values and objects will be
+     * @pbrbm  out        The output strebm to which vblues bnd objects will be
      *                    printed
-     * @param  autoFlush  A boolean; if true, the output buffer will be flushed
-     *                    whenever a byte array is written, one of the
-     *                    <code>println</code> methods is invoked, or a newline
-     *                    character or byte (<code>'\n'</code>) is written
+     * @pbrbm  butoFlush  A boolebn; if true, the output buffer will be flushed
+     *                    whenever b byte brrby is written, one of the
+     *                    <code>println</code> methods is invoked, or b newline
+     *                    chbrbcter or byte (<code>'\n'</code>) is written
      *
-     * @see java.io.PrintWriter#PrintWriter(java.io.OutputStream, boolean)
+     * @see jbvb.io.PrintWriter#PrintWriter(jbvb.io.OutputStrebm, boolebn)
      */
-    public PrintStream(OutputStream out, boolean autoFlush) {
-        this(autoFlush, requireNonNull(out, "Null output stream"));
+    public PrintStrebm(OutputStrebm out, boolebn butoFlush) {
+        this(butoFlush, requireNonNull(out, "Null output strebm"));
     }
 
     /**
-     * Creates a new print stream.
+     * Crebtes b new print strebm.
      *
-     * @param  out        The output stream to which values and objects will be
+     * @pbrbm  out        The output strebm to which vblues bnd objects will be
      *                    printed
-     * @param  autoFlush  A boolean; if true, the output buffer will be flushed
-     *                    whenever a byte array is written, one of the
-     *                    <code>println</code> methods is invoked, or a newline
-     *                    character or byte (<code>'\n'</code>) is written
-     * @param  encoding   The name of a supported
-     *                    <a href="../lang/package-summary.html#charenc">
-     *                    character encoding</a>
+     * @pbrbm  butoFlush  A boolebn; if true, the output buffer will be flushed
+     *                    whenever b byte brrby is written, one of the
+     *                    <code>println</code> methods is invoked, or b newline
+     *                    chbrbcter or byte (<code>'\n'</code>) is written
+     * @pbrbm  encoding   The nbme of b supported
+     *                    <b href="../lbng/pbckbge-summbry.html#chbrenc">
+     *                    chbrbcter encoding</b>
      *
      * @throws  UnsupportedEncodingException
-     *          If the named encoding is not supported
+     *          If the nbmed encoding is not supported
      *
      * @since  1.4
      */
-    public PrintStream(OutputStream out, boolean autoFlush, String encoding)
+    public PrintStrebm(OutputStrebm out, boolebn butoFlush, String encoding)
         throws UnsupportedEncodingException
     {
-        this(autoFlush,
-             requireNonNull(out, "Null output stream"),
-             toCharset(encoding));
+        this(butoFlush,
+             requireNonNull(out, "Null output strebm"),
+             toChbrset(encoding));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file name.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the
-     * {@linkplain java.nio.charset.Charset#defaultCharset() default charset}
-     * for this instance of the Java virtual machine.
+     * Crebtes b new print strebm, without butombtic line flushing, with the
+     * specified file nbme.  This convenience constructor crebtes
+     * the necessbry intermedibte {@link jbvb.io.OutputStrebmWriter
+     * OutputStrebmWriter}, which will encode chbrbcters using the
+     * {@linkplbin jbvb.nio.chbrset.Chbrset#defbultChbrset() defbult chbrset}
+     * for this instbnce of the Jbvb virtubl mbchine.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this print
-     *         stream.  If the file exists, then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  fileNbme
+     *         The nbme of the file to use bs the destinbtion of this print
+     *         strebm.  If the file exists, then it will be truncbted to
+     *         zero size; otherwise, b new file will be crebted.  The output
+     *         will be written to the file bnd is buffered.
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(fileNbme)} denies write
+     *          bccess to the file
      *
      * @since  1.5
      */
-    public PrintStream(String fileName) throws FileNotFoundException {
-        this(false, new FileOutputStream(fileName));
+    public PrintStrebm(String fileNbme) throws FileNotFoundException {
+        this(fblse, new FileOutputStrebm(fileNbme));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file name and charset.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the provided
-     * charset.
+     * Crebtes b new print strebm, without butombtic line flushing, with the
+     * specified file nbme bnd chbrset.  This convenience constructor crebtes
+     * the necessbry intermedibte {@link jbvb.io.OutputStrebmWriter
+     * OutputStrebmWriter}, which will encode chbrbcters using the provided
+     * chbrset.
      *
-     * @param  fileName
-     *         The name of the file to use as the destination of this print
-     *         stream.  If the file exists, then it will be truncated to
-     *         zero size; otherwise, a new file will be created.  The output
-     *         will be written to the file and is buffered.
+     * @pbrbm  fileNbme
+     *         The nbme of the file to use bs the destinbtion of this print
+     *         strebm.  If the file exists, then it will be truncbted to
+     *         zero size; otherwise, b new file will be crebted.  The output
+     *         will be written to the file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(fileName)} denies write
-     *          access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(fileNbme)} denies write
+     *          bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      *
      * @since  1.5
      */
-    public PrintStream(String fileName, String csn)
+    public PrintStrebm(String fileNbme, String csn)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        // ensure charset is checked before the file is opened
-        this(false, toCharset(csn), new FileOutputStream(fileName));
+        // ensure chbrset is checked before the file is opened
+        this(fblse, toChbrset(csn), new FileOutputStrebm(fileNbme));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file.  This convenience constructor creates the necessary
-     * intermediate {@link java.io.OutputStreamWriter OutputStreamWriter},
-     * which will encode characters using the {@linkplain
-     * java.nio.charset.Charset#defaultCharset() default charset} for this
-     * instance of the Java virtual machine.
+     * Crebtes b new print strebm, without butombtic line flushing, with the
+     * specified file.  This convenience constructor crebtes the necessbry
+     * intermedibte {@link jbvb.io.OutputStrebmWriter OutputStrebmWriter},
+     * which will encode chbrbcters using the {@linkplbin
+     * jbvb.nio.chbrset.Chbrset#defbultChbrset() defbult chbrset} for this
+     * instbnce of the Jbvb virtubl mbchine.
      *
-     * @param  file
-     *         The file to use as the destination of this print stream.  If the
-     *         file exists, then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  file
+     *         The file to use bs the destinbtion of this print strebm.  If the
+     *         file exists, then it will be truncbted to zero size; otherwise,
+     *         b new file will be crebted.  The output will be written to the
+     *         file bnd is buffered.
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())}
-     *          denies write access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(file.getPbth())}
+     *          denies write bccess to the file
      *
      * @since  1.5
      */
-    public PrintStream(File file) throws FileNotFoundException {
-        this(false, new FileOutputStream(file));
+    public PrintStrebm(File file) throws FileNotFoundException {
+        this(fblse, new FileOutputStrebm(file));
     }
 
     /**
-     * Creates a new print stream, without automatic line flushing, with the
-     * specified file and charset.  This convenience constructor creates
-     * the necessary intermediate {@link java.io.OutputStreamWriter
-     * OutputStreamWriter}, which will encode characters using the provided
-     * charset.
+     * Crebtes b new print strebm, without butombtic line flushing, with the
+     * specified file bnd chbrset.  This convenience constructor crebtes
+     * the necessbry intermedibte {@link jbvb.io.OutputStrebmWriter
+     * OutputStrebmWriter}, which will encode chbrbcters using the provided
+     * chbrset.
      *
-     * @param  file
-     *         The file to use as the destination of this print stream.  If the
-     *         file exists, then it will be truncated to zero size; otherwise,
-     *         a new file will be created.  The output will be written to the
-     *         file and is buffered.
+     * @pbrbm  file
+     *         The file to use bs the destinbtion of this print strebm.  If the
+     *         file exists, then it will be truncbted to zero size; otherwise,
+     *         b new file will be crebted.  The output will be written to the
+     *         file bnd is buffered.
      *
-     * @param  csn
-     *         The name of a supported {@linkplain java.nio.charset.Charset
-     *         charset}
+     * @pbrbm  csn
+     *         The nbme of b supported {@linkplbin jbvb.nio.chbrset.Chbrset
+     *         chbrset}
      *
      * @throws  FileNotFoundException
-     *          If the given file object does not denote an existing, writable
-     *          regular file and a new regular file of that name cannot be
-     *          created, or if some other error occurs while opening or
-     *          creating the file
+     *          If the given file object does not denote bn existing, writbble
+     *          regulbr file bnd b new regulbr file of thbt nbme cbnnot be
+     *          crebted, or if some other error occurs while opening or
+     *          crebting the file
      *
      * @throws  SecurityException
-     *          If a security manager is present and {@link
-     *          SecurityManager#checkWrite checkWrite(file.getPath())}
-     *          denies write access to the file
+     *          If b security mbnbger is present bnd {@link
+     *          SecurityMbnbger#checkWrite checkWrite(file.getPbth())}
+     *          denies write bccess to the file
      *
      * @throws  UnsupportedEncodingException
-     *          If the named charset is not supported
+     *          If the nbmed chbrset is not supported
      *
      * @since  1.5
      */
-    public PrintStream(File file, String csn)
+    public PrintStrebm(File file, String csn)
         throws FileNotFoundException, UnsupportedEncodingException
     {
-        // ensure charset is checked before the file is opened
-        this(false, toCharset(csn), new FileOutputStream(file));
+        // ensure chbrset is checked before the file is opened
+        this(fblse, toChbrset(csn), new FileOutputStrebm(file));
     }
 
-    /** Check to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Check to mbke sure thbt the strebm hbs not been closed */
+    privbte void ensureOpen() throws IOException {
         if (out == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Flushes the stream.  This is done by writing any buffered output bytes to
-     * the underlying output stream and then flushing that stream.
+     * Flushes the strebm.  This is done by writing bny buffered output bytes to
+     * the underlying output strebm bnd then flushing thbt strebm.
      *
-     * @see        java.io.OutputStream#flush()
+     * @see        jbvb.io.OutputStrebm#flush()
      */
     public void flush() {
         synchronized (this) {
@@ -337,19 +337,19 @@ public class PrintStream extends FilterOutputStream
                 ensureOpen();
                 out.flush();
             }
-            catch (IOException x) {
+            cbtch (IOException x) {
                 trouble = true;
             }
         }
     }
 
-    private boolean closing = false; /* To avoid recursive closing */
+    privbte boolebn closing = fblse; /* To bvoid recursive closing */
 
     /**
-     * Closes the stream.  This is done by flushing the stream and then closing
-     * the underlying output stream.
+     * Closes the strebm.  This is done by flushing the strebm bnd then closing
+     * the underlying output strebm.
      *
-     * @see        java.io.OutputStream#close()
+     * @see        jbvb.io.OutputStrebm#close()
      */
     public void close() {
         synchronized (this) {
@@ -359,50 +359,50 @@ public class PrintStream extends FilterOutputStream
                     textOut.close();
                     out.close();
                 }
-                catch (IOException x) {
+                cbtch (IOException x) {
                     trouble = true;
                 }
                 textOut = null;
-                charOut = null;
+                chbrOut = null;
                 out = null;
             }
         }
     }
 
     /**
-     * Flushes the stream and checks its error state. The internal error state
-     * is set to <code>true</code> when the underlying output stream throws an
-     * <code>IOException</code> other than <code>InterruptedIOException</code>,
-     * and when the <code>setError</code> method is invoked.  If an operation
-     * on the underlying output stream throws an
-     * <code>InterruptedIOException</code>, then the <code>PrintStream</code>
-     * converts the exception back into an interrupt by doing:
+     * Flushes the strebm bnd checks its error stbte. The internbl error stbte
+     * is set to <code>true</code> when the underlying output strebm throws bn
+     * <code>IOException</code> other thbn <code>InterruptedIOException</code>,
+     * bnd when the <code>setError</code> method is invoked.  If bn operbtion
+     * on the underlying output strebm throws bn
+     * <code>InterruptedIOException</code>, then the <code>PrintStrebm</code>
+     * converts the exception bbck into bn interrupt by doing:
      * <pre>
-     *     Thread.currentThread().interrupt();
+     *     Threbd.currentThrebd().interrupt();
      * </pre>
-     * or the equivalent.
+     * or the equivblent.
      *
-     * @return <code>true</code> if and only if this stream has encountered an
-     *         <code>IOException</code> other than
+     * @return <code>true</code> if bnd only if this strebm hbs encountered bn
+     *         <code>IOException</code> other thbn
      *         <code>InterruptedIOException</code>, or the
-     *         <code>setError</code> method has been invoked
+     *         <code>setError</code> method hbs been invoked
      */
-    public boolean checkError() {
+    public boolebn checkError() {
         if (out != null)
             flush();
-        if (out instanceof java.io.PrintStream) {
-            PrintStream ps = (PrintStream) out;
+        if (out instbnceof jbvb.io.PrintStrebm) {
+            PrintStrebm ps = (PrintStrebm) out;
             return ps.checkError();
         }
         return trouble;
     }
 
     /**
-     * Sets the error state of the stream to <code>true</code>.
+     * Sets the error stbte of the strebm to <code>true</code>.
      *
-     * <p> This method will cause subsequent invocations of {@link
+     * <p> This method will cbuse subsequent invocbtions of {@link
      * #checkError()} to return <tt>true</tt> until {@link
-     * #clearError()} is invoked.
+     * #clebrError()} is invoked.
      *
      * @since 1.1
      */
@@ -411,256 +411,256 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Clears the internal error state of this stream.
+     * Clebrs the internbl error stbte of this strebm.
      *
-     * <p> This method will cause subsequent invocations of {@link
-     * #checkError()} to return <tt>false</tt> until another write
-     * operation fails and invokes {@link #setError()}.
+     * <p> This method will cbuse subsequent invocbtions of {@link
+     * #checkError()} to return <tt>fblse</tt> until bnother write
+     * operbtion fbils bnd invokes {@link #setError()}.
      *
      * @since 1.6
      */
-    protected void clearError() {
-        trouble = false;
+    protected void clebrError() {
+        trouble = fblse;
     }
 
     /*
-     * Exception-catching, synchronized output operations,
-     * which also implement the write() methods of OutputStream
+     * Exception-cbtching, synchronized output operbtions,
+     * which blso implement the write() methods of OutputStrebm
      */
 
     /**
-     * Writes the specified byte to this stream.  If the byte is a newline and
-     * automatic flushing is enabled then the <code>flush</code> method will be
+     * Writes the specified byte to this strebm.  If the byte is b newline bnd
+     * butombtic flushing is enbbled then the <code>flush</code> method will be
      * invoked.
      *
-     * <p> Note that the byte is written as given; to write a character that
-     * will be translated according to the platform's default character
-     * encoding, use the <code>print(char)</code> or <code>println(char)</code>
+     * <p> Note thbt the byte is written bs given; to write b chbrbcter thbt
+     * will be trbnslbted bccording to the plbtform's defbult chbrbcter
+     * encoding, use the <code>print(chbr)</code> or <code>println(chbr)</code>
      * methods.
      *
-     * @param  b  The byte to be written
-     * @see #print(char)
-     * @see #println(char)
+     * @pbrbm  b  The byte to be written
+     * @see #print(chbr)
+     * @see #println(chbr)
      */
     public void write(int b) {
         try {
             synchronized (this) {
                 ensureOpen();
                 out.write(b);
-                if ((b == '\n') && autoFlush)
+                if ((b == '\n') && butoFlush)
                     out.flush();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        catch (IOException x) {
+        cbtch (IOException x) {
             trouble = true;
         }
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array starting at
-     * offset <code>off</code> to this stream.  If automatic flushing is
-     * enabled then the <code>flush</code> method will be invoked.
+     * Writes <code>len</code> bytes from the specified byte brrby stbrting bt
+     * offset <code>off</code> to this strebm.  If butombtic flushing is
+     * enbbled then the <code>flush</code> method will be invoked.
      *
-     * <p> Note that the bytes will be written as given; to write characters
-     * that will be translated according to the platform's default character
-     * encoding, use the <code>print(char)</code> or <code>println(char)</code>
+     * <p> Note thbt the bytes will be written bs given; to write chbrbcters
+     * thbt will be trbnslbted bccording to the plbtform's defbult chbrbcter
+     * encoding, use the <code>print(chbr)</code> or <code>println(chbr)</code>
      * methods.
      *
-     * @param  buf   A byte array
-     * @param  off   Offset from which to start taking bytes
-     * @param  len   Number of bytes to write
+     * @pbrbm  buf   A byte brrby
+     * @pbrbm  off   Offset from which to stbrt tbking bytes
+     * @pbrbm  len   Number of bytes to write
      */
     public void write(byte buf[], int off, int len) {
         try {
             synchronized (this) {
                 ensureOpen();
                 out.write(buf, off, len);
-                if (autoFlush)
+                if (butoFlush)
                     out.flush();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        catch (IOException x) {
+        cbtch (IOException x) {
             trouble = true;
         }
     }
 
     /*
-     * The following private methods on the text- and character-output streams
-     * always flush the stream buffers, so that writes to the underlying byte
-     * stream occur as promptly as with the original PrintStream.
+     * The following privbte methods on the text- bnd chbrbcter-output strebms
+     * blwbys flush the strebm buffers, so thbt writes to the underlying byte
+     * strebm occur bs promptly bs with the originbl PrintStrebm.
      */
 
-    private void write(char buf[]) {
+    privbte void write(chbr buf[]) {
         try {
             synchronized (this) {
                 ensureOpen();
                 textOut.write(buf);
                 textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush) {
+                chbrOut.flushBuffer();
+                if (butoFlush) {
                     for (int i = 0; i < buf.length; i++)
                         if (buf[i] == '\n')
                             out.flush();
                 }
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        catch (IOException x) {
+        cbtch (IOException x) {
             trouble = true;
         }
     }
 
-    private void write(String s) {
+    privbte void write(String s) {
         try {
             synchronized (this) {
                 ensureOpen();
                 textOut.write(s);
                 textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush && (s.indexOf('\n') >= 0))
+                chbrOut.flushBuffer();
+                if (butoFlush && (s.indexOf('\n') >= 0))
                     out.flush();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        catch (IOException x) {
+        cbtch (IOException x) {
             trouble = true;
         }
     }
 
-    private void newLine() {
+    privbte void newLine() {
         try {
             synchronized (this) {
                 ensureOpen();
                 textOut.newLine();
                 textOut.flushBuffer();
-                charOut.flushBuffer();
-                if (autoFlush)
+                chbrOut.flushBuffer();
+                if (butoFlush)
                     out.flush();
             }
         }
-        catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
+        cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
         }
-        catch (IOException x) {
+        cbtch (IOException x) {
             trouble = true;
         }
     }
 
-    /* Methods that do not terminate lines */
+    /* Methods thbt do not terminbte lines */
 
     /**
-     * Prints a boolean value.  The string produced by <code>{@link
-     * java.lang.String#valueOf(boolean)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints b boolebn vblue.  The string produced by <code>{@link
+     * jbvb.lbng.String#vblueOf(boolebn)}</code> is trbnslbted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      b   The <code>boolean</code> to be printed
+     * @pbrbm      b   The <code>boolebn</code> to be printed
      */
-    public void print(boolean b) {
-        write(b ? "true" : "false");
+    public void print(boolebn b) {
+        write(b ? "true" : "fblse");
     }
 
     /**
-     * Prints a character.  The character is translated into one or more bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints b chbrbcter.  The chbrbcter is trbnslbted into one or more bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      c   The <code>char</code> to be printed
+     * @pbrbm      c   The <code>chbr</code> to be printed
      */
-    public void print(char c) {
-        write(String.valueOf(c));
+    public void print(chbr c) {
+        write(String.vblueOf(c));
     }
 
     /**
-     * Prints an integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(int)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints bn integer.  The string produced by <code>{@link
+     * jbvb.lbng.String#vblueOf(int)}</code> is trbnslbted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      i   The <code>int</code> to be printed
-     * @see        java.lang.Integer#toString(int)
+     * @pbrbm      i   The <code>int</code> to be printed
+     * @see        jbvb.lbng.Integer#toString(int)
      */
     public void print(int i) {
-        write(String.valueOf(i));
+        write(String.vblueOf(i));
     }
 
     /**
-     * Prints a long integer.  The string produced by <code>{@link
-     * java.lang.String#valueOf(long)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints b long integer.  The string produced by <code>{@link
+     * jbvb.lbng.String#vblueOf(long)}</code> is trbnslbted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      l   The <code>long</code> to be printed
-     * @see        java.lang.Long#toString(long)
+     * @pbrbm      l   The <code>long</code> to be printed
+     * @see        jbvb.lbng.Long#toString(long)
      */
     public void print(long l) {
-        write(String.valueOf(l));
+        write(String.vblueOf(l));
     }
 
     /**
-     * Prints a floating-point number.  The string produced by <code>{@link
-     * java.lang.String#valueOf(float)}</code> is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints b flobting-point number.  The string produced by <code>{@link
+     * jbvb.lbng.String#vblueOf(flobt)}</code> is trbnslbted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      f   The <code>float</code> to be printed
-     * @see        java.lang.Float#toString(float)
+     * @pbrbm      f   The <code>flobt</code> to be printed
+     * @see        jbvb.lbng.Flobt#toString(flobt)
      */
-    public void print(float f) {
-        write(String.valueOf(f));
+    public void print(flobt f) {
+        write(String.vblueOf(f));
     }
 
     /**
-     * Prints a double-precision floating-point number.  The string produced by
-     * <code>{@link java.lang.String#valueOf(double)}</code> is translated into
-     * bytes according to the platform's default character encoding, and these
-     * bytes are written in exactly the manner of the <code>{@link
+     * Prints b double-precision flobting-point number.  The string produced by
+     * <code>{@link jbvb.lbng.String#vblueOf(double)}</code> is trbnslbted into
+     * bytes bccording to the plbtform's defbult chbrbcter encoding, bnd these
+     * bytes bre written in exbctly the mbnner of the <code>{@link
      * #write(int)}</code> method.
      *
-     * @param      d   The <code>double</code> to be printed
-     * @see        java.lang.Double#toString(double)
+     * @pbrbm      d   The <code>double</code> to be printed
+     * @see        jbvb.lbng.Double#toString(double)
      */
     public void print(double d) {
-        write(String.valueOf(d));
+        write(String.vblueOf(d));
     }
 
     /**
-     * Prints an array of characters.  The characters are converted into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints bn brrby of chbrbcters.  The chbrbcters bre converted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      s   The array of chars to be printed
+     * @pbrbm      s   The brrby of chbrs to be printed
      *
      * @throws  NullPointerException  If <code>s</code> is <code>null</code>
      */
-    public void print(char s[]) {
+    public void print(chbr s[]) {
         write(s);
     }
 
     /**
-     * Prints a string.  If the argument is <code>null</code> then the string
-     * <code>"null"</code> is printed.  Otherwise, the string's characters are
-     * converted into bytes according to the platform's default character
-     * encoding, and these bytes are written in exactly the manner of the
+     * Prints b string.  If the brgument is <code>null</code> then the string
+     * <code>"null"</code> is printed.  Otherwise, the string's chbrbcters bre
+     * converted into bytes bccording to the plbtform's defbult chbrbcter
+     * encoding, bnd these bytes bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      s   The <code>String</code> to be printed
+     * @pbrbm      s   The <code>String</code> to be printed
      */
     public void print(String s) {
         if (s == null) {
@@ -670,40 +670,40 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints an object.  The string produced by the <code>{@link
-     * java.lang.String#valueOf(Object)}</code> method is translated into bytes
-     * according to the platform's default character encoding, and these bytes
-     * are written in exactly the manner of the
+     * Prints bn object.  The string produced by the <code>{@link
+     * jbvb.lbng.String#vblueOf(Object)}</code> method is trbnslbted into bytes
+     * bccording to the plbtform's defbult chbrbcter encoding, bnd these bytes
+     * bre written in exbctly the mbnner of the
      * <code>{@link #write(int)}</code> method.
      *
-     * @param      obj   The <code>Object</code> to be printed
-     * @see        java.lang.Object#toString()
+     * @pbrbm      obj   The <code>Object</code> to be printed
+     * @see        jbvb.lbng.Object#toString()
      */
     public void print(Object obj) {
-        write(String.valueOf(obj));
+        write(String.vblueOf(obj));
     }
 
 
-    /* Methods that do terminate lines */
+    /* Methods thbt do terminbte lines */
 
     /**
-     * Terminates the current line by writing the line separator string.  The
-     * line separator string is defined by the system property
-     * <code>line.separator</code>, and is not necessarily a single newline
-     * character (<code>'\n'</code>).
+     * Terminbtes the current line by writing the line sepbrbtor string.  The
+     * line sepbrbtor string is defined by the system property
+     * <code>line.sepbrbtor</code>, bnd is not necessbrily b single newline
+     * chbrbcter (<code>'\n'</code>).
      */
     public void println() {
         newLine();
     }
 
     /**
-     * Prints a boolean and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(boolean)}</code> and then
+     * Prints b boolebn bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(boolebn)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>boolean</code> to be printed
+     * @pbrbm x  The <code>boolebn</code> to be printed
      */
-    public void println(boolean x) {
+    public void println(boolebn x) {
         synchronized (this) {
             print(x);
             newLine();
@@ -711,13 +711,13 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints a character and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(char)}</code> and then
+     * Prints b chbrbcter bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(chbr)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>char</code> to be printed.
+     * @pbrbm x  The <code>chbr</code> to be printed.
      */
-    public void println(char x) {
+    public void println(chbr x) {
         synchronized (this) {
             print(x);
             newLine();
@@ -725,11 +725,11 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints an integer and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(int)}</code> and then
+     * Prints bn integer bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(int)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>int</code> to be printed.
+     * @pbrbm x  The <code>int</code> to be printed.
      */
     public void println(int x) {
         synchronized (this) {
@@ -739,11 +739,11 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints a long and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(long)}</code> and then
+     * Prints b long bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(long)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  a The <code>long</code> to be printed.
+     * @pbrbm x  b The <code>long</code> to be printed.
      */
     public void println(long x) {
         synchronized (this) {
@@ -753,13 +753,13 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints a float and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(float)}</code> and then
+     * Prints b flobt bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(flobt)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>float</code> to be printed.
+     * @pbrbm x  The <code>flobt</code> to be printed.
      */
-    public void println(float x) {
+    public void println(flobt x) {
         synchronized (this) {
             print(x);
             newLine();
@@ -767,11 +767,11 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints a double and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(double)}</code> and then
+     * Prints b double bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(double)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>double</code> to be printed.
+     * @pbrbm x  The <code>double</code> to be printed.
      */
     public void println(double x) {
         synchronized (this) {
@@ -781,13 +781,13 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints an array of characters and then terminate the line.  This method
-     * behaves as though it invokes <code>{@link #print(char[])}</code> and
+     * Prints bn brrby of chbrbcters bnd then terminbte the line.  This method
+     * behbves bs though it invokes <code>{@link #print(chbr[])}</code> bnd
      * then <code>{@link #println()}</code>.
      *
-     * @param x  an array of chars to print.
+     * @pbrbm x  bn brrby of chbrs to print.
      */
-    public void println(char x[]) {
+    public void println(chbr x[]) {
         synchronized (this) {
             print(x);
             newLine();
@@ -795,11 +795,11 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints a String and then terminate the line.  This method behaves as
-     * though it invokes <code>{@link #print(String)}</code> and then
+     * Prints b String bnd then terminbte the line.  This method behbves bs
+     * though it invokes <code>{@link #print(String)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>String</code> to be printed.
+     * @pbrbm x  The <code>String</code> to be printed.
      */
     public void println(String x) {
         synchronized (this) {
@@ -809,16 +809,16 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Prints an Object and then terminate the line.  This method calls
-     * at first String.valueOf(x) to get the printed object's string value,
-     * then behaves as
-     * though it invokes <code>{@link #print(String)}</code> and then
+     * Prints bn Object bnd then terminbte the line.  This method cblls
+     * bt first String.vblueOf(x) to get the printed object's string vblue,
+     * then behbves bs
+     * though it invokes <code>{@link #print(String)}</code> bnd then
      * <code>{@link #println()}</code>.
      *
-     * @param x  The <code>Object</code> to be printed.
+     * @pbrbm x  The <code>Object</code> to be printed.
      */
     public void println(Object x) {
-        String s = String.valueOf(x);
+        String s = String.vblueOf(x);
         synchronized (this) {
             print(s);
             newLine();
@@ -827,238 +827,238 @@ public class PrintStream extends FilterOutputStream
 
 
     /**
-     * A convenience method to write a formatted string to this output stream
-     * using the specified format string and arguments.
+     * A convenience method to write b formbtted string to this output strebm
+     * using the specified formbt string bnd brguments.
      *
-     * <p> An invocation of this method of the form <tt>out.printf(format,
-     * args)</tt> behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.printf(formbt,
+     * brgs)</tt> behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     out.format(format, args) </pre>
+     *     out.formbt(formbt, brgs) </pre>
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b
+     *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The number of brguments is
+     *         vbribble bnd mby be zero.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+     *         The behbviour on b
+     *         <tt>null</tt> brgument depends on the <b
+     *         href="../util/Formbtter.html#syntbx">conversion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @throws  jbvb.util.IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b
+     *          href="../util/Formbtter.html#detbil">Detbils</b> section of the
+     *          formbtter clbss specificbtion.
      *
      * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     *          If the <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream printf(String format, Object ... args) {
-        return format(format, args);
+    public PrintStrebm printf(String formbt, Object ... brgs) {
+        return formbt(formbt, brgs);
     }
 
     /**
-     * A convenience method to write a formatted string to this output stream
-     * using the specified format string and arguments.
+     * A convenience method to write b formbtted string to this output strebm
+     * using the specified formbt string bnd brguments.
      *
-     * <p> An invocation of this method of the form <tt>out.printf(l, format,
-     * args)</tt> behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.printf(l, formbt,
+     * brgs)</tt> behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     out.format(l, format, args) </pre>
+     *     out.formbt(l, formbt, brgs) </pre>
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> then no locblizbtion
+     *         is bpplied.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b
+     *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The number of brguments is
+     *         vbribble bnd mby be zero.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+     *         The behbviour on b
+     *         <tt>null</tt> brgument depends on the <b
+     *         href="../util/Formbtter.html#syntbx">conversion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @throws  jbvb.util.IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b
+     *          href="../util/Formbtter.html#detbil">Detbils</b> section of the
+     *          formbtter clbss specificbtion.
      *
      * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     *          If the <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream printf(Locale l, String format, Object ... args) {
-        return format(l, format, args);
+    public PrintStrebm printf(Locble l, String formbt, Object ... brgs) {
+        return formbt(l, formbt, brgs);
     }
 
     /**
-     * Writes a formatted string to this output stream using the specified
-     * format string and arguments.
+     * Writes b formbtted string to this output strebm using the specified
+     * formbt string bnd brguments.
      *
-     * <p> The locale always used is the one returned by {@link
-     * java.util.Locale#getDefault() Locale.getDefault()}, regardless of any
-     * previous invocations of other formatting methods on this object.
+     * <p> The locble blwbys used is the one returned by {@link
+     * jbvb.util.Locble#getDefbult() Locble.getDefbult()}, regbrdless of bny
+     * previous invocbtions of other formbtting methods on this object.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b
+     *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The number of brguments is
+     *         vbribble bnd mby be zero.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+     *         The behbviour on b
+     *         <tt>null</tt> brgument depends on the <b
+     *         href="../util/Formbtter.html#syntbx">conversion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @throws  jbvb.util.IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b
+     *          href="../util/Formbtter.html#detbil">Detbils</b> section of the
+     *          formbtter clbss specificbtion.
      *
      * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     *          If the <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream format(String format, Object ... args) {
+    public PrintStrebm formbt(String formbt, Object ... brgs) {
         try {
             synchronized (this) {
                 ensureOpen();
-                if ((formatter == null)
-                    || (formatter.locale() != Locale.getDefault()))
-                    formatter = new Formatter((Appendable) this);
-                formatter.format(Locale.getDefault(), format, args);
+                if ((formbtter == null)
+                    || (formbtter.locble() != Locble.getDefbult()))
+                    formbtter = new Formbtter((Appendbble) this);
+                formbtter.formbt(Locble.getDefbult(), formbt, brgs);
             }
-        } catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
-        } catch (IOException x) {
+        } cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
+        } cbtch (IOException x) {
             trouble = true;
         }
         return this;
     }
 
     /**
-     * Writes a formatted string to this output stream using the specified
-     * format string and arguments.
+     * Writes b formbtted string to this output strebm using the specified
+     * formbt string bnd brguments.
      *
-     * @param  l
-     *         The {@linkplain java.util.Locale locale} to apply during
-     *         formatting.  If <tt>l</tt> is <tt>null</tt> then no localization
-     *         is applied.
+     * @pbrbm  l
+     *         The {@linkplbin jbvb.util.Locble locble} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> then no locblizbtion
+     *         is bpplied.
      *
-     * @param  format
-     *         A format string as described in <a
-     *         href="../util/Formatter.html#syntax">Format string syntax</a>
+     * @pbrbm  formbt
+     *         A formbt string bs described in <b
+     *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
      *
-     * @param  args
-     *         Arguments referenced by the format specifiers in the format
-     *         string.  If there are more arguments than format specifiers, the
-     *         extra arguments are ignored.  The number of arguments is
-     *         variable and may be zero.  The maximum number of arguments is
-     *         limited by the maximum dimension of a Java array as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-     *         The behaviour on a
-     *         <tt>null</tt> argument depends on the <a
-     *         href="../util/Formatter.html#syntax">conversion</a>.
+     * @pbrbm  brgs
+     *         Arguments referenced by the formbt specifiers in the formbt
+     *         string.  If there bre more brguments thbn formbt specifiers, the
+     *         extrb brguments bre ignored.  The number of brguments is
+     *         vbribble bnd mby be zero.  The mbximum number of brguments is
+     *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+     *         The behbviour on b
+     *         <tt>null</tt> brgument depends on the <b
+     *         href="../util/Formbtter.html#syntbx">conversion</b>.
      *
-     * @throws  java.util.IllegalFormatException
-     *          If a format string contains an illegal syntax, a format
-     *          specifier that is incompatible with the given arguments,
-     *          insufficient arguments given the format string, or other
-     *          illegal conditions.  For specification of all possible
-     *          formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @throws  jbvb.util.IllegblFormbtException
+     *          If b formbt string contbins bn illegbl syntbx, b formbt
+     *          specifier thbt is incompbtible with the given brguments,
+     *          insufficient brguments given the formbt string, or other
+     *          illegbl conditions.  For specificbtion of bll possible
+     *          formbtting errors, see the <b
+     *          href="../util/Formbtter.html#detbil">Detbils</b> section of the
+     *          formbtter clbss specificbtion.
      *
      * @throws  NullPointerException
-     *          If the <tt>format</tt> is <tt>null</tt>
+     *          If the <tt>formbt</tt> is <tt>null</tt>
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream format(Locale l, String format, Object ... args) {
+    public PrintStrebm formbt(Locble l, String formbt, Object ... brgs) {
         try {
             synchronized (this) {
                 ensureOpen();
-                if ((formatter == null)
-                    || (formatter.locale() != l))
-                    formatter = new Formatter(this, l);
-                formatter.format(l, format, args);
+                if ((formbtter == null)
+                    || (formbtter.locble() != l))
+                    formbtter = new Formbtter(this, l);
+                formbtter.formbt(l, formbt, brgs);
             }
-        } catch (InterruptedIOException x) {
-            Thread.currentThread().interrupt();
-        } catch (IOException x) {
+        } cbtch (InterruptedIOException x) {
+            Threbd.currentThrebd().interrupt();
+        } cbtch (IOException x) {
             trouble = true;
         }
         return this;
     }
 
     /**
-     * Appends the specified character sequence to this output stream.
+     * Appends the specified chbrbcter sequence to this output strebm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(csq)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     out.print(csq.toString()) </pre>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended.  For instance, invoking then <tt>toString</tt> method of a
-     * character buffer will return a subsequence whose content depends upon
-     * the buffer's position and limit.
+     * <p> Depending on the specificbtion of <tt>toString</tt> for the
+     * chbrbcter sequence <tt>csq</tt>, the entire sequence mby not be
+     * bppended.  For instbnce, invoking then <tt>toString</tt> method of b
+     * chbrbcter buffer will return b subsequence whose content depends upon
+     * the buffer's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this output stream.
+     * @pbrbm  csq
+     *         The chbrbcter sequence to bppend.  If <tt>csq</tt> is
+     *         <tt>null</tt>, then the four chbrbcters <tt>"null"</tt> bre
+     *         bppended to this output strebm.
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream append(CharSequence csq) {
+    public PrintStrebm bppend(ChbrSequence csq) {
         if (csq == null)
             print("null");
         else
@@ -1067,61 +1067,61 @@ public class PrintStream extends FilterOutputStream
     }
 
     /**
-     * Appends a subsequence of the specified character sequence to this output
-     * stream.
+     * Appends b subsequence of the specified chbrbcter sequence to this output
+     * strebm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(csq, stbrt,
+     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behbves in
+     * exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     out.print(csq.subSequence(start, end).toString()) </pre>
+     *     out.print(csq.subSequence(stbrt, end).toString()) </pre>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which b subsequence will be
+     *         bppended.  If <tt>csq</tt> is <tt>null</tt>, then chbrbcters
+     *         will be bppended bs if <tt>csq</tt> contbined the four
+     *         chbrbcters <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         The index of the first chbrbcter in the subsequence
      *
-     * @param  end
-     *         The index of the character following the last character in the
+     * @pbrbm  end
+     *         The index of the chbrbcter following the lbst chbrbcter in the
      *         subsequence
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
+     *          If <tt>stbrt</tt> or <tt>end</tt> bre negbtive, <tt>stbrt</tt>
+     *          is grebter thbn <tt>end</tt>, or <tt>end</tt> is grebter thbn
      *          <tt>csq.length()</tt>
      *
      * @since  1.5
      */
-    public PrintStream append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        write(cs.subSequence(start, end).toString());
+    public PrintStrebm bppend(ChbrSequence csq, int stbrt, int end) {
+        ChbrSequence cs = (csq == null ? "null" : csq);
+        write(cs.subSequence(stbrt, end).toString());
         return this;
     }
 
     /**
-     * Appends the specified character to this output stream.
+     * Appends the specified chbrbcter to this output strebm.
      *
-     * <p> An invocation of this method of the form <tt>out.append(c)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(c)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     out.print(c) </pre>
      *
-     * @param  c
-     *         The 16-bit character to append
+     * @pbrbm  c
+     *         The 16-bit chbrbcter to bppend
      *
-     * @return  This output stream
+     * @return  This output strebm
      *
      * @since  1.5
      */
-    public PrintStream append(char c) {
+    public PrintStrebm bppend(chbr c) {
         print(c);
         return this;
     }

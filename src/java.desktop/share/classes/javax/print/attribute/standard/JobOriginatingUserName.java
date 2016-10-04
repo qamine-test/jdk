@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.TextSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.TextSyntbx;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobOriginatingUserName is a printing attribute class, a text
- * attribute, that contains the name of the end user that submitted the
- * print job. If possible, the printer sets this attribute to the most
- * authenticated printable user name that it can obtain from the
- * authentication service that authenticated the submitted Print Request.
- * If such is not available, the printer uses the value of the
- * {@link RequestingUserName RequestingUserName}
- * attribute supplied by the client in the Print Request's attribute set.
- * If no authentication service is available, and the client did not supply
- * a {@link RequestingUserName RequestingUserName} attribute,
- * the printer sets the JobOriginatingUserName attribute to an empty
+ * Clbss JobOriginbtingUserNbme is b printing bttribute clbss, b text
+ * bttribute, thbt contbins the nbme of the end user thbt submitted the
+ * print job. If possible, the printer sets this bttribute to the most
+ * buthenticbted printbble user nbme thbt it cbn obtbin from the
+ * buthenticbtion service thbt buthenticbted the submitted Print Request.
+ * If such is not bvbilbble, the printer uses the vblue of the
+ * {@link RequestingUserNbme RequestingUserNbme}
+ * bttribute supplied by the client in the Print Request's bttribute set.
+ * If no buthenticbtion service is bvbilbble, bnd the client did not supply
+ * b {@link RequestingUserNbme RequestingUserNbme} bttribute,
+ * the printer sets the JobOriginbtingUserNbme bttribute to bn empty
  * (zero-length) string.
  * <P>
- * <B>IPP Compatibility:</B> The string value gives the IPP name value. The
- * locale gives the IPP natural language. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The string vblue gives the IPP nbme vblue. The
+ * locble gives the IPP nbturbl lbngubge. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobOriginatingUserName extends TextSyntax
+public finbl clbss JobOriginbtingUserNbme extends TextSyntbx
         implements PrintJobAttribute {
 
-    private static final long serialVersionUID = -8052537926362933477L;
+    privbte stbtic finbl long seriblVersionUID = -8052537926362933477L;
 
     /**
-     * Constructs a new job originating user name attribute with the given
-     * user name and locale.
+     * Constructs b new job originbting user nbme bttribute with the given
+     * user nbme bnd locble.
      *
-     * @param  userName  User name.
-     * @param  locale    Natural language of the text string. null
-     * is interpreted to mean the default locale as returned
-     * by <code>Locale.getDefault()</code>
+     * @pbrbm  userNbme  User nbme.
+     * @pbrbm  locble    Nbturbl lbngubge of the text string. null
+     * is interpreted to mebn the defbult locble bs returned
+     * by <code>Locble.getDefbult()</code>
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>userName</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>userNbme</CODE> is null.
      */
-    public JobOriginatingUserName(String userName, Locale locale) {
-        super (userName, locale);
+    public JobOriginbtingUserNbme(String userNbme, Locble locble) {
+        super (userNbme, locble);
     }
 
     /**
-     * Returns whether this job originating user name attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
+     * Returns whether this job originbting user nbme bttribute is equivblent to
+     * the pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobOriginatingUserName.
+     * <CODE>object</CODE> is bn instbnce of clbss JobOriginbtingUserNbme.
      * <LI>
-     * This job originating user name attribute's underlying string and
-     * <CODE>object</CODE>'s underlying string are equal.
+     * This job originbting user nbme bttribute's underlying string bnd
+     * <CODE>object</CODE>'s underlying string bre equbl.
      * <LI>
-     * This job originating user name attribute's locale and
-     * <CODE>object</CODE>'s locale are equal.
+     * This job originbting user nbme bttribute's locble bnd
+     * <CODE>object</CODE>'s locble bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job
-     *          originating user name attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job
+     *          originbting user nbme bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof JobOriginatingUserName);
+    public boolebn equbls(Object object) {
+        return (super.equbls (object) &&
+                object instbnceof JobOriginbtingUserNbme);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobOriginatingUserName, the
-     * category is class JobOriginatingUserName itself.
+     * For clbss JobOriginbtingUserNbme, the
+     * cbtegory is clbss JobOriginbtingUserNbme itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobOriginatingUserName.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobOriginbtingUserNbme.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobOriginatingUserName, the
-     * category name is <CODE>"job-originating-user-name"</CODE>.
+     * For clbss JobOriginbtingUserNbme, the
+     * cbtegory nbme is <CODE>"job-originbting-user-nbme"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "job-originating-user-name";
+    public finbl String getNbme() {
+        return "job-originbting-user-nbme";
     }
 
 }

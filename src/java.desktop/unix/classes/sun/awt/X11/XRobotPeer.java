@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.peer.*;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
-import sun.awt.X11GraphicsConfig;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11GrbphicsConfig;
 
-class XRobotPeer implements RobotPeer {
+clbss XRobotPeer implements RobotPeer {
 
-    private X11GraphicsConfig   xgc = null;
+    privbte X11GrbphicsConfig   xgc = null;
     /*
-     * native implementation uses some static shared data (pipes, processes)
-     * so use a class lock to synchronize native method calls
+     * nbtive implementbtion uses some stbtic shbred dbtb (pipes, processes)
+     * so use b clbss lock to synchronize nbtive method cblls
      */
-    static Object robotLock = new Object();
+    stbtic Object robotLock = new Object();
 
-    XRobotPeer(GraphicsConfiguration gc) {
-        this.xgc = (X11GraphicsConfig)gc;
-        SunToolkit tk = (SunToolkit)Toolkit.getDefaultToolkit();
-        setup(tk.getNumberOfButtons(), AWTAccessor.getInputEventAccessor().getButtonDownMasks());
+    XRobotPeer(GrbphicsConfigurbtion gc) {
+        this.xgc = (X11GrbphicsConfig)gc;
+        SunToolkit tk = (SunToolkit)Toolkit.getDefbultToolkit();
+        setup(tk.getNumberOfButtons(), AWTAccessor.getInputEventAccessor().getButtonDownMbsks());
     }
 
     public void dispose() {
@@ -59,8 +59,8 @@ class XRobotPeer implements RobotPeer {
         mousePressImpl(buttons);
     }
 
-    public void mouseRelease(int buttons) {
-        mouseReleaseImpl(buttons);
+    public void mouseRelebse(int buttons) {
+        mouseRelebseImpl(buttons);
     }
 
     public void mouseWheel(int wheelAmt) {
@@ -71,31 +71,31 @@ class XRobotPeer implements RobotPeer {
         keyPressImpl(keycode);
     }
 
-    public void keyRelease(int keycode) {
-        keyReleaseImpl(keycode);
+    public void keyRelebse(int keycode) {
+        keyRelebseImpl(keycode);
     }
 
     public int getRGBPixel(int x, int y) {
-        int pixelArray[] = new int[1];
-        getRGBPixelsImpl(xgc, x, y, 1, 1, pixelArray);
-        return pixelArray[0];
+        int pixelArrby[] = new int[1];
+        getRGBPixelsImpl(xgc, x, y, 1, 1, pixelArrby);
+        return pixelArrby[0];
     }
 
-    public int [] getRGBPixels(Rectangle bounds) {
-        int pixelArray[] = new int[bounds.width*bounds.height];
-        getRGBPixelsImpl(xgc, bounds.x, bounds.y, bounds.width, bounds.height, pixelArray);
-        return pixelArray;
+    public int [] getRGBPixels(Rectbngle bounds) {
+        int pixelArrby[] = new int[bounds.width*bounds.height];
+        getRGBPixelsImpl(xgc, bounds.x, bounds.y, bounds.width, bounds.height, pixelArrby);
+        return pixelArrby;
     }
 
-    private static native synchronized void setup(int numberOfButtons, int[] buttonDownMasks);
+    privbte stbtic nbtive synchronized void setup(int numberOfButtons, int[] buttonDownMbsks);
 
-    private static native synchronized void mouseMoveImpl(X11GraphicsConfig xgc, int x, int y);
-    private static native synchronized void mousePressImpl(int buttons);
-    private static native synchronized void mouseReleaseImpl(int buttons);
-    private static native synchronized void mouseWheelImpl(int wheelAmt);
+    privbte stbtic nbtive synchronized void mouseMoveImpl(X11GrbphicsConfig xgc, int x, int y);
+    privbte stbtic nbtive synchronized void mousePressImpl(int buttons);
+    privbte stbtic nbtive synchronized void mouseRelebseImpl(int buttons);
+    privbte stbtic nbtive synchronized void mouseWheelImpl(int wheelAmt);
 
-    private static native synchronized void keyPressImpl(int keycode);
-    private static native synchronized void keyReleaseImpl(int keycode);
+    privbte stbtic nbtive synchronized void keyPressImpl(int keycode);
+    privbte stbtic nbtive synchronized void keyRelebseImpl(int keycode);
 
-    private static native synchronized void getRGBPixelsImpl(X11GraphicsConfig xgc, int x, int y, int width, int height, int pixelArray[]);
+    privbte stbtic nbtive synchronized void getRGBPixelsImpl(X11GrbphicsConfig xgc, int x, int y, int width, int height, int pixelArrby[]);
 }

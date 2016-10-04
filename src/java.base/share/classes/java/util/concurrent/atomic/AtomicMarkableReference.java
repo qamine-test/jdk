@@ -1,211 +1,211 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
+pbckbge jbvb.util.concurrent.btomic;
 
 /**
- * An {@code AtomicMarkableReference} maintains an object reference
- * along with a mark bit, that can be updated atomically.
+ * An {@code AtomicMbrkbbleReference} mbintbins bn object reference
+ * blong with b mbrk bit, thbt cbn be updbted btomicblly.
  *
- * <p>Implementation note: This implementation maintains markable
- * references by creating internal objects representing "boxed"
- * [reference, boolean] pairs.
+ * <p>Implementbtion note: This implementbtion mbintbins mbrkbble
+ * references by crebting internbl objects representing "boxed"
+ * [reference, boolebn] pbirs.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <V> The type of object referred to by this reference
+ * @buthor Doug Leb
+ * @pbrbm <V> The type of object referred to by this reference
  */
-public class AtomicMarkableReference<V> {
+public clbss AtomicMbrkbbleReference<V> {
 
-    private static class Pair<T> {
-        final T reference;
-        final boolean mark;
-        private Pair(T reference, boolean mark) {
+    privbte stbtic clbss Pbir<T> {
+        finbl T reference;
+        finbl boolebn mbrk;
+        privbte Pbir(T reference, boolebn mbrk) {
             this.reference = reference;
-            this.mark = mark;
+            this.mbrk = mbrk;
         }
-        static <T> Pair<T> of(T reference, boolean mark) {
-            return new Pair<T>(reference, mark);
+        stbtic <T> Pbir<T> of(T reference, boolebn mbrk) {
+            return new Pbir<T>(reference, mbrk);
         }
     }
 
-    private volatile Pair<V> pair;
+    privbte volbtile Pbir<V> pbir;
 
     /**
-     * Creates a new {@code AtomicMarkableReference} with the given
-     * initial values.
+     * Crebtes b new {@code AtomicMbrkbbleReference} with the given
+     * initibl vblues.
      *
-     * @param initialRef the initial reference
-     * @param initialMark the initial mark
+     * @pbrbm initiblRef the initibl reference
+     * @pbrbm initiblMbrk the initibl mbrk
      */
-    public AtomicMarkableReference(V initialRef, boolean initialMark) {
-        pair = Pair.of(initialRef, initialMark);
+    public AtomicMbrkbbleReference(V initiblRef, boolebn initiblMbrk) {
+        pbir = Pbir.of(initiblRef, initiblMbrk);
     }
 
     /**
-     * Returns the current value of the reference.
+     * Returns the current vblue of the reference.
      *
-     * @return the current value of the reference
+     * @return the current vblue of the reference
      */
     public V getReference() {
-        return pair.reference;
+        return pbir.reference;
     }
 
     /**
-     * Returns the current value of the mark.
+     * Returns the current vblue of the mbrk.
      *
-     * @return the current value of the mark
+     * @return the current vblue of the mbrk
      */
-    public boolean isMarked() {
-        return pair.mark;
+    public boolebn isMbrked() {
+        return pbir.mbrk;
     }
 
     /**
-     * Returns the current values of both the reference and the mark.
-     * Typical usage is {@code boolean[1] holder; ref = v.get(holder); }.
+     * Returns the current vblues of both the reference bnd the mbrk.
+     * Typicbl usbge is {@code boolebn[1] holder; ref = v.get(holder); }.
      *
-     * @param markHolder an array of size of at least one. On return,
-     * {@code markholder[0]} will hold the value of the mark.
-     * @return the current value of the reference
+     * @pbrbm mbrkHolder bn brrby of size of bt lebst one. On return,
+     * {@code mbrkholder[0]} will hold the vblue of the mbrk.
+     * @return the current vblue of the reference
      */
-    public V get(boolean[] markHolder) {
-        Pair<V> pair = this.pair;
-        markHolder[0] = pair.mark;
-        return pair.reference;
+    public V get(boolebn[] mbrkHolder) {
+        Pbir<V> pbir = this.pbir;
+        mbrkHolder[0] = pbir.mbrk;
+        return pbir.reference;
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
+     * Atomicblly sets the vblue of both the reference bnd mbrk
+     * to the given updbte vblues if the
      * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
+     * bnd the current mbrk is equbl to the expected mbrk.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b href="pbckbge-summbry.html#webkCompbreAndSet">Mby fbil
+     * spuriously bnd does not provide ordering gubrbntees</b>, so is
+     * only rbrely bn bppropribte blternbtive to {@code compbreAndSet}.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
+     * @pbrbm expectedReference the expected vblue of the reference
+     * @pbrbm newReference the new vblue for the reference
+     * @pbrbm expectedMbrk the expected vblue of the mbrk
+     * @pbrbm newMbrk the new vblue for the mbrk
      * @return {@code true} if successful
      */
-    public boolean weakCompareAndSet(V       expectedReference,
+    public boolebn webkCompbreAndSet(V       expectedReference,
                                      V       newReference,
-                                     boolean expectedMark,
-                                     boolean newMark) {
-        return compareAndSet(expectedReference, newReference,
-                             expectedMark, newMark);
+                                     boolebn expectedMbrk,
+                                     boolebn newMbrk) {
+        return compbreAndSet(expectedReference, newReference,
+                             expectedMbrk, newMbrk);
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
+     * Atomicblly sets the vblue of both the reference bnd mbrk
+     * to the given updbte vblues if the
      * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
+     * bnd the current mbrk is equbl to the expected mbrk.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
+     * @pbrbm expectedReference the expected vblue of the reference
+     * @pbrbm newReference the new vblue for the reference
+     * @pbrbm expectedMbrk the expected vblue of the mbrk
+     * @pbrbm newMbrk the new vblue for the mbrk
      * @return {@code true} if successful
      */
-    public boolean compareAndSet(V       expectedReference,
+    public boolebn compbreAndSet(V       expectedReference,
                                  V       newReference,
-                                 boolean expectedMark,
-                                 boolean newMark) {
-        Pair<V> current = pair;
+                                 boolebn expectedMbrk,
+                                 boolebn newMbrk) {
+        Pbir<V> current = pbir;
         return
             expectedReference == current.reference &&
-            expectedMark == current.mark &&
+            expectedMbrk == current.mbrk &&
             ((newReference == current.reference &&
-              newMark == current.mark) ||
-             casPair(current, Pair.of(newReference, newMark)));
+              newMbrk == current.mbrk) ||
+             cbsPbir(current, Pbir.of(newReference, newMbrk)));
     }
 
     /**
-     * Unconditionally sets the value of both the reference and mark.
+     * Unconditionblly sets the vblue of both the reference bnd mbrk.
      *
-     * @param newReference the new value for the reference
-     * @param newMark the new value for the mark
+     * @pbrbm newReference the new vblue for the reference
+     * @pbrbm newMbrk the new vblue for the mbrk
      */
-    public void set(V newReference, boolean newMark) {
-        Pair<V> current = pair;
-        if (newReference != current.reference || newMark != current.mark)
-            this.pair = Pair.of(newReference, newMark);
+    public void set(V newReference, boolebn newMbrk) {
+        Pbir<V> current = pbir;
+        if (newReference != current.reference || newMbrk != current.mbrk)
+            this.pbir = Pbir.of(newReference, newMbrk);
     }
 
     /**
-     * Atomically sets the value of the mark to the given update value
+     * Atomicblly sets the vblue of the mbrk to the given updbte vblue
      * if the current reference is {@code ==} to the expected
-     * reference.  Any given invocation of this operation may fail
-     * (return {@code false}) spuriously, but repeated invocation
-     * when the current value holds the expected value and no other
-     * thread is also attempting to set the value will eventually
+     * reference.  Any given invocbtion of this operbtion mby fbil
+     * (return {@code fblse}) spuriously, but repebted invocbtion
+     * when the current vblue holds the expected vblue bnd no other
+     * threbd is blso bttempting to set the vblue will eventublly
      * succeed.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newMark the new value for the mark
+     * @pbrbm expectedReference the expected vblue of the reference
+     * @pbrbm newMbrk the new vblue for the mbrk
      * @return {@code true} if successful
      */
-    public boolean attemptMark(V expectedReference, boolean newMark) {
-        Pair<V> current = pair;
+    public boolebn bttemptMbrk(V expectedReference, boolebn newMbrk) {
+        Pbir<V> current = pbir;
         return
             expectedReference == current.reference &&
-            (newMark == current.mark ||
-             casPair(current, Pair.of(expectedReference, newMark)));
+            (newMbrk == current.mbrk ||
+             cbsPbir(current, Pbir.of(expectedReference, newMbrk)));
     }
 
-    // Unsafe mechanics
+    // Unsbfe mechbnics
 
-    private static final sun.misc.Unsafe UNSAFE = sun.misc.Unsafe.getUnsafe();
-    private static final long pairOffset =
-        objectFieldOffset(UNSAFE, "pair", AtomicMarkableReference.class);
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+    privbte stbtic finbl long pbirOffset =
+        objectFieldOffset(UNSAFE, "pbir", AtomicMbrkbbleReference.clbss);
 
-    private boolean casPair(Pair<V> cmp, Pair<V> val) {
-        return UNSAFE.compareAndSwapObject(this, pairOffset, cmp, val);
+    privbte boolebn cbsPbir(Pbir<V> cmp, Pbir<V> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, pbirOffset, cmp, vbl);
     }
 
-    static long objectFieldOffset(sun.misc.Unsafe UNSAFE,
-                                  String field, Class<?> klazz) {
+    stbtic long objectFieldOffset(sun.misc.Unsbfe UNSAFE,
+                                  String field, Clbss<?> klbzz) {
         try {
-            return UNSAFE.objectFieldOffset(klazz.getDeclaredField(field));
-        } catch (NoSuchFieldException e) {
+            return UNSAFE.objectFieldOffset(klbzz.getDeclbredField(field));
+        } cbtch (NoSuchFieldException e) {
             // Convert Exception to corresponding Error
             NoSuchFieldError error = new NoSuchFieldError(field);
-            error.initCause(e);
+            error.initCbuse(e);
             throw error;
         }
     }

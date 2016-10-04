@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import com.sun.imageio.stream.CloseableDisposerRecord;
-import com.sun.imageio.stream.StreamFinalizer;
-import sun.java2d.Disposer;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.RbndomAccessFile;
+import com.sun.imbgeio.strebm.ClosebbleDisposerRecord;
+import com.sun.imbgeio.strebm.StrebmFinblizer;
+import sun.jbvb2d.Disposer;
 
 /**
- * An implementation of <code>ImageInputStream</code> that gets its
- * input from a <code>File</code> or <code>RandomAccessFile</code>.
- * The file contents are assumed to be stable during the lifetime of
+ * An implementbtion of <code>ImbgeInputStrebm</code> thbt gets its
+ * input from b <code>File</code> or <code>RbndomAccessFile</code>.
+ * The file contents bre bssumed to be stbble during the lifetime of
  * the object.
  *
  */
-public class FileImageInputStream extends ImageInputStreamImpl {
+public clbss FileImbgeInputStrebm extends ImbgeInputStrebmImpl {
 
-    private RandomAccessFile raf;
+    privbte RbndomAccessFile rbf;
 
     /** The referent to be registered with the Disposer. */
-    private final Object disposerReferent;
+    privbte finbl Object disposerReferent;
 
-    /** The DisposerRecord that closes the underlying RandomAccessFile. */
-    private final CloseableDisposerRecord disposerRecord;
+    /** The DisposerRecord thbt closes the underlying RbndomAccessFile. */
+    privbte finbl ClosebbleDisposerRecord disposerRecord;
 
     /**
-     * Constructs a <code>FileImageInputStream</code> that will read
-     * from a given <code>File</code>.
+     * Constructs b <code>FileImbgeInputStrebm</code> thbt will rebd
+     * from b given <code>File</code>.
      *
-     * <p> The file contents must not change between the time this
-     * object is constructed and the time of the last call to a read
+     * <p> The file contents must not chbnge between the time this
+     * object is constructed bnd the time of the lbst cbll to b rebd
      * method.
      *
-     * @param f a <code>File</code> to read from.
+     * @pbrbm f b <code>File</code> to rebd from.
      *
-     * @exception IllegalArgumentException if <code>f</code> is
+     * @exception IllegblArgumentException if <code>f</code> is
      * <code>null</code>.
-     * @exception SecurityException if a security manager exists
-     * and does not allow read access to the file.
-     * @exception FileNotFoundException if <code>f</code> is a
-     * directory or cannot be opened for reading for any other reason.
-     * @exception IOException if an I/O error occurs.
+     * @exception SecurityException if b security mbnbger exists
+     * bnd does not bllow rebd bccess to the file.
+     * @exception FileNotFoundException if <code>f</code> is b
+     * directory or cbnnot be opened for rebding for bny other rebson.
+     * @exception IOException if bn I/O error occurs.
      */
-    public FileImageInputStream(File f)
+    public FileImbgeInputStrebm(File f)
         throws FileNotFoundException, IOException {
-        this(f == null ? null : new RandomAccessFile(f, "r"));
+        this(f == null ? null : new RbndomAccessFile(f, "r"));
     }
 
     /**
-     * Constructs a <code>FileImageInputStream</code> that will read
-     * from a given <code>RandomAccessFile</code>.
+     * Constructs b <code>FileImbgeInputStrebm</code> thbt will rebd
+     * from b given <code>RbndomAccessFile</code>.
      *
-     * <p> The file contents must not change between the time this
-     * object is constructed and the time of the last call to a read
+     * <p> The file contents must not chbnge between the time this
+     * object is constructed bnd the time of the lbst cbll to b rebd
      * method.
      *
-     * @param raf a <code>RandomAccessFile</code> to read from.
+     * @pbrbm rbf b <code>RbndomAccessFile</code> to rebd from.
      *
-     * @exception IllegalArgumentException if <code>raf</code> is
+     * @exception IllegblArgumentException if <code>rbf</code> is
      * <code>null</code>.
      */
-    public FileImageInputStream(RandomAccessFile raf) {
-        if (raf == null) {
-            throw new IllegalArgumentException("raf == null!");
+    public FileImbgeInputStrebm(RbndomAccessFile rbf) {
+        if (rbf == null) {
+            throw new IllegblArgumentException("rbf == null!");
         }
-        this.raf = raf;
+        this.rbf = rbf;
 
-        disposerRecord = new CloseableDisposerRecord(raf);
-        if (getClass() == FileImageInputStream.class) {
+        disposerRecord = new ClosebbleDisposerRecord(rbf);
+        if (getClbss() == FileImbgeInputStrebm.clbss) {
             disposerReferent = new Object();
-            Disposer.addRecord(disposerReferent, disposerRecord);
+            Disposer.bddRecord(disposerReferent, disposerRecord);
         } else {
-            disposerReferent = new StreamFinalizer(this);
+            disposerReferent = new StrebmFinblizer(this);
         }
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         checkClosed();
         bitOffset = 0;
-        int val = raf.read();
-        if (val != -1) {
-            ++streamPos;
+        int vbl = rbf.rebd();
+        if (vbl != -1) {
+            ++strebmPos;
         }
-        return val;
+        return vbl;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         checkClosed();
         bitOffset = 0;
-        int nbytes = raf.read(b, off, len);
+        int nbytes = rbf.rebd(b, off, len);
         if (nbytes != -1) {
-            streamPos += nbytes;
+            strebmPos += nbytes;
         }
         return nbytes;
     }
@@ -125,14 +125,14 @@ public class FileImageInputStream extends ImageInputStreamImpl {
      * Returns the length of the underlying file, or <code>-1</code>
      * if it is unknown.
      *
-     * @return the file length as a <code>long</code>, or
+     * @return the file length bs b <code>long</code>, or
      * <code>-1</code>.
      */
     public long length() {
         try {
             checkClosed();
-            return raf.length();
-        } catch (IOException e) {
+            return rbf.length();
+        } cbtch (IOException e) {
             return -1L;
         }
     }
@@ -143,22 +143,22 @@ public class FileImageInputStream extends ImageInputStreamImpl {
             throw new IndexOutOfBoundsException("pos < flushedPos!");
         }
         bitOffset = 0;
-        raf.seek(pos);
-        streamPos = raf.getFilePointer();
+        rbf.seek(pos);
+        strebmPos = rbf.getFilePointer();
     }
 
     public void close() throws IOException {
         super.close();
-        disposerRecord.dispose(); // this closes the RandomAccessFile
-        raf = null;
+        disposerRecord.dispose(); // this closes the RbndomAccessFile
+        rbf = null;
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void finalize() throws Throwable {
-        // Empty finalizer: for performance reasons we instead use the
-        // Disposer mechanism for ensuring that the underlying
-        // RandomAccessFile is closed prior to garbage collection
+    protected void finblize() throws Throwbble {
+        // Empty finblizer: for performbnce rebsons we instebd use the
+        // Disposer mechbnism for ensuring thbt the underlying
+        // RbndomAccessFile is closed prior to gbrbbge collection
     }
 }

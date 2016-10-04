@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Writes text to a character-output stream, buffering characters so as to
- * provide for the efficient writing of single characters, arrays, and strings.
+ * Writes text to b chbrbcter-output strebm, buffering chbrbcters so bs to
+ * provide for the efficient writing of single chbrbcters, brrbys, bnd strings.
  *
- * <p> The buffer size may be specified, or the default size may be accepted.
- * The default is large enough for most purposes.
+ * <p> The buffer size mby be specified, or the defbult size mby be bccepted.
+ * The defbult is lbrge enough for most purposes.
  *
- * <p> A newLine() method is provided, which uses the platform's own notion of
- * line separator as defined by the system property <tt>line.separator</tt>.
- * Not all platforms use the newline character ('\n') to terminate lines.
- * Calling this method to terminate each output line is therefore preferred to
- * writing a newline character directly.
+ * <p> A newLine() method is provided, which uses the plbtform's own notion of
+ * line sepbrbtor bs defined by the system property <tt>line.sepbrbtor</tt>.
+ * Not bll plbtforms use the newline chbrbcter ('\n') to terminbte lines.
+ * Cblling this method to terminbte ebch output line is therefore preferred to
+ * writing b newline chbrbcter directly.
  *
- * <p> In general, a Writer sends its output immediately to the underlying
- * character or byte stream.  Unless prompt output is required, it is advisable
- * to wrap a BufferedWriter around any Writer whose write() operations may be
- * costly, such as FileWriters and OutputStreamWriters.  For example,
+ * <p> In generbl, b Writer sends its output immedibtely to the underlying
+ * chbrbcter or byte strebm.  Unless prompt output is required, it is bdvisbble
+ * to wrbp b BufferedWriter bround bny Writer whose write() operbtions mby be
+ * costly, such bs FileWriters bnd OutputStrebmWriters.  For exbmple,
  *
  * <pre>
  * PrintWriter out
  *   = new PrintWriter(new BufferedWriter(new FileWriter("foo.out")));
  * </pre>
  *
- * will buffer the PrintWriter's output to the file.  Without buffering, each
- * invocation of a print() method would cause characters to be converted into
- * bytes that would then be written immediately to the file, which can be very
+ * will buffer the PrintWriter's output to the file.  Without buffering, ebch
+ * invocbtion of b print() method would cbuse chbrbcters to be converted into
+ * bytes thbt would then be written immedibtely to the file, which cbn be very
  * inefficient.
  *
  * @see PrintWriter
  * @see FileWriter
- * @see OutputStreamWriter
- * @see java.nio.file.Files#newBufferedWriter
+ * @see OutputStrebmWriter
+ * @see jbvb.nio.file.Files#newBufferedWriter
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class BufferedWriter extends Writer {
+public clbss BufferedWriter extends Writer {
 
-    private Writer out;
+    privbte Writer out;
 
-    private char cb[];
-    private int nChars, nextChar;
+    privbte chbr cb[];
+    privbte int nChbrs, nextChbr;
 
-    private static int defaultCharBufferSize = 8192;
+    privbte stbtic int defbultChbrBufferSize = 8192;
 
     /**
-     * Line separator string.  This is the value of the line.separator
-     * property at the moment that the stream was created.
+     * Line sepbrbtor string.  This is the vblue of the line.sepbrbtor
+     * property bt the moment thbt the strebm wbs crebted.
      */
-    private String lineSeparator;
+    privbte String lineSepbrbtor;
 
     /**
-     * Creates a buffered character-output stream that uses a default-sized
+     * Crebtes b buffered chbrbcter-output strebm thbt uses b defbult-sized
      * output buffer.
      *
-     * @param  out  A Writer
+     * @pbrbm  out  A Writer
      */
     public BufferedWriter(Writer out) {
-        this(out, defaultCharBufferSize);
+        this(out, defbultChbrBufferSize);
     }
 
     /**
-     * Creates a new buffered character-output stream that uses an output
+     * Crebtes b new buffered chbrbcter-output strebm thbt uses bn output
      * buffer of the given size.
      *
-     * @param  out  A Writer
-     * @param  sz   Output-buffer size, a positive integer
+     * @pbrbm  out  A Writer
+     * @pbrbm  sz   Output-buffer size, b positive integer
      *
-     * @exception  IllegalArgumentException  If {@code sz <= 0}
+     * @exception  IllegblArgumentException  If {@code sz <= 0}
      */
     public BufferedWriter(Writer out, int sz) {
         super(out);
         if (sz <= 0)
-            throw new IllegalArgumentException("Buffer size <= 0");
+            throw new IllegblArgumentException("Buffer size <= 0");
         this.out = out;
-        cb = new char[sz];
-        nChars = sz;
-        nextChar = 0;
+        cb = new chbr[sz];
+        nChbrs = sz;
+        nextChbr = 0;
 
-        lineSeparator = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("line.separator"));
+        lineSepbrbtor = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("line.sepbrbtor"));
     }
 
-    /** Checks to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Checks to mbke sure thbt the strebm hbs not been closed */
+    privbte void ensureOpen() throws IOException {
         if (out == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Flushes the output buffer to the underlying character stream, without
-     * flushing the stream itself.  This method is non-private only so that it
-     * may be invoked by PrintStream.
+     * Flushes the output buffer to the underlying chbrbcter strebm, without
+     * flushing the strebm itself.  This method is non-privbte only so thbt it
+     * mby be invoked by PrintStrebm.
      */
     void flushBuffer() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (nextChar == 0)
+            if (nextChbr == 0)
                 return;
-            out.write(cb, 0, nextChar);
-            nextChar = 0;
+            out.write(cb, 0, nextChbr);
+            nextChbr = 0;
         }
     }
 
     /**
-     * Writes a single character.
+     * Writes b single chbrbcter.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void write(int c) throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (nextChar >= nChars)
+            if (nextChbr >= nChbrs)
                 flushBuffer();
-            cb[nextChar++] = (char) c;
+            cb[nextChbr++] = (chbr) c;
         }
     }
 
     /**
-     * Our own little min method, to avoid loading java.lang.Math if we've run
-     * out of file descriptors and we're trying to print a stack trace.
+     * Our own little min method, to bvoid lobding jbvb.lbng.Mbth if we've run
+     * out of file descriptors bnd we're trying to print b stbck trbce.
      */
-    private int min(int a, int b) {
-        if (a < b) return a;
+    privbte int min(int b, int b) {
+        if (b < b) return b;
         return b;
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writes b portion of bn brrby of chbrbcters.
      *
-     * <p> Ordinarily this method stores characters from the given array into
-     * this stream's buffer, flushing the buffer to the underlying stream as
-     * needed.  If the requested length is at least as large as the buffer,
-     * however, then this method will flush the buffer and write the characters
-     * directly to the underlying stream.  Thus redundant
-     * <code>BufferedWriter</code>s will not copy data unnecessarily.
+     * <p> Ordinbrily this method stores chbrbcters from the given brrby into
+     * this strebm's buffer, flushing the buffer to the underlying strebm bs
+     * needed.  If the requested length is bt lebst bs lbrge bs the buffer,
+     * however, then this method will flush the buffer bnd write the chbrbcters
+     * directly to the underlying strebm.  Thus redundbnt
+     * <code>BufferedWriter</code>s will not copy dbtb unnecessbrily.
      *
-     * @param  cbuf  A character array
-     * @param  off   Offset from which to start reading characters
-     * @param  len   Number of characters to write
+     * @pbrbm  cbuf  A chbrbcter brrby
+     * @pbrbm  off   Offset from which to stbrt rebding chbrbcters
+     * @pbrbm  len   Number of chbrbcters to write
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public void write(char cbuf[], int off, int len) throws IOException {
+    public void write(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if ((off < 0) || (off > cbuf.length) || (len < 0) ||
@@ -180,10 +180,10 @@ public class BufferedWriter extends Writer {
                 return;
             }
 
-            if (len >= nChars) {
+            if (len >= nChbrs) {
                 /* If the request length exceeds the size of the output buffer,
-                   flush the buffer and then write the data directly.  In this
-                   way buffered streams will cascade harmlessly. */
+                   flush the buffer bnd then write the dbtb directly.  In this
+                   wby buffered strebms will cbscbde hbrmlessly. */
                 flushBuffer();
                 out.write(cbuf, off, len);
                 return;
@@ -191,30 +191,30 @@ public class BufferedWriter extends Writer {
 
             int b = off, t = off + len;
             while (b < t) {
-                int d = min(nChars - nextChar, t - b);
-                System.arraycopy(cbuf, b, cb, nextChar, d);
+                int d = min(nChbrs - nextChbr, t - b);
+                System.brrbycopy(cbuf, b, cb, nextChbr, d);
                 b += d;
-                nextChar += d;
-                if (nextChar >= nChars)
+                nextChbr += d;
+                if (nextChbr >= nChbrs)
                     flushBuffer();
             }
         }
     }
 
     /**
-     * Writes a portion of a String.
+     * Writes b portion of b String.
      *
-     * <p> If the value of the <tt>len</tt> parameter is negative then no
-     * characters are written.  This is contrary to the specification of this
-     * method in the {@linkplain java.io.Writer#write(java.lang.String,int,int)
-     * superclass}, which requires that an {@link IndexOutOfBoundsException} be
+     * <p> If the vblue of the <tt>len</tt> pbrbmeter is negbtive then no
+     * chbrbcters bre written.  This is contrbry to the specificbtion of this
+     * method in the {@linkplbin jbvb.io.Writer#write(jbvb.lbng.String,int,int)
+     * superclbss}, which requires thbt bn {@link IndexOutOfBoundsException} be
      * thrown.
      *
-     * @param  s     String to be written
-     * @param  off   Offset from which to start reading characters
-     * @param  len   Number of characters to be written
+     * @pbrbm  s     String to be written
+     * @pbrbm  off   Offset from which to stbrt rebding chbrbcters
+     * @pbrbm  len   Number of chbrbcters to be written
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void write(String s, int off, int len) throws IOException {
         synchronized (lock) {
@@ -222,31 +222,31 @@ public class BufferedWriter extends Writer {
 
             int b = off, t = off + len;
             while (b < t) {
-                int d = min(nChars - nextChar, t - b);
-                s.getChars(b, b + d, cb, nextChar);
+                int d = min(nChbrs - nextChbr, t - b);
+                s.getChbrs(b, b + d, cb, nextChbr);
                 b += d;
-                nextChar += d;
-                if (nextChar >= nChars)
+                nextChbr += d;
+                if (nextChbr >= nChbrs)
                     flushBuffer();
             }
         }
     }
 
     /**
-     * Writes a line separator.  The line separator string is defined by the
-     * system property <tt>line.separator</tt>, and is not necessarily a single
-     * newline ('\n') character.
+     * Writes b line sepbrbtor.  The line sepbrbtor string is defined by the
+     * system property <tt>line.sepbrbtor</tt>, bnd is not necessbrily b single
+     * newline ('\n') chbrbcter.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void newLine() throws IOException {
-        write(lineSeparator);
+        write(lineSepbrbtor);
     }
 
     /**
-     * Flushes the stream.
+     * Flushes the strebm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void flush() throws IOException {
         synchronized (lock) {
@@ -255,7 +255,7 @@ public class BufferedWriter extends Writer {
         }
     }
 
-    @SuppressWarnings("try")
+    @SuppressWbrnings("try")
     public void close() throws IOException {
         synchronized (lock) {
             if (out == null) {
@@ -263,7 +263,7 @@ public class BufferedWriter extends Writer {
             }
             try (Writer w = out) {
                 flushBuffer();
-            } finally {
+            } finblly {
                 out = null;
                 cb = null;
             }

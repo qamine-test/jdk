@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,120 +30,120 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package transparentruler;
+pbckbge trbnspbrentruler;
 
 
-import java.awt.*;
-import java.awt.GraphicsDevice.WindowTranslucency;
-import static java.awt.GraphicsDevice.WindowTranslucency.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D.Float;
-import java.lang.reflect.InvocationTargetException;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import jbvb.bwt.*;
+import jbvb.bwt.GrbphicsDevice.WindowTrbnslucency;
+import stbtic jbvb.bwt.GrbphicsDevice.WindowTrbnslucency.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ComponentAdbpter;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.bwt.event.KeyAdbpter;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.MouseAdbpter;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.geom.Pbth2D.Flobt;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvbx.swing.AbstrbctAction;
+import jbvbx.swing.Action;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JMenuItem;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JPopupMenu;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.WindowConstbnts;
 
 
 /**
- * This sample demonstrates shaped and translucent window feature.
- * @author Alexander Kouznetsov
+ * This sbmple demonstrbtes shbped bnd trbnslucent window febture.
+ * @buthor Alexbnder Kouznetsov
  */
-@SuppressWarnings("serial")
-public class Ruler extends JFrame {
+@SuppressWbrnings("seribl")
+public clbss Ruler extends JFrbme {
 
-    private static final Color BACKGROUND = Color.RED;
-    private static final Color FOREGROUND = Color.WHITE;
-    private static final int OPACITY = 180;
-    private static final int W = 70;
-    private static final int F_HEIGHT = 400;
-    private static final int F_WIDTH = (int) (F_HEIGHT * 1.618 + 0.5);
+    privbte stbtic finbl Color BACKGROUND = Color.RED;
+    privbte stbtic finbl Color FOREGROUND = Color.WHITE;
+    privbte stbtic finbl int OPACITY = 180;
+    privbte stbtic finbl int W = 70;
+    privbte stbtic finbl int F_HEIGHT = 400;
+    privbte stbtic finbl int F_WIDTH = (int) (F_HEIGHT * 1.618 + 0.5);
 
-    private static boolean translucencySupported;
-    private static boolean transparencySupported;
+    privbte stbtic boolebn trbnslucencySupported;
+    privbte stbtic boolebn trbnspbrencySupported;
 
-    private static boolean checkTranslucencyMode(WindowTranslucency arg) {
-        GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        return gd.isWindowTranslucencySupported(arg);
+    privbte stbtic boolebn checkTrbnslucencyMode(WindowTrbnslucency brg) {
+        GrbphicsEnvironment ge =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        GrbphicsDevice gd = ge.getDefbultScreenDevice();
+        return gd.isWindowTrbnslucencySupported(brg);
     }
 
-    public Shape buildShape() {
+    public Shbpe buildShbpe() {
         int h = getHeight();
         int w = getWidth();
-        float a = (float) Math.hypot(h, w);
-        Float path = new java.awt.geom.Path2D.Float();
-        path.moveTo(0, 0);
-        path.lineTo(w, 0);
-        path.lineTo(0, h);
-        path.closePath();
-        path.moveTo(W, W);
-        path.lineTo(W, h - W * (a + h) / w);
-        path.lineTo(w - W * (a + w) / h, W);
-        path.closePath();
-        return path;
+        flobt b = (flobt) Mbth.hypot(h, w);
+        Flobt pbth = new jbvb.bwt.geom.Pbth2D.Flobt();
+        pbth.moveTo(0, 0);
+        pbth.lineTo(w, 0);
+        pbth.lineTo(0, h);
+        pbth.closePbth();
+        pbth.moveTo(W, W);
+        pbth.lineTo(W, h - W * (b + h) / w);
+        pbth.lineTo(w - W * (b + w) / h, W);
+        pbth.closePbth();
+        return pbth;
     }
 
-    private final ComponentAdapter componentListener = new ComponentAdapter() {
+    privbte finbl ComponentAdbpter componentListener = new ComponentAdbpter() {
 
         /**
-         * Applies the shape to window. It is recommended to apply shape in
+         * Applies the shbpe to window. It is recommended to bpply shbpe in
          * componentResized() method
          */
         @Override
         public void componentResized(ComponentEvent e) {
 
-            // We do apply shape only if PERPIXEL_TRANSPARENT is supported
-            if (transparencySupported) {
-                setShape(buildShape());
+            // We do bpply shbpe only if PERPIXEL_TRANSPARENT is supported
+            if (trbnspbrencySupported) {
+                setShbpe(buildShbpe());
             }
         }
     };
 
-    private final Action exitAction = new AbstractAction("Exit") {
+    privbte finbl Action exitAction = new AbstrbctAction("Exit") {
 
         {
-            putValue(Action.MNEMONIC_KEY, KeyEvent.VK_X);
+            putVblue(Action.MNEMONIC_KEY, KeyEvent.VK_X);
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             System.exit(0);
         }
     };
 
-    private final JPopupMenu jPopupMenu = new JPopupMenu();
+    privbte finbl JPopupMenu jPopupMenu = new JPopupMenu();
 
     {
-        jPopupMenu.add(new JMenuItem(exitAction));
+        jPopupMenu.bdd(new JMenuItem(exitAction));
 
-        // To avoid popup cutting by main window shape forbid light-weight popups
-        jPopupMenu.setLightWeightPopupEnabled(false);
+        // To bvoid popup cutting by mbin window shbpe forbid light-weight popups
+        jPopupMenu.setLightWeightPopupEnbbled(fblse);
     }
 
     /**
-     * Implements mouse-related behavior: window dragging and popup menu
-     * invocation
+     * Implements mouse-relbted behbvior: window drbgging bnd popup menu
+     * invocbtion
      */
-    private final MouseAdapter mouseListener = new MouseAdapter() {
+    privbte finbl MouseAdbpter mouseListener = new MouseAdbpter() {
 
         int x, y;
 
@@ -156,115 +156,115 @@ public class Ruler extends JFrame {
         }
 
         @Override
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0) {
-                setLocation(e.getXOnScreen() - x, e.getYOnScreen() - y);
+                setLocbtion(e.getXOnScreen() - x, e.getYOnScreen() - y);
             }
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             if (e.isPopupTrigger()) {
-                jPopupMenu.show(getContentPane(), e.getX(), e.getY());
+                jPopupMenu.show(getContentPbne(), e.getX(), e.getY());
             }
         }
     };
 
     /**
-     * Implements keyboard navigation. Arrows move by 5 pixels, Ctrl + arrows
-     * move by 50 pixels, Alt + arrows move by 1 pixel.
-     * Esc exits the application.
+     * Implements keybobrd nbvigbtion. Arrows move by 5 pixels, Ctrl + brrows
+     * move by 50 pixels, Alt + brrows move by 1 pixel.
+     * Esc exits the bpplicbtion.
      */
-    private final KeyAdapter keyboardListener = new KeyAdapter() {
+    privbte finbl KeyAdbpter keybobrdListener = new KeyAdbpter() {
 
         @Override
         public void keyPressed(KeyEvent e) {
             int step = e.isControlDown() ? 50 : e.isAltDown() ? 1 : 5;
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    setLocation(getX() - step, getY());
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    setLocation(getX() + step, getY());
-                    break;
-                case KeyEvent.VK_UP:
-                    setLocation(getX(), getY() - step);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    setLocation(getX(), getY() + step);
-                    break;
-                case KeyEvent.VK_ESCAPE:
-                    exitAction.actionPerformed(null);
+                cbse KeyEvent.VK_LEFT:
+                    setLocbtion(getX() - step, getY());
+                    brebk;
+                cbse KeyEvent.VK_RIGHT:
+                    setLocbtion(getX() + step, getY());
+                    brebk;
+                cbse KeyEvent.VK_UP:
+                    setLocbtion(getX(), getY() - step);
+                    brebk;
+                cbse KeyEvent.VK_DOWN:
+                    setLocbtion(getX(), getY() + step);
+                    brebk;
+                cbse KeyEvent.VK_ESCAPE:
+                    exitAction.bctionPerformed(null);
             }
         }
     };
 
     public Ruler() {
-        setUndecorated(true);
+        setUndecorbted(true);
 
-        // Enables perpixel translucency
-        setBackground(new Color(BACKGROUND.getRed(), BACKGROUND.getGreen(),
+        // Enbbles perpixel trbnslucency
+        setBbckground(new Color(BACKGROUND.getRed(), BACKGROUND.getGreen(),
                 BACKGROUND.getBlue(), OPACITY));
 
-        addMouseListener(mouseListener);
-        addMouseMotionListener(mouseListener);
-        addComponentListener(componentListener);
-        addKeyListener(keyboardListener);
-        setContentPane(new JPanel() {
+        bddMouseListener(mouseListener);
+        bddMouseMotionListener(mouseListener);
+        bddComponentListener(componentListener);
+        bddKeyListener(keybobrdListener);
+        setContentPbne(new JPbnel() {
 
             @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D gg = (Graphics2D) g.create();
+            protected void pbintComponent(Grbphics g) {
+                Grbphics2D gg = (Grbphics2D) g.crebte();
                 int w = getWidth();
                 int h = getHeight();
                 int hh = gg.getFontMetrics().getAscent();
 
-                // This is an approach to apply shape when PERPIXEL_TRANSPARENT
+                // This is bn bpprobch to bpply shbpe when PERPIXEL_TRANSPARENT
                 // isn't supported
-                if (!transparencySupported) {
-                    gg.setBackground(new Color(0, 0, 0, 0));
-                    gg.clearRect(0, 0, w, h);
-                    gg.clip(buildShape());
+                if (!trbnspbrencySupported) {
+                    gg.setBbckground(new Color(0, 0, 0, 0));
+                    gg.clebrRect(0, 0, w, h);
+                    gg.clip(buildShbpe());
 
-                    gg.setBackground(Ruler.this.getBackground());
-                    gg.clearRect(0, 0, w, h);
+                    gg.setBbckground(Ruler.this.getBbckground());
+                    gg.clebrRect(0, 0, w, h);
                 }
 
                 gg.setColor(FOREGROUND);
                 for (int x = 0; x < w * (h - 8) / h - 5; x += 5) {
-                    boolean hi = x % 50 == 0;
-                    gg.drawLine(x + 5, 0, x + 5,
+                    boolebn hi = x % 50 == 0;
+                    gg.drbwLine(x + 5, 0, x + 5,
                             hi ? 20 : (x % 25 == 0 ? 13 : 8));
                     if (hi) {
                         String number = Integer.toString(x);
                         int ww = gg.getFontMetrics().stringWidth(number);
-                        gg.drawString(number, x + 5 - ww / 2, 20 + hh);
+                        gg.drbwString(number, x + 5 - ww / 2, 20 + hh);
                     }
                 }
 
                 gg.dispose();
             }
         });
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefbultCloseOperbtion(WindowConstbnts.EXIT_ON_CLOSE);
         setSize(F_WIDTH, F_HEIGHT);
-        setLocationByPlatform(true);
+        setLocbtionByPlbtform(true);
     }
 
     /**
-     * @param args the command line arguments are ignored
+     * @pbrbm brgs the commbnd line brguments bre ignored
      */
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
+    public stbtic void mbin(String[] brgs) throws InterruptedException, InvocbtionTbrgetException {
 
-        SwingUtilities.invokeAndWait(new Runnable() {
+        SwingUtilities.invokeAndWbit(new Runnbble() {
 
             @Override
             public void run() {
-                translucencySupported = checkTranslucencyMode(PERPIXEL_TRANSLUCENT);
-                transparencySupported = checkTranslucencyMode(PERPIXEL_TRANSPARENT);
+                trbnslucencySupported = checkTrbnslucencyMode(PERPIXEL_TRANSLUCENT);
+                trbnspbrencySupported = checkTrbnslucencyMode(PERPIXEL_TRANSPARENT);
 
-                if (!translucencySupported) {
-                    System.err.println("This application requires "
-                            + "'PERPIXEL_TRANSLUCENT' translucency mode to "
+                if (!trbnslucencySupported) {
+                    System.err.println("This bpplicbtion requires "
+                            + "'PERPIXEL_TRANSLUCENT' trbnslucency mode to "
                             + "be supported.");
                     System.exit(-1);
                 }

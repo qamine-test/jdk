@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.HbshSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import com.sun.management.HotSpotDiagnosticMXBean;
-import com.sun.management.UnixOperatingSystemMXBean;
+import com.sun.mbnbgement.HotSpotDibgnosticMXBebn;
+import com.sun.mbnbgement.UnixOperbtingSystemMXBebn;
 
-import sun.management.ManagementFactoryHelper;
-import sun.management.Util;
+import sun.mbnbgement.MbnbgementFbctoryHelper;
+import sun.mbnbgement.Util;
 
 /**
- * This enum class defines the list of platform components
- * that provides monitoring and management support.
- * Each enum represents one MXBean interface. A MXBean
- * instance could implement one or more MXBean interfaces.
+ * This enum clbss defines the list of plbtform components
+ * thbt provides monitoring bnd mbnbgement support.
+ * Ebch enum represents one MXBebn interfbce. A MXBebn
+ * instbnce could implement one or more MXBebn interfbces.
  *
- * For example, com.sun.management.GarbageCollectorMXBean
- * extends java.lang.management.GarbageCollectorMXBean
- * and there is one set of garbage collection MXBean instances,
- * each of which implements both c.s.m. and j.l.m. interfaces.
- * There are two separate enums GARBAGE_COLLECTOR
- * and SUN_GARBAGE_COLLECTOR so that ManagementFactory.getPlatformMXBeans(Class)
- * will return the list of MXBeans of the specified type.
+ * For exbmple, com.sun.mbnbgement.GbrbbgeCollectorMXBebn
+ * extends jbvb.lbng.mbnbgement.GbrbbgeCollectorMXBebn
+ * bnd there is one set of gbrbbge collection MXBebn instbnces,
+ * ebch of which implements both c.s.m. bnd j.l.m. interfbces.
+ * There bre two sepbrbte enums GARBAGE_COLLECTOR
+ * bnd SUN_GARBAGE_COLLECTOR so thbt MbnbgementFbctory.getPlbtformMXBebns(Clbss)
+ * will return the list of MXBebns of the specified type.
  *
- * To add a new MXBean interface for the Java platform,
- * add a new enum constant and implement the MXBeanFetcher.
+ * To bdd b new MXBebn interfbce for the Jbvb plbtform,
+ * bdd b new enum constbnt bnd implement the MXBebnFetcher.
  */
-enum PlatformComponent {
+enum PlbtformComponent {
 
     /**
-     * Class loading system of the Java virtual machine.
+     * Clbss lobding system of the Jbvb virtubl mbchine.
      */
     CLASS_LOADING(
-        "java.lang.management.ClassLoadingMXBean",
-        "java.lang", "ClassLoading", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.ClbssLobdingMXBebn",
+        "jbvb.lbng", "ClbssLobding", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<ClassLoadingMXBean>() {
-            public List<ClassLoadingMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getClassLoadingMXBean());
+        new MXBebnFetcher<ClbssLobdingMXBebn>() {
+            public List<ClbssLobdingMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getClbssLobdingMXBebn());
             }
         }),
 
     /**
-     * Compilation system of the Java virtual machine.
+     * Compilbtion system of the Jbvb virtubl mbchine.
      */
     COMPILATION(
-        "java.lang.management.CompilationMXBean",
-        "java.lang", "Compilation", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.CompilbtionMXBebn",
+        "jbvb.lbng", "Compilbtion", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<CompilationMXBean>() {
-            public List<CompilationMXBean> getMXBeans() {
-                CompilationMXBean m = ManagementFactoryHelper.getCompilationMXBean();
+        new MXBebnFetcher<CompilbtionMXBebn>() {
+            public List<CompilbtionMXBebn> getMXBebns() {
+                CompilbtionMXBebn m = MbnbgementFbctoryHelper.getCompilbtionMXBebn();
                 if (m == null) {
                    return Collections.emptyList();
                 } else {
@@ -92,109 +92,109 @@ enum PlatformComponent {
         }),
 
     /**
-     * Memory system of the Java virtual machine.
+     * Memory system of the Jbvb virtubl mbchine.
      */
     MEMORY(
-        "java.lang.management.MemoryMXBean",
-        "java.lang", "Memory", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.MemoryMXBebn",
+        "jbvb.lbng", "Memory", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<MemoryMXBean>() {
-            public List<MemoryMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getMemoryMXBean());
+        new MXBebnFetcher<MemoryMXBebn>() {
+            public List<MemoryMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getMemoryMXBebn());
             }
         }),
 
     /**
-     * Garbage Collector in the Java virtual machine.
+     * Gbrbbge Collector in the Jbvb virtubl mbchine.
      */
     GARBAGE_COLLECTOR(
-        "java.lang.management.GarbageCollectorMXBean",
-        "java.lang", "GarbageCollector", keyProperties("name"),
-        false, // zero or more instances
-        new MXBeanFetcher<GarbageCollectorMXBean>() {
-            public List<GarbageCollectorMXBean> getMXBeans() {
-                return ManagementFactoryHelper.
-                           getGarbageCollectorMXBeans();
+        "jbvb.lbng.mbnbgement.GbrbbgeCollectorMXBebn",
+        "jbvb.lbng", "GbrbbgeCollector", keyProperties("nbme"),
+        fblse, // zero or more instbnces
+        new MXBebnFetcher<GbrbbgeCollectorMXBebn>() {
+            public List<GbrbbgeCollectorMXBebn> getMXBebns() {
+                return MbnbgementFbctoryHelper.
+                           getGbrbbgeCollectorMXBebns();
             }
         }),
 
     /**
-     * Memory manager in the Java virtual machine.
+     * Memory mbnbger in the Jbvb virtubl mbchine.
      */
     MEMORY_MANAGER(
-        "java.lang.management.MemoryManagerMXBean",
-        "java.lang", "MemoryManager", keyProperties("name"),
-        false, // zero or more instances
-        new MXBeanFetcher<MemoryManagerMXBean>() {
-            public List<MemoryManagerMXBean> getMXBeans() {
-                return ManagementFactoryHelper.getMemoryManagerMXBeans();
+        "jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn",
+        "jbvb.lbng", "MemoryMbnbger", keyProperties("nbme"),
+        fblse, // zero or more instbnces
+        new MXBebnFetcher<MemoryMbnbgerMXBebn>() {
+            public List<MemoryMbnbgerMXBebn> getMXBebns() {
+                return MbnbgementFbctoryHelper.getMemoryMbnbgerMXBebns();
             }
         },
         GARBAGE_COLLECTOR),
 
     /**
-     * Memory pool in the Java virtual machine.
+     * Memory pool in the Jbvb virtubl mbchine.
      */
     MEMORY_POOL(
-        "java.lang.management.MemoryPoolMXBean",
-        "java.lang", "MemoryPool", keyProperties("name"),
-        false, // zero or more instances
-        new MXBeanFetcher<MemoryPoolMXBean>() {
-            public List<MemoryPoolMXBean> getMXBeans() {
-                return ManagementFactoryHelper.getMemoryPoolMXBeans();
+        "jbvb.lbng.mbnbgement.MemoryPoolMXBebn",
+        "jbvb.lbng", "MemoryPool", keyProperties("nbme"),
+        fblse, // zero or more instbnces
+        new MXBebnFetcher<MemoryPoolMXBebn>() {
+            public List<MemoryPoolMXBebn> getMXBebns() {
+                return MbnbgementFbctoryHelper.getMemoryPoolMXBebns();
             }
         }),
 
     /**
-     * Operating system on which the Java virtual machine is running
+     * Operbting system on which the Jbvb virtubl mbchine is running
      */
     OPERATING_SYSTEM(
-        "java.lang.management.OperatingSystemMXBean",
-        "java.lang", "OperatingSystem", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.OperbtingSystemMXBebn",
+        "jbvb.lbng", "OperbtingSystem", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<OperatingSystemMXBean>() {
-            public List<OperatingSystemMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getOperatingSystemMXBean());
+        new MXBebnFetcher<OperbtingSystemMXBebn>() {
+            public List<OperbtingSystemMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getOperbtingSystemMXBebn());
             }
         }),
 
     /**
-     * Runtime system of the Java virtual machine.
+     * Runtime system of the Jbvb virtubl mbchine.
      */
     RUNTIME(
-        "java.lang.management.RuntimeMXBean",
-        "java.lang", "Runtime", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.RuntimeMXBebn",
+        "jbvb.lbng", "Runtime", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<RuntimeMXBean>() {
-            public List<RuntimeMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getRuntimeMXBean());
+        new MXBebnFetcher<RuntimeMXBebn>() {
+            public List<RuntimeMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getRuntimeMXBebn());
             }
         }),
 
     /**
-     * Threading system of the Java virtual machine.
+     * Threbding system of the Jbvb virtubl mbchine.
      */
     THREADING(
-        "java.lang.management.ThreadMXBean",
-        "java.lang", "Threading", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.ThrebdMXBebn",
+        "jbvb.lbng", "Threbding", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<ThreadMXBean>() {
-            public List<ThreadMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getThreadMXBean());
+        new MXBebnFetcher<ThrebdMXBebn>() {
+            public List<ThrebdMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getThrebdMXBebn());
             }
         }),
 
 
     /**
-     * Logging facility.
+     * Logging fbcility.
      */
     LOGGING(
-        "java.lang.management.PlatformLoggingMXBean",
-        "java.util.logging", "Logging", defaultKeyProperties(),
+        "jbvb.lbng.mbnbgement.PlbtformLoggingMXBebn",
+        "jbvb.util.logging", "Logging", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<PlatformLoggingMXBean>() {
-            public List<PlatformLoggingMXBean> getMXBeans() {
-                PlatformLoggingMXBean m = ManagementFactoryHelper.getPlatformLoggingMXBean();
+        new MXBebnFetcher<PlbtformLoggingMXBebn>() {
+            public List<PlbtformLoggingMXBebn> getMXBebns() {
+                PlbtformLoggingMXBebn m = MbnbgementFbctoryHelper.getPlbtformLoggingMXBebn();
                 if (m == null) {
                    return Collections.emptyList();
                 } else {
@@ -207,125 +207,125 @@ enum PlatformComponent {
      * Buffer pools.
      */
     BUFFER_POOL(
-        "java.lang.management.BufferPoolMXBean",
-        "java.nio", "BufferPool", keyProperties("name"),
-        false, // zero or more instances
-        new MXBeanFetcher<BufferPoolMXBean>() {
-            public List<BufferPoolMXBean> getMXBeans() {
-                return ManagementFactoryHelper.getBufferPoolMXBeans();
+        "jbvb.lbng.mbnbgement.BufferPoolMXBebn",
+        "jbvb.nio", "BufferPool", keyProperties("nbme"),
+        fblse, // zero or more instbnces
+        new MXBebnFetcher<BufferPoolMXBebn>() {
+            public List<BufferPoolMXBebn> getMXBebns() {
+                return MbnbgementFbctoryHelper.getBufferPoolMXBebns();
             }
         }),
 
 
-    // Sun Platform Extension
+    // Sun Plbtform Extension
 
     /**
-     * Sun extension garbage collector that performs collections in cycles.
+     * Sun extension gbrbbge collector thbt performs collections in cycles.
      */
     SUN_GARBAGE_COLLECTOR(
-        "com.sun.management.GarbageCollectorMXBean",
-        "java.lang", "GarbageCollector", keyProperties("name"),
-        false, // zero or more instances
-        new MXBeanFetcher<com.sun.management.GarbageCollectorMXBean>() {
-            public List<com.sun.management.GarbageCollectorMXBean> getMXBeans() {
-                return getGcMXBeanList(com.sun.management.GarbageCollectorMXBean.class);
+        "com.sun.mbnbgement.GbrbbgeCollectorMXBebn",
+        "jbvb.lbng", "GbrbbgeCollector", keyProperties("nbme"),
+        fblse, // zero or more instbnces
+        new MXBebnFetcher<com.sun.mbnbgement.GbrbbgeCollectorMXBebn>() {
+            public List<com.sun.mbnbgement.GbrbbgeCollectorMXBebn> getMXBebns() {
+                return getGcMXBebnList(com.sun.mbnbgement.GbrbbgeCollectorMXBebn.clbss);
             }
         }),
 
     /**
-     * Sun extension operating system on which the Java virtual machine
+     * Sun extension operbting system on which the Jbvb virtubl mbchine
      * is running.
      */
     SUN_OPERATING_SYSTEM(
-        "com.sun.management.OperatingSystemMXBean",
-        "java.lang", "OperatingSystem", defaultKeyProperties(),
+        "com.sun.mbnbgement.OperbtingSystemMXBebn",
+        "jbvb.lbng", "OperbtingSystem", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<com.sun.management.OperatingSystemMXBean>() {
-            public List<com.sun.management.OperatingSystemMXBean> getMXBeans() {
-                return getOSMXBeanList(com.sun.management.OperatingSystemMXBean.class);
+        new MXBebnFetcher<com.sun.mbnbgement.OperbtingSystemMXBebn>() {
+            public List<com.sun.mbnbgement.OperbtingSystemMXBebn> getMXBebns() {
+                return getOSMXBebnList(com.sun.mbnbgement.OperbtingSystemMXBebn.clbss);
             }
         }),
 
     /**
-     * Unix operating system.
+     * Unix operbting system.
      */
     SUN_UNIX_OPERATING_SYSTEM(
-        "com.sun.management.UnixOperatingSystemMXBean",
-        "java.lang", "OperatingSystem", defaultKeyProperties(),
+        "com.sun.mbnbgement.UnixOperbtingSystemMXBebn",
+        "jbvb.lbng", "OperbtingSystem", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<UnixOperatingSystemMXBean>() {
-            public List<UnixOperatingSystemMXBean> getMXBeans() {
-                return getOSMXBeanList(com.sun.management.UnixOperatingSystemMXBean.class);
+        new MXBebnFetcher<UnixOperbtingSystemMXBebn>() {
+            public List<UnixOperbtingSystemMXBebn> getMXBebns() {
+                return getOSMXBebnList(com.sun.mbnbgement.UnixOperbtingSystemMXBebn.clbss);
             }
         }),
 
     /**
-     * Diagnostic support for the HotSpot Virtual Machine.
+     * Dibgnostic support for the HotSpot Virtubl Mbchine.
      */
     HOTSPOT_DIAGNOSTIC(
-        "com.sun.management.HotSpotDiagnosticMXBean",
-        "com.sun.management", "HotSpotDiagnostic", defaultKeyProperties(),
+        "com.sun.mbnbgement.HotSpotDibgnosticMXBebn",
+        "com.sun.mbnbgement", "HotSpotDibgnostic", defbultKeyProperties(),
         true, // singleton
-        new MXBeanFetcher<HotSpotDiagnosticMXBean>() {
-            public List<HotSpotDiagnosticMXBean> getMXBeans() {
-                return Collections.singletonList(ManagementFactoryHelper.getDiagnosticMXBean());
+        new MXBebnFetcher<HotSpotDibgnosticMXBebn>() {
+            public List<HotSpotDibgnosticMXBebn> getMXBebns() {
+                return Collections.singletonList(MbnbgementFbctoryHelper.getDibgnosticMXBebn());
             }
         });
 
 
     /**
-     * A task that returns the MXBeans for a component.
+     * A tbsk thbt returns the MXBebns for b component.
      */
-    interface MXBeanFetcher<T extends PlatformManagedObject> {
-        public List<T> getMXBeans();
+    interfbce MXBebnFetcher<T extends PlbtformMbnbgedObject> {
+        public List<T> getMXBebns();
     }
 
     /*
-     * Returns a list of the GC MXBeans of the given type.
+     * Returns b list of the GC MXBebns of the given type.
      */
-    private static <T extends GarbageCollectorMXBean>
-            List<T> getGcMXBeanList(Class<T> gcMXBeanIntf) {
-        List<GarbageCollectorMXBean> list =
-            ManagementFactoryHelper.getGarbageCollectorMXBeans();
-        List<T> result = new ArrayList<>(list.size());
-        for (GarbageCollectorMXBean m : list) {
-            if (gcMXBeanIntf.isInstance(m)) {
-                result.add(gcMXBeanIntf.cast(m));
+    privbte stbtic <T extends GbrbbgeCollectorMXBebn>
+            List<T> getGcMXBebnList(Clbss<T> gcMXBebnIntf) {
+        List<GbrbbgeCollectorMXBebn> list =
+            MbnbgementFbctoryHelper.getGbrbbgeCollectorMXBebns();
+        List<T> result = new ArrbyList<>(list.size());
+        for (GbrbbgeCollectorMXBebn m : list) {
+            if (gcMXBebnIntf.isInstbnce(m)) {
+                result.bdd(gcMXBebnIntf.cbst(m));
             }
         }
         return result;
     }
 
     /*
-     * Returns the OS mxbean instance of the given type.
+     * Returns the OS mxbebn instbnce of the given type.
      */
-    private static <T extends OperatingSystemMXBean>
-            List<T> getOSMXBeanList(Class<T> osMXBeanIntf) {
-        OperatingSystemMXBean m =
-            ManagementFactoryHelper.getOperatingSystemMXBean();
-        if (osMXBeanIntf.isInstance(m)) {
-            return Collections.singletonList(osMXBeanIntf.cast(m));
+    privbte stbtic <T extends OperbtingSystemMXBebn>
+            List<T> getOSMXBebnList(Clbss<T> osMXBebnIntf) {
+        OperbtingSystemMXBebn m =
+            MbnbgementFbctoryHelper.getOperbtingSystemMXBebn();
+        if (osMXBebnIntf.isInstbnce(m)) {
+            return Collections.singletonList(osMXBebnIntf.cbst(m));
         } else {
             return Collections.emptyList();
         }
     }
 
-    private final String mxbeanInterfaceName;
-    private final String domain;
-    private final String type;
-    private final Set<String> keyProperties;
-    private final MXBeanFetcher<?> fetcher;
-    private final PlatformComponent[] subComponents;
-    private final boolean singleton;
+    privbte finbl String mxbebnInterfbceNbme;
+    privbte finbl String dombin;
+    privbte finbl String type;
+    privbte finbl Set<String> keyProperties;
+    privbte finbl MXBebnFetcher<?> fetcher;
+    privbte finbl PlbtformComponent[] subComponents;
+    privbte finbl boolebn singleton;
 
-    private PlatformComponent(String intfName,
-                              String domain, String type,
+    privbte PlbtformComponent(String intfNbme,
+                              String dombin, String type,
                               Set<String> keyProperties,
-                              boolean singleton,
-                              MXBeanFetcher<?> fetcher,
-                              PlatformComponent... subComponents) {
-        this.mxbeanInterfaceName = intfName;
-        this.domain = domain;
+                              boolebn singleton,
+                              MXBebnFetcher<?> fetcher,
+                              PlbtformComponent... subComponents) {
+        this.mxbebnInterfbceNbme = intfNbme;
+        this.dombin = dombin;
         this.type = type;
         this.keyProperties = keyProperties;
         this.singleton = singleton;
@@ -333,136 +333,136 @@ enum PlatformComponent {
         this.subComponents = subComponents;
     }
 
-    private static Set<String> defaultKeyProps;
-    private static Set<String> defaultKeyProperties() {
-        if (defaultKeyProps == null) {
-            defaultKeyProps = Collections.singleton("type");
+    privbte stbtic Set<String> defbultKeyProps;
+    privbte stbtic Set<String> defbultKeyProperties() {
+        if (defbultKeyProps == null) {
+            defbultKeyProps = Collections.singleton("type");
         }
-        return defaultKeyProps;
+        return defbultKeyProps;
     }
 
-    private static Set<String> keyProperties(String... keyNames) {
-        Set<String> set = new HashSet<>();
-        set.add("type");
-        for (String s : keyNames) {
-            set.add(s);
+    privbte stbtic Set<String> keyProperties(String... keyNbmes) {
+        Set<String> set = new HbshSet<>();
+        set.bdd("type");
+        for (String s : keyNbmes) {
+            set.bdd(s);
         }
         return set;
     }
 
-    boolean isSingleton() {
+    boolebn isSingleton() {
         return singleton;
     }
 
-    String getMXBeanInterfaceName() {
-        return mxbeanInterfaceName;
+    String getMXBebnInterfbceNbme() {
+        return mxbebnInterfbceNbme;
     }
 
-    @SuppressWarnings("unchecked")
-    Class<? extends PlatformManagedObject> getMXBeanInterface() {
+    @SuppressWbrnings("unchecked")
+    Clbss<? extends PlbtformMbnbgedObject> getMXBebnInterfbce() {
         try {
-            // Lazy loading the MXBean interface only when it is needed
-            return (Class<? extends PlatformManagedObject>)
-                       Class.forName(mxbeanInterfaceName, false,
-                                     PlatformManagedObject.class.getClassLoader());
-        } catch (ClassNotFoundException x) {
+            // Lbzy lobding the MXBebn interfbce only when it is needed
+            return (Clbss<? extends PlbtformMbnbgedObject>)
+                       Clbss.forNbme(mxbebnInterfbceNbme, fblse,
+                                     PlbtformMbnbgedObject.clbss.getClbssLobder());
+        } cbtch (ClbssNotFoundException x) {
             throw new AssertionError(x);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    <T extends PlatformManagedObject>
-        List<T> getMXBeans(Class<T> mxbeanInterface)
+    @SuppressWbrnings("unchecked")
+    <T extends PlbtformMbnbgedObject>
+        List<T> getMXBebns(Clbss<T> mxbebnInterfbce)
     {
-        return (List<T>) fetcher.getMXBeans();
+        return (List<T>) fetcher.getMXBebns();
     }
 
-    <T extends PlatformManagedObject> T getSingletonMXBean(Class<T> mxbeanInterface)
+    <T extends PlbtformMbnbgedObject> T getSingletonMXBebn(Clbss<T> mxbebnInterfbce)
     {
         if (!singleton)
-            throw new IllegalArgumentException(mxbeanInterfaceName +
-                " can have zero or more than one instances");
+            throw new IllegblArgumentException(mxbebnInterfbceNbme +
+                " cbn hbve zero or more thbn one instbnces");
 
-        List<T> list = getMXBeans(mxbeanInterface);
-        assert list.size() == 1;
+        List<T> list = getMXBebns(mxbebnInterfbce);
+        bssert list.size() == 1;
         return list.isEmpty() ? null : list.get(0);
     }
 
-    <T extends PlatformManagedObject>
-            T getSingletonMXBean(MBeanServerConnection mbs, Class<T> mxbeanInterface)
-        throws java.io.IOException
+    <T extends PlbtformMbnbgedObject>
+            T getSingletonMXBebn(MBebnServerConnection mbs, Clbss<T> mxbebnInterfbce)
+        throws jbvb.io.IOException
     {
         if (!singleton)
-            throw new IllegalArgumentException(mxbeanInterfaceName +
-                " can have zero or more than one instances");
+            throw new IllegblArgumentException(mxbebnInterfbceNbme +
+                " cbn hbve zero or more thbn one instbnces");
 
-        // ObjectName of a singleton MXBean contains only domain and type
-        assert keyProperties.size() == 1;
-        String on = domain + ":type=" + type;
-        return ManagementFactory.newPlatformMXBeanProxy(mbs,
+        // ObjectNbme of b singleton MXBebn contbins only dombin bnd type
+        bssert keyProperties.size() == 1;
+        String on = dombin + ":type=" + type;
+        return MbnbgementFbctory.newPlbtformMXBebnProxy(mbs,
                                                         on,
-                                                        mxbeanInterface);
+                                                        mxbebnInterfbce);
     }
 
-    <T extends PlatformManagedObject>
-            List<T> getMXBeans(MBeanServerConnection mbs, Class<T> mxbeanInterface)
-        throws java.io.IOException
+    <T extends PlbtformMbnbgedObject>
+            List<T> getMXBebns(MBebnServerConnection mbs, Clbss<T> mxbebnInterfbce)
+        throws jbvb.io.IOException
     {
-        List<T> result = new ArrayList<>();
-        for (ObjectName on : getObjectNames(mbs)) {
-            result.add(ManagementFactory.
-                newPlatformMXBeanProxy(mbs,
-                                       on.getCanonicalName(),
-                                       mxbeanInterface)
+        List<T> result = new ArrbyList<>();
+        for (ObjectNbme on : getObjectNbmes(mbs)) {
+            result.bdd(MbnbgementFbctory.
+                newPlbtformMXBebnProxy(mbs,
+                                       on.getCbnonicblNbme(),
+                                       mxbebnInterfbce)
             );
         }
         return result;
     }
 
-    private Set<ObjectName> getObjectNames(MBeanServerConnection mbs)
-        throws java.io.IOException
+    privbte Set<ObjectNbme> getObjectNbmes(MBebnServerConnection mbs)
+        throws jbvb.io.IOException
     {
-        String domainAndType = domain + ":type=" + type;
+        String dombinAndType = dombin + ":type=" + type;
         if (keyProperties.size() > 1) {
-            // if there are more than 1 key properties (i.e. other than "type")
-            domainAndType += ",*";
+            // if there bre more thbn 1 key properties (i.e. other thbn "type")
+            dombinAndType += ",*";
         }
-        ObjectName on = Util.newObjectName(domainAndType);
-        Set<ObjectName> set =  mbs.queryNames(on, null);
-        for (PlatformComponent pc : subComponents) {
-            set.addAll(pc.getObjectNames(mbs));
+        ObjectNbme on = Util.newObjectNbme(dombinAndType);
+        Set<ObjectNbme> set =  mbs.queryNbmes(on, null);
+        for (PlbtformComponent pc : subComponents) {
+            set.bddAll(pc.getObjectNbmes(mbs));
         }
         return set;
     }
 
-    // a map from MXBean interface name to PlatformComponent
-    private static Map<String, PlatformComponent> enumMap;
-    private static synchronized void ensureInitialized() {
-        if (enumMap == null) {
-            enumMap = new HashMap<>();
-            for (PlatformComponent pc: PlatformComponent.values()) {
-                // Use String as the key rather than Class<?> to avoid
-                // causing unnecessary class loading of management interface
-                enumMap.put(pc.getMXBeanInterfaceName(), pc);
+    // b mbp from MXBebn interfbce nbme to PlbtformComponent
+    privbte stbtic Mbp<String, PlbtformComponent> enumMbp;
+    privbte stbtic synchronized void ensureInitiblized() {
+        if (enumMbp == null) {
+            enumMbp = new HbshMbp<>();
+            for (PlbtformComponent pc: PlbtformComponent.vblues()) {
+                // Use String bs the key rbther thbn Clbss<?> to bvoid
+                // cbusing unnecessbry clbss lobding of mbnbgement interfbce
+                enumMbp.put(pc.getMXBebnInterfbceNbme(), pc);
             }
         }
     }
 
-    static boolean isPlatformMXBean(String cn) {
-        ensureInitialized();
-        return enumMap.containsKey(cn);
+    stbtic boolebn isPlbtformMXBebn(String cn) {
+        ensureInitiblized();
+        return enumMbp.contbinsKey(cn);
     }
 
-    static <T extends PlatformManagedObject>
-        PlatformComponent getPlatformComponent(Class<T> mxbeanInterface)
+    stbtic <T extends PlbtformMbnbgedObject>
+        PlbtformComponent getPlbtformComponent(Clbss<T> mxbebnInterfbce)
     {
-        ensureInitialized();
-        String cn = mxbeanInterface.getName();
-        PlatformComponent pc = enumMap.get(cn);
-        if (pc != null && pc.getMXBeanInterface() == mxbeanInterface)
+        ensureInitiblized();
+        String cn = mxbebnInterfbce.getNbme();
+        PlbtformComponent pc = enumMbp.get(cn);
+        if (pc != null && pc.getMXBebnInterfbce() == mxbebnInterfbce)
             return pc;
         return null;
     }
 
-    private static final long serialVersionUID = 6992337162326171013L;
+    privbte stbtic finbl long seriblVersionUID = 6992337162326171013L;
 }

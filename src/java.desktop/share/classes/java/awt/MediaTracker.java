@@ -1,328 +1,328 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import sun.awt.image.MultiResolutionToolkitImage;
+import jbvb.bwt.Component;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.ImbgeObserver;
+import sun.bwt.imbge.MultiResolutionToolkitImbge;
 
 /**
- * The <code>MediaTracker</code> class is a utility class to track
- * the status of a number of media objects. Media objects could
- * include audio clips as well as images, though currently only
- * images are supported.
+ * The <code>MedibTrbcker</code> clbss is b utility clbss to trbck
+ * the stbtus of b number of medib objects. Medib objects could
+ * include budio clips bs well bs imbges, though currently only
+ * imbges bre supported.
  * <p>
- * To use a media tracker, create an instance of
- * <code>MediaTracker</code> and call its <code>addImage</code>
- * method for each image to be tracked. In addition, each image can
- * be assigned a unique identifier. This identifier controls the
- * priority order in which the images are fetched. It can also be used
- * to identify unique subsets of the images that can be waited on
- * independently. Images with a lower ID are loaded in preference to
- * those with a higher ID number.
+ * To use b medib trbcker, crebte bn instbnce of
+ * <code>MedibTrbcker</code> bnd cbll its <code>bddImbge</code>
+ * method for ebch imbge to be trbcked. In bddition, ebch imbge cbn
+ * be bssigned b unique identifier. This identifier controls the
+ * priority order in which the imbges bre fetched. It cbn blso be used
+ * to identify unique subsets of the imbges thbt cbn be wbited on
+ * independently. Imbges with b lower ID bre lobded in preference to
+ * those with b higher ID number.
  *
  * <p>
  *
- * Tracking an animated image
- * might not always be useful
- * due to the multi-part nature of animated image
- * loading and painting,
+ * Trbcking bn bnimbted imbge
+ * might not blwbys be useful
+ * due to the multi-pbrt nbture of bnimbted imbge
+ * lobding bnd pbinting,
  * but it is supported.
- * <code>MediaTracker</code> treats an animated image
- * as completely loaded
- * when the first frame is completely loaded.
- * At that point, the <code>MediaTracker</code>
- * signals any waiters
- * that the image is completely loaded.
- * If no <code>ImageObserver</code>s are observing the image
- * when the first frame has finished loading,
- * the image might flush itself
+ * <code>MedibTrbcker</code> trebts bn bnimbted imbge
+ * bs completely lobded
+ * when the first frbme is completely lobded.
+ * At thbt point, the <code>MedibTrbcker</code>
+ * signbls bny wbiters
+ * thbt the imbge is completely lobded.
+ * If no <code>ImbgeObserver</code>s bre observing the imbge
+ * when the first frbme hbs finished lobding,
+ * the imbge might flush itself
  * to conserve resources
- * (see {@link Image#flush()}).
+ * (see {@link Imbge#flush()}).
  *
  * <p>
- * Here is an example of using <code>MediaTracker</code>:
+ * Here is bn exbmple of using <code>MedibTrbcker</code>:
  *
  * <hr><blockquote><pre>{@code
- * import java.applet.Applet;
- * import java.awt.Color;
- * import java.awt.Image;
- * import java.awt.Graphics;
- * import java.awt.MediaTracker;
+ * import jbvb.bpplet.Applet;
+ * import jbvb.bwt.Color;
+ * import jbvb.bwt.Imbge;
+ * import jbvb.bwt.Grbphics;
+ * import jbvb.bwt.MedibTrbcker;
  *
- * public class ImageBlaster extends Applet implements Runnable {
- *      MediaTracker tracker;
- *      Image bg;
- *      Image anim[] = new Image[5];
+ * public clbss ImbgeBlbster extends Applet implements Runnbble {
+ *      MedibTrbcker trbcker;
+ *      Imbge bg;
+ *      Imbge bnim[] = new Imbge[5];
  *      int index;
- *      Thread animator;
+ *      Threbd bnimbtor;
  *
- *      // Get the images for the background (id == 0)
- *      // and the animation frames (id == 1)
- *      // and add them to the MediaTracker
+ *      // Get the imbges for the bbckground (id == 0)
+ *      // bnd the bnimbtion frbmes (id == 1)
+ *      // bnd bdd them to the MedibTrbcker
  *      public void init() {
- *          tracker = new MediaTracker(this);
- *          bg = getImage(getDocumentBase(),
- *                  "images/background.gif");
- *          tracker.addImage(bg, 0);
+ *          trbcker = new MedibTrbcker(this);
+ *          bg = getImbge(getDocumentBbse(),
+ *                  "imbges/bbckground.gif");
+ *          trbcker.bddImbge(bg, 0);
  *          for (int i = 0; i < 5; i++) {
- *              anim[i] = getImage(getDocumentBase(),
- *                      "images/anim"+i+".gif");
- *              tracker.addImage(anim[i], 1);
+ *              bnim[i] = getImbge(getDocumentBbse(),
+ *                      "imbges/bnim"+i+".gif");
+ *              trbcker.bddImbge(bnim[i], 1);
  *          }
  *      }
  *
- *      // Start the animation thread.
- *      public void start() {
- *          animator = new Thread(this);
- *          animator.start();
+ *      // Stbrt the bnimbtion threbd.
+ *      public void stbrt() {
+ *          bnimbtor = new Threbd(this);
+ *          bnimbtor.stbrt();
  *      }
  *
- *      // Stop the animation thread.
+ *      // Stop the bnimbtion threbd.
  *      public void stop() {
- *          animator = null;
+ *          bnimbtor = null;
  *      }
  *
- *      // Run the animation thread.
- *      // First wait for the background image to fully load
- *      // and paint.  Then wait for all of the animation
- *      // frames to finish loading. Finally, loop and
- *      // increment the animation frame index.
+ *      // Run the bnimbtion threbd.
+ *      // First wbit for the bbckground imbge to fully lobd
+ *      // bnd pbint.  Then wbit for bll of the bnimbtion
+ *      // frbmes to finish lobding. Finblly, loop bnd
+ *      // increment the bnimbtion frbme index.
  *      public void run() {
  *          try {
- *              tracker.waitForID(0);
- *              tracker.waitForID(1);
- *          } catch (InterruptedException e) {
+ *              trbcker.wbitForID(0);
+ *              trbcker.wbitForID(1);
+ *          } cbtch (InterruptedException e) {
  *              return;
  *          }
- *          Thread me = Thread.currentThread();
- *          while (animator == me) {
+ *          Threbd me = Threbd.currentThrebd();
+ *          while (bnimbtor == me) {
  *              try {
- *                  Thread.sleep(100);
- *              } catch (InterruptedException e) {
- *                  break;
+ *                  Threbd.sleep(100);
+ *              } cbtch (InterruptedException e) {
+ *                  brebk;
  *              }
  *              synchronized (this) {
  *                  index++;
- *                  if (index >= anim.length) {
+ *                  if (index >= bnim.length) {
  *                      index = 0;
  *                  }
  *              }
- *              repaint();
+ *              repbint();
  *          }
  *      }
  *
- *      // The background image fills the frame so we
- *      // don't need to clear the applet on repaints.
- *      // Just call the paint method.
- *      public void update(Graphics g) {
- *          paint(g);
+ *      // The bbckground imbge fills the frbme so we
+ *      // don't need to clebr the bpplet on repbints.
+ *      // Just cbll the pbint method.
+ *      public void updbte(Grbphics g) {
+ *          pbint(g);
  *      }
  *
- *      // Paint a large red rectangle if there are any errors
- *      // loading the images.  Otherwise always paint the
- *      // background so that it appears incrementally as it
- *      // is loading.  Finally, only paint the current animation
- *      // frame if all of the frames (id == 1) are done loading,
- *      // so that we don't get partial animations.
- *      public void paint(Graphics g) {
- *          if ((tracker.statusAll(false) & MediaTracker.ERRORED) != 0) {
+ *      // Pbint b lbrge red rectbngle if there bre bny errors
+ *      // lobding the imbges.  Otherwise blwbys pbint the
+ *      // bbckground so thbt it bppebrs incrementblly bs it
+ *      // is lobding.  Finblly, only pbint the current bnimbtion
+ *      // frbme if bll of the frbmes (id == 1) bre done lobding,
+ *      // so thbt we don't get pbrtibl bnimbtions.
+ *      public void pbint(Grbphics g) {
+ *          if ((trbcker.stbtusAll(fblse) & MedibTrbcker.ERRORED) != 0) {
  *              g.setColor(Color.red);
  *              g.fillRect(0, 0, size().width, size().height);
  *              return;
  *          }
- *          g.drawImage(bg, 0, 0, this);
- *          if (tracker.statusID(1, false) == MediaTracker.COMPLETE) {
- *              g.drawImage(anim[index], 10, 10, this);
+ *          g.drbwImbge(bg, 0, 0, this);
+ *          if (trbcker.stbtusID(1, fblse) == MedibTrbcker.COMPLETE) {
+ *              g.drbwImbge(bnim[index], 10, 10, this);
  *          }
  *      }
  * }
  * } </pre></blockquote><hr>
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since       1.0
  */
-public class MediaTracker implements java.io.Serializable {
+public clbss MedibTrbcker implements jbvb.io.Seriblizbble {
 
     /**
-     * A given <code>Component</code> that will be
-     * tracked by a media tracker where the image will
-     * eventually be drawn.
+     * A given <code>Component</code> thbt will be
+     * trbcked by b medib trbcker where the imbge will
+     * eventublly be drbwn.
      *
-     * @serial
-     * @see #MediaTracker(Component)
+     * @seribl
+     * @see #MedibTrbcker(Component)
      */
-    Component target;
+    Component tbrget;
     /**
-     * The head of the list of <code>Images</code> that is being
-     * tracked by the <code>MediaTracker</code>.
+     * The hebd of the list of <code>Imbges</code> thbt is being
+     * trbcked by the <code>MedibTrbcker</code>.
      *
-     * @serial
-     * @see #addImage(Image, int)
-     * @see #removeImage(Image)
+     * @seribl
+     * @see #bddImbge(Imbge, int)
+     * @see #removeImbge(Imbge)
      */
-    MediaEntry head;
+    MedibEntry hebd;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = -483174189758638095L;
+    privbte stbtic finbl long seriblVersionUID = -483174189758638095L;
 
     /**
-     * Creates a media tracker to track images for a given component.
-     * @param     comp the component on which the images
-     *                     will eventually be drawn
+     * Crebtes b medib trbcker to trbck imbges for b given component.
+     * @pbrbm     comp the component on which the imbges
+     *                     will eventublly be drbwn
      */
-    public MediaTracker(Component comp) {
-        target = comp;
+    public MedibTrbcker(Component comp) {
+        tbrget = comp;
     }
 
     /**
-     * Adds an image to the list of images being tracked by this media
-     * tracker. The image will eventually be rendered at its default
-     * (unscaled) size.
-     * @param     image   the image to be tracked
-     * @param     id      an identifier used to track this image
+     * Adds bn imbge to the list of imbges being trbcked by this medib
+     * trbcker. The imbge will eventublly be rendered bt its defbult
+     * (unscbled) size.
+     * @pbrbm     imbge   the imbge to be trbcked
+     * @pbrbm     id      bn identifier used to trbck this imbge
      */
-    public void addImage(Image image, int id) {
-        addImage(image, id, -1, -1);
+    public void bddImbge(Imbge imbge, int id) {
+        bddImbge(imbge, id, -1, -1);
     }
 
     /**
-     * Adds a scaled image to the list of images being tracked
-     * by this media tracker. The image will eventually be
-     * rendered at the indicated width and height.
+     * Adds b scbled imbge to the list of imbges being trbcked
+     * by this medib trbcker. The imbge will eventublly be
+     * rendered bt the indicbted width bnd height.
      *
-     * @param     image   the image to be tracked
-     * @param     id   an identifier that can be used to track this image
-     * @param     w    the width at which the image is rendered
-     * @param     h    the height at which the image is rendered
+     * @pbrbm     imbge   the imbge to be trbcked
+     * @pbrbm     id   bn identifier thbt cbn be used to trbck this imbge
+     * @pbrbm     w    the width bt which the imbge is rendered
+     * @pbrbm     h    the height bt which the imbge is rendered
      */
-    public synchronized void addImage(Image image, int id, int w, int h) {
-        addImageImpl(image, id, w, h);
-        Image rvImage = getResolutionVariant(image);
-        if (rvImage != null) {
-            addImageImpl(rvImage, id,
+    public synchronized void bddImbge(Imbge imbge, int id, int w, int h) {
+        bddImbgeImpl(imbge, id, w, h);
+        Imbge rvImbge = getResolutionVbribnt(imbge);
+        if (rvImbge != null) {
+            bddImbgeImpl(rvImbge, id,
                     w == -1 ? -1 : 2 * w,
                     h == -1 ? -1 : 2 * h);
         }
     }
 
-    private void addImageImpl(Image image, int id, int w, int h) {
-        head = MediaEntry.insert(head,
-                                 new ImageMediaEntry(this, image, id, w, h));
+    privbte void bddImbgeImpl(Imbge imbge, int id, int w, int h) {
+        hebd = MedibEntry.insert(hebd,
+                                 new ImbgeMedibEntry(this, imbge, id, w, h));
     }
     /**
-     * Flag indicating that media is currently being loaded.
-     * @see         java.awt.MediaTracker#statusAll
-     * @see         java.awt.MediaTracker#statusID
+     * Flbg indicbting thbt medib is currently being lobded.
+     * @see         jbvb.bwt.MedibTrbcker#stbtusAll
+     * @see         jbvb.bwt.MedibTrbcker#stbtusID
      */
-    public static final int LOADING = 1;
+    public stbtic finbl int LOADING = 1;
 
     /**
-     * Flag indicating that the downloading of media was aborted.
-     * @see         java.awt.MediaTracker#statusAll
-     * @see         java.awt.MediaTracker#statusID
+     * Flbg indicbting thbt the downlobding of medib wbs bborted.
+     * @see         jbvb.bwt.MedibTrbcker#stbtusAll
+     * @see         jbvb.bwt.MedibTrbcker#stbtusID
      */
-    public static final int ABORTED = 2;
+    public stbtic finbl int ABORTED = 2;
 
     /**
-     * Flag indicating that the downloading of media encountered
-     * an error.
-     * @see         java.awt.MediaTracker#statusAll
-     * @see         java.awt.MediaTracker#statusID
+     * Flbg indicbting thbt the downlobding of medib encountered
+     * bn error.
+     * @see         jbvb.bwt.MedibTrbcker#stbtusAll
+     * @see         jbvb.bwt.MedibTrbcker#stbtusID
      */
-    public static final int ERRORED = 4;
+    public stbtic finbl int ERRORED = 4;
 
     /**
-     * Flag indicating that the downloading of media was completed
+     * Flbg indicbting thbt the downlobding of medib wbs completed
      * successfully.
-     * @see         java.awt.MediaTracker#statusAll
-     * @see         java.awt.MediaTracker#statusID
+     * @see         jbvb.bwt.MedibTrbcker#stbtusAll
+     * @see         jbvb.bwt.MedibTrbcker#stbtusID
      */
-    public static final int COMPLETE = 8;
+    public stbtic finbl int COMPLETE = 8;
 
-    static final int DONE = (ABORTED | ERRORED | COMPLETE);
+    stbtic finbl int DONE = (ABORTED | ERRORED | COMPLETE);
 
     /**
-     * Checks to see if all images being tracked by this media tracker
-     * have finished loading.
+     * Checks to see if bll imbges being trbcked by this medib trbcker
+     * hbve finished lobding.
      * <p>
-     * This method does not start loading the images if they are not
-     * already loading.
+     * This method does not stbrt lobding the imbges if they bre not
+     * blrebdy lobding.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
      * <code>isErrorAny</code> or <code>isErrorID</code> methods to
      * check for errors.
-     * @return      <code>true</code> if all images have finished loading,
-     *                       have been aborted, or have encountered
-     *                       an error; <code>false</code> otherwise
-     * @see         java.awt.MediaTracker#checkAll(boolean)
-     * @see         java.awt.MediaTracker#checkID
-     * @see         java.awt.MediaTracker#isErrorAny
-     * @see         java.awt.MediaTracker#isErrorID
+     * @return      <code>true</code> if bll imbges hbve finished lobding,
+     *                       hbve been bborted, or hbve encountered
+     *                       bn error; <code>fblse</code> otherwise
+     * @see         jbvb.bwt.MedibTrbcker#checkAll(boolebn)
+     * @see         jbvb.bwt.MedibTrbcker#checkID
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID
      */
-    public boolean checkAll() {
-        return checkAll(false, true);
+    public boolebn checkAll() {
+        return checkAll(fblse, true);
     }
 
     /**
-     * Checks to see if all images being tracked by this media tracker
-     * have finished loading.
+     * Checks to see if bll imbges being trbcked by this medib trbcker
+     * hbve finished lobding.
      * <p>
-     * If the value of the <code>load</code> flag is <code>true</code>,
-     * then this method starts loading any images that are not yet
-     * being loaded.
+     * If the vblue of the <code>lobd</code> flbg is <code>true</code>,
+     * then this method stbrts lobding bny imbges thbt bre not yet
+     * being lobded.
      * <p>
-     * If there is an error while loading or scaling an image, that
-     * image is considered to have finished loading. Use the
-     * <code>isErrorAny</code> and <code>isErrorID</code> methods to
+     * If there is bn error while lobding or scbling bn imbge, thbt
+     * imbge is considered to hbve finished lobding. Use the
+     * <code>isErrorAny</code> bnd <code>isErrorID</code> methods to
      * check for errors.
-     * @param       load   if <code>true</code>, start loading any
-     *                       images that are not yet being loaded
-     * @return      <code>true</code> if all images have finished loading,
-     *                       have been aborted, or have encountered
-     *                       an error; <code>false</code> otherwise
-     * @see         java.awt.MediaTracker#checkID
-     * @see         java.awt.MediaTracker#checkAll()
-     * @see         java.awt.MediaTracker#isErrorAny()
-     * @see         java.awt.MediaTracker#isErrorID(int)
+     * @pbrbm       lobd   if <code>true</code>, stbrt lobding bny
+     *                       imbges thbt bre not yet being lobded
+     * @return      <code>true</code> if bll imbges hbve finished lobding,
+     *                       hbve been bborted, or hbve encountered
+     *                       bn error; <code>fblse</code> otherwise
+     * @see         jbvb.bwt.MedibTrbcker#checkID
+     * @see         jbvb.bwt.MedibTrbcker#checkAll()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID(int)
      */
-    public boolean checkAll(boolean load) {
-        return checkAll(load, true);
+    public boolebn checkAll(boolebn lobd) {
+        return checkAll(lobd, true);
     }
 
-    private synchronized boolean checkAll(boolean load, boolean verify) {
-        MediaEntry cur = head;
-        boolean done = true;
+    privbte synchronized boolebn checkAll(boolebn lobd, boolebn verify) {
+        MedibEntry cur = hebd;
+        boolebn done = true;
         while (cur != null) {
-            if ((cur.getStatus(load, verify) & DONE) == 0) {
-                done = false;
+            if ((cur.getStbtus(lobd, verify) & DONE) == 0) {
+                done = fblse;
             }
             cur = cur.next;
         }
@@ -330,38 +330,38 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Checks the error status of all of the images.
-     * @return   <code>true</code> if any of the images tracked
-     *                  by this media tracker had an error during
-     *                  loading; <code>false</code> otherwise
-     * @see      java.awt.MediaTracker#isErrorID
-     * @see      java.awt.MediaTracker#getErrorsAny
+     * Checks the error stbtus of bll of the imbges.
+     * @return   <code>true</code> if bny of the imbges trbcked
+     *                  by this medib trbcker hbd bn error during
+     *                  lobding; <code>fblse</code> otherwise
+     * @see      jbvb.bwt.MedibTrbcker#isErrorID
+     * @see      jbvb.bwt.MedibTrbcker#getErrorsAny
      */
-    public synchronized boolean isErrorAny() {
-        MediaEntry cur = head;
+    public synchronized boolebn isErrorAny() {
+        MedibEntry cur = hebd;
         while (cur != null) {
-            if ((cur.getStatus(false, true) & ERRORED) != 0) {
+            if ((cur.getStbtus(fblse, true) & ERRORED) != 0) {
                 return true;
             }
             cur = cur.next;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a list of all media that have encountered an error.
-     * @return       an array of media objects tracked by this
-     *                        media tracker that have encountered
-     *                        an error, or <code>null</code> if
-     *                        there are none with errors
-     * @see          java.awt.MediaTracker#isErrorAny
-     * @see          java.awt.MediaTracker#getErrorsID
+     * Returns b list of bll medib thbt hbve encountered bn error.
+     * @return       bn brrby of medib objects trbcked by this
+     *                        medib trbcker thbt hbve encountered
+     *                        bn error, or <code>null</code> if
+     *                        there bre none with errors
+     * @see          jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see          jbvb.bwt.MedibTrbcker#getErrorsID
      */
     public synchronized Object[] getErrorsAny() {
-        MediaEntry cur = head;
+        MedibEntry cur = hebd;
         int numerrors = 0;
         while (cur != null) {
-            if ((cur.getStatus(false, true) & ERRORED) != 0) {
+            if ((cur.getStbtus(fblse, true) & ERRORED) != 0) {
                 numerrors++;
             }
             cur = cur.next;
@@ -370,11 +370,11 @@ public class MediaTracker implements java.io.Serializable {
             return null;
         }
         Object errors[] = new Object[numerrors];
-        cur = head;
+        cur = hebd;
         numerrors = 0;
         while (cur != null) {
-            if ((cur.getStatus(false, false) & ERRORED) != 0) {
-                errors[numerrors++] = cur.getMedia();
+            if ((cur.getStbtus(fblse, fblse) & ERRORED) != 0) {
+                errors[numerrors++] = cur.getMedib();
             }
             cur = cur.next;
         }
@@ -382,167 +382,167 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Starts loading all images tracked by this media tracker. This
-     * method waits until all the images being tracked have finished
-     * loading.
+     * Stbrts lobding bll imbges trbcked by this medib trbcker. This
+     * method wbits until bll the imbges being trbcked hbve finished
+     * lobding.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
      * <code>isErrorAny</code> or <code>isErrorID</code> methods to
      * check for errors.
-     * @see         java.awt.MediaTracker#waitForID(int)
-     * @see         java.awt.MediaTracker#waitForAll(long)
-     * @see         java.awt.MediaTracker#isErrorAny
-     * @see         java.awt.MediaTracker#isErrorID
-     * @exception   InterruptedException  if any thread has
-     *                                     interrupted this thread
+     * @see         jbvb.bwt.MedibTrbcker#wbitForID(int)
+     * @see         jbvb.bwt.MedibTrbcker#wbitForAll(long)
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID
+     * @exception   InterruptedException  if bny threbd hbs
+     *                                     interrupted this threbd
      */
-    public void waitForAll() throws InterruptedException {
-        waitForAll(0);
+    public void wbitForAll() throws InterruptedException {
+        wbitForAll(0);
     }
 
     /**
-     * Starts loading all images tracked by this media tracker. This
-     * method waits until all the images being tracked have finished
-     * loading, or until the length of time specified in milliseconds
-     * by the <code>ms</code> argument has passed.
+     * Stbrts lobding bll imbges trbcked by this medib trbcker. This
+     * method wbits until bll the imbges being trbcked hbve finished
+     * lobding, or until the length of time specified in milliseconds
+     * by the <code>ms</code> brgument hbs pbssed.
      * <p>
-     * If there is an error while loading or scaling an image, then
-     * that image is considered to have finished loading. Use the
+     * If there is bn error while lobding or scbling bn imbge, then
+     * thbt imbge is considered to hbve finished lobding. Use the
      * <code>isErrorAny</code> or <code>isErrorID</code> methods to
      * check for errors.
-     * @param       ms       the number of milliseconds to wait
-     *                       for the loading to complete
-     * @return      <code>true</code> if all images were successfully
-     *                       loaded; <code>false</code> otherwise
-     * @see         java.awt.MediaTracker#waitForID(int)
-     * @see         java.awt.MediaTracker#waitForAll(long)
-     * @see         java.awt.MediaTracker#isErrorAny
-     * @see         java.awt.MediaTracker#isErrorID
-     * @exception   InterruptedException  if any thread has
-     *                                     interrupted this thread.
+     * @pbrbm       ms       the number of milliseconds to wbit
+     *                       for the lobding to complete
+     * @return      <code>true</code> if bll imbges were successfully
+     *                       lobded; <code>fblse</code> otherwise
+     * @see         jbvb.bwt.MedibTrbcker#wbitForID(int)
+     * @see         jbvb.bwt.MedibTrbcker#wbitForAll(long)
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID
+     * @exception   InterruptedException  if bny threbd hbs
+     *                                     interrupted this threbd.
      */
-    public synchronized boolean waitForAll(long ms)
+    public synchronized boolebn wbitForAll(long ms)
         throws InterruptedException
     {
         long end = System.currentTimeMillis() + ms;
-        boolean first = true;
+        boolebn first = true;
         while (true) {
-            int status = statusAll(first, first);
-            if ((status & LOADING) == 0) {
-                return (status == COMPLETE);
+            int stbtus = stbtusAll(first, first);
+            if ((stbtus & LOADING) == 0) {
+                return (stbtus == COMPLETE);
             }
-            first = false;
+            first = fblse;
             long timeout;
             if (ms == 0) {
                 timeout = 0;
             } else {
                 timeout = end - System.currentTimeMillis();
                 if (timeout <= 0) {
-                    return false;
+                    return fblse;
                 }
             }
-            wait(timeout);
+            wbit(timeout);
         }
     }
 
     /**
-     * Calculates and returns the bitwise inclusive <b>OR</b> of the
-     * status of all media that are tracked by this media tracker.
+     * Cblculbtes bnd returns the bitwise inclusive <b>OR</b> of the
+     * stbtus of bll medib thbt bre trbcked by this medib trbcker.
      * <p>
-     * Possible flags defined by the
-     * <code>MediaTracker</code> class are <code>LOADING</code>,
-     * <code>ABORTED</code>, <code>ERRORED</code>, and
-     * <code>COMPLETE</code>. An image that hasn't started
-     * loading has zero as its status.
+     * Possible flbgs defined by the
+     * <code>MedibTrbcker</code> clbss bre <code>LOADING</code>,
+     * <code>ABORTED</code>, <code>ERRORED</code>, bnd
+     * <code>COMPLETE</code>. An imbge thbt hbsn't stbrted
+     * lobding hbs zero bs its stbtus.
      * <p>
-     * If the value of <code>load</code> is <code>true</code>, then
-     * this method starts loading any images that are not yet being loaded.
+     * If the vblue of <code>lobd</code> is <code>true</code>, then
+     * this method stbrts lobding bny imbges thbt bre not yet being lobded.
      *
-     * @param        load   if <code>true</code>, start loading
-     *                            any images that are not yet being loaded
-     * @return       the bitwise inclusive <b>OR</b> of the status of
-     *                            all of the media being tracked
-     * @see          java.awt.MediaTracker#statusID(int, boolean)
-     * @see          java.awt.MediaTracker#LOADING
-     * @see          java.awt.MediaTracker#ABORTED
-     * @see          java.awt.MediaTracker#ERRORED
-     * @see          java.awt.MediaTracker#COMPLETE
+     * @pbrbm        lobd   if <code>true</code>, stbrt lobding
+     *                            bny imbges thbt bre not yet being lobded
+     * @return       the bitwise inclusive <b>OR</b> of the stbtus of
+     *                            bll of the medib being trbcked
+     * @see          jbvb.bwt.MedibTrbcker#stbtusID(int, boolebn)
+     * @see          jbvb.bwt.MedibTrbcker#LOADING
+     * @see          jbvb.bwt.MedibTrbcker#ABORTED
+     * @see          jbvb.bwt.MedibTrbcker#ERRORED
+     * @see          jbvb.bwt.MedibTrbcker#COMPLETE
      */
-    public int statusAll(boolean load) {
-        return statusAll(load, true);
+    public int stbtusAll(boolebn lobd) {
+        return stbtusAll(lobd, true);
     }
 
-    private synchronized int statusAll(boolean load, boolean verify) {
-        MediaEntry cur = head;
-        int status = 0;
+    privbte synchronized int stbtusAll(boolebn lobd, boolebn verify) {
+        MedibEntry cur = hebd;
+        int stbtus = 0;
         while (cur != null) {
-            status = status | cur.getStatus(load, verify);
+            stbtus = stbtus | cur.getStbtus(lobd, verify);
             cur = cur.next;
         }
-        return status;
+        return stbtus;
     }
 
     /**
-     * Checks to see if all images tracked by this media tracker that
-     * are tagged with the specified identifier have finished loading.
+     * Checks to see if bll imbges trbcked by this medib trbcker thbt
+     * bre tbgged with the specified identifier hbve finished lobding.
      * <p>
-     * This method does not start loading the images if they are not
-     * already loading.
+     * This method does not stbrt lobding the imbges if they bre not
+     * blrebdy lobding.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
      * <code>isErrorAny</code> or <code>isErrorID</code> methods to
      * check for errors.
-     * @param       id   the identifier of the images to check
-     * @return      <code>true</code> if all images have finished loading,
-     *                       have been aborted, or have encountered
-     *                       an error; <code>false</code> otherwise
-     * @see         java.awt.MediaTracker#checkID(int, boolean)
-     * @see         java.awt.MediaTracker#checkAll()
-     * @see         java.awt.MediaTracker#isErrorAny()
-     * @see         java.awt.MediaTracker#isErrorID(int)
+     * @pbrbm       id   the identifier of the imbges to check
+     * @return      <code>true</code> if bll imbges hbve finished lobding,
+     *                       hbve been bborted, or hbve encountered
+     *                       bn error; <code>fblse</code> otherwise
+     * @see         jbvb.bwt.MedibTrbcker#checkID(int, boolebn)
+     * @see         jbvb.bwt.MedibTrbcker#checkAll()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID(int)
      */
-    public boolean checkID(int id) {
-        return checkID(id, false, true);
+    public boolebn checkID(int id) {
+        return checkID(id, fblse, true);
     }
 
     /**
-     * Checks to see if all images tracked by this media tracker that
-     * are tagged with the specified identifier have finished loading.
+     * Checks to see if bll imbges trbcked by this medib trbcker thbt
+     * bre tbgged with the specified identifier hbve finished lobding.
      * <p>
-     * If the value of the <code>load</code> flag is <code>true</code>,
-     * then this method starts loading any images that are not yet
-     * being loaded.
+     * If the vblue of the <code>lobd</code> flbg is <code>true</code>,
+     * then this method stbrts lobding bny imbges thbt bre not yet
+     * being lobded.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
      * <code>isErrorAny</code> or <code>isErrorID</code> methods to
      * check for errors.
-     * @param       id       the identifier of the images to check
-     * @param       load     if <code>true</code>, start loading any
-     *                       images that are not yet being loaded
-     * @return      <code>true</code> if all images have finished loading,
-     *                       have been aborted, or have encountered
-     *                       an error; <code>false</code> otherwise
-     * @see         java.awt.MediaTracker#checkID(int, boolean)
-     * @see         java.awt.MediaTracker#checkAll()
-     * @see         java.awt.MediaTracker#isErrorAny()
-     * @see         java.awt.MediaTracker#isErrorID(int)
+     * @pbrbm       id       the identifier of the imbges to check
+     * @pbrbm       lobd     if <code>true</code>, stbrt lobding bny
+     *                       imbges thbt bre not yet being lobded
+     * @return      <code>true</code> if bll imbges hbve finished lobding,
+     *                       hbve been bborted, or hbve encountered
+     *                       bn error; <code>fblse</code> otherwise
+     * @see         jbvb.bwt.MedibTrbcker#checkID(int, boolebn)
+     * @see         jbvb.bwt.MedibTrbcker#checkAll()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny()
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID(int)
      */
-    public boolean checkID(int id, boolean load) {
-        return checkID(id, load, true);
+    public boolebn checkID(int id, boolebn lobd) {
+        return checkID(id, lobd, true);
     }
 
-    private synchronized boolean checkID(int id, boolean load, boolean verify)
+    privbte synchronized boolebn checkID(int id, boolebn lobd, boolebn verify)
     {
-        MediaEntry cur = head;
-        boolean done = true;
+        MedibEntry cur = hebd;
+        boolebn done = true;
         while (cur != null) {
             if (cur.getID() == id
-                && (cur.getStatus(load, verify) & DONE) == 0)
+                && (cur.getStbtus(lobd, verify) & DONE) == 0)
             {
-                done = false;
+                done = fblse;
             }
             cur = cur.next;
         }
@@ -550,46 +550,46 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Checks the error status of all of the images tracked by this
-     * media tracker with the specified identifier.
-     * @param        id   the identifier of the images to check
-     * @return       <code>true</code> if any of the images with the
-     *                          specified identifier had an error during
-     *                          loading; <code>false</code> otherwise
-     * @see          java.awt.MediaTracker#isErrorAny
-     * @see          java.awt.MediaTracker#getErrorsID
+     * Checks the error stbtus of bll of the imbges trbcked by this
+     * medib trbcker with the specified identifier.
+     * @pbrbm        id   the identifier of the imbges to check
+     * @return       <code>true</code> if bny of the imbges with the
+     *                          specified identifier hbd bn error during
+     *                          lobding; <code>fblse</code> otherwise
+     * @see          jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see          jbvb.bwt.MedibTrbcker#getErrorsID
      */
-    public synchronized boolean isErrorID(int id) {
-        MediaEntry cur = head;
+    public synchronized boolebn isErrorID(int id) {
+        MedibEntry cur = hebd;
         while (cur != null) {
             if (cur.getID() == id
-                && (cur.getStatus(false, true) & ERRORED) != 0)
+                && (cur.getStbtus(fblse, true) & ERRORED) != 0)
             {
                 return true;
             }
             cur = cur.next;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a list of media with the specified ID that
-     * have encountered an error.
-     * @param       id   the identifier of the images to check
-     * @return      an array of media objects tracked by this media
-     *                       tracker with the specified identifier
-     *                       that have encountered an error, or
-     *                       <code>null</code> if there are none with errors
-     * @see         java.awt.MediaTracker#isErrorID
-     * @see         java.awt.MediaTracker#isErrorAny
-     * @see         java.awt.MediaTracker#getErrorsAny
+     * Returns b list of medib with the specified ID thbt
+     * hbve encountered bn error.
+     * @pbrbm       id   the identifier of the imbges to check
+     * @return      bn brrby of medib objects trbcked by this medib
+     *                       trbcker with the specified identifier
+     *                       thbt hbve encountered bn error, or
+     *                       <code>null</code> if there bre none with errors
+     * @see         jbvb.bwt.MedibTrbcker#isErrorID
+     * @see         jbvb.bwt.MedibTrbcker#isErrorAny
+     * @see         jbvb.bwt.MedibTrbcker#getErrorsAny
      */
     public synchronized Object[] getErrorsID(int id) {
-        MediaEntry cur = head;
+        MedibEntry cur = hebd;
         int numerrors = 0;
         while (cur != null) {
             if (cur.getID() == id
-                && (cur.getStatus(false, true) & ERRORED) != 0)
+                && (cur.getStbtus(fblse, true) & ERRORED) != 0)
             {
                 numerrors++;
             }
@@ -599,13 +599,13 @@ public class MediaTracker implements java.io.Serializable {
             return null;
         }
         Object errors[] = new Object[numerrors];
-        cur = head;
+        cur = hebd;
         numerrors = 0;
         while (cur != null) {
             if (cur.getID() == id
-                && (cur.getStatus(false, false) & ERRORED) != 0)
+                && (cur.getStbtus(fblse, fblse) & ERRORED) != 0)
             {
-                errors[numerrors++] = cur.getMedia();
+                errors[numerrors++] = cur.getMedib();
             }
             cur = cur.next;
         }
@@ -613,144 +613,144 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Starts loading all images tracked by this media tracker with the
-     * specified identifier. This method waits until all the images with
-     * the specified identifier have finished loading.
+     * Stbrts lobding bll imbges trbcked by this medib trbcker with the
+     * specified identifier. This method wbits until bll the imbges with
+     * the specified identifier hbve finished lobding.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
-     * <code>isErrorAny</code> and <code>isErrorID</code> methods to
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
+     * <code>isErrorAny</code> bnd <code>isErrorID</code> methods to
      * check for errors.
-     * @param         id   the identifier of the images to check
-     * @see           java.awt.MediaTracker#waitForAll
-     * @see           java.awt.MediaTracker#isErrorAny()
-     * @see           java.awt.MediaTracker#isErrorID(int)
-     * @exception     InterruptedException  if any thread has
-     *                          interrupted this thread.
+     * @pbrbm         id   the identifier of the imbges to check
+     * @see           jbvb.bwt.MedibTrbcker#wbitForAll
+     * @see           jbvb.bwt.MedibTrbcker#isErrorAny()
+     * @see           jbvb.bwt.MedibTrbcker#isErrorID(int)
+     * @exception     InterruptedException  if bny threbd hbs
+     *                          interrupted this threbd.
      */
-    public void waitForID(int id) throws InterruptedException {
-        waitForID(id, 0);
+    public void wbitForID(int id) throws InterruptedException {
+        wbitForID(id, 0);
     }
 
     /**
-     * Starts loading all images tracked by this media tracker with the
-     * specified identifier. This method waits until all the images with
-     * the specified identifier have finished loading, or until the
+     * Stbrts lobding bll imbges trbcked by this medib trbcker with the
+     * specified identifier. This method wbits until bll the imbges with
+     * the specified identifier hbve finished lobding, or until the
      * length of time specified in milliseconds by the <code>ms</code>
-     * argument has passed.
+     * brgument hbs pbssed.
      * <p>
-     * If there is an error while loading or scaling an image, then that
-     * image is considered to have finished loading. Use the
-     * <code>statusID</code>, <code>isErrorID</code>, and
+     * If there is bn error while lobding or scbling bn imbge, then thbt
+     * imbge is considered to hbve finished lobding. Use the
+     * <code>stbtusID</code>, <code>isErrorID</code>, bnd
      * <code>isErrorAny</code> methods to check for errors.
-     * @param  id the identifier of the images to check
-     * @param  ms the length of time, in milliseconds, to wait
-     *         for the loading to complete
-     * @return {@code true} if the loading completed in time;
-     *         otherwise {@code false}
-     * @see           java.awt.MediaTracker#waitForAll
-     * @see           java.awt.MediaTracker#waitForID(int)
-     * @see           java.awt.MediaTracker#statusID
-     * @see           java.awt.MediaTracker#isErrorAny()
-     * @see           java.awt.MediaTracker#isErrorID(int)
-     * @exception     InterruptedException  if any thread has
-     *                          interrupted this thread.
+     * @pbrbm  id the identifier of the imbges to check
+     * @pbrbm  ms the length of time, in milliseconds, to wbit
+     *         for the lobding to complete
+     * @return {@code true} if the lobding completed in time;
+     *         otherwise {@code fblse}
+     * @see           jbvb.bwt.MedibTrbcker#wbitForAll
+     * @see           jbvb.bwt.MedibTrbcker#wbitForID(int)
+     * @see           jbvb.bwt.MedibTrbcker#stbtusID
+     * @see           jbvb.bwt.MedibTrbcker#isErrorAny()
+     * @see           jbvb.bwt.MedibTrbcker#isErrorID(int)
+     * @exception     InterruptedException  if bny threbd hbs
+     *                          interrupted this threbd.
      */
-    public synchronized boolean waitForID(int id, long ms)
+    public synchronized boolebn wbitForID(int id, long ms)
         throws InterruptedException
     {
         long end = System.currentTimeMillis() + ms;
-        boolean first = true;
+        boolebn first = true;
         while (true) {
-            int status = statusID(id, first, first);
-            if ((status & LOADING) == 0) {
-                return (status == COMPLETE);
+            int stbtus = stbtusID(id, first, first);
+            if ((stbtus & LOADING) == 0) {
+                return (stbtus == COMPLETE);
             }
-            first = false;
+            first = fblse;
             long timeout;
             if (ms == 0) {
                 timeout = 0;
             } else {
                 timeout = end - System.currentTimeMillis();
                 if (timeout <= 0) {
-                    return false;
+                    return fblse;
                 }
             }
-            wait(timeout);
+            wbit(timeout);
         }
     }
 
     /**
-     * Calculates and returns the bitwise inclusive <b>OR</b> of the
-     * status of all media with the specified identifier that are
-     * tracked by this media tracker.
+     * Cblculbtes bnd returns the bitwise inclusive <b>OR</b> of the
+     * stbtus of bll medib with the specified identifier thbt bre
+     * trbcked by this medib trbcker.
      * <p>
-     * Possible flags defined by the
-     * <code>MediaTracker</code> class are <code>LOADING</code>,
-     * <code>ABORTED</code>, <code>ERRORED</code>, and
-     * <code>COMPLETE</code>. An image that hasn't started
-     * loading has zero as its status.
+     * Possible flbgs defined by the
+     * <code>MedibTrbcker</code> clbss bre <code>LOADING</code>,
+     * <code>ABORTED</code>, <code>ERRORED</code>, bnd
+     * <code>COMPLETE</code>. An imbge thbt hbsn't stbrted
+     * lobding hbs zero bs its stbtus.
      * <p>
-     * If the value of <code>load</code> is <code>true</code>, then
-     * this method starts loading any images that are not yet being loaded.
-     * @param        id   the identifier of the images to check
-     * @param        load   if <code>true</code>, start loading
-     *                            any images that are not yet being loaded
-     * @return       the bitwise inclusive <b>OR</b> of the status of
-     *                            all of the media with the specified
-     *                            identifier that are being tracked
-     * @see          java.awt.MediaTracker#statusAll(boolean)
-     * @see          java.awt.MediaTracker#LOADING
-     * @see          java.awt.MediaTracker#ABORTED
-     * @see          java.awt.MediaTracker#ERRORED
-     * @see          java.awt.MediaTracker#COMPLETE
+     * If the vblue of <code>lobd</code> is <code>true</code>, then
+     * this method stbrts lobding bny imbges thbt bre not yet being lobded.
+     * @pbrbm        id   the identifier of the imbges to check
+     * @pbrbm        lobd   if <code>true</code>, stbrt lobding
+     *                            bny imbges thbt bre not yet being lobded
+     * @return       the bitwise inclusive <b>OR</b> of the stbtus of
+     *                            bll of the medib with the specified
+     *                            identifier thbt bre being trbcked
+     * @see          jbvb.bwt.MedibTrbcker#stbtusAll(boolebn)
+     * @see          jbvb.bwt.MedibTrbcker#LOADING
+     * @see          jbvb.bwt.MedibTrbcker#ABORTED
+     * @see          jbvb.bwt.MedibTrbcker#ERRORED
+     * @see          jbvb.bwt.MedibTrbcker#COMPLETE
      */
-    public int statusID(int id, boolean load) {
-        return statusID(id, load, true);
+    public int stbtusID(int id, boolebn lobd) {
+        return stbtusID(id, lobd, true);
     }
 
-    private synchronized int statusID(int id, boolean load, boolean verify) {
-        MediaEntry cur = head;
-        int status = 0;
+    privbte synchronized int stbtusID(int id, boolebn lobd, boolebn verify) {
+        MedibEntry cur = hebd;
+        int stbtus = 0;
         while (cur != null) {
             if (cur.getID() == id) {
-                status = status | cur.getStatus(load, verify);
+                stbtus = stbtus | cur.getStbtus(lobd, verify);
             }
             cur = cur.next;
         }
-        return status;
+        return stbtus;
     }
 
     /**
-     * Removes the specified image from this media tracker.
-     * All instances of the specified image are removed,
-     * regardless of scale or ID.
-     * @param   image     the image to be removed
-     * @see     java.awt.MediaTracker#removeImage(java.awt.Image, int)
-     * @see     java.awt.MediaTracker#removeImage(java.awt.Image, int, int, int)
+     * Removes the specified imbge from this medib trbcker.
+     * All instbnces of the specified imbge bre removed,
+     * regbrdless of scble or ID.
+     * @pbrbm   imbge     the imbge to be removed
+     * @see     jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge, int)
+     * @see     jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge, int, int, int)
      * @since   1.1
      */
-    public synchronized void removeImage(Image image) {
-        removeImageImpl(image);
-        Image rvImage = getResolutionVariant(image);
-        if (rvImage != null) {
-            removeImageImpl(rvImage);
+    public synchronized void removeImbge(Imbge imbge) {
+        removeImbgeImpl(imbge);
+        Imbge rvImbge = getResolutionVbribnt(imbge);
+        if (rvImbge != null) {
+            removeImbgeImpl(rvImbge);
         }
-        notifyAll();    // Notify in case remaining images are "done".
+        notifyAll();    // Notify in cbse rembining imbges bre "done".
     }
 
-    private void removeImageImpl(Image image) {
-        MediaEntry cur = head;
-        MediaEntry prev = null;
+    privbte void removeImbgeImpl(Imbge imbge) {
+        MedibEntry cur = hebd;
+        MedibEntry prev = null;
         while (cur != null) {
-            MediaEntry next = cur.next;
-            if (cur.getMedia() == image) {
+            MedibEntry next = cur.next;
+            if (cur.getMedib() == imbge) {
                 if (prev == null) {
-                    head = next;
+                    hebd = next;
                 } else {
                     prev.next = next;
                 }
-                cur.cancel();
+                cur.cbncel();
             } else {
                 prev = cur;
             }
@@ -759,37 +759,37 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Removes the specified image from the specified tracking
-     * ID of this media tracker.
-     * All instances of <code>Image</code> being tracked
-     * under the specified ID are removed regardless of scale.
-     * @param      image the image to be removed
-     * @param      id the tracking ID from which to remove the image
-     * @see        java.awt.MediaTracker#removeImage(java.awt.Image)
-     * @see        java.awt.MediaTracker#removeImage(java.awt.Image, int, int, int)
+     * Removes the specified imbge from the specified trbcking
+     * ID of this medib trbcker.
+     * All instbnces of <code>Imbge</code> being trbcked
+     * under the specified ID bre removed regbrdless of scble.
+     * @pbrbm      imbge the imbge to be removed
+     * @pbrbm      id the trbcking ID from which to remove the imbge
+     * @see        jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge)
+     * @see        jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge, int, int, int)
      * @since      1.1
      */
-    public synchronized void removeImage(Image image, int id) {
-        removeImageImpl(image, id);
-        Image rvImage = getResolutionVariant(image);
-        if (rvImage != null) {
-            removeImageImpl(rvImage, id);
+    public synchronized void removeImbge(Imbge imbge, int id) {
+        removeImbgeImpl(imbge, id);
+        Imbge rvImbge = getResolutionVbribnt(imbge);
+        if (rvImbge != null) {
+            removeImbgeImpl(rvImbge, id);
         }
-        notifyAll();    // Notify in case remaining images are "done".
+        notifyAll();    // Notify in cbse rembining imbges bre "done".
     }
 
-    private void removeImageImpl(Image image, int id) {
-        MediaEntry cur = head;
-        MediaEntry prev = null;
+    privbte void removeImbgeImpl(Imbge imbge, int id) {
+        MedibEntry cur = hebd;
+        MedibEntry prev = null;
         while (cur != null) {
-            MediaEntry next = cur.next;
-            if (cur.getID() == id && cur.getMedia() == image) {
+            MedibEntry next = cur.next;
+            if (cur.getID() == id && cur.getMedib() == imbge) {
                 if (prev == null) {
-                    head = next;
+                    hebd = next;
                 } else {
                     prev.next = next;
                 }
-                cur.cancel();
+                cur.cbncel();
             } else {
                 prev = cur;
             }
@@ -798,43 +798,43 @@ public class MediaTracker implements java.io.Serializable {
     }
 
     /**
-     * Removes the specified image with the specified
-     * width, height, and ID from this media tracker.
-     * Only the specified instance (with any duplicates) is removed.
-     * @param   image the image to be removed
-     * @param   id the tracking ID from which to remove the image
-     * @param   width the width to remove (-1 for unscaled)
-     * @param   height the height to remove (-1 for unscaled)
-     * @see     java.awt.MediaTracker#removeImage(java.awt.Image)
-     * @see     java.awt.MediaTracker#removeImage(java.awt.Image, int)
+     * Removes the specified imbge with the specified
+     * width, height, bnd ID from this medib trbcker.
+     * Only the specified instbnce (with bny duplicbtes) is removed.
+     * @pbrbm   imbge the imbge to be removed
+     * @pbrbm   id the trbcking ID from which to remove the imbge
+     * @pbrbm   width the width to remove (-1 for unscbled)
+     * @pbrbm   height the height to remove (-1 for unscbled)
+     * @see     jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge)
+     * @see     jbvb.bwt.MedibTrbcker#removeImbge(jbvb.bwt.Imbge, int)
      * @since   1.1
      */
-    public synchronized void removeImage(Image image, int id,
+    public synchronized void removeImbge(Imbge imbge, int id,
                                          int width, int height) {
-        removeImageImpl(image, id, width, height);
-        Image rvImage = getResolutionVariant(image);
-        if (rvImage != null) {
-            removeImageImpl(rvImage, id,
+        removeImbgeImpl(imbge, id, width, height);
+        Imbge rvImbge = getResolutionVbribnt(imbge);
+        if (rvImbge != null) {
+            removeImbgeImpl(rvImbge, id,
                     width == -1 ? -1 : 2 * width,
                     height == -1 ? -1 : 2 * height);
         }
-        notifyAll();    // Notify in case remaining images are "done".
+        notifyAll();    // Notify in cbse rembining imbges bre "done".
     }
 
-    private void removeImageImpl(Image image, int id, int width, int height) {
-        MediaEntry cur = head;
-        MediaEntry prev = null;
+    privbte void removeImbgeImpl(Imbge imbge, int id, int width, int height) {
+        MedibEntry cur = hebd;
+        MedibEntry prev = null;
         while (cur != null) {
-            MediaEntry next = cur.next;
-            if (cur.getID() == id && cur instanceof ImageMediaEntry
-                && ((ImageMediaEntry) cur).matches(image, width, height))
+            MedibEntry next = cur.next;
+            if (cur.getID() == id && cur instbnceof ImbgeMedibEntry
+                && ((ImbgeMedibEntry) cur).mbtches(imbge, width, height))
             {
                 if (prev == null) {
-                    head = next;
+                    hebd = next;
                 } else {
                     prev.next = next;
                 }
-                cur.cancel();
+                cur.cbncel();
             } else {
                 prev = cur;
             }
@@ -846,149 +846,149 @@ public class MediaTracker implements java.io.Serializable {
         notifyAll();
     }
 
-    private static Image getResolutionVariant(Image image) {
-        if (image instanceof MultiResolutionToolkitImage) {
-            return ((MultiResolutionToolkitImage) image).getResolutionVariant();
+    privbte stbtic Imbge getResolutionVbribnt(Imbge imbge) {
+        if (imbge instbnceof MultiResolutionToolkitImbge) {
+            return ((MultiResolutionToolkitImbge) imbge).getResolutionVbribnt();
         }
         return null;
     }
 }
 
-abstract class MediaEntry {
-    MediaTracker tracker;
+bbstrbct clbss MedibEntry {
+    MedibTrbcker trbcker;
     int ID;
-    MediaEntry next;
+    MedibEntry next;
 
-    int status;
-    boolean cancelled;
+    int stbtus;
+    boolebn cbncelled;
 
-    MediaEntry(MediaTracker mt, int id) {
-        tracker = mt;
+    MedibEntry(MedibTrbcker mt, int id) {
+        trbcker = mt;
         ID = id;
     }
 
-    abstract Object getMedia();
+    bbstrbct Object getMedib();
 
-    static MediaEntry insert(MediaEntry head, MediaEntry me) {
-        MediaEntry cur = head;
-        MediaEntry prev = null;
+    stbtic MedibEntry insert(MedibEntry hebd, MedibEntry me) {
+        MedibEntry cur = hebd;
+        MedibEntry prev = null;
         while (cur != null) {
             if (cur.ID > me.ID) {
-                break;
+                brebk;
             }
             prev = cur;
             cur = cur.next;
         }
         me.next = cur;
         if (prev == null) {
-            head = me;
+            hebd = me;
         } else {
             prev.next = me;
         }
-        return head;
+        return hebd;
     }
 
     int getID() {
         return ID;
     }
 
-    abstract void startLoad();
+    bbstrbct void stbrtLobd();
 
-    void cancel() {
-        cancelled = true;
+    void cbncel() {
+        cbncelled = true;
     }
 
-    static final int LOADING = MediaTracker.LOADING;
-    static final int ABORTED = MediaTracker.ABORTED;
-    static final int ERRORED = MediaTracker.ERRORED;
-    static final int COMPLETE = MediaTracker.COMPLETE;
+    stbtic finbl int LOADING = MedibTrbcker.LOADING;
+    stbtic finbl int ABORTED = MedibTrbcker.ABORTED;
+    stbtic finbl int ERRORED = MedibTrbcker.ERRORED;
+    stbtic finbl int COMPLETE = MedibTrbcker.COMPLETE;
 
-    static final int LOADSTARTED = (LOADING | ERRORED | COMPLETE);
-    static final int DONE = (ABORTED | ERRORED | COMPLETE);
+    stbtic finbl int LOADSTARTED = (LOADING | ERRORED | COMPLETE);
+    stbtic finbl int DONE = (ABORTED | ERRORED | COMPLETE);
 
-    synchronized int getStatus(boolean doLoad, boolean doVerify) {
-        if (doLoad && ((status & LOADSTARTED) == 0)) {
-            status = (status & ~ABORTED) | LOADING;
-            startLoad();
+    synchronized int getStbtus(boolebn doLobd, boolebn doVerify) {
+        if (doLobd && ((stbtus & LOADSTARTED) == 0)) {
+            stbtus = (stbtus & ~ABORTED) | LOADING;
+            stbrtLobd();
         }
-        return status;
+        return stbtus;
     }
 
-    void setStatus(int flag) {
+    void setStbtus(int flbg) {
         synchronized (this) {
-            status = flag;
+            stbtus = flbg;
         }
-        tracker.setDone();
+        trbcker.setDone();
     }
 }
 
-class ImageMediaEntry extends MediaEntry implements ImageObserver,
-java.io.Serializable {
-    Image image;
+clbss ImbgeMedibEntry extends MedibEntry implements ImbgeObserver,
+jbvb.io.Seriblizbble {
+    Imbge imbge;
     int width;
     int height;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 4739377000350280650L;
+    privbte stbtic finbl long seriblVersionUID = 4739377000350280650L;
 
-    ImageMediaEntry(MediaTracker mt, Image img, int c, int w, int h) {
+    ImbgeMedibEntry(MedibTrbcker mt, Imbge img, int c, int w, int h) {
         super(mt, c);
-        image = img;
+        imbge = img;
         width = w;
         height = h;
     }
 
-    boolean matches(Image img, int w, int h) {
-        return (image == img && width == w && height == h);
+    boolebn mbtches(Imbge img, int w, int h) {
+        return (imbge == img && width == w && height == h);
     }
 
-    Object getMedia() {
-        return image;
+    Object getMedib() {
+        return imbge;
     }
 
-    synchronized int getStatus(boolean doLoad, boolean doVerify) {
+    synchronized int getStbtus(boolebn doLobd, boolebn doVerify) {
         if (doVerify) {
-            int flags = tracker.target.checkImage(image, width, height, null);
-            int s = parseflags(flags);
+            int flbgs = trbcker.tbrget.checkImbge(imbge, width, height, null);
+            int s = pbrseflbgs(flbgs);
             if (s == 0) {
-                if ((status & (ERRORED | COMPLETE)) != 0) {
-                    setStatus(ABORTED);
+                if ((stbtus & (ERRORED | COMPLETE)) != 0) {
+                    setStbtus(ABORTED);
                 }
-            } else if (s != status) {
-                setStatus(s);
+            } else if (s != stbtus) {
+                setStbtus(s);
             }
         }
-        return super.getStatus(doLoad, doVerify);
+        return super.getStbtus(doLobd, doVerify);
     }
 
-    void startLoad() {
-        if (tracker.target.prepareImage(image, width, height, this)) {
-            setStatus(COMPLETE);
+    void stbrtLobd() {
+        if (trbcker.tbrget.prepbreImbge(imbge, width, height, this)) {
+            setStbtus(COMPLETE);
         }
     }
 
-    int parseflags(int infoflags) {
-        if ((infoflags & ERROR) != 0) {
+    int pbrseflbgs(int infoflbgs) {
+        if ((infoflbgs & ERROR) != 0) {
             return ERRORED;
-        } else if ((infoflags & ABORT) != 0) {
+        } else if ((infoflbgs & ABORT) != 0) {
             return ABORTED;
-        } else if ((infoflags & (ALLBITS | FRAMEBITS)) != 0) {
+        } else if ((infoflbgs & (ALLBITS | FRAMEBITS)) != 0) {
             return COMPLETE;
         }
         return 0;
     }
 
-    public boolean imageUpdate(Image img, int infoflags,
+    public boolebn imbgeUpdbte(Imbge img, int infoflbgs,
                                int x, int y, int w, int h) {
-        if (cancelled) {
-            return false;
+        if (cbncelled) {
+            return fblse;
         }
-        int s = parseflags(infoflags);
-        if (s != 0 && s != status) {
-            setStatus(s);
+        int s = pbrseflbgs(infoflbgs);
+        if (s != 0 && s != stbtus) {
+            setStbtus(s);
         }
-        return ((status & LOADING) != 0);
+        return ((stbtus & LOADING) != 0);
     }
 }

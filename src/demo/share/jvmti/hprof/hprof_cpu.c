@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,209 +30,209 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #include "hprof.h"
 
-/* This file contains the cpu loop for the option cpu=samples */
+/* This file contbins the cpu loop for the option cpu=sbmples */
 
-/* The cpu_loop thread basically waits for gdata->sample_interval millisecs
- *   then wakes up, and for each running thread it gets their stack trace,
- *   and updates the traces with 'hits'.
+/* The cpu_loop threbd bbsicblly wbits for gdbtb->sbmple_intervbl millisecs
+ *   then wbkes up, bnd for ebch running threbd it gets their stbck trbce,
+ *   bnd updbtes the trbces with 'hits'.
  *
- * No threads are suspended or resumed, and the thread sampling is in the
- *   file hprof_tls.c, which manages all active threads. The sampling
- *   technique (what is sampled) is also in hprof_tls.c.
+ * No threbds bre suspended or resumed, bnd the threbd sbmpling is in the
+ *   file hprof_tls.c, which mbnbges bll bctive threbds. The sbmpling
+ *   technique (whbt is sbmpled) is blso in hprof_tls.c.
  *
- * No adjustments are made to the pause time or sample interval except
- *   by the user via the interval=n option (default is 10ms).
+ * No bdjustments bre mbde to the pbuse time or sbmple intervbl except
+ *   by the user vib the intervbl=n option (defbult is 10ms).
  *
- * This thread can cause havoc when started prematurely or not terminated
- *   properly, see cpu_sample_init() and cpu_term(), and their calls in hprof_init.c.
+ * This threbd cbn cbuse hbvoc when stbrted prembturely or not terminbted
+ *   properly, see cpu_sbmple_init() bnd cpu_term(), bnd their cblls in hprof_init.c.
  *
- * The listener loop (hprof_listener.c) can dynamically turn on or off the
- *  sampling of all or selected threads.
+ * The listener loop (hprof_listener.c) cbn dynbmicblly turn on or off the
+ *  sbmpling of bll or selected threbds.
  *
  */
 
-/* Private functions */
+/* Privbte functions */
 
-static void JNICALL
+stbtic void JNICALL
 cpu_loop_function(jvmtiEnv *jvmti, JNIEnv *env, void *p)
 {
     int         loop_trip_counter;
-    jboolean    cpu_loop_running;
+    jboolebn    cpu_loop_running;
 
     loop_trip_counter          = 0;
 
-    rawMonitorEnter(gdata->cpu_loop_lock); {
-        gdata->cpu_loop_running = JNI_TRUE;
-        cpu_loop_running = gdata->cpu_loop_running;
-        /* Notify cpu_sample_init() that we have started */
-        rawMonitorNotifyAll(gdata->cpu_loop_lock);
-    } rawMonitorExit(gdata->cpu_loop_lock);
+    rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+        gdbtb->cpu_loop_running = JNI_TRUE;
+        cpu_loop_running = gdbtb->cpu_loop_running;
+        /* Notify cpu_sbmple_init() thbt we hbve stbrted */
+        rbwMonitorNotifyAll(gdbtb->cpu_loop_lock);
+    } rbwMonitorExit(gdbtb->cpu_loop_lock);
 
-    rawMonitorEnter(gdata->cpu_sample_lock); /* Only waits inside loop let go */
+    rbwMonitorEnter(gdbtb->cpu_sbmple_lock); /* Only wbits inside loop let go */
 
     while ( cpu_loop_running ) {
 
         ++loop_trip_counter;
 
-        LOG3("cpu_loop()", "iteration", loop_trip_counter);
+        LOG3("cpu_loop()", "iterbtion", loop_trip_counter);
 
-        /* If a dump is in progress, we pause sampling. */
-        rawMonitorEnter(gdata->dump_lock); {
-            if (gdata->dump_in_process) {
-                gdata->pause_cpu_sampling = JNI_TRUE;
+        /* If b dump is in progress, we pbuse sbmpling. */
+        rbwMonitorEnter(gdbtb->dump_lock); {
+            if (gdbtb->dump_in_process) {
+                gdbtb->pbuse_cpu_sbmpling = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lock);
 
-        /* Check to see if we need to pause sampling (listener_loop command) */
-        if (gdata->pause_cpu_sampling) {
+        /* Check to see if we need to pbuse sbmpling (listener_loop commbnd) */
+        if (gdbtb->pbuse_cpu_sbmpling) {
 
             /*
-             * Pause sampling for now. Reset sample controls if
-             * sampling is resumed again.
+             * Pbuse sbmpling for now. Reset sbmple controls if
+             * sbmpling is resumed bgbin.
              */
 
-            rawMonitorWait(gdata->cpu_sample_lock, 0);
+            rbwMonitorWbit(gdbtb->cpu_sbmple_lock, 0);
 
-            rawMonitorEnter(gdata->cpu_loop_lock); {
-                cpu_loop_running = gdata->cpu_loop_running;
-            } rawMonitorExit(gdata->cpu_loop_lock);
+            rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+                cpu_loop_running = gdbtb->cpu_loop_running;
+            } rbwMonitorExit(gdbtb->cpu_loop_lock);
 
-            /* Continue the while loop, which will terminate if done. */
+            /* Continue the while loop, which will terminbte if done. */
             continue;
         }
 
-        /* This is the normal short timed wait before getting a sample */
-        rawMonitorWait(gdata->cpu_sample_lock,  (jlong)gdata->sample_interval);
+        /* This is the normbl short timed wbit before getting b sbmple */
+        rbwMonitorWbit(gdbtb->cpu_sbmple_lock,  (jlong)gdbtb->sbmple_intervbl);
 
-        /* Make sure we really want to continue */
-        rawMonitorEnter(gdata->cpu_loop_lock); {
-            cpu_loop_running = gdata->cpu_loop_running;
-        } rawMonitorExit(gdata->cpu_loop_lock);
+        /* Mbke sure we reblly wbnt to continue */
+        rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+            cpu_loop_running = gdbtb->cpu_loop_running;
+        } rbwMonitorExit(gdbtb->cpu_loop_lock);
 
-        /* Break out if we are done */
+        /* Brebk out if we bre done */
         if ( !cpu_loop_running ) {
-            break;
+            brebk;
         }
 
         /*
-         * If a dump request came in after we checked at the top of
-         * the while loop, then we catch that fact here. We
-         * don't want to perturb the data that is being dumped so
-         * we just ignore the data from this sampling loop.
+         * If b dump request cbme in bfter we checked bt the top of
+         * the while loop, then we cbtch thbt fbct here. We
+         * don't wbnt to perturb the dbtb thbt is being dumped so
+         * we just ignore the dbtb from this sbmpling loop.
          */
-        rawMonitorEnter(gdata->dump_lock); {
-            if (gdata->dump_in_process) {
-                gdata->pause_cpu_sampling = JNI_TRUE;
+        rbwMonitorEnter(gdbtb->dump_lock); {
+            if (gdbtb->dump_in_process) {
+                gdbtb->pbuse_cpu_sbmpling = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lock);
 
-        /* Sample all the threads and update trace costs */
-        if ( !gdata->pause_cpu_sampling) {
-            tls_sample_all_threads(env);
+        /* Sbmple bll the threbds bnd updbte trbce costs */
+        if ( !gdbtb->pbuse_cpu_sbmpling) {
+            tls_sbmple_bll_threbds(env);
         }
 
         /* Check to see if we need to finish */
-        rawMonitorEnter(gdata->cpu_loop_lock); {
-            cpu_loop_running = gdata->cpu_loop_running;
-        } rawMonitorExit(gdata->cpu_loop_lock);
+        rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+            cpu_loop_running = gdbtb->cpu_loop_running;
+        } rbwMonitorExit(gdbtb->cpu_loop_lock);
 
     }
-    rawMonitorExit(gdata->cpu_sample_lock);
+    rbwMonitorExit(gdbtb->cpu_sbmple_lock);
 
-    rawMonitorEnter(gdata->cpu_loop_lock); {
-        /* Notify cpu_sample_term() that we are done. */
-        rawMonitorNotifyAll(gdata->cpu_loop_lock);
-    } rawMonitorExit(gdata->cpu_loop_lock);
+    rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+        /* Notify cpu_sbmple_term() thbt we bre done. */
+        rbwMonitorNotifyAll(gdbtb->cpu_loop_lock);
+    } rbwMonitorExit(gdbtb->cpu_loop_lock);
 
-    LOG2("cpu_loop()", "clean termination");
+    LOG2("cpu_loop()", "clebn terminbtion");
 }
 
-/* External functions */
+/* Externbl functions */
 
 void
-cpu_sample_init(JNIEnv *env)
+cpu_sbmple_init(JNIEnv *env)
 {
-    gdata->cpu_sampling  = JNI_TRUE;
+    gdbtb->cpu_sbmpling  = JNI_TRUE;
 
-    /* Create the raw monitors needed */
-    gdata->cpu_loop_lock = createRawMonitor("HPROF cpu loop lock");
-    gdata->cpu_sample_lock = createRawMonitor("HPROF cpu sample lock");
+    /* Crebte the rbw monitors needed */
+    gdbtb->cpu_loop_lock = crebteRbwMonitor("HPROF cpu loop lock");
+    gdbtb->cpu_sbmple_lock = crebteRbwMonitor("HPROF cpu sbmple lock");
 
-    rawMonitorEnter(gdata->cpu_loop_lock); {
-        createAgentThread(env, "HPROF cpu sampling thread",
+    rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+        crebteAgentThrebd(env, "HPROF cpu sbmpling threbd",
                             &cpu_loop_function);
-        /* Wait for cpu_loop_function() to notify us it has started. */
-        rawMonitorWait(gdata->cpu_loop_lock, 0);
-    } rawMonitorExit(gdata->cpu_loop_lock);
+        /* Wbit for cpu_loop_function() to notify us it hbs stbrted. */
+        rbwMonitorWbit(gdbtb->cpu_loop_lock, 0);
+    } rbwMonitorExit(gdbtb->cpu_loop_lock);
 }
 
 void
-cpu_sample_off(JNIEnv *env, ObjectIndex object_index)
+cpu_sbmple_off(JNIEnv *env, ObjectIndex object_index)
 {
     jint count;
 
     count = 1;
     if (object_index != 0) {
-        tls_set_sample_status(object_index, 0);
-        count = tls_sum_sample_status();
+        tls_set_sbmple_stbtus(object_index, 0);
+        count = tls_sum_sbmple_stbtus();
     }
     if ( count == 0 ) {
-        gdata->pause_cpu_sampling = JNI_TRUE;
+        gdbtb->pbuse_cpu_sbmpling = JNI_TRUE;
     } else {
-        gdata->pause_cpu_sampling = JNI_FALSE;
+        gdbtb->pbuse_cpu_sbmpling = JNI_FALSE;
     }
 }
 
 void
-cpu_sample_on(JNIEnv *env, ObjectIndex object_index)
+cpu_sbmple_on(JNIEnv *env, ObjectIndex object_index)
 {
-    if ( gdata->cpu_loop_lock == NULL ) {
-        cpu_sample_init(env);
+    if ( gdbtb->cpu_loop_lock == NULL ) {
+        cpu_sbmple_init(env);
     }
 
     if (object_index == 0) {
-        gdata->cpu_sampling             = JNI_TRUE;
-        gdata->pause_cpu_sampling       = JNI_FALSE;
+        gdbtb->cpu_sbmpling             = JNI_TRUE;
+        gdbtb->pbuse_cpu_sbmpling       = JNI_FALSE;
     } else {
         jint     count;
 
-        tls_set_sample_status(object_index, 1);
-        count = tls_sum_sample_status();
+        tls_set_sbmple_stbtus(object_index, 1);
+        count = tls_sum_sbmple_stbtus();
         if ( count > 0 ) {
-            gdata->pause_cpu_sampling   = JNI_FALSE;
+            gdbtb->pbuse_cpu_sbmpling   = JNI_FALSE;
         }
     }
 
-    /* Notify the CPU sampling thread that sampling is on */
-    rawMonitorEnter(gdata->cpu_sample_lock); {
-        rawMonitorNotifyAll(gdata->cpu_sample_lock);
-    } rawMonitorExit(gdata->cpu_sample_lock);
+    /* Notify the CPU sbmpling threbd thbt sbmpling is on */
+    rbwMonitorEnter(gdbtb->cpu_sbmple_lock); {
+        rbwMonitorNotifyAll(gdbtb->cpu_sbmple_lock);
+    } rbwMonitorExit(gdbtb->cpu_sbmple_lock);
 
 }
 
 void
-cpu_sample_term(JNIEnv *env)
+cpu_sbmple_term(JNIEnv *env)
 {
-    gdata->pause_cpu_sampling   = JNI_FALSE;
-    rawMonitorEnter(gdata->cpu_sample_lock); {
-        /* Notify the CPU sampling thread to get out of any sampling Wait */
-        rawMonitorNotifyAll(gdata->cpu_sample_lock);
-    } rawMonitorExit(gdata->cpu_sample_lock);
-    rawMonitorEnter(gdata->cpu_loop_lock); {
-        if ( gdata->cpu_loop_running ) {
-            gdata->cpu_loop_running = JNI_FALSE;
-            /* Wait for cpu_loop_function() thread to tell us it completed. */
-            rawMonitorWait(gdata->cpu_loop_lock, 0);
+    gdbtb->pbuse_cpu_sbmpling   = JNI_FALSE;
+    rbwMonitorEnter(gdbtb->cpu_sbmple_lock); {
+        /* Notify the CPU sbmpling threbd to get out of bny sbmpling Wbit */
+        rbwMonitorNotifyAll(gdbtb->cpu_sbmple_lock);
+    } rbwMonitorExit(gdbtb->cpu_sbmple_lock);
+    rbwMonitorEnter(gdbtb->cpu_loop_lock); {
+        if ( gdbtb->cpu_loop_running ) {
+            gdbtb->cpu_loop_running = JNI_FALSE;
+            /* Wbit for cpu_loop_function() threbd to tell us it completed. */
+            rbwMonitorWbit(gdbtb->cpu_loop_lock, 0);
         }
-    } rawMonitorExit(gdata->cpu_loop_lock);
+    } rbwMonitorExit(gdbtb->cpu_loop_lock);
 }

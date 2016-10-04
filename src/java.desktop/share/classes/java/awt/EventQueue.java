@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.*;
+import jbvb.bwt.event.*;
 
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.peer.ComponentPeer;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.EmptyStackException;
+import jbvb.util.EmptyStbckException;
 
-import sun.awt.*;
-import sun.awt.dnd.SunDropTargetEvent;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.*;
+import sun.bwt.dnd.SunDropTbrgetEvent;
+import sun.util.logging.PlbtformLogger;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
-import java.security.AccessControlContext;
+import jbvb.security.AccessControlContext;
 
-import sun.misc.SharedSecrets;
-import sun.misc.JavaSecurityAccess;
+import sun.misc.ShbredSecrets;
+import sun.misc.JbvbSecurityAccess;
 
 /**
- * <code>EventQueue</code> is a platform-independent class
- * that queues events, both from the underlying peer classes
- * and from trusted application classes.
+ * <code>EventQueue</code> is b plbtform-independent clbss
+ * thbt queues events, both from the underlying peer clbsses
+ * bnd from trusted bpplicbtion clbsses.
  * <p>
- * It encapsulates asynchronous event dispatch machinery which
- * extracts events from the queue and dispatches them by calling
- * {@link #dispatchEvent(AWTEvent) dispatchEvent(AWTEvent)} method
- * on this <code>EventQueue</code> with the event to be dispatched
- * as an argument.  The particular behavior of this machinery is
- * implementation-dependent.  The only requirements are that events
- * which were actually enqueued to this queue (note that events
- * being posted to the <code>EventQueue</code> can be coalesced)
- * are dispatched:
+ * It encbpsulbtes bsynchronous event dispbtch mbchinery which
+ * extrbcts events from the queue bnd dispbtches them by cblling
+ * {@link #dispbtchEvent(AWTEvent) dispbtchEvent(AWTEvent)} method
+ * on this <code>EventQueue</code> with the event to be dispbtched
+ * bs bn brgument.  The pbrticulbr behbvior of this mbchinery is
+ * implementbtion-dependent.  The only requirements bre thbt events
+ * which were bctublly enqueued to this queue (note thbt events
+ * being posted to the <code>EventQueue</code> cbn be coblesced)
+ * bre dispbtched:
  * <dl>
- *   <dt> Sequentially.
- *   <dd> That is, it is not permitted that several events from
- *        this queue are dispatched simultaneously.
- *   <dt> In the same order as they are enqueued.
- *   <dd> That is, if <code>AWTEvent</code>&nbsp;A is enqueued
+ *   <dt> Sequentiblly.
+ *   <dd> Thbt is, it is not permitted thbt severbl events from
+ *        this queue bre dispbtched simultbneously.
+ *   <dt> In the sbme order bs they bre enqueued.
+ *   <dd> Thbt is, if <code>AWTEvent</code>&nbsp;A is enqueued
  *        to the <code>EventQueue</code> before
  *        <code>AWTEvent</code>&nbsp;B then event B will not be
- *        dispatched before event A.
+ *        dispbtched before event A.
  * </dl>
  * <p>
- * Some browsers partition applets in different code bases into
- * separate contexts, and establish walls between these contexts.
- * In such a scenario, there will be one <code>EventQueue</code>
- * per context. Other browsers place all applets into the same
- * context, implying that there will be only a single, global
- * <code>EventQueue</code> for all applets. This behavior is
- * implementation-dependent.  Consult your browser's documentation
- * for more information.
+ * Some browsers pbrtition bpplets in different code bbses into
+ * sepbrbte contexts, bnd estbblish wblls between these contexts.
+ * In such b scenbrio, there will be one <code>EventQueue</code>
+ * per context. Other browsers plbce bll bpplets into the sbme
+ * context, implying thbt there will be only b single, globbl
+ * <code>EventQueue</code> for bll bpplets. This behbvior is
+ * implementbtion-dependent.  Consult your browser's documentbtion
+ * for more informbtion.
  * <p>
- * For information on the threading issues of the event dispatch
- * machinery, see <a href="doc-files/AWTThreadIssues.html#Autoshutdown"
- * >AWT Threading Issues</a>.
+ * For informbtion on the threbding issues of the event dispbtch
+ * mbchinery, see <b href="doc-files/AWTThrebdIssues.html#Autoshutdown"
+ * >AWT Threbding Issues</b>.
  *
- * @author Thomas Ball
- * @author Fred Ecks
- * @author David Mendenhall
+ * @buthor Thombs Bbll
+ * @buthor Fred Ecks
+ * @buthor Dbvid Mendenhbll
  *
  * @since       1.1
  */
-public class EventQueue {
-    private static final AtomicInteger threadInitNumber = new AtomicInteger(0);
+public clbss EventQueue {
+    privbte stbtic finbl AtomicInteger threbdInitNumber = new AtomicInteger(0);
 
-    private static final int LOW_PRIORITY = 0;
-    private static final int NORM_PRIORITY = 1;
-    private static final int HIGH_PRIORITY = 2;
-    private static final int ULTIMATE_PRIORITY = 3;
+    privbte stbtic finbl int LOW_PRIORITY = 0;
+    privbte stbtic finbl int NORM_PRIORITY = 1;
+    privbte stbtic finbl int HIGH_PRIORITY = 2;
+    privbte stbtic finbl int ULTIMATE_PRIORITY = 3;
 
-    private static final int NUM_PRIORITIES = ULTIMATE_PRIORITY + 1;
+    privbte stbtic finbl int NUM_PRIORITIES = ULTIMATE_PRIORITY + 1;
 
     /*
-     * We maintain one Queue for each priority that the EventQueue supports.
-     * That is, the EventQueue object is actually implemented as
-     * NUM_PRIORITIES queues and all Events on a particular internal Queue
-     * have identical priority. Events are pulled off the EventQueue starting
-     * with the Queue of highest priority. We progress in decreasing order
-     * across all Queues.
+     * We mbintbin one Queue for ebch priority thbt the EventQueue supports.
+     * Thbt is, the EventQueue object is bctublly implemented bs
+     * NUM_PRIORITIES queues bnd bll Events on b pbrticulbr internbl Queue
+     * hbve identicbl priority. Events bre pulled off the EventQueue stbrting
+     * with the Queue of highest priority. We progress in decrebsing order
+     * bcross bll Queues.
      */
-    private Queue[] queues = new Queue[NUM_PRIORITIES];
+    privbte Queue[] queues = new Queue[NUM_PRIORITIES];
 
     /*
-     * The next EventQueue on the stack, or null if this EventQueue is
-     * on the top of the stack.  If nextQueue is non-null, requests to post
-     * an event are forwarded to nextQueue.
+     * The next EventQueue on the stbck, or null if this EventQueue is
+     * on the top of the stbck.  If nextQueue is non-null, requests to post
+     * bn event bre forwbrded to nextQueue.
      */
-    private EventQueue nextQueue;
+    privbte EventQueue nextQueue;
 
     /*
-     * The previous EventQueue on the stack, or null if this is the
-     * "base" EventQueue.
+     * The previous EventQueue on the stbck, or null if this is the
+     * "bbse" EventQueue.
      */
-    private EventQueue previousQueue;
+    privbte EventQueue previousQueue;
 
     /*
-     * A single lock to synchronize the push()/pop() and related operations with
-     * all the EventQueues from the AppContext. Synchronization on any particular
-     * event queue(s) is not enough: we should lock the whole stack.
+     * A single lock to synchronize the push()/pop() bnd relbted operbtions with
+     * bll the EventQueues from the AppContext. Synchronizbtion on bny pbrticulbr
+     * event queue(s) is not enough: we should lock the whole stbck.
      */
-    private final Lock pushPopLock;
-    private final Condition pushPopCond;
+    privbte finbl Lock pushPopLock;
+    privbte finbl Condition pushPopCond;
 
     /*
-     * Dummy runnable to wake up EDT from getNextEvent() after
+     * Dummy runnbble to wbke up EDT from getNextEvent() bfter
      push/pop is performed
      */
-    private final static Runnable dummyRunnable = new Runnable() {
+    privbte finbl stbtic Runnbble dummyRunnbble = new Runnbble() {
         public void run() {
         }
     };
 
-    private EventDispatchThread dispatchThread;
+    privbte EventDispbtchThrebd dispbtchThrebd;
 
-    private final ThreadGroup threadGroup =
-        Thread.currentThread().getThreadGroup();
-    private final ClassLoader classLoader =
-        Thread.currentThread().getContextClassLoader();
-
-    /*
-     * The time stamp of the last dispatched InputEvent or ActionEvent.
-     */
-    private long mostRecentEventTime = System.currentTimeMillis();
+    privbte finbl ThrebdGroup threbdGroup =
+        Threbd.currentThrebd().getThrebdGroup();
+    privbte finbl ClbssLobder clbssLobder =
+        Threbd.currentThrebd().getContextClbssLobder();
 
     /*
-     * The time stamp of the last KeyEvent .
+     * The time stbmp of the lbst dispbtched InputEvent or ActionEvent.
      */
-    private long mostRecentKeyEventTime = System.currentTimeMillis();
+    privbte long mostRecentEventTime = System.currentTimeMillis();
+
+    /*
+     * The time stbmp of the lbst KeyEvent .
+     */
+    privbte long mostRecentKeyEventTime = System.currentTimeMillis();
 
     /**
-     * The modifiers field of the current event, if the current event is an
+     * The modifiers field of the current event, if the current event is bn
      * InputEvent or ActionEvent.
      */
-    private WeakReference<AWTEvent> currentEvent;
+    privbte WebkReference<AWTEvent> currentEvent;
 
     /*
-     * Non-zero if a thread is waiting in getNextEvent(int) for an event of
-     * a particular ID to be posted to the queue.
+     * Non-zero if b threbd is wbiting in getNextEvent(int) for bn event of
+     * b pbrticulbr ID to be posted to the queue.
      */
-    private volatile int waitForID;
+    privbte volbtile int wbitForID;
 
     /*
      * AppContext corresponding to the queue.
      */
-    private final AppContext appContext;
+    privbte finbl AppContext bppContext;
 
-    private final String name = "AWT-EventQueue-" + threadInitNumber.getAndIncrement();
+    privbte finbl String nbme = "AWT-EventQueue-" + threbdInitNumber.getAndIncrement();
 
-    private FwDispatcher fwDispatcher;
+    privbte FwDispbtcher fwDispbtcher;
 
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.EventQueue");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("jbvb.bwt.event.EventQueue");
 
-    static {
+    stbtic {
         AWTAccessor.setEventQueueAccessor(
             new AWTAccessor.EventQueueAccessor() {
-                public Thread getDispatchThread(EventQueue eventQueue) {
-                    return eventQueue.getDispatchThread();
+                public Threbd getDispbtchThrebd(EventQueue eventQueue) {
+                    return eventQueue.getDispbtchThrebd();
                 }
-                public boolean isDispatchThreadImpl(EventQueue eventQueue) {
-                    return eventQueue.isDispatchThreadImpl();
+                public boolebn isDispbtchThrebdImpl(EventQueue eventQueue) {
+                    return eventQueue.isDispbtchThrebdImpl();
                 }
                 public void removeSourceEvents(EventQueue eventQueue,
                                                Object source,
-                                               boolean removeAllEvents)
+                                               boolebn removeAllEvents)
                 {
                     eventQueue.removeSourceEvents(source, removeAllEvents);
                 }
-                public boolean noEvents(EventQueue eventQueue) {
+                public boolebn noEvents(EventQueue eventQueue) {
                     return eventQueue.noEvents();
                 }
-                public void wakeup(EventQueue eventQueue, boolean isShutdown) {
-                    eventQueue.wakeup(isShutdown);
+                public void wbkeup(EventQueue eventQueue, boolebn isShutdown) {
+                    eventQueue.wbkeup(isShutdown);
                 }
-                public void invokeAndWait(Object source, Runnable r)
-                    throws InterruptedException, InvocationTargetException
+                public void invokeAndWbit(Object source, Runnbble r)
+                    throws InterruptedException, InvocbtionTbrgetException
                 {
-                    EventQueue.invokeAndWait(source, r);
+                    EventQueue.invokeAndWbit(source, r);
                 }
-                public void setFwDispatcher(EventQueue eventQueue,
-                                            FwDispatcher dispatcher) {
-                    eventQueue.setFwDispatcher(dispatcher);
+                public void setFwDispbtcher(EventQueue eventQueue,
+                                            FwDispbtcher dispbtcher) {
+                    eventQueue.setFwDispbtcher(dispbtcher);
                 }
 
                 @Override
@@ -223,301 +223,301 @@ public class EventQueue {
     }
 
     /**
-     * Initializes a new instance of {@code EventQueue}.
+     * Initiblizes b new instbnce of {@code EventQueue}.
      */
     public EventQueue() {
         for (int i = 0; i < NUM_PRIORITIES; i++) {
             queues[i] = new Queue();
         }
         /*
-         * NOTE: if you ever have to start the associated event dispatch
-         * thread at this point, be aware of the following problem:
-         * If this EventQueue instance is created in
-         * SunToolkit.createNewAppContext() the started dispatch thread
-         * may call AppContext.getAppContext() before createNewAppContext()
-         * completes thus causing mess in thread group to appcontext mapping.
+         * NOTE: if you ever hbve to stbrt the bssocibted event dispbtch
+         * threbd bt this point, be bwbre of the following problem:
+         * If this EventQueue instbnce is crebted in
+         * SunToolkit.crebteNewAppContext() the stbrted dispbtch threbd
+         * mby cbll AppContext.getAppContext() before crebteNewAppContext()
+         * completes thus cbusing mess in threbd group to bppcontext mbpping.
          */
 
-        appContext = AppContext.getAppContext();
-        pushPopLock = (Lock)appContext.get(AppContext.EVENT_QUEUE_LOCK_KEY);
-        pushPopCond = (Condition)appContext.get(AppContext.EVENT_QUEUE_COND_KEY);
+        bppContext = AppContext.getAppContext();
+        pushPopLock = (Lock)bppContext.get(AppContext.EVENT_QUEUE_LOCK_KEY);
+        pushPopCond = (Condition)bppContext.get(AppContext.EVENT_QUEUE_COND_KEY);
     }
 
     /**
-     * Posts a 1.1-style event to the <code>EventQueue</code>.
-     * If there is an existing event on the queue with the same ID
-     * and event source, the source <code>Component</code>'s
-     * <code>coalesceEvents</code> method will be called.
+     * Posts b 1.1-style event to the <code>EventQueue</code>.
+     * If there is bn existing event on the queue with the sbme ID
+     * bnd event source, the source <code>Component</code>'s
+     * <code>coblesceEvents</code> method will be cblled.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
+     * @pbrbm theEvent bn instbnce of <code>jbvb.bwt.AWTEvent</code>,
+     *          or b subclbss of it
      * @throws NullPointerException if <code>theEvent</code> is <code>null</code>
      */
     public void postEvent(AWTEvent theEvent) {
-        SunToolkit.flushPendingEvents(appContext);
-        postEventPrivate(theEvent);
+        SunToolkit.flushPendingEvents(bppContext);
+        postEventPrivbte(theEvent);
     }
 
     /**
-     * Posts a 1.1-style event to the <code>EventQueue</code>.
-     * If there is an existing event on the queue with the same ID
-     * and event source, the source <code>Component</code>'s
-     * <code>coalesceEvents</code> method will be called.
+     * Posts b 1.1-style event to the <code>EventQueue</code>.
+     * If there is bn existing event on the queue with the sbme ID
+     * bnd event source, the source <code>Component</code>'s
+     * <code>coblesceEvents</code> method will be cblled.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
+     * @pbrbm theEvent bn instbnce of <code>jbvb.bwt.AWTEvent</code>,
+     *          or b subclbss of it
      */
-    private final void postEventPrivate(AWTEvent theEvent) {
+    privbte finbl void postEventPrivbte(AWTEvent theEvent) {
         theEvent.isPosted = true;
         pushPopLock.lock();
         try {
             if (nextQueue != null) {
-                // Forward the event to the top of EventQueue stack
-                nextQueue.postEventPrivate(theEvent);
+                // Forwbrd the event to the top of EventQueue stbck
+                nextQueue.postEventPrivbte(theEvent);
                 return;
             }
-            if (dispatchThread == null) {
-                if (theEvent.getSource() == AWTAutoShutdown.getInstance()) {
+            if (dispbtchThrebd == null) {
+                if (theEvent.getSource() == AWTAutoShutdown.getInstbnce()) {
                     return;
                 } else {
-                    initDispatchThread();
+                    initDispbtchThrebd();
                 }
             }
             postEvent(theEvent, getPriority(theEvent));
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
-    private static int getPriority(AWTEvent theEvent) {
-        if (theEvent instanceof PeerEvent) {
+    privbte stbtic int getPriority(AWTEvent theEvent) {
+        if (theEvent instbnceof PeerEvent) {
             PeerEvent peerEvent = (PeerEvent)theEvent;
-            if ((peerEvent.getFlags() & PeerEvent.ULTIMATE_PRIORITY_EVENT) != 0) {
+            if ((peerEvent.getFlbgs() & PeerEvent.ULTIMATE_PRIORITY_EVENT) != 0) {
                 return ULTIMATE_PRIORITY;
             }
-            if ((peerEvent.getFlags() & PeerEvent.PRIORITY_EVENT) != 0) {
+            if ((peerEvent.getFlbgs() & PeerEvent.PRIORITY_EVENT) != 0) {
                 return HIGH_PRIORITY;
             }
-            if ((peerEvent.getFlags() & PeerEvent.LOW_PRIORITY_EVENT) != 0) {
+            if ((peerEvent.getFlbgs() & PeerEvent.LOW_PRIORITY_EVENT) != 0) {
                 return LOW_PRIORITY;
             }
         }
         int id = theEvent.getID();
-        if ((id >= PaintEvent.PAINT_FIRST) && (id <= PaintEvent.PAINT_LAST)) {
+        if ((id >= PbintEvent.PAINT_FIRST) && (id <= PbintEvent.PAINT_LAST)) {
             return LOW_PRIORITY;
         }
         return NORM_PRIORITY;
     }
 
     /**
-     * Posts the event to the internal Queue of specified priority,
-     * coalescing as appropriate.
+     * Posts the event to the internbl Queue of specified priority,
+     * coblescing bs bppropribte.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
-     * @param priority  the desired priority of the event
+     * @pbrbm theEvent bn instbnce of <code>jbvb.bwt.AWTEvent</code>,
+     *          or b subclbss of it
+     * @pbrbm priority  the desired priority of the event
      */
-    private void postEvent(AWTEvent theEvent, int priority) {
-        if (coalesceEvent(theEvent, priority)) {
+    privbte void postEvent(AWTEvent theEvent, int priority) {
+        if (coblesceEvent(theEvent, priority)) {
             return;
         }
 
         EventQueueItem newItem = new EventQueueItem(theEvent);
 
-        cacheEQItem(newItem);
+        cbcheEQItem(newItem);
 
-        boolean notifyID = (theEvent.getID() == this.waitForID);
+        boolebn notifyID = (theEvent.getID() == this.wbitForID);
 
-        if (queues[priority].head == null) {
-            boolean shouldNotify = noEvents();
-            queues[priority].head = queues[priority].tail = newItem;
+        if (queues[priority].hebd == null) {
+            boolebn shouldNotify = noEvents();
+            queues[priority].hebd = queues[priority].tbil = newItem;
 
             if (shouldNotify) {
-                if (theEvent.getSource() != AWTAutoShutdown.getInstance()) {
-                    AWTAutoShutdown.getInstance().notifyThreadBusy(dispatchThread);
+                if (theEvent.getSource() != AWTAutoShutdown.getInstbnce()) {
+                    AWTAutoShutdown.getInstbnce().notifyThrebdBusy(dispbtchThrebd);
                 }
-                pushPopCond.signalAll();
+                pushPopCond.signblAll();
             } else if (notifyID) {
-                pushPopCond.signalAll();
+                pushPopCond.signblAll();
             }
         } else {
-            // The event was not coalesced or has non-Component source.
-            // Insert it at the end of the appropriate Queue.
-            queues[priority].tail.next = newItem;
-            queues[priority].tail = newItem;
+            // The event wbs not coblesced or hbs non-Component source.
+            // Insert it bt the end of the bppropribte Queue.
+            queues[priority].tbil.next = newItem;
+            queues[priority].tbil = newItem;
             if (notifyID) {
-                pushPopCond.signalAll();
+                pushPopCond.signblAll();
             }
         }
     }
 
-    private boolean coalescePaintEvent(PaintEvent e) {
+    privbte boolebn coblescePbintEvent(PbintEvent e) {
         ComponentPeer sourcePeer = ((Component)e.getSource()).peer;
         if (sourcePeer != null) {
-            sourcePeer.coalescePaintEvent(e);
+            sourcePeer.coblescePbintEvent(e);
         }
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+        EventQueueItem[] cbche = ((Component)e.getSource()).eventCbche;
+        if (cbche == null) {
+            return fblse;
         }
-        int index = eventToCacheIndex(e);
+        int index = eventToCbcheIndex(e);
 
-        if (index != -1 && cache[index] != null) {
-            PaintEvent merged = mergePaintEvents(e, (PaintEvent)cache[index].event);
+        if (index != -1 && cbche[index] != null) {
+            PbintEvent merged = mergePbintEvents(e, (PbintEvent)cbche[index].event);
             if (merged != null) {
-                cache[index].event = merged;
+                cbche[index].event = merged;
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private PaintEvent mergePaintEvents(PaintEvent a, PaintEvent b) {
-        Rectangle aRect = a.getUpdateRect();
-        Rectangle bRect = b.getUpdateRect();
-        if (bRect.contains(aRect)) {
+    privbte PbintEvent mergePbintEvents(PbintEvent b, PbintEvent b) {
+        Rectbngle bRect = b.getUpdbteRect();
+        Rectbngle bRect = b.getUpdbteRect();
+        if (bRect.contbins(bRect)) {
             return b;
         }
-        if (aRect.contains(bRect)) {
-            return a;
+        if (bRect.contbins(bRect)) {
+            return b;
         }
         return null;
     }
 
-    private boolean coalesceMouseEvent(MouseEvent e) {
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+    privbte boolebn coblesceMouseEvent(MouseEvent e) {
+        EventQueueItem[] cbche = ((Component)e.getSource()).eventCbche;
+        if (cbche == null) {
+            return fblse;
         }
-        int index = eventToCacheIndex(e);
-        if (index != -1 && cache[index] != null) {
-            cache[index].event = e;
+        int index = eventToCbcheIndex(e);
+        if (index != -1 && cbche[index] != null) {
+            cbche[index].event = e;
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private boolean coalescePeerEvent(PeerEvent e) {
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+    privbte boolebn coblescePeerEvent(PeerEvent e) {
+        EventQueueItem[] cbche = ((Component)e.getSource()).eventCbche;
+        if (cbche == null) {
+            return fblse;
         }
-        int index = eventToCacheIndex(e);
-        if (index != -1 && cache[index] != null) {
-            e = e.coalesceEvents((PeerEvent)cache[index].event);
+        int index = eventToCbcheIndex(e);
+        if (index != -1 && cbche[index] != null) {
+            e = e.coblesceEvents((PeerEvent)cbche[index].event);
             if (e != null) {
-                cache[index].event = e;
+                cbche[index].event = e;
                 return true;
             } else {
-                cache[index] = null;
+                cbche[index] = null;
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Should avoid of calling this method by any means
-     * as it's working time is dependant on EQ length.
-     * In the wors case this method alone can slow down the entire application
-     * 10 times by stalling the Event processing.
-     * Only here by backward compatibility reasons.
+     * Should bvoid of cblling this method by bny mebns
+     * bs it's working time is dependbnt on EQ length.
+     * In the wors cbse this method blone cbn slow down the entire bpplicbtion
+     * 10 times by stblling the Event processing.
+     * Only here by bbckwbrd compbtibility rebsons.
      */
-    private boolean coalesceOtherEvent(AWTEvent e, int priority) {
+    privbte boolebn coblesceOtherEvent(AWTEvent e, int priority) {
         int id = e.getID();
         Component source = (Component)e.getSource();
-        for (EventQueueItem entry = queues[priority].head;
+        for (EventQueueItem entry = queues[priority].hebd;
             entry != null; entry = entry.next)
         {
-            // Give Component.coalesceEvents a chance
+            // Give Component.coblesceEvents b chbnce
             if (entry.event.getSource() == source && entry.event.getID() == id) {
-                AWTEvent coalescedEvent = source.coalesceEvents(
+                AWTEvent coblescedEvent = source.coblesceEvents(
                     entry.event, e);
-                if (coalescedEvent != null) {
-                    entry.event = coalescedEvent;
+                if (coblescedEvent != null) {
+                    entry.event = coblescedEvent;
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    private boolean coalesceEvent(AWTEvent e, int priority) {
-        if (!(e.getSource() instanceof Component)) {
-            return false;
+    privbte boolebn coblesceEvent(AWTEvent e, int priority) {
+        if (!(e.getSource() instbnceof Component)) {
+            return fblse;
         }
-        if (e instanceof PeerEvent) {
-            return coalescePeerEvent((PeerEvent)e);
+        if (e instbnceof PeerEvent) {
+            return coblescePeerEvent((PeerEvent)e);
         }
-        // The worst case
-        if (((Component)e.getSource()).isCoalescingEnabled()
-            && coalesceOtherEvent(e, priority))
+        // The worst cbse
+        if (((Component)e.getSource()).isCoblescingEnbbled()
+            && coblesceOtherEvent(e, priority))
         {
             return true;
         }
-        if (e instanceof PaintEvent) {
-            return coalescePaintEvent((PaintEvent)e);
+        if (e instbnceof PbintEvent) {
+            return coblescePbintEvent((PbintEvent)e);
         }
-        if (e instanceof MouseEvent) {
-            return coalesceMouseEvent((MouseEvent)e);
+        if (e instbnceof MouseEvent) {
+            return coblesceMouseEvent((MouseEvent)e);
         }
-        return false;
+        return fblse;
     }
 
-    private void cacheEQItem(EventQueueItem entry) {
-        int index = eventToCacheIndex(entry.event);
-        if (index != -1 && entry.event.getSource() instanceof Component) {
+    privbte void cbcheEQItem(EventQueueItem entry) {
+        int index = eventToCbcheIndex(entry.event);
+        if (index != -1 && entry.event.getSource() instbnceof Component) {
             Component source = (Component)entry.event.getSource();
-            if (source.eventCache == null) {
-                source.eventCache = new EventQueueItem[CACHE_LENGTH];
+            if (source.eventCbche == null) {
+                source.eventCbche = new EventQueueItem[CACHE_LENGTH];
             }
-            source.eventCache[index] = entry;
+            source.eventCbche[index] = entry;
         }
     }
 
-    private void uncacheEQItem(EventQueueItem entry) {
-        int index = eventToCacheIndex(entry.event);
-        if (index != -1 && entry.event.getSource() instanceof Component) {
+    privbte void uncbcheEQItem(EventQueueItem entry) {
+        int index = eventToCbcheIndex(entry.event);
+        if (index != -1 && entry.event.getSource() instbnceof Component) {
             Component source = (Component)entry.event.getSource();
-            if (source.eventCache == null) {
+            if (source.eventCbche == null) {
                 return;
             }
-            source.eventCache[index] = null;
+            source.eventCbche[index] = null;
         }
     }
 
-    private static final int PAINT = 0;
-    private static final int UPDATE = 1;
-    private static final int MOVE = 2;
-    private static final int DRAG = 3;
-    private static final int PEER = 4;
-    private static final int CACHE_LENGTH = 5;
+    privbte stbtic finbl int PAINT = 0;
+    privbte stbtic finbl int UPDATE = 1;
+    privbte stbtic finbl int MOVE = 2;
+    privbte stbtic finbl int DRAG = 3;
+    privbte stbtic finbl int PEER = 4;
+    privbte stbtic finbl int CACHE_LENGTH = 5;
 
-    private static int eventToCacheIndex(AWTEvent e) {
+    privbte stbtic int eventToCbcheIndex(AWTEvent e) {
         switch(e.getID()) {
-        case PaintEvent.PAINT:
+        cbse PbintEvent.PAINT:
             return PAINT;
-        case PaintEvent.UPDATE:
+        cbse PbintEvent.UPDATE:
             return UPDATE;
-        case MouseEvent.MOUSE_MOVED:
+        cbse MouseEvent.MOUSE_MOVED:
             return MOVE;
-        case MouseEvent.MOUSE_DRAGGED:
-            // Return -1 for SunDropTargetEvent since they are usually synchronous
-            // and we don't want to skip them by coalescing with MouseEvent or other drag events
-            return e instanceof SunDropTargetEvent ? -1 : DRAG;
-        default:
-            return e instanceof PeerEvent ? PEER : -1;
+        cbse MouseEvent.MOUSE_DRAGGED:
+            // Return -1 for SunDropTbrgetEvent since they bre usublly synchronous
+            // bnd we don't wbnt to skip them by coblescing with MouseEvent or other drbg events
+            return e instbnceof SunDropTbrgetEvent ? -1 : DRAG;
+        defbult:
+            return e instbnceof PeerEvent ? PEER : -1;
         }
     }
 
     /**
-     * Returns whether an event is pending on any of the separate
+     * Returns whether bn event is pending on bny of the sepbrbte
      * Queues.
-     * @return whether an event is pending on any of the separate Queues
+     * @return whether bn event is pending on bny of the sepbrbte Queues
      */
-    private boolean noEvents() {
+    privbte boolebn noEvents() {
         for (int i = 0; i < NUM_PRIORITIES; i++) {
-            if (queues[i].head != null) {
-                return false;
+            if (queues[i].hebd != null) {
+                return fblse;
             }
         }
 
@@ -525,47 +525,47 @@ public class EventQueue {
     }
 
     /**
-     * Removes an event from the <code>EventQueue</code> and
-     * returns it.  This method will block until an event has
-     * been posted by another thread.
+     * Removes bn event from the <code>EventQueue</code> bnd
+     * returns it.  This method will block until bn event hbs
+     * been posted by bnother threbd.
      * @return the next <code>AWTEvent</code>
      * @exception InterruptedException
-     *            if any thread has interrupted this thread
+     *            if bny threbd hbs interrupted this threbd
      */
     public AWTEvent getNextEvent() throws InterruptedException {
         do {
             /*
-             * SunToolkit.flushPendingEvents must be called outside
-             * of the synchronized block to avoid deadlock when
-             * event queues are nested with push()/pop().
+             * SunToolkit.flushPendingEvents must be cblled outside
+             * of the synchronized block to bvoid debdlock when
+             * event queues bre nested with push()/pop().
              */
-            SunToolkit.flushPendingEvents(appContext);
+            SunToolkit.flushPendingEvents(bppContext);
             pushPopLock.lock();
             try {
-                AWTEvent event = getNextEventPrivate();
+                AWTEvent event = getNextEventPrivbte();
                 if (event != null) {
                     return event;
                 }
-                AWTAutoShutdown.getInstance().notifyThreadFree(dispatchThread);
-                pushPopCond.await();
-            } finally {
+                AWTAutoShutdown.getInstbnce().notifyThrebdFree(dispbtchThrebd);
+                pushPopCond.bwbit();
+            } finblly {
                 pushPopLock.unlock();
             }
         } while(true);
     }
 
     /*
-     * Must be called under the lock. Doesn't call flushPendingEvents()
+     * Must be cblled under the lock. Doesn't cbll flushPendingEvents()
      */
-    AWTEvent getNextEventPrivate() throws InterruptedException {
+    AWTEvent getNextEventPrivbte() throws InterruptedException {
         for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-            if (queues[i].head != null) {
-                EventQueueItem entry = queues[i].head;
-                queues[i].head = entry.next;
+            if (queues[i].hebd != null) {
+                EventQueueItem entry = queues[i].hebd;
+                queues[i].hebd = entry.next;
                 if (entry.next == null) {
-                    queues[i].tail = null;
+                    queues[i].tbil = null;
                 }
-                uncacheEQItem(entry);
+                uncbcheEQItem(entry);
                 return entry.event;
             }
         }
@@ -575,35 +575,35 @@ public class EventQueue {
     AWTEvent getNextEvent(int id) throws InterruptedException {
         do {
             /*
-             * SunToolkit.flushPendingEvents must be called outside
-             * of the synchronized block to avoid deadlock when
-             * event queues are nested with push()/pop().
+             * SunToolkit.flushPendingEvents must be cblled outside
+             * of the synchronized block to bvoid debdlock when
+             * event queues bre nested with push()/pop().
              */
-            SunToolkit.flushPendingEvents(appContext);
+            SunToolkit.flushPendingEvents(bppContext);
             pushPopLock.lock();
             try {
                 for (int i = 0; i < NUM_PRIORITIES; i++) {
-                    for (EventQueueItem entry = queues[i].head, prev = null;
+                    for (EventQueueItem entry = queues[i].hebd, prev = null;
                          entry != null; prev = entry, entry = entry.next)
                     {
                         if (entry.event.getID() == id) {
                             if (prev == null) {
-                                queues[i].head = entry.next;
+                                queues[i].hebd = entry.next;
                             } else {
                                 prev.next = entry.next;
                             }
-                            if (queues[i].tail == entry) {
-                                queues[i].tail = prev;
+                            if (queues[i].tbil == entry) {
+                                queues[i].tbil = prev;
                             }
-                            uncacheEQItem(entry);
+                            uncbcheEQItem(entry);
                             return entry.event;
                         }
                     }
                 }
-                waitForID = id;
-                pushPopCond.await();
-                waitForID = 0;
-            } finally {
+                wbitForID = id;
+                pushPopCond.bwbit();
+                wbitForID = 0;
+            } finblly {
                 pushPopLock.unlock();
             }
         } while(true);
@@ -618,11 +618,11 @@ public class EventQueue {
         pushPopLock.lock();
         try {
             for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-                if (queues[i].head != null) {
-                    return queues[i].head.event;
+                if (queues[i].hebd != null) {
+                    return queues[i].hebd.event;
                 }
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
 
@@ -630,8 +630,8 @@ public class EventQueue {
     }
 
     /**
-     * Returns the first event with the specified id, if any.
-     * @param id the id of the type of event desired
+     * Returns the first event with the specified id, if bny.
+     * @pbrbm id the id of the type of event desired
      * @return the first event of the specified id or <code>null</code>
      *    if there is no such event
      */
@@ -639,75 +639,75 @@ public class EventQueue {
         pushPopLock.lock();
         try {
             for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-                EventQueueItem q = queues[i].head;
+                EventQueueItem q = queues[i].hebd;
                 for (; q != null; q = q.next) {
                     if (q.event.getID() == id) {
                         return q.event;
                     }
                 }
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
 
         return null;
     }
 
-    private static final JavaSecurityAccess javaSecurityAccess =
-        SharedSecrets.getJavaSecurityAccess();
+    privbte stbtic finbl JbvbSecurityAccess jbvbSecurityAccess =
+        ShbredSecrets.getJbvbSecurityAccess();
 
     /**
-     * Dispatches an event. The manner in which the event is
-     * dispatched depends upon the type of the event and the
+     * Dispbtches bn event. The mbnner in which the event is
+     * dispbtched depends upon the type of the event bnd the
      * type of the event's source object:
      *
-     * <table border=1 summary="Event types, source types, and dispatch methods">
+     * <tbble border=1 summbry="Event types, source types, bnd dispbtch methods">
      * <tr>
      *     <th>Event Type</th>
      *     <th>Source Type</th>
-     *     <th>Dispatched To</th>
+     *     <th>Dispbtched To</th>
      * </tr>
      * <tr>
      *     <td>ActiveEvent</td>
      *     <td>Any</td>
-     *     <td>event.dispatch()</td>
+     *     <td>event.dispbtch()</td>
      * </tr>
      * <tr>
      *     <td>Other</td>
      *     <td>Component</td>
-     *     <td>source.dispatchEvent(AWTEvent)</td>
+     *     <td>source.dispbtchEvent(AWTEvent)</td>
      * </tr>
      * <tr>
      *     <td>Other</td>
      *     <td>MenuComponent</td>
-     *     <td>source.dispatchEvent(AWTEvent)</td>
+     *     <td>source.dispbtchEvent(AWTEvent)</td>
      * </tr>
      * <tr>
      *     <td>Other</td>
      *     <td>Other</td>
-     *     <td>No action (ignored)</td>
+     *     <td>No bction (ignored)</td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * @param event an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
+     * @pbrbm event bn instbnce of <code>jbvb.bwt.AWTEvent</code>,
+     *          or b subclbss of it
      * @throws NullPointerException if <code>event</code> is <code>null</code>
      * @since           1.2
      */
-    protected void dispatchEvent(final AWTEvent event) {
-        final Object src = event.getSource();
-        final PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
+    protected void dispbtchEvent(finbl AWTEvent event) {
+        finbl Object src = event.getSource();
+        finbl PrivilegedAction<Void> bction = new PrivilegedAction<Void>() {
             public Void run() {
-                // In case fwDispatcher is installed and we're already on the
-                // dispatch thread (e.g. performing DefaultKeyboardFocusManager.sendMessage),
-                // dispatch the event straight away.
-                if (fwDispatcher == null || isDispatchThreadImpl()) {
-                    dispatchEventImpl(event, src);
+                // In cbse fwDispbtcher is instblled bnd we're blrebdy on the
+                // dispbtch threbd (e.g. performing DefbultKeybobrdFocusMbnbger.sendMessbge),
+                // dispbtch the event strbight bwby.
+                if (fwDispbtcher == null || isDispbtchThrebdImpl()) {
+                    dispbtchEventImpl(event, src);
                 } else {
-                    fwDispatcher.scheduleDispatch(new Runnable() {
+                    fwDispbtcher.scheduleDispbtch(new Runnbble() {
                         @Override
                         public void run() {
-                            dispatchEventImpl(event, src);
+                            dispbtchEventImpl(event, src);
                         }
                     });
                 }
@@ -715,152 +715,152 @@ public class EventQueue {
             }
         };
 
-        final AccessControlContext stack = AccessController.getContext();
-        final AccessControlContext srcAcc = getAccessControlContextFrom(src);
-        final AccessControlContext eventAcc = event.getAccessControlContext();
+        finbl AccessControlContext stbck = AccessController.getContext();
+        finbl AccessControlContext srcAcc = getAccessControlContextFrom(src);
+        finbl AccessControlContext eventAcc = event.getAccessControlContext();
         if (srcAcc == null) {
-            javaSecurityAccess.doIntersectionPrivilege(action, stack, eventAcc);
+            jbvbSecurityAccess.doIntersectionPrivilege(bction, stbck, eventAcc);
         } else {
-            javaSecurityAccess.doIntersectionPrivilege(
+            jbvbSecurityAccess.doIntersectionPrivilege(
                 new PrivilegedAction<Void>() {
                     public Void run() {
-                        javaSecurityAccess.doIntersectionPrivilege(action, eventAcc);
+                        jbvbSecurityAccess.doIntersectionPrivilege(bction, eventAcc);
                         return null;
                     }
-                }, stack, srcAcc);
+                }, stbck, srcAcc);
         }
     }
 
-    private static AccessControlContext getAccessControlContextFrom(Object src) {
-        return src instanceof Component ?
+    privbte stbtic AccessControlContext getAccessControlContextFrom(Object src) {
+        return src instbnceof Component ?
             ((Component)src).getAccessControlContext() :
-            src instanceof MenuComponent ?
+            src instbnceof MenuComponent ?
                 ((MenuComponent)src).getAccessControlContext() :
-                src instanceof TrayIcon ?
-                    ((TrayIcon)src).getAccessControlContext() :
+                src instbnceof TrbyIcon ?
+                    ((TrbyIcon)src).getAccessControlContext() :
                     null;
     }
 
     /**
-     * Called from dispatchEvent() under a correct AccessControlContext
+     * Cblled from dispbtchEvent() under b correct AccessControlContext
      */
-    private void dispatchEventImpl(final AWTEvent event, final Object src) {
+    privbte void dispbtchEventImpl(finbl AWTEvent event, finbl Object src) {
         event.isPosted = true;
-        if (event instanceof ActiveEvent) {
-            // This could become the sole method of dispatching in time.
+        if (event instbnceof ActiveEvent) {
+            // This could become the sole method of dispbtching in time.
             setCurrentEventAndMostRecentTimeImpl(event);
-            ((ActiveEvent)event).dispatch();
-        } else if (src instanceof Component) {
-            ((Component)src).dispatchEvent(event);
-            event.dispatched();
-        } else if (src instanceof MenuComponent) {
-            ((MenuComponent)src).dispatchEvent(event);
-        } else if (src instanceof TrayIcon) {
-            ((TrayIcon)src).dispatchEvent(event);
-        } else if (src instanceof AWTAutoShutdown) {
+            ((ActiveEvent)event).dispbtch();
+        } else if (src instbnceof Component) {
+            ((Component)src).dispbtchEvent(event);
+            event.dispbtched();
+        } else if (src instbnceof MenuComponent) {
+            ((MenuComponent)src).dispbtchEvent(event);
+        } else if (src instbnceof TrbyIcon) {
+            ((TrbyIcon)src).dispbtchEvent(event);
+        } else if (src instbnceof AWTAutoShutdown) {
             if (noEvents()) {
-                dispatchThread.stopDispatching();
+                dispbtchThrebd.stopDispbtching();
             }
         } else {
-            if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                eventLog.fine("Unable to dispatch event: " + event);
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                eventLog.fine("Unbble to dispbtch event: " + event);
             }
         }
     }
 
     /**
-     * Returns the timestamp of the most recent event that had a timestamp, and
-     * that was dispatched from the <code>EventQueue</code> associated with the
-     * calling thread. If an event with a timestamp is currently being
-     * dispatched, its timestamp will be returned. If no events have yet
-     * been dispatched, the EventQueue's initialization time will be
-     * returned instead.In the current version of
+     * Returns the timestbmp of the most recent event thbt hbd b timestbmp, bnd
+     * thbt wbs dispbtched from the <code>EventQueue</code> bssocibted with the
+     * cblling threbd. If bn event with b timestbmp is currently being
+     * dispbtched, its timestbmp will be returned. If no events hbve yet
+     * been dispbtched, the EventQueue's initiblizbtion time will be
+     * returned instebd.In the current version of
      * the JDK, only <code>InputEvent</code>s,
-     * <code>ActionEvent</code>s, and <code>InvocationEvent</code>s have
-     * timestamps; however, future versions of the JDK may add timestamps to
-     * additional event types. Note that this method should only be invoked
-     * from an application's {@link #isDispatchThread event dispatching thread}.
+     * <code>ActionEvent</code>s, bnd <code>InvocbtionEvent</code>s hbve
+     * timestbmps; however, future versions of the JDK mby bdd timestbmps to
+     * bdditionbl event types. Note thbt this method should only be invoked
+     * from bn bpplicbtion's {@link #isDispbtchThrebd event dispbtching threbd}.
      * If this method is
-     * invoked from another thread, the current system time (as reported by
-     * <code>System.currentTimeMillis()</code>) will be returned instead.
+     * invoked from bnother threbd, the current system time (bs reported by
+     * <code>System.currentTimeMillis()</code>) will be returned instebd.
      *
-     * @return the timestamp of the last <code>InputEvent</code>,
-     *         <code>ActionEvent</code>, or <code>InvocationEvent</code> to be
-     *         dispatched, or <code>System.currentTimeMillis()</code> if this
-     *         method is invoked on a thread other than an event dispatching
-     *         thread
-     * @see java.awt.event.InputEvent#getWhen
-     * @see java.awt.event.ActionEvent#getWhen
-     * @see java.awt.event.InvocationEvent#getWhen
-     * @see #isDispatchThread
+     * @return the timestbmp of the lbst <code>InputEvent</code>,
+     *         <code>ActionEvent</code>, or <code>InvocbtionEvent</code> to be
+     *         dispbtched, or <code>System.currentTimeMillis()</code> if this
+     *         method is invoked on b threbd other thbn bn event dispbtching
+     *         threbd
+     * @see jbvb.bwt.event.InputEvent#getWhen
+     * @see jbvb.bwt.event.ActionEvent#getWhen
+     * @see jbvb.bwt.event.InvocbtionEvent#getWhen
+     * @see #isDispbtchThrebd
      *
      * @since 1.4
      */
-    public static long getMostRecentEventTime() {
+    public stbtic long getMostRecentEventTime() {
         return Toolkit.getEventQueue().getMostRecentEventTimeImpl();
     }
-    private long getMostRecentEventTimeImpl() {
+    privbte long getMostRecentEventTimeImpl() {
         pushPopLock.lock();
         try {
-            return (Thread.currentThread() == dispatchThread)
+            return (Threbd.currentThrebd() == dispbtchThrebd)
                 ? mostRecentEventTime
                 : System.currentTimeMillis();
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * @return most recent event time on all threads.
+     * @return most recent event time on bll threbds.
      */
     long getMostRecentEventTimeEx() {
         pushPopLock.lock();
         try {
             return mostRecentEventTime;
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Returns the the event currently being dispatched by the
-     * <code>EventQueue</code> associated with the calling thread. This is
-     * useful if a method needs access to the event, but was not designed to
-     * receive a reference to it as an argument. Note that this method should
-     * only be invoked from an application's event dispatching thread. If this
-     * method is invoked from another thread, null will be returned.
+     * Returns the the event currently being dispbtched by the
+     * <code>EventQueue</code> bssocibted with the cblling threbd. This is
+     * useful if b method needs bccess to the event, but wbs not designed to
+     * receive b reference to it bs bn brgument. Note thbt this method should
+     * only be invoked from bn bpplicbtion's event dispbtching threbd. If this
+     * method is invoked from bnother threbd, null will be returned.
      *
-     * @return the event currently being dispatched, or null if this method is
-     *         invoked on a thread other than an event dispatching thread
+     * @return the event currently being dispbtched, or null if this method is
+     *         invoked on b threbd other thbn bn event dispbtching threbd
      * @since 1.4
      */
-    public static AWTEvent getCurrentEvent() {
+    public stbtic AWTEvent getCurrentEvent() {
         return Toolkit.getEventQueue().getCurrentEventImpl();
     }
-    private AWTEvent getCurrentEventImpl() {
+    privbte AWTEvent getCurrentEventImpl() {
         pushPopLock.lock();
         try {
-                return (Thread.currentThread() == dispatchThread)
+                return (Threbd.currentThrebd() == dispbtchThrebd)
                 ? currentEvent.get()
                 : null;
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Replaces the existing <code>EventQueue</code> with the specified one.
-     * Any pending events are transferred to the new <code>EventQueue</code>
+     * Replbces the existing <code>EventQueue</code> with the specified one.
+     * Any pending events bre trbnsferred to the new <code>EventQueue</code>
      * for processing by it.
      *
-     * @param newEventQueue an <code>EventQueue</code>
-     *          (or subclass thereof) instance to be use
-     * @see      java.awt.EventQueue#pop
+     * @pbrbm newEventQueue bn <code>EventQueue</code>
+     *          (or subclbss thereof) instbnce to be use
+     * @see      jbvb.bwt.EventQueue#pop
      * @throws NullPointerException if <code>newEventQueue</code> is <code>null</code>
      * @since           1.2
      */
     public void push(EventQueue newEventQueue) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             eventLog.fine("EventQueue.push(" + newEventQueue + ")");
         }
 
@@ -870,62 +870,62 @@ public class EventQueue {
             while (topQueue.nextQueue != null) {
                 topQueue = topQueue.nextQueue;
             }
-            if (topQueue.fwDispatcher != null) {
-                throw new RuntimeException("push() to queue with fwDispatcher");
+            if (topQueue.fwDispbtcher != null) {
+                throw new RuntimeException("push() to queue with fwDispbtcher");
             }
-            if ((topQueue.dispatchThread != null) &&
-                (topQueue.dispatchThread.getEventQueue() == this))
+            if ((topQueue.dispbtchThrebd != null) &&
+                (topQueue.dispbtchThrebd.getEventQueue() == this))
             {
-                newEventQueue.dispatchThread = topQueue.dispatchThread;
-                topQueue.dispatchThread.setEventQueue(newEventQueue);
+                newEventQueue.dispbtchThrebd = topQueue.dispbtchThrebd;
+                topQueue.dispbtchThrebd.setEventQueue(newEventQueue);
             }
 
-            // Transfer all events forward to new EventQueue.
+            // Trbnsfer bll events forwbrd to new EventQueue.
             while (topQueue.peekEvent() != null) {
                 try {
-                    // Use getNextEventPrivate() as it doesn't call flushPendingEvents()
-                    newEventQueue.postEventPrivate(topQueue.getNextEventPrivate());
-                } catch (InterruptedException ie) {
-                    if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+                    // Use getNextEventPrivbte() bs it doesn't cbll flushPendingEvents()
+                    newEventQueue.postEventPrivbte(topQueue.getNextEventPrivbte());
+                } cbtch (InterruptedException ie) {
+                    if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                         eventLog.fine("Interrupted push", ie);
                     }
                 }
             }
 
-            // Wake up EDT waiting in getNextEvent(), so it can
-            // pick up a new EventQueue. Post the waking event before
-            // topQueue.nextQueue is assigned, otherwise the event would
+            // Wbke up EDT wbiting in getNextEvent(), so it cbn
+            // pick up b new EventQueue. Post the wbking event before
+            // topQueue.nextQueue is bssigned, otherwise the event would
             // go newEventQueue
-            topQueue.postEventPrivate(new InvocationEvent(topQueue, dummyRunnable));
+            topQueue.postEventPrivbte(new InvocbtionEvent(topQueue, dummyRunnbble));
 
             newEventQueue.previousQueue = topQueue;
             topQueue.nextQueue = newEventQueue;
 
-            if (appContext.get(AppContext.EVENT_QUEUE_KEY) == topQueue) {
-                appContext.put(AppContext.EVENT_QUEUE_KEY, newEventQueue);
+            if (bppContext.get(AppContext.EVENT_QUEUE_KEY) == topQueue) {
+                bppContext.put(AppContext.EVENT_QUEUE_KEY, newEventQueue);
             }
 
-            pushPopCond.signalAll();
-        } finally {
+            pushPopCond.signblAll();
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Stops dispatching events using this <code>EventQueue</code>.
-     * Any pending events are transferred to the previous
+     * Stops dispbtching events using this <code>EventQueue</code>.
+     * Any pending events bre trbnsferred to the previous
      * <code>EventQueue</code> for processing.
      * <p>
-     * Warning: To avoid deadlock, do not declare this method
-     * synchronized in a subclass.
+     * Wbrning: To bvoid debdlock, do not declbre this method
+     * synchronized in b subclbss.
      *
-     * @exception EmptyStackException if no previous push was made
+     * @exception EmptyStbckException if no previous push wbs mbde
      *  on this <code>EventQueue</code>
-     * @see      java.awt.EventQueue#push
+     * @see      jbvb.bwt.EventQueue#push
      * @since           1.2
      */
-    protected void pop() throws EmptyStackException {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+    protected void pop() throws EmptyStbckException {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             eventLog.fine("EventQueue.pop(" + this + ")");
         }
 
@@ -937,107 +937,107 @@ public class EventQueue {
             }
             EventQueue prevQueue = topQueue.previousQueue;
             if (prevQueue == null) {
-                throw new EmptyStackException();
+                throw new EmptyStbckException();
             }
 
             topQueue.previousQueue = null;
             prevQueue.nextQueue = null;
 
-            // Transfer all events back to previous EventQueue.
+            // Trbnsfer bll events bbck to previous EventQueue.
             while (topQueue.peekEvent() != null) {
                 try {
-                    prevQueue.postEventPrivate(topQueue.getNextEventPrivate());
-                } catch (InterruptedException ie) {
-                    if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+                    prevQueue.postEventPrivbte(topQueue.getNextEventPrivbte());
+                } cbtch (InterruptedException ie) {
+                    if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                         eventLog.fine("Interrupted pop", ie);
                     }
                 }
             }
 
-            if ((topQueue.dispatchThread != null) &&
-                (topQueue.dispatchThread.getEventQueue() == this))
+            if ((topQueue.dispbtchThrebd != null) &&
+                (topQueue.dispbtchThrebd.getEventQueue() == this))
             {
-                prevQueue.dispatchThread = topQueue.dispatchThread;
-                topQueue.dispatchThread.setEventQueue(prevQueue);
+                prevQueue.dispbtchThrebd = topQueue.dispbtchThrebd;
+                topQueue.dispbtchThrebd.setEventQueue(prevQueue);
             }
 
-            if (appContext.get(AppContext.EVENT_QUEUE_KEY) == this) {
-                appContext.put(AppContext.EVENT_QUEUE_KEY, prevQueue);
+            if (bppContext.get(AppContext.EVENT_QUEUE_KEY) == this) {
+                bppContext.put(AppContext.EVENT_QUEUE_KEY, prevQueue);
             }
 
-            // Wake up EDT waiting in getNextEvent(), so it can
-            // pick up a new EventQueue
-            topQueue.postEventPrivate(new InvocationEvent(topQueue, dummyRunnable));
+            // Wbke up EDT wbiting in getNextEvent(), so it cbn
+            // pick up b new EventQueue
+            topQueue.postEventPrivbte(new InvocbtionEvent(topQueue, dummyRunnbble));
 
-            pushPopCond.signalAll();
-        } finally {
+            pushPopCond.signblAll();
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Creates a new {@code secondary loop} associated with this
-     * event queue. Use the {@link SecondaryLoop#enter} and
-     * {@link SecondaryLoop#exit} methods to start and stop the
-     * event loop and dispatch the events from this queue.
+     * Crebtes b new {@code secondbry loop} bssocibted with this
+     * event queue. Use the {@link SecondbryLoop#enter} bnd
+     * {@link SecondbryLoop#exit} methods to stbrt bnd stop the
+     * event loop bnd dispbtch the events from this queue.
      *
-     * @return secondaryLoop A new secondary loop object, which can
-     *                       be used to launch a new nested event
-     *                       loop and dispatch events from this queue
+     * @return secondbryLoop A new secondbry loop object, which cbn
+     *                       be used to lbunch b new nested event
+     *                       loop bnd dispbtch events from this queue
      *
-     * @see SecondaryLoop#enter
-     * @see SecondaryLoop#exit
+     * @see SecondbryLoop#enter
+     * @see SecondbryLoop#exit
      *
      * @since 1.7
      */
-    public SecondaryLoop createSecondaryLoop() {
-        return createSecondaryLoop(null, null, 0);
+    public SecondbryLoop crebteSecondbryLoop() {
+        return crebteSecondbryLoop(null, null, 0);
     }
 
-    SecondaryLoop createSecondaryLoop(Conditional cond, EventFilter filter, long interval) {
+    SecondbryLoop crebteSecondbryLoop(Conditionbl cond, EventFilter filter, long intervbl) {
         pushPopLock.lock();
         try {
             if (nextQueue != null) {
-                // Forward the request to the top of EventQueue stack
-                return nextQueue.createSecondaryLoop(cond, filter, interval);
+                // Forwbrd the request to the top of EventQueue stbck
+                return nextQueue.crebteSecondbryLoop(cond, filter, intervbl);
             }
-            if (fwDispatcher != null) {
-                return fwDispatcher.createSecondaryLoop();
+            if (fwDispbtcher != null) {
+                return fwDispbtcher.crebteSecondbryLoop();
             }
-            if (dispatchThread == null) {
-                initDispatchThread();
+            if (dispbtchThrebd == null) {
+                initDispbtchThrebd();
             }
-            return new WaitDispatchSupport(dispatchThread, cond, filter, interval);
-        } finally {
+            return new WbitDispbtchSupport(dispbtchThrebd, cond, filter, intervbl);
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Returns true if the calling thread is
+     * Returns true if the cblling threbd is
      * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread. Use this method to ensure that a particular
-     * task is being executed (or not being) there.
+     * dispbtch threbd. Use this method to ensure thbt b pbrticulbr
+     * tbsk is being executed (or not being) there.
      * <p>
-     * Note: use the {@link #invokeLater} or {@link #invokeAndWait}
-     * methods to execute a task in
+     * Note: use the {@link #invokeLbter} or {@link #invokeAndWbit}
+     * methods to execute b tbsk in
      * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread.
+     * dispbtch threbd.
      *
      * @return true if running in
      * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread
-     * @see             #invokeLater
-     * @see             #invokeAndWait
+     * dispbtch threbd
+     * @see             #invokeLbter
+     * @see             #invokeAndWbit
      * @see             Toolkit#getSystemEventQueue
      * @since           1.2
      */
-    public static boolean isDispatchThread() {
+    public stbtic boolebn isDispbtchThrebd() {
         EventQueue eq = Toolkit.getEventQueue();
-        return eq.isDispatchThreadImpl();
+        return eq.isDispbtchThrebdImpl();
     }
 
-    final boolean isDispatchThreadImpl() {
+    finbl boolebn isDispbtchThrebdImpl() {
         EventQueue eq = this;
         pushPopLock.lock();
         try {
@@ -1046,143 +1046,143 @@ public class EventQueue {
                 eq = next;
                 next = eq.nextQueue;
             }
-            if (eq.fwDispatcher != null) {
-                return eq.fwDispatcher.isDispatchThread();
+            if (eq.fwDispbtcher != null) {
+                return eq.fwDispbtcher.isDispbtchThrebd();
             }
-            return (Thread.currentThread() == eq.dispatchThread);
-        } finally {
+            return (Threbd.currentThrebd() == eq.dispbtchThrebd);
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
-    final void initDispatchThread() {
+    finbl void initDispbtchThrebd() {
         pushPopLock.lock();
         try {
-            if (dispatchThread == null && !threadGroup.isDestroyed() && !appContext.isDisposed()) {
-                dispatchThread = AccessController.doPrivileged(
-                    new PrivilegedAction<EventDispatchThread>() {
-                        public EventDispatchThread run() {
-                            EventDispatchThread t =
-                                new EventDispatchThread(threadGroup,
-                                                        name,
+            if (dispbtchThrebd == null && !threbdGroup.isDestroyed() && !bppContext.isDisposed()) {
+                dispbtchThrebd = AccessController.doPrivileged(
+                    new PrivilegedAction<EventDispbtchThrebd>() {
+                        public EventDispbtchThrebd run() {
+                            EventDispbtchThrebd t =
+                                new EventDispbtchThrebd(threbdGroup,
+                                                        nbme,
                                                         EventQueue.this);
-                            t.setContextClassLoader(classLoader);
-                            t.setPriority(Thread.NORM_PRIORITY + 1);
-                            t.setDaemon(false);
-                            AWTAutoShutdown.getInstance().notifyThreadBusy(t);
+                            t.setContextClbssLobder(clbssLobder);
+                            t.setPriority(Threbd.NORM_PRIORITY + 1);
+                            t.setDbemon(fblse);
+                            AWTAutoShutdown.getInstbnce().notifyThrebdBusy(t);
                             return t;
                         }
                     }
                 );
-                dispatchThread.start();
+                dispbtchThrebd.stbrt();
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
-    final void detachDispatchThread(EventDispatchThread edt) {
+    finbl void detbchDispbtchThrebd(EventDispbtchThrebd edt) {
         /*
-         * Minimize discard possibility for non-posted events
+         * Minimize discbrd possibility for non-posted events
          */
-        SunToolkit.flushPendingEvents(appContext);
+        SunToolkit.flushPendingEvents(bppContext);
         /*
-         * This synchronized block is to secure that the event dispatch
-         * thread won't die in the middle of posting a new event to the
-         * associated event queue. It is important because we notify
-         * that the event dispatch thread is busy after posting a new event
-         * to its queue, so the EventQueue.dispatchThread reference must
-         * be valid at that point.
+         * This synchronized block is to secure thbt the event dispbtch
+         * threbd won't die in the middle of posting b new event to the
+         * bssocibted event queue. It is importbnt becbuse we notify
+         * thbt the event dispbtch threbd is busy bfter posting b new event
+         * to its queue, so the EventQueue.dispbtchThrebd reference must
+         * be vblid bt thbt point.
          */
         pushPopLock.lock();
         try {
-            if (edt == dispatchThread) {
-                dispatchThread = null;
+            if (edt == dispbtchThrebd) {
+                dispbtchThrebd = null;
             }
-            AWTAutoShutdown.getInstance().notifyThreadFree(edt);
+            AWTAutoShutdown.getInstbnce().notifyThrebdFree(edt);
             /*
-             * Event was posted after EDT events pumping had stopped, so start
-             * another EDT to handle this event
+             * Event wbs posted bfter EDT events pumping hbd stopped, so stbrt
+             * bnother EDT to hbndle this event
              */
             if (peekEvent() != null) {
-                initDispatchThread();
+                initDispbtchThrebd();
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /*
-     * Gets the <code>EventDispatchThread</code> for this
+     * Gets the <code>EventDispbtchThrebd</code> for this
      * <code>EventQueue</code>.
-     * @return the event dispatch thread associated with this event queue
-     *         or <code>null</code> if this event queue doesn't have a
-     *         working thread associated with it
-     * @see    java.awt.EventQueue#initDispatchThread
-     * @see    java.awt.EventQueue#detachDispatchThread
+     * @return the event dispbtch threbd bssocibted with this event queue
+     *         or <code>null</code> if this event queue doesn't hbve b
+     *         working threbd bssocibted with it
+     * @see    jbvb.bwt.EventQueue#initDispbtchThrebd
+     * @see    jbvb.bwt.EventQueue#detbchDispbtchThrebd
      */
-    final EventDispatchThread getDispatchThread() {
+    finbl EventDispbtchThrebd getDispbtchThrebd() {
         pushPopLock.lock();
         try {
-            return dispatchThread;
-        } finally {
+            return dispbtchThrebd;
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /*
-     * Removes any pending events for the specified source object.
-     * If removeAllEvents parameter is <code>true</code> then all
-     * events for the specified source object are removed, if it
-     * is <code>false</code> then <code>SequencedEvent</code>, <code>SentEvent</code>,
+     * Removes bny pending events for the specified source object.
+     * If removeAllEvents pbrbmeter is <code>true</code> then bll
+     * events for the specified source object bre removed, if it
+     * is <code>fblse</code> then <code>SequencedEvent</code>, <code>SentEvent</code>,
      * <code>FocusEvent</code>, <code>WindowEvent</code>, <code>KeyEvent</code>,
-     * and <code>InputMethodEvent</code> are kept in the queue, but all other
-     * events are removed.
+     * bnd <code>InputMethodEvent</code> bre kept in the queue, but bll other
+     * events bre removed.
      *
-     * This method is normally called by the source's
+     * This method is normblly cblled by the source's
      * <code>removeNotify</code> method.
      */
-    final void removeSourceEvents(Object source, boolean removeAllEvents) {
-        SunToolkit.flushPendingEvents(appContext);
+    finbl void removeSourceEvents(Object source, boolebn removeAllEvents) {
+        SunToolkit.flushPendingEvents(bppContext);
         pushPopLock.lock();
         try {
             for (int i = 0; i < NUM_PRIORITIES; i++) {
-                EventQueueItem entry = queues[i].head;
+                EventQueueItem entry = queues[i].hebd;
                 EventQueueItem prev = null;
                 while (entry != null) {
                     if ((entry.event.getSource() == source)
                         && (removeAllEvents
-                            || ! (entry.event instanceof SequencedEvent
-                                  || entry.event instanceof SentEvent
-                                  || entry.event instanceof FocusEvent
-                                  || entry.event instanceof WindowEvent
-                                  || entry.event instanceof KeyEvent
-                                  || entry.event instanceof InputMethodEvent)))
+                            || ! (entry.event instbnceof SequencedEvent
+                                  || entry.event instbnceof SentEvent
+                                  || entry.event instbnceof FocusEvent
+                                  || entry.event instbnceof WindowEvent
+                                  || entry.event instbnceof KeyEvent
+                                  || entry.event instbnceof InputMethodEvent)))
                     {
-                        if (entry.event instanceof SequencedEvent) {
+                        if (entry.event instbnceof SequencedEvent) {
                             ((SequencedEvent)entry.event).dispose();
                         }
-                        if (entry.event instanceof SentEvent) {
+                        if (entry.event instbnceof SentEvent) {
                             ((SentEvent)entry.event).dispose();
                         }
-                        if (entry.event instanceof InvocationEvent) {
-                            AWTAccessor.getInvocationEventAccessor()
-                                    .dispose((InvocationEvent)entry.event);
+                        if (entry.event instbnceof InvocbtionEvent) {
+                            AWTAccessor.getInvocbtionEventAccessor()
+                                    .dispose((InvocbtionEvent)entry.event);
                         }
                         if (prev == null) {
-                            queues[i].head = entry.next;
+                            queues[i].hebd = entry.next;
                         } else {
                             prev.next = entry.next;
                         }
-                        uncacheEQItem(entry);
+                        uncbcheEQItem(entry);
                     } else {
                         prev = entry;
                     }
                     entry = entry.next;
                 }
-                queues[i].tail = prev;
+                queues[i].tbil = prev;
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
@@ -1191,169 +1191,169 @@ public class EventQueue {
         pushPopLock.lock();
         try {
             return mostRecentKeyEventTime;
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
-    static void setCurrentEventAndMostRecentTime(AWTEvent e) {
+    stbtic void setCurrentEventAndMostRecentTime(AWTEvent e) {
         Toolkit.getEventQueue().setCurrentEventAndMostRecentTimeImpl(e);
     }
-    private void setCurrentEventAndMostRecentTimeImpl(AWTEvent e) {
+    privbte void setCurrentEventAndMostRecentTimeImpl(AWTEvent e) {
         pushPopLock.lock();
         try {
-            if (Thread.currentThread() != dispatchThread) {
+            if (Threbd.currentThrebd() != dispbtchThrebd) {
                 return;
             }
 
-            currentEvent = new WeakReference<>(e);
+            currentEvent = new WebkReference<>(e);
 
-            // This series of 'instanceof' checks should be replaced with a
-            // polymorphic type (for example, an interface which declares a
-            // getWhen() method). However, this would require us to make such
-            // a type public, or to place it in sun.awt. Both of these approaches
-            // have been frowned upon. So for now, we hack.
+            // This series of 'instbnceof' checks should be replbced with b
+            // polymorphic type (for exbmple, bn interfbce which declbres b
+            // getWhen() method). However, this would require us to mbke such
+            // b type public, or to plbce it in sun.bwt. Both of these bpprobches
+            // hbve been frowned upon. So for now, we hbck.
             //
-            // In tiger, we will probably give timestamps to all events, so this
-            // will no longer be an issue.
+            // In tiger, we will probbbly give timestbmps to bll events, so this
+            // will no longer be bn issue.
             long mostRecentEventTime2 = Long.MIN_VALUE;
-            if (e instanceof InputEvent) {
+            if (e instbnceof InputEvent) {
                 InputEvent ie = (InputEvent)e;
                 mostRecentEventTime2 = ie.getWhen();
-                if (e instanceof KeyEvent) {
+                if (e instbnceof KeyEvent) {
                     mostRecentKeyEventTime = ie.getWhen();
                 }
-            } else if (e instanceof InputMethodEvent) {
+            } else if (e instbnceof InputMethodEvent) {
                 InputMethodEvent ime = (InputMethodEvent)e;
                 mostRecentEventTime2 = ime.getWhen();
-            } else if (e instanceof ActionEvent) {
-                ActionEvent ae = (ActionEvent)e;
-                mostRecentEventTime2 = ae.getWhen();
-            } else if (e instanceof InvocationEvent) {
-                InvocationEvent ie = (InvocationEvent)e;
+            } else if (e instbnceof ActionEvent) {
+                ActionEvent be = (ActionEvent)e;
+                mostRecentEventTime2 = be.getWhen();
+            } else if (e instbnceof InvocbtionEvent) {
+                InvocbtionEvent ie = (InvocbtionEvent)e;
                 mostRecentEventTime2 = ie.getWhen();
             }
-            mostRecentEventTime = Math.max(mostRecentEventTime, mostRecentEventTime2);
-        } finally {
+            mostRecentEventTime = Mbth.mbx(mostRecentEventTime, mostRecentEventTime2);
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
     /**
-     * Causes <code>runnable</code> to have its <code>run</code>
-     * method called in the {@link #isDispatchThread dispatch thread} of
+     * Cbuses <code>runnbble</code> to hbve its <code>run</code>
+     * method cblled in the {@link #isDispbtchThrebd dispbtch threbd} of
      * {@link Toolkit#getSystemEventQueue the system EventQueue}.
-     * This will happen after all pending events are processed.
+     * This will hbppen bfter bll pending events bre processed.
      *
-     * @param runnable  the <code>Runnable</code> whose <code>run</code>
+     * @pbrbm runnbble  the <code>Runnbble</code> whose <code>run</code>
      *                  method should be executed
-     *                  asynchronously in the
-     *                  {@link #isDispatchThread event dispatch thread}
+     *                  bsynchronously in the
+     *                  {@link #isDispbtchThrebd event dispbtch threbd}
      *                  of {@link Toolkit#getSystemEventQueue the system EventQueue}
-     * @see             #invokeAndWait
+     * @see             #invokeAndWbit
      * @see             Toolkit#getSystemEventQueue
-     * @see             #isDispatchThread
+     * @see             #isDispbtchThrebd
      * @since           1.2
      */
-    public static void invokeLater(Runnable runnable) {
+    public stbtic void invokeLbter(Runnbble runnbble) {
         Toolkit.getEventQueue().postEvent(
-            new InvocationEvent(Toolkit.getDefaultToolkit(), runnable));
+            new InvocbtionEvent(Toolkit.getDefbultToolkit(), runnbble));
     }
 
     /**
-     * Causes <code>runnable</code> to have its <code>run</code>
-     * method called in the {@link #isDispatchThread dispatch thread} of
+     * Cbuses <code>runnbble</code> to hbve its <code>run</code>
+     * method cblled in the {@link #isDispbtchThrebd dispbtch threbd} of
      * {@link Toolkit#getSystemEventQueue the system EventQueue}.
-     * This will happen after all pending events are processed.
-     * The call blocks until this has happened.  This method
-     * will throw an Error if called from the
-     * {@link #isDispatchThread event dispatcher thread}.
+     * This will hbppen bfter bll pending events bre processed.
+     * The cbll blocks until this hbs hbppened.  This method
+     * will throw bn Error if cblled from the
+     * {@link #isDispbtchThrebd event dispbtcher threbd}.
      *
-     * @param runnable  the <code>Runnable</code> whose <code>run</code>
+     * @pbrbm runnbble  the <code>Runnbble</code> whose <code>run</code>
      *                  method should be executed
      *                  synchronously in the
-     *                  {@link #isDispatchThread event dispatch thread}
+     *                  {@link #isDispbtchThrebd event dispbtch threbd}
      *                  of {@link Toolkit#getSystemEventQueue the system EventQueue}
-     * @exception       InterruptedException  if any thread has
-     *                  interrupted this thread
-     * @exception       InvocationTargetException  if an throwable is thrown
-     *                  when running <code>runnable</code>
-     * @see             #invokeLater
+     * @exception       InterruptedException  if bny threbd hbs
+     *                  interrupted this threbd
+     * @exception       InvocbtionTbrgetException  if bn throwbble is thrown
+     *                  when running <code>runnbble</code>
+     * @see             #invokeLbter
      * @see             Toolkit#getSystemEventQueue
-     * @see             #isDispatchThread
+     * @see             #isDispbtchThrebd
      * @since           1.2
      */
-    public static void invokeAndWait(Runnable runnable)
-        throws InterruptedException, InvocationTargetException
+    public stbtic void invokeAndWbit(Runnbble runnbble)
+        throws InterruptedException, InvocbtionTbrgetException
     {
-        invokeAndWait(Toolkit.getDefaultToolkit(), runnable);
+        invokeAndWbit(Toolkit.getDefbultToolkit(), runnbble);
     }
 
-    static void invokeAndWait(Object source, Runnable runnable)
-        throws InterruptedException, InvocationTargetException
+    stbtic void invokeAndWbit(Object source, Runnbble runnbble)
+        throws InterruptedException, InvocbtionTbrgetException
     {
-        if (EventQueue.isDispatchThread()) {
-            throw new Error("Cannot call invokeAndWait from the event dispatcher thread");
+        if (EventQueue.isDispbtchThrebd()) {
+            throw new Error("Cbnnot cbll invokeAndWbit from the event dispbtcher threbd");
         }
 
-        class AWTInvocationLock {}
-        Object lock = new AWTInvocationLock();
+        clbss AWTInvocbtionLock {}
+        Object lock = new AWTInvocbtionLock();
 
-        InvocationEvent event =
-            new InvocationEvent(source, runnable, lock, true);
+        InvocbtionEvent event =
+            new InvocbtionEvent(source, runnbble, lock, true);
 
         synchronized (lock) {
             Toolkit.getEventQueue().postEvent(event);
-            while (!event.isDispatched()) {
-                lock.wait();
+            while (!event.isDispbtched()) {
+                lock.wbit();
             }
         }
 
-        Throwable eventThrowable = event.getThrowable();
-        if (eventThrowable != null) {
-            throw new InvocationTargetException(eventThrowable);
+        Throwbble eventThrowbble = event.getThrowbble();
+        if (eventThrowbble != null) {
+            throw new InvocbtionTbrgetException(eventThrowbble);
         }
     }
 
     /*
-     * Called from PostEventQueue.postEvent to notify that a new event
-     * appeared. First it proceeds to the EventQueue on the top of the
-     * stack, then notifies the associated dispatch thread if it exists
-     * or starts a new one otherwise.
+     * Cblled from PostEventQueue.postEvent to notify thbt b new event
+     * bppebred. First it proceeds to the EventQueue on the top of the
+     * stbck, then notifies the bssocibted dispbtch threbd if it exists
+     * or stbrts b new one otherwise.
      */
-    private void wakeup(boolean isShutdown) {
+    privbte void wbkeup(boolebn isShutdown) {
         pushPopLock.lock();
         try {
             if (nextQueue != null) {
-                // Forward call to the top of EventQueue stack.
-                nextQueue.wakeup(isShutdown);
-            } else if (dispatchThread != null) {
-                pushPopCond.signalAll();
+                // Forwbrd cbll to the top of EventQueue stbck.
+                nextQueue.wbkeup(isShutdown);
+            } else if (dispbtchThrebd != null) {
+                pushPopCond.signblAll();
             } else if (!isShutdown) {
-                initDispatchThread();
+                initDispbtchThrebd();
             }
-        } finally {
+        } finblly {
             pushPopLock.unlock();
         }
     }
 
-    // The method is used by AWTAccessor for javafx/AWT single threaded mode.
-    private void setFwDispatcher(FwDispatcher dispatcher) {
+    // The method is used by AWTAccessor for jbvbfx/AWT single threbded mode.
+    privbte void setFwDispbtcher(FwDispbtcher dispbtcher) {
         if (nextQueue != null) {
-            nextQueue.setFwDispatcher(dispatcher);
+            nextQueue.setFwDispbtcher(dispbtcher);
         } else {
-            fwDispatcher = dispatcher;
+            fwDispbtcher = dispbtcher;
         }
     }
 }
 
 /**
- * The Queue object holds pointers to the beginning and end of one internal
- * queue. An EventQueue object is composed of multiple internal Queues, one
- * for each priority supported by the EventQueue. All Events on a particular
- * internal Queue have identical priority.
+ * The Queue object holds pointers to the beginning bnd end of one internbl
+ * queue. An EventQueue object is composed of multiple internbl Queues, one
+ * for ebch priority supported by the EventQueue. All Events on b pbrticulbr
+ * internbl Queue hbve identicbl priority.
  */
-class Queue {
-    EventQueueItem head;
-    EventQueueItem tail;
+clbss Queue {
+    EventQueueItem hebd;
+    EventQueueItem tbil;
 }

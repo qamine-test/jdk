@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,137 +59,137 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.ALIGNED_WEEK_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.ERA;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.PROLEPTIC_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR_OF_ERA;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.WEEKS;
+import stbtic jbvb.time.temporbl.TemporblAdjusters.nextOrSbme;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.DayOfWeek;
-import java.time.format.ResolverStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
-import java.time.temporal.ValueRange;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbteTimeException;
+import jbvb.time.DbyOfWeek;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAdjusters;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.ServiceLobder;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * An abstract implementation of a calendar system, used to organize and identify dates.
+ * An bbstrbct implementbtion of b cblendbr system, used to orgbnize bnd identify dbtes.
  * <p>
- * The main date and time API is built on the ISO calendar system.
- * The chronology operates behind the scenes to represent the general concept of a calendar system.
+ * The mbin dbte bnd time API is built on the ISO cblendbr system.
+ * The chronology operbtes behind the scenes to represent the generbl concept of b cblendbr system.
  * <p>
- * See {@link Chronology} for more details.
+ * See {@link Chronology} for more detbils.
  *
  * @implSpec
- * This class is separated from the {@code Chronology} interface so that the static methods
- * are not inherited. While {@code Chronology} can be implemented directly, it is strongly
- * recommended to extend this abstract class instead.
+ * This clbss is sepbrbted from the {@code Chronology} interfbce so thbt the stbtic methods
+ * bre not inherited. While {@code Chronology} cbn be implemented directly, it is strongly
+ * recommended to extend this bbstrbct clbss instebd.
  * <p>
- * This class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * This clbss must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Subclbsses should be Seriblizbble wherever possible.
  *
  * @since 1.8
  */
-public abstract class AbstractChronology implements Chronology {
+public bbstrbct clbss AbstrbctChronology implements Chronology {
 
     /**
-     * ChronoLocalDate order constant.
+     * ChronoLocblDbte order constbnt.
      */
-    static final Comparator<ChronoLocalDate> DATE_ORDER =
-        (Comparator<ChronoLocalDate> & Serializable) (date1, date2) -> {
-            return Long.compare(date1.toEpochDay(), date2.toEpochDay());
+    stbtic finbl Compbrbtor<ChronoLocblDbte> DATE_ORDER =
+        (Compbrbtor<ChronoLocblDbte> & Seriblizbble) (dbte1, dbte2) -> {
+            return Long.compbre(dbte1.toEpochDby(), dbte2.toEpochDby());
         };
     /**
-     * ChronoLocalDateTime order constant.
+     * ChronoLocblDbteTime order constbnt.
      */
-    static final Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> DATE_TIME_ORDER =
-        (Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> & Serializable) (dateTime1, dateTime2) -> {
-            int cmp = Long.compare(dateTime1.toLocalDate().toEpochDay(), dateTime2.toLocalDate().toEpochDay());
+    stbtic finbl Compbrbtor<ChronoLocblDbteTime<? extends ChronoLocblDbte>> DATE_TIME_ORDER =
+        (Compbrbtor<ChronoLocblDbteTime<? extends ChronoLocblDbte>> & Seriblizbble) (dbteTime1, dbteTime2) -> {
+            int cmp = Long.compbre(dbteTime1.toLocblDbte().toEpochDby(), dbteTime2.toLocblDbte().toEpochDby());
             if (cmp == 0) {
-                cmp = Long.compare(dateTime1.toLocalTime().toNanoOfDay(), dateTime2.toLocalTime().toNanoOfDay());
+                cmp = Long.compbre(dbteTime1.toLocblTime().toNbnoOfDby(), dbteTime2.toLocblTime().toNbnoOfDby());
             }
             return cmp;
         };
     /**
-     * ChronoZonedDateTime order constant.
+     * ChronoZonedDbteTime order constbnt.
      */
-    static final Comparator<ChronoZonedDateTime<?>> INSTANT_ORDER =
-            (Comparator<ChronoZonedDateTime<?>> & Serializable) (dateTime1, dateTime2) -> {
-                int cmp = Long.compare(dateTime1.toEpochSecond(), dateTime2.toEpochSecond());
+    stbtic finbl Compbrbtor<ChronoZonedDbteTime<?>> INSTANT_ORDER =
+            (Compbrbtor<ChronoZonedDbteTime<?>> & Seriblizbble) (dbteTime1, dbteTime2) -> {
+                int cmp = Long.compbre(dbteTime1.toEpochSecond(), dbteTime2.toEpochSecond());
                 if (cmp == 0) {
-                    cmp = Long.compare(dateTime1.toLocalTime().getNano(), dateTime2.toLocalTime().getNano());
+                    cmp = Long.compbre(dbteTime1.toLocblTime().getNbno(), dbteTime2.toLocblTime().getNbno());
                 }
                 return cmp;
             };
 
     /**
-     * Map of available calendars by ID.
+     * Mbp of bvbilbble cblendbrs by ID.
      */
-    private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_ID = new ConcurrentHashMap<>();
+    privbte stbtic finbl ConcurrentHbshMbp<String, Chronology> CHRONOS_BY_ID = new ConcurrentHbshMbp<>();
     /**
-     * Map of available calendars by calendar type.
+     * Mbp of bvbilbble cblendbrs by cblendbr type.
      */
-    private static final ConcurrentHashMap<String, Chronology> CHRONOS_BY_TYPE = new ConcurrentHashMap<>();
+    privbte stbtic finbl ConcurrentHbshMbp<String, Chronology> CHRONOS_BY_TYPE = new ConcurrentHbshMbp<>();
 
     /**
-     * Register a Chronology by its ID and type for lookup by {@link #of(String)}.
-     * Chronologies must not be registered until they are completely constructed.
-     * Specifically, not in the constructor of Chronology.
+     * Register b Chronology by its ID bnd type for lookup by {@link #of(String)}.
+     * Chronologies must not be registered until they bre completely constructed.
+     * Specificblly, not in the constructor of Chronology.
      *
-     * @param chrono the chronology to register; not null
-     * @return the already registered Chronology if any, may be null
+     * @pbrbm chrono the chronology to register; not null
+     * @return the blrebdy registered Chronology if bny, mby be null
      */
-    static Chronology registerChrono(Chronology chrono) {
+    stbtic Chronology registerChrono(Chronology chrono) {
         return registerChrono(chrono, chrono.getId());
     }
 
     /**
-     * Register a Chronology by ID and type for lookup by {@link #of(String)}.
-     * Chronos must not be registered until they are completely constructed.
-     * Specifically, not in the constructor of Chronology.
+     * Register b Chronology by ID bnd type for lookup by {@link #of(String)}.
+     * Chronos must not be registered until they bre completely constructed.
+     * Specificblly, not in the constructor of Chronology.
      *
-     * @param chrono the chronology to register; not null
-     * @param id the ID to register the chronology; not null
-     * @return the already registered Chronology if any, may be null
+     * @pbrbm chrono the chronology to register; not null
+     * @pbrbm id the ID to register the chronology; not null
+     * @return the blrebdy registered Chronology if bny, mby be null
      */
-    static Chronology registerChrono(Chronology chrono, String id) {
+    stbtic Chronology registerChrono(Chronology chrono, String id) {
         Chronology prev = CHRONOS_BY_ID.putIfAbsent(id, chrono);
         if (prev == null) {
-            String type = chrono.getCalendarType();
+            String type = chrono.getCblendbrType();
             if (type != null) {
                 CHRONOS_BY_TYPE.putIfAbsent(type, chrono);
             }
@@ -198,63 +198,63 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     /**
-     * Initialization of the maps from id and type to Chronology.
-     * The ServiceLoader is used to find and register any implementations
-     * of {@link java.time.chrono.AbstractChronology} found in the bootclass loader.
-     * The built-in chronologies are registered explicitly.
-     * Calendars configured via the Thread's context classloader are local
-     * to that thread and are ignored.
+     * Initiblizbtion of the mbps from id bnd type to Chronology.
+     * The ServiceLobder is used to find bnd register bny implementbtions
+     * of {@link jbvb.time.chrono.AbstrbctChronology} found in the bootclbss lobder.
+     * The built-in chronologies bre registered explicitly.
+     * Cblendbrs configured vib the Threbd's context clbsslobder bre locbl
+     * to thbt threbd bnd bre ignored.
      * <p>
-     * The initialization is done only once using the registration
-     * of the IsoChronology as the test and the final step.
-     * Multiple threads may perform the initialization concurrently.
-     * Only the first registration of each Chronology is retained by the
-     * ConcurrentHashMap.
-     * @return true if the cache was initialized
+     * The initiblizbtion is done only once using the registrbtion
+     * of the IsoChronology bs the test bnd the finbl step.
+     * Multiple threbds mby perform the initiblizbtion concurrently.
+     * Only the first registrbtion of ebch Chronology is retbined by the
+     * ConcurrentHbshMbp.
+     * @return true if the cbche wbs initiblized
      */
-    private static boolean initCache() {
+    privbte stbtic boolebn initCbche() {
         if (CHRONOS_BY_ID.get("ISO") == null) {
-            // Initialization is incomplete
+            // Initiblizbtion is incomplete
 
             // Register built-in Chronologies
-            registerChrono(HijrahChronology.INSTANCE);
-            registerChrono(JapaneseChronology.INSTANCE);
+            registerChrono(HijrbhChronology.INSTANCE);
+            registerChrono(JbpbneseChronology.INSTANCE);
             registerChrono(MinguoChronology.INSTANCE);
-            registerChrono(ThaiBuddhistChronology.INSTANCE);
+            registerChrono(ThbiBuddhistChronology.INSTANCE);
 
-            // Register Chronologies from the ServiceLoader
-            @SuppressWarnings("rawtypes")
-            ServiceLoader<AbstractChronology> loader =  ServiceLoader.load(AbstractChronology.class, null);
-            for (AbstractChronology chrono : loader) {
+            // Register Chronologies from the ServiceLobder
+            @SuppressWbrnings("rbwtypes")
+            ServiceLobder<AbstrbctChronology> lobder =  ServiceLobder.lobd(AbstrbctChronology.clbss, null);
+            for (AbstrbctChronology chrono : lobder) {
                 String id = chrono.getId();
-                if (id.equals("ISO") || registerChrono(chrono) != null) {
-                    // Log the attempt to replace an existing Chronology
-                    PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-                    logger.warning("Ignoring duplicate Chronology, from ServiceLoader configuration "  + id);
+                if (id.equbls("ISO") || registerChrono(chrono) != null) {
+                    // Log the bttempt to replbce bn existing Chronology
+                    PlbtformLogger logger = PlbtformLogger.getLogger("jbvb.time.chrono");
+                    logger.wbrning("Ignoring duplicbte Chronology, from ServiceLobder configurbtion "  + id);
                 }
             }
 
-            // finally, register IsoChronology to mark initialization is complete
+            // finblly, register IsoChronology to mbrk initiblizbtion is complete
             registerChrono(IsoChronology.INSTANCE);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a locale.
+     * Obtbins bn instbnce of {@code Chronology} from b locble.
      * <p>
-     * See {@link Chronology#ofLocale(Locale)}.
+     * See {@link Chronology#ofLocble(Locble)}.
      *
-     * @param locale  the locale to use to obtain the calendar system, not null
-     * @return the calendar system associated with the locale, not null
-     * @throws java.time.DateTimeException if the locale-specified calendar cannot be found
+     * @pbrbm locble  the locble to use to obtbin the cblendbr system, not null
+     * @return the cblendbr system bssocibted with the locble, not null
+     * @throws jbvb.time.DbteTimeException if the locble-specified cblendbr cbnnot be found
      */
-    static Chronology ofLocale(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        String type = locale.getUnicodeLocaleType("ca");
-        if (type == null || "iso".equals(type) || "iso8601".equals(type)) {
+    stbtic Chronology ofLocble(Locble locble) {
+        Objects.requireNonNull(locble, "locble");
+        String type = locble.getUnicodeLocbleType("cb");
+        if (type == null || "iso".equbls(type) || "iso8601".equbls(type)) {
             return IsoChronology.INSTANCE;
         }
         // Not pre-defined; lookup by the type
@@ -263,62 +263,62 @@ public abstract class AbstractChronology implements Chronology {
             if (chrono != null) {
                 return chrono;
             }
-            // If not found, do the initialization (once) and repeat the lookup
-        } while (initCache());
+            // If not found, do the initiblizbtion (once) bnd repebt the lookup
+        } while (initCbche());
 
-        // Look for a Chronology using ServiceLoader of the Thread's ContextClassLoader
-        // Application provided Chronologies must not be cached
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            if (type.equals(chrono.getCalendarType())) {
+        // Look for b Chronology using ServiceLobder of the Threbd's ContextClbssLobder
+        // Applicbtion provided Chronologies must not be cbched
+        @SuppressWbrnings("rbwtypes")
+        ServiceLobder<Chronology> lobder = ServiceLobder.lobd(Chronology.clbss);
+        for (Chronology chrono : lobder) {
+            if (type.equbls(chrono.getCblendbrType())) {
                 return chrono;
             }
         }
-        throw new DateTimeException("Unknown calendar system: " + type);
+        throw new DbteTimeException("Unknown cblendbr system: " + type);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbnce of {@code Chronology} from b chronology ID or
+     * cblendbr system type.
      * <p>
      * See {@link Chronology#of(String)}.
      *
-     * @param id  the chronology ID or calendar system type, not null
+     * @pbrbm id  the chronology ID or cblendbr system type, not null
      * @return the chronology with the identifier requested, not null
-     * @throws java.time.DateTimeException if the chronology cannot be found
+     * @throws jbvb.time.DbteTimeException if the chronology cbnnot be found
      */
-    static Chronology of(String id) {
+    stbtic Chronology of(String id) {
         Objects.requireNonNull(id, "id");
         do {
             Chronology chrono = of0(id);
             if (chrono != null) {
                 return chrono;
             }
-            // If not found, do the initialization (once) and repeat the lookup
-        } while (initCache());
+            // If not found, do the initiblizbtion (once) bnd repebt the lookup
+        } while (initCbche());
 
-        // Look for a Chronology using ServiceLoader of the Thread's ContextClassLoader
-        // Application provided Chronologies must not be cached
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            if (id.equals(chrono.getId()) || id.equals(chrono.getCalendarType())) {
+        // Look for b Chronology using ServiceLobder of the Threbd's ContextClbssLobder
+        // Applicbtion provided Chronologies must not be cbched
+        @SuppressWbrnings("rbwtypes")
+        ServiceLobder<Chronology> lobder = ServiceLobder.lobd(Chronology.clbss);
+        for (Chronology chrono : lobder) {
+            if (id.equbls(chrono.getId()) || id.equbls(chrono.getCblendbrType())) {
                 return chrono;
             }
         }
-        throw new DateTimeException("Unknown chronology: " + id);
+        throw new DbteTimeException("Unknown chronology: " + id);
     }
 
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbnce of {@code Chronology} from b chronology ID or
+     * cblendbr system type.
      *
-     * @param id  the chronology ID or calendar system type, not null
+     * @pbrbm id  the chronology ID or cblendbr system type, not null
      * @return the chronology with the identifier requested, or {@code null} if not found
      */
-    private static Chronology of0(String id) {
+    privbte stbtic Chronology of0(String id) {
         Chronology chrono = CHRONOS_BY_ID.get(id);
         if (chrono == null) {
             chrono = CHRONOS_BY_TYPE.get(id);
@@ -327,421 +327,421 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     /**
-     * Returns the available chronologies.
+     * Returns the bvbilbble chronologies.
      * <p>
-     * Each returned {@code Chronology} is available for use in the system.
-     * The set of chronologies includes the system chronologies and
-     * any chronologies provided by the application via ServiceLoader
-     * configuration.
+     * Ebch returned {@code Chronology} is bvbilbble for use in the system.
+     * The set of chronologies includes the system chronologies bnd
+     * bny chronologies provided by the bpplicbtion vib ServiceLobder
+     * configurbtion.
      *
-     * @return the independent, modifiable set of the available chronology IDs, not null
+     * @return the independent, modifibble set of the bvbilbble chronology IDs, not null
      */
-    static Set<Chronology> getAvailableChronologies() {
-        initCache();       // force initialization
-        HashSet<Chronology> chronos = new HashSet<>(CHRONOS_BY_ID.values());
+    stbtic Set<Chronology> getAvbilbbleChronologies() {
+        initCbche();       // force initiblizbtion
+        HbshSet<Chronology> chronos = new HbshSet<>(CHRONOS_BY_ID.vblues());
 
-        /// Add in Chronologies from the ServiceLoader configuration
-        @SuppressWarnings("rawtypes")
-        ServiceLoader<Chronology> loader = ServiceLoader.load(Chronology.class);
-        for (Chronology chrono : loader) {
-            chronos.add(chrono);
+        /// Add in Chronologies from the ServiceLobder configurbtion
+        @SuppressWbrnings("rbwtypes")
+        ServiceLobder<Chronology> lobder = ServiceLobder.lobd(Chronology.clbss);
+        for (Chronology chrono : lobder) {
+            chronos.bdd(chrono);
         }
         return chronos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      */
-    protected AbstractChronology() {
+    protected AbstrbctChronology() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Resolves parsed {@code ChronoField} values into a date during parsing.
+     * Resolves pbrsed {@code ChronoField} vblues into b dbte during pbrsing.
      * <p>
-     * Most {@code TemporalField} implementations are resolved using the
-     * resolve method on the field. By contrast, the {@code ChronoField} class
-     * defines fields that only have meaning relative to the chronology.
-     * As such, {@code ChronoField} date fields are resolved here in the
-     * context of a specific chronology.
+     * Most {@code TemporblField} implementbtions bre resolved using the
+     * resolve method on the field. By contrbst, the {@code ChronoField} clbss
+     * defines fields thbt only hbve mebning relbtive to the chronology.
+     * As such, {@code ChronoField} dbte fields bre resolved here in the
+     * context of b specific chronology.
      * <p>
-     * {@code ChronoField} instances are resolved by this method, which may
-     * be overridden in subclasses.
+     * {@code ChronoField} instbnces bre resolved by this method, which mby
+     * be overridden in subclbsses.
      * <ul>
-     * <li>{@code EPOCH_DAY} - If present, this is converted to a date and
-     *  all other date fields are then cross-checked against the date.
+     * <li>{@code EPOCH_DAY} - If present, this is converted to b dbte bnd
+     *  bll other dbte fields bre then cross-checked bgbinst the dbte.
      * <li>{@code PROLEPTIC_MONTH} - If present, then it is split into the
-     *  {@code YEAR} and {@code MONTH_OF_YEAR}. If the mode is strict or smart
-     *  then the field is validated.
-     * <li>{@code YEAR_OF_ERA} and {@code ERA} - If both are present, then they
-     *  are combined to form a {@code YEAR}. In lenient mode, the {@code YEAR_OF_ERA}
-     *  range is not validated, in smart and strict mode it is. The {@code ERA} is
-     *  validated for range in all three modes. If only the {@code YEAR_OF_ERA} is
-     *  present, and the mode is smart or lenient, then the last available era
-     *  is assumed. In strict mode, no era is assumed and the {@code YEAR_OF_ERA} is
+     *  {@code YEAR} bnd {@code MONTH_OF_YEAR}. If the mode is strict or smbrt
+     *  then the field is vblidbted.
+     * <li>{@code YEAR_OF_ERA} bnd {@code ERA} - If both bre present, then they
+     *  bre combined to form b {@code YEAR}. In lenient mode, the {@code YEAR_OF_ERA}
+     *  rbnge is not vblidbted, in smbrt bnd strict mode it is. The {@code ERA} is
+     *  vblidbted for rbnge in bll three modes. If only the {@code YEAR_OF_ERA} is
+     *  present, bnd the mode is smbrt or lenient, then the lbst bvbilbble erb
+     *  is bssumed. In strict mode, no erb is bssumed bnd the {@code YEAR_OF_ERA} is
      *  left untouched. If only the {@code ERA} is present, then it is left untouched.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR} and {@code DAY_OF_MONTH} -
-     *  If all three are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is smart or strict, then the month and day are validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the first month in the requested year,
-     *  then adding the difference in months, then the difference in days.
-     *  If the mode is smart, and the day-of-month is greater than the maximum for
-     *  the year-month, then the day-of-month is adjusted to the last day-of-month.
-     *  If the mode is strict, then the three fields must form a valid date.
-     * <li>{@code YEAR} and {@code DAY_OF_YEAR} -
-     *  If both are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the difference in days.
-     *  If the mode is smart or strict, then the two fields must form a valid date.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} and
+     * <li>{@code YEAR}, {@code MONTH_OF_YEAR} bnd {@code DAY_OF_MONTH} -
+     *  If bll three bre present, then they bre combined to form b dbte.
+     *  In bll three modes, the {@code YEAR} is vblidbted.
+     *  If the mode is smbrt or strict, then the month bnd dby bre vblidbted.
+     *  If the mode is lenient, then the dbte is combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the first month in the requested yebr,
+     *  then bdding the difference in months, then the difference in dbys.
+     *  If the mode is smbrt, bnd the dby-of-month is grebter thbn the mbximum for
+     *  the yebr-month, then the dby-of-month is bdjusted to the lbst dby-of-month.
+     *  If the mode is strict, then the three fields must form b vblid dbte.
+     * <li>{@code YEAR} bnd {@code DAY_OF_YEAR} -
+     *  If both bre present, then they bre combined to form b dbte.
+     *  In bll three modes, the {@code YEAR} is vblidbted.
+     *  If the mode is lenient, then the dbte is combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the requested yebr, then bdding
+     *  the difference in dbys.
+     *  If the mode is smbrt or strict, then the two fields must form b vblid dbte.
+     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} bnd
      *  {@code ALIGNED_DAY_OF_WEEK_IN_MONTH} -
-     *  If all four are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the first month in the requested year, then adding
-     *  the difference in months, then the difference in weeks, then in days.
-     *  If the mode is smart or strict, then the all four fields are validated to
-     *  their outer ranges. The date is then combined in a manner equivalent to
-     *  creating a date on the first day of the requested year and month, then adding
-     *  the amount in weeks and days to reach their values. If the mode is strict,
-     *  the date is additionally validated to check that the day and week adjustment
-     *  did not change the month.
-     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} and
-     *  {@code DAY_OF_WEEK} - If all four are present, then they are combined to
-     *  form a date. The approach is the same as described above for
-     *  years, months and weeks in {@code ALIGNED_DAY_OF_WEEK_IN_MONTH}.
-     *  The day-of-week is adjusted as the next or same matching day-of-week once
-     *  the years, months and weeks have been handled.
-     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} and {@code ALIGNED_DAY_OF_WEEK_IN_YEAR} -
-     *  If all three are present, then they are combined to form a date.
-     *  In all three modes, the {@code YEAR} is validated.
-     *  If the mode is lenient, then the date is combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the difference in weeks, then in days.
-     *  If the mode is smart or strict, then the all three fields are validated to
-     *  their outer ranges. The date is then combined in a manner equivalent to
-     *  creating a date on the first day of the requested year, then adding
-     *  the amount in weeks and days to reach their values. If the mode is strict,
-     *  the date is additionally validated to check that the day and week adjustment
-     *  did not change the year.
-     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} and {@code DAY_OF_WEEK} -
-     *  If all three are present, then they are combined to form a date.
-     *  The approach is the same as described above for years and weeks in
-     *  {@code ALIGNED_DAY_OF_WEEK_IN_YEAR}. The day-of-week is adjusted as the
-     *  next or same matching day-of-week once the years and weeks have been handled.
+     *  If bll four bre present, then they bre combined to form b dbte.
+     *  In bll three modes, the {@code YEAR} is vblidbted.
+     *  If the mode is lenient, then the dbte is combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the first month in the requested yebr, then bdding
+     *  the difference in months, then the difference in weeks, then in dbys.
+     *  If the mode is smbrt or strict, then the bll four fields bre vblidbted to
+     *  their outer rbnges. The dbte is then combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the requested yebr bnd month, then bdding
+     *  the bmount in weeks bnd dbys to rebch their vblues. If the mode is strict,
+     *  the dbte is bdditionblly vblidbted to check thbt the dby bnd week bdjustment
+     *  did not chbnge the month.
+     * <li>{@code YEAR}, {@code MONTH_OF_YEAR}, {@code ALIGNED_WEEK_OF_MONTH} bnd
+     *  {@code DAY_OF_WEEK} - If bll four bre present, then they bre combined to
+     *  form b dbte. The bpprobch is the sbme bs described bbove for
+     *  yebrs, months bnd weeks in {@code ALIGNED_DAY_OF_WEEK_IN_MONTH}.
+     *  The dby-of-week is bdjusted bs the next or sbme mbtching dby-of-week once
+     *  the yebrs, months bnd weeks hbve been hbndled.
+     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} bnd {@code ALIGNED_DAY_OF_WEEK_IN_YEAR} -
+     *  If bll three bre present, then they bre combined to form b dbte.
+     *  In bll three modes, the {@code YEAR} is vblidbted.
+     *  If the mode is lenient, then the dbte is combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the requested yebr, then bdding
+     *  the difference in weeks, then in dbys.
+     *  If the mode is smbrt or strict, then the bll three fields bre vblidbted to
+     *  their outer rbnges. The dbte is then combined in b mbnner equivblent to
+     *  crebting b dbte on the first dby of the requested yebr, then bdding
+     *  the bmount in weeks bnd dbys to rebch their vblues. If the mode is strict,
+     *  the dbte is bdditionblly vblidbted to check thbt the dby bnd week bdjustment
+     *  did not chbnge the yebr.
+     * <li>{@code YEAR}, {@code ALIGNED_WEEK_OF_YEAR} bnd {@code DAY_OF_WEEK} -
+     *  If bll three bre present, then they bre combined to form b dbte.
+     *  The bpprobch is the sbme bs described bbove for yebrs bnd weeks in
+     *  {@code ALIGNED_DAY_OF_WEEK_IN_YEAR}. The dby-of-week is bdjusted bs the
+     *  next or sbme mbtching dby-of-week once the yebrs bnd weeks hbve been hbndled.
      * </ul>
      * <p>
-     * The default implementation is suitable for most calendar systems.
-     * If {@link java.time.temporal.ChronoField#YEAR_OF_ERA} is found without an {@link java.time.temporal.ChronoField#ERA}
-     * then the last era in {@link #eras()} is used.
-     * The implementation assumes a 7 day week, that the first day-of-month
-     * has the value 1, that first day-of-year has the value 1, and that the
-     * first of the month and year always exists.
+     * The defbult implementbtion is suitbble for most cblendbr systems.
+     * If {@link jbvb.time.temporbl.ChronoField#YEAR_OF_ERA} is found without bn {@link jbvb.time.temporbl.ChronoField#ERA}
+     * then the lbst erb in {@link #erbs()} is used.
+     * The implementbtion bssumes b 7 dby week, thbt the first dby-of-month
+     * hbs the vblue 1, thbt first dby-of-yebr hbs the vblue 1, bnd thbt the
+     * first of the month bnd yebr blwbys exists.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved date, null if insufficient information to create a date
-     * @throws java.time.DateTimeException if the date cannot be resolved, typically
-     *  because of a conflict in the input data
+     * @pbrbm fieldVblues  the mbp of fields to vblues, which cbn be updbted, not null
+     * @pbrbm resolverStyle  the requested type of resolve, not null
+     * @return the resolved dbte, null if insufficient informbtion to crebte b dbte
+     * @throws jbvb.time.DbteTimeException if the dbte cbnnot be resolved, typicblly
+     *  becbuse of b conflict in the input dbtb
      */
     @Override
-    public ChronoLocalDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        // check epoch-day before inventing era
-        if (fieldValues.containsKey(EPOCH_DAY)) {
-            return dateEpochDay(fieldValues.remove(EPOCH_DAY));
+    public ChronoLocblDbte resolveDbte(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        // check epoch-dby before inventing erb
+        if (fieldVblues.contbinsKey(EPOCH_DAY)) {
+            return dbteEpochDby(fieldVblues.remove(EPOCH_DAY));
         }
 
-        // fix proleptic month before inventing era
-        resolveProlepticMonth(fieldValues, resolverStyle);
+        // fix proleptic month before inventing erb
+        resolveProlepticMonth(fieldVblues, resolverStyle);
 
-        // invent era if necessary to resolve year-of-era
-        ChronoLocalDate resolved = resolveYearOfEra(fieldValues, resolverStyle);
+        // invent erb if necessbry to resolve yebr-of-erb
+        ChronoLocblDbte resolved = resolveYebrOfErb(fieldVblues, resolverStyle);
         if (resolved != null) {
             return resolved;
         }
 
-        // build date
-        if (fieldValues.containsKey(YEAR)) {
-            if (fieldValues.containsKey(MONTH_OF_YEAR)) {
-                if (fieldValues.containsKey(DAY_OF_MONTH)) {
-                    return resolveYMD(fieldValues, resolverStyle);
+        // build dbte
+        if (fieldVblues.contbinsKey(YEAR)) {
+            if (fieldVblues.contbinsKey(MONTH_OF_YEAR)) {
+                if (fieldVblues.contbinsKey(DAY_OF_MONTH)) {
+                    return resolveYMD(fieldVblues, resolverStyle);
                 }
-                if (fieldValues.containsKey(ALIGNED_WEEK_OF_MONTH)) {
-                    if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_MONTH)) {
-                        return resolveYMAA(fieldValues, resolverStyle);
+                if (fieldVblues.contbinsKey(ALIGNED_WEEK_OF_MONTH)) {
+                    if (fieldVblues.contbinsKey(ALIGNED_DAY_OF_WEEK_IN_MONTH)) {
+                        return resolveYMAA(fieldVblues, resolverStyle);
                     }
-                    if (fieldValues.containsKey(DAY_OF_WEEK)) {
-                        return resolveYMAD(fieldValues, resolverStyle);
+                    if (fieldVblues.contbinsKey(DAY_OF_WEEK)) {
+                        return resolveYMAD(fieldVblues, resolverStyle);
                     }
                 }
             }
-            if (fieldValues.containsKey(DAY_OF_YEAR)) {
-                return resolveYD(fieldValues, resolverStyle);
+            if (fieldVblues.contbinsKey(DAY_OF_YEAR)) {
+                return resolveYD(fieldVblues, resolverStyle);
             }
-            if (fieldValues.containsKey(ALIGNED_WEEK_OF_YEAR)) {
-                if (fieldValues.containsKey(ALIGNED_DAY_OF_WEEK_IN_YEAR)) {
-                    return resolveYAA(fieldValues, resolverStyle);
+            if (fieldVblues.contbinsKey(ALIGNED_WEEK_OF_YEAR)) {
+                if (fieldVblues.contbinsKey(ALIGNED_DAY_OF_WEEK_IN_YEAR)) {
+                    return resolveYAA(fieldVblues, resolverStyle);
                 }
-                if (fieldValues.containsKey(DAY_OF_WEEK)) {
-                    return resolveYAD(fieldValues, resolverStyle);
+                if (fieldVblues.contbinsKey(DAY_OF_WEEK)) {
+                    return resolveYAD(fieldVblues, resolverStyle);
                 }
             }
         }
         return null;
     }
 
-    void resolveProlepticMonth(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        Long pMonth = fieldValues.remove(PROLEPTIC_MONTH);
+    void resolveProlepticMonth(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        Long pMonth = fieldVblues.remove(PROLEPTIC_MONTH);
         if (pMonth != null) {
             if (resolverStyle != ResolverStyle.LENIENT) {
-                PROLEPTIC_MONTH.checkValidValue(pMonth);
+                PROLEPTIC_MONTH.checkVblidVblue(pMonth);
             }
-            // first day-of-month is likely to be safest for setting proleptic-month
-            // cannot add to year zero, as not all chronologies have a year zero
-            ChronoLocalDate chronoDate = dateNow()
+            // first dby-of-month is likely to be sbfest for setting proleptic-month
+            // cbnnot bdd to yebr zero, bs not bll chronologies hbve b yebr zero
+            ChronoLocblDbte chronoDbte = dbteNow()
                     .with(DAY_OF_MONTH, 1).with(PROLEPTIC_MONTH, pMonth);
-            addFieldValue(fieldValues, MONTH_OF_YEAR, chronoDate.get(MONTH_OF_YEAR));
-            addFieldValue(fieldValues, YEAR, chronoDate.get(YEAR));
+            bddFieldVblue(fieldVblues, MONTH_OF_YEAR, chronoDbte.get(MONTH_OF_YEAR));
+            bddFieldVblue(fieldVblues, YEAR, chronoDbte.get(YEAR));
         }
     }
 
-    ChronoLocalDate resolveYearOfEra(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        Long yoeLong = fieldValues.remove(YEAR_OF_ERA);
+    ChronoLocblDbte resolveYebrOfErb(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        Long yoeLong = fieldVblues.remove(YEAR_OF_ERA);
         if (yoeLong != null) {
-            Long eraLong = fieldValues.remove(ERA);
+            Long erbLong = fieldVblues.remove(ERA);
             int yoe;
             if (resolverStyle != ResolverStyle.LENIENT) {
-                yoe = range(YEAR_OF_ERA).checkValidIntValue(yoeLong, YEAR_OF_ERA);
+                yoe = rbnge(YEAR_OF_ERA).checkVblidIntVblue(yoeLong, YEAR_OF_ERA);
             } else {
-                yoe = Math.toIntExact(yoeLong);
+                yoe = Mbth.toIntExbct(yoeLong);
             }
-            if (eraLong != null) {
-                Era eraObj = eraOf(range(ERA).checkValidIntValue(eraLong, ERA));
-                addFieldValue(fieldValues, YEAR, prolepticYear(eraObj, yoe));
+            if (erbLong != null) {
+                Erb erbObj = erbOf(rbnge(ERA).checkVblidIntVblue(erbLong, ERA));
+                bddFieldVblue(fieldVblues, YEAR, prolepticYebr(erbObj, yoe));
             } else {
-                if (fieldValues.containsKey(YEAR)) {
-                    int year = range(YEAR).checkValidIntValue(fieldValues.get(YEAR), YEAR);
-                    ChronoLocalDate chronoDate = dateYearDay(year, 1);
-                    addFieldValue(fieldValues, YEAR, prolepticYear(chronoDate.getEra(), yoe));
+                if (fieldVblues.contbinsKey(YEAR)) {
+                    int yebr = rbnge(YEAR).checkVblidIntVblue(fieldVblues.get(YEAR), YEAR);
+                    ChronoLocblDbte chronoDbte = dbteYebrDby(yebr, 1);
+                    bddFieldVblue(fieldVblues, YEAR, prolepticYebr(chronoDbte.getErb(), yoe));
                 } else if (resolverStyle == ResolverStyle.STRICT) {
-                    // do not invent era if strict
-                    // reinstate the field removed earlier, no cross-check issues
-                    fieldValues.put(YEAR_OF_ERA, yoeLong);
+                    // do not invent erb if strict
+                    // reinstbte the field removed ebrlier, no cross-check issues
+                    fieldVblues.put(YEAR_OF_ERA, yoeLong);
                 } else {
-                    List<Era> eras = eras();
-                    if (eras.isEmpty()) {
-                        addFieldValue(fieldValues, YEAR, yoe);
+                    List<Erb> erbs = erbs();
+                    if (erbs.isEmpty()) {
+                        bddFieldVblue(fieldVblues, YEAR, yoe);
                     } else {
-                        Era eraObj = eras.get(eras.size() - 1);
-                        addFieldValue(fieldValues, YEAR, prolepticYear(eraObj, yoe));
+                        Erb erbObj = erbs.get(erbs.size() - 1);
+                        bddFieldVblue(fieldVblues, YEAR, prolepticYebr(erbObj, yoe));
                     }
                 }
             }
-        } else if (fieldValues.containsKey(ERA)) {
-            range(ERA).checkValidValue(fieldValues.get(ERA), ERA);  // always validated
+        } else if (fieldVblues.contbinsKey(ERA)) {
+            rbnge(ERA).checkVblidVblue(fieldVblues.get(ERA), ERA);  // blwbys vblidbted
         }
         return null;
     }
 
-    ChronoLocalDate resolveYMD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYMD(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long days = Math.subtractExact(fieldValues.remove(DAY_OF_MONTH), 1);
-            return date(y, 1, 1).plus(months, MONTHS).plus(days, DAYS);
+            long months = Mbth.subtrbctExbct(fieldVblues.remove(MONTH_OF_YEAR), 1);
+            long dbys = Mbth.subtrbctExbct(fieldVblues.remove(DAY_OF_MONTH), 1);
+            return dbte(y, 1, 1).plus(months, MONTHS).plus(dbys, DAYS);
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        ValueRange domRange = range(DAY_OF_MONTH);
-        int dom = domRange.checkValidIntValue(fieldValues.remove(DAY_OF_MONTH), DAY_OF_MONTH);
-        if (resolverStyle == ResolverStyle.SMART) {  // previous valid
+        int moy = rbnge(MONTH_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        VblueRbnge domRbnge = rbnge(DAY_OF_MONTH);
+        int dom = domRbnge.checkVblidIntVblue(fieldVblues.remove(DAY_OF_MONTH), DAY_OF_MONTH);
+        if (resolverStyle == ResolverStyle.SMART) {  // previous vblid
             try {
-                return date(y, moy, dom);
-            } catch (DateTimeException ex) {
-                return date(y, moy, 1).with(TemporalAdjusters.lastDayOfMonth());
+                return dbte(y, moy, dom);
+            } cbtch (DbteTimeException ex) {
+                return dbte(y, moy, 1).with(TemporblAdjusters.lbstDbyOfMonth());
             }
         }
-        return date(y, moy, dom);
+        return dbte(y, moy, dom);
     }
 
-    ChronoLocalDate resolveYD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYD(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long days = Math.subtractExact(fieldValues.remove(DAY_OF_YEAR), 1);
-            return dateYearDay(y, 1).plus(days, DAYS);
+            long dbys = Mbth.subtrbctExbct(fieldVblues.remove(DAY_OF_YEAR), 1);
+            return dbteYebrDby(y, 1).plus(dbys, DAYS);
         }
-        int doy = range(DAY_OF_YEAR).checkValidIntValue(fieldValues.remove(DAY_OF_YEAR), DAY_OF_YEAR);
-        return dateYearDay(y, doy);  // smart is same as strict
+        int doy = rbnge(DAY_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(DAY_OF_YEAR), DAY_OF_YEAR);
+        return dbteYebrDby(y, doy);  // smbrt is sbme bs strict
     }
 
-    ChronoLocalDate resolveYMAA(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYMAA(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-            long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
-            return date(y, 1, 1).plus(months, MONTHS).plus(weeks, WEEKS).plus(days, DAYS);
+            long months = Mbth.subtrbctExbct(fieldVblues.remove(MONTH_OF_YEAR), 1);
+            long weeks = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_WEEK_OF_MONTH), 1);
+            long dbys = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), 1);
+            return dbte(y, 1, 1).plus(months, MONTHS).plus(weeks, WEEKS).plus(dbys, DAYS);
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        int aw = range(ALIGNED_WEEK_OF_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
-        int ad = range(ALIGNED_DAY_OF_WEEK_IN_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), ALIGNED_DAY_OF_WEEK_IN_MONTH);
-        ChronoLocalDate date = date(y, moy, 1).plus((aw - 1) * 7 + (ad - 1), DAYS);
-        if (resolverStyle == ResolverStyle.STRICT && date.get(MONTH_OF_YEAR) != moy) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+        int moy = rbnge(MONTH_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        int bw = rbnge(ALIGNED_WEEK_OF_MONTH).checkVblidIntVblue(fieldVblues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
+        int bd = rbnge(ALIGNED_DAY_OF_WEEK_IN_MONTH).checkVblidIntVblue(fieldVblues.remove(ALIGNED_DAY_OF_WEEK_IN_MONTH), ALIGNED_DAY_OF_WEEK_IN_MONTH);
+        ChronoLocblDbte dbte = dbte(y, moy, 1).plus((bw - 1) * 7 + (bd - 1), DAYS);
+        if (resolverStyle == ResolverStyle.STRICT && dbte.get(MONTH_OF_YEAR) != moy) {
+            throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different month");
         }
-        return date;
+        return dbte;
     }
 
-    ChronoLocalDate resolveYMAD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYMAD(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long months = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1);
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), 1);
-            long dow = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
-            return resolveAligned(date(y, 1, 1), months, weeks, dow);
+            long months = Mbth.subtrbctExbct(fieldVblues.remove(MONTH_OF_YEAR), 1);
+            long weeks = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_WEEK_OF_MONTH), 1);
+            long dow = Mbth.subtrbctExbct(fieldVblues.remove(DAY_OF_WEEK), 1);
+            return resolveAligned(dbte(y, 1, 1), months, weeks, dow);
         }
-        int moy = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
-        int aw = range(ALIGNED_WEEK_OF_MONTH).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
-        int dow = range(DAY_OF_WEEK).checkValidIntValue(fieldValues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
-        ChronoLocalDate date = date(y, moy, 1).plus((aw - 1) * 7, DAYS).with(nextOrSame(DayOfWeek.of(dow)));
-        if (resolverStyle == ResolverStyle.STRICT && date.get(MONTH_OF_YEAR) != moy) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
+        int moy = rbnge(MONTH_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR);
+        int bw = rbnge(ALIGNED_WEEK_OF_MONTH).checkVblidIntVblue(fieldVblues.remove(ALIGNED_WEEK_OF_MONTH), ALIGNED_WEEK_OF_MONTH);
+        int dow = rbnge(DAY_OF_WEEK).checkVblidIntVblue(fieldVblues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
+        ChronoLocblDbte dbte = dbte(y, moy, 1).plus((bw - 1) * 7, DAYS).with(nextOrSbme(DbyOfWeek.of(dow)));
+        if (resolverStyle == ResolverStyle.STRICT && dbte.get(MONTH_OF_YEAR) != moy) {
+            throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different month");
         }
-        return date;
+        return dbte;
     }
 
-    ChronoLocalDate resolveYAA(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYAA(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-            long days = Math.subtractExact(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
-            return dateYearDay(y, 1).plus(weeks, WEEKS).plus(days, DAYS);
+            long weeks = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_WEEK_OF_YEAR), 1);
+            long dbys = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), 1);
+            return dbteYebrDby(y, 1).plus(weeks, WEEKS).plus(dbys, DAYS);
         }
-        int aw = range(ALIGNED_WEEK_OF_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
-        int ad = range(ALIGNED_DAY_OF_WEEK_IN_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), ALIGNED_DAY_OF_WEEK_IN_YEAR);
-        ChronoLocalDate date = dateYearDay(y, 1).plus((aw - 1) * 7 + (ad - 1), DAYS);
-        if (resolverStyle == ResolverStyle.STRICT && date.get(YEAR) != y) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+        int bw = rbnge(ALIGNED_WEEK_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
+        int bd = rbnge(ALIGNED_DAY_OF_WEEK_IN_YEAR).checkVblidIntVblue(fieldVblues.remove(ALIGNED_DAY_OF_WEEK_IN_YEAR), ALIGNED_DAY_OF_WEEK_IN_YEAR);
+        ChronoLocblDbte dbte = dbteYebrDby(y, 1).plus((bw - 1) * 7 + (bd - 1), DAYS);
+        if (resolverStyle == ResolverStyle.STRICT && dbte.get(YEAR) != y) {
+            throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different yebr");
         }
-        return date;
+        return dbte;
     }
 
-    ChronoLocalDate resolveYAD(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        int y = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR);
+    ChronoLocblDbte resolveYAD(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        int y = rbnge(YEAR).checkVblidIntVblue(fieldVblues.remove(YEAR), YEAR);
         if (resolverStyle == ResolverStyle.LENIENT) {
-            long weeks = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1);
-            long dow = Math.subtractExact(fieldValues.remove(DAY_OF_WEEK), 1);
-            return resolveAligned(dateYearDay(y, 1), 0, weeks, dow);
+            long weeks = Mbth.subtrbctExbct(fieldVblues.remove(ALIGNED_WEEK_OF_YEAR), 1);
+            long dow = Mbth.subtrbctExbct(fieldVblues.remove(DAY_OF_WEEK), 1);
+            return resolveAligned(dbteYebrDby(y, 1), 0, weeks, dow);
         }
-        int aw = range(ALIGNED_WEEK_OF_YEAR).checkValidIntValue(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
-        int dow = range(DAY_OF_WEEK).checkValidIntValue(fieldValues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
-        ChronoLocalDate date = dateYearDay(y, 1).plus((aw - 1) * 7, DAYS).with(nextOrSame(DayOfWeek.of(dow)));
-        if (resolverStyle == ResolverStyle.STRICT && date.get(YEAR) != y) {
-            throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
+        int bw = rbnge(ALIGNED_WEEK_OF_YEAR).checkVblidIntVblue(fieldVblues.remove(ALIGNED_WEEK_OF_YEAR), ALIGNED_WEEK_OF_YEAR);
+        int dow = rbnge(DAY_OF_WEEK).checkVblidIntVblue(fieldVblues.remove(DAY_OF_WEEK), DAY_OF_WEEK);
+        ChronoLocblDbte dbte = dbteYebrDby(y, 1).plus((bw - 1) * 7, DAYS).with(nextOrSbme(DbyOfWeek.of(dow)));
+        if (resolverStyle == ResolverStyle.STRICT && dbte.get(YEAR) != y) {
+            throw new DbteTimeException("Strict mode rejected resolved dbte bs it is in b different yebr");
         }
-        return date;
+        return dbte;
     }
 
-    ChronoLocalDate resolveAligned(ChronoLocalDate base, long months, long weeks, long dow) {
-        ChronoLocalDate date = base.plus(months, MONTHS).plus(weeks, WEEKS);
+    ChronoLocblDbte resolveAligned(ChronoLocblDbte bbse, long months, long weeks, long dow) {
+        ChronoLocblDbte dbte = bbse.plus(months, MONTHS).plus(weeks, WEEKS);
         if (dow > 7) {
-            date = date.plus((dow - 1) / 7, WEEKS);
+            dbte = dbte.plus((dow - 1) / 7, WEEKS);
             dow = ((dow - 1) % 7) + 1;
         } else if (dow < 1) {
-            date = date.plus(Math.subtractExact(dow,  7) / 7, WEEKS);
+            dbte = dbte.plus(Mbth.subtrbctExbct(dow,  7) / 7, WEEKS);
             dow = ((dow + 6) % 7) + 1;
         }
-        return date.with(nextOrSame(DayOfWeek.of((int) dow)));
+        return dbte.with(nextOrSbme(DbyOfWeek.of((int) dow)));
     }
 
     /**
-     * Adds a field-value pair to the map, checking for conflicts.
+     * Adds b field-vblue pbir to the mbp, checking for conflicts.
      * <p>
-     * If the field is not already present, then the field-value pair is added to the map.
-     * If the field is already present and it has the same value as that specified, no action occurs.
-     * If the field is already present and it has a different value to that specified, then
-     * an exception is thrown.
+     * If the field is not blrebdy present, then the field-vblue pbir is bdded to the mbp.
+     * If the field is blrebdy present bnd it hbs the sbme vblue bs thbt specified, no bction occurs.
+     * If the field is blrebdy present bnd it hbs b different vblue to thbt specified, then
+     * bn exception is thrown.
      *
-     * @param field  the field to add, not null
-     * @param value  the value to add, not null
-     * @throws java.time.DateTimeException if the field is already present with a different value
+     * @pbrbm field  the field to bdd, not null
+     * @pbrbm vblue  the vblue to bdd, not null
+     * @throws jbvb.time.DbteTimeException if the field is blrebdy present with b different vblue
      */
-    void addFieldValue(Map<TemporalField, Long> fieldValues, ChronoField field, long value) {
-        Long old = fieldValues.get(field);  // check first for better error message
-        if (old != null && old.longValue() != value) {
-            throw new DateTimeException("Conflict found: " + field + " " + old + " differs from " + field + " " + value);
+    void bddFieldVblue(Mbp<TemporblField, Long> fieldVblues, ChronoField field, long vblue) {
+        Long old = fieldVblues.get(field);  // check first for better error messbge
+        if (old != null && old.longVblue() != vblue) {
+            throw new DbteTimeException("Conflict found: " + field + " " + old + " differs from " + field + " " + vblue);
         }
-        fieldValues.put(field, value);
+        fieldVblues.put(field, vblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this chronology to another chronology.
+     * Compbres this chronology to bnother chronology.
      * <p>
-     * The comparison order first by the chronology ID string, then by any
-     * additional information specific to the subclass.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison order first by the chronology ID string, then by bny
+     * bdditionbl informbtion specific to the subclbss.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
      * @implSpec
-     * This implementation compares the chronology ID.
-     * Subclasses must compare any additional state that they store.
+     * This implementbtion compbres the chronology ID.
+     * Subclbsses must compbre bny bdditionbl stbte thbt they store.
      *
-     * @param other  the other chronology to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other chronology to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(Chronology other) {
-        return getId().compareTo(other.getId());
+    public int compbreTo(Chronology other) {
+        return getId().compbreTo(other.getId());
     }
 
     /**
-     * Checks if this chronology is equal to another chronology.
+     * Checks if this chronology is equbl to bnother chronology.
      * <p>
-     * The comparison is based on the entire state of the object.
+     * The compbrison is bbsed on the entire stbte of the object.
      *
      * @implSpec
-     * This implementation checks the type and calls
-     * {@link #compareTo(java.time.chrono.Chronology)}.
+     * This implementbtion checks the type bnd cblls
+     * {@link #compbreTo(jbvb.time.chrono.Chronology)}.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other chronology
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other chronology
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
            return true;
         }
-        if (obj instanceof AbstractChronology) {
-            return compareTo((AbstractChronology) obj) == 0;
+        if (obj instbnceof AbstrbctChronology) {
+            return compbreTo((AbstrbctChronology) obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this chronology.
+     * A hbsh code for this chronology.
      * <p>
-     * The hash code should be based on the entire state of the object.
+     * The hbsh code should be bbsed on the entire stbte of the object.
      *
      * @implSpec
-     * This implementation is based on the chronology ID and class.
-     * Subclasses should add any additional state that they store.
+     * This implementbtion is bbsed on the chronology ID bnd clbss.
+     * Subclbsses should bdd bny bdditionbl stbte thbt they store.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return getClass().hashCode() ^ getId().hashCode();
+    public int hbshCode() {
+        return getClbss().hbshCode() ^ getId().hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this chronology as a {@code String}, using the chronology ID.
+     * Outputs this chronology bs b {@code String}, using the chronology ID.
      *
-     * @return a string representation of this chronology, not null
+     * @return b string representbtion of this chronology, not null
      */
     @Override
     public String toString() {
@@ -750,35 +750,35 @@ public abstract class AbstractChronology implements Chronology {
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the Chronology using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
+     * Writes the Chronology using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
      * <pre>
-     *  out.writeByte(1);  // identifies this as a Chronology
+     *  out.writeByte(1);  // identifies this bs b Chronology
      *  out.writeUTF(getId());
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    Object writeReplace() {
+    Object writeReplbce() {
         return new Ser(Ser.CHRONO_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws jbvb.io.InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws ObjectStrebmException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
+    void writeExternbl(DbtbOutput out) throws IOException {
         out.writeUTF(getId());
     }
 
-    static Chronology readExternal(DataInput in) throws IOException {
-        String id = in.readUTF();
+    stbtic Chronology rebdExternbl(DbtbInput in) throws IOException {
+        String id = in.rebdUTF();
         return Chronology.of(id);
     }
 

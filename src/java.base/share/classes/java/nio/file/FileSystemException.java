@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * Thrown when a file system operation fails on one or two files. This class is
- * the general class for file system exceptions.
+ * Thrown when b file system operbtion fbils on one or two files. This clbss is
+ * the generbl clbss for file system exceptions.
  *
  * @since 1.7
  */
 
-public class FileSystemException
+public clbss FileSystemException
     extends IOException
 {
-    static final long serialVersionUID = -3055425747967319812L;
+    stbtic finbl long seriblVersionUID = -3055425747967319812L;
 
-    private final String file;
-    private final String other;
+    privbte finbl String file;
+    privbte finbl String other;
 
     /**
-     * Constructs an instance of this class. This constructor should be used
-     * when an operation involving one file fails and there isn't any additional
-     * information to explain the reason.
+     * Constructs bn instbnce of this clbss. This constructor should be used
+     * when bn operbtion involving one file fbils bnd there isn't bny bdditionbl
+     * informbtion to explbin the rebson.
      *
-     * @param   file
-     *          a string identifying the file or {@code null} if not known.
+     * @pbrbm   file
+     *          b string identifying the file or {@code null} if not known.
      */
     public FileSystemException(String file) {
         super((String)null);
@@ -57,68 +57,68 @@ public class FileSystemException
     }
 
     /**
-     * Constructs an instance of this class. This constructor should be used
-     * when an operation involving two files fails, or there is additional
-     * information to explain the reason.
+     * Constructs bn instbnce of this clbss. This constructor should be used
+     * when bn operbtion involving two files fbils, or there is bdditionbl
+     * informbtion to explbin the rebson.
      *
-     * @param   file
-     *          a string identifying the file or {@code null} if not known.
-     * @param   other
-     *          a string identifying the other file or {@code null} if there
-     *          isn't another file or if not known
-     * @param   reason
-     *          a reason message with additional information or {@code null}
+     * @pbrbm   file
+     *          b string identifying the file or {@code null} if not known.
+     * @pbrbm   other
+     *          b string identifying the other file or {@code null} if there
+     *          isn't bnother file or if not known
+     * @pbrbm   rebson
+     *          b rebson messbge with bdditionbl informbtion or {@code null}
      */
-    public FileSystemException(String file, String other, String reason) {
-        super(reason);
+    public FileSystemException(String file, String other, String rebson) {
+        super(rebson);
         this.file = file;
         this.other = other;
     }
 
     /**
-     * Returns the file used to create this exception.
+     * Returns the file used to crebte this exception.
      *
-     * @return  the file (can be {@code null})
+     * @return  the file (cbn be {@code null})
      */
     public String getFile() {
         return file;
     }
 
     /**
-     * Returns the other file used to create this exception.
+     * Returns the other file used to crebte this exception.
      *
-     * @return  the other file (can be {@code null})
+     * @return  the other file (cbn be {@code null})
      */
     public String getOtherFile() {
         return other;
     }
 
     /**
-     * Returns the string explaining why the file system operation failed.
+     * Returns the string explbining why the file system operbtion fbiled.
      *
-     * @return  the string explaining why the file system operation failed
+     * @return  the string explbining why the file system operbtion fbiled
      */
-    public String getReason() {
-        return super.getMessage();
+    public String getRebson() {
+        return super.getMessbge();
     }
 
     /**
-     * Returns the detail message string.
+     * Returns the detbil messbge string.
      */
     @Override
-    public String getMessage() {
+    public String getMessbge() {
         if (file == null && other == null)
-            return getReason();
+            return getRebson();
         StringBuilder sb = new StringBuilder();
         if (file != null)
-            sb.append(file);
+            sb.bppend(file);
         if (other != null) {
-            sb.append(" -> ");
-            sb.append(other);
+            sb.bppend(" -> ");
+            sb.bppend(other);
         }
-        if (getReason() != null) {
-            sb.append(": ");
-            sb.append(getReason());
+        if (getRebson() != null) {
+            sb.bppend(": ");
+            sb.bppend(getRebson());
         }
         return sb.toString();
     }

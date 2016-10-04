@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.runtime;
+pbckbge sun.rmi.runtime;
 
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.concurrent.ScheduledThrebdPoolExecutor;
+import jbvb.util.concurrent.ThrebdFbctory;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.logging.Level;
 
 /**
- * RMI runtime implementation utilities.
+ * RMI runtime implementbtion utilities.
  *
- * There is a single instance of this class, which can be obtained
- * with a GetInstanceAction.  Getting the instance requires
- * RuntimePermission("sun.rmi.runtime.RuntimeUtil.getInstance")
- * because the public methods of this class expose security-sensitive
- * capabilities.
+ * There is b single instbnce of this clbss, which cbn be obtbined
+ * with b GetInstbnceAction.  Getting the instbnce requires
+ * RuntimePermission("sun.rmi.runtime.RuntimeUtil.getInstbnce")
+ * becbuse the public methods of this clbss expose security-sensitive
+ * cbpbbilities.
  *
- * @author      Peter Jones
+ * @buthor      Peter Jones
  **/
-public final class RuntimeUtil {
+public finbl clbss RuntimeUtil {
 
-    /** runtime package log */
-    private static final Log runtimeLog =
-        Log.getLog("sun.rmi.runtime", null, false);
+    /** runtime pbckbge log */
+    privbte stbtic finbl Log runtimeLog =
+        Log.getLog("sun.rmi.runtime", null, fblse);
 
-    /** number of scheduler threads */
-    private static final int schedulerThreads =         // default 1
+    /** number of scheduler threbds */
+    privbte stbtic finbl int schedulerThrebds =         // defbult 1
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.runtime.schedulerThreads", 1));
+            Integer.getInteger("sun.rmi.runtime.schedulerThrebds", 1));
 
-    /** permission required to get instance */
-    private static final Permission GET_INSTANCE_PERMISSION =
-        new RuntimePermission("sun.rmi.runtime.RuntimeUtil.getInstance");
+    /** permission required to get instbnce */
+    privbte stbtic finbl Permission GET_INSTANCE_PERMISSION =
+        new RuntimePermission("sun.rmi.runtime.RuntimeUtil.getInstbnce");
 
-    /** the singleton instance of this class */
-    private static final RuntimeUtil instance = new RuntimeUtil();
+    /** the singleton instbnce of this clbss */
+    privbte stbtic finbl RuntimeUtil instbnce = new RuntimeUtil();
 
-    /** thread pool for scheduling delayed tasks */
-    private final ScheduledThreadPoolExecutor scheduler;
+    /** threbd pool for scheduling delbyed tbsks */
+    privbte finbl ScheduledThrebdPoolExecutor scheduler;
 
-    private RuntimeUtil() {
-        scheduler = new ScheduledThreadPoolExecutor(
-            schedulerThreads,
-            new ThreadFactory() {
-                private final AtomicInteger count = new AtomicInteger(0);
-                public Thread newThread(Runnable runnable) {
+    privbte RuntimeUtil() {
+        scheduler = new ScheduledThrebdPoolExecutor(
+            schedulerThrebds,
+            new ThrebdFbctory() {
+                privbte finbl AtomicInteger count = new AtomicInteger(0);
+                public Threbd newThrebd(Runnbble runnbble) {
                     try {
                         return AccessController.doPrivileged(
-                            new NewThreadAction(runnable,
+                            new NewThrebdAction(runnbble,
                                 "Scheduler(" + count.getAndIncrement() + ")",
                                 true));
-                    } catch (Throwable t) {
+                    } cbtch (Throwbble t) {
                         runtimeLog.log(Level.WARNING,
-                                       "scheduler thread factory throws", t);
+                                       "scheduler threbd fbctory throws", t);
                         return null;
                     }
                 }
             });
         /*
-         * We would like to allow the scheduler's threads to terminate
-         * if possible, but a bug in DelayQueue.poll can cause code
-         * like this to result in a busy loop:
+         * We would like to bllow the scheduler's threbds to terminbte
+         * if possible, but b bug in DelbyQueue.poll cbn cbuse code
+         * like this to result in b busy loop:
          */
         // stpe.setKeepAliveTime(10, TimeUnit.MINUTES);
-        // stpe.allowCoreThreadTimeOut(true);
+        // stpe.bllowCoreThrebdTimeOut(true);
     }
 
     /**
-     * A PrivilegedAction for getting the RuntimeUtil instance.
+     * A PrivilegedAction for getting the RuntimeUtil instbnce.
      **/
-    public static class GetInstanceAction
+    public stbtic clbss GetInstbnceAction
         implements PrivilegedAction<RuntimeUtil>
     {
         /**
-         * Creates an action that returns the RuntimeUtil instance.
+         * Crebtes bn bction thbt returns the RuntimeUtil instbnce.
          **/
-        public GetInstanceAction() {
+        public GetInstbnceAction() {
         }
 
         public RuntimeUtil run() {
-            return getInstance();
+            return getInstbnce();
         }
     }
 
-    private static RuntimeUtil getInstance() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic RuntimeUtil getInstbnce() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(GET_INSTANCE_PERMISSION);
         }
-        return instance;
+        return instbnce;
     }
 
     /**
-     * Returns the shared thread pool for scheduling delayed tasks.
+     * Returns the shbred threbd pool for scheduling delbyed tbsks.
      *
-     * Note that the returned pool has limited concurrency, so
-     * submitted tasks should be short-lived and should not block.
+     * Note thbt the returned pool hbs limited concurrency, so
+     * submitted tbsks should be short-lived bnd should not block.
      **/
-    public ScheduledThreadPoolExecutor getScheduler() {
+    public ScheduledThrebdPoolExecutor getScheduler() {
         return scheduler;
     }
 }

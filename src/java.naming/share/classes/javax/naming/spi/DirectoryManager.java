@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.Reference;
-import javax.naming.Referenceable;
-import javax.naming.NamingException;
-import javax.naming.CannotProceedException;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.Attributes;
+import jbvbx.nbming.Context;
+import jbvbx.nbming.Nbme;
+import jbvbx.nbming.Reference;
+import jbvbx.nbming.Referencebble;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.CbnnotProceedException;
+import jbvbx.nbming.directory.DirContext;
+import jbvbx.nbming.directory.Attributes;
 
-import com.sun.naming.internal.ResourceManager;
-import com.sun.naming.internal.FactoryEnumeration;
+import com.sun.nbming.internbl.ResourceMbnbger;
+import com.sun.nbming.internbl.FbctoryEnumerbtion;
 
 
 /**
-  * This class contains methods for supporting <tt>DirContext</tt>
-  * implementations.
+  * This clbss contbins methods for supporting <tt>DirContext</tt>
+  * implementbtions.
   *<p>
-  * This class is an extension of <tt>NamingManager</tt>.  It contains methods
-  * for use by service providers for accessing object factories and
-  * state factories, and for getting continuation contexts for
-  * supporting federation.
+  * This clbss is bn extension of <tt>NbmingMbnbger</tt>.  It contbins methods
+  * for use by service providers for bccessing object fbctories bnd
+  * stbte fbctories, bnd for getting continubtion contexts for
+  * supporting federbtion.
   *<p>
-  * <tt>DirectoryManager</tt> is safe for concurrent access by multiple threads.
+  * <tt>DirectoryMbnbger</tt> is sbfe for concurrent bccess by multiple threbds.
   *<p>
-  * Except as otherwise noted,
-  * a <tt>Name</tt>, <tt>Attributes</tt>, or environment parameter
-  * passed to any method is owned by the caller.
-  * The implementation will not modify the object or keep a reference
-  * to it, although it may keep a reference to a clone or copy.
+  * Except bs otherwise noted,
+  * b <tt>Nbme</tt>, <tt>Attributes</tt>, or environment pbrbmeter
+  * pbssed to bny method is owned by the cbller.
+  * The implementbtion will not modify the object or keep b reference
+  * to it, blthough it mby keep b reference to b clone or copy.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see DirObjectFactory
-  * @see DirStateFactory
+  * @see DirObjectFbctory
+  * @see DirStbteFbctory
   * @since 1.3
   */
 
-public class DirectoryManager extends NamingManager {
+public clbss DirectoryMbnbger extends NbmingMbnbger {
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyone from crebting one of these.
      */
-    DirectoryManager() {}
+    DirectoryMbnbger() {}
 
     /**
-      * Creates a context in which to continue a <tt>DirContext</tt> operation.
-      * Operates just like <tt>NamingManager.getContinuationContext()</tt>,
-      * only the continuation context returned is a <tt>DirContext</tt>.
+      * Crebtes b context in which to continue b <tt>DirContext</tt> operbtion.
+      * Operbtes just like <tt>NbmingMbnbger.getContinubtionContext()</tt>,
+      * only the continubtion context returned is b <tt>DirContext</tt>.
       *
-      * @param cpe
-      *         The non-null exception that triggered this continuation.
-      * @return A non-null <tt>DirContext</tt> object for continuing the operation.
-      * @exception NamingException If a naming exception occurred.
+      * @pbrbm cpe
+      *         The non-null exception thbt triggered this continubtion.
+      * @return A non-null <tt>DirContext</tt> object for continuing the operbtion.
+      * @exception NbmingException If b nbming exception occurred.
       *
-      * @see NamingManager#getContinuationContext(CannotProceedException)
+      * @see NbmingMbnbger#getContinubtionContext(CbnnotProceedException)
       */
-    @SuppressWarnings("unchecked")
-    public static DirContext getContinuationDirContext(
-            CannotProceedException cpe) throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public stbtic DirContext getContinubtionDirContext(
+            CbnnotProceedException cpe) throws NbmingException {
 
-        Hashtable<Object,Object> env = (Hashtable<Object,Object>)cpe.getEnvironment();
+        Hbshtbble<Object,Object> env = (Hbshtbble<Object,Object>)cpe.getEnvironment();
         if (env == null) {
-            env = new Hashtable<>(7);
+            env = new Hbshtbble<>(7);
         } else {
-            // Make a (shallow) copy of the environment.
-            env = (Hashtable<Object,Object>) env.clone();
+            // Mbke b (shbllow) copy of the environment.
+            env = (Hbshtbble<Object,Object>) env.clone();
         }
         env.put(CPE, cpe);
 
-        return (new ContinuationDirContext(cpe, env));
+        return (new ContinubtionDirContext(cpe, env));
     }
 
     /**
-      * Creates an instance of an object for the specified object,
-      * attributes, and environment.
+      * Crebtes bn instbnce of bn object for the specified object,
+      * bttributes, bnd environment.
       * <p>
-      * This method is the same as <tt>NamingManager.getObjectInstance</tt>
+      * This method is the sbme bs <tt>NbmingMbnbger.getObjectInstbnce</tt>
       * except for the following differences:
       *<ul>
       *<li>
-      * It accepts an <tt>Attributes</tt> parameter that contains attributes
-      * associated with the object. The <tt>DirObjectFactory</tt> might use these
-      * attributes to save having to look them up from the directory.
+      * It bccepts bn <tt>Attributes</tt> pbrbmeter thbt contbins bttributes
+      * bssocibted with the object. The <tt>DirObjectFbctory</tt> might use these
+      * bttributes to sbve hbving to look them up from the directory.
       *<li>
-      * The object factories tried must implement either
-      * <tt>ObjectFactory</tt> or <tt>DirObjectFactory</tt>.
-      * If it implements <tt>DirObjectFactory</tt>,
-      * <tt>DirObjectFactory.getObjectInstance()</tt> is used, otherwise,
-      * <tt>ObjectFactory.getObjectInstance()</tt> is used.
+      * The object fbctories tried must implement either
+      * <tt>ObjectFbctory</tt> or <tt>DirObjectFbctory</tt>.
+      * If it implements <tt>DirObjectFbctory</tt>,
+      * <tt>DirObjectFbctory.getObjectInstbnce()</tt> is used, otherwise,
+      * <tt>ObjectFbctory.getObjectInstbnce()</tt> is used.
       *</ul>
-      * Service providers that implement the <tt>DirContext</tt> interface
-      * should use this method, not <tt>NamingManager.getObjectInstance()</tt>.
+      * Service providers thbt implement the <tt>DirContext</tt> interfbce
+      * should use this method, not <tt>NbmingMbnbger.getObjectInstbnce()</tt>.
       *
-      * @param refInfo The possibly null object for which to create an object.
-      * @param name The name of this object relative to <code>nameCtx</code>.
-      *         Specifying a name is optional; if it is
-      *         omitted, <code>name</code> should be null.
-      * @param nameCtx The context relative to which the <code>name</code>
-      *         parameter is specified.  If null, <code>name</code> is
-      *         relative to the default initial context.
-      * @param environment The possibly null environment to
-      *         be used in the creation of the object factory and the object.
-      * @param attrs The possibly null attributes associated with refInfo.
-      *         This might not be the complete set of attributes for refInfo;
-      *         you might be able to read more attributes from the directory.
-      * @return An object created using <code>refInfo</code> and <tt>attrs</tt>; or
-      *         <code>refInfo</code> if an object cannot be created by
-      *         a factory.
-      * @exception NamingException If a naming exception was encountered
-      *         while attempting to get a URL context, or if one of the
-      *         factories accessed throws a NamingException.
-      * @exception Exception If one of the factories accessed throws an
-      *         exception, or if an error was encountered while loading
-      *         and instantiating the factory and object classes.
-      *         A factory should only throw an exception if it does not want
-      *         other factories to be used in an attempt to create an object.
-      *         See <tt>DirObjectFactory.getObjectInstance()</tt>.
-      * @see NamingManager#getURLContext
-      * @see DirObjectFactory
-      * @see DirObjectFactory#getObjectInstance
+      * @pbrbm refInfo The possibly null object for which to crebte bn object.
+      * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>.
+      *         Specifying b nbme is optionbl; if it is
+      *         omitted, <code>nbme</code> should be null.
+      * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+      *         pbrbmeter is specified.  If null, <code>nbme</code> is
+      *         relbtive to the defbult initibl context.
+      * @pbrbm environment The possibly null environment to
+      *         be used in the crebtion of the object fbctory bnd the object.
+      * @pbrbm bttrs The possibly null bttributes bssocibted with refInfo.
+      *         This might not be the complete set of bttributes for refInfo;
+      *         you might be bble to rebd more bttributes from the directory.
+      * @return An object crebted using <code>refInfo</code> bnd <tt>bttrs</tt>; or
+      *         <code>refInfo</code> if bn object cbnnot be crebted by
+      *         b fbctory.
+      * @exception NbmingException If b nbming exception wbs encountered
+      *         while bttempting to get b URL context, or if one of the
+      *         fbctories bccessed throws b NbmingException.
+      * @exception Exception If one of the fbctories bccessed throws bn
+      *         exception, or if bn error wbs encountered while lobding
+      *         bnd instbntibting the fbctory bnd object clbsses.
+      *         A fbctory should only throw bn exception if it does not wbnt
+      *         other fbctories to be used in bn bttempt to crebte bn object.
+      *         See <tt>DirObjectFbctory.getObjectInstbnce()</tt>.
+      * @see NbmingMbnbger#getURLContext
+      * @see DirObjectFbctory
+      * @see DirObjectFbctory#getObjectInstbnce
       * @since 1.3
       */
-    public static Object
-        getObjectInstance(Object refInfo, Name name, Context nameCtx,
-                          Hashtable<?,?> environment, Attributes attrs)
+    public stbtic Object
+        getObjectInstbnce(Object refInfo, Nbme nbme, Context nbmeCtx,
+                          Hbshtbble<?,?> environment, Attributes bttrs)
         throws Exception {
 
-            ObjectFactory factory;
+            ObjectFbctory fbctory;
 
-            ObjectFactoryBuilder builder = getObjectFactoryBuilder();
+            ObjectFbctoryBuilder builder = getObjectFbctoryBuilder();
             if (builder != null) {
-                // builder must return non-null factory
-                factory = builder.createObjectFactory(refInfo, environment);
-                if (factory instanceof DirObjectFactory) {
-                    return ((DirObjectFactory)factory).getObjectInstance(
-                        refInfo, name, nameCtx, environment, attrs);
+                // builder must return non-null fbctory
+                fbctory = builder.crebteObjectFbctory(refInfo, environment);
+                if (fbctory instbnceof DirObjectFbctory) {
+                    return ((DirObjectFbctory)fbctory).getObjectInstbnce(
+                        refInfo, nbme, nbmeCtx, environment, bttrs);
                 } else {
-                    return factory.getObjectInstance(refInfo, name, nameCtx,
+                    return fbctory.getObjectInstbnce(refInfo, nbme, nbmeCtx,
                         environment);
                 }
             }
 
             // use reference if possible
             Reference ref = null;
-            if (refInfo instanceof Reference) {
+            if (refInfo instbnceof Reference) {
                 ref = (Reference) refInfo;
-            } else if (refInfo instanceof Referenceable) {
-                ref = ((Referenceable)(refInfo)).getReference();
+            } else if (refInfo instbnceof Referencebble) {
+                ref = ((Referencebble)(refInfo)).getReference();
             }
 
-            Object answer;
+            Object bnswer;
 
             if (ref != null) {
-                String f = ref.getFactoryClassName();
+                String f = ref.getFbctoryClbssNbme();
                 if (f != null) {
-                    // if reference identifies a factory, use exclusively
+                    // if reference identifies b fbctory, use exclusively
 
-                    factory = getObjectFactoryFromReference(ref, f);
-                    if (factory instanceof DirObjectFactory) {
-                        return ((DirObjectFactory)factory).getObjectInstance(
-                            ref, name, nameCtx, environment, attrs);
-                    } else if (factory != null) {
-                        return factory.getObjectInstance(ref, name, nameCtx,
+                    fbctory = getObjectFbctoryFromReference(ref, f);
+                    if (fbctory instbnceof DirObjectFbctory) {
+                        return ((DirObjectFbctory)fbctory).getObjectInstbnce(
+                            ref, nbme, nbmeCtx, environment, bttrs);
+                    } else if (fbctory != null) {
+                        return fbctory.getObjectInstbnce(ref, nbme, nbmeCtx,
                                                          environment);
                     }
-                    // No factory found, so return original refInfo.
-                    // Will reach this point if factory class is not in
-                    // class path and reference does not contain a URL for it
+                    // No fbctory found, so return originbl refInfo.
+                    // Will rebch this point if fbctory clbss is not in
+                    // clbss pbth bnd reference does not contbin b URL for it
                     return refInfo;
 
                 } else {
-                    // if reference has no factory, check for addresses
-                    // containing URLs
-                    // ignore name & attrs params; not used in URL factory
+                    // if reference hbs no fbctory, check for bddresses
+                    // contbining URLs
+                    // ignore nbme & bttrs pbrbms; not used in URL fbctory
 
-                    answer = processURLAddrs(ref, name, nameCtx, environment);
-                    if (answer != null) {
-                        return answer;
+                    bnswer = processURLAddrs(ref, nbme, nbmeCtx, environment);
+                    if (bnswer != null) {
+                        return bnswer;
                     }
                 }
             }
 
-            // try using any specified factories
-            answer = createObjectFromFactories(refInfo, name, nameCtx,
-                                               environment, attrs);
-            return (answer != null) ? answer : refInfo;
+            // try using bny specified fbctories
+            bnswer = crebteObjectFromFbctories(refInfo, nbme, nbmeCtx,
+                                               environment, bttrs);
+            return (bnswer != null) ? bnswer : refInfo;
     }
 
-    private static Object createObjectFromFactories(Object obj, Name name,
-            Context nameCtx, Hashtable<?,?> environment, Attributes attrs)
+    privbte stbtic Object crebteObjectFromFbctories(Object obj, Nbme nbme,
+            Context nbmeCtx, Hbshtbble<?,?> environment, Attributes bttrs)
         throws Exception {
 
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.OBJECT_FACTORIES, environment, nameCtx);
+        FbctoryEnumerbtion fbctories = ResourceMbnbger.getFbctories(
+            Context.OBJECT_FACTORIES, environment, nbmeCtx);
 
-        if (factories == null)
+        if (fbctories == null)
             return null;
 
-        ObjectFactory factory;
-        Object answer = null;
-        // Try each factory until one succeeds
-        while (answer == null && factories.hasMore()) {
-            factory = (ObjectFactory)factories.next();
-            if (factory instanceof DirObjectFactory) {
-                answer = ((DirObjectFactory)factory).
-                    getObjectInstance(obj, name, nameCtx, environment, attrs);
+        ObjectFbctory fbctory;
+        Object bnswer = null;
+        // Try ebch fbctory until one succeeds
+        while (bnswer == null && fbctories.hbsMore()) {
+            fbctory = (ObjectFbctory)fbctories.next();
+            if (fbctory instbnceof DirObjectFbctory) {
+                bnswer = ((DirObjectFbctory)fbctory).
+                    getObjectInstbnce(obj, nbme, nbmeCtx, environment, bttrs);
             } else {
-                answer =
-                    factory.getObjectInstance(obj, name, nameCtx, environment);
+                bnswer =
+                    fbctory.getObjectInstbnce(obj, nbme, nbmeCtx, environment);
             }
         }
-        return answer;
+        return bnswer;
     }
 
     /**
-      * Retrieves the state of an object for binding when given the original
-      * object and its attributes.
+      * Retrieves the stbte of bn object for binding when given the originbl
+      * object bnd its bttributes.
       * <p>
-      * This method is like <tt>NamingManager.getStateToBind</tt> except
+      * This method is like <tt>NbmingMbnbger.getStbteToBind</tt> except
       * for the following differences:
       *<ul>
-      *<li>It accepts an <tt>Attributes</tt> parameter containing attributes
-      *    that were passed to the <tt>DirContext.bind()</tt> method.
-      *<li>It returns a non-null <tt>DirStateFactory.Result</tt> instance
-      *    containing the object to be bound, and the attributes to
-      *    accompany the binding. Either the object or the attributes may be null.
+      *<li>It bccepts bn <tt>Attributes</tt> pbrbmeter contbining bttributes
+      *    thbt were pbssed to the <tt>DirContext.bind()</tt> method.
+      *<li>It returns b non-null <tt>DirStbteFbctory.Result</tt> instbnce
+      *    contbining the object to be bound, bnd the bttributes to
+      *    bccompbny the binding. Either the object or the bttributes mby be null.
       *<li>
-      * The state factories tried must each implement either
-      * <tt>StateFactory</tt> or <tt>DirStateFactory</tt>.
-      * If it implements <tt>DirStateFactory</tt>, then
-      * <tt>DirStateFactory.getStateToBind()</tt> is called; otherwise,
-      * <tt>StateFactory.getStateToBind()</tt> is called.
+      * The stbte fbctories tried must ebch implement either
+      * <tt>StbteFbctory</tt> or <tt>DirStbteFbctory</tt>.
+      * If it implements <tt>DirStbteFbctory</tt>, then
+      * <tt>DirStbteFbctory.getStbteToBind()</tt> is cblled; otherwise,
+      * <tt>StbteFbctory.getStbteToBind()</tt> is cblled.
       *</ul>
       *
-      * Service providers that implement the <tt>DirContext</tt> interface
-      * should use this method, not <tt>NamingManager.getStateToBind()</tt>.
+      * Service providers thbt implement the <tt>DirContext</tt> interfbce
+      * should use this method, not <tt>NbmingMbnbger.getStbteToBind()</tt>.
       *<p>
-      * See NamingManager.getStateToBind() for a description of how
-      * the list of state factories to be tried is determined.
+      * See NbmingMbnbger.getStbteToBind() for b description of how
+      * the list of stbte fbctories to be tried is determined.
       *<p>
-      * The object returned by this method is owned by the caller.
-      * The implementation will not subsequently modify it.
-      * It will contain either a new <tt>Attributes</tt> object that is
-      * likewise owned by the caller, or a reference to the original
-      * <tt>attrs</tt> parameter.
+      * The object returned by this method is owned by the cbller.
+      * The implementbtion will not subsequently modify it.
+      * It will contbin either b new <tt>Attributes</tt> object thbt is
+      * likewise owned by the cbller, or b reference to the originbl
+      * <tt>bttrs</tt> pbrbmeter.
       *
-      * @param obj The non-null object for which to get state to bind.
-      * @param name The name of this object relative to <code>nameCtx</code>,
-      *         or null if no name is specified.
-      * @param nameCtx The context relative to which the <code>name</code>
-      *         parameter is specified, or null if <code>name</code> is
-      *         relative to the default initial context.
-      * @param environment The possibly null environment to
-      *         be used in the creation of the state factory and
-      *         the object's state.
-      * @param attrs The possibly null Attributes that is to be bound with the
+      * @pbrbm obj The non-null object for which to get stbte to bind.
+      * @pbrbm nbme The nbme of this object relbtive to <code>nbmeCtx</code>,
+      *         or null if no nbme is specified.
+      * @pbrbm nbmeCtx The context relbtive to which the <code>nbme</code>
+      *         pbrbmeter is specified, or null if <code>nbme</code> is
+      *         relbtive to the defbult initibl context.
+      * @pbrbm environment The possibly null environment to
+      *         be used in the crebtion of the stbte fbctory bnd
+      *         the object's stbte.
+      * @pbrbm bttrs The possibly null Attributes thbt is to be bound with the
       *         object.
-      * @return A non-null DirStateFactory.Result containing
-      *  the object and attributes to be bound.
-      *  If no state factory returns a non-null answer, the result will contain
-      *  the object (<tt>obj</tt>) itself with the original attributes.
-      * @exception NamingException If a naming exception was encountered
-      *         while using the factories.
-      *         A factory should only throw an exception if it does not want
-      *         other factories to be used in an attempt to create an object.
-      *         See <tt>DirStateFactory.getStateToBind()</tt>.
-      * @see DirStateFactory
-      * @see DirStateFactory#getStateToBind
-      * @see NamingManager#getStateToBind
+      * @return A non-null DirStbteFbctory.Result contbining
+      *  the object bnd bttributes to be bound.
+      *  If no stbte fbctory returns b non-null bnswer, the result will contbin
+      *  the object (<tt>obj</tt>) itself with the originbl bttributes.
+      * @exception NbmingException If b nbming exception wbs encountered
+      *         while using the fbctories.
+      *         A fbctory should only throw bn exception if it does not wbnt
+      *         other fbctories to be used in bn bttempt to crebte bn object.
+      *         See <tt>DirStbteFbctory.getStbteToBind()</tt>.
+      * @see DirStbteFbctory
+      * @see DirStbteFbctory#getStbteToBind
+      * @see NbmingMbnbger#getStbteToBind
       * @since 1.3
       */
-    public static DirStateFactory.Result
-        getStateToBind(Object obj, Name name, Context nameCtx,
-                       Hashtable<?,?> environment, Attributes attrs)
-        throws NamingException {
+    public stbtic DirStbteFbctory.Result
+        getStbteToBind(Object obj, Nbme nbme, Context nbmeCtx,
+                       Hbshtbble<?,?> environment, Attributes bttrs)
+        throws NbmingException {
 
-        // Get list of state factories
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.STATE_FACTORIES, environment, nameCtx);
+        // Get list of stbte fbctories
+        FbctoryEnumerbtion fbctories = ResourceMbnbger.getFbctories(
+            Context.STATE_FACTORIES, environment, nbmeCtx);
 
-        if (factories == null) {
-            // no factories to try; just return originals
-            return new DirStateFactory.Result(obj, attrs);
+        if (fbctories == null) {
+            // no fbctories to try; just return originbls
+            return new DirStbteFbctory.Result(obj, bttrs);
         }
 
-        // Try each factory until one succeeds
-        StateFactory factory;
-        Object objanswer;
-        DirStateFactory.Result answer = null;
-        while (answer == null && factories.hasMore()) {
-            factory = (StateFactory)factories.next();
-            if (factory instanceof DirStateFactory) {
-                answer = ((DirStateFactory)factory).
-                    getStateToBind(obj, name, nameCtx, environment, attrs);
+        // Try ebch fbctory until one succeeds
+        StbteFbctory fbctory;
+        Object objbnswer;
+        DirStbteFbctory.Result bnswer = null;
+        while (bnswer == null && fbctories.hbsMore()) {
+            fbctory = (StbteFbctory)fbctories.next();
+            if (fbctory instbnceof DirStbteFbctory) {
+                bnswer = ((DirStbteFbctory)fbctory).
+                    getStbteToBind(obj, nbme, nbmeCtx, environment, bttrs);
             } else {
-                objanswer =
-                    factory.getStateToBind(obj, name, nameCtx, environment);
-                if (objanswer != null) {
-                    answer = new DirStateFactory.Result(objanswer, attrs);
+                objbnswer =
+                    fbctory.getStbteToBind(obj, nbme, nbmeCtx, environment);
+                if (objbnswer != null) {
+                    bnswer = new DirStbteFbctory.Result(objbnswer, bttrs);
                 }
             }
         }
 
-        return (answer != null) ? answer :
-            new DirStateFactory.Result(obj, attrs); // nothing new
+        return (bnswer != null) ? bnswer :
+            new DirStbteFbctory.Result(obj, bttrs); // nothing new
     }
 }

@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: X509Data.java,v 1.4 2005/05/10 16:35:35 mullan Exp $
+ * $Id: X509Dbtb.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbckbge jbvbx.xml.crypto.dsig.keyinfo;
 
-import javax.xml.crypto.XMLStructure;
-import java.security.cert.X509CRL;
-import java.util.List;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvb.security.cert.X509CRL;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>X509Data</code> element as defined in
- * the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>. An
- * <code>X509Data</code> object contains one or more identifers of keys
- * or X.509 certificates (or certificates' identifiers or a revocation list).
- * The XML Schema Definition is defined as:
+ * A representbtion of the XML <code>X509Dbtb</code> element bs defined in
+ * the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>. An
+ * <code>X509Dbtb</code> object contbins one or more identifers of keys
+ * or X.509 certificbtes (or certificbtes' identifiers or b revocbtion list).
+ * The XML Schemb Definition is defined bs:
  *
  * <pre>
- *    &lt;element name="X509Data" type="ds:X509DataType"/&gt;
- *    &lt;complexType name="X509DataType"&gt;
- *        &lt;sequence maxOccurs="unbounded"&gt;
+ *    &lt;element nbme="X509Dbtb" type="ds:X509DbtbType"/&gt;
+ *    &lt;complexType nbme="X509DbtbType"&gt;
+ *        &lt;sequence mbxOccurs="unbounded"&gt;
  *          &lt;choice&gt;
- *            &lt;element name="X509IssuerSerial" type="ds:X509IssuerSerialType"/&gt;
- *            &lt;element name="X509SKI" type="base64Binary"/&gt;
- *            &lt;element name="X509SubjectName" type="string"/&gt;
- *            &lt;element name="X509Certificate" type="base64Binary"/&gt;
- *            &lt;element name="X509CRL" type="base64Binary"/&gt;
- *            &lt;any namespace="##other" processContents="lax"/&gt;
+ *            &lt;element nbme="X509IssuerSeribl" type="ds:X509IssuerSeriblType"/&gt;
+ *            &lt;element nbme="X509SKI" type="bbse64Binbry"/&gt;
+ *            &lt;element nbme="X509SubjectNbme" type="string"/&gt;
+ *            &lt;element nbme="X509Certificbte" type="bbse64Binbry"/&gt;
+ *            &lt;element nbme="X509CRL" type="bbse64Binbry"/&gt;
+ *            &lt;bny nbmespbce="##other" processContents="lbx"/&gt;
  *          &lt;/choice&gt;
  *        &lt;/sequence&gt;
  *    &lt;/complexType&gt;
  *
- *    &lt;complexType name="X509IssuerSerialType"&gt;
+ *    &lt;complexType nbme="X509IssuerSeriblType"&gt;
  *      &lt;sequence&gt;
- *        &lt;element name="X509IssuerName" type="string"/&gt;
- *        &lt;element name="X509SerialNumber" type="integer"/&gt;
+ *        &lt;element nbme="X509IssuerNbme" type="string"/&gt;
+ *        &lt;element nbme="X509SeriblNumber" type="integer"/&gt;
  *      &lt;/sequence&gt;
  *    &lt;/complexType&gt;
  * </pre>
  *
- * An <code>X509Data</code> instance may be created by invoking the
- * {@link KeyInfoFactory#newX509Data newX509Data} methods of the
- * {@link KeyInfoFactory} class and passing it a list of one or more
- * {@link XMLStructure}s representing X.509 content; for example:
+ * An <code>X509Dbtb</code> instbnce mby be crebted by invoking the
+ * {@link KeyInfoFbctory#newX509Dbtb newX509Dbtb} methods of the
+ * {@link KeyInfoFbctory} clbss bnd pbssing it b list of one or more
+ * {@link XMLStructure}s representing X.509 content; for exbmple:
  * <pre>
- *   KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- *   X509Data x509Data = factory.newX509Data
+ *   KeyInfoFbctory fbctory = KeyInfoFbctory.getInstbnce("DOM");
+ *   X509Dbtb x509Dbtb = fbctory.newX509Dbtb
  *       (Collections.singletonList("cn=Alice"));
  * </pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see KeyInfoFactory#newX509Data(List)
+ * @see KeyInfoFbctory#newX509Dbtb(List)
  */
-//@@@ check for illegal combinations of data violating MUSTs in W3c spec
-public interface X509Data extends XMLStructure {
+//@@@ check for illegbl combinbtions of dbtb violbting MUSTs in W3c spec
+public interfbce X509Dbtb extends XMLStructure {
 
     /**
-     * URI identifying the X509Data KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#X509Data. This can be specified as
-     * the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote
-     * <code>X509Data</code> structure.
+     * URI identifying the X509Dbtb KeyInfo type:
+     * http://www.w3.org/2000/09/xmldsig#X509Dbtb. This cbn be specified bs
+     * the vblue of the <code>type</code> pbrbmeter of the
+     * {@link RetrievblMethod} clbss to describe b remote
+     * <code>X509Dbtb</code> structure.
      */
-    final static String TYPE = "http://www.w3.org/2000/09/xmldsig#X509Data";
+    finbl stbtic String TYPE = "http://www.w3.org/2000/09/xmldsig#X509Dbtb";
 
     /**
-     * URI identifying the binary (ASN.1 DER) X.509 Certificate KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#rawX509Certificate. This can be
-     * specified as the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote X509 Certificate.
+     * URI identifying the binbry (ASN.1 DER) X.509 Certificbte KeyInfo type:
+     * http://www.w3.org/2000/09/xmldsig#rbwX509Certificbte. This cbn be
+     * specified bs the vblue of the <code>type</code> pbrbmeter of the
+     * {@link RetrievblMethod} clbss to describe b remote X509 Certificbte.
      */
-    final static String RAW_X509_CERTIFICATE_TYPE =
-        "http://www.w3.org/2000/09/xmldsig#rawX509Certificate";
+    finbl stbtic String RAW_X509_CERTIFICATE_TYPE =
+        "http://www.w3.org/2000/09/xmldsig#rbwX509Certificbte";
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of the content in this <code>X509Data</code>. Valid types are
-     * {@link String} (subject names), <code>byte[]</code> (subject key ids),
-     * {@link java.security.cert.X509Certificate}, {@link X509CRL},
-     * or {@link XMLStructure} ({@link X509IssuerSerial}
-     * objects or elements from an external namespace).
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} of the content in this <code>X509Dbtb</code>. Vblid types bre
+     * {@link String} (subject nbmes), <code>byte[]</code> (subject key ids),
+     * {@link jbvb.security.cert.X509Certificbte}, {@link X509CRL},
+     * or {@link XMLStructure} ({@link X509IssuerSeribl}
+     * objects or elements from bn externbl nbmespbce).
      *
-     * @return an unmodifiable list of the content in this <code>X509Data</code>
+     * @return bn unmodifibble list of the content in this <code>X509Dbtb</code>
      *    (never <code>null</code> or empty)
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     List getContent();
 }

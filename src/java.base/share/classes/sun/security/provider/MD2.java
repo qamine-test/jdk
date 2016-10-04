@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Implementation for the MD2 algorithm, see RFC1319. It is very slow and
- * not particular secure. It is only supported to be able to verify
- * RSA/Verisign root certificates signed using MD2withRSA. It should not
- * be used for anything else.
+ * Implementbtion for the MD2 blgorithm, see RFC1319. It is very slow bnd
+ * not pbrticulbr secure. It is only supported to be bble to verify
+ * RSA/Verisign root certificbtes signed using MD2withRSA. It should not
+ * be used for bnything else.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class MD2 extends DigestBase {
+public finbl clbss MD2 extends DigestBbse {
 
-    // state, 48 ints
-    private int[] X;
+    // stbte, 48 ints
+    privbte int[] X;
 
-    // checksum, 16 ints. they are really bytes, but byte arithmetic in
-    // the JVM is much slower that int arithmetic.
-    private int[] C;
+    // checksum, 16 ints. they bre reblly bytes, but byte brithmetic in
+    // the JVM is much slower thbt int brithmetic.
+    privbte int[] C;
 
-    // temporary store for checksum C during final digest
-    private byte[] cBytes;
+    // temporbry store for checksum C during finbl digest
+    privbte byte[] cBytes;
 
     /**
-     * Create a new MD2 digest. Called by the JCA framework
+     * Crebte b new MD2 digest. Cblled by the JCA frbmework
      */
     public MD2() {
         super("MD2", 16, 16);
@@ -66,16 +66,16 @@ public final class MD2 extends DigestBase {
         return copy;
     }
 
-    // reset state and checksum
+    // reset stbte bnd checksum
     void implReset() {
-        Arrays.fill(X, 0);
-        Arrays.fill(C, 0);
+        Arrbys.fill(X, 0);
+        Arrbys.fill(C, 0);
     }
 
     // finish the digest
     void implDigest(byte[] out, int ofs) {
-        int padValue = 16 - ((int)bytesProcessed & 15);
-        engineUpdate(PADDING[padValue], 0, padValue);
+        int pbdVblue = 16 - ((int)bytesProcessed & 15);
+        engineUpdbte(PADDING[pbdVblue], 0, pbdVblue);
         for (int i = 0; i < 16; i++) {
             cBytes[i] = (byte)C[i];
         }
@@ -85,7 +85,7 @@ public final class MD2 extends DigestBase {
         }
     }
 
-    // one iteration of the compression function
+    // one iterbtion of the compression function
     void implCompress(byte[] b, int ofs) {
         for (int i = 0; i < 16; i++) {
             int k = b[ofs + i] & 0xff;
@@ -93,7 +93,7 @@ public final class MD2 extends DigestBase {
             X[32 + i] = k ^ X[i];
         }
 
-        // update the checksum
+        // updbte the checksum
         int t = C[15];
         for (int i = 0; i < 16; i++) {
             t = (C[i] ^= S[X[16 + i] ^ t]);
@@ -108,8 +108,8 @@ public final class MD2 extends DigestBase {
         }
     }
 
-    // substitution table derived from Pi. Copied from the RFC.
-    private final static int[] S = new int[] {
+    // substitution tbble derived from Pi. Copied from the RFC.
+    privbte finbl stbtic int[] S = new int[] {
         41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6,
         19, 98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188,
         76, 130, 202, 30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24,
@@ -130,16 +130,16 @@ public final class MD2 extends DigestBase {
         31, 26, 219, 153, 141, 51, 159, 17, 131, 20,
     };
 
-    // digest padding. 17 element array.
-    // padding[0] is null
-    // padding[i] is an array of i time the byte value i (i = 1..16)
-    private final static byte[][] PADDING;
+    // digest pbdding. 17 element brrby.
+    // pbdding[0] is null
+    // pbdding[i] is bn brrby of i time the byte vblue i (i = 1..16)
+    privbte finbl stbtic byte[][] PADDING;
 
-    static {
+    stbtic {
         PADDING = new byte[17][];
         for (int i = 1; i < 17; i++) {
             byte[] b = new byte[i];
-            Arrays.fill(b, (byte)i);
+            Arrbys.fill(b, (byte)i);
             PADDING[i] = b;
         }
     }

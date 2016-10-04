@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.shell;
+pbckbge sun.bwt.shell;
 
-import javax.swing.*;
-import java.util.Comparator;
+import jbvbx.swing.*;
+import jbvb.util.Compbrbtor;
 
-public class ShellFolderColumnInfo {
-    private String title;
-    private Integer width;
-    private boolean visible;
+public clbss ShellFolderColumnInfo {
+    privbte String title;
+    privbte Integer width;
+    privbte boolebn visible;
     /**
-     * Allowed values are {@link SwingConstants#LEFT}, {@link SwingConstants#RIGHT}, {@link SwingConstants#LEADING},
-     * {@link SwingConstants#TRAILING}, {@link SwingConstants#CENTER}
+     * Allowed vblues bre {@link SwingConstbnts#LEFT}, {@link SwingConstbnts#RIGHT}, {@link SwingConstbnts#LEADING},
+     * {@link SwingConstbnts#TRAILING}, {@link SwingConstbnts#CENTER}
      */
-    private Integer alignment;
-    private SortOrder sortOrder;
-    private Comparator<?> comparator;
+    privbte Integer blignment;
+    privbte SortOrder sortOrder;
+    privbte Compbrbtor<?> compbrbtor;
     /**
-     * <code>false</code> (default) if the {@link comparator} expects folders as arguments,
-     * and <code>true</code> if folder's column values. The first option is used default for comparison
-     * on Windows and also for separating files from directories when sorting using
-     * ShellFolderManager's inner comparator.
+     * <code>fblse</code> (defbult) if the {@link compbrbtor} expects folders bs brguments,
+     * bnd <code>true</code> if folder's column vblues. The first option is used defbult for compbrison
+     * on Windows bnd blso for sepbrbting files from directories when sorting using
+     * ShellFolderMbnbger's inner compbrbtor.
      */
-    private boolean compareByColumn;
+    privbte boolebn compbreByColumn;
 
     public ShellFolderColumnInfo(String title, Integer width,
-                                 Integer alignment, boolean visible,
-                                 SortOrder sortOrder, Comparator<?> comparator,
-                                 boolean compareByColumn) {
+                                 Integer blignment, boolebn visible,
+                                 SortOrder sortOrder, Compbrbtor<?> compbrbtor,
+                                 boolebn compbreByColumn) {
         this.title = title;
         this.width = width;
-        this.alignment = alignment;
+        this.blignment = blignment;
         this.visible = visible;
         this.sortOrder = sortOrder;
-        this.comparator = comparator;
-        this.compareByColumn = compareByColumn;
+        this.compbrbtor = compbrbtor;
+        this.compbreByColumn = compbreByColumn;
     }
 
     public ShellFolderColumnInfo(String title, Integer width,
-                                 Integer alignment, boolean visible,
-                                 SortOrder sortOrder, Comparator<?> comparator) {
-        this(title, width, alignment, visible, sortOrder, comparator, false);
+                                 Integer blignment, boolebn visible,
+                                 SortOrder sortOrder, Compbrbtor<?> compbrbtor) {
+        this(title, width, blignment, visible, sortOrder, compbrbtor, fblse);
     }
 
     /**
-     * This constructor is used by native code when getting column set for
-     * a folder under Windows
+     * This constructor is used by nbtive code when getting column set for
+     * b folder under Windows
      */
-    public ShellFolderColumnInfo(String title, int width, int alignment,
-                                 boolean visible) {
-        this(title, width, alignment, visible, null, null);
+    public ShellFolderColumnInfo(String title, int width, int blignment,
+                                 boolebn visible) {
+        this(title, width, blignment, visible, null, null);
     }
 
     public String getTitle() {
@@ -92,18 +92,18 @@ public class ShellFolderColumnInfo {
     }
 
     public Integer getAlignment() {
-        return alignment;
+        return blignment;
     }
 
-    public void setAlignment(Integer alignment) {
-        this.alignment = alignment;
+    public void setAlignment(Integer blignment) {
+        this.blignment = blignment;
     }
 
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(boolebn visible) {
         this.visible = visible;
     }
 
@@ -115,19 +115,19 @@ public class ShellFolderColumnInfo {
         this.sortOrder = sortOrder;
     }
 
-    public Comparator<?> getComparator() {
-        return comparator;
+    public Compbrbtor<?> getCompbrbtor() {
+        return compbrbtor;
     }
 
-    public void setComparator(Comparator<?> comparator) {
-        this.comparator = comparator;
+    public void setCompbrbtor(Compbrbtor<?> compbrbtor) {
+        this.compbrbtor = compbrbtor;
     }
 
-    public boolean isCompareByColumn() {
-        return compareByColumn;
+    public boolebn isCompbreByColumn() {
+        return compbreByColumn;
     }
 
-    public void setCompareByColumn(boolean compareByColumn) {
-        this.compareByColumn = compareByColumn;
+    public void setCompbreByColumn(boolebn compbreByColumn) {
+        this.compbreByColumn = compbreByColumn;
     }
 }

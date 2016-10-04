@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
 /**
- * A target data line is a type of {@link DataLine} from which audio data can be
- * read. The most common example is a data line that gets its data from an audio
- * capture device. (The device is implemented as a mixer that writes to the
- * target data line.)
+ * A tbrget dbtb line is b type of {@link DbtbLine} from which budio dbtb cbn be
+ * rebd. The most common exbmple is b dbtb line thbt gets its dbtb from bn budio
+ * cbpture device. (The device is implemented bs b mixer thbt writes to the
+ * tbrget dbtb line.)
  * <p>
- * Note that the naming convention for this interface reflects the relationship
- * between the line and its mixer. From the perspective of an application, a
- * target data line may act as a source for audio data.
+ * Note thbt the nbming convention for this interfbce reflects the relbtionship
+ * between the line bnd its mixer. From the perspective of bn bpplicbtion, b
+ * tbrget dbtb line mby bct bs b source for budio dbtb.
  * <p>
- * The target data line can be obtained from a mixer by invoking the
- * {@link Mixer#getLine getLine} method of {@code Mixer} with an appropriate
- * {@link DataLine.Info} object.
+ * The tbrget dbtb line cbn be obtbined from b mixer by invoking the
+ * {@link Mixer#getLine getLine} method of {@code Mixer} with bn bppropribte
+ * {@link DbtbLine.Info} object.
  * <p>
- * The {@code TargetDataLine} interface provides a method for reading the
- * captured data from the target data line's buffer. Applications that record
- * audio should read data from the target data line quickly enough to keep the
- * buffer from overflowing, which could cause discontinuities in the captured
- * data that are perceived as clicks. Applications can use the
- * {@link DataLine#available available} method defined in the {@code DataLine}
- * interface to determine the amount of data currently queued in the data line's
- * buffer. If the buffer does overflow, the oldest queued data is discarded and
- * replaced by new data.
+ * The {@code TbrgetDbtbLine} interfbce provides b method for rebding the
+ * cbptured dbtb from the tbrget dbtb line's buffer. Applicbtions thbt record
+ * budio should rebd dbtb from the tbrget dbtb line quickly enough to keep the
+ * buffer from overflowing, which could cbuse discontinuities in the cbptured
+ * dbtb thbt bre perceived bs clicks. Applicbtions cbn use the
+ * {@link DbtbLine#bvbilbble bvbilbble} method defined in the {@code DbtbLine}
+ * interfbce to determine the bmount of dbtb currently queued in the dbtb line's
+ * buffer. If the buffer does overflow, the oldest queued dbtb is discbrded bnd
+ * replbced by new dbtb.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @see Mixer
- * @see DataLine
- * @see SourceDataLine
+ * @see DbtbLine
+ * @see SourceDbtbLine
  * @since 1.3
  */
-public interface TargetDataLine extends DataLine {
+public interfbce TbrgetDbtbLine extends DbtbLine {
 
     /**
-     * Opens the line with the specified format and requested buffer size,
-     * causing the line to acquire any required system resources and become
-     * operational.
+     * Opens the line with the specified formbt bnd requested buffer size,
+     * cbusing the line to bcquire bny required system resources bnd become
+     * operbtionbl.
      * <p>
-     * The buffer size is specified in bytes, but must represent an integral
-     * number of sample frames. Invoking this method with a requested buffer
-     * size that does not meet this requirement may result in an
-     * {@code IllegalArgumentException}. The actual buffer size for the open
-     * line may differ from the requested buffer size. The value actually set
-     * may be queried by subsequently calling {@link DataLine#getBufferSize}
+     * The buffer size is specified in bytes, but must represent bn integrbl
+     * number of sbmple frbmes. Invoking this method with b requested buffer
+     * size thbt does not meet this requirement mby result in bn
+     * {@code IllegblArgumentException}. The bctubl buffer size for the open
+     * line mby differ from the requested buffer size. The vblue bctublly set
+     * mby be queried by subsequently cblling {@link DbtbLine#getBufferSize}
      * <p>
-     * If this operation succeeds, the line is marked as open, and an
-     * {@link LineEvent.Type#OPEN OPEN} event is dispatched to the line's
+     * If this operbtion succeeds, the line is mbrked bs open, bnd bn
+     * {@link LineEvent.Type#OPEN OPEN} event is dispbtched to the line's
      * listeners.
      * <p>
-     * Invoking this method on a line that is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking this method on b line thbt is blrebdy open is illegbl bnd mby
+     * result in bn {@code IllegblStbteException}.
      * <p>
-     * Some lines, once closed, cannot be reopened. Attempts to reopen such a
-     * line will always result in a {@code LineUnavailableException}.
+     * Some lines, once closed, cbnnot be reopened. Attempts to reopen such b
+     * line will blwbys result in b {@code LineUnbvbilbbleException}.
      *
-     * @param  format the desired audio format
-     * @param  bufferSize the desired buffer size, in bytes
-     * @throws LineUnavailableException if the line cannot be opened due to
+     * @pbrbm  formbt the desired budio formbt
+     * @pbrbm  bufferSize the desired buffer size, in bytes
+     * @throws LineUnbvbilbbleException if the line cbnnot be opened due to
      *         resource restrictions
-     * @throws IllegalArgumentException if the buffer size does not represent an
-     *         integral number of sample frames, or if {@code format} is not
-     *         fully specified or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
+     * @throws IllegblArgumentException if the buffer size does not represent bn
+     *         integrbl number of sbmple frbmes, or if {@code formbt} is not
+     *         fully specified or invblid
+     * @throws IllegblStbteException if the line is blrebdy open
+     * @throws SecurityException if the line cbnnot be opened due to security
      *         restrictions
-     * @see #open(AudioFormat)
+     * @see #open(AudioFormbt)
      * @see Line#open
      * @see Line#close
      * @see Line#isOpen
      * @see LineEvent
      */
-    void open(AudioFormat format, int bufferSize) throws LineUnavailableException;
+    void open(AudioFormbt formbt, int bufferSize) throws LineUnbvbilbbleException;
 
     /**
-     * Opens the line with the specified format, causing the line to acquire any
-     * required system resources and become operational.
+     * Opens the line with the specified formbt, cbusing the line to bcquire bny
+     * required system resources bnd become operbtionbl.
      * <p>
-     * The implementation chooses a buffer size, which is measured in bytes but
-     * which encompasses an integral number of sample frames. The buffer size
-     * that the system has chosen may be queried by subsequently calling
-     * {@link DataLine#getBufferSize}
+     * The implementbtion chooses b buffer size, which is mebsured in bytes but
+     * which encompbsses bn integrbl number of sbmple frbmes. The buffer size
+     * thbt the system hbs chosen mby be queried by subsequently cblling
+     * {@link DbtbLine#getBufferSize}
      * <p>
-     * If this operation succeeds, the line is marked as open, and an
-     * {@link LineEvent.Type#OPEN OPEN} event is dispatched to the line's
+     * If this operbtion succeeds, the line is mbrked bs open, bnd bn
+     * {@link LineEvent.Type#OPEN OPEN} event is dispbtched to the line's
      * listeners.
      * <p>
-     * Invoking this method on a line that is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking this method on b line thbt is blrebdy open is illegbl bnd mby
+     * result in bn {@code IllegblStbteException}.
      * <p>
-     * Some lines, once closed, cannot be reopened. Attempts to reopen such a
-     * line will always result in a {@code LineUnavailableException}.
+     * Some lines, once closed, cbnnot be reopened. Attempts to reopen such b
+     * line will blwbys result in b {@code LineUnbvbilbbleException}.
      *
-     * @param  format the desired audio format
-     * @throws LineUnavailableException if the line cannot be opened due to
+     * @pbrbm  formbt the desired budio formbt
+     * @throws LineUnbvbilbbleException if the line cbnnot be opened due to
      *         resource restrictions
-     * @throws IllegalArgumentException if {@code format} is not fully specified
-     *         or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
+     * @throws IllegblArgumentException if {@code formbt} is not fully specified
+     *         or invblid
+     * @throws IllegblStbteException if the line is blrebdy open
+     * @throws SecurityException if the line cbnnot be opened due to security
      *         restrictions
-     * @see #open(AudioFormat, int)
+     * @see #open(AudioFormbt, int)
      * @see Line#open
      * @see Line#close
      * @see Line#isOpen
      * @see LineEvent
      */
-    void open(AudioFormat format) throws LineUnavailableException;
+    void open(AudioFormbt formbt) throws LineUnbvbilbbleException;
 
     /**
-     * Reads audio data from the data line's input buffer. The requested number
-     * of bytes is read into the specified array, starting at the specified
-     * offset into the array in bytes. This method blocks until the requested
-     * amount of data has been read. However, if the data line is closed,
-     * stopped, drained, or flushed before the requested amount has been read,
-     * the method no longer blocks, but returns the number of bytes read thus
-     * far.
+     * Rebds budio dbtb from the dbtb line's input buffer. The requested number
+     * of bytes is rebd into the specified brrby, stbrting bt the specified
+     * offset into the brrby in bytes. This method blocks until the requested
+     * bmount of dbtb hbs been rebd. However, if the dbtb line is closed,
+     * stopped, drbined, or flushed before the requested bmount hbs been rebd,
+     * the method no longer blocks, but returns the number of bytes rebd thus
+     * fbr.
      * <p>
-     * The number of bytes that can be read without blocking can be ascertained
-     * using the {@link DataLine#available available} method of the
-     * {@code DataLine} interface. (While it is guaranteed that this number of
-     * bytes can be read without blocking, there is no guarantee that attempts
-     * to read additional data will block.)
+     * The number of bytes thbt cbn be rebd without blocking cbn be bscertbined
+     * using the {@link DbtbLine#bvbilbble bvbilbble} method of the
+     * {@code DbtbLine} interfbce. (While it is gubrbnteed thbt this number of
+     * bytes cbn be rebd without blocking, there is no gubrbntee thbt bttempts
+     * to rebd bdditionbl dbtb will block.)
      * <p>
-     * The number of bytes to be read must represent an integral number of
-     * sample frames, such that:
+     * The number of bytes to be rebd must represent bn integrbl number of
+     * sbmple frbmes, such thbt:
      * <br>
-     * <center>{@code [ bytes read ] % [frame size in bytes ] == 0}</center>
+     * <center>{@code [ bytes rebd ] % [frbme size in bytes ] == 0}</center>
      * <br>
-     * The return value will always meet this requirement. A request to read a
-     * number of bytes representing a non-integral number of sample frames
-     * cannot be fulfilled and may result in an IllegalArgumentException.
+     * The return vblue will blwbys meet this requirement. A request to rebd b
+     * number of bytes representing b non-integrbl number of sbmple frbmes
+     * cbnnot be fulfilled bnd mby result in bn IllegblArgumentException.
      *
-     * @param  b a byte array that will contain the requested input data when
+     * @pbrbm  b b byte brrby thbt will contbin the requested input dbtb when
      *         this method returns
-     * @param  off the offset from the beginning of the array, in bytes
-     * @param  len the requested number of bytes to read
-     * @return the number of bytes actually read
-     * @throws IllegalArgumentException if the requested number of bytes does
-     *         not represent an integral number of sample frames, or if
-     *         {@code len} is negative
-     * @throws ArrayIndexOutOfBoundsException if {@code off} is negative, or
-     *         {@code off+len} is greater than the length of the array {@code b}
+     * @pbrbm  off the offset from the beginning of the brrby, in bytes
+     * @pbrbm  len the requested number of bytes to rebd
+     * @return the number of bytes bctublly rebd
+     * @throws IllegblArgumentException if the requested number of bytes does
+     *         not represent bn integrbl number of sbmple frbmes, or if
+     *         {@code len} is negbtive
+     * @throws ArrbyIndexOutOfBoundsException if {@code off} is negbtive, or
+     *         {@code off+len} is grebter thbn the length of the brrby {@code b}
      *
-     * @see SourceDataLine#write
-     * @see DataLine#available
+     * @see SourceDbtbLine#write
+     * @see DbtbLine#bvbilbble
      */
-    int read(byte[] b, int off, int len);
+    int rebd(byte[] b, int off, int len);
 
     /**
-     * Obtains the number of sample frames of audio data that can be read from
-     * the target data line without blocking. Note that the return value
-     * measures sample frames, not bytes.
+     * Obtbins the number of sbmple frbmes of budio dbtb thbt cbn be rebd from
+     * the tbrget dbtb line without blocking. Note thbt the return vblue
+     * mebsures sbmple frbmes, not bytes.
      *
-     * @return the number of sample frames currently available for reading
-     * @see SourceDataLine#availableWrite
+     * @return the number of sbmple frbmes currently bvbilbble for rebding
+     * @see SourceDbtbLine#bvbilbbleWrite
      */
-    //public int availableRead();
+    //public int bvbilbbleRebd();
 }

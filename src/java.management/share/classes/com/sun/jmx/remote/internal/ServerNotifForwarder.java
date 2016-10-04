@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import com.sun.jmx.remote.security.NotificationAccessController;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.security.NotificbtionAccessController;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.management.InstanceNotFoundException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanPermission;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationFilter;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.remote.NotificationResult;
-import javax.management.remote.TargetedNotification;
-import javax.management.MalformedObjectNameException;
-import javax.security.auth.Subject;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnPermission;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerDelegbte;
+import jbvbx.mbnbgement.MBebnServerNotificbtion;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.remote.NotificbtionResult;
+import jbvbx.mbnbgement.remote.TbrgetedNotificbtion;
+import jbvbx.mbnbgement.MblformedObjectNbmeException;
+import jbvbx.security.buth.Subject;
 
-public class ServerNotifForwarder {
+public clbss ServerNotifForwbrder {
 
 
-    public ServerNotifForwarder(MBeanServer mbeanServer,
-                                Map<String, ?> env,
-                                NotificationBuffer notifBuffer,
+    public ServerNotifForwbrder(MBebnServer mbebnServer,
+                                Mbp<String, ?> env,
+                                NotificbtionBuffer notifBuffer,
                                 String connectionId) {
-        this.mbeanServer = mbeanServer;
+        this.mbebnServer = mbebnServer;
         this.notifBuffer = notifBuffer;
         this.connectionId = connectionId;
         connectionTimeout = EnvHelp.getServerConnectionTimeout(env);
 
-        String stringBoolean = (String) env.get("jmx.remote.x.check.notification.emission");
-        checkNotificationEmission = EnvHelp.computeBooleanFromString( stringBoolean );
-        notificationAccessController =
-                EnvHelp.getNotificationAccessController(env);
+        String stringBoolebn = (String) env.get("jmx.remote.x.check.notificbtion.emission");
+        checkNotificbtionEmission = EnvHelp.computeBoolebnFromString( stringBoolebn );
+        notificbtionAccessController =
+                EnvHelp.getNotificbtionAccessController(env);
     }
 
-    public Integer addNotificationListener(final ObjectName name,
-        final NotificationFilter filter)
-        throws InstanceNotFoundException, IOException {
+    public Integer bddNotificbtionListener(finbl ObjectNbme nbme,
+        finbl NotificbtionFilter filter)
+        throws InstbnceNotFoundException, IOException {
 
-        if (logger.traceOn()) {
-            logger.trace("addNotificationListener",
-                "Add a listener at " + name);
+        if (logger.trbceOn()) {
+            logger.trbce("bddNotificbtionListener",
+                "Add b listener bt " + nbme);
         }
 
-        checkState();
+        checkStbte();
 
-        // Explicitly check MBeanPermission for addNotificationListener
+        // Explicitly check MBebnPermission for bddNotificbtionListener
         //
-        checkMBeanPermission(name, "addNotificationListener");
-        if (notificationAccessController != null) {
-            notificationAccessController.addNotificationListener(
-                connectionId, name, getSubject());
+        checkMBebnPermission(nbme, "bddNotificbtionListener");
+        if (notificbtionAccessController != null) {
+            notificbtionAccessController.bddNotificbtionListener(
+                connectionId, nbme, getSubject());
         }
         try {
-            boolean instanceOf =
+            boolebn instbnceOf =
             AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Boolean>() {
-                        public Boolean run() throws InstanceNotFoundException {
-                            return mbeanServer.isInstanceOf(name, broadcasterClass);
+                    new PrivilegedExceptionAction<Boolebn>() {
+                        public Boolebn run() throws InstbnceNotFoundException {
+                            return mbebnServer.isInstbnceOf(nbme, brobdcbsterClbss);
                         }
             });
-            if (!instanceOf) {
-                throw new IllegalArgumentException("The specified MBean [" +
-                    name + "] is not a " +
-                    "NotificationBroadcaster " +
+            if (!instbnceOf) {
+                throw new IllegblArgumentException("The specified MBebn [" +
+                    nbme + "] is not b " +
+                    "NotificbtionBrobdcbster " +
                     "object.");
             }
-        } catch (PrivilegedActionException e) {
-            throw (InstanceNotFoundException) extractException(e);
+        } cbtch (PrivilegedActionException e) {
+            throw (InstbnceNotFoundException) extrbctException(e);
         }
 
-        final Integer id = getListenerID();
+        finbl Integer id = getListenerID();
 
-        // 6238731: set the default domain if no domain is set.
-        ObjectName nn = name;
-        if (name.getDomain() == null || name.getDomain().equals("")) {
+        // 6238731: set the defbult dombin if no dombin is set.
+        ObjectNbme nn = nbme;
+        if (nbme.getDombin() == null || nbme.getDombin().equbls("")) {
             try {
-                nn = ObjectName.getInstance(mbeanServer.getDefaultDomain(),
-                                            name.getKeyPropertyList());
-            } catch (MalformedObjectNameException mfoe) {
+                nn = ObjectNbme.getInstbnce(mbebnServer.getDefbultDombin(),
+                                            nbme.getKeyPropertyList());
+            } cbtch (MblformedObjectNbmeException mfoe) {
                 // impossible, but...
-                IOException ioe = new IOException(mfoe.getMessage());
-                ioe.initCause(mfoe);
+                IOException ioe = new IOException(mfoe.getMessbge());
+                ioe.initCbuse(mfoe);
                 throw ioe;
             }
         }
 
-        synchronized (listenerMap) {
-            IdAndFilter idaf = new IdAndFilter(id, filter);
-            Set<IdAndFilter> set = listenerMap.get(nn);
-            // Tread carefully because if set.size() == 1 it may be the
-            // Collections.singleton we make here, which is unmodifiable.
+        synchronized (listenerMbp) {
+            IdAndFilter idbf = new IdAndFilter(id, filter);
+            Set<IdAndFilter> set = listenerMbp.get(nn);
+            // Trebd cbrefully becbuse if set.size() == 1 it mby be the
+            // Collections.singleton we mbke here, which is unmodifibble.
             if (set == null)
-                set = Collections.singleton(idaf);
+                set = Collections.singleton(idbf);
             else {
                 if (set.size() == 1)
-                    set = new HashSet<IdAndFilter>(set);
-                set.add(idaf);
+                    set = new HbshSet<IdAndFilter>(set);
+                set.bdd(idbf);
             }
-            listenerMap.put(nn, set);
+            listenerMbp.put(nn, set);
         }
 
         return id;
     }
 
-    public void removeNotificationListener(ObjectName name,
+    public void removeNotificbtionListener(ObjectNbme nbme,
         Integer[] listenerIDs)
         throws Exception {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                "Remove some listeners from " + name);
+        if (logger.trbceOn()) {
+            logger.trbce("removeNotificbtionListener",
+                "Remove some listeners from " + nbme);
         }
 
-        checkState();
+        checkStbte();
 
-        // Explicitly check MBeanPermission for removeNotificationListener
+        // Explicitly check MBebnPermission for removeNotificbtionListener
         //
-        checkMBeanPermission(name, "removeNotificationListener");
-        if (notificationAccessController != null) {
-            notificationAccessController.removeNotificationListener(
-                connectionId, name, getSubject());
+        checkMBebnPermission(nbme, "removeNotificbtionListener");
+        if (notificbtionAccessController != null) {
+            notificbtionAccessController.removeNotificbtionListener(
+                connectionId, nbme, getSubject());
         }
 
         Exception re = null;
         for (int i = 0 ; i < listenerIDs.length ; i++) {
             try {
-                removeNotificationListener(name, listenerIDs[i]);
-            } catch (Exception e) {
-                // Give back the first exception
+                removeNotificbtionListener(nbme, listenerIDs[i]);
+            } cbtch (Exception e) {
+                // Give bbck the first exception
                 //
                 if (re != null) {
                     re = e;
@@ -180,138 +180,138 @@ public class ServerNotifForwarder {
         }
     }
 
-    public void removeNotificationListener(ObjectName name, Integer listenerID)
+    public void removeNotificbtionListener(ObjectNbme nbme, Integer listenerID)
     throws
-        InstanceNotFoundException,
+        InstbnceNotFoundException,
         ListenerNotFoundException,
         IOException {
 
-        if (logger.traceOn()) {
-            logger.trace("removeNotificationListener",
-                "Remove the listener " + listenerID + " from " + name);
+        if (logger.trbceOn()) {
+            logger.trbce("removeNotificbtionListener",
+                "Remove the listener " + listenerID + " from " + nbme);
         }
 
-        checkState();
+        checkStbte();
 
-        if (name != null && !name.isPattern()) {
-            if (!mbeanServer.isRegistered(name)) {
-                throw new InstanceNotFoundException("The MBean " + name +
+        if (nbme != null && !nbme.isPbttern()) {
+            if (!mbebnServer.isRegistered(nbme)) {
+                throw new InstbnceNotFoundException("The MBebn " + nbme +
                     " is not registered.");
             }
         }
 
-        synchronized (listenerMap) {
-            // Tread carefully because if set.size() == 1 it may be a
-            // Collections.singleton, which is unmodifiable.
-            Set<IdAndFilter> set = listenerMap.get(name);
-            IdAndFilter idaf = new IdAndFilter(listenerID, null);
-            if (set == null || !set.contains(idaf))
+        synchronized (listenerMbp) {
+            // Trebd cbrefully becbuse if set.size() == 1 it mby be b
+            // Collections.singleton, which is unmodifibble.
+            Set<IdAndFilter> set = listenerMbp.get(nbme);
+            IdAndFilter idbf = new IdAndFilter(listenerID, null);
+            if (set == null || !set.contbins(idbf))
                 throw new ListenerNotFoundException("Listener not found");
             if (set.size() == 1)
-                listenerMap.remove(name);
+                listenerMbp.remove(nbme);
             else
-                set.remove(idaf);
+                set.remove(idbf);
         }
     }
 
-    /* This is the object that will apply our filtering to candidate
-     * notifications.  First of all, if there are no listeners for the
-     * ObjectName that the notification is coming from, we go no further.
-     * Then, for each listener, we must apply the corresponding filter (if any)
-     * and ignore the listener if the filter rejects.  Finally, we apply
-     * some access checks which may also reject the listener.
+    /* This is the object thbt will bpply our filtering to cbndidbte
+     * notificbtions.  First of bll, if there bre no listeners for the
+     * ObjectNbme thbt the notificbtion is coming from, we go no further.
+     * Then, for ebch listener, we must bpply the corresponding filter (if bny)
+     * bnd ignore the listener if the filter rejects.  Finblly, we bpply
+     * some bccess checks which mby blso reject the listener.
      *
-     * A given notification may trigger several listeners on the same MBean,
-     * which is why listenerMap is a Map<ObjectName, Set<IdAndFilter>> and
-     * why we add the found notifications to a supplied List rather than
-     * just returning a boolean.
+     * A given notificbtion mby trigger severbl listeners on the sbme MBebn,
+     * which is why listenerMbp is b Mbp<ObjectNbme, Set<IdAndFilter>> bnd
+     * why we bdd the found notificbtions to b supplied List rbther thbn
+     * just returning b boolebn.
      */
-    private final NotifForwarderBufferFilter bufferFilter = new NotifForwarderBufferFilter();
+    privbte finbl NotifForwbrderBufferFilter bufferFilter = new NotifForwbrderBufferFilter();
 
-    final class NotifForwarderBufferFilter implements NotificationBufferFilter {
-        public void apply(List<TargetedNotification> targetedNotifs,
-                          ObjectName source, Notification notif) {
-            // We proceed in two stages here, to avoid holding the listenerMap
-            // lock while invoking the filters (which are user code).
-            final IdAndFilter[] candidates;
-            synchronized (listenerMap) {
-                final Set<IdAndFilter> set = listenerMap.get(source);
+    finbl clbss NotifForwbrderBufferFilter implements NotificbtionBufferFilter {
+        public void bpply(List<TbrgetedNotificbtion> tbrgetedNotifs,
+                          ObjectNbme source, Notificbtion notif) {
+            // We proceed in two stbges here, to bvoid holding the listenerMbp
+            // lock while invoking the filters (which bre user code).
+            finbl IdAndFilter[] cbndidbtes;
+            synchronized (listenerMbp) {
+                finbl Set<IdAndFilter> set = listenerMbp.get(source);
                 if (set == null) {
-                    logger.debug("bufferFilter", "no listeners for this name");
+                    logger.debug("bufferFilter", "no listeners for this nbme");
                     return;
                 }
-                candidates = new IdAndFilter[set.size()];
-                set.toArray(candidates);
+                cbndidbtes = new IdAndFilter[set.size()];
+                set.toArrby(cbndidbtes);
             }
-            // We don't synchronize on targetedNotifs, because it is a local
-            // variable of our caller and no other thread can see it.
-            for (IdAndFilter idaf : candidates) {
-                final NotificationFilter nf = idaf.getFilter();
-                if (nf == null || nf.isNotificationEnabled(notif)) {
-                    logger.debug("bufferFilter", "filter matches");
-                    final TargetedNotification tn =
-                            new TargetedNotification(notif, idaf.getId());
-                    if (allowNotificationEmission(source, tn))
-                        targetedNotifs.add(tn);
+            // We don't synchronize on tbrgetedNotifs, becbuse it is b locbl
+            // vbribble of our cbller bnd no other threbd cbn see it.
+            for (IdAndFilter idbf : cbndidbtes) {
+                finbl NotificbtionFilter nf = idbf.getFilter();
+                if (nf == null || nf.isNotificbtionEnbbled(notif)) {
+                    logger.debug("bufferFilter", "filter mbtches");
+                    finbl TbrgetedNotificbtion tn =
+                            new TbrgetedNotificbtion(notif, idbf.getId());
+                    if (bllowNotificbtionEmission(source, tn))
+                        tbrgetedNotifs.bdd(tn);
                 }
             }
         }
     };
 
-    public NotificationResult fetchNotifs(long startSequenceNumber,
+    public NotificbtionResult fetchNotifs(long stbrtSequenceNumber,
         long timeout,
-        int maxNotifications) {
-        if (logger.traceOn()) {
-            logger.trace("fetchNotifs", "Fetching notifications, the " +
-                "startSequenceNumber is " + startSequenceNumber +
+        int mbxNotificbtions) {
+        if (logger.trbceOn()) {
+            logger.trbce("fetchNotifs", "Fetching notificbtions, the " +
+                "stbrtSequenceNumber is " + stbrtSequenceNumber +
                 ", the timeout is " + timeout +
-                ", the maxNotifications is " + maxNotifications);
+                ", the mbxNotificbtions is " + mbxNotificbtions);
         }
 
-        NotificationResult nr;
-        final long t = Math.min(connectionTimeout, timeout);
+        NotificbtionResult nr;
+        finbl long t = Mbth.min(connectionTimeout, timeout);
         try {
-            nr = notifBuffer.fetchNotifications(bufferFilter,
-                startSequenceNumber,
-                t, maxNotifications);
+            nr = notifBuffer.fetchNotificbtions(bufferFilter,
+                stbrtSequenceNumber,
+                t, mbxNotificbtions);
             snoopOnUnregister(nr);
-        } catch (InterruptedException ire) {
-            nr = new NotificationResult(0L, 0L, new TargetedNotification[0]);
+        } cbtch (InterruptedException ire) {
+            nr = new NotificbtionResult(0L, 0L, new TbrgetedNotificbtion[0]);
         }
 
-        if (logger.traceOn()) {
-            logger.trace("fetchNotifs", "Forwarding the notifs: "+nr);
+        if (logger.trbceOn()) {
+            logger.trbce("fetchNotifs", "Forwbrding the notifs: "+nr);
         }
 
         return nr;
     }
 
-    // The standard RMI connector client will register a listener on the MBeanServerDelegate
-    // in order to be told when MBeans are unregistered.  We snoop on fetched notifications
-    // so that we can know too, and remove the corresponding entry from the listenerMap.
+    // The stbndbrd RMI connector client will register b listener on the MBebnServerDelegbte
+    // in order to be told when MBebns bre unregistered.  We snoop on fetched notificbtions
+    // so thbt we cbn know too, bnd remove the corresponding entry from the listenerMbp.
     // See 6957378.
-    private void snoopOnUnregister(NotificationResult nr) {
+    privbte void snoopOnUnregister(NotificbtionResult nr) {
         List<IdAndFilter> copy = null;
-        synchronized (listenerMap) {
-            Set<IdAndFilter> delegateSet = listenerMap.get(MBeanServerDelegate.DELEGATE_NAME);
-            if (delegateSet == null || delegateSet.isEmpty()) {
+        synchronized (listenerMbp) {
+            Set<IdAndFilter> delegbteSet = listenerMbp.get(MBebnServerDelegbte.DELEGATE_NAME);
+            if (delegbteSet == null || delegbteSet.isEmpty()) {
                 return;
             }
-            copy = new ArrayList<>(delegateSet);
+            copy = new ArrbyList<>(delegbteSet);
         }
 
-        for (TargetedNotification tn : nr.getTargetedNotifications()) {
+        for (TbrgetedNotificbtion tn : nr.getTbrgetedNotificbtions()) {
             Integer id = tn.getListenerID();
-            for (IdAndFilter idaf : copy) {
-                if (idaf.id == id) {
-                    // This is a notification from the MBeanServerDelegate.
-                    Notification n = tn.getNotification();
-                    if (n instanceof MBeanServerNotification &&
-                            n.getType().equals(MBeanServerNotification.UNREGISTRATION_NOTIFICATION)) {
-                        MBeanServerNotification mbsn = (MBeanServerNotification) n;
-                        ObjectName gone = mbsn.getMBeanName();
-                        synchronized (listenerMap) {
-                            listenerMap.remove(gone);
+            for (IdAndFilter idbf : copy) {
+                if (idbf.id == id) {
+                    // This is b notificbtion from the MBebnServerDelegbte.
+                    Notificbtion n = tn.getNotificbtion();
+                    if (n instbnceof MBebnServerNotificbtion &&
+                            n.getType().equbls(MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION)) {
+                        MBebnServerNotificbtion mbsn = (MBebnServerNotificbtion) n;
+                        ObjectNbme gone = mbsn.getMBebnNbme();
+                        synchronized (listenerMbp) {
+                            listenerMbp.remove(gone);
                         }
                     }
                 }
@@ -319,25 +319,25 @@ public class ServerNotifForwarder {
         }
     }
 
-    public void terminate() {
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Be called.");
+    public void terminbte() {
+        if (logger.trbceOn()) {
+            logger.trbce("terminbte", "Be cblled.");
         }
 
-        synchronized(terminationLock) {
-            if (terminated) {
+        synchronized(terminbtionLock) {
+            if (terminbted) {
                 return;
             }
 
-            terminated = true;
+            terminbted = true;
 
-            synchronized(listenerMap) {
-                listenerMap.clear();
+            synchronized(listenerMbp) {
+                listenerMbp.clebr();
             }
         }
 
-        if (logger.traceOn()) {
-            logger.trace("terminate", "Terminated.");
+        if (logger.trbceOn()) {
+            logger.trbce("terminbte", "Terminbted.");
         }
     }
 
@@ -345,110 +345,110 @@ public class ServerNotifForwarder {
     // PRIVATE METHODS
     //----------------
 
-    private Subject getSubject() {
+    privbte Subject getSubject() {
         return Subject.getSubject(AccessController.getContext());
     }
 
-    private void checkState() throws IOException {
-        synchronized(terminationLock) {
-            if (terminated) {
-                throw new IOException("The connection has been terminated.");
+    privbte void checkStbte() throws IOException {
+        synchronized(terminbtionLock) {
+            if (terminbted) {
+                throw new IOException("The connection hbs been terminbted.");
             }
         }
     }
 
-    private Integer getListenerID() {
+    privbte Integer getListenerID() {
         synchronized(listenerCounterLock) {
             return listenerCounter++;
         }
     }
 
     /**
-     * Explicitly check the MBeanPermission for
-     * the current access control context.
+     * Explicitly check the MBebnPermission for
+     * the current bccess control context.
      */
-    public final void checkMBeanPermission(
-            final ObjectName name, final String actions)
-            throws InstanceNotFoundException, SecurityException {
-        checkMBeanPermission(mbeanServer,name,actions);
+    public finbl void checkMBebnPermission(
+            finbl ObjectNbme nbme, finbl String bctions)
+            throws InstbnceNotFoundException, SecurityException {
+        checkMBebnPermission(mbebnServer,nbme,bctions);
     }
 
-    static void checkMBeanPermission(
-            final MBeanServer mbs, final ObjectName name, final String actions)
-            throws InstanceNotFoundException, SecurityException {
+    stbtic void checkMBebnPermission(
+            finbl MBebnServer mbs, finbl ObjectNbme nbme, finbl String bctions)
+            throws InstbnceNotFoundException, SecurityException {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            AccessControlContext acc = AccessController.getContext();
-            ObjectInstance oi;
+            AccessControlContext bcc = AccessController.getContext();
+            ObjectInstbnce oi;
             try {
                 oi = AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<ObjectInstance>() {
-                        public ObjectInstance run()
-                        throws InstanceNotFoundException {
-                            return mbs.getObjectInstance(name);
+                    new PrivilegedExceptionAction<ObjectInstbnce>() {
+                        public ObjectInstbnce run()
+                        throws InstbnceNotFoundException {
+                            return mbs.getObjectInstbnce(nbme);
                         }
                 });
-            } catch (PrivilegedActionException e) {
-                throw (InstanceNotFoundException) extractException(e);
+            } cbtch (PrivilegedActionException e) {
+                throw (InstbnceNotFoundException) extrbctException(e);
             }
-            String classname = oi.getClassName();
-            MBeanPermission perm = new MBeanPermission(
-                classname,
+            String clbssnbme = oi.getClbssNbme();
+            MBebnPermission perm = new MBebnPermission(
+                clbssnbme,
                 null,
-                name,
-                actions);
-            sm.checkPermission(perm, acc);
+                nbme,
+                bctions);
+            sm.checkPermission(perm, bcc);
         }
     }
 
     /**
-     * Check if the caller has the right to get the following notifications.
+     * Check if the cbller hbs the right to get the following notificbtions.
      */
-    private boolean allowNotificationEmission(ObjectName name,
-                                              TargetedNotification tn) {
+    privbte boolebn bllowNotificbtionEmission(ObjectNbme nbme,
+                                              TbrgetedNotificbtion tn) {
         try {
-            if (checkNotificationEmission) {
-                checkMBeanPermission(name, "addNotificationListener");
+            if (checkNotificbtionEmission) {
+                checkMBebnPermission(nbme, "bddNotificbtionListener");
             }
-            if (notificationAccessController != null) {
-                notificationAccessController.fetchNotification(
-                        connectionId, name, tn.getNotification(), getSubject());
+            if (notificbtionAccessController != null) {
+                notificbtionAccessController.fetchNotificbtion(
+                        connectionId, nbme, tn.getNotificbtion(), getSubject());
             }
             return true;
-        } catch (SecurityException e) {
+        } cbtch (SecurityException e) {
             if (logger.debugOn()) {
-                logger.debug("fetchNotifs", "Notification " +
-                        tn.getNotification() + " not forwarded: the " +
-                        "caller didn't have the required access rights");
+                logger.debug("fetchNotifs", "Notificbtion " +
+                        tn.getNotificbtion() + " not forwbrded: the " +
+                        "cbller didn't hbve the required bccess rights");
             }
-            return false;
-        } catch (Exception e) {
+            return fblse;
+        } cbtch (Exception e) {
             if (logger.debugOn()) {
-                logger.debug("fetchNotifs", "Notification " +
-                        tn.getNotification() + " not forwarded: " +
-                        "got an unexpected exception: " + e);
+                logger.debug("fetchNotifs", "Notificbtion " +
+                        tn.getNotificbtion() + " not forwbrded: " +
+                        "got bn unexpected exception: " + e);
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Iterate until we extract the real exception
-     * from a stack of PrivilegedActionExceptions.
+     * Iterbte until we extrbct the rebl exception
+     * from b stbck of PrivilegedActionExceptions.
      */
-    private static Exception extractException(Exception e) {
-        while (e instanceof PrivilegedActionException) {
+    privbte stbtic Exception extrbctException(Exception e) {
+        while (e instbnceof PrivilegedActionException) {
             e = ((PrivilegedActionException)e).getException();
         }
         return e;
     }
 
-    private static class IdAndFilter {
-        private Integer id;
-        private NotificationFilter filter;
+    privbte stbtic clbss IdAndFilter {
+        privbte Integer id;
+        privbte NotificbtionFilter filter;
 
-        IdAndFilter(Integer id, NotificationFilter filter) {
+        IdAndFilter(Integer id, NotificbtionFilter filter) {
             this.id = id;
             this.filter = filter;
         }
@@ -457,19 +457,19 @@ public class ServerNotifForwarder {
             return this.id;
         }
 
-        NotificationFilter getFilter() {
+        NotificbtionFilter getFilter() {
             return this.filter;
         }
 
         @Override
-        public int hashCode() {
-            return id.hashCode();
+        public int hbshCode() {
+            return id.hbshCode();
         }
 
         @Override
-        public boolean equals(Object o) {
-            return ((o instanceof IdAndFilter) &&
-                    ((IdAndFilter) o).getId().equals(getId()));
+        public boolebn equbls(Object o) {
+            return ((o instbnceof IdAndFilter) &&
+                    ((IdAndFilter) o).getId().equbls(getId()));
         }
     }
 
@@ -478,29 +478,29 @@ public class ServerNotifForwarder {
     // PRIVATE VARIABLES
     //------------------
 
-    private MBeanServer mbeanServer;
+    privbte MBebnServer mbebnServer;
 
-    private final String connectionId;
+    privbte finbl String connectionId;
 
-    private final long connectionTimeout;
+    privbte finbl long connectionTimeout;
 
-    private static int listenerCounter = 0;
-    private final static int[] listenerCounterLock = new int[0];
+    privbte stbtic int listenerCounter = 0;
+    privbte finbl stbtic int[] listenerCounterLock = new int[0];
 
-    private NotificationBuffer notifBuffer;
-    private final Map<ObjectName, Set<IdAndFilter>> listenerMap =
-            new HashMap<ObjectName, Set<IdAndFilter>>();
+    privbte NotificbtionBuffer notifBuffer;
+    privbte finbl Mbp<ObjectNbme, Set<IdAndFilter>> listenerMbp =
+            new HbshMbp<ObjectNbme, Set<IdAndFilter>>();
 
-    private boolean terminated = false;
-    private final int[] terminationLock = new int[0];
+    privbte boolebn terminbted = fblse;
+    privbte finbl int[] terminbtionLock = new int[0];
 
-    static final String broadcasterClass =
-        NotificationBroadcaster.class.getName();
+    stbtic finbl String brobdcbsterClbss =
+        NotificbtionBrobdcbster.clbss.getNbme();
 
-    private final boolean checkNotificationEmission;
+    privbte finbl boolebn checkNotificbtionEmission;
 
-    private final NotificationAccessController notificationAccessController;
+    privbte finbl NotificbtionAccessController notificbtionAccessController;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "ServerNotifForwarder");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc", "ServerNotifForwbrder");
 }

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * Implements abstract X window property caching mechanism.  The
- * caching is performed using storeCache method, the cached data can
- * be retrieved using getCacheEntry method.
+ * Implements bbstrbct X window property cbching mechbnism.  The
+ * cbching is performed using storeCbche method, the cbched dbtb cbn
+ * be retrieved using getCbcheEntry method.
  *
- * NOTE: current caching is disabled because of the big variate of
- * uncovered access to properties/changes of properties.  Once the
- * access to properites is rewritten using general mechanisms, caching
- * will be enabled.
+ * NOTE: current cbching is disbbled becbuse of the big vbribte of
+ * uncovered bccess to properties/chbnges of properties.  Once the
+ * bccess to properites is rewritten using generbl mechbnisms, cbching
+ * will be enbbled.
  */
-public class XPropertyCache {
+public clbss XPropertyCbche {
 
-    static class PropertyCacheEntry {
-        private final int format;
-        private final int numberOfItems;
-        private final long bytesAfter;
-        private final long data;
-        private final int dataLength;
-        public PropertyCacheEntry(int format, int numberOfItems, long bytesAfter, long data, int dataLength) {
-            this.format = format;
+    stbtic clbss PropertyCbcheEntry {
+        privbte finbl int formbt;
+        privbte finbl int numberOfItems;
+        privbte finbl long bytesAfter;
+        privbte finbl long dbtb;
+        privbte finbl int dbtbLength;
+        public PropertyCbcheEntry(int formbt, int numberOfItems, long bytesAfter, long dbtb, int dbtbLength) {
+            this.formbt = formbt;
             this.numberOfItems = numberOfItems;
             this.bytesAfter = bytesAfter;
-            this.data = XlibWrapper.unsafe.allocateMemory(dataLength);
-            this.dataLength = dataLength;
-            XlibWrapper.memcpy(this.data, data, dataLength);
+            this.dbtb = XlibWrbpper.unsbfe.bllocbteMemory(dbtbLength);
+            this.dbtbLength = dbtbLength;
+            XlibWrbpper.memcpy(this.dbtb, dbtb, dbtbLength);
         }
 
-        public int getFormat() {
-            return format;
+        public int getFormbt() {
+            return formbt;
         }
 
         public int getNumberOfItems() {
@@ -66,57 +66,57 @@ public class XPropertyCache {
             return bytesAfter;
         }
 
-        public long getData() {
-            return data;
+        public long getDbtb() {
+            return dbtb;
         }
 
-        public int getDataLength() {
-            return dataLength;
+        public int getDbtbLength() {
+            return dbtbLength;
         }
     }
 
-    private static Map<Long, Map<XAtom, PropertyCacheEntry>> windowToMap = new HashMap<Long, Map<XAtom, PropertyCacheEntry>>();
+    privbte stbtic Mbp<Long, Mbp<XAtom, PropertyCbcheEntry>> windowToMbp = new HbshMbp<Long, Mbp<XAtom, PropertyCbcheEntry>>();
 
-    public static boolean isCached(long window, XAtom property) {
-        Map<XAtom, PropertyCacheEntry> entryMap = windowToMap.get(window);
-        if (entryMap != null) {
-            return entryMap.containsKey(property);
+    public stbtic boolebn isCbched(long window, XAtom property) {
+        Mbp<XAtom, PropertyCbcheEntry> entryMbp = windowToMbp.get(window);
+        if (entryMbp != null) {
+            return entryMbp.contbinsKey(property);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public static PropertyCacheEntry getCacheEntry(long window, XAtom property) {
-        Map<XAtom, PropertyCacheEntry> entryMap = windowToMap.get(window);
-        if (entryMap != null) {
-            return entryMap.get(property);
+    public stbtic PropertyCbcheEntry getCbcheEntry(long window, XAtom property) {
+        Mbp<XAtom, PropertyCbcheEntry> entryMbp = windowToMbp.get(window);
+        if (entryMbp != null) {
+            return entryMbp.get(property);
         } else {
             return null;
         }
     }
 
-    public static void storeCache(PropertyCacheEntry entry, long window, XAtom property) {
-        Map<XAtom, PropertyCacheEntry> entryMap = windowToMap.get(window);
-        if (entryMap == null) {
-            entryMap = new HashMap<XAtom, PropertyCacheEntry>();
-            windowToMap.put(window, entryMap);
+    public stbtic void storeCbche(PropertyCbcheEntry entry, long window, XAtom property) {
+        Mbp<XAtom, PropertyCbcheEntry> entryMbp = windowToMbp.get(window);
+        if (entryMbp == null) {
+            entryMbp = new HbshMbp<XAtom, PropertyCbcheEntry>();
+            windowToMbp.put(window, entryMbp);
         }
-        entryMap.put(property, entry);
+        entryMbp.put(property, entry);
     }
 
-    public static void clearCache(long window) {
-        windowToMap.remove(window);
+    public stbtic void clebrCbche(long window) {
+        windowToMbp.remove(window);
     }
 
-    public static void clearCache(long window, XAtom property) {
-        Map<XAtom, PropertyCacheEntry> entryMap = windowToMap.get(window);
-        if (entryMap != null) {
-            entryMap.remove(property);
+    public stbtic void clebrCbche(long window, XAtom property) {
+        Mbp<XAtom, PropertyCbcheEntry> entryMbp = windowToMbp.get(window);
+        if (entryMbp != null) {
+            entryMbp.remove(property);
         }
     }
 
-    public static boolean isCachingSupported() {
+    public stbtic boolebn isCbchingSupported() {
         // Currently - unsupported
-        return false;
+        return fblse;
     }
 }

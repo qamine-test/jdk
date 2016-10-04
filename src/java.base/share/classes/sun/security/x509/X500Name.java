@@ -1,754 +1,754 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.lang.reflect.*;
-import java.io.IOException;
-import java.security.PrivilegedExceptionAction;
-import java.security.AccessController;
-import java.security.Principal;
-import java.util.*;
+import jbvb.lbng.reflect.*;
+import jbvb.io.IOException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.AccessController;
+import jbvb.security.Principbl;
+import jbvb.util.*;
 
 import sun.security.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 /**
- * Note:  As of 1.4, the public class,
- * javax.security.auth.x500.X500Principal,
- * should be used when parsing, generating, and comparing X.500 DNs.
- * This class contains other useful methods for checking name constraints
- * and retrieving DNs by keyword.
+ * Note:  As of 1.4, the public clbss,
+ * jbvbx.security.buth.x500.X500Principbl,
+ * should be used when pbrsing, generbting, bnd compbring X.500 DNs.
+ * This clbss contbins other useful methods for checking nbme constrbints
+ * bnd retrieving DNs by keyword.
  *
- * <p> X.500 names are used to identify entities, such as those which are
- * identified by X.509 certificates.  They are world-wide, hierarchical,
- * and descriptive.  Entities can be identified by attributes, and in
- * some systems can be searched for according to those attributes.
+ * <p> X.500 nbmes bre used to identify entities, such bs those which bre
+ * identified by X.509 certificbtes.  They bre world-wide, hierbrchicbl,
+ * bnd descriptive.  Entities cbn be identified by bttributes, bnd in
+ * some systems cbn be sebrched for bccording to those bttributes.
  * <p>
  * The ASN.1 for this is:
  * <pre>
- * GeneralName ::= CHOICE {
+ * GenerblNbme ::= CHOICE {
  * ....
- *     directoryName                   [4]     Name,
+ *     directoryNbme                   [4]     Nbme,
  * ....
- * Name ::= CHOICE {
+ * Nbme ::= CHOICE {
  *   RDNSequence }
  *
- * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ * RDNSequence ::= SEQUENCE OF RelbtiveDistinguishedNbme
  *
- * RelativeDistinguishedName ::=
- *   SET OF AttributeTypeAndValue
+ * RelbtiveDistinguishedNbme ::=
+ *   SET OF AttributeTypeAndVblue
  *
- * AttributeTypeAndValue ::= SEQUENCE {
+ * AttributeTypeAndVblue ::= SEQUENCE {
  *   type     AttributeType,
- *   value    AttributeValue }
+ *   vblue    AttributeVblue }
  *
  * AttributeType ::= OBJECT IDENTIFIER
  *
- * AttributeValue ::= ANY DEFINED BY AttributeType
+ * AttributeVblue ::= ANY DEFINED BY AttributeType
  * ....
  * DirectoryString ::= CHOICE {
  *       teletexString           TeletexString (SIZE (1..MAX)),
- *       printableString         PrintableString (SIZE (1..MAX)),
- *       universalString         UniversalString (SIZE (1..MAX)),
+ *       printbbleString         PrintbbleString (SIZE (1..MAX)),
+ *       universblString         UniversblString (SIZE (1..MAX)),
  *       utf8String              UTF8String (SIZE (1.. MAX)),
  *       bmpString               BMPString (SIZE (1..MAX)) }
  * </pre>
  * <p>
- * This specification requires only a subset of the name comparison
- * functionality specified in the X.500 series of specifications.  The
- * requirements for conforming implementations are as follows:
- * <ol TYPE=a>
- * <li>attribute values encoded in different types (e.g.,
- *    PrintableString and BMPString) may be assumed to represent
+ * This specificbtion requires only b subset of the nbme compbrison
+ * functionblity specified in the X.500 series of specificbtions.  The
+ * requirements for conforming implementbtions bre bs follows:
+ * <ol TYPE=b>
+ * <li>bttribute vblues encoded in different types (e.g.,
+ *    PrintbbleString bnd BMPString) mby be bssumed to represent
  *    different strings;
  * <p>
- * <li>attribute values in types other than PrintableString are case
- *    sensitive (this permits matching of attribute values as binary
+ * <li>bttribute vblues in types other thbn PrintbbleString bre cbse
+ *    sensitive (this permits mbtching of bttribute vblues bs binbry
  *    objects);
  * <p>
- * <li>attribute values in PrintableString are not case sensitive
- *    (e.g., "Marianne Swanson" is the same as "MARIANNE SWANSON"); and
+ * <li>bttribute vblues in PrintbbleString bre not cbse sensitive
+ *    (e.g., "Mbribnne Swbnson" is the sbme bs "MARIANNE SWANSON"); bnd
  * <p>
- * <li>attribute values in PrintableString are compared after
- *    removing leading and trailing white space and converting internal
- *    substrings of one or more consecutive white space characters to a
- *    single space.
+ * <li>bttribute vblues in PrintbbleString bre compbred bfter
+ *    removing lebding bnd trbiling white spbce bnd converting internbl
+ *    substrings of one or more consecutive white spbce chbrbcters to b
+ *    single spbce.
  * </ol>
  * <p>
- * These name comparison rules permit a certificate user to validate
- * certificates issued using languages or encodings unfamiliar to the
- * certificate user.
+ * These nbme compbrison rules permit b certificbte user to vblidbte
+ * certificbtes issued using lbngubges or encodings unfbmilibr to the
+ * certificbte user.
  * <p>
- * In addition, implementations of this specification MAY use these
- * comparison rules to process unfamiliar attribute types for name
- * chaining. This allows implementations to process certificates with
- * unfamiliar attributes in the issuer name.
+ * In bddition, implementbtions of this specificbtion MAY use these
+ * compbrison rules to process unfbmilibr bttribute types for nbme
+ * chbining. This bllows implementbtions to process certificbtes with
+ * unfbmilibr bttributes in the issuer nbme.
  * <p>
- * Note that the comparison rules defined in the X.500 series of
- * specifications indicate that the character sets used to encode data
- * in distinguished names are irrelevant.  The characters themselves are
- * compared without regard to encoding. Implementations of the profile
- * are permitted to use the comparison algorithm defined in the X.500
- * series.  Such an implementation will recognize a superset of name
- * matches recognized by the algorithm specified above.
+ * Note thbt the compbrison rules defined in the X.500 series of
+ * specificbtions indicbte thbt the chbrbcter sets used to encode dbtb
+ * in distinguished nbmes bre irrelevbnt.  The chbrbcters themselves bre
+ * compbred without regbrd to encoding. Implementbtions of the profile
+ * bre permitted to use the compbrison blgorithm defined in the X.500
+ * series.  Such bn implementbtion will recognize b superset of nbme
+ * mbtches recognized by the blgorithm specified bbove.
  * <p>
- * Note that instances of this class are immutable.
+ * Note thbt instbnces of this clbss bre immutbble.
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
+ * @see GenerblNbme
+ * @see GenerblNbmes
+ * @see GenerblNbmeInterfbce
  */
 
-public class X500Name implements GeneralNameInterface, Principal {
+public clbss X500Nbme implements GenerblNbmeInterfbce, Principbl {
 
-    private String dn; // roughly RFC 1779 DN, or null
-    private String rfc1779Dn; // RFC 1779 compliant DN, or null
-    private String rfc2253Dn; // RFC 2253 DN, or null
-    private String canonicalDn; // canonical RFC 2253 DN or null
-    private RDN[] names;        // RDNs (never null)
-    private X500Principal x500Principal;
-    private byte[] encoded;
+    privbte String dn; // roughly RFC 1779 DN, or null
+    privbte String rfc1779Dn; // RFC 1779 complibnt DN, or null
+    privbte String rfc2253Dn; // RFC 2253 DN, or null
+    privbte String cbnonicblDn; // cbnonicbl RFC 2253 DN or null
+    privbte RDN[] nbmes;        // RDNs (never null)
+    privbte X500Principbl x500Principbl;
+    privbte byte[] encoded;
 
-    // cached immutable list of the RDNs and all the AVAs
-    private volatile List<RDN> rdnList;
-    private volatile List<AVA> allAvaList;
+    // cbched immutbble list of the RDNs bnd bll the AVAs
+    privbte volbtile List<RDN> rdnList;
+    privbte volbtile List<AVA> bllAvbList;
 
     /**
-     * Constructs a name from a conventionally formatted string, such
-     * as "CN=Dave, OU=JavaSoft, O=Sun Microsystems, C=US".
+     * Constructs b nbme from b conventionblly formbtted string, such
+     * bs "CN=Dbve, OU=JbvbSoft, O=Sun Microsystems, C=US".
      * (RFC 1779, 2253, or 4514 style).
      *
-     * @param dname the X.500 Distinguished Name
+     * @pbrbm dnbme the X.500 Distinguished Nbme
      */
-    public X500Name(String dname) throws IOException {
-        this(dname, Collections.<String, String>emptyMap());
+    public X500Nbme(String dnbme) throws IOException {
+        this(dnbme, Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Constructs a name from a conventionally formatted string, such
-     * as "CN=Dave, OU=JavaSoft, O=Sun Microsystems, C=US".
+     * Constructs b nbme from b conventionblly formbtted string, such
+     * bs "CN=Dbve, OU=JbvbSoft, O=Sun Microsystems, C=US".
      * (RFC 1779, 2253, or 4514 style).
      *
-     * @param dname the X.500 Distinguished Name
-     * @param keywordMap an additional keyword/OID map
+     * @pbrbm dnbme the X.500 Distinguished Nbme
+     * @pbrbm keywordMbp bn bdditionbl keyword/OID mbp
      */
-    public X500Name(String dname, Map<String, String> keywordMap)
+    public X500Nbme(String dnbme, Mbp<String, String> keywordMbp)
         throws IOException {
-        parseDN(dname, keywordMap);
+        pbrseDN(dnbme, keywordMbp);
     }
 
     /**
-     * Constructs a name from a string formatted according to format.
-     * Currently, the formats DEFAULT and RFC2253 are supported.
-     * DEFAULT is the default format used by the X500Name(String)
-     * constructor. RFC2253 is the format strictly according to RFC2253
+     * Constructs b nbme from b string formbtted bccording to formbt.
+     * Currently, the formbts DEFAULT bnd RFC2253 bre supported.
+     * DEFAULT is the defbult formbt used by the X500Nbme(String)
+     * constructor. RFC2253 is the formbt strictly bccording to RFC2253
      * without extensions.
      *
-     * @param dname the X.500 Distinguished Name
-     * @param format the specified format of the String DN
+     * @pbrbm dnbme the X.500 Distinguished Nbme
+     * @pbrbm formbt the specified formbt of the String DN
      */
-    public X500Name(String dname, String format) throws IOException {
-        if (dname == null) {
-            throw new NullPointerException("Name must not be null");
+    public X500Nbme(String dnbme, String formbt) throws IOException {
+        if (dnbme == null) {
+            throw new NullPointerException("Nbme must not be null");
         }
-        if (format.equalsIgnoreCase("RFC2253")) {
-            parseRFC2253DN(dname);
-        } else if (format.equalsIgnoreCase("DEFAULT")) {
-            parseDN(dname, Collections.<String, String>emptyMap());
+        if (formbt.equblsIgnoreCbse("RFC2253")) {
+            pbrseRFC2253DN(dnbme);
+        } else if (formbt.equblsIgnoreCbse("DEFAULT")) {
+            pbrseDN(dnbme, Collections.<String, String>emptyMbp());
         } else {
-            throw new IOException("Unsupported format " + format);
+            throw new IOException("Unsupported formbt " + formbt);
         }
     }
 
     /**
-     * Constructs a name from fields common in enterprise application
+     * Constructs b nbme from fields common in enterprise bpplicbtion
      * environments.
      *
-     * <P><EM><STRONG>NOTE:</STRONG>  The behaviour when any of
-     * these strings contain characters outside the ASCII range
-     * is unspecified in currently relevant standards.</EM>
+     * <P><EM><STRONG>NOTE:</STRONG>  The behbviour when bny of
+     * these strings contbin chbrbcters outside the ASCII rbnge
+     * is unspecified in currently relevbnt stbndbrds.</EM>
      *
-     * @param commonName common name of a person, e.g. "Vivette Davis"
-     * @param organizationUnit small organization name, e.g. "Purchasing"
-     * @param organizationName large organization name, e.g. "Onizuka, Inc."
-     * @param country two letter country code, e.g. "CH"
+     * @pbrbm commonNbme common nbme of b person, e.g. "Vivette Dbvis"
+     * @pbrbm orgbnizbtionUnit smbll orgbnizbtion nbme, e.g. "Purchbsing"
+     * @pbrbm orgbnizbtionNbme lbrge orgbnizbtion nbme, e.g. "Onizukb, Inc."
+     * @pbrbm country two letter country code, e.g. "CH"
      */
-    public X500Name(String commonName, String organizationUnit,
-                     String organizationName, String country)
+    public X500Nbme(String commonNbme, String orgbnizbtionUnit,
+                     String orgbnizbtionNbme, String country)
     throws IOException {
-        names = new RDN[4];
+        nbmes = new RDN[4];
         /*
-         * NOTE:  it's only on output that little-endian
+         * NOTE:  it's only on output thbt little-endibn
          * ordering is used.
          */
-        names[3] = new RDN(1);
-        names[3].assertion[0] = new AVA(commonName_oid,
-                new DerValue(commonName));
-        names[2] = new RDN(1);
-        names[2].assertion[0] = new AVA(orgUnitName_oid,
-                new DerValue(organizationUnit));
-        names[1] = new RDN(1);
-        names[1].assertion[0] = new AVA(orgName_oid,
-                new DerValue(organizationName));
-        names[0] = new RDN(1);
-        names[0].assertion[0] = new AVA(countryName_oid,
-                new DerValue(country));
+        nbmes[3] = new RDN(1);
+        nbmes[3].bssertion[0] = new AVA(commonNbme_oid,
+                new DerVblue(commonNbme));
+        nbmes[2] = new RDN(1);
+        nbmes[2].bssertion[0] = new AVA(orgUnitNbme_oid,
+                new DerVblue(orgbnizbtionUnit));
+        nbmes[1] = new RDN(1);
+        nbmes[1].bssertion[0] = new AVA(orgNbme_oid,
+                new DerVblue(orgbnizbtionNbme));
+        nbmes[0] = new RDN(1);
+        nbmes[0].bssertion[0] = new AVA(countryNbme_oid,
+                new DerVblue(country));
     }
 
     /**
-     * Constructs a name from fields common in Internet application
+     * Constructs b nbme from fields common in Internet bpplicbtion
      * environments.
      *
-     * <P><EM><STRONG>NOTE:</STRONG>  The behaviour when any of
-     * these strings contain characters outside the ASCII range
-     * is unspecified in currently relevant standards.</EM>
+     * <P><EM><STRONG>NOTE:</STRONG>  The behbviour when bny of
+     * these strings contbin chbrbcters outside the ASCII rbnge
+     * is unspecified in currently relevbnt stbndbrds.</EM>
      *
-     * @param commonName common name of a person, e.g. "Vivette Davis"
-     * @param organizationUnit small organization name, e.g. "Purchasing"
-     * @param organizationName large organization name, e.g. "Onizuka, Inc."
-     * @param localityName locality (city) name, e.g. "Palo Alto"
-     * @param stateName state name, e.g. "California"
-     * @param country two letter country code, e.g. "CH"
+     * @pbrbm commonNbme common nbme of b person, e.g. "Vivette Dbvis"
+     * @pbrbm orgbnizbtionUnit smbll orgbnizbtion nbme, e.g. "Purchbsing"
+     * @pbrbm orgbnizbtionNbme lbrge orgbnizbtion nbme, e.g. "Onizukb, Inc."
+     * @pbrbm locblityNbme locblity (city) nbme, e.g. "Pblo Alto"
+     * @pbrbm stbteNbme stbte nbme, e.g. "Cblifornib"
+     * @pbrbm country two letter country code, e.g. "CH"
      */
-    public X500Name(String commonName, String organizationUnit,
-                    String organizationName, String localityName,
-                    String stateName, String country)
+    public X500Nbme(String commonNbme, String orgbnizbtionUnit,
+                    String orgbnizbtionNbme, String locblityNbme,
+                    String stbteNbme, String country)
     throws IOException {
-        names = new RDN[6];
+        nbmes = new RDN[6];
         /*
-         * NOTE:  it's only on output that little-endian
+         * NOTE:  it's only on output thbt little-endibn
          * ordering is used.
          */
-        names[5] = new RDN(1);
-        names[5].assertion[0] = new AVA(commonName_oid,
-                new DerValue(commonName));
-        names[4] = new RDN(1);
-        names[4].assertion[0] = new AVA(orgUnitName_oid,
-                new DerValue(organizationUnit));
-        names[3] = new RDN(1);
-        names[3].assertion[0] = new AVA(orgName_oid,
-                new DerValue(organizationName));
-        names[2] = new RDN(1);
-        names[2].assertion[0] = new AVA(localityName_oid,
-                new DerValue(localityName));
-        names[1] = new RDN(1);
-        names[1].assertion[0] = new AVA(stateName_oid,
-                new DerValue(stateName));
-        names[0] = new RDN(1);
-        names[0].assertion[0] = new AVA(countryName_oid,
-                new DerValue(country));
+        nbmes[5] = new RDN(1);
+        nbmes[5].bssertion[0] = new AVA(commonNbme_oid,
+                new DerVblue(commonNbme));
+        nbmes[4] = new RDN(1);
+        nbmes[4].bssertion[0] = new AVA(orgUnitNbme_oid,
+                new DerVblue(orgbnizbtionUnit));
+        nbmes[3] = new RDN(1);
+        nbmes[3].bssertion[0] = new AVA(orgNbme_oid,
+                new DerVblue(orgbnizbtionNbme));
+        nbmes[2] = new RDN(1);
+        nbmes[2].bssertion[0] = new AVA(locblityNbme_oid,
+                new DerVblue(locblityNbme));
+        nbmes[1] = new RDN(1);
+        nbmes[1].bssertion[0] = new AVA(stbteNbme_oid,
+                new DerVblue(stbteNbme));
+        nbmes[0] = new RDN(1);
+        nbmes[0].bssertion[0] = new AVA(countryNbme_oid,
+                new DerVblue(country));
     }
 
     /**
-     * Constructs a name from an array of relative distinguished names
+     * Constructs b nbme from bn brrby of relbtive distinguished nbmes
      *
-     * @param rdnArray array of relative distinguished names
+     * @pbrbm rdnArrby brrby of relbtive distinguished nbmes
      * @throws IOException on error
      */
-    public X500Name(RDN[] rdnArray) throws IOException {
-        if (rdnArray == null) {
-            names = new RDN[0];
+    public X500Nbme(RDN[] rdnArrby) throws IOException {
+        if (rdnArrby == null) {
+            nbmes = new RDN[0];
         } else {
-            names = rdnArray.clone();
-            for (int i = 0; i < names.length; i++) {
-                if (names[i] == null) {
-                    throw new IOException("Cannot create an X500Name");
+            nbmes = rdnArrby.clone();
+            for (int i = 0; i < nbmes.length; i++) {
+                if (nbmes[i] == null) {
+                    throw new IOException("Cbnnot crebte bn X500Nbme");
                 }
             }
         }
     }
 
     /**
-     * Constructs a name from an ASN.1 encoded value.  The encoding
-     * of the name in the stream uses DER (a BER/1 subset).
+     * Constructs b nbme from bn ASN.1 encoded vblue.  The encoding
+     * of the nbme in the strebm uses DER (b BER/1 subset).
      *
-     * @param value a DER-encoded value holding an X.500 name.
+     * @pbrbm vblue b DER-encoded vblue holding bn X.500 nbme.
      */
-    public X500Name(DerValue value) throws IOException {
-        //Note that toDerInputStream uses only the buffer (data) and not
-        //the tag, so an empty SEQUENCE (OF) will yield an empty DerInputStream
-        this(value.toDerInputStream());
+    public X500Nbme(DerVblue vblue) throws IOException {
+        //Note thbt toDerInputStrebm uses only the buffer (dbtb) bnd not
+        //the tbg, so bn empty SEQUENCE (OF) will yield bn empty DerInputStrebm
+        this(vblue.toDerInputStrebm());
     }
 
     /**
-     * Constructs a name from an ASN.1 encoded input stream.  The encoding
-     * of the name in the stream uses DER (a BER/1 subset).
+     * Constructs b nbme from bn ASN.1 encoded input strebm.  The encoding
+     * of the nbme in the strebm uses DER (b BER/1 subset).
      *
-     * @param in DER-encoded data holding an X.500 name.
+     * @pbrbm in DER-encoded dbtb holding bn X.500 nbme.
      */
-    public X500Name(DerInputStream in) throws IOException {
-        parseDER(in);
+    public X500Nbme(DerInputStrebm in) throws IOException {
+        pbrseDER(in);
     }
 
     /**
-     *  Constructs a name from an ASN.1 encoded byte array.
+     *  Constructs b nbme from bn ASN.1 encoded byte brrby.
      *
-     * @param name DER-encoded byte array holding an X.500 name.
+     * @pbrbm nbme DER-encoded byte brrby holding bn X.500 nbme.
      */
-    public X500Name(byte[] name) throws IOException {
-        DerInputStream in = new DerInputStream(name);
-        parseDER(in);
+    public X500Nbme(byte[] nbme) throws IOException {
+        DerInputStrebm in = new DerInputStrebm(nbme);
+        pbrseDER(in);
     }
 
     /**
-     * Return an immutable List of all RDNs in this X500Name.
+     * Return bn immutbble List of bll RDNs in this X500Nbme.
      */
     public List<RDN> rdns() {
         List<RDN> list = rdnList;
         if (list == null) {
-            list = Collections.unmodifiableList(Arrays.asList(names));
+            list = Collections.unmodifibbleList(Arrbys.bsList(nbmes));
             rdnList = list;
         }
         return list;
     }
 
     /**
-     * Return the number of RDNs in this X500Name.
+     * Return the number of RDNs in this X500Nbme.
      */
     public int size() {
-        return names.length;
+        return nbmes.length;
     }
 
     /**
-     * Return an immutable List of the the AVAs contained in all the
-     * RDNs of this X500Name.
+     * Return bn immutbble List of the the AVAs contbined in bll the
+     * RDNs of this X500Nbme.
      */
-    public List<AVA> allAvas() {
-        List<AVA> list = allAvaList;
+    public List<AVA> bllAvbs() {
+        List<AVA> list = bllAvbList;
         if (list == null) {
-            list = new ArrayList<AVA>();
-            for (int i = 0; i < names.length; i++) {
-                list.addAll(names[i].avas());
+            list = new ArrbyList<AVA>();
+            for (int i = 0; i < nbmes.length; i++) {
+                list.bddAll(nbmes[i].bvbs());
             }
         }
         return list;
     }
 
     /**
-     * Return the total number of AVAs contained in all the RDNs of
-     * this X500Name.
+     * Return the totbl number of AVAs contbined in bll the RDNs of
+     * this X500Nbme.
      */
-    public int avaSize() {
-        return allAvas().size();
+    public int bvbSize() {
+        return bllAvbs().size();
     }
 
     /**
-     * Return whether this X500Name is empty. An X500Name is not empty
-     * if it has at least one RDN containing at least one AVA.
+     * Return whether this X500Nbme is empty. An X500Nbme is not empty
+     * if it hbs bt lebst one RDN contbining bt lebst one AVA.
      */
-    public boolean isEmpty() {
-        int n = names.length;
+    public boolebn isEmpty() {
+        int n = nbmes.length;
         if (n == 0) {
             return true;
         }
         for (int i = 0; i < n; i++) {
-            if (names[i].assertion.length != 0) {
-                return false;
+            if (nbmes[i].bssertion.length != 0) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Calculates a hash code value for the object.  Objects
-     * which are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.  Objects
+     * which bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        return getRFC2253CanonicalName().hashCode();
+    public int hbshCode() {
+        return getRFC2253CbnonicblNbme().hbshCode();
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbres this nbme with bnother, for equblity.
      *
-     * @return true iff the names are identical.
+     * @return true iff the nbmes bre identicbl.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof X500Name == false) {
-            return false;
+        if (obj instbnceof X500Nbme == fblse) {
+            return fblse;
         }
-        X500Name other = (X500Name)obj;
-        // if we already have the canonical forms, compare now
-        if ((this.canonicalDn != null) && (other.canonicalDn != null)) {
-            return this.canonicalDn.equals(other.canonicalDn);
+        X500Nbme other = (X500Nbme)obj;
+        // if we blrebdy hbve the cbnonicbl forms, compbre now
+        if ((this.cbnonicblDn != null) && (other.cbnonicblDn != null)) {
+            return this.cbnonicblDn.equbls(other.cbnonicblDn);
         }
-        // quick check that number of RDNs and AVAs match before canonicalizing
-        int n = this.names.length;
-        if (n != other.names.length) {
-            return false;
+        // quick check thbt number of RDNs bnd AVAs mbtch before cbnonicblizing
+        int n = this.nbmes.length;
+        if (n != other.nbmes.length) {
+            return fblse;
         }
         for (int i = 0; i < n; i++) {
-            RDN r1 = this.names[i];
-            RDN r2 = other.names[i];
-            if (r1.assertion.length != r2.assertion.length) {
-                return false;
+            RDN r1 = this.nbmes[i];
+            RDN r2 = other.nbmes[i];
+            if (r1.bssertion.length != r2.bssertion.length) {
+                return fblse;
             }
         }
-        // definite check via canonical form
-        String thisCanonical = this.getRFC2253CanonicalName();
-        String otherCanonical = other.getRFC2253CanonicalName();
-        return thisCanonical.equals(otherCanonical);
+        // definite check vib cbnonicbl form
+        String thisCbnonicbl = this.getRFC2253CbnonicblNbme();
+        String otherCbnonicbl = other.getRFC2253CbnonicblNbme();
+        return thisCbnonicbl.equbls(otherCbnonicbl);
     }
 
     /*
-     * Returns the name component as a Java string, regardless of its
+     * Returns the nbme component bs b Jbvb string, regbrdless of its
      * encoding restrictions.
      */
-    private String getString(DerValue attribute) throws IOException {
-        if (attribute == null)
+    privbte String getString(DerVblue bttribute) throws IOException {
+        if (bttribute == null)
             return null;
-        String  value = attribute.getAsString();
+        String  vblue = bttribute.getAsString();
 
-        if (value == null)
-            throw new IOException("not a DER string encoding, "
-                    + attribute.tag);
+        if (vblue == null)
+            throw new IOException("not b DER string encoding, "
+                    + bttribute.tbg);
         else
-            return value;
+            return vblue;
     }
 
     /**
-     * Return type of GeneralName.
+     * Return type of GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_DIRECTORY);
+        return (GenerblNbmeInterfbce.NAME_DIRECTORY);
     }
 
     /**
-     * Returns a "Country" name component.  If more than one
-     * such attribute exists, the topmost one is returned.
+     * Returns b "Country" nbme component.  If more thbn one
+     * such bttribute exists, the topmost one is returned.
      *
-     * @return "C=" component of the name, if any.
+     * @return "C=" component of the nbme, if bny.
      */
     public String getCountry() throws IOException {
-        DerValue attr = findAttribute(countryName_oid);
+        DerVblue bttr = findAttribute(countryNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
 
     /**
-     * Returns an "Organization" name component.  If more than
-     * one such attribute exists, the topmost one is returned.
+     * Returns bn "Orgbnizbtion" nbme component.  If more thbn
+     * one such bttribute exists, the topmost one is returned.
      *
-     * @return "O=" component of the name, if any.
+     * @return "O=" component of the nbme, if bny.
      */
-    public String getOrganization() throws IOException {
-        DerValue attr = findAttribute(orgName_oid);
+    public String getOrgbnizbtion() throws IOException {
+        DerVblue bttr = findAttribute(orgNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
 
     /**
-     * Returns an "Organizational Unit" name component.  If more
-     * than one such attribute exists, the topmost one is returned.
+     * Returns bn "Orgbnizbtionbl Unit" nbme component.  If more
+     * thbn one such bttribute exists, the topmost one is returned.
      *
-     * @return "OU=" component of the name, if any.
+     * @return "OU=" component of the nbme, if bny.
      */
-    public String getOrganizationalUnit() throws IOException {
-        DerValue attr = findAttribute(orgUnitName_oid);
+    public String getOrgbnizbtionblUnit() throws IOException {
+        DerVblue bttr = findAttribute(orgUnitNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
 
     /**
-     * Returns a "Common Name" component.  If more than one such
-     * attribute exists, the topmost one is returned.
+     * Returns b "Common Nbme" component.  If more thbn one such
+     * bttribute exists, the topmost one is returned.
      *
-     * @return "CN=" component of the name, if any.
+     * @return "CN=" component of the nbme, if bny.
      */
-    public String getCommonName() throws IOException {
-        DerValue attr = findAttribute(commonName_oid);
+    public String getCommonNbme() throws IOException {
+        DerVblue bttr = findAttribute(commonNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
 
     /**
-     * Returns a "Locality" name component.  If more than one
+     * Returns b "Locblity" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "L=" component of the name, if any.
+     * @return "L=" component of the nbme, if bny.
      */
-    public String getLocality() throws IOException {
-        DerValue attr = findAttribute(localityName_oid);
+    public String getLocblity() throws IOException {
+        DerVblue bttr = findAttribute(locblityNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a "State" name component.  If more than one
+     * Returns b "Stbte" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "S=" component of the name, if any.
+     * @return "S=" component of the nbme, if bny.
      */
-    public String getState() throws IOException {
-      DerValue attr = findAttribute(stateName_oid);
+    public String getStbte() throws IOException {
+      DerVblue bttr = findAttribute(stbteNbme_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a "Domain" name component.  If more than one
+     * Returns b "Dombin" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "DC=" component of the name, if any.
+     * @return "DC=" component of the nbme, if bny.
      */
-    public String getDomain() throws IOException {
-        DerValue attr = findAttribute(DOMAIN_COMPONENT_OID);
+    public String getDombin() throws IOException {
+        DerVblue bttr = findAttribute(DOMAIN_COMPONENT_OID);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a "DN Qualifier" name component.  If more than one
+     * Returns b "DN Qublifier" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "DNQ=" component of the name, if any.
+     * @return "DNQ=" component of the nbme, if bny.
      */
-    public String getDNQualifier() throws IOException {
-        DerValue attr = findAttribute(DNQUALIFIER_OID);
+    public String getDNQublifier() throws IOException {
+        DerVblue bttr = findAttribute(DNQUALIFIER_OID);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a "Surname" name component.  If more than one
+     * Returns b "Surnbme" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "SURNAME=" component of the name, if any.
+     * @return "SURNAME=" component of the nbme, if bny.
      */
-    public String getSurname() throws IOException {
-        DerValue attr = findAttribute(SURNAME_OID);
+    public String getSurnbme() throws IOException {
+        DerVblue bttr = findAttribute(SURNAME_OID);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a "Given Name" name component.  If more than one
+     * Returns b "Given Nbme" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "GIVENNAME=" component of the name, if any.
+     * @return "GIVENNAME=" component of the nbme, if bny.
      */
-    public String getGivenName() throws IOException {
-       DerValue attr = findAttribute(GIVENNAME_OID);
+    public String getGivenNbme() throws IOException {
+       DerVblue bttr = findAttribute(GIVENNAME_OID);
 
-       return getString(attr);
+       return getString(bttr);
     }
 
     /**
-     * Returns an "Initials" name component.  If more than one
+     * Returns bn "Initibls" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "INITIALS=" component of the name, if any.
+     * @return "INITIALS=" component of the nbme, if bny.
      */
-    public String getInitials() throws IOException {
-        DerValue attr = findAttribute(INITIALS_OID);
+    public String getInitibls() throws IOException {
+        DerVblue bttr = findAttribute(INITIALS_OID);
 
-        return getString(attr);
+        return getString(bttr);
      }
 
      /**
-      * Returns a "Generation Qualifier" name component.  If more than one
+      * Returns b "Generbtion Qublifier" nbme component.  If more thbn one
       * such component exists, the topmost one is returned.
       *
-      * @return "GENERATION=" component of the name, if any.
+      * @return "GENERATION=" component of the nbme, if bny.
       */
-    public String getGeneration() throws IOException {
-        DerValue attr = findAttribute(GENERATIONQUALIFIER_OID);
+    public String getGenerbtion() throws IOException {
+        DerVblue bttr = findAttribute(GENERATIONQUALIFIER_OID);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns an "IP address" name component.  If more than one
+     * Returns bn "IP bddress" nbme component.  If more thbn one
      * such component exists, the topmost one is returned.
      *
-     * @return "IP=" component of the name, if any.
+     * @return "IP=" component of the nbme, if bny.
      */
     public String getIP() throws IOException {
-        DerValue attr = findAttribute(ipAddress_oid);
+        DerVblue bttr = findAttribute(ipAddress_oid);
 
-        return getString(attr);
+        return getString(bttr);
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name.
-     * The format of the string is from RFC 1779. The returned string
-     * may contain non-standardised keywords for more readability
-     * (keywords from RFCs 1779, 2253, and 3280).
+     * Returns b string form of the X.500 distinguished nbme.
+     * The formbt of the string is from RFC 1779. The returned string
+     * mby contbin non-stbndbrdised keywords for more rebdbbility
+     * (keywords from RFCs 1779, 2253, bnd 3280).
      */
     public String toString() {
         if (dn == null) {
-            generateDN();
+            generbteDN();
         }
         return dn;
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 1779. Only standard attribute type
-     * keywords defined in RFC 1779 are emitted.
+     * Returns b string form of the X.500 distinguished nbme
+     * using the blgorithm defined in RFC 1779. Only stbndbrd bttribute type
+     * keywords defined in RFC 1779 bre emitted.
      */
-    public String getRFC1779Name() {
-        return getRFC1779Name(Collections.<String, String>emptyMap());
+    public String getRFC1779Nbme() {
+        return getRFC1779Nbme(Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 1779. Attribute type
-     * keywords defined in RFC 1779 are emitted, as well as additional
-     * keywords contained in the OID/keyword map.
+     * Returns b string form of the X.500 distinguished nbme
+     * using the blgorithm defined in RFC 1779. Attribute type
+     * keywords defined in RFC 1779 bre emitted, bs well bs bdditionbl
+     * keywords contbined in the OID/keyword mbp.
      */
-    public String getRFC1779Name(Map<String, String> oidMap)
-        throws IllegalArgumentException {
-        if (oidMap.isEmpty()) {
-            // return cached result
+    public String getRFC1779Nbme(Mbp<String, String> oidMbp)
+        throws IllegblArgumentException {
+        if (oidMbp.isEmpty()) {
+            // return cbched result
             if (rfc1779Dn != null) {
                 return rfc1779Dn;
             } else {
-                rfc1779Dn = generateRFC1779DN(oidMap);
+                rfc1779Dn = generbteRFC1779DN(oidMbp);
                 return rfc1779Dn;
             }
         }
-        return generateRFC1779DN(oidMap);
+        return generbteRFC1779DN(oidMbp);
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 2253. Only standard attribute type
-     * keywords defined in RFC 2253 are emitted.
+     * Returns b string form of the X.500 distinguished nbme
+     * using the blgorithm defined in RFC 2253. Only stbndbrd bttribute type
+     * keywords defined in RFC 2253 bre emitted.
      */
-    public String getRFC2253Name() {
-        return getRFC2253Name(Collections.<String, String>emptyMap());
+    public String getRFC2253Nbme() {
+        return getRFC2253Nbme(Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 2253. Attribute type
-     * keywords defined in RFC 2253 are emitted, as well as additional
-     * keywords contained in the OID/keyword map.
+     * Returns b string form of the X.500 distinguished nbme
+     * using the blgorithm defined in RFC 2253. Attribute type
+     * keywords defined in RFC 2253 bre emitted, bs well bs bdditionbl
+     * keywords contbined in the OID/keyword mbp.
      */
-    public String getRFC2253Name(Map<String, String> oidMap) {
-        /* check for and return cached name */
-        if (oidMap.isEmpty()) {
+    public String getRFC2253Nbme(Mbp<String, String> oidMbp) {
+        /* check for bnd return cbched nbme */
+        if (oidMbp.isEmpty()) {
             if (rfc2253Dn != null) {
                 return rfc2253Dn;
             } else {
-                rfc2253Dn = generateRFC2253DN(oidMap);
+                rfc2253Dn = generbteRFC2253DN(oidMbp);
                 return rfc2253Dn;
             }
         }
-        return generateRFC2253DN(oidMap);
+        return generbteRFC2253DN(oidMbp);
     }
 
-    private String generateRFC2253DN(Map<String, String> oidMap) {
+    privbte String generbteRFC2253DN(Mbp<String, String> oidMbp) {
         /*
-         * Section 2.1 : if the RDNSequence is an empty sequence
+         * Section 2.1 : if the RDNSequence is bn empty sequence
          * the result is the empty or zero length string.
          */
-        if (names.length == 0) {
+        if (nbmes.length == 0) {
             return "";
         }
 
         /*
          * 2.1 (continued) : Otherwise, the output consists of the string
-         * encodings of each RelativeDistinguishedName in the RDNSequence
-         * (according to 2.2), starting with the last element of the sequence
-         * and moving backwards toward the first.
+         * encodings of ebch RelbtiveDistinguishedNbme in the RDNSequence
+         * (bccording to 2.2), stbrting with the lbst element of the sequence
+         * bnd moving bbckwbrds towbrd the first.
          *
-         * The encodings of adjoining RelativeDistinguishedNames are separated
-         * by a comma character (',' ASCII 44).
+         * The encodings of bdjoining RelbtiveDistinguishedNbmes bre sepbrbted
+         * by b commb chbrbcter (',' ASCII 44).
          */
-        StringBuilder fullname = new StringBuilder(48);
-        for (int i = names.length - 1; i >= 0; i--) {
-            if (i < names.length - 1) {
-                fullname.append(',');
+        StringBuilder fullnbme = new StringBuilder(48);
+        for (int i = nbmes.length - 1; i >= 0; i--) {
+            if (i < nbmes.length - 1) {
+                fullnbme.bppend(',');
             }
-            fullname.append(names[i].toRFC2253String(oidMap));
+            fullnbme.bppend(nbmes[i].toRFC2253String(oidMbp));
         }
-        return fullname.toString();
+        return fullnbme.toString();
     }
 
-    public String getRFC2253CanonicalName() {
-        /* check for and return cached name */
-        if (canonicalDn != null) {
-            return canonicalDn;
+    public String getRFC2253CbnonicblNbme() {
+        /* check for bnd return cbched nbme */
+        if (cbnonicblDn != null) {
+            return cbnonicblDn;
         }
         /*
-         * Section 2.1 : if the RDNSequence is an empty sequence
+         * Section 2.1 : if the RDNSequence is bn empty sequence
          * the result is the empty or zero length string.
          */
-        if (names.length == 0) {
-            canonicalDn = "";
-            return canonicalDn;
+        if (nbmes.length == 0) {
+            cbnonicblDn = "";
+            return cbnonicblDn;
         }
 
         /*
          * 2.1 (continued) : Otherwise, the output consists of the string
-         * encodings of each RelativeDistinguishedName in the RDNSequence
-         * (according to 2.2), starting with the last element of the sequence
-         * and moving backwards toward the first.
+         * encodings of ebch RelbtiveDistinguishedNbme in the RDNSequence
+         * (bccording to 2.2), stbrting with the lbst element of the sequence
+         * bnd moving bbckwbrds towbrd the first.
          *
-         * The encodings of adjoining RelativeDistinguishedNames are separated
-         * by a comma character (',' ASCII 44).
+         * The encodings of bdjoining RelbtiveDistinguishedNbmes bre sepbrbted
+         * by b commb chbrbcter (',' ASCII 44).
          */
-        StringBuilder fullname = new StringBuilder(48);
-        for (int i = names.length - 1; i >= 0; i--) {
-            if (i < names.length - 1) {
-                fullname.append(',');
+        StringBuilder fullnbme = new StringBuilder(48);
+        for (int i = nbmes.length - 1; i >= 0; i--) {
+            if (i < nbmes.length - 1) {
+                fullnbme.bppend(',');
             }
-            fullname.append(names[i].toRFC2253String(true));
+            fullnbme.bppend(nbmes[i].toRFC2253String(true));
         }
-        canonicalDn = fullname.toString();
-        return canonicalDn;
+        cbnonicblDn = fullnbme.toString();
+        return cbnonicblDn;
     }
 
     /**
-     * Returns the value of toString().  This call is needed to
-     * implement the java.security.Principal interface.
+     * Returns the vblue of toString().  This cbll is needed to
+     * implement the jbvb.security.Principbl interfbce.
      */
-    public String getName() { return toString(); }
+    public String getNbme() { return toString(); }
 
     /**
-     * Find the first instance of this attribute in a "top down"
-     * search of all the attributes in the name.
+     * Find the first instbnce of this bttribute in b "top down"
+     * sebrch of bll the bttributes in the nbme.
      */
-    private DerValue findAttribute(ObjectIdentifier attribute) {
-        if (names != null) {
-            for (int i = 0; i < names.length; i++) {
-                DerValue value = names[i].findAttribute(attribute);
-                if (value != null) {
-                    return value;
+    privbte DerVblue findAttribute(ObjectIdentifier bttribute) {
+        if (nbmes != null) {
+            for (int i = 0; i < nbmes.length; i++) {
+                DerVblue vblue = nbmes[i].findAttribute(bttribute);
+                if (vblue != null) {
+                    return vblue;
                 }
             }
         }
@@ -756,15 +756,15 @@ public class X500Name implements GeneralNameInterface, Principal {
     }
 
     /**
-     * Find the most specific ("last") attribute of the given
+     * Find the most specific ("lbst") bttribute of the given
      * type.
      */
-    public DerValue findMostSpecificAttribute(ObjectIdentifier attribute) {
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                DerValue value = names[i].findAttribute(attribute);
-                if (value != null) {
-                    return value;
+    public DerVblue findMostSpecificAttribute(ObjectIdentifier bttribute) {
+        if (nbmes != null) {
+            for (int i = nbmes.length - 1; i >= 0; i--) {
+                DerVblue vblue = nbmes[i].findAttribute(bttribute);
+                if (vblue != null) {
+                    return vblue;
                 }
             }
         }
@@ -773,110 +773,110 @@ public class X500Name implements GeneralNameInterface, Principal {
 
     /****************************************************************/
 
-    private void parseDER(DerInputStream in) throws IOException {
+    privbte void pbrseDER(DerInputStrebm in) throws IOException {
         //
-        // X.500 names are a "SEQUENCE OF" RDNs, which means zero or
-        // more and order matters.  We scan them in order, which
-        // conventionally is big-endian.
+        // X.500 nbmes bre b "SEQUENCE OF" RDNs, which mebns zero or
+        // more bnd order mbtters.  We scbn them in order, which
+        // conventionblly is big-endibn.
         //
-        DerValue[] nameseq = null;
-        byte[] derBytes = in.toByteArray();
+        DerVblue[] nbmeseq = null;
+        byte[] derBytes = in.toByteArrby();
 
         try {
-            nameseq = in.getSequence(5);
-        } catch (IOException ioe) {
+            nbmeseq = in.getSequence(5);
+        } cbtch (IOException ioe) {
             if (derBytes == null) {
-                nameseq = null;
+                nbmeseq = null;
             } else {
-                DerValue derVal = new DerValue(DerValue.tag_Sequence,
+                DerVblue derVbl = new DerVblue(DerVblue.tbg_Sequence,
                                            derBytes);
-                derBytes = derVal.toByteArray();
-                nameseq = new DerInputStream(derBytes).getSequence(5);
+                derBytes = derVbl.toByteArrby();
+                nbmeseq = new DerInputStrebm(derBytes).getSequence(5);
             }
         }
 
-        if (nameseq == null) {
-            names = new RDN[0];
+        if (nbmeseq == null) {
+            nbmes = new RDN[0];
         } else {
-            names = new RDN[nameseq.length];
-            for (int i = 0; i < nameseq.length; i++) {
-                names[i] = new RDN(nameseq[i]);
+            nbmes = new RDN[nbmeseq.length];
+            for (int i = 0; i < nbmeseq.length; i++) {
+                nbmes[i] = new RDN(nbmeseq[i]);
             }
         }
     }
 
     /**
-     * Encodes the name in DER-encoded form.
+     * Encodes the nbme in DER-encoded form.
      *
-     * @deprecated Use encode() instead
-     * @param out where to put the DER-encoded X.500 name
+     * @deprecbted Use encode() instebd
+     * @pbrbm out where to put the DER-encoded X.500 nbme
      */
-    @Deprecated
-    public void emit(DerOutputStream out) throws IOException {
+    @Deprecbted
+    public void emit(DerOutputStrebm out) throws IOException {
         encode(out);
     }
 
     /**
-     * Encodes the name in DER-encoded form.
+     * Encodes the nbme in DER-encoded form.
      *
-     * @param out where to put the DER-encoded X.500 name
+     * @pbrbm out where to put the DER-encoded X.500 nbme
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        for (int i = 0; i < names.length; i++) {
-            names[i].encode(tmp);
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        for (int i = 0; i < nbmes.length; i++) {
+            nbmes[i].encode(tmp);
         }
-        out.write(DerValue.tag_Sequence, tmp);
+        out.write(DerVblue.tbg_Sequence, tmp);
     }
 
     /**
-     * Returned the encoding as an uncloned byte array. Callers must
-     * guarantee that they neither modify it not expose it to untrusted
+     * Returned the encoding bs bn uncloned byte brrby. Cbllers must
+     * gubrbntee thbt they neither modify it not expose it to untrusted
      * code.
      */
-    public byte[] getEncodedInternal() throws IOException {
+    public byte[] getEncodedInternbl() throws IOException {
         if (encoded == null) {
-            DerOutputStream     out = new DerOutputStream();
-            DerOutputStream     tmp = new DerOutputStream();
-            for (int i = 0; i < names.length; i++) {
-                names[i].encode(tmp);
+            DerOutputStrebm     out = new DerOutputStrebm();
+            DerOutputStrebm     tmp = new DerOutputStrebm();
+            for (int i = 0; i < nbmes.length; i++) {
+                nbmes[i].encode(tmp);
             }
-            out.write(DerValue.tag_Sequence, tmp);
-            encoded = out.toByteArray();
+            out.write(DerVblue.tbg_Sequence, tmp);
+            encoded = out.toByteArrby();
         }
         return encoded;
     }
 
     /**
-     * Gets the name in DER-encoded form.
+     * Gets the nbme in DER-encoded form.
      *
-     * @return the DER encoded byte array of this name.
+     * @return the DER encoded byte brrby of this nbme.
      */
     public byte[] getEncoded() throws IOException {
-        return getEncodedInternal().clone();
+        return getEncodedInternbl().clone();
     }
 
     /*
-     * Parses a Distinguished Name (DN) in printable representation.
+     * Pbrses b Distinguished Nbme (DN) in printbble representbtion.
      *
-     * According to RFC 1779, RDNs in a DN are separated by comma.
-     * The following examples show both methods of quoting a comma, so that it
-     * is not considered a separator:
+     * According to RFC 1779, RDNs in b DN bre sepbrbted by commb.
+     * The following exbmples show both methods of quoting b commb, so thbt it
+     * is not considered b sepbrbtor:
      *
-     *     O="Sue, Grabbit and Runn" or
-     *     O=Sue\, Grabbit and Runn
+     *     O="Sue, Grbbbit bnd Runn" or
+     *     O=Sue\, Grbbbit bnd Runn
      *
-     * This method can parse RFC 1779, 2253 or 4514 DNs and non-standard 3280
-     * keywords. Additional keywords can be specified in the keyword/OID map.
+     * This method cbn pbrse RFC 1779, 2253 or 4514 DNs bnd non-stbndbrd 3280
+     * keywords. Additionbl keywords cbn be specified in the keyword/OID mbp.
      */
-    private void parseDN(String input, Map<String, String> keywordMap)
+    privbte void pbrseDN(String input, Mbp<String, String> keywordMbp)
         throws IOException {
         if (input == null || input.length() == 0) {
-            names = new RDN[0];
+            nbmes = new RDN[0];
             return;
         }
 
-        List<RDN> dnVector = new ArrayList<>();
+        List<RDN> dnVector = new ArrbyList<>();
         int dnOffset = 0;
         int rdnEnd;
         String rdnString;
@@ -884,125 +884,125 @@ public class X500Name implements GeneralNameInterface, Principal {
 
         String dnString = input;
 
-        int searchOffset = 0;
-        int nextComma = dnString.indexOf(',');
+        int sebrchOffset = 0;
+        int nextCommb = dnString.indexOf(',');
         int nextSemiColon = dnString.indexOf(';');
-        while (nextComma >=0 || nextSemiColon >=0) {
+        while (nextCommb >=0 || nextSemiColon >=0) {
 
             if (nextSemiColon < 0) {
-                rdnEnd = nextComma;
-            } else if (nextComma < 0) {
+                rdnEnd = nextCommb;
+            } else if (nextCommb < 0) {
                 rdnEnd = nextSemiColon;
             } else {
-                rdnEnd = Math.min(nextComma, nextSemiColon);
+                rdnEnd = Mbth.min(nextCommb, nextSemiColon);
             }
-            quoteCount += countQuotes(dnString, searchOffset, rdnEnd);
+            quoteCount += countQuotes(dnString, sebrchOffset, rdnEnd);
 
             /*
-             * We have encountered an RDN delimiter (comma or a semicolon).
-             * If the comma or semicolon in the RDN under consideration is
-             * preceded by a backslash (escape), or by a double quote, it
-             * is part of the RDN. Otherwise, it is used as a separator, to
-             * delimit the RDN under consideration from any subsequent RDNs.
+             * We hbve encountered bn RDN delimiter (commb or b semicolon).
+             * If the commb or semicolon in the RDN under considerbtion is
+             * preceded by b bbckslbsh (escbpe), or by b double quote, it
+             * is pbrt of the RDN. Otherwise, it is used bs b sepbrbtor, to
+             * delimit the RDN under considerbtion from bny subsequent RDNs.
              */
             if (rdnEnd >= 0 && quoteCount != 1 &&
-                !escaped(rdnEnd, searchOffset, dnString)) {
+                !escbped(rdnEnd, sebrchOffset, dnString)) {
 
                 /*
-                 * Comma/semicolon is a separator
+                 * Commb/semicolon is b sepbrbtor
                  */
                 rdnString = dnString.substring(dnOffset, rdnEnd);
 
-                // Parse RDN, and store it in vector
-                RDN rdn = new RDN(rdnString, keywordMap);
-                dnVector.add(rdn);
+                // Pbrse RDN, bnd store it in vector
+                RDN rdn = new RDN(rdnString, keywordMbp);
+                dnVector.bdd(rdn);
 
-                // Increase the offset
+                // Increbse the offset
                 dnOffset = rdnEnd + 1;
 
-                // Set quote counter back to zero
+                // Set quote counter bbck to zero
                 quoteCount = 0;
             }
 
-            searchOffset = rdnEnd + 1;
-            nextComma = dnString.indexOf(',', searchOffset);
-            nextSemiColon = dnString.indexOf(';', searchOffset);
+            sebrchOffset = rdnEnd + 1;
+            nextCommb = dnString.indexOf(',', sebrchOffset);
+            nextSemiColon = dnString.indexOf(';', sebrchOffset);
         }
 
-        // Parse last or only RDN, and store it in vector
+        // Pbrse lbst or only RDN, bnd store it in vector
         rdnString = dnString.substring(dnOffset);
-        RDN rdn = new RDN(rdnString, keywordMap);
-        dnVector.add(rdn);
+        RDN rdn = new RDN(rdnString, keywordMbp);
+        dnVector.bdd(rdn);
 
         /*
-         * Store the vector elements as an array of RDNs
-         * NOTE: It's only on output that little-endian ordering is used.
+         * Store the vector elements bs bn brrby of RDNs
+         * NOTE: It's only on output thbt little-endibn ordering is used.
          */
         Collections.reverse(dnVector);
-        names = dnVector.toArray(new RDN[dnVector.size()]);
+        nbmes = dnVector.toArrby(new RDN[dnVector.size()]);
     }
 
-    private void parseRFC2253DN(String dnString) throws IOException {
+    privbte void pbrseRFC2253DN(String dnString) throws IOException {
         if (dnString.length() == 0) {
-            names = new RDN[0];
+            nbmes = new RDN[0];
             return;
          }
 
-         List<RDN> dnVector = new ArrayList<>();
+         List<RDN> dnVector = new ArrbyList<>();
          int dnOffset = 0;
          String rdnString;
-         int searchOffset = 0;
+         int sebrchOffset = 0;
          int rdnEnd = dnString.indexOf(',');
          while (rdnEnd >=0) {
              /*
-              * We have encountered an RDN delimiter (comma).
-              * If the comma in the RDN under consideration is
-              * preceded by a backslash (escape), it
-              * is part of the RDN. Otherwise, it is used as a separator, to
-              * delimit the RDN under consideration from any subsequent RDNs.
+              * We hbve encountered bn RDN delimiter (commb).
+              * If the commb in the RDN under considerbtion is
+              * preceded by b bbckslbsh (escbpe), it
+              * is pbrt of the RDN. Otherwise, it is used bs b sepbrbtor, to
+              * delimit the RDN under considerbtion from bny subsequent RDNs.
               */
-             if (rdnEnd > 0 && !escaped(rdnEnd, searchOffset, dnString)) {
+             if (rdnEnd > 0 && !escbped(rdnEnd, sebrchOffset, dnString)) {
 
                  /*
-                  * Comma is a separator
+                  * Commb is b sepbrbtor
                   */
                  rdnString = dnString.substring(dnOffset, rdnEnd);
 
-                 // Parse RDN, and store it in vector
+                 // Pbrse RDN, bnd store it in vector
                  RDN rdn = new RDN(rdnString, "RFC2253");
-                 dnVector.add(rdn);
+                 dnVector.bdd(rdn);
 
-                 // Increase the offset
+                 // Increbse the offset
                  dnOffset = rdnEnd + 1;
              }
 
-             searchOffset = rdnEnd + 1;
-             rdnEnd = dnString.indexOf(',', searchOffset);
+             sebrchOffset = rdnEnd + 1;
+             rdnEnd = dnString.indexOf(',', sebrchOffset);
          }
 
-         // Parse last or only RDN, and store it in vector
+         // Pbrse lbst or only RDN, bnd store it in vector
          rdnString = dnString.substring(dnOffset);
          RDN rdn = new RDN(rdnString, "RFC2253");
-         dnVector.add(rdn);
+         dnVector.bdd(rdn);
 
          /*
-          * Store the vector elements as an array of RDNs
-          * NOTE: It's only on output that little-endian ordering is used.
+          * Store the vector elements bs bn brrby of RDNs
+          * NOTE: It's only on output thbt little-endibn ordering is used.
           */
          Collections.reverse(dnVector);
-         names = dnVector.toArray(new RDN[dnVector.size()]);
+         nbmes = dnVector.toArrby(new RDN[dnVector.size()]);
     }
 
     /*
      * Counts double quotes in string.
-     * Escaped quotes are ignored.
+     * Escbped quotes bre ignored.
      */
-    static int countQuotes(String string, int from, int to) {
+    stbtic int countQuotes(String string, int from, int to) {
         int count = 0;
 
         for (int i = from; i < to; i++) {
-            if ((string.charAt(i) == '"' && i == from) ||
-                (string.charAt(i) == '"' && string.charAt(i-1) != '\\')) {
+            if ((string.chbrAt(i) == '"' && i == from) ||
+                (string.chbrAt(i) == '"' && string.chbrAt(i-1) != '\\')) {
                 count++;
             }
         }
@@ -1010,93 +1010,93 @@ public class X500Name implements GeneralNameInterface, Principal {
         return count;
     }
 
-    private static boolean escaped
-                (int rdnEnd, int searchOffset, String dnString) {
+    privbte stbtic boolebn escbped
+                (int rdnEnd, int sebrchOffset, String dnString) {
 
-        if (rdnEnd == 1 && dnString.charAt(rdnEnd - 1) == '\\') {
+        if (rdnEnd == 1 && dnString.chbrAt(rdnEnd - 1) == '\\') {
 
-            //  case 1:
+            //  cbse 1:
             //  \,
 
             return true;
 
-        } else if (rdnEnd > 1 && dnString.charAt(rdnEnd - 1) == '\\' &&
-                dnString.charAt(rdnEnd - 2) != '\\') {
+        } else if (rdnEnd > 1 && dnString.chbrAt(rdnEnd - 1) == '\\' &&
+                dnString.chbrAt(rdnEnd - 2) != '\\') {
 
-            //  case 2:
+            //  cbse 2:
             //  foo\,
 
             return true;
 
-        } else if (rdnEnd > 1 && dnString.charAt(rdnEnd - 1) == '\\' &&
-                dnString.charAt(rdnEnd - 2) == '\\') {
+        } else if (rdnEnd > 1 && dnString.chbrAt(rdnEnd - 1) == '\\' &&
+                dnString.chbrAt(rdnEnd - 2) == '\\') {
 
-            //  case 3:
+            //  cbse 3:
             //  foo\\\\\,
 
             int count = 0;
-            rdnEnd--;   // back up to last backSlash
-            while (rdnEnd >= searchOffset) {
-                if (dnString.charAt(rdnEnd) == '\\') {
-                    count++;    // count consecutive backslashes
+            rdnEnd--;   // bbck up to lbst bbckSlbsh
+            while (rdnEnd >= sebrchOffset) {
+                if (dnString.chbrAt(rdnEnd) == '\\') {
+                    count++;    // count consecutive bbckslbshes
                 }
                 rdnEnd--;
             }
 
-            // if count is odd, then rdnEnd is escaped
-            return (count % 2) != 0 ? true : false;
+            // if count is odd, then rdnEnd is escbped
+            return (count % 2) != 0 ? true : fblse;
 
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /*
-     * Dump the printable form of a distinguished name.  Each relative
-     * name is separated from the next by a ",", and assertions in the
-     * relative names have "label=value" syntax.
+     * Dump the printbble form of b distinguished nbme.  Ebch relbtive
+     * nbme is sepbrbted from the next by b ",", bnd bssertions in the
+     * relbtive nbmes hbve "lbbel=vblue" syntbx.
      *
-     * Uses RFC 1779 syntax (i.e. little-endian, comma separators)
+     * Uses RFC 1779 syntbx (i.e. little-endibn, commb sepbrbtors)
      */
-    private void generateDN() {
-        if (names.length == 1) {
-            dn = names[0].toString();
+    privbte void generbteDN() {
+        if (nbmes.length == 1) {
+            dn = nbmes[0].toString();
             return;
         }
 
         StringBuilder sb = new StringBuilder(48);
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                if (i != names.length - 1) {
-                    sb.append(", ");
+        if (nbmes != null) {
+            for (int i = nbmes.length - 1; i >= 0; i--) {
+                if (i != nbmes.length - 1) {
+                    sb.bppend(", ");
                 }
-                sb.append(names[i].toString());
+                sb.bppend(nbmes[i].toString());
             }
         }
         dn = sb.toString();
     }
 
     /*
-     * Dump the printable form of a distinguished name.  Each relative
-     * name is separated from the next by a ",", and assertions in the
-     * relative names have "label=value" syntax.
+     * Dump the printbble form of b distinguished nbme.  Ebch relbtive
+     * nbme is sepbrbted from the next by b ",", bnd bssertions in the
+     * relbtive nbmes hbve "lbbel=vblue" syntbx.
      *
-     * Uses RFC 1779 syntax (i.e. little-endian, comma separators)
-     * Valid keywords from RFC 1779 are used. Additional keywords can be
-     * specified in the OID/keyword map.
+     * Uses RFC 1779 syntbx (i.e. little-endibn, commb sepbrbtors)
+     * Vblid keywords from RFC 1779 bre used. Additionbl keywords cbn be
+     * specified in the OID/keyword mbp.
      */
-    private String generateRFC1779DN(Map<String, String> oidMap) {
-        if (names.length == 1) {
-            return names[0].toRFC1779String(oidMap);
+    privbte String generbteRFC1779DN(Mbp<String, String> oidMbp) {
+        if (nbmes.length == 1) {
+            return nbmes[0].toRFC1779String(oidMbp);
         }
 
         StringBuilder sb = new StringBuilder(48);
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                if (i != names.length - 1) {
-                    sb.append(", ");
+        if (nbmes != null) {
+            for (int i = nbmes.length - 1; i >= 0; i--) {
+                if (i != nbmes.length - 1) {
+                    sb.bppend(", ");
                 }
-                sb.append(names[i].toRFC1779String(oidMap));
+                sb.bppend(nbmes[i].toRFC1779String(oidMbp));
             }
         }
         return sb.toString();
@@ -1105,10 +1105,10 @@ public class X500Name implements GeneralNameInterface, Principal {
     /****************************************************************/
 
     /*
-     * Maybe return a preallocated OID, to reduce storage costs
-     * and speed recognition of common X.500 attributes.
+     * Mbybe return b prebllocbted OID, to reduce storbge costs
+     * bnd speed recognition of common X.500 bttributes.
      */
-    static ObjectIdentifier intern(ObjectIdentifier oid) {
+    stbtic ObjectIdentifier intern(ObjectIdentifier oid) {
         ObjectIdentifier interned = internedOIDs.get(oid);
         if (interned != null) {
             return interned;
@@ -1117,323 +1117,323 @@ public class X500Name implements GeneralNameInterface, Principal {
         return oid;
     }
 
-    private static final Map<ObjectIdentifier,ObjectIdentifier> internedOIDs
-                        = new HashMap<ObjectIdentifier,ObjectIdentifier>();
+    privbte stbtic finbl Mbp<ObjectIdentifier,ObjectIdentifier> internedOIDs
+                        = new HbshMbp<ObjectIdentifier,ObjectIdentifier>();
 
     /*
      * Selected OIDs from X.520
-     * Includes all those specified in RFC 3280 as MUST or SHOULD
+     * Includes bll those specified in RFC 3280 bs MUST or SHOULD
      * be recognized
      */
-    private static final int commonName_data[] = { 2, 5, 4, 3 };
-    private static final int SURNAME_DATA[] = { 2, 5, 4, 4 };
-    private static final int SERIALNUMBER_DATA[] = { 2, 5, 4, 5 };
-    private static final int countryName_data[] = { 2, 5, 4, 6 };
-    private static final int localityName_data[] = { 2, 5, 4, 7 };
-    private static final int stateName_data[] = { 2, 5, 4, 8 };
-    private static final int streetAddress_data[] = { 2, 5, 4, 9 };
-    private static final int orgName_data[] = { 2, 5, 4, 10 };
-    private static final int orgUnitName_data[] = { 2, 5, 4, 11 };
-    private static final int title_data[] = { 2, 5, 4, 12 };
-    private static final int GIVENNAME_DATA[] = { 2, 5, 4, 42 };
-    private static final int INITIALS_DATA[] = { 2, 5, 4, 43 };
-    private static final int GENERATIONQUALIFIER_DATA[] = { 2, 5, 4, 44 };
-    private static final int DNQUALIFIER_DATA[] = { 2, 5, 4, 46 };
+    privbte stbtic finbl int commonNbme_dbtb[] = { 2, 5, 4, 3 };
+    privbte stbtic finbl int SURNAME_DATA[] = { 2, 5, 4, 4 };
+    privbte stbtic finbl int SERIALNUMBER_DATA[] = { 2, 5, 4, 5 };
+    privbte stbtic finbl int countryNbme_dbtb[] = { 2, 5, 4, 6 };
+    privbte stbtic finbl int locblityNbme_dbtb[] = { 2, 5, 4, 7 };
+    privbte stbtic finbl int stbteNbme_dbtb[] = { 2, 5, 4, 8 };
+    privbte stbtic finbl int streetAddress_dbtb[] = { 2, 5, 4, 9 };
+    privbte stbtic finbl int orgNbme_dbtb[] = { 2, 5, 4, 10 };
+    privbte stbtic finbl int orgUnitNbme_dbtb[] = { 2, 5, 4, 11 };
+    privbte stbtic finbl int title_dbtb[] = { 2, 5, 4, 12 };
+    privbte stbtic finbl int GIVENNAME_DATA[] = { 2, 5, 4, 42 };
+    privbte stbtic finbl int INITIALS_DATA[] = { 2, 5, 4, 43 };
+    privbte stbtic finbl int GENERATIONQUALIFIER_DATA[] = { 2, 5, 4, 44 };
+    privbte stbtic finbl int DNQUALIFIER_DATA[] = { 2, 5, 4, 46 };
 
-    private static final int ipAddress_data[] = { 1, 3, 6, 1, 4, 1, 42, 2, 11, 2, 1 };
-    private static final int DOMAIN_COMPONENT_DATA[] =
+    privbte stbtic finbl int ipAddress_dbtb[] = { 1, 3, 6, 1, 4, 1, 42, 2, 11, 2, 1 };
+    privbte stbtic finbl int DOMAIN_COMPONENT_DATA[] =
         { 0, 9, 2342, 19200300, 100, 1, 25 };
-    private static final int userid_data[] =
+    privbte stbtic finbl int userid_dbtb[] =
         { 0, 9, 2342, 19200300, 100, 1, 1 };
 
 
-    public static final ObjectIdentifier commonName_oid;
-    public static final ObjectIdentifier countryName_oid;
-    public static final ObjectIdentifier localityName_oid;
-    public static final ObjectIdentifier orgName_oid;
-    public static final ObjectIdentifier orgUnitName_oid;
-    public static final ObjectIdentifier stateName_oid;
-    public static final ObjectIdentifier streetAddress_oid;
-    public static final ObjectIdentifier title_oid;
-    public static final ObjectIdentifier DNQUALIFIER_OID;
-    public static final ObjectIdentifier SURNAME_OID;
-    public static final ObjectIdentifier GIVENNAME_OID;
-    public static final ObjectIdentifier INITIALS_OID;
-    public static final ObjectIdentifier GENERATIONQUALIFIER_OID;
-    public static final ObjectIdentifier ipAddress_oid;
-    public static final ObjectIdentifier DOMAIN_COMPONENT_OID;
-    public static final ObjectIdentifier userid_oid;
-    public static final ObjectIdentifier SERIALNUMBER_OID;
+    public stbtic finbl ObjectIdentifier commonNbme_oid;
+    public stbtic finbl ObjectIdentifier countryNbme_oid;
+    public stbtic finbl ObjectIdentifier locblityNbme_oid;
+    public stbtic finbl ObjectIdentifier orgNbme_oid;
+    public stbtic finbl ObjectIdentifier orgUnitNbme_oid;
+    public stbtic finbl ObjectIdentifier stbteNbme_oid;
+    public stbtic finbl ObjectIdentifier streetAddress_oid;
+    public stbtic finbl ObjectIdentifier title_oid;
+    public stbtic finbl ObjectIdentifier DNQUALIFIER_OID;
+    public stbtic finbl ObjectIdentifier SURNAME_OID;
+    public stbtic finbl ObjectIdentifier GIVENNAME_OID;
+    public stbtic finbl ObjectIdentifier INITIALS_OID;
+    public stbtic finbl ObjectIdentifier GENERATIONQUALIFIER_OID;
+    public stbtic finbl ObjectIdentifier ipAddress_oid;
+    public stbtic finbl ObjectIdentifier DOMAIN_COMPONENT_OID;
+    public stbtic finbl ObjectIdentifier userid_oid;
+    public stbtic finbl ObjectIdentifier SERIALNUMBER_OID;
 
-    static {
-    /** OID for the "CN=" attribute, denoting a person's common name. */
-        commonName_oid = intern(ObjectIdentifier.newInternal(commonName_data));
+    stbtic {
+    /** OID for the "CN=" bttribute, denoting b person's common nbme. */
+        commonNbme_oid = intern(ObjectIdentifier.newInternbl(commonNbme_dbtb));
 
-    /** OID for the "SERIALNUMBER=" attribute, denoting a serial number for.
-        a name. Do not confuse with PKCS#9 issuerAndSerialNumber or the
-        certificate serial number. */
-        SERIALNUMBER_OID = intern(ObjectIdentifier.newInternal(SERIALNUMBER_DATA));
+    /** OID for the "SERIALNUMBER=" bttribute, denoting b seribl number for.
+        b nbme. Do not confuse with PKCS#9 issuerAndSeriblNumber or the
+        certificbte seribl number. */
+        SERIALNUMBER_OID = intern(ObjectIdentifier.newInternbl(SERIALNUMBER_DATA));
 
-    /** OID for the "C=" attribute, denoting a country. */
-        countryName_oid = intern(ObjectIdentifier.newInternal(countryName_data));
+    /** OID for the "C=" bttribute, denoting b country. */
+        countryNbme_oid = intern(ObjectIdentifier.newInternbl(countryNbme_dbtb));
 
-    /** OID for the "L=" attribute, denoting a locality (such as a city) */
-        localityName_oid = intern(ObjectIdentifier.newInternal(localityName_data));
+    /** OID for the "L=" bttribute, denoting b locblity (such bs b city) */
+        locblityNbme_oid = intern(ObjectIdentifier.newInternbl(locblityNbme_dbtb));
 
-    /** OID for the "O=" attribute, denoting an organization name */
-        orgName_oid = intern(ObjectIdentifier.newInternal(orgName_data));
+    /** OID for the "O=" bttribute, denoting bn orgbnizbtion nbme */
+        orgNbme_oid = intern(ObjectIdentifier.newInternbl(orgNbme_dbtb));
 
-    /** OID for the "OU=" attribute, denoting an organizational unit name */
-        orgUnitName_oid = intern(ObjectIdentifier.newInternal(orgUnitName_data));
+    /** OID for the "OU=" bttribute, denoting bn orgbnizbtionbl unit nbme */
+        orgUnitNbme_oid = intern(ObjectIdentifier.newInternbl(orgUnitNbme_dbtb));
 
-    /** OID for the "S=" attribute, denoting a state (such as Delaware) */
-        stateName_oid = intern(ObjectIdentifier.newInternal(stateName_data));
+    /** OID for the "S=" bttribute, denoting b stbte (such bs Delbwbre) */
+        stbteNbme_oid = intern(ObjectIdentifier.newInternbl(stbteNbme_dbtb));
 
-    /** OID for the "STREET=" attribute, denoting a street address. */
-        streetAddress_oid = intern(ObjectIdentifier.newInternal(streetAddress_data));
+    /** OID for the "STREET=" bttribute, denoting b street bddress. */
+        streetAddress_oid = intern(ObjectIdentifier.newInternbl(streetAddress_dbtb));
 
-    /** OID for the "T=" attribute, denoting a person's title. */
-        title_oid = intern(ObjectIdentifier.newInternal(title_data));
+    /** OID for the "T=" bttribute, denoting b person's title. */
+        title_oid = intern(ObjectIdentifier.newInternbl(title_dbtb));
 
-    /** OID for the "DNQUALIFIER=" or "DNQ=" attribute, denoting DN
-        disambiguating information.*/
-        DNQUALIFIER_OID = intern(ObjectIdentifier.newInternal(DNQUALIFIER_DATA));
+    /** OID for the "DNQUALIFIER=" or "DNQ=" bttribute, denoting DN
+        disbmbigubting informbtion.*/
+        DNQUALIFIER_OID = intern(ObjectIdentifier.newInternbl(DNQUALIFIER_DATA));
 
-    /** OID for the "SURNAME=" attribute, denoting a person's surname.*/
-        SURNAME_OID = intern(ObjectIdentifier.newInternal(SURNAME_DATA));
+    /** OID for the "SURNAME=" bttribute, denoting b person's surnbme.*/
+        SURNAME_OID = intern(ObjectIdentifier.newInternbl(SURNAME_DATA));
 
-    /** OID for the "GIVENNAME=" attribute, denoting a person's given name.*/
-        GIVENNAME_OID = intern(ObjectIdentifier.newInternal(GIVENNAME_DATA));
+    /** OID for the "GIVENNAME=" bttribute, denoting b person's given nbme.*/
+        GIVENNAME_OID = intern(ObjectIdentifier.newInternbl(GIVENNAME_DATA));
 
-    /** OID for the "INITIALS=" attribute, denoting a person's initials.*/
-        INITIALS_OID = intern(ObjectIdentifier.newInternal(INITIALS_DATA));
+    /** OID for the "INITIALS=" bttribute, denoting b person's initibls.*/
+        INITIALS_OID = intern(ObjectIdentifier.newInternbl(INITIALS_DATA));
 
-    /** OID for the "GENERATION=" attribute, denoting Jr., II, etc.*/
+    /** OID for the "GENERATION=" bttribute, denoting Jr., II, etc.*/
         GENERATIONQUALIFIER_OID =
-            intern(ObjectIdentifier.newInternal(GENERATIONQUALIFIER_DATA));
+            intern(ObjectIdentifier.newInternbl(GENERATIONQUALIFIER_DATA));
 
     /*
-     * OIDs from other sources which show up in X.500 names we
-     * expect to deal with often
+     * OIDs from other sources which show up in X.500 nbmes we
+     * expect to debl with often
      */
-    /** OID for "IP=" IP address attributes, used with SKIP. */
-        ipAddress_oid = intern(ObjectIdentifier.newInternal(ipAddress_data));
+    /** OID for "IP=" IP bddress bttributes, used with SKIP. */
+        ipAddress_oid = intern(ObjectIdentifier.newInternbl(ipAddress_dbtb));
 
     /*
-     * Domain component OID from RFC 1274, RFC 2247, RFC 3280
+     * Dombin component OID from RFC 1274, RFC 2247, RFC 3280
      */
 
     /*
-     * OID for "DC=" domain component attributes, used with DNS names in DN
-     * format
+     * OID for "DC=" dombin component bttributes, used with DNS nbmes in DN
+     * formbt
      */
         DOMAIN_COMPONENT_OID =
-            intern(ObjectIdentifier.newInternal(DOMAIN_COMPONENT_DATA));
+            intern(ObjectIdentifier.newInternbl(DOMAIN_COMPONENT_DATA));
 
-    /** OID for "UID=" denoting a user id, defined in RFCs 1274 & 2798. */
-        userid_oid = intern(ObjectIdentifier.newInternal(userid_data));
+    /** OID for "UID=" denoting b user id, defined in RFCs 1274 & 2798. */
+        userid_oid = intern(ObjectIdentifier.newInternbl(userid_dbtb));
     }
 
     /**
-     * Return constraint type:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from this name
-     *       (i.e. does not constrain)
-     *   <li>NAME_MATCH = 0: input name matches this name
-     *   <li>NAME_NARROWS = 1: input name narrows this name
-     *   <li>NAME_WIDENS = 2: input name widens this name
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow this name,
-     &       but is same type
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return constrbint type:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from this nbme
+     *       (i.e. does not constrbin)
+     *   <li>NAME_MATCH = 0: input nbme mbtches this nbme
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows this nbme
+     *   <li>NAME_WIDENS = 2: input nbme widens this nbme
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow this nbme,
+     &       but is sbme type
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but
-     *         narrowing and widening are not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is not exbct mbtch, but
+     *         nbrrowing bnd widening bre not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName)
-            throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null) {
-            constraintType = NAME_DIFF_TYPE;
-        } else if (inputName.getType() != NAME_DIRECTORY) {
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme)
+            throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null) {
+            constrbintType = NAME_DIFF_TYPE;
+        } else if (inputNbme.getType() != NAME_DIRECTORY) {
+            constrbintType = NAME_DIFF_TYPE;
         } else { // type == NAME_DIRECTORY
-            X500Name inputX500 = (X500Name)inputName;
-            if (inputX500.equals(this)) {
-                constraintType = NAME_MATCH;
-            } else if (inputX500.names.length == 0) {
-                constraintType = NAME_WIDENS;
-            } else if (this.names.length == 0) {
-                constraintType = NAME_NARROWS;
+            X500Nbme inputX500 = (X500Nbme)inputNbme;
+            if (inputX500.equbls(this)) {
+                constrbintType = NAME_MATCH;
+            } else if (inputX500.nbmes.length == 0) {
+                constrbintType = NAME_WIDENS;
+            } else if (this.nbmes.length == 0) {
+                constrbintType = NAME_NARROWS;
             } else if (inputX500.isWithinSubtree(this)) {
-                constraintType = NAME_NARROWS;
+                constrbintType = NAME_NARROWS;
             } else if (isWithinSubtree(inputX500)) {
-                constraintType = NAME_WIDENS;
+                constrbintType = NAME_WIDENS;
             } else {
-                constraintType = NAME_SAME_TYPE;
+                constrbintType = NAME_SAME_TYPE;
             }
         }
-        return constraintType;
+        return constrbintType;
     }
 
     /**
-     * Compares this name with another and determines if
+     * Compbres this nbme with bnother bnd determines if
      * it is within the subtree of the other. Useful for
-     * checking against the name constraints extension.
+     * checking bgbinst the nbme constrbints extension.
      *
-     * @return true iff this name is within the subtree of other.
+     * @return true iff this nbme is within the subtree of other.
      */
-    private boolean isWithinSubtree(X500Name other) {
+    privbte boolebn isWithinSubtree(X500Nbme other) {
         if (this == other) {
             return true;
         }
         if (other == null) {
-            return false;
+            return fblse;
         }
-        if (other.names.length == 0) {
+        if (other.nbmes.length == 0) {
             return true;
         }
-        if (this.names.length == 0) {
-            return false;
+        if (this.nbmes.length == 0) {
+            return fblse;
         }
-        if (names.length < other.names.length) {
-            return false;
+        if (nbmes.length < other.nbmes.length) {
+            return fblse;
         }
-        for (int i = 0; i < other.names.length; i++) {
-            if (!names[i].equals(other.names[i])) {
-                return false;
+        for (int i = 0; i < other.nbmes.length; i++) {
+            if (!nbmes[i].equbls(other.nbmes[i])) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds bnd for cblculbting
+     * pbth lengths in nbme subtrees.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        return names.length;
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        return nbmes.length;
     }
 
     /**
-     * Return lowest common ancestor of this name and other name
+     * Return lowest common bncestor of this nbme bnd other nbme
      *
-     * @param other another X500Name
-     * @return X500Name of lowest common ancestor; null if none
+     * @pbrbm other bnother X500Nbme
+     * @return X500Nbme of lowest common bncestor; null if none
      */
-    public X500Name commonAncestor(X500Name other) {
+    public X500Nbme commonAncestor(X500Nbme other) {
 
         if (other == null) {
             return null;
         }
-        int otherLen = other.names.length;
-        int thisLen = this.names.length;
+        int otherLen = other.nbmes.length;
+        int thisLen = this.nbmes.length;
         if (thisLen == 0 || otherLen == 0) {
             return null;
         }
         int minLen = (thisLen < otherLen) ? thisLen: otherLen;
 
-        //Compare names from highest RDN down the naming tree
-        //Note that these are stored in RDN[0]...
+        //Compbre nbmes from highest RDN down the nbming tree
+        //Note thbt these bre stored in RDN[0]...
         int i=0;
         for (; i < minLen; i++) {
-            if (!names[i].equals(other.names[i])) {
+            if (!nbmes[i].equbls(other.nbmes[i])) {
                 if (i == 0) {
                     return null;
                 } else {
-                    break;
+                    brebk;
                 }
             }
         }
 
-        //Copy matching RDNs into new RDN array
-        RDN[] ancestor = new RDN[i];
+        //Copy mbtching RDNs into new RDN brrby
+        RDN[] bncestor = new RDN[i];
         for (int j=0; j < i; j++) {
-            ancestor[j] = names[j];
+            bncestor[j] = nbmes[j];
         }
 
-        X500Name commonAncestor = null;
+        X500Nbme commonAncestor = null;
         try {
-            commonAncestor = new X500Name(ancestor);
-        } catch (IOException ioe) {
+            commonAncestor = new X500Nbme(bncestor);
+        } cbtch (IOException ioe) {
             return null;
         }
         return commonAncestor;
     }
 
     /**
-     * Constructor object for use by asX500Principal().
+     * Constructor object for use by bsX500Principbl().
      */
-    private static final Constructor<X500Principal> principalConstructor;
+    privbte stbtic finbl Constructor<X500Principbl> principblConstructor;
 
     /**
-     * Field object for use by asX500Name().
+     * Field object for use by bsX500Nbme().
      */
-    private static final Field principalField;
+    privbte stbtic finbl Field principblField;
 
     /**
-     * Retrieve the Constructor and Field we need for reflective access
-     * and make them accessible.
+     * Retrieve the Constructor bnd Field we need for reflective bccess
+     * bnd mbke them bccessible.
      */
-    static {
-        PrivilegedExceptionAction<Object[]> pa =
+    stbtic {
+        PrivilegedExceptionAction<Object[]> pb =
                 new PrivilegedExceptionAction<Object[]>() {
             public Object[] run() throws Exception {
-                Class<X500Principal> pClass = X500Principal.class;
-                Class<?>[] args = new Class<?>[] { X500Name.class };
-                Constructor<X500Principal> cons = pClass.getDeclaredConstructor(args);
+                Clbss<X500Principbl> pClbss = X500Principbl.clbss;
+                Clbss<?>[] brgs = new Clbss<?>[] { X500Nbme.clbss };
+                Constructor<X500Principbl> cons = pClbss.getDeclbredConstructor(brgs);
                 cons.setAccessible(true);
-                Field field = pClass.getDeclaredField("thisX500Name");
+                Field field = pClbss.getDeclbredField("thisX500Nbme");
                 field.setAccessible(true);
                 return new Object[] {cons, field};
             }
         };
         try {
-            Object[] result = AccessController.doPrivileged(pa);
-            @SuppressWarnings("unchecked")
-            Constructor<X500Principal> constr =
-                    (Constructor<X500Principal>)result[0];
-            principalConstructor = constr;
-            principalField = (Field)result[1];
-        } catch (Exception e) {
-            throw new InternalError("Could not obtain X500Principal access", e);
+            Object[] result = AccessController.doPrivileged(pb);
+            @SuppressWbrnings("unchecked")
+            Constructor<X500Principbl> constr =
+                    (Constructor<X500Principbl>)result[0];
+            principblConstructor = constr;
+            principblField = (Field)result[1];
+        } cbtch (Exception e) {
+            throw new InternblError("Could not obtbin X500Principbl bccess", e);
         }
     }
 
     /**
-     * Get an X500Principal backed by this X500Name.
+     * Get bn X500Principbl bbcked by this X500Nbme.
      *
-     * Note that we are using privileged reflection to access the hidden
-     * package private constructor in X500Principal.
+     * Note thbt we bre using privileged reflection to bccess the hidden
+     * pbckbge privbte constructor in X500Principbl.
      */
-    public X500Principal asX500Principal() {
-        if (x500Principal == null) {
+    public X500Principbl bsX500Principbl() {
+        if (x500Principbl == null) {
             try {
-                Object[] args = new Object[] {this};
-                x500Principal = principalConstructor.newInstance(args);
-            } catch (Exception e) {
+                Object[] brgs = new Object[] {this};
+                x500Principbl = principblConstructor.newInstbnce(brgs);
+            } cbtch (Exception e) {
                 throw new RuntimeException("Unexpected exception", e);
             }
         }
-        return x500Principal;
+        return x500Principbl;
     }
 
     /**
-     * Get the X500Name contained in the given X500Principal.
+     * Get the X500Nbme contbined in the given X500Principbl.
      *
-     * Note that the X500Name is retrieved using reflection.
+     * Note thbt the X500Nbme is retrieved using reflection.
      */
-    public static X500Name asX500Name(X500Principal p) {
+    public stbtic X500Nbme bsX500Nbme(X500Principbl p) {
         try {
-            X500Name name = (X500Name)principalField.get(p);
-            name.x500Principal = p;
-            return name;
-        } catch (Exception e) {
+            X500Nbme nbme = (X500Nbme)principblField.get(p);
+            nbme.x500Principbl = p;
+            return nbme;
+        } cbtch (Exception e) {
             throw new RuntimeException("Unexpected exception", e);
         }
     }

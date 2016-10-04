@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.lang.reflect.AnnotatedElement;
-import java.io.InputStream;
-import java.util.Enumeration;
+import jbvb.lbng.reflect.AnnotbtedElement;
+import jbvb.io.InputStrebm;
+import jbvb.util.Enumerbtion;
 
-import java.util.StringTokenizer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.util.StringTokenizer;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.jar.JarInputStream;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.util.jar.JarException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvb.util.jbr.JbrInputStrebm;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.Attributes.Nbme;
+import jbvb.util.jbr.JbrException;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
 
-import sun.net.www.ParseUtil;
-import sun.reflect.CallerSensitive;
+import sun.net.www.PbrseUtil;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
-import java.lang.annotation.Annotation;
+import jbvb.lbng.bnnotbtion.Annotbtion;
 
 /**
- * {@code Package} objects contain version information
- * about the implementation and specification of a Java package.
- * This versioning information is retrieved and made available
- * by the {@link ClassLoader} instance that
- * loaded the class(es).  Typically, it is stored in the manifest that is
- * distributed with the classes.
+ * {@code Pbckbge} objects contbin version informbtion
+ * bbout the implementbtion bnd specificbtion of b Jbvb pbckbge.
+ * This versioning informbtion is retrieved bnd mbde bvbilbble
+ * by the {@link ClbssLobder} instbnce thbt
+ * lobded the clbss(es).  Typicblly, it is stored in the mbnifest thbt is
+ * distributed with the clbsses.
  *
- * <p>The set of classes that make up the package may implement a
- * particular specification and if so the specification title, version number,
- * and vendor strings identify that specification.
- * An application can ask if the package is
- * compatible with a particular version, see the {@link
- * #isCompatibleWith isCompatibleWith}
- * method for details.
+ * <p>The set of clbsses thbt mbke up the pbckbge mby implement b
+ * pbrticulbr specificbtion bnd if so the specificbtion title, version number,
+ * bnd vendor strings identify thbt specificbtion.
+ * An bpplicbtion cbn bsk if the pbckbge is
+ * compbtible with b pbrticulbr version, see the {@link
+ * #isCompbtibleWith isCompbtibleWith}
+ * method for detbils.
  *
- * <p>Specification version numbers use a syntax that consists of nonnegative
- * decimal integers separated by periods ".", for example "2.0" or
- * "1.2.3.4.5.6.7".  This allows an extensible number to be used to represent
- * major, minor, micro, etc. versions.  The version specification is described
- * by the following formal grammar:
+ * <p>Specificbtion version numbers use b syntbx thbt consists of nonnegbtive
+ * decimbl integers sepbrbted by periods ".", for exbmple "2.0" or
+ * "1.2.3.4.5.6.7".  This bllows bn extensible number to be used to represent
+ * mbjor, minor, micro, etc. versions.  The version specificbtion is described
+ * by the following formbl grbmmbr:
  * <blockquote>
  * <dl>
- * <dt><i>SpecificationVersion:</i>
+ * <dt><i>SpecificbtionVersion:</i>
  * <dd><i>Digits RefinedVersion<sub>opt</sub></i>
 
  * <dt><i>RefinedVersion:</i>
@@ -89,171 +89,171 @@ import java.lang.annotation.Annotation;
  * <dd><i>Digits</i>
  *
  * <dt><i>Digit:</i>
- * <dd>any character for which {@link Character#isDigit} returns {@code true},
+ * <dd>bny chbrbcter for which {@link Chbrbcter#isDigit} returns {@code true},
  * e.g. 0, 1, 2, ...
  * </dl>
  * </blockquote>
  *
- * <p>The implementation title, version, and vendor strings identify an
- * implementation and are made available conveniently to enable accurate
- * reporting of the packages involved when a problem occurs. The contents
- * all three implementation strings are vendor specific. The
- * implementation version strings have no specified syntax and should
- * only be compared for equality with desired version identifiers.
+ * <p>The implementbtion title, version, bnd vendor strings identify bn
+ * implementbtion bnd bre mbde bvbilbble conveniently to enbble bccurbte
+ * reporting of the pbckbges involved when b problem occurs. The contents
+ * bll three implementbtion strings bre vendor specific. The
+ * implementbtion version strings hbve no specified syntbx bnd should
+ * only be compbred for equblity with desired version identifiers.
  *
- * <p>Within each {@code ClassLoader} instance all classes from the same
- * java package have the same Package object.  The static methods allow a package
- * to be found by name or the set of all packages known to the current class
- * loader to be found.
+ * <p>Within ebch {@code ClbssLobder} instbnce bll clbsses from the sbme
+ * jbvb pbckbge hbve the sbme Pbckbge object.  The stbtic methods bllow b pbckbge
+ * to be found by nbme or the set of bll pbckbges known to the current clbss
+ * lobder to be found.
  *
- * @see ClassLoader#definePackage
+ * @see ClbssLobder#definePbckbge
  * @since 1.2
  */
-public class Package implements java.lang.reflect.AnnotatedElement {
+public clbss Pbckbge implements jbvb.lbng.reflect.AnnotbtedElement {
     /**
-     * Return the name of this package.
+     * Return the nbme of this pbckbge.
      *
-     * @return  The fully-qualified name of this package as defined in section 6.5.3 of
-     *          <cite>The Java&trade; Language Specification</cite>,
-     *          for example, {@code java.lang}
+     * @return  The fully-qublified nbme of this pbckbge bs defined in section 6.5.3 of
+     *          <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>,
+     *          for exbmple, {@code jbvb.lbng}
      */
-    public String getName() {
-        return pkgName;
+    public String getNbme() {
+        return pkgNbme;
     }
 
 
     /**
-     * Return the title of the specification that this package implements.
-     * @return the specification title, null is returned if it is not known.
+     * Return the title of the specificbtion thbt this pbckbge implements.
+     * @return the specificbtion title, null is returned if it is not known.
      */
-    public String getSpecificationTitle() {
+    public String getSpecificbtionTitle() {
         return specTitle;
     }
 
     /**
-     * Returns the version number of the specification
-     * that this package implements.
-     * This version string must be a sequence of nonnegative decimal
-     * integers separated by "."'s and may have leading zeros.
-     * When version strings are compared the most significant
-     * numbers are compared.
-     * @return the specification version, null is returned if it is not known.
+     * Returns the version number of the specificbtion
+     * thbt this pbckbge implements.
+     * This version string must be b sequence of nonnegbtive decimbl
+     * integers sepbrbted by "."'s bnd mby hbve lebding zeros.
+     * When version strings bre compbred the most significbnt
+     * numbers bre compbred.
+     * @return the specificbtion version, null is returned if it is not known.
      */
-    public String getSpecificationVersion() {
+    public String getSpecificbtionVersion() {
         return specVersion;
     }
 
     /**
-     * Return the name of the organization, vendor,
-     * or company that owns and maintains the specification
-     * of the classes that implement this package.
-     * @return the specification vendor, null is returned if it is not known.
+     * Return the nbme of the orgbnizbtion, vendor,
+     * or compbny thbt owns bnd mbintbins the specificbtion
+     * of the clbsses thbt implement this pbckbge.
+     * @return the specificbtion vendor, null is returned if it is not known.
      */
-    public String getSpecificationVendor() {
+    public String getSpecificbtionVendor() {
         return specVendor;
     }
 
     /**
-     * Return the title of this package.
-     * @return the title of the implementation, null is returned if it is not known.
+     * Return the title of this pbckbge.
+     * @return the title of the implementbtion, null is returned if it is not known.
      */
-    public String getImplementationTitle() {
+    public String getImplementbtionTitle() {
         return implTitle;
     }
 
     /**
-     * Return the version of this implementation. It consists of any string
-     * assigned by the vendor of this implementation and does
-     * not have any particular syntax specified or expected by the Java
-     * runtime. It may be compared for equality with other
-     * package version strings used for this implementation
-     * by this vendor for this package.
-     * @return the version of the implementation, null is returned if it is not known.
+     * Return the version of this implementbtion. It consists of bny string
+     * bssigned by the vendor of this implementbtion bnd does
+     * not hbve bny pbrticulbr syntbx specified or expected by the Jbvb
+     * runtime. It mby be compbred for equblity with other
+     * pbckbge version strings used for this implementbtion
+     * by this vendor for this pbckbge.
+     * @return the version of the implementbtion, null is returned if it is not known.
      */
-    public String getImplementationVersion() {
+    public String getImplementbtionVersion() {
         return implVersion;
     }
 
     /**
-     * Returns the name of the organization,
-     * vendor or company that provided this implementation.
-     * @return the vendor that implemented this package..
+     * Returns the nbme of the orgbnizbtion,
+     * vendor or compbny thbt provided this implementbtion.
+     * @return the vendor thbt implemented this pbckbge..
      */
-    public String getImplementationVendor() {
+    public String getImplementbtionVendor() {
         return implVendor;
     }
 
     /**
-     * Returns true if this package is sealed.
+     * Returns true if this pbckbge is sebled.
      *
-     * @return true if the package is sealed, false otherwise
+     * @return true if the pbckbge is sebled, fblse otherwise
      */
-    public boolean isSealed() {
-        return sealBase != null;
+    public boolebn isSebled() {
+        return seblBbse != null;
     }
 
     /**
-     * Returns true if this package is sealed with respect to the specified
+     * Returns true if this pbckbge is sebled with respect to the specified
      * code source url.
      *
-     * @param url the code source url
-     * @return true if this package is sealed with respect to url
+     * @pbrbm url the code source url
+     * @return true if this pbckbge is sebled with respect to url
      */
-    public boolean isSealed(URL url) {
-        return url.equals(sealBase);
+    public boolebn isSebled(URL url) {
+        return url.equbls(seblBbse);
     }
 
     /**
-     * Compare this package's specification version with a
+     * Compbre this pbckbge's specificbtion version with b
      * desired version. It returns true if
-     * this packages specification version number is greater than or equal
+     * this pbckbges specificbtion version number is grebter thbn or equbl
      * to the desired version number. <p>
      *
-     * Version numbers are compared by sequentially comparing corresponding
-     * components of the desired and specification strings.
-     * Each component is converted as a decimal integer and the values
-     * compared.
-     * If the specification value is greater than the desired
-     * value true is returned. If the value is less false is returned.
-     * If the values are equal the period is skipped and the next pair of
-     * components is compared.
+     * Version numbers bre compbred by sequentiblly compbring corresponding
+     * components of the desired bnd specificbtion strings.
+     * Ebch component is converted bs b decimbl integer bnd the vblues
+     * compbred.
+     * If the specificbtion vblue is grebter thbn the desired
+     * vblue true is returned. If the vblue is less fblse is returned.
+     * If the vblues bre equbl the period is skipped bnd the next pbir of
+     * components is compbred.
      *
-     * @param desired the version string of the desired version.
-     * @return true if this package's version number is greater
-     *          than or equal to the desired version number
+     * @pbrbm desired the version string of the desired version.
+     * @return true if this pbckbge's version number is grebter
+     *          thbn or equbl to the desired version number
      *
-     * @exception NumberFormatException if the desired or current version
+     * @exception NumberFormbtException if the desired or current version
      *          is not of the correct dotted form.
      */
-    public boolean isCompatibleWith(String desired)
-        throws NumberFormatException
+    public boolebn isCompbtibleWith(String desired)
+        throws NumberFormbtException
     {
         if (specVersion == null || specVersion.length() < 1) {
-            throw new NumberFormatException("Empty version string");
+            throw new NumberFormbtException("Empty version string");
         }
 
-        String [] sa = specVersion.split("\\.", -1);
-        int [] si = new int[sa.length];
-        for (int i = 0; i < sa.length; i++) {
-            si[i] = Integer.parseInt(sa[i]);
+        String [] sb = specVersion.split("\\.", -1);
+        int [] si = new int[sb.length];
+        for (int i = 0; i < sb.length; i++) {
+            si[i] = Integer.pbrseInt(sb[i]);
             if (si[i] < 0)
-                throw NumberFormatException.forInputString("" + si[i]);
+                throw NumberFormbtException.forInputString("" + si[i]);
         }
 
-        String [] da = desired.split("\\.", -1);
-        int [] di = new int[da.length];
-        for (int i = 0; i < da.length; i++) {
-            di[i] = Integer.parseInt(da[i]);
+        String [] db = desired.split("\\.", -1);
+        int [] di = new int[db.length];
+        for (int i = 0; i < db.length; i++) {
+            di[i] = Integer.pbrseInt(db[i]);
             if (di[i] < 0)
-                throw NumberFormatException.forInputString("" + di[i]);
+                throw NumberFormbtException.forInputString("" + di[i]);
         }
 
-        int len = Math.max(di.length, si.length);
+        int len = Mbth.mbx(di.length, si.length);
         for (int i = 0; i < len; i++) {
             int d = (i < di.length ? di[i] : 0);
             int s = (i < si.length ? si[i] : 0);
             if (s < d)
-                return false;
+                return fblse;
             if (s > d)
                 return true;
         }
@@ -261,80 +261,80 @@ public class Package implements java.lang.reflect.AnnotatedElement {
     }
 
     /**
-     * Find a package by name in the callers {@code ClassLoader} instance.
-     * The callers {@code ClassLoader} instance is used to find the package
-     * instance corresponding to the named class. If the callers
-     * {@code ClassLoader} instance is null then the set of packages loaded
-     * by the system {@code ClassLoader} instance is searched to find the
-     * named package. <p>
+     * Find b pbckbge by nbme in the cbllers {@code ClbssLobder} instbnce.
+     * The cbllers {@code ClbssLobder} instbnce is used to find the pbckbge
+     * instbnce corresponding to the nbmed clbss. If the cbllers
+     * {@code ClbssLobder} instbnce is null then the set of pbckbges lobded
+     * by the system {@code ClbssLobder} instbnce is sebrched to find the
+     * nbmed pbckbge. <p>
      *
-     * Packages have attributes for versions and specifications only if the class
-     * loader created the package instance with the appropriate attributes. Typically,
-     * those attributes are defined in the manifests that accompany the classes.
+     * Pbckbges hbve bttributes for versions bnd specificbtions only if the clbss
+     * lobder crebted the pbckbge instbnce with the bppropribte bttributes. Typicblly,
+     * those bttributes bre defined in the mbnifests thbt bccompbny the clbsses.
      *
-     * @param name a package name, for example, java.lang.
-     * @return the package of the requested name. It may be null if no package
-     *          information is available from the archive or codebase.
+     * @pbrbm nbme b pbckbge nbme, for exbmple, jbvb.lbng.
+     * @return the pbckbge of the requested nbme. It mby be null if no pbckbge
+     *          informbtion is bvbilbble from the brchive or codebbse.
      */
-    @CallerSensitive
-    public static Package getPackage(String name) {
-        ClassLoader l = ClassLoader.getClassLoader(Reflection.getCallerClass());
+    @CbllerSensitive
+    public stbtic Pbckbge getPbckbge(String nbme) {
+        ClbssLobder l = ClbssLobder.getClbssLobder(Reflection.getCbllerClbss());
         if (l != null) {
-            return l.getPackage(name);
+            return l.getPbckbge(nbme);
         } else {
-            return getSystemPackage(name);
+            return getSystemPbckbge(nbme);
         }
     }
 
     /**
-     * Get all the packages currently known for the caller's {@code ClassLoader}
-     * instance.  Those packages correspond to classes loaded via or accessible by
-     * name to that {@code ClassLoader} instance.  If the caller's
-     * {@code ClassLoader} instance is the bootstrap {@code ClassLoader}
-     * instance, which may be represented by {@code null} in some implementations,
-     * only packages corresponding to classes loaded by the bootstrap
-     * {@code ClassLoader} instance will be returned.
+     * Get bll the pbckbges currently known for the cbller's {@code ClbssLobder}
+     * instbnce.  Those pbckbges correspond to clbsses lobded vib or bccessible by
+     * nbme to thbt {@code ClbssLobder} instbnce.  If the cbller's
+     * {@code ClbssLobder} instbnce is the bootstrbp {@code ClbssLobder}
+     * instbnce, which mby be represented by {@code null} in some implementbtions,
+     * only pbckbges corresponding to clbsses lobded by the bootstrbp
+     * {@code ClbssLobder} instbnce will be returned.
      *
-     * @return a new array of packages known to the callers {@code ClassLoader}
-     * instance.  An zero length array is returned if none are known.
+     * @return b new brrby of pbckbges known to the cbllers {@code ClbssLobder}
+     * instbnce.  An zero length brrby is returned if none bre known.
      */
-    @CallerSensitive
-    public static Package[] getPackages() {
-        ClassLoader l = ClassLoader.getClassLoader(Reflection.getCallerClass());
+    @CbllerSensitive
+    public stbtic Pbckbge[] getPbckbges() {
+        ClbssLobder l = ClbssLobder.getClbssLobder(Reflection.getCbllerClbss());
         if (l != null) {
-            return l.getPackages();
+            return l.getPbckbges();
         } else {
-            return getSystemPackages();
+            return getSystemPbckbges();
         }
     }
 
     /**
-     * Get the package for the specified class.
-     * The class's class loader is used to find the package instance
-     * corresponding to the specified class. If the class loader
-     * is the bootstrap class loader, which may be represented by
-     * {@code null} in some implementations, then the set of packages
-     * loaded by the bootstrap class loader is searched to find the package.
+     * Get the pbckbge for the specified clbss.
+     * The clbss's clbss lobder is used to find the pbckbge instbnce
+     * corresponding to the specified clbss. If the clbss lobder
+     * is the bootstrbp clbss lobder, which mby be represented by
+     * {@code null} in some implementbtions, then the set of pbckbges
+     * lobded by the bootstrbp clbss lobder is sebrched to find the pbckbge.
      * <p>
-     * Packages have attributes for versions and specifications only
-     * if the class loader created the package
-     * instance with the appropriate attributes. Typically those
-     * attributes are defined in the manifests that accompany
-     * the classes.
+     * Pbckbges hbve bttributes for versions bnd specificbtions only
+     * if the clbss lobder crebted the pbckbge
+     * instbnce with the bppropribte bttributes. Typicblly those
+     * bttributes bre defined in the mbnifests thbt bccompbny
+     * the clbsses.
      *
-     * @param c the class to get the package of.
-     * @return the package of the class. It may be null if no package
-     *          information is available from the archive or codebase.  */
-    static Package getPackage(Class<?> c) {
-        String name = c.getName();
-        int i = name.lastIndexOf('.');
+     * @pbrbm c the clbss to get the pbckbge of.
+     * @return the pbckbge of the clbss. It mby be null if no pbckbge
+     *          informbtion is bvbilbble from the brchive or codebbse.  */
+    stbtic Pbckbge getPbckbge(Clbss<?> c) {
+        String nbme = c.getNbme();
+        int i = nbme.lbstIndexOf('.');
         if (i != -1) {
-            name = name.substring(0, i);
-            ClassLoader cl = c.getClassLoader();
+            nbme = nbme.substring(0, i);
+            ClbssLobder cl = c.getClbssLobder();
             if (cl != null) {
-                return cl.getPackage(name);
+                return cl.getPbckbge(nbme);
             } else {
-                return getSystemPackage(name);
+                return getSystemPbckbge(nbme);
             }
         } else {
             return null;
@@ -342,19 +342,19 @@ public class Package implements java.lang.reflect.AnnotatedElement {
     }
 
     /**
-     * Return the hash code computed from the package name.
-     * @return the hash code computed from the package name.
+     * Return the hbsh code computed from the pbckbge nbme.
+     * @return the hbsh code computed from the pbckbge nbme.
      */
-    public int hashCode(){
-        return pkgName.hashCode();
+    public int hbshCode(){
+        return pkgNbme.hbshCode();
     }
 
     /**
-     * Returns the string representation of this Package.
-     * Its value is the string "package " and the package name.
-     * If the package title is defined it is appended.
-     * If the package version is defined it is appended.
-     * @return the string representation of the package.
+     * Returns the string representbtion of this Pbckbge.
+     * Its vblue is the string "pbckbge " bnd the pbckbge nbme.
+     * If the pbckbge title is defined it is bppended.
+     * If the pbckbge version is defined it is bppended.
+     * @return the string representbtion of the pbckbge.
      */
     public String toString() {
         String spec = specTitle;
@@ -367,28 +367,28 @@ public class Package implements java.lang.reflect.AnnotatedElement {
             ver = ", version " + ver;
         else
             ver = "";
-        return "package " + pkgName + spec + ver;
+        return "pbckbge " + pkgNbme + spec + ver;
     }
 
-    private Class<?> getPackageInfo() {
-        if (packageInfo == null) {
+    privbte Clbss<?> getPbckbgeInfo() {
+        if (pbckbgeInfo == null) {
             try {
-                packageInfo = Class.forName(pkgName + ".package-info", false, loader);
-            } catch (ClassNotFoundException ex) {
-                // store a proxy for the package info that has no annotations
-                class PackageInfoProxy {}
-                packageInfo = PackageInfoProxy.class;
+                pbckbgeInfo = Clbss.forNbme(pkgNbme + ".pbckbge-info", fblse, lobder);
+            } cbtch (ClbssNotFoundException ex) {
+                // store b proxy for the pbckbge info thbt hbs no bnnotbtions
+                clbss PbckbgeInfoProxy {}
+                pbckbgeInfo = PbckbgeInfoProxy.clbss;
             }
         }
-        return packageInfo;
+        return pbckbgeInfo;
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
-    public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
-        return getPackageInfo().getAnnotation(annotationClass);
+    public <A extends Annotbtion> A getAnnotbtion(Clbss<A> bnnotbtionClbss) {
+        return getPbckbgeInfo().getAnnotbtion(bnnotbtionClbss);
     }
 
     /**
@@ -397,8 +397,8 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * @since 1.5
      */
     @Override
-    public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return AnnotatedElement.super.isAnnotationPresent(annotationClass);
+    public boolebn isAnnotbtionPresent(Clbss<? extends Annotbtion> bnnotbtionClbss) {
+        return AnnotbtedElement.super.isAnnotbtionPresent(bnnotbtionClbss);
     }
 
     /**
@@ -406,15 +406,15 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public  <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationClass) {
-        return getPackageInfo().getAnnotationsByType(annotationClass);
+    public  <A extends Annotbtion> A[] getAnnotbtionsByType(Clbss<A> bnnotbtionClbss) {
+        return getPbckbgeInfo().getAnnotbtionsByType(bnnotbtionClbss);
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getAnnotations() {
-        return getPackageInfo().getAnnotations();
+    public Annotbtion[] getAnnotbtions() {
+        return getPbckbgeInfo().getAnnotbtions();
     }
 
     /**
@@ -422,8 +422,8 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationClass) {
-        return getPackageInfo().getDeclaredAnnotation(annotationClass);
+    public <A extends Annotbtion> A getDeclbredAnnotbtion(Clbss<A> bnnotbtionClbss) {
+        return getPbckbgeInfo().getDeclbredAnnotbtion(bnnotbtionClbss);
     }
 
     /**
@@ -431,120 +431,120 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationClass) {
-        return getPackageInfo().getDeclaredAnnotationsByType(annotationClass);
+    public <A extends Annotbtion> A[] getDeclbredAnnotbtionsByType(Clbss<A> bnnotbtionClbss) {
+        return getPbckbgeInfo().getDeclbredAnnotbtionsByType(bnnotbtionClbss);
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return getPackageInfo().getDeclaredAnnotations();
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        return getPbckbgeInfo().getDeclbredAnnotbtions();
     }
 
     /**
-     * Construct a package instance with the specified version
-     * information.
-     * @param name the name of the package
-     * @param spectitle the title of the specification
-     * @param specversion the version of the specification
-     * @param specvendor the organization that maintains the specification
-     * @param impltitle the title of the implementation
-     * @param implversion the version of the implementation
-     * @param implvendor the organization that maintains the implementation
+     * Construct b pbckbge instbnce with the specified version
+     * informbtion.
+     * @pbrbm nbme the nbme of the pbckbge
+     * @pbrbm spectitle the title of the specificbtion
+     * @pbrbm specversion the version of the specificbtion
+     * @pbrbm specvendor the orgbnizbtion thbt mbintbins the specificbtion
+     * @pbrbm impltitle the title of the implementbtion
+     * @pbrbm implversion the version of the implementbtion
+     * @pbrbm implvendor the orgbnizbtion thbt mbintbins the implementbtion
      */
-    Package(String name,
+    Pbckbge(String nbme,
             String spectitle, String specversion, String specvendor,
             String impltitle, String implversion, String implvendor,
-            URL sealbase, ClassLoader loader)
+            URL seblbbse, ClbssLobder lobder)
     {
-        pkgName = name;
+        pkgNbme = nbme;
         implTitle = impltitle;
         implVersion = implversion;
         implVendor = implvendor;
         specTitle = spectitle;
         specVersion = specversion;
         specVendor = specvendor;
-        sealBase = sealbase;
-        this.loader = loader;
+        seblBbse = seblbbse;
+        this.lobder = lobder;
     }
 
     /*
-     * Construct a package using the attributes from the specified manifest.
+     * Construct b pbckbge using the bttributes from the specified mbnifest.
      *
-     * @param name the package name
-     * @param man the optional manifest for the package
-     * @param url the optional code source url for the package
+     * @pbrbm nbme the pbckbge nbme
+     * @pbrbm mbn the optionbl mbnifest for the pbckbge
+     * @pbrbm url the optionbl code source url for the pbckbge
      */
-    private Package(String name, Manifest man, URL url, ClassLoader loader) {
-        String path = name.replace('.', '/').concat("/");
-        String sealed = null;
+    privbte Pbckbge(String nbme, Mbnifest mbn, URL url, ClbssLobder lobder) {
+        String pbth = nbme.replbce('.', '/').concbt("/");
+        String sebled = null;
         String specTitle= null;
         String specVersion= null;
         String specVendor= null;
         String implTitle= null;
         String implVersion= null;
         String implVendor= null;
-        URL sealBase= null;
-        Attributes attr = man.getAttributes(path);
-        if (attr != null) {
-            specTitle   = attr.getValue(Name.SPECIFICATION_TITLE);
-            specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
-            specVendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-            implTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-            implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
-            implVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-            sealed      = attr.getValue(Name.SEALED);
+        URL seblBbse= null;
+        Attributes bttr = mbn.getAttributes(pbth);
+        if (bttr != null) {
+            specTitle   = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
+            specVersion = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
+            specVendor  = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
+            implTitle   = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
+            implVersion = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
+            implVendor  = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
+            sebled      = bttr.getVblue(Nbme.SEALED);
         }
-        attr = man.getMainAttributes();
-        if (attr != null) {
+        bttr = mbn.getMbinAttributes();
+        if (bttr != null) {
             if (specTitle == null) {
-                specTitle = attr.getValue(Name.SPECIFICATION_TITLE);
+                specTitle = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
             }
             if (specVersion == null) {
-                specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
+                specVersion = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
             }
             if (specVendor == null) {
-                specVendor = attr.getValue(Name.SPECIFICATION_VENDOR);
+                specVendor = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
             }
             if (implTitle == null) {
-                implTitle = attr.getValue(Name.IMPLEMENTATION_TITLE);
+                implTitle = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
             }
             if (implVersion == null) {
-                implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
+                implVersion = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
             }
             if (implVendor == null) {
-                implVendor = attr.getValue(Name.IMPLEMENTATION_VENDOR);
+                implVendor = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
             }
-            if (sealed == null) {
-                sealed = attr.getValue(Name.SEALED);
+            if (sebled == null) {
+                sebled = bttr.getVblue(Nbme.SEALED);
             }
         }
-        if ("true".equalsIgnoreCase(sealed)) {
-            sealBase = url;
+        if ("true".equblsIgnoreCbse(sebled)) {
+            seblBbse = url;
         }
-        pkgName = name;
+        pkgNbme = nbme;
         this.specTitle = specTitle;
         this.specVersion = specVersion;
         this.specVendor = specVendor;
         this.implTitle = implTitle;
         this.implVersion = implVersion;
         this.implVendor = implVendor;
-        this.sealBase = sealBase;
-        this.loader = loader;
+        this.seblBbse = seblBbse;
+        this.lobder = lobder;
     }
 
     /*
-     * Returns the loaded system package for the specified name.
+     * Returns the lobded system pbckbge for the specified nbme.
      */
-    static Package getSystemPackage(String name) {
+    stbtic Pbckbge getSystemPbckbge(String nbme) {
         synchronized (pkgs) {
-            Package pkg = pkgs.get(name);
+            Pbckbge pkg = pkgs.get(nbme);
             if (pkg == null) {
-                name = name.replace('.', '/').concat("/");
-                String fn = getSystemPackage0(name);
+                nbme = nbme.replbce('.', '/').concbt("/");
+                String fn = getSystemPbckbge0(nbme);
                 if (fn != null) {
-                    pkg = defineSystemPackage(name, fn);
+                    pkg = defineSystemPbckbge(nbme, fn);
                 }
             }
             return pkg;
@@ -552,94 +552,94 @@ public class Package implements java.lang.reflect.AnnotatedElement {
     }
 
     /*
-     * Return an array of loaded system packages.
+     * Return bn brrby of lobded system pbckbges.
      */
-    static Package[] getSystemPackages() {
-        // First, update the system package map with new package names
-        String[] names = getSystemPackages0();
+    stbtic Pbckbge[] getSystemPbckbges() {
+        // First, updbte the system pbckbge mbp with new pbckbge nbmes
+        String[] nbmes = getSystemPbckbges0();
         synchronized (pkgs) {
-            for (String name : names) {
-                defineSystemPackage(name, getSystemPackage0(name));
+            for (String nbme : nbmes) {
+                defineSystemPbckbge(nbme, getSystemPbckbge0(nbme));
             }
-            return pkgs.values().toArray(new Package[pkgs.size()]);
+            return pkgs.vblues().toArrby(new Pbckbge[pkgs.size()]);
         }
     }
 
-    private static Package defineSystemPackage(final String iname,
-                                               final String fn)
+    privbte stbtic Pbckbge defineSystemPbckbge(finbl String inbme,
+                                               finbl String fn)
     {
-        return AccessController.doPrivileged(new PrivilegedAction<Package>() {
-            public Package run() {
-                String name = iname;
-                // Get the cached code source url for the file name
+        return AccessController.doPrivileged(new PrivilegedAction<Pbckbge>() {
+            public Pbckbge run() {
+                String nbme = inbme;
+                // Get the cbched code source url for the file nbme
                 URL url = urls.get(fn);
                 if (url == null) {
-                    // URL not found, so create one
+                    // URL not found, so crebte one
                     File file = new File(fn);
                     try {
-                        url = ParseUtil.fileToEncodedURL(file);
-                    } catch (MalformedURLException e) {
+                        url = PbrseUtil.fileToEncodedURL(file);
+                    } cbtch (MblformedURLException e) {
                     }
                     if (url != null) {
                         urls.put(fn, url);
-                        // If loading a JAR file, then also cache the manifest
+                        // If lobding b JAR file, then blso cbche the mbnifest
                         if (file.isFile()) {
-                            mans.put(fn, loadManifest(fn));
+                            mbns.put(fn, lobdMbnifest(fn));
                         }
                     }
                 }
-                // Convert to "."-separated package name
-                name = name.substring(0, name.length() - 1).replace('/', '.');
-                Package pkg;
-                Manifest man = mans.get(fn);
-                if (man != null) {
-                    pkg = new Package(name, man, url, null);
+                // Convert to "."-sepbrbted pbckbge nbme
+                nbme = nbme.substring(0, nbme.length() - 1).replbce('/', '.');
+                Pbckbge pkg;
+                Mbnifest mbn = mbns.get(fn);
+                if (mbn != null) {
+                    pkg = new Pbckbge(nbme, mbn, url, null);
                 } else {
-                    pkg = new Package(name, null, null, null,
+                    pkg = new Pbckbge(nbme, null, null, null,
                                       null, null, null, null, null);
                 }
-                pkgs.put(name, pkg);
+                pkgs.put(nbme, pkg);
                 return pkg;
             }
         });
     }
 
     /*
-     * Returns the Manifest for the specified JAR file name.
+     * Returns the Mbnifest for the specified JAR file nbme.
      */
-    private static Manifest loadManifest(String fn) {
-        try (FileInputStream fis = new FileInputStream(fn);
-             JarInputStream jis = new JarInputStream(fis, false))
+    privbte stbtic Mbnifest lobdMbnifest(String fn) {
+        try (FileInputStrebm fis = new FileInputStrebm(fn);
+             JbrInputStrebm jis = new JbrInputStrebm(fis, fblse))
         {
-            return jis.getManifest();
-        } catch (IOException e) {
+            return jis.getMbnifest();
+        } cbtch (IOException e) {
             return null;
         }
     }
 
-    // The map of loaded system packages
-    private static Map<String, Package> pkgs = new HashMap<>(31);
+    // The mbp of lobded system pbckbges
+    privbte stbtic Mbp<String, Pbckbge> pkgs = new HbshMbp<>(31);
 
-    // Maps each directory or zip file name to its corresponding url
-    private static Map<String, URL> urls = new HashMap<>(10);
+    // Mbps ebch directory or zip file nbme to its corresponding url
+    privbte stbtic Mbp<String, URL> urls = new HbshMbp<>(10);
 
-    // Maps each code source url for a jar file to its manifest
-    private static Map<String, Manifest> mans = new HashMap<>(10);
+    // Mbps ebch code source url for b jbr file to its mbnifest
+    privbte stbtic Mbp<String, Mbnifest> mbns = new HbshMbp<>(10);
 
-    private static native String getSystemPackage0(String name);
-    private static native String[] getSystemPackages0();
+    privbte stbtic nbtive String getSystemPbckbge0(String nbme);
+    privbte stbtic nbtive String[] getSystemPbckbges0();
 
     /*
-     * Private storage for the package name and attributes.
+     * Privbte storbge for the pbckbge nbme bnd bttributes.
      */
-    private final String pkgName;
-    private final String specTitle;
-    private final String specVersion;
-    private final String specVendor;
-    private final String implTitle;
-    private final String implVersion;
-    private final String implVendor;
-    private final URL sealBase;
-    private transient final ClassLoader loader;
-    private transient Class<?> packageInfo;
+    privbte finbl String pkgNbme;
+    privbte finbl String specTitle;
+    privbte finbl String specVersion;
+    privbte finbl String specVendor;
+    privbte finbl String implTitle;
+    privbte finbl String implVersion;
+    privbte finbl String implVendor;
+    privbte finbl URL seblBbse;
+    privbte trbnsient finbl ClbssLobder lobder;
+    privbte trbnsient Clbss<?> pbckbgeInfo;
 }

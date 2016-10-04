@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
-import sun.security.action.GetIntegerAction;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.util.BitSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.security.bction.GetIntegerAction;
 
 /**
- * Manipulates a native array of epoll_event structs on Linux:
+ * Mbnipulbtes b nbtive brrby of epoll_event structs on Linux:
  *
- * typedef union epoll_data {
+ * typedef union epoll_dbtb {
  *     void *ptr;
  *     int fd;
  *     __uint32_t u32;
  *     __uint64_t u64;
- *  } epoll_data_t;
+ *  } epoll_dbtb_t;
  *
  * struct epoll_event {
  *     __uint32_t events;
- *     epoll_data_t data;
+ *     epoll_dbtb_t dbtb;
  * };
  *
- * The system call to wait for I/O events is epoll_wait(2). It populates an
- * array of epoll_event structures that are passed to the call. The data
- * member of the epoll_event structure contains the same data as was set
- * when the file descriptor was registered to epoll via epoll_ctl(2). In
- * this implementation we set data.fd to be the file descriptor that we
- * register. That way, we have the file descriptor available when we
+ * The system cbll to wbit for I/O events is epoll_wbit(2). It populbtes bn
+ * brrby of epoll_event structures thbt bre pbssed to the cbll. The dbtb
+ * member of the epoll_event structure contbins the sbme dbtb bs wbs set
+ * when the file descriptor wbs registered to epoll vib epoll_ctl(2). In
+ * this implementbtion we set dbtb.fd to be the file descriptor thbt we
+ * register. Thbt wby, we hbve the file descriptor bvbilbble when we
  * process the events.
  */
 
-class EPollArrayWrapper {
+clbss EPollArrbyWrbpper {
     // EPOLL_EVENTS
-    private static final int EPOLLIN      = 0x001;
+    privbte stbtic finbl int EPOLLIN      = 0x001;
 
     // opcodes
-    private static final int EPOLL_CTL_ADD      = 1;
-    private static final int EPOLL_CTL_DEL      = 2;
-    private static final int EPOLL_CTL_MOD      = 3;
+    privbte stbtic finbl int EPOLL_CTL_ADD      = 1;
+    privbte stbtic finbl int EPOLL_CTL_DEL      = 2;
+    privbte stbtic finbl int EPOLL_CTL_MOD      = 3;
 
-    // Miscellaneous constants
-    private static final int SIZE_EPOLLEVENT  = sizeofEPollEvent();
-    private static final int EVENT_OFFSET     = 0;
-    private static final int DATA_OFFSET      = offsetofData();
-    private static final int FD_OFFSET        = DATA_OFFSET;
-    private static final int OPEN_MAX         = IOUtil.fdLimit();
-    private static final int NUM_EPOLLEVENTS  = Math.min(OPEN_MAX, 8192);
+    // Miscellbneous constbnts
+    privbte stbtic finbl int SIZE_EPOLLEVENT  = sizeofEPollEvent();
+    privbte stbtic finbl int EVENT_OFFSET     = 0;
+    privbte stbtic finbl int DATA_OFFSET      = offsetofDbtb();
+    privbte stbtic finbl int FD_OFFSET        = DATA_OFFSET;
+    privbte stbtic finbl int OPEN_MAX         = IOUtil.fdLimit();
+    privbte stbtic finbl int NUM_EPOLLEVENTS  = Mbth.min(OPEN_MAX, 8192);
 
-    // Special value to indicate that an update should be ignored
-    private static final byte  KILLED = (byte)-1;
+    // Specibl vblue to indicbte thbt bn updbte should be ignored
+    privbte stbtic finbl byte  KILLED = (byte)-1;
 
-    // Initial size of arrays for fd registration changes
-    private static final int INITIAL_PENDING_UPDATE_SIZE = 64;
+    // Initibl size of brrbys for fd registrbtion chbnges
+    privbte stbtic finbl int INITIAL_PENDING_UPDATE_SIZE = 64;
 
-    // maximum size of updatesLow
-    private static final int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.maxUpdateArraySize", Math.min(OPEN_MAX, 64*1024)));
+    // mbximum size of updbtesLow
+    privbte stbtic finbl int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
+        new GetIntegerAction("sun.nio.ch.mbxUpdbteArrbySize", Mbth.min(OPEN_MAX, 64*1024)));
 
     // The fd of the epoll driver
-    private final int epfd;
+    privbte finbl int epfd;
 
-     // The epoll_event array for results from epoll_wait
-    private final AllocatedNativeObject pollArray;
+     // The epoll_event brrby for results from epoll_wbit
+    privbte finbl AllocbtedNbtiveObject pollArrby;
 
-    // Base address of the epoll_event array
-    private final long pollArrayAddress;
+    // Bbse bddress of the epoll_event brrby
+    privbte finbl long pollArrbyAddress;
 
     // The fd of the interrupt line going out
-    private int outgoingInterruptFD;
+    privbte int outgoingInterruptFD;
 
     // The fd of the interrupt line coming in
-    private int incomingInterruptFD;
+    privbte int incomingInterruptFD;
 
     // The index of the interrupt FD
-    private int interruptedIndex;
+    privbte int interruptedIndex;
 
-    // Number of updated pollfd entries
-    int updated;
+    // Number of updbted pollfd entries
+    int updbted;
 
-    // object to synchronize fd registration changes
-    private final Object updateLock = new Object();
+    // object to synchronize fd registrbtion chbnges
+    privbte finbl Object updbteLock = new Object();
 
-    // number of file descriptors with registration changes pending
-    private int updateCount;
+    // number of file descriptors with registrbtion chbnges pending
+    privbte int updbteCount;
 
-    // file descriptors with registration changes pending
-    private int[] updateDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
+    // file descriptors with registrbtion chbnges pending
+    privbte int[] updbteDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
 
-    // events for file descriptors with registration changes pending, indexed
-    // by file descriptor and stored as bytes for efficiency reasons. For
-    // file descriptors higher than MAX_UPDATE_ARRAY_SIZE (unlimited case at
-    // least) then the update is stored in a map.
-    private final byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
-    private Map<Integer,Byte> eventsHigh;
+    // events for file descriptors with registrbtion chbnges pending, indexed
+    // by file descriptor bnd stored bs bytes for efficiency rebsons. For
+    // file descriptors higher thbn MAX_UPDATE_ARRAY_SIZE (unlimited cbse bt
+    // lebst) then the updbte is stored in b mbp.
+    privbte finbl byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
+    privbte Mbp<Integer,Byte> eventsHigh;
 
-    // Used by release and updateRegistrations to track whether a file
+    // Used by relebse bnd updbteRegistrbtions to trbck whether b file
     // descriptor is registered with epoll.
-    private final BitSet registered = new BitSet();
+    privbte finbl BitSet registered = new BitSet();
 
 
-    EPollArrayWrapper() throws IOException {
-        // creates the epoll file descriptor
-        epfd = epollCreate();
+    EPollArrbyWrbpper() throws IOException {
+        // crebtes the epoll file descriptor
+        epfd = epollCrebte();
 
-        // the epoll_event array passed to epoll_wait
-        int allocationSize = NUM_EPOLLEVENTS * SIZE_EPOLLEVENT;
-        pollArray = new AllocatedNativeObject(allocationSize, true);
-        pollArrayAddress = pollArray.address();
+        // the epoll_event brrby pbssed to epoll_wbit
+        int bllocbtionSize = NUM_EPOLLEVENTS * SIZE_EPOLLEVENT;
+        pollArrby = new AllocbtedNbtiveObject(bllocbtionSize, true);
+        pollArrbyAddress = pollArrby.bddress();
 
         // eventHigh needed when using file descriptors > 64k
         if (OPEN_MAX > MAX_UPDATE_ARRAY_SIZE)
-            eventsHigh = new HashMap<>();
+            eventsHigh = new HbshMbp<>();
     }
 
     void initInterrupt(int fd0, int fd1) {
@@ -147,146 +147,146 @@ class EPollArrayWrapper {
 
     void putEventOps(int i, int event) {
         int offset = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
-        pollArray.putInt(offset, event);
+        pollArrby.putInt(offset, event);
     }
 
     void putDescriptor(int i, int fd) {
         int offset = SIZE_EPOLLEVENT * i + FD_OFFSET;
-        pollArray.putInt(offset, fd);
+        pollArrby.putInt(offset, fd);
     }
 
     int getEventOps(int i) {
         int offset = SIZE_EPOLLEVENT * i + EVENT_OFFSET;
-        return pollArray.getInt(offset);
+        return pollArrby.getInt(offset);
     }
 
     int getDescriptor(int i) {
         int offset = SIZE_EPOLLEVENT * i + FD_OFFSET;
-        return pollArray.getInt(offset);
+        return pollArrby.getInt(offset);
     }
 
     /**
-     * Returns {@code true} if updates for the given key (file
-     * descriptor) are killed.
+     * Returns {@code true} if updbtes for the given key (file
+     * descriptor) bre killed.
      */
-    private boolean isEventsHighKilled(Integer key) {
-        assert key >= MAX_UPDATE_ARRAY_SIZE;
-        Byte value = eventsHigh.get(key);
-        return (value != null && value == KILLED);
+    privbte boolebn isEventsHighKilled(Integer key) {
+        bssert key >= MAX_UPDATE_ARRAY_SIZE;
+        Byte vblue = eventsHigh.get(key);
+        return (vblue != null && vblue == KILLED);
     }
 
     /**
-     * Sets the pending update events for the given file descriptor. This
-     * method has no effect if the update events is already set to KILLED,
+     * Sets the pending updbte events for the given file descriptor. This
+     * method hbs no effect if the updbte events is blrebdy set to KILLED,
      * unless {@code force} is {@code true}.
      */
-    private void setUpdateEvents(int fd, byte events, boolean force) {
+    privbte void setUpdbteEvents(int fd, byte events, boolebn force) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             if ((eventsLow[fd] != KILLED) || force) {
                 eventsLow[fd] = events;
             }
         } else {
-            Integer key = Integer.valueOf(fd);
+            Integer key = Integer.vblueOf(fd);
             if (!isEventsHighKilled(key) || force) {
-                eventsHigh.put(key, Byte.valueOf(events));
+                eventsHigh.put(key, Byte.vblueOf(events));
             }
         }
     }
 
     /**
-     * Returns the pending update events for the given file descriptor.
+     * Returns the pending updbte events for the given file descriptor.
      */
-    private byte getUpdateEvents(int fd) {
+    privbte byte getUpdbteEvents(int fd) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             return eventsLow[fd];
         } else {
-            Byte result = eventsHigh.get(Integer.valueOf(fd));
+            Byte result = eventsHigh.get(Integer.vblueOf(fd));
             // result should never be null
-            return result.byteValue();
+            return result.byteVblue();
         }
     }
 
     /**
-     * Update the events for a given file descriptor
+     * Updbte the events for b given file descriptor
      */
-    void setInterest(int fd, int mask) {
-        synchronized (updateLock) {
-            // record the file descriptor and events
-            int oldCapacity = updateDescriptors.length;
-            if (updateCount == oldCapacity) {
-                int newCapacity = oldCapacity + INITIAL_PENDING_UPDATE_SIZE;
-                int[] newDescriptors = new int[newCapacity];
-                System.arraycopy(updateDescriptors, 0, newDescriptors, 0, oldCapacity);
-                updateDescriptors = newDescriptors;
+    void setInterest(int fd, int mbsk) {
+        synchronized (updbteLock) {
+            // record the file descriptor bnd events
+            int oldCbpbcity = updbteDescriptors.length;
+            if (updbteCount == oldCbpbcity) {
+                int newCbpbcity = oldCbpbcity + INITIAL_PENDING_UPDATE_SIZE;
+                int[] newDescriptors = new int[newCbpbcity];
+                System.brrbycopy(updbteDescriptors, 0, newDescriptors, 0, oldCbpbcity);
+                updbteDescriptors = newDescriptors;
             }
-            updateDescriptors[updateCount++] = fd;
+            updbteDescriptors[updbteCount++] = fd;
 
-            // events are stored as bytes for efficiency reasons
-            byte b = (byte)mask;
-            assert (b == mask) && (b != KILLED);
-            setUpdateEvents(fd, b, false);
+            // events bre stored bs bytes for efficiency rebsons
+            byte b = (byte)mbsk;
+            bssert (b == mbsk) && (b != KILLED);
+            setUpdbteEvents(fd, b, fblse);
         }
     }
 
     /**
-     * Add a file descriptor
+     * Add b file descriptor
      */
-    void add(int fd) {
-        // force the initial update events to 0 as it may be KILLED by a
-        // previous registration.
-        synchronized (updateLock) {
-            assert !registered.get(fd);
-            setUpdateEvents(fd, (byte)0, true);
+    void bdd(int fd) {
+        // force the initibl updbte events to 0 bs it mby be KILLED by b
+        // previous registrbtion.
+        synchronized (updbteLock) {
+            bssert !registered.get(fd);
+            setUpdbteEvents(fd, (byte)0, true);
         }
     }
 
     /**
-     * Remove a file descriptor
+     * Remove b file descriptor
      */
     void remove(int fd) {
-        synchronized (updateLock) {
-            // kill pending and future update for this file descriptor
-            setUpdateEvents(fd, KILLED, false);
+        synchronized (updbteLock) {
+            // kill pending bnd future updbte for this file descriptor
+            setUpdbteEvents(fd, KILLED, fblse);
 
             // remove from epoll
             if (registered.get(fd)) {
                 epollCtl(epfd, EPOLL_CTL_DEL, fd, 0);
-                registered.clear(fd);
+                registered.clebr(fd);
             }
         }
     }
 
     /**
-     * Close epoll file descriptor and free poll array
+     * Close epoll file descriptor bnd free poll brrby
      */
     void closeEPollFD() throws IOException {
-        FileDispatcherImpl.closeIntFD(epfd);
-        pollArray.free();
+        FileDispbtcherImpl.closeIntFD(epfd);
+        pollArrby.free();
     }
 
     int poll(long timeout) throws IOException {
-        updateRegistrations();
-        updated = epollWait(pollArrayAddress, NUM_EPOLLEVENTS, timeout, epfd);
-        for (int i=0; i<updated; i++) {
+        updbteRegistrbtions();
+        updbted = epollWbit(pollArrbyAddress, NUM_EPOLLEVENTS, timeout, epfd);
+        for (int i=0; i<updbted; i++) {
             if (getDescriptor(i) == incomingInterruptFD) {
                 interruptedIndex = i;
                 interrupted = true;
-                break;
+                brebk;
             }
         }
-        return updated;
+        return updbted;
     }
 
     /**
-     * Update the pending registrations.
+     * Updbte the pending registrbtions.
      */
-    private void updateRegistrations() {
-        synchronized (updateLock) {
+    privbte void updbteRegistrbtions() {
+        synchronized (updbteLock) {
             int j = 0;
-            while (j < updateCount) {
-                int fd = updateDescriptors[j];
-                short events = getUpdateEvents(fd);
-                boolean isRegistered = registered.get(fd);
+            while (j < updbteCount) {
+                int fd = updbteDescriptors[j];
+                short events = getUpdbteEvents(fd);
+                boolebn isRegistered = registered.get(fd);
                 int opcode = 0;
 
                 if (events != KILLED) {
@@ -300,18 +300,18 @@ class EPollArrayWrapper {
                         if (opcode == EPOLL_CTL_ADD) {
                             registered.set(fd);
                         } else if (opcode == EPOLL_CTL_DEL) {
-                            registered.clear(fd);
+                            registered.clebr(fd);
                         }
                     }
                 }
                 j++;
             }
-            updateCount = 0;
+            updbteCount = 0;
         }
     }
 
     // interrupt support
-    private boolean interrupted = false;
+    privbte boolebn interrupted = fblse;
 
     public void interrupt() {
         interrupt(outgoingInterruptFD);
@@ -321,25 +321,25 @@ class EPollArrayWrapper {
         return interruptedIndex;
     }
 
-    boolean interrupted() {
+    boolebn interrupted() {
         return interrupted;
     }
 
-    void clearInterrupted() {
-        interrupted = false;
+    void clebrInterrupted() {
+        interrupted = fblse;
     }
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         init();
     }
 
-    private native int epollCreate();
-    private native void epollCtl(int epfd, int opcode, int fd, int events);
-    private native int epollWait(long pollAddress, int numfds, long timeout,
+    privbte nbtive int epollCrebte();
+    privbte nbtive void epollCtl(int epfd, int opcode, int fd, int events);
+    privbte nbtive int epollWbit(long pollAddress, int numfds, long timeout,
                                  int epfd) throws IOException;
-    private static native int sizeofEPollEvent();
-    private static native int offsetofData();
-    private static native void interrupt(int fd);
-    private static native void init();
+    privbte stbtic nbtive int sizeofEPollEvent();
+    privbte stbtic nbtive int offsetofDbtb();
+    privbte stbtic nbtive void interrupt(int fd);
+    privbte stbtic nbtive void init();
 }

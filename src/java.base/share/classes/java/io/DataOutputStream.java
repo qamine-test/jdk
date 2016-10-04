@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A data output stream lets an application write primitive Java data
- * types to an output stream in a portable way. An application can
- * then use a data input stream to read the data back in.
+ * A dbtb output strebm lets bn bpplicbtion write primitive Jbvb dbtb
+ * types to bn output strebm in b portbble wby. An bpplicbtion cbn
+ * then use b dbtb input strebm to rebd the dbtb bbck in.
  *
- * @author  unascribed
- * @see     java.io.DataInputStream
+ * @buthor  unbscribed
+ * @see     jbvb.io.DbtbInputStrebm
  * @since   1.0
  */
 public
-class DataOutputStream extends FilterOutputStream implements DataOutput {
+clbss DbtbOutputStrebm extends FilterOutputStrebm implements DbtbOutput {
     /**
-     * The number of bytes written to the data output stream so far.
-     * If this counter overflows, it will be wrapped to Integer.MAX_VALUE.
+     * The number of bytes written to the dbtb output strebm so fbr.
+     * If this counter overflows, it will be wrbpped to Integer.MAX_VALUE.
      */
     protected int written;
 
     /**
-     * bytearr is initialized on demand by writeUTF
+     * bytebrr is initiblized on dembnd by writeUTF
      */
-    private byte[] bytearr = null;
+    privbte byte[] bytebrr = null;
 
     /**
-     * Creates a new data output stream to write data to the specified
-     * underlying output stream. The counter <code>written</code> is
+     * Crebtes b new dbtb output strebm to write dbtb to the specified
+     * underlying output strebm. The counter <code>written</code> is
      * set to zero.
      *
-     * @param   out   the underlying output stream, to be saved for later
+     * @pbrbm   out   the underlying output strebm, to be sbved for lbter
      *                use.
-     * @see     java.io.FilterOutputStream#out
+     * @see     jbvb.io.FilterOutputStrebm#out
      */
-    public DataOutputStream(OutputStream out) {
+    public DbtbOutputStrebm(OutputStrebm out) {
         super(out);
     }
 
     /**
-     * Increases the written counter by the specified value
-     * until it reaches Integer.MAX_VALUE.
+     * Increbses the written counter by the specified vblue
+     * until it rebches Integer.MAX_VALUE.
      */
-    private void incCount(int value) {
-        int temp = written + value;
+    privbte void incCount(int vblue) {
+        int temp = written + vblue;
         if (temp < 0) {
             temp = Integer.MAX_VALUE;
         }
@@ -73,16 +73,16 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     /**
-     * Writes the specified byte (the low eight bits of the argument
-     * <code>b</code>) to the underlying output stream. If no exception
+     * Writes the specified byte (the low eight bits of the brgument
+     * <code>b</code>) to the underlying output strebm. If no exception
      * is thrown, the counter <code>written</code> is incremented by
      * <code>1</code>.
      * <p>
-     * Implements the <code>write</code> method of <code>OutputStream</code>.
+     * Implements the <code>write</code> method of <code>OutputStrebm</code>.
      *
-     * @param      b   the <code>byte</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      b   the <code>byte</code> to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
     public synchronized void write(int b) throws IOException {
         out.write(b);
@@ -90,16 +90,16 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to the underlying output stream.
+     * Writes <code>len</code> bytes from the specified byte brrby
+     * stbrting bt offset <code>off</code> to the underlying output strebm.
      * If no exception is thrown, the counter <code>written</code> is
      * incremented by <code>len</code>.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      b     the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of bytes to write.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
     public synchronized void write(byte b[], int off, int len)
         throws IOException
@@ -109,91 +109,91 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     /**
-     * Flushes this data output stream. This forces any buffered output
-     * bytes to be written out to the stream.
+     * Flushes this dbtb output strebm. This forces bny buffered output
+     * bytes to be written out to the strebm.
      * <p>
-     * The <code>flush</code> method of <code>DataOutputStream</code>
-     * calls the <code>flush</code> method of its underlying output stream.
+     * The <code>flush</code> method of <code>DbtbOutputStrebm</code>
+     * cblls the <code>flush</code> method of its underlying output strebm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.io.OutputStream#flush()
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
+     * @see        jbvb.io.OutputStrebm#flush()
      */
     public void flush() throws IOException {
         out.flush();
     }
 
     /**
-     * Writes a <code>boolean</code> to the underlying output stream as
-     * a 1-byte value. The value <code>true</code> is written out as the
-     * value <code>(byte)1</code>; the value <code>false</code> is
-     * written out as the value <code>(byte)0</code>. If no exception is
+     * Writes b <code>boolebn</code> to the underlying output strebm bs
+     * b 1-byte vblue. The vblue <code>true</code> is written out bs the
+     * vblue <code>(byte)1</code>; the vblue <code>fblse</code> is
+     * written out bs the vblue <code>(byte)0</code>. If no exception is
      * thrown, the counter <code>written</code> is incremented by
      * <code>1</code>.
      *
-     * @param      v   a <code>boolean</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <code>boolebn</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeBoolean(boolean v) throws IOException {
+    public finbl void writeBoolebn(boolebn v) throws IOException {
         out.write(v ? 1 : 0);
         incCount(1);
     }
 
     /**
-     * Writes out a <code>byte</code> to the underlying output stream as
-     * a 1-byte value. If no exception is thrown, the counter
+     * Writes out b <code>byte</code> to the underlying output strebm bs
+     * b 1-byte vblue. If no exception is thrown, the counter
      * <code>written</code> is incremented by <code>1</code>.
      *
-     * @param      v   a <code>byte</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <code>byte</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeByte(int v) throws IOException {
+    public finbl void writeByte(int v) throws IOException {
         out.write(v);
         incCount(1);
     }
 
     /**
-     * Writes a <code>short</code> to the underlying output stream as two
+     * Writes b <code>short</code> to the underlying output strebm bs two
      * bytes, high byte first. If no exception is thrown, the counter
      * <code>written</code> is incremented by <code>2</code>.
      *
-     * @param      v   a <code>short</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <code>short</code> to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeShort(int v) throws IOException {
+    public finbl void writeShort(int v) throws IOException {
         out.write((v >>> 8) & 0xFF);
         out.write((v >>> 0) & 0xFF);
         incCount(2);
     }
 
     /**
-     * Writes a <code>char</code> to the underlying output stream as a
-     * 2-byte value, high byte first. If no exception is thrown, the
+     * Writes b <code>chbr</code> to the underlying output strebm bs b
+     * 2-byte vblue, high byte first. If no exception is thrown, the
      * counter <code>written</code> is incremented by <code>2</code>.
      *
-     * @param      v   a <code>char</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <code>chbr</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeChar(int v) throws IOException {
+    public finbl void writeChbr(int v) throws IOException {
         out.write((v >>> 8) & 0xFF);
         out.write((v >>> 0) & 0xFF);
         incCount(2);
     }
 
     /**
-     * Writes an <code>int</code> to the underlying output stream as four
+     * Writes bn <code>int</code> to the underlying output strebm bs four
      * bytes, high byte first. If no exception is thrown, the counter
      * <code>written</code> is incremented by <code>4</code>.
      *
-     * @param      v   an <code>int</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   bn <code>int</code> to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeInt(int v) throws IOException {
+    public finbl void writeInt(int v) throws IOException {
         out.write((v >>> 24) & 0xFF);
         out.write((v >>> 16) & 0xFF);
         out.write((v >>>  8) & 0xFF);
@@ -201,18 +201,18 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
         incCount(4);
     }
 
-    private byte writeBuffer[] = new byte[8];
+    privbte byte writeBuffer[] = new byte[8];
 
     /**
-     * Writes a <code>long</code> to the underlying output stream as eight
+     * Writes b <code>long</code> to the underlying output strebm bs eight
      * bytes, high byte first. In no exception is thrown, the counter
      * <code>written</code> is incremented by <code>8</code>.
      *
-     * @param      v   a <code>long</code> to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      v   b <code>long</code> to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeLong(long v) throws IOException {
+    public finbl void writeLong(long v) throws IOException {
         writeBuffer[0] = (byte)(v >>> 56);
         writeBuffer[1] = (byte)(v >>> 48);
         writeBuffer[2] = (byte)(v >>> 40);
@@ -226,74 +226,74 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     /**
-     * Converts the float argument to an <code>int</code> using the
-     * <code>floatToIntBits</code> method in class <code>Float</code>,
-     * and then writes that <code>int</code> value to the underlying
-     * output stream as a 4-byte quantity, high byte first. If no
+     * Converts the flobt brgument to bn <code>int</code> using the
+     * <code>flobtToIntBits</code> method in clbss <code>Flobt</code>,
+     * bnd then writes thbt <code>int</code> vblue to the underlying
+     * output strebm bs b 4-byte qubntity, high byte first. If no
      * exception is thrown, the counter <code>written</code> is
      * incremented by <code>4</code>.
      *
-     * @param      v   a <code>float</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.lang.Float#floatToIntBits(float)
+     * @pbrbm      v   b <code>flobt</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
+     * @see        jbvb.lbng.Flobt#flobtToIntBits(flobt)
      */
-    public final void writeFloat(float v) throws IOException {
-        writeInt(Float.floatToIntBits(v));
+    public finbl void writeFlobt(flobt v) throws IOException {
+        writeInt(Flobt.flobtToIntBits(v));
     }
 
     /**
-     * Converts the double argument to a <code>long</code> using the
-     * <code>doubleToLongBits</code> method in class <code>Double</code>,
-     * and then writes that <code>long</code> value to the underlying
-     * output stream as an 8-byte quantity, high byte first. If no
+     * Converts the double brgument to b <code>long</code> using the
+     * <code>doubleToLongBits</code> method in clbss <code>Double</code>,
+     * bnd then writes thbt <code>long</code> vblue to the underlying
+     * output strebm bs bn 8-byte qubntity, high byte first. If no
      * exception is thrown, the counter <code>written</code> is
      * incremented by <code>8</code>.
      *
-     * @param      v   a <code>double</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
-     * @see        java.lang.Double#doubleToLongBits(double)
+     * @pbrbm      v   b <code>double</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
+     * @see        jbvb.lbng.Double#doubleToLongBits(double)
      */
-    public final void writeDouble(double v) throws IOException {
+    public finbl void writeDouble(double v) throws IOException {
         writeLong(Double.doubleToLongBits(v));
     }
 
     /**
-     * Writes out the string to the underlying output stream as a
-     * sequence of bytes. Each character in the string is written out, in
-     * sequence, by discarding its high eight bits. If no exception is
+     * Writes out the string to the underlying output strebm bs b
+     * sequence of bytes. Ebch chbrbcter in the string is written out, in
+     * sequence, by discbrding its high eight bits. If no exception is
      * thrown, the counter <code>written</code> is incremented by the
      * length of <code>s</code>.
      *
-     * @param      s   a string of bytes to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      s   b string of bytes to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeBytes(String s) throws IOException {
+    public finbl void writeBytes(String s) throws IOException {
         int len = s.length();
         for (int i = 0 ; i < len ; i++) {
-            out.write((byte)s.charAt(i));
+            out.write((byte)s.chbrAt(i));
         }
         incCount(len);
     }
 
     /**
-     * Writes a string to the underlying output stream as a sequence of
-     * characters. Each character is written to the data output stream as
-     * if by the <code>writeChar</code> method. If no exception is
+     * Writes b string to the underlying output strebm bs b sequence of
+     * chbrbcters. Ebch chbrbcter is written to the dbtb output strebm bs
+     * if by the <code>writeChbr</code> method. If no exception is
      * thrown, the counter <code>written</code> is incremented by twice
      * the length of <code>s</code>.
      *
-     * @param      s   a <code>String</code> value to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.DataOutputStream#writeChar(int)
-     * @see        java.io.FilterOutputStream#out
+     * @pbrbm      s   b <code>String</code> vblue to be written.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.DbtbOutputStrebm#writeChbr(int)
+     * @see        jbvb.io.FilterOutputStrebm#out
      */
-    public final void writeChars(String s) throws IOException {
+    public finbl void writeChbrs(String s) throws IOException {
         int len = s.length();
         for (int i = 0 ; i < len ; i++) {
-            int v = s.charAt(i);
+            int v = s.chbrAt(i);
             out.write((v >>> 8) & 0xFF);
             out.write((v >>> 0) & 0xFF);
         }
@@ -301,56 +301,56 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     }
 
     /**
-     * Writes a string to the underlying output stream using
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * encoding in a machine-independent manner.
+     * Writes b string to the underlying output strebm using
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+     * encoding in b mbchine-independent mbnner.
      * <p>
-     * First, two bytes are written to the output stream as if by the
+     * First, two bytes bre written to the output strebm bs if by the
      * <code>writeShort</code> method giving the number of bytes to
-     * follow. This value is the number of bytes actually written out,
-     * not the length of the string. Following the length, each character
+     * follow. This vblue is the number of bytes bctublly written out,
+     * not the length of the string. Following the length, ebch chbrbcter
      * of the string is output, in sequence, using the modified UTF-8 encoding
-     * for the character. If no exception is thrown, the counter
-     * <code>written</code> is incremented by the total number of
-     * bytes written to the output stream. This will be at least two
-     * plus the length of <code>str</code>, and at most two plus
+     * for the chbrbcter. If no exception is thrown, the counter
+     * <code>written</code> is incremented by the totbl number of
+     * bytes written to the output strebm. This will be bt lebst two
+     * plus the length of <code>str</code>, bnd bt most two plus
      * thrice the length of <code>str</code>.
      *
-     * @param      str   a string to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      str   b string to be written.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public final void writeUTF(String str) throws IOException {
+    public finbl void writeUTF(String str) throws IOException {
         writeUTF(str, this);
     }
 
     /**
-     * Writes a string to the specified DataOutput using
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * encoding in a machine-independent manner.
+     * Writes b string to the specified DbtbOutput using
+     * <b href="DbtbInput.html#modified-utf-8">modified UTF-8</b>
+     * encoding in b mbchine-independent mbnner.
      * <p>
-     * First, two bytes are written to out as if by the <code>writeShort</code>
-     * method giving the number of bytes to follow. This value is the number of
-     * bytes actually written out, not the length of the string. Following the
-     * length, each character of the string is output, in sequence, using the
-     * modified UTF-8 encoding for the character. If no exception is thrown, the
-     * counter <code>written</code> is incremented by the total number of
-     * bytes written to the output stream. This will be at least two
-     * plus the length of <code>str</code>, and at most two plus
+     * First, two bytes bre written to out bs if by the <code>writeShort</code>
+     * method giving the number of bytes to follow. This vblue is the number of
+     * bytes bctublly written out, not the length of the string. Following the
+     * length, ebch chbrbcter of the string is output, in sequence, using the
+     * modified UTF-8 encoding for the chbrbcter. If no exception is thrown, the
+     * counter <code>written</code> is incremented by the totbl number of
+     * bytes written to the output strebm. This will be bt lebst two
+     * plus the length of <code>str</code>, bnd bt most two plus
      * thrice the length of <code>str</code>.
      *
-     * @param      str   a string to be written.
-     * @param      out   destination to write to
+     * @pbrbm      str   b string to be written.
+     * @pbrbm      out   destinbtion to write to
      * @return     The number of bytes written out.
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    static int writeUTF(String str, DataOutput out) throws IOException {
+    stbtic int writeUTF(String str, DbtbOutput out) throws IOException {
         int strlen = str.length();
         int utflen = 0;
         int c, count = 0;
 
-        /* use charAt instead of copying String to char array */
+        /* use chbrAt instebd of copying String to chbr brrby */
         for (int i = 0; i < strlen; i++) {
-            c = str.charAt(i);
+            c = str.chbrAt(i);
             if ((c >= 0x0001) && (c <= 0x007F)) {
                 utflen++;
             } else if (c > 0x07FF) {
@@ -361,56 +361,56 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
         }
 
         if (utflen > 65535)
-            throw new UTFDataFormatException(
+            throw new UTFDbtbFormbtException(
                 "encoded string too long: " + utflen + " bytes");
 
-        byte[] bytearr = null;
-        if (out instanceof DataOutputStream) {
-            DataOutputStream dos = (DataOutputStream)out;
-            if(dos.bytearr == null || (dos.bytearr.length < (utflen+2)))
-                dos.bytearr = new byte[(utflen*2) + 2];
-            bytearr = dos.bytearr;
+        byte[] bytebrr = null;
+        if (out instbnceof DbtbOutputStrebm) {
+            DbtbOutputStrebm dos = (DbtbOutputStrebm)out;
+            if(dos.bytebrr == null || (dos.bytebrr.length < (utflen+2)))
+                dos.bytebrr = new byte[(utflen*2) + 2];
+            bytebrr = dos.bytebrr;
         } else {
-            bytearr = new byte[utflen+2];
+            bytebrr = new byte[utflen+2];
         }
 
-        bytearr[count++] = (byte) ((utflen >>> 8) & 0xFF);
-        bytearr[count++] = (byte) ((utflen >>> 0) & 0xFF);
+        bytebrr[count++] = (byte) ((utflen >>> 8) & 0xFF);
+        bytebrr[count++] = (byte) ((utflen >>> 0) & 0xFF);
 
         int i=0;
         for (i=0; i<strlen; i++) {
-           c = str.charAt(i);
-           if (!((c >= 0x0001) && (c <= 0x007F))) break;
-           bytearr[count++] = (byte) c;
+           c = str.chbrAt(i);
+           if (!((c >= 0x0001) && (c <= 0x007F))) brebk;
+           bytebrr[count++] = (byte) c;
         }
 
         for (;i < strlen; i++){
-            c = str.charAt(i);
+            c = str.chbrAt(i);
             if ((c >= 0x0001) && (c <= 0x007F)) {
-                bytearr[count++] = (byte) c;
+                bytebrr[count++] = (byte) c;
 
             } else if (c > 0x07FF) {
-                bytearr[count++] = (byte) (0xE0 | ((c >> 12) & 0x0F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  6) & 0x3F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
+                bytebrr[count++] = (byte) (0xE0 | ((c >> 12) & 0x0F));
+                bytebrr[count++] = (byte) (0x80 | ((c >>  6) & 0x3F));
+                bytebrr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
             } else {
-                bytearr[count++] = (byte) (0xC0 | ((c >>  6) & 0x1F));
-                bytearr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
+                bytebrr[count++] = (byte) (0xC0 | ((c >>  6) & 0x1F));
+                bytebrr[count++] = (byte) (0x80 | ((c >>  0) & 0x3F));
             }
         }
-        out.write(bytearr, 0, utflen+2);
+        out.write(bytebrr, 0, utflen+2);
         return utflen + 2;
     }
 
     /**
-     * Returns the current value of the counter <code>written</code>,
-     * the number of bytes written to this data output stream so far.
-     * If the counter overflows, it will be wrapped to Integer.MAX_VALUE.
+     * Returns the current vblue of the counter <code>written</code>,
+     * the number of bytes written to this dbtb output strebm so fbr.
+     * If the counter overflows, it will be wrbpped to Integer.MAX_VALUE.
      *
-     * @return  the value of the <code>written</code> field.
-     * @see     java.io.DataOutputStream#written
+     * @return  the vblue of the <code>written</code> field.
+     * @see     jbvb.io.DbtbOutputStrebm#written
      */
-    public final int size() {
+    public finbl int size() {
         return written;
     }
 }

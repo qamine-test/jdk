@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-import java.util.function.LongConsumer;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objects;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.function.BoolebnSupplier;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.DoubleSupplier;
+import jbvb.util.function.IntConsumer;
+import jbvb.util.function.IntSupplier;
+import jbvb.util.function.LongConsumer;
+import jbvb.util.function.LongSupplier;
+import jbvb.util.function.Supplier;
 
 /**
- * Spliterator implementations for wrapping and delegating spliterators, used
- * in the implementation of the {@link Stream#spliterator()} method.
+ * Spliterbtor implementbtions for wrbpping bnd delegbting spliterbtors, used
+ * in the implementbtion of the {@link Strebm#spliterbtor()} method.
  *
  * @since 1.8
  */
-class StreamSpliterators {
+clbss StrebmSpliterbtors {
 
     /**
-     * Abstract wrapping spliterator that binds to the spliterator of a
-     * pipeline helper on first operation.
+     * Abstrbct wrbpping spliterbtor thbt binds to the spliterbtor of b
+     * pipeline helper on first operbtion.
      *
-     * <p>This spliterator is not late-binding and will bind to the source
-     * spliterator when first operated on.
+     * <p>This spliterbtor is not lbte-binding bnd will bind to the source
+     * spliterbtor when first operbted on.
      *
-     * <p>A wrapping spliterator produced from a sequential stream
-     * cannot be split if there are stateful operations present.
+     * <p>A wrbpping spliterbtor produced from b sequentibl strebm
+     * cbnnot be split if there bre stbteful operbtions present.
      */
-    private static abstract class AbstractWrappingSpliterator<P_IN, P_OUT,
-                                                              T_BUFFER extends AbstractSpinedBuffer>
-            implements Spliterator<P_OUT> {
+    privbte stbtic bbstrbct clbss AbstrbctWrbppingSpliterbtor<P_IN, P_OUT,
+                                                              T_BUFFER extends AbstrbctSpinedBuffer>
+            implements Spliterbtor<P_OUT> {
 
-        // @@@ Detect if stateful operations are present or not
-        //     If not then can split otherwise cannot
+        // @@@ Detect if stbteful operbtions bre present or not
+        //     If not then cbn split otherwise cbnnot
 
         /**
-         * True if this spliterator supports splitting
+         * True if this spliterbtor supports splitting
          */
-        final boolean isParallel;
+        finbl boolebn isPbrbllel;
 
-        final PipelineHelper<P_OUT> ph;
+        finbl PipelineHelper<P_OUT> ph;
 
         /**
-         * Supplier for the source spliterator.  Client provides either a
-         * spliterator or a supplier.
+         * Supplier for the source spliterbtor.  Client provides either b
+         * spliterbtor or b supplier.
          */
-        private Supplier<Spliterator<P_IN>> spliteratorSupplier;
+        privbte Supplier<Spliterbtor<P_IN>> spliterbtorSupplier;
 
         /**
-         * Source spliterator.  Either provided from client or obtained from
+         * Source spliterbtor.  Either provided from client or obtbined from
          * supplier.
          */
-        Spliterator<P_IN> spliterator;
+        Spliterbtor<P_IN> spliterbtor;
 
         /**
-         * Sink chain for the downstream stages of the pipeline, ultimately
-         * leading to the buffer. Used during partial traversal.
+         * Sink chbin for the downstrebm stbges of the pipeline, ultimbtely
+         * lebding to the buffer. Used during pbrtibl trbversbl.
          */
         Sink<P_IN> bufferSink;
 
         /**
-         * A function that advances one element of the spliterator, pushing
-         * it to bufferSink.  Returns whether any elements were processed.
-         * Used during partial traversal.
+         * A function thbt bdvbnces one element of the spliterbtor, pushing
+         * it to bufferSink.  Returns whether bny elements were processed.
+         * Used during pbrtibl trbversbl.
          */
-        BooleanSupplier pusher;
+        BoolebnSupplier pusher;
 
-        /** Next element to consume from the buffer, used during partial traversal */
+        /** Next element to consume from the buffer, used during pbrtibl trbversbl */
         long nextToConsume;
 
-        /** Buffer into which elements are pushed.  Used during partial traversal. */
+        /** Buffer into which elements bre pushed.  Used during pbrtibl trbversbl. */
         T_BUFFER buffer;
 
         /**
-         * True if full traversal has occurred (with possible cancelation).
-         * If doing a partial traversal, there may be still elements in buffer.
+         * True if full trbversbl hbs occurred (with possible cbncelbtion).
+         * If doing b pbrtibl trbversbl, there mby be still elements in buffer.
          */
-        boolean finished;
+        boolebn finished;
 
         /**
-         * Construct an AbstractWrappingSpliterator from a
-         * {@code Supplier<Spliterator>}.
+         * Construct bn AbstrbctWrbppingSpliterbtor from b
+         * {@code Supplier<Spliterbtor>}.
          */
-        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph,
-                                    Supplier<Spliterator<P_IN>> spliteratorSupplier,
-                                    boolean parallel) {
+        AbstrbctWrbppingSpliterbtor(PipelineHelper<P_OUT> ph,
+                                    Supplier<Spliterbtor<P_IN>> spliterbtorSupplier,
+                                    boolebn pbrbllel) {
             this.ph = ph;
-            this.spliteratorSupplier = spliteratorSupplier;
-            this.spliterator = null;
-            this.isParallel = parallel;
+            this.spliterbtorSupplier = spliterbtorSupplier;
+            this.spliterbtor = null;
+            this.isPbrbllel = pbrbllel;
         }
 
         /**
-         * Construct an AbstractWrappingSpliterator from a
-         * {@code Spliterator}.
+         * Construct bn AbstrbctWrbppingSpliterbtor from b
+         * {@code Spliterbtor}.
          */
-        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph,
-                                    Spliterator<P_IN> spliterator,
-                                    boolean parallel) {
+        AbstrbctWrbppingSpliterbtor(PipelineHelper<P_OUT> ph,
+                                    Spliterbtor<P_IN> spliterbtor,
+                                    boolebn pbrbllel) {
             this.ph = ph;
-            this.spliteratorSupplier = null;
-            this.spliterator = spliterator;
-            this.isParallel = parallel;
+            this.spliterbtorSupplier = null;
+            this.spliterbtor = spliterbtor;
+            this.isPbrbllel = pbrbllel;
         }
 
         /**
-         * Called before advancing to set up spliterator, if needed.
+         * Cblled before bdvbncing to set up spliterbtor, if needed.
          */
-        final void init() {
-            if (spliterator == null) {
-                spliterator = spliteratorSupplier.get();
-                spliteratorSupplier = null;
+        finbl void init() {
+            if (spliterbtor == null) {
+                spliterbtor = spliterbtorSupplier.get();
+                spliterbtorSupplier = null;
             }
         }
 
         /**
-         * Get an element from the source, pushing it into the sink chain,
+         * Get bn element from the source, pushing it into the sink chbin,
          * setting up the buffer if needed
-         * @return whether there are elements to consume from the buffer
+         * @return whether there bre elements to consume from the buffer
          */
-        final boolean doAdvance() {
+        finbl boolebn doAdvbnce() {
             if (buffer == null) {
                 if (finished)
-                    return false;
+                    return fblse;
 
                 init();
-                initPartialTraversalState();
+                initPbrtiblTrbversblStbte();
                 nextToConsume = 0;
-                bufferSink.begin(spliterator.getExactSizeIfKnown());
+                bufferSink.begin(spliterbtor.getExbctSizeIfKnown());
                 return fillBuffer();
             }
             else {
                 ++nextToConsume;
-                boolean hasNext = nextToConsume < buffer.count();
-                if (!hasNext) {
+                boolebn hbsNext = nextToConsume < buffer.count();
+                if (!hbsNext) {
                     nextToConsume = 0;
-                    buffer.clear();
-                    hasNext = fillBuffer();
+                    buffer.clebr();
+                    hbsNext = fillBuffer();
                 }
-                return hasNext;
+                return hbsNext;
             }
         }
 
         /**
-         * Invokes the shape-specific constructor with the provided arguments
-         * and returns the result.
+         * Invokes the shbpe-specific constructor with the provided brguments
+         * bnd returns the result.
          */
-        abstract AbstractWrappingSpliterator<P_IN, P_OUT, ?> wrap(Spliterator<P_IN> s);
+        bbstrbct AbstrbctWrbppingSpliterbtor<P_IN, P_OUT, ?> wrbp(Spliterbtor<P_IN> s);
 
         /**
-         * Initializes buffer, sink chain, and pusher for a shape-specific
-         * implementation.
+         * Initiblizes buffer, sink chbin, bnd pusher for b shbpe-specific
+         * implementbtion.
          */
-        abstract void initPartialTraversalState();
+        bbstrbct void initPbrtiblTrbversblStbte();
 
         @Override
-        public Spliterator<P_OUT> trySplit() {
-            if (isParallel && !finished) {
+        public Spliterbtor<P_OUT> trySplit() {
+            if (isPbrbllel && !finished) {
                 init();
 
-                Spliterator<P_IN> split = spliterator.trySplit();
-                return (split == null) ? null : wrap(split);
+                Spliterbtor<P_IN> split = spliterbtor.trySplit();
+                return (split == null) ? null : wrbp(split);
             }
             else
                 return null;
         }
 
         /**
-         * If the buffer is empty, push elements into the sink chain until
-         * the source is empty or cancellation is requested.
-         * @return whether there are elements to consume from the buffer
+         * If the buffer is empty, push elements into the sink chbin until
+         * the source is empty or cbncellbtion is requested.
+         * @return whether there bre elements to consume from the buffer
          */
-        private boolean fillBuffer() {
+        privbte boolebn fillBuffer() {
             while (buffer.count() == 0) {
-                if (bufferSink.cancellationRequested() || !pusher.getAsBoolean()) {
+                if (bufferSink.cbncellbtionRequested() || !pusher.getAsBoolebn()) {
                     if (finished)
-                        return false;
+                        return fblse;
                     else {
                         bufferSink.end(); // might trigger more elements
                         finished = true;
@@ -216,295 +216,295 @@ class StreamSpliterators {
         }
 
         @Override
-        public final long estimateSize() {
+        public finbl long estimbteSize() {
             init();
-            // Use the estimate of the wrapped spliterator
-            // Note this may not be accurate if there are filter/flatMap
-            // operations filtering or adding elements to the stream
-            return spliterator.estimateSize();
+            // Use the estimbte of the wrbpped spliterbtor
+            // Note this mby not be bccurbte if there bre filter/flbtMbp
+            // operbtions filtering or bdding elements to the strebm
+            return spliterbtor.estimbteSize();
         }
 
         @Override
-        public final long getExactSizeIfKnown() {
+        public finbl long getExbctSizeIfKnown() {
             init();
-            return StreamOpFlag.SIZED.isKnown(ph.getStreamAndOpFlags())
-                   ? spliterator.getExactSizeIfKnown()
+            return StrebmOpFlbg.SIZED.isKnown(ph.getStrebmAndOpFlbgs())
+                   ? spliterbtor.getExbctSizeIfKnown()
                    : -1;
         }
 
         @Override
-        public final int characteristics() {
+        public finbl int chbrbcteristics() {
             init();
 
-            // Get the characteristics from the pipeline
-            int c = StreamOpFlag.toCharacteristics(StreamOpFlag.toStreamFlags(ph.getStreamAndOpFlags()));
+            // Get the chbrbcteristics from the pipeline
+            int c = StrebmOpFlbg.toChbrbcteristics(StrebmOpFlbg.toStrebmFlbgs(ph.getStrebmAndOpFlbgs()));
 
-            // Mask off the size and uniform characteristics and replace with
-            // those of the spliterator
-            // Note that a non-uniform spliterator can change from something
-            // with an exact size to an estimate for a sub-split, for example
-            // with HashSet where the size is known at the top level spliterator
-            // but for sub-splits only an estimate is known
-            if ((c & Spliterator.SIZED) != 0) {
-                c &= ~(Spliterator.SIZED | Spliterator.SUBSIZED);
-                c |= (spliterator.characteristics() & (Spliterator.SIZED | Spliterator.SUBSIZED));
+            // Mbsk off the size bnd uniform chbrbcteristics bnd replbce with
+            // those of the spliterbtor
+            // Note thbt b non-uniform spliterbtor cbn chbnge from something
+            // with bn exbct size to bn estimbte for b sub-split, for exbmple
+            // with HbshSet where the size is known bt the top level spliterbtor
+            // but for sub-splits only bn estimbte is known
+            if ((c & Spliterbtor.SIZED) != 0) {
+                c &= ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED);
+                c |= (spliterbtor.chbrbcteristics() & (Spliterbtor.SIZED | Spliterbtor.SUBSIZED));
             }
 
             return c;
         }
 
         @Override
-        public Comparator<? super P_OUT> getComparator() {
-            if (!hasCharacteristics(SORTED))
-                throw new IllegalStateException();
+        public Compbrbtor<? super P_OUT> getCompbrbtor() {
+            if (!hbsChbrbcteristics(SORTED))
+                throw new IllegblStbteException();
             return null;
         }
 
         @Override
-        public final String toString() {
-            return String.format("%s[%s]", getClass().getName(), spliterator);
+        public finbl String toString() {
+            return String.formbt("%s[%s]", getClbss().getNbme(), spliterbtor);
         }
     }
 
-    static final class WrappingSpliterator<P_IN, P_OUT>
-            extends AbstractWrappingSpliterator<P_IN, P_OUT, SpinedBuffer<P_OUT>> {
+    stbtic finbl clbss WrbppingSpliterbtor<P_IN, P_OUT>
+            extends AbstrbctWrbppingSpliterbtor<P_IN, P_OUT, SpinedBuffer<P_OUT>> {
 
-        WrappingSpliterator(PipelineHelper<P_OUT> ph,
-                            Supplier<Spliterator<P_IN>> supplier,
-                            boolean parallel) {
-            super(ph, supplier, parallel);
+        WrbppingSpliterbtor(PipelineHelper<P_OUT> ph,
+                            Supplier<Spliterbtor<P_IN>> supplier,
+                            boolebn pbrbllel) {
+            super(ph, supplier, pbrbllel);
         }
 
-        WrappingSpliterator(PipelineHelper<P_OUT> ph,
-                            Spliterator<P_IN> spliterator,
-                            boolean parallel) {
-            super(ph, spliterator, parallel);
-        }
-
-        @Override
-        WrappingSpliterator<P_IN, P_OUT> wrap(Spliterator<P_IN> s) {
-            return new WrappingSpliterator<>(ph, s, isParallel);
+        WrbppingSpliterbtor(PipelineHelper<P_OUT> ph,
+                            Spliterbtor<P_IN> spliterbtor,
+                            boolebn pbrbllel) {
+            super(ph, spliterbtor, pbrbllel);
         }
 
         @Override
-        void initPartialTraversalState() {
+        WrbppingSpliterbtor<P_IN, P_OUT> wrbp(Spliterbtor<P_IN> s) {
+            return new WrbppingSpliterbtor<>(ph, s, isPbrbllel);
+        }
+
+        @Override
+        void initPbrtiblTrbversblStbte() {
             SpinedBuffer<P_OUT> b = new SpinedBuffer<>();
             buffer = b;
-            bufferSink = ph.wrapSink(b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+            bufferSink = ph.wrbpSink(b::bccept);
+            pusher = () -> spliterbtor.tryAdvbnce(bufferSink);
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super P_OUT> consumer) {
+        public boolebn tryAdvbnce(Consumer<? super P_OUT> consumer) {
             Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+            boolebn hbsNext = doAdvbnce();
+            if (hbsNext)
+                consumer.bccept(buffer.get(nextToConsume));
+            return hbsNext;
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super P_OUT> consumer) {
+        public void forEbchRembining(Consumer<? super P_OUT> consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
 
-                ph.wrapAndCopyInto((Sink<P_OUT>) consumer::accept, spliterator);
+                ph.wrbpAndCopyInto((Sink<P_OUT>) consumer::bccept, spliterbtor);
                 finished = true;
             }
             else {
-                do { } while (tryAdvance(consumer));
+                do { } while (tryAdvbnce(consumer));
             }
         }
     }
 
-    static final class IntWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Integer, SpinedBuffer.OfInt>
-            implements Spliterator.OfInt {
+    stbtic finbl clbss IntWrbppingSpliterbtor<P_IN>
+            extends AbstrbctWrbppingSpliterbtor<P_IN, Integer, SpinedBuffer.OfInt>
+            implements Spliterbtor.OfInt {
 
-        IntWrappingSpliterator(PipelineHelper<Integer> ph,
-                               Supplier<Spliterator<P_IN>> supplier,
-                               boolean parallel) {
-            super(ph, supplier, parallel);
+        IntWrbppingSpliterbtor(PipelineHelper<Integer> ph,
+                               Supplier<Spliterbtor<P_IN>> supplier,
+                               boolebn pbrbllel) {
+            super(ph, supplier, pbrbllel);
         }
 
-        IntWrappingSpliterator(PipelineHelper<Integer> ph,
-                               Spliterator<P_IN> spliterator,
-                               boolean parallel) {
-            super(ph, spliterator, parallel);
-        }
-
-        @Override
-        AbstractWrappingSpliterator<P_IN, Integer, ?> wrap(Spliterator<P_IN> s) {
-            return new IntWrappingSpliterator<>(ph, s, isParallel);
+        IntWrbppingSpliterbtor(PipelineHelper<Integer> ph,
+                               Spliterbtor<P_IN> spliterbtor,
+                               boolebn pbrbllel) {
+            super(ph, spliterbtor, pbrbllel);
         }
 
         @Override
-        void initPartialTraversalState() {
+        AbstrbctWrbppingSpliterbtor<P_IN, Integer, ?> wrbp(Spliterbtor<P_IN> s) {
+            return new IntWrbppingSpliterbtor<>(ph, s, isPbrbllel);
+        }
+
+        @Override
+        void initPbrtiblTrbversblStbte() {
             SpinedBuffer.OfInt b = new SpinedBuffer.OfInt();
             buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfInt) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+            bufferSink = ph.wrbpSink((Sink.OfInt) b::bccept);
+            pusher = () -> spliterbtor.tryAdvbnce(bufferSink);
         }
 
         @Override
-        public Spliterator.OfInt trySplit() {
-            return (Spliterator.OfInt) super.trySplit();
+        public Spliterbtor.OfInt trySplit() {
+            return (Spliterbtor.OfInt) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer consumer) {
+        public boolebn tryAdvbnce(IntConsumer consumer) {
             Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+            boolebn hbsNext = doAdvbnce();
+            if (hbsNext)
+                consumer.bccept(buffer.get(nextToConsume));
+            return hbsNext;
         }
 
         @Override
-        public void forEachRemaining(IntConsumer consumer) {
+        public void forEbchRembining(IntConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
 
-                ph.wrapAndCopyInto((Sink.OfInt) consumer::accept, spliterator);
+                ph.wrbpAndCopyInto((Sink.OfInt) consumer::bccept, spliterbtor);
                 finished = true;
             }
             else {
-                do { } while (tryAdvance(consumer));
+                do { } while (tryAdvbnce(consumer));
             }
         }
     }
 
-    static final class LongWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Long, SpinedBuffer.OfLong>
-            implements Spliterator.OfLong {
+    stbtic finbl clbss LongWrbppingSpliterbtor<P_IN>
+            extends AbstrbctWrbppingSpliterbtor<P_IN, Long, SpinedBuffer.OfLong>
+            implements Spliterbtor.OfLong {
 
-        LongWrappingSpliterator(PipelineHelper<Long> ph,
-                                Supplier<Spliterator<P_IN>> supplier,
-                                boolean parallel) {
-            super(ph, supplier, parallel);
+        LongWrbppingSpliterbtor(PipelineHelper<Long> ph,
+                                Supplier<Spliterbtor<P_IN>> supplier,
+                                boolebn pbrbllel) {
+            super(ph, supplier, pbrbllel);
         }
 
-        LongWrappingSpliterator(PipelineHelper<Long> ph,
-                                Spliterator<P_IN> spliterator,
-                                boolean parallel) {
-            super(ph, spliterator, parallel);
-        }
-
-        @Override
-        AbstractWrappingSpliterator<P_IN, Long, ?> wrap(Spliterator<P_IN> s) {
-            return new LongWrappingSpliterator<>(ph, s, isParallel);
+        LongWrbppingSpliterbtor(PipelineHelper<Long> ph,
+                                Spliterbtor<P_IN> spliterbtor,
+                                boolebn pbrbllel) {
+            super(ph, spliterbtor, pbrbllel);
         }
 
         @Override
-        void initPartialTraversalState() {
+        AbstrbctWrbppingSpliterbtor<P_IN, Long, ?> wrbp(Spliterbtor<P_IN> s) {
+            return new LongWrbppingSpliterbtor<>(ph, s, isPbrbllel);
+        }
+
+        @Override
+        void initPbrtiblTrbversblStbte() {
             SpinedBuffer.OfLong b = new SpinedBuffer.OfLong();
             buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfLong) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+            bufferSink = ph.wrbpSink((Sink.OfLong) b::bccept);
+            pusher = () -> spliterbtor.tryAdvbnce(bufferSink);
         }
 
         @Override
-        public Spliterator.OfLong trySplit() {
-            return (Spliterator.OfLong) super.trySplit();
+        public Spliterbtor.OfLong trySplit() {
+            return (Spliterbtor.OfLong) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer consumer) {
+        public boolebn tryAdvbnce(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+            boolebn hbsNext = doAdvbnce();
+            if (hbsNext)
+                consumer.bccept(buffer.get(nextToConsume));
+            return hbsNext;
         }
 
         @Override
-        public void forEachRemaining(LongConsumer consumer) {
+        public void forEbchRembining(LongConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
 
-                ph.wrapAndCopyInto((Sink.OfLong) consumer::accept, spliterator);
+                ph.wrbpAndCopyInto((Sink.OfLong) consumer::bccept, spliterbtor);
                 finished = true;
             }
             else {
-                do { } while (tryAdvance(consumer));
+                do { } while (tryAdvbnce(consumer));
             }
         }
     }
 
-    static final class DoubleWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Double, SpinedBuffer.OfDouble>
-            implements Spliterator.OfDouble {
+    stbtic finbl clbss DoubleWrbppingSpliterbtor<P_IN>
+            extends AbstrbctWrbppingSpliterbtor<P_IN, Double, SpinedBuffer.OfDouble>
+            implements Spliterbtor.OfDouble {
 
-        DoubleWrappingSpliterator(PipelineHelper<Double> ph,
-                                  Supplier<Spliterator<P_IN>> supplier,
-                                  boolean parallel) {
-            super(ph, supplier, parallel);
+        DoubleWrbppingSpliterbtor(PipelineHelper<Double> ph,
+                                  Supplier<Spliterbtor<P_IN>> supplier,
+                                  boolebn pbrbllel) {
+            super(ph, supplier, pbrbllel);
         }
 
-        DoubleWrappingSpliterator(PipelineHelper<Double> ph,
-                                  Spliterator<P_IN> spliterator,
-                                  boolean parallel) {
-            super(ph, spliterator, parallel);
-        }
-
-        @Override
-        AbstractWrappingSpliterator<P_IN, Double, ?> wrap(Spliterator<P_IN> s) {
-            return new DoubleWrappingSpliterator<>(ph, s, isParallel);
+        DoubleWrbppingSpliterbtor(PipelineHelper<Double> ph,
+                                  Spliterbtor<P_IN> spliterbtor,
+                                  boolebn pbrbllel) {
+            super(ph, spliterbtor, pbrbllel);
         }
 
         @Override
-        void initPartialTraversalState() {
+        AbstrbctWrbppingSpliterbtor<P_IN, Double, ?> wrbp(Spliterbtor<P_IN> s) {
+            return new DoubleWrbppingSpliterbtor<>(ph, s, isPbrbllel);
+        }
+
+        @Override
+        void initPbrtiblTrbversblStbte() {
             SpinedBuffer.OfDouble b = new SpinedBuffer.OfDouble();
             buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfDouble) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+            bufferSink = ph.wrbpSink((Sink.OfDouble) b::bccept);
+            pusher = () -> spliterbtor.tryAdvbnce(bufferSink);
         }
 
         @Override
-        public Spliterator.OfDouble trySplit() {
-            return (Spliterator.OfDouble) super.trySplit();
+        public Spliterbtor.OfDouble trySplit() {
+            return (Spliterbtor.OfDouble) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer consumer) {
+        public boolebn tryAdvbnce(DoubleConsumer consumer) {
             Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+            boolebn hbsNext = doAdvbnce();
+            if (hbsNext)
+                consumer.bccept(buffer.get(nextToConsume));
+            return hbsNext;
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer consumer) {
+        public void forEbchRembining(DoubleConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
 
-                ph.wrapAndCopyInto((Sink.OfDouble) consumer::accept, spliterator);
+                ph.wrbpAndCopyInto((Sink.OfDouble) consumer::bccept, spliterbtor);
                 finished = true;
             }
             else {
-                do { } while (tryAdvance(consumer));
+                do { } while (tryAdvbnce(consumer));
             }
         }
     }
 
     /**
-     * Spliterator implementation that delegates to an underlying spliterator,
-     * acquiring the spliterator from a {@code Supplier<Spliterator>} on the
-     * first call to any spliterator method.
-     * @param <T>
+     * Spliterbtor implementbtion thbt delegbtes to bn underlying spliterbtor,
+     * bcquiring the spliterbtor from b {@code Supplier<Spliterbtor>} on the
+     * first cbll to bny spliterbtor method.
+     * @pbrbm <T>
      */
-    static class DelegatingSpliterator<T, T_SPLITR extends Spliterator<T>>
-            implements Spliterator<T> {
-        private final Supplier<? extends T_SPLITR> supplier;
+    stbtic clbss DelegbtingSpliterbtor<T, T_SPLITR extends Spliterbtor<T>>
+            implements Spliterbtor<T> {
+        privbte finbl Supplier<? extends T_SPLITR> supplier;
 
-        private T_SPLITR s;
+        privbte T_SPLITR s;
 
-        DelegatingSpliterator(Supplier<? extends T_SPLITR> supplier) {
+        DelegbtingSpliterbtor(Supplier<? extends T_SPLITR> supplier) {
             this.supplier = supplier;
         }
 
@@ -516,112 +516,112 @@ class StreamSpliterators {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public T_SPLITR trySplit() {
             return (T_SPLITR) get().trySplit();
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> consumer) {
-            return get().tryAdvance(consumer);
+        public boolebn tryAdvbnce(Consumer<? super T> consumer) {
+            return get().tryAdvbnce(consumer);
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> consumer) {
-            get().forEachRemaining(consumer);
+        public void forEbchRembining(Consumer<? super T> consumer) {
+            get().forEbchRembining(consumer);
         }
 
         @Override
-        public long estimateSize() {
-            return get().estimateSize();
+        public long estimbteSize() {
+            return get().estimbteSize();
         }
 
         @Override
-        public int characteristics() {
-            return get().characteristics();
+        public int chbrbcteristics() {
+            return get().chbrbcteristics();
         }
 
         @Override
-        public Comparator<? super T> getComparator() {
-            return get().getComparator();
+        public Compbrbtor<? super T> getCompbrbtor() {
+            return get().getCompbrbtor();
         }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return get().getExactSizeIfKnown();
+        public long getExbctSizeIfKnown() {
+            return get().getExbctSizeIfKnown();
         }
 
         @Override
         public String toString() {
-            return getClass().getName() + "[" + get() + "]";
+            return getClbss().getNbme() + "[" + get() + "]";
         }
 
-        static class OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-            extends DelegatingSpliterator<T, T_SPLITR>
-            implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
+        stbtic clbss OfPrimitive<T, T_CONS, T_SPLITR extends Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR>>
+            extends DelegbtingSpliterbtor<T, T_SPLITR>
+            implements Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR> {
             OfPrimitive(Supplier<? extends T_SPLITR> supplier) {
                 super(supplier);
             }
 
             @Override
-            public boolean tryAdvance(T_CONS consumer) {
-                return get().tryAdvance(consumer);
+            public boolebn tryAdvbnce(T_CONS consumer) {
+                return get().tryAdvbnce(consumer);
             }
 
             @Override
-            public void forEachRemaining(T_CONS consumer) {
-                get().forEachRemaining(consumer);
+            public void forEbchRembining(T_CONS consumer) {
+                get().forEbchRembining(consumer);
             }
         }
 
-        static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, Spliterator.OfInt>
-                implements Spliterator.OfInt {
+        stbtic finbl clbss OfInt
+                extends OfPrimitive<Integer, IntConsumer, Spliterbtor.OfInt>
+                implements Spliterbtor.OfInt {
 
-            OfInt(Supplier<Spliterator.OfInt> supplier) {
+            OfInt(Supplier<Spliterbtor.OfInt> supplier) {
                 super(supplier);
             }
         }
 
-        static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, Spliterator.OfLong>
-                implements Spliterator.OfLong {
+        stbtic finbl clbss OfLong
+                extends OfPrimitive<Long, LongConsumer, Spliterbtor.OfLong>
+                implements Spliterbtor.OfLong {
 
-            OfLong(Supplier<Spliterator.OfLong> supplier) {
+            OfLong(Supplier<Spliterbtor.OfLong> supplier) {
                 super(supplier);
             }
         }
 
-        static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, Spliterator.OfDouble>
-                implements Spliterator.OfDouble {
+        stbtic finbl clbss OfDouble
+                extends OfPrimitive<Double, DoubleConsumer, Spliterbtor.OfDouble>
+                implements Spliterbtor.OfDouble {
 
-            OfDouble(Supplier<Spliterator.OfDouble> supplier) {
+            OfDouble(Supplier<Spliterbtor.OfDouble> supplier) {
                 super(supplier);
             }
         }
     }
 
     /**
-     * A slice Spliterator from a source Spliterator that reports
+     * A slice Spliterbtor from b source Spliterbtor thbt reports
      * {@code SUBSIZED}.
      *
      */
-    static abstract class SliceSpliterator<T, T_SPLITR extends Spliterator<T>> {
-        // The start index of the slice
-        final long sliceOrigin;
-        // One past the last index of the slice
-        final long sliceFence;
+    stbtic bbstrbct clbss SliceSpliterbtor<T, T_SPLITR extends Spliterbtor<T>> {
+        // The stbrt index of the slice
+        finbl long sliceOrigin;
+        // One pbst the lbst index of the slice
+        finbl long sliceFence;
 
-        // The spliterator to slice
+        // The spliterbtor to slice
         T_SPLITR s;
-        // current (absolute) index, modified on advance/split
+        // current (bbsolute) index, modified on bdvbnce/split
         long index;
-        // one past last (absolute) index or sliceFence, which ever is smaller
+        // one pbst lbst (bbsolute) index or sliceFence, which ever is smbller
         long fence;
 
-        SliceSpliterator(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence) {
-            assert s.hasCharacteristics(Spliterator.SUBSIZED);
+        SliceSpliterbtor(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence) {
+            bssert s.hbsChbrbcteristics(Spliterbtor.SUBSIZED);
             this.s = s;
             this.sliceOrigin = sliceOrigin;
             this.sliceFence = sliceFence;
@@ -629,7 +629,7 @@ class StreamSpliterators {
             this.fence = fence;
         }
 
-        protected abstract T_SPLITR makeSpliterator(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence);
+        protected bbstrbct T_SPLITR mbkeSpliterbtor(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence);
 
         public T_SPLITR trySplit() {
             if (sliceOrigin >= fence)
@@ -638,96 +638,96 @@ class StreamSpliterators {
             if (index >= fence)
                 return null;
 
-            // Keep splitting until the left and right splits intersect with the slice
-            // thereby ensuring the size estimate decreases.
-            // This also avoids creating empty spliterators which can result in
-            // existing and additionally created F/J tasks that perform
-            // redundant work on no elements.
+            // Keep splitting until the left bnd right splits intersect with the slice
+            // thereby ensuring the size estimbte decrebses.
+            // This blso bvoids crebting empty spliterbtors which cbn result in
+            // existing bnd bdditionblly crebted F/J tbsks thbt perform
+            // redundbnt work on no elements.
             while (true) {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 T_SPLITR leftSplit = (T_SPLITR) s.trySplit();
                 if (leftSplit == null)
                     return null;
 
-                long leftSplitFenceUnbounded = index + leftSplit.estimateSize();
-                long leftSplitFence = Math.min(leftSplitFenceUnbounded, sliceFence);
+                long leftSplitFenceUnbounded = index + leftSplit.estimbteSize();
+                long leftSplitFence = Mbth.min(leftSplitFenceUnbounded, sliceFence);
                 if (sliceOrigin >= leftSplitFence) {
-                    // The left split does not intersect with, and is to the left of, the slice
+                    // The left split does not intersect with, bnd is to the left of, the slice
                     // The right split does intersect
-                    // Discard the left split and split further with the right split
+                    // Discbrd the left split bnd split further with the right split
                     index = leftSplitFence;
                 }
                 else if (leftSplitFence >= sliceFence) {
-                    // The right split does not intersect with, and is to the right of, the slice
+                    // The right split does not intersect with, bnd is to the right of, the slice
                     // The left split does intersect
-                    // Discard the right split and split further with the left split
+                    // Discbrd the right split bnd split further with the left split
                     s = leftSplit;
                     fence = leftSplitFence;
                 }
                 else if (index >= sliceOrigin && leftSplitFenceUnbounded <= sliceFence) {
-                    // The left split is contained within the slice, return the underlying left split
-                    // Right split is contained within or intersects with the slice
+                    // The left split is contbined within the slice, return the underlying left split
+                    // Right split is contbined within or intersects with the slice
                     index = leftSplitFence;
                     return leftSplit;
                 } else {
                     // The left split intersects with the slice
-                    // Right split is contained within or intersects with the slice
-                    return makeSpliterator(leftSplit, sliceOrigin, sliceFence, index, index = leftSplitFence);
+                    // Right split is contbined within or intersects with the slice
+                    return mbkeSpliterbtor(leftSplit, sliceOrigin, sliceFence, index, index = leftSplitFence);
                 }
             }
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return (sliceOrigin < fence)
-                   ? fence - Math.max(sliceOrigin, index) : 0;
+                   ? fence - Mbth.mbx(sliceOrigin, index) : 0;
         }
 
-        public int characteristics() {
-            return s.characteristics();
+        public int chbrbcteristics() {
+            return s.chbrbcteristics();
         }
 
-        static final class OfRef<T>
-                extends SliceSpliterator<T, Spliterator<T>>
-                implements Spliterator<T> {
+        stbtic finbl clbss OfRef<T>
+                extends SliceSpliterbtor<T, Spliterbtor<T>>
+                implements Spliterbtor<T> {
 
-            OfRef(Spliterator<T> s, long sliceOrigin, long sliceFence) {
-                this(s, sliceOrigin, sliceFence, 0, Math.min(s.estimateSize(), sliceFence));
+            OfRef(Spliterbtor<T> s, long sliceOrigin, long sliceFence) {
+                this(s, sliceOrigin, sliceFence, 0, Mbth.min(s.estimbteSize(), sliceFence));
             }
 
-            private OfRef(Spliterator<T> s,
+            privbte OfRef(Spliterbtor<T> s,
                           long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            protected Spliterator<T> makeSpliterator(Spliterator<T> s,
+            protected Spliterbtor<T> mbkeSpliterbtor(Spliterbtor<T> s,
                                                      long sliceOrigin, long sliceFence,
                                                      long origin, long fence) {
                 return new OfRef<>(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(Consumer<? super T> bction) {
+                Objects.requireNonNull(bction);
 
                 if (sliceOrigin >= fence)
-                    return false;
+                    return fblse;
 
                 while (sliceOrigin > index) {
-                    s.tryAdvance(e -> {});
+                    s.tryAdvbnce(e -> {});
                     index++;
                 }
 
                 if (index >= fence)
-                    return false;
+                    return fblse;
 
                 index++;
-                return s.tryAdvance(action);
+                return s.tryAdvbnce(bction);
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            public void forEbchRembining(Consumer<? super T> bction) {
+                Objects.requireNonNull(bction);
 
                 if (sliceOrigin >= fence)
                     return;
@@ -735,61 +735,61 @@ class StreamSpliterators {
                 if (index >= fence)
                     return;
 
-                if (index >= sliceOrigin && (index + s.estimateSize()) <= sliceFence) {
-                    // The spliterator is contained within the slice
-                    s.forEachRemaining(action);
+                if (index >= sliceOrigin && (index + s.estimbteSize()) <= sliceFence) {
+                    // The spliterbtor is contbined within the slice
+                    s.forEbchRembining(bction);
                     index = fence;
                 } else {
-                    // The spliterator intersects with the slice
+                    // The spliterbtor intersects with the slice
                     while (sliceOrigin > index) {
-                        s.tryAdvance(e -> {});
+                        s.tryAdvbnce(e -> {});
                         index++;
                     }
-                    // Traverse elements up to the fence
+                    // Trbverse elements up to the fence
                     for (;index < fence; index++) {
-                        s.tryAdvance(action);
+                        s.tryAdvbnce(bction);
                     }
                 }
             }
         }
 
-        static abstract class OfPrimitive<T,
-                T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>,
+        stbtic bbstrbct clbss OfPrimitive<T,
+                T_SPLITR extends Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR>,
                 T_CONS>
-                extends SliceSpliterator<T, T_SPLITR>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
+                extends SliceSpliterbtor<T, T_SPLITR>
+                implements Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR> {
 
             OfPrimitive(T_SPLITR s, long sliceOrigin, long sliceFence) {
-                this(s, sliceOrigin, sliceFence, 0, Math.min(s.estimateSize(), sliceFence));
+                this(s, sliceOrigin, sliceFence, 0, Mbth.min(s.estimbteSize(), sliceFence));
             }
 
-            private OfPrimitive(T_SPLITR s,
+            privbte OfPrimitive(T_SPLITR s,
                                 long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            public boolean tryAdvance(T_CONS action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(T_CONS bction) {
+                Objects.requireNonNull(bction);
 
                 if (sliceOrigin >= fence)
-                    return false;
+                    return fblse;
 
                 while (sliceOrigin > index) {
-                    s.tryAdvance(emptyConsumer());
+                    s.tryAdvbnce(emptyConsumer());
                     index++;
                 }
 
                 if (index >= fence)
-                    return false;
+                    return fblse;
 
                 index++;
-                return s.tryAdvance(action);
+                return s.tryAdvbnce(bction);
             }
 
             @Override
-            public void forEachRemaining(T_CONS action) {
-                Objects.requireNonNull(action);
+            public void forEbchRembining(T_CONS bction) {
+                Objects.requireNonNull(bction);
 
                 if (sliceOrigin >= fence)
                     return;
@@ -797,42 +797,42 @@ class StreamSpliterators {
                 if (index >= fence)
                     return;
 
-                if (index >= sliceOrigin && (index + s.estimateSize()) <= sliceFence) {
-                    // The spliterator is contained within the slice
-                    s.forEachRemaining(action);
+                if (index >= sliceOrigin && (index + s.estimbteSize()) <= sliceFence) {
+                    // The spliterbtor is contbined within the slice
+                    s.forEbchRembining(bction);
                     index = fence;
                 } else {
-                    // The spliterator intersects with the slice
+                    // The spliterbtor intersects with the slice
                     while (sliceOrigin > index) {
-                        s.tryAdvance(emptyConsumer());
+                        s.tryAdvbnce(emptyConsumer());
                         index++;
                     }
-                    // Traverse elements up to the fence
+                    // Trbverse elements up to the fence
                     for (;index < fence; index++) {
-                        s.tryAdvance(action);
+                        s.tryAdvbnce(bction);
                     }
                 }
             }
 
-            protected abstract T_CONS emptyConsumer();
+            protected bbstrbct T_CONS emptyConsumer();
         }
 
-        static final class OfInt extends OfPrimitive<Integer, Spliterator.OfInt, IntConsumer>
-                implements Spliterator.OfInt {
-            OfInt(Spliterator.OfInt s, long sliceOrigin, long sliceFence) {
+        stbtic finbl clbss OfInt extends OfPrimitive<Integer, Spliterbtor.OfInt, IntConsumer>
+                implements Spliterbtor.OfInt {
+            OfInt(Spliterbtor.OfInt s, long sliceOrigin, long sliceFence) {
                 super(s, sliceOrigin, sliceFence);
             }
 
-            OfInt(Spliterator.OfInt s,
+            OfInt(Spliterbtor.OfInt s,
                   long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            protected Spliterator.OfInt makeSpliterator(Spliterator.OfInt s,
+            protected Spliterbtor.OfInt mbkeSpliterbtor(Spliterbtor.OfInt s,
                                                         long sliceOrigin, long sliceFence,
                                                         long origin, long fence) {
-                return new SliceSpliterator.OfInt(s, sliceOrigin, sliceFence, origin, fence);
+                return new SliceSpliterbtor.OfInt(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
@@ -841,22 +841,22 @@ class StreamSpliterators {
             }
         }
 
-        static final class OfLong extends OfPrimitive<Long, Spliterator.OfLong, LongConsumer>
-                implements Spliterator.OfLong {
-            OfLong(Spliterator.OfLong s, long sliceOrigin, long sliceFence) {
+        stbtic finbl clbss OfLong extends OfPrimitive<Long, Spliterbtor.OfLong, LongConsumer>
+                implements Spliterbtor.OfLong {
+            OfLong(Spliterbtor.OfLong s, long sliceOrigin, long sliceFence) {
                 super(s, sliceOrigin, sliceFence);
             }
 
-            OfLong(Spliterator.OfLong s,
+            OfLong(Spliterbtor.OfLong s,
                    long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            protected Spliterator.OfLong makeSpliterator(Spliterator.OfLong s,
+            protected Spliterbtor.OfLong mbkeSpliterbtor(Spliterbtor.OfLong s,
                                                          long sliceOrigin, long sliceFence,
                                                          long origin, long fence) {
-                return new SliceSpliterator.OfLong(s, sliceOrigin, sliceFence, origin, fence);
+                return new SliceSpliterbtor.OfLong(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
@@ -865,22 +865,22 @@ class StreamSpliterators {
             }
         }
 
-        static final class OfDouble extends OfPrimitive<Double, Spliterator.OfDouble, DoubleConsumer>
-                implements Spliterator.OfDouble {
-            OfDouble(Spliterator.OfDouble s, long sliceOrigin, long sliceFence) {
+        stbtic finbl clbss OfDouble extends OfPrimitive<Double, Spliterbtor.OfDouble, DoubleConsumer>
+                implements Spliterbtor.OfDouble {
+            OfDouble(Spliterbtor.OfDouble s, long sliceOrigin, long sliceFence) {
                 super(s, sliceOrigin, sliceFence);
             }
 
-            OfDouble(Spliterator.OfDouble s,
+            OfDouble(Spliterbtor.OfDouble s,
                      long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
-            protected Spliterator.OfDouble makeSpliterator(Spliterator.OfDouble s,
+            protected Spliterbtor.OfDouble mbkeSpliterbtor(Spliterbtor.OfDouble s,
                                                            long sliceOrigin, long sliceFence,
                                                            long origin, long fence) {
-                return new SliceSpliterator.OfDouble(s, sliceOrigin, sliceFence, origin, fence);
+                return new SliceSpliterbtor.OfDouble(s, sliceOrigin, sliceFence, origin, fence);
             }
 
             @Override
@@ -891,458 +891,458 @@ class StreamSpliterators {
     }
 
     /**
-     * A slice Spliterator that does not preserve order, if any, of a source
-     * Spliterator.
+     * A slice Spliterbtor thbt does not preserve order, if bny, of b source
+     * Spliterbtor.
      *
-     * Note: The source spliterator may report {@code ORDERED} since that
-     * spliterator be the result of a previous pipeline stage that was
-     * collected to a {@code Node}. It is the order of the pipeline stage
-     * that governs whether the this slice spliterator is to be used or not.
+     * Note: The source spliterbtor mby report {@code ORDERED} since thbt
+     * spliterbtor be the result of b previous pipeline stbge thbt wbs
+     * collected to b {@code Node}. It is the order of the pipeline stbge
+     * thbt governs whether the this slice spliterbtor is to be used or not.
      */
-    static abstract class UnorderedSliceSpliterator<T, T_SPLITR extends Spliterator<T>> {
-        static final int CHUNK_SIZE = 1 << 7;
+    stbtic bbstrbct clbss UnorderedSliceSpliterbtor<T, T_SPLITR extends Spliterbtor<T>> {
+        stbtic finbl int CHUNK_SIZE = 1 << 7;
 
-        // The spliterator to slice
-        protected final T_SPLITR s;
-        protected final boolean unlimited;
-        private final long skipThreshold;
-        private final AtomicLong permits;
+        // The spliterbtor to slice
+        protected finbl T_SPLITR s;
+        protected finbl boolebn unlimited;
+        privbte finbl long skipThreshold;
+        privbte finbl AtomicLong permits;
 
-        UnorderedSliceSpliterator(T_SPLITR s, long skip, long limit) {
+        UnorderedSliceSpliterbtor(T_SPLITR s, long skip, long limit) {
             this.s = s;
             this.unlimited = limit < 0;
             this.skipThreshold = limit >= 0 ? limit : 0;
             this.permits = new AtomicLong(limit >= 0 ? skip + limit : skip);
         }
 
-        UnorderedSliceSpliterator(T_SPLITR s,
-                                  UnorderedSliceSpliterator<T, T_SPLITR> parent) {
+        UnorderedSliceSpliterbtor(T_SPLITR s,
+                                  UnorderedSliceSpliterbtor<T, T_SPLITR> pbrent) {
             this.s = s;
-            this.unlimited = parent.unlimited;
-            this.permits = parent.permits;
-            this.skipThreshold = parent.skipThreshold;
+            this.unlimited = pbrent.unlimited;
+            this.permits = pbrent.permits;
+            this.skipThreshold = pbrent.skipThreshold;
         }
 
         /**
-         * Acquire permission to skip or process elements.  The caller must
-         * first acquire the elements, then consult this method for guidance
-         * as to what to do with the data.
+         * Acquire permission to skip or process elements.  The cbller must
+         * first bcquire the elements, then consult this method for guidbnce
+         * bs to whbt to do with the dbtb.
          *
-         * <p>We use an {@code AtomicLong} to atomically maintain a counter,
-         * which is initialized as skip+limit if we are limiting, or skip only
-         * if we are not limiting.  The user should consult the method
-         * {@code checkPermits()} before acquiring data elements.
+         * <p>We use bn {@code AtomicLong} to btomicblly mbintbin b counter,
+         * which is initiblized bs skip+limit if we bre limiting, or skip only
+         * if we bre not limiting.  The user should consult the method
+         * {@code checkPermits()} before bcquiring dbtb elements.
          *
-         * @param numElements the number of elements the caller has in hand
-         * @return the number of elements that should be processed; any
-         * remaining elements should be discarded.
+         * @pbrbm numElements the number of elements the cbller hbs in hbnd
+         * @return the number of elements thbt should be processed; bny
+         * rembining elements should be discbrded.
          */
-        protected final long acquirePermits(long numElements) {
-            long remainingPermits;
-            long grabbing;
-            // permits never increase, and don't decrease below zero
-            assert numElements > 0;
+        protected finbl long bcquirePermits(long numElements) {
+            long rembiningPermits;
+            long grbbbing;
+            // permits never increbse, bnd don't decrebse below zero
+            bssert numElements > 0;
             do {
-                remainingPermits = permits.get();
-                if (remainingPermits == 0)
+                rembiningPermits = permits.get();
+                if (rembiningPermits == 0)
                     return unlimited ? numElements : 0;
-                grabbing = Math.min(remainingPermits, numElements);
-            } while (grabbing > 0 &&
-                     !permits.compareAndSet(remainingPermits, remainingPermits - grabbing));
+                grbbbing = Mbth.min(rembiningPermits, numElements);
+            } while (grbbbing > 0 &&
+                     !permits.compbreAndSet(rembiningPermits, rembiningPermits - grbbbing));
 
             if (unlimited)
-                return Math.max(numElements - grabbing, 0);
-            else if (remainingPermits > skipThreshold)
-                return Math.max(grabbing - (remainingPermits - skipThreshold), 0);
+                return Mbth.mbx(numElements - grbbbing, 0);
+            else if (rembiningPermits > skipThreshold)
+                return Mbth.mbx(grbbbing - (rembiningPermits - skipThreshold), 0);
             else
-                return grabbing;
+                return grbbbing;
         }
 
-        enum PermitStatus { NO_MORE, MAYBE_MORE, UNLIMITED }
+        enum PermitStbtus { NO_MORE, MAYBE_MORE, UNLIMITED }
 
-        /** Call to check if permits might be available before acquiring data */
-        protected final PermitStatus permitStatus() {
+        /** Cbll to check if permits might be bvbilbble before bcquiring dbtb */
+        protected finbl PermitStbtus permitStbtus() {
             if (permits.get() > 0)
-                return PermitStatus.MAYBE_MORE;
+                return PermitStbtus.MAYBE_MORE;
             else
-                return unlimited ?  PermitStatus.UNLIMITED : PermitStatus.NO_MORE;
+                return unlimited ?  PermitStbtus.UNLIMITED : PermitStbtus.NO_MORE;
         }
 
-        public final T_SPLITR trySplit() {
-            // Stop splitting when there are no more limit permits
+        public finbl T_SPLITR trySplit() {
+            // Stop splitting when there bre no more limit permits
             if (permits.get() == 0)
                 return null;
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             T_SPLITR split = (T_SPLITR) s.trySplit();
-            return split == null ? null : makeSpliterator(split);
+            return split == null ? null : mbkeSpliterbtor(split);
         }
 
-        protected abstract T_SPLITR makeSpliterator(T_SPLITR s);
+        protected bbstrbct T_SPLITR mbkeSpliterbtor(T_SPLITR s);
 
-        public final long estimateSize() {
-            return s.estimateSize();
+        public finbl long estimbteSize() {
+            return s.estimbteSize();
         }
 
-        public final int characteristics() {
-            return s.characteristics() &
-                   ~(Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED);
+        public finbl int chbrbcteristics() {
+            return s.chbrbcteristics() &
+                   ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED | Spliterbtor.ORDERED);
         }
 
-        static final class OfRef<T> extends UnorderedSliceSpliterator<T, Spliterator<T>>
-                implements Spliterator<T>, Consumer<T> {
+        stbtic finbl clbss OfRef<T> extends UnorderedSliceSpliterbtor<T, Spliterbtor<T>>
+                implements Spliterbtor<T>, Consumer<T> {
             T tmpSlot;
 
-            OfRef(Spliterator<T> s, long skip, long limit) {
+            OfRef(Spliterbtor<T> s, long skip, long limit) {
                 super(s, skip, limit);
             }
 
-            OfRef(Spliterator<T> s, OfRef<T> parent) {
-                super(s, parent);
+            OfRef(Spliterbtor<T> s, OfRef<T> pbrent) {
+                super(s, pbrent);
             }
 
             @Override
-            public final void accept(T t) {
+            public finbl void bccept(T t) {
                 tmpSlot = t;
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(Consumer<? super T> bction) {
+                Objects.requireNonNull(bction);
 
-                while (permitStatus() != PermitStatus.NO_MORE) {
-                    if (!s.tryAdvance(this))
-                        return false;
-                    else if (acquirePermits(1) == 1) {
-                        action.accept(tmpSlot);
+                while (permitStbtus() != PermitStbtus.NO_MORE) {
+                    if (!s.tryAdvbnce(this))
+                        return fblse;
+                    else if (bcquirePermits(1) == 1) {
+                        bction.bccept(tmpSlot);
                         tmpSlot = null;
                         return true;
                     }
                 }
-                return false;
+                return fblse;
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            public void forEbchRembining(Consumer<? super T> bction) {
+                Objects.requireNonNull(bction);
 
-                ArrayBuffer.OfRef<T> sb = null;
-                PermitStatus permitStatus;
-                while ((permitStatus = permitStatus()) != PermitStatus.NO_MORE) {
-                    if (permitStatus == PermitStatus.MAYBE_MORE) {
-                        // Optimistically traverse elements up to a threshold of CHUNK_SIZE
+                ArrbyBuffer.OfRef<T> sb = null;
+                PermitStbtus permitStbtus;
+                while ((permitStbtus = permitStbtus()) != PermitStbtus.NO_MORE) {
+                    if (permitStbtus == PermitStbtus.MAYBE_MORE) {
+                        // Optimisticblly trbverse elements up to b threshold of CHUNK_SIZE
                         if (sb == null)
-                            sb = new ArrayBuffer.OfRef<>(CHUNK_SIZE);
+                            sb = new ArrbyBuffer.OfRef<>(CHUNK_SIZE);
                         else
                             sb.reset();
                         long permitsRequested = 0;
-                        do { } while (s.tryAdvance(sb) && ++permitsRequested < CHUNK_SIZE);
+                        do { } while (s.tryAdvbnce(sb) && ++permitsRequested < CHUNK_SIZE);
                         if (permitsRequested == 0)
                             return;
-                        sb.forEach(action, acquirePermits(permitsRequested));
+                        sb.forEbch(bction, bcquirePermits(permitsRequested));
                     }
                     else {
                         // Must be UNLIMITED; let 'er rip
-                        s.forEachRemaining(action);
+                        s.forEbchRembining(bction);
                         return;
                     }
                 }
             }
 
             @Override
-            protected Spliterator<T> makeSpliterator(Spliterator<T> s) {
-                return new UnorderedSliceSpliterator.OfRef<>(s, this);
+            protected Spliterbtor<T> mbkeSpliterbtor(Spliterbtor<T> s) {
+                return new UnorderedSliceSpliterbtor.OfRef<>(s, this);
             }
         }
 
         /**
-         * Concrete sub-types must also be an instance of type {@code T_CONS}.
+         * Concrete sub-types must blso be bn instbnce of type {@code T_CONS}.
          *
-         * @param <T_BUFF> the type of the spined buffer. Must also be a type of
+         * @pbrbm <T_BUFF> the type of the spined buffer. Must blso be b type of
          *        {@code T_CONS}.
          */
-        static abstract class OfPrimitive<
+        stbtic bbstrbct clbss OfPrimitive<
                 T,
                 T_CONS,
-                T_BUFF extends ArrayBuffer.OfPrimitive<T_CONS>,
-                T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-                extends UnorderedSliceSpliterator<T, T_SPLITR>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
+                T_BUFF extends ArrbyBuffer.OfPrimitive<T_CONS>,
+                T_SPLITR extends Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR>>
+                extends UnorderedSliceSpliterbtor<T, T_SPLITR>
+                implements Spliterbtor.OfPrimitive<T, T_CONS, T_SPLITR> {
             OfPrimitive(T_SPLITR s, long skip, long limit) {
                 super(s, skip, limit);
             }
 
-            OfPrimitive(T_SPLITR s, UnorderedSliceSpliterator.OfPrimitive<T, T_CONS, T_BUFF, T_SPLITR> parent) {
-                super(s, parent);
+            OfPrimitive(T_SPLITR s, UnorderedSliceSpliterbtor.OfPrimitive<T, T_CONS, T_BUFF, T_SPLITR> pbrent) {
+                super(s, pbrent);
             }
 
             @Override
-            public boolean tryAdvance(T_CONS action) {
-                Objects.requireNonNull(action);
-                @SuppressWarnings("unchecked")
+            public boolebn tryAdvbnce(T_CONS bction) {
+                Objects.requireNonNull(bction);
+                @SuppressWbrnings("unchecked")
                 T_CONS consumer = (T_CONS) this;
 
-                while (permitStatus() != PermitStatus.NO_MORE) {
-                    if (!s.tryAdvance(consumer))
-                        return false;
-                    else if (acquirePermits(1) == 1) {
-                        acceptConsumed(action);
+                while (permitStbtus() != PermitStbtus.NO_MORE) {
+                    if (!s.tryAdvbnce(consumer))
+                        return fblse;
+                    else if (bcquirePermits(1) == 1) {
+                        bcceptConsumed(bction);
                         return true;
                     }
                 }
-                return false;
+                return fblse;
             }
 
-            protected abstract void acceptConsumed(T_CONS action);
+            protected bbstrbct void bcceptConsumed(T_CONS bction);
 
             @Override
-            public void forEachRemaining(T_CONS action) {
-                Objects.requireNonNull(action);
+            public void forEbchRembining(T_CONS bction) {
+                Objects.requireNonNull(bction);
 
                 T_BUFF sb = null;
-                PermitStatus permitStatus;
-                while ((permitStatus = permitStatus()) != PermitStatus.NO_MORE) {
-                    if (permitStatus == PermitStatus.MAYBE_MORE) {
-                        // Optimistically traverse elements up to a threshold of CHUNK_SIZE
+                PermitStbtus permitStbtus;
+                while ((permitStbtus = permitStbtus()) != PermitStbtus.NO_MORE) {
+                    if (permitStbtus == PermitStbtus.MAYBE_MORE) {
+                        // Optimisticblly trbverse elements up to b threshold of CHUNK_SIZE
                         if (sb == null)
-                            sb = bufferCreate(CHUNK_SIZE);
+                            sb = bufferCrebte(CHUNK_SIZE);
                         else
                             sb.reset();
-                        @SuppressWarnings("unchecked")
+                        @SuppressWbrnings("unchecked")
                         T_CONS sbc = (T_CONS) sb;
                         long permitsRequested = 0;
-                        do { } while (s.tryAdvance(sbc) && ++permitsRequested < CHUNK_SIZE);
+                        do { } while (s.tryAdvbnce(sbc) && ++permitsRequested < CHUNK_SIZE);
                         if (permitsRequested == 0)
                             return;
-                        sb.forEach(action, acquirePermits(permitsRequested));
+                        sb.forEbch(bction, bcquirePermits(permitsRequested));
                     }
                     else {
                         // Must be UNLIMITED; let 'er rip
-                        s.forEachRemaining(action);
+                        s.forEbchRembining(bction);
                         return;
                     }
                 }
             }
 
-            protected abstract T_BUFF bufferCreate(int initialCapacity);
+            protected bbstrbct T_BUFF bufferCrebte(int initiblCbpbcity);
         }
 
-        static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, ArrayBuffer.OfInt, Spliterator.OfInt>
-                implements Spliterator.OfInt, IntConsumer {
+        stbtic finbl clbss OfInt
+                extends OfPrimitive<Integer, IntConsumer, ArrbyBuffer.OfInt, Spliterbtor.OfInt>
+                implements Spliterbtor.OfInt, IntConsumer {
 
-            int tmpValue;
+            int tmpVblue;
 
-            OfInt(Spliterator.OfInt s, long skip, long limit) {
+            OfInt(Spliterbtor.OfInt s, long skip, long limit) {
                 super(s, skip, limit);
             }
 
-            OfInt(Spliterator.OfInt s, UnorderedSliceSpliterator.OfInt parent) {
-                super(s, parent);
+            OfInt(Spliterbtor.OfInt s, UnorderedSliceSpliterbtor.OfInt pbrent) {
+                super(s, pbrent);
             }
 
             @Override
-            public void accept(int value) {
-                tmpValue = value;
+            public void bccept(int vblue) {
+                tmpVblue = vblue;
             }
 
             @Override
-            protected void acceptConsumed(IntConsumer action) {
-                action.accept(tmpValue);
+            protected void bcceptConsumed(IntConsumer bction) {
+                bction.bccept(tmpVblue);
             }
 
             @Override
-            protected ArrayBuffer.OfInt bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfInt(initialCapacity);
+            protected ArrbyBuffer.OfInt bufferCrebte(int initiblCbpbcity) {
+                return new ArrbyBuffer.OfInt(initiblCbpbcity);
             }
 
             @Override
-            protected Spliterator.OfInt makeSpliterator(Spliterator.OfInt s) {
-                return new UnorderedSliceSpliterator.OfInt(s, this);
+            protected Spliterbtor.OfInt mbkeSpliterbtor(Spliterbtor.OfInt s) {
+                return new UnorderedSliceSpliterbtor.OfInt(s, this);
             }
         }
 
-        static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, ArrayBuffer.OfLong, Spliterator.OfLong>
-                implements Spliterator.OfLong, LongConsumer {
+        stbtic finbl clbss OfLong
+                extends OfPrimitive<Long, LongConsumer, ArrbyBuffer.OfLong, Spliterbtor.OfLong>
+                implements Spliterbtor.OfLong, LongConsumer {
 
-            long tmpValue;
+            long tmpVblue;
 
-            OfLong(Spliterator.OfLong s, long skip, long limit) {
+            OfLong(Spliterbtor.OfLong s, long skip, long limit) {
                 super(s, skip, limit);
             }
 
-            OfLong(Spliterator.OfLong s, UnorderedSliceSpliterator.OfLong parent) {
-                super(s, parent);
+            OfLong(Spliterbtor.OfLong s, UnorderedSliceSpliterbtor.OfLong pbrent) {
+                super(s, pbrent);
             }
 
             @Override
-            public void accept(long value) {
-                tmpValue = value;
+            public void bccept(long vblue) {
+                tmpVblue = vblue;
             }
 
             @Override
-            protected void acceptConsumed(LongConsumer action) {
-                action.accept(tmpValue);
+            protected void bcceptConsumed(LongConsumer bction) {
+                bction.bccept(tmpVblue);
             }
 
             @Override
-            protected ArrayBuffer.OfLong bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfLong(initialCapacity);
+            protected ArrbyBuffer.OfLong bufferCrebte(int initiblCbpbcity) {
+                return new ArrbyBuffer.OfLong(initiblCbpbcity);
             }
 
             @Override
-            protected Spliterator.OfLong makeSpliterator(Spliterator.OfLong s) {
-                return new UnorderedSliceSpliterator.OfLong(s, this);
+            protected Spliterbtor.OfLong mbkeSpliterbtor(Spliterbtor.OfLong s) {
+                return new UnorderedSliceSpliterbtor.OfLong(s, this);
             }
         }
 
-        static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, ArrayBuffer.OfDouble, Spliterator.OfDouble>
-                implements Spliterator.OfDouble, DoubleConsumer {
+        stbtic finbl clbss OfDouble
+                extends OfPrimitive<Double, DoubleConsumer, ArrbyBuffer.OfDouble, Spliterbtor.OfDouble>
+                implements Spliterbtor.OfDouble, DoubleConsumer {
 
-            double tmpValue;
+            double tmpVblue;
 
-            OfDouble(Spliterator.OfDouble s, long skip, long limit) {
+            OfDouble(Spliterbtor.OfDouble s, long skip, long limit) {
                 super(s, skip, limit);
             }
 
-            OfDouble(Spliterator.OfDouble s, UnorderedSliceSpliterator.OfDouble parent) {
-                super(s, parent);
+            OfDouble(Spliterbtor.OfDouble s, UnorderedSliceSpliterbtor.OfDouble pbrent) {
+                super(s, pbrent);
             }
 
             @Override
-            public void accept(double value) {
-                tmpValue = value;
+            public void bccept(double vblue) {
+                tmpVblue = vblue;
             }
 
             @Override
-            protected void acceptConsumed(DoubleConsumer action) {
-                action.accept(tmpValue);
+            protected void bcceptConsumed(DoubleConsumer bction) {
+                bction.bccept(tmpVblue);
             }
 
             @Override
-            protected ArrayBuffer.OfDouble bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfDouble(initialCapacity);
+            protected ArrbyBuffer.OfDouble bufferCrebte(int initiblCbpbcity) {
+                return new ArrbyBuffer.OfDouble(initiblCbpbcity);
             }
 
             @Override
-            protected Spliterator.OfDouble makeSpliterator(Spliterator.OfDouble s) {
-                return new UnorderedSliceSpliterator.OfDouble(s, this);
+            protected Spliterbtor.OfDouble mbkeSpliterbtor(Spliterbtor.OfDouble s) {
+                return new UnorderedSliceSpliterbtor.OfDouble(s, this);
             }
         }
     }
 
     /**
-     * A wrapping spliterator that only reports distinct elements of the
-     * underlying spliterator. Does not preserve size and encounter order.
+     * A wrbpping spliterbtor thbt only reports distinct elements of the
+     * underlying spliterbtor. Does not preserve size bnd encounter order.
      */
-    static final class DistinctSpliterator<T> implements Spliterator<T>, Consumer<T> {
+    stbtic finbl clbss DistinctSpliterbtor<T> implements Spliterbtor<T>, Consumer<T> {
 
-        // The value to represent null in the ConcurrentHashMap
-        private static final Object NULL_VALUE = new Object();
+        // The vblue to represent null in the ConcurrentHbshMbp
+        privbte stbtic finbl Object NULL_VALUE = new Object();
 
-        // The underlying spliterator
-        private final Spliterator<T> s;
+        // The underlying spliterbtor
+        privbte finbl Spliterbtor<T> s;
 
-        // ConcurrentHashMap holding distinct elements as keys
-        private final ConcurrentHashMap<T, Boolean> seen;
+        // ConcurrentHbshMbp holding distinct elements bs keys
+        privbte finbl ConcurrentHbshMbp<T, Boolebn> seen;
 
-        // Temporary element, only used with tryAdvance
-        private T tmpSlot;
+        // Temporbry element, only used with tryAdvbnce
+        privbte T tmpSlot;
 
-        DistinctSpliterator(Spliterator<T> s) {
-            this(s, new ConcurrentHashMap<>());
+        DistinctSpliterbtor(Spliterbtor<T> s) {
+            this(s, new ConcurrentHbshMbp<>());
         }
 
-        private DistinctSpliterator(Spliterator<T> s, ConcurrentHashMap<T, Boolean> seen) {
+        privbte DistinctSpliterbtor(Spliterbtor<T> s, ConcurrentHbshMbp<T, Boolebn> seen) {
             this.s = s;
             this.seen = seen;
         }
 
         @Override
-        public void accept(T t) {
+        public void bccept(T t) {
             this.tmpSlot = t;
         }
 
-        @SuppressWarnings("unchecked")
-        private T mapNull(T t) {
+        @SuppressWbrnings("unchecked")
+        privbte T mbpNull(T t) {
             return t != null ? t : (T) NULL_VALUE;
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            while (s.tryAdvance(this)) {
-                if (seen.putIfAbsent(mapNull(tmpSlot), Boolean.TRUE) == null) {
-                    action.accept(tmpSlot);
+        public boolebn tryAdvbnce(Consumer<? super T> bction) {
+            while (s.tryAdvbnce(this)) {
+                if (seen.putIfAbsent(mbpNull(tmpSlot), Boolebn.TRUE) == null) {
+                    bction.bccept(tmpSlot);
                     tmpSlot = null;
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            s.forEachRemaining(t -> {
-                if (seen.putIfAbsent(mapNull(t), Boolean.TRUE) == null) {
-                    action.accept(t);
+        public void forEbchRembining(Consumer<? super T> bction) {
+            s.forEbchRembining(t -> {
+                if (seen.putIfAbsent(mbpNull(t), Boolebn.TRUE) == null) {
+                    bction.bccept(t);
                 }
             });
         }
 
         @Override
-        public Spliterator<T> trySplit() {
-            Spliterator<T> split = s.trySplit();
-            return (split != null) ? new DistinctSpliterator<>(split, seen) : null;
+        public Spliterbtor<T> trySplit() {
+            Spliterbtor<T> split = s.trySplit();
+            return (split != null) ? new DistinctSpliterbtor<>(split, seen) : null;
         }
 
         @Override
-        public long estimateSize() {
-            return s.estimateSize();
+        public long estimbteSize() {
+            return s.estimbteSize();
         }
 
         @Override
-        public int characteristics() {
-            return (s.characteristics() & ~(Spliterator.SIZED | Spliterator.SUBSIZED |
-                                            Spliterator.SORTED | Spliterator.ORDERED))
-                   | Spliterator.DISTINCT;
+        public int chbrbcteristics() {
+            return (s.chbrbcteristics() & ~(Spliterbtor.SIZED | Spliterbtor.SUBSIZED |
+                                            Spliterbtor.SORTED | Spliterbtor.ORDERED))
+                   | Spliterbtor.DISTINCT;
         }
 
         @Override
-        public Comparator<? super T> getComparator() {
-            return s.getComparator();
+        public Compbrbtor<? super T> getCompbrbtor() {
+            return s.getCompbrbtor();
         }
     }
 
     /**
-     * A Spliterator that infinitely supplies elements in no particular order.
+     * A Spliterbtor thbt infinitely supplies elements in no pbrticulbr order.
      *
-     * <p>Splitting divides the estimated size in two and stops when the
-     * estimate size is 0.
+     * <p>Splitting divides the estimbted size in two bnd stops when the
+     * estimbte size is 0.
      *
-     * <p>The {@code forEachRemaining} method if invoked will never terminate.
-     * The {@code tryAdvance} method always returns true.
+     * <p>The {@code forEbchRembining} method if invoked will never terminbte.
+     * The {@code tryAdvbnce} method blwbys returns true.
      *
      */
-    static abstract class InfiniteSupplyingSpliterator<T> implements Spliterator<T> {
-        long estimate;
+    stbtic bbstrbct clbss InfiniteSupplyingSpliterbtor<T> implements Spliterbtor<T> {
+        long estimbte;
 
-        protected InfiniteSupplyingSpliterator(long estimate) {
-            this.estimate = estimate;
+        protected InfiniteSupplyingSpliterbtor(long estimbte) {
+            this.estimbte = estimbte;
         }
 
         @Override
-        public long estimateSize() {
-            return estimate;
+        public long estimbteSize() {
+            return estimbte;
         }
 
         @Override
-        public int characteristics() {
+        public int chbrbcteristics() {
             return IMMUTABLE;
         }
 
-        static final class OfRef<T> extends InfiniteSupplyingSpliterator<T> {
-            final Supplier<T> s;
+        stbtic finbl clbss OfRef<T> extends InfiniteSupplyingSpliterbtor<T> {
+            finbl Supplier<T> s;
 
             OfRef(long size, Supplier<T> s) {
                 super(size);
@@ -1350,24 +1350,24 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(Consumer<? super T> bction) {
+                Objects.requireNonNull(bction);
 
-                action.accept(s.get());
+                bction.bccept(s.get());
                 return true;
             }
 
             @Override
-            public Spliterator<T> trySplit() {
-                if (estimate == 0)
+            public Spliterbtor<T> trySplit() {
+                if (estimbte == 0)
                     return null;
-                return new InfiniteSupplyingSpliterator.OfRef<>(estimate >>>= 1, s);
+                return new InfiniteSupplyingSpliterbtor.OfRef<>(estimbte >>>= 1, s);
             }
         }
 
-        static final class OfInt extends InfiniteSupplyingSpliterator<Integer>
-                implements Spliterator.OfInt {
-            final IntSupplier s;
+        stbtic finbl clbss OfInt extends InfiniteSupplyingSpliterbtor<Integer>
+                implements Spliterbtor.OfInt {
+            finbl IntSupplier s;
 
             OfInt(long size, IntSupplier s) {
                 super(size);
@@ -1375,24 +1375,24 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(IntConsumer action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(IntConsumer bction) {
+                Objects.requireNonNull(bction);
 
-                action.accept(s.getAsInt());
+                bction.bccept(s.getAsInt());
                 return true;
             }
 
             @Override
-            public Spliterator.OfInt trySplit() {
-                if (estimate == 0)
+            public Spliterbtor.OfInt trySplit() {
+                if (estimbte == 0)
                     return null;
-                return new InfiniteSupplyingSpliterator.OfInt(estimate = estimate >>> 1, s);
+                return new InfiniteSupplyingSpliterbtor.OfInt(estimbte = estimbte >>> 1, s);
             }
         }
 
-        static final class OfLong extends InfiniteSupplyingSpliterator<Long>
-                implements Spliterator.OfLong {
-            final LongSupplier s;
+        stbtic finbl clbss OfLong extends InfiniteSupplyingSpliterbtor<Long>
+                implements Spliterbtor.OfLong {
+            finbl LongSupplier s;
 
             OfLong(long size, LongSupplier s) {
                 super(size);
@@ -1400,24 +1400,24 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(LongConsumer action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(LongConsumer bction) {
+                Objects.requireNonNull(bction);
 
-                action.accept(s.getAsLong());
+                bction.bccept(s.getAsLong());
                 return true;
             }
 
             @Override
-            public Spliterator.OfLong trySplit() {
-                if (estimate == 0)
+            public Spliterbtor.OfLong trySplit() {
+                if (estimbte == 0)
                     return null;
-                return new InfiniteSupplyingSpliterator.OfLong(estimate = estimate >>> 1, s);
+                return new InfiniteSupplyingSpliterbtor.OfLong(estimbte = estimbte >>> 1, s);
             }
         }
 
-        static final class OfDouble extends InfiniteSupplyingSpliterator<Double>
-                implements Spliterator.OfDouble {
-            final DoubleSupplier s;
+        stbtic finbl clbss OfDouble extends InfiniteSupplyingSpliterbtor<Double>
+                implements Spliterbtor.OfDouble {
+            finbl DoubleSupplier s;
 
             OfDouble(long size, DoubleSupplier s) {
                 super(size);
@@ -1425,52 +1425,52 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(DoubleConsumer action) {
-                Objects.requireNonNull(action);
+            public boolebn tryAdvbnce(DoubleConsumer bction) {
+                Objects.requireNonNull(bction);
 
-                action.accept(s.getAsDouble());
+                bction.bccept(s.getAsDouble());
                 return true;
             }
 
             @Override
-            public Spliterator.OfDouble trySplit() {
-                if (estimate == 0)
+            public Spliterbtor.OfDouble trySplit() {
+                if (estimbte == 0)
                     return null;
-                return new InfiniteSupplyingSpliterator.OfDouble(estimate = estimate >>> 1, s);
+                return new InfiniteSupplyingSpliterbtor.OfDouble(estimbte = estimbte >>> 1, s);
             }
         }
     }
 
-    // @@@ Consolidate with Node.Builder
-    static abstract class ArrayBuffer {
+    // @@@ Consolidbte with Node.Builder
+    stbtic bbstrbct clbss ArrbyBuffer {
         int index;
 
         void reset() {
             index = 0;
         }
 
-        static final class OfRef<T> extends ArrayBuffer implements Consumer<T> {
-            final Object[] array;
+        stbtic finbl clbss OfRef<T> extends ArrbyBuffer implements Consumer<T> {
+            finbl Object[] brrby;
 
             OfRef(int size) {
-                this.array = new Object[size];
+                this.brrby = new Object[size];
             }
 
             @Override
-            public void accept(T t) {
-                array[index++] = t;
+            public void bccept(T t) {
+                brrby[index++] = t;
             }
 
-            public void forEach(Consumer<? super T> action, long fence) {
+            public void forEbch(Consumer<? super T> bction, long fence) {
                 for (int i = 0; i < fence; i++) {
-                    @SuppressWarnings("unchecked")
-                    T t = (T) array[i];
-                    action.accept(t);
+                    @SuppressWbrnings("unchecked")
+                    T t = (T) brrby[i];
+                    bction.bccept(t);
                 }
             }
         }
 
-        static abstract class OfPrimitive<T_CONS> extends ArrayBuffer {
+        stbtic bbstrbct clbss OfPrimitive<T_CONS> extends ArrbyBuffer {
             int index;
 
             @Override
@@ -1478,68 +1478,68 @@ class StreamSpliterators {
                 index = 0;
             }
 
-            abstract void forEach(T_CONS action, long fence);
+            bbstrbct void forEbch(T_CONS bction, long fence);
         }
 
-        static final class OfInt extends OfPrimitive<IntConsumer>
+        stbtic finbl clbss OfInt extends OfPrimitive<IntConsumer>
                 implements IntConsumer {
-            final int[] array;
+            finbl int[] brrby;
 
             OfInt(int size) {
-                this.array = new int[size];
+                this.brrby = new int[size];
             }
 
             @Override
-            public void accept(int t) {
-                array[index++] = t;
+            public void bccept(int t) {
+                brrby[index++] = t;
             }
 
             @Override
-            public void forEach(IntConsumer action, long fence) {
+            public void forEbch(IntConsumer bction, long fence) {
                 for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+                    bction.bccept(brrby[i]);
                 }
             }
         }
 
-        static final class OfLong extends OfPrimitive<LongConsumer>
+        stbtic finbl clbss OfLong extends OfPrimitive<LongConsumer>
                 implements LongConsumer {
-            final long[] array;
+            finbl long[] brrby;
 
             OfLong(int size) {
-                this.array = new long[size];
+                this.brrby = new long[size];
             }
 
             @Override
-            public void accept(long t) {
-                array[index++] = t;
+            public void bccept(long t) {
+                brrby[index++] = t;
             }
 
             @Override
-            public void forEach(LongConsumer action, long fence) {
+            public void forEbch(LongConsumer bction, long fence) {
                 for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+                    bction.bccept(brrby[i]);
                 }
             }
         }
 
-        static final class OfDouble extends OfPrimitive<DoubleConsumer>
+        stbtic finbl clbss OfDouble extends OfPrimitive<DoubleConsumer>
                 implements DoubleConsumer {
-            final double[] array;
+            finbl double[] brrby;
 
             OfDouble(int size) {
-                this.array = new double[size];
+                this.brrby = new double[size];
             }
 
             @Override
-            public void accept(double t) {
-                array[index++] = t;
+            public void bccept(double t) {
+                brrby[index++] = t;
             }
 
             @Override
-            void forEach(DoubleConsumer action, long fence) {
+            void forEbch(DoubleConsumer bction, long fence) {
                 for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+                    bction.bccept(brrby[i]);
                 }
             }
         }

@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A class loader object from the target VM.
- * A ClassLoaderReference is an {@link ObjectReference} with additional
- * access to classloader-specific information from the target VM. Instances
- * ClassLoaderReference are obtained through calls to
- * {@link ReferenceType#classLoader}
+ * A clbss lobder object from the tbrget VM.
+ * A ClbssLobderReference is bn {@link ObjectReference} with bdditionbl
+ * bccess to clbsslobder-specific informbtion from the tbrget VM. Instbnces
+ * ClbssLobderReference bre obtbined through cblls to
+ * {@link ReferenceType#clbssLobder}
  *
  * @see ObjectReference
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public interface ClassLoaderReference extends ObjectReference {
+public interfbce ClbssLobderReference extends ObjectReference {
 
     /**
-     * Returns a list of all loaded classes that were defined by this
-     * class loader. No ordering of this list guaranteed.
+     * Returns b list of bll lobded clbsses thbt were defined by this
+     * clbss lobder. No ordering of this list gubrbnteed.
      * <P>
      * The returned list will include reference types
-     * loaded at least to the point of preparation and
-     * types (like array) for which preparation is
+     * lobded bt lebst to the point of prepbrbtion bnd
+     * types (like brrby) for which prepbrbtion is
      * not defined.
      *
-     * @return a List of {@link ReferenceType} objects mirroring types
-     * loaded by this class loader. The list has length 0 if no types
-     * have been defined by this classloader.
+     * @return b List of {@link ReferenceType} objects mirroring types
+     * lobded by this clbss lobder. The list hbs length 0 if no types
+     * hbve been defined by this clbsslobder.
      */
-    List<ReferenceType> definedClasses();
+    List<ReferenceType> definedClbsses();
 
     /**
-     * Returns a list of all classes for which this class loader has
-     * been recorded as the initiating loader in the target VM.
-     * The list contains ReferenceTypes defined directly by this loader
-     * (as returned by {@link #definedClasses}) and any types for which
-     * loading was delegated by this class loader to another class loader.
+     * Returns b list of bll clbsses for which this clbss lobder hbs
+     * been recorded bs the initibting lobder in the tbrget VM.
+     * The list contbins ReferenceTypes defined directly by this lobder
+     * (bs returned by {@link #definedClbsses}) bnd bny types for which
+     * lobding wbs delegbted by this clbss lobder to bnother clbss lobder.
      * <p>
-     * The visible class list has useful properties with respect to
-     * the type namespace. A particular type name will occur at most
-     * once in the list. Each field or variable declared with that
-     * type name in a class defined by
-     * this class loader must be resolved to that single type.
+     * The visible clbss list hbs useful properties with respect to
+     * the type nbmespbce. A pbrticulbr type nbme will occur bt most
+     * once in the list. Ebch field or vbribble declbred with thbt
+     * type nbme in b clbss defined by
+     * this clbss lobder must be resolved to thbt single type.
      * <p>
-     * No ordering of the returned list is guaranteed.
+     * No ordering of the returned list is gubrbnteed.
      * <p>
      * See
-     * <cite>The Java&trade; Virtual Machine Specification</cite>,
-     * section 5.3 - Creation and Loading
-     * for more information on the initiating classloader.
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>,
+     * section 5.3 - Crebtion bnd Lobding
+     * for more informbtion on the initibting clbsslobder.
      * <p>
-     * Note that unlike {@link #definedClasses()}
-     * and {@link VirtualMachine#allClasses()},
-     * some of the returned reference types may not be prepared.
-     * Attempts to perform some operations on unprepared reference types
+     * Note thbt unlike {@link #definedClbsses()}
+     * bnd {@link VirtublMbchine#bllClbsses()},
+     * some of the returned reference types mby not be prepbred.
+     * Attempts to perform some operbtions on unprepbred reference types
      * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * b {@link ClbssNotPrepbredException}.
+     * Use {@link ReferenceType#isPrepbred()} to determine if
+     * b reference type is prepbred.
      *
-     * @return a List of {@link ReferenceType} objects mirroring classes
-     * initiated by this class loader. The list has length 0 if no classes
-     * are visible to this classloader.
+     * @return b List of {@link ReferenceType} objects mirroring clbsses
+     * initibted by this clbss lobder. The list hbs length 0 if no clbsses
+     * bre visible to this clbsslobder.
      */
-    List<ReferenceType> visibleClasses();
+    List<ReferenceType> visibleClbsses();
 }

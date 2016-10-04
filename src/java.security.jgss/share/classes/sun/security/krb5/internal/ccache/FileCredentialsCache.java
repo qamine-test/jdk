@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,164 +27,164 @@
  * ===========================================================================
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
  *
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  * ===========================================================================
  *
  */
-package sun.security.krb5.internal.ccache;
+pbckbge sun.security.krb5.internbl.ccbche;
 
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.*;
+import sun.security.krb5.internbl.*;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebmRebder;
+import jbvb.lbng.reflect.*;
 
 /**
- * CredentialsCache stores credentials(tickets, session keys, etc) in a
- * semi-permanent store
- * for later use by different program.
+ * CredentiblsCbche stores credentibls(tickets, session keys, etc) in b
+ * semi-permbnent store
+ * for lbter use by different progrbm.
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
  */
 
-public class FileCredentialsCache extends CredentialsCache
-    implements FileCCacheConstants {
+public clbss FileCredentiblsCbche extends CredentiblsCbche
+    implements FileCCbcheConstbnts {
     public int version;
-    public Tag tag; // optional
-    public PrincipalName primaryPrincipal;
-    private Vector<Credentials> credentialsList;
-    private static String dir;
-    private static boolean DEBUG = Krb5.DEBUG;
+    public Tbg tbg; // optionbl
+    public PrincipblNbme primbryPrincipbl;
+    privbte Vector<Credentibls> credentiblsList;
+    privbte stbtic String dir;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
-    public static synchronized FileCredentialsCache acquireInstance(
-                PrincipalName principal, String cache) {
+    public stbtic synchronized FileCredentiblsCbche bcquireInstbnce(
+                PrincipblNbme principbl, String cbche) {
         try {
-            FileCredentialsCache fcc = new FileCredentialsCache();
-            if (cache == null) {
-                cacheName = FileCredentialsCache.getDefaultCacheName();
+            FileCredentiblsCbche fcc = new FileCredentiblsCbche();
+            if (cbche == null) {
+                cbcheNbme = FileCredentiblsCbche.getDefbultCbcheNbme();
             } else {
-                cacheName = FileCredentialsCache.checkValidation(cache);
+                cbcheNbme = FileCredentiblsCbche.checkVblidbtion(cbche);
             }
-            if ((cacheName == null) || !(new File(cacheName)).exists()) {
-                // invalid cache name or the file doesn't exist
+            if ((cbcheNbme == null) || !(new File(cbcheNbme)).exists()) {
+                // invblid cbche nbme or the file doesn't exist
                 return null;
             }
-            if (principal != null) {
-                fcc.primaryPrincipal = principal;
+            if (principbl != null) {
+                fcc.primbryPrincipbl = principbl;
             }
-            fcc.load(cacheName);
+            fcc.lobd(cbcheNbme);
             return fcc;
-        } catch (IOException e) {
-            // we don't handle it now, instead we return a null at the end.
+        } cbtch (IOException e) {
+            // we don't hbndle it now, instebd we return b null bt the end.
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-        } catch (KrbException e) {
-            // we don't handle it now, instead we return a null at the end.
+        } cbtch (KrbException e) {
+            // we don't hbndle it now, instebd we return b null bt the end.
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
         return null;
     }
 
-    public static FileCredentialsCache acquireInstance() {
-        return acquireInstance(null, null);
+    public stbtic FileCredentiblsCbche bcquireInstbnce() {
+        return bcquireInstbnce(null, null);
     }
 
-    static synchronized FileCredentialsCache New(PrincipalName principal,
-                                                String name) {
+    stbtic synchronized FileCredentiblsCbche New(PrincipblNbme principbl,
+                                                String nbme) {
         try {
-            FileCredentialsCache fcc = new FileCredentialsCache();
-            cacheName = FileCredentialsCache.checkValidation(name);
-            if (cacheName == null) {
-                // invalid cache name or the file doesn't exist
+            FileCredentiblsCbche fcc = new FileCredentiblsCbche();
+            cbcheNbme = FileCredentiblsCbche.checkVblidbtion(nbme);
+            if (cbcheNbme == null) {
+                // invblid cbche nbme or the file doesn't exist
                 return null;
             }
-            fcc.init(principal, cacheName);
+            fcc.init(principbl, cbcheNbme);
             return fcc;
         }
-        catch (IOException e) {
+        cbtch (IOException e) {
         }
-        catch (KrbException e) {
+        cbtch (KrbException e) {
         }
         return null;
     }
 
-    static synchronized FileCredentialsCache New(PrincipalName principal) {
+    stbtic synchronized FileCredentiblsCbche New(PrincipblNbme principbl) {
         try {
-            FileCredentialsCache fcc = new FileCredentialsCache();
-            cacheName = FileCredentialsCache.getDefaultCacheName();
-            fcc.init(principal, cacheName);
+            FileCredentiblsCbche fcc = new FileCredentiblsCbche();
+            cbcheNbme = FileCredentiblsCbche.getDefbultCbcheNbme();
+            fcc.init(principbl, cbcheNbme);
             return fcc;
         }
-        catch (IOException e) {
+        cbtch (IOException e) {
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
 
         }
         return null;
     }
 
-    private FileCredentialsCache() {
+    privbte FileCredentiblsCbche() {
     }
 
-    boolean exists(String cache) {
-        File file = new File(cache);
+    boolebn exists(String cbche) {
+        File file = new File(cbche);
         if (file.exists()) {
             return true;
-        } else return false;
+        } else return fblse;
     }
 
-    synchronized void init(PrincipalName principal, String name)
+    synchronized void init(PrincipblNbme principbl, String nbme)
         throws IOException, KrbException {
-        primaryPrincipal = principal;
-        CCacheOutputStream cos =
-            new CCacheOutputStream(new FileOutputStream(name));
+        primbryPrincipbl = principbl;
+        CCbcheOutputStrebm cos =
+            new CCbcheOutputStrebm(new FileOutputStrebm(nbme));
         version = KRB5_FCC_FVNO_3;
-        cos.writeHeader(primaryPrincipal, version);
+        cos.writeHebder(primbryPrincipbl, version);
         cos.close();
-        load(name);
+        lobd(nbme);
     }
 
-    synchronized void load(String name) throws IOException, KrbException {
-        PrincipalName p;
-        CCacheInputStream cis =
-            new CCacheInputStream(new FileInputStream(name));
-        version = cis.readVersion();
+    synchronized void lobd(String nbme) throws IOException, KrbException {
+        PrincipblNbme p;
+        CCbcheInputStrebm cis =
+            new CCbcheInputStrebm(new FileInputStrebm(nbme));
+        version = cis.rebdVersion();
         if (version == KRB5_FCC_FVNO_4) {
-            tag = cis.readTag();
+            tbg = cis.rebdTbg();
         } else {
-            tag = null;
+            tbg = null;
             if (version == KRB5_FCC_FVNO_1 || version == KRB5_FCC_FVNO_2) {
-                cis.setNativeByteOrder();
+                cis.setNbtiveByteOrder();
             }
         }
-        p = cis.readPrincipal(version);
+        p = cis.rebdPrincipbl(version);
 
-        if (primaryPrincipal != null) {
-            if (!(primaryPrincipal.match(p))) {
-                throw new IOException("Primary principals don't match.");
+        if (primbryPrincipbl != null) {
+            if (!(primbryPrincipbl.mbtch(p))) {
+                throw new IOException("Primbry principbls don't mbtch.");
             }
         } else
-            primaryPrincipal = p;
-        credentialsList = new Vector<Credentials> ();
-        while (cis.available() > 0) {
-            Credentials cred = cis.readCred(version);
+            primbryPrincipbl = p;
+        credentiblsList = new Vector<Credentibls> ();
+        while (cis.bvbilbble() > 0) {
+            Credentibls cred = cis.rebdCred(version);
             if (cred != null) {
-                credentialsList.addElement(cred);
+                credentiblsList.bddElement(cred);
             }
         }
         cis.close();
@@ -192,79 +192,79 @@ public class FileCredentialsCache extends CredentialsCache
 
 
     /**
-     * Updates the credentials list. If the specified credentials for the
-     * service is new, add it to the list. If there is an entry in the list,
-     * replace the old credentials with the new one.
-     * @param c the credentials.
+     * Updbtes the credentibls list. If the specified credentibls for the
+     * service is new, bdd it to the list. If there is bn entry in the list,
+     * replbce the old credentibls with the new one.
+     * @pbrbm c the credentibls.
      */
 
-    public synchronized void update(Credentials c) {
-        if (credentialsList != null) {
-            if (credentialsList.isEmpty()) {
-                credentialsList.addElement(c);
+    public synchronized void updbte(Credentibls c) {
+        if (credentiblsList != null) {
+            if (credentiblsList.isEmpty()) {
+                credentiblsList.bddElement(c);
             } else {
-                Credentials tmp = null;
-                boolean matched = false;
+                Credentibls tmp = null;
+                boolebn mbtched = fblse;
 
-                for (int i = 0; i < credentialsList.size(); i++) {
-                    tmp = credentialsList.elementAt(i);
-                    if (match(c.sname.getNameStrings(),
-                              tmp.sname.getNameStrings()) &&
-                        ((c.sname.getRealmString()).equalsIgnoreCase(
-                                     tmp.sname.getRealmString()))) {
-                        matched = true;
+                for (int i = 0; i < credentiblsList.size(); i++) {
+                    tmp = credentiblsList.elementAt(i);
+                    if (mbtch(c.snbme.getNbmeStrings(),
+                              tmp.snbme.getNbmeStrings()) &&
+                        ((c.snbme.getReblmString()).equblsIgnoreCbse(
+                                     tmp.snbme.getReblmString()))) {
+                        mbtched = true;
                         if (c.endtime.getTime() >= tmp.endtime.getTime()) {
                             if (DEBUG) {
-                                System.out.println(" >>> FileCredentialsCache "
-                                         +  "Ticket matched, overwrite "
+                                System.out.println(" >>> FileCredentiblsCbche "
+                                         +  "Ticket mbtched, overwrite "
                                          +  "the old one.");
                             }
-                            credentialsList.removeElementAt(i);
-                            credentialsList.addElement(c);
+                            credentiblsList.removeElementAt(i);
+                            credentiblsList.bddElement(c);
                         }
                     }
                 }
-                if (matched == false) {
+                if (mbtched == fblse) {
                     if (DEBUG) {
-                        System.out.println(" >>> FileCredentialsCache Ticket "
-                                        +   "not exactly matched, "
-                                        +   "add new one into cache.");
+                        System.out.println(" >>> FileCredentiblsCbche Ticket "
+                                        +   "not exbctly mbtched, "
+                                        +   "bdd new one into cbche.");
                     }
 
-                    credentialsList.addElement(c);
+                    credentiblsList.bddElement(c);
                 }
             }
         }
     }
 
-    public synchronized PrincipalName getPrimaryPrincipal() {
-        return primaryPrincipal;
+    public synchronized PrincipblNbme getPrimbryPrincipbl() {
+        return primbryPrincipbl;
     }
 
 
     /**
-     * Saves the credentials cache file to the disk.
+     * Sbves the credentibls cbche file to the disk.
      */
-    public synchronized void save() throws IOException, Asn1Exception {
-        CCacheOutputStream cos
-            = new CCacheOutputStream(new FileOutputStream(cacheName));
-        cos.writeHeader(primaryPrincipal, version);
-        Credentials[] tmp = null;
+    public synchronized void sbve() throws IOException, Asn1Exception {
+        CCbcheOutputStrebm cos
+            = new CCbcheOutputStrebm(new FileOutputStrebm(cbcheNbme));
+        cos.writeHebder(primbryPrincipbl, version);
+        Credentibls[] tmp = null;
         if ((tmp = getCredsList()) != null) {
             for (int i = 0; i < tmp.length; i++) {
-                cos.addCreds(tmp[i]);
+                cos.bddCreds(tmp[i]);
             }
         }
         cos.close();
     }
 
-    boolean match(String[] s1, String[] s2) {
+    boolebn mbtch(String[] s1, String[] s2) {
         if (s1.length != s2.length) {
-            return false;
+            return fblse;
         } else {
             for (int i = 0; i < s1.length; i++) {
-                if (!(s1[i].equalsIgnoreCase(s2[i]))) {
-                    return false;
+                if (!(s1[i].equblsIgnoreCbse(s2[i]))) {
+                    return fblse;
                 }
             }
         }
@@ -272,32 +272,32 @@ public class FileCredentialsCache extends CredentialsCache
     }
 
     /**
-     * Returns the list of credentials entries in the cache file.
+     * Returns the list of credentibls entries in the cbche file.
      */
-    public synchronized Credentials[] getCredsList() {
-        if ((credentialsList == null) || (credentialsList.isEmpty())) {
+    public synchronized Credentibls[] getCredsList() {
+        if ((credentiblsList == null) || (credentiblsList.isEmpty())) {
             return null;
         } else {
-            Credentials[] tmp = new Credentials[credentialsList.size()];
-            for (int i = 0; i < credentialsList.size(); i++) {
-                tmp[i] = credentialsList.elementAt(i);
+            Credentibls[] tmp = new Credentibls[credentiblsList.size()];
+            for (int i = 0; i < credentiblsList.size(); i++) {
+                tmp[i] = credentiblsList.elementAt(i);
             }
             return tmp;
         }
 
     }
 
-    public Credentials getCreds(LoginOptions options, PrincipalName sname) {
+    public Credentibls getCreds(LoginOptions options, PrincipblNbme snbme) {
         if (options == null) {
-            return getCreds(sname);
+            return getCreds(snbme);
         } else {
-            Credentials[] list = getCredsList();
+            Credentibls[] list = getCredsList();
             if (list == null) {
                 return null;
             } else {
                 for (int i = 0; i < list.length; i++) {
-                    if (sname.match(list[i].sname)) {
-                        if (list[i].flags.match(options)) {
+                    if (snbme.mbtch(list[i].snbme)) {
+                        if (list[i].flbgs.mbtch(options)) {
                             return list[i];
                         }
                     }
@@ -309,16 +309,16 @@ public class FileCredentialsCache extends CredentialsCache
 
 
     /**
-     * Gets a credentials for a specified service.
-     * @param sname service principal name.
+     * Gets b credentibls for b specified service.
+     * @pbrbm snbme service principbl nbme.
      */
-    public Credentials getCreds(PrincipalName sname) {
-        Credentials[] list = getCredsList();
+    public Credentibls getCreds(PrincipblNbme snbme) {
+        Credentibls[] list = getCredsList();
         if (list == null) {
             return null;
         } else {
             for (int i = 0; i < list.length; i++) {
-                if (sname.match(list[i].sname)) {
+                if (snbme.mbtch(list[i].snbme)) {
                     return list[i];
                 }
             }
@@ -326,16 +326,16 @@ public class FileCredentialsCache extends CredentialsCache
         return null;
     }
 
-    public Credentials getDefaultCreds() {
-        Credentials[] list = getCredsList();
+    public Credentibls getDefbultCreds() {
+        Credentibls[] list = getCredsList();
         if (list == null) {
             return null;
         } else {
             for (int i = list.length-1; i >= 0; i--) {
-                if (list[i].sname.toString().startsWith("krbtgt")) {
-                    String[] nameStrings = list[i].sname.getNameStrings();
-                    // find the TGT for the current realm krbtgt/realm@realm
-                    if (nameStrings[1].equals(list[i].sname.getRealm().toString())) {
+                if (list[i].snbme.toString().stbrtsWith("krbtgt")) {
+                    String[] nbmeStrings = list[i].snbme.getNbmeStrings();
+                    // find the TGT for the current reblm krbtgt/reblm@reblm
+                    if (nbmeStrings[1].equbls(list[i].snbme.getReblm().toString())) {
                        return list[i];
                     }
                 }
@@ -345,87 +345,87 @@ public class FileCredentialsCache extends CredentialsCache
     }
 
     /*
-     * Returns path name of the credentials cache file.
-     * The path name is searched in the following order:
+     * Returns pbth nbme of the credentibls cbche file.
+     * The pbth nbme is sebrched in the following order:
      *
-     * 1. KRB5CCNAME (bare file name without FILE:)
+     * 1. KRB5CCNAME (bbre file nbme without FILE:)
      * 2. /tmp/krb5cc_<uid> on unix systems
-     * 3. <user.home>/krb5cc_<user.name>
-     * 4. <user.home>/krb5cc (if can't get <user.name>)
+     * 3. <user.home>/krb5cc_<user.nbme>
+     * 4. <user.home>/krb5cc (if cbn't get <user.nbme>)
      */
 
-    public static String getDefaultCacheName() {
+    public stbtic String getDefbultCbcheNbme() {
 
-        String stdCacheNameComponent = "krb5cc";
-        String name;
+        String stdCbcheNbmeComponent = "krb5cc";
+        String nbme;
 
-        // The env var can start with TYPE:, we only support FILE: here.
-        // http://docs.oracle.com/cd/E19082-01/819-2252/6n4i8rtr3/index.html
-        name = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<String>() {
+        // The env vbr cbn stbrt with TYPE:, we only support FILE: here.
+        // http://docs.orbcle.com/cd/E19082-01/819-2252/6n4i8rtr3/index.html
+        nbme = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<String>() {
             @Override
             public String run() {
-                String cache = System.getenv("KRB5CCNAME");
-                if (cache != null &&
-                        (cache.length() >= 5) &&
-                        cache.regionMatches(true, 0, "FILE:", 0, 5)) {
-                    cache = cache.substring(5);
+                String cbche = System.getenv("KRB5CCNAME");
+                if (cbche != null &&
+                        (cbche.length() >= 5) &&
+                        cbche.regionMbtches(true, 0, "FILE:", 0, 5)) {
+                    cbche = cbche.substring(5);
                 }
-                return cache;
+                return cbche;
             }
         });
-        if (name != null) {
+        if (nbme != null) {
             if (DEBUG) {
-                System.out.println(">>>KinitOptions cache name is " + name);
+                System.out.println(">>>KinitOptions cbche nbme is " + nbme);
             }
-            return name;
+            return nbme;
         }
 
-        // get cache name from system.property
-        String osname =
-            java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("os.name"));
+        // get cbche nbme from system.property
+        String osnbme =
+            jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("os.nbme"));
 
         /*
-         * For Unix platforms we use the default cache name to be
-         * /tmp/krbcc_uid ; for all other platforms  we use
-         * {user_home}/krb5_cc{user_name}
-         * Please note that for Windows 2K we will use LSA to get
-         * the TGT from the the default cache even before we come here;
-         * however when we create cache we will create a cache under
-         * {user_home}/krb5_cc{user_name} for non-Unix platforms including
+         * For Unix plbtforms we use the defbult cbche nbme to be
+         * /tmp/krbcc_uid ; for bll other plbtforms  we use
+         * {user_home}/krb5_cc{user_nbme}
+         * Plebse note thbt for Windows 2K we will use LSA to get
+         * the TGT from the the defbult cbche even before we come here;
+         * however when we crebte cbche we will crebte b cbche under
+         * {user_home}/krb5_cc{user_nbme} for non-Unix plbtforms including
          * Windows 2K.
          */
 
-        if (osname != null) {
+        if (osnbme != null) {
             String cmd = null;
             String uidStr = null;
             long uid = 0;
 
-            if (osname.startsWith("SunOS") ||
-                (osname.startsWith("Linux"))) {
+            if (osnbme.stbrtsWith("SunOS") ||
+                (osnbme.stbrtsWith("Linux"))) {
                 try {
-                    Class<?> c = Class.forName
-                        ("com.sun.security.auth.module.UnixSystem");
+                    Clbss<?> c = Clbss.forNbme
+                        ("com.sun.security.buth.module.UnixSystem");
                     Constructor<?> constructor = c.getConstructor();
-                    Object obj = constructor.newInstance();
+                    Object obj = constructor.newInstbnce();
                     Method method = c.getMethod("getUid");
-                    uid =  ((Long)method.invoke(obj)).longValue();
-                    name = File.separator + "tmp" +
-                        File.separator + stdCacheNameComponent + "_" + uid;
+                    uid =  ((Long)method.invoke(obj)).longVblue();
+                    nbme = File.sepbrbtor + "tmp" +
+                        File.sepbrbtor + stdCbcheNbmeComponent + "_" + uid;
                     if (DEBUG) {
-                        System.out.println(">>>KinitOptions cache name is " +
-                                           name);
+                        System.out.println(">>>KinitOptions cbche nbme is " +
+                                           nbme);
                     }
-                    return name;
-                } catch (Exception e) {
+                    return nbme;
+                } cbtch (Exception e) {
                     if (DEBUG) {
-                        System.out.println("Exception in obtaining uid " +
-                                            "for Unix platforms " +
+                        System.out.println("Exception in obtbining uid " +
+                                            "for Unix plbtforms " +
                                             "Using user's home directory");
 
 
-                        e.printStackTrace();
+                        e.printStbckTrbce();
                     }
                 }
             }
@@ -434,110 +434,110 @@ public class FileCredentialsCache extends CredentialsCache
         // we did not get the uid;
 
 
-        String user_name =
-            java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.name"));
+        String user_nbme =
+            jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.nbme"));
 
         String user_home =
-            java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.home"));
+            jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.home"));
 
         if (user_home == null) {
             user_home =
-                java.security.AccessController.doPrivileged(
-                        new sun.security.action.GetPropertyAction("user.dir"));
+                jbvb.security.AccessController.doPrivileged(
+                        new sun.security.bction.GetPropertyAction("user.dir"));
         }
 
-        if (user_name != null) {
-            name = user_home + File.separator  +
-                stdCacheNameComponent + "_" + user_name;
+        if (user_nbme != null) {
+            nbme = user_home + File.sepbrbtor  +
+                stdCbcheNbmeComponent + "_" + user_nbme;
         } else {
-            name = user_home + File.separator + stdCacheNameComponent;
+            nbme = user_home + File.sepbrbtor + stdCbcheNbmeComponent;
         }
 
         if (DEBUG) {
-            System.out.println(">>>KinitOptions cache name is " + name);
+            System.out.println(">>>KinitOptions cbche nbme is " + nbme);
         }
 
-        return name;
+        return nbme;
     }
 
-    public static String checkValidation(String name) {
-        String fullname = null;
-        if (name == null) {
+    public stbtic String checkVblidbtion(String nbme) {
+        String fullnbme = null;
+        if (nbme == null) {
             return null;
         }
         try {
-            // get full path name
-            fullname = (new File(name)).getCanonicalPath();
-            File fCheck = new File(fullname);
+            // get full pbth nbme
+            fullnbme = (new File(nbme)).getCbnonicblPbth();
+            File fCheck = new File(fullnbme);
             if (!(fCheck.exists())) {
-                // get absolute directory
-                File temp = new File(fCheck.getParent());
+                // get bbsolute directory
+                File temp = new File(fCheck.getPbrent());
                 // test if the directory exists
                 if (!(temp.isDirectory()))
-                    fullname = null;
+                    fullnbme = null;
                 temp = null;
             }
             fCheck = null;
 
-        } catch (IOException e) {
-            fullname = null; // invalid name
+        } cbtch (IOException e) {
+            fullnbme = null; // invblid nbme
         }
-        return fullname;
+        return fullnbme;
     }
 
 
-    private static String exec(String c) {
+    privbte stbtic String exec(String c) {
         StringTokenizer st = new StringTokenizer(c);
         Vector<String> v = new Vector<>();
-        while (st.hasMoreTokens()) {
-            v.addElement(st.nextToken());
+        while (st.hbsMoreTokens()) {
+            v.bddElement(st.nextToken());
         }
-        final String[] command = new String[v.size()];
-        v.copyInto(command);
+        finbl String[] commbnd = new String[v.size()];
+        v.copyInto(commbnd);
         try {
 
             Process p =
-                java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction<Process> () {
+                jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedAction<Process> () {
                         public Process run() {
                             try {
-                                return (Runtime.getRuntime().exec(command));
-                            } catch (java.io.IOException e) {
+                                return (Runtime.getRuntime().exec(commbnd));
+                            } cbtch (jbvb.io.IOException e) {
                                 if (DEBUG) {
-                                    e.printStackTrace();
+                                    e.printStbckTrbce();
                                 }
                                 return null;
                             }
                         }
                     });
             if (p == null) {
-                // exception occurred during executing the command
+                // exception occurred during executing the commbnd
                 return null;
             }
 
-            BufferedReader commandResult =
-                new BufferedReader
-                    (new InputStreamReader(p.getInputStream(), "8859_1"));
+            BufferedRebder commbndResult =
+                new BufferedRebder
+                    (new InputStrebmRebder(p.getInputStrebm(), "8859_1"));
             String s1 = null;
-            if ((command.length == 1) &&
-                (command[0].equals("/usr/bin/env"))) {
-                while ((s1 = commandResult.readLine()) != null) {
+            if ((commbnd.length == 1) &&
+                (commbnd[0].equbls("/usr/bin/env"))) {
+                while ((s1 = commbndResult.rebdLine()) != null) {
                     if (s1.length() >= 11) {
-                        if ((s1.substring(0, 11)).equalsIgnoreCase
+                        if ((s1.substring(0, 11)).equblsIgnoreCbse
                             ("KRB5CCNAME=")) {
                             s1 = s1.substring(11);
-                            break;
+                            brebk;
                         }
                     }
                 }
-            } else     s1 = commandResult.readLine();
-            commandResult.close();
+            } else     s1 = commbndResult.rebdLine();
+            commbndResult.close();
             return s1;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
         return null;

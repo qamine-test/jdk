@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.net;
+pbckbge jdk.net;
 
-import java.security.BasicPermission;
+import jbvb.security.BbsicPermission;
 
 /**
- * Represents permission to access the extended networking capabilities
- * defined in the jdk.net package. These permissions contain a target
- * name, but no actions list. Callers either possess the permission or not.
+ * Represents permission to bccess the extended networking cbpbbilities
+ * defined in the jdk.net pbckbge. These permissions contbin b tbrget
+ * nbme, but no bctions list. Cbllers either possess the permission or not.
  * <p>
- * The following targets are defined:
+ * The following tbrgets bre defined:
  * <p>
- * <table border=1 cellpadding=5 summary="permission target name,
- *  what the target allows,and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="permission tbrget nbme,
+ *  whbt the tbrget bllows,bnd bssocibted risks">
  * <tr>
- *   <th>Permission Target Name</th>
- *   <th>What the Permission Allows</th>
+ *   <th>Permission Tbrget Nbme</th>
+ *   <th>Whbt the Permission Allows</th>
  *   <th>Risks of Allowing this Permission</th>
  * </tr>
  * <tr>
  *   <td>setOption.SO_FLOW_SLA</td>
  *   <td>set the {@link ExtendedSocketOptions#SO_FLOW_SLA SO_FLOW_SLA} option
- *       on any socket that supports it</td>
- *   <td>allows caller to set a higher priority or bandwidth allocation
- *       to sockets it creates, than they might otherwise be allowed.</td>
+ *       on bny socket thbt supports it</td>
+ *   <td>bllows cbller to set b higher priority or bbndwidth bllocbtion
+ *       to sockets it crebtes, thbn they might otherwise be bllowed.</td>
  * </tr>
  * <tr>
  *   <td>getOption.SO_FLOW_SLA</td>
  *   <td>retrieve the {@link ExtendedSocketOptions#SO_FLOW_SLA SO_FLOW_SLA}
- *       setting from any socket that supports the option</td>
- *   <td>allows caller access to SLA information that it might not
- *       otherwise have</td>
- * </tr></table>
+ *       setting from bny socket thbt supports the option</td>
+ *   <td>bllows cbller bccess to SLA informbtion thbt it might not
+ *       otherwise hbve</td>
+ * </tr></tbble>
  *
  * @see jdk.net.ExtendedSocketOptions
  *
@@ -62,32 +62,32 @@ import java.security.BasicPermission;
  */
 
 @jdk.Exported
-public final class NetworkPermission extends BasicPermission {
+public finbl clbss NetworkPermission extends BbsicPermission {
 
-    private static final long serialVersionUID = -2012939586906722291L;
+    privbte stbtic finbl long seriblVersionUID = -2012939586906722291L;
 
     /**
-     * Creates a NetworkPermission with the given target name.
+     * Crebtes b NetworkPermission with the given tbrget nbme.
      *
-     * @param name the permission target name
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @pbrbm nbme the permission tbrget nbme
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public NetworkPermission(String name)
+    public NetworkPermission(String nbme)
     {
-        super(name);
+        super(nbme);
     }
 
     /**
-     * Creates a NetworkPermission with the given target name.
+     * Crebtes b NetworkPermission with the given tbrget nbme.
      *
-     * @param name the permission target name
-     * @param actions should be {@code null}. Is ignored if not.
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @pbrbm nbme the permission tbrget nbme
+     * @pbrbm bctions should be {@code null}. Is ignored if not.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public NetworkPermission(String name, String actions)
+    public NetworkPermission(String nbme, String bctions)
     {
-        super(name, actions);
+        super(nbme, bctions);
     }
 }

@@ -3,15 +3,15 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcmainct.c
+ * jcmbinct.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains the main buffer controller for compression.
- * The main buffer lies between the pre-processor and the JPEG
- * compressor proper; it holds downsampled data in the JPEG colorspace.
+ * This file contbins the mbin buffer controller for compression.
+ * The mbin buffer lies between the pre-processor bnd the JPEG
+ * compressor proper; it holds downsbmpled dbtb in the JPEG colorspbce.
  */
 
 #define JPEG_INTERNALS
@@ -19,145 +19,145 @@
 #include "jpeglib.h"
 
 
-/* Note: currently, there is no operating mode in which a full-image buffer
- * is needed at this step.  If there were, that mode could not be used with
- * "raw data" input, since this module is bypassed in that case.  However,
- * we've left the code here for possible use in special applications.
+/* Note: currently, there is no operbting mode in which b full-imbge buffer
+ * is needed bt this step.  If there were, thbt mode could not be used with
+ * "rbw dbtb" input, since this module is bypbssed in thbt cbse.  However,
+ * we've left the code here for possible use in specibl bpplicbtions.
  */
 #undef FULL_MAIN_BUFFER_SUPPORTED
 
 
-/* Private buffer controller object */
+/* Privbte buffer controller object */
 
 typedef struct {
-  struct jpeg_c_main_controller pub; /* public fields */
+  struct jpeg_c_mbin_controller pub; /* public fields */
 
   JDIMENSION cur_iMCU_row;      /* number of current iMCU row */
   JDIMENSION rowgroup_ctr;      /* counts row groups received in iMCU row */
-  boolean suspended;            /* remember if we suspended output */
-  J_BUF_MODE pass_mode;         /* current operating mode */
+  boolebn suspended;            /* remember if we suspended output */
+  J_BUF_MODE pbss_mode;         /* current operbting mode */
 
-  /* If using just a strip buffer, this points to the entire set of buffers
-   * (we allocate one for each component).  In the full-image case, this
-   * points to the currently accessible strips of the virtual arrays.
+  /* If using just b strip buffer, this points to the entire set of buffers
+   * (we bllocbte one for ebch component).  In the full-imbge cbse, this
+   * points to the currently bccessible strips of the virtubl brrbys.
    */
   JSAMPARRAY buffer[MAX_COMPONENTS];
 
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-  /* If using full-image storage, this array holds pointers to virtual-array
-   * control blocks for each component.  Unused if not full-image storage.
+  /* If using full-imbge storbge, this brrby holds pointers to virtubl-brrby
+   * control blocks for ebch component.  Unused if not full-imbge storbge.
    */
-  jvirt_sarray_ptr whole_image[MAX_COMPONENTS];
+  jvirt_sbrrby_ptr whole_imbge[MAX_COMPONENTS];
 #endif
-} my_main_controller;
+} my_mbin_controller;
 
-typedef my_main_controller * my_main_ptr;
+typedef my_mbin_controller * my_mbin_ptr;
 
 
-/* Forward declarations */
-METHODDEF(void) process_data_simple_main
+/* Forwbrd declbrbtions */
+METHODDEF(void) process_dbtb_simple_mbin
         JPP((j_compress_ptr cinfo, JSAMPARRAY input_buf,
-             JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail));
+             JDIMENSION *in_row_ctr, JDIMENSION in_rows_bvbil));
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-METHODDEF(void) process_data_buffer_main
+METHODDEF(void) process_dbtb_buffer_mbin
         JPP((j_compress_ptr cinfo, JSAMPARRAY input_buf,
-             JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail));
+             JDIMENSION *in_row_ctr, JDIMENSION in_rows_bvbil));
 #endif
 
 
 /*
- * Initialize for a processing pass.
+ * Initiblize for b processing pbss.
  */
 
 METHODDEF(void)
-start_pass_main (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
+stbrt_pbss_mbin (j_compress_ptr cinfo, J_BUF_MODE pbss_mode)
 {
-  my_main_ptr _main = (my_main_ptr) cinfo->main;
+  my_mbin_ptr _mbin = (my_mbin_ptr) cinfo->mbin;
 
-  /* Do nothing in raw-data mode. */
-  if (cinfo->raw_data_in)
+  /* Do nothing in rbw-dbtb mode. */
+  if (cinfo->rbw_dbtb_in)
     return;
 
-  _main->cur_iMCU_row = 0;      /* initialize counters */
-  _main->rowgroup_ctr = 0;
-  _main->suspended = FALSE;
-  _main->pass_mode = pass_mode; /* save mode for use by process_data */
+  _mbin->cur_iMCU_row = 0;      /* initiblize counters */
+  _mbin->rowgroup_ctr = 0;
+  _mbin->suspended = FALSE;
+  _mbin->pbss_mode = pbss_mode; /* sbve mode for use by process_dbtb */
 
-  switch (pass_mode) {
-  case JBUF_PASS_THRU:
+  switch (pbss_mode) {
+  cbse JBUF_PASS_THRU:
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-    if (_main->whole_image[0] != NULL)
+    if (_mbin->whole_imbge[0] != NULL)
       ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
 #endif
-    _main->pub.process_data = process_data_simple_main;
-    break;
+    _mbin->pub.process_dbtb = process_dbtb_simple_mbin;
+    brebk;
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-  case JBUF_SAVE_SOURCE:
-  case JBUF_CRANK_DEST:
-  case JBUF_SAVE_AND_PASS:
-    if (_main->whole_image[0] == NULL)
+  cbse JBUF_SAVE_SOURCE:
+  cbse JBUF_CRANK_DEST:
+  cbse JBUF_SAVE_AND_PASS:
+    if (_mbin->whole_imbge[0] == NULL)
       ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
-    _main->pub.process_data = process_data_buffer_main;
-    break;
+    _mbin->pub.process_dbtb = process_dbtb_buffer_mbin;
+    brebk;
 #endif
-  default:
+  defbult:
     ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
-    break;
+    brebk;
   }
 }
 
 
 /*
- * Process some data.
- * This routine handles the simple pass-through mode,
- * where we have only a strip buffer.
+ * Process some dbtb.
+ * This routine hbndles the simple pbss-through mode,
+ * where we hbve only b strip buffer.
  */
 
 METHODDEF(void)
-process_data_simple_main (j_compress_ptr cinfo,
+process_dbtb_simple_mbin (j_compress_ptr cinfo,
                           JSAMPARRAY input_buf, JDIMENSION *in_row_ctr,
-                          JDIMENSION in_rows_avail)
+                          JDIMENSION in_rows_bvbil)
 {
-  my_main_ptr _main = (my_main_ptr) cinfo->main;
+  my_mbin_ptr _mbin = (my_mbin_ptr) cinfo->mbin;
 
-  while (_main->cur_iMCU_row < cinfo->total_iMCU_rows) {
-    /* Read input data if we haven't filled the main buffer yet */
-    if (_main->rowgroup_ctr < DCTSIZE)
-      (*cinfo->prep->pre_process_data) (cinfo,
-                                        input_buf, in_row_ctr, in_rows_avail,
-                                        _main->buffer, &_main->rowgroup_ctr,
+  while (_mbin->cur_iMCU_row < cinfo->totbl_iMCU_rows) {
+    /* Rebd input dbtb if we hbven't filled the mbin buffer yet */
+    if (_mbin->rowgroup_ctr < DCTSIZE)
+      (*cinfo->prep->pre_process_dbtb) (cinfo,
+                                        input_buf, in_row_ctr, in_rows_bvbil,
+                                        _mbin->buffer, &_mbin->rowgroup_ctr,
                                         (JDIMENSION) DCTSIZE);
 
-    /* If we don't have a full iMCU row buffered, return to application for
-     * more data.  Note that preprocessor will always pad to fill the iMCU row
-     * at the bottom of the image.
+    /* If we don't hbve b full iMCU row buffered, return to bpplicbtion for
+     * more dbtb.  Note thbt preprocessor will blwbys pbd to fill the iMCU row
+     * bt the bottom of the imbge.
      */
-    if (_main->rowgroup_ctr != DCTSIZE)
+    if (_mbin->rowgroup_ctr != DCTSIZE)
       return;
 
     /* Send the completed row to the compressor */
-    if (! (*cinfo->coef->compress_data) (cinfo, _main->buffer)) {
+    if (! (*cinfo->coef->compress_dbtb) (cinfo, _mbin->buffer)) {
       /* If compressor did not consume the whole row, then we must need to
-       * suspend processing and return to the application.  In this situation
-       * we pretend we didn't yet consume the last input row; otherwise, if
-       * it happened to be the last row of the image, the application would
+       * suspend processing bnd return to the bpplicbtion.  In this situbtion
+       * we pretend we didn't yet consume the lbst input row; otherwise, if
+       * it hbppened to be the lbst row of the imbge, the bpplicbtion would
        * think we were done.
        */
-      if (! _main->suspended) {
+      if (! _mbin->suspended) {
         (*in_row_ctr)--;
-        _main->suspended = TRUE;
+        _mbin->suspended = TRUE;
       }
       return;
     }
-    /* We did finish the row.  Undo our little suspension hack if a previous
-     * call suspended; then mark the main buffer empty.
+    /* We did finish the row.  Undo our little suspension hbck if b previous
+     * cbll suspended; then mbrk the mbin buffer empty.
      */
-    if (_main->suspended) {
+    if (_mbin->suspended) {
       (*in_row_ctr)++;
-      _main->suspended = FALSE;
+      _mbin->suspended = FALSE;
     }
-    _main->rowgroup_ctr = 0;
-    _main->cur_iMCU_row++;
+    _mbin->rowgroup_ctr = 0;
+    _mbin->cur_iMCU_row++;
   }
 }
 
@@ -165,76 +165,76 @@ process_data_simple_main (j_compress_ptr cinfo,
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
 
 /*
- * Process some data.
- * This routine handles all of the modes that use a full-size buffer.
+ * Process some dbtb.
+ * This routine hbndles bll of the modes thbt use b full-size buffer.
  */
 
 METHODDEF(void)
-process_data_buffer_main (j_compress_ptr cinfo,
+process_dbtb_buffer_mbin (j_compress_ptr cinfo,
                           JSAMPARRAY input_buf, JDIMENSION *in_row_ctr,
-                          JDIMENSION in_rows_avail)
+                          JDIMENSION in_rows_bvbil)
 {
-  my_main_ptr _main = (my_main_ptr) cinfo->main;
+  my_mbin_ptr _mbin = (my_mbin_ptr) cinfo->mbin;
   int ci;
   jpeg_component_info *compptr;
-  boolean writing = (_main->pass_mode != JBUF_CRANK_DEST);
+  boolebn writing = (_mbin->pbss_mode != JBUF_CRANK_DEST);
 
-  while (_main->cur_iMCU_row < cinfo->total_iMCU_rows) {
-    /* Realign the virtual buffers if at the start of an iMCU row. */
-    if (_main->rowgroup_ctr == 0) {
+  while (_mbin->cur_iMCU_row < cinfo->totbl_iMCU_rows) {
+    /* Reblign the virtubl buffers if bt the stbrt of bn iMCU row. */
+    if (_mbin->rowgroup_ctr == 0) {
       for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
            ci++, compptr++) {
-        _main->buffer[ci] = (*cinfo->mem->access_virt_sarray)
-          ((j_common_ptr) cinfo, _main->whole_image[ci],
-           _main->cur_iMCU_row * (compptr->v_samp_factor * DCTSIZE),
-           (JDIMENSION) (compptr->v_samp_factor * DCTSIZE), writing);
+        _mbin->buffer[ci] = (*cinfo->mem->bccess_virt_sbrrby)
+          ((j_common_ptr) cinfo, _mbin->whole_imbge[ci],
+           _mbin->cur_iMCU_row * (compptr->v_sbmp_fbctor * DCTSIZE),
+           (JDIMENSION) (compptr->v_sbmp_fbctor * DCTSIZE), writing);
       }
-      /* In a read pass, pretend we just read some source data. */
+      /* In b rebd pbss, pretend we just rebd some source dbtb. */
       if (! writing) {
-        *in_row_ctr += cinfo->max_v_samp_factor * DCTSIZE;
-        _main->rowgroup_ctr = DCTSIZE;
+        *in_row_ctr += cinfo->mbx_v_sbmp_fbctor * DCTSIZE;
+        _mbin->rowgroup_ctr = DCTSIZE;
       }
     }
 
-    /* If a write pass, read input data until the current iMCU row is full. */
-    /* Note: preprocessor will pad if necessary to fill the last iMCU row. */
+    /* If b write pbss, rebd input dbtb until the current iMCU row is full. */
+    /* Note: preprocessor will pbd if necessbry to fill the lbst iMCU row. */
     if (writing) {
-      (*cinfo->prep->pre_process_data) (cinfo,
-                                        input_buf, in_row_ctr, in_rows_avail,
-                                        _main->buffer, &_main->rowgroup_ctr,
+      (*cinfo->prep->pre_process_dbtb) (cinfo,
+                                        input_buf, in_row_ctr, in_rows_bvbil,
+                                        _mbin->buffer, &_mbin->rowgroup_ctr,
                                         (JDIMENSION) DCTSIZE);
-      /* Return to application if we need more data to fill the iMCU row. */
-      if (_main->rowgroup_ctr < DCTSIZE)
+      /* Return to bpplicbtion if we need more dbtb to fill the iMCU row. */
+      if (_mbin->rowgroup_ctr < DCTSIZE)
         return;
     }
 
-    /* Emit data, unless this is a sink-only pass. */
-    if (_main->pass_mode != JBUF_SAVE_SOURCE) {
-      if (! (*cinfo->coef->compress_data) (cinfo, _main->buffer)) {
+    /* Emit dbtb, unless this is b sink-only pbss. */
+    if (_mbin->pbss_mode != JBUF_SAVE_SOURCE) {
+      if (! (*cinfo->coef->compress_dbtb) (cinfo, _mbin->buffer)) {
         /* If compressor did not consume the whole row, then we must need to
-         * suspend processing and return to the application.  In this situation
-         * we pretend we didn't yet consume the last input row; otherwise, if
-         * it happened to be the last row of the image, the application would
+         * suspend processing bnd return to the bpplicbtion.  In this situbtion
+         * we pretend we didn't yet consume the lbst input row; otherwise, if
+         * it hbppened to be the lbst row of the imbge, the bpplicbtion would
          * think we were done.
          */
-        if (! _main->suspended) {
+        if (! _mbin->suspended) {
           (*in_row_ctr)--;
-          _main->suspended = TRUE;
+          _mbin->suspended = TRUE;
         }
         return;
       }
-      /* We did finish the row.  Undo our little suspension hack if a previous
-       * call suspended; then mark the main buffer empty.
+      /* We did finish the row.  Undo our little suspension hbck if b previous
+       * cbll suspended; then mbrk the mbin buffer empty.
        */
-      if (_main->suspended) {
+      if (_mbin->suspended) {
         (*in_row_ctr)++;
-        _main->suspended = FALSE;
+        _mbin->suspended = FALSE;
       }
     }
 
-    /* If get here, we are done with this iMCU row.  Mark buffer empty. */
-    _main->rowgroup_ctr = 0;
-    _main->cur_iMCU_row++;
+    /* If get here, we bre done with this iMCU row.  Mbrk buffer empty. */
+    _mbin->rowgroup_ctr = 0;
+    _mbin->cur_iMCU_row++;
   }
 }
 
@@ -242,56 +242,56 @@ process_data_buffer_main (j_compress_ptr cinfo,
 
 
 /*
- * Initialize main buffer controller.
+ * Initiblize mbin buffer controller.
  */
 
 GLOBAL(void)
-jinit_c_main_controller (j_compress_ptr cinfo, boolean need_full_buffer)
+jinit_c_mbin_controller (j_compress_ptr cinfo, boolebn need_full_buffer)
 {
-  my_main_ptr _main;
+  my_mbin_ptr _mbin;
   int ci;
   jpeg_component_info *compptr;
 
-  _main = (my_main_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_main_controller));
-  cinfo->main = (struct jpeg_c_main_controller *) _main;
-  _main->pub.start_pass = start_pass_main;
+  _mbin = (my_mbin_ptr)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                SIZEOF(my_mbin_controller));
+  cinfo->mbin = (struct jpeg_c_mbin_controller *) _mbin;
+  _mbin->pub.stbrt_pbss = stbrt_pbss_mbin;
 
-  /* We don't need to create a buffer in raw-data mode. */
-  if (cinfo->raw_data_in)
+  /* We don't need to crebte b buffer in rbw-dbtb mode. */
+  if (cinfo->rbw_dbtb_in)
     return;
 
-  /* Create the buffer.  It holds downsampled data, so each component
-   * may be of a different size.
+  /* Crebte the buffer.  It holds downsbmpled dbtb, so ebch component
+   * mby be of b different size.
    */
   if (need_full_buffer) {
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-    /* Allocate a full-image virtual array for each component */
-    /* Note we pad the bottom to a multiple of the iMCU height */
+    /* Allocbte b full-imbge virtubl brrby for ebch component */
+    /* Note we pbd the bottom to b multiple of the iMCU height */
     for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
          ci++, compptr++) {
-      _main->whole_image[ci] = (*cinfo->mem->request_virt_sarray)
+      _mbin->whole_imbge[ci] = (*cinfo->mem->request_virt_sbrrby)
         ((j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
          compptr->width_in_blocks * DCTSIZE,
          (JDIMENSION) jround_up((long) compptr->height_in_blocks,
-                                (long) compptr->v_samp_factor) * DCTSIZE,
-         (JDIMENSION) (compptr->v_samp_factor * DCTSIZE));
+                                (long) compptr->v_sbmp_fbctor) * DCTSIZE,
+         (JDIMENSION) (compptr->v_sbmp_fbctor * DCTSIZE));
     }
 #else
     ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
 #endif
   } else {
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
-    _main->whole_image[0] = NULL; /* flag for no virtual arrays */
+    _mbin->whole_imbge[0] = NULL; /* flbg for no virtubl brrbys */
 #endif
-    /* Allocate a strip buffer for each component */
+    /* Allocbte b strip buffer for ebch component */
     for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
          ci++, compptr++) {
-      _main->buffer[ci] = (*cinfo->mem->alloc_sarray)
+      _mbin->buffer[ci] = (*cinfo->mem->blloc_sbrrby)
         ((j_common_ptr) cinfo, JPOOL_IMAGE,
          compptr->width_in_blocks * DCTSIZE,
-         (JDIMENSION) (compptr->v_samp_factor * DCTSIZE));
+         (JDIMENSION) (compptr->v_sbmp_fbctor * DCTSIZE));
     }
   }
 }

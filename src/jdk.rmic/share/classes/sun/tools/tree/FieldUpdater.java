@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.io.PrintStrebm;
 
 /**
- * This class encapsulates the information required to generate an update to a private
- * field referenced from another class, e.g., an inner class.  An expression denoting a
- * reference to the object to which the field belongs is associated with getter and
+ * This clbss encbpsulbtes the informbtion required to generbte bn updbte to b privbte
+ * field referenced from bnother clbss, e.g., bn inner clbss.  An expression denoting b
+ * reference to the object to which the field belongs is bssocibted with getter bnd
  * setter methods.
  * <p>
- * We use this class only for assignment, increment, and decrement operators, in which
- * the old value is first retrieved and then a new value is computed and stored.
- * Simple assignment expressions in which a value is copied without modification are
- * handled by another mechanism.
+ * We use this clbss only for bssignment, increment, bnd decrement operbtors, in which
+ * the old vblue is first retrieved bnd then b new vblue is computed bnd stored.
+ * Simple bssignment expressions in which b vblue is copied without modificbtion bre
+ * hbndled by bnother mechbnism.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 
-class FieldUpdater implements Constants {
+clbss FieldUpdbter implements Constbnts {
 
-    // Location for reporting errors.
-    // Errors will always indicate compiler failure, but these will be easier to diagnose
-    // if the bogus error is localized to the offending assignment.
-    private long where;
+    // Locbtion for reporting errors.
+    // Errors will blwbys indicbte compiler fbilure, but these will be ebsier to dibgnose
+    // if the bogus error is locblized to the offending bssignment.
+    privbte long where;
 
-    // The field to which this updater applies.
-    // It would be easy to eliminate the need to store the field here, but we retain it for
-    // diagnostic  purposes.
-    private MemberDefinition field;
+    // The field to which this updbter bpplies.
+    // It would be ebsy to eliminbte the need to store the field here, but we retbin it for
+    // dibgnostic  purposes.
+    privbte MemberDefinition field;
 
-    // Expression denoting the object to which the getter and setter are applied.
-    // If the field is static, 'base' may be null, but need not be, as a static field
-    // may be selected from an object reference. Even though the value of the object
-    // reference will be ignored, it may have side-effects.
-    private Expression base;
+    // Expression denoting the object to which the getter bnd setter bre bpplied.
+    // If the field is stbtic, 'bbse' mby be null, but need not be, bs b stbtic field
+    // mby be selected from bn object reference. Even though the vblue of the object
+    // reference will be ignored, it mby hbve side-effects.
+    privbte Expression bbse;
 
-    // The getter and setter methods, generated by 'getAccessMember' and 'getUpdateMember'.
-    private MemberDefinition getter;
-    private MemberDefinition setter;
+    // The getter bnd setter methods, generbted by 'getAccessMember' bnd 'getUpdbteMember'.
+    privbte MemberDefinition getter;
+    privbte MemberDefinition setter;
 
-    // The number of words occupied on the stack by the object reference.
-    // For static fields, this is zero.
-    private int depth;
+    // The number of words occupied on the stbck by the object reference.
+    // For stbtic fields, this is zero.
+    privbte int depth;
 
     /**
      * Constructor.
      */
 
-    public FieldUpdater(long where, MemberDefinition field,
-                        Expression base, MemberDefinition getter, MemberDefinition setter) {
+    public FieldUpdbter(long where, MemberDefinition field,
+                        Expression bbse, MemberDefinition getter, MemberDefinition setter) {
         this.where = where;
         this.field = field;
-        this.base = base;
+        this.bbse = bbse;
         this.getter = getter;
         this.setter = setter;
     }
 
 
     /**
-     * Since the object reference expression may be captured before it has been inlined,
-     * we must inline it later.  A <code>FieldUpdater</code> is inlined essentially as if
-     * it were a child of the assignment node to which it belongs.
+     * Since the object reference expression mby be cbptured before it hbs been inlined,
+     * we must inline it lbter.  A <code>FieldUpdbter</code> is inlined essentiblly bs if
+     * it were b child of the bssignment node to which it belongs.
      */
 
-    public FieldUpdater inline(Environment env, Context ctx) {
-        if (base != null) {
-            if (field.isStatic()) {
-                base = base.inline(env, ctx);
+    public FieldUpdbter inline(Environment env, Context ctx) {
+        if (bbse != null) {
+            if (field.isStbtic()) {
+                bbse = bbse.inline(env, ctx);
             } else {
-                base = base.inlineValue(env, ctx);
+                bbse = bbse.inlineVblue(env, ctx);
             }
         }
         return this;
     }
 
-    public FieldUpdater copyInline(Context ctx) {
-        return new FieldUpdater(where, field, base.copyInline(ctx), getter, setter);
+    public FieldUpdbter copyInline(Context ctx) {
+        return new FieldUpdbter(where, field, bbse.copyInline(ctx), getter, setter);
     }
 
-    public int costInline(int thresh, Environment env, Context ctx, boolean needGet) {
-        // Size of 'invokestatic' call for access method is 3 bytes.
-        int cost = needGet ? 7 : 3;  // getter needs extra invokestatic + dup
-        // Size of expression to compute 'this' arg if needed.
-        if (!field.isStatic() && base != null) {
-            cost += base.costInline(thresh, env, ctx);
+    public int costInline(int thresh, Environment env, Context ctx, boolebn needGet) {
+        // Size of 'invokestbtic' cbll for bccess method is 3 bytes.
+        int cost = needGet ? 7 : 3;  // getter needs extrb invokestbtic + dup
+        // Size of expression to compute 'this' brg if needed.
+        if (!field.isStbtic() && bbse != null) {
+            cost += bbse.costInline(thresh, env, ctx);
         }
-        // We ignore the cost of duplicating value in value-needed context.
+        // We ignore the cost of duplicbting vblue in vblue-needed context.
         return cost;
     }
 
     /**
-     * Duplicate <code>items</code> words from the top of the stack, locating them
-     * below the topmost <code>depth</code> words on the stack.
+     * Duplicbte <code>items</code> words from the top of the stbck, locbting them
+     * below the topmost <code>depth</code> words on the stbck.
      */
 
-    // This code was cribbed from 'Expression.java'.  We cannot reuse that code here,
-    // because we do not inherit from class 'Expression'.
+    // This code wbs cribbed from 'Expression.jbvb'.  We cbnnot reuse thbt code here,
+    // becbuse we do not inherit from clbss 'Expression'.
 
-    private void codeDup(Assembler asm, int items, int depth) {
+    privbte void codeDup(Assembler bsm, int items, int depth) {
         switch (items) {
-          case 0:
+          cbse 0:
             return;
-          case 1:
+          cbse 1:
             switch (depth) {
-              case 0:
-                asm.add(where, opc_dup);
+              cbse 0:
+                bsm.bdd(where, opc_dup);
                 return;
-              case 1:
-                asm.add(where, opc_dup_x1);
+              cbse 1:
+                bsm.bdd(where, opc_dup_x1);
                 return;
-              case 2:
-                asm.add(where, opc_dup_x2);
+              cbse 2:
+                bsm.bdd(where, opc_dup_x2);
                 return;
 
             }
-            break;
-          case 2:
+            brebk;
+          cbse 2:
             switch (depth) {
-              case 0:
-                asm.add(where, opc_dup2);
+              cbse 0:
+                bsm.bdd(where, opc_dup2);
                 return;
-              case 1:
-                asm.add(where, opc_dup2_x1);
+              cbse 1:
+                bsm.bdd(where, opc_dup2_x1);
                 return;
-              case 2:
-                asm.add(where, opc_dup2_x2);
+              cbse 2:
+                bsm.bdd(where, opc_dup2_x2);
                 return;
 
             }
-            break;
+            brebk;
         }
-        throw new CompilerError("can't dup: " + items + ", " + depth);
+        throw new CompilerError("cbn't dup: " + items + ", " + depth);
     }
 
     /**
-     * Begin a field update by an assignment, increment, or decrement operator.
-     * The current value of the field is left at the top of the stack.
-     * If <code>valNeeded</code> is true, we arrange for the initial value to remain
-     * on the stack after the update.
+     * Begin b field updbte by bn bssignment, increment, or decrement operbtor.
+     * The current vblue of the field is left bt the top of the stbck.
+     * If <code>vblNeeded</code> is true, we brrbnge for the initibl vblue to rembin
+     * on the stbck bfter the updbte.
      */
 
-    public void startUpdate(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
-        if (!(getter.isStatic() && setter.isStatic())) {
-            throw new CompilerError("startUpdate isStatic");
+    public void stbrtUpdbte(Environment env, Context ctx, Assembler bsm, boolebn vblNeeded) {
+        if (!(getter.isStbtic() && setter.isStbtic())) {
+            throw new CompilerError("stbrtUpdbte isStbtic");
         }
-        if (!field.isStatic()) {
-            // Provide explicit 'this' argument.
-            base.codeValue(env, ctx, asm);
+        if (!field.isStbtic()) {
+            // Provide explicit 'this' brgument.
+            bbse.codeVblue(env, ctx, bsm);
             depth = 1;
         } else {
-            // May need to evaluate 'base' for effect.
-            // If 'base' was a type expression, it should have previously been inlined away.
-            if (base != null) {
-                base.code(env, ctx, asm);
+            // Mby need to evblubte 'bbse' for effect.
+            // If 'bbse' wbs b type expression, it should hbve previously been inlined bwby.
+            if (bbse != null) {
+                bbse.code(env, ctx, bsm);
             }
             depth = 0;
         }
-        codeDup(asm, depth, 0);
-        asm.add(where, opc_invokestatic, getter);
-        if (valNeeded) {
-            codeDup(asm, field.getType().stackSize(), depth);
+        codeDup(bsm, depth, 0);
+        bsm.bdd(where, opc_invokestbtic, getter);
+        if (vblNeeded) {
+            codeDup(bsm, field.getType().stbckSize(), depth);
         }
     }
 
     /**
-     * Complete a field update by an assignment, increment, or decrement operator.
-     * The original value of the field left on the stack by <code>startUpdate</code>
-     * must have been replaced with the updated value, with no other stack alterations.
-     * If <code>valNeeded</code> is true, we arrange for the updated value to remain
-     * on the stack after the update.  The <code>valNeeded</code> argument must not be
-     * true in both <code>startUpdate</code> and <code>finishUpdate</code>.
+     * Complete b field updbte by bn bssignment, increment, or decrement operbtor.
+     * The originbl vblue of the field left on the stbck by <code>stbrtUpdbte</code>
+     * must hbve been replbced with the updbted vblue, with no other stbck blterbtions.
+     * If <code>vblNeeded</code> is true, we brrbnge for the updbted vblue to rembin
+     * on the stbck bfter the updbte.  The <code>vblNeeded</code> brgument must not be
+     * true in both <code>stbrtUpdbte</code> bnd <code>finishUpdbte</code>.
      */
 
-    public void finishUpdate(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
-        if (valNeeded) {
-            codeDup(asm, field.getType().stackSize(), depth);
+    public void finishUpdbte(Environment env, Context ctx, Assembler bsm, boolebn vblNeeded) {
+        if (vblNeeded) {
+            codeDup(bsm, field.getType().stbckSize(), depth);
         }
-        asm.add(where, opc_invokestatic, setter);
+        bsm.bdd(where, opc_invokestbtic, setter);
     }
 
     /**
-     * Like above, but used when assigning a new value independent of the
-     * old, as in a simple assignment expression.  After 'startAssign',
-     * code must be emitted to leave one additional value on the stack without
-     * altering any others, followed by 'finishAssign'.
+     * Like bbove, but used when bssigning b new vblue independent of the
+     * old, bs in b simple bssignment expression.  After 'stbrtAssign',
+     * code must be emitted to lebve one bdditionbl vblue on the stbck without
+     * bltering bny others, followed by 'finishAssign'.
      */
 
-    public void startAssign(Environment env, Context ctx, Assembler asm) {
-        if (!setter.isStatic()) {
-            throw new CompilerError("startAssign isStatic");
+    public void stbrtAssign(Environment env, Context ctx, Assembler bsm) {
+        if (!setter.isStbtic()) {
+            throw new CompilerError("stbrtAssign isStbtic");
         }
-        if (!field.isStatic()) {
-            // Provide explicit 'this' argument.
-            base.codeValue(env, ctx, asm);
+        if (!field.isStbtic()) {
+            // Provide explicit 'this' brgument.
+            bbse.codeVblue(env, ctx, bsm);
             depth = 1;
         } else {
-            // May need to evaluate 'base' for effect.
-            // If 'base' was a type expression, it should have previously been inlined away.
-            if (base != null) {
-                base.code(env, ctx, asm);
+            // Mby need to evblubte 'bbse' for effect.
+            // If 'bbse' wbs b type expression, it should hbve previously been inlined bwby.
+            if (bbse != null) {
+                bbse.code(env, ctx, bsm);
             }
             depth = 0;
         }
     }
 
-    public void finishAssign(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
-        if (valNeeded) {
-            codeDup(asm, field.getType().stackSize(), depth);
+    public void finishAssign(Environment env, Context ctx, Assembler bsm, boolebn vblNeeded) {
+        if (vblNeeded) {
+            codeDup(bsm, field.getType().stbckSize(), depth);
         }
-        asm.add(where, opc_invokestatic, setter);
+        bsm.bdd(where, opc_invokestbtic, setter);
     }
 
 }

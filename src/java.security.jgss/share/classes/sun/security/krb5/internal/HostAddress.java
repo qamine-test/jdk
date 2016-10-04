@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.Config;
 import sun.security.krb5.Asn1Exception;
 import sun.security.util.*;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
-import java.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.Inet4Address;
+import jbvb.net.Inet6Address;
+import jbvb.net.UnknownHostException;
+import jbvb.io.IOException;
 
 /**
  * Implements the ASN.1 HostAddress type.
  *
  * <xmp>
  * HostAddress     ::= SEQUENCE  {
- *         addr-type       [0] Int32,
- *         address         [1] OCTET STRING
+ *         bddr-type       [0] Int32,
+ *         bddress         [1] OCTET STRING
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
 
-public class HostAddress implements Cloneable {
-    int addrType;
-    byte[] address = null;
+public clbss HostAddress implements Clonebble {
+    int bddrType;
+    byte[] bddress = null;
 
-    private static InetAddress localInetAddress; //caches local inet address
-    private static final boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
-    private volatile int hashCode = 0;
+    privbte stbtic InetAddress locblInetAddress; //cbches locbl inet bddress
+    privbte stbtic finbl boolebn DEBUG = sun.security.krb5.internbl.Krb5.DEBUG;
+    privbte volbtile int hbshCode = 0;
 
-    private HostAddress(int dummy) {}
+    privbte HostAddress(int dummy) {}
 
     public Object clone() {
         HostAddress new_hostAddress = new HostAddress(0);
-        new_hostAddress.addrType = addrType;
-        if (address != null) {
-            new_hostAddress.address = address.clone();
+        new_hostAddress.bddrType = bddrType;
+        if (bddress != null) {
+            new_hostAddress.bddress = bddress.clone();
         }
         return new_hostAddress;
     }
 
 
-    public int hashCode() {
-        if (hashCode == 0) {
+    public int hbshCode() {
+        if (hbshCode == 0) {
             int result = 17;
-            result = 37*result + addrType;
-            if (address != null) {
-                for (int i=0; i < address.length; i++)  {
-                    result = 37*result + address[i];
+            result = 37*result + bddrType;
+            if (bddress != null) {
+                for (int i=0; i < bddress.length; i++)  {
+                    result = 37*result + bddress[i];
                 }
             }
-            hashCode = result;
+            hbshCode = result;
         }
-        return hashCode;
+        return hbshCode;
 
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof HostAddress)) {
-            return false;
+        if (!(obj instbnceof HostAddress)) {
+            return fblse;
         }
 
         HostAddress h = (HostAddress)obj;
-        if (addrType != h.addrType ||
-            (address != null && h.address == null) ||
-            (address == null && h.address != null))
-            return false;
-        if (address != null && h.address != null) {
-            if (address.length != h.address.length)
-                return false;
-            for (int i = 0; i < address.length; i++)
-                if (address[i] != h.address[i])
-                    return false;
+        if (bddrType != h.bddrType ||
+            (bddress != null && h.bddress == null) ||
+            (bddress == null && h.bddress != null))
+            return fblse;
+        if (bddress != null && h.bddress != null) {
+            if (bddress.length != h.bddress.length)
+                return fblse;
+            for (int i = 0; i < bddress.length; i++)
+                if (bddress[i] != h.bddress[i])
+                    return fblse;
         }
         return true;
     }
 
-    private static synchronized InetAddress getLocalInetAddress()
+    privbte stbtic synchronized InetAddress getLocblInetAddress()
         throws UnknownHostException {
 
-        if (localInetAddress == null) {
-           localInetAddress = InetAddress.getLocalHost();
+        if (locblInetAddress == null) {
+           locblInetAddress = InetAddress.getLocblHost();
         }
-        if (localInetAddress == null) {
+        if (locblInetAddress == null) {
             throw new UnknownHostException();
         }
-        return (localInetAddress);
+        return (locblInetAddress);
     }
 
     /**
      * Gets the InetAddress of this HostAddress.
-     * @return the IP address for this specified host.
-     * @exception if no IP address for the host could be found.
+     * @return the IP bddress for this specified host.
+     * @exception if no IP bddress for the host could be found.
      *
      */
     public InetAddress getInetAddress() throws UnknownHostException {
-        // the type of internet addresses is 2.
-        if (addrType == Krb5.ADDRTYPE_INET ||
-            addrType == Krb5.ADDRTYPE_INET6) {
-            return (InetAddress.getByAddress(address));
+        // the type of internet bddresses is 2.
+        if (bddrType == Krb5.ADDRTYPE_INET ||
+            bddrType == Krb5.ADDRTYPE_INET6) {
+            return (InetAddress.getByAddress(bddress));
         } else {
-            // if it is other type (ISO address, XNS address, etc)
+            // if it is other type (ISO bddress, XNS bddress, etc)
             return null;
         }
     }
 
-    private int getAddrType(InetAddress inetAddress) {
-        int addressType = 0;
-        if (inetAddress instanceof Inet4Address)
-            addressType = Krb5.ADDRTYPE_INET;
-        else if (inetAddress instanceof Inet6Address)
-            addressType = Krb5.ADDRTYPE_INET6;
-        return (addressType);
+    privbte int getAddrType(InetAddress inetAddress) {
+        int bddressType = 0;
+        if (inetAddress instbnceof Inet4Address)
+            bddressType = Krb5.ADDRTYPE_INET;
+        else if (inetAddress instbnceof Inet6Address)
+            bddressType = Krb5.ADDRTYPE_INET6;
+        return (bddressType);
     }
 
-    // implicit default not in Config.java
+    // implicit defbult not in Config.jbvb
     public HostAddress() throws UnknownHostException {
-        InetAddress inetAddress = getLocalInetAddress();
-        addrType = getAddrType(inetAddress);
-        address = inetAddress.getAddress();
+        InetAddress inetAddress = getLocblInetAddress();
+        bddrType = getAddrType(inetAddress);
+        bddress = inetAddress.getAddress();
     }
 
     /**
-     * Creates a HostAddress from the specified address and address type.
+     * Crebtes b HostAddress from the specified bddress bnd bddress type.
      *
-     * @param new_addrType the value of the address type which matches the defined
-     *                       address family constants in the Berkeley Standard
+     * @pbrbm new_bddrType the vblue of the bddress type which mbtches the defined
+     *                       bddress fbmily constbnts in the Berkeley Stbndbrd
      *                       Distributions of Unix.
-     * @param new_address network address.
-     * @exception KrbApErrException if address type and address length do not match defined value.
+     * @pbrbm new_bddress network bddress.
+     * @exception KrbApErrException if bddress type bnd bddress length do not mbtch defined vblue.
      *
      */
-    public HostAddress(int new_addrType, byte[] new_address)
+    public HostAddress(int new_bddrType, byte[] new_bddress)
         throws KrbApErrException, UnknownHostException {
-        switch(new_addrType) {
-        case Krb5.ADDRTYPE_INET:        //Internet address
-            if (new_address.length != 4)
-                throw new KrbApErrException(0, "Invalid Internet address");
-            break;
-        case Krb5.ADDRTYPE_CHAOS:
-            if (new_address.length != 2) //CHAOSnet address
-                throw new KrbApErrException(0, "Invalid CHAOSnet address");
-            break;
-        case Krb5.ADDRTYPE_ISO:   // ISO address
-            break;
-        case Krb5.ADDRTYPE_IPX:   // XNS address
-            if (new_address.length != 6)
-                throw new KrbApErrException(0, "Invalid XNS address");
-            break;
-        case Krb5.ADDRTYPE_APPLETALK:  //AppleTalk DDP address
-            if (new_address.length != 3)
-                throw new KrbApErrException(0, "Invalid DDP address");
-            break;
-        case Krb5.ADDRTYPE_DECNET:    //DECnet Phase IV address
-            if (new_address.length != 2)
-                throw new KrbApErrException(0, "Invalid DECnet Phase IV address");
-            break;
-        case Krb5.ADDRTYPE_INET6:     //Internet IPv6 address
-            if (new_address.length != 16)
-                throw new KrbApErrException(0, "Invalid Internet IPv6 address");
-            break;
+        switch(new_bddrType) {
+        cbse Krb5.ADDRTYPE_INET:        //Internet bddress
+            if (new_bddress.length != 4)
+                throw new KrbApErrException(0, "Invblid Internet bddress");
+            brebk;
+        cbse Krb5.ADDRTYPE_CHAOS:
+            if (new_bddress.length != 2) //CHAOSnet bddress
+                throw new KrbApErrException(0, "Invblid CHAOSnet bddress");
+            brebk;
+        cbse Krb5.ADDRTYPE_ISO:   // ISO bddress
+            brebk;
+        cbse Krb5.ADDRTYPE_IPX:   // XNS bddress
+            if (new_bddress.length != 6)
+                throw new KrbApErrException(0, "Invblid XNS bddress");
+            brebk;
+        cbse Krb5.ADDRTYPE_APPLETALK:  //AppleTblk DDP bddress
+            if (new_bddress.length != 3)
+                throw new KrbApErrException(0, "Invblid DDP bddress");
+            brebk;
+        cbse Krb5.ADDRTYPE_DECNET:    //DECnet Phbse IV bddress
+            if (new_bddress.length != 2)
+                throw new KrbApErrException(0, "Invblid DECnet Phbse IV bddress");
+            brebk;
+        cbse Krb5.ADDRTYPE_INET6:     //Internet IPv6 bddress
+            if (new_bddress.length != 16)
+                throw new KrbApErrException(0, "Invblid Internet IPv6 bddress");
+            brebk;
         }
 
-        addrType = new_addrType;
-        if (new_address != null) {
-           address = new_address.clone();
+        bddrType = new_bddrType;
+        if (new_bddress != null) {
+           bddress = new_bddress.clone();
         }
         if (DEBUG) {
-            if (addrType == Krb5.ADDRTYPE_INET ||
-                addrType == Krb5.ADDRTYPE_INET6) {
-                System.out.println("Host address is " +
-                        InetAddress.getByAddress(address));
+            if (bddrType == Krb5.ADDRTYPE_INET ||
+                bddrType == Krb5.ADDRTYPE_INET6) {
+                System.out.println("Host bddress is " +
+                        InetAddress.getByAddress(bddress));
             }
         }
     }
 
     public HostAddress(InetAddress inetAddress) {
-        addrType = getAddrType(inetAddress);
-        address = inetAddress.getAddress();
+        bddrType = getAddrType(inetAddress);
+        bddress = inetAddress.getAddress();
     }
 
     /**
-     * Constructs a host address from a single DER-encoded value.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Constructs b host bddress from b single DER-encoded vblue.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public HostAddress(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x00) {
-            addrType = der.getData().getBigInteger().intValue();
+    public HostAddress(DerVblue encoding) throws Asn1Exception, IOException {
+        DerVblue der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x00) {
+            bddrType = der.getDbtb().getBigInteger().intVblue();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x01) {
-            address = der.getData().getOctetString();
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x01) {
+            bddress = der.getDbtb().getOctetString();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        if (encoding.getData().available() > 0)
+        if (encoding.getDbtb().bvbilbble() > 0)
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
     }
 
     /**
-         * Encodes a HostAddress object.
-         * @return a byte array of encoded HostAddress object.
-         * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-         * @exception IOException if an I/O error occurs while reading encoded data.
+         * Encodes b HostAddress object.
+         * @return b byte brrby of encoded HostAddress object.
+         * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+         * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
          *
          */
 
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(this.addrType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(address);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        temp.putInteger(this.bddrType);
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x00), temp);
+        temp = new DerOutputStrebm();
+        temp.putOctetString(bddress);
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x01), temp);
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
     /**
-     * Parses (unmarshal) a host address from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-         * a constructed sequence and uses explicitly tagged type.
+     * Pbrses (unmbrshbl) b host bddress from b DER input strebm.  This form
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+         * b constructed sequence bnd uses explicitly tbgged type.
      *
      * @exception Asn1Exception on error.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @param data the Der input stream value, which contains one or more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional
-     * @return an instance of HostAddress.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or more mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbtes if this dbtb field is optionbl
+     * @return bn instbnce of HostAddress.
      *
      */
-    public static HostAddress parse(DerInputStream data, byte explicitTag,
-                                    boolean optional)
+    public stbtic HostAddress pbrse(DerInputStrebm dbtb, byte explicitTbg,
+                                    boolebn optionbl)
         throws Asn1Exception, IOException{
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag)) {
+        if ((optionbl) &&
+            (((byte)dbtb.peekByte() & (byte)0x1F) != explicitTbg)) {
             return null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F))  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
         else {
-            DerValue subDer = der.getData().getDerValue();
+            DerVblue subDer = der.getDbtb().getDerVblue();
             return new HostAddress(subDer);
         }
     }

@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.lang.ref.WeakReference;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.ImbgeObserver;
 
-public abstract class ImageWatched {
-    public static Link endlink = new Link();
+public bbstrbct clbss ImbgeWbtched {
+    public stbtic Link endlink = new Link();
 
-    public Link watcherList;
+    public Link wbtcherList;
 
-    public ImageWatched() {
-        watcherList = endlink;
+    public ImbgeWbtched() {
+        wbtcherList = endlink;
     }
 
     /*
-     * This class defines a node on a linked list of ImageObservers.
-     * The base class defines the dummy implementation used for the
-     * last link on all chains and a subsequent subclass then
-     * defines the standard implementation that manages a weak
-     * reference to a real ImageObserver.
+     * This clbss defines b node on b linked list of ImbgeObservers.
+     * The bbse clbss defines the dummy implementbtion used for the
+     * lbst link on bll chbins bnd b subsequent subclbss then
+     * defines the stbndbrd implementbtion thbt mbnbges b webk
+     * reference to b rebl ImbgeObserver.
      */
-    public static class Link {
+    public stbtic clbss Link {
         /*
-         * Check if iw is the referent of this Link or any
-         * subsequent Link objects on this chain.
+         * Check if iw is the referent of this Link or bny
+         * subsequent Link objects on this chbin.
          */
-        public boolean isWatcher(ImageObserver iw) {
-            return false;  // No "iw" down here.
+        public boolebn isWbtcher(ImbgeObserver iw) {
+            return fblse;  // No "iw" down here.
         }
 
         /*
-         * Remove this Link from the chain if its referent
-         * is the indicated target or if it has been nulled
-         * out by the garbage collector.
-         * Return the new remainder of the chain.
-         * The argument may be null which will trigger
-         * the chain to remove only the dead (null) links.
-         * This method is only ever called inside a
-         * synchronized block so Link.next modifications
-         * will be safe.
+         * Remove this Link from the chbin if its referent
+         * is the indicbted tbrget or if it hbs been nulled
+         * out by the gbrbbge collector.
+         * Return the new rembinder of the chbin.
+         * The brgument mby be null which will trigger
+         * the chbin to remove only the debd (null) links.
+         * This method is only ever cblled inside b
+         * synchronized block so Link.next modificbtions
+         * will be sbfe.
          */
-        public Link removeWatcher(ImageObserver iw) {
-            return this;  // Leave me as the end link.
+        public Link removeWbtcher(ImbgeObserver iw) {
+            return this;  // Lebve me bs the end link.
         }
 
         /*
-         * Deliver the indicated image update information
-         * to the referent of this Link and return a boolean
-         * indicating whether or not some referent became
-         * null or has indicated a lack of interest in
-         * further updates to its imageUpdate() method.
-         * This method is not called inside a synchronized
-         * block so Link.next modifications are not safe.
+         * Deliver the indicbted imbge updbte informbtion
+         * to the referent of this Link bnd return b boolebn
+         * indicbting whether or not some referent becbme
+         * null or hbs indicbted b lbck of interest in
+         * further updbtes to its imbgeUpdbte() method.
+         * This method is not cblled inside b synchronized
+         * block so Link.next modificbtions bre not sbfe.
          */
-        public boolean newInfo(Image img, int info,
+        public boolebn newInfo(Imbge img, int info,
                                int x, int y, int w, int h)
         {
-            return false;  // No disinterested parties down here.
+            return fblse;  // No disinterested pbrties down here.
         }
     }
 
     /*
-     * Standard Link implementation to manage a Weak Reference
-     * to an ImageObserver.
+     * Stbndbrd Link implementbtion to mbnbge b Webk Reference
+     * to bn ImbgeObserver.
      */
-    public static class WeakLink extends Link {
-        private WeakReference<ImageObserver> myref;
-        private Link next;
+    public stbtic clbss WebkLink extends Link {
+        privbte WebkReference<ImbgeObserver> myref;
+        privbte Link next;
 
-        public WeakLink(ImageObserver obs, Link next) {
-            myref = new WeakReference<ImageObserver>(obs);
+        public WebkLink(ImbgeObserver obs, Link next) {
+            myref = new WebkReference<ImbgeObserver>(obs);
             this.next = next;
         }
 
-        public boolean isWatcher(ImageObserver iw) {
-            return (myref.get() == iw || next.isWatcher(iw));
+        public boolebn isWbtcher(ImbgeObserver iw) {
+            return (myref.get() == iw || next.isWbtcher(iw));
         }
 
-        public Link removeWatcher(ImageObserver iw) {
-            ImageObserver myiw = myref.get();
+        public Link removeWbtcher(ImbgeObserver iw) {
+            ImbgeObserver myiw = myref.get();
             if (myiw == null) {
-                // Remove me from the chain, but continue recursion.
-                return next.removeWatcher(iw);
+                // Remove me from the chbin, but continue recursion.
+                return next.removeWbtcher(iw);
             }
             // At this point myiw is not null so we know this test will
-            // never succeed if this is a pruning pass (iw == null).
+            // never succeed if this is b pruning pbss (iw == null).
             if (myiw == iw) {
-                // Remove me from the chain and end the recursion here.
+                // Remove me from the chbin bnd end the recursion here.
                 return next;
             }
-            // I am alive, but not the one to be removed, recurse
-            // and update my next link and leave me in the chain.
-            next = next.removeWatcher(iw);
+            // I bm blive, but not the one to be removed, recurse
+            // bnd updbte my next link bnd lebve me in the chbin.
+            next = next.removeWbtcher(iw);
             return this;
         }
 
-        public boolean newInfo(Image img, int info,
+        public boolebn newInfo(Imbge img, int info,
                                int x, int y, int w, int h)
         {
-            // Note tail recursion because items are added LIFO.
-            boolean ret = next.newInfo(img, info, x, y, w, h);
-            ImageObserver myiw = myref.get();
+            // Note tbil recursion becbuse items bre bdded LIFO.
+            boolebn ret = next.newInfo(img, info, x, y, w, h);
+            ImbgeObserver myiw = myref.get();
             if (myiw == null) {
-                // My referent is null so we must prune in a second pass.
+                // My referent is null so we must prune in b second pbss.
                 ret = true;
-            } else if (myiw.imageUpdate(img, info, x, y, w, h) == false) {
-                // My referent has lost interest so clear it and ask
-                // for a pruning pass to remove it later.
-                myref.clear();
+            } else if (myiw.imbgeUpdbte(img, info, x, y, w, h) == fblse) {
+                // My referent hbs lost interest so clebr it bnd bsk
+                // for b pruning pbss to remove it lbter.
+                myref.clebr();
                 ret = true;
             }
             return ret;
         }
     }
 
-    public synchronized void addWatcher(ImageObserver iw) {
-        if (iw != null && !isWatcher(iw)) {
-            watcherList = new WeakLink(iw, watcherList);
+    public synchronized void bddWbtcher(ImbgeObserver iw) {
+        if (iw != null && !isWbtcher(iw)) {
+            wbtcherList = new WebkLink(iw, wbtcherList);
         }
-        watcherList = watcherList.removeWatcher(null);
+        wbtcherList = wbtcherList.removeWbtcher(null);
     }
 
-    public synchronized boolean isWatcher(ImageObserver iw) {
-        return watcherList.isWatcher(iw);
+    public synchronized boolebn isWbtcher(ImbgeObserver iw) {
+        return wbtcherList.isWbtcher(iw);
     }
 
-    public void removeWatcher(ImageObserver iw) {
+    public void removeWbtcher(ImbgeObserver iw) {
         synchronized (this) {
-            watcherList = watcherList.removeWatcher(iw);
+            wbtcherList = wbtcherList.removeWbtcher(iw);
         }
-        if (watcherList == endlink) {
-            notifyWatcherListEmpty();
+        if (wbtcherList == endlink) {
+            notifyWbtcherListEmpty();
         }
     }
 
-    public boolean isWatcherListEmpty() {
+    public boolebn isWbtcherListEmpty() {
         synchronized (this) {
-            watcherList = watcherList.removeWatcher(null);
+            wbtcherList = wbtcherList.removeWbtcher(null);
         }
-        return (watcherList == endlink);
+        return (wbtcherList == endlink);
     }
 
-    public void newInfo(Image img, int info, int x, int y, int w, int h) {
-        if (watcherList.newInfo(img, info, x, y, w, h)) {
-            // Some Link returned true so we now need to prune dead links.
-            removeWatcher(null);
+    public void newInfo(Imbge img, int info, int x, int y, int w, int h) {
+        if (wbtcherList.newInfo(img, info, x, y, w, h)) {
+            // Some Link returned true so we now need to prune debd links.
+            removeWbtcher(null);
         }
     }
 
-    protected abstract void notifyWatcherListEmpty();
+    protected bbstrbct void notifyWbtcherListEmpty();
 }

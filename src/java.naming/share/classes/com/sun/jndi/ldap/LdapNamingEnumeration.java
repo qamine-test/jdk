@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
 
-import com.sun.jndi.toolkit.ctx.Continuation;
-import java.util.Vector;
-import javax.naming.ldap.Control;
+import com.sun.jndi.toolkit.ctx.Continubtion;
+import jbvb.util.Vector;
+import jbvbx.nbming.ldbp.Control;
 
 
-final class LdapNamingEnumeration
-        extends AbstractLdapNamingEnumeration<NameClassPair> {
+finbl clbss LdbpNbmingEnumerbtion
+        extends AbstrbctLdbpNbmingEnumerbtion<NbmeClbssPbir> {
 
-    private static final String defaultClassName = DirContext.class.getName();
+    privbte stbtic finbl String defbultClbssNbme = DirContext.clbss.getNbme();
 
-    LdapNamingEnumeration(LdapCtx homeCtx, LdapResult answer, Name listArg,
-                                 Continuation cont) throws NamingException {
-        super(homeCtx, answer, listArg, cont);
+    LdbpNbmingEnumerbtion(LdbpCtx homeCtx, LdbpResult bnswer, Nbme listArg,
+                                 Continubtion cont) throws NbmingException {
+        super(homeCtx, bnswer, listArg, cont);
     }
 
     @Override
-    protected NameClassPair createItem(String dn, Attributes attrs,
-            Vector<Control> respCtls) throws NamingException {
+    protected NbmeClbssPbir crebteItem(String dn, Attributes bttrs,
+            Vector<Control> respCtls) throws NbmingException {
 
-        Attribute attr;
-        String className = null;
+        Attribute bttr;
+        String clbssNbme = null;
 
-        // use the Java classname if present
-        if ((attr = attrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME])) != null) {
-            className = (String)attr.get();
+        // use the Jbvb clbssnbme if present
+        if ((bttr = bttrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME])) != null) {
+            clbssNbme = (String)bttr.get();
         } else {
-            className = defaultClassName;
+            clbssNbme = defbultClbssNbme;
         }
-        CompositeName cn = new CompositeName();
-        cn.add(getAtom(dn));
+        CompositeNbme cn = new CompositeNbme();
+        cn.bdd(getAtom(dn));
 
-        NameClassPair ncp;
+        NbmeClbssPbir ncp;
         if (respCtls != null) {
-            ncp = new NameClassPairWithControls(
-                        cn.toString(), className,
+            ncp = new NbmeClbssPbirWithControls(
+                        cn.toString(), clbssNbme,
                         homeCtx.convertControls(respCtls));
         } else {
-            ncp = new NameClassPair(cn.toString(), className);
+            ncp = new NbmeClbssPbir(cn.toString(), clbssNbme);
         }
-        ncp.setNameInNamespace(dn);
+        ncp.setNbmeInNbmespbce(dn);
         return ncp;
     }
 
     @Override
-    protected LdapNamingEnumeration getReferredResults(
-            LdapReferralContext refCtx) throws NamingException {
-        // repeat the original operation at the new context
-        return (LdapNamingEnumeration)refCtx.list(listArg);
+    protected LdbpNbmingEnumerbtion getReferredResults(
+            LdbpReferrblContext refCtx) throws NbmingException {
+        // repebt the originbl operbtion bt the new context
+        return (LdbpNbmingEnumerbtion)refCtx.list(listArg);
     }
 }

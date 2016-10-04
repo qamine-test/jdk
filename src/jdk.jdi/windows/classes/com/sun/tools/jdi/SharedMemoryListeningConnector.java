@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.io.IOException;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.io.IOException;
 
 /*
- * A ListeningConnector based on the SharedMemoryTransportService
+ * A ListeningConnector bbsed on the ShbredMemoryTrbnsportService
  */
-public class SharedMemoryListeningConnector extends GenericListeningConnector {
+public clbss ShbredMemoryListeningConnector extends GenericListeningConnector {
 
-    static final String ARG_NAME = "name";
+    stbtic finbl String ARG_NAME = "nbme";
 
-    public SharedMemoryListeningConnector() {
-        super(new SharedMemoryTransportService());
+    public ShbredMemoryListeningConnector() {
+        super(new ShbredMemoryTrbnsportService());
 
-        addStringArgument(
+        bddStringArgument(
             ARG_NAME,
-            getString("memory_listening.name.label"),
-            getString("memory_listening.name"),
+            getString("memory_listening.nbme.lbbel"),
+            getString("memory_listening.nbme"),
             "",
-            false);
+            fblse);
 
-        transport = new Transport() {
-            public String name() {
-                return "dt_shmem";              // compatibility
+        trbnsport = new Trbnsport() {
+            public String nbme() {
+                return "dt_shmem";              // compbtibility
             }
         };
     }
 
-    // override startListening so that "name" argument can be
-    // converted into "address" argument
+    // override stbrtListening so thbt "nbme" brgument cbn be
+    // converted into "bddress" brgument
 
     public String
-        startListening(Map<String, ? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+        stbrtListening(Mbp<String, ? extends Connector.Argument> brgs)
+        throws IOException, IllegblConnectorArgumentsException
     {
-        String name = argument(ARG_NAME, args).value();
+        String nbme = brgument(ARG_NAME, brgs).vblue();
 
-        // if the name argument isn't specified then we use the default
-        // address for the transport service.
-        if (name.length() == 0) {
-            assert transportService instanceof SharedMemoryTransportService;
-            SharedMemoryTransportService ts = (SharedMemoryTransportService)transportService;
-            name = ts.defaultAddress();
+        // if the nbme brgument isn't specified then we use the defbult
+        // bddress for the trbnsport service.
+        if (nbme.length() == 0) {
+            bssert trbnsportService instbnceof ShbredMemoryTrbnsportService;
+            ShbredMemoryTrbnsportService ts = (ShbredMemoryTrbnsportService)trbnsportService;
+            nbme = ts.defbultAddress();
         }
 
-        return super.startListening(name, args);
+        return super.stbrtListening(nbme, brgs);
     }
 
-    public String name() {
-        return "com.sun.jdi.SharedMemoryListen";
+    public String nbme() {
+        return "com.sun.jdi.ShbredMemoryListen";
     }
 
     public String description() {

@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * The default model for combo boxes.
+ * The defbult model for combo boxes.
  *
- * @param <E> the type of the elements of this model
+ * @pbrbm <E> the type of the elements of this model
  *
- * @author Arnaud Weber
- * @author Tom Santos
+ * @buthor Arnbud Weber
+ * @buthor Tom Sbntos
  * @since 1.2
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements MutableComboBoxModel<E>, Serializable {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss DefbultComboBoxModel<E> extends AbstrbctListModel<E> implements MutbbleComboBoxModel<E>, Seriblizbble {
     Vector<E> objects;
     Object selectedObject;
 
     /**
-     * Constructs an empty DefaultComboBoxModel object.
+     * Constructs bn empty DefbultComboBoxModel object.
      */
-    public DefaultComboBoxModel() {
+    public DefbultComboBoxModel() {
         objects = new Vector<E>();
     }
 
     /**
-     * Constructs a DefaultComboBoxModel object initialized with
-     * an array of objects.
+     * Constructs b DefbultComboBoxModel object initiblized with
+     * bn brrby of objects.
      *
-     * @param items  an array of Object objects
+     * @pbrbm items  bn brrby of Object objects
      */
-    public DefaultComboBoxModel(final E items[]) {
+    public DefbultComboBoxModel(finbl E items[]) {
         objects = new Vector<E>(items.length);
 
         int i,c;
         for ( i=0,c=items.length;i<c;i++ )
-            objects.addElement(items[i]);
+            objects.bddElement(items[i]);
 
         if ( getSize() > 0 ) {
             selectedObject = getElementAt( 0 );
@@ -68,12 +68,12 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     }
 
     /**
-     * Constructs a DefaultComboBoxModel object initialized with
-     * a vector.
+     * Constructs b DefbultComboBoxModel object initiblized with
+     * b vector.
      *
-     * @param v  a Vector object ...
+     * @pbrbm v  b Vector object ...
      */
-    public DefaultComboBoxModel(Vector<E> v) {
+    public DefbultComboBoxModel(Vector<E> v) {
         objects = v;
 
         if ( getSize() > 0 ) {
@@ -81,31 +81,31 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
         }
     }
 
-    // implements javax.swing.ComboBoxModel
+    // implements jbvbx.swing.ComboBoxModel
     /**
-     * Set the value of the selected item. The selected item may be null.
+     * Set the vblue of the selected item. The selected item mby be null.
      *
-     * @param anObject The combo box value or null for no selection.
+     * @pbrbm bnObject The combo box vblue or null for no selection.
      */
-    public void setSelectedItem(Object anObject) {
-        if ((selectedObject != null && !selectedObject.equals( anObject )) ||
-            selectedObject == null && anObject != null) {
-            selectedObject = anObject;
-            fireContentsChanged(this, -1, -1);
+    public void setSelectedItem(Object bnObject) {
+        if ((selectedObject != null && !selectedObject.equbls( bnObject )) ||
+            selectedObject == null && bnObject != null) {
+            selectedObject = bnObject;
+            fireContentsChbnged(this, -1, -1);
         }
     }
 
-    // implements javax.swing.ComboBoxModel
+    // implements jbvbx.swing.ComboBoxModel
     public Object getSelectedItem() {
         return selectedObject;
     }
 
-    // implements javax.swing.ListModel
+    // implements jbvbx.swing.ListModel
     public int getSize() {
         return objects.size();
     }
 
-    // implements javax.swing.ListModel
+    // implements jbvbx.swing.ListModel
     public E getElementAt(int index) {
         if ( index >= 0 && index < objects.size() )
             return objects.elementAt(index);
@@ -116,30 +116,30 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     /**
      * Returns the index-position of the specified object in the list.
      *
-     * @param anObject the object to return the index of
-     * @return an int representing the index position, where 0 is
+     * @pbrbm bnObject the object to return the index of
+     * @return bn int representing the index position, where 0 is
      *         the first position
      */
-    public int getIndexOf(Object anObject) {
-        return objects.indexOf(anObject);
+    public int getIndexOf(Object bnObject) {
+        return objects.indexOf(bnObject);
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void addElement(E anObject) {
-        objects.addElement(anObject);
-        fireIntervalAdded(this,objects.size()-1, objects.size()-1);
-        if ( objects.size() == 1 && selectedObject == null && anObject != null ) {
-            setSelectedItem( anObject );
+    // implements jbvbx.swing.MutbbleComboBoxModel
+    public void bddElement(E bnObject) {
+        objects.bddElement(bnObject);
+        fireIntervblAdded(this,objects.size()-1, objects.size()-1);
+        if ( objects.size() == 1 && selectedObject == null && bnObject != null ) {
+            setSelectedItem( bnObject );
         }
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void insertElementAt(E anObject,int index) {
-        objects.insertElementAt(anObject,index);
-        fireIntervalAdded(this, index, index);
+    // implements jbvbx.swing.MutbbleComboBoxModel
+    public void insertElementAt(E bnObject,int index) {
+        objects.insertElementAt(bnObject,index);
+        fireIntervblAdded(this, index, index);
     }
 
-    // implements javax.swing.MutableComboBoxModel
+    // implements jbvbx.swing.MutbbleComboBoxModel
     public void removeElementAt(int index) {
         if ( getElementAt( index ) == selectedObject ) {
             if ( index == 0 ) {
@@ -152,12 +152,12 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
 
         objects.removeElementAt(index);
 
-        fireIntervalRemoved(this, index, index);
+        fireIntervblRemoved(this, index, index);
     }
 
-    // implements javax.swing.MutableComboBoxModel
-    public void removeElement(Object anObject) {
-        int index = objects.indexOf(anObject);
+    // implements jbvbx.swing.MutbbleComboBoxModel
+    public void removeElement(Object bnObject) {
+        int index = objects.indexOf(bnObject);
         if ( index != -1 ) {
             removeElementAt(index);
         }
@@ -169,10 +169,10 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     public void removeAllElements() {
         if ( objects.size() > 0 ) {
             int firstIndex = 0;
-            int lastIndex = objects.size() - 1;
+            int lbstIndex = objects.size() - 1;
             objects.removeAllElements();
             selectedObject = null;
-            fireIntervalRemoved(this, firstIndex, lastIndex);
+            fireIntervblRemoved(this, firstIndex, lbstIndex);
         } else {
             selectedObject = null;
         }

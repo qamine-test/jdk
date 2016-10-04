@@ -1,744 +1,744 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
 import sun.swing.SwingUtilities2;
-import sun.awt.SunToolkit;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.util.Locale;
-import javax.accessibility.*;
+import sun.bwt.SunToolkit;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.InternblFrbmeEvent;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.util.Locble;
+import jbvbx.bccessibility.*;
 
 
 /**
- * Class that manages a JLF awt.Window-descendant class's title bar.
+ * Clbss thbt mbnbges b JLF bwt.Window-descendbnt clbss's title bbr.
  * <p>
- * This class assumes it will be created with a particular window
- * decoration style, and that if the style changes, a new one will
- * be created.
+ * This clbss bssumes it will be crebted with b pbrticulbr window
+ * decorbtion style, bnd thbt if the style chbnges, b new one will
+ * be crebted.
  *
- * @author Terry Kellerman
+ * @buthor Terry Kellermbn
  * @since 1.4
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MetalTitlePane extends JComponent {
-    private static final Border handyEmptyBorder = new EmptyBorder(0,0,0,0);
-    private static final int IMAGE_HEIGHT = 16;
-    private static final int IMAGE_WIDTH = 16;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss MetblTitlePbne extends JComponent {
+    privbte stbtic finbl Border hbndyEmptyBorder = new EmptyBorder(0,0,0,0);
+    privbte stbtic finbl int IMAGE_HEIGHT = 16;
+    privbte stbtic finbl int IMAGE_WIDTH = 16;
 
     /**
-     * PropertyChangeListener added to the JRootPane.
+     * PropertyChbngeListener bdded to the JRootPbne.
      */
-    private PropertyChangeListener propertyChangeListener;
+    privbte PropertyChbngeListener propertyChbngeListener;
 
     /**
-     * JMenuBar, typically renders the system menu items.
+     * JMenuBbr, typicblly renders the system menu items.
      */
-    private JMenuBar menuBar;
+    privbte JMenuBbr menuBbr;
     /**
      * Action used to close the Window.
      */
-    private Action closeAction;
+    privbte Action closeAction;
 
     /**
-     * Action used to iconify the Frame.
+     * Action used to iconify the Frbme.
      */
-    private Action iconifyAction;
+    privbte Action iconifyAction;
 
     /**
-     * Action to restore the Frame size.
+     * Action to restore the Frbme size.
      */
-    private Action restoreAction;
+    privbte Action restoreAction;
 
     /**
-     * Action to restore the Frame size.
+     * Action to restore the Frbme size.
      */
-    private Action maximizeAction;
+    privbte Action mbximizeAction;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button used to mbximize or restore the Frbme.
      */
-    private JButton toggleButton;
+    privbte JButton toggleButton;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button used to mbximize or restore the Frbme.
      */
-    private JButton iconifyButton;
+    privbte JButton iconifyButton;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button used to mbximize or restore the Frbme.
      */
-    private JButton closeButton;
+    privbte JButton closeButton;
 
     /**
-     * Icon used for toggleButton when window is normal size.
+     * Icon used for toggleButton when window is normbl size.
      */
-    private Icon maximizeIcon;
+    privbte Icon mbximizeIcon;
 
     /**
-     * Icon used for toggleButton when window is maximized.
+     * Icon used for toggleButton when window is mbximized.
      */
-    private Icon minimizeIcon;
+    privbte Icon minimizeIcon;
 
     /**
-     * Image used for the system menu icon
+     * Imbge used for the system menu icon
      */
-    private Image systemIcon;
+    privbte Imbge systemIcon;
 
     /**
-     * Listens for changes in the state of the Window listener to update
-     * the state of the widgets.
+     * Listens for chbnges in the stbte of the Window listener to updbte
+     * the stbte of the widgets.
      */
-    private WindowListener windowListener;
+    privbte WindowListener windowListener;
 
     /**
      * Window we're currently in.
      */
-    private Window window;
+    privbte Window window;
 
     /**
-     * JRootPane rendering for.
+     * JRootPbne rendering for.
      */
-    private JRootPane rootPane;
+    privbte JRootPbne rootPbne;
 
     /**
-     * Room remaining in title for bumps.
+     * Room rembining in title for bumps.
      */
-    private int buttonsWidth;
+    privbte int buttonsWidth;
 
     /**
-     * Buffered Frame.state property. As state isn't bound, this is kept
-     * to determine when to avoid updating widgets.
+     * Buffered Frbme.stbte property. As stbte isn't bound, this is kept
+     * to determine when to bvoid updbting widgets.
      */
-    private int state;
+    privbte int stbte;
 
     /**
-     * MetalRootPaneUI that created us.
+     * MetblRootPbneUI thbt crebted us.
      */
-    private MetalRootPaneUI rootPaneUI;
+    privbte MetblRootPbneUI rootPbneUI;
 
 
     // Colors
-    private Color inactiveBackground = UIManager.getColor("inactiveCaption");
-    private Color inactiveForeground = UIManager.getColor("inactiveCaptionText");
-    private Color inactiveShadow = UIManager.getColor("inactiveCaptionBorder");
-    private Color activeBumpsHighlight = MetalLookAndFeel.getPrimaryControlHighlight();
-    private Color activeBumpsShadow = MetalLookAndFeel.getPrimaryControlDarkShadow();
-    private Color activeBackground = null;
-    private Color activeForeground = null;
-    private Color activeShadow = null;
+    privbte Color inbctiveBbckground = UIMbnbger.getColor("inbctiveCbption");
+    privbte Color inbctiveForeground = UIMbnbger.getColor("inbctiveCbptionText");
+    privbte Color inbctiveShbdow = UIMbnbger.getColor("inbctiveCbptionBorder");
+    privbte Color bctiveBumpsHighlight = MetblLookAndFeel.getPrimbryControlHighlight();
+    privbte Color bctiveBumpsShbdow = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
+    privbte Color bctiveBbckground = null;
+    privbte Color bctiveForeground = null;
+    privbte Color bctiveShbdow = null;
 
     // Bumps
-    private MetalBumps activeBumps
-        = new MetalBumps( 0, 0,
-                          activeBumpsHighlight,
-                          activeBumpsShadow,
-                          MetalLookAndFeel.getPrimaryControl() );
-    private MetalBumps inactiveBumps
-        = new MetalBumps( 0, 0,
-                          MetalLookAndFeel.getControlHighlight(),
-                          MetalLookAndFeel.getControlDarkShadow(),
-                          MetalLookAndFeel.getControl() );
+    privbte MetblBumps bctiveBumps
+        = new MetblBumps( 0, 0,
+                          bctiveBumpsHighlight,
+                          bctiveBumpsShbdow,
+                          MetblLookAndFeel.getPrimbryControl() );
+    privbte MetblBumps inbctiveBumps
+        = new MetblBumps( 0, 0,
+                          MetblLookAndFeel.getControlHighlight(),
+                          MetblLookAndFeel.getControlDbrkShbdow(),
+                          MetblLookAndFeel.getControl() );
 
 
-    public MetalTitlePane(JRootPane root, MetalRootPaneUI ui) {
-        this.rootPane = root;
-        rootPaneUI = ui;
+    public MetblTitlePbne(JRootPbne root, MetblRootPbneUI ui) {
+        this.rootPbne = root;
+        rootPbneUI = ui;
 
-        state = -1;
+        stbte = -1;
 
-        installSubcomponents();
+        instbllSubcomponents();
         determineColors();
-        installDefaults();
+        instbllDefbults();
 
-        setLayout(createLayout());
+        setLbyout(crebteLbyout());
     }
 
     /**
-     * Uninstalls the necessary state.
+     * Uninstblls the necessbry stbte.
      */
-    private void uninstall() {
-        uninstallListeners();
+    privbte void uninstbll() {
+        uninstbllListeners();
         window = null;
         removeAll();
     }
 
     /**
-     * Installs the necessary listeners.
+     * Instblls the necessbry listeners.
      */
-    private void installListeners() {
+    privbte void instbllListeners() {
         if (window != null) {
-            windowListener = createWindowListener();
-            window.addWindowListener(windowListener);
-            propertyChangeListener = createWindowPropertyChangeListener();
-            window.addPropertyChangeListener(propertyChangeListener);
+            windowListener = crebteWindowListener();
+            window.bddWindowListener(windowListener);
+            propertyChbngeListener = crebteWindowPropertyChbngeListener();
+            window.bddPropertyChbngeListener(propertyChbngeListener);
         }
     }
 
     /**
-     * Uninstalls the necessary listeners.
+     * Uninstblls the necessbry listeners.
      */
-    private void uninstallListeners() {
+    privbte void uninstbllListeners() {
         if (window != null) {
             window.removeWindowListener(windowListener);
-            window.removePropertyChangeListener(propertyChangeListener);
+            window.removePropertyChbngeListener(propertyChbngeListener);
         }
     }
 
     /**
-     * Returns the <code>WindowListener</code> to add to the
+     * Returns the <code>WindowListener</code> to bdd to the
      * <code>Window</code>.
      */
-    private WindowListener createWindowListener() {
-        return new WindowHandler();
+    privbte WindowListener crebteWindowListener() {
+        return new WindowHbndler();
     }
 
     /**
-     * Returns the <code>PropertyChangeListener</code> to install on
+     * Returns the <code>PropertyChbngeListener</code> to instbll on
      * the <code>Window</code>.
      */
-    private PropertyChangeListener createWindowPropertyChangeListener() {
-        return new PropertyChangeHandler();
+    privbte PropertyChbngeListener crebteWindowPropertyChbngeListener() {
+        return new PropertyChbngeHbndler();
     }
 
     /**
-     * Returns the <code>JRootPane</code> this was created for.
+     * Returns the <code>JRootPbne</code> this wbs crebted for.
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
     /**
-     * Returns the decoration style of the <code>JRootPane</code>.
+     * Returns the decorbtion style of the <code>JRootPbne</code>.
      */
-    private int getWindowDecorationStyle() {
-        return getRootPane().getWindowDecorationStyle();
+    privbte int getWindowDecorbtionStyle() {
+        return getRootPbne().getWindowDecorbtionStyle();
     }
 
-    public void addNotify() {
-        super.addNotify();
+    public void bddNotify() {
+        super.bddNotify();
 
-        uninstallListeners();
+        uninstbllListeners();
 
         window = SwingUtilities.getWindowAncestor(this);
         if (window != null) {
-            if (window instanceof Frame) {
-                setState(((Frame)window).getExtendedState());
+            if (window instbnceof Frbme) {
+                setStbte(((Frbme)window).getExtendedStbte());
             }
             else {
-                setState(0);
+                setStbte(0);
             }
             setActive(window.isActive());
-            installListeners();
-            updateSystemIcon();
+            instbllListeners();
+            updbteSystemIcon();
         }
     }
 
     public void removeNotify() {
         super.removeNotify();
 
-        uninstallListeners();
+        uninstbllListeners();
         window = null;
     }
 
     /**
-     * Adds any sub-Components contained in the <code>MetalTitlePane</code>.
+     * Adds bny sub-Components contbined in the <code>MetblTitlePbne</code>.
      */
-    private void installSubcomponents() {
-        int decorationStyle = getWindowDecorationStyle();
-        if (decorationStyle == JRootPane.FRAME) {
-            createActions();
-            menuBar = createMenuBar();
-            add(menuBar);
-            createButtons();
-            add(iconifyButton);
-            add(toggleButton);
-            add(closeButton);
-        } else if (decorationStyle == JRootPane.PLAIN_DIALOG ||
-                decorationStyle == JRootPane.INFORMATION_DIALOG ||
-                decorationStyle == JRootPane.ERROR_DIALOG ||
-                decorationStyle == JRootPane.COLOR_CHOOSER_DIALOG ||
-                decorationStyle == JRootPane.FILE_CHOOSER_DIALOG ||
-                decorationStyle == JRootPane.QUESTION_DIALOG ||
-                decorationStyle == JRootPane.WARNING_DIALOG) {
-            createActions();
-            createButtons();
-            add(closeButton);
+    privbte void instbllSubcomponents() {
+        int decorbtionStyle = getWindowDecorbtionStyle();
+        if (decorbtionStyle == JRootPbne.FRAME) {
+            crebteActions();
+            menuBbr = crebteMenuBbr();
+            bdd(menuBbr);
+            crebteButtons();
+            bdd(iconifyButton);
+            bdd(toggleButton);
+            bdd(closeButton);
+        } else if (decorbtionStyle == JRootPbne.PLAIN_DIALOG ||
+                decorbtionStyle == JRootPbne.INFORMATION_DIALOG ||
+                decorbtionStyle == JRootPbne.ERROR_DIALOG ||
+                decorbtionStyle == JRootPbne.COLOR_CHOOSER_DIALOG ||
+                decorbtionStyle == JRootPbne.FILE_CHOOSER_DIALOG ||
+                decorbtionStyle == JRootPbne.QUESTION_DIALOG ||
+                decorbtionStyle == JRootPbne.WARNING_DIALOG) {
+            crebteActions();
+            crebteButtons();
+            bdd(closeButton);
         }
     }
 
     /**
-     * Determines the Colors to draw with.
+     * Determines the Colors to drbw with.
      */
-    private void determineColors() {
-        switch (getWindowDecorationStyle()) {
-        case JRootPane.FRAME:
-            activeBackground = UIManager.getColor("activeCaption");
-            activeForeground = UIManager.getColor("activeCaptionText");
-            activeShadow = UIManager.getColor("activeCaptionBorder");
-            break;
-        case JRootPane.ERROR_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.shadow");
-            break;
-        case JRootPane.QUESTION_DIALOG:
-        case JRootPane.COLOR_CHOOSER_DIALOG:
-        case JRootPane.FILE_CHOOSER_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.shadow");
-            break;
-        case JRootPane.WARNING_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.shadow");
-            break;
-        case JRootPane.PLAIN_DIALOG:
-        case JRootPane.INFORMATION_DIALOG:
-        default:
-            activeBackground = UIManager.getColor("activeCaption");
-            activeForeground = UIManager.getColor("activeCaptionText");
-            activeShadow = UIManager.getColor("activeCaptionBorder");
-            break;
+    privbte void determineColors() {
+        switch (getWindowDecorbtionStyle()) {
+        cbse JRootPbne.FRAME:
+            bctiveBbckground = UIMbnbger.getColor("bctiveCbption");
+            bctiveForeground = UIMbnbger.getColor("bctiveCbptionText");
+            bctiveShbdow = UIMbnbger.getColor("bctiveCbptionBorder");
+            brebk;
+        cbse JRootPbne.ERROR_DIALOG:
+            bctiveBbckground = UIMbnbger.getColor(
+                "OptionPbne.errorDiblog.titlePbne.bbckground");
+            bctiveForeground = UIMbnbger.getColor(
+                "OptionPbne.errorDiblog.titlePbne.foreground");
+            bctiveShbdow = UIMbnbger.getColor(
+                "OptionPbne.errorDiblog.titlePbne.shbdow");
+            brebk;
+        cbse JRootPbne.QUESTION_DIALOG:
+        cbse JRootPbne.COLOR_CHOOSER_DIALOG:
+        cbse JRootPbne.FILE_CHOOSER_DIALOG:
+            bctiveBbckground = UIMbnbger.getColor(
+                "OptionPbne.questionDiblog.titlePbne.bbckground");
+            bctiveForeground = UIMbnbger.getColor(
+                "OptionPbne.questionDiblog.titlePbne.foreground");
+            bctiveShbdow = UIMbnbger.getColor(
+                "OptionPbne.questionDiblog.titlePbne.shbdow");
+            brebk;
+        cbse JRootPbne.WARNING_DIALOG:
+            bctiveBbckground = UIMbnbger.getColor(
+                "OptionPbne.wbrningDiblog.titlePbne.bbckground");
+            bctiveForeground = UIMbnbger.getColor(
+                "OptionPbne.wbrningDiblog.titlePbne.foreground");
+            bctiveShbdow = UIMbnbger.getColor(
+                "OptionPbne.wbrningDiblog.titlePbne.shbdow");
+            brebk;
+        cbse JRootPbne.PLAIN_DIALOG:
+        cbse JRootPbne.INFORMATION_DIALOG:
+        defbult:
+            bctiveBbckground = UIMbnbger.getColor("bctiveCbption");
+            bctiveForeground = UIMbnbger.getColor("bctiveCbptionText");
+            bctiveShbdow = UIMbnbger.getColor("bctiveCbptionBorder");
+            brebk;
         }
-        activeBumps.setBumpColors(activeBumpsHighlight, activeBumpsShadow,
-                                  activeBackground);
+        bctiveBumps.setBumpColors(bctiveBumpsHighlight, bctiveBumpsShbdow,
+                                  bctiveBbckground);
     }
 
     /**
-     * Installs the fonts and necessary properties on the MetalTitlePane.
+     * Instblls the fonts bnd necessbry properties on the MetblTitlePbne.
      */
-    private void installDefaults() {
-        setFont(UIManager.getFont("InternalFrame.titleFont", getLocale()));
+    privbte void instbllDefbults() {
+        setFont(UIMbnbger.getFont("InternblFrbme.titleFont", getLocble()));
     }
 
     /**
-     * Uninstalls any previously installed UI values.
+     * Uninstblls bny previously instblled UI vblues.
      */
-    private void uninstallDefaults() {
+    privbte void uninstbllDefbults() {
     }
 
     /**
-     * Returns the <code>JMenuBar</code> displaying the appropriate
+     * Returns the <code>JMenuBbr</code> displbying the bppropribte
      * system menu items.
      */
-    protected JMenuBar createMenuBar() {
-        menuBar = new SystemMenuBar();
-        menuBar.setFocusable(false);
-        menuBar.setBorderPainted(true);
-        menuBar.add(createMenu());
-        return menuBar;
+    protected JMenuBbr crebteMenuBbr() {
+        menuBbr = new SystemMenuBbr();
+        menuBbr.setFocusbble(fblse);
+        menuBbr.setBorderPbinted(true);
+        menuBbr.bdd(crebteMenu());
+        return menuBbr;
     }
 
     /**
      * Closes the Window.
      */
-    private void close() {
+    privbte void close() {
         Window window = getWindow();
 
         if (window != null) {
-            window.dispatchEvent(new WindowEvent(
+            window.dispbtchEvent(new WindowEvent(
                                  window, WindowEvent.WINDOW_CLOSING));
         }
     }
 
     /**
-     * Iconifies the Frame.
+     * Iconifies the Frbme.
      */
-    private void iconify() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.ICONIFIED);
+    privbte void iconify() {
+        Frbme frbme = getFrbme();
+        if (frbme != null) {
+            frbme.setExtendedStbte(stbte | Frbme.ICONIFIED);
         }
     }
 
     /**
-     * Maximizes the Frame.
+     * Mbximizes the Frbme.
      */
-    private void maximize() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+    privbte void mbximize() {
+        Frbme frbme = getFrbme();
+        if (frbme != null) {
+            frbme.setExtendedStbte(stbte | Frbme.MAXIMIZED_BOTH);
         }
     }
 
     /**
-     * Restores the Frame size.
+     * Restores the Frbme size.
      */
-    private void restore() {
-        Frame frame = getFrame();
+    privbte void restore() {
+        Frbme frbme = getFrbme();
 
-        if (frame == null) {
+        if (frbme == null) {
             return;
         }
 
-        if ((state & Frame.ICONIFIED) != 0) {
-            frame.setExtendedState(state & ~Frame.ICONIFIED);
+        if ((stbte & Frbme.ICONIFIED) != 0) {
+            frbme.setExtendedStbte(stbte & ~Frbme.ICONIFIED);
         } else {
-            frame.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+            frbme.setExtendedStbte(stbte & ~Frbme.MAXIMIZED_BOTH);
         }
     }
 
     /**
-     * Create the <code>Action</code>s that get associated with the
-     * buttons and menu items.
+     * Crebte the <code>Action</code>s thbt get bssocibted with the
+     * buttons bnd menu items.
      */
-    private void createActions() {
+    privbte void crebteActions() {
         closeAction = new CloseAction();
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
+        if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
             iconifyAction = new IconifyAction();
             restoreAction = new RestoreAction();
-            maximizeAction = new MaximizeAction();
+            mbximizeAction = new MbximizeAction();
         }
     }
 
     /**
-     * Returns the <code>JMenu</code> displaying the appropriate menu items
-     * for manipulating the Frame.
+     * Returns the <code>JMenu</code> displbying the bppropribte menu items
+     * for mbnipulbting the Frbme.
      */
-    private JMenu createMenu() {
+    privbte JMenu crebteMenu() {
         JMenu menu = new JMenu("");
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            addMenuItems(menu);
+        if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
+            bddMenuItems(menu);
         }
         return menu;
     }
 
     /**
-     * Adds the necessary <code>JMenuItem</code>s to the passed in menu.
+     * Adds the necessbry <code>JMenuItem</code>s to the pbssed in menu.
      */
-    private void addMenuItems(JMenu menu) {
-        Locale locale = getRootPane().getLocale();
-        JMenuItem mi = menu.add(restoreAction);
-        int mnemonic = MetalUtils.getInt("MetalTitlePane.restoreMnemonic", -1);
+    privbte void bddMenuItems(JMenu menu) {
+        Locble locble = getRootPbne().getLocble();
+        JMenuItem mi = menu.bdd(restoreAction);
+        int mnemonic = MetblUtils.getInt("MetblTitlePbne.restoreMnemonic", -1);
 
         if (mnemonic != -1) {
             mi.setMnemonic(mnemonic);
         }
 
-        mi = menu.add(iconifyAction);
-        mnemonic = MetalUtils.getInt("MetalTitlePane.iconifyMnemonic", -1);
+        mi = menu.bdd(iconifyAction);
+        mnemonic = MetblUtils.getInt("MetblTitlePbne.iconifyMnemonic", -1);
         if (mnemonic != -1) {
             mi.setMnemonic(mnemonic);
         }
 
-        if (Toolkit.getDefaultToolkit().isFrameStateSupported(
-                Frame.MAXIMIZED_BOTH)) {
-            mi = menu.add(maximizeAction);
+        if (Toolkit.getDefbultToolkit().isFrbmeStbteSupported(
+                Frbme.MAXIMIZED_BOTH)) {
+            mi = menu.bdd(mbximizeAction);
             mnemonic =
-                MetalUtils.getInt("MetalTitlePane.maximizeMnemonic", -1);
+                MetblUtils.getInt("MetblTitlePbne.mbximizeMnemonic", -1);
             if (mnemonic != -1) {
                 mi.setMnemonic(mnemonic);
             }
         }
 
-        menu.add(new JSeparator());
+        menu.bdd(new JSepbrbtor());
 
-        mi = menu.add(closeAction);
-        mnemonic = MetalUtils.getInt("MetalTitlePane.closeMnemonic", -1);
+        mi = menu.bdd(closeAction);
+        mnemonic = MetblUtils.getInt("MetblTitlePbne.closeMnemonic", -1);
         if (mnemonic != -1) {
             mi.setMnemonic(mnemonic);
         }
     }
 
     /**
-     * Returns a <code>JButton</code> appropriate for placement on the
-     * TitlePane.
+     * Returns b <code>JButton</code> bppropribte for plbcement on the
+     * TitlePbne.
      */
-    private JButton createTitleButton() {
+    privbte JButton crebteTitleButton() {
         JButton button = new JButton();
 
-        button.setFocusPainted(false);
-        button.setFocusable(false);
-        button.setOpaque(true);
+        button.setFocusPbinted(fblse);
+        button.setFocusbble(fblse);
+        button.setOpbque(true);
         return button;
     }
 
     /**
-     * Creates the Buttons that will be placed on the TitlePane.
+     * Crebtes the Buttons thbt will be plbced on the TitlePbne.
      */
-    private void createButtons() {
-        closeButton = createTitleButton();
+    privbte void crebteButtons() {
+        closeButton = crebteTitleButton();
         closeButton.setAction(closeAction);
         closeButton.setText(null);
-        closeButton.putClientProperty("paintActive", Boolean.TRUE);
-        closeButton.setBorder(handyEmptyBorder);
+        closeButton.putClientProperty("pbintActive", Boolebn.TRUE);
+        closeButton.setBorder(hbndyEmptyBorder);
         closeButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
                                       "Close");
-        closeButton.setIcon(UIManager.getIcon("InternalFrame.closeIcon"));
+        closeButton.setIcon(UIMbnbger.getIcon("InternblFrbme.closeIcon"));
 
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            maximizeIcon = UIManager.getIcon("InternalFrame.maximizeIcon");
-            minimizeIcon = UIManager.getIcon("InternalFrame.minimizeIcon");
+        if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
+            mbximizeIcon = UIMbnbger.getIcon("InternblFrbme.mbximizeIcon");
+            minimizeIcon = UIMbnbger.getIcon("InternblFrbme.minimizeIcon");
 
-            iconifyButton = createTitleButton();
+            iconifyButton = crebteTitleButton();
             iconifyButton.setAction(iconifyAction);
             iconifyButton.setText(null);
-            iconifyButton.putClientProperty("paintActive", Boolean.TRUE);
-            iconifyButton.setBorder(handyEmptyBorder);
+            iconifyButton.putClientProperty("pbintActive", Boolebn.TRUE);
+            iconifyButton.setBorder(hbndyEmptyBorder);
             iconifyButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
                                             "Iconify");
-            iconifyButton.setIcon(UIManager.getIcon("InternalFrame.iconifyIcon"));
+            iconifyButton.setIcon(UIMbnbger.getIcon("InternblFrbme.iconifyIcon"));
 
-            toggleButton = createTitleButton();
+            toggleButton = crebteTitleButton();
             toggleButton.setAction(restoreAction);
-            toggleButton.putClientProperty("paintActive", Boolean.TRUE);
-            toggleButton.setBorder(handyEmptyBorder);
+            toggleButton.putClientProperty("pbintActive", Boolebn.TRUE);
+            toggleButton.setBorder(hbndyEmptyBorder);
             toggleButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                           "Maximize");
-            toggleButton.setIcon(maximizeIcon);
+                                           "Mbximize");
+            toggleButton.setIcon(mbximizeIcon);
         }
     }
 
     /**
-     * Returns the <code>LayoutManager</code> that should be installed on
-     * the <code>MetalTitlePane</code>.
+     * Returns the <code>LbyoutMbnbger</code> thbt should be instblled on
+     * the <code>MetblTitlePbne</code>.
      */
-    private LayoutManager createLayout() {
-        return new TitlePaneLayout();
+    privbte LbyoutMbnbger crebteLbyout() {
+        return new TitlePbneLbyout();
     }
 
     /**
-     * Updates state dependant upon the Window's active state.
+     * Updbtes stbte dependbnt upon the Window's bctive stbte.
      */
-    private void setActive(boolean isActive) {
-        Boolean activeB = isActive ? Boolean.TRUE : Boolean.FALSE;
+    privbte void setActive(boolebn isActive) {
+        Boolebn bctiveB = isActive ? Boolebn.TRUE : Boolebn.FALSE;
 
-        closeButton.putClientProperty("paintActive", activeB);
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            iconifyButton.putClientProperty("paintActive", activeB);
-            toggleButton.putClientProperty("paintActive", activeB);
+        closeButton.putClientProperty("pbintActive", bctiveB);
+        if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
+            iconifyButton.putClientProperty("pbintActive", bctiveB);
+            toggleButton.putClientProperty("pbintActive", bctiveB);
         }
-        // Repaint the whole thing as the Borders that are used have
-        // different colors for active vs inactive
-        getRootPane().repaint();
+        // Repbint the whole thing bs the Borders thbt bre used hbve
+        // different colors for bctive vs inbctive
+        getRootPbne().repbint();
     }
 
     /**
-     * Sets the state of the Window.
+     * Sets the stbte of the Window.
      */
-    private void setState(int state) {
-        setState(state, false);
+    privbte void setStbte(int stbte) {
+        setStbte(stbte, fblse);
     }
 
     /**
-     * Sets the state of the window. If <code>updateRegardless</code> is
-     * true and the state has not changed, this will update anyway.
+     * Sets the stbte of the window. If <code>updbteRegbrdless</code> is
+     * true bnd the stbte hbs not chbnged, this will updbte bnywby.
      */
-    private void setState(int state, boolean updateRegardless) {
+    privbte void setStbte(int stbte, boolebn updbteRegbrdless) {
         Window w = getWindow();
 
-        if (w != null && getWindowDecorationStyle() == JRootPane.FRAME) {
-            if (this.state == state && !updateRegardless) {
+        if (w != null && getWindowDecorbtionStyle() == JRootPbne.FRAME) {
+            if (this.stbte == stbte && !updbteRegbrdless) {
                 return;
             }
-            Frame frame = getFrame();
+            Frbme frbme = getFrbme();
 
-            if (frame != null) {
-                JRootPane rootPane = getRootPane();
+            if (frbme != null) {
+                JRootPbne rootPbne = getRootPbne();
 
-                if (((state & Frame.MAXIMIZED_BOTH) != 0) &&
-                        (rootPane.getBorder() == null ||
-                        (rootPane.getBorder() instanceof UIResource)) &&
-                            frame.isShowing()) {
-                    rootPane.setBorder(null);
+                if (((stbte & Frbme.MAXIMIZED_BOTH) != 0) &&
+                        (rootPbne.getBorder() == null ||
+                        (rootPbne.getBorder() instbnceof UIResource)) &&
+                            frbme.isShowing()) {
+                    rootPbne.setBorder(null);
                 }
-                else if ((state & Frame.MAXIMIZED_BOTH) == 0) {
-                    // This is a croak, if state becomes bound, this can
+                else if ((stbte & Frbme.MAXIMIZED_BOTH) == 0) {
+                    // This is b crobk, if stbte becomes bound, this cbn
                     // be nuked.
-                    rootPaneUI.installBorder(rootPane);
+                    rootPbneUI.instbllBorder(rootPbne);
                 }
-                if (frame.isResizable()) {
-                    if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                        updateToggleButton(restoreAction, minimizeIcon);
-                        maximizeAction.setEnabled(false);
-                        restoreAction.setEnabled(true);
+                if (frbme.isResizbble()) {
+                    if ((stbte & Frbme.MAXIMIZED_BOTH) != 0) {
+                        updbteToggleButton(restoreAction, minimizeIcon);
+                        mbximizeAction.setEnbbled(fblse);
+                        restoreAction.setEnbbled(true);
                     }
                     else {
-                        updateToggleButton(maximizeAction, maximizeIcon);
-                        maximizeAction.setEnabled(true);
-                        restoreAction.setEnabled(false);
+                        updbteToggleButton(mbximizeAction, mbximizeIcon);
+                        mbximizeAction.setEnbbled(true);
+                        restoreAction.setEnbbled(fblse);
                     }
-                    if (toggleButton.getParent() == null ||
-                        iconifyButton.getParent() == null) {
-                        add(toggleButton);
-                        add(iconifyButton);
-                        revalidate();
-                        repaint();
+                    if (toggleButton.getPbrent() == null ||
+                        iconifyButton.getPbrent() == null) {
+                        bdd(toggleButton);
+                        bdd(iconifyButton);
+                        revblidbte();
+                        repbint();
                     }
                     toggleButton.setText(null);
                 }
                 else {
-                    maximizeAction.setEnabled(false);
-                    restoreAction.setEnabled(false);
-                    if (toggleButton.getParent() != null) {
+                    mbximizeAction.setEnbbled(fblse);
+                    restoreAction.setEnbbled(fblse);
+                    if (toggleButton.getPbrent() != null) {
                         remove(toggleButton);
-                        revalidate();
-                        repaint();
+                        revblidbte();
+                        repbint();
                     }
                 }
             }
             else {
-                // Not contained in a Frame
-                maximizeAction.setEnabled(false);
-                restoreAction.setEnabled(false);
-                iconifyAction.setEnabled(false);
+                // Not contbined in b Frbme
+                mbximizeAction.setEnbbled(fblse);
+                restoreAction.setEnbbled(fblse);
+                iconifyAction.setEnbbled(fblse);
                 remove(toggleButton);
                 remove(iconifyButton);
-                revalidate();
-                repaint();
+                revblidbte();
+                repbint();
             }
-            closeAction.setEnabled(true);
-            this.state = state;
+            closeAction.setEnbbled(true);
+            this.stbte = stbte;
         }
     }
 
     /**
-     * Updates the toggle button to contain the Icon <code>icon</code>, and
-     * Action <code>action</code>.
+     * Updbtes the toggle button to contbin the Icon <code>icon</code>, bnd
+     * Action <code>bction</code>.
      */
-    private void updateToggleButton(Action action, Icon icon) {
-        toggleButton.setAction(action);
+    privbte void updbteToggleButton(Action bction, Icon icon) {
+        toggleButton.setAction(bction);
         toggleButton.setIcon(icon);
         toggleButton.setText(null);
     }
 
     /**
-     * Returns the Frame rendering in. This will return null if the
-     * <code>JRootPane</code> is not contained in a <code>Frame</code>.
+     * Returns the Frbme rendering in. This will return null if the
+     * <code>JRootPbne</code> is not contbined in b <code>Frbme</code>.
      */
-    private Frame getFrame() {
+    privbte Frbme getFrbme() {
         Window window = getWindow();
 
-        if (window instanceof Frame) {
-            return (Frame)window;
+        if (window instbnceof Frbme) {
+            return (Frbme)window;
         }
         return null;
     }
 
     /**
-     * Returns the <code>Window</code> the <code>JRootPane</code> is
-     * contained in. This will return null if there is no parent ancestor
-     * of the <code>JRootPane</code>.
+     * Returns the <code>Window</code> the <code>JRootPbne</code> is
+     * contbined in. This will return null if there is no pbrent bncestor
+     * of the <code>JRootPbne</code>.
      */
-    private Window getWindow() {
+    privbte Window getWindow() {
         return window;
     }
 
     /**
-     * Returns the String to display as the title.
+     * Returns the String to displby bs the title.
      */
-    private String getTitle() {
+    privbte String getTitle() {
         Window w = getWindow();
 
-        if (w instanceof Frame) {
-            return ((Frame)w).getTitle();
+        if (w instbnceof Frbme) {
+            return ((Frbme)w).getTitle();
         }
-        else if (w instanceof Dialog) {
-            return ((Dialog)w).getTitle();
+        else if (w instbnceof Diblog) {
+            return ((Diblog)w).getTitle();
         }
         return null;
     }
 
     /**
-     * Renders the TitlePane.
+     * Renders the TitlePbne.
      */
-    public void paintComponent(Graphics g)  {
-        // As state isn't bound, we need a convenience place to check
-        // if it has changed. Changing the state typically changes the
-        if (getFrame() != null) {
-            setState(getFrame().getExtendedState());
+    public void pbintComponent(Grbphics g)  {
+        // As stbte isn't bound, we need b convenience plbce to check
+        // if it hbs chbnged. Chbnging the stbte typicblly chbnges the
+        if (getFrbme() != null) {
+            setStbte(getFrbme().getExtendedStbte());
         }
-        JRootPane rootPane = getRootPane();
+        JRootPbne rootPbne = getRootPbne();
         Window window = getWindow();
-        boolean leftToRight = (window == null) ?
-                               rootPane.getComponentOrientation().isLeftToRight() :
-                               window.getComponentOrientation().isLeftToRight();
-        boolean isSelected = (window == null) ? true : window.isActive();
+        boolebn leftToRight = (window == null) ?
+                               rootPbne.getComponentOrientbtion().isLeftToRight() :
+                               window.getComponentOrientbtion().isLeftToRight();
+        boolebn isSelected = (window == null) ? true : window.isActive();
         int width = getWidth();
         int height = getHeight();
 
-        Color background;
+        Color bbckground;
         Color foreground;
-        Color darkShadow;
+        Color dbrkShbdow;
 
-        MetalBumps bumps;
+        MetblBumps bumps;
 
         if (isSelected) {
-            background = activeBackground;
-            foreground = activeForeground;
-            darkShadow = activeShadow;
-            bumps = activeBumps;
+            bbckground = bctiveBbckground;
+            foreground = bctiveForeground;
+            dbrkShbdow = bctiveShbdow;
+            bumps = bctiveBumps;
         } else {
-            background = inactiveBackground;
-            foreground = inactiveForeground;
-            darkShadow = inactiveShadow;
-            bumps = inactiveBumps;
+            bbckground = inbctiveBbckground;
+            foreground = inbctiveForeground;
+            dbrkShbdow = inbctiveShbdow;
+            bumps = inbctiveBumps;
         }
 
-        g.setColor(background);
+        g.setColor(bbckground);
         g.fillRect(0, 0, width, height);
 
-        g.setColor( darkShadow );
-        g.drawLine ( 0, height - 1, width, height -1);
-        g.drawLine ( 0, 0, 0 ,0);
-        g.drawLine ( width - 1, 0 , width -1, 0);
+        g.setColor( dbrkShbdow );
+        g.drbwLine ( 0, height - 1, width, height -1);
+        g.drbwLine ( 0, 0, 0 ,0);
+        g.drbwLine ( width - 1, 0 , width -1, 0);
 
         int xOffset = leftToRight ? 5 : width - 5;
 
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
+        if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
             xOffset += leftToRight ? IMAGE_WIDTH + 5 : - IMAGE_WIDTH - 5;
         }
 
         String theTitle = getTitle();
         if (theTitle != null) {
-            FontMetrics fm = SwingUtilities2.getFontMetrics(rootPane, g);
+            FontMetrics fm = SwingUtilities2.getFontMetrics(rootPbne, g);
 
             g.setColor(foreground);
 
             int yOffset = ( (height - fm.getHeight() ) / 2 ) + fm.getAscent();
 
-            Rectangle rect = new Rectangle(0, 0, 0, 0);
-            if (iconifyButton != null && iconifyButton.getParent() != null) {
+            Rectbngle rect = new Rectbngle(0, 0, 0, 0);
+            if (iconifyButton != null && iconifyButton.getPbrent() != null) {
                 rect = iconifyButton.getBounds();
             }
             int titleW;
@@ -748,18 +748,18 @@ class MetalTitlePane extends JComponent {
                     rect.x = window.getWidth() - window.getInsets().right-2;
                 }
                 titleW = rect.x - xOffset - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(
-                                rootPane, fm, theTitle, titleW);
+                theTitle = SwingUtilities2.clipStringIfNecessbry(
+                                rootPbne, fm, theTitle, titleW);
             } else {
                 titleW = xOffset - rect.x - rect.width - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(
-                                rootPane, fm, theTitle, titleW);
-                xOffset -= SwingUtilities2.stringWidth(rootPane, fm,
+                theTitle = SwingUtilities2.clipStringIfNecessbry(
+                                rootPbne, fm, theTitle, titleW);
+                xOffset -= SwingUtilities2.stringWidth(rootPbne, fm,
                                                        theTitle);
             }
-            int titleLength = SwingUtilities2.stringWidth(rootPane, fm,
+            int titleLength = SwingUtilities2.stringWidth(rootPbne, fm,
                                                           theTitle);
-            SwingUtilities2.drawString(rootPane, g, theTitle, xOffset,
+            SwingUtilities2.drbwString(rootPbne, g, theTitle, xOffset,
                                        yOffset );
             xOffset += leftToRight ? titleLength + 5  : -5;
         }
@@ -775,94 +775,94 @@ class MetalTitlePane extends JComponent {
         }
         int bumpYOffset = 3;
         int bumpHeight = getHeight() - (2 * bumpYOffset);
-        bumps.setBumpArea( bumpLength, bumpHeight );
-        bumps.paintIcon(this, g, bumpXOffset, bumpYOffset);
+        bumps.setBumpAreb( bumpLength, bumpHeight );
+        bumps.pbintIcon(this, g, bumpXOffset, bumpYOffset);
     }
 
     /**
      * Actions used to <code>close</code> the <code>Window</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class CloseAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss CloseAction extends AbstrbctAction {
         public CloseAction() {
-            super(UIManager.getString("MetalTitlePane.closeTitle",
-                                      getLocale()));
+            super(UIMbnbger.getString("MetblTitlePbne.closeTitle",
+                                      getLocble()));
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             close();
         }
     }
 
 
     /**
-     * Actions used to <code>iconfiy</code> the <code>Frame</code>.
+     * Actions used to <code>iconfiy</code> the <code>Frbme</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class IconifyAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss IconifyAction extends AbstrbctAction {
         public IconifyAction() {
-            super(UIManager.getString("MetalTitlePane.iconifyTitle",
-                                      getLocale()));
+            super(UIMbnbger.getString("MetblTitlePbne.iconifyTitle",
+                                      getLocble()));
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             iconify();
         }
     }
 
 
     /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
+     * Actions used to <code>restore</code> the <code>Frbme</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class RestoreAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss RestoreAction extends AbstrbctAction {
         public RestoreAction() {
-            super(UIManager.getString
-                  ("MetalTitlePane.restoreTitle", getLocale()));
+            super(UIMbnbger.getString
+                  ("MetblTitlePbne.restoreTitle", getLocble()));
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             restore();
         }
     }
 
 
     /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
+     * Actions used to <code>restore</code> the <code>Frbme</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class MaximizeAction extends AbstractAction {
-        public MaximizeAction() {
-            super(UIManager.getString("MetalTitlePane.maximizeTitle",
-                                      getLocale()));
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss MbximizeAction extends AbstrbctAction {
+        public MbximizeAction() {
+            super(UIMbnbger.getString("MetblTitlePbne.mbximizeTitle",
+                                      getLocble()));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            maximize();
+        public void bctionPerformed(ActionEvent e) {
+            mbximize();
         }
     }
 
 
     /**
-     * Class responsible for drawing the system menu. Looks up the
-     * image to draw from the Frame associated with the
-     * <code>JRootPane</code>.
+     * Clbss responsible for drbwing the system menu. Looks up the
+     * imbge to drbw from the Frbme bssocibted with the
+     * <code>JRootPbne</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SystemMenuBar extends JMenuBar {
-        public void paint(Graphics g) {
-            if (isOpaque()) {
-                g.setColor(getBackground());
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SystemMenuBbr extends JMenuBbr {
+        public void pbint(Grbphics g) {
+            if (isOpbque()) {
+                g.setColor(getBbckground());
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
 
             if (systemIcon != null) {
-                g.drawImage(systemIcon, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, null);
+                g.drbwImbge(systemIcon, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, null);
             } else {
-                Icon icon = UIManager.getIcon("InternalFrame.icon");
+                Icon icon = UIMbnbger.getIcon("InternblFrbme.icon");
 
                 if (icon != null) {
-                    icon.paintIcon(this, g, 0, 0);
+                    icon.pbintIcon(this, g, 0, 0);
                 }
             }
         }
@@ -872,45 +872,45 @@ class MetalTitlePane extends JComponent {
         public Dimension getPreferredSize() {
             Dimension size = super.getPreferredSize();
 
-            return new Dimension(Math.max(IMAGE_WIDTH, size.width),
-                                 Math.max(size.height, IMAGE_HEIGHT));
+            return new Dimension(Mbth.mbx(IMAGE_WIDTH, size.width),
+                                 Mbth.mbx(size.height, IMAGE_HEIGHT));
         }
     }
 
-    private class TitlePaneLayout implements LayoutManager {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
+    privbte clbss TitlePbneLbyout implements LbyoutMbnbger {
+        public void bddLbyoutComponent(String nbme, Component c) {}
+        public void removeLbyoutComponent(Component c) {}
+        public Dimension preferredLbyoutSize(Contbiner c)  {
             int height = computeHeight();
             return new Dimension(height, height);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            return preferredLayoutSize(c);
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            return preferredLbyoutSize(c);
         }
 
-        private int computeHeight() {
-            FontMetrics fm = rootPane.getFontMetrics(getFont());
+        privbte int computeHeight() {
+            FontMetrics fm = rootPbne.getFontMetrics(getFont());
             int fontHeight = fm.getHeight();
             fontHeight += 7;
             int iconHeight = 0;
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
+            if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
                 iconHeight = IMAGE_HEIGHT;
             }
 
-            int finalHeight = Math.max( fontHeight, iconHeight );
-            return finalHeight;
+            int finblHeight = Mbth.mbx( fontHeight, iconHeight );
+            return finblHeight;
         }
 
-        public void layoutContainer(Container c) {
-            boolean leftToRight = (window == null) ?
-                getRootPane().getComponentOrientation().isLeftToRight() :
-                window.getComponentOrientation().isLeftToRight();
+        public void lbyoutContbiner(Contbiner c) {
+            boolebn leftToRight = (window == null) ?
+                getRootPbne().getComponentOrientbtion().isLeftToRight() :
+                window.getComponentOrientbtion().isLeftToRight();
 
             int w = getWidth();
             int x;
             int y = 3;
-            int spacing;
+            int spbcing;
             int buttonHeight;
             int buttonWidth;
 
@@ -923,32 +923,32 @@ class MetalTitlePane extends JComponent {
                 buttonWidth = IMAGE_WIDTH;
             }
 
-            // assumes all buttons have the same dimensions
+            // bssumes bll buttons hbve the sbme dimensions
             // these dimensions include the borders
 
             x = leftToRight ? w : 0;
 
-            spacing = 5;
-            x = leftToRight ? spacing : w - buttonWidth - spacing;
-            if (menuBar != null) {
-                menuBar.setBounds(x, y, buttonWidth, buttonHeight);
+            spbcing = 5;
+            x = leftToRight ? spbcing : w - buttonWidth - spbcing;
+            if (menuBbr != null) {
+                menuBbr.setBounds(x, y, buttonWidth, buttonHeight);
             }
 
             x = leftToRight ? w : 0;
-            spacing = 4;
-            x += leftToRight ? -spacing -buttonWidth : spacing;
+            spbcing = 4;
+            x += leftToRight ? -spbcing -buttonWidth : spbcing;
             if (closeButton != null) {
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
             }
 
             if( !leftToRight ) x += buttonWidth;
 
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                if (Toolkit.getDefaultToolkit().isFrameStateSupported(
-                        Frame.MAXIMIZED_BOTH)) {
-                    if (toggleButton.getParent() != null) {
-                        spacing = 10;
-                        x += leftToRight ? -spacing -buttonWidth : spacing;
+            if (getWindowDecorbtionStyle() == JRootPbne.FRAME) {
+                if (Toolkit.getDefbultToolkit().isFrbmeStbteSupported(
+                        Frbme.MAXIMIZED_BOTH)) {
+                    if (toggleButton.getPbrent() != null) {
+                        spbcing = 10;
+                        x += leftToRight ? -spbcing -buttonWidth : spbcing;
                         toggleButton.setBounds(x, y, buttonWidth, buttonHeight);
                         if (!leftToRight) {
                             x += buttonWidth;
@@ -956,9 +956,9 @@ class MetalTitlePane extends JComponent {
                     }
                 }
 
-                if (iconifyButton != null && iconifyButton.getParent() != null) {
-                    spacing = 2;
-                    x += leftToRight ? -spacing -buttonWidth : spacing;
+                if (iconifyButton != null && iconifyButton.getPbrent() != null) {
+                    spbcing = 2;
+                    x += leftToRight ? -spbcing -buttonWidth : spbcing;
                     iconifyButton.setBounds(x, y, buttonWidth, buttonHeight);
                     if (!leftToRight) {
                         x += buttonWidth;
@@ -972,50 +972,50 @@ class MetalTitlePane extends JComponent {
 
 
     /**
-     * PropertyChangeListener installed on the Window. Updates the necessary
-     * state as the state of the Window changes.
+     * PropertyChbngeListener instblled on the Window. Updbtes the necessbry
+     * stbte bs the stbte of the Window chbnges.
      */
-    private class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent pce) {
-            String name = pce.getPropertyName();
+    privbte clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent pce) {
+            String nbme = pce.getPropertyNbme();
 
-            // Frame.state isn't currently bound.
-            if ("resizable".equals(name) || "state".equals(name)) {
-                Frame frame = getFrame();
+            // Frbme.stbte isn't currently bound.
+            if ("resizbble".equbls(nbme) || "stbte".equbls(nbme)) {
+                Frbme frbme = getFrbme();
 
-                if (frame != null) {
-                    setState(frame.getExtendedState(), true);
+                if (frbme != null) {
+                    setStbte(frbme.getExtendedStbte(), true);
                 }
-                if ("resizable".equals(name)) {
-                    getRootPane().repaint();
+                if ("resizbble".equbls(nbme)) {
+                    getRootPbne().repbint();
                 }
             }
-            else if ("title".equals(name)) {
-                repaint();
+            else if ("title".equbls(nbme)) {
+                repbint();
             }
-            else if ("componentOrientation" == name) {
-                revalidate();
-                repaint();
+            else if ("componentOrientbtion" == nbme) {
+                revblidbte();
+                repbint();
             }
-            else if ("iconImage" == name) {
-                updateSystemIcon();
-                revalidate();
-                repaint();
+            else if ("iconImbge" == nbme) {
+                updbteSystemIcon();
+                revblidbte();
+                repbint();
             }
         }
     }
 
     /**
-     * Update the image used for the system icon
+     * Updbte the imbge used for the system icon
      */
-    private void updateSystemIcon() {
+    privbte void updbteSystemIcon() {
         Window window = getWindow();
         if (window == null) {
             systemIcon = null;
             return;
         }
-        java.util.List<Image> icons = window.getIconImages();
-        assert icons != null;
+        jbvb.util.List<Imbge> icons = window.getIconImbges();
+        bssert icons != null;
 
         if (icons.size() == 0) {
             systemIcon = null;
@@ -1024,7 +1024,7 @@ class MetalTitlePane extends JComponent {
             systemIcon = icons.get(0);
         }
         else {
-            systemIcon = SunToolkit.getScaledIconImage(icons,
+            systemIcon = SunToolkit.getScbledIconImbge(icons,
                                                        IMAGE_WIDTH,
                                                        IMAGE_HEIGHT);
         }
@@ -1032,15 +1032,15 @@ class MetalTitlePane extends JComponent {
 
 
     /**
-     * WindowListener installed on the Window, updates the state as necessary.
+     * WindowListener instblled on the Window, updbtes the stbte bs necessbry.
      */
-    private class WindowHandler extends WindowAdapter {
-        public void windowActivated(WindowEvent ev) {
+    privbte clbss WindowHbndler extends WindowAdbpter {
+        public void windowActivbted(WindowEvent ev) {
             setActive(true);
         }
 
-        public void windowDeactivated(WindowEvent ev) {
-            setActive(false);
+        public void windowDebctivbted(WindowEvent ev) {
+            setActive(fblse);
         }
     }
 }

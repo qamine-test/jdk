@@ -1,499 +1,499 @@
 #
-# This is the "master security properties file".
+# This is the "mbster security properties file".
 #
-# An alternate java.security properties file may be specified
-# from the command line via the system property
+# An blternbte jbvb.security properties file mby be specified
+# from the commbnd line vib the system property
 #
-#    -Djava.security.properties=<URL>
+#    -Djbvb.security.properties=<URL>
 #
-# This properties file appends to the master security properties file.
-# If both properties files specify values for the same key, the value
-# from the command-line properties file is selected, as it is the last
-# one loaded.
+# This properties file bppends to the mbster security properties file.
+# If both properties files specify vblues for the sbme key, the vblue
+# from the commbnd-line properties file is selected, bs it is the lbst
+# one lobded.
 #
 # Also, if you specify
 #
-#    -Djava.security.properties==<URL> (2 equals),
+#    -Djbvb.security.properties==<URL> (2 equbls),
 #
-# then that properties file completely overrides the master security
+# then thbt properties file completely overrides the mbster security
 # properties file.
 #
-# To disable the ability to specify an additional properties file from
-# the command line, set the key security.overridePropertiesFile
-# to false in the master security properties file. It is set to true
-# by default.
+# To disbble the bbility to specify bn bdditionbl properties file from
+# the commbnd line, set the key security.overridePropertiesFile
+# to fblse in the mbster security properties file. It is set to true
+# by defbult.
 
-# In this file, various security properties are set for use by
-# java.security classes. This is where users can statically register
-# Cryptography Package Providers ("providers" for short). The term
-# "provider" refers to a package or set of packages that supply a
-# concrete implementation of a subset of the cryptography aspects of
-# the Java Security API. A provider may, for example, implement one or
-# more digital signature algorithms or message digest algorithms.
+# In this file, vbrious security properties bre set for use by
+# jbvb.security clbsses. This is where users cbn stbticblly register
+# Cryptogrbphy Pbckbge Providers ("providers" for short). The term
+# "provider" refers to b pbckbge or set of pbckbges thbt supply b
+# concrete implementbtion of b subset of the cryptogrbphy bspects of
+# the Jbvb Security API. A provider mby, for exbmple, implement one or
+# more digitbl signbture blgorithms or messbge digest blgorithms.
 #
-# Each provider must implement a subclass of the Provider class.
-# To register a provider in this master security properties file,
-# specify the Provider subclass name and priority in the format
+# Ebch provider must implement b subclbss of the Provider clbss.
+# To register b provider in this mbster security properties file,
+# specify the Provider subclbss nbme bnd priority in the formbt
 #
-#    security.provider.<n>=<className>
+#    security.provider.<n>=<clbssNbme>
 #
-# This declares a provider, and specifies its preference
-# order n. The preference order is the order in which providers are
-# searched for requested algorithms (when no specific provider is
-# requested). The order is 1-based; 1 is the most preferred, followed
-# by 2, and so on.
+# This declbres b provider, bnd specifies its preference
+# order n. The preference order is the order in which providers bre
+# sebrched for requested blgorithms (when no specific provider is
+# requested). The order is 1-bbsed; 1 is the most preferred, followed
+# by 2, bnd so on.
 #
-# <className> must specify the subclass of the Provider class whose
-# constructor sets the values of various properties that are required
-# for the Java Security API to look up the algorithms or other
-# facilities implemented by the provider.
+# <clbssNbme> must specify the subclbss of the Provider clbss whose
+# constructor sets the vblues of vbrious properties thbt bre required
+# for the Jbvb Security API to look up the blgorithms or other
+# fbcilities implemented by the provider.
 #
-# There must be at least one provider specification in java.security.
-# There is a default provider that comes standard with the JDK. It
-# is called the "SUN" provider, and its Provider subclass
-# named Sun appears in the sun.security.provider package. Thus, the
-# "SUN" provider is registered via the following:
+# There must be bt lebst one provider specificbtion in jbvb.security.
+# There is b defbult provider thbt comes stbndbrd with the JDK. It
+# is cblled the "SUN" provider, bnd its Provider subclbss
+# nbmed Sun bppebrs in the sun.security.provider pbckbge. Thus, the
+# "SUN" provider is registered vib the following:
 #
 #    security.provider.1=sun.security.provider.Sun
 #
-# (The number 1 is used for the default provider.)
+# (The number 1 is used for the defbult provider.)
 #
-# Note: Providers can be dynamically registered instead by calls to
-# either the addProvider or insertProviderAt method in the Security
-# class.
+# Note: Providers cbn be dynbmicblly registered instebd by cblls to
+# either the bddProvider or insertProviderAt method in the Security
+# clbss.
 
 #
-# List of providers and their preference orders (see above):
+# List of providers bnd their preference orders (see bbove):
 #
 security.provider.1=sun.security.provider.Sun
-security.provider.2=sun.security.rsa.SunRsaSign
+security.provider.2=sun.security.rsb.SunRsbSign
 security.provider.3=sun.security.ec.SunEC
-security.provider.4=com.sun.net.ssl.internal.ssl.Provider
+security.provider.4=com.sun.net.ssl.internbl.ssl.Provider
 security.provider.5=com.sun.crypto.provider.SunJCE
 security.provider.6=sun.security.jgss.SunProvider
-security.provider.7=com.sun.security.sasl.Provider
-security.provider.8=org.jcp.xml.dsig.internal.dom.XMLDSigRI
-security.provider.9=sun.security.smartcardio.SunPCSC
-security.provider.10=apple.security.AppleProvider
+security.provider.7=com.sun.security.sbsl.Provider
+security.provider.8=org.jcp.xml.dsig.internbl.dom.XMLDSigRI
+security.provider.9=sun.security.smbrtcbrdio.SunPCSC
+security.provider.10=bpple.security.AppleProvider
 
 #
-# Sun Provider SecureRandom seed source.
+# Sun Provider SecureRbndom seed source.
 #
-# Select the primary source of seed data for the "SHA1PRNG" and
-# "NativePRNG" SecureRandom implementations in the "Sun" provider.
-# (Other SecureRandom implementations might also use this property.)
+# Select the primbry source of seed dbtb for the "SHA1PRNG" bnd
+# "NbtivePRNG" SecureRbndom implementbtions in the "Sun" provider.
+# (Other SecureRbndom implementbtions might blso use this property.)
 #
-# On Unix-like systems (for example, Solaris/Linux/MacOS), the
-# "NativePRNG" and "SHA1PRNG" implementations obtains seed data from
-# special device files such as file:/dev/random.
+# On Unix-like systems (for exbmple, Solbris/Linux/MbcOS), the
+# "NbtivePRNG" bnd "SHA1PRNG" implementbtions obtbins seed dbtb from
+# specibl device files such bs file:/dev/rbndom.
 #
-# On Windows systems, specifying the URLs "file:/dev/random" or
-# "file:/dev/urandom" will enable the native Microsoft CryptoAPI seeding
-# mechanism for SHA1PRNG.
+# On Windows systems, specifying the URLs "file:/dev/rbndom" or
+# "file:/dev/urbndom" will enbble the nbtive Microsoft CryptoAPI seeding
+# mechbnism for SHA1PRNG.
 #
-# By default, an attempt is made to use the entropy gathering device
-# specified by the "securerandom.source" Security property.  If an
-# exception occurs while accessing the specified URL:
+# By defbult, bn bttempt is mbde to use the entropy gbthering device
+# specified by the "securerbndom.source" Security property.  If bn
+# exception occurs while bccessing the specified URL:
 #
 #     SHA1PRNG:
-#         the traditional system/thread activity algorithm will be used.
+#         the trbditionbl system/threbd bctivity blgorithm will be used.
 #
-#     NativePRNG:
-#         a default value of /dev/random will be used.  If neither
-#         are available, the implementation will be disabled.
+#     NbtivePRNG:
+#         b defbult vblue of /dev/rbndom will be used.  If neither
+#         bre bvbilbble, the implementbtion will be disbbled.
 #         "file" is the only currently supported protocol type.
 #
-# The entropy gathering device can also be specified with the System
-# property "java.security.egd". For example:
+# The entropy gbthering device cbn blso be specified with the System
+# property "jbvb.security.egd". For exbmple:
 #
-#   % java -Djava.security.egd=file:/dev/random MainClass
+#   % jbvb -Djbvb.security.egd=file:/dev/rbndom MbinClbss
 #
 # Specifying this System property will override the
-# "securerandom.source" Security property.
+# "securerbndom.source" Security property.
 #
-# In addition, if "file:/dev/random" or "file:/dev/urandom" is
-# specified, the "NativePRNG" implementation will be more preferred than
+# In bddition, if "file:/dev/rbndom" or "file:/dev/urbndom" is
+# specified, the "NbtivePRNG" implementbtion will be more preferred thbn
 # SHA1PRNG in the Sun provider.
 #
-securerandom.source=file:/dev/random
+securerbndom.source=file:/dev/rbndom
 
 #
-# A list of known strong SecureRandom implementations.
+# A list of known strong SecureRbndom implementbtions.
 #
-# To help guide applications in selecting a suitable strong
-# java.security.SecureRandom implementation, Java distributions should
-# indicate a list of known strong implementations using the property.
+# To help guide bpplicbtions in selecting b suitbble strong
+# jbvb.security.SecureRbndom implementbtion, Jbvb distributions should
+# indicbte b list of known strong implementbtions using the property.
 #
-# This is a comma-separated list of algorithm and/or algorithm:provider
+# This is b commb-sepbrbted list of blgorithm bnd/or blgorithm:provider
 # entries.
 #
-securerandom.strongAlgorithms=NativePRNGBlocking:SUN
+securerbndom.strongAlgorithms=NbtivePRNGBlocking:SUN
 
 #
-# Class to instantiate as the javax.security.auth.login.Configuration
+# Clbss to instbntibte bs the jbvbx.security.buth.login.Configurbtion
 # provider.
 #
-login.configuration.provider=sun.security.provider.ConfigFile
+login.configurbtion.provider=sun.security.provider.ConfigFile
 
 #
-# Default login configuration file
+# Defbult login configurbtion file
 #
-#login.config.url.1=file:${user.home}/.java.login.config
+#login.config.url.1=file:${user.home}/.jbvb.login.config
 
 #
-# Class to instantiate as the system Policy. This is the name of the class
-# that will be used as the Policy object.
+# Clbss to instbntibte bs the system Policy. This is the nbme of the clbss
+# thbt will be used bs the Policy object.
 #
 policy.provider=sun.security.provider.PolicyFile
 
-# The default is to have a single system-wide policy file,
-# and a policy file in the user's home directory.
-policy.url.1=file:${java.home}/lib/security/java.policy
-policy.url.2=file:${user.home}/.java.policy
+# The defbult is to hbve b single system-wide policy file,
+# bnd b policy file in the user's home directory.
+policy.url.1=file:${jbvb.home}/lib/security/jbvb.policy
+policy.url.2=file:${user.home}/.jbvb.policy
 
-# whether or not we expand properties in the policy file
-# if this is set to false, properties (${...}) will not be expanded in policy
+# whether or not we expbnd properties in the policy file
+# if this is set to fblse, properties (${...}) will not be expbnded in policy
 # files.
-policy.expandProperties=true
+policy.expbndProperties=true
 
-# whether or not we allow an extra policy to be passed on the command line
-# with -Djava.security.policy=somefile. Comment out this line to disable
-# this feature.
-policy.allowSystemProperty=true
+# whether or not we bllow bn extrb policy to be pbssed on the commbnd line
+# with -Djbvb.security.policy=somefile. Comment out this line to disbble
+# this febture.
+policy.bllowSystemProperty=true
 
 # whether or not we look into the IdentityScope for trusted Identities
-# when encountering a 1.1 signed JAR file. If the identity is found
-# and is trusted, we grant it AllPermission.
-policy.ignoreIdentityScope=false
+# when encountering b 1.1 signed JAR file. If the identity is found
+# bnd is trusted, we grbnt it AllPermission.
+policy.ignoreIdentityScope=fblse
 
 #
-# Default keystore type.
+# Defbult keystore type.
 #
 keystore.type=jks
 
 #
-# List of comma-separated packages that start with or equal this string
-# will cause a security exception to be thrown when
-# passed to checkPackageAccess unless the
-# corresponding RuntimePermission ("accessClassInPackage."+package) has
-# been granted.
-package.access=sun.,\
-               com.sun.xml.internal.,\
-               com.sun.imageio.,\
-               com.sun.istack.internal.,\
+# List of commb-sepbrbted pbckbges thbt stbrt with or equbl this string
+# will cbuse b security exception to be thrown when
+# pbssed to checkPbckbgeAccess unless the
+# corresponding RuntimePermission ("bccessClbssInPbckbge."+pbckbge) hbs
+# been grbnted.
+pbckbge.bccess=sun.,\
+               com.sun.xml.internbl.,\
+               com.sun.imbgeio.,\
+               com.sun.istbck.internbl.,\
                com.sun.jmx.,\
-               com.sun.media.sound.,\
-               com.sun.naming.internal.,\
+               com.sun.medib.sound.,\
+               com.sun.nbming.internbl.,\
                com.sun.proxy.,\
-               com.sun.corba.se.,\
-               com.sun.org.apache.bcel.internal.,\
-               com.sun.org.apache.regexp.internal.,\
-               com.sun.org.apache.xerces.internal.,\
-               com.sun.org.apache.xpath.internal.,\
-               com.sun.org.apache.xalan.internal.extensions.,\
-               com.sun.org.apache.xalan.internal.lib.,\
-               com.sun.org.apache.xalan.internal.res.,\
-               com.sun.org.apache.xalan.internal.templates.,\
-               com.sun.org.apache.xalan.internal.utils.,\
-               com.sun.org.apache.xalan.internal.xslt.,\
-               com.sun.org.apache.xalan.internal.xsltc.cmdline.,\
-               com.sun.org.apache.xalan.internal.xsltc.compiler.,\
-               com.sun.org.apache.xalan.internal.xsltc.trax.,\
-               com.sun.org.apache.xalan.internal.xsltc.util.,\
-               com.sun.org.apache.xml.internal.res.,\
-               com.sun.org.apache.xml.internal.security.,\
-               com.sun.org.apache.xml.internal.serializer.utils.,\
-               com.sun.org.apache.xml.internal.utils.,\
-               com.sun.org.glassfish.,\
-               com.oracle.xmlns.internal.,\
-               com.oracle.webservices.internal.,\
-               org.jcp.xml.dsig.internal.,\
-               jdk.internal.,\
-               jdk.nashorn.internal.,\
-               jdk.nashorn.tools.,\
-               com.sun.activation.registries.,\
-               apple.
+               com.sun.corbb.se.,\
+               com.sun.org.bpbche.bcel.internbl.,\
+               com.sun.org.bpbche.regexp.internbl.,\
+               com.sun.org.bpbche.xerces.internbl.,\
+               com.sun.org.bpbche.xpbth.internbl.,\
+               com.sun.org.bpbche.xblbn.internbl.extensions.,\
+               com.sun.org.bpbche.xblbn.internbl.lib.,\
+               com.sun.org.bpbche.xblbn.internbl.res.,\
+               com.sun.org.bpbche.xblbn.internbl.templbtes.,\
+               com.sun.org.bpbche.xblbn.internbl.utils.,\
+               com.sun.org.bpbche.xblbn.internbl.xslt.,\
+               com.sun.org.bpbche.xblbn.internbl.xsltc.cmdline.,\
+               com.sun.org.bpbche.xblbn.internbl.xsltc.compiler.,\
+               com.sun.org.bpbche.xblbn.internbl.xsltc.trbx.,\
+               com.sun.org.bpbche.xblbn.internbl.xsltc.util.,\
+               com.sun.org.bpbche.xml.internbl.res.,\
+               com.sun.org.bpbche.xml.internbl.security.,\
+               com.sun.org.bpbche.xml.internbl.seriblizer.utils.,\
+               com.sun.org.bpbche.xml.internbl.utils.,\
+               com.sun.org.glbssfish.,\
+               com.orbcle.xmlns.internbl.,\
+               com.orbcle.webservices.internbl.,\
+               org.jcp.xml.dsig.internbl.,\
+               jdk.internbl.,\
+               jdk.nbshorn.internbl.,\
+               jdk.nbshorn.tools.,\
+               com.sun.bctivbtion.registries.,\
+               bpple.
 
 #
-# List of comma-separated packages that start with or equal this string
-# will cause a security exception to be thrown when
-# passed to checkPackageDefinition unless the
-# corresponding RuntimePermission ("defineClassInPackage."+package) has
-# been granted.
+# List of commb-sepbrbted pbckbges thbt stbrt with or equbl this string
+# will cbuse b security exception to be thrown when
+# pbssed to checkPbckbgeDefinition unless the
+# corresponding RuntimePermission ("defineClbssInPbckbge."+pbckbge) hbs
+# been grbnted.
 #
-# by default, none of the class loaders supplied with the JDK call
-# checkPackageDefinition.
+# by defbult, none of the clbss lobders supplied with the JDK cbll
+# checkPbckbgeDefinition.
 #
-package.definition=sun.,\
-                   com.sun.xml.internal.,\
-                   com.sun.imageio.,\
-                   com.sun.istack.internal.,\
+pbckbge.definition=sun.,\
+                   com.sun.xml.internbl.,\
+                   com.sun.imbgeio.,\
+                   com.sun.istbck.internbl.,\
                    com.sun.jmx.,\
-                   com.sun.media.sound.,\
-                   com.sun.naming.internal.,\
+                   com.sun.medib.sound.,\
+                   com.sun.nbming.internbl.,\
                    com.sun.proxy.,\
-                   com.sun.corba.se.,\
-                   com.sun.org.apache.bcel.internal.,\
-                   com.sun.org.apache.regexp.internal.,\
-                   com.sun.org.apache.xerces.internal.,\
-                   com.sun.org.apache.xpath.internal.,\
-                   com.sun.org.apache.xalan.internal.extensions.,\
-                   com.sun.org.apache.xalan.internal.lib.,\
-                   com.sun.org.apache.xalan.internal.res.,\
-                   com.sun.org.apache.xalan.internal.templates.,\
-                   com.sun.org.apache.xalan.internal.utils.,\
-                   com.sun.org.apache.xalan.internal.xslt.,\
-                   com.sun.org.apache.xalan.internal.xsltc.cmdline.,\
-                   com.sun.org.apache.xalan.internal.xsltc.compiler.,\
-                   com.sun.org.apache.xalan.internal.xsltc.trax.,\
-                   com.sun.org.apache.xalan.internal.xsltc.util.,\
-                   com.sun.org.apache.xml.internal.res.,\
-                   com.sun.org.apache.xml.internal.security.,\
-                   com.sun.org.apache.xml.internal.serializer.utils.,\
-                   com.sun.org.apache.xml.internal.utils.,\
-                   com.sun.org.glassfish.,\
-                   com.oracle.xmlns.internal.,\
-                   com.oracle.webservices.internal.,\
-                   org.jcp.xml.dsig.internal.,\
-                   jdk.internal.,\
-                   jdk.nashorn.internal.,\
-                   jdk.nashorn.tools.,\
-                   com.sun.activation.registries.,\
-                   apple.
+                   com.sun.corbb.se.,\
+                   com.sun.org.bpbche.bcel.internbl.,\
+                   com.sun.org.bpbche.regexp.internbl.,\
+                   com.sun.org.bpbche.xerces.internbl.,\
+                   com.sun.org.bpbche.xpbth.internbl.,\
+                   com.sun.org.bpbche.xblbn.internbl.extensions.,\
+                   com.sun.org.bpbche.xblbn.internbl.lib.,\
+                   com.sun.org.bpbche.xblbn.internbl.res.,\
+                   com.sun.org.bpbche.xblbn.internbl.templbtes.,\
+                   com.sun.org.bpbche.xblbn.internbl.utils.,\
+                   com.sun.org.bpbche.xblbn.internbl.xslt.,\
+                   com.sun.org.bpbche.xblbn.internbl.xsltc.cmdline.,\
+                   com.sun.org.bpbche.xblbn.internbl.xsltc.compiler.,\
+                   com.sun.org.bpbche.xblbn.internbl.xsltc.trbx.,\
+                   com.sun.org.bpbche.xblbn.internbl.xsltc.util.,\
+                   com.sun.org.bpbche.xml.internbl.res.,\
+                   com.sun.org.bpbche.xml.internbl.security.,\
+                   com.sun.org.bpbche.xml.internbl.seriblizer.utils.,\
+                   com.sun.org.bpbche.xml.internbl.utils.,\
+                   com.sun.org.glbssfish.,\
+                   com.orbcle.xmlns.internbl.,\
+                   com.orbcle.webservices.internbl.,\
+                   org.jcp.xml.dsig.internbl.,\
+                   jdk.internbl.,\
+                   jdk.nbshorn.internbl.,\
+                   jdk.nbshorn.tools.,\
+                   com.sun.bctivbtion.registries.,\
+                   bpple.
 
 #
-# Determines whether this properties file can be appended to
-# or overridden on the command line via -Djava.security.properties
+# Determines whether this properties file cbn be bppended to
+# or overridden on the commbnd line vib -Djbvb.security.properties
 #
 security.overridePropertiesFile=true
 
 #
-# Determines the default key and trust manager factory algorithms for
-# the javax.net.ssl package.
+# Determines the defbult key bnd trust mbnbger fbctory blgorithms for
+# the jbvbx.net.ssl pbckbge.
 #
-ssl.KeyManagerFactory.algorithm=SunX509
-ssl.TrustManagerFactory.algorithm=PKIX
+ssl.KeyMbnbgerFbctory.blgorithm=SunX509
+ssl.TrustMbnbgerFbctory.blgorithm=PKIX
 
 #
-# The Java-level namelookup cache policy for successful lookups:
+# The Jbvb-level nbmelookup cbche policy for successful lookups:
 #
-# any negative value: caching forever
-# any positive value: the number of seconds to cache an address for
-# zero: do not cache
+# bny negbtive vblue: cbching forever
+# bny positive vblue: the number of seconds to cbche bn bddress for
+# zero: do not cbche
 #
-# default value is forever (FOREVER). For security reasons, this
-# caching is made forever when a security manager is set. When a security
-# manager is not set, the default behavior in this implementation
-# is to cache for 30 seconds.
+# defbult vblue is forever (FOREVER). For security rebsons, this
+# cbching is mbde forever when b security mbnbger is set. When b security
+# mbnbger is not set, the defbult behbvior in this implementbtion
+# is to cbche for 30 seconds.
 #
-# NOTE: setting this to anything other than the default value can have
-#       serious security implications. Do not set it unless
-#       you are sure you are not exposed to DNS spoofing attack.
+# NOTE: setting this to bnything other thbn the defbult vblue cbn hbve
+#       serious security implicbtions. Do not set it unless
+#       you bre sure you bre not exposed to DNS spoofing bttbck.
 #
-#networkaddress.cache.ttl=-1
+#networkbddress.cbche.ttl=-1
 
-# The Java-level namelookup cache policy for failed lookups:
+# The Jbvb-level nbmelookup cbche policy for fbiled lookups:
 #
-# any negative value: cache forever
-# any positive value: the number of seconds to cache negative lookup results
-# zero: do not cache
+# bny negbtive vblue: cbche forever
+# bny positive vblue: the number of seconds to cbche negbtive lookup results
+# zero: do not cbche
 #
-# In some Microsoft Windows networking environments that employ
-# the WINS name service in addition to DNS, name service lookups
-# that fail may take a noticeably long time to return (approx. 5 seconds).
-# For this reason the default caching policy is to maintain these
+# In some Microsoft Windows networking environments thbt employ
+# the WINS nbme service in bddition to DNS, nbme service lookups
+# thbt fbil mby tbke b noticebbly long time to return (bpprox. 5 seconds).
+# For this rebson the defbult cbching policy is to mbintbin these
 # results for 10 seconds.
 #
 #
-networkaddress.cache.negative.ttl=10
+networkbddress.cbche.negbtive.ttl=10
 
 #
-# Properties to configure OCSP for certificate revocation checking
+# Properties to configure OCSP for certificbte revocbtion checking
 #
 
-# Enable OCSP
+# Enbble OCSP
 #
-# By default, OCSP is not used for certificate revocation checking.
-# This property enables the use of OCSP when set to the value "true".
+# By defbult, OCSP is not used for certificbte revocbtion checking.
+# This property enbbles the use of OCSP when set to the vblue "true".
 #
-# NOTE: SocketPermission is required to connect to an OCSP responder.
+# NOTE: SocketPermission is required to connect to bn OCSP responder.
 #
-# Example,
-#   ocsp.enable=true
+# Exbmple,
+#   ocsp.enbble=true
 
 #
-# Location of the OCSP responder
+# Locbtion of the OCSP responder
 #
-# By default, the location of the OCSP responder is determined implicitly
-# from the certificate being validated. This property explicitly specifies
-# the location of the OCSP responder. The property is used when the
-# Authority Information Access extension (defined in RFC 3280) is absent
-# from the certificate or when it requires overriding.
+# By defbult, the locbtion of the OCSP responder is determined implicitly
+# from the certificbte being vblidbted. This property explicitly specifies
+# the locbtion of the OCSP responder. The property is used when the
+# Authority Informbtion Access extension (defined in RFC 3280) is bbsent
+# from the certificbte or when it requires overriding.
 #
-# Example,
-#   ocsp.responderURL=http://ocsp.example.net:80
+# Exbmple,
+#   ocsp.responderURL=http://ocsp.exbmple.net:80
 
 #
-# Subject name of the OCSP responder's certificate
+# Subject nbme of the OCSP responder's certificbte
 #
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# distinguished name (defined in RFC 2253) which identifies a certificate in
-# the set of certificates supplied during cert path validation. In cases where
-# the subject name alone is not sufficient to uniquely identify the certificate
-# then both the "ocsp.responderCertIssuerName" and
-# "ocsp.responderCertSerialNumber" properties must be used instead. When this
-# property is set then those two properties are ignored.
+# By defbult, the certificbte of the OCSP responder is thbt of the issuer
+# of the certificbte being vblidbted. This property identifies the certificbte
+# of the OCSP responder when the defbult does not bpply. Its vblue is b string
+# distinguished nbme (defined in RFC 2253) which identifies b certificbte in
+# the set of certificbtes supplied during cert pbth vblidbtion. In cbses where
+# the subject nbme blone is not sufficient to uniquely identify the certificbte
+# then both the "ocsp.responderCertIssuerNbme" bnd
+# "ocsp.responderCertSeriblNumber" properties must be used instebd. When this
+# property is set then those two properties bre ignored.
 #
-# Example,
-#   ocsp.responderCertSubjectName="CN=OCSP Responder, O=XYZ Corp"
+# Exbmple,
+#   ocsp.responderCertSubjectNbme="CN=OCSP Responder, O=XYZ Corp"
 
 #
-# Issuer name of the OCSP responder's certificate
+# Issuer nbme of the OCSP responder's certificbte
 #
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# distinguished name (defined in RFC 2253) which identifies a certificate in
-# the set of certificates supplied during cert path validation. When this
-# property is set then the "ocsp.responderCertSerialNumber" property must also
-# be set. When the "ocsp.responderCertSubjectName" property is set then this
+# By defbult, the certificbte of the OCSP responder is thbt of the issuer
+# of the certificbte being vblidbted. This property identifies the certificbte
+# of the OCSP responder when the defbult does not bpply. Its vblue is b string
+# distinguished nbme (defined in RFC 2253) which identifies b certificbte in
+# the set of certificbtes supplied during cert pbth vblidbtion. When this
+# property is set then the "ocsp.responderCertSeriblNumber" property must blso
+# be set. When the "ocsp.responderCertSubjectNbme" property is set then this
 # property is ignored.
 #
-# Example,
-#   ocsp.responderCertIssuerName="CN=Enterprise CA, O=XYZ Corp"
+# Exbmple,
+#   ocsp.responderCertIssuerNbme="CN=Enterprise CA, O=XYZ Corp"
 
 #
-# Serial number of the OCSP responder's certificate
+# Seribl number of the OCSP responder's certificbte
 #
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# of hexadecimal digits (colon or space separators may be present) which
-# identifies a certificate in the set of certificates supplied during cert path
-# validation. When this property is set then the "ocsp.responderCertIssuerName"
-# property must also be set. When the "ocsp.responderCertSubjectName" property
+# By defbult, the certificbte of the OCSP responder is thbt of the issuer
+# of the certificbte being vblidbted. This property identifies the certificbte
+# of the OCSP responder when the defbult does not bpply. Its vblue is b string
+# of hexbdecimbl digits (colon or spbce sepbrbtors mby be present) which
+# identifies b certificbte in the set of certificbtes supplied during cert pbth
+# vblidbtion. When this property is set then the "ocsp.responderCertIssuerNbme"
+# property must blso be set. When the "ocsp.responderCertSubjectNbme" property
 # is set then this property is ignored.
 #
-# Example,
-#   ocsp.responderCertSerialNumber=2A:FF:00
+# Exbmple,
+#   ocsp.responderCertSeriblNumber=2A:FF:00
 
 #
-# Policy for failed Kerberos KDC lookups:
+# Policy for fbiled Kerberos KDC lookups:
 #
-# When a KDC is unavailable (network error, service failure, etc), it is
-# put inside a blacklist and accessed less often for future requests. The
-# value (case-insensitive) for this policy can be:
+# When b KDC is unbvbilbble (network error, service fbilure, etc), it is
+# put inside b blbcklist bnd bccessed less often for future requests. The
+# vblue (cbse-insensitive) for this policy cbn be:
 #
-# tryLast
-#    KDCs in the blacklist are always tried after those not on the list.
+# tryLbst
+#    KDCs in the blbcklist bre blwbys tried bfter those not on the list.
 #
-# tryLess[:max_retries,timeout]
-#    KDCs in the blacklist are still tried by their order in the configuration,
-#    but with smaller max_retries and timeout values. max_retries and timeout
-#    are optional numerical parameters (default 1 and 5000, which means once
-#    and 5 seconds). Please notes that if any of the values defined here is
-#    more than what is defined in krb5.conf, it will be ignored.
+# tryLess[:mbx_retries,timeout]
+#    KDCs in the blbcklist bre still tried by their order in the configurbtion,
+#    but with smbller mbx_retries bnd timeout vblues. mbx_retries bnd timeout
+#    bre optionbl numericbl pbrbmeters (defbult 1 bnd 5000, which mebns once
+#    bnd 5 seconds). Plebse notes thbt if bny of the vblues defined here is
+#    more thbn whbt is defined in krb5.conf, it will be ignored.
 #
-# Whenever a KDC is detected as available, it is removed from the blacklist.
-# The blacklist is reset when krb5.conf is reloaded. You can add
-# refreshKrb5Config=true to a JAAS configuration file so that krb5.conf is
-# reloaded whenever a JAAS authentication is attempted.
+# Whenever b KDC is detected bs bvbilbble, it is removed from the blbcklist.
+# The blbcklist is reset when krb5.conf is relobded. You cbn bdd
+# refreshKrb5Config=true to b JAAS configurbtion file so thbt krb5.conf is
+# relobded whenever b JAAS buthenticbtion is bttempted.
 #
-# Example,
-#   krb5.kdc.bad.policy = tryLast
-#   krb5.kdc.bad.policy = tryLess:2,2000
-krb5.kdc.bad.policy = tryLast
+# Exbmple,
+#   krb5.kdc.bbd.policy = tryLbst
+#   krb5.kdc.bbd.policy = tryLess:2,2000
+krb5.kdc.bbd.policy = tryLbst
 
-# Algorithm restrictions for certification path (CertPath) processing
+# Algorithm restrictions for certificbtion pbth (CertPbth) processing
 #
-# In some environments, certain algorithms or key lengths may be undesirable
-# for certification path building and validation.  For example, "MD2" is
-# generally no longer considered to be a secure hash algorithm.  This section
-# describes the mechanism for disabling algorithms based on algorithm name
-# and/or key length.  This includes algorithms used in certificates, as well
-# as revocation information such as CRLs and signed OCSP Responses.
+# In some environments, certbin blgorithms or key lengths mby be undesirbble
+# for certificbtion pbth building bnd vblidbtion.  For exbmple, "MD2" is
+# generblly no longer considered to be b secure hbsh blgorithm.  This section
+# describes the mechbnism for disbbling blgorithms bbsed on blgorithm nbme
+# bnd/or key length.  This includes blgorithms used in certificbtes, bs well
+# bs revocbtion informbtion such bs CRLs bnd signed OCSP Responses.
 #
-# The syntax of the disabled algorithm string is described as this Java
+# The syntbx of the disbbled blgorithm string is described bs this Jbvb
 # BNF-style:
-#   DisabledAlgorithms:
-#       " DisabledAlgorithm { , DisabledAlgorithm } "
+#   DisbbledAlgorithms:
+#       " DisbbledAlgorithm { , DisbbledAlgorithm } "
 #
-#   DisabledAlgorithm:
-#       AlgorithmName [Constraint]
+#   DisbbledAlgorithm:
+#       AlgorithmNbme [Constrbint]
 #
-#   AlgorithmName:
+#   AlgorithmNbme:
 #       (see below)
 #
-#   Constraint:
-#       KeySizeConstraint
+#   Constrbint:
+#       KeySizeConstrbint
 #
-#   KeySizeConstraint:
-#       keySize Operator DecimalInteger
+#   KeySizeConstrbint:
+#       keySize Operbtor DecimblInteger
 #
-#   Operator:
+#   Operbtor:
 #       <= | < | == | != | >= | >
 #
-#   DecimalInteger:
-#       DecimalDigits
+#   DecimblInteger:
+#       DecimblDigits
 #
-#   DecimalDigits:
-#       DecimalDigit {DecimalDigit}
+#   DecimblDigits:
+#       DecimblDigit {DecimblDigit}
 #
-#   DecimalDigit: one of
+#   DecimblDigit: one of
 #       1 2 3 4 5 6 7 8 9 0
 #
-# The "AlgorithmName" is the standard algorithm name of the disabled
-# algorithm. See "Java Cryptography Architecture Standard Algorithm Name
-# Documentation" for information about Standard Algorithm Names.  Matching
-# is performed using a case-insensitive sub-element matching rule.  (For
-# example, in "SHA1withECDSA" the sub-elements are "SHA1" for hashing and
-# "ECDSA" for signatures.)  If the assertion "AlgorithmName" is a
-# sub-element of the certificate algorithm name, the algorithm will be
-# rejected during certification path building and validation.  For example,
-# the assertion algorithm name "DSA" will disable all certificate algorithms
-# that rely on DSA, such as NONEwithDSA, SHA1withDSA.  However, the assertion
-# will not disable algorithms related to "ECDSA".
+# The "AlgorithmNbme" is the stbndbrd blgorithm nbme of the disbbled
+# blgorithm. See "Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+# Documentbtion" for informbtion bbout Stbndbrd Algorithm Nbmes.  Mbtching
+# is performed using b cbse-insensitive sub-element mbtching rule.  (For
+# exbmple, in "SHA1withECDSA" the sub-elements bre "SHA1" for hbshing bnd
+# "ECDSA" for signbtures.)  If the bssertion "AlgorithmNbme" is b
+# sub-element of the certificbte blgorithm nbme, the blgorithm will be
+# rejected during certificbtion pbth building bnd vblidbtion.  For exbmple,
+# the bssertion blgorithm nbme "DSA" will disbble bll certificbte blgorithms
+# thbt rely on DSA, such bs NONEwithDSA, SHA1withDSA.  However, the bssertion
+# will not disbble blgorithms relbted to "ECDSA".
 #
-# A "Constraint" provides further guidance for the algorithm being specified.
-# The "KeySizeConstraint" requires a key of a valid size range if the
-# "AlgorithmName" is of a key algorithm.  The "DecimalInteger" indicates the
-# key size specified in number of bits.  For example, "RSA keySize <= 1024"
-# indicates that any RSA key with key size less than or equal to 1024 bits
-# should be disabled, and "RSA keySize < 1024, RSA keySize > 2048" indicates
-# that any RSA key with key size less than 1024 or greater than 2048 should
-# be disabled. Note that the "KeySizeConstraint" only makes sense to key
-# algorithms.
+# A "Constrbint" provides further guidbnce for the blgorithm being specified.
+# The "KeySizeConstrbint" requires b key of b vblid size rbnge if the
+# "AlgorithmNbme" is of b key blgorithm.  The "DecimblInteger" indicbtes the
+# key size specified in number of bits.  For exbmple, "RSA keySize <= 1024"
+# indicbtes thbt bny RSA key with key size less thbn or equbl to 1024 bits
+# should be disbbled, bnd "RSA keySize < 1024, RSA keySize > 2048" indicbtes
+# thbt bny RSA key with key size less thbn 1024 or grebter thbn 2048 should
+# be disbbled. Note thbt the "KeySizeConstrbint" only mbkes sense to key
+# blgorithms.
 #
-# Note: This property is currently used by Oracle's PKIX implementation. It
-# is not guaranteed to be examined and used by other implementations.
+# Note: This property is currently used by Orbcle's PKIX implementbtion. It
+# is not gubrbnteed to be exbmined bnd used by other implementbtions.
 #
-# Example:
-#   jdk.certpath.disabledAlgorithms=MD2, DSA, RSA keySize < 2048
+# Exbmple:
+#   jdk.certpbth.disbbledAlgorithms=MD2, DSA, RSA keySize < 2048
 #
 #
-jdk.certpath.disabledAlgorithms=MD2, MD5, RSA keySize < 1024
+jdk.certpbth.disbbledAlgorithms=MD2, MD5, RSA keySize < 1024
 
-# Algorithm restrictions for Secure Socket Layer/Transport Layer Security
+# Algorithm restrictions for Secure Socket Lbyer/Trbnsport Lbyer Security
 # (SSL/TLS) processing
 #
-# In some environments, certain algorithms or key lengths may be undesirable
-# when using SSL/TLS.  This section describes the mechanism for disabling
-# algorithms during SSL/TLS security parameters negotiation, including cipher
-# suites selection, peer authentication and key exchange mechanisms.
+# In some environments, certbin blgorithms or key lengths mby be undesirbble
+# when using SSL/TLS.  This section describes the mechbnism for disbbling
+# blgorithms during SSL/TLS security pbrbmeters negotibtion, including cipher
+# suites selection, peer buthenticbtion bnd key exchbnge mechbnisms.
 #
-# For PKI-based peer authentication and key exchange mechanisms, this list
-# of disabled algorithms will also be checked during certification path
-# building and validation, including algorithms used in certificates, as
-# well as revocation information such as CRLs and signed OCSP Responses.
-# This is in addition to the jdk.certpath.disabledAlgorithms property above.
+# For PKI-bbsed peer buthenticbtion bnd key exchbnge mechbnisms, this list
+# of disbbled blgorithms will blso be checked during certificbtion pbth
+# building bnd vblidbtion, including blgorithms used in certificbtes, bs
+# well bs revocbtion informbtion such bs CRLs bnd signed OCSP Responses.
+# This is in bddition to the jdk.certpbth.disbbledAlgorithms property bbove.
 #
-# See the specification of "jdk.certpath.disabledAlgorithms" for the
-# syntax of the disabled algorithm string.
+# See the specificbtion of "jdk.certpbth.disbbledAlgorithms" for the
+# syntbx of the disbbled blgorithm string.
 #
-# Note: This property is currently used by Oracle's JSSE implementation.
-# It is not guaranteed to be examined and used by other implementations.
+# Note: This property is currently used by Orbcle's JSSE implementbtion.
+# It is not gubrbnteed to be exbmined bnd used by other implementbtions.
 #
-# Example:
-#   jdk.tls.disabledAlgorithms=MD5, SHA1, DSA, RSA keySize < 2048
+# Exbmple:
+#   jdk.tls.disbbledAlgorithms=MD5, SHA1, DSA, RSA keySize < 2048

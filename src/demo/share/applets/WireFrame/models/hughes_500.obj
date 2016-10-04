@@ -680,11 +680,11 @@ v 0.960000 5.730000 3.300000
 v 0.000000 2.760000 3.060000
 # 675 vertices
 
-# 0 vertex parms
+# 0 vertex pbrms
 
 # 0 texture vertices
 
-# 0 normals
+# 0 normbls
 
 g TURBINE
 f 1 6 7

@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
 
-import sun.misc.JavaLangAccess;
+import sun.misc.JbvbLbngAccess;
 
-public final class AnnotationSupport {
-    private static final JavaLangAccess LANG_ACCESS = sun.misc.SharedSecrets.getJavaLangAccess();
+public finbl clbss AnnotbtionSupport {
+    privbte stbtic finbl JbvbLbngAccess LANG_ACCESS = sun.misc.ShbredSecrets.getJbvbLbngAccess();
 
     /**
-     * Finds and returns all annotations in {@code annotations} matching
-     * the given {@code annoClass}.
+     * Finds bnd returns bll bnnotbtions in {@code bnnotbtions} mbtching
+     * the given {@code bnnoClbss}.
      *
-     * Apart from annotations directly present in {@code annotations} this
-     * method searches for annotations inside containers i.e. indirectly
-     * present annotations.
+     * Apbrt from bnnotbtions directly present in {@code bnnotbtions} this
+     * method sebrches for bnnotbtions inside contbiners i.e. indirectly
+     * present bnnotbtions.
      *
-     * The order of the elements in the array returned depends on the iteration
-     * order of the provided map. Specifically, the directly present annotations
-     * come before the indirectly present annotations if and only if the
-     * directly present annotations come before the indirectly present
-     * annotations in the map.
+     * The order of the elements in the brrby returned depends on the iterbtion
+     * order of the provided mbp. Specificblly, the directly present bnnotbtions
+     * come before the indirectly present bnnotbtions if bnd only if the
+     * directly present bnnotbtions come before the indirectly present
+     * bnnotbtions in the mbp.
      *
-     * @param annotations the {@code Map} in which to search for annotations
-     * @param annoClass the type of annotation to search for
+     * @pbrbm bnnotbtions the {@code Mbp} in which to sebrch for bnnotbtions
+     * @pbrbm bnnoClbss the type of bnnotbtion to sebrch for
      *
-     * @return an array of instances of {@code annoClass} or an empty
-     *         array if none were found
+     * @return bn brrby of instbnces of {@code bnnoClbss} or bn empty
+     *         brrby if none were found
      */
-    public static <A extends Annotation> A[] getDirectlyAndIndirectlyPresent(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
-        List<A> result = new ArrayList<A>();
+    public stbtic <A extends Annotbtion> A[] getDirectlyAndIndirectlyPresent(
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
+        List<A> result = new ArrbyList<A>();
 
-        @SuppressWarnings("unchecked")
-        A direct = (A) annotations.get(annoClass);
+        @SuppressWbrnings("unchecked")
+        A direct = (A) bnnotbtions.get(bnnoClbss);
         if (direct != null)
-            result.add(direct);
+            result.bdd(direct);
 
-        A[] indirect = getIndirectlyPresent(annotations, annoClass);
+        A[] indirect = getIndirectlyPresent(bnnotbtions, bnnoClbss);
         if (indirect != null && indirect.length != 0) {
-            boolean indirectFirst = direct == null ||
-                                    containerBeforeContainee(annotations, annoClass);
+            boolebn indirectFirst = direct == null ||
+                                    contbinerBeforeContbinee(bnnotbtions, bnnoClbss);
 
-            result.addAll((indirectFirst ? 0 : 1), Arrays.asList(indirect));
+            result.bddAll((indirectFirst ? 0 : 1), Arrbys.bsList(indirect));
         }
 
-        @SuppressWarnings("unchecked")
-        A[] arr = (A[]) Array.newInstance(annoClass, result.size());
-        return result.toArray(arr);
+        @SuppressWbrnings("unchecked")
+        A[] brr = (A[]) Arrby.newInstbnce(bnnoClbss, result.size());
+        return result.toArrby(brr);
     }
 
     /**
-     * Finds and returns all annotations matching the given {@code annoClass}
-     * indirectly present in {@code annotations}.
+     * Finds bnd returns bll bnnotbtions mbtching the given {@code bnnoClbss}
+     * indirectly present in {@code bnnotbtions}.
      *
-     * @param annotations annotations to search indexed by their types
-     * @param annoClass the type of annotation to search for
+     * @pbrbm bnnotbtions bnnotbtions to sebrch indexed by their types
+     * @pbrbm bnnoClbss the type of bnnotbtion to sebrch for
      *
-     * @return an array of instances of {@code annoClass} or an empty array if no
-     *         indirectly present annotations were found
+     * @return bn brrby of instbnces of {@code bnnoClbss} or bn empty brrby if no
+     *         indirectly present bnnotbtions were found
      */
-    private static <A extends Annotation> A[] getIndirectlyPresent(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
+    privbte stbtic <A extends Annotbtion> A[] getIndirectlyPresent(
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
 
-        Repeatable repeatable = annoClass.getDeclaredAnnotation(Repeatable.class);
-        if (repeatable == null)
-            return null;  // Not repeatable -> no indirectly present annotations
+        Repebtbble repebtbble = bnnoClbss.getDeclbredAnnotbtion(Repebtbble.clbss);
+        if (repebtbble == null)
+            return null;  // Not repebtbble -> no indirectly present bnnotbtions
 
-        Class<? extends Annotation> containerClass = repeatable.value();
+        Clbss<? extends Annotbtion> contbinerClbss = repebtbble.vblue();
 
-        Annotation container = annotations.get(containerClass);
-        if (container == null)
+        Annotbtion contbiner = bnnotbtions.get(contbinerClbss);
+        if (contbiner == null)
             return null;
 
-        // Unpack container
-        A[] valueArray = getValueArray(container);
-        checkTypes(valueArray, container, annoClass);
+        // Unpbck contbiner
+        A[] vblueArrby = getVblueArrby(contbiner);
+        checkTypes(vblueArrby, contbiner, bnnoClbss);
 
-        return valueArray;
+        return vblueArrby;
     }
 
 
     /**
-     * Figures out if conatiner class comes before containee class among the
-     * keys of the given map.
+     * Figures out if conbtiner clbss comes before contbinee clbss bmong the
+     * keys of the given mbp.
      *
-     * @return true if container class is found before containee class when
-     *         iterating over annotations.keySet().
+     * @return true if contbiner clbss is found before contbinee clbss when
+     *         iterbting over bnnotbtions.keySet().
      */
-    private static <A extends Annotation> boolean containerBeforeContainee(
-            Map<Class<? extends Annotation>, Annotation> annotations,
-            Class<A> annoClass) {
+    privbte stbtic <A extends Annotbtion> boolebn contbinerBeforeContbinee(
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
 
-        Class<? extends Annotation> containerClass =
-                annoClass.getDeclaredAnnotation(Repeatable.class).value();
+        Clbss<? extends Annotbtion> contbinerClbss =
+                bnnoClbss.getDeclbredAnnotbtion(Repebtbble.clbss).vblue();
 
-        for (Class<? extends Annotation> c : annotations.keySet()) {
-            if (c == containerClass) return true;
-            if (c == annoClass) return false;
+        for (Clbss<? extends Annotbtion> c : bnnotbtions.keySet()) {
+            if (c == contbinerClbss) return true;
+            if (c == bnnoClbss) return fblse;
         }
 
-        // Neither containee nor container present
-        return false;
+        // Neither contbinee nor contbiner present
+        return fblse;
     }
 
 
     /**
-     * Finds and returns all associated annotations matching the given class.
+     * Finds bnd returns bll bssocibted bnnotbtions mbtching the given clbss.
      *
-     * The order of the elements in the array returned depends on the iteration
-     * order of the provided maps. Specifically, the directly present annotations
-     * come before the indirectly present annotations if and only if the
-     * directly present annotations come before the indirectly present
-     * annotations in the relevant map.
+     * The order of the elements in the brrby returned depends on the iterbtion
+     * order of the provided mbps. Specificblly, the directly present bnnotbtions
+     * come before the indirectly present bnnotbtions if bnd only if the
+     * directly present bnnotbtions come before the indirectly present
+     * bnnotbtions in the relevbnt mbp.
      *
-     * @param declaredAnnotations the declared annotations indexed by their types
-     * @param decl the class declaration on which to search for annotations
-     * @param annoClass the type of annotation to search for
+     * @pbrbm declbredAnnotbtions the declbred bnnotbtions indexed by their types
+     * @pbrbm decl the clbss declbrbtion on which to sebrch for bnnotbtions
+     * @pbrbm bnnoClbss the type of bnnotbtion to sebrch for
      *
-     * @return an array of instances of {@code annoClass} or an empty array if none were found.
+     * @return bn brrby of instbnces of {@code bnnoClbss} or bn empty brrby if none were found.
      */
-    public static <A extends Annotation> A[] getAssociatedAnnotations(
-            Map<Class<? extends Annotation>, Annotation> declaredAnnotations,
-            Class<?> decl,
-            Class<A> annoClass) {
+    public stbtic <A extends Annotbtion> A[] getAssocibtedAnnotbtions(
+            Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions,
+            Clbss<?> decl,
+            Clbss<A> bnnoClbss) {
         Objects.requireNonNull(decl);
 
-        // Search declared
-        A[] result = getDirectlyAndIndirectlyPresent(declaredAnnotations, annoClass);
+        // Sebrch declbred
+        A[] result = getDirectlyAndIndirectlyPresent(declbredAnnotbtions, bnnoClbss);
 
-        // Search inherited
-        if(AnnotationType.getInstance(annoClass).isInherited()) {
-            Class<?> superDecl = decl.getSuperclass();
+        // Sebrch inherited
+        if(AnnotbtionType.getInstbnce(bnnoClbss).isInherited()) {
+            Clbss<?> superDecl = decl.getSuperclbss();
             while (result.length == 0 && superDecl != null) {
-                result = getDirectlyAndIndirectlyPresent(LANG_ACCESS.getDeclaredAnnotationMap(superDecl), annoClass);
-                superDecl = superDecl.getSuperclass();
+                result = getDirectlyAndIndirectlyPresent(LANG_ACCESS.getDeclbredAnnotbtionMbp(superDecl), bnnoClbss);
+                superDecl = superDecl.getSuperclbss();
             }
         }
 
@@ -175,64 +175,64 @@ public final class AnnotationSupport {
     }
 
 
-    /* Reflectively invoke the values-method of the given annotation
-     * (container), cast it to an array of annotations and return the result.
+    /* Reflectively invoke the vblues-method of the given bnnotbtion
+     * (contbiner), cbst it to bn brrby of bnnotbtions bnd return the result.
      */
-    private static <A extends Annotation> A[] getValueArray(Annotation container) {
+    privbte stbtic <A extends Annotbtion> A[] getVblueArrby(Annotbtion contbiner) {
         try {
-            // According to JLS the container must have an array-valued value
-            // method. Get the AnnotationType, get the "value" method and invoke
+            // According to JLS the contbiner must hbve bn brrby-vblued vblue
+            // method. Get the AnnotbtionType, get the "vblue" method bnd invoke
             // it to get the content.
 
-            Class<? extends Annotation> containerClass = container.annotationType();
-            AnnotationType annoType = AnnotationType.getInstance(containerClass);
-            if (annoType == null)
-                throw invalidContainerException(container, null);
+            Clbss<? extends Annotbtion> contbinerClbss = contbiner.bnnotbtionType();
+            AnnotbtionType bnnoType = AnnotbtionType.getInstbnce(contbinerClbss);
+            if (bnnoType == null)
+                throw invblidContbinerException(contbiner, null);
 
-            Method m = annoType.members().get("value");
+            Method m = bnnoType.members().get("vblue");
             if (m == null)
-                throw invalidContainerException(container, null);
+                throw invblidContbinerException(contbiner, null);
 
             m.setAccessible(true);
 
-            // This will erase to (Annotation[]) but we do a runtime cast on the
-            // return-value in the method that call this method.
-            @SuppressWarnings("unchecked")
-            A[] values = (A[]) m.invoke(container);
+            // This will erbse to (Annotbtion[]) but we do b runtime cbst on the
+            // return-vblue in the method thbt cbll this method.
+            @SuppressWbrnings("unchecked")
+            A[] vblues = (A[]) m.invoke(contbiner);
 
-            return values;
+            return vblues;
 
-        } catch (IllegalAccessException    | // couldn't loosen security
-                 IllegalArgumentException  | // parameters doesn't match
-                 InvocationTargetException | // the value method threw an exception
-                 ClassCastException e) {
+        } cbtch (IllegblAccessException    | // couldn't loosen security
+                 IllegblArgumentException  | // pbrbmeters doesn't mbtch
+                 InvocbtionTbrgetException | // the vblue method threw bn exception
+                 ClbssCbstException e) {
 
-            throw invalidContainerException(container, e);
+            throw invblidContbinerException(contbiner, e);
 
         }
     }
 
 
-    private static AnnotationFormatError invalidContainerException(Annotation anno,
-                                                                   Throwable cause) {
-        return new AnnotationFormatError(
-                anno + " is an invalid container for repeating annotations",
-                cause);
+    privbte stbtic AnnotbtionFormbtError invblidContbinerException(Annotbtion bnno,
+                                                                   Throwbble cbuse) {
+        return new AnnotbtionFormbtError(
+                bnno + " is bn invblid contbiner for repebting bnnotbtions",
+                cbuse);
     }
 
 
-    /* Sanity check type of all the annotation instances of type {@code annoClass}
-     * from {@code container}.
+    /* Sbnity check type of bll the bnnotbtion instbnces of type {@code bnnoClbss}
+     * from {@code contbiner}.
      */
-    private static <A extends Annotation> void checkTypes(A[] annotations,
-                                                          Annotation container,
-                                                          Class<A> annoClass) {
-        for (A a : annotations) {
-            if (!annoClass.isInstance(a)) {
-                throw new AnnotationFormatError(
-                        String.format("%s is an invalid container for " +
-                                      "repeating annotations of type: %s",
-                                      container, annoClass));
+    privbte stbtic <A extends Annotbtion> void checkTypes(A[] bnnotbtions,
+                                                          Annotbtion contbiner,
+                                                          Clbss<A> bnnoClbss) {
+        for (A b : bnnotbtions) {
+            if (!bnnoClbss.isInstbnce(b)) {
+                throw new AnnotbtionFormbtError(
+                        String.formbt("%s is bn invblid contbiner for " +
+                                      "repebting bnnotbtions of type: %s",
+                                      contbiner, bnnoClbss));
             }
         }
     }

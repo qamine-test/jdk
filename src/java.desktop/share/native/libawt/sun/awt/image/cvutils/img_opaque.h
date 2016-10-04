@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Alpha category of the
- * macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Alphb cbtegory of the
+ * mbcros used by the generic scbleloop function.
  *
- * This implementation of the Alpha macros will ignore all alpha
- * information.  It also provides an empty expansion of the IfAlpha
- * macro which keeps the other macro sets in the image package from
- * wasting time and space on code to fetch or store the alpha
- * information.  This file is only applicable when the incoming
- * data is known to be entirely opaque and there is not yet any
- * image mask or alpha buffer associated with the output data.
+ * This implementbtion of the Alphb mbcros will ignore bll blphb
+ * informbtion.  It blso provides bn empty expbnsion of the IfAlphb
+ * mbcro which keeps the other mbcro sets in the imbge pbckbge from
+ * wbsting time bnd spbce on code to fetch or store the blphb
+ * informbtion.  This file is only bpplicbble when the incoming
+ * dbtb is known to be entirely opbque bnd there is not yet bny
+ * imbge mbsk or blphb buffer bssocibted with the output dbtb.
  */
 
 /*
- * The macro IfAlpha is used by the varous pixel conversion macros
- * to conditionally compile code that is only needed if alpha values
- * are going to be used.
+ * The mbcro IfAlphb is used by the vbrous pixel conversion mbcros
+ * to conditionblly compile code thbt is only needed if blphb vblues
+ * bre going to be used.
  */
-#define IfAlpha(statements)     /* Omit alpha handling code */
+#define IfAlphb(stbtements)     /* Omit blphb hbndling code */
 
-#define DeclareAlphaVars
+#define DeclbreAlphbVbrs
 
-#define InitAlpha(cvdata, dstY, dstX1, dstX2)                   \
+#define InitAlphb(cvdbtb, dstY, dstX1, dstX2)                   \
     do {} while (0)
 
-#define StartAlphaRow(cvdata, DSTX1, DSTY)                      \
+#define StbrtAlphbRow(cvdbtb, DSTX1, DSTY)                      \
     do {} while (0)
 
-#define ApplyAlpha(cvdata, dstX, dstY, alpha)                   \
+#define ApplyAlphb(cvdbtb, dstX, dstY, blphb)                   \
     do {} while (0)
 
-#define EndMaskLine()                                           \
+#define EndMbskLine()                                           \
     do {} while (0)

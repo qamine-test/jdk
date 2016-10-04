@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.io.IOError;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
+import jbvb.io.IOError;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Utility methods for symbolic link support on Windows Vista and newer.
+ * Utility methods for symbolic link support on Windows Vistb bnd newer.
  */
 
-class WindowsLinkSupport {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+clbss WindowsLinkSupport {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    private WindowsLinkSupport() {
+    privbte WindowsLinkSupport() {
     }
 
     /**
-     * Returns the target of a symbolic link
+     * Returns the tbrget of b symbolic link
      */
-    static String readLink(WindowsPath path) throws IOException {
-        long handle = 0L;
+    stbtic String rebdLink(WindowsPbth pbth) throws IOException {
+        long hbndle = 0L;
         try {
-            handle = path.openForReadAttributeAccess(false); // don't follow links
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
+            hbndle = pbth.openForRebdAttributeAccess(fblse); // don't follow links
+        } cbtch (WindowsException x) {
+            x.rethrowAsIOException(pbth);
         }
         try {
-            return readLinkImpl(handle);
-        } finally {
-            CloseHandle(handle);
+            return rebdLinkImpl(hbndle);
+        } finblly {
+            CloseHbndle(hbndle);
         }
     }
 
     /**
-     * Returns the final path (all symbolic links resolved) or null if this
-     * operation is not supported.
+     * Returns the finbl pbth (bll symbolic links resolved) or null if this
+     * operbtion is not supported.
      */
-    static String getFinalPath(WindowsPath input) throws IOException {
+    stbtic String getFinblPbth(WindowsPbth input) throws IOException {
         long h = 0;
         try {
-            h = input.openForReadAttributeAccess(true);
-        } catch (WindowsException x) {
+            h = input.openForRebdAttributeAccess(true);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(input);
         }
         try {
-            return stripPrefix(GetFinalPathNameByHandle(h));
-        } catch (WindowsException x) {
+            return stripPrefix(GetFinblPbthNbmeByHbndle(h));
+        } cbtch (WindowsException x) {
             // ERROR_INVALID_LEVEL is the error returned when not supported
-            // (a sym link to file on FAT32 or Samba server for example)
-            if (x.lastError() != ERROR_INVALID_LEVEL)
+            // (b sym link to file on FAT32 or Sbmbb server for exbmple)
+            if (x.lbstError() != ERROR_INVALID_LEVEL)
                 x.rethrowAsIOException(input);
-        } finally {
-            CloseHandle(h);
+        } finblly {
+            CloseHbndle(h);
         }
         return null;
     }
 
     /**
-     * Returns the final path of a given path as a String. This should be used
-     * prior to calling Win32 system calls that do not follow links.
+     * Returns the finbl pbth of b given pbth bs b String. This should be used
+     * prior to cblling Win32 system cblls thbt do not follow links.
      */
-    static String getFinalPath(WindowsPath input, boolean followLinks)
+    stbtic String getFinblPbth(WindowsPbth input, boolebn followLinks)
         throws IOException
     {
         WindowsFileSystem fs = input.getFileSystem();
         try {
-            // if not following links then don't need final path
+            // if not following links then don't need finbl pbth
             if (!followLinks || !fs.supportsLinks())
-                return input.getPathForWin32Calls();
+                return input.getPbthForWin32Cblls();
 
-            // if file is not a sym link then don't need final path
-            if (!WindowsFileAttributes.get(input, false).isSymbolicLink()) {
-                return input.getPathForWin32Calls();
+            // if file is not b sym link then don't need finbl pbth
+            if (!WindowsFileAttributes.get(input, fblse).isSymbolicLink()) {
+                return input.getPbthForWin32Cblls();
             }
-        } catch (WindowsException x) {
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(input);
         }
 
-        // The file is a symbolic link so attempt to get the final path
-        String result = getFinalPath(input);
+        // The file is b symbolic link so bttempt to get the finbl pbth
+        String result = getFinblPbth(input);
         if (result != null)
             return result;
 
-        // Fallback: read target of link, resolve against parent, and repeat
-        // until file is not a link.
-        WindowsPath target = input;
+        // Fbllbbck: rebd tbrget of link, resolve bgbinst pbrent, bnd repebt
+        // until file is not b link.
+        WindowsPbth tbrget = input;
         int linkCount = 0;
         do {
             try {
-                WindowsFileAttributes attrs =
-                    WindowsFileAttributes.get(target, false);
-                // non a link so we are done
-                if (!attrs.isSymbolicLink()) {
-                    return target.getPathForWin32Calls();
+                WindowsFileAttributes bttrs =
+                    WindowsFileAttributes.get(tbrget, fblse);
+                // non b link so we bre done
+                if (!bttrs.isSymbolicLink()) {
+                    return tbrget.getPbthForWin32Cblls();
                 }
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(target);
+            } cbtch (WindowsException x) {
+                x.rethrowAsIOException(tbrget);
             }
-            WindowsPath link = WindowsPath
-                .createFromNormalizedPath(fs, readLink(target));
-            WindowsPath parent = target.getParent();
-            if (parent == null) {
-                // no parent so use parent of absolute path
-                final WindowsPath t = target;
-                target = AccessController
-                    .doPrivileged(new PrivilegedAction<WindowsPath>() {
+            WindowsPbth link = WindowsPbth
+                .crebteFromNormblizedPbth(fs, rebdLink(tbrget));
+            WindowsPbth pbrent = tbrget.getPbrent();
+            if (pbrent == null) {
+                // no pbrent so use pbrent of bbsolute pbth
+                finbl WindowsPbth t = tbrget;
+                tbrget = AccessController
+                    .doPrivileged(new PrivilegedAction<WindowsPbth>() {
                         @Override
-                        public WindowsPath run() {
-                            return t.toAbsolutePath();
+                        public WindowsPbth run() {
+                            return t.toAbsolutePbth();
                         }});
-                parent = target.getParent();
+                pbrent = tbrget.getPbrent();
             }
-            target = parent.resolve(link);
+            tbrget = pbrent.resolve(link);
 
         } while (++linkCount < 32);
 
-        throw new FileSystemException(input.getPathForExceptionMessage(), null,
-            "Too many links");
+        throw new FileSystemException(input.getPbthForExceptionMessbge(), null,
+            "Too mbny links");
     }
 
     /**
-     * Returns the actual path of a file, optionally resolving all symbolic
+     * Returns the bctubl pbth of b file, optionblly resolving bll symbolic
      * links.
      */
-    static String getRealPath(WindowsPath input, boolean resolveLinks)
+    stbtic String getReblPbth(WindowsPbth input, boolebn resolveLinks)
         throws IOException
     {
         WindowsFileSystem fs = input.getFileSystem();
         if (resolveLinks && !fs.supportsLinks())
-            resolveLinks = false;
+            resolveLinks = fblse;
 
-        // Start with absolute path
-        String path = null;
+        // Stbrt with bbsolute pbth
+        String pbth = null;
         try {
-            path = input.toAbsolutePath().toString();
-        } catch (IOError x) {
-            throw (IOException)(x.getCause());
+            pbth = input.toAbsolutePbth().toString();
+        } cbtch (IOError x) {
+            throw (IOException)(x.getCbuse());
         }
 
-        // Collapse "." and ".."
-        if (path.indexOf('.') >= 0) {
+        // Collbpse "." bnd ".."
+        if (pbth.indexOf('.') >= 0) {
             try {
-                path = GetFullPathName(path);
-            } catch (WindowsException x) {
+                pbth = GetFullPbthNbme(pbth);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(input);
             }
         }
 
-        // string builder to build up components of path
-        StringBuilder sb = new StringBuilder(path.length());
+        // string builder to build up components of pbth
+        StringBuilder sb = new StringBuilder(pbth.length());
 
         // Copy root component
-        int start;
-        char c0 = path.charAt(0);
-        char c1 = path.charAt(1);
-        if ((c0 <= 'z' && c0 >= 'a' || c0 <= 'Z' && c0 >= 'A') &&
-            c1 == ':' && path.charAt(2) == '\\') {
+        int stbrt;
+        chbr c0 = pbth.chbrAt(0);
+        chbr c1 = pbth.chbrAt(1);
+        if ((c0 <= 'z' && c0 >= 'b' || c0 <= 'Z' && c0 >= 'A') &&
+            c1 == ':' && pbth.chbrAt(2) == '\\') {
             // Driver specifier
-            sb.append(Character.toUpperCase(c0));
-            sb.append(":\\");
-            start = 3;
+            sb.bppend(Chbrbcter.toUpperCbse(c0));
+            sb.bppend(":\\");
+            stbrt = 3;
         } else if (c0 == '\\' && c1 == '\\') {
-            // UNC pathname, begins with "\\\\host\\share"
-            int last = path.length() - 1;
-            int pos = path.indexOf('\\', 2);
-            // skip both server and share names
-            if (pos == -1 || (pos == last)) {
-                // The UNC does not have a share name (collapsed by GetFullPathName)
-                throw new FileSystemException(input.getPathForExceptionMessage(),
-                    null, "UNC has invalid share");
+            // UNC pbthnbme, begins with "\\\\host\\shbre"
+            int lbst = pbth.length() - 1;
+            int pos = pbth.indexOf('\\', 2);
+            // skip both server bnd shbre nbmes
+            if (pos == -1 || (pos == lbst)) {
+                // The UNC does not hbve b shbre nbme (collbpsed by GetFullPbthNbme)
+                throw new FileSystemException(input.getPbthForExceptionMessbge(),
+                    null, "UNC hbs invblid shbre");
             }
-            pos = path.indexOf('\\', pos+1);
+            pos = pbth.indexOf('\\', pos+1);
             if (pos < 0) {
-                pos = last;
-                sb.append(path).append("\\");
+                pos = lbst;
+                sb.bppend(pbth).bppend("\\");
             } else {
-                sb.append(path, 0, pos+1);
+                sb.bppend(pbth, 0, pos+1);
             }
-            start = pos + 1;
+            stbrt = pos + 1;
         } else {
-            throw new AssertionError("path type not recognized");
+            throw new AssertionError("pbth type not recognized");
         }
 
-        // if the result is only a root component then we simply check it exists
-        if (start >= path.length()) {
+        // if the result is only b root component then we simply check it exists
+        if (stbrt >= pbth.length()) {
             String result = sb.toString();
             try {
                 GetFileAttributes(result);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(path);
+            } cbtch (WindowsException x) {
+                x.rethrowAsIOException(pbth);
             }
             return result;
         }
 
-        // iterate through each component to get its actual name in the
+        // iterbte through ebch component to get its bctubl nbme in the
         // directory
-        int curr = start;
-        while (curr < path.length()) {
-            int next = path.indexOf('\\', curr);
-            int end = (next == -1) ? path.length() : next;
-            String search = sb.toString() + path.substring(curr, end);
+        int curr = stbrt;
+        while (curr < pbth.length()) {
+            int next = pbth.indexOf('\\', curr);
+            int end = (next == -1) ? pbth.length() : next;
+            String sebrch = sb.toString() + pbth.substring(curr, end);
             try {
-                FirstFile fileData = FindFirstFile(WindowsPath.addPrefixIfNeeded(search));
-                FindClose(fileData.handle());
+                FirstFile fileDbtb = FindFirstFile(WindowsPbth.bddPrefixIfNeeded(sebrch));
+                FindClose(fileDbtb.hbndle());
 
-                // if a reparse point is encountered then we must return the
-                // final path.
+                // if b repbrse point is encountered then we must return the
+                // finbl pbth.
                 if (resolveLinks &&
-                    WindowsFileAttributes.isReparsePoint(fileData.attributes()))
+                    WindowsFileAttributes.isRepbrsePoint(fileDbtb.bttributes()))
                 {
-                    String result = getFinalPath(input);
+                    String result = getFinblPbth(input);
                     if (result == null) {
-                        // Fallback to slow path, usually because there is a sym
-                        // link to a file system that doesn't support sym links.
-                        WindowsPath resolved = resolveAllLinks(
-                            WindowsPath.createFromNormalizedPath(fs, path));
-                        result = getRealPath(resolved, false);
+                        // Fbllbbck to slow pbth, usublly becbuse there is b sym
+                        // link to b file system thbt doesn't support sym links.
+                        WindowsPbth resolved = resolveAllLinks(
+                            WindowsPbth.crebteFromNormblizedPbth(fs, pbth));
+                        result = getReblPbth(resolved, fblse);
                     }
                     return result;
                 }
 
-                // add the name to the result
-                sb.append(fileData.name());
+                // bdd the nbme to the result
+                sb.bppend(fileDbtb.nbme());
                 if (next != -1) {
-                    sb.append('\\');
+                    sb.bppend('\\');
                 }
-            } catch (WindowsException e) {
-                e.rethrowAsIOException(path);
+            } cbtch (WindowsException e) {
+                e.rethrowAsIOException(pbth);
             }
             curr = end + 1;
         }
@@ -265,169 +265,169 @@ class WindowsLinkSupport {
     }
 
     /**
-     * Returns target of a symbolic link given the handle of an open file
-     * (that should be a link).
+     * Returns tbrget of b symbolic link given the hbndle of bn open file
+     * (thbt should be b link).
      */
-    private static String readLinkImpl(long handle) throws IOException {
+    privbte stbtic String rebdLinkImpl(long hbndle) throws IOException {
         int size = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(size);
         try {
             try {
-                DeviceIoControlGetReparsePoint(handle, buffer.address(), size);
-            } catch (WindowsException x) {
-                // FIXME: exception doesn't have file name
-                if (x.lastError() == ERROR_NOT_A_REPARSE_POINT)
+                DeviceIoControlGetRepbrsePoint(hbndle, buffer.bddress(), size);
+            } cbtch (WindowsException x) {
+                // FIXME: exception doesn't hbve file nbme
+                if (x.lbstError() == ERROR_NOT_A_REPARSE_POINT)
                     throw new NotLinkException(null, null, x.errorString());
                 x.rethrowAsIOException((String)null);
             }
 
             /*
              * typedef struct _REPARSE_DATA_BUFFER {
-             *     ULONG  ReparseTag;
-             *     USHORT  ReparseDataLength;
+             *     ULONG  RepbrseTbg;
+             *     USHORT  RepbrseDbtbLength;
              *     USHORT  Reserved;
              *     union {
              *         struct {
-             *             USHORT  SubstituteNameOffset;
-             *             USHORT  SubstituteNameLength;
-             *             USHORT  PrintNameOffset;
-             *             USHORT  PrintNameLength;
-             *             WCHAR  PathBuffer[1];
-             *         } SymbolicLinkReparseBuffer;
+             *             USHORT  SubstituteNbmeOffset;
+             *             USHORT  SubstituteNbmeLength;
+             *             USHORT  PrintNbmeOffset;
+             *             USHORT  PrintNbmeLength;
+             *             WCHAR  PbthBuffer[1];
+             *         } SymbolicLinkRepbrseBuffer;
              *         struct {
-             *             USHORT  SubstituteNameOffset;
-             *             USHORT  SubstituteNameLength;
-             *             USHORT  PrintNameOffset;
-             *             USHORT  PrintNameLength;
-             *             WCHAR  PathBuffer[1];
-             *         } MountPointReparseBuffer;
+             *             USHORT  SubstituteNbmeOffset;
+             *             USHORT  SubstituteNbmeLength;
+             *             USHORT  PrintNbmeOffset;
+             *             USHORT  PrintNbmeLength;
+             *             WCHAR  PbthBuffer[1];
+             *         } MountPointRepbrseBuffer;
              *         struct {
-             *             UCHAR  DataBuffer[1];
-             *         } GenericReparseBuffer;
+             *             UCHAR  DbtbBuffer[1];
+             *         } GenericRepbrseBuffer;
              *     };
              * } REPARSE_DATA_BUFFER
              */
-            final short OFFSETOF_REPARSETAG = 0;
-            final short OFFSETOF_PATHOFFSET = 8;
-            final short OFFSETOF_PATHLENGTH = 10;
-            final short OFFSETOF_PATHBUFFER = 16 + 4;   // check this
+            finbl short OFFSETOF_REPARSETAG = 0;
+            finbl short OFFSETOF_PATHOFFSET = 8;
+            finbl short OFFSETOF_PATHLENGTH = 10;
+            finbl short OFFSETOF_PATHBUFFER = 16 + 4;   // check this
 
-            int tag = (int)unsafe.getLong(buffer.address() + OFFSETOF_REPARSETAG);
-            if (tag != IO_REPARSE_TAG_SYMLINK) {
-                // FIXME: exception doesn't have file name
-                throw new NotLinkException(null, null, "Reparse point is not a symbolic link");
+            int tbg = (int)unsbfe.getLong(buffer.bddress() + OFFSETOF_REPARSETAG);
+            if (tbg != IO_REPARSE_TAG_SYMLINK) {
+                // FIXME: exception doesn't hbve file nbme
+                throw new NotLinkException(null, null, "Repbrse point is not b symbolic link");
             }
 
-            // get offset and length of target
-            short nameOffset = unsafe.getShort(buffer.address() + OFFSETOF_PATHOFFSET);
-            short nameLengthInBytes = unsafe.getShort(buffer.address() + OFFSETOF_PATHLENGTH);
-            if ((nameLengthInBytes % 2) != 0)
+            // get offset bnd length of tbrget
+            short nbmeOffset = unsbfe.getShort(buffer.bddress() + OFFSETOF_PATHOFFSET);
+            short nbmeLengthInBytes = unsbfe.getShort(buffer.bddress() + OFFSETOF_PATHLENGTH);
+            if ((nbmeLengthInBytes % 2) != 0)
                 throw new FileSystemException(null, null, "Symbolic link corrupted");
 
-            // copy into char array
-            char[] name = new char[nameLengthInBytes/2];
-            unsafe.copyMemory(null, buffer.address() + OFFSETOF_PATHBUFFER + nameOffset,
-                name, Unsafe.ARRAY_CHAR_BASE_OFFSET, nameLengthInBytes);
+            // copy into chbr brrby
+            chbr[] nbme = new chbr[nbmeLengthInBytes/2];
+            unsbfe.copyMemory(null, buffer.bddress() + OFFSETOF_PATHBUFFER + nbmeOffset,
+                nbme, Unsbfe.ARRAY_CHAR_BASE_OFFSET, nbmeLengthInBytes);
 
-            // remove special prefix
-            String target = stripPrefix(new String(name));
-            if (target.length() == 0) {
-                throw new IOException("Symbolic link target is invalid");
+            // remove specibl prefix
+            String tbrget = stripPrefix(new String(nbme));
+            if (tbrget.length() == 0) {
+                throw new IOException("Symbolic link tbrget is invblid");
             }
-            return target;
-        } finally {
-            buffer.release();
+            return tbrget;
+        } finblly {
+            buffer.relebse();
         }
     }
 
     /**
-     * Resolve all symbolic-links in a given absolute and normalized path
+     * Resolve bll symbolic-links in b given bbsolute bnd normblized pbth
      */
-    private static WindowsPath resolveAllLinks(WindowsPath path)
+    privbte stbtic WindowsPbth resolveAllLinks(WindowsPbth pbth)
         throws IOException
     {
-        assert path.isAbsolute();
-        WindowsFileSystem fs = path.getFileSystem();
+        bssert pbth.isAbsolute();
+        WindowsFileSystem fs = pbth.getFileSystem();
 
-        // iterate through each name element of the path, resolving links as
+        // iterbte through ebch nbme element of the pbth, resolving links bs
         // we go.
         int linkCount = 0;
         int elem = 0;
-        while (elem < path.getNameCount()) {
-            WindowsPath current = path.getRoot().resolve(path.subpath(0, elem+1));
+        while (elem < pbth.getNbmeCount()) {
+            WindowsPbth current = pbth.getRoot().resolve(pbth.subpbth(0, elem+1));
 
-            WindowsFileAttributes attrs = null;
+            WindowsFileAttributes bttrs = null;
             try {
-                attrs = WindowsFileAttributes.get(current, false);
-            } catch (WindowsException x) {
+                bttrs = WindowsFileAttributes.get(current, fblse);
+            } cbtch (WindowsException x) {
                 x.rethrowAsIOException(current);
             }
 
             /**
-             * If a symbolic link then we resolve it against the parent
-             * of the current name element. We then resolve any remaining
-             * part of the path against the result. The target of the link
-             * may have "." and ".." components so re-normalize and restart
+             * If b symbolic link then we resolve it bgbinst the pbrent
+             * of the current nbme element. We then resolve bny rembining
+             * pbrt of the pbth bgbinst the result. The tbrget of the link
+             * mby hbve "." bnd ".." components so re-normblize bnd restbrt
              * the process from the first element.
              */
-            if (attrs.isSymbolicLink()) {
+            if (bttrs.isSymbolicLink()) {
                 linkCount++;
                 if (linkCount > 32)
-                    throw new IOException("Too many links");
-                WindowsPath target = WindowsPath
-                    .createFromNormalizedPath(fs, readLink(current));
-                WindowsPath remainder = null;
-                int count = path.getNameCount();
+                    throw new IOException("Too mbny links");
+                WindowsPbth tbrget = WindowsPbth
+                    .crebteFromNormblizedPbth(fs, rebdLink(current));
+                WindowsPbth rembinder = null;
+                int count = pbth.getNbmeCount();
                 if ((elem+1) < count) {
-                    remainder = path.subpath(elem+1, count);
+                    rembinder = pbth.subpbth(elem+1, count);
                 }
-                path = current.getParent().resolve(target);
+                pbth = current.getPbrent().resolve(tbrget);
                 try {
-                    String full = GetFullPathName(path.toString());
-                    if (!full.equals(path.toString())) {
-                        path = WindowsPath.createFromNormalizedPath(fs, full);
+                    String full = GetFullPbthNbme(pbth.toString());
+                    if (!full.equbls(pbth.toString())) {
+                        pbth = WindowsPbth.crebteFromNormblizedPbth(fs, full);
                     }
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(path);
+                } cbtch (WindowsException x) {
+                    x.rethrowAsIOException(pbth);
                 }
-                if (remainder != null) {
-                    path = path.resolve(remainder);
+                if (rembinder != null) {
+                    pbth = pbth.resolve(rembinder);
                 }
 
                 // reset
                 elem = 0;
             } else {
-                // not a link
+                // not b link
                 elem++;
             }
         }
 
-        return path;
+        return pbth;
     }
 
     /**
-     * Strip long path or symbolic link prefix from path
+     * Strip long pbth or symbolic link prefix from pbth
      */
-    private static String stripPrefix(String path) {
-        // prefix for resolved/long path
-        if (path.startsWith("\\\\?\\")) {
-            if (path.startsWith("\\\\?\\UNC\\")) {
-                path = "\\" + path.substring(7);
+    privbte stbtic String stripPrefix(String pbth) {
+        // prefix for resolved/long pbth
+        if (pbth.stbrtsWith("\\\\?\\")) {
+            if (pbth.stbrtsWith("\\\\?\\UNC\\")) {
+                pbth = "\\" + pbth.substring(7);
             } else {
-                path = path.substring(4);
+                pbth = pbth.substring(4);
             }
-            return path;
+            return pbth;
         }
 
-        // prefix for target of symbolic link
-        if (path.startsWith("\\??\\")) {
-            if (path.startsWith("\\??\\UNC\\")) {
-                path = "\\" + path.substring(7);
+        // prefix for tbrget of symbolic link
+        if (pbth.stbrtsWith("\\??\\")) {
+            if (pbth.stbrtsWith("\\??\\UNC\\")) {
+                pbth = "\\" + pbth.substring(7);
             } else {
-                path = path.substring(4);
+                pbth = pbth.substring(4);
             }
-            return path;
+            return pbth;
         }
-        return path;
+        return pbth;
     }
 }

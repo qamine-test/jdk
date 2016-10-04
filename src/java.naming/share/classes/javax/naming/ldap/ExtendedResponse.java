@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
 /**
-  * This interface represents an LDAP extended operation response as defined in
+  * This interfbce represents bn LDAP extended operbtion response bs defined in
   * <A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>.
   * <pre>
   *     ExtendedResponse ::= [APPLICATION 24] SEQUENCE {
   *          COMPONENTS OF LDAPResult,
-  *          responseName     [10] LDAPOID OPTIONAL,
+  *          responseNbme     [10] LDAPOID OPTIONAL,
   *          response         [11] OCTET STRING OPTIONAL }
   * </pre>
-  * It comprises an optional object identifier and an optional ASN.1 BER
-  * encoded value.
+  * It comprises bn optionbl object identifier bnd bn optionbl ASN.1 BER
+  * encoded vblue.
   *
   *<p>
-  * The methods in this class can be used by the application to get low
-  * level information about the extended operation response. However, typically,
-  * the application will be using methods specific to the class that
-  * implements this interface. Such a class should have decoded the BER buffer
-  * in the response and should provide methods that allow the user to
-  * access that data in the response in a type-safe and friendly manner.
+  * The methods in this clbss cbn be used by the bpplicbtion to get low
+  * level informbtion bbout the extended operbtion response. However, typicblly,
+  * the bpplicbtion will be using methods specific to the clbss thbt
+  * implements this interfbce. Such b clbss should hbve decoded the BER buffer
+  * in the response bnd should provide methods thbt bllow the user to
+  * bccess thbt dbtb in the response in b type-sbfe bnd friendly mbnner.
   *<p>
-  * For example, suppose the LDAP server supported a 'get time' extended operation.
-  * It would supply GetTimeRequest and GetTimeResponse classes.
-  * The GetTimeResponse class might look like:
+  * For exbmple, suppose the LDAP server supported b 'get time' extended operbtion.
+  * It would supply GetTimeRequest bnd GetTimeResponse clbsses.
+  * The GetTimeResponse clbss might look like:
   *<blockquote><pre>
-  * public class GetTimeResponse implements ExtendedResponse {
-  *     public java.util.Date getDate() {...};
+  * public clbss GetTimeResponse implements ExtendedResponse {
+  *     public jbvb.util.Dbte getDbte() {...};
   *     public long getTime() {...};
   *     ....
   * }
   *</pre></blockquote>
-  * A program would use then these classes as follows:
+  * A progrbm would use then these clbsses bs follows:
   *<blockquote><pre>
   * GetTimeResponse resp =
-  *     (GetTimeResponse) ectx.extendedOperation(new GetTimeRequest());
-  * java.util.Date now = resp.getDate();
+  *     (GetTimeResponse) ectx.extendedOperbtion(new GetTimeRequest());
+  * jbvb.util.Dbte now = resp.getDbte();
   *</pre></blockquote>
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @author Vincent Ryan
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
+  * @buthor Vincent Rybn
   *
   * @see ExtendedRequest
   * @since 1.3
   */
 
-public interface ExtendedResponse extends java.io.Serializable {
+public interfbce ExtendedResponse extends jbvb.io.Seriblizbble {
 
     /**
       * Retrieves the object identifier of the response.
-      * The LDAP protocol specifies that the response object identifier is optional.
-      * If the server does not send it, the response will contain no ID (i.e. null).
+      * The LDAP protocol specifies thbt the response object identifier is optionbl.
+      * If the server does not send it, the response will contbin no ID (i.e. null).
       *
       * @return A possibly null object identifier string representing the LDAP
-      *         <tt>ExtendedResponse.responseName</tt> component.
+      *         <tt>ExtendedResponse.responseNbme</tt> component.
       */
     public String getID();
 
     /**
-      * Retrieves the ASN.1 BER encoded value of the LDAP extended operation
-      * response. Null is returned if the value is absent from the response
+      * Retrieves the ASN.1 BER encoded vblue of the LDAP extended operbtion
+      * response. Null is returned if the vblue is bbsent from the response
       * sent by the LDAP server.
-      * The result is the raw BER bytes including the tag and length of
-      * the response value. It does not include the response OID.
+      * The result is the rbw BER bytes including the tbg bnd length of
+      * the response vblue. It does not include the response OID.
       *
-      * @return A possibly null byte array representing the ASN.1 BER encoded
+      * @return A possibly null byte brrby representing the ASN.1 BER encoded
       *         contents of the LDAP <tt>ExtendedResponse.response</tt>
       *         component.
       */
-    public byte[] getEncodedValue();
+    public byte[] getEncodedVblue();
 
-    //static final long serialVersionUID = -3320509678029180273L;
+    //stbtic finbl long seriblVersionUID = -3320509678029180273L;
 }

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * A piped output stream can be connected to a piped input stream
- * to create a communications pipe. The piped output stream is the
- * sending end of the pipe. Typically, data is written to a
- * <code>PipedOutputStream</code> object by one thread and data is
- * read from the connected <code>PipedInputStream</code> by some
- * other thread. Attempting to use both objects from a single thread
- * is not recommended as it may deadlock the thread.
- * The pipe is said to be <a name=BROKEN> <i>broken</i> </a> if a
- * thread that was reading data bytes from the connected piped input
- * stream is no longer alive.
+ * A piped output strebm cbn be connected to b piped input strebm
+ * to crebte b communicbtions pipe. The piped output strebm is the
+ * sending end of the pipe. Typicblly, dbtb is written to b
+ * <code>PipedOutputStrebm</code> object by one threbd bnd dbtb is
+ * rebd from the connected <code>PipedInputStrebm</code> by some
+ * other threbd. Attempting to use both objects from b single threbd
+ * is not recommended bs it mby debdlock the threbd.
+ * The pipe is sbid to be <b nbme=BROKEN> <i>broken</i> </b> if b
+ * threbd thbt wbs rebding dbtb bytes from the connected piped input
+ * strebm is no longer blive.
  *
- * @author  James Gosling
- * @see     java.io.PipedInputStream
+ * @buthor  Jbmes Gosling
+ * @see     jbvb.io.PipedInputStrebm
  * @since   1.0
  */
 public
-class PipedOutputStream extends OutputStream {
+clbss PipedOutputStrebm extends OutputStrebm {
 
-        /* REMIND: identification of the read and write sides needs to be
-           more sophisticated.  Either using thread groups (but what about
-           pipes within a thread?) or using finalization (but it may be a
+        /* REMIND: identificbtion of the rebd bnd write sides needs to be
+           more sophisticbted.  Either using threbd groups (but whbt bbout
+           pipes within b threbd?) or using finblizbtion (but it mby be b
            long time until the next GC). */
-    private PipedInputStream sink;
+    privbte PipedInputStrebm sink;
 
     /**
-     * Creates a piped output stream connected to the specified piped
-     * input stream. Data bytes written to this stream will then be
-     * available as input from <code>snk</code>.
+     * Crebtes b piped output strebm connected to the specified piped
+     * input strebm. Dbtb bytes written to this strebm will then be
+     * bvbilbble bs input from <code>snk</code>.
      *
-     * @param      snk   The piped input stream to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      snk   The piped input strebm to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public PipedOutputStream(PipedInputStream snk)  throws IOException {
+    public PipedOutputStrebm(PipedInputStrebm snk)  throws IOException {
         connect(snk);
     }
 
     /**
-     * Creates a piped output stream that is not yet connected to a
-     * piped input stream. It must be connected to a piped input stream,
+     * Crebtes b piped output strebm thbt is not yet connected to b
+     * piped input strebm. It must be connected to b piped input strebm,
      * either by the receiver or the sender, before being used.
      *
-     * @see     java.io.PipedInputStream#connect(java.io.PipedOutputStream)
-     * @see     java.io.PipedOutputStream#connect(java.io.PipedInputStream)
+     * @see     jbvb.io.PipedInputStrebm#connect(jbvb.io.PipedOutputStrebm)
+     * @see     jbvb.io.PipedOutputStrebm#connect(jbvb.io.PipedInputStrebm)
      */
-    public PipedOutputStream() {
+    public PipedOutputStrebm() {
     }
 
     /**
-     * Connects this piped output stream to a receiver. If this object
-     * is already connected to some other piped input stream, an
+     * Connects this piped output strebm to b receiver. If this object
+     * is blrebdy connected to some other piped input strebm, bn
      * <code>IOException</code> is thrown.
      * <p>
-     * If <code>snk</code> is an unconnected piped input stream and
-     * <code>src</code> is an unconnected piped output stream, they may
-     * be connected by either the call:
+     * If <code>snk</code> is bn unconnected piped input strebm bnd
+     * <code>src</code> is bn unconnected piped output strebm, they mby
+     * be connected by either the cbll:
      * <blockquote><pre>
      * src.connect(snk)</pre></blockquote>
-     * or the call:
+     * or the cbll:
      * <blockquote><pre>
      * snk.connect(src)</pre></blockquote>
-     * The two calls have the same effect.
+     * The two cblls hbve the sbme effect.
      *
-     * @param      snk   the piped input stream to connect to.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      snk   the piped input strebm to connect to.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public synchronized void connect(PipedInputStream snk) throws IOException {
+    public synchronized void connect(PipedInputStrebm snk) throws IOException {
         if (snk == null) {
             throw new NullPointerException();
         } else if (sink != null || snk.connected) {
-            throw new IOException("Already connected");
+            throw new IOException("Alrebdy connected");
         }
         sink = snk;
         snk.in = -1;
@@ -106,14 +106,14 @@ class PipedOutputStream extends OutputStream {
     }
 
     /**
-     * Writes the specified <code>byte</code> to the piped output stream.
+     * Writes the specified <code>byte</code> to the piped output strebm.
      * <p>
-     * Implements the <code>write</code> method of <code>OutputStream</code>.
+     * Implements the <code>write</code> method of <code>OutputStrebm</code>.
      *
-     * @param      b   the <code>byte</code> to be written.
-     * @exception IOException if the pipe is <a href=#BROKEN> broken</a>,
-     *          {@link #connect(java.io.PipedInputStream) unconnected},
-     *          closed, or if an I/O error occurs.
+     * @pbrbm      b   the <code>byte</code> to be written.
+     * @exception IOException if the pipe is <b href=#BROKEN> broken</b>,
+     *          {@link #connect(jbvb.io.PipedInputStrebm) unconnected},
+     *          closed, or if bn I/O error occurs.
      */
     public void write(int b)  throws IOException {
         if (sink == null) {
@@ -123,17 +123,17 @@ class PipedOutputStream extends OutputStream {
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this piped output stream.
-     * This method blocks until all the bytes are written to the output
-     * stream.
+     * Writes <code>len</code> bytes from the specified byte brrby
+     * stbrting bt offset <code>off</code> to this piped output strebm.
+     * This method blocks until bll the bytes bre written to the output
+     * strebm.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception IOException if the pipe is <a href=#BROKEN> broken</a>,
-     *          {@link #connect(java.io.PipedInputStream) unconnected},
-     *          closed, or if an I/O error occurs.
+     * @pbrbm      b     the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of bytes to write.
+     * @exception IOException if the pipe is <b href=#BROKEN> broken</b>,
+     *          {@link #connect(jbvb.io.PipedInputStrebm) unconnected},
+     *          closed, or if bn I/O error occurs.
      */
     public void write(byte b[], int off, int len) throws IOException {
         if (sink == null) {
@@ -150,11 +150,11 @@ class PipedOutputStream extends OutputStream {
     }
 
     /**
-     * Flushes this output stream and forces any buffered output bytes
+     * Flushes this output strebm bnd forces bny buffered output bytes
      * to be written out.
-     * This will notify any readers that bytes are waiting in the pipe.
+     * This will notify bny rebders thbt bytes bre wbiting in the pipe.
      *
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      */
     public synchronized void flush() throws IOException {
         if (sink != null) {
@@ -165,15 +165,15 @@ class PipedOutputStream extends OutputStream {
     }
 
     /**
-     * Closes this piped output stream and releases any system resources
-     * associated with this stream. This stream may no longer be used for
+     * Closes this piped output strebm bnd relebses bny system resources
+     * bssocibted with this strebm. This strebm mby no longer be used for
      * writing bytes.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close()  throws IOException {
         if (sink != null) {
-            sink.receivedLast();
+            sink.receivedLbst();
         }
     }
 }

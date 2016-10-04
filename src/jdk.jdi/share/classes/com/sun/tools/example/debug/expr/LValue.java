@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.expr;
+pbckbge com.sun.tools.exbmple.debug.expr;
 
 import com.sun.jdi.*;
-import java.util.*;
+import jbvb.util.*;
 
-abstract class LValue {
+bbstrbct clbss LVblue {
 
-    // The JDI Value object for this LValue.  Once we have this Value,
-    // we have to remember it since after we return the LValue object
-    // to the ExpressionParser, it might decide that it needs
-    // the 'toString' value for the LValue in which case it will
-    // call getMassagedValue to get this toString value.  At that
-    // point, we don't want to call JDI a 2nd time to get the Value
-    // for the LValue.  This is especially wrong when the LValue
-    // represents a member function.  We would end up calling it
-    // a 2nd time.
+    // The JDI Vblue object for this LVblue.  Once we hbve this Vblue,
+    // we hbve to remember it since bfter we return the LVblue object
+    // to the ExpressionPbrser, it might decide thbt it needs
+    // the 'toString' vblue for the LVblue in which cbse it will
+    // cbll getMbssbgedVblue to get this toString vblue.  At thbt
+    // point, we don't wbnt to cbll JDI b 2nd time to get the Vblue
+    // for the LVblue.  This is especiblly wrong when the LVblue
+    // represents b member function.  We would end up cblling it
+    // b 2nd time.
     //
-    // Unfortunately, there are several levels of calls to
-    // get/set values in this file.  To minimize confusion,
-    // jdiValue is set/tested at the lowest level - right
-    // next to the actual calls to JDI methods to get/set the
-    // value in the debuggee.
-    protected Value jdiValue;
+    // Unfortunbtely, there bre severbl levels of cblls to
+    // get/set vblues in this file.  To minimize confusion,
+    // jdiVblue is set/tested bt the lowest level - right
+    // next to the bctubl cblls to JDI methods to get/set the
+    // vblue in the debuggee.
+    protected Vblue jdiVblue;
 
-    abstract Value getValue() throws InvocationException,
-                                     IncompatibleThreadStateException,
-                                     InvalidTypeException,
-                                     ClassNotLoadedException,
-                                     ParseException;
+    bbstrbct Vblue getVblue() throws InvocbtionException,
+                                     IncompbtibleThrebdStbteException,
+                                     InvblidTypeException,
+                                     ClbssNotLobdedException,
+                                     PbrseException;
 
-    abstract void setValue0(Value value)
-                   throws ParseException, InvalidTypeException,
-                          ClassNotLoadedException;
+    bbstrbct void setVblue0(Vblue vblue)
+                   throws PbrseException, InvblidTypeException,
+                          ClbssNotLobdedException;
 
-    abstract void invokeWith(List<Value> arguments) throws ParseException;
+    bbstrbct void invokeWith(List<Vblue> brguments) throws PbrseException;
 
-    void setValue(Value value) throws ParseException {
+    void setVblue(Vblue vblue) throws PbrseException {
         try {
-            setValue0(value);
-        } catch (InvalidTypeException exc) {
-            throw new ParseException(
-                "Attempt to set value of incorrect type" +
+            setVblue0(vblue);
+        } cbtch (InvblidTypeException exc) {
+            throw new PbrseException(
+                "Attempt to set vblue of incorrect type" +
                 exc);
-        } catch (ClassNotLoadedException exc) {
-            throw new ParseException(
-                "Attempt to set value before " + exc.className() + " was loaded" +
+        } cbtch (ClbssNotLobdedException exc) {
+            throw new PbrseException(
+                "Attempt to set vblue before " + exc.clbssNbme() + " wbs lobded" +
                 exc);
         }
     }
 
-    void setValue(LValue lval) throws ParseException {
-        setValue(lval.interiorGetValue());
+    void setVblue(LVblue lvbl) throws PbrseException {
+        setVblue(lvbl.interiorGetVblue());
     }
 
-    LValue memberLValue(ExpressionParser.GetFrame frameGetter,
-                        String fieldName) throws ParseException {
+    LVblue memberLVblue(ExpressionPbrser.GetFrbme frbmeGetter,
+                        String fieldNbme) throws PbrseException {
         try {
-            return memberLValue(fieldName, frameGetter.get().thread());
-        } catch (IncompatibleThreadStateException exc) {
-            throw new ParseException("Thread not suspended");
+            return memberLVblue(fieldNbme, frbmeGetter.get().threbd());
+        } cbtch (IncompbtibleThrebdStbteException exc) {
+            throw new PbrseException("Threbd not suspended");
         }
     }
 
-    LValue memberLValue(String fieldName, ThreadReference thread) throws ParseException {
+    LVblue memberLVblue(String fieldNbme, ThrebdReference threbd) throws PbrseException {
 
-        Value val = interiorGetValue();
-        if ((val instanceof ArrayReference) &&
-            "length".equals(fieldName)){
-            return new LValueArrayLength((ArrayReference)val);
+        Vblue vbl = interiorGetVblue();
+        if ((vbl instbnceof ArrbyReference) &&
+            "length".equbls(fieldNbme)){
+            return new LVblueArrbyLength((ArrbyReference)vbl);
         }
-        return new LValueInstanceMember(val, fieldName, thread);
+        return new LVblueInstbnceMember(vbl, fieldNbme, threbd);
     }
 
-    // Return the Value for this LValue that would be used to concatenate
-    // to a String.  IE, if it is an Object, call toString in the debuggee.
-    Value getMassagedValue(ExpressionParser.GetFrame frameGetter) throws ParseException {
-        Value vv = interiorGetValue();
+    // Return the Vblue for this LVblue thbt would be used to concbtenbte
+    // to b String.  IE, if it is bn Object, cbll toString in the debuggee.
+    Vblue getMbssbgedVblue(ExpressionPbrser.GetFrbme frbmeGetter) throws PbrseException {
+        Vblue vv = interiorGetVblue();
 
-        // If vv is an ObjectReference, then we have to
-        // do the implicit call to toString().
-        if (vv instanceof ObjectReference &&
-            !(vv instanceof StringReference) &&
-            !(vv instanceof ArrayReference)) {
-            StackFrame frame;
+        // If vv is bn ObjectReference, then we hbve to
+        // do the implicit cbll to toString().
+        if (vv instbnceof ObjectReference &&
+            !(vv instbnceof StringReference) &&
+            !(vv instbnceof ArrbyReference)) {
+            StbckFrbme frbme;
             try {
-                frame = frameGetter.get();
-            } catch (IncompatibleThreadStateException exc) {
-                throw new ParseException("Thread not suspended");
+                frbme = frbmeGetter.get();
+            } cbtch (IncompbtibleThrebdStbteException exc) {
+                throw new PbrseException("Threbd not suspended");
             }
 
-            ThreadReference thread = frame.thread();
-            LValue toStringMember = memberLValue("toString", thread);
-            toStringMember.invokeWith(new ArrayList<Value>());
-            return toStringMember.interiorGetValue();
+            ThrebdReference threbd = frbme.threbd();
+            LVblue toStringMember = memberLVblue("toString", threbd);
+            toStringMember.invokeWith(new ArrbyList<Vblue>());
+            return toStringMember.interiorGetVblue();
         }
         return vv;
     }
 
-    Value interiorGetValue() throws ParseException {
-        Value value;
+    Vblue interiorGetVblue() throws PbrseException {
+        Vblue vblue;
         try {
-            value = getValue();
-        } catch (InvocationException e) {
-            throw new ParseException("Unable to complete expression. Exception " +
+            vblue = getVblue();
+        } cbtch (InvocbtionException e) {
+            throw new PbrseException("Unbble to complete expression. Exception " +
                                      e.exception() + " thrown");
-        } catch (IncompatibleThreadStateException itse) {
-            throw new ParseException("Unable to complete expression. Thread " +
+        } cbtch (IncompbtibleThrebdStbteException itse) {
+            throw new PbrseException("Unbble to complete expression. Threbd " +
                                      "not suspended for method invoke");
-        } catch (InvalidTypeException ite) {
-            throw new ParseException("Unable to complete expression. Method " +
-                                     "argument type mismatch");
-        } catch (ClassNotLoadedException tnle) {
-            throw new ParseException("Unable to complete expression. Method " +
-                                     "argument type " + tnle.className() +
-                                     " not yet loaded");
+        } cbtch (InvblidTypeException ite) {
+            throw new PbrseException("Unbble to complete expression. Method " +
+                                     "brgument type mismbtch");
+        } cbtch (ClbssNotLobdedException tnle) {
+            throw new PbrseException("Unbble to complete expression. Method " +
+                                     "brgument type " + tnle.clbssNbme() +
+                                     " not yet lobded");
         }
-        return value;
+        return vblue;
     }
 
-    LValue arrayElementLValue(LValue lval) throws ParseException {
-        Value indexValue = lval.interiorGetValue();
+    LVblue brrbyElementLVblue(LVblue lvbl) throws PbrseException {
+        Vblue indexVblue = lvbl.interiorGetVblue();
         int index;
-        if ( (indexValue instanceof IntegerValue) ||
-             (indexValue instanceof ShortValue) ||
-             (indexValue instanceof ByteValue) ||
-             (indexValue instanceof CharValue) ) {
-            index = ((PrimitiveValue)indexValue).intValue();
+        if ( (indexVblue instbnceof IntegerVblue) ||
+             (indexVblue instbnceof ShortVblue) ||
+             (indexVblue instbnceof ByteVblue) ||
+             (indexVblue instbnceof ChbrVblue) ) {
+            index = ((PrimitiveVblue)indexVblue).intVblue();
         } else {
-            throw new ParseException("Array index must be a integer type");
+            throw new PbrseException("Arrby index must be b integer type");
         }
-        return new LValueArrayElement(interiorGetValue(), index);
+        return new LVblueArrbyElement(interiorGetVblue(), index);
     }
 
    @Override
     public String toString() {
         try {
-            return interiorGetValue().toString();
-        } catch (ParseException e) {
-            return "<Parse Exception>";
+            return interiorGetVblue().toString();
+        } cbtch (PbrseException e) {
+            return "<Pbrse Exception>";
         }
     }
 
-    static final int STATIC = 0;
-    static final int INSTANCE = 1;
+    stbtic finbl int STATIC = 0;
+    stbtic finbl int INSTANCE = 1;
 
-    static Field fieldByName(ReferenceType refType, String name, int kind) {
+    stbtic Field fieldByNbme(ReferenceType refType, String nbme, int kind) {
         /*
-         * TO DO: Note that this currently fails to find superclass
-         * or implemented interface fields. This is due to a temporary
-         * limititation of RefType.fieldByName. Once that method is
-         * fixed, superclass fields will be found.
+         * TO DO: Note thbt this currently fbils to find superclbss
+         * or implemented interfbce fields. This is due to b temporbry
+         * limititbtion of RefType.fieldByNbme. Once thbt method is
+         * fixed, superclbss fields will be found.
          */
-        Field field = refType.fieldByName(name);
+        Field field = refType.fieldByNbme(nbme);
         if (field != null) {
-            boolean isStatic = field.isStatic();
-            if (((kind == STATIC) && !isStatic) ||
-                ((kind == INSTANCE) && isStatic)) {
+            boolebn isStbtic = field.isStbtic();
+            if (((kind == STATIC) && !isStbtic) ||
+                ((kind == INSTANCE) && isStbtic)) {
                 field = null;
             }
         }
 /***
-        System.err.println("fieldByName: " + refType.name() + " " +
-                                             name + " " +
+        System.err.println("fieldByNbme: " + refType.nbme() + " " +
+                                             nbme + " " +
                                              kind + " " +
                                              (field != null));
 ***/
         return field;
     }
 
-    static List<Method> methodsByName(ReferenceType refType,
-                                      String name, int kind) {
-        List<Method> list = refType.methodsByName(name);
-        Iterator<Method> iter = list.iterator();
-        while (iter.hasNext()) {
+    stbtic List<Method> methodsByNbme(ReferenceType refType,
+                                      String nbme, int kind) {
+        List<Method> list = refType.methodsByNbme(nbme);
+        Iterbtor<Method> iter = list.iterbtor();
+        while (iter.hbsNext()) {
             Method method = iter.next();
-            boolean isStatic = method.isStatic();
-            if (((kind == STATIC) && !isStatic) ||
-                ((kind == INSTANCE) && isStatic)) {
+            boolebn isStbtic = method.isStbtic();
+            if (((kind == STATIC) && !isStbtic) ||
+                ((kind == INSTANCE) && isStbtic)) {
                 iter.remove();
             }
         }
         return list;
     }
 
-    static List<String> primitiveTypeNames = new ArrayList<String>();
-    static {
-        primitiveTypeNames.add("boolean");
-        primitiveTypeNames.add("byte");
-        primitiveTypeNames.add("char");
-        primitiveTypeNames.add("short");
-        primitiveTypeNames.add("int");
-        primitiveTypeNames.add("long");
-        primitiveTypeNames.add("float");
-        primitiveTypeNames.add("double");
+    stbtic List<String> primitiveTypeNbmes = new ArrbyList<String>();
+    stbtic {
+        primitiveTypeNbmes.bdd("boolebn");
+        primitiveTypeNbmes.bdd("byte");
+        primitiveTypeNbmes.bdd("chbr");
+        primitiveTypeNbmes.bdd("short");
+        primitiveTypeNbmes.bdd("int");
+        primitiveTypeNbmes.bdd("long");
+        primitiveTypeNbmes.bdd("flobt");
+        primitiveTypeNbmes.bdd("double");
     }
 
 
-    static final int SAME = 0;
-    static final int ASSIGNABLE = 1;
-    static final int DIFFERENT = 2;
+    stbtic finbl int SAME = 0;
+    stbtic finbl int ASSIGNABLE = 1;
+    stbtic finbl int DIFFERENT = 2;
     /*
      * Return SAME, DIFFERENT or ASSIGNABLE.
-     * SAME means each arg type is the same as type of the corr. arg.
-     * ASSIGNABLE means that not all the pairs are the same, but
-     * for those that aren't, at least the argType is assignable
-     * from the type of the argument value.
-     * DIFFERENT means that in at least one pair, the
-     * argType is not assignable from the type of the argument value.
-     * IE, one is an Apple and the other is an Orange.
+     * SAME mebns ebch brg type is the sbme bs type of the corr. brg.
+     * ASSIGNABLE mebns thbt not bll the pbirs bre the sbme, but
+     * for those thbt bren't, bt lebst the brgType is bssignbble
+     * from the type of the brgument vblue.
+     * DIFFERENT mebns thbt in bt lebst one pbir, the
+     * brgType is not bssignbble from the type of the brgument vblue.
+     * IE, one is bn Apple bnd the other is bn Orbnge.
      */
-    static int argumentsMatch(List<Type> argTypes, List<Value> arguments) {
-        if (argTypes.size() != arguments.size()) {
+    stbtic int brgumentsMbtch(List<Type> brgTypes, List<Vblue> brguments) {
+        if (brgTypes.size() != brguments.size()) {
             return DIFFERENT;
         }
 
-        Iterator<Type> typeIter = argTypes.iterator();
-        Iterator<Value> valIter = arguments.iterator();
+        Iterbtor<Type> typeIter = brgTypes.iterbtor();
+        Iterbtor<Vblue> vblIter = brguments.iterbtor();
         int result = SAME;
 
-        // If any pair aren't the same, change the
-        // result to ASSIGNABLE.  If any pair aren't
-        // assignable, return DIFFERENT
-        while (typeIter.hasNext()) {
-            Type argType = typeIter.next();
-            Value value = valIter.next();
-            if (value == null) {
-                // Null values can be passed to any non-primitive argument
-                if (primitiveTypeNames.contains(argType.name())) {
+        // If bny pbir bren't the sbme, chbnge the
+        // result to ASSIGNABLE.  If bny pbir bren't
+        // bssignbble, return DIFFERENT
+        while (typeIter.hbsNext()) {
+            Type brgType = typeIter.next();
+            Vblue vblue = vblIter.next();
+            if (vblue == null) {
+                // Null vblues cbn be pbssed to bny non-primitive brgument
+                if (primitiveTypeNbmes.contbins(brgType.nbme())) {
                     return DIFFERENT;
                 }
-                // Else, we will assume that a null value
-                // exactly matches an object type.
+                // Else, we will bssume thbt b null vblue
+                // exbctly mbtches bn object type.
             }
-            if (!value.type().equals(argType)) {
-                if (isAssignableTo(value.type(), argType)) {
+            if (!vblue.type().equbls(brgType)) {
+                if (isAssignbbleTo(vblue.type(), brgType)) {
                     result = ASSIGNABLE;
                 } else {
                     return DIFFERENT;
@@ -277,887 +277,887 @@ abstract class LValue {
     }
 
 
-    // These is...AssignableTo methods are based on similar code in the JDI
-    // implementations of ClassType, ArrayType, and InterfaceType
+    // These is...AssignbbleTo methods bre bbsed on similbr code in the JDI
+    // implementbtions of ClbssType, ArrbyType, bnd InterfbceType
 
-    static boolean isComponentAssignable(Type fromType, Type toType) {
-        if (fromType instanceof PrimitiveType) {
-            // Assignment of primitive arrays requires identical
+    stbtic boolebn isComponentAssignbble(Type fromType, Type toType) {
+        if (fromType instbnceof PrimitiveType) {
+            // Assignment of primitive brrbys requires identicbl
             // component types.
-            return fromType.equals(toType);
+            return fromType.equbls(toType);
         }
-        if (toType instanceof PrimitiveType) {
-            return false;
+        if (toType instbnceof PrimitiveType) {
+            return fblse;
         }
-        // Assignment of object arrays requires availability
+        // Assignment of object brrbys requires bvbilbbility
         // of widening conversion of component types
-        return isAssignableTo(fromType, toType);
+        return isAssignbbleTo(fromType, toType);
     }
 
-    static boolean isArrayAssignableTo(ArrayType fromType, Type toType) {
-        if (toType instanceof ArrayType) {
+    stbtic boolebn isArrbyAssignbbleTo(ArrbyType fromType, Type toType) {
+        if (toType instbnceof ArrbyType) {
             try {
-                Type toComponentType = ((ArrayType)toType).componentType();
-                return isComponentAssignable(fromType.componentType(), toComponentType);
-            } catch (ClassNotLoadedException e) {
-                // One or both component types has not yet been
-                // loaded => can't assign
-                return false;
+                Type toComponentType = ((ArrbyType)toType).componentType();
+                return isComponentAssignbble(fromType.componentType(), toComponentType);
+            } cbtch (ClbssNotLobdedException e) {
+                // One or both component types hbs not yet been
+                // lobded => cbn't bssign
+                return fblse;
             }
         }
-        if (toType instanceof InterfaceType) {
-            // Only valid InterfaceType assignee is Cloneable
-            return toType.name().equals("java.lang.Cloneable");
+        if (toType instbnceof InterfbceType) {
+            // Only vblid InterfbceType bssignee is Clonebble
+            return toType.nbme().equbls("jbvb.lbng.Clonebble");
         }
-        // Only valid ClassType assignee is Object
-        return toType.name().equals("java.lang.Object");
+        // Only vblid ClbssType bssignee is Object
+        return toType.nbme().equbls("jbvb.lbng.Object");
     }
 
-    static boolean isAssignableTo(Type fromType, Type toType) {
-        if (fromType.equals(toType)) {
+    stbtic boolebn isAssignbbleTo(Type fromType, Type toType) {
+        if (fromType.equbls(toType)) {
             return true;
         }
 
-        // If one is boolean, so must be the other.
-        if (fromType instanceof BooleanType) {
-            if (toType instanceof BooleanType) {
+        // If one is boolebn, so must be the other.
+        if (fromType instbnceof BoolebnType) {
+            if (toType instbnceof BoolebnType) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        if (toType instanceof BooleanType) {
-            return false;
+        if (toType instbnceof BoolebnType) {
+            return fblse;
         }
 
-        // Other primitive types are intermixable only with each other.
-        if (fromType instanceof PrimitiveType) {
-            if (toType instanceof PrimitiveType) {
+        // Other primitive types bre intermixbble only with ebch other.
+        if (fromType instbnceof PrimitiveType) {
+            if (toType instbnceof PrimitiveType) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        if (toType instanceof PrimitiveType) {
-            return false;
+        if (toType instbnceof PrimitiveType) {
+            return fblse;
         }
 
         // neither one is primitive.
-        if (fromType instanceof ArrayType) {
-            return isArrayAssignableTo((ArrayType)fromType, toType);
+        if (fromType instbnceof ArrbyType) {
+            return isArrbyAssignbbleTo((ArrbyType)fromType, toType);
         }
-        List<InterfaceType> interfaces;
-        if (fromType instanceof ClassType) {
-            ClassType superclazz = ((ClassType)fromType).superclass();
-            if ((superclazz != null) && isAssignableTo(superclazz, toType)) {
+        List<InterfbceType> interfbces;
+        if (fromType instbnceof ClbssType) {
+            ClbssType superclbzz = ((ClbssType)fromType).superclbss();
+            if ((superclbzz != null) && isAssignbbleTo(superclbzz, toType)) {
                 return true;
             }
-            interfaces = ((ClassType)fromType).interfaces();
+            interfbces = ((ClbssType)fromType).interfbces();
         } else {
-            // fromType must be an InterfaceType
-            interfaces = ((InterfaceType)fromType).superinterfaces();
+            // fromType must be bn InterfbceType
+            interfbces = ((InterfbceType)fromType).superinterfbces();
         }
-        for (InterfaceType interfaze : interfaces) {
-            if (isAssignableTo(interfaze, toType)) {
+        for (InterfbceType interfbze : interfbces) {
+            if (isAssignbbleTo(interfbze, toType)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    static Method resolveOverload(List<Method> overloads,
-                                  List<Value> arguments)
-                                       throws ParseException {
+    stbtic Method resolveOverlobd(List<Method> overlobds,
+                                  List<Vblue> brguments)
+                                       throws PbrseException {
 
-        // If there is only one method to call, we'll just choose
-        // that without looking at the args.  If they aren't right
-        // the invoke will return a better error message than we
-        // could generate here.
-        if (overloads.size() == 1) {
-            return overloads.get(0);
+        // If there is only one method to cbll, we'll just choose
+        // thbt without looking bt the brgs.  If they bren't right
+        // the invoke will return b better error messbge thbn we
+        // could generbte here.
+        if (overlobds.size() == 1) {
+            return overlobds.get(0);
         }
 
-        // Resolving overloads is beyond the scope of this exercise.
-        // So, we will look for a method that matches exactly the
-        // types of the arguments.  If we can't find one, then
-        // if there is exactly one method whose param types are assignable
-        // from the arg types, we will use that.  Otherwise,
-        // it is an error.  We won't guess which of multiple possible
-        // methods to call. And, since casts aren't implemented,
-        // the user can't use them to pick a particular overload to call.
-        // IE, the user is out of luck in this case.
-        Method retVal = null;
-        int assignableCount = 0;
-        for (Method mm : overloads) {
-            List<Type> argTypes;
+        // Resolving overlobds is beyond the scope of this exercise.
+        // So, we will look for b method thbt mbtches exbctly the
+        // types of the brguments.  If we cbn't find one, then
+        // if there is exbctly one method whose pbrbm types bre bssignbble
+        // from the brg types, we will use thbt.  Otherwise,
+        // it is bn error.  We won't guess which of multiple possible
+        // methods to cbll. And, since cbsts bren't implemented,
+        // the user cbn't use them to pick b pbrticulbr overlobd to cbll.
+        // IE, the user is out of luck in this cbse.
+        Method retVbl = null;
+        int bssignbbleCount = 0;
+        for (Method mm : overlobds) {
+            List<Type> brgTypes;
             try {
-                argTypes = mm.argumentTypes();
-            } catch (ClassNotLoadedException ee) {
-                // This probably won't happen for the
-                // method that we are really supposed to
-                // call.
+                brgTypes = mm.brgumentTypes();
+            } cbtch (ClbssNotLobdedException ee) {
+                // This probbbly won't hbppen for the
+                // method thbt we bre reblly supposed to
+                // cbll.
                 continue;
             }
-            int compare = argumentsMatch(argTypes, arguments);
-            if (compare == SAME) {
+            int compbre = brgumentsMbtch(brgTypes, brguments);
+            if (compbre == SAME) {
                 return mm;
             }
-            if (compare == DIFFERENT) {
+            if (compbre == DIFFERENT) {
                 continue;
             }
-            // Else, it is assignable.  Remember it.
-            retVal = mm;
-            assignableCount++;
+            // Else, it is bssignbble.  Remember it.
+            retVbl = mm;
+            bssignbbleCount++;
         }
 
-        // At this point, we didn't find an exact match,
-        // but we found one for which the args are assignable.
+        // At this point, we didn't find bn exbct mbtch,
+        // but we found one for which the brgs bre bssignbble.
         //
-        if (retVal != null) {
-            if (assignableCount == 1) {
-                return retVal;
+        if (retVbl != null) {
+            if (bssignbbleCount == 1) {
+                return retVbl;
             }
-            throw new ParseException("Arguments match multiple methods");
+            throw new PbrseException("Arguments mbtch multiple methods");
         }
-        throw new ParseException("Arguments match no method");
+        throw new PbrseException("Arguments mbtch no method");
     }
 
-    private static class LValueLocal extends LValue {
-        final StackFrame frame;
-        final LocalVariable var;
+    privbte stbtic clbss LVblueLocbl extends LVblue {
+        finbl StbckFrbme frbme;
+        finbl LocblVbribble vbr;
 
-        LValueLocal(StackFrame frame, LocalVariable var) {
-            this.frame = frame;
-            this.var = var;
+        LVblueLocbl(StbckFrbme frbme, LocblVbribble vbr) {
+            this.frbme = frbme;
+            this.vbr = vbr;
         }
 
       @Override
-        Value getValue() {
-            if (jdiValue == null) {
-                jdiValue = frame.getValue(var);
+        Vblue getVblue() {
+            if (jdiVblue == null) {
+                jdiVblue = frbme.getVblue(vbr);
             }
-            return jdiValue;
+            return jdiVblue;
         }
 
       @Override
-        void setValue0(Value val) throws InvalidTypeException,
-                                         ClassNotLoadedException {
-            frame.setValue(var, val);
-            jdiValue = val;
+        void setVblue0(Vblue vbl) throws InvblidTypeException,
+                                         ClbssNotLobdedException {
+            frbme.setVblue(vbr, vbl);
+            jdiVblue = vbl;
         }
 
       @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            throw new ParseException(var.name() + " is not a method");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            throw new PbrseException(vbr.nbme() + " is not b method");
         }
     }
 
-    private static class LValueInstanceMember extends LValue {
-        final ObjectReference obj;
-        final ThreadReference thread;
-        final Field matchingField;
-        final List<Method> overloads;
-        Method matchingMethod = null;
-        List<Value> methodArguments = null;
+    privbte stbtic clbss LVblueInstbnceMember extends LVblue {
+        finbl ObjectReference obj;
+        finbl ThrebdReference threbd;
+        finbl Field mbtchingField;
+        finbl List<Method> overlobds;
+        Method mbtchingMethod = null;
+        List<Vblue> methodArguments = null;
 
-        LValueInstanceMember(Value value,
-                            String memberName,
-                            ThreadReference thread) throws ParseException {
-            if (!(value instanceof ObjectReference)) {
-                throw new ParseException(
-                       "Cannot access field of primitive type: " + value);
+        LVblueInstbnceMember(Vblue vblue,
+                            String memberNbme,
+                            ThrebdReference threbd) throws PbrseException {
+            if (!(vblue instbnceof ObjectReference)) {
+                throw new PbrseException(
+                       "Cbnnot bccess field of primitive type: " + vblue);
             }
-            this.obj = (ObjectReference)value;
-            this.thread = thread;
+            this.obj = (ObjectReference)vblue;
+            this.threbd = threbd;
             ReferenceType refType = obj.referenceType();
             /*
-             * Can't tell yet whether this LValue will be accessed as a
-             * field or method, so we keep track of all the possibilities
+             * Cbn't tell yet whether this LVblue will be bccessed bs b
+             * field or method, so we keep trbck of bll the possibilities
              */
-            matchingField = LValue.fieldByName(refType, memberName,
-                                               LValue.INSTANCE);
-            overloads = LValue.methodsByName(refType, memberName,
-                                              LValue.INSTANCE);
-            if ((matchingField == null) && overloads.size() == 0) {
-                throw new ParseException("No instance field or method with the name "
-                               + memberName + " in " + refType.name());
+            mbtchingField = LVblue.fieldByNbme(refType, memberNbme,
+                                               LVblue.INSTANCE);
+            overlobds = LVblue.methodsByNbme(refType, memberNbme,
+                                              LVblue.INSTANCE);
+            if ((mbtchingField == null) && overlobds.size() == 0) {
+                throw new PbrseException("No instbnce field or method with the nbme "
+                               + memberNbme + " in " + refType.nbme());
             }
         }
 
       @Override
-        Value getValue() throws InvocationException, InvalidTypeException,
-                                ClassNotLoadedException, IncompatibleThreadStateException,
-                                ParseException {
-            if (jdiValue != null) {
-                return jdiValue;
+        Vblue getVblue() throws InvocbtionException, InvblidTypeException,
+                                ClbssNotLobdedException, IncompbtibleThrebdStbteException,
+                                PbrseException {
+            if (jdiVblue != null) {
+                return jdiVblue;
             }
-            if (matchingMethod == null) {
-                if (matchingField == null) {
-                    throw new ParseException("No such field in " + obj.referenceType().name());
+            if (mbtchingMethod == null) {
+                if (mbtchingField == null) {
+                    throw new PbrseException("No such field in " + obj.referenceType().nbme());
                 }
-                return jdiValue = obj.getValue(matchingField);
+                return jdiVblue = obj.getVblue(mbtchingField);
             } else {
-                return jdiValue = obj.invokeMethod(thread, matchingMethod, methodArguments, 0);
+                return jdiVblue = obj.invokeMethod(threbd, mbtchingMethod, methodArguments, 0);
             }
         }
 
         @Override
-        void setValue0(Value val) throws ParseException,
-                                         InvalidTypeException,
-                                        ClassNotLoadedException {
-            if (matchingMethod != null) {
-                throw new ParseException("Cannot assign to a method invocation");
+        void setVblue0(Vblue vbl) throws PbrseException,
+                                         InvblidTypeException,
+                                        ClbssNotLobdedException {
+            if (mbtchingMethod != null) {
+                throw new PbrseException("Cbnnot bssign to b method invocbtion");
             }
-            obj.setValue(matchingField, val);
-            jdiValue = val;
+            obj.setVblue(mbtchingField, vbl);
+            jdiVblue = vbl;
         }
 
         @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            if (matchingMethod != null) {
-                throw new ParseException("Invalid consecutive invocations");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            if (mbtchingMethod != null) {
+                throw new PbrseException("Invblid consecutive invocbtions");
             }
-            methodArguments = arguments;
-            matchingMethod = LValue.resolveOverload(overloads, arguments);
+            methodArguments = brguments;
+            mbtchingMethod = LVblue.resolveOverlobd(overlobds, brguments);
         }
     }
 
-    private static class LValueStaticMember extends LValue {
-        final ReferenceType refType;
-        final ThreadReference thread;
-        final Field matchingField;
-        final List<Method> overloads;
-        Method matchingMethod = null;
-        List<Value> methodArguments = null;
+    privbte stbtic clbss LVblueStbticMember extends LVblue {
+        finbl ReferenceType refType;
+        finbl ThrebdReference threbd;
+        finbl Field mbtchingField;
+        finbl List<Method> overlobds;
+        Method mbtchingMethod = null;
+        List<Vblue> methodArguments = null;
 
-        LValueStaticMember(ReferenceType refType,
-                          String memberName,
-                          ThreadReference thread) throws ParseException {
+        LVblueStbticMember(ReferenceType refType,
+                          String memberNbme,
+                          ThrebdReference threbd) throws PbrseException {
             this.refType = refType;
-            this.thread = thread;
+            this.threbd = threbd;
             /*
-             * Can't tell yet whether this LValue will be accessed as a
-             * field or method, so we keep track of all the possibilities
+             * Cbn't tell yet whether this LVblue will be bccessed bs b
+             * field or method, so we keep trbck of bll the possibilities
              */
-            matchingField = LValue.fieldByName(refType, memberName,
-                                               LValue.STATIC);
-            overloads = LValue.methodsByName(refType, memberName,
-                                              LValue.STATIC);
-            if ((matchingField == null) && overloads.size() == 0) {
-                throw new ParseException("No static field or method with the name "
-                               + memberName + " in " + refType.name());
+            mbtchingField = LVblue.fieldByNbme(refType, memberNbme,
+                                               LVblue.STATIC);
+            overlobds = LVblue.methodsByNbme(refType, memberNbme,
+                                              LVblue.STATIC);
+            if ((mbtchingField == null) && overlobds.size() == 0) {
+                throw new PbrseException("No stbtic field or method with the nbme "
+                               + memberNbme + " in " + refType.nbme());
             }
         }
 
         @Override
-        Value getValue() throws InvocationException, InvalidTypeException,
-                                ClassNotLoadedException, IncompatibleThreadStateException,
-                                ParseException {
-            if (jdiValue != null) {
-                return jdiValue;
+        Vblue getVblue() throws InvocbtionException, InvblidTypeException,
+                                ClbssNotLobdedException, IncompbtibleThrebdStbteException,
+                                PbrseException {
+            if (jdiVblue != null) {
+                return jdiVblue;
             }
-            if (matchingMethod == null) {
-                return jdiValue = refType.getValue(matchingField);
-            } else if (refType instanceof ClassType) {
-                ClassType clazz = (ClassType)refType;
-                return jdiValue = clazz.invokeMethod(thread, matchingMethod, methodArguments, 0);
-            } else if (refType instanceof InterfaceType) {
-                InterfaceType iface = (InterfaceType)refType;
-                return jdiValue = iface.invokeMethod(thread, matchingMethod, methodArguments, 0);
+            if (mbtchingMethod == null) {
+                return jdiVblue = refType.getVblue(mbtchingField);
+            } else if (refType instbnceof ClbssType) {
+                ClbssType clbzz = (ClbssType)refType;
+                return jdiVblue = clbzz.invokeMethod(threbd, mbtchingMethod, methodArguments, 0);
+            } else if (refType instbnceof InterfbceType) {
+                InterfbceType ifbce = (InterfbceType)refType;
+                return jdiVblue = ifbce.invokeMethod(threbd, mbtchingMethod, methodArguments, 0);
             } else {
-                throw new InvalidTypeException("Cannot invoke static method on " +
-                                         refType.name());
+                throw new InvblidTypeException("Cbnnot invoke stbtic method on " +
+                                         refType.nbme());
             }
         }
 
         @Override
-        void setValue0(Value val)
-                           throws ParseException, InvalidTypeException,
-                                  ClassNotLoadedException {
-            if (matchingMethod != null) {
-                throw new ParseException("Cannot assign to a method invocation");
+        void setVblue0(Vblue vbl)
+                           throws PbrseException, InvblidTypeException,
+                                  ClbssNotLobdedException {
+            if (mbtchingMethod != null) {
+                throw new PbrseException("Cbnnot bssign to b method invocbtion");
             }
-            if (!(refType instanceof ClassType)) {
-                throw new ParseException(
-                       "Cannot set interface field: " + refType);
+            if (!(refType instbnceof ClbssType)) {
+                throw new PbrseException(
+                       "Cbnnot set interfbce field: " + refType);
             }
-            ((ClassType)refType).setValue(matchingField, val);
-            jdiValue = val;
+            ((ClbssType)refType).setVblue(mbtchingField, vbl);
+            jdiVblue = vbl;
         }
 
         @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            if (matchingMethod != null) {
-                throw new ParseException("Invalid consecutive invocations");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            if (mbtchingMethod != null) {
+                throw new PbrseException("Invblid consecutive invocbtions");
             }
-            methodArguments = arguments;
-            matchingMethod = LValue.resolveOverload(overloads, arguments);
+            methodArguments = brguments;
+            mbtchingMethod = LVblue.resolveOverlobd(overlobds, brguments);
         }
     }
 
-    private static class LValueArrayLength extends LValue {
+    privbte stbtic clbss LVblueArrbyLength extends LVblue {
         /*
-         * Since one can code "int myLen = myArray.length;",
-         * one might expect that these JDI calls would get a Value
-         * object for the length of an array in the debugee:
-         *    Field xxx = ArrayType.fieldByName("length")
-         *    Value lenVal= ArrayReference.getValue(xxx)
+         * Since one cbn code "int myLen = myArrby.length;",
+         * one might expect thbt these JDI cblls would get b Vblue
+         * object for the length of bn brrby in the debugee:
+         *    Field xxx = ArrbyType.fieldByNbme("length")
+         *    Vblue lenVbl= ArrbyReference.getVblue(xxx)
          *
-         * However, this doesn't work because the array length isn't
-         * really stored as a field, and can't be accessed as such
-         * via JDI.  Instead, the arrayRef.length() method has to be
+         * However, this doesn't work becbuse the brrby length isn't
+         * reblly stored bs b field, bnd cbn't be bccessed bs such
+         * vib JDI.  Instebd, the brrbyRef.length() method hbs to be
          * used.
          */
-        final ArrayReference arrayRef;
-        LValueArrayLength (ArrayReference value) {
-            this.arrayRef = value;
+        finbl ArrbyReference brrbyRef;
+        LVblueArrbyLength (ArrbyReference vblue) {
+            this.brrbyRef = vblue;
         }
 
         @Override
-        Value getValue() {
-            if (jdiValue == null) {
-                jdiValue = arrayRef.virtualMachine().mirrorOf(arrayRef.length());
+        Vblue getVblue() {
+            if (jdiVblue == null) {
+                jdiVblue = brrbyRef.virtublMbchine().mirrorOf(brrbyRef.length());
             }
-            return jdiValue;
+            return jdiVblue;
         }
 
         @Override
-        void setValue0(Value value) throws ParseException  {
-            throw new ParseException("Cannot set constant: " + value);
+        void setVblue0(Vblue vblue) throws PbrseException  {
+            throw new PbrseException("Cbnnot set constbnt: " + vblue);
         }
 
         @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            throw new ParseException("Array element is not a method");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            throw new PbrseException("Arrby element is not b method");
         }
     }
 
-    private static class LValueArrayElement extends LValue {
-        final ArrayReference array;
-        final int index;
+    privbte stbtic clbss LVblueArrbyElement extends LVblue {
+        finbl ArrbyReference brrby;
+        finbl int index;
 
-        LValueArrayElement(Value value, int index) throws ParseException {
-            if (!(value instanceof ArrayReference)) {
-                throw new ParseException(
-                       "Must be array type: " + value);
+        LVblueArrbyElement(Vblue vblue, int index) throws PbrseException {
+            if (!(vblue instbnceof ArrbyReference)) {
+                throw new PbrseException(
+                       "Must be brrby type: " + vblue);
             }
-            this.array = (ArrayReference)value;
+            this.brrby = (ArrbyReference)vblue;
             this.index = index;
         }
 
         @Override
-        Value getValue() {
-            if (jdiValue == null) {
-                jdiValue = array.getValue(index);
+        Vblue getVblue() {
+            if (jdiVblue == null) {
+                jdiVblue = brrby.getVblue(index);
             }
-            return jdiValue;
+            return jdiVblue;
         }
 
         @Override
-        void setValue0(Value val) throws InvalidTypeException,
-                                         ClassNotLoadedException  {
-            array.setValue(index, val);
-            jdiValue = val;
+        void setVblue0(Vblue vbl) throws InvblidTypeException,
+                                         ClbssNotLobdedException  {
+            brrby.setVblue(index, vbl);
+            jdiVblue = vbl;
         }
 
         @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            throw new ParseException("Array element is not a method");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            throw new PbrseException("Arrby element is not b method");
         }
     }
 
-    private static class LValueConstant extends LValue {
-        final Value value;
+    privbte stbtic clbss LVblueConstbnt extends LVblue {
+        finbl Vblue vblue;
 
-        LValueConstant(Value value) {
-            this.value = value;
+        LVblueConstbnt(Vblue vblue) {
+            this.vblue = vblue;
         }
 
         @Override
-        Value getValue() {
-            if (jdiValue == null) {
-                jdiValue = value;
+        Vblue getVblue() {
+            if (jdiVblue == null) {
+                jdiVblue = vblue;
             }
-            return jdiValue;
+            return jdiVblue;
         }
 
         @Override
-        void setValue0(Value val) throws ParseException {
-            throw new ParseException("Cannot set constant: " + value);
+        void setVblue0(Vblue vbl) throws PbrseException {
+            throw new PbrseException("Cbnnot set constbnt: " + vblue);
         }
 
         @Override
-        void invokeWith(List<Value> arguments) throws ParseException {
-            throw new ParseException("Constant is not a method");
+        void invokeWith(List<Vblue> brguments) throws PbrseException {
+            throw new PbrseException("Constbnt is not b method");
         }
     }
 
-    static LValue make(VirtualMachine vm, boolean val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, boolebn vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, byte val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, byte vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, char val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, chbr vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, short val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, short vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, int val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, int vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, long val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, long vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, float val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, flobt vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, double val) {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, double vbl) {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue make(VirtualMachine vm, String val) throws ParseException {
-        return new LValueConstant(vm.mirrorOf(val));
+    stbtic LVblue mbke(VirtublMbchine vm, String vbl) throws PbrseException {
+        return new LVblueConstbnt(vm.mirrorOf(vbl));
     }
 
-    static LValue makeBoolean(VirtualMachine vm, Token token) {
-        return make(vm, token.image.charAt(0) == 't');
+    stbtic LVblue mbkeBoolebn(VirtublMbchine vm, Token token) {
+        return mbke(vm, token.imbge.chbrAt(0) == 't');
     }
 
-    static LValue makeCharacter(VirtualMachine vm, Token token) {
-        return make(vm, token.image.charAt(1));
+    stbtic LVblue mbkeChbrbcter(VirtublMbchine vm, Token token) {
+        return mbke(vm, token.imbge.chbrAt(1));
     }
 
-    static LValue makeFloat(VirtualMachine vm, Token token) {
-        return make(vm, Float.valueOf(token.image).floatValue());
+    stbtic LVblue mbkeFlobt(VirtublMbchine vm, Token token) {
+        return mbke(vm, Flobt.vblueOf(token.imbge).flobtVblue());
     }
 
-    static LValue makeDouble(VirtualMachine vm, Token token) {
-        return make(vm, Double.valueOf(token.image).doubleValue());
+    stbtic LVblue mbkeDouble(VirtublMbchine vm, Token token) {
+        return mbke(vm, Double.vblueOf(token.imbge).doubleVblue());
     }
 
-    static LValue makeInteger(VirtualMachine vm, Token token) {
-        String image = token.image;
+    stbtic LVblue mbkeInteger(VirtublMbchine vm, Token token) {
+        String imbge = token.imbge;
 
-        // Here we have to deal with the fact that an INTEGER_LITERAL
-        // can be DECIMAL_LITERAL, HEX_LITERAL or OCTAL_LITERAL. All of these
-        // can have an optional "L" or "l" at the end signifying that it is
-        // a long value. Otherwise, we treat values that are in range for an
-        // int as int and anything else as long.
+        // Here we hbve to debl with the fbct thbt bn INTEGER_LITERAL
+        // cbn be DECIMAL_LITERAL, HEX_LITERAL or OCTAL_LITERAL. All of these
+        // cbn hbve bn optionbl "L" or "l" bt the end signifying thbt it is
+        // b long vblue. Otherwise, we trebt vblues thbt bre in rbnge for bn
+        // int bs int bnd bnything else bs long.
 
-        if (image.endsWith("L") || image.endsWith("l")) {
-          // This is a long without doubt - drop the final "Ll" and decode
-          image = image.substring(0, image.length() - 1);
-          return make(vm, Long.decode(image));
+        if (imbge.endsWith("L") || imbge.endsWith("l")) {
+          // This is b long without doubt - drop the finbl "Ll" bnd decode
+          imbge = imbge.substring(0, imbge.length() - 1);
+          return mbke(vm, Long.decode(imbge));
         }
 
-        long longValue = Long.decode(image);
-        int intValue = (int) longValue;
-        if (intValue == longValue) {
-          // the value fits in an integer, lets return it as an integer
-          return make(vm, intValue);
+        long longVblue = Long.decode(imbge);
+        int intVblue = (int) longVblue;
+        if (intVblue == longVblue) {
+          // the vblue fits in bn integer, lets return it bs bn integer
+          return mbke(vm, intVblue);
         }
         else {
-          // otherwise treat it as a long
-          return make(vm, longValue);
+          // otherwise trebt it bs b long
+          return mbke(vm, longVblue);
         }
     }
 
-    static LValue makeShort(VirtualMachine vm, Token token) {
-        return make(vm, Short.parseShort(token.image));
+    stbtic LVblue mbkeShort(VirtublMbchine vm, Token token) {
+        return mbke(vm, Short.pbrseShort(token.imbge));
     }
 
-    static LValue makeLong(VirtualMachine vm, Token token) {
-        return make(vm, Long.parseLong(token.image));
+    stbtic LVblue mbkeLong(VirtublMbchine vm, Token token) {
+        return mbke(vm, Long.pbrseLong(token.imbge));
     }
 
-    static LValue makeByte(VirtualMachine vm, Token token) {
-        return make(vm, Byte.parseByte(token.image));
+    stbtic LVblue mbkeByte(VirtublMbchine vm, Token token) {
+        return mbke(vm, Byte.pbrseByte(token.imbge));
     }
 
-    static LValue makeString(VirtualMachine vm,
-                             Token token) throws ParseException {
-        int len = token.image.length();
-        return make(vm, token.image.substring(1,len-1));
+    stbtic LVblue mbkeString(VirtublMbchine vm,
+                             Token token) throws PbrseException {
+        int len = token.imbge.length();
+        return mbke(vm, token.imbge.substring(1,len-1));
     }
 
-    static LValue makeNull(VirtualMachine vm,
-                           Token token) throws ParseException {
-        return new LValueConstant(null);
+    stbtic LVblue mbkeNull(VirtublMbchine vm,
+                           Token token) throws PbrseException {
+        return new LVblueConstbnt(null);
     }
 
-    static LValue makeThisObject(VirtualMachine vm,
-                                 ExpressionParser.GetFrame frameGetter,
-                                 Token token) throws ParseException {
-        if (frameGetter == null) {
-            throw new ParseException("No current thread");
+    stbtic LVblue mbkeThisObject(VirtublMbchine vm,
+                                 ExpressionPbrser.GetFrbme frbmeGetter,
+                                 Token token) throws PbrseException {
+        if (frbmeGetter == null) {
+            throw new PbrseException("No current threbd");
         } else {
             try {
-                StackFrame frame = frameGetter.get();
-                ObjectReference thisObject = frame.thisObject();
+                StbckFrbme frbme = frbmeGetter.get();
+                ObjectReference thisObject = frbme.thisObject();
 
                 if (thisObject==null) {
-                        throw new ParseException(
-                            "No 'this'.  In native or static method");
+                        throw new PbrseException(
+                            "No 'this'.  In nbtive or stbtic method");
                 } else {
-                        return new LValueConstant(thisObject);
+                        return new LVblueConstbnt(thisObject);
                 }
-            } catch (IncompatibleThreadStateException exc) {
-                throw new ParseException("Thread not suspended");
+            } cbtch (IncompbtibleThrebdStbteException exc) {
+                throw new PbrseException("Threbd not suspended");
             }
         }
     }
 
-    static LValue makeNewObject(VirtualMachine vm,
-                                 ExpressionParser.GetFrame frameGetter,
-                                String className, List<Value> arguments) throws ParseException {
-        List<ReferenceType> classes = vm.classesByName(className);
-        if (classes.size() == 0) {
-            throw new ParseException("No class named: " + className);
+    stbtic LVblue mbkeNewObject(VirtublMbchine vm,
+                                 ExpressionPbrser.GetFrbme frbmeGetter,
+                                String clbssNbme, List<Vblue> brguments) throws PbrseException {
+        List<ReferenceType> clbsses = vm.clbssesByNbme(clbssNbme);
+        if (clbsses.size() == 0) {
+            throw new PbrseException("No clbss nbmed: " + clbssNbme);
         }
 
-        if (classes.size() > 1) {
-            throw new ParseException("More than one class named: " +
-                                     className);
+        if (clbsses.size() > 1) {
+            throw new PbrseException("More thbn one clbss nbmed: " +
+                                     clbssNbme);
         }
-        ReferenceType refType = classes.get(0);
+        ReferenceType refType = clbsses.get(0);
 
 
-        if (!(refType instanceof ClassType)) {
-            throw new ParseException("Cannot create instance of interface " +
-                                     className);
+        if (!(refType instbnceof ClbssType)) {
+            throw new PbrseException("Cbnnot crebte instbnce of interfbce " +
+                                     clbssNbme);
         }
 
-        ClassType classType = (ClassType)refType;
-        List<Method> methods = new ArrayList<Method>(classType.methods()); // writable
-        Iterator<Method> iter = methods.iterator();
-        while (iter.hasNext()) {
+        ClbssType clbssType = (ClbssType)refType;
+        List<Method> methods = new ArrbyList<Method>(clbssType.methods()); // writbble
+        Iterbtor<Method> iter = methods.iterbtor();
+        while (iter.hbsNext()) {
             Method method = iter.next();
             if (!method.isConstructor()) {
                 iter.remove();
             }
         }
-        Method constructor = LValue.resolveOverload(methods, arguments);
+        Method constructor = LVblue.resolveOverlobd(methods, brguments);
 
         ObjectReference newObject;
         try {
-            ThreadReference thread = frameGetter.get().thread();
-            newObject = classType.newInstance(thread, constructor, arguments, 0);
-        } catch (InvocationException ie) {
-            throw new ParseException("Exception in " + className + " constructor: " +
-                                     ie.exception().referenceType().name());
-        } catch (IncompatibleThreadStateException exc) {
-            throw new ParseException("Thread not suspended");
-        } catch (Exception e) {
+            ThrebdReference threbd = frbmeGetter.get().threbd();
+            newObject = clbssType.newInstbnce(threbd, constructor, brguments, 0);
+        } cbtch (InvocbtionException ie) {
+            throw new PbrseException("Exception in " + clbssNbme + " constructor: " +
+                                     ie.exception().referenceType().nbme());
+        } cbtch (IncompbtibleThrebdStbteException exc) {
+            throw new PbrseException("Threbd not suspended");
+        } cbtch (Exception e) {
             /*
-             * TO DO: Better error handling
+             * TO DO: Better error hbndling
              */
-            throw new ParseException("Unable to create " + className + " instance");
+            throw new PbrseException("Unbble to crebte " + clbssNbme + " instbnce");
         }
-        return new LValueConstant(newObject);
+        return new LVblueConstbnt(newObject);
     }
 
-    private static LValue nFields(LValue lval,
+    privbte stbtic LVblue nFields(LVblue lvbl,
                                   StringTokenizer izer,
-                                  ThreadReference thread)
-                                          throws ParseException {
-        if (!izer.hasMoreTokens()) {
-            return lval;
+                                  ThrebdReference threbd)
+                                          throws PbrseException {
+        if (!izer.hbsMoreTokens()) {
+            return lvbl;
         } else {
-            return nFields(lval.memberLValue(izer.nextToken(), thread), izer, thread);
+            return nFields(lvbl.memberLVblue(izer.nextToken(), threbd), izer, threbd);
         }
     }
 
-    static LValue makeName(VirtualMachine vm,
-                           ExpressionParser.GetFrame frameGetter,
-                           String name) throws ParseException {
-        StringTokenizer izer = new StringTokenizer(name, ".");
+    stbtic LVblue mbkeNbme(VirtublMbchine vm,
+                           ExpressionPbrser.GetFrbme frbmeGetter,
+                           String nbme) throws PbrseException {
+        StringTokenizer izer = new StringTokenizer(nbme, ".");
         String first = izer.nextToken();
-        // check local variables
-        if (frameGetter != null) {
+        // check locbl vbribbles
+        if (frbmeGetter != null) {
             try {
-                StackFrame frame = frameGetter.get();
-                ThreadReference thread = frame.thread();
-                LocalVariable var;
+                StbckFrbme frbme = frbmeGetter.get();
+                ThrebdReference threbd = frbme.threbd();
+                LocblVbribble vbr;
                 try {
-                    var = frame.visibleVariableByName(first);
-                } catch (AbsentInformationException e) {
-                    var = null;
+                    vbr = frbme.visibleVbribbleByNbme(first);
+                } cbtch (AbsentInformbtionException e) {
+                    vbr = null;
                 }
-                if (var != null) {
-                    return nFields(new LValueLocal(frame, var), izer, thread);
+                if (vbr != null) {
+                    return nFields(new LVblueLocbl(frbme, vbr), izer, threbd);
                 } else {
-                    ObjectReference thisObject = frame.thisObject();
+                    ObjectReference thisObject = frbme.thisObject();
                     if (thisObject != null) {
-                        // check if it is a field of 'this'
-                        LValue thisLValue = new LValueConstant(thisObject);
-                        LValue fv;
+                        // check if it is b field of 'this'
+                        LVblue thisLVblue = new LVblueConstbnt(thisObject);
+                        LVblue fv;
                         try {
-                            fv = thisLValue.memberLValue(first, thread);
-                        } catch (ParseException exc) {
+                            fv = thisLVblue.memberLVblue(first, threbd);
+                        } cbtch (PbrseException exc) {
                             fv = null;
                         }
                         if (fv != null) {
-                            return nFields(fv, izer, thread);
+                            return nFields(fv, izer, threbd);
                         }
                     }
                 }
-                // check for class name
-                while (izer.hasMoreTokens()) {
-                    List<ReferenceType> classes = vm.classesByName(first);
-                    if (classes.size() > 0) {
-                        if (classes.size() > 1) {
-                            throw new ParseException("More than one class named: " +
+                // check for clbss nbme
+                while (izer.hbsMoreTokens()) {
+                    List<ReferenceType> clbsses = vm.clbssesByNbme(first);
+                    if (clbsses.size() > 0) {
+                        if (clbsses.size() > 1) {
+                            throw new PbrseException("More thbn one clbss nbmed: " +
                                                      first);
                         } else {
-                            ReferenceType refType = classes.get(0);
-                            LValue lval = new LValueStaticMember(refType,
-                                                            izer.nextToken(), thread);
-                            return nFields(lval, izer, thread);
+                            ReferenceType refType = clbsses.get(0);
+                            LVblue lvbl = new LVblueStbticMember(refType,
+                                                            izer.nextToken(), threbd);
+                            return nFields(lvbl, izer, threbd);
                         }
                     }
                     first = first + '.' + izer.nextToken();
                 }
-            } catch (IncompatibleThreadStateException exc) {
-                throw new ParseException("Thread not suspended");
+            } cbtch (IncompbtibleThrebdStbteException exc) {
+                throw new PbrseException("Threbd not suspended");
             }
         }
-        throw new ParseException("Name unknown: " + name);
+        throw new PbrseException("Nbme unknown: " + nbme);
     }
 
-    static String stringValue(LValue lval, ExpressionParser.GetFrame frameGetter
-                              ) throws ParseException {
-        Value val = lval.getMassagedValue(frameGetter);
-        if (val == null) {
+    stbtic String stringVblue(LVblue lvbl, ExpressionPbrser.GetFrbme frbmeGetter
+                              ) throws PbrseException {
+        Vblue vbl = lvbl.getMbssbgedVblue(frbmeGetter);
+        if (vbl == null) {
             return "null";
         }
-        if (val instanceof StringReference) {
-            return ((StringReference)val).value();
+        if (vbl instbnceof StringReference) {
+            return ((StringReference)vbl).vblue();
         }
-        return val.toString();  // is this correct in all cases?
+        return vbl.toString();  // is this correct in bll cbses?
     }
 
-    static LValue booleanOperation(VirtualMachine vm, Token token,
-                            LValue rightL,
-                            LValue leftL) throws ParseException {
-        String op = token.image;
-        Value right = rightL.interiorGetValue();
-        Value left = leftL.interiorGetValue();
-        if ( !(right instanceof PrimitiveValue) ||
-             !(left instanceof PrimitiveValue) ) {
-            if (op.equals("==")) {
-                return make(vm, right.equals(left));
-            } else if (op.equals("!=")) {
-                return make(vm, !right.equals(left));
+    stbtic LVblue boolebnOperbtion(VirtublMbchine vm, Token token,
+                            LVblue rightL,
+                            LVblue leftL) throws PbrseException {
+        String op = token.imbge;
+        Vblue right = rightL.interiorGetVblue();
+        Vblue left = leftL.interiorGetVblue();
+        if ( !(right instbnceof PrimitiveVblue) ||
+             !(left instbnceof PrimitiveVblue) ) {
+            if (op.equbls("==")) {
+                return mbke(vm, right.equbls(left));
+            } else if (op.equbls("!=")) {
+                return mbke(vm, !right.equbls(left));
             } else {
-                throw new ParseException("Operands or '" + op +
+                throw new PbrseException("Operbnds or '" + op +
                                      "' must be primitive");
             }
         }
-        // can compare any numeric doubles
-        double rr = ((PrimitiveValue)right).doubleValue();
-        double ll = ((PrimitiveValue)left).doubleValue();
-        boolean res;
-        if (op.equals("<")) {
+        // cbn compbre bny numeric doubles
+        double rr = ((PrimitiveVblue)right).doubleVblue();
+        double ll = ((PrimitiveVblue)left).doubleVblue();
+        boolebn res;
+        if (op.equbls("<")) {
             res = rr < ll;
-        } else if (op.equals(">")) {
+        } else if (op.equbls(">")) {
             res = rr > ll;
-        } else if (op.equals("<=")) {
+        } else if (op.equbls("<=")) {
             res = rr <= ll;
-        } else if (op.equals(">=")) {
+        } else if (op.equbls(">=")) {
             res = rr >= ll;
-        } else if (op.equals("==")) {
+        } else if (op.equbls("==")) {
             res = rr == ll;
-        } else if (op.equals("!=")) {
+        } else if (op.equbls("!=")) {
             res = rr != ll;
         } else {
-            throw new ParseException("Unknown operation: " + op);
+            throw new PbrseException("Unknown operbtion: " + op);
         }
-        return make(vm, res);
+        return mbke(vm, res);
     }
 
-    static LValue operation(VirtualMachine vm, Token token,
-                            LValue rightL, LValue leftL,
-                            ExpressionParser.GetFrame frameGetter
-                            ) throws ParseException {
-        String op = token.image;
-        Value right = rightL.interiorGetValue();
-        Value left = leftL.interiorGetValue();
-        if ((right instanceof StringReference) ||
-                              (left instanceof StringReference)) {
-            if (op.equals("+")) {
-                // If one is an ObjectRef, we will need to invoke
-                // toString on it, so we need the thread.
-                return make(vm, stringValue(rightL, frameGetter) +
-                            stringValue(leftL, frameGetter));
+    stbtic LVblue operbtion(VirtublMbchine vm, Token token,
+                            LVblue rightL, LVblue leftL,
+                            ExpressionPbrser.GetFrbme frbmeGetter
+                            ) throws PbrseException {
+        String op = token.imbge;
+        Vblue right = rightL.interiorGetVblue();
+        Vblue left = leftL.interiorGetVblue();
+        if ((right instbnceof StringReference) ||
+                              (left instbnceof StringReference)) {
+            if (op.equbls("+")) {
+                // If one is bn ObjectRef, we will need to invoke
+                // toString on it, so we need the threbd.
+                return mbke(vm, stringVblue(rightL, frbmeGetter) +
+                            stringVblue(leftL, frbmeGetter));
             }
         }
-        if ((right instanceof ObjectReference) ||
-                              (left instanceof ObjectReference)) {
-            if (op.equals("==")) {
-                return make(vm, right.equals(left));
-            } else if (op.equals("!=")) {
-                return make(vm, !right.equals(left));
+        if ((right instbnceof ObjectReference) ||
+                              (left instbnceof ObjectReference)) {
+            if (op.equbls("==")) {
+                return mbke(vm, right.equbls(left));
+            } else if (op.equbls("!=")) {
+                return mbke(vm, !right.equbls(left));
             } else {
-                throw new ParseException("Invalid operation '" +
-                                         op + "' on an Object");
+                throw new PbrseException("Invblid operbtion '" +
+                                         op + "' on bn Object");
             }
         }
-        if ((right instanceof BooleanValue) ||
-                              (left instanceof BooleanValue)) {
-            throw new ParseException("Invalid operation '" +
-                                     op + "' on a Boolean");
+        if ((right instbnceof BoolebnVblue) ||
+                              (left instbnceof BoolebnVblue)) {
+            throw new PbrseException("Invblid operbtion '" +
+                                     op + "' on b Boolebn");
         }
-        // from here on, we know it is a integer kind of type
-        PrimitiveValue primRight = (PrimitiveValue)right;
-        PrimitiveValue primLeft = (PrimitiveValue)left;
-        if ((primRight instanceof DoubleValue) ||
-                              (primLeft instanceof DoubleValue)) {
-            double rr = primRight.doubleValue();
-            double ll = primLeft.doubleValue();
+        // from here on, we know it is b integer kind of type
+        PrimitiveVblue primRight = (PrimitiveVblue)right;
+        PrimitiveVblue primLeft = (PrimitiveVblue)left;
+        if ((primRight instbnceof DoubleVblue) ||
+                              (primLeft instbnceof DoubleVblue)) {
+            double rr = primRight.doubleVblue();
+            double ll = primLeft.doubleVblue();
             double res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr + ll;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = rr - ll;
-            } else if (op.equals("*")) {
+            } else if (op.equbls("*")) {
                 res = rr * ll;
-            } else if (op.equals("/")) {
+            } else if (op.equbls("/")) {
                 res = rr / ll;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
-        if ((primRight instanceof FloatValue) ||
-                              (primLeft instanceof FloatValue)) {
-            float rr = primRight.floatValue();
-            float ll = primLeft.floatValue();
-            float res;
-            if (op.equals("+")) {
+        if ((primRight instbnceof FlobtVblue) ||
+                              (primLeft instbnceof FlobtVblue)) {
+            flobt rr = primRight.flobtVblue();
+            flobt ll = primLeft.flobtVblue();
+            flobt res;
+            if (op.equbls("+")) {
                 res = rr + ll;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = rr - ll;
-            } else if (op.equals("*")) {
+            } else if (op.equbls("*")) {
                 res = rr * ll;
-            } else if (op.equals("/")) {
+            } else if (op.equbls("/")) {
                 res = rr / ll;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
-        if ((primRight instanceof LongValue) ||
-                              (primLeft instanceof LongValue)) {
-            long rr = primRight.longValue();
-            long ll = primLeft.longValue();
+        if ((primRight instbnceof LongVblue) ||
+                              (primLeft instbnceof LongVblue)) {
+            long rr = primRight.longVblue();
+            long ll = primLeft.longVblue();
             long res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr + ll;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = rr - ll;
-            } else if (op.equals("*")) {
+            } else if (op.equbls("*")) {
                 res = rr * ll;
-            } else if (op.equals("/")) {
+            } else if (op.equbls("/")) {
                 res = rr / ll;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         } else {
-            int rr = primRight.intValue();
-            int ll = primLeft.intValue();
+            int rr = primRight.intVblue();
+            int ll = primLeft.intVblue();
             int res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr + ll;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = rr - ll;
-            } else if (op.equals("*")) {
+            } else if (op.equbls("*")) {
                 res = rr * ll;
-            } else if (op.equals("/")) {
+            } else if (op.equbls("/")) {
                 res = rr / ll;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
     }
 
-    static LValue operation(VirtualMachine vm, Token token, LValue rightL,
-            ExpressionParser.GetFrame frameGetter)
-            throws ParseException {
-        String op = token.image;
-        Value right = rightL.interiorGetValue();
-        if (right instanceof ObjectReference) {
-            throw new ParseException("Invalid operation '" + op
-                    + "' on an Object");
+    stbtic LVblue operbtion(VirtublMbchine vm, Token token, LVblue rightL,
+            ExpressionPbrser.GetFrbme frbmeGetter)
+            throws PbrseException {
+        String op = token.imbge;
+        Vblue right = rightL.interiorGetVblue();
+        if (right instbnceof ObjectReference) {
+            throw new PbrseException("Invblid operbtion '" + op
+                    + "' on bn Object");
         }
-        if (right instanceof BooleanValue) {
-            if (op.equals("!")) {
-                boolean rr = ((BooleanValue) right).value();
-                return make(vm, !rr);
+        if (right instbnceof BoolebnVblue) {
+            if (op.equbls("!")) {
+                boolebn rr = ((BoolebnVblue) right).vblue();
+                return mbke(vm, !rr);
             }
-            throw new ParseException("Invalid operation '" + op
-                    + "' on a Boolean");
+            throw new PbrseException("Invblid operbtion '" + op
+                    + "' on b Boolebn");
         }
-        // from here on, we know it is a integer kind of type
-        PrimitiveValue primRight = (PrimitiveValue) right;
-        if (primRight instanceof DoubleValue) {
-            double rr = primRight.doubleValue();
+        // from here on, we know it is b integer kind of type
+        PrimitiveVblue primRight = (PrimitiveVblue) right;
+        if (primRight instbnceof DoubleVblue) {
+            double rr = primRight.doubleVblue();
             double res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = -rr;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
-        if (primRight instanceof FloatValue) {
-            float rr = primRight.floatValue();
-            float res;
-            if (op.equals("+")) {
+        if (primRight instbnceof FlobtVblue) {
+            flobt rr = primRight.flobtVblue();
+            flobt res;
+            if (op.equbls("+")) {
                 res = rr;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = -rr;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
-        if (primRight instanceof LongValue) {
-            long rr = primRight.longValue();
+        if (primRight instbnceof LongVblue) {
+            long rr = primRight.longVblue();
             long res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = -rr;
-            } else if (op.equals("~")) {
+            } else if (op.equbls("~")) {
                 res = ~rr;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         } else {
-            int rr = primRight.intValue();
+            int rr = primRight.intVblue();
             int res;
-            if (op.equals("+")) {
+            if (op.equbls("+")) {
                 res = rr;
-            } else if (op.equals("-")) {
+            } else if (op.equbls("-")) {
                 res = -rr;
-            } else if (op.equals("~")) {
+            } else if (op.equbls("~")) {
                 res = ~rr;
             } else {
-                throw new ParseException("Unknown operation: " + op);
+                throw new PbrseException("Unknown operbtion: " + op);
             }
-            return make(vm, res);
+            return mbke(vm, res);
         }
     }
 }

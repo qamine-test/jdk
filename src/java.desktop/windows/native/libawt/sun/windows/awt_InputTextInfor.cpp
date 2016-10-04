@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
+#include "bwt.h"
 #include <imm.h>
-#include "awt_Component.h"
-#include "awt_InputTextInfor.h"
+#include "bwt_Component.h"
+#include "bwt_InputTextInfor.h"
 
 #define WCHAR_SZ sizeof(WCHAR)
 #define DWORD_SZ sizeof(DWORD)
 
-// The start and end index of the result and composition in GCS_INDEX array.
+// The stbrt bnd end index of the result bnd composition in GCS_INDEX brrby.
 #define START_RESULTSTR 0
 #define END_RESULTSTR 3
 #define START_COMPSTR 4
 #define END_COMPSTR 8
 
-// The GCS_INDEX array is partitioned into 2 parts, one is result string related and the
-// other is composing string related.
+// The GCS_INDEX brrby is pbrtitioned into 2 pbrts, one is result string relbted bnd the
+// other is composing string relbted.
 const DWORD AwtInputTextInfor::GCS_INDEX[9]= {GCS_RESULTSTR, GCS_RESULTREADSTR, GCS_RESULTCLAUSE,
                                               GCS_RESULTREADCLAUSE, GCS_COMPSTR, GCS_COMPREADSTR,
                                               GCS_COMPCLAUSE, GCS_COMPREADCLAUSE,GCS_COMPATTR};
-/* Default constructor */
+/* Defbult constructor */
 AwtInputTextInfor::AwtInputTextInfor() :
-    m_flags(0), m_cursorPosW(0), m_jtext(NULL), m_pResultTextInfor(NULL), \
-    m_cStrW(0), m_cReadStrW(0), m_cClauseW(0), m_cReadClauseW(0), m_cAttrW(0), \
-    m_lpStrW(NULL), m_lpReadStrW(NULL), m_lpClauseW(NULL), m_lpReadClauseW(NULL), m_lpAttrW(NULL)
+    m_flbgs(0), m_cursorPosW(0), m_jtext(NULL), m_pResultTextInfor(NULL), \
+    m_cStrW(0), m_cRebdStrW(0), m_cClbuseW(0), m_cRebdClbuseW(0), m_cAttrW(0), \
+    m_lpStrW(NULL), m_lpRebdStrW(NULL), m_lpClbuseW(NULL), m_lpRebdClbuseW(NULL), m_lpAttrW(NULL)
 {}
 
 
-/* Retrieve the context data from the current IMC.
-   Params:
+/* Retrieve the context dbtb from the current IMC.
+   Pbrbms:
    HIMC hIMC - the input method context, must NOT be NULL
-   LPARAMS flags - message param to WM_IME_COMPOSITION.
+   LPARAMS flbgs - messbge pbrbm to WM_IME_COMPOSITION.
    Returns 0 if success.
 */
 int
-AwtInputTextInfor::GetContextData(HIMC hIMC, const LPARAM flags) {
+AwtInputTextInfor::GetContextDbtb(HIMC hIMC, const LPARAM flbgs) {
 
     DASSERT(hIMC != 0);
 
-    m_flags = flags;
-    // Based on different flags received, we use different GCS_XXX from the
-    // GCS_INDEX array.
-    int startIndex = 0, endIndex = 0;
+    m_flbgs = flbgs;
+    // Bbsed on different flbgs received, we use different GCS_XXX from the
+    // GCS_INDEX brrby.
+    int stbrtIndex = 0, endIndex = 0;
 
-    if (flags & GCS_COMPSTR) {
-        startIndex = START_COMPSTR;
+    if (flbgs & GCS_COMPSTR) {
+        stbrtIndex = START_COMPSTR;
         endIndex = END_COMPSTR;
-        /* For some window input method such as Chinese QuanPing, when the user
+        /* For some window input method such bs Chinese QubnPing, when the user
          * commits some text, the IMM sends WM_IME_COMPOSITION with GCS_COMPSTR/GCS_RESULTSTR.
-         * So we have to extract the result string from IMC. For most of other cases,
-         * m_pResultTextInfor is NULL and this is why we choose to have a pointer as its member
-         * rather than having a list of the result string information.
+         * So we hbve to extrbct the result string from IMC. For most of other cbses,
+         * m_pResultTextInfor is NULL bnd this is why we choose to hbve b pointer bs its member
+         * rbther thbn hbving b list of the result string informbtion.
          */
-        if (flags & GCS_RESULTSTR) {
+        if (flbgs & GCS_RESULTSTR) {
             m_pResultTextInfor = new AwtInputTextInfor;
-            m_pResultTextInfor->GetContextData(hIMC, GCS_RESULTSTR);
+            m_pResultTextInfor->GetContextDbtb(hIMC, GCS_RESULTSTR);
         }
-    } else if (flags & GCS_RESULTSTR) {
-        startIndex = START_RESULTSTR;
+    } else if (flbgs & GCS_RESULTSTR) {
+        stbrtIndex = START_RESULTSTR;
         endIndex = END_RESULTSTR;
-    } else { // unknown flags.
+    } else { // unknown flbgs.
         return -1;
     }
 
-    /* Get the data from the input context */
-    LONG   cbData[5] = {0};
-    LPVOID lpData[5] = {NULL};
-    for (int i = startIndex, j = 0; i <= endIndex; i++, j++) {
-        cbData[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], NULL, 0);
-        if (cbData[j] == 0) {
-            lpData[j] = NULL;
+    /* Get the dbtb from the input context */
+    LONG   cbDbtb[5] = {0};
+    LPVOID lpDbtb[5] = {NULL};
+    for (int i = stbrtIndex, j = 0; i <= endIndex; i++, j++) {
+        cbDbtb[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], NULL, 0);
+        if (cbDbtb[j] == 0) {
+            lpDbtb[j] = NULL;
         } else {
-            LPBYTE lpTemp = new BYTE[cbData[j]];
-            cbData[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], lpTemp, cbData[j]);
-            if (IMM_ERROR_GENERAL != cbData[j]) {
-                lpData[j] = (LPVOID)lpTemp;
+            LPBYTE lpTemp = new BYTE[cbDbtb[j]];
+            cbDbtb[j] = ::ImmGetCompositionString(hIMC, GCS_INDEX[i], lpTemp, cbDbtb[j]);
+            if (IMM_ERROR_GENERAL != cbDbtb[j]) {
+                lpDbtb[j] = (LPVOID)lpTemp;
             } else {
-                lpData[j] = NULL;
+                lpDbtb[j] = NULL;
                 return -1;
             }
         }
     }
 
-    // Assign the context data
-    m_cStrW = cbData[0]/WCHAR_SZ;
-    m_lpStrW = (LPWSTR)lpData[0];
+    // Assign the context dbtb
+    m_cStrW = cbDbtb[0]/WCHAR_SZ;
+    m_lpStrW = (LPWSTR)lpDbtb[0];
 
-    m_cReadStrW = cbData[1]/WCHAR_SZ;
-    m_lpReadStrW = (LPWSTR)lpData[1];
+    m_cRebdStrW = cbDbtb[1]/WCHAR_SZ;
+    m_lpRebdStrW = (LPWSTR)lpDbtb[1];
 
-    m_cClauseW = cbData[2]/DWORD_SZ - 1;
-    m_lpClauseW = (LPDWORD)lpData[2];
+    m_cClbuseW = cbDbtb[2]/DWORD_SZ - 1;
+    m_lpClbuseW = (LPDWORD)lpDbtb[2];
 
-    m_cReadClauseW = cbData[3]/DWORD_SZ - 1;
-    m_lpReadClauseW = (LPDWORD)lpData[3];
+    m_cRebdClbuseW = cbDbtb[3]/DWORD_SZ - 1;
+    m_lpRebdClbuseW = (LPDWORD)lpDbtb[3];
 
-    if (cbData[4] > 0) {
-        m_cAttrW = cbData[4];
-        m_lpAttrW = (LPBYTE)lpData[4];
+    if (cbDbtb[4] > 0) {
+        m_cAttrW = cbDbtb[4];
+        m_lpAttrW = (LPBYTE)lpDbtb[4];
     }
 
     // Get the cursor position
-    if (flags & GCS_COMPSTR) {
+    if (flbgs & GCS_COMPSTR) {
         m_cursorPosW = ::ImmGetCompositionString(hIMC, GCS_CURSORPOS,
                                                 NULL, 0);
     }
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     if (m_cStrW > 0) {
-        m_jtext = MakeJavaString(env, m_lpStrW, m_cStrW);
+        m_jtext = MbkeJbvbString(env, m_lpStrW, m_cStrW);
         JNU_CHECK_EXCEPTION_RETURN(env, -1);
     }
 
-    // Merge the string if necessary
+    // Merge the string if necessbry
     if (m_pResultTextInfor != NULL) {
         jstring jresultText = m_pResultTextInfor->GetText();
         if (m_jtext != NULL && jresultText != NULL) {
-            jstring jMergedtext = (jstring)JNU_CallMethodByName(env, NULL, jresultText,
-                                                                "concat",
-                                                                "(Ljava/lang/String;)Ljava/lang/String;",
+            jstring jMergedtext = (jstring)JNU_CbllMethodByNbme(env, NULL, jresultText,
+                                                                "concbt",
+                                                                "(Ljbvb/lbng/String;)Ljbvb/lbng/String;",
                                                                 m_jtext).l;
-            DASSERT(!safe_ExceptionOccurred(env));
+            DASSERT(!sbfe_ExceptionOccurred(env));
             DASSERT(jMergedtext != NULL);
 
-            env->DeleteLocalRef(m_jtext);
+            env->DeleteLocblRef(m_jtext);
             m_jtext = jMergedtext;
         }
         else if (m_jtext == NULL && jresultText != NULL) {
-            /* No composing text, assign the committed text to m_jtext */
-            m_jtext = (jstring)env->NewLocalRef(jresultText);
+            /* No composing text, bssign the committed text to m_jtext */
+            m_jtext = (jstring)env->NewLocblRef(jresultText);
         }
     }
 
@@ -160,20 +160,20 @@ AwtInputTextInfor::GetContextData(HIMC hIMC, const LPARAM flags) {
 
 /*
  * Destructor
- * free the pointer in the m_lpInfoStrW array
+ * free the pointer in the m_lpInfoStrW brrby
  */
 AwtInputTextInfor::~AwtInputTextInfor() {
 
     if (m_jtext) {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        env->DeleteLocalRef(m_jtext);
+        env->DeleteLocblRef(m_jtext);
         m_jtext = NULL;
     }
 
     delete [] m_lpStrW;
-    delete [] m_lpReadStrW;
-    delete [] m_lpClauseW;
-    delete [] m_lpReadClauseW;
+    delete [] m_lpRebdStrW;
+    delete [] m_lpClbuseW;
+    delete [] m_lpRebdClbuseW;
     delete [] m_lpAttrW;
 
     if (m_pResultTextInfor) {
@@ -183,235 +183,235 @@ AwtInputTextInfor::~AwtInputTextInfor() {
 }
 
 
-jstring AwtInputTextInfor::MakeJavaString(JNIEnv* env, LPWSTR lpStrW, int cStrW) {
+jstring AwtInputTextInfor::MbkeJbvbString(JNIEnv* env, LPWSTR lpStrW, int cStrW) {
 
     if (env == NULL || lpStrW == NULL || cStrW == 0) {
         return NULL;
     } else {
-        return env->NewString(reinterpret_cast<jchar*>(lpStrW), cStrW);
+        return env->NewString(reinterpret_cbst<jchbr*>(lpStrW), cStrW);
     }
 }
 
 //
-//  Convert Clause and Reading Information for DBCS string to that for Unicode string
-//  *lpBndClauseW and *lpReadingClauseW  must be deleted by caller.
+//  Convert Clbuse bnd Rebding Informbtion for DBCS string to thbt for Unicode string
+//  *lpBndClbuseW bnd *lpRebdingClbuseW  must be deleted by cbller.
 //
-int AwtInputTextInfor::GetClauseInfor(int*& lpBndClauseW, jstring*& lpReadingClauseW) {
+int AwtInputTextInfor::GetClbuseInfor(int*& lpBndClbuseW, jstring*& lpRebdingClbuseW) {
 
-    if ( m_cStrW ==0 || m_cClauseW ==0 || m_cClauseW != m_cReadClauseW ||
-         m_lpClauseW == NULL || m_lpReadClauseW == NULL ||
-         m_lpClauseW[0] != 0 || m_lpClauseW[m_cClauseW] != (DWORD)m_cStrW ||
-         m_lpReadClauseW[0] != 0 || m_lpReadClauseW[m_cReadClauseW] != (DWORD)m_cReadStrW) {
-        lpBndClauseW = NULL;
-        lpReadingClauseW = NULL;
+    if ( m_cStrW ==0 || m_cClbuseW ==0 || m_cClbuseW != m_cRebdClbuseW ||
+         m_lpClbuseW == NULL || m_lpRebdClbuseW == NULL ||
+         m_lpClbuseW[0] != 0 || m_lpClbuseW[m_cClbuseW] != (DWORD)m_cStrW ||
+         m_lpRebdClbuseW[0] != 0 || m_lpRebdClbuseW[m_cRebdClbuseW] != (DWORD)m_cRebdStrW) {
+        lpBndClbuseW = NULL;
+        lpRebdingClbuseW = NULL;
         return 0;
     }
 
-    int*    bndClauseW = NULL;
-    jstring* readingClauseW = NULL;
+    int*    bndClbuseW = NULL;
+    jstring* rebdingClbuseW = NULL;
 
-    //Convert ANSI string caluse information to UNICODE string clause information.
+    //Convert ANSI string cbluse informbtion to UNICODE string clbuse informbtion.
     try {
-        bndClauseW = new int[m_cClauseW + 1];
-        readingClauseW = new jstring[m_cClauseW];
-    } catch (std::bad_alloc&) {
-        lpBndClauseW = NULL;
-        lpReadingClauseW = NULL;
-        delete [] bndClauseW;
+        bndClbuseW = new int[m_cClbuseW + 1];
+        rebdingClbuseW = new jstring[m_cClbuseW];
+    } cbtch (std::bbd_blloc&) {
+        lpBndClbuseW = NULL;
+        lpRebdingClbuseW = NULL;
+        delete [] bndClbuseW;
         throw;
     }
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    for ( int cls = 0; cls < m_cClauseW; cls++ ) {
-        bndClauseW[cls] = m_lpClauseW[cls];
+    for ( int cls = 0; cls < m_cClbuseW; cls++ ) {
+        bndClbuseW[cls] = m_lpClbuseW[cls];
 
-        if ( m_lpReadClauseW[cls + 1] <= (DWORD)m_cReadStrW ) {
-            LPWSTR lpHWStrW = m_lpReadStrW + m_lpReadClauseW[cls];
-            int cHWStrW = m_lpReadClauseW[cls+1] - m_lpReadClauseW[cls];
+        if ( m_lpRebdClbuseW[cls + 1] <= (DWORD)m_cRebdStrW ) {
+            LPWSTR lpHWStrW = m_lpRebdStrW + m_lpRebdClbuseW[cls];
+            int cHWStrW = m_lpRebdClbuseW[cls+1] - m_lpRebdClbuseW[cls];
 
-            if (PRIMARYLANGID(AwtComponent::GetInputLanguage()) == LANG_JAPANESE) {
+            if (PRIMARYLANGID(AwtComponent::GetInputLbngubge()) == LANG_JAPANESE) {
                 LCID lcJPN = MAKELCID(MAKELANGID(LANG_JAPANESE,SUBLANG_DEFAULT),SORT_DEFAULT);
-                // Reading string is given in half width katakana in Japanese Windows
-                //  Convert it to full width katakana.
-                int cFWStrW = ::LCMapString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, NULL, 0);
+                // Rebding string is given in hblf width kbtbkbnb in Jbpbnese Windows
+                //  Convert it to full width kbtbkbnb.
+                int cFWStrW = ::LCMbpString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, NULL, 0);
                 LPWSTR lpFWStrW;
                 try {
                     lpFWStrW = new WCHAR[cFWStrW];
-                } catch (std::bad_alloc&) {
-                    lpBndClauseW = NULL;
-                    lpReadingClauseW = NULL;
-                    delete [] bndClauseW;
-                    delete [] readingClauseW;
+                } cbtch (std::bbd_blloc&) {
+                    lpBndClbuseW = NULL;
+                    lpRebdingClbuseW = NULL;
+                    delete [] bndClbuseW;
+                    delete [] rebdingClbuseW;
                     throw;
                 }
 
-                ::LCMapString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, lpFWStrW, cFWStrW);
-                readingClauseW[cls] = MakeJavaString(env, lpFWStrW, cFWStrW);
+                ::LCMbpString(lcJPN, LCMAP_FULLWIDTH, lpHWStrW, cHWStrW, lpFWStrW, cFWStrW);
+                rebdingClbuseW[cls] = MbkeJbvbString(env, lpFWStrW, cFWStrW);
                 delete [] lpFWStrW;
             } else {
-                readingClauseW[cls] = MakeJavaString(env, lpHWStrW, cHWStrW);
+                rebdingClbuseW[cls] = MbkeJbvbString(env, lpHWStrW, cHWStrW);
             }
             if (env->ExceptionCheck()) {
-                lpBndClauseW = NULL;
-                lpReadingClauseW = NULL;
-                delete [] bndClauseW;
-                delete [] readingClauseW;
+                lpBndClbuseW = NULL;
+                lpRebdingClbuseW = NULL;
+                delete [] bndClbuseW;
+                delete [] rebdingClbuseW;
                 return 0;
             }
         }
         else {
-            readingClauseW[cls] = NULL;
+            rebdingClbuseW[cls] = NULL;
         }
     }
 
-    bndClauseW[m_cClauseW] = m_cStrW;
+    bndClbuseW[m_cClbuseW] = m_cStrW;
 
-    int retVal = 0;
+    int retVbl = 0;
     int cCommittedStrW = GetCommittedTextLength();
 
-    /* The conditions to merge the clause information are described below:
-       Senario 1:
-       m_flags & GCS_RESULTSTR is true only, this case m_pResultTextInfor must be NULL.
+    /* The conditions to merge the clbuse informbtion bre described below:
+       Senbrio 1:
+       m_flbgs & GCS_RESULTSTR is true only, this cbse m_pResultTextInfor must be NULL.
        No need to merge.
 
-       Senario 2:
-       m_flags & GCS_COMPSTR is true only, this case m_pResultTextInfor is also NULL.
+       Senbrio 2:
+       m_flbgs & GCS_COMPSTR is true only, this cbse m_pResultTextInfor is blso NULL.
        No need to merge either.
 
-       Senario 3:
-       m_flags & GCS_COMPSTR and m_flags & GCS_RESULTSTR both yield to true, in this case
-       m_pResultTextInfor won't be NULL and if there is nothing to commit though, we don't
-       have to merge. Or if the current composing string size is 0, we don't have to merge either.
+       Senbrio 3:
+       m_flbgs & GCS_COMPSTR bnd m_flbgs & GCS_RESULTSTR both yield to true, in this cbse
+       m_pResultTextInfor won't be NULL bnd if there is nothing to commit though, we don't
+       hbve to merge. Or if the current composing string size is 0, we don't hbve to merge either.
 
-       So in clusion, the three conditions not not merge are:
+       So in clusion, the three conditions not not merge bre:
        1. no committed string
        2. m_pResultTextInfor points to NULL
        3. the current string size is 0;
 
-       Same rule applies to merge the attribute information.
+       Sbme rule bpplies to merge the bttribute informbtion.
     */
     if (m_cStrW == 0 || cCommittedStrW == 0 ||
         m_pResultTextInfor == NULL) {
-        lpBndClauseW = bndClauseW;
-        lpReadingClauseW = readingClauseW;
-        retVal = m_cClauseW;
-    } else { /* partial commit case */
-        int* bndResultClauseW = NULL;
-        jstring* readingResultClauseW = NULL;
-        int cResultClauseW = m_pResultTextInfor->GetClauseInfor(bndResultClauseW, readingResultClauseW);
+        lpBndClbuseW = bndClbuseW;
+        lpRebdingClbuseW = rebdingClbuseW;
+        retVbl = m_cClbuseW;
+    } else { /* pbrtibl commit cbse */
+        int* bndResultClbuseW = NULL;
+        jstring* rebdingResultClbuseW = NULL;
+        int cResultClbuseW = m_pResultTextInfor->GetClbuseInfor(bndResultClbuseW, rebdingResultClbuseW);
 
-        // Concatenate Clause information.
-        int cMergedClauseW = m_cClauseW + cResultClauseW;
-        int* bndMergedClauseW = NULL;
-        jstring* readingMergedClauseW = NULL;
+        // Concbtenbte Clbuse informbtion.
+        int cMergedClbuseW = m_cClbuseW + cResultClbuseW;
+        int* bndMergedClbuseW = NULL;
+        jstring* rebdingMergedClbuseW = NULL;
         try {
-            bndMergedClauseW = new int[cMergedClauseW+1];
-            readingMergedClauseW = new jstring[cMergedClauseW];
-        } catch (std::bad_alloc&) {
-            delete [] bndMergedClauseW;
+            bndMergedClbuseW = new int[cMergedClbuseW+1];
+            rebdingMergedClbuseW = new jstring[cMergedClbuseW];
+        } cbtch (std::bbd_blloc&) {
+            delete [] bndMergedClbuseW;
             throw;
         }
 
         int i = 0;
-        if (cResultClauseW > 0 && bndResultClauseW && readingResultClauseW) {
-            for (; i < cResultClauseW; i++) {
-                bndMergedClauseW[i] = bndResultClauseW[i];
-                readingMergedClauseW[i] = readingResultClauseW[i];
+        if (cResultClbuseW > 0 && bndResultClbuseW && rebdingResultClbuseW) {
+            for (; i < cResultClbuseW; i++) {
+                bndMergedClbuseW[i] = bndResultClbuseW[i];
+                rebdingMergedClbuseW[i] = rebdingResultClbuseW[i];
             }
         }
 
-        if (m_cClauseW > 0 && bndClauseW && readingClauseW) {
-            for(int j = 0; j < m_cClauseW; j++, i++) {
-                bndMergedClauseW[i] = bndClauseW[j] + cCommittedStrW;
-                readingMergedClauseW[i] = readingClauseW[j];
+        if (m_cClbuseW > 0 && bndClbuseW && rebdingClbuseW) {
+            for(int j = 0; j < m_cClbuseW; j++, i++) {
+                bndMergedClbuseW[i] = bndClbuseW[j] + cCommittedStrW;
+                rebdingMergedClbuseW[i] = rebdingClbuseW[j];
             }
         }
-        delete [] bndClauseW;
-        delete [] readingClauseW;
-        bndMergedClauseW[cMergedClauseW] = m_cStrW + cCommittedStrW;
-        lpBndClauseW = bndMergedClauseW;
-        lpReadingClauseW = readingMergedClauseW;
-        retVal = cMergedClauseW;
+        delete [] bndClbuseW;
+        delete [] rebdingClbuseW;
+        bndMergedClbuseW[cMergedClbuseW] = m_cStrW + cCommittedStrW;
+        lpBndClbuseW = bndMergedClbuseW;
+        lpRebdingClbuseW = rebdingMergedClbuseW;
+        retVbl = cMergedClbuseW;
     }
 
-    return retVal;
+    return retVbl;
 }
 
 //
-//  Convert Attribute Information for DBCS string to that for Unicode string
-//  *lpBndAttrW and *lpValAttrW  must be deleted by caller.
+//  Convert Attribute Informbtion for DBCS string to thbt for Unicode string
+//  *lpBndAttrW bnd *lpVblAttrW  must be deleted by cbller.
 //
-int AwtInputTextInfor::GetAttributeInfor(int*& lpBndAttrW, BYTE*& lpValAttrW) {
+int AwtInputTextInfor::GetAttributeInfor(int*& lpBndAttrW, BYTE*& lpVblAttrW) {
     if (m_cStrW == 0 || m_cAttrW != m_cStrW) {
         lpBndAttrW = NULL;
-        lpValAttrW = NULL;
+        lpVblAttrW = NULL;
 
         return 0;
     }
 
     int* bndAttrW = NULL;
-    BYTE* valAttrW = NULL;
+    BYTE* vblAttrW = NULL;
 
-    //Scan attribute byte array and make attribute run information.
+    //Scbn bttribute byte brrby bnd mbke bttribute run informbtion.
     try {
         bndAttrW = new int[m_cAttrW + 1];
-        valAttrW = new BYTE[m_cAttrW];
-    } catch (std::bad_alloc&) {
+        vblAttrW = new BYTE[m_cAttrW];
+    } cbtch (std::bbd_blloc&) {
         lpBndAttrW = NULL;
-        lpValAttrW = NULL;
+        lpVblAttrW = NULL;
         delete [] bndAttrW;
         throw;
     }
 
     int cAttrWT = 0;
     bndAttrW[0] = 0;
-    valAttrW[0] = m_lpAttrW[0];
-    /* remove duplicate attribute in the m_lpAttrW array. */
+    vblAttrW[0] = m_lpAttrW[0];
+    /* remove duplicbte bttribute in the m_lpAttrW brrby. */
     for ( int offW = 1; offW < m_cAttrW; offW++ ) {
-        if ( m_lpAttrW[offW] != valAttrW[cAttrWT]) {
+        if ( m_lpAttrW[offW] != vblAttrW[cAttrWT]) {
             cAttrWT++;
             bndAttrW[cAttrWT] = offW;
-            valAttrW[cAttrWT] = m_lpAttrW[offW];
+            vblAttrW[cAttrWT] = m_lpAttrW[offW];
         }
     }
     bndAttrW[++cAttrWT] =  m_cStrW;
 
-    int retVal = 0;
+    int retVbl = 0;
 
     int cCommittedStrW = GetCommittedTextLength();
     if (m_cStrW == 0 ||
         cCommittedStrW == 0 || m_pResultTextInfor == NULL) {
         lpBndAttrW = bndAttrW;
-        lpValAttrW = valAttrW;
-        retVal = cAttrWT;
+        lpVblAttrW = vblAttrW;
+        retVbl = cAttrWT;
     } else {
         int cMergedAttrW = 1 + cAttrWT;
         int*    bndMergedAttrW = NULL;
-        BYTE*   valMergedAttrW = NULL;
+        BYTE*   vblMergedAttrW = NULL;
         try {
             bndMergedAttrW = new int[cMergedAttrW+1];
-            valMergedAttrW = new BYTE[cMergedAttrW];
-        } catch (std::bad_alloc&) {
+            vblMergedAttrW = new BYTE[cMergedAttrW];
+        } cbtch (std::bbd_blloc&) {
             delete [] bndMergedAttrW;
             throw;
         }
         bndMergedAttrW[0] = 0;
-        valMergedAttrW[0] = ATTR_CONVERTED;
+        vblMergedAttrW[0] = ATTR_CONVERTED;
         for (int j = 0; j < cAttrWT; j++) {
             bndMergedAttrW[j+1] = bndAttrW[j]+cCommittedStrW;
-            valMergedAttrW[j+1] = valAttrW[j];
+            vblMergedAttrW[j+1] = vblAttrW[j];
         }
         bndMergedAttrW[cMergedAttrW] = m_cStrW + cCommittedStrW;
 
         delete [] bndAttrW;
-        delete [] valAttrW;
+        delete [] vblAttrW;
         lpBndAttrW = bndMergedAttrW;
-        lpValAttrW = valMergedAttrW;
-        retVal = cMergedAttrW;
+        lpVblAttrW = vblMergedAttrW;
+        retVbl = cMergedAttrW;
     }
 
-    return retVal;
+    return retVbl;
 }
 
 //
@@ -419,7 +419,7 @@ int AwtInputTextInfor::GetAttributeInfor(int*& lpBndAttrW, BYTE*& lpValAttrW) {
 // returns 0 if the current mode is not GCS_COMPSTR
 //
 int AwtInputTextInfor::GetCursorPosition() const {
-    if (m_flags & GCS_COMPSTR) {
+    if (m_flbgs & GCS_COMPSTR) {
         return m_cursorPosW;
     } else {
         return 0;
@@ -432,11 +432,11 @@ int AwtInputTextInfor::GetCursorPosition() const {
 //
 int AwtInputTextInfor::GetCommittedTextLength() const {
 
-    if ((m_flags & GCS_COMPSTR) && m_pResultTextInfor) {
+    if ((m_flbgs & GCS_COMPSTR) && m_pResultTextInfor) {
         return m_pResultTextInfor->GetCommittedTextLength();
     }
 
-    if (m_flags & GCS_RESULTSTR)
+    if (m_flbgs & GCS_RESULTSTR)
         return m_cStrW;
     else
         return 0;

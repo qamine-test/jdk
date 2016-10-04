@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.Serializable;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.security.AccessController;
-import javax.swing.event.SwingPropertyChangeSupport;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.io.Seriblizbble;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.security.AccessController;
+import jbvbx.swing.event.SwingPropertyChbngeSupport;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * This class provides default implementations for the JFC <code>Action</code>
- * interface. Standard behaviors like the get and set methods for
- * <code>Action</code> object properties (icon, text, and enabled) are defined
- * here. The developer need only subclass this abstract class and
- * define the <code>actionPerformed</code> method.
+ * This clbss provides defbult implementbtions for the JFC <code>Action</code>
+ * interfbce. Stbndbrd behbviors like the get bnd set methods for
+ * <code>Action</code> object properties (icon, text, bnd enbbled) bre defined
+ * here. The developer need only subclbss this bbstrbct clbss bnd
+ * define the <code>bctionPerformed</code> method.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Georges Saab
+ * @buthor Georges Sbbb
  * @see Action
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractAction implements Action, Cloneable, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctAction implements Action, Clonebble, Seriblizbble
 {
     /**
-     * Whether or not actions should reconfigure all properties on null.
+     * Whether or not bctions should reconfigure bll properties on null.
      */
-    private static Boolean RECONFIGURE_ON_NULL;
+    privbte stbtic Boolebn RECONFIGURE_ON_NULL;
 
     /**
-     * Specifies whether action is enabled; the default is true.
+     * Specifies whether bction is enbbled; the defbult is true.
      */
-    protected boolean enabled = true;
+    protected boolebn enbbled = true;
 
 
     /**
-     * Contains the array of key bindings.
+     * Contbins the brrby of key bindings.
      */
-    private transient ArrayTable arrayTable;
+    privbte trbnsient ArrbyTbble brrbyTbble;
 
     /**
-     * Whether or not to reconfigure all action properties from the
+     * Whether or not to reconfigure bll bction properties from the
      * specified event.
      */
-    static boolean shouldReconfigure(PropertyChangeEvent e) {
-        if (e.getPropertyName() == null) {
-            synchronized(AbstractAction.class) {
+    stbtic boolebn shouldReconfigure(PropertyChbngeEvent e) {
+        if (e.getPropertyNbme() == null) {
+            synchronized(AbstrbctAction.clbss) {
                 if (RECONFIGURE_ON_NULL == null) {
-                    RECONFIGURE_ON_NULL = Boolean.valueOf(
+                    RECONFIGURE_ON_NULL = Boolebn.vblueOf(
                         AccessController.doPrivileged(new GetPropertyAction(
-                        "swing.actions.reconfigureOnNull", "false")));
+                        "swing.bctions.reconfigureOnNull", "fblse")));
                 }
                 return RECONFIGURE_ON_NULL;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the enabled state of a component from an Action.
+     * Sets the enbbled stbte of b component from bn Action.
      *
-     * @param c the Component to set the enabled state on
-     * @param a the Action to set the enabled state from, may be null
+     * @pbrbm c the Component to set the enbbled stbte on
+     * @pbrbm b the Action to set the enbbled stbte from, mby be null
      */
-    static void setEnabledFromAction(JComponent c, Action a) {
-        c.setEnabled((a != null) ? a.isEnabled() : true);
+    stbtic void setEnbbledFromAction(JComponent c, Action b) {
+        c.setEnbbled((b != null) ? b.isEnbbled() : true);
     }
 
     /**
-     * Sets the tooltip text of a component from an Action.
+     * Sets the tooltip text of b component from bn Action.
      *
-     * @param c the Component to set the tooltip text on
-     * @param a the Action to set the tooltip text from, may be null
+     * @pbrbm c the Component to set the tooltip text on
+     * @pbrbm b the Action to set the tooltip text from, mby be null
      */
-    static void setToolTipTextFromAction(JComponent c, Action a) {
-        c.setToolTipText(a != null ?
-                         (String)a.getValue(Action.SHORT_DESCRIPTION) : null);
+    stbtic void setToolTipTextFromAction(JComponent c, Action b) {
+        c.setToolTipText(b != null ?
+                         (String)b.getVblue(Action.SHORT_DESCRIPTION) : null);
     }
 
-    static boolean hasSelectedKey(Action a) {
-        return (a != null && a.getValue(Action.SELECTED_KEY) != null);
+    stbtic boolebn hbsSelectedKey(Action b) {
+        return (b != null && b.getVblue(Action.SELECTED_KEY) != null);
     }
 
-    static boolean isSelected(Action a) {
-        return Boolean.TRUE.equals(a.getValue(Action.SELECTED_KEY));
+    stbtic boolebn isSelected(Action b) {
+        return Boolebn.TRUE.equbls(b.getVblue(Action.SELECTED_KEY));
     }
 
 
 
     /**
-     * Creates an {@code Action}.
+     * Crebtes bn {@code Action}.
      */
-    public AbstractAction() {
+    public AbstrbctAction() {
     }
 
     /**
-     * Creates an {@code Action} with the specified name.
+     * Crebtes bn {@code Action} with the specified nbme.
      *
-     * @param name the name ({@code Action.NAME}) for the action; a
-     *        value of {@code null} is ignored
+     * @pbrbm nbme the nbme ({@code Action.NAME}) for the bction; b
+     *        vblue of {@code null} is ignored
      */
-    public AbstractAction(String name) {
-        putValue(Action.NAME, name);
+    public AbstrbctAction(String nbme) {
+        putVblue(Action.NAME, nbme);
     }
 
     /**
-     * Creates an {@code Action} with the specified name and small icon.
+     * Crebtes bn {@code Action} with the specified nbme bnd smbll icon.
      *
-     * @param name the name ({@code Action.NAME}) for the action; a
-     *        value of {@code null} is ignored
-     * @param icon the small icon ({@code Action.SMALL_ICON}) for the action; a
-     *        value of {@code null} is ignored
+     * @pbrbm nbme the nbme ({@code Action.NAME}) for the bction; b
+     *        vblue of {@code null} is ignored
+     * @pbrbm icon the smbll icon ({@code Action.SMALL_ICON}) for the bction; b
+     *        vblue of {@code null} is ignored
      */
-    public AbstractAction(String name, Icon icon) {
-        this(name);
-        putValue(Action.SMALL_ICON, icon);
+    public AbstrbctAction(String nbme, Icon icon) {
+        this(nbme);
+        putVblue(Action.SMALL_ICON, icon);
     }
 
     /**
-     * Gets the <code>Object</code> associated with the specified key.
+     * Gets the <code>Object</code> bssocibted with the specified key.
      *
-     * @param key a string containing the specified <code>key</code>
+     * @pbrbm key b string contbining the specified <code>key</code>
      * @return the binding <code>Object</code> stored with this key; if there
-     *          are no keys, it will return <code>null</code>
-     * @see Action#getValue
+     *          bre no keys, it will return <code>null</code>
+     * @see Action#getVblue
      */
-    public Object getValue(String key) {
-        if (key == "enabled") {
-            return enabled;
+    public Object getVblue(String key) {
+        if (key == "enbbled") {
+            return enbbled;
         }
-        if (arrayTable == null) {
+        if (brrbyTbble == null) {
             return null;
         }
-        return arrayTable.get(key);
+        return brrbyTbble.get(key);
     }
 
     /**
-     * Sets the <code>Value</code> associated with the specified key.
+     * Sets the <code>Vblue</code> bssocibted with the specified key.
      *
-     * @param key  the <code>String</code> that identifies the stored object
-     * @param newValue the <code>Object</code> to store using this key
-     * @see Action#putValue
+     * @pbrbm key  the <code>String</code> thbt identifies the stored object
+     * @pbrbm newVblue the <code>Object</code> to store using this key
+     * @see Action#putVblue
      */
-    public void putValue(String key, Object newValue) {
-        Object oldValue = null;
-        if (key == "enabled") {
-            // Treat putValue("enabled") the same way as a call to setEnabled.
-            // If we don't do this it means the two may get out of sync, and a
-            // bogus property change notification would be sent.
+    public void putVblue(String key, Object newVblue) {
+        Object oldVblue = null;
+        if (key == "enbbled") {
+            // Trebt putVblue("enbbled") the sbme wby bs b cbll to setEnbbled.
+            // If we don't do this it mebns the two mby get out of sync, bnd b
+            // bogus property chbnge notificbtion would be sent.
             //
-            // To avoid dependencies between putValue & setEnabled this
-            // directly changes enabled. If we instead called setEnabled
-            // to change enabled, it would be possible for stack
-            // overflow in the case where a developer implemented setEnabled
-            // in terms of putValue.
-            if (newValue == null || !(newValue instanceof Boolean)) {
-                newValue = false;
+            // To bvoid dependencies between putVblue & setEnbbled this
+            // directly chbnges enbbled. If we instebd cblled setEnbbled
+            // to chbnge enbbled, it would be possible for stbck
+            // overflow in the cbse where b developer implemented setEnbbled
+            // in terms of putVblue.
+            if (newVblue == null || !(newVblue instbnceof Boolebn)) {
+                newVblue = fblse;
             }
-            oldValue = enabled;
-            enabled = (Boolean)newValue;
+            oldVblue = enbbled;
+            enbbled = (Boolebn)newVblue;
         } else {
-            if (arrayTable == null) {
-                arrayTable = new ArrayTable();
+            if (brrbyTbble == null) {
+                brrbyTbble = new ArrbyTbble();
             }
-            if (arrayTable.containsKey(key))
-                oldValue = arrayTable.get(key);
-            // Remove the entry for key if newValue is null
-            // else put in the newValue for key.
-            if (newValue == null) {
-                arrayTable.remove(key);
+            if (brrbyTbble.contbinsKey(key))
+                oldVblue = brrbyTbble.get(key);
+            // Remove the entry for key if newVblue is null
+            // else put in the newVblue for key.
+            if (newVblue == null) {
+                brrbyTbble.remove(key);
             } else {
-                arrayTable.put(key,newValue);
+                brrbyTbble.put(key,newVblue);
             }
         }
-        firePropertyChange(key, oldValue, newValue);
+        firePropertyChbnge(key, oldVblue, newVblue);
     }
 
     /**
-     * Returns true if the action is enabled.
+     * Returns true if the bction is enbbled.
      *
-     * @return true if the action is enabled, false otherwise
-     * @see Action#isEnabled
+     * @return true if the bction is enbbled, fblse otherwise
+     * @see Action#isEnbbled
      */
-    public boolean isEnabled() {
-        return enabled;
+    public boolebn isEnbbled() {
+        return enbbled;
     }
 
     /**
-     * Sets whether the {@code Action} is enabled. The default is {@code true}.
+     * Sets whether the {@code Action} is enbbled. The defbult is {@code true}.
      *
-     * @param newValue  {@code true} to enable the action, {@code false} to
-     *                  disable it
-     * @see Action#setEnabled
+     * @pbrbm newVblue  {@code true} to enbble the bction, {@code fblse} to
+     *                  disbble it
+     * @see Action#setEnbbled
      */
-    public void setEnabled(boolean newValue) {
-        boolean oldValue = this.enabled;
+    public void setEnbbled(boolebn newVblue) {
+        boolebn oldVblue = this.enbbled;
 
-        if (oldValue != newValue) {
-            this.enabled = newValue;
-            firePropertyChange("enabled",
-                               Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+        if (oldVblue != newVblue) {
+            this.enbbled = newVblue;
+            firePropertyChbnge("enbbled",
+                               Boolebn.vblueOf(oldVblue), Boolebn.vblueOf(newVblue));
         }
     }
 
 
     /**
-     * Returns an array of <code>Object</code>s which are keys for
-     * which values have been set for this <code>AbstractAction</code>,
-     * or <code>null</code> if no keys have values set.
-     * @return an array of key objects, or <code>null</code> if no
-     *                  keys have values set
+     * Returns bn brrby of <code>Object</code>s which bre keys for
+     * which vblues hbve been set for this <code>AbstrbctAction</code>,
+     * or <code>null</code> if no keys hbve vblues set.
+     * @return bn brrby of key objects, or <code>null</code> if no
+     *                  keys hbve vblues set
      * @since 1.3
      */
     public Object[] getKeys() {
-        if (arrayTable == null) {
+        if (brrbyTbble == null) {
             return null;
         }
-        Object[] keys = new Object[arrayTable.size()];
-        arrayTable.getKeys(keys);
+        Object[] keys = new Object[brrbyTbble.size()];
+        brrbyTbble.getKeys(keys);
         return keys;
     }
 
     /**
-     * If any <code>PropertyChangeListeners</code> have been registered, the
-     * <code>changeSupport</code> field describes them.
+     * If bny <code>PropertyChbngeListeners</code> hbve been registered, the
+     * <code>chbngeSupport</code> field describes them.
      */
-    protected SwingPropertyChangeSupport changeSupport;
+    protected SwingPropertyChbngeSupport chbngeSupport;
 
     /**
-     * Supports reporting bound property changes.  This method can be called
-     * when a bound property has changed and it will send the appropriate
-     * <code>PropertyChangeEvent</code> to any registered
-     * <code>PropertyChangeListeners</code>.
+     * Supports reporting bound property chbnges.  This method cbn be cblled
+     * when b bound property hbs chbnged bnd it will send the bppropribte
+     * <code>PropertyChbngeEvent</code> to bny registered
+     * <code>PropertyChbngeListeners</code>.
      *
-     * @param propertyName  the name of the property that has changed
-     * @param oldValue  the old value of the property
-     * @param newValue  the new value of the property
+     * @pbrbm propertyNbme  the nbme of the property thbt hbs chbnged
+     * @pbrbm oldVblue  the old vblue of the property
+     * @pbrbm newVblue  the new vblue of the property
      */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport == null ||
-            (oldValue != null && newValue != null && oldValue.equals(newValue))) {
+    protected void firePropertyChbnge(String propertyNbme, Object oldVblue, Object newVblue) {
+        if (chbngeSupport == null ||
+            (oldVblue != null && newVblue != null && oldVblue.equbls(newVblue))) {
             return;
         }
-        changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        chbngeSupport.firePropertyChbnge(propertyNbme, oldVblue, newVblue);
     }
 
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <code>PropertyChbngeListener</code> to the listener list.
+     * The listener is registered for bll properties.
      * <p>
-     * A <code>PropertyChangeEvent</code> will get fired in response to setting
-     * a bound property, e.g. <code>setFont</code>, <code>setBackground</code>,
+     * A <code>PropertyChbngeEvent</code> will get fired in response to setting
+     * b bound property, e.g. <code>setFont</code>, <code>setBbckground</code>,
      * or <code>setForeground</code>.
-     * Note that if the current component is inheriting its foreground,
-     * background, or font from its container, then no event will be
-     * fired in response to a change in the inherited property.
+     * Note thbt if the current component is inheriting its foreground,
+     * bbckground, or font from its contbiner, then no event will be
+     * fired in response to b chbnge in the inherited property.
      *
-     * @param listener  The <code>PropertyChangeListener</code> to be added
+     * @pbrbm listener  The <code>PropertyChbngeListener</code> to be bdded
      *
-     * @see Action#addPropertyChangeListener
+     * @see Action#bddPropertyChbngeListener
      */
-    public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    public synchronized void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
+            chbngeSupport = new SwingPropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        chbngeSupport.bddPropertyChbngeListener(listener);
     }
 
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * This removes a <code>PropertyChangeListener</code> that was registered
-     * for all properties.
+     * Removes b <code>PropertyChbngeListener</code> from the listener list.
+     * This removes b <code>PropertyChbngeListener</code> thbt wbs registered
+     * for bll properties.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be removed
+     * @pbrbm listener  the <code>PropertyChbngeListener</code> to be removed
      *
-     * @see Action#removePropertyChangeListener
+     * @see Action#removePropertyChbngeListener
      */
-    public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
+    public synchronized void removePropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
             return;
         }
-        changeSupport.removePropertyChangeListener(listener);
+        chbngeSupport.removePropertyChbngeListener(listener);
     }
 
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this AbstractAction with addPropertyChangeListener().
+     * Returns bn brrby of bll the <code>PropertyChbngeListener</code>s bdded
+     * to this AbstrbctAction with bddPropertyChbngeListener().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>PropertyChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        return chbngeSupport.getPropertyChbngeListeners();
     }
 
 
     /**
-     * Clones the abstract action. This gives the clone
-     * its own copy of the key/value list,
-     * which is not handled for you by <code>Object.clone()</code>.
+     * Clones the bbstrbct bction. This gives the clone
+     * its own copy of the key/vblue list,
+     * which is not hbndled for you by <code>Object.clone()</code>.
      **/
 
     protected Object clone() throws CloneNotSupportedException {
-        AbstractAction newAction = (AbstractAction)super.clone();
+        AbstrbctAction newAction = (AbstrbctAction)super.clone();
         synchronized(this) {
-            if (arrayTable != null) {
-                newAction.arrayTable = (ArrayTable)arrayTable.clone();
+            if (brrbyTbble != null) {
+                newAction.brrbyTbble = (ArrbyTbble)brrbyTbble.clone();
             }
         }
         return newAction;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        // Store the default fields
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        // Store the defbult fields
+        s.defbultWriteObject();
 
         // And the keys
-        ArrayTable.writeArrayTable(s, arrayTable);
+        ArrbyTbble.writeArrbyTbble(s, brrbyTbble);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
+    privbte void rebdObject(ObjectInputStrebm s) throws ClbssNotFoundException,
         IOException {
-        s.defaultReadObject();
-        for (int counter = s.readInt() - 1; counter >= 0; counter--) {
-            putValue((String)s.readObject(), s.readObject());
+        s.defbultRebdObject();
+        for (int counter = s.rebdInt() - 1; counter >= 0; counter--) {
+            putVblue((String)s.rebdObject(), s.rebdObject());
         }
     }
 }

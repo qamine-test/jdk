@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
  * This exception is used to describe problems encountered while resolving links.
- * Additional information is added to the base NamingException for pinpointing
+ * Additionbl informbtion is bdded to the bbse NbmingException for pinpointing
  * the problem with the link.
  *<p>
- * Analogously to how NamingException captures name resolution information,
- * LinkException captures "link"-name resolution information pinpointing
- * the problem encountered while resolving a link. All these fields may
+ * Anblogously to how NbmingException cbptures nbme resolution informbtion,
+ * LinkException cbptures "link"-nbme resolution informbtion pinpointing
+ * the problem encountered while resolving b link. All these fields mby
  * be null.
  * <ul>
- * <li> Link Resolved Name. Portion of link name that has been resolved.
- * <li> Link Resolved Object. Object to which resolution of link name proceeded.
- * <li> Link Remaining Name. Portion of link name that has not been resolved.
- * <li> Link Explanation. Detail explaining why link resolution failed.
+ * <li> Link Resolved Nbme. Portion of link nbme thbt hbs been resolved.
+ * <li> Link Resolved Object. Object to which resolution of link nbme proceeded.
+ * <li> Link Rembining Nbme. Portion of link nbme thbt hbs not been resolved.
+ * <li> Link Explbnbtion. Detbil explbining why link resolution fbiled.
  *</ul>
  *
   *<p>
-  * A LinkException instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single LinkException instance should lock the object.
+  * A LinkException instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * b single LinkException instbnce should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
   * @see Context#lookupLink
   * @see LinkRef
@@ -56,119 +56,119 @@ package javax.naming;
 
 
   /*<p>
-  * The serialized form of a LinkException object consists of the
-  * serialized fields of its NamingException superclass, the link resolved
-  * name (a Name object), the link resolved object, link remaining name
-  * (a Name object), and the link explanation String.
+  * The seriblized form of b LinkException object consists of the
+  * seriblized fields of its NbmingException superclbss, the link resolved
+  * nbme (b Nbme object), the link resolved object, link rembining nbme
+  * (b Nbme object), bnd the link explbnbtion String.
 */
 
 
-public class LinkException extends NamingException {
+public clbss LinkException extends NbmingException {
     /**
-     * Contains the part of the link that has been successfully resolved.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkResolvedName
-     * @see #setLinkResolvedName
+     * Contbins the pbrt of the link thbt hbs been successfully resolved.
+     * It is b composite nbme bnd cbn be null.
+     * This field is initiblized by the constructors.
+     * You should bccess bnd mbnipulbte this field
+     * through its get bnd set methods.
+     * @seribl
+     * @see #getLinkResolvedNbme
+     * @see #setLinkResolvedNbme
      */
-    protected Name linkResolvedName;
+    protected Nbme linkResolvedNbme;
 
     /**
-      * Contains the object to which resolution of the part of the link was successful.
-      * Can be null. This field is initialized by the constructors.
-      * You should access and manipulate this field
-      * through its get and set methods.
-      * @serial
+      * Contbins the object to which resolution of the pbrt of the link wbs successful.
+      * Cbn be null. This field is initiblized by the constructors.
+      * You should bccess bnd mbnipulbte this field
+      * through its get bnd set methods.
+      * @seribl
       * @see #getLinkResolvedObj
       * @see #setLinkResolvedObj
       */
     protected Object linkResolvedObj;
 
     /**
-     * Contains the remaining link name that has not been resolved yet.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkRemainingName
-     * @see #setLinkRemainingName
+     * Contbins the rembining link nbme thbt hbs not been resolved yet.
+     * It is b composite nbme bnd cbn be null.
+     * This field is initiblized by the constructors.
+     * You should bccess bnd mbnipulbte this field
+     * through its get bnd set methods.
+     * @seribl
+     * @see #getLinkRembiningNbme
+     * @see #setLinkRembiningNbme
      */
-    protected Name linkRemainingName;
+    protected Nbme linkRembiningNbme;
 
     /**
-     * Contains the exception of why resolution of the link failed.
-     * Can be null. This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkExplanation
-     * @see #setLinkExplanation
+     * Contbins the exception of why resolution of the link fbiled.
+     * Cbn be null. This field is initiblized by the constructors.
+     * You should bccess bnd mbnipulbte this field
+     * through its get bnd set methods.
+     * @seribl
+     * @see #getLinkExplbnbtion
+     * @see #setLinkExplbnbtion
      */
-    protected String linkExplanation;
+    protected String linkExplbnbtion;
 
     /**
-      * Constructs a new instance of LinkException with an explanation.
-      * All the other fields are initialized to null.
-      * @param  explanation     A possibly null string containing additional
-      *                         detail about this exception.
-      * @see java.lang.Throwable#getMessage
+      * Constructs b new instbnce of LinkException with bn explbnbtion.
+      * All the other fields bre initiblized to null.
+      * @pbrbm  explbnbtion     A possibly null string contbining bdditionbl
+      *                         detbil bbout this exception.
+      * @see jbvb.lbng.Throwbble#getMessbge
       */
-    public LinkException(String explanation) {
-        super(explanation);
-        linkResolvedName = null;
+    public LinkException(String explbnbtion) {
+        super(explbnbtion);
+        linkResolvedNbme = null;
         linkResolvedObj = null;
-        linkRemainingName = null;
-        linkExplanation = null;
+        linkRembiningNbme = null;
+        linkExplbnbtion = null;
     }
 
     /**
-      * Constructs a new instance of LinkException.
-      * All the non-link-related and link-related fields are initialized to null.
+      * Constructs b new instbnce of LinkException.
+      * All the non-link-relbted bnd link-relbted fields bre initiblized to null.
       */
     public LinkException() {
         super();
-        linkResolvedName = null;
+        linkResolvedNbme = null;
         linkResolvedObj = null;
-        linkRemainingName = null;
-        linkExplanation = null;
+        linkRembiningNbme = null;
+        linkExplbnbtion = null;
     }
 
     /**
-     * Retrieves the leading portion of the link name that was resolved
+     * Retrieves the lebding portion of the link nbme thbt wbs resolved
      * successfully.
      *
-     * @return The part of the link name that was resolved successfully.
-     *          It is a composite name. It can be null, which means
-     *          the link resolved name field has not been set.
+     * @return The pbrt of the link nbme thbt wbs resolved successfully.
+     *          It is b composite nbme. It cbn be null, which mebns
+     *          the link resolved nbme field hbs not been set.
      * @see #getLinkResolvedObj
-     * @see #setLinkResolvedName
+     * @see #setLinkResolvedNbme
      */
-    public Name getLinkResolvedName() {
-        return this.linkResolvedName;
+    public Nbme getLinkResolvedNbme() {
+        return this.linkResolvedNbme;
     }
 
     /**
-     * Retrieves the remaining unresolved portion of the link name.
-     * @return The part of the link name that has not been resolved.
-     *          It is a composite name. It can be null, which means
-     *          the link remaining name field has not been set.
-     * @see #setLinkRemainingName
+     * Retrieves the rembining unresolved portion of the link nbme.
+     * @return The pbrt of the link nbme thbt hbs not been resolved.
+     *          It is b composite nbme. It cbn be null, which mebns
+     *          the link rembining nbme field hbs not been set.
+     * @see #setLinkRembiningNbme
      */
-    public Name getLinkRemainingName() {
-        return this.linkRemainingName;
+    public Nbme getLinkRembiningNbme() {
+        return this.linkRembiningNbme;
     }
 
     /**
-     * Retrieves the object to which resolution was successful.
-     * This is the object to which the resolved link name is bound.
+     * Retrieves the object to which resolution wbs successful.
+     * This is the object to which the resolved link nbme is bound.
      *
-     * @return The possibly null object that was resolved so far.
-     * If null, it means the link resolved object field has not been set.
-     * @see #getLinkResolvedName
+     * @return The possibly null object thbt wbs resolved so fbr.
+     * If null, it mebns the link resolved object field hbs not been set.
+     * @see #getLinkResolvedNbme
      * @see #setLinkResolvedObj
      */
     public Object getLinkResolvedObj() {
@@ -176,85 +176,85 @@ public class LinkException extends NamingException {
     }
 
     /**
-      * Retrieves the explanation associated with the problem encountered
-      * when resolving a link.
+      * Retrieves the explbnbtion bssocibted with the problem encountered
+      * when resolving b link.
       *
-      * @return The possibly null detail string explaining more about the problem
-      * with resolving a link.
-      *         If null, it means there is no
-      *         link detail message for this exception.
-      * @see #setLinkExplanation
+      * @return The possibly null detbil string explbining more bbout the problem
+      * with resolving b link.
+      *         If null, it mebns there is no
+      *         link detbil messbge for this exception.
+      * @see #setLinkExplbnbtion
       */
-    public String getLinkExplanation() {
-        return this.linkExplanation;
+    public String getLinkExplbnbtion() {
+        return this.linkExplbnbtion;
     }
 
     /**
-      * Sets the explanation associated with the problem encountered
-      * when resolving a link.
+      * Sets the explbnbtion bssocibted with the problem encountered
+      * when resolving b link.
       *
-      * @param msg The possibly null detail string explaining more about the problem
-      * with resolving a link. If null, it means no detail will be recorded.
-      * @see #getLinkExplanation
+      * @pbrbm msg The possibly null detbil string explbining more bbout the problem
+      * with resolving b link. If null, it mebns no detbil will be recorded.
+      * @see #getLinkExplbnbtion
       */
-    public void setLinkExplanation(String msg) {
-        this.linkExplanation = msg;
+    public void setLinkExplbnbtion(String msg) {
+        this.linkExplbnbtion = msg;
     }
 
     /**
-     * Sets the resolved link name field of this exception.
+     * Sets the resolved link nbme field of this exception.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbme</tt> is b composite nbme. If the intent is to set
+     * this field using b compound nbme or string, you must
+     * "stringify" the compound nbme, bnd crebte b composite
+     * nbme with b single component using the string. You cbn then
+     * invoke this method using the resulting composite nbme.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
+     * A copy of <code>nbme</code> is mbde bnd stored.
+     * Subsequent chbnges to <code>nbme</code> do not
+     * bffect the copy in this NbmingException bnd vice versb.
      *
      *
-     * @param name The name to set resolved link name to. This can be null.
-     *          If null, it sets the link resolved name field to null.
-     * @see #getLinkResolvedName
+     * @pbrbm nbme The nbme to set resolved link nbme to. This cbn be null.
+     *          If null, it sets the link resolved nbme field to null.
+     * @see #getLinkResolvedNbme
      */
-    public void setLinkResolvedName(Name name) {
-        if (name != null) {
-            this.linkResolvedName = (Name)(name.clone());
+    public void setLinkResolvedNbme(Nbme nbme) {
+        if (nbme != null) {
+            this.linkResolvedNbme = (Nbme)(nbme.clone());
         } else {
-            this.linkResolvedName = null;
+            this.linkResolvedNbme = null;
         }
     }
 
     /**
-     * Sets the remaining link name field of this exception.
+     * Sets the rembining link nbme field of this exception.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbme</tt> is b composite nbme. If the intent is to set
+     * this field using b compound nbme or string, you must
+     * "stringify" the compound nbme, bnd crebte b composite
+     * nbme with b single component using the string. You cbn then
+     * invoke this method using the resulting composite nbme.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
+     * A copy of <code>nbme</code> is mbde bnd stored.
+     * Subsequent chbnges to <code>nbme</code> do not
+     * bffect the copy in this NbmingException bnd vice versb.
      *
-     * @param name The name to set remaining link name to. This can be null.
-     *  If null, it sets the remaining name field to null.
-     * @see #getLinkRemainingName
+     * @pbrbm nbme The nbme to set rembining link nbme to. This cbn be null.
+     *  If null, it sets the rembining nbme field to null.
+     * @see #getLinkRembiningNbme
      */
-    public void setLinkRemainingName(Name name) {
-        if (name != null)
-            this.linkRemainingName = (Name)(name.clone());
+    public void setLinkRembiningNbme(Nbme nbme) {
+        if (nbme != null)
+            this.linkRembiningNbme = (Nbme)(nbme.clone());
         else
-            this.linkRemainingName = null;
+            this.linkRembiningNbme = null;
     }
 
     /**
      * Sets the link resolved object field of this exception.
-     * This indicates the last successfully resolved object of link name.
-     * @param obj The object to set link resolved object to. This can be null.
+     * This indicbtes the lbst successfully resolved object of link nbme.
+     * @pbrbm obj The object to set link resolved object to. This cbn be null.
      *            If null, the link resolved object field is set to null.
      * @see #getLinkResolvedObj
      */
@@ -263,34 +263,34 @@ public class LinkException extends NamingException {
     }
 
     /**
-     * Generates the string representation of this exception.
-     * This string consists of the NamingException information plus
-     * the link's remaining name.
-     * This string is used for debugging and not meant to be interpreted
-     * programmatically.
-     * @return The non-null string representation of this link exception.
+     * Generbtes the string representbtion of this exception.
+     * This string consists of the NbmingException informbtion plus
+     * the link's rembining nbme.
+     * This string is used for debugging bnd not mebnt to be interpreted
+     * progrbmmbticblly.
+     * @return The non-null string representbtion of this link exception.
      */
     public String toString() {
-        return super.toString() + "; Link Remaining Name: '" +
-            this.linkRemainingName + "'";
+        return super.toString() + "; Link Rembining Nbme: '" +
+            this.linkRembiningNbme + "'";
     }
 
     /**
-     * Generates the string representation of this exception.
-     * This string consists of the NamingException information plus
-     * the additional information of resolving the link.
-     * If 'detail' is true, the string also contains information on
-     * the link resolved object. If false, this method is the same
-     * as the form of toString() that accepts no parameters.
-     * This string is used for debugging and not meant to be interpreted
-     * programmatically.
+     * Generbtes the string representbtion of this exception.
+     * This string consists of the NbmingException informbtion plus
+     * the bdditionbl informbtion of resolving the link.
+     * If 'detbil' is true, the string blso contbins informbtion on
+     * the link resolved object. If fblse, this method is the sbme
+     * bs the form of toString() thbt bccepts no pbrbmeters.
+     * This string is used for debugging bnd not mebnt to be interpreted
+     * progrbmmbticblly.
      *
-     * @param   detail  If true, add information about the link resolved
+     * @pbrbm   detbil  If true, bdd informbtion bbout the link resolved
      *                  object.
-     * @return The non-null string representation of this link exception.
+     * @return The non-null string representbtion of this link exception.
      */
-    public String toString(boolean detail) {
-        if (!detail || this.linkResolvedObj == null)
+    public String toString(boolebn detbil) {
+        if (!detbil || this.linkResolvedObj == null)
             return this.toString();
 
         return this.toString() + "; Link Resolved Object: " +
@@ -298,7 +298,7 @@ public class LinkException extends NamingException {
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -7967662604076777712L;
+    privbte stbtic finbl long seriblVersionUID = -7967662604076777712L;
 };

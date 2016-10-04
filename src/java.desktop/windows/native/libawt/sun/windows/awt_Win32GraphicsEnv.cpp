@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <awt.h>
-#include <sun_awt_Win32GraphicsEnvironment.h>
-#include <sun_awt_Win32FontManager.h>
-#include "awt_Canvas.h"
-#include "awt_Win32GraphicsDevice.h"
+#include <bwt.h>
+#include <sun_bwt_Win32GrbphicsEnvironment.h>
+#include <sun_bwt_Win32FontMbnbger.h>
+#include "bwt_Cbnvbs.h"
+#include "bwt_Win32GrbphicsDevice.h"
 #include "Devices.h"
-#include "WindowsFlags.h"
+#include "WindowsFlbgs.h"
 #include "DllUtil.h"
 
-BOOL DWMIsCompositionEnabled();
+BOOL DWMIsCompositionEnbbled();
 
 void initScreens(JNIEnv *env) {
 
-    if (!Devices::UpdateInstance(env)) {
-        JNU_ThrowInternalError(env, "Could not update the devices array.");
+    if (!Devices::UpdbteInstbnce(env)) {
+        JNU_ThrowInternblError(env, "Could not updbte the devices brrby.");
         return;
     }
 }
 
 /**
- * This function attempts to make a Win32 API call to
- *   BOOL SetProcessDPIAware(VOID);
- * which is only present on Windows Vista, and which instructs the
- * Vista Windows Display Manager that this application is High DPI Aware
- * and does not need to be scaled by the WDM and lied about the
- * actual system dpi.
+ * This function bttempts to mbke b Win32 API cbll to
+ *   BOOL SetProcessDPIAwbre(VOID);
+ * which is only present on Windows Vistb, bnd which instructs the
+ * Vistb Windows Displby Mbnbger thbt this bpplicbtion is High DPI Awbre
+ * bnd does not need to be scbled by the WDM bnd lied bbout the
+ * bctubl system dpi.
  */
-static void
-SetProcessDPIAwareProperty()
+stbtic void
+SetProcessDPIAwbreProperty()
 {
-    typedef BOOL (WINAPI SetProcessDPIAwareFunc)(void);
-    static BOOL bAlreadySet = FALSE;
+    typedef BOOL (WINAPI SetProcessDPIAwbreFunc)(void);
+    stbtic BOOL bAlrebdySet = FALSE;
 
-    // setHighDPIAware is set in WindowsFlags.cpp
-    if (!setHighDPIAware || bAlreadySet) {
+    // setHighDPIAwbre is set in WindowsFlbgs.cpp
+    if (!setHighDPIAwbre || bAlrebdySet) {
         return;
     }
 
-    bAlreadySet = TRUE;
+    bAlrebdySet = TRUE;
 
-    HMODULE hLibUser32Dll = JDK_LoadSystemLibrary("user32.dll");
+    HMODULE hLibUser32Dll = JDK_LobdSystemLibrbry("user32.dll");
 
     if (hLibUser32Dll != NULL) {
-        SetProcessDPIAwareFunc *lpSetProcessDPIAware =
-            (SetProcessDPIAwareFunc*)GetProcAddress(hLibUser32Dll,
-                                                    "SetProcessDPIAware");
-        if (lpSetProcessDPIAware != NULL) {
-            lpSetProcessDPIAware();
+        SetProcessDPIAwbreFunc *lpSetProcessDPIAwbre =
+            (SetProcessDPIAwbreFunc*)GetProcAddress(hLibUser32Dll,
+                                                    "SetProcessDPIAwbre");
+        if (lpSetProcessDPIAwbre != NULL) {
+            lpSetProcessDPIAwbre();
         }
-        ::FreeLibrary(hLibUser32Dll);
+        ::FreeLibrbry(hLibUser32Dll);
     }
 }
 
 #define DWM_COMP_UNDEFINED (~(TRUE|FALSE))
-static int dwmIsCompositionEnabled = DWM_COMP_UNDEFINED;
+stbtic int dwmIsCompositionEnbbled = DWM_COMP_UNDEFINED;
 
 /**
- * This function is called from toolkit event handling code when
+ * This function is cblled from toolkit event hbndling code when
  * WM_DWMCOMPOSITIONCHANGED event is received
  */
-void DWMResetCompositionEnabled() {
-    dwmIsCompositionEnabled = DWM_COMP_UNDEFINED;
-    (void)DWMIsCompositionEnabled();
+void DWMResetCompositionEnbbled() {
+    dwmIsCompositionEnbbled = DWM_COMP_UNDEFINED;
+    (void)DWMIsCompositionEnbbled();
 }
 
 /**
- * Returns true if dwm composition is enabled, false if it is not applicable
- * (if the OS is not Vista) or dwm composition is disabled.
+ * Returns true if dwm composition is enbbled, fblse if it is not bpplicbble
+ * (if the OS is not Vistb) or dwm composition is disbbled.
  */
-BOOL DWMIsCompositionEnabled() {
-    // cheaper to check than whether it's vista or not
-    if (dwmIsCompositionEnabled != DWM_COMP_UNDEFINED) {
-        return (BOOL)dwmIsCompositionEnabled;
+BOOL DWMIsCompositionEnbbled() {
+    // chebper to check thbn whether it's vistb or not
+    if (dwmIsCompositionEnbbled != DWM_COMP_UNDEFINED) {
+        return (BOOL)dwmIsCompositionEnbbled;
     }
 
     if (!IS_WINVISTA) {
-        dwmIsCompositionEnabled = FALSE;
+        dwmIsCompositionEnbbled = FALSE;
         return FALSE;
     }
 
     BOOL bRes = FALSE;
 
     try {
-        BOOL bEnabled;
-        HRESULT res = DwmAPI::DwmIsCompositionEnabled(&bEnabled);
+        BOOL bEnbbled;
+        HRESULT res = DwmAPI::DwmIsCompositionEnbbled(&bEnbbled);
         if (SUCCEEDED(res)) {
-            bRes = bEnabled;
-            J2dTraceLn1(J2D_TRACE_VERBOSE, " composition enabled: %d",bRes);
+            bRes = bEnbbled;
+            J2dTrbceLn1(J2D_TRACE_VERBOSE, " composition enbbled: %d",bRes);
         } else {
-            J2dTraceLn1(J2D_TRACE_ERROR,
-                    "IsDWMCompositionEnabled: error %x when detecting"\
-                    "if composition is enabled", res);
+            J2dTrbceLn1(J2D_TRACE_ERROR,
+                    "IsDWMCompositionEnbbled: error %x when detecting"\
+                    "if composition is enbbled", res);
         }
-    } catch (const DllUtil::Exception &) {
-        J2dTraceLn(J2D_TRACE_ERROR,
-                "IsDWMCompositionEnabled: no DwmIsCompositionEnabled() "\
-                "in dwmapi.dll or dwmapi.dll cannot be loaded");
+    } cbtch (const DllUtil::Exception &) {
+        J2dTrbceLn(J2D_TRACE_ERROR,
+                "IsDWMCompositionEnbbled: no DwmIsCompositionEnbbled() "\
+                "in dwmbpi.dll or dwmbpi.dll cbnnot be lobded");
     }
 
-    dwmIsCompositionEnabled = bRes;
+    dwmIsCompositionEnbbled = bRes;
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    JNU_CallStaticMethodByName(env, NULL,
-                              "sun/awt/Win32GraphicsEnvironment",
-                              "dwmCompositionChanged", "(Z)V", (jboolean)bRes);
+    JNU_CbllStbticMethodByNbme(env, NULL,
+                              "sun/bwt/Win32GrbphicsEnvironment",
+                              "dwmCompositionChbnged", "(Z)V", (jboolebn)bRes);
     return bRes;
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
- * Method:    initDisplay
- * Signature: ()V
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
+ * Method:    initDisplby
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32GraphicsEnvironment_initDisplay(JNIEnv *env,
-                                                  jclass thisClass)
+Jbvb_sun_bwt_Win32GrbphicsEnvironment_initDisplby(JNIEnv *env,
+                                                  jclbss thisClbss)
 {
-    // This method needs to be called prior to any display-related activity
-    SetProcessDPIAwareProperty();
+    // This method needs to be cblled prior to bny displby-relbted bctivity
+    SetProcessDPIAwbreProperty();
 
-    DWMIsCompositionEnabled();
+    DWMIsCompositionEnbbled();
 
     initScreens(env);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
  * Method:    getNumScreens
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_Win32GraphicsEnvironment_getNumScreens(JNIEnv *env,
+Jbvb_sun_bwt_Win32GrbphicsEnvironment_getNumScreens(JNIEnv *env,
                                                     jobject thisobj)
 {
-    Devices::InstanceAccess devices;
+    Devices::InstbnceAccess devices;
     return devices->GetNumDevices();
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
- * Method:    getDefaultScreen
- * Signature: ()I
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
+ * Method:    getDefbultScreen
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_Win32GraphicsEnvironment_getDefaultScreen(JNIEnv *env,
+Jbvb_sun_bwt_Win32GrbphicsEnvironment_getDefbultScreen(JNIEnv *env,
                                                        jobject thisobj)
 {
-    return AwtWin32GraphicsDevice::GetDefaultDeviceIndex();
+    return AwtWin32GrbphicsDevice::GetDefbultDeviceIndex();
 }
 
 /*
- * Class:     sun_awt_Win32FontManager
- * Method:    registerFontWithPlatform
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_Win32FontMbnbger
+ * Method:    registerFontWithPlbtform
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32FontManager_registerFontWithPlatform(JNIEnv *env,
-                                                       jclass cl,
-                                                       jstring fontName)
+Jbvb_sun_bwt_Win32FontMbnbger_registerFontWithPlbtform(JNIEnv *env,
+                                                       jclbss cl,
+                                                       jstring fontNbme)
 {
-    LPTSTR file = (LPTSTR)JNU_GetStringPlatformChars(env, fontName, JNI_FALSE);
+    LPTSTR file = (LPTSTR)JNU_GetStringPlbtformChbrs(env, fontNbme, JNI_FALSE);
     if (file) {
         ::AddFontResourceEx(file, FR_PRIVATE, NULL);
-        JNU_ReleaseStringPlatformChars(env, fontName, file);
+        JNU_RelebseStringPlbtformChbrs(env, fontNbme, file);
     }
 }
 
 
 /*
- * Class:     sun_awt_Win32FontManagerEnvironment
- * Method:    deRegisterFontWithPlatform
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_Win32FontMbnbgerEnvironment
+ * Method:    deRegisterFontWithPlbtform
+ * Signbture: (Ljbvb/lbng/String;)V
  *
  * This method intended for future use.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32FontManager_deRegisterFontWithPlatform(JNIEnv *env,
-                                                         jclass cl,
-                                                         jstring fontName)
+Jbvb_sun_bwt_Win32FontMbnbger_deRegisterFontWithPlbtform(JNIEnv *env,
+                                                         jclbss cl,
+                                                         jstring fontNbme)
 {
-    LPTSTR file = (LPTSTR)JNU_GetStringPlatformChars(env, fontName, JNI_FALSE);
+    LPTSTR file = (LPTSTR)JNU_GetStringPlbtformChbrs(env, fontNbme, JNI_FALSE);
     if (file) {
         ::RemoveFontResourceEx(file, FR_PRIVATE, NULL);
-        JNU_ReleaseStringPlatformChars(env, fontName, file);
+        JNU_RelebseStringPlbtformChbrs(env, fontNbme, file);
     }
 }
 
@@ -226,32 +226,32 @@ Java_sun_awt_Win32FontManager_deRegisterFontWithPlatform(JNIEnv *env,
 
 
 JNIEXPORT jstring JNICALL
-Java_sun_awt_Win32FontManager_getEUDCFontFile(JNIEnv *env, jclass cl) {
+Jbvb_sun_bwt_Win32FontMbnbger_getEUDCFontFile(JNIEnv *env, jclbss cl) {
     int    rc;
     HKEY   key;
     DWORD  type;
-    WCHAR  fontPathBuf[MAX_PATH + 1];
-    unsigned long fontPathLen = MAX_PATH + 1;
-    WCHAR  tmpPath[MAX_PATH + 1];
-    LPWSTR fontPath = fontPathBuf;
+    WCHAR  fontPbthBuf[MAX_PATH + 1];
+    unsigned long fontPbthLen = MAX_PATH + 1;
+    WCHAR  tmpPbth[MAX_PATH + 1];
+    LPWSTR fontPbth = fontPbthBuf;
     LPWSTR eudcKey = NULL;
 
-    LANGID langID = GetSystemDefaultLangID();
+    LANGID lbngID = GetSystemDefbultLbngID();
     //lookup for encoding ID, EUDC only supported in
-    //codepage 932, 936, 949, 950 (and unicode)
-    // On Windows 7, at least for me, it shows up in Cp1252 if
-    // I create a custom font. Might as well support that as it makes
-    // verification easier.
-    if (langID == LANGID_JA_JP) {
+    //codepbge 932, 936, 949, 950 (bnd unicode)
+    // On Windows 7, bt lebst for me, it shows up in Cp1252 if
+    // I crebte b custom font. Might bs well support thbt bs it mbkes
+    // verificbtion ebsier.
+    if (lbngID == LANGID_JA_JP) {
         eudcKey = EUDCKEY_JA_JP;
-    } else if (langID == LANGID_ZH_CN || langID == LANGID_ZH_SG) {
+    } else if (lbngID == LANGID_ZH_CN || lbngID == LANGID_ZH_SG) {
         eudcKey = EUDCKEY_ZH_CN;
-    } else if (langID == LANGID_ZH_HK || langID == LANGID_ZH_TW ||
-               langID == LANGID_ZH_MO) {
+    } else if (lbngID == LANGID_ZH_HK || lbngID == LANGID_ZH_TW ||
+               lbngID == LANGID_ZH_MO) {
       eudcKey = EUDCKEY_ZH_TW;
-    } else if (langID == LANGID_KO_KR) {
+    } else if (lbngID == LANGID_KO_KR) {
         eudcKey = EUDCKEY_KO_KR;
-    } else if (langID == LANGID_EN_US) {
+    } else if (lbngID == LANGID_EN_US) {
         eudcKey = EUDCKEY_EN_US;
     } else {
         return NULL;
@@ -261,86 +261,86 @@ Java_sun_awt_Win32FontManager_getEUDCFontFile(JNIEnv *env, jclass cl) {
     if (rc != ERROR_SUCCESS) {
         return NULL;
     }
-    rc = RegQueryValueEx(key,
-                         L"SystemDefaultEUDCFont",
+    rc = RegQueryVblueEx(key,
+                         L"SystemDefbultEUDCFont",
                          0,
                          &type,
-                         (LPBYTE)fontPath,
-                         &fontPathLen);
+                         (LPBYTE)fontPbth,
+                         &fontPbthLen);
     RegCloseKey(key);
     if (rc != ERROR_SUCCESS || type != REG_SZ) {
         return NULL;
     }
-    fontPath[fontPathLen] = L'\0';
-    if (wcsstr(fontPath, L"%SystemRoot%")) {
-        //if the fontPath includes %SystemRoot%
+    fontPbth[fontPbthLen] = L'\0';
+    if (wcsstr(fontPbth, L"%SystemRoot%")) {
+        //if the fontPbth includes %SystemRoot%
         LPWSTR systemRoot = _wgetenv(L"SystemRoot");
         if (systemRoot != NULL
-            && swprintf(tmpPath, MAX_PATH, L"%s%s", systemRoot, fontPath + 12) != -1) {
-            fontPath = tmpPath;
+            && swprintf(tmpPbth, MAX_PATH, L"%s%s", systemRoot, fontPbth + 12) != -1) {
+            fontPbth = tmpPbth;
         }
         else {
             return NULL;
         }
-    } else if (wcscmp(fontPath, L"EUDC.TTE") == 0) {
+    } else if (wcscmp(fontPbth, L"EUDC.TTE") == 0) {
         //else to see if it only inludes "EUDC.TTE"
         WCHAR systemRoot[MAX_PATH + 1];
         if (GetWindowsDirectory(systemRoot, MAX_PATH + 1) != 0) {
-            swprintf(tmpPath, MAX_PATH, L"%s\\FONTS\\EUDC.TTE", systemRoot);
-            fontPath = tmpPath;
+            swprintf(tmpPbth, MAX_PATH, L"%s\\FONTS\\EUDC.TTE", systemRoot);
+            fontPbth = tmpPbth;
         }
         else {
             return NULL;
         }
     }
-    return JNU_NewStringPlatform(env, fontPath);
+    return JNU_NewStringPlbtform(env, fontPbth);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
  * Method:    getXResolution
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_Win32GraphicsEnvironment_getXResolution(JNIEnv *env, jobject wge)
+Jbvb_sun_bwt_Win32GrbphicsEnvironment_getXResolution(JNIEnv *env, jobject wge)
 {
     TRY;
 
     HWND hWnd = ::GetDesktopWindow();
     HDC hDC = ::GetDC(hWnd);
-    jint result = ::GetDeviceCaps(hDC, LOGPIXELSX);
-    ::ReleaseDC(hWnd, hDC);
+    jint result = ::GetDeviceCbps(hDC, LOGPIXELSX);
+    ::RelebseDC(hWnd, hDC);
     return result;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
  * Method:    getYResolution
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_Win32GraphicsEnvironment_getYResolution(JNIEnv *env, jobject wge)
+Jbvb_sun_bwt_Win32GrbphicsEnvironment_getYResolution(JNIEnv *env, jobject wge)
 {
     TRY;
 
     HWND hWnd = ::GetDesktopWindow();
     HDC hDC = ::GetDC(hWnd);
-    jint result = ::GetDeviceCaps(hDC, LOGPIXELSY);
-    ::ReleaseDC(hWnd, hDC);
+    jint result = ::GetDeviceCbps(hDC, LOGPIXELSY);
+    ::RelebseDC(hWnd, hDC);
     return result;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_Win32GraphicsEnvironment
- * Method:    isVistaOS
- * Signature: ()Z
+ * Clbss:     sun_bwt_Win32GrbphicsEnvironment
+ * Method:    isVistbOS
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_Win32GraphicsEnvironment_isVistaOS
-  (JNIEnv *env, jclass wgeclass)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_Win32GrbphicsEnvironment_isVistbOS
+  (JNIEnv *env, jclbss wgeclbss)
 {
     return IS_WINVISTA;
 }

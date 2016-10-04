@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.Principal;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.PKIXBuilderParameters;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXParameters;
-import java.security.cert.PKIXReason;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CertSelector;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.Principbl;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.CertStore;
+import jbvb.security.cert.CertStoreException;
+import jbvb.security.cert.PKIXBuilderPbrbmeters;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.PKIXPbrbmeters;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.X509CertSelector;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.LinkedList;
+import jbvb.util.Set;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
+import sun.security.provider.certpbth.PKIX.BuilderPbrbms;
 import sun.security.util.Debug;
 import sun.security.x509.Extension;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.X500Name;
+import stbtic sun.security.x509.PKIXExtensions.*;
+import sun.security.x509.X500Nbme;
 import sun.security.x509.X509CertImpl;
-import sun.security.x509.PolicyMappingsExtension;
+import sun.security.x509.PolicyMbppingsExtension;
 
 /**
- * This class represents a reverse builder, which is able to retrieve
- * matching certificates from CertStores and verify a particular certificate
- * against a ReverseState.
+ * This clbss represents b reverse builder, which is bble to retrieve
+ * mbtching certificbtes from CertStores bnd verify b pbrticulbr certificbte
+ * bgbinst b ReverseStbte.
  *
  * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @buthor      Sebn Mullbn
+ * @buthor      Ybssir Elley
  */
 
-class ReverseBuilder extends Builder {
+clbss ReverseBuilder extends Builder {
 
-    private Debug debug = Debug.getInstance("certpath");
+    privbte Debug debug = Debug.getInstbnce("certpbth");
 
-    private final Set<String> initPolicies;
+    privbte finbl Set<String> initPolicies;
 
     /**
-     * Initialize the builder with the input parameters.
+     * Initiblize the builder with the input pbrbmeters.
      *
-     * @param params the parameter set used to build a certification path
+     * @pbrbm pbrbms the pbrbmeter set used to build b certificbtion pbth
      */
-    ReverseBuilder(BuilderParams buildParams) {
-        super(buildParams);
+    ReverseBuilder(BuilderPbrbms buildPbrbms) {
+        super(buildPbrbms);
 
-        Set<String> initialPolicies = buildParams.initialPolicies();
-        initPolicies = new HashSet<String>();
-        if (initialPolicies.isEmpty()) {
-            // if no initialPolicies are specified by user, set
-            // initPolicies to be anyPolicy by default
-            initPolicies.add(PolicyChecker.ANY_POLICY);
+        Set<String> initiblPolicies = buildPbrbms.initiblPolicies();
+        initPolicies = new HbshSet<String>();
+        if (initiblPolicies.isEmpty()) {
+            // if no initiblPolicies bre specified by user, set
+            // initPolicies to be bnyPolicy by defbult
+            initPolicies.bdd(PolicyChecker.ANY_POLICY);
         } else {
-            initPolicies.addAll(initialPolicies);
+            initPolicies.bddAll(initiblPolicies);
         }
     }
 
     /**
-     * Retrieves all certs from the specified CertStores that satisfy the
-     * requirements specified in the parameters and the current
-     * PKIX state (name constraints, policy constraints, etc).
+     * Retrieves bll certs from the specified CertStores thbt sbtisfy the
+     * requirements specified in the pbrbmeters bnd the current
+     * PKIX stbte (nbme constrbints, policy constrbints, etc).
      *
-     * @param currentState the current state.
-     *        Must be an instance of <code>ReverseState</code>
-     * @param certStores list of CertStores
+     * @pbrbm currentStbte the current stbte.
+     *        Must be bn instbnce of <code>ReverseStbte</code>
+     * @pbrbm certStores list of CertStores
      */
     @Override
-    Collection<X509Certificate> getMatchingCerts
-        (State currState, List<CertStore> certStores)
-        throws CertStoreException, CertificateException, IOException
+    Collection<X509Certificbte> getMbtchingCerts
+        (Stbte currStbte, List<CertStore> certStores)
+        throws CertStoreException, CertificbteException, IOException
     {
-        ReverseState currentState = (ReverseState) currState;
+        ReverseStbte currentStbte = (ReverseStbte) currStbte;
 
         if (debug != null)
-            debug.println("In ReverseBuilder.getMatchingCerts.");
+            debug.println("In ReverseBuilder.getMbtchingCerts.");
 
         /*
-         * The last certificate could be an EE or a CA certificate
-         * (we may be building a partial certification path or
-         * establishing trust in a CA).
+         * The lbst certificbte could be bn EE or b CA certificbte
+         * (we mby be building b pbrtibl certificbtion pbth or
+         * estbblishing trust in b CA).
          *
          * Try the EE certs before the CA certs. It will be more
-         * common to build a path to an end entity.
+         * common to build b pbth to bn end entity.
          */
-        Collection<X509Certificate> certs =
-            getMatchingEECerts(currentState, certStores);
-        certs.addAll(getMatchingCACerts(currentState, certStores));
+        Collection<X509Certificbte> certs =
+            getMbtchingEECerts(currentStbte, certStores);
+        certs.bddAll(getMbtchingCACerts(currentStbte, certStores));
 
         return certs;
     }
 
     /*
-     * Retrieves all end-entity certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Retrieves bll end-entity certificbtes which sbtisfy constrbints
+     * bnd requirements specified in the pbrbmeters bnd PKIX stbte.
      */
-    private Collection<X509Certificate> getMatchingEECerts
-        (ReverseState currentState, List<CertStore> certStores)
-        throws CertStoreException, CertificateException, IOException {
+    privbte Collection<X509Certificbte> getMbtchingEECerts
+        (ReverseStbte currentStbte, List<CertStore> certStores)
+        throws CertStoreException, CertificbteException, IOException {
 
         /*
-         * Compose a CertSelector to filter out
-         * certs which do not satisfy requirements.
+         * Compose b CertSelector to filter out
+         * certs which do not sbtisfy requirements.
          *
-         * First, retrieve clone of current target cert constraints, and
-         * then add more selection criteria based on current validation state.
+         * First, retrieve clone of current tbrget cert constrbints, bnd
+         * then bdd more selection criterib bbsed on current vblidbtion stbte.
          */
-        X509CertSelector sel = (X509CertSelector) targetCertConstraints.clone();
+        X509CertSelector sel = (X509CertSelector) tbrgetCertConstrbints.clone();
 
         /*
-         * Match on issuer (subject of previous cert)
+         * Mbtch on issuer (subject of previous cert)
          */
-        sel.setIssuer(currentState.subjectDN);
+        sel.setIssuer(currentStbte.subjectDN);
 
         /*
-         * Match on certificate validity date.
+         * Mbtch on certificbte vblidity dbte.
          */
-        sel.setCertificateValid(buildParams.date());
+        sel.setCertificbteVblid(buildPbrbms.dbte());
 
         /*
-         * Policy processing optimizations
+         * Policy processing optimizbtions
          */
-        if (currentState.explicitPolicy == 0)
-            sel.setPolicy(getMatchingPolicies());
+        if (currentStbte.explicitPolicy == 0)
+            sel.setPolicy(getMbtchingPolicies());
 
         /*
-         * If previous cert has a subject key identifier extension,
-         * use it to match on authority key identifier extension.
+         * If previous cert hbs b subject key identifier extension,
+         * use it to mbtch on buthority key identifier extension.
          */
-        /*if (currentState.subjKeyId != null) {
-          AuthorityKeyIdentifierExtension authKeyId = new AuthorityKeyIdentifierExtension(
-                (KeyIdentifier) currentState.subjKeyId.get(SubjectKeyIdentifierExtension.KEY_ID),
+        /*if (currentStbte.subjKeyId != null) {
+          AuthorityKeyIdentifierExtension buthKeyId = new AuthorityKeyIdentifierExtension(
+                (KeyIdentifier) currentStbte.subjKeyId.get(SubjectKeyIdentifierExtension.KEY_ID),
                 null, null);
-        sel.setAuthorityKeyIdentifier(authKeyId.getExtensionValue());
+        sel.setAuthorityKeyIdentifier(buthKeyId.getExtensionVblue());
         }*/
 
         /*
          * Require EE certs
          */
-        sel.setBasicConstraints(-2);
+        sel.setBbsicConstrbints(-2);
 
-        /* Retrieve matching certs from CertStores */
-        HashSet<X509Certificate> eeCerts = new HashSet<>();
-        addMatchingCerts(sel, certStores, eeCerts, true);
+        /* Retrieve mbtching certs from CertStores */
+        HbshSet<X509Certificbte> eeCerts = new HbshSet<>();
+        bddMbtchingCerts(sel, certStores, eeCerts, true);
 
         if (debug != null) {
-            debug.println("ReverseBuilder.getMatchingEECerts got "
+            debug.println("ReverseBuilder.getMbtchingEECerts got "
                           + eeCerts.size() + " certs.");
         }
         return eeCerts;
     }
 
     /*
-     * Retrieves all CA certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Retrieves bll CA certificbtes which sbtisfy constrbints
+     * bnd requirements specified in the pbrbmeters bnd PKIX stbte.
      */
-    private Collection<X509Certificate> getMatchingCACerts
-        (ReverseState currentState, List<CertStore> certStores)
-        throws CertificateException, CertStoreException, IOException {
+    privbte Collection<X509Certificbte> getMbtchingCACerts
+        (ReverseStbte currentStbte, List<CertStore> certStores)
+        throws CertificbteException, CertStoreException, IOException {
 
         /*
-         * Compose a CertSelector to filter out
-         * certs which do not satisfy requirements.
+         * Compose b CertSelector to filter out
+         * certs which do not sbtisfy requirements.
          */
         X509CertSelector sel = new X509CertSelector();
 
         /*
-         * Match on issuer (subject of previous cert)
+         * Mbtch on issuer (subject of previous cert)
          */
-        sel.setIssuer(currentState.subjectDN);
+        sel.setIssuer(currentStbte.subjectDN);
 
         /*
-         * Match on certificate validity date.
+         * Mbtch on certificbte vblidity dbte.
          */
-        sel.setCertificateValid(buildParams.date());
+        sel.setCertificbteVblid(buildPbrbms.dbte());
 
         /*
-         * Match on target subject name (checks that current cert's
-         * name constraints permit it to certify target).
-         * (4 is the integer type for DIRECTORY name).
+         * Mbtch on tbrget subject nbme (checks thbt current cert's
+         * nbme constrbints permit it to certify tbrget).
+         * (4 is the integer type for DIRECTORY nbme).
          */
-        byte[] subject = targetCertConstraints.getSubjectAsBytes();
+        byte[] subject = tbrgetCertConstrbints.getSubjectAsBytes();
         if (subject != null) {
-            sel.addPathToName(4, subject);
+            sel.bddPbthToNbme(4, subject);
         } else {
-            X509Certificate cert = targetCertConstraints.getCertificate();
+            X509Certificbte cert = tbrgetCertConstrbints.getCertificbte();
             if (cert != null) {
-                sel.addPathToName(4,
-                                  cert.getSubjectX500Principal().getEncoded());
+                sel.bddPbthToNbme(4,
+                                  cert.getSubjectX500Principbl().getEncoded());
             }
         }
 
         /*
-         * Policy processing optimizations
+         * Policy processing optimizbtions
          */
-        if (currentState.explicitPolicy == 0)
-            sel.setPolicy(getMatchingPolicies());
+        if (currentStbte.explicitPolicy == 0)
+            sel.setPolicy(getMbtchingPolicies());
 
         /*
-         * If previous cert has a subject key identifier extension,
-         * use it to match on authority key identifier extension.
+         * If previous cert hbs b subject key identifier extension,
+         * use it to mbtch on buthority key identifier extension.
          */
-        /*if (currentState.subjKeyId != null) {
-          AuthorityKeyIdentifierExtension authKeyId = new AuthorityKeyIdentifierExtension(
-                (KeyIdentifier) currentState.subjKeyId.get(SubjectKeyIdentifierExtension.KEY_ID),
+        /*if (currentStbte.subjKeyId != null) {
+          AuthorityKeyIdentifierExtension buthKeyId = new AuthorityKeyIdentifierExtension(
+                (KeyIdentifier) currentStbte.subjKeyId.get(SubjectKeyIdentifierExtension.KEY_ID),
                                 null, null);
-          sel.setAuthorityKeyIdentifier(authKeyId.getExtensionValue());
+          sel.setAuthorityKeyIdentifier(buthKeyId.getExtensionVblue());
         }*/
 
         /*
          * Require CA certs
          */
-        sel.setBasicConstraints(0);
+        sel.setBbsicConstrbints(0);
 
-        /* Retrieve matching certs from CertStores */
-        ArrayList<X509Certificate> reverseCerts = new ArrayList<>();
-        addMatchingCerts(sel, certStores, reverseCerts, true);
+        /* Retrieve mbtching certs from CertStores */
+        ArrbyList<X509Certificbte> reverseCerts = new ArrbyList<>();
+        bddMbtchingCerts(sel, certStores, reverseCerts, true);
 
-        /* Sort remaining certs using name constraints */
-        Collections.sort(reverseCerts, new PKIXCertComparator());
+        /* Sort rembining certs using nbme constrbints */
+        Collections.sort(reverseCerts, new PKIXCertCompbrbtor());
 
         if (debug != null)
-            debug.println("ReverseBuilder.getMatchingCACerts got " +
+            debug.println("ReverseBuilder.getMbtchingCACerts got " +
                           reverseCerts.size() + " certs.");
         return reverseCerts;
     }
 
     /*
-     * This inner class compares 2 PKIX certificates according to which
-     * should be tried first when building a path to the target. For
-     * now, the algorithm is to look at name constraints in each cert and those
-     * which constrain the path closer to the target should be
-     * ranked higher. Later, we may want to consider other components,
-     * such as key identifiers.
+     * This inner clbss compbres 2 PKIX certificbtes bccording to which
+     * should be tried first when building b pbth to the tbrget. For
+     * now, the blgorithm is to look bt nbme constrbints in ebch cert bnd those
+     * which constrbin the pbth closer to the tbrget should be
+     * rbnked higher. Lbter, we mby wbnt to consider other components,
+     * such bs key identifiers.
      */
-    class PKIXCertComparator implements Comparator<X509Certificate> {
+    clbss PKIXCertCompbrbtor implements Compbrbtor<X509Certificbte> {
 
-        private Debug debug = Debug.getInstance("certpath");
+        privbte Debug debug = Debug.getInstbnce("certpbth");
 
         @Override
-        public int compare(X509Certificate cert1, X509Certificate cert2) {
+        public int compbre(X509Certificbte cert1, X509Certificbte cert2) {
 
             /*
-             * if either cert certifies the target, always
-             * put at head of list.
+             * if either cert certifies the tbrget, blwbys
+             * put bt hebd of list.
              */
-            X500Principal targetSubject = buildParams.targetSubject();
-            if (cert1.getSubjectX500Principal().equals(targetSubject)) {
+            X500Principbl tbrgetSubject = buildPbrbms.tbrgetSubject();
+            if (cert1.getSubjectX500Principbl().equbls(tbrgetSubject)) {
                 return -1;
             }
-            if (cert2.getSubjectX500Principal().equals(targetSubject)) {
+            if (cert2.getSubjectX500Principbl().equbls(tbrgetSubject)) {
                 return 1;
             }
 
-            int targetDist1;
-            int targetDist2;
+            int tbrgetDist1;
+            int tbrgetDist2;
             try {
-                X500Name targetSubjectName = X500Name.asX500Name(targetSubject);
-                targetDist1 = Builder.targetDistance(
-                    null, cert1, targetSubjectName);
-                targetDist2 = Builder.targetDistance(
-                    null, cert2, targetSubjectName);
-            } catch (IOException e) {
+                X500Nbme tbrgetSubjectNbme = X500Nbme.bsX500Nbme(tbrgetSubject);
+                tbrgetDist1 = Builder.tbrgetDistbnce(
+                    null, cert1, tbrgetSubjectNbme);
+                tbrgetDist2 = Builder.tbrgetDistbnce(
+                    null, cert2, tbrgetSubjectNbme);
+            } cbtch (IOException e) {
                 if (debug != null) {
-                    debug.println("IOException in call to Builder.targetDistance");
-                    e.printStackTrace();
+                    debug.println("IOException in cbll to Builder.tbrgetDistbnce");
+                    e.printStbckTrbce();
                 }
-                throw new ClassCastException
-                    ("Invalid target subject distinguished name");
+                throw new ClbssCbstException
+                    ("Invblid tbrget subject distinguished nbme");
             }
 
-            if (targetDist1 == targetDist2)
+            if (tbrgetDist1 == tbrgetDist2)
                 return 0;
 
-            if (targetDist1 == -1)
+            if (tbrgetDist1 == -1)
                 return 1;
 
-            if (targetDist1 < targetDist2)
+            if (tbrgetDist1 < tbrgetDist2)
                 return -1;
 
             return 1;
@@ -321,139 +321,139 @@ class ReverseBuilder extends Builder {
     }
 
     /**
-     * Verifies a matching certificate.
+     * Verifies b mbtching certificbte.
      *
-     * This method executes any of the validation steps in the PKIX path validation
-     * algorithm which were not satisfied via filtering out non-compliant
-     * certificates with certificate matching rules.
+     * This method executes bny of the vblidbtion steps in the PKIX pbth vblidbtion
+     * blgorithm which were not sbtisfied vib filtering out non-complibnt
+     * certificbtes with certificbte mbtching rules.
      *
-     * If the last certificate is being verified (the one whose subject
-     * matches the target subject, then the steps in Section 6.1.4 of the
-     * Certification Path Validation algorithm are NOT executed,
-     * regardless of whether or not the last cert is an end-entity
-     * cert or not. This allows callers to certify CA certs as
-     * well as EE certs.
+     * If the lbst certificbte is being verified (the one whose subject
+     * mbtches the tbrget subject, then the steps in Section 6.1.4 of the
+     * Certificbtion Pbth Vblidbtion blgorithm bre NOT executed,
+     * regbrdless of whether or not the lbst cert is bn end-entity
+     * cert or not. This bllows cbllers to certify CA certs bs
+     * well bs EE certs.
      *
-     * @param cert the certificate to be verified
-     * @param currentState the current state against which the cert is verified
-     * @param certPathList the certPathList generated thus far
+     * @pbrbm cert the certificbte to be verified
+     * @pbrbm currentStbte the current stbte bgbinst which the cert is verified
+     * @pbrbm certPbthList the certPbthList generbted thus fbr
      */
     @Override
-    void verifyCert(X509Certificate cert, State currState,
-        List<X509Certificate> certPathList)
-        throws GeneralSecurityException
+    void verifyCert(X509Certificbte cert, Stbte currStbte,
+        List<X509Certificbte> certPbthList)
+        throws GenerblSecurityException
     {
         if (debug != null) {
             debug.println("ReverseBuilder.verifyCert(SN: "
-                + Debug.toHexString(cert.getSerialNumber())
-                + "\n  Subject: " + cert.getSubjectX500Principal() + ")");
+                + Debug.toHexString(cert.getSeriblNumber())
+                + "\n  Subject: " + cert.getSubjectX500Principbl() + ")");
         }
 
-        ReverseState currentState = (ReverseState) currState;
+        ReverseStbte currentStbte = (ReverseStbte) currStbte;
 
-        /* we don't perform any validation of the trusted cert */
-        if (currentState.isInitial()) {
+        /* we don't perform bny vblidbtion of the trusted cert */
+        if (currentStbte.isInitibl()) {
             return;
         }
 
-        // Don't bother to verify untrusted certificate more.
-        currentState.untrustedChecker.check(cert,
+        // Don't bother to verify untrusted certificbte more.
+        currentStbte.untrustedChecker.check(cert,
                                     Collections.<String>emptySet());
 
         /*
-         * check for looping - abort a loop if
-         * ((we encounter the same certificate twice) AND
-         * ((policyMappingInhibited = true) OR (no policy mapping
-         * extensions can be found between the occurrences of the same
-         * certificate)))
-         * in order to facilitate the check to see if there are
-         * any policy mapping extensions found between the occurrences
-         * of the same certificate, we reverse the certpathlist first
+         * check for looping - bbort b loop if
+         * ((we encounter the sbme certificbte twice) AND
+         * ((policyMbppingInhibited = true) OR (no policy mbpping
+         * extensions cbn be found between the occurrences of the sbme
+         * certificbte)))
+         * in order to fbcilitbte the check to see if there bre
+         * bny policy mbpping extensions found between the occurrences
+         * of the sbme certificbte, we reverse the certpbthlist first
          */
-        if ((certPathList != null) && (!certPathList.isEmpty())) {
-            List<X509Certificate> reverseCertList = new ArrayList<>();
-            for (X509Certificate c : certPathList) {
-                reverseCertList.add(0, c);
+        if ((certPbthList != null) && (!certPbthList.isEmpty())) {
+            List<X509Certificbte> reverseCertList = new ArrbyList<>();
+            for (X509Certificbte c : certPbthList) {
+                reverseCertList.bdd(0, c);
             }
 
-            boolean policyMappingFound = false;
-            for (X509Certificate cpListCert : reverseCertList) {
+            boolebn policyMbppingFound = fblse;
+            for (X509Certificbte cpListCert : reverseCertList) {
                 X509CertImpl cpListCertImpl = X509CertImpl.toImpl(cpListCert);
-                PolicyMappingsExtension policyMappingsExt =
-                        cpListCertImpl.getPolicyMappingsExtension();
-                if (policyMappingsExt != null) {
-                    policyMappingFound = true;
+                PolicyMbppingsExtension policyMbppingsExt =
+                        cpListCertImpl.getPolicyMbppingsExtension();
+                if (policyMbppingsExt != null) {
+                    policyMbppingFound = true;
                 }
                 if (debug != null)
-                    debug.println("policyMappingFound = " + policyMappingFound);
-                if (cert.equals(cpListCert)) {
-                    if ((buildParams.policyMappingInhibited()) ||
-                        (!policyMappingFound)){
+                    debug.println("policyMbppingFound = " + policyMbppingFound);
+                if (cert.equbls(cpListCert)) {
+                    if ((buildPbrbms.policyMbppingInhibited()) ||
+                        (!policyMbppingFound)){
                         if (debug != null)
                             debug.println("loop detected!!");
-                        throw new CertPathValidatorException("loop detected");
+                        throw new CertPbthVblidbtorException("loop detected");
                     }
                 }
             }
         }
 
-        /* check if target cert */
-        boolean finalCert = cert.getSubjectX500Principal().equals(buildParams.targetSubject());
+        /* check if tbrget cert */
+        boolebn finblCert = cert.getSubjectX500Principbl().equbls(buildPbrbms.tbrgetSubject());
 
         /* check if CA cert */
-        boolean caCert = (cert.getBasicConstraints() != -1 ? true : false);
+        boolebn cbCert = (cert.getBbsicConstrbints() != -1 ? true : fblse);
 
-        /* if there are more certs to follow, verify certain constraints */
-        if (!finalCert) {
+        /* if there bre more certs to follow, verify certbin constrbints */
+        if (!finblCert) {
 
             /* check if CA cert */
-            if (!caCert)
-                throw new CertPathValidatorException("cert is NOT a CA cert");
+            if (!cbCert)
+                throw new CertPbthVblidbtorException("cert is NOT b CA cert");
 
-            /* If the certificate was not self-issued, verify that
-             * remainingCerts is greater than zero
+            /* If the certificbte wbs not self-issued, verify thbt
+             * rembiningCerts is grebter thbn zero
              */
-            if ((currentState.remainingCACerts <= 0) && !X509CertImpl.isSelfIssued(cert)) {
-                    throw new CertPathValidatorException
-                        ("pathLenConstraint violated, path too long", null,
-                         null, -1, PKIXReason.PATH_TOO_LONG);
+            if ((currentStbte.rembiningCACerts <= 0) && !X509CertImpl.isSelfIssued(cert)) {
+                    throw new CertPbthVblidbtorException
+                        ("pbthLenConstrbint violbted, pbth too long", null,
+                         null, -1, PKIXRebson.PATH_TOO_LONG);
             }
 
             /*
-             * Check keyUsage extension (only if CA cert and not final cert)
+             * Check keyUsbge extension (only if CA cert bnd not finbl cert)
              */
-            KeyChecker.verifyCAKeyUsage(cert);
+            KeyChecker.verifyCAKeyUsbge(cert);
 
         } else {
 
             /*
-             * If final cert, check that it satisfies specified target
-             * constraints
+             * If finbl cert, check thbt it sbtisfies specified tbrget
+             * constrbints
              */
-            if (targetCertConstraints.match(cert) == false) {
-                throw new CertPathValidatorException("target certificate " +
-                    "constraints check failed");
+            if (tbrgetCertConstrbints.mbtch(cert) == fblse) {
+                throw new CertPbthVblidbtorException("tbrget certificbte " +
+                    "constrbints check fbiled");
             }
         }
 
         /*
-         * Check revocation.
+         * Check revocbtion.
          */
-        if (buildParams.revocationEnabled() && currentState.revChecker != null) {
-            currentState.revChecker.check(cert, Collections.<String>emptySet());
+        if (buildPbrbms.revocbtionEnbbled() && currentStbte.revChecker != null) {
+            currentStbte.revChecker.check(cert, Collections.<String>emptySet());
         }
 
-        /* Check name constraints if this is not a self-issued cert */
-        if (finalCert || !X509CertImpl.isSelfIssued(cert)){
-            if (currentState.nc != null) {
+        /* Check nbme constrbints if this is not b self-issued cert */
+        if (finblCert || !X509CertImpl.isSelfIssued(cert)){
+            if (currentStbte.nc != null) {
                 try {
-                    if (!currentState.nc.verify(cert)){
-                        throw new CertPathValidatorException
-                            ("name constraints check failed", null, null, -1,
-                             PKIXReason.INVALID_NAME);
+                    if (!currentStbte.nc.verify(cert)){
+                        throw new CertPbthVblidbtorException
+                            ("nbme constrbints check fbiled", null, null, -1,
+                             PKIXRebson.INVALID_NAME);
                     }
-                } catch (IOException ioe) {
-                    throw new CertPathValidatorException(ioe);
+                } cbtch (IOException ioe) {
+                    throw new CertPbthVblidbtorException(ioe);
                 }
             }
         }
@@ -462,90 +462,90 @@ class ReverseBuilder extends Builder {
          * Check policy
          */
         X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-        currentState.rootNode = PolicyChecker.processPolicies
-            (currentState.certIndex, initPolicies,
-            currentState.explicitPolicy, currentState.policyMapping,
-            currentState.inhibitAnyPolicy,
-            buildParams.policyQualifiersRejected(), currentState.rootNode,
-            certImpl, finalCert);
+        currentStbte.rootNode = PolicyChecker.processPolicies
+            (currentStbte.certIndex, initPolicies,
+            currentStbte.explicitPolicy, currentStbte.policyMbpping,
+            currentStbte.inhibitAnyPolicy,
+            buildPbrbms.policyQublifiersRejected(), currentStbte.rootNode,
+            certImpl, finblCert);
 
         /*
-         * Check CRITICAL private extensions
+         * Check CRITICAL privbte extensions
          */
-        Set<String> unresolvedCritExts = cert.getCriticalExtensionOIDs();
+        Set<String> unresolvedCritExts = cert.getCriticblExtensionOIDs();
         if (unresolvedCritExts == null) {
             unresolvedCritExts = Collections.<String>emptySet();
         }
 
         /*
-         * Check that the signature algorithm is not disabled.
+         * Check thbt the signbture blgorithm is not disbbled.
          */
-        currentState.algorithmChecker.check(cert, unresolvedCritExts);
+        currentStbte.blgorithmChecker.check(cert, unresolvedCritExts);
 
-        for (PKIXCertPathChecker checker : currentState.userCheckers) {
+        for (PKIXCertPbthChecker checker : currentStbte.userCheckers) {
             checker.check(cert, unresolvedCritExts);
         }
 
         /*
-         * Look at the remaining extensions and remove any ones we have
-         * already checked. If there are any left, throw an exception!
+         * Look bt the rembining extensions bnd remove bny ones we hbve
+         * blrebdy checked. If there bre bny left, throw bn exception!
          */
         if (!unresolvedCritExts.isEmpty()) {
-            unresolvedCritExts.remove(BasicConstraints_Id.toString());
-            unresolvedCritExts.remove(NameConstraints_Id.toString());
-            unresolvedCritExts.remove(CertificatePolicies_Id.toString());
-            unresolvedCritExts.remove(PolicyMappings_Id.toString());
-            unresolvedCritExts.remove(PolicyConstraints_Id.toString());
+            unresolvedCritExts.remove(BbsicConstrbints_Id.toString());
+            unresolvedCritExts.remove(NbmeConstrbints_Id.toString());
+            unresolvedCritExts.remove(CertificbtePolicies_Id.toString());
+            unresolvedCritExts.remove(PolicyMbppings_Id.toString());
+            unresolvedCritExts.remove(PolicyConstrbints_Id.toString());
             unresolvedCritExts.remove(InhibitAnyPolicy_Id.toString());
-            unresolvedCritExts.remove(SubjectAlternativeName_Id.toString());
-            unresolvedCritExts.remove(KeyUsage_Id.toString());
-            unresolvedCritExts.remove(ExtendedKeyUsage_Id.toString());
+            unresolvedCritExts.remove(SubjectAlternbtiveNbme_Id.toString());
+            unresolvedCritExts.remove(KeyUsbge_Id.toString());
+            unresolvedCritExts.remove(ExtendedKeyUsbge_Id.toString());
 
             if (!unresolvedCritExts.isEmpty())
-                throw new CertPathValidatorException
-                    ("Unrecognized critical extension(s)", null, null, -1,
-                     PKIXReason.UNRECOGNIZED_CRIT_EXT);
+                throw new CertPbthVblidbtorException
+                    ("Unrecognized criticbl extension(s)", null, null, -1,
+                     PKIXRebson.UNRECOGNIZED_CRIT_EXT);
         }
 
         /*
-         * Check signature.
+         * Check signbture.
          */
-        if (buildParams.sigProvider() != null) {
-            cert.verify(currentState.pubKey, buildParams.sigProvider());
+        if (buildPbrbms.sigProvider() != null) {
+            cert.verify(currentStbte.pubKey, buildPbrbms.sigProvider());
         } else {
-            cert.verify(currentState.pubKey);
+            cert.verify(currentStbte.pubKey);
         }
     }
 
     /**
-     * Verifies whether the input certificate completes the path.
-     * This checks whether the cert is the target certificate.
+     * Verifies whether the input certificbte completes the pbth.
+     * This checks whether the cert is the tbrget certificbte.
      *
-     * @param cert the certificate to test
-     * @return a boolean value indicating whether the cert completes the path.
+     * @pbrbm cert the certificbte to test
+     * @return b boolebn vblue indicbting whether the cert completes the pbth.
      */
     @Override
-    boolean isPathCompleted(X509Certificate cert) {
-        return cert.getSubjectX500Principal().equals(buildParams.targetSubject());
+    boolebn isPbthCompleted(X509Certificbte cert) {
+        return cert.getSubjectX500Principbl().equbls(buildPbrbms.tbrgetSubject());
     }
 
-    /** Adds the certificate to the certPathList
+    /** Adds the certificbte to the certPbthList
      *
-     * @param cert the certificate to be added
-     * @param certPathList the certification path list
+     * @pbrbm cert the certificbte to be bdded
+     * @pbrbm certPbthList the certificbtion pbth list
      */
     @Override
-    void addCertToPath(X509Certificate cert,
-        LinkedList<X509Certificate> certPathList) {
-        certPathList.addLast(cert);
+    void bddCertToPbth(X509Certificbte cert,
+        LinkedList<X509Certificbte> certPbthList) {
+        certPbthList.bddLbst(cert);
     }
 
-    /** Removes final certificate from the certPathList
+    /** Removes finbl certificbte from the certPbthList
      *
-     * @param certPathList the certification path list
+     * @pbrbm certPbthList the certificbtion pbth list
      */
     @Override
-    void removeFinalCertFromPath(LinkedList<X509Certificate> certPathList) {
-        certPathList.removeLast();
+    void removeFinblCertFromPbth(LinkedList<X509Certificbte> certPbthList) {
+        certPbthList.removeLbst();
     }
 }

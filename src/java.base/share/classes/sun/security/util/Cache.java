@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.util.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.lbng.ref.*;
 
 /**
- * Abstract base class and factory for caches. A cache is a key-value mapping.
- * It has properties that make it more suitable for caching than a Map.
+ * Abstrbct bbse clbss bnd fbctory for cbches. A cbche is b key-vblue mbpping.
+ * It hbs properties thbt mbke it more suitbble for cbching thbn b Mbp.
  *
- * The factory methods can be used to obtain two different implementations.
- * They have the following properties:
+ * The fbctory methods cbn be used to obtbin two different implementbtions.
+ * They hbve the following properties:
  *
- *  . keys and values reside in memory
+ *  . keys bnd vblues reside in memory
  *
- *  . keys and values must be non-null
+ *  . keys bnd vblues must be non-null
  *
- *  . maximum size. Replacements are made in LRU order.
+ *  . mbximum size. Replbcements bre mbde in LRU order.
  *
- *  . optional lifetime, specified in seconds.
+ *  . optionbl lifetime, specified in seconds.
  *
- *  . safe for concurrent use by multiple threads
+ *  . sbfe for concurrent use by multiple threbds
  *
- *  . values are held by either standard references or via SoftReferences.
- *    SoftReferences have the advantage that they are automatically cleared
- *    by the garbage collector in response to memory demand. This makes it
- *    possible to simple set the maximum size to a very large value and let
- *    the GC automatically size the cache dynamically depending on the
- *    amount of available memory.
+ *  . vblues bre held by either stbndbrd references or vib SoftReferences.
+ *    SoftReferences hbve the bdvbntbge thbt they bre butombticblly clebred
+ *    by the gbrbbge collector in response to memory dembnd. This mbkes it
+ *    possible to simple set the mbximum size to b very lbrge vblue bnd let
+ *    the GC butombticblly size the cbche dynbmicblly depending on the
+ *    bmount of bvbilbble memory.
  *
- * However, note that because of the way SoftReferences are implemented in
- * HotSpot at the moment, this may not work perfectly as it clears them fairly
- * eagerly. Performance may be improved if the Java heap size is set to larger
- * value using e.g. java -ms64M -mx128M foo.Test
+ * However, note thbt becbuse of the wby SoftReferences bre implemented in
+ * HotSpot bt the moment, this mby not work perfectly bs it clebrs them fbirly
+ * ebgerly. Performbnce mby be improved if the Jbvb hebp size is set to lbrger
+ * vblue using e.g. jbvb -ms64M -mx128M foo.Test
  *
- * Cache sizing: the memory cache is implemented on top of a LinkedHashMap.
- * In its current implementation, the number of buckets (NOT entries) in
- * (Linked)HashMaps is always a power of two. It is recommended to set the
- * maximum cache size to value that uses those buckets fully. For example,
- * if a cache with somewhere between 500 and 1000 entries is desired, a
- * maximum size of 750 would be a good choice: try 1024 buckets, with a
- * load factor of 0.75f, the number of entries can be calculated as
- * buckets / 4 * 3. As mentioned above, with a SoftReference cache, it is
- * generally reasonable to set the size to a fairly large value.
+ * Cbche sizing: the memory cbche is implemented on top of b LinkedHbshMbp.
+ * In its current implementbtion, the number of buckets (NOT entries) in
+ * (Linked)HbshMbps is blwbys b power of two. It is recommended to set the
+ * mbximum cbche size to vblue thbt uses those buckets fully. For exbmple,
+ * if b cbche with somewhere between 500 bnd 1000 entries is desired, b
+ * mbximum size of 750 would be b good choice: try 1024 buckets, with b
+ * lobd fbctor of 0.75f, the number of entries cbn be cblculbted bs
+ * buckets / 4 * 3. As mentioned bbove, with b SoftReference cbche, it is
+ * generblly rebsonbble to set the size to b fbirly lbrge vblue.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public abstract class Cache<K,V> {
+public bbstrbct clbss Cbche<K,V> {
 
-    protected Cache() {
+    protected Cbche() {
         // empty
     }
 
     /**
-     * Return the number of currently valid entries in the cache.
+     * Return the number of currently vblid entries in the cbche.
      */
-    public abstract int size();
+    public bbstrbct int size();
 
     /**
-     * Remove all entries from the cache.
+     * Remove bll entries from the cbche.
      */
-    public abstract void clear();
+    public bbstrbct void clebr();
 
     /**
-     * Add an entry to the cache.
+     * Add bn entry to the cbche.
      */
-    public abstract void put(K key, V value);
+    public bbstrbct void put(K key, V vblue);
 
     /**
-     * Get a value from the cache.
+     * Get b vblue from the cbche.
      */
-    public abstract V get(Object key);
+    public bbstrbct V get(Object key);
 
     /**
-     * Remove an entry from the cache.
+     * Remove bn entry from the cbche.
      */
-    public abstract void remove(Object key);
+    public bbstrbct void remove(Object key);
 
     /**
-     * Set the maximum size.
+     * Set the mbximum size.
      */
-    public abstract void setCapacity(int size);
+    public bbstrbct void setCbpbcity(int size);
 
     /**
      * Set the timeout(in seconds).
      */
-    public abstract void setTimeout(int timeout);
+    public bbstrbct void setTimeout(int timeout);
 
     /**
-     * accept a visitor
+     * bccept b visitor
      */
-    public abstract void accept(CacheVisitor<K,V> visitor);
+    public bbstrbct void bccept(CbcheVisitor<K,V> visitor);
 
     /**
-     * Return a new memory cache with the specified maximum size, unlimited
-     * lifetime for entries, with the values held by SoftReferences.
+     * Return b new memory cbche with the specified mbximum size, unlimited
+     * lifetime for entries, with the vblues held by SoftReferences.
      */
-    public static <K,V> Cache<K,V> newSoftMemoryCache(int size) {
-        return new MemoryCache<>(true, size);
+    public stbtic <K,V> Cbche<K,V> newSoftMemoryCbche(int size) {
+        return new MemoryCbche<>(true, size);
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, the
-     * specified maximum lifetime (in seconds), with the values held
+     * Return b new memory cbche with the specified mbximum size, the
+     * specified mbximum lifetime (in seconds), with the vblues held
      * by SoftReferences.
      */
-    public static <K,V> Cache<K,V> newSoftMemoryCache(int size, int timeout) {
-        return new MemoryCache<>(true, size, timeout);
+    public stbtic <K,V> Cbche<K,V> newSoftMemoryCbche(int size, int timeout) {
+        return new MemoryCbche<>(true, size, timeout);
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, unlimited
-     * lifetime for entries, with the values held by standard references.
+     * Return b new memory cbche with the specified mbximum size, unlimited
+     * lifetime for entries, with the vblues held by stbndbrd references.
      */
-    public static <K,V> Cache<K,V> newHardMemoryCache(int size) {
-        return new MemoryCache<>(false, size);
+    public stbtic <K,V> Cbche<K,V> newHbrdMemoryCbche(int size) {
+        return new MemoryCbche<>(fblse, size);
     }
 
     /**
-     * Return a dummy cache that does nothing.
+     * Return b dummy cbche thbt does nothing.
      */
-    @SuppressWarnings("unchecked")
-    public static <K,V> Cache<K,V> newNullCache() {
-        return (Cache<K,V>) NullCache.INSTANCE;
+    @SuppressWbrnings("unchecked")
+    public stbtic <K,V> Cbche<K,V> newNullCbche() {
+        return (Cbche<K,V>) NullCbche.INSTANCE;
     }
 
     /**
-     * Return a new memory cache with the specified maximum size, the
-     * specified maximum lifetime (in seconds), with the values held
-     * by standard references.
+     * Return b new memory cbche with the specified mbximum size, the
+     * specified mbximum lifetime (in seconds), with the vblues held
+     * by stbndbrd references.
      */
-    public static <K,V> Cache<K,V> newHardMemoryCache(int size, int timeout) {
-        return new MemoryCache<>(false, size, timeout);
+    public stbtic <K,V> Cbche<K,V> newHbrdMemoryCbche(int size, int timeout) {
+        return new MemoryCbche<>(fblse, size, timeout);
     }
 
     /**
-     * Utility class that wraps a byte array and implements the equals()
-     * and hashCode() contract in a way suitable for Maps and caches.
+     * Utility clbss thbt wrbps b byte brrby bnd implements the equbls()
+     * bnd hbshCode() contrbct in b wby suitbble for Mbps bnd cbches.
      */
-    public static class EqualByteArray {
+    public stbtic clbss EqublByteArrby {
 
-        private final byte[] b;
-        private volatile int hash;
+        privbte finbl byte[] b;
+        privbte volbtile int hbsh;
 
-        public EqualByteArray(byte[] b) {
+        public EqublByteArrby(byte[] b) {
             this.b = b;
         }
 
-        public int hashCode() {
-            int h = hash;
+        public int hbshCode() {
+            int h = hbsh;
             if (h == 0) {
                 h = b.length + 1;
                 for (int i = 0; i < b.length; i++) {
                     h += (b[i] & 0xff) * 37;
                 }
-                hash = h;
+                hbsh = h;
             }
             return h;
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof EqualByteArray == false) {
-                return false;
+            if (obj instbnceof EqublByteArrby == fblse) {
+                return fblse;
             }
-            EqualByteArray other = (EqualByteArray)obj;
-            return Arrays.equals(this.b, other.b);
+            EqublByteArrby other = (EqublByteArrby)obj;
+            return Arrbys.equbls(this.b, other.b);
         }
     }
 
-    public interface CacheVisitor<K,V> {
-        public void visit(Map<K,V> map);
+    public interfbce CbcheVisitor<K,V> {
+        public void visit(Mbp<K,V> mbp);
     }
 
 }
 
-class NullCache<K,V> extends Cache<K,V> {
+clbss NullCbche<K,V> extends Cbche<K,V> {
 
-    final static Cache<Object,Object> INSTANCE = new NullCache<>();
+    finbl stbtic Cbche<Object,Object> INSTANCE = new NullCbche<>();
 
-    private NullCache() {
+    privbte NullCbche() {
         // empty
     }
 
@@ -212,11 +212,11 @@ class NullCache<K,V> extends Cache<K,V> {
         return 0;
     }
 
-    public void clear() {
+    public void clebr() {
         // empty
     }
 
-    public void put(K key, V value) {
+    public void put(K key, V vblue) {
         // empty
     }
 
@@ -228,7 +228,7 @@ class NullCache<K,V> extends Cache<K,V> {
         // empty
     }
 
-    public void setCapacity(int size) {
+    public void setCbpbcity(int size) {
         // empty
     }
 
@@ -236,96 +236,96 @@ class NullCache<K,V> extends Cache<K,V> {
         // empty
     }
 
-    public void accept(CacheVisitor<K,V> visitor) {
+    public void bccept(CbcheVisitor<K,V> visitor) {
         // empty
     }
 
 }
 
-class MemoryCache<K,V> extends Cache<K,V> {
+clbss MemoryCbche<K,V> extends Cbche<K,V> {
 
-    private final static float LOAD_FACTOR = 0.75f;
+    privbte finbl stbtic flobt LOAD_FACTOR = 0.75f;
 
     // XXXX
-    private final static boolean DEBUG = false;
+    privbte finbl stbtic boolebn DEBUG = fblse;
 
-    private final Map<K, CacheEntry<K,V>> cacheMap;
-    private int maxSize;
-    private long lifetime;
+    privbte finbl Mbp<K, CbcheEntry<K,V>> cbcheMbp;
+    privbte int mbxSize;
+    privbte long lifetime;
 
-    // ReferenceQueue is of type V instead of Cache<K,V>
-    // to allow SoftCacheEntry to extend SoftReference<V>
-    private final ReferenceQueue<V> queue;
+    // ReferenceQueue is of type V instebd of Cbche<K,V>
+    // to bllow SoftCbcheEntry to extend SoftReference<V>
+    privbte finbl ReferenceQueue<V> queue;
 
-    public MemoryCache(boolean soft, int maxSize) {
-        this(soft, maxSize, 0);
+    public MemoryCbche(boolebn soft, int mbxSize) {
+        this(soft, mbxSize, 0);
     }
 
-    public MemoryCache(boolean soft, int maxSize, int lifetime) {
-        this.maxSize = maxSize;
+    public MemoryCbche(boolebn soft, int mbxSize, int lifetime) {
+        this.mbxSize = mbxSize;
         this.lifetime = lifetime * 1000;
         if (soft)
             this.queue = new ReferenceQueue<>();
         else
             this.queue = null;
 
-        int buckets = (int)(maxSize / LOAD_FACTOR) + 1;
-        cacheMap = new LinkedHashMap<>(buckets, LOAD_FACTOR, true);
+        int buckets = (int)(mbxSize / LOAD_FACTOR) + 1;
+        cbcheMbp = new LinkedHbshMbp<>(buckets, LOAD_FACTOR, true);
     }
 
     /**
-     * Empty the reference queue and remove all corresponding entries
-     * from the cache.
+     * Empty the reference queue bnd remove bll corresponding entries
+     * from the cbche.
      *
-     * This method should be called at the beginning of each public
+     * This method should be cblled bt the beginning of ebch public
      * method.
      */
-    private void emptyQueue() {
+    privbte void emptyQueue() {
         if (queue == null) {
             return;
         }
-        int startSize = cacheMap.size();
+        int stbrtSize = cbcheMbp.size();
         while (true) {
-            @SuppressWarnings("unchecked")
-            CacheEntry<K,V> entry = (CacheEntry<K,V>)queue.poll();
+            @SuppressWbrnings("unchecked")
+            CbcheEntry<K,V> entry = (CbcheEntry<K,V>)queue.poll();
             if (entry == null) {
-                break;
+                brebk;
             }
             K key = entry.getKey();
             if (key == null) {
-                // key is null, entry has already been removed
+                // key is null, entry hbs blrebdy been removed
                 continue;
             }
-            CacheEntry<K,V> currentEntry = cacheMap.remove(key);
-            // check if the entry in the map corresponds to the expired
-            // entry. If not, readd the entry
+            CbcheEntry<K,V> currentEntry = cbcheMbp.remove(key);
+            // check if the entry in the mbp corresponds to the expired
+            // entry. If not, rebdd the entry
             if ((currentEntry != null) && (entry != currentEntry)) {
-                cacheMap.put(key, currentEntry);
+                cbcheMbp.put(key, currentEntry);
             }
         }
         if (DEBUG) {
-            int endSize = cacheMap.size();
-            if (startSize != endSize) {
-                System.out.println("*** Expunged " + (startSize - endSize)
+            int endSize = cbcheMbp.size();
+            if (stbrtSize != endSize) {
+                System.out.println("*** Expunged " + (stbrtSize - endSize)
                         + " entries, " + endSize + " entries left");
             }
         }
     }
 
     /**
-     * Scan all entries and remove all expired ones.
+     * Scbn bll entries bnd remove bll expired ones.
      */
-    private void expungeExpiredEntries() {
+    privbte void expungeExpiredEntries() {
         emptyQueue();
         if (lifetime == 0) {
             return;
         }
         int cnt = 0;
         long time = System.currentTimeMillis();
-        for (Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-                t.hasNext(); ) {
-            CacheEntry<K,V> entry = t.next();
-            if (entry.isValid(time) == false) {
+        for (Iterbtor<CbcheEntry<K,V>> t = cbcheMbp.vblues().iterbtor();
+                t.hbsNext(); ) {
+            CbcheEntry<K,V> entry = t.next();
+            if (entry.isVblid(time) == fblse) {
                 t.remove();
                 cnt++;
             }
@@ -333,99 +333,99 @@ class MemoryCache<K,V> extends Cache<K,V> {
         if (DEBUG) {
             if (cnt != 0) {
                 System.out.println("Removed " + cnt
-                        + " expired entries, remaining " + cacheMap.size());
+                        + " expired entries, rembining " + cbcheMbp.size());
             }
         }
     }
 
     public synchronized int size() {
         expungeExpiredEntries();
-        return cacheMap.size();
+        return cbcheMbp.size();
     }
 
-    public synchronized void clear() {
+    public synchronized void clebr() {
         if (queue != null) {
-            // if this is a SoftReference cache, first invalidate() all
-            // entries so that GC does not have to enqueue them
-            for (CacheEntry<K,V> entry : cacheMap.values()) {
-                entry.invalidate();
+            // if this is b SoftReference cbche, first invblidbte() bll
+            // entries so thbt GC does not hbve to enqueue them
+            for (CbcheEntry<K,V> entry : cbcheMbp.vblues()) {
+                entry.invblidbte();
             }
             while (queue.poll() != null) {
                 // empty
             }
         }
-        cacheMap.clear();
+        cbcheMbp.clebr();
     }
 
-    public synchronized void put(K key, V value) {
+    public synchronized void put(K key, V vblue) {
         emptyQueue();
-        long expirationTime = (lifetime == 0) ? 0 :
+        long expirbtionTime = (lifetime == 0) ? 0 :
                                         System.currentTimeMillis() + lifetime;
-        CacheEntry<K,V> newEntry = newEntry(key, value, expirationTime, queue);
-        CacheEntry<K,V> oldEntry = cacheMap.put(key, newEntry);
+        CbcheEntry<K,V> newEntry = newEntry(key, vblue, expirbtionTime, queue);
+        CbcheEntry<K,V> oldEntry = cbcheMbp.put(key, newEntry);
         if (oldEntry != null) {
-            oldEntry.invalidate();
+            oldEntry.invblidbte();
             return;
         }
-        if (maxSize > 0 && cacheMap.size() > maxSize) {
+        if (mbxSize > 0 && cbcheMbp.size() > mbxSize) {
             expungeExpiredEntries();
-            if (cacheMap.size() > maxSize) { // still too large?
-                Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-                CacheEntry<K,V> lruEntry = t.next();
+            if (cbcheMbp.size() > mbxSize) { // still too lbrge?
+                Iterbtor<CbcheEntry<K,V>> t = cbcheMbp.vblues().iterbtor();
+                CbcheEntry<K,V> lruEntry = t.next();
                 if (DEBUG) {
-                    System.out.println("** Overflow removal "
-                        + lruEntry.getKey() + " | " + lruEntry.getValue());
+                    System.out.println("** Overflow removbl "
+                        + lruEntry.getKey() + " | " + lruEntry.getVblue());
                 }
                 t.remove();
-                lruEntry.invalidate();
+                lruEntry.invblidbte();
             }
         }
     }
 
     public synchronized V get(Object key) {
         emptyQueue();
-        CacheEntry<K,V> entry = cacheMap.get(key);
+        CbcheEntry<K,V> entry = cbcheMbp.get(key);
         if (entry == null) {
             return null;
         }
         long time = (lifetime == 0) ? 0 : System.currentTimeMillis();
-        if (entry.isValid(time) == false) {
+        if (entry.isVblid(time) == fblse) {
             if (DEBUG) {
                 System.out.println("Ignoring expired entry");
             }
-            cacheMap.remove(key);
+            cbcheMbp.remove(key);
             return null;
         }
-        return entry.getValue();
+        return entry.getVblue();
     }
 
     public synchronized void remove(Object key) {
         emptyQueue();
-        CacheEntry<K,V> entry = cacheMap.remove(key);
+        CbcheEntry<K,V> entry = cbcheMbp.remove(key);
         if (entry != null) {
-            entry.invalidate();
+            entry.invblidbte();
         }
     }
 
-    public synchronized void setCapacity(int size) {
+    public synchronized void setCbpbcity(int size) {
         expungeExpiredEntries();
-        if (size > 0 && cacheMap.size() > size) {
-            Iterator<CacheEntry<K,V>> t = cacheMap.values().iterator();
-            for (int i = cacheMap.size() - size; i > 0; i--) {
-                CacheEntry<K,V> lruEntry = t.next();
+        if (size > 0 && cbcheMbp.size() > size) {
+            Iterbtor<CbcheEntry<K,V>> t = cbcheMbp.vblues().iterbtor();
+            for (int i = cbcheMbp.size() - size; i > 0; i--) {
+                CbcheEntry<K,V> lruEntry = t.next();
                 if (DEBUG) {
-                    System.out.println("** capacity reset removal "
-                        + lruEntry.getKey() + " | " + lruEntry.getValue());
+                    System.out.println("** cbpbcity reset removbl "
+                        + lruEntry.getKey() + " | " + lruEntry.getVblue());
                 }
                 t.remove();
-                lruEntry.invalidate();
+                lruEntry.invblidbte();
             }
         }
 
-        maxSize = size > 0 ? size : 0;
+        mbxSize = size > 0 ? size : 0;
 
         if (DEBUG) {
-            System.out.println("** capacity reset to " + size);
+            System.out.println("** cbpbcity reset to " + size);
         }
     }
 
@@ -438,114 +438,114 @@ class MemoryCache<K,V> extends Cache<K,V> {
         }
     }
 
-    // it is a heavyweight method.
-    public synchronized void accept(CacheVisitor<K,V> visitor) {
+    // it is b hebvyweight method.
+    public synchronized void bccept(CbcheVisitor<K,V> visitor) {
         expungeExpiredEntries();
-        Map<K,V> cached = getCachedEntries();
+        Mbp<K,V> cbched = getCbchedEntries();
 
-        visitor.visit(cached);
+        visitor.visit(cbched);
     }
 
-    private Map<K,V> getCachedEntries() {
-        Map<K,V> kvmap = new HashMap<>(cacheMap.size());
+    privbte Mbp<K,V> getCbchedEntries() {
+        Mbp<K,V> kvmbp = new HbshMbp<>(cbcheMbp.size());
 
-        for (CacheEntry<K,V> entry : cacheMap.values()) {
-            kvmap.put(entry.getKey(), entry.getValue());
+        for (CbcheEntry<K,V> entry : cbcheMbp.vblues()) {
+            kvmbp.put(entry.getKey(), entry.getVblue());
         }
 
-        return kvmap;
+        return kvmbp;
     }
 
-    protected CacheEntry<K,V> newEntry(K key, V value,
-            long expirationTime, ReferenceQueue<V> queue) {
+    protected CbcheEntry<K,V> newEntry(K key, V vblue,
+            long expirbtionTime, ReferenceQueue<V> queue) {
         if (queue != null) {
-            return new SoftCacheEntry<>(key, value, expirationTime, queue);
+            return new SoftCbcheEntry<>(key, vblue, expirbtionTime, queue);
         } else {
-            return new HardCacheEntry<>(key, value, expirationTime);
+            return new HbrdCbcheEntry<>(key, vblue, expirbtionTime);
         }
     }
 
-    private static interface CacheEntry<K,V> {
+    privbte stbtic interfbce CbcheEntry<K,V> {
 
-        boolean isValid(long currentTime);
+        boolebn isVblid(long currentTime);
 
-        void invalidate();
+        void invblidbte();
 
         K getKey();
 
-        V getValue();
+        V getVblue();
 
     }
 
-    private static class HardCacheEntry<K,V> implements CacheEntry<K,V> {
+    privbte stbtic clbss HbrdCbcheEntry<K,V> implements CbcheEntry<K,V> {
 
-        private K key;
-        private V value;
-        private long expirationTime;
+        privbte K key;
+        privbte V vblue;
+        privbte long expirbtionTime;
 
-        HardCacheEntry(K key, V value, long expirationTime) {
+        HbrdCbcheEntry(K key, V vblue, long expirbtionTime) {
             this.key = key;
-            this.value = value;
-            this.expirationTime = expirationTime;
+            this.vblue = vblue;
+            this.expirbtionTime = expirbtionTime;
         }
 
         public K getKey() {
             return key;
         }
 
-        public V getValue() {
-            return value;
+        public V getVblue() {
+            return vblue;
         }
 
-        public boolean isValid(long currentTime) {
-            boolean valid = (currentTime <= expirationTime);
-            if (valid == false) {
-                invalidate();
+        public boolebn isVblid(long currentTime) {
+            boolebn vblid = (currentTime <= expirbtionTime);
+            if (vblid == fblse) {
+                invblidbte();
             }
-            return valid;
+            return vblid;
         }
 
-        public void invalidate() {
+        public void invblidbte() {
             key = null;
-            value = null;
-            expirationTime = -1;
+            vblue = null;
+            expirbtionTime = -1;
         }
     }
 
-    private static class SoftCacheEntry<K,V>
+    privbte stbtic clbss SoftCbcheEntry<K,V>
             extends SoftReference<V>
-            implements CacheEntry<K,V> {
+            implements CbcheEntry<K,V> {
 
-        private K key;
-        private long expirationTime;
+        privbte K key;
+        privbte long expirbtionTime;
 
-        SoftCacheEntry(K key, V value, long expirationTime,
+        SoftCbcheEntry(K key, V vblue, long expirbtionTime,
                 ReferenceQueue<V> queue) {
-            super(value, queue);
+            super(vblue, queue);
             this.key = key;
-            this.expirationTime = expirationTime;
+            this.expirbtionTime = expirbtionTime;
         }
 
         public K getKey() {
             return key;
         }
 
-        public V getValue() {
+        public V getVblue() {
             return get();
         }
 
-        public boolean isValid(long currentTime) {
-            boolean valid = (currentTime <= expirationTime) && (get() != null);
-            if (valid == false) {
-                invalidate();
+        public boolebn isVblid(long currentTime) {
+            boolebn vblid = (currentTime <= expirbtionTime) && (get() != null);
+            if (vblid == fblse) {
+                invblidbte();
             }
-            return valid;
+            return vblid;
         }
 
-        public void invalidate() {
-            clear();
+        public void invblidbte() {
+            clebr();
             key = null;
-            expirationTime = -1;
+            expirbtionTime = -1;
         }
     }
 

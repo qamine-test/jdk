@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import sun.management.counter.Counter;
+import sun.mbnbgement.counter.Counter;
 
 /**
- * Hotspot internal management interface for the thread system.
+ * Hotspot internbl mbnbgement interfbce for the threbd system.
  */
-public interface HotspotThreadMBean {
+public interfbce HotspotThrebdMBebn {
 
     /**
-     * Returns the current number of VM internal threads.
+     * Returns the current number of VM internbl threbds.
      *
-     * @return the current number of VM internal threads.
+     * @return the current number of VM internbl threbds.
      */
-    public int getInternalThreadCount();
+    public int getInternblThrebdCount();
 
     /**
-     * Returns a <tt>Map</tt> of the name of all VM internal threads
-     * to the thread CPU time in nanoseconds.  The returned value is
-     * of nanoseconds precision but not necessarily nanoseconds accuracy.
+     * Returns b <tt>Mbp</tt> of the nbme of bll VM internbl threbds
+     * to the threbd CPU time in nbnoseconds.  The returned vblue is
+     * of nbnoseconds precision but not necessbrily nbnoseconds bccurbcy.
      * <p>
      *
-     * @return a <tt>Map</tt> object of the name of all VM internal threads
-     * to the thread CPU time in nanoseconds.
+     * @return b <tt>Mbp</tt> object of the nbme of bll VM internbl threbds
+     * to the threbd CPU time in nbnoseconds.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     * machine does not support CPU time measurement.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     * mbchine does not support CPU time mebsurement.
      *
-     * @see java.lang.management.ThreadMBean#isThreadCpuTimeSupported
+     * @see jbvb.lbng.mbnbgement.ThrebdMBebn#isThrebdCpuTimeSupported
      */
-    public java.util.Map<String,Long> getInternalThreadCpuTimes();
+    public jbvb.util.Mbp<String,Long> getInternblThrebdCpuTimes();
 
     /**
-     * Returns a list of internal counters maintained in the Java
-     * virtual machine for the thread system.
+     * Returns b list of internbl counters mbintbined in the Jbvb
+     * virtubl mbchine for the threbd system.
      *
-     * @return a list of internal counters maintained in the VM
-     * for the thread system.
+     * @return b list of internbl counters mbintbined in the VM
+     * for the threbd system.
      */
-    public java.util.List<Counter> getInternalThreadingCounters();
+    public jbvb.util.List<Counter> getInternblThrebdingCounters();
 }

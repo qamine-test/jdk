@@ -1,122 +1,122 @@
-Scriptpad Sample
+Scriptpbd Sbmple
 
 * Introduction
 
-Scriptpad is a notepad like editor to open/edit/save and run 
-script (JavaScript) files. This sample demonstrates the use of 
-javax.script (JSR-223) API and JavaScript engine that is bundled 
+Scriptpbd is b notepbd like editor to open/edit/sbve bnd run 
+script (JbvbScript) files. This sbmple demonstrbtes the use of 
+jbvbx.script (JSR-223) API bnd JbvbScript engine thbt is bundled 
 with JDK 6.
 
-Scriptpad sample demonstrates how to use Javascript to use Java 
-classes and objects to perform various tasks such as to modify,
-customize Swing GUI or to connect to a running application and 
-monitor it using JMX (Java Management Extensions) API.
+Scriptpbd sbmple demonstrbtes how to use Jbvbscript to use Jbvb 
+clbsses bnd objects to perform vbrious tbsks such bs to modify,
+customize Swing GUI or to connect to b running bpplicbtion bnd 
+monitor it using JMX (Jbvb Mbnbgement Extensions) API.
 
-* How to run Scriptpad?
+* How to run Scriptpbd?
 
-Scriptpad can be run with the following command:
+Scriptpbd cbn be run with the following commbnd:
     
-    java -jar ./build/scriptpad.jar
+    jbvb -jbr ./build/scriptpbd.jbr
 
-(be sure to use the correct version of java).  You can
-open/edit/save scripts using menu items under "File" menu.
-To run currently edited script, you can use "Tools->Run" menu.
+(be sure to use the correct version of jbvb).  You cbn
+open/edit/sbve scripts using menu items under "File" menu.
+To run currently edited script, you cbn use "Tools->Run" menu.
 
-For example, you may enter
+For exbmple, you mby enter
 
-    alert("hello, world");
+    blert("hello, world");
 
-in the editor and run the same with "Tools->Run" menu. 
-You will see an alert box with the message "hello, world".
+in the editor bnd run the sbme with "Tools->Run" menu. 
+You will see bn blert box with the messbge "hello, world".
 
-In addition to being a simple script editor/runner, scriptpad 
-can be used to connect to a JMX MBean server ("Tools->JMX Connect" 
-menu). User can specify JMX hostname and port. After connecting, 
-user can use "monitoring and management" script functions defined 
+In bddition to being b simple script editor/runner, scriptpbd 
+cbn be used to connect to b JMX MBebn server ("Tools->JMX Connect" 
+menu). User cbn specify JMX hostnbme bnd port. After connecting, 
+user cbn use "monitoring bnd mbnbgement" script functions defined 
 in "mm.js" (see below).
 
-* Scriptpad Sources
+* Scriptpbd Sources
 
-com.sun.demo.scriptpad.Main class is the entry point of this
-sample. This class creates ScriptEngine and evaluates few
-JavaScript "files" -- which are stored as resources (please
-refer to src/resources/*.js). Actual code for the scriptpad's
-main functionality lives in these JavaScript files.
+com.sun.demo.scriptpbd.Mbin clbss is the entry point of this
+sbmple. This clbss crebtes ScriptEngine bnd evblubtes few
+JbvbScript "files" -- which bre stored bs resources (plebse
+refer to src/resources/*.js). Actubl code for the scriptpbd's
+mbin functionblity lives in these JbvbScript files.
 
 1. conc.js
- -- simple concurrency utilities for JavaScript
+ -- simple concurrency utilities for JbvbScript
 
 2. gui.js
- -- simple GUI utilities for JavaScript
+ -- simple GUI utilities for JbvbScript
 
 3. mm.js
- -- Monitoring and Management utilities for JavaScript
+ -- Monitoring bnd Mbnbgement utilities for JbvbScript
 
-4. scriptpad.js
- -- This creates main "notepad"-like GUI for open/edit/save
-    and run script files
+4. scriptpbd.js
+ -- This crebtes mbin "notepbd"-like GUI for open/edit/sbve
+    bnd run script files
 
-5. Main.js
- -- This script file can be used under "jrunscript" tool.
-    jrunscript is an experimental tool shipped with JDK (under
-    $JDK_HOME/bin directory). The scriptpad application can be
-    run by the following commands:
+5. Mbin.js
+ -- This script file cbn be used under "jrunscript" tool.
+    jrunscript is bn experimentbl tool shipped with JDK (under
+    $JDK_HOME/bin directory). The scriptpbd bpplicbtion cbn be
+    run by the following commbnds:
 
     cd ./src/resources
-    $JDK_HOME/bin/jrunscript -f Main.js -f -
+    $JDK_HOME/bin/jrunscript -f Mbin.js -f -
 
 
-* Extending Scriptpad:
+* Extending Scriptpbd:
 
-It is possible to extend scriptpad using scripts. There is a global
-object called "application". This object has 2 fields and a method.
+It is possible to extend scriptpbd using scripts. There is b globbl
+object cblled "bpplicbtion". This object hbs 2 fields bnd b method.
 
-    Fields of the application object:
+    Fields of the bpplicbtion object:
 
-        frame  -> JFrame of the scriptpad
-        editor -> editor pane of the scriptpad
+        frbme  -> JFrbme of the scriptpbd
+        editor -> editor pbne of the scriptpbd
  
-    Method of the application object:
+    Method of the bpplicbtion object:
 
-        addTool -> adds a menu item under "Tools" menu
+        bddTool -> bdds b menu item under "Tools" menu
 
-    Example script to add "Tools->Hello" menu item:
+    Exbmple script to bdd "Tools->Hello" menu item:
 
-        application.addTool("Hello", 
-            function() { alert("hello, world"); });
+        bpplicbtion.bddTool("Hello", 
+            function() { blert("hello, world"); });
 
-After running the above script, you can click Tools->Hello menu item
-and you'll see an alert box.
+After running the bbove script, you cbn click Tools->Hello menu item
+bnd you'll see bn blert box.
 
-Scriptpad customization may also be done by defining a file named 
-"scriptpad.js" under your home directory,. If this file is found, 
-scriptpad loads this file just after initializating everything. 
-In your initialization file, you can additional script functions 
-by "load" function.
+Scriptpbd customizbtion mby blso be done by defining b file nbmed 
+"scriptpbd.js" under your home directory,. If this file is found, 
+scriptpbd lobds this file just bfter initiblizbting everything. 
+In your initiblizbtion file, you cbn bdditionbl script functions 
+by "lobd" function.
 
-* Script Samples:
+* Script Sbmples:
 
-On clicking the menu items under "Examples" menu, scriptpad shows 
-built-in examples in the editor. Also, there are few script samples
+On clicking the menu items under "Exbmples" menu, scriptpbd shows 
+built-in exbmples in the editor. Also, there bre few script sbmples
 under the ./src/scripts directory.
 
-* Monitoring and Management with Scriptpad:
+* Monitoring bnd Mbnbgement with Scriptpbd:
 
-(1) Start the application with the JMX agent - here's an example of 
-    how the Java2D demo is started
+(1) Stbrt the bpplicbtion with the JMX bgent - here's bn exbmple of 
+    how the Jbvb2D demo is stbrted
    
-      java -Dcom.sun.management.jmxremote.port=1090          \
-           -Dcom.sun.management.jmxremote.ssl=false          \
-           -Dcom.sun.management.jmxremote.authenticate=false \
-           -jar $JDK_HOME/demo/jfc/Font2DTest/Font2DTest.jar
+      jbvb -Dcom.sun.mbnbgement.jmxremote.port=1090          \
+           -Dcom.sun.mbnbgement.jmxremote.ssl=fblse          \
+           -Dcom.sun.mbnbgement.jmxremote.buthenticbte=fblse \
+           -jbr $JDK_HOME/demo/jfc/Font2DTest/Font2DTest.jbr
 
-(2) Start scriptpad and click on "Tools->JMX Connect" menu.
-    In the prompt, enter "localhost:1090" to connect to the above
-    program.
+(2) Stbrt scriptpbd bnd click on "Tools->JMX Connect" menu.
+    In the prompt, enter "locblhost:1090" to connect to the bbove
+    progrbm.
 
-After connecting to a MBeanServer (using "Tools->JMX Connect"),
-you can run any script that uses functions defined in "mm.js". 
-For example, it is possible to load and run management scripts that
-are part of JConsole script shell plugin under the directory:
+After connecting to b MBebnServer (using "Tools->JMX Connect"),
+you cbn run bny script thbt uses functions defined in "mm.js". 
+For exbmple, it is possible to lobd bnd run mbnbgement scripts thbt
+bre pbrt of JConsole script shell plugin under the directory:
 
     $JDK_HOME/demo/scripting/jconsole-plugin/src/scripts

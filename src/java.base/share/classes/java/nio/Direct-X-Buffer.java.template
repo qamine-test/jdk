@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn This file is preprocessed before being compiled
 
-package java.nio;
+pbckbge jbvb.nio;
 
-import java.io.FileDescriptor;
-import sun.misc.Cleaner;
-import sun.misc.Unsafe;
+import jbvb.io.FileDescriptor;
+import sun.misc.Clebner;
+import sun.misc.Unsbfe;
 import sun.misc.VM;
 import sun.nio.ch.DirectBuffer;
 
 
-class Direct$Type$Buffer$RW$$BO$
+clbss Direct$Type$Buffer$RW$$BO$
 #if[rw]
-    extends {#if[byte]?Mapped$Type$Buffer:$Type$Buffer}
+    extends {#if[byte]?Mbpped$Type$Buffer:$Type$Buffer}
 #else[rw]
     extends Direct$Type$Buffer$BO$
 #end[rw]
@@ -45,66 +45,66 @@ class Direct$Type$Buffer$RW$$BO$
 
 #if[rw]
 
-    // Cached unsafe-access object
-    protected static final Unsafe unsafe = Bits.unsafe();
+    // Cbched unsbfe-bccess object
+    protected stbtic finbl Unsbfe unsbfe = Bits.unsbfe();
 
-    // Cached array base offset
-    private static final long arrayBaseOffset = (long)unsafe.arrayBaseOffset($type$[].class);
+    // Cbched brrby bbse offset
+    privbte stbtic finbl long brrbyBbseOffset = (long)unsbfe.brrbyBbseOffset($type$[].clbss);
 
-    // Cached unaligned-access capability
-    protected static final boolean unaligned = Bits.unaligned();
+    // Cbched unbligned-bccess cbpbbility
+    protected stbtic finbl boolebn unbligned = Bits.unbligned();
 
-    // Base address, used in all indexing calculations
-    // NOTE: moved up to Buffer.java for speed in JNI GetDirectBufferAddress
-    //    protected long address;
+    // Bbse bddress, used in bll indexing cblculbtions
+    // NOTE: moved up to Buffer.jbvb for speed in JNI GetDirectBufferAddress
+    //    protected long bddress;
 
-    // An object attached to this buffer. If this buffer is a view of another
-    // buffer then we use this field to keep a reference to that buffer to
-    // ensure that its memory isn't freed before we are done with it.
-    private final Object att;
+    // An object bttbched to this buffer. If this buffer is b view of bnother
+    // buffer then we use this field to keep b reference to thbt buffer to
+    // ensure thbt its memory isn't freed before we bre done with it.
+    privbte finbl Object btt;
 
-    public Object attachment() {
-        return att;
+    public Object bttbchment() {
+        return btt;
     }
 
 #if[byte]
 
-    private static class Deallocator
-        implements Runnable
+    privbte stbtic clbss Debllocbtor
+        implements Runnbble
     {
 
-        private static Unsafe unsafe = Unsafe.getUnsafe();
+        privbte stbtic Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-        private long address;
-        private long size;
-        private int capacity;
+        privbte long bddress;
+        privbte long size;
+        privbte int cbpbcity;
 
-        private Deallocator(long address, long size, int capacity) {
-            assert (address != 0);
-            this.address = address;
+        privbte Debllocbtor(long bddress, long size, int cbpbcity) {
+            bssert (bddress != 0);
+            this.bddress = bddress;
             this.size = size;
-            this.capacity = capacity;
+            this.cbpbcity = cbpbcity;
         }
 
         public void run() {
-            if (address == 0) {
-                // Paranoia
+            if (bddress == 0) {
+                // Pbrbnoib
                 return;
             }
-            unsafe.freeMemory(address);
-            address = 0;
-            Bits.unreserveMemory(size, capacity);
+            unsbfe.freeMemory(bddress);
+            bddress = 0;
+            Bits.unreserveMemory(size, cbpbcity);
         }
 
     }
 
-    private final Cleaner cleaner;
+    privbte finbl Clebner clebner;
 
-    public Cleaner cleaner() { return cleaner; }
+    public Clebner clebner() { return clebner; }
 
 #else[byte]
 
-    public Cleaner cleaner() { return null; }
+    public Clebner clebner() { return null; }
 
 #end[byte]
 
@@ -112,152 +112,152 @@ class Direct$Type$Buffer$RW$$BO$
 
 #if[byte]
 
-    // Primary constructor
+    // Primbry constructor
     //
-    Direct$Type$Buffer$RW$(int cap) {                   // package-private
+    Direct$Type$Buffer$RW$(int cbp) {                   // pbckbge-privbte
 #if[rw]
-        super(-1, 0, cap, cap);
-        boolean pa = VM.isDirectMemoryPageAligned();
-        int ps = Bits.pageSize();
-        long size = Math.max(1L, (long)cap + (pa ? ps : 0));
-        Bits.reserveMemory(size, cap);
+        super(-1, 0, cbp, cbp);
+        boolebn pb = VM.isDirectMemoryPbgeAligned();
+        int ps = Bits.pbgeSize();
+        long size = Mbth.mbx(1L, (long)cbp + (pb ? ps : 0));
+        Bits.reserveMemory(size, cbp);
 
-        long base = 0;
+        long bbse = 0;
         try {
-            base = unsafe.allocateMemory(size);
-        } catch (OutOfMemoryError x) {
-            Bits.unreserveMemory(size, cap);
+            bbse = unsbfe.bllocbteMemory(size);
+        } cbtch (OutOfMemoryError x) {
+            Bits.unreserveMemory(size, cbp);
             throw x;
         }
-        unsafe.setMemory(base, size, (byte) 0);
-        if (pa && (base % ps != 0)) {
-            // Round up to page boundary
-            address = base + ps - (base & (ps - 1));
+        unsbfe.setMemory(bbse, size, (byte) 0);
+        if (pb && (bbse % ps != 0)) {
+            // Round up to pbge boundbry
+            bddress = bbse + ps - (bbse & (ps - 1));
         } else {
-            address = base;
+            bddress = bbse;
         }
-        cleaner = Cleaner.create(this, new Deallocator(base, size, cap));
-        att = null;
+        clebner = Clebner.crebte(this, new Debllocbtor(bbse, size, cbp));
+        btt = null;
 #else[rw]
-        super(cap);
+        super(cbp);
 #end[rw]
     }
 
 #if[rw]
 
-    // Invoked to construct a direct ByteBuffer referring to the block of
-    // memory. A given arbitrary object may also be attached to the buffer.
+    // Invoked to construct b direct ByteBuffer referring to the block of
+    // memory. A given brbitrbry object mby blso be bttbched to the buffer.
     //
-    Direct$Type$Buffer(long addr, int cap, Object ob) {
-        super(-1, 0, cap, cap);
-        address = addr;
-        cleaner = null;
-        att = ob;
+    Direct$Type$Buffer(long bddr, int cbp, Object ob) {
+        super(-1, 0, cbp, cbp);
+        bddress = bddr;
+        clebner = null;
+        btt = ob;
     }
 
 
     // Invoked only by JNI: NewDirectByteBuffer(void*, long)
     //
-    private Direct$Type$Buffer(long addr, int cap) {
-        super(-1, 0, cap, cap);
-        address = addr;
-        cleaner = null;
-        att = null;
+    privbte Direct$Type$Buffer(long bddr, int cbp) {
+        super(-1, 0, cbp, cbp);
+        bddress = bddr;
+        clebner = null;
+        btt = null;
     }
 
 #end[rw]
 
-    // For memory-mapped buffers -- invoked by FileChannelImpl via reflection
+    // For memory-mbpped buffers -- invoked by FileChbnnelImpl vib reflection
     //
-    protected Direct$Type$Buffer$RW$(int cap, long addr,
+    protected Direct$Type$Buffer$RW$(int cbp, long bddr,
                                      FileDescriptor fd,
-                                     Runnable unmapper)
+                                     Runnbble unmbpper)
     {
 #if[rw]
-        super(-1, 0, cap, cap, fd);
-        address = addr;
-        cleaner = Cleaner.create(this, unmapper);
-        att = null;
+        super(-1, 0, cbp, cbp, fd);
+        bddress = bddr;
+        clebner = Clebner.crebte(this, unmbpper);
+        btt = null;
 #else[rw]
-        super(cap, addr, fd, unmapper);
+        super(cbp, bddr, fd, unmbpper);
 #end[rw]
     }
 
 #end[byte]
 
-    // For duplicates and slices
+    // For duplicbtes bnd slices
     //
-    Direct$Type$Buffer$RW$$BO$(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
+    Direct$Type$Buffer$RW$$BO$(DirectBuffer db,         // pbckbge-privbte
+                               int mbrk, int pos, int lim, int cbp,
                                int off)
     {
 #if[rw]
-        super(mark, pos, lim, cap);
-        address = db.address() + off;
+        super(mbrk, pos, lim, cbp);
+        bddress = db.bddress() + off;
 #if[byte]
-        cleaner = null;
+        clebner = null;
 #end[byte]
-        att = db;
+        btt = db;
 #else[rw]
-        super(db, mark, pos, lim, cap, off);
+        super(db, mbrk, pos, lim, cbp, off);
 #end[rw]
     }
 
     public $Type$Buffer slice() {
         int pos = this.position();
         int lim = this.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
         int off = (pos << $LG_BYTES_PER_VALUE$);
-        assert (off >= 0);
+        bssert (off >= 0);
         return new Direct$Type$Buffer$RW$$BO$(this, -1, 0, rem, rem, off);
     }
 
-    public $Type$Buffer duplicate() {
+    public $Type$Buffer duplicbte() {
         return new Direct$Type$Buffer$RW$$BO$(this,
-                                              this.markValue(),
+                                              this.mbrkVblue(),
                                               this.position(),
                                               this.limit(),
-                                              this.capacity(),
+                                              this.cbpbcity(),
                                               0);
     }
 
-    public $Type$Buffer asReadOnlyBuffer() {
+    public $Type$Buffer bsRebdOnlyBuffer() {
 #if[rw]
         return new Direct$Type$BufferR$BO$(this,
-                                           this.markValue(),
+                                           this.mbrkVblue(),
                                            this.position(),
                                            this.limit(),
-                                           this.capacity(),
+                                           this.cbpbcity(),
                                            0);
 #else[rw]
-        return duplicate();
+        return duplicbte();
 #end[rw]
     }
 
 #if[rw]
 
-    public long address() {
-        return address;
+    public long bddress() {
+        return bddress;
     }
 
-    private long ix(int i) {
-        return address + (i << $LG_BYTES_PER_VALUE$);
+    privbte long ix(int i) {
+        return bddress + (i << $LG_BYTES_PER_VALUE$);
     }
 
     public $type$ get() {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(nextGetIndex()))));
+        return $fromBits$($swbp$(unsbfe.get$Swbptype$(ix(nextGetIndex()))));
     }
 
     public $type$ get(int i) {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(checkIndex(i)))));
+        return $fromBits$($swbp$(unsbfe.get$Swbptype$(ix(checkIndex(i)))));
     }
 
-#if[streamableType]
+#if[strebmbbleType]
     $type$ getUnchecked(int i) {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(i))));
+        return $fromBits$($swbp$(unsbfe.get$Swbptype$(ix(i))));
     }
-#end[streamableType]
+#end[strebmbbleType]
 
     public $Type$Buffer get($type$[] dst, int offset, int length) {
 #if[rw]
@@ -265,19 +265,19 @@ class Direct$Type$Buffer$RW$$BO$
             checkBounds(offset, length, dst.length);
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
+            bssert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
             if (length > rem)
                 throw new BufferUnderflowException();
 
 #if[!byte]
-            if (order() != ByteOrder.nativeOrder())
-                Bits.copyTo$Memtype$Array(ix(pos), dst,
+            if (order() != ByteOrder.nbtiveOrder())
+                Bits.copyTo$Memtype$Arrby(ix(pos), dst,
                                           offset << $LG_BYTES_PER_VALUE$,
                                           length << $LG_BYTES_PER_VALUE$);
             else
 #end[!byte]
-                Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
+                Bits.copyToArrby(ix(pos), dst, brrbyBbseOffset,
                                  offset << $LG_BYTES_PER_VALUE$,
                                  length << $LG_BYTES_PER_VALUE$);
             position(pos + length);
@@ -286,7 +286,7 @@ class Direct$Type$Buffer$RW$$BO$
         }
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
@@ -294,49 +294,49 @@ class Direct$Type$Buffer$RW$$BO$
 
     public $Type$Buffer put($type$ x) {
 #if[rw]
-        unsafe.put$Swaptype$(ix(nextPutIndex()), $swap$($toBits$(x)));
+        unsbfe.put$Swbptype$(ix(nextPutIndex()), $swbp$($toBits$(x)));
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
     public $Type$Buffer put(int i, $type$ x) {
 #if[rw]
-        unsafe.put$Swaptype$(ix(checkIndex(i)), $swap$($toBits$(x)));
+        unsbfe.put$Swbptype$(ix(checkIndex(i)), $swbp$($toBits$(x)));
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
     public $Type$Buffer put($Type$Buffer src) {
 #if[rw]
-        if (src instanceof Direct$Type$Buffer$BO$) {
+        if (src instbnceof Direct$Type$Buffer$BO$) {
             if (src == this)
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             Direct$Type$Buffer$RW$$BO$ sb = (Direct$Type$Buffer$RW$$BO$)src;
 
             int spos = sb.position();
             int slim = sb.limit();
-            assert (spos <= slim);
+            bssert (spos <= slim);
             int srem = (spos <= slim ? slim - spos : 0);
 
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
+            bssert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
 
             if (srem > rem)
                 throw new BufferOverflowException();
-            unsafe.copyMemory(sb.ix(spos), ix(pos), srem << $LG_BYTES_PER_VALUE$);
+            unsbfe.copyMemory(sb.ix(spos), ix(pos), srem << $LG_BYTES_PER_VALUE$);
             sb.position(spos + srem);
             position(pos + srem);
         } else if (src.hb != null) {
 
             int spos = src.position();
             int slim = src.limit();
-            assert (spos <= slim);
+            bssert (spos <= slim);
             int srem = (spos <= slim ? slim - spos : 0);
 
             put(src.hb, src.offset + spos, srem);
@@ -347,7 +347,7 @@ class Direct$Type$Buffer$RW$$BO$
         }
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
@@ -357,18 +357,18 @@ class Direct$Type$Buffer$RW$$BO$
             checkBounds(offset, length, src.length);
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
+            bssert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
             if (length > rem)
                 throw new BufferOverflowException();
 
 #if[!byte]
-            if (order() != ByteOrder.nativeOrder())
-                Bits.copyFrom$Memtype$Array(src, offset << $LG_BYTES_PER_VALUE$,
+            if (order() != ByteOrder.nbtiveOrder())
+                Bits.copyFrom$Memtype$Arrby(src, offset << $LG_BYTES_PER_VALUE$,
                                             ix(pos), length << $LG_BYTES_PER_VALUE$);
             else
 #end[!byte]
-                Bits.copyFromArray(src, arrayBaseOffset, offset << $LG_BYTES_PER_VALUE$,
+                Bits.copyFromArrby(src, brrbyBbseOffset, offset << $LG_BYTES_PER_VALUE$,
                                    ix(pos), length << $LG_BYTES_PER_VALUE$);
             position(pos + length);
         } else {
@@ -376,76 +376,76 @@ class Direct$Type$Buffer$RW$$BO$
         }
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
-    public $Type$Buffer compact() {
+    public $Type$Buffer compbct() {
 #if[rw]
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        unsafe.copyMemory(ix(pos), ix(0), rem << $LG_BYTES_PER_VALUE$);
+        unsbfe.copyMemory(ix(pos), ix(0), rem << $LG_BYTES_PER_VALUE$);
         position(rem);
-        limit(capacity());
-        discardMark();
+        limit(cbpbcity());
+        discbrdMbrk();
         return this;
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
-    public boolean isDirect() {
+    public boolebn isDirect() {
         return true;
     }
 
-    public boolean isReadOnly() {
-        return {#if[rw]?false:true};
+    public boolebn isRebdOnly() {
+        return {#if[rw]?fblse:true};
     }
 
 
-#if[char]
+#if[chbr]
 
-    public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
+    public String toString(int stbrt, int end) {
+        if ((end > limit()) || (stbrt > end))
             throw new IndexOutOfBoundsException();
         try {
-            int len = end - start;
-            char[] ca = new char[len];
-            CharBuffer cb = CharBuffer.wrap(ca);
-            CharBuffer db = this.duplicate();
-            db.position(start);
+            int len = end - stbrt;
+            chbr[] cb = new chbr[len];
+            ChbrBuffer cb = ChbrBuffer.wrbp(cb);
+            ChbrBuffer db = this.duplicbte();
+            db.position(stbrt);
             db.limit(end);
             cb.put(db);
-            return new String(ca);
-        } catch (StringIndexOutOfBoundsException x) {
+            return new String(cb);
+        } cbtch (StringIndexOutOfBoundsException x) {
             throw new IndexOutOfBoundsException();
         }
     }
 
 
-    // --- Methods to support CharSequence ---
+    // --- Methods to support ChbrSequence ---
 
-    public CharBuffer subSequence(int start, int end) {
+    public ChbrBuffer subSequence(int stbrt, int end) {
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         pos = (pos <= lim ? pos : lim);
         int len = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
+        if ((stbrt < 0) || (end > len) || (stbrt > end))
             throw new IndexOutOfBoundsException();
-        return new DirectCharBuffer$RW$$BO$(this,
+        return new DirectChbrBuffer$RW$$BO$(this,
                                             -1,
-                                            pos + start,
+                                            pos + stbrt,
                                             pos + end,
-                                            capacity(),
+                                            cbpbcity(),
                                             offset);
     }
 
-#end[char]
+#end[chbr]
 
 
 
@@ -453,11 +453,11 @@ class Direct$Type$Buffer$RW$$BO$
 
     public ByteOrder order() {
 #if[boS]
-        return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)
+        return ((ByteOrder.nbtiveOrder() == ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 #end[boS]
 #if[boU]
-        return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
+        return ((ByteOrder.nbtiveOrder() != ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 #end[boU]
     }
@@ -468,22 +468,22 @@ class Direct$Type$Buffer$RW$$BO$
 
 #if[byte]
 
-    byte _get(int i) {                          // package-private
-        return unsafe.getByte(address + i);
+    byte _get(int i) {                          // pbckbge-privbte
+        return unsbfe.getByte(bddress + i);
     }
 
-    void _put(int i, byte b) {                  // package-private
+    void _put(int i, byte b) {                  // pbckbge-privbte
 #if[rw]
-        unsafe.putByte(address + i, b);
+        unsbfe.putByte(bddress + i, b);
 #else[rw]
-        throw new ReadOnlyBufferException();
+        throw new RebdOnlyBufferException();
 #end[rw]
     }
 
     // #BIN
     //
-    // Binary-data access methods  for short, char, int, long, float,
-    // and double will be inserted here
+    // Binbry-dbtb bccess methods  for short, chbr, int, long, flobt,
+    // bnd double will be inserted here
 
 #end[byte]
 

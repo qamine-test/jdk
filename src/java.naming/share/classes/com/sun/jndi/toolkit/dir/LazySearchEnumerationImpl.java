@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
-  * Given an enumeration of candidates, check whether each
-  * item in enumeration satifies the given filter.
-  * Each item is a Binding and the following is used to get its
-  * attributes for used by the filter:
+  * Given bn enumerbtion of cbndidbtes, check whether ebch
+  * item in enumerbtion sbtifies the given filter.
+  * Ebch item is b Binding bnd the following is used to get its
+  * bttributes for used by the filter:
   *
   *   ((DirContext)item.getObject()).getAttributes("").
-  * If item.getObject() is not an DirContext, the item is skipped
+  * If item.getObject() is not bn DirContext, the item is skipped
   *
-  * The items in the enumeration are obtained one at a time as
-  * items from the search enumeration are requested.
+  * The items in the enumerbtion bre obtbined one bt b time bs
+  * items from the sebrch enumerbtion bre requested.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
-package com.sun.jndi.toolkit.dir;
+pbckbge com.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.DirectoryMbnbger;
 
-import java.util.NoSuchElementException;
-import java.util.Hashtable;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Hbshtbble;
 
-final public class LazySearchEnumerationImpl
-        implements NamingEnumeration<SearchResult> {
-    private NamingEnumeration<Binding> candidates;
-    private SearchResult nextMatch = null;
-    private SearchControls cons;
-    private AttrFilter filter;
-    private Context context;
-    private Hashtable<String, Object> env;
-    private boolean useFactory = true;
+finbl public clbss LbzySebrchEnumerbtionImpl
+        implements NbmingEnumerbtion<SebrchResult> {
+    privbte NbmingEnumerbtion<Binding> cbndidbtes;
+    privbte SebrchResult nextMbtch = null;
+    privbte SebrchControls cons;
+    privbte AttrFilter filter;
+    privbte Context context;
+    privbte Hbshtbble<String, Object> env;
+    privbte boolebn useFbctory = true;
 
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons) throws NamingException {
-            this.candidates = candidates;
+    public LbzySebrchEnumerbtionImpl(NbmingEnumerbtion<Binding> cbndidbtes,
+        AttrFilter filter, SebrchControls cons) throws NbmingException {
+            this.cbndidbtes = cbndidbtes;
             this.filter = filter;
 
             if(cons == null) {
-                this.cons = new SearchControls();
+                this.cons = new SebrchControls();
             } else {
                 this.cons = cons;
             }
     }
 
-    @SuppressWarnings("unchecked")      // For Hashtable clone: env.clone()
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons,
-        Context ctx, Hashtable<String, Object> env, boolean useFactory)
-        throws NamingException {
+    @SuppressWbrnings("unchecked")      // For Hbshtbble clone: env.clone()
+    public LbzySebrchEnumerbtionImpl(NbmingEnumerbtion<Binding> cbndidbtes,
+        AttrFilter filter, SebrchControls cons,
+        Context ctx, Hbshtbble<String, Object> env, boolebn useFbctory)
+        throws NbmingException {
 
-            this.candidates = candidates;
+            this.cbndidbtes = cbndidbtes;
             this.filter = filter;
-            this.env = (Hashtable<String, Object>)
+            this.env = (Hbshtbble<String, Object>)
                     ((env == null) ? null : env.clone());
             this.context = ctx;
-            this.useFactory = useFactory;
+            this.useFbctory = useFbctory;
 
             if(cons == null) {
-                this.cons = new SearchControls();
+                this.cons = new SebrchControls();
             } else {
                 this.cons = cons;
             }
     }
 
 
-    public LazySearchEnumerationImpl(NamingEnumeration<Binding> candidates,
-        AttrFilter filter, SearchControls cons,
-        Context ctx, Hashtable<String, Object> env) throws NamingException {
-            this(candidates, filter, cons, ctx, env, true);
+    public LbzySebrchEnumerbtionImpl(NbmingEnumerbtion<Binding> cbndidbtes,
+        AttrFilter filter, SebrchControls cons,
+        Context ctx, Hbshtbble<String, Object> env) throws NbmingException {
+            this(cbndidbtes, filter, cons, ctx, env, true);
     }
 
-    public boolean hasMore() throws NamingException {
-        // find and do not remove from list
-        return findNextMatch(false) != null;
+    public boolebn hbsMore() throws NbmingException {
+        // find bnd do not remove from list
+        return findNextMbtch(fblse) != null;
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            return false;
+            return hbsMore();
+        } cbtch (NbmingException e) {
+            return fblse;
         }
     }
 
-    public SearchResult nextElement() {
+    public SebrchResult nextElement() {
         try {
-            return findNextMatch(true);
-        } catch (NamingException e) {
+            return findNextMbtch(true);
+        } cbtch (NbmingException e) {
             throw new NoSuchElementException(e.toString());
         }
     }
 
-    public SearchResult next() throws NamingException {
-        // find and remove from list
-        return (findNextMatch(true));
+    public SebrchResult next() throws NbmingException {
+        // find bnd remove from list
+        return (findNextMbtch(true));
     }
 
-    public void close() throws NamingException {
-        if (candidates != null) {
-            candidates.close();
+    public void close() throws NbmingException {
+        if (cbndidbtes != null) {
+            cbndidbtes.close();
         }
     }
 
-    private SearchResult findNextMatch(boolean remove) throws NamingException {
-        SearchResult answer;
-        if (nextMatch != null) {
-            answer = nextMatch;
+    privbte SebrchResult findNextMbtch(boolebn remove) throws NbmingException {
+        SebrchResult bnswer;
+        if (nextMbtch != null) {
+            bnswer = nextMbtch;
             if (remove) {
-                nextMatch = null;
+                nextMbtch = null;
             }
-            return answer;
+            return bnswer;
         } else {
-            // need to find next match
+            // need to find next mbtch
             Binding next;
             Object obj;
-            Attributes targetAttrs;
-            while (candidates.hasMore()) {
-                next = candidates.next();
+            Attributes tbrgetAttrs;
+            while (cbndidbtes.hbsMore()) {
+                next = cbndidbtes.next();
                 obj = next.getObject();
-                if (obj instanceof DirContext) {
-                    targetAttrs = ((DirContext)(obj)).getAttributes("");
-                    if (filter.check(targetAttrs)) {
-                        if (!cons.getReturningObjFlag()) {
+                if (obj instbnceof DirContext) {
+                    tbrgetAttrs = ((DirContext)(obj)).getAttributes("");
+                    if (filter.check(tbrgetAttrs)) {
+                        if (!cons.getReturningObjFlbg()) {
                             obj = null;
-                        } else if (useFactory) {
+                        } else if (useFbctory) {
                             try {
-                                // Give name only if context non-null,
-                                // otherwise, name will be interpreted relative
-                                // to initial context (not what we want)
-                                Name nm = (context != null ?
-                                    new CompositeName(next.getName()) : null);
-                                obj = DirectoryManager.getObjectInstance(obj,
-                                    nm, context, env, targetAttrs);
-                            } catch (NamingException e) {
+                                // Give nbme only if context non-null,
+                                // otherwise, nbme will be interpreted relbtive
+                                // to initibl context (not whbt we wbnt)
+                                Nbme nm = (context != null ?
+                                    new CompositeNbme(next.getNbme()) : null);
+                                obj = DirectoryMbnbger.getObjectInstbnce(obj,
+                                    nm, context, env, tbrgetAttrs);
+                            } cbtch (NbmingException e) {
                                 throw e;
-                            } catch (Exception e) {
-                                NamingException e2 = new NamingException(
-                                    "problem generating object using object factory");
-                                e2.setRootCause(e);
+                            } cbtch (Exception e) {
+                                NbmingException e2 = new NbmingException(
+                                    "problem generbting object using object fbctory");
+                                e2.setRootCbuse(e);
                                 throw e2;
                             }
                         }
-                        answer = new SearchResult(next.getName(),
-                            next.getClassName(), obj,
-                            SearchFilter.selectAttributes(targetAttrs,
+                        bnswer = new SebrchResult(next.getNbme(),
+                            next.getClbssNbme(), obj,
+                            SebrchFilter.selectAttributes(tbrgetAttrs,
                                 cons.getReturningAttributes()),
                             true);
                         if (!remove)
-                            nextMatch = answer;
-                        return answer;
+                            nextMbtch = bnswer;
+                        return bnswer;
                     }
                 }
             }

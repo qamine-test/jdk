@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.LightweightPeer;
-import java.awt.peer.ScrollPanePeer;
-import java.awt.event.*;
-import javax.accessibility.*;
-import sun.awt.ScrollPaneWheelScroller;
-import sun.awt.SunToolkit;
+import jbvb.bwt.peer.LightweightPeer;
+import jbvb.bwt.peer.ScrollPbnePeer;
+import jbvb.bwt.event.*;
+import jbvbx.bccessibility.*;
+import sun.bwt.ScrollPbneWheelScroller;
+import sun.bwt.SunToolkit;
 
-import java.beans.ConstructorProperties;
-import java.beans.Transient;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.bebns.Trbnsient;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
 
 /**
- * A container class which implements automatic horizontal and/or
- * vertical scrolling for a single child component.  The display
- * policy for the scrollbars can be set to:
+ * A contbiner clbss which implements butombtic horizontbl bnd/or
+ * verticbl scrolling for b single child component.  The displby
+ * policy for the scrollbbrs cbn be set to:
  * <OL>
- * <LI>as needed: scrollbars created and shown only when needed by scrollpane
- * <LI>always: scrollbars created and always shown by the scrollpane
- * <LI>never: scrollbars never created or shown by the scrollpane
+ * <LI>bs needed: scrollbbrs crebted bnd shown only when needed by scrollpbne
+ * <LI>blwbys: scrollbbrs crebted bnd blwbys shown by the scrollpbne
+ * <LI>never: scrollbbrs never crebted or shown by the scrollpbne
  * </OL>
  * <P>
- * The state of the horizontal and vertical scrollbars is represented
- * by two <code>ScrollPaneAdjustable</code> objects (one for each
- * dimension) which implement the <code>Adjustable</code> interface.
- * The API provides methods to access those objects such that the
- * attributes on the Adjustable object (such as unitIncrement, value,
- * etc.) can be manipulated.
+ * The stbte of the horizontbl bnd verticbl scrollbbrs is represented
+ * by two <code>ScrollPbneAdjustbble</code> objects (one for ebch
+ * dimension) which implement the <code>Adjustbble</code> interfbce.
+ * The API provides methods to bccess those objects such thbt the
+ * bttributes on the Adjustbble object (such bs unitIncrement, vblue,
+ * etc.) cbn be mbnipulbted.
  * <P>
- * Certain adjustable properties (minimum, maximum, blockIncrement,
- * and visibleAmount) are set internally by the scrollpane in accordance
- * with the geometry of the scrollpane and its child and these should
- * not be set by programs using the scrollpane.
+ * Certbin bdjustbble properties (minimum, mbximum, blockIncrement,
+ * bnd visibleAmount) bre set internblly by the scrollpbne in bccordbnce
+ * with the geometry of the scrollpbne bnd its child bnd these should
+ * not be set by progrbms using the scrollpbne.
  * <P>
- * If the scrollbar display policy is defined as "never", then the
- * scrollpane can still be programmatically scrolled using the
- * setScrollPosition() method and the scrollpane will move and clip
- * the child's contents appropriately.  This policy is useful if the
- * program needs to create and manage its own adjustable controls.
+ * If the scrollbbr displby policy is defined bs "never", then the
+ * scrollpbne cbn still be progrbmmbticblly scrolled using the
+ * setScrollPosition() method bnd the scrollpbne will move bnd clip
+ * the child's contents bppropribtely.  This policy is useful if the
+ * progrbm needs to crebte bnd mbnbge its own bdjustbble controls.
  * <P>
- * The placement of the scrollbars is controlled by platform-specific
- * properties set by the user outside of the program.
+ * The plbcement of the scrollbbrs is controlled by plbtform-specific
+ * properties set by the user outside of the progrbm.
  * <P>
- * The initial size of this container is set to 100x100, but can
+ * The initibl size of this contbiner is set to 100x100, but cbn
  * be reset using setSize().
  * <P>
- * Scrolling with the wheel on a wheel-equipped mouse is enabled by default.
- * This can be disabled using <code>setWheelScrollingEnabled</code>.
- * Wheel scrolling can be customized by setting the block and
- * unit increment of the horizontal and vertical Adjustables.
- * For information on how mouse wheel events are dispatched, see
- * the class description for {@link MouseWheelEvent}.
+ * Scrolling with the wheel on b wheel-equipped mouse is enbbled by defbult.
+ * This cbn be disbbled using <code>setWheelScrollingEnbbled</code>.
+ * Wheel scrolling cbn be customized by setting the block bnd
+ * unit increment of the horizontbl bnd verticbl Adjustbbles.
+ * For informbtion on how mouse wheel events bre dispbtched, see
+ * the clbss description for {@link MouseWheelEvent}.
  * <P>
- * Insets are used to define any space used by scrollbars and any
- * borders created by the scroll pane. getInsets() can be used
- * to get the current value for the insets.  If the value of
- * scrollbarsAlwaysVisible is false, then the value of the insets
- * will change dynamically depending on whether the scrollbars are
+ * Insets bre used to define bny spbce used by scrollbbrs bnd bny
+ * borders crebted by the scroll pbne. getInsets() cbn be used
+ * to get the current vblue for the insets.  If the vblue of
+ * scrollbbrsAlwbysVisible is fblse, then the vblue of the insets
+ * will chbnge dynbmicblly depending on whether the scrollbbrs bre
  * currently visible or not.
  *
- * @author      Tom Ball
- * @author      Amy Fowler
- * @author      Tim Prinzing
+ * @buthor      Tom Bbll
+ * @buthor      Amy Fowler
+ * @buthor      Tim Prinzing
  */
-public class ScrollPane extends Container implements Accessible {
+public clbss ScrollPbne extends Contbiner implements Accessible {
 
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Specifies that horizontal/vertical scrollbar should be shown
-     * only when the size of the child exceeds the size of the scrollpane
-     * in the horizontal/vertical dimension.
+     * Specifies thbt horizontbl/verticbl scrollbbr should be shown
+     * only when the size of the child exceeds the size of the scrollpbne
+     * in the horizontbl/verticbl dimension.
      */
-    public static final int SCROLLBARS_AS_NEEDED = 0;
+    public stbtic finbl int SCROLLBARS_AS_NEEDED = 0;
 
     /**
-     * Specifies that horizontal/vertical scrollbars should always be
-     * shown regardless of the respective sizes of the scrollpane and child.
+     * Specifies thbt horizontbl/verticbl scrollbbrs should blwbys be
+     * shown regbrdless of the respective sizes of the scrollpbne bnd child.
      */
-    public static final int SCROLLBARS_ALWAYS = 1;
+    public stbtic finbl int SCROLLBARS_ALWAYS = 1;
 
     /**
-     * Specifies that horizontal/vertical scrollbars should never be shown
-     * regardless of the respective sizes of the scrollpane and child.
+     * Specifies thbt horizontbl/verticbl scrollbbrs should never be shown
+     * regbrdless of the respective sizes of the scrollpbne bnd child.
      */
-    public static final int SCROLLBARS_NEVER = 2;
+    public stbtic finbl int SCROLLBARS_NEVER = 2;
 
     /**
-     * There are 3 ways in which a scroll bar can be displayed.
-     * This integer will represent one of these 3 displays -
+     * There bre 3 wbys in which b scroll bbr cbn be displbyed.
+     * This integer will represent one of these 3 displbys -
      * (SCROLLBARS_ALWAYS, SCROLLBARS_AS_NEEDED, SCROLLBARS_NEVER)
      *
-     * @serial
-     * @see #getScrollbarDisplayPolicy
+     * @seribl
+     * @see #getScrollbbrDisplbyPolicy
      */
-    private int scrollbarDisplayPolicy;
+    privbte int scrollbbrDisplbyPolicy;
 
     /**
-     * An adjustable vertical scrollbar.
-     * It is important to note that you must <em>NOT</em> call 3
-     * <code>Adjustable</code> methods, namely:
-     * <code>setMinimum()</code>, <code>setMaximum()</code>,
+     * An bdjustbble verticbl scrollbbr.
+     * It is importbnt to note thbt you must <em>NOT</em> cbll 3
+     * <code>Adjustbble</code> methods, nbmely:
+     * <code>setMinimum()</code>, <code>setMbximum()</code>,
      * <code>setVisibleAmount()</code>.
      *
-     * @serial
-     * @see #getVAdjustable
+     * @seribl
+     * @see #getVAdjustbble
      */
-    private ScrollPaneAdjustable vAdjustable;
+    privbte ScrollPbneAdjustbble vAdjustbble;
 
     /**
-     * An adjustable horizontal scrollbar.
-     * It is important to note that you must <em>NOT</em> call 3
-     * <code>Adjustable</code> methods, namely:
-     * <code>setMinimum()</code>, <code>setMaximum()</code>,
+     * An bdjustbble horizontbl scrollbbr.
+     * It is importbnt to note thbt you must <em>NOT</em> cbll 3
+     * <code>Adjustbble</code> methods, nbmely:
+     * <code>setMinimum()</code>, <code>setMbximum()</code>,
      * <code>setVisibleAmount()</code>.
      *
-     * @serial
-     * @see #getHAdjustable
+     * @seribl
+     * @see #getHAdjustbble
      */
-    private ScrollPaneAdjustable hAdjustable;
+    privbte ScrollPbneAdjustbble hAdjustbble;
 
-    private static final String base = "scrollpane";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "scrollpbne";
+    privbte stbtic int nbmeCounter = 0;
 
-    private static final boolean defaultWheelScroll = true;
+    privbte stbtic finbl boolebn defbultWheelScroll = true;
 
     /**
-     * Indicates whether or not scrolling should take place when a
+     * Indicbtes whether or not scrolling should tbke plbce when b
      * MouseWheelEvent is received.
      *
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private boolean wheelScrollingEnabled = defaultWheelScroll;
+    privbte boolebn wheelScrollingEnbbled = defbultWheelScroll;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 7956609840827222915L;
+    privbte stbtic finbl long seriblVersionUID = 7956609840827222915L;
 
     /**
-     * Create a new scrollpane container with a scrollbar display
-     * policy of "as needed".
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebte b new scrollpbne contbiner with b scrollbbr displby
+     * policy of "bs needed".
+     * @throws HebdlessException if GrbphicsEnvironment.isHebdless()
      *     returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public ScrollPane() throws HeadlessException {
+    public ScrollPbne() throws HebdlessException {
         this(SCROLLBARS_AS_NEEDED);
     }
 
     /**
-     * Create a new scrollpane container.
-     * @param scrollbarDisplayPolicy policy for when scrollbars should be shown
-     * @throws IllegalArgumentException if the specified scrollbar
-     *     display policy is invalid
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebte b new scrollpbne contbiner.
+     * @pbrbm scrollbbrDisplbyPolicy policy for when scrollbbrs should be shown
+     * @throws IllegblArgumentException if the specified scrollbbr
+     *     displby policy is invblid
+     * @throws HebdlessException if GrbphicsEnvironment.isHebdless()
      *     returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    @ConstructorProperties({"scrollbarDisplayPolicy"})
-    public ScrollPane(int scrollbarDisplayPolicy) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        this.layoutMgr = null;
+    @ConstructorProperties({"scrollbbrDisplbyPolicy"})
+    public ScrollPbne(int scrollbbrDisplbyPolicy) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
+        this.lbyoutMgr = null;
         this.width = 100;
         this.height = 100;
-        switch (scrollbarDisplayPolicy) {
-            case SCROLLBARS_NEVER:
-            case SCROLLBARS_AS_NEEDED:
-            case SCROLLBARS_ALWAYS:
-                this.scrollbarDisplayPolicy = scrollbarDisplayPolicy;
-                break;
-            default:
-                throw new IllegalArgumentException("illegal scrollbar display policy");
+        switch (scrollbbrDisplbyPolicy) {
+            cbse SCROLLBARS_NEVER:
+            cbse SCROLLBARS_AS_NEEDED:
+            cbse SCROLLBARS_ALWAYS:
+                this.scrollbbrDisplbyPolicy = scrollbbrDisplbyPolicy;
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("illegbl scrollbbr displby policy");
         }
 
-        vAdjustable = new ScrollPaneAdjustable(this, new PeerFixer(this),
-                                               Adjustable.VERTICAL);
-        hAdjustable = new ScrollPaneAdjustable(this, new PeerFixer(this),
-                                               Adjustable.HORIZONTAL);
-        setWheelScrollingEnabled(defaultWheelScroll);
+        vAdjustbble = new ScrollPbneAdjustbble(this, new PeerFixer(this),
+                                               Adjustbble.VERTICAL);
+        hAdjustbble = new ScrollPbneAdjustbble(this, new PeerFixer(this),
+                                               Adjustbble.HORIZONTAL);
+        setWheelScrollingEnbbled(defbultWheelScroll);
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (ScrollPane.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (ScrollPbne.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
-    // The scrollpane won't work with a windowless child... it assumes
-    // it is moving a child window around so the windowless child is
-    // wrapped with a window.
-    private void addToPanel(Component comp, Object constraints, int index) {
-        Panel child = new Panel();
-        child.setLayout(new BorderLayout());
-        child.add(comp);
-        super.addImpl(child, constraints, index);
-        validate();
+    // The scrollpbne won't work with b windowless child... it bssumes
+    // it is moving b child window bround so the windowless child is
+    // wrbpped with b window.
+    privbte void bddToPbnel(Component comp, Object constrbints, int index) {
+        Pbnel child = new Pbnel();
+        child.setLbyout(new BorderLbyout());
+        child.bdd(comp);
+        super.bddImpl(child, constrbints, index);
+        vblidbte();
     }
 
     /**
-     * Adds the specified component to this scroll pane container.
-     * If the scroll pane has an existing child component, that
-     * component is removed and the new one is added.
-     * @param comp the component to be added
-     * @param constraints  not applicable
-     * @param index position of child component (must be &lt;= 0)
+     * Adds the specified component to this scroll pbne contbiner.
+     * If the scroll pbne hbs bn existing child component, thbt
+     * component is removed bnd the new one is bdded.
+     * @pbrbm comp the component to be bdded
+     * @pbrbm constrbints  not bpplicbble
+     * @pbrbm index position of child component (must be &lt;= 0)
      */
-    protected final void addImpl(Component comp, Object constraints, int index) {
+    protected finbl void bddImpl(Component comp, Object constrbints, int index) {
         synchronized (getTreeLock()) {
             if (getComponentCount() > 0) {
                 remove(0);
             }
             if (index > 0) {
-                throw new IllegalArgumentException("position greater than 0");
+                throw new IllegblArgumentException("position grebter thbn 0");
             }
 
             if (!SunToolkit.isLightweightOrUnknown(comp)) {
-                super.addImpl(comp, constraints, index);
+                super.bddImpl(comp, constrbints, index);
             } else {
-                addToPanel(comp, constraints, index);
+                bddToPbnel(comp, constrbints, index);
             }
         }
     }
 
     /**
-     * Returns the display policy for the scrollbars.
-     * @return the display policy for the scrollbars
+     * Returns the displby policy for the scrollbbrs.
+     * @return the displby policy for the scrollbbrs
      */
-    public int getScrollbarDisplayPolicy() {
-        return scrollbarDisplayPolicy;
+    public int getScrollbbrDisplbyPolicy() {
+        return scrollbbrDisplbyPolicy;
     }
 
     /**
-     * Returns the current size of the scroll pane's view port.
+     * Returns the current size of the scroll pbne's view port.
      * @return the size of the view port in pixels
      */
     public Dimension getViewportSize() {
@@ -285,102 +285,102 @@ public class ScrollPane extends Container implements Accessible {
     }
 
     /**
-     * Returns the height that would be occupied by a horizontal
-     * scrollbar, which is independent of whether it is currently
-     * displayed by the scroll pane or not.
-     * @return the height of a horizontal scrollbar in pixels
+     * Returns the height thbt would be occupied by b horizontbl
+     * scrollbbr, which is independent of whether it is currently
+     * displbyed by the scroll pbne or not.
+     * @return the height of b horizontbl scrollbbr in pixels
      */
-    public int getHScrollbarHeight() {
+    public int getHScrollbbrHeight() {
         int h = 0;
-        if (scrollbarDisplayPolicy != SCROLLBARS_NEVER) {
-            ScrollPanePeer peer = (ScrollPanePeer)this.peer;
+        if (scrollbbrDisplbyPolicy != SCROLLBARS_NEVER) {
+            ScrollPbnePeer peer = (ScrollPbnePeer)this.peer;
             if (peer != null) {
-                h = peer.getHScrollbarHeight();
+                h = peer.getHScrollbbrHeight();
             }
         }
         return h;
     }
 
     /**
-     * Returns the width that would be occupied by a vertical
-     * scrollbar, which is independent of whether it is currently
-     * displayed by the scroll pane or not.
-     * @return the width of a vertical scrollbar in pixels
+     * Returns the width thbt would be occupied by b verticbl
+     * scrollbbr, which is independent of whether it is currently
+     * displbyed by the scroll pbne or not.
+     * @return the width of b verticbl scrollbbr in pixels
      */
-    public int getVScrollbarWidth() {
+    public int getVScrollbbrWidth() {
         int w = 0;
-        if (scrollbarDisplayPolicy != SCROLLBARS_NEVER) {
-            ScrollPanePeer peer = (ScrollPanePeer)this.peer;
+        if (scrollbbrDisplbyPolicy != SCROLLBARS_NEVER) {
+            ScrollPbnePeer peer = (ScrollPbnePeer)this.peer;
             if (peer != null) {
-                w = peer.getVScrollbarWidth();
+                w = peer.getVScrollbbrWidth();
             }
         }
         return w;
     }
 
     /**
-     * Returns the <code>ScrollPaneAdjustable</code> object which
-     * represents the state of the vertical scrollbar.
-     * The declared return type of this method is
-     * <code>Adjustable</code> to maintain backward compatibility.
+     * Returns the <code>ScrollPbneAdjustbble</code> object which
+     * represents the stbte of the verticbl scrollbbr.
+     * The declbred return type of this method is
+     * <code>Adjustbble</code> to mbintbin bbckwbrd compbtibility.
      *
-     * @see java.awt.ScrollPaneAdjustable
-     * @return the vertical scrollbar state
+     * @see jbvb.bwt.ScrollPbneAdjustbble
+     * @return the verticbl scrollbbr stbte
      */
-    public Adjustable getVAdjustable() {
-        return vAdjustable;
+    public Adjustbble getVAdjustbble() {
+        return vAdjustbble;
     }
 
     /**
-     * Returns the <code>ScrollPaneAdjustable</code> object which
-     * represents the state of the horizontal scrollbar.
-     * The declared return type of this method is
-     * <code>Adjustable</code> to maintain backward compatibility.
+     * Returns the <code>ScrollPbneAdjustbble</code> object which
+     * represents the stbte of the horizontbl scrollbbr.
+     * The declbred return type of this method is
+     * <code>Adjustbble</code> to mbintbin bbckwbrd compbtibility.
      *
-     * @see java.awt.ScrollPaneAdjustable
-     * @return the horizontal scrollbar state
+     * @see jbvb.bwt.ScrollPbneAdjustbble
+     * @return the horizontbl scrollbbr stbte
      */
-    public Adjustable getHAdjustable() {
-        return hAdjustable;
+    public Adjustbble getHAdjustbble() {
+        return hAdjustbble;
     }
 
     /**
      * Scrolls to the specified position within the child component.
-     * A call to this method is only valid if the scroll pane contains
-     * a child.  Specifying a position outside of the legal scrolling bounds
-     * of the child will scroll to the closest legal position.
-     * Legal bounds are defined to be the rectangle:
+     * A cbll to this method is only vblid if the scroll pbne contbins
+     * b child.  Specifying b position outside of the legbl scrolling bounds
+     * of the child will scroll to the closest legbl position.
+     * Legbl bounds bre defined to be the rectbngle:
      * x = 0, y = 0, width = (child width - view port width),
      * height = (child height - view port height).
-     * This is a convenience method which interfaces with the Adjustable
-     * objects which represent the state of the scrollbars.
-     * @param x the x position to scroll to
-     * @param y the y position to scroll to
-     * @throws NullPointerException if the scrollpane does not contain
-     *     a child
+     * This is b convenience method which interfbces with the Adjustbble
+     * objects which represent the stbte of the scrollbbrs.
+     * @pbrbm x the x position to scroll to
+     * @pbrbm y the y position to scroll to
+     * @throws NullPointerException if the scrollpbne does not contbin
+     *     b child
      */
     public void setScrollPosition(int x, int y) {
         synchronized (getTreeLock()) {
             if (getComponentCount()==0) {
                 throw new NullPointerException("child is null");
             }
-            hAdjustable.setValue(x);
-            vAdjustable.setValue(y);
+            hAdjustbble.setVblue(x);
+            vAdjustbble.setVblue(y);
         }
     }
 
     /**
      * Scrolls to the specified position within the child component.
-     * A call to this method is only valid if the scroll pane contains
-     * a child and the specified position is within legal scrolling bounds
-     * of the child.  Specifying a position outside of the legal scrolling
-     * bounds of the child will scroll to the closest legal position.
-     * Legal bounds are defined to be the rectangle:
+     * A cbll to this method is only vblid if the scroll pbne contbins
+     * b child bnd the specified position is within legbl scrolling bounds
+     * of the child.  Specifying b position outside of the legbl scrolling
+     * bounds of the child will scroll to the closest legbl position.
+     * Legbl bounds bre defined to be the rectbngle:
      * x = 0, y = 0, width = (child width - view port width),
      * height = (child height - view port height).
-     * This is a convenience method which interfaces with the Adjustable
-     * objects which represent the state of the scrollbars.
-     * @param p the Point representing the position to scroll to
+     * This is b convenience method which interfbces with the Adjustbble
+     * objects which represent the stbte of the scrollbbrs.
+     * @pbrbm p the Point representing the position to scroll to
      * @throws NullPointerException if {@code p} is {@code null}
      */
     public void setScrollPosition(Point p) {
@@ -388,57 +388,57 @@ public class ScrollPane extends Container implements Accessible {
     }
 
     /**
-     * Returns the current x,y position within the child which is displayed
-     * at the 0,0 location of the scrolled panel's view port.
-     * This is a convenience method which interfaces with the adjustable
-     * objects which represent the state of the scrollbars.
-     * @return the coordinate position for the current scroll position
-     * @throws NullPointerException if the scrollpane does not contain
-     *     a child
+     * Returns the current x,y position within the child which is displbyed
+     * bt the 0,0 locbtion of the scrolled pbnel's view port.
+     * This is b convenience method which interfbces with the bdjustbble
+     * objects which represent the stbte of the scrollbbrs.
+     * @return the coordinbte position for the current scroll position
+     * @throws NullPointerException if the scrollpbne does not contbin
+     *     b child
      */
-    @Transient
+    @Trbnsient
     public Point getScrollPosition() {
         synchronized (getTreeLock()) {
             if (getComponentCount()==0) {
                 throw new NullPointerException("child is null");
             }
-            return new Point(hAdjustable.getValue(), vAdjustable.getValue());
+            return new Point(hAdjustbble.getVblue(), vAdjustbble.getVblue());
         }
     }
 
     /**
-     * Sets the layout manager for this container.  This method is
-     * overridden to prevent the layout mgr from being set.
-     * @param mgr the specified layout manager
+     * Sets the lbyout mbnbger for this contbiner.  This method is
+     * overridden to prevent the lbyout mgr from being set.
+     * @pbrbm mgr the specified lbyout mbnbger
      */
-    public final void setLayout(LayoutManager mgr) {
-        throw new AWTError("ScrollPane controls layout");
+    public finbl void setLbyout(LbyoutMbnbger mgr) {
+        throw new AWTError("ScrollPbne controls lbyout");
     }
 
     /**
-     * Lays out this container by resizing its child to its preferred size.
-     * If the new preferred size of the child causes the current scroll
-     * position to be invalid, the scroll position is set to the closest
-     * valid position.
+     * Lbys out this contbiner by resizing its child to its preferred size.
+     * If the new preferred size of the child cbuses the current scroll
+     * position to be invblid, the scroll position is set to the closest
+     * vblid position.
      *
-     * @see Component#validate
+     * @see Component#vblidbte
      */
-    public void doLayout() {
-        layout();
+    public void doLbyout() {
+        lbyout();
     }
 
     /**
-     * Determine the size to allocate the child component.
-     * If the viewport area is bigger than the preferred size
-     * of the child then the child is allocated enough
+     * Determine the size to bllocbte the child component.
+     * If the viewport breb is bigger thbn the preferred size
+     * of the child then the child is bllocbted enough
      * to fill the viewport, otherwise the child is given
      * it's preferred size.
      */
-    Dimension calculateChildSize() {
+    Dimension cblculbteChildSize() {
         //
-        // calculate the view size, accounting for border but not scrollbars
-        // - don't use right/bottom insets since they vary depending
-        //   on whether or not scrollbars were displayed on last resize
+        // cblculbte the view size, bccounting for border but not scrollbbrs
+        // - don't use right/bottom insets since they vbry depending
+        //   on whether or not scrollbbrs were displbyed on lbst resize
         //
         Dimension       size = getSize();
         Insets          insets = getInsets();
@@ -446,36 +446,36 @@ public class ScrollPane extends Container implements Accessible {
         int             viewHeight = size.height - insets.top*2;
 
         //
-        // determine whether or not horz or vert scrollbars will be displayed
+        // determine whether or not horz or vert scrollbbrs will be displbyed
         //
-        boolean vbarOn;
-        boolean hbarOn;
+        boolebn vbbrOn;
+        boolebn hbbrOn;
         Component child = getComponent(0);
         Dimension childSize = new Dimension(child.getPreferredSize());
 
-        if (scrollbarDisplayPolicy == SCROLLBARS_AS_NEEDED) {
-            vbarOn = childSize.height > viewHeight;
-            hbarOn = childSize.width  > viewWidth;
-        } else if (scrollbarDisplayPolicy == SCROLLBARS_ALWAYS) {
-            vbarOn = hbarOn = true;
+        if (scrollbbrDisplbyPolicy == SCROLLBARS_AS_NEEDED) {
+            vbbrOn = childSize.height > viewHeight;
+            hbbrOn = childSize.width  > viewWidth;
+        } else if (scrollbbrDisplbyPolicy == SCROLLBARS_ALWAYS) {
+            vbbrOn = hbbrOn = true;
         } else { // SCROLLBARS_NEVER
-            vbarOn = hbarOn = false;
+            vbbrOn = hbbrOn = fblse;
         }
 
         //
-        // adjust predicted view size to account for scrollbars
+        // bdjust predicted view size to bccount for scrollbbrs
         //
-        int vbarWidth = getVScrollbarWidth();
-        int hbarHeight = getHScrollbarHeight();
-        if (vbarOn) {
-            viewWidth -= vbarWidth;
+        int vbbrWidth = getVScrollbbrWidth();
+        int hbbrHeight = getHScrollbbrHeight();
+        if (vbbrOn) {
+            viewWidth -= vbbrWidth;
         }
-        if(hbarOn) {
-            viewHeight -= hbarHeight;
+        if(hbbrOn) {
+            viewHeight -= hbbrHeight;
         }
 
         //
-        // if child is smaller than view, size it up
+        // if child is smbller thbn view, size it up
         //
         if (childSize.width < viewWidth) {
             childSize.width = viewWidth;
@@ -488,272 +488,272 @@ public class ScrollPane extends Container implements Accessible {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>doLayout()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>doLbyout()</code>.
      */
-    @Deprecated
-    public void layout() {
+    @Deprecbted
+    public void lbyout() {
         if (getComponentCount()==0) {
             return;
         }
         Component c = getComponent(0);
         Point p = getScrollPosition();
-        Dimension cs = calculateChildSize();
+        Dimension cs = cblculbteChildSize();
         Dimension vs = getViewportSize();
         Insets i = getInsets();
 
-        c.reshape(i.left - p.x, i.top - p.y, cs.width, cs.height);
-        ScrollPanePeer peer = (ScrollPanePeer)this.peer;
+        c.reshbpe(i.left - p.x, i.top - p.y, cs.width, cs.height);
+        ScrollPbnePeer peer = (ScrollPbnePeer)this.peer;
         if (peer != null) {
             peer.childResized(cs.width, cs.height);
         }
 
-        // update adjustables... the viewport size may have changed
-        // with the scrollbars coming or going so the viewport size
-        // is updated before the adjustables.
+        // updbte bdjustbbles... the viewport size mby hbve chbnged
+        // with the scrollbbrs coming or going so the viewport size
+        // is updbted before the bdjustbbles.
         vs = getViewportSize();
-        hAdjustable.setSpan(0, cs.width, vs.width);
-        vAdjustable.setSpan(0, cs.height, vs.height);
+        hAdjustbble.setSpbn(0, cs.width, vs.width);
+        vAdjustbble.setSpbn(0, cs.height, vs.height);
     }
 
     /**
-     * Prints the component in this scroll pane.
-     * @param g the specified Graphics window
+     * Prints the component in this scroll pbne.
+     * @pbrbm g the specified Grbphics window
      * @see Component#print
      * @see Component#printAll
      */
-    public void printComponents(Graphics g) {
+    public void printComponents(Grbphics g) {
         if (getComponentCount()==0) {
             return;
         }
         Component c = getComponent(0);
-        Point p = c.getLocation();
+        Point p = c.getLocbtion();
         Dimension vs = getViewportSize();
         Insets i = getInsets();
 
-        Graphics cg = g.create();
+        Grbphics cg = g.crebte();
         try {
             cg.clipRect(i.left, i.top, vs.width, vs.height);
-            cg.translate(p.x, p.y);
+            cg.trbnslbte(p.x, p.y);
             c.printAll(cg);
-        } finally {
+        } finblly {
             cg.dispose();
         }
     }
 
     /**
-     * Creates the scroll pane's peer.
+     * Crebtes the scroll pbne's peer.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
 
-            int vAdjustableValue = 0;
-            int hAdjustableValue = 0;
+            int vAdjustbbleVblue = 0;
+            int hAdjustbbleVblue = 0;
 
-            // Bug 4124460. Save the current adjustable values,
-            // so they can be restored after addnotify. Set the
-            // adjustables to 0, to prevent crashes for possible
-            // negative values.
+            // Bug 4124460. Sbve the current bdjustbble vblues,
+            // so they cbn be restored bfter bddnotify. Set the
+            // bdjustbbles to 0, to prevent crbshes for possible
+            // negbtive vblues.
             if (getComponentCount() > 0) {
-                vAdjustableValue = vAdjustable.getValue();
-                hAdjustableValue = hAdjustable.getValue();
-                vAdjustable.setValue(0);
-                hAdjustable.setValue(0);
+                vAdjustbbleVblue = vAdjustbble.getVblue();
+                hAdjustbbleVblue = hAdjustbble.getVblue();
+                vAdjustbble.setVblue(0);
+                hAdjustbble.setVblue(0);
             }
 
             if (peer == null)
-                peer = getToolkit().createScrollPane(this);
-            super.addNotify();
+                peer = getToolkit().crebteScrollPbne(this);
+            super.bddNotify();
 
-            // Bug 4124460. Restore the adjustable values.
+            // Bug 4124460. Restore the bdjustbble vblues.
             if (getComponentCount() > 0) {
-                vAdjustable.setValue(vAdjustableValue);
-                hAdjustable.setValue(hAdjustableValue);
+                vAdjustbble.setVblue(vAdjustbbleVblue);
+                hAdjustbble.setVblue(hAdjustbbleVblue);
             }
         }
     }
 
     /**
-     * Returns a string representing the state of this
-     * <code>ScrollPane</code>. This
-     * method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this
+     * <code>ScrollPbne</code>. This
+     * method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return the parameter string of this scroll pane
+     * @return the pbrbmeter string of this scroll pbne
      */
-    public String paramString() {
+    public String pbrbmString() {
         String sdpStr;
-        switch (scrollbarDisplayPolicy) {
-            case SCROLLBARS_AS_NEEDED:
-                sdpStr = "as-needed";
-                break;
-            case SCROLLBARS_ALWAYS:
-                sdpStr = "always";
-                break;
-            case SCROLLBARS_NEVER:
+        switch (scrollbbrDisplbyPolicy) {
+            cbse SCROLLBARS_AS_NEEDED:
+                sdpStr = "bs-needed";
+                brebk;
+            cbse SCROLLBARS_ALWAYS:
+                sdpStr = "blwbys";
+                brebk;
+            cbse SCROLLBARS_NEVER:
                 sdpStr = "never";
-                break;
-            default:
-                sdpStr = "invalid display policy";
+                brebk;
+            defbult:
+                sdpStr = "invblid displby policy";
         }
         Point p = (getComponentCount()>0)? getScrollPosition() : new Point(0,0);
         Insets i = getInsets();
-        return super.paramString()+",ScrollPosition=("+p.x+","+p.y+")"+
+        return super.pbrbmString()+",ScrollPosition=("+p.x+","+p.y+")"+
             ",Insets=("+i.top+","+i.left+","+i.bottom+","+i.right+")"+
-            ",ScrollbarDisplayPolicy="+sdpStr+
-        ",wheelScrollingEnabled="+isWheelScrollingEnabled();
+            ",ScrollbbrDisplbyPolicy="+sdpStr+
+        ",wheelScrollingEnbbled="+isWheelScrollingEnbbled();
     }
 
-    void autoProcessMouseWheel(MouseWheelEvent e) {
+    void butoProcessMouseWheel(MouseWheelEvent e) {
         processMouseWheelEvent(e);
     }
 
     /**
-     * Process mouse wheel events that are delivered to this
-     * <code>ScrollPane</code> by scrolling an appropriate amount.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * Process mouse wheel events thbt bre delivered to this
+     * <code>ScrollPbne</code> by scrolling bn bppropribte bmount.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e  the mouse wheel event
+     * @pbrbm e  the mouse wheel event
      * @since 1.4
      */
     protected void processMouseWheelEvent(MouseWheelEvent e) {
-        if (isWheelScrollingEnabled()) {
-            ScrollPaneWheelScroller.handleWheelScrolling(this, e);
+        if (isWheelScrollingEnbbled()) {
+            ScrollPbneWheelScroller.hbndleWheelScrolling(this, e);
             e.consume();
         }
         super.processMouseWheelEvent(e);
     }
 
     /**
-     * If wheel scrolling is enabled, we return true for MouseWheelEvents
+     * If wheel scrolling is enbbled, we return true for MouseWheelEvents
      * @since 1.4
      */
-    protected boolean eventTypeEnabled(int type) {
-        if (type == MouseEvent.MOUSE_WHEEL && isWheelScrollingEnabled()) {
+    protected boolebn eventTypeEnbbled(int type) {
+        if (type == MouseEvent.MOUSE_WHEEL && isWheelScrollingEnbbled()) {
             return true;
         }
         else {
-            return super.eventTypeEnabled(type);
+            return super.eventTypeEnbbled(type);
         }
     }
 
     /**
-     * Enables/disables scrolling in response to movement of the mouse wheel.
-     * Wheel scrolling is enabled by default.
+     * Enbbles/disbbles scrolling in response to movement of the mouse wheel.
+     * Wheel scrolling is enbbled by defbult.
      *
-     * @param handleWheel   <code>true</code> if scrolling should be done
-     *                      automatically for a MouseWheelEvent,
-     *                      <code>false</code> otherwise.
-     * @see #isWheelScrollingEnabled
-     * @see java.awt.event.MouseWheelEvent
-     * @see java.awt.event.MouseWheelListener
+     * @pbrbm hbndleWheel   <code>true</code> if scrolling should be done
+     *                      butombticblly for b MouseWheelEvent,
+     *                      <code>fblse</code> otherwise.
+     * @see #isWheelScrollingEnbbled
+     * @see jbvb.bwt.event.MouseWheelEvent
+     * @see jbvb.bwt.event.MouseWheelListener
      * @since 1.4
      */
-    public void setWheelScrollingEnabled(boolean handleWheel) {
-        wheelScrollingEnabled = handleWheel;
+    public void setWheelScrollingEnbbled(boolebn hbndleWheel) {
+        wheelScrollingEnbbled = hbndleWheel;
     }
 
     /**
-     * Indicates whether or not scrolling will take place in response to
-     * the mouse wheel.  Wheel scrolling is enabled by default.
+     * Indicbtes whether or not scrolling will tbke plbce in response to
+     * the mouse wheel.  Wheel scrolling is enbbled by defbult.
      *
-     * @return {@code true} if the wheel scrolling enabled;
-     *         otherwise {@code false}
+     * @return {@code true} if the wheel scrolling enbbled;
+     *         otherwise {@code fblse}
      *
-     * @see #setWheelScrollingEnabled(boolean)
+     * @see #setWheelScrollingEnbbled(boolebn)
      * @since 1.4
      */
-    public boolean isWheelScrollingEnabled() {
-        return wheelScrollingEnabled;
+    public boolebn isWheelScrollingEnbbled() {
+        return wheelScrollingEnbbled;
     }
 
 
     /**
-     * Writes default serializable fields to stream.
+     * Writes defbult seriblizbble fields to strebm.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        // 4352819: We only need this degenerate writeObject to make
-        // it safe for future versions of this class to write optional
-        // data to the stream.
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        // 4352819: We only need this degenerbte writeObject to mbke
+        // it sbfe for future versions of this clbss to write optionbl
+        // dbtb to the strebm.
+        s.defbultWriteObject();
     }
 
     /**
-     * Reads default serializable fields to stream.
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * Rebds defbult seriblizbble fields to strebm.
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException
     {
-        GraphicsEnvironment.checkHeadless();
-        // 4352819: Gotcha!  Cannot use s.defaultReadObject here and
-        // then continue with reading optional data.  Use GetField instead.
-        ObjectInputStream.GetField f = s.readFields();
+        GrbphicsEnvironment.checkHebdless();
+        // 4352819: Gotchb!  Cbnnot use s.defbultRebdObject here bnd
+        // then continue with rebding optionbl dbtb.  Use GetField instebd.
+        ObjectInputStrebm.GetField f = s.rebdFields();
 
         // Old fields
-        scrollbarDisplayPolicy = f.get("scrollbarDisplayPolicy",
+        scrollbbrDisplbyPolicy = f.get("scrollbbrDisplbyPolicy",
                                        SCROLLBARS_AS_NEEDED);
-        hAdjustable = (ScrollPaneAdjustable)f.get("hAdjustable", null);
-        vAdjustable = (ScrollPaneAdjustable)f.get("vAdjustable", null);
+        hAdjustbble = (ScrollPbneAdjustbble)f.get("hAdjustbble", null);
+        vAdjustbble = (ScrollPbneAdjustbble)f.get("vAdjustbble", null);
 
         // Since 1.4
-        wheelScrollingEnabled = f.get("wheelScrollingEnabled",
-                                      defaultWheelScroll);
+        wheelScrollingEnbbled = f.get("wheelScrollingEnbbled",
+                                      defbultWheelScroll);
 
-//      // Note to future maintainers
-//      if (f.defaulted("wheelScrollingEnabled")) {
-//          // We are reading pre-1.4 stream that doesn't have
-//          // optional data, not even the TC_ENDBLOCKDATA marker.
-//          // Reading anything after this point is unsafe as we will
-//          // read unrelated objects further down the stream (4352819).
+//      // Note to future mbintbiners
+//      if (f.defbulted("wheelScrollingEnbbled")) {
+//          // We bre rebding pre-1.4 strebm thbt doesn't hbve
+//          // optionbl dbtb, not even the TC_ENDBLOCKDATA mbrker.
+//          // Rebding bnything bfter this point is unsbfe bs we will
+//          // rebd unrelbted objects further down the strebm (4352819).
 //      }
 //      else {
-//          // Reading data from 1.4 or later, it's ok to try to read
-//          // optional data as OptionalDataException with eof == true
+//          // Rebding dbtb from 1.4 or lbter, it's ok to try to rebd
+//          // optionbl dbtb bs OptionblDbtbException with eof == true
 //          // will be correctly reported
 //      }
     }
 
-    class PeerFixer implements AdjustmentListener, java.io.Serializable
+    clbss PeerFixer implements AdjustmentListener, jbvb.io.Seriblizbble
     {
-        private static final long serialVersionUID = 1043664721353696630L;
+        privbte stbtic finbl long seriblVersionUID = 1043664721353696630L;
 
-        PeerFixer(ScrollPane scroller) {
+        PeerFixer(ScrollPbne scroller) {
             this.scroller = scroller;
         }
 
         /**
-         * Invoked when the value of the adjustable has changed.
+         * Invoked when the vblue of the bdjustbble hbs chbnged.
          */
-        public void adjustmentValueChanged(AdjustmentEvent e) {
-            Adjustable adj = e.getAdjustable();
-            int value = e.getValue();
-            ScrollPanePeer peer = (ScrollPanePeer) scroller.peer;
+        public void bdjustmentVblueChbnged(AdjustmentEvent e) {
+            Adjustbble bdj = e.getAdjustbble();
+            int vblue = e.getVblue();
+            ScrollPbnePeer peer = (ScrollPbnePeer) scroller.peer;
             if (peer != null) {
-                peer.setValue(adj, value);
+                peer.setVblue(bdj, vblue);
             }
 
             Component c = scroller.getComponent(0);
-            switch(adj.getOrientation()) {
-            case Adjustable.VERTICAL:
-                c.move(c.getLocation().x, -(value));
-                break;
-            case Adjustable.HORIZONTAL:
-                c.move(-(value), c.getLocation().y);
-                break;
-            default:
-                throw new IllegalArgumentException("Illegal adjustable orientation");
+            switch(bdj.getOrientbtion()) {
+            cbse Adjustbble.VERTICAL:
+                c.move(c.getLocbtion().x, -(vblue));
+                brebk;
+            cbse Adjustbble.HORIZONTAL:
+                c.move(-(vblue), c.getLocbtion().y);
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("Illegbl bdjustbble orientbtion");
             }
         }
 
-        private ScrollPane scroller;
+        privbte ScrollPbne scroller;
     }
 
 
@@ -762,40 +762,40 @@ public class ScrollPane extends Container implements Accessible {
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this ScrollPane.
-     * For scroll panes, the AccessibleContext takes the form of an
-     * AccessibleAWTScrollPane.
-     * A new AccessibleAWTScrollPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this ScrollPbne.
+     * For scroll pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTScrollPbne.
+     * A new AccessibleAWTScrollPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTScrollPane that serves as the
-     *         AccessibleContext of this ScrollPane
+     * @return bn AccessibleAWTScrollPbne thbt serves bs the
+     *         AccessibleContext of this ScrollPbne
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTScrollPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTScrollPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>ScrollPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to scroll pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>ScrollPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to scroll pbne user-interfbce
      * elements.
      * @since 1.3
      */
-    protected class AccessibleAWTScrollPane extends AccessibleAWTContainer
+    protected clbss AccessibleAWTScrollPbne extends AccessibleAWTContbiner
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 6100703663886637L;
+        privbte stbtic finbl long seriblVersionUID = 6100703663886637L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -803,54 +803,54 @@ public class ScrollPane extends Container implements Accessible {
             return AccessibleRole.SCROLL_PANE;
         }
 
-    } // class AccessibleAWTScrollPane
+    } // clbss AccessibleAWTScrollPbne
 
 }
 
 /*
- * In JDK 1.1.1, the pkg private class java.awt.PeerFixer was moved to
- * become an inner class of ScrollPane, which broke serialization
- * for ScrollPane objects using JDK 1.1.
- * Instead of moving it back out here, which would break all JDK 1.1.x
- * releases, we keep PeerFixer in both places. Because of the scoping rules,
- * the PeerFixer that is used in ScrollPane will be the one that is the
- * inner class. This pkg private PeerFixer class below will only be used
- * if the Java 2 platform is used to deserialize ScrollPane objects that were serialized
+ * In JDK 1.1.1, the pkg privbte clbss jbvb.bwt.PeerFixer wbs moved to
+ * become bn inner clbss of ScrollPbne, which broke seriblizbtion
+ * for ScrollPbne objects using JDK 1.1.
+ * Instebd of moving it bbck out here, which would brebk bll JDK 1.1.x
+ * relebses, we keep PeerFixer in both plbces. Becbuse of the scoping rules,
+ * the PeerFixer thbt is used in ScrollPbne will be the one thbt is the
+ * inner clbss. This pkg privbte PeerFixer clbss below will only be used
+ * if the Jbvb 2 plbtform is used to deseriblize ScrollPbne objects thbt were seriblized
  * using JDK1.1
  */
-class PeerFixer implements AdjustmentListener, java.io.Serializable {
+clbss PeerFixer implements AdjustmentListener, jbvb.io.Seriblizbble {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = 7051237413532574756L;
+    privbte stbtic finbl long seriblVersionUID = 7051237413532574756L;
 
-    PeerFixer(ScrollPane scroller) {
+    PeerFixer(ScrollPbne scroller) {
         this.scroller = scroller;
     }
 
     /**
-     * Invoked when the value of the adjustable has changed.
+     * Invoked when the vblue of the bdjustbble hbs chbnged.
      */
-    public void adjustmentValueChanged(AdjustmentEvent e) {
-        Adjustable adj = e.getAdjustable();
-        int value = e.getValue();
-        ScrollPanePeer peer = (ScrollPanePeer) scroller.peer;
+    public void bdjustmentVblueChbnged(AdjustmentEvent e) {
+        Adjustbble bdj = e.getAdjustbble();
+        int vblue = e.getVblue();
+        ScrollPbnePeer peer = (ScrollPbnePeer) scroller.peer;
         if (peer != null) {
-            peer.setValue(adj, value);
+            peer.setVblue(bdj, vblue);
         }
 
         Component c = scroller.getComponent(0);
-        switch(adj.getOrientation()) {
-        case Adjustable.VERTICAL:
-            c.move(c.getLocation().x, -(value));
-            break;
-        case Adjustable.HORIZONTAL:
-            c.move(-(value), c.getLocation().y);
-            break;
-        default:
-            throw new IllegalArgumentException("Illegal adjustable orientation");
+        switch(bdj.getOrientbtion()) {
+        cbse Adjustbble.VERTICAL:
+            c.move(c.getLocbtion().x, -(vblue));
+            brebk;
+        cbse Adjustbble.HORIZONTAL:
+            c.move(-(vblue), c.getLocbtion().y);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Illegbl bdjustbble orientbtion");
         }
     }
 
-    private ScrollPane scroller;
+    privbte ScrollPbne scroller;
 }

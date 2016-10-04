@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,81 +30,81 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import jbvbx.swing.JInternblFrbme;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTree;
+import jbvbx.swing.tree.DefbultMutbbleTreeNode;
 
 
 /**
- * This is a subclass of JInternalFrame which displays a tree.
+ * This is b subclbss of JInternblFrbme which displbys b tree.
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @buthor Steve Wilson
+ * @buthor Alexbnder Kouznetsov
  */
-@SuppressWarnings("serial")
-public class MetalworksInBox extends JInternalFrame {
+@SuppressWbrnings("seribl")
+public clbss MetblworksInBox extends JInternblFrbme {
 
-    public MetalworksInBox() {
+    public MetblworksInBox() {
         super("In Box", true, true, true, true);
 
-        DefaultMutableTreeNode unread;
-        DefaultMutableTreeNode personal;
-        DefaultMutableTreeNode business;
-        DefaultMutableTreeNode spam;
+        DefbultMutbbleTreeNode unrebd;
+        DefbultMutbbleTreeNode personbl;
+        DefbultMutbbleTreeNode business;
+        DefbultMutbbleTreeNode spbm;
 
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Mail Boxes");
+        DefbultMutbbleTreeNode top = new DefbultMutbbleTreeNode("Mbil Boxes");
 
-        top.add(unread = new DefaultMutableTreeNode("Unread Mail"));
-        top.add(personal = new DefaultMutableTreeNode("Personal"));
-        top.add(business = new DefaultMutableTreeNode("Business"));
-        top.add(spam = new DefaultMutableTreeNode("Spam"));
+        top.bdd(unrebd = new DefbultMutbbleTreeNode("Unrebd Mbil"));
+        top.bdd(personbl = new DefbultMutbbleTreeNode("Personbl"));
+        top.bdd(business = new DefbultMutbbleTreeNode("Business"));
+        top.bdd(spbm = new DefbultMutbbleTreeNode("Spbm"));
 
-        unread.add(new DefaultMutableTreeNode("Buy Stuff Now"));
-        unread.add(new DefaultMutableTreeNode("Read Me Now"));
-        unread.add(new DefaultMutableTreeNode("Hot Offer"));
-        unread.add(new DefaultMutableTreeNode("Re: Re: Thank You"));
-        unread.add(new DefaultMutableTreeNode("Fwd: Good Joke"));
+        unrebd.bdd(new DefbultMutbbleTreeNode("Buy Stuff Now"));
+        unrebd.bdd(new DefbultMutbbleTreeNode("Rebd Me Now"));
+        unrebd.bdd(new DefbultMutbbleTreeNode("Hot Offer"));
+        unrebd.bdd(new DefbultMutbbleTreeNode("Re: Re: Thbnk You"));
+        unrebd.bdd(new DefbultMutbbleTreeNode("Fwd: Good Joke"));
 
-        personal.add(new DefaultMutableTreeNode("Hi"));
-        personal.add(new DefaultMutableTreeNode("Good to hear from you"));
-        personal.add(new DefaultMutableTreeNode("Re: Thank You"));
+        personbl.bdd(new DefbultMutbbleTreeNode("Hi"));
+        personbl.bdd(new DefbultMutbbleTreeNode("Good to hebr from you"));
+        personbl.bdd(new DefbultMutbbleTreeNode("Re: Thbnk You"));
 
-        business.add(new DefaultMutableTreeNode("Thanks for your order"));
-        business.add(new DefaultMutableTreeNode("Price Quote"));
-        business.add(new DefaultMutableTreeNode("Here is the invoice"));
-        business.add(new DefaultMutableTreeNode(
-                "Project Metal: delivered on time"));
-        business.add(new DefaultMutableTreeNode("Your salary raise approved"));
+        business.bdd(new DefbultMutbbleTreeNode("Thbnks for your order"));
+        business.bdd(new DefbultMutbbleTreeNode("Price Quote"));
+        business.bdd(new DefbultMutbbleTreeNode("Here is the invoice"));
+        business.bdd(new DefbultMutbbleTreeNode(
+                "Project Metbl: delivered on time"));
+        business.bdd(new DefbultMutbbleTreeNode("Your sblbry rbise bpproved"));
 
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Make $$$ Now"));
-        spam.add(new DefaultMutableTreeNode("HOT HOT HOT"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Don't Miss This"));
-        spam.add(new DefaultMutableTreeNode("Opportunity in Precious Metals"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Last Chance"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Make $$$ Now"));
-        spam.add(new DefaultMutableTreeNode("To Hot To Handle"));
-        spam.add(new DefaultMutableTreeNode("I'm waiting for your call"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Buy Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Mbke $$$ Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("HOT HOT HOT"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Buy Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Don't Miss This"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Opportunity in Precious Metbls"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Buy Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Lbst Chbnce"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Buy Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("Mbke $$$ Now"));
+        spbm.bdd(new DefbultMutbbleTreeNode("To Hot To Hbndle"));
+        spbm.bdd(new DefbultMutbbleTreeNode("I'm wbiting for your cbll"));
 
         JTree tree = new JTree(top);
-        JScrollPane treeScroller = new JScrollPane(tree);
-        treeScroller.setBackground(tree.getBackground());
-        setContentPane(treeScroller);
+        JScrollPbne treeScroller = new JScrollPbne(tree);
+        treeScroller.setBbckground(tree.getBbckground());
+        setContentPbne(treeScroller);
         setSize(325, 200);
-        setLocation(75, 75);
+        setLocbtion(75, 75);
 
     }
 }

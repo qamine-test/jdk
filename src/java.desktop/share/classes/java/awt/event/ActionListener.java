@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving action events.
- * The class that is interested in processing an action event
- * implements this interface, and the object created with that
- * class is registered with a component, using the component's
- * <code>addActionListener</code> method. When the action event
- * occurs, that object's <code>actionPerformed</code> method is
+ * The listener interfbce for receiving bction events.
+ * The clbss thbt is interested in processing bn bction event
+ * implements this interfbce, bnd the object crebted with thbt
+ * clbss is registered with b component, using the component's
+ * <code>bddActionListener</code> method. When the bction event
+ * occurs, thbt object's <code>bctionPerformed</code> method is
  * invoked.
  *
  * @see ActionEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/actionlistener.html">How to Write an Action Listener</a>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/bctionlistener.html">How to Write bn Action Listener</b>
  *
- * @author Carl Quinn
+ * @buthor Cbrl Quinn
  * @since 1.1
  */
-public interface ActionListener extends EventListener {
+public interfbce ActionListener extends EventListener {
 
     /**
-     * Invoked when an action occurs.
-     * @param e the event to be processed
+     * Invoked when bn bction occurs.
+     * @pbrbm e the event to be processed
      */
-    public void actionPerformed(ActionEvent e);
+    public void bctionPerformed(ActionEvent e);
 
 }

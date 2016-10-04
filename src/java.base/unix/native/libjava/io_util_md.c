@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,7 +31,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#ifdef __solaris__
+#ifdef __solbris__
 #include <sys/filio.h>
 #endif
 
@@ -41,30 +41,30 @@
 
 #ifdef MACOSX
 
-#include <CoreFoundation/CoreFoundation.h>
+#include <CoreFoundbtion/CoreFoundbtion.h>
 
-__private_extern__
-jstring newStringPlatform(JNIEnv *env, const char* str)
+__privbte_extern__
+jstring newStringPlbtform(JNIEnv *env, const chbr* str)
 {
     jstring rv = NULL;
-    CFMutableStringRef csref = CFStringCreateMutable(NULL, 0);
+    CFMutbbleStringRef csref = CFStringCrebteMutbble(NULL, 0);
     if (csref == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
+        JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
     } else {
         CFStringAppendCString(csref, str, kCFStringEncodingUTF8);
-        CFStringNormalize(csref, kCFStringNormalizationFormC);
+        CFStringNormblize(csref, kCFStringNormblizbtionFormC);
         int clen = CFStringGetLength(csref);
-        int ulen = (clen + 1) * 2;        // utf16 + zero padding
-        char* chars = malloc(ulen);
-        if (chars == NULL) {
-            CFRelease(csref);
-            JNU_ThrowOutOfMemoryError(env, "native heap");
+        int ulen = (clen + 1) * 2;        // utf16 + zero pbdding
+        chbr* chbrs = mblloc(ulen);
+        if (chbrs == NULL) {
+            CFRelebse(csref);
+            JNU_ThrowOutOfMemoryError(env, "nbtive hebp");
         } else {
-            if (CFStringGetCString(csref, chars, ulen, kCFStringEncodingUTF16)) {
-                rv = (*env)->NewString(env, (jchar*)chars, clen);
+            if (CFStringGetCString(csref, chbrs, ulen, kCFStringEncodingUTF16)) {
+                rv = (*env)->NewString(env, (jchbr*)chbrs, clen);
             }
-            free(chars);
-            CFRelease(csref);
+            free(chbrs);
+            CFRelebse(csref);
         }
     }
     return rv;
@@ -72,13 +72,13 @@ jstring newStringPlatform(JNIEnv *env, const char* str)
 #endif
 
 FD
-handleOpen(const char *path, int oflag, int mode) {
+hbndleOpen(const chbr *pbth, int oflbg, int mode) {
     FD fd;
-    RESTARTABLE(open64(path, oflag, mode), fd);
+    RESTARTABLE(open64(pbth, oflbg, mode), fd);
     if (fd != -1) {
-        struct stat64 buf64;
+        struct stbt64 buf64;
         int result;
-        RESTARTABLE(fstat64(fd, &buf64), result);
+        RESTARTABLE(fstbt64(fd, &buf64), result);
         if (result != -1) {
             if (S_ISDIR(buf64.st_mode)) {
                 close(fd);
@@ -94,22 +94,22 @@ handleOpen(const char *path, int oflag, int mode) {
 }
 
 void
-fileOpen(JNIEnv *env, jobject this, jstring path, jfieldID fid, int flags)
+fileOpen(JNIEnv *env, jobject this, jstring pbth, jfieldID fid, int flbgs)
 {
-    WITH_PLATFORM_STRING(env, path, ps) {
+    WITH_PLATFORM_STRING(env, pbth, ps) {
         FD fd;
 
 #if defined(__linux__) || defined(_ALLBSD_SOURCE)
-        /* Remove trailing slashes, since the kernel won't */
-        char *p = (char *)ps + strlen(ps) - 1;
+        /* Remove trbiling slbshes, since the kernel won't */
+        chbr *p = (chbr *)ps + strlen(ps) - 1;
         while ((p > ps) && (*p == '/'))
             *p-- = '\0';
 #endif
-        fd = handleOpen(ps, flags, 0666);
+        fd = hbndleOpen(ps, flbgs, 0666);
         if (fd != -1) {
             SET_FD(this, fd, fid);
         } else {
-            throwFileNotFoundException(env, path);
+            throwFileNotFoundException(env, pbth);
         }
     } END_PLATFORM_STRING(env, ps);
 }
@@ -122,43 +122,43 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
         return;
     }
 
-    /* Set the fd to -1 before closing it so that the timing window
-     * of other threads using the wrong fd (closed but recycled fd,
-     * that gets re-opened with some other filename) is reduced.
-     * Practically the chance of its occurance is low, however, we are
-     * taking extra precaution over here.
+    /* Set the fd to -1 before closing it so thbt the timing window
+     * of other threbds using the wrong fd (closed but recycled fd,
+     * thbt gets re-opened with some other filenbme) is reduced.
+     * Prbcticblly the chbnce of its occurbnce is low, however, we bre
+     * tbking extrb precbution over here.
      */
     SET_FD(this, -1, fid);
 
     /*
-     * Don't close file descriptors 0, 1, or 2. If we close these stream
-     * then a subsequent file open or socket will use them. Instead we
+     * Don't close file descriptors 0, 1, or 2. If we close these strebm
+     * then b subsequent file open or socket will use them. Instebd we
      * just redirect these file descriptors to /dev/null.
      */
     if (fd >= STDIN_FILENO && fd <= STDERR_FILENO) {
         int devnull = open("/dev/null", O_WRONLY);
         if (devnull < 0) {
             SET_FD(this, fd, fid); // restore fd
-            JNU_ThrowIOExceptionWithLastError(env, "open /dev/null failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "open /dev/null fbiled");
         } else {
             dup2(devnull, fd);
             close(devnull);
         }
     } else if (close(fd) == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "close failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "close fbiled");
     }
 }
 
 ssize_t
-handleRead(FD fd, void *buf, jint len)
+hbndleRebd(FD fd, void *buf, jint len)
 {
     ssize_t result;
-    RESTARTABLE(read(fd, buf, len), result);
+    RESTARTABLE(rebd(fd, buf, len), result);
     return result;
 }
 
 ssize_t
-handleWrite(FD fd, const void *buf, jint len)
+hbndleWrite(FD fd, const void *buf, jint len)
 {
     ssize_t result;
     RESTARTABLE(write(fd, buf, len), result);
@@ -166,14 +166,14 @@ handleWrite(FD fd, const void *buf, jint len)
 }
 
 jint
-handleAvailable(FD fd, jlong *pbytes)
+hbndleAvbilbble(FD fd, jlong *pbytes)
 {
     int mode;
-    struct stat64 buf64;
+    struct stbt64 buf64;
     jlong size = -1, current = -1;
 
     int result;
-    RESTARTABLE(fstat64(fd, &buf64), result);
+    RESTARTABLE(fstbt64(fd, &buf64), result);
     if (result != -1) {
         mode = buf64.st_mode;
         if (S_ISCHR(mode) || S_ISFIFO(mode) || S_ISSOCK(mode)) {
@@ -205,19 +205,19 @@ handleAvailable(FD fd, jlong *pbytes)
 }
 
 jint
-handleSetLength(FD fd, jlong length)
+hbndleSetLength(FD fd, jlong length)
 {
     int result;
-    RESTARTABLE(ftruncate64(fd, length), result);
+    RESTARTABLE(ftruncbte64(fd, length), result);
     return result;
 }
 
 size_t
-getLastErrorString(char *buf, size_t len)
+getLbstErrorString(chbr *buf, size_t len)
 {
     if (errno == 0 || len < 1) return 0;
 
-    const char *err = strerror(errno);
+    const chbr *err = strerror(errno);
     size_t n = strlen(err);
     if (n >= len)
         n = len - 1;

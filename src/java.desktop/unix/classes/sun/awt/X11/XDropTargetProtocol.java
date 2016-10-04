@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.util.HashMap;
+import jbvb.util.HbshMbp;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * An abstract class for drop protocols on X11 systems.
- * Contains protocol-independent drop target code.
+ * An bbstrbct clbss for drop protocols on X11 systems.
+ * Contbins protocol-independent drop tbrget code.
  *
  * @since 1.5
  */
-abstract class XDropTargetProtocol {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetProtocol");
+bbstrbct clbss XDropTbrgetProtocol {
+    privbte stbtic finbl PlbtformLogger logger =
+        PlbtformLogger.getLogger("sun.bwt.X11.xembed.xdnd.XDropTbrgetProtocol");
 
-    private final XDropTargetProtocolListener listener;
+    privbte finbl XDropTbrgetProtocolListener listener;
 
-    public static final int EMBEDDER_ALREADY_REGISTERED = 0;
+    public stbtic finbl int EMBEDDER_ALREADY_REGISTERED = 0;
 
-    public static final int UNKNOWN_MESSAGE = 0;
-    public static final int ENTER_MESSAGE   = 1;
-    public static final int MOTION_MESSAGE  = 2;
-    public static final int LEAVE_MESSAGE   = 3;
-    public static final int DROP_MESSAGE    = 4;
+    public stbtic finbl int UNKNOWN_MESSAGE = 0;
+    public stbtic finbl int ENTER_MESSAGE   = 1;
+    public stbtic finbl int MOTION_MESSAGE  = 2;
+    public stbtic finbl int LEAVE_MESSAGE   = 3;
+    public stbtic finbl int DROP_MESSAGE    = 4;
 
-    protected XDropTargetProtocol(XDropTargetProtocolListener listener) {
+    protected XDropTbrgetProtocol(XDropTbrgetProtocolListener listener) {
         if (listener == null) {
-            throw new NullPointerException("Null XDropTargetProtocolListener");
+            throw new NullPointerException("Null XDropTbrgetProtocolListener");
         }
         this.listener = listener;
     }
 
-    protected final XDropTargetProtocolListener getProtocolListener() {
+    protected finbl XDropTbrgetProtocolListener getProtocolListener() {
         return listener;
     }
 
     /**
-     * Returns the protocol name. The protocol name cannot be null.
+     * Returns the protocol nbme. The protocol nbme cbnnot be null.
      */
-    public abstract String getProtocolName();
+    public bbstrbct String getProtocolNbme();
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerDropTarget(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void registerDropTbrget(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void unregisterDropTarget(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void unregisterDropTbrget(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerEmbedderDropSite(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void registerEmbedderDropSite(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void unregisterEmbedderDropSite(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void unregisterEmbedderDropSite(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerEmbeddedDropSite(long embedded);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct void registerEmbeddedDropSite(long embedded);
 
-    /* The caller must hold AWT_LOCK. */
-    public final void unregisterEmbeddedDropSite(long embedded) {
+    /* The cbller must hold AWT_LOCK. */
+    public finbl void unregisterEmbeddedDropSite(long embedded) {
         removeEmbedderRegistryEntry(embedded);
     }
 
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract boolean isProtocolSupported(long window);
+    /* The cbller must hold AWT_LOCK. */
+    public bbstrbct boolebn isProtocolSupported(long window);
 
-    public abstract int getMessageType(XClientMessageEvent xclient);
+    public bbstrbct int getMessbgeType(XClientMessbgeEvent xclient);
 
-    /* The caller must hold AWT_LOCK. */
-    public final boolean processClientMessage(XClientMessageEvent xclient) {
-        int type = getMessageType(xclient);
-        boolean processed = processClientMessageImpl(xclient);
+    /* The cbller must hold AWT_LOCK. */
+    public finbl boolebn processClientMessbge(XClientMessbgeEvent xclient) {
+        int type = getMessbgeType(xclient);
+        boolebn processed = processClientMessbgeImpl(xclient);
 
-        postProcessClientMessage(xclient, processed, type);
+        postProcessClientMessbge(xclient, processed, type);
 
         return processed;
     }
 
-    /* The caller must hold AWT_LOCK. */
-    protected abstract boolean processClientMessageImpl(XClientMessageEvent xclient);
+    /* The cbller must hold AWT_LOCK. */
+    protected bbstrbct boolebn processClientMessbgeImpl(XClientMessbgeEvent xclient);
 
     /*
-     * Forwards a drag notification to the embedding toplevel modifying the event
-     * to match the protocol version supported by the toplevel.
-     * The caller must hold AWT_LOCK.
-     * Returns True if the event is sent, False otherwise.
+     * Forwbrds b drbg notificbtion to the embedding toplevel modifying the event
+     * to mbtch the protocol version supported by the toplevel.
+     * The cbller must hold AWT_LOCK.
+     * Returns True if the event is sent, Fblse otherwise.
      */
-    protected final boolean forwardClientMessageToToplevel(long toplevel,
-                                                           XClientMessageEvent xclient) {
+    protected finbl boolebn forwbrdClientMessbgeToToplevel(long toplevel,
+                                                           XClientMessbgeEvent xclient) {
         EmbedderRegistryEntry entry = getEmbedderRegistryEntry(toplevel);
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("        entry={0}", entry);
         }
-        // Window not registered as an embedder for this protocol.
+        // Window not registered bs bn embedder for this protocol.
         if (entry == null) {
-            return false;
+            return fblse;
         }
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("        entry.isOverriden()={0}", entry.isOverriden());
         }
-        // Window didn't have an associated drop site, so there is no need
-        // to forward the message.
+        // Window didn't hbve bn bssocibted drop site, so there is no need
+        // to forwbrd the messbge.
         if (!entry.isOverriden()) {
-            return false;
+            return fblse;
         }
 
-        adjustEventForForwarding(xclient, entry);
+        bdjustEventForForwbrding(xclient, entry);
 
         long proxy = entry.getProxy();
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("        proxy={0} toplevel={1}", proxy, toplevel);
         }
         if (proxy == 0) {
@@ -146,144 +146,144 @@ abstract class XDropTargetProtocol {
 
         xclient.set_window(toplevel);
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(), proxy, false,
-                                   XConstants.NoEventMask, xclient.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(), proxy, fblse,
+                                   XConstbnts.NoEventMbsk, xclient.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
         return true;
     }
 
 
-    /* True iff the previous notification was MotionEvent and it was
-       forwarded to the browser. */
-    private boolean motionPassedAlong = false;
+    /* True iff the previous notificbtion wbs MotionEvent bnd it wbs
+       forwbrded to the browser. */
+    privbte boolebn motionPbssedAlong = fblse;
 
-    protected abstract void sendEnterMessageToToplevel(long toplevel,
-                                                       XClientMessageEvent xclient);
+    protected bbstrbct void sendEnterMessbgeToToplevel(long toplevel,
+                                                       XClientMessbgeEvent xclient);
 
-    protected abstract void sendLeaveMessageToToplevel(long toplevel,
-                                                       XClientMessageEvent xclient);
+    protected bbstrbct void sendLebveMessbgeToToplevel(long toplevel,
+                                                       XClientMessbgeEvent xclient);
 
-    private void postProcessClientMessage(XClientMessageEvent xclient,
-                                          boolean processed,
+    privbte void postProcessClientMessbge(XClientMessbgeEvent xclient,
+                                          boolebn processed,
                                           int type) {
         long toplevel = xclient.get_window();
 
         if (getEmbedderRegistryEntry(toplevel) != null) {
             /*
-             * This code forwards drag notifications to the browser according to the
+             * This code forwbrds drbg notificbtions to the browser bccording to the
              * following rules:
-             *  - the messages that we failed to process are always forwarded to the
+             *  - the messbges thbt we fbiled to process bre blwbys forwbrded to the
              *    browser;
-             *  - MotionEvents and DropEvents are forwarded if and only if the drag
-             *    is not over a plugin window;
-             *  - XDnD: EnterEvents and LeaveEvents are never forwarded, instead, we
-             *    send synthesized EnterEvents or LeaveEvents when the drag
+             *  - MotionEvents bnd DropEvents bre forwbrded if bnd only if the drbg
+             *    is not over b plugin window;
+             *  - XDnD: EnterEvents bnd LebveEvents bre never forwbrded, instebd, we
+             *    send synthesized EnterEvents or LebveEvents when the drbg
              *    respectively exits or enters plugin windows;
-             *  - Motif DnD: EnterEvents and LeaveEvents are always forwarded.
-             * Synthetic EnterEvents and LeaveEvents are needed, because the XDnD drop
-             * site implemented Netscape 6.2 has a nice feature: when it receives
-             * the first XdndPosition it continuously sends XdndStatus messages to
-             * the source (every 100ms) until the drag terminates or leaves the drop
-             * site. When the mouse is dragged over plugin window embedded in the
-             * browser frame, these XdndStatus messages are mixed with the XdndStatus
-             * messages sent from the plugin.
-             * For Motif DnD, synthetic events cause Motif warnings being displayed,
-             * so these events are always forwarded. However, Motif DnD drop site in
-             * Netscape 6.2 is implemented in the same way, so there could be similar
-             * problems if the drag source choose Motif DnD for communication.
+             *  - Motif DnD: EnterEvents bnd LebveEvents bre blwbys forwbrded.
+             * Synthetic EnterEvents bnd LebveEvents bre needed, becbuse the XDnD drop
+             * site implemented Netscbpe 6.2 hbs b nice febture: when it receives
+             * the first XdndPosition it continuously sends XdndStbtus messbges to
+             * the source (every 100ms) until the drbg terminbtes or lebves the drop
+             * site. When the mouse is drbgged over plugin window embedded in the
+             * browser frbme, these XdndStbtus messbges bre mixed with the XdndStbtus
+             * messbges sent from the plugin.
+             * For Motif DnD, synthetic events cbuse Motif wbrnings being displbyed,
+             * so these events bre blwbys forwbrded. However, Motif DnD drop site in
+             * Netscbpe 6.2 is implemented in the sbme wby, so there could be similbr
+             * problems if the drbg source choose Motif DnD for communicbtion.
              */
             if (!processed) {
-                forwardClientMessageToToplevel(toplevel, xclient);
+                forwbrdClientMessbgeToToplevel(toplevel, xclient);
             } else {
-                boolean motifProtocol =
-                    xclient.get_message_type() ==
-                    MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom();
+                boolebn motifProtocol =
+                    xclient.get_messbge_type() ==
+                    MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom();
 
                 switch (type) {
-                case XDropTargetProtocol.MOTION_MESSAGE:
-                    if (!isDragOverComponent()) {
-                        if (!motionPassedAlong && !motifProtocol) {
-                            sendEnterMessageToToplevel(toplevel, xclient);
+                cbse XDropTbrgetProtocol.MOTION_MESSAGE:
+                    if (!isDrbgOverComponent()) {
+                        if (!motionPbssedAlong && !motifProtocol) {
+                            sendEnterMessbgeToToplevel(toplevel, xclient);
                         }
-                        forwardClientMessageToToplevel(toplevel, xclient);
-                        motionPassedAlong = true;
+                        forwbrdClientMessbgeToToplevel(toplevel, xclient);
+                        motionPbssedAlong = true;
                     } else {
-                        if (motionPassedAlong && !motifProtocol) {
-                            sendLeaveMessageToToplevel(toplevel, xclient);
+                        if (motionPbssedAlong && !motifProtocol) {
+                            sendLebveMessbgeToToplevel(toplevel, xclient);
                         }
-                        motionPassedAlong = false;
+                        motionPbssedAlong = fblse;
                     }
-                    break;
-                case XDropTargetProtocol.DROP_MESSAGE:
-                    if (!isDragOverComponent()) {
-                        forwardClientMessageToToplevel(toplevel, xclient);
+                    brebk;
+                cbse XDropTbrgetProtocol.DROP_MESSAGE:
+                    if (!isDrbgOverComponent()) {
+                        forwbrdClientMessbgeToToplevel(toplevel, xclient);
                     }
-                    motionPassedAlong = false;
-                    break;
-                case XDropTargetProtocol.ENTER_MESSAGE:
-                case XDropTargetProtocol.LEAVE_MESSAGE:
+                    motionPbssedAlong = fblse;
+                    brebk;
+                cbse XDropTbrgetProtocol.ENTER_MESSAGE:
+                cbse XDropTbrgetProtocol.LEAVE_MESSAGE:
                     if (motifProtocol) {
-                        forwardClientMessageToToplevel(toplevel, xclient);
+                        forwbrdClientMessbgeToToplevel(toplevel, xclient);
                     }
-                    motionPassedAlong = false;
-                    break;
+                    motionPbssedAlong = fblse;
+                    brebk;
                 }
             }
         }
     }
 
-    public abstract boolean sendResponse(long ctxt, int eventID, int action);
+    public bbstrbct boolebn sendResponse(long ctxt, int eventID, int bction);
 
     /*
-     * Retrieves the data from the drag source in the specified format.
+     * Retrieves the dbtb from the drbg source in the specified formbt.
      *
-     * @param ctxt a pointer to the XClientMessageEvent structure for this
-     *             protocol's drop message.
-     * @param format the format in which the data should be retrieved.
+     * @pbrbm ctxt b pointer to the XClientMessbgeEvent structure for this
+     *             protocol's drop messbge.
+     * @pbrbm formbt the formbt in which the dbtb should be retrieved.
      *
-     * @throws IllegalArgumentException if ctxt doesn't point to the
-     *         XClientMessageEvent structure for this protocol's drop message.
-     * @throws IOException if data retrieval failed.
+     * @throws IllegblArgumentException if ctxt doesn't point to the
+     *         XClientMessbgeEvent structure for this protocol's drop messbge.
+     * @throws IOException if dbtb retrievbl fbiled.
      */
-    public abstract Object getData(long ctxt, long format)
-      throws IllegalArgumentException, IOException;
+    public bbstrbct Object getDbtb(long ctxt, long formbt)
+      throws IllegblArgumentException, IOException;
 
-    public abstract boolean sendDropDone(long ctxt, boolean success,
+    public bbstrbct boolebn sendDropDone(long ctxt, boolebn success,
                                          int dropAction);
 
-    public abstract long getSourceWindow();
+    public bbstrbct long getSourceWindow();
 
-    public abstract void cleanup();
+    public bbstrbct void clebnup();
 
-    public abstract boolean isDragOverComponent();
+    public bbstrbct boolebn isDrbgOverComponent();
 
-    public void adjustEventForForwarding(XClientMessageEvent xclient,
+    public void bdjustEventForForwbrding(XClientMessbgeEvent xclient,
         EmbedderRegistryEntry entry) {}
 
-    public abstract boolean forwardEventToEmbedded(long embedded, long ctxt,
+    public bbstrbct boolebn forwbrdEventToEmbedded(long embedded, long ctxt,
                                                    int eventID);
 
     /*
-     * Returns true if the XEmbed protocol prescribes that an XEmbed server must
-     * support this DnD protocol for drop sites associated with XEmbed clients.
+     * Returns true if the XEmbed protocol prescribes thbt bn XEmbed server must
+     * support this DnD protocol for drop sites bssocibted with XEmbed clients.
      */
-    public abstract boolean isXEmbedSupported();
+    public bbstrbct boolebn isXEmbedSupported();
 
-    protected static final class EmbedderRegistryEntry {
-        private final boolean overriden;
-        private final int version;
-        private final long proxy;
-        EmbedderRegistryEntry(boolean overriden, int version, long proxy) {
+    protected stbtic finbl clbss EmbedderRegistryEntry {
+        privbte finbl boolebn overriden;
+        privbte finbl int version;
+        privbte finbl long proxy;
+        EmbedderRegistryEntry(boolebn overriden, int version, long proxy) {
             this.overriden = overriden;
             this.version = version;
             this.proxy = proxy;
         }
-        public boolean isOverriden() {
+        public boolebn isOverriden() {
             return overriden;
         }
         public int getVersion() {
@@ -294,30 +294,30 @@ abstract class XDropTargetProtocol {
         }
     }
 
-    /* Access to HashMap is synchronized on this XDropTargetProtocol instance. */
-    private final HashMap<Long, EmbedderRegistryEntry> embedderRegistry =
-        new HashMap<>();
+    /* Access to HbshMbp is synchronized on this XDropTbrgetProtocol instbnce. */
+    privbte finbl HbshMbp<Long, EmbedderRegistryEntry> embedderRegistry =
+        new HbshMbp<>();
 
-    protected final void putEmbedderRegistryEntry(long embedder,
-                                                  boolean overriden,
+    protected finbl void putEmbedderRegistryEntry(long embedder,
+                                                  boolebn overriden,
                                                   int version,
                                                   long proxy) {
         synchronized (this) {
-            embedderRegistry.put(Long.valueOf(embedder),
+            embedderRegistry.put(Long.vblueOf(embedder),
                                  new EmbedderRegistryEntry(overriden, version,
                                                            proxy));
         }
     }
 
-    protected final EmbedderRegistryEntry getEmbedderRegistryEntry(long embedder) {
+    protected finbl EmbedderRegistryEntry getEmbedderRegistryEntry(long embedder) {
         synchronized (this) {
-            return embedderRegistry.get(Long.valueOf(embedder));
+            return embedderRegistry.get(Long.vblueOf(embedder));
         }
     }
 
-    protected final void removeEmbedderRegistryEntry(long embedder) {
+    protected finbl void removeEmbedderRegistryEntry(long embedder) {
         synchronized (this) {
-            embedderRegistry.remove(Long.valueOf(embedder));
+            embedderRegistry.remove(Long.vblueOf(embedder));
         }
     }
 }

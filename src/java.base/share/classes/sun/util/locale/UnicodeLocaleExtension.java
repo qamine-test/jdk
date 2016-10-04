@@ -1,128 +1,128 @@
 
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.SortedSet;
 
-public class UnicodeLocaleExtension extends Extension {
-    public static final char SINGLETON = 'u';
+public clbss UnicodeLocbleExtension extends Extension {
+    public stbtic finbl chbr SINGLETON = 'u';
 
-    private final Set<String> attributes;
-    private final Map<String, String> keywords;
+    privbte finbl Set<String> bttributes;
+    privbte finbl Mbp<String, String> keywords;
 
-    public static final UnicodeLocaleExtension CA_JAPANESE
-        = new UnicodeLocaleExtension("ca", "japanese");
-    public static final UnicodeLocaleExtension NU_THAI
-        = new UnicodeLocaleExtension("nu", "thai");
+    public stbtic finbl UnicodeLocbleExtension CA_JAPANESE
+        = new UnicodeLocbleExtension("cb", "jbpbnese");
+    public stbtic finbl UnicodeLocbleExtension NU_THAI
+        = new UnicodeLocbleExtension("nu", "thbi");
 
-    private UnicodeLocaleExtension(String key, String value) {
-        super(SINGLETON, key + "-" + value);
-        attributes = Collections.emptySet();
-        keywords = Collections.singletonMap(key, value);
+    privbte UnicodeLocbleExtension(String key, String vblue) {
+        super(SINGLETON, key + "-" + vblue);
+        bttributes = Collections.emptySet();
+        keywords = Collections.singletonMbp(key, vblue);
     }
 
-    UnicodeLocaleExtension(SortedSet<String> attributes, SortedMap<String, String> keywords) {
+    UnicodeLocbleExtension(SortedSet<String> bttributes, SortedMbp<String, String> keywords) {
         super(SINGLETON);
-        if (attributes != null) {
-            this.attributes = attributes;
+        if (bttributes != null) {
+            this.bttributes = bttributes;
         } else {
-            this.attributes = Collections.emptySet();
+            this.bttributes = Collections.emptySet();
         }
         if (keywords != null) {
             this.keywords = keywords;
         } else {
-            this.keywords = Collections.emptyMap();
+            this.keywords = Collections.emptyMbp();
         }
 
-        if (!this.attributes.isEmpty() || !this.keywords.isEmpty()) {
+        if (!this.bttributes.isEmpty() || !this.keywords.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (String attribute : this.attributes) {
-                sb.append(LanguageTag.SEP).append(attribute);
+            for (String bttribute : this.bttributes) {
+                sb.bppend(LbngubgeTbg.SEP).bppend(bttribute);
             }
             for (Entry<String, String> keyword : this.keywords.entrySet()) {
                 String key = keyword.getKey();
-                String value = keyword.getValue();
+                String vblue = keyword.getVblue();
 
-                sb.append(LanguageTag.SEP).append(key);
-                if (value.length() > 0) {
-                    sb.append(LanguageTag.SEP).append(value);
+                sb.bppend(LbngubgeTbg.SEP).bppend(key);
+                if (vblue.length() > 0) {
+                    sb.bppend(LbngubgeTbg.SEP).bppend(vblue);
                 }
             }
-            setValue(sb.substring(1));   // skip leading '-'
+            setVblue(sb.substring(1));   // skip lebding '-'
         }
     }
 
-    public Set<String> getUnicodeLocaleAttributes() {
-        if (attributes == Collections.EMPTY_SET) {
-            return attributes;
+    public Set<String> getUnicodeLocbleAttributes() {
+        if (bttributes == Collections.EMPTY_SET) {
+            return bttributes;
         }
-        return Collections.unmodifiableSet(attributes);
+        return Collections.unmodifibbleSet(bttributes);
     }
 
-    public Set<String> getUnicodeLocaleKeys() {
+    public Set<String> getUnicodeLocbleKeys() {
         if (keywords == Collections.EMPTY_MAP) {
             return Collections.emptySet();
         }
-        return Collections.unmodifiableSet(keywords.keySet());
+        return Collections.unmodifibbleSet(keywords.keySet());
     }
 
-    public String getUnicodeLocaleType(String unicodeLocaleKey) {
-        return keywords.get(unicodeLocaleKey);
+    public String getUnicodeLocbleType(String unicodeLocbleKey) {
+        return keywords.get(unicodeLocbleKey);
     }
 
-    public static boolean isSingletonChar(char c) {
-        return (SINGLETON == LocaleUtils.toLower(c));
+    public stbtic boolebn isSingletonChbr(chbr c) {
+        return (SINGLETON == LocbleUtils.toLower(c));
     }
 
-    public static boolean isAttribute(String s) {
-        // 3*8alphanum
+    public stbtic boolebn isAttribute(String s) {
+        // 3*8blphbnum
         int len = s.length();
-        return (len >= 3) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+        return (len >= 3) && (len <= 8) && LocbleUtils.isAlphbNumericString(s);
     }
 
-    public static boolean isKey(String s) {
-        // 2alphanum
-        return (s.length() == 2) && LocaleUtils.isAlphaNumericString(s);
+    public stbtic boolebn isKey(String s) {
+        // 2blphbnum
+        return (s.length() == 2) && LocbleUtils.isAlphbNumericString(s);
     }
 
-    public static boolean isTypeSubtag(String s) {
-        // 3*8alphanum
+    public stbtic boolebn isTypeSubtbg(String s) {
+        // 3*8blphbnum
         int len = s.length();
-        return (len >= 3) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+        return (len >= 3) && (len <= 8) && LocbleUtils.isAlphbNumericString(s);
     }
 }

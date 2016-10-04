@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jni.h"
 #include "fdlibm.h"
 
-#include "java_lang_StrictMath.h"
+#include "jbvb_lbng_StrictMbth.h"
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_cos(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_cos(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jcos((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_sin(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_sin(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jsin((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_tan(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_tbn(JNIEnv *env, jclbss unused, jdouble d)
 {
-    return (jdouble) jtan((double)d);
+    return (jdouble) jtbn((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_asin(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_bsin(JNIEnv *env, jclbss unused, jdouble d)
 {
-    return (jdouble) jasin((double)d);
+    return (jdouble) jbsin((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_acos(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_bcos(JNIEnv *env, jclbss unused, jdouble d)
 {
-    return (jdouble) jacos((double)d);
+    return (jdouble) jbcos((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_atan(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_btbn(JNIEnv *env, jclbss unused, jdouble d)
 {
-    return (jdouble) jatan((double)d);
+    return (jdouble) jbtbn((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_exp(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_exp(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jexp((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_log(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_log(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jlog((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_log10(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_log10(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jlog10((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_sqrt(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_sqrt(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jsqrt((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_cbrt(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_cbrt(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jcbrt((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_atan2(JNIEnv *env, jclass unused, jdouble d1, jdouble d2)
+Jbvb_jbvb_lbng_StrictMbth_btbn2(JNIEnv *env, jclbss unused, jdouble d1, jdouble d2)
 {
-    return (jdouble) jatan2((double)d1, (double)d2);
+    return (jdouble) jbtbn2((double)d1, (double)d2);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_pow(JNIEnv *env, jclass unused, jdouble d1, jdouble d2)
+Jbvb_jbvb_lbng_StrictMbth_pow(JNIEnv *env, jclbss unused, jdouble d1, jdouble d2)
 {
     return (jdouble) jpow((double)d1, (double)d2);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_IEEEremainder(JNIEnv *env, jclass unused,
+Jbvb_jbvb_lbng_StrictMbth_IEEErembinder(JNIEnv *env, jclbss unused,
                                   jdouble dividend,
                                   jdouble divisor)
 {
-    return (jdouble) jremainder(dividend, divisor);
+    return (jdouble) jrembinder(dividend, divisor);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_cosh(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_cosh(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jcosh((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_sinh(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_sinh(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jsinh((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_tanh(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_tbnh(JNIEnv *env, jclbss unused, jdouble d)
 {
-    return (jdouble) jtanh((double)d);
+    return (jdouble) jtbnh((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_hypot(JNIEnv *env, jclass unused, jdouble x, jdouble y)
+Jbvb_jbvb_lbng_StrictMbth_hypot(JNIEnv *env, jclbss unused, jdouble x, jdouble y)
 {
     return (jdouble) jhypot((double)x, (double)y);
 }
@@ -141,13 +141,13 @@ Java_java_lang_StrictMath_hypot(JNIEnv *env, jclass unused, jdouble x, jdouble y
 
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_log1p(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_log1p(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jlog1p((double)d);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_java_lang_StrictMath_expm1(JNIEnv *env, jclass unused, jdouble d)
+Jbvb_jbvb_lbng_StrictMbth_expm1(JNIEnv *env, jclbss unused, jdouble d)
 {
     return (jdouble) jexpm1((double)d);
 }

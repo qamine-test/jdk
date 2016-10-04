@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.im;
+pbckbge jbvb.bwt.im;
 
-import java.awt.Component;
-import java.util.Locale;
-import java.awt.AWTEvent;
-import java.beans.Transient;
-import java.lang.Character.Subset;
-import sun.awt.im.InputMethodContext;
+import jbvb.bwt.Component;
+import jbvb.util.Locble;
+import jbvb.bwt.AWTEvent;
+import jbvb.bebns.Trbnsient;
+import jbvb.lbng.Chbrbcter.Subset;
+import sun.bwt.im.InputMethodContext;
 
 /**
- * Provides methods to control text input facilities such as input
- * methods and keyboard layouts.
- * Two methods handle both input methods and keyboard layouts: selectInputMethod
- * lets a client component select an input method or keyboard layout by locale,
- * getLocale lets a client component obtain the locale of the current input method
- * or keyboard layout.
- * The other methods more specifically support interaction with input methods:
- * They let client components control the behavior of input methods, and
- * dispatch events from the client component to the input method.
+ * Provides methods to control text input fbcilities such bs input
+ * methods bnd keybobrd lbyouts.
+ * Two methods hbndle both input methods bnd keybobrd lbyouts: selectInputMethod
+ * lets b client component select bn input method or keybobrd lbyout by locble,
+ * getLocble lets b client component obtbin the locble of the current input method
+ * or keybobrd lbyout.
+ * The other methods more specificblly support interbction with input methods:
+ * They let client components control the behbvior of input methods, bnd
+ * dispbtch events from the client component to the input method.
  *
  * <p>
- * By default, one InputContext instance is created per Window instance,
- * and this input context is shared by all components within the window's
- * container hierarchy. However, this means that only one text input
- * operation is possible at any one time within a window, and that the
+ * By defbult, one InputContext instbnce is crebted per Window instbnce,
+ * bnd this input context is shbred by bll components within the window's
+ * contbiner hierbrchy. However, this mebns thbt only one text input
+ * operbtion is possible bt bny one time within b window, bnd thbt the
  * text needs to be committed when moving the focus from one text component
- * to another. If this is not desired, text components can create their
- * own input context instances.
+ * to bnother. If this is not desired, text components cbn crebte their
+ * own input context instbnces.
  *
  * <p>
- * The Java Platform supports input methods that have been developed in the Java
- * programming language, using the interfaces in the {@link java.awt.im.spi} package,
- * and installed into a Java SE Runtime Environment as extensions. Implementations
- * may also support using the native input methods of the platforms they run on;
- * however, not all platforms and locales provide input methods. Keyboard layouts
- * are provided by the host platform.
+ * The Jbvb Plbtform supports input methods thbt hbve been developed in the Jbvb
+ * progrbmming lbngubge, using the interfbces in the {@link jbvb.bwt.im.spi} pbckbge,
+ * bnd instblled into b Jbvb SE Runtime Environment bs extensions. Implementbtions
+ * mby blso support using the nbtive input methods of the plbtforms they run on;
+ * however, not bll plbtforms bnd locbles provide input methods. Keybobrd lbyouts
+ * bre provided by the host plbtform.
  *
  * <p>
- * Input methods are <em>unavailable</em> if (a) no input method written
- * in the Java programming language has been installed and (b) the Java Platform implementation
- * or the underlying platform does not support native input methods. In this case,
- * input contexts can still be created and used; their behavior is specified with
- * the individual methods below.
+ * Input methods bre <em>unbvbilbble</em> if (b) no input method written
+ * in the Jbvb progrbmming lbngubge hbs been instblled bnd (b) the Jbvb Plbtform implementbtion
+ * or the underlying plbtform does not support nbtive input methods. In this cbse,
+ * input contexts cbn still be crebted bnd used; their behbvior is specified with
+ * the individubl methods below.
  *
- * @see java.awt.Component#getInputContext
- * @see java.awt.Component#enableInputMethods
- * @author JavaSoft Asia/Pacific
+ * @see jbvb.bwt.Component#getInputContext
+ * @see jbvb.bwt.Component#enbbleInputMethods
+ * @buthor JbvbSoft Asib/Pbcific
  * @since 1.2
  */
 
-public class InputContext {
+public clbss InputContext {
 
     /**
-     * Constructs an InputContext.
-     * This method is protected so clients cannot instantiate
-     * InputContext directly. Input contexts are obtained by
-     * calling {@link #getInstance}.
+     * Constructs bn InputContext.
+     * This method is protected so clients cbnnot instbntibte
+     * InputContext directly. Input contexts bre obtbined by
+     * cblling {@link #getInstbnce}.
      */
     protected InputContext() {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Returns a new InputContext instance.
-     * @return a new InputContext instance
+     * Returns b new InputContext instbnce.
+     * @return b new InputContext instbnce
      */
-    public static InputContext getInstance() {
-        return new sun.awt.im.InputMethodContext();
+    public stbtic InputContext getInstbnce() {
+        return new sun.bwt.im.InputMethodContext();
     }
 
     /**
-     * Attempts to select an input method or keyboard layout that
-     * supports the given locale, and returns a value indicating whether such
-     * an input method or keyboard layout has been successfully selected. The
-     * following steps are taken until an input method has been selected:
+     * Attempts to select bn input method or keybobrd lbyout thbt
+     * supports the given locble, bnd returns b vblue indicbting whether such
+     * bn input method or keybobrd lbyout hbs been successfully selected. The
+     * following steps bre tbken until bn input method hbs been selected:
      *
      * <ul>
      * <li>
-     * If the currently selected input method or keyboard layout supports the
-     * requested locale, it remains selected.</li>
+     * If the currently selected input method or keybobrd lbyout supports the
+     * requested locble, it rembins selected.</li>
      *
      * <li>
-     * If there is no input method or keyboard layout available that supports
-     * the requested locale, the current input method or keyboard layout remains
+     * If there is no input method or keybobrd lbyout bvbilbble thbt supports
+     * the requested locble, the current input method or keybobrd lbyout rembins
      * selected.</li>
      *
      * <li>
-     * If the user has previously selected an input method or keyboard layout
-     * for the requested locale from the user interface, then the most recently
-     * selected such input method or keyboard layout is reselected.</li>
+     * If the user hbs previously selected bn input method or keybobrd lbyout
+     * for the requested locble from the user interfbce, then the most recently
+     * selected such input method or keybobrd lbyout is reselected.</li>
      *
      * <li>
-     * Otherwise, an input method or keyboard layout that supports the requested
-     * locale is selected in an implementation dependent way.</li>
+     * Otherwise, bn input method or keybobrd lbyout thbt supports the requested
+     * locble is selected in bn implementbtion dependent wby.</li>
      *
      * </ul>
-     * Before switching away from an input method, any currently uncommitted text
-     * is committed. If no input method or keyboard layout supporting the requested
-     * locale is available, then false is returned.
+     * Before switching bwby from bn input method, bny currently uncommitted text
+     * is committed. If no input method or keybobrd lbyout supporting the requested
+     * locble is bvbilbble, then fblse is returned.
      *
      * <p>
-     * Not all host operating systems provide API to determine the locale of
-     * the currently selected native input method or keyboard layout, and to
-     * select a native input method or keyboard layout by locale.
-     * For host operating systems that don't provide such API,
-     * <code>selectInputMethod</code> assumes that native input methods or
-     * keyboard layouts provided by the host operating system support only the
-     * system's default locale.
+     * Not bll host operbting systems provide API to determine the locble of
+     * the currently selected nbtive input method or keybobrd lbyout, bnd to
+     * select b nbtive input method or keybobrd lbyout by locble.
+     * For host operbting systems thbt don't provide such API,
+     * <code>selectInputMethod</code> bssumes thbt nbtive input methods or
+     * keybobrd lbyouts provided by the host operbting system support only the
+     * system's defbult locble.
      *
      * <p>
-     * A text editing component may call this method, for example, when
-     * the user changes the insertion point, so that the user can
-     * immediately continue typing in the language of the surrounding text.
+     * A text editing component mby cbll this method, for exbmple, when
+     * the user chbnges the insertion point, so thbt the user cbn
+     * immedibtely continue typing in the lbngubge of the surrounding text.
      *
-     * @param locale The desired new locale.
-     * @return true if the input method or keyboard layout that's active after
-     *         this call supports the desired locale.
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm locble The desired new locble.
+     * @return true if the input method or keybobrd lbyout thbt's bctive bfter
+     *         this cbll supports the desired locble.
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public boolean selectInputMethod(Locale locale) {
-        // real implementation is in sun.awt.im.InputContext
-        return false;
+    public boolebn selectInputMethod(Locble locble) {
+        // rebl implementbtion is in sun.bwt.im.InputContext
+        return fblse;
     }
 
     /**
-     * Returns the current locale of the current input method or keyboard
-     * layout.
-     * Returns null if the input context does not have a current input method
-     * or keyboard layout or if the current input method's
-     * {@link java.awt.im.spi.InputMethod#getLocale()} method returns null.
+     * Returns the current locble of the current input method or keybobrd
+     * lbyout.
+     * Returns null if the input context does not hbve b current input method
+     * or keybobrd lbyout or if the current input method's
+     * {@link jbvb.bwt.im.spi.InputMethod#getLocble()} method returns null.
      *
      * <p>
-     * Not all host operating systems provide API to determine the locale of
-     * the currently selected native input method or keyboard layout.
-     * For host operating systems that don't provide such API,
-     * <code>getLocale</code> assumes that the current locale of all native
-     * input methods or keyboard layouts provided by the host operating system
-     * is the system's default locale.
+     * Not bll host operbting systems provide API to determine the locble of
+     * the currently selected nbtive input method or keybobrd lbyout.
+     * For host operbting systems thbt don't provide such API,
+     * <code>getLocble</code> bssumes thbt the current locble of bll nbtive
+     * input methods or keybobrd lbyouts provided by the host operbting system
+     * is the system's defbult locble.
      *
-     * @return the current locale of the current input method or keyboard layout
+     * @return the current locble of the current input method or keybobrd lbyout
      * @since 1.3
      */
-    public Locale getLocale() {
-        // real implementation is in sun.awt.im.InputContext
+    public Locble getLocble() {
+        // rebl implementbtion is in sun.bwt.im.InputContext
         return null;
     }
 
     /**
-     * Sets the subsets of the Unicode character set that input methods of this input
-     * context should be allowed to input. Null may be passed in to
-     * indicate that all characters are allowed. The initial value
-     * is null. The setting applies to the current input method as well
-     * as input methods selected after this call is made. However,
-     * applications cannot rely on this call having the desired effect,
-     * since this setting cannot be passed on to all host input methods -
-     * applications still need to apply their own character validation.
-     * If no input methods are available, then this method has no effect.
+     * Sets the subsets of the Unicode chbrbcter set thbt input methods of this input
+     * context should be bllowed to input. Null mby be pbssed in to
+     * indicbte thbt bll chbrbcters bre bllowed. The initibl vblue
+     * is null. The setting bpplies to the current input method bs well
+     * bs input methods selected bfter this cbll is mbde. However,
+     * bpplicbtions cbnnot rely on this cbll hbving the desired effect,
+     * since this setting cbnnot be pbssed on to bll host input methods -
+     * bpplicbtions still need to bpply their own chbrbcter vblidbtion.
+     * If no input methods bre bvbilbble, then this method hbs no effect.
      *
-     * @param subsets The subsets of the Unicode character set from which characters may be input
+     * @pbrbm subsets The subsets of the Unicode chbrbcter set from which chbrbcters mby be input
      */
-    public void setCharacterSubsets(Subset[] subsets) {
-        // real implementation is in sun.awt.im.InputContext
+    public void setChbrbcterSubsets(Subset[] subsets) {
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Enables or disables the current input method for composition,
-     * depending on the value of the parameter <code>enable</code>.
+     * Enbbles or disbbles the current input method for composition,
+     * depending on the vblue of the pbrbmeter <code>enbble</code>.
      * <p>
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
-     * Note however that events are passed on to the input method regardless
-     * whether it is enabled or not, and that an input method that is disabled
-     * for composition may still interpret events for control purposes,
-     * including to enable or disable itself for composition.
+     * An input method thbt is enbbled for composition interprets incoming
+     * events for both composition bnd control purposes, while b
+     * disbbled input method does not interpret events for composition.
+     * Note however thbt events bre pbssed on to the input method regbrdless
+     * whether it is enbbled or not, bnd thbt bn input method thbt is disbbled
+     * for composition mby still interpret events for control purposes,
+     * including to enbble or disbble itself for composition.
      * <p>
-     * For input methods provided by host operating systems, it is not always possible to
-     * determine whether this operation is supported. For example, an input method may enable
-     * composition only for some locales, and do nothing for other locales. For such input
-     * methods, it is possible that this method does not throw
-     * {@link java.lang.UnsupportedOperationException UnsupportedOperationException},
-     * but also does not affect whether composition is enabled.
+     * For input methods provided by host operbting systems, it is not blwbys possible to
+     * determine whether this operbtion is supported. For exbmple, bn input method mby enbble
+     * composition only for some locbles, bnd do nothing for other locbles. For such input
+     * methods, it is possible thbt this method does not throw
+     * {@link jbvb.lbng.UnsupportedOperbtionException UnsupportedOperbtionException},
+     * but blso does not bffect whether composition is enbbled.
      *
-     * @param enable whether to enable the current input method for composition
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * the enabling/disabling operation
-     * @see #isCompositionEnabled
+     * @pbrbm enbble whether to enbble the current input method for composition
+     * @throws UnsupportedOperbtionException if there is no current input
+     * method bvbilbble or the current input method does not support
+     * the enbbling/disbbling operbtion
+     * @see #isCompositionEnbbled
      * @since 1.3
      */
-    public void setCompositionEnabled(boolean enable) {
-        // real implementation is in sun.awt.im.InputContext
+    public void setCompositionEnbbled(boolebn enbble) {
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Determines whether the current input method is enabled for composition.
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
+     * Determines whether the current input method is enbbled for composition.
+     * An input method thbt is enbbled for composition interprets incoming
+     * events for both composition bnd control purposes, while b
+     * disbbled input method does not interpret events for composition.
      *
-     * @return <code>true</code> if the current input method is enabled for
-     * composition; <code>false</code> otherwise
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * checking whether it is enabled for composition
-     * @see #setCompositionEnabled
+     * @return <code>true</code> if the current input method is enbbled for
+     * composition; <code>fblse</code> otherwise
+     * @throws UnsupportedOperbtionException if there is no current input
+     * method bvbilbble or the current input method does not support
+     * checking whether it is enbbled for composition
+     * @see #setCompositionEnbbled
      * @since 1.3
      */
-    @Transient
-    public boolean isCompositionEnabled() {
-        // real implementation is in sun.awt.im.InputContext
-        return false;
+    @Trbnsient
+    public boolebn isCompositionEnbbled() {
+        // rebl implementbtion is in sun.bwt.im.InputContext
+        return fblse;
     }
 
     /**
      * Asks the current input method to reconvert text from the
-     * current client component. The input method obtains the text to
+     * current client component. The input method obtbins the text to
      * be reconverted from the client component using the
      * {@link InputMethodRequests#getSelectedText InputMethodRequests.getSelectedText}
      * method. The other <code>InputMethodRequests</code> methods
-     * must be prepared to deal with further information requests by
-     * the input method. The composed and/or committed text will be
-     * sent to the client component as a sequence of
-     * <code>InputMethodEvent</code>s. If the input method cannot
-     * reconvert the given text, the text is returned as committed
-     * text in an <code>InputMethodEvent</code>.
+     * must be prepbred to debl with further informbtion requests by
+     * the input method. The composed bnd/or committed text will be
+     * sent to the client component bs b sequence of
+     * <code>InputMethodEvent</code>s. If the input method cbnnot
+     * reconvert the given text, the text is returned bs committed
+     * text in bn <code>InputMethodEvent</code>.
      *
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * the reconversion operation.
+     * @throws UnsupportedOperbtionException if there is no current input
+     * method bvbilbble or the current input method does not support
+     * the reconversion operbtion.
      *
      * @since 1.3
      */
     public void reconvert() {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Dispatches an event to the active input method. Called by AWT.
-     * If no input method is available, then the event will never be consumed.
+     * Dispbtches bn event to the bctive input method. Cblled by AWT.
+     * If no input method is bvbilbble, then the event will never be consumed.
      *
-     * @param event The event
+     * @pbrbm event The event
      * @exception NullPointerException if <code>event</code> is null
      */
-    public void dispatchEvent(AWTEvent event) {
-        // real implementation is in sun.awt.im.InputContext
+    public void dispbtchEvent(AWTEvent event) {
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Notifies the input context that a client component has been
-     * removed from its containment hierarchy, or that input method
-     * support has been disabled for the component. This method is
-     * usually called from the client component's
-     * {@link java.awt.Component#removeNotify() Component.removeNotify}
-     * method. Potentially pending input from input methods
-     * for this component is discarded.
-     * If no input methods are available, then this method has no effect.
+     * Notifies the input context thbt b client component hbs been
+     * removed from its contbinment hierbrchy, or thbt input method
+     * support hbs been disbbled for the component. This method is
+     * usublly cblled from the client component's
+     * {@link jbvb.bwt.Component#removeNotify() Component.removeNotify}
+     * method. Potentiblly pending input from input methods
+     * for this component is discbrded.
+     * If no input methods bre bvbilbble, then this method hbs no effect.
      *
-     * @param client Client component
+     * @pbrbm client Client component
      * @exception NullPointerException if <code>client</code> is null
      */
     public void removeNotify(Component client) {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
-     * If no input methods are available, then this method has no effect.
+     * Ends bny input composition thbt mby currently be going on in this
+     * context. Depending on the plbtform bnd possibly user preferences,
+     * this mby commit or delete uncommitted text. Any chbnges to the text
+     * bre communicbted to the bctive component using bn input method event.
+     * If no input methods bre bvbilbble, then this method hbs no effect.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
+     * A text editing component mby cbll this in b vbriety of situbtions,
+     * for exbmple, when the user moves the insertion point within the text
      * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * sbved to b file or copied to the clipbobrd.
      *
      */
     public void endComposition() {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Releases the resources used by this input context.
-     * Called by AWT for the default input context of each Window.
-     * If no input methods are available, then this method
-     * has no effect.
+     * Relebses the resources used by this input context.
+     * Cblled by AWT for the defbult input context of ebch Window.
+     * If no input methods bre bvbilbble, then this method
+     * hbs no effect.
      */
     public void dispose() {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
     }
 
     /**
-     * Returns a control object from the current input method, or null. A
-     * control object provides methods that control the behavior of the
-     * input method or obtain information from the input method. The type
-     * of the object is an input method specific class. Clients have to
-     * compare the result against known input method control object
-     * classes and cast to the appropriate class to invoke the methods
+     * Returns b control object from the current input method, or null. A
+     * control object provides methods thbt control the behbvior of the
+     * input method or obtbin informbtion from the input method. The type
+     * of the object is bn input method specific clbss. Clients hbve to
+     * compbre the result bgbinst known input method control object
+     * clbsses bnd cbst to the bppropribte clbss to invoke the methods
      * provided.
      * <p>
-     * If no input methods are available or the current input method does
-     * not provide an input method control object, then null is returned.
+     * If no input methods bre bvbilbble or the current input method does
+     * not provide bn input method control object, then null is returned.
      *
      * @return A control object from the current input method, or null.
      */
     public Object getInputMethodControlObject() {
-        // real implementation is in sun.awt.im.InputContext
+        // rebl implementbtion is in sun.bwt.im.InputContext
         return null;
     }
 

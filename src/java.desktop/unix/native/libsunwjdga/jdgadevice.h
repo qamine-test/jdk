@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,192 +27,192 @@
 #define _JDGADEVICE_H_
 
 /*
- *   Interface for Supporting DGA to Framebuffers under Java
+ *   Interfbce for Supporting DGA to Frbmebuffers under Jbvb
  *   -------------------------------------------------------
  *
- *  This interface will allow third party (and Sun) framebuffers which
- *  support the Direct Graphics Access (DGA) interface to be accessed with
- *  DGA in Java applications.
+ *  This interfbce will bllow third pbrty (bnd Sun) frbmebuffers which
+ *  support the Direct Grbphics Access (DGA) interfbce to be bccessed with
+ *  DGA in Jbvb bpplicbtions.
  *
- *  It coexists with the existing device-independent interfaces provided in
- *  libsunwjdga.so.
+ *  It coexists with the existing device-independent interfbces provided in
+ *  libsunwjdgb.so.
  *
- *  Framebuffers desiring access to Java DGA must supply a dynamically
- *  loaded library named "libjdga<fbname>.so", where <fbname> is the name
- *  returned by the VIS_GETIDENTIFIER ioctl as defined in the Solaris
- *  VISUAL environment (visual_io(7i)). For example, the Java DGA library
- *  for Sun's cg6 framebuffer will be named libjdgaSUNWcg6.so.
+ *  Frbmebuffers desiring bccess to Jbvb DGA must supply b dynbmicblly
+ *  lobded librbry nbmed "libjdgb<fbnbme>.so", where <fbnbme> is the nbme
+ *  returned by the VIS_GETIDENTIFIER ioctl bs defined in the Solbris
+ *  VISUAL environment (visubl_io(7i)). For exbmple, the Jbvb DGA librbry
+ *  for Sun's cg6 frbmebuffer will be nbmed libjdgbSUNWcg6.so.
  *
- *  Because multiple instances of a framebuffer type may exist on a system,
- *  the device-dependent library must avoid the use of static or global
- *  variables for any framebuffer-related variables. In other words it
- *  must be reentrant.
+ *  Becbuse multiple instbnces of b frbmebuffer type mby exist on b system,
+ *  the device-dependent librbry must bvoid the use of stbtic or globbl
+ *  vbribbles for bny frbmebuffer-relbted vbribbles. In other words it
+ *  must be reentrbnt.
  *
- *  The device-independent function Solaris_JDga_LibInit() is called in the
- *  static initializer for X11Graphics.java. Solaris_JDga_LibInit() will be
- *  modified to seek out a device-dependent DGA library as follows.
+ *  The device-independent function Solbris_JDgb_LibInit() is cblled in the
+ *  stbtic initiblizer for X11Grbphics.jbvb. Solbris_JDgb_LibInit() will be
+ *  modified to seek out b device-dependent DGA librbry bs follows.
  *
- *  - DGA grab the DefaultRootWindow to get a Dga_drawable.
+ *  - DGA grbb the DefbultRootWindow to get b Dgb_drbwbble.
  *
- *  - Use the Dga_drawable ID to get the device file descriptor
- *       fd = dga_win_devfd(dga_draw_id)
+ *  - Use the Dgb_drbwbble ID to get the device file descriptor
+ *       fd = dgb_win_devfd(dgb_drbw_id)
  *
- *  - Use the VIS_GETIDENTIFIER ioctl to get the device name string.
+ *  - Use the VIS_GETIDENTIFIER ioctl to get the device nbme string.
  *
- *  - Construct the library path name using the device name string.
- *    The device-dependent library must be located in a location specified
+ *  - Construct the librbry pbth nbme using the device nbme string.
+ *    The device-dependent librbry must be locbted in b locbtion specified
  *    in the LD_LIBRARY_PATH.
  *
- *  - The device-dependent library will be dlopen'ed and then a dlsym will
- *    be performed for the function "SolarisJDgaDevOpen", which must
- *    be implemented by the device-dependent library writer.
+ *  - The device-dependent librbry will be dlopen'ed bnd then b dlsym will
+ *    be performed for the function "SolbrisJDgbDevOpen", which must
+ *    be implemented by the device-dependent librbry writer.
  *
- *  - The function SolarisJDgaDevOpen() will then be called with a
- *    pointer to a SolarisJDgaDevInfo structure. This structure will
- *    have its major and minor version numbers filled in with their
- *    current values by the device-independent calling code. The
- *    device-dependent library must examine these version numbers and
- *    act as follows:
+ *  - The function SolbrisJDgbDevOpen() will then be cblled with b
+ *    pointer to b SolbrisJDgbDevInfo structure. This structure will
+ *    hbve its mbjor bnd minor version numbers filled in with their
+ *    current vblues by the device-independent cblling code. The
+ *    device-dependent librbry must exbmine these version numbers bnd
+ *    bct bs follows:
  *
- *      - In all cases, the device-dependent code should reset the
- *        supplied major and minor version numbers to those of the
- *        device-dependent library.
+ *      - In bll cbses, the device-dependent code should reset the
+ *        supplied mbjor bnd minor version numbers to those of the
+ *        device-dependent librbry.
  *
- *      - If the supplied major version number is not the same as that
- *        of the device library, the open must fail and return JDGA_FAILED.
+ *      - If the supplied mbjor version number is not the sbme bs thbt
+ *        of the device librbry, the open must fbil bnd return JDGA_FAILED.
  *
- *      - If the supplied minor version number is less than or equal to
- *        the device minor version number, then backward compatibility
- *        is assumed and the open should return JDGA_SUCCESS.
+ *      - If the supplied minor version number is less thbn or equbl to
+ *        the device minor version number, then bbckwbrd compbtibility
+ *        is bssumed bnd the open should return JDGA_SUCCESS.
  *
- *      - If the supplied minor version number is greater than the
- *        device minor version number, the open should also return
+ *      - If the supplied minor version number is grebter thbn the
+ *        device minor version number, the open should blso return
  *        JDGA_SUCCESS. The returned device minor version number will
- *        indicate to the device-independent code what features are
- *        supported in the device library.
+ *        indicbte to the device-independent code whbt febtures bre
+ *        supported in the device librbry.
  *
- *  - The function SolarisJDgaDevOpen() must also return a structure
- *    containing function pointers as given in the SolarisJDgaDevFunc
- *    structure below. The winlock and winunlock functions are
+ *  - The function SolbrisJDgbDevOpen() must blso return b structure
+ *    contbining function pointers bs given in the SolbrisJDgbDevFunc
+ *    structure below. The winlock bnd winunlock functions bre
  *    required only if there is some device-specific locking to be done
- *    in addition to the DGA lock. If this is not required for the device
- *    these function pointers may be specified as NULL pointers.
+ *    in bddition to the DGA lock. If this is not required for the device
+ *    these function pointers mby be specified bs NULL pointers.
  *
  */
 
-#include <dga/dga.h>
+#include <dgb/dgb.h>
 #include <unistd.h>     /* ioctl */
 #include <stdlib.h>
-#include <sys/mman.h>   /* mmap */
-#include <sys/visual_io.h>
+#include <sys/mmbn.h>   /* mmbp */
+#include <sys/visubl_io.h>
 #include <X11/Xlib.h>
 
 /*
- * Status return codes
+ * Stbtus return codes
  */
 #ifndef _DEFINE_JDGASTATUS_
 #define _DEFINE_JDGASTATUS_
 typedef enum {
-    JDGA_SUCCESS        = 0,    /* operation succeeded */
-    JDGA_FAILED         = 1     /* unable to complete operation */
-} JDgaStatus;
+    JDGA_SUCCESS        = 0,    /* operbtion succeeded */
+    JDGA_FAILED         = 1     /* unbble to complete operbtion */
+} JDgbStbtus;
 #endif
 
 /*
- * Structure to be filled in by device-dependent library's
- * SolarisJDgaDevOpen() function
+ * Structure to be filled in by device-dependent librbry's
+ * SolbrisJDgbDevOpen() function
  */
 typedef struct {
-  char *                         visidName; /* device name from ioctl */
-  int                         majorVersion;
+  chbr *                         visidNbme; /* device nbme from ioctl */
+  int                         mbjorVersion;
   int                         minorVersion;
-  struct _SolarisJDgaDevFuncList* function;    /* Device function pointers */
-} SolarisJDgaDevInfo;
+  struct _SolbrisJDgbDevFuncList* function;    /* Device function pointers */
+} SolbrisJDgbDevInfo;
 
 /*
- * Structure returned by device-dependent library for a window
+ * Structure returned by device-dependent librbry for b window
  */
 typedef struct {
-  SolarisJDgaDevInfo* devInfo;        /* Supplied by caller */
-  Dga_drawable        dgaDraw;        /* Supplied by caller */
-  caddr_t             mapAddr;        /* FB mapping for this window */
-  int                 mapDepth;       /* Depth in bits */
-  int                 mapWidth;       /* Width in pixels */
-  int                 mapHeight;      /* Height in lines */
-  int                 mapLineStride;  /* Byte stride line-to-line */
-  int                 mapPixelStride; /* Byte stride pixel-to-pixel */
-  void*               privateData;    /* Handle for device-dependent library */
-} SolarisJDgaWinInfo;
+  SolbrisJDgbDevInfo* devInfo;        /* Supplied by cbller */
+  Dgb_drbwbble        dgbDrbw;        /* Supplied by cbller */
+  cbddr_t             mbpAddr;        /* FB mbpping for this window */
+  int                 mbpDepth;       /* Depth in bits */
+  int                 mbpWidth;       /* Width in pixels */
+  int                 mbpHeight;      /* Height in lines */
+  int                 mbpLineStride;  /* Byte stride line-to-line */
+  int                 mbpPixelStride; /* Byte stride pixel-to-pixel */
+  void*               privbteDbtb;    /* Hbndle for device-dependent librbry */
+} SolbrisJDgbWinInfo;
 
-typedef JDgaStatus (*SolarisJDgaDevFunction)(SolarisJDgaDevInfo*);
-typedef JDgaStatus (*SolarisJDgaWinFunction)(SolarisJDgaWinInfo*);
+typedef JDgbStbtus (*SolbrisJDgbDevFunction)(SolbrisJDgbDevInfo*);
+typedef JDgbStbtus (*SolbrisJDgbWinFunction)(SolbrisJDgbWinInfo*);
 
 /*
  * Structure for device-dependent functions
  */
-typedef struct _SolarisJDgaDevFuncList {
-  SolarisJDgaDevFunction devclose;
-  SolarisJDgaWinFunction winopen;
-  SolarisJDgaWinFunction winclose;
-  SolarisJDgaWinFunction winlock;
-  SolarisJDgaWinFunction winunlock;
-} SolarisJDgaDevFuncList;
+typedef struct _SolbrisJDgbDevFuncList {
+  SolbrisJDgbDevFunction devclose;
+  SolbrisJDgbWinFunction winopen;
+  SolbrisJDgbWinFunction winclose;
+  SolbrisJDgbWinFunction winlock;
+  SolbrisJDgbWinFunction winunlock;
+} SolbrisJDgbDevFuncList;
 
 /*
- * Function to be supplied by the device-dependent library implementor.
- * It will accept a SolarisJDgaDevInfo structure with a filled-in
- * major and minor version number and will return updated version
- * numbers and the function pointers described below.
+ * Function to be supplied by the device-dependent librbry implementor.
+ * It will bccept b SolbrisJDgbDevInfo structure with b filled-in
+ * mbjor bnd minor version number bnd will return updbted version
+ * numbers bnd the function pointers described below.
  */
-typedef JDgaStatus SolarisJDgaDevOpenFunc(SolarisJDgaDevInfo* devInfo);
+typedef JDgbStbtus SolbrisJDgbDevOpenFunc(SolbrisJDgbDevInfo* devInfo);
 
-JDgaStatus SolarisJDgaDevOpen(SolarisJDgaDevInfo* devInfo);
+JDgbStbtus SolbrisJDgbDevOpen(SolbrisJDgbDevInfo* devInfo);
 
 /*
- * Functions supplied by the device-dependent library.
+ * Functions supplied by the device-dependent librbry.
  * These function pointers will be returned to the
- * device-independent code in the SolarisJDgaDevFunc structure.
+ * device-independent code in the SolbrisJDgbDevFunc structure.
  */
 
-JDgaStatus (*winopen)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winopen)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Fills in window-specific information in the supplied SolarisJDgaWinInfo
- *  structure. Because multiple windows may be open concurrently,
- *  implementations should avoid the use of static structures.
+ *  Fills in window-specific informbtion in the supplied SolbrisJDgbWinInfo
+ *  structure. Becbuse multiple windows mby be open concurrently,
+ *  implementbtions should bvoid the use of stbtic structures.
  */
 
-JDgaStatus (*winclose)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winclose)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Frees any resources allocated by the device-dependent library for
- *  this window.  It may also perform an unmap if this is the last
- *  window using this particular memory map. Devices, such as the FFB,
- *  which support multiple depths, can have different device memory
- *  mappings for different depths.
+ *  Frees bny resources bllocbted by the device-dependent librbry for
+ *  this window.  It mby blso perform bn unmbp if this is the lbst
+ *  window using this pbrticulbr memory mbp. Devices, such bs the FFB,
+ *  which support multiple depths, cbn hbve different device memory
+ *  mbppings for different depths.
  */
 
-JDgaStatus (*winlock)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winlock)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Performs any device-specific locking needed for the framebuffer.
- *  In most cases it will be unnecessary. In those cases, the
- *  device-dependent library can supply NULL for this function pointer.
+ *  Performs bny device-specific locking needed for the frbmebuffer.
+ *  In most cbses it will be unnecessbry. In those cbses, the
+ *  device-dependent librbry cbn supply NULL for this function pointer.
  */
 
-JDgaStatus (*winunlock)(SolarisJDgaWinInfo* info);
+JDgbStbtus (*winunlock)(SolbrisJDgbWinInfo* info);
 
 /*
- *  Performs any device-specific unlocking needed for the framebuffer.
- *  In most cases it will be unnecessary. In those cases, the
- *  device-dependent library can supply NULL for this function pointer.
+ *  Performs bny device-specific unlocking needed for the frbmebuffer.
+ *  In most cbses it will be unnecessbry. In those cbses, the
+ *  device-dependent librbry cbn supply NULL for this function pointer.
  */
 
-JDgaStatus (*devclose)(SolarisJDgaDevInfo* info);
+JDgbStbtus (*devclose)(SolbrisJDgbDevInfo* info);
 
 /*
- *  This function will be called at the last usage of the framebuffer
- *  device to allow the library to clean up any remaining resources.
+ *  This function will be cblled bt the lbst usbge of the frbmebuffer
+ *  device to bllow the librbry to clebn up bny rembining resources.
  */
 
 #endif  /* _JDGADEVICE_H_ */

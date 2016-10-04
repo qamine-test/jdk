@@ -1,579 +1,579 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.UIDefaults;
+import jbvb.util.HbshMbp;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.UIDefbults;
 
 /**
- * A distinct rendering area of a Swing component.  A component may
- * support one or more regions.  Specific component regions are defined
- * by the typesafe enumeration in this class.
+ * A distinct rendering breb of b Swing component.  A component mby
+ * support one or more regions.  Specific component regions bre defined
+ * by the typesbfe enumerbtion in this clbss.
  * <p>
- * Regions are typically used as a way to identify the <code>Component</code>s
- * and areas a particular style is to apply to. Synth's file format allows you
- * to bind styles based on the name of a <code>Region</code>.
- * The name is derived from the field name of the constant:
+ * Regions bre typicblly used bs b wby to identify the <code>Component</code>s
+ * bnd brebs b pbrticulbr style is to bpply to. Synth's file formbt bllows you
+ * to bind styles bbsed on the nbme of b <code>Region</code>.
+ * The nbme is derived from the field nbme of the constbnt:
  * <ol>
- *  <li>Map all characters to lowercase.
- *  <li>Map the first character to uppercase.
- *  <li>Map the first character after underscores to uppercase.
- *  <li>Remove all underscores.
+ *  <li>Mbp bll chbrbcters to lowercbse.
+ *  <li>Mbp the first chbrbcter to uppercbse.
+ *  <li>Mbp the first chbrbcter bfter underscores to uppercbse.
+ *  <li>Remove bll underscores.
  * </ol>
- * For example, to identify the <code>SPLIT_PANE</code>
- * <code>Region</code> you would use <code>SplitPane</code>.
- * The following shows a custom <code>SynthStyleFactory</code>
- * that returns a specific style for split panes:
+ * For exbmple, to identify the <code>SPLIT_PANE</code>
+ * <code>Region</code> you would use <code>SplitPbne</code>.
+ * The following shows b custom <code>SynthStyleFbctory</code>
+ * thbt returns b specific style for split pbnes:
  * <pre>
  *    public SynthStyle getStyle(JComponent c, Region id) {
  *        if (id == Region.SPLIT_PANE) {
- *            return splitPaneStyle;
+ *            return splitPbneStyle;
  *        }
  *        ...
  *    }
  * </pre>
- * The following <a href="doc-files/synthFileFormat.html">xml</a>
- * accomplishes the same thing:
+ * The following <b href="doc-files/synthFileFormbt.html">xml</b>
+ * bccomplishes the sbme thing:
  * <pre>
- * &lt;style id="splitPaneStyle"&gt;
+ * &lt;style id="splitPbneStyle"&gt;
  *   ...
  * &lt;/style&gt;
- * &lt;bind style="splitPaneStyle" type="region" key="SplitPane"/&gt;
+ * &lt;bind style="splitPbneStyle" type="region" key="SplitPbne"/&gt;
  * </pre>
  *
  * @since 1.5
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class Region {
-    private static final Object UI_TO_REGION_MAP_KEY = new Object();
-    private static final Object LOWER_CASE_NAME_MAP_KEY = new Object();
+public clbss Region {
+    privbte stbtic finbl Object UI_TO_REGION_MAP_KEY = new Object();
+    privbte stbtic finbl Object LOWER_CASE_NAME_MAP_KEY = new Object();
 
     /**
-     * ArrowButton's are special types of buttons that also render a
-     * directional indicator, typically an arrow. ArrowButtons are used by
-     * composite components, for example ScrollBar's contain ArrowButtons.
-     * To bind a style to this <code>Region</code> use the name
+     * ArrowButton's bre specibl types of buttons thbt blso render b
+     * directionbl indicbtor, typicblly bn brrow. ArrowButtons bre used by
+     * composite components, for exbmple ScrollBbr's contbin ArrowButtons.
+     * To bind b style to this <code>Region</code> use the nbme
      * <code>ArrowButton</code>.
      */
-    public static final Region ARROW_BUTTON = new Region("ArrowButton", false);
+    public stbtic finbl Region ARROW_BUTTON = new Region("ArrowButton", fblse);
 
     /**
-     * Button region. To bind a style to this <code>Region</code> use the name
+     * Button region. To bind b style to this <code>Region</code> use the nbme
      * <code>Button</code>.
      */
-    public static final Region BUTTON = new Region("Button", false);
+    public stbtic finbl Region BUTTON = new Region("Button", fblse);
 
     /**
-     * CheckBox region. To bind a style to this <code>Region</code> use the name
+     * CheckBox region. To bind b style to this <code>Region</code> use the nbme
      * <code>CheckBox</code>.
      */
-    public static final Region CHECK_BOX = new Region("CheckBox", false);
+    public stbtic finbl Region CHECK_BOX = new Region("CheckBox", fblse);
 
     /**
-     * CheckBoxMenuItem region. To bind a style to this <code>Region</code> use
-     * the name <code>CheckBoxMenuItem</code>.
+     * CheckBoxMenuItem region. To bind b style to this <code>Region</code> use
+     * the nbme <code>CheckBoxMenuItem</code>.
      */
-    public static final Region CHECK_BOX_MENU_ITEM = new Region("CheckBoxMenuItem", false);
+    public stbtic finbl Region CHECK_BOX_MENU_ITEM = new Region("CheckBoxMenuItem", fblse);
 
     /**
-     * ColorChooser region. To bind a style to this <code>Region</code> use
-     * the name <code>ColorChooser</code>.
+     * ColorChooser region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ColorChooser</code>.
      */
-    public static final Region COLOR_CHOOSER = new Region("ColorChooser", false);
+    public stbtic finbl Region COLOR_CHOOSER = new Region("ColorChooser", fblse);
 
     /**
-     * ComboBox region. To bind a style to this <code>Region</code> use
-     * the name <code>ComboBox</code>.
+     * ComboBox region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ComboBox</code>.
      */
-    public static final Region COMBO_BOX = new Region("ComboBox", false);
+    public stbtic finbl Region COMBO_BOX = new Region("ComboBox", fblse);
 
     /**
-     * DesktopPane region. To bind a style to this <code>Region</code> use
-     * the name <code>DesktopPane</code>.
+     * DesktopPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>DesktopPbne</code>.
      */
-    public static final Region DESKTOP_PANE = new Region("DesktopPane", false);
+    public stbtic finbl Region DESKTOP_PANE = new Region("DesktopPbne", fblse);
 
     /**
-     * DesktopIcon region. To bind a style to this <code>Region</code> use
-     * the name <code>DesktopIcon</code>.
+     * DesktopIcon region. To bind b style to this <code>Region</code> use
+     * the nbme <code>DesktopIcon</code>.
      */
-    public static final Region DESKTOP_ICON = new Region("DesktopIcon", false);
+    public stbtic finbl Region DESKTOP_ICON = new Region("DesktopIcon", fblse);
 
     /**
-     * EditorPane region. To bind a style to this <code>Region</code> use
-     * the name <code>EditorPane</code>.
+     * EditorPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>EditorPbne</code>.
      */
-    public static final Region EDITOR_PANE = new Region("EditorPane", false);
+    public stbtic finbl Region EDITOR_PANE = new Region("EditorPbne", fblse);
 
     /**
-     * FileChooser region. To bind a style to this <code>Region</code> use
-     * the name <code>FileChooser</code>.
+     * FileChooser region. To bind b style to this <code>Region</code> use
+     * the nbme <code>FileChooser</code>.
      */
-    public static final Region FILE_CHOOSER = new Region("FileChooser", false);
+    public stbtic finbl Region FILE_CHOOSER = new Region("FileChooser", fblse);
 
     /**
-     * FormattedTextField region. To bind a style to this <code>Region</code> use
-     * the name <code>FormattedTextField</code>.
+     * FormbttedTextField region. To bind b style to this <code>Region</code> use
+     * the nbme <code>FormbttedTextField</code>.
      */
-    public static final Region FORMATTED_TEXT_FIELD = new Region("FormattedTextField", false);
+    public stbtic finbl Region FORMATTED_TEXT_FIELD = new Region("FormbttedTextField", fblse);
 
     /**
-     * InternalFrame region. To bind a style to this <code>Region</code> use
-     * the name <code>InternalFrame</code>.
+     * InternblFrbme region. To bind b style to this <code>Region</code> use
+     * the nbme <code>InternblFrbme</code>.
      */
-    public static final Region INTERNAL_FRAME = new Region("InternalFrame", false);
+    public stbtic finbl Region INTERNAL_FRAME = new Region("InternblFrbme", fblse);
 
     /**
-     * TitlePane of an InternalFrame. The TitlePane typically
-     * shows a menu, title, widgets to manipulate the internal frame.
-     * To bind a style to this <code>Region</code> use the name
-     * <code>InternalFrameTitlePane</code>.
+     * TitlePbne of bn InternblFrbme. The TitlePbne typicblly
+     * shows b menu, title, widgets to mbnipulbte the internbl frbme.
+     * To bind b style to this <code>Region</code> use the nbme
+     * <code>InternblFrbmeTitlePbne</code>.
      */
-    public static final Region INTERNAL_FRAME_TITLE_PANE = new Region("InternalFrameTitlePane", false);
+    public stbtic finbl Region INTERNAL_FRAME_TITLE_PANE = new Region("InternblFrbmeTitlePbne", fblse);
 
     /**
-     * Label region. To bind a style to this <code>Region</code> use the name
-     * <code>Label</code>.
+     * Lbbel region. To bind b style to this <code>Region</code> use the nbme
+     * <code>Lbbel</code>.
      */
-    public static final Region LABEL = new Region("Label", false);
+    public stbtic finbl Region LABEL = new Region("Lbbel", fblse);
 
     /**
-     * List region. To bind a style to this <code>Region</code> use the name
+     * List region. To bind b style to this <code>Region</code> use the nbme
      * <code>List</code>.
      */
-    public static final Region LIST = new Region("List", false);
+    public stbtic finbl Region LIST = new Region("List", fblse);
 
     /**
-     * Menu region. To bind a style to this <code>Region</code> use the name
+     * Menu region. To bind b style to this <code>Region</code> use the nbme
      * <code>Menu</code>.
      */
-    public static final Region MENU = new Region("Menu", false);
+    public stbtic finbl Region MENU = new Region("Menu", fblse);
 
     /**
-     * MenuBar region. To bind a style to this <code>Region</code> use the name
-     * <code>MenuBar</code>.
+     * MenuBbr region. To bind b style to this <code>Region</code> use the nbme
+     * <code>MenuBbr</code>.
      */
-    public static final Region MENU_BAR = new Region("MenuBar", false);
+    public stbtic finbl Region MENU_BAR = new Region("MenuBbr", fblse);
 
     /**
-     * MenuItem region. To bind a style to this <code>Region</code> use the name
+     * MenuItem region. To bind b style to this <code>Region</code> use the nbme
      * <code>MenuItem</code>.
      */
-    public static final Region MENU_ITEM = new Region("MenuItem", false);
+    public stbtic finbl Region MENU_ITEM = new Region("MenuItem", fblse);
 
     /**
-     * Accelerator region of a MenuItem. To bind a style to this
-     * <code>Region</code> use the name <code>MenuItemAccelerator</code>.
+     * Accelerbtor region of b MenuItem. To bind b style to this
+     * <code>Region</code> use the nbme <code>MenuItemAccelerbtor</code>.
      */
-    public static final Region MENU_ITEM_ACCELERATOR = new Region("MenuItemAccelerator", true);
+    public stbtic finbl Region MENU_ITEM_ACCELERATOR = new Region("MenuItemAccelerbtor", true);
 
     /**
-     * OptionPane region. To bind a style to this <code>Region</code> use
-     * the name <code>OptionPane</code>.
+     * OptionPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>OptionPbne</code>.
      */
-    public static final Region OPTION_PANE = new Region("OptionPane", false);
+    public stbtic finbl Region OPTION_PANE = new Region("OptionPbne", fblse);
 
     /**
-     * Panel region. To bind a style to this <code>Region</code> use the name
-     * <code>Panel</code>.
+     * Pbnel region. To bind b style to this <code>Region</code> use the nbme
+     * <code>Pbnel</code>.
      */
-    public static final Region PANEL = new Region("Panel", false);
+    public stbtic finbl Region PANEL = new Region("Pbnel", fblse);
 
     /**
-     * PasswordField region. To bind a style to this <code>Region</code> use
-     * the name <code>PasswordField</code>.
+     * PbsswordField region. To bind b style to this <code>Region</code> use
+     * the nbme <code>PbsswordField</code>.
      */
-    public static final Region PASSWORD_FIELD = new Region("PasswordField", false);
+    public stbtic finbl Region PASSWORD_FIELD = new Region("PbsswordField", fblse);
 
     /**
-     * PopupMenu region. To bind a style to this <code>Region</code> use
-     * the name <code>PopupMenu</code>.
+     * PopupMenu region. To bind b style to this <code>Region</code> use
+     * the nbme <code>PopupMenu</code>.
      */
-    public static final Region POPUP_MENU = new Region("PopupMenu", false);
+    public stbtic finbl Region POPUP_MENU = new Region("PopupMenu", fblse);
 
     /**
-     * PopupMenuSeparator region. To bind a style to this <code>Region</code>
-     * use the name <code>PopupMenuSeparator</code>.
+     * PopupMenuSepbrbtor region. To bind b style to this <code>Region</code>
+     * use the nbme <code>PopupMenuSepbrbtor</code>.
      */
-    public static final Region POPUP_MENU_SEPARATOR = new Region("PopupMenuSeparator", false);
+    public stbtic finbl Region POPUP_MENU_SEPARATOR = new Region("PopupMenuSepbrbtor", fblse);
 
     /**
-     * ProgressBar region. To bind a style to this <code>Region</code>
-     * use the name <code>ProgressBar</code>.
+     * ProgressBbr region. To bind b style to this <code>Region</code>
+     * use the nbme <code>ProgressBbr</code>.
      */
-    public static final Region PROGRESS_BAR = new Region("ProgressBar", false);
+    public stbtic finbl Region PROGRESS_BAR = new Region("ProgressBbr", fblse);
 
     /**
-     * RadioButton region. To bind a style to this <code>Region</code>
-     * use the name <code>RadioButton</code>.
+     * RbdioButton region. To bind b style to this <code>Region</code>
+     * use the nbme <code>RbdioButton</code>.
      */
-    public static final Region RADIO_BUTTON = new Region("RadioButton", false);
+    public stbtic finbl Region RADIO_BUTTON = new Region("RbdioButton", fblse);
 
     /**
-     * RegionButtonMenuItem region. To bind a style to this <code>Region</code>
-     * use the name <code>RadioButtonMenuItem</code>.
+     * RegionButtonMenuItem region. To bind b style to this <code>Region</code>
+     * use the nbme <code>RbdioButtonMenuItem</code>.
      */
-    public static final Region RADIO_BUTTON_MENU_ITEM = new Region("RadioButtonMenuItem", false);
+    public stbtic finbl Region RADIO_BUTTON_MENU_ITEM = new Region("RbdioButtonMenuItem", fblse);
 
     /**
-     * RootPane region. To bind a style to this <code>Region</code> use
-     * the name <code>RootPane</code>.
+     * RootPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>RootPbne</code>.
      */
-    public static final Region ROOT_PANE = new Region("RootPane", false);
+    public stbtic finbl Region ROOT_PANE = new Region("RootPbne", fblse);
 
     /**
-     * ScrollBar region. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBar</code>.
+     * ScrollBbr region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ScrollBbr</code>.
      */
-    public static final Region SCROLL_BAR = new Region("ScrollBar", false);
+    public stbtic finbl Region SCROLL_BAR = new Region("ScrollBbr", fblse);
 
     /**
-     * Track of the ScrollBar. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBarTrack</code>.
+     * Trbck of the ScrollBbr. To bind b style to this <code>Region</code> use
+     * the nbme <code>ScrollBbrTrbck</code>.
      */
-    public static final Region SCROLL_BAR_TRACK = new Region("ScrollBarTrack", true);
+    public stbtic finbl Region SCROLL_BAR_TRACK = new Region("ScrollBbrTrbck", true);
 
     /**
-     * Thumb of the ScrollBar. The thumb is the region of the ScrollBar
-     * that gives a graphical depiction of what percentage of the View is
-     * currently visible. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollBarThumb</code>.
+     * Thumb of the ScrollBbr. The thumb is the region of the ScrollBbr
+     * thbt gives b grbphicbl depiction of whbt percentbge of the View is
+     * currently visible. To bind b style to this <code>Region</code> use
+     * the nbme <code>ScrollBbrThumb</code>.
      */
-    public static final Region SCROLL_BAR_THUMB = new Region("ScrollBarThumb", true);
+    public stbtic finbl Region SCROLL_BAR_THUMB = new Region("ScrollBbrThumb", true);
 
     /**
-     * ScrollPane region. To bind a style to this <code>Region</code> use
-     * the name <code>ScrollPane</code>.
+     * ScrollPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ScrollPbne</code>.
      */
-    public static final Region SCROLL_PANE = new Region("ScrollPane", false);
+    public stbtic finbl Region SCROLL_PANE = new Region("ScrollPbne", fblse);
 
     /**
-     * Separator region. To bind a style to this <code>Region</code> use
-     * the name <code>Separator</code>.
+     * Sepbrbtor region. To bind b style to this <code>Region</code> use
+     * the nbme <code>Sepbrbtor</code>.
      */
-    public static final Region SEPARATOR = new Region("Separator", false);
+    public stbtic finbl Region SEPARATOR = new Region("Sepbrbtor", fblse);
 
     /**
-     * Slider region. To bind a style to this <code>Region</code> use
-     * the name <code>Slider</code>.
+     * Slider region. To bind b style to this <code>Region</code> use
+     * the nbme <code>Slider</code>.
      */
-    public static final Region SLIDER = new Region("Slider", false);
+    public stbtic finbl Region SLIDER = new Region("Slider", fblse);
 
     /**
-     * Track of the Slider. To bind a style to this <code>Region</code> use
-     * the name <code>SliderTrack</code>.
+     * Trbck of the Slider. To bind b style to this <code>Region</code> use
+     * the nbme <code>SliderTrbck</code>.
      */
-    public static final Region SLIDER_TRACK = new Region("SliderTrack", true);
+    public stbtic finbl Region SLIDER_TRACK = new Region("SliderTrbck", true);
 
     /**
      * Thumb of the Slider. The thumb of the Slider identifies the current
-     * value. To bind a style to this <code>Region</code> use the name
+     * vblue. To bind b style to this <code>Region</code> use the nbme
      * <code>SliderThumb</code>.
      */
-    public static final Region SLIDER_THUMB = new Region("SliderThumb", true);
+    public stbtic finbl Region SLIDER_THUMB = new Region("SliderThumb", true);
 
     /**
-     * Spinner region. To bind a style to this <code>Region</code> use the name
+     * Spinner region. To bind b style to this <code>Region</code> use the nbme
      * <code>Spinner</code>.
      */
-    public static final Region SPINNER = new Region("Spinner", false);
+    public stbtic finbl Region SPINNER = new Region("Spinner", fblse);
 
     /**
-     * SplitPane region. To bind a style to this <code>Region</code> use the name
-     * <code>SplitPane</code>.
+     * SplitPbne region. To bind b style to this <code>Region</code> use the nbme
+     * <code>SplitPbne</code>.
      */
-    public static final Region SPLIT_PANE = new Region("SplitPane", false);
+    public stbtic finbl Region SPLIT_PANE = new Region("SplitPbne", fblse);
 
     /**
-     * Divider of the SplitPane. To bind a style to this <code>Region</code>
-     * use the name <code>SplitPaneDivider</code>.
+     * Divider of the SplitPbne. To bind b style to this <code>Region</code>
+     * use the nbme <code>SplitPbneDivider</code>.
      */
-    public static final Region SPLIT_PANE_DIVIDER = new Region("SplitPaneDivider", true);
+    public stbtic finbl Region SPLIT_PANE_DIVIDER = new Region("SplitPbneDivider", true);
 
     /**
-     * TabbedPane region. To bind a style to this <code>Region</code> use
-     * the name <code>TabbedPane</code>.
+     * TbbbedPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>TbbbedPbne</code>.
      */
-    public static final Region TABBED_PANE = new Region("TabbedPane", false);
+    public stbtic finbl Region TABBED_PANE = new Region("TbbbedPbne", fblse);
 
     /**
-     * Region of a TabbedPane for one tab. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneTab</code>.
+     * Region of b TbbbedPbne for one tbb. To bind b style to this
+     * <code>Region</code> use the nbme <code>TbbbedPbneTbb</code>.
      */
-    public static final Region TABBED_PANE_TAB = new Region("TabbedPaneTab", true);
+    public stbtic finbl Region TABBED_PANE_TAB = new Region("TbbbedPbneTbb", true);
 
     /**
-     * Region of a TabbedPane containing the tabs. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneTabArea</code>.
+     * Region of b TbbbedPbne contbining the tbbs. To bind b style to this
+     * <code>Region</code> use the nbme <code>TbbbedPbneTbbAreb</code>.
      */
-    public static final Region TABBED_PANE_TAB_AREA = new Region("TabbedPaneTabArea", true);
+    public stbtic finbl Region TABBED_PANE_TAB_AREA = new Region("TbbbedPbneTbbAreb", true);
 
     /**
-     * Region of a TabbedPane containing the content. To bind a style to this
-     * <code>Region</code> use the name <code>TabbedPaneContent</code>.
+     * Region of b TbbbedPbne contbining the content. To bind b style to this
+     * <code>Region</code> use the nbme <code>TbbbedPbneContent</code>.
      */
-    public static final Region TABBED_PANE_CONTENT = new Region("TabbedPaneContent", true);
+    public stbtic finbl Region TABBED_PANE_CONTENT = new Region("TbbbedPbneContent", true);
 
     /**
-     * Table region. To bind a style to this <code>Region</code> use
-     * the name <code>Table</code>.
+     * Tbble region. To bind b style to this <code>Region</code> use
+     * the nbme <code>Tbble</code>.
      */
-    public static final Region TABLE = new Region("Table", false);
+    public stbtic finbl Region TABLE = new Region("Tbble", fblse);
 
     /**
-     * TableHeader region. To bind a style to this <code>Region</code> use
-     * the name <code>TableHeader</code>.
+     * TbbleHebder region. To bind b style to this <code>Region</code> use
+     * the nbme <code>TbbleHebder</code>.
      */
-    public static final Region TABLE_HEADER = new Region("TableHeader", false);
+    public stbtic finbl Region TABLE_HEADER = new Region("TbbleHebder", fblse);
 
     /**
-     * TextArea region. To bind a style to this <code>Region</code> use
-     * the name <code>TextArea</code>.
+     * TextAreb region. To bind b style to this <code>Region</code> use
+     * the nbme <code>TextAreb</code>.
      */
-    public static final Region TEXT_AREA = new Region("TextArea", false);
+    public stbtic finbl Region TEXT_AREA = new Region("TextAreb", fblse);
 
     /**
-     * TextField region. To bind a style to this <code>Region</code> use
-     * the name <code>TextField</code>.
+     * TextField region. To bind b style to this <code>Region</code> use
+     * the nbme <code>TextField</code>.
      */
-    public static final Region TEXT_FIELD = new Region("TextField", false);
+    public stbtic finbl Region TEXT_FIELD = new Region("TextField", fblse);
 
     /**
-     * TextPane region. To bind a style to this <code>Region</code> use
-     * the name <code>TextPane</code>.
+     * TextPbne region. To bind b style to this <code>Region</code> use
+     * the nbme <code>TextPbne</code>.
      */
-    public static final Region TEXT_PANE = new Region("TextPane", false);
+    public stbtic finbl Region TEXT_PANE = new Region("TextPbne", fblse);
 
     /**
-     * ToggleButton region. To bind a style to this <code>Region</code> use
-     * the name <code>ToggleButton</code>.
+     * ToggleButton region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ToggleButton</code>.
      */
-    public static final Region TOGGLE_BUTTON = new Region("ToggleButton", false);
+    public stbtic finbl Region TOGGLE_BUTTON = new Region("ToggleButton", fblse);
 
     /**
-     * ToolBar region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolBar</code>.
+     * ToolBbr region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ToolBbr</code>.
      */
-    public static final Region TOOL_BAR = new Region("ToolBar", false);
+    public stbtic finbl Region TOOL_BAR = new Region("ToolBbr", fblse);
 
     /**
-     * Region of the ToolBar containing the content. To bind a style to this
-     * <code>Region</code> use the name <code>ToolBarContent</code>.
+     * Region of the ToolBbr contbining the content. To bind b style to this
+     * <code>Region</code> use the nbme <code>ToolBbrContent</code>.
      */
-    public static final Region TOOL_BAR_CONTENT = new Region("ToolBarContent", true);
+    public stbtic finbl Region TOOL_BAR_CONTENT = new Region("ToolBbrContent", true);
 
     /**
-     * Region for the Window containing the ToolBar. To bind a style to this
-     * <code>Region</code> use the name <code>ToolBarDragWindow</code>.
+     * Region for the Window contbining the ToolBbr. To bind b style to this
+     * <code>Region</code> use the nbme <code>ToolBbrDrbgWindow</code>.
      */
-    public static final Region TOOL_BAR_DRAG_WINDOW = new Region("ToolBarDragWindow", false);
+    public stbtic finbl Region TOOL_BAR_DRAG_WINDOW = new Region("ToolBbrDrbgWindow", fblse);
 
     /**
-     * ToolTip region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolTip</code>.
+     * ToolTip region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ToolTip</code>.
      */
-    public static final Region TOOL_TIP = new Region("ToolTip", false);
+    public stbtic finbl Region TOOL_TIP = new Region("ToolTip", fblse);
 
     /**
-     * ToolBar separator region. To bind a style to this <code>Region</code> use
-     * the name <code>ToolBarSeparator</code>.
+     * ToolBbr sepbrbtor region. To bind b style to this <code>Region</code> use
+     * the nbme <code>ToolBbrSepbrbtor</code>.
      */
-    public static final Region TOOL_BAR_SEPARATOR = new Region("ToolBarSeparator", false);
+    public stbtic finbl Region TOOL_BAR_SEPARATOR = new Region("ToolBbrSepbrbtor", fblse);
 
     /**
-     * Tree region. To bind a style to this <code>Region</code> use the name
+     * Tree region. To bind b style to this <code>Region</code> use the nbme
      * <code>Tree</code>.
      */
-    public static final Region TREE = new Region("Tree", false);
+    public stbtic finbl Region TREE = new Region("Tree", fblse);
 
     /**
-     * Region of the Tree for one cell. To bind a style to this
-     * <code>Region</code> use the name <code>TreeCell</code>.
+     * Region of the Tree for one cell. To bind b style to this
+     * <code>Region</code> use the nbme <code>TreeCell</code>.
      */
-    public static final Region TREE_CELL = new Region("TreeCell", true);
+    public stbtic finbl Region TREE_CELL = new Region("TreeCell", true);
 
     /**
-     * Viewport region. To bind a style to this <code>Region</code> use
-     * the name <code>Viewport</code>.
+     * Viewport region. To bind b style to this <code>Region</code> use
+     * the nbme <code>Viewport</code>.
      */
-    public static final Region VIEWPORT = new Region("Viewport", false);
+    public stbtic finbl Region VIEWPORT = new Region("Viewport", fblse);
 
-    private static Map<String, Region> getUItoRegionMap() {
+    privbte stbtic Mbp<String, Region> getUItoRegionMbp() {
         AppContext context = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        Map<String, Region> map = (Map<String, Region>) context.get(UI_TO_REGION_MAP_KEY);
-        if (map == null) {
-            map = new HashMap<String, Region>();
-            map.put("ArrowButtonUI", ARROW_BUTTON);
-            map.put("ButtonUI", BUTTON);
-            map.put("CheckBoxUI", CHECK_BOX);
-            map.put("CheckBoxMenuItemUI", CHECK_BOX_MENU_ITEM);
-            map.put("ColorChooserUI", COLOR_CHOOSER);
-            map.put("ComboBoxUI", COMBO_BOX);
-            map.put("DesktopPaneUI", DESKTOP_PANE);
-            map.put("DesktopIconUI", DESKTOP_ICON);
-            map.put("EditorPaneUI", EDITOR_PANE);
-            map.put("FileChooserUI", FILE_CHOOSER);
-            map.put("FormattedTextFieldUI", FORMATTED_TEXT_FIELD);
-            map.put("InternalFrameUI", INTERNAL_FRAME);
-            map.put("InternalFrameTitlePaneUI", INTERNAL_FRAME_TITLE_PANE);
-            map.put("LabelUI", LABEL);
-            map.put("ListUI", LIST);
-            map.put("MenuUI", MENU);
-            map.put("MenuBarUI", MENU_BAR);
-            map.put("MenuItemUI", MENU_ITEM);
-            map.put("OptionPaneUI", OPTION_PANE);
-            map.put("PanelUI", PANEL);
-            map.put("PasswordFieldUI", PASSWORD_FIELD);
-            map.put("PopupMenuUI", POPUP_MENU);
-            map.put("PopupMenuSeparatorUI", POPUP_MENU_SEPARATOR);
-            map.put("ProgressBarUI", PROGRESS_BAR);
-            map.put("RadioButtonUI", RADIO_BUTTON);
-            map.put("RadioButtonMenuItemUI", RADIO_BUTTON_MENU_ITEM);
-            map.put("RootPaneUI", ROOT_PANE);
-            map.put("ScrollBarUI", SCROLL_BAR);
-            map.put("ScrollPaneUI", SCROLL_PANE);
-            map.put("SeparatorUI", SEPARATOR);
-            map.put("SliderUI", SLIDER);
-            map.put("SpinnerUI", SPINNER);
-            map.put("SplitPaneUI", SPLIT_PANE);
-            map.put("TabbedPaneUI", TABBED_PANE);
-            map.put("TableUI", TABLE);
-            map.put("TableHeaderUI", TABLE_HEADER);
-            map.put("TextAreaUI", TEXT_AREA);
-            map.put("TextFieldUI", TEXT_FIELD);
-            map.put("TextPaneUI", TEXT_PANE);
-            map.put("ToggleButtonUI", TOGGLE_BUTTON);
-            map.put("ToolBarUI", TOOL_BAR);
-            map.put("ToolTipUI", TOOL_TIP);
-            map.put("ToolBarSeparatorUI", TOOL_BAR_SEPARATOR);
-            map.put("TreeUI", TREE);
-            map.put("ViewportUI", VIEWPORT);
-            context.put(UI_TO_REGION_MAP_KEY, map);
+        @SuppressWbrnings("unchecked")
+        Mbp<String, Region> mbp = (Mbp<String, Region>) context.get(UI_TO_REGION_MAP_KEY);
+        if (mbp == null) {
+            mbp = new HbshMbp<String, Region>();
+            mbp.put("ArrowButtonUI", ARROW_BUTTON);
+            mbp.put("ButtonUI", BUTTON);
+            mbp.put("CheckBoxUI", CHECK_BOX);
+            mbp.put("CheckBoxMenuItemUI", CHECK_BOX_MENU_ITEM);
+            mbp.put("ColorChooserUI", COLOR_CHOOSER);
+            mbp.put("ComboBoxUI", COMBO_BOX);
+            mbp.put("DesktopPbneUI", DESKTOP_PANE);
+            mbp.put("DesktopIconUI", DESKTOP_ICON);
+            mbp.put("EditorPbneUI", EDITOR_PANE);
+            mbp.put("FileChooserUI", FILE_CHOOSER);
+            mbp.put("FormbttedTextFieldUI", FORMATTED_TEXT_FIELD);
+            mbp.put("InternblFrbmeUI", INTERNAL_FRAME);
+            mbp.put("InternblFrbmeTitlePbneUI", INTERNAL_FRAME_TITLE_PANE);
+            mbp.put("LbbelUI", LABEL);
+            mbp.put("ListUI", LIST);
+            mbp.put("MenuUI", MENU);
+            mbp.put("MenuBbrUI", MENU_BAR);
+            mbp.put("MenuItemUI", MENU_ITEM);
+            mbp.put("OptionPbneUI", OPTION_PANE);
+            mbp.put("PbnelUI", PANEL);
+            mbp.put("PbsswordFieldUI", PASSWORD_FIELD);
+            mbp.put("PopupMenuUI", POPUP_MENU);
+            mbp.put("PopupMenuSepbrbtorUI", POPUP_MENU_SEPARATOR);
+            mbp.put("ProgressBbrUI", PROGRESS_BAR);
+            mbp.put("RbdioButtonUI", RADIO_BUTTON);
+            mbp.put("RbdioButtonMenuItemUI", RADIO_BUTTON_MENU_ITEM);
+            mbp.put("RootPbneUI", ROOT_PANE);
+            mbp.put("ScrollBbrUI", SCROLL_BAR);
+            mbp.put("ScrollPbneUI", SCROLL_PANE);
+            mbp.put("SepbrbtorUI", SEPARATOR);
+            mbp.put("SliderUI", SLIDER);
+            mbp.put("SpinnerUI", SPINNER);
+            mbp.put("SplitPbneUI", SPLIT_PANE);
+            mbp.put("TbbbedPbneUI", TABBED_PANE);
+            mbp.put("TbbleUI", TABLE);
+            mbp.put("TbbleHebderUI", TABLE_HEADER);
+            mbp.put("TextArebUI", TEXT_AREA);
+            mbp.put("TextFieldUI", TEXT_FIELD);
+            mbp.put("TextPbneUI", TEXT_PANE);
+            mbp.put("ToggleButtonUI", TOGGLE_BUTTON);
+            mbp.put("ToolBbrUI", TOOL_BAR);
+            mbp.put("ToolTipUI", TOOL_TIP);
+            mbp.put("ToolBbrSepbrbtorUI", TOOL_BAR_SEPARATOR);
+            mbp.put("TreeUI", TREE);
+            mbp.put("ViewportUI", VIEWPORT);
+            context.put(UI_TO_REGION_MAP_KEY, mbp);
         }
-        return map;
+        return mbp;
     }
 
-    private static Map<Region, String> getLowerCaseNameMap() {
+    privbte stbtic Mbp<Region, String> getLowerCbseNbmeMbp() {
         AppContext context = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        Map<Region, String> map = (Map<Region, String>) context.get(LOWER_CASE_NAME_MAP_KEY);
-        if (map == null) {
-            map = new HashMap<Region, String>();
-            context.put(LOWER_CASE_NAME_MAP_KEY, map);
+        @SuppressWbrnings("unchecked")
+        Mbp<Region, String> mbp = (Mbp<Region, String>) context.get(LOWER_CASE_NAME_MAP_KEY);
+        if (mbp == null) {
+            mbp = new HbshMbp<Region, String>();
+            context.put(LOWER_CASE_NAME_MAP_KEY, mbp);
         }
-        return map;
+        return mbp;
     }
 
-    static Region getRegion(JComponent c) {
-        return getUItoRegionMap().get(c.getUIClassID());
+    stbtic Region getRegion(JComponent c) {
+        return getUItoRegionMbp().get(c.getUIClbssID());
     }
 
-    static void registerUIs(UIDefaults table) {
-        for (Object key : getUItoRegionMap().keySet()) {
-            table.put(key, "javax.swing.plaf.synth.SynthLookAndFeel");
+    stbtic void registerUIs(UIDefbults tbble) {
+        for (Object key : getUItoRegionMbp().keySet()) {
+            tbble.put(key, "jbvbx.swing.plbf.synth.SynthLookAndFeel");
         }
     }
 
-    private final String name;
-    private final boolean subregion;
+    privbte finbl String nbme;
+    privbte finbl boolebn subregion;
 
-    private Region(String name, boolean subregion) {
-        if (name == null) {
-            throw new NullPointerException("You must specify a non-null name");
+    privbte Region(String nbme, boolebn subregion) {
+        if (nbme == null) {
+            throw new NullPointerException("You must specify b non-null nbme");
         }
-        this.name = name;
+        this.nbme = nbme;
         this.subregion = subregion;
     }
 
     /**
-     * Creates a Region with the specified name. This should only be
-     * used if you are creating your own <code>JComponent</code> subclass
-     * with a custom <code>ComponentUI</code> class.
+     * Crebtes b Region with the specified nbme. This should only be
+     * used if you bre crebting your own <code>JComponent</code> subclbss
+     * with b custom <code>ComponentUI</code> clbss.
      *
-     * @param name Name of the region
-     * @param ui String that will be returned from
-     *           <code>component.getUIClassID</code>. This will be null
-     *           if this is a subregion.
-     * @param subregion Whether or not this is a subregion.
+     * @pbrbm nbme Nbme of the region
+     * @pbrbm ui String thbt will be returned from
+     *           <code>component.getUIClbssID</code>. This will be null
+     *           if this is b subregion.
+     * @pbrbm subregion Whether or not this is b subregion.
      */
-    protected Region(String name, String ui, boolean subregion) {
-        this(name, subregion);
+    protected Region(String nbme, String ui, boolebn subregion) {
+        this(nbme, subregion);
         if (ui != null) {
-            getUItoRegionMap().put(ui, this);
+            getUItoRegionMbp().put(ui, this);
         }
     }
 
     /**
-     * Returns true if the Region is a subregion of a Component, otherwise
-     * false. For example, <code>Region.BUTTON</code> corresponds do a
-     * <code>Component</code> so that <code>Region.BUTTON.isSubregion()</code>
-     * returns false.
+     * Returns true if the Region is b subregion of b Component, otherwise
+     * fblse. For exbmple, <code>Region.BUTTON</code> corresponds do b
+     * <code>Component</code> so thbt <code>Region.BUTTON.isSubregion()</code>
+     * returns fblse.
      *
-     * @return true if the Region is a subregion of a Component.
+     * @return true if the Region is b subregion of b Component.
      */
-    public boolean isSubregion() {
+    public boolebn isSubregion() {
         return subregion;
     }
 
     /**
-     * Returns the name of the region.
+     * Returns the nbme of the region.
      *
-     * @return name of the Region.
+     * @return nbme of the Region.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the name, in lowercase.
+     * Returns the nbme, in lowercbse.
      *
-     * @return lower case representation of the name of the Region
+     * @return lower cbse representbtion of the nbme of the Region
      */
-    String getLowerCaseName() {
-        Map<Region, String> lowerCaseNameMap = getLowerCaseNameMap();
-        String lowerCaseName = lowerCaseNameMap.get(this);
-        if (lowerCaseName == null) {
-            lowerCaseName = name.toLowerCase(Locale.ENGLISH);
-            lowerCaseNameMap.put(this, lowerCaseName);
+    String getLowerCbseNbme() {
+        Mbp<Region, String> lowerCbseNbmeMbp = getLowerCbseNbmeMbp();
+        String lowerCbseNbme = lowerCbseNbmeMbp.get(this);
+        if (lowerCbseNbme == null) {
+            lowerCbseNbme = nbme.toLowerCbse(Locble.ENGLISH);
+            lowerCbseNbmeMbp.put(this, lowerCbseNbme);
         }
-        return lowerCaseName;
+        return lowerCbseNbme;
     }
 
     /**
-     * Returns the name of the Region.
+     * Returns the nbme of the Region.
      *
-     * @return name of the Region.
+     * @return nbme of the Region.
      */
     @Override
     public String toString() {
-        return name;
+        return nbme;
     }
 }

@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.ListPeer;
-import java.util.Arrays;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.ListPeer;
+import jbvb.util.Arrbys;
 
 /**
- * Lightweight implementation of {@link ListPeer}. Delegates most of the work to
- * the {@link JList}, which is placed inside {@link JScrollPane}.
+ * Lightweight implementbtion of {@link ListPeer}. Delegbtes most of the work to
+ * the {@link JList}, which is plbced inside {@link JScrollPbne}.
  */
-final class LWListPeer extends LWComponentPeer<List, LWListPeer.ScrollableJList>
+finbl clbss LWListPeer extends LWComponentPeer<List, LWListPeer.ScrollbbleJList>
         implements ListPeer {
 
     /**
-     * The default number of visible rows.
+     * The defbult number of visible rows.
      */
-    private static final int DEFAULT_VISIBLE_ROWS = 4; // From java.awt.List,
+    privbte stbtic finbl int DEFAULT_VISIBLE_ROWS = 4; // From jbvb.bwt.List,
 
     /**
-     * This text is used for cell bounds calculation.
+     * This text is used for cell bounds cblculbtion.
      */
-    private static final String TEXT = "0123456789abcde";
+    privbte stbtic finbl String TEXT = "0123456789bbcde";
 
-    LWListPeer(final List target, final PlatformComponent platformComponent) {
-        super(target, platformComponent);
-        if (!getTarget().isBackgroundSet()) {
-            getTarget().setBackground(SystemColor.text);
+    LWListPeer(finbl List tbrget, finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
+        if (!getTbrget().isBbckgroundSet()) {
+            getTbrget().setBbckground(SystemColor.text);
         }
     }
 
     @Override
-    ScrollableJList createDelegate() {
-        return new ScrollableJList();
+    ScrollbbleJList crebteDelegbte() {
+        return new ScrollbbleJList();
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        setMultipleMode(getTarget().isMultipleMode());
-        final int[] selectedIndices = getTarget().getSelectedIndexes();
-        synchronized (getDelegateLock()) {
-            getDelegate().setSkipStateChangedEvent(true);
-            getDelegate().getView().setSelectedIndices(selectedIndices);
-            getDelegate().setSkipStateChangedEvent(false);
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        setMultipleMode(getTbrget().isMultipleMode());
+        finbl int[] selectedIndices = getTbrget().getSelectedIndexes();
+        synchronized (getDelegbteLock()) {
+            getDelegbte().setSkipStbteChbngedEvent(true);
+            getDelegbte().getView().setSelectedIndices(selectedIndices);
+            getDelegbte().setSkipStbteChbngedEvent(fblse);
         }
     }
 
     @Override
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
     @Override
-    Component getDelegateFocusOwner() {
-        return getDelegate().getView();
+    Component getDelegbteFocusOwner() {
+        return getDelegbte().getView();
     }
 
     @Override
     public int[] getSelectedIndexes() {
-        synchronized (getDelegateLock()) {
-            return getDelegate().getView().getSelectedIndices();
+        synchronized (getDelegbteLock()) {
+            return getDelegbte().getView().getSelectedIndices();
         }
     }
 
     @Override
-    public void add(final String item, final int index) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getModel().add(index, item);
-            revalidate();
+    public void bdd(finbl String item, finbl int index) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getModel().bdd(index, item);
+            revblidbte();
         }
     }
 
     @Override
-    public void delItems(final int start, final int end) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getModel().removeRange(start, end);
-            revalidate();
+    public void delItems(finbl int stbrt, finbl int end) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getModel().removeRbnge(stbrt, end);
+            revblidbte();
         }
     }
 
     @Override
     public void removeAll() {
-        synchronized (getDelegateLock()) {
-            getDelegate().getModel().removeAllElements();
-            revalidate();
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getModel().removeAllElements();
+            revblidbte();
         }
     }
 
     @Override
-    public void select(final int index) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setSkipStateChangedEvent(true);
-            getDelegate().getView().setSelectedIndex(index);
-            getDelegate().setSkipStateChangedEvent(false);
+    public void select(finbl int index) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().setSkipStbteChbngedEvent(true);
+            getDelegbte().getView().setSelectedIndex(index);
+            getDelegbte().setSkipStbteChbngedEvent(fblse);
         }
     }
 
     @Override
-    public void deselect(final int index) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getView().getSelectionModel().
-                    removeSelectionInterval(index, index);
+    public void deselect(finbl int index) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getView().getSelectionModel().
+                    removeSelectionIntervbl(index, index);
         }
     }
 
     @Override
-    public void makeVisible(final int index) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getView().ensureIndexIsVisible(index);
+    public void mbkeVisible(finbl int index) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getView().ensureIndexIsVisible(index);
         }
     }
 
     @Override
-    public void setMultipleMode(final boolean m) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getView().setSelectionMode(m ?
+    public void setMultipleMode(finbl boolebn m) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getView().setSelectionMode(m ?
                     ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
                     : ListSelectionModel.SINGLE_SELECTION);
         }
@@ -158,126 +158,126 @@ final class LWListPeer extends LWComponentPeer<List, LWListPeer.ScrollableJList>
     }
 
     @Override
-    public Dimension getPreferredSize(final int rows) {
+    public Dimension getPreferredSize(finbl int rows) {
         return getMinimumSize(rows);
     }
 
     @Override
-    public Dimension getMinimumSize(final int rows) {
-        synchronized (getDelegateLock()) {
-            final Dimension size = getCellSize();
+    public Dimension getMinimumSize(finbl int rows) {
+        synchronized (getDelegbteLock()) {
+            finbl Dimension size = getCellSize();
             size.height *= rows;
-            // Always take vertical scrollbar into account.
-            final JScrollBar vbar = getDelegate().getVerticalScrollBar();
-            size.width += vbar != null ? vbar.getMinimumSize().width : 0;
-            // JScrollPane and JList insets
-            final Insets pi = getDelegate().getInsets();
-            final Insets vi = getDelegate().getView().getInsets();
+            // Alwbys tbke verticbl scrollbbr into bccount.
+            finbl JScrollBbr vbbr = getDelegbte().getVerticblScrollBbr();
+            size.width += vbbr != null ? vbbr.getMinimumSize().width : 0;
+            // JScrollPbne bnd JList insets
+            finbl Insets pi = getDelegbte().getInsets();
+            finbl Insets vi = getDelegbte().getView().getInsets();
             size.width += pi.left + pi.right + vi.left + vi.right;
             size.height += pi.top + pi.bottom + vi.top + vi.bottom;
             return size;
         }
     }
 
-    private Dimension getCellSize() {
-        final JList<String> jList = getDelegate().getView();
-        final ListCellRenderer<? super String> cr = jList.getCellRenderer();
-        final Component cell = cr.getListCellRendererComponent(jList, TEXT, 0,
-                                                               false, false);
+    privbte Dimension getCellSize() {
+        finbl JList<String> jList = getDelegbte().getView();
+        finbl ListCellRenderer<? super String> cr = jList.getCellRenderer();
+        finbl Component cell = cr.getListCellRendererComponent(jList, TEXT, 0,
+                                                               fblse, fblse);
         return cell.getPreferredSize();
     }
 
-    private void revalidate() {
-        synchronized (getDelegateLock()) {
-            getDelegate().getView().invalidate();
-            getDelegate().validate();
+    privbte void revblidbte() {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().getView().invblidbte();
+            getDelegbte().vblidbte();
         }
     }
 
-    @SuppressWarnings("serial")// Safe: outer class is non-serializable.
-    final class ScrollableJList extends JScrollPane implements ListSelectionListener {
+    @SuppressWbrnings("seribl")// Sbfe: outer clbss is non-seriblizbble.
+    finbl clbss ScrollbbleJList extends JScrollPbne implements ListSelectionListener {
 
-        private boolean skipStateChangedEvent;
+        privbte boolebn skipStbteChbngedEvent;
 
-        private final DefaultListModel<String> model =
-                new DefaultListModel<String>() {
+        privbte finbl DefbultListModel<String> model =
+                new DefbultListModel<String>() {
                     @Override
-                    public void add(final int index, final String element) {
+                    public void bdd(finbl int index, finbl String element) {
                         if (index == -1) {
-                            addElement(element);
+                            bddElement(element);
                         } else {
-                            super.add(index, element);
+                            super.bdd(index, element);
                         }
                     }
                 };
 
-        private int[] oldSelectedIndices = new int[0];
+        privbte int[] oldSelectedIndices = new int[0];
 
-        ScrollableJList() {
+        ScrollbbleJList() {
             getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-            final JList<String> list = new JListDelegate();
-            list.addListSelectionListener(this);
+            finbl JList<String> list = new JListDelegbte();
+            list.bddListSelectionListener(this);
 
             getViewport().setView(list);
 
-            // Pull the items from the target.
-            final String[] items = getTarget().getItems();
+            // Pull the items from the tbrget.
+            finbl String[] items = getTbrget().getItems();
             for (int i = 0; i < items.length; i++) {
-                model.add(i, items[i]);
+                model.bdd(i, items[i]);
             }
         }
 
-        public boolean isSkipStateChangedEvent() {
-            return skipStateChangedEvent;
+        public boolebn isSkipStbteChbngedEvent() {
+            return skipStbteChbngedEvent;
         }
 
-        public void setSkipStateChangedEvent(boolean skipStateChangedEvent) {
-            this.skipStateChangedEvent = skipStateChangedEvent;
+        public void setSkipStbteChbngedEvent(boolebn skipStbteChbngedEvent) {
+            this.skipStbteChbngedEvent = skipStbteChbngedEvent;
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public void valueChanged(final ListSelectionEvent e) {
-            if (!e.getValueIsAdjusting() && !isSkipStateChangedEvent()) {
-                final JList<?> source = (JList<?>) e.getSource();
+        @SuppressWbrnings("unchecked")
+        public void vblueChbnged(finbl ListSelectionEvent e) {
+            if (!e.getVblueIsAdjusting() && !isSkipStbteChbngedEvent()) {
+                finbl JList<?> source = (JList<?>) e.getSource();
                 for(int i = 0 ; i < source.getModel().getSize(); i++) {
 
-                    final boolean wasSelected = Arrays.binarySearch(oldSelectedIndices, i) >= 0;
-                    final boolean isSelected = source.isSelectedIndex(i);
+                    finbl boolebn wbsSelected = Arrbys.binbrySebrch(oldSelectedIndices, i) >= 0;
+                    finbl boolebn isSelected = source.isSelectedIndex(i);
 
-                    if (wasSelected == isSelected) {
+                    if (wbsSelected == isSelected) {
                         continue;
                     }
 
-                    final int state = !wasSelected && isSelected ? ItemEvent.SELECTED: ItemEvent.DESELECTED;
+                    finbl int stbte = !wbsSelected && isSelected ? ItemEvent.SELECTED: ItemEvent.DESELECTED;
 
-                    LWListPeer.this.postEvent(new ItemEvent(getTarget(), ItemEvent.ITEM_STATE_CHANGED,
-                            i, state));
+                    LWListPeer.this.postEvent(new ItemEvent(getTbrget(), ItemEvent.ITEM_STATE_CHANGED,
+                            i, stbte));
                 }
                 oldSelectedIndices = source.getSelectedIndices();
             }
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public JList<String> getView() {
             return (JList<String>) getViewport().getView();
         }
 
-        public DefaultListModel<String> getModel() {
+        public DefbultListModel<String> getModel() {
             return model;
         }
 
         @Override
-        public void setEnabled(final boolean enabled) {
-            getView().setEnabled(enabled);
-            super.setEnabled(enabled);
+        public void setEnbbled(finbl boolebn enbbled) {
+            getView().setEnbbled(enbbled);
+            super.setEnbbled(enbbled);
         }
 
         @Override
-        public void setOpaque(final boolean isOpaque) {
-            super.setOpaque(isOpaque);
+        public void setOpbque(finbl boolebn isOpbque) {
+            super.setOpbque(isOpbque);
             if (getView() != null) {
-                getView().setOpaque(isOpaque);
+                getView().setOpbque(isOpbque);
             }
         }
 
@@ -286,49 +286,49 @@ final class LWListPeer extends LWComponentPeer<List, LWListPeer.ScrollableJList>
             super.setFont(font);
             if (getView() != null) {
                 getView().setFont(font);
-                LWListPeer.this.revalidate();
+                LWListPeer.this.revblidbte();
             }
         }
 
-        private final class JListDelegate extends JList<String> {
+        privbte finbl clbss JListDelegbte extends JList<String> {
 
-            JListDelegate() {
+            JListDelegbte() {
                 super(model);
             }
 
             @Override
-            public boolean hasFocus() {
-                return getTarget().hasFocus();
+            public boolebn hbsFocus() {
+                return getTbrget().hbsFocus();
             }
 
             @Override
-            protected void processMouseEvent(final MouseEvent e) {
+            protected void processMouseEvent(finbl MouseEvent e) {
                 super.processMouseEvent(e);
                 if (e.getID() == MouseEvent.MOUSE_CLICKED && e.getClickCount() == 2) {
-                    final int index = locationToIndex(e.getPoint());
+                    finbl int index = locbtionToIndex(e.getPoint());
                     if (0 <= index && index < getModel().getSize()) {
-                        LWListPeer.this.postEvent(new ActionEvent(getTarget(), ActionEvent.ACTION_PERFORMED,
+                        LWListPeer.this.postEvent(new ActionEvent(getTbrget(), ActionEvent.ACTION_PERFORMED,
                             getModel().getElementAt(index), e.getWhen(), e.getModifiers()));
                     }
                 }
             }
 
             @Override
-            protected void processKeyEvent(final KeyEvent e) {
+            protected void processKeyEvent(finbl KeyEvent e) {
                 super.processKeyEvent(e);
                 if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    final String selectedValue = getSelectedValue();
-                    if(selectedValue != null){
-                        LWListPeer.this.postEvent(new ActionEvent(getTarget(), ActionEvent.ACTION_PERFORMED,
-                            selectedValue, e.getWhen(), e.getModifiers()));
+                    finbl String selectedVblue = getSelectedVblue();
+                    if(selectedVblue != null){
+                        LWListPeer.this.postEvent(new ActionEvent(getTbrget(), ActionEvent.ACTION_PERFORMED,
+                            selectedVblue, e.getWhen(), e.getModifiers()));
                     }
                 }
             }
 
             //Needed for Autoscroller.
             @Override
-            public Point getLocationOnScreen() {
-                return LWListPeer.this.getLocationOnScreen();
+            public Point getLocbtionOnScreen() {
+                return LWListPeer.this.getLocbtionOnScreen();
             }
         }
     }

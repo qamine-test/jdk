@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
 /**
- * The <code>DragSourceDropEvent</code> is delivered
- * from the <code>DragSourceContextPeer</code>,
- * via the <code>DragSourceContext</code>, to the <code>dragDropEnd</code>
- * method of <code>DragSourceListener</code>s registered with that
- * <code>DragSourceContext</code> and with its associated
- * <code>DragSource</code>.
- * It contains sufficient information for the
- * originator of the operation
- * to provide appropriate feedback to the end user
- * when the operation completes.
+ * The <code>DrbgSourceDropEvent</code> is delivered
+ * from the <code>DrbgSourceContextPeer</code>,
+ * vib the <code>DrbgSourceContext</code>, to the <code>drbgDropEnd</code>
+ * method of <code>DrbgSourceListener</code>s registered with thbt
+ * <code>DrbgSourceContext</code> bnd with its bssocibted
+ * <code>DrbgSource</code>.
+ * It contbins sufficient informbtion for the
+ * originbtor of the operbtion
+ * to provide bppropribte feedbbck to the end user
+ * when the operbtion completes.
  *
  * @since 1.2
  */
 
-public class DragSourceDropEvent extends DragSourceEvent {
+public clbss DrbgSourceDropEvent extends DrbgSourceEvent {
 
-    private static final long serialVersionUID = -5571321229470821891L;
+    privbte stbtic finbl long seriblVersionUID = -5571321229470821891L;
 
     /**
-     * Construct a <code>DragSourceDropEvent</code> for a drop,
+     * Construct b <code>DrbgSourceDropEvent</code> for b drop,
      * given the
-     * <code>DragSourceContext</code>, the drop action,
-     * and a <code>boolean</code> indicating if the drop was successful.
-     * The coordinates for this <code>DragSourceDropEvent</code>
-     * are not specified, so <code>getLocation</code> will return
+     * <code>DrbgSourceContext</code>, the drop bction,
+     * bnd b <code>boolebn</code> indicbting if the drop wbs successful.
+     * The coordinbtes for this <code>DrbgSourceDropEvent</code>
+     * bre not specified, so <code>getLocbtion</code> will return
      * <code>null</code> for this event.
      * <p>
-     * The argument <code>action</code> should be one of <code>DnDConstants</code>
-     * that represents a single action.
-     * This constructor does not throw any exception for invalid <code>action</code>.
+     * The brgument <code>bction</code> should be one of <code>DnDConstbnts</code>
+     * thbt represents b single bction.
+     * This constructor does not throw bny exception for invblid <code>bction</code>.
      *
-     * @param dsc the <code>DragSourceContext</code>
-     * associated with this <code>DragSourceDropEvent</code>
-     * @param action the drop action
-     * @param success a boolean indicating if the drop was successful
+     * @pbrbm dsc the <code>DrbgSourceContext</code>
+     * bssocibted with this <code>DrbgSourceDropEvent</code>
+     * @pbrbm bction the drop bction
+     * @pbrbm success b boolebn indicbting if the drop wbs successful
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>dsc</code> is <code>null</code>.
      *
-     * @see DragSourceEvent#getLocation
+     * @see DrbgSourceEvent#getLocbtion
      */
 
-    public DragSourceDropEvent(DragSourceContext dsc, int action, boolean success) {
+    public DrbgSourceDropEvent(DrbgSourceContext dsc, int bction, boolebn success) {
         super(dsc);
 
         dropSuccess = success;
-        dropAction  = action;
+        dropAction  = bction;
     }
 
     /**
-     * Construct a <code>DragSourceDropEvent</code> for a drop, given the
-     * <code>DragSourceContext</code>, the drop action, a <code>boolean</code>
-     * indicating if the drop was successful, and coordinates.
+     * Construct b <code>DrbgSourceDropEvent</code> for b drop, given the
+     * <code>DrbgSourceContext</code>, the drop bction, b <code>boolebn</code>
+     * indicbting if the drop wbs successful, bnd coordinbtes.
      * <p>
-     * The argument <code>action</code> should be one of <code>DnDConstants</code>
-     * that represents a single action.
-     * This constructor does not throw any exception for invalid <code>action</code>.
+     * The brgument <code>bction</code> should be one of <code>DnDConstbnts</code>
+     * thbt represents b single bction.
+     * This constructor does not throw bny exception for invblid <code>bction</code>.
      *
-     * @param dsc the <code>DragSourceContext</code>
-     * associated with this <code>DragSourceDropEvent</code>
-     * @param action the drop action
-     * @param success a boolean indicating if the drop was successful
-     * @param x   the horizontal coordinate for the cursor location
-     * @param y   the vertical coordinate for the cursor location
+     * @pbrbm dsc the <code>DrbgSourceContext</code>
+     * bssocibted with this <code>DrbgSourceDropEvent</code>
+     * @pbrbm bction the drop bction
+     * @pbrbm success b boolebn indicbting if the drop wbs successful
+     * @pbrbm x   the horizontbl coordinbte for the cursor locbtion
+     * @pbrbm y   the verticbl coordinbte for the cursor locbtion
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>dsc</code> is <code>null</code>.
      *
      * @since 1.4
      */
-    public DragSourceDropEvent(DragSourceContext dsc, int action,
-                               boolean success, int x, int y) {
+    public DrbgSourceDropEvent(DrbgSourceContext dsc, int bction,
+                               boolebn success, int x, int y) {
         super(dsc, x, y);
 
         dropSuccess = success;
-        dropAction  = action;
+        dropAction  = bction;
     }
 
     /**
-     * Construct a <code>DragSourceDropEvent</code>
-     * for a drag that does not result in a drop.
-     * The coordinates for this <code>DragSourceDropEvent</code>
-     * are not specified, so <code>getLocation</code> will return
+     * Construct b <code>DrbgSourceDropEvent</code>
+     * for b drbg thbt does not result in b drop.
+     * The coordinbtes for this <code>DrbgSourceDropEvent</code>
+     * bre not specified, so <code>getLocbtion</code> will return
      * <code>null</code> for this event.
      *
-     * @param dsc the <code>DragSourceContext</code>
+     * @pbrbm dsc the <code>DrbgSourceContext</code>
      *
-     * @throws IllegalArgumentException if <code>dsc</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>dsc</code> is <code>null</code>.
      *
-     * @see DragSourceEvent#getLocation
+     * @see DrbgSourceEvent#getLocbtion
      */
 
-    public DragSourceDropEvent(DragSourceContext dsc) {
+    public DrbgSourceDropEvent(DrbgSourceContext dsc) {
         super(dsc);
 
-        dropSuccess = false;
+        dropSuccess = fblse;
     }
 
     /**
-     * This method returns a <code>boolean</code> indicating
-     * if the drop was successful.
+     * This method returns b <code>boolebn</code> indicbting
+     * if the drop wbs successful.
      *
-     * @return <code>true</code> if the drop target accepted the drop and
-     *         successfully performed a drop action;
-     *         <code>false</code> if the drop target rejected the drop or
-     *         if the drop target accepted the drop, but failed to perform
-     *         a drop action.
+     * @return <code>true</code> if the drop tbrget bccepted the drop bnd
+     *         successfully performed b drop bction;
+     *         <code>fblse</code> if the drop tbrget rejected the drop or
+     *         if the drop tbrget bccepted the drop, but fbiled to perform
+     *         b drop bction.
      */
 
-    public boolean getDropSuccess() { return dropSuccess; }
+    public boolebn getDropSuccess() { return dropSuccess; }
 
     /**
-     * This method returns an <code>int</code> representing
-     * the action performed by the target on the subject of the drop.
+     * This method returns bn <code>int</code> representing
+     * the bction performed by the tbrget on the subject of the drop.
      *
-     * @return the action performed by the target on the subject of the drop
-     *         if the drop target accepted the drop and the target drop action
-     *         is supported by the drag source; otherwise,
-     *         <code>DnDConstants.ACTION_NONE</code>.
+     * @return the bction performed by the tbrget on the subject of the drop
+     *         if the drop tbrget bccepted the drop bnd the tbrget drop bction
+     *         is supported by the drbg source; otherwise,
+     *         <code>DnDConstbnts.ACTION_NONE</code>.
      */
 
     public int getDropAction() { return dropAction; }
@@ -152,16 +152,16 @@ public class DragSourceDropEvent extends DragSourceEvent {
      */
 
     /**
-     * <code>true</code> if the drop was successful.
+     * <code>true</code> if the drop wbs successful.
      *
-     * @serial
+     * @seribl
      */
-    private boolean dropSuccess;
+    privbte boolebn dropSuccess;
 
     /**
-     * The drop action.
+     * The drop bction.
      *
-     * @serial
+     * @seribl
      */
-    private int     dropAction   = DnDConstants.ACTION_NONE;
+    privbte int     dropAction   = DnDConstbnts.ACTION_NONE;
 }

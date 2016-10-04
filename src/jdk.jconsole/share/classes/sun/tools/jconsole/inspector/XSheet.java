@@ -1,737 +1,737 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.io.IOException;
 
-import javax.management.IntrospectionException;
-import javax.management.NotificationListener;
-import javax.management.MBeanInfo;
-import javax.management.InstanceNotFoundException;
-import javax.management.ReflectionException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
-import javax.swing.border.LineBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.swing.BorderFbctory;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JOptionPbne;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTextAreb;
+import jbvbx.swing.SwingWorker;
+import jbvbx.swing.border.LineBorder;
+import jbvbx.swing.tree.DefbultMutbbleTreeNode;
+import jbvbx.swing.tree.DefbultTreeModel;
 
 import sun.tools.jconsole.*;
 import sun.tools.jconsole.inspector.XNodeInfo.Type;
 
-@SuppressWarnings("serial")
-public class XSheet extends JPanel
-        implements ActionListener, NotificationListener {
+@SuppressWbrnings("seribl")
+public clbss XSheet extends JPbnel
+        implements ActionListener, NotificbtionListener {
 
-    private JPanel mainPanel;
-    private JPanel southPanel;
-    // Node being currently displayed
-    private volatile DefaultMutableTreeNode currentNode;
-    // MBean being currently displayed
-    private volatile XMBean mbean;
-    // XMBeanAttributes container
-    private XMBeanAttributes mbeanAttributes;
-    // XMBeanOperations container
-    private XMBeanOperations mbeanOperations;
-    // XMBeanNotifications container
-    private XMBeanNotifications mbeanNotifications;
-    // XMBeanInfo container
-    private XMBeanInfo mbeanInfo;
-    // Refresh JButton (mbean attributes case)
-    private JButton refreshButton;
-    // Subscribe/Unsubscribe/Clear JButton (mbean notifications case)
-    private JButton clearButton,  subscribeButton,  unsubscribeButton;
-    // Reference to MBeans tab
-    private MBeansTab mbeansTab;
+    privbte JPbnel mbinPbnel;
+    privbte JPbnel southPbnel;
+    // Node being currently displbyed
+    privbte volbtile DefbultMutbbleTreeNode currentNode;
+    // MBebn being currently displbyed
+    privbte volbtile XMBebn mbebn;
+    // XMBebnAttributes contbiner
+    privbte XMBebnAttributes mbebnAttributes;
+    // XMBebnOperbtions contbiner
+    privbte XMBebnOperbtions mbebnOperbtions;
+    // XMBebnNotificbtions contbiner
+    privbte XMBebnNotificbtions mbebnNotificbtions;
+    // XMBebnInfo contbiner
+    privbte XMBebnInfo mbebnInfo;
+    // Refresh JButton (mbebn bttributes cbse)
+    privbte JButton refreshButton;
+    // Subscribe/Unsubscribe/Clebr JButton (mbebn notificbtions cbse)
+    privbte JButton clebrButton,  subscribeButton,  unsubscribeButton;
+    // Reference to MBebns tbb
+    privbte MBebnsTbb mbebnsTbb;
 
-    public XSheet(MBeansTab mbeansTab) {
-        this.mbeansTab = mbeansTab;
+    public XSheet(MBebnsTbb mbebnsTbb) {
+        this.mbebnsTbb = mbebnsTbb;
         setupScreen();
     }
 
     public void dispose() {
-        clear();
-        XDataViewer.dispose(mbeansTab);
-        mbeanNotifications.dispose();
+        clebr();
+        XDbtbViewer.dispose(mbebnsTbb);
+        mbebnNotificbtions.dispose();
     }
 
-    private void setupScreen() {
-        setLayout(new BorderLayout());
-        setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        // add main panel to XSheet
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        add(mainPanel, BorderLayout.CENTER);
-        // add south panel to XSheet
-        southPanel = new JPanel();
-        add(southPanel, BorderLayout.SOUTH);
-        // create the refresh button
-        refreshButton = new JButton(Messages.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON);
-        refreshButton.setMnemonic(Resources.getMnemonicInt(Messages.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON));
-        refreshButton.setToolTipText(Messages.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON_TOOLTIP);
-        refreshButton.addActionListener(this);
-        // create the clear button
-        clearButton = new JButton(Messages.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON);
-        clearButton.setMnemonic(Resources.getMnemonicInt(Messages.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON));
-        clearButton.setToolTipText(Messages.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON_TOOLTIP);
-        clearButton.addActionListener(this);
-        // create the subscribe button
-        subscribeButton = new JButton(Messages.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON);
-        subscribeButton.setMnemonic(Resources.getMnemonicInt(Messages.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON));
-        subscribeButton.setToolTipText(Messages.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON_TOOLTIP);
-        subscribeButton.addActionListener(this);
-        // create the unsubscribe button
-        unsubscribeButton = new JButton(Messages.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON);
-        unsubscribeButton.setMnemonic(Resources.getMnemonicInt(Messages.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON));
-        unsubscribeButton.setToolTipText(Messages.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON_TOOLTIP);
-        unsubscribeButton.addActionListener(this);
-        // create XMBeanAttributes container
-        mbeanAttributes = new XMBeanAttributes(mbeansTab);
-        // create XMBeanOperations container
-        mbeanOperations = new XMBeanOperations(mbeansTab);
-        mbeanOperations.addOperationsListener(this);
-        // create XMBeanNotifications container
-        mbeanNotifications = new XMBeanNotifications();
-        mbeanNotifications.addNotificationsListener(this);
-        // create XMBeanInfo container
-        mbeanInfo = new XMBeanInfo();
+    privbte void setupScreen() {
+        setLbyout(new BorderLbyout());
+        setBorder(BorderFbctory.crebteLineBorder(Color.GRAY));
+        // bdd mbin pbnel to XSheet
+        mbinPbnel = new JPbnel();
+        mbinPbnel.setLbyout(new BorderLbyout());
+        bdd(mbinPbnel, BorderLbyout.CENTER);
+        // bdd south pbnel to XSheet
+        southPbnel = new JPbnel();
+        bdd(southPbnel, BorderLbyout.SOUTH);
+        // crebte the refresh button
+        refreshButton = new JButton(Messbges.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON);
+        refreshButton.setMnemonic(Resources.getMnemonicInt(Messbges.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON));
+        refreshButton.setToolTipText(Messbges.MBEANS_TAB_REFRESH_ATTRIBUTES_BUTTON_TOOLTIP);
+        refreshButton.bddActionListener(this);
+        // crebte the clebr button
+        clebrButton = new JButton(Messbges.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON);
+        clebrButton.setMnemonic(Resources.getMnemonicInt(Messbges.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON));
+        clebrButton.setToolTipText(Messbges.MBEANS_TAB_CLEAR_NOTIFICATIONS_BUTTON_TOOLTIP);
+        clebrButton.bddActionListener(this);
+        // crebte the subscribe button
+        subscribeButton = new JButton(Messbges.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON);
+        subscribeButton.setMnemonic(Resources.getMnemonicInt(Messbges.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON));
+        subscribeButton.setToolTipText(Messbges.MBEANS_TAB_SUBSCRIBE_NOTIFICATIONS_BUTTON_TOOLTIP);
+        subscribeButton.bddActionListener(this);
+        // crebte the unsubscribe button
+        unsubscribeButton = new JButton(Messbges.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON);
+        unsubscribeButton.setMnemonic(Resources.getMnemonicInt(Messbges.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON));
+        unsubscribeButton.setToolTipText(Messbges.MBEANS_TAB_UNSUBSCRIBE_NOTIFICATIONS_BUTTON_TOOLTIP);
+        unsubscribeButton.bddActionListener(this);
+        // crebte XMBebnAttributes contbiner
+        mbebnAttributes = new XMBebnAttributes(mbebnsTbb);
+        // crebte XMBebnOperbtions contbiner
+        mbebnOperbtions = new XMBebnOperbtions(mbebnsTbb);
+        mbebnOperbtions.bddOperbtionsListener(this);
+        // crebte XMBebnNotificbtions contbiner
+        mbebnNotificbtions = new XMBebnNotificbtions();
+        mbebnNotificbtions.bddNotificbtionsListener(this);
+        // crebte XMBebnInfo contbiner
+        mbebnInfo = new XMBebnInfo();
     }
 
-    private boolean isSelectedNode(DefaultMutableTreeNode n, DefaultMutableTreeNode cn) {
+    privbte boolebn isSelectedNode(DefbultMutbbleTreeNode n, DefbultMutbbleTreeNode cn) {
         return (cn == n);
     }
 
-    // Call on EDT
-    private void showErrorDialog(Object message, String title) {
-        new ThreadDialog(this, message, title, JOptionPane.ERROR_MESSAGE).run();
+    // Cbll on EDT
+    privbte void showErrorDiblog(Object messbge, String title) {
+        new ThrebdDiblog(this, messbge, title, JOptionPbne.ERROR_MESSAGE).run();
     }
 
-    public boolean isMBeanNode(DefaultMutableTreeNode node) {
+    public boolebn isMBebnNode(DefbultMutbbleTreeNode node) {
         Object userObject = node.getUserObject();
-        if (userObject instanceof XNodeInfo) {
+        if (userObject instbnceof XNodeInfo) {
             XNodeInfo uo = (XNodeInfo) userObject;
-            return uo.getType().equals(Type.MBEAN);
+            return uo.getType().equbls(Type.MBEAN);
         }
-        return false;
+        return fblse;
     }
 
-    // Call on EDT
-    public synchronized void displayNode(DefaultMutableTreeNode node) {
-        clear();
-        displayEmptyNode();
+    // Cbll on EDT
+    public synchronized void displbyNode(DefbultMutbbleTreeNode node) {
+        clebr();
+        displbyEmptyNode();
         if (node == null) {
             return;
         }
         currentNode = node;
         Object userObject = node.getUserObject();
-        if (userObject instanceof XNodeInfo) {
+        if (userObject instbnceof XNodeInfo) {
             XNodeInfo uo = (XNodeInfo) userObject;
             switch (uo.getType()) {
-                case MBEAN:
-                    displayMBeanNode(node);
-                    break;
-                case NONMBEAN:
-                    displayEmptyNode();
-                    break;
-                case ATTRIBUTES:
-                    displayMBeanAttributesNode(node);
-                    break;
-                case OPERATIONS:
-                    displayMBeanOperationsNode(node);
-                    break;
-                case NOTIFICATIONS:
-                    displayMBeanNotificationsNode(node);
-                    break;
-                case ATTRIBUTE:
-                case OPERATION:
-                case NOTIFICATION:
-                    displayMetadataNode(node);
-                    break;
-                default:
-                    displayEmptyNode();
-                    break;
+                cbse MBEAN:
+                    displbyMBebnNode(node);
+                    brebk;
+                cbse NONMBEAN:
+                    displbyEmptyNode();
+                    brebk;
+                cbse ATTRIBUTES:
+                    displbyMBebnAttributesNode(node);
+                    brebk;
+                cbse OPERATIONS:
+                    displbyMBebnOperbtionsNode(node);
+                    brebk;
+                cbse NOTIFICATIONS:
+                    displbyMBebnNotificbtionsNode(node);
+                    brebk;
+                cbse ATTRIBUTE:
+                cbse OPERATION:
+                cbse NOTIFICATION:
+                    displbyMetbdbtbNode(node);
+                    brebk;
+                defbult:
+                    displbyEmptyNode();
+                    brebk;
             }
         } else {
-            displayEmptyNode();
+            displbyEmptyNode();
         }
     }
 
-    // Call on EDT
-    private void displayMBeanNode(final DefaultMutableTreeNode node) {
-        final XNodeInfo uo = (XNodeInfo) node.getUserObject();
-        if (!uo.getType().equals(Type.MBEAN)) {
+    // Cbll on EDT
+    privbte void displbyMBebnNode(finbl DefbultMutbbleTreeNode node) {
+        finbl XNodeInfo uo = (XNodeInfo) node.getUserObject();
+        if (!uo.getType().equbls(Type.MBEAN)) {
             return;
         }
-        mbean = (XMBean) uo.getData();
-        SwingWorker<MBeanInfo, Void> sw = new SwingWorker<MBeanInfo, Void>() {
+        mbebn = (XMBebn) uo.getDbtb();
+        SwingWorker<MBebnInfo, Void> sw = new SwingWorker<MBebnInfo, Void>() {
             @Override
-            public MBeanInfo doInBackground() throws InstanceNotFoundException,
+            public MBebnInfo doInBbckground() throws InstbnceNotFoundException,
                     IntrospectionException, ReflectionException, IOException {
-                return mbean.getMBeanInfo();
+                return mbebn.getMBebnInfo();
             }
             @Override
             protected void done() {
                 try {
-                    MBeanInfo mbi = get();
+                    MBebnInfo mbi = get();
                     if (mbi != null) {
                         if (!isSelectedNode(node, currentNode)) {
                             return;
                         }
-                        mbeanInfo.addMBeanInfo(mbean, mbi);
-                        invalidate();
-                        mainPanel.removeAll();
-                        mainPanel.add(mbeanInfo, BorderLayout.CENTER);
-                        southPanel.setVisible(false);
-                        southPanel.removeAll();
-                        validate();
-                        repaint();
+                        mbebnInfo.bddMBebnInfo(mbebn, mbi);
+                        invblidbte();
+                        mbinPbnel.removeAll();
+                        mbinPbnel.bdd(mbebnInfo, BorderLbyout.CENTER);
+                        southPbnel.setVisible(fblse);
+                        southPbnel.removeAll();
+                        vblidbte();
+                        repbint();
                     }
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
-                        System.err.println("Couldn't get MBeanInfo for MBean [" +
-                                mbean.getObjectName() + "]");
-                        t.printStackTrace();
+                        System.err.println("Couldn't get MBebnInfo for MBebn [" +
+                                mbebn.getObjectNbme() + "]");
+                        t.printStbckTrbce();
                     }
-                    showErrorDialog(t.toString(),
-                            Messages.PROBLEM_DISPLAYING_MBEAN);
+                    showErrorDiblog(t.toString(),
+                            Messbges.PROBLEM_DISPLAYING_MBEAN);
                 }
             }
         };
         sw.execute();
     }
 
-    // Call on EDT
-    private void displayMetadataNode(final DefaultMutableTreeNode node) {
-        final XNodeInfo uo = (XNodeInfo) node.getUserObject();
-        final XMBeanInfo mbi = mbeanInfo;
+    // Cbll on EDT
+    privbte void displbyMetbdbtbNode(finbl DefbultMutbbleTreeNode node) {
+        finbl XNodeInfo uo = (XNodeInfo) node.getUserObject();
+        finbl XMBebnInfo mbi = mbebnInfo;
         switch (uo.getType()) {
-            case ATTRIBUTE:
-                SwingWorker<MBeanAttributeInfo, Void> sw =
-                        new SwingWorker<MBeanAttributeInfo, Void>() {
+            cbse ATTRIBUTE:
+                SwingWorker<MBebnAttributeInfo, Void> sw =
+                        new SwingWorker<MBebnAttributeInfo, Void>() {
                             @Override
-                            public MBeanAttributeInfo doInBackground() {
-                                Object attrData = uo.getData();
-                                mbean = (XMBean) ((Object[]) attrData)[0];
-                                MBeanAttributeInfo mbai =
-                                        (MBeanAttributeInfo) ((Object[]) attrData)[1];
-                                mbeanAttributes.loadAttributes(mbean, new MBeanInfo(
-                                        null, null, new MBeanAttributeInfo[]{mbai},
+                            public MBebnAttributeInfo doInBbckground() {
+                                Object bttrDbtb = uo.getDbtb();
+                                mbebn = (XMBebn) ((Object[]) bttrDbtb)[0];
+                                MBebnAttributeInfo mbbi =
+                                        (MBebnAttributeInfo) ((Object[]) bttrDbtb)[1];
+                                mbebnAttributes.lobdAttributes(mbebn, new MBebnInfo(
+                                        null, null, new MBebnAttributeInfo[]{mbbi},
                                         null, null, null));
-                                return mbai;
+                                return mbbi;
                             }
                             @Override
                             protected void done() {
                                 try {
-                                    MBeanAttributeInfo mbai = get();
+                                    MBebnAttributeInfo mbbi = get();
                                     if (!isSelectedNode(node, currentNode)) {
                                         return;
                                     }
-                                    invalidate();
-                                    mainPanel.removeAll();
-                                    JPanel attributePanel =
-                                            new JPanel(new BorderLayout());
-                                    JPanel attributeBorderPanel =
-                                            new JPanel(new BorderLayout());
-                                    attributeBorderPanel.setBorder(
-                                            BorderFactory.createTitledBorder(
-                                            Messages.ATTRIBUTE_VALUE));
-                                    JPanel attributeValuePanel =
-                                            new JPanel(new BorderLayout());
-                                    attributeValuePanel.setBorder(
-                                            LineBorder.createGrayLineBorder());
-                                    attributeValuePanel.add(mbeanAttributes.getTableHeader(),
-                                            BorderLayout.PAGE_START);
-                                    attributeValuePanel.add(mbeanAttributes,
-                                            BorderLayout.CENTER);
-                                    attributeBorderPanel.add(attributeValuePanel,
-                                            BorderLayout.CENTER);
-                                    JPanel refreshButtonPanel = new JPanel();
-                                    refreshButtonPanel.add(refreshButton);
-                                    attributeBorderPanel.add(refreshButtonPanel,
-                                            BorderLayout.SOUTH);
-                                    refreshButton.setEnabled(true);
-                                    attributePanel.add(attributeBorderPanel,
-                                            BorderLayout.NORTH);
-                                    mbi.addMBeanAttributeInfo(mbai);
-                                    attributePanel.add(mbi, BorderLayout.CENTER);
-                                    mainPanel.add(attributePanel,
-                                            BorderLayout.CENTER);
-                                    southPanel.setVisible(false);
-                                    southPanel.removeAll();
-                                    validate();
-                                    repaint();
-                                } catch (Exception e) {
-                                    Throwable t = Utils.getActualException(e);
+                                    invblidbte();
+                                    mbinPbnel.removeAll();
+                                    JPbnel bttributePbnel =
+                                            new JPbnel(new BorderLbyout());
+                                    JPbnel bttributeBorderPbnel =
+                                            new JPbnel(new BorderLbyout());
+                                    bttributeBorderPbnel.setBorder(
+                                            BorderFbctory.crebteTitledBorder(
+                                            Messbges.ATTRIBUTE_VALUE));
+                                    JPbnel bttributeVbluePbnel =
+                                            new JPbnel(new BorderLbyout());
+                                    bttributeVbluePbnel.setBorder(
+                                            LineBorder.crebteGrbyLineBorder());
+                                    bttributeVbluePbnel.bdd(mbebnAttributes.getTbbleHebder(),
+                                            BorderLbyout.PAGE_START);
+                                    bttributeVbluePbnel.bdd(mbebnAttributes,
+                                            BorderLbyout.CENTER);
+                                    bttributeBorderPbnel.bdd(bttributeVbluePbnel,
+                                            BorderLbyout.CENTER);
+                                    JPbnel refreshButtonPbnel = new JPbnel();
+                                    refreshButtonPbnel.bdd(refreshButton);
+                                    bttributeBorderPbnel.bdd(refreshButtonPbnel,
+                                            BorderLbyout.SOUTH);
+                                    refreshButton.setEnbbled(true);
+                                    bttributePbnel.bdd(bttributeBorderPbnel,
+                                            BorderLbyout.NORTH);
+                                    mbi.bddMBebnAttributeInfo(mbbi);
+                                    bttributePbnel.bdd(mbi, BorderLbyout.CENTER);
+                                    mbinPbnel.bdd(bttributePbnel,
+                                            BorderLbyout.CENTER);
+                                    southPbnel.setVisible(fblse);
+                                    southPbnel.removeAll();
+                                    vblidbte();
+                                    repbint();
+                                } cbtch (Exception e) {
+                                    Throwbble t = Utils.getActublException(e);
                                     if (JConsole.isDebug()) {
-                                        System.err.println("Problem displaying MBean " +
-                                                "attribute for MBean [" +
-                                                mbean.getObjectName() + "]");
-                                        t.printStackTrace();
+                                        System.err.println("Problem displbying MBebn " +
+                                                "bttribute for MBebn [" +
+                                                mbebn.getObjectNbme() + "]");
+                                        t.printStbckTrbce();
                                     }
-                                    showErrorDialog(t.toString(),
-                                            Messages.PROBLEM_DISPLAYING_MBEAN);
+                                    showErrorDiblog(t.toString(),
+                                            Messbges.PROBLEM_DISPLAYING_MBEAN);
                                 }
                             }
                         };
                 sw.execute();
-                break;
-            case OPERATION:
-                Object operData = uo.getData();
-                mbean = (XMBean) ((Object[]) operData)[0];
-                MBeanOperationInfo mboi =
-                        (MBeanOperationInfo) ((Object[]) operData)[1];
-                mbeanOperations.loadOperations(mbean,
-                        new MBeanInfo(null, null, null, null,
-                        new MBeanOperationInfo[]{mboi}, null));
-                invalidate();
-                mainPanel.removeAll();
-                JPanel operationPanel = new JPanel(new BorderLayout());
-                JPanel operationBorderPanel = new JPanel(new BorderLayout());
-                operationBorderPanel.setBorder(BorderFactory.createTitledBorder(
-                        Messages.OPERATION_INVOCATION));
-                operationBorderPanel.add(new JScrollPane(mbeanOperations));
-                operationPanel.add(operationBorderPanel, BorderLayout.NORTH);
-                mbi.addMBeanOperationInfo(mboi);
-                operationPanel.add(mbi, BorderLayout.CENTER);
-                mainPanel.add(operationPanel, BorderLayout.CENTER);
-                southPanel.setVisible(false);
-                southPanel.removeAll();
-                validate();
-                repaint();
-                break;
-            case NOTIFICATION:
-                Object notifData = uo.getData();
-                invalidate();
-                mainPanel.removeAll();
-                mbi.addMBeanNotificationInfo((MBeanNotificationInfo) notifData);
-                mainPanel.add(mbi, BorderLayout.CENTER);
-                southPanel.setVisible(false);
-                southPanel.removeAll();
-                validate();
-                repaint();
-                break;
+                brebk;
+            cbse OPERATION:
+                Object operDbtb = uo.getDbtb();
+                mbebn = (XMBebn) ((Object[]) operDbtb)[0];
+                MBebnOperbtionInfo mboi =
+                        (MBebnOperbtionInfo) ((Object[]) operDbtb)[1];
+                mbebnOperbtions.lobdOperbtions(mbebn,
+                        new MBebnInfo(null, null, null, null,
+                        new MBebnOperbtionInfo[]{mboi}, null));
+                invblidbte();
+                mbinPbnel.removeAll();
+                JPbnel operbtionPbnel = new JPbnel(new BorderLbyout());
+                JPbnel operbtionBorderPbnel = new JPbnel(new BorderLbyout());
+                operbtionBorderPbnel.setBorder(BorderFbctory.crebteTitledBorder(
+                        Messbges.OPERATION_INVOCATION));
+                operbtionBorderPbnel.bdd(new JScrollPbne(mbebnOperbtions));
+                operbtionPbnel.bdd(operbtionBorderPbnel, BorderLbyout.NORTH);
+                mbi.bddMBebnOperbtionInfo(mboi);
+                operbtionPbnel.bdd(mbi, BorderLbyout.CENTER);
+                mbinPbnel.bdd(operbtionPbnel, BorderLbyout.CENTER);
+                southPbnel.setVisible(fblse);
+                southPbnel.removeAll();
+                vblidbte();
+                repbint();
+                brebk;
+            cbse NOTIFICATION:
+                Object notifDbtb = uo.getDbtb();
+                invblidbte();
+                mbinPbnel.removeAll();
+                mbi.bddMBebnNotificbtionInfo((MBebnNotificbtionInfo) notifDbtb);
+                mbinPbnel.bdd(mbi, BorderLbyout.CENTER);
+                southPbnel.setVisible(fblse);
+                southPbnel.removeAll();
+                vblidbte();
+                repbint();
+                brebk;
         }
     }
 
-    // Call on EDT
-    private void displayMBeanAttributesNode(final DefaultMutableTreeNode node) {
-        final XNodeInfo uo = (XNodeInfo) node.getUserObject();
-        if (!uo.getType().equals(Type.ATTRIBUTES)) {
+    // Cbll on EDT
+    privbte void displbyMBebnAttributesNode(finbl DefbultMutbbleTreeNode node) {
+        finbl XNodeInfo uo = (XNodeInfo) node.getUserObject();
+        if (!uo.getType().equbls(Type.ATTRIBUTES)) {
             return;
         }
-        mbean = (XMBean) uo.getData();
-        final XMBean xmb = mbean;
-        SwingWorker<MBeanInfo,Void> sw = new SwingWorker<MBeanInfo,Void>() {
+        mbebn = (XMBebn) uo.getDbtb();
+        finbl XMBebn xmb = mbebn;
+        SwingWorker<MBebnInfo,Void> sw = new SwingWorker<MBebnInfo,Void>() {
             @Override
-            public MBeanInfo doInBackground() throws InstanceNotFoundException,
+            public MBebnInfo doInBbckground() throws InstbnceNotFoundException,
                     IntrospectionException, ReflectionException, IOException {
-                MBeanInfo mbi = xmb.getMBeanInfo();
+                MBebnInfo mbi = xmb.getMBebnInfo();
                 return mbi;
             }
             @Override
             protected void done() {
                 try {
-                    MBeanInfo mbi = get();
+                    MBebnInfo mbi = get();
                     if (mbi != null && mbi.getAttributes() != null &&
                             mbi.getAttributes().length > 0) {
 
-                        mbeanAttributes.loadAttributes(xmb, mbi);
+                        mbebnAttributes.lobdAttributes(xmb, mbi);
 
                         if (!isSelectedNode(node, currentNode)) {
                             return;
                         }
-                        invalidate();
-                        mainPanel.removeAll();
-                        JPanel borderPanel = new JPanel(new BorderLayout());
-                        borderPanel.setBorder(BorderFactory.createTitledBorder(
-                                Messages.ATTRIBUTE_VALUES));
-                        borderPanel.add(new JScrollPane(mbeanAttributes));
-                        mainPanel.add(borderPanel, BorderLayout.CENTER);
-                        // add the refresh button to the south panel
-                        southPanel.removeAll();
-                        southPanel.add(refreshButton, BorderLayout.SOUTH);
-                        southPanel.setVisible(true);
-                        refreshButton.setEnabled(true);
-                        validate();
-                        repaint();
+                        invblidbte();
+                        mbinPbnel.removeAll();
+                        JPbnel borderPbnel = new JPbnel(new BorderLbyout());
+                        borderPbnel.setBorder(BorderFbctory.crebteTitledBorder(
+                                Messbges.ATTRIBUTE_VALUES));
+                        borderPbnel.bdd(new JScrollPbne(mbebnAttributes));
+                        mbinPbnel.bdd(borderPbnel, BorderLbyout.CENTER);
+                        // bdd the refresh button to the south pbnel
+                        southPbnel.removeAll();
+                        southPbnel.bdd(refreshButton, BorderLbyout.SOUTH);
+                        southPbnel.setVisible(true);
+                        refreshButton.setEnbbled(true);
+                        vblidbte();
+                        repbint();
                     }
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
-                        System.err.println("Problem displaying MBean " +
-                                "attributes for MBean [" +
-                                mbean.getObjectName() + "]");
-                        t.printStackTrace();
+                        System.err.println("Problem displbying MBebn " +
+                                "bttributes for MBebn [" +
+                                mbebn.getObjectNbme() + "]");
+                        t.printStbckTrbce();
                     }
-                    showErrorDialog(t.toString(),
-                            Messages.PROBLEM_DISPLAYING_MBEAN);
+                    showErrorDiblog(t.toString(),
+                            Messbges.PROBLEM_DISPLAYING_MBEAN);
                 }
             }
         };
         sw.execute();
     }
 
-    // Call on EDT
-    private void displayMBeanOperationsNode(final DefaultMutableTreeNode node) {
-        final XNodeInfo uo = (XNodeInfo) node.getUserObject();
-        if (!uo.getType().equals(Type.OPERATIONS)) {
+    // Cbll on EDT
+    privbte void displbyMBebnOperbtionsNode(finbl DefbultMutbbleTreeNode node) {
+        finbl XNodeInfo uo = (XNodeInfo) node.getUserObject();
+        if (!uo.getType().equbls(Type.OPERATIONS)) {
             return;
         }
-        mbean = (XMBean) uo.getData();
-        SwingWorker<MBeanInfo, Void> sw = new SwingWorker<MBeanInfo, Void>() {
+        mbebn = (XMBebn) uo.getDbtb();
+        SwingWorker<MBebnInfo, Void> sw = new SwingWorker<MBebnInfo, Void>() {
             @Override
-            public MBeanInfo doInBackground() throws InstanceNotFoundException,
+            public MBebnInfo doInBbckground() throws InstbnceNotFoundException,
                     IntrospectionException, ReflectionException, IOException {
-                return mbean.getMBeanInfo();
+                return mbebn.getMBebnInfo();
             }
             @Override
             protected void done() {
                 try {
-                    MBeanInfo mbi = get();
+                    MBebnInfo mbi = get();
                     if (mbi != null) {
                         if (!isSelectedNode(node, currentNode)) {
                             return;
                         }
-                        mbeanOperations.loadOperations(mbean, mbi);
-                        invalidate();
-                        mainPanel.removeAll();
-                        JPanel borderPanel = new JPanel(new BorderLayout());
-                        borderPanel.setBorder(BorderFactory.createTitledBorder(
-                                Messages.OPERATION_INVOCATION));
-                        borderPanel.add(new JScrollPane(mbeanOperations));
-                        mainPanel.add(borderPanel, BorderLayout.CENTER);
-                        southPanel.setVisible(false);
-                        southPanel.removeAll();
-                        validate();
-                        repaint();
+                        mbebnOperbtions.lobdOperbtions(mbebn, mbi);
+                        invblidbte();
+                        mbinPbnel.removeAll();
+                        JPbnel borderPbnel = new JPbnel(new BorderLbyout());
+                        borderPbnel.setBorder(BorderFbctory.crebteTitledBorder(
+                                Messbges.OPERATION_INVOCATION));
+                        borderPbnel.bdd(new JScrollPbne(mbebnOperbtions));
+                        mbinPbnel.bdd(borderPbnel, BorderLbyout.CENTER);
+                        southPbnel.setVisible(fblse);
+                        southPbnel.removeAll();
+                        vblidbte();
+                        repbint();
                     }
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
-                        System.err.println("Problem displaying MBean " +
-                                "operations for MBean [" +
-                                mbean.getObjectName() + "]");
-                        t.printStackTrace();
+                        System.err.println("Problem displbying MBebn " +
+                                "operbtions for MBebn [" +
+                                mbebn.getObjectNbme() + "]");
+                        t.printStbckTrbce();
                     }
-                    showErrorDialog(t.toString(),
-                            Messages.PROBLEM_DISPLAYING_MBEAN);
+                    showErrorDiblog(t.toString(),
+                            Messbges.PROBLEM_DISPLAYING_MBEAN);
                 }
             }
         };
         sw.execute();
     }
 
-    // Call on EDT
-    private void displayMBeanNotificationsNode(DefaultMutableTreeNode node) {
-        final XNodeInfo uo = (XNodeInfo) node.getUserObject();
-        if (!uo.getType().equals(Type.NOTIFICATIONS)) {
+    // Cbll on EDT
+    privbte void displbyMBebnNotificbtionsNode(DefbultMutbbleTreeNode node) {
+        finbl XNodeInfo uo = (XNodeInfo) node.getUserObject();
+        if (!uo.getType().equbls(Type.NOTIFICATIONS)) {
             return;
         }
-        mbean = (XMBean) uo.getData();
-        mbeanNotifications.loadNotifications(mbean);
-        updateNotifications();
-        invalidate();
-        mainPanel.removeAll();
-        JPanel borderPanel = new JPanel(new BorderLayout());
-        borderPanel.setBorder(BorderFactory.createTitledBorder(
-                Messages.NOTIFICATION_BUFFER));
-        borderPanel.add(new JScrollPane(mbeanNotifications));
-        mainPanel.add(borderPanel, BorderLayout.CENTER);
-        // add the subscribe/unsubscribe/clear buttons to the south panel
-        southPanel.removeAll();
-        southPanel.add(subscribeButton, BorderLayout.WEST);
-        southPanel.add(unsubscribeButton, BorderLayout.CENTER);
-        southPanel.add(clearButton, BorderLayout.EAST);
-        southPanel.setVisible(true);
-        subscribeButton.setEnabled(true);
-        unsubscribeButton.setEnabled(true);
-        clearButton.setEnabled(true);
-        validate();
-        repaint();
+        mbebn = (XMBebn) uo.getDbtb();
+        mbebnNotificbtions.lobdNotificbtions(mbebn);
+        updbteNotificbtions();
+        invblidbte();
+        mbinPbnel.removeAll();
+        JPbnel borderPbnel = new JPbnel(new BorderLbyout());
+        borderPbnel.setBorder(BorderFbctory.crebteTitledBorder(
+                Messbges.NOTIFICATION_BUFFER));
+        borderPbnel.bdd(new JScrollPbne(mbebnNotificbtions));
+        mbinPbnel.bdd(borderPbnel, BorderLbyout.CENTER);
+        // bdd the subscribe/unsubscribe/clebr buttons to the south pbnel
+        southPbnel.removeAll();
+        southPbnel.bdd(subscribeButton, BorderLbyout.WEST);
+        southPbnel.bdd(unsubscribeButton, BorderLbyout.CENTER);
+        southPbnel.bdd(clebrButton, BorderLbyout.EAST);
+        southPbnel.setVisible(true);
+        subscribeButton.setEnbbled(true);
+        unsubscribeButton.setEnbbled(true);
+        clebrButton.setEnbbled(true);
+        vblidbte();
+        repbint();
     }
 
-    // Call on EDT
-    private void displayEmptyNode() {
-        invalidate();
-        mainPanel.removeAll();
-        southPanel.removeAll();
-        validate();
-        repaint();
+    // Cbll on EDT
+    privbte void displbyEmptyNode() {
+        invblidbte();
+        mbinPbnel.removeAll();
+        southPbnel.removeAll();
+        vblidbte();
+        repbint();
     }
 
     /**
-     * Subscribe button action.
+     * Subscribe button bction.
      */
-    private void registerListener() {
+    privbte void registerListener() {
         new SwingWorker<Void, Void>() {
             @Override
-            public Void doInBackground()
-                    throws InstanceNotFoundException, IOException {
-                mbeanNotifications.registerListener(currentNode);
+            public Void doInBbckground()
+                    throws InstbnceNotFoundException, IOException {
+                mbebnNotificbtions.registerListener(currentNode);
                 return null;
             }
             @Override
             protected void done() {
                 try {
                     get();
-                    updateNotifications();
-                    validate();
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                    updbteNotificbtions();
+                    vblidbte();
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
-                        System.err.println("Problem adding listener");
-                        t.printStackTrace();
+                        System.err.println("Problem bdding listener");
+                        t.printStbckTrbce();
                     }
-                    showErrorDialog(t.getMessage(),
-                            Messages.PROBLEM_ADDING_LISTENER);
+                    showErrorDiblog(t.getMessbge(),
+                            Messbges.PROBLEM_ADDING_LISTENER);
                 }
             }
         }.execute();
     }
 
     /**
-     * Unsubscribe button action.
+     * Unsubscribe button bction.
      */
-    private void unregisterListener() {
-        new SwingWorker<Boolean, Void>() {
+    privbte void unregisterListener() {
+        new SwingWorker<Boolebn, Void>() {
             @Override
-            public Boolean doInBackground() {
-                return mbeanNotifications.unregisterListener(currentNode);
+            public Boolebn doInBbckground() {
+                return mbebnNotificbtions.unregisterListener(currentNode);
             }
             @Override
             protected void done() {
                 try {
                     if (get()) {
-                        updateNotifications();
-                        validate();
+                        updbteNotificbtions();
+                        vblidbte();
                     }
-                } catch (Exception e) {
-                    Throwable t = Utils.getActualException(e);
+                } cbtch (Exception e) {
+                    Throwbble t = Utils.getActublException(e);
                     if (JConsole.isDebug()) {
                         System.err.println("Problem removing listener");
-                        t.printStackTrace();
+                        t.printStbckTrbce();
                     }
-                    showErrorDialog(t.getMessage(),
-                            Messages.PROBLEM_REMOVING_LISTENER);
+                    showErrorDiblog(t.getMessbge(),
+                            Messbges.PROBLEM_REMOVING_LISTENER);
                 }
             }
         }.execute();
     }
 
     /**
-     * Refresh button action.
+     * Refresh button bction.
      */
-    private void refreshAttributes() {
-        mbeanAttributes.refreshAttributes();
+    privbte void refreshAttributes() {
+        mbebnAttributes.refreshAttributes();
     }
 
-    // Call on EDT
-    private void updateNotifications() {
-        if (mbeanNotifications.isListenerRegistered(mbean)) {
-            long received = mbeanNotifications.getReceivedNotifications(mbean);
-            updateReceivedNotifications(currentNode, received, false);
+    // Cbll on EDT
+    privbte void updbteNotificbtions() {
+        if (mbebnNotificbtions.isListenerRegistered(mbebn)) {
+            long received = mbebnNotificbtions.getReceivedNotificbtions(mbebn);
+            updbteReceivedNotificbtions(currentNode, received, fblse);
         } else {
-            clearNotifications();
+            clebrNotificbtions();
         }
     }
 
     /**
-     * Update notification node label in MBean tree: "Notifications[received]".
+     * Updbte notificbtion node lbbel in MBebn tree: "Notificbtions[received]".
      */
-    // Call on EDT
-    private void updateReceivedNotifications(
-            DefaultMutableTreeNode emitter, long received, boolean bold) {
-        String text = Messages.NOTIFICATIONS + "[" + received + "]";
-        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) mbeansTab.getTree().getLastSelectedPathComponent();
+    // Cbll on EDT
+    privbte void updbteReceivedNotificbtions(
+            DefbultMutbbleTreeNode emitter, long received, boolebn bold) {
+        String text = Messbges.NOTIFICATIONS + "[" + received + "]";
+        DefbultMutbbleTreeNode selectedNode = (DefbultMutbbleTreeNode) mbebnsTbb.getTree().getLbstSelectedPbthComponent();
         if (bold && emitter != selectedNode) {
             text = "<html><b>" + text + "</b></html>";
         }
-        updateNotificationsNodeLabel(emitter, text);
+        updbteNotificbtionsNodeLbbel(emitter, text);
     }
 
     /**
-     * Update notification node label in MBean tree: "Notifications".
+     * Updbte notificbtion node lbbel in MBebn tree: "Notificbtions".
      */
-    // Call on EDT
-    private void clearNotifications() {
-        updateNotificationsNodeLabel(currentNode,
-                Messages.NOTIFICATIONS);
+    // Cbll on EDT
+    privbte void clebrNotificbtions() {
+        updbteNotificbtionsNodeLbbel(currentNode,
+                Messbges.NOTIFICATIONS);
     }
 
     /**
-     * Update notification node label in MBean tree: "Notifications[0]".
+     * Updbte notificbtion node lbbel in MBebn tree: "Notificbtions[0]".
      */
-    // Call on EDT
-    private void clearNotifications0() {
-        updateNotificationsNodeLabel(currentNode,
-                Messages.NOTIFICATIONS + "[0]");
+    // Cbll on EDT
+    privbte void clebrNotificbtions0() {
+        updbteNotificbtionsNodeLbbel(currentNode,
+                Messbges.NOTIFICATIONS + "[0]");
     }
 
     /**
-     * Update the label of the supplied MBean tree node.
+     * Updbte the lbbel of the supplied MBebn tree node.
      */
-    // Call on EDT
-    private void updateNotificationsNodeLabel(
-            DefaultMutableTreeNode node, String label) {
-        synchronized (mbeansTab.getTree()) {
-            invalidate();
+    // Cbll on EDT
+    privbte void updbteNotificbtionsNodeLbbel(
+            DefbultMutbbleTreeNode node, String lbbel) {
+        synchronized (mbebnsTbb.getTree()) {
+            invblidbte();
             XNodeInfo oldUserObject = (XNodeInfo) node.getUserObject();
             XNodeInfo newUserObject = new XNodeInfo(
-                    oldUserObject.getType(), oldUserObject.getData(),
-                    label, oldUserObject.getToolTipText());
+                    oldUserObject.getType(), oldUserObject.getDbtb(),
+                    lbbel, oldUserObject.getToolTipText());
             node.setUserObject(newUserObject);
-            DefaultTreeModel model =
-                    (DefaultTreeModel) mbeansTab.getTree().getModel();
-            model.nodeChanged(node);
-            validate();
-            repaint();
+            DefbultTreeModel model =
+                    (DefbultTreeModel) mbebnsTbb.getTree().getModel();
+            model.nodeChbnged(node);
+            vblidbte();
+            repbint();
         }
     }
 
     /**
-     * Clear button action.
+     * Clebr button bction.
      */
-    // Call on EDT
-    private void clearCurrentNotifications() {
-        mbeanNotifications.clearCurrentNotifications();
-        if (mbeanNotifications.isListenerRegistered(mbean)) {
-            // Update notifs in MBean tree "Notifications[0]".
+    // Cbll on EDT
+    privbte void clebrCurrentNotificbtions() {
+        mbebnNotificbtions.clebrCurrentNotificbtions();
+        if (mbebnNotificbtions.isListenerRegistered(mbebn)) {
+            // Updbte notifs in MBebn tree "Notificbtions[0]".
             //
-            // Notification buffer has been cleared with a listener been
-            // registered so add "[0]" at the end of the node label.
+            // Notificbtion buffer hbs been clebred with b listener been
+            // registered so bdd "[0]" bt the end of the node lbbel.
             //
-            clearNotifications0();
+            clebrNotificbtions0();
         } else {
-            // Update notifs in MBean tree "Notifications".
+            // Updbte notifs in MBebn tree "Notificbtions".
             //
-            // Notification buffer has been cleared without a listener been
-            // registered so don't add "[0]" at the end of the node label.
+            // Notificbtion buffer hbs been clebred without b listener been
+            // registered so don't bdd "[0]" bt the end of the node lbbel.
             //
-            clearNotifications();
+            clebrNotificbtions();
         }
     }
 
-    // Call on EDT
-    private void clear() {
-        mbeanAttributes.stopCellEditing();
-        mbeanAttributes.emptyTable();
-        mbeanAttributes.removeAttributes();
-        mbeanOperations.removeOperations();
-        mbeanNotifications.stopCellEditing();
-        mbeanNotifications.emptyTable();
-        mbeanNotifications.disableNotifications();
-        mbean = null;
+    // Cbll on EDT
+    privbte void clebr() {
+        mbebnAttributes.stopCellEditing();
+        mbebnAttributes.emptyTbble();
+        mbebnAttributes.removeAttributes();
+        mbebnOperbtions.removeOperbtions();
+        mbebnNotificbtions.stopCellEditing();
+        mbebnNotificbtions.emptyTbble();
+        mbebnNotificbtions.disbbleNotificbtions();
+        mbebn = null;
         currentNode = null;
     }
 
     /**
-     * Notification listener: handles asynchronous reception
-     * of MBean operation results and MBean notifications.
+     * Notificbtion listener: hbndles bsynchronous reception
+     * of MBebn operbtion results bnd MBebn notificbtions.
      */
-    // Call on EDT
-    public void handleNotification(Notification e, Object handback) {
-        // Operation result
-        if (e.getType().equals(XOperations.OPERATION_INVOCATION_EVENT)) {
-            final Object message;
-            if (handback == null) {
-                JTextArea textArea = new JTextArea("null");
-                textArea.setEditable(false);
-                textArea.setEnabled(true);
-                textArea.setRows(textArea.getLineCount());
-                message = textArea;
+    // Cbll on EDT
+    public void hbndleNotificbtion(Notificbtion e, Object hbndbbck) {
+        // Operbtion result
+        if (e.getType().equbls(XOperbtions.OPERATION_INVOCATION_EVENT)) {
+            finbl Object messbge;
+            if (hbndbbck == null) {
+                JTextAreb textAreb = new JTextAreb("null");
+                textAreb.setEditbble(fblse);
+                textAreb.setEnbbled(true);
+                textAreb.setRows(textAreb.getLineCount());
+                messbge = textAreb;
             } else {
-                Component comp = mbeansTab.getDataViewer().
-                        createOperationViewer(handback, mbean);
+                Component comp = mbebnsTbb.getDbtbViewer().
+                        crebteOperbtionViewer(hbndbbck, mbebn);
                 if (comp == null) {
-                    JTextArea textArea = new JTextArea(handback.toString());
-                    textArea.setEditable(false);
-                    textArea.setEnabled(true);
-                    textArea.setRows(textArea.getLineCount());
-                    JScrollPane scrollPane = new JScrollPane(textArea);
-                    Dimension d = scrollPane.getPreferredSize();
+                    JTextAreb textAreb = new JTextAreb(hbndbbck.toString());
+                    textAreb.setEditbble(fblse);
+                    textAreb.setEnbbled(true);
+                    textAreb.setRows(textAreb.getLineCount());
+                    JScrollPbne scrollPbne = new JScrollPbne(textAreb);
+                    Dimension d = scrollPbne.getPreferredSize();
                     if (d.getWidth() > 400 || d.getHeight() > 250) {
-                        scrollPane.setPreferredSize(new Dimension(400, 250));
+                        scrollPbne.setPreferredSize(new Dimension(400, 250));
                     }
-                    message = scrollPane;
+                    messbge = scrollPbne;
                 } else {
-                    if (!(comp instanceof JScrollPane)) {
-                        comp = new JScrollPane(comp);
+                    if (!(comp instbnceof JScrollPbne)) {
+                        comp = new JScrollPbne(comp);
                     }
                     Dimension d = comp.getPreferredSize();
                     if (d.getWidth() > 400 || d.getHeight() > 250) {
                         comp.setPreferredSize(new Dimension(400, 250));
                     }
-                    message = comp;
+                    messbge = comp;
                 }
             }
-            new ThreadDialog(
+            new ThrebdDiblog(
                     (Component) e.getSource(),
-                    message,
-                    Messages.OPERATION_RETURN_VALUE,
-                    JOptionPane.INFORMATION_MESSAGE).run();
-        } // Got notification
-        else if (e.getType().equals(
-                XMBeanNotifications.NOTIFICATION_RECEIVED_EVENT)) {
-            DefaultMutableTreeNode emitter = (DefaultMutableTreeNode) handback;
-            Long received = (Long) e.getUserData();
-            updateReceivedNotifications(emitter, received.longValue(), true);
+                    messbge,
+                    Messbges.OPERATION_RETURN_VALUE,
+                    JOptionPbne.INFORMATION_MESSAGE).run();
+        } // Got notificbtion
+        else if (e.getType().equbls(
+                XMBebnNotificbtions.NOTIFICATION_RECEIVED_EVENT)) {
+            DefbultMutbbleTreeNode emitter = (DefbultMutbbleTreeNode) hbndbbck;
+            Long received = (Long) e.getUserDbtb();
+            updbteReceivedNotificbtions(emitter, received.longVblue(), true);
         }
     }
 
     /**
-     * Action listener: handles actions in panel buttons
+     * Action listener: hbndles bctions in pbnel buttons
      */
-    // Call on EDT
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() instanceof JButton) {
+    // Cbll on EDT
+    public void bctionPerformed(ActionEvent e) {
+        if (e.getSource() instbnceof JButton) {
             JButton button = (JButton) e.getSource();
             // Refresh button
             if (button == refreshButton) {
                 refreshAttributes();
                 return;
             }
-            // Clear button
-            if (button == clearButton) {
-                clearCurrentNotifications();
+            // Clebr button
+            if (button == clebrButton) {
+                clebrCurrentNotificbtions();
                 return;
             }
             // Subscribe button

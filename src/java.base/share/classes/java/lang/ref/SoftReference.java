@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.ref;
+pbckbge jbvb.lbng.ref;
 
 
 /**
- * Soft reference objects, which are cleared at the discretion of the garbage
- * collector in response to memory demand.  Soft references are most often used
- * to implement memory-sensitive caches.
+ * Soft reference objects, which bre clebred bt the discretion of the gbrbbge
+ * collector in response to memory dembnd.  Soft references bre most often used
+ * to implement memory-sensitive cbches.
  *
- * <p> Suppose that the garbage collector determines at a certain point in time
- * that an object is <a href="package-summary.html#reachability">softly
- * reachable</a>.  At that time it may choose to clear atomically all soft
- * references to that object and all soft references to any other
- * softly-reachable objects from which that object is reachable through a chain
- * of strong references.  At the same time or at some later time it will
- * enqueue those newly-cleared soft references that are registered with
+ * <p> Suppose thbt the gbrbbge collector determines bt b certbin point in time
+ * thbt bn object is <b href="pbckbge-summbry.html#rebchbbility">softly
+ * rebchbble</b>.  At thbt time it mby choose to clebr btomicblly bll soft
+ * references to thbt object bnd bll soft references to bny other
+ * softly-rebchbble objects from which thbt object is rebchbble through b chbin
+ * of strong references.  At the sbme time or bt some lbter time it will
+ * enqueue those newly-clebred soft references thbt bre registered with
  * reference queues.
  *
- * <p> All soft references to softly-reachable objects are guaranteed to have
- * been cleared before the virtual machine throws an
- * <code>OutOfMemoryError</code>.  Otherwise no constraints are placed upon the
- * time at which a soft reference will be cleared or the order in which a set
- * of such references to different objects will be cleared.  Virtual machine
- * implementations are, however, encouraged to bias against clearing
- * recently-created or recently-used soft references.
+ * <p> All soft references to softly-rebchbble objects bre gubrbnteed to hbve
+ * been clebred before the virtubl mbchine throws bn
+ * <code>OutOfMemoryError</code>.  Otherwise no constrbints bre plbced upon the
+ * time bt which b soft reference will be clebred or the order in which b set
+ * of such references to different objects will be clebred.  Virtubl mbchine
+ * implementbtions bre, however, encourbged to bibs bgbinst clebring
+ * recently-crebted or recently-used soft references.
  *
- * <p> Direct instances of this class may be used to implement simple caches;
- * this class or derived subclasses may also be used in larger data structures
- * to implement more sophisticated caches.  As long as the referent of a soft
- * reference is strongly reachable, that is, is actually in use, the soft
- * reference will not be cleared.  Thus a sophisticated cache can, for example,
- * prevent its most recently used entries from being discarded by keeping
- * strong referents to those entries, leaving the remaining entries to be
- * discarded at the discretion of the garbage collector.
+ * <p> Direct instbnces of this clbss mby be used to implement simple cbches;
+ * this clbss or derived subclbsses mby blso be used in lbrger dbtb structures
+ * to implement more sophisticbted cbches.  As long bs the referent of b soft
+ * reference is strongly rebchbble, thbt is, is bctublly in use, the soft
+ * reference will not be clebred.  Thus b sophisticbted cbche cbn, for exbmple,
+ * prevent its most recently used entries from being discbrded by keeping
+ * strong referents to those entries, lebving the rembining entries to be
+ * discbrded bt the discretion of the gbrbbge collector.
  *
- * @author   Mark Reinhold
+ * @buthor   Mbrk Reinhold
  * @since    1.2
  */
 
-public class SoftReference<T> extends Reference<T> {
+public clbss SoftReference<T> extends Reference<T> {
 
     /**
-     * Timestamp clock, updated by the garbage collector
+     * Timestbmp clock, updbted by the gbrbbge collector
      */
-    static private long clock;
+    stbtic privbte long clock;
 
     /**
-     * Timestamp updated by each invocation of the get method.  The VM may use
-     * this field when selecting soft references to be cleared, but it is not
+     * Timestbmp updbted by ebch invocbtion of the get method.  The VM mby use
+     * this field when selecting soft references to be clebred, but it is not
      * required to do so.
      */
-    private long timestamp;
+    privbte long timestbmp;
 
     /**
-     * Creates a new soft reference that refers to the given object.  The new
-     * reference is not registered with any queue.
+     * Crebtes b new soft reference thbt refers to the given object.  The new
+     * reference is not registered with bny queue.
      *
-     * @param referent object the new soft reference will refer to
+     * @pbrbm referent object the new soft reference will refer to
      */
     public SoftReference(T referent) {
         super(referent);
-        this.timestamp = clock;
+        this.timestbmp = clock;
     }
 
     /**
-     * Creates a new soft reference that refers to the given object and is
+     * Crebtes b new soft reference thbt refers to the given object bnd is
      * registered with the given queue.
      *
-     * @param referent object the new soft reference will refer to
-     * @param q the queue with which the reference is to be registered,
-     *          or <tt>null</tt> if registration is not required
+     * @pbrbm referent object the new soft reference will refer to
+     * @pbrbm q the queue with which the reference is to be registered,
+     *          or <tt>null</tt> if registrbtion is not required
      *
      */
     public SoftReference(T referent, ReferenceQueue<? super T> q) {
         super(referent, q);
-        this.timestamp = clock;
+        this.timestbmp = clock;
     }
 
     /**
-     * Returns this reference object's referent.  If this reference object has
-     * been cleared, either by the program or by the garbage collector, then
+     * Returns this reference object's referent.  If this reference object hbs
+     * been clebred, either by the progrbm or by the gbrbbge collector, then
      * this method returns <code>null</code>.
      *
      * @return   The object to which this reference refers, or
-     *           <code>null</code> if this reference object has been cleared
+     *           <code>null</code> if this reference object hbs been clebred
      */
     public T get() {
         T o = super.get();
-        if (o != null && this.timestamp != clock)
-            this.timestamp = clock;
+        if (o != null && this.timestbmp != clock)
+            this.timestbmp = clock;
         return o;
     }
 

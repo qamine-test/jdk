@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jar;
+pbckbge sun.tools.jbr;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.*;
 
-import sun.net.www.MessageHeader;
-import java.util.Base64;
+import sun.net.www.MessbgeHebder;
+import jbvb.util.Bbse64;
 
 
 import sun.security.pkcs.*;
 import sun.security.x509.AlgorithmId;
 
 /**
- * <p>A signature file as defined in the <a
- * href="manifest.html">Manifest and Signature Format</a>. It has
- * essentially the same structure as a Manifest file in that it is a
- * set of RFC 822 headers (sections). The first section contains meta
- * data relevant to the entire file (i.e "Signature-Version:1.0") and
- * each subsequent section contains data relevant to specific entries:
+ * <p>A signbture file bs defined in the <b
+ * href="mbnifest.html">Mbnifest bnd Signbture Formbt</b>. It hbs
+ * essentiblly the sbme structure bs b Mbnifest file in thbt it is b
+ * set of RFC 822 hebders (sections). The first section contbins metb
+ * dbtb relevbnt to the entire file (i.e "Signbture-Version:1.0") bnd
+ * ebch subsequent section contbins dbtb relevbnt to specific entries:
  * entry sections.
  *
- * <p>Each entry section contains the name of an entry (which must
- * have a counterpart in the manifest). Like the manifest it contains
- * a hash, the hash of the manifest section corresponding to the
- * name. Since the manifest entry contains the hash of the data, this
- * is equivalent to a signature of the data, plus the attributes of
- * the manifest entry.
+ * <p>Ebch entry section contbins the nbme of bn entry (which must
+ * hbve b counterpbrt in the mbnifest). Like the mbnifest it contbins
+ * b hbsh, the hbsh of the mbnifest section corresponding to the
+ * nbme. Since the mbnifest entry contbins the hbsh of the dbtb, this
+ * is equivblent to b signbture of the dbtb, plus the bttributes of
+ * the mbnifest entry.
  *
- * <p>This signature file format deal with PKCS7 encoded DSA signature
- * block. It should be straightforward to extent to support other
- * algorithms.
+ * <p>This signbture file formbt debl with PKCS7 encoded DSA signbture
+ * block. It should be strbightforwbrd to extent to support other
+ * blgorithms.
  *
- * @author      David Brown
- * @author      Benjamin Renaud */
+ * @buthor      Dbvid Brown
+ * @buthor      Benjbmin Renbud */
 
-public class SignatureFile {
+public clbss SignbtureFile {
 
     /* Are we debugging? */
-    static final boolean debug = false;
+    stbtic finbl boolebn debug = fblse;
 
-    /* list of headers that all pertain to a particular file in the
-     * archive */
-    private Vector<MessageHeader> entries = new Vector<>();
+    /* list of hebders thbt bll pertbin to b pbrticulbr file in the
+     * brchive */
+    privbte Vector<MessbgeHebder> entries = new Vector<>();
 
-    /* Right now we only support SHA hashes */
-    static final String[] hashes = {"SHA"};
+    /* Right now we only support SHA hbshes */
+    stbtic finbl String[] hbshes = {"SHA"};
 
-    static final void debug(String s) {
+    stbtic finbl void debug(String s) {
         if (debug)
             System.out.println("sig> " + s);
     }
 
     /*
-     * The manifest we're working with.  */
-    private Manifest manifest;
+     * The mbnifest we're working with.  */
+    privbte Mbnifest mbnifest;
 
     /*
-     * The file name for the file. This is the raw name, i.e. the
-     * extention-less 8 character name (such as MYSIGN) which wil be
-     * used to build the signature filename (MYSIGN.SF) and the block
-     * filename (MYSIGN.DSA) */
-    private String rawName;
+     * The file nbme for the file. This is the rbw nbme, i.e. the
+     * extention-less 8 chbrbcter nbme (such bs MYSIGN) which wil be
+     * used to build the signbture filenbme (MYSIGN.SF) bnd the block
+     * filenbme (MYSIGN.DSA) */
+    privbte String rbwNbme;
 
-    /* The digital signature block corresponding to this signature
+    /* The digitbl signbture block corresponding to this signbture
      * file.  */
-    private PKCS7 signatureBlock;
+    privbte PKCS7 signbtureBlock;
 
 
     /**
-     * Private constructor which takes a name a given signature
-     * file. The name must be extension-less and less or equal to 8
-     * character in length.  */
-    private SignatureFile(String name) throws JarException {
+     * Privbte constructor which tbkes b nbme b given signbture
+     * file. The nbme must be extension-less bnd less or equbl to 8
+     * chbrbcter in length.  */
+    privbte SignbtureFile(String nbme) throws JbrException {
 
         entries = new Vector<>();
 
-        if (name != null) {
-            if (name.length() > 8 || name.indexOf('.') != -1) {
-                throw new JarException("invalid file name");
+        if (nbme != null) {
+            if (nbme.length() > 8 || nbme.indexOf('.') != -1) {
+                throw new JbrException("invblid file nbme");
             }
-            rawName = name.toUpperCase(Locale.ENGLISH);
+            rbwNbme = nbme.toUpperCbse(Locble.ENGLISH);
         }
     }
 
     /**
-     * Private constructor which takes a name a given signature file
-     * and a new file predicate. If it is a new file, a main header
-     * will be added. */
-    private SignatureFile(String name, boolean newFile)
-    throws JarException {
+     * Privbte constructor which tbkes b nbme b given signbture file
+     * bnd b new file predicbte. If it is b new file, b mbin hebder
+     * will be bdded. */
+    privbte SignbtureFile(String nbme, boolebn newFile)
+    throws JbrException {
 
-        this(name);
+        this(nbme);
 
         if (newFile) {
-            MessageHeader globals = new MessageHeader();
-            globals.set("Signature-Version", "1.0");
-            entries.addElement(globals);
+            MessbgeHebder globbls = new MessbgeHebder();
+            globbls.set("Signbture-Version", "1.0");
+            entries.bddElement(globbls);
         }
     }
 
     /**
-     * Constructs a new Signature file corresponding to a given
-     * Manifest. All entries in the manifest are signed.
+     * Constructs b new Signbture file corresponding to b given
+     * Mbnifest. All entries in the mbnifest bre signed.
      *
-     * @param manifest the manifest to use.
+     * @pbrbm mbnifest the mbnifest to use.
      *
-     * @param name for this signature file. This should
-     * be less than 8 characters, and without a suffix (i.e.
-     * without a period in it.
+     * @pbrbm nbme for this signbture file. This should
+     * be less thbn 8 chbrbcters, bnd without b suffix (i.e.
+     * without b period in it.
      *
-     * @exception JarException if an invalid name is passed in.
+     * @exception JbrException if bn invblid nbme is pbssed in.
      */
-    public SignatureFile(Manifest manifest, String name)
-    throws JarException {
+    public SignbtureFile(Mbnifest mbnifest, String nbme)
+    throws JbrException {
 
-        this(name, true);
+        this(nbme, true);
 
-        this.manifest = manifest;
-        Enumeration<MessageHeader> enum_ = manifest.entries();
-        while (enum_.hasMoreElements()) {
-            MessageHeader mh = enum_.nextElement();
-            String entryName = mh.findValue("Name");
-            if (entryName != null) {
-                add(entryName);
+        this.mbnifest = mbnifest;
+        Enumerbtion<MessbgeHebder> enum_ = mbnifest.entries();
+        while (enum_.hbsMoreElements()) {
+            MessbgeHebder mh = enum_.nextElement();
+            String entryNbme = mh.findVblue("Nbme");
+            if (entryNbme != null) {
+                bdd(entryNbme);
             }
         }
     }
 
     /**
-     * Constructs a new Signature file corresponding to a given
-     * Manifest. Specific entries in the manifest are signed.
+     * Constructs b new Signbture file corresponding to b given
+     * Mbnifest. Specific entries in the mbnifest bre signed.
      *
-     * @param manifest the manifest to use.
+     * @pbrbm mbnifest the mbnifest to use.
      *
-     * @param entries the entries to sign.
+     * @pbrbm entries the entries to sign.
      *
-     * @param filename for this signature file. This should
-     * be less than 8 characters, and without a suffix (i.e.
-     * without a period in it.
+     * @pbrbm filenbme for this signbture file. This should
+     * be less thbn 8 chbrbcters, bnd without b suffix (i.e.
+     * without b period in it.
      *
-     * @exception JarException if an invalid name is passed in.
+     * @exception JbrException if bn invblid nbme is pbssed in.
      */
-    public SignatureFile(Manifest manifest, String[] entries,
-                         String filename)
-    throws JarException {
-        this(filename, true);
-        this.manifest = manifest;
-        add(entries);
+    public SignbtureFile(Mbnifest mbnifest, String[] entries,
+                         String filenbme)
+    throws JbrException {
+        this(filenbme, true);
+        this.mbnifest = mbnifest;
+        bdd(entries);
     }
 
     /**
-     * Construct a Signature file from an input stream.
+     * Construct b Signbture file from bn input strebm.
      *
-     * @exception IOException if an invalid name is passed in or if a
-     * stream exception occurs.
+     * @exception IOException if bn invblid nbme is pbssed in or if b
+     * strebm exception occurs.
      */
-    public SignatureFile(InputStream is, String filename)
+    public SignbtureFile(InputStrebm is, String filenbme)
     throws IOException {
-        this(filename);
-        while (is.available() > 0) {
-            MessageHeader m = new MessageHeader(is);
-            entries.addElement(m);
+        this(filenbme);
+        while (is.bvbilbble() > 0) {
+            MessbgeHebder m = new MessbgeHebder(is);
+            entries.bddElement(m);
         }
     }
 
    /**
-     * Construct a Signature file from an input stream.
+     * Construct b Signbture file from bn input strebm.
      *
-     * @exception IOException if an invalid name is passed in or if a
-     * stream exception occurs.
+     * @exception IOException if bn invblid nbme is pbssed in or if b
+     * strebm exception occurs.
      */
-    public SignatureFile(InputStream is) throws IOException {
+    public SignbtureFile(InputStrebm is) throws IOException {
         this(is, null);
     }
 
-    public SignatureFile(byte[] bytes) throws IOException {
-        this(new ByteArrayInputStream(bytes));
+    public SignbtureFile(byte[] bytes) throws IOException {
+        this(new ByteArrbyInputStrebm(bytes));
     }
 
     /**
-     * Returns the name of the signature file, ending with a ".SF"
+     * Returns the nbme of the signbture file, ending with b ".SF"
      * suffix */
-    public String getName() {
-        return "META-INF/" + rawName + ".SF";
+    public String getNbme() {
+        return "META-INF/" + rbwNbme + ".SF";
     }
 
     /**
-     * Returns the name of the block file, ending with a block suffix
-     * such as ".DSA". */
-    public String getBlockName() {
+     * Returns the nbme of the block file, ending with b block suffix
+     * such bs ".DSA". */
+    public String getBlockNbme() {
         String suffix = "DSA";
-        if (signatureBlock != null) {
-            SignerInfo info = signatureBlock.getSignerInfos()[0];
-            suffix = info.getDigestEncryptionAlgorithmId().getName();
+        if (signbtureBlock != null) {
+            SignerInfo info = signbtureBlock.getSignerInfos()[0];
+            suffix = info.getDigestEncryptionAlgorithmId().getNbme();
             String temp = AlgorithmId.getEncAlgFromSigAlg(suffix);
             if (temp != null) suffix = temp;
         }
-        return "META-INF/" + rawName + "." + suffix;
+        return "META-INF/" + rbwNbme + "." + suffix;
     }
 
     /**
-     * Returns the signature block associated with this file.
+     * Returns the signbture block bssocibted with this file.
      */
     public PKCS7 getBlock() {
-        return signatureBlock;
+        return signbtureBlock;
     }
 
     /**
-     * Sets the signature block associated with this file.
+     * Sets the signbture block bssocibted with this file.
      */
     public void setBlock(PKCS7 block) {
-        this.signatureBlock = block;
+        this.signbtureBlock = block;
     }
 
     /**
-     * Add a set of entries from the current manifest.
+     * Add b set of entries from the current mbnifest.
      */
-    public void add(String[] entries) throws JarException {
+    public void bdd(String[] entries) throws JbrException {
         for (int i = 0; i < entries.length; i++) {
-            add (entries[i]);
+            bdd (entries[i]);
         }
     }
 
     /**
-     * Add a specific entry from the current manifest.
+     * Add b specific entry from the current mbnifest.
      */
-    public void add(String entry) throws JarException {
-        MessageHeader mh = manifest.getEntry(entry);
+    public void bdd(String entry) throws JbrException {
+        MessbgeHebder mh = mbnifest.getEntry(entry);
         if (mh == null) {
-            throw new JarException("entry " + entry + " not in manifest");
+            throw new JbrException("entry " + entry + " not in mbnifest");
         }
-        MessageHeader smh;
+        MessbgeHebder smh;
         try {
             smh = computeEntry(mh);
-        } catch (IOException e) {
-            throw new JarException(e.getMessage());
+        } cbtch (IOException e) {
+            throw new JbrException(e.getMessbge());
         }
-        entries.addElement(smh);
+        entries.bddElement(smh);
     }
 
     /**
-     * Get the entry corresponding to a given name. Returns null if
+     * Get the entry corresponding to b given nbme. Returns null if
      *the entry does not exist.
      */
-    public MessageHeader getEntry(String name) {
-        Enumeration<MessageHeader> enum_ = entries();
-        while(enum_.hasMoreElements()) {
-            MessageHeader mh = enum_.nextElement();
-            if (name.equals(mh.findValue("Name"))) {
+    public MessbgeHebder getEntry(String nbme) {
+        Enumerbtion<MessbgeHebder> enum_ = entries();
+        while(enum_.hbsMoreElements()) {
+            MessbgeHebder mh = enum_.nextElement();
+            if (nbme.equbls(mh.findVblue("Nbme"))) {
                 return mh;
             }
         }
@@ -280,55 +280,55 @@ public class SignatureFile {
     }
 
     /**
-     * Returns the n-th entry. The global header is a entry 0.  */
-    public MessageHeader entryAt(int n) {
+     * Returns the n-th entry. The globbl hebder is b entry 0.  */
+    public MessbgeHebder entryAt(int n) {
         return entries.elementAt(n);
     }
 
     /**
-     * Returns an enumeration of the entries.
+     * Returns bn enumerbtion of the entries.
      */
-    public Enumeration<MessageHeader> entries() {
+    public Enumerbtion<MessbgeHebder> entries() {
         return entries.elements();
     }
 
     /**
-     * Given a manifest entry, computes the signature entry for this
-     * manifest entry.
+     * Given b mbnifest entry, computes the signbture entry for this
+     * mbnifest entry.
      */
-    private MessageHeader computeEntry(MessageHeader mh) throws IOException {
-        MessageHeader smh = new MessageHeader();
+    privbte MessbgeHebder computeEntry(MessbgeHebder mh) throws IOException {
+        MessbgeHebder smh = new MessbgeHebder();
 
-        String name = mh.findValue("Name");
-        if (name == null) {
+        String nbme = mh.findVblue("Nbme");
+        if (nbme == null) {
             return null;
         }
-        smh.set("Name", name);
+        smh.set("Nbme", nbme);
 
         try {
-            for (int i = 0; i < hashes.length; ++i) {
-                MessageDigest dig = getDigest(hashes[i]);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                PrintStream ps = new PrintStream(baos);
+            for (int i = 0; i < hbshes.length; ++i) {
+                MessbgeDigest dig = getDigest(hbshes[i]);
+                ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+                PrintStrebm ps = new PrintStrebm(bbos);
                 mh.print(ps);
-                byte[] headerBytes = baos.toByteArray();
-                byte[] digest = dig.digest(headerBytes);
-                smh.set(hashes[i] + "-Digest", Base64.getMimeEncoder().encodeToString(digest));
+                byte[] hebderBytes = bbos.toByteArrby();
+                byte[] digest = dig.digest(hebderBytes);
+                smh.set(hbshes[i] + "-Digest", Bbse64.getMimeEncoder().encodeToString(digest));
             }
             return smh;
-        } catch (NoSuchAlgorithmException e) {
-            throw new JarException(e.getMessage());
+        } cbtch (NoSuchAlgorithmException e) {
+            throw new JbrException(e.getMessbge());
         }
     }
 
-    private Hashtable<String, MessageDigest> digests = new Hashtable<>();
+    privbte Hbshtbble<String, MessbgeDigest> digests = new Hbshtbble<>();
 
-    private MessageDigest getDigest(String algorithm)
+    privbte MessbgeDigest getDigest(String blgorithm)
     throws NoSuchAlgorithmException {
-        MessageDigest dig = digests.get(algorithm);
+        MessbgeDigest dig = digests.get(blgorithm);
         if (dig == null) {
-            dig = MessageDigest.getInstance(algorithm);
-            digests.put(algorithm, dig);
+            dig = MessbgeDigest.getInstbnce(blgorithm);
+            digests.put(blgorithm, dig);
         }
         dig.reset();
         return dig;
@@ -336,24 +336,24 @@ public class SignatureFile {
 
 
     /**
-     * Add a signature file at current position in a stream
+     * Add b signbture file bt current position in b strebm
      */
-    public void stream(OutputStream os) throws IOException {
+    public void strebm(OutputStrebm os) throws IOException {
 
-        /* the first header in the file should be the global one.
-         * It should say "SignatureFile-Version: x.x"; barf if not
+        /* the first hebder in the file should be the globbl one.
+         * It should sby "SignbtureFile-Version: x.x"; bbrf if not
          */
-        MessageHeader globals = entries.elementAt(0);
-        if (globals.findValue("Signature-Version") == null) {
-            throw new JarException("Signature file requires " +
-                            "Signature-Version: 1.0 in 1st header");
+        MessbgeHebder globbls = entries.elementAt(0);
+        if (globbls.findVblue("Signbture-Version") == null) {
+            throw new JbrException("Signbture file requires " +
+                            "Signbture-Version: 1.0 in 1st hebder");
         }
 
-        PrintStream ps = new PrintStream(os);
-        globals.print(ps);
+        PrintStrebm ps = new PrintStrebm(os);
+        globbls.print(ps);
 
         for (int i = 1; i < entries.size(); ++i) {
-            MessageHeader mh = entries.elementAt(i);
+            MessbgeHebder mh = entries.elementAt(i);
             mh.print(ps);
         }
     }

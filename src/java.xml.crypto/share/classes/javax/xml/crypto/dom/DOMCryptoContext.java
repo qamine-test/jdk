@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: DOMCryptoContext.java,v 1.3 2005/05/09 18:33:26 mullan Exp $
+ * $Id: DOMCryptoContext.jbvb,v 1.3 2005/05/09 18:33:26 mullbn Exp $
  */
-package javax.xml.crypto.dom;
+pbckbge jbvbx.xml.crypto.dom;
 
-import javax.xml.crypto.KeySelector;
-import javax.xml.crypto.URIDereferencer;
-import javax.xml.crypto.XMLCryptoContext;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvbx.xml.crypto.KeySelector;
+import jbvbx.xml.crypto.URIDereferencer;
+import jbvbx.xml.crypto.XMLCryptoContext;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
 import org.w3c.dom.Element;
 
 /**
- * This class provides a DOM-specific implementation of the
- * {@link XMLCryptoContext} interface. It also includes additional
- * methods that are specific to a DOM-based implementation for registering
- * and retrieving elements that contain attributes of type ID.
+ * This clbss provides b DOM-specific implementbtion of the
+ * {@link XMLCryptoContext} interfbce. It blso includes bdditionbl
+ * methods thbt bre specific to b DOM-bbsed implementbtion for registering
+ * bnd retrieving elements thbt contbin bttributes of type ID.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public class DOMCryptoContext implements XMLCryptoContext {
+public clbss DOMCryptoContext implements XMLCryptoContext {
 
-    private HashMap<String,String> nsMap = new HashMap<>();
-    private HashMap<String,Element> idMap = new HashMap<>();
-    private HashMap<Object,Object> objMap = new HashMap<>();
-    private String baseURI;
-    private KeySelector ks;
-    private URIDereferencer dereferencer;
-    private HashMap<String,Object> propMap = new HashMap<>();
-    private String defaultPrefix;
+    privbte HbshMbp<String,String> nsMbp = new HbshMbp<>();
+    privbte HbshMbp<String,Element> idMbp = new HbshMbp<>();
+    privbte HbshMbp<Object,Object> objMbp = new HbshMbp<>();
+    privbte String bbseURI;
+    privbte KeySelector ks;
+    privbte URIDereferencer dereferencer;
+    privbte HbshMbp<String,Object> propMbp = new HbshMbp<>();
+    privbte String defbultPrefix;
 
     /**
-     * Default constructor. (For invocation by subclass constructors).
+     * Defbult constructor. (For invocbtion by subclbss constructors).
      */
     protected DOMCryptoContext() {}
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the prefix
-     * that the specified URI maps to. It returns the <code>defaultPrefix</code>
-     * if it maps to <code>null</code>.
+     * This implementbtion uses bn internbl {@link HbshMbp} to get the prefix
+     * thbt the specified URI mbps to. It returns the <code>defbultPrefix</code>
+     * if it mbps to <code>null</code>.
      *
      * @throws NullPointerException {@inheritDoc}
      */
-    public String getNamespacePrefix(String namespaceURI,
-        String defaultPrefix) {
-        if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI cannot be null");
+    public String getNbmespbcePrefix(String nbmespbceURI,
+        String defbultPrefix) {
+        if (nbmespbceURI == null) {
+            throw new NullPointerException("nbmespbceURI cbnnot be null");
         }
-        String prefix = nsMap.get(namespaceURI);
-        return (prefix != null ? prefix : defaultPrefix);
+        String prefix = nsMbp.get(nbmespbceURI);
+        return (prefix != null ? prefix : defbultPrefix);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the URI
+     * This implementbtion uses bn internbl {@link HbshMbp} to mbp the URI
      * to the specified prefix.
      *
      * @throws NullPointerException {@inheritDoc}
      */
-    public String putNamespacePrefix(String namespaceURI, String prefix) {
-        if (namespaceURI == null) {
-            throw new NullPointerException("namespaceURI is null");
+    public String putNbmespbcePrefix(String nbmespbceURI, String prefix) {
+        if (nbmespbceURI == null) {
+            throw new NullPointerException("nbmespbceURI is null");
         }
-        return nsMap.put(namespaceURI, prefix);
+        return nsMbp.put(nbmespbceURI, prefix);
     }
 
-    public String getDefaultNamespacePrefix() {
-        return defaultPrefix;
+    public String getDefbultNbmespbcePrefix() {
+        return defbultPrefix;
     }
 
-    public void setDefaultNamespacePrefix(String defaultPrefix) {
-        this.defaultPrefix = defaultPrefix;
+    public void setDefbultNbmespbcePrefix(String defbultPrefix) {
+        this.defbultPrefix = defbultPrefix;
     }
 
-    public String getBaseURI() {
-        return baseURI;
+    public String getBbseURI() {
+        return bbseURI;
     }
 
     /**
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public void setBaseURI(String baseURI) {
-        if (baseURI != null) {
-            java.net.URI.create(baseURI);
+    public void setBbseURI(String bbseURI) {
+        if (bbseURI != null) {
+            jbvb.net.URI.crebte(bbseURI);
         }
-        this.baseURI = baseURI;
+        this.bbseURI = bbseURI;
     }
 
     public URIDereferencer getURIDereferencer() {
@@ -121,29 +121,29 @@ public class DOMCryptoContext implements XMLCryptoContext {
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the object
-     * that the specified name maps to.
+     * This implementbtion uses bn internbl {@link HbshMbp} to get the object
+     * thbt the specified nbme mbps to.
      *
      * @throws NullPointerException {@inheritDoc}
      */
-    public Object getProperty(String name) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
+    public Object getProperty(String nbme) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme is null");
         }
-        return propMap.get(name);
+        return propMbp.get(nbme);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the name
+     * This implementbtion uses bn internbl {@link HbshMbp} to mbp the nbme
      * to the specified object.
      *
      * @throws NullPointerException {@inheritDoc}
      */
-    public Object setProperty(String name, Object value) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
+    public Object setProperty(String nbme, Object vblue) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme is null");
         }
-        return propMap.put(name, value);
+        return propMbp.put(nbme, vblue);
     }
 
     public KeySelector getKeySelector() {
@@ -155,90 +155,90 @@ public class DOMCryptoContext implements XMLCryptoContext {
     }
 
     /**
-     * Returns the <code>Element</code> with the specified ID attribute value.
+     * Returns the <code>Element</code> with the specified ID bttribute vblue.
      *
-     * <p>This implementation uses an internal {@link HashMap} to get the
-     * element that the specified attribute value maps to.
+     * <p>This implementbtion uses bn internbl {@link HbshMbp} to get the
+     * element thbt the specified bttribute vblue mbps to.
      *
-     * @param idValue the value of the ID
-     * @return the <code>Element</code> with the specified ID attribute value,
+     * @pbrbm idVblue the vblue of the ID
+     * @return the <code>Element</code> with the specified ID bttribute vblue,
      *    or <code>null</code> if none.
-     * @throws NullPointerException if <code>idValue</code> is <code>null</code>
+     * @throws NullPointerException if <code>idVblue</code> is <code>null</code>
      * @see #setIdAttributeNS
      */
-    public Element getElementById(String idValue) {
-        if (idValue == null) {
-            throw new NullPointerException("idValue is null");
+    public Element getElementById(String idVblue) {
+        if (idVblue == null) {
+            throw new NullPointerException("idVblue is null");
         }
-        return idMap.get(idValue);
+        return idMbp.get(idVblue);
     }
 
     /**
-     * Registers the element's attribute specified by the namespace URI and
-     * local name to be of type ID. The attribute must have a non-empty value.
+     * Registers the element's bttribute specified by the nbmespbce URI bnd
+     * locbl nbme to be of type ID. The bttribute must hbve b non-empty vblue.
      *
-     * <p>This implementation uses an internal {@link HashMap} to map the
-     * attribute's value to the specified element.
+     * <p>This implementbtion uses bn internbl {@link HbshMbp} to mbp the
+     * bttribute's vblue to the specified element.
      *
-     * @param element the element
-     * @param namespaceURI the namespace URI of the attribute (specify
-     *    <code>null</code> if not applicable)
-     * @param localName the local name of the attribute
-     * @throws IllegalArgumentException if <code>localName</code> is not an
-     *    attribute of the specified element or it does not contain a specific
-     *    value
+     * @pbrbm element the element
+     * @pbrbm nbmespbceURI the nbmespbce URI of the bttribute (specify
+     *    <code>null</code> if not bpplicbble)
+     * @pbrbm locblNbme the locbl nbme of the bttribute
+     * @throws IllegblArgumentException if <code>locblNbme</code> is not bn
+     *    bttribute of the specified element or it does not contbin b specific
+     *    vblue
      * @throws NullPointerException if <code>element</code> or
-     *    <code>localName</code> is <code>null</code>
+     *    <code>locblNbme</code> is <code>null</code>
      * @see #getElementById
      */
-    public void setIdAttributeNS(Element element, String namespaceURI,
-        String localName) {
+    public void setIdAttributeNS(Element element, String nbmespbceURI,
+        String locblNbme) {
         if (element == null) {
             throw new NullPointerException("element is null");
         }
-        if (localName == null) {
-            throw new NullPointerException("localName is null");
+        if (locblNbme == null) {
+            throw new NullPointerException("locblNbme is null");
         }
-        String idValue = element.getAttributeNS(namespaceURI, localName);
-        if (idValue == null || idValue.length() == 0) {
-            throw new IllegalArgumentException(localName + " is not an " +
-                "attribute");
+        String idVblue = element.getAttributeNS(nbmespbceURI, locblNbme);
+        if (idVblue == null || idVblue.length() == 0) {
+            throw new IllegblArgumentException(locblNbme + " is not bn " +
+                "bttribute");
         }
-        idMap.put(idValue, element);
+        idMbp.put(idVblue, element);
     }
 
     /**
-     * Returns a read-only iterator over the set of Id/Element mappings of
-     * this <code>DOMCryptoContext</code>. Attempts to modify the set via the
-     * {@link Iterator#remove} method throw an
-     * <code>UnsupportedOperationException</code>. The mappings are returned
-     * in no particular order. Each element in the iteration is represented as a
-     * {@link java.util.Map.Entry}. If the <code>DOMCryptoContext</code> is
-     * modified while an iteration is in progress, the results of the
-     * iteration are undefined.
+     * Returns b rebd-only iterbtor over the set of Id/Element mbppings of
+     * this <code>DOMCryptoContext</code>. Attempts to modify the set vib the
+     * {@link Iterbtor#remove} method throw bn
+     * <code>UnsupportedOperbtionException</code>. The mbppings bre returned
+     * in no pbrticulbr order. Ebch element in the iterbtion is represented bs b
+     * {@link jbvb.util.Mbp.Entry}. If the <code>DOMCryptoContext</code> is
+     * modified while bn iterbtion is in progress, the results of the
+     * iterbtion bre undefined.
      *
-     * @return a read-only iterator over the set of mappings
+     * @return b rebd-only iterbtor over the set of mbppings
      */
-    @SuppressWarnings("rawtypes")
-    public Iterator iterator() {
-        return Collections.unmodifiableMap(idMap).entrySet().iterator();
+    @SuppressWbrnings("rbwtypes")
+    public Iterbtor iterbtor() {
+        return Collections.unmodifibbleMbp(idMbp).entrySet().iterbtor();
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to get the object
-     * that the specified key maps to.
+     * This implementbtion uses bn internbl {@link HbshMbp} to get the object
+     * thbt the specified key mbps to.
      */
     public Object get(Object key) {
-        return objMap.get(key);
+        return objMbp.get(key);
     }
 
     /**
-     * This implementation uses an internal {@link HashMap} to map the key
+     * This implementbtion uses bn internbl {@link HbshMbp} to mbp the key
      * to the specified object.
      *
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public Object put(Object key, Object value) {
-        return objMap.put(key, value);
+    public Object put(Object key, Object vblue) {
+        return objMbp.put(key, vblue);
     }
 }

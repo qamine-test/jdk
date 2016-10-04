@@ -5,197 +5,197 @@
 /*
  * jmemsys.h
  *
- * Copyright (C) 1992-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1992-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This include file defines the interface between the system-independent
- * and system-dependent portions of the JPEG memory manager.  No other
+ * This include file defines the interfbce between the system-independent
+ * bnd system-dependent portions of the JPEG memory mbnbger.  No other
  * modules need include it.  (The system-independent portion is jmemmgr.c;
- * there are several different versions of the system-dependent portion.)
+ * there bre severbl different versions of the system-dependent portion.)
  *
- * This file works as-is for the system-dependent memory managers supplied
- * in the IJG distribution.  You may need to modify it if you write a
- * custom memory manager.  If system-dependent changes are needed in
- * this file, the best method is to #ifdef them based on a configuration
- * symbol supplied in jconfig.h, as we have done with USE_MSDOS_MEMMGR
- * and USE_MAC_MEMMGR.
+ * This file works bs-is for the system-dependent memory mbnbgers supplied
+ * in the IJG distribution.  You mby need to modify it if you write b
+ * custom memory mbnbger.  If system-dependent chbnges bre needed in
+ * this file, the best method is to #ifdef them bbsed on b configurbtion
+ * symbol supplied in jconfig.h, bs we hbve done with USE_MSDOS_MEMMGR
+ * bnd USE_MAC_MEMMGR.
  */
 
 
-/* Short forms of external names for systems with brain-damaged linkers. */
+/* Short forms of externbl nbmes for systems with brbin-dbmbged linkers. */
 
 #ifdef NEED_SHORT_EXTERNAL_NAMES
-#define jpeg_get_small          jGetSmall
-#define jpeg_free_small         jFreeSmall
-#define jpeg_get_large          jGetLarge
-#define jpeg_free_large         jFreeLarge
-#define jpeg_mem_available      jMemAvail
-#define jpeg_open_backing_store jOpenBackStore
+#define jpeg_get_smbll          jGetSmbll
+#define jpeg_free_smbll         jFreeSmbll
+#define jpeg_get_lbrge          jGetLbrge
+#define jpeg_free_lbrge         jFreeLbrge
+#define jpeg_mem_bvbilbble      jMemAvbil
+#define jpeg_open_bbcking_store jOpenBbckStore
 #define jpeg_mem_init           jMemInit
 #define jpeg_mem_term           jMemTerm
 #endif /* NEED_SHORT_EXTERNAL_NAMES */
 
 
 /*
- * These two functions are used to allocate and release small chunks of
- * memory.  (Typically the total amount requested through jpeg_get_small is
- * no more than 20K or so; this will be requested in chunks of a few K each.)
- * Behavior should be the same as for the standard library functions malloc
- * and free; in particular, jpeg_get_small must return NULL on failure.
- * On most systems, these ARE malloc and free.  jpeg_free_small is passed the
- * size of the object being freed, just in case it's needed.
- * On an 80x86 machine using small-data memory model, these manage near heap.
+ * These two functions bre used to bllocbte bnd relebse smbll chunks of
+ * memory.  (Typicblly the totbl bmount requested through jpeg_get_smbll is
+ * no more thbn 20K or so; this will be requested in chunks of b few K ebch.)
+ * Behbvior should be the sbme bs for the stbndbrd librbry functions mblloc
+ * bnd free; in pbrticulbr, jpeg_get_smbll must return NULL on fbilure.
+ * On most systems, these ARE mblloc bnd free.  jpeg_free_smbll is pbssed the
+ * size of the object being freed, just in cbse it's needed.
+ * On bn 80x86 mbchine using smbll-dbtb memory model, these mbnbge nebr hebp.
  */
 
-EXTERN(void *) jpeg_get_small JPP((j_common_ptr cinfo, size_t sizeofobject));
-EXTERN(void) jpeg_free_small JPP((j_common_ptr cinfo, void * object,
+EXTERN(void *) jpeg_get_smbll JPP((j_common_ptr cinfo, size_t sizeofobject));
+EXTERN(void) jpeg_free_smbll JPP((j_common_ptr cinfo, void * object,
                                   size_t sizeofobject));
 
 /*
- * These two functions are used to allocate and release large chunks of
- * memory (up to the total free space designated by jpeg_mem_available).
- * The interface is the same as above, except that on an 80x86 machine,
- * far pointers are used.  On most other machines these are identical to
- * the jpeg_get/free_small routines; but we keep them separate anyway,
- * in case a different allocation strategy is desirable for large chunks.
+ * These two functions bre used to bllocbte bnd relebse lbrge chunks of
+ * memory (up to the totbl free spbce designbted by jpeg_mem_bvbilbble).
+ * The interfbce is the sbme bs bbove, except thbt on bn 80x86 mbchine,
+ * fbr pointers bre used.  On most other mbchines these bre identicbl to
+ * the jpeg_get/free_smbll routines; but we keep them sepbrbte bnywby,
+ * in cbse b different bllocbtion strbtegy is desirbble for lbrge chunks.
  */
 
-EXTERN(void FAR *) jpeg_get_large JPP((j_common_ptr cinfo,
+EXTERN(void FAR *) jpeg_get_lbrge JPP((j_common_ptr cinfo,
                                        size_t sizeofobject));
-EXTERN(void) jpeg_free_large JPP((j_common_ptr cinfo, void FAR * object,
+EXTERN(void) jpeg_free_lbrge JPP((j_common_ptr cinfo, void FAR * object,
                                   size_t sizeofobject));
 
 /*
- * The macro MAX_ALLOC_CHUNK designates the maximum number of bytes that may
- * be requested in a single call to jpeg_get_large (and jpeg_get_small for that
- * matter, but that case should never come into play).  This macro is needed
- * to model the 64Kb-segment-size limit of far addressing on 80x86 machines.
- * On those machines, we expect that jconfig.h will provide a proper value.
- * On machines with 32-bit flat address spaces, any large constant may be used.
+ * The mbcro MAX_ALLOC_CHUNK designbtes the mbximum number of bytes thbt mby
+ * be requested in b single cbll to jpeg_get_lbrge (bnd jpeg_get_smbll for thbt
+ * mbtter, but thbt cbse should never come into plby).  This mbcro is needed
+ * to model the 64Kb-segment-size limit of fbr bddressing on 80x86 mbchines.
+ * On those mbchines, we expect thbt jconfig.h will provide b proper vblue.
+ * On mbchines with 32-bit flbt bddress spbces, bny lbrge constbnt mby be used.
  *
- * NB: jmemmgr.c expects that MAX_ALLOC_CHUNK will be representable as type
- * size_t and will be a multiple of sizeof(align_type).
+ * NB: jmemmgr.c expects thbt MAX_ALLOC_CHUNK will be representbble bs type
+ * size_t bnd will be b multiple of sizeof(blign_type).
  */
 
-#ifndef MAX_ALLOC_CHUNK         /* may be overridden in jconfig.h */
+#ifndef MAX_ALLOC_CHUNK         /* mby be overridden in jconfig.h */
 #define MAX_ALLOC_CHUNK  1000000000L
 #endif
 
 /*
- * This routine computes the total space still available for allocation by
- * jpeg_get_large.  If more space than this is needed, backing store will be
- * used.  NOTE: any memory already allocated must not be counted.
+ * This routine computes the totbl spbce still bvbilbble for bllocbtion by
+ * jpeg_get_lbrge.  If more spbce thbn this is needed, bbcking store will be
+ * used.  NOTE: bny memory blrebdy bllocbted must not be counted.
  *
- * There is a minimum space requirement, corresponding to the minimum
- * feasible buffer sizes; jmemmgr.c will request that much space even if
- * jpeg_mem_available returns zero.  The maximum space needed, enough to hold
- * all working storage in memory, is also passed in case it is useful.
- * Finally, the total space already allocated is passed.  If no better
- * method is available, cinfo->mem->max_memory_to_use - already_allocated
- * is often a suitable calculation.
+ * There is b minimum spbce requirement, corresponding to the minimum
+ * febsible buffer sizes; jmemmgr.c will request thbt much spbce even if
+ * jpeg_mem_bvbilbble returns zero.  The mbximum spbce needed, enough to hold
+ * bll working storbge in memory, is blso pbssed in cbse it is useful.
+ * Finblly, the totbl spbce blrebdy bllocbted is pbssed.  If no better
+ * method is bvbilbble, cinfo->mem->mbx_memory_to_use - blrebdy_bllocbted
+ * is often b suitbble cblculbtion.
  *
- * It is OK for jpeg_mem_available to underestimate the space available
- * (that'll just lead to more backing-store access than is really necessary).
- * However, an overestimate will lead to failure.  Hence it's wise to subtract
- * a slop factor from the true available space.  5% should be enough.
+ * It is OK for jpeg_mem_bvbilbble to underestimbte the spbce bvbilbble
+ * (thbt'll just lebd to more bbcking-store bccess thbn is reblly necessbry).
+ * However, bn overestimbte will lebd to fbilure.  Hence it's wise to subtrbct
+ * b slop fbctor from the true bvbilbble spbce.  5% should be enough.
  *
- * On machines with lots of virtual memory, any large constant may be returned.
- * Conversely, zero may be returned to always use the minimum amount of memory.
+ * On mbchines with lots of virtubl memory, bny lbrge constbnt mby be returned.
+ * Conversely, zero mby be returned to blwbys use the minimum bmount of memory.
  */
 
-EXTERN(size_t) jpeg_mem_available JPP((j_common_ptr cinfo,
+EXTERN(size_t) jpeg_mem_bvbilbble JPP((j_common_ptr cinfo,
                                      size_t min_bytes_needed,
-                                     size_t max_bytes_needed,
-                                     size_t already_allocated));
+                                     size_t mbx_bytes_needed,
+                                     size_t blrebdy_bllocbted));
 
 
 /*
- * This structure holds whatever state is needed to access a single
- * backing-store object.  The read/write/close method pointers are called
- * by jmemmgr.c to manipulate the backing-store object; all other fields
- * are private to the system-dependent backing store routines.
+ * This structure holds whbtever stbte is needed to bccess b single
+ * bbcking-store object.  The rebd/write/close method pointers bre cblled
+ * by jmemmgr.c to mbnipulbte the bbcking-store object; bll other fields
+ * bre privbte to the system-dependent bbcking store routines.
  */
 
-#define TEMP_NAME_LENGTH   64   /* max length of a temporary file's name */
+#define TEMP_NAME_LENGTH   64   /* mbx length of b temporbry file's nbme */
 
 
 #ifdef USE_MSDOS_MEMMGR         /* DOS-specific junk */
 
-typedef unsigned short XMSH;    /* type of extended-memory handles */
-typedef unsigned short EMSH;    /* type of expanded-memory handles */
+typedef unsigned short XMSH;    /* type of extended-memory hbndles */
+typedef unsigned short EMSH;    /* type of expbnded-memory hbndles */
 
 typedef union {
-  short file_handle;            /* DOS file handle if it's a temp file */
-  XMSH xms_handle;              /* handle if it's a chunk of XMS */
-  EMSH ems_handle;              /* handle if it's a chunk of EMS */
-} handle_union;
+  short file_hbndle;            /* DOS file hbndle if it's b temp file */
+  XMSH xms_hbndle;              /* hbndle if it's b chunk of XMS */
+  EMSH ems_hbndle;              /* hbndle if it's b chunk of EMS */
+} hbndle_union;
 
 #endif /* USE_MSDOS_MEMMGR */
 
-#ifdef USE_MAC_MEMMGR           /* Mac-specific junk */
+#ifdef USE_MAC_MEMMGR           /* Mbc-specific junk */
 #include <Files.h>
 #endif /* USE_MAC_MEMMGR */
 
 
-typedef struct backing_store_struct * backing_store_ptr;
+typedef struct bbcking_store_struct * bbcking_store_ptr;
 
-typedef struct backing_store_struct {
-  /* Methods for reading/writing/closing this backing-store object */
-  JMETHOD(void, read_backing_store, (j_common_ptr cinfo,
-                                     backing_store_ptr info,
-                                     void FAR * buffer_address,
+typedef struct bbcking_store_struct {
+  /* Methods for rebding/writing/closing this bbcking-store object */
+  JMETHOD(void, rebd_bbcking_store, (j_common_ptr cinfo,
+                                     bbcking_store_ptr info,
+                                     void FAR * buffer_bddress,
                                      long file_offset, long byte_count));
-  JMETHOD(void, write_backing_store, (j_common_ptr cinfo,
-                                      backing_store_ptr info,
-                                      void FAR * buffer_address,
+  JMETHOD(void, write_bbcking_store, (j_common_ptr cinfo,
+                                      bbcking_store_ptr info,
+                                      void FAR * buffer_bddress,
                                       long file_offset, long byte_count));
-  JMETHOD(void, close_backing_store, (j_common_ptr cinfo,
-                                      backing_store_ptr info));
+  JMETHOD(void, close_bbcking_store, (j_common_ptr cinfo,
+                                      bbcking_store_ptr info));
 
-  /* Private fields for system-dependent backing-store management */
+  /* Privbte fields for system-dependent bbcking-store mbnbgement */
 #ifdef USE_MSDOS_MEMMGR
-  /* For the MS-DOS manager (jmemdos.c), we need: */
-  handle_union handle;          /* reference to backing-store storage object */
-  char temp_name[TEMP_NAME_LENGTH]; /* name if it's a file */
+  /* For the MS-DOS mbnbger (jmemdos.c), we need: */
+  hbndle_union hbndle;          /* reference to bbcking-store storbge object */
+  chbr temp_nbme[TEMP_NAME_LENGTH]; /* nbme if it's b file */
 #else
 #ifdef USE_MAC_MEMMGR
-  /* For the Mac manager (jmemmac.c), we need: */
+  /* For the Mbc mbnbger (jmemmbc.c), we need: */
   short temp_file;              /* file reference number to temp file */
   FSSpec tempSpec;              /* the FSSpec for the temp file */
-  char temp_name[TEMP_NAME_LENGTH]; /* name if it's a file */
+  chbr temp_nbme[TEMP_NAME_LENGTH]; /* nbme if it's b file */
 #else
-  /* For a typical implementation with temp files, we need: */
+  /* For b typicbl implementbtion with temp files, we need: */
   FILE * temp_file;             /* stdio reference to temp file */
-  char temp_name[TEMP_NAME_LENGTH]; /* name of temp file */
+  chbr temp_nbme[TEMP_NAME_LENGTH]; /* nbme of temp file */
 #endif
 #endif
-} backing_store_info;
+} bbcking_store_info;
 
 
 /*
- * Initial opening of a backing-store object.  This must fill in the
- * read/write/close pointers in the object.  The read/write routines
- * may take an error exit if the specified maximum file size is exceeded.
- * (If jpeg_mem_available always returns a large value, this routine can
- * just take an error exit.)
+ * Initibl opening of b bbcking-store object.  This must fill in the
+ * rebd/write/close pointers in the object.  The rebd/write routines
+ * mby tbke bn error exit if the specified mbximum file size is exceeded.
+ * (If jpeg_mem_bvbilbble blwbys returns b lbrge vblue, this routine cbn
+ * just tbke bn error exit.)
  */
 
-EXTERN(void) jpeg_open_backing_store JPP((j_common_ptr cinfo,
-                                          backing_store_ptr info,
-                                          long total_bytes_needed));
+EXTERN(void) jpeg_open_bbcking_store JPP((j_common_ptr cinfo,
+                                          bbcking_store_ptr info,
+                                          long totbl_bytes_needed));
 
 
 /*
- * These routines take care of any system-dependent initialization and
- * cleanup required.  jpeg_mem_init will be called before anything is
- * allocated (and, therefore, nothing in cinfo is of use except the error
- * manager pointer).  It should return a suitable default value for
- * max_memory_to_use; this may subsequently be overridden by the surrounding
- * application.  (Note that max_memory_to_use is only important if
- * jpeg_mem_available chooses to consult it ... no one else will.)
- * jpeg_mem_term may assume that all requested memory has been freed and that
- * all opened backing-store objects have been closed.
+ * These routines tbke cbre of bny system-dependent initiblizbtion bnd
+ * clebnup required.  jpeg_mem_init will be cblled before bnything is
+ * bllocbted (bnd, therefore, nothing in cinfo is of use except the error
+ * mbnbger pointer).  It should return b suitbble defbult vblue for
+ * mbx_memory_to_use; this mby subsequently be overridden by the surrounding
+ * bpplicbtion.  (Note thbt mbx_memory_to_use is only importbnt if
+ * jpeg_mem_bvbilbble chooses to consult it ... no one else will.)
+ * jpeg_mem_term mby bssume thbt bll requested memory hbs been freed bnd thbt
+ * bll opened bbcking-store objects hbve been closed.
  */
 
 EXTERN(size_t) jpeg_mem_init JPP((j_common_ptr cinfo));

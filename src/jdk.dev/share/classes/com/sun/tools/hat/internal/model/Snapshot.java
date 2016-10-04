@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.lang.ref.SoftReference;
-import java.util.*;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
-import com.sun.tools.hat.internal.util.Misc;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.*;
+import com.sun.tools.hbt.internbl.pbrser.RebdBuffer;
+import com.sun.tools.hbt.internbl.util.Misc;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 /**
- * Represents a snapshot of the Java objects in the VM at one instant.
- * This is the top-level "model" object read out of a single .hprof or .bod
+ * Represents b snbpshot of the Jbvb objects in the VM bt one instbnt.
+ * This is the top-level "model" object rebd out of b single .hprof or .bod
  * file.
  */
 
-public class Snapshot {
+public clbss Snbpshot {
 
-    public static long SMALL_ID_MASK = 0x0FFFFFFFFL;
-    public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+    public stbtic long SMALL_ID_MASK = 0x0FFFFFFFFL;
+    public stbtic finbl byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-    private static final JavaField[] EMPTY_FIELD_ARRAY = new JavaField[0];
-    private static final JavaStatic[] EMPTY_STATIC_ARRAY = new JavaStatic[0];
+    privbte stbtic finbl JbvbField[] EMPTY_FIELD_ARRAY = new JbvbField[0];
+    privbte stbtic finbl JbvbStbtic[] EMPTY_STATIC_ARRAY = new JbvbStbtic[0];
 
-    // all heap objects
-    private Hashtable<Number, JavaHeapObject> heapObjects =
-                 new Hashtable<Number, JavaHeapObject>();
+    // bll hebp objects
+    privbte Hbshtbble<Number, JbvbHebpObject> hebpObjects =
+                 new Hbshtbble<Number, JbvbHebpObject>();
 
-    private Hashtable<Number, JavaClass> fakeClasses =
-                 new Hashtable<Number, JavaClass>();
+    privbte Hbshtbble<Number, JbvbClbss> fbkeClbsses =
+                 new Hbshtbble<Number, JbvbClbss>();
 
-    // all Roots in this Snapshot
-    private Vector<Root> roots = new Vector<Root>();
+    // bll Roots in this Snbpshot
+    privbte Vector<Root> roots = new Vector<Root>();
 
-    // name-to-class map
-    private Map<String, JavaClass> classes =
-                 new TreeMap<String, JavaClass>();
+    // nbme-to-clbss mbp
+    privbte Mbp<String, JbvbClbss> clbsses =
+                 new TreeMbp<String, JbvbClbss>();
 
-    // new objects relative to a baseline - lazily initialized
-    private volatile Map<JavaHeapObject, Boolean> newObjects;
+    // new objects relbtive to b bbseline - lbzily initiblized
+    privbte volbtile Mbp<JbvbHebpObject, Boolebn> newObjects;
 
-    // allocation site traces for all objects - lazily initialized
-    private volatile Map<JavaHeapObject, StackTrace> siteTraces;
+    // bllocbtion site trbces for bll objects - lbzily initiblized
+    privbte volbtile Mbp<JbvbHebpObject, StbckTrbce> siteTrbces;
 
-    // object-to-Root map for all objects
-    private Map<JavaHeapObject, Root> rootsMap =
-                 new HashMap<JavaHeapObject, Root>();
+    // object-to-Root mbp for bll objects
+    privbte Mbp<JbvbHebpObject, Root> rootsMbp =
+                 new HbshMbp<JbvbHebpObject, Root>();
 
-    // soft cache of finalizeable objects - lazily initialized
-    private SoftReference<Vector<?>> finalizablesCache;
+    // soft cbche of finblizebble objects - lbzily initiblized
+    privbte SoftReference<Vector<?>> finblizbblesCbche;
 
     // represents null reference
-    private JavaThing nullThing;
+    privbte JbvbThing nullThing;
 
-    // java.lang.ref.Reference class
-    private JavaClass weakReferenceClass;
-    // index of 'referent' field in java.lang.ref.Reference class
-    private int referentFieldIndex;
+    // jbvb.lbng.ref.Reference clbss
+    privbte JbvbClbss webkReferenceClbss;
+    // index of 'referent' field in jbvb.lbng.ref.Reference clbss
+    privbte int referentFieldIndex;
 
-    // java.lang.Class class
-    private JavaClass javaLangClass;
-    // java.lang.String class
-    private JavaClass javaLangString;
-    // java.lang.ClassLoader class
-    private JavaClass javaLangClassLoader;
+    // jbvb.lbng.Clbss clbss
+    privbte JbvbClbss jbvbLbngClbss;
+    // jbvb.lbng.String clbss
+    privbte JbvbClbss jbvbLbngString;
+    // jbvb.lbng.ClbssLobder clbss
+    privbte JbvbClbss jbvbLbngClbssLobder;
 
-    // unknown "other" array class
-    private volatile JavaClass otherArrayType;
-    // Stuff to exclude from reachable query
-    private ReachableExcludes reachableExcludes;
-    // the underlying heap dump buffer
-    private ReadBuffer readBuf;
+    // unknown "other" brrby clbss
+    privbte volbtile JbvbClbss otherArrbyType;
+    // Stuff to exclude from rebchbble query
+    privbte RebchbbleExcludes rebchbbleExcludes;
+    // the underlying hebp dump buffer
+    privbte RebdBuffer rebdBuf;
 
-    // True iff some heap objects have isNew set
-    private boolean hasNewSet;
-    private boolean unresolvedObjectsOK;
+    // True iff some hebp objects hbve isNew set
+    privbte boolebn hbsNewSet;
+    privbte boolebn unresolvedObjectsOK;
 
-    // whether object array instances have new style class or
-    // old style (element) class.
-    private boolean newStyleArrayClass;
+    // whether object brrby instbnces hbve new style clbss or
+    // old style (element) clbss.
+    privbte boolebn newStyleArrbyClbss;
 
-    // object id size in the heap dump
-    private int identifierSize = 4;
+    // object id size in the hebp dump
+    privbte int identifierSize = 4;
 
-    // minimum object size - accounts for object header in
-    // most Java virtual machines - we assume 2 identifierSize
+    // minimum object size - bccounts for object hebder in
+    // most Jbvb virtubl mbchines - we bssume 2 identifierSize
     // (which is true for Sun's hotspot JVM).
-    private int minimumObjectSize;
+    privbte int minimumObjectSize;
 
-    public Snapshot(ReadBuffer buf) {
-        nullThing = new HackJavaValue("<null>", 0);
-        readBuf = buf;
+    public Snbpshot(RebdBuffer buf) {
+        nullThing = new HbckJbvbVblue("<null>", 0);
+        rebdBuf = buf;
     }
 
-    public void setSiteTrace(JavaHeapObject obj, StackTrace trace) {
-        if (trace != null && trace.getFrames().length != 0) {
-            initSiteTraces();
-            siteTraces.put(obj, trace);
+    public void setSiteTrbce(JbvbHebpObject obj, StbckTrbce trbce) {
+        if (trbce != null && trbce.getFrbmes().length != 0) {
+            initSiteTrbces();
+            siteTrbces.put(obj, trbce);
         }
     }
 
-    public StackTrace getSiteTrace(JavaHeapObject obj) {
-        if (siteTraces != null) {
-            return siteTraces.get(obj);
+    public StbckTrbce getSiteTrbce(JbvbHebpObject obj) {
+        if (siteTrbces != null) {
+            return siteTrbces.get(obj);
         } else {
             return null;
         }
     }
 
-    public void setNewStyleArrayClass(boolean value) {
-        newStyleArrayClass = value;
+    public void setNewStyleArrbyClbss(boolebn vblue) {
+        newStyleArrbyClbss = vblue;
     }
 
-    public boolean isNewStyleArrayClass() {
-        return newStyleArrayClass;
+    public boolebn isNewStyleArrbyClbss() {
+        return newStyleArrbyClbss;
     }
 
     public void setIdentifierSize(int size) {
@@ -162,165 +162,165 @@ public class Snapshot {
         return minimumObjectSize;
     }
 
-    public void addHeapObject(long id, JavaHeapObject ho) {
-        heapObjects.put(makeId(id), ho);
+    public void bddHebpObject(long id, JbvbHebpObject ho) {
+        hebpObjects.put(mbkeId(id), ho);
     }
 
-    public void addRoot(Root r) {
+    public void bddRoot(Root r) {
         r.setIndex(roots.size());
-        roots.addElement(r);
+        roots.bddElement(r);
     }
 
-    public void addClass(long id, JavaClass c) {
-        addHeapObject(id, c);
-        putInClassesMap(c);
+    public void bddClbss(long id, JbvbClbss c) {
+        bddHebpObject(id, c);
+        putInClbssesMbp(c);
     }
 
-    JavaClass addFakeInstanceClass(long classID, int instSize) {
-        // Create a fake class name based on ID.
-        String name = "unknown-class<@" + Misc.toHex(classID) + ">";
+    JbvbClbss bddFbkeInstbnceClbss(long clbssID, int instSize) {
+        // Crebte b fbke clbss nbme bbsed on ID.
+        String nbme = "unknown-clbss<@" + Misc.toHex(clbssID) + ">";
 
-        // Create fake fields convering the given instance size.
-        // Create as many as int type fields and for the left over
-        // size create byte type fields.
+        // Crebte fbke fields convering the given instbnce size.
+        // Crebte bs mbny bs int type fields bnd for the left over
+        // size crebte byte type fields.
         int numInts = instSize / 4;
         int numBytes = instSize % 4;
-        JavaField[] fields = new JavaField[numInts + numBytes];
+        JbvbField[] fields = new JbvbField[numInts + numBytes];
         int i;
         for (i = 0; i < numInts; i++) {
-            fields[i] = new JavaField("unknown-field-" + i, "I");
+            fields[i] = new JbvbField("unknown-field-" + i, "I");
         }
         for (i = 0; i < numBytes; i++) {
-            fields[i + numInts] = new JavaField("unknown-field-" +
+            fields[i + numInts] = new JbvbField("unknown-field-" +
                                                 i + numInts, "B");
         }
 
-        // Create fake instance class
-        JavaClass c = new JavaClass(name, 0, 0, 0, 0, fields,
+        // Crebte fbke instbnce clbss
+        JbvbClbss c = new JbvbClbss(nbme, 0, 0, 0, 0, fields,
                                  EMPTY_STATIC_ARRAY, instSize);
-        // Add the class
-        addFakeClass(makeId(classID), c);
+        // Add the clbss
+        bddFbkeClbss(mbkeId(clbssID), c);
         return c;
     }
 
 
     /**
-     * @return true iff it's possible that some JavaThing instances might
+     * @return true iff it's possible thbt some JbvbThing instbnces might
      *          isNew set
      *
-     * @see JavaThing.isNew()
+     * @see JbvbThing.isNew()
      */
-    public boolean getHasNewSet() {
-        return hasNewSet;
+    public boolebn getHbsNewSet() {
+        return hbsNewSet;
     }
 
     //
     // Used in the body of resolve()
     //
-    private static class MyVisitor extends AbstractJavaHeapObjectVisitor {
-        JavaHeapObject t;
-        public void visit(JavaHeapObject other) {
-            other.addReferenceFrom(t);
+    privbte stbtic clbss MyVisitor extends AbstrbctJbvbHebpObjectVisitor {
+        JbvbHebpObject t;
+        public void visit(JbvbHebpObject other) {
+            other.bddReferenceFrom(t);
         }
     }
 
-    // To show heap parsing progress, we print a '.' after this limit
-    private static final int DOT_LIMIT = 5000;
+    // To show hebp pbrsing progress, we print b '.' bfter this limit
+    privbte stbtic finbl int DOT_LIMIT = 5000;
 
     /**
-     * Called after reading complete, to initialize the structure
+     * Cblled bfter rebding complete, to initiblize the structure
      */
-    public void resolve(boolean calculateRefs) {
-        System.out.println("Resolving " + heapObjects.size() + " objects...");
+    public void resolve(boolebn cblculbteRefs) {
+        System.out.println("Resolving " + hebpObjects.size() + " objects...");
 
-        // First, resolve the classes.  All classes must be resolved before
-        // we try any objects, because the objects use classes in their
+        // First, resolve the clbsses.  All clbsses must be resolved before
+        // we try bny objects, becbuse the objects use clbsses in their
         // resolution.
-        javaLangClass = findClass("java.lang.Class");
-        if (javaLangClass == null) {
-            System.out.println("WARNING:  hprof file does not include java.lang.Class!");
-            javaLangClass = new JavaClass("java.lang.Class", 0, 0, 0, 0,
+        jbvbLbngClbss = findClbss("jbvb.lbng.Clbss");
+        if (jbvbLbngClbss == null) {
+            System.out.println("WARNING:  hprof file does not include jbvb.lbng.Clbss!");
+            jbvbLbngClbss = new JbvbClbss("jbvb.lbng.Clbss", 0, 0, 0, 0,
                                  EMPTY_FIELD_ARRAY, EMPTY_STATIC_ARRAY, 0);
-            addFakeClass(javaLangClass);
+            bddFbkeClbss(jbvbLbngClbss);
         }
-        javaLangString = findClass("java.lang.String");
-        if (javaLangString == null) {
-            System.out.println("WARNING:  hprof file does not include java.lang.String!");
-            javaLangString = new JavaClass("java.lang.String", 0, 0, 0, 0,
+        jbvbLbngString = findClbss("jbvb.lbng.String");
+        if (jbvbLbngString == null) {
+            System.out.println("WARNING:  hprof file does not include jbvb.lbng.String!");
+            jbvbLbngString = new JbvbClbss("jbvb.lbng.String", 0, 0, 0, 0,
                                  EMPTY_FIELD_ARRAY, EMPTY_STATIC_ARRAY, 0);
-            addFakeClass(javaLangString);
+            bddFbkeClbss(jbvbLbngString);
         }
-        javaLangClassLoader = findClass("java.lang.ClassLoader");
-        if (javaLangClassLoader == null) {
-            System.out.println("WARNING:  hprof file does not include java.lang.ClassLoader!");
-            javaLangClassLoader = new JavaClass("java.lang.ClassLoader", 0, 0, 0, 0,
+        jbvbLbngClbssLobder = findClbss("jbvb.lbng.ClbssLobder");
+        if (jbvbLbngClbssLobder == null) {
+            System.out.println("WARNING:  hprof file does not include jbvb.lbng.ClbssLobder!");
+            jbvbLbngClbssLobder = new JbvbClbss("jbvb.lbng.ClbssLobder", 0, 0, 0, 0,
                                  EMPTY_FIELD_ARRAY, EMPTY_STATIC_ARRAY, 0);
-            addFakeClass(javaLangClassLoader);
+            bddFbkeClbss(jbvbLbngClbssLobder);
         }
 
-        for (JavaHeapObject t : heapObjects.values()) {
-            if (t instanceof JavaClass) {
+        for (JbvbHebpObject t : hebpObjects.vblues()) {
+            if (t instbnceof JbvbClbss) {
                 t.resolve(this);
             }
         }
 
         // Now, resolve everything else.
-        for (JavaHeapObject t : heapObjects.values()) {
-            if (!(t instanceof JavaClass)) {
+        for (JbvbHebpObject t : hebpObjects.vblues()) {
+            if (!(t instbnceof JbvbClbss)) {
                 t.resolve(this);
             }
         }
 
-        heapObjects.putAll(fakeClasses);
-        fakeClasses.clear();
+        hebpObjects.putAll(fbkeClbsses);
+        fbkeClbsses.clebr();
 
-        weakReferenceClass = findClass("java.lang.ref.Reference");
-        if (weakReferenceClass == null)  {      // JDK 1.1.x
-            weakReferenceClass = findClass("sun.misc.Ref");
+        webkReferenceClbss = findClbss("jbvb.lbng.ref.Reference");
+        if (webkReferenceClbss == null)  {      // JDK 1.1.x
+            webkReferenceClbss = findClbss("sun.misc.Ref");
             referentFieldIndex = 0;
         } else {
-            JavaField[] fields = weakReferenceClass.getFieldsForInstance();
+            JbvbField[] fields = webkReferenceClbss.getFieldsForInstbnce();
             for (int i = 0; i < fields.length; i++) {
-                if ("referent".equals(fields[i].getName())) {
+                if ("referent".equbls(fields[i].getNbme())) {
                     referentFieldIndex = i;
-                    break;
+                    brebk;
                 }
             }
         }
 
-        if (calculateRefs) {
-            calculateReferencesToObjects();
-            System.out.print("Eliminating duplicate references");
+        if (cblculbteRefs) {
+            cblculbteReferencesToObjects();
+            System.out.print("Eliminbting duplicbte references");
             System.out.flush();
             // This println refers to the *next* step
         }
         int count = 0;
-        for (JavaHeapObject t : heapObjects.values()) {
+        for (JbvbHebpObject t : hebpObjects.vblues()) {
             t.setupReferers();
             ++count;
-            if (calculateRefs && count % DOT_LIMIT == 0) {
+            if (cblculbteRefs && count % DOT_LIMIT == 0) {
                 System.out.print(".");
                 System.out.flush();
             }
         }
-        if (calculateRefs) {
+        if (cblculbteRefs) {
             System.out.println("");
         }
 
-        // to ensure that Iterator.remove() on getClasses()
+        // to ensure thbt Iterbtor.remove() on getClbsses()
         // result will throw exception..
-        classes = Collections.unmodifiableMap(classes);
+        clbsses = Collections.unmodifibbleMbp(clbsses);
     }
 
-    private void calculateReferencesToObjects() {
-        System.out.print("Chasing references, expect "
-                         + (heapObjects.size() / DOT_LIMIT) + " dots");
+    privbte void cblculbteReferencesToObjects() {
+        System.out.print("Chbsing references, expect "
+                         + (hebpObjects.size() / DOT_LIMIT) + " dots");
         System.out.flush();
         int count = 0;
         MyVisitor visitor = new MyVisitor();
-        for (JavaHeapObject t : heapObjects.values()) {
+        for (JbvbHebpObject t : hebpObjects.vblues()) {
             visitor.t = t;
-            // call addReferenceFrom(t) on all objects t references:
+            // cbll bddReferenceFrom(t) on bll objects t references:
             t.visitReferencedObjects(visitor);
             ++count;
             if (count % DOT_LIMIT == 0) {
@@ -331,104 +331,104 @@ public class Snapshot {
         System.out.println();
         for (Root r : roots) {
             r.resolve(this);
-            JavaHeapObject t = findThing(r.getId());
+            JbvbHebpObject t = findThing(r.getId());
             if (t != null) {
-                t.addReferenceFromRoot(r);
+                t.bddReferenceFromRoot(r);
             }
         }
     }
 
-    public void markNewRelativeTo(Snapshot baseline) {
-        hasNewSet = true;
-        for (JavaHeapObject t : heapObjects.values()) {
-            boolean isNew;
+    public void mbrkNewRelbtiveTo(Snbpshot bbseline) {
+        hbsNewSet = true;
+        for (JbvbHebpObject t : hebpObjects.vblues()) {
+            boolebn isNew;
             long thingID = t.getId();
             if (thingID == 0L || thingID == -1L) {
-                isNew = false;
+                isNew = fblse;
             } else {
-                JavaThing other = baseline.findThing(t.getId());
+                JbvbThing other = bbseline.findThing(t.getId());
                 if (other == null) {
                     isNew = true;
                 } else {
-                    isNew = !t.isSameTypeAs(other);
+                    isNew = !t.isSbmeTypeAs(other);
                 }
             }
             t.setNew(isNew);
         }
     }
 
-    public Enumeration<JavaHeapObject> getThings() {
-        return heapObjects.elements();
+    public Enumerbtion<JbvbHebpObject> getThings() {
+        return hebpObjects.elements();
     }
 
 
-    public JavaHeapObject findThing(long id) {
-        Number idObj = makeId(id);
-        JavaHeapObject jho = heapObjects.get(idObj);
-        return jho != null? jho : fakeClasses.get(idObj);
+    public JbvbHebpObject findThing(long id) {
+        Number idObj = mbkeId(id);
+        JbvbHebpObject jho = hebpObjects.get(idObj);
+        return jho != null? jho : fbkeClbsses.get(idObj);
     }
 
-    public JavaHeapObject findThing(String id) {
-        return findThing(Misc.parseHex(id));
+    public JbvbHebpObject findThing(String id) {
+        return findThing(Misc.pbrseHex(id));
     }
 
-    public JavaClass findClass(String name) {
-        if (name.startsWith("0x")) {
-            return (JavaClass) findThing(name);
+    public JbvbClbss findClbss(String nbme) {
+        if (nbme.stbrtsWith("0x")) {
+            return (JbvbClbss) findThing(nbme);
         } else {
-            return classes.get(name);
+            return clbsses.get(nbme);
         }
     }
 
     /**
-     * Return an Iterator of all of the classes in this snapshot.
+     * Return bn Iterbtor of bll of the clbsses in this snbpshot.
      **/
-    public Iterator<JavaClass> getClasses() {
-        // note that because classes is a TreeMap
-        // classes are already sorted by name
-        return classes.values().iterator();
+    public Iterbtor<JbvbClbss> getClbsses() {
+        // note thbt becbuse clbsses is b TreeMbp
+        // clbsses bre blrebdy sorted by nbme
+        return clbsses.vblues().iterbtor();
     }
 
-    public JavaClass[] getClassesArray() {
-        JavaClass[] res = new JavaClass[classes.size()];
-        classes.values().toArray(res);
+    public JbvbClbss[] getClbssesArrby() {
+        JbvbClbss[] res = new JbvbClbss[clbsses.size()];
+        clbsses.vblues().toArrby(res);
         return res;
     }
 
-    public synchronized Enumeration<?> getFinalizerObjects() {
+    public synchronized Enumerbtion<?> getFinblizerObjects() {
         Vector<?> obj;
-        if (finalizablesCache != null &&
-            (obj = finalizablesCache.get()) != null) {
+        if (finblizbblesCbche != null &&
+            (obj = finblizbblesCbche.get()) != null) {
             return obj.elements();
         }
 
-        JavaClass clazz = findClass("java.lang.ref.Finalizer");
-        JavaObject queue = (JavaObject) clazz.getStaticField("queue");
-        JavaThing tmp = queue.getField("head");
-        Vector<JavaHeapObject> finalizables = new Vector<JavaHeapObject>();
+        JbvbClbss clbzz = findClbss("jbvb.lbng.ref.Finblizer");
+        JbvbObject queue = (JbvbObject) clbzz.getStbticField("queue");
+        JbvbThing tmp = queue.getField("hebd");
+        Vector<JbvbHebpObject> finblizbbles = new Vector<JbvbHebpObject>();
         if (tmp != getNullThing()) {
-            JavaObject head = (JavaObject) tmp;
+            JbvbObject hebd = (JbvbObject) tmp;
             while (true) {
-                JavaHeapObject referent = (JavaHeapObject) head.getField("referent");
-                JavaThing next = head.getField("next");
-                if (next == getNullThing() || next.equals(head)) {
-                    break;
+                JbvbHebpObject referent = (JbvbHebpObject) hebd.getField("referent");
+                JbvbThing next = hebd.getField("next");
+                if (next == getNullThing() || next.equbls(hebd)) {
+                    brebk;
                 }
-                head = (JavaObject) next;
-                finalizables.add(referent);
+                hebd = (JbvbObject) next;
+                finblizbbles.bdd(referent);
             }
         }
-        finalizablesCache = new SoftReference<Vector<?>>(finalizables);
-        return finalizables.elements();
+        finblizbblesCbche = new SoftReference<Vector<?>>(finblizbbles);
+        return finblizbbles.elements();
     }
 
-    public Enumeration<Root> getRoots() {
+    public Enumerbtion<Root> getRoots() {
         return roots.elements();
     }
 
-    public Root[] getRootsArray() {
+    public Root[] getRootsArrby() {
         Root[] res = new Root[roots.size()];
-        roots.toArray(res);
+        roots.toArrby(res);
         return res;
     }
 
@@ -436,150 +436,150 @@ public class Snapshot {
         return roots.elementAt(i);
     }
 
-    public ReferenceChain[]
-    rootsetReferencesTo(JavaHeapObject target, boolean includeWeak) {
-        Vector<ReferenceChain> fifo = new Vector<ReferenceChain>();  // This is slow... A real fifo would help
-            // Must be a fifo to go breadth-first
-        Hashtable<JavaHeapObject, JavaHeapObject> visited = new Hashtable<JavaHeapObject, JavaHeapObject>();
-        // Objects are added here right after being added to fifo.
-        Vector<ReferenceChain> result = new Vector<ReferenceChain>();
-        visited.put(target, target);
-        fifo.addElement(new ReferenceChain(target, null));
+    public ReferenceChbin[]
+    rootsetReferencesTo(JbvbHebpObject tbrget, boolebn includeWebk) {
+        Vector<ReferenceChbin> fifo = new Vector<ReferenceChbin>();  // This is slow... A rebl fifo would help
+            // Must be b fifo to go brebdth-first
+        Hbshtbble<JbvbHebpObject, JbvbHebpObject> visited = new Hbshtbble<JbvbHebpObject, JbvbHebpObject>();
+        // Objects bre bdded here right bfter being bdded to fifo.
+        Vector<ReferenceChbin> result = new Vector<ReferenceChbin>();
+        visited.put(tbrget, tbrget);
+        fifo.bddElement(new ReferenceChbin(tbrget, null));
 
         while (fifo.size() > 0) {
-            ReferenceChain chain = fifo.elementAt(0);
+            ReferenceChbin chbin = fifo.elementAt(0);
             fifo.removeElementAt(0);
-            JavaHeapObject curr = chain.getObj();
+            JbvbHebpObject curr = chbin.getObj();
             if (curr.getRoot() != null) {
-                result.addElement(chain);
-                // Even though curr is in the rootset, we want to explore its
-                // referers, because they might be more interesting.
+                result.bddElement(chbin);
+                // Even though curr is in the rootset, we wbnt to explore its
+                // referers, becbuse they might be more interesting.
             }
-            Enumeration<JavaThing> referers = curr.getReferers();
-            while (referers.hasMoreElements()) {
-                JavaHeapObject t = (JavaHeapObject) referers.nextElement();
-                if (t != null && !visited.containsKey(t)) {
-                    if (includeWeak || !t.refersOnlyWeaklyTo(this, curr)) {
+            Enumerbtion<JbvbThing> referers = curr.getReferers();
+            while (referers.hbsMoreElements()) {
+                JbvbHebpObject t = (JbvbHebpObject) referers.nextElement();
+                if (t != null && !visited.contbinsKey(t)) {
+                    if (includeWebk || !t.refersOnlyWebklyTo(this, curr)) {
                         visited.put(t, t);
-                        fifo.addElement(new ReferenceChain(t, chain));
+                        fifo.bddElement(new ReferenceChbin(t, chbin));
                     }
                 }
             }
         }
 
-        ReferenceChain[] realResult = new ReferenceChain[result.size()];
+        ReferenceChbin[] reblResult = new ReferenceChbin[result.size()];
         for (int i = 0; i < result.size(); i++) {
-            realResult[i] =  result.elementAt(i);
+            reblResult[i] =  result.elementAt(i);
         }
-        return realResult;
+        return reblResult;
     }
 
-    public boolean getUnresolvedObjectsOK() {
+    public boolebn getUnresolvedObjectsOK() {
         return unresolvedObjectsOK;
     }
 
-    public void setUnresolvedObjectsOK(boolean v) {
+    public void setUnresolvedObjectsOK(boolebn v) {
         unresolvedObjectsOK = v;
     }
 
-    public JavaClass getWeakReferenceClass() {
-        return weakReferenceClass;
+    public JbvbClbss getWebkReferenceClbss() {
+        return webkReferenceClbss;
     }
 
     public int getReferentFieldIndex() {
         return referentFieldIndex;
     }
 
-    public JavaThing getNullThing() {
+    public JbvbThing getNullThing() {
         return nullThing;
     }
 
-    public void setReachableExcludes(ReachableExcludes e) {
-        reachableExcludes = e;
+    public void setRebchbbleExcludes(RebchbbleExcludes e) {
+        rebchbbleExcludes = e;
     }
 
-    public ReachableExcludes getReachableExcludes() {
-        return reachableExcludes;
+    public RebchbbleExcludes getRebchbbleExcludes() {
+        return rebchbbleExcludes;
     }
 
-    // package privates
-    void addReferenceFromRoot(Root r, JavaHeapObject obj) {
-        Root root = rootsMap.get(obj);
+    // pbckbge privbtes
+    void bddReferenceFromRoot(Root r, JbvbHebpObject obj) {
+        Root root = rootsMbp.get(obj);
         if (root == null) {
-            rootsMap.put(obj, r);
+            rootsMbp.put(obj, r);
         } else {
-            rootsMap.put(obj, root.mostInteresting(r));
+            rootsMbp.put(obj, root.mostInteresting(r));
         }
     }
 
-    Root getRoot(JavaHeapObject obj) {
-        return rootsMap.get(obj);
+    Root getRoot(JbvbHebpObject obj) {
+        return rootsMbp.get(obj);
     }
 
-    JavaClass getJavaLangClass() {
-        return javaLangClass;
+    JbvbClbss getJbvbLbngClbss() {
+        return jbvbLbngClbss;
     }
 
-    JavaClass getJavaLangString() {
-        return javaLangString;
+    JbvbClbss getJbvbLbngString() {
+        return jbvbLbngString;
     }
 
-    JavaClass getJavaLangClassLoader() {
-        return javaLangClassLoader;
+    JbvbClbss getJbvbLbngClbssLobder() {
+        return jbvbLbngClbssLobder;
     }
 
-    JavaClass getOtherArrayType() {
-        if (otherArrayType == null) {
+    JbvbClbss getOtherArrbyType() {
+        if (otherArrbyType == null) {
             synchronized(this) {
-                if (otherArrayType == null) {
-                    addFakeClass(new JavaClass("[<other>", 0, 0, 0, 0,
+                if (otherArrbyType == null) {
+                    bddFbkeClbss(new JbvbClbss("[<other>", 0, 0, 0, 0,
                                      EMPTY_FIELD_ARRAY, EMPTY_STATIC_ARRAY,
                                      0));
-                    otherArrayType = findClass("[<other>");
+                    otherArrbyType = findClbss("[<other>");
                 }
             }
         }
-        return otherArrayType;
+        return otherArrbyType;
     }
 
-    JavaClass getArrayClass(String elementSignature) {
-        JavaClass clazz;
-        synchronized(classes) {
-            clazz = findClass("[" + elementSignature);
-            if (clazz == null) {
-                clazz = new JavaClass("[" + elementSignature, 0, 0, 0, 0,
+    JbvbClbss getArrbyClbss(String elementSignbture) {
+        JbvbClbss clbzz;
+        synchronized(clbsses) {
+            clbzz = findClbss("[" + elementSignbture);
+            if (clbzz == null) {
+                clbzz = new JbvbClbss("[" + elementSignbture, 0, 0, 0, 0,
                                    EMPTY_FIELD_ARRAY, EMPTY_STATIC_ARRAY, 0);
-                addFakeClass(clazz);
-                // This is needed because the JDK only creates Class structures
-                // for array element types, not the arrays themselves.  For
-                // analysis, though, we need to pretend that there's a
-                // JavaClass for the array type, too.
+                bddFbkeClbss(clbzz);
+                // This is needed becbuse the JDK only crebtes Clbss structures
+                // for brrby element types, not the brrbys themselves.  For
+                // bnblysis, though, we need to pretend thbt there's b
+                // JbvbClbss for the brrby type, too.
             }
         }
-        return clazz;
+        return clbzz;
     }
 
-    ReadBuffer getReadBuffer() {
-        return readBuf;
+    RebdBuffer getRebdBuffer() {
+        return rebdBuf;
     }
 
-    void setNew(JavaHeapObject obj, boolean isNew) {
+    void setNew(JbvbHebpObject obj, boolebn isNew) {
         initNewObjects();
         if (isNew) {
-            newObjects.put(obj, Boolean.TRUE);
+            newObjects.put(obj, Boolebn.TRUE);
         }
     }
 
-    boolean isNew(JavaHeapObject obj) {
+    boolebn isNew(JbvbHebpObject obj) {
         if (newObjects != null) {
             return newObjects.get(obj) != null;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    // Internals only below this point
-    private Number makeId(long id) {
+    // Internbls only below this point
+    privbte Number mbkeId(long id) {
         if (identifierSize == 4) {
             return (int)id;
         } else {
@@ -587,42 +587,42 @@ public class Snapshot {
         }
     }
 
-    private void putInClassesMap(JavaClass c) {
-        String name = c.getName();
-        if (classes.containsKey(name)) {
-            // more than one class can have the same name
-            // if so, create a unique name by appending
-            // - and id string to it.
-            name += "-" + c.getIdString();
+    privbte void putInClbssesMbp(JbvbClbss c) {
+        String nbme = c.getNbme();
+        if (clbsses.contbinsKey(nbme)) {
+            // more thbn one clbss cbn hbve the sbme nbme
+            // if so, crebte b unique nbme by bppending
+            // - bnd id string to it.
+            nbme += "-" + c.getIdString();
         }
-        classes.put(c.getName(), c);
+        clbsses.put(c.getNbme(), c);
     }
 
-    private void addFakeClass(JavaClass c) {
-        putInClassesMap(c);
+    privbte void bddFbkeClbss(JbvbClbss c) {
+        putInClbssesMbp(c);
         c.resolve(this);
     }
 
-    private void addFakeClass(Number id, JavaClass c) {
-        fakeClasses.put(id, c);
-        addFakeClass(c);
+    privbte void bddFbkeClbss(Number id, JbvbClbss c) {
+        fbkeClbsses.put(id, c);
+        bddFbkeClbss(c);
     }
 
-    private synchronized void initNewObjects() {
+    privbte synchronized void initNewObjects() {
         if (newObjects == null) {
             synchronized (this) {
                 if (newObjects == null) {
-                    newObjects = new HashMap<JavaHeapObject, Boolean>();
+                    newObjects = new HbshMbp<JbvbHebpObject, Boolebn>();
                 }
             }
         }
     }
 
-    private synchronized void initSiteTraces() {
-        if (siteTraces == null) {
+    privbte synchronized void initSiteTrbces() {
+        if (siteTrbces == null) {
             synchronized (this) {
-                if (siteTraces == null) {
-                    siteTraces = new HashMap<JavaHeapObject, StackTrace>();
+                if (siteTrbces == null) {
+                    siteTrbces = new HbshMbp<JbvbHebpObject, StbckTrbce>();
                 }
             }
         }

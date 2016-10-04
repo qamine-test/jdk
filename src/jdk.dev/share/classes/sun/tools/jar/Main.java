@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jar;
+pbckbge sun.tools.jbr;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.zip.*;
-import java.util.jar.*;
-import java.util.jar.Pack200.*;
-import java.util.jar.Manifest;
-import java.text.MessageFormat;
-import sun.misc.JarIndex;
-import static sun.misc.JarIndex.INDEX_NAME;
-import static java.util.jar.JarFile.MANIFEST_NAME;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import jbvb.io.*;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.Files;
+import jbvb.util.*;
+import jbvb.util.zip.*;
+import jbvb.util.jbr.*;
+import jbvb.util.jbr.Pbck200.*;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.text.MessbgeFormbt;
+import sun.misc.JbrIndex;
+import stbtic sun.misc.JbrIndex.INDEX_NAME;
+import stbtic jbvb.util.jbr.JbrFile.MANIFEST_NAME;
+import stbtic jbvb.nio.file.StbndbrdCopyOption.REPLACE_EXISTING;
 
 /**
- * This class implements a simple utility for creating files in the JAR
- * (Java Archive) file format. The JAR format is based on the ZIP file
- * format, with optional meta-information stored in a MANIFEST entry.
+ * This clbss implements b simple utility for crebting files in the JAR
+ * (Jbvb Archive) file formbt. The JAR formbt is bbsed on the ZIP file
+ * formbt, with optionbl metb-informbtion stored in b MANIFEST entry.
  */
 public
-class Main {
-    String program;
-    PrintStream out, err;
-    String fname, mname, ename;
-    String zname = "";
+clbss Mbin {
+    String progrbm;
+    PrintStrebm out, err;
+    String fnbme, mnbme, enbme;
+    String znbme = "";
     String[] files;
-    String rootjar = null;
+    String rootjbr = null;
 
-    // An entryName(path)->File map generated during "expand", it helps to
-    // decide whether or not an existing entry in a jar file needs to be
-    // replaced, during the "update" operation.
-    Map<String, File> entryMap = new HashMap<String, File>();
+    // An entryNbme(pbth)->File mbp generbted during "expbnd", it helps to
+    // decide whether or not bn existing entry in b jbr file needs to be
+    // replbced, during the "updbte" operbtion.
+    Mbp<String, File> entryMbp = new HbshMbp<String, File>();
 
-    // All files need to be added/updated.
-    Set<File> entries = new LinkedHashSet<File>();
+    // All files need to be bdded/updbted.
+    Set<File> entries = new LinkedHbshSet<File>();
 
-    // Directories specified by "-C" operation.
-    Set<String> paths = new HashSet<String>();
+    // Directories specified by "-C" operbtion.
+    Set<String> pbths = new HbshSet<String>();
 
     /*
-     * cflag: create
-     * uflag: update
-     * xflag: xtract
-     * tflag: table
-     * vflag: verbose
-     * flag0: no zip compression (store only)
-     * Mflag: DO NOT generate a manifest file (just ZIP)
-     * iflag: generate jar index
-     * nflag: Perform jar normalization at the end
+     * cflbg: crebte
+     * uflbg: updbte
+     * xflbg: xtrbct
+     * tflbg: tbble
+     * vflbg: verbose
+     * flbg0: no zip compression (store only)
+     * Mflbg: DO NOT generbte b mbnifest file (just ZIP)
+     * iflbg: generbte jbr index
+     * nflbg: Perform jbr normblizbtion bt the end
      */
-    boolean cflag, uflag, xflag, tflag, vflag, flag0, Mflag, iflag, nflag;
+    boolebn cflbg, uflbg, xflbg, tflbg, vflbg, flbg0, Mflbg, iflbg, nflbg;
 
-    static final String MANIFEST_DIR = "META-INF/";
-    static final String VERSION = "1.0";
+    stbtic finbl String MANIFEST_DIR = "META-INF/";
+    stbtic finbl String VERSION = "1.0";
 
-    private static ResourceBundle rsrc;
+    privbte stbtic ResourceBundle rsrc;
 
     /**
-     * If true, maintain compatibility with JDK releases prior to 6.0 by
-     * timestamping extracted files with the time at which they are extracted.
-     * Default is to use the time given in the archive.
+     * If true, mbintbin compbtibility with JDK relebses prior to 6.0 by
+     * timestbmping extrbcted files with the time bt which they bre extrbcted.
+     * Defbult is to use the time given in the brchive.
      */
-    private static final boolean useExtractionTime =
-        Boolean.getBoolean("sun.tools.jar.useExtractionTime");
+    privbte stbtic finbl boolebn useExtrbctionTime =
+        Boolebn.getBoolebn("sun.tools.jbr.useExtrbctionTime");
 
     /**
-     * Initialize ResourceBundle
+     * Initiblize ResourceBundle
      */
-    static {
+    stbtic {
         try {
-            rsrc = ResourceBundle.getBundle("sun.tools.jar.resources.jar");
-        } catch (MissingResourceException e) {
-            throw new Error("Fatal: Resource for jar is missing");
+            rsrc = ResourceBundle.getBundle("sun.tools.jbr.resources.jbr");
+        } cbtch (MissingResourceException e) {
+            throw new Error("Fbtbl: Resource for jbr is missing");
         }
     }
 
-    private String getMsg(String key) {
+    privbte String getMsg(String key) {
         try {
             return (rsrc.getString(key));
-        } catch (MissingResourceException e) {
-            throw new Error("Error in message file");
+        } cbtch (MissingResourceException e) {
+            throw new Error("Error in messbge file");
         }
     }
 
-    private String formatMsg(String key, String arg) {
+    privbte String formbtMsg(String key, String brg) {
         String msg = getMsg(key);
-        String[] args = new String[1];
-        args[0] = arg;
-        return MessageFormat.format(msg, (Object[]) args);
+        String[] brgs = new String[1];
+        brgs[0] = brg;
+        return MessbgeFormbt.formbt(msg, (Object[]) brgs);
     }
 
-    private String formatMsg2(String key, String arg, String arg1) {
+    privbte String formbtMsg2(String key, String brg, String brg1) {
         String msg = getMsg(key);
-        String[] args = new String[2];
-        args[0] = arg;
-        args[1] = arg1;
-        return MessageFormat.format(msg, (Object[]) args);
+        String[] brgs = new String[2];
+        brgs[0] = brg;
+        brgs[1] = brg1;
+        return MessbgeFormbt.formbt(msg, (Object[]) brgs);
     }
 
-    public Main(PrintStream out, PrintStream err, String program) {
+    public Mbin(PrintStrebm out, PrintStrebm err, String progrbm) {
         this.out = out;
         this.err = err;
-        this.program = program;
+        this.progrbm = progrbm;
     }
 
     /**
-     * Creates a new empty temporary file in the same directory as the
-     * specified file.  A variant of File.createTempFile.
+     * Crebtes b new empty temporbry file in the sbme directory bs the
+     * specified file.  A vbribnt of File.crebteTempFile.
      */
-    private static File createTempFileInSameDirectoryAs(File file)
+    privbte stbtic File crebteTempFileInSbmeDirectoryAs(File file)
         throws IOException {
-        File dir = file.getParentFile();
+        File dir = file.getPbrentFile();
         if (dir == null)
             dir = new File(".");
-        return File.createTempFile("jartmp", null, dir);
+        return File.crebteTempFile("jbrtmp", null, dir);
     }
 
-    private boolean ok;
+    privbte boolebn ok;
 
     /**
-     * Starts main program with the specified arguments.
+     * Stbrts mbin progrbm with the specified brguments.
      */
-    public synchronized boolean run(String args[]) {
+    public synchronized boolebn run(String brgs[]) {
         ok = true;
-        if (!parseArgs(args)) {
-            return false;
+        if (!pbrseArgs(brgs)) {
+            return fblse;
         }
         try {
-            if (cflag || uflag) {
-                if (fname != null) {
-                    // The name of the zip file as it would appear as its own
-                    // zip file entry. We use this to make sure that we don't
-                    // add the zip file to itself.
-                    zname = fname.replace(File.separatorChar, '/');
-                    if (zname.startsWith("./")) {
-                        zname = zname.substring(2);
+            if (cflbg || uflbg) {
+                if (fnbme != null) {
+                    // The nbme of the zip file bs it would bppebr bs its own
+                    // zip file entry. We use this to mbke sure thbt we don't
+                    // bdd the zip file to itself.
+                    znbme = fnbme.replbce(File.sepbrbtorChbr, '/');
+                    if (znbme.stbrtsWith("./")) {
+                        znbme = znbme.substring(2);
                     }
                 }
             }
-            if (cflag) {
-                Manifest manifest = null;
-                InputStream in = null;
+            if (cflbg) {
+                Mbnifest mbnifest = null;
+                InputStrebm in = null;
 
-                if (!Mflag) {
-                    if (mname != null) {
-                        in = new FileInputStream(mname);
-                        manifest = new Manifest(new BufferedInputStream(in));
+                if (!Mflbg) {
+                    if (mnbme != null) {
+                        in = new FileInputStrebm(mnbme);
+                        mbnifest = new Mbnifest(new BufferedInputStrebm(in));
                     } else {
-                        manifest = new Manifest();
+                        mbnifest = new Mbnifest();
                     }
-                    addVersion(manifest);
-                    addCreatedBy(manifest);
-                    if (isAmbiguousMainClass(manifest)) {
+                    bddVersion(mbnifest);
+                    bddCrebtedBy(mbnifest);
+                    if (isAmbiguousMbinClbss(mbnifest)) {
                         if (in != null) {
                             in.close();
                         }
-                        return false;
+                        return fblse;
                     }
-                    if (ename != null) {
-                        addMainClass(manifest, ename);
+                    if (enbme != null) {
+                        bddMbinClbss(mbnifest, enbme);
                     }
                 }
-                OutputStream out;
-                if (fname != null) {
-                    out = new FileOutputStream(fname);
+                OutputStrebm out;
+                if (fnbme != null) {
+                    out = new FileOutputStrebm(fnbme);
                 } else {
-                    out = new FileOutputStream(FileDescriptor.out);
-                    if (vflag) {
-                        // Disable verbose output so that it does not appear
-                        // on stdout along with file data
-                        // error("Warning: -v option ignored");
-                        vflag = false;
+                    out = new FileOutputStrebm(FileDescriptor.out);
+                    if (vflbg) {
+                        // Disbble verbose output so thbt it does not bppebr
+                        // on stdout blong with file dbtb
+                        // error("Wbrning: -v option ignored");
+                        vflbg = fblse;
                     }
                 }
                 File tmpfile = null;
-                final OutputStream finalout = out;
-                final String tmpbase = (fname == null)
-                        ? "tmpjar"
-                        : fname.substring(fname.indexOf(File.separatorChar) + 1);
-                if (nflag) {
-                    tmpfile = createTemporaryFile(tmpbase, ".jar");
-                    out = new FileOutputStream(tmpfile);
+                finbl OutputStrebm finblout = out;
+                finbl String tmpbbse = (fnbme == null)
+                        ? "tmpjbr"
+                        : fnbme.substring(fnbme.indexOf(File.sepbrbtorChbr) + 1);
+                if (nflbg) {
+                    tmpfile = crebteTemporbryFile(tmpbbse, ".jbr");
+                    out = new FileOutputStrebm(tmpfile);
                 }
-                expand(null, files, false);
-                create(new BufferedOutputStream(out, 4096), manifest);
+                expbnd(null, files, fblse);
+                crebte(new BufferedOutputStrebm(out, 4096), mbnifest);
                 if (in != null) {
                     in.close();
                 }
                 out.close();
-                if(nflag) {
-                    JarFile jarFile = null;
-                    File packFile = null;
-                    JarOutputStream jos = null;
+                if(nflbg) {
+                    JbrFile jbrFile = null;
+                    File pbckFile = null;
+                    JbrOutputStrebm jos = null;
                     try {
-                        Packer packer = Pack200.newPacker();
-                        Map<String, String> p = packer.properties();
-                        p.put(Packer.EFFORT, "1"); // Minimal effort to conserve CPU
-                        jarFile = new JarFile(tmpfile.getCanonicalPath());
-                        packFile = createTemporaryFile(tmpbase, ".pack");
-                        out = new FileOutputStream(packFile);
-                        packer.pack(jarFile, out);
-                        jos = new JarOutputStream(finalout);
-                        Unpacker unpacker = Pack200.newUnpacker();
-                        unpacker.unpack(packFile, jos);
-                    } catch (IOException ioe) {
-                        fatalError(ioe);
-                    } finally {
-                        if (jarFile != null) {
-                            jarFile.close();
+                        Pbcker pbcker = Pbck200.newPbcker();
+                        Mbp<String, String> p = pbcker.properties();
+                        p.put(Pbcker.EFFORT, "1"); // Minimbl effort to conserve CPU
+                        jbrFile = new JbrFile(tmpfile.getCbnonicblPbth());
+                        pbckFile = crebteTemporbryFile(tmpbbse, ".pbck");
+                        out = new FileOutputStrebm(pbckFile);
+                        pbcker.pbck(jbrFile, out);
+                        jos = new JbrOutputStrebm(finblout);
+                        Unpbcker unpbcker = Pbck200.newUnpbcker();
+                        unpbcker.unpbck(pbckFile, jos);
+                    } cbtch (IOException ioe) {
+                        fbtblError(ioe);
+                    } finblly {
+                        if (jbrFile != null) {
+                            jbrFile.close();
                         }
                         if (out != null) {
                             out.close();
@@ -244,85 +244,85 @@ class Main {
                         if (tmpfile != null && tmpfile.exists()) {
                             tmpfile.delete();
                         }
-                        if (packFile != null && packFile.exists()) {
-                            packFile.delete();
+                        if (pbckFile != null && pbckFile.exists()) {
+                            pbckFile.delete();
                         }
                     }
                 }
-            } else if (uflag) {
+            } else if (uflbg) {
                 File inputFile = null, tmpFile = null;
-                FileInputStream in;
-                FileOutputStream out;
-                if (fname != null) {
-                    inputFile = new File(fname);
-                    tmpFile = createTempFileInSameDirectoryAs(inputFile);
-                    in = new FileInputStream(inputFile);
-                    out = new FileOutputStream(tmpFile);
+                FileInputStrebm in;
+                FileOutputStrebm out;
+                if (fnbme != null) {
+                    inputFile = new File(fnbme);
+                    tmpFile = crebteTempFileInSbmeDirectoryAs(inputFile);
+                    in = new FileInputStrebm(inputFile);
+                    out = new FileOutputStrebm(tmpFile);
                 } else {
-                    in = new FileInputStream(FileDescriptor.in);
-                    out = new FileOutputStream(FileDescriptor.out);
-                    vflag = false;
+                    in = new FileInputStrebm(FileDescriptor.in);
+                    out = new FileOutputStrebm(FileDescriptor.out);
+                    vflbg = fblse;
                 }
-                InputStream manifest = (!Mflag && (mname != null)) ?
-                    (new FileInputStream(mname)) : null;
-                expand(null, files, true);
-                boolean updateOk = update(in, new BufferedOutputStream(out),
-                                          manifest, null);
+                InputStrebm mbnifest = (!Mflbg && (mnbme != null)) ?
+                    (new FileInputStrebm(mnbme)) : null;
+                expbnd(null, files, true);
+                boolebn updbteOk = updbte(in, new BufferedOutputStrebm(out),
+                                          mbnifest, null);
                 if (ok) {
-                    ok = updateOk;
+                    ok = updbteOk;
                 }
                 in.close();
                 out.close();
-                if (manifest != null) {
-                    manifest.close();
+                if (mbnifest != null) {
+                    mbnifest.close();
                 }
-                if (ok && fname != null) {
+                if (ok && fnbme != null) {
                     // on Win32, we need this delete
                     inputFile.delete();
-                    if (!tmpFile.renameTo(inputFile)) {
+                    if (!tmpFile.renbmeTo(inputFile)) {
                         tmpFile.delete();
                         throw new IOException(getMsg("error.write.file"));
                     }
                     tmpFile.delete();
                 }
-            } else if (tflag) {
-                replaceFSC(files);
-                if (fname != null) {
-                    list(fname, files);
+            } else if (tflbg) {
+                replbceFSC(files);
+                if (fnbme != null) {
+                    list(fnbme, files);
                 } else {
-                    InputStream in = new FileInputStream(FileDescriptor.in);
+                    InputStrebm in = new FileInputStrebm(FileDescriptor.in);
                     try{
-                        list(new BufferedInputStream(in), files);
-                    } finally {
+                        list(new BufferedInputStrebm(in), files);
+                    } finblly {
                         in.close();
                     }
                 }
-            } else if (xflag) {
-                replaceFSC(files);
-                if (fname != null && files != null) {
-                    extract(fname, files);
+            } else if (xflbg) {
+                replbceFSC(files);
+                if (fnbme != null && files != null) {
+                    extrbct(fnbme, files);
                 } else {
-                    InputStream in = (fname == null)
-                        ? new FileInputStream(FileDescriptor.in)
-                        : new FileInputStream(fname);
+                    InputStrebm in = (fnbme == null)
+                        ? new FileInputStrebm(FileDescriptor.in)
+                        : new FileInputStrebm(fnbme);
                     try {
-                        extract(new BufferedInputStream(in), files);
-                    } finally {
+                        extrbct(new BufferedInputStrebm(in), files);
+                    } finblly {
                         in.close();
                     }
                 }
-            } else if (iflag) {
-                genIndex(rootjar, files);
+            } else if (iflbg) {
+                genIndex(rootjbr, files);
             }
-        } catch (IOException e) {
-            fatalError(e);
-            ok = false;
-        } catch (Error ee) {
-            ee.printStackTrace();
-            ok = false;
-        } catch (Throwable t) {
-            t.printStackTrace();
-            ok = false;
+        } cbtch (IOException e) {
+            fbtblError(e);
+            ok = fblse;
+        } cbtch (Error ee) {
+            ee.printStbckTrbce();
+            ok = fblse;
+        } cbtch (Throwbble t) {
+            t.printStbckTrbce();
+            ok = fblse;
         }
         out.flush();
         err.flush();
@@ -330,152 +330,152 @@ class Main {
     }
 
     /**
-     * Parses command line arguments.
+     * Pbrses commbnd line brguments.
      */
-    boolean parseArgs(String args[]) {
-        /* Preprocess and expand @file arguments */
+    boolebn pbrseArgs(String brgs[]) {
+        /* Preprocess bnd expbnd @file brguments */
         try {
-            args = CommandLine.parse(args);
-        } catch (FileNotFoundException e) {
-            fatalError(formatMsg("error.cant.open", e.getMessage()));
-            return false;
-        } catch (IOException e) {
-            fatalError(e);
-            return false;
+            brgs = CommbndLine.pbrse(brgs);
+        } cbtch (FileNotFoundException e) {
+            fbtblError(formbtMsg("error.cbnt.open", e.getMessbge()));
+            return fblse;
+        } cbtch (IOException e) {
+            fbtblError(e);
+            return fblse;
         }
-        /* parse flags */
+        /* pbrse flbgs */
         int count = 1;
         try {
-            String flags = args[0];
-            if (flags.startsWith("-")) {
-                flags = flags.substring(1);
+            String flbgs = brgs[0];
+            if (flbgs.stbrtsWith("-")) {
+                flbgs = flbgs.substring(1);
             }
-            for (int i = 0; i < flags.length(); i++) {
-                switch (flags.charAt(i)) {
-                case 'c':
-                    if (xflag || tflag || uflag || iflag) {
-                        usageError();
-                        return false;
+            for (int i = 0; i < flbgs.length(); i++) {
+                switch (flbgs.chbrAt(i)) {
+                cbse 'c':
+                    if (xflbg || tflbg || uflbg || iflbg) {
+                        usbgeError();
+                        return fblse;
                     }
-                    cflag = true;
-                    break;
-                case 'u':
-                    if (cflag || xflag || tflag || iflag) {
-                        usageError();
-                        return false;
+                    cflbg = true;
+                    brebk;
+                cbse 'u':
+                    if (cflbg || xflbg || tflbg || iflbg) {
+                        usbgeError();
+                        return fblse;
                     }
-                    uflag = true;
-                    break;
-                case 'x':
-                    if (cflag || uflag || tflag || iflag) {
-                        usageError();
-                        return false;
+                    uflbg = true;
+                    brebk;
+                cbse 'x':
+                    if (cflbg || uflbg || tflbg || iflbg) {
+                        usbgeError();
+                        return fblse;
                     }
-                    xflag = true;
-                    break;
-                case 't':
-                    if (cflag || uflag || xflag || iflag) {
-                        usageError();
-                        return false;
+                    xflbg = true;
+                    brebk;
+                cbse 't':
+                    if (cflbg || uflbg || xflbg || iflbg) {
+                        usbgeError();
+                        return fblse;
                     }
-                    tflag = true;
-                    break;
-                case 'M':
-                    Mflag = true;
-                    break;
-                case 'v':
-                    vflag = true;
-                    break;
-                case 'f':
-                    fname = args[count++];
-                    break;
-                case 'm':
-                    mname = args[count++];
-                    break;
-                case '0':
-                    flag0 = true;
-                    break;
-                case 'i':
-                    if (cflag || uflag || xflag || tflag) {
-                        usageError();
-                        return false;
+                    tflbg = true;
+                    brebk;
+                cbse 'M':
+                    Mflbg = true;
+                    brebk;
+                cbse 'v':
+                    vflbg = true;
+                    brebk;
+                cbse 'f':
+                    fnbme = brgs[count++];
+                    brebk;
+                cbse 'm':
+                    mnbme = brgs[count++];
+                    brebk;
+                cbse '0':
+                    flbg0 = true;
+                    brebk;
+                cbse 'i':
+                    if (cflbg || uflbg || xflbg || tflbg) {
+                        usbgeError();
+                        return fblse;
                     }
-                    // do not increase the counter, files will contain rootjar
-                    rootjar = args[count++];
-                    iflag = true;
-                    break;
-                case 'n':
-                    nflag = true;
-                    break;
-                case 'e':
-                     ename = args[count++];
-                     break;
-                default:
-                    error(formatMsg("error.illegal.option",
-                                String.valueOf(flags.charAt(i))));
-                    usageError();
-                    return false;
+                    // do not increbse the counter, files will contbin rootjbr
+                    rootjbr = brgs[count++];
+                    iflbg = true;
+                    brebk;
+                cbse 'n':
+                    nflbg = true;
+                    brebk;
+                cbse 'e':
+                     enbme = brgs[count++];
+                     brebk;
+                defbult:
+                    error(formbtMsg("error.illegbl.option",
+                                String.vblueOf(flbgs.chbrAt(i))));
+                    usbgeError();
+                    return fblse;
                 }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            usageError();
-            return false;
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            usbgeError();
+            return fblse;
         }
-        if (!cflag && !tflag && !xflag && !uflag && !iflag) {
-            error(getMsg("error.bad.option"));
-            usageError();
-            return false;
+        if (!cflbg && !tflbg && !xflbg && !uflbg && !iflbg) {
+            error(getMsg("error.bbd.option"));
+            usbgeError();
+            return fblse;
         }
-        /* parse file arguments */
-        int n = args.length - count;
+        /* pbrse file brguments */
+        int n = brgs.length - count;
         if (n > 0) {
             int k = 0;
-            String[] nameBuf = new String[n];
+            String[] nbmeBuf = new String[n];
             try {
-                for (int i = count; i < args.length; i++) {
-                    if (args[i].equals("-C")) {
-                        /* change the directory */
-                        String dir = args[++i];
-                        dir = (dir.endsWith(File.separator) ?
-                               dir : (dir + File.separator));
-                        dir = dir.replace(File.separatorChar, '/');
+                for (int i = count; i < brgs.length; i++) {
+                    if (brgs[i].equbls("-C")) {
+                        /* chbnge the directory */
+                        String dir = brgs[++i];
+                        dir = (dir.endsWith(File.sepbrbtor) ?
+                               dir : (dir + File.sepbrbtor));
+                        dir = dir.replbce(File.sepbrbtorChbr, '/');
                         while (dir.indexOf("//") > -1) {
-                            dir = dir.replace("//", "/");
+                            dir = dir.replbce("//", "/");
                         }
-                        paths.add(dir.replace(File.separatorChar, '/'));
-                        nameBuf[k++] = dir + args[++i];
+                        pbths.bdd(dir.replbce(File.sepbrbtorChbr, '/'));
+                        nbmeBuf[k++] = dir + brgs[++i];
                     } else {
-                        nameBuf[k++] = args[i];
+                        nbmeBuf[k++] = brgs[i];
                     }
                 }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                usageError();
-                return false;
+            } cbtch (ArrbyIndexOutOfBoundsException e) {
+                usbgeError();
+                return fblse;
             }
             files = new String[k];
-            System.arraycopy(nameBuf, 0, files, 0, k);
-        } else if (cflag && (mname == null)) {
-            error(getMsg("error.bad.cflag"));
-            usageError();
-            return false;
-        } else if (uflag) {
-            if ((mname != null) || (ename != null)) {
-                /* just want to update the manifest */
+            System.brrbycopy(nbmeBuf, 0, files, 0, k);
+        } else if (cflbg && (mnbme == null)) {
+            error(getMsg("error.bbd.cflbg"));
+            usbgeError();
+            return fblse;
+        } else if (uflbg) {
+            if ((mnbme != null) || (enbme != null)) {
+                /* just wbnt to updbte the mbnifest */
                 return true;
             } else {
-                error(getMsg("error.bad.uflag"));
-                usageError();
-                return false;
+                error(getMsg("error.bbd.uflbg"));
+                usbgeError();
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Expands list of files to process into full list of all files that
-     * can be found by recursively descending directories.
+     * Expbnds list of files to process into full list of bll files thbt
+     * cbn be found by recursively descending directories.
      */
-    void expand(File dir, String[] files, boolean isUpdate) {
+    void expbnd(File dir, String[] files, boolebn isUpdbte) {
         if (files == null) {
             return;
         }
@@ -487,40 +487,40 @@ class Main {
                 f = new File(dir, files[i]);
             }
             if (f.isFile()) {
-                if (entries.add(f)) {
-                    if (isUpdate)
-                        entryMap.put(entryName(f.getPath()), f);
+                if (entries.bdd(f)) {
+                    if (isUpdbte)
+                        entryMbp.put(entryNbme(f.getPbth()), f);
                 }
             } else if (f.isDirectory()) {
-                if (entries.add(f)) {
-                    if (isUpdate) {
-                        String dirPath = f.getPath();
-                        dirPath = (dirPath.endsWith(File.separator)) ? dirPath :
-                            (dirPath + File.separator);
-                        entryMap.put(entryName(dirPath), f);
+                if (entries.bdd(f)) {
+                    if (isUpdbte) {
+                        String dirPbth = f.getPbth();
+                        dirPbth = (dirPbth.endsWith(File.sepbrbtor)) ? dirPbth :
+                            (dirPbth + File.sepbrbtor);
+                        entryMbp.put(entryNbme(dirPbth), f);
                     }
-                    expand(f, f.list(), isUpdate);
+                    expbnd(f, f.list(), isUpdbte);
                 }
             } else {
-                error(formatMsg("error.nosuch.fileordir", String.valueOf(f)));
-                ok = false;
+                error(formbtMsg("error.nosuch.fileordir", String.vblueOf(f)));
+                ok = fblse;
             }
         }
     }
 
     /**
-     * Creates a new JAR file.
+     * Crebtes b new JAR file.
      */
-    void create(OutputStream out, Manifest manifest)
+    void crebte(OutputStrebm out, Mbnifest mbnifest)
         throws IOException
     {
-        ZipOutputStream zos = new JarOutputStream(out);
-        if (flag0) {
-            zos.setMethod(ZipOutputStream.STORED);
+        ZipOutputStrebm zos = new JbrOutputStrebm(out);
+        if (flbg0) {
+            zos.setMethod(ZipOutputStrebm.STORED);
         }
-        if (manifest != null) {
-            if (vflag) {
-                output(getMsg("out.added.manifest"));
+        if (mbnifest != null) {
+            if (vflbg) {
+                output(getMsg("out.bdded.mbnifest"));
             }
             ZipEntry e = new ZipEntry(MANIFEST_DIR);
             e.setTime(System.currentTimeMillis());
@@ -529,266 +529,266 @@ class Main {
             zos.putNextEntry(e);
             e = new ZipEntry(MANIFEST_NAME);
             e.setTime(System.currentTimeMillis());
-            if (flag0) {
-                crc32Manifest(e, manifest);
+            if (flbg0) {
+                crc32Mbnifest(e, mbnifest);
             }
             zos.putNextEntry(e);
-            manifest.write(zos);
+            mbnifest.write(zos);
             zos.closeEntry();
         }
         for (File file: entries) {
-            addFile(zos, file);
+            bddFile(zos, file);
         }
         zos.close();
     }
 
-    private char toUpperCaseASCII(char c) {
-        return (c < 'a' || c > 'z') ? c : (char) (c + 'A' - 'a');
+    privbte chbr toUpperCbseASCII(chbr c) {
+        return (c < 'b' || c > 'z') ? c : (chbr) (c + 'A' - 'b');
     }
 
     /**
-     * Compares two strings for equality, ignoring case.  The second
-     * argument must contain only upper-case ASCII characters.
-     * We don't want case comparison to be locale-dependent (else we
-     * have the notorious "turkish i bug").
+     * Compbres two strings for equblity, ignoring cbse.  The second
+     * brgument must contbin only upper-cbse ASCII chbrbcters.
+     * We don't wbnt cbse compbrison to be locble-dependent (else we
+     * hbve the notorious "turkish i bug").
      */
-    private boolean equalsIgnoreCase(String s, String upper) {
-        assert upper.toUpperCase(java.util.Locale.ENGLISH).equals(upper);
+    privbte boolebn equblsIgnoreCbse(String s, String upper) {
+        bssert upper.toUpperCbse(jbvb.util.Locble.ENGLISH).equbls(upper);
         int len;
         if ((len = s.length()) != upper.length())
-            return false;
+            return fblse;
         for (int i = 0; i < len; i++) {
-            char c1 = s.charAt(i);
-            char c2 = upper.charAt(i);
-            if (c1 != c2 && toUpperCaseASCII(c1) != c2)
-                return false;
+            chbr c1 = s.chbrAt(i);
+            chbr c2 = upper.chbrAt(i);
+            if (c1 != c2 && toUpperCbseASCII(c1) != c2)
+                return fblse;
         }
         return true;
     }
 
     /**
-     * Updates an existing jar file.
+     * Updbtes bn existing jbr file.
      */
-    boolean update(InputStream in, OutputStream out,
-                   InputStream newManifest,
-                   JarIndex jarIndex) throws IOException
+    boolebn updbte(InputStrebm in, OutputStrebm out,
+                   InputStrebm newMbnifest,
+                   JbrIndex jbrIndex) throws IOException
     {
-        ZipInputStream zis = new ZipInputStream(in);
-        ZipOutputStream zos = new JarOutputStream(out);
+        ZipInputStrebm zis = new ZipInputStrebm(in);
+        ZipOutputStrebm zos = new JbrOutputStrebm(out);
         ZipEntry e = null;
-        boolean foundManifest = false;
-        boolean updateOk = true;
+        boolebn foundMbnifest = fblse;
+        boolebn updbteOk = true;
 
-        if (jarIndex != null) {
-            addIndex(jarIndex, zos);
+        if (jbrIndex != null) {
+            bddIndex(jbrIndex, zos);
         }
 
-        // put the old entries first, replace if necessary
+        // put the old entries first, replbce if necessbry
         while ((e = zis.getNextEntry()) != null) {
-            String name = e.getName();
+            String nbme = e.getNbme();
 
-            boolean isManifestEntry = equalsIgnoreCase(name, MANIFEST_NAME);
+            boolebn isMbnifestEntry = equblsIgnoreCbse(nbme, MANIFEST_NAME);
 
-            if ((jarIndex != null && equalsIgnoreCase(name, INDEX_NAME))
-                || (Mflag && isManifestEntry)) {
+            if ((jbrIndex != null && equblsIgnoreCbse(nbme, INDEX_NAME))
+                || (Mflbg && isMbnifestEntry)) {
                 continue;
-            } else if (isManifestEntry && ((newManifest != null) ||
-                        (ename != null))) {
-                foundManifest = true;
-                if (newManifest != null) {
-                    // Don't read from the newManifest InputStream, as we
-                    // might need it below, and we can't re-read the same data
+            } else if (isMbnifestEntry && ((newMbnifest != null) ||
+                        (enbme != null))) {
+                foundMbnifest = true;
+                if (newMbnifest != null) {
+                    // Don't rebd from the newMbnifest InputStrebm, bs we
+                    // might need it below, bnd we cbn't re-rebd the sbme dbtb
                     // twice.
-                    FileInputStream fis = new FileInputStream(mname);
-                    boolean ambiguous = isAmbiguousMainClass(new Manifest(fis));
+                    FileInputStrebm fis = new FileInputStrebm(mnbme);
+                    boolebn bmbiguous = isAmbiguousMbinClbss(new Mbnifest(fis));
                     fis.close();
-                    if (ambiguous) {
-                        return false;
+                    if (bmbiguous) {
+                        return fblse;
                     }
                 }
 
-                // Update the manifest.
-                Manifest old = new Manifest(zis);
-                if (newManifest != null) {
-                    old.read(newManifest);
+                // Updbte the mbnifest.
+                Mbnifest old = new Mbnifest(zis);
+                if (newMbnifest != null) {
+                    old.rebd(newMbnifest);
                 }
-                if (!updateManifest(old, zos)) {
-                    return false;
+                if (!updbteMbnifest(old, zos)) {
+                    return fblse;
                 }
             } else {
-                if (!entryMap.containsKey(name)) { // copy the old stuff
+                if (!entryMbp.contbinsKey(nbme)) { // copy the old stuff
                     // do our own compression
-                    ZipEntry e2 = new ZipEntry(name);
+                    ZipEntry e2 = new ZipEntry(nbme);
                     e2.setMethod(e.getMethod());
                     e2.setTime(e.getTime());
                     e2.setComment(e.getComment());
-                    e2.setExtra(e.getExtra());
+                    e2.setExtrb(e.getExtrb());
                     if (e.getMethod() == ZipEntry.STORED) {
                         e2.setSize(e.getSize());
                         e2.setCrc(e.getCrc());
                     }
                     zos.putNextEntry(e2);
                     copy(zis, zos);
-                } else { // replace with the new files
-                    File f = entryMap.get(name);
-                    addFile(zos, f);
-                    entryMap.remove(name);
+                } else { // replbce with the new files
+                    File f = entryMbp.get(nbme);
+                    bddFile(zos, f);
+                    entryMbp.remove(nbme);
                     entries.remove(f);
                 }
             }
         }
 
-        // add the remaining new files
+        // bdd the rembining new files
         for (File f: entries) {
-            addFile(zos, f);
+            bddFile(zos, f);
         }
-        if (!foundManifest) {
-            if (newManifest != null) {
-                Manifest m = new Manifest(newManifest);
-                updateOk = !isAmbiguousMainClass(m);
-                if (updateOk) {
-                    if (!updateManifest(m, zos)) {
-                        updateOk = false;
+        if (!foundMbnifest) {
+            if (newMbnifest != null) {
+                Mbnifest m = new Mbnifest(newMbnifest);
+                updbteOk = !isAmbiguousMbinClbss(m);
+                if (updbteOk) {
+                    if (!updbteMbnifest(m, zos)) {
+                        updbteOk = fblse;
                     }
                 }
-            } else if (ename != null) {
-                if (!updateManifest(new Manifest(), zos)) {
-                    updateOk = false;
+            } else if (enbme != null) {
+                if (!updbteMbnifest(new Mbnifest(), zos)) {
+                    updbteOk = fblse;
                 }
             }
         }
         zis.close();
         zos.close();
-        return updateOk;
+        return updbteOk;
     }
 
 
-    private void addIndex(JarIndex index, ZipOutputStream zos)
+    privbte void bddIndex(JbrIndex index, ZipOutputStrebm zos)
         throws IOException
     {
         ZipEntry e = new ZipEntry(INDEX_NAME);
         e.setTime(System.currentTimeMillis());
-        if (flag0) {
-            CRC32OutputStream os = new CRC32OutputStream();
+        if (flbg0) {
+            CRC32OutputStrebm os = new CRC32OutputStrebm();
             index.write(os);
-            os.updateEntry(e);
+            os.updbteEntry(e);
         }
         zos.putNextEntry(e);
         index.write(zos);
         zos.closeEntry();
     }
 
-    private boolean updateManifest(Manifest m, ZipOutputStream zos)
+    privbte boolebn updbteMbnifest(Mbnifest m, ZipOutputStrebm zos)
         throws IOException
     {
-        addVersion(m);
-        addCreatedBy(m);
-        if (ename != null) {
-            addMainClass(m, ename);
+        bddVersion(m);
+        bddCrebtedBy(m);
+        if (enbme != null) {
+            bddMbinClbss(m, enbme);
         }
         ZipEntry e = new ZipEntry(MANIFEST_NAME);
         e.setTime(System.currentTimeMillis());
-        if (flag0) {
-            crc32Manifest(e, m);
+        if (flbg0) {
+            crc32Mbnifest(e, m);
         }
         zos.putNextEntry(e);
         m.write(zos);
-        if (vflag) {
-            output(getMsg("out.update.manifest"));
+        if (vflbg) {
+            output(getMsg("out.updbte.mbnifest"));
         }
         return true;
     }
 
 
-    private String entryName(String name) {
-        name = name.replace(File.separatorChar, '/');
-        String matchPath = "";
-        for (String path : paths) {
-            if (name.startsWith(path)
-                && (path.length() > matchPath.length())) {
-                matchPath = path;
+    privbte String entryNbme(String nbme) {
+        nbme = nbme.replbce(File.sepbrbtorChbr, '/');
+        String mbtchPbth = "";
+        for (String pbth : pbths) {
+            if (nbme.stbrtsWith(pbth)
+                && (pbth.length() > mbtchPbth.length())) {
+                mbtchPbth = pbth;
             }
         }
-        name = name.substring(matchPath.length());
+        nbme = nbme.substring(mbtchPbth.length());
 
-        if (name.startsWith("/")) {
-            name = name.substring(1);
-        } else if (name.startsWith("./")) {
-            name = name.substring(2);
+        if (nbme.stbrtsWith("/")) {
+            nbme = nbme.substring(1);
+        } else if (nbme.stbrtsWith("./")) {
+            nbme = nbme.substring(2);
         }
-        return name;
+        return nbme;
     }
 
-    private void addVersion(Manifest m) {
-        Attributes global = m.getMainAttributes();
-        if (global.getValue(Attributes.Name.MANIFEST_VERSION) == null) {
-            global.put(Attributes.Name.MANIFEST_VERSION, VERSION);
-        }
-    }
-
-    private void addCreatedBy(Manifest m) {
-        Attributes global = m.getMainAttributes();
-        if (global.getValue(new Attributes.Name("Created-By")) == null) {
-            String javaVendor = System.getProperty("java.vendor");
-            String jdkVersion = System.getProperty("java.version");
-            global.put(new Attributes.Name("Created-By"), jdkVersion + " (" +
-                        javaVendor + ")");
+    privbte void bddVersion(Mbnifest m) {
+        Attributes globbl = m.getMbinAttributes();
+        if (globbl.getVblue(Attributes.Nbme.MANIFEST_VERSION) == null) {
+            globbl.put(Attributes.Nbme.MANIFEST_VERSION, VERSION);
         }
     }
 
-    private void addMainClass(Manifest m, String mainApp) {
-        Attributes global = m.getMainAttributes();
-
-        // overrides any existing Main-Class attribute
-        global.put(Attributes.Name.MAIN_CLASS, mainApp);
+    privbte void bddCrebtedBy(Mbnifest m) {
+        Attributes globbl = m.getMbinAttributes();
+        if (globbl.getVblue(new Attributes.Nbme("Crebted-By")) == null) {
+            String jbvbVendor = System.getProperty("jbvb.vendor");
+            String jdkVersion = System.getProperty("jbvb.version");
+            globbl.put(new Attributes.Nbme("Crebted-By"), jdkVersion + " (" +
+                        jbvbVendor + ")");
+        }
     }
 
-    private boolean isAmbiguousMainClass(Manifest m) {
-        if (ename != null) {
-            Attributes global = m.getMainAttributes();
-            if ((global.get(Attributes.Name.MAIN_CLASS) != null)) {
-                error(getMsg("error.bad.eflag"));
-                usageError();
+    privbte void bddMbinClbss(Mbnifest m, String mbinApp) {
+        Attributes globbl = m.getMbinAttributes();
+
+        // overrides bny existing Mbin-Clbss bttribute
+        globbl.put(Attributes.Nbme.MAIN_CLASS, mbinApp);
+    }
+
+    privbte boolebn isAmbiguousMbinClbss(Mbnifest m) {
+        if (enbme != null) {
+            Attributes globbl = m.getMbinAttributes();
+            if ((globbl.get(Attributes.Nbme.MAIN_CLASS) != null)) {
+                error(getMsg("error.bbd.eflbg"));
+                usbgeError();
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Adds a new file entry to the ZIP output stream.
+     * Adds b new file entry to the ZIP output strebm.
      */
-    void addFile(ZipOutputStream zos, File file) throws IOException {
-        String name = file.getPath();
-        boolean isDir = file.isDirectory();
+    void bddFile(ZipOutputStrebm zos, File file) throws IOException {
+        String nbme = file.getPbth();
+        boolebn isDir = file.isDirectory();
         if (isDir) {
-            name = name.endsWith(File.separator) ? name :
-                (name + File.separator);
+            nbme = nbme.endsWith(File.sepbrbtor) ? nbme :
+                (nbme + File.sepbrbtor);
         }
-        name = entryName(name);
+        nbme = entryNbme(nbme);
 
-        if (name.equals("") || name.equals(".") || name.equals(zname)) {
+        if (nbme.equbls("") || nbme.equbls(".") || nbme.equbls(znbme)) {
             return;
-        } else if ((name.equals(MANIFEST_DIR) || name.equals(MANIFEST_NAME))
-                   && !Mflag) {
-            if (vflag) {
-                output(formatMsg("out.ignore.entry", name));
+        } else if ((nbme.equbls(MANIFEST_DIR) || nbme.equbls(MANIFEST_NAME))
+                   && !Mflbg) {
+            if (vflbg) {
+                output(formbtMsg("out.ignore.entry", nbme));
             }
             return;
         }
 
         long size = isDir ? 0 : file.length();
 
-        if (vflag) {
-            out.print(formatMsg("out.adding", name));
+        if (vflbg) {
+            out.print(formbtMsg("out.bdding", nbme));
         }
-        ZipEntry e = new ZipEntry(name);
-        e.setTime(file.lastModified());
+        ZipEntry e = new ZipEntry(nbme);
+        e.setTime(file.lbstModified());
         if (size == 0) {
             e.setMethod(ZipEntry.STORED);
             e.setSize(0);
             e.setCrc(0);
-        } else if (flag0) {
+        } else if (flbg0) {
             crc32File(e, file);
         }
         zos.putNextEntry(e);
@@ -797,17 +797,17 @@ class Main {
         }
         zos.closeEntry();
         /* report how much compression occurred. */
-        if (vflag) {
+        if (vflbg) {
             size = e.getSize();
             long csize = e.getCompressedSize();
-            out.print(formatMsg2("out.size", String.valueOf(size),
-                        String.valueOf(csize)));
+            out.print(formbtMsg2("out.size", String.vblueOf(size),
+                        String.vblueOf(csize)));
             if (e.getMethod() == ZipEntry.DEFLATED) {
-                long ratio = 0;
+                long rbtio = 0;
                 if (size != 0) {
-                    ratio = ((size - csize) * 100) / size;
+                    rbtio = ((size - csize) * 100) / size;
                 }
-                output(formatMsg("out.deflated", String.valueOf(ratio)));
+                output(formbtMsg("out.deflbted", String.vblueOf(rbtio)));
             } else {
                 output(getMsg("out.stored"));
             }
@@ -815,221 +815,221 @@ class Main {
     }
 
     /**
-     * A buffer for use only by copy(InputStream, OutputStream).
-     * Not as clean as allocating a new buffer as needed by copy,
-     * but significantly more efficient.
+     * A buffer for use only by copy(InputStrebm, OutputStrebm).
+     * Not bs clebn bs bllocbting b new buffer bs needed by copy,
+     * but significbntly more efficient.
      */
-    private byte[] copyBuf = new byte[8192];
+    privbte byte[] copyBuf = new byte[8192];
 
     /**
-     * Copies all bytes from the input stream to the output stream.
-     * Does not close or flush either stream.
+     * Copies bll bytes from the input strebm to the output strebm.
+     * Does not close or flush either strebm.
      *
-     * @param from the input stream to read from
-     * @param to the output stream to write to
-     * @throws IOException if an I/O error occurs
+     * @pbrbm from the input strebm to rebd from
+     * @pbrbm to the output strebm to write to
+     * @throws IOException if bn I/O error occurs
      */
-    private void copy(InputStream from, OutputStream to) throws IOException {
+    privbte void copy(InputStrebm from, OutputStrebm to) throws IOException {
         int n;
-        while ((n = from.read(copyBuf)) != -1)
+        while ((n = from.rebd(copyBuf)) != -1)
             to.write(copyBuf, 0, n);
     }
 
     /**
-     * Copies all bytes from the input file to the output stream.
-     * Does not close or flush the output stream.
+     * Copies bll bytes from the input file to the output strebm.
+     * Does not close or flush the output strebm.
      *
-     * @param from the input file to read from
-     * @param to the output stream to write to
-     * @throws IOException if an I/O error occurs
+     * @pbrbm from the input file to rebd from
+     * @pbrbm to the output strebm to write to
+     * @throws IOException if bn I/O error occurs
      */
-    private void copy(File from, OutputStream to) throws IOException {
-        InputStream in = new FileInputStream(from);
+    privbte void copy(File from, OutputStrebm to) throws IOException {
+        InputStrebm in = new FileInputStrebm(from);
         try {
             copy(in, to);
-        } finally {
+        } finblly {
             in.close();
         }
     }
 
     /**
-     * Copies all bytes from the input stream to the output file.
-     * Does not close the input stream.
+     * Copies bll bytes from the input strebm to the output file.
+     * Does not close the input strebm.
      *
-     * @param from the input stream to read from
-     * @param to the output file to write to
-     * @throws IOException if an I/O error occurs
+     * @pbrbm from the input strebm to rebd from
+     * @pbrbm to the output file to write to
+     * @throws IOException if bn I/O error occurs
      */
-    private void copy(InputStream from, File to) throws IOException {
-        OutputStream out = new FileOutputStream(to);
+    privbte void copy(InputStrebm from, File to) throws IOException {
+        OutputStrebm out = new FileOutputStrebm(to);
         try {
             copy(from, out);
-        } finally {
+        } finblly {
             out.close();
         }
     }
 
     /**
-     * Computes the crc32 of a Manifest.  This is necessary when the
-     * ZipOutputStream is in STORED mode.
+     * Computes the crc32 of b Mbnifest.  This is necessbry when the
+     * ZipOutputStrebm is in STORED mode.
      */
-    private void crc32Manifest(ZipEntry e, Manifest m) throws IOException {
-        CRC32OutputStream os = new CRC32OutputStream();
+    privbte void crc32Mbnifest(ZipEntry e, Mbnifest m) throws IOException {
+        CRC32OutputStrebm os = new CRC32OutputStrebm();
         m.write(os);
-        os.updateEntry(e);
+        os.updbteEntry(e);
     }
 
     /**
-     * Computes the crc32 of a File.  This is necessary when the
-     * ZipOutputStream is in STORED mode.
+     * Computes the crc32 of b File.  This is necessbry when the
+     * ZipOutputStrebm is in STORED mode.
      */
-    private void crc32File(ZipEntry e, File f) throws IOException {
-        CRC32OutputStream os = new CRC32OutputStream();
+    privbte void crc32File(ZipEntry e, File f) throws IOException {
+        CRC32OutputStrebm os = new CRC32OutputStrebm();
         copy(f, os);
         if (os.n != f.length()) {
-            throw new JarException(formatMsg(
-                        "error.incorrect.length", f.getPath()));
+            throw new JbrException(formbtMsg(
+                        "error.incorrect.length", f.getPbth()));
         }
-        os.updateEntry(e);
+        os.updbteEntry(e);
     }
 
-    void replaceFSC(String files[]) {
+    void replbceFSC(String files[]) {
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
-                files[i] = files[i].replace(File.separatorChar, '/');
+                files[i] = files[i].replbce(File.sepbrbtorChbr, '/');
             }
         }
     }
 
-    @SuppressWarnings("serial")
+    @SuppressWbrnings("seribl")
     Set<ZipEntry> newDirSet() {
-        return new HashSet<ZipEntry>() {
-            public boolean add(ZipEntry e) {
-                return ((e == null || useExtractionTime) ? false : super.add(e));
+        return new HbshSet<ZipEntry>() {
+            public boolebn bdd(ZipEntry e) {
+                return ((e == null || useExtrbctionTime) ? fblse : super.bdd(e));
             }};
     }
 
-    void updateLastModifiedTime(Set<ZipEntry> zes) throws IOException {
+    void updbteLbstModifiedTime(Set<ZipEntry> zes) throws IOException {
         for (ZipEntry ze : zes) {
-            long lastModified = ze.getTime();
-            if (lastModified != -1) {
-                File f = new File(ze.getName().replace('/', File.separatorChar));
-                f.setLastModified(lastModified);
+            long lbstModified = ze.getTime();
+            if (lbstModified != -1) {
+                File f = new File(ze.getNbme().replbce('/', File.sepbrbtorChbr));
+                f.setLbstModified(lbstModified);
             }
         }
     }
 
     /**
-     * Extracts specified entries from JAR file.
+     * Extrbcts specified entries from JAR file.
      */
-    void extract(InputStream in, String files[]) throws IOException {
-        ZipInputStream zis = new ZipInputStream(in);
+    void extrbct(InputStrebm in, String files[]) throws IOException {
+        ZipInputStrebm zis = new ZipInputStrebm(in);
         ZipEntry e;
-        // Set of all directory entries specified in archive.  Disallows
-        // null entries.  Disallows all entries if using pre-6.0 behavior.
+        // Set of bll directory entries specified in brchive.  Disbllows
+        // null entries.  Disbllows bll entries if using pre-6.0 behbvior.
         Set<ZipEntry> dirs = newDirSet();
         while ((e = zis.getNextEntry()) != null) {
             if (files == null) {
-                dirs.add(extractFile(zis, e));
+                dirs.bdd(extrbctFile(zis, e));
             } else {
-                String name = e.getName();
+                String nbme = e.getNbme();
                 for (String file : files) {
-                    if (name.startsWith(file)) {
-                        dirs.add(extractFile(zis, e));
-                        break;
+                    if (nbme.stbrtsWith(file)) {
+                        dirs.bdd(extrbctFile(zis, e));
+                        brebk;
                     }
                 }
             }
         }
 
-        // Update timestamps of directories specified in archive with their
-        // timestamps as given in the archive.  We do this after extraction,
-        // instead of during, because creating a file in a directory changes
-        // that directory's timestamp.
-        updateLastModifiedTime(dirs);
+        // Updbte timestbmps of directories specified in brchive with their
+        // timestbmps bs given in the brchive.  We do this bfter extrbction,
+        // instebd of during, becbuse crebting b file in b directory chbnges
+        // thbt directory's timestbmp.
+        updbteLbstModifiedTime(dirs);
     }
 
     /**
-     * Extracts specified entries from JAR file, via ZipFile.
+     * Extrbcts specified entries from JAR file, vib ZipFile.
      */
-    void extract(String fname, String files[]) throws IOException {
-        ZipFile zf = new ZipFile(fname);
+    void extrbct(String fnbme, String files[]) throws IOException {
+        ZipFile zf = new ZipFile(fnbme);
         Set<ZipEntry> dirs = newDirSet();
-        Enumeration<? extends ZipEntry> zes = zf.entries();
-        while (zes.hasMoreElements()) {
+        Enumerbtion<? extends ZipEntry> zes = zf.entries();
+        while (zes.hbsMoreElements()) {
             ZipEntry e = zes.nextElement();
-            InputStream is;
+            InputStrebm is;
             if (files == null) {
-                dirs.add(extractFile(zf.getInputStream(e), e));
+                dirs.bdd(extrbctFile(zf.getInputStrebm(e), e));
             } else {
-                String name = e.getName();
+                String nbme = e.getNbme();
                 for (String file : files) {
-                    if (name.startsWith(file)) {
-                        dirs.add(extractFile(zf.getInputStream(e), e));
-                        break;
+                    if (nbme.stbrtsWith(file)) {
+                        dirs.bdd(extrbctFile(zf.getInputStrebm(e), e));
+                        brebk;
                     }
                 }
             }
         }
         zf.close();
-        updateLastModifiedTime(dirs);
+        updbteLbstModifiedTime(dirs);
     }
 
     /**
-     * Extracts next entry from JAR file, creating directories as needed.  If
-     * the entry is for a directory which doesn't exist prior to this
-     * invocation, returns that entry, otherwise returns null.
+     * Extrbcts next entry from JAR file, crebting directories bs needed.  If
+     * the entry is for b directory which doesn't exist prior to this
+     * invocbtion, returns thbt entry, otherwise returns null.
      */
-    ZipEntry extractFile(InputStream is, ZipEntry e) throws IOException {
+    ZipEntry extrbctFile(InputStrebm is, ZipEntry e) throws IOException {
         ZipEntry rc = null;
-        String name = e.getName();
-        File f = new File(e.getName().replace('/', File.separatorChar));
+        String nbme = e.getNbme();
+        File f = new File(e.getNbme().replbce('/', File.sepbrbtorChbr));
         if (e.isDirectory()) {
             if (f.exists()) {
                 if (!f.isDirectory()) {
-                    throw new IOException(formatMsg("error.create.dir",
-                        f.getPath()));
+                    throw new IOException(formbtMsg("error.crebte.dir",
+                        f.getPbth()));
                 }
             } else {
                 if (!f.mkdirs()) {
-                    throw new IOException(formatMsg("error.create.dir",
-                        f.getPath()));
+                    throw new IOException(formbtMsg("error.crebte.dir",
+                        f.getPbth()));
                 } else {
                     rc = e;
                 }
             }
 
-            if (vflag) {
-                output(formatMsg("out.create", name));
+            if (vflbg) {
+                output(formbtMsg("out.crebte", nbme));
             }
         } else {
-            if (f.getParent() != null) {
-                File d = new File(f.getParent());
+            if (f.getPbrent() != null) {
+                File d = new File(f.getPbrent());
                 if (!d.exists() && !d.mkdirs() || !d.isDirectory()) {
-                    throw new IOException(formatMsg(
-                        "error.create.dir", d.getPath()));
+                    throw new IOException(formbtMsg(
+                        "error.crebte.dir", d.getPbth()));
                 }
             }
             try {
                 copy(is, f);
-            } finally {
-                if (is instanceof ZipInputStream)
-                    ((ZipInputStream)is).closeEntry();
+            } finblly {
+                if (is instbnceof ZipInputStrebm)
+                    ((ZipInputStrebm)is).closeEntry();
                 else
                     is.close();
             }
-            if (vflag) {
+            if (vflbg) {
                 if (e.getMethod() == ZipEntry.DEFLATED) {
-                    output(formatMsg("out.inflated", name));
+                    output(formbtMsg("out.inflbted", nbme));
                 } else {
-                    output(formatMsg("out.extracted", name));
+                    output(formbtMsg("out.extrbcted", nbme));
                 }
             }
         }
-        if (!useExtractionTime) {
-            long lastModified = e.getTime();
-            if (lastModified != -1) {
-                f.setLastModified(lastModified);
+        if (!useExtrbctionTime) {
+            long lbstModified = e.getTime();
+            if (lbstModified != -1) {
+                f.setLbstModified(lbstModified);
             }
         }
         return rc;
@@ -1038,15 +1038,15 @@ class Main {
     /**
      * Lists contents of JAR file.
      */
-    void list(InputStream in, String files[]) throws IOException {
-        ZipInputStream zis = new ZipInputStream(in);
+    void list(InputStrebm in, String files[]) throws IOException {
+        ZipInputStrebm zis = new ZipInputStrebm(in);
         ZipEntry e;
         while ((e = zis.getNextEntry()) != null) {
             /*
-             * In the case of a compressed (deflated) entry, the entry size
-             * is stored immediately following the entry data and cannot be
-             * determined until the entry is fully read. Therefore, we close
-             * the entry first before printing out its attributes.
+             * In the cbse of b compressed (deflbted) entry, the entry size
+             * is stored immedibtely following the entry dbtb bnd cbnnot be
+             * determined until the entry is fully rebd. Therefore, we close
+             * the entry first before printing out its bttributes.
              */
             zis.closeEntry();
             printEntry(e, files);
@@ -1054,74 +1054,74 @@ class Main {
     }
 
     /**
-     * Lists contents of JAR file, via ZipFile.
+     * Lists contents of JAR file, vib ZipFile.
      */
-    void list(String fname, String files[]) throws IOException {
-        ZipFile zf = new ZipFile(fname);
-        Enumeration<? extends ZipEntry> zes = zf.entries();
-        while (zes.hasMoreElements()) {
+    void list(String fnbme, String files[]) throws IOException {
+        ZipFile zf = new ZipFile(fnbme);
+        Enumerbtion<? extends ZipEntry> zes = zf.entries();
+        while (zes.hbsMoreElements()) {
             printEntry(zes.nextElement(), files);
         }
         zf.close();
     }
 
     /**
-     * Outputs the class index table to the INDEX.LIST file of the
-     * root jar file.
+     * Outputs the clbss index tbble to the INDEX.LIST file of the
+     * root jbr file.
      */
-    void dumpIndex(String rootjar, JarIndex index) throws IOException {
-        File jarFile = new File(rootjar);
-        Path jarPath = jarFile.toPath();
-        Path tmpPath = createTempFileInSameDirectoryAs(jarFile).toPath();
+    void dumpIndex(String rootjbr, JbrIndex index) throws IOException {
+        File jbrFile = new File(rootjbr);
+        Pbth jbrPbth = jbrFile.toPbth();
+        Pbth tmpPbth = crebteTempFileInSbmeDirectoryAs(jbrFile).toPbth();
         try {
-            if (update(Files.newInputStream(jarPath),
-                       Files.newOutputStream(tmpPath),
+            if (updbte(Files.newInputStrebm(jbrPbth),
+                       Files.newOutputStrebm(tmpPbth),
                        null, index)) {
                 try {
-                    Files.move(tmpPath, jarPath, REPLACE_EXISTING);
-                } catch (IOException e) {
+                    Files.move(tmpPbth, jbrPbth, REPLACE_EXISTING);
+                } cbtch (IOException e) {
                     throw new IOException(getMsg("error.write.file"), e);
                 }
             }
-        } finally {
-            Files.deleteIfExists(tmpPath);
+        } finblly {
+            Files.deleteIfExists(tmpPbth);
         }
     }
 
-    private HashSet<String> jarPaths = new HashSet<String>();
+    privbte HbshSet<String> jbrPbths = new HbshSet<String>();
 
     /**
-     * Generates the transitive closure of the Class-Path attribute for
-     * the specified jar file.
+     * Generbtes the trbnsitive closure of the Clbss-Pbth bttribute for
+     * the specified jbr file.
      */
-    List<String> getJarPath(String jar) throws IOException {
-        List<String> files = new ArrayList<String>();
-        files.add(jar);
-        jarPaths.add(jar);
+    List<String> getJbrPbth(String jbr) throws IOException {
+        List<String> files = new ArrbyList<String>();
+        files.bdd(jbr);
+        jbrPbths.bdd(jbr);
 
-        // take out the current path
-        String path = jar.substring(0, Math.max(0, jar.lastIndexOf('/') + 1));
+        // tbke out the current pbth
+        String pbth = jbr.substring(0, Mbth.mbx(0, jbr.lbstIndexOf('/') + 1));
 
-        // class path attribute will give us jar file name with
-        // '/' as separators, so we need to change them to the
-        // appropriate one before we open the jar file.
-        JarFile rf = new JarFile(jar.replace('/', File.separatorChar));
+        // clbss pbth bttribute will give us jbr file nbme with
+        // '/' bs sepbrbtors, so we need to chbnge them to the
+        // bppropribte one before we open the jbr file.
+        JbrFile rf = new JbrFile(jbr.replbce('/', File.sepbrbtorChbr));
 
         if (rf != null) {
-            Manifest man = rf.getManifest();
-            if (man != null) {
-                Attributes attr = man.getMainAttributes();
-                if (attr != null) {
-                    String value = attr.getValue(Attributes.Name.CLASS_PATH);
-                    if (value != null) {
-                        StringTokenizer st = new StringTokenizer(value);
-                        while (st.hasMoreTokens()) {
-                            String ajar = st.nextToken();
-                            if (!ajar.endsWith("/")) {  // it is a jar file
-                                ajar = path.concat(ajar);
+            Mbnifest mbn = rf.getMbnifest();
+            if (mbn != null) {
+                Attributes bttr = mbn.getMbinAttributes();
+                if (bttr != null) {
+                    String vblue = bttr.getVblue(Attributes.Nbme.CLASS_PATH);
+                    if (vblue != null) {
+                        StringTokenizer st = new StringTokenizer(vblue);
+                        while (st.hbsMoreTokens()) {
+                            String bjbr = st.nextToken();
+                            if (!bjbr.endsWith("/")) {  // it is b jbr file
+                                bjbr = pbth.concbt(bjbr);
                                 /* check on cyclic dependency */
-                                if (! jarPaths.contains(ajar)) {
-                                    files.addAll(getJarPath(ajar));
+                                if (! jbrPbths.contbins(bjbr)) {
+                                    files.bddAll(getJbrPbth(bjbr));
                                 }
                             }
                         }
@@ -1134,36 +1134,36 @@ class Main {
     }
 
     /**
-     * Generates class index file for the specified root jar file.
+     * Generbtes clbss index file for the specified root jbr file.
      */
-    void genIndex(String rootjar, String[] files) throws IOException {
-        List<String> jars = getJarPath(rootjar);
-        int njars = jars.size();
-        String[] jarfiles;
+    void genIndex(String rootjbr, String[] files) throws IOException {
+        List<String> jbrs = getJbrPbth(rootjbr);
+        int njbrs = jbrs.size();
+        String[] jbrfiles;
 
-        if (njars == 1 && files != null) {
-            // no class-path attribute defined in rootjar, will
-            // use command line specified list of jars
+        if (njbrs == 1 && files != null) {
+            // no clbss-pbth bttribute defined in rootjbr, will
+            // use commbnd line specified list of jbrs
             for (int i = 0; i < files.length; i++) {
-                jars.addAll(getJarPath(files[i]));
+                jbrs.bddAll(getJbrPbth(files[i]));
             }
-            njars = jars.size();
+            njbrs = jbrs.size();
         }
-        jarfiles = jars.toArray(new String[njars]);
-        JarIndex index = new JarIndex(jarfiles);
-        dumpIndex(rootjar, index);
+        jbrfiles = jbrs.toArrby(new String[njbrs]);
+        JbrIndex index = new JbrIndex(jbrfiles);
+        dumpIndex(rootjbr, index);
     }
 
     /**
-     * Prints entry information, if requested.
+     * Prints entry informbtion, if requested.
      */
     void printEntry(ZipEntry e, String[] files) throws IOException {
         if (files == null) {
             printEntry(e);
         } else {
-            String name = e.getName();
+            String nbme = e.getNbme();
             for (String file : files) {
-                if (name.startsWith(file)) {
+                if (nbme.stbrtsWith(file)) {
                     printEntry(e);
                     return;
                 }
@@ -1172,124 +1172,124 @@ class Main {
     }
 
     /**
-     * Prints entry information.
+     * Prints entry informbtion.
      */
     void printEntry(ZipEntry e) throws IOException {
-        if (vflag) {
+        if (vflbg) {
             StringBuilder sb = new StringBuilder();
             String s = Long.toString(e.getSize());
             for (int i = 6 - s.length(); i > 0; --i) {
-                sb.append(' ');
+                sb.bppend(' ');
             }
-            sb.append(s).append(' ').append(new Date(e.getTime()).toString());
-            sb.append(' ').append(e.getName());
+            sb.bppend(s).bppend(' ').bppend(new Dbte(e.getTime()).toString());
+            sb.bppend(' ').bppend(e.getNbme());
             output(sb.toString());
         } else {
-            output(e.getName());
+            output(e.getNbme());
         }
     }
 
     /**
-     * Prints usage message.
+     * Prints usbge messbge.
      */
-    void usageError() {
-        error(getMsg("usage"));
+    void usbgeError() {
+        error(getMsg("usbge"));
     }
 
     /**
-     * A fatal exception has been caught.  No recovery possible
+     * A fbtbl exception hbs been cbught.  No recovery possible
      */
-    void fatalError(Exception e) {
-        e.printStackTrace();
+    void fbtblError(Exception e) {
+        e.printStbckTrbce();
     }
 
     /**
-     * A fatal condition has been detected; message is "s".
+     * A fbtbl condition hbs been detected; messbge is "s".
      * No recovery possible
      */
-    void fatalError(String s) {
-        error(program + ": " + s);
+    void fbtblError(String s) {
+        error(progrbm + ": " + s);
     }
 
     /**
-     * Print an output message; like verbose output and the like
+     * Print bn output messbge; like verbose output bnd the like
      */
     protected void output(String s) {
         out.println(s);
     }
 
     /**
-     * Print an error message; like something is broken
+     * Print bn error messbge; like something is broken
      */
     protected void error(String s) {
         err.println(s);
     }
 
     /**
-     * Main routine to start program.
+     * Mbin routine to stbrt progrbm.
      */
-    public static void main(String args[]) {
-        Main jartool = new Main(System.out, System.err, "jar");
-        System.exit(jartool.run(args) ? 0 : 1);
+    public stbtic void mbin(String brgs[]) {
+        Mbin jbrtool = new Mbin(System.out, System.err, "jbr");
+        System.exit(jbrtool.run(brgs) ? 0 : 1);
     }
 
     /**
-     * An OutputStream that doesn't send its output anywhere, (but could).
-     * It's here to find the CRC32 of an input file, necessary for STORED
+     * An OutputStrebm thbt doesn't send its output bnywhere, (but could).
+     * It's here to find the CRC32 of bn input file, necessbry for STORED
      * mode in ZIP.
      */
-    private static class CRC32OutputStream extends java.io.OutputStream {
-        final CRC32 crc = new CRC32();
+    privbte stbtic clbss CRC32OutputStrebm extends jbvb.io.OutputStrebm {
+        finbl CRC32 crc = new CRC32();
         long n = 0;
 
-        CRC32OutputStream() {}
+        CRC32OutputStrebm() {}
 
         public void write(int r) throws IOException {
-            crc.update(r);
+            crc.updbte(r);
             n++;
         }
 
         public void write(byte[] b, int off, int len) throws IOException {
-            crc.update(b, off, len);
+            crc.updbte(b, off, len);
             n += len;
         }
 
         /**
-         * Updates a ZipEntry which describes the data read by this
-         * output stream, in STORED mode.
+         * Updbtes b ZipEntry which describes the dbtb rebd by this
+         * output strebm, in STORED mode.
          */
-        public void updateEntry(ZipEntry e) {
+        public void updbteEntry(ZipEntry e) {
             e.setMethod(ZipEntry.STORED);
             e.setSize(n);
-            e.setCrc(crc.getValue());
+            e.setCrc(crc.getVblue());
         }
     }
 
     /**
-     * Attempt to create temporary file in the system-provided temporary folder, if failed attempts
-     * to create it in the same folder as the file in parameter (if any)
+     * Attempt to crebte temporbry file in the system-provided temporbry folder, if fbiled bttempts
+     * to crebte it in the sbme folder bs the file in pbrbmeter (if bny)
      */
-    private File createTemporaryFile(String tmpbase, String suffix) {
+    privbte File crebteTemporbryFile(String tmpbbse, String suffix) {
         File tmpfile = null;
 
         try {
-            tmpfile = File.createTempFile(tmpbase, suffix);
-        } catch (IOException | SecurityException e) {
-            // Unable to create file due to permission violation or security exception
+            tmpfile = File.crebteTempFile(tmpbbse, suffix);
+        } cbtch (IOException | SecurityException e) {
+            // Unbble to crebte file due to permission violbtion or security exception
         }
         if (tmpfile == null) {
-            // Were unable to create temporary file, fall back to temporary file in the same folder
-            if (fname != null) {
+            // Were unbble to crebte temporbry file, fbll bbck to temporbry file in the sbme folder
+            if (fnbme != null) {
                 try {
-                    File tmpfolder = new File(fname).getAbsoluteFile().getParentFile();
-                    tmpfile = File.createTempFile(fname, ".tmp" + suffix, tmpfolder);
-                } catch (IOException ioe) {
-                    // Last option failed - fall gracefully
-                    fatalError(ioe);
+                    File tmpfolder = new File(fnbme).getAbsoluteFile().getPbrentFile();
+                    tmpfile = File.crebteTempFile(fnbme, ".tmp" + suffix, tmpfolder);
+                } cbtch (IOException ioe) {
+                    // Lbst option fbiled - fbll grbcefully
+                    fbtblError(ioe);
                 }
             } else {
-                // No options left - we can not compress to stdout without access to the temporary folder
-                fatalError(new IOException(getMsg("error.create.tempfile")));
+                // No options left - we cbn not compress to stdout without bccess to the temporbry folder
+                fbtblError(new IOException(getMsg("error.crebte.tempfile")));
             }
         }
         return tmpfile;

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.nio.*;
+import jbvb.io.*;
+import jbvb.nio.*;
 
 /**
- * Primary driver class used by blocking Servers to receive,
- * prepare, send, and shutdown requests.
+ * Primbry driver clbss used by blocking Servers to receive,
+ * prepbre, send, bnd shutdown requests.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @buthor Mbrk Reinhold
+ * @buthor Brbd R. Wetmore
  */
-class RequestServicer implements Runnable {
+clbss RequestServicer implements Runnbble {
 
-    private ChannelIO cio;
+    privbte ChbnnelIO cio;
 
-    private static int created = 0;
+    privbte stbtic int crebted = 0;
 
-    RequestServicer(ChannelIO cio) {
+    RequestServicer(ChbnnelIO cio) {
         this.cio = cio;
 
-        // Simple heartbeat to let user know we're alive.
-        synchronized (RequestServicer.class) {
-            created++;
-            if ((created % 50) == 0) {
+        // Simple hebrtbebt to let user know we're blive.
+        synchronized (RequestServicer.clbss) {
+            crebted++;
+            if ((crebted % 50) == 0) {
                 System.out.println(".");
-                created = 0;
+                crebted = 0;
             } else {
                 System.out.print(".");
             }
         }
     }
 
-    private void service() throws IOException {
+    privbte void service() throws IOException {
         Reply rp = null;
         try {
             ByteBuffer rbb = receive();         // Receive
             Request rq = null;
-            try {                               // Parse
-                rq = Request.parse(rbb);
-            } catch (MalformedRequestException x) {
+            try {                               // Pbrse
+                rq = Request.pbrse(rbb);
+            } cbtch (MblformedRequestException x) {
                 rp = new Reply(Reply.Code.BAD_REQUEST,
                                new StringContent(x));
             }
@@ -84,29 +84,29 @@ class RequestServicer implements Runnable {
             do {} while (rp.send(cio));         // Send
             do {} while (!cio.shutdown());
             cio.close();
-            rp.release();
-        } catch (IOException x) {
-            String m = x.getMessage();
-            if (!m.equals("Broken pipe") &&
-                    !m.equals("Connection reset by peer")) {
-                System.err.println("RequestHandler: " + x.toString());
+            rp.relebse();
+        } cbtch (IOException x) {
+            String m = x.getMessbge();
+            if (!m.equbls("Broken pipe") &&
+                    !m.equbls("Connection reset by peer")) {
+                System.err.println("RequestHbndler: " + x.toString());
             }
 
             try {
                 /*
-                 * We had a failure here, so we'll try to be nice
-                 * before closing down and send off a close_notify,
-                 * but if we can't get the message off with one try,
+                 * We hbd b fbilure here, so we'll try to be nice
+                 * before closing down bnd send off b close_notify,
+                 * but if we cbn't get the messbge off with one try,
                  * we'll just shutdown.
                  */
                 cio.shutdown();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 // ignore
             }
 
             cio.close();
             if (rp != null) {
-                rp.release();
+                rp.relebse();
             }
         }
     }
@@ -114,19 +114,19 @@ class RequestServicer implements Runnable {
     public void run() {
         try {
             service();
-        } catch (IOException x) {
-            x.printStackTrace();
+        } cbtch (IOException x) {
+            x.printStbckTrbce();
         }
     }
 
     ByteBuffer receive() throws IOException {
 
-        do {} while (!cio.doHandshake());
+        do {} while (!cio.doHbndshbke());
 
         for (;;) {
-            int read = cio.read();
-            ByteBuffer bb = cio.getReadBuf();
-            if ((read < 0) || (Request.isComplete(bb))) {
+            int rebd = cio.rebd();
+            ByteBuffer bb = cio.getRebdBuf();
+            if ((rebd < 0) || (Request.isComplete(bb))) {
                 bb.flip();
                 return bb;
             }
@@ -136,21 +136,21 @@ class RequestServicer implements Runnable {
     Reply build(Request rq) throws IOException {
 
         Reply rp = null;
-        Request.Action action = rq.action();
-        if ((action != Request.Action.GET) &&
-                (action != Request.Action.HEAD))
+        Request.Action bction = rq.bction();
+        if ((bction != Request.Action.GET) &&
+                (bction != Request.Action.HEAD))
             rp = new Reply(Reply.Code.METHOD_NOT_ALLOWED,
                            new StringContent(rq.toString()));
         else
             rp = new Reply(Reply.Code.OK,
-                           new FileContent(rq.uri()), action);
+                           new FileContent(rq.uri()), bction);
         try {
-            rp.prepare();
-        } catch (IOException x) {
-            rp.release();
+            rp.prepbre();
+        } cbtch (IOException x) {
+            rp.relebse();
             rp = new Reply(Reply.Code.NOT_FOUND,
                            new StringContent(x));
-            rp.prepare();
+            rp.prepbre();
         }
         return rp;
     }

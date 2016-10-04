@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.print.PageFormat;
-import java.nio.ByteBuffer;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.nio.ByteBuffer;
 
-import sun.java2d.*;
-import sun.java2d.loops.SurfaceType;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.SurfbceType;
 
-public class CPrinterSurfaceData extends OSXSurfaceData{
-    public static final String DESC_INT_RGB_PQ = "Integer RGB Printer Quartz";
-//    public static final String DESC_INT_ARGB_PQ = "Integer ARGB Printer Quartz";
+public clbss CPrinterSurfbceDbtb extends OSXSurfbceDbtb{
+    public stbtic finbl String DESC_INT_RGB_PQ = "Integer RGB Printer Qubrtz";
+//    public stbtic finbl String DESC_INT_ARGB_PQ = "Integer ARGB Printer Qubrtz";
 
-//    public static final SurfaceType IntArgbPQ = SurfaceType.IntArgb.deriveSubType(DESC_INT_ARGB_PQ);
-    public static final SurfaceType IntRgbPQ = SurfaceType.IntRgb.deriveSubType(DESC_INT_RGB_PQ);
+//    public stbtic finbl SurfbceType IntArgbPQ = SurfbceType.IntArgb.deriveSubType(DESC_INT_ARGB_PQ);
+    public stbtic finbl SurfbceType IntRgbPQ = SurfbceType.IntRgb.deriveSubType(DESC_INT_RGB_PQ);
 
-    static SurfaceData createData(PageFormat pf, long context) {
-        return new CPrinterSurfaceData(CPrinterGraphicsConfig.getConfig(pf), context);
+    stbtic SurfbceDbtb crebteDbtb(PbgeFormbt pf, long context) {
+        return new CPrinterSurfbceDbtb(CPrinterGrbphicsConfig.getConfig(pf), context);
     }
 
-    private CPrinterSurfaceData(GraphicsConfiguration gc, long context) {
+    privbte CPrinterSurfbceDbtb(GrbphicsConfigurbtion gc, long context) {
         super(IntRgbPQ, gc.getColorModel(), gc, gc.getBounds());
-        initOps(context, this.fGraphicsStates, this.fGraphicsStatesObject, gc.getBounds().width, gc.getBounds().height);
+        initOps(context, this.fGrbphicsStbtes, this.fGrbphicsStbtesObject, gc.getBounds().width, gc.getBounds().height);
     }
 
-    public SurfaceData getReplacement() {
+    public SurfbceDbtb getReplbcement() {
         return this;
     }
 
-    private native void initOps(long context, ByteBuffer byteParameters, Object[] objectParameters, int width, int height);
+    privbte nbtive void initOps(long context, ByteBuffer bytePbrbmeters, Object[] objectPbrbmeters, int width, int height);
 
-    public void enableFlushing() {
+    public void enbbleFlushing() {
         _flush();
     }
-    native void _flush();
+    nbtive void _flush();
 
-    public Object getDestination() {
-        // this should never get called for the printer surface (see BufferStrategyPaintManager for one case of usage)
+    public Object getDestinbtion() {
+        // this should never get cblled for the printer surfbce (see BufferStrbtegyPbintMbnbger for one cbse of usbge)
         return null;
     }
 
-    public Raster getRaster(int x, int y, int w, int h) {
-        BufferedImage dstImage = new BufferedImage(x + w, y + h, BufferedImage.TYPE_INT_ARGB_PRE);
-        return dstImage.getRaster();
+    public Rbster getRbster(int x, int y, int w, int h) {
+        BufferedImbge dstImbge = new BufferedImbge(x + w, y + h, BufferedImbge.TYPE_INT_ARGB_PRE);
+        return dstImbge.getRbster();
     }
 
-    public BufferedImage copyArea(SunGraphics2D sg2d, int x, int y, int w, int h, BufferedImage dstImage) {
-        // create the destination image if needed
-        if (dstImage == null) {
-            dstImage = getDeviceConfiguration().createCompatibleImage(w, h);
+    public BufferedImbge copyAreb(SunGrbphics2D sg2d, int x, int y, int w, int h, BufferedImbge dstImbge) {
+        // crebte the destinbtion imbge if needed
+        if (dstImbge == null) {
+            dstImbge = getDeviceConfigurbtion().crebteCompbtibleImbge(w, h);
         }
 
         // copy
-        Graphics g = dstImage.createGraphics();
-        BufferedImage thisImage = getCompositingImage(w, h);
-        g.drawImage(thisImage, 0, 0, w, h, x, y, x+w, y+h, null);
+        Grbphics g = dstImbge.crebteGrbphics();
+        BufferedImbge thisImbge = getCompositingImbge(w, h);
+        g.drbwImbge(thisImbge, 0, 0, w, h, x, y, x+w, y+h, null);
         g.dispose();
 
-        return dstImage;
+        return dstImbge;
     }
 
-    public boolean xorSurfacePixels(SunGraphics2D sg2d, BufferedImage srcPixels, int x, int y, int w, int h, int colorXOR) {
-        throw new InternalError("not implemented yet");
+    public boolebn xorSurfbcePixels(SunGrbphics2D sg2d, BufferedImbge srcPixels, int x, int y, int w, int h, int colorXOR) {
+        throw new InternblError("not implemented yet");
     }
 }

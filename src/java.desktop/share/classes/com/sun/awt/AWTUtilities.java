@@ -1,462 +1,462 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.awt;
+pbckbge com.sun.bwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
 /**
  * A collection of utility methods for AWT.
  *
- * The functionality provided by the static methods of the class includes:
+ * The functionblity provided by the stbtic methods of the clbss includes:
  * <ul>
- * <li>Setting shapes on top-level windows
- * <li>Setting a constant alpha value for each pixel of a top-level window
- * <li>Making a window non-opaque, after that it paints only explicitly
- * painted pixels on the screen, with arbitrary alpha values for every pixel.
- * <li>Setting a 'mixing-cutout' shape for a component.
+ * <li>Setting shbpes on top-level windows
+ * <li>Setting b constbnt blphb vblue for ebch pixel of b top-level window
+ * <li>Mbking b window non-opbque, bfter thbt it pbints only explicitly
+ * pbinted pixels on the screen, with brbitrbry blphb vblues for every pixel.
+ * <li>Setting b 'mixing-cutout' shbpe for b component.
  * </ul>
  * <p>
- * A "top-level window" is an instance of the {@code Window} class (or its
- * descendant, such as {@code JFrame}).
+ * A "top-level window" is bn instbnce of the {@code Window} clbss (or its
+ * descendbnt, such bs {@code JFrbme}).
  * <p>
- * Some of the mentioned features may not be supported by the native platform.
- * To determine whether a particular feature is supported, the user must use
- * the {@code isTranslucencySupported()} method of the class passing a desired
- * translucency kind (a member of the {@code Translucency} enum) as an
- * argument.
+ * Some of the mentioned febtures mby not be supported by the nbtive plbtform.
+ * To determine whether b pbrticulbr febture is supported, the user must use
+ * the {@code isTrbnslucencySupported()} method of the clbss pbssing b desired
+ * trbnslucency kind (b member of the {@code Trbnslucency} enum) bs bn
+ * brgument.
  * <p>
- * The per-pixel alpha feature also requires the user to create her/his
- * windows using a translucency-capable graphics configuration.
- * The {@code isTranslucencyCapable()} method must
- * be used to verify whether any given GraphicsConfiguration supports
- * the trasnlcency effects.
+ * The per-pixel blphb febture blso requires the user to crebte her/his
+ * windows using b trbnslucency-cbpbble grbphics configurbtion.
+ * The {@code isTrbnslucencyCbpbble()} method must
+ * be used to verify whether bny given GrbphicsConfigurbtion supports
+ * the trbsnlcency effects.
  * <p>
- * <b>WARNING</b>: This class is an implementation detail and only meant
- * for limited use outside of the core platform. This API may change
- * drastically between update release, and it may even be
- * removed or be moved in some other package(s)/class(es).
+ * <b>WARNING</b>: This clbss is bn implementbtion detbil bnd only mebnt
+ * for limited use outside of the core plbtform. This API mby chbnge
+ * drbsticblly between updbte relebse, bnd it mby even be
+ * removed or be moved in some other pbckbge(s)/clbss(es).
  */
-public final class AWTUtilities {
+public finbl clbss AWTUtilities {
 
     /**
-     * The AWTUtilities class should not be instantiated
+     * The AWTUtilities clbss should not be instbntibted
      */
-    private AWTUtilities() {
+    privbte AWTUtilities() {
     }
 
-    /** Kinds of translucency supported by the underlying system.
-     *  @see #isTranslucencySupported
+    /** Kinds of trbnslucency supported by the underlying system.
+     *  @see #isTrbnslucencySupported
      */
-    public static enum Translucency {
+    public stbtic enum Trbnslucency {
         /**
-         * Represents support in the underlying system for windows each pixel
-         * of which is guaranteed to be either completely opaque, with
-         * an alpha value of 1.0, or completely transparent, with an alpha
-         * value of 0.0.
+         * Represents support in the underlying system for windows ebch pixel
+         * of which is gubrbnteed to be either completely opbque, with
+         * bn blphb vblue of 1.0, or completely trbnspbrent, with bn blphb
+         * vblue of 0.0.
          */
         PERPIXEL_TRANSPARENT,
 
         /**
-         * Represents support in the underlying system for windows all of
-         * the pixels of which have the same alpha value between or including
-         * 0.0 and 1.0.
+         * Represents support in the underlying system for windows bll of
+         * the pixels of which hbve the sbme blphb vblue between or including
+         * 0.0 bnd 1.0.
          */
         TRANSLUCENT,
 
         /**
-         * Represents support in the underlying system for windows that
-         * contain or might contain pixels with arbitrary alpha values
-         * between and including 0.0 and 1.0.
+         * Represents support in the underlying system for windows thbt
+         * contbin or might contbin pixels with brbitrbry blphb vblues
+         * between bnd including 0.0 bnd 1.0.
          */
         PERPIXEL_TRANSLUCENT;
     }
 
 
     /**
-     * Returns whether the given level of translucency is supported by
+     * Returns whether the given level of trbnslucency is supported by
      * the underlying system.
      *
-     * Note that this method may sometimes return the value
-     * indicating that the particular level is supported, but
-     * the native windowing system may still not support the
-     * given level of translucency (due to the bugs in
+     * Note thbt this method mby sometimes return the vblue
+     * indicbting thbt the pbrticulbr level is supported, but
+     * the nbtive windowing system mby still not support the
+     * given level of trbnslucency (due to the bugs in
      * the windowing system).
      *
-     * @param translucencyKind a kind of translucency support
+     * @pbrbm trbnslucencyKind b kind of trbnslucency support
      *                         (either PERPIXEL_TRANSPARENT,
      *                         TRANSLUCENT, or PERPIXEL_TRANSLUCENT)
-     * @return whether the given translucency kind is supported
+     * @return whether the given trbnslucency kind is supported
      */
-    public static boolean isTranslucencySupported(Translucency translucencyKind) {
-        switch (translucencyKind) {
-            case PERPIXEL_TRANSPARENT:
-                return isWindowShapingSupported();
-            case TRANSLUCENT:
-                return isWindowOpacitySupported();
-            case PERPIXEL_TRANSLUCENT:
-                return isWindowTranslucencySupported();
+    public stbtic boolebn isTrbnslucencySupported(Trbnslucency trbnslucencyKind) {
+        switch (trbnslucencyKind) {
+            cbse PERPIXEL_TRANSPARENT:
+                return isWindowShbpingSupported();
+            cbse TRANSLUCENT:
+                return isWindowOpbcitySupported();
+            cbse PERPIXEL_TRANSLUCENT:
+                return isWindowTrbnslucencySupported();
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Returns whether the windowing system supports changing the opacity
-     * value of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * translucency (due to the bugs in the windowing system).
+     * Returns whether the windowing system supports chbnging the opbcity
+     * vblue of top-level windows.
+     * Note thbt this method mby sometimes return true, but the nbtive
+     * windowing system mby still not support the concept of
+     * trbnslucency (due to the bugs in the windowing system).
      */
-    private static boolean isWindowOpacitySupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    privbte stbtic boolebn isWindowOpbcitySupported() {
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        return ((SunToolkit)curToolkit).isWindowOpacitySupported();
+        return ((SunToolkit)curToolkit).isWindowOpbcitySupported();
     }
 
     /**
-     * Set the opacity of the window. The opacity is at the range [0..1].
-     * Note that setting the opacity level of 0 may or may not disable
-     * the mouse event handling on this window. This is
-     * a platform-dependent behavior.
+     * Set the opbcity of the window. The opbcity is bt the rbnge [0..1].
+     * Note thbt setting the opbcity level of 0 mby or mby not disbble
+     * the mouse event hbndling on this window. This is
+     * b plbtform-dependent behbvior.
      *
-     * In order for this method to enable the translucency effect,
-     * the isTranslucencySupported() method should indicate that the
-     * TRANSLUCENT level of translucency is supported.
+     * In order for this method to enbble the trbnslucency effect,
+     * the isTrbnslucencySupported() method should indicbte thbt the
+     * TRANSLUCENT level of trbnslucency is supported.
      *
-     * <p>Also note that the window must not be in the full-screen mode
-     * when setting the opacity value &lt; 1.0f. Otherwise
-     * the IllegalArgumentException is thrown.
+     * <p>Also note thbt the window must not be in the full-screen mode
+     * when setting the opbcity vblue &lt; 1.0f. Otherwise
+     * the IllegblArgumentException is thrown.
      *
-     * @param window the window to set the opacity level to
-     * @param opacity the opacity level to set to the window
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the opacity is out of
-     *                                  the range [0..1]
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the opacity is less than 1.0f
-     * @throws UnsupportedOperationException if the TRANSLUCENT translucency
+     * @pbrbm window the window to set the opbcity level to
+     * @pbrbm opbcity the opbcity level to set to the window
+     * @throws NullPointerException if the window brgument is null
+     * @throws IllegblArgumentException if the opbcity is out of
+     *                                  the rbnge [0..1]
+     * @throws IllegblArgumentException if the window is in full screen mode,
+     *                                  bnd the opbcity is less thbn 1.0f
+     * @throws UnsupportedOperbtionException if the TRANSLUCENT trbnslucency
      *                                       kind is not supported
      */
-    public static void setWindowOpacity(Window window, float opacity) {
+    public stbtic void setWindowOpbcity(Window window, flobt opbcity) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
 
-        AWTAccessor.getWindowAccessor().setOpacity(window, opacity);
+        AWTAccessor.getWindowAccessor().setOpbcity(window, opbcity);
     }
 
     /**
-     * Get the opacity of the window. If the opacity has not
+     * Get the opbcity of the window. If the opbcity hbs not
      * yet being set, this method returns 1.0.
      *
-     * @param window the window to get the opacity level from
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window the window to get the opbcity level from
+     * @throws NullPointerException if the window brgument is null
      */
-    public static float getWindowOpacity(Window window) {
+    public stbtic flobt getWindowOpbcity(Window window) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
 
-        return AWTAccessor.getWindowAccessor().getOpacity(window);
+        return AWTAccessor.getWindowAccessor().getOpbcity(window);
     }
 
     /**
-     * Returns whether the windowing system supports changing the shape
+     * Returns whether the windowing system supports chbnging the shbpe
      * of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * shaping (due to the bugs in the windowing system).
+     * Note thbt this method mby sometimes return true, but the nbtive
+     * windowing system mby still not support the concept of
+     * shbping (due to the bugs in the windowing system).
      */
-    public static boolean isWindowShapingSupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    public stbtic boolebn isWindowShbpingSupported() {
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        return ((SunToolkit)curToolkit).isWindowShapingSupported();
+        return ((SunToolkit)curToolkit).isWindowShbpingSupported();
     }
 
     /**
-     * Returns an object that implements the Shape interface and represents
-     * the shape previously set with the call to the setWindowShape() method.
-     * If no shape has been set yet, or the shape has been reset to null,
+     * Returns bn object thbt implements the Shbpe interfbce bnd represents
+     * the shbpe previously set with the cbll to the setWindowShbpe() method.
+     * If no shbpe hbs been set yet, or the shbpe hbs been reset to null,
      * this method returns null.
      *
-     * @param window the window to get the shape from
-     * @return the current shape of the window
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window the window to get the shbpe from
+     * @return the current shbpe of the window
+     * @throws NullPointerException if the window brgument is null
      */
-    public static Shape getWindowShape(Window window) {
+    public stbtic Shbpe getWindowShbpe(Window window) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
-        return AWTAccessor.getWindowAccessor().getShape(window);
+        return AWTAccessor.getWindowAccessor().getShbpe(window);
     }
 
     /**
-     * Sets a shape for the given window.
-     * If the shape argument is null, this methods restores
-     * the default shape making the window rectangular.
-     * <p>Note that in order to set a shape, the window must be undecorated.
-     * If the window is decorated, this method ignores the {@code shape}
-     * argument and resets the shape to null.
-     * <p>Also note that the window must not be in the full-screen mode
-     * when setting a non-null shape. Otherwise the IllegalArgumentException
+     * Sets b shbpe for the given window.
+     * If the shbpe brgument is null, this methods restores
+     * the defbult shbpe mbking the window rectbngulbr.
+     * <p>Note thbt in order to set b shbpe, the window must be undecorbted.
+     * If the window is decorbted, this method ignores the {@code shbpe}
+     * brgument bnd resets the shbpe to null.
+     * <p>Also note thbt the window must not be in the full-screen mode
+     * when setting b non-null shbpe. Otherwise the IllegblArgumentException
      * is thrown.
-     * <p>Depending on the platform, the method may return without
-     * effecting the shape of the window if the window has a non-null warning
-     * string ({@link Window#getWarningString()}). In this case the passed
-     * shape object is ignored.
+     * <p>Depending on the plbtform, the method mby return without
+     * effecting the shbpe of the window if the window hbs b non-null wbrning
+     * string ({@link Window#getWbrningString()}). In this cbse the pbssed
+     * shbpe object is ignored.
      *
-     * @param window the window to set the shape to
-     * @param shape the shape to set to the window
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the shape is not null
-     * @throws UnsupportedOperationException if the PERPIXEL_TRANSPARENT
-     *                                       translucency kind is not supported
+     * @pbrbm window the window to set the shbpe to
+     * @pbrbm shbpe the shbpe to set to the window
+     * @throws NullPointerException if the window brgument is null
+     * @throws IllegblArgumentException if the window is in full screen mode,
+     *                                  bnd the shbpe is not null
+     * @throws UnsupportedOperbtionException if the PERPIXEL_TRANSPARENT
+     *                                       trbnslucency kind is not supported
      */
-    public static void setWindowShape(Window window, Shape shape) {
+    public stbtic void setWindowShbpe(Window window, Shbpe shbpe) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
-        AWTAccessor.getWindowAccessor().setShape(window, shape);
+        AWTAccessor.getWindowAccessor().setShbpe(window, shbpe);
     }
 
-    private static boolean isWindowTranslucencySupported() {
+    privbte stbtic boolebn isWindowTrbnslucencySupported() {
         /*
-         * Per-pixel alpha is supported if all the conditions are TRUE:
-         *    1. The toolkit is a sort of SunToolkit
-         *    2. The toolkit supports translucency in general
-         *        (isWindowTranslucencySupported())
-         *    3. There's at least one translucency-capable
-         *        GraphicsConfiguration
+         * Per-pixel blphb is supported if bll the conditions bre TRUE:
+         *    1. The toolkit is b sort of SunToolkit
+         *    2. The toolkit supports trbnslucency in generbl
+         *        (isWindowTrbnslucencySupported())
+         *    3. There's bt lebst one trbnslucency-cbpbble
+         *        GrbphicsConfigurbtion
          */
 
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
 
-        if (!((SunToolkit)curToolkit).isWindowTranslucencySupported()) {
-            return false;
+        if (!((SunToolkit)curToolkit).isWindowTrbnslucencySupported()) {
+            return fblse;
         }
 
-        GraphicsEnvironment env =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GrbphicsEnvironment env =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
 
-        // If the default GC supports translucency return true.
-        // It is important to optimize the verification this way,
-        // see CR 6661196 for more details.
-        if (isTranslucencyCapable(env.getDefaultScreenDevice()
-                    .getDefaultConfiguration()))
+        // If the defbult GC supports trbnslucency return true.
+        // It is importbnt to optimize the verificbtion this wby,
+        // see CR 6661196 for more detbils.
+        if (isTrbnslucencyCbpbble(env.getDefbultScreenDevice()
+                    .getDefbultConfigurbtion()))
         {
             return true;
         }
 
-        // ... otherwise iterate through all the GCs.
-        GraphicsDevice[] devices = env.getScreenDevices();
+        // ... otherwise iterbte through bll the GCs.
+        GrbphicsDevice[] devices = env.getScreenDevices();
 
         for (int i = 0; i < devices.length; i++) {
-            GraphicsConfiguration[] configs = devices[i].getConfigurations();
+            GrbphicsConfigurbtion[] configs = devices[i].getConfigurbtions();
             for (int j = 0; j < configs.length; j++) {
-                if (isTranslucencyCapable(configs[j])) {
+                if (isTrbnslucencyCbpbble(configs[j])) {
                     return true;
                 }
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Enables the per-pixel alpha support for the given window.
-     * Once the window becomes non-opaque (the isOpaque is set to false),
-     * the drawing sub-system is starting to respect the alpha value of each
-     * separate pixel. If a pixel gets painted with alpha color component
-     * equal to zero, it becomes visually transparent, if the alpha of the
-     * pixel is equal to 255, the pixel is fully opaque. Interim values
-     * of the alpha color component make the pixel semi-transparent (i.e.
-     * translucent).
-     * <p>Note that in order for the window to support the per-pixel alpha
-     * mode, the window must be created using the GraphicsConfiguration
-     * for which the {@link #isTranslucencyCapable}
+     * Enbbles the per-pixel blphb support for the given window.
+     * Once the window becomes non-opbque (the isOpbque is set to fblse),
+     * the drbwing sub-system is stbrting to respect the blphb vblue of ebch
+     * sepbrbte pixel. If b pixel gets pbinted with blphb color component
+     * equbl to zero, it becomes visublly trbnspbrent, if the blphb of the
+     * pixel is equbl to 255, the pixel is fully opbque. Interim vblues
+     * of the blphb color component mbke the pixel semi-trbnspbrent (i.e.
+     * trbnslucent).
+     * <p>Note thbt in order for the window to support the per-pixel blphb
+     * mode, the window must be crebted using the GrbphicsConfigurbtion
+     * for which the {@link #isTrbnslucencyCbpbble}
      * method returns true.
-     * <p>Also note that some native systems enable the per-pixel translucency
-     * mode for any window created using the translucency-compatible
-     * graphics configuration. However, it is highly recommended to always
-     * invoke the setWindowOpaque() method for these windows, at least for
-     * the sake of cross-platform compatibility reasons.
-     * <p>Also note that the window must not be in the full-screen mode
-     * when making it non-opaque. Otherwise the IllegalArgumentException
+     * <p>Also note thbt some nbtive systems enbble the per-pixel trbnslucency
+     * mode for bny window crebted using the trbnslucency-compbtible
+     * grbphics configurbtion. However, it is highly recommended to blwbys
+     * invoke the setWindowOpbque() method for these windows, bt lebst for
+     * the sbke of cross-plbtform compbtibility rebsons.
+     * <p>Also note thbt the window must not be in the full-screen mode
+     * when mbking it non-opbque. Otherwise the IllegblArgumentException
      * is thrown.
-     * <p>If the window is a {@code Frame} or a {@code Dialog}, the window must
-     * be undecorated prior to enabling the per-pixel translucency effect (see
-     * {@link Frame#setUndecorated()} and/or {@link Dialog#setUndecorated()}).
-     * If the window becomes decorated through a subsequent call to the
-     * corresponding {@code setUndecorated()} method, the per-pixel
-     * translucency effect will be disabled and the opaque property reset to
+     * <p>If the window is b {@code Frbme} or b {@code Diblog}, the window must
+     * be undecorbted prior to enbbling the per-pixel trbnslucency effect (see
+     * {@link Frbme#setUndecorbted()} bnd/or {@link Diblog#setUndecorbted()}).
+     * If the window becomes decorbted through b subsequent cbll to the
+     * corresponding {@code setUndecorbted()} method, the per-pixel
+     * trbnslucency effect will be disbbled bnd the opbque property reset to
      * {@code true}.
-     * <p>Depending on the platform, the method may return without
-     * effecting the opaque property of the window if the window has a non-null
-     * warning string ({@link Window#getWarningString()}). In this case
-     * the passed 'isOpaque' value is ignored.
+     * <p>Depending on the plbtform, the method mby return without
+     * effecting the opbque property of the window if the window hbs b non-null
+     * wbrning string ({@link Window#getWbrningString()}). In this cbse
+     * the pbssed 'isOpbque' vblue is ignored.
      *
-     * @param window the window to set the shape to
-     * @param isOpaque whether the window must be opaque (true),
-     *                 or translucent (false)
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window uses
-     *                                  a GraphicsConfiguration for which the
-     *                                  {@code isTranslucencyCapable()}
-     *                                  method returns false
-     * @throws IllegalArgumentException if the window is in full screen mode,
-     *                                  and the isOpaque is false
-     * @throws IllegalArgumentException if the window is decorated and the
-     * isOpaque argument is {@code false}.
-     * @throws UnsupportedOperationException if the PERPIXEL_TRANSLUCENT
-     *                                       translucency kind is not supported
+     * @pbrbm window the window to set the shbpe to
+     * @pbrbm isOpbque whether the window must be opbque (true),
+     *                 or trbnslucent (fblse)
+     * @throws NullPointerException if the window brgument is null
+     * @throws IllegblArgumentException if the window uses
+     *                                  b GrbphicsConfigurbtion for which the
+     *                                  {@code isTrbnslucencyCbpbble()}
+     *                                  method returns fblse
+     * @throws IllegblArgumentException if the window is in full screen mode,
+     *                                  bnd the isOpbque is fblse
+     * @throws IllegblArgumentException if the window is decorbted bnd the
+     * isOpbque brgument is {@code fblse}.
+     * @throws UnsupportedOperbtionException if the PERPIXEL_TRANSLUCENT
+     *                                       trbnslucency kind is not supported
      */
-    public static void setWindowOpaque(Window window, boolean isOpaque) {
+    public stbtic void setWindowOpbque(Window window, boolebn isOpbque) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
-        if (!isOpaque && !isTranslucencySupported(Translucency.PERPIXEL_TRANSLUCENT)) {
-            throw new UnsupportedOperationException(
-                    "The PERPIXEL_TRANSLUCENT translucency kind is not supported");
+        if (!isOpbque && !isTrbnslucencySupported(Trbnslucency.PERPIXEL_TRANSLUCENT)) {
+            throw new UnsupportedOperbtionException(
+                    "The PERPIXEL_TRANSLUCENT trbnslucency kind is not supported");
         }
-        AWTAccessor.getWindowAccessor().setOpaque(window, isOpaque);
+        AWTAccessor.getWindowAccessor().setOpbque(window, isOpbque);
     }
 
     /**
-     * Returns whether the window is opaque or translucent.
+     * Returns whether the window is opbque or trbnslucent.
      *
-     * @param window the window to set the shape to
-     * @return whether the window is currently opaque (true)
-     *         or translucent (false)
-     * @throws NullPointerException if the window argument is null
+     * @pbrbm window the window to set the shbpe to
+     * @return whether the window is currently opbque (true)
+     *         or trbnslucent (fblse)
+     * @throws NullPointerException if the window brgument is null
      */
-    public static boolean isWindowOpaque(Window window) {
+    public stbtic boolebn isWindowOpbque(Window window) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
 
-        return window.isOpaque();
+        return window.isOpbque();
     }
 
     /**
-     * Verifies whether a given GraphicsConfiguration supports
-     * the PERPIXEL_TRANSLUCENT kind of translucency.
-     * All windows that are intended to be used with the {@link #setWindowOpaque}
-     * method must be created using a GraphicsConfiguration for which this method
+     * Verifies whether b given GrbphicsConfigurbtion supports
+     * the PERPIXEL_TRANSLUCENT kind of trbnslucency.
+     * All windows thbt bre intended to be used with the {@link #setWindowOpbque}
+     * method must be crebted using b GrbphicsConfigurbtion for which this method
      * returns true.
-     * <p>Note that some native systems enable the per-pixel translucency
-     * mode for any window created using a translucency-capable
-     * graphics configuration. However, it is highly recommended to always
-     * invoke the setWindowOpaque() method for these windows, at least
-     * for the sake of cross-platform compatibility reasons.
+     * <p>Note thbt some nbtive systems enbble the per-pixel trbnslucency
+     * mode for bny window crebted using b trbnslucency-cbpbble
+     * grbphics configurbtion. However, it is highly recommended to blwbys
+     * invoke the setWindowOpbque() method for these windows, bt lebst
+     * for the sbke of cross-plbtform compbtibility rebsons.
      *
-     * @param gc GraphicsConfiguration
-     * @throws NullPointerException if the gc argument is null
-     * @return whether the given GraphicsConfiguration supports
-     *         the translucency effects.
+     * @pbrbm gc GrbphicsConfigurbtion
+     * @throws NullPointerException if the gc brgument is null
+     * @return whether the given GrbphicsConfigurbtion supports
+     *         the trbnslucency effects.
      */
-    public static boolean isTranslucencyCapable(GraphicsConfiguration gc) {
+    public stbtic boolebn isTrbnslucencyCbpbble(GrbphicsConfigurbtion gc) {
         if (gc == null) {
-            throw new NullPointerException("The gc argument should not be null");
+            throw new NullPointerException("The gc brgument should not be null");
         }
         /*
-        return gc.isTranslucencyCapable();
+        return gc.isTrbnslucencyCbpbble();
         */
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit curToolkit = Toolkit.getDefbultToolkit();
+        if (!(curToolkit instbnceof SunToolkit)) {
+            return fblse;
         }
-        return ((SunToolkit)curToolkit).isTranslucencyCapable(gc);
+        return ((SunToolkit)curToolkit).isTrbnslucencyCbpbble(gc);
     }
 
     /**
-     * Sets a 'mixing-cutout' shape for the given component.
+     * Sets b 'mixing-cutout' shbpe for the given component.
      *
-     * By default a lightweight component is treated as an opaque rectangle for
-     * the purposes of the Heavyweight/Lightweight Components Mixing feature.
-     * This method enables developers to set an arbitrary shape to be cut out
-     * from heavyweight components positioned underneath the lightweight
+     * By defbult b lightweight component is trebted bs bn opbque rectbngle for
+     * the purposes of the Hebvyweight/Lightweight Components Mixing febture.
+     * This method enbbles developers to set bn brbitrbry shbpe to be cut out
+     * from hebvyweight components positioned undernebth the lightweight
      * component in the z-order.
      * <p>
-     * The {@code shape} argument may have the following values:
+     * The {@code shbpe} brgument mby hbve the following vblues:
      * <ul>
-     * <li>{@code null} - reverts the default cutout shape (the rectangle equal
+     * <li>{@code null} - reverts the defbult cutout shbpe (the rectbngle equbl
      * to the component's {@code getBounds()})
-     * <li><i>empty-shape</i> - does not cut out anything from heavyweight
-     * components. This makes the given lightweight component effectively
-     * transparent. Note that descendants of the lightweight component still
-     * affect the shapes of heavyweight components.  An example of an
-     * <i>empty-shape</i> is {@code new Rectangle()}.
-     * <li><i>non-empty-shape</i> - the given shape will be cut out from
-     * heavyweight components.
+     * <li><i>empty-shbpe</i> - does not cut out bnything from hebvyweight
+     * components. This mbkes the given lightweight component effectively
+     * trbnspbrent. Note thbt descendbnts of the lightweight component still
+     * bffect the shbpes of hebvyweight components.  An exbmple of bn
+     * <i>empty-shbpe</i> is {@code new Rectbngle()}.
+     * <li><i>non-empty-shbpe</i> - the given shbpe will be cut out from
+     * hebvyweight components.
      * </ul>
      * <p>
-     * The most common example when the 'mixing-cutout' shape is needed is a
-     * glass pane component. The {@link JRootPane#setGlassPane()} method
-     * automatically sets the <i>empty-shape</i> as the 'mixing-cutout' shape
-     * for the given glass pane component.  If a developer needs some other
-     * 'mixing-cutout' shape for the glass pane (which is rare), this must be
-     * changed manually after installing the glass pane to the root pane.
+     * The most common exbmple when the 'mixing-cutout' shbpe is needed is b
+     * glbss pbne component. The {@link JRootPbne#setGlbssPbne()} method
+     * butombticblly sets the <i>empty-shbpe</i> bs the 'mixing-cutout' shbpe
+     * for the given glbss pbne component.  If b developer needs some other
+     * 'mixing-cutout' shbpe for the glbss pbne (which is rbre), this must be
+     * chbnged mbnublly bfter instblling the glbss pbne to the root pbne.
      * <p>
-     * Note that the 'mixing-cutout' shape neither affects painting, nor the
-     * mouse events handling for the given component. It is used exclusively
-     * for the purposes of the Heavyweight/Lightweight Components Mixing
-     * feature.
+     * Note thbt the 'mixing-cutout' shbpe neither bffects pbinting, nor the
+     * mouse events hbndling for the given component. It is used exclusively
+     * for the purposes of the Hebvyweight/Lightweight Components Mixing
+     * febture.
      *
-     * @param component the component that needs non-default
-     * 'mixing-cutout' shape
-     * @param shape the new 'mixing-cutout' shape
-     * @throws NullPointerException if the component argument is {@code null}
+     * @pbrbm component the component thbt needs non-defbult
+     * 'mixing-cutout' shbpe
+     * @pbrbm shbpe the new 'mixing-cutout' shbpe
+     * @throws NullPointerException if the component brgument is {@code null}
      */
-    public static void setComponentMixingCutoutShape(Component component,
-            Shape shape)
+    public stbtic void setComponentMixingCutoutShbpe(Component component,
+            Shbpe shbpe)
     {
         if (component == null) {
             throw new NullPointerException(
-                    "The component argument should not be null.");
+                    "The component brgument should not be null.");
         }
 
-        AWTAccessor.getComponentAccessor().setMixingCutoutShape(component,
-                shape);
+        AWTAccessor.getComponentAccessor().setMixingCutoutShbpe(component,
+                shbpe);
     }
 }
 

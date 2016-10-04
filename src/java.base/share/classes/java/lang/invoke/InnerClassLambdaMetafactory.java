@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import jdk.internal.org.objectweb.asm.*;
+import jdk.internbl.org.objectweb.bsm.*;
 import sun.invoke.util.BytecodeDescriptor;
-import sun.misc.Unsafe;
-import sun.security.action.GetPropertyAction;
+import sun.misc.Unsbfe;
+import sun.security.bction.GetPropertyAction;
 
-import java.io.FilePermission;
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.LinkedHashSet;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.PropertyPermission;
-import java.util.Set;
+import jbvb.io.FilePermission;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.PropertyPermission;
+import jbvb.util.Set;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.*;
+import stbtic jdk.internbl.org.objectweb.bsm.Opcodes.*;
 
 /**
- * Lambda metafactory implementation which dynamically creates an
- * inner-class-like class per lambda callsite.
+ * Lbmbdb metbfbctory implementbtion which dynbmicblly crebtes bn
+ * inner-clbss-like clbss per lbmbdb cbllsite.
  *
- * @see LambdaMetafactory
+ * @see LbmbdbMetbfbctory
  */
-/* package */ final class InnerClassLambdaMetafactory extends AbstractValidatingLambdaMetafactory {
-    private static final Unsafe UNSAFE = Unsafe.getUnsafe();
+/* pbckbge */ finbl clbss InnerClbssLbmbdbMetbfbctory extends AbstrbctVblidbtingLbmbdbMetbfbctory {
+    privbte stbtic finbl Unsbfe UNSAFE = Unsbfe.getUnsbfe();
 
-    private static final int CLASSFILE_VERSION = 52;
-    private static final String METHOD_DESCRIPTOR_VOID = Type.getMethodDescriptor(Type.VOID_TYPE);
-    private static final String JAVA_LANG_OBJECT = "java/lang/Object";
-    private static final String NAME_CTOR = "<init>";
-    private static final String NAME_FACTORY = "get$Lambda";
+    privbte stbtic finbl int CLASSFILE_VERSION = 52;
+    privbte stbtic finbl String METHOD_DESCRIPTOR_VOID = Type.getMethodDescriptor(Type.VOID_TYPE);
+    privbte stbtic finbl String JAVA_LANG_OBJECT = "jbvb/lbng/Object";
+    privbte stbtic finbl String NAME_CTOR = "<init>";
+    privbte stbtic finbl String NAME_FACTORY = "get$Lbmbdb";
 
-    //Serialization support
-    private static final String NAME_SERIALIZED_LAMBDA = "java/lang/invoke/SerializedLambda";
-    private static final String NAME_NOT_SERIALIZABLE_EXCEPTION = "java/io/NotSerializableException";
-    private static final String DESCR_METHOD_WRITE_REPLACE = "()Ljava/lang/Object;";
-    private static final String DESCR_METHOD_WRITE_OBJECT = "(Ljava/io/ObjectOutputStream;)V";
-    private static final String DESCR_METHOD_READ_OBJECT = "(Ljava/io/ObjectInputStream;)V";
-    private static final String NAME_METHOD_WRITE_REPLACE = "writeReplace";
-    private static final String NAME_METHOD_READ_OBJECT = "readObject";
-    private static final String NAME_METHOD_WRITE_OBJECT = "writeObject";
-    private static final String DESCR_CTOR_SERIALIZED_LAMBDA
-            = MethodType.methodType(void.class,
-                                    Class.class,
-                                    String.class, String.class, String.class,
-                                    int.class, String.class, String.class, String.class,
-                                    String.class,
-                                    Object[].class).toMethodDescriptorString();
-    private static final String DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION
-            = MethodType.methodType(void.class, String.class).toMethodDescriptorString();
-    private static final String[] SER_HOSTILE_EXCEPTIONS = new String[] {NAME_NOT_SERIALIZABLE_EXCEPTION};
+    //Seriblizbtion support
+    privbte stbtic finbl String NAME_SERIALIZED_LAMBDA = "jbvb/lbng/invoke/SeriblizedLbmbdb";
+    privbte stbtic finbl String NAME_NOT_SERIALIZABLE_EXCEPTION = "jbvb/io/NotSeriblizbbleException";
+    privbte stbtic finbl String DESCR_METHOD_WRITE_REPLACE = "()Ljbvb/lbng/Object;";
+    privbte stbtic finbl String DESCR_METHOD_WRITE_OBJECT = "(Ljbvb/io/ObjectOutputStrebm;)V";
+    privbte stbtic finbl String DESCR_METHOD_READ_OBJECT = "(Ljbvb/io/ObjectInputStrebm;)V";
+    privbte stbtic finbl String NAME_METHOD_WRITE_REPLACE = "writeReplbce";
+    privbte stbtic finbl String NAME_METHOD_READ_OBJECT = "rebdObject";
+    privbte stbtic finbl String NAME_METHOD_WRITE_OBJECT = "writeObject";
+    privbte stbtic finbl String DESCR_CTOR_SERIALIZED_LAMBDA
+            = MethodType.methodType(void.clbss,
+                                    Clbss.clbss,
+                                    String.clbss, String.clbss, String.clbss,
+                                    int.clbss, String.clbss, String.clbss, String.clbss,
+                                    String.clbss,
+                                    Object[].clbss).toMethodDescriptorString();
+    privbte stbtic finbl String DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION
+            = MethodType.methodType(void.clbss, String.clbss).toMethodDescriptorString();
+    privbte stbtic finbl String[] SER_HOSTILE_EXCEPTIONS = new String[] {NAME_NOT_SERIALIZABLE_EXCEPTION};
 
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    privbte stbtic finbl String[] EMPTY_STRING_ARRAY = new String[0];
 
-    // Used to ensure that each spun class name is unique
-    private static final AtomicInteger counter = new AtomicInteger(0);
+    // Used to ensure thbt ebch spun clbss nbme is unique
+    privbte stbtic finbl AtomicInteger counter = new AtomicInteger(0);
 
-    // For dumping generated classes to disk, for debugging purposes
-    private static final ProxyClassesDumper dumper;
+    // For dumping generbted clbsses to disk, for debugging purposes
+    privbte stbtic finbl ProxyClbssesDumper dumper;
 
-    static {
-        final String key = "jdk.internal.lambda.dumpProxyClasses";
-        String path = AccessController.doPrivileged(
+    stbtic {
+        finbl String key = "jdk.internbl.lbmbdb.dumpProxyClbsses";
+        String pbth = AccessController.doPrivileged(
                 new GetPropertyAction(key), null,
-                new PropertyPermission(key , "read"));
-        dumper = (null == path) ? null : ProxyClassesDumper.getInstance(path);
+                new PropertyPermission(key , "rebd"));
+        dumper = (null == pbth) ? null : ProxyClbssesDumper.getInstbnce(pbth);
     }
 
-    // See context values in AbstractValidatingLambdaMetafactory
-    private final String implMethodClassName;        // Name of type containing implementation "CC"
-    private final String implMethodName;             // Name of implementation method "impl"
-    private final String implMethodDesc;             // Type descriptor for implementation methods "(I)Ljava/lang/String;"
-    private final Class<?> implMethodReturnClass;    // class for implementaion method return type "Ljava/lang/String;"
-    private final MethodType constructorType;        // Generated class constructor type "(CC)void"
-    private final ClassWriter cw;                    // ASM class writer
-    private final String[] argNames;                 // Generated names for the constructor arguments
-    private final String[] argDescs;                 // Type descriptors for the constructor arguments
-    private final String lambdaClassName;            // Generated name for the generated class "X$$Lambda$1"
+    // See context vblues in AbstrbctVblidbtingLbmbdbMetbfbctory
+    privbte finbl String implMethodClbssNbme;        // Nbme of type contbining implementbtion "CC"
+    privbte finbl String implMethodNbme;             // Nbme of implementbtion method "impl"
+    privbte finbl String implMethodDesc;             // Type descriptor for implementbtion methods "(I)Ljbvb/lbng/String;"
+    privbte finbl Clbss<?> implMethodReturnClbss;    // clbss for implementbion method return type "Ljbvb/lbng/String;"
+    privbte finbl MethodType constructorType;        // Generbted clbss constructor type "(CC)void"
+    privbte finbl ClbssWriter cw;                    // ASM clbss writer
+    privbte finbl String[] brgNbmes;                 // Generbted nbmes for the constructor brguments
+    privbte finbl String[] brgDescs;                 // Type descriptors for the constructor brguments
+    privbte finbl String lbmbdbClbssNbme;            // Generbted nbme for the generbted clbss "X$$Lbmbdb$1"
 
     /**
-     * General meta-factory constructor, supporting both standard cases and
-     * allowing for uncommon options such as serialization or bridging.
+     * Generbl metb-fbctory constructor, supporting both stbndbrd cbses bnd
+     * bllowing for uncommon options such bs seriblizbtion or bridging.
      *
-     * @param caller Stacked automatically by VM; represents a lookup context
-     *               with the accessibility privileges of the caller.
-     * @param invokedType Stacked automatically by VM; the signature of the
-     *                    invoked method, which includes the expected static
-     *                    type of the returned lambda object, and the static
-     *                    types of the captured arguments for the lambda.  In
-     *                    the event that the implementation method is an
-     *                    instance method, the first argument in the invocation
-     *                    signature will correspond to the receiver.
-     * @param samMethodName Name of the method in the functional interface to
-     *                      which the lambda or method reference is being
-     *                      converted, represented as a String.
-     * @param samMethodType Type of the method in the functional interface to
-     *                      which the lambda or method reference is being
-     *                      converted, represented as a MethodType.
-     * @param implMethod The implementation method which should be called (with
-     *                   suitable adaptation of argument types, return types,
-     *                   and adjustment for captured arguments) when methods of
-     *                   the resulting functional interface instance are invoked.
-     * @param instantiatedMethodType The signature of the primary functional
-     *                               interface method after type variables are
-     *                               substituted with their instantiation from
-     *                               the capture site
-     * @param isSerializable Should the lambda be made serializable?  If set,
-     *                       either the target type or one of the additional SAM
-     *                       types must extend {@code Serializable}.
-     * @param markerInterfaces Additional interfaces which the lambda object
+     * @pbrbm cbller Stbcked butombticblly by VM; represents b lookup context
+     *               with the bccessibility privileges of the cbller.
+     * @pbrbm invokedType Stbcked butombticblly by VM; the signbture of the
+     *                    invoked method, which includes the expected stbtic
+     *                    type of the returned lbmbdb object, bnd the stbtic
+     *                    types of the cbptured brguments for the lbmbdb.  In
+     *                    the event thbt the implementbtion method is bn
+     *                    instbnce method, the first brgument in the invocbtion
+     *                    signbture will correspond to the receiver.
+     * @pbrbm sbmMethodNbme Nbme of the method in the functionbl interfbce to
+     *                      which the lbmbdb or method reference is being
+     *                      converted, represented bs b String.
+     * @pbrbm sbmMethodType Type of the method in the functionbl interfbce to
+     *                      which the lbmbdb or method reference is being
+     *                      converted, represented bs b MethodType.
+     * @pbrbm implMethod The implementbtion method which should be cblled (with
+     *                   suitbble bdbptbtion of brgument types, return types,
+     *                   bnd bdjustment for cbptured brguments) when methods of
+     *                   the resulting functionbl interfbce instbnce bre invoked.
+     * @pbrbm instbntibtedMethodType The signbture of the primbry functionbl
+     *                               interfbce method bfter type vbribbles bre
+     *                               substituted with their instbntibtion from
+     *                               the cbpture site
+     * @pbrbm isSeriblizbble Should the lbmbdb be mbde seriblizbble?  If set,
+     *                       either the tbrget type or one of the bdditionbl SAM
+     *                       types must extend {@code Seriblizbble}.
+     * @pbrbm mbrkerInterfbces Additionbl interfbces which the lbmbdb object
      *                       should implement.
-     * @param additionalBridges Method types for additional signatures to be
-     *                          bridged to the implementation method
-     * @throws LambdaConversionException If any of the meta-factory protocol
-     * invariants are violated
+     * @pbrbm bdditionblBridges Method types for bdditionbl signbtures to be
+     *                          bridged to the implementbtion method
+     * @throws LbmbdbConversionException If bny of the metb-fbctory protocol
+     * invbribnts bre violbted
      */
-    public InnerClassLambdaMetafactory(MethodHandles.Lookup caller,
+    public InnerClbssLbmbdbMetbfbctory(MethodHbndles.Lookup cbller,
                                        MethodType invokedType,
-                                       String samMethodName,
-                                       MethodType samMethodType,
-                                       MethodHandle implMethod,
-                                       MethodType instantiatedMethodType,
-                                       boolean isSerializable,
-                                       Class<?>[] markerInterfaces,
-                                       MethodType[] additionalBridges)
-            throws LambdaConversionException {
-        super(caller, invokedType, samMethodName, samMethodType,
-              implMethod, instantiatedMethodType,
-              isSerializable, markerInterfaces, additionalBridges);
-        implMethodClassName = implDefiningClass.getName().replace('.', '/');
-        implMethodName = implInfo.getName();
+                                       String sbmMethodNbme,
+                                       MethodType sbmMethodType,
+                                       MethodHbndle implMethod,
+                                       MethodType instbntibtedMethodType,
+                                       boolebn isSeriblizbble,
+                                       Clbss<?>[] mbrkerInterfbces,
+                                       MethodType[] bdditionblBridges)
+            throws LbmbdbConversionException {
+        super(cbller, invokedType, sbmMethodNbme, sbmMethodType,
+              implMethod, instbntibtedMethodType,
+              isSeriblizbble, mbrkerInterfbces, bdditionblBridges);
+        implMethodClbssNbme = implDefiningClbss.getNbme().replbce('.', '/');
+        implMethodNbme = implInfo.getNbme();
         implMethodDesc = implMethodType.toMethodDescriptorString();
-        implMethodReturnClass = (implKind == MethodHandleInfo.REF_newInvokeSpecial)
-                ? implDefiningClass
+        implMethodReturnClbss = (implKind == MethodHbndleInfo.REF_newInvokeSpecibl)
+                ? implDefiningClbss
                 : implMethodType.returnType();
-        constructorType = invokedType.changeReturnType(Void.TYPE);
-        lambdaClassName = targetClass.getName().replace('.', '/') + "$$Lambda$" + counter.incrementAndGet();
-        cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        int parameterCount = invokedType.parameterCount();
-        if (parameterCount > 0) {
-            argNames = new String[parameterCount];
-            argDescs = new String[parameterCount];
-            for (int i = 0; i < parameterCount; i++) {
-                argNames[i] = "arg$" + (i + 1);
-                argDescs[i] = BytecodeDescriptor.unparse(invokedType.parameterType(i));
+        constructorType = invokedType.chbngeReturnType(Void.TYPE);
+        lbmbdbClbssNbme = tbrgetClbss.getNbme().replbce('.', '/') + "$$Lbmbdb$" + counter.incrementAndGet();
+        cw = new ClbssWriter(ClbssWriter.COMPUTE_MAXS);
+        int pbrbmeterCount = invokedType.pbrbmeterCount();
+        if (pbrbmeterCount > 0) {
+            brgNbmes = new String[pbrbmeterCount];
+            brgDescs = new String[pbrbmeterCount];
+            for (int i = 0; i < pbrbmeterCount; i++) {
+                brgNbmes[i] = "brg$" + (i + 1);
+                brgDescs[i] = BytecodeDescriptor.unpbrse(invokedType.pbrbmeterType(i));
             }
         } else {
-            argNames = argDescs = EMPTY_STRING_ARRAY;
+            brgNbmes = brgDescs = EMPTY_STRING_ARRAY;
         }
     }
 
     /**
-     * Build the CallSite. Generate a class file which implements the functional
-     * interface, define the class, if there are no parameters create an instance
-     * of the class which the CallSite will return, otherwise, generate handles
-     * which will call the class' constructor.
+     * Build the CbllSite. Generbte b clbss file which implements the functionbl
+     * interfbce, define the clbss, if there bre no pbrbmeters crebte bn instbnce
+     * of the clbss which the CbllSite will return, otherwise, generbte hbndles
+     * which will cbll the clbss' constructor.
      *
-     * @return a CallSite, which, when invoked, will return an instance of the
-     * functional interface
-     * @throws ReflectiveOperationException
-     * @throws LambdaConversionException If properly formed functional interface
+     * @return b CbllSite, which, when invoked, will return bn instbnce of the
+     * functionbl interfbce
+     * @throws ReflectiveOperbtionException
+     * @throws LbmbdbConversionException If properly formed functionbl interfbce
      * is not found
      */
     @Override
-    CallSite buildCallSite() throws LambdaConversionException {
-        final Class<?> innerClass = spinInnerClass();
-        if (invokedType.parameterCount() == 0) {
-            final Constructor<?>[] ctrs = AccessController.doPrivileged(
+    CbllSite buildCbllSite() throws LbmbdbConversionException {
+        finbl Clbss<?> innerClbss = spinInnerClbss();
+        if (invokedType.pbrbmeterCount() == 0) {
+            finbl Constructor<?>[] ctrs = AccessController.doPrivileged(
                     new PrivilegedAction<Constructor<?>[]>() {
                 @Override
                 public Constructor<?>[] run() {
-                    Constructor<?>[] ctrs = innerClass.getDeclaredConstructors();
+                    Constructor<?>[] ctrs = innerClbss.getDeclbredConstructors();
                     if (ctrs.length == 1) {
-                        // The lambda implementing inner class constructor is private, set
-                        // it accessible (by us) before creating the constant sole instance
+                        // The lbmbdb implementing inner clbss constructor is privbte, set
+                        // it bccessible (by us) before crebting the constbnt sole instbnce
                         ctrs[0].setAccessible(true);
                     }
                     return ctrs;
                 }
                     });
             if (ctrs.length != 1) {
-                throw new LambdaConversionException("Expected one lambda constructor for "
-                        + innerClass.getCanonicalName() + ", got " + ctrs.length);
+                throw new LbmbdbConversionException("Expected one lbmbdb constructor for "
+                        + innerClbss.getCbnonicblNbme() + ", got " + ctrs.length);
             }
 
             try {
-                Object inst = ctrs[0].newInstance();
-                return new ConstantCallSite(MethodHandles.constant(samBase, inst));
+                Object inst = ctrs[0].newInstbnce();
+                return new ConstbntCbllSite(MethodHbndles.constbnt(sbmBbse, inst));
             }
-            catch (ReflectiveOperationException e) {
-                throw new LambdaConversionException("Exception instantiating lambda object", e);
+            cbtch (ReflectiveOperbtionException e) {
+                throw new LbmbdbConversionException("Exception instbntibting lbmbdb object", e);
             }
         } else {
             try {
-                UNSAFE.ensureClassInitialized(innerClass);
-                return new ConstantCallSite(
-                        MethodHandles.Lookup.IMPL_LOOKUP
-                             .findStatic(innerClass, NAME_FACTORY, invokedType));
+                UNSAFE.ensureClbssInitiblized(innerClbss);
+                return new ConstbntCbllSite(
+                        MethodHbndles.Lookup.IMPL_LOOKUP
+                             .findStbtic(innerClbss, NAME_FACTORY, invokedType));
             }
-            catch (ReflectiveOperationException e) {
-                throw new LambdaConversionException("Exception finding constructor", e);
+            cbtch (ReflectiveOperbtionException e) {
+                throw new LbmbdbConversionException("Exception finding constructor", e);
             }
         }
     }
 
     /**
-     * Generate a class file which implements the functional
-     * interface, define and return the class.
+     * Generbte b clbss file which implements the functionbl
+     * interfbce, define bnd return the clbss.
      *
-     * @implNote The class that is generated does not include signature
-     * information for exceptions that may be present on the SAM method.
-     * This is to reduce classfile size, and is harmless as checked exceptions
-     * are erased anyway, no one will ever compile against this classfile,
-     * and we make no guarantees about the reflective properties of lambda
+     * @implNote The clbss thbt is generbted does not include signbture
+     * informbtion for exceptions thbt mby be present on the SAM method.
+     * This is to reduce clbssfile size, bnd is hbrmless bs checked exceptions
+     * bre erbsed bnywby, no one will ever compile bgbinst this clbssfile,
+     * bnd we mbke no gubrbntees bbout the reflective properties of lbmbdb
      * objects.
      *
-     * @return a Class which implements the functional interface
-     * @throws LambdaConversionException If properly formed functional interface
+     * @return b Clbss which implements the functionbl interfbce
+     * @throws LbmbdbConversionException If properly formed functionbl interfbce
      * is not found
      */
-    private Class<?> spinInnerClass() throws LambdaConversionException {
-        String[] interfaces;
-        String samIntf = samBase.getName().replace('.', '/');
-        boolean accidentallySerializable = !isSerializable && Serializable.class.isAssignableFrom(samBase);
-        if (markerInterfaces.length == 0) {
-            interfaces = new String[]{samIntf};
+    privbte Clbss<?> spinInnerClbss() throws LbmbdbConversionException {
+        String[] interfbces;
+        String sbmIntf = sbmBbse.getNbme().replbce('.', '/');
+        boolebn bccidentbllySeriblizbble = !isSeriblizbble && Seriblizbble.clbss.isAssignbbleFrom(sbmBbse);
+        if (mbrkerInterfbces.length == 0) {
+            interfbces = new String[]{sbmIntf};
         } else {
-            // Assure no duplicate interfaces (ClassFormatError)
-            Set<String> itfs = new LinkedHashSet<>(markerInterfaces.length + 1);
-            itfs.add(samIntf);
-            for (Class<?> markerInterface : markerInterfaces) {
-                itfs.add(markerInterface.getName().replace('.', '/'));
-                accidentallySerializable |= !isSerializable && Serializable.class.isAssignableFrom(markerInterface);
+            // Assure no duplicbte interfbces (ClbssFormbtError)
+            Set<String> itfs = new LinkedHbshSet<>(mbrkerInterfbces.length + 1);
+            itfs.bdd(sbmIntf);
+            for (Clbss<?> mbrkerInterfbce : mbrkerInterfbces) {
+                itfs.bdd(mbrkerInterfbce.getNbme().replbce('.', '/'));
+                bccidentbllySeriblizbble |= !isSeriblizbble && Seriblizbble.clbss.isAssignbbleFrom(mbrkerInterfbce);
             }
-            interfaces = itfs.toArray(new String[itfs.size()]);
+            interfbces = itfs.toArrby(new String[itfs.size()]);
         }
 
         cw.visit(CLASSFILE_VERSION, ACC_SUPER + ACC_FINAL + ACC_SYNTHETIC,
-                 lambdaClassName, null,
-                 JAVA_LANG_OBJECT, interfaces);
+                 lbmbdbClbssNbme, null,
+                 JAVA_LANG_OBJECT, interfbces);
 
-        // Generate final fields to be filled in by constructor
-        for (int i = 0; i < argDescs.length; i++) {
+        // Generbte finbl fields to be filled in by constructor
+        for (int i = 0; i < brgDescs.length; i++) {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE + ACC_FINAL,
-                                            argNames[i],
-                                            argDescs[i],
+                                            brgNbmes[i],
+                                            brgDescs[i],
                                             null, null);
             fv.visitEnd();
         }
 
-        generateConstructor();
+        generbteConstructor();
 
-        if (invokedType.parameterCount() != 0) {
-            generateFactory();
+        if (invokedType.pbrbmeterCount() != 0) {
+            generbteFbctory();
         }
 
-        // Forward the SAM method
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, samMethodName,
-                                          samMethodType.toMethodDescriptorString(), null, null);
-        new ForwardingMethodGenerator(mv).generate(samMethodType);
+        // Forwbrd the SAM method
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, sbmMethodNbme,
+                                          sbmMethodType.toMethodDescriptorString(), null, null);
+        new ForwbrdingMethodGenerbtor(mv).generbte(sbmMethodType);
 
-        // Forward the bridges
-        if (additionalBridges != null) {
-            for (MethodType mt : additionalBridges) {
-                mv = cw.visitMethod(ACC_PUBLIC|ACC_BRIDGE, samMethodName,
+        // Forwbrd the bridges
+        if (bdditionblBridges != null) {
+            for (MethodType mt : bdditionblBridges) {
+                mv = cw.visitMethod(ACC_PUBLIC|ACC_BRIDGE, sbmMethodNbme,
                                     mt.toMethodDescriptorString(), null, null);
-                new ForwardingMethodGenerator(mv).generate(mt);
+                new ForwbrdingMethodGenerbtor(mv).generbte(mt);
             }
         }
 
-        if (isSerializable)
-            generateSerializationFriendlyMethods();
-        else if (accidentallySerializable)
-            generateSerializationHostileMethods();
+        if (isSeriblizbble)
+            generbteSeriblizbtionFriendlyMethods();
+        else if (bccidentbllySeriblizbble)
+            generbteSeriblizbtionHostileMethods();
 
         cw.visitEnd();
 
-        // Define the generated class in this VM.
+        // Define the generbted clbss in this VM.
 
-        final byte[] classBytes = cw.toByteArray();
+        finbl byte[] clbssBytes = cw.toByteArrby();
 
-        // If requested, dump out to a file for debugging purposes
+        // If requested, dump out to b file for debugging purposes
         if (dumper != null) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override
                 public Void run() {
-                    dumper.dumpClass(lambdaClassName, classBytes);
+                    dumper.dumpClbss(lbmbdbClbssNbme, clbssBytes);
                     return null;
                 }
             }, null,
-            new FilePermission("<<ALL FILES>>", "read, write"),
-            // createDirectories may need it
-            new PropertyPermission("user.dir", "read"));
+            new FilePermission("<<ALL FILES>>", "rebd, write"),
+            // crebteDirectories mby need it
+            new PropertyPermission("user.dir", "rebd"));
         }
 
-        return UNSAFE.defineAnonymousClass(targetClass, classBytes, null);
+        return UNSAFE.defineAnonymousClbss(tbrgetClbss, clbssBytes, null);
     }
 
     /**
-     * Generate the factory method for the class
+     * Generbte the fbctory method for the clbss
      */
-    private void generateFactory() {
+    privbte void generbteFbctory() {
         MethodVisitor m = cw.visitMethod(ACC_PRIVATE | ACC_STATIC, NAME_FACTORY, invokedType.toMethodDescriptorString(), null, null);
         m.visitCode();
-        m.visitTypeInsn(NEW, lambdaClassName);
+        m.visitTypeInsn(NEW, lbmbdbClbssNbme);
         m.visitInsn(Opcodes.DUP);
-        int parameterCount = invokedType.parameterCount();
-        for (int typeIndex = 0, varIndex = 0; typeIndex < parameterCount; typeIndex++) {
-            Class<?> argType = invokedType.parameterType(typeIndex);
-            m.visitVarInsn(getLoadOpcode(argType), varIndex);
-            varIndex += getParameterSize(argType);
+        int pbrbmeterCount = invokedType.pbrbmeterCount();
+        for (int typeIndex = 0, vbrIndex = 0; typeIndex < pbrbmeterCount; typeIndex++) {
+            Clbss<?> brgType = invokedType.pbrbmeterType(typeIndex);
+            m.visitVbrInsn(getLobdOpcode(brgType), vbrIndex);
+            vbrIndex += getPbrbmeterSize(brgType);
         }
-        m.visitMethodInsn(INVOKESPECIAL, lambdaClassName, NAME_CTOR, constructorType.toMethodDescriptorString(), false);
+        m.visitMethodInsn(INVOKESPECIAL, lbmbdbClbssNbme, NAME_CTOR, constructorType.toMethodDescriptorString(), fblse);
         m.visitInsn(ARETURN);
-        m.visitMaxs(-1, -1);
+        m.visitMbxs(-1, -1);
         m.visitEnd();
     }
 
     /**
-     * Generate the constructor for the class
+     * Generbte the constructor for the clbss
      */
-    private void generateConstructor() {
-        // Generate constructor
+    privbte void generbteConstructor() {
+        // Generbte constructor
         MethodVisitor ctor = cw.visitMethod(ACC_PRIVATE, NAME_CTOR,
                                             constructorType.toMethodDescriptorString(), null, null);
         ctor.visitCode();
-        ctor.visitVarInsn(ALOAD, 0);
+        ctor.visitVbrInsn(ALOAD, 0);
         ctor.visitMethodInsn(INVOKESPECIAL, JAVA_LANG_OBJECT, NAME_CTOR,
-                             METHOD_DESCRIPTOR_VOID, false);
-        int parameterCount = invokedType.parameterCount();
-        for (int i = 0, lvIndex = 0; i < parameterCount; i++) {
-            ctor.visitVarInsn(ALOAD, 0);
-            Class<?> argType = invokedType.parameterType(i);
-            ctor.visitVarInsn(getLoadOpcode(argType), lvIndex + 1);
-            lvIndex += getParameterSize(argType);
-            ctor.visitFieldInsn(PUTFIELD, lambdaClassName, argNames[i], argDescs[i]);
+                             METHOD_DESCRIPTOR_VOID, fblse);
+        int pbrbmeterCount = invokedType.pbrbmeterCount();
+        for (int i = 0, lvIndex = 0; i < pbrbmeterCount; i++) {
+            ctor.visitVbrInsn(ALOAD, 0);
+            Clbss<?> brgType = invokedType.pbrbmeterType(i);
+            ctor.visitVbrInsn(getLobdOpcode(brgType), lvIndex + 1);
+            lvIndex += getPbrbmeterSize(brgType);
+            ctor.visitFieldInsn(PUTFIELD, lbmbdbClbssNbme, brgNbmes[i], brgDescs[i]);
         }
         ctor.visitInsn(RETURN);
-        // Maxs computed by ClassWriter.COMPUTE_MAXS, these arguments ignored
-        ctor.visitMaxs(-1, -1);
+        // Mbxs computed by ClbssWriter.COMPUTE_MAXS, these brguments ignored
+        ctor.visitMbxs(-1, -1);
         ctor.visitEnd();
     }
 
     /**
-     * Generate a writeReplace method that supports serialization
+     * Generbte b writeReplbce method thbt supports seriblizbtion
      */
-    private void generateSerializationFriendlyMethods() {
-        TypeConvertingMethodAdapter mv
-                = new TypeConvertingMethodAdapter(
+    privbte void generbteSeriblizbtionFriendlyMethods() {
+        TypeConvertingMethodAdbpter mv
+                = new TypeConvertingMethodAdbpter(
                     cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
                     NAME_METHOD_WRITE_REPLACE, DESCR_METHOD_WRITE_REPLACE,
                     null, null));
@@ -382,48 +382,48 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
         mv.visitCode();
         mv.visitTypeInsn(NEW, NAME_SERIALIZED_LAMBDA);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn(Type.getType(targetClass));
-        mv.visitLdcInsn(invokedType.returnType().getName().replace('.', '/'));
-        mv.visitLdcInsn(samMethodName);
-        mv.visitLdcInsn(samMethodType.toMethodDescriptorString());
+        mv.visitLdcInsn(Type.getType(tbrgetClbss));
+        mv.visitLdcInsn(invokedType.returnType().getNbme().replbce('.', '/'));
+        mv.visitLdcInsn(sbmMethodNbme);
+        mv.visitLdcInsn(sbmMethodType.toMethodDescriptorString());
         mv.visitLdcInsn(implInfo.getReferenceKind());
-        mv.visitLdcInsn(implInfo.getDeclaringClass().getName().replace('.', '/'));
-        mv.visitLdcInsn(implInfo.getName());
+        mv.visitLdcInsn(implInfo.getDeclbringClbss().getNbme().replbce('.', '/'));
+        mv.visitLdcInsn(implInfo.getNbme());
         mv.visitLdcInsn(implInfo.getMethodType().toMethodDescriptorString());
-        mv.visitLdcInsn(instantiatedMethodType.toMethodDescriptorString());
-        mv.iconst(argDescs.length);
+        mv.visitLdcInsn(instbntibtedMethodType.toMethodDescriptorString());
+        mv.iconst(brgDescs.length);
         mv.visitTypeInsn(ANEWARRAY, JAVA_LANG_OBJECT);
-        for (int i = 0; i < argDescs.length; i++) {
+        for (int i = 0; i < brgDescs.length; i++) {
             mv.visitInsn(DUP);
             mv.iconst(i);
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, lambdaClassName, argNames[i], argDescs[i]);
-            mv.boxIfTypePrimitive(Type.getType(argDescs[i]));
+            mv.visitVbrInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, lbmbdbClbssNbme, brgNbmes[i], brgDescs[i]);
+            mv.boxIfTypePrimitive(Type.getType(brgDescs[i]));
             mv.visitInsn(AASTORE);
         }
         mv.visitMethodInsn(INVOKESPECIAL, NAME_SERIALIZED_LAMBDA, NAME_CTOR,
-                DESCR_CTOR_SERIALIZED_LAMBDA, false);
+                DESCR_CTOR_SERIALIZED_LAMBDA, fblse);
         mv.visitInsn(ARETURN);
-        // Maxs computed by ClassWriter.COMPUTE_MAXS, these arguments ignored
-        mv.visitMaxs(-1, -1);
+        // Mbxs computed by ClbssWriter.COMPUTE_MAXS, these brguments ignored
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
     }
 
     /**
-     * Generate a readObject/writeObject method that is hostile to serialization
+     * Generbte b rebdObject/writeObject method thbt is hostile to seriblizbtion
      */
-    private void generateSerializationHostileMethods() {
+    privbte void generbteSeriblizbtionHostileMethods() {
         MethodVisitor mv = cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
                                           NAME_METHOD_WRITE_OBJECT, DESCR_METHOD_WRITE_OBJECT,
                                           null, SER_HOSTILE_EXCEPTIONS);
         mv.visitCode();
         mv.visitTypeInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("Non-serializable lambda");
+        mv.visitLdcInsn("Non-seriblizbble lbmbdb");
         mv.visitMethodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
-                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, false);
+                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, fblse);
         mv.visitInsn(ATHROW);
-        mv.visitMaxs(-1, -1);
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
 
         mv = cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
@@ -432,95 +432,95 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
         mv.visitCode();
         mv.visitTypeInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("Non-serializable lambda");
+        mv.visitLdcInsn("Non-seriblizbble lbmbdb");
         mv.visitMethodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
-                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, false);
+                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, fblse);
         mv.visitInsn(ATHROW);
-        mv.visitMaxs(-1, -1);
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
     }
 
     /**
-     * This class generates a method body which calls the lambda implementation
-     * method, converting arguments, as needed.
+     * This clbss generbtes b method body which cblls the lbmbdb implementbtion
+     * method, converting brguments, bs needed.
      */
-    private class ForwardingMethodGenerator extends TypeConvertingMethodAdapter {
+    privbte clbss ForwbrdingMethodGenerbtor extends TypeConvertingMethodAdbpter {
 
-        ForwardingMethodGenerator(MethodVisitor mv) {
+        ForwbrdingMethodGenerbtor(MethodVisitor mv) {
             super(mv);
         }
 
-        void generate(MethodType methodType) {
+        void generbte(MethodType methodType) {
             visitCode();
 
-            if (implKind == MethodHandleInfo.REF_newInvokeSpecial) {
-                visitTypeInsn(NEW, implMethodClassName);
+            if (implKind == MethodHbndleInfo.REF_newInvokeSpecibl) {
+                visitTypeInsn(NEW, implMethodClbssNbme);
                 visitInsn(DUP);
             }
-            for (int i = 0; i < argNames.length; i++) {
-                visitVarInsn(ALOAD, 0);
-                visitFieldInsn(GETFIELD, lambdaClassName, argNames[i], argDescs[i]);
+            for (int i = 0; i < brgNbmes.length; i++) {
+                visitVbrInsn(ALOAD, 0);
+                visitFieldInsn(GETFIELD, lbmbdbClbssNbme, brgNbmes[i], brgDescs[i]);
             }
 
             convertArgumentTypes(methodType);
 
-            // Invoke the method we want to forward to
-            visitMethodInsn(invocationOpcode(), implMethodClassName,
-                            implMethodName, implMethodDesc,
-                            implDefiningClass.isInterface());
+            // Invoke the method we wbnt to forwbrd to
+            visitMethodInsn(invocbtionOpcode(), implMethodClbssNbme,
+                            implMethodNbme, implMethodDesc,
+                            implDefiningClbss.isInterfbce());
 
-            // Convert the return value (if any) and return it
-            // Note: if adapting from non-void to void, the 'return'
+            // Convert the return vblue (if bny) bnd return it
+            // Note: if bdbpting from non-void to void, the 'return'
             // instruction will pop the unneeded result
-            Class<?> samReturnClass = methodType.returnType();
-            convertType(implMethodReturnClass, samReturnClass, samReturnClass);
-            visitInsn(getReturnOpcode(samReturnClass));
-            // Maxs computed by ClassWriter.COMPUTE_MAXS,these arguments ignored
-            visitMaxs(-1, -1);
+            Clbss<?> sbmReturnClbss = methodType.returnType();
+            convertType(implMethodReturnClbss, sbmReturnClbss, sbmReturnClbss);
+            visitInsn(getReturnOpcode(sbmReturnClbss));
+            // Mbxs computed by ClbssWriter.COMPUTE_MAXS,these brguments ignored
+            visitMbxs(-1, -1);
             visitEnd();
         }
 
-        private void convertArgumentTypes(MethodType samType) {
+        privbte void convertArgumentTypes(MethodType sbmType) {
             int lvIndex = 0;
-            boolean samIncludesReceiver = implIsInstanceMethod &&
-                                                   invokedType.parameterCount() == 0;
-            int samReceiverLength = samIncludesReceiver ? 1 : 0;
-            if (samIncludesReceiver) {
+            boolebn sbmIncludesReceiver = implIsInstbnceMethod &&
+                                                   invokedType.pbrbmeterCount() == 0;
+            int sbmReceiverLength = sbmIncludesReceiver ? 1 : 0;
+            if (sbmIncludesReceiver) {
                 // push receiver
-                Class<?> rcvrType = samType.parameterType(0);
-                visitVarInsn(getLoadOpcode(rcvrType), lvIndex + 1);
-                lvIndex += getParameterSize(rcvrType);
-                convertType(rcvrType, implDefiningClass, instantiatedMethodType.parameterType(0));
+                Clbss<?> rcvrType = sbmType.pbrbmeterType(0);
+                visitVbrInsn(getLobdOpcode(rcvrType), lvIndex + 1);
+                lvIndex += getPbrbmeterSize(rcvrType);
+                convertType(rcvrType, implDefiningClbss, instbntibtedMethodType.pbrbmeterType(0));
             }
-            int samParametersLength = samType.parameterCount();
-            int argOffset = implMethodType.parameterCount() - samParametersLength;
-            for (int i = samReceiverLength; i < samParametersLength; i++) {
-                Class<?> argType = samType.parameterType(i);
-                visitVarInsn(getLoadOpcode(argType), lvIndex + 1);
-                lvIndex += getParameterSize(argType);
-                convertType(argType, implMethodType.parameterType(argOffset + i), instantiatedMethodType.parameterType(i));
+            int sbmPbrbmetersLength = sbmType.pbrbmeterCount();
+            int brgOffset = implMethodType.pbrbmeterCount() - sbmPbrbmetersLength;
+            for (int i = sbmReceiverLength; i < sbmPbrbmetersLength; i++) {
+                Clbss<?> brgType = sbmType.pbrbmeterType(i);
+                visitVbrInsn(getLobdOpcode(brgType), lvIndex + 1);
+                lvIndex += getPbrbmeterSize(brgType);
+                convertType(brgType, implMethodType.pbrbmeterType(brgOffset + i), instbntibtedMethodType.pbrbmeterType(i));
             }
         }
 
-        private int invocationOpcode() throws InternalError {
+        privbte int invocbtionOpcode() throws InternblError {
             switch (implKind) {
-                case MethodHandleInfo.REF_invokeStatic:
+                cbse MethodHbndleInfo.REF_invokeStbtic:
                     return INVOKESTATIC;
-                case MethodHandleInfo.REF_newInvokeSpecial:
+                cbse MethodHbndleInfo.REF_newInvokeSpecibl:
                     return INVOKESPECIAL;
-                 case MethodHandleInfo.REF_invokeVirtual:
+                 cbse MethodHbndleInfo.REF_invokeVirtubl:
                     return INVOKEVIRTUAL;
-                case MethodHandleInfo.REF_invokeInterface:
+                cbse MethodHbndleInfo.REF_invokeInterfbce:
                     return INVOKEINTERFACE;
-                case MethodHandleInfo.REF_invokeSpecial:
+                cbse MethodHbndleInfo.REF_invokeSpecibl:
                     return INVOKESPECIAL;
-                default:
-                    throw new InternalError("Unexpected invocation kind: " + implKind);
+                defbult:
+                    throw new InternblError("Unexpected invocbtion kind: " + implKind);
             }
         }
     }
 
-    static int getParameterSize(Class<?> c) {
+    stbtic int getPbrbmeterSize(Clbss<?> c) {
         if (c == Void.TYPE) {
             return 0;
         } else if (c == Long.TYPE || c == Double.TYPE) {
@@ -529,25 +529,25 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
         return 1;
     }
 
-    static int getLoadOpcode(Class<?> c) {
+    stbtic int getLobdOpcode(Clbss<?> c) {
         if(c == Void.TYPE) {
-            throw new InternalError("Unexpected void type of load opcode");
+            throw new InternblError("Unexpected void type of lobd opcode");
         }
         return ILOAD + getOpcodeOffset(c);
     }
 
-    static int getReturnOpcode(Class<?> c) {
+    stbtic int getReturnOpcode(Clbss<?> c) {
         if(c == Void.TYPE) {
             return RETURN;
         }
         return IRETURN + getOpcodeOffset(c);
     }
 
-    private static int getOpcodeOffset(Class<?> c) {
+    privbte stbtic int getOpcodeOffset(Clbss<?> c) {
         if (c.isPrimitive()) {
             if (c == Long.TYPE) {
                 return 1;
-            } else if (c == Float.TYPE) {
+            } else if (c == Flobt.TYPE) {
                 return 2;
             } else if (c == Double.TYPE) {
                 return 3;

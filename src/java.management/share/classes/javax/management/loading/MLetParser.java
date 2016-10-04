@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
-import static com.sun.jmx.defaults.JmxProperties.MLET_LOGGER;
+import stbtic com.sun.jmx.defbults.JmxProperties.MLET_LOGGER;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.Rebder;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Level;
 
 /**
- * This class is used for parsing URLs.
+ * This clbss is used for pbrsing URLs.
  *
  * @since 1.5
  */
-class MLetParser {
+clbss MLetPbrser {
 
 /*
   * ------------------------------------------
@@ -54,14 +54,14 @@ class MLetParser {
   */
 
     /**
-     * The current character
+     * The current chbrbcter
      */
-    private int c;
+    privbte int c;
 
     /**
-     * Tag to parse.
+     * Tbg to pbrse.
      */
-    private static String tag = "mlet";
+    privbte stbtic String tbg = "mlet";
 
 
   /*
@@ -71,9 +71,9 @@ class MLetParser {
   */
 
     /**
-     * Create an MLet parser object
+     * Crebte bn MLet pbrser object
      */
-    public MLetParser() {
+    public MLetPbrser() {
     }
 
     /*
@@ -83,25 +83,25 @@ class MLetParser {
      */
 
     /**
-     * Scan spaces.
+     * Scbn spbces.
      */
-    public void skipSpace(Reader in) throws IOException {
+    public void skipSpbce(Rebder in) throws IOException {
         while ((c >= 0) && ((c == ' ') || (c == '\t') || (c == '\n') || (c == '\r'))) {
-            c = in.read();
+            c = in.rebd();
         }
     }
 
     /**
-     * Scan identifier
+     * Scbn identifier
      */
-    public String scanIdentifier(Reader in) throws IOException {
+    public String scbnIdentifier(Rebder in) throws IOException {
         StringBuilder buf = new StringBuilder();
         while (true) {
-            if (((c >= 'a') && (c <= 'z')) ||
+            if (((c >= 'b') && (c <= 'z')) ||
                 ((c >= 'A') && (c <= 'Z')) ||
                 ((c >= '0') && (c <= '9')) || (c == '_')) {
-                buf.append((char)c);
-                c = in.read();
+                buf.bppend((chbr)c);
+                c = in.rebd();
             } else {
                 return buf.toString();
             }
@@ -109,144 +109,144 @@ class MLetParser {
     }
 
     /**
-     * Scan tag
+     * Scbn tbg
      */
-    public Map<String,String> scanTag(Reader in) throws IOException {
-        Map<String,String> atts = new HashMap<String,String>();
-        skipSpace(in);
+    public Mbp<String,String> scbnTbg(Rebder in) throws IOException {
+        Mbp<String,String> btts = new HbshMbp<String,String>();
+        skipSpbce(in);
         while (c >= 0 && c != '>') {
             if (c == '<')
-                throw new IOException("Missing '>' in tag");
-            String att = scanIdentifier(in);
-            String val = "";
-            skipSpace(in);
+                throw new IOException("Missing '>' in tbg");
+            String btt = scbnIdentifier(in);
+            String vbl = "";
+            skipSpbce(in);
             if (c == '=') {
                 int quote = -1;
-                c = in.read();
-                skipSpace(in);
+                c = in.rebd();
+                skipSpbce(in);
                 if ((c == '\'') || (c == '\"')) {
                     quote = c;
-                    c = in.read();
+                    c = in.rebd();
                 }
                 StringBuilder buf = new StringBuilder();
                 while ((c > 0) &&
                        (((quote < 0) && (c != ' ') && (c != '\t') &&
                          (c != '\n') && (c != '\r') && (c != '>'))
                         || ((quote >= 0) && (c != quote)))) {
-                    buf.append((char)c);
-                    c = in.read();
+                    buf.bppend((chbr)c);
+                    c = in.rebd();
                 }
                 if (c == quote) {
-                    c = in.read();
+                    c = in.rebd();
                 }
-                skipSpace(in);
-                val = buf.toString();
+                skipSpbce(in);
+                vbl = buf.toString();
             }
-            atts.put(att.toLowerCase(), val);
-            skipSpace(in);
+            btts.put(btt.toLowerCbse(), vbl);
+            skipSpbce(in);
         }
-        return atts;
+        return btts;
     }
 
     /**
-     * Scan an html file for {@literal <mlet>} tags.
+     * Scbn bn html file for {@literbl <mlet>} tbgs.
      */
-    public List<MLetContent> parse(URL url) throws IOException {
-        String mth = "parse";
-        // Warning Messages
-        String requiresTypeWarning = "<arg type=... value=...> tag requires type parameter.";
-        String requiresValueWarning = "<arg type=... value=...> tag requires value parameter.";
-        String paramOutsideWarning = "<arg> tag outside <mlet> ... </mlet>.";
-        String requiresCodeWarning = "<mlet> tag requires either code or object parameter.";
-        String requiresJarsWarning = "<mlet> tag requires archive parameter.";
+    public List<MLetContent> pbrse(URL url) throws IOException {
+        String mth = "pbrse";
+        // Wbrning Messbges
+        String requiresTypeWbrning = "<brg type=... vblue=...> tbg requires type pbrbmeter.";
+        String requiresVblueWbrning = "<brg type=... vblue=...> tbg requires vblue pbrbmeter.";
+        String pbrbmOutsideWbrning = "<brg> tbg outside <mlet> ... </mlet>.";
+        String requiresCodeWbrning = "<mlet> tbg requires either code or object pbrbmeter.";
+        String requiresJbrsWbrning = "<mlet> tbg requires brchive pbrbmeter.";
 
         URLConnection conn;
 
         conn = url.openConnection();
-        Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(),
+        Rebder in = new BufferedRebder(new InputStrebmRebder(conn.getInputStrebm(),
                                                              "UTF-8"));
 
-        // The original URL may have been redirected - this
-        // sets it to whatever URL/codebase we ended up getting
+        // The originbl URL mby hbve been redirected - this
+        // sets it to whbtever URL/codebbse we ended up getting
         //
         url = conn.getURL();
 
-        List<MLetContent> mlets = new ArrayList<MLetContent>();
-        Map<String,String> atts = null;
+        List<MLetContent> mlets = new ArrbyList<MLetContent>();
+        Mbp<String,String> btts = null;
 
-        List<String> types = new ArrayList<String>();
-        List<String> values = new ArrayList<String>();
+        List<String> types = new ArrbyList<String>();
+        List<String> vblues = new ArrbyList<String>();
 
-        // debug("parse","*** Parsing " + url );
+        // debug("pbrse","*** Pbrsing " + url );
         while(true) {
-            c = in.read();
+            c = in.rebd();
             if (c == -1)
-                break;
+                brebk;
             if (c == '<') {
-                c = in.read();
+                c = in.rebd();
                 if (c == '/') {
-                    c = in.read();
-                    String nm = scanIdentifier(in);
+                    c = in.rebd();
+                    String nm = scbnIdentifier(in);
                     if (c != '>')
-                        throw new IOException("Missing '>' in tag");
-                    if (nm.equalsIgnoreCase(tag)) {
-                        if (atts != null) {
-                            mlets.add(new MLetContent(url, atts, types, values));
+                        throw new IOException("Missing '>' in tbg");
+                    if (nm.equblsIgnoreCbse(tbg)) {
+                        if (btts != null) {
+                            mlets.bdd(new MLetContent(url, btts, types, vblues));
                         }
-                        atts = null;
-                        types = new ArrayList<String>();
-                        values = new ArrayList<String>();
+                        btts = null;
+                        types = new ArrbyList<String>();
+                        vblues = new ArrbyList<String>();
                     }
                 } else {
-                    String nm = scanIdentifier(in);
-                    if (nm.equalsIgnoreCase("arg")) {
-                        Map<String,String> t = scanTag(in);
-                        String att = t.get("type");
-                        if (att == null) {
+                    String nm = scbnIdentifier(in);
+                    if (nm.equblsIgnoreCbse("brg")) {
+                        Mbp<String,String> t = scbnTbg(in);
+                        String btt = t.get("type");
+                        if (btt == null) {
                             MLET_LOGGER.logp(Level.FINER,
-                                    MLetParser.class.getName(),
-                                    mth, requiresTypeWarning);
-                            throw new IOException(requiresTypeWarning);
+                                    MLetPbrser.clbss.getNbme(),
+                                    mth, requiresTypeWbrning);
+                            throw new IOException(requiresTypeWbrning);
                         } else {
-                            if (atts != null) {
-                                types.add(att);
+                            if (btts != null) {
+                                types.bdd(btt);
                             } else {
                                 MLET_LOGGER.logp(Level.FINER,
-                                        MLetParser.class.getName(),
-                                        mth, paramOutsideWarning);
-                                throw new IOException(paramOutsideWarning);
+                                        MLetPbrser.clbss.getNbme(),
+                                        mth, pbrbmOutsideWbrning);
+                                throw new IOException(pbrbmOutsideWbrning);
                             }
                         }
-                        String val = t.get("value");
-                        if (val == null) {
+                        String vbl = t.get("vblue");
+                        if (vbl == null) {
                             MLET_LOGGER.logp(Level.FINER,
-                                    MLetParser.class.getName(),
-                                    mth, requiresValueWarning);
-                            throw new IOException(requiresValueWarning);
+                                    MLetPbrser.clbss.getNbme(),
+                                    mth, requiresVblueWbrning);
+                            throw new IOException(requiresVblueWbrning);
                         } else {
-                            if (atts != null) {
-                                values.add(val);
+                            if (btts != null) {
+                                vblues.bdd(vbl);
                             } else {
                                 MLET_LOGGER.logp(Level.FINER,
-                                        MLetParser.class.getName(),
-                                        mth, paramOutsideWarning);
-                                throw new IOException(paramOutsideWarning);
+                                        MLetPbrser.clbss.getNbme(),
+                                        mth, pbrbmOutsideWbrning);
+                                throw new IOException(pbrbmOutsideWbrning);
                             }
                         }
                     } else {
-                        if (nm.equalsIgnoreCase(tag)) {
-                            atts = scanTag(in);
-                            if (atts.get("code") == null && atts.get("object") == null) {
+                        if (nm.equblsIgnoreCbse(tbg)) {
+                            btts = scbnTbg(in);
+                            if (btts.get("code") == null && btts.get("object") == null) {
                                 MLET_LOGGER.logp(Level.FINER,
-                                        MLetParser.class.getName(),
-                                        mth, requiresCodeWarning);
-                                throw new IOException(requiresCodeWarning);
+                                        MLetPbrser.clbss.getNbme(),
+                                        mth, requiresCodeWbrning);
+                                throw new IOException(requiresCodeWbrning);
                             }
-                            if (atts.get("archive") == null) {
+                            if (btts.get("brchive") == null) {
                                 MLET_LOGGER.logp(Level.FINER,
-                                        MLetParser.class.getName(),
-                                        mth, requiresJarsWarning);
-                                throw new IOException(requiresJarsWarning);
+                                        MLetPbrser.clbss.getNbme(),
+                                        mth, requiresJbrsWbrning);
+                                throw new IOException(requiresJbrsWbrning);
                             }
                         }
                     }
@@ -258,30 +258,30 @@ class MLetParser {
     }
 
     /**
-     * Parse the document pointed by the URL urlname
+     * Pbrse the document pointed by the URL urlnbme
      */
-    public List<MLetContent> parseURL(String urlname) throws IOException {
-        // Parse the document
+    public List<MLetContent> pbrseURL(String urlnbme) throws IOException {
+        // Pbrse the document
         //
         URL url;
-        if (urlname.indexOf(':') <= 1) {
+        if (urlnbme.indexOf(':') <= 1) {
             String userDir = System.getProperty("user.dir");
             String prot;
-            if (userDir.charAt(0) == '/' ||
-                userDir.charAt(0) == File.separatorChar) {
+            if (userDir.chbrAt(0) == '/' ||
+                userDir.chbrAt(0) == File.sepbrbtorChbr) {
                 prot = "file:";
             } else {
                 prot = "file:/";
             }
             url =
-                new URL(prot + userDir.replace(File.separatorChar, '/') + "/");
-            url = new URL(url, urlname);
+                new URL(prot + userDir.replbce(File.sepbrbtorChbr, '/') + "/");
+            url = new URL(url, urlnbme);
         } else {
-            url = new URL(urlname);
+            url = new URL(urlnbme);
         }
-        // Return list of parsed MLets
+        // Return list of pbrsed MLets
         //
-        return parse(url);
+        return pbrse(url);
     }
 
 }

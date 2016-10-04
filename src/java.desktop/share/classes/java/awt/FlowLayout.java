@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * A flow layout arranges components in a directional flow, much
- * like lines of text in a paragraph. The flow direction is
- * determined by the container's <code>componentOrientation</code>
- * property and may be one of two values:
+ * A flow lbyout brrbnges components in b directionbl flow, much
+ * like lines of text in b pbrbgrbph. The flow direction is
+ * determined by the contbiner's <code>componentOrientbtion</code>
+ * property bnd mby be one of two vblues:
  * <ul>
- * <li><code>ComponentOrientation.LEFT_TO_RIGHT</code>
- * <li><code>ComponentOrientation.RIGHT_TO_LEFT</code>
+ * <li><code>ComponentOrientbtion.LEFT_TO_RIGHT</code>
+ * <li><code>ComponentOrientbtion.RIGHT_TO_LEFT</code>
  * </ul>
- * Flow layouts are typically used
- * to arrange buttons in a panel. It arranges buttons
- * horizontally until no more buttons fit on the same line.
- * The line alignment is determined by the <code>align</code>
- * property. The possible values are:
+ * Flow lbyouts bre typicblly used
+ * to brrbnge buttons in b pbnel. It brrbnges buttons
+ * horizontblly until no more buttons fit on the sbme line.
+ * The line blignment is determined by the <code>blign</code>
+ * property. The possible vblues bre:
  * <ul>
  * <li>{@link #LEFT LEFT}
  * <li>{@link #RIGHT RIGHT}
@@ -49,102 +49,102 @@ import java.io.IOException;
  * <li>{@link #TRAILING TRAILING}
  * </ul>
  * <p>
- * For example, the following picture shows an applet using the flow
- * layout manager (its default layout manager) to position three buttons:
+ * For exbmple, the following picture shows bn bpplet using the flow
+ * lbyout mbnbger (its defbult lbyout mbnbger) to position three buttons:
  * <p>
- * <img src="doc-files/FlowLayout-1.gif"
- * ALT="Graphic of Layout for Three Buttons"
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/FlowLbyout-1.gif"
+ * ALT="Grbphic of Lbyout for Three Buttons"
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * Here is the code for this applet:
+ * Here is the code for this bpplet:
  *
  * <hr><blockquote><pre>
- * import java.awt.*;
- * import java.applet.Applet;
+ * import jbvb.bwt.*;
+ * import jbvb.bpplet.Applet;
  *
- * public class myButtons extends Applet {
+ * public clbss myButtons extends Applet {
  *     Button button1, button2, button3;
  *     public void init() {
  *         button1 = new Button("Ok");
  *         button2 = new Button("Open");
  *         button3 = new Button("Close");
- *         add(button1);
- *         add(button2);
- *         add(button3);
+ *         bdd(button1);
+ *         bdd(button2);
+ *         bdd(button3);
  *     }
  * }
  * </pre></blockquote><hr>
  * <p>
- * A flow layout lets each component assume its natural (preferred) size.
+ * A flow lbyout lets ebch component bssume its nbturbl (preferred) size.
  *
- * @author      Arthur van Hoff
- * @author      Sami Shaio
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Sbmi Shbio
  * @since       1.0
- * @see ComponentOrientation
+ * @see ComponentOrientbtion
  */
-public class FlowLayout implements LayoutManager, java.io.Serializable {
+public clbss FlowLbyout implements LbyoutMbnbger, jbvb.io.Seriblizbble {
 
     /**
-     * This value indicates that each row of components
+     * This vblue indicbtes thbt ebch row of components
      * should be left-justified.
      */
-    public static final int LEFT        = 0;
+    public stbtic finbl int LEFT        = 0;
 
     /**
-     * This value indicates that each row of components
+     * This vblue indicbtes thbt ebch row of components
      * should be centered.
      */
-    public static final int CENTER      = 1;
+    public stbtic finbl int CENTER      = 1;
 
     /**
-     * This value indicates that each row of components
+     * This vblue indicbtes thbt ebch row of components
      * should be right-justified.
      */
-    public static final int RIGHT       = 2;
+    public stbtic finbl int RIGHT       = 2;
 
     /**
-     * This value indicates that each row of components
-     * should be justified to the leading edge of the container's
-     * orientation, for example, to the left in left-to-right orientations.
+     * This vblue indicbtes thbt ebch row of components
+     * should be justified to the lebding edge of the contbiner's
+     * orientbtion, for exbmple, to the left in left-to-right orientbtions.
      *
-     * @see     java.awt.Component#getComponentOrientation
-     * @see     java.awt.ComponentOrientation
+     * @see     jbvb.bwt.Component#getComponentOrientbtion
+     * @see     jbvb.bwt.ComponentOrientbtion
      * @since   1.2
      */
-    public static final int LEADING     = 3;
+    public stbtic finbl int LEADING     = 3;
 
     /**
-     * This value indicates that each row of components
-     * should be justified to the trailing edge of the container's
-     * orientation, for example, to the right in left-to-right orientations.
+     * This vblue indicbtes thbt ebch row of components
+     * should be justified to the trbiling edge of the contbiner's
+     * orientbtion, for exbmple, to the right in left-to-right orientbtions.
      *
-     * @see     java.awt.Component#getComponentOrientation
-     * @see     java.awt.ComponentOrientation
+     * @see     jbvb.bwt.Component#getComponentOrientbtion
+     * @see     jbvb.bwt.ComponentOrientbtion
      * @since   1.2
      */
-    public static final int TRAILING = 4;
+    public stbtic finbl int TRAILING = 4;
 
     /**
-     * <code>align</code> is the property that determines
-     * how each row distributes empty space.
-     * It can be one of the following values:
+     * <code>blign</code> is the property thbt determines
+     * how ebch row distributes empty spbce.
+     * It cbn be one of the following vblues:
      * <ul>
      * <li><code>LEFT</code>
      * <li><code>RIGHT</code>
      * <li><code>CENTER</code>
      * </ul>
      *
-     * @serial
+     * @seribl
      * @see #getAlignment
      * @see #setAlignment
      */
-    int align;          // This is for 1.1 serialization compatibility
+    int blign;          // This is for 1.1 seriblizbtion compbtibility
 
     /**
-     * <code>newAlign</code> is the property that determines
-     * how each row distributes empty space for the Java 2 platform,
-     * v1.2 and greater.
-     * It can be one of the following three values:
+     * <code>newAlign</code> is the property thbt determines
+     * how ebch row distributes empty spbce for the Jbvb 2 plbtform,
+     * v1.2 bnd grebter.
+     * It cbn be one of the following three vblues:
      * <ul>
      * <li><code>LEFT</code>
      * <li><code>RIGHT</code>
@@ -153,99 +153,99 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * <li><code>TRAILING</code>
      * </ul>
      *
-     * @serial
+     * @seribl
      * @since 1.2
      * @see #getAlignment
      * @see #setAlignment
      */
-    int newAlign;       // This is the one we actually use
+    int newAlign;       // This is the one we bctublly use
 
     /**
-     * The flow layout manager allows a seperation of
-     * components with gaps.  The horizontal gap will
-     * specify the space between components and between
-     * the components and the borders of the
-     * <code>Container</code>.
+     * The flow lbyout mbnbger bllows b seperbtion of
+     * components with gbps.  The horizontbl gbp will
+     * specify the spbce between components bnd between
+     * the components bnd the borders of the
+     * <code>Contbiner</code>.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @seribl
+     * @see #getHgbp()
+     * @see #setHgbp(int)
      */
-    int hgap;
+    int hgbp;
 
     /**
-     * The flow layout manager allows a seperation of
-     * components with gaps.  The vertical gap will
-     * specify the space between rows and between the
-     * the rows and the borders of the <code>Container</code>.
+     * The flow lbyout mbnbger bllows b seperbtion of
+     * components with gbps.  The verticbl gbp will
+     * specify the spbce between rows bnd between the
+     * the rows bnd the borders of the <code>Contbiner</code>.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @seribl
+     * @see #getHgbp()
+     * @see #setHgbp(int)
      */
-    int vgap;
+    int vgbp;
 
     /**
-     * If true, components will be aligned on their baseline.
+     * If true, components will be bligned on their bbseline.
      */
-    private boolean alignOnBaseline;
+    privbte boolebn blignOnBbseline;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -7262534875583282631L;
+     privbte stbtic finbl long seriblVersionUID = -7262534875583282631L;
 
     /**
-     * Constructs a new <code>FlowLayout</code> with a centered alignment and a
-     * default 5-unit horizontal and vertical gap.
+     * Constructs b new <code>FlowLbyout</code> with b centered blignment bnd b
+     * defbult 5-unit horizontbl bnd verticbl gbp.
      */
-    public FlowLayout() {
+    public FlowLbyout() {
         this(CENTER, 5, 5);
     }
 
     /**
-     * Constructs a new <code>FlowLayout</code> with the specified
-     * alignment and a default 5-unit horizontal and vertical gap.
-     * The value of the alignment argument must be one of
-     * <code>FlowLayout.LEFT</code>, <code>FlowLayout.RIGHT</code>,
-     * <code>FlowLayout.CENTER</code>, <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @param align the alignment value
+     * Constructs b new <code>FlowLbyout</code> with the specified
+     * blignment bnd b defbult 5-unit horizontbl bnd verticbl gbp.
+     * The vblue of the blignment brgument must be one of
+     * <code>FlowLbyout.LEFT</code>, <code>FlowLbyout.RIGHT</code>,
+     * <code>FlowLbyout.CENTER</code>, <code>FlowLbyout.LEADING</code>,
+     * or <code>FlowLbyout.TRAILING</code>.
+     * @pbrbm blign the blignment vblue
      */
-    public FlowLayout(int align) {
-        this(align, 5, 5);
+    public FlowLbyout(int blign) {
+        this(blign, 5, 5);
     }
 
     /**
-     * Creates a new flow layout manager with the indicated alignment
-     * and the indicated horizontal and vertical gaps.
+     * Crebtes b new flow lbyout mbnbger with the indicbted blignment
+     * bnd the indicbted horizontbl bnd verticbl gbps.
      * <p>
-     * The value of the alignment argument must be one of
-     * <code>FlowLayout.LEFT</code>, <code>FlowLayout.RIGHT</code>,
-     * <code>FlowLayout.CENTER</code>, <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @param      align   the alignment value
-     * @param      hgap    the horizontal gap between components
-     *                     and between the components and the
-     *                     borders of the <code>Container</code>
-     * @param      vgap    the vertical gap between components
-     *                     and between the components and the
-     *                     borders of the <code>Container</code>
+     * The vblue of the blignment brgument must be one of
+     * <code>FlowLbyout.LEFT</code>, <code>FlowLbyout.RIGHT</code>,
+     * <code>FlowLbyout.CENTER</code>, <code>FlowLbyout.LEADING</code>,
+     * or <code>FlowLbyout.TRAILING</code>.
+     * @pbrbm      blign   the blignment vblue
+     * @pbrbm      hgbp    the horizontbl gbp between components
+     *                     bnd between the components bnd the
+     *                     borders of the <code>Contbiner</code>
+     * @pbrbm      vgbp    the verticbl gbp between components
+     *                     bnd between the components bnd the
+     *                     borders of the <code>Contbiner</code>
      */
-    public FlowLayout(int align, int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
-        setAlignment(align);
+    public FlowLbyout(int blign, int hgbp, int vgbp) {
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
+        setAlignment(blign);
     }
 
     /**
-     * Gets the alignment for this layout.
-     * Possible values are <code>FlowLayout.LEFT</code>,
-     * <code>FlowLayout.RIGHT</code>, <code>FlowLayout.CENTER</code>,
-     * <code>FlowLayout.LEADING</code>,
-     * or <code>FlowLayout.TRAILING</code>.
-     * @return     the alignment value for this layout
-     * @see        java.awt.FlowLayout#setAlignment
+     * Gets the blignment for this lbyout.
+     * Possible vblues bre <code>FlowLbyout.LEFT</code>,
+     * <code>FlowLbyout.RIGHT</code>, <code>FlowLbyout.CENTER</code>,
+     * <code>FlowLbyout.LEADING</code>,
+     * or <code>FlowLbyout.TRAILING</code>.
+     * @return     the blignment vblue for this lbyout
+     * @see        jbvb.bwt.FlowLbyout#setAlignment
      * @since      1.1
      */
     public int getAlignment() {
@@ -253,239 +253,239 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Sets the alignment for this layout.
-     * Possible values are
+     * Sets the blignment for this lbyout.
+     * Possible vblues bre
      * <ul>
-     * <li><code>FlowLayout.LEFT</code>
-     * <li><code>FlowLayout.RIGHT</code>
-     * <li><code>FlowLayout.CENTER</code>
-     * <li><code>FlowLayout.LEADING</code>
-     * <li><code>FlowLayout.TRAILING</code>
+     * <li><code>FlowLbyout.LEFT</code>
+     * <li><code>FlowLbyout.RIGHT</code>
+     * <li><code>FlowLbyout.CENTER</code>
+     * <li><code>FlowLbyout.LEADING</code>
+     * <li><code>FlowLbyout.TRAILING</code>
      * </ul>
-     * @param      align one of the alignment values shown above
+     * @pbrbm      blign one of the blignment vblues shown bbove
      * @see        #getAlignment()
      * @since      1.1
      */
-    public void setAlignment(int align) {
-        this.newAlign = align;
+    public void setAlignment(int blign) {
+        this.newAlign = blign;
 
-        // this.align is used only for serialization compatibility,
-        // so set it to a value compatible with the 1.1 version
-        // of the class
+        // this.blign is used only for seriblizbtion compbtibility,
+        // so set it to b vblue compbtible with the 1.1 version
+        // of the clbss
 
-        switch (align) {
-        case LEADING:
-            this.align = LEFT;
-            break;
-        case TRAILING:
-            this.align = RIGHT;
-            break;
-        default:
-            this.align = align;
-            break;
+        switch (blign) {
+        cbse LEADING:
+            this.blign = LEFT;
+            brebk;
+        cbse TRAILING:
+            this.blign = RIGHT;
+            brebk;
+        defbult:
+            this.blign = blign;
+            brebk;
         }
     }
 
     /**
-     * Gets the horizontal gap between components
-     * and between the components and the borders
-     * of the <code>Container</code>
+     * Gets the horizontbl gbp between components
+     * bnd between the components bnd the borders
+     * of the <code>Contbiner</code>
      *
-     * @return     the horizontal gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#setHgap
+     * @return     the horizontbl gbp between components
+     *             bnd between the components bnd the borders
+     *             of the <code>Contbiner</code>
+     * @see        jbvb.bwt.FlowLbyout#setHgbp
      * @since      1.1
      */
-    public int getHgap() {
-        return hgap;
+    public int getHgbp() {
+        return hgbp;
     }
 
     /**
-     * Sets the horizontal gap between components and
-     * between the components and the borders of the
-     * <code>Container</code>.
+     * Sets the horizontbl gbp between components bnd
+     * between the components bnd the borders of the
+     * <code>Contbiner</code>.
      *
-     * @param hgap the horizontal gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#getHgap
+     * @pbrbm hgbp the horizontbl gbp between components
+     *             bnd between the components bnd the borders
+     *             of the <code>Contbiner</code>
+     * @see        jbvb.bwt.FlowLbyout#getHgbp
      * @since      1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    public void setHgbp(int hgbp) {
+        this.hgbp = hgbp;
     }
 
     /**
-     * Gets the vertical gap between components and
-     * between the components and the borders of the
-     * <code>Container</code>.
+     * Gets the verticbl gbp between components bnd
+     * between the components bnd the borders of the
+     * <code>Contbiner</code>.
      *
-     * @return     the vertical gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#setVgap
+     * @return     the verticbl gbp between components
+     *             bnd between the components bnd the borders
+     *             of the <code>Contbiner</code>
+     * @see        jbvb.bwt.FlowLbyout#setVgbp
      * @since      1.1
      */
-    public int getVgap() {
-        return vgap;
+    public int getVgbp() {
+        return vgbp;
     }
 
     /**
-     * Sets the vertical gap between components and between
-     * the components and the borders of the <code>Container</code>.
+     * Sets the verticbl gbp between components bnd between
+     * the components bnd the borders of the <code>Contbiner</code>.
      *
-     * @param vgap the vertical gap between components
-     *             and between the components and the borders
-     *             of the <code>Container</code>
-     * @see        java.awt.FlowLayout#getVgap
+     * @pbrbm vgbp the verticbl gbp between components
+     *             bnd between the components bnd the borders
+     *             of the <code>Contbiner</code>
+     * @see        jbvb.bwt.FlowLbyout#getVgbp
      * @since      1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    public void setVgbp(int vgbp) {
+        this.vgbp = vgbp;
     }
 
     /**
-     * Sets whether or not components should be vertically aligned along their
-     * baseline.  Components that do not have a baseline will be centered.
-     * The default is false.
+     * Sets whether or not components should be verticblly bligned blong their
+     * bbseline.  Components thbt do not hbve b bbseline will be centered.
+     * The defbult is fblse.
      *
-     * @param alignOnBaseline whether or not components should be
-     *                        vertically aligned on their baseline
+     * @pbrbm blignOnBbseline whether or not components should be
+     *                        verticblly bligned on their bbseline
      * @since 1.6
      */
-    public void setAlignOnBaseline(boolean alignOnBaseline) {
-        this.alignOnBaseline = alignOnBaseline;
+    public void setAlignOnBbseline(boolebn blignOnBbseline) {
+        this.blignOnBbseline = blignOnBbseline;
     }
 
     /**
-     * Returns true if components are to be vertically aligned along
-     * their baseline.  The default is false.
+     * Returns true if components bre to be verticblly bligned blong
+     * their bbseline.  The defbult is fblse.
      *
-     * @return true if components are to be vertically aligned along
-     *              their baseline
+     * @return true if components bre to be verticblly bligned blong
+     *              their bbseline
      * @since 1.6
      */
-    public boolean getAlignOnBaseline() {
-        return alignOnBaseline;
+    public boolebn getAlignOnBbseline() {
+        return blignOnBbseline;
     }
 
     /**
-     * Adds the specified component to the layout.
-     * Not used by this class.
-     * @param name the name of the component
-     * @param comp the component to be added
+     * Adds the specified component to the lbyout.
+     * Not used by this clbss.
+     * @pbrbm nbme the nbme of the component
+     * @pbrbm comp the component to be bdded
      */
-    public void addLayoutComponent(String name, Component comp) {
+    public void bddLbyoutComponent(String nbme, Component comp) {
     }
 
     /**
-     * Removes the specified component from the layout.
-     * Not used by this class.
-     * @param comp the component to remove
-     * @see       java.awt.Container#removeAll
+     * Removes the specified component from the lbyout.
+     * Not used by this clbss.
+     * @pbrbm comp the component to remove
+     * @see       jbvb.bwt.Contbiner#removeAll
      */
-    public void removeLayoutComponent(Component comp) {
+    public void removeLbyoutComponent(Component comp) {
     }
 
     /**
-     * Returns the preferred dimensions for this layout given the
-     * <i>visible</i> components in the specified target container.
+     * Returns the preferred dimensions for this lbyout given the
+     * <i>visible</i> components in the specified tbrget contbiner.
      *
-     * @param target the container that needs to be laid out
-     * @return    the preferred dimensions to lay out the
-     *            subcomponents of the specified container
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see       java.awt.Container#getPreferredSize
+     * @pbrbm tbrget the contbiner thbt needs to be lbid out
+     * @return    the preferred dimensions to lby out the
+     *            subcomponents of the specified contbiner
+     * @see Contbiner
+     * @see #minimumLbyoutSize
+     * @see       jbvb.bwt.Contbiner#getPreferredSize
      */
-    public Dimension preferredLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
+    public Dimension preferredLbyoutSize(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
-        int nmembers = target.getComponentCount();
-        boolean firstVisibleComponent = true;
-        boolean useBaseline = getAlignOnBaseline();
-        int maxAscent = 0;
-        int maxDescent = 0;
+        int nmembers = tbrget.getComponentCount();
+        boolebn firstVisibleComponent = true;
+        boolebn useBbseline = getAlignOnBbseline();
+        int mbxAscent = 0;
+        int mbxDescent = 0;
 
         for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
+            Component m = tbrget.getComponent(i);
             if (m.isVisible()) {
                 Dimension d = m.getPreferredSize();
-                dim.height = Math.max(dim.height, d.height);
+                dim.height = Mbth.mbx(dim.height, d.height);
                 if (firstVisibleComponent) {
-                    firstVisibleComponent = false;
+                    firstVisibleComponent = fblse;
                 } else {
-                    dim.width += hgap;
+                    dim.width += hgbp;
                 }
                 dim.width += d.width;
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        maxAscent = Math.max(maxAscent, baseline);
-                        maxDescent = Math.max(maxDescent, d.height - baseline);
+                if (useBbseline) {
+                    int bbseline = m.getBbseline(d.width, d.height);
+                    if (bbseline >= 0) {
+                        mbxAscent = Mbth.mbx(mbxAscent, bbseline);
+                        mbxDescent = Mbth.mbx(mbxDescent, d.height - bbseline);
                     }
                 }
             }
         }
-        if (useBaseline) {
-            dim.height = Math.max(maxAscent + maxDescent, dim.height);
+        if (useBbseline) {
+            dim.height = Mbth.mbx(mbxAscent + mbxDescent, dim.height);
         }
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right + hgap*2;
-        dim.height += insets.top + insets.bottom + vgap*2;
+        Insets insets = tbrget.getInsets();
+        dim.width += insets.left + insets.right + hgbp*2;
+        dim.height += insets.top + insets.bottom + vgbp*2;
         return dim;
       }
     }
 
     /**
-     * Returns the minimum dimensions needed to layout the <i>visible</i>
-     * components contained in the specified target container.
-     * @param target the container that needs to be laid out
-     * @return    the minimum dimensions to lay out the
-     *            subcomponents of the specified container
-     * @see #preferredLayoutSize
-     * @see       java.awt.Container
-     * @see       java.awt.Container#doLayout
+     * Returns the minimum dimensions needed to lbyout the <i>visible</i>
+     * components contbined in the specified tbrget contbiner.
+     * @pbrbm tbrget the contbiner thbt needs to be lbid out
+     * @return    the minimum dimensions to lby out the
+     *            subcomponents of the specified contbiner
+     * @see #preferredLbyoutSize
+     * @see       jbvb.bwt.Contbiner
+     * @see       jbvb.bwt.Contbiner#doLbyout
      */
-    public Dimension minimumLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
-        boolean useBaseline = getAlignOnBaseline();
+    public Dimension minimumLbyoutSize(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
+        boolebn useBbseline = getAlignOnBbseline();
         Dimension dim = new Dimension(0, 0);
-        int nmembers = target.getComponentCount();
-        int maxAscent = 0;
-        int maxDescent = 0;
-        boolean firstVisibleComponent = true;
+        int nmembers = tbrget.getComponentCount();
+        int mbxAscent = 0;
+        int mbxDescent = 0;
+        boolebn firstVisibleComponent = true;
 
         for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
+            Component m = tbrget.getComponent(i);
             if (m.visible) {
                 Dimension d = m.getMinimumSize();
-                dim.height = Math.max(dim.height, d.height);
+                dim.height = Mbth.mbx(dim.height, d.height);
                 if (firstVisibleComponent) {
-                    firstVisibleComponent = false;
+                    firstVisibleComponent = fblse;
                 } else {
-                    dim.width += hgap;
+                    dim.width += hgbp;
                 }
                 dim.width += d.width;
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        maxAscent = Math.max(maxAscent, baseline);
-                        maxDescent = Math.max(maxDescent,
-                                              dim.height - baseline);
+                if (useBbseline) {
+                    int bbseline = m.getBbseline(d.width, d.height);
+                    if (bbseline >= 0) {
+                        mbxAscent = Mbth.mbx(mbxAscent, bbseline);
+                        mbxDescent = Mbth.mbx(mbxDescent,
+                                              dim.height - bbseline);
                     }
                 }
 }
 }
 
-        if (useBaseline) {
-            dim.height = Math.max(maxAscent + maxDescent, dim.height);
+        if (useBbseline) {
+            dim.height = Mbth.mbx(mbxAscent + mbxDescent, dim.height);
         }
 
-        Insets insets = target.getInsets();
-        dim.width += insets.left + insets.right + hgap*2;
-        dim.height += insets.top + insets.bottom + vgap*2;
+        Insets insets = tbrget.getInsets();
+        dim.width += insets.left + insets.right + hgbp*2;
+        dim.height += insets.top + insets.bottom + vgbp*2;
         return dim;
 
 
@@ -496,200 +496,200 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Centers the elements in the specified row, if there is any slack.
-     * @param target the component which needs to be moved
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param width the width dimensions
-     * @param height the height dimensions
-     * @param rowStart the beginning of the row
-     * @param rowEnd the the ending of the row
-     * @param useBaseline Whether or not to align on baseline.
-     * @param ascent Ascent for the components. This is only valid if
-     *               useBaseline is true.
-     * @param descent Ascent for the components. This is only valid if
-     *               useBaseline is true.
-     * @return actual row height
+     * Centers the elements in the specified row, if there is bny slbck.
+     * @pbrbm tbrget the component which needs to be moved
+     * @pbrbm x the x coordinbte
+     * @pbrbm y the y coordinbte
+     * @pbrbm width the width dimensions
+     * @pbrbm height the height dimensions
+     * @pbrbm rowStbrt the beginning of the row
+     * @pbrbm rowEnd the the ending of the row
+     * @pbrbm useBbseline Whether or not to blign on bbseline.
+     * @pbrbm bscent Ascent for the components. This is only vblid if
+     *               useBbseline is true.
+     * @pbrbm descent Ascent for the components. This is only vblid if
+     *               useBbseline is true.
+     * @return bctubl row height
      */
-    private int moveComponents(Container target, int x, int y, int width, int height,
-                                int rowStart, int rowEnd, boolean ltr,
-                                boolean useBaseline, int[] ascent,
+    privbte int moveComponents(Contbiner tbrget, int x, int y, int width, int height,
+                                int rowStbrt, int rowEnd, boolebn ltr,
+                                boolebn useBbseline, int[] bscent,
                                 int[] descent) {
         switch (newAlign) {
-        case LEFT:
+        cbse LEFT:
             x += ltr ? 0 : width;
-            break;
-        case CENTER:
+            brebk;
+        cbse CENTER:
             x += width / 2;
-            break;
-        case RIGHT:
+            brebk;
+        cbse RIGHT:
             x += ltr ? width : 0;
-            break;
-        case LEADING:
-            break;
-        case TRAILING:
+            brebk;
+        cbse LEADING:
+            brebk;
+        cbse TRAILING:
             x += width;
-            break;
+            brebk;
         }
-        int maxAscent = 0;
-        int nonbaselineHeight = 0;
-        int baselineOffset = 0;
-        if (useBaseline) {
-            int maxDescent = 0;
-            for (int i = rowStart ; i < rowEnd ; i++) {
-                Component m = target.getComponent(i);
+        int mbxAscent = 0;
+        int nonbbselineHeight = 0;
+        int bbselineOffset = 0;
+        if (useBbseline) {
+            int mbxDescent = 0;
+            for (int i = rowStbrt ; i < rowEnd ; i++) {
+                Component m = tbrget.getComponent(i);
                 if (m.visible) {
-                    if (ascent[i] >= 0) {
-                        maxAscent = Math.max(maxAscent, ascent[i]);
-                        maxDescent = Math.max(maxDescent, descent[i]);
+                    if (bscent[i] >= 0) {
+                        mbxAscent = Mbth.mbx(mbxAscent, bscent[i]);
+                        mbxDescent = Mbth.mbx(mbxDescent, descent[i]);
                     }
                     else {
-                        nonbaselineHeight = Math.max(m.getHeight(),
-                                                     nonbaselineHeight);
+                        nonbbselineHeight = Mbth.mbx(m.getHeight(),
+                                                     nonbbselineHeight);
                     }
                 }
             }
-            height = Math.max(maxAscent + maxDescent, nonbaselineHeight);
-            baselineOffset = (height - maxAscent - maxDescent) / 2;
+            height = Mbth.mbx(mbxAscent + mbxDescent, nonbbselineHeight);
+            bbselineOffset = (height - mbxAscent - mbxDescent) / 2;
         }
-        for (int i = rowStart ; i < rowEnd ; i++) {
-            Component m = target.getComponent(i);
+        for (int i = rowStbrt ; i < rowEnd ; i++) {
+            Component m = tbrget.getComponent(i);
             if (m.isVisible()) {
                 int cy;
-                if (useBaseline && ascent[i] >= 0) {
-                    cy = y + baselineOffset + maxAscent - ascent[i];
+                if (useBbseline && bscent[i] >= 0) {
+                    cy = y + bbselineOffset + mbxAscent - bscent[i];
                 }
                 else {
                     cy = y + (height - m.height) / 2;
                 }
                 if (ltr) {
-                    m.setLocation(x, cy);
+                    m.setLocbtion(x, cy);
                 } else {
-                    m.setLocation(target.width - x - m.width, cy);
+                    m.setLocbtion(tbrget.width - x - m.width, cy);
                 }
-                x += m.width + hgap;
+                x += m.width + hgbp;
             }
         }
         return height;
     }
 
     /**
-     * Lays out the container. This method lets each
-     * <i>visible</i> component take
-     * its preferred size by reshaping the components in the
-     * target container in order to satisfy the alignment of
-     * this <code>FlowLayout</code> object.
+     * Lbys out the contbiner. This method lets ebch
+     * <i>visible</i> component tbke
+     * its preferred size by reshbping the components in the
+     * tbrget contbiner in order to sbtisfy the blignment of
+     * this <code>FlowLbyout</code> object.
      *
-     * @param target the specified component being laid out
-     * @see Container
-     * @see       java.awt.Container#doLayout
+     * @pbrbm tbrget the specified component being lbid out
+     * @see Contbiner
+     * @see       jbvb.bwt.Contbiner#doLbyout
      */
-    public void layoutContainer(Container target) {
-      synchronized (target.getTreeLock()) {
-        Insets insets = target.getInsets();
-        int maxwidth = target.width - (insets.left + insets.right + hgap*2);
-        int nmembers = target.getComponentCount();
-        int x = 0, y = insets.top + vgap;
-        int rowh = 0, start = 0;
+    public void lbyoutContbiner(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
+        Insets insets = tbrget.getInsets();
+        int mbxwidth = tbrget.width - (insets.left + insets.right + hgbp*2);
+        int nmembers = tbrget.getComponentCount();
+        int x = 0, y = insets.top + vgbp;
+        int rowh = 0, stbrt = 0;
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbrget.getComponentOrientbtion().isLeftToRight();
 
-        boolean useBaseline = getAlignOnBaseline();
-        int[] ascent = null;
+        boolebn useBbseline = getAlignOnBbseline();
+        int[] bscent = null;
         int[] descent = null;
 
-        if (useBaseline) {
-            ascent = new int[nmembers];
+        if (useBbseline) {
+            bscent = new int[nmembers];
             descent = new int[nmembers];
         }
 
         for (int i = 0 ; i < nmembers ; i++) {
-            Component m = target.getComponent(i);
+            Component m = tbrget.getComponent(i);
             if (m.isVisible()) {
                 Dimension d = m.getPreferredSize();
                 m.setSize(d.width, d.height);
 
-                if (useBaseline) {
-                    int baseline = m.getBaseline(d.width, d.height);
-                    if (baseline >= 0) {
-                        ascent[i] = baseline;
-                        descent[i] = d.height - baseline;
+                if (useBbseline) {
+                    int bbseline = m.getBbseline(d.width, d.height);
+                    if (bbseline >= 0) {
+                        bscent[i] = bbseline;
+                        descent[i] = d.height - bbseline;
                     }
                     else {
-                        ascent[i] = -1;
+                        bscent[i] = -1;
                     }
                 }
-                if ((x == 0) || ((x + d.width) <= maxwidth)) {
+                if ((x == 0) || ((x + d.width) <= mbxwidth)) {
                     if (x > 0) {
-                        x += hgap;
+                        x += hgbp;
                     }
                     x += d.width;
-                    rowh = Math.max(rowh, d.height);
+                    rowh = Mbth.mbx(rowh, d.height);
                 } else {
-                    rowh = moveComponents(target, insets.left + hgap, y,
-                                   maxwidth - x, rowh, start, i, ltr,
-                                   useBaseline, ascent, descent);
+                    rowh = moveComponents(tbrget, insets.left + hgbp, y,
+                                   mbxwidth - x, rowh, stbrt, i, ltr,
+                                   useBbseline, bscent, descent);
                     x = d.width;
-                    y += vgap + rowh;
+                    y += vgbp + rowh;
                     rowh = d.height;
-                    start = i;
+                    stbrt = i;
                 }
             }
         }
-        moveComponents(target, insets.left + hgap, y, maxwidth - x, rowh,
-                       start, nmembers, ltr, useBaseline, ascent, descent);
+        moveComponents(tbrget, insets.left + hgbp, y, mbxwidth - x, rowh,
+                       stbrt, nmembers, ltr, useBbseline, bscent, descent);
       }
     }
 
     //
-    // the internal serial version which says which version was written
-    // - 0 (default) for versions before the Java 2 platform, v1.2
-    // - 1 for version >= Java 2 platform v1.2, which includes "newAlign" field
+    // the internbl seribl version which sbys which version wbs written
+    // - 0 (defbult) for versions before the Jbvb 2 plbtform, v1.2
+    // - 1 for version >= Jbvb 2 plbtform v1.2, which includes "newAlign" field
     //
-    private static final int currentSerialVersion = 1;
+    privbte stbtic finbl int currentSeriblVersion = 1;
     /**
-     * This represent the <code>currentSerialVersion</code>
-     * which is bein used.  It will be one of two values :
-     * <code>0</code> versions before Java 2 platform v1.2..
-     * <code>1</code> versions after  Java 2 platform v1.2..
+     * This represent the <code>currentSeriblVersion</code>
+     * which is bein used.  It will be one of two vblues :
+     * <code>0</code> versions before Jbvb 2 plbtform v1.2..
+     * <code>1</code> versions bfter  Jbvb 2 plbtform v1.2..
      *
-     * @serial
+     * @seribl
      * @since 1.2
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 
     /**
-     * Reads this object out of a serialization stream, handling
-     * objects written by older versions of the class that didn't contain all
+     * Rebds this object out of b seriblizbtion strebm, hbndling
+     * objects written by older versions of the clbss thbt didn't contbin bll
      * of the fields we use now..
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm strebm)
+         throws IOException, ClbssNotFoundException
     {
-        stream.defaultReadObject();
+        strebm.defbultRebdObject();
 
-        if (serialVersionOnStream < 1) {
-            // "newAlign" field wasn't present, so use the old "align" field.
-            setAlignment(this.align);
+        if (seriblVersionOnStrebm < 1) {
+            // "newAlign" field wbsn't present, so use the old "blign" field.
+            setAlignment(this.blign);
         }
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
     }
 
     /**
-     * Returns a string representation of this <code>FlowLayout</code>
-     * object and its values.
-     * @return     a string representation of this layout
+     * Returns b string representbtion of this <code>FlowLbyout</code>
+     * object bnd its vblues.
+     * @return     b string representbtion of this lbyout
      */
     public String toString() {
         String str = "";
-        switch (align) {
-          case LEFT:        str = ",align=left"; break;
-          case CENTER:      str = ",align=center"; break;
-          case RIGHT:       str = ",align=right"; break;
-          case LEADING:     str = ",align=leading"; break;
-          case TRAILING:    str = ",align=trailing"; break;
+        switch (blign) {
+          cbse LEFT:        str = ",blign=left"; brebk;
+          cbse CENTER:      str = ",blign=center"; brebk;
+          cbse RIGHT:       str = ",blign=right"; brebk;
+          cbse LEADING:     str = ",blign=lebding"; brebk;
+          cbse TRAILING:    str = ",blign=trbiling"; brebk;
         }
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + str + "]";
+        return getClbss().getNbme() + "[hgbp=" + hgbp + ",vgbp=" + vgbp + str + "]";
     }
 
 

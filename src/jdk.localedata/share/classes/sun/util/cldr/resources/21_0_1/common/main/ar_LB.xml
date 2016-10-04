@@ -3,15 +3,15 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5695 $"/>
-		<generation date="$Date: 2011-04-27 03:39:31 +0900 (Wed, 27 Apr 2011) $"/>
-		<language type="ar"/>
+		<generbtion dbte="$Dbte: 2011-04-27 03:39:31 +0900 (Wed, 27 Apr 2011) $"/>
+		<lbngubge type="br"/>
 		<territory type="LB"/>
 	</identity>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">كانون الثاني</month>
 							<month type="2">شباط</month>
@@ -28,8 +28,8 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 </ldml>
 

@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.Arrbys;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.DbtbLine;
+import jbvbx.sound.sbmpled.LineEvent;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
 
 /**
- * SourceDataLine implementation for the SoftMixingMixer.
+ * SourceDbtbLine implementbtion for the SoftMixingMixer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftMixingSourceDataLine extends SoftMixingDataLine
-        implements SourceDataLine {
+public finbl clbss SoftMixingSourceDbtbLine extends SoftMixingDbtbLine
+        implements SourceDbtbLine {
 
-    private boolean open = false;
+    privbte boolebn open = fblse;
 
-    private AudioFormat format = new AudioFormat(44100.0f, 16, 2, true, false);
+    privbte AudioFormbt formbt = new AudioFormbt(44100.0f, 16, 2, true, fblse);
 
-    private int framesize;
+    privbte int frbmesize;
 
-    private int bufferSize = -1;
+    privbte int bufferSize = -1;
 
-    private float[] readbuffer;
+    privbte flobt[] rebdbuffer;
 
-    private boolean active = false;
+    privbte boolebn bctive = fblse;
 
-    private byte[] cycling_buffer;
+    privbte byte[] cycling_buffer;
 
-    private int cycling_read_pos = 0;
+    privbte int cycling_rebd_pos = 0;
 
-    private int cycling_write_pos = 0;
+    privbte int cycling_write_pos = 0;
 
-    private int cycling_avail = 0;
+    privbte int cycling_bvbil = 0;
 
-    private long cycling_framepos = 0;
+    privbte long cycling_frbmepos = 0;
 
-    private AudioFloatInputStream afis;
+    privbte AudioFlobtInputStrebm bfis;
 
-    private static class NonBlockingFloatInputStream extends
-            AudioFloatInputStream {
-        AudioFloatInputStream ais;
+    privbte stbtic clbss NonBlockingFlobtInputStrebm extends
+            AudioFlobtInputStrebm {
+        AudioFlobtInputStrebm bis;
 
-        NonBlockingFloatInputStream(AudioFloatInputStream ais) {
-            this.ais = ais;
+        NonBlockingFlobtInputStrebm(AudioFlobtInputStrebm bis) {
+            this.bis = bis;
         }
 
-        public int available() throws IOException {
-            return ais.available();
+        public int bvbilbble() throws IOException {
+            return bis.bvbilbble();
         }
 
         public void close() throws IOException {
-            ais.close();
+            bis.close();
         }
 
-        public AudioFormat getFormat() {
-            return ais.getFormat();
+        public AudioFormbt getFormbt() {
+            return bis.getFormbt();
         }
 
-        public long getFrameLength() {
-            return ais.getFrameLength();
+        public long getFrbmeLength() {
+            return bis.getFrbmeLength();
         }
 
-        public void mark(int readlimit) {
-            ais.mark(readlimit);
+        public void mbrk(int rebdlimit) {
+            bis.mbrk(rebdlimit);
         }
 
-        public boolean markSupported() {
-            return ais.markSupported();
+        public boolebn mbrkSupported() {
+            return bis.mbrkSupported();
         }
 
-        public int read(float[] b, int off, int len) throws IOException {
-            int avail = available();
-            if (len > avail) {
-                int ret = ais.read(b, off, avail);
-                Arrays.fill(b, off + ret, off + len, 0);
+        public int rebd(flobt[] b, int off, int len) throws IOException {
+            int bvbil = bvbilbble();
+            if (len > bvbil) {
+                int ret = bis.rebd(b, off, bvbil);
+                Arrbys.fill(b, off + ret, off + len, 0);
                 return len;
             }
-            return ais.read(b, off, len);
+            return bis.rebd(b, off, len);
         }
 
         public void reset() throws IOException {
-            ais.reset();
+            bis.reset();
         }
 
         public long skip(long len) throws IOException {
-            return ais.skip(len);
+            return bis.skip(len);
         }
 
     }
 
-    SoftMixingSourceDataLine(SoftMixingMixer mixer, DataLine.Info info) {
+    SoftMixingSourceDbtbLine(SoftMixingMixer mixer, DbtbLine.Info info) {
         super(mixer, info);
     }
 
     public int write(byte[] b, int off, int len) {
         if (!isOpen())
             return 0;
-        if (len % framesize != 0)
-            throw new IllegalArgumentException(
-                    "Number of bytes does not represent an integral number of sample frames.");
+        if (len % frbmesize != 0)
+            throw new IllegblArgumentException(
+                    "Number of bytes does not represent bn integrbl number of sbmple frbmes.");
         if (off < 0) {
-            throw new ArrayIndexOutOfBoundsException(off);
+            throw new ArrbyIndexOutOfBoundsException(off);
         }
         if ((long)off + (long)len > (long)b.length) {
-            throw new ArrayIndexOutOfBoundsException(b.length);
+            throw new ArrbyIndexOutOfBoundsException(b.length);
         }
 
         byte[] buff = cycling_buffer;
@@ -142,28 +142,28 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
 
         int l = 0;
         while (l != len) {
-            int avail;
+            int bvbil;
             synchronized (cycling_buffer) {
                 int pos = cycling_write_pos;
-                avail = cycling_avail;
+                bvbil = cycling_bvbil;
                 while (l != len) {
-                    if (avail == buff_len)
-                        break;
+                    if (bvbil == buff_len)
+                        brebk;
                     buff[pos++] = b[off++];
                     l++;
-                    avail++;
+                    bvbil++;
                     if (pos == buff_len)
                         pos = 0;
                 }
-                cycling_avail = avail;
+                cycling_bvbil = bvbil;
                 cycling_write_pos = pos;
                 if (l == len)
                     return l;
             }
-            if (avail == buff_len) {
+            if (bvbil == buff_len) {
                 try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
+                    Threbd.sleep(1);
+                } cbtch (InterruptedException e) {
                     return l;
                 }
                 if (!isRunning())
@@ -175,98 +175,98 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
     }
 
     //
-    // BooleanControl.Type.APPLY_REVERB
-    // BooleanControl.Type.MUTE
+    // BoolebnControl.Type.APPLY_REVERB
+    // BoolebnControl.Type.MUTE
     // EnumControl.Type.REVERB
     //
-    // FloatControl.Type.SAMPLE_RATE
-    // FloatControl.Type.REVERB_SEND
-    // FloatControl.Type.VOLUME
-    // FloatControl.Type.PAN
-    // FloatControl.Type.MASTER_GAIN
-    // FloatControl.Type.BALANCE
+    // FlobtControl.Type.SAMPLE_RATE
+    // FlobtControl.Type.REVERB_SEND
+    // FlobtControl.Type.VOLUME
+    // FlobtControl.Type.PAN
+    // FlobtControl.Type.MASTER_GAIN
+    // FlobtControl.Type.BALANCE
 
-    private boolean _active = false;
+    privbte boolebn _bctive = fblse;
 
-    private AudioFormat outputformat;
+    privbte AudioFormbt outputformbt;
 
-    private int out_nrofchannels;
+    privbte int out_nrofchbnnels;
 
-    private int in_nrofchannels;
+    privbte int in_nrofchbnnels;
 
-    private float _rightgain;
+    privbte flobt _rightgbin;
 
-    private float _leftgain;
+    privbte flobt _leftgbin;
 
-    private float _eff1gain;
+    privbte flobt _eff1gbin;
 
-    private float _eff2gain;
+    privbte flobt _eff2gbin;
 
     protected void processControlLogic() {
-        _active = active;
-        _rightgain = rightgain;
-        _leftgain = leftgain;
-        _eff1gain = eff1gain;
-        _eff2gain = eff2gain;
+        _bctive = bctive;
+        _rightgbin = rightgbin;
+        _leftgbin = leftgbin;
+        _eff1gbin = eff1gbin;
+        _eff2gbin = eff2gbin;
     }
 
     protected void processAudioLogic(SoftAudioBuffer[] buffers) {
-        if (_active) {
-            float[] left = buffers[SoftMixingMainMixer.CHANNEL_LEFT].array();
-            float[] right = buffers[SoftMixingMainMixer.CHANNEL_RIGHT].array();
-            int bufferlen = buffers[SoftMixingMainMixer.CHANNEL_LEFT].getSize();
+        if (_bctive) {
+            flobt[] left = buffers[SoftMixingMbinMixer.CHANNEL_LEFT].brrby();
+            flobt[] right = buffers[SoftMixingMbinMixer.CHANNEL_RIGHT].brrby();
+            int bufferlen = buffers[SoftMixingMbinMixer.CHANNEL_LEFT].getSize();
 
-            int readlen = bufferlen * in_nrofchannels;
-            if (readbuffer == null || readbuffer.length < readlen) {
-                readbuffer = new float[readlen];
+            int rebdlen = bufferlen * in_nrofchbnnels;
+            if (rebdbuffer == null || rebdbuffer.length < rebdlen) {
+                rebdbuffer = new flobt[rebdlen];
             }
             int ret = 0;
             try {
-                ret = afis.read(readbuffer);
-                if (ret != in_nrofchannels)
-                    Arrays.fill(readbuffer, ret, readlen, 0);
-            } catch (IOException e) {
+                ret = bfis.rebd(rebdbuffer);
+                if (ret != in_nrofchbnnels)
+                    Arrbys.fill(rebdbuffer, ret, rebdlen, 0);
+            } cbtch (IOException e) {
             }
 
-            int in_c = in_nrofchannels;
+            int in_c = in_nrofchbnnels;
             for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                left[i] += readbuffer[ix] * _leftgain;
+                left[i] += rebdbuffer[ix] * _leftgbin;
             }
-            if (out_nrofchannels != 1) {
-                if (in_nrofchannels == 1) {
+            if (out_nrofchbnnels != 1) {
+                if (in_nrofchbnnels == 1) {
                     for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                        right[i] += readbuffer[ix] * _rightgain;
+                        right[i] += rebdbuffer[ix] * _rightgbin;
                     }
                 } else {
                     for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        right[i] += readbuffer[ix] * _rightgain;
+                        right[i] += rebdbuffer[ix] * _rightgbin;
                     }
                 }
 
             }
 
-            if (_eff1gain > 0.0001) {
-                float[] eff1 = buffers[SoftMixingMainMixer.CHANNEL_EFFECT1]
-                        .array();
+            if (_eff1gbin > 0.0001) {
+                flobt[] eff1 = buffers[SoftMixingMbinMixer.CHANNEL_EFFECT1]
+                        .brrby();
                 for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                    eff1[i] += readbuffer[ix] * _eff1gain;
+                    eff1[i] += rebdbuffer[ix] * _eff1gbin;
                 }
-                if (in_nrofchannels == 2) {
+                if (in_nrofchbnnels == 2) {
                     for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        eff1[i] += readbuffer[ix] * _eff1gain;
+                        eff1[i] += rebdbuffer[ix] * _eff1gbin;
                     }
                 }
             }
 
-            if (_eff2gain > 0.0001) {
-                float[] eff2 = buffers[SoftMixingMainMixer.CHANNEL_EFFECT2]
-                        .array();
+            if (_eff2gbin > 0.0001) {
+                flobt[] eff2 = buffers[SoftMixingMbinMixer.CHANNEL_EFFECT2]
+                        .brrby();
                 for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                    eff2[i] += readbuffer[ix] * _eff2gain;
+                    eff2[i] += rebdbuffer[ix] * _eff2gbin;
                 }
-                if (in_nrofchannels == 2) {
+                if (in_nrofchbnnels == 2) {
                     for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        eff2[i] += readbuffer[ix] * _eff2gain;
+                        eff2[i] += rebdbuffer[ix] * _eff2gbin;
                     }
                 }
             }
@@ -274,24 +274,24 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
         }
     }
 
-    public void open() throws LineUnavailableException {
-        open(format);
+    public void open() throws LineUnbvbilbbleException {
+        open(formbt);
     }
 
-    public void open(AudioFormat format) throws LineUnavailableException {
+    public void open(AudioFormbt formbt) throws LineUnbvbilbbleException {
         if (bufferSize == -1)
-            bufferSize = ((int) (format.getFrameRate() / 2))
-                    * format.getFrameSize();
-        open(format, bufferSize);
+            bufferSize = ((int) (formbt.getFrbmeRbte() / 2))
+                    * formbt.getFrbmeSize();
+        open(formbt, bufferSize);
     }
 
-    public void open(AudioFormat format, int bufferSize)
-            throws LineUnavailableException {
+    public void open(AudioFormbt formbt, int bufferSize)
+            throws LineUnbvbilbbleException {
 
         LineEvent event = null;
 
-        if (bufferSize < format.getFrameSize() * 32)
-            bufferSize = format.getFrameSize() * 32;
+        if (bufferSize < formbt.getFrbmeSize() * 32)
+            bufferSize = formbt.getFrbmeSize() * 32;
 
         synchronized (control_mutex) {
 
@@ -304,46 +304,46 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
                 event = new LineEvent(this, LineEvent.Type.OPEN, 0);
 
                 this.bufferSize = bufferSize - bufferSize
-                        % format.getFrameSize();
-                this.format = format;
-                this.framesize = format.getFrameSize();
-                this.outputformat = mixer.getFormat();
-                out_nrofchannels = outputformat.getChannels();
-                in_nrofchannels = format.getChannels();
+                        % formbt.getFrbmeSize();
+                this.formbt = formbt;
+                this.frbmesize = formbt.getFrbmeSize();
+                this.outputformbt = mixer.getFormbt();
+                out_nrofchbnnels = outputformbt.getChbnnels();
+                in_nrofchbnnels = formbt.getChbnnels();
 
                 open = true;
 
-                mixer.getMainMixer().openLine(this);
+                mixer.getMbinMixer().openLine(this);
 
-                cycling_buffer = new byte[framesize * bufferSize];
-                cycling_read_pos = 0;
+                cycling_buffer = new byte[frbmesize * bufferSize];
+                cycling_rebd_pos = 0;
                 cycling_write_pos = 0;
-                cycling_avail = 0;
-                cycling_framepos = 0;
+                cycling_bvbil = 0;
+                cycling_frbmepos = 0;
 
-                InputStream cycling_inputstream = new InputStream() {
+                InputStrebm cycling_inputstrebm = new InputStrebm() {
 
-                    public int read() throws IOException {
+                    public int rebd() throws IOException {
                         byte[] b = new byte[1];
-                        int ret = read(b);
+                        int ret = rebd(b);
                         if (ret < 0)
                             return ret;
                         return b[0] & 0xFF;
                     }
 
-                    public int available() throws IOException {
+                    public int bvbilbble() throws IOException {
                         synchronized (cycling_buffer) {
-                            return cycling_avail;
+                            return cycling_bvbil;
                         }
                     }
 
-                    public int read(byte[] b, int off, int len)
+                    public int rebd(byte[] b, int off, int len)
                             throws IOException {
 
                         synchronized (cycling_buffer) {
-                            if (len > cycling_avail)
-                                len = cycling_avail;
-                            int pos = cycling_read_pos;
+                            if (len > cycling_bvbil)
+                                len = cycling_bvbil;
+                            int pos = cycling_rebd_pos;
                             byte[] buff = cycling_buffer;
                             int buff_len = buff.length;
                             for (int i = 0; i < len; i++) {
@@ -352,31 +352,31 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
                                 if (pos == buff_len)
                                     pos = 0;
                             }
-                            cycling_read_pos = pos;
-                            cycling_avail -= len;
-                            cycling_framepos += len / framesize;
+                            cycling_rebd_pos = pos;
+                            cycling_bvbil -= len;
+                            cycling_frbmepos += len / frbmesize;
                         }
                         return len;
                     }
 
                 };
 
-                afis = AudioFloatInputStream
-                        .getInputStream(new AudioInputStream(
-                                cycling_inputstream, format,
+                bfis = AudioFlobtInputStrebm
+                        .getInputStrebm(new AudioInputStrebm(
+                                cycling_inputstrebm, formbt,
                                 AudioSystem.NOT_SPECIFIED));
-                afis = new NonBlockingFloatInputStream(afis);
+                bfis = new NonBlockingFlobtInputStrebm(bfis);
 
-                if (Math.abs(format.getSampleRate()
-                        - outputformat.getSampleRate()) > 0.000001)
-                    afis = new AudioFloatInputStreamResampler(afis,
-                            outputformat);
+                if (Mbth.bbs(formbt.getSbmpleRbte()
+                        - outputformbt.getSbmpleRbte()) > 0.000001)
+                    bfis = new AudioFlobtInputStrebmResbmpler(bfis,
+                            outputformbt);
 
             } else {
-                if (!format.matches(getFormat())) {
-                    throw new IllegalStateException(
-                            "Line is already open with format " + getFormat()
-                                    + " and bufferSize " + getBufferSize());
+                if (!formbt.mbtches(getFormbt())) {
+                    throw new IllegblStbteException(
+                            "Line is blrebdy open with formbt " + getFormbt()
+                                    + " bnd bufferSize " + getBufferSize());
                 }
             }
 
@@ -387,23 +387,23 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
 
     }
 
-    public int available() {
+    public int bvbilbble() {
         synchronized (cycling_buffer) {
-            return cycling_buffer.length - cycling_avail;
+            return cycling_buffer.length - cycling_bvbil;
         }
     }
 
-    public void drain() {
+    public void drbin() {
         while (true) {
-            int avail;
+            int bvbil;
             synchronized (cycling_buffer) {
-                avail = cycling_avail;
+                bvbil = cycling_bvbil;
             }
-            if (avail != 0)
+            if (bvbil != 0)
                 return;
             try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
+                Threbd.sleep(1);
+            } cbtch (InterruptedException e) {
                 return;
             }
         }
@@ -411,9 +411,9 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
 
     public void flush() {
         synchronized (cycling_buffer) {
-            cycling_read_pos = 0;
+            cycling_rebd_pos = 0;
             cycling_write_pos = 0;
-            cycling_avail = 0;
+            cycling_bvbil = 0;
         }
     }
 
@@ -423,54 +423,54 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
         }
     }
 
-    public AudioFormat getFormat() {
+    public AudioFormbt getFormbt() {
         synchronized (control_mutex) {
-            return format;
+            return formbt;
         }
     }
 
-    public int getFramePosition() {
-        return (int) getLongFramePosition();
+    public int getFrbmePosition() {
+        return (int) getLongFrbmePosition();
     }
 
-    public float getLevel() {
+    public flobt getLevel() {
         return AudioSystem.NOT_SPECIFIED;
     }
 
-    public long getLongFramePosition() {
+    public long getLongFrbmePosition() {
         synchronized (cycling_buffer) {
-            return cycling_framepos;
+            return cycling_frbmepos;
         }
     }
 
     public long getMicrosecondPosition() {
-        return (long) (getLongFramePosition() * (1000000.0 / (double) getFormat()
-                .getSampleRate()));
+        return (long) (getLongFrbmePosition() * (1000000.0 / (double) getFormbt()
+                .getSbmpleRbte()));
     }
 
-    public boolean isActive() {
+    public boolebn isActive() {
         synchronized (control_mutex) {
-            return active;
+            return bctive;
         }
     }
 
-    public boolean isRunning() {
+    public boolebn isRunning() {
         synchronized (control_mutex) {
-            return active;
+            return bctive;
         }
     }
 
-    public void start() {
+    public void stbrt() {
 
         LineEvent event = null;
 
         synchronized (control_mutex) {
             if (isOpen()) {
-                if (active)
+                if (bctive)
                     return;
-                active = true;
+                bctive = true;
                 event = new LineEvent(this, LineEvent.Type.START,
-                        getLongFramePosition());
+                        getLongFrbmePosition());
             }
         }
 
@@ -483,11 +483,11 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
 
         synchronized (control_mutex) {
             if (isOpen()) {
-                if (!active)
+                if (!bctive)
                     return;
-                active = false;
+                bctive = fblse;
                 event = new LineEvent(this, LineEvent.Type.STOP,
-                        getLongFramePosition());
+                        getLongFrbmePosition());
             }
         }
 
@@ -505,10 +505,10 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
             stop();
 
             event = new LineEvent(this, LineEvent.Type.CLOSE,
-                    getLongFramePosition());
+                    getLongFrbmePosition());
 
-            open = false;
-            mixer.getMainMixer().closeLine(this);
+            open = fblse;
+            mixer.getMbinMixer().closeLine(this);
         }
 
         if (event != null)
@@ -516,7 +516,7 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
 
     }
 
-    public boolean isOpen() {
+    public boolebn isOpen() {
         synchronized (control_mutex) {
             return open;
         }

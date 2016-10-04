@@ -1,1340 +1,1340 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager2;
-import java.util.*;
-import static java.awt.Component.BaselineResizeBehavior;
-import static javax.swing.LayoutStyle.ComponentPlacement;
-import static javax.swing.SwingConstants.HORIZONTAL;
-import static javax.swing.SwingConstants.VERTICAL;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger2;
+import jbvb.util.*;
+import stbtic jbvb.bwt.Component.BbselineResizeBehbvior;
+import stbtic jbvbx.swing.LbyoutStyle.ComponentPlbcement;
+import stbtic jbvbx.swing.SwingConstbnts.HORIZONTAL;
+import stbtic jbvbx.swing.SwingConstbnts.VERTICAL;
 
 /**
- * {@code GroupLayout} is a {@code LayoutManager} that hierarchically
- * groups components in order to position them in a {@code Container}.
- * {@code GroupLayout} is intended for use by builders, but may be
- * hand-coded as well.
- * Grouping is done by instances of the {@link Group Group} class. {@code
- * GroupLayout} supports two types of groups. A sequential group
- * positions its child elements sequentially, one after another. A
- * parallel group aligns its child elements in one of four ways.
+ * {@code GroupLbyout} is b {@code LbyoutMbnbger} thbt hierbrchicblly
+ * groups components in order to position them in b {@code Contbiner}.
+ * {@code GroupLbyout} is intended for use by builders, but mby be
+ * hbnd-coded bs well.
+ * Grouping is done by instbnces of the {@link Group Group} clbss. {@code
+ * GroupLbyout} supports two types of groups. A sequentibl group
+ * positions its child elements sequentiblly, one bfter bnother. A
+ * pbrbllel group bligns its child elements in one of four wbys.
  * <p>
- * Each group may contain any number of elements, where an element is
- * a {@code Group}, {@code Component}, or gap. A gap can be thought
- * of as an invisible component with a minimum, preferred and maximum
- * size. In addition {@code GroupLayout} supports a preferred gap,
- * whose value comes from {@code LayoutStyle}.
+ * Ebch group mby contbin bny number of elements, where bn element is
+ * b {@code Group}, {@code Component}, or gbp. A gbp cbn be thought
+ * of bs bn invisible component with b minimum, preferred bnd mbximum
+ * size. In bddition {@code GroupLbyout} supports b preferred gbp,
+ * whose vblue comes from {@code LbyoutStyle}.
  * <p>
- * Elements are similar to a spring. Each element has a range as
- * specified by a minimum, preferred and maximum.  Gaps have either a
- * developer-specified range, or a range determined by {@code
- * LayoutStyle}. The range for {@code Component}s is determined from
+ * Elements bre similbr to b spring. Ebch element hbs b rbnge bs
+ * specified by b minimum, preferred bnd mbximum.  Gbps hbve either b
+ * developer-specified rbnge, or b rbnge determined by {@code
+ * LbyoutStyle}. The rbnge for {@code Component}s is determined from
  * the {@code Component}'s {@code getMinimumSize}, {@code
- * getPreferredSize} and {@code getMaximumSize} methods. In addition,
- * when adding {@code Component}s you may specify a particular range
- * to use instead of that from the component. The range for a {@code
- * Group} is determined by the type of group. A {@code ParallelGroup}'s
- * range is the maximum of the ranges of its elements. A {@code
- * SequentialGroup}'s range is the sum of the ranges of its elements.
+ * getPreferredSize} bnd {@code getMbximumSize} methods. In bddition,
+ * when bdding {@code Component}s you mby specify b pbrticulbr rbnge
+ * to use instebd of thbt from the component. The rbnge for b {@code
+ * Group} is determined by the type of group. A {@code PbrbllelGroup}'s
+ * rbnge is the mbximum of the rbnges of its elements. A {@code
+ * SequentiblGroup}'s rbnge is the sum of the rbnges of its elements.
  * <p>
- * {@code GroupLayout} treats each axis independently.  That is, there
- * is a group representing the horizontal axis, and a group
- * representing the vertical axis.  The horizontal group is
- * responsible for determining the minimum, preferred and maximum size
- * along the horizontal axis as well as setting the x and width of the
- * components contained in it. The vertical group is responsible for
- * determining the minimum, preferred and maximum size along the
- * vertical axis as well as setting the y and height of the
- * components contained in it. Each {@code Component} must exist in both
- * a horizontal and vertical group, otherwise an {@code IllegalStateException}
- * is thrown during layout, or when the minimum, preferred or
- * maximum size is requested.
+ * {@code GroupLbyout} trebts ebch bxis independently.  Thbt is, there
+ * is b group representing the horizontbl bxis, bnd b group
+ * representing the verticbl bxis.  The horizontbl group is
+ * responsible for determining the minimum, preferred bnd mbximum size
+ * blong the horizontbl bxis bs well bs setting the x bnd width of the
+ * components contbined in it. The verticbl group is responsible for
+ * determining the minimum, preferred bnd mbximum size blong the
+ * verticbl bxis bs well bs setting the y bnd height of the
+ * components contbined in it. Ebch {@code Component} must exist in both
+ * b horizontbl bnd verticbl group, otherwise bn {@code IllegblStbteException}
+ * is thrown during lbyout, or when the minimum, preferred or
+ * mbximum size is requested.
  * <p>
- * The following diagram shows a sequential group along the horizontal
- * axis. The sequential group contains three components. A parallel group
- * was used along the vertical axis.
- * <p style="text-align:center">
- * <img src="doc-files/groupLayout.1.gif" alt="Sequential group along the horizontal axis in three components">
+ * The following dibgrbm shows b sequentibl group blong the horizontbl
+ * bxis. The sequentibl group contbins three components. A pbrbllel group
+ * wbs used blong the verticbl bxis.
+ * <p style="text-blign:center">
+ * <img src="doc-files/groupLbyout.1.gif" blt="Sequentibl group blong the horizontbl bxis in three components">
  * <p>
- * To reinforce that each axis is treated independently the diagram shows
- * the range of each group and element along each axis. The
- * range of each component has been projected onto the axes,
- * and the groups are rendered in blue (horizontal) and red (vertical).
- * For readability there is a gap between each of the elements in the
- * sequential group.
+ * To reinforce thbt ebch bxis is trebted independently the dibgrbm shows
+ * the rbnge of ebch group bnd element blong ebch bxis. The
+ * rbnge of ebch component hbs been projected onto the bxes,
+ * bnd the groups bre rendered in blue (horizontbl) bnd red (verticbl).
+ * For rebdbbility there is b gbp between ebch of the elements in the
+ * sequentibl group.
  * <p>
- * The sequential group along the horizontal axis is rendered as a solid
- * blue line. Notice the sequential group is the sum of the children elements
- * it contains.
+ * The sequentibl group blong the horizontbl bxis is rendered bs b solid
+ * blue line. Notice the sequentibl group is the sum of the children elements
+ * it contbins.
  * <p>
- * Along the vertical axis the parallel group is the maximum of the height
- * of each of the components. As all three components have the same height,
- * the parallel group has the same height.
+ * Along the verticbl bxis the pbrbllel group is the mbximum of the height
+ * of ebch of the components. As bll three components hbve the sbme height,
+ * the pbrbllel group hbs the sbme height.
  * <p>
- * The following diagram shows the same three components, but with the
- * parallel group along the horizontal axis and the sequential group along
- * the vertical axis.
+ * The following dibgrbm shows the sbme three components, but with the
+ * pbrbllel group blong the horizontbl bxis bnd the sequentibl group blong
+ * the verticbl bxis.
  *
- * <p style="text-align:center">
- * <img src="doc-files/groupLayout.2.gif" alt="Sequential group along the vertical axis in three components">
+ * <p style="text-blign:center">
+ * <img src="doc-files/groupLbyout.2.gif" blt="Sequentibl group blong the verticbl bxis in three components">
  * <p>
- * As {@code c1} is the largest of the three components, the parallel
- * group is sized to {@code c1}. As {@code c2} and {@code c3} are smaller
- * than {@code c1} they are aligned based on the alignment specified
- * for the component (if specified) or the default alignment of the
- * parallel group. In the diagram {@code c2} and {@code c3} were created
- * with an alignment of {@code LEADING}. If the component orientation were
- * right-to-left then {@code c2} and {@code c3} would be positioned on
+ * As {@code c1} is the lbrgest of the three components, the pbrbllel
+ * group is sized to {@code c1}. As {@code c2} bnd {@code c3} bre smbller
+ * thbn {@code c1} they bre bligned bbsed on the blignment specified
+ * for the component (if specified) or the defbult blignment of the
+ * pbrbllel group. In the dibgrbm {@code c2} bnd {@code c3} were crebted
+ * with bn blignment of {@code LEADING}. If the component orientbtion were
+ * right-to-left then {@code c2} bnd {@code c3} would be positioned on
  * the opposite side.
  * <p>
- * The following diagram shows a sequential group along both the horizontal
- * and vertical axis.
- * <p style="text-align:center">
- * <img src="doc-files/groupLayout.3.gif" alt="Sequential group along both the horizontal and vertical axis in three components">
+ * The following dibgrbm shows b sequentibl group blong both the horizontbl
+ * bnd verticbl bxis.
+ * <p style="text-blign:center">
+ * <img src="doc-files/groupLbyout.3.gif" blt="Sequentibl group blong both the horizontbl bnd verticbl bxis in three components">
  * <p>
- * {@code GroupLayout} provides the ability to insert gaps between
- * {@code Component}s. The size of the gap is determined by an
- * instance of {@code LayoutStyle}. This may be turned on using the
- * {@code setAutoCreateGaps} method.  Similarly, you may use
- * the {@code setAutoCreateContainerGaps} method to insert gaps
- * between components that touch the edge of the parent container and the
- * container.
+ * {@code GroupLbyout} provides the bbility to insert gbps between
+ * {@code Component}s. The size of the gbp is determined by bn
+ * instbnce of {@code LbyoutStyle}. This mby be turned on using the
+ * {@code setAutoCrebteGbps} method.  Similbrly, you mby use
+ * the {@code setAutoCrebteContbinerGbps} method to insert gbps
+ * between components thbt touch the edge of the pbrent contbiner bnd the
+ * contbiner.
  * <p>
- * The following builds a panel consisting of two labels in
+ * The following builds b pbnel consisting of two lbbels in
  * one column, followed by two textfields in the next column:
  * <pre>
- *   JComponent panel = ...;
- *   GroupLayout layout = new GroupLayout(panel);
- *   panel.setLayout(layout);
+ *   JComponent pbnel = ...;
+ *   GroupLbyout lbyout = new GroupLbyout(pbnel);
+ *   pbnel.setLbyout(lbyout);
  *
- *   // Turn on automatically adding gaps between components
- *   layout.setAutoCreateGaps(true);
+ *   // Turn on butombticblly bdding gbps between components
+ *   lbyout.setAutoCrebteGbps(true);
  *
- *   // Turn on automatically creating gaps between components that touch
- *   // the edge of the container and the container.
- *   layout.setAutoCreateContainerGaps(true);
+ *   // Turn on butombticblly crebting gbps between components thbt touch
+ *   // the edge of the contbiner bnd the contbiner.
+ *   lbyout.setAutoCrebteContbinerGbps(true);
  *
- *   // Create a sequential group for the horizontal axis.
+ *   // Crebte b sequentibl group for the horizontbl bxis.
  *
- *   GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+ *   GroupLbyout.SequentiblGroup hGroup = lbyout.crebteSequentiblGroup();
  *
- *   // The sequential group in turn contains two parallel groups.
- *   // One parallel group contains the labels, the other the text fields.
- *   // Putting the labels in a parallel group along the horizontal axis
- *   // positions them at the same x location.
+ *   // The sequentibl group in turn contbins two pbrbllel groups.
+ *   // One pbrbllel group contbins the lbbels, the other the text fields.
+ *   // Putting the lbbels in b pbrbllel group blong the horizontbl bxis
+ *   // positions them bt the sbme x locbtion.
  *   //
- *   // Variable indentation is used to reinforce the level of grouping.
- *   hGroup.addGroup(layout.createParallelGroup().
- *            addComponent(label1).addComponent(label2));
- *   hGroup.addGroup(layout.createParallelGroup().
- *            addComponent(tf1).addComponent(tf2));
- *   layout.setHorizontalGroup(hGroup);
+ *   // Vbribble indentbtion is used to reinforce the level of grouping.
+ *   hGroup.bddGroup(lbyout.crebtePbrbllelGroup().
+ *            bddComponent(lbbel1).bddComponent(lbbel2));
+ *   hGroup.bddGroup(lbyout.crebtePbrbllelGroup().
+ *            bddComponent(tf1).bddComponent(tf2));
+ *   lbyout.setHorizontblGroup(hGroup);
  *
- *   // Create a sequential group for the vertical axis.
- *   GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+ *   // Crebte b sequentibl group for the verticbl bxis.
+ *   GroupLbyout.SequentiblGroup vGroup = lbyout.crebteSequentiblGroup();
  *
- *   // The sequential group contains two parallel groups that align
- *   // the contents along the baseline. The first parallel group contains
- *   // the first label and text field, and the second parallel group contains
- *   // the second label and text field. By using a sequential group
- *   // the labels and text fields are positioned vertically after one another.
- *   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
- *            addComponent(label1).addComponent(tf1));
- *   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
- *            addComponent(label2).addComponent(tf2));
- *   layout.setVerticalGroup(vGroup);
+ *   // The sequentibl group contbins two pbrbllel groups thbt blign
+ *   // the contents blong the bbseline. The first pbrbllel group contbins
+ *   // the first lbbel bnd text field, bnd the second pbrbllel group contbins
+ *   // the second lbbel bnd text field. By using b sequentibl group
+ *   // the lbbels bnd text fields bre positioned verticblly bfter one bnother.
+ *   vGroup.bddGroup(lbyout.crebtePbrbllelGroup(Alignment.BASELINE).
+ *            bddComponent(lbbel1).bddComponent(tf1));
+ *   vGroup.bddGroup(lbyout.crebtePbrbllelGroup(Alignment.BASELINE).
+ *            bddComponent(lbbel2).bddComponent(tf2));
+ *   lbyout.setVerticblGroup(vGroup);
  * </pre>
  * <p>
  * When run the following is produced.
- * <p style="text-align:center">
- * <img src="doc-files/groupLayout.example.png" alt="Produced horizontal/vertical form">
+ * <p style="text-blign:center">
+ * <img src="doc-files/groupLbyout.exbmple.png" blt="Produced horizontbl/verticbl form">
  * <p>
- * This layout consists of the following.
- * <ul><li>The horizontal axis consists of a sequential group containing two
- *         parallel groups.  The first parallel group contains the labels,
- *         and the second parallel group contains the text fields.
- *     <li>The vertical axis consists of a sequential group
- *         containing two parallel groups.  The parallel groups are configured
- *         to align their components along the baseline. The first parallel
- *         group contains the first label and first text field, and
- *         the second group consists of the second label and second
+ * This lbyout consists of the following.
+ * <ul><li>The horizontbl bxis consists of b sequentibl group contbining two
+ *         pbrbllel groups.  The first pbrbllel group contbins the lbbels,
+ *         bnd the second pbrbllel group contbins the text fields.
+ *     <li>The verticbl bxis consists of b sequentibl group
+ *         contbining two pbrbllel groups.  The pbrbllel groups bre configured
+ *         to blign their components blong the bbseline. The first pbrbllel
+ *         group contbins the first lbbel bnd first text field, bnd
+ *         the second group consists of the second lbbel bnd second
  *         text field.
  * </ul>
- * There are a couple of things to notice in this code:
+ * There bre b couple of things to notice in this code:
  * <ul>
- *   <li>You need not explicitly add the components to the container; this
- *       is indirectly done by using one of the {@code add} methods of
+ *   <li>You need not explicitly bdd the components to the contbiner; this
+ *       is indirectly done by using one of the {@code bdd} methods of
  *       {@code Group}.
- *   <li>The various {@code add} methods return
- *       the caller.  This allows for easy chaining of invocations.  For
- *       example, {@code group.addComponent(label1).addComponent(label2);} is
- *       equivalent to
- *       {@code group.addComponent(label1); group.addComponent(label2);}.
- *   <li>There are no public constructors for {@code Group}s; instead
- *       use the create methods of {@code GroupLayout}.
+ *   <li>The vbrious {@code bdd} methods return
+ *       the cbller.  This bllows for ebsy chbining of invocbtions.  For
+ *       exbmple, {@code group.bddComponent(lbbel1).bddComponent(lbbel2);} is
+ *       equivblent to
+ *       {@code group.bddComponent(lbbel1); group.bddComponent(lbbel2);}.
+ *   <li>There bre no public constructors for {@code Group}s; instebd
+ *       use the crebte methods of {@code GroupLbyout}.
  * </ul>
  *
- * @author Tomas Pavek
- * @author Jan Stola
- * @author Scott Violet
+ * @buthor Tombs Pbvek
+ * @buthor Jbn Stolb
+ * @buthor Scott Violet
  * @since 1.6
  */
-public class GroupLayout implements LayoutManager2 {
-    // Used in size calculations
-    private static final int MIN_SIZE = 0;
+public clbss GroupLbyout implements LbyoutMbnbger2 {
+    // Used in size cblculbtions
+    privbte stbtic finbl int MIN_SIZE = 0;
 
-    private static final int PREF_SIZE = 1;
+    privbte stbtic finbl int PREF_SIZE = 1;
 
-    private static final int MAX_SIZE = 2;
+    privbte stbtic finbl int MAX_SIZE = 2;
 
-    // Used by prepare, indicates min, pref or max isn't going to be used.
-    private static final int SPECIFIC_SIZE = 3;
+    // Used by prepbre, indicbtes min, pref or mbx isn't going to be used.
+    privbte stbtic finbl int SPECIFIC_SIZE = 3;
 
-    private static final int UNSET = Integer.MIN_VALUE;
+    privbte stbtic finbl int UNSET = Integer.MIN_VALUE;
 
     /**
-     * Indicates the size from the component or gap should be used for a
-     * particular range value.
+     * Indicbtes the size from the component or gbp should be used for b
+     * pbrticulbr rbnge vblue.
      *
      * @see Group
      */
-    public static final int DEFAULT_SIZE = -1;
+    public stbtic finbl int DEFAULT_SIZE = -1;
 
     /**
-     * Indicates the preferred size from the component or gap should
-     * be used for a particular range value.
+     * Indicbtes the preferred size from the component or gbp should
+     * be used for b pbrticulbr rbnge vblue.
      *
      * @see Group
      */
-    public static final int PREFERRED_SIZE = -2;
+    public stbtic finbl int PREFERRED_SIZE = -2;
 
-    // Whether or not we automatically try and create the preferred
-    // padding between components.
-    private boolean autocreatePadding;
+    // Whether or not we butombticblly try bnd crebte the preferred
+    // pbdding between components.
+    privbte boolebn butocrebtePbdding;
 
-    // Whether or not we automatically try and create the preferred
-    // padding between components the touch the edge of the container and
-    // the container.
-    private boolean autocreateContainerPadding;
-
-    /**
-     * Group responsible for layout along the horizontal axis.  This is NOT
-     * the user specified group, use getHorizontalGroup to dig that out.
-     */
-    private Group horizontalGroup;
+    // Whether or not we butombticblly try bnd crebte the preferred
+    // pbdding between components the touch the edge of the contbiner bnd
+    // the contbiner.
+    privbte boolebn butocrebteContbinerPbdding;
 
     /**
-     * Group responsible for layout along the vertical axis.  This is NOT
-     * the user specified group, use getVerticalGroup to dig that out.
+     * Group responsible for lbyout blong the horizontbl bxis.  This is NOT
+     * the user specified group, use getHorizontblGroup to dig thbt out.
      */
-    private Group verticalGroup;
+    privbte Group horizontblGroup;
 
-    // Maps from Component to ComponentInfo.  This is used for tracking
-    // information specific to a Component.
-    private Map<Component,ComponentInfo> componentInfos;
+    /**
+     * Group responsible for lbyout blong the verticbl bxis.  This is NOT
+     * the user specified group, use getVerticblGroup to dig thbt out.
+     */
+    privbte Group verticblGroup;
 
-    // Container we're doing layout for.
-    private Container host;
+    // Mbps from Component to ComponentInfo.  This is used for trbcking
+    // informbtion specific to b Component.
+    privbte Mbp<Component,ComponentInfo> componentInfos;
 
-    // Used by areParallelSiblings, cached to avoid excessive garbage.
-    private Set<Spring> tmpParallelSet;
+    // Contbiner we're doing lbyout for.
+    privbte Contbiner host;
 
-    // Indicates Springs have changed in some way since last change.
-    private boolean springsChanged;
+    // Used by brePbrbllelSiblings, cbched to bvoid excessive gbrbbge.
+    privbte Set<Spring> tmpPbrbllelSet;
 
-    // Indicates invalidateLayout has been invoked.
-    private boolean isValid;
+    // Indicbtes Springs hbve chbnged in some wby since lbst chbnge.
+    privbte boolebn springsChbnged;
 
-    // Whether or not any preferred padding (or container padding) springs
+    // Indicbtes invblidbteLbyout hbs been invoked.
+    privbte boolebn isVblid;
+
+    // Whether or not bny preferred pbdding (or contbiner pbdding) springs
     // exist
-    private boolean hasPreferredPaddingSprings;
+    privbte boolebn hbsPreferredPbddingSprings;
 
     /**
-     * The LayoutStyle instance to use, if null the sharedInstance is used.
+     * The LbyoutStyle instbnce to use, if null the shbredInstbnce is used.
      */
-    private LayoutStyle layoutStyle;
+    privbte LbyoutStyle lbyoutStyle;
 
     /**
-     * If true, components that are not visible are treated as though they
-     * aren't there.
+     * If true, components thbt bre not visible bre trebted bs though they
+     * bren't there.
      */
-    private boolean honorsVisibility;
+    privbte boolebn honorsVisibility;
 
 
     /**
-     * Enumeration of the possible ways {@code ParallelGroup} can align
+     * Enumerbtion of the possible wbys {@code PbrbllelGroup} cbn blign
      * its children.
      *
-     * @see #createParallelGroup(Alignment)
+     * @see #crebtePbrbllelGroup(Alignment)
      * @since 1.6
      */
     public enum Alignment {
         /**
-         * Indicates the elements should be
-         * aligned to the origin.  For the horizontal axis with a left to
-         * right orientation this means aligned to the left edge. For the
-         * vertical axis leading means aligned to the top edge.
+         * Indicbtes the elements should be
+         * bligned to the origin.  For the horizontbl bxis with b left to
+         * right orientbtion this mebns bligned to the left edge. For the
+         * verticbl bxis lebding mebns bligned to the top edge.
          *
-         * @see #createParallelGroup(Alignment)
+         * @see #crebtePbrbllelGroup(Alignment)
          */
         LEADING,
 
         /**
-         * Indicates the elements should be aligned to the end of the
-         * region.  For the horizontal axis with a left to right
-         * orientation this means aligned to the right edge. For the
-         * vertical axis trailing means aligned to the bottom edge.
+         * Indicbtes the elements should be bligned to the end of the
+         * region.  For the horizontbl bxis with b left to right
+         * orientbtion this mebns bligned to the right edge. For the
+         * verticbl bxis trbiling mebns bligned to the bottom edge.
          *
-         * @see #createParallelGroup(Alignment)
+         * @see #crebtePbrbllelGroup(Alignment)
          */
         TRAILING,
 
         /**
-         * Indicates the elements should be centered in
+         * Indicbtes the elements should be centered in
          * the region.
          *
-         * @see #createParallelGroup(Alignment)
+         * @see #crebtePbrbllelGroup(Alignment)
          */
         CENTER,
 
         /**
-         * Indicates the elements should be aligned along
-         * their baseline.
+         * Indicbtes the elements should be bligned blong
+         * their bbseline.
          *
-         * @see #createParallelGroup(Alignment)
-         * @see #createBaselineGroup(boolean,boolean)
+         * @see #crebtePbrbllelGroup(Alignment)
+         * @see #crebteBbselineGroup(boolebn,boolebn)
          */
         BASELINE
     }
 
 
-    private static void checkSize(int min, int pref, int max,
-            boolean isComponentSpring) {
+    privbte stbtic void checkSize(int min, int pref, int mbx,
+            boolebn isComponentSpring) {
         checkResizeType(min, isComponentSpring);
         if (!isComponentSpring && pref < 0) {
-            throw new IllegalArgumentException("Pref must be >= 0");
+            throw new IllegblArgumentException("Pref must be >= 0");
         } else if (isComponentSpring) {
             checkResizeType(pref, true);
         }
-        checkResizeType(max, isComponentSpring);
-        checkLessThan(min, pref);
-        checkLessThan(pref, max);
+        checkResizeType(mbx, isComponentSpring);
+        checkLessThbn(min, pref);
+        checkLessThbn(pref, mbx);
     }
 
-    private static void checkResizeType(int type, boolean isComponentSpring) {
+    privbte stbtic void checkResizeType(int type, boolebn isComponentSpring) {
         if (type < 0 && ((isComponentSpring && type != DEFAULT_SIZE &&
                 type != PREFERRED_SIZE) ||
                 (!isComponentSpring && type != PREFERRED_SIZE))) {
-            throw new IllegalArgumentException("Invalid size");
+            throw new IllegblArgumentException("Invblid size");
         }
     }
 
-    private static void checkLessThan(int min, int max) {
-        if (min >= 0 && max >= 0 && min > max) {
-            throw new IllegalArgumentException(
-                    "Following is not met: min<=pref<=max");
+    privbte stbtic void checkLessThbn(int min, int mbx) {
+        if (min >= 0 && mbx >= 0 && min > mbx) {
+            throw new IllegblArgumentException(
+                    "Following is not met: min<=pref<=mbx");
         }
     }
 
     /**
-     * Creates a {@code GroupLayout} for the specified {@code Container}.
+     * Crebtes b {@code GroupLbyout} for the specified {@code Contbiner}.
      *
-     * @param host the {@code Container} the {@code GroupLayout} is
-     *        the {@code LayoutManager} for
-     * @throws IllegalArgumentException if host is {@code null}
+     * @pbrbm host the {@code Contbiner} the {@code GroupLbyout} is
+     *        the {@code LbyoutMbnbger} for
+     * @throws IllegblArgumentException if host is {@code null}
      */
-    public GroupLayout(Container host) {
+    public GroupLbyout(Contbiner host) {
         if (host == null) {
-            throw new IllegalArgumentException("Container must be non-null");
+            throw new IllegblArgumentException("Contbiner must be non-null");
         }
         honorsVisibility = true;
         this.host = host;
-        setHorizontalGroup(createParallelGroup(Alignment.LEADING, true));
-        setVerticalGroup(createParallelGroup(Alignment.LEADING, true));
-        componentInfos = new HashMap<Component,ComponentInfo>();
-        tmpParallelSet = new HashSet<Spring>();
+        setHorizontblGroup(crebtePbrbllelGroup(Alignment.LEADING, true));
+        setVerticblGroup(crebtePbrbllelGroup(Alignment.LEADING, true));
+        componentInfos = new HbshMbp<Component,ComponentInfo>();
+        tmpPbrbllelSet = new HbshSet<Spring>();
     }
 
     /**
-     * Sets whether component visibility is considered when sizing and
-     * positioning components. A value of {@code true} indicates that
-     * non-visible components should not be treated as part of the
-     * layout. A value of {@code false} indicates that components should be
-     * positioned and sized regardless of visibility.
+     * Sets whether component visibility is considered when sizing bnd
+     * positioning components. A vblue of {@code true} indicbtes thbt
+     * non-visible components should not be trebted bs pbrt of the
+     * lbyout. A vblue of {@code fblse} indicbtes thbt components should be
+     * positioned bnd sized regbrdless of visibility.
      * <p>
-     * A value of {@code false} is useful when the visibility of components
-     * is dynamically adjusted and you don't want surrounding components and
-     * the sizing to change.
+     * A vblue of {@code fblse} is useful when the visibility of components
+     * is dynbmicblly bdjusted bnd you don't wbnt surrounding components bnd
+     * the sizing to chbnge.
      * <p>
-     * The specified value is used for components that do not have an
+     * The specified vblue is used for components thbt do not hbve bn
      * explicit visibility specified.
      * <p>
-     * The default is {@code true}.
+     * The defbult is {@code true}.
      *
-     * @param honorsVisibility whether component visibility is considered when
-     *                         sizing and positioning components
-     * @see #setHonorsVisibility(Component,Boolean)
+     * @pbrbm honorsVisibility whether component visibility is considered when
+     *                         sizing bnd positioning components
+     * @see #setHonorsVisibility(Component,Boolebn)
      */
-    public void setHonorsVisibility(boolean honorsVisibility) {
+    public void setHonorsVisibility(boolebn honorsVisibility) {
         if (this.honorsVisibility != honorsVisibility) {
             this.honorsVisibility = honorsVisibility;
-            springsChanged = true;
-            isValid = false;
-            invalidateHost();
+            springsChbnged = true;
+            isVblid = fblse;
+            invblidbteHost();
         }
     }
 
     /**
-     * Returns whether component visibility is considered when sizing and
+     * Returns whether component visibility is considered when sizing bnd
      * positioning components.
      *
-     * @return whether component visibility is considered when sizing and
+     * @return whether component visibility is considered when sizing bnd
      *         positioning components
      */
-    public boolean getHonorsVisibility() {
+    public boolebn getHonorsVisibility() {
         return honorsVisibility;
     }
 
     /**
      * Sets whether the component's visibility is considered for
-     * sizing and positioning. A value of {@code Boolean.TRUE}
-     * indicates that if {@code component} is not visible it should
-     * not be treated as part of the layout. A value of {@code false}
-     * indicates that {@code component} is positioned and sized
-     * regardless of it's visibility.  A value of {@code null}
-     * indicates the value specified by the single argument method {@code
+     * sizing bnd positioning. A vblue of {@code Boolebn.TRUE}
+     * indicbtes thbt if {@code component} is not visible it should
+     * not be trebted bs pbrt of the lbyout. A vblue of {@code fblse}
+     * indicbtes thbt {@code component} is positioned bnd sized
+     * regbrdless of it's visibility.  A vblue of {@code null}
+     * indicbtes the vblue specified by the single brgument method {@code
      * setHonorsVisibility} should be used.
      * <p>
-     * If {@code component} is not a child of the {@code Container} this
-     * {@code GroupLayout} is managing, it will be added to the
-     * {@code Container}.
+     * If {@code component} is not b child of the {@code Contbiner} this
+     * {@code GroupLbyout} is mbnbging, it will be bdded to the
+     * {@code Contbiner}.
      *
-     * @param component the component
-     * @param honorsVisibility whether visibility of this {@code component} should be
-     *              considered for sizing and positioning
-     * @throws IllegalArgumentException if {@code component} is {@code null}
-     * @see #setHonorsVisibility(Component,Boolean)
+     * @pbrbm component the component
+     * @pbrbm honorsVisibility whether visibility of this {@code component} should be
+     *              considered for sizing bnd positioning
+     * @throws IllegblArgumentException if {@code component} is {@code null}
+     * @see #setHonorsVisibility(Component,Boolebn)
      */
     public void setHonorsVisibility(Component component,
-            Boolean honorsVisibility) {
+            Boolebn honorsVisibility) {
         if (component == null) {
-            throw new IllegalArgumentException("Component must be non-null");
+            throw new IllegblArgumentException("Component must be non-null");
         }
         getComponentInfo(component).setHonorsVisibility(honorsVisibility);
-        springsChanged = true;
-        isValid = false;
-        invalidateHost();
+        springsChbnged = true;
+        isVblid = fblse;
+        invblidbteHost();
     }
 
     /**
-     * Sets whether a gap between components should automatically be
-     * created.  For example, if this is {@code true} and you add two
-     * components to a {@code SequentialGroup} a gap between the
-     * two components is automatically be created.  The default is
-     * {@code false}.
+     * Sets whether b gbp between components should butombticblly be
+     * crebted.  For exbmple, if this is {@code true} bnd you bdd two
+     * components to b {@code SequentiblGroup} b gbp between the
+     * two components is butombticblly be crebted.  The defbult is
+     * {@code fblse}.
      *
-     * @param autoCreatePadding whether a gap between components is
-     *        automatically created
+     * @pbrbm butoCrebtePbdding whether b gbp between components is
+     *        butombticblly crebted
      */
-    public void setAutoCreateGaps(boolean autoCreatePadding) {
-        if (this.autocreatePadding != autoCreatePadding) {
-            this.autocreatePadding = autoCreatePadding;
-            invalidateHost();
+    public void setAutoCrebteGbps(boolebn butoCrebtePbdding) {
+        if (this.butocrebtePbdding != butoCrebtePbdding) {
+            this.butocrebtePbdding = butoCrebtePbdding;
+            invblidbteHost();
         }
     }
 
     /**
-     * Returns {@code true} if gaps between components are automatically
-     * created.
+     * Returns {@code true} if gbps between components bre butombticblly
+     * crebted.
      *
-     * @return {@code true} if gaps between components are automatically
-     *         created
+     * @return {@code true} if gbps between components bre butombticblly
+     *         crebted
      */
-    public boolean getAutoCreateGaps() {
-        return autocreatePadding;
+    public boolebn getAutoCrebteGbps() {
+        return butocrebtePbdding;
     }
 
     /**
-     * Sets whether a gap between the container and components that
-     * touch the border of the container should automatically be
-     * created. The default is {@code false}.
+     * Sets whether b gbp between the contbiner bnd components thbt
+     * touch the border of the contbiner should butombticblly be
+     * crebted. The defbult is {@code fblse}.
      *
-     * @param autoCreateContainerPadding whether a gap between the container and
-     *        components that touch the border of the container should
-     *        automatically be created
+     * @pbrbm butoCrebteContbinerPbdding whether b gbp between the contbiner bnd
+     *        components thbt touch the border of the contbiner should
+     *        butombticblly be crebted
      */
-    public void setAutoCreateContainerGaps(boolean autoCreateContainerPadding){
-        if (this.autocreateContainerPadding != autoCreateContainerPadding) {
-            this.autocreateContainerPadding = autoCreateContainerPadding;
-            horizontalGroup = createTopLevelGroup(getHorizontalGroup());
-            verticalGroup = createTopLevelGroup(getVerticalGroup());
-            invalidateHost();
+    public void setAutoCrebteContbinerGbps(boolebn butoCrebteContbinerPbdding){
+        if (this.butocrebteContbinerPbdding != butoCrebteContbinerPbdding) {
+            this.butocrebteContbinerPbdding = butoCrebteContbinerPbdding;
+            horizontblGroup = crebteTopLevelGroup(getHorizontblGroup());
+            verticblGroup = crebteTopLevelGroup(getVerticblGroup());
+            invblidbteHost();
         }
     }
 
     /**
-     * Returns {@code true} if gaps between the container and components that
-     * border the container are automatically created.
+     * Returns {@code true} if gbps between the contbiner bnd components thbt
+     * border the contbiner bre butombticblly crebted.
      *
-     * @return {@code true} if gaps between the container and components that
-     *         border the container are automatically created
+     * @return {@code true} if gbps between the contbiner bnd components thbt
+     *         border the contbiner bre butombticblly crebted
      */
-    public boolean getAutoCreateContainerGaps() {
-        return autocreateContainerPadding;
+    public boolebn getAutoCrebteContbinerGbps() {
+        return butocrebteContbinerPbdding;
     }
 
     /**
-     * Sets the {@code Group} that positions and sizes
-     * components along the horizontal axis.
+     * Sets the {@code Group} thbt positions bnd sizes
+     * components blong the horizontbl bxis.
      *
-     * @param group the {@code Group} that positions and sizes
-     *        components along the horizontal axis
-     * @throws IllegalArgumentException if group is {@code null}
+     * @pbrbm group the {@code Group} thbt positions bnd sizes
+     *        components blong the horizontbl bxis
+     * @throws IllegblArgumentException if group is {@code null}
      */
-    public void setHorizontalGroup(Group group) {
+    public void setHorizontblGroup(Group group) {
         if (group == null) {
-            throw new IllegalArgumentException("Group must be non-null");
+            throw new IllegblArgumentException("Group must be non-null");
         }
-        horizontalGroup = createTopLevelGroup(group);
-        invalidateHost();
+        horizontblGroup = crebteTopLevelGroup(group);
+        invblidbteHost();
     }
 
     /**
-     * Returns the {@code Group} that positions and sizes components
-     * along the horizontal axis.
+     * Returns the {@code Group} thbt positions bnd sizes components
+     * blong the horizontbl bxis.
      *
-     * @return the {@code Group} responsible for positioning and
-     *         sizing component along the horizontal axis
+     * @return the {@code Group} responsible for positioning bnd
+     *         sizing component blong the horizontbl bxis
      */
-    private Group getHorizontalGroup() {
+    privbte Group getHorizontblGroup() {
         int index = 0;
-        if (horizontalGroup.springs.size() > 1) {
+        if (horizontblGroup.springs.size() > 1) {
             index = 1;
         }
-        return (Group)horizontalGroup.springs.get(index);
+        return (Group)horizontblGroup.springs.get(index);
     }
 
     /**
-     * Sets the {@code Group} that positions and sizes
-     * components along the vertical axis.
+     * Sets the {@code Group} thbt positions bnd sizes
+     * components blong the verticbl bxis.
      *
-     * @param group the {@code Group} that positions and sizes
-     *        components along the vertical axis
-     * @throws IllegalArgumentException if group is {@code null}
+     * @pbrbm group the {@code Group} thbt positions bnd sizes
+     *        components blong the verticbl bxis
+     * @throws IllegblArgumentException if group is {@code null}
      */
-    public void setVerticalGroup(Group group) {
+    public void setVerticblGroup(Group group) {
         if (group == null) {
-            throw new IllegalArgumentException("Group must be non-null");
+            throw new IllegblArgumentException("Group must be non-null");
         }
-        verticalGroup = createTopLevelGroup(group);
-        invalidateHost();
+        verticblGroup = crebteTopLevelGroup(group);
+        invblidbteHost();
     }
 
     /**
-     * Returns the {@code Group} that positions and sizes components
-     * along the vertical axis.
+     * Returns the {@code Group} thbt positions bnd sizes components
+     * blong the verticbl bxis.
      *
-     * @return the {@code Group} responsible for positioning and
-     *         sizing component along the vertical axis
+     * @return the {@code Group} responsible for positioning bnd
+     *         sizing component blong the verticbl bxis
      */
-    private Group getVerticalGroup() {
+    privbte Group getVerticblGroup() {
         int index = 0;
-        if (verticalGroup.springs.size() > 1) {
+        if (verticblGroup.springs.size() > 1) {
             index = 1;
         }
-        return (Group)verticalGroup.springs.get(index);
+        return (Group)verticblGroup.springs.get(index);
     }
 
     /**
-     * Wraps the user specified group in a sequential group.  If
-     * container gaps should be generated the necessary springs are
-     * added.
+     * Wrbps the user specified group in b sequentibl group.  If
+     * contbiner gbps should be generbted the necessbry springs bre
+     * bdded.
      */
-    private Group createTopLevelGroup(Group specifiedGroup) {
-        SequentialGroup group = createSequentialGroup();
-        if (getAutoCreateContainerGaps()) {
-            group.addSpring(new ContainerAutoPreferredGapSpring());
-            group.addGroup(specifiedGroup);
-            group.addSpring(new ContainerAutoPreferredGapSpring());
+    privbte Group crebteTopLevelGroup(Group specifiedGroup) {
+        SequentiblGroup group = crebteSequentiblGroup();
+        if (getAutoCrebteContbinerGbps()) {
+            group.bddSpring(new ContbinerAutoPreferredGbpSpring());
+            group.bddGroup(specifiedGroup);
+            group.bddSpring(new ContbinerAutoPreferredGbpSpring());
         } else {
-            group.addGroup(specifiedGroup);
+            group.bddGroup(specifiedGroup);
         }
         return group;
     }
 
     /**
-     * Creates and returns a {@code SequentialGroup}.
+     * Crebtes bnd returns b {@code SequentiblGroup}.
      *
-     * @return a new {@code SequentialGroup}
+     * @return b new {@code SequentiblGroup}
      */
-    public SequentialGroup createSequentialGroup() {
-        return new SequentialGroup();
+    public SequentiblGroup crebteSequentiblGroup() {
+        return new SequentiblGroup();
     }
 
     /**
-     * Creates and returns a {@code ParallelGroup} with an alignment of
-     * {@code Alignment.LEADING}.  This is a cover method for the more
-     * general {@code createParallelGroup(Alignment)} method.
+     * Crebtes bnd returns b {@code PbrbllelGroup} with bn blignment of
+     * {@code Alignment.LEADING}.  This is b cover method for the more
+     * generbl {@code crebtePbrbllelGroup(Alignment)} method.
      *
-     * @return a new {@code ParallelGroup}
-     * @see #createParallelGroup(Alignment)
+     * @return b new {@code PbrbllelGroup}
+     * @see #crebtePbrbllelGroup(Alignment)
      */
-    public ParallelGroup createParallelGroup() {
-        return createParallelGroup(Alignment.LEADING);
+    public PbrbllelGroup crebtePbrbllelGroup() {
+        return crebtePbrbllelGroup(Alignment.LEADING);
     }
 
     /**
-     * Creates and returns a {@code ParallelGroup} with the specified
-     * alignment.  This is a cover method for the more general {@code
-     * createParallelGroup(Alignment,boolean)} method with {@code true}
-     * supplied for the second argument.
+     * Crebtes bnd returns b {@code PbrbllelGroup} with the specified
+     * blignment.  This is b cover method for the more generbl {@code
+     * crebtePbrbllelGroup(Alignment,boolebn)} method with {@code true}
+     * supplied for the second brgument.
      *
-     * @param alignment the alignment for the elements of the group
-     * @throws IllegalArgumentException if {@code alignment} is {@code null}
-     * @return a new {@code ParallelGroup}
-     * @see #createBaselineGroup
-     * @see ParallelGroup
+     * @pbrbm blignment the blignment for the elements of the group
+     * @throws IllegblArgumentException if {@code blignment} is {@code null}
+     * @return b new {@code PbrbllelGroup}
+     * @see #crebteBbselineGroup
+     * @see PbrbllelGroup
      */
-    public ParallelGroup createParallelGroup(Alignment alignment) {
-        return createParallelGroup(alignment, true);
+    public PbrbllelGroup crebtePbrbllelGroup(Alignment blignment) {
+        return crebtePbrbllelGroup(blignment, true);
     }
 
     /**
-     * Creates and returns a {@code ParallelGroup} with the specified
-     * alignment and resize behavior. The {@code
-     * alignment} argument specifies how children elements are
-     * positioned that do not fill the group. For example, if a {@code
-     * ParallelGroup} with an alignment of {@code TRAILING} is given
-     * 100 and a child only needs 50, the child is
-     * positioned at the position 50 (with a component orientation of
+     * Crebtes bnd returns b {@code PbrbllelGroup} with the specified
+     * blignment bnd resize behbvior. The {@code
+     * blignment} brgument specifies how children elements bre
+     * positioned thbt do not fill the group. For exbmple, if b {@code
+     * PbrbllelGroup} with bn blignment of {@code TRAILING} is given
+     * 100 bnd b child only needs 50, the child is
+     * positioned bt the position 50 (with b component orientbtion of
      * left-to-right).
      * <p>
-     * Baseline alignment is only useful when used along the vertical
-     * axis. A {@code ParallelGroup} created with a baseline alignment
-     * along the horizontal axis is treated as {@code LEADING}.
+     * Bbseline blignment is only useful when used blong the verticbl
+     * bxis. A {@code PbrbllelGroup} crebted with b bbseline blignment
+     * blong the horizontbl bxis is trebted bs {@code LEADING}.
      * <p>
-     * Refer to {@link GroupLayout.ParallelGroup ParallelGroup} for details on
-     * the behavior of baseline groups.
+     * Refer to {@link GroupLbyout.PbrbllelGroup PbrbllelGroup} for detbils on
+     * the behbvior of bbseline groups.
      *
-     * @param alignment the alignment for the elements of the group
-     * @param resizable {@code true} if the group is resizable; if the group
-     *        is not resizable the preferred size is used for the
-     *        minimum and maximum size of the group
-     * @throws IllegalArgumentException if {@code alignment} is {@code null}
-     * @return a new {@code ParallelGroup}
-     * @see #createBaselineGroup
-     * @see GroupLayout.ParallelGroup
+     * @pbrbm blignment the blignment for the elements of the group
+     * @pbrbm resizbble {@code true} if the group is resizbble; if the group
+     *        is not resizbble the preferred size is used for the
+     *        minimum bnd mbximum size of the group
+     * @throws IllegblArgumentException if {@code blignment} is {@code null}
+     * @return b new {@code PbrbllelGroup}
+     * @see #crebteBbselineGroup
+     * @see GroupLbyout.PbrbllelGroup
      */
-    public ParallelGroup createParallelGroup(Alignment alignment,
-            boolean resizable){
-        if (alignment == null) {
-            throw new IllegalArgumentException("alignment must be non null");
+    public PbrbllelGroup crebtePbrbllelGroup(Alignment blignment,
+            boolebn resizbble){
+        if (blignment == null) {
+            throw new IllegblArgumentException("blignment must be non null");
         }
 
-        if (alignment == Alignment.BASELINE) {
-            return new BaselineGroup(resizable);
+        if (blignment == Alignment.BASELINE) {
+            return new BbselineGroup(resizbble);
         }
-        return new ParallelGroup(alignment, resizable);
+        return new PbrbllelGroup(blignment, resizbble);
     }
 
     /**
-     * Creates and returns a {@code ParallelGroup} that aligns it's
-     * elements along the baseline.
+     * Crebtes bnd returns b {@code PbrbllelGroup} thbt bligns it's
+     * elements blong the bbseline.
      *
-     * @param resizable whether the group is resizable
-     * @param anchorBaselineToTop whether the baseline is anchored to
+     * @pbrbm resizbble whether the group is resizbble
+     * @pbrbm bnchorBbselineToTop whether the bbseline is bnchored to
      *        the top or bottom of the group
-     * @return the {@code ParallelGroup}
-     * @see #createBaselineGroup
-     * @see ParallelGroup
+     * @return the {@code PbrbllelGroup}
+     * @see #crebteBbselineGroup
+     * @see PbrbllelGroup
      */
-    public ParallelGroup createBaselineGroup(boolean resizable,
-            boolean anchorBaselineToTop) {
-        return new BaselineGroup(resizable, anchorBaselineToTop);
+    public PbrbllelGroup crebteBbselineGroup(boolebn resizbble,
+            boolebn bnchorBbselineToTop) {
+        return new BbselineGroup(resizbble, bnchorBbselineToTop);
     }
 
     /**
-     * Forces the specified components to have the same size
-     * regardless of their preferred, minimum or maximum sizes. Components that
-     * are linked are given the maximum of the preferred size of each of
-     * the linked components. For example, if you link two components with
-     * a preferred width of 10 and 20, both components are given a width of 20.
+     * Forces the specified components to hbve the sbme size
+     * regbrdless of their preferred, minimum or mbximum sizes. Components thbt
+     * bre linked bre given the mbximum of the preferred size of ebch of
+     * the linked components. For exbmple, if you link two components with
+     * b preferred width of 10 bnd 20, both components bre given b width of 20.
      * <p>
-     * This can be used multiple times to force any number of
-     * components to share the same size.
+     * This cbn be used multiple times to force bny number of
+     * components to shbre the sbme size.
      * <p>
-     * Linked Components are not be resizable.
+     * Linked Components bre not be resizbble.
      *
-     * @param components the {@code Component}s that are to have the same size
-     * @throws IllegalArgumentException if {@code components} is
-     *         {@code null}, or contains {@code null}
+     * @pbrbm components the {@code Component}s thbt bre to hbve the sbme size
+     * @throws IllegblArgumentException if {@code components} is
+     *         {@code null}, or contbins {@code null}
      * @see #linkSize(int,Component[])
      */
     public void linkSize(Component... components) {
-        linkSize(SwingConstants.HORIZONTAL, components);
-        linkSize(SwingConstants.VERTICAL, components);
+        linkSize(SwingConstbnts.HORIZONTAL, components);
+        linkSize(SwingConstbnts.VERTICAL, components);
     }
 
     /**
-     * Forces the specified components to have the same size along the
-     * specified axis regardless of their preferred, minimum or
-     * maximum sizes. Components that are linked are given the maximum
-     * of the preferred size of each of the linked components. For
-     * example, if you link two components along the horizontal axis
-     * and the preferred width is 10 and 20, both components are given
-     * a width of 20.
+     * Forces the specified components to hbve the sbme size blong the
+     * specified bxis regbrdless of their preferred, minimum or
+     * mbximum sizes. Components thbt bre linked bre given the mbximum
+     * of the preferred size of ebch of the linked components. For
+     * exbmple, if you link two components blong the horizontbl bxis
+     * bnd the preferred width is 10 bnd 20, both components bre given
+     * b width of 20.
      * <p>
-     * This can be used multiple times to force any number of
-     * components to share the same size.
+     * This cbn be used multiple times to force bny number of
+     * components to shbre the sbme size.
      * <p>
-     * Linked {@code Component}s are not be resizable.
+     * Linked {@code Component}s bre not be resizbble.
      *
-     * @param components the {@code Component}s that are to have the same size
-     * @param axis the axis to link the size along; one of
-     *             {@code SwingConstants.HORIZONTAL} or
-     *             {@code SwingConstans.VERTICAL}
-     * @throws IllegalArgumentException if {@code components} is
-     *         {@code null}, or contains {@code null}; or {@code axis}
-     *          is not {@code SwingConstants.HORIZONTAL} or
-     *          {@code SwingConstants.VERTICAL}
+     * @pbrbm components the {@code Component}s thbt bre to hbve the sbme size
+     * @pbrbm bxis the bxis to link the size blong; one of
+     *             {@code SwingConstbnts.HORIZONTAL} or
+     *             {@code SwingConstbns.VERTICAL}
+     * @throws IllegblArgumentException if {@code components} is
+     *         {@code null}, or contbins {@code null}; or {@code bxis}
+     *          is not {@code SwingConstbnts.HORIZONTAL} or
+     *          {@code SwingConstbnts.VERTICAL}
      */
-    public void linkSize(int axis, Component... components) {
+    public void linkSize(int bxis, Component... components) {
         if (components == null) {
-            throw new IllegalArgumentException("Components must be non-null");
+            throw new IllegblArgumentException("Components must be non-null");
         }
         for (int counter = components.length - 1; counter >= 0; counter--) {
             Component c = components[counter];
             if (components[counter] == null) {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "Components must be non-null");
             }
-            // Force the component to be added
+            // Force the component to be bdded
             getComponentInfo(c);
         }
         int glAxis;
-        if (axis == SwingConstants.HORIZONTAL) {
+        if (bxis == SwingConstbnts.HORIZONTAL) {
             glAxis = HORIZONTAL;
-        } else if (axis == SwingConstants.VERTICAL) {
+        } else if (bxis == SwingConstbnts.VERTICAL) {
             glAxis = VERTICAL;
         } else {
-            throw new IllegalArgumentException("Axis must be one of " +
-                    "SwingConstants.HORIZONTAL or SwingConstants.VERTICAL");
+            throw new IllegblArgumentException("Axis must be one of " +
+                    "SwingConstbnts.HORIZONTAL or SwingConstbnts.VERTICAL");
         }
-        LinkInfo master = getComponentInfo(
+        LinkInfo mbster = getComponentInfo(
                 components[components.length - 1]).getLinkInfo(glAxis);
         for (int counter = components.length - 2; counter >= 0; counter--) {
-            master.add(getComponentInfo(components[counter]));
+            mbster.bdd(getComponentInfo(components[counter]));
         }
-        invalidateHost();
+        invblidbteHost();
     }
 
     /**
-     * Replaces an existing component with a new one.
+     * Replbces bn existing component with b new one.
      *
-     * @param existingComponent the component that should be removed
-     *        and replaced with {@code newComponent}
-     * @param newComponent the component to put in
-     *        {@code existingComponent}'s place
-     * @throws IllegalArgumentException if either of the components are
-     *         {@code null} or {@code existingComponent} is not being managed
-     *         by this layout manager
+     * @pbrbm existingComponent the component thbt should be removed
+     *        bnd replbced with {@code newComponent}
+     * @pbrbm newComponent the component to put in
+     *        {@code existingComponent}'s plbce
+     * @throws IllegblArgumentException if either of the components bre
+     *         {@code null} or {@code existingComponent} is not being mbnbged
+     *         by this lbyout mbnbger
      */
-    public void replace(Component existingComponent, Component newComponent) {
+    public void replbce(Component existingComponent, Component newComponent) {
         if (existingComponent == null || newComponent == null) {
-            throw new IllegalArgumentException("Components must be non-null");
+            throw new IllegblArgumentException("Components must be non-null");
         }
-        // Make sure all the components have been registered, otherwise we may
-        // not update the correct Springs.
-        if (springsChanged) {
-            registerComponents(horizontalGroup, HORIZONTAL);
-            registerComponents(verticalGroup, VERTICAL);
+        // Mbke sure bll the components hbve been registered, otherwise we mby
+        // not updbte the correct Springs.
+        if (springsChbnged) {
+            registerComponents(horizontblGroup, HORIZONTAL);
+            registerComponents(verticblGroup, VERTICAL);
         }
         ComponentInfo info = componentInfos.remove(existingComponent);
         if (info == null) {
-            throw new IllegalArgumentException("Component must already exist");
+            throw new IllegblArgumentException("Component must blrebdy exist");
         }
         host.remove(existingComponent);
-        if (newComponent.getParent() != host) {
-            host.add(newComponent);
+        if (newComponent.getPbrent() != host) {
+            host.bdd(newComponent);
         }
         info.setComponent(newComponent);
         componentInfos.put(newComponent, info);
-        invalidateHost();
+        invblidbteHost();
     }
 
     /**
-     * Sets the {@code LayoutStyle} used to calculate the preferred
-     * gaps between components. A value of {@code null} indicates the
-     * shared instance of {@code LayoutStyle} should be used.
+     * Sets the {@code LbyoutStyle} used to cblculbte the preferred
+     * gbps between components. A vblue of {@code null} indicbtes the
+     * shbred instbnce of {@code LbyoutStyle} should be used.
      *
-     * @param layoutStyle the {@code LayoutStyle} to use
-     * @see LayoutStyle
+     * @pbrbm lbyoutStyle the {@code LbyoutStyle} to use
+     * @see LbyoutStyle
      */
-    public void setLayoutStyle(LayoutStyle layoutStyle) {
-        this.layoutStyle = layoutStyle;
-        invalidateHost();
+    public void setLbyoutStyle(LbyoutStyle lbyoutStyle) {
+        this.lbyoutStyle = lbyoutStyle;
+        invblidbteHost();
     }
 
     /**
-     * Returns the {@code LayoutStyle} used for calculating the preferred
-     * gap between components. This returns the value specified to
-     * {@code setLayoutStyle}, which may be {@code null}.
+     * Returns the {@code LbyoutStyle} used for cblculbting the preferred
+     * gbp between components. This returns the vblue specified to
+     * {@code setLbyoutStyle}, which mby be {@code null}.
      *
-     * @return the {@code LayoutStyle} used for calculating the preferred
-     *         gap between components
+     * @return the {@code LbyoutStyle} used for cblculbting the preferred
+     *         gbp between components
      */
-    public LayoutStyle getLayoutStyle() {
-        return layoutStyle;
+    public LbyoutStyle getLbyoutStyle() {
+        return lbyoutStyle;
     }
 
-    private LayoutStyle getLayoutStyle0() {
-        LayoutStyle layoutStyle = getLayoutStyle();
-        if (layoutStyle == null) {
-            layoutStyle = LayoutStyle.getInstance();
+    privbte LbyoutStyle getLbyoutStyle0() {
+        LbyoutStyle lbyoutStyle = getLbyoutStyle();
+        if (lbyoutStyle == null) {
+            lbyoutStyle = LbyoutStyle.getInstbnce();
         }
-        return layoutStyle;
+        return lbyoutStyle;
     }
 
-    private void invalidateHost() {
-        if (host instanceof JComponent) {
-            ((JComponent)host).revalidate();
+    privbte void invblidbteHost() {
+        if (host instbnceof JComponent) {
+            ((JComponent)host).revblidbte();
         } else {
-            host.invalidate();
+            host.invblidbte();
         }
-        host.repaint();
+        host.repbint();
     }
 
     //
-    // LayoutManager
+    // LbyoutMbnbger
     //
     /**
-     * Notification that a {@code Component} has been added to
-     * the parent container.  You should not invoke this method
-     * directly, instead you should use one of the {@code Group}
-     * methods to add a {@code Component}.
+     * Notificbtion thbt b {@code Component} hbs been bdded to
+     * the pbrent contbiner.  You should not invoke this method
+     * directly, instebd you should use one of the {@code Group}
+     * methods to bdd b {@code Component}.
      *
-     * @param name the string to be associated with the component
-     * @param component the {@code Component} to be added
+     * @pbrbm nbme the string to be bssocibted with the component
+     * @pbrbm component the {@code Component} to be bdded
      */
-    public void addLayoutComponent(String name, Component component) {
+    public void bddLbyoutComponent(String nbme, Component component) {
     }
 
     /**
-     * Notification that a {@code Component} has been removed from
-     * the parent container.  You should not invoke this method
-     * directly, instead invoke {@code remove} on the parent
-     * {@code Container}.
+     * Notificbtion thbt b {@code Component} hbs been removed from
+     * the pbrent contbiner.  You should not invoke this method
+     * directly, instebd invoke {@code remove} on the pbrent
+     * {@code Contbiner}.
      *
-     * @param component the component to be removed
-     * @see java.awt.Component#remove
+     * @pbrbm component the component to be removed
+     * @see jbvb.bwt.Component#remove
      */
-    public void removeLayoutComponent(Component component) {
+    public void removeLbyoutComponent(Component component) {
         ComponentInfo info = componentInfos.remove(component);
         if (info != null) {
             info.dispose();
-            springsChanged = true;
-            isValid = false;
+            springsChbnged = true;
+            isVblid = fblse;
         }
     }
 
     /**
-     * Returns the preferred size for the specified container.
+     * Returns the preferred size for the specified contbiner.
      *
-     * @param parent the container to return the preferred size for
-     * @return the preferred size for {@code parent}
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} this was created with
-     * @throws IllegalStateException if any of the components added to
-     *         this layout are not in both a horizontal and vertical group
-     * @see java.awt.Container#getPreferredSize
+     * @pbrbm pbrent the contbiner to return the preferred size for
+     * @return the preferred size for {@code pbrent}
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} this wbs crebted with
+     * @throws IllegblStbteException if bny of the components bdded to
+     *         this lbyout bre not in both b horizontbl bnd verticbl group
+     * @see jbvb.bwt.Contbiner#getPreferredSize
      */
-    public Dimension preferredLayoutSize(Container parent) {
-        checkParent(parent);
-        prepare(PREF_SIZE);
-        return adjustSize(horizontalGroup.getPreferredSize(HORIZONTAL),
-                verticalGroup.getPreferredSize(VERTICAL));
+    public Dimension preferredLbyoutSize(Contbiner pbrent) {
+        checkPbrent(pbrent);
+        prepbre(PREF_SIZE);
+        return bdjustSize(horizontblGroup.getPreferredSize(HORIZONTAL),
+                verticblGroup.getPreferredSize(VERTICAL));
     }
 
     /**
-     * Returns the minimum size for the specified container.
+     * Returns the minimum size for the specified contbiner.
      *
-     * @param parent the container to return the size for
-     * @return the minimum size for {@code parent}
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} that this was created with
-     * @throws IllegalStateException if any of the components added to
-     *         this layout are not in both a horizontal and vertical group
-     * @see java.awt.Container#getMinimumSize
+     * @pbrbm pbrent the contbiner to return the size for
+     * @return the minimum size for {@code pbrent}
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} thbt this wbs crebted with
+     * @throws IllegblStbteException if bny of the components bdded to
+     *         this lbyout bre not in both b horizontbl bnd verticbl group
+     * @see jbvb.bwt.Contbiner#getMinimumSize
      */
-    public Dimension minimumLayoutSize(Container parent) {
-        checkParent(parent);
-        prepare(MIN_SIZE);
-        return adjustSize(horizontalGroup.getMinimumSize(HORIZONTAL),
-                verticalGroup.getMinimumSize(VERTICAL));
+    public Dimension minimumLbyoutSize(Contbiner pbrent) {
+        checkPbrent(pbrent);
+        prepbre(MIN_SIZE);
+        return bdjustSize(horizontblGroup.getMinimumSize(HORIZONTAL),
+                verticblGroup.getMinimumSize(VERTICAL));
     }
 
     /**
-     * Lays out the specified container.
+     * Lbys out the specified contbiner.
      *
-     * @param parent the container to be laid out
-     * @throws IllegalStateException if any of the components added to
-     *         this layout are not in both a horizontal and vertical group
+     * @pbrbm pbrent the contbiner to be lbid out
+     * @throws IllegblStbteException if bny of the components bdded to
+     *         this lbyout bre not in both b horizontbl bnd verticbl group
      */
-    public void layoutContainer(Container parent) {
-        // Step 1: Prepare for layout.
-        prepare(SPECIFIC_SIZE);
-        Insets insets = parent.getInsets();
-        int width = parent.getWidth() - insets.left - insets.right;
-        int height = parent.getHeight() - insets.top - insets.bottom;
-        boolean ltr = isLeftToRight();
-        if (getAutoCreateGaps() || getAutoCreateContainerGaps() ||
-                hasPreferredPaddingSprings) {
-            // Step 2: Calculate autopadding springs
-            calculateAutopadding(horizontalGroup, HORIZONTAL, SPECIFIC_SIZE, 0,
+    public void lbyoutContbiner(Contbiner pbrent) {
+        // Step 1: Prepbre for lbyout.
+        prepbre(SPECIFIC_SIZE);
+        Insets insets = pbrent.getInsets();
+        int width = pbrent.getWidth() - insets.left - insets.right;
+        int height = pbrent.getHeight() - insets.top - insets.bottom;
+        boolebn ltr = isLeftToRight();
+        if (getAutoCrebteGbps() || getAutoCrebteContbinerGbps() ||
+                hbsPreferredPbddingSprings) {
+            // Step 2: Cblculbte butopbdding springs
+            cblculbteAutopbdding(horizontblGroup, HORIZONTAL, SPECIFIC_SIZE, 0,
                     width);
-            calculateAutopadding(verticalGroup, VERTICAL, SPECIFIC_SIZE, 0,
+            cblculbteAutopbdding(verticblGroup, VERTICAL, SPECIFIC_SIZE, 0,
                     height);
         }
         // Step 3: set the size of the groups.
-        horizontalGroup.setSize(HORIZONTAL, 0, width);
-        verticalGroup.setSize(VERTICAL, 0, height);
-        // Step 4: apply the size to the components.
-        for (ComponentInfo info : componentInfos.values()) {
+        horizontblGroup.setSize(HORIZONTAL, 0, width);
+        verticblGroup.setSize(VERTICAL, 0, height);
+        // Step 4: bpply the size to the components.
+        for (ComponentInfo info : componentInfos.vblues()) {
             info.setBounds(insets, width, ltr);
         }
     }
 
     //
-    // LayoutManager2
+    // LbyoutMbnbger2
     //
     /**
-     * Notification that a {@code Component} has been added to
-     * the parent container.  You should not invoke this method
-     * directly, instead you should use one of the {@code Group}
-     * methods to add a {@code Component}.
+     * Notificbtion thbt b {@code Component} hbs been bdded to
+     * the pbrent contbiner.  You should not invoke this method
+     * directly, instebd you should use one of the {@code Group}
+     * methods to bdd b {@code Component}.
      *
-     * @param component the component added
-     * @param constraints description of where to place the component
+     * @pbrbm component the component bdded
+     * @pbrbm constrbints description of where to plbce the component
      */
-    public void addLayoutComponent(Component component, Object constraints) {
+    public void bddLbyoutComponent(Component component, Object constrbints) {
     }
 
     /**
-     * Returns the maximum size for the specified container.
+     * Returns the mbximum size for the specified contbiner.
      *
-     * @param parent the container to return the size for
-     * @return the maximum size for {@code parent}
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} that this was created with
-     * @throws IllegalStateException if any of the components added to
-     *         this layout are not in both a horizontal and vertical group
-     * @see java.awt.Container#getMaximumSize
+     * @pbrbm pbrent the contbiner to return the size for
+     * @return the mbximum size for {@code pbrent}
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} thbt this wbs crebted with
+     * @throws IllegblStbteException if bny of the components bdded to
+     *         this lbyout bre not in both b horizontbl bnd verticbl group
+     * @see jbvb.bwt.Contbiner#getMbximumSize
      */
-    public Dimension maximumLayoutSize(Container parent) {
-        checkParent(parent);
-        prepare(MAX_SIZE);
-        return adjustSize(horizontalGroup.getMaximumSize(HORIZONTAL),
-                verticalGroup.getMaximumSize(VERTICAL));
+    public Dimension mbximumLbyoutSize(Contbiner pbrent) {
+        checkPbrent(pbrent);
+        prepbre(MAX_SIZE);
+        return bdjustSize(horizontblGroup.getMbximumSize(HORIZONTAL),
+                verticblGroup.getMbximumSize(VERTICAL));
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the x bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      *
-     * @param parent the {@code Container} hosting this {@code LayoutManager}
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} that this was created with
-     * @return the alignment; this implementation returns {@code .5}
+     * @pbrbm pbrent the {@code Contbiner} hosting this {@code LbyoutMbnbger}
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} thbt this wbs crebted with
+     * @return the blignment; this implementbtion returns {@code .5}
      */
-    public float getLayoutAlignmentX(Container parent) {
-        checkParent(parent);
+    public flobt getLbyoutAlignmentX(Contbiner pbrent) {
+        checkPbrent(pbrent);
         return .5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the y bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      *
-     * @param parent the {@code Container} hosting this {@code LayoutManager}
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} that this was created with
-     * @return alignment; this implementation returns {@code .5}
+     * @pbrbm pbrent the {@code Contbiner} hosting this {@code LbyoutMbnbger}
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} thbt this wbs crebted with
+     * @return blignment; this implementbtion returns {@code .5}
      */
-    public float getLayoutAlignmentY(Container parent) {
-        checkParent(parent);
+    public flobt getLbyoutAlignmentY(Contbiner pbrent) {
+        checkPbrent(pbrent);
         return .5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invblidbtes the lbyout, indicbting thbt if the lbyout mbnbger
+     * hbs cbched informbtion it should be discbrded.
      *
-     * @param parent the {@code Container} hosting this LayoutManager
-     * @throws IllegalArgumentException if {@code parent} is not
-     *         the same {@code Container} that this was created with
+     * @pbrbm pbrent the {@code Contbiner} hosting this LbyoutMbnbger
+     * @throws IllegblArgumentException if {@code pbrent} is not
+     *         the sbme {@code Contbiner} thbt this wbs crebted with
      */
-    public void invalidateLayout(Container parent) {
-        checkParent(parent);
-        // invalidateLayout is called from Container.invalidate, which
-        // does NOT grab the treelock.  All other methods do.  To make sure
-        // there aren't any possible threading problems we grab the tree lock
+    public void invblidbteLbyout(Contbiner pbrent) {
+        checkPbrent(pbrent);
+        // invblidbteLbyout is cblled from Contbiner.invblidbte, which
+        // does NOT grbb the treelock.  All other methods do.  To mbke sure
+        // there bren't bny possible threbding problems we grbb the tree lock
         // here.
-        synchronized(parent.getTreeLock()) {
-            isValid = false;
+        synchronized(pbrent.getTreeLock()) {
+            isVblid = fblse;
         }
     }
 
-    private void prepare(int sizeType) {
-        boolean visChanged = false;
-        // Step 1: If not-valid, clear springs and update visibility.
-        if (!isValid) {
-            isValid = true;
-            horizontalGroup.setSize(HORIZONTAL, UNSET, UNSET);
-            verticalGroup.setSize(VERTICAL, UNSET, UNSET);
-            for (ComponentInfo ci : componentInfos.values()) {
-                if (ci.updateVisibility()) {
-                    visChanged = true;
+    privbte void prepbre(int sizeType) {
+        boolebn visChbnged = fblse;
+        // Step 1: If not-vblid, clebr springs bnd updbte visibility.
+        if (!isVblid) {
+            isVblid = true;
+            horizontblGroup.setSize(HORIZONTAL, UNSET, UNSET);
+            verticblGroup.setSize(VERTICAL, UNSET, UNSET);
+            for (ComponentInfo ci : componentInfos.vblues()) {
+                if (ci.updbteVisibility()) {
+                    visChbnged = true;
                 }
-                ci.clearCachedSize();
+                ci.clebrCbchedSize();
             }
         }
-        // Step 2: Make sure components are bound to ComponentInfos
-        if (springsChanged) {
-            registerComponents(horizontalGroup, HORIZONTAL);
-            registerComponents(verticalGroup, VERTICAL);
+        // Step 2: Mbke sure components bre bound to ComponentInfos
+        if (springsChbnged) {
+            registerComponents(horizontblGroup, HORIZONTAL);
+            registerComponents(verticblGroup, VERTICAL);
         }
-        // Step 3: Adjust the autopadding. This removes existing
-        // autopadding, then recalculates where it should go.
-        if (springsChanged || visChanged) {
+        // Step 3: Adjust the butopbdding. This removes existing
+        // butopbdding, then recblculbtes where it should go.
+        if (springsChbnged || visChbnged) {
             checkComponents();
-            horizontalGroup.removeAutopadding();
-            verticalGroup.removeAutopadding();
-            if (getAutoCreateGaps()) {
-                insertAutopadding(true);
-            } else if (hasPreferredPaddingSprings ||
-                    getAutoCreateContainerGaps()) {
-                insertAutopadding(false);
+            horizontblGroup.removeAutopbdding();
+            verticblGroup.removeAutopbdding();
+            if (getAutoCrebteGbps()) {
+                insertAutopbdding(true);
+            } else if (hbsPreferredPbddingSprings ||
+                    getAutoCrebteContbinerGbps()) {
+                insertAutopbdding(fblse);
             }
-            springsChanged = false;
+            springsChbnged = fblse;
         }
-        // Step 4: (for min/pref/max size calculations only) calculate the
-        // autopadding. This invokes for unsetting the calculated values, then
-        // recalculating them.
-        // If sizeType == SPECIFIC_SIZE, it indicates we're doing layout, this
-        // step will be done later on.
-        if (sizeType != SPECIFIC_SIZE && (getAutoCreateGaps() ||
-                getAutoCreateContainerGaps() || hasPreferredPaddingSprings)) {
-            calculateAutopadding(horizontalGroup, HORIZONTAL, sizeType, 0, 0);
-            calculateAutopadding(verticalGroup, VERTICAL, sizeType, 0, 0);
+        // Step 4: (for min/pref/mbx size cblculbtions only) cblculbte the
+        // butopbdding. This invokes for unsetting the cblculbted vblues, then
+        // recblculbting them.
+        // If sizeType == SPECIFIC_SIZE, it indicbtes we're doing lbyout, this
+        // step will be done lbter on.
+        if (sizeType != SPECIFIC_SIZE && (getAutoCrebteGbps() ||
+                getAutoCrebteContbinerGbps() || hbsPreferredPbddingSprings)) {
+            cblculbteAutopbdding(horizontblGroup, HORIZONTAL, sizeType, 0, 0);
+            cblculbteAutopbdding(verticblGroup, VERTICAL, sizeType, 0, 0);
         }
     }
 
-    private void calculateAutopadding(Group group, int axis, int sizeType,
+    privbte void cblculbteAutopbdding(Group group, int bxis, int sizeType,
             int origin, int size) {
-        group.unsetAutopadding();
+        group.unsetAutopbdding();
         switch(sizeType) {
-            case MIN_SIZE:
-                size = group.getMinimumSize(axis);
-                break;
-            case PREF_SIZE:
-                size = group.getPreferredSize(axis);
-                break;
-            case MAX_SIZE:
-                size = group.getMaximumSize(axis);
-                break;
-            default:
-                break;
+            cbse MIN_SIZE:
+                size = group.getMinimumSize(bxis);
+                brebk;
+            cbse PREF_SIZE:
+                size = group.getPreferredSize(bxis);
+                brebk;
+            cbse MAX_SIZE:
+                size = group.getMbximumSize(bxis);
+                brebk;
+            defbult:
+                brebk;
         }
-        group.setSize(axis, origin, size);
-        group.calculateAutopadding(axis);
+        group.setSize(bxis, origin, size);
+        group.cblculbteAutopbdding(bxis);
     }
 
-    private void checkComponents() {
-        for (ComponentInfo info : componentInfos.values()) {
-            if (info.horizontalSpring == null) {
-                throw new IllegalStateException(info.component +
-                        " is not attached to a horizontal group");
+    privbte void checkComponents() {
+        for (ComponentInfo info : componentInfos.vblues()) {
+            if (info.horizontblSpring == null) {
+                throw new IllegblStbteException(info.component +
+                        " is not bttbched to b horizontbl group");
             }
-            if (info.verticalSpring == null) {
-                throw new IllegalStateException(info.component +
-                        " is not attached to a vertical group");
+            if (info.verticblSpring == null) {
+                throw new IllegblStbteException(info.component +
+                        " is not bttbched to b verticbl group");
             }
         }
     }
 
-    private void registerComponents(Group group, int axis) {
+    privbte void registerComponents(Group group, int bxis) {
         List<Spring> springs = group.springs;
         for (int counter = springs.size() - 1; counter >= 0; counter--) {
             Spring spring = springs.get(counter);
-            if (spring instanceof ComponentSpring) {
-                ((ComponentSpring)spring).installIfNecessary(axis);
-            } else if (spring instanceof Group) {
-                registerComponents((Group)spring, axis);
+            if (spring instbnceof ComponentSpring) {
+                ((ComponentSpring)spring).instbllIfNecessbry(bxis);
+            } else if (spring instbnceof Group) {
+                registerComponents((Group)spring, bxis);
             }
         }
     }
 
-    private Dimension adjustSize(int width, int height) {
+    privbte Dimension bdjustSize(int width, int height) {
         Insets insets = host.getInsets();
         return new Dimension(width + insets.left + insets.right,
                 height + insets.top + insets.bottom);
     }
 
-    private void checkParent(Container parent) {
-        if (parent != host) {
-            throw new IllegalArgumentException(
-                    "GroupLayout can only be used with one Container at a time");
+    privbte void checkPbrent(Contbiner pbrent) {
+        if (pbrent != host) {
+            throw new IllegblArgumentException(
+                    "GroupLbyout cbn only be used with one Contbiner bt b time");
         }
     }
 
     /**
      * Returns the {@code ComponentInfo} for the specified Component,
-     * creating one if necessary.
+     * crebting one if necessbry.
      */
-    private ComponentInfo getComponentInfo(Component component) {
+    privbte ComponentInfo getComponentInfo(Component component) {
         ComponentInfo info = componentInfos.get(component);
         if (info == null) {
             info = new ComponentInfo(component);
             componentInfos.put(component, info);
-            if (component.getParent() != host) {
-                host.add(component);
+            if (component.getPbrent() != host) {
+                host.bdd(component);
             }
         }
         return info;
     }
 
     /**
-     * Adjusts the autopadding springs for the horizontal and vertical
-     * groups.  If {@code insert} is {@code true} this will insert auto padding
-     * springs, otherwise this will only adjust the springs that
-     * comprise auto preferred padding springs.
+     * Adjusts the butopbdding springs for the horizontbl bnd verticbl
+     * groups.  If {@code insert} is {@code true} this will insert buto pbdding
+     * springs, otherwise this will only bdjust the springs thbt
+     * comprise buto preferred pbdding springs.
      */
-    private void insertAutopadding(boolean insert) {
-        horizontalGroup.insertAutopadding(HORIZONTAL,
-                new ArrayList<AutoPreferredGapSpring>(1),
-                new ArrayList<AutoPreferredGapSpring>(1),
-                new ArrayList<ComponentSpring>(1),
-                new ArrayList<ComponentSpring>(1), insert);
-        verticalGroup.insertAutopadding(VERTICAL,
-                new ArrayList<AutoPreferredGapSpring>(1),
-                new ArrayList<AutoPreferredGapSpring>(1),
-                new ArrayList<ComponentSpring>(1),
-                new ArrayList<ComponentSpring>(1), insert);
+    privbte void insertAutopbdding(boolebn insert) {
+        horizontblGroup.insertAutopbdding(HORIZONTAL,
+                new ArrbyList<AutoPreferredGbpSpring>(1),
+                new ArrbyList<AutoPreferredGbpSpring>(1),
+                new ArrbyList<ComponentSpring>(1),
+                new ArrbyList<ComponentSpring>(1), insert);
+        verticblGroup.insertAutopbdding(VERTICAL,
+                new ArrbyList<AutoPreferredGbpSpring>(1),
+                new ArrbyList<AutoPreferredGbpSpring>(1),
+                new ArrbyList<ComponentSpring>(1),
+                new ArrbyList<ComponentSpring>(1), insert);
     }
 
     /**
-     * Returns {@code true} if the two Components have a common ParallelGroup
-     * ancestor along the particular axis.
+     * Returns {@code true} if the two Components hbve b common PbrbllelGroup
+     * bncestor blong the pbrticulbr bxis.
      */
-    private boolean areParallelSiblings(Component source, Component target,
-            int axis) {
+    privbte boolebn brePbrbllelSiblings(Component source, Component tbrget,
+            int bxis) {
         ComponentInfo sourceInfo = getComponentInfo(source);
-        ComponentInfo targetInfo = getComponentInfo(target);
+        ComponentInfo tbrgetInfo = getComponentInfo(tbrget);
         Spring sourceSpring;
-        Spring targetSpring;
-        if (axis == HORIZONTAL) {
-            sourceSpring = sourceInfo.horizontalSpring;
-            targetSpring = targetInfo.horizontalSpring;
+        Spring tbrgetSpring;
+        if (bxis == HORIZONTAL) {
+            sourceSpring = sourceInfo.horizontblSpring;
+            tbrgetSpring = tbrgetInfo.horizontblSpring;
         } else {
-            sourceSpring = sourceInfo.verticalSpring;
-            targetSpring = targetInfo.verticalSpring;
+            sourceSpring = sourceInfo.verticblSpring;
+            tbrgetSpring = tbrgetInfo.verticblSpring;
         }
-        Set<Spring> sourcePath = tmpParallelSet;
-        sourcePath.clear();
-        Spring spring = sourceSpring.getParent();
+        Set<Spring> sourcePbth = tmpPbrbllelSet;
+        sourcePbth.clebr();
+        Spring spring = sourceSpring.getPbrent();
         while (spring != null) {
-            sourcePath.add(spring);
-            spring = spring.getParent();
+            sourcePbth.bdd(spring);
+            spring = spring.getPbrent();
         }
-        spring = targetSpring.getParent();
+        spring = tbrgetSpring.getPbrent();
         while (spring != null) {
-            if (sourcePath.contains(spring)) {
-                sourcePath.clear();
+            if (sourcePbth.contbins(spring)) {
+                sourcePbth.clebr();
                 while (spring != null) {
-                    if (spring instanceof ParallelGroup) {
+                    if (spring instbnceof PbrbllelGroup) {
                         return true;
                     }
-                    spring = spring.getParent();
+                    spring = spring.getPbrent();
                 }
-                return false;
+                return fblse;
             }
-            spring = spring.getParent();
+            spring = spring.getPbrent();
         }
-        sourcePath.clear();
-        return false;
+        sourcePbth.clebr();
+        return fblse;
     }
 
-    private boolean isLeftToRight() {
-        return host.getComponentOrientation().isLeftToRight();
+    privbte boolebn isLeftToRight() {
+        return host.getComponentOrientbtion().isLeftToRight();
     }
 
     /**
-     * Returns a string representation of this {@code GroupLayout}.
+     * Returns b string representbtion of this {@code GroupLbyout}.
      * This method is intended to be used for debugging purposes,
-     * and the content and format of the returned string may vary
-     * between implementations.
+     * bnd the content bnd formbt of the returned string mby vbry
+     * between implementbtions.
      *
-     * @return a string representation of this {@code GroupLayout}
+     * @return b string representbtion of this {@code GroupLbyout}
      **/
     public String toString() {
-        if (springsChanged) {
-            registerComponents(horizontalGroup, HORIZONTAL);
-            registerComponents(verticalGroup, VERTICAL);
+        if (springsChbnged) {
+            registerComponents(horizontblGroup, HORIZONTAL);
+            registerComponents(verticblGroup, VERTICAL);
         }
         StringBuffer buffer = new StringBuffer();
-        buffer.append("HORIZONTAL\n");
-        createSpringDescription(buffer, horizontalGroup, "  ", HORIZONTAL);
-        buffer.append("\nVERTICAL\n");
-        createSpringDescription(buffer, verticalGroup, "  ", VERTICAL);
+        buffer.bppend("HORIZONTAL\n");
+        crebteSpringDescription(buffer, horizontblGroup, "  ", HORIZONTAL);
+        buffer.bppend("\nVERTICAL\n");
+        crebteSpringDescription(buffer, verticblGroup, "  ", VERTICAL);
         return buffer.toString();
     }
 
-    private void createSpringDescription(StringBuffer buffer, Spring spring,
-            String indent, int axis) {
+    privbte void crebteSpringDescription(StringBuffer buffer, Spring spring,
+            String indent, int bxis) {
         String origin = "";
-        String padding = "";
-        if (spring instanceof ComponentSpring) {
+        String pbdding = "";
+        if (spring instbnceof ComponentSpring) {
             ComponentSpring cSpring = (ComponentSpring)spring;
             origin = Integer.toString(cSpring.getOrigin()) + " ";
-            String name = cSpring.getComponent().getName();
-            if (name != null) {
-                origin = "name=" + name + ", ";
+            String nbme = cSpring.getComponent().getNbme();
+            if (nbme != null) {
+                origin = "nbme=" + nbme + ", ";
             }
         }
-        if (spring instanceof AutoPreferredGapSpring) {
-            AutoPreferredGapSpring paddingSpring =
-                    (AutoPreferredGapSpring)spring;
-            padding = ", userCreated=" + paddingSpring.getUserCreated() +
-                    ", matches=" + paddingSpring.getMatchDescription();
+        if (spring instbnceof AutoPreferredGbpSpring) {
+            AutoPreferredGbpSpring pbddingSpring =
+                    (AutoPreferredGbpSpring)spring;
+            pbdding = ", userCrebted=" + pbddingSpring.getUserCrebted() +
+                    ", mbtches=" + pbddingSpring.getMbtchDescription();
         }
-        buffer.append(indent + spring.getClass().getName() + " " +
-                Integer.toHexString(spring.hashCode()) + " " +
+        buffer.bppend(indent + spring.getClbss().getNbme() + " " +
+                Integer.toHexString(spring.hbshCode()) + " " +
                 origin +
                 ", size=" + spring.getSize() +
-                ", alignment=" + spring.getAlignment() +
-                " prefs=[" + spring.getMinimumSize(axis) +
-                " " + spring.getPreferredSize(axis) +
-                " " + spring.getMaximumSize(axis) +
-                padding + "]\n");
-        if (spring instanceof Group) {
+                ", blignment=" + spring.getAlignment() +
+                " prefs=[" + spring.getMinimumSize(bxis) +
+                " " + spring.getPreferredSize(bxis) +
+                " " + spring.getMbximumSize(bxis) +
+                pbdding + "]\n");
+        if (spring instbnceof Group) {
             List<Spring> springs = ((Group)spring).springs;
             indent += "  ";
             for (int counter = 0; counter < springs.size(); counter++) {
-                createSpringDescription(buffer, springs.get(counter), indent,
-                        axis);
+                crebteSpringDescription(buffer, springs.get(counter), indent,
+                        bxis);
             }
         }
     }
 
 
     /**
-     * Spring consists of a range: min, pref and max, a value some where in
-     * the middle of that, and a location. Spring caches the
-     * min/max/pref.  If the min/pref/max has internally changes, or needs
-     * to be updated you must invoke clear.
+     * Spring consists of b rbnge: min, pref bnd mbx, b vblue some where in
+     * the middle of thbt, bnd b locbtion. Spring cbches the
+     * min/mbx/pref.  If the min/pref/mbx hbs internblly chbnges, or needs
+     * to be updbted you must invoke clebr.
      */
-    private abstract class Spring {
-        private int size;
-        private int min;
-        private int max;
-        private int pref;
-        private Spring parent;
+    privbte bbstrbct clbss Spring {
+        privbte int size;
+        privbte int min;
+        privbte int mbx;
+        privbte int pref;
+        privbte Spring pbrent;
 
-        private Alignment alignment;
+        privbte Alignment blignment;
 
         Spring() {
-            min = pref = max = UNSET;
+            min = pref = mbx = UNSET;
         }
 
         /**
-         * Calculates and returns the minimum size.
+         * Cblculbtes bnd returns the minimum size.
          *
-         * @param axis the axis of layout; one of HORIZONTAL or VERTICAL
+         * @pbrbm bxis the bxis of lbyout; one of HORIZONTAL or VERTICAL
          * @return the minimum size
          */
-        abstract int calculateMinimumSize(int axis);
+        bbstrbct int cblculbteMinimumSize(int bxis);
 
         /**
-         * Calculates and returns the preferred size.
+         * Cblculbtes bnd returns the preferred size.
          *
-         * @param axis the axis of layout; one of HORIZONTAL or VERTICAL
+         * @pbrbm bxis the bxis of lbyout; one of HORIZONTAL or VERTICAL
          * @return the preferred size
          */
-        abstract int calculatePreferredSize(int axis);
+        bbstrbct int cblculbtePreferredSize(int bxis);
 
         /**
-         * Calculates and returns the minimum size.
+         * Cblculbtes bnd returns the minimum size.
          *
-         * @param axis the axis of layout; one of HORIZONTAL or VERTICAL
+         * @pbrbm bxis the bxis of lbyout; one of HORIZONTAL or VERTICAL
          * @return the minimum size
          */
-        abstract int calculateMaximumSize(int axis);
+        bbstrbct int cblculbteMbximumSize(int bxis);
 
         /**
-         * Sets the parent of this Spring.
+         * Sets the pbrent of this Spring.
          */
-        void setParent(Spring parent) {
-            this.parent = parent;
+        void setPbrent(Spring pbrent) {
+            this.pbrent = pbrent;
         }
 
         /**
-         * Returns the parent of this spring.
+         * Returns the pbrent of this spring.
          */
-        Spring getParent() {
-            return parent;
+        Spring getPbrent() {
+            return pbrent;
         }
 
-        // This is here purely as a convenience for ParallelGroup to avoid
-        // having to track alignment separately.
-        void setAlignment(Alignment alignment) {
-            this.alignment = alignment;
+        // This is here purely bs b convenience for PbrbllelGroup to bvoid
+        // hbving to trbck blignment sepbrbtely.
+        void setAlignment(Alignment blignment) {
+            this.blignment = blignment;
         }
 
         /**
-         * Alignment for this Spring, this may be null.
+         * Alignment for this Spring, this mby be null.
          */
         Alignment getAlignment() {
-            return alignment;
+            return blignment;
         }
 
         /**
          * Returns the minimum size.
          */
-        final int getMinimumSize(int axis) {
+        finbl int getMinimumSize(int bxis) {
             if (min == UNSET) {
-                min = constrain(calculateMinimumSize(axis));
+                min = constrbin(cblculbteMinimumSize(bxis));
             }
             return min;
         }
@@ -1342,33 +1342,33 @@ public class GroupLayout implements LayoutManager2 {
         /**
          * Returns the preferred size.
          */
-        final int getPreferredSize(int axis) {
+        finbl int getPreferredSize(int bxis) {
             if (pref == UNSET) {
-                pref = constrain(calculatePreferredSize(axis));
+                pref = constrbin(cblculbtePreferredSize(bxis));
             }
             return pref;
         }
 
         /**
-         * Returns the maximum size.
+         * Returns the mbximum size.
          */
-        final int getMaximumSize(int axis) {
-            if (max == UNSET) {
-                max = constrain(calculateMaximumSize(axis));
+        finbl int getMbximumSize(int bxis) {
+            if (mbx == UNSET) {
+                mbx = constrbin(cblculbteMbximumSize(bxis));
             }
-            return max;
+            return mbx;
         }
 
         /**
-         * Sets the value and location of the spring.  Subclasses
-         * will want to invoke super, then do any additional sizing.
+         * Sets the vblue bnd locbtion of the spring.  Subclbsses
+         * will wbnt to invoke super, then do bny bdditionbl sizing.
          *
-         * @param axis HORIZONTAL or VERTICAL
-         * @param origin of this Spring
-         * @param size of the Spring.  If size is UNSET, this invokes
-         *        clear.
+         * @pbrbm bxis HORIZONTAL or VERTICAL
+         * @pbrbm origin of this Spring
+         * @pbrbm size of the Spring.  If size is UNSET, this invokes
+         *        clebr.
          */
-        void setSize(int axis, int origin, int size) {
+        void setSize(int bxis, int origin, int size) {
             this.size = size;
             if (size == UNSET) {
                 unset();
@@ -1376,10 +1376,10 @@ public class GroupLayout implements LayoutManager2 {
         }
 
         /**
-         * Resets the cached min/max/pref.
+         * Resets the cbched min/mbx/pref.
          */
         void unset() {
-            size = min = pref = max = UNSET;
+            size = min = pref = mbx = UNSET;
         }
 
         /**
@@ -1389,166 +1389,166 @@ public class GroupLayout implements LayoutManager2 {
             return size;
         }
 
-        int constrain(int value) {
-            return Math.min(value, Short.MAX_VALUE);
+        int constrbin(int vblue) {
+            return Mbth.min(vblue, Short.MAX_VALUE);
         }
 
-        int getBaseline() {
+        int getBbseline() {
             return -1;
         }
 
-        BaselineResizeBehavior getBaselineResizeBehavior() {
-            return BaselineResizeBehavior.OTHER;
+        BbselineResizeBehbvior getBbselineResizeBehbvior() {
+            return BbselineResizeBehbvior.OTHER;
         }
 
-        final boolean isResizable(int axis) {
-            int min = getMinimumSize(axis);
-            int pref = getPreferredSize(axis);
-            return (min != pref || pref != getMaximumSize(axis));
+        finbl boolebn isResizbble(int bxis) {
+            int min = getMinimumSize(bxis);
+            int pref = getPreferredSize(bxis);
+            return (min != pref || pref != getMbximumSize(bxis));
         }
 
         /**
-         * Returns {@code true} if this spring will ALWAYS have a zero
-         * size. This should NOT check the current size, rather it's
-         * meant to quickly test if this Spring will always have a
+         * Returns {@code true} if this spring will ALWAYS hbve b zero
+         * size. This should NOT check the current size, rbther it's
+         * mebnt to quickly test if this Spring will blwbys hbve b
          * zero size.
          *
-         * @param treatAutopaddingAsZeroSized if {@code true}, auto padding
-         *        springs should be treated as having a size of {@code 0}
-         * @return {@code true} if this spring will have a zero size,
-         *         {@code false} otherwise
+         * @pbrbm trebtAutopbddingAsZeroSized if {@code true}, buto pbdding
+         *        springs should be trebted bs hbving b size of {@code 0}
+         * @return {@code true} if this spring will hbve b zero size,
+         *         {@code fblse} otherwise
          */
-        abstract boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized);
+        bbstrbct boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized);
     }
 
     /**
-     * {@code Group} provides the basis for the two types of
-     * operations supported by {@code GroupLayout}: laying out
-     * components one after another ({@link SequentialGroup SequentialGroup})
-     * or aligned ({@link ParallelGroup ParallelGroup}). {@code Group} and
-     * its subclasses have no public constructor; to create one use
-     * one of {@code createSequentialGroup} or
-     * {@code createParallelGroup}. Additionally, taking a {@code Group}
-     * created from one {@code GroupLayout} and using it with another
+     * {@code Group} provides the bbsis for the two types of
+     * operbtions supported by {@code GroupLbyout}: lbying out
+     * components one bfter bnother ({@link SequentiblGroup SequentiblGroup})
+     * or bligned ({@link PbrbllelGroup PbrbllelGroup}). {@code Group} bnd
+     * its subclbsses hbve no public constructor; to crebte one use
+     * one of {@code crebteSequentiblGroup} or
+     * {@code crebtePbrbllelGroup}. Additionblly, tbking b {@code Group}
+     * crebted from one {@code GroupLbyout} bnd using it with bnother
      * will produce undefined results.
      * <p>
-     * Various methods in {@code Group} and its subclasses allow you
-     * to explicitly specify the range. The arguments to these methods
-     * can take two forms, either a value greater than or equal to 0,
+     * Vbrious methods in {@code Group} bnd its subclbsses bllow you
+     * to explicitly specify the rbnge. The brguments to these methods
+     * cbn tbke two forms, either b vblue grebter thbn or equbl to 0,
      * or one of {@code DEFAULT_SIZE} or {@code PREFERRED_SIZE}. A
-     * value greater than or equal to {@code 0} indicates a specific
-     * size. {@code DEFAULT_SIZE} indicates the corresponding size
-     * from the component should be used.  For example, if {@code
-     * DEFAULT_SIZE} is passed as the minimum size argument, the
-     * minimum size is obtained from invoking {@code getMinimumSize}
-     * on the component. Likewise, {@code PREFERRED_SIZE} indicates
-     * the value from {@code getPreferredSize} should be used.
-     * The following example adds {@code myComponent} to {@code group}
-     * with specific values for the range. That is, the minimum is
-     * explicitly specified as 100, preferred as 200, and maximum as
+     * vblue grebter thbn or equbl to {@code 0} indicbtes b specific
+     * size. {@code DEFAULT_SIZE} indicbtes the corresponding size
+     * from the component should be used.  For exbmple, if {@code
+     * DEFAULT_SIZE} is pbssed bs the minimum size brgument, the
+     * minimum size is obtbined from invoking {@code getMinimumSize}
+     * on the component. Likewise, {@code PREFERRED_SIZE} indicbtes
+     * the vblue from {@code getPreferredSize} should be used.
+     * The following exbmple bdds {@code myComponent} to {@code group}
+     * with specific vblues for the rbnge. Thbt is, the minimum is
+     * explicitly specified bs 100, preferred bs 200, bnd mbximum bs
      * 300.
      * <pre>
-     *   group.addComponent(myComponent, 100, 200, 300);
+     *   group.bddComponent(myComponent, 100, 200, 300);
      * </pre>
-     * The following example adds {@code myComponent} to {@code group} using
-     * a combination of the forms. The minimum size is forced to be the
-     * same as the preferred size, the preferred size is determined by
-     * using {@code myComponent.getPreferredSize} and the maximum is
-     * determined by invoking {@code getMaximumSize} on the component.
+     * The following exbmple bdds {@code myComponent} to {@code group} using
+     * b combinbtion of the forms. The minimum size is forced to be the
+     * sbme bs the preferred size, the preferred size is determined by
+     * using {@code myComponent.getPreferredSize} bnd the mbximum is
+     * determined by invoking {@code getMbximumSize} on the component.
      * <pre>
-     *   group.addComponent(myComponent, GroupLayout.PREFERRED_SIZE,
-     *             GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE);
+     *   group.bddComponent(myComponent, GroupLbyout.PREFERRED_SIZE,
+     *             GroupLbyout.PREFERRED_SIZE, GroupLbyout.DEFAULT_SIZE);
      * </pre>
      * <p>
-     * Unless otherwise specified all the methods of {@code Group} and
-     * its subclasses that allow you to specify a range throw an
-     * {@code IllegalArgumentException} if passed an invalid range. An
-     * invalid range is one in which any of the values are &lt; 0 and
+     * Unless otherwise specified bll the methods of {@code Group} bnd
+     * its subclbsses thbt bllow you to specify b rbnge throw bn
+     * {@code IllegblArgumentException} if pbssed bn invblid rbnge. An
+     * invblid rbnge is one in which bny of the vblues bre &lt; 0 bnd
      * not one of {@code PREFERRED_SIZE} or {@code DEFAULT_SIZE}, or
-     * the following is not met (for specific values): {@code min}
-     * &lt;= {@code pref} &lt;= {@code max}.
+     * the following is not met (for specific vblues): {@code min}
+     * &lt;= {@code pref} &lt;= {@code mbx}.
      * <p>
-     * Similarly any methods that take a {@code Component} throw a
-     * {@code IllegalArgumentException} if passed {@code null} and any methods
-     * that take a {@code Group} throw an {@code NullPointerException} if
-     * passed {@code null}.
+     * Similbrly bny methods thbt tbke b {@code Component} throw b
+     * {@code IllegblArgumentException} if pbssed {@code null} bnd bny methods
+     * thbt tbke b {@code Group} throw bn {@code NullPointerException} if
+     * pbssed {@code null}.
      *
-     * @see #createSequentialGroup
-     * @see #createParallelGroup
+     * @see #crebteSequentiblGroup
+     * @see #crebtePbrbllelGroup
      * @since 1.6
      */
-    public abstract class Group extends Spring {
-        // private int origin;
-        // private int size;
+    public bbstrbct clbss Group extends Spring {
+        // privbte int origin;
+        // privbte int size;
         List<Spring> springs;
 
         Group() {
-            springs = new ArrayList<Spring>();
+            springs = new ArrbyList<Spring>();
         }
 
         /**
-         * Adds a {@code Group} to this {@code Group}.
+         * Adds b {@code Group} to this {@code Group}.
          *
-         * @param group the {@code Group} to add
+         * @pbrbm group the {@code Group} to bdd
          * @return this {@code Group}
          */
-        public Group addGroup(Group group) {
-            return addSpring(group);
+        public Group bddGroup(Group group) {
+            return bddSpring(group);
         }
 
         /**
-         * Adds a {@code Component} to this {@code Group}.
+         * Adds b {@code Component} to this {@code Group}.
          *
-         * @param component the {@code Component} to add
+         * @pbrbm component the {@code Component} to bdd
          * @return this {@code Group}
          */
-        public Group addComponent(Component component) {
-            return addComponent(component, DEFAULT_SIZE, DEFAULT_SIZE,
+        public Group bddComponent(Component component) {
+            return bddComponent(component, DEFAULT_SIZE, DEFAULT_SIZE,
                     DEFAULT_SIZE);
         }
 
         /**
-         * Adds a {@code Component} to this {@code Group}
+         * Adds b {@code Component} to this {@code Group}
          * with the specified size.
          *
-         * @param component the {@code Component} to add
-         * @param min the minimum size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm component the {@code Component} to bdd
+         * @pbrbm min the minimum size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
-         * @param pref the preferred size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm pref the preferred size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
-         * @param max the maximum size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm mbx the mbximum size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
          * @return this {@code Group}
          */
-        public Group addComponent(Component component, int min, int pref,
-                int max) {
-            return addSpring(new ComponentSpring(component, min, pref, max));
+        public Group bddComponent(Component component, int min, int pref,
+                int mbx) {
+            return bddSpring(new ComponentSpring(component, min, pref, mbx));
         }
 
         /**
-         * Adds a rigid gap to this {@code Group}.
+         * Adds b rigid gbp to this {@code Group}.
          *
-         * @param size the size of the gap
+         * @pbrbm size the size of the gbp
          * @return this {@code Group}
-         * @throws IllegalArgumentException if {@code size} is less than
+         * @throws IllegblArgumentException if {@code size} is less thbn
          *         {@code 0}
          */
-        public Group addGap(int size) {
-            return addGap(size, size, size);
+        public Group bddGbp(int size) {
+            return bddGbp(size, size, size);
         }
 
         /**
-         * Adds a gap to this {@code Group} with the specified size.
+         * Adds b gbp to this {@code Group} with the specified size.
          *
-         * @param min the minimum size of the gap
-         * @param pref the preferred size of the gap
-         * @param max the maximum size of the gap
-         * @throws IllegalArgumentException if any of the values are
-         *         less than {@code 0}
+         * @pbrbm min the minimum size of the gbp
+         * @pbrbm pref the preferred size of the gbp
+         * @pbrbm mbx the mbximum size of the gbp
+         * @throws IllegblArgumentException if bny of the vblues bre
+         *         less thbn {@code 0}
          * @return this {@code Group}
          */
-        public Group addGap(int min, int pref, int max) {
-            return addSpring(new GapSpring(min, pref, max));
+        public Group bddGbp(int min, int pref, int mbx) {
+            return bddSpring(new GbpSpring(min, pref, mbx));
         }
 
         Spring getSpring(int index) {
@@ -1560,15 +1560,15 @@ public class GroupLayout implements LayoutManager2 {
         }
 
         /**
-         * Adds the Spring to the list of {@code Spring}s and returns
+         * Adds the Spring to the list of {@code Spring}s bnd returns
          * the receiver.
          */
-        Group addSpring(Spring spring) {
-            springs.add(spring);
-            spring.setParent(this);
-            if (!(spring instanceof AutoPreferredGapSpring) ||
-                    !((AutoPreferredGapSpring)spring).getUserCreated()) {
-                springsChanged = true;
+        Group bddSpring(Spring spring) {
+            springs.bdd(spring);
+            spring.setPbrent(this);
+            if (!(spring instbnceof AutoPreferredGbpSpring) ||
+                    !((AutoPreferredGbpSpring)spring).getUserCrebted()) {
+                springsChbnged = true;
             }
             return this;
         }
@@ -1577,160 +1577,160 @@ public class GroupLayout implements LayoutManager2 {
         // Spring methods
         //
 
-        void setSize(int axis, int origin, int size) {
-            super.setSize(axis, origin, size);
+        void setSize(int bxis, int origin, int size) {
+            super.setSize(bxis, origin, size);
             if (size == UNSET) {
                 for (int counter = springs.size() - 1; counter >= 0;
                 counter--) {
-                    getSpring(counter).setSize(axis, origin, size);
+                    getSpring(counter).setSize(bxis, origin, size);
                 }
             } else {
-                setValidSize(axis, origin, size);
+                setVblidSize(bxis, origin, size);
             }
         }
 
         /**
-         * This is invoked from {@code setSize} if passed a value
-         * other than UNSET.
+         * This is invoked from {@code setSize} if pbssed b vblue
+         * other thbn UNSET.
          */
-        abstract void setValidSize(int axis, int origin, int size);
+        bbstrbct void setVblidSize(int bxis, int origin, int size);
 
-        int calculateMinimumSize(int axis) {
-            return calculateSize(axis, MIN_SIZE);
+        int cblculbteMinimumSize(int bxis) {
+            return cblculbteSize(bxis, MIN_SIZE);
         }
 
-        int calculatePreferredSize(int axis) {
-            return calculateSize(axis, PREF_SIZE);
+        int cblculbtePreferredSize(int bxis) {
+            return cblculbteSize(bxis, PREF_SIZE);
         }
 
-        int calculateMaximumSize(int axis) {
-            return calculateSize(axis, MAX_SIZE);
+        int cblculbteMbximumSize(int bxis) {
+            return cblculbteSize(bxis, MAX_SIZE);
         }
 
         /**
-         * Calculates the specified size.  This is called from
+         * Cblculbtes the specified size.  This is cblled from
          * one of the {@code getMinimumSize0},
          * {@code getPreferredSize0} or
-         * {@code getMaximumSize0} methods.  This will invoke
-         * to {@code operator} to combine the values.
+         * {@code getMbximumSize0} methods.  This will invoke
+         * to {@code operbtor} to combine the vblues.
          */
-        int calculateSize(int axis, int type) {
+        int cblculbteSize(int bxis, int type) {
             int count = springs.size();
             if (count == 0) {
                 return 0;
             }
             if (count == 1) {
-                return getSpringSize(getSpring(0), axis, type);
+                return getSpringSize(getSpring(0), bxis, type);
             }
-            int size = constrain(operator(getSpringSize(getSpring(0), axis,
-                    type), getSpringSize(getSpring(1), axis, type)));
+            int size = constrbin(operbtor(getSpringSize(getSpring(0), bxis,
+                    type), getSpringSize(getSpring(1), bxis, type)));
             for (int counter = 2; counter < count; counter++) {
-                size = constrain(operator(size, getSpringSize(
-                        getSpring(counter), axis, type)));
+                size = constrbin(operbtor(size, getSpringSize(
+                        getSpring(counter), bxis, type)));
             }
             return size;
         }
 
-        int getSpringSize(Spring spring, int axis, int type) {
+        int getSpringSize(Spring spring, int bxis, int type) {
             switch(type) {
-                case MIN_SIZE:
-                    return spring.getMinimumSize(axis);
-                case PREF_SIZE:
-                    return spring.getPreferredSize(axis);
-                case MAX_SIZE:
-                    return spring.getMaximumSize(axis);
+                cbse MIN_SIZE:
+                    return spring.getMinimumSize(bxis);
+                cbse PREF_SIZE:
+                    return spring.getPreferredSize(bxis);
+                cbse MAX_SIZE:
+                    return spring.getMbximumSize(bxis);
             }
-            assert false;
+            bssert fblse;
             return 0;
         }
 
         /**
-         * Used to compute how the two values representing two springs
-         * will be combined.  For example, a group that layed things out
-         * one after the next would return {@code a + b}.
+         * Used to compute how the two vblues representing two springs
+         * will be combined.  For exbmple, b group thbt lbyed things out
+         * one bfter the next would return {@code b + b}.
          */
-        abstract int operator(int a, int b);
+        bbstrbct int operbtor(int b, int b);
 
         //
-        // Padding
+        // Pbdding
         //
 
         /**
-         * Adjusts the autopadding springs in this group and its children.
-         * If {@code insert} is true this will insert auto padding
-         * springs, otherwise this will only adjust the springs that
-         * comprise auto preferred padding springs.
+         * Adjusts the butopbdding springs in this group bnd its children.
+         * If {@code insert} is true this will insert buto pbdding
+         * springs, otherwise this will only bdjust the springs thbt
+         * comprise buto preferred pbdding springs.
          *
-         * @param axis the axis of the springs; HORIZONTAL or VERTICAL
-         * @param leadingPadding List of AutopaddingSprings that occur before
+         * @pbrbm bxis the bxis of the springs; HORIZONTAL or VERTICAL
+         * @pbrbm lebdingPbdding List of AutopbddingSprings thbt occur before
          *                       this Group
-         * @param trailingPadding any trailing autopadding springs are added
+         * @pbrbm trbilingPbdding bny trbiling butopbdding springs bre bdded
          *                        to this on exit
-         * @param leading List of ComponentSprings that occur before this Group
-         * @param trailing any trailing ComponentSpring are added to this
+         * @pbrbm lebding List of ComponentSprings thbt occur before this Group
+         * @pbrbm trbiling bny trbiling ComponentSpring bre bdded to this
          *                 List
-         * @param insert Whether or not to insert AutopaddingSprings or just
-         *               adjust any existing AutopaddingSprings.
+         * @pbrbm insert Whether or not to insert AutopbddingSprings or just
+         *               bdjust bny existing AutopbddingSprings.
          */
-        abstract void insertAutopadding(int axis,
-                List<AutoPreferredGapSpring> leadingPadding,
-                List<AutoPreferredGapSpring> trailingPadding,
-                List<ComponentSpring> leading, List<ComponentSpring> trailing,
-                boolean insert);
+        bbstrbct void insertAutopbdding(int bxis,
+                List<AutoPreferredGbpSpring> lebdingPbdding,
+                List<AutoPreferredGbpSpring> trbilingPbdding,
+                List<ComponentSpring> lebding, List<ComponentSpring> trbiling,
+                boolebn insert);
 
         /**
-         * Removes any AutopaddingSprings for this Group and its children.
+         * Removes bny AutopbddingSprings for this Group bnd its children.
          */
-        void removeAutopadding() {
+        void removeAutopbdding() {
             unset();
             for (int counter = springs.size() - 1; counter >= 0; counter--) {
                 Spring spring = springs.get(counter);
-                if (spring instanceof AutoPreferredGapSpring) {
-                    if (((AutoPreferredGapSpring)spring).getUserCreated()) {
-                        ((AutoPreferredGapSpring)spring).reset();
+                if (spring instbnceof AutoPreferredGbpSpring) {
+                    if (((AutoPreferredGbpSpring)spring).getUserCrebted()) {
+                        ((AutoPreferredGbpSpring)spring).reset();
                     } else {
                         springs.remove(counter);
                     }
-                } else if (spring instanceof Group) {
-                    ((Group)spring).removeAutopadding();
+                } else if (spring instbnceof Group) {
+                    ((Group)spring).removeAutopbdding();
                 }
             }
         }
 
-        void unsetAutopadding() {
-            // Clear cached pref/min/max.
+        void unsetAutopbdding() {
+            // Clebr cbched pref/min/mbx.
             unset();
             for (int counter = springs.size() - 1; counter >= 0; counter--) {
                 Spring spring = springs.get(counter);
-                if (spring instanceof AutoPreferredGapSpring) {
+                if (spring instbnceof AutoPreferredGbpSpring) {
                     spring.unset();
-                } else if (spring instanceof Group) {
-                    ((Group)spring).unsetAutopadding();
+                } else if (spring instbnceof Group) {
+                    ((Group)spring).unsetAutopbdding();
                 }
             }
         }
 
-        void calculateAutopadding(int axis) {
+        void cblculbteAutopbdding(int bxis) {
             for (int counter = springs.size() - 1; counter >= 0; counter--) {
                 Spring spring = springs.get(counter);
-                if (spring instanceof AutoPreferredGapSpring) {
+                if (spring instbnceof AutoPreferredGbpSpring) {
                     // Force size to be reset.
                     spring.unset();
-                    ((AutoPreferredGapSpring)spring).calculatePadding(axis);
-                } else if (spring instanceof Group) {
-                    ((Group)spring).calculateAutopadding(axis);
+                    ((AutoPreferredGbpSpring)spring).cblculbtePbdding(bxis);
+                } else if (spring instbnceof Group) {
+                    ((Group)spring).cblculbteAutopbdding(bxis);
                 }
             }
-            // Clear cached pref/min/max.
+            // Clebr cbched pref/min/mbx.
             unset();
         }
 
         @Override
-        boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized) {
+        boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized) {
             for (int i = springs.size() - 1; i >= 0; i--) {
                 Spring spring = springs.get(i);
-                if (!spring.willHaveZeroSize(treatAutopaddingAsZeroSized)) {
-                    return false;
+                if (!spring.willHbveZeroSize(trebtAutopbddingAsZeroSized)) {
+                    return fblse;
                 }
             }
             return true;
@@ -1739,48 +1739,48 @@ public class GroupLayout implements LayoutManager2 {
 
 
     /**
-     * A {@code Group} that positions and sizes its elements
-     * sequentially, one after another.  This class has no public
-     * constructor, use the {@code createSequentialGroup} method
-     * to create one.
+     * A {@code Group} thbt positions bnd sizes its elements
+     * sequentiblly, one bfter bnother.  This clbss hbs no public
+     * constructor, use the {@code crebteSequentiblGroup} method
+     * to crebte one.
      * <p>
-     * In order to align a {@code SequentialGroup} along the baseline
-     * of a baseline aligned {@code ParallelGroup} you need to specify
-     * which of the elements of the {@code SequentialGroup} is used to
-     * determine the baseline.  The element used to calculate the
-     * baseline is specified using one of the {@code add} methods that
-     * take a {@code boolean}. The last element added with a value of
-     * {@code true} for {@code useAsBaseline} is used to calculate the
-     * baseline.
+     * In order to blign b {@code SequentiblGroup} blong the bbseline
+     * of b bbseline bligned {@code PbrbllelGroup} you need to specify
+     * which of the elements of the {@code SequentiblGroup} is used to
+     * determine the bbseline.  The element used to cblculbte the
+     * bbseline is specified using one of the {@code bdd} methods thbt
+     * tbke b {@code boolebn}. The lbst element bdded with b vblue of
+     * {@code true} for {@code useAsBbseline} is used to cblculbte the
+     * bbseline.
      *
-     * @see #createSequentialGroup
+     * @see #crebteSequentiblGroup
      * @since 1.6
      */
-    public class SequentialGroup extends Group {
-        private Spring baselineSpring;
+    public clbss SequentiblGroup extends Group {
+        privbte Spring bbselineSpring;
 
-        SequentialGroup() {
+        SequentiblGroup() {
         }
 
         /**
          * {@inheritDoc}
          */
-        public SequentialGroup addGroup(Group group) {
-            return (SequentialGroup)super.addGroup(group);
+        public SequentiblGroup bddGroup(Group group) {
+            return (SequentiblGroup)super.bddGroup(group);
         }
 
         /**
-         * Adds a {@code Group} to this {@code Group}.
+         * Adds b {@code Group} to this {@code Group}.
          *
-         * @param group the {@code Group} to add
-         * @param useAsBaseline whether the specified {@code Group} should
-         *        be used to calculate the baseline for this {@code Group}
+         * @pbrbm group the {@code Group} to bdd
+         * @pbrbm useAsBbseline whether the specified {@code Group} should
+         *        be used to cblculbte the bbseline for this {@code Group}
          * @return this {@code Group}
          */
-        public SequentialGroup addGroup(boolean useAsBaseline, Group group) {
-            super.addGroup(group);
-            if (useAsBaseline) {
-                baselineSpring = group;
+        public SequentiblGroup bddGroup(boolebn useAsBbseline, Group group) {
+            super.bddGroup(group);
+            if (useAsBbseline) {
+                bbselineSpring = group;
             }
             return this;
         }
@@ -1788,23 +1788,23 @@ public class GroupLayout implements LayoutManager2 {
         /**
          * {@inheritDoc}
          */
-        public SequentialGroup addComponent(Component component) {
-            return (SequentialGroup)super.addComponent(component);
+        public SequentiblGroup bddComponent(Component component) {
+            return (SequentiblGroup)super.bddComponent(component);
         }
 
         /**
-         * Adds a {@code Component} to this {@code Group}.
+         * Adds b {@code Component} to this {@code Group}.
          *
-         * @param useAsBaseline whether the specified {@code Component} should
-         *        be used to calculate the baseline for this {@code Group}
-         * @param component the {@code Component} to add
+         * @pbrbm useAsBbseline whether the specified {@code Component} should
+         *        be used to cblculbte the bbseline for this {@code Group}
+         * @pbrbm component the {@code Component} to bdd
          * @return this {@code Group}
          */
-        public SequentialGroup addComponent(boolean useAsBaseline,
+        public SequentiblGroup bddComponent(boolebn useAsBbseline,
                 Component component) {
-            super.addComponent(component);
-            if (useAsBaseline) {
-                baselineSpring = springs.get(springs.size() - 1);
+            super.bddComponent(component);
+            if (useAsBbseline) {
+                bbselineSpring = springs.get(springs.size() - 1);
             }
             return this;
         }
@@ -1812,32 +1812,32 @@ public class GroupLayout implements LayoutManager2 {
         /**
          * {@inheritDoc}
          */
-        public SequentialGroup addComponent(Component component, int min,
-                int pref, int max) {
-            return (SequentialGroup)super.addComponent(
-                    component, min, pref, max);
+        public SequentiblGroup bddComponent(Component component, int min,
+                int pref, int mbx) {
+            return (SequentiblGroup)super.bddComponent(
+                    component, min, pref, mbx);
         }
 
         /**
-         * Adds a {@code Component} to this {@code Group}
+         * Adds b {@code Component} to this {@code Group}
          * with the specified size.
          *
-         * @param useAsBaseline whether the specified {@code Component} should
-         *        be used to calculate the baseline for this {@code Group}
-         * @param component the {@code Component} to add
-         * @param min the minimum size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm useAsBbseline whether the specified {@code Component} should
+         *        be used to cblculbte the bbseline for this {@code Group}
+         * @pbrbm component the {@code Component} to bdd
+         * @pbrbm min the minimum size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
-         * @param pref the preferred size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm pref the preferred size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
-         * @param max the maximum size or one of {@code DEFAULT_SIZE} or
+         * @pbrbm mbx the mbximum size or one of {@code DEFAULT_SIZE} or
          *            {@code PREFERRED_SIZE}
          * @return this {@code Group}
          */
-        public SequentialGroup addComponent(boolean useAsBaseline,
-                Component component, int min, int pref, int max) {
-            super.addComponent(component, min, pref, max);
-            if (useAsBaseline) {
-                baselineSpring = springs.get(springs.size() - 1);
+        public SequentiblGroup bddComponent(boolebn useAsBbseline,
+                Component component, int min, int pref, int mbx) {
+            super.bddComponent(component, min, pref, mbx);
+            if (useAsBbseline) {
+                bbselineSpring = springs.get(springs.size() - 1);
             }
             return this;
         }
@@ -1845,302 +1845,302 @@ public class GroupLayout implements LayoutManager2 {
         /**
          * {@inheritDoc}
          */
-        public SequentialGroup addGap(int size) {
-            return (SequentialGroup)super.addGap(size);
+        public SequentiblGroup bddGbp(int size) {
+            return (SequentiblGroup)super.bddGbp(size);
         }
 
         /**
          * {@inheritDoc}
          */
-        public SequentialGroup addGap(int min, int pref, int max) {
-            return (SequentialGroup)super.addGap(min, pref, max);
+        public SequentiblGroup bddGbp(int min, int pref, int mbx) {
+            return (SequentiblGroup)super.bddGbp(min, pref, mbx);
         }
 
         /**
-         * Adds an element representing the preferred gap between two
-         * components. The element created to represent the gap is not
-         * resizable.
+         * Adds bn element representing the preferred gbp between two
+         * components. The element crebted to represent the gbp is not
+         * resizbble.
          *
-         * @param comp1 the first component
-         * @param comp2 the second component
-         * @param type the type of gap; one of the constants defined by
-         *        {@code LayoutStyle}
-         * @return this {@code SequentialGroup}
-         * @throws IllegalArgumentException if {@code type}, {@code comp1} or
+         * @pbrbm comp1 the first component
+         * @pbrbm comp2 the second component
+         * @pbrbm type the type of gbp; one of the constbnts defined by
+         *        {@code LbyoutStyle}
+         * @return this {@code SequentiblGroup}
+         * @throws IllegblArgumentException if {@code type}, {@code comp1} or
          *         {@code comp2} is {@code null}
-         * @see LayoutStyle
+         * @see LbyoutStyle
          */
-        public SequentialGroup addPreferredGap(JComponent comp1,
-                JComponent comp2, ComponentPlacement type) {
-            return addPreferredGap(comp1, comp2, type, DEFAULT_SIZE,
+        public SequentiblGroup bddPreferredGbp(JComponent comp1,
+                JComponent comp2, ComponentPlbcement type) {
+            return bddPreferredGbp(comp1, comp2, type, DEFAULT_SIZE,
                     PREFERRED_SIZE);
         }
 
         /**
-         * Adds an element representing the preferred gap between two
+         * Adds bn element representing the preferred gbp between two
          * components.
          *
-         * @param comp1 the first component
-         * @param comp2 the second component
-         * @param type the type of gap
-         * @param pref the preferred size of the grap; one of
-         *        {@code DEFAULT_SIZE} or a value &gt;= 0
-         * @param max the maximum size of the gap; one of
+         * @pbrbm comp1 the first component
+         * @pbrbm comp2 the second component
+         * @pbrbm type the type of gbp
+         * @pbrbm pref the preferred size of the grbp; one of
+         *        {@code DEFAULT_SIZE} or b vblue &gt;= 0
+         * @pbrbm mbx the mbximum size of the gbp; one of
          *        {@code DEFAULT_SIZE}, {@code PREFERRED_SIZE}
-         *        or a value &gt;= 0
-         * @return this {@code SequentialGroup}
-         * @throws IllegalArgumentException if {@code type}, {@code comp1} or
+         *        or b vblue &gt;= 0
+         * @return this {@code SequentiblGroup}
+         * @throws IllegblArgumentException if {@code type}, {@code comp1} or
          *         {@code comp2} is {@code null}
-         * @see LayoutStyle
+         * @see LbyoutStyle
          */
-        public SequentialGroup addPreferredGap(JComponent comp1,
-                JComponent comp2, ComponentPlacement type, int pref,
-                int max) {
+        public SequentiblGroup bddPreferredGbp(JComponent comp1,
+                JComponent comp2, ComponentPlbcement type, int pref,
+                int mbx) {
             if (type == null) {
-                throw new IllegalArgumentException("Type must be non-null");
+                throw new IllegblArgumentException("Type must be non-null");
             }
             if (comp1 == null || comp2 == null) {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "Components must be non-null");
             }
-            checkPreferredGapValues(pref, max);
-            return (SequentialGroup)addSpring(new PreferredGapSpring(
-                    comp1, comp2, type, pref, max));
+            checkPreferredGbpVblues(pref, mbx);
+            return (SequentiblGroup)bddSpring(new PreferredGbpSpring(
+                    comp1, comp2, type, pref, mbx));
         }
 
         /**
-         * Adds an element representing the preferred gap between the
-         * nearest components.  During layout, neighboring
-         * components are found, and the size of the added gap is set
-         * based on the preferred gap between the components.  If no
-         * neighboring components are found the gap has a size of {@code 0}.
+         * Adds bn element representing the preferred gbp between the
+         * nebrest components.  During lbyout, neighboring
+         * components bre found, bnd the size of the bdded gbp is set
+         * bbsed on the preferred gbp between the components.  If no
+         * neighboring components bre found the gbp hbs b size of {@code 0}.
          * <p>
-         * The element created to represent the gap is not
-         * resizable.
+         * The element crebted to represent the gbp is not
+         * resizbble.
          *
-         * @param type the type of gap; one of
-         *        {@code LayoutStyle.ComponentPlacement.RELATED} or
-         *        {@code LayoutStyle.ComponentPlacement.UNRELATED}
-         * @return this {@code SequentialGroup}
-         * @see LayoutStyle
-         * @throws IllegalArgumentException if {@code type} is not one of
-         *         {@code LayoutStyle.ComponentPlacement.RELATED} or
-         *         {@code LayoutStyle.ComponentPlacement.UNRELATED}
+         * @pbrbm type the type of gbp; one of
+         *        {@code LbyoutStyle.ComponentPlbcement.RELATED} or
+         *        {@code LbyoutStyle.ComponentPlbcement.UNRELATED}
+         * @return this {@code SequentiblGroup}
+         * @see LbyoutStyle
+         * @throws IllegblArgumentException if {@code type} is not one of
+         *         {@code LbyoutStyle.ComponentPlbcement.RELATED} or
+         *         {@code LbyoutStyle.ComponentPlbcement.UNRELATED}
          */
-        public SequentialGroup addPreferredGap(ComponentPlacement type) {
-            return addPreferredGap(type, DEFAULT_SIZE, DEFAULT_SIZE);
+        public SequentiblGroup bddPreferredGbp(ComponentPlbcement type) {
+            return bddPreferredGbp(type, DEFAULT_SIZE, DEFAULT_SIZE);
         }
 
         /**
-         * Adds an element representing the preferred gap between the
-         * nearest components.  During layout, neighboring
-         * components are found, and the minimum of this
-         * gap is set based on the size of the preferred gap between the
-         * neighboring components.  If no neighboring components are found the
+         * Adds bn element representing the preferred gbp between the
+         * nebrest components.  During lbyout, neighboring
+         * components bre found, bnd the minimum of this
+         * gbp is set bbsed on the size of the preferred gbp between the
+         * neighboring components.  If no neighboring components bre found the
          * minimum size is set to 0.
          *
-         * @param type the type of gap; one of
-         *        {@code LayoutStyle.ComponentPlacement.RELATED} or
-         *        {@code LayoutStyle.ComponentPlacement.UNRELATED}
-         * @param pref the preferred size of the grap; one of
-         *        {@code DEFAULT_SIZE} or a value &gt;= 0
-         * @param max the maximum size of the gap; one of
+         * @pbrbm type the type of gbp; one of
+         *        {@code LbyoutStyle.ComponentPlbcement.RELATED} or
+         *        {@code LbyoutStyle.ComponentPlbcement.UNRELATED}
+         * @pbrbm pref the preferred size of the grbp; one of
+         *        {@code DEFAULT_SIZE} or b vblue &gt;= 0
+         * @pbrbm mbx the mbximum size of the gbp; one of
          *        {@code DEFAULT_SIZE}, {@code PREFERRED_SIZE}
-         *        or a value &gt;= 0
-         * @return this {@code SequentialGroup}
-         * @throws IllegalArgumentException if {@code type} is not one of
-         *         {@code LayoutStyle.ComponentPlacement.RELATED} or
-         *         {@code LayoutStyle.ComponentPlacement.UNRELATED}
-         * @see LayoutStyle
+         *        or b vblue &gt;= 0
+         * @return this {@code SequentiblGroup}
+         * @throws IllegblArgumentException if {@code type} is not one of
+         *         {@code LbyoutStyle.ComponentPlbcement.RELATED} or
+         *         {@code LbyoutStyle.ComponentPlbcement.UNRELATED}
+         * @see LbyoutStyle
          */
-        public SequentialGroup addPreferredGap(ComponentPlacement type,
-                int pref, int max) {
-            if (type != ComponentPlacement.RELATED &&
-                    type != ComponentPlacement.UNRELATED) {
-                throw new IllegalArgumentException(
+        public SequentiblGroup bddPreferredGbp(ComponentPlbcement type,
+                int pref, int mbx) {
+            if (type != ComponentPlbcement.RELATED &&
+                    type != ComponentPlbcement.UNRELATED) {
+                throw new IllegblArgumentException(
                         "Type must be one of " +
-                        "LayoutStyle.ComponentPlacement.RELATED or " +
-                        "LayoutStyle.ComponentPlacement.UNRELATED");
+                        "LbyoutStyle.ComponentPlbcement.RELATED or " +
+                        "LbyoutStyle.ComponentPlbcement.UNRELATED");
             }
-            checkPreferredGapValues(pref, max);
-            hasPreferredPaddingSprings = true;
-            return (SequentialGroup)addSpring(new AutoPreferredGapSpring(
-                    type, pref, max));
+            checkPreferredGbpVblues(pref, mbx);
+            hbsPreferredPbddingSprings = true;
+            return (SequentiblGroup)bddSpring(new AutoPreferredGbpSpring(
+                    type, pref, mbx));
         }
 
         /**
-         * Adds an element representing the preferred gap between an edge
-         * the container and components that touch the border of the
-         * container. This has no effect if the added gap does not
-         * touch an edge of the parent container.
+         * Adds bn element representing the preferred gbp between bn edge
+         * the contbiner bnd components thbt touch the border of the
+         * contbiner. This hbs no effect if the bdded gbp does not
+         * touch bn edge of the pbrent contbiner.
          * <p>
-         * The element created to represent the gap is not
-         * resizable.
+         * The element crebted to represent the gbp is not
+         * resizbble.
          *
-         * @return this {@code SequentialGroup}
+         * @return this {@code SequentiblGroup}
          */
-        public SequentialGroup addContainerGap() {
-            return addContainerGap(DEFAULT_SIZE, DEFAULT_SIZE);
+        public SequentiblGroup bddContbinerGbp() {
+            return bddContbinerGbp(DEFAULT_SIZE, DEFAULT_SIZE);
         }
 
         /**
-         * Adds an element representing the preferred gap between one
-         * edge of the container and the next or previous {@code
-         * Component} with the specified size. This has no
-         * effect if the next or previous element is not a {@code
-         * Component} and does not touch one edge of the parent
-         * container.
+         * Adds bn element representing the preferred gbp between one
+         * edge of the contbiner bnd the next or previous {@code
+         * Component} with the specified size. This hbs no
+         * effect if the next or previous element is not b {@code
+         * Component} bnd does not touch one edge of the pbrent
+         * contbiner.
          *
-         * @param pref the preferred size; one of {@code DEFAULT_SIZE} or a
-         *              value &gt;= 0
-         * @param max the maximum size; one of {@code DEFAULT_SIZE},
-         *        {@code PREFERRED_SIZE} or a value &gt;= 0
-         * @return this {@code SequentialGroup}
+         * @pbrbm pref the preferred size; one of {@code DEFAULT_SIZE} or b
+         *              vblue &gt;= 0
+         * @pbrbm mbx the mbximum size; one of {@code DEFAULT_SIZE},
+         *        {@code PREFERRED_SIZE} or b vblue &gt;= 0
+         * @return this {@code SequentiblGroup}
          */
-        public SequentialGroup addContainerGap(int pref, int max) {
+        public SequentiblGroup bddContbinerGbp(int pref, int mbx) {
             if ((pref < 0 && pref != DEFAULT_SIZE) ||
-                    (max < 0 && max != DEFAULT_SIZE && max != PREFERRED_SIZE)||
-                    (pref >= 0 && max >= 0 && pref > max)) {
-                throw new IllegalArgumentException(
-                        "Pref and max must be either DEFAULT_VALUE " +
-                        "or >= 0 and pref <= max");
+                    (mbx < 0 && mbx != DEFAULT_SIZE && mbx != PREFERRED_SIZE)||
+                    (pref >= 0 && mbx >= 0 && pref > mbx)) {
+                throw new IllegblArgumentException(
+                        "Pref bnd mbx must be either DEFAULT_VALUE " +
+                        "or >= 0 bnd pref <= mbx");
             }
-            hasPreferredPaddingSprings = true;
-            return (SequentialGroup)addSpring(
-                    new ContainerAutoPreferredGapSpring(pref, max));
+            hbsPreferredPbddingSprings = true;
+            return (SequentiblGroup)bddSpring(
+                    new ContbinerAutoPreferredGbpSpring(pref, mbx));
         }
 
-        int operator(int a, int b) {
-            return constrain(a) + constrain(b);
+        int operbtor(int b, int b) {
+            return constrbin(b) + constrbin(b);
         }
 
-        void setValidSize(int axis, int origin, int size) {
-            int pref = getPreferredSize(axis);
+        void setVblidSize(int bxis, int origin, int size) {
+            int pref = getPreferredSize(bxis);
             if (size == pref) {
-                // Layout at preferred size
+                // Lbyout bt preferred size
                 for (Spring spring : springs) {
-                    int springPref = spring.getPreferredSize(axis);
-                    spring.setSize(axis, origin, springPref);
+                    int springPref = spring.getPreferredSize(bxis);
+                    spring.setSize(bxis, origin, springPref);
                     origin += springPref;
                 }
             } else if (springs.size() == 1) {
                 Spring spring = getSpring(0);
-                spring.setSize(axis, origin, Math.min(
-                        Math.max(size, spring.getMinimumSize(axis)),
-                        spring.getMaximumSize(axis)));
+                spring.setSize(bxis, origin, Mbth.min(
+                        Mbth.mbx(size, spring.getMinimumSize(bxis)),
+                        spring.getMbximumSize(bxis)));
             } else if (springs.size() > 1) {
                 // Adjust between min/pref
-                setValidSizeNotPreferred(axis, origin, size);
+                setVblidSizeNotPreferred(bxis, origin, size);
             }
         }
 
-        private void setValidSizeNotPreferred(int axis, int origin, int size) {
-            int delta = size - getPreferredSize(axis);
-            assert delta != 0;
-            boolean useMin = (delta < 0);
+        privbte void setVblidSizeNotPreferred(int bxis, int origin, int size) {
+            int deltb = size - getPreferredSize(bxis);
+            bssert deltb != 0;
+            boolebn useMin = (deltb < 0);
             int springCount = springs.size();
             if (useMin) {
-                delta *= -1;
+                deltb *= -1;
             }
 
-            // The following algorithm if used for resizing springs:
-            // 1. Calculate the resizability of each spring (pref - min or
-            //    max - pref) into a list.
-            // 2. Sort the list in ascending order
-            // 3. Iterate through each of the resizable Springs, attempting
+            // The following blgorithm if used for resizing springs:
+            // 1. Cblculbte the resizbbility of ebch spring (pref - min or
+            //    mbx - pref) into b list.
+            // 2. Sort the list in bscending order
+            // 3. Iterbte through ebch of the resizbble Springs, bttempting
             //    to give them (pref - size) / resizeCount
-            // 4. For any Springs that can not accommodate that much space
-            //    add the remainder back to the amount to distribute and
-            //    recalculate how must space the remaining springs will get.
+            // 4. For bny Springs thbt cbn not bccommodbte thbt much spbce
+            //    bdd the rembinder bbck to the bmount to distribute bnd
+            //    recblculbte how must spbce the rembining springs will get.
             // 5. Set the size of the springs.
 
-            // First pass, sort the resizable springs into the List resizable
-            List<SpringDelta> resizable = buildResizableList(axis, useMin);
-            int resizableCount = resizable.size();
+            // First pbss, sort the resizbble springs into the List resizbble
+            List<SpringDeltb> resizbble = buildResizbbleList(bxis, useMin);
+            int resizbbleCount = resizbble.size();
 
-            if (resizableCount > 0) {
-                // How much we would like to give each Spring.
-                int sDelta = delta / resizableCount;
-                // Remaining space.
-                int slop = delta - sDelta * resizableCount;
+            if (resizbbleCount > 0) {
+                // How much we would like to give ebch Spring.
+                int sDeltb = deltb / resizbbleCount;
+                // Rembining spbce.
+                int slop = deltb - sDeltb * resizbbleCount;
                 int[] sizes = new int[springCount];
                 int sign = useMin ? -1 : 1;
-                // Second pass, accumulate the resulting deltas (relative to
+                // Second pbss, bccumulbte the resulting deltbs (relbtive to
                 // preferred) into sizes.
-                for (int counter = 0; counter < resizableCount; counter++) {
-                    SpringDelta springDelta = resizable.get(counter);
-                    if ((counter + 1) == resizableCount) {
-                        sDelta += slop;
+                for (int counter = 0; counter < resizbbleCount; counter++) {
+                    SpringDeltb springDeltb = resizbble.get(counter);
+                    if ((counter + 1) == resizbbleCount) {
+                        sDeltb += slop;
                     }
-                    springDelta.delta = Math.min(sDelta, springDelta.delta);
-                    delta -= springDelta.delta;
-                    if (springDelta.delta != sDelta && counter + 1 <
-                            resizableCount) {
-                        // Spring didn't take all the space, reset how much
-                        // each spring will get.
-                        sDelta = delta / (resizableCount - counter - 1);
-                        slop = delta - sDelta * (resizableCount - counter - 1);
+                    springDeltb.deltb = Mbth.min(sDeltb, springDeltb.deltb);
+                    deltb -= springDeltb.deltb;
+                    if (springDeltb.deltb != sDeltb && counter + 1 <
+                            resizbbleCount) {
+                        // Spring didn't tbke bll the spbce, reset how much
+                        // ebch spring will get.
+                        sDeltb = deltb / (resizbbleCount - counter - 1);
+                        slop = deltb - sDeltb * (resizbbleCount - counter - 1);
                     }
-                    sizes[springDelta.index] = sign * springDelta.delta;
+                    sizes[springDeltb.index] = sign * springDeltb.deltb;
                 }
 
-                // And finally set the size of each spring
+                // And finblly set the size of ebch spring
                 for (int counter = 0; counter < springCount; counter++) {
                     Spring spring = getSpring(counter);
-                    int sSize = spring.getPreferredSize(axis) + sizes[counter];
-                    spring.setSize(axis, origin, sSize);
+                    int sSize = spring.getPreferredSize(bxis) + sizes[counter];
+                    spring.setSize(bxis, origin, sSize);
                     origin += sSize;
                 }
             } else {
-                // Nothing resizable, use the min or max of each of the
+                // Nothing resizbble, use the min or mbx of ebch of the
                 // springs.
                 for (int counter = 0; counter < springCount; counter++) {
                     Spring spring = getSpring(counter);
                     int sSize;
                     if (useMin) {
-                        sSize = spring.getMinimumSize(axis);
+                        sSize = spring.getMinimumSize(bxis);
                     } else {
-                        sSize = spring.getMaximumSize(axis);
+                        sSize = spring.getMbximumSize(bxis);
                     }
-                    spring.setSize(axis, origin, sSize);
+                    spring.setSize(bxis, origin, sSize);
                     origin += sSize;
                 }
             }
         }
 
         /**
-         * Returns the sorted list of SpringDelta's for the current set of
-         * Springs. The list is ordered based on the amount of flexibility of
+         * Returns the sorted list of SpringDeltb's for the current set of
+         * Springs. The list is ordered bbsed on the bmount of flexibility of
          * the springs.
          */
-        private List<SpringDelta> buildResizableList(int axis,
-                boolean useMin) {
-            // First pass, figure out what is resizable
+        privbte List<SpringDeltb> buildResizbbleList(int bxis,
+                boolebn useMin) {
+            // First pbss, figure out whbt is resizbble
             int size = springs.size();
-            List<SpringDelta> sorted = new ArrayList<SpringDelta>(size);
+            List<SpringDeltb> sorted = new ArrbyList<SpringDeltb>(size);
             for (int counter = 0; counter < size; counter++) {
                 Spring spring = getSpring(counter);
-                int sDelta;
+                int sDeltb;
                 if (useMin) {
-                    sDelta = spring.getPreferredSize(axis) -
-                            spring.getMinimumSize(axis);
+                    sDeltb = spring.getPreferredSize(bxis) -
+                            spring.getMinimumSize(bxis);
                 } else {
-                    sDelta = spring.getMaximumSize(axis) -
-                            spring.getPreferredSize(axis);
+                    sDeltb = spring.getMbximumSize(bxis) -
+                            spring.getPreferredSize(bxis);
                 }
-                if (sDelta > 0) {
-                    sorted.add(new SpringDelta(counter, sDelta));
+                if (sDeltb > 0) {
+                    sorted.bdd(new SpringDeltb(counter, sDeltb));
                 }
             }
             Collections.sort(sorted);
             return sorted;
         }
 
-        private int indexOfNextNonZeroSpring(
-                int index, boolean treatAutopaddingAsZeroSized) {
+        privbte int indexOfNextNonZeroSpring(
+                int index, boolebn trebtAutopbddingAsZeroSized) {
             while (index < springs.size()) {
                 Spring spring = springs.get(index);
-                if (!spring.willHaveZeroSize(treatAutopaddingAsZeroSized)) {
+                if (!spring.willHbveZeroSize(trebtAutopbddingAsZeroSized)) {
                     return index;
                 }
                 index++;
@@ -2149,119 +2149,119 @@ public class GroupLayout implements LayoutManager2 {
         }
 
         @Override
-        void insertAutopadding(int axis,
-                List<AutoPreferredGapSpring> leadingPadding,
-                List<AutoPreferredGapSpring> trailingPadding,
-                List<ComponentSpring> leading, List<ComponentSpring> trailing,
-                boolean insert) {
-            List<AutoPreferredGapSpring> newLeadingPadding =
-                    new ArrayList<AutoPreferredGapSpring>(leadingPadding);
-            List<AutoPreferredGapSpring> newTrailingPadding =
-                    new ArrayList<AutoPreferredGapSpring>(1);
-            List<ComponentSpring> newLeading =
-                    new ArrayList<ComponentSpring>(leading);
-            List<ComponentSpring> newTrailing = null;
+        void insertAutopbdding(int bxis,
+                List<AutoPreferredGbpSpring> lebdingPbdding,
+                List<AutoPreferredGbpSpring> trbilingPbdding,
+                List<ComponentSpring> lebding, List<ComponentSpring> trbiling,
+                boolebn insert) {
+            List<AutoPreferredGbpSpring> newLebdingPbdding =
+                    new ArrbyList<AutoPreferredGbpSpring>(lebdingPbdding);
+            List<AutoPreferredGbpSpring> newTrbilingPbdding =
+                    new ArrbyList<AutoPreferredGbpSpring>(1);
+            List<ComponentSpring> newLebding =
+                    new ArrbyList<ComponentSpring>(lebding);
+            List<ComponentSpring> newTrbiling = null;
             int counter = 0;
-            // Warning, this must use springs.size, as it may change during the
+            // Wbrning, this must use springs.size, bs it mby chbnge during the
             // loop.
             while (counter < springs.size()) {
                 Spring spring = getSpring(counter);
-                if (spring instanceof AutoPreferredGapSpring) {
-                    if (newLeadingPadding.size() == 0) {
-                        // Autopadding spring. Set the sources of the
-                        // autopadding spring based on newLeading.
-                        AutoPreferredGapSpring padding =
-                            (AutoPreferredGapSpring)spring;
-                        padding.setSources(newLeading);
-                        newLeading.clear();
+                if (spring instbnceof AutoPreferredGbpSpring) {
+                    if (newLebdingPbdding.size() == 0) {
+                        // Autopbdding spring. Set the sources of the
+                        // butopbdding spring bbsed on newLebding.
+                        AutoPreferredGbpSpring pbdding =
+                            (AutoPreferredGbpSpring)spring;
+                        pbdding.setSources(newLebding);
+                        newLebding.clebr();
                         counter = indexOfNextNonZeroSpring(counter + 1, true);
                         if (counter == springs.size()) {
-                            // Last spring in the list, add it to
-                            // trailingPadding.
-                            if (!(padding instanceof
-                                  ContainerAutoPreferredGapSpring)) {
-                                trailingPadding.add(padding);
+                            // Lbst spring in the list, bdd it to
+                            // trbilingPbdding.
+                            if (!(pbdding instbnceof
+                                  ContbinerAutoPreferredGbpSpring)) {
+                                trbilingPbdding.bdd(pbdding);
                             }
                         } else {
-                            newLeadingPadding.clear();
-                            newLeadingPadding.add(padding);
+                            newLebdingPbdding.clebr();
+                            newLebdingPbdding.bdd(pbdding);
                         }
                     } else {
                         counter = indexOfNextNonZeroSpring(counter + 1, true);
                     }
                 } else {
-                    // Not a padding spring
-                    if (newLeading.size() > 0 && insert) {
-                        // There's leading ComponentSprings, create an
-                        // autopadding spring.
-                        AutoPreferredGapSpring padding =
-                                new AutoPreferredGapSpring();
-                        // Force the newly created spring to be considered
+                    // Not b pbdding spring
+                    if (newLebding.size() > 0 && insert) {
+                        // There's lebding ComponentSprings, crebte bn
+                        // butopbdding spring.
+                        AutoPreferredGbpSpring pbdding =
+                                new AutoPreferredGbpSpring();
+                        // Force the newly crebted spring to be considered
                         // by NOT incrementing counter
-                        springs.add(counter, padding);
+                        springs.bdd(counter, pbdding);
                         continue;
                     }
-                    if (spring instanceof ComponentSpring) {
-                        // Spring is a Component, make it the target of any
-                        // leading AutopaddingSpring.
+                    if (spring instbnceof ComponentSpring) {
+                        // Spring is b Component, mbke it the tbrget of bny
+                        // lebding AutopbddingSpring.
                         ComponentSpring cSpring = (ComponentSpring)spring;
                         if (!cSpring.isVisible()) {
                             counter++;
                             continue;
                         }
-                        for (AutoPreferredGapSpring gapSpring : newLeadingPadding) {
-                            gapSpring.addTarget(cSpring, axis);
+                        for (AutoPreferredGbpSpring gbpSpring : newLebdingPbdding) {
+                            gbpSpring.bddTbrget(cSpring, bxis);
                         }
-                        newLeading.clear();
-                        newLeadingPadding.clear();
-                        counter = indexOfNextNonZeroSpring(counter + 1, false);
+                        newLebding.clebr();
+                        newLebdingPbdding.clebr();
+                        counter = indexOfNextNonZeroSpring(counter + 1, fblse);
                         if (counter == springs.size()) {
-                            // Last Spring, add it to trailing
-                            trailing.add(cSpring);
+                            // Lbst Spring, bdd it to trbiling
+                            trbiling.bdd(cSpring);
                         } else {
-                            // Not that last Spring, add it to leading
-                            newLeading.add(cSpring);
+                            // Not thbt lbst Spring, bdd it to lebding
+                            newLebding.bdd(cSpring);
                         }
-                    } else if (spring instanceof Group) {
-                        // Forward call to child Group
-                        if (newTrailing == null) {
-                            newTrailing = new ArrayList<ComponentSpring>(1);
+                    } else if (spring instbnceof Group) {
+                        // Forwbrd cbll to child Group
+                        if (newTrbiling == null) {
+                            newTrbiling = new ArrbyList<ComponentSpring>(1);
                         } else {
-                            newTrailing.clear();
+                            newTrbiling.clebr();
                         }
-                        newTrailingPadding.clear();
-                        ((Group)spring).insertAutopadding(axis,
-                                newLeadingPadding, newTrailingPadding,
-                                newLeading, newTrailing, insert);
-                        newLeading.clear();
-                        newLeadingPadding.clear();
+                        newTrbilingPbdding.clebr();
+                        ((Group)spring).insertAutopbdding(bxis,
+                                newLebdingPbdding, newTrbilingPbdding,
+                                newLebding, newTrbiling, insert);
+                        newLebding.clebr();
+                        newLebdingPbdding.clebr();
                         counter = indexOfNextNonZeroSpring(
-                                    counter + 1, (newTrailing.size() == 0));
+                                    counter + 1, (newTrbiling.size() == 0));
                         if (counter == springs.size()) {
-                            trailing.addAll(newTrailing);
-                            trailingPadding.addAll(newTrailingPadding);
+                            trbiling.bddAll(newTrbiling);
+                            trbilingPbdding.bddAll(newTrbilingPbdding);
                         } else {
-                            newLeading.addAll(newTrailing);
-                            newLeadingPadding.addAll(newTrailingPadding);
+                            newLebding.bddAll(newTrbiling);
+                            newLebdingPbdding.bddAll(newTrbilingPbdding);
                         }
                     } else {
-                        // Gap
-                        newLeadingPadding.clear();
-                        newLeading.clear();
+                        // Gbp
+                        newLebdingPbdding.clebr();
+                        newLebding.clebr();
                         counter++;
                     }
                 }
             }
         }
 
-        int getBaseline() {
-            if (baselineSpring != null) {
-                int baseline = baselineSpring.getBaseline();
-                if (baseline >= 0) {
+        int getBbseline() {
+            if (bbselineSpring != null) {
+                int bbseline = bbselineSpring.getBbseline();
+                if (bbseline >= 0) {
                     int size = 0;
                     for (Spring spring : springs) {
-                        if (spring == baselineSpring) {
-                            return size + baseline;
+                        if (spring == bbselineSpring) {
+                            return size + bbseline;
                         } else {
                             size += spring.getPreferredSize(VERTICAL);
                         }
@@ -2271,377 +2271,377 @@ public class GroupLayout implements LayoutManager2 {
             return -1;
         }
 
-        BaselineResizeBehavior getBaselineResizeBehavior() {
-            if (isResizable(VERTICAL)) {
-                if (!baselineSpring.isResizable(VERTICAL)) {
-                    // Spring to use for baseline isn't resizable. In this case
-                    // baseline resize behavior can be determined based on how
+        BbselineResizeBehbvior getBbselineResizeBehbvior() {
+            if (isResizbble(VERTICAL)) {
+                if (!bbselineSpring.isResizbble(VERTICAL)) {
+                    // Spring to use for bbseline isn't resizbble. In this cbse
+                    // bbseline resize behbvior cbn be determined bbsed on how
                     // preceding springs resize.
-                    boolean leadingResizable = false;
+                    boolebn lebdingResizbble = fblse;
                     for (Spring spring : springs) {
-                        if (spring == baselineSpring) {
-                            break;
-                        } else if (spring.isResizable(VERTICAL)) {
-                            leadingResizable = true;
-                            break;
+                        if (spring == bbselineSpring) {
+                            brebk;
+                        } else if (spring.isResizbble(VERTICAL)) {
+                            lebdingResizbble = true;
+                            brebk;
                         }
                     }
-                    boolean trailingResizable = false;
+                    boolebn trbilingResizbble = fblse;
                     for (int i = springs.size() - 1; i >= 0; i--) {
                         Spring spring = springs.get(i);
-                        if (spring == baselineSpring) {
-                            break;
+                        if (spring == bbselineSpring) {
+                            brebk;
                         }
-                        if (spring.isResizable(VERTICAL)) {
-                            trailingResizable = true;
-                            break;
+                        if (spring.isResizbble(VERTICAL)) {
+                            trbilingResizbble = true;
+                            brebk;
                         }
                     }
-                    if (leadingResizable && !trailingResizable) {
-                        return BaselineResizeBehavior.CONSTANT_DESCENT;
-                    } else if (!leadingResizable && trailingResizable) {
-                        return BaselineResizeBehavior.CONSTANT_ASCENT;
+                    if (lebdingResizbble && !trbilingResizbble) {
+                        return BbselineResizeBehbvior.CONSTANT_DESCENT;
+                    } else if (!lebdingResizbble && trbilingResizbble) {
+                        return BbselineResizeBehbvior.CONSTANT_ASCENT;
                     }
-                    // If we get here, both leading and trailing springs are
-                    // resizable. Fall through to OTHER.
+                    // If we get here, both lebding bnd trbiling springs bre
+                    // resizbble. Fbll through to OTHER.
                 } else {
-                    BaselineResizeBehavior brb = baselineSpring.getBaselineResizeBehavior();
-                    if (brb == BaselineResizeBehavior.CONSTANT_ASCENT) {
+                    BbselineResizeBehbvior brb = bbselineSpring.getBbselineResizeBehbvior();
+                    if (brb == BbselineResizeBehbvior.CONSTANT_ASCENT) {
                         for (Spring spring : springs) {
-                            if (spring == baselineSpring) {
-                                return BaselineResizeBehavior.CONSTANT_ASCENT;
+                            if (spring == bbselineSpring) {
+                                return BbselineResizeBehbvior.CONSTANT_ASCENT;
                             }
-                            if (spring.isResizable(VERTICAL)) {
-                                return BaselineResizeBehavior.OTHER;
+                            if (spring.isResizbble(VERTICAL)) {
+                                return BbselineResizeBehbvior.OTHER;
                             }
                         }
-                    } else if (brb == BaselineResizeBehavior.CONSTANT_DESCENT) {
+                    } else if (brb == BbselineResizeBehbvior.CONSTANT_DESCENT) {
                         for (int i = springs.size() - 1; i >= 0; i--) {
                             Spring spring = springs.get(i);
-                            if (spring == baselineSpring) {
-                                return BaselineResizeBehavior.CONSTANT_DESCENT;
+                            if (spring == bbselineSpring) {
+                                return BbselineResizeBehbvior.CONSTANT_DESCENT;
                             }
-                            if (spring.isResizable(VERTICAL)) {
-                                return BaselineResizeBehavior.OTHER;
+                            if (spring.isResizbble(VERTICAL)) {
+                                return BbselineResizeBehbvior.OTHER;
                             }
                         }
                     }
                 }
-                return BaselineResizeBehavior.OTHER;
+                return BbselineResizeBehbvior.OTHER;
             }
-            // Not resizable, treat as constant_ascent
-            return BaselineResizeBehavior.CONSTANT_ASCENT;
+            // Not resizbble, trebt bs constbnt_bscent
+            return BbselineResizeBehbvior.CONSTANT_ASCENT;
         }
 
-        private void checkPreferredGapValues(int pref, int max) {
+        privbte void checkPreferredGbpVblues(int pref, int mbx) {
             if ((pref < 0 && pref != DEFAULT_SIZE && pref != PREFERRED_SIZE) ||
-                    (max < 0 && max != DEFAULT_SIZE && max != PREFERRED_SIZE)||
-                    (pref >= 0 && max >= 0 && pref > max)) {
-                throw new IllegalArgumentException(
-                        "Pref and max must be either DEFAULT_SIZE, " +
-                        "PREFERRED_SIZE, or >= 0 and pref <= max");
+                    (mbx < 0 && mbx != DEFAULT_SIZE && mbx != PREFERRED_SIZE)||
+                    (pref >= 0 && mbx >= 0 && pref > mbx)) {
+                throw new IllegblArgumentException(
+                        "Pref bnd mbx must be either DEFAULT_SIZE, " +
+                        "PREFERRED_SIZE, or >= 0 bnd pref <= mbx");
             }
         }
     }
 
 
     /**
-     * Used by SequentialGroup in calculating resizability of springs.
+     * Used by SequentiblGroup in cblculbting resizbbility of springs.
      */
-    private static final class SpringDelta implements Comparable<SpringDelta> {
-        // Original index.
-        public final int index;
-        // Delta, one of pref - min or max - pref.
-        public int delta;
+    privbte stbtic finbl clbss SpringDeltb implements Compbrbble<SpringDeltb> {
+        // Originbl index.
+        public finbl int index;
+        // Deltb, one of pref - min or mbx - pref.
+        public int deltb;
 
-        public SpringDelta(int index, int delta) {
+        public SpringDeltb(int index, int deltb) {
             this.index = index;
-            this.delta = delta;
+            this.deltb = deltb;
         }
 
-        public int compareTo(SpringDelta o) {
-            return delta - o.delta;
+        public int compbreTo(SpringDeltb o) {
+            return deltb - o.deltb;
         }
 
         public String toString() {
-            return super.toString() + "[index=" + index + ", delta=" +
-                    delta + "]";
+            return super.toString() + "[index=" + index + ", deltb=" +
+                    deltb + "]";
         }
     }
 
 
     /**
-     * A {@code Group} that aligns and sizes it's children.
-     * {@code ParallelGroup} aligns it's children in
-     * four possible ways: along the baseline, centered, anchored to the
-     * leading edge, or anchored to the trailing edge.
-     * <h3>Baseline</h3>
-     * A {@code ParallelGroup} that aligns it's children along the
-     * baseline must first decide where the baseline is
-     * anchored. The baseline can either be anchored to the top, or
-     * anchored to the bottom of the group. That is, the distance between the
-     * baseline and the beginning of the group can be a constant
-     * distance, or the distance between the end of the group and the
-     * baseline can be a constant distance. The possible choices
-     * correspond to the {@code BaselineResizeBehavior} constants
+     * A {@code Group} thbt bligns bnd sizes it's children.
+     * {@code PbrbllelGroup} bligns it's children in
+     * four possible wbys: blong the bbseline, centered, bnchored to the
+     * lebding edge, or bnchored to the trbiling edge.
+     * <h3>Bbseline</h3>
+     * A {@code PbrbllelGroup} thbt bligns it's children blong the
+     * bbseline must first decide where the bbseline is
+     * bnchored. The bbseline cbn either be bnchored to the top, or
+     * bnchored to the bottom of the group. Thbt is, the distbnce between the
+     * bbseline bnd the beginning of the group cbn be b constbnt
+     * distbnce, or the distbnce between the end of the group bnd the
+     * bbseline cbn be b constbnt distbnce. The possible choices
+     * correspond to the {@code BbselineResizeBehbvior} constbnts
      * {@link
-     * java.awt.Component.BaselineResizeBehavior#CONSTANT_ASCENT CONSTANT_ASCENT} and
+     * jbvb.bwt.Component.BbselineResizeBehbvior#CONSTANT_ASCENT CONSTANT_ASCENT} bnd
      * {@link
-     * java.awt.Component.BaselineResizeBehavior#CONSTANT_DESCENT CONSTANT_DESCENT}.
+     * jbvb.bwt.Component.BbselineResizeBehbvior#CONSTANT_DESCENT CONSTANT_DESCENT}.
      * <p>
-     * The baseline anchor may be explicitly specified by the
-     * {@code createBaselineGroup} method, or determined based on the elements.
-     * If not explicitly specified, the baseline will be anchored to
-     * the bottom if all the elements with a baseline, and that are
-     * aligned to the baseline, have a baseline resize behavior of
-     * {@code CONSTANT_DESCENT}; otherwise the baseline is anchored to the top
+     * The bbseline bnchor mby be explicitly specified by the
+     * {@code crebteBbselineGroup} method, or determined bbsed on the elements.
+     * If not explicitly specified, the bbseline will be bnchored to
+     * the bottom if bll the elements with b bbseline, bnd thbt bre
+     * bligned to the bbseline, hbve b bbseline resize behbvior of
+     * {@code CONSTANT_DESCENT}; otherwise the bbseline is bnchored to the top
      * of the group.
      * <p>
-     * Elements aligned to the baseline are resizable if they have have
-     * a baseline resize behavior of {@code CONSTANT_ASCENT} or
-     * {@code CONSTANT_DESCENT}. Elements with a baseline resize
-     * behavior of {@code OTHER} or {@code CENTER_OFFSET} are not resizable.
+     * Elements bligned to the bbseline bre resizbble if they hbve hbve
+     * b bbseline resize behbvior of {@code CONSTANT_ASCENT} or
+     * {@code CONSTANT_DESCENT}. Elements with b bbseline resize
+     * behbvior of {@code OTHER} or {@code CENTER_OFFSET} bre not resizbble.
      * <p>
-     * The baseline is calculated based on the preferred height of each
-     * of the elements that have a baseline. The baseline is
-     * calculated using the following algorithm:
-     * {@code max(maxNonBaselineHeight, maxAscent + maxDescent)}, where the
-     * {@code maxNonBaselineHeight} is the maximum height of all elements
-     * that do not have a baseline, or are not aligned along the baseline.
-     * {@code maxAscent} is the maximum ascent (baseline) of all elements that
-     * have a baseline and are aligned along the baseline.
-     * {@code maxDescent} is the maximum descent (preferred height - baseline)
-     * of all elements that have a baseline and are aligned along the baseline.
+     * The bbseline is cblculbted bbsed on the preferred height of ebch
+     * of the elements thbt hbve b bbseline. The bbseline is
+     * cblculbted using the following blgorithm:
+     * {@code mbx(mbxNonBbselineHeight, mbxAscent + mbxDescent)}, where the
+     * {@code mbxNonBbselineHeight} is the mbximum height of bll elements
+     * thbt do not hbve b bbseline, or bre not bligned blong the bbseline.
+     * {@code mbxAscent} is the mbximum bscent (bbseline) of bll elements thbt
+     * hbve b bbseline bnd bre bligned blong the bbseline.
+     * {@code mbxDescent} is the mbximum descent (preferred height - bbseline)
+     * of bll elements thbt hbve b bbseline bnd bre bligned blong the bbseline.
      * <p>
-     * A {@code ParallelGroup} that aligns it's elements along the baseline
-     * is only useful along the vertical axis. If you create a
-     * baseline group and use it along the horizontal axis an
-     * {@code IllegalStateException} is thrown when you ask
-     * {@code GroupLayout} for the minimum, preferred or maximum size or
-     * attempt to layout the components.
+     * A {@code PbrbllelGroup} thbt bligns it's elements blong the bbseline
+     * is only useful blong the verticbl bxis. If you crebte b
+     * bbseline group bnd use it blong the horizontbl bxis bn
+     * {@code IllegblStbteException} is thrown when you bsk
+     * {@code GroupLbyout} for the minimum, preferred or mbximum size or
+     * bttempt to lbyout the components.
      * <p>
-     * Elements that are not aligned to the baseline and smaller than the size
-     * of the {@code ParallelGroup} are positioned in one of three
-     * ways: centered, anchored to the leading edge, or anchored to the
-     * trailing edge.
+     * Elements thbt bre not bligned to the bbseline bnd smbller thbn the size
+     * of the {@code PbrbllelGroup} bre positioned in one of three
+     * wbys: centered, bnchored to the lebding edge, or bnchored to the
+     * trbiling edge.
      *
-     * <h3>Non-baseline {@code ParallelGroup}</h3>
-     * {@code ParallelGroup}s created with an alignment other than
-     * {@code BASELINE} align elements that are smaller than the size
-     * of the group in one of three ways: centered, anchored to the
-     * leading edge, or anchored to the trailing edge.
+     * <h3>Non-bbseline {@code PbrbllelGroup}</h3>
+     * {@code PbrbllelGroup}s crebted with bn blignment other thbn
+     * {@code BASELINE} blign elements thbt bre smbller thbn the size
+     * of the group in one of three wbys: centered, bnchored to the
+     * lebding edge, or bnchored to the trbiling edge.
      * <p>
-     * The leading edge is based on the axis and {@code
-     * ComponentOrientation}.  For the vertical axis the top edge is
-     * always the leading edge, and the bottom edge is always the
-     * trailing edge. When the {@code ComponentOrientation} is {@code
-     * LEFT_TO_RIGHT}, the leading edge is the left edge and the
-     * trailing edge the right edge. A {@code ComponentOrientation} of
-     * {@code RIGHT_TO_LEFT} flips the left and right edges. Child
-     * elements are aligned based on the specified alignment the
-     * element was added with. If you do not specify an alignment, the
-     * alignment specified for the {@code ParallelGroup} is used.
+     * The lebding edge is bbsed on the bxis bnd {@code
+     * ComponentOrientbtion}.  For the verticbl bxis the top edge is
+     * blwbys the lebding edge, bnd the bottom edge is blwbys the
+     * trbiling edge. When the {@code ComponentOrientbtion} is {@code
+     * LEFT_TO_RIGHT}, the lebding edge is the left edge bnd the
+     * trbiling edge the right edge. A {@code ComponentOrientbtion} of
+     * {@code RIGHT_TO_LEFT} flips the left bnd right edges. Child
+     * elements bre bligned bbsed on the specified blignment the
+     * element wbs bdded with. If you do not specify bn blignment, the
+     * blignment specified for the {@code PbrbllelGroup} is used.
      * <p>
-     * To align elements along the baseline you {@code createBaselineGroup},
-     * or {@code createParallelGroup} with an alignment of {@code BASELINE}.
-     * If the group was not created with a baseline alignment, and you attempt
-     * to add an element specifying a baseline alignment, an
-     * {@code IllegalArgumentException} is thrown.
+     * To blign elements blong the bbseline you {@code crebteBbselineGroup},
+     * or {@code crebtePbrbllelGroup} with bn blignment of {@code BASELINE}.
+     * If the group wbs not crebted with b bbseline blignment, bnd you bttempt
+     * to bdd bn element specifying b bbseline blignment, bn
+     * {@code IllegblArgumentException} is thrown.
      *
-     * @see #createParallelGroup()
-     * @see #createBaselineGroup(boolean,boolean)
+     * @see #crebtePbrbllelGroup()
+     * @see #crebteBbselineGroup(boolebn,boolebn)
      * @since 1.6
      */
-    public class ParallelGroup extends Group {
-        // How children are layed out.
-        private final Alignment childAlignment;
-        // Whether or not we're resizable.
-        private final boolean resizable;
+    public clbss PbrbllelGroup extends Group {
+        // How children bre lbyed out.
+        privbte finbl Alignment childAlignment;
+        // Whether or not we're resizbble.
+        privbte finbl boolebn resizbble;
 
-        ParallelGroup(Alignment childAlignment, boolean resizable) {
+        PbrbllelGroup(Alignment childAlignment, boolebn resizbble) {
             this.childAlignment = childAlignment;
-            this.resizable = resizable;
+            this.resizbble = resizbble;
         }
 
         /**
          * {@inheritDoc}
          */
-        public ParallelGroup addGroup(Group group) {
-            return (ParallelGroup)super.addGroup(group);
+        public PbrbllelGroup bddGroup(Group group) {
+            return (PbrbllelGroup)super.bddGroup(group);
         }
 
         /**
          * {@inheritDoc}
          */
-        public ParallelGroup addComponent(Component component) {
-            return (ParallelGroup)super.addComponent(component);
+        public PbrbllelGroup bddComponent(Component component) {
+            return (PbrbllelGroup)super.bddComponent(component);
         }
 
         /**
          * {@inheritDoc}
          */
-        public ParallelGroup addComponent(Component component, int min, int pref,
-                int max) {
-            return (ParallelGroup)super.addComponent(component, min, pref, max);
+        public PbrbllelGroup bddComponent(Component component, int min, int pref,
+                int mbx) {
+            return (PbrbllelGroup)super.bddComponent(component, min, pref, mbx);
         }
 
         /**
          * {@inheritDoc}
          */
-        public ParallelGroup addGap(int pref) {
-            return (ParallelGroup)super.addGap(pref);
+        public PbrbllelGroup bddGbp(int pref) {
+            return (PbrbllelGroup)super.bddGbp(pref);
         }
 
         /**
          * {@inheritDoc}
          */
-        public ParallelGroup addGap(int min, int pref, int max) {
-            return (ParallelGroup)super.addGap(min, pref, max);
+        public PbrbllelGroup bddGbp(int min, int pref, int mbx) {
+            return (PbrbllelGroup)super.bddGbp(min, pref, mbx);
         }
 
         /**
-         * Adds a {@code Group} to this {@code ParallelGroup} with the
-         * specified alignment. If the child is smaller than the
-         * {@code Group} it is aligned based on the specified
-         * alignment.
+         * Adds b {@code Group} to this {@code PbrbllelGroup} with the
+         * specified blignment. If the child is smbller thbn the
+         * {@code Group} it is bligned bbsed on the specified
+         * blignment.
          *
-         * @param alignment the alignment
-         * @param group the {@code Group} to add
-         * @return this {@code ParallelGroup}
-         * @throws IllegalArgumentException if {@code alignment} is
+         * @pbrbm blignment the blignment
+         * @pbrbm group the {@code Group} to bdd
+         * @return this {@code PbrbllelGroup}
+         * @throws IllegblArgumentException if {@code blignment} is
          *         {@code null}
          */
-        public ParallelGroup addGroup(Alignment alignment, Group group) {
-            checkChildAlignment(alignment);
-            group.setAlignment(alignment);
-            return (ParallelGroup)addSpring(group);
+        public PbrbllelGroup bddGroup(Alignment blignment, Group group) {
+            checkChildAlignment(blignment);
+            group.setAlignment(blignment);
+            return (PbrbllelGroup)bddSpring(group);
         }
 
         /**
-         * Adds a {@code Component} to this {@code ParallelGroup} with
-         * the specified alignment.
+         * Adds b {@code Component} to this {@code PbrbllelGroup} with
+         * the specified blignment.
          *
-         * @param alignment the alignment
-         * @param component the {@code Component} to add
+         * @pbrbm blignment the blignment
+         * @pbrbm component the {@code Component} to bdd
          * @return this {@code Group}
-         * @throws IllegalArgumentException if {@code alignment} is
+         * @throws IllegblArgumentException if {@code blignment} is
          *         {@code null}
          */
-        public ParallelGroup addComponent(Component component,
-                Alignment alignment) {
-            return addComponent(component, alignment, DEFAULT_SIZE, DEFAULT_SIZE,
+        public PbrbllelGroup bddComponent(Component component,
+                Alignment blignment) {
+            return bddComponent(component, blignment, DEFAULT_SIZE, DEFAULT_SIZE,
                     DEFAULT_SIZE);
         }
 
         /**
-         * Adds a {@code Component} to this {@code ParallelGroup} with the
-         * specified alignment and size.
+         * Adds b {@code Component} to this {@code PbrbllelGroup} with the
+         * specified blignment bnd size.
          *
-         * @param alignment the alignment
-         * @param component the {@code Component} to add
-         * @param min the minimum size
-         * @param pref the preferred size
-         * @param max the maximum size
-         * @throws IllegalArgumentException if {@code alignment} is
+         * @pbrbm blignment the blignment
+         * @pbrbm component the {@code Component} to bdd
+         * @pbrbm min the minimum size
+         * @pbrbm pref the preferred size
+         * @pbrbm mbx the mbximum size
+         * @throws IllegblArgumentException if {@code blignment} is
          *         {@code null}
          * @return this {@code Group}
          */
-        public ParallelGroup addComponent(Component component,
-                Alignment alignment, int min, int pref, int max) {
-            checkChildAlignment(alignment);
+        public PbrbllelGroup bddComponent(Component component,
+                Alignment blignment, int min, int pref, int mbx) {
+            checkChildAlignment(blignment);
             ComponentSpring spring = new ComponentSpring(component,
-                    min, pref, max);
-            spring.setAlignment(alignment);
-            return (ParallelGroup)addSpring(spring);
+                    min, pref, mbx);
+            spring.setAlignment(blignment);
+            return (PbrbllelGroup)bddSpring(spring);
         }
 
-        boolean isResizable() {
-            return resizable;
+        boolebn isResizbble() {
+            return resizbble;
         }
 
-        int operator(int a, int b) {
-            return Math.max(a, b);
+        int operbtor(int b, int b) {
+            return Mbth.mbx(b, b);
         }
 
-        int calculateMinimumSize(int axis) {
-            if (!isResizable()) {
-                return getPreferredSize(axis);
+        int cblculbteMinimumSize(int bxis) {
+            if (!isResizbble()) {
+                return getPreferredSize(bxis);
             }
-            return super.calculateMinimumSize(axis);
+            return super.cblculbteMinimumSize(bxis);
         }
 
-        int calculateMaximumSize(int axis) {
-            if (!isResizable()) {
-                return getPreferredSize(axis);
+        int cblculbteMbximumSize(int bxis) {
+            if (!isResizbble()) {
+                return getPreferredSize(bxis);
             }
-            return super.calculateMaximumSize(axis);
+            return super.cblculbteMbximumSize(bxis);
         }
 
-        void setValidSize(int axis, int origin, int size) {
+        void setVblidSize(int bxis, int origin, int size) {
             for (Spring spring : springs) {
-                setChildSize(spring, axis, origin, size);
+                setChildSize(spring, bxis, origin, size);
             }
         }
 
-        void setChildSize(Spring spring, int axis, int origin, int size) {
-            Alignment alignment = spring.getAlignment();
-            int springSize = Math.min(
-                    Math.max(spring.getMinimumSize(axis), size),
-                    spring.getMaximumSize(axis));
-            if (alignment == null) {
-                alignment = childAlignment;
+        void setChildSize(Spring spring, int bxis, int origin, int size) {
+            Alignment blignment = spring.getAlignment();
+            int springSize = Mbth.min(
+                    Mbth.mbx(spring.getMinimumSize(bxis), size),
+                    spring.getMbximumSize(bxis));
+            if (blignment == null) {
+                blignment = childAlignment;
             }
-            switch (alignment) {
-                case TRAILING:
-                    spring.setSize(axis, origin + size - springSize,
+            switch (blignment) {
+                cbse TRAILING:
+                    spring.setSize(bxis, origin + size - springSize,
                             springSize);
-                    break;
-                case CENTER:
-                    spring.setSize(axis, origin +
+                    brebk;
+                cbse CENTER:
+                    spring.setSize(bxis, origin +
                             (size - springSize) / 2,springSize);
-                    break;
-                default: // LEADING, or BASELINE
-                    spring.setSize(axis, origin, springSize);
-                    break;
+                    brebk;
+                defbult: // LEADING, or BASELINE
+                    spring.setSize(bxis, origin, springSize);
+                    brebk;
             }
         }
 
         @Override
-        void insertAutopadding(int axis,
-                List<AutoPreferredGapSpring> leadingPadding,
-                List<AutoPreferredGapSpring> trailingPadding,
-                List<ComponentSpring> leading, List<ComponentSpring> trailing,
-                boolean insert) {
+        void insertAutopbdding(int bxis,
+                List<AutoPreferredGbpSpring> lebdingPbdding,
+                List<AutoPreferredGbpSpring> trbilingPbdding,
+                List<ComponentSpring> lebding, List<ComponentSpring> trbiling,
+                boolebn insert) {
             for (Spring spring : springs) {
-                if (spring instanceof ComponentSpring) {
+                if (spring instbnceof ComponentSpring) {
                     if (((ComponentSpring)spring).isVisible()) {
-                        for (AutoPreferredGapSpring gapSpring :
-                                 leadingPadding) {
-                            gapSpring.addTarget((ComponentSpring)spring, axis);
+                        for (AutoPreferredGbpSpring gbpSpring :
+                                 lebdingPbdding) {
+                            gbpSpring.bddTbrget((ComponentSpring)spring, bxis);
                         }
-                        trailing.add((ComponentSpring)spring);
+                        trbiling.bdd((ComponentSpring)spring);
                     }
-                } else if (spring instanceof Group) {
-                    ((Group)spring).insertAutopadding(axis, leadingPadding,
-                            trailingPadding, leading, trailing, insert);
-                } else if (spring instanceof AutoPreferredGapSpring) {
-                    ((AutoPreferredGapSpring)spring).setSources(leading);
-                    trailingPadding.add((AutoPreferredGapSpring)spring);
+                } else if (spring instbnceof Group) {
+                    ((Group)spring).insertAutopbdding(bxis, lebdingPbdding,
+                            trbilingPbdding, lebding, trbiling, insert);
+                } else if (spring instbnceof AutoPreferredGbpSpring) {
+                    ((AutoPreferredGbpSpring)spring).setSources(lebding);
+                    trbilingPbdding.bdd((AutoPreferredGbpSpring)spring);
                 }
             }
         }
 
-        private void checkChildAlignment(Alignment alignment) {
-            checkChildAlignment(alignment, (this instanceof BaselineGroup));
+        privbte void checkChildAlignment(Alignment blignment) {
+            checkChildAlignment(blignment, (this instbnceof BbselineGroup));
         }
 
-        private void checkChildAlignment(Alignment alignment,
-                boolean allowsBaseline) {
-            if (alignment == null) {
-                throw new IllegalArgumentException("Alignment must be non-null");
+        privbte void checkChildAlignment(Alignment blignment,
+                boolebn bllowsBbseline) {
+            if (blignment == null) {
+                throw new IllegblArgumentException("Alignment must be non-null");
             }
-            if (!allowsBaseline && alignment == Alignment.BASELINE) {
-                throw new IllegalArgumentException("Alignment must be one of:" +
+            if (!bllowsBbseline && blignment == Alignment.BASELINE) {
+                throw new IllegblArgumentException("Alignment must be one of:" +
                         "LEADING, TRAILING or CENTER");
             }
         }
@@ -2649,246 +2649,246 @@ public class GroupLayout implements LayoutManager2 {
 
 
     /**
-     * An extension of {@code ParallelGroup} that aligns its
-     * constituent {@code Spring}s along the baseline.
+     * An extension of {@code PbrbllelGroup} thbt bligns its
+     * constituent {@code Spring}s blong the bbseline.
      */
-    private class BaselineGroup extends ParallelGroup {
-        // Whether or not all child springs have a baseline
-        private boolean allSpringsHaveBaseline;
+    privbte clbss BbselineGroup extends PbrbllelGroup {
+        // Whether or not bll child springs hbve b bbseline
+        privbte boolebn bllSpringsHbveBbseline;
 
-        // max(spring.getBaseline()) of all springs aligned along the baseline
-        // that have a baseline
-        private int prefAscent;
+        // mbx(spring.getBbseline()) of bll springs bligned blong the bbseline
+        // thbt hbve b bbseline
+        privbte int prefAscent;
 
-        // max(spring.getPreferredSize().height - spring.getBaseline()) of all
-        // springs aligned along the baseline that have a baseline
-        private int prefDescent;
+        // mbx(spring.getPreferredSize().height - spring.getBbseline()) of bll
+        // springs bligned blong the bbseline thbt hbve b bbseline
+        privbte int prefDescent;
 
-        // Whether baselineAnchoredToTop was explicitly set
-        private boolean baselineAnchorSet;
+        // Whether bbselineAnchoredToTop wbs explicitly set
+        privbte boolebn bbselineAnchorSet;
 
-        // Whether the baseline is anchored to the top or the bottom.
-        // If anchored to the top the baseline is always at prefAscent,
-        // otherwise the baseline is at (height - prefDescent)
-        private boolean baselineAnchoredToTop;
+        // Whether the bbseline is bnchored to the top or the bottom.
+        // If bnchored to the top the bbseline is blwbys bt prefAscent,
+        // otherwise the bbseline is bt (height - prefDescent)
+        privbte boolebn bbselineAnchoredToTop;
 
-        // Whether or not the baseline has been calculated.
-        private boolean calcedBaseline;
+        // Whether or not the bbseline hbs been cblculbted.
+        privbte boolebn cblcedBbseline;
 
-        BaselineGroup(boolean resizable) {
-            super(Alignment.LEADING, resizable);
+        BbselineGroup(boolebn resizbble) {
+            super(Alignment.LEADING, resizbble);
             prefAscent = prefDescent = -1;
-            calcedBaseline = false;
+            cblcedBbseline = fblse;
         }
 
-        BaselineGroup(boolean resizable, boolean baselineAnchoredToTop) {
-            this(resizable);
-            this.baselineAnchoredToTop = baselineAnchoredToTop;
-            baselineAnchorSet = true;
+        BbselineGroup(boolebn resizbble, boolebn bbselineAnchoredToTop) {
+            this(resizbble);
+            this.bbselineAnchoredToTop = bbselineAnchoredToTop;
+            bbselineAnchorSet = true;
         }
 
         void unset() {
             super.unset();
             prefAscent = prefDescent = -1;
-            calcedBaseline = false;
+            cblcedBbseline = fblse;
         }
 
-        void setValidSize(int axis, int origin, int size) {
-            checkAxis(axis);
+        void setVblidSize(int bxis, int origin, int size) {
+            checkAxis(bxis);
             if (prefAscent == -1) {
-                super.setValidSize(axis, origin, size);
+                super.setVblidSize(bxis, origin, size);
             } else {
-                // do baseline layout
-                baselineLayout(origin, size);
+                // do bbseline lbyout
+                bbselineLbyout(origin, size);
             }
         }
 
-        int calculateSize(int axis, int type) {
-            checkAxis(axis);
-            if (!calcedBaseline) {
-                calculateBaselineAndResizeBehavior();
+        int cblculbteSize(int bxis, int type) {
+            checkAxis(bxis);
+            if (!cblcedBbseline) {
+                cblculbteBbselineAndResizeBehbvior();
             }
             if (type == MIN_SIZE) {
-                return calculateMinSize();
+                return cblculbteMinSize();
             }
             if (type == MAX_SIZE) {
-                return calculateMaxSize();
+                return cblculbteMbxSize();
             }
-            if (allSpringsHaveBaseline) {
+            if (bllSpringsHbveBbseline) {
                 return prefAscent + prefDescent;
             }
-            return Math.max(prefAscent + prefDescent,
-                    super.calculateSize(axis, type));
+            return Mbth.mbx(prefAscent + prefDescent,
+                    super.cblculbteSize(bxis, type));
         }
 
-        private void calculateBaselineAndResizeBehavior() {
-            // calculate baseline
+        privbte void cblculbteBbselineAndResizeBehbvior() {
+            // cblculbte bbseline
             prefAscent = 0;
             prefDescent = 0;
-            int baselineSpringCount = 0;
-            BaselineResizeBehavior resizeBehavior = null;
+            int bbselineSpringCount = 0;
+            BbselineResizeBehbvior resizeBehbvior = null;
             for (Spring spring : springs) {
                 if (spring.getAlignment() == null ||
                         spring.getAlignment() == Alignment.BASELINE) {
-                    int baseline = spring.getBaseline();
-                    if (baseline >= 0) {
-                        if (spring.isResizable(VERTICAL)) {
-                            BaselineResizeBehavior brb = spring.
-                                    getBaselineResizeBehavior();
-                            if (resizeBehavior == null) {
-                                resizeBehavior = brb;
-                            } else if (brb != resizeBehavior) {
-                                resizeBehavior = BaselineResizeBehavior.
+                    int bbseline = spring.getBbseline();
+                    if (bbseline >= 0) {
+                        if (spring.isResizbble(VERTICAL)) {
+                            BbselineResizeBehbvior brb = spring.
+                                    getBbselineResizeBehbvior();
+                            if (resizeBehbvior == null) {
+                                resizeBehbvior = brb;
+                            } else if (brb != resizeBehbvior) {
+                                resizeBehbvior = BbselineResizeBehbvior.
                                         CONSTANT_ASCENT;
                             }
                         }
-                        prefAscent = Math.max(prefAscent, baseline);
-                        prefDescent = Math.max(prefDescent, spring.
-                                getPreferredSize(VERTICAL) - baseline);
-                        baselineSpringCount++;
+                        prefAscent = Mbth.mbx(prefAscent, bbseline);
+                        prefDescent = Mbth.mbx(prefDescent, spring.
+                                getPreferredSize(VERTICAL) - bbseline);
+                        bbselineSpringCount++;
                     }
                 }
             }
-            if (!baselineAnchorSet) {
-                if (resizeBehavior == BaselineResizeBehavior.CONSTANT_DESCENT){
-                    this.baselineAnchoredToTop = false;
+            if (!bbselineAnchorSet) {
+                if (resizeBehbvior == BbselineResizeBehbvior.CONSTANT_DESCENT){
+                    this.bbselineAnchoredToTop = fblse;
                 } else {
-                    this.baselineAnchoredToTop = true;
+                    this.bbselineAnchoredToTop = true;
                 }
             }
-            allSpringsHaveBaseline = (baselineSpringCount == springs.size());
-            calcedBaseline = true;
+            bllSpringsHbveBbseline = (bbselineSpringCount == springs.size());
+            cblcedBbseline = true;
         }
 
-        private int calculateMaxSize() {
-            int maxAscent = prefAscent;
-            int maxDescent = prefDescent;
-            int nonBaselineMax = 0;
+        privbte int cblculbteMbxSize() {
+            int mbxAscent = prefAscent;
+            int mbxDescent = prefDescent;
+            int nonBbselineMbx = 0;
             for (Spring spring : springs) {
-                int baseline;
-                int springMax = spring.getMaximumSize(VERTICAL);
+                int bbseline;
+                int springMbx = spring.getMbximumSize(VERTICAL);
                 if ((spring.getAlignment() == null ||
                         spring.getAlignment() == Alignment.BASELINE) &&
-                        (baseline = spring.getBaseline()) >= 0) {
+                        (bbseline = spring.getBbseline()) >= 0) {
                     int springPref = spring.getPreferredSize(VERTICAL);
-                    if (springPref != springMax) {
-                        switch (spring.getBaselineResizeBehavior()) {
-                            case CONSTANT_ASCENT:
-                                if (baselineAnchoredToTop) {
-                                    maxDescent = Math.max(maxDescent,
-                                            springMax - baseline);
+                    if (springPref != springMbx) {
+                        switch (spring.getBbselineResizeBehbvior()) {
+                            cbse CONSTANT_ASCENT:
+                                if (bbselineAnchoredToTop) {
+                                    mbxDescent = Mbth.mbx(mbxDescent,
+                                            springMbx - bbseline);
                                 }
-                                break;
-                            case CONSTANT_DESCENT:
-                                if (!baselineAnchoredToTop) {
-                                    maxAscent = Math.max(maxAscent,
-                                            springMax - springPref + baseline);
+                                brebk;
+                            cbse CONSTANT_DESCENT:
+                                if (!bbselineAnchoredToTop) {
+                                    mbxAscent = Mbth.mbx(mbxAscent,
+                                            springMbx - springPref + bbseline);
                                 }
-                                break;
-                            default: // CENTER_OFFSET and OTHER, not resizable
-                                break;
+                                brebk;
+                            defbult: // CENTER_OFFSET bnd OTHER, not resizbble
+                                brebk;
                         }
                     }
                 } else {
-                    // Not aligned along the baseline, or no baseline.
-                    nonBaselineMax = Math.max(nonBaselineMax, springMax);
+                    // Not bligned blong the bbseline, or no bbseline.
+                    nonBbselineMbx = Mbth.mbx(nonBbselineMbx, springMbx);
                 }
             }
-            return Math.max(nonBaselineMax, maxAscent + maxDescent);
+            return Mbth.mbx(nonBbselineMbx, mbxAscent + mbxDescent);
         }
 
-        private int calculateMinSize() {
+        privbte int cblculbteMinSize() {
             int minAscent = 0;
             int minDescent = 0;
-            int nonBaselineMin = 0;
-            if (baselineAnchoredToTop) {
+            int nonBbselineMin = 0;
+            if (bbselineAnchoredToTop) {
                 minAscent = prefAscent;
             } else {
                 minDescent = prefDescent;
             }
             for (Spring spring : springs) {
                 int springMin = spring.getMinimumSize(VERTICAL);
-                int baseline;
+                int bbseline;
                 if ((spring.getAlignment() == null ||
                         spring.getAlignment() == Alignment.BASELINE) &&
-                        (baseline = spring.getBaseline()) >= 0) {
+                        (bbseline = spring.getBbseline()) >= 0) {
                     int springPref = spring.getPreferredSize(VERTICAL);
-                    BaselineResizeBehavior brb = spring.
-                            getBaselineResizeBehavior();
+                    BbselineResizeBehbvior brb = spring.
+                            getBbselineResizeBehbvior();
                     switch (brb) {
-                        case CONSTANT_ASCENT:
-                            if (baselineAnchoredToTop) {
-                                minDescent = Math.max(springMin - baseline,
+                        cbse CONSTANT_ASCENT:
+                            if (bbselineAnchoredToTop) {
+                                minDescent = Mbth.mbx(springMin - bbseline,
                                         minDescent);
                             } else {
-                                minAscent = Math.max(baseline, minAscent);
+                                minAscent = Mbth.mbx(bbseline, minAscent);
                             }
-                            break;
-                        case CONSTANT_DESCENT:
-                            if (!baselineAnchoredToTop) {
-                                minAscent = Math.max(
-                                        baseline - (springPref - springMin),
+                            brebk;
+                        cbse CONSTANT_DESCENT:
+                            if (!bbselineAnchoredToTop) {
+                                minAscent = Mbth.mbx(
+                                        bbseline - (springPref - springMin),
                                         minAscent);
                             } else {
-                                minDescent = Math.max(springPref - baseline,
+                                minDescent = Mbth.mbx(springPref - bbseline,
                                         minDescent);
                             }
-                            break;
-                        default:
-                            // CENTER_OFFSET and OTHER are !resizable, use
+                            brebk;
+                        defbult:
+                            // CENTER_OFFSET bnd OTHER bre !resizbble, use
                             // the preferred size.
-                            minAscent = Math.max(baseline, minAscent);
-                            minDescent = Math.max(springPref - baseline,
+                            minAscent = Mbth.mbx(bbseline, minAscent);
+                            minDescent = Mbth.mbx(springPref - bbseline,
                                     minDescent);
-                            break;
+                            brebk;
                     }
                 } else {
-                    // Not aligned along the baseline, or no baseline.
-                    nonBaselineMin = Math.max(nonBaselineMin, springMin);
+                    // Not bligned blong the bbseline, or no bbseline.
+                    nonBbselineMin = Mbth.mbx(nonBbselineMin, springMin);
                 }
             }
-            return Math.max(nonBaselineMin, minAscent + minDescent);
+            return Mbth.mbx(nonBbselineMin, minAscent + minDescent);
         }
 
         /**
-         * Lays out springs that have a baseline along the baseline.  All
-         * others are centered.
+         * Lbys out springs thbt hbve b bbseline blong the bbseline.  All
+         * others bre centered.
          */
-        private void baselineLayout(int origin, int size) {
-            int ascent;
+        privbte void bbselineLbyout(int origin, int size) {
+            int bscent;
             int descent;
-            if (baselineAnchoredToTop) {
-                ascent = prefAscent;
-                descent = size - ascent;
+            if (bbselineAnchoredToTop) {
+                bscent = prefAscent;
+                descent = size - bscent;
             } else {
-                ascent = size - prefDescent;
+                bscent = size - prefDescent;
                 descent = prefDescent;
             }
             for (Spring spring : springs) {
-                Alignment alignment = spring.getAlignment();
-                if (alignment == null || alignment == Alignment.BASELINE) {
-                    int baseline = spring.getBaseline();
-                    if (baseline >= 0) {
-                        int springMax = spring.getMaximumSize(VERTICAL);
+                Alignment blignment = spring.getAlignment();
+                if (blignment == null || blignment == Alignment.BASELINE) {
+                    int bbseline = spring.getBbseline();
+                    if (bbseline >= 0) {
+                        int springMbx = spring.getMbximumSize(VERTICAL);
                         int springPref = spring.getPreferredSize(VERTICAL);
                         int height = springPref;
                         int y;
-                        switch(spring.getBaselineResizeBehavior()) {
-                            case CONSTANT_ASCENT:
-                                y = origin + ascent - baseline;
-                                height = Math.min(descent, springMax -
-                                        baseline) + baseline;
-                                break;
-                            case CONSTANT_DESCENT:
-                                height = Math.min(ascent, springMax -
-                                        springPref + baseline) +
-                                        (springPref - baseline);
-                                y = origin + ascent +
-                                        (springPref - baseline) - height;
-                                break;
-                            default: // CENTER_OFFSET & OTHER, not resizable
-                                y = origin + ascent - baseline;
-                                break;
+                        switch(spring.getBbselineResizeBehbvior()) {
+                            cbse CONSTANT_ASCENT:
+                                y = origin + bscent - bbseline;
+                                height = Mbth.min(descent, springMbx -
+                                        bbseline) + bbseline;
+                                brebk;
+                            cbse CONSTANT_DESCENT:
+                                height = Mbth.min(bscent, springMbx -
+                                        springPref + bbseline) +
+                                        (springPref - bbseline);
+                                y = origin + bscent +
+                                        (springPref - bbseline) - height;
+                                brebk;
+                            defbult: // CENTER_OFFSET & OTHER, not resizbble
+                                y = origin + bscent - bbseline;
+                                brebk;
                         }
                         spring.setSize(VERTICAL, y, height);
                     } else {
@@ -2900,102 +2900,102 @@ public class GroupLayout implements LayoutManager2 {
             }
         }
 
-        int getBaseline() {
+        int getBbseline() {
             if (springs.size() > 1) {
-                // Force the baseline to be calculated
+                // Force the bbseline to be cblculbted
                 getPreferredSize(VERTICAL);
                 return prefAscent;
             } else if (springs.size() == 1) {
-                return springs.get(0).getBaseline();
+                return springs.get(0).getBbseline();
             }
             return -1;
         }
 
-        BaselineResizeBehavior getBaselineResizeBehavior() {
+        BbselineResizeBehbvior getBbselineResizeBehbvior() {
             if (springs.size() == 1) {
-                return springs.get(0).getBaselineResizeBehavior();
+                return springs.get(0).getBbselineResizeBehbvior();
             }
-            if (baselineAnchoredToTop) {
-                return BaselineResizeBehavior.CONSTANT_ASCENT;
+            if (bbselineAnchoredToTop) {
+                return BbselineResizeBehbvior.CONSTANT_ASCENT;
             }
-            return BaselineResizeBehavior.CONSTANT_DESCENT;
+            return BbselineResizeBehbvior.CONSTANT_DESCENT;
         }
 
-        // If the axis is VERTICAL, throws an IllegalStateException
-        private void checkAxis(int axis) {
-            if (axis == HORIZONTAL) {
-                throw new IllegalStateException(
-                        "Baseline must be used along vertical axis");
+        // If the bxis is VERTICAL, throws bn IllegblStbteException
+        privbte void checkAxis(int bxis) {
+            if (bxis == HORIZONTAL) {
+                throw new IllegblStbteException(
+                        "Bbseline must be used blong verticbl bxis");
             }
         }
     }
 
 
-    private final class ComponentSpring extends Spring {
-        private Component component;
-        private int origin;
+    privbte finbl clbss ComponentSpring extends Spring {
+        privbte Component component;
+        privbte int origin;
 
-        // min/pref/max are either a value >= 0 or one of
+        // min/pref/mbx bre either b vblue >= 0 or one of
         // DEFAULT_SIZE or PREFERRED_SIZE
-        private final int min;
-        private final int pref;
-        private final int max;
+        privbte finbl int min;
+        privbte finbl int pref;
+        privbte finbl int mbx;
 
-        // Baseline for the component, computed as necessary.
-        private int baseline = -1;
+        // Bbseline for the component, computed bs necessbry.
+        privbte int bbseline = -1;
 
-        // Whether or not the size has been requested yet.
-        private boolean installed;
+        // Whether or not the size hbs been requested yet.
+        privbte boolebn instblled;
 
-        private ComponentSpring(Component component, int min, int pref,
-                int max) {
+        privbte ComponentSpring(Component component, int min, int pref,
+                int mbx) {
             this.component = component;
             if (component == null) {
-                throw new IllegalArgumentException(
+                throw new IllegblArgumentException(
                         "Component must be non-null");
             }
 
-            checkSize(min, pref, max, true);
+            checkSize(min, pref, mbx, true);
 
             this.min = min;
-            this.max = max;
+            this.mbx = mbx;
             this.pref = pref;
 
-            // getComponentInfo makes sure component is a child of the
-            // Container GroupLayout is the LayoutManager for.
+            // getComponentInfo mbkes sure component is b child of the
+            // Contbiner GroupLbyout is the LbyoutMbnbger for.
             getComponentInfo(component);
         }
 
-        int calculateMinimumSize(int axis) {
-            if (isLinked(axis)) {
-                return getLinkSize(axis, MIN_SIZE);
+        int cblculbteMinimumSize(int bxis) {
+            if (isLinked(bxis)) {
+                return getLinkSize(bxis, MIN_SIZE);
             }
-            return calculateNonlinkedMinimumSize(axis);
+            return cblculbteNonlinkedMinimumSize(bxis);
         }
 
-        int calculatePreferredSize(int axis) {
-            if (isLinked(axis)) {
-                return getLinkSize(axis, PREF_SIZE);
+        int cblculbtePreferredSize(int bxis) {
+            if (isLinked(bxis)) {
+                return getLinkSize(bxis, PREF_SIZE);
             }
-            int min = getMinimumSize(axis);
-            int pref = calculateNonlinkedPreferredSize(axis);
-            int max = getMaximumSize(axis);
-            return Math.min(max, Math.max(min, pref));
+            int min = getMinimumSize(bxis);
+            int pref = cblculbteNonlinkedPreferredSize(bxis);
+            int mbx = getMbximumSize(bxis);
+            return Mbth.min(mbx, Mbth.mbx(min, pref));
         }
 
-        int calculateMaximumSize(int axis) {
-            if (isLinked(axis)) {
-                return getLinkSize(axis, MAX_SIZE);
+        int cblculbteMbximumSize(int bxis) {
+            if (isLinked(bxis)) {
+                return getLinkSize(bxis, MAX_SIZE);
             }
-            return Math.max(getMinimumSize(axis),
-                    calculateNonlinkedMaximumSize(axis));
+            return Mbth.mbx(getMinimumSize(bxis),
+                    cblculbteNonlinkedMbximumSize(bxis));
         }
 
-        boolean isVisible() {
+        boolebn isVisible() {
             return getComponentInfo(getComponent()).isVisible();
         }
 
-        int calculateNonlinkedMinimumSize(int axis) {
+        int cblculbteNonlinkedMinimumSize(int bxis) {
             if (!isVisible()) {
                 return 0;
             }
@@ -3003,54 +3003,54 @@ public class GroupLayout implements LayoutManager2 {
                 return min;
             }
             if (min == PREFERRED_SIZE) {
-                return calculateNonlinkedPreferredSize(axis);
+                return cblculbteNonlinkedPreferredSize(bxis);
             }
-            assert (min == DEFAULT_SIZE);
-            return getSizeAlongAxis(axis, component.getMinimumSize());
+            bssert (min == DEFAULT_SIZE);
+            return getSizeAlongAxis(bxis, component.getMinimumSize());
         }
 
-        int calculateNonlinkedPreferredSize(int axis) {
+        int cblculbteNonlinkedPreferredSize(int bxis) {
             if (!isVisible()) {
                 return 0;
             }
             if (pref >= 0) {
                 return pref;
             }
-            assert (pref == DEFAULT_SIZE || pref == PREFERRED_SIZE);
-            return getSizeAlongAxis(axis, component.getPreferredSize());
+            bssert (pref == DEFAULT_SIZE || pref == PREFERRED_SIZE);
+            return getSizeAlongAxis(bxis, component.getPreferredSize());
         }
 
-        int calculateNonlinkedMaximumSize(int axis) {
+        int cblculbteNonlinkedMbximumSize(int bxis) {
             if (!isVisible()) {
                 return 0;
             }
-            if (max >= 0) {
-                return max;
+            if (mbx >= 0) {
+                return mbx;
             }
-            if (max == PREFERRED_SIZE) {
-                return calculateNonlinkedPreferredSize(axis);
+            if (mbx == PREFERRED_SIZE) {
+                return cblculbteNonlinkedPreferredSize(bxis);
             }
-            assert (max == DEFAULT_SIZE);
-            return getSizeAlongAxis(axis, component.getMaximumSize());
+            bssert (mbx == DEFAULT_SIZE);
+            return getSizeAlongAxis(bxis, component.getMbximumSize());
         }
 
-        private int getSizeAlongAxis(int axis, Dimension size) {
-            return (axis == HORIZONTAL) ? size.width : size.height;
+        privbte int getSizeAlongAxis(int bxis, Dimension size) {
+            return (bxis == HORIZONTAL) ? size.width : size.height;
         }
 
-        private int getLinkSize(int axis, int type) {
+        privbte int getLinkSize(int bxis, int type) {
             if (!isVisible()) {
                 return 0;
             }
             ComponentInfo ci = getComponentInfo(component);
-            return ci.getLinkSize(axis, type);
+            return ci.getLinkSize(bxis, type);
         }
 
-        void setSize(int axis, int origin, int size) {
-            super.setSize(axis, origin, size);
+        void setSize(int bxis, int origin, int size) {
+            super.setSize(bxis, origin, size);
             this.origin = origin;
             if (size == UNSET) {
-                baseline = -1;
+                bbseline = -1;
             }
         }
 
@@ -3066,176 +3066,176 @@ public class GroupLayout implements LayoutManager2 {
             return component;
         }
 
-        int getBaseline() {
-            if (baseline == -1) {
-                Spring horizontalSpring = getComponentInfo(component).
-                        horizontalSpring;
-                int width = horizontalSpring.getPreferredSize(HORIZONTAL);
+        int getBbseline() {
+            if (bbseline == -1) {
+                Spring horizontblSpring = getComponentInfo(component).
+                        horizontblSpring;
+                int width = horizontblSpring.getPreferredSize(HORIZONTAL);
                 int height = getPreferredSize(VERTICAL);
                 if (width > 0 && height > 0) {
-                    baseline = component.getBaseline(width, height);
+                    bbseline = component.getBbseline(width, height);
                 }
             }
-            return baseline;
+            return bbseline;
         }
 
-        BaselineResizeBehavior getBaselineResizeBehavior() {
-            return getComponent().getBaselineResizeBehavior();
+        BbselineResizeBehbvior getBbselineResizeBehbvior() {
+            return getComponent().getBbselineResizeBehbvior();
         }
 
-        private boolean isLinked(int axis) {
-            return getComponentInfo(component).isLinked(axis);
+        privbte boolebn isLinked(int bxis) {
+            return getComponentInfo(component).isLinked(bxis);
         }
 
-        void installIfNecessary(int axis) {
-            if (!installed) {
-                installed = true;
-                if (axis == HORIZONTAL) {
-                    getComponentInfo(component).horizontalSpring = this;
+        void instbllIfNecessbry(int bxis) {
+            if (!instblled) {
+                instblled = true;
+                if (bxis == HORIZONTAL) {
+                    getComponentInfo(component).horizontblSpring = this;
                 } else {
-                    getComponentInfo(component).verticalSpring = this;
+                    getComponentInfo(component).verticblSpring = this;
                 }
             }
         }
 
         @Override
-        boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized) {
+        boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized) {
             return !isVisible();
         }
     }
 
 
     /**
-     * Spring representing the preferred distance between two components.
+     * Spring representing the preferred distbnce between two components.
      */
-    private class PreferredGapSpring extends Spring {
-        private final JComponent source;
-        private final JComponent target;
-        private final ComponentPlacement type;
-        private final int pref;
-        private final int max;
+    privbte clbss PreferredGbpSpring extends Spring {
+        privbte finbl JComponent source;
+        privbte finbl JComponent tbrget;
+        privbte finbl ComponentPlbcement type;
+        privbte finbl int pref;
+        privbte finbl int mbx;
 
-        PreferredGapSpring(JComponent source, JComponent target,
-                ComponentPlacement type, int pref, int max) {
+        PreferredGbpSpring(JComponent source, JComponent tbrget,
+                ComponentPlbcement type, int pref, int mbx) {
             this.source = source;
-            this.target = target;
+            this.tbrget = tbrget;
             this.type = type;
             this.pref = pref;
-            this.max = max;
+            this.mbx = mbx;
         }
 
-        int calculateMinimumSize(int axis) {
-            return getPadding(axis);
+        int cblculbteMinimumSize(int bxis) {
+            return getPbdding(bxis);
         }
 
-        int calculatePreferredSize(int axis) {
+        int cblculbtePreferredSize(int bxis) {
             if (pref == DEFAULT_SIZE || pref == PREFERRED_SIZE) {
-                return getMinimumSize(axis);
+                return getMinimumSize(bxis);
             }
-            int min = getMinimumSize(axis);
-            int max = getMaximumSize(axis);
-            return Math.min(max, Math.max(min, pref));
+            int min = getMinimumSize(bxis);
+            int mbx = getMbximumSize(bxis);
+            return Mbth.min(mbx, Mbth.mbx(min, pref));
         }
 
-        int calculateMaximumSize(int axis) {
-            if (max == PREFERRED_SIZE || max == DEFAULT_SIZE) {
-                return getPadding(axis);
+        int cblculbteMbximumSize(int bxis) {
+            if (mbx == PREFERRED_SIZE || mbx == DEFAULT_SIZE) {
+                return getPbdding(bxis);
             }
-            return Math.max(getMinimumSize(axis), max);
+            return Mbth.mbx(getMinimumSize(bxis), mbx);
         }
 
-        private int getPadding(int axis) {
+        privbte int getPbdding(int bxis) {
             int position;
-            if (axis == HORIZONTAL) {
-                position = SwingConstants.EAST;
+            if (bxis == HORIZONTAL) {
+                position = SwingConstbnts.EAST;
             } else {
-                position = SwingConstants.SOUTH;
+                position = SwingConstbnts.SOUTH;
             }
-            return getLayoutStyle0().getPreferredGap(source,
-                    target, type, position, host);
+            return getLbyoutStyle0().getPreferredGbp(source,
+                    tbrget, type, position, host);
         }
 
         @Override
-        boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized) {
-            return false;
+        boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized) {
+            return fblse;
         }
     }
 
 
     /**
-     * Spring represented a certain amount of space.
+     * Spring represented b certbin bmount of spbce.
      */
-    private class GapSpring extends Spring {
-        private final int min;
-        private final int pref;
-        private final int max;
+    privbte clbss GbpSpring extends Spring {
+        privbte finbl int min;
+        privbte finbl int pref;
+        privbte finbl int mbx;
 
-        GapSpring(int min, int pref, int max) {
-            checkSize(min, pref, max, false);
+        GbpSpring(int min, int pref, int mbx) {
+            checkSize(min, pref, mbx, fblse);
             this.min = min;
             this.pref = pref;
-            this.max = max;
+            this.mbx = mbx;
         }
 
-        int calculateMinimumSize(int axis) {
+        int cblculbteMinimumSize(int bxis) {
             if (min == PREFERRED_SIZE) {
-                return getPreferredSize(axis);
+                return getPreferredSize(bxis);
             }
             return min;
         }
 
-        int calculatePreferredSize(int axis) {
+        int cblculbtePreferredSize(int bxis) {
             return pref;
         }
 
-        int calculateMaximumSize(int axis) {
-            if (max == PREFERRED_SIZE) {
-                return getPreferredSize(axis);
+        int cblculbteMbximumSize(int bxis) {
+            if (mbx == PREFERRED_SIZE) {
+                return getPreferredSize(bxis);
             }
-            return max;
+            return mbx;
         }
 
         @Override
-        boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized) {
-            return false;
+        boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized) {
+            return fblse;
         }
     }
 
 
     /**
-     * Spring reprensenting the distance between any number of sources and
-     * targets.  The targets and sources are computed during layout.  An
-     * instance of this can either be dynamically created when
-     * autocreatePadding is true, or explicitly created by the developer.
+     * Spring reprensenting the distbnce between bny number of sources bnd
+     * tbrgets.  The tbrgets bnd sources bre computed during lbyout.  An
+     * instbnce of this cbn either be dynbmicblly crebted when
+     * butocrebtePbdding is true, or explicitly crebted by the developer.
      */
-    private class AutoPreferredGapSpring extends Spring {
+    privbte clbss AutoPreferredGbpSpring extends Spring {
         List<ComponentSpring> sources;
         ComponentSpring source;
-        private List<AutoPreferredGapMatch> matches;
+        privbte List<AutoPreferredGbpMbtch> mbtches;
         int size;
-        int lastSize;
-        private final int pref;
-        private final int max;
-        // Type of gap
-        private ComponentPlacement type;
-        private boolean userCreated;
+        int lbstSize;
+        privbte finbl int pref;
+        privbte finbl int mbx;
+        // Type of gbp
+        privbte ComponentPlbcement type;
+        privbte boolebn userCrebted;
 
-        private AutoPreferredGapSpring() {
+        privbte AutoPreferredGbpSpring() {
             this.pref = PREFERRED_SIZE;
-            this.max = PREFERRED_SIZE;
-            this.type = ComponentPlacement.RELATED;
+            this.mbx = PREFERRED_SIZE;
+            this.type = ComponentPlbcement.RELATED;
         }
 
-        AutoPreferredGapSpring(int pref, int max) {
+        AutoPreferredGbpSpring(int pref, int mbx) {
             this.pref = pref;
-            this.max = max;
+            this.mbx = mbx;
         }
 
-        AutoPreferredGapSpring(ComponentPlacement type, int pref, int max) {
+        AutoPreferredGbpSpring(ComponentPlbcement type, int pref, int mbx) {
             this.type = type;
             this.pref = pref;
-            this.max = max;
-            this.userCreated = true;
+            this.mbx = mbx;
+            this.userCrebted = true;
         }
 
         public void setSource(ComponentSpring source) {
@@ -3243,19 +3243,19 @@ public class GroupLayout implements LayoutManager2 {
         }
 
         public void setSources(List<ComponentSpring> sources) {
-            this.sources = new ArrayList<ComponentSpring>(sources);
+            this.sources = new ArrbyList<ComponentSpring>(sources);
         }
 
-        public void setUserCreated(boolean userCreated) {
-            this.userCreated = userCreated;
+        public void setUserCrebted(boolebn userCrebted) {
+            this.userCrebted = userCrebted;
         }
 
-        public boolean getUserCreated() {
-            return userCreated;
+        public boolebn getUserCrebted() {
+            return userCrebted;
         }
 
         void unset() {
-            lastSize = getSize();
+            lbstSize = getSize();
             super.unset();
             size = 0;
         }
@@ -3264,415 +3264,415 @@ public class GroupLayout implements LayoutManager2 {
             size = 0;
             sources = null;
             source = null;
-            matches = null;
+            mbtches = null;
         }
 
-        public void calculatePadding(int axis) {
+        public void cblculbtePbdding(int bxis) {
             size = UNSET;
-            int maxPadding = UNSET;
-            if (matches != null) {
-                LayoutStyle p = getLayoutStyle0();
+            int mbxPbdding = UNSET;
+            if (mbtches != null) {
+                LbyoutStyle p = getLbyoutStyle0();
                 int position;
-                if (axis == HORIZONTAL) {
+                if (bxis == HORIZONTAL) {
                     if (isLeftToRight()) {
-                        position = SwingConstants.EAST;
+                        position = SwingConstbnts.EAST;
                     } else {
-                        position = SwingConstants.WEST;
+                        position = SwingConstbnts.WEST;
                     }
                 } else {
-                    position = SwingConstants.SOUTH;
+                    position = SwingConstbnts.SOUTH;
                 }
-                for (int i = matches.size() - 1; i >= 0; i--) {
-                    AutoPreferredGapMatch match = matches.get(i);
-                    maxPadding = Math.max(maxPadding,
-                            calculatePadding(p, position, match.source,
-                            match.target));
+                for (int i = mbtches.size() - 1; i >= 0; i--) {
+                    AutoPreferredGbpMbtch mbtch = mbtches.get(i);
+                    mbxPbdding = Mbth.mbx(mbxPbdding,
+                            cblculbtePbdding(p, position, mbtch.source,
+                            mbtch.tbrget));
                 }
             }
             if (size == UNSET) {
                 size = 0;
             }
-            if (maxPadding == UNSET) {
-                maxPadding = 0;
+            if (mbxPbdding == UNSET) {
+                mbxPbdding = 0;
             }
-            if (lastSize != UNSET) {
-                size += Math.min(maxPadding, lastSize);
+            if (lbstSize != UNSET) {
+                size += Mbth.min(mbxPbdding, lbstSize);
             }
         }
 
-        private int calculatePadding(LayoutStyle p, int position,
+        privbte int cblculbtePbdding(LbyoutStyle p, int position,
                 ComponentSpring source,
-                ComponentSpring target) {
-            int delta = target.getOrigin() - (source.getOrigin() +
+                ComponentSpring tbrget) {
+            int deltb = tbrget.getOrigin() - (source.getOrigin() +
                     source.getSize());
-            if (delta >= 0) {
-                int padding;
-                if ((source.getComponent() instanceof JComponent) &&
-                        (target.getComponent() instanceof JComponent)) {
-                    padding = p.getPreferredGap(
+            if (deltb >= 0) {
+                int pbdding;
+                if ((source.getComponent() instbnceof JComponent) &&
+                        (tbrget.getComponent() instbnceof JComponent)) {
+                    pbdding = p.getPreferredGbp(
                             (JComponent)source.getComponent(),
-                            (JComponent)target.getComponent(), type, position,
+                            (JComponent)tbrget.getComponent(), type, position,
                             host);
                 } else {
-                    padding = 10;
+                    pbdding = 10;
                 }
-                if (padding > delta) {
-                    size = Math.max(size, padding - delta);
+                if (pbdding > deltb) {
+                    size = Mbth.mbx(size, pbdding - deltb);
                 }
-                return padding;
+                return pbdding;
             }
             return 0;
         }
 
-        public void addTarget(ComponentSpring spring, int axis) {
-            int oAxis = (axis == HORIZONTAL) ? VERTICAL : HORIZONTAL;
+        public void bddTbrget(ComponentSpring spring, int bxis) {
+            int oAxis = (bxis == HORIZONTAL) ? VERTICAL : HORIZONTAL;
             if (source != null) {
-                if (areParallelSiblings(source.getComponent(),
+                if (brePbrbllelSiblings(source.getComponent(),
                         spring.getComponent(), oAxis)) {
-                    addValidTarget(source, spring);
+                    bddVblidTbrget(source, spring);
                 }
             } else {
                 Component component = spring.getComponent();
                 for (int counter = sources.size() - 1; counter >= 0;
                          counter--){
                     ComponentSpring source = sources.get(counter);
-                    if (areParallelSiblings(source.getComponent(),
+                    if (brePbrbllelSiblings(source.getComponent(),
                             component, oAxis)) {
-                        addValidTarget(source, spring);
+                        bddVblidTbrget(source, spring);
                     }
                 }
             }
         }
 
-        private void addValidTarget(ComponentSpring source,
-                ComponentSpring target) {
-            if (matches == null) {
-                matches = new ArrayList<AutoPreferredGapMatch>(1);
+        privbte void bddVblidTbrget(ComponentSpring source,
+                ComponentSpring tbrget) {
+            if (mbtches == null) {
+                mbtches = new ArrbyList<AutoPreferredGbpMbtch>(1);
             }
-            matches.add(new AutoPreferredGapMatch(source, target));
+            mbtches.bdd(new AutoPreferredGbpMbtch(source, tbrget));
         }
 
-        int calculateMinimumSize(int axis) {
+        int cblculbteMinimumSize(int bxis) {
             return size;
         }
 
-        int calculatePreferredSize(int axis) {
+        int cblculbtePreferredSize(int bxis) {
             if (pref == PREFERRED_SIZE || pref == DEFAULT_SIZE) {
                 return size;
             }
-            return Math.max(size, pref);
+            return Mbth.mbx(size, pref);
         }
 
-        int calculateMaximumSize(int axis) {
-            if (max >= 0) {
-                return Math.max(getPreferredSize(axis), max);
+        int cblculbteMbximumSize(int bxis) {
+            if (mbx >= 0) {
+                return Mbth.mbx(getPreferredSize(bxis), mbx);
             }
             return size;
         }
 
-        String getMatchDescription() {
-            return (matches == null) ? "" : matches.toString();
+        String getMbtchDescription() {
+            return (mbtches == null) ? "" : mbtches.toString();
         }
 
         public String toString() {
-            return super.toString() + getMatchDescription();
+            return super.toString() + getMbtchDescription();
         }
 
         @Override
-        boolean willHaveZeroSize(boolean treatAutopaddingAsZeroSized) {
-            return treatAutopaddingAsZeroSized;
+        boolebn willHbveZeroSize(boolebn trebtAutopbddingAsZeroSized) {
+            return trebtAutopbddingAsZeroSized;
         }
     }
 
 
     /**
-     * Represents two springs that should have autopadding inserted between
+     * Represents two springs thbt should hbve butopbdding inserted between
      * them.
      */
-    private final static class AutoPreferredGapMatch {
-        public final ComponentSpring source;
-        public final ComponentSpring target;
+    privbte finbl stbtic clbss AutoPreferredGbpMbtch {
+        public finbl ComponentSpring source;
+        public finbl ComponentSpring tbrget;
 
-        AutoPreferredGapMatch(ComponentSpring source, ComponentSpring target) {
+        AutoPreferredGbpMbtch(ComponentSpring source, ComponentSpring tbrget) {
             this.source = source;
-            this.target = target;
+            this.tbrget = tbrget;
         }
 
-        private String toString(ComponentSpring spring) {
-            return spring.getComponent().getName();
+        privbte String toString(ComponentSpring spring) {
+            return spring.getComponent().getNbme();
         }
 
         public String toString() {
-            return "[" + toString(source) + "-" + toString(target) + "]";
+            return "[" + toString(source) + "-" + toString(tbrget) + "]";
         }
     }
 
 
     /**
-     * An extension of AutopaddingSpring used for container level padding.
+     * An extension of AutopbddingSpring used for contbiner level pbdding.
      */
-    private class ContainerAutoPreferredGapSpring extends
-            AutoPreferredGapSpring {
-        private List<ComponentSpring> targets;
+    privbte clbss ContbinerAutoPreferredGbpSpring extends
+            AutoPreferredGbpSpring {
+        privbte List<ComponentSpring> tbrgets;
 
-        ContainerAutoPreferredGapSpring() {
+        ContbinerAutoPreferredGbpSpring() {
             super();
-            setUserCreated(true);
+            setUserCrebted(true);
         }
 
-        ContainerAutoPreferredGapSpring(int pref, int max) {
-            super(pref, max);
-            setUserCreated(true);
+        ContbinerAutoPreferredGbpSpring(int pref, int mbx) {
+            super(pref, mbx);
+            setUserCrebted(true);
         }
 
-        public void addTarget(ComponentSpring spring, int axis) {
-            if (targets == null) {
-                targets = new ArrayList<ComponentSpring>(1);
+        public void bddTbrget(ComponentSpring spring, int bxis) {
+            if (tbrgets == null) {
+                tbrgets = new ArrbyList<ComponentSpring>(1);
             }
-            targets.add(spring);
+            tbrgets.bdd(spring);
         }
 
-        public void calculatePadding(int axis) {
-            LayoutStyle p = getLayoutStyle0();
-            int maxPadding = 0;
+        public void cblculbtePbdding(int bxis) {
+            LbyoutStyle p = getLbyoutStyle0();
+            int mbxPbdding = 0;
             int position;
             size = 0;
-            if (targets != null) {
-                // Leading
-                if (axis == HORIZONTAL) {
+            if (tbrgets != null) {
+                // Lebding
+                if (bxis == HORIZONTAL) {
                     if (isLeftToRight()) {
-                        position = SwingConstants.WEST;
+                        position = SwingConstbnts.WEST;
                     } else {
-                        position = SwingConstants.EAST;
+                        position = SwingConstbnts.EAST;
                     }
                 } else {
-                    position = SwingConstants.SOUTH;
+                    position = SwingConstbnts.SOUTH;
                 }
-                for (int i = targets.size() - 1; i >= 0; i--) {
-                    ComponentSpring targetSpring = targets.get(i);
-                    int padding = 10;
-                    if (targetSpring.getComponent() instanceof JComponent) {
-                        padding = p.getContainerGap(
-                                (JComponent)targetSpring.getComponent(),
+                for (int i = tbrgets.size() - 1; i >= 0; i--) {
+                    ComponentSpring tbrgetSpring = tbrgets.get(i);
+                    int pbdding = 10;
+                    if (tbrgetSpring.getComponent() instbnceof JComponent) {
+                        pbdding = p.getContbinerGbp(
+                                (JComponent)tbrgetSpring.getComponent(),
                                 position, host);
-                        maxPadding = Math.max(padding, maxPadding);
-                        padding -= targetSpring.getOrigin();
+                        mbxPbdding = Mbth.mbx(pbdding, mbxPbdding);
+                        pbdding -= tbrgetSpring.getOrigin();
                     } else {
-                        maxPadding = Math.max(padding, maxPadding);
+                        mbxPbdding = Mbth.mbx(pbdding, mbxPbdding);
                     }
-                    size = Math.max(size, padding);
+                    size = Mbth.mbx(size, pbdding);
                 }
             } else {
-                // Trailing
-                if (axis == HORIZONTAL) {
+                // Trbiling
+                if (bxis == HORIZONTAL) {
                     if (isLeftToRight()) {
-                        position = SwingConstants.EAST;
+                        position = SwingConstbnts.EAST;
                     } else {
-                        position = SwingConstants.WEST;
+                        position = SwingConstbnts.WEST;
                     }
                 } else {
-                    position = SwingConstants.SOUTH;
+                    position = SwingConstbnts.SOUTH;
                 }
                 if (sources != null) {
                     for (int i = sources.size() - 1; i >= 0; i--) {
                         ComponentSpring sourceSpring = sources.get(i);
-                        maxPadding = Math.max(maxPadding,
-                                updateSize(p, sourceSpring, position));
+                        mbxPbdding = Mbth.mbx(mbxPbdding,
+                                updbteSize(p, sourceSpring, position));
                     }
                 } else if (source != null) {
-                    maxPadding = updateSize(p, source, position);
+                    mbxPbdding = updbteSize(p, source, position);
                 }
             }
-            if (lastSize != UNSET) {
-                size += Math.min(maxPadding, lastSize);
+            if (lbstSize != UNSET) {
+                size += Mbth.min(mbxPbdding, lbstSize);
             }
         }
 
-        private int updateSize(LayoutStyle p, ComponentSpring sourceSpring,
+        privbte int updbteSize(LbyoutStyle p, ComponentSpring sourceSpring,
                 int position) {
-            int padding = 10;
-            if (sourceSpring.getComponent() instanceof JComponent) {
-                padding = p.getContainerGap(
+            int pbdding = 10;
+            if (sourceSpring.getComponent() instbnceof JComponent) {
+                pbdding = p.getContbinerGbp(
                         (JComponent)sourceSpring.getComponent(), position,
                         host);
             }
-            int delta = Math.max(0, getParent().getSize() -
+            int deltb = Mbth.mbx(0, getPbrent().getSize() -
                     sourceSpring.getSize() - sourceSpring.getOrigin());
-            size = Math.max(size, padding - delta);
-            return padding;
+            size = Mbth.mbx(size, pbdding - deltb);
+            return pbdding;
         }
 
-        String getMatchDescription() {
-            if (targets != null) {
-                return "leading: " + targets.toString();
+        String getMbtchDescription() {
+            if (tbrgets != null) {
+                return "lebding: " + tbrgets.toString();
             }
             if (sources != null) {
-                return "trailing: " + sources.toString();
+                return "trbiling: " + sources.toString();
             }
             return "--";
         }
     }
 
 
-    // LinkInfo contains the set of ComponentInfosthat are linked along a
-    // particular axis.
-    private static class LinkInfo {
-        private final int axis;
-        private final List<ComponentInfo> linked;
-        private int size;
+    // LinkInfo contbins the set of ComponentInfosthbt bre linked blong b
+    // pbrticulbr bxis.
+    privbte stbtic clbss LinkInfo {
+        privbte finbl int bxis;
+        privbte finbl List<ComponentInfo> linked;
+        privbte int size;
 
-        LinkInfo(int axis) {
-            linked = new ArrayList<ComponentInfo>();
+        LinkInfo(int bxis) {
+            linked = new ArrbyList<ComponentInfo>();
             size = UNSET;
-            this.axis = axis;
+            this.bxis = bxis;
         }
 
-        public void add(ComponentInfo child) {
-            LinkInfo childMaster = child.getLinkInfo(axis, false);
-            if (childMaster == null) {
-                linked.add(child);
-                child.setLinkInfo(axis, this);
-            } else if (childMaster != this) {
-                linked.addAll(childMaster.linked);
-                for (ComponentInfo childInfo : childMaster.linked) {
-                    childInfo.setLinkInfo(axis, this);
+        public void bdd(ComponentInfo child) {
+            LinkInfo childMbster = child.getLinkInfo(bxis, fblse);
+            if (childMbster == null) {
+                linked.bdd(child);
+                child.setLinkInfo(bxis, this);
+            } else if (childMbster != this) {
+                linked.bddAll(childMbster.linked);
+                for (ComponentInfo childInfo : childMbster.linked) {
+                    childInfo.setLinkInfo(bxis, this);
                 }
             }
-            clearCachedSize();
+            clebrCbchedSize();
         }
 
         public void remove(ComponentInfo info) {
             linked.remove(info);
-            info.setLinkInfo(axis, null);
+            info.setLinkInfo(bxis, null);
             if (linked.size() == 1) {
-                linked.get(0).setLinkInfo(axis, null);
+                linked.get(0).setLinkInfo(bxis, null);
             }
-            clearCachedSize();
+            clebrCbchedSize();
         }
 
-        public void clearCachedSize() {
+        public void clebrCbchedSize() {
             size = UNSET;
         }
 
-        public int getSize(int axis) {
+        public int getSize(int bxis) {
             if (size == UNSET) {
-                size = calculateLinkedSize(axis);
+                size = cblculbteLinkedSize(bxis);
             }
             return size;
         }
 
-        private int calculateLinkedSize(int axis) {
+        privbte int cblculbteLinkedSize(int bxis) {
             int size = 0;
             for (ComponentInfo info : linked) {
                 ComponentSpring spring;
-                if (axis == HORIZONTAL) {
-                    spring = info.horizontalSpring;
+                if (bxis == HORIZONTAL) {
+                    spring = info.horizontblSpring;
                 } else {
-                    assert (axis == VERTICAL);
-                    spring = info.verticalSpring;
+                    bssert (bxis == VERTICAL);
+                    spring = info.verticblSpring;
                 }
-                size = Math.max(size,
-                        spring.calculateNonlinkedPreferredSize(axis));
+                size = Mbth.mbx(size,
+                        spring.cblculbteNonlinkedPreferredSize(bxis));
             }
             return size;
         }
     }
 
     /**
-     * Tracks the horizontal/vertical Springs for a Component.
-     * This class is also used to handle Springs that have their sizes
+     * Trbcks the horizontbl/verticbl Springs for b Component.
+     * This clbss is blso used to hbndle Springs thbt hbve their sizes
      * linked.
      */
-    private class ComponentInfo {
-        // Component being layed out
-        private Component component;
+    privbte clbss ComponentInfo {
+        // Component being lbyed out
+        privbte Component component;
 
-        ComponentSpring horizontalSpring;
-        ComponentSpring verticalSpring;
+        ComponentSpring horizontblSpring;
+        ComponentSpring verticblSpring;
 
         // If the component's size is linked to other components, the
-        // horizontalMaster and/or verticalMaster reference the group of
+        // horizontblMbster bnd/or verticblMbster reference the group of
         // linked components.
-        private LinkInfo horizontalMaster;
-        private LinkInfo verticalMaster;
+        privbte LinkInfo horizontblMbster;
+        privbte LinkInfo verticblMbster;
 
-        private boolean visible;
-        private Boolean honorsVisibility;
+        privbte boolebn visible;
+        privbte Boolebn honorsVisibility;
 
         ComponentInfo(Component component) {
             this.component = component;
-            updateVisibility();
+            updbteVisibility();
         }
 
         public void dispose() {
-            // Remove horizontal/vertical springs
-            removeSpring(horizontalSpring);
-            horizontalSpring = null;
-            removeSpring(verticalSpring);
-            verticalSpring = null;
-            // Clean up links
-            if (horizontalMaster != null) {
-                horizontalMaster.remove(this);
+            // Remove horizontbl/verticbl springs
+            removeSpring(horizontblSpring);
+            horizontblSpring = null;
+            removeSpring(verticblSpring);
+            verticblSpring = null;
+            // Clebn up links
+            if (horizontblMbster != null) {
+                horizontblMbster.remove(this);
             }
-            if (verticalMaster != null) {
-                verticalMaster.remove(this);
+            if (verticblMbster != null) {
+                verticblMbster.remove(this);
             }
         }
 
-        void setHonorsVisibility(Boolean honorsVisibility) {
+        void setHonorsVisibility(Boolebn honorsVisibility) {
             this.honorsVisibility = honorsVisibility;
         }
 
-        private void removeSpring(Spring spring) {
+        privbte void removeSpring(Spring spring) {
             if (spring != null) {
-                ((Group)spring.getParent()).springs.remove(spring);
+                ((Group)spring.getPbrent()).springs.remove(spring);
             }
         }
 
-        public boolean isVisible() {
+        public boolebn isVisible() {
             return visible;
         }
 
         /**
-         * Updates the cached visibility.
+         * Updbtes the cbched visibility.
          *
-         * @return true if the visibility changed
+         * @return true if the visibility chbnged
          */
-        boolean updateVisibility() {
-            boolean honorsVisibility;
+        boolebn updbteVisibility() {
+            boolebn honorsVisibility;
             if (this.honorsVisibility == null) {
-                honorsVisibility = GroupLayout.this.getHonorsVisibility();
+                honorsVisibility = GroupLbyout.this.getHonorsVisibility();
             } else {
                 honorsVisibility = this.honorsVisibility;
             }
-            boolean newVisible = (honorsVisibility) ?
+            boolebn newVisible = (honorsVisibility) ?
                 component.isVisible() : true;
             if (visible != newVisible) {
                 visible = newVisible;
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public void setBounds(Insets insets, int parentWidth, boolean ltr) {
-            int x = horizontalSpring.getOrigin();
-            int w = horizontalSpring.getSize();
-            int y = verticalSpring.getOrigin();
-            int h = verticalSpring.getSize();
+        public void setBounds(Insets insets, int pbrentWidth, boolebn ltr) {
+            int x = horizontblSpring.getOrigin();
+            int w = horizontblSpring.getSize();
+            int y = verticblSpring.getOrigin();
+            int h = verticblSpring.getSize();
 
             if (!ltr) {
-                x = parentWidth - x - w;
+                x = pbrentWidth - x - w;
             }
             component.setBounds(x + insets.left, y + insets.top, w, h);
         }
 
         public void setComponent(Component component) {
             this.component = component;
-            if (horizontalSpring != null) {
-                horizontalSpring.setComponent(component);
+            if (horizontblSpring != null) {
+                horizontblSpring.setComponent(component);
             }
-            if (verticalSpring != null) {
-                verticalSpring.setComponent(component);
+            if (verticblSpring != null) {
+                verticblSpring.setComponent(component);
             }
         }
 
@@ -3681,64 +3681,64 @@ public class GroupLayout implements LayoutManager2 {
         }
 
         /**
-         * Returns true if this component has its size linked to
+         * Returns true if this component hbs its size linked to
          * other components.
          */
-        public boolean isLinked(int axis) {
-            if (axis == HORIZONTAL) {
-                return horizontalMaster != null;
+        public boolebn isLinked(int bxis) {
+            if (bxis == HORIZONTAL) {
+                return horizontblMbster != null;
             }
-            assert (axis == VERTICAL);
-            return (verticalMaster != null);
+            bssert (bxis == VERTICAL);
+            return (verticblMbster != null);
         }
 
-        private void setLinkInfo(int axis, LinkInfo linkInfo) {
-            if (axis == HORIZONTAL) {
-                horizontalMaster = linkInfo;
+        privbte void setLinkInfo(int bxis, LinkInfo linkInfo) {
+            if (bxis == HORIZONTAL) {
+                horizontblMbster = linkInfo;
             } else {
-                assert (axis == VERTICAL);
-                verticalMaster = linkInfo;
+                bssert (bxis == VERTICAL);
+                verticblMbster = linkInfo;
             }
         }
 
-        public LinkInfo getLinkInfo(int axis) {
-            return getLinkInfo(axis, true);
+        public LinkInfo getLinkInfo(int bxis) {
+            return getLinkInfo(bxis, true);
         }
 
-        private LinkInfo getLinkInfo(int axis, boolean create) {
-            if (axis == HORIZONTAL) {
-                if (horizontalMaster == null && create) {
-                    // horizontalMaster field is directly set by adding
+        privbte LinkInfo getLinkInfo(int bxis, boolebn crebte) {
+            if (bxis == HORIZONTAL) {
+                if (horizontblMbster == null && crebte) {
+                    // horizontblMbster field is directly set by bdding
                     // us to the LinkInfo.
-                    new LinkInfo(HORIZONTAL).add(this);
+                    new LinkInfo(HORIZONTAL).bdd(this);
                 }
-                return horizontalMaster;
+                return horizontblMbster;
             } else {
-                assert (axis == VERTICAL);
-                if (verticalMaster == null && create) {
-                    // verticalMaster field is directly set by adding
+                bssert (bxis == VERTICAL);
+                if (verticblMbster == null && crebte) {
+                    // verticblMbster field is directly set by bdding
                     // us to the LinkInfo.
-                    new LinkInfo(VERTICAL).add(this);
+                    new LinkInfo(VERTICAL).bdd(this);
                 }
-                return verticalMaster;
+                return verticblMbster;
             }
         }
 
-        public void clearCachedSize() {
-            if (horizontalMaster != null) {
-                horizontalMaster.clearCachedSize();
+        public void clebrCbchedSize() {
+            if (horizontblMbster != null) {
+                horizontblMbster.clebrCbchedSize();
             }
-            if (verticalMaster != null) {
-                verticalMaster.clearCachedSize();
+            if (verticblMbster != null) {
+                verticblMbster.clebrCbchedSize();
             }
         }
 
-        int getLinkSize(int axis, int type) {
-            if (axis == HORIZONTAL) {
-                return horizontalMaster.getSize(axis);
+        int getLinkSize(int bxis, int type) {
+            if (bxis == HORIZONTAL) {
+                return horizontblMbster.getSize(bxis);
             } else {
-                assert (axis == VERTICAL);
-                return verticalMaster.getSize(axis);
+                bssert (bxis == VERTICAL);
+                return verticblMbster.getSize(bxis);
             }
         }
 

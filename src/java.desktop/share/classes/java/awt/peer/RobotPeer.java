@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * RobotPeer defines an interface whereby toolkits support automated testing
- * by allowing native input events to be generated from Java code.
+ * RobotPeer defines bn interfbce whereby toolkits support butombted testing
+ * by bllowing nbtive input events to be generbted from Jbvb code.
  *
- * This interface should not be directly imported by code outside the
- * java.awt.* hierarchy; it is not to be considered public and is subject
- * to change.
+ * This interfbce should not be directly imported by code outside the
+ * jbvb.bwt.* hierbrchy; it is not to be considered public bnd is subject
+ * to chbnge.
  *
- * @author      Robi Khan
+ * @buthor      Robi Khbn
  */
-public interface RobotPeer
+public interfbce RobotPeer
 {
     /**
-     * Moves the mouse pointer to the specified screen location.
+     * Moves the mouse pointer to the specified screen locbtion.
      *
-     * @param x the X location on screen
-     * @param y the Y location on screen
+     * @pbrbm x the X locbtion on screen
+     * @pbrbm y the Y locbtion on screen
      *
      * @see Robot#mouseMove(int, int)
      */
     void mouseMove(int x, int y);
 
     /**
-     * Simulates a mouse press with the specified button(s).
+     * Simulbtes b mouse press with the specified button(s).
      *
-     * @param buttons the button mask
+     * @pbrbm buttons the button mbsk
      *
      * @see Robot#mousePress(int)
      */
     void mousePress(int buttons);
 
     /**
-     * Simulates a mouse release with the specified button(s).
+     * Simulbtes b mouse relebse with the specified button(s).
      *
-     * @param buttons the button mask
+     * @pbrbm buttons the button mbsk
      *
-     * @see Robot#mouseRelease(int)
+     * @see Robot#mouseRelebse(int)
      */
-    void mouseRelease(int buttons);
+    void mouseRelebse(int buttons);
 
     /**
-     * Simulates mouse wheel action.
+     * Simulbtes mouse wheel bction.
      *
-     * @param wheelAmt number of notches to move the mouse wheel
+     * @pbrbm wheelAmt number of notches to move the mouse wheel
      *
      * @see Robot#mouseWheel(int)
      */
     void mouseWheel(int wheelAmt);
 
     /**
-     * Simulates a key press of the specified key.
+     * Simulbtes b key press of the specified key.
      *
-     * @param keycode the key code to press
+     * @pbrbm keycode the key code to press
      *
      * @see Robot#keyPress(int)
      */
     void keyPress(int keycode);
 
     /**
-     * Simulates a key release of the specified key.
+     * Simulbtes b key relebse of the specified key.
      *
-     * @param keycode the key code to release
+     * @pbrbm keycode the key code to relebse
      *
-     * @see Robot#keyRelease(int)
+     * @see Robot#keyRelebse(int)
      */
-    void keyRelease(int keycode);
+    void keyRelebse(int keycode);
 
     /**
-     * Gets the RGB value of the specified pixel on screen.
+     * Gets the RGB vblue of the specified pixel on screen.
      *
-     * @param x the X screen coordinate
-     * @param y the Y screen coordinate
+     * @pbrbm x the X screen coordinbte
+     * @pbrbm y the Y screen coordinbte
      *
-     * @return the RGB value of the specified pixel on screen
+     * @return the RGB vblue of the specified pixel on screen
      *
      * @see Robot#getPixelColor(int, int)
      */
     int getRGBPixel(int x, int y);
 
     /**
-     * Gets the RGB values of the specified screen area as an array.
+     * Gets the RGB vblues of the specified screen breb bs bn brrby.
      *
-     * @param bounds the screen area to capture the RGB values from
+     * @pbrbm bounds the screen breb to cbpture the RGB vblues from
      *
-     * @return the RGB values of the specified screen area
+     * @return the RGB vblues of the specified screen breb
      *
-     * @see Robot#createScreenCapture(Rectangle)
+     * @see Robot#crebteScreenCbpture(Rectbngle)
      */
-    int[] getRGBPixels(Rectangle bounds);
+    int[] getRGBPixels(Rectbngle bounds);
 
     /**
-     * Disposes the robot peer when it is not needed anymore.
+     * Disposes the robot peer when it is not needed bnymore.
      */
     void dispose();
 }

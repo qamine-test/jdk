@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools;
+pbckbge sun.security.tools;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebmRebder;
 
-import java.io.StreamTokenizer;
-import java.io.StringReader;
-import java.net.URL;
+import jbvb.io.StrebmTokenizer;
+import jbvb.io.StringRebder;
+import jbvb.net.URL;
 
-import java.security.KeyStore;
+import jbvb.security.KeyStore;
 
-import java.text.Collator;
+import jbvb.text.Collbtor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Properties;
 
-import sun.security.util.PropertyExpander;
+import sun.security.util.PropertyExpbnder;
 
 /**
- * <p> This class provides several utilities to <code>KeyStore</code>.
+ * <p> This clbss provides severbl utilities to <code>KeyStore</code>.
  *
  * @since 1.6.0
  */
-public class KeyStoreUtil {
+public clbss KeyStoreUtil {
 
-    private KeyStoreUtil() {
-        // this class is not meant to be instantiated
+    privbte KeyStoreUtil() {
+        // this clbss is not mebnt to be instbntibted
     }
 
-    private static final String JKS = "jks";
+    privbte stbtic finbl String JKS = "jks";
 
-    private static final Collator collator = Collator.getInstance();
-    static {
-        // this is for case insensitive string comparisons
-        collator.setStrength(Collator.PRIMARY);
+    privbte stbtic finbl Collbtor collbtor = Collbtor.getInstbnce();
+    stbtic {
+        // this is for cbse insensitive string compbrisons
+        collbtor.setStrength(Collbtor.PRIMARY);
     };
 
     /**
-     * Returns true if KeyStore has a password. This is true except for
+     * Returns true if KeyStore hbs b pbssword. This is true except for
      * MSCAPI KeyStores
      */
-    public static boolean isWindowsKeyStore(String storetype) {
-        return storetype.equalsIgnoreCase("Windows-MY")
-                || storetype.equalsIgnoreCase("Windows-ROOT");
+    public stbtic boolebn isWindowsKeyStore(String storetype) {
+        return storetype.equblsIgnoreCbse("Windows-MY")
+                || storetype.equblsIgnoreCbse("Windows-ROOT");
     }
 
     /**
-     * Returns standard-looking names for storetype
+     * Returns stbndbrd-looking nbmes for storetype
      */
-    public static String niceStoreTypeName(String storetype) {
-        if (storetype.equalsIgnoreCase("Windows-MY")) {
+    public stbtic String niceStoreTypeNbme(String storetype) {
+        if (storetype.equblsIgnoreCbse("Windows-MY")) {
             return "Windows-MY";
-        } else if(storetype.equalsIgnoreCase("Windows-ROOT")) {
+        } else if(storetype.equblsIgnoreCbse("Windows-ROOT")) {
             return "Windows-ROOT";
         } else {
-            return storetype.toUpperCase(Locale.ENGLISH);
+            return storetype.toUpperCbse(Locble.ENGLISH);
         }
     }
 
     /**
-     * Returns the keystore with the configured CA certificates.
+     * Returns the keystore with the configured CA certificbtes.
      */
-    public static KeyStore getCacertsKeyStore()
+    public stbtic KeyStore getCbcertsKeyStore()
         throws Exception
     {
-        String sep = File.separator;
-        File file = new File(System.getProperty("java.home") + sep
+        String sep = File.sepbrbtor;
+        File file = new File(System.getProperty("jbvb.home") + sep
                              + "lib" + sep + "security" + sep
-                             + "cacerts");
+                             + "cbcerts");
         if (!file.exists()) {
             return null;
         }
-        KeyStore caks = null;
-        try (FileInputStream fis = new FileInputStream(file)) {
-            caks = KeyStore.getInstance(JKS);
-            caks.load(fis, null);
+        KeyStore cbks = null;
+        try (FileInputStrebm fis = new FileInputStrebm(file)) {
+            cbks = KeyStore.getInstbnce(JKS);
+            cbks.lobd(fis, null);
         }
-        return caks;
+        return cbks;
     }
 
-    public static char[] getPassWithModifier(String modifier, String arg,
-                                             java.util.ResourceBundle rb) {
+    public stbtic chbr[] getPbssWithModifier(String modifier, String brg,
+                                             jbvb.util.ResourceBundle rb) {
         if (modifier == null) {
-            return arg.toCharArray();
-        } else if (collator.compare(modifier, "env") == 0) {
-            String value = System.getenv(arg);
-            if (value == null) {
+            return brg.toChbrArrby();
+        } else if (collbtor.compbre(modifier, "env") == 0) {
+            String vblue = System.getenv(brg);
+            if (vblue == null) {
                 System.err.println(rb.getString(
-                        "Cannot.find.environment.variable.") + arg);
+                        "Cbnnot.find.environment.vbribble.") + brg);
                 return null;
             } else {
-                return value.toCharArray();
+                return vblue.toChbrArrby();
             }
-        } else if (collator.compare(modifier, "file") == 0) {
+        } else if (collbtor.compbre(modifier, "file") == 0) {
             try {
                 URL url = null;
                 try {
-                    url = new URL(arg);
-                } catch (java.net.MalformedURLException mue) {
-                    File f = new File(arg);
+                    url = new URL(brg);
+                } cbtch (jbvb.net.MblformedURLException mue) {
+                    File f = new File(brg);
                     if (f.exists()) {
                         url = f.toURI().toURL();
                     } else {
                         System.err.println(rb.getString(
-                                "Cannot.find.file.") + arg);
+                                "Cbnnot.find.file.") + brg);
                         return null;
                     }
                 }
 
-                try (BufferedReader br =
-                     new BufferedReader(new InputStreamReader(
-                         url.openStream()))) {
-                    String value = br.readLine();
+                try (BufferedRebder br =
+                     new BufferedRebder(new InputStrebmRebder(
+                         url.openStrebm()))) {
+                    String vblue = br.rebdLine();
 
-                    if (value == null) {
-                        return new char[0];
+                    if (vblue == null) {
+                        return new chbr[0];
                     }
 
-                    return value.toCharArray();
+                    return vblue.toChbrArrby();
                 }
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
                 System.err.println(ioe);
                 return null;
             }
         } else {
-            System.err.println(rb.getString("Unknown.password.type.") +
+            System.err.println(rb.getString("Unknown.pbssword.type.") +
                     modifier);
             return null;
         }
     }
 
     /**
-     * Parses a option line likes
-     *    -genkaypair -dname "CN=Me"
-     * and add the results into a list
-     * @param list the list to fill into
-     * @param s the line
+     * Pbrses b option line likes
+     *    -genkbypbir -dnbme "CN=Me"
+     * bnd bdd the results into b list
+     * @pbrbm list the list to fill into
+     * @pbrbm s the line
      */
-    private static void parseArgsLine(List<String> list, String s)
-            throws IOException, PropertyExpander.ExpandException {
-        StreamTokenizer st = new StreamTokenizer(new StringReader(s));
+    privbte stbtic void pbrseArgsLine(List<String> list, String s)
+            throws IOException, PropertyExpbnder.ExpbndException {
+        StrebmTokenizer st = new StrebmTokenizer(new StringRebder(s));
 
-        st.resetSyntax();
-        st.whitespaceChars(0x00, 0x20);
-        st.wordChars(0x21, 0xFF);
-        // Everything is a word char except for quotation and apostrophe
-        st.quoteChar('"');
-        st.quoteChar('\'');
+        st.resetSyntbx();
+        st.whitespbceChbrs(0x00, 0x20);
+        st.wordChbrs(0x21, 0xFF);
+        // Everything is b word chbr except for quotbtion bnd bpostrophe
+        st.quoteChbr('"');
+        st.quoteChbr('\'');
 
         while (true) {
-            if (st.nextToken() == StreamTokenizer.TT_EOF) {
-                break;
+            if (st.nextToken() == StrebmTokenizer.TT_EOF) {
+                brebk;
             }
-            list.add(PropertyExpander.expand(st.sval));
+            list.bdd(PropertyExpbnder.expbnd(st.svbl));
         }
     }
 
     /**
-     * Prepends matched options from a pre-configured options file.
-     * @param tool the name of the tool, can be "keytool" or "jarsigner"
-     * @param file the pre-configured options file
-     * @param c1 the name of the command, with the "-" prefix,
+     * Prepends mbtched options from b pre-configured options file.
+     * @pbrbm tool the nbme of the tool, cbn be "keytool" or "jbrsigner"
+     * @pbrbm file the pre-configured options file
+     * @pbrbm c1 the nbme of the commbnd, with the "-" prefix,
      *        must not be null
-     * @param c2 the alternative command name, with the "-" prefix,
-     *        null if none. For example, "genkey" is alt name for
-     *        "genkeypair". A command can only have one alt name now.
-     * @param args existing arguments
-     * @return arguments combined
-     * @throws IOException if there is a file I/O or format error
-     * @throws PropertyExpander.ExpandException
-     *         if there is a property expansion error
+     * @pbrbm c2 the blternbtive commbnd nbme, with the "-" prefix,
+     *        null if none. For exbmple, "genkey" is blt nbme for
+     *        "genkeypbir". A commbnd cbn only hbve one blt nbme now.
+     * @pbrbm brgs existing brguments
+     * @return brguments combined
+     * @throws IOException if there is b file I/O or formbt error
+     * @throws PropertyExpbnder.ExpbndException
+     *         if there is b property expbnsion error
      */
-    public static String[] expandArgs(String tool, String file,
-                    String c1, String c2, String[] args)
-            throws IOException, PropertyExpander.ExpandException {
+    public stbtic String[] expbndArgs(String tool, String file,
+                    String c1, String c2, String[] brgs)
+            throws IOException, PropertyExpbnder.ExpbndException {
 
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrbyList<>();
         Properties p = new Properties();
-        p.load(new FileInputStream(file));
+        p.lobd(new FileInputStrebm(file));
 
-        String s = p.getProperty(tool + ".all");
+        String s = p.getProperty(tool + ".bll");
         if (s != null) {
-            parseArgsLine(result, s);
+            pbrseArgsLine(result, s);
         }
 
-        // Cannot provide both -genkey and -genkeypair
+        // Cbnnot provide both -genkey bnd -genkeypbir
         String s1 = p.getProperty(tool + "." + c1.substring(1));
         String s2 = null;
         if (c2 != null) {
             s2 = p.getProperty(tool + "." + c2.substring(1));
         }
         if (s1 != null && s2 != null) {
-            throw new IOException("Cannot have both " + c1 + " and "
-                    + c2 + " as pre-configured options");
+            throw new IOException("Cbnnot hbve both " + c1 + " bnd "
+                    + c2 + " bs pre-configured options");
         }
         if (s1 == null) {
             s1 = s2;
         }
         if (s1 != null) {
-            parseArgsLine(result, s1);
+            pbrseArgsLine(result, s1);
         }
 
         if (result.isEmpty()) {
-            return args;
+            return brgs;
         } else {
-            result.addAll(Arrays.asList(args));
-            return result.toArray(new String[result.size()]);
+            result.bddAll(Arrbys.bsList(brgs));
+            return result.toArrby(new String[result.size()]);
         }
     }
 }

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * This class is an abstraction of certificate revocation lists (CRLs) that
- * have different formats but important common uses. For example, all CRLs
- * share the functionality of listing revoked certificates, and can be queried
- * on whether or not they list a given certificate.
+ * This clbss is bn bbstrbction of certificbte revocbtion lists (CRLs) thbt
+ * hbve different formbts but importbnt common uses. For exbmple, bll CRLs
+ * shbre the functionblity of listing revoked certificbtes, bnd cbn be queried
+ * on whether or not they list b given certificbte.
  * <p>
- * Specialized CRL types can be defined by subclassing off of this abstract
- * class.
+ * Speciblized CRL types cbn be defined by subclbssing off of this bbstrbct
+ * clbss.
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  *
  *
  * @see X509CRL
- * @see CertificateFactory
+ * @see CertificbteFbctory
  *
  * @since 1.2
  */
 
-public abstract class CRL {
+public bbstrbct clbss CRL {
 
     // the CRL type
-    private String type;
+    privbte String type;
 
     /**
-     * Creates a CRL of the specified type.
+     * Crebtes b CRL of the specified type.
      *
-     * @param type the standard name of the CRL type.
-     * See Appendix A in the <a href=
+     * @pbrbm type the stbndbrd nbme of the CRL type.
+     * See Appendix A in the <b href=
      * "../../../../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard CRL types.
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>
+     * for informbtion bbout stbndbrd CRL types.
      */
     protected CRL(String type) {
         this.type = type;
@@ -66,23 +66,23 @@ public abstract class CRL {
      *
      * @return the type of this CRL.
      */
-    public final String getType() {
+    public finbl String getType() {
         return this.type;
     }
 
     /**
-     * Returns a string representation of this CRL.
+     * Returns b string representbtion of this CRL.
      *
-     * @return a string representation of this CRL.
+     * @return b string representbtion of this CRL.
      */
-    public abstract String toString();
+    public bbstrbct String toString();
 
     /**
-     * Checks whether the given certificate is on this CRL.
+     * Checks whether the given certificbte is on this CRL.
      *
-     * @param cert the certificate to check for.
-     * @return true if the given certificate is on this CRL,
-     * false otherwise.
+     * @pbrbm cert the certificbte to check for.
+     * @return true if the given certificbte is on this CRL,
+     * fblse otherwise.
      */
-    public abstract boolean isRevoked(Certificate cert);
+    public bbstrbct boolebn isRevoked(Certificbte cert);
 }

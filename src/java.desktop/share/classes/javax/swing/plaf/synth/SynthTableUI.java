@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.NumberFormat;
-import java.util.Date;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.LookAndFeel;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTableUI;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.text.DbteFormbt;
+import jbvb.text.Formbt;
+import jbvb.text.NumberFormbt;
+import jbvb.util.Dbte;
+import jbvbx.swing.Icon;
+import jbvbx.swing.ImbgeIcon;
+import jbvbx.swing.JCheckBox;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.LookAndFeel;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicTbbleUI;
+import jbvbx.swing.tbble.DefbultTbbleCellRenderer;
+import jbvbx.swing.tbble.JTbbleHebder;
+import jbvbx.swing.tbble.TbbleCellRenderer;
+import jbvbx.swing.tbble.TbbleColumn;
+import jbvbx.swing.tbble.TbbleColumnModel;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JTable}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JTbble}.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  * @since 1.7
  */
-public class SynthTableUI extends BasicTableUI
-                          implements SynthUI, PropertyChangeListener {
+public clbss SynthTbbleUI extends BbsicTbbleUI
+                          implements SynthUI, PropertyChbngeListener {
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
-    private SynthStyle style;
+    privbte SynthStyle style;
 
-    private boolean useTableColors;
-    private boolean useUIBorder;
-    private Color alternateColor; //the background color to use for cells for alternate cells
+    privbte boolebn useTbbleColors;
+    privbte boolebn useUIBorder;
+    privbte Color blternbteColor; //the bbckground color to use for cells for blternbte cells
 
-    // TableCellRenderer installed on the JTable at the time we're installed,
-    // cached so that we can reinstall them at uninstallUI time.
-    private TableCellRenderer dateRenderer;
-    private TableCellRenderer numberRenderer;
-    private TableCellRenderer doubleRender;
-    private TableCellRenderer floatRenderer;
-    private TableCellRenderer iconRenderer;
-    private TableCellRenderer imageIconRenderer;
-    private TableCellRenderer booleanRenderer;
-    private TableCellRenderer objectRenderer;
+    // TbbleCellRenderer instblled on the JTbble bt the time we're instblled,
+    // cbched so thbt we cbn reinstbll them bt uninstbllUI time.
+    privbte TbbleCellRenderer dbteRenderer;
+    privbte TbbleCellRenderer numberRenderer;
+    privbte TbbleCellRenderer doubleRender;
+    privbte TbbleCellRenderer flobtRenderer;
+    privbte TbbleCellRenderer iconRenderer;
+    privbte TbbleCellRenderer imbgeIconRenderer;
+    privbte TbbleCellRenderer boolebnRenderer;
+    privbte TbbleCellRenderer objectRenderer;
 
 //
-//  The installation/uninstall procedures and support
+//  The instbllbtion/uninstbll procedures bnd support
 //
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthTableUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new SynthTbbleUI();
     }
 
     /**
-     * Initializes JTable properties, such as font, foreground, and background.
-     * The font, foreground, and background properties are only set if their
-     * current value is either null or a UIResource, other properties are set
-     * if the current value is null.
+     * Initiblizes JTbble properties, such bs font, foreground, bnd bbckground.
+     * The font, foreground, bnd bbckground properties bre only set if their
+     * current vblue is either null or b UIResource, other properties bre set
+     * if the current vblue is null.
      *
-     * @see #installUI
+     * @see #instbllUI
      */
     @Override
-    protected void installDefaults() {
-        dateRenderer = installRendererIfPossible(Date.class, null);
-        numberRenderer = installRendererIfPossible(Number.class, null);
-        doubleRender = installRendererIfPossible(Double.class, null);
-        floatRenderer = installRendererIfPossible(Float.class, null);
-        iconRenderer = installRendererIfPossible(Icon.class, null);
-        imageIconRenderer = installRendererIfPossible(ImageIcon.class, null);
-        booleanRenderer = installRendererIfPossible(Boolean.class,
-                                 new SynthBooleanTableCellRenderer());
-        objectRenderer = installRendererIfPossible(Object.class,
-                                        new SynthTableCellRenderer());
-        updateStyle(table);
+    protected void instbllDefbults() {
+        dbteRenderer = instbllRendererIfPossible(Dbte.clbss, null);
+        numberRenderer = instbllRendererIfPossible(Number.clbss, null);
+        doubleRender = instbllRendererIfPossible(Double.clbss, null);
+        flobtRenderer = instbllRendererIfPossible(Flobt.clbss, null);
+        iconRenderer = instbllRendererIfPossible(Icon.clbss, null);
+        imbgeIconRenderer = instbllRendererIfPossible(ImbgeIcon.clbss, null);
+        boolebnRenderer = instbllRendererIfPossible(Boolebn.clbss,
+                                 new SynthBoolebnTbbleCellRenderer());
+        objectRenderer = instbllRendererIfPossible(Object.clbss,
+                                        new SynthTbbleCellRenderer());
+        updbteStyle(tbble);
     }
 
-    private TableCellRenderer installRendererIfPossible(Class<?> objectClass,
-                                     TableCellRenderer renderer) {
-        TableCellRenderer currentRenderer = table.getDefaultRenderer(
-                                 objectClass);
-        if (currentRenderer instanceof UIResource) {
-            table.setDefaultRenderer(objectClass, renderer);
+    privbte TbbleCellRenderer instbllRendererIfPossible(Clbss<?> objectClbss,
+                                     TbbleCellRenderer renderer) {
+        TbbleCellRenderer currentRenderer = tbble.getDefbultRenderer(
+                                 objectClbss);
+        if (currentRenderer instbnceof UIResource) {
+            tbble.setDefbultRenderer(objectClbss, renderer);
         }
         return currentRenderer;
     }
 
-    private void updateStyle(JTable c) {
+    privbte void updbteStyle(JTbble c) {
         SynthContext context = getContext(c, ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
-            context.setComponentState(ENABLED | SELECTED);
+            context.setComponentStbte(ENABLED | SELECTED);
 
-            Color sbg = table.getSelectionBackground();
-            if (sbg == null || sbg instanceof UIResource) {
-                table.setSelectionBackground(style.getColor(
+            Color sbg = tbble.getSelectionBbckground();
+            if (sbg == null || sbg instbnceof UIResource) {
+                tbble.setSelectionBbckground(style.getColor(
                                         context, ColorType.TEXT_BACKGROUND));
             }
 
-            Color sfg = table.getSelectionForeground();
-            if (sfg == null || sfg instanceof UIResource) {
-                table.setSelectionForeground(style.getColor(
+            Color sfg = tbble.getSelectionForeground();
+            if (sfg == null || sfg instbnceof UIResource) {
+                tbble.setSelectionForeground(style.getColor(
                                   context, ColorType.TEXT_FOREGROUND));
             }
 
-            context.setComponentState(ENABLED);
+            context.setComponentStbte(ENABLED);
 
-            Color gridColor = table.getGridColor();
-            if (gridColor == null || gridColor instanceof UIResource) {
-                gridColor = (Color)style.get(context, "Table.gridColor");
+            Color gridColor = tbble.getGridColor();
+            if (gridColor == null || gridColor instbnceof UIResource) {
+                gridColor = (Color)style.get(context, "Tbble.gridColor");
                 if (gridColor == null) {
                     gridColor = style.getColor(context, ColorType.FOREGROUND);
                 }
-                table.setGridColor(gridColor == null ? new ColorUIResource(Color.GRAY) : gridColor);
+                tbble.setGridColor(gridColor == null ? new ColorUIResource(Color.GRAY) : gridColor);
             }
 
-            useTableColors = style.getBoolean(context,
-                                  "Table.rendererUseTableColors", true);
-            useUIBorder = style.getBoolean(context,
-                                  "Table.rendererUseUIBorder", true);
+            useTbbleColors = style.getBoolebn(context,
+                                  "Tbble.rendererUseTbbleColors", true);
+            useUIBorder = style.getBoolebn(context,
+                                  "Tbble.rendererUseUIBorder", true);
 
-            Object rowHeight = style.get(context, "Table.rowHeight");
+            Object rowHeight = style.get(context, "Tbble.rowHeight");
             if (rowHeight != null) {
-                LookAndFeel.installProperty(table, "rowHeight", rowHeight);
+                LookAndFeel.instbllProperty(tbble, "rowHeight", rowHeight);
             }
-            boolean showGrid = style.getBoolean(context, "Table.showGrid", true);
+            boolebn showGrid = style.getBoolebn(context, "Tbble.showGrid", true);
             if (!showGrid) {
-                table.setShowGrid(false);
+                tbble.setShowGrid(fblse);
             }
-            Dimension d = table.getIntercellSpacing();
-//            if (d == null || d instanceof UIResource) {
+            Dimension d = tbble.getIntercellSpbcing();
+//            if (d == null || d instbnceof UIResource) {
             if (d != null) {
-                d = (Dimension)style.get(context, "Table.intercellSpacing");
+                d = (Dimension)style.get(context, "Tbble.intercellSpbcing");
             }
-            alternateColor = (Color)style.get(context, "Table.alternateRowColor");
+            blternbteColor = (Color)style.get(context, "Tbble.blternbteRowColor");
             if (d != null) {
-                table.setIntercellSpacing(d);
+                tbble.setIntercellSpbcing(d);
             }
 
 
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
     }
 
     /**
-     * Attaches listeners to the JTable.
+     * Attbches listeners to the JTbble.
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        table.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        tbble.bddPropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
-        table.setDefaultRenderer(Date.class, dateRenderer);
-        table.setDefaultRenderer(Number.class, numberRenderer);
-        table.setDefaultRenderer(Double.class, doubleRender);
-        table.setDefaultRenderer(Float.class, floatRenderer);
-        table.setDefaultRenderer(Icon.class, iconRenderer);
-        table.setDefaultRenderer(ImageIcon.class, imageIconRenderer);
-        table.setDefaultRenderer(Boolean.class, booleanRenderer);
-        table.setDefaultRenderer(Object.class, objectRenderer);
+    protected void uninstbllDefbults() {
+        tbble.setDefbultRenderer(Dbte.clbss, dbteRenderer);
+        tbble.setDefbultRenderer(Number.clbss, numberRenderer);
+        tbble.setDefbultRenderer(Double.clbss, doubleRender);
+        tbble.setDefbultRenderer(Flobt.clbss, flobtRenderer);
+        tbble.setDefbultRenderer(Icon.clbss, iconRenderer);
+        tbble.setDefbultRenderer(ImbgeIcon.clbss, imbgeIconRenderer);
+        tbble.setDefbultRenderer(Boolebn.clbss, boolebnRenderer);
+        tbble.setDefbultRenderer(Object.clbss, objectRenderer);
 
-        if (table.getTransferHandler() instanceof UIResource) {
-            table.setTransferHandler(null);
+        if (tbble.getTrbnsferHbndler() instbnceof UIResource) {
+            tbble.setTrbnsferHbndler(null);
         }
-        SynthContext context = getContext(table, ENABLED);
-        style.uninstallDefaults(context);
+        SynthContext context = getContext(tbble, ENABLED);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -228,9 +228,9 @@ public class SynthTableUI extends BasicTableUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        table.removePropertyChangeListener(this);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        tbble.removePropertyChbngeListener(this);
+        super.uninstbllListeners();
     }
 
     //
@@ -242,37 +242,37 @@ public class SynthTableUI extends BasicTableUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
 //
-//  Paint methods and support
+//  Pbint methods bnd support
 //
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTableBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintTbbleBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
@@ -280,110 +280,110 @@ public class SynthTableUI extends BasicTableUI
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintTableBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintTbbleBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        Rectangle clip = g.getClipBounds();
+    protected void pbint(SynthContext context, Grbphics g) {
+        Rectbngle clip = g.getClipBounds();
 
-        Rectangle bounds = table.getBounds();
-        // account for the fact that the graphics has already been translated
-        // into the table's bounds
+        Rectbngle bounds = tbble.getBounds();
+        // bccount for the fbct thbt the grbphics hbs blrebdy been trbnslbted
+        // into the tbble's bounds
         bounds.x = bounds.y = 0;
 
-        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0 ||
-                // this check prevents us from painting the entire table
-                // when the clip doesn't intersect our bounds at all
+        if (tbble.getRowCount() <= 0 || tbble.getColumnCount() <= 0 ||
+                // this check prevents us from pbinting the entire tbble
+                // when the clip doesn't intersect our bounds bt bll
                 !bounds.intersects(clip)) {
 
-            paintDropLines(context, g);
+            pbintDropLines(context, g);
             return;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbble.getComponentOrientbtion().isLeftToRight();
 
-        Point upperLeft = clip.getLocation();
+        Point upperLeft = clip.getLocbtion();
 
         Point lowerRight = new Point(clip.x + clip.width - 1,
                                      clip.y + clip.height - 1);
 
-        int rMin = table.rowAtPoint(upperLeft);
-        int rMax = table.rowAtPoint(lowerRight);
-        // This should never happen (as long as our bounds intersect the clip,
-        // which is why we bail above if that is the case).
+        int rMin = tbble.rowAtPoint(upperLeft);
+        int rMbx = tbble.rowAtPoint(lowerRight);
+        // This should never hbppen (bs long bs our bounds intersect the clip,
+        // which is why we bbil bbove if thbt is the cbse).
         if (rMin == -1) {
             rMin = 0;
         }
-        // If the table does not have enough rows to fill the view we'll get -1.
-        // (We could also get -1 if our bounds don't intersect the clip,
-        // which is why we bail above if that is the case).
-        // Replace this with the index of the last row.
-        if (rMax == -1) {
-            rMax = table.getRowCount()-1;
+        // If the tbble does not hbve enough rows to fill the view we'll get -1.
+        // (We could blso get -1 if our bounds don't intersect the clip,
+        // which is why we bbil bbove if thbt is the cbse).
+        // Replbce this with the index of the lbst row.
+        if (rMbx == -1) {
+            rMbx = tbble.getRowCount()-1;
         }
 
-        int cMin = table.columnAtPoint(ltr ? upperLeft : lowerRight);
-        int cMax = table.columnAtPoint(ltr ? lowerRight : upperLeft);
-        // This should never happen.
+        int cMin = tbble.columnAtPoint(ltr ? upperLeft : lowerRight);
+        int cMbx = tbble.columnAtPoint(ltr ? lowerRight : upperLeft);
+        // This should never hbppen.
         if (cMin == -1) {
             cMin = 0;
         }
-        // If the table does not have enough columns to fill the view we'll get -1.
-        // Replace this with the index of the last column.
-        if (cMax == -1) {
-            cMax = table.getColumnCount()-1;
+        // If the tbble does not hbve enough columns to fill the view we'll get -1.
+        // Replbce this with the index of the lbst column.
+        if (cMbx == -1) {
+            cMbx = tbble.getColumnCount()-1;
         }
 
-        // Paint the cells.
-        paintCells(context, g, rMin, rMax, cMin, cMax);
+        // Pbint the cells.
+        pbintCells(context, g, rMin, rMbx, cMin, cMbx);
 
-        // Paint the grid.
-        // it is important to paint the grid after the cells, otherwise the grid will be overpainted
-        // because in Synth cell renderers are likely to be opaque
-        paintGrid(context, g, rMin, rMax, cMin, cMax);
+        // Pbint the grid.
+        // it is importbnt to pbint the grid bfter the cells, otherwise the grid will be overpbinted
+        // becbuse in Synth cell renderers bre likely to be opbque
+        pbintGrid(context, g, rMin, rMbx, cMin, cMbx);
 
-        paintDropLines(context, g);
+        pbintDropLines(context, g);
     }
 
-    private void paintDropLines(SynthContext context, Graphics g) {
-        JTable.DropLocation loc = table.getDropLocation();
+    privbte void pbintDropLines(SynthContext context, Grbphics g) {
+        JTbble.DropLocbtion loc = tbble.getDropLocbtion();
         if (loc == null) {
             return;
         }
 
-        Color color = (Color)style.get(context, "Table.dropLineColor");
-        Color shortColor = (Color)style.get(context, "Table.dropLineShortColor");
+        Color color = (Color)style.get(context, "Tbble.dropLineColor");
+        Color shortColor = (Color)style.get(context, "Tbble.dropLineShortColor");
         if (color == null && shortColor == null) {
             return;
         }
 
-        Rectangle rect;
+        Rectbngle rect;
 
         rect = getHDropLineRect(loc);
         if (rect != null) {
@@ -405,7 +405,7 @@ public class SynthTableUI extends BasicTableUI
             int y = rect.y;
             int h = rect.height;
             if (color != null) {
-                extendRect(rect, false);
+                extendRect(rect, fblse);
                 g.setColor(color);
                 g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
@@ -416,22 +416,22 @@ public class SynthTableUI extends BasicTableUI
         }
     }
 
-    private Rectangle getHDropLineRect(JTable.DropLocation loc) {
+    privbte Rectbngle getHDropLineRect(JTbble.DropLocbtion loc) {
         if (!loc.isInsertRow()) {
             return null;
         }
 
         int row = loc.getRow();
         int col = loc.getColumn();
-        if (col >= table.getColumnCount()) {
+        if (col >= tbble.getColumnCount()) {
             col--;
         }
 
-        Rectangle rect = table.getCellRect(row, col, true);
+        Rectbngle rect = tbble.getCellRect(row, col, true);
 
-        if (row >= table.getRowCount()) {
+        if (row >= tbble.getRowCount()) {
             row--;
-            Rectangle prevRect = table.getCellRect(row, col, true);
+            Rectbngle prevRect = tbble.getCellRect(row, col, true);
             rect.y = prevRect.y + prevRect.height;
         }
 
@@ -446,18 +446,18 @@ public class SynthTableUI extends BasicTableUI
         return rect;
     }
 
-    private Rectangle getVDropLineRect(JTable.DropLocation loc) {
+    privbte Rectbngle getVDropLineRect(JTbble.DropLocbtion loc) {
         if (!loc.isInsertColumn()) {
             return null;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbble.getComponentOrientbtion().isLeftToRight();
         int col = loc.getColumn();
-        Rectangle rect = table.getCellRect(loc.getRow(), col, true);
+        Rectbngle rect = tbble.getCellRect(loc.getRow(), col, true);
 
-        if (col >= table.getColumnCount()) {
+        if (col >= tbble.getColumnCount()) {
             col--;
-            rect = table.getCellRect(loc.getRow(), col, true);
+            rect = tbble.getCellRect(loc.getRow(), col, true);
             if (ltr) {
                 rect.x = rect.x + rect.width;
             }
@@ -476,22 +476,22 @@ public class SynthTableUI extends BasicTableUI
         return rect;
     }
 
-    private Rectangle extendRect(Rectangle rect, boolean horizontal) {
+    privbte Rectbngle extendRect(Rectbngle rect, boolebn horizontbl) {
         if (rect == null) {
             return rect;
         }
 
-        if (horizontal) {
+        if (horizontbl) {
             rect.x = 0;
-            rect.width = table.getWidth();
+            rect.width = tbble.getWidth();
         } else {
             rect.y = 0;
 
-            if (table.getRowCount() != 0) {
-                Rectangle lastRect = table.getCellRect(table.getRowCount() - 1, 0, true);
-                rect.height = lastRect.y + lastRect.height;
+            if (tbble.getRowCount() != 0) {
+                Rectbngle lbstRect = tbble.getCellRect(tbble.getRowCount() - 1, 0, true);
+                rect.height = lbstRect.y + lbstRect.height;
             } else {
-                rect.height = table.getHeight();
+                rect.height = tbble.getHeight();
             }
         }
 
@@ -499,197 +499,197 @@ public class SynthTableUI extends BasicTableUI
     }
 
     /*
-     * Paints the grid lines within <I>aRect</I>, using the grid
-     * color set with <I>setGridColor</I>. Paints vertical lines
-     * if <code>getShowVerticalLines()</code> returns true and paints
-     * horizontal lines if <code>getShowHorizontalLines()</code>
+     * Pbints the grid lines within <I>bRect</I>, using the grid
+     * color set with <I>setGridColor</I>. Pbints verticbl lines
+     * if <code>getShowVerticblLines()</code> returns true bnd pbints
+     * horizontbl lines if <code>getShowHorizontblLines()</code>
      * returns true.
      */
-    private void paintGrid(SynthContext context, Graphics g, int rMin,
-                           int rMax, int cMin, int cMax) {
-        g.setColor(table.getGridColor());
+    privbte void pbintGrid(SynthContext context, Grbphics g, int rMin,
+                           int rMbx, int cMin, int cMbx) {
+        g.setColor(tbble.getGridColor());
 
-        Rectangle minCell = table.getCellRect(rMin, cMin, true);
-        Rectangle maxCell = table.getCellRect(rMax, cMax, true);
-        Rectangle damagedArea = minCell.union( maxCell );
-        SynthGraphicsUtils synthG = context.getStyle().getGraphicsUtils(
+        Rectbngle minCell = tbble.getCellRect(rMin, cMin, true);
+        Rectbngle mbxCell = tbble.getCellRect(rMbx, cMbx, true);
+        Rectbngle dbmbgedAreb = minCell.union( mbxCell );
+        SynthGrbphicsUtils synthG = context.getStyle().getGrbphicsUtils(
                      context);
 
-        if (table.getShowHorizontalLines()) {
-            int tableWidth = damagedArea.x + damagedArea.width;
-            int y = damagedArea.y;
-            for (int row = rMin; row <= rMax; row++) {
-                y += table.getRowHeight(row);
-                synthG.drawLine(context, "Table.grid",
-                                g, damagedArea.x, y - 1, tableWidth - 1,y - 1);
+        if (tbble.getShowHorizontblLines()) {
+            int tbbleWidth = dbmbgedAreb.x + dbmbgedAreb.width;
+            int y = dbmbgedAreb.y;
+            for (int row = rMin; row <= rMbx; row++) {
+                y += tbble.getRowHeight(row);
+                synthG.drbwLine(context, "Tbble.grid",
+                                g, dbmbgedAreb.x, y - 1, tbbleWidth - 1,y - 1);
             }
         }
-        if (table.getShowVerticalLines()) {
-            TableColumnModel cm = table.getColumnModel();
-            int tableHeight = damagedArea.y + damagedArea.height;
+        if (tbble.getShowVerticblLines()) {
+            TbbleColumnModel cm = tbble.getColumnModel();
+            int tbbleHeight = dbmbgedAreb.y + dbmbgedAreb.height;
             int x;
-            if (table.getComponentOrientation().isLeftToRight()) {
-                x = damagedArea.x;
-                for (int column = cMin; column <= cMax; column++) {
+            if (tbble.getComponentOrientbtion().isLeftToRight()) {
+                x = dbmbgedAreb.x;
+                for (int column = cMin; column <= cMbx; column++) {
                     int w = cm.getColumn(column).getWidth();
                     x += w;
-                    synthG.drawLine(context, "Table.grid", g, x - 1, 0,
-                                    x - 1, tableHeight - 1);
+                    synthG.drbwLine(context, "Tbble.grid", g, x - 1, 0,
+                                    x - 1, tbbleHeight - 1);
                 }
             } else {
-                x = damagedArea.x;
-                for (int column = cMax; column >= cMin; column--) {
+                x = dbmbgedAreb.x;
+                for (int column = cMbx; column >= cMin; column--) {
                     int w = cm.getColumn(column).getWidth();
                     x += w;
-                    synthG.drawLine(context, "Table.grid", g, x - 1, 0, x - 1,
-                                    tableHeight - 1);
+                    synthG.drbwLine(context, "Tbble.grid", g, x - 1, 0, x - 1,
+                                    tbbleHeight - 1);
                 }
             }
         }
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = table.getColumnModel();
+    privbte int viewIndexForColumn(TbbleColumn bColumn) {
+        TbbleColumnModel cm = tbble.getColumnModel();
         for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
+            if (cm.getColumn(column) == bColumn) {
                 return column;
             }
         }
         return -1;
     }
 
-    private void paintCells(SynthContext context, Graphics g, int rMin,
-                            int rMax, int cMin, int cMax) {
-        JTableHeader header = table.getTableHeader();
-        TableColumn draggedColumn = (header == null) ? null : header.getDraggedColumn();
+    privbte void pbintCells(SynthContext context, Grbphics g, int rMin,
+                            int rMbx, int cMin, int cMbx) {
+        JTbbleHebder hebder = tbble.getTbbleHebder();
+        TbbleColumn drbggedColumn = (hebder == null) ? null : hebder.getDrbggedColumn();
 
-        TableColumnModel cm = table.getColumnModel();
-        int columnMargin = cm.getColumnMargin();
+        TbbleColumnModel cm = tbble.getColumnModel();
+        int columnMbrgin = cm.getColumnMbrgin();
 
-        Rectangle cellRect;
-        TableColumn aColumn;
+        Rectbngle cellRect;
+        TbbleColumn bColumn;
         int columnWidth;
-        if (table.getComponentOrientation().isLeftToRight()) {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                for(int column = cMin; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    if (aColumn != draggedColumn) {
-                        paintCell(context, g, cellRect, row, column);
+        if (tbble.getComponentOrientbtion().isLeftToRight()) {
+            for(int row = rMin; row <= rMbx; row++) {
+                cellRect = tbble.getCellRect(row, cMin, fblse);
+                for(int column = cMin; column <= cMbx; column++) {
+                    bColumn = cm.getColumn(column);
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
+                    if (bColumn != drbggedColumn) {
+                        pbintCell(context, g, cellRect, row, column);
                     }
                     cellRect.x += columnWidth;
                 }
             }
         } else {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                aColumn = cm.getColumn(cMin);
-                if (aColumn != draggedColumn) {
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    paintCell(context, g, cellRect, row, cMin);
+            for(int row = rMin; row <= rMbx; row++) {
+                cellRect = tbble.getCellRect(row, cMin, fblse);
+                bColumn = cm.getColumn(cMin);
+                if (bColumn != drbggedColumn) {
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
+                    pbintCell(context, g, cellRect, row, cMin);
                 }
-                for(int column = cMin+1; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
+                for(int column = cMin+1; column <= cMbx; column++) {
+                    bColumn = cm.getColumn(column);
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
                     cellRect.x -= columnWidth;
-                    if (aColumn != draggedColumn) {
-                        paintCell(context, g, cellRect, row, column);
+                    if (bColumn != drbggedColumn) {
+                        pbintCell(context, g, cellRect, row, column);
                     }
                 }
             }
         }
 
-        // Paint the dragged column if we are dragging.
-        if (draggedColumn != null) {
-            paintDraggedArea(context, g, rMin, rMax, draggedColumn, header.getDraggedDistance());
+        // Pbint the drbgged column if we bre drbgging.
+        if (drbggedColumn != null) {
+            pbintDrbggedAreb(context, g, rMin, rMbx, drbggedColumn, hebder.getDrbggedDistbnce());
         }
 
-        // Remove any renderers that may be left in the rendererPane.
-        rendererPane.removeAll();
+        // Remove bny renderers thbt mby be left in the rendererPbne.
+        rendererPbne.removeAll();
     }
 
-    private void paintDraggedArea(SynthContext context, Graphics g, int rMin, int rMax, TableColumn draggedColumn, int distance) {
-        int draggedColumnIndex = viewIndexForColumn(draggedColumn);
+    privbte void pbintDrbggedAreb(SynthContext context, Grbphics g, int rMin, int rMbx, TbbleColumn drbggedColumn, int distbnce) {
+        int drbggedColumnIndex = viewIndexForColumn(drbggedColumn);
 
-        Rectangle minCell = table.getCellRect(rMin, draggedColumnIndex, true);
-        Rectangle maxCell = table.getCellRect(rMax, draggedColumnIndex, true);
+        Rectbngle minCell = tbble.getCellRect(rMin, drbggedColumnIndex, true);
+        Rectbngle mbxCell = tbble.getCellRect(rMbx, drbggedColumnIndex, true);
 
-        Rectangle vacatedColumnRect = minCell.union(maxCell);
+        Rectbngle vbcbtedColumnRect = minCell.union(mbxCell);
 
-        // Paint a gray well in place of the moving column.
-        g.setColor(table.getParent().getBackground());
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        // Pbint b grby well in plbce of the moving column.
+        g.setColor(tbble.getPbrent().getBbckground());
+        g.fillRect(vbcbtedColumnRect.x, vbcbtedColumnRect.y,
+                   vbcbtedColumnRect.width, vbcbtedColumnRect.height);
 
-        // Move to the where the cell has been dragged.
-        vacatedColumnRect.x += distance;
+        // Move to the where the cell hbs been drbgged.
+        vbcbtedColumnRect.x += distbnce;
 
-        // Fill the background.
+        // Fill the bbckground.
         g.setColor(context.getStyle().getColor(context, ColorType.BACKGROUND));
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        g.fillRect(vbcbtedColumnRect.x, vbcbtedColumnRect.y,
+                   vbcbtedColumnRect.width, vbcbtedColumnRect.height);
 
-        SynthGraphicsUtils synthG = context.getStyle().getGraphicsUtils(
+        SynthGrbphicsUtils synthG = context.getStyle().getGrbphicsUtils(
                                             context);
 
 
-        // Paint the vertical grid lines if necessary.
-        if (table.getShowVerticalLines()) {
-            g.setColor(table.getGridColor());
-            int x1 = vacatedColumnRect.x;
-            int y1 = vacatedColumnRect.y;
-            int x2 = x1 + vacatedColumnRect.width - 1;
-            int y2 = y1 + vacatedColumnRect.height - 1;
+        // Pbint the verticbl grid lines if necessbry.
+        if (tbble.getShowVerticblLines()) {
+            g.setColor(tbble.getGridColor());
+            int x1 = vbcbtedColumnRect.x;
+            int y1 = vbcbtedColumnRect.y;
+            int x2 = x1 + vbcbtedColumnRect.width - 1;
+            int y2 = y1 + vbcbtedColumnRect.height - 1;
             // Left
-            synthG.drawLine(context, "Table.grid", g, x1-1, y1, x1-1, y2);
+            synthG.drbwLine(context, "Tbble.grid", g, x1-1, y1, x1-1, y2);
             // Right
-            synthG.drawLine(context, "Table.grid", g, x2, y1, x2, y2);
+            synthG.drbwLine(context, "Tbble.grid", g, x2, y1, x2, y2);
         }
 
-        for(int row = rMin; row <= rMax; row++) {
-            // Render the cell value
-            Rectangle r = table.getCellRect(row, draggedColumnIndex, false);
-            r.x += distance;
-            paintCell(context, g, r, row, draggedColumnIndex);
+        for(int row = rMin; row <= rMbx; row++) {
+            // Render the cell vblue
+            Rectbngle r = tbble.getCellRect(row, drbggedColumnIndex, fblse);
+            r.x += distbnce;
+            pbintCell(context, g, r, row, drbggedColumnIndex);
 
-            // Paint the (lower) horizontal grid line if necessary.
-            if (table.getShowHorizontalLines()) {
-                g.setColor(table.getGridColor());
-                Rectangle rcr = table.getCellRect(row, draggedColumnIndex, true);
-                rcr.x += distance;
+            // Pbint the (lower) horizontbl grid line if necessbry.
+            if (tbble.getShowHorizontblLines()) {
+                g.setColor(tbble.getGridColor());
+                Rectbngle rcr = tbble.getCellRect(row, drbggedColumnIndex, true);
+                rcr.x += distbnce;
                 int x1 = rcr.x;
                 int y1 = rcr.y;
                 int x2 = x1 + rcr.width - 1;
                 int y2 = y1 + rcr.height - 1;
-                synthG.drawLine(context, "Table.grid", g, x1, y2, x2, y2);
+                synthG.drbwLine(context, "Tbble.grid", g, x1, y2, x2, y2);
             }
         }
     }
 
-    private void paintCell(SynthContext context, Graphics g,
-            Rectangle cellRect, int row, int column) {
-        if (table.isEditing() && table.getEditingRow()==row &&
-                                 table.getEditingColumn()==column) {
-            Component component = table.getEditorComponent();
+    privbte void pbintCell(SynthContext context, Grbphics g,
+            Rectbngle cellRect, int row, int column) {
+        if (tbble.isEditing() && tbble.getEditingRow()==row &&
+                                 tbble.getEditingColumn()==column) {
+            Component component = tbble.getEditorComponent();
             component.setBounds(cellRect);
-            component.validate();
+            component.vblidbte();
         }
         else {
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component component = table.prepareRenderer(renderer, row, column);
-            Color b = component.getBackground();
-            if ((b == null || b instanceof UIResource
-                    || component instanceof SynthBooleanTableCellRenderer)
-                    && !table.isCellSelected(row, column)) {
-                if (alternateColor != null && row % 2 != 0) {
-                    component.setBackground(alternateColor);
+            TbbleCellRenderer renderer = tbble.getCellRenderer(row, column);
+            Component component = tbble.prepbreRenderer(renderer, row, column);
+            Color b = component.getBbckground();
+            if ((b == null || b instbnceof UIResource
+                    || component instbnceof SynthBoolebnTbbleCellRenderer)
+                    && !tbble.isCellSelected(row, column)) {
+                if (blternbteColor != null && row % 2 != 0) {
+                    component.setBbckground(blternbteColor);
                 }
             }
-            rendererPane.paintComponent(g, component, table, cellRect.x,
+            rendererPbne.pbintComponent(g, component, tbble, cellRect.x,
                     cellRect.y, cellRect.width, cellRect.height, true);
         }
     }
@@ -698,133 +698,133 @@ public class SynthTableUI extends BasicTableUI
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent event) {
-        if (SynthLookAndFeel.shouldUpdateStyle(event)) {
-            updateStyle((JTable)event.getSource());
+    public void propertyChbnge(PropertyChbngeEvent event) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(event)) {
+            updbteStyle((JTbble)event.getSource());
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthBooleanTableCellRenderer extends JCheckBox implements
-                      TableCellRenderer {
-        private boolean isRowSelected;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SynthBoolebnTbbleCellRenderer extends JCheckBox implements
+                      TbbleCellRenderer {
+        privbte boolebn isRowSelected;
 
-        public SynthBooleanTableCellRenderer() {
-            setHorizontalAlignment(JLabel.CENTER);
-            setName("Table.cellRenderer");
+        public SynthBoolebnTbbleCellRenderer() {
+            setHorizontblAlignment(JLbbel.CENTER);
+            setNbme("Tbble.cellRenderer");
         }
 
-        public Component getTableCellRendererComponent(
-                            JTable table, Object value, boolean isSelected,
-                            boolean hasFocus, int row, int column) {
+        public Component getTbbleCellRendererComponent(
+                            JTbble tbble, Object vblue, boolebn isSelected,
+                            boolebn hbsFocus, int row, int column) {
             isRowSelected = isSelected;
 
             if (isSelected) {
-                setForeground(unwrap(table.getSelectionForeground()));
-                setBackground(unwrap(table.getSelectionBackground()));
+                setForeground(unwrbp(tbble.getSelectionForeground()));
+                setBbckground(unwrbp(tbble.getSelectionBbckground()));
             } else {
-                setForeground(unwrap(table.getForeground()));
-                setBackground(unwrap(table.getBackground()));
+                setForeground(unwrbp(tbble.getForeground()));
+                setBbckground(unwrbp(tbble.getBbckground()));
             }
 
-            setSelected((value != null && ((Boolean)value).booleanValue()));
+            setSelected((vblue != null && ((Boolebn)vblue).boolebnVblue()));
             return this;
         }
 
-        private Color unwrap(Color c) {
-            if (c instanceof UIResource) {
+        privbte Color unwrbp(Color c) {
+            if (c instbnceof UIResource) {
                 return new Color(c.getRGB());
             }
             return c;
         }
 
-        public boolean isOpaque() {
-            return isRowSelected ? true : super.isOpaque();
+        public boolebn isOpbque() {
+            return isRowSelected ? true : super.isOpbque();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthTableCellRenderer extends DefaultTableCellRenderer {
-        private Object numberFormat;
-        private Object dateFormat;
-        private boolean opaque;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SynthTbbleCellRenderer extends DefbultTbbleCellRenderer {
+        privbte Object numberFormbt;
+        privbte Object dbteFormbt;
+        privbte boolebn opbque;
 
-        public void setOpaque(boolean isOpaque) {
-            opaque = isOpaque;
+        public void setOpbque(boolebn isOpbque) {
+            opbque = isOpbque;
         }
 
-        public boolean isOpaque() {
-            return opaque;
+        public boolebn isOpbque() {
+            return opbque;
         }
 
-        public String getName() {
-            String name = super.getName();
-            if (name == null) {
-                return "Table.cellRenderer";
+        public String getNbme() {
+            String nbme = super.getNbme();
+            if (nbme == null) {
+                return "Tbble.cellRenderer";
             }
-            return name;
+            return nbme;
         }
 
         public void setBorder(Border b) {
-            if (useUIBorder || b instanceof SynthBorder) {
+            if (useUIBorder || b instbnceof SynthBorder) {
                 super.setBorder(b);
             }
         }
 
-        public Component getTableCellRendererComponent(
-                  JTable table, Object value, boolean isSelected,
-                  boolean hasFocus, int row, int column) {
-            if (!useTableColors && (isSelected || hasFocus)) {
-                SynthLookAndFeel.setSelectedUI((SynthLabelUI)SynthLookAndFeel.
-                             getUIOfType(getUI(), SynthLabelUI.class),
-                                   isSelected, hasFocus, table.isEnabled(), false);
+        public Component getTbbleCellRendererComponent(
+                  JTbble tbble, Object vblue, boolebn isSelected,
+                  boolebn hbsFocus, int row, int column) {
+            if (!useTbbleColors && (isSelected || hbsFocus)) {
+                SynthLookAndFeel.setSelectedUI((SynthLbbelUI)SynthLookAndFeel.
+                             getUIOfType(getUI(), SynthLbbelUI.clbss),
+                                   isSelected, hbsFocus, tbble.isEnbbled(), fblse);
             }
             else {
                 SynthLookAndFeel.resetSelectedUI();
             }
-            super.getTableCellRendererComponent(table, value, isSelected,
-                                                hasFocus, row, column);
+            super.getTbbleCellRendererComponent(tbble, vblue, isSelected,
+                                                hbsFocus, row, column);
 
             setIcon(null);
-            if (table != null) {
-                configureValue(value, table.getColumnClass(column));
+            if (tbble != null) {
+                configureVblue(vblue, tbble.getColumnClbss(column));
             }
             return this;
         }
 
-        private void configureValue(Object value, Class<?> columnClass) {
-            if (columnClass == Object.class || columnClass == null) {
-                setHorizontalAlignment(JLabel.LEADING);
-            } else if (columnClass == Float.class || columnClass == Double.class) {
-                if (numberFormat == null) {
-                    numberFormat = NumberFormat.getInstance();
+        privbte void configureVblue(Object vblue, Clbss<?> columnClbss) {
+            if (columnClbss == Object.clbss || columnClbss == null) {
+                setHorizontblAlignment(JLbbel.LEADING);
+            } else if (columnClbss == Flobt.clbss || columnClbss == Double.clbss) {
+                if (numberFormbt == null) {
+                    numberFormbt = NumberFormbt.getInstbnce();
                 }
-                setHorizontalAlignment(JLabel.TRAILING);
-                setText((value == null) ? "" : ((NumberFormat)numberFormat).format(value));
+                setHorizontblAlignment(JLbbel.TRAILING);
+                setText((vblue == null) ? "" : ((NumberFormbt)numberFormbt).formbt(vblue));
             }
-            else if (columnClass == Number.class) {
-                setHorizontalAlignment(JLabel.TRAILING);
-                // Super will have set value.
+            else if (columnClbss == Number.clbss) {
+                setHorizontblAlignment(JLbbel.TRAILING);
+                // Super will hbve set vblue.
             }
-            else if (columnClass == Icon.class || columnClass == ImageIcon.class) {
-                setHorizontalAlignment(JLabel.CENTER);
-                setIcon((value instanceof Icon) ? (Icon)value : null);
+            else if (columnClbss == Icon.clbss || columnClbss == ImbgeIcon.clbss) {
+                setHorizontblAlignment(JLbbel.CENTER);
+                setIcon((vblue instbnceof Icon) ? (Icon)vblue : null);
                 setText("");
             }
-            else if (columnClass == Date.class) {
-                if (dateFormat == null) {
-                    dateFormat = DateFormat.getDateInstance();
+            else if (columnClbss == Dbte.clbss) {
+                if (dbteFormbt == null) {
+                    dbteFormbt = DbteFormbt.getDbteInstbnce();
                 }
-                setHorizontalAlignment(JLabel.LEADING);
-                setText((value == null) ? "" : ((Format)dateFormat).format(value));
+                setHorizontblAlignment(JLbbel.LEADING);
+                setText((vblue == null) ? "" : ((Formbt)dbteFormbt).formbt(vblue));
             }
             else {
-                configureValue(value, columnClass.getSuperclass());
+                configureVblue(vblue, columnClbss.getSuperclbss());
             }
         }
 
-        public void paint(Graphics g) {
-            super.paint(g);
+        public void pbint(Grbphics g) {
+            super.pbint(g);
             SynthLookAndFeel.resetSelectedUI();
         }
     }

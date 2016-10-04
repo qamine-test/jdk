@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.io.Serializable;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.io.Seriblizbble;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
 /**
- * ComboBox motif look and feel
- * <p> * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * ComboBox motif look bnd feel
+ * <p> * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
-    Icon arrowIcon;
-    static final int HORIZ_MARGIN = 3;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MotifComboBoxUI extends BbsicComboBoxUI implements Seriblizbble {
+    Icon brrowIcon;
+    stbtic finbl int HORIZ_MARGIN = 3;
 
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new MotifComboBoxUI();
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        arrowIcon = new MotifComboBoxArrowIcon(UIManager.getColor("controlHighlight"),
-                                               UIManager.getColor("controlShadow"),
-                                               UIManager.getColor("control"));
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
+        brrowIcon = new MotifComboBoxArrowIcon(UIMbnbger.getColor("controlHighlight"),
+                                               UIMbnbger.getColor("controlShbdow"),
+                                               UIMbnbger.getColor("control"));
 
-        Runnable initCode = new Runnable() {
+        Runnbble initCode = new Runnbble() {
             public void run(){
                 if ( motifGetEditor() != null ) {
-                    motifGetEditor().setBackground( UIManager.getColor( "text" ) );
+                    motifGetEditor().setBbckground( UIMbnbger.getColor( "text" ) );
                 }
             }
         };
 
-        SwingUtilities.invokeLater( initCode );
+        SwingUtilities.invokeLbter( initCode );
     }
 
     public Dimension getMinimumSize( JComponent c ) {
         if ( !isMinimumSizeDirty ) {
-            return new Dimension( cachedMinimumSize );
+            return new Dimension( cbchedMinimumSize );
         }
         Dimension size;
         Insets insets = getInsets();
-        size = getDisplaySize();
+        size = getDisplbySize();
         size.height += insets.top + insets.bottom;
-        int buttonSize = iconAreaWidth();
+        int buttonSize = iconArebWidth();
         size.width +=  insets.left + insets.right + buttonSize;
 
-        cachedMinimumSize.setSize( size.width, size.height );
-        isMinimumSizeDirty = false;
+        cbchedMinimumSize.setSize( size.width, size.height );
+        isMinimumSizeDirty = fblse;
 
         return size;
     }
 
-    protected ComboPopup createPopup() {
+    protected ComboPopup crebtePopup() {
         return new MotifComboPopup( comboBox );
     }
 
     /**
      * Overriden to empty the MouseMotionListener.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MotifComboPopup extends BasicComboPopup {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    protected clbss MotifComboPopup extends BbsicComboPopup {
 
         public MotifComboPopup( JComboBox<Object> comboBox ) {
             super( comboBox );
         }
 
         /**
-         * Motif combo popup should not track the mouse in the list.
+         * Motif combo popup should not trbck the mouse in the list.
          */
-        public MouseMotionListener createListMouseMotionListener() {
-           return new MouseMotionAdapter() {};
+        public MouseMotionListener crebteListMouseMotionListener() {
+           return new MouseMotionAdbpter() {};
         }
 
-        public KeyListener createKeyListener() {
-            return super.createKeyListener();
+        public KeyListener crebteKeyListener() {
+            return super.crebteKeyListener();
         }
 
-        protected class InvocationKeyHandler extends BasicComboPopup.InvocationKeyHandler {
-            protected InvocationKeyHandler() {
+        protected clbss InvocbtionKeyHbndler extends BbsicComboPopup.InvocbtionKeyHbndler {
+            protected InvocbtionKeyHbndler() {
                 MotifComboPopup.this.super();
             }
         }
     }
 
-    protected void installComponents() {
-        if ( comboBox.isEditable() ) {
-            addEditor();
+    protected void instbllComponents() {
+        if ( comboBox.isEditbble() ) {
+            bddEditor();
         }
 
-        comboBox.add( currentValuePane );
+        comboBox.bdd( currentVbluePbne );
     }
 
-    protected void uninstallComponents() {
+    protected void uninstbllComponents() {
         removeEditor();
         comboBox.removeAll();
     }
 
-    public void paint(Graphics g, JComponent c) {
-        boolean hasFocus = comboBox.hasFocus();
-        Rectangle r;
+    public void pbint(Grbphics g, JComponent c) {
+        boolebn hbsFocus = comboBox.hbsFocus();
+        Rectbngle r;
 
-        if (comboBox.isEnabled()) {
-            g.setColor(comboBox.getBackground());
+        if (comboBox.isEnbbled()) {
+            g.setColor(comboBox.getBbckground());
         } else {
-            g.setColor(UIManager.getColor("ComboBox.disabledBackground"));
+            g.setColor(UIMbnbger.getColor("ComboBox.disbbledBbckground"));
         }
         g.fillRect(0,0,c.getWidth(),c.getHeight());
 
-        if ( !comboBox.isEditable() ) {
-            r = rectangleForCurrentValue();
-            paintCurrentValue(g,r,hasFocus);
+        if ( !comboBox.isEditbble() ) {
+            r = rectbngleForCurrentVblue();
+            pbintCurrentVblue(g,r,hbsFocus);
         }
-        r = rectangleForArrowIcon();
-        arrowIcon.paintIcon(c,g,r.x,r.y);
-        if ( !comboBox.isEditable() ) {
+        r = rectbngleForArrowIcon();
+        brrowIcon.pbintIcon(c,g,r.x,r.y);
+        if ( !comboBox.isEditbble() ) {
             Border border = comboBox.getBorder();
             Insets in;
             if ( border != null ) {
@@ -158,8 +158,8 @@ public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
             else {
                 in = new Insets( 0, 0, 0, 0 );
             }
-            // Draw the separation
-            if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
+            // Drbw the sepbrbtion
+            if(MotifGrbphicsUtils.isLeftToRight(comboBox)) {
                 r.x -= (HORIZ_MARGIN + 2);
             }
             else {
@@ -168,35 +168,35 @@ public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
             r.y = in.top;
             r.width = 1;
             r.height = comboBox.getBounds().height - in.bottom - in.top;
-            g.setColor(UIManager.getColor("controlShadow"));
+            g.setColor(UIMbnbger.getColor("controlShbdow"));
             g.fillRect(r.x,r.y,r.width,r.height);
             r.x++;
-            g.setColor(UIManager.getColor("controlHighlight"));
+            g.setColor(UIMbnbger.getColor("controlHighlight"));
             g.fillRect(r.x,r.y,r.width,r.height);
         }
     }
 
-    public void paintCurrentValue(Graphics g,Rectangle bounds,boolean hasFocus) {
+    public void pbintCurrentVblue(Grbphics g,Rectbngle bounds,boolebn hbsFocus) {
         ListCellRenderer<Object> renderer = comboBox.getRenderer();
         Component c;
         Dimension d;
-        c = renderer.getListCellRendererComponent(listBox, comboBox.getSelectedItem(), -1, false, false);
+        c = renderer.getListCellRendererComponent(listBox, comboBox.getSelectedItem(), -1, fblse, fblse);
         c.setFont(comboBox.getFont());
-        if ( comboBox.isEnabled() ) {
+        if ( comboBox.isEnbbled() ) {
             c.setForeground(comboBox.getForeground());
-            c.setBackground(comboBox.getBackground());
+            c.setBbckground(comboBox.getBbckground());
         }
         else {
-            c.setForeground(UIManager.getColor("ComboBox.disabledForeground"));
-            c.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
+            c.setForeground(UIMbnbger.getColor("ComboBox.disbbledForeground"));
+            c.setBbckground(UIMbnbger.getColor("ComboBox.disbbledBbckground"));
         }
         d  = c.getPreferredSize();
-        currentValuePane.paintComponent(g,c,comboBox,bounds.x,bounds.y,
+        currentVbluePbne.pbintComponent(g,c,comboBox,bounds.x,bounds.y,
                                         bounds.width,d.height);
     }
 
-    protected Rectangle rectangleForArrowIcon() {
-        Rectangle b = comboBox.getBounds();
+    protected Rectbngle rectbngleForArrowIcon() {
+        Rectbngle b = comboBox.getBounds();
         Border border = comboBox.getBorder();
         Insets in;
         if ( border != null ) {
@@ -210,68 +210,68 @@ public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
         b.width -= (in.left + in.right);
         b.height -= (in.top + in.bottom);
 
-        if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
-            b.x = b.x + b.width - HORIZ_MARGIN - arrowIcon.getIconWidth();
+        if(MotifGrbphicsUtils.isLeftToRight(comboBox)) {
+            b.x = b.x + b.width - HORIZ_MARGIN - brrowIcon.getIconWidth();
         }
         else {
             b.x += HORIZ_MARGIN;
         }
-        b.y = b.y + (b.height - arrowIcon.getIconHeight()) / 2;
-        b.width = arrowIcon.getIconWidth();
-        b.height = arrowIcon.getIconHeight();
+        b.y = b.y + (b.height - brrowIcon.getIconHeight()) / 2;
+        b.width = brrowIcon.getIconWidth();
+        b.height = brrowIcon.getIconHeight();
         return b;
     }
 
-    protected Rectangle rectangleForCurrentValue() {
+    protected Rectbngle rectbngleForCurrentVblue() {
         int width = comboBox.getWidth();
         int height = comboBox.getHeight();
         Insets insets = getInsets();
-        if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
-            return new Rectangle(insets.left, insets.top,
+        if(MotifGrbphicsUtils.isLeftToRight(comboBox)) {
+            return new Rectbngle(insets.left, insets.top,
                                  (width - (insets.left + insets.right)) -
-                                                        iconAreaWidth(),
+                                                        iconArebWidth(),
                                  height - (insets.top + insets.bottom));
         }
         else {
-            return new Rectangle(insets.left + iconAreaWidth(), insets.top,
+            return new Rectbngle(insets.left + iconArebWidth(), insets.top,
                                  (width - (insets.left + insets.right)) -
-                                                        iconAreaWidth(),
+                                                        iconArebWidth(),
                                  height - (insets.top + insets.bottom));
         }
     }
 
-    public int iconAreaWidth() {
-        if ( comboBox.isEditable() )
-            return arrowIcon.getIconWidth() + (2 * HORIZ_MARGIN);
+    public int iconArebWidth() {
+        if ( comboBox.isEditbble() )
+            return brrowIcon.getIconWidth() + (2 * HORIZ_MARGIN);
         else
-            return arrowIcon.getIconWidth() + (3 * HORIZ_MARGIN) + 2;
+            return brrowIcon.getIconWidth() + (3 * HORIZ_MARGIN) + 2;
     }
 
     public void configureEditor() {
         super.configureEditor();
-        editor.setBackground( UIManager.getColor( "text" ) );
+        editor.setBbckground( UIMbnbger.getColor( "text" ) );
     }
 
-    protected LayoutManager createLayoutManager() {
-        return new ComboBoxLayoutManager();
+    protected LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new ComboBoxLbyoutMbnbger();
     }
 
-    private Component motifGetEditor() {
+    privbte Component motifGetEditor() {
         return editor;
     }
 
     /**
-     * This inner class is marked &quot;public&quot; due to a compiler bug.
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <FooUI>.
+     * This inner clbss is mbrked &quot;public&quot; due to b compiler bug.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <FooUI>.
      */
-    public class ComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public ComboBoxLayoutManager() {
+    public clbss ComboBoxLbyoutMbnbger extends BbsicComboBoxUI.ComboBoxLbyoutMbnbger {
+        public ComboBoxLbyoutMbnbger() {
             MotifComboBoxUI.this.super();
         }
-        public void layoutContainer(Container parent) {
+        public void lbyoutContbiner(Contbiner pbrent) {
             if ( motifGetEditor() != null ) {
-                Rectangle cvb = rectangleForCurrentValue();
+                Rectbngle cvb = rectbngleForCurrentVblue();
                 cvb.x += 1;
                 cvb.y += 1;
                 cvb.width -= 1;
@@ -281,47 +281,47 @@ public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
         }
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class MotifComboBoxArrowIcon implements Icon, Serializable {
-        private Color lightShadow;
-        private Color darkShadow;
-        private Color fill;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss MotifComboBoxArrowIcon implements Icon, Seriblizbble {
+        privbte Color lightShbdow;
+        privbte Color dbrkShbdow;
+        privbte Color fill;
 
-        public MotifComboBoxArrowIcon(Color lightShadow, Color darkShadow, Color fill) {
-            this.lightShadow = lightShadow;
-            this.darkShadow = darkShadow;
+        public MotifComboBoxArrowIcon(Color lightShbdow, Color dbrkShbdow, Color fill) {
+            this.lightShbdow = lightShbdow;
+            this.dbrkShbdow = dbrkShbdow;
             this.fill = fill;
         }
 
 
-        public void paintIcon(Component c, Graphics g, int xo, int yo) {
+        public void pbintIcon(Component c, Grbphics g, int xo, int yo) {
             int w = getIconWidth();
             int h = getIconHeight();
 
-            g.setColor(lightShadow);
-            g.drawLine(xo, yo, xo+w-1, yo);
-            g.drawLine(xo, yo+1, xo+w-3, yo+1);
-            g.setColor(darkShadow);
-            g.drawLine(xo+w-2, yo+1, xo+w-1, yo+1);
+            g.setColor(lightShbdow);
+            g.drbwLine(xo, yo, xo+w-1, yo);
+            g.drbwLine(xo, yo+1, xo+w-3, yo+1);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(xo+w-2, yo+1, xo+w-1, yo+1);
 
             for ( int x = xo+1, y = yo+2, dx = w-6; y+1 < yo+h; y += 2 ) {
-                g.setColor(lightShadow);
-                g.drawLine(x, y,   x+1, y);
-                g.drawLine(x, y+1, x+1, y+1);
+                g.setColor(lightShbdow);
+                g.drbwLine(x, y,   x+1, y);
+                g.drbwLine(x, y+1, x+1, y+1);
                 if ( dx > 0 ) {
                     g.setColor(fill);
-                    g.drawLine(x+2, y,   x+1+dx, y);
-                    g.drawLine(x+2, y+1, x+1+dx, y+1);
+                    g.drbwLine(x+2, y,   x+1+dx, y);
+                    g.drbwLine(x+2, y+1, x+1+dx, y+1);
                 }
-                g.setColor(darkShadow);
-                g.drawLine(x+dx+2, y,   x+dx+3, y);
-                g.drawLine(x+dx+2, y+1, x+dx+3, y+1);
+                g.setColor(dbrkShbdow);
+                g.drbwLine(x+dx+2, y,   x+dx+3, y);
+                g.drbwLine(x+dx+2, y+1, x+dx+3, y+1);
                 x += 1;
                 dx -= 2;
             }
 
-            g.setColor(darkShadow);
-            g.drawLine(xo+(w/2), yo+h-1, xo+(w/2), yo+h-1);
+            g.setColor(dbrkShbdow);
+            g.drbwLine(xo+(w/2), yo+h-1, xo+(w/2), yo+h-1);
 
         }
 
@@ -339,23 +339,23 @@ public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
      *
      * @since 1.6
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new MotifPropertyChangeListener();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new MotifPropertyChbngeListener();
     }
 
     /**
-     * This class should be made &quot;protected&quot; in future releases.
+     * This clbss should be mbde &quot;protected&quot; in future relebses.
      */
-    private class MotifPropertyChangeListener
-            extends BasicComboBoxUI.PropertyChangeHandler {
-        public void propertyChange(PropertyChangeEvent e) {
-            super.propertyChange(e);
-            String propertyName = e.getPropertyName();
-            if (propertyName == "enabled") {
-                if (comboBox.isEnabled()) {
+    privbte clbss MotifPropertyChbngeListener
+            extends BbsicComboBoxUI.PropertyChbngeHbndler {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            super.propertyChbnge(e);
+            String propertyNbme = e.getPropertyNbme();
+            if (propertyNbme == "enbbled") {
+                if (comboBox.isEnbbled()) {
                     Component editor = motifGetEditor();
                     if (editor != null) {
-                        editor.setBackground(UIManager.getColor("text"));
+                        editor.setBbckground(UIMbnbger.getColor("text"));
                     }
                 }
             }

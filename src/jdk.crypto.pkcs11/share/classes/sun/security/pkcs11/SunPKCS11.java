@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
 
-import javax.crypto.interfaces.*;
+import jbvbx.crypto.interfbces.*;
 
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.login.FailedLoginException;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.ConfirmationCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.TextOutputCallback;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.login.LoginException;
+import jbvbx.security.buth.login.FbiledLoginException;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.buth.cbllbbck.ConfirmbtionCbllbbck;
+import jbvbx.security.buth.cbllbbck.PbsswordCbllbbck;
+import jbvbx.security.buth.cbllbbck.TextOutputCbllbbck;
 
 import sun.security.util.Debug;
 import sun.security.util.ResourcesMgr;
 
 import sun.security.pkcs11.Secmod.*;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * PKCS#11 provider main class.
+ * PKCS#11 provider mbin clbss.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-public final class SunPKCS11 extends AuthProvider {
+public finbl clbss SunPKCS11 extends AuthProvider {
 
-    private static final long serialVersionUID = -1354835039035306505L;
+    privbte stbtic finbl long seriblVersionUID = -1354835039035306505L;
 
-    static final Debug debug = Debug.getInstance("sunpkcs11");
+    stbtic finbl Debug debug = Debug.getInstbnce("sunpkcs11");
 
-    private static int dummyConfigId;
+    privbte stbtic int dummyConfigId;
 
-    // the PKCS11 object through which we make the native calls
-    final PKCS11 p11;
+    // the PKCS11 object through which we mbke the nbtive cblls
+    finbl PKCS11 p11;
 
-    // name of the configuration file
-    private final String configName;
+    // nbme of the configurbtion file
+    privbte finbl String configNbme;
 
-    // configuration information
-    final Config config;
+    // configurbtion informbtion
+    finbl Config config;
 
-    // id of the PKCS#11 slot we are using
-    final long slotID;
+    // id of the PKCS#11 slot we bre using
+    finbl long slotID;
 
-    private CallbackHandler pHandler;
-    private final Object LOCK_HANDLER = new Object();
+    privbte CbllbbckHbndler pHbndler;
+    privbte finbl Object LOCK_HANDLER = new Object();
 
-    final boolean removable;
+    finbl boolebn removbble;
 
-    final Module nssModule;
+    finbl Module nssModule;
 
-    final boolean nssUseSecmodTrust;
+    finbl boolebn nssUseSecmodTrust;
 
-    private volatile Token token;
+    privbte volbtile Token token;
 
-    private TokenPoller poller;
+    privbte TokenPoller poller;
 
     Token getToken() {
         return token;
@@ -96,97 +96,97 @@ public final class SunPKCS11 extends AuthProvider {
     public SunPKCS11() {
         super("SunPKCS11-Dummy", 1.9d, "SunPKCS11-Dummy");
         throw new ProviderException
-            ("SunPKCS11 requires configuration file argument");
+            ("SunPKCS11 requires configurbtion file brgument");
     }
 
-    public SunPKCS11(String configName) {
-        this(checkNull(configName), null);
+    public SunPKCS11(String configNbme) {
+        this(checkNull(configNbme), null);
     }
 
-    public SunPKCS11(InputStream configStream) {
-        this(getDummyConfigName(), checkNull(configStream));
+    public SunPKCS11(InputStrebm configStrebm) {
+        this(getDummyConfigNbme(), checkNull(configStrebm));
     }
 
-    private static <T> T checkNull(T obj) {
+    privbte stbtic <T> T checkNull(T obj) {
         if (obj == null) {
             throw new NullPointerException();
         }
         return obj;
     }
 
-    private static synchronized String getDummyConfigName() {
+    privbte stbtic synchronized String getDummyConfigNbme() {
         int id = ++dummyConfigId;
         return "---DummyConfig-" + id + "---";
     }
 
     /**
-     * @deprecated use new SunPKCS11(String) or new SunPKCS11(InputStream)
-     *         instead
+     * @deprecbted use new SunPKCS11(String) or new SunPKCS11(InputStrebm)
+     *         instebd
      */
-    @Deprecated
-    public SunPKCS11(String configName, InputStream configStream) {
+    @Deprecbted
+    public SunPKCS11(String configNbme, InputStrebm configStrebm) {
         super("SunPKCS11-" +
-            Config.getConfig(configName, configStream).getName(),
-            1.9d, Config.getConfig(configName, configStream).getDescription());
-        this.configName = configName;
-        this.config = Config.removeConfig(configName);
+            Config.getConfig(configNbme, configStrebm).getNbme(),
+            1.9d, Config.getConfig(configNbme, configStrebm).getDescription());
+        this.configNbme = configNbme;
+        this.config = Config.removeConfig(configNbme);
 
         if (debug != null) {
-            System.out.println("SunPKCS11 loading " + configName);
+            System.out.println("SunPKCS11 lobding " + configNbme);
         }
 
-        String library = config.getLibrary();
+        String librbry = config.getLibrbry();
         String functionList = config.getFunctionList();
         long slotID = config.getSlotID();
         int slotListIndex = config.getSlotListIndex();
 
-        boolean useSecmod = config.getNssUseSecmod();
-        boolean nssUseSecmodTrust = config.getNssUseSecmodTrust();
+        boolebn useSecmod = config.getNssUseSecmod();
+        boolebn nssUseSecmodTrust = config.getNssUseSecmodTrust();
         Module nssModule = null;
 
         //
-        // Initialization via Secmod. The way this works is as follows:
-        // SunPKCS11 is either in normal mode or in NSS Secmod mode.
-        // Secmod is activated by specifying one or more of the following
+        // Initiblizbtion vib Secmod. The wby this works is bs follows:
+        // SunPKCS11 is either in normbl mode or in NSS Secmod mode.
+        // Secmod is bctivbted by specifying one or more of the following
         // options in the config file:
-        // nssUseSecmod, nssSecmodDirectory, nssLibrary, nssModule
+        // nssUseSecmod, nssSecmodDirectory, nssLibrbry, nssModule
         //
-        // XXX add more explanation here
+        // XXX bdd more explbnbtion here
         //
-        // If we are in Secmod mode and configured to use either the
-        // nssKeyStore or the nssTrustAnchors module, we automatically
-        // switch to using the NSS trust attributes for trusted certs
+        // If we bre in Secmod mode bnd configured to use either the
+        // nssKeyStore or the nssTrustAnchors module, we butombticblly
+        // switch to using the NSS trust bttributes for trusted certs
         // (KeyStore).
         //
 
         if (useSecmod) {
-            // note: Config ensures library/slot/slotListIndex not specified
+            // note: Config ensures librbry/slot/slotListIndex not specified
             // in secmod mode.
-            Secmod secmod = Secmod.getInstance();
+            Secmod secmod = Secmod.getInstbnce();
             DbMode nssDbMode = config.getNssDbMode();
             try {
-                String nssLibraryDirectory = config.getNssLibraryDirectory();
+                String nssLibrbryDirectory = config.getNssLibrbryDirectory();
                 String nssSecmodDirectory = config.getNssSecmodDirectory();
-                boolean nssOptimizeSpace = config.getNssOptimizeSpace();
+                boolebn nssOptimizeSpbce = config.getNssOptimizeSpbce();
 
-                if (secmod.isInitialized()) {
+                if (secmod.isInitiblized()) {
                     if (nssSecmodDirectory != null) {
                         String s = secmod.getConfigDir();
                         if ((s != null) &&
-                                (s.equals(nssSecmodDirectory) == false)) {
+                                (s.equbls(nssSecmodDirectory) == fblse)) {
                             throw new ProviderException("Secmod directory "
                                 + nssSecmodDirectory
-                                + " invalid, NSS already initialized with "
+                                + " invblid, NSS blrebdy initiblized with "
                                 + s);
                         }
                     }
-                    if (nssLibraryDirectory != null) {
+                    if (nssLibrbryDirectory != null) {
                         String s = secmod.getLibDir();
                         if ((s != null) &&
-                                (s.equals(nssLibraryDirectory) == false)) {
-                            throw new ProviderException("NSS library directory "
-                                + nssLibraryDirectory
-                                + " invalid, NSS already initialized with "
+                                (s.equbls(nssLibrbryDirectory) == fblse)) {
+                            throw new ProviderException("NSS librbry directory "
+                                + nssLibrbryDirectory
+                                + " invblid, NSS blrebdy initiblized with "
                                 + s);
                         }
                     }
@@ -194,7 +194,7 @@ public final class SunPKCS11 extends AuthProvider {
                     if (nssDbMode != DbMode.NO_DB) {
                         if (nssSecmodDirectory == null) {
                             throw new ProviderException(
-                                "Secmod not initialized and "
+                                "Secmod not initiblized bnd "
                                  + "nssSecmodDirectory not specified");
                         }
                     } else {
@@ -204,148 +204,148 @@ public final class SunPKCS11 extends AuthProvider {
                                 + "specified in noDb mode");
                         }
                     }
-                    secmod.initialize(nssDbMode, nssSecmodDirectory,
-                        nssLibraryDirectory, nssOptimizeSpace);
+                    secmod.initiblize(nssDbMode, nssSecmodDirectory,
+                        nssLibrbryDirectory, nssOptimizeSpbce);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 // XXX which exception to throw
-                throw new ProviderException("Could not initialize NSS", e);
+                throw new ProviderException("Could not initiblize NSS", e);
             }
             List<Module> modules = secmod.getModules();
             if (config.getShowInfo()) {
                 System.out.println("NSS modules: " + modules);
             }
 
-            String moduleName = config.getNssModule();
-            if (moduleName == null) {
+            String moduleNbme = config.getNssModule();
+            if (moduleNbme == null) {
                 nssModule = secmod.getModule(ModuleType.FIPS);
                 if (nssModule != null) {
-                    moduleName = "fips";
+                    moduleNbme = "fips";
                 } else {
-                    moduleName = (nssDbMode == DbMode.NO_DB) ?
+                    moduleNbme = (nssDbMode == DbMode.NO_DB) ?
                         "crypto" : "keystore";
                 }
             }
-            if (moduleName.equals("fips")) {
+            if (moduleNbme.equbls("fips")) {
                 nssModule = secmod.getModule(ModuleType.FIPS);
                 nssUseSecmodTrust = true;
                 functionList = "FC_GetFunctionList";
-            } else if (moduleName.equals("keystore")) {
+            } else if (moduleNbme.equbls("keystore")) {
                 nssModule = secmod.getModule(ModuleType.KEYSTORE);
                 nssUseSecmodTrust = true;
-            } else if (moduleName.equals("crypto")) {
+            } else if (moduleNbme.equbls("crypto")) {
                 nssModule = secmod.getModule(ModuleType.CRYPTO);
-            } else if (moduleName.equals("trustanchors")) {
-                // XXX should the option be called trustanchor or trustanchors??
+            } else if (moduleNbme.equbls("trustbnchors")) {
+                // XXX should the option be cblled trustbnchor or trustbnchors??
                 nssModule = secmod.getModule(ModuleType.TRUSTANCHOR);
                 nssUseSecmodTrust = true;
-            } else if (moduleName.startsWith("external-")) {
+            } else if (moduleNbme.stbrtsWith("externbl-")) {
                 int moduleIndex;
                 try {
-                    moduleIndex = Integer.parseInt
-                            (moduleName.substring("external-".length()));
-                } catch (NumberFormatException e) {
+                    moduleIndex = Integer.pbrseInt
+                            (moduleNbme.substring("externbl-".length()));
+                } cbtch (NumberFormbtException e) {
                     moduleIndex = -1;
                 }
                 if (moduleIndex < 1) {
                     throw new ProviderException
-                            ("Invalid external module: " + moduleName);
+                            ("Invblid externbl module: " + moduleNbme);
                 }
                 int k = 0;
                 for (Module module : modules) {
                     if (module.getType() == ModuleType.EXTERNAL) {
                         if (++k == moduleIndex) {
                             nssModule = module;
-                            break;
+                            brebk;
                         }
                     }
                 }
                 if (nssModule == null) {
-                    throw new ProviderException("Invalid module " + moduleName
-                        + ": only " + k + " external NSS modules available");
+                    throw new ProviderException("Invblid module " + moduleNbme
+                        + ": only " + k + " externbl NSS modules bvbilbble");
                 }
             } else {
                 throw new ProviderException(
-                    "Unknown NSS module: " + moduleName);
+                    "Unknown NSS module: " + moduleNbme);
             }
             if (nssModule == null) {
                 throw new ProviderException(
-                    "NSS module not available: " + moduleName);
+                    "NSS module not bvbilbble: " + moduleNbme);
             }
-            if (nssModule.hasInitializedProvider()) {
-                throw new ProviderException("Secmod module already configured");
+            if (nssModule.hbsInitiblizedProvider()) {
+                throw new ProviderException("Secmod module blrebdy configured");
             }
-            library = nssModule.libraryName;
+            librbry = nssModule.librbryNbme;
             slotListIndex = nssModule.slot;
         }
         this.nssUseSecmodTrust = nssUseSecmodTrust;
         this.nssModule = nssModule;
 
-        File libraryFile = new File(library);
-        // if the filename is a simple filename without path
-        // (e.g. "libpkcs11.so"), it may refer to a library somewhere on the
-        // OS library search path. Omit the test for file existance as that
+        File librbryFile = new File(librbry);
+        // if the filenbme is b simple filenbme without pbth
+        // (e.g. "libpkcs11.so"), it mby refer to b librbry somewhere on the
+        // OS librbry sebrch pbth. Omit the test for file existbnce bs thbt
         // only looks in the current directory.
-        if (libraryFile.getName().equals(library) == false) {
-            if (new File(library).isFile() == false) {
-                String msg = "Library " + library + " does not exist";
-                if (config.getHandleStartupErrors() == Config.ERR_HALT) {
+        if (librbryFile.getNbme().equbls(librbry) == fblse) {
+            if (new File(librbry).isFile() == fblse) {
+                String msg = "Librbry " + librbry + " does not exist";
+                if (config.getHbndleStbrtupErrors() == Config.ERR_HALT) {
                     throw new ProviderException(msg);
                 } else {
-                    throw new UnsupportedOperationException(msg);
+                    throw new UnsupportedOperbtionException(msg);
                 }
             }
         }
 
         try {
             if (debug != null) {
-                debug.println("Initializing PKCS#11 library " + library);
+                debug.println("Initiblizing PKCS#11 librbry " + librbry);
             }
             CK_C_INITIALIZE_ARGS initArgs = new CK_C_INITIALIZE_ARGS();
             String nssArgs = config.getNssArgs();
             if (nssArgs != null) {
                 initArgs.pReserved = nssArgs;
             }
-            // request multithreaded access first
-            initArgs.flags = CKF_OS_LOCKING_OK;
+            // request multithrebded bccess first
+            initArgs.flbgs = CKF_OS_LOCKING_OK;
             PKCS11 tmpPKCS11;
             try {
-                tmpPKCS11 = PKCS11.getInstance(
-                    library, functionList, initArgs,
-                    config.getOmitInitialize());
-            } catch (PKCS11Exception e) {
+                tmpPKCS11 = PKCS11.getInstbnce(
+                    librbry, functionList, initArgs,
+                    config.getOmitInitiblize());
+            } cbtch (PKCS11Exception e) {
                 if (debug != null) {
-                    debug.println("Multi-threaded initialization failed: " + e);
+                    debug.println("Multi-threbded initiblizbtion fbiled: " + e);
                 }
-                if (config.getAllowSingleThreadedModules() == false) {
+                if (config.getAllowSingleThrebdedModules() == fblse) {
                     throw e;
                 }
-                // fall back to single threaded access
+                // fbll bbck to single threbded bccess
                 if (nssArgs == null) {
-                    // if possible, use null initArgs for better compatibility
+                    // if possible, use null initArgs for better compbtibility
                     initArgs = null;
                 } else {
-                    initArgs.flags = 0;
+                    initArgs.flbgs = 0;
                 }
-                tmpPKCS11 = PKCS11.getInstance(library,
-                    functionList, initArgs, config.getOmitInitialize());
+                tmpPKCS11 = PKCS11.getInstbnce(librbry,
+                    functionList, initArgs, config.getOmitInitiblize());
             }
             p11 = tmpPKCS11;
 
             CK_INFO p11Info = p11.C_GetInfo();
-            if (p11Info.cryptokiVersion.major < 2) {
-                throw new ProviderException("Only PKCS#11 v2.0 and later "
-                + "supported, library version is v" + p11Info.cryptokiVersion);
+            if (p11Info.cryptokiVersion.mbjor < 2) {
+                throw new ProviderException("Only PKCS#11 v2.0 bnd lbter "
+                + "supported, librbry version is v" + p11Info.cryptokiVersion);
             }
-            boolean showInfo = config.getShowInfo();
+            boolebn showInfo = config.getShowInfo();
             if (showInfo) {
-                System.out.println("Information for provider " + getName());
-                System.out.println("Library info:");
+                System.out.println("Informbtion for provider " + getNbme());
+                System.out.println("Librbry info:");
                 System.out.println(p11Info);
             }
 
             if ((slotID < 0) || showInfo) {
-                long[] slots = p11.C_GetSlotList(false);
+                long[] slots = p11.C_GetSlotList(fblse);
                 if (showInfo) {
                     System.out.println("All slots: " + toString(slots));
                     slots = p11.C_GetSlotList(true);
@@ -356,163 +356,163 @@ public final class SunPKCS11 extends AuthProvider {
                             || (slotListIndex >= slots.length)) {
                         throw new ProviderException("slotListIndex is "
                             + slotListIndex
-                            + " but token only has " + slots.length + " slots");
+                            + " but token only hbs " + slots.length + " slots");
                     }
                     slotID = slots[slotListIndex];
                 }
             }
             this.slotID = slotID;
             CK_SLOT_INFO slotInfo = p11.C_GetSlotInfo(slotID);
-            removable = (slotInfo.flags & CKF_REMOVABLE_DEVICE) != 0;
+            removbble = (slotInfo.flbgs & CKF_REMOVABLE_DEVICE) != 0;
             initToken(slotInfo);
             if (nssModule != null) {
                 nssModule.setProvider(this);
             }
-        } catch (Exception e) {
-            if (config.getHandleStartupErrors() == Config.ERR_IGNORE_ALL) {
-                throw new UnsupportedOperationException
-                        ("Initialization failed", e);
+        } cbtch (Exception e) {
+            if (config.getHbndleStbrtupErrors() == Config.ERR_IGNORE_ALL) {
+                throw new UnsupportedOperbtionException
+                        ("Initiblizbtion fbiled", e);
             } else {
                 throw new ProviderException
-                        ("Initialization failed", e);
+                        ("Initiblizbtion fbiled", e);
             }
         }
     }
 
-    private static String toString(long[] longs) {
+    privbte stbtic String toString(long[] longs) {
         if (longs.length == 0) {
             return "(none)";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(longs[0]);
+        sb.bppend(longs[0]);
         for (int i = 1; i < longs.length; i++) {
-            sb.append(", ");
-            sb.append(longs[i]);
+            sb.bppend(", ");
+            sb.bppend(longs[i]);
         }
         return sb.toString();
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return this == obj;
     }
 
-    public int hashCode() {
-        return System.identityHashCode(this);
+    public int hbshCode() {
+        return System.identityHbshCode(this);
     }
 
-    private static String[] s(String ...aliases) {
-        return aliases;
+    privbte stbtic String[] s(String ...blibses) {
+        return blibses;
     }
 
-    private static final class Descriptor {
-        final String type;
-        final String algorithm;
-        final String className;
-        final String[] aliases;
-        final int[] mechanisms;
+    privbte stbtic finbl clbss Descriptor {
+        finbl String type;
+        finbl String blgorithm;
+        finbl String clbssNbme;
+        finbl String[] blibses;
+        finbl int[] mechbnisms;
 
-        private Descriptor(String type, String algorithm, String className,
-                String[] aliases, int[] mechanisms) {
+        privbte Descriptor(String type, String blgorithm, String clbssNbme,
+                String[] blibses, int[] mechbnisms) {
             this.type = type;
-            this.algorithm = algorithm;
-            this.className = className;
-            this.aliases = aliases;
-            this.mechanisms = mechanisms;
+            this.blgorithm = blgorithm;
+            this.clbssNbme = clbssNbme;
+            this.blibses = blibses;
+            this.mechbnisms = mechbnisms;
         }
-        private P11Service service(Token token, int mechanism) {
+        privbte P11Service service(Token token, int mechbnism) {
             return new P11Service
-                (token, type, algorithm, className, aliases, mechanism);
+                (token, type, blgorithm, clbssNbme, blibses, mechbnism);
         }
         public String toString() {
-            return type + "." + algorithm;
+            return type + "." + blgorithm;
         }
     }
 
-    // Map from mechanism to List of Descriptors that should be
-    // registered if the mechanism is supported
-    private final static Map<Integer,List<Descriptor>> descriptors =
-        new HashMap<Integer,List<Descriptor>>();
+    // Mbp from mechbnism to List of Descriptors thbt should be
+    // registered if the mechbnism is supported
+    privbte finbl stbtic Mbp<Integer,List<Descriptor>> descriptors =
+        new HbshMbp<Integer,List<Descriptor>>();
 
-    private static int[] m(long m1) {
+    privbte stbtic int[] m(long m1) {
         return new int[] {(int)m1};
     }
 
-    private static int[] m(long m1, long m2) {
+    privbte stbtic int[] m(long m1, long m2) {
         return new int[] {(int)m1, (int)m2};
     }
 
-    private static int[] m(long m1, long m2, long m3) {
+    privbte stbtic int[] m(long m1, long m2, long m3) {
         return new int[] {(int)m1, (int)m2, (int)m3};
     }
 
-    private static int[] m(long m1, long m2, long m3, long m4) {
+    privbte stbtic int[] m(long m1, long m2, long m3, long m4) {
         return new int[] {(int)m1, (int)m2, (int)m3, (int)m4};
     }
 
-    private static void d(String type, String algorithm, String className,
+    privbte stbtic void d(String type, String blgorithm, String clbssNbme,
             int[] m) {
-        register(new Descriptor(type, algorithm, className, null, m));
+        register(new Descriptor(type, blgorithm, clbssNbme, null, m));
     }
 
-    private static void d(String type, String algorithm, String className,
-            String[] aliases, int[] m) {
-        register(new Descriptor(type, algorithm, className, aliases, m));
+    privbte stbtic void d(String type, String blgorithm, String clbssNbme,
+            String[] blibses, int[] m) {
+        register(new Descriptor(type, blgorithm, clbssNbme, blibses, m));
     }
 
-    private static void register(Descriptor d) {
-        for (int i = 0; i < d.mechanisms.length; i++) {
-            int m = d.mechanisms[i];
-            Integer key = Integer.valueOf(m);
+    privbte stbtic void register(Descriptor d) {
+        for (int i = 0; i < d.mechbnisms.length; i++) {
+            int m = d.mechbnisms[i];
+            Integer key = Integer.vblueOf(m);
             List<Descriptor> list = descriptors.get(key);
             if (list == null) {
-                list = new ArrayList<Descriptor>();
+                list = new ArrbyList<Descriptor>();
                 descriptors.put(key, list);
             }
-            list.add(d);
+            list.bdd(d);
         }
     }
 
-    private final static String MD  = "MessageDigest";
+    privbte finbl stbtic String MD  = "MessbgeDigest";
 
-    private final static String SIG = "Signature";
+    privbte finbl stbtic String SIG = "Signbture";
 
-    private final static String KPG = "KeyPairGenerator";
+    privbte finbl stbtic String KPG = "KeyPbirGenerbtor";
 
-    private final static String KG  = "KeyGenerator";
+    privbte finbl stbtic String KG  = "KeyGenerbtor";
 
-    private final static String AGP = "AlgorithmParameters";
+    privbte finbl stbtic String AGP = "AlgorithmPbrbmeters";
 
-    private final static String KF  = "KeyFactory";
+    privbte finbl stbtic String KF  = "KeyFbctory";
 
-    private final static String SKF = "SecretKeyFactory";
+    privbte finbl stbtic String SKF = "SecretKeyFbctory";
 
-    private final static String CIP = "Cipher";
+    privbte finbl stbtic String CIP = "Cipher";
 
-    private final static String MAC = "Mac";
+    privbte finbl stbtic String MAC = "Mbc";
 
-    private final static String KA  = "KeyAgreement";
+    privbte finbl stbtic String KA  = "KeyAgreement";
 
-    private final static String KS  = "KeyStore";
+    privbte finbl stbtic String KS  = "KeyStore";
 
-    private final static String SR  = "SecureRandom";
+    privbte finbl stbtic String SR  = "SecureRbndom";
 
-    static {
-        // names of all the implementation classes
-        // use local variables, only used here
+    stbtic {
+        // nbmes of bll the implementbtion clbsses
+        // use locbl vbribbles, only used here
         String P11Digest           = "sun.security.pkcs11.P11Digest";
         String P11MAC              = "sun.security.pkcs11.P11MAC";
-        String P11KeyPairGenerator = "sun.security.pkcs11.P11KeyPairGenerator";
-        String P11KeyGenerator     = "sun.security.pkcs11.P11KeyGenerator";
-        String P11RSAKeyFactory    = "sun.security.pkcs11.P11RSAKeyFactory";
-        String P11DSAKeyFactory    = "sun.security.pkcs11.P11DSAKeyFactory";
-        String P11DHKeyFactory     = "sun.security.pkcs11.P11DHKeyFactory";
+        String P11KeyPbirGenerbtor = "sun.security.pkcs11.P11KeyPbirGenerbtor";
+        String P11KeyGenerbtor     = "sun.security.pkcs11.P11KeyGenerbtor";
+        String P11RSAKeyFbctory    = "sun.security.pkcs11.P11RSAKeyFbctory";
+        String P11DSAKeyFbctory    = "sun.security.pkcs11.P11DSAKeyFbctory";
+        String P11DHKeyFbctory     = "sun.security.pkcs11.P11DHKeyFbctory";
         String P11KeyAgreement     = "sun.security.pkcs11.P11KeyAgreement";
-        String P11SecretKeyFactory = "sun.security.pkcs11.P11SecretKeyFactory";
+        String P11SecretKeyFbctory = "sun.security.pkcs11.P11SecretKeyFbctory";
         String P11Cipher           = "sun.security.pkcs11.P11Cipher";
         String P11RSACipher        = "sun.security.pkcs11.P11RSACipher";
-        String P11Signature        = "sun.security.pkcs11.P11Signature";
+        String P11Signbture        = "sun.security.pkcs11.P11Signbture";
 
-        // XXX register all aliases
+        // XXX register bll blibses
 
         d(MD, "MD2",            P11Digest,
                 m(CKM_MD2));
@@ -535,356 +535,356 @@ public final class SunPKCS11 extends AuthProvider {
                 s("2.16.840.1.101.3.4.2.3", "OID.2.16.840.1.101.3.4.2.3"),
                 m(CKM_SHA512));
 
-        d(MAC, "HmacMD5",       P11MAC,
+        d(MAC, "HmbcMD5",       P11MAC,
                 m(CKM_MD5_HMAC));
-        d(MAC, "HmacSHA1",      P11MAC,
+        d(MAC, "HmbcSHA1",      P11MAC,
                 s("1.2.840.113549.2.7", "OID.1.2.840.113549.2.7"),
                 m(CKM_SHA_1_HMAC));
-        d(MAC, "HmacSHA224",    P11MAC,
+        d(MAC, "HmbcSHA224",    P11MAC,
                 s("1.2.840.113549.2.8", "OID.1.2.840.113549.2.8"),
                 m(CKM_SHA224_HMAC));
-        d(MAC, "HmacSHA256",    P11MAC,
+        d(MAC, "HmbcSHA256",    P11MAC,
                 s("1.2.840.113549.2.9", "OID.1.2.840.113549.2.9"),
                 m(CKM_SHA256_HMAC));
-        d(MAC, "HmacSHA384",    P11MAC,
+        d(MAC, "HmbcSHA384",    P11MAC,
                 s("1.2.840.113549.2.10", "OID.1.2.840.113549.2.10"),
                 m(CKM_SHA384_HMAC));
-        d(MAC, "HmacSHA512",    P11MAC,
+        d(MAC, "HmbcSHA512",    P11MAC,
                 s("1.2.840.113549.2.11", "OID.1.2.840.113549.2.11"),
                 m(CKM_SHA512_HMAC));
-        d(MAC, "SslMacMD5",     P11MAC,
+        d(MAC, "SslMbcMD5",     P11MAC,
                 m(CKM_SSL3_MD5_MAC));
-        d(MAC, "SslMacSHA1",    P11MAC,
+        d(MAC, "SslMbcSHA1",    P11MAC,
                 m(CKM_SSL3_SHA1_MAC));
 
-        d(KPG, "RSA",           P11KeyPairGenerator,
+        d(KPG, "RSA",           P11KeyPbirGenerbtor,
                 m(CKM_RSA_PKCS_KEY_PAIR_GEN));
-        d(KPG, "DSA",           P11KeyPairGenerator,
+        d(KPG, "DSA",           P11KeyPbirGenerbtor,
                 s("1.3.14.3.2.12", "1.2.840.10040.4.1", "OID.1.2.840.10040.4.1"),
                 m(CKM_DSA_KEY_PAIR_GEN));
-        d(KPG, "DH",            P11KeyPairGenerator,    s("DiffieHellman"),
+        d(KPG, "DH",            P11KeyPbirGenerbtor,    s("DiffieHellmbn"),
                 m(CKM_DH_PKCS_KEY_PAIR_GEN));
-        d(KPG, "EC",            P11KeyPairGenerator,
+        d(KPG, "EC",            P11KeyPbirGenerbtor,
                 m(CKM_EC_KEY_PAIR_GEN));
 
-        d(KG,  "ARCFOUR",       P11KeyGenerator,        s("RC4"),
+        d(KG,  "ARCFOUR",       P11KeyGenerbtor,        s("RC4"),
                 m(CKM_RC4_KEY_GEN));
-        d(KG,  "DES",           P11KeyGenerator,
+        d(KG,  "DES",           P11KeyGenerbtor,
                 m(CKM_DES_KEY_GEN));
-        d(KG,  "DESede",        P11KeyGenerator,
+        d(KG,  "DESede",        P11KeyGenerbtor,
                 m(CKM_DES3_KEY_GEN, CKM_DES2_KEY_GEN));
-        d(KG,  "AES",           P11KeyGenerator,
+        d(KG,  "AES",           P11KeyGenerbtor,
                 m(CKM_AES_KEY_GEN));
-        d(KG,  "Blowfish",      P11KeyGenerator,
+        d(KG,  "Blowfish",      P11KeyGenerbtor,
                 m(CKM_BLOWFISH_KEY_GEN));
 
-        // register (Secret)KeyFactories if there are any mechanisms
-        // for a particular algorithm that we support
-        d(KF, "RSA",            P11RSAKeyFactory,
+        // register (Secret)KeyFbctories if there bre bny mechbnisms
+        // for b pbrticulbr blgorithm thbt we support
+        d(KF, "RSA",            P11RSAKeyFbctory,
                 m(CKM_RSA_PKCS_KEY_PAIR_GEN, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(KF, "DSA",            P11DSAKeyFactory,
+        d(KF, "DSA",            P11DSAKeyFbctory,
                 s("1.3.14.3.2.12", "1.2.840.10040.4.1", "OID.1.2.840.10040.4.1"),
                 m(CKM_DSA_KEY_PAIR_GEN, CKM_DSA, CKM_DSA_SHA1));
-        d(KF, "DH",             P11DHKeyFactory,        s("DiffieHellman"),
+        d(KF, "DH",             P11DHKeyFbctory,        s("DiffieHellmbn"),
                 m(CKM_DH_PKCS_KEY_PAIR_GEN, CKM_DH_PKCS_DERIVE));
-        d(KF, "EC",             P11DHKeyFactory,
+        d(KF, "EC",             P11DHKeyFbctory,
                 m(CKM_EC_KEY_PAIR_GEN, CKM_ECDH1_DERIVE,
                     CKM_ECDSA, CKM_ECDSA_SHA1));
 
-        // AlgorithmParameters for EC.
-        // Only needed until we have an EC implementation in the SUN provider.
-        d(AGP, "EC",            "sun.security.util.ECParameters",
+        // AlgorithmPbrbmeters for EC.
+        // Only needed until we hbve bn EC implementbtion in the SUN provider.
+        d(AGP, "EC",            "sun.security.util.ECPbrbmeters",
                                                 s("1.2.840.10045.2.1"),
                 m(CKM_EC_KEY_PAIR_GEN, CKM_ECDH1_DERIVE,
                     CKM_ECDSA, CKM_ECDSA_SHA1));
 
-        d(KA, "DH",             P11KeyAgreement,        s("DiffieHellman"),
+        d(KA, "DH",             P11KeyAgreement,        s("DiffieHellmbn"),
                 m(CKM_DH_PKCS_DERIVE));
         d(KA, "ECDH",           "sun.security.pkcs11.P11ECDHKeyAgreement",
                 m(CKM_ECDH1_DERIVE));
 
-        d(SKF, "ARCFOUR",       P11SecretKeyFactory,    s("RC4"),
+        d(SKF, "ARCFOUR",       P11SecretKeyFbctory,    s("RC4"),
                 m(CKM_RC4));
-        d(SKF, "DES",           P11SecretKeyFactory,
+        d(SKF, "DES",           P11SecretKeyFbctory,
                 m(CKM_DES_CBC));
-        d(SKF, "DESede",        P11SecretKeyFactory,
+        d(SKF, "DESede",        P11SecretKeyFbctory,
                 m(CKM_DES3_CBC));
-        d(SKF, "AES",           P11SecretKeyFactory,
+        d(SKF, "AES",           P11SecretKeyFbctory,
                 s("2.16.840.1.101.3.4.1", "OID.2.16.840.1.101.3.4.1"),
                 m(CKM_AES_CBC));
-        d(SKF, "Blowfish",      P11SecretKeyFactory,
+        d(SKF, "Blowfish",      P11SecretKeyFbctory,
                 m(CKM_BLOWFISH_CBC));
 
-        // XXX attributes for Ciphers (supported modes, padding)
+        // XXX bttributes for Ciphers (supported modes, pbdding)
         d(CIP, "ARCFOUR",                       P11Cipher,      s("RC4"),
                 m(CKM_RC4));
-        d(CIP, "DES/CBC/NoPadding",             P11Cipher,
+        d(CIP, "DES/CBC/NoPbdding",             P11Cipher,
                 m(CKM_DES_CBC));
-        d(CIP, "DES/CBC/PKCS5Padding",          P11Cipher,
+        d(CIP, "DES/CBC/PKCS5Pbdding",          P11Cipher,
                 m(CKM_DES_CBC_PAD, CKM_DES_CBC));
-        d(CIP, "DES/ECB/NoPadding",             P11Cipher,
+        d(CIP, "DES/ECB/NoPbdding",             P11Cipher,
                 m(CKM_DES_ECB));
-        d(CIP, "DES/ECB/PKCS5Padding",          P11Cipher,      s("DES"),
+        d(CIP, "DES/ECB/PKCS5Pbdding",          P11Cipher,      s("DES"),
                 m(CKM_DES_ECB));
 
-        d(CIP, "DESede/CBC/NoPadding",          P11Cipher,
+        d(CIP, "DESede/CBC/NoPbdding",          P11Cipher,
                 m(CKM_DES3_CBC));
-        d(CIP, "DESede/CBC/PKCS5Padding",       P11Cipher,
+        d(CIP, "DESede/CBC/PKCS5Pbdding",       P11Cipher,
                 m(CKM_DES3_CBC_PAD, CKM_DES3_CBC));
-        d(CIP, "DESede/ECB/NoPadding",          P11Cipher,
+        d(CIP, "DESede/ECB/NoPbdding",          P11Cipher,
                 m(CKM_DES3_ECB));
-        d(CIP, "DESede/ECB/PKCS5Padding",       P11Cipher,      s("DESede"),
+        d(CIP, "DESede/ECB/PKCS5Pbdding",       P11Cipher,      s("DESede"),
                 m(CKM_DES3_ECB));
-        d(CIP, "AES/CBC/NoPadding",             P11Cipher,
+        d(CIP, "AES/CBC/NoPbdding",             P11Cipher,
                 m(CKM_AES_CBC));
-        d(CIP, "AES_128/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_128/CBC/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.2", "OID.2.16.840.1.101.3.4.1.2"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES_192/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_192/CBC/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.22", "OID.2.16.840.1.101.3.4.1.22"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES_256/CBC/NoPadding",          P11Cipher,
+        d(CIP, "AES_256/CBC/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.42", "OID.2.16.840.1.101.3.4.1.42"),
                 m(CKM_AES_CBC));
-        d(CIP, "AES/CBC/PKCS5Padding",          P11Cipher,
+        d(CIP, "AES/CBC/PKCS5Pbdding",          P11Cipher,
                 m(CKM_AES_CBC_PAD, CKM_AES_CBC));
-        d(CIP, "AES/ECB/NoPadding",             P11Cipher,
+        d(CIP, "AES/ECB/NoPbdding",             P11Cipher,
                 m(CKM_AES_ECB));
-        d(CIP, "AES_128/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_128/ECB/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.1", "OID.2.16.840.1.101.3.4.1.1"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES_192/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_192/ECB/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.21", "OID.2.16.840.1.101.3.4.1.21"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES_256/ECB/NoPadding",          P11Cipher,
+        d(CIP, "AES_256/ECB/NoPbdding",          P11Cipher,
                 s("2.16.840.1.101.3.4.1.41", "OID.2.16.840.1.101.3.4.1.41"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES/ECB/PKCS5Padding",          P11Cipher,      s("AES"),
+        d(CIP, "AES/ECB/PKCS5Pbdding",          P11Cipher,      s("AES"),
                 m(CKM_AES_ECB));
-        d(CIP, "AES/CTR/NoPadding",             P11Cipher,
+        d(CIP, "AES/CTR/NoPbdding",             P11Cipher,
                 m(CKM_AES_CTR));
-        d(CIP, "Blowfish/CBC/NoPadding",        P11Cipher,
+        d(CIP, "Blowfish/CBC/NoPbdding",        P11Cipher,
                 m(CKM_BLOWFISH_CBC));
-        d(CIP, "Blowfish/CBC/PKCS5Padding",     P11Cipher,
+        d(CIP, "Blowfish/CBC/PKCS5Pbdding",     P11Cipher,
                 m(CKM_BLOWFISH_CBC));
 
         // XXX RSA_X_509, RSA_OAEP not yet supported
-        d(CIP, "RSA/ECB/PKCS1Padding",          P11RSACipher,   s("RSA"),
+        d(CIP, "RSA/ECB/PKCS1Pbdding",          P11RSACipher,   s("RSA"),
                 m(CKM_RSA_PKCS));
-        d(CIP, "RSA/ECB/NoPadding",             P11RSACipher,
+        d(CIP, "RSA/ECB/NoPbdding",             P11RSACipher,
                 m(CKM_RSA_X_509));
 
-        d(SIG, "RawDSA",        P11Signature,   s("NONEwithDSA"),
+        d(SIG, "RbwDSA",        P11Signbture,   s("NONEwithDSA"),
                 m(CKM_DSA));
-        d(SIG, "DSA",           P11Signature,
+        d(SIG, "DSA",           P11Signbture,
                 s("SHA1withDSA", "1.3.14.3.2.13", "1.3.14.3.2.27",
                   "1.2.840.10040.4.3", "OID.1.2.840.10040.4.3"),
                 m(CKM_DSA_SHA1, CKM_DSA));
-        d(SIG, "NONEwithECDSA", P11Signature,
+        d(SIG, "NONEwithECDSA", P11Signbture,
                 m(CKM_ECDSA));
-        d(SIG, "SHA1withECDSA", P11Signature,
+        d(SIG, "SHA1withECDSA", P11Signbture,
                 s("ECDSA", "1.2.840.10045.4.1", "OID.1.2.840.10045.4.1"),
                 m(CKM_ECDSA_SHA1, CKM_ECDSA));
-        d(SIG, "SHA224withECDSA",       P11Signature,
+        d(SIG, "SHA224withECDSA",       P11Signbture,
                 s("1.2.840.10045.4.3.1", "OID.1.2.840.10045.4.3.1"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA256withECDSA",       P11Signature,
+        d(SIG, "SHA256withECDSA",       P11Signbture,
                 s("1.2.840.10045.4.3.2", "OID.1.2.840.10045.4.3.2"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA384withECDSA",       P11Signature,
+        d(SIG, "SHA384withECDSA",       P11Signbture,
                 s("1.2.840.10045.4.3.3", "OID.1.2.840.10045.4.3.3"),
                 m(CKM_ECDSA));
-        d(SIG, "SHA512withECDSA",       P11Signature,
+        d(SIG, "SHA512withECDSA",       P11Signbture,
                 s("1.2.840.10045.4.3.4", "OID.1.2.840.10045.4.3.4"),
                 m(CKM_ECDSA));
-        d(SIG, "MD2withRSA",    P11Signature,
+        d(SIG, "MD2withRSA",    P11Signbture,
                 s("1.2.840.113549.1.1.2", "OID.1.2.840.113549.1.1.2"),
                 m(CKM_MD2_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "MD5withRSA",    P11Signature,
+        d(SIG, "MD5withRSA",    P11Signbture,
                 s("1.2.840.113549.1.1.4", "OID.1.2.840.113549.1.1.4"),
                 m(CKM_MD5_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA1withRSA",   P11Signature,
+        d(SIG, "SHA1withRSA",   P11Signbture,
                 s("1.2.840.113549.1.1.5", "OID.1.2.840.113549.1.1.5",
                   "1.3.14.3.2.29"),
                 m(CKM_SHA1_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA224withRSA", P11Signature,
+        d(SIG, "SHA224withRSA", P11Signbture,
                 s("1.2.840.113549.1.1.14", "OID.1.2.840.113549.1.1.14"),
                 m(CKM_SHA224_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA256withRSA", P11Signature,
+        d(SIG, "SHA256withRSA", P11Signbture,
                 s("1.2.840.113549.1.1.11", "OID.1.2.840.113549.1.1.11"),
                 m(CKM_SHA256_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA384withRSA", P11Signature,
+        d(SIG, "SHA384withRSA", P11Signbture,
                 s("1.2.840.113549.1.1.12", "OID.1.2.840.113549.1.1.12"),
                 m(CKM_SHA384_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
-        d(SIG, "SHA512withRSA", P11Signature,
+        d(SIG, "SHA512withRSA", P11Signbture,
                 s("1.2.840.113549.1.1.13", "OID.1.2.840.113549.1.1.13"),
                 m(CKM_SHA512_RSA_PKCS, CKM_RSA_PKCS, CKM_RSA_X_509));
 
         /*
-         * TLS 1.2 uses a different hash algorithm than 1.0/1.1 for the
-         * PRF calculations.  As of 2010, there is no PKCS11-level
-         * support for TLS 1.2 PRF calculations, and no known OS's have
-         * an internal variant we could use.  Therefore for TLS 1.2, we
-         * are updating JSSE to request different provider algorithms
-         * (e.g. "SunTls12Prf"), and currently only SunJCE has these
-         * TLS 1.2 algorithms.
+         * TLS 1.2 uses b different hbsh blgorithm thbn 1.0/1.1 for the
+         * PRF cblculbtions.  As of 2010, there is no PKCS11-level
+         * support for TLS 1.2 PRF cblculbtions, bnd no known OS's hbve
+         * bn internbl vbribnt we could use.  Therefore for TLS 1.2, we
+         * bre updbting JSSE to request different provider blgorithms
+         * (e.g. "SunTls12Prf"), bnd currently only SunJCE hbs these
+         * TLS 1.2 blgorithms.
          *
-         * If we reused the names such as "SunTlsPrf", the PKCS11
-         * providers would need be updated to fail correctly when
-         * presented with the wrong version number (via
-         * Provider.Service.supportsParameters()), and we would also
-         * need to add the appropriate supportsParamters() checks into
-         * KeyGenerators (not currently there).
+         * If we reused the nbmes such bs "SunTlsPrf", the PKCS11
+         * providers would need be updbted to fbil correctly when
+         * presented with the wrong version number (vib
+         * Provider.Service.supportsPbrbmeters()), bnd we would blso
+         * need to bdd the bppropribte supportsPbrbmters() checks into
+         * KeyGenerbtors (not currently there).
          *
-         * In the future, if PKCS11 support is added, we will restructure
+         * In the future, if PKCS11 support is bdded, we will restructure
          * this.
          */
-        d(KG, "SunTlsRsaPremasterSecret",
-                    "sun.security.pkcs11.P11TlsRsaPremasterSecretGenerator",
+        d(KG, "SunTlsRsbPrembsterSecret",
+                    "sun.security.pkcs11.P11TlsRsbPrembsterSecretGenerbtor",
                 m(CKM_SSL3_PRE_MASTER_KEY_GEN, CKM_TLS_PRE_MASTER_KEY_GEN));
-        d(KG, "SunTlsMasterSecret",
-                    "sun.security.pkcs11.P11TlsMasterSecretGenerator",
+        d(KG, "SunTlsMbsterSecret",
+                    "sun.security.pkcs11.P11TlsMbsterSecretGenerbtor",
                 m(CKM_SSL3_MASTER_KEY_DERIVE, CKM_TLS_MASTER_KEY_DERIVE,
                     CKM_SSL3_MASTER_KEY_DERIVE_DH,
                     CKM_TLS_MASTER_KEY_DERIVE_DH));
-        d(KG, "SunTlsKeyMaterial",
-                    "sun.security.pkcs11.P11TlsKeyMaterialGenerator",
+        d(KG, "SunTlsKeyMbteribl",
+                    "sun.security.pkcs11.P11TlsKeyMbteriblGenerbtor",
                 m(CKM_SSL3_KEY_AND_MAC_DERIVE, CKM_TLS_KEY_AND_MAC_DERIVE));
-        d(KG, "SunTlsPrf", "sun.security.pkcs11.P11TlsPrfGenerator",
+        d(KG, "SunTlsPrf", "sun.security.pkcs11.P11TlsPrfGenerbtor",
                 m(CKM_TLS_PRF, CKM_NSS_TLS_PRF_GENERAL));
     }
 
-    // background thread that periodically checks for token insertion
-    // if no token is present. We need to do that in a separate thread because
-    // the insertion check may block for quite a long time on some tokens.
-    private static class TokenPoller implements Runnable {
-        private final SunPKCS11 provider;
-        private volatile boolean enabled;
-        private TokenPoller(SunPKCS11 provider) {
+    // bbckground threbd thbt periodicblly checks for token insertion
+    // if no token is present. We need to do thbt in b sepbrbte threbd becbuse
+    // the insertion check mby block for quite b long time on some tokens.
+    privbte stbtic clbss TokenPoller implements Runnbble {
+        privbte finbl SunPKCS11 provider;
+        privbte volbtile boolebn enbbled;
+        privbte TokenPoller(SunPKCS11 provider) {
             this.provider = provider;
-            enabled = true;
+            enbbled = true;
         }
         public void run() {
-            int interval = provider.config.getInsertionCheckInterval();
-            while (enabled) {
+            int intervbl = provider.config.getInsertionCheckIntervbl();
+            while (enbbled) {
                 try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    break;
+                    Threbd.sleep(intervbl);
+                } cbtch (InterruptedException e) {
+                    brebk;
                 }
-                if (enabled == false) {
-                    break;
+                if (enbbled == fblse) {
+                    brebk;
                 }
                 try {
                     provider.initToken(null);
-                } catch (PKCS11Exception e) {
+                } cbtch (PKCS11Exception e) {
                     // ignore
                 }
             }
         }
-        void disable() {
-            enabled = false;
+        void disbble() {
+            enbbled = fblse;
         }
     }
 
-    // create the poller thread, if not already active
-    private void createPoller() {
+    // crebte the poller threbd, if not blrebdy bctive
+    privbte void crebtePoller() {
         if (poller != null) {
             return;
         }
         TokenPoller poller = new TokenPoller(this);
-        Thread t = new Thread(poller, "Poller " + getName());
-        t.setDaemon(true);
-        t.setPriority(Thread.MIN_PRIORITY);
-        t.start();
+        Threbd t = new Threbd(poller, "Poller " + getNbme());
+        t.setDbemon(true);
+        t.setPriority(Threbd.MIN_PRIORITY);
+        t.stbrt();
         this.poller = poller;
     }
 
-    // destroy the poller thread, if active
-    private void destroyPoller() {
+    // destroy the poller threbd, if bctive
+    privbte void destroyPoller() {
         if (poller != null) {
-            poller.disable();
+            poller.disbble();
             poller = null;
         }
     }
 
-    private boolean hasValidToken() {
-        /* Commented out to work with Solaris softtoken impl which
-           returns 0-value flags, e.g. both REMOVABLE_DEVICE and
-           TOKEN_PRESENT are false, when it can't access the token.
-        if (removable == false) {
+    privbte boolebn hbsVblidToken() {
+        /* Commented out to work with Solbris softtoken impl which
+           returns 0-vblue flbgs, e.g. both REMOVABLE_DEVICE bnd
+           TOKEN_PRESENT bre fblse, when it cbn't bccess the token.
+        if (removbble == fblse) {
             return true;
         }
         */
         Token token = this.token;
-        return (token != null) && token.isValid();
+        return (token != null) && token.isVblid();
     }
 
-    // destroy the token. Called if we detect that it has been removed
+    // destroy the token. Cblled if we detect thbt it hbs been removed
     synchronized void uninitToken(Token token) {
         if (this.token != token) {
-            // mismatch, our token must already be destroyed
+            // mismbtch, our token must blrebdy be destroyed
             return;
         }
         destroyPoller();
         this.token = null;
-        // unregister all algorithms
+        // unregister bll blgorithms
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                clear();
+                clebr();
                 return null;
             }
         });
-        createPoller();
+        crebtePoller();
     }
 
-    // test if a token is present and initialize this provider for it if so.
+    // test if b token is present bnd initiblize this provider for it if so.
     // does nothing if no token is found
-    // called from constructor and by poller
-    private void initToken(CK_SLOT_INFO slotInfo) throws PKCS11Exception {
+    // cblled from constructor bnd by poller
+    privbte void initToken(CK_SLOT_INFO slotInfo) throws PKCS11Exception {
         if (slotInfo == null) {
             slotInfo = p11.C_GetSlotInfo(slotID);
         }
-        if (removable && (slotInfo.flags & CKF_TOKEN_PRESENT) == 0) {
-            createPoller();
+        if (removbble && (slotInfo.flbgs & CKF_TOKEN_PRESENT) == 0) {
+            crebtePoller();
             return;
         }
         destroyPoller();
-        boolean showInfo = config.getShowInfo();
+        boolebn showInfo = config.getShowInfo();
         if (showInfo) {
             System.out.println("Slot info for slot " + slotID + ":");
             System.out.println(slotInfo);
         }
-        final Token token = new Token(this);
+        finbl Token token = new Token(this);
         if (showInfo) {
             System.out.println
                 ("Token info for token in slot " + slotID + ":");
             System.out.println(token.tokenInfo);
         }
-        long[] supportedMechanisms = p11.C_GetMechanismList(slotID);
+        long[] supportedMechbnisms = p11.C_GetMechbnismList(slotID);
 
-        // Create a map from the various Descriptors to the "most
-        // preferred" mechanism that was defined during the
-        // static initialization.  For example, DES/CBC/PKCS5Padding
-        // could be mapped to CKM_DES_CBC_PAD or CKM_DES_CBC.  Prefer
-        // the earliest entry.  When asked for "DES/CBC/PKCS5Padding", we
-        // return a CKM_DES_CBC_PAD.
-        final Map<Descriptor,Integer> supportedAlgs =
-                                        new HashMap<Descriptor,Integer>();
-        for (int i = 0; i < supportedMechanisms.length; i++) {
-            long longMech = supportedMechanisms[i];
-            boolean isEnabled = config.isEnabled(longMech);
+        // Crebte b mbp from the vbrious Descriptors to the "most
+        // preferred" mechbnism thbt wbs defined during the
+        // stbtic initiblizbtion.  For exbmple, DES/CBC/PKCS5Pbdding
+        // could be mbpped to CKM_DES_CBC_PAD or CKM_DES_CBC.  Prefer
+        // the ebrliest entry.  When bsked for "DES/CBC/PKCS5Pbdding", we
+        // return b CKM_DES_CBC_PAD.
+        finbl Mbp<Descriptor,Integer> supportedAlgs =
+                                        new HbshMbp<Descriptor,Integer>();
+        for (int i = 0; i < supportedMechbnisms.length; i++) {
+            long longMech = supportedMechbnisms[i];
+            boolebn isEnbbled = config.isEnbbled(longMech);
             if (showInfo) {
                 CK_MECHANISM_INFO mechInfo =
-                        p11.C_GetMechanismInfo(slotID, longMech);
-                System.out.println("Mechanism " +
-                        Functions.getMechanismName(longMech) + ":");
-                if (isEnabled == false) {
-                    System.out.println("DISABLED in configuration");
+                        p11.C_GetMechbnismInfo(slotID, longMech);
+                System.out.println("Mechbnism " +
+                        Functions.getMechbnismNbme(longMech) + ":");
+                if (isEnbbled == fblse) {
+                    System.out.println("DISABLED in configurbtion");
                 }
                 System.out.println(mechInfo);
             }
-            if (isEnabled == false) {
+            if (isEnbbled == fblse) {
                 continue;
             }
             // we do not know of mechs with the upper 32 bits set
@@ -892,7 +892,7 @@ public final class SunPKCS11 extends AuthProvider {
                 continue;
             }
             int mech = (int)longMech;
-            Integer integerMech = Integer.valueOf(mech);
+            Integer integerMech = Integer.vblueOf(mech);
             List<Descriptor> ds = descriptors.get(integerMech);
             if (ds == null) {
                 continue;
@@ -904,47 +904,47 @@ public final class SunPKCS11 extends AuthProvider {
                     continue;
                 }
                 // See if there is something "more preferred"
-                // than what we currently have in the supportedAlgs
-                // map.
-                int intOldMech = oldMech.intValue();
-                for (int j = 0; j < d.mechanisms.length; j++) {
-                    int nextMech = d.mechanisms[j];
+                // thbn whbt we currently hbve in the supportedAlgs
+                // mbp.
+                int intOldMech = oldMech.intVblue();
+                for (int j = 0; j < d.mechbnisms.length; j++) {
+                    int nextMech = d.mechbnisms[j];
                     if (mech == nextMech) {
                         supportedAlgs.put(d, integerMech);
-                        break;
+                        brebk;
                     } else if (intOldMech == nextMech) {
-                        break;
+                        brebk;
                     }
                 }
             }
 
         }
 
-        // register algorithms in provider
+        // register blgorithms in provider
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                for (Map.Entry<Descriptor,Integer> entry
+                for (Mbp.Entry<Descriptor,Integer> entry
                         : supportedAlgs.entrySet()) {
                     Descriptor d = entry.getKey();
-                    int mechanism = entry.getValue().intValue();
-                    Service s = d.service(token, mechanism);
+                    int mechbnism = entry.getVblue().intVblue();
+                    Service s = d.service(token, mechbnism);
                     putService(s);
                 }
-                if (((token.tokenInfo.flags & CKF_RNG) != 0)
-                        && config.isEnabled(PCKM_SECURERANDOM)
-                        && !token.sessionManager.lowMaxSessions()) {
-                    // do not register SecureRandom if the token does
-                    // not support many sessions. if we did, we might
-                    // run out of sessions in the middle of a
-                    // nextBytes() call where we cannot fail over.
+                if (((token.tokenInfo.flbgs & CKF_RNG) != 0)
+                        && config.isEnbbled(PCKM_SECURERANDOM)
+                        && !token.sessionMbnbger.lowMbxSessions()) {
+                    // do not register SecureRbndom if the token does
+                    // not support mbny sessions. if we did, we might
+                    // run out of sessions in the middle of b
+                    // nextBytes() cbll where we cbnnot fbil over.
                     putService(new P11Service(token, SR, "PKCS11",
-                        "sun.security.pkcs11.P11SecureRandom", null,
+                        "sun.security.pkcs11.P11SecureRbndom", null,
                         PCKM_SECURERANDOM));
                 }
-                if (config.isEnabled(PCKM_KEYSTORE)) {
+                if (config.isEnbbled(PCKM_KEYSTORE)) {
                     putService(new P11Service(token, KS, "PKCS11",
                         "sun.security.pkcs11.P11KeyStore",
-                        s("PKCS11-" + config.getName()),
+                        s("PKCS11-" + config.getNbme()),
                         PCKM_KEYSTORE));
                 }
                 return null;
@@ -954,157 +954,157 @@ public final class SunPKCS11 extends AuthProvider {
         this.token = token;
     }
 
-    private static final class P11Service extends Service {
+    privbte stbtic finbl clbss P11Service extends Service {
 
-        private final Token token;
+        privbte finbl Token token;
 
-        private final long mechanism;
+        privbte finbl long mechbnism;
 
-        P11Service(Token token, String type, String algorithm,
-                String className, String[] al, long mechanism) {
-            super(token.provider, type, algorithm, className, toList(al), null);
+        P11Service(Token token, String type, String blgorithm,
+                String clbssNbme, String[] bl, long mechbnism) {
+            super(token.provider, type, blgorithm, clbssNbme, toList(bl), null);
             this.token = token;
-            this.mechanism = mechanism & 0xFFFFFFFFL;
+            this.mechbnism = mechbnism & 0xFFFFFFFFL;
         }
 
-        private static List<String> toList(String[] aliases) {
-            return (aliases == null) ? null : Arrays.asList(aliases);
+        privbte stbtic List<String> toList(String[] blibses) {
+            return (blibses == null) ? null : Arrbys.bsList(blibses);
         }
 
-        public Object newInstance(Object param)
+        public Object newInstbnce(Object pbrbm)
                 throws NoSuchAlgorithmException {
-            if (token.isValid() == false) {
-                throw new NoSuchAlgorithmException("Token has been removed");
+            if (token.isVblid() == fblse) {
+                throw new NoSuchAlgorithmException("Token hbs been removed");
             }
             try {
-                return newInstance0(param);
-            } catch (PKCS11Exception e) {
+                return newInstbnce0(pbrbm);
+            } cbtch (PKCS11Exception e) {
                 throw new NoSuchAlgorithmException(e);
             }
         }
 
-        public Object newInstance0(Object param) throws
+        public Object newInstbnce0(Object pbrbm) throws
                 PKCS11Exception, NoSuchAlgorithmException {
-            String algorithm = getAlgorithm();
+            String blgorithm = getAlgorithm();
             String type = getType();
             if (type == MD) {
-                return new P11Digest(token, algorithm, mechanism);
+                return new P11Digest(token, blgorithm, mechbnism);
             } else if (type == CIP) {
-                if (algorithm.startsWith("RSA")) {
-                    return new P11RSACipher(token, algorithm, mechanism);
+                if (blgorithm.stbrtsWith("RSA")) {
+                    return new P11RSACipher(token, blgorithm, mechbnism);
                 } else {
-                    return new P11Cipher(token, algorithm, mechanism);
+                    return new P11Cipher(token, blgorithm, mechbnism);
                 }
             } else if (type == SIG) {
-                return new P11Signature(token, algorithm, mechanism);
+                return new P11Signbture(token, blgorithm, mechbnism);
             } else if (type == MAC) {
-                return new P11Mac(token, algorithm, mechanism);
+                return new P11Mbc(token, blgorithm, mechbnism);
             } else if (type == KPG) {
-                return new P11KeyPairGenerator(token, algorithm, mechanism);
+                return new P11KeyPbirGenerbtor(token, blgorithm, mechbnism);
             } else if (type == KA) {
-                if (algorithm.equals("ECDH")) {
-                    return new P11ECDHKeyAgreement(token, algorithm, mechanism);
+                if (blgorithm.equbls("ECDH")) {
+                    return new P11ECDHKeyAgreement(token, blgorithm, mechbnism);
                 } else {
-                    return new P11KeyAgreement(token, algorithm, mechanism);
+                    return new P11KeyAgreement(token, blgorithm, mechbnism);
                 }
             } else if (type == KF) {
-                return token.getKeyFactory(algorithm);
+                return token.getKeyFbctory(blgorithm);
             } else if (type == SKF) {
-                return new P11SecretKeyFactory(token, algorithm);
+                return new P11SecretKeyFbctory(token, blgorithm);
             } else if (type == KG) {
-                // reference equality
-                if (algorithm == "SunTlsRsaPremasterSecret") {
-                    return new P11TlsRsaPremasterSecretGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsMasterSecret") {
-                    return new P11TlsMasterSecretGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsKeyMaterial") {
-                    return new P11TlsKeyMaterialGenerator(
-                        token, algorithm, mechanism);
-                } else if (algorithm == "SunTlsPrf") {
-                    return new P11TlsPrfGenerator(token, algorithm, mechanism);
+                // reference equblity
+                if (blgorithm == "SunTlsRsbPrembsterSecret") {
+                    return new P11TlsRsbPrembsterSecretGenerbtor(
+                        token, blgorithm, mechbnism);
+                } else if (blgorithm == "SunTlsMbsterSecret") {
+                    return new P11TlsMbsterSecretGenerbtor(
+                        token, blgorithm, mechbnism);
+                } else if (blgorithm == "SunTlsKeyMbteribl") {
+                    return new P11TlsKeyMbteriblGenerbtor(
+                        token, blgorithm, mechbnism);
+                } else if (blgorithm == "SunTlsPrf") {
+                    return new P11TlsPrfGenerbtor(token, blgorithm, mechbnism);
                 } else {
-                    return new P11KeyGenerator(token, algorithm, mechanism);
+                    return new P11KeyGenerbtor(token, blgorithm, mechbnism);
                 }
             } else if (type == SR) {
-                return token.getRandom();
+                return token.getRbndom();
             } else if (type == KS) {
                 return token.getKeyStore();
             } else if (type == AGP) {
-                return new sun.security.util.ECParameters();
+                return new sun.security.util.ECPbrbmeters();
             } else {
                 throw new NoSuchAlgorithmException("Unknown type: " + type);
             }
         }
 
-        public boolean supportsParameter(Object param) {
-            if ((param == null) || (token.isValid() == false)) {
-                return false;
+        public boolebn supportsPbrbmeter(Object pbrbm) {
+            if ((pbrbm == null) || (token.isVblid() == fblse)) {
+                return fblse;
             }
-            if (param instanceof Key == false) {
-                throw new InvalidParameterException("Parameter must be a Key");
+            if (pbrbm instbnceof Key == fblse) {
+                throw new InvblidPbrbmeterException("Pbrbmeter must be b Key");
             }
-            String algorithm = getAlgorithm();
+            String blgorithm = getAlgorithm();
             String type = getType();
-            Key key = (Key)param;
+            Key key = (Key)pbrbm;
             String keyAlgorithm = key.getAlgorithm();
-            // RSA signatures and cipher
-            if (((type == CIP) && algorithm.startsWith("RSA"))
-                    || (type == SIG) && algorithm.endsWith("RSA")) {
-                if (keyAlgorithm.equals("RSA") == false) {
-                    return false;
+            // RSA signbtures bnd cipher
+            if (((type == CIP) && blgorithm.stbrtsWith("RSA"))
+                    || (type == SIG) && blgorithm.endsWith("RSA")) {
+                if (keyAlgorithm.equbls("RSA") == fblse) {
+                    return fblse;
                 }
-                return isLocalKey(key)
-                        || (key instanceof RSAPrivateKey)
-                        || (key instanceof RSAPublicKey);
+                return isLocblKey(key)
+                        || (key instbnceof RSAPrivbteKey)
+                        || (key instbnceof RSAPublicKey);
             }
             // EC
-            if (((type == KA) && algorithm.equals("ECDH"))
-                    || ((type == SIG) && algorithm.endsWith("ECDSA"))) {
-                if (keyAlgorithm.equals("EC") == false) {
-                    return false;
+            if (((type == KA) && blgorithm.equbls("ECDH"))
+                    || ((type == SIG) && blgorithm.endsWith("ECDSA"))) {
+                if (keyAlgorithm.equbls("EC") == fblse) {
+                    return fblse;
                 }
-                return isLocalKey(key)
-                        || (key instanceof ECPrivateKey)
-                        || (key instanceof ECPublicKey);
+                return isLocblKey(key)
+                        || (key instbnceof ECPrivbteKey)
+                        || (key instbnceof ECPublicKey);
             }
-            // DSA signatures
-            if ((type == SIG) && algorithm.endsWith("DSA")) {
-                if (keyAlgorithm.equals("DSA") == false) {
-                    return false;
+            // DSA signbtures
+            if ((type == SIG) && blgorithm.endsWith("DSA")) {
+                if (keyAlgorithm.equbls("DSA") == fblse) {
+                    return fblse;
                 }
-                return isLocalKey(key)
-                        || (key instanceof DSAPrivateKey)
-                        || (key instanceof DSAPublicKey);
+                return isLocblKey(key)
+                        || (key instbnceof DSAPrivbteKey)
+                        || (key instbnceof DSAPublicKey);
             }
-            // MACs and symmetric ciphers
+            // MACs bnd symmetric ciphers
             if ((type == CIP) || (type == MAC)) {
-                // do not check algorithm name, mismatch is unlikely anyway
-                return isLocalKey(key) || "RAW".equals(key.getFormat());
+                // do not check blgorithm nbme, mismbtch is unlikely bnywby
+                return isLocblKey(key) || "RAW".equbls(key.getFormbt());
             }
-            // DH key agreement
+            // DH key bgreement
             if (type == KA) {
-                if (keyAlgorithm.equals("DH") == false) {
-                    return false;
+                if (keyAlgorithm.equbls("DH") == fblse) {
+                    return fblse;
                 }
-                return isLocalKey(key)
-                        || (key instanceof DHPrivateKey)
-                        || (key instanceof DHPublicKey);
+                return isLocblKey(key)
+                        || (key instbnceof DHPrivbteKey)
+                        || (key instbnceof DHPublicKey);
             }
-            // should not reach here,
-            // unknown engine type or algorithm
+            // should not rebch here,
+            // unknown engine type or blgorithm
             throw new AssertionError
-                ("SunPKCS11 error: " + type + ", " + algorithm);
+                ("SunPKCS11 error: " + type + ", " + blgorithm);
         }
 
-        private boolean isLocalKey(Key key) {
-            return (key instanceof P11Key) && (((P11Key)key).token == token);
+        privbte boolebn isLocblKey(Key key) {
+            return (key instbnceof P11Key) && (((P11Key)key).token == token);
         }
 
         public String toString() {
             return super.toString() +
-                " (" + Functions.getMechanismName(mechanism) + ")";
+                " (" + Functions.getMechbnismNbme(mechbnism) + ")";
         }
 
     }
@@ -1112,102 +1112,102 @@ public final class SunPKCS11 extends AuthProvider {
     /**
      * Log in to this provider.
      *
-     * <p> If the token expects a PIN to be supplied by the caller,
-     * the <code>handler</code> implementation must support
-     * a <code>PasswordCallback</code>.
+     * <p> If the token expects b PIN to be supplied by the cbller,
+     * the <code>hbndler</code> implementbtion must support
+     * b <code>PbsswordCbllbbck</code>.
      *
-     * <p> To determine if the token supports a protected authentication path,
-     * the CK_TOKEN_INFO flag, CKF_PROTECTED_AUTHENTICATION_PATH, is consulted.
+     * <p> To determine if the token supports b protected buthenticbtion pbth,
+     * the CK_TOKEN_INFO flbg, CKF_PROTECTED_AUTHENTICATION_PATH, is consulted.
      *
-     * @param subject this parameter is ignored
-     * @param handler the <code>CallbackHandler</code> used by
-     *  this provider to communicate with the caller
+     * @pbrbm subject this pbrbmeter is ignored
+     * @pbrbm hbndler the <code>CbllbbckHbndler</code> used by
+     *  this provider to communicbte with the cbller
      *
-     * @exception LoginException if the login operation fails
-     * @exception SecurityException if the does not pass a security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     * @exception LoginException if the login operbtion fbils
+     * @exception SecurityException if the does not pbss b security check for
+     *  <code>SecurityPermission("buthProvider.<i>nbme</i>")</code>,
+     *  where <i>nbme</i> is the vblue returned by
+     *  this provider's <code>getNbme</code> method
      */
-    public void login(Subject subject, CallbackHandler handler)
+    public void login(Subject subject, CbllbbckHbndler hbndler)
         throws LoginException {
 
         // security check
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             if (debug != null) {
                 debug.println("checking login permission");
             }
             sm.checkPermission(new SecurityPermission
-                        ("authProvider." + this.getName()));
+                        ("buthProvider." + this.getNbme()));
         }
 
-        if (hasValidToken() == false) {
+        if (hbsVblidToken() == fblse) {
             throw new LoginException("No token present");
         }
 
-        // see if a login is required
+        // see if b login is required
 
-        if ((token.tokenInfo.flags & CKF_LOGIN_REQUIRED) == 0) {
+        if ((token.tokenInfo.flbgs & CKF_LOGIN_REQUIRED) == 0) {
             if (debug != null) {
-                debug.println("login operation not required for token - " +
+                debug.println("login operbtion not required for token - " +
                                 "ignoring login request");
             }
             return;
         }
 
-        // see if user already logged in
+        // see if user blrebdy logged in
 
         try {
             if (token.isLoggedInNow(null)) {
-                // user already logged in
+                // user blrebdy logged in
                 if (debug != null) {
-                    debug.println("user already logged in");
+                    debug.println("user blrebdy logged in");
                 }
                 return;
             }
-        } catch (PKCS11Exception e) {
-            // ignore - fall thru and attempt login
+        } cbtch (PKCS11Exception e) {
+            // ignore - fbll thru bnd bttempt login
         }
 
-        // get the pin if necessary
+        // get the pin if necessbry
 
-        char[] pin = null;
-        if ((token.tokenInfo.flags & CKF_PROTECTED_AUTHENTICATION_PATH) == 0) {
+        chbr[] pin = null;
+        if ((token.tokenInfo.flbgs & CKF_PROTECTED_AUTHENTICATION_PATH) == 0) {
 
-            // get password
+            // get pbssword
 
-            CallbackHandler myHandler = getCallbackHandler(handler);
-            if (myHandler == null) {
-                // XXX PolicyTool is dependent on this message text
+            CbllbbckHbndler myHbndler = getCbllbbckHbndler(hbndler);
+            if (myHbndler == null) {
+                // XXX PolicyTool is dependent on this messbge text
                 throw new LoginException
-                        ("no password provided, and no callback handler " +
-                        "available for retrieving password");
+                        ("no pbssword provided, bnd no cbllbbck hbndler " +
+                        "bvbilbble for retrieving pbssword");
             }
 
-            java.text.MessageFormat form = new java.text.MessageFormat
+            jbvb.text.MessbgeFormbt form = new jbvb.text.MessbgeFormbt
                         (ResourcesMgr.getString
-                        ("PKCS11.Token.providerName.Password."));
-            Object[] source = { getName() };
+                        ("PKCS11.Token.providerNbme.Pbssword."));
+            Object[] source = { getNbme() };
 
-            PasswordCallback pcall = new PasswordCallback(form.format(source),
-                                                        false);
-            Callback[] callbacks = { pcall };
+            PbsswordCbllbbck pcbll = new PbsswordCbllbbck(form.formbt(source),
+                                                        fblse);
+            Cbllbbck[] cbllbbcks = { pcbll };
             try {
-                myHandler.handle(callbacks);
-            } catch (Exception e) {
+                myHbndler.hbndle(cbllbbcks);
+            } cbtch (Exception e) {
                 LoginException le = new LoginException
-                        ("Unable to perform password callback");
-                le.initCause(e);
+                        ("Unbble to perform pbssword cbllbbck");
+                le.initCbuse(e);
                 throw le;
             }
 
-            pin = pcall.getPassword();
-            pcall.clearPassword();
+            pin = pcbll.getPbssword();
+            pcbll.clebrPbssword();
             if (pin == null) {
                 if (debug != null) {
-                    debug.println("caller passed NULL pin");
+                    debug.println("cbller pbssed NULL pin");
                 }
             }
         }
@@ -1223,26 +1223,26 @@ public final class SunPKCS11 extends AuthProvider {
             if (debug != null) {
                 debug.println("login succeeded");
             }
-        } catch (PKCS11Exception pe) {
+        } cbtch (PKCS11Exception pe) {
             if (pe.getErrorCode() == CKR_USER_ALREADY_LOGGED_IN) {
                 // let this one go
                 if (debug != null) {
-                    debug.println("user already logged in");
+                    debug.println("user blrebdy logged in");
                 }
                 return;
             } else if (pe.getErrorCode() == CKR_PIN_INCORRECT) {
-                FailedLoginException fle = new FailedLoginException();
-                fle.initCause(pe);
+                FbiledLoginException fle = new FbiledLoginException();
+                fle.initCbuse(pe);
                 throw fle;
             } else {
                 LoginException le = new LoginException();
-                le.initCause(pe);
+                le.initCbuse(pe);
                 throw le;
             }
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            token.relebseSession(session);
             if (pin != null) {
-                Arrays.fill(pin, ' ');
+                Arrbys.fill(pin, ' ');
             }
         }
 
@@ -1252,43 +1252,43 @@ public final class SunPKCS11 extends AuthProvider {
     /**
      * Log out from this provider
      *
-     * @exception LoginException if the logout operation fails
-     * @exception SecurityException if the does not pass a security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     * @exception LoginException if the logout operbtion fbils
+     * @exception SecurityException if the does not pbss b security check for
+     *  <code>SecurityPermission("buthProvider.<i>nbme</i>")</code>,
+     *  where <i>nbme</i> is the vblue returned by
+     *  this provider's <code>getNbme</code> method
      */
     public void logout() throws LoginException {
 
         // security check
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission
-                (new SecurityPermission("authProvider." + this.getName()));
+                (new SecurityPermission("buthProvider." + this.getNbme()));
         }
 
-        if (hasValidToken() == false) {
-            // app may call logout for cleanup, allow
+        if (hbsVblidToken() == fblse) {
+            // bpp mby cbll logout for clebnup, bllow
             return;
         }
 
-        if ((token.tokenInfo.flags & CKF_LOGIN_REQUIRED) == 0) {
+        if ((token.tokenInfo.flbgs & CKF_LOGIN_REQUIRED) == 0) {
             if (debug != null) {
-                debug.println("logout operation not required for token - " +
+                debug.println("logout operbtion not required for token - " +
                                 "ignoring logout request");
             }
             return;
         }
 
         try {
-            if (token.isLoggedInNow(null) == false) {
+            if (token.isLoggedInNow(null) == fblse) {
                 if (debug != null) {
                     debug.println("user not logged in");
                 }
                 return;
             }
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             // ignore
         }
 
@@ -1301,7 +1301,7 @@ public final class SunPKCS11 extends AuthProvider {
             if (debug != null) {
                 debug.println("logout succeeded");
             }
-        } catch (PKCS11Exception pe) {
+        } cbtch (PKCS11Exception pe) {
             if (pe.getErrorCode() == CKR_USER_NOT_LOGGED_IN) {
                 // let this one go
                 if (debug != null) {
@@ -1310,144 +1310,144 @@ public final class SunPKCS11 extends AuthProvider {
                 return;
             }
             LoginException le = new LoginException();
-            le.initCause(pe);
+            le.initCbuse(pe);
             throw le;
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
     /**
-     * Set a <code>CallbackHandler</code>
+     * Set b <code>CbllbbckHbndler</code>
      *
-     * <p> The provider uses this handler if one is not passed to the
-     * <code>login</code> method.  The provider also uses this handler
-     * if it invokes <code>login</code> on behalf of callers.
-     * In either case if a handler is not set via this method,
+     * <p> The provider uses this hbndler if one is not pbssed to the
+     * <code>login</code> method.  The provider blso uses this hbndler
+     * if it invokes <code>login</code> on behblf of cbllers.
+     * In either cbse if b hbndler is not set vib this method,
      * the provider queries the
-     * <i>auth.login.defaultCallbackHandler</i> security property
-     * for the fully qualified class name of a default handler implementation.
+     * <i>buth.login.defbultCbllbbckHbndler</i> security property
+     * for the fully qublified clbss nbme of b defbult hbndler implementbtion.
      * If the security property is not set,
-     * the provider is assumed to have alternative means
-     * for obtaining authentication information.
+     * the provider is bssumed to hbve blternbtive mebns
+     * for obtbining buthenticbtion informbtion.
      *
-     * @param handler a <code>CallbackHandler</code> for obtaining
-     *          authentication information, which may be <code>null</code>
+     * @pbrbm hbndler b <code>CbllbbckHbndler</code> for obtbining
+     *          buthenticbtion informbtion, which mby be <code>null</code>
      *
-     * @exception SecurityException if the caller does not pass a
+     * @exception SecurityException if the cbller does not pbss b
      *  security check for
-     *  <code>SecurityPermission("authProvider.<i>name</i>")</code>,
-     *  where <i>name</i> is the value returned by
-     *  this provider's <code>getName</code> method
+     *  <code>SecurityPermission("buthProvider.<i>nbme</i>")</code>,
+     *  where <i>nbme</i> is the vblue returned by
+     *  this provider's <code>getNbme</code> method
      */
-    public void setCallbackHandler(CallbackHandler handler) {
+    public void setCbllbbckHbndler(CbllbbckHbndler hbndler) {
 
         // security check
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission
-                (new SecurityPermission("authProvider." + this.getName()));
+                (new SecurityPermission("buthProvider." + this.getNbme()));
         }
 
         synchronized (LOCK_HANDLER) {
-            pHandler = handler;
+            pHbndler = hbndler;
         }
     }
 
-    private CallbackHandler getCallbackHandler(CallbackHandler handler) {
+    privbte CbllbbckHbndler getCbllbbckHbndler(CbllbbckHbndler hbndler) {
 
-        // get default handler if necessary
+        // get defbult hbndler if necessbry
 
-        if (handler != null) {
-            return handler;
+        if (hbndler != null) {
+            return hbndler;
         }
 
         if (debug != null) {
-            debug.println("getting provider callback handler");
+            debug.println("getting provider cbllbbck hbndler");
         }
 
         synchronized (LOCK_HANDLER) {
-            // see if handler was set via setCallbackHandler
-            if (pHandler != null) {
-                return pHandler;
+            // see if hbndler wbs set vib setCbllbbckHbndler
+            if (pHbndler != null) {
+                return pHbndler;
             }
 
             try {
                 if (debug != null) {
-                    debug.println("getting default callback handler");
+                    debug.println("getting defbult cbllbbck hbndler");
                 }
 
-                CallbackHandler myHandler = AccessController.doPrivileged
-                    (new PrivilegedExceptionAction<CallbackHandler>() {
-                    public CallbackHandler run() throws Exception {
+                CbllbbckHbndler myHbndler = AccessController.doPrivileged
+                    (new PrivilegedExceptionAction<CbllbbckHbndler>() {
+                    public CbllbbckHbndler run() throws Exception {
 
-                        String defaultHandler =
-                                java.security.Security.getProperty
-                                ("auth.login.defaultCallbackHandler");
+                        String defbultHbndler =
+                                jbvb.security.Security.getProperty
+                                ("buth.login.defbultCbllbbckHbndler");
 
-                        if (defaultHandler == null ||
-                            defaultHandler.length() == 0) {
+                        if (defbultHbndler == null ||
+                            defbultHbndler.length() == 0) {
 
                             // ok
                             if (debug != null) {
-                                debug.println("no default handler set");
+                                debug.println("no defbult hbndler set");
                             }
                             return null;
                         }
 
-                        Class<?> c = Class.forName
-                                   (defaultHandler,
+                        Clbss<?> c = Clbss.forNbme
+                                   (defbultHbndler,
                                    true,
-                                   Thread.currentThread().getContextClassLoader());
-                        return (CallbackHandler)c.newInstance();
+                                   Threbd.currentThrebd().getContextClbssLobder());
+                        return (CbllbbckHbndler)c.newInstbnce();
                     }
                 });
 
-                // save it
-                pHandler = myHandler;
-                return myHandler;
+                // sbve it
+                pHbndler = myHbndler;
+                return myHbndler;
 
-            } catch (PrivilegedActionException pae) {
+            } cbtch (PrivilegedActionException pbe) {
                 // ok
                 if (debug != null) {
-                    debug.println("Unable to load default callback handler");
-                    pae.printStackTrace();
+                    debug.println("Unbble to lobd defbult cbllbbck hbndler");
+                    pbe.printStbckTrbce();
                 }
             }
         }
         return null;
     }
 
-    private Object writeReplace() throws ObjectStreamException {
+    privbte Object writeReplbce() throws ObjectStrebmException {
         return new SunPKCS11Rep(this);
     }
 
     /**
-     * Serialized representation of the SunPKCS11 provider.
+     * Seriblized representbtion of the SunPKCS11 provider.
      */
-    private static class SunPKCS11Rep implements Serializable {
+    privbte stbtic clbss SunPKCS11Rep implements Seriblizbble {
 
-        static final long serialVersionUID = -2896606995897745419L;
+        stbtic finbl long seriblVersionUID = -2896606995897745419L;
 
-        private final String providerName;
+        privbte finbl String providerNbme;
 
-        private final String configName;
+        privbte finbl String configNbme;
 
-        SunPKCS11Rep(SunPKCS11 provider) throws NotSerializableException {
-            providerName = provider.getName();
-            configName = provider.configName;
-            if (Security.getProvider(providerName) != provider) {
-                throw new NotSerializableException("Only SunPKCS11 providers "
-                    + "installed in java.security.Security can be serialized");
+        SunPKCS11Rep(SunPKCS11 provider) throws NotSeriblizbbleException {
+            providerNbme = provider.getNbme();
+            configNbme = provider.configNbme;
+            if (Security.getProvider(providerNbme) != provider) {
+                throw new NotSeriblizbbleException("Only SunPKCS11 providers "
+                    + "instblled in jbvb.security.Security cbn be seriblized");
             }
         }
 
-        private Object readResolve() throws ObjectStreamException {
-            SunPKCS11 p = (SunPKCS11)Security.getProvider(providerName);
-            if ((p == null) || (p.configName.equals(configName) == false)) {
-                throw new NotSerializableException("Could not find "
-                        + providerName + " in installed providers");
+        privbte Object rebdResolve() throws ObjectStrebmException {
+            SunPKCS11 p = (SunPKCS11)Security.getProvider(providerNbme);
+            if ((p == null) || (p.configNbme.equbls(configNbme) == fblse)) {
+                throw new NotSeriblizbbleException("Could not find "
+                        + providerNbme + " in instblled providers");
             }
             return p;
         }

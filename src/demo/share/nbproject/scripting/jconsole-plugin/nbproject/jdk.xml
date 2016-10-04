@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Redistribution bnd use in source bnd binbry forms, with or without
+ modificbtion, bre permitted provided thbt the following conditions
+ bre met:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Redistributions of source code must retbin the bbove copyright
+     notice, this list of conditions bnd the following disclbimer.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Redistributions in binbry form must reproduce the bbove copyright
+     notice, this list of conditions bnd the following disclbimer in the
+     documentbtion bnd/or other mbteribls provided with the distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Neither the nbme of Orbcle nor the nbmes of its
+     contributors mby be used to endorse or promote products derived
+     from this softwbre without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,69 +31,69 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project name="jdk" basedir=".">
+<project nbme="jdk" bbsedir=".">
 
-    <target name="-jdk-preinit">
-        <condition property=".exe" value=".exe">
-            <os family="windows"/>
+    <tbrget nbme="-jdk-preinit">
+        <condition property=".exe" vblue=".exe">
+            <os fbmily="windows"/>
         </condition>
-        <property name=".exe" value=""/>
-        <property name="nbjdk.javac" value="${nbjdk.home}/bin/javac${.exe}"/>
-        <property name="nbjdk.java" value="${nbjdk.home}/bin/java${.exe}"/>
-        <property name="nbjdk.javadoc" value="${nbjdk.home}/bin/javadoc${.exe}"/>
-        <property name="nbjdk.appletviewer" value="${nbjdk.home}/bin/appletviewer${.exe}"/>
-        <property name="nbjdk.jconsole" value="${nbjdk.home}/bin/jconsole${.exe}"/>
-        <property name="nbjdk.bootclasspath" value="${nbjdk.home}/jre/lib/rt.jar"/>
-    </target>
+        <property nbme=".exe" vblue=""/>
+        <property nbme="nbjdk.jbvbc" vblue="${nbjdk.home}/bin/jbvbc${.exe}"/>
+        <property nbme="nbjdk.jbvb" vblue="${nbjdk.home}/bin/jbvb${.exe}"/>
+        <property nbme="nbjdk.jbvbdoc" vblue="${nbjdk.home}/bin/jbvbdoc${.exe}"/>
+        <property nbme="nbjdk.bppletviewer" vblue="${nbjdk.home}/bin/bppletviewer${.exe}"/>
+        <property nbme="nbjdk.jconsole" vblue="${nbjdk.home}/bin/jconsole${.exe}"/>
+        <property nbme="nbjdk.bootclbsspbth" vblue="${nbjdk.home}/jre/lib/rt.jbr"/>
+    </tbrget>
 
-    <target name="-jdk-presetdef-basic" depends="-jdk-preinit" unless="nbjdk.presetdef.basic.done">
-        <macrodef name="javac-presetdef">
-            <attribute name="javacval"/>
-            <sequential>
-                <presetdef name="javac">
-                    <javac fork="yes" executable="@{javacval}"/>
+    <tbrget nbme="-jdk-presetdef-bbsic" depends="-jdk-preinit" unless="nbjdk.presetdef.bbsic.done">
+        <mbcrodef nbme="jbvbc-presetdef">
+            <bttribute nbme="jbvbcvbl"/>
+            <sequentibl>
+                <presetdef nbme="jbvbc">
+                    <jbvbc fork="yes" executbble="@{jbvbcvbl}"/>
                 </presetdef>
-            </sequential>
-        </macrodef>
-        <javac-presetdef javacval="${nbjdk.javac}"/>
-        <macrodef name="java-presetdef">
-            <attribute name="javaval"/>
-            <sequential>
-                <presetdef name="java">
-                    <java fork="yes" jvm="@{javaval}"/>
+            </sequentibl>
+        </mbcrodef>
+        <jbvbc-presetdef jbvbcvbl="${nbjdk.jbvbc}"/>
+        <mbcrodef nbme="jbvb-presetdef">
+            <bttribute nbme="jbvbvbl"/>
+            <sequentibl>
+                <presetdef nbme="jbvb">
+                    <jbvb fork="yes" jvm="@{jbvbvbl}"/>
                 </presetdef>
-            </sequential>
-        </macrodef>
-        <java-presetdef javaval="${nbjdk.java}"/>
-        <macrodef name="javadoc-presetdef">
-            <attribute name="javadocval"/>
-            <sequential>
-                <presetdef name="javadoc">
-                    <javadoc executable="@{javadocval}"/>
+            </sequentibl>
+        </mbcrodef>
+        <jbvb-presetdef jbvbvbl="${nbjdk.jbvb}"/>
+        <mbcrodef nbme="jbvbdoc-presetdef">
+            <bttribute nbme="jbvbdocvbl"/>
+            <sequentibl>
+                <presetdef nbme="jbvbdoc">
+                    <jbvbdoc executbble="@{jbvbdocvbl}"/>
                 </presetdef>
-            </sequential>
-        </macrodef>
-        <javadoc-presetdef javadocval="${nbjdk.javadoc}"/>
-        <property name="nbjdk.presetdef.basic.done" value="true"/>
-    </target>
+            </sequentibl>
+        </mbcrodef>
+        <jbvbdoc-presetdef jbvbdocvbl="${nbjdk.jbvbdoc}"/>
+        <property nbme="nbjdk.presetdef.bbsic.done" vblue="true"/>
+    </tbrget>
 
-    <target name="-jdk-presetdef-nbjpdastart" depends="-jdk-preinit" unless="nbjdk.presetdef.nbjpdastart.done">
-        <macrodef name="nbjpdastart-presetdef">
-            <attribute name="bootcpval"/>
-            <sequential>
-                <presetdef name="nbjpdastart">
-                    <nbjpdastart>
-                        <bootclasspath>
-                            <path path="@{bootcpval}"/>
-                        </bootclasspath>
-                    </nbjpdastart>
+    <tbrget nbme="-jdk-presetdef-nbjpdbstbrt" depends="-jdk-preinit" unless="nbjdk.presetdef.nbjpdbstbrt.done">
+        <mbcrodef nbme="nbjpdbstbrt-presetdef">
+            <bttribute nbme="bootcpvbl"/>
+            <sequentibl>
+                <presetdef nbme="nbjpdbstbrt">
+                    <nbjpdbstbrt>
+                        <bootclbsspbth>
+                            <pbth pbth="@{bootcpvbl}"/>
+                        </bootclbsspbth>
+                    </nbjpdbstbrt>
                 </presetdef>
-            </sequential>
-        </macrodef>
-        <nbjpdastart-presetdef bootcpval="${nbjdk.bootclasspath}"/>
-        <property name="nbjdk.presetdef.nbjpdastart.done" value="true"/>
-    </target>
+            </sequentibl>
+        </mbcrodef>
+        <nbjpdbstbrt-presetdef bootcpvbl="${nbjdk.bootclbsspbth}"/>
+        <property nbme="nbjdk.presetdef.nbjpdbstbrt.done" vblue="true"/>
+    </tbrget>
 
-    <target name="-jdk-init" depends="-jdk-preinit,-jdk-presetdef-basic"/>
+    <tbrget nbme="-jdk-init" depends="-jdk-preinit,-jdk-presetdef-bbsic"/>
 
 </project>

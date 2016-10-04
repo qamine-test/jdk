@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class GUI extends JPanel {
+public clbss GUI extends JPbnel {
 
-    private static final long serialVersionUID = 3292463234530679091L;
-    private CommandTool cmdTool;
-    private ApplicationTool appTool;
+    privbte stbtic finbl long seriblVersionUID = 3292463234530679091L;
+    privbte CommbndTool cmdTool;
+    privbte ApplicbtionTool bppTool;
     //###HACK##
-    //### There is currently dirty code in Environment that
-    //### accesses this directly.
-    //private SourceTool srcTool;
-    public static SourceTool srcTool;
+    //### There is currently dirty code in Environment thbt
+    //### bccesses this directly.
+    //privbte SourceTool srcTool;
+    public stbtic SourceTool srcTool;
 
-    private SourceTreeTool sourceTreeTool;
-    private ClassTreeTool classTreeTool;
-    private ThreadTreeTool threadTreeTool;
-    private StackTraceTool stackTool;
-    private MonitorTool monitorTool;
+    privbte SourceTreeTool sourceTreeTool;
+    privbte ClbssTreeTool clbssTreeTool;
+    privbte ThrebdTreeTool threbdTreeTool;
+    privbte StbckTrbceTool stbckTool;
+    privbte MonitorTool monitorTool;
 
-    public static final String progname = "javadt";
-    public static final String version = "1.0Beta";  //### FIX ME.
-    public static final String windowBanner = "Java(tm) platform Debug Tool";
+    public stbtic finbl String prognbme = "jbvbdt";
+    public stbtic finbl String version = "1.0Betb";  //### FIX ME.
+    public stbtic finbl String windowBbnner = "Jbvb(tm) plbtform Debug Tool";
 
-    private Font fixedFont = new Font("monospaced", Font.PLAIN, 10);
+    privbte Font fixedFont = new Font("monospbced", Font.PLAIN, 10);
 
-    private GUI(Environment env) {
-        setLayout(new BorderLayout());
+    privbte GUI(Environment env) {
+        setLbyout(new BorderLbyout());
 
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        add(new JDBToolBar(env), BorderLayout.NORTH);
+        bdd(new JDBToolBbr(env), BorderLbyout.NORTH);
 
         srcTool = new SourceTool(env);
-        srcTool.setPreferredSize(new java.awt.Dimension(500, 300));
+        srcTool.setPreferredSize(new jbvb.bwt.Dimension(500, 300));
         srcTool.setTextFont(fixedFont);
 
-        stackTool = new StackTraceTool(env);
-        stackTool.setPreferredSize(new java.awt.Dimension(500, 100));
+        stbckTool = new StbckTrbceTool(env);
+        stbckTool.setPreferredSize(new jbvb.bwt.Dimension(500, 100));
 
         monitorTool = new MonitorTool(env);
-        monitorTool.setPreferredSize(new java.awt.Dimension(500, 50));
+        monitorTool.setPreferredSize(new jbvb.bwt.Dimension(500, 50));
 
-        JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, srcTool,
-            new JSplitPane(JSplitPane.VERTICAL_SPLIT, stackTool, monitorTool));
+        JSplitPbne right = new JSplitPbne(JSplitPbne.VERTICAL_SPLIT, srcTool,
+            new JSplitPbne(JSplitPbne.VERTICAL_SPLIT, stbckTool, monitorTool));
 
         sourceTreeTool = new SourceTreeTool(env);
-        sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        sourceTreeTool.setPreferredSize(new jbvb.bwt.Dimension(200, 450));
 
-        classTreeTool = new ClassTreeTool(env);
-        classTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        clbssTreeTool = new ClbssTreeTool(env);
+        clbssTreeTool.setPreferredSize(new jbvb.bwt.Dimension(200, 450));
 
-        threadTreeTool = new ThreadTreeTool(env);
-        threadTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+        threbdTreeTool = new ThrebdTreeTool(env);
+        threbdTreeTool.setPreferredSize(new jbvb.bwt.Dimension(200, 450));
 
-        JTabbedPane treePane = new JTabbedPane(SwingConstants.BOTTOM);
-        treePane.addTab("Source", null, sourceTreeTool);
-        treePane.addTab("Classes", null, classTreeTool);
-        treePane.addTab("Threads", null, threadTreeTool);
+        JTbbbedPbne treePbne = new JTbbbedPbne(SwingConstbnts.BOTTOM);
+        treePbne.bddTbb("Source", null, sourceTreeTool);
+        treePbne.bddTbb("Clbsses", null, clbssTreeTool);
+        treePbne.bddTbb("Threbds", null, threbdTreeTool);
 
-        JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePane, right);
+        JSplitPbne centerTop = new JSplitPbne(JSplitPbne.HORIZONTAL_SPLIT, treePbne, right);
 
-        cmdTool = new CommandTool(env);
-        cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
+        cmdTool = new CommbndTool(env);
+        cmdTool.setPreferredSize(new jbvb.bwt.Dimension(700, 150));
 
-        appTool = new ApplicationTool(env);
-        appTool.setPreferredSize(new java.awt.Dimension(700, 200));
+        bppTool = new ApplicbtionTool(env);
+        bppTool.setPreferredSize(new jbvb.bwt.Dimension(700, 200));
 
-        JSplitPane centerBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT, cmdTool, appTool);
-        //        centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
+        JSplitPbne centerBottom = new JSplitPbne(JSplitPbne.VERTICAL_SPLIT, cmdTool, bppTool);
+        //        centerBottom.setPreferredSize(new jbvb.bwt.Dimension(700, 350));
 
-        JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, centerBottom);
+        JSplitPbne center = new JSplitPbne(JSplitPbne.VERTICAL_SPLIT, centerTop, centerBottom);
 
-        add(center, BorderLayout.CENTER);
+        bdd(center, BorderLbyout.CENTER);
 
 
     }
 
-    private static void usage() {
-        String separator = File.pathSeparator;
-        System.out.println("Usage: " + progname + " <options> <class> <arguments>");
+    privbte stbtic void usbge() {
+        String sepbrbtor = File.pbthSepbrbtor;
+        System.out.println("Usbge: " + prognbme + " <options> <clbss> <brguments>");
         System.out.println();
         System.out.println("where options include:");
-        System.out.println("    -help             print out this message and exit");
-        System.out.println("    -sourcepath <directories separated by \"" +
-                           separator + "\">");
+        System.out.println("    -help             print out this messbge bnd exit");
+        System.out.println("    -sourcepbth <directories sepbrbted by \"" +
+                           sepbrbtor + "\">");
         System.out.println("                      list directories in which to look for source files");
-        System.out.println("    -remote <hostname>:<port-number>");
-        System.out.println("                      host machine and port number of interpreter to attach to");
-        System.out.println("    -dbgtrace [flags] print info for debugging " + progname);
+        System.out.println("    -remote <hostnbme>:<port-number>");
+        System.out.println("                      host mbchine bnd port number of interpreter to bttbch to");
+        System.out.println("    -dbgtrbce [flbgs] print info for debugging " + prognbme);
         System.out.println();
-        System.out.println("options forwarded to debuggee process:");
-        System.out.println("    -v -verbose[:class|gc|jni]");
+        System.out.println("options forwbrded to debuggee process:");
+        System.out.println("    -v -verbose[:clbss|gc|jni]");
         System.out.println("                      turn on verbose mode");
-        System.out.println("    -D<name>=<value>  set a system property");
-        System.out.println("    -classpath <directories separated by \"" +
-                           separator + "\">");
-        System.out.println("                      list directories in which to look for classes");
-        System.out.println("    -X<option>        non-standard debuggee VM option");
+        System.out.println("    -D<nbme>=<vblue>  set b system property");
+        System.out.println("    -clbsspbth <directories sepbrbted by \"" +
+                           sepbrbtor + "\">");
+        System.out.println("                      list directories in which to look for clbsses");
+        System.out.println("    -X<option>        non-stbndbrd debuggee VM option");
         System.out.println();
-        System.out.println("<class> is the name of the class to begin debugging");
-        System.out.println("<arguments> are the arguments passed to the main() method of <class>");
+        System.out.println("<clbss> is the nbme of the clbss to begin debugging");
+        System.out.println("<brguments> bre the brguments pbssed to the mbin() method of <clbss>");
         System.out.println();
-        System.out.println("For command help type 'help' at " + progname + " prompt");
+        System.out.println("For commbnd help type 'help' bt " + prognbme + " prompt");
     }
 
-    public static void main(String argv[]) {
-        String clsName = "";
+    public stbtic void mbin(String brgv[]) {
+        String clsNbme = "";
         String progArgs = "";
-        String javaArgs = "";
-        final Environment env = new Environment();
+        String jbvbArgs = "";
+        finbl Environment env = new Environment();
 
-        JPanel mainPanel = new GUI(env);
+        JPbnel mbinPbnel = new GUI(env);
 
-        ContextManager context = env.getContextManager();
-        ExecutionManager runtime = env.getExecutionManager();
+        ContextMbnbger context = env.getContextMbnbger();
+        ExecutionMbnbger runtime = env.getExecutionMbnbger();
 
-        for (int i = 0; i < argv.length; i++) {
-            String token = argv[i];
-            if (token.equals("-dbgtrace")) {
-            if ((i == argv.length - 1) ||
-                ! Character.isDigit(argv[i+1].charAt(0))) {
-                runtime.setTraceMode(VirtualMachine.TRACE_ALL);
+        for (int i = 0; i < brgv.length; i++) {
+            String token = brgv[i];
+            if (token.equbls("-dbgtrbce")) {
+            if ((i == brgv.length - 1) ||
+                ! Chbrbcter.isDigit(brgv[i+1].chbrAt(0))) {
+                runtime.setTrbceMode(VirtublMbchine.TRACE_ALL);
             } else {
-                String flagStr = argv[++i];
-                runtime.setTraceMode(Integer.decode(flagStr).intValue());
+                String flbgStr = brgv[++i];
+                runtime.setTrbceMode(Integer.decode(flbgStr).intVblue());
             }
-        } else if (token.equals("-X")) {
+        } else if (token.equbls("-X")) {
                 System.out.println(
-                       "Use 'java -X' to see the available non-standard options");
+                       "Use 'jbvb -X' to see the bvbilbble non-stbndbrd options");
                 System.out.println();
-                usage();
+                usbge();
                 System.exit(1);
             } else if (
-                   // Standard VM options passed on
-                   token.equals("-v") || token.startsWith("-v:") ||  // -v[:...]
-                   token.startsWith("-verbose") ||                  // -verbose[:...]
-                   token.startsWith("-D") ||
-                   // NonStandard options passed on
-                   token.startsWith("-X") ||
+                   // Stbndbrd VM options pbssed on
+                   token.equbls("-v") || token.stbrtsWith("-v:") ||  // -v[:...]
+                   token.stbrtsWith("-verbose") ||                  // -verbose[:...]
+                   token.stbrtsWith("-D") ||
+                   // NonStbndbrd options pbssed on
+                   token.stbrtsWith("-X") ||
                    // Old-style options
-                   // (These should remain in place as long as the standard VM accepts them)
-                   token.equals("-noasyncgc") || token.equals("-prof") ||
-                   token.equals("-verify") || token.equals("-noverify") ||
-                   token.equals("-verifyremote") ||
-                   token.equals("-verbosegc") ||
-                   token.startsWith("-ms") || token.startsWith("-mx") ||
-                   token.startsWith("-ss") || token.startsWith("-oss") ) {
-                javaArgs += token + " ";
-            } else if (token.equals("-sourcepath")) {
-                if (i == (argv.length - 1)) {
-                    System.out.println("No sourcepath specified.");
-                    usage();
+                   // (These should rembin in plbce bs long bs the stbndbrd VM bccepts them)
+                   token.equbls("-nobsyncgc") || token.equbls("-prof") ||
+                   token.equbls("-verify") || token.equbls("-noverify") ||
+                   token.equbls("-verifyremote") ||
+                   token.equbls("-verbosegc") ||
+                   token.stbrtsWith("-ms") || token.stbrtsWith("-mx") ||
+                   token.stbrtsWith("-ss") || token.stbrtsWith("-oss") ) {
+                jbvbArgs += token + " ";
+            } else if (token.equbls("-sourcepbth")) {
+                if (i == (brgv.length - 1)) {
+                    System.out.println("No sourcepbth specified.");
+                    usbge();
                     System.exit(1);
                 }
-                env.getSourceManager().setSourcePath(new SearchPath(argv[++i]));
-            } else if (token.equals("-classpath")) {
-                if (i == (argv.length - 1)) {
-                    System.out.println("No classpath specified.");
-                    usage();
+                env.getSourceMbnbger().setSourcePbth(new SebrchPbth(brgv[++i]));
+            } else if (token.equbls("-clbsspbth")) {
+                if (i == (brgv.length - 1)) {
+                    System.out.println("No clbsspbth specified.");
+                    usbge();
                     System.exit(1);
                 }
-                env.getClassManager().setClassPath(new SearchPath(argv[++i]));
-            } else if (token.equals("-remote")) {
-                if (i == (argv.length - 1)) {
+                env.getClbssMbnbger().setClbssPbth(new SebrchPbth(brgv[++i]));
+            } else if (token.equbls("-remote")) {
+                if (i == (brgv.length - 1)) {
                     System.out.println("No remote specified.");
-                    usage();
+                    usbge();
                     System.exit(1);
                 }
-                env.getContextManager().setRemotePort(argv[++i]);
-            } else if (token.equals("-help")) {
-                usage();
+                env.getContextMbnbger().setRemotePort(brgv[++i]);
+            } else if (token.equbls("-help")) {
+                usbge();
                 System.exit(0);
-            } else if (token.equals("-version")) {
-                System.out.println(progname + " version " + version);
+            } else if (token.equbls("-version")) {
+                System.out.println(prognbme + " version " + version);
                 System.exit(0);
-            } else if (token.startsWith("-")) {
-                System.out.println("invalid option: " + token);
-                usage();
+            } else if (token.stbrtsWith("-")) {
+                System.out.println("invblid option: " + token);
+                usbge();
                 System.exit(1);
             } else {
-                // Everything from here is part of the command line
-                clsName = token;
-                for (i++; i < argv.length; i++) {
-                    progArgs += argv[i] + " ";
+                // Everything from here is pbrt of the commbnd line
+                clsNbme = token;
+                for (i++; i < brgv.length; i++) {
+                    progArgs += brgv[i] + " ";
                 }
-                break;
+                brebk;
             }
         }
 
-        context.setMainClassName(clsName);
-        context.setProgramArguments(progArgs);
-        context.setVmArguments(javaArgs);
+        context.setMbinClbssNbme(clsNbme);
+        context.setProgrbmArguments(progArgs);
+        context.setVmArguments(jbvbArgs);
 
-        // Force Cross Platform L&F
+        // Force Cross Plbtform L&F
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            // If you want the System L&F instead, comment out the above line and
+            UIMbnbger.setLookAndFeel(UIMbnbger.getCrossPlbtformLookAndFeelClbssNbme());
+            // If you wbnt the System L&F instebd, comment out the bbove line bnd
             // uncomment the following:
-            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception exc) {
-            System.err.println("Error loading L&F: " + exc);
+            // UIMbnbger.setLookAndFeel(UIMbnbger.getSystemLookAndFeelClbssNbme());
+        } cbtch (Exception exc) {
+            System.err.println("Error lobding L&F: " + exc);
         }
 
-        JFrame frame = new JFrame();
-        frame.setBackground(Color.lightGray);
-        frame.setTitle(windowBanner);
-        frame.setJMenuBar(new JDBMenuBar(env));
-        frame.setContentPane(mainPanel);
+        JFrbme frbme = new JFrbme();
+        frbme.setBbckground(Color.lightGrby);
+        frbme.setTitle(windowBbnner);
+        frbme.setJMenuBbr(new JDBMenuBbr(env));
+        frbme.setContentPbne(mbinPbnel);
 
-        frame.addWindowListener(new WindowAdapter() {
+        frbme.bddWindowListener(new WindowAdbpter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                env.terminate();
+                env.terminbte();
             }
         });
 
-        frame.pack();
-        frame.setVisible(true);
+        frbme.pbck();
+        frbme.setVisible(true);
 
     }
 

@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "eventHandler.h"
-#include "threadControl.h"
+#include "eventHbndler.h"
+#include "threbdControl.h"
 #include "commonRef.h"
 #include "eventHelper.h"
 #include "stepControl.h"
 #include "invoker.h"
-#include "bag.h"
+#include "bbg.h"
 
 #define HANDLING_EVENT(node) ((node)->current_ei != 0)
 
 /*
- * Collection of info for properly handling co-located events.
+ * Collection of info for properly hbndling co-locbted events.
  * If the ei field is non-zero, then one of the possible
- * co-located events has been posted and the other fields describe
- * the event's location.
+ * co-locbted events hbs been posted bnd the other fields describe
+ * the event's locbtion.
  */
-typedef struct CoLocatedEventInfo_ {
+typedef struct CoLocbtedEventInfo_ {
     EventIndex ei;
-    jclass    clazz;
+    jclbss    clbzz;
     jmethodID method;
-    jlocation location;
-} CoLocatedEventInfo;
+    jlocbtion locbtion;
+} CoLocbtedEventInfo;
 
 /**
- * The main data structure in threadControl is the ThreadNode.
- * This is a per-thread structure that is allocated on the
- * first event that occurs in a thread. It is freed after the
- * thread's thread end event has completed processing. The
- * structure contains state information on its thread including
- * suspend counts. It also acts as a repository for other
- * per-thread state such as the current method invocation or
+ * The mbin dbtb structure in threbdControl is the ThrebdNode.
+ * This is b per-threbd structure thbt is bllocbted on the
+ * first event thbt occurs in b threbd. It is freed bfter the
+ * threbd's threbd end event hbs completed processing. The
+ * structure contbins stbte informbtion on its threbd including
+ * suspend counts. It blso bcts bs b repository for other
+ * per-threbd stbte such bs the current method invocbtion or
  * current step.
  *
- * suspendCount is the number of outstanding suspends
- * from the debugger. suspends from the app itself are
+ * suspendCount is the number of outstbnding suspends
+ * from the debugger. suspends from the bpp itself bre
  * not included in this count.
  */
-typedef struct ThreadNode {
-    jthread thread;
+typedef struct ThrebdNode {
+    jthrebd threbd;
     unsigned int toBeResumed : 1;
     unsigned int pendingInterrupt : 1;
-    unsigned int isDebugThread : 1;
-    unsigned int suspendOnStart : 1;
-    unsigned int isStarted : 1;
-    unsigned int popFrameEvent : 1;
-    unsigned int popFrameProceed : 1;
-    unsigned int popFrameThread : 1;
+    unsigned int isDebugThrebd : 1;
+    unsigned int suspendOnStbrt : 1;
+    unsigned int isStbrted : 1;
+    unsigned int popFrbmeEvent : 1;
+    unsigned int popFrbmeProceed : 1;
+    unsigned int popFrbmeThrebd : 1;
     EventIndex current_ei;
     jobject pendingStop;
     jint suspendCount;
-    jint resumeFrameDepth; /* !=0 => This thread is in a call to Thread.resume() */
+    jint resumeFrbmeDepth; /* !=0 => This threbd is in b cbll to Threbd.resume() */
     jvmtiEventMode instructionStepMode;
     StepRequest currentStep;
     InvokeRequest currentInvoke;
-    struct bag *eventBag;
-    CoLocatedEventInfo cleInfo;
-    struct ThreadNode *next;
-    struct ThreadNode *prev;
-    jlong frameGeneration;
-    struct ThreadList *list;  /* Tells us what list this thread is in */
-} ThreadNode;
+    struct bbg *eventBbg;
+    CoLocbtedEventInfo cleInfo;
+    struct ThrebdNode *next;
+    struct ThrebdNode *prev;
+    jlong frbmeGenerbtion;
+    struct ThrebdList *list;  /* Tells us whbt list this threbd is in */
+} ThrebdNode;
 
-static jint suspendAllCount;
+stbtic jint suspendAllCount;
 
-typedef struct ThreadList {
-    ThreadNode *first;
-} ThreadList;
-
-/*
- * popFrameEventLock is used to notify that the event has been received
- */
-static jrawMonitorID popFrameEventLock = NULL;
+typedef struct ThrebdList {
+    ThrebdNode *first;
+} ThrebdList;
 
 /*
- * popFrameProceedLock is used to assure that the event thread is
- * re-suspended immediately after the event is acknowledged.
+ * popFrbmeEventLock is used to notify thbt the event hbs been received
  */
-static jrawMonitorID popFrameProceedLock = NULL;
-
-static jrawMonitorID threadLock;
-static jlocation resumeLocation;
-static HandlerNode *breakpointHandlerNode;
-static HandlerNode *framePopHandlerNode;
-static HandlerNode *catchHandlerNode;
-
-static jvmtiError threadControl_removeDebugThread(jthread thread);
+stbtic jrbwMonitorID popFrbmeEventLock = NULL;
 
 /*
- * Threads which have issued thread start events and not yet issued thread
- * end events are maintained in the "runningThreads" list. All other threads known
- * to this module are kept in the "otherThreads" list.
+ * popFrbmeProceedLock is used to bssure thbt the event threbd is
+ * re-suspended immedibtely bfter the event is bcknowledged.
  */
-static ThreadList runningThreads;
-static ThreadList otherThreads;
+stbtic jrbwMonitorID popFrbmeProceedLock = NULL;
+
+stbtic jrbwMonitorID threbdLock;
+stbtic jlocbtion resumeLocbtion;
+stbtic HbndlerNode *brebkpointHbndlerNode;
+stbtic HbndlerNode *frbmePopHbndlerNode;
+stbtic HbndlerNode *cbtchHbndlerNode;
+
+stbtic jvmtiError threbdControl_removeDebugThrebd(jthrebd threbd);
+
+/*
+ * Threbds which hbve issued threbd stbrt events bnd not yet issued threbd
+ * end events bre mbintbined in the "runningThrebds" list. All other threbds known
+ * to this module bre kept in the "otherThrebds" list.
+ */
+stbtic ThrebdList runningThrebds;
+stbtic ThrebdList otherThrebds;
 
 #define MAX_DEBUG_THREADS 10
-static int debugThreadCount;
-static jthread debugThreads[MAX_DEBUG_THREADS];
+stbtic int debugThrebdCount;
+stbtic jthrebd debugThrebds[MAX_DEBUG_THREADS];
 
 typedef struct DeferredEventMode {
     EventIndex ei;
     jvmtiEventMode mode;
-    jthread thread;
+    jthrebd threbd;
     struct DeferredEventMode *next;
 } DeferredEventMode;
 
 typedef struct {
     DeferredEventMode *first;
-    DeferredEventMode *last;
+    DeferredEventMode *lbst;
 } DeferredEventModeList;
 
-static DeferredEventModeList deferredEventModes;
+stbtic DeferredEventModeList deferredEventModes;
 
-static jint
-getStackDepth(jthread thread)
+stbtic jint
+getStbckDepth(jthrebd threbd)
 {
     jint count = 0;
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameCount)
-                        (gdata->jvmti, thread, &count);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetFrbmeCount)
+                        (gdbtb->jvmti, threbd, &count);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting frame count");
+        EXIT_ERROR(error, "getting frbme count");
     }
     return count;
 }
 
-/* Get the state of the thread direct from JVMTI */
-static jvmtiError
-threadState(jthread thread, jint *pstate)
+/* Get the stbte of the threbd direct from JVMTI */
+stbtic jvmtiError
+threbdStbte(jthrebd threbd, jint *pstbte)
 {
-    *pstate = 0;
-    return JVMTI_FUNC_PTR(gdata->jvmti,GetThreadState)
-                        (gdata->jvmti, thread, pstate);
+    *pstbte = 0;
+    return JVMTI_FUNC_PTR(gdbtb->jvmti,GetThrebdStbte)
+                        (gdbtb->jvmti, threbd, pstbte);
 }
 
-/* Set TLS on a specific jthread to the ThreadNode* */
-static void
-setThreadLocalStorage(jthread thread, ThreadNode *node)
+/* Set TLS on b specific jthrebd to the ThrebdNode* */
+stbtic void
+setThrebdLocblStorbge(jthrebd threbd, ThrebdNode *node)
 {
     jvmtiError  error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetThreadLocalStorage)
-            (gdata->jvmti, thread, (void*)node);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetThrebdLocblStorbge)
+            (gdbtb->jvmti, threbd, (void*)node);
     if ( error == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
-        /* Just return, thread hasn't started yet */
+        /* Just return, threbd hbsn't stbrted yet */
         return;
     } else if ( error != JVMTI_ERROR_NONE ) {
-        /* The jthread object must be valid, so this must be a fatal error */
-        EXIT_ERROR(error, "cannot set thread local storage");
+        /* The jthrebd object must be vblid, so this must be b fbtbl error */
+        EXIT_ERROR(error, "cbnnot set threbd locbl storbge");
     }
 }
 
-/* Get TLS on a specific jthread, which is the ThreadNode* */
-static ThreadNode *
-getThreadLocalStorage(jthread thread)
+/* Get TLS on b specific jthrebd, which is the ThrebdNode* */
+stbtic ThrebdNode *
+getThrebdLocblStorbge(jthrebd threbd)
 {
     jvmtiError  error;
-    ThreadNode *node;
+    ThrebdNode *node;
 
     node = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetThreadLocalStorage)
-            (gdata->jvmti, thread, (void**)&node);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetThrebdLocblStorbge)
+            (gdbtb->jvmti, threbd, (void**)&node);
     if ( error == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
-        /* Just return NULL, thread hasn't started yet */
+        /* Just return NULL, threbd hbsn't stbrted yet */
         return NULL;
     } else if ( error != JVMTI_ERROR_NONE ) {
-        /* The jthread object must be valid, so this must be a fatal error */
-        EXIT_ERROR(error, "cannot get thread local storage");
+        /* The jthrebd object must be vblid, so this must be b fbtbl error */
+        EXIT_ERROR(error, "cbnnot get threbd locbl storbge");
     }
     return node;
 }
 
-/* Search list for nodes that don't have TLS set and match this thread.
- *   It assumed that this logic is never dealing with terminated threads,
- *   since the ThreadEnd events always delete the ThreadNode while the
- *   jthread is still alive.  So we can only look at the ThreadNode's that
- *   have never had their TLS set, making the search much faster.
- *   But keep in mind, this kind of search should rarely be needed.
+/* Sebrch list for nodes thbt don't hbve TLS set bnd mbtch this threbd.
+ *   It bssumed thbt this logic is never debling with terminbted threbds,
+ *   since the ThrebdEnd events blwbys delete the ThrebdNode while the
+ *   jthrebd is still blive.  So we cbn only look bt the ThrebdNode's thbt
+ *   hbve never hbd their TLS set, mbking the sebrch much fbster.
+ *   But keep in mind, this kind of sebrch should rbrely be needed.
  */
-static ThreadNode *
-nonTlsSearch(JNIEnv *env, ThreadList *list, jthread thread)
+stbtic ThrebdNode *
+nonTlsSebrch(JNIEnv *env, ThrebdList *list, jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
     for (node = list->first; node != NULL; node = node->next) {
-        if (isSameObject(env, node->thread, thread)) {
-            break;
+        if (isSbmeObject(env, node->threbd, threbd)) {
+            brebk;
         }
     }
     return node;
 }
 
 /*
- * These functions maintain the linked list of currently running threads.
- * All assume that the threadLock is held before calling.
- * If list==NULL, search both lists.
+ * These functions mbintbin the linked list of currently running threbds.
+ * All bssume thbt the threbdLock is held before cblling.
+ * If list==NULL, sebrch both lists.
  */
-static ThreadNode *
-findThread(ThreadList *list, jthread thread)
+stbtic ThrebdNode *
+findThrebd(ThrebdList *list, jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    /* Get thread local storage for quick thread -> node access */
-    node = getThreadLocalStorage(thread);
+    /* Get threbd locbl storbge for quick threbd -> node bccess */
+    node = getThrebdLocblStorbge(threbd);
 
-    /* In some rare cases we might get NULL, so we check the list manually for
-     *   any threads that we could match.
+    /* In some rbre cbses we might get NULL, so we check the list mbnublly for
+     *   bny threbds thbt we could mbtch.
      */
     if ( node == NULL ) {
         JNIEnv *env;
 
         env = getEnv();
         if ( list != NULL ) {
-            node = nonTlsSearch(env, list, thread);
+            node = nonTlsSebrch(env, list, threbd);
         } else {
-            node = nonTlsSearch(env, &runningThreads, thread);
+            node = nonTlsSebrch(env, &runningThrebds, threbd);
             if ( node == NULL ) {
-                node = nonTlsSearch(env, &otherThreads, thread);
+                node = nonTlsSebrch(env, &otherThrebds, threbd);
             }
         }
         if ( node != NULL ) {
-            /* Here we make another attempt to set TLS, it's ok if this fails */
-            setThreadLocalStorage(thread, (void*)node);
+            /* Here we mbke bnother bttempt to set TLS, it's ok if this fbils */
+            setThrebdLocblStorbge(threbd, (void*)node);
         }
     }
 
-    /* If a list is supplied, only return ones in this list */
+    /* If b list is supplied, only return ones in this list */
     if ( node != NULL && list != NULL && node->list != list ) {
         return NULL;
     }
     return node;
 }
 
-/* Remove a ThreadNode from a ThreadList */
-static void
-removeNode(ThreadList *list, ThreadNode *node)
+/* Remove b ThrebdNode from b ThrebdList */
+stbtic void
+removeNode(ThrebdList *list, ThrebdNode *node)
 {
-    ThreadNode *prev;
-    ThreadNode *next;
+    ThrebdNode *prev;
+    ThrebdNode *next;
 
     prev = node->prev;
     next = node->next;
@@ -281,9 +281,9 @@ removeNode(ThreadList *list, ThreadNode *node)
     node->list = NULL;
 }
 
-/* Add a ThreadNode to a ThreadList */
-static void
-addNode(ThreadList *list, ThreadNode *node)
+/* Add b ThrebdNode to b ThrebdList */
+stbtic void
+bddNode(ThrebdList *list, ThrebdNode *node)
 {
     node->next = NULL;
     node->prev = NULL;
@@ -298,149 +298,149 @@ addNode(ThreadList *list, ThreadNode *node)
     node->list = list;
 }
 
-static ThreadNode *
-insertThread(JNIEnv *env, ThreadList *list, jthread thread)
+stbtic ThrebdNode *
+insertThrebd(JNIEnv *env, ThrebdList *list, jthrebd threbd)
 {
-    ThreadNode *node;
-    struct bag *eventBag;
+    ThrebdNode *node;
+    struct bbg *eventBbg;
 
-    node = findThread(list, thread);
+    node = findThrebd(list, threbd);
     if (node == NULL) {
-        node = jvmtiAllocate(sizeof(*node));
+        node = jvmtiAllocbte(sizeof(*node));
         if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"threbd tbble entry");
             return NULL;
         }
         (void)memset(node, 0, sizeof(*node));
-        eventBag = eventHelper_createEventBag();
-        if (eventBag == NULL) {
-            jvmtiDeallocate(node);
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
+        eventBbg = eventHelper_crebteEventBbg();
+        if (eventBbg == NULL) {
+            jvmtiDebllocbte(node);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"threbd tbble entry");
             return NULL;
         }
 
         /*
-         * Init all flags false, all refs NULL, all counts 0
+         * Init bll flbgs fblse, bll refs NULL, bll counts 0
          */
 
-        saveGlobalRef(env, thread, &(node->thread));
-        if (node->thread == NULL) {
-            jvmtiDeallocate(node);
-            bagDestroyBag(eventBag);
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
+        sbveGlobblRef(env, threbd, &(node->threbd));
+        if (node->threbd == NULL) {
+            jvmtiDebllocbte(node);
+            bbgDestroyBbg(eventBbg);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"threbd tbble entry");
             return NULL;
         }
         /*
-         * Remember if it is a debug thread
+         * Remember if it is b debug threbd
          */
-        if (threadControl_isDebugThread(node->thread)) {
-            node->isDebugThread = JNI_TRUE;
+        if (threbdControl_isDebugThrebd(node->threbd)) {
+            node->isDebugThrebd = JNI_TRUE;
         } else if (suspendAllCount > 0){
             /*
-             * If there is a pending suspendAll, all new threads should
-             * be initialized as if they were suspended by the suspendAll,
-             * and the thread will need to be suspended when it starts.
+             * If there is b pending suspendAll, bll new threbds should
+             * be initiblized bs if they were suspended by the suspendAll,
+             * bnd the threbd will need to be suspended when it stbrts.
              */
             node->suspendCount = suspendAllCount;
-            node->suspendOnStart = JNI_TRUE;
+            node->suspendOnStbrt = JNI_TRUE;
         }
         node->current_ei = 0;
         node->instructionStepMode = JVMTI_DISABLE;
-        node->eventBag = eventBag;
-        addNode(list, node);
+        node->eventBbg = eventBbg;
+        bddNode(list, node);
 
-        /* Set thread local storage for quick thread -> node access.
-         *   Some threads may not be in a state that allows setting of TLS,
-         *   which is ok, see findThread, it deals with threads without TLS set.
+        /* Set threbd locbl storbge for quick threbd -> node bccess.
+         *   Some threbds mby not be in b stbte thbt bllows setting of TLS,
+         *   which is ok, see findThrebd, it debls with threbds without TLS set.
          */
-        setThreadLocalStorage(node->thread, (void*)node);
+        setThrebdLocblStorbge(node->threbd, (void*)node);
     }
 
     return node;
 }
 
-static void
-clearThread(JNIEnv *env, ThreadNode *node)
+stbtic void
+clebrThrebd(JNIEnv *env, ThrebdNode *node)
 {
     if (node->pendingStop != NULL) {
-        tossGlobalRef(env, &(node->pendingStop));
+        tossGlobblRef(env, &(node->pendingStop));
     }
-    stepControl_clearRequest(node->thread, &node->currentStep);
-    if (node->isDebugThread) {
-        (void)threadControl_removeDebugThread(node->thread);
+    stepControl_clebrRequest(node->threbd, &node->currentStep);
+    if (node->isDebugThrebd) {
+        (void)threbdControl_removeDebugThrebd(node->threbd);
     }
-    /* Clear out TLS on this thread (just a cleanup action) */
-    setThreadLocalStorage(node->thread, NULL);
-    tossGlobalRef(env, &(node->thread));
-    bagDestroyBag(node->eventBag);
-    jvmtiDeallocate(node);
+    /* Clebr out TLS on this threbd (just b clebnup bction) */
+    setThrebdLocblStorbge(node->threbd, NULL);
+    tossGlobblRef(env, &(node->threbd));
+    bbgDestroyBbg(node->eventBbg);
+    jvmtiDebllocbte(node);
 }
 
-static void
-removeThread(JNIEnv *env, ThreadList *list, jthread thread)
+stbtic void
+removeThrebd(JNIEnv *env, ThrebdList *list, jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    node = findThread(list, thread);
+    node = findThrebd(list, threbd);
     if (node != NULL) {
         removeNode(list, node);
-        clearThread(env, node);
+        clebrThrebd(env, node);
     }
 }
 
-static void
-removeResumed(JNIEnv *env, ThreadList *list)
+stbtic void
+removeResumed(JNIEnv *env, ThrebdList *list)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
     node = list->first;
     while (node != NULL) {
-        ThreadNode *temp = node->next;
+        ThrebdNode *temp = node->next;
         if (node->suspendCount == 0) {
-            removeThread(env, list, node->thread);
+            removeThrebd(env, list, node->threbd);
         }
         node = temp;
     }
 }
 
-static void
-moveNode(ThreadList *source, ThreadList *dest, ThreadNode *node)
+stbtic void
+moveNode(ThrebdList *source, ThrebdList *dest, ThrebdNode *node)
 {
     removeNode(source, node);
-    JDI_ASSERT(findThread(dest, node->thread) == NULL);
-    addNode(dest, node);
+    JDI_ASSERT(findThrebd(dest, node->threbd) == NULL);
+    bddNode(dest, node);
 }
 
-typedef jvmtiError (*ThreadEnumerateFunction)(JNIEnv *, ThreadNode *, void *);
+typedef jvmtiError (*ThrebdEnumerbteFunction)(JNIEnv *, ThrebdNode *, void *);
 
-static jvmtiError
-enumerateOverThreadList(JNIEnv *env, ThreadList *list,
-                        ThreadEnumerateFunction function, void *arg)
+stbtic jvmtiError
+enumerbteOverThrebdList(JNIEnv *env, ThrebdList *list,
+                        ThrebdEnumerbteFunction function, void *brg)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
     jvmtiError error = JVMTI_ERROR_NONE;
 
     for (node = list->first; node != NULL; node = node->next) {
-        error = (*function)(env, node, arg);
+        error = (*function)(env, node, brg);
         if ( error != JVMTI_ERROR_NONE ) {
-            break;
+            brebk;
         }
     }
     return error;
 }
 
-static void
+stbtic void
 insertEventMode(DeferredEventModeList *list, DeferredEventMode *eventMode)
 {
-    if (list->last != NULL) {
-        list->last->next = eventMode;
+    if (list->lbst != NULL) {
+        list->lbst->next = eventMode;
     } else {
         list->first = eventMode;
     }
-    list->last = eventMode;
+    list->lbst = eventMode;
 }
 
-static void
+stbtic void
 removeEventMode(DeferredEventModeList *list, DeferredEventMode *eventMode, DeferredEventMode *prev)
 {
     if (prev == NULL) {
@@ -449,22 +449,22 @@ removeEventMode(DeferredEventModeList *list, DeferredEventMode *eventMode, Defer
         prev->next = eventMode->next;
     }
     if (eventMode->next == NULL) {
-        list->last = prev;
+        list->lbst = prev;
     }
 }
 
-static jvmtiError
-addDeferredEventMode(JNIEnv *env, jvmtiEventMode mode, EventIndex ei, jthread thread)
+stbtic jvmtiError
+bddDeferredEventMode(JNIEnv *env, jvmtiEventMode mode, EventIndex ei, jthrebd threbd)
 {
     DeferredEventMode *eventMode;
 
     /*LINTED*/
-    eventMode = jvmtiAllocate((jint)sizeof(DeferredEventMode));
+    eventMode = jvmtiAllocbte((jint)sizeof(DeferredEventMode));
     if (eventMode == NULL) {
         return AGENT_ERROR_OUT_OF_MEMORY;
     }
-    eventMode->thread = NULL;
-    saveGlobalRef(env, thread, &(eventMode->thread));
+    eventMode->threbd = NULL;
+    sbveGlobblRef(env, threbd, &(eventMode->threbd));
     eventMode->mode = mode;
     eventMode->ei = ei;
     eventMode->next = NULL;
@@ -472,7 +472,7 @@ addDeferredEventMode(JNIEnv *env, jvmtiEventMode mode, EventIndex ei, jthread th
     return JVMTI_ERROR_NONE;
 }
 
-static void
+stbtic void
 freeDeferredEventModes(JNIEnv *env)
 {
     DeferredEventMode *eventMode;
@@ -480,17 +480,17 @@ freeDeferredEventModes(JNIEnv *env)
     while (eventMode != NULL) {
         DeferredEventMode *next;
         next = eventMode->next;
-        tossGlobalRef(env, &(eventMode->thread));
-        jvmtiDeallocate(eventMode);
+        tossGlobblRef(env, &(eventMode->threbd));
+        jvmtiDebllocbte(eventMode);
         eventMode = next;
     }
     deferredEventModes.first = NULL;
-    deferredEventModes.last = NULL;
+    deferredEventModes.lbst = NULL;
 }
 
-static jvmtiError
-threadSetEventNotificationMode(ThreadNode *node,
-        jvmtiEventMode mode, EventIndex ei, jthread thread)
+stbtic jvmtiError
+threbdSetEventNotificbtionMode(ThrebdNode *node,
+        jvmtiEventMode mode, EventIndex ei, jthrebd threbd)
 {
     jvmtiError error;
 
@@ -498,13 +498,13 @@ threadSetEventNotificationMode(ThreadNode *node,
     if (ei == EI_SINGLE_STEP) {
         node->instructionStepMode = mode;
     }
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventNotificationMode)
-        (gdata->jvmti, mode, eventIndex2jvmti(ei), thread);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetEventNotificbtionMode)
+        (gdbtb->jvmti, mode, eventIndex2jvmti(ei), threbd);
     return error;
 }
 
-static void
-processDeferredEventModes(JNIEnv *env, jthread thread, ThreadNode *node)
+stbtic void
+processDeferredEventModes(JNIEnv *env, jthrebd threbd, ThrebdNode *node)
 {
     jvmtiError error;
     DeferredEventMode *eventMode;
@@ -514,15 +514,15 @@ processDeferredEventModes(JNIEnv *env, jthread thread, ThreadNode *node)
     eventMode = deferredEventModes.first;
     while (eventMode != NULL) {
         DeferredEventMode *next = eventMode->next;
-        if (isSameObject(env, thread, eventMode->thread)) {
-            error = threadSetEventNotificationMode(node,
-                    eventMode->mode, eventMode->ei, eventMode->thread);
+        if (isSbmeObject(env, threbd, eventMode->threbd)) {
+            error = threbdSetEventNotificbtionMode(node,
+                    eventMode->mode, eventMode->ei, eventMode->threbd);
             if (error != JVMTI_ERROR_NONE) {
-                EXIT_ERROR(error, "cannot process deferred thread event notifications at thread start");
+                EXIT_ERROR(error, "cbnnot process deferred threbd event notificbtions bt threbd stbrt");
             }
             removeEventMode(&deferredEventModes, eventMode, prev);
-            tossGlobalRef(env, &(eventMode->thread));
-            jvmtiDeallocate(eventMode);
+            tossGlobblRef(env, &(eventMode->threbd));
+            jvmtiDebllocbte(eventMode);
         } else {
             prev = eventMode;
         }
@@ -530,71 +530,71 @@ processDeferredEventModes(JNIEnv *env, jthread thread, ThreadNode *node)
     }
 }
 
-static void
+stbtic void
 getLocks(void)
 {
     /*
-     * Anything which might be locked as part of the handling of
-     * a JVMTI event (which means: might be locked by an application
-     * thread) needs to be grabbed here. This allows thread control
-     * code to safely suspend and resume the application threads
-     * while ensuring they don't hold a critical lock.
+     * Anything which might be locked bs pbrt of the hbndling of
+     * b JVMTI event (which mebns: might be locked by bn bpplicbtion
+     * threbd) needs to be grbbbed here. This bllows threbd control
+     * code to sbfely suspend bnd resume the bpplicbtion threbds
+     * while ensuring they don't hold b criticbl lock.
      */
 
-    eventHandler_lock();
+    eventHbndler_lock();
     invoker_lock();
     eventHelper_lock();
     stepControl_lock();
     commonRef_lock();
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
 }
 
-static void
-releaseLocks(void)
+stbtic void
+relebseLocks(void)
 {
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     commonRef_unlock();
     stepControl_unlock();
     eventHelper_unlock();
     invoker_unlock();
-    eventHandler_unlock();
+    eventHbndler_unlock();
 }
 
 void
-threadControl_initialize(void)
+threbdControl_initiblize(void)
 {
-    jlocation unused;
+    jlocbtion unused;
     jvmtiError error;
 
     suspendAllCount = 0;
-    runningThreads.first = NULL;
-    otherThreads.first = NULL;
-    debugThreadCount = 0;
-    threadLock = debugMonitorCreate("JDWP Thread Lock");
-    if (gdata->threadClass==NULL) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "no java.lang.thread class");
+    runningThrebds.first = NULL;
+    otherThrebds.first = NULL;
+    debugThrebdCount = 0;
+    threbdLock = debugMonitorCrebte("JDWP Threbd Lock");
+    if (gdbtb->threbdClbss==NULL) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "no jbvb.lbng.threbd clbss");
     }
-    if (gdata->threadResume==0) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "cannot resume thread");
+    if (gdbtb->threbdResume==0) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "cbnnot resume threbd");
     }
-    /* Get the java.lang.Thread.resume() method beginning location */
-    error = methodLocation(gdata->threadResume, &resumeLocation, &unused);
+    /* Get the jbvb.lbng.Threbd.resume() method beginning locbtion */
+    error = methodLocbtion(gdbtb->threbdResume, &resumeLocbtion, &unused);
     if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting method location");
+        EXIT_ERROR(error, "getting method locbtion");
     }
 }
 
-static jthread
-getResumee(jthread resumingThread)
+stbtic jthrebd
+getResumee(jthrebd resumingThrebd)
 {
-    jthread resumee = NULL;
+    jthrebd resumee = NULL;
     jvmtiError error;
     jobject object;
-    FrameNumber fnum = 0;
+    FrbmeNumber fnum = 0;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                    (gdata->jvmti, resumingThread, fnum, 0, &object);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblObject)
+                    (gdbtb->jvmti, resumingThrebd, fnum, 0, &object);
     if (error == JVMTI_ERROR_NONE) {
         resumee = object;
     }
@@ -602,27 +602,27 @@ getResumee(jthread resumingThread)
 }
 
 
-static jboolean
-pendingAppResume(jboolean includeSuspended)
+stbtic jboolebn
+pendingAppResume(jboolebn includeSuspended)
 {
-    ThreadList *list;
-    ThreadNode *node;
+    ThrebdList *list;
+    ThrebdNode *node;
 
-    list = &runningThreads;
+    list = &runningThrebds;
     node = list->first;
     while (node != NULL) {
-        if (node->resumeFrameDepth > 0) {
+        if (node->resumeFrbmeDepth > 0) {
             if (includeSuspended) {
                 return JNI_TRUE;
             } else {
                 jvmtiError error;
-                jint       state;
+                jint       stbte;
 
-                error = threadState(node->thread, &state);
+                error = threbdStbte(node->threbd, &stbte);
                 if (error != JVMTI_ERROR_NONE) {
-                    EXIT_ERROR(error, "getting thread state");
+                    EXIT_ERROR(error, "getting threbd stbte");
                 }
-                if (!(state & JVMTI_THREAD_STATE_SUSPENDED)) {
+                if (!(stbte & JVMTI_THREAD_STATE_SUSPENDED)) {
                     return JNI_TRUE;
                 }
             }
@@ -632,236 +632,236 @@ pendingAppResume(jboolean includeSuspended)
     return JNI_FALSE;
 }
 
-static void
+stbtic void
 notifyAppResumeComplete(void)
 {
-    debugMonitorNotifyAll(threadLock);
+    debugMonitorNotifyAll(threbdLock);
     if (!pendingAppResume(JNI_TRUE)) {
-        if (framePopHandlerNode != NULL) {
-            (void)eventHandler_free(framePopHandlerNode);
-            framePopHandlerNode = NULL;
+        if (frbmePopHbndlerNode != NULL) {
+            (void)eventHbndler_free(frbmePopHbndlerNode);
+            frbmePopHbndlerNode = NULL;
         }
-        if (catchHandlerNode != NULL) {
-            (void)eventHandler_free(catchHandlerNode);
-            catchHandlerNode = NULL;
+        if (cbtchHbndlerNode != NULL) {
+            (void)eventHbndler_free(cbtchHbndlerNode);
+            cbtchHbndlerNode = NULL;
         }
     }
 }
 
-static void
-handleAppResumeCompletion(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *handlerNode,
-                          struct bag *eventBag)
+stbtic void
+hbndleAppResumeCompletion(JNIEnv *env, EventInfo *evinfo,
+                          HbndlerNode *hbndlerNode,
+                          struct bbg *eventBbg)
 {
-    ThreadNode *node;
-    jthread     thread;
+    ThrebdNode *node;
+    jthrebd     threbd;
 
-    thread = evinfo->thread;
+    threbd = evinfo->threbd;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
-        if (node->resumeFrameDepth > 0) {
-            jint compareDepth = getStackDepth(thread);
+        if (node->resumeFrbmeDepth > 0) {
+            jint compbreDepth = getStbckDepth(threbd);
             if (evinfo->ei == EI_FRAME_POP) {
-                compareDepth--;
+                compbreDepth--;
             }
-            if (compareDepth < node->resumeFrameDepth) {
-                node->resumeFrameDepth = 0;
+            if (compbreDepth < node->resumeFrbmeDepth) {
+                node->resumeFrbmeDepth = 0;
                 notifyAppResumeComplete();
             }
         }
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
-static void
-blockOnDebuggerSuspend(jthread thread)
+stbtic void
+blockOnDebuggerSuspend(jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    node = findThread(NULL, thread);
+    node = findThrebd(NULL, threbd);
     if (node != NULL) {
         while (node && node->suspendCount > 0) {
-            debugMonitorWait(threadLock);
-            node = findThread(NULL, thread);
+            debugMonitorWbit(threbdLock);
+            node = findThrebd(NULL, threbd);
         }
     }
 }
 
-static void
-trackAppResume(jthread thread)
+stbtic void
+trbckAppResume(jthrebd threbd)
 {
     jvmtiError  error;
-    FrameNumber fnum;
-    ThreadNode *node;
+    FrbmeNumber fnum;
+    ThrebdNode *node;
 
     fnum = 0;
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
-        JDI_ASSERT(node->resumeFrameDepth == 0);
-        error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                        (gdata->jvmti, thread, fnum);
+        JDI_ASSERT(node->resumeFrbmeDepth == 0);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmePop)
+                        (gdbtb->jvmti, threbd, fnum);
         if (error == JVMTI_ERROR_NONE) {
-            jint frameDepth = getStackDepth(thread);
-            if ((frameDepth > 0) && (framePopHandlerNode == NULL)) {
-                framePopHandlerNode = eventHandler_createInternalThreadOnly(
+            jint frbmeDepth = getStbckDepth(threbd);
+            if ((frbmeDepth > 0) && (frbmePopHbndlerNode == NULL)) {
+                frbmePopHbndlerNode = eventHbndler_crebteInternblThrebdOnly(
                                            EI_FRAME_POP,
-                                           handleAppResumeCompletion,
-                                           thread);
-                catchHandlerNode = eventHandler_createInternalThreadOnly(
+                                           hbndleAppResumeCompletion,
+                                           threbd);
+                cbtchHbndlerNode = eventHbndler_crebteInternblThrebdOnly(
                                            EI_EXCEPTION_CATCH,
-                                           handleAppResumeCompletion,
-                                           thread);
-                if ((framePopHandlerNode == NULL) ||
-                    (catchHandlerNode == NULL)) {
-                    (void)eventHandler_free(framePopHandlerNode);
-                    framePopHandlerNode = NULL;
-                    (void)eventHandler_free(catchHandlerNode);
-                    catchHandlerNode = NULL;
+                                           hbndleAppResumeCompletion,
+                                           threbd);
+                if ((frbmePopHbndlerNode == NULL) ||
+                    (cbtchHbndlerNode == NULL)) {
+                    (void)eventHbndler_free(frbmePopHbndlerNode);
+                    frbmePopHbndlerNode = NULL;
+                    (void)eventHbndler_free(cbtchHbndlerNode);
+                    cbtchHbndlerNode = NULL;
                 }
             }
-            if ((framePopHandlerNode != NULL) &&
-                (catchHandlerNode != NULL) &&
-                (frameDepth > 0)) {
-                node->resumeFrameDepth = frameDepth;
+            if ((frbmePopHbndlerNode != NULL) &&
+                (cbtchHbndlerNode != NULL) &&
+                (frbmeDepth > 0)) {
+                node->resumeFrbmeDepth = frbmeDepth;
             }
         }
     }
 }
 
-static void
-handleAppResumeBreakpoint(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *handlerNode,
-                          struct bag *eventBag)
+stbtic void
+hbndleAppResumeBrebkpoint(JNIEnv *env, EventInfo *evinfo,
+                          HbndlerNode *hbndlerNode,
+                          struct bbg *eventBbg)
 {
-    jthread resumer = evinfo->thread;
-    jthread resumee = getResumee(resumer);
+    jthrebd resumer = evinfo->threbd;
+    jthrebd resumee = getResumee(resumer);
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     if (resumee != NULL) {
         /*
-         * Hold up any attempt to resume as long as the debugger
-         * has suspended the resumee.
+         * Hold up bny bttempt to resume bs long bs the debugger
+         * hbs suspended the resumee.
          */
         blockOnDebuggerSuspend(resumee);
     }
 
     if (resumer != NULL) {
         /*
-         * Track the resuming thread by marking it as being within
-         * a resume and by setting up for notification on
-         * a frame pop or exception. We won't allow the debugger
-         * to suspend threads while any thread is within a
-         * call to resume. This (along with the block above)
-         * ensures that when the debugger
-         * suspends a thread it will remain suspended.
+         * Trbck the resuming threbd by mbrking it bs being within
+         * b resume bnd by setting up for notificbtion on
+         * b frbme pop or exception. We won't bllow the debugger
+         * to suspend threbds while bny threbd is within b
+         * cbll to resume. This (blong with the block bbove)
+         * ensures thbt when the debugger
+         * suspends b threbd it will rembin suspended.
          */
-        trackAppResume(resumer);
+        trbckAppResume(resumer);
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
 void
-threadControl_onConnect(void)
+threbdControl_onConnect(void)
 {
-    breakpointHandlerNode = eventHandler_createInternalBreakpoint(
-                 handleAppResumeBreakpoint, NULL,
-                 gdata->threadClass, gdata->threadResume, resumeLocation);
+    brebkpointHbndlerNode = eventHbndler_crebteInternblBrebkpoint(
+                 hbndleAppResumeBrebkpoint, NULL,
+                 gdbtb->threbdClbss, gdbtb->threbdResume, resumeLocbtion);
 }
 
 void
-threadControl_onDisconnect(void)
+threbdControl_onDisconnect(void)
 {
-    if (breakpointHandlerNode != NULL) {
-        (void)eventHandler_free(breakpointHandlerNode);
-        breakpointHandlerNode = NULL;
+    if (brebkpointHbndlerNode != NULL) {
+        (void)eventHbndler_free(brebkpointHbndlerNode);
+        brebkpointHbndlerNode = NULL;
     }
-    if (framePopHandlerNode != NULL) {
-        (void)eventHandler_free(framePopHandlerNode);
-        framePopHandlerNode = NULL;
+    if (frbmePopHbndlerNode != NULL) {
+        (void)eventHbndler_free(frbmePopHbndlerNode);
+        frbmePopHbndlerNode = NULL;
     }
-    if (catchHandlerNode != NULL) {
-        (void)eventHandler_free(catchHandlerNode);
-        catchHandlerNode = NULL;
+    if (cbtchHbndlerNode != NULL) {
+        (void)eventHbndler_free(cbtchHbndlerNode);
+        cbtchHbndlerNode = NULL;
     }
 }
 
 void
-threadControl_onHook(void)
+threbdControl_onHook(void)
 {
     /*
-     * As soon as the event hook is in place, we need to initialize
-     * the thread list with already-existing threads. The threadLock
-     * has been held since initialize, so we don't need to worry about
-     * insertions or deletions from the event handlers while we do this
+     * As soon bs the event hook is in plbce, we need to initiblize
+     * the threbd list with blrebdy-existing threbds. The threbdLock
+     * hbs been held since initiblize, so we don't need to worry bbout
+     * insertions or deletions from the event hbndlers while we do this
      */
     JNIEnv *env;
 
     env = getEnv();
 
     /*
-     * Prevent any event processing until OnHook has been called
+     * Prevent bny event processing until OnHook hbs been cblled
      */
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
     WITH_LOCAL_REFS(env, 1) {
 
-        jint threadCount;
-        jthread *threads;
+        jint threbdCount;
+        jthrebd *threbds;
 
-        threads = allThreads(&threadCount);
-        if (threads == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table");
+        threbds = bllThrebds(&threbdCount);
+        if (threbds == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"threbd tbble");
         } else {
 
             int i;
 
-            for (i = 0; i < threadCount; i++) {
-                ThreadNode *node;
-                jthread thread = threads[i];
-                node = insertThread(env, &runningThreads, thread);
+            for (i = 0; i < threbdCount; i++) {
+                ThrebdNode *node;
+                jthrebd threbd = threbds[i];
+                node = insertThrebd(env, &runningThrebds, threbd);
 
                 /*
-                 * This is a tiny bit risky. We have to assume that the
-                 * pre-existing threads have been started because we
-                 * can't rely on a thread start event for them. The chances
-                 * of a problem related to this are pretty slim though, and
-                 * there's really no choice because without setting this flag
-                 * there is no way to enable stepping and other events on
-                 * the threads that already exist (e.g. the finalizer thread).
+                 * This is b tiny bit risky. We hbve to bssume thbt the
+                 * pre-existing threbds hbve been stbrted becbuse we
+                 * cbn't rely on b threbd stbrt event for them. The chbnces
+                 * of b problem relbted to this bre pretty slim though, bnd
+                 * there's reblly no choice becbuse without setting this flbg
+                 * there is no wby to enbble stepping bnd other events on
+                 * the threbds thbt blrebdy exist (e.g. the finblizer threbd).
                  */
-                node->isStarted = JNI_TRUE;
+                node->isStbrted = JNI_TRUE;
             }
         }
 
     } END_WITH_LOCAL_REFS(env)
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
-static jvmtiError
-commonSuspendByNode(ThreadNode *node)
+stbtic jvmtiError
+commonSuspendByNode(ThrebdNode *node)
 {
     jvmtiError error;
 
-    LOG_MISC(("thread=%p suspended", node->thread));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThread)
-                (gdata->jvmti, node->thread);
+    LOG_MISC(("threbd=%p suspended", node->threbd));
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspendThrebd)
+                (gdbtb->jvmti, node->threbd);
 
     /*
-     * Mark for resume only if suspend succeeded
+     * Mbrk for resume only if suspend succeeded
      */
     if (error == JVMTI_ERROR_NONE) {
         node->toBeResumed = JNI_TRUE;
     }
 
     /*
-     * If the thread was suspended by another app thread,
-     * do nothing and report no error (we won't resume it later).
+     * If the threbd wbs suspended by bnother bpp threbd,
+     * do nothing bnd report no error (we won't resume it lbter).
      */
      if (error == JVMTI_ERROR_THREAD_SUSPENDED) {
         error = JVMTI_ERROR_NONE;
@@ -871,62 +871,62 @@ commonSuspendByNode(ThreadNode *node)
 }
 
 /*
- * Deferred suspends happen when the suspend is attempted on a thread
- * that is not started. Bookkeeping (suspendCount,etc.)
- * is handled by the original request, and once the thread actually
- * starts, an actual suspend is attempted. This function does the
- * deferred suspend without changing the bookkeeping that is already
- * in place.
+ * Deferred suspends hbppen when the suspend is bttempted on b threbd
+ * thbt is not stbrted. Bookkeeping (suspendCount,etc.)
+ * is hbndled by the originbl request, bnd once the threbd bctublly
+ * stbrts, bn bctubl suspend is bttempted. This function does the
+ * deferred suspend without chbnging the bookkeeping thbt is blrebdy
+ * in plbce.
  */
-static jint
-deferredSuspendThreadByNode(ThreadNode *node)
+stbtic jint
+deferredSuspendThrebdByNode(ThrebdNode *node)
 {
     jvmtiError error;
 
     error = JVMTI_ERROR_NONE;
-    if (node->isDebugThread) {
-        /* Ignore requests for suspending debugger threads */
+    if (node->isDebugThrebd) {
+        /* Ignore requests for suspending debugger threbds */
         return JVMTI_ERROR_NONE;
     }
 
     /*
-     * Do the actual suspend only if a subsequent resume hasn't
-     * made it irrelevant.
+     * Do the bctubl suspend only if b subsequent resume hbsn't
+     * mbde it irrelevbnt.
      */
     if (node->suspendCount > 0) {
         error = commonSuspendByNode(node);
 
         /*
-         * Attempt to clean up from any error by decrementing the
-         * suspend count. This compensates for the increment that
-         * happens when suspendOnStart is set to true.
+         * Attempt to clebn up from bny error by decrementing the
+         * suspend count. This compensbtes for the increment thbt
+         * hbppens when suspendOnStbrt is set to true.
          */
         if (error != JVMTI_ERROR_NONE) {
           node->suspendCount--;
         }
     }
 
-    node->suspendOnStart = JNI_FALSE;
+    node->suspendOnStbrt = JNI_FALSE;
 
-    debugMonitorNotifyAll(threadLock);
+    debugMonitorNotifyAll(threbdLock);
 
     return error;
 }
 
-static jvmtiError
-suspendThreadByNode(ThreadNode *node)
+stbtic jvmtiError
+suspendThrebdByNode(ThrebdNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
-    if (node->isDebugThread) {
-        /* Ignore requests for suspending debugger threads */
+    if (node->isDebugThrebd) {
+        /* Ignore requests for suspending debugger threbds */
         return JVMTI_ERROR_NONE;
     }
 
     /*
-     * Just increment the suspend count if we are waiting
-     * for a deferred suspend.
+     * Just increment the suspend count if we bre wbiting
+     * for b deferred suspend.
      */
-    if (node->suspendOnStart) {
+    if (node->suspendOnStbrt) {
         node->suspendCount++;
         return JVMTI_ERROR_NONE;
     }
@@ -936,13 +936,13 @@ suspendThreadByNode(ThreadNode *node)
 
         if (error == JVMTI_ERROR_THREAD_NOT_ALIVE) {
             /*
-             * This error means that the thread is either a zombie or not yet
-             * started. In either case, we ignore the error. If the thread
-             * is a zombie, suspend/resume are no-ops. If the thread is not
-             * started, it will be suspended for real during the processing
-             * of its thread start event.
+             * This error mebns thbt the threbd is either b zombie or not yet
+             * stbrted. In either cbse, we ignore the error. If the threbd
+             * is b zombie, suspend/resume bre no-ops. If the threbd is not
+             * stbrted, it will be suspended for rebl during the processing
+             * of its threbd stbrt event.
              */
-            node->suspendOnStart = JNI_TRUE;
+            node->suspendOnStbrt = JNI_TRUE;
             error = JVMTI_ERROR_NONE;
         }
     }
@@ -951,36 +951,36 @@ suspendThreadByNode(ThreadNode *node)
         node->suspendCount++;
     }
 
-    debugMonitorNotifyAll(threadLock);
+    debugMonitorNotifyAll(threbdLock);
 
     return error;
 }
 
-static jvmtiError
-resumeThreadByNode(ThreadNode *node)
+stbtic jvmtiError
+resumeThrebdByNode(ThrebdNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
 
-    if (node->isDebugThread) {
+    if (node->isDebugThrebd) {
         /* never suspended by debugger => don't ever try to resume */
         return JVMTI_ERROR_NONE;
     }
     if (node->suspendCount > 0) {
         node->suspendCount--;
-        debugMonitorNotifyAll(threadLock);
+        debugMonitorNotifyAll(threbdLock);
         if ((node->suspendCount == 0) && node->toBeResumed &&
-            !node->suspendOnStart) {
-            LOG_MISC(("thread=%p resumed", node->thread));
-            error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)
-                        (gdata->jvmti, node->thread);
-            node->frameGeneration++; /* Increment on each resume */
+            !node->suspendOnStbrt) {
+            LOG_MISC(("threbd=%p resumed", node->threbd));
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,ResumeThrebd)
+                        (gdbtb->jvmti, node->threbd);
+            node->frbmeGenerbtion++; /* Increment on ebch resume */
             node->toBeResumed = JNI_FALSE;
-            if (error == JVMTI_ERROR_THREAD_NOT_ALIVE && !node->isStarted) {
+            if (error == JVMTI_ERROR_THREAD_NOT_ALIVE && !node->isStbrted) {
                 /*
-                 * We successfully "suspended" this thread, but
-                 * we never received a THREAD_START event for it.
-                 * Since the thread never ran, we can ignore our
-                 * failure to resume the thread.
+                 * We successfully "suspended" this threbd, but
+                 * we never received b THREAD_START event for it.
+                 * Since the threbd never rbn, we cbn ignore our
+                 * fbilure to resume the threbd.
                  */
                 error = JVMTI_ERROR_NONE;
             }
@@ -992,85 +992,85 @@ resumeThreadByNode(ThreadNode *node)
 
 /*
  * Functions which respond to user requests to suspend/resume
- * threads.
- * Suspends and resumes add and subtract from a count respectively.
- * The thread is only suspended when the count goes from 0 to 1 and
+ * threbds.
+ * Suspends bnd resumes bdd bnd subtrbct from b count respectively.
+ * The threbd is only suspended when the count goes from 0 to 1 bnd
  * resumed only when the count goes from 1 to 0.
  *
- * These functions suspend and resume application threads
- * without changing the
- * state of threads that were already suspended beforehand.
- * They must not be called from an application thread because
- * that thread may be suspended somewhere in the  middle of things.
+ * These functions suspend bnd resume bpplicbtion threbds
+ * without chbnging the
+ * stbte of threbds thbt were blrebdy suspended beforehbnd.
+ * They must not be cblled from bn bpplicbtion threbd becbuse
+ * thbt threbd mby be suspended somewhere in the  middle of things.
  */
-static void
+stbtic void
 preSuspend(void)
 {
-    getLocks();                     /* Avoid debugger deadlocks */
+    getLocks();                     /* Avoid debugger debdlocks */
 
     /*
-     * Delay any suspend while a call to java.lang.Thread.resume is in
-     * progress (not including those in suspended threads). The wait is
-     * timed because the threads suspended through
-     * java.lang.Thread.suspend won't result in a notify even though
-     * it may change the result of pendingAppResume()
+     * Delby bny suspend while b cbll to jbvb.lbng.Threbd.resume is in
+     * progress (not including those in suspended threbds). The wbit is
+     * timed becbuse the threbds suspended through
+     * jbvb.lbng.Threbd.suspend won't result in b notify even though
+     * it mby chbnge the result of pendingAppResume()
      */
     while (pendingAppResume(JNI_FALSE)) {
         /*
-         * This is ugly but we need to release the locks from getLocks
-         * or else the notify will never happen. The locks must be
-         * released and reacquired in the right order. else deadlocks
-         * can happen. It is possible that, during this dance, the
-         * notify will be missed, but since the wait needs to be timed
-         * anyway, it won't be a disaster. Note that this code will
-         * execute only on very rare occasions anyway.
+         * This is ugly but we need to relebse the locks from getLocks
+         * or else the notify will never hbppen. The locks must be
+         * relebsed bnd rebcquired in the right order. else debdlocks
+         * cbn hbppen. It is possible thbt, during this dbnce, the
+         * notify will be missed, but since the wbit needs to be timed
+         * bnywby, it won't be b disbster. Note thbt this code will
+         * execute only on very rbre occbsions bnywby.
          */
-        releaseLocks();
+        relebseLocks();
 
-        debugMonitorEnter(threadLock);
-        debugMonitorTimedWait(threadLock, 1000);
-        debugMonitorExit(threadLock);
+        debugMonitorEnter(threbdLock);
+        debugMonitorTimedWbit(threbdLock, 1000);
+        debugMonitorExit(threbdLock);
 
         getLocks();
     }
 }
 
-static void
+stbtic void
 postSuspend(void)
 {
-    releaseLocks();
+    relebseLocks();
 }
 
 /*
- * This function must be called after preSuspend and before postSuspend.
+ * This function must be cblled bfter preSuspend bnd before postSuspend.
  */
-static jvmtiError
-commonSuspend(JNIEnv *env, jthread thread, jboolean deferred)
+stbtic jvmtiError
+commonSuspend(JNIEnv *env, jthrebd threbd, jboolebn deferred)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
     /*
-     * If the thread is not between its start and end events, we should
-     * still suspend it. To keep track of things, add the thread
-     * to a separate list of threads so that we'll resume it later.
+     * If the threbd is not between its stbrt bnd end events, we should
+     * still suspend it. To keep trbck of things, bdd the threbd
+     * to b sepbrbte list of threbds so thbt we'll resume it lbter.
      */
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node == NULL) {
-        node = insertThread(env, &otherThreads, thread);
+        node = insertThrebd(env, &otherThrebds, threbd);
     }
 
     if ( deferred ) {
-        return deferredSuspendThreadByNode(node);
+        return deferredSuspendThrebdByNode(node);
     } else {
-        return suspendThreadByNode(node);
+        return suspendThrebdByNode(node);
     }
 }
 
 
-static jvmtiError
-resumeCopyHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtic jvmtiError
+resumeCopyHelper(JNIEnv *env, ThrebdNode *node, void *brg)
 {
-    if (node->isDebugThread) {
+    if (node->isDebugThrebd) {
         /* never suspended by debugger => don't ever try to resume */
         return JVMTI_ERROR_NONE;
     }
@@ -1082,364 +1082,364 @@ resumeCopyHelper(JNIEnv *env, ThreadNode *node, void *arg)
     }
 
     /*
-     * This thread was marked for suspension since its THREAD_START
-     * event came in during a suspendAll, but the helper hasn't
+     * This threbd wbs mbrked for suspension since its THREAD_START
+     * event cbme in during b suspendAll, but the helper hbsn't
      * completed the job yet. We decrement the count so the helper
-     * won't suspend this thread after we are done with the resumeAll.
-     * Another case to be handled here is when the debugger suspends
-     * the thread while the app has it suspended. In this case,
-     * the toBeResumed flag has been cleared indicating that
-     * the thread should not be resumed when the debugger does a resume.
-     * In this case, we also have to decrement the suspend count.
-     * If we don't then when the app resumes the thread and our Thread.resume
-     * bkpt handler is called, blockOnDebuggerSuspend will not resume
-     * the thread because suspendCount will be 1 meaning that the
-     * debugger has the thread suspended.  See bug 6224859.
+     * won't suspend this threbd bfter we bre done with the resumeAll.
+     * Another cbse to be hbndled here is when the debugger suspends
+     * the threbd while the bpp hbs it suspended. In this cbse,
+     * the toBeResumed flbg hbs been clebred indicbting thbt
+     * the threbd should not be resumed when the debugger does b resume.
+     * In this cbse, we blso hbve to decrement the suspend count.
+     * If we don't then when the bpp resumes the threbd bnd our Threbd.resume
+     * bkpt hbndler is cblled, blockOnDebuggerSuspend will not resume
+     * the threbd becbuse suspendCount will be 1 mebning thbt the
+     * debugger hbs the threbd suspended.  See bug 6224859.
      */
-    if (node->suspendCount == 1 && (!node->toBeResumed || node->suspendOnStart)) {
+    if (node->suspendCount == 1 && (!node->toBeResumed || node->suspendOnStbrt)) {
         node->suspendCount--;
         return JVMTI_ERROR_NONE;
     }
 
-    if (arg == NULL) {
-        /* nothing to hard resume so we're done */
+    if (brg == NULL) {
+        /* nothing to hbrd resume so we're done */
         return JVMTI_ERROR_NONE;
     }
 
     /*
-     * This is tricky. A suspendCount of 1 and toBeResumed means that
-     * JVM/DI SuspendThread() or JVM/DI SuspendThreadList() was called
-     * on this thread. The check for !suspendOnStart is paranoia that
-     * we inherited from resumeThreadByNode().
+     * This is tricky. A suspendCount of 1 bnd toBeResumed mebns thbt
+     * JVM/DI SuspendThrebd() or JVM/DI SuspendThrebdList() wbs cblled
+     * on this threbd. The check for !suspendOnStbrt is pbrbnoib thbt
+     * we inherited from resumeThrebdByNode().
      */
-    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStart) {
-        jthread **listPtr = (jthread **)arg;
+    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStbrt) {
+        jthrebd **listPtr = (jthrebd **)brg;
 
-        **listPtr = node->thread;
+        **listPtr = node->threbd;
         (*listPtr)++;
     }
     return JVMTI_ERROR_NONE;
 }
 
 
-static jvmtiError
-resumeCountHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtic jvmtiError
+resumeCountHelper(JNIEnv *env, ThrebdNode *node, void *brg)
 {
-    if (node->isDebugThread) {
+    if (node->isDebugThrebd) {
         /* never suspended by debugger => don't ever try to resume */
         return JVMTI_ERROR_NONE;
     }
 
     /*
-     * This is tricky. A suspendCount of 1 and toBeResumed means that
-     * JVM/DI SuspendThread() or JVM/DI SuspendThreadList() was called
-     * on this thread. The check for !suspendOnStart is paranoia that
-     * we inherited from resumeThreadByNode().
+     * This is tricky. A suspendCount of 1 bnd toBeResumed mebns thbt
+     * JVM/DI SuspendThrebd() or JVM/DI SuspendThrebdList() wbs cblled
+     * on this threbd. The check for !suspendOnStbrt is pbrbnoib thbt
+     * we inherited from resumeThrebdByNode().
      */
-    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStart) {
-        jint *counter = (jint *)arg;
+    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStbrt) {
+        jint *counter = (jint *)brg;
 
         (*counter)++;
     }
     return JVMTI_ERROR_NONE;
 }
 
-static void *
-newArray(jint length, size_t nbytes)
+stbtic void *
+newArrby(jint length, size_t nbytes)
 {
     void *ptr;
-    ptr = jvmtiAllocate(length*(jint)nbytes);
+    ptr = jvmtiAllocbte(length*(jint)nbytes);
     if ( ptr != NULL ) {
         (void)memset(ptr, 0, length*nbytes);
     }
     return ptr;
 }
 
-static void
-deleteArray(void *ptr)
+stbtic void
+deleteArrby(void *ptr)
 {
-    jvmtiDeallocate(ptr);
+    jvmtiDebllocbte(ptr);
 }
 
 /*
- * This function must be called with the threadLock held.
+ * This function must be cblled with the threbdLock held.
  *
- * Two facts conspire to make this routine complicated:
+ * Two fbcts conspire to mbke this routine complicbted:
  *
- * 1) the VM doesn't support nested external suspend
- * 2) the original resumeAll code structure doesn't retrieve the
- *    entire thread list from JVMTI so we use the runningThreads
- *    list and two helpers to get the job done.
+ * 1) the VM doesn't support nested externbl suspend
+ * 2) the originbl resumeAll code structure doesn't retrieve the
+ *    entire threbd list from JVMTI so we use the runningThrebds
+ *    list bnd two helpers to get the job done.
  *
- * Because we hold the threadLock, state seen by resumeCountHelper()
- * is the same state seen in resumeCopyHelper(). resumeCountHelper()
- * just counts up the number of threads to be hard resumed.
- * resumeCopyHelper() does the accounting for nested suspends and
- * special cases and, finally, populates the list of hard resume
- * threads to be passed to ResumeThreadList().
+ * Becbuse we hold the threbdLock, stbte seen by resumeCountHelper()
+ * is the sbme stbte seen in resumeCopyHelper(). resumeCountHelper()
+ * just counts up the number of threbds to be hbrd resumed.
+ * resumeCopyHelper() does the bccounting for nested suspends bnd
+ * specibl cbses bnd, finblly, populbtes the list of hbrd resume
+ * threbds to be pbssed to ResumeThrebdList().
  *
- * At first glance, you might think that the accounting could be done
+ * At first glbnce, you might think thbt the bccounting could be done
  * in resumeCountHelper(), but then resumeCopyHelper() would see
- * "post-resume" state in the accounting values (suspendCount and
- * toBeResumed) and would not be able to distinguish between a thread
- * that needs a hard resume versus a thread that is already running.
+ * "post-resume" stbte in the bccounting vblues (suspendCount bnd
+ * toBeResumed) bnd would not be bble to distinguish between b threbd
+ * thbt needs b hbrd resume versus b threbd thbt is blrebdy running.
  */
-static jvmtiError
+stbtic jvmtiError
 commonResumeList(JNIEnv *env)
 {
     jvmtiError   error;
     jint         i;
     jint         reqCnt;
-    jthread     *reqList;
-    jthread     *reqPtr;
+    jthrebd     *reqList;
+    jthrebd     *reqPtr;
     jvmtiError  *results;
 
     reqCnt = 0;
 
-    /* count number of threads to hard resume */
-    (void) enumerateOverThreadList(env, &runningThreads, resumeCountHelper,
+    /* count number of threbds to hbrd resume */
+    (void) enumerbteOverThrebdList(env, &runningThrebds, resumeCountHelper,
                                    &reqCnt);
     if (reqCnt == 0) {
-        /* nothing to hard resume so do just the accounting part */
-        (void) enumerateOverThreadList(env, &runningThreads, resumeCopyHelper,
+        /* nothing to hbrd resume so do just the bccounting pbrt */
+        (void) enumerbteOverThrebdList(env, &runningThrebds, resumeCopyHelper,
                                        NULL);
         return JVMTI_ERROR_NONE;
     }
 
     /*LINTED*/
-    reqList = newArray(reqCnt, sizeof(jthread));
+    reqList = newArrby(reqCnt, sizeof(jthrebd));
     if (reqList == NULL) {
         EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"resume request list");
     }
     /*LINTED*/
-    results = newArray(reqCnt, sizeof(jvmtiError));
+    results = newArrby(reqCnt, sizeof(jvmtiError));
     if (results == NULL) {
         EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"resume list");
     }
 
-    /* copy the jthread values for threads to hard resume */
+    /* copy the jthrebd vblues for threbds to hbrd resume */
     reqPtr = reqList;
-    (void) enumerateOverThreadList(env, &runningThreads, resumeCopyHelper,
+    (void) enumerbteOverThrebdList(env, &runningThrebds, resumeCopyHelper,
                                    &reqPtr);
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThreadList)
-                (gdata->jvmti, reqCnt, reqList, results);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,ResumeThrebdList)
+                (gdbtb->jvmti, reqCnt, reqList, results);
     for (i = 0; i < reqCnt; i++) {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(&runningThreads, reqList[i]);
+        node = findThrebd(&runningThrebds, reqList[i]);
         if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in running thread table");
+            EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in running threbd tbble");
         }
-        LOG_MISC(("thread=%p resumed as part of list", node->thread));
+        LOG_MISC(("threbd=%p resumed bs pbrt of list", node->threbd));
 
         /*
-         * resumeThreadByNode() assumes that JVM/DI ResumeThread()
-         * always works and does all the accounting updates. We do
-         * the same here. We also don't clear the error.
+         * resumeThrebdByNode() bssumes thbt JVM/DI ResumeThrebd()
+         * blwbys works bnd does bll the bccounting updbtes. We do
+         * the sbme here. We blso don't clebr the error.
          */
         node->suspendCount--;
         node->toBeResumed = JNI_FALSE;
-        node->frameGeneration++; /* Increment on each resume */
+        node->frbmeGenerbtion++; /* Increment on ebch resume */
     }
-    deleteArray(results);
-    deleteArray(reqList);
+    deleteArrby(results);
+    deleteArrby(reqList);
 
-    debugMonitorNotifyAll(threadLock);
+    debugMonitorNotifyAll(threbdLock);
 
     return error;
 }
 
 
 /*
- * This function must be called after preSuspend and before postSuspend.
+ * This function must be cblled bfter preSuspend bnd before postSuspend.
  */
-static jvmtiError
-commonSuspendList(JNIEnv *env, jint initCount, jthread *initList)
+stbtic jvmtiError
+commonSuspendList(JNIEnv *env, jint initCount, jthrebd *initList)
 {
     jvmtiError  error;
     jint        i;
     jint        reqCnt;
-    jthread    *reqList;
+    jthrebd    *reqList;
 
     error   = JVMTI_ERROR_NONE;
     reqCnt  = 0;
-    reqList = newArray(initCount, sizeof(jthread));
+    reqList = newArrby(initCount, sizeof(jthrebd));
     if (reqList == NULL) {
         EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"request list");
     }
 
     /*
-     * Go through the initial list and see if we have anything to suspend.
+     * Go through the initibl list bnd see if we hbve bnything to suspend.
      */
     for (i = 0; i < initCount; i++) {
-        ThreadNode *node;
+        ThrebdNode *node;
 
         /*
-         * If the thread is not between its start and end events, we should
-         * still suspend it. To keep track of things, add the thread
-         * to a separate list of threads so that we'll resume it later.
+         * If the threbd is not between its stbrt bnd end events, we should
+         * still suspend it. To keep trbck of things, bdd the threbd
+         * to b sepbrbte list of threbds so thbt we'll resume it lbter.
          */
-        node = findThread(&runningThreads, initList[i]);
+        node = findThrebd(&runningThrebds, initList[i]);
         if (node == NULL) {
-            node = insertThread(env, &otherThreads, initList[i]);
+            node = insertThrebd(env, &otherThrebds, initList[i]);
         }
 
-        if (node->isDebugThread) {
-            /* Ignore requests for suspending debugger threads */
+        if (node->isDebugThrebd) {
+            /* Ignore requests for suspending debugger threbds */
             continue;
         }
 
         /*
-         * Just increment the suspend count if we are waiting
-         * for a deferred suspend or if this is a nested suspend.
+         * Just increment the suspend count if we bre wbiting
+         * for b deferred suspend or if this is b nested suspend.
          */
-        if (node->suspendOnStart || node->suspendCount > 0) {
+        if (node->suspendOnStbrt || node->suspendCount > 0) {
             node->suspendCount++;
             continue;
         }
 
         if (node->suspendCount == 0) {
-            /* thread is not suspended yet so put it on the request list */
+            /* threbd is not suspended yet so put it on the request list */
             reqList[reqCnt++] = initList[i];
         }
     }
 
     if (reqCnt > 0) {
-        jvmtiError *results = newArray(reqCnt, sizeof(jvmtiError));
+        jvmtiError *results = newArrby(reqCnt, sizeof(jvmtiError));
 
         if (results == NULL) {
             EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"suspend list results");
         }
 
         /*
-         * We have something to suspend so try to do it.
+         * We hbve something to suspend so try to do it.
          */
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThreadList)
-                        (gdata->jvmti, reqCnt, reqList, results);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspendThrebdList)
+                        (gdbtb->jvmti, reqCnt, reqList, results);
         for (i = 0; i < reqCnt; i++) {
-            ThreadNode *node;
+            ThrebdNode *node;
 
-            node = findThread(NULL, reqList[i]);
+            node = findThrebd(NULL, reqList[i]);
             if (node == NULL) {
-                EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in thread tables");
+                EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in threbd tbbles");
             }
-            LOG_MISC(("thread=%p suspended as part of list", node->thread));
+            LOG_MISC(("threbd=%p suspended bs pbrt of list", node->threbd));
 
             if (results[i] == JVMTI_ERROR_NONE) {
-                /* thread was suspended as requested */
+                /* threbd wbs suspended bs requested */
                 node->toBeResumed = JNI_TRUE;
             } else if (results[i] == JVMTI_ERROR_THREAD_SUSPENDED) {
                 /*
-                 * If the thread was suspended by another app thread,
-                 * do nothing and report no error (we won't resume it later).
+                 * If the threbd wbs suspended by bnother bpp threbd,
+                 * do nothing bnd report no error (we won't resume it lbter).
                  */
                 results[i] = JVMTI_ERROR_NONE;
             } else if (results[i] == JVMTI_ERROR_THREAD_NOT_ALIVE) {
                 /*
-                 * This error means that the suspend request failed
-                 * because the thread is either a zombie or not yet
-                 * started. In either case, we ignore the error. If the
-                 * thread is a zombie, suspend/resume are no-ops. If the
-                 * thread is not started, it will be suspended for real
-                 * during the processing of its thread start event.
+                 * This error mebns thbt the suspend request fbiled
+                 * becbuse the threbd is either b zombie or not yet
+                 * stbrted. In either cbse, we ignore the error. If the
+                 * threbd is b zombie, suspend/resume bre no-ops. If the
+                 * threbd is not stbrted, it will be suspended for rebl
+                 * during the processing of its threbd stbrt event.
                  */
-                node->suspendOnStart = JNI_TRUE;
+                node->suspendOnStbrt = JNI_TRUE;
                 results[i] = JVMTI_ERROR_NONE;
             }
 
-            /* count real, app and deferred (suspendOnStart) suspensions */
+            /* count rebl, bpp bnd deferred (suspendOnStbrt) suspensions */
             if (results[i] == JVMTI_ERROR_NONE) {
                 node->suspendCount++;
             }
         }
-        deleteArray(results);
+        deleteArrby(results);
     }
-    deleteArray(reqList);
+    deleteArrby(reqList);
 
-    debugMonitorNotifyAll(threadLock);
+    debugMonitorNotifyAll(threbdLock);
 
     return error;
 }
 
 
-static jvmtiError
-commonResume(jthread thread)
+stbtic jvmtiError
+commonResume(jthrebd threbd)
 {
     jvmtiError  error;
-    ThreadNode *node;
+    ThrebdNode *node;
 
     /*
-     * The thread is normally between its start and end events, but if
-     * not, check the auxiliary list used by threadControl_suspendThread.
+     * The threbd is normblly between its stbrt bnd end events, but if
+     * not, check the buxilibry list used by threbdControl_suspendThrebd.
      */
-    node = findThread(NULL, thread);
+    node = findThrebd(NULL, threbd);
 
     /*
      * If the node is in neither list, the debugger never suspended
-     * this thread, so do nothing.
+     * this threbd, so do nothing.
      */
     error = JVMTI_ERROR_NONE;
     if (node != NULL) {
-        error = resumeThreadByNode(node);
+        error = resumeThrebdByNode(node);
     }
     return error;
 }
 
 
 jvmtiError
-threadControl_suspendThread(jthread thread, jboolean deferred)
+threbdControl_suspendThrebd(jthrebd threbd, jboolebn deferred)
 {
     jvmtiError error;
     JNIEnv    *env;
 
     env = getEnv();
 
-    log_debugee_location("threadControl_suspendThread()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_suspendThrebd()", threbd, NULL, 0);
 
     preSuspend();
-    error = commonSuspend(env, thread, deferred);
+    error = commonSuspend(env, threbd, deferred);
     postSuspend();
 
     return error;
 }
 
 jvmtiError
-threadControl_resumeThread(jthread thread, jboolean do_unblock)
+threbdControl_resumeThrebd(jthrebd threbd, jboolebn do_unblock)
 {
     jvmtiError error;
     JNIEnv    *env;
 
     env = getEnv();
 
-    log_debugee_location("threadControl_resumeThread()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_resumeThrebd()", threbd, NULL, 0);
 
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    error = commonResume(thread);
-    removeResumed(env, &otherThreads);
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
+    eventHbndler_lock(); /* for proper lock order */
+    debugMonitorEnter(threbdLock);
+    error = commonResume(threbd);
+    removeResumed(env, &otherThrebds);
+    debugMonitorExit(threbdLock);
+    eventHbndler_unlock();
 
     if (do_unblock) {
-        /* let eventHelper.c: commandLoop() know we resumed one thread */
-        unblockCommandLoop();
+        /* let eventHelper.c: commbndLoop() know we resumed one threbd */
+        unblockCommbndLoop();
     }
 
     return error;
 }
 
 jvmtiError
-threadControl_suspendCount(jthread thread, jint *count)
+threbdControl_suspendCount(jthrebd threbd, jint *count)
 {
     jvmtiError  error;
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node == NULL) {
-        node = findThread(&otherThreads, thread);
+        node = findThrebd(&otherThrebds, threbd);
     }
 
     error = JVMTI_ERROR_NONE;
@@ -1448,23 +1448,23 @@ threadControl_suspendCount(jthread thread, jint *count)
     } else {
         /*
          * If the node is in neither list, the debugger never suspended
-         * this thread, so the suspend count is 0.
+         * this threbd, so the suspend count is 0.
          */
         *count = 0;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return error;
 }
 
-static jboolean
-contains(JNIEnv *env, jthread *list, jint count, jthread item)
+stbtic jboolebn
+contbins(JNIEnv *env, jthrebd *list, jint count, jthrebd item)
 {
     int i;
 
     for (i = 0; i < count; i++) {
-        if (isSameObject(env, list[i], item)) {
+        if (isSbmeObject(env, list[i], item)) {
             return JNI_TRUE;
         }
     }
@@ -1473,50 +1473,50 @@ contains(JNIEnv *env, jthread *list, jint count, jthread item)
 
 
 typedef struct {
-    jthread *list;
+    jthrebd *list;
     jint count;
 } SuspendAllArg;
 
-static jvmtiError
-suspendAllHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtic jvmtiError
+suspendAllHelper(JNIEnv *env, ThrebdNode *node, void *brg)
 {
-    SuspendAllArg *saArg = (SuspendAllArg *)arg;
+    SuspendAllArg *sbArg = (SuspendAllArg *)brg;
     jvmtiError error = JVMTI_ERROR_NONE;
-    jthread *list = saArg->list;
-    jint count = saArg->count;
-    if (!contains(env, list, count, node->thread)) {
-        error = commonSuspend(env, node->thread, JNI_FALSE);
+    jthrebd *list = sbArg->list;
+    jint count = sbArg->count;
+    if (!contbins(env, list, count, node->threbd)) {
+        error = commonSuspend(env, node->threbd, JNI_FALSE);
     }
     return error;
 }
 
 jvmtiError
-threadControl_suspendAll(void)
+threbdControl_suspendAll(void)
 {
     jvmtiError error;
     JNIEnv    *env;
 
     env = getEnv();
 
-    log_debugee_location("threadControl_suspendAll()", NULL, NULL, 0);
+    log_debugee_locbtion("threbdControl_suspendAll()", NULL, NULL, 0);
 
     preSuspend();
 
     /*
-     * Get a list of all threads and suspend them.
+     * Get b list of bll threbds bnd suspend them.
      */
     WITH_LOCAL_REFS(env, 1) {
 
-        jthread *threads;
+        jthrebd *threbds;
         jint count;
 
-        threads = allThreads(&count);
-        if (threads == NULL) {
+        threbds = bllThrebds(&count);
+        if (threbds == NULL) {
             error = AGENT_ERROR_OUT_OF_MEMORY;
             goto err;
         }
-        if (canSuspendResumeThreadLists()) {
-            error = commonSuspendList(env, count, threads);
+        if (cbnSuspendResumeThrebdLists()) {
+            error = commonSuspendList(env, count, threbds);
             if (error != JVMTI_ERROR_NONE) {
                 goto err;
             }
@@ -1525,7 +1525,7 @@ threadControl_suspendAll(void)
             int i;
 
             for (i = 0; i < count; i++) {
-                error = commonSuspend(env, threads[i], JNI_FALSE);
+                error = commonSuspend(env, threbds[i], JNI_FALSE);
 
                 if (error != JVMTI_ERROR_NONE) {
                     goto err;
@@ -1534,15 +1534,15 @@ threadControl_suspendAll(void)
         }
 
         /*
-         * Update the suspend count of any threads not yet (or no longer)
-         * in the thread list above.
+         * Updbte the suspend count of bny threbds not yet (or no longer)
+         * in the threbd list bbove.
          */
         {
-            SuspendAllArg arg;
-            arg.list = threads;
-            arg.count = count;
-            error = enumerateOverThreadList(env, &otherThreads,
-                                            suspendAllHelper, &arg);
+            SuspendAllArg brg;
+            brg.list = threbds;
+            brg.count = count;
+            error = enumerbteOverThrebdList(env, &otherThrebds,
+                                            suspendAllHelper, &brg);
         }
 
         if (error == JVMTI_ERROR_NONE) {
@@ -1558,128 +1558,128 @@ threadControl_suspendAll(void)
     return error;
 }
 
-static jvmtiError
-resumeHelper(JNIEnv *env, ThreadNode *node, void *ignored)
+stbtic jvmtiError
+resumeHelper(JNIEnv *env, ThrebdNode *node, void *ignored)
 {
     /*
-     * Since this helper is called with the threadLock held, we
+     * Since this helper is cblled with the threbdLock held, we
      * don't need to recheck to see if the node is still on one
-     * of the two thread lists.
+     * of the two threbd lists.
      */
-    return resumeThreadByNode(node);
+    return resumeThrebdByNode(node);
 }
 
 jvmtiError
-threadControl_resumeAll(void)
+threbdControl_resumeAll(void)
 {
     jvmtiError error;
     JNIEnv    *env;
 
     env = getEnv();
 
-    log_debugee_location("threadControl_resumeAll()", NULL, NULL, 0);
+    log_debugee_locbtion("threbdControl_resumeAll()", NULL, NULL, 0);
 
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
+    eventHbndler_lock(); /* for proper lock order */
+    debugMonitorEnter(threbdLock);
 
     /*
-     * Resume only those threads that the debugger has suspended. All
-     * such threads must have a node in one of the thread lists, so there's
-     * no need to get the whole thread list from JVMTI (unlike
+     * Resume only those threbds thbt the debugger hbs suspended. All
+     * such threbds must hbve b node in one of the threbd lists, so there's
+     * no need to get the whole threbd list from JVMTI (unlike
      * suspendAll).
      */
-    if (canSuspendResumeThreadLists()) {
+    if (cbnSuspendResumeThrebdLists()) {
         error = commonResumeList(env);
     } else {
-        error = enumerateOverThreadList(env, &runningThreads,
+        error = enumerbteOverThrebdList(env, &runningThrebds,
                                         resumeHelper, NULL);
     }
-    if ((error == JVMTI_ERROR_NONE) && (otherThreads.first != NULL)) {
-        error = enumerateOverThreadList(env, &otherThreads,
+    if ((error == JVMTI_ERROR_NONE) && (otherThrebds.first != NULL)) {
+        error = enumerbteOverThrebdList(env, &otherThrebds,
                                         resumeHelper, NULL);
-        removeResumed(env, &otherThreads);
+        removeResumed(env, &otherThrebds);
     }
 
     if (suspendAllCount > 0) {
         suspendAllCount--;
     }
 
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
-    /* let eventHelper.c: commandLoop() know we are resuming */
-    unblockCommandLoop();
+    debugMonitorExit(threbdLock);
+    eventHbndler_unlock();
+    /* let eventHelper.c: commbndLoop() know we bre resuming */
+    unblockCommbndLoop();
 
     return error;
 }
 
 
 StepRequest *
-threadControl_getStepRequest(jthread thread)
+threbdControl_getStepRequest(jthrebd threbd)
 {
-    ThreadNode  *node;
+    ThrebdNode  *node;
     StepRequest *step;
 
     step = NULL;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
         step = &node->currentStep;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return step;
 }
 
 InvokeRequest *
-threadControl_getInvokeRequest(jthread thread)
+threbdControl_getInvokeRequest(jthrebd threbd)
 {
-    ThreadNode    *node;
+    ThrebdNode    *node;
     InvokeRequest *request;
 
     request = NULL;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
          request = &node->currentInvoke;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return request;
 }
 
 jvmtiError
-threadControl_addDebugThread(jthread thread)
+threbdControl_bddDebugThrebd(jthrebd threbd)
 {
     jvmtiError error;
 
-    debugMonitorEnter(threadLock);
-    if (debugThreadCount >= MAX_DEBUG_THREADS) {
+    debugMonitorEnter(threbdLock);
+    if (debugThrebdCount >= MAX_DEBUG_THREADS) {
         error = AGENT_ERROR_OUT_OF_MEMORY;
     } else {
         JNIEnv    *env;
 
         env = getEnv();
-        debugThreads[debugThreadCount] = NULL;
-        saveGlobalRef(env, thread, &(debugThreads[debugThreadCount]));
-        if (debugThreads[debugThreadCount] == NULL) {
+        debugThrebds[debugThrebdCount] = NULL;
+        sbveGlobblRef(env, threbd, &(debugThrebds[debugThrebdCount]));
+        if (debugThrebds[debugThrebdCount] == NULL) {
             error = AGENT_ERROR_OUT_OF_MEMORY;
         } else {
-            debugThreadCount++;
+            debugThrebdCount++;
             error = JVMTI_ERROR_NONE;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     return error;
 }
 
-static jvmtiError
-threadControl_removeDebugThread(jthread thread)
+stbtic jvmtiError
+threbdControl_removeDebugThrebd(jthrebd threbd)
 {
     jvmtiError error;
     JNIEnv    *env;
@@ -1688,432 +1688,432 @@ threadControl_removeDebugThread(jthread thread)
     error = AGENT_ERROR_INVALID_THREAD;
     env   = getEnv();
 
-    debugMonitorEnter(threadLock);
-    for (i = 0; i< debugThreadCount; i++) {
-        if (isSameObject(env, thread, debugThreads[i])) {
+    debugMonitorEnter(threbdLock);
+    for (i = 0; i< debugThrebdCount; i++) {
+        if (isSbmeObject(env, threbd, debugThrebds[i])) {
             int j;
 
-            tossGlobalRef(env, &(debugThreads[i]));
-            for (j = i+1; j < debugThreadCount; j++) {
-                debugThreads[j-1] = debugThreads[j];
+            tossGlobblRef(env, &(debugThrebds[i]));
+            for (j = i+1; j < debugThrebdCount; j++) {
+                debugThrebds[j-1] = debugThrebds[j];
             }
-            debugThreadCount--;
+            debugThrebdCount--;
             error = JVMTI_ERROR_NONE;
-            break;
+            brebk;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     return error;
 }
 
-jboolean
-threadControl_isDebugThread(jthread thread)
+jboolebn
+threbdControl_isDebugThrebd(jthrebd threbd)
 {
     int      i;
-    jboolean rc;
+    jboolebn rc;
     JNIEnv  *env;
 
     rc  = JNI_FALSE;
     env = getEnv();
 
-    debugMonitorEnter(threadLock);
-    for (i = 0; i < debugThreadCount; i++) {
-        if (isSameObject(env, thread, debugThreads[i])) {
+    debugMonitorEnter(threbdLock);
+    for (i = 0; i < debugThrebdCount; i++) {
+        if (isSbmeObject(env, threbd, debugThrebds[i])) {
             rc = JNI_TRUE;
-            break;
+            brebk;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     return rc;
 }
 
-static void
+stbtic void
 initLocks(void)
 {
-    if (popFrameEventLock == NULL) {
-        popFrameEventLock = debugMonitorCreate("JDWP PopFrame Event Lock");
-        popFrameProceedLock = debugMonitorCreate("JDWP PopFrame Proceed Lock");
+    if (popFrbmeEventLock == NULL) {
+        popFrbmeEventLock = debugMonitorCrebte("JDWP PopFrbme Event Lock");
+        popFrbmeProceedLock = debugMonitorCrebte("JDWP PopFrbme Proceed Lock");
     }
 }
 
-static jboolean
-getPopFrameThread(jthread thread)
+stbtic jboolebn
+getPopFrbmeThrebd(jthrebd threbd)
 {
-    jboolean popFrameThread;
+    jboolebn popFrbmeThrebd;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            popFrameThread = JNI_FALSE;
+            popFrbmeThrebd = JNI_FALSE;
         } else {
-            popFrameThread = node->popFrameThread;
+            popFrbmeThrebd = node->popFrbmeThrebd;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    return popFrameThread;
+    return popFrbmeThrebd;
 }
 
-static void
-setPopFrameThread(jthread thread, jboolean value)
+stbtic void
+setPopFrbmeThrebd(jthrebd threbd, jboolebn vblue)
 {
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in threbd tbble");
         } else {
-            node->popFrameThread = value;
+            node->popFrbmeThrebd = vblue;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
-static jboolean
-getPopFrameEvent(jthread thread)
+stbtic jboolebn
+getPopFrbmeEvent(jthrebd threbd)
 {
-    jboolean popFrameEvent;
+    jboolebn popFrbmeEvent;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            popFrameEvent = JNI_FALSE;
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
+            popFrbmeEvent = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in threbd tbble");
         } else {
-            popFrameEvent = node->popFrameEvent;
+            popFrbmeEvent = node->popFrbmeEvent;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    return popFrameEvent;
+    return popFrbmeEvent;
 }
 
-static void
-setPopFrameEvent(jthread thread, jboolean value)
+stbtic void
+setPopFrbmeEvent(jthrebd threbd, jboolebn vblue)
 {
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in threbd tbble");
         } else {
-            node->popFrameEvent = value;
-            node->frameGeneration++; /* Increment on each resume */
+            node->popFrbmeEvent = vblue;
+            node->frbmeGenerbtion++; /* Increment on ebch resume */
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
-static jboolean
-getPopFrameProceed(jthread thread)
+stbtic jboolebn
+getPopFrbmeProceed(jthrebd threbd)
 {
-    jboolean popFrameProceed;
+    jboolebn popFrbmeProceed;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            popFrameProceed = JNI_FALSE;
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
+            popFrbmeProceed = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in threbd tbble");
         } else {
-            popFrameProceed = node->popFrameProceed;
+            popFrbmeProceed = node->popFrbmeProceed;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    return popFrameProceed;
+    return popFrbmeProceed;
 }
 
-static void
-setPopFrameProceed(jthread thread, jboolean value)
+stbtic void
+setPopFrbmeProceed(jthrebd threbd, jboolebn vblue)
 {
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
         if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in threbd tbble");
         } else {
-            node->popFrameProceed = value;
+            node->popFrbmeProceed = vblue;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
 /**
- * Special event handler for events on the popped thread
- * that occur during the pop operation.
+ * Specibl event hbndler for events on the popped threbd
+ * thbt occur during the pop operbtion.
  */
-static void
-popFrameCompleteEvent(jthread thread)
+stbtic void
+popFrbmeCompleteEvent(jthrebd threbd)
 {
-      debugMonitorEnter(popFrameProceedLock);
+      debugMonitorEnter(popFrbmeProceedLock);
       {
-          /* notify that we got the event */
-          debugMonitorEnter(popFrameEventLock);
+          /* notify thbt we got the event */
+          debugMonitorEnter(popFrbmeEventLock);
           {
-              setPopFrameEvent(thread, JNI_TRUE);
-              debugMonitorNotify(popFrameEventLock);
+              setPopFrbmeEvent(threbd, JNI_TRUE);
+              debugMonitorNotify(popFrbmeEventLock);
           }
-          debugMonitorExit(popFrameEventLock);
+          debugMonitorExit(popFrbmeEventLock);
 
-          /* make sure we get suspended again */
-          setPopFrameProceed(thread, JNI_FALSE);
-          while (getPopFrameProceed(thread) == JNI_FALSE) {
-              debugMonitorWait(popFrameProceedLock);
+          /* mbke sure we get suspended bgbin */
+          setPopFrbmeProceed(threbd, JNI_FALSE);
+          while (getPopFrbmeProceed(threbd) == JNI_FALSE) {
+              debugMonitorWbit(popFrbmeProceedLock);
           }
       }
-      debugMonitorExit(popFrameProceedLock);
+      debugMonitorExit(popFrbmeProceedLock);
 }
 
 /**
- * Pop one frame off the stack of thread.
- * popFrameEventLock is already held
+ * Pop one frbme off the stbck of threbd.
+ * popFrbmeEventLock is blrebdy held
  */
-static jvmtiError
-popOneFrame(jthread thread)
+stbtic jvmtiError
+popOneFrbme(jthrebd threbd)
 {
     jvmtiError error;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,PopFrame)(gdata->jvmti, thread);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,PopFrbme)(gdbtb->jvmti, threbd);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
 
-    /* resume the popped thread so that the pop occurs and so we */
-    /* will get the event (step or method entry) after the pop */
-    LOG_MISC(("thread=%p resumed in popOneFrame", thread));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)(gdata->jvmti, thread);
+    /* resume the popped threbd so thbt the pop occurs bnd so we */
+    /* will get the event (step or method entry) bfter the pop */
+    LOG_MISC(("threbd=%p resumed in popOneFrbme", threbd));
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,ResumeThrebd)(gdbtb->jvmti, threbd);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
 
-    /* wait for the event to occur */
-    setPopFrameEvent(thread, JNI_FALSE);
-    while (getPopFrameEvent(thread) == JNI_FALSE) {
-        debugMonitorWait(popFrameEventLock);
+    /* wbit for the event to occur */
+    setPopFrbmeEvent(threbd, JNI_FALSE);
+    while (getPopFrbmeEvent(threbd) == JNI_FALSE) {
+        debugMonitorWbit(popFrbmeEventLock);
     }
 
-    /* make sure not to suspend until the popped thread is on the wait */
-    debugMonitorEnter(popFrameProceedLock);
+    /* mbke sure not to suspend until the popped threbd is on the wbit */
+    debugMonitorEnter(popFrbmeProceedLock);
     {
-        /* return popped thread to suspended state */
-        LOG_MISC(("thread=%p suspended in popOneFrame", thread));
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThread)(gdata->jvmti, thread);
+        /* return popped threbd to suspended stbte */
+        LOG_MISC(("threbd=%p suspended in popOneFrbme", threbd));
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspendThrebd)(gdbtb->jvmti, threbd);
 
-        /* notify popped thread so it can proceed when resumed */
-        setPopFrameProceed(thread, JNI_TRUE);
-        debugMonitorNotify(popFrameProceedLock);
+        /* notify popped threbd so it cbn proceed when resumed */
+        setPopFrbmeProceed(threbd, JNI_TRUE);
+        debugMonitorNotify(popFrbmeProceedLock);
     }
-    debugMonitorExit(popFrameProceedLock);
+    debugMonitorExit(popFrbmeProceedLock);
 
     return error;
 }
 
 /**
- * pop frames of the stack of 'thread' until 'frame' is popped.
+ * pop frbmes of the stbck of 'threbd' until 'frbme' is popped.
  */
 jvmtiError
-threadControl_popFrames(jthread thread, FrameNumber fnum)
+threbdControl_popFrbmes(jthrebd threbd, FrbmeNumber fnum)
 {
     jvmtiError error;
     jvmtiEventMode prevStepMode;
-    jint framesPopped = 0;
+    jint frbmesPopped = 0;
     jint popCount;
-    jboolean prevInvokeRequestMode;
+    jboolebn prevInvokeRequestMode;
 
-    log_debugee_location("threadControl_popFrames()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_popFrbmes()", threbd, NULL, 0);
 
     initLocks();
 
-    /* compute the number of frames to pop */
+    /* compute the number of frbmes to pop */
     popCount = fnum+1;
     if (popCount < 1) {
         return AGENT_ERROR_NO_MORE_FRAMES;
     }
 
-    /* enable instruction level single step, but first note prev value */
-    prevStepMode = threadControl_getInstructionStepMode(thread);
+    /* enbble instruction level single step, but first note prev vblue */
+    prevStepMode = threbdControl_getInstructionStepMode(threbd);
 
     /*
-     * Fix bug 6517249.  The pop processing will disable invokes,
-     * so remember if invokes are enabled now and restore
-     * that state after we finish popping.
+     * Fix bug 6517249.  The pop processing will disbble invokes,
+     * so remember if invokes bre enbbled now bnd restore
+     * thbt stbte bfter we finish popping.
      */
-    prevInvokeRequestMode = invoker_isEnabled(thread);
+    prevInvokeRequestMode = invoker_isEnbbled(threbd);
 
-    error = threadControl_setEventMode(JVMTI_ENABLE,
-                                       EI_SINGLE_STEP, thread);
+    error = threbdControl_setEventMode(JVMTI_ENABLE,
+                                       EI_SINGLE_STEP, threbd);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
 
-    /* Inform eventHandler logic we are in a popFrame for this thread */
-    debugMonitorEnter(popFrameEventLock);
+    /* Inform eventHbndler logic we bre in b popFrbme for this threbd */
+    debugMonitorEnter(popFrbmeEventLock);
     {
-        setPopFrameThread(thread, JNI_TRUE);
-        /* pop frames using single step */
-        while (framesPopped++ < popCount) {
-            error = popOneFrame(thread);
+        setPopFrbmeThrebd(threbd, JNI_TRUE);
+        /* pop frbmes using single step */
+        while (frbmesPopped++ < popCount) {
+            error = popOneFrbme(threbd);
             if (error != JVMTI_ERROR_NONE) {
-                break;
+                brebk;
             }
         }
-        setPopFrameThread(thread, JNI_FALSE);
+        setPopFrbmeThrebd(threbd, JNI_FALSE);
     }
-    debugMonitorExit(popFrameEventLock);
+    debugMonitorExit(popFrbmeEventLock);
 
-    /*  Reset StepRequest info (fromLine and stackDepth) after popframes
-     *  only if stepping is enabled.
+    /*  Reset StepRequest info (fromLine bnd stbckDepth) bfter popfrbmes
+     *  only if stepping is enbbled.
      */
     if (prevStepMode == JVMTI_ENABLE) {
-        stepControl_resetRequest(thread);
+        stepControl_resetRequest(threbd);
     }
 
     if (prevInvokeRequestMode) {
-        invoker_enableInvokeRequests(thread);
+        invoker_enbbleInvokeRequests(threbd);
     }
 
-    /* restore state */
-    (void)threadControl_setEventMode(prevStepMode,
-                               EI_SINGLE_STEP, thread);
+    /* restore stbte */
+    (void)threbdControl_setEventMode(prevStepMode,
+                               EI_SINGLE_STEP, threbd);
 
     return error;
 }
 
-/* Check to see if any events are being consumed by a popFrame(). */
-static jboolean
-checkForPopFrameEvents(JNIEnv *env, EventIndex ei, jthread thread)
+/* Check to see if bny events bre being consumed by b popFrbme(). */
+stbtic jboolebn
+checkForPopFrbmeEvents(JNIEnv *env, EventIndex ei, jthrebd threbd)
 {
-    if ( getPopFrameThread(thread) ) {
+    if ( getPopFrbmeThrebd(threbd) ) {
         switch (ei) {
-            case EI_THREAD_START:
+            cbse EI_THREAD_START:
                 /* Excuse me? */
-                EXIT_ERROR(AGENT_ERROR_INTERNAL, "thread start during pop frame");
-                break;
-            case EI_THREAD_END:
-                /* Thread wants to end? let it. */
-                setPopFrameThread(thread, JNI_FALSE);
-                popFrameCompleteEvent(thread);
-                break;
-            case EI_SINGLE_STEP:
-                /* This is an event we requested to mark the */
-                /*        completion of the pop frame */
-                popFrameCompleteEvent(thread);
+                EXIT_ERROR(AGENT_ERROR_INTERNAL, "threbd stbrt during pop frbme");
+                brebk;
+            cbse EI_THREAD_END:
+                /* Threbd wbnts to end? let it. */
+                setPopFrbmeThrebd(threbd, JNI_FALSE);
+                popFrbmeCompleteEvent(threbd);
+                brebk;
+            cbse EI_SINGLE_STEP:
+                /* This is bn event we requested to mbrk the */
+                /*        completion of the pop frbme */
+                popFrbmeCompleteEvent(threbd);
                 return JNI_TRUE;
-            case EI_BREAKPOINT:
-            case EI_EXCEPTION:
-            case EI_FIELD_ACCESS:
-            case EI_FIELD_MODIFICATION:
-            case EI_METHOD_ENTRY:
-            case EI_METHOD_EXIT:
-                /* Tell event handler to assume event has been consumed. */
+            cbse EI_BREAKPOINT:
+            cbse EI_EXCEPTION:
+            cbse EI_FIELD_ACCESS:
+            cbse EI_FIELD_MODIFICATION:
+            cbse EI_METHOD_ENTRY:
+            cbse EI_METHOD_EXIT:
+                /* Tell event hbndler to bssume event hbs been consumed. */
                 return JNI_TRUE;
-            default:
-                break;
+            defbult:
+                brebk;
         }
     }
-    /* Pretend we were never called */
+    /* Pretend we were never cblled */
     return JNI_FALSE;
 }
 
-struct bag *
-threadControl_onEventHandlerEntry(jbyte sessionID, EventIndex ei, jthread thread, jobject currentException)
+struct bbg *
+threbdControl_onEventHbndlerEntry(jbyte sessionID, EventIndex ei, jthrebd threbd, jobject currentException)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
     JNIEnv     *env;
-    struct bag *eventBag;
-    jthread     threadToSuspend;
-    jboolean    consumed;
+    struct bbg *eventBbg;
+    jthrebd     threbdToSuspend;
+    jboolebn    consumed;
 
     env             = getEnv();
-    threadToSuspend = NULL;
+    threbdToSuspend = NULL;
 
-    log_debugee_location("threadControl_onEventHandlerEntry()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_onEventHbndlerEntry()", threbd, NULL, 0);
 
-    /* Events during pop commands may need to be ignored here. */
-    consumed = checkForPopFrameEvents(env, ei, thread);
+    /* Events during pop commbnds mby need to be ignored here. */
+    consumed = checkForPopFrbmeEvents(env, ei, threbd);
     if ( consumed ) {
-        /* Always restore any exception (see below). */
+        /* Alwbys restore bny exception (see below). */
         if (currentException != NULL) {
             JNI_FUNC_PTR(env,Throw)(env, currentException);
         } else {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
         }
         return NULL;
     }
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
     /*
-     * Check the list of unknown threads maintained by suspend
-     * and resume. If this thread is currently present in the
+     * Check the list of unknown threbds mbintbined by suspend
+     * bnd resume. If this threbd is currently present in the
      * list, it should be
-     * moved to the runningThreads list, since it is a
-     * well-known thread now.
+     * moved to the runningThrebds list, since it is b
+     * well-known threbd now.
      */
-    node = findThread(&otherThreads, thread);
+    node = findThrebd(&otherThrebds, threbd);
     if (node != NULL) {
-        moveNode(&otherThreads, &runningThreads, node);
+        moveNode(&otherThrebds, &runningThrebds, node);
     } else {
         /*
-         * Get a thread node for the reporting thread. For thread start
-         * events, or if this event precedes a thread start event,
-         * the thread node may need to be created.
+         * Get b threbd node for the reporting threbd. For threbd stbrt
+         * events, or if this event precedes b threbd stbrt event,
+         * the threbd node mby need to be crebted.
          *
-         * It is possible for certain events (notably method entry/exit)
-         * to precede thread start for some VM implementations.
+         * It is possible for certbin events (notbbly method entry/exit)
+         * to precede threbd stbrt for some VM implementbtions.
          */
-        node = insertThread(env, &runningThreads, thread);
+        node = insertThrebd(env, &runningThrebds, threbd);
     }
 
     if (ei == EI_THREAD_START) {
-        node->isStarted = JNI_TRUE;
-        processDeferredEventModes(env, thread, node);
+        node->isStbrted = JNI_TRUE;
+        processDeferredEventModes(env, threbd, node);
     }
 
     node->current_ei = ei;
-    eventBag = node->eventBag;
-    if (node->suspendOnStart) {
-        threadToSuspend = node->thread;
+    eventBbg = node->eventBbg;
+    if (node->suspendOnStbrt) {
+        threbdToSuspend = node->threbd;
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    if (threadToSuspend != NULL) {
+    if (threbdToSuspend != NULL) {
         /*
-         * An attempt was made to suspend this thread before it started.
-         * We must suspend it now, before it starts to run. This must
+         * An bttempt wbs mbde to suspend this threbd before it stbrted.
+         * We must suspend it now, before it stbrts to run. This must
          * be done with no locks held.
          */
-        eventHelper_suspendThread(sessionID, threadToSuspend);
+        eventHelper_suspendThrebd(sessionID, threbdToSuspend);
     }
 
-    return eventBag;
+    return eventBbg;
 }
 
-static void
-doPendingTasks(JNIEnv *env, ThreadNode *node)
+stbtic void
+doPendingTbsks(JNIEnv *env, ThrebdNode *node)
 {
     /*
-     * Take care of any pending interrupts/stops, and clear out
+     * Tbke cbre of bny pending interrupts/stops, bnd clebr out
      * info on pending interrupts/stops.
      */
     if (node->pendingInterrupt) {
-        JVMTI_FUNC_PTR(gdata->jvmti,InterruptThread)
-                        (gdata->jvmti, node->thread);
+        JVMTI_FUNC_PTR(gdbtb->jvmti,InterruptThrebd)
+                        (gdbtb->jvmti, node->threbd);
         /*
          * TO DO: Log error
          */
@@ -2121,381 +2121,381 @@ doPendingTasks(JNIEnv *env, ThreadNode *node)
     }
 
     if (node->pendingStop != NULL) {
-        JVMTI_FUNC_PTR(gdata->jvmti,StopThread)
-                        (gdata->jvmti, node->thread, node->pendingStop);
+        JVMTI_FUNC_PTR(gdbtb->jvmti,StopThrebd)
+                        (gdbtb->jvmti, node->threbd, node->pendingStop);
         /*
          * TO DO: Log error
          */
-        tossGlobalRef(env, &(node->pendingStop));
+        tossGlobblRef(env, &(node->pendingStop));
     }
 }
 
 void
-threadControl_onEventHandlerExit(EventIndex ei, jthread thread,
-                                 struct bag *eventBag)
+threbdControl_onEventHbndlerExit(EventIndex ei, jthrebd threbd,
+                                 struct bbg *eventBbg)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    log_debugee_location("threadControl_onEventHandlerExit()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_onEventHbndlerExit()", threbd, NULL, 0);
 
     if (ei == EI_THREAD_END) {
-        eventHandler_lock(); /* for proper lock order */
+        eventHbndler_lock(); /* for proper lock order */
     }
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node == NULL) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"thread list corrupted");
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"threbd list corrupted");
     } else {
         JNIEnv *env;
 
         env = getEnv();
         if (ei == EI_THREAD_END) {
-            jboolean inResume = (node->resumeFrameDepth > 0);
-            removeThread(env, &runningThreads, thread);
-            node = NULL;   /* has been freed */
+            jboolebn inResume = (node->resumeFrbmeDepth > 0);
+            removeThrebd(env, &runningThrebds, threbd);
+            node = NULL;   /* hbs been freed */
 
             /*
-             * Clean up mechanism used to detect end of
+             * Clebn up mechbnism used to detect end of
              * resume.
              */
             if (inResume) {
                 notifyAppResumeComplete();
             }
         } else {
-            /* No point in doing this if the thread is about to die.*/
-            doPendingTasks(env, node);
-            node->eventBag = eventBag;
+            /* No point in doing this if the threbd is bbout to die.*/
+            doPendingTbsks(env, node);
+            node->eventBbg = eventBbg;
             node->current_ei = 0;
         }
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     if (ei == EI_THREAD_END) {
-        eventHandler_unlock();
+        eventHbndler_unlock();
     }
 }
 
-/* Returns JDWP flavored status and status flags. */
+/* Returns JDWP flbvored stbtus bnd stbtus flbgs. */
 jvmtiError
-threadControl_applicationThreadStatus(jthread thread,
-                        jdwpThreadStatus *pstatus, jint *statusFlags)
+threbdControl_bpplicbtionThrebdStbtus(jthrebd threbd,
+                        jdwpThrebdStbtus *pstbtus, jint *stbtusFlbgs)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
     jvmtiError  error;
-    jint        state;
+    jint        stbte;
 
-    log_debugee_location("threadControl_applicationThreadStatus()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_bpplicbtionThrebdStbtus()", threbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    error = threadState(thread, &state);
-    *pstatus = map2jdwpThreadStatus(state);
-    *statusFlags = map2jdwpSuspendStatus(state);
+    error = threbdStbte(threbd, &stbte);
+    *pstbtus = mbp2jdwpThrebdStbtus(stbte);
+    *stbtusFlbgs = mbp2jdwpSuspendStbtus(stbte);
 
     if (error == JVMTI_ERROR_NONE) {
-        node = findThread(&runningThreads, thread);
+        node = findThrebd(&runningThrebds, threbd);
         if ((node != NULL) && HANDLING_EVENT(node)) {
             /*
-             * While processing an event, an application thread is always
-             * considered to be running even if its handler happens to be
-             * cond waiting on an internal debugger monitor, etc.
+             * While processing bn event, bn bpplicbtion threbd is blwbys
+             * considered to be running even if its hbndler hbppens to be
+             * cond wbiting on bn internbl debugger monitor, etc.
              *
-             * Leave suspend status untouched since it is not possible
-             * to distinguish debugger suspends from app suspends.
+             * Lebve suspend stbtus untouched since it is not possible
+             * to distinguish debugger suspends from bpp suspends.
              */
-            *pstatus = JDWP_THREAD_STATUS(RUNNING);
+            *pstbtus = JDWP_THREAD_STATUS(RUNNING);
         }
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return error;
 }
 
 jvmtiError
-threadControl_interrupt(jthread thread)
+threbdControl_interrupt(jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
     jvmtiError  error;
 
     error = JVMTI_ERROR_NONE;
 
-    log_debugee_location("threadControl_interrupt()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_interrupt()", threbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if ((node == NULL) || !HANDLING_EVENT(node)) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,InterruptThread)
-                        (gdata->jvmti, thread);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,InterruptThrebd)
+                        (gdbtb->jvmti, threbd);
     } else {
         /*
-         * Hold any interrupts until after the event is processed.
+         * Hold bny interrupts until bfter the event is processed.
          */
         node->pendingInterrupt = JNI_TRUE;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return error;
 }
 
 void
-threadControl_clearCLEInfo(JNIEnv *env, jthread thread)
+threbdControl_clebrCLEInfo(JNIEnv *env, jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
         node->cleInfo.ei = 0;
-        if (node->cleInfo.clazz != NULL) {
-            tossGlobalRef(env, &(node->cleInfo.clazz));
+        if (node->cleInfo.clbzz != NULL) {
+            tossGlobblRef(env, &(node->cleInfo.clbzz));
         }
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
-jboolean
-threadControl_cmpCLEInfo(JNIEnv *env, jthread thread, jclass clazz,
-                         jmethodID method, jlocation location)
+jboolebn
+threbdControl_cmpCLEInfo(JNIEnv *env, jthrebd threbd, jclbss clbzz,
+                         jmethodID method, jlocbtion locbtion)
 {
-    ThreadNode *node;
-    jboolean    result;
+    ThrebdNode *node;
+    jboolebn    result;
 
     result = JNI_FALSE;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL && node->cleInfo.ei != 0 &&
         node->cleInfo.method == method &&
-        node->cleInfo.location == location &&
-        (isSameObject(env, node->cleInfo.clazz, clazz))) {
-        result = JNI_TRUE; /* we have a match */
+        node->cleInfo.locbtion == locbtion &&
+        (isSbmeObject(env, node->cleInfo.clbzz, clbzz))) {
+        result = JNI_TRUE; /* we hbve b mbtch */
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return result;
 }
 
 void
-threadControl_saveCLEInfo(JNIEnv *env, jthread thread, EventIndex ei,
-                          jclass clazz, jmethodID method, jlocation location)
+threbdControl_sbveCLEInfo(JNIEnv *env, jthrebd threbd, EventIndex ei,
+                          jclbss clbzz, jmethodID method, jlocbtion locbtion)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
         node->cleInfo.ei = ei;
-        /* Create a class ref that will live beyond */
-        /* the end of this call */
-        saveGlobalRef(env, clazz, &(node->cleInfo.clazz));
-        /* if returned clazz is NULL, we just won't match */
+        /* Crebte b clbss ref thbt will live beyond */
+        /* the end of this cbll */
+        sbveGlobblRef(env, clbzz, &(node->cleInfo.clbzz));
+        /* if returned clbzz is NULL, we just won't mbtch */
         node->cleInfo.method    = method;
-        node->cleInfo.location  = location;
+        node->cleInfo.locbtion  = locbtion;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
 void
-threadControl_setPendingInterrupt(jthread thread)
+threbdControl_setPendingInterrupt(jthrebd threbd)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
         node->pendingInterrupt = JNI_TRUE;
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 }
 
 jvmtiError
-threadControl_stop(jthread thread, jobject throwable)
+threbdControl_stop(jthrebd threbd, jobject throwbble)
 {
-    ThreadNode *node;
+    ThrebdNode *node;
     jvmtiError  error;
 
     error = JVMTI_ERROR_NONE;
 
-    log_debugee_location("threadControl_stop()", thread, NULL, 0);
+    log_debugee_locbtion("threbdControl_stop()", threbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
 
-    node = findThread(&runningThreads, thread);
+    node = findThrebd(&runningThrebds, threbd);
     if ((node == NULL) || !HANDLING_EVENT(node)) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,StopThread)
-                        (gdata->jvmti, thread, throwable);
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,StopThrebd)
+                        (gdbtb->jvmti, threbd, throwbble);
     } else {
         JNIEnv *env;
 
         /*
-         * Hold any stops until after the event is processed.
+         * Hold bny stops until bfter the event is processed.
          */
         env = getEnv();
-        saveGlobalRef(env, throwable, &(node->pendingStop));
+        sbveGlobblRef(env, throwbble, &(node->pendingStop));
     }
 
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
     return error;
 }
 
-static jvmtiError
-detachHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtic jvmtiError
+detbchHelper(JNIEnv *env, ThrebdNode *node, void *brg)
 {
-    invoker_detach(&node->currentInvoke);
+    invoker_detbch(&node->currentInvoke);
     return JVMTI_ERROR_NONE;
 }
 
 void
-threadControl_detachInvokes(void)
+threbdControl_detbchInvokes(void)
 {
     JNIEnv *env;
 
     env = getEnv();
     invoker_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    (void)enumerateOverThreadList(env, &runningThreads, detachHelper, NULL);
-    debugMonitorExit(threadLock);
+    debugMonitorEnter(threbdLock);
+    (void)enumerbteOverThrebdList(env, &runningThrebds, detbchHelper, NULL);
+    debugMonitorExit(threbdLock);
     invoker_unlock();
 }
 
-static jvmtiError
-resetHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtic jvmtiError
+resetHelper(JNIEnv *env, ThrebdNode *node, void *brg)
 {
     if (node->toBeResumed) {
-        LOG_MISC(("thread=%p resumed", node->thread));
-        (void)JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)(gdata->jvmti, node->thread);
-        node->frameGeneration++; /* Increment on each resume */
+        LOG_MISC(("threbd=%p resumed", node->threbd));
+        (void)JVMTI_FUNC_PTR(gdbtb->jvmti,ResumeThrebd)(gdbtb->jvmti, node->threbd);
+        node->frbmeGenerbtion++; /* Increment on ebch resume */
     }
-    stepControl_clearRequest(node->thread, &node->currentStep);
+    stepControl_clebrRequest(node->threbd, &node->currentStep);
     node->toBeResumed = JNI_FALSE;
     node->suspendCount = 0;
-    node->suspendOnStart = JNI_FALSE;
+    node->suspendOnStbrt = JNI_FALSE;
 
     return JVMTI_ERROR_NONE;
 }
 
 void
-threadControl_reset(void)
+threbdControl_reset(void)
 {
     JNIEnv *env;
 
     env = getEnv();
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    (void)enumerateOverThreadList(env, &runningThreads, resetHelper, NULL);
-    (void)enumerateOverThreadList(env, &otherThreads, resetHelper, NULL);
+    eventHbndler_lock(); /* for proper lock order */
+    debugMonitorEnter(threbdLock);
+    (void)enumerbteOverThrebdList(env, &runningThrebds, resetHelper, NULL);
+    (void)enumerbteOverThrebdList(env, &otherThrebds, resetHelper, NULL);
 
-    removeResumed(env, &otherThreads);
+    removeResumed(env, &otherThrebds);
 
     freeDeferredEventModes(env);
 
     suspendAllCount = 0;
 
-    /* Everything should have been resumed */
-    JDI_ASSERT(otherThreads.first == NULL);
+    /* Everything should hbve been resumed */
+    JDI_ASSERT(otherThrebds.first == NULL);
 
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
+    debugMonitorExit(threbdLock);
+    eventHbndler_unlock();
 }
 
 jvmtiEventMode
-threadControl_getInstructionStepMode(jthread thread)
+threbdControl_getInstructionStepMode(jthrebd threbd)
 {
-    ThreadNode    *node;
+    ThrebdNode    *node;
     jvmtiEventMode mode;
 
     mode = JVMTI_DISABLE;
 
-    debugMonitorEnter(threadLock);
-    node = findThread(&runningThreads, thread);
+    debugMonitorEnter(threbdLock);
+    node = findThrebd(&runningThrebds, threbd);
     if (node != NULL) {
         mode = node->instructionStepMode;
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
     return mode;
 }
 
 jvmtiError
-threadControl_setEventMode(jvmtiEventMode mode, EventIndex ei, jthread thread)
+threbdControl_setEventMode(jvmtiEventMode mode, EventIndex ei, jthrebd threbd)
 {
     jvmtiError error;
 
-    /* Global event */
-    if ( thread == NULL ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventNotificationMode)
-                    (gdata->jvmti, mode, eventIndex2jvmti(ei), thread);
+    /* Globbl event */
+    if ( threbd == NULL ) {
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetEventNotificbtionMode)
+                    (gdbtb->jvmti, mode, eventIndex2jvmti(ei), threbd);
     } else {
-        /* Thread event */
-        ThreadNode *node;
+        /* Threbd event */
+        ThrebdNode *node;
 
-        debugMonitorEnter(threadLock);
+        debugMonitorEnter(threbdLock);
         {
-            node = findThread(&runningThreads, thread);
-            if ((node == NULL) || (!node->isStarted)) {
+            node = findThrebd(&runningThrebds, threbd);
+            if ((node == NULL) || (!node->isStbrted)) {
                 JNIEnv *env;
 
                 env = getEnv();
-                error = addDeferredEventMode(env, mode, ei, thread);
+                error = bddDeferredEventMode(env, mode, ei, threbd);
             } else {
-                error = threadSetEventNotificationMode(node,
-                        mode, ei, thread);
+                error = threbdSetEventNotificbtionMode(node,
+                        mode, ei, threbd);
             }
         }
-        debugMonitorExit(threadLock);
+        debugMonitorExit(threbdLock);
 
     }
     return error;
 }
 
 /*
- * Returns the current thread, if the thread has generated at least
- * one event, and has not generated a thread end event.
+ * Returns the current threbd, if the threbd hbs generbted bt lebst
+ * one event, bnd hbs not generbted b threbd end event.
  */
-jthread threadControl_currentThread(void)
+jthrebd threbdControl_currentThrebd(void)
 {
-    jthread thread;
+    jthrebd threbd;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(&runningThreads, NULL);
-        thread = (node == NULL) ? NULL : node->thread;
+        node = findThrebd(&runningThrebds, NULL);
+        threbd = (node == NULL) ? NULL : node->threbd;
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    return thread;
+    return threbd;
 }
 
 jlong
-threadControl_getFrameGeneration(jthread thread)
+threbdControl_getFrbmeGenerbtion(jthrebd threbd)
 {
-    jlong frameGeneration = -1;
+    jlong frbmeGenerbtion = -1;
 
-    debugMonitorEnter(threadLock);
+    debugMonitorEnter(threbdLock);
     {
-        ThreadNode *node;
+        ThrebdNode *node;
 
-        node = findThread(NULL, thread);
+        node = findThrebd(NULL, threbd);
 
         if (node != NULL) {
-            frameGeneration = node->frameGeneration;
+            frbmeGenerbtion = node->frbmeGenerbtion;
         }
     }
-    debugMonitorExit(threadLock);
+    debugMonitorExit(threbdLock);
 
-    return frameGeneration;
+    return frbmeGenerbtion;
 }

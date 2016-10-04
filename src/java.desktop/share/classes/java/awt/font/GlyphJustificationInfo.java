@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
 /**
- * The <code>GlyphJustificationInfo</code> class represents information
- * about the justification properties of a glyph.  A glyph is the visual
- * representation of one or more characters.  Many different glyphs can
- * be used to represent a single character or combination of characters.
- * The four justification properties represented by
- * <code>GlyphJustificationInfo</code> are weight, priority, absorb and
+ * The <code>GlyphJustificbtionInfo</code> clbss represents informbtion
+ * bbout the justificbtion properties of b glyph.  A glyph is the visubl
+ * representbtion of one or more chbrbcters.  Mbny different glyphs cbn
+ * be used to represent b single chbrbcter or combinbtion of chbrbcters.
+ * The four justificbtion properties represented by
+ * <code>GlyphJustificbtionInfo</code> bre weight, priority, bbsorb bnd
  * limit.
  * <p>
- * Weight is the overall 'weight' of the glyph in the line.  Generally it is
- * proportional to the size of the font.  Glyphs with larger weight are
- * allocated a correspondingly larger amount of the change in space.
+ * Weight is the overbll 'weight' of the glyph in the line.  Generblly it is
+ * proportionbl to the size of the font.  Glyphs with lbrger weight bre
+ * bllocbted b correspondingly lbrger bmount of the chbnge in spbce.
  * <p>
- * Priority determines the justification phase in which this glyph is used.
- * All glyphs of the same priority are examined before glyphs of the next
- * priority.  If all the change in space can be allocated to these glyphs
- * without exceeding their limits, then glyphs of the next priority are not
- * examined. There are four priorities, kashida, whitespace, interchar,
- * and none.  KASHIDA is the first priority examined. NONE is the last
- * priority examined.
+ * Priority determines the justificbtion phbse in which this glyph is used.
+ * All glyphs of the sbme priority bre exbmined before glyphs of the next
+ * priority.  If bll the chbnge in spbce cbn be bllocbted to these glyphs
+ * without exceeding their limits, then glyphs of the next priority bre not
+ * exbmined. There bre four priorities, kbshidb, whitespbce, interchbr,
+ * bnd none.  KASHIDA is the first priority exbmined. NONE is the lbst
+ * priority exbmined.
  * <p>
- * Absorb determines whether a glyph absorbs all change in space.  Within a
- * given priority, some glyphs may absorb all the change in space.  If any of
- * these glyphs are present, no glyphs of later priority are examined.
+ * Absorb determines whether b glyph bbsorbs bll chbnge in spbce.  Within b
+ * given priority, some glyphs mby bbsorb bll the chbnge in spbce.  If bny of
+ * these glyphs bre present, no glyphs of lbter priority bre exbmined.
  * <p>
- * Limit determines the maximum or minimum amount by which the glyph can
- * change. Left and right sides of the glyph can have different limits.
+ * Limit determines the mbximum or minimum bmount by which the glyph cbn
+ * chbnge. Left bnd right sides of the glyph cbn hbve different limits.
  * <p>
- * Each <code>GlyphJustificationInfo</code> represents two sets of
- * metrics, which are <i>growing</i> and <i>shrinking</i>.  Growing
- * metrics are used when the glyphs on a line are to be
- * spread apart to fit a larger width.  Shrinking metrics are used when
- * the glyphs are to be moved together to fit a smaller width.
+ * Ebch <code>GlyphJustificbtionInfo</code> represents two sets of
+ * metrics, which bre <i>growing</i> bnd <i>shrinking</i>.  Growing
+ * metrics bre used when the glyphs on b line bre to be
+ * sprebd bpbrt to fit b lbrger width.  Shrinking metrics bre used when
+ * the glyphs bre to be moved together to fit b smbller width.
  */
 
-public final class GlyphJustificationInfo {
+public finbl clbss GlyphJustificbtionInfo {
 
     /**
-     * Constructs information about the justification properties of a
+     * Constructs informbtion bbout the justificbtion properties of b
      * glyph.
-     * @param weight the weight of this glyph when allocating space.  Must be non-negative.
-     * @param growAbsorb if <code>true</code> this glyph absorbs
-     * all extra space at this priority and lower priority levels when it
+     * @pbrbm weight the weight of this glyph when bllocbting spbce.  Must be non-negbtive.
+     * @pbrbm growAbsorb if <code>true</code> this glyph bbsorbs
+     * bll extrb spbce bt this priority bnd lower priority levels when it
      * grows
-     * @param growPriority the priority level of this glyph when it
+     * @pbrbm growPriority the priority level of this glyph when it
      * grows
-     * @param growLeftLimit the maximum amount by which the left side of this
-     * glyph can grow.  Must be non-negative.
-     * @param growRightLimit the maximum amount by which the right side of this
-     * glyph can grow.  Must be non-negative.
-     * @param shrinkAbsorb if <code>true</code>, this glyph absorbs all
-     * remaining shrinkage at this and lower priority levels when it
+     * @pbrbm growLeftLimit the mbximum bmount by which the left side of this
+     * glyph cbn grow.  Must be non-negbtive.
+     * @pbrbm growRightLimit the mbximum bmount by which the right side of this
+     * glyph cbn grow.  Must be non-negbtive.
+     * @pbrbm shrinkAbsorb if <code>true</code>, this glyph bbsorbs bll
+     * rembining shrinkbge bt this bnd lower priority levels when it
      * shrinks
-     * @param shrinkPriority the priority level of this glyph when
+     * @pbrbm shrinkPriority the priority level of this glyph when
      * it shrinks
-     * @param shrinkLeftLimit the maximum amount by which the left side of this
-     * glyph can shrink.  Must be non-negative.
-     * @param shrinkRightLimit the maximum amount by which the right side
-     * of this glyph can shrink.  Must be non-negative.
+     * @pbrbm shrinkLeftLimit the mbximum bmount by which the left side of this
+     * glyph cbn shrink.  Must be non-negbtive.
+     * @pbrbm shrinkRightLimit the mbximum bmount by which the right side
+     * of this glyph cbn shrink.  Must be non-negbtive.
      */
-     public GlyphJustificationInfo(float weight,
-                                  boolean growAbsorb,
+     public GlyphJustificbtionInfo(flobt weight,
+                                  boolebn growAbsorb,
                                   int growPriority,
-                                  float growLeftLimit,
-                                  float growRightLimit,
-                                  boolean shrinkAbsorb,
+                                  flobt growLeftLimit,
+                                  flobt growRightLimit,
+                                  boolebn shrinkAbsorb,
                                   int shrinkPriority,
-                                  float shrinkLeftLimit,
-                                  float shrinkRightLimit)
+                                  flobt shrinkLeftLimit,
+                                  flobt shrinkRightLimit)
     {
         if (weight < 0) {
-            throw new IllegalArgumentException("weight is negative");
+            throw new IllegblArgumentException("weight is negbtive");
         }
 
-        if (!priorityIsValid(growPriority)) {
-            throw new IllegalArgumentException("Invalid grow priority");
+        if (!priorityIsVblid(growPriority)) {
+            throw new IllegblArgumentException("Invblid grow priority");
         }
         if (growLeftLimit < 0) {
-            throw new IllegalArgumentException("growLeftLimit is negative");
+            throw new IllegblArgumentException("growLeftLimit is negbtive");
         }
         if (growRightLimit < 0) {
-            throw new IllegalArgumentException("growRightLimit is negative");
+            throw new IllegblArgumentException("growRightLimit is negbtive");
         }
 
-        if (!priorityIsValid(shrinkPriority)) {
-            throw new IllegalArgumentException("Invalid shrink priority");
+        if (!priorityIsVblid(shrinkPriority)) {
+            throw new IllegblArgumentException("Invblid shrink priority");
         }
         if (shrinkLeftLimit < 0) {
-            throw new IllegalArgumentException("shrinkLeftLimit is negative");
+            throw new IllegblArgumentException("shrinkLeftLimit is negbtive");
         }
         if (shrinkRightLimit < 0) {
-            throw new IllegalArgumentException("shrinkRightLimit is negative");
+            throw new IllegblArgumentException("shrinkRightLimit is negbtive");
         }
 
         this.weight = weight;
@@ -144,69 +144,69 @@ public final class GlyphJustificationInfo {
         this.shrinkRightLimit = shrinkRightLimit;
     }
 
-    private static boolean priorityIsValid(int priority) {
+    privbte stbtic boolebn priorityIsVblid(int priority) {
 
         return priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
     }
 
-    /** The highest justification priority. */
-    public static final int PRIORITY_KASHIDA = 0;
+    /** The highest justificbtion priority. */
+    public stbtic finbl int PRIORITY_KASHIDA = 0;
 
-    /** The second highest justification priority. */
-    public static final int PRIORITY_WHITESPACE = 1;
+    /** The second highest justificbtion priority. */
+    public stbtic finbl int PRIORITY_WHITESPACE = 1;
 
-    /** The second lowest justification priority. */
-    public static final int PRIORITY_INTERCHAR = 2;
+    /** The second lowest justificbtion priority. */
+    public stbtic finbl int PRIORITY_INTERCHAR = 2;
 
-    /** The lowest justification priority. */
-    public static final int PRIORITY_NONE = 3;
+    /** The lowest justificbtion priority. */
+    public stbtic finbl int PRIORITY_NONE = 3;
 
     /**
      * The weight of this glyph.
      */
-    public final float weight;
+    public finbl flobt weight;
 
     /**
-     * The priority level of this glyph as it is growing.
+     * The priority level of this glyph bs it is growing.
      */
-    public final int growPriority;
+    public finbl int growPriority;
 
     /**
-     * If <code>true</code>, this glyph absorbs all extra
-     * space at this and lower priority levels when it grows.
+     * If <code>true</code>, this glyph bbsorbs bll extrb
+     * spbce bt this bnd lower priority levels when it grows.
      */
-    public final boolean growAbsorb;
+    public finbl boolebn growAbsorb;
 
     /**
-     * The maximum amount by which the left side of this glyph can grow.
+     * The mbximum bmount by which the left side of this glyph cbn grow.
      */
-    public final float growLeftLimit;
+    public finbl flobt growLeftLimit;
 
     /**
-     * The maximum amount by which the right side of this glyph can grow.
+     * The mbximum bmount by which the right side of this glyph cbn grow.
      */
-    public final float growRightLimit;
+    public finbl flobt growRightLimit;
 
     /**
-     * The priority level of this glyph as it is shrinking.
+     * The priority level of this glyph bs it is shrinking.
      */
-    public final int shrinkPriority;
+    public finbl int shrinkPriority;
 
     /**
-     * If <code>true</code>,this glyph absorbs all remaining shrinkage at
-     * this and lower priority levels as it shrinks.
+     * If <code>true</code>,this glyph bbsorbs bll rembining shrinkbge bt
+     * this bnd lower priority levels bs it shrinks.
      */
-    public final boolean shrinkAbsorb;
+    public finbl boolebn shrinkAbsorb;
 
     /**
-     * The maximum amount by which the left side of this glyph can shrink
-     * (a positive number).
+     * The mbximum bmount by which the left side of this glyph cbn shrink
+     * (b positive number).
      */
-    public final float shrinkLeftLimit;
+    public finbl flobt shrinkLeftLimit;
 
     /**
-     * The maximum amount by which the right side of this glyph can shrink
-     * (a positive number).
+     * The mbximum bmount by which the right side of this glyph cbn shrink
+     * (b positive number).
      */
-    public final float shrinkRightLimit;
+    public finbl flobt shrinkRightLimit;
 }

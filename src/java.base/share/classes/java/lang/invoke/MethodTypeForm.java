@@ -1,379 +1,379 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import sun.invoke.util.Wrapper;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
- import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
+import sun.invoke.util.Wrbpper;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts.*;
+ import stbtic jbvb.lbng.invoke.MethodHbndles.Lookup.IMPL_LOOKUP;
 
 /**
- * Shared information for a group of method types, which differ
- * only by reference types, and therefore share a common erasure
- * and wrapping.
+ * Shbred informbtion for b group of method types, which differ
+ * only by reference types, bnd therefore shbre b common erbsure
+ * bnd wrbpping.
  * <p>
- * For an empirical discussion of the structure of method types,
- * see <a href="http://groups.google.com/group/jvm-languages/browse_thread/thread/ac9308ae74da9b7e/">
- * the thread "Avoiding Boxing" on jvm-languages</a>.
- * There are approximately 2000 distinct erased method types in the JDK.
- * There are a little over 10 times that number of unerased types.
- * No more than half of these are likely to be loaded at once.
- * @author John Rose
+ * For bn empiricbl discussion of the structure of method types,
+ * see <b href="http://groups.google.com/group/jvm-lbngubges/browse_threbd/threbd/bc9308be74db9b7e/">
+ * the threbd "Avoiding Boxing" on jvm-lbngubges</b>.
+ * There bre bpproximbtely 2000 distinct erbsed method types in the JDK.
+ * There bre b little over 10 times thbt number of unerbsed types.
+ * No more thbn hblf of these bre likely to be lobded bt once.
+ * @buthor John Rose
  */
-final class MethodTypeForm {
-    final int[] argToSlotTable, slotToArgTable;
-    final long argCounts;               // packed slot & value counts
-    final long primCounts;              // packed prim & double counts
-    final int vmslots;                  // total number of parameter slots
-    final MethodType erasedType;        // the canonical erasure
-    final MethodType basicType;         // the canonical erasure, with primitives simplified
+finbl clbss MethodTypeForm {
+    finbl int[] brgToSlotTbble, slotToArgTbble;
+    finbl long brgCounts;               // pbcked slot & vblue counts
+    finbl long primCounts;              // pbcked prim & double counts
+    finbl int vmslots;                  // totbl number of pbrbmeter slots
+    finbl MethodType erbsedType;        // the cbnonicbl erbsure
+    finbl MethodType bbsicType;         // the cbnonicbl erbsure, with primitives simplified
 
-    // Cached adapter information:
-    @Stable String typeString;           // argument type signature characters
-    @Stable MethodHandle genericInvoker; // JVM hook for inexact invoke
-    @Stable MethodHandle basicInvoker;   // cached instance of MH.invokeBasic
-    @Stable MethodHandle namedFunctionInvoker; // cached helper for LF.NamedFunction
+    // Cbched bdbpter informbtion:
+    @Stbble String typeString;           // brgument type signbture chbrbcters
+    @Stbble MethodHbndle genericInvoker; // JVM hook for inexbct invoke
+    @Stbble MethodHbndle bbsicInvoker;   // cbched instbnce of MH.invokeBbsic
+    @Stbble MethodHbndle nbmedFunctionInvoker; // cbched helper for LF.NbmedFunction
 
-    // Cached lambda form information, for basic types only:
-    final @Stable LambdaForm[] lambdaForms;
-    // Indexes into lambdaForms:
-    static final int
-            LF_INVVIRTUAL     =  0,  // DMH invokeVirtual
+    // Cbched lbmbdb form informbtion, for bbsic types only:
+    finbl @Stbble LbmbdbForm[] lbmbdbForms;
+    // Indexes into lbmbdbForms:
+    stbtic finbl int
+            LF_INVVIRTUAL     =  0,  // DMH invokeVirtubl
             LF_INVSTATIC      =  1,
             LF_INVSPECIAL     =  2,
             LF_NEWINVSPECIAL  =  3,
             LF_INVINTERFACE   =  4,
-            LF_INVSTATIC_INIT =  5,  // DMH invokeStatic with <clinit> barrier
+            LF_INVSTATIC_INIT =  5,  // DMH invokeStbtic with <clinit> bbrrier
             LF_INTERPRET      =  6,  // LF interpreter
-            LF_COUNTER        =  7,  // CMH wrapper
-            LF_REINVOKE       =  8,  // other wrapper
-            LF_EX_LINKER      =  9,  // invokeExact_MT
-            LF_EX_INVOKER     = 10,  // invokeExact MH
+            LF_COUNTER        =  7,  // CMH wrbpper
+            LF_REINVOKE       =  8,  // other wrbpper
+            LF_EX_LINKER      =  9,  // invokeExbct_MT
+            LF_EX_INVOKER     = 10,  // invokeExbct MH
             LF_GEN_LINKER     = 11,
             LF_GEN_INVOKER    = 12,
-            LF_CS_LINKER      = 13,  // linkToCallSite_CS
-            LF_MH_LINKER      = 14,  // linkToCallSite_MH
+            LF_CS_LINKER      = 13,  // linkToCbllSite_CS
+            LF_MH_LINKER      = 14,  // linkToCbllSite_MH
             LF_GWC            = 15,
             LF_LIMIT          = 16;
 
-    public MethodType erasedType() {
-        return erasedType;
+    public MethodType erbsedType() {
+        return erbsedType;
     }
 
-    public MethodType basicType() {
-        return basicType;
+    public MethodType bbsicType() {
+        return bbsicType;
     }
 
-    public LambdaForm cachedLambdaForm(int which) {
-        return lambdaForms[which];
+    public LbmbdbForm cbchedLbmbdbForm(int which) {
+        return lbmbdbForms[which];
     }
 
-    synchronized public LambdaForm setCachedLambdaForm(int which, LambdaForm form) {
-        // Simulate a CAS, to avoid racy duplication of results.
-        LambdaForm prev = lambdaForms[which];
+    synchronized public LbmbdbForm setCbchedLbmbdbForm(int which, LbmbdbForm form) {
+        // Simulbte b CAS, to bvoid rbcy duplicbtion of results.
+        LbmbdbForm prev = lbmbdbForms[which];
         if (prev != null) return prev;
-        return lambdaForms[which] = form;
+        return lbmbdbForms[which] = form;
     }
 
-    public MethodHandle basicInvoker() {
-        assert(erasedType == basicType) : "erasedType: " + erasedType + " != basicType: " + basicType;  // primitives must be flattened also
-        MethodHandle invoker = basicInvoker;
+    public MethodHbndle bbsicInvoker() {
+        bssert(erbsedType == bbsicType) : "erbsedType: " + erbsedType + " != bbsicType: " + bbsicType;  // primitives must be flbttened blso
+        MethodHbndle invoker = bbsicInvoker;
         if (invoker != null)  return invoker;
-        invoker = DirectMethodHandle.make(invokeBasicMethod(basicType));
-        basicInvoker = invoker;
+        invoker = DirectMethodHbndle.mbke(invokeBbsicMethod(bbsicType));
+        bbsicInvoker = invoker;
         return invoker;
     }
 
-    // This next one is called from LambdaForm.NamedFunction.<init>.
-    /*non-public*/ static MemberName invokeBasicMethod(MethodType basicType) {
-        assert(basicType == basicType.basicType());
+    // This next one is cblled from LbmbdbForm.NbmedFunction.<init>.
+    /*non-public*/ stbtic MemberNbme invokeBbsicMethod(MethodType bbsicType) {
+        bssert(bbsicType == bbsicType.bbsicType());
         try {
-            // Do approximately the same as this public API call:
-            //   Lookup.findVirtual(MethodHandle.class, name, type);
-            // But bypass access and corner case checks, since we know exactly what we need.
-            return IMPL_LOOKUP.resolveOrFail(REF_invokeVirtual, MethodHandle.class, "invokeBasic", basicType);
-         } catch (ReflectiveOperationException ex) {
-            throw newInternalError("JVM cannot find invoker for "+basicType, ex);
+            // Do bpproximbtely the sbme bs this public API cbll:
+            //   Lookup.findVirtubl(MethodHbndle.clbss, nbme, type);
+            // But bypbss bccess bnd corner cbse checks, since we know exbctly whbt we need.
+            return IMPL_LOOKUP.resolveOrFbil(REF_invokeVirtubl, MethodHbndle.clbss, "invokeBbsic", bbsicType);
+         } cbtch (ReflectiveOperbtionException ex) {
+            throw newInternblError("JVM cbnnot find invoker for "+bbsicType, ex);
         }
     }
 
     /**
-     * Build an MTF for a given type, which must have all references erased to Object.
-     * This MTF will stand for that type and all un-erased variations.
-     * Eagerly compute some basic properties of the type, common to all variations.
+     * Build bn MTF for b given type, which must hbve bll references erbsed to Object.
+     * This MTF will stbnd for thbt type bnd bll un-erbsed vbribtions.
+     * Ebgerly compute some bbsic properties of the type, common to bll vbribtions.
      */
-    protected MethodTypeForm(MethodType erasedType) {
-        this.erasedType = erasedType;
+    protected MethodTypeForm(MethodType erbsedType) {
+        this.erbsedType = erbsedType;
 
-        Class<?>[] ptypes = erasedType.ptypes();
+        Clbss<?>[] ptypes = erbsedType.ptypes();
         int ptypeCount = ptypes.length;
-        int pslotCount = ptypeCount;            // temp. estimate
-        int rtypeCount = 1;                     // temp. estimate
-        int rslotCount = 1;                     // temp. estimate
+        int pslotCount = ptypeCount;            // temp. estimbte
+        int rtypeCount = 1;                     // temp. estimbte
+        int rslotCount = 1;                     // temp. estimbte
 
-        int[] argToSlotTab = null, slotToArgTab = null;
+        int[] brgToSlotTbb = null, slotToArgTbb = null;
 
-        // Walk the argument types, looking for primitives.
-        int pac = 0, lac = 0, prc = 0, lrc = 0;
-        Class<?>[] epts = ptypes;
-        Class<?>[] bpts = epts;
+        // Wblk the brgument types, looking for primitives.
+        int pbc = 0, lbc = 0, prc = 0, lrc = 0;
+        Clbss<?>[] epts = ptypes;
+        Clbss<?>[] bpts = epts;
         for (int i = 0; i < epts.length; i++) {
-            Class<?> pt = epts[i];
-            if (pt != Object.class) {
-                ++pac;
-                Wrapper w = Wrapper.forPrimitiveType(pt);
-                if (w.isDoubleWord())  ++lac;
-                if (w.isSubwordOrInt() && pt != int.class) {
+            Clbss<?> pt = epts[i];
+            if (pt != Object.clbss) {
+                ++pbc;
+                Wrbpper w = Wrbpper.forPrimitiveType(pt);
+                if (w.isDoubleWord())  ++lbc;
+                if (w.isSubwordOrInt() && pt != int.clbss) {
                     if (bpts == epts)
                         bpts = bpts.clone();
-                    bpts[i] = int.class;
+                    bpts[i] = int.clbss;
                 }
             }
         }
-        pslotCount += lac;                  // #slots = #args + #longs
-        Class<?> rt = erasedType.returnType();
-        Class<?> bt = rt;
-        if (rt != Object.class) {
-            ++prc;          // even void.class counts as a prim here
-            Wrapper w = Wrapper.forPrimitiveType(rt);
+        pslotCount += lbc;                  // #slots = #brgs + #longs
+        Clbss<?> rt = erbsedType.returnType();
+        Clbss<?> bt = rt;
+        if (rt != Object.clbss) {
+            ++prc;          // even void.clbss counts bs b prim here
+            Wrbpper w = Wrbpper.forPrimitiveType(rt);
             if (w.isDoubleWord())  ++lrc;
-            if (w.isSubwordOrInt() && rt != int.class)
-                bt = int.class;
-            // adjust #slots, #args
-            if (rt == void.class)
+            if (w.isSubwordOrInt() && rt != int.clbss)
+                bt = int.clbss;
+            // bdjust #slots, #brgs
+            if (rt == void.clbss)
                 rtypeCount = rslotCount = 0;
             else
                 rslotCount += lrc;
         }
         if (epts == bpts && bt == rt) {
-            this.basicType = erasedType;
+            this.bbsicType = erbsedType;
         } else {
-            this.basicType = MethodType.makeImpl(bt, bpts, true);
+            this.bbsicType = MethodType.mbkeImpl(bt, bpts, true);
         }
-        if (lac != 0) {
-            int slot = ptypeCount + lac;
-            slotToArgTab = new int[slot+1];
-            argToSlotTab = new int[1+ptypeCount];
-            argToSlotTab[0] = slot;  // argument "-1" is past end of slots
+        if (lbc != 0) {
+            int slot = ptypeCount + lbc;
+            slotToArgTbb = new int[slot+1];
+            brgToSlotTbb = new int[1+ptypeCount];
+            brgToSlotTbb[0] = slot;  // brgument "-1" is pbst end of slots
             for (int i = 0; i < epts.length; i++) {
-                Class<?> pt = epts[i];
-                Wrapper w = Wrapper.forBasicType(pt);
+                Clbss<?> pt = epts[i];
+                Wrbpper w = Wrbpper.forBbsicType(pt);
                 if (w.isDoubleWord())  --slot;
                 --slot;
-                slotToArgTab[slot] = i+1; // "+1" see argSlotToParameter note
-                argToSlotTab[1+i]  = slot;
+                slotToArgTbb[slot] = i+1; // "+1" see brgSlotToPbrbmeter note
+                brgToSlotTbb[1+i]  = slot;
             }
-            assert(slot == 0);  // filled the table
+            bssert(slot == 0);  // filled the tbble
         }
-        this.primCounts = pack(lrc, prc, lac, pac);
-        this.argCounts = pack(rslotCount, rtypeCount, pslotCount, ptypeCount);
-        if (slotToArgTab == null) {
-            int slot = ptypeCount; // first arg is deepest in stack
-            slotToArgTab = new int[slot+1];
-            argToSlotTab = new int[1+ptypeCount];
-            argToSlotTab[0] = slot;  // argument "-1" is past end of slots
+        this.primCounts = pbck(lrc, prc, lbc, pbc);
+        this.brgCounts = pbck(rslotCount, rtypeCount, pslotCount, ptypeCount);
+        if (slotToArgTbb == null) {
+            int slot = ptypeCount; // first brg is deepest in stbck
+            slotToArgTbb = new int[slot+1];
+            brgToSlotTbb = new int[1+ptypeCount];
+            brgToSlotTbb[0] = slot;  // brgument "-1" is pbst end of slots
             for (int i = 0; i < ptypeCount; i++) {
                 --slot;
-                slotToArgTab[slot] = i+1; // "+1" see argSlotToParameter note
-                argToSlotTab[1+i]  = slot;
+                slotToArgTbb[slot] = i+1; // "+1" see brgSlotToPbrbmeter note
+                brgToSlotTbb[1+i]  = slot;
             }
         }
-        this.argToSlotTable = argToSlotTab;
-        this.slotToArgTable = slotToArgTab;
+        this.brgToSlotTbble = brgToSlotTbb;
+        this.slotToArgTbble = slotToArgTbb;
 
-        if (pslotCount >= 256)  throw newIllegalArgumentException("too many arguments");
+        if (pslotCount >= 256)  throw newIllegblArgumentException("too mbny brguments");
 
-        // send a few bits down to the JVM:
-        this.vmslots = parameterSlotCount();
+        // send b few bits down to the JVM:
+        this.vmslots = pbrbmeterSlotCount();
 
-        if (basicType == erasedType) {
-            lambdaForms = new LambdaForm[LF_LIMIT];
+        if (bbsicType == erbsedType) {
+            lbmbdbForms = new LbmbdbForm[LF_LIMIT];
         } else {
-            lambdaForms = null;  // could be basicType.form().lambdaForms;
+            lbmbdbForms = null;  // could be bbsicType.form().lbmbdbForms;
         }
     }
 
-    private static long pack(int a, int b, int c, int d) {
-        assert(((a|b|c|d) & ~0xFFFF) == 0);
-        long hw = ((a << 16) | b), lw = ((c << 16) | d);
+    privbte stbtic long pbck(int b, int b, int c, int d) {
+        bssert(((b|b|c|d) & ~0xFFFF) == 0);
+        long hw = ((b << 16) | b), lw = ((c << 16) | d);
         return (hw << 32) | lw;
     }
-    private static char unpack(long packed, int word) { // word==0 => return a, ==3 => return d
-        assert(word <= 3);
-        return (char)(packed >> ((3-word) * 16));
+    privbte stbtic chbr unpbck(long pbcked, int word) { // word==0 => return b, ==3 => return d
+        bssert(word <= 3);
+        return (chbr)(pbcked >> ((3-word) * 16));
     }
 
-    public int parameterCount() {                      // # outgoing values
-        return unpack(argCounts, 3);
+    public int pbrbmeterCount() {                      // # outgoing vblues
+        return unpbck(brgCounts, 3);
     }
-    public int parameterSlotCount() {                  // # outgoing interpreter slots
-        return unpack(argCounts, 2);
+    public int pbrbmeterSlotCount() {                  // # outgoing interpreter slots
+        return unpbck(brgCounts, 2);
     }
     public int returnCount() {                         // = 0 (V), or 1
-        return unpack(argCounts, 1);
+        return unpbck(brgCounts, 1);
     }
     public int returnSlotCount() {                     // = 0 (V), 2 (J/D), or 1
-        return unpack(argCounts, 0);
+        return unpbck(brgCounts, 0);
     }
-    public int primitiveParameterCount() {
-        return unpack(primCounts, 3);
+    public int primitivePbrbmeterCount() {
+        return unpbck(primCounts, 3);
     }
-    public int longPrimitiveParameterCount() {
-        return unpack(primCounts, 2);
+    public int longPrimitivePbrbmeterCount() {
+        return unpbck(primCounts, 2);
     }
     public int primitiveReturnCount() {                // = 0 (obj), or 1
-        return unpack(primCounts, 1);
+        return unpbck(primCounts, 1);
     }
     public int longPrimitiveReturnCount() {            // = 1 (J/D), or 0
-        return unpack(primCounts, 0);
+        return unpbck(primCounts, 0);
     }
-    public boolean hasPrimitives() {
+    public boolebn hbsPrimitives() {
         return primCounts != 0;
     }
-    public boolean hasNonVoidPrimitives() {
-        if (primCounts == 0)  return false;
-        if (primitiveParameterCount() != 0)  return true;
+    public boolebn hbsNonVoidPrimitives() {
+        if (primCounts == 0)  return fblse;
+        if (primitivePbrbmeterCount() != 0)  return true;
         return (primitiveReturnCount() != 0 && returnCount() != 0);
     }
-    public boolean hasLongPrimitives() {
-        return (longPrimitiveParameterCount() | longPrimitiveReturnCount()) != 0;
+    public boolebn hbsLongPrimitives() {
+        return (longPrimitivePbrbmeterCount() | longPrimitiveReturnCount()) != 0;
     }
-    public int parameterToArgSlot(int i) {
-        return argToSlotTable[1+i];
+    public int pbrbmeterToArgSlot(int i) {
+        return brgToSlotTbble[1+i];
     }
-    public int argSlotToParameter(int argSlot) {
-        // Note:  Empty slots are represented by zero in this table.
-        // Valid arguments slots contain incremented entries, so as to be non-zero.
-        // We return -1 the caller to mean an empty slot.
-        return slotToArgTable[argSlot] - 1;
+    public int brgSlotToPbrbmeter(int brgSlot) {
+        // Note:  Empty slots bre represented by zero in this tbble.
+        // Vblid brguments slots contbin incremented entries, so bs to be non-zero.
+        // We return -1 the cbller to mebn bn empty slot.
+        return slotToArgTbble[brgSlot] - 1;
     }
 
-    static MethodTypeForm findForm(MethodType mt) {
-        MethodType erased = canonicalize(mt, ERASE, ERASE);
-        if (erased == null) {
-            // It is already erased.  Make a new MethodTypeForm.
+    stbtic MethodTypeForm findForm(MethodType mt) {
+        MethodType erbsed = cbnonicblize(mt, ERASE, ERASE);
+        if (erbsed == null) {
+            // It is blrebdy erbsed.  Mbke b new MethodTypeForm.
             return new MethodTypeForm(mt);
         } else {
-            // Share the MethodTypeForm with the erased version.
-            return erased.form();
+            // Shbre the MethodTypeForm with the erbsed version.
+            return erbsed.form();
         }
     }
 
-    /** Codes for {@link #canonicalize(java.lang.Class, int)}.
-     * ERASE means change every reference to {@code Object}.
-     * WRAP means convert primitives (including {@code void} to their
-     * corresponding wrapper types.  UNWRAP means the reverse of WRAP.
-     * INTS means convert all non-void primitive types to int or long,
-     * according to size.  LONGS means convert all non-void primitives
-     * to long, regardless of size.  RAW_RETURN means convert a type
-     * (assumed to be a return type) to int if it is smaller than an int,
+    /** Codes for {@link #cbnonicblize(jbvb.lbng.Clbss, int)}.
+     * ERASE mebns chbnge every reference to {@code Object}.
+     * WRAP mebns convert primitives (including {@code void} to their
+     * corresponding wrbpper types.  UNWRAP mebns the reverse of WRAP.
+     * INTS mebns convert bll non-void primitive types to int or long,
+     * bccording to size.  LONGS mebns convert bll non-void primitives
+     * to long, regbrdless of size.  RAW_RETURN mebns convert b type
+     * (bssumed to be b return type) to int if it is smbller thbn bn int,
      * or if it is void.
      */
-    public static final int NO_CHANGE = 0, ERASE = 1, WRAP = 2, UNWRAP = 3, INTS = 4, LONGS = 5, RAW_RETURN = 6;
+    public stbtic finbl int NO_CHANGE = 0, ERASE = 1, WRAP = 2, UNWRAP = 3, INTS = 4, LONGS = 5, RAW_RETURN = 6;
 
-    /** Canonicalize the types in the given method type.
-     * If any types change, intern the new type, and return it.
+    /** Cbnonicblize the types in the given method type.
+     * If bny types chbnge, intern the new type, bnd return it.
      * Otherwise return null.
      */
-    public static MethodType canonicalize(MethodType mt, int howRet, int howArgs) {
-        Class<?>[] ptypes = mt.ptypes();
-        Class<?>[] ptc = MethodTypeForm.canonicalizes(ptypes, howArgs);
-        Class<?> rtype = mt.returnType();
-        Class<?> rtc = MethodTypeForm.canonicalize(rtype, howRet);
+    public stbtic MethodType cbnonicblize(MethodType mt, int howRet, int howArgs) {
+        Clbss<?>[] ptypes = mt.ptypes();
+        Clbss<?>[] ptc = MethodTypeForm.cbnonicblizes(ptypes, howArgs);
+        Clbss<?> rtype = mt.returnType();
+        Clbss<?> rtc = MethodTypeForm.cbnonicblize(rtype, howRet);
         if (ptc == null && rtc == null) {
-            // It is already canonical.
+            // It is blrebdy cbnonicbl.
             return null;
         }
-        // Find the erased version of the method type:
+        // Find the erbsed version of the method type:
         if (rtc == null)  rtc = rtype;
         if (ptc == null)  ptc = ptypes;
-        return MethodType.makeImpl(rtc, ptc, true);
+        return MethodType.mbkeImpl(rtc, ptc, true);
     }
 
-    /** Canonicalize the given return or param type.
-     *  Return null if the type is already canonicalized.
+    /** Cbnonicblize the given return or pbrbm type.
+     *  Return null if the type is blrebdy cbnonicblized.
      */
-    static Class<?> canonicalize(Class<?> t, int how) {
-        Class<?> ct;
-        if (t == Object.class) {
-            // no change, ever
+    stbtic Clbss<?> cbnonicblize(Clbss<?> t, int how) {
+        Clbss<?> ct;
+        if (t == Object.clbss) {
+            // no chbnge, ever
         } else if (!t.isPrimitive()) {
             switch (how) {
-                case UNWRAP:
-                    ct = Wrapper.asPrimitiveType(t);
+                cbse UNWRAP:
+                    ct = Wrbpper.bsPrimitiveType(t);
                     if (ct != t)  return ct;
-                    break;
-                case RAW_RETURN:
-                case ERASE:
-                    return Object.class;
+                    brebk;
+                cbse RAW_RETURN:
+                cbse ERASE:
+                    return Object.clbss;
             }
-        } else if (t == void.class) {
-            // no change, usually
+        } else if (t == void.clbss) {
+            // no chbnge, usublly
             switch (how) {
-                case RAW_RETURN:
-                    return int.class;
-                case WRAP:
-                    return Void.class;
+                cbse RAW_RETURN:
+                    return int.clbss;
+                cbse WRAP:
+                    return Void.clbss;
             }
         } else {
             // non-void primitive
             switch (how) {
-                case WRAP:
-                    return Wrapper.asWrapperType(t);
-                case INTS:
-                    if (t == int.class || t == long.class)
-                        return null;  // no change
-                    if (t == double.class)
-                        return long.class;
-                    return int.class;
-                case LONGS:
-                    if (t == long.class)
-                        return null;  // no change
-                    return long.class;
-                case RAW_RETURN:
-                    if (t == int.class || t == long.class ||
-                        t == float.class || t == double.class)
-                        return null;  // no change
-                    // everything else returns as an int
-                    return int.class;
+                cbse WRAP:
+                    return Wrbpper.bsWrbpperType(t);
+                cbse INTS:
+                    if (t == int.clbss || t == long.clbss)
+                        return null;  // no chbnge
+                    if (t == double.clbss)
+                        return long.clbss;
+                    return int.clbss;
+                cbse LONGS:
+                    if (t == long.clbss)
+                        return null;  // no chbnge
+                    return long.clbss;
+                cbse RAW_RETURN:
+                    if (t == int.clbss || t == long.clbss ||
+                        t == flobt.clbss || t == double.clbss)
+                        return null;  // no chbnge
+                    // everything else returns bs bn int
+                    return int.clbss;
             }
         }
-        // no change; return null to signify
+        // no chbnge; return null to signify
         return null;
     }
 
-    /** Canonicalize each param type in the given array.
-     *  Return null if all types are already canonicalized.
+    /** Cbnonicblize ebch pbrbm type in the given brrby.
+     *  Return null if bll types bre blrebdy cbnonicblized.
      */
-    static Class<?>[] canonicalizes(Class<?>[] ts, int how) {
-        Class<?>[] cs = null;
-        for (int imax = ts.length, i = 0; i < imax; i++) {
-            Class<?> c = canonicalize(ts[i], how);
-            if (c == void.class)
-                c = null;  // a Void parameter was unwrapped to void; ignore
+    stbtic Clbss<?>[] cbnonicblizes(Clbss<?>[] ts, int how) {
+        Clbss<?>[] cs = null;
+        for (int imbx = ts.length, i = 0; i < imbx; i++) {
+            Clbss<?> c = cbnonicblize(ts[i], how);
+            if (c == void.clbss)
+                c = null;  // b Void pbrbmeter wbs unwrbpped to void; ignore
             if (c != null) {
                 if (cs == null)
                     cs = ts.clone();
@@ -385,7 +385,7 @@ final class MethodTypeForm {
 
     @Override
     public String toString() {
-        return "Form"+erasedType;
+        return "Form"+erbsedType;
     }
 
 }

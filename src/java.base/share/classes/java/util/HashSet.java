@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.InvalidObjectException;
+import jbvb.io.InvblidObjectException;
 
 /**
- * This class implements the <tt>Set</tt> interface, backed by a hash table
- * (actually a <tt>HashMap</tt> instance).  It makes no guarantees as to the
- * iteration order of the set; in particular, it does not guarantee that the
- * order will remain constant over time.  This class permits the <tt>null</tt>
+ * This clbss implements the <tt>Set</tt> interfbce, bbcked by b hbsh tbble
+ * (bctublly b <tt>HbshMbp</tt> instbnce).  It mbkes no gubrbntees bs to the
+ * iterbtion order of the set; in pbrticulbr, it does not gubrbntee thbt the
+ * order will rembin constbnt over time.  This clbss permits the <tt>null</tt>
  * element.
  *
- * <p>This class offers constant time performance for the basic operations
- * (<tt>add</tt>, <tt>remove</tt>, <tt>contains</tt> and <tt>size</tt>),
- * assuming the hash function disperses the elements properly among the
- * buckets.  Iterating over this set requires time proportional to the sum of
- * the <tt>HashSet</tt> instance's size (the number of elements) plus the
- * "capacity" of the backing <tt>HashMap</tt> instance (the number of
- * buckets).  Thus, it's very important not to set the initial capacity too
- * high (or the load factor too low) if iteration performance is important.
+ * <p>This clbss offers constbnt time performbnce for the bbsic operbtions
+ * (<tt>bdd</tt>, <tt>remove</tt>, <tt>contbins</tt> bnd <tt>size</tt>),
+ * bssuming the hbsh function disperses the elements properly bmong the
+ * buckets.  Iterbting over this set requires time proportionbl to the sum of
+ * the <tt>HbshSet</tt> instbnce's size (the number of elements) plus the
+ * "cbpbcity" of the bbcking <tt>HbshMbp</tt> instbnce (the number of
+ * buckets).  Thus, it's very importbnt not to set the initibl cbpbcity too
+ * high (or the lobd fbctor too low) if iterbtion performbnce is importbnt.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a hash set concurrently, and at least one of
- * the threads modifies the set, it <i>must</i> be synchronized externally.
- * This is typically accomplished by synchronizing on some object that
- * naturally encapsulates the set.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess b hbsh set concurrently, bnd bt lebst one of
+ * the threbds modifies the set, it <i>must</i> be synchronized externblly.
+ * This is typicblly bccomplished by synchronizing on some object thbt
+ * nbturblly encbpsulbtes the set.
  *
- * If no such object exists, the set should be "wrapped" using the
+ * If no such object exists, the set should be "wrbpped" using the
  * {@link Collections#synchronizedSet Collections.synchronizedSet}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the set:<pre>
- *   Set s = Collections.synchronizedSet(new HashSet(...));</pre>
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the set:<pre>
+ *   Set s = Collections.synchronizedSet(new HbshSet(...));</pre>
  *
- * <p>The iterators returned by this class's <tt>iterator</tt> method are
- * <i>fail-fast</i>: if the set is modified at any time after the iterator is
- * created, in any way except through the iterator's own <tt>remove</tt>
- * method, the Iterator throws a {@link ConcurrentModificationException}.
- * Thus, in the face of concurrent modification, the iterator fails quickly
- * and cleanly, rather than risking arbitrary, non-deterministic behavior at
- * an undetermined time in the future.
+ * <p>The iterbtors returned by this clbss's <tt>iterbtor</tt> method bre
+ * <i>fbil-fbst</i>: if the set is modified bt bny time bfter the iterbtor is
+ * crebted, in bny wby except through the iterbtor's own <tt>remove</tt>
+ * method, the Iterbtor throws b {@link ConcurrentModificbtionException}.
+ * Thus, in the fbce of concurrent modificbtion, the iterbtor fbils quickly
+ * bnd clebnly, rbther thbn risking brbitrbry, non-deterministic behbvior bt
+ * bn undetermined time in the future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> the type of elements mbintbined by this set
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see     Collection
  * @see     Set
  * @see     TreeSet
- * @see     HashMap
+ * @see     HbshMbp
  * @since   1.2
  */
 
-public class HashSet<E>
-    extends AbstractSet<E>
-    implements Set<E>, Cloneable, java.io.Serializable
+public clbss HbshSet<E>
+    extends AbstrbctSet<E>
+    implements Set<E>, Clonebble, jbvb.io.Seriblizbble
 {
-    static final long serialVersionUID = -5024744406713321676L;
+    stbtic finbl long seriblVersionUID = -5024744406713321676L;
 
-    private transient HashMap<E,Object> map;
+    privbte trbnsient HbshMbp<E,Object> mbp;
 
-    // Dummy value to associate with an Object in the backing Map
-    private static final Object PRESENT = new Object();
+    // Dummy vblue to bssocibte with bn Object in the bbcking Mbp
+    privbte stbtic finbl Object PRESENT = new Object();
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * default initial capacity (16) and load factor (0.75).
+     * Constructs b new, empty set; the bbcking <tt>HbshMbp</tt> instbnce hbs
+     * defbult initibl cbpbcity (16) bnd lobd fbctor (0.75).
      */
-    public HashSet() {
-        map = new HashMap<>();
+    public HbshSet() {
+        mbp = new HbshMbp<>();
     }
 
     /**
-     * Constructs a new set containing the elements in the specified
-     * collection.  The <tt>HashMap</tt> is created with default load factor
-     * (0.75) and an initial capacity sufficient to contain the elements in
+     * Constructs b new set contbining the elements in the specified
+     * collection.  The <tt>HbshMbp</tt> is crebted with defbult lobd fbctor
+     * (0.75) bnd bn initibl cbpbcity sufficient to contbin the elements in
      * the specified collection.
      *
-     * @param c the collection whose elements are to be placed into this set
+     * @pbrbm c the collection whose elements bre to be plbced into this set
      * @throws NullPointerException if the specified collection is null
      */
-    public HashSet(Collection<? extends E> c) {
-        map = new HashMap<>(Math.max((int) (c.size()/.75f) + 1, 16));
-        addAll(c);
+    public HbshSet(Collection<? extends E> c) {
+        mbp = new HbshMbp<>(Mbth.mbx((int) (c.size()/.75f) + 1, 16));
+        bddAll(c);
     }
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * the specified initial capacity and the specified load factor.
+     * Constructs b new, empty set; the bbcking <tt>HbshMbp</tt> instbnce hbs
+     * the specified initibl cbpbcity bnd the specified lobd fbctor.
      *
-     * @param      initialCapacity   the initial capacity of the hash map
-     * @param      loadFactor        the load factor of the hash map
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive
+     * @pbrbm      initiblCbpbcity   the initibl cbpbcity of the hbsh mbp
+     * @pbrbm      lobdFbctor        the lobd fbctor of the hbsh mbp
+     * @throws     IllegblArgumentException if the initibl cbpbcity is less
+     *             thbn zero, or if the lobd fbctor is nonpositive
      */
-    public HashSet(int initialCapacity, float loadFactor) {
-        map = new HashMap<>(initialCapacity, loadFactor);
+    public HbshSet(int initiblCbpbcity, flobt lobdFbctor) {
+        mbp = new HbshMbp<>(initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * the specified initial capacity and default load factor (0.75).
+     * Constructs b new, empty set; the bbcking <tt>HbshMbp</tt> instbnce hbs
+     * the specified initibl cbpbcity bnd defbult lobd fbctor (0.75).
      *
-     * @param      initialCapacity   the initial capacity of the hash table
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero
+     * @pbrbm      initiblCbpbcity   the initibl cbpbcity of the hbsh tbble
+     * @throws     IllegblArgumentException if the initibl cbpbcity is less
+     *             thbn zero
      */
-    public HashSet(int initialCapacity) {
-        map = new HashMap<>(initialCapacity);
+    public HbshSet(int initiblCbpbcity) {
+        mbp = new HbshMbp<>(initiblCbpbcity);
     }
 
     /**
-     * Constructs a new, empty linked hash set.  (This package private
-     * constructor is only used by LinkedHashSet.) The backing
-     * HashMap instance is a LinkedHashMap with the specified initial
-     * capacity and the specified load factor.
+     * Constructs b new, empty linked hbsh set.  (This pbckbge privbte
+     * constructor is only used by LinkedHbshSet.) The bbcking
+     * HbshMbp instbnce is b LinkedHbshMbp with the specified initibl
+     * cbpbcity bnd the specified lobd fbctor.
      *
-     * @param      initialCapacity   the initial capacity of the hash map
-     * @param      loadFactor        the load factor of the hash map
-     * @param      dummy             ignored (distinguishes this
-     *             constructor from other int, float constructor.)
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive
+     * @pbrbm      initiblCbpbcity   the initibl cbpbcity of the hbsh mbp
+     * @pbrbm      lobdFbctor        the lobd fbctor of the hbsh mbp
+     * @pbrbm      dummy             ignored (distinguishes this
+     *             constructor from other int, flobt constructor.)
+     * @throws     IllegblArgumentException if the initibl cbpbcity is less
+     *             thbn zero, or if the lobd fbctor is nonpositive
      */
-    HashSet(int initialCapacity, float loadFactor, boolean dummy) {
-        map = new LinkedHashMap<>(initialCapacity, loadFactor);
+    HbshSet(int initiblCbpbcity, flobt lobdFbctor, boolebn dummy) {
+        mbp = new LinkedHbshMbp<>(initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Returns an iterator over the elements in this set.  The elements
-     * are returned in no particular order.
+     * Returns bn iterbtor over the elements in this set.  The elements
+     * bre returned in no pbrticulbr order.
      *
-     * @return an Iterator over the elements in this set
-     * @see ConcurrentModificationException
+     * @return bn Iterbtor over the elements in this set
+     * @see ConcurrentModificbtionException
      */
-    public Iterator<E> iterator() {
-        return map.keySet().iterator();
+    public Iterbtor<E> iterbtor() {
+        return mbp.keySet().iterbtor();
     }
 
     /**
-     * Returns the number of elements in this set (its cardinality).
+     * Returns the number of elements in this set (its cbrdinblity).
      *
-     * @return the number of elements in this set (its cardinality)
+     * @return the number of elements in this set (its cbrdinblity)
      */
     public int size() {
-        return map.size();
+        return mbp.size();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <tt>true</tt> if this set contbins no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @return <tt>true</tt> if this set contbins no elements
      */
-    public boolean isEmpty() {
-        return map.isEmpty();
+    public boolebn isEmpty() {
+        return mbp.isEmpty();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this set
-     * contains an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns <tt>true</tt> if this set contbins the specified element.
+     * More formblly, returns <tt>true</tt> if bnd only if this set
+     * contbins bn element <tt>e</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o element whose presence in this set is to be tested
-     * @return <tt>true</tt> if this set contains the specified element
+     * @pbrbm o element whose presence in this set is to be tested
+     * @return <tt>true</tt> if this set contbins the specified element
      */
-    public boolean contains(Object o) {
-        return map.containsKey(o);
+    public boolebn contbins(Object o) {
+        return mbp.contbinsKey(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element <tt>e</tt> to this set if
-     * this set contains no element <tt>e2</tt> such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns <tt>false</tt>.
+     * Adds the specified element to this set if it is not blrebdy present.
+     * More formblly, bdds the specified element <tt>e</tt> to this set if
+     * this set contbins no element <tt>e2</tt> such thbt
+     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equbls(e2))</tt>.
+     * If this set blrebdy contbins the element, the cbll lebves the set
+     * unchbnged bnd returns <tt>fblse</tt>.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if this set did not already contain the specified
+     * @pbrbm e element to be bdded to this set
+     * @return <tt>true</tt> if this set did not blrebdy contbin the specified
      * element
      */
-    public boolean add(E e) {
-        return map.put(e, PRESENT)==null;
+    public boolebn bdd(E e) {
+        return mbp.put(e, PRESENT)==null;
     }
 
     /**
      * Removes the specified element from this set if it is present.
-     * More formally, removes an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>,
-     * if this set contains such an element.  Returns <tt>true</tt> if
-     * this set contained the element (or equivalently, if this set
-     * changed as a result of the call).  (This set will not contain the
-     * element once the call returns.)
+     * More formblly, removes bn element <tt>e</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>,
+     * if this set contbins such bn element.  Returns <tt>true</tt> if
+     * this set contbined the element (or equivblently, if this set
+     * chbnged bs b result of the cbll).  (This set will not contbin the
+     * element once the cbll returns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return <tt>true</tt> if the set contained the specified element
+     * @pbrbm o object to be removed from this set, if present
+     * @return <tt>true</tt> if the set contbined the specified element
      */
-    public boolean remove(Object o) {
-        return map.remove(o)==PRESENT;
+    public boolebn remove(Object o) {
+        return mbp.remove(o)==PRESENT;
     }
 
     /**
-     * Removes all of the elements from this set.
-     * The set will be empty after this call returns.
+     * Removes bll of the elements from this set.
+     * The set will be empty bfter this cbll returns.
      */
-    public void clear() {
-        map.clear();
+    public void clebr() {
+        mbp.clebr();
     }
 
     /**
-     * Returns a shallow copy of this <tt>HashSet</tt> instance: the elements
-     * themselves are not cloned.
+     * Returns b shbllow copy of this <tt>HbshSet</tt> instbnce: the elements
+     * themselves bre not cloned.
      *
-     * @return a shallow copy of this set
+     * @return b shbllow copy of this set
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public Object clone() {
         try {
-            HashSet<E> newSet = (HashSet<E>) super.clone();
-            newSet.map = (HashMap<E, Object>) map.clone();
+            HbshSet<E> newSet = (HbshSet<E>) super.clone();
+            newSet.mbp = (HbshMbp<E, Object>) mbp.clone();
             return newSet;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Save the state of this <tt>HashSet</tt> instance to a stream (that is,
-     * serialize it).
+     * Sbve the stbte of this <tt>HbshSet</tt> instbnce to b strebm (thbt is,
+     * seriblize it).
      *
-     * @serialData The capacity of the backing <tt>HashMap</tt> instance
-     *             (int), and its load factor (float) are emitted, followed by
-     *             the size of the set (the number of elements it contains)
-     *             (int), followed by all of its elements (each an Object) in
-     *             no particular order.
+     * @seriblDbtb The cbpbcity of the bbcking <tt>HbshMbp</tt> instbnce
+     *             (int), bnd its lobd fbctor (flobt) bre emitted, followed by
+     *             the size of the set (the number of elements it contbins)
+     *             (int), followed by bll of its elements (ebch bn Object) in
+     *             no pbrticulbr order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out any hidden serialization magic
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        // Write out bny hidden seriblizbtion mbgic
+        s.defbultWriteObject();
 
-        // Write out HashMap capacity and load factor
-        s.writeInt(map.capacity());
-        s.writeFloat(map.loadFactor());
+        // Write out HbshMbp cbpbcity bnd lobd fbctor
+        s.writeInt(mbp.cbpbcity());
+        s.writeFlobt(mbp.lobdFbctor());
 
         // Write out size
-        s.writeInt(map.size());
+        s.writeInt(mbp.size());
 
-        // Write out all elements in the proper order.
-        for (E e : map.keySet())
+        // Write out bll elements in the proper order.
+        for (E e : mbp.keySet())
             s.writeObject(e);
     }
 
     /**
-     * Reconstitute the <tt>HashSet</tt> instance from a stream (that is,
-     * deserialize it).
+     * Reconstitute the <tt>HbshSet</tt> instbnce from b strebm (thbt is,
+     * deseriblize it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in any hidden serialization magic
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in bny hidden seriblizbtion mbgic
+        s.defbultRebdObject();
 
-        // Read capacity and verify non-negative.
-        int capacity = s.readInt();
-        if (capacity < 0) {
-            throw new InvalidObjectException("Illegal capacity: " +
-                                             capacity);
+        // Rebd cbpbcity bnd verify non-negbtive.
+        int cbpbcity = s.rebdInt();
+        if (cbpbcity < 0) {
+            throw new InvblidObjectException("Illegbl cbpbcity: " +
+                                             cbpbcity);
         }
 
-        // Read load factor and verify positive and non NaN.
-        float loadFactor = s.readFloat();
-        if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
-            throw new InvalidObjectException("Illegal load factor: " +
-                                             loadFactor);
+        // Rebd lobd fbctor bnd verify positive bnd non NbN.
+        flobt lobdFbctor = s.rebdFlobt();
+        if (lobdFbctor <= 0 || Flobt.isNbN(lobdFbctor)) {
+            throw new InvblidObjectException("Illegbl lobd fbctor: " +
+                                             lobdFbctor);
         }
 
-        // Read size and verify non-negative.
-        int size = s.readInt();
+        // Rebd size bnd verify non-negbtive.
+        int size = s.rebdInt();
         if (size < 0) {
-            throw new InvalidObjectException("Illegal size: " +
+            throw new InvblidObjectException("Illegbl size: " +
                                              size);
         }
 
-        // Set the capacity according to the size and load factor ensuring that
-        // the HashMap is at least 25% full but clamping to maximum capacity.
-        capacity = (int) Math.min(size * Math.min(1 / loadFactor, 4.0f),
-                HashMap.MAXIMUM_CAPACITY);
+        // Set the cbpbcity bccording to the size bnd lobd fbctor ensuring thbt
+        // the HbshMbp is bt lebst 25% full but clbmping to mbximum cbpbcity.
+        cbpbcity = (int) Mbth.min(size * Mbth.min(1 / lobdFbctor, 4.0f),
+                HbshMbp.MAXIMUM_CAPACITY);
 
-        // Create backing HashMap
-        map = (((HashSet<?>)this) instanceof LinkedHashSet ?
-               new LinkedHashMap<>(capacity, loadFactor) :
-               new HashMap<>(capacity, loadFactor));
+        // Crebte bbcking HbshMbp
+        mbp = (((HbshSet<?>)this) instbnceof LinkedHbshSet ?
+               new LinkedHbshMbp<>(cbpbcity, lobdFbctor) :
+               new HbshMbp<>(cbpbcity, lobdFbctor));
 
-        // Read in all elements in the proper order.
+        // Rebd in bll elements in the proper order.
         for (int i=0; i<size; i++) {
-            @SuppressWarnings("unchecked")
-                E e = (E) s.readObject();
-            map.put(e, PRESENT);
+            @SuppressWbrnings("unchecked")
+                E e = (E) s.rebdObject();
+            mbp.put(e, PRESENT);
         }
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crebtes b <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>
+     * bnd <em>fbil-fbst</em> {@link Spliterbtor} over the elements in this
      * set.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#DISTINCT}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#DISTINCT}.  Overriding implementbtions should document
+     * the reporting of bdditionbl chbrbcteristic vblues.
      *
-     * @return a {@code Spliterator} over the elements in this set
+     * @return b {@code Spliterbtor} over the elements in this set
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new HashMap.KeySpliterator<>(map, 0, -1, 0, 0);
+    public Spliterbtor<E> spliterbtor() {
+        return new HbshMbp.KeySpliterbtor<>(mbp, 0, -1, 0, 0);
     }
 }

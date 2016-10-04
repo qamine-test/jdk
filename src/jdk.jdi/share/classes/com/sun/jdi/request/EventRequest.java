@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.request;
+pbckbge com.sun.jdi.request;
 
 import com.sun.jdi.*;
 
 /**
- * Represents a request for notification of an event.  Examples include
- * {@link BreakpointRequest} and {@link ExceptionRequest}.
- * When an event occurs for which an enabled request is present,
- * an  {@link com.sun.jdi.event.EventSet EventSet} will
- * be placed on the {@link com.sun.jdi.event.EventQueue EventQueue}.
+ * Represents b request for notificbtion of bn event.  Exbmples include
+ * {@link BrebkpointRequest} bnd {@link ExceptionRequest}.
+ * When bn event occurs for which bn enbbled request is present,
+ * bn  {@link com.sun.jdi.event.EventSet EventSet} will
+ * be plbced on the {@link com.sun.jdi.event.EventQueue EventQueue}.
  * The collection of existing event requests is
- * managed by the {@link EventRequestManager}.
+ * mbnbged by the {@link EventRequestMbnbger}.
  * <p>
- * The number of events generated for an event request can be controlled
- * through filters. Filters provide additional constraints that an event
- * must satisfy before it is placed on the event queue. Multiple filters can
- * be used by making multiple calls to filter addition methods such as
- * {@link ExceptionRequest#addClassFilter(java.lang.String classPattern)}.
- * Filters are added to an event one at a time only while the event is
- * disabled. Multiple filters are applied with CUT-OFF AND, in the order
- * it was added to the request. Only events that satisfy all filters are
- * placed in the event queue.
+ * The number of events generbted for bn event request cbn be controlled
+ * through filters. Filters provide bdditionbl constrbints thbt bn event
+ * must sbtisfy before it is plbced on the event queue. Multiple filters cbn
+ * be used by mbking multiple cblls to filter bddition methods such bs
+ * {@link ExceptionRequest#bddClbssFilter(jbvb.lbng.String clbssPbttern)}.
+ * Filters bre bdded to bn event one bt b time only while the event is
+ * disbbled. Multiple filters bre bpplied with CUT-OFF AND, in the order
+ * it wbs bdded to the request. Only events thbt sbtisfy bll filters bre
+ * plbced in the event queue.
  * <p>
- * The set of available filters is dependent on the event request,
- * some examples of filters are:
+ * The set of bvbilbble filters is dependent on the event request,
+ * some exbmples of filters bre:
  * <ul>
- * <li>Thread filters allow control over the thread for which events are
- * generated.
- * <li>Class filters allow control over the class in which the event
+ * <li>Threbd filters bllow control over the threbd for which events bre
+ * generbted.
+ * <li>Clbss filters bllow control over the clbss in which the event
  * occurs.
- * <li>Instance filters allow control over the instance in which
+ * <li>Instbnce filters bllow control over the instbnce in which
  * the event occurs.
- * <li>Count filters allow control over the number of times an event
+ * <li>Count filters bllow control over the number of times bn event
  * is reported.
  * </ul>
- * Filters can dramatically improve debugger performance by reducing the
- * amount of event traffic sent from the target VM to the debugger VM.
+ * Filters cbn drbmbticblly improve debugger performbnce by reducing the
+ * bmount of event trbffic sent from the tbrget VM to the debugger VM.
  * <p>
  * Any method on <code>EventRequest</code> which
- * takes <code>EventRequest</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * tbkes <code>EventRequest</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM is
+ * disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is
+ * bvbilbble to be rebd from the {@link com.sun.jdi.event.EventQueue}.
  * <p>
  * Any method on <code>EventRequest</code> which
- * takes <code>EventRequest</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * tbkes <code>EventRequest</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget VM hbs run out of memory.
  *
- * @see com.sun.jdi.event.BreakpointEvent
+ * @see com.sun.jdi.event.BrebkpointEvent
  * @see com.sun.jdi.event.EventQueue
- * @see EventRequestManager
+ * @see EventRequestMbnbger
  *
- * @author Robert Field
+ * @buthor Robert Field
  * @since  1.3
  */
 @jdk.Exported
-public interface EventRequest extends Mirror {
+public interfbce EventRequest extends Mirror {
 
     /**
-     * Determines if this event request is currently enabled.
+     * Determines if this event request is currently enbbled.
      *
-     * @return <code>true</code> if enabled;
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if enbbled;
+     * <code>fblse</code> otherwise.
      */
-    boolean isEnabled();
+    boolebn isEnbbled();
 
     /**
-     * Enables or disables this event request. While this event request is
-     * disabled, the event request will be ignored and the target VM
-     * will not be stopped if any of its threads reaches the
-     * event request.  Disabled event requests still exist,
-     * and are included in event request lists such as
-     * {@link EventRequestManager#breakpointRequests()}.
+     * Enbbles or disbbles this event request. While this event request is
+     * disbbled, the event request will be ignored bnd the tbrget VM
+     * will not be stopped if bny of its threbds rebches the
+     * event request.  Disbbled event requests still exist,
+     * bnd bre included in event request lists such bs
+     * {@link EventRequestMbnbger#brebkpointRequests()}.
      *
-     * @param val <code>true</code> if the event request is to be enabled;
-     * <code>false</code> otherwise.
-     * @throws InvalidRequestStateException if this request
-     * has been deleted.
-     * @throws IllegalThreadStateException if this is a StepRequest,
-     * <code>val</code> is <code>true</code>, and the
-     * thread named in the request has died or is not yet started.
+     * @pbrbm vbl <code>true</code> if the event request is to be enbbled;
+     * <code>fblse</code> otherwise.
+     * @throws InvblidRequestStbteException if this request
+     * hbs been deleted.
+     * @throws IllegblThrebdStbteException if this is b StepRequest,
+     * <code>vbl</code> is <code>true</code>, bnd the
+     * threbd nbmed in the request hbs died or is not yet stbrted.
      */
-    void setEnabled(boolean val);
+    void setEnbbled(boolebn vbl);
 
     /**
-     * Same as {@link #setEnabled <CODE>setEnabled(true)</CODE>}.
-     * @throws InvalidRequestStateException if this request
-     * has been deleted.
-     * @throws IllegalThreadStateException if this is a StepRequest
-     * and the thread named in the request has died or is not yet started.
+     * Sbme bs {@link #setEnbbled <CODE>setEnbbled(true)</CODE>}.
+     * @throws InvblidRequestStbteException if this request
+     * hbs been deleted.
+     * @throws IllegblThrebdStbteException if this is b StepRequest
+     * bnd the threbd nbmed in the request hbs died or is not yet stbrted.
      */
-    void enable();
+    void enbble();
 
     /**
-     * Same as {@link #setEnabled <CODE>setEnabled(false)</CODE>}.
-     * @throws InvalidRequestStateException if this request
-     * has been deleted.
+     * Sbme bs {@link #setEnbbled <CODE>setEnbbled(fblse)</CODE>}.
+     * @throws InvblidRequestStbteException if this request
+     * hbs been deleted.
      */
-    void disable();
+    void disbble();
 
     /**
-     * Limit the requested event to be reported at most once after a
+     * Limit the requested event to be reported bt most once bfter b
      * given number of occurrences.  The event is not reported
-     * the first <code>count - 1</code> times this filter is reached.
-     * To request a one-off event, call this method with a count of 1.
+     * the first <code>count - 1</code> times this filter is rebched.
+     * To request b one-off event, cbll this method with b count of 1.
      * <p>
-     * Once the count reaches 0, any subsequent filters in this request
-     * are applied. If none of those filters cause the event to be
+     * Once the count rebches 0, bny subsequent filters in this request
+     * bre bpplied. If none of those filters cbuse the event to be
      * suppressed, the event is reported. Otherwise, the event is not
-     * reported. In either case subsequent events are never reported for
+     * reported. In either cbse subsequent events bre never reported for
      * this request.
      *
-     * @param count the number of ocurrences before generating an event.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
-     * @throws IllegalArgumentException if <CODE>count</CODE>
-     * is less than one.
+     * @pbrbm count the number of ocurrences before generbting bn event.
+     * @throws InvblidRequestStbteException if this request is currently
+     * enbbled or hbs been deleted.
+     * Filters mby be bdded only to disbbled requests.
+     * @throws IllegblArgumentException if <CODE>count</CODE>
+     * is less thbn one.
      */
-    void addCountFilter(int count);
+    void bddCountFilter(int count);
 
-    /** Suspend no threads when the event occurs */
+    /** Suspend no threbds when the event occurs */
     int SUSPEND_NONE = 0;
-    /** Suspend only the thread which generated the event when the event occurs */
+    /** Suspend only the threbd which generbted the event when the event occurs */
     int SUSPEND_EVENT_THREAD = 1;
-    /** Suspend all threads when the event occurs */
+    /** Suspend bll threbds when the event occurs */
     int SUSPEND_ALL = 2;
 
     /**
-     * Determines the threads to suspend when the requested event occurs
-     * in the target VM. Use {@link #SUSPEND_ALL} to suspend all
-     * threads in the target VM (the default). Use {@link #SUSPEND_EVENT_THREAD}
-     * to suspend only the thread which generated the event. Use
-     * {@link #SUSPEND_NONE} to suspend no threads.
+     * Determines the threbds to suspend when the requested event occurs
+     * in the tbrget VM. Use {@link #SUSPEND_ALL} to suspend bll
+     * threbds in the tbrget VM (the defbult). Use {@link #SUSPEND_EVENT_THREAD}
+     * to suspend only the threbd which generbted the event. Use
+     * {@link #SUSPEND_NONE} to suspend no threbds.
      * <p>
-     * Thread suspensions through events have the same functionality
-     * as explicitly requested suspensions. See
-     * {@link com.sun.jdi.ThreadReference#suspend} and
-     * {@link com.sun.jdi.VirtualMachine#suspend} for details.
+     * Threbd suspensions through events hbve the sbme functionblity
+     * bs explicitly requested suspensions. See
+     * {@link com.sun.jdi.ThrebdReference#suspend} bnd
+     * {@link com.sun.jdi.VirtublMbchine#suspend} for detbils.
      *
-     * @param policy the selected suspend policy.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Suspend policy may only be set in disabled requests.
-     * @throws IllegalArgumentException if the policy argument
-     * contains an illegal value.
+     * @pbrbm policy the selected suspend policy.
+     * @throws InvblidRequestStbteException if this request is currently
+     * enbbled or hbs been deleted.
+     * Suspend policy mby only be set in disbbled requests.
+     * @throws IllegblArgumentException if the policy brgument
+     * contbins bn illegbl vblue.
      */
     void setSuspendPolicy(int policy);
 
     /**
-     * Returns a value which describes the threads to suspend when the
-     * requested event occurs in the target VM.
-     * The returned value is  {@link #SUSPEND_ALL},
+     * Returns b vblue which describes the threbds to suspend when the
+     * requested event occurs in the tbrget VM.
+     * The returned vblue is  {@link #SUSPEND_ALL},
      * {@link #SUSPEND_EVENT_THREAD}, or {@link #SUSPEND_NONE}.
      *
      * @return the current suspend mode for this request
@@ -183,28 +183,28 @@ public interface EventRequest extends Mirror {
     int suspendPolicy();
 
     /**
-     * Add an arbitrary key/value "property" to this request.
-     * The property can be used by a client of the JDI to
-     * associate application information with the request;
-     * These client-set properties are not used internally
+     * Add bn brbitrbry key/vblue "property" to this request.
+     * The property cbn be used by b client of the JDI to
+     * bssocibte bpplicbtion informbtion with the request;
+     * These client-set properties bre not used internblly
      * by the JDI.
      * <p>
-     * The <code>get/putProperty</code> methods provide access to
-     * a small per-instance map. This is <b>not</b> to be confused
-     * with {@link java.util.Properties}.
+     * The <code>get/putProperty</code> methods provide bccess to
+     * b smbll per-instbnce mbp. This is <b>not</b> to be confused
+     * with {@link jbvb.util.Properties}.
      * <p>
-     * If value is null this method will remove the property.
+     * If vblue is null this method will remove the property.
      *
      * @see #getProperty
      */
-    void putProperty(Object key, Object value);
+    void putProperty(Object key, Object vblue);
 
     /**
-     * Returns the value of the property with the specified key.  Only
-     * properties added with {@link #putProperty} will return
-     * a non-null value.
+     * Returns the vblue of the property with the specified key.  Only
+     * properties bdded with {@link #putProperty} will return
+     * b non-null vblue.
      *
-     * @return the value of this property or null
+     * @return the vblue of this property or null
      * @see #putProperty
      */
     Object getProperty(Object key);

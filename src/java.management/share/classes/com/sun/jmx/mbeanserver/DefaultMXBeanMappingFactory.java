@@ -1,726 +1,726 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import static com.sun.jmx.mbeanserver.Util.*;
-import static com.sun.jmx.mbeanserver.MXBeanIntrospector.typeName;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.MXBebnIntrospector.typeNbme;
 
-import static javax.management.openmbean.SimpleType.*;
+import stbtic jbvbx.mbnbgement.openmbebn.SimpleType.*;
 
 import com.sun.jmx.remote.util.EnvHelp;
 
-import java.io.InvalidObjectException;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.WeakHashMap;
+import jbvb.io.InvblidObjectException;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.ElementType;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.GenericArrbyType;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.BitSet;
+import jbvb.util.Collection;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
+import jbvb.util.WebkHbshMbp;
 
-import javax.management.JMX;
-import javax.management.ObjectName;
-import javax.management.openmbean.ArrayType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataInvocationHandler;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.TabularDataSupport;
-import javax.management.openmbean.TabularType;
+import jbvbx.mbnbgement.JMX;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.openmbebn.ArrbyType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbInvocbtionHbndler;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbView;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.SimpleType;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.TbbulbrType;
 import sun.reflect.misc.MethodUtil;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- *   <p>A converter between Java types and the limited set of classes
- *   defined by Open MBeans.</p>
+ *   <p>A converter between Jbvb types bnd the limited set of clbsses
+ *   defined by Open MBebns.</p>
  *
- *   <p>A Java type is an instance of java.lang.reflect.Type.  For our
- *   purposes, it is either a Class, such as String.class or int.class;
- *   or a ParameterizedType, such as List<String> or Map<Integer,
- *   String[]>.  On J2SE 1.4 and earlier, it can only be a Class.</p>
+ *   <p>A Jbvb type is bn instbnce of jbvb.lbng.reflect.Type.  For our
+ *   purposes, it is either b Clbss, such bs String.clbss or int.clbss;
+ *   or b PbrbmeterizedType, such bs List<String> or Mbp<Integer,
+ *   String[]>.  On J2SE 1.4 bnd ebrlier, it cbn only be b Clbss.</p>
  *
- *   <p>Each Type is associated with an DefaultMXBeanMappingFactory.  The
- *   DefaultMXBeanMappingFactory defines an OpenType corresponding to the Type, plus a
- *   Java class corresponding to the OpenType.  For example:</p>
+ *   <p>Ebch Type is bssocibted with bn DefbultMXBebnMbppingFbctory.  The
+ *   DefbultMXBebnMbppingFbctory defines bn OpenType corresponding to the Type, plus b
+ *   Jbvb clbss corresponding to the OpenType.  For exbmple:</p>
  *
  *   <pre>
- *   Type                     Open class     OpenType
+ *   Type                     Open clbss     OpenType
  *   ----                     ----------     --------
  *   Integer                Integer        SimpleType.INTEGER
  *   int                            int            SimpleType.INTEGER
- *   Integer[]              Integer[]      ArrayType(1, SimpleType.INTEGER)
- *   int[]                  Integer[]      ArrayType(SimpleType.INTEGER, true)
- *   String[][]             String[][]     ArrayType(2, SimpleType.STRING)
- *   List<String>                   String[]       ArrayType(1, SimpleType.STRING)
- *   ThreadState (an Enum)    String         SimpleType.STRING
- *   Map<Integer, String[]>   TabularData          TabularType(
+ *   Integer[]              Integer[]      ArrbyType(1, SimpleType.INTEGER)
+ *   int[]                  Integer[]      ArrbyType(SimpleType.INTEGER, true)
+ *   String[][]             String[][]     ArrbyType(2, SimpleType.STRING)
+ *   List<String>                   String[]       ArrbyType(1, SimpleType.STRING)
+ *   ThrebdStbte (bn Enum)    String         SimpleType.STRING
+ *   Mbp<Integer, String[]>   TbbulbrDbtb          TbbulbrType(
  *                                           CompositeType(
  *                                             {"key", SimpleType.INTEGER},
- *                                             {"value",
- *                                               ArrayType(1,
+ *                                             {"vblue",
+ *                                               ArrbyType(1,
  *                                                SimpleType.STRING)}),
- *                                           indexNames={"key"})
+ *                                           indexNbmes={"key"})
  *   </pre>
  *
- *   <p>Apart from simple types, arrays, and collections, Java types are
- *   converted through introspection into CompositeType.  The Java type
- *   must have at least one getter (method such as "int getSize()" or
- *   "boolean isBig()"), and we must be able to deduce how to
- *   reconstruct an instance of the Java class from the values of the
- *   getters using one of various heuristics.</p>
+ *   <p>Apbrt from simple types, brrbys, bnd collections, Jbvb types bre
+ *   converted through introspection into CompositeType.  The Jbvb type
+ *   must hbve bt lebst one getter (method such bs "int getSize()" or
+ *   "boolebn isBig()"), bnd we must be bble to deduce how to
+ *   reconstruct bn instbnce of the Jbvb clbss from the vblues of the
+ *   getters using one of vbrious heuristics.</p>
  *
  * @since 1.6
  */
-public class DefaultMXBeanMappingFactory extends MXBeanMappingFactory {
-    static abstract class NonNullMXBeanMapping extends MXBeanMapping {
-        NonNullMXBeanMapping(Type javaType, OpenType<?> openType) {
-            super(javaType, openType);
+public clbss DefbultMXBebnMbppingFbctory extends MXBebnMbppingFbctory {
+    stbtic bbstrbct clbss NonNullMXBebnMbpping extends MXBebnMbpping {
+        NonNullMXBebnMbpping(Type jbvbType, OpenType<?> openType) {
+            super(jbvbType, openType);
         }
 
         @Override
-        public final Object fromOpenValue(Object openValue)
-        throws InvalidObjectException {
-            if (openValue == null)
+        public finbl Object fromOpenVblue(Object openVblue)
+        throws InvblidObjectException {
+            if (openVblue == null)
                 return null;
             else
-                return fromNonNullOpenValue(openValue);
+                return fromNonNullOpenVblue(openVblue);
         }
 
         @Override
-        public final Object toOpenValue(Object javaValue) throws OpenDataException {
-            if (javaValue == null)
+        public finbl Object toOpenVblue(Object jbvbVblue) throws OpenDbtbException {
+            if (jbvbVblue == null)
                 return null;
             else
-                return toNonNullOpenValue(javaValue);
+                return toNonNullOpenVblue(jbvbVblue);
         }
 
-        abstract Object fromNonNullOpenValue(Object openValue)
-        throws InvalidObjectException;
+        bbstrbct Object fromNonNullOpenVblue(Object openVblue)
+        throws InvblidObjectException;
 
-        abstract Object toNonNullOpenValue(Object javaValue)
-        throws OpenDataException;
+        bbstrbct Object toNonNullOpenVblue(Object jbvbVblue)
+        throws OpenDbtbException;
 
         /**
-         * <p>True if and only if this MXBeanMapping's toOpenValue and
-         * fromOpenValue methods are the identity function.</p>
+         * <p>True if bnd only if this MXBebnMbpping's toOpenVblue bnd
+         * fromOpenVblue methods bre the identity function.</p>
          */
-        boolean isIdentity() {
-            return false;
+        boolebn isIdentity() {
+            return fblse;
         }
     }
 
-    static boolean isIdentity(MXBeanMapping mapping) {
-        return (mapping instanceof NonNullMXBeanMapping &&
-                ((NonNullMXBeanMapping) mapping).isIdentity());
+    stbtic boolebn isIdentity(MXBebnMbpping mbpping) {
+        return (mbpping instbnceof NonNullMXBebnMbpping &&
+                ((NonNullMXBebnMbpping) mbpping).isIdentity());
     }
 
-    private static final class Mappings
-        extends WeakHashMap<Type, WeakReference<MXBeanMapping>> {}
+    privbte stbtic finbl clbss Mbppings
+        extends WebkHbshMbp<Type, WebkReference<MXBebnMbpping>> {}
 
-    private static final Mappings mappings = new Mappings();
+    privbte stbtic finbl Mbppings mbppings = new Mbppings();
 
-    /** Following List simply serves to keep a reference to predefined
-        MXBeanMappings so they don't get garbage collected. */
-    private static final List<MXBeanMapping> permanentMappings = newList();
+    /** Following List simply serves to keep b reference to predefined
+        MXBebnMbppings so they don't get gbrbbge collected. */
+    privbte stbtic finbl List<MXBebnMbpping> permbnentMbppings = newList();
 
-    private static synchronized MXBeanMapping getMapping(Type type) {
-        WeakReference<MXBeanMapping> wr = mappings.get(type);
+    privbte stbtic synchronized MXBebnMbpping getMbpping(Type type) {
+        WebkReference<MXBebnMbpping> wr = mbppings.get(type);
         return (wr == null) ? null : wr.get();
     }
 
-    private static synchronized void putMapping(Type type, MXBeanMapping mapping) {
-        WeakReference<MXBeanMapping> wr =
-            new WeakReference<MXBeanMapping>(mapping);
-        mappings.put(type, wr);
+    privbte stbtic synchronized void putMbpping(Type type, MXBebnMbpping mbpping) {
+        WebkReference<MXBebnMbpping> wr =
+            new WebkReference<MXBebnMbpping>(mbpping);
+        mbppings.put(type, wr);
     }
 
-    private static synchronized void putPermanentMapping(
-            Type type, MXBeanMapping mapping) {
-        putMapping(type, mapping);
-        permanentMappings.add(mapping);
+    privbte stbtic synchronized void putPermbnentMbpping(
+            Type type, MXBebnMbpping mbpping) {
+        putMbpping(type, mbpping);
+        permbnentMbppings.bdd(mbpping);
     }
 
-    static {
-        /* Set up the mappings for Java types that map to SimpleType.  */
+    stbtic {
+        /* Set up the mbppings for Jbvb types thbt mbp to SimpleType.  */
 
-        final OpenType<?>[] simpleTypes = {
+        finbl OpenType<?>[] simpleTypes = {
             BIGDECIMAL, BIGINTEGER, BOOLEAN, BYTE, CHARACTER, DATE,
             DOUBLE, FLOAT, INTEGER, LONG, OBJECTNAME, SHORT, STRING,
             VOID,
         };
 
         for (int i = 0; i < simpleTypes.length; i++) {
-            final OpenType<?> t = simpleTypes[i];
-            Class<?> c;
+            finbl OpenType<?> t = simpleTypes[i];
+            Clbss<?> c;
             try {
-                c = Class.forName(t.getClassName(), false,
-                                  ObjectName.class.getClassLoader());
-            } catch (ClassNotFoundException e) {
-                // the classes that these predefined types declare must exist!
+                c = Clbss.forNbme(t.getClbssNbme(), fblse,
+                                  ObjectNbme.clbss.getClbssLobder());
+            } cbtch (ClbssNotFoundException e) {
+                // the clbsses thbt these predefined types declbre must exist!
                 throw new Error(e);
             }
-            final MXBeanMapping mapping = new IdentityMapping(c, t);
-            putPermanentMapping(c, mapping);
+            finbl MXBebnMbpping mbpping = new IdentityMbpping(c, t);
+            putPermbnentMbpping(c, mbpping);
 
-            if (c.getName().startsWith("java.lang.")) {
+            if (c.getNbme().stbrtsWith("jbvb.lbng.")) {
                 try {
-                    final Field typeField = c.getField("TYPE");
-                    final Class<?> primitiveType = (Class<?>) typeField.get(null);
-                    final MXBeanMapping primitiveMapping =
-                        new IdentityMapping(primitiveType, t);
-                    putPermanentMapping(primitiveType, primitiveMapping);
-                    if (primitiveType != void.class) {
-                        final Class<?> primitiveArrayType =
-                            Array.newInstance(primitiveType, 0).getClass();
-                        final OpenType<?> primitiveArrayOpenType =
-                            ArrayType.getPrimitiveArrayType(primitiveArrayType);
-                        final MXBeanMapping primitiveArrayMapping =
-                            new IdentityMapping(primitiveArrayType,
-                                                primitiveArrayOpenType);
-                        putPermanentMapping(primitiveArrayType,
-                                            primitiveArrayMapping);
+                    finbl Field typeField = c.getField("TYPE");
+                    finbl Clbss<?> primitiveType = (Clbss<?>) typeField.get(null);
+                    finbl MXBebnMbpping primitiveMbpping =
+                        new IdentityMbpping(primitiveType, t);
+                    putPermbnentMbpping(primitiveType, primitiveMbpping);
+                    if (primitiveType != void.clbss) {
+                        finbl Clbss<?> primitiveArrbyType =
+                            Arrby.newInstbnce(primitiveType, 0).getClbss();
+                        finbl OpenType<?> primitiveArrbyOpenType =
+                            ArrbyType.getPrimitiveArrbyType(primitiveArrbyType);
+                        finbl MXBebnMbpping primitiveArrbyMbpping =
+                            new IdentityMbpping(primitiveArrbyType,
+                                                primitiveArrbyOpenType);
+                        putPermbnentMbpping(primitiveArrbyType,
+                                            primitiveArrbyMbpping);
                     }
-                } catch (NoSuchFieldException e) {
-                    // OK: must not be a primitive wrapper
-                } catch (IllegalAccessException e) {
-                    // Should not reach here
-                    assert(false);
+                } cbtch (NoSuchFieldException e) {
+                    // OK: must not be b primitive wrbpper
+                } cbtch (IllegblAccessException e) {
+                    // Should not rebch here
+                    bssert(fblse);
                 }
             }
         }
     }
 
-    /** Get the converter for the given Java type, creating it if necessary. */
+    /** Get the converter for the given Jbvb type, crebting it if necessbry. */
     @Override
-    public synchronized MXBeanMapping mappingForType(Type objType,
-                                                     MXBeanMappingFactory factory)
-            throws OpenDataException {
-        if (inProgress.containsKey(objType)) {
-            throw new OpenDataException(
-                    "Recursive data structure, including " + typeName(objType));
+    public synchronized MXBebnMbpping mbppingForType(Type objType,
+                                                     MXBebnMbppingFbctory fbctory)
+            throws OpenDbtbException {
+        if (inProgress.contbinsKey(objType)) {
+            throw new OpenDbtbException(
+                    "Recursive dbtb structure, including " + typeNbme(objType));
         }
 
-        MXBeanMapping mapping;
+        MXBebnMbpping mbpping;
 
-        mapping = getMapping(objType);
-        if (mapping != null)
-            return mapping;
+        mbpping = getMbpping(objType);
+        if (mbpping != null)
+            return mbpping;
 
         inProgress.put(objType, objType);
         try {
-            mapping = makeMapping(objType, factory);
-        } catch (OpenDataException e) {
-            throw openDataException("Cannot convert type: " + typeName(objType), e);
-        } finally {
+            mbpping = mbkeMbpping(objType, fbctory);
+        } cbtch (OpenDbtbException e) {
+            throw openDbtbException("Cbnnot convert type: " + typeNbme(objType), e);
+        } finblly {
             inProgress.remove(objType);
         }
 
-        putMapping(objType, mapping);
-        return mapping;
+        putMbpping(objType, mbpping);
+        return mbpping;
     }
 
-    private MXBeanMapping makeMapping(Type objType, MXBeanMappingFactory factory)
-    throws OpenDataException {
+    privbte MXBebnMbpping mbkeMbpping(Type objType, MXBebnMbppingFbctory fbctory)
+    throws OpenDbtbException {
 
-        /* It's not yet worth formalizing these tests by having for example
-           an array of factory classes, each of which says whether it
-           recognizes the Type (Chain of Responsibility pattern).  */
-        if (objType instanceof GenericArrayType) {
+        /* It's not yet worth formblizing these tests by hbving for exbmple
+           bn brrby of fbctory clbsses, ebch of which sbys whether it
+           recognizes the Type (Chbin of Responsibility pbttern).  */
+        if (objType instbnceof GenericArrbyType) {
             Type componentType =
-                ((GenericArrayType) objType).getGenericComponentType();
-            return makeArrayOrCollectionMapping(objType, componentType, factory);
-        } else if (objType instanceof Class<?>) {
-            Class<?> objClass = (Class<?>) objType;
-            if (objClass.isEnum()) {
-                // Huge hack to avoid compiler warnings here.  The ElementType
-                // parameter is ignored but allows us to obtain a type variable
-                // T that matches <T extends Enum<T>>.
-                return makeEnumMapping((Class<?>) objClass, ElementType.class);
-            } else if (objClass.isArray()) {
-                Type componentType = objClass.getComponentType();
-                return makeArrayOrCollectionMapping(objClass, componentType,
-                        factory);
-            } else if (JMX.isMXBeanInterface(objClass)) {
-                return makeMXBeanRefMapping(objClass);
+                ((GenericArrbyType) objType).getGenericComponentType();
+            return mbkeArrbyOrCollectionMbpping(objType, componentType, fbctory);
+        } else if (objType instbnceof Clbss<?>) {
+            Clbss<?> objClbss = (Clbss<?>) objType;
+            if (objClbss.isEnum()) {
+                // Huge hbck to bvoid compiler wbrnings here.  The ElementType
+                // pbrbmeter is ignored but bllows us to obtbin b type vbribble
+                // T thbt mbtches <T extends Enum<T>>.
+                return mbkeEnumMbpping((Clbss<?>) objClbss, ElementType.clbss);
+            } else if (objClbss.isArrby()) {
+                Type componentType = objClbss.getComponentType();
+                return mbkeArrbyOrCollectionMbpping(objClbss, componentType,
+                        fbctory);
+            } else if (JMX.isMXBebnInterfbce(objClbss)) {
+                return mbkeMXBebnRefMbpping(objClbss);
             } else {
-                return makeCompositeMapping(objClass, factory);
+                return mbkeCompositeMbpping(objClbss, fbctory);
             }
-        } else if (objType instanceof ParameterizedType) {
-            return makeParameterizedTypeMapping((ParameterizedType) objType,
-                                                factory);
+        } else if (objType instbnceof PbrbmeterizedType) {
+            return mbkePbrbmeterizedTypeMbpping((PbrbmeterizedType) objType,
+                                                fbctory);
         } else
-            throw new OpenDataException("Cannot map type: " + objType);
+            throw new OpenDbtbException("Cbnnot mbp type: " + objType);
     }
 
-    private static <T extends Enum<T>> MXBeanMapping
-            makeEnumMapping(Class<?> enumClass, Class<T> fake) {
-        ReflectUtil.checkPackageAccess(enumClass);
-        return new EnumMapping<T>(Util.<Class<T>>cast(enumClass));
+    privbte stbtic <T extends Enum<T>> MXBebnMbpping
+            mbkeEnumMbpping(Clbss<?> enumClbss, Clbss<T> fbke) {
+        ReflectUtil.checkPbckbgeAccess(enumClbss);
+        return new EnumMbpping<T>(Util.<Clbss<T>>cbst(enumClbss));
     }
 
-    /* Make the converter for an array type, or a collection such as
-     * List<String> or Set<Integer>.  We never see one-dimensional
-     * primitive arrays (e.g. int[]) here because they use the identity
-     * converter and are registered as such in the static initializer.
+    /* Mbke the converter for bn brrby type, or b collection such bs
+     * List<String> or Set<Integer>.  We never see one-dimensionbl
+     * primitive brrbys (e.g. int[]) here becbuse they use the identity
+     * converter bnd bre registered bs such in the stbtic initiblizer.
      */
-    private MXBeanMapping
-        makeArrayOrCollectionMapping(Type collectionType, Type elementType,
-                                     MXBeanMappingFactory factory)
-            throws OpenDataException {
+    privbte MXBebnMbpping
+        mbkeArrbyOrCollectionMbpping(Type collectionType, Type elementType,
+                                     MXBebnMbppingFbctory fbctory)
+            throws OpenDbtbException {
 
-        final MXBeanMapping elementMapping = factory.mappingForType(elementType, factory);
-        final OpenType<?> elementOpenType = elementMapping.getOpenType();
-        final ArrayType<?> openType = ArrayType.getArrayType(elementOpenType);
-        final Class<?> elementOpenClass = elementMapping.getOpenClass();
+        finbl MXBebnMbpping elementMbpping = fbctory.mbppingForType(elementType, fbctory);
+        finbl OpenType<?> elementOpenType = elementMbpping.getOpenType();
+        finbl ArrbyType<?> openType = ArrbyType.getArrbyType(elementOpenType);
+        finbl Clbss<?> elementOpenClbss = elementMbpping.getOpenClbss();
 
-        final Class<?> openArrayClass;
-        final String openArrayClassName;
-        if (elementOpenClass.isArray())
-            openArrayClassName = "[" + elementOpenClass.getName();
+        finbl Clbss<?> openArrbyClbss;
+        finbl String openArrbyClbssNbme;
+        if (elementOpenClbss.isArrby())
+            openArrbyClbssNbme = "[" + elementOpenClbss.getNbme();
         else
-            openArrayClassName = "[L" + elementOpenClass.getName() + ";";
+            openArrbyClbssNbme = "[L" + elementOpenClbss.getNbme() + ";";
         try {
-            openArrayClass = Class.forName(openArrayClassName);
-        } catch (ClassNotFoundException e) {
-            throw openDataException("Cannot obtain array class", e);
+            openArrbyClbss = Clbss.forNbme(openArrbyClbssNbme);
+        } cbtch (ClbssNotFoundException e) {
+            throw openDbtbException("Cbnnot obtbin brrby clbss", e);
         }
 
-        if (collectionType instanceof ParameterizedType) {
-            return new CollectionMapping(collectionType,
-                                         openType, openArrayClass,
-                                         elementMapping);
+        if (collectionType instbnceof PbrbmeterizedType) {
+            return new CollectionMbpping(collectionType,
+                                         openType, openArrbyClbss,
+                                         elementMbpping);
         } else {
-            if (isIdentity(elementMapping)) {
-                return new IdentityMapping(collectionType,
+            if (isIdentity(elementMbpping)) {
+                return new IdentityMbpping(collectionType,
                                            openType);
             } else {
-                return new ArrayMapping(collectionType,
+                return new ArrbyMbpping(collectionType,
                                           openType,
-                                          openArrayClass,
-                                          elementMapping);
+                                          openArrbyClbss,
+                                          elementMbpping);
             }
         }
     }
 
-    private static final String[] keyArray = {"key"};
-    private static final String[] keyValueArray = {"key", "value"};
+    privbte stbtic finbl String[] keyArrby = {"key"};
+    privbte stbtic finbl String[] keyVblueArrby = {"key", "vblue"};
 
-    private MXBeanMapping
-        makeTabularMapping(Type objType, boolean sortedMap,
-                           Type keyType, Type valueType,
-                           MXBeanMappingFactory factory)
-            throws OpenDataException {
+    privbte MXBebnMbpping
+        mbkeTbbulbrMbpping(Type objType, boolebn sortedMbp,
+                           Type keyType, Type vblueType,
+                           MXBebnMbppingFbctory fbctory)
+            throws OpenDbtbException {
 
-        final String objTypeName = typeName(objType);
-        final MXBeanMapping keyMapping = factory.mappingForType(keyType, factory);
-        final MXBeanMapping valueMapping = factory.mappingForType(valueType, factory);
-        final OpenType<?> keyOpenType = keyMapping.getOpenType();
-        final OpenType<?> valueOpenType = valueMapping.getOpenType();
-        final CompositeType rowType =
-            new CompositeType(objTypeName,
-                              objTypeName,
-                              keyValueArray,
-                              keyValueArray,
-                              new OpenType<?>[] {keyOpenType, valueOpenType});
-        final TabularType tabularType =
-            new TabularType(objTypeName, objTypeName, rowType, keyArray);
-        return new TabularMapping(objType, sortedMap, tabularType,
-                                    keyMapping, valueMapping);
+        finbl String objTypeNbme = typeNbme(objType);
+        finbl MXBebnMbpping keyMbpping = fbctory.mbppingForType(keyType, fbctory);
+        finbl MXBebnMbpping vblueMbpping = fbctory.mbppingForType(vblueType, fbctory);
+        finbl OpenType<?> keyOpenType = keyMbpping.getOpenType();
+        finbl OpenType<?> vblueOpenType = vblueMbpping.getOpenType();
+        finbl CompositeType rowType =
+            new CompositeType(objTypeNbme,
+                              objTypeNbme,
+                              keyVblueArrby,
+                              keyVblueArrby,
+                              new OpenType<?>[] {keyOpenType, vblueOpenType});
+        finbl TbbulbrType tbbulbrType =
+            new TbbulbrType(objTypeNbme, objTypeNbme, rowType, keyArrby);
+        return new TbbulbrMbpping(objType, sortedMbp, tbbulbrType,
+                                    keyMbpping, vblueMbpping);
     }
 
-    /* We know how to translate List<E>, Set<E>, SortedSet<E>,
-       Map<K,V>, SortedMap<K,V>, and that's it.  We don't accept
-       subtypes of those because we wouldn't know how to deserialize
-       them.  We don't accept Queue<E> because it is unlikely people
-       would use that as a parameter or return type in an MBean.  */
-    private MXBeanMapping
-            makeParameterizedTypeMapping(ParameterizedType objType,
-                                         MXBeanMappingFactory factory)
-            throws OpenDataException {
+    /* We know how to trbnslbte List<E>, Set<E>, SortedSet<E>,
+       Mbp<K,V>, SortedMbp<K,V>, bnd thbt's it.  We don't bccept
+       subtypes of those becbuse we wouldn't know how to deseriblize
+       them.  We don't bccept Queue<E> becbuse it is unlikely people
+       would use thbt bs b pbrbmeter or return type in bn MBebn.  */
+    privbte MXBebnMbpping
+            mbkePbrbmeterizedTypeMbpping(PbrbmeterizedType objType,
+                                         MXBebnMbppingFbctory fbctory)
+            throws OpenDbtbException {
 
-        final Type rawType = objType.getRawType();
+        finbl Type rbwType = objType.getRbwType();
 
-        if (rawType instanceof Class<?>) {
-            Class<?> c = (Class<?>) rawType;
-            if (c == List.class || c == Set.class || c == SortedSet.class) {
-                Type[] actuals = objType.getActualTypeArguments();
-                assert(actuals.length == 1);
-                if (c == SortedSet.class)
-                    mustBeComparable(c, actuals[0]);
-                return makeArrayOrCollectionMapping(objType, actuals[0], factory);
+        if (rbwType instbnceof Clbss<?>) {
+            Clbss<?> c = (Clbss<?>) rbwType;
+            if (c == List.clbss || c == Set.clbss || c == SortedSet.clbss) {
+                Type[] bctubls = objType.getActublTypeArguments();
+                bssert(bctubls.length == 1);
+                if (c == SortedSet.clbss)
+                    mustBeCompbrbble(c, bctubls[0]);
+                return mbkeArrbyOrCollectionMbpping(objType, bctubls[0], fbctory);
             } else {
-                boolean sortedMap = (c == SortedMap.class);
-                if (c == Map.class || sortedMap) {
-                    Type[] actuals = objType.getActualTypeArguments();
-                    assert(actuals.length == 2);
-                    if (sortedMap)
-                        mustBeComparable(c, actuals[0]);
-                    return makeTabularMapping(objType, sortedMap,
-                            actuals[0], actuals[1], factory);
+                boolebn sortedMbp = (c == SortedMbp.clbss);
+                if (c == Mbp.clbss || sortedMbp) {
+                    Type[] bctubls = objType.getActublTypeArguments();
+                    bssert(bctubls.length == 2);
+                    if (sortedMbp)
+                        mustBeCompbrbble(c, bctubls[0]);
+                    return mbkeTbbulbrMbpping(objType, sortedMbp,
+                            bctubls[0], bctubls[1], fbctory);
                 }
             }
         }
-        throw new OpenDataException("Cannot convert type: " + objType);
+        throw new OpenDbtbException("Cbnnot convert type: " + objType);
     }
 
-    private static MXBeanMapping makeMXBeanRefMapping(Type t)
-            throws OpenDataException {
-        return new MXBeanRefMapping(t);
+    privbte stbtic MXBebnMbpping mbkeMXBebnRefMbpping(Type t)
+            throws OpenDbtbException {
+        return new MXBebnRefMbpping(t);
     }
 
-    private MXBeanMapping makeCompositeMapping(Class<?> c,
-                                               MXBeanMappingFactory factory)
-            throws OpenDataException {
+    privbte MXBebnMbpping mbkeCompositeMbpping(Clbss<?> c,
+                                               MXBebnMbppingFbctory fbctory)
+            throws OpenDbtbException {
 
-        // For historical reasons GcInfo implements CompositeData but we
-        // shouldn't count its CompositeData.getCompositeType() field as
-        // an item in the computed CompositeType.
-        final boolean gcInfoHack =
-            (c.getName().equals("com.sun.management.GcInfo") &&
-                c.getClassLoader() == null);
+        // For historicbl rebsons GcInfo implements CompositeDbtb but we
+        // shouldn't count its CompositeDbtb.getCompositeType() field bs
+        // bn item in the computed CompositeType.
+        finbl boolebn gcInfoHbck =
+            (c.getNbme().equbls("com.sun.mbnbgement.GcInfo") &&
+                c.getClbssLobder() == null);
 
-        ReflectUtil.checkPackageAccess(c);
-        final List<Method> methods =
-                MBeanAnalyzer.eliminateCovariantMethods(Arrays.asList(c.getMethods()));
-        final SortedMap<String,Method> getterMap = newSortedMap();
+        ReflectUtil.checkPbckbgeAccess(c);
+        finbl List<Method> methods =
+                MBebnAnblyzer.eliminbteCovbribntMethods(Arrbys.bsList(c.getMethods()));
+        finbl SortedMbp<String,Method> getterMbp = newSortedMbp();
 
-        /* Select public methods that look like "T getX()" or "boolean
-           isX()", where T is not void and X is not the empty
-           string.  Exclude "Class getClass()" inherited from Object.  */
+        /* Select public methods thbt look like "T getX()" or "boolebn
+           isX()", where T is not void bnd X is not the empty
+           string.  Exclude "Clbss getClbss()" inherited from Object.  */
         for (Method method : methods) {
-            final String propertyName = propertyName(method);
+            finbl String propertyNbme = propertyNbme(method);
 
-            if (propertyName == null)
+            if (propertyNbme == null)
                 continue;
-            if (gcInfoHack && propertyName.equals("CompositeType"))
+            if (gcInfoHbck && propertyNbme.equbls("CompositeType"))
                 continue;
 
             Method old =
-                getterMap.put(decapitalize(propertyName),
+                getterMbp.put(decbpitblize(propertyNbme),
                             method);
             if (old != null) {
-                final String msg =
-                    "Class " + c.getName() + " has method name clash: " +
-                    old.getName() + ", " + method.getName();
-                throw new OpenDataException(msg);
+                finbl String msg =
+                    "Clbss " + c.getNbme() + " hbs method nbme clbsh: " +
+                    old.getNbme() + ", " + method.getNbme();
+                throw new OpenDbtbException(msg);
             }
         }
 
-        final int nitems = getterMap.size();
+        finbl int nitems = getterMbp.size();
 
         if (nitems == 0) {
-            throw new OpenDataException("Can't map " + c.getName() +
-                                        " to an open data type");
+            throw new OpenDbtbException("Cbn't mbp " + c.getNbme() +
+                                        " to bn open dbtb type");
         }
 
-        final Method[] getters = new Method[nitems];
-        final String[] itemNames = new String[nitems];
-        final OpenType<?>[] openTypes = new OpenType<?>[nitems];
+        finbl Method[] getters = new Method[nitems];
+        finbl String[] itemNbmes = new String[nitems];
+        finbl OpenType<?>[] openTypes = new OpenType<?>[nitems];
         int i = 0;
-        for (Map.Entry<String,Method> entry : getterMap.entrySet()) {
-            itemNames[i] = entry.getKey();
-            final Method getter = entry.getValue();
+        for (Mbp.Entry<String,Method> entry : getterMbp.entrySet()) {
+            itemNbmes[i] = entry.getKey();
+            finbl Method getter = entry.getVblue();
             getters[i] = getter;
-            final Type retType = getter.getGenericReturnType();
-            openTypes[i] = factory.mappingForType(retType, factory).getOpenType();
+            finbl Type retType = getter.getGenericReturnType();
+            openTypes[i] = fbctory.mbppingForType(retType, fbctory).getOpenType();
             i++;
         }
 
         CompositeType compositeType =
-            new CompositeType(c.getName(),
-                              c.getName(),
-                              itemNames, // field names
-                              itemNames, // field descriptions
+            new CompositeType(c.getNbme(),
+                              c.getNbme(),
+                              itemNbmes, // field nbmes
+                              itemNbmes, // field descriptions
                               openTypes);
 
-        return new CompositeMapping(c,
+        return new CompositeMbpping(c,
                                     compositeType,
-                                    itemNames,
+                                    itemNbmes,
                                     getters,
-                                    factory);
+                                    fbctory);
     }
 
-    /* Converter for classes where the open data is identical to the
-       original data.  This is true for any of the SimpleType types,
-       and for an any-dimension array of those.  It is also true for
-       primitive types as of JMX 1.3, since an int[]
-       can be directly represented by an ArrayType, and an int needs no mapping
-       because reflection takes care of it.  */
-    private static final class IdentityMapping extends NonNullMXBeanMapping {
-        IdentityMapping(Type targetType, OpenType<?> openType) {
-            super(targetType, openType);
+    /* Converter for clbsses where the open dbtb is identicbl to the
+       originbl dbtb.  This is true for bny of the SimpleType types,
+       bnd for bn bny-dimension brrby of those.  It is blso true for
+       primitive types bs of JMX 1.3, since bn int[]
+       cbn be directly represented by bn ArrbyType, bnd bn int needs no mbpping
+       becbuse reflection tbkes cbre of it.  */
+    privbte stbtic finbl clbss IdentityMbpping extends NonNullMXBebnMbpping {
+        IdentityMbpping(Type tbrgetType, OpenType<?> openType) {
+            super(tbrgetType, openType);
         }
 
-        boolean isIdentity() {
+        boolebn isIdentity() {
             return true;
         }
 
         @Override
-        Object fromNonNullOpenValue(Object openValue)
-        throws InvalidObjectException {
-            return openValue;
+        Object fromNonNullOpenVblue(Object openVblue)
+        throws InvblidObjectException {
+            return openVblue;
         }
 
         @Override
-        Object toNonNullOpenValue(Object javaValue) throws OpenDataException {
-            return javaValue;
+        Object toNonNullOpenVblue(Object jbvbVblue) throws OpenDbtbException {
+            return jbvbVblue;
         }
     }
 
-    private static final class EnumMapping<T extends Enum<T>>
-            extends NonNullMXBeanMapping {
+    privbte stbtic finbl clbss EnumMbpping<T extends Enum<T>>
+            extends NonNullMXBebnMbpping {
 
-        EnumMapping(Class<T> enumClass) {
-            super(enumClass, SimpleType.STRING);
-            this.enumClass = enumClass;
+        EnumMbpping(Clbss<T> enumClbss) {
+            super(enumClbss, SimpleType.STRING);
+            this.enumClbss = enumClbss;
         }
 
         @Override
-        final Object toNonNullOpenValue(Object value) {
-            return ((Enum<?>) value).name();
+        finbl Object toNonNullOpenVblue(Object vblue) {
+            return ((Enum<?>) vblue).nbme();
         }
 
         @Override
-        final T fromNonNullOpenValue(Object value)
-                throws InvalidObjectException {
+        finbl T fromNonNullOpenVblue(Object vblue)
+                throws InvblidObjectException {
             try {
-                return Enum.valueOf(enumClass, (String) value);
-            } catch (Exception e) {
-                throw invalidObjectException("Cannot convert to enum: " +
-                                             value, e);
+                return Enum.vblueOf(enumClbss, (String) vblue);
+            } cbtch (Exception e) {
+                throw invblidObjectException("Cbnnot convert to enum: " +
+                                             vblue, e);
             }
         }
 
-        private final Class<T> enumClass;
+        privbte finbl Clbss<T> enumClbss;
     }
 
-    private static final class ArrayMapping extends NonNullMXBeanMapping {
-        ArrayMapping(Type targetType,
-                     ArrayType<?> openArrayType, Class<?> openArrayClass,
-                     MXBeanMapping elementMapping) {
-            super(targetType, openArrayType);
-            this.elementMapping = elementMapping;
+    privbte stbtic finbl clbss ArrbyMbpping extends NonNullMXBebnMbpping {
+        ArrbyMbpping(Type tbrgetType,
+                     ArrbyType<?> openArrbyType, Clbss<?> openArrbyClbss,
+                     MXBebnMbpping elementMbpping) {
+            super(tbrgetType, openArrbyType);
+            this.elementMbpping = elementMbpping;
         }
 
         @Override
-        final Object toNonNullOpenValue(Object value)
-                throws OpenDataException {
-            Object[] valueArray = (Object[]) value;
-            final int len = valueArray.length;
-            final Object[] openArray = (Object[])
-                Array.newInstance(getOpenClass().getComponentType(), len);
+        finbl Object toNonNullOpenVblue(Object vblue)
+                throws OpenDbtbException {
+            Object[] vblueArrby = (Object[]) vblue;
+            finbl int len = vblueArrby.length;
+            finbl Object[] openArrby = (Object[])
+                Arrby.newInstbnce(getOpenClbss().getComponentType(), len);
             for (int i = 0; i < len; i++)
-                openArray[i] = elementMapping.toOpenValue(valueArray[i]);
-            return openArray;
+                openArrby[i] = elementMbpping.toOpenVblue(vblueArrby[i]);
+            return openArrby;
         }
 
         @Override
-        final Object fromNonNullOpenValue(Object openValue)
-                throws InvalidObjectException {
-            final Object[] openArray = (Object[]) openValue;
-            final Type javaType = getJavaType();
-            final Object[] valueArray;
-            final Type componentType;
-            if (javaType instanceof GenericArrayType) {
+        finbl Object fromNonNullOpenVblue(Object openVblue)
+                throws InvblidObjectException {
+            finbl Object[] openArrby = (Object[]) openVblue;
+            finbl Type jbvbType = getJbvbType();
+            finbl Object[] vblueArrby;
+            finbl Type componentType;
+            if (jbvbType instbnceof GenericArrbyType) {
                 componentType =
-                    ((GenericArrayType) javaType).getGenericComponentType();
-            } else if (javaType instanceof Class<?> &&
-                       ((Class<?>) javaType).isArray()) {
-                componentType = ((Class<?>) javaType).getComponentType();
+                    ((GenericArrbyType) jbvbType).getGenericComponentType();
+            } else if (jbvbType instbnceof Clbss<?> &&
+                       ((Clbss<?>) jbvbType).isArrby()) {
+                componentType = ((Clbss<?>) jbvbType).getComponentType();
             } else {
-                throw new IllegalArgumentException("Not an array: " +
-                                                   javaType);
+                throw new IllegblArgumentException("Not bn brrby: " +
+                                                   jbvbType);
             }
-            valueArray = (Object[]) Array.newInstance((Class<?>) componentType,
-                                                      openArray.length);
-            for (int i = 0; i < openArray.length; i++)
-                valueArray[i] = elementMapping.fromOpenValue(openArray[i]);
-            return valueArray;
+            vblueArrby = (Object[]) Arrby.newInstbnce((Clbss<?>) componentType,
+                                                      openArrby.length);
+            for (int i = 0; i < openArrby.length; i++)
+                vblueArrby[i] = elementMbpping.fromOpenVblue(openArrby[i]);
+            return vblueArrby;
         }
 
-        public void checkReconstructible() throws InvalidObjectException {
-            elementMapping.checkReconstructible();
+        public void checkReconstructible() throws InvblidObjectException {
+            elementMbpping.checkReconstructible();
         }
 
         /**
-         * DefaultMXBeanMappingFactory for the elements of this array.  If this is an
-         *          array of arrays, the converter converts the second-level arrays,
+         * DefbultMXBebnMbppingFbctory for the elements of this brrby.  If this is bn
+         *          brrby of brrbys, the converter converts the second-level brrbys,
          *          not the deepest elements.
          */
-        private final MXBeanMapping elementMapping;
+        privbte finbl MXBebnMbpping elementMbpping;
     }
 
-    private static final class CollectionMapping extends NonNullMXBeanMapping {
-        CollectionMapping(Type targetType,
-                          ArrayType<?> openArrayType,
-                          Class<?> openArrayClass,
-                          MXBeanMapping elementMapping) {
-            super(targetType, openArrayType);
-            this.elementMapping = elementMapping;
+    privbte stbtic finbl clbss CollectionMbpping extends NonNullMXBebnMbpping {
+        CollectionMbpping(Type tbrgetType,
+                          ArrbyType<?> openArrbyType,
+                          Clbss<?> openArrbyClbss,
+                          MXBebnMbpping elementMbpping) {
+            super(tbrgetType, openArrbyType);
+            this.elementMbpping = elementMbpping;
 
-            /* Determine the concrete class to be used when converting
-               back to this Java type.  We convert all Lists to ArrayList
-               and all Sets to TreeSet.  (TreeSet because it is a SortedSet,
-               so works for both Set and SortedSet.)  */
-            Type raw = ((ParameterizedType) targetType).getRawType();
-            Class<?> c = (Class<?>) raw;
-            final Class<?> collC;
-            if (c == List.class)
-                collC = ArrayList.class;
-            else if (c == Set.class)
-                collC = HashSet.class;
-            else if (c == SortedSet.class)
-                collC = TreeSet.class;
-            else { // can't happen
-                assert(false);
+            /* Determine the concrete clbss to be used when converting
+               bbck to this Jbvb type.  We convert bll Lists to ArrbyList
+               bnd bll Sets to TreeSet.  (TreeSet becbuse it is b SortedSet,
+               so works for both Set bnd SortedSet.)  */
+            Type rbw = ((PbrbmeterizedType) tbrgetType).getRbwType();
+            Clbss<?> c = (Clbss<?>) rbw;
+            finbl Clbss<?> collC;
+            if (c == List.clbss)
+                collC = ArrbyList.clbss;
+            else if (c == Set.clbss)
+                collC = HbshSet.clbss;
+            else if (c == SortedSet.clbss)
+                collC = TreeSet.clbss;
+            else { // cbn't hbppen
+                bssert(fblse);
                 collC = null;
             }
-            collectionClass = Util.cast(collC);
+            collectionClbss = Util.cbst(collC);
         }
 
         @Override
-        final Object toNonNullOpenValue(Object value)
-                throws OpenDataException {
-            final Collection<?> valueCollection = (Collection<?>) value;
-            if (valueCollection instanceof SortedSet<?>) {
-                Comparator<?> comparator =
-                    ((SortedSet<?>) valueCollection).comparator();
-                if (comparator != null) {
-                    final String msg =
-                        "Cannot convert SortedSet with non-null comparator: " +
-                        comparator;
-                    throw openDataException(msg, new IllegalArgumentException(msg));
+        finbl Object toNonNullOpenVblue(Object vblue)
+                throws OpenDbtbException {
+            finbl Collection<?> vblueCollection = (Collection<?>) vblue;
+            if (vblueCollection instbnceof SortedSet<?>) {
+                Compbrbtor<?> compbrbtor =
+                    ((SortedSet<?>) vblueCollection).compbrbtor();
+                if (compbrbtor != null) {
+                    finbl String msg =
+                        "Cbnnot convert SortedSet with non-null compbrbtor: " +
+                        compbrbtor;
+                    throw openDbtbException(msg, new IllegblArgumentException(msg));
                 }
             }
-            final Object[] openArray = (Object[])
-                Array.newInstance(getOpenClass().getComponentType(),
-                                  valueCollection.size());
+            finbl Object[] openArrby = (Object[])
+                Arrby.newInstbnce(getOpenClbss().getComponentType(),
+                                  vblueCollection.size());
             int i = 0;
-            for (Object o : valueCollection)
-                openArray[i++] = elementMapping.toOpenValue(o);
-            return openArray;
+            for (Object o : vblueCollection)
+                openArrby[i++] = elementMbpping.toOpenVblue(o);
+            return openArrby;
         }
 
         @Override
-        final Object fromNonNullOpenValue(Object openValue)
-                throws InvalidObjectException {
-            final Object[] openArray = (Object[]) openValue;
-            final Collection<Object> valueCollection;
+        finbl Object fromNonNullOpenVblue(Object openVblue)
+                throws InvblidObjectException {
+            finbl Object[] openArrby = (Object[]) openVblue;
+            finbl Collection<Object> vblueCollection;
             try {
-                valueCollection = cast(collectionClass.newInstance());
-            } catch (Exception e) {
-                throw invalidObjectException("Cannot create collection", e);
+                vblueCollection = cbst(collectionClbss.newInstbnce());
+            } cbtch (Exception e) {
+                throw invblidObjectException("Cbnnot crebte collection", e);
             }
-            for (Object o : openArray) {
-                Object value = elementMapping.fromOpenValue(o);
-                if (!valueCollection.add(value)) {
-                    final String msg =
-                        "Could not add " + o + " to " +
-                        collectionClass.getName() +
-                        " (duplicate set element?)";
-                    throw new InvalidObjectException(msg);
+            for (Object o : openArrby) {
+                Object vblue = elementMbpping.fromOpenVblue(o);
+                if (!vblueCollection.bdd(vblue)) {
+                    finbl String msg =
+                        "Could not bdd " + o + " to " +
+                        collectionClbss.getNbme() +
+                        " (duplicbte set element?)";
+                    throw new InvblidObjectException(msg);
                 }
             }
-            return valueCollection;
+            return vblueCollection;
         }
 
-        public void checkReconstructible() throws InvalidObjectException {
-            elementMapping.checkReconstructible();
+        public void checkReconstructible() throws InvblidObjectException {
+            elementMbpping.checkReconstructible();
         }
 
-        private final Class<? extends Collection<?>> collectionClass;
-        private final MXBeanMapping elementMapping;
+        privbte finbl Clbss<? extends Collection<?>> collectionClbss;
+        privbte finbl MXBebnMbpping elementMbpping;
     }
 
-    private static final class MXBeanRefMapping extends NonNullMXBeanMapping {
-        MXBeanRefMapping(Type intf) {
+    privbte stbtic finbl clbss MXBebnRefMbpping extends NonNullMXBebnMbpping {
+        MXBebnRefMbpping(Type intf) {
             super(intf, SimpleType.OBJECTNAME);
         }
 
         @Override
-        final Object toNonNullOpenValue(Object javaValue)
-                throws OpenDataException {
-            MXBeanLookup lookup = lookupNotNull(OpenDataException.class);
-            ObjectName name = lookup.mxbeanToObjectName(javaValue);
-            if (name == null)
-                throw new OpenDataException("No name for object: " + javaValue);
-            return name;
+        finbl Object toNonNullOpenVblue(Object jbvbVblue)
+                throws OpenDbtbException {
+            MXBebnLookup lookup = lookupNotNull(OpenDbtbException.clbss);
+            ObjectNbme nbme = lookup.mxbebnToObjectNbme(jbvbVblue);
+            if (nbme == null)
+                throw new OpenDbtbException("No nbme for object: " + jbvbVblue);
+            return nbme;
         }
 
         @Override
-        final Object fromNonNullOpenValue(Object openValue)
-                throws InvalidObjectException {
-            MXBeanLookup lookup = lookupNotNull(InvalidObjectException.class);
-            ObjectName name = (ObjectName) openValue;
-            Object mxbean =
-                lookup.objectNameToMXBean(name, (Class<?>) getJavaType());
-            if (mxbean == null) {
-                final String msg =
-                    "No MXBean for name: " + name;
-                throw new InvalidObjectException(msg);
+        finbl Object fromNonNullOpenVblue(Object openVblue)
+                throws InvblidObjectException {
+            MXBebnLookup lookup = lookupNotNull(InvblidObjectException.clbss);
+            ObjectNbme nbme = (ObjectNbme) openVblue;
+            Object mxbebn =
+                lookup.objectNbmeToMXBebn(nbme, (Clbss<?>) getJbvbType());
+            if (mxbebn == null) {
+                finbl String msg =
+                    "No MXBebn for nbme: " + nbme;
+                throw new InvblidObjectException(msg);
             }
-            return mxbean;
+            return mxbebn;
         }
 
-        private <T extends Exception> MXBeanLookup
-            lookupNotNull(Class<T> excClass)
+        privbte <T extends Exception> MXBebnLookup
+            lookupNotNull(Clbss<T> excClbss)
                 throws T {
-            MXBeanLookup lookup = MXBeanLookup.getLookup();
+            MXBebnLookup lookup = MXBebnLookup.getLookup();
             if (lookup == null) {
-                final String msg =
-                    "Cannot convert MXBean interface in this context";
+                finbl String msg =
+                    "Cbnnot convert MXBebn interfbce in this context";
                 T exc;
                 try {
-                    Constructor<T> con = excClass.getConstructor(String.class);
-                    exc = con.newInstance(msg);
-                } catch (Exception e) {
+                    Constructor<T> con = excClbss.getConstructor(String.clbss);
+                    exc = con.newInstbnce(msg);
+                } cbtch (Exception e) {
                     throw new RuntimeException(e);
                 }
                 throw exc;
@@ -729,374 +729,374 @@ public class DefaultMXBeanMappingFactory extends MXBeanMappingFactory {
         }
     }
 
-    private static final class TabularMapping extends NonNullMXBeanMapping {
-        TabularMapping(Type targetType,
-                       boolean sortedMap,
-                       TabularType tabularType,
-                       MXBeanMapping keyConverter,
-                       MXBeanMapping valueConverter) {
-            super(targetType, tabularType);
-            this.sortedMap = sortedMap;
-            this.keyMapping = keyConverter;
-            this.valueMapping = valueConverter;
+    privbte stbtic finbl clbss TbbulbrMbpping extends NonNullMXBebnMbpping {
+        TbbulbrMbpping(Type tbrgetType,
+                       boolebn sortedMbp,
+                       TbbulbrType tbbulbrType,
+                       MXBebnMbpping keyConverter,
+                       MXBebnMbpping vblueConverter) {
+            super(tbrgetType, tbbulbrType);
+            this.sortedMbp = sortedMbp;
+            this.keyMbpping = keyConverter;
+            this.vblueMbpping = vblueConverter;
         }
 
         @Override
-        final Object toNonNullOpenValue(Object value) throws OpenDataException {
-            final Map<Object, Object> valueMap = cast(value);
-            if (valueMap instanceof SortedMap<?,?>) {
-                Comparator<?> comparator = ((SortedMap<?,?>) valueMap).comparator();
-                if (comparator != null) {
-                    final String msg =
-                        "Cannot convert SortedMap with non-null comparator: " +
-                        comparator;
-                    throw openDataException(msg, new IllegalArgumentException(msg));
+        finbl Object toNonNullOpenVblue(Object vblue) throws OpenDbtbException {
+            finbl Mbp<Object, Object> vblueMbp = cbst(vblue);
+            if (vblueMbp instbnceof SortedMbp<?,?>) {
+                Compbrbtor<?> compbrbtor = ((SortedMbp<?,?>) vblueMbp).compbrbtor();
+                if (compbrbtor != null) {
+                    finbl String msg =
+                        "Cbnnot convert SortedMbp with non-null compbrbtor: " +
+                        compbrbtor;
+                    throw openDbtbException(msg, new IllegblArgumentException(msg));
                 }
             }
-            final TabularType tabularType = (TabularType) getOpenType();
-            final TabularData table = new TabularDataSupport(tabularType);
-            final CompositeType rowType = tabularType.getRowType();
-            for (Map.Entry<Object, Object> entry : valueMap.entrySet()) {
-                final Object openKey = keyMapping.toOpenValue(entry.getKey());
-                final Object openValue = valueMapping.toOpenValue(entry.getValue());
-                final CompositeData row;
+            finbl TbbulbrType tbbulbrType = (TbbulbrType) getOpenType();
+            finbl TbbulbrDbtb tbble = new TbbulbrDbtbSupport(tbbulbrType);
+            finbl CompositeType rowType = tbbulbrType.getRowType();
+            for (Mbp.Entry<Object, Object> entry : vblueMbp.entrySet()) {
+                finbl Object openKey = keyMbpping.toOpenVblue(entry.getKey());
+                finbl Object openVblue = vblueMbpping.toOpenVblue(entry.getVblue());
+                finbl CompositeDbtb row;
                 row =
-                    new CompositeDataSupport(rowType, keyValueArray,
+                    new CompositeDbtbSupport(rowType, keyVblueArrby,
                                              new Object[] {openKey,
-                                                           openValue});
-                table.put(row);
+                                                           openVblue});
+                tbble.put(row);
             }
-            return table;
+            return tbble;
         }
 
         @Override
-        final Object fromNonNullOpenValue(Object openValue)
-                throws InvalidObjectException {
-            final TabularData table = (TabularData) openValue;
-            final Collection<CompositeData> rows = cast(table.values());
-            final Map<Object, Object> valueMap =
-                sortedMap ? newSortedMap() : newInsertionOrderMap();
-            for (CompositeData row : rows) {
-                final Object key =
-                    keyMapping.fromOpenValue(row.get("key"));
-                final Object value =
-                    valueMapping.fromOpenValue(row.get("value"));
-                if (valueMap.put(key, value) != null) {
-                    final String msg =
-                        "Duplicate entry in TabularData: key=" + key;
-                    throw new InvalidObjectException(msg);
+        finbl Object fromNonNullOpenVblue(Object openVblue)
+                throws InvblidObjectException {
+            finbl TbbulbrDbtb tbble = (TbbulbrDbtb) openVblue;
+            finbl Collection<CompositeDbtb> rows = cbst(tbble.vblues());
+            finbl Mbp<Object, Object> vblueMbp =
+                sortedMbp ? newSortedMbp() : newInsertionOrderMbp();
+            for (CompositeDbtb row : rows) {
+                finbl Object key =
+                    keyMbpping.fromOpenVblue(row.get("key"));
+                finbl Object vblue =
+                    vblueMbpping.fromOpenVblue(row.get("vblue"));
+                if (vblueMbp.put(key, vblue) != null) {
+                    finbl String msg =
+                        "Duplicbte entry in TbbulbrDbtb: key=" + key;
+                    throw new InvblidObjectException(msg);
                 }
             }
-            return valueMap;
+            return vblueMbp;
         }
 
         @Override
-        public void checkReconstructible() throws InvalidObjectException {
-            keyMapping.checkReconstructible();
-            valueMapping.checkReconstructible();
+        public void checkReconstructible() throws InvblidObjectException {
+            keyMbpping.checkReconstructible();
+            vblueMbpping.checkReconstructible();
         }
 
-        private final boolean sortedMap;
-        private final MXBeanMapping keyMapping;
-        private final MXBeanMapping valueMapping;
+        privbte finbl boolebn sortedMbp;
+        privbte finbl MXBebnMbpping keyMbpping;
+        privbte finbl MXBebnMbpping vblueMbpping;
     }
 
-    private final class CompositeMapping extends NonNullMXBeanMapping {
-        CompositeMapping(Class<?> targetClass,
+    privbte finbl clbss CompositeMbpping extends NonNullMXBebnMbpping {
+        CompositeMbpping(Clbss<?> tbrgetClbss,
                          CompositeType compositeType,
-                         String[] itemNames,
+                         String[] itemNbmes,
                          Method[] getters,
-                         MXBeanMappingFactory factory) throws OpenDataException {
-            super(targetClass, compositeType);
+                         MXBebnMbppingFbctory fbctory) throws OpenDbtbException {
+            super(tbrgetClbss, compositeType);
 
-            assert(itemNames.length == getters.length);
+            bssert(itemNbmes.length == getters.length);
 
-            this.itemNames = itemNames;
+            this.itemNbmes = itemNbmes;
             this.getters = getters;
-            this.getterMappings = new MXBeanMapping[getters.length];
+            this.getterMbppings = new MXBebnMbpping[getters.length];
             for (int i = 0; i < getters.length; i++) {
                 Type retType = getters[i].getGenericReturnType();
-                getterMappings[i] = factory.mappingForType(retType, factory);
+                getterMbppings[i] = fbctory.mbppingForType(retType, fbctory);
             }
         }
 
         @Override
-        final Object toNonNullOpenValue(Object value)
-                throws OpenDataException {
+        finbl Object toNonNullOpenVblue(Object vblue)
+                throws OpenDbtbException {
             CompositeType ct = (CompositeType) getOpenType();
-            if (value instanceof CompositeDataView)
-                return ((CompositeDataView) value).toCompositeData(ct);
-            if (value == null)
+            if (vblue instbnceof CompositeDbtbView)
+                return ((CompositeDbtbView) vblue).toCompositeDbtb(ct);
+            if (vblue == null)
                 return null;
 
-            Object[] values = new Object[getters.length];
+            Object[] vblues = new Object[getters.length];
             for (int i = 0; i < getters.length; i++) {
                 try {
-                    Object got = MethodUtil.invoke(getters[i], value, (Object[]) null);
-                    values[i] = getterMappings[i].toOpenValue(got);
-                } catch (Exception e) {
-                    throw openDataException("Error calling getter for " +
-                                            itemNames[i] + ": " + e, e);
+                    Object got = MethodUtil.invoke(getters[i], vblue, (Object[]) null);
+                    vblues[i] = getterMbppings[i].toOpenVblue(got);
+                } cbtch (Exception e) {
+                    throw openDbtbException("Error cblling getter for " +
+                                            itemNbmes[i] + ": " + e, e);
                 }
             }
-            return new CompositeDataSupport(ct, itemNames, values);
+            return new CompositeDbtbSupport(ct, itemNbmes, vblues);
         }
 
-        /** Determine how to convert back from the CompositeData into
-            the original Java type.  For a type that is not reconstructible,
-            this method will fail every time, and will throw the right
+        /** Determine how to convert bbck from the CompositeDbtb into
+            the originbl Jbvb type.  For b type thbt is not reconstructible,
+            this method will fbil every time, bnd will throw the right
             exception. */
-        private synchronized void makeCompositeBuilder()
-                throws InvalidObjectException {
+        privbte synchronized void mbkeCompositeBuilder()
+                throws InvblidObjectException {
             if (compositeBuilder != null)
                 return;
 
-            Class<?> targetClass = (Class<?>) getJavaType();
-            /* In this 2D array, each subarray is a set of builders where
-               there is no point in consulting the ones after the first if
+            Clbss<?> tbrgetClbss = (Clbss<?>) getJbvbType();
+            /* In this 2D brrby, ebch subbrrby is b set of builders where
+               there is no point in consulting the ones bfter the first if
                the first refuses.  */
             CompositeBuilder[][] builders = {
                 {
-                    new CompositeBuilderViaFrom(targetClass, itemNames),
+                    new CompositeBuilderVibFrom(tbrgetClbss, itemNbmes),
                 },
                 {
-                    new CompositeBuilderViaConstructor(targetClass, itemNames),
+                    new CompositeBuilderVibConstructor(tbrgetClbss, itemNbmes),
                 },
                 {
-                    new CompositeBuilderCheckGetters(targetClass, itemNames,
-                                                     getterMappings),
-                    new CompositeBuilderViaSetters(targetClass, itemNames),
-                    new CompositeBuilderViaProxy(targetClass, itemNames),
+                    new CompositeBuilderCheckGetters(tbrgetClbss, itemNbmes,
+                                                     getterMbppings),
+                    new CompositeBuilderVibSetters(tbrgetClbss, itemNbmes),
+                    new CompositeBuilderVibProxy(tbrgetClbss, itemNbmes),
                 },
             };
             CompositeBuilder foundBuilder = null;
-            /* We try to make a meaningful exception message by
-               concatenating each Builder's explanation of why it
-               isn't applicable.  */
-            final StringBuilder whyNots = new StringBuilder();
-            Throwable possibleCause = null;
+            /* We try to mbke b mebningful exception messbge by
+               concbtenbting ebch Builder's explbnbtion of why it
+               isn't bpplicbble.  */
+            finbl StringBuilder whyNots = new StringBuilder();
+            Throwbble possibleCbuse = null;
         find:
-            for (CompositeBuilder[] relatedBuilders : builders) {
-                for (int i = 0; i < relatedBuilders.length; i++) {
-                    CompositeBuilder builder = relatedBuilders[i];
-                    String whyNot = builder.applicable(getters);
+            for (CompositeBuilder[] relbtedBuilders : builders) {
+                for (int i = 0; i < relbtedBuilders.length; i++) {
+                    CompositeBuilder builder = relbtedBuilders[i];
+                    String whyNot = builder.bpplicbble(getters);
                     if (whyNot == null) {
                         foundBuilder = builder;
-                        break find;
+                        brebk find;
                     }
-                    Throwable cause = builder.possibleCause();
-                    if (cause != null)
-                        possibleCause = cause;
+                    Throwbble cbuse = builder.possibleCbuse();
+                    if (cbuse != null)
+                        possibleCbuse = cbuse;
                     if (whyNot.length() > 0) {
                         if (whyNots.length() > 0)
-                            whyNots.append("; ");
-                        whyNots.append(whyNot);
+                            whyNots.bppend("; ");
+                        whyNots.bppend(whyNot);
                         if (i == 0)
-                           break; // skip other builders in this group
+                           brebk; // skip other builders in this group
                     }
                 }
             }
             if (foundBuilder == null) {
                 String msg =
-                    "Do not know how to make a " + targetClass.getName() +
-                    " from a CompositeData: " + whyNots;
-                if (possibleCause != null)
-                    msg += ". Remaining exceptions show a POSSIBLE cause.";
-                throw invalidObjectException(msg, possibleCause);
+                    "Do not know how to mbke b " + tbrgetClbss.getNbme() +
+                    " from b CompositeDbtb: " + whyNots;
+                if (possibleCbuse != null)
+                    msg += ". Rembining exceptions show b POSSIBLE cbuse.";
+                throw invblidObjectException(msg, possibleCbuse);
             }
             compositeBuilder = foundBuilder;
         }
 
         @Override
-        public void checkReconstructible() throws InvalidObjectException {
-            makeCompositeBuilder();
+        public void checkReconstructible() throws InvblidObjectException {
+            mbkeCompositeBuilder();
         }
 
         @Override
-        final Object fromNonNullOpenValue(Object value)
-                throws InvalidObjectException {
-            makeCompositeBuilder();
-            return compositeBuilder.fromCompositeData((CompositeData) value,
-                                                      itemNames,
-                                                      getterMappings);
+        finbl Object fromNonNullOpenVblue(Object vblue)
+                throws InvblidObjectException {
+            mbkeCompositeBuilder();
+            return compositeBuilder.fromCompositeDbtb((CompositeDbtb) vblue,
+                                                      itemNbmes,
+                                                      getterMbppings);
         }
 
-        private final String[] itemNames;
-        private final Method[] getters;
-        private final MXBeanMapping[] getterMappings;
-        private CompositeBuilder compositeBuilder;
+        privbte finbl String[] itemNbmes;
+        privbte finbl Method[] getters;
+        privbte finbl MXBebnMbpping[] getterMbppings;
+        privbte CompositeBuilder compositeBuilder;
     }
 
-    /** Converts from a CompositeData to an instance of the targetClass.  */
-    private static abstract class CompositeBuilder {
-        CompositeBuilder(Class<?> targetClass, String[] itemNames) {
-            this.targetClass = targetClass;
-            this.itemNames = itemNames;
+    /** Converts from b CompositeDbtb to bn instbnce of the tbrgetClbss.  */
+    privbte stbtic bbstrbct clbss CompositeBuilder {
+        CompositeBuilder(Clbss<?> tbrgetClbss, String[] itemNbmes) {
+            this.tbrgetClbss = tbrgetClbss;
+            this.itemNbmes = itemNbmes;
         }
 
-        Class<?> getTargetClass() {
-            return targetClass;
+        Clbss<?> getTbrgetClbss() {
+            return tbrgetClbss;
         }
 
-        String[] getItemNames() {
-            return itemNames;
+        String[] getItemNbmes() {
+            return itemNbmes;
         }
 
-        /** If the subclass is appropriate for targetClass, then the
-            method returns null.  If the subclass is not appropriate,
-            then the method returns an explanation of why not.  If the
-            subclass should be appropriate but there is a problem,
-            then the method throws InvalidObjectException.  */
-        abstract String applicable(Method[] getters)
-                throws InvalidObjectException;
+        /** If the subclbss is bppropribte for tbrgetClbss, then the
+            method returns null.  If the subclbss is not bppropribte,
+            then the method returns bn explbnbtion of why not.  If the
+            subclbss should be bppropribte but there is b problem,
+            then the method throws InvblidObjectException.  */
+        bbstrbct String bpplicbble(Method[] getters)
+                throws InvblidObjectException;
 
-        /** If the subclass returns an explanation of why it is not applicable,
-            it can additionally indicate an exception with details.  This is
-            potentially confusing, because the real problem could be that one
-            of the other subclasses is supposed to be applicable but isn't.
-            But the advantage of less information loss probably outweighs the
-            disadvantage of possible confusion.  */
-        Throwable possibleCause() {
+        /** If the subclbss returns bn explbnbtion of why it is not bpplicbble,
+            it cbn bdditionblly indicbte bn exception with detbils.  This is
+            potentiblly confusing, becbuse the rebl problem could be thbt one
+            of the other subclbsses is supposed to be bpplicbble but isn't.
+            But the bdvbntbge of less informbtion loss probbbly outweighs the
+            disbdvbntbge of possible confusion.  */
+        Throwbble possibleCbuse() {
             return null;
         }
 
-        abstract Object fromCompositeData(CompositeData cd,
-                                          String[] itemNames,
-                                          MXBeanMapping[] converters)
-                throws InvalidObjectException;
+        bbstrbct Object fromCompositeDbtb(CompositeDbtb cd,
+                                          String[] itemNbmes,
+                                          MXBebnMbpping[] converters)
+                throws InvblidObjectException;
 
-        private final Class<?> targetClass;
-        private final String[] itemNames;
+        privbte finbl Clbss<?> tbrgetClbss;
+        privbte finbl String[] itemNbmes;
     }
 
-    /** Builder for when the target class has a method "public static
-        from(CompositeData)".  */
-    private static final class CompositeBuilderViaFrom
+    /** Builder for when the tbrget clbss hbs b method "public stbtic
+        from(CompositeDbtb)".  */
+    privbte stbtic finbl clbss CompositeBuilderVibFrom
             extends CompositeBuilder {
 
-        CompositeBuilderViaFrom(Class<?> targetClass, String[] itemNames) {
-            super(targetClass, itemNames);
+        CompositeBuilderVibFrom(Clbss<?> tbrgetClbss, String[] itemNbmes) {
+            super(tbrgetClbss, itemNbmes);
         }
 
-        String applicable(Method[] getters) throws InvalidObjectException {
-            // See if it has a method "T from(CompositeData)"
-            // as is conventional for a CompositeDataView
-            Class<?> targetClass = getTargetClass();
+        String bpplicbble(Method[] getters) throws InvblidObjectException {
+            // See if it hbs b method "T from(CompositeDbtb)"
+            // bs is conventionbl for b CompositeDbtbView
+            Clbss<?> tbrgetClbss = getTbrgetClbss();
             try {
                 Method fromMethod =
-                    targetClass.getMethod("from", CompositeData.class);
+                    tbrgetClbss.getMethod("from", CompositeDbtb.clbss);
 
-                if (!Modifier.isStatic(fromMethod.getModifiers())) {
-                    final String msg =
-                        "Method from(CompositeData) is not static";
-                    throw new InvalidObjectException(msg);
+                if (!Modifier.isStbtic(fromMethod.getModifiers())) {
+                    finbl String msg =
+                        "Method from(CompositeDbtb) is not stbtic";
+                    throw new InvblidObjectException(msg);
                 }
 
-                if (fromMethod.getReturnType() != getTargetClass()) {
-                    final String msg =
-                        "Method from(CompositeData) returns " +
-                        typeName(fromMethod.getReturnType()) +
-                        " not " + typeName(targetClass);
-                    throw new InvalidObjectException(msg);
+                if (fromMethod.getReturnType() != getTbrgetClbss()) {
+                    finbl String msg =
+                        "Method from(CompositeDbtb) returns " +
+                        typeNbme(fromMethod.getReturnType()) +
+                        " not " + typeNbme(tbrgetClbss);
+                    throw new InvblidObjectException(msg);
                 }
 
                 this.fromMethod = fromMethod;
                 return null; // success!
-            } catch (InvalidObjectException e) {
+            } cbtch (InvblidObjectException e) {
                 throw e;
-            } catch (Exception e) {
-                // OK: it doesn't have the method
-                return "no method from(CompositeData)";
+            } cbtch (Exception e) {
+                // OK: it doesn't hbve the method
+                return "no method from(CompositeDbtb)";
             }
         }
 
-        final Object fromCompositeData(CompositeData cd,
-                                       String[] itemNames,
-                                       MXBeanMapping[] converters)
-                throws InvalidObjectException {
+        finbl Object fromCompositeDbtb(CompositeDbtb cd,
+                                       String[] itemNbmes,
+                                       MXBebnMbpping[] converters)
+                throws InvblidObjectException {
             try {
                 return MethodUtil.invoke(fromMethod, null, new Object[] {cd});
-            } catch (Exception e) {
-                final String msg = "Failed to invoke from(CompositeData)";
-                throw invalidObjectException(msg, e);
+            } cbtch (Exception e) {
+                finbl String msg = "Fbiled to invoke from(CompositeDbtb)";
+                throw invblidObjectException(msg, e);
             }
         }
 
-        private Method fromMethod;
+        privbte Method fromMethod;
     }
 
-    /** This builder never actually returns success.  It simply serves
-        to check whether the other builders in the same group have any
-        chance of success.  If any getter in the targetClass returns
-        a type that we don't know how to reconstruct, then we will
-        not be able to make a builder, and there is no point in repeating
-        the error about the problematic getter as many times as there are
-        candidate builders.  Instead, the "applicable" method will return
-        an explanatory string, and the other builders will be skipped.
-        If all the getters are OK, then the "applicable" method will return
-        an empty string and the other builders will be tried.  */
-    private static class CompositeBuilderCheckGetters extends CompositeBuilder {
-        CompositeBuilderCheckGetters(Class<?> targetClass, String[] itemNames,
-                                     MXBeanMapping[] getterConverters) {
-            super(targetClass, itemNames);
+    /** This builder never bctublly returns success.  It simply serves
+        to check whether the other builders in the sbme group hbve bny
+        chbnce of success.  If bny getter in the tbrgetClbss returns
+        b type thbt we don't know how to reconstruct, then we will
+        not be bble to mbke b builder, bnd there is no point in repebting
+        the error bbout the problembtic getter bs mbny times bs there bre
+        cbndidbte builders.  Instebd, the "bpplicbble" method will return
+        bn explbnbtory string, bnd the other builders will be skipped.
+        If bll the getters bre OK, then the "bpplicbble" method will return
+        bn empty string bnd the other builders will be tried.  */
+    privbte stbtic clbss CompositeBuilderCheckGetters extends CompositeBuilder {
+        CompositeBuilderCheckGetters(Clbss<?> tbrgetClbss, String[] itemNbmes,
+                                     MXBebnMbpping[] getterConverters) {
+            super(tbrgetClbss, itemNbmes);
             this.getterConverters = getterConverters;
         }
 
-        String applicable(Method[] getters) {
+        String bpplicbble(Method[] getters) {
             for (int i = 0; i < getters.length; i++) {
                 try {
                     getterConverters[i].checkReconstructible();
-                } catch (InvalidObjectException e) {
-                    possibleCause = e;
-                    return "method " + getters[i].getName() + " returns type " +
-                        "that cannot be mapped back from OpenData";
+                } cbtch (InvblidObjectException e) {
+                    possibleCbuse = e;
+                    return "method " + getters[i].getNbme() + " returns type " +
+                        "thbt cbnnot be mbpped bbck from OpenDbtb";
                 }
             }
             return "";
         }
 
         @Override
-        Throwable possibleCause() {
-            return possibleCause;
+        Throwbble possibleCbuse() {
+            return possibleCbuse;
         }
 
-        final Object fromCompositeData(CompositeData cd,
-                                       String[] itemNames,
-                                       MXBeanMapping[] converters) {
+        finbl Object fromCompositeDbtb(CompositeDbtb cd,
+                                       String[] itemNbmes,
+                                       MXBebnMbpping[] converters) {
             throw new Error();
         }
 
-        private final MXBeanMapping[] getterConverters;
-        private Throwable possibleCause;
+        privbte finbl MXBebnMbpping[] getterConverters;
+        privbte Throwbble possibleCbuse;
     }
 
-    /** Builder for when the target class has a setter for every getter. */
-    private static class CompositeBuilderViaSetters extends CompositeBuilder {
+    /** Builder for when the tbrget clbss hbs b setter for every getter. */
+    privbte stbtic clbss CompositeBuilderVibSetters extends CompositeBuilder {
 
-        CompositeBuilderViaSetters(Class<?> targetClass, String[] itemNames) {
-            super(targetClass, itemNames);
+        CompositeBuilderVibSetters(Clbss<?> tbrgetClbss, String[] itemNbmes) {
+            super(tbrgetClbss, itemNbmes);
         }
 
-        String applicable(Method[] getters) {
+        String bpplicbble(Method[] getters) {
             try {
-                Constructor<?> c = getTargetClass().getConstructor();
-            } catch (Exception e) {
-                return "does not have a public no-arg constructor";
+                Constructor<?> c = getTbrgetClbss().getConstructor();
+            } cbtch (Exception e) {
+                return "does not hbve b public no-brg constructor";
             }
 
             Method[] setters = new Method[getters.length];
             for (int i = 0; i < getters.length; i++) {
                 Method getter = getters[i];
-                Class<?> returnType = getter.getReturnType();
-                String name = propertyName(getter);
-                String setterName = "set" + name;
+                Clbss<?> returnType = getter.getReturnType();
+                String nbme = propertyNbme(getter);
+                String setterNbme = "set" + nbme;
                 Method setter;
                 try {
-                    setter = getTargetClass().getMethod(setterName, returnType);
-                    if (setter.getReturnType() != void.class)
+                    setter = getTbrgetClbss().getMethod(setterNbme, returnType);
+                    if (setter.getReturnType() != void.clbss)
                         throw new Exception();
-                } catch (Exception e) {
-                    return "not all getters have corresponding setters " +
+                } cbtch (Exception e) {
+                    return "not bll getters hbve corresponding setters " +
                            "(" + getter + ")";
                 }
                 setters[i] = setter;
@@ -1105,219 +1105,219 @@ public class DefaultMXBeanMappingFactory extends MXBeanMappingFactory {
             return null;
         }
 
-        Object fromCompositeData(CompositeData cd,
-                                 String[] itemNames,
-                                 MXBeanMapping[] converters)
-                throws InvalidObjectException {
+        Object fromCompositeDbtb(CompositeDbtb cd,
+                                 String[] itemNbmes,
+                                 MXBebnMbpping[] converters)
+                throws InvblidObjectException {
             Object o;
             try {
-                final Class<?> targetClass = getTargetClass();
-                ReflectUtil.checkPackageAccess(targetClass);
-                o = targetClass.newInstance();
-                for (int i = 0; i < itemNames.length; i++) {
-                    if (cd.containsKey(itemNames[i])) {
-                        Object openItem = cd.get(itemNames[i]);
-                        Object javaItem =
-                            converters[i].fromOpenValue(openItem);
-                        MethodUtil.invoke(setters[i], o, new Object[] {javaItem});
+                finbl Clbss<?> tbrgetClbss = getTbrgetClbss();
+                ReflectUtil.checkPbckbgeAccess(tbrgetClbss);
+                o = tbrgetClbss.newInstbnce();
+                for (int i = 0; i < itemNbmes.length; i++) {
+                    if (cd.contbinsKey(itemNbmes[i])) {
+                        Object openItem = cd.get(itemNbmes[i]);
+                        Object jbvbItem =
+                            converters[i].fromOpenVblue(openItem);
+                        MethodUtil.invoke(setters[i], o, new Object[] {jbvbItem});
                     }
                 }
-            } catch (Exception e) {
-                throw invalidObjectException(e);
+            } cbtch (Exception e) {
+                throw invblidObjectException(e);
             }
             return o;
         }
 
-        private Method[] setters;
+        privbte Method[] setters;
     }
 
-    /** Builder for when the target class has a constructor that is
-        annotated with @ConstructorProperties so we can see the correspondence
+    /** Builder for when the tbrget clbss hbs b constructor thbt is
+        bnnotbted with @ConstructorProperties so we cbn see the correspondence
         to getters.  */
-    private static final class CompositeBuilderViaConstructor
+    privbte stbtic finbl clbss CompositeBuilderVibConstructor
             extends CompositeBuilder {
-        static class AnnotationHelper {
-            private static Class<? extends Annotation> constructorPropertiesClass;
-            private static Method valueMethod;
-            static {
-                findConstructorPropertiesClass();
+        stbtic clbss AnnotbtionHelper {
+            privbte stbtic Clbss<? extends Annotbtion> constructorPropertiesClbss;
+            privbte stbtic Method vblueMethod;
+            stbtic {
+                findConstructorPropertiesClbss();
             }
 
-            @SuppressWarnings("unchecked")
-            private static void findConstructorPropertiesClass() {
+            @SuppressWbrnings("unchecked")
+            privbte stbtic void findConstructorPropertiesClbss() {
                 try {
-                    constructorPropertiesClass = (Class<? extends Annotation>)
-                        Class.forName("java.beans.ConstructorProperties", false,
-                                      DefaultMXBeanMappingFactory.class.getClassLoader());
-                    valueMethod = constructorPropertiesClass.getMethod("value");
-                } catch (ClassNotFoundException cnf) {
-                    // java.beans not present
-                } catch (NoSuchMethodException e) {
-                    // should not reach here
-                    throw new InternalError(e);
+                    constructorPropertiesClbss = (Clbss<? extends Annotbtion>)
+                        Clbss.forNbme("jbvb.bebns.ConstructorProperties", fblse,
+                                      DefbultMXBebnMbppingFbctory.clbss.getClbssLobder());
+                    vblueMethod = constructorPropertiesClbss.getMethod("vblue");
+                } cbtch (ClbssNotFoundException cnf) {
+                    // jbvb.bebns not present
+                } cbtch (NoSuchMethodException e) {
+                    // should not rebch here
+                    throw new InternblError(e);
                 }
             }
 
-            static boolean isAvailable() {
-                return constructorPropertiesClass != null;
+            stbtic boolebn isAvbilbble() {
+                return constructorPropertiesClbss != null;
             }
 
-            static String[] getPropertyNames(Constructor<?> constr) {
-                if (!isAvailable())
+            stbtic String[] getPropertyNbmes(Constructor<?> constr) {
+                if (!isAvbilbble())
                     return null;
 
-                Annotation a = constr.getAnnotation(constructorPropertiesClass);
-                if (a == null) return null;
+                Annotbtion b = constr.getAnnotbtion(constructorPropertiesClbss);
+                if (b == null) return null;
 
                 try {
-                    return (String[]) valueMethod.invoke(a);
-                } catch (InvocationTargetException e) {
-                    throw new InternalError(e);
-                } catch (IllegalAccessException e) {
-                    throw new InternalError(e);
+                    return (String[]) vblueMethod.invoke(b);
+                } cbtch (InvocbtionTbrgetException e) {
+                    throw new InternblError(e);
+                } cbtch (IllegblAccessException e) {
+                    throw new InternblError(e);
                 }
             }
         }
 
-        CompositeBuilderViaConstructor(Class<?> targetClass, String[] itemNames) {
-            super(targetClass, itemNames);
+        CompositeBuilderVibConstructor(Clbss<?> tbrgetClbss, String[] itemNbmes) {
+            super(tbrgetClbss, itemNbmes);
         }
 
-        String applicable(Method[] getters) throws InvalidObjectException {
-            if (!AnnotationHelper.isAvailable())
-                return "@ConstructorProperties annotation not available";
+        String bpplicbble(Method[] getters) throws InvblidObjectException {
+            if (!AnnotbtionHelper.isAvbilbble())
+                return "@ConstructorProperties bnnotbtion not bvbilbble";
 
-            Class<?> targetClass = getTargetClass();
-            Constructor<?>[] constrs = targetClass.getConstructors();
+            Clbss<?> tbrgetClbss = getTbrgetClbss();
+            Constructor<?>[] constrs = tbrgetClbss.getConstructors();
 
-            // Applicable if and only if there are any annotated constructors
-            List<Constructor<?>> annotatedConstrList = newList();
+            // Applicbble if bnd only if there bre bny bnnotbted constructors
+            List<Constructor<?>> bnnotbtedConstrList = newList();
             for (Constructor<?> constr : constrs) {
                 if (Modifier.isPublic(constr.getModifiers())
-                        && AnnotationHelper.getPropertyNames(constr) != null)
-                    annotatedConstrList.add(constr);
+                        && AnnotbtionHelper.getPropertyNbmes(constr) != null)
+                    bnnotbtedConstrList.bdd(constr);
             }
 
-            if (annotatedConstrList.isEmpty())
-                return "no constructor has @ConstructorProperties annotation";
+            if (bnnotbtedConstrList.isEmpty())
+                return "no constructor hbs @ConstructorProperties bnnotbtion";
 
-            annotatedConstructors = newList();
+            bnnotbtedConstructors = newList();
 
-            // Now check that all the annotated constructors are valid
-            // and throw an exception if not.
+            // Now check thbt bll the bnnotbted constructors bre vblid
+            // bnd throw bn exception if not.
 
-            // First link the itemNames to their getter indexes.
-            Map<String, Integer> getterMap = newMap();
-            String[] itemNames = getItemNames();
-            for (int i = 0; i < itemNames.length; i++)
-                getterMap.put(itemNames[i], i);
+            // First link the itemNbmes to their getter indexes.
+            Mbp<String, Integer> getterMbp = newMbp();
+            String[] itemNbmes = getItemNbmes();
+            for (int i = 0; i < itemNbmes.length; i++)
+                getterMbp.put(itemNbmes[i], i);
 
-            // Run through the constructors making the checks in the spec.
-            // For each constructor, remember the correspondence between its
-            // parameters and the items.  The int[] for a constructor says
-            // what parameter index should get what item.  For example,
-            // if element 0 is 2 then that means that item 0 in the
-            // CompositeData goes to parameter 2 of the constructor.  If an
-            // element is -1, that item isn't given to the constructor.
-            // Also remember the set of properties in that constructor
-            // so we can test unambiguity.
+            // Run through the constructors mbking the checks in the spec.
+            // For ebch constructor, remember the correspondence between its
+            // pbrbmeters bnd the items.  The int[] for b constructor sbys
+            // whbt pbrbmeter index should get whbt item.  For exbmple,
+            // if element 0 is 2 then thbt mebns thbt item 0 in the
+            // CompositeDbtb goes to pbrbmeter 2 of the constructor.  If bn
+            // element is -1, thbt item isn't given to the constructor.
+            // Also remember the set of properties in thbt constructor
+            // so we cbn test unbmbiguity.
             Set<BitSet> getterIndexSets = newSet();
-            for (Constructor<?> constr : annotatedConstrList) {
-                String[] propertyNames = AnnotationHelper.getPropertyNames(constr);
+            for (Constructor<?> constr : bnnotbtedConstrList) {
+                String[] propertyNbmes = AnnotbtionHelper.getPropertyNbmes(constr);
 
-                Type[] paramTypes = constr.getGenericParameterTypes();
-                if (paramTypes.length != propertyNames.length) {
-                    final String msg =
-                        "Number of constructor params does not match " +
-                        "@ConstructorProperties annotation: " + constr;
-                    throw new InvalidObjectException(msg);
+                Type[] pbrbmTypes = constr.getGenericPbrbmeterTypes();
+                if (pbrbmTypes.length != propertyNbmes.length) {
+                    finbl String msg =
+                        "Number of constructor pbrbms does not mbtch " +
+                        "@ConstructorProperties bnnotbtion: " + constr;
+                    throw new InvblidObjectException(msg);
                 }
 
-                int[] paramIndexes = new int[getters.length];
+                int[] pbrbmIndexes = new int[getters.length];
                 for (int i = 0; i < getters.length; i++)
-                    paramIndexes[i] = -1;
+                    pbrbmIndexes[i] = -1;
                 BitSet present = new BitSet();
 
-                for (int i = 0; i < propertyNames.length; i++) {
-                    String propertyName = propertyNames[i];
-                    if (!getterMap.containsKey(propertyName)) {
+                for (int i = 0; i < propertyNbmes.length; i++) {
+                    String propertyNbme = propertyNbmes[i];
+                    if (!getterMbp.contbinsKey(propertyNbme)) {
                         String msg =
-                            "@ConstructorProperties includes name " + propertyName +
-                            " which does not correspond to a property";
-                        for (String getterName : getterMap.keySet()) {
-                            if (getterName.equalsIgnoreCase(propertyName)) {
-                                msg += " (differs only in case from property " +
-                                        getterName + ")";
+                            "@ConstructorProperties includes nbme " + propertyNbme +
+                            " which does not correspond to b property";
+                        for (String getterNbme : getterMbp.keySet()) {
+                            if (getterNbme.equblsIgnoreCbse(propertyNbme)) {
+                                msg += " (differs only in cbse from property " +
+                                        getterNbme + ")";
                             }
                         }
                         msg += ": " + constr;
-                        throw new InvalidObjectException(msg);
+                        throw new InvblidObjectException(msg);
                     }
-                    int getterIndex = getterMap.get(propertyName);
-                    paramIndexes[getterIndex] = i;
+                    int getterIndex = getterMbp.get(propertyNbme);
+                    pbrbmIndexes[getterIndex] = i;
                     if (present.get(getterIndex)) {
-                        final String msg =
-                            "@ConstructorProperties contains property " +
-                            propertyName + " more than once: " + constr;
-                        throw new InvalidObjectException(msg);
+                        finbl String msg =
+                            "@ConstructorProperties contbins property " +
+                            propertyNbme + " more thbn once: " + constr;
+                        throw new InvblidObjectException(msg);
                     }
                     present.set(getterIndex);
                     Method getter = getters[getterIndex];
                     Type propertyType = getter.getGenericReturnType();
-                    if (!propertyType.equals(paramTypes[i])) {
-                        final String msg =
-                            "@ConstructorProperties gives property " + propertyName +
-                            " of type " + propertyType + " for parameter " +
-                            " of type " + paramTypes[i] + ": " + constr;
-                        throw new InvalidObjectException(msg);
+                    if (!propertyType.equbls(pbrbmTypes[i])) {
+                        finbl String msg =
+                            "@ConstructorProperties gives property " + propertyNbme +
+                            " of type " + propertyType + " for pbrbmeter " +
+                            " of type " + pbrbmTypes[i] + ": " + constr;
+                        throw new InvblidObjectException(msg);
                     }
                 }
 
-                if (!getterIndexSets.add(present)) {
-                    final String msg =
-                        "More than one constructor has a @ConstructorProperties " +
-                        "annotation with this set of names: " +
-                        Arrays.toString(propertyNames);
-                    throw new InvalidObjectException(msg);
+                if (!getterIndexSets.bdd(present)) {
+                    finbl String msg =
+                        "More thbn one constructor hbs b @ConstructorProperties " +
+                        "bnnotbtion with this set of nbmes: " +
+                        Arrbys.toString(propertyNbmes);
+                    throw new InvblidObjectException(msg);
                 }
 
-                Constr c = new Constr(constr, paramIndexes, present);
-                annotatedConstructors.add(c);
+                Constr c = new Constr(constr, pbrbmIndexes, present);
+                bnnotbtedConstructors.bdd(c);
             }
 
-            /* Check that no possible set of items could lead to an ambiguous
-             * choice of constructor (spec requires this check).  For any
-             * pair of constructors, their union would be the minimal
-             * ambiguous set.  If this set itself corresponds to a constructor,
-             * there is no ambiguity for that pair.  In the usual case, one
-             * of the constructors is a superset of the other so the union is
+            /* Check thbt no possible set of items could lebd to bn bmbiguous
+             * choice of constructor (spec requires this check).  For bny
+             * pbir of constructors, their union would be the minimbl
+             * bmbiguous set.  If this set itself corresponds to b constructor,
+             * there is no bmbiguity for thbt pbir.  In the usubl cbse, one
+             * of the constructors is b superset of the other so the union is
              * just the bigger constructor.
              *
-             * The algorithm here is quadratic in the number of constructors
-             * with a @ConstructorProperties annotation.  Typically this corresponds
-             * to the number of versions of the class there have been.  Ten
-             * would already be a large number, so although it's probably
-             * possible to have an O(n lg n) algorithm it wouldn't be
+             * The blgorithm here is qubdrbtic in the number of constructors
+             * with b @ConstructorProperties bnnotbtion.  Typicblly this corresponds
+             * to the number of versions of the clbss there hbve been.  Ten
+             * would blrebdy be b lbrge number, so blthough it's probbbly
+             * possible to hbve bn O(n lg n) blgorithm it wouldn't be
              * worth the complexity.
              */
-            for (BitSet a : getterIndexSets) {
-                boolean seen = false;
+            for (BitSet b : getterIndexSets) {
+                boolebn seen = fblse;
                 for (BitSet b : getterIndexSets) {
-                    if (a == b)
+                    if (b == b)
                         seen = true;
                     else if (seen) {
                         BitSet u = new BitSet();
-                        u.or(a); u.or(b);
-                        if (!getterIndexSets.contains(u)) {
-                            Set<String> names = new TreeSet<String>();
+                        u.or(b); u.or(b);
+                        if (!getterIndexSets.contbins(u)) {
+                            Set<String> nbmes = new TreeSet<String>();
                             for (int i = u.nextSetBit(0); i >= 0;
                                  i = u.nextSetBit(i+1))
-                                names.add(itemNames[i]);
-                            final String msg =
-                                "Constructors with @ConstructorProperties annotation " +
-                                " would be ambiguous for these items: " +
-                                names;
-                            throw new InvalidObjectException(msg);
+                                nbmes.bdd(itemNbmes[i]);
+                            finbl String msg =
+                                "Constructors with @ConstructorProperties bnnotbtion " +
+                                " would be bmbiguous for these items: " +
+                                nbmes;
+                            throw new InvblidObjectException(msg);
                         }
                     }
                 }
@@ -1326,216 +1326,216 @@ public class DefaultMXBeanMappingFactory extends MXBeanMappingFactory {
             return null; // success!
         }
 
-        final Object fromCompositeData(CompositeData cd,
-                                       String[] itemNames,
-                                       MXBeanMapping[] mappings)
-                throws InvalidObjectException {
-            // The CompositeData might come from an earlier version where
-            // not all the items were present.  We look for a constructor
-            // that accepts just the items that are present.  Because of
-            // the ambiguity check in applicable(), we know there must be
-            // at most one maximally applicable constructor.
+        finbl Object fromCompositeDbtb(CompositeDbtb cd,
+                                       String[] itemNbmes,
+                                       MXBebnMbpping[] mbppings)
+                throws InvblidObjectException {
+            // The CompositeDbtb might come from bn ebrlier version where
+            // not bll the items were present.  We look for b constructor
+            // thbt bccepts just the items thbt bre present.  Becbuse of
+            // the bmbiguity check in bpplicbble(), we know there must be
+            // bt most one mbximblly bpplicbble constructor.
             CompositeType ct = cd.getCompositeType();
             BitSet present = new BitSet();
-            for (int i = 0; i < itemNames.length; i++) {
-                if (ct.getType(itemNames[i]) != null)
+            for (int i = 0; i < itemNbmes.length; i++) {
+                if (ct.getType(itemNbmes[i]) != null)
                     present.set(i);
             }
 
-            Constr max = null;
-            for (Constr constr : annotatedConstructors) {
-                if (subset(constr.presentParams, present) &&
-                        (max == null ||
-                         subset(max.presentParams, constr.presentParams)))
-                    max = constr;
+            Constr mbx = null;
+            for (Constr constr : bnnotbtedConstructors) {
+                if (subset(constr.presentPbrbms, present) &&
+                        (mbx == null ||
+                         subset(mbx.presentPbrbms, constr.presentPbrbms)))
+                    mbx = constr;
             }
 
-            if (max == null) {
-                final String msg =
-                    "No constructor has a @ConstructorProperties for this set of " +
+            if (mbx == null) {
+                finbl String msg =
+                    "No constructor hbs b @ConstructorProperties for this set of " +
                     "items: " + ct.keySet();
-                throw new InvalidObjectException(msg);
+                throw new InvblidObjectException(msg);
             }
 
-            Object[] params = new Object[max.presentParams.cardinality()];
-            for (int i = 0; i < itemNames.length; i++) {
-                if (!max.presentParams.get(i))
+            Object[] pbrbms = new Object[mbx.presentPbrbms.cbrdinblity()];
+            for (int i = 0; i < itemNbmes.length; i++) {
+                if (!mbx.presentPbrbms.get(i))
                     continue;
-                Object openItem = cd.get(itemNames[i]);
-                Object javaItem = mappings[i].fromOpenValue(openItem);
-                int index = max.paramIndexes[i];
+                Object openItem = cd.get(itemNbmes[i]);
+                Object jbvbItem = mbppings[i].fromOpenVblue(openItem);
+                int index = mbx.pbrbmIndexes[i];
                 if (index >= 0)
-                    params[index] = javaItem;
+                    pbrbms[index] = jbvbItem;
             }
 
             try {
-                ReflectUtil.checkPackageAccess(max.constructor.getDeclaringClass());
-                return max.constructor.newInstance(params);
-            } catch (Exception e) {
-                final String msg =
-                    "Exception constructing " + getTargetClass().getName();
-                throw invalidObjectException(msg, e);
+                ReflectUtil.checkPbckbgeAccess(mbx.constructor.getDeclbringClbss());
+                return mbx.constructor.newInstbnce(pbrbms);
+            } cbtch (Exception e) {
+                finbl String msg =
+                    "Exception constructing " + getTbrgetClbss().getNbme();
+                throw invblidObjectException(msg, e);
             }
         }
 
-        private static boolean subset(BitSet sub, BitSet sup) {
+        privbte stbtic boolebn subset(BitSet sub, BitSet sup) {
             BitSet subcopy = (BitSet) sub.clone();
-            subcopy.andNot(sup);
+            subcopy.bndNot(sup);
             return subcopy.isEmpty();
         }
 
-        private static class Constr {
-            final Constructor<?> constructor;
-            final int[] paramIndexes;
-            final BitSet presentParams;
-            Constr(Constructor<?> constructor, int[] paramIndexes,
-                   BitSet presentParams) {
+        privbte stbtic clbss Constr {
+            finbl Constructor<?> constructor;
+            finbl int[] pbrbmIndexes;
+            finbl BitSet presentPbrbms;
+            Constr(Constructor<?> constructor, int[] pbrbmIndexes,
+                   BitSet presentPbrbms) {
                 this.constructor = constructor;
-                this.paramIndexes = paramIndexes;
-                this.presentParams = presentParams;
+                this.pbrbmIndexes = pbrbmIndexes;
+                this.presentPbrbms = presentPbrbms;
             }
         }
 
-        private List<Constr> annotatedConstructors;
+        privbte List<Constr> bnnotbtedConstructors;
     }
 
-    /** Builder for when the target class is an interface and contains
-        no methods other than getters.  Then we can make an instance
-        using a dynamic proxy that forwards the getters to the source
-        CompositeData.  */
-    private static final class CompositeBuilderViaProxy
+    /** Builder for when the tbrget clbss is bn interfbce bnd contbins
+        no methods other thbn getters.  Then we cbn mbke bn instbnce
+        using b dynbmic proxy thbt forwbrds the getters to the source
+        CompositeDbtb.  */
+    privbte stbtic finbl clbss CompositeBuilderVibProxy
             extends CompositeBuilder {
 
-        CompositeBuilderViaProxy(Class<?> targetClass, String[] itemNames) {
-            super(targetClass, itemNames);
+        CompositeBuilderVibProxy(Clbss<?> tbrgetClbss, String[] itemNbmes) {
+            super(tbrgetClbss, itemNbmes);
         }
 
-        String applicable(Method[] getters) {
-            Class<?> targetClass = getTargetClass();
-            if (!targetClass.isInterface())
-                return "not an interface";
+        String bpplicbble(Method[] getters) {
+            Clbss<?> tbrgetClbss = getTbrgetClbss();
+            if (!tbrgetClbss.isInterfbce())
+                return "not bn interfbce";
             Set<Method> methods =
-                newSet(Arrays.asList(targetClass.getMethods()));
-            methods.removeAll(Arrays.asList(getters));
-            /* If the interface has any methods left over, they better be
-             * public methods that are already present in java.lang.Object.
+                newSet(Arrbys.bsList(tbrgetClbss.getMethods()));
+            methods.removeAll(Arrbys.bsList(getters));
+            /* If the interfbce hbs bny methods left over, they better be
+             * public methods thbt bre blrebdy present in jbvb.lbng.Object.
              */
-            String bad = null;
+            String bbd = null;
             for (Method m : methods) {
-                String mname = m.getName();
-                Class<?>[] mparams = m.getParameterTypes();
+                String mnbme = m.getNbme();
+                Clbss<?>[] mpbrbms = m.getPbrbmeterTypes();
                 try {
-                    Method om = Object.class.getMethod(mname, mparams);
+                    Method om = Object.clbss.getMethod(mnbme, mpbrbms);
                     if (!Modifier.isPublic(om.getModifiers()))
-                        bad = mname;
-                } catch (NoSuchMethodException e) {
-                    bad = mname;
+                        bbd = mnbme;
+                } cbtch (NoSuchMethodException e) {
+                    bbd = mnbme;
                 }
-                /* We don't catch SecurityException since it shouldn't
-                 * happen for a method in Object and if it does we would
-                 * like to know about it rather than mysteriously complaining.
+                /* We don't cbtch SecurityException since it shouldn't
+                 * hbppen for b method in Object bnd if it does we would
+                 * like to know bbout it rbther thbn mysteriously complbining.
                  */
             }
-            if (bad != null)
-                return "contains methods other than getters (" + bad + ")";
+            if (bbd != null)
+                return "contbins methods other thbn getters (" + bbd + ")";
             return null; // success!
         }
 
-        final Object fromCompositeData(CompositeData cd,
-                                       String[] itemNames,
-                                       MXBeanMapping[] converters) {
-            final Class<?> targetClass = getTargetClass();
+        finbl Object fromCompositeDbtb(CompositeDbtb cd,
+                                       String[] itemNbmes,
+                                       MXBebnMbpping[] converters) {
+            finbl Clbss<?> tbrgetClbss = getTbrgetClbss();
             return
-                Proxy.newProxyInstance(targetClass.getClassLoader(),
-                                       new Class<?>[] {targetClass},
-                                       new CompositeDataInvocationHandler(cd));
+                Proxy.newProxyInstbnce(tbrgetClbss.getClbssLobder(),
+                                       new Clbss<?>[] {tbrgetClbss},
+                                       new CompositeDbtbInvocbtionHbndler(cd));
         }
     }
 
-    static InvalidObjectException invalidObjectException(String msg,
-                                                         Throwable cause) {
-        return EnvHelp.initCause(new InvalidObjectException(msg), cause);
+    stbtic InvblidObjectException invblidObjectException(String msg,
+                                                         Throwbble cbuse) {
+        return EnvHelp.initCbuse(new InvblidObjectException(msg), cbuse);
     }
 
-    static InvalidObjectException invalidObjectException(Throwable cause) {
-        return invalidObjectException(cause.getMessage(), cause);
+    stbtic InvblidObjectException invblidObjectException(Throwbble cbuse) {
+        return invblidObjectException(cbuse.getMessbge(), cbuse);
     }
 
-    static OpenDataException openDataException(String msg, Throwable cause) {
-        return EnvHelp.initCause(new OpenDataException(msg), cause);
+    stbtic OpenDbtbException openDbtbException(String msg, Throwbble cbuse) {
+        return EnvHelp.initCbuse(new OpenDbtbException(msg), cbuse);
     }
 
-    static OpenDataException openDataException(Throwable cause) {
-        return openDataException(cause.getMessage(), cause);
+    stbtic OpenDbtbException openDbtbException(Throwbble cbuse) {
+        return openDbtbException(cbuse.getMessbge(), cbuse);
     }
 
-    static void mustBeComparable(Class<?> collection, Type element)
-            throws OpenDataException {
-        if (!(element instanceof Class<?>)
-            || !Comparable.class.isAssignableFrom((Class<?>) element)) {
-            final String msg =
-                "Parameter class " + element + " of " +
-                collection.getName() + " does not implement " +
-                Comparable.class.getName();
-            throw new OpenDataException(msg);
+    stbtic void mustBeCompbrbble(Clbss<?> collection, Type element)
+            throws OpenDbtbException {
+        if (!(element instbnceof Clbss<?>)
+            || !Compbrbble.clbss.isAssignbbleFrom((Clbss<?>) element)) {
+            finbl String msg =
+                "Pbrbmeter clbss " + element + " of " +
+                collection.getNbme() + " does not implement " +
+                Compbrbble.clbss.getNbme();
+            throw new OpenDbtbException(msg);
         }
     }
 
     /**
-     * Utility method to take a string and convert it to normal Java variable
-     * name capitalization.  This normally means converting the first
-     * character from upper case to lower case, but in the (unusual) special
-     * case when there is more than one character and both the first and
-     * second characters are upper case, we leave it alone.
+     * Utility method to tbke b string bnd convert it to normbl Jbvb vbribble
+     * nbme cbpitblizbtion.  This normblly mebns converting the first
+     * chbrbcter from upper cbse to lower cbse, but in the (unusubl) specibl
+     * cbse when there is more thbn one chbrbcter bnd both the first bnd
+     * second chbrbcters bre upper cbse, we lebve it blone.
      * <p>
-     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
-     * as "URL".
+     * Thus "FooBbh" becomes "fooBbh" bnd "X" becomes "x", but "URL" stbys
+     * bs "URL".
      *
-     * @param  name The string to be decapitalized.
-     * @return  The decapitalized version of the string.
+     * @pbrbm  nbme The string to be decbpitblized.
+     * @return  The decbpitblized version of the string.
      */
-    public static String decapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    public stbtic String decbpitblize(String nbme) {
+        if (nbme == null || nbme.length() == 0) {
+            return nbme;
         }
-        int offset1 = Character.offsetByCodePoints(name, 0, 1);
-        // Should be name.offsetByCodePoints but 6242664 makes this fail
-        if (offset1 < name.length() &&
-                Character.isUpperCase(name.codePointAt(offset1)))
-            return name;
-        return name.substring(0, offset1).toLowerCase() +
-               name.substring(offset1);
+        int offset1 = Chbrbcter.offsetByCodePoints(nbme, 0, 1);
+        // Should be nbme.offsetByCodePoints but 6242664 mbkes this fbil
+        if (offset1 < nbme.length() &&
+                Chbrbcter.isUpperCbse(nbme.codePointAt(offset1)))
+            return nbme;
+        return nbme.substring(0, offset1).toLowerCbse() +
+               nbme.substring(offset1);
     }
 
     /**
-     * Reverse operation for java.beans.Introspector.decapitalize.  For any s,
-     * capitalize(decapitalize(s)).equals(s).  The reverse is not true:
-     * e.g. capitalize("uRL") produces "URL" which is unchanged by
-     * decapitalize.
+     * Reverse operbtion for jbvb.bebns.Introspector.decbpitblize.  For bny s,
+     * cbpitblize(decbpitblize(s)).equbls(s).  The reverse is not true:
+     * e.g. cbpitblize("uRL") produces "URL" which is unchbnged by
+     * decbpitblize.
      */
-    static String capitalize(String name) {
-        if (name == null || name.length() == 0)
-            return name;
-        int offset1 = name.offsetByCodePoints(0, 1);
-        return name.substring(0, offset1).toUpperCase() +
-               name.substring(offset1);
+    stbtic String cbpitblize(String nbme) {
+        if (nbme == null || nbme.length() == 0)
+            return nbme;
+        int offset1 = nbme.offsetByCodePoints(0, 1);
+        return nbme.substring(0, offset1).toUpperCbse() +
+               nbme.substring(offset1);
     }
 
-    public static String propertyName(Method m) {
+    public stbtic String propertyNbme(Method m) {
         String rest = null;
-        String name = m.getName();
-        if (name.startsWith("get"))
-            rest = name.substring(3);
-        else if (name.startsWith("is") && m.getReturnType() == boolean.class)
-            rest = name.substring(2);
+        String nbme = m.getNbme();
+        if (nbme.stbrtsWith("get"))
+            rest = nbme.substring(3);
+        else if (nbme.stbrtsWith("is") && m.getReturnType() == boolebn.clbss)
+            rest = nbme.substring(2);
         if (rest == null || rest.length() == 0
-            || m.getParameterTypes().length > 0
-            || m.getReturnType() == void.class
-            || name.equals("getClass"))
+            || m.getPbrbmeterTypes().length > 0
+            || m.getReturnType() == void.clbss
+            || nbme.equbls("getClbss"))
             return null;
         return rest;
     }
 
-    private final static Map<Type, Type> inProgress = newIdentityHashMap();
-    // really an IdentityHashSet but that doesn't exist
+    privbte finbl stbtic Mbp<Type, Type> inProgress = newIdentityHbshMbp();
+    // reblly bn IdentityHbshSet but thbt doesn't exist
 }

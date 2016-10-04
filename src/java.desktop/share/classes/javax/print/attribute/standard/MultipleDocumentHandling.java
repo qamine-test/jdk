@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class MultipleDocumentHandling is a printing attribute class, an enumeration,
- * that controls finishing operations and the placement of one or more
- * print-stream pages into impressions and onto media sheets. When the value of
- * the {@link Copies Copies} attribute exceeds 1, MultipleDocumentHandling also
- * controls the order in which the copies that result from processing the
- * documents are produced. This attribute is relevant only for a multidoc print
- * job consisting of two or more individual docs.
+ * Clbss MultipleDocumentHbndling is b printing bttribute clbss, bn enumerbtion,
+ * thbt controls finishing operbtions bnd the plbcement of one or more
+ * print-strebm pbges into impressions bnd onto medib sheets. When the vblue of
+ * the {@link Copies Copies} bttribute exceeds 1, MultipleDocumentHbndling blso
+ * controls the order in which the copies thbt result from processing the
+ * documents bre produced. This bttribute is relevbnt only for b multidoc print
+ * job consisting of two or more individubl docs.
  * <P>
- * Briefly, MultipleDocumentHandling determines the relationship between the
- * multiple input (electronic) documents fed into a multidoc print job and the
- * output (physical) document or documents produced by the multidoc print job.
- * There are two possibilities:
+ * Briefly, MultipleDocumentHbndling determines the relbtionship between the
+ * multiple input (electronic) documents fed into b multidoc print job bnd the
+ * output (physicbl) document or documents produced by the multidoc print job.
+ * There bre two possibilities:
  * <UL>
  * <LI>
- * The multiple input documents are combined into a single output document.
- * Finishing operations ({@link Finishings Finishings}),
- * are performed on this single output
- * document. The {@link Copies Copies} attribute tells how many copies of this
- * single output document to produce. The MultipleDocumentHandling values
- * SINGLE_DOCUMENT and SINGLE_DOCUMENT_NEW_SHEET specify two variations of
+ * The multiple input documents bre combined into b single output document.
+ * Finishing operbtions ({@link Finishings Finishings}),
+ * bre performed on this single output
+ * document. The {@link Copies Copies} bttribute tells how mbny copies of this
+ * single output document to produce. The MultipleDocumentHbndling vblues
+ * SINGLE_DOCUMENT bnd SINGLE_DOCUMENT_NEW_SHEET specify two vbribtions of
  * this  possibility.
  *
  * <LI>
- * The multiple input documents remain separate output documents. Finishing
- * operations ({@link Finishings Finishings}),
- * are performed on each output document
- * separately. The {@link Copies Copies} attribute tells how many copies of each
- * separate output document to produce. The MultipleDocumentHandling values
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES and SEPARATE_DOCUMENTS_COLLATED_COPIES
- * specify two variations of this possibility.
+ * The multiple input documents rembin sepbrbte output documents. Finishing
+ * operbtions ({@link Finishings Finishings}),
+ * bre performed on ebch output document
+ * sepbrbtely. The {@link Copies Copies} bttribute tells how mbny copies of ebch
+ * sepbrbte output document to produce. The MultipleDocumentHbndling vblues
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd SEPARATE_DOCUMENTS_COLLATED_COPIES
+ * specify two vbribtions of this possibility.
  * </UL>
  * <P>
- * In the detailed explanations below, if "<CODE>a</CODE>" represents an
- * instance of document data, then the result of processing the data in
- * document "<CODE>a</CODE>" is a sequence of media sheets represented by
- * "<CODE>a(*)</CODE>".
+ * In the detbiled explbnbtions below, if "<CODE>b</CODE>" represents bn
+ * instbnce of document dbtb, then the result of processing the dbtb in
+ * document "<CODE>b</CODE>" is b sequence of medib sheets represented by
+ * "<CODE>b(*)</CODE>".
  * <P>
- * The standard MultipleDocumentHandling values are:
+ * The stbndbrd MultipleDocumentHbndling vblues bre:
  * <UL>
  * <LI>
  * <A NAME="sdfi">{@link #SINGLE_DOCUMENT
- * <B>SINGLE_DOCUMENT</B>}</A>. If a print job has multiple
- * documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing all the document data
- * (<CODE>a</CODE> and then <CODE>b</CODE>) must be treated as a single sequence
- * of media sheets for finishing operations; that is, finishing would be
- * performed on the concatenation of the sequences <CODE>a(*),b(*)</CODE>. The
- * printer must not force the data in each document instance to be formatted
- * onto a new print-stream page, nor to start a new impression on a new media
- * sheet. If more than one copy is made, the ordering of the sets of media
- * sheets resulting from processing the document data must be
- * <CODE>a(*),b(*),a(*),b(*),...</CODE>, and the printer object must force
- * each copy (<CODE>a(*),b(*)</CODE>) to start on a new media sheet.
+ * <B>SINGLE_DOCUMENT</B>}</A>. If b print job hbs multiple
+ * documents -- sby, the document dbtb is cblled <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- then the result of processing bll the document dbtb
+ * (<CODE>b</CODE> bnd then <CODE>b</CODE>) must be trebted bs b single sequence
+ * of medib sheets for finishing operbtions; thbt is, finishing would be
+ * performed on the concbtenbtion of the sequences <CODE>b(*),b(*)</CODE>. The
+ * printer must not force the dbtb in ebch document instbnce to be formbtted
+ * onto b new print-strebm pbge, nor to stbrt b new impression on b new medib
+ * sheet. If more thbn one copy is mbde, the ordering of the sets of medib
+ * sheets resulting from processing the document dbtb must be
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>, bnd the printer object must force
+ * ebch copy (<CODE>b(*),b(*)</CODE>) to stbrt on b new medib sheet.
  *
  * <LI>
  * <A NAME="sducfi">{@link #SEPARATE_DOCUMENTS_UNCOLLATED_COPIES
- * <B>SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</B>}</A>. If a print job
- * has multiple documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing the data in each document
- * instance must be treated as a single sequence of media sheets for finishing
- * operations; that is, the sets <CODE>a(*)</CODE> and <CODE>b(*)</CODE> would
- * each be finished separately. The printer must force each copy of the result
- * of processing the data in a single document to start on a new media sheet.
- * If more than one copy is made, the ordering of the sets of media sheets
- * resulting from processing the document data must be
- * <CODE>a(*),a(*),...,b(*),b(*)...</CODE>.
+ * <B>SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</B>}</A>. If b print job
+ * hbs multiple documents -- sby, the document dbtb is cblled <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- then the result of processing the dbtb in ebch document
+ * instbnce must be trebted bs b single sequence of medib sheets for finishing
+ * operbtions; thbt is, the sets <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * ebch be finished sepbrbtely. The printer must force ebch copy of the result
+ * of processing the dbtb in b single document to stbrt on b new medib sheet.
+ * If more thbn one copy is mbde, the ordering of the sets of medib sheets
+ * resulting from processing the document dbtb must be
+ * <CODE>b(*),b(*),...,b(*),b(*)...</CODE>.
  *
  * <LI>
  * <A NAME="sdccfi">{@link #SEPARATE_DOCUMENTS_COLLATED_COPIES
- * <B>SEPARATE_DOCUMENTS_COLLATED_COPIES</B>}</A>. If a print job
- * has multiple documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing the data in each document
- * instance must be treated as a single sequence of media sheets for finishing
- * operations; that is, the sets <CODE>a(*)</CODE> and <CODE>b(*)</CODE> would
- * each be finished separately. The printer must force each copy of the result
- * of processing the data in a single document to start on a new media sheet.
- * If more than one copy is made, the ordering of the sets of media sheets
- * resulting from processing the document data must be
- * <CODE>a(*),b(*),a(*),b(*),...</CODE>.
+ * <B>SEPARATE_DOCUMENTS_COLLATED_COPIES</B>}</A>. If b print job
+ * hbs multiple documents -- sby, the document dbtb is cblled <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- then the result of processing the dbtb in ebch document
+ * instbnce must be trebted bs b single sequence of medib sheets for finishing
+ * operbtions; thbt is, the sets <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * ebch be finished sepbrbtely. The printer must force ebch copy of the result
+ * of processing the dbtb in b single document to stbrt on b new medib sheet.
+ * If more thbn one copy is mbde, the ordering of the sets of medib sheets
+ * resulting from processing the document dbtb must be
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>.
  *
  * <LI>
  * <A NAME="sdnsfi">{@link #SINGLE_DOCUMENT_NEW_SHEET
- * <B>SINGLE_DOCUMENT_NEW_SHEET</B>}</A>. Same as SINGLE_DOCUMENT,
- * except that the printer must ensure that the first impression of each
- * document instance in the job is placed on a new media sheet. This value
- * allows multiple documents to be stapled together with a single staple where
- * each document starts on a new sheet.
+ * <B>SINGLE_DOCUMENT_NEW_SHEET</B>}</A>. Sbme bs SINGLE_DOCUMENT,
+ * except thbt the printer must ensure thbt the first impression of ebch
+ * document instbnce in the job is plbced on b new medib sheet. This vblue
+ * bllows multiple documents to be stbpled together with b single stbple where
+ * ebch document stbrts on b new sheet.
  * </UL>
  * <P>
- * SINGLE_DOCUMENT is the same as SEPARATE_DOCUMENTS_COLLATED_COPIES with
- * respect to ordering of print-stream pages, but not media sheet generation,
- * since SINGLE_DOCUMENT will put the first page of the next document on the
- * back side of a sheet if an odd number of pages have been produced so far
- * for the job, while SEPARATE_DOCUMENTS_COLLATED_COPIES always forces the
- * next document or document copy on to a new sheet.
+ * SINGLE_DOCUMENT is the sbme bs SEPARATE_DOCUMENTS_COLLATED_COPIES with
+ * respect to ordering of print-strebm pbges, but not medib sheet generbtion,
+ * since SINGLE_DOCUMENT will put the first pbge of the next document on the
+ * bbck side of b sheet if bn odd number of pbges hbve been produced so fbr
+ * for the job, while SEPARATE_DOCUMENTS_COLLATED_COPIES blwbys forces the
+ * next document or document copy on to b new sheet.
  * <P>
- * In addition, if a {@link Finishings Finishings} attribute of
+ * In bddition, if b {@link Finishings Finishings} bttribute of
  * {@link Finishings#STAPLE STAPLE} is specified, then:
  * <UL>
  * <LI>
- * With SINGLE_DOCUMENT, documents <CODE>a</CODE> and <CODE>b</CODE> are
- * stapled together as a single document with no regard to new sheets.
+ * With SINGLE_DOCUMENT, documents <CODE>b</CODE> bnd <CODE>b</CODE> bre
+ * stbpled together bs b single document with no regbrd to new sheets.
  *
  * <LI>
- * With SINGLE_DOCUMENT_NEW_SHEET, documents <CODE>a</CODE> and <CODE>b</CODE>
- * are stapled together as a single document, but document <CODE>b</CODE>
- * starts on a new sheet.
+ * With SINGLE_DOCUMENT_NEW_SHEET, documents <CODE>b</CODE> bnd <CODE>b</CODE>
+ * bre stbpled together bs b single document, but document <CODE>b</CODE>
+ * stbrts on b new sheet.
  *
  * <LI>
- * With SEPARATE_DOCUMENTS_UNCOLLATED_COPIES and
- * SEPARATE_DOCUMENTS_COLLATED_COPIES, documents <CODE>a</CODE> and
- * <CODE>b</CODE> are stapled separately.
+ * With SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES, documents <CODE>b</CODE> bnd
+ * <CODE>b</CODE> bre stbpled sepbrbtely.
  * </UL>
  * <P>
- * <I>Note:</I> None of these values provide means to produce uncollated
- * sheets within a document, i.e., where multiple copies of sheet <I>n</I>
- * are produced before sheet <I>n</I>+1 of the same document.
- * To specify that, see the {@link SheetCollate SheetCollate} attribute.
+ * <I>Note:</I> None of these vblues provide mebns to produce uncollbted
+ * sheets within b document, i.e., where multiple copies of sheet <I>n</I>
+ * bre produced before sheet <I>n</I>+1 of the sbme document.
+ * To specify thbt, see the {@link SheetCollbte SheetCollbte} bttribute.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  * <P>
  *
  * @see  Copies
  * @see  Finishings
  * @see  NumberUp
- * @see  PageRanges
- * @see  SheetCollate
+ * @see  PbgeRbnges
+ * @see  SheetCollbte
  * @see  Sides
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public class MultipleDocumentHandling extends EnumSyntax
+public clbss MultipleDocumentHbndling extends EnumSyntbx
     implements PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = 8098326460746413466L;
+    privbte stbtic finbl long seriblVersionUID = 8098326460746413466L;
 
 
     /**
-     * Single document -- see above for <A HREF="#sdfi">further
-     * information</A>.
+     * Single document -- see bbove for <A HREF="#sdfi">further
+     * informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SINGLE_DOCUMENT = new MultipleDocumentHandling (0);
+    public stbtic finbl MultipleDocumentHbndling
+        SINGLE_DOCUMENT = new MultipleDocumentHbndling (0);
 
     /**
-     * Separate documents uncollated copies -- see above for
-     * <A HREF="#sducfi">further information</A>.
+     * Sepbrbte documents uncollbted copies -- see bbove for
+     * <A HREF="#sducfi">further informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-       SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = new MultipleDocumentHandling (1);
+    public stbtic finbl MultipleDocumentHbndling
+       SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = new MultipleDocumentHbndling (1);
 
     /**
-     * Separate documents collated copies -- see above for
-     * <A HREF="#sdccfi">further information</A>.
+     * Sepbrbte documents collbted copies -- see bbove for
+     * <A HREF="#sdccfi">further informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SEPARATE_DOCUMENTS_COLLATED_COPIES = new MultipleDocumentHandling (2);
+    public stbtic finbl MultipleDocumentHbndling
+        SEPARATE_DOCUMENTS_COLLATED_COPIES = new MultipleDocumentHbndling (2);
 
     /**
-     * Single document new sheet -- see above for
-     * <A HREF="#sdnsfi">further information</A>.
+     * Single document new sheet -- see bbove for
+     * <A HREF="#sdnsfi">further informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SINGLE_DOCUMENT_NEW_SHEET = new MultipleDocumentHandling (3);
+    public stbtic finbl MultipleDocumentHbndling
+        SINGLE_DOCUMENT_NEW_SHEET = new MultipleDocumentHbndling (3);
 
 
     /**
-     * Construct a new multiple document handling enumeration value with the
-     * given integer value.
+     * Construct b new multiple document hbndling enumerbtion vblue with the
+     * given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected MultipleDocumentHandling(int value) {
-        super (value);
+    protected MultipleDocumentHbndling(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "single-document",
-        "separate-documents-uncollated-copies",
-        "separate-documents-collated-copies",
+        "sepbrbte-documents-uncollbted-copies",
+        "sepbrbte-documents-collbted-copies",
         "single-document-new-sheet"
     };
 
-    private static final MultipleDocumentHandling[] myEnumValueTable = {
+    privbte stbtic finbl MultipleDocumentHbndling[] myEnumVblueTbble = {
         SINGLE_DOCUMENT,
         SEPARATE_DOCUMENTS_UNCOLLATED_COPIES,
         SEPARATE_DOCUMENTS_COLLATED_COPIES,
@@ -225,44 +225,44 @@ public class MultipleDocumentHandling extends EnumSyntax
     };
 
     /**
-     * Returns the string table for class MultipleDocumentHandling.
+     * Returns the string tbble for clbss MultipleDocumentHbndling.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class MultipleDocumentHandling.
+     * Returns the enumerbtion vblue tbble for clbss MultipleDocumentHbndling.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class MultipleDocumentHandling and any vendor-defined subclasses,
-     * the category is class MultipleDocumentHandling itself.
+     * For clbss MultipleDocumentHbndling bnd bny vendor-defined subclbsses,
+     * the cbtegory is clbss MultipleDocumentHbndling itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return MultipleDocumentHandling.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return MultipleDocumentHbndling.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class MultipleDocumentHandling and any vendor-defined subclasses,
-     * the category name is <CODE>"multiple-document-handling"</CODE>.
+     * For clbss MultipleDocumentHbndling bnd bny vendor-defined subclbsses,
+     * the cbtegory nbme is <CODE>"multiple-document-hbndling"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "multiple-document-handling";
+    public finbl String getNbme() {
+        return "multiple-document-hbndling";
     }
 
 }

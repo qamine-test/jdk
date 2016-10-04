@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import sun.security.krb5.internal.crypto.EType;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
+import sun.security.krb5.internbl.crypto.EType;
 import sun.security.util.*;
-import java.io.IOException;
-import java.util.Objects;
-import javax.security.auth.kerberos.KeyTab;
+import jbvb.io.IOException;
+import jbvb.util.Objects;
+import jbvbx.security.buth.kerberos.KeyTbb;
 import sun.security.jgss.krb5.Krb5Util;
 
 /**
- * This class encapsulates a AS-REP message that the KDC sends to the
+ * This clbss encbpsulbtes b AS-REP messbge thbt the KDC sends to the
  * client.
  */
-class KrbAsRep extends KrbKdcRep {
+clbss KrbAsRep extends KrbKdcRep {
 
-    private ASRep rep;  // The AS-REP message
-    private Credentials creds;  // The Credentials provide by the AS-REP
-                                // message, created by initiator after calling
+    privbte ASRep rep;  // The AS-REP messbge
+    privbte Credentibls creds;  // The Credentibls provide by the AS-REP
+                                // messbge, crebted by initibtor bfter cblling
                                 // the decrypt() method
 
-    private boolean DEBUG = Krb5.DEBUG;
+    privbte boolebn DEBUG = Krb5.DEBUG;
 
     KrbAsRep(byte[] ibuf) throws
             KrbException, Asn1Exception, IOException {
-        DerValue encoding = new DerValue(ibuf);
+        DerVblue encoding = new DerVblue(ibuf);
         try {
             rep = new ASRep(encoding);
-        } catch (Asn1Exception e) {
+        } cbtch (Asn1Exception e) {
             rep = null;
             KRBError err = new KRBError(encoding);
             String errStr = err.getErrorString();
-            String eText = null; // pick up text sent by the server (if any)
+            String eText = null; // pick up text sent by the server (if bny)
 
             if (errStr != null && errStr.length() > 0) {
-                if (errStr.charAt(errStr.length() - 1) == 0)
+                if (errStr.chbrAt(errStr.length() - 1) == 0)
                     eText = errStr.substring(0, errStr.length() - 1);
                 else
                     eText = errStr;
@@ -78,107 +78,107 @@ class KrbAsRep extends KrbKdcRep {
                 if (DEBUG) {
                     System.out.println("KRBError received: " + eText);
                 }
-                // override default text with server text
+                // override defbult text with server text
                 ke = new KrbException(err, eText);
             }
-            ke.initCause(e);
+            ke.initCbuse(e);
             throw ke;
         }
     }
 
-    // KrbAsReqBuilder need to read back the PA for key generation
-    PAData[] getPA() {
-        return rep.pAData;
+    // KrbAsReqBuilder need to rebd bbck the PA for key generbtion
+    PADbtb[] getPA() {
+        return rep.pADbtb;
     }
 
     /**
-     * Called by KrbAsReqBuilder to resolve a AS-REP message using a keytab.
-     * @param ktab the keytab, not null
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
-     * @param cname the user principal name, used to locate keys in ktab
+     * Cblled by KrbAsReqBuilder to resolve b AS-REP messbge using b keytbb.
+     * @pbrbm ktbb the keytbb, not null
+     * @pbrbm bsReq the originbl AS-REQ sent, used to vblidbte AS-REP
+     * @pbrbm cnbme the user principbl nbme, used to locbte keys in ktbb
      */
-    void decryptUsingKeyTab(KeyTab ktab, KrbAsReq asReq, PrincipalName cname)
+    void decryptUsingKeyTbb(KeyTbb ktbb, KrbAsReq bsReq, PrincipblNbme cnbme)
             throws KrbException, Asn1Exception, IOException {
         EncryptionKey dkey = null;
-        int encPartKeyType = rep.encPart.getEType();
-        Integer encPartKvno = rep.encPart.kvno;
+        int encPbrtKeyType = rep.encPbrt.getEType();
+        Integer encPbrtKvno = rep.encPbrt.kvno;
             try {
-                dkey = EncryptionKey.findKey(encPartKeyType, encPartKvno,
-                        Krb5Util.keysFromJavaxKeyTab(ktab, cname));
-            } catch (KrbException ke) {
+                dkey = EncryptionKey.findKey(encPbrtKeyType, encPbrtKvno,
+                        Krb5Util.keysFromJbvbxKeyTbb(ktbb, cnbme));
+            } cbtch (KrbException ke) {
                 if (ke.returnCode() == Krb5.KRB_AP_ERR_BADKEYVER) {
-                    // Fallback to no kvno. In some cases, keytab is generated
-                    // not by sysadmin but Java's ktab command
-                    dkey = EncryptionKey.findKey(encPartKeyType,
-                            Krb5Util.keysFromJavaxKeyTab(ktab, cname));
+                    // Fbllbbck to no kvno. In some cbses, keytbb is generbted
+                    // not by sysbdmin but Jbvb's ktbb commbnd
+                    dkey = EncryptionKey.findKey(encPbrtKeyType,
+                            Krb5Util.keysFromJbvbxKeyTbb(ktbb, cnbme));
                 }
             }
             if (dkey == null) {
                 throw new KrbException(Krb5.API_INVALID_ARG,
-                    "Cannot find key for type/kvno to decrypt AS REP - " +
-                    EType.toString(encPartKeyType) + "/" + encPartKvno);
+                    "Cbnnot find key for type/kvno to decrypt AS REP - " +
+                    EType.toString(encPbrtKeyType) + "/" + encPbrtKvno);
             }
-        decrypt(dkey, asReq);
+        decrypt(dkey, bsReq);
     }
 
     /**
-     * Called by KrbAsReqBuilder to resolve a AS-REP message using a password.
-     * @param password user provided password. not null
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
-     * @param cname the user principal name, used to provide salt
+     * Cblled by KrbAsReqBuilder to resolve b AS-REP messbge using b pbssword.
+     * @pbrbm pbssword user provided pbssword. not null
+     * @pbrbm bsReq the originbl AS-REQ sent, used to vblidbte AS-REP
+     * @pbrbm cnbme the user principbl nbme, used to provide sblt
      */
-    void decryptUsingPassword(char[] password,
-            KrbAsReq asReq, PrincipalName cname)
+    void decryptUsingPbssword(chbr[] pbssword,
+            KrbAsReq bsReq, PrincipblNbme cnbme)
             throws KrbException, Asn1Exception, IOException {
-        int encPartKeyType = rep.encPart.getEType();
-        EncryptionKey dkey = EncryptionKey.acquireSecretKey(
-                cname,
-                password,
-                encPartKeyType,
-                PAData.getSaltAndParams(encPartKeyType, rep.pAData));
-        decrypt(dkey, asReq);
+        int encPbrtKeyType = rep.encPbrt.getEType();
+        EncryptionKey dkey = EncryptionKey.bcquireSecretKey(
+                cnbme,
+                pbssword,
+                encPbrtKeyType,
+                PADbtb.getSbltAndPbrbms(encPbrtKeyType, rep.pADbtb));
+        decrypt(dkey, bsReq);
     }
 
     /**
-     * Decrypts encrypted content inside AS-REP. Called by initiator.
-     * @param dkey the decryption key to use
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
+     * Decrypts encrypted content inside AS-REP. Cblled by initibtor.
+     * @pbrbm dkey the decryption key to use
+     * @pbrbm bsReq the originbl AS-REQ sent, used to vblidbte AS-REP
      */
-    private void decrypt(EncryptionKey dkey, KrbAsReq asReq)
+    privbte void decrypt(EncryptionKey dkey, KrbAsReq bsReq)
             throws KrbException, Asn1Exception, IOException {
-        byte[] enc_as_rep_bytes = rep.encPart.decrypt(dkey,
-            KeyUsage.KU_ENC_AS_REP_PART);
-        byte[] enc_as_rep_part = rep.encPart.reset(enc_as_rep_bytes);
+        byte[] enc_bs_rep_bytes = rep.encPbrt.decrypt(dkey,
+            KeyUsbge.KU_ENC_AS_REP_PART);
+        byte[] enc_bs_rep_pbrt = rep.encPbrt.reset(enc_bs_rep_bytes);
 
-        DerValue encoding = new DerValue(enc_as_rep_part);
-        EncASRepPart enc_part = new EncASRepPart(encoding);
-        rep.encKDCRepPart = enc_part;
+        DerVblue encoding = new DerVblue(enc_bs_rep_pbrt);
+        EncASRepPbrt enc_pbrt = new EncASRepPbrt(encoding);
+        rep.encKDCRepPbrt = enc_pbrt;
 
-        ASReq req = asReq.getMessage();
+        ASReq req = bsReq.getMessbge();
         check(true, req, rep);
 
-        creds = new Credentials(
+        creds = new Credentibls(
                                 rep.ticket,
-                                req.reqBody.cname,
-                                rep.ticket.sname,
-                                enc_part.key,
-                                enc_part.flags,
-                                enc_part.authtime,
-                                enc_part.starttime,
-                                enc_part.endtime,
-                                enc_part.renewTill,
-                                enc_part.caddr);
+                                req.reqBody.cnbme,
+                                rep.ticket.snbme,
+                                enc_pbrt.key,
+                                enc_pbrt.flbgs,
+                                enc_pbrt.buthtime,
+                                enc_pbrt.stbrttime,
+                                enc_pbrt.endtime,
+                                enc_pbrt.renewTill,
+                                enc_pbrt.cbddr);
         if (DEBUG) {
             System.out.println(">>> KrbAsRep cons in KrbAsReq.getReply " +
-                               req.reqBody.cname.getNameString());
+                               req.reqBody.cnbme.getNbmeString());
         }
     }
 
-    Credentials getCreds() {
-        return Objects.requireNonNull(creds, "Creds not available yet.");
+    Credentibls getCreds() {
+        return Objects.requireNonNull(creds, "Creds not bvbilbble yet.");
     }
 
-    sun.security.krb5.internal.ccache.Credentials getCCreds() {
-        return new sun.security.krb5.internal.ccache.Credentials(rep);
+    sun.security.krb5.internbl.ccbche.Credentibls getCCreds() {
+        return new sun.security.krb5.internbl.ccbche.Credentibls(rep);
     }
 }

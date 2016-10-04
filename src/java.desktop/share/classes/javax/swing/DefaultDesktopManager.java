@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import com.sun.awt.AWTUtilities;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import com.sun.bwt.AWTUtilities;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-import java.awt.*;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyVetoException;
 
-/** This is an implementation of the <code>DesktopManager</code>.
-  * It currently implements the basic behaviors for managing
-  * <code>JInternalFrame</code>s in an arbitrary parent.
-  * <code>JInternalFrame</code>s that are not children of a
+/** This is bn implementbtion of the <code>DesktopMbnbger</code>.
+  * It currently implements the bbsic behbviors for mbnbging
+  * <code>JInternblFrbme</code>s in bn brbitrbry pbrent.
+  * <code>JInternblFrbme</code>s thbt bre not children of b
   * <code>JDesktop</code> will use this component
-  * to handle their desktop-like actions.
-  * <p>This class provides a policy for the various JInternalFrame methods,
-  * it is not meant to be called directly rather the various JInternalFrame
-  * methods will call into the DesktopManager.</p>
-  * @see JDesktopPane
-  * @see JInternalFrame
-  * @author David Kloba
-  * @author Steve Wilson
+  * to hbndle their desktop-like bctions.
+  * <p>This clbss provides b policy for the vbrious JInternblFrbme methods,
+  * it is not mebnt to be cblled directly rbther the vbrious JInternblFrbme
+  * methods will cbll into the DesktopMbnbger.</p>
+  * @see JDesktopPbne
+  * @see JInternblFrbme
+  * @buthor Dbvid Klobb
+  * @buthor Steve Wilson
   * @since 1.2
   */
-@SuppressWarnings("serial") // No Interesting Non-Transient State
-public class DefaultDesktopManager implements DesktopManager, java.io.Serializable {
-    final static String HAS_BEEN_ICONIFIED_PROPERTY = "wasIconOnce";
+@SuppressWbrnings("seribl") // No Interesting Non-Trbnsient Stbte
+public clbss DefbultDesktopMbnbger implements DesktopMbnbger, jbvb.io.Seriblizbble {
+    finbl stbtic String HAS_BEEN_ICONIFIED_PROPERTY = "wbsIconOnce";
 
-    final static int DEFAULT_DRAG_MODE = 0;
-    final static int OUTLINE_DRAG_MODE = 1;
-    final static int FASTER_DRAG_MODE = 2;
+    finbl stbtic int DEFAULT_DRAG_MODE = 0;
+    finbl stbtic int OUTLINE_DRAG_MODE = 1;
+    finbl stbtic int FASTER_DRAG_MODE = 2;
 
-    int dragMode = DEFAULT_DRAG_MODE;
+    int drbgMode = DEFAULT_DRAG_MODE;
 
-    private transient Rectangle currentBounds = null;
-    private transient Graphics desktopGraphics = null;
-    private transient Rectangle desktopBounds = null;
-    private transient Rectangle[] floatingItems = {};
+    privbte trbnsient Rectbngle currentBounds = null;
+    privbte trbnsient Grbphics desktopGrbphics = null;
+    privbte trbnsient Rectbngle desktopBounds = null;
+    privbte trbnsient Rectbngle[] flobtingItems = {};
 
     /**
-     * Set to true when the user actually drags a frame vs clicks on it
-     * to start the drag operation.  This is only used when dragging with
+     * Set to true when the user bctublly drbgs b frbme vs clicks on it
+     * to stbrt the drbg operbtion.  This is only used when drbgging with
      * FASTER_DRAG_MODE.
      */
-    private transient boolean didDrag;
+    privbte trbnsient boolebn didDrbg;
 
-    /** Normally this method will not be called. If it is, it
-      * tries to determine the appropriate parent from the desktopIcon of the frame.
-      * Will remove the desktopIcon from its parent if it successfully adds the frame.
+    /** Normblly this method will not be cblled. If it is, it
+      * tries to determine the bppropribte pbrent from the desktopIcon of the frbme.
+      * Will remove the desktopIcon from its pbrent if it successfully bdds the frbme.
       */
-    public void openFrame(JInternalFrame f) {
-        if(f.getDesktopIcon().getParent() != null) {
-            f.getDesktopIcon().getParent().add(f);
+    public void openFrbme(JInternblFrbme f) {
+        if(f.getDesktopIcon().getPbrent() != null) {
+            f.getDesktopIcon().getPbrent().bdd(f);
             removeIconFor(f);
         }
     }
 
     /**
-     * Removes the frame, and, if necessary, the
-     * <code>desktopIcon</code>, from its parent.
-     * @param f the <code>JInternalFrame</code> to be removed
+     * Removes the frbme, bnd, if necessbry, the
+     * <code>desktopIcon</code>, from its pbrent.
+     * @pbrbm f the <code>JInternblFrbme</code> to be removed
      */
-    public void closeFrame(JInternalFrame f) {
-        JDesktopPane d = f.getDesktopPane();
+    public void closeFrbme(JInternblFrbme f) {
+        JDesktopPbne d = f.getDesktopPbne();
         if (d == null) {
             return;
         }
-        boolean findNext = f.isSelected();
-        Container c = f.getParent();
-        JInternalFrame nextFrame = null;
+        boolebn findNext = f.isSelected();
+        Contbiner c = f.getPbrent();
+        JInternblFrbme nextFrbme = null;
         if (findNext) {
-            nextFrame = d.getNextFrame(f);
-            try { f.setSelected(false); } catch (PropertyVetoException e2) { }
+            nextFrbme = d.getNextFrbme(f);
+            try { f.setSelected(fblse); } cbtch (PropertyVetoException e2) { }
         }
         if(c != null) {
             c.remove(f); // Removes the focus.
-            c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+            c.repbint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
         }
         removeIconFor(f);
-        if(f.getNormalBounds() != null)
-            f.setNormalBounds(null);
-        if(wasIcon(f))
-            setWasIcon(f, null);
-        if (nextFrame != null) {
-            try { nextFrame.setSelected(true); }
-            catch (PropertyVetoException e2) { }
+        if(f.getNormblBounds() != null)
+            f.setNormblBounds(null);
+        if(wbsIcon(f))
+            setWbsIcon(f, null);
+        if (nextFrbme != null) {
+            try { nextFrbme.setSelected(true); }
+            cbtch (PropertyVetoException e2) { }
         } else if (findNext && d.getComponentCount() == 0) {
-            // It was selected and was the last component on the desktop.
+            // It wbs selected bnd wbs the lbst component on the desktop.
             d.requestFocus();
         }
     }
 
     /**
-     * Resizes the frame to fill its parents bounds.
-     * @param f the frame to be resized
+     * Resizes the frbme to fill its pbrents bounds.
+     * @pbrbm f the frbme to be resized
      */
-    public void maximizeFrame(JInternalFrame f) {
+    public void mbximizeFrbme(JInternblFrbme f) {
         if (f.isIcon()) {
             try {
-                // In turn calls deiconifyFrame in the desktop manager.
-                // That method will handle the maximization of the frame.
-                f.setIcon(false);
-            } catch (PropertyVetoException e2) {
+                // In turn cblls deiconifyFrbme in the desktop mbnbger.
+                // Thbt method will hbndle the mbximizbtion of the frbme.
+                f.setIcon(fblse);
+            } cbtch (PropertyVetoException e2) {
             }
         } else {
-            f.setNormalBounds(f.getBounds());
-            Rectangle desktopBounds = f.getParent().getBounds();
-            setBoundsForFrame(f, 0, 0,
+            f.setNormblBounds(f.getBounds());
+            Rectbngle desktopBounds = f.getPbrent().getBounds();
+            setBoundsForFrbme(f, 0, 0,
                 desktopBounds.width, desktopBounds.height);
         }
 
-        // Set the maximized frame as selected.
+        // Set the mbximized frbme bs selected.
         try {
             f.setSelected(true);
-        } catch (PropertyVetoException e2) {
+        } cbtch (PropertyVetoException e2) {
         }
     }
 
     /**
-     * Restores the frame back to its size and position prior
-     * to a <code>maximizeFrame</code> call.
-     * @param f the <code>JInternalFrame</code> to be restored
+     * Restores the frbme bbck to its size bnd position prior
+     * to b <code>mbximizeFrbme</code> cbll.
+     * @pbrbm f the <code>JInternblFrbme</code> to be restored
      */
-    public void minimizeFrame(JInternalFrame f) {
-        // If the frame was an icon restore it back to an icon.
+    public void minimizeFrbme(JInternblFrbme f) {
+        // If the frbme wbs bn icon restore it bbck to bn icon.
         if (f.isIcon()) {
-            iconifyFrame(f);
+            iconifyFrbme(f);
             return;
         }
 
-        if ((f.getNormalBounds()) != null) {
-            Rectangle r = f.getNormalBounds();
-            f.setNormalBounds(null);
-            try { f.setSelected(true); } catch (PropertyVetoException e2) { }
-            setBoundsForFrame(f, r.x, r.y, r.width, r.height);
+        if ((f.getNormblBounds()) != null) {
+            Rectbngle r = f.getNormblBounds();
+            f.setNormblBounds(null);
+            try { f.setSelected(true); } cbtch (PropertyVetoException e2) { }
+            setBoundsForFrbme(f, r.x, r.y, r.width, r.height);
         }
     }
 
     /**
-     * Removes the frame from its parent and adds its
-     * <code>desktopIcon</code> to the parent.
-     * @param f the <code>JInternalFrame</code> to be iconified
+     * Removes the frbme from its pbrent bnd bdds its
+     * <code>desktopIcon</code> to the pbrent.
+     * @pbrbm f the <code>JInternblFrbme</code> to be iconified
      */
-    public void iconifyFrame(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon desktopIcon;
-        Container c = f.getParent();
-        JDesktopPane d = f.getDesktopPane();
-        boolean findNext = f.isSelected();
+    public void iconifyFrbme(JInternblFrbme f) {
+        JInternblFrbme.JDesktopIcon desktopIcon;
+        Contbiner c = f.getPbrent();
+        JDesktopPbne d = f.getDesktopPbne();
+        boolebn findNext = f.isSelected();
         desktopIcon = f.getDesktopIcon();
-        if(!wasIcon(f)) {
-            Rectangle r = getBoundsForIconOf(f);
+        if(!wbsIcon(f)) {
+            Rectbngle r = getBoundsForIconOf(f);
             desktopIcon.setBounds(r.x, r.y, r.width, r.height);
-            // we must validate the hierarchy to not break the hw/lw mixing
-            desktopIcon.revalidate();
-            setWasIcon(f, Boolean.TRUE);
+            // we must vblidbte the hierbrchy to not brebk the hw/lw mixing
+            desktopIcon.revblidbte();
+            setWbsIcon(f, Boolebn.TRUE);
         }
 
         if (c == null || d == null) {
             return;
         }
 
-        if (c instanceof JLayeredPane) {
-            JLayeredPane lp = (JLayeredPane)c;
-            int layer = JLayeredPane.getLayer(f);
-            JLayeredPane.putLayer(desktopIcon, layer);
+        if (c instbnceof JLbyeredPbne) {
+            JLbyeredPbne lp = (JLbyeredPbne)c;
+            int lbyer = JLbyeredPbne.getLbyer(f);
+            JLbyeredPbne.putLbyer(desktopIcon, lbyer);
         }
 
-        // If we are maximized we already have the normal bounds recorded
+        // If we bre mbximized we blrebdy hbve the normbl bounds recorded
         // don't try to re-record them, otherwise we incorrectly set the
-        // normal bounds to maximized state.
-        if (!f.isMaximum()) {
-            f.setNormalBounds(f.getBounds());
+        // normbl bounds to mbximized stbte.
+        if (!f.isMbximum()) {
+            f.setNormblBounds(f.getBounds());
         }
-        d.setComponentOrderCheckingEnabled(false);
+        d.setComponentOrderCheckingEnbbled(fblse);
         c.remove(f);
-        c.add(desktopIcon);
-        d.setComponentOrderCheckingEnabled(true);
-        c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+        c.bdd(desktopIcon);
+        d.setComponentOrderCheckingEnbbled(true);
+        c.repbint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
         if (findNext) {
-            if (d.selectFrame(true) == null) {
-                // The icon is the last frame.
+            if (d.selectFrbme(true) == null) {
+                // The icon is the lbst frbme.
                 f.restoreSubcomponentFocus();
             }
         }
     }
 
     /**
-     * Removes the desktopIcon from its parent and adds its frame
-     * to the parent.
-     * @param f the <code>JInternalFrame</code> to be de-iconified
+     * Removes the desktopIcon from its pbrent bnd bdds its frbme
+     * to the pbrent.
+     * @pbrbm f the <code>JInternblFrbme</code> to be de-iconified
      */
-    public void deiconifyFrame(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-        Container c = desktopIcon.getParent();
-        JDesktopPane d = f.getDesktopPane();
+    public void deiconifyFrbme(JInternblFrbme f) {
+        JInternblFrbme.JDesktopIcon desktopIcon = f.getDesktopIcon();
+        Contbiner c = desktopIcon.getPbrent();
+        JDesktopPbne d = f.getDesktopPbne();
         if (c != null && d != null) {
-            c.add(f);
-            // If the frame is to be restored to a maximized state make
+            c.bdd(f);
+            // If the frbme is to be restored to b mbximized stbte mbke
             // sure it still fills the whole desktop.
-            if (f.isMaximum()) {
-                Rectangle desktopBounds = c.getBounds();
+            if (f.isMbximum()) {
+                Rectbngle desktopBounds = c.getBounds();
                 if (f.getWidth() != desktopBounds.width ||
                         f.getHeight() != desktopBounds.height) {
-                    setBoundsForFrame(f, 0, 0,
+                    setBoundsForFrbme(f, 0, 0,
                         desktopBounds.width, desktopBounds.height);
                 }
             }
@@ -239,294 +239,294 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
             else {
                 try {
                     f.setSelected(true);
-                } catch (PropertyVetoException e2) {}
+                } cbtch (PropertyVetoException e2) {}
 
             }
         }
     }
 
-    /** This will activate <b>f</b> moving it to the front. It will
-      * set the current active frame's (if any)
-      * <code>IS_SELECTED_PROPERTY</code> to <code>false</code>.
-      * There can be only one active frame across all Layers.
-      * @param f the <code>JInternalFrame</code> to be activated
+    /** This will bctivbte <b>f</b> moving it to the front. It will
+      * set the current bctive frbme's (if bny)
+      * <code>IS_SELECTED_PROPERTY</code> to <code>fblse</code>.
+      * There cbn be only one bctive frbme bcross bll Lbyers.
+      * @pbrbm f the <code>JInternblFrbme</code> to be bctivbted
       */
-    public void activateFrame(JInternalFrame f) {
-        Container p = f.getParent();
+    public void bctivbteFrbme(JInternblFrbme f) {
+        Contbiner p = f.getPbrent();
         Component[] c;
-        JDesktopPane d = f.getDesktopPane();
-        JInternalFrame currentlyActiveFrame =
-          (d == null) ? null : d.getSelectedFrame();
+        JDesktopPbne d = f.getDesktopPbne();
+        JInternblFrbme currentlyActiveFrbme =
+          (d == null) ? null : d.getSelectedFrbme();
         // fix for bug: 4162443
         if(p == null) {
-            // If the frame is not in parent, its icon maybe, check it
-            p = f.getDesktopIcon().getParent();
+            // If the frbme is not in pbrent, its icon mbybe, check it
+            p = f.getDesktopIcon().getPbrent();
             if(p == null)
                 return;
         }
-        // we only need to keep track of the currentActive InternalFrame, if any
-        if (currentlyActiveFrame == null){
-          if (d != null) { d.setSelectedFrame(f);}
-        } else if (currentlyActiveFrame != f) {
-          // if not the same frame as the current active
-          // we deactivate the current
-          if (currentlyActiveFrame.isSelected()) {
+        // we only need to keep trbck of the currentActive InternblFrbme, if bny
+        if (currentlyActiveFrbme == null){
+          if (d != null) { d.setSelectedFrbme(f);}
+        } else if (currentlyActiveFrbme != f) {
+          // if not the sbme frbme bs the current bctive
+          // we debctivbte the current
+          if (currentlyActiveFrbme.isSelected()) {
             try {
-              currentlyActiveFrame.setSelected(false);
+              currentlyActiveFrbme.setSelected(fblse);
             }
-            catch(PropertyVetoException e2) {}
+            cbtch(PropertyVetoException e2) {}
           }
-          if (d != null) { d.setSelectedFrame(f);}
+          if (d != null) { d.setSelectedFrbme(f);}
         }
         f.moveToFront();
     }
 
-    // implements javax.swing.DesktopManager
-    public void deactivateFrame(JInternalFrame f) {
-      JDesktopPane d = f.getDesktopPane();
-      JInternalFrame currentlyActiveFrame =
-          (d == null) ? null : d.getSelectedFrame();
-      if (currentlyActiveFrame == f)
-        d.setSelectedFrame(null);
+    // implements jbvbx.swing.DesktopMbnbger
+    public void debctivbteFrbme(JInternblFrbme f) {
+      JDesktopPbne d = f.getDesktopPbne();
+      JInternblFrbme currentlyActiveFrbme =
+          (d == null) ? null : d.getSelectedFrbme();
+      if (currentlyActiveFrbme == f)
+        d.setSelectedFrbme(null);
     }
 
-    // implements javax.swing.DesktopManager
-    public void beginDraggingFrame(JComponent f) {
-        setupDragMode(f);
+    // implements jbvbx.swing.DesktopMbnbger
+    public void beginDrbggingFrbme(JComponent f) {
+        setupDrbgMode(f);
 
-        if (dragMode == FASTER_DRAG_MODE) {
-          Component desktop = f.getParent();
-          floatingItems = findFloatingItems(f);
+        if (drbgMode == FASTER_DRAG_MODE) {
+          Component desktop = f.getPbrent();
+          flobtingItems = findFlobtingItems(f);
           currentBounds = f.getBounds();
-          if (desktop instanceof JComponent) {
+          if (desktop instbnceof JComponent) {
               desktopBounds = ((JComponent)desktop).getVisibleRect();
           }
           else {
               desktopBounds = desktop.getBounds();
               desktopBounds.x = desktopBounds.y = 0;
           }
-          desktopGraphics = JComponent.safelyGetGraphics(desktop);
-          ((JInternalFrame)f).isDragging = true;
-          didDrag = false;
+          desktopGrbphics = JComponent.sbfelyGetGrbphics(desktop);
+          ((JInternblFrbme)f).isDrbgging = true;
+          didDrbg = fblse;
         }
 
     }
 
-    private void setupDragMode(JComponent f) {
-        JDesktopPane p = getDesktopPane(f);
-        Container parent = f.getParent();
-        dragMode = DEFAULT_DRAG_MODE;
+    privbte void setupDrbgMode(JComponent f) {
+        JDesktopPbne p = getDesktopPbne(f);
+        Contbiner pbrent = f.getPbrent();
+        drbgMode = DEFAULT_DRAG_MODE;
         if (p != null) {
-            String mode = (String)p.getClientProperty("JDesktopPane.dragMode");
+            String mode = (String)p.getClientProperty("JDesktopPbne.drbgMode");
             Window window = SwingUtilities.getWindowAncestor(f);
-            if (window != null && !AWTUtilities.isWindowOpaque(window)) {
-                dragMode = DEFAULT_DRAG_MODE;
-            } else if (mode != null && mode.equals("outline")) {
-                dragMode = OUTLINE_DRAG_MODE;
-            } else if (mode != null && mode.equals("faster")
-                    && f instanceof JInternalFrame
-                    && ((JInternalFrame)f).isOpaque() &&
-                       (parent == null || parent.isOpaque())) {
-                dragMode = FASTER_DRAG_MODE;
+            if (window != null && !AWTUtilities.isWindowOpbque(window)) {
+                drbgMode = DEFAULT_DRAG_MODE;
+            } else if (mode != null && mode.equbls("outline")) {
+                drbgMode = OUTLINE_DRAG_MODE;
+            } else if (mode != null && mode.equbls("fbster")
+                    && f instbnceof JInternblFrbme
+                    && ((JInternblFrbme)f).isOpbque() &&
+                       (pbrent == null || pbrent.isOpbque())) {
+                drbgMode = FASTER_DRAG_MODE;
             } else {
-                if (p.getDragMode() == JDesktopPane.OUTLINE_DRAG_MODE ) {
-                    dragMode = OUTLINE_DRAG_MODE;
-                } else if ( p.getDragMode() == JDesktopPane.LIVE_DRAG_MODE
-                        && f instanceof JInternalFrame
-                        && ((JInternalFrame)f).isOpaque()) {
-                    dragMode = FASTER_DRAG_MODE;
+                if (p.getDrbgMode() == JDesktopPbne.OUTLINE_DRAG_MODE ) {
+                    drbgMode = OUTLINE_DRAG_MODE;
+                } else if ( p.getDrbgMode() == JDesktopPbne.LIVE_DRAG_MODE
+                        && f instbnceof JInternblFrbme
+                        && ((JInternblFrbme)f).isOpbque()) {
+                    drbgMode = FASTER_DRAG_MODE;
                 } else {
-                    dragMode = DEFAULT_DRAG_MODE;
+                    drbgMode = DEFAULT_DRAG_MODE;
                 }
             }
         }
     }
 
-    private transient Point currentLoc = null;
+    privbte trbnsient Point currentLoc = null;
 
     /**
-      * Moves the visible location of the frame being dragged
-      * to the location specified.  The means by which this occurs can vary depending
-      * on the dragging algorithm being used.  The actual logical location of the frame
-      * might not change until <code>endDraggingFrame</code> is called.
+      * Moves the visible locbtion of the frbme being drbgged
+      * to the locbtion specified.  The mebns by which this occurs cbn vbry depending
+      * on the drbgging blgorithm being used.  The bctubl logicbl locbtion of the frbme
+      * might not chbnge until <code>endDrbggingFrbme</code> is cblled.
       */
-    public void dragFrame(JComponent f, int newX, int newY) {
+    public void drbgFrbme(JComponent f, int newX, int newY) {
 
-        if (dragMode == OUTLINE_DRAG_MODE) {
-            JDesktopPane desktopPane = getDesktopPane(f);
-            if (desktopPane != null){
-              Graphics g = JComponent.safelyGetGraphics(desktopPane);
+        if (drbgMode == OUTLINE_DRAG_MODE) {
+            JDesktopPbne desktopPbne = getDesktopPbne(f);
+            if (desktopPbne != null){
+              Grbphics g = JComponent.sbfelyGetGrbphics(desktopPbne);
 
               g.setXORMode(Color.white);
               if (currentLoc != null) {
-                g.drawRect(currentLoc.x, currentLoc.y,
+                g.drbwRect(currentLoc.x, currentLoc.y,
                         f.getWidth()-1, f.getHeight()-1);
               }
-              g.drawRect( newX, newY, f.getWidth()-1, f.getHeight()-1);
-              /* Work around for 6635462: XOR mode may cause a SurfaceLost on first use.
-              * Swing doesn't expect that its XOR drawRect did
-              * not complete, so believes that on re-entering at
-              * the next update location, that there is an XOR rect
-              * to draw out at "currentLoc". But in fact
-              * its now got a new clean surface without that rect,
-              * so drawing it "out" in fact draws it on, leaving garbage.
-              * So only update/set currentLoc if the draw completed.
+              g.drbwRect( newX, newY, f.getWidth()-1, f.getHeight()-1);
+              /* Work bround for 6635462: XOR mode mby cbuse b SurfbceLost on first use.
+              * Swing doesn't expect thbt its XOR drbwRect did
+              * not complete, so believes thbt on re-entering bt
+              * the next updbte locbtion, thbt there is bn XOR rect
+              * to drbw out bt "currentLoc". But in fbct
+              * its now got b new clebn surfbce without thbt rect,
+              * so drbwing it "out" in fbct drbws it on, lebving gbrbbge.
+              * So only updbte/set currentLoc if the drbw completed.
               */
-              sun.java2d.SurfaceData sData =
-                  ((sun.java2d.SunGraphics2D)g).getSurfaceData();
+              sun.jbvb2d.SurfbceDbtb sDbtb =
+                  ((sun.jbvb2d.SunGrbphics2D)g).getSurfbceDbtb();
 
-              if (!sData.isSurfaceLost()) {
+              if (!sDbtb.isSurfbceLost()) {
                   currentLoc = new Point (newX, newY);
               }
 ;
               g.dispose();
             }
-        } else if (dragMode == FASTER_DRAG_MODE) {
-            dragFrameFaster(f, newX, newY);
+        } else if (drbgMode == FASTER_DRAG_MODE) {
+            drbgFrbmeFbster(f, newX, newY);
         } else {
-            setBoundsForFrame(f, newX, newY, f.getWidth(), f.getHeight());
+            setBoundsForFrbme(f, newX, newY, f.getWidth(), f.getHeight());
         }
     }
 
-    // implements javax.swing.DesktopManager
-    public void endDraggingFrame(JComponent f) {
-        if ( dragMode == OUTLINE_DRAG_MODE && currentLoc != null) {
-            setBoundsForFrame(f, currentLoc.x, currentLoc.y, f.getWidth(), f.getHeight() );
+    // implements jbvbx.swing.DesktopMbnbger
+    public void endDrbggingFrbme(JComponent f) {
+        if ( drbgMode == OUTLINE_DRAG_MODE && currentLoc != null) {
+            setBoundsForFrbme(f, currentLoc.x, currentLoc.y, f.getWidth(), f.getHeight() );
             currentLoc = null;
-        } else if (dragMode == FASTER_DRAG_MODE) {
+        } else if (drbgMode == FASTER_DRAG_MODE) {
             currentBounds = null;
-            if (desktopGraphics != null) {
-                desktopGraphics.dispose();
-                desktopGraphics = null;
+            if (desktopGrbphics != null) {
+                desktopGrbphics.dispose();
+                desktopGrbphics = null;
             }
             desktopBounds = null;
-            ((JInternalFrame)f).isDragging = false;
+            ((JInternblFrbme)f).isDrbgging = fblse;
         }
     }
 
-    // implements javax.swing.DesktopManager
-    public void beginResizingFrame(JComponent f, int direction) {
-        setupDragMode(f);
+    // implements jbvbx.swing.DesktopMbnbger
+    public void beginResizingFrbme(JComponent f, int direction) {
+        setupDrbgMode(f);
     }
 
     /**
-     * Calls <code>setBoundsForFrame</code> with the new values.
-     * @param f the component to be resized
-     * @param newX the new x-coordinate
-     * @param newY the new y-coordinate
-     * @param newWidth the new width
-     * @param newHeight the new height
+     * Cblls <code>setBoundsForFrbme</code> with the new vblues.
+     * @pbrbm f the component to be resized
+     * @pbrbm newX the new x-coordinbte
+     * @pbrbm newY the new y-coordinbte
+     * @pbrbm newWidth the new width
+     * @pbrbm newHeight the new height
      */
-    public void resizeFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
+    public void resizeFrbme(JComponent f, int newX, int newY, int newWidth, int newHeight) {
 
-        if ( dragMode == DEFAULT_DRAG_MODE || dragMode == FASTER_DRAG_MODE ) {
-            setBoundsForFrame(f, newX, newY, newWidth, newHeight);
+        if ( drbgMode == DEFAULT_DRAG_MODE || drbgMode == FASTER_DRAG_MODE ) {
+            setBoundsForFrbme(f, newX, newY, newWidth, newHeight);
         } else {
-            JDesktopPane desktopPane = getDesktopPane(f);
-            if (desktopPane != null){
-              Graphics g = JComponent.safelyGetGraphics(desktopPane);
+            JDesktopPbne desktopPbne = getDesktopPbne(f);
+            if (desktopPbne != null){
+              Grbphics g = JComponent.sbfelyGetGrbphics(desktopPbne);
 
               g.setXORMode(Color.white);
               if (currentBounds != null) {
-                g.drawRect( currentBounds.x, currentBounds.y, currentBounds.width-1, currentBounds.height-1);
+                g.drbwRect( currentBounds.x, currentBounds.y, currentBounds.width-1, currentBounds.height-1);
               }
-              g.drawRect( newX, newY, newWidth-1, newHeight-1);
+              g.drbwRect( newX, newY, newWidth-1, newHeight-1);
 
-              // Work around for 6635462, see comment in dragFrame()
-              sun.java2d.SurfaceData sData =
-                  ((sun.java2d.SunGraphics2D)g).getSurfaceData();
-              if (!sData.isSurfaceLost()) {
-                  currentBounds = new Rectangle (newX, newY, newWidth, newHeight);
+              // Work bround for 6635462, see comment in drbgFrbme()
+              sun.jbvb2d.SurfbceDbtb sDbtb =
+                  ((sun.jbvb2d.SunGrbphics2D)g).getSurfbceDbtb();
+              if (!sDbtb.isSurfbceLost()) {
+                  currentBounds = new Rectbngle (newX, newY, newWidth, newHeight);
               }
 
-              g.setPaintMode();
+              g.setPbintMode();
               g.dispose();
             }
         }
 
     }
 
-    // implements javax.swing.DesktopManager
-    public void endResizingFrame(JComponent f) {
-        if ( dragMode == OUTLINE_DRAG_MODE && currentBounds != null) {
-            setBoundsForFrame(f, currentBounds.x, currentBounds.y, currentBounds.width, currentBounds.height );
+    // implements jbvbx.swing.DesktopMbnbger
+    public void endResizingFrbme(JComponent f) {
+        if ( drbgMode == OUTLINE_DRAG_MODE && currentBounds != null) {
+            setBoundsForFrbme(f, currentBounds.x, currentBounds.y, currentBounds.width, currentBounds.height );
             currentBounds = null;
         }
     }
 
 
-    /** This moves the <code>JComponent</code> and repaints the damaged areas. */
-    public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
+    /** This moves the <code>JComponent</code> bnd repbints the dbmbged brebs. */
+    public void setBoundsForFrbme(JComponent f, int newX, int newY, int newWidth, int newHeight) {
         f.setBounds(newX, newY, newWidth, newHeight);
-        // we must validate the hierarchy to not break the hw/lw mixing
-        f.revalidate();
+        // we must vblidbte the hierbrchy to not brebk the hw/lw mixing
+        f.revblidbte();
     }
 
     /**
-     * Convenience method to remove the desktopIcon of <b>f</b> is necessary.
+     * Convenience method to remove the desktopIcon of <b>f</b> is necessbry.
      *
-     * @param f the {@code JInternalFrame} for which to remove the
+     * @pbrbm f the {@code JInternblFrbme} for which to remove the
      *          {@code desktopIcon}
      */
-    protected void removeIconFor(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon di = f.getDesktopIcon();
-        Container c = di.getParent();
+    protected void removeIconFor(JInternblFrbme f) {
+        JInternblFrbme.JDesktopIcon di = f.getDesktopIcon();
+        Contbiner c = di.getPbrent();
         if(c != null) {
             c.remove(di);
-            c.repaint(di.getX(), di.getY(), di.getWidth(), di.getHeight());
+            c.repbint(di.getX(), di.getY(), di.getWidth(), di.getHeight());
         }
     }
 
     /**
-     * The {@code iconifyFrame()} code calls this to determine the proper bounds
+     * The {@code iconifyFrbme()} code cblls this to determine the proper bounds
      * for the desktopIcon.
      *
-     * @param f the {@code JInternalFrame} of interest
-     * @return a {@code Rectangle} containing bounds for the {@code desktopIcon}
+     * @pbrbm f the {@code JInternblFrbme} of interest
+     * @return b {@code Rectbngle} contbining bounds for the {@code desktopIcon}
      */
-    protected Rectangle getBoundsForIconOf(JInternalFrame f) {
+    protected Rectbngle getBoundsForIconOf(JInternblFrbme f) {
       //
-      // Get the icon for this internal frame and its preferred size
+      // Get the icon for this internbl frbme bnd its preferred size
       //
 
-      JInternalFrame.JDesktopIcon icon = f.getDesktopIcon();
+      JInternblFrbme.JDesktopIcon icon = f.getDesktopIcon();
       Dimension prefSize = icon.getPreferredSize();
       //
-      // Get the parent bounds and child components.
+      // Get the pbrent bounds bnd child components.
       //
 
-      Container c = f.getParent();
+      Contbiner c = f.getPbrent();
       if (c == null) {
-          c = f.getDesktopIcon().getParent();
+          c = f.getDesktopIcon().getPbrent();
       }
 
       if (c == null) {
-        /* the frame has not yet been added to the parent; how about (0,0) ?*/
-        return new Rectangle(0, 0, prefSize.width, prefSize.height);
+        /* the frbme hbs not yet been bdded to the pbrent; how bbout (0,0) ?*/
+        return new Rectbngle(0, 0, prefSize.width, prefSize.height);
       }
 
-      Rectangle parentBounds = c.getBounds();
+      Rectbngle pbrentBounds = c.getBounds();
       Component [] components = c.getComponents();
 
 
       //
-      // Iterate through valid default icon locations and return the
-      // first one that does not intersect any other icons.
+      // Iterbte through vblid defbult icon locbtions bnd return the
+      // first one thbt does not intersect bny other icons.
       //
 
-      Rectangle availableRectangle = null;
-      JInternalFrame.JDesktopIcon currentIcon = null;
+      Rectbngle bvbilbbleRectbngle = null;
+      JInternblFrbme.JDesktopIcon currentIcon = null;
 
       int x = 0;
-      int y = parentBounds.height - prefSize.height;
+      int y = pbrentBounds.height - prefSize.height;
       int w = prefSize.width;
       int h = prefSize.height;
 
-      boolean found = false;
+      boolebn found = fblse;
 
       while (!found) {
 
-        availableRectangle = new Rectangle(x,y,w,h);
+        bvbilbbleRectbngle = new Rectbngle(x,y,w,h);
 
         found = true;
 
@@ -536,150 +536,150 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
           // Get the icon for this component
           //
 
-          if ( components[i] instanceof JInternalFrame ) {
-            currentIcon = ((JInternalFrame)components[i]).getDesktopIcon();
+          if ( components[i] instbnceof JInternblFrbme ) {
+            currentIcon = ((JInternblFrbme)components[i]).getDesktopIcon();
           }
-          else if ( components[i] instanceof JInternalFrame.JDesktopIcon ){
-            currentIcon = (JInternalFrame.JDesktopIcon)components[i];
+          else if ( components[i] instbnceof JInternblFrbme.JDesktopIcon ){
+            currentIcon = (JInternblFrbme.JDesktopIcon)components[i];
           } else
-            /* found a child that's neither an internal frame nor
-               an icon. I don't believe this should happen, but at
-               present it does and causes a null pointer exception.
-               Even when that gets fixed, this code protects against
-               the npe. hania */
+            /* found b child thbt's neither bn internbl frbme nor
+               bn icon. I don't believe this should hbppen, but bt
+               present it does bnd cbuses b null pointer exception.
+               Even when thbt gets fixed, this code protects bgbinst
+               the npe. hbnib */
             continue;
 
           //
-          // If this icon intersects the current location, get next location.
+          // If this icon intersects the current locbtion, get next locbtion.
           //
 
-          if ( !currentIcon.equals(icon) ) {
-            if ( availableRectangle.intersects(currentIcon.getBounds()) ) {
-              found = false;
-              break;
+          if ( !currentIcon.equbls(icon) ) {
+            if ( bvbilbbleRectbngle.intersects(currentIcon.getBounds()) ) {
+              found = fblse;
+              brebk;
             }
           }
         }
 
         if (currentIcon == null)
-          /* didn't find any useful children above. This probably shouldn't
-           happen, but this check protects against an npe if it ever does
-           (and it's happening now) */
-          return availableRectangle;
+          /* didn't find bny useful children bbove. This probbbly shouldn't
+           hbppen, but this check protects bgbinst bn npe if it ever does
+           (bnd it's hbppening now) */
+          return bvbilbbleRectbngle;
 
         x += currentIcon.getBounds().width;
 
-        if ( x + w > parentBounds.width ) {
+        if ( x + w > pbrentBounds.width ) {
           x = 0;
           y -= h;
         }
       }
 
-      return(availableRectangle);
+      return(bvbilbbleRectbngle);
     }
 
     /**
-     * Stores the bounds of the component just before a maximize call.
-     * @param f the component about to be resized
-     * @param r the normal bounds to be saved away
+     * Stores the bounds of the component just before b mbximize cbll.
+     * @pbrbm f the component bbout to be resized
+     * @pbrbm r the normbl bounds to be sbved bwby
      */
-    protected void setPreviousBounds(JInternalFrame f, Rectangle r)     {
-        f.setNormalBounds(r);
+    protected void setPreviousBounds(JInternblFrbme f, Rectbngle r)     {
+        f.setNormblBounds(r);
     }
 
     /**
-     * Gets the normal bounds of the component prior to the component
-     * being maximized.
-     * @param f the <code>JInternalFrame</code> of interest
-     * @return the normal bounds of the component
+     * Gets the normbl bounds of the component prior to the component
+     * being mbximized.
+     * @pbrbm f the <code>JInternblFrbme</code> of interest
+     * @return the normbl bounds of the component
      */
-    protected Rectangle getPreviousBounds(JInternalFrame f)     {
-        return f.getNormalBounds();
+    protected Rectbngle getPreviousBounds(JInternblFrbme f)     {
+        return f.getNormblBounds();
     }
 
     /**
-     * Sets that the component has been iconized and the bounds of the
-     * <code>desktopIcon</code> are valid.
+     * Sets thbt the component hbs been iconized bnd the bounds of the
+     * <code>desktopIcon</code> bre vblid.
      *
-     * @param f     the {@code JInternalFrame} of interest
-     * @param value a {@code Boolean} signifying if component has been iconized
+     * @pbrbm f     the {@code JInternblFrbme} of interest
+     * @pbrbm vblue b {@code Boolebn} signifying if component hbs been iconized
      */
-    protected void setWasIcon(JInternalFrame f, Boolean value)  {
-        if (value != null) {
-            f.putClientProperty(HAS_BEEN_ICONIFIED_PROPERTY, value);
+    protected void setWbsIcon(JInternblFrbme f, Boolebn vblue)  {
+        if (vblue != null) {
+            f.putClientProperty(HAS_BEEN_ICONIFIED_PROPERTY, vblue);
         }
     }
 
     /**
-     * Returns <code>true</code> if the component has been iconized
-     * and the bounds of the <code>desktopIcon</code> are valid,
-     * otherwise returns <code>false</code>.
+     * Returns <code>true</code> if the component hbs been iconized
+     * bnd the bounds of the <code>desktopIcon</code> bre vblid,
+     * otherwise returns <code>fblse</code>.
      *
-     * @param f the <code>JInternalFrame</code> of interest
-     * @return <code>true</code> if the component has been iconized;
-     *    otherwise returns <code>false</code>
+     * @pbrbm f the <code>JInternblFrbme</code> of interest
+     * @return <code>true</code> if the component hbs been iconized;
+     *    otherwise returns <code>fblse</code>
      */
-    protected boolean wasIcon(JInternalFrame f) {
-        return (f.getClientProperty(HAS_BEEN_ICONIFIED_PROPERTY) == Boolean.TRUE);
+    protected boolebn wbsIcon(JInternblFrbme f) {
+        return (f.getClientProperty(HAS_BEEN_ICONIFIED_PROPERTY) == Boolebn.TRUE);
     }
 
 
-    JDesktopPane getDesktopPane( JComponent frame ) {
-        JDesktopPane pane = null;
-        Component c = frame.getParent();
+    JDesktopPbne getDesktopPbne( JComponent frbme ) {
+        JDesktopPbne pbne = null;
+        Component c = frbme.getPbrent();
 
-        // Find the JDesktopPane
-        while ( pane == null ) {
-            if ( c instanceof JDesktopPane ) {
-                pane = (JDesktopPane)c;
+        // Find the JDesktopPbne
+        while ( pbne == null ) {
+            if ( c instbnceof JDesktopPbne ) {
+                pbne = (JDesktopPbne)c;
             }
             else if ( c == null ) {
-                break;
+                brebk;
             }
             else {
-                c = c.getParent();
+                c = c.getPbrent();
             }
         }
 
-        return pane;
+        return pbne;
     }
 
 
-  // =========== stuff for faster frame dragging ===================
+  // =========== stuff for fbster frbme drbgging ===================
 
-   private void dragFrameFaster(JComponent f, int newX, int newY) {
+   privbte void drbgFrbmeFbster(JComponent f, int newX, int newY) {
 
-      Rectangle previousBounds = new Rectangle(currentBounds.x,
+      Rectbngle previousBounds = new Rectbngle(currentBounds.x,
                                                currentBounds.y,
                                                currentBounds.width,
                                                currentBounds.height);
 
-   // move the frame
+   // move the frbme
       currentBounds.x = newX;
       currentBounds.y = newY;
 
-      if (didDrag) {
-          // Only initiate cleanup if we have actually done a drag.
-          emergencyCleanup(f);
+      if (didDrbg) {
+          // Only initibte clebnup if we hbve bctublly done b drbg.
+          emergencyClebnup(f);
       }
       else {
-          didDrag = true;
-          // We reset the danger field as until now we haven't actually
-          // moved the internal frame so we don't need to initiate repaint.
-          ((JInternalFrame)f).danger = false;
+          didDrbg = true;
+          // We reset the dbnger field bs until now we hbven't bctublly
+          // moved the internbl frbme so we don't need to initibte repbint.
+          ((JInternblFrbme)f).dbnger = fblse;
       }
 
-      boolean floaterCollision = isFloaterCollision(previousBounds, currentBounds);
+      boolebn flobterCollision = isFlobterCollision(previousBounds, currentBounds);
 
-      JComponent parent = (JComponent)f.getParent();
-      Rectangle visBounds = previousBounds.intersection(desktopBounds);
+      JComponent pbrent = (JComponent)f.getPbrent();
+      Rectbngle visBounds = previousBounds.intersection(desktopBounds);
 
-      RepaintManager currentManager = RepaintManager.currentManager(f);
+      RepbintMbnbger currentMbnbger = RepbintMbnbger.currentMbnbger(f);
 
-      currentManager.beginPaint();
+      currentMbnbger.beginPbint();
       try {
-          if(!floaterCollision) {
-              currentManager.copyArea(parent, desktopGraphics, visBounds.x,
+          if(!flobterCollision) {
+              currentMbnbger.copyAreb(pbrent, desktopGrbphics, visBounds.x,
                                       visBounds.y,
                                       visBounds.width,
                                       visBounds.height,
@@ -690,136 +690,136 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
 
           f.setBounds(currentBounds);
 
-          if (!floaterCollision) {
-              Rectangle r = currentBounds;
-              currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+          if (!flobterCollision) {
+              Rectbngle r = currentBounds;
+              currentMbnbger.notifyRepbintPerformed(pbrent, r.x, r.y, r.width, r.height);
           }
 
-          if(floaterCollision) {
-              // since we couldn't blit we just redraw as fast as possible
-              // the isDragging mucking is to avoid activating emergency
-              // cleanup
-              ((JInternalFrame)f).isDragging = false;
-              parent.paintImmediately(currentBounds);
-              ((JInternalFrame)f).isDragging = true;
+          if(flobterCollision) {
+              // since we couldn't blit we just redrbw bs fbst bs possible
+              // the isDrbgging mucking is to bvoid bctivbting emergency
+              // clebnup
+              ((JInternblFrbme)f).isDrbgging = fblse;
+              pbrent.pbintImmedibtely(currentBounds);
+              ((JInternblFrbme)f).isDrbgging = true;
           }
 
-          // fake out the repaint manager.  We'll take care of everything
+          // fbke out the repbint mbnbger.  We'll tbke cbre of everything
 
-          currentManager.markCompletelyClean(parent);
-          currentManager.markCompletelyClean(f);
+          currentMbnbger.mbrkCompletelyClebn(pbrent);
+          currentMbnbger.mbrkCompletelyClebn(f);
 
-          // compute the minimal newly exposed area
+          // compute the minimbl newly exposed breb
           // if the rects intersect then we use computeDifference.  Otherwise
-          // we'll repaint the entire previous bounds
-          Rectangle[] dirtyRects = null;
+          // we'll repbint the entire previous bounds
+          Rectbngle[] dirtyRects = null;
           if ( previousBounds.intersects(currentBounds) ) {
               dirtyRects = SwingUtilities.computeDifference(previousBounds,
                                                             currentBounds);
           } else {
-              dirtyRects = new Rectangle[1];
+              dirtyRects = new Rectbngle[1];
               dirtyRects[0] = previousBounds;
           };
 
-          // Fix the damage
+          // Fix the dbmbge
           for (int i = 0; i < dirtyRects.length; i++) {
-              parent.paintImmediately(dirtyRects[i]);
-              Rectangle r = dirtyRects[i];
-              currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+              pbrent.pbintImmedibtely(dirtyRects[i]);
+              Rectbngle r = dirtyRects[i];
+              currentMbnbger.notifyRepbintPerformed(pbrent, r.x, r.y, r.width, r.height);
           }
 
-          // new areas of blit were exposed
-          if ( !(visBounds.equals(previousBounds)) ) {
+          // new brebs of blit were exposed
+          if ( !(visBounds.equbls(previousBounds)) ) {
               dirtyRects = SwingUtilities.computeDifference(previousBounds,
                                                             desktopBounds);
               for (int i = 0; i < dirtyRects.length; i++) {
                   dirtyRects[i].x += newX - previousBounds.x;
                   dirtyRects[i].y += newY - previousBounds.y;
-                  ((JInternalFrame)f).isDragging = false;
-                  parent.paintImmediately(dirtyRects[i]);
-                  ((JInternalFrame)f).isDragging = true;
-                  Rectangle r = dirtyRects[i];
-                  currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+                  ((JInternblFrbme)f).isDrbgging = fblse;
+                  pbrent.pbintImmedibtely(dirtyRects[i]);
+                  ((JInternblFrbme)f).isDrbgging = true;
+                  Rectbngle r = dirtyRects[i];
+                  currentMbnbger.notifyRepbintPerformed(pbrent, r.x, r.y, r.width, r.height);
               }
 
           }
-      } finally {
-          currentManager.endPaint();
+      } finblly {
+          currentMbnbger.endPbint();
       }
 
-      // update window if it's non-opaque
+      // updbte window if it's non-opbque
       Window topLevel = SwingUtilities.getWindowAncestor(f);
-      Toolkit tk = Toolkit.getDefaultToolkit();
-      if (!topLevel.isOpaque() &&
-          (tk instanceof SunToolkit) &&
-          ((SunToolkit)tk).needUpdateWindow())
+      Toolkit tk = Toolkit.getDefbultToolkit();
+      if (!topLevel.isOpbque() &&
+          (tk instbnceof SunToolkit) &&
+          ((SunToolkit)tk).needUpdbteWindow())
       {
-          AWTAccessor.getWindowAccessor().updateWindow(topLevel);
+          AWTAccessor.getWindowAccessor().updbteWindow(topLevel);
       }
    }
 
-   private boolean isFloaterCollision(Rectangle moveFrom, Rectangle moveTo) {
-      if (floatingItems.length == 0) {
-        // System.out.println("no floaters");
-         return false;
+   privbte boolebn isFlobterCollision(Rectbngle moveFrom, Rectbngle moveTo) {
+      if (flobtingItems.length == 0) {
+        // System.out.println("no flobters");
+         return fblse;
       }
 
-      for (int i = 0; i < floatingItems.length; i++) {
-         boolean intersectsFrom = moveFrom.intersects(floatingItems[i]);
+      for (int i = 0; i < flobtingItems.length; i++) {
+         boolebn intersectsFrom = moveFrom.intersects(flobtingItems[i]);
          if (intersectsFrom) {
             return true;
          }
-         boolean intersectsTo = moveTo.intersects(floatingItems[i]);
+         boolebn intersectsTo = moveTo.intersects(flobtingItems[i]);
          if (intersectsTo) {
             return true;
          }
       }
 
-      return false;
+      return fblse;
    }
 
-   private Rectangle[] findFloatingItems(JComponent f) {
-      Container desktop = f.getParent();
+   privbte Rectbngle[] findFlobtingItems(JComponent f) {
+      Contbiner desktop = f.getPbrent();
       Component[] children = desktop.getComponents();
       int i = 0;
       for (i = 0; i < children.length; i++) {
          if (children[i] == f) {
-            break;
+            brebk;
          }
       }
       // System.out.println(i);
-      Rectangle[] floaters = new Rectangle[i];
-      for (i = 0; i < floaters.length; i++) {
-         floaters[i] = children[i].getBounds();
+      Rectbngle[] flobters = new Rectbngle[i];
+      for (i = 0; i < flobters.length; i++) {
+         flobters[i] = children[i].getBounds();
       }
 
-      return floaters;
+      return flobters;
    }
 
    /**
-     * This method is here to clean up problems associated
-     * with a race condition which can occur when the full contents
-     * of a copyArea's source argument is not available onscreen.
-     * This uses brute force to clean up in case of possible damage
+     * This method is here to clebn up problems bssocibted
+     * with b rbce condition which cbn occur when the full contents
+     * of b copyAreb's source brgument is not bvbilbble onscreen.
+     * This uses brute force to clebn up in cbse of possible dbmbge
      */
-   private void emergencyCleanup(final JComponent f) {
+   privbte void emergencyClebnup(finbl JComponent f) {
 
-        if ( ((JInternalFrame)f).danger ) {
+        if ( ((JInternblFrbme)f).dbnger ) {
 
-           SwingUtilities.invokeLater( new Runnable(){
+           SwingUtilities.invokeLbter( new Runnbble(){
                                        public void run(){
 
-                                       ((JInternalFrame)f).isDragging = false;
-                                       f.paintImmediately(0,0,
+                                       ((JInternblFrbme)f).isDrbgging = fblse;
+                                       f.pbintImmedibtely(0,0,
                                                           f.getWidth(),
                                                           f.getHeight());
 
-                                        //finalFrame.repaint();
-                                        ((JInternalFrame)f).isDragging = true;
-                                        // System.out.println("repair complete");
+                                        //finblFrbme.repbint();
+                                        ((JInternblFrbme)f).isDrbgging = true;
+                                        // System.out.println("repbir complete");
                                        }});
 
-             ((JInternalFrame)f).danger = false;
+             ((JInternblFrbme)f).dbnger = fblse;
         }
 
    }

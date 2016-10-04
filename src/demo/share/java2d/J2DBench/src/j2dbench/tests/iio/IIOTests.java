@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,23 +30,23 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests.iio;
+pbckbge j2dbench.tests.iio;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvbx.imbgeio.ImbgeIO;
 
 import j2dbench.Group;
 import j2dbench.Option;
@@ -54,55 +54,55 @@ import j2dbench.Result;
 import j2dbench.Test;
 import j2dbench.TestEnvironment;
 
-public abstract class IIOTests extends Test {
+public bbstrbct clbss IIOTests extends Test {
 
-    protected static final String CONTENT_BLANK  = "blank";
-    protected static final String CONTENT_RANDOM = "random";
-    protected static final String CONTENT_VECTOR = "vector";
-    protected static final String CONTENT_PHOTO  = "photo";
+    protected stbtic finbl String CONTENT_BLANK  = "blbnk";
+    protected stbtic finbl String CONTENT_RANDOM = "rbndom";
+    protected stbtic finbl String CONTENT_VECTOR = "vector";
+    protected stbtic finbl String CONTENT_PHOTO  = "photo";
 
-    static boolean hasImageIO;
+    stbtic boolebn hbsImbgeIO;
 
-    static {
+    stbtic {
         try {
-            hasImageIO = (javax.imageio.ImageIO.class != null);
-        } catch (NoClassDefFoundError e) {
+            hbsImbgeIO = (jbvbx.imbgeio.ImbgeIO.clbss != null);
+        } cbtch (NoClbssDefFoundError e) {
         }
     }
 
-    protected static Group iioRoot;
-    protected static Group iioOptRoot;
+    protected stbtic Group iioRoot;
+    protected stbtic Group iioOptRoot;
 
-    protected static Option sizeList;
-    protected static Option contentList;
-    protected static Option listenerTog;
+    protected stbtic Option sizeList;
+    protected stbtic Option contentList;
+    protected stbtic Option listenerTog;
 
-    public static void init() {
-        if (!hasImageIO) {
-            // REMIND: We currently rely on Image I/O to generate the image
-            //         files that are used in the InputImageTests, so
-            //         unfortunately we need to punt on pre-1.4 JDKs...
+    public stbtic void init() {
+        if (!hbsImbgeIO) {
+            // REMIND: We currently rely on Imbge I/O to generbte the imbge
+            //         files thbt bre used in the InputImbgeTests, so
+            //         unfortunbtely we need to punt on pre-1.4 JDKs...
             return;
         }
 
-        iioRoot = new Group("imageio", "Image I/O Benchmarks");
-        iioRoot.setTabbed();
+        iioRoot = new Group("imbgeio", "Imbge I/O Benchmbrks");
+        iioRoot.setTbbbed();
 
-        iioOptRoot = new Group(iioRoot, "opts", "General Options");
+        iioOptRoot = new Group(iioRoot, "opts", "Generbl Options");
 
         int[] sizes = new int[] {1, 20, 250, 1000, 4000};
         String[] sizeStrs = new String[] {
             "1x1", "20x20", "250x250", "1000x1000", "4000x4000"
         };
         String[] sizeDescs = new String[] {
-            "Tiny Images (1x1)",
-            "Small Images (20x20)",
-            "Medium Images (250x250)",
-            "Large Images (1000x1000)",
-            "Huge Images (4000x4000)",
+            "Tiny Imbges (1x1)",
+            "Smbll Imbges (20x20)",
+            "Medium Imbges (250x250)",
+            "Lbrge Imbges (1000x1000)",
+            "Huge Imbges (4000x4000)",
         };
         sizeList = new Option.IntList(iioOptRoot,
-                                      "size", "Image Size",
+                                      "size", "Imbge Size",
                                       sizes, sizeStrs, sizeDescs, 0x4);
         ((Option.ObjectList) sizeList).setNumRows(5);
 
@@ -110,88 +110,88 @@ public abstract class IIOTests extends Test {
             CONTENT_BLANK, CONTENT_RANDOM, CONTENT_VECTOR, CONTENT_PHOTO,
         };
         String[] contentDescs = new String[] {
-            "Blank (opaque black)",
-            "Random",
+            "Blbnk (opbque blbck)",
+            "Rbndom",
             "Vector Art",
-            "Photograph",
+            "Photogrbph",
         };
         contentList = new Option.ObjectList(iioOptRoot,
-                                            "content", "Image Content",
+                                            "content", "Imbge Content",
                                             contentStrs, contentStrs,
                                             contentStrs, contentDescs,
                                             0x8);
 
         InputTests.init();
-        if (hasImageIO) {
+        if (hbsImbgeIO) {
             OutputTests.init();
         }
     }
 
-    protected IIOTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(iioOptRoot, true);
+    protected IIOTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
+        bddDependencies(iioOptRoot, true);
     }
 
-    protected static BufferedImage createBufferedImage(int width,
+    protected stbtic BufferedImbge crebteBufferedImbge(int width,
                                                        int height,
                                                        String type,
-                                                       boolean hasAlpha)
+                                                       boolebn hbsAlphb)
     {
-        BufferedImage image;
-        image = new BufferedImage(width, height, hasAlpha ?
-                                  BufferedImage.TYPE_INT_ARGB :
-                                  BufferedImage.TYPE_INT_RGB);
+        BufferedImbge imbge;
+        imbge = new BufferedImbge(width, height, hbsAlphb ?
+                                  BufferedImbge.TYPE_INT_ARGB :
+                                  BufferedImbge.TYPE_INT_RGB);
 
-        if (type.equals(CONTENT_RANDOM)) {
+        if (type.equbls(CONTENT_RANDOM)) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    int rgb = (int)(Math.random() * 0xffffff);
-                    if (hasAlpha) {
+                    int rgb = (int)(Mbth.rbndom() * 0xffffff);
+                    if (hbsAlphb) {
                         rgb |= 0x7f000000;
                     }
-                    image.setRGB(x, y, rgb);
+                    imbge.setRGB(x, y, rgb);
                 }
             }
-        } else if (type.equals(CONTENT_VECTOR)) {
-            Graphics2D g = image.createGraphics();
-            if (hasAlpha) {
-                // fill background with a translucent color
-                g.setComposite(AlphaComposite.getInstance(
-                                   AlphaComposite.SRC, 0.5f));
+        } else if (type.equbls(CONTENT_VECTOR)) {
+            Grbphics2D g = imbge.crebteGrbphics();
+            if (hbsAlphb) {
+                // fill bbckground with b trbnslucent color
+                g.setComposite(AlphbComposite.getInstbnce(
+                                   AlphbComposite.SRC, 0.5f));
             }
             g.setColor(Color.blue);
             g.fillRect(0, 0, width, height);
-            g.setComposite(AlphaComposite.Src);
+            g.setComposite(AlphbComposite.Src);
             g.setColor(Color.yellow);
-            g.fillOval(2, 2, width-4, height-4);
+            g.fillOvbl(2, 2, width-4, height-4);
             g.setColor(Color.red);
-            g.fillOval(4, 4, width-8, height-8);
+            g.fillOvbl(4, 4, width-8, height-8);
             g.setColor(Color.green);
             g.fillRect(8, 8, width-16, height-16);
             g.setColor(Color.white);
-            g.drawLine(0, 0, width, height);
-            g.drawLine(0, height, width, 0);
+            g.drbwLine(0, 0, width, height);
+            g.drbwLine(0, height, width, 0);
             g.dispose();
-        } else if (type.equals(CONTENT_PHOTO)) {
-            Image photo = null;
+        } else if (type.equbls(CONTENT_PHOTO)) {
+            Imbge photo = null;
             try {
-                photo = Toolkit.getDefaultToolkit().createImage(
-                    IIOTests.class.getResource("images/photo.jpg"));
-            } catch (Exception e) {
-                System.err.println("error loading photo");
-                e.printStackTrace();
+                photo = Toolkit.getDefbultToolkit().crebteImbge(
+                    IIOTests.clbss.getResource("imbges/photo.jpg"));
+            } cbtch (Exception e) {
+                System.err.println("error lobding photo");
+                e.printStbckTrbce();
             }
-            Graphics2D g = image.createGraphics();
-            if (hasAlpha) {
-                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC,
+            Grbphics2D g = imbge.crebteGrbphics();
+            if (hbsAlphb) {
+                g.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC,
                                                           0.5f));
             }
-            g.drawImage(photo, 0, 0, width, height, null);
+            g.drbwImbge(photo, 0, 0, width, height, null);
             g.dispose();
         } else { // CONTENT_BLANK
-            // leave the image empty
+            // lebve the imbge empty
         }
 
-        return image;
+        return imbge;
     }
 }

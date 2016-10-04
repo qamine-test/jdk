@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,294 +30,294 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 
 /**
- * A simple bar chart demo
- * @author Sami Shaio
- * @modified 06/21/00 Daniel Peek : refactored, comments
+ * A simple bbr chbrt demo
+ * @buthor Sbmi Shbio
+ * @modified 06/21/00 Dbniel Peek : refbctored, comments
  */
-@SuppressWarnings("serial")
-public class BarChart extends java.applet.Applet {
+@SuppressWbrnings("seribl")
+public clbss BbrChbrt extends jbvb.bpplet.Applet {
 
-    private static final int VERTICAL = 0;
-    private static final int HORIZONTAL = 1;
-    private static final int SOLID = 0;
-    private static final int STRIPED = 1;
-    private int orientation;
-    private String title;
-    private Font font;
-    private FontMetrics metrics;
-    private int columns;
-    private int values[];
-    private Color colors[];
-    private String labels[];
-    private int styles[];
-    private int scale = 10;
-    private int maxLabelWidth = 0;
-    private int barSpacing = 10;
-    private int maxValue = 0;
+    privbte stbtic finbl int VERTICAL = 0;
+    privbte stbtic finbl int HORIZONTAL = 1;
+    privbte stbtic finbl int SOLID = 0;
+    privbte stbtic finbl int STRIPED = 1;
+    privbte int orientbtion;
+    privbte String title;
+    privbte Font font;
+    privbte FontMetrics metrics;
+    privbte int columns;
+    privbte int vblues[];
+    privbte Color colors[];
+    privbte String lbbels[];
+    privbte int styles[];
+    privbte int scble = 10;
+    privbte int mbxLbbelWidth = 0;
+    privbte int bbrSpbcing = 10;
+    privbte int mbxVblue = 0;
 
     @Override
     public void init() {
 
         getSettings();
 
-        values = new int[columns];
-        labels = new String[columns];
+        vblues = new int[columns];
+        lbbels = new String[columns];
         styles = new int[columns];
         colors = new Color[columns];
 
         for (int i = 0; i < columns; i++) {
-            parseValue(i);
-            parseLabel(i);
-            parseStyle(i);
-            parseColor(i);
+            pbrseVblue(i);
+            pbrseLbbel(i);
+            pbrseStyle(i);
+            pbrseColor(i);
         }
     }
 
-    private void getSettings() {
-        font = new java.awt.Font("Monospaced", Font.BOLD, 12);
+    privbte void getSettings() {
+        font = new jbvb.bwt.Font("Monospbced", Font.BOLD, 12);
         metrics = getFontMetrics(font);
 
-        title = getParameter("title");
+        title = getPbrbmeter("title");
         if (title == null) {
-            title = "Chart";
+            title = "Chbrt";
         }
 
-        String temp = getParameter("columns");
+        String temp = getPbrbmeter("columns");
         if (temp == null) {
             columns = 5;
         } else {
-            columns = Integer.parseInt(temp);
+            columns = Integer.pbrseInt(temp);
         }
 
-        temp = getParameter("scale");
+        temp = getPbrbmeter("scble");
         if (temp == null) {
-            scale = 10;
+            scble = 10;
         } else {
-            scale = Integer.parseInt(temp);
+            scble = Integer.pbrseInt(temp);
         }
 
-        temp = getParameter("orientation");
+        temp = getPbrbmeter("orientbtion");
         if (temp == null) {
-            orientation = VERTICAL;
-        } else if (temp.equalsIgnoreCase("horizontal")) {
-            orientation = HORIZONTAL;
+            orientbtion = VERTICAL;
+        } else if (temp.equblsIgnoreCbse("horizontbl")) {
+            orientbtion = HORIZONTAL;
         } else {
-            orientation = VERTICAL;
+            orientbtion = VERTICAL;
         }
     }
 
-    private void parseValue(int i) {
-        String temp = getParameter("C" + (i + 1));
+    privbte void pbrseVblue(int i) {
+        String temp = getPbrbmeter("C" + (i + 1));
         try {
-            values[i] = Integer.parseInt(temp);
-        } catch (NumberFormatException e) {
-            values[i] = 0;
-        } catch (NullPointerException e) {
-            values[i] = 0;
+            vblues[i] = Integer.pbrseInt(temp);
+        } cbtch (NumberFormbtException e) {
+            vblues[i] = 0;
+        } cbtch (NullPointerException e) {
+            vblues[i] = 0;
         }
-        maxValue = Math.max(maxValue, values[i]);
+        mbxVblue = Mbth.mbx(mbxVblue, vblues[i]);
     }
 
-    private void parseLabel(int i) {
-        String temp = getParameter("C" + (i + 1) + "_label");
+    privbte void pbrseLbbel(int i) {
+        String temp = getPbrbmeter("C" + (i + 1) + "_lbbel");
         if (temp == null) {
-            labels[i] = "";
+            lbbels[i] = "";
         } else {
-            labels[i] = temp;
+            lbbels[i] = temp;
         }
-        maxLabelWidth = Math.max(metrics.stringWidth(labels[i]), maxLabelWidth);
+        mbxLbbelWidth = Mbth.mbx(metrics.stringWidth(lbbels[i]), mbxLbbelWidth);
     }
 
-    private void parseStyle(int i) {
-        String temp = getParameter("C" + (i + 1) + "_style");
-        if (temp == null || temp.equalsIgnoreCase("solid")) {
+    privbte void pbrseStyle(int i) {
+        String temp = getPbrbmeter("C" + (i + 1) + "_style");
+        if (temp == null || temp.equblsIgnoreCbse("solid")) {
             styles[i] = SOLID;
-        } else if (temp.equalsIgnoreCase("striped")) {
+        } else if (temp.equblsIgnoreCbse("striped")) {
             styles[i] = STRIPED;
         } else {
             styles[i] = SOLID;
         }
     }
 
-    private void parseColor(int i) {
-        String temp = getParameter("C" + (i + 1) + "_color");
+    privbte void pbrseColor(int i) {
+        String temp = getPbrbmeter("C" + (i + 1) + "_color");
         if (temp != null) {
-            temp = temp.toLowerCase();
-            if (temp.equals("red")) {
+            temp = temp.toLowerCbse();
+            if (temp.equbls("red")) {
                 colors[i] = Color.red;
-            } else if (temp.equals("green")) {
+            } else if (temp.equbls("green")) {
                 colors[i] = Color.green;
-            } else if (temp.equals("blue")) {
+            } else if (temp.equbls("blue")) {
                 colors[i] = Color.blue;
-            } else if (temp.equals("pink")) {
+            } else if (temp.equbls("pink")) {
                 colors[i] = Color.pink;
-            } else if (temp.equals("orange")) {
-                colors[i] = Color.orange;
-            } else if (temp.equals("magenta")) {
-                colors[i] = Color.magenta;
-            } else if (temp.equals("cyan")) {
-                colors[i] = Color.cyan;
-            } else if (temp.equals("white")) {
+            } else if (temp.equbls("orbnge")) {
+                colors[i] = Color.orbnge;
+            } else if (temp.equbls("mbgentb")) {
+                colors[i] = Color.mbgentb;
+            } else if (temp.equbls("cybn")) {
+                colors[i] = Color.cybn;
+            } else if (temp.equbls("white")) {
                 colors[i] = Color.white;
-            } else if (temp.equals("yellow")) {
+            } else if (temp.equbls("yellow")) {
                 colors[i] = Color.yellow;
-            } else if (temp.equals("gray")) {
-                colors[i] = Color.gray;
-            } else if (temp.equals("darkgray")) {
-                colors[i] = Color.darkGray;
+            } else if (temp.equbls("grby")) {
+                colors[i] = Color.grby;
+            } else if (temp.equbls("dbrkgrby")) {
+                colors[i] = Color.dbrkGrby;
             } else {
-                colors[i] = Color.gray;
+                colors[i] = Color.grby;
             }
         } else {
-            colors[i] = Color.gray;
+            colors[i] = Color.grby;
         }
     }
 
     @Override
-    public void paint(Graphics g) {
-        // draw the title centered at the bottom of the bar graph
-        g.setColor(Color.black);
+    public void pbint(Grbphics g) {
+        // drbw the title centered bt the bottom of the bbr grbph
+        g.setColor(Color.blbck);
         g.setFont(font);
 
-        g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+        g.drbwRect(0, 0, getSize().width - 1, getSize().height - 1);
 
         int titleWidth = metrics.stringWidth(title);
-        int cx = Math.max((getSize().width - titleWidth) / 2, 0);
+        int cx = Mbth.mbx((getSize().width - titleWidth) / 2, 0);
         int cy = getSize().height - metrics.getDescent();
-        g.drawString(title, cx, cy);
+        g.drbwString(title, cx, cy);
 
-        // draw the bars and their titles
-        if (orientation == HORIZONTAL) {
-            paintHorizontal(g);
+        // drbw the bbrs bnd their titles
+        if (orientbtion == HORIZONTAL) {
+            pbintHorizontbl(g);
         } else {  // VERTICAL
-            paintVertical(g);
+            pbintVerticbl(g);
         }
     }
 
-    private void paintHorizontal(Graphics g) {
-        // x and y coordinates to draw/write to
+    privbte void pbintHorizontbl(Grbphics g) {
+        // x bnd y coordinbtes to drbw/write to
         int cx, cy;
-        int barHeight = metrics.getHeight();
+        int bbrHeight = metrics.getHeight();
 
         for (int i = 0; i < columns; i++) {
 
-            // set the X coordinate for this bar and label and center it
-            int widthOfItems = maxLabelWidth + 3 + (maxValue * scale) + 5
-                    + metrics.stringWidth(Integer.toString(maxValue));
-            cx = Math.max((getSize().width - widthOfItems) / 2, 0);
+            // set the X coordinbte for this bbr bnd lbbel bnd center it
+            int widthOfItems = mbxLbbelWidth + 3 + (mbxVblue * scble) + 5
+                    + metrics.stringWidth(Integer.toString(mbxVblue));
+            cx = Mbth.mbx((getSize().width - widthOfItems) / 2, 0);
 
-            // set the Y coordinate for this bar and label
+            // set the Y coordinbte for this bbr bnd lbbel
             cy = getSize().height - metrics.getDescent() - metrics.getHeight()
-                    - barSpacing
-                    - ((columns - i - 1) * (barSpacing + barHeight));
+                    - bbrSpbcing
+                    - ((columns - i - 1) * (bbrSpbcing + bbrHeight));
 
-            // draw the label
-            g.setColor(Color.black);
-            g.drawString(labels[i], cx, cy);
-            cx += maxLabelWidth + 3;
+            // drbw the lbbel
+            g.setColor(Color.blbck);
+            g.drbwString(lbbels[i], cx, cy);
+            cx += mbxLbbelWidth + 3;
 
 
-            // draw the shadow
-            g.fillRect(cx + 4, cy - barHeight + 4,
-                    (values[i] * scale), barHeight);
+            // drbw the shbdow
+            g.fillRect(cx + 4, cy - bbrHeight + 4,
+                    (vblues[i] * scble), bbrHeight);
 
-            // draw the bar
+            // drbw the bbr
             g.setColor(colors[i]);
             if (styles[i] == STRIPED) {
-                for (int k = 0; k <= values[i] * scale; k += 2) {
-                    g.drawLine(cx + k, cy - barHeight, cx + k, cy);
+                for (int k = 0; k <= vblues[i] * scble; k += 2) {
+                    g.drbwLine(cx + k, cy - bbrHeight, cx + k, cy);
                 }
             } else {      // SOLID
-                g.fillRect(cx, cy - barHeight,
-                        (values[i] * scale) + 1, barHeight + 1);
+                g.fillRect(cx, cy - bbrHeight,
+                        (vblues[i] * scble) + 1, bbrHeight + 1);
             }
-            cx += (values[i] * scale) + 4;
+            cx += (vblues[i] * scble) + 4;
 
-            // draw the value at the end of the bar
-            g.setColor(g.getColor().darker());
-            g.drawString(Integer.toString(values[i]), cx, cy);
+            // drbw the vblue bt the end of the bbr
+            g.setColor(g.getColor().dbrker());
+            g.drbwString(Integer.toString(vblues[i]), cx, cy);
         }
     }
 
-    private void paintVertical(Graphics g) {
-        int barWidth = maxLabelWidth;
+    privbte void pbintVerticbl(Grbphics g) {
+        int bbrWidth = mbxLbbelWidth;
 
         for (int i = 0; i < columns; i++) {
 
-            // X coordinate for this label and bar (centered)
-            int widthOfItems = (barWidth + barSpacing) * columns - barSpacing;
-            int cx = Math.max((getSize().width - widthOfItems) / 2, 0);
-            cx += (maxLabelWidth + barSpacing) * i;
+            // X coordinbte for this lbbel bnd bbr (centered)
+            int widthOfItems = (bbrWidth + bbrSpbcing) * columns - bbrSpbcing;
+            int cx = Mbth.mbx((getSize().width - widthOfItems) / 2, 0);
+            cx += (mbxLbbelWidth + bbrSpbcing) * i;
 
-            // Y coordinate for this label and bar
+            // Y coordinbte for this lbbel bnd bbr
             int cy = getSize().height - metrics.getHeight()
                     - metrics.getDescent() - 4;
 
-            // draw the label
-            g.setColor(Color.black);
-            g.drawString(labels[i], cx, cy);
+            // drbw the lbbel
+            g.setColor(Color.blbck);
+            g.drbwString(lbbels[i], cx, cy);
             cy -= metrics.getHeight() - 3;
 
-            // draw the shadow
-            g.fillRect(cx + 4, cy - (values[i] * scale) - 4,
-                    barWidth, (values[i] * scale));
+            // drbw the shbdow
+            g.fillRect(cx + 4, cy - (vblues[i] * scble) - 4,
+                    bbrWidth, (vblues[i] * scble));
 
-            // draw the bar
+            // drbw the bbr
             g.setColor(colors[i]);
             if (styles[i] == STRIPED) {
-                for (int k = 0; k <= values[i] * scale; k += 2) {
-                    g.drawLine(cx, cy - k,
-                            cx + barWidth, cy - k);
+                for (int k = 0; k <= vblues[i] * scble; k += 2) {
+                    g.drbwLine(cx, cy - k,
+                            cx + bbrWidth, cy - k);
                 }
             } else {
-                g.fillRect(cx, cy - (values[i] * scale),
-                        barWidth + 1, (values[i] * scale) + 1);
+                g.fillRect(cx, cy - (vblues[i] * scble),
+                        bbrWidth + 1, (vblues[i] * scble) + 1);
             }
-            cy -= (values[i] * scale) + 5;
+            cy -= (vblues[i] * scble) + 5;
 
-            // draw the value on top of the bar
-            g.setColor(g.getColor().darker());
-            g.drawString(Integer.toString(values[i]), cx, cy);
+            // drbw the vblue on top of the bbr
+            g.setColor(g.getColor().dbrker());
+            g.drbwString(Integer.toString(vblues[i]), cx, cy);
         }
     }
 
     @Override
     public String getAppletInfo() {
-        return "Title: Bar Chart \n"
-                + "Author: Sami Shaio \n"
-                + "A simple bar chart demo.";
+        return "Title: Bbr Chbrt \n"
+                + "Author: Sbmi Shbio \n"
+                + "A simple bbr chbrt demo.";
     }
 
     @Override
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         String[][] info = {
-            { "title", "string", "The title of bar graph.  Default is 'Chart'" },
-            { "scale", "int", "The scale of the bar graph.  Default is 10." },
-            { "columns", "int", "The number of columns/rows.  Default is 5." },
-            { "orientation", "{VERTICAL, HORIZONTAL}",
-                "The orienation of the bar graph.  Default is VERTICAL." },
-            { "c#", "int", "Subsitute a number for #.  "
-                + "The value/size of bar #.  Default is 0." },
-            { "c#_label", "string", "The label for bar #.  "
-                + "Default is an empty label." },
-            { "c#_style", "{SOLID, STRIPED}", "The style of bar #.  "
-                + "Default is SOLID." },
+            { "title", "string", "The title of bbr grbph.  Defbult is 'Chbrt'" },
+            { "scble", "int", "The scble of the bbr grbph.  Defbult is 10." },
+            { "columns", "int", "The number of columns/rows.  Defbult is 5." },
+            { "orientbtion", "{VERTICAL, HORIZONTAL}",
+                "The orienbtion of the bbr grbph.  Defbult is VERTICAL." },
+            { "c#", "int", "Subsitute b number for #.  "
+                + "The vblue/size of bbr #.  Defbult is 0." },
+            { "c#_lbbel", "string", "The lbbel for bbr #.  "
+                + "Defbult is bn empty lbbel." },
+            { "c#_style", "{SOLID, STRIPED}", "The style of bbr #.  "
+                + "Defbult is SOLID." },
             { "c#_color", "{RED, GREEN, BLUE, PINK, ORANGE, MAGENTA, CYAN, "
                 + "WHITE, YELLOW, GRAY, DARKGRAY}",
-                "The color of bar #.  Default is GRAY." }
+                "The color of bbr #.  Defbult is GRAY." }
         };
         return info;
     }

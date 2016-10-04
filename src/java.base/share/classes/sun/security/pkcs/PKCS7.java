@@ -1,601 +1,601 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.net.URI;
-import java.util.*;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.X509CRL;
-import java.security.cert.CRLException;
-import java.security.cert.CertificateFactory;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.net.URI;
+import jbvb.util.*;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.X509CRL;
+import jbvb.security.cert.CRLException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.*;
 
-import sun.security.timestamp.*;
+import sun.security.timestbmp.*;
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
 import sun.security.x509.X509CertImpl;
 import sun.security.x509.X509CertInfo;
 import sun.security.x509.X509CRLImpl;
-import sun.security.x509.X500Name;
+import sun.security.x509.X500Nbme;
 
 /**
- * PKCS7 as defined in RSA Laboratories PKCS7 Technical Note. Profile
- * Supports only <tt>SignedData</tt> ContentInfo
- * type, where to the type of data signed is plain Data.
- * For signedData, <tt>crls</tt>, <tt>attributes</tt> and
- * PKCS#6 Extended Certificates are not supported.
+ * PKCS7 bs defined in RSA Lbborbtories PKCS7 Technicbl Note. Profile
+ * Supports only <tt>SignedDbtb</tt> ContentInfo
+ * type, where to the type of dbtb signed is plbin Dbtb.
+ * For signedDbtb, <tt>crls</tt>, <tt>bttributes</tt> bnd
+ * PKCS#6 Extended Certificbtes bre not supported.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
-public class PKCS7 {
+public clbss PKCS7 {
 
-    private ObjectIdentifier contentType;
+    privbte ObjectIdentifier contentType;
 
-    // the ASN.1 members for a signedData (and other) contentTypes
-    private BigInteger version = null;
-    private AlgorithmId[] digestAlgorithmIds = null;
-    private ContentInfo contentInfo = null;
-    private X509Certificate[] certificates = null;
-    private X509CRL[] crls = null;
-    private SignerInfo[] signerInfos = null;
+    // the ASN.1 members for b signedDbtb (bnd other) contentTypes
+    privbte BigInteger version = null;
+    privbte AlgorithmId[] digestAlgorithmIds = null;
+    privbte ContentInfo contentInfo = null;
+    privbte X509Certificbte[] certificbtes = null;
+    privbte X509CRL[] crls = null;
+    privbte SignerInfo[] signerInfos = null;
 
-    private boolean oldStyle = false; // Is this JDK1.1.x-style?
+    privbte boolebn oldStyle = fblse; // Is this JDK1.1.x-style?
 
-    private Principal[] certIssuerNames;
+    privbte Principbl[] certIssuerNbmes;
 
     /*
-     * Random number generator for creating nonce values
-     * (Lazy initialization)
+     * Rbndom number generbtor for crebting nonce vblues
+     * (Lbzy initiblizbtion)
      */
-    private static class SecureRandomHolder {
-        static final SecureRandom RANDOM;
-        static {
-            SecureRandom tmp = null;
+    privbte stbtic clbss SecureRbndomHolder {
+        stbtic finbl SecureRbndom RANDOM;
+        stbtic {
+            SecureRbndom tmp = null;
             try {
-                tmp = SecureRandom.getInstance("SHA1PRNG");
-            } catch (NoSuchAlgorithmException e) {
-                // should not happen
+                tmp = SecureRbndom.getInstbnce("SHA1PRNG");
+            } cbtch (NoSuchAlgorithmException e) {
+                // should not hbppen
             }
             RANDOM = tmp;
         }
     }
 
     /*
-     * Object identifier for the timestamping key purpose.
+     * Object identifier for the timestbmping key purpose.
      */
-    private static final String KP_TIMESTAMPING_OID = "1.3.6.1.5.5.7.3.8";
+    privbte stbtic finbl String KP_TIMESTAMPING_OID = "1.3.6.1.5.5.7.3.8";
 
     /*
-     * Object identifier for extendedKeyUsage extension
+     * Object identifier for extendedKeyUsbge extension
      */
-    private static final String EXTENDED_KEY_USAGE_OID = "2.5.29.37";
+    privbte stbtic finbl String EXTENDED_KEY_USAGE_OID = "2.5.29.37";
 
     /**
-     * Unmarshals a PKCS7 block from its encoded form, parsing the
-     * encoded bytes from the InputStream.
+     * Unmbrshbls b PKCS7 block from its encoded form, pbrsing the
+     * encoded bytes from the InputStrebm.
      *
-     * @param in an input stream holding at least one PKCS7 block.
-     * @exception ParsingException on parsing errors.
+     * @pbrbm in bn input strebm holding bt lebst one PKCS7 block.
+     * @exception PbrsingException on pbrsing errors.
      * @exception IOException on other errors.
      */
-    public PKCS7(InputStream in) throws ParsingException, IOException {
-        DataInputStream dis = new DataInputStream(in);
-        byte[] data = new byte[dis.available()];
-        dis.readFully(data);
+    public PKCS7(InputStrebm in) throws PbrsingException, IOException {
+        DbtbInputStrebm dis = new DbtbInputStrebm(in);
+        byte[] dbtb = new byte[dis.bvbilbble()];
+        dis.rebdFully(dbtb);
 
-        parse(new DerInputStream(data));
+        pbrse(new DerInputStrebm(dbtb));
     }
 
     /**
-     * Unmarshals a PKCS7 block from its encoded form, parsing the
-     * encoded bytes from the DerInputStream.
+     * Unmbrshbls b PKCS7 block from its encoded form, pbrsing the
+     * encoded bytes from the DerInputStrebm.
      *
-     * @param derin a DerInputStream holding at least one PKCS7 block.
-     * @exception ParsingException on parsing errors.
+     * @pbrbm derin b DerInputStrebm holding bt lebst one PKCS7 block.
+     * @exception PbrsingException on pbrsing errors.
      */
-    public PKCS7(DerInputStream derin) throws ParsingException {
-        parse(derin);
+    public PKCS7(DerInputStrebm derin) throws PbrsingException {
+        pbrse(derin);
     }
 
     /**
-     * Unmarshals a PKCS7 block from its encoded form, parsing the
+     * Unmbrshbls b PKCS7 block from its encoded form, pbrsing the
      * encoded bytes.
      *
-     * @param bytes the encoded bytes.
-     * @exception ParsingException on parsing errors.
+     * @pbrbm bytes the encoded bytes.
+     * @exception PbrsingException on pbrsing errors.
      */
-    public PKCS7(byte[] bytes) throws ParsingException {
+    public PKCS7(byte[] bytes) throws PbrsingException {
         try {
-            DerInputStream derin = new DerInputStream(bytes);
-            parse(derin);
-        } catch (IOException ioe1) {
-            ParsingException pe = new ParsingException(
-                "Unable to parse the encoded bytes");
-            pe.initCause(ioe1);
+            DerInputStrebm derin = new DerInputStrebm(bytes);
+            pbrse(derin);
+        } cbtch (IOException ioe1) {
+            PbrsingException pe = new PbrsingException(
+                "Unbble to pbrse the encoded bytes");
+            pe.initCbuse(ioe1);
             throw pe;
         }
     }
 
     /*
-     * Parses a PKCS#7 block.
+     * Pbrses b PKCS#7 block.
      */
-    private void parse(DerInputStream derin)
-        throws ParsingException
+    privbte void pbrse(DerInputStrebm derin)
+        throws PbrsingException
     {
         try {
-            derin.mark(derin.available());
+            derin.mbrk(derin.bvbilbble());
             // try new (i.e., JDK1.2) style
-            parse(derin, false);
-        } catch (IOException ioe) {
+            pbrse(derin, fblse);
+        } cbtch (IOException ioe) {
             try {
                 derin.reset();
                 // try old (i.e., JDK1.1.x) style
-                parse(derin, true);
+                pbrse(derin, true);
                 oldStyle = true;
-            } catch (IOException ioe1) {
-                ParsingException pe = new ParsingException(
-                    ioe1.getMessage());
-                pe.initCause(ioe);
-                pe.addSuppressed(ioe1);
+            } cbtch (IOException ioe1) {
+                PbrsingException pe = new PbrsingException(
+                    ioe1.getMessbge());
+                pe.initCbuse(ioe);
+                pe.bddSuppressed(ioe1);
                 throw pe;
             }
         }
     }
 
     /**
-     * Parses a PKCS#7 block.
+     * Pbrses b PKCS#7 block.
      *
-     * @param derin the ASN.1 encoding of the PKCS#7 block.
-     * @param oldStyle flag indicating whether or not the given PKCS#7 block
-     * is encoded according to JDK1.1.x.
+     * @pbrbm derin the ASN.1 encoding of the PKCS#7 block.
+     * @pbrbm oldStyle flbg indicbting whether or not the given PKCS#7 block
+     * is encoded bccording to JDK1.1.x.
      */
-    private void parse(DerInputStream derin, boolean oldStyle)
+    privbte void pbrse(DerInputStrebm derin, boolebn oldStyle)
         throws IOException
     {
         contentInfo = new ContentInfo(derin, oldStyle);
         contentType = contentInfo.contentType;
-        DerValue content = contentInfo.getContent();
+        DerVblue content = contentInfo.getContent();
 
-        if (contentType.equals((Object)ContentInfo.SIGNED_DATA_OID)) {
-            parseSignedData(content);
-        } else if (contentType.equals((Object)ContentInfo.OLD_SIGNED_DATA_OID)) {
-            // This is for backwards compatibility with JDK 1.1.x
-            parseOldSignedData(content);
-        } else if (contentType.equals((Object)
+        if (contentType.equbls((Object)ContentInfo.SIGNED_DATA_OID)) {
+            pbrseSignedDbtb(content);
+        } else if (contentType.equbls((Object)ContentInfo.OLD_SIGNED_DATA_OID)) {
+            // This is for bbckwbrds compbtibility with JDK 1.1.x
+            pbrseOldSignedDbtb(content);
+        } else if (contentType.equbls((Object)
                        ContentInfo.NETSCAPE_CERT_SEQUENCE_OID)){
-            parseNetscapeCertChain(content);
+            pbrseNetscbpeCertChbin(content);
         } else {
-            throw new ParsingException("content type " + contentType +
+            throw new PbrsingException("content type " + contentType +
                                        " not supported.");
         }
     }
 
     /**
-     * Construct an initialized PKCS7 block.
+     * Construct bn initiblized PKCS7 block.
      *
-     * @param digestAlgorithmIds the message digest algorithm identifiers.
-     * @param contentInfo the content information.
-     * @param certificates an array of X.509 certificates.
-     * @param crls an array of CRLs
-     * @param signerInfos an array of signer information.
+     * @pbrbm digestAlgorithmIds the messbge digest blgorithm identifiers.
+     * @pbrbm contentInfo the content informbtion.
+     * @pbrbm certificbtes bn brrby of X.509 certificbtes.
+     * @pbrbm crls bn brrby of CRLs
+     * @pbrbm signerInfos bn brrby of signer informbtion.
      */
     public PKCS7(AlgorithmId[] digestAlgorithmIds,
                  ContentInfo contentInfo,
-                 X509Certificate[] certificates,
+                 X509Certificbte[] certificbtes,
                  X509CRL[] crls,
                  SignerInfo[] signerInfos) {
 
         version = BigInteger.ONE;
         this.digestAlgorithmIds = digestAlgorithmIds;
         this.contentInfo = contentInfo;
-        this.certificates = certificates;
+        this.certificbtes = certificbtes;
         this.crls = crls;
         this.signerInfos = signerInfos;
     }
 
     public PKCS7(AlgorithmId[] digestAlgorithmIds,
                  ContentInfo contentInfo,
-                 X509Certificate[] certificates,
+                 X509Certificbte[] certificbtes,
                  SignerInfo[] signerInfos) {
-        this(digestAlgorithmIds, contentInfo, certificates, null, signerInfos);
+        this(digestAlgorithmIds, contentInfo, certificbtes, null, signerInfos);
     }
 
-    private void parseNetscapeCertChain(DerValue val)
-    throws ParsingException, IOException {
-        DerInputStream dis = new DerInputStream(val.toByteArray());
-        DerValue[] contents = dis.getSequence(2);
-        certificates = new X509Certificate[contents.length];
+    privbte void pbrseNetscbpeCertChbin(DerVblue vbl)
+    throws PbrsingException, IOException {
+        DerInputStrebm dis = new DerInputStrebm(vbl.toByteArrby());
+        DerVblue[] contents = dis.getSequence(2);
+        certificbtes = new X509Certificbte[contents.length];
 
-        CertificateFactory certfac = null;
+        CertificbteFbctory certfbc = null;
         try {
-            certfac = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException ce) {
+            certfbc = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException ce) {
             // do nothing
         }
 
         for (int i=0; i < contents.length; i++) {
-            ByteArrayInputStream bais = null;
+            ByteArrbyInputStrebm bbis = null;
             try {
-                if (certfac == null)
-                    certificates[i] = new X509CertImpl(contents[i]);
+                if (certfbc == null)
+                    certificbtes[i] = new X509CertImpl(contents[i]);
                 else {
-                    byte[] encoded = contents[i].toByteArray();
-                    bais = new ByteArrayInputStream(encoded);
-                    certificates[i] =
-                        (X509Certificate)certfac.generateCertificate(bais);
-                    bais.close();
-                    bais = null;
+                    byte[] encoded = contents[i].toByteArrby();
+                    bbis = new ByteArrbyInputStrebm(encoded);
+                    certificbtes[i] =
+                        (X509Certificbte)certfbc.generbteCertificbte(bbis);
+                    bbis.close();
+                    bbis = null;
                 }
-            } catch (CertificateException ce) {
-                ParsingException pe = new ParsingException(ce.getMessage());
-                pe.initCause(ce);
+            } cbtch (CertificbteException ce) {
+                PbrsingException pe = new PbrsingException(ce.getMessbge());
+                pe.initCbuse(ce);
                 throw pe;
-            } catch (IOException ioe) {
-                ParsingException pe = new ParsingException(ioe.getMessage());
-                pe.initCause(ioe);
+            } cbtch (IOException ioe) {
+                PbrsingException pe = new PbrsingException(ioe.getMessbge());
+                pe.initCbuse(ioe);
                 throw pe;
-            } finally {
-                if (bais != null)
-                    bais.close();
+            } finblly {
+                if (bbis != null)
+                    bbis.close();
             }
         }
     }
 
-    private void parseSignedData(DerValue val)
-        throws ParsingException, IOException {
+    privbte void pbrseSignedDbtb(DerVblue vbl)
+        throws PbrsingException, IOException {
 
-        DerInputStream dis = val.toDerInputStream();
+        DerInputStrebm dis = vbl.toDerInputStrebm();
 
         // Version
         version = dis.getBigInteger();
 
         // digestAlgorithmIds
-        DerValue[] digestAlgorithmIdVals = dis.getSet(1);
-        int len = digestAlgorithmIdVals.length;
+        DerVblue[] digestAlgorithmIdVbls = dis.getSet(1);
+        int len = digestAlgorithmIdVbls.length;
         digestAlgorithmIds = new AlgorithmId[len];
         try {
             for (int i = 0; i < len; i++) {
-                DerValue oid = digestAlgorithmIdVals[i];
-                digestAlgorithmIds[i] = AlgorithmId.parse(oid);
+                DerVblue oid = digestAlgorithmIdVbls[i];
+                digestAlgorithmIds[i] = AlgorithmId.pbrse(oid);
             }
 
-        } catch (IOException e) {
-            ParsingException pe =
-                new ParsingException("Error parsing digest AlgorithmId IDs: " +
-                                     e.getMessage());
-            pe.initCause(e);
+        } cbtch (IOException e) {
+            PbrsingException pe =
+                new PbrsingException("Error pbrsing digest AlgorithmId IDs: " +
+                                     e.getMessbge());
+            pe.initCbuse(e);
             throw pe;
         }
         // contentInfo
         contentInfo = new ContentInfo(dis);
 
-        CertificateFactory certfac = null;
+        CertificbteFbctory certfbc = null;
         try {
-            certfac = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException ce) {
+            certfbc = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException ce) {
             // do nothing
         }
 
         /*
-         * check if certificates (implicit tag) are provided
-         * (certificates are OPTIONAL)
+         * check if certificbtes (implicit tbg) bre provided
+         * (certificbtes bre OPTIONAL)
          */
         if ((byte)(dis.peekByte()) == (byte)0xA0) {
-            DerValue[] certVals = dis.getSet(2, true);
+            DerVblue[] certVbls = dis.getSet(2, true);
 
-            len = certVals.length;
-            certificates = new X509Certificate[len];
+            len = certVbls.length;
+            certificbtes = new X509Certificbte[len];
             int count = 0;
 
             for (int i = 0; i < len; i++) {
-                ByteArrayInputStream bais = null;
+                ByteArrbyInputStrebm bbis = null;
                 try {
-                    byte tag = certVals[i].getTag();
-                    // We only parse the normal certificate. Other types of
-                    // CertificateChoices ignored.
-                    if (tag == DerValue.tag_Sequence) {
-                        if (certfac == null) {
-                            certificates[count] = new X509CertImpl(certVals[i]);
+                    byte tbg = certVbls[i].getTbg();
+                    // We only pbrse the normbl certificbte. Other types of
+                    // CertificbteChoices ignored.
+                    if (tbg == DerVblue.tbg_Sequence) {
+                        if (certfbc == null) {
+                            certificbtes[count] = new X509CertImpl(certVbls[i]);
                         } else {
-                            byte[] encoded = certVals[i].toByteArray();
-                            bais = new ByteArrayInputStream(encoded);
-                            certificates[count] =
-                                (X509Certificate)certfac.generateCertificate(bais);
-                            bais.close();
-                            bais = null;
+                            byte[] encoded = certVbls[i].toByteArrby();
+                            bbis = new ByteArrbyInputStrebm(encoded);
+                            certificbtes[count] =
+                                (X509Certificbte)certfbc.generbteCertificbte(bbis);
+                            bbis.close();
+                            bbis = null;
                         }
                         count++;
                     }
-                } catch (CertificateException ce) {
-                    ParsingException pe = new ParsingException(ce.getMessage());
-                    pe.initCause(ce);
+                } cbtch (CertificbteException ce) {
+                    PbrsingException pe = new PbrsingException(ce.getMessbge());
+                    pe.initCbuse(ce);
                     throw pe;
-                } catch (IOException ioe) {
-                    ParsingException pe = new ParsingException(ioe.getMessage());
-                    pe.initCause(ioe);
+                } cbtch (IOException ioe) {
+                    PbrsingException pe = new PbrsingException(ioe.getMessbge());
+                    pe.initCbuse(ioe);
                     throw pe;
-                } finally {
-                    if (bais != null)
-                        bais.close();
+                } finblly {
+                    if (bbis != null)
+                        bbis.close();
                 }
             }
             if (count != len) {
-                certificates = Arrays.copyOf(certificates, count);
+                certificbtes = Arrbys.copyOf(certificbtes, count);
             }
         }
 
-        // check if crls (implicit tag) are provided (crls are OPTIONAL)
+        // check if crls (implicit tbg) bre provided (crls bre OPTIONAL)
         if ((byte)(dis.peekByte()) == (byte)0xA1) {
-            DerValue[] crlVals = dis.getSet(1, true);
+            DerVblue[] crlVbls = dis.getSet(1, true);
 
-            len = crlVals.length;
+            len = crlVbls.length;
             crls = new X509CRL[len];
 
             for (int i = 0; i < len; i++) {
-                ByteArrayInputStream bais = null;
+                ByteArrbyInputStrebm bbis = null;
                 try {
-                    if (certfac == null)
-                        crls[i] = new X509CRLImpl(crlVals[i]);
+                    if (certfbc == null)
+                        crls[i] = new X509CRLImpl(crlVbls[i]);
                     else {
-                        byte[] encoded = crlVals[i].toByteArray();
-                        bais = new ByteArrayInputStream(encoded);
-                        crls[i] = (X509CRL) certfac.generateCRL(bais);
-                        bais.close();
-                        bais = null;
+                        byte[] encoded = crlVbls[i].toByteArrby();
+                        bbis = new ByteArrbyInputStrebm(encoded);
+                        crls[i] = (X509CRL) certfbc.generbteCRL(bbis);
+                        bbis.close();
+                        bbis = null;
                     }
-                } catch (CRLException e) {
-                    ParsingException pe =
-                        new ParsingException(e.getMessage());
-                    pe.initCause(e);
+                } cbtch (CRLException e) {
+                    PbrsingException pe =
+                        new PbrsingException(e.getMessbge());
+                    pe.initCbuse(e);
                     throw pe;
-                } finally {
-                    if (bais != null)
-                        bais.close();
+                } finblly {
+                    if (bbis != null)
+                        bbis.close();
                 }
             }
         }
 
         // signerInfos
-        DerValue[] signerInfoVals = dis.getSet(1);
+        DerVblue[] signerInfoVbls = dis.getSet(1);
 
-        len = signerInfoVals.length;
+        len = signerInfoVbls.length;
         signerInfos = new SignerInfo[len];
 
         for (int i = 0; i < len; i++) {
-            DerInputStream in = signerInfoVals[i].toDerInputStream();
+            DerInputStrebm in = signerInfoVbls[i].toDerInputStrebm();
             signerInfos[i] = new SignerInfo(in);
         }
     }
 
     /*
-     * Parses an old-style SignedData encoding (for backwards
-     * compatibility with JDK1.1.x).
+     * Pbrses bn old-style SignedDbtb encoding (for bbckwbrds
+     * compbtibility with JDK1.1.x).
      */
-    private void parseOldSignedData(DerValue val)
-        throws ParsingException, IOException
+    privbte void pbrseOldSignedDbtb(DerVblue vbl)
+        throws PbrsingException, IOException
     {
-        DerInputStream dis = val.toDerInputStream();
+        DerInputStrebm dis = vbl.toDerInputStrebm();
 
         // Version
         version = dis.getBigInteger();
 
         // digestAlgorithmIds
-        DerValue[] digestAlgorithmIdVals = dis.getSet(1);
-        int len = digestAlgorithmIdVals.length;
+        DerVblue[] digestAlgorithmIdVbls = dis.getSet(1);
+        int len = digestAlgorithmIdVbls.length;
 
         digestAlgorithmIds = new AlgorithmId[len];
         try {
             for (int i = 0; i < len; i++) {
-                DerValue oid = digestAlgorithmIdVals[i];
-                digestAlgorithmIds[i] = AlgorithmId.parse(oid);
+                DerVblue oid = digestAlgorithmIdVbls[i];
+                digestAlgorithmIds[i] = AlgorithmId.pbrse(oid);
             }
-        } catch (IOException e) {
-            throw new ParsingException("Error parsing digest AlgorithmId IDs");
+        } cbtch (IOException e) {
+            throw new PbrsingException("Error pbrsing digest AlgorithmId IDs");
         }
 
         // contentInfo
         contentInfo = new ContentInfo(dis, true);
 
-        // certificates
-        CertificateFactory certfac = null;
+        // certificbtes
+        CertificbteFbctory certfbc = null;
         try {
-            certfac = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException ce) {
+            certfbc = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException ce) {
             // do nothing
         }
-        DerValue[] certVals = dis.getSet(2);
-        len = certVals.length;
-        certificates = new X509Certificate[len];
+        DerVblue[] certVbls = dis.getSet(2);
+        len = certVbls.length;
+        certificbtes = new X509Certificbte[len];
 
         for (int i = 0; i < len; i++) {
-            ByteArrayInputStream bais = null;
+            ByteArrbyInputStrebm bbis = null;
             try {
-                if (certfac == null)
-                    certificates[i] = new X509CertImpl(certVals[i]);
+                if (certfbc == null)
+                    certificbtes[i] = new X509CertImpl(certVbls[i]);
                 else {
-                    byte[] encoded = certVals[i].toByteArray();
-                    bais = new ByteArrayInputStream(encoded);
-                    certificates[i] =
-                        (X509Certificate)certfac.generateCertificate(bais);
-                    bais.close();
-                    bais = null;
+                    byte[] encoded = certVbls[i].toByteArrby();
+                    bbis = new ByteArrbyInputStrebm(encoded);
+                    certificbtes[i] =
+                        (X509Certificbte)certfbc.generbteCertificbte(bbis);
+                    bbis.close();
+                    bbis = null;
                 }
-            } catch (CertificateException ce) {
-                ParsingException pe = new ParsingException(ce.getMessage());
-                pe.initCause(ce);
+            } cbtch (CertificbteException ce) {
+                PbrsingException pe = new PbrsingException(ce.getMessbge());
+                pe.initCbuse(ce);
                 throw pe;
-            } catch (IOException ioe) {
-                ParsingException pe = new ParsingException(ioe.getMessage());
-                pe.initCause(ioe);
+            } cbtch (IOException ioe) {
+                PbrsingException pe = new PbrsingException(ioe.getMessbge());
+                pe.initCbuse(ioe);
                 throw pe;
-            } finally {
-                if (bais != null)
-                    bais.close();
+            } finblly {
+                if (bbis != null)
+                    bbis.close();
             }
         }
 
-        // crls are ignored.
+        // crls bre ignored.
         dis.getSet(0);
 
         // signerInfos
-        DerValue[] signerInfoVals = dis.getSet(1);
-        len = signerInfoVals.length;
+        DerVblue[] signerInfoVbls = dis.getSet(1);
+        len = signerInfoVbls.length;
         signerInfos = new SignerInfo[len];
         for (int i = 0; i < len; i++) {
-            DerInputStream in = signerInfoVals[i].toDerInputStream();
+            DerInputStrebm in = signerInfoVbls[i].toDerInputStrebm();
             signerInfos[i] = new SignerInfo(in, true);
         }
     }
 
     /**
-     * Encodes the signed data to an output stream.
+     * Encodes the signed dbtb to bn output strebm.
      *
-     * @param out the output stream to write the encoded data to.
+     * @pbrbm out the output strebm to write the encoded dbtb to.
      * @exception IOException on encoding errors.
      */
-    public void encodeSignedData(OutputStream out) throws IOException {
-        DerOutputStream derout = new DerOutputStream();
-        encodeSignedData(derout);
-        out.write(derout.toByteArray());
+    public void encodeSignedDbtb(OutputStrebm out) throws IOException {
+        DerOutputStrebm derout = new DerOutputStrebm();
+        encodeSignedDbtb(derout);
+        out.write(derout.toByteArrby());
     }
 
     /**
-     * Encodes the signed data to a DerOutputStream.
+     * Encodes the signed dbtb to b DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the encoded data to.
+     * @pbrbm out the DerOutputStrebm to write the encoded dbtb to.
      * @exception IOException on encoding errors.
      */
-    public void encodeSignedData(DerOutputStream out)
+    public void encodeSignedDbtb(DerOutputStrebm out)
         throws IOException
     {
-        DerOutputStream signedData = new DerOutputStream();
+        DerOutputStrebm signedDbtb = new DerOutputStrebm();
 
         // version
-        signedData.putInteger(version);
+        signedDbtb.putInteger(version);
 
         // digestAlgorithmIds
-        signedData.putOrderedSetOf(DerValue.tag_Set, digestAlgorithmIds);
+        signedDbtb.putOrderedSetOf(DerVblue.tbg_Set, digestAlgorithmIds);
 
         // contentInfo
-        contentInfo.encode(signedData);
+        contentInfo.encode(signedDbtb);
 
-        // certificates (optional)
-        if (certificates != null && certificates.length != 0) {
-            // cast to X509CertImpl[] since X509CertImpl implements DerEncoder
-            X509CertImpl implCerts[] = new X509CertImpl[certificates.length];
-            for (int i = 0; i < certificates.length; i++) {
-                if (certificates[i] instanceof X509CertImpl)
-                    implCerts[i] = (X509CertImpl) certificates[i];
+        // certificbtes (optionbl)
+        if (certificbtes != null && certificbtes.length != 0) {
+            // cbst to X509CertImpl[] since X509CertImpl implements DerEncoder
+            X509CertImpl implCerts[] = new X509CertImpl[certificbtes.length];
+            for (int i = 0; i < certificbtes.length; i++) {
+                if (certificbtes[i] instbnceof X509CertImpl)
+                    implCerts[i] = (X509CertImpl) certificbtes[i];
                 else {
                     try {
-                        byte[] encoded = certificates[i].getEncoded();
+                        byte[] encoded = certificbtes[i].getEncoded();
                         implCerts[i] = new X509CertImpl(encoded);
-                    } catch (CertificateException ce) {
+                    } cbtch (CertificbteException ce) {
                         throw new IOException(ce);
                     }
                 }
             }
 
-            // Add the certificate set (tagged with [0] IMPLICIT)
-            // to the signed data
-            signedData.putOrderedSetOf((byte)0xA0, implCerts);
+            // Add the certificbte set (tbgged with [0] IMPLICIT)
+            // to the signed dbtb
+            signedDbtb.putOrderedSetOf((byte)0xA0, implCerts);
         }
 
-        // CRLs (optional)
+        // CRLs (optionbl)
         if (crls != null && crls.length != 0) {
-            // cast to X509CRLImpl[] since X509CRLImpl implements DerEncoder
-            Set<X509CRLImpl> implCRLs = new HashSet<X509CRLImpl>(crls.length);
+            // cbst to X509CRLImpl[] since X509CRLImpl implements DerEncoder
+            Set<X509CRLImpl> implCRLs = new HbshSet<X509CRLImpl>(crls.length);
             for (X509CRL crl: crls) {
-                if (crl instanceof X509CRLImpl)
-                    implCRLs.add((X509CRLImpl) crl);
+                if (crl instbnceof X509CRLImpl)
+                    implCRLs.bdd((X509CRLImpl) crl);
                 else {
                     try {
                         byte[] encoded = crl.getEncoded();
-                        implCRLs.add(new X509CRLImpl(encoded));
-                    } catch (CRLException ce) {
+                        implCRLs.bdd(new X509CRLImpl(encoded));
+                    } cbtch (CRLException ce) {
                         throw new IOException(ce);
                     }
                 }
             }
 
-            // Add the CRL set (tagged with [1] IMPLICIT)
-            // to the signed data
-            signedData.putOrderedSetOf((byte)0xA1,
-                    implCRLs.toArray(new X509CRLImpl[implCRLs.size()]));
+            // Add the CRL set (tbgged with [1] IMPLICIT)
+            // to the signed dbtb
+            signedDbtb.putOrderedSetOf((byte)0xA1,
+                    implCRLs.toArrby(new X509CRLImpl[implCRLs.size()]));
         }
 
         // signerInfos
-        signedData.putOrderedSetOf(DerValue.tag_Set, signerInfos);
+        signedDbtb.putOrderedSetOf(DerVblue.tbg_Set, signerInfos);
 
-        // making it a signed data block
-        DerValue signedDataSeq = new DerValue(DerValue.tag_Sequence,
-                                              signedData.toByteArray());
+        // mbking it b signed dbtb block
+        DerVblue signedDbtbSeq = new DerVblue(DerVblue.tbg_Sequence,
+                                              signedDbtb.toByteArrby());
 
-        // making it a content info sequence
+        // mbking it b content info sequence
         ContentInfo block = new ContentInfo(ContentInfo.SIGNED_DATA_OID,
-                                            signedDataSeq);
+                                            signedDbtbSeq);
 
         // writing out the contentInfo sequence
         block.encode(out);
     }
 
     /**
-     * This verifies a given SignerInfo.
+     * This verifies b given SignerInfo.
      *
-     * @param info the signer information.
-     * @param bytes the DER encoded content information.
+     * @pbrbm info the signer informbtion.
+     * @pbrbm bytes the DER encoded content informbtion.
      *
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
-     * @exception SignatureException on signature handling errors.
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
+     * @exception SignbtureException on signbture hbndling errors.
      */
     public SignerInfo verify(SignerInfo info, byte[] bytes)
-    throws NoSuchAlgorithmException, SignatureException {
+    throws NoSuchAlgorithmException, SignbtureException {
         return info.verify(this, bytes);
     }
 
     /**
-     * Returns all signerInfos which self-verify.
+     * Returns bll signerInfos which self-verify.
      *
-     * @param bytes the DER encoded content information.
+     * @pbrbm bytes the DER encoded content informbtion.
      *
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
-     * @exception SignatureException on signature handling errors.
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
+     * @exception SignbtureException on signbture hbndling errors.
      */
     public SignerInfo[] verify(byte[] bytes)
-    throws NoSuchAlgorithmException, SignatureException {
+    throws NoSuchAlgorithmException, SignbtureException {
 
         Vector<SignerInfo> intResult = new Vector<SignerInfo>();
         for (int i = 0; i < signerInfos.length; i++) {
 
             SignerInfo signerInfo = verify(signerInfos[i], bytes);
             if (signerInfo != null) {
-                intResult.addElement(signerInfo);
+                intResult.bddElement(signerInfo);
             }
         }
         if (!intResult.isEmpty()) {
@@ -608,13 +608,13 @@ public class PKCS7 {
     }
 
     /**
-     * Returns all signerInfos which self-verify.
+     * Returns bll signerInfos which self-verify.
      *
-     * @exception NoSuchAlgorithmException on unrecognized algorithms.
-     * @exception SignatureException on signature handling errors.
+     * @exception NoSuchAlgorithmException on unrecognized blgorithms.
+     * @exception SignbtureException on signbture hbndling errors.
      */
     public SignerInfo[] verify()
-    throws NoSuchAlgorithmException, SignatureException {
+    throws NoSuchAlgorithmException, SignbtureException {
         return verify(null);
     }
 
@@ -628,8 +628,8 @@ public class PKCS7 {
     }
 
     /**
-     * Returns the message digest algorithms specified in this PKCS7 block.
-     * @return the array of Digest Algorithms or null if none are specified
+     * Returns the messbge digest blgorithms specified in this PKCS7 block.
+     * @return the brrby of Digest Algorithms or null if none bre specified
      *         for the content type.
      */
     public AlgorithmId[] getDigestAlgorithmIds() {
@@ -637,28 +637,28 @@ public class PKCS7 {
     }
 
     /**
-     * Returns the content information specified in this PKCS7 block.
+     * Returns the content informbtion specified in this PKCS7 block.
      */
     public ContentInfo getContentInfo() {
         return contentInfo;
     }
 
     /**
-     * Returns the X.509 certificates listed in this PKCS7 block.
-     * @return a clone of the array of X.509 certificates or null if
-     *         none are specified for the content type.
+     * Returns the X.509 certificbtes listed in this PKCS7 block.
+     * @return b clone of the brrby of X.509 certificbtes or null if
+     *         none bre specified for the content type.
      */
-    public X509Certificate[] getCertificates() {
-        if (certificates != null)
-            return certificates.clone();
+    public X509Certificbte[] getCertificbtes() {
+        if (certificbtes != null)
+            return certificbtes.clone();
         else
             return null;
     }
 
     /**
      * Returns the X.509 crls listed in this PKCS7 block.
-     * @return a clone of the array of X.509 crls or null if none
-     *         are specified for the content type.
+     * @return b clone of the brrby of X.509 crls or null if none
+     *         bre specified for the content type.
      */
     public X509CRL[] getCRLs() {
         if (crls != null)
@@ -668,8 +668,8 @@ public class PKCS7 {
     }
 
     /**
-     * Returns the signer's information specified in this PKCS7 block.
-     * @return the array of Signer Infos or null if none are specified
+     * Returns the signer's informbtion specified in this PKCS7 block.
+     * @return the brrby of Signer Infos or null if none bre specified
      *         for the content type.
      */
     public SignerInfo[] getSignerInfos() {
@@ -677,22 +677,22 @@ public class PKCS7 {
     }
 
     /**
-     * Returns the X.509 certificate listed in this PKCS7 block
-     * which has a matching serial number and Issuer name, or
+     * Returns the X.509 certificbte listed in this PKCS7 block
+     * which hbs b mbtching seribl number bnd Issuer nbme, or
      * null if one is not found.
      *
-     * @param serial the serial number of the certificate to retrieve.
-     * @param issuerName the Distinguished Name of the Issuer.
+     * @pbrbm seribl the seribl number of the certificbte to retrieve.
+     * @pbrbm issuerNbme the Distinguished Nbme of the Issuer.
      */
-    public X509Certificate getCertificate(BigInteger serial, X500Name issuerName) {
-        if (certificates != null) {
-            if (certIssuerNames == null)
-                populateCertIssuerNames();
-            for (int i = 0; i < certificates.length; i++) {
-                X509Certificate cert = certificates[i];
-                BigInteger thisSerial = cert.getSerialNumber();
-                if (serial.equals(thisSerial)
-                    && issuerName.equals(certIssuerNames[i]))
+    public X509Certificbte getCertificbte(BigInteger seribl, X500Nbme issuerNbme) {
+        if (certificbtes != null) {
+            if (certIssuerNbmes == null)
+                populbteCertIssuerNbmes();
+            for (int i = 0; i < certificbtes.length; i++) {
+                X509Certificbte cert = certificbtes[i];
+                BigInteger thisSeribl = cert.getSeriblNumber();
+                if (seribl.equbls(thisSeribl)
+                    && issuerNbme.equbls(certIssuerNbmes[i]))
                 {
                     return cert;
                 }
@@ -702,39 +702,39 @@ public class PKCS7 {
     }
 
     /**
-     * Populate array of Issuer DNs from certificates and convert
-     * each Principal to type X500Name if necessary.
+     * Populbte brrby of Issuer DNs from certificbtes bnd convert
+     * ebch Principbl to type X500Nbme if necessbry.
      */
-    private void populateCertIssuerNames() {
-        if (certificates == null)
+    privbte void populbteCertIssuerNbmes() {
+        if (certificbtes == null)
             return;
 
-        certIssuerNames = new Principal[certificates.length];
-        for (int i = 0; i < certificates.length; i++) {
-            X509Certificate cert = certificates[i];
-            Principal certIssuerName = cert.getIssuerDN();
-            if (!(certIssuerName instanceof X500Name)) {
-                // must extract the original encoded form of DN for
-                // subsequent name comparison checks (converting to a
-                // String and back to an encoded DN could cause the
-                // types of String attribute values to be changed)
+        certIssuerNbmes = new Principbl[certificbtes.length];
+        for (int i = 0; i < certificbtes.length; i++) {
+            X509Certificbte cert = certificbtes[i];
+            Principbl certIssuerNbme = cert.getIssuerDN();
+            if (!(certIssuerNbme instbnceof X500Nbme)) {
+                // must extrbct the originbl encoded form of DN for
+                // subsequent nbme compbrison checks (converting to b
+                // String bnd bbck to bn encoded DN could cbuse the
+                // types of String bttribute vblues to be chbnged)
                 try {
                     X509CertInfo tbsCert =
-                        new X509CertInfo(cert.getTBSCertificate());
-                    certIssuerName = (Principal)
+                        new X509CertInfo(cert.getTBSCertificbte());
+                    certIssuerNbme = (Principbl)
                         tbsCert.get(X509CertInfo.ISSUER + "." +
                                     X509CertInfo.DN_NAME);
-                } catch (Exception e) {
-                    // error generating X500Name object from the cert's
-                    // issuer DN, leave name as is.
+                } cbtch (Exception e) {
+                    // error generbting X500Nbme object from the cert's
+                    // issuer DN, lebve nbme bs is.
                 }
             }
-            certIssuerNames[i] = certIssuerName;
+            certIssuerNbmes[i] = certIssuerNbme;
         }
     }
 
     /**
-     * Returns the PKCS7 block in a printable string form.
+     * Returns the PKCS7 block in b printbble string form.
      */
     public String toString() {
         String out = "";
@@ -747,10 +747,10 @@ public class PKCS7 {
             for (int i = 0; i < digestAlgorithmIds.length; i++)
                 out += "\t" + digestAlgorithmIds[i] + "\n";
         }
-        if (certificates != null) {
-            out += "PKCS7 :: certificates: \n";
-            for (int i = 0; i < certificates.length; i++)
-                out += "\t" + i + ".   " + certificates[i] + "\n";
+        if (certificbtes != null) {
+            out += "PKCS7 :: certificbtes: \n";
+            for (int i = 0; i < certificbtes.length; i++)
+                out += "\t" + i + ".   " + certificbtes[i] + "\n";
         }
         if (crls != null) {
             out += "PKCS7 :: crls: \n";
@@ -766,189 +766,189 @@ public class PKCS7 {
     }
 
     /**
-     * Returns true if this is a JDK1.1.x-style PKCS#7 block, and false
+     * Returns true if this is b JDK1.1.x-style PKCS#7 block, bnd fblse
      * otherwise.
      */
-    public boolean isOldStyle() {
+    public boolebn isOldStyle() {
         return this.oldStyle;
     }
 
     /**
-     * Assembles a PKCS #7 signed data message that optionally includes a
-     * signature timestamp.
+     * Assembles b PKCS #7 signed dbtb messbge thbt optionblly includes b
+     * signbture timestbmp.
      *
-     * @param signature the signature bytes
-     * @param signerChain the signer's X.509 certificate chain
-     * @param content the content that is signed; specify null to not include
-     *        it in the PKCS7 data
-     * @param signatureAlgorithm the name of the signature algorithm
-     * @param tsaURI the URI of the Timestamping Authority; or null if no
-     *         timestamp is requested
-     * @param tSAPolicyID the TSAPolicyID of the Timestamping Authority as a
-     *         numerical object identifier; or null if we leave the TSA server
-     *         to choose one. This argument is only used when tsaURI is provided
-     * @return the bytes of the encoded PKCS #7 signed data message
-     * @throws NoSuchAlgorithmException The exception is thrown if the signature
-     *         algorithm is unrecognised.
-     * @throws CertificateException The exception is thrown if an error occurs
-     *         while processing the signer's certificate or the TSA's
-     *         certificate.
-     * @throws IOException The exception is thrown if an error occurs while
-     *         generating the signature timestamp or while generating the signed
-     *         data message.
+     * @pbrbm signbture the signbture bytes
+     * @pbrbm signerChbin the signer's X.509 certificbte chbin
+     * @pbrbm content the content thbt is signed; specify null to not include
+     *        it in the PKCS7 dbtb
+     * @pbrbm signbtureAlgorithm the nbme of the signbture blgorithm
+     * @pbrbm tsbURI the URI of the Timestbmping Authority; or null if no
+     *         timestbmp is requested
+     * @pbrbm tSAPolicyID the TSAPolicyID of the Timestbmping Authority bs b
+     *         numericbl object identifier; or null if we lebve the TSA server
+     *         to choose one. This brgument is only used when tsbURI is provided
+     * @return the bytes of the encoded PKCS #7 signed dbtb messbge
+     * @throws NoSuchAlgorithmException The exception is thrown if the signbture
+     *         blgorithm is unrecognised.
+     * @throws CertificbteException The exception is thrown if bn error occurs
+     *         while processing the signer's certificbte or the TSA's
+     *         certificbte.
+     * @throws IOException The exception is thrown if bn error occurs while
+     *         generbting the signbture timestbmp or while generbting the signed
+     *         dbtb messbge.
      */
-    public static byte[] generateSignedData(byte[] signature,
-                                            X509Certificate[] signerChain,
+    public stbtic byte[] generbteSignedDbtb(byte[] signbture,
+                                            X509Certificbte[] signerChbin,
                                             byte[] content,
-                                            String signatureAlgorithm,
-                                            URI tsaURI,
+                                            String signbtureAlgorithm,
+                                            URI tsbURI,
                                             String tSAPolicyID,
                                             String tSADigestAlg)
-        throws CertificateException, IOException, NoSuchAlgorithmException
+        throws CertificbteException, IOException, NoSuchAlgorithmException
     {
 
-        // Generate the timestamp token
-        PKCS9Attributes unauthAttrs = null;
-        if (tsaURI != null) {
-            // Timestamp the signature
-            HttpTimestamper tsa = new HttpTimestamper(tsaURI);
-            byte[] tsToken = generateTimestampToken(
-                    tsa, tSAPolicyID, tSADigestAlg, signature);
+        // Generbte the timestbmp token
+        PKCS9Attributes unbuthAttrs = null;
+        if (tsbURI != null) {
+            // Timestbmp the signbture
+            HttpTimestbmper tsb = new HttpTimestbmper(tsbURI);
+            byte[] tsToken = generbteTimestbmpToken(
+                    tsb, tSAPolicyID, tSADigestAlg, signbture);
 
-            // Insert the timestamp token into the PKCS #7 signer info element
-            // (as an unsigned attribute)
-            unauthAttrs =
+            // Insert the timestbmp token into the PKCS #7 signer info element
+            // (bs bn unsigned bttribute)
+            unbuthAttrs =
                 new PKCS9Attributes(new PKCS9Attribute[]{
                     new PKCS9Attribute(
                         PKCS9Attribute.SIGNATURE_TIMESTAMP_TOKEN_STR,
                         tsToken)});
         }
 
-        // Create the SignerInfo
-        X500Name issuerName =
-            X500Name.asX500Name(signerChain[0].getIssuerX500Principal());
-        BigInteger serialNumber = signerChain[0].getSerialNumber();
-        String encAlg = AlgorithmId.getEncAlgFromSigAlg(signatureAlgorithm);
-        String digAlg = AlgorithmId.getDigAlgFromSigAlg(signatureAlgorithm);
-        SignerInfo signerInfo = new SignerInfo(issuerName, serialNumber,
+        // Crebte the SignerInfo
+        X500Nbme issuerNbme =
+            X500Nbme.bsX500Nbme(signerChbin[0].getIssuerX500Principbl());
+        BigInteger seriblNumber = signerChbin[0].getSeriblNumber();
+        String encAlg = AlgorithmId.getEncAlgFromSigAlg(signbtureAlgorithm);
+        String digAlg = AlgorithmId.getDigAlgFromSigAlg(signbtureAlgorithm);
+        SignerInfo signerInfo = new SignerInfo(issuerNbme, seriblNumber,
                                                AlgorithmId.get(digAlg), null,
                                                AlgorithmId.get(encAlg),
-                                               signature, unauthAttrs);
+                                               signbture, unbuthAttrs);
 
-        // Create the PKCS #7 signed data message
+        // Crebte the PKCS #7 signed dbtb messbge
         SignerInfo[] signerInfos = {signerInfo};
-        AlgorithmId[] algorithms = {signerInfo.getDigestAlgorithmId()};
+        AlgorithmId[] blgorithms = {signerInfo.getDigestAlgorithmId()};
         // Include or exclude content
         ContentInfo contentInfo = (content == null)
             ? new ContentInfo(ContentInfo.DATA_OID, null)
             : new ContentInfo(content);
-        PKCS7 pkcs7 = new PKCS7(algorithms, contentInfo,
-                                signerChain, signerInfos);
-        ByteArrayOutputStream p7out = new ByteArrayOutputStream();
-        pkcs7.encodeSignedData(p7out);
+        PKCS7 pkcs7 = new PKCS7(blgorithms, contentInfo,
+                                signerChbin, signerInfos);
+        ByteArrbyOutputStrebm p7out = new ByteArrbyOutputStrebm();
+        pkcs7.encodeSignedDbtb(p7out);
 
-        return p7out.toByteArray();
+        return p7out.toByteArrby();
     }
 
     /**
-     * Requests, processes and validates a timestamp token from a TSA using
-     * common defaults. Uses the following defaults in the timestamp request:
-     * SHA-1 for the hash algorithm, a 64-bit nonce, and request certificate
+     * Requests, processes bnd vblidbtes b timestbmp token from b TSA using
+     * common defbults. Uses the following defbults in the timestbmp request:
+     * SHA-1 for the hbsh blgorithm, b 64-bit nonce, bnd request certificbte
      * set to true.
      *
-     * @param tsa the timestamping authority to use
-     * @param tSAPolicyID the TSAPolicyID of the Timestamping Authority as a
-     *         numerical object identifier; or null if we leave the TSA server
+     * @pbrbm tsb the timestbmping buthority to use
+     * @pbrbm tSAPolicyID the TSAPolicyID of the Timestbmping Authority bs b
+     *         numericbl object identifier; or null if we lebve the TSA server
      *         to choose one
-     * @param toBeTimestamped the token that is to be timestamped
-     * @return the encoded timestamp token
-     * @throws IOException The exception is thrown if an error occurs while
-     *                     communicating with the TSA, or a non-null
+     * @pbrbm toBeTimestbmped the token thbt is to be timestbmped
+     * @return the encoded timestbmp token
+     * @throws IOException The exception is thrown if bn error occurs while
+     *                     communicbting with the TSA, or b non-null
      *                     TSAPolicyID is specified in the request but it
-     *                     does not match the one in the reply
-     * @throws CertificateException The exception is thrown if the TSA's
-     *                     certificate is not permitted for timestamping.
+     *                     does not mbtch the one in the reply
+     * @throws CertificbteException The exception is thrown if the TSA's
+     *                     certificbte is not permitted for timestbmping.
      */
-    private static byte[] generateTimestampToken(Timestamper tsa,
+    privbte stbtic byte[] generbteTimestbmpToken(Timestbmper tsb,
                                                  String tSAPolicyID,
                                                  String tSADigestAlg,
-                                                 byte[] toBeTimestamped)
-        throws IOException, CertificateException
+                                                 byte[] toBeTimestbmped)
+        throws IOException, CertificbteException
     {
-        // Generate a timestamp
-        MessageDigest messageDigest = null;
+        // Generbte b timestbmp
+        MessbgeDigest messbgeDigest = null;
         TSRequest tsQuery = null;
         try {
-            messageDigest = MessageDigest.getInstance(tSADigestAlg);
-            tsQuery = new TSRequest(tSAPolicyID, toBeTimestamped, messageDigest);
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
+            messbgeDigest = MessbgeDigest.getInstbnce(tSADigestAlg);
+            tsQuery = new TSRequest(tSAPolicyID, toBeTimestbmped, messbgeDigest);
+        } cbtch (NoSuchAlgorithmException e) {
+            throw new IllegblArgumentException(e);
         }
 
-        // Generate a nonce
+        // Generbte b nonce
         BigInteger nonce = null;
-        if (SecureRandomHolder.RANDOM != null) {
-            nonce = new BigInteger(64, SecureRandomHolder.RANDOM);
+        if (SecureRbndomHolder.RANDOM != null) {
+            nonce = new BigInteger(64, SecureRbndomHolder.RANDOM);
             tsQuery.setNonce(nonce);
         }
-        tsQuery.requestCertificate(true);
+        tsQuery.requestCertificbte(true);
 
-        TSResponse tsReply = tsa.generateTimestamp(tsQuery);
-        int status = tsReply.getStatusCode();
-        // Handle TSP error
-        if (status != 0 && status != 1) {
-            throw new IOException("Error generating timestamp: " +
-                tsReply.getStatusCodeAsText() + " " +
-                tsReply.getFailureCodeAsText());
+        TSResponse tsReply = tsb.generbteTimestbmp(tsQuery);
+        int stbtus = tsReply.getStbtusCode();
+        // Hbndle TSP error
+        if (stbtus != 0 && stbtus != 1) {
+            throw new IOException("Error generbting timestbmp: " +
+                tsReply.getStbtusCodeAsText() + " " +
+                tsReply.getFbilureCodeAsText());
         }
 
         if (tSAPolicyID != null &&
-                !tSAPolicyID.equals(tsReply.getTimestampToken().getPolicyID())) {
-            throw new IOException("TSAPolicyID changed in "
-                    + "timestamp token");
+                !tSAPolicyID.equbls(tsReply.getTimestbmpToken().getPolicyID())) {
+            throw new IOException("TSAPolicyID chbnged in "
+                    + "timestbmp token");
         }
         PKCS7 tsToken = tsReply.getToken();
 
-        TimestampToken tst = tsReply.getTimestampToken();
+        TimestbmpToken tst = tsReply.getTimestbmpToken();
         try {
-            if (!tst.getHashAlgorithm().equals(AlgorithmId.get(tSADigestAlg))) {
-                throw new IOException("Digest algorithm not " + tSADigestAlg + " in "
-                                      + "timestamp token");
+            if (!tst.getHbshAlgorithm().equbls(AlgorithmId.get(tSADigestAlg))) {
+                throw new IOException("Digest blgorithm not " + tSADigestAlg + " in "
+                                      + "timestbmp token");
             }
-        } catch (NoSuchAlgorithmException nase) {
-            throw new IllegalArgumentException();   // should have been caught before
+        } cbtch (NoSuchAlgorithmException nbse) {
+            throw new IllegblArgumentException();   // should hbve been cbught before
         }
-        if (!MessageDigest.isEqual(tst.getHashedMessage(),
-                                   tsQuery.getHashedMessage())) {
-            throw new IOException("Digest octets changed in timestamp token");
+        if (!MessbgeDigest.isEqubl(tst.getHbshedMessbge(),
+                                   tsQuery.getHbshedMessbge())) {
+            throw new IOException("Digest octets chbnged in timestbmp token");
         }
 
         BigInteger replyNonce = tst.getNonce();
         if (replyNonce == null && nonce != null) {
-            throw new IOException("Nonce missing in timestamp token");
+            throw new IOException("Nonce missing in timestbmp token");
         }
-        if (replyNonce != null && !replyNonce.equals(nonce)) {
-            throw new IOException("Nonce changed in timestamp token");
+        if (replyNonce != null && !replyNonce.equbls(nonce)) {
+            throw new IOException("Nonce chbnged in timestbmp token");
         }
 
-        // Examine the TSA's certificate (if present)
+        // Exbmine the TSA's certificbte (if present)
         for (SignerInfo si: tsToken.getSignerInfos()) {
-            X509Certificate cert = si.getCertificate(tsToken);
+            X509Certificbte cert = si.getCertificbte(tsToken);
             if (cert == null) {
-                // Error, we've already set tsRequestCertificate = true
-                throw new CertificateException(
-                "Certificate not included in timestamp token");
+                // Error, we've blrebdy set tsRequestCertificbte = true
+                throw new CertificbteException(
+                "Certificbte not included in timestbmp token");
             } else {
-                if (!cert.getCriticalExtensionOIDs().contains(
+                if (!cert.getCriticblExtensionOIDs().contbins(
                         EXTENDED_KEY_USAGE_OID)) {
-                    throw new CertificateException(
-                    "Certificate is not valid for timestamping");
+                    throw new CertificbteException(
+                    "Certificbte is not vblid for timestbmping");
                 }
-                List<String> keyPurposes = cert.getExtendedKeyUsage();
+                List<String> keyPurposes = cert.getExtendedKeyUsbge();
                 if (keyPurposes == null ||
-                        !keyPurposes.contains(KP_TIMESTAMPING_OID)) {
-                    throw new CertificateException(
-                    "Certificate is not valid for timestamping");
+                        !keyPurposes.contbins(KP_TIMESTAMPING_OID)) {
+                    throw new CertificbteException(
+                    "Certificbte is not vblid for timestbmping");
                 }
             }
         }

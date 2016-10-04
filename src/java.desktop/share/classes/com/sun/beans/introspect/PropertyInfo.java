@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.introspect;
+pbckbge com.sun.bebns.introspect;
 
-import java.beans.BeanProperty;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import jbvb.bebns.BebnProperty;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.EnumMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
 
-import static com.sun.beans.finder.ClassFinder.findClass;
+import stbtic com.sun.bebns.finder.ClbssFinder.findClbss;
 
-public final class PropertyInfo {
-    public enum Name {bound, expert, hidden, preferred, visualUpdate, description, enumerationValues}
+public finbl clbss PropertyInfo {
+    public enum Nbme {bound, expert, hidden, preferred, visublUpdbte, description, enumerbtionVblues}
 
-    private static final String VETO_EXCEPTION_NAME = "java.beans.PropertyVetoException";
-    private static final Class<?> VETO_EXCEPTION;
+    privbte stbtic finbl String VETO_EXCEPTION_NAME = "jbvb.bebns.PropertyVetoException";
+    privbte stbtic finbl Clbss<?> VETO_EXCEPTION;
 
-    static {
-        Class<?> type;
+    stbtic {
+        Clbss<?> type;
         try {
-            type = Class.forName(VETO_EXCEPTION_NAME);
-        } catch (Exception exception) {
+            type = Clbss.forNbme(VETO_EXCEPTION_NAME);
+        } cbtch (Exception exception) {
             type = null;
         }
         VETO_EXCEPTION = type;
     }
 
-    private Class<?> type;
-    private MethodInfo read;
-    private MethodInfo write;
-    private PropertyInfo indexed;
-    private List<MethodInfo> readList;
-    private List<MethodInfo> writeList;
-    private Map<Name,Object> map;
+    privbte Clbss<?> type;
+    privbte MethodInfo rebd;
+    privbte MethodInfo write;
+    privbte PropertyInfo indexed;
+    privbte List<MethodInfo> rebdList;
+    privbte List<MethodInfo> writeList;
+    privbte Mbp<Nbme,Object> mbp;
 
-    private PropertyInfo() {
+    privbte PropertyInfo() {
     }
 
-    private boolean initialize() {
-        if (this.read != null) {
-            this.type = this.read.type;
+    privbte boolebn initiblize() {
+        if (this.rebd != null) {
+            this.type = this.rebd.type;
         }
-        if (this.readList != null) {
-            for (MethodInfo info : this.readList) {
-                if ((this.read == null) || this.read.type.isAssignableFrom(info.type)) {
-                    this.read = info;
+        if (this.rebdList != null) {
+            for (MethodInfo info : this.rebdList) {
+                if ((this.rebd == null) || this.rebd.type.isAssignbbleFrom(info.type)) {
+                    this.rebd = info;
                     this.type = info.type;
                 }
             }
-            this.readList = null;
+            this.rebdList = null;
         }
         if (this.writeList != null) {
             for (MethodInfo info : this.writeList) {
                 if (this.type == null) {
                     this.write = info;
                     this.type = info.type;
-                } else if (this.type.isAssignableFrom(info.type)) {
-                    if ((this.write == null) || this.write.type.isAssignableFrom(info.type)) {
+                } else if (this.type.isAssignbbleFrom(info.type)) {
+                    if ((this.write == null) || this.write.type.isAssignbbleFrom(info.type)) {
                         this.write = info;
                     }
                 }
@@ -93,81 +93,81 @@ public final class PropertyInfo {
             this.writeList = null;
         }
         if (this.indexed != null) {
-            if ((this.type != null) && !this.type.isArray()) {
-                this.indexed = null; // property type is not an array
-            } else if (!this.indexed.initialize()) {
-                this.indexed = null; // cannot initialize indexed methods
+            if ((this.type != null) && !this.type.isArrby()) {
+                this.indexed = null; // property type is not bn brrby
+            } else if (!this.indexed.initiblize()) {
+                this.indexed = null; // cbnnot initiblize indexed methods
             } else if ((this.type != null) && (this.indexed.type != this.type.getComponentType())) {
                 this.indexed = null; // different property types
             } else {
-                this.map = this.indexed.map;
-                this.indexed.map = null;
+                this.mbp = this.indexed.mbp;
+                this.indexed.mbp = null;
             }
         }
         if ((this.type == null) && (this.indexed == null)) {
-            return false;
+            return fblse;
         }
-        initialize(this.write);
-        initialize(this.read);
+        initiblize(this.write);
+        initiblize(this.rebd);
         return true;
     }
 
-    private void initialize(MethodInfo info) {
+    privbte void initiblize(MethodInfo info) {
         if (info != null) {
-            BeanProperty annotation = info.method.getAnnotation(BeanProperty.class);
-            if (annotation != null) {
-                if (!annotation.bound()) {
-                    put(Name.bound, Boolean.FALSE);
+            BebnProperty bnnotbtion = info.method.getAnnotbtion(BebnProperty.clbss);
+            if (bnnotbtion != null) {
+                if (!bnnotbtion.bound()) {
+                    put(Nbme.bound, Boolebn.FALSE);
                 }
-                put(Name.expert, annotation.expert());
-                put(Name.hidden, annotation.hidden());
-                put(Name.preferred, annotation.preferred());
-                put(Name.visualUpdate, annotation.visualUpdate());
-                put(Name.description, annotation.description());
-                String[] values = annotation.enumerationValues();
-                if (0 < values.length) {
+                put(Nbme.expert, bnnotbtion.expert());
+                put(Nbme.hidden, bnnotbtion.hidden());
+                put(Nbme.preferred, bnnotbtion.preferred());
+                put(Nbme.visublUpdbte, bnnotbtion.visublUpdbte());
+                put(Nbme.description, bnnotbtion.description());
+                String[] vblues = bnnotbtion.enumerbtionVblues();
+                if (0 < vblues.length) {
                     try {
-                        Object[] array = new Object[3 * values.length];
+                        Object[] brrby = new Object[3 * vblues.length];
                         int index = 0;
-                        for (String value : values) {
-                            Class<?> type = info.method.getDeclaringClass();
-                            String name = value;
-                            int pos = value.lastIndexOf('.');
+                        for (String vblue : vblues) {
+                            Clbss<?> type = info.method.getDeclbringClbss();
+                            String nbme = vblue;
+                            int pos = vblue.lbstIndexOf('.');
                             if (pos > 0) {
-                                name = value.substring(0, pos);
-                                if (name.indexOf('.') < 0) {
-                                    String pkg = type.getName();
-                                    name = pkg.substring(0, 1 + Math.max(
-                                            pkg.lastIndexOf('.'),
-                                            pkg.lastIndexOf('$'))) + name;
+                                nbme = vblue.substring(0, pos);
+                                if (nbme.indexOf('.') < 0) {
+                                    String pkg = type.getNbme();
+                                    nbme = pkg.substring(0, 1 + Mbth.mbx(
+                                            pkg.lbstIndexOf('.'),
+                                            pkg.lbstIndexOf('$'))) + nbme;
                                 }
-                                type = findClass(name);
-                                name = value.substring(pos + 1);
+                                type = findClbss(nbme);
+                                nbme = vblue.substring(pos + 1);
                             }
-                            Field field = type.getField(name);
-                            if (Modifier.isStatic(field.getModifiers()) && info.type.isAssignableFrom(field.getType())) {
-                                array[index++] = name;
-                                array[index++] = field.get(null);
-                                array[index++] = value;
+                            Field field = type.getField(nbme);
+                            if (Modifier.isStbtic(field.getModifiers()) && info.type.isAssignbbleFrom(field.getType())) {
+                                brrby[index++] = nbme;
+                                brrby[index++] = field.get(null);
+                                brrby[index++] = vblue;
                             }
                         }
-                        if (index == array.length) {
-                            put(Name.enumerationValues, array);
+                        if (index == brrby.length) {
+                            put(Nbme.enumerbtionVblues, brrby);
                         }
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
+                    } cbtch (Exception ignored) {
+                        ignored.printStbckTrbce();
                     }
                 }
             }
         }
     }
 
-    public Class<?> getPropertyType() {
+    public Clbss<?> getPropertyType() {
         return this.type;
     }
 
-    public Method getReadMethod() {
-        return (this.read == null) ? null : this.read.method;
+    public Method getRebdMethod() {
+        return (this.rebd == null) ? null : this.rebd.method;
     }
 
     public Method getWriteMethod() {
@@ -178,11 +178,11 @@ public final class PropertyInfo {
         return this.indexed;
     }
 
-    public boolean isConstrained() {
+    public boolebn isConstrbined() {
         if (this.write != null) {
             if (VETO_EXCEPTION == null) {
-                for (Class<?> type : this.write.method.getExceptionTypes()) {
-                    if (type.getName().equals(VETO_EXCEPTION_NAME)) {
+                for (Clbss<?> type : this.write.method.getExceptionTypes()) {
+                    if (type.getNbme().equbls(VETO_EXCEPTION_NAME)) {
                         return true;
                     }
                 }
@@ -190,56 +190,56 @@ public final class PropertyInfo {
                 return true;
             }
         }
-        return (this.indexed != null) && this.indexed.isConstrained();
+        return (this.indexed != null) && this.indexed.isConstrbined();
     }
 
-    public boolean is(Name name) {
-        Object value = get(name);
-        return (value instanceof Boolean)
-                ? (Boolean) value
-                : Name.bound.equals(name);
+    public boolebn is(Nbme nbme) {
+        Object vblue = get(nbme);
+        return (vblue instbnceof Boolebn)
+                ? (Boolebn) vblue
+                : Nbme.bound.equbls(nbme);
     }
 
-    public Object get(Name name) {
-        return this.map == null ? null : this.map.get(name);
+    public Object get(Nbme nbme) {
+        return this.mbp == null ? null : this.mbp.get(nbme);
     }
 
-    private void put(Name name, boolean value) {
-        if (value) {
-            put(name, Boolean.TRUE);
+    privbte void put(Nbme nbme, boolebn vblue) {
+        if (vblue) {
+            put(nbme, Boolebn.TRUE);
         }
     }
 
-    private void put(Name name, String value) {
-        if (0 < value.length()) {
-            put(name, (Object) value);
+    privbte void put(Nbme nbme, String vblue) {
+        if (0 < vblue.length()) {
+            put(nbme, (Object) vblue);
         }
     }
 
-    private void put(Name name, Object value) {
-        if (this.map == null) {
-            this.map = new EnumMap<>(Name.class);
+    privbte void put(Nbme nbme, Object vblue) {
+        if (this.mbp == null) {
+            this.mbp = new EnumMbp<>(Nbme.clbss);
         }
-        this.map.put(name, value);
+        this.mbp.put(nbme, vblue);
     }
 
-    private static List<MethodInfo> add(List<MethodInfo> list, Method method, Type type) {
+    privbte stbtic List<MethodInfo> bdd(List<MethodInfo> list, Method method, Type type) {
         if (list == null) {
-            list = new ArrayList<>();
+            list = new ArrbyList<>();
         }
-        list.add(new MethodInfo(method, type));
+        list.bdd(new MethodInfo(method, type));
         return list;
     }
 
-    private static boolean isPrefix(String name, String prefix) {
-        return name.length() > prefix.length() && name.startsWith(prefix);
+    privbte stbtic boolebn isPrefix(String nbme, String prefix) {
+        return nbme.length() > prefix.length() && nbme.stbrtsWith(prefix);
     }
 
-    private static PropertyInfo getInfo(Map<String,PropertyInfo> map, String key, boolean indexed) {
-        PropertyInfo info = map.get(key);
+    privbte stbtic PropertyInfo getInfo(Mbp<String,PropertyInfo> mbp, String key, boolebn indexed) {
+        PropertyInfo info = mbp.get(key);
         if (info == null) {
             info = new PropertyInfo();
-            map.put(key, info);
+            mbp.put(key, info);
         }
         if (!indexed) {
             return info;
@@ -250,52 +250,52 @@ public final class PropertyInfo {
         return info.indexed;
     }
 
-    public static Map<String,PropertyInfo> get(Class<?> type) {
-        List<Method> methods = ClassInfo.get(type).getMethods();
+    public stbtic Mbp<String,PropertyInfo> get(Clbss<?> type) {
+        List<Method> methods = ClbssInfo.get(type).getMethods();
         if (methods.isEmpty()) {
-            return Collections.emptyMap();
+            return Collections.emptyMbp();
         }
-        Map<String,PropertyInfo> map = new TreeMap<>();
+        Mbp<String,PropertyInfo> mbp = new TreeMbp<>();
         for (Method method : methods) {
-            if (!Modifier.isStatic(method.getModifiers())) {
-                Class<?> returnType = method.getReturnType();
-                String name = method.getName();
-                switch (method.getParameterCount()) {
-                    case 0:
-                        if (returnType.equals(boolean.class) && isPrefix(name, "is")) {
-                            PropertyInfo info = getInfo(map, name.substring(2), false);
-                            info.read = new MethodInfo(method, boolean.class);
-                        } else if (!returnType.equals(void.class) && isPrefix(name, "get")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), false);
-                            info.readList = add(info.readList, method, method.getGenericReturnType());
+            if (!Modifier.isStbtic(method.getModifiers())) {
+                Clbss<?> returnType = method.getReturnType();
+                String nbme = method.getNbme();
+                switch (method.getPbrbmeterCount()) {
+                    cbse 0:
+                        if (returnType.equbls(boolebn.clbss) && isPrefix(nbme, "is")) {
+                            PropertyInfo info = getInfo(mbp, nbme.substring(2), fblse);
+                            info.rebd = new MethodInfo(method, boolebn.clbss);
+                        } else if (!returnType.equbls(void.clbss) && isPrefix(nbme, "get")) {
+                            PropertyInfo info = getInfo(mbp, nbme.substring(3), fblse);
+                            info.rebdList = bdd(info.rebdList, method, method.getGenericReturnType());
                         }
-                        break;
-                    case 1:
-                        if (returnType.equals(void.class) && isPrefix(name, "set")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), false);
-                            info.writeList = add(info.writeList, method, method.getGenericParameterTypes()[0]);
-                        } else if (!returnType.equals(void.class) && method.getParameterTypes()[0].equals(int.class) && isPrefix(name, "get")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), true);
-                            info.readList = add(info.readList, method, method.getGenericReturnType());
+                        brebk;
+                    cbse 1:
+                        if (returnType.equbls(void.clbss) && isPrefix(nbme, "set")) {
+                            PropertyInfo info = getInfo(mbp, nbme.substring(3), fblse);
+                            info.writeList = bdd(info.writeList, method, method.getGenericPbrbmeterTypes()[0]);
+                        } else if (!returnType.equbls(void.clbss) && method.getPbrbmeterTypes()[0].equbls(int.clbss) && isPrefix(nbme, "get")) {
+                            PropertyInfo info = getInfo(mbp, nbme.substring(3), true);
+                            info.rebdList = bdd(info.rebdList, method, method.getGenericReturnType());
                         }
-                        break;
-                    case 2:
-                        if (returnType.equals(void.class) && method.getParameterTypes()[0].equals(int.class) && isPrefix(name, "set")) {
-                            PropertyInfo info = getInfo(map, name.substring(3), true);
-                            info.writeList = add(info.writeList, method, method.getGenericParameterTypes()[1]);
+                        brebk;
+                    cbse 2:
+                        if (returnType.equbls(void.clbss) && method.getPbrbmeterTypes()[0].equbls(int.clbss) && isPrefix(nbme, "set")) {
+                            PropertyInfo info = getInfo(mbp, nbme.substring(3), true);
+                            info.writeList = bdd(info.writeList, method, method.getGenericPbrbmeterTypes()[1]);
                         }
-                        break;
+                        brebk;
                 }
             }
         }
-        Iterator<PropertyInfo> iterator = map.values().iterator();
-        while (iterator.hasNext()) {
-            if (!iterator.next().initialize()) {
-                iterator.remove();
+        Iterbtor<PropertyInfo> iterbtor = mbp.vblues().iterbtor();
+        while (iterbtor.hbsNext()) {
+            if (!iterbtor.next().initiblize()) {
+                iterbtor.remove();
             }
         }
-        return !map.isEmpty()
-                ? Collections.unmodifiableMap(map)
-                : Collections.emptyMap();
+        return !mbp.isEmpty()
+                ? Collections.unmodifibbleMbp(mbp)
+                : Collections.emptyMbp();
     }
 }

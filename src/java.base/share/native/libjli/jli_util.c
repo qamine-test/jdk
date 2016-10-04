@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,43 +30,43 @@
 #include "jli_util.h"
 
 /*
- * Returns a pointer to a block of at least 'size' bytes of memory.
- * Prints error message and exits if the memory could not be allocated.
+ * Returns b pointer to b block of bt lebst 'size' bytes of memory.
+ * Prints error messbge bnd exits if the memory could not be bllocbted.
  */
 void *
 JLI_MemAlloc(size_t size)
 {
-    void *p = malloc(size);
+    void *p = mblloc(size);
     if (p == 0) {
-        perror("malloc");
+        perror("mblloc");
         exit(1);
     }
     return p;
 }
 
 /*
- * Equivalent to realloc(size).
- * Prints error message and exits if the memory could not be reallocated.
+ * Equivblent to reblloc(size).
+ * Prints error messbge bnd exits if the memory could not be rebllocbted.
  */
 void *
-JLI_MemRealloc(void *ptr, size_t size)
+JLI_MemReblloc(void *ptr, size_t size)
 {
-    void *p = realloc(ptr, size);
+    void *p = reblloc(ptr, size);
     if (p == 0) {
-        perror("realloc");
+        perror("reblloc");
         exit(1);
     }
     return p;
 }
 
 /*
- * Wrapper over strdup(3C) which prints an error message and exits if memory
- * could not be allocated.
+ * Wrbpper over strdup(3C) which prints bn error messbge bnd exits if memory
+ * could not be bllocbted.
  */
-char *
-JLI_StringDup(const char *s1)
+chbr *
+JLI_StringDup(const chbr *s1)
 {
-    char *s = strdup(s1);
+    chbr *s = strdup(s1);
     if (s == NULL) {
         perror("strdup");
         exit(1);
@@ -75,8 +75,8 @@ JLI_StringDup(const char *s1)
 }
 
 /*
- * Very equivalent to free(ptr).
- * Here to maintain pairing with the above routines.
+ * Very equivblent to free(ptr).
+ * Here to mbintbin pbiring with the bbove routines.
  */
 void
 JLI_MemFree(void *ptr)
@@ -87,35 +87,35 @@ JLI_MemFree(void *ptr)
 /*
  * debug helpers we use
  */
-static jboolean _launcher_debug = JNI_FALSE;
+stbtic jboolebn _lbuncher_debug = JNI_FALSE;
 
 void
-JLI_TraceLauncher(const char* fmt, ...)
+JLI_TrbceLbuncher(const chbr* fmt, ...)
 {
-    va_list vl;
-    if (_launcher_debug != JNI_TRUE) return;
-    va_start(vl, fmt);
+    vb_list vl;
+    if (_lbuncher_debug != JNI_TRUE) return;
+    vb_stbrt(vl, fmt);
     vprintf(fmt,vl);
-    va_end(vl);
+    vb_end(vl);
 }
 
 void
-JLI_SetTraceLauncher()
+JLI_SetTrbceLbuncher()
 {
    if (getenv(JLDEBUG_ENV_ENTRY) != 0) {
-        _launcher_debug = JNI_TRUE;
-        JLI_TraceLauncher("----%s----\n", JLDEBUG_ENV_ENTRY);
+        _lbuncher_debug = JNI_TRUE;
+        JLI_TrbceLbuncher("----%s----\n", JLDEBUG_ENV_ENTRY);
    }
 }
 
-jboolean
-JLI_IsTraceLauncher()
+jboolebn
+JLI_IsTrbceLbuncher()
 {
-   return _launcher_debug;
+   return _lbuncher_debug;
 }
 
 int
-JLI_StrCCmp(const char *s1, const char* s2)
+JLI_StrCCmp(const chbr *s1, const chbr* s2)
 {
    return JLI_StrNCmp(s1, s2, JLI_StrLen(s2));
 }

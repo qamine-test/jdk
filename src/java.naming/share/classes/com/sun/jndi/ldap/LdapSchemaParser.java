@@ -1,448 +1,448 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Vector;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvb.util.Vector;
 
 /**
- * Netscape's 3.1 servers have some schema bugs:
- * - It puts quotes around OIDs (such as those for SUP, SYNTAX).
- * - When you try to write out the MUST/MAY list (such as "MUST cn"),
- *   it wants ("MUST (cn)") instead
+ * Netscbpe's 3.1 servers hbve some schemb bugs:
+ * - It puts quotes bround OIDs (such bs those for SUP, SYNTAX).
+ * - When you try to write out the MUST/MAY list (such bs "MUST cn"),
+ *   it wbnts ("MUST (cn)") instebd
  */
 
-final class LdapSchemaParser {
+finbl clbss LdbpSchembPbrser {
 
     // do debugging
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
 
-    // names of attribute IDs in the LDAP schema entry
-    static final String OBJECTCLASSDESC_ATTR_ID = "objectClasses";
-    static final String ATTRIBUTEDESC_ATTR_ID = "attributeTypes";
-    static final String SYNTAXDESC_ATTR_ID = "ldapSyntaxes";
-    static final String MATCHRULEDESC_ATTR_ID = "matchingRules";
+    // nbmes of bttribute IDs in the LDAP schemb entry
+    stbtic finbl String OBJECTCLASSDESC_ATTR_ID = "objectClbsses";
+    stbtic finbl String ATTRIBUTEDESC_ATTR_ID = "bttributeTypes";
+    stbtic finbl String SYNTAXDESC_ATTR_ID = "ldbpSyntbxes";
+    stbtic finbl String MATCHRULEDESC_ATTR_ID = "mbtchingRules";
 
-    // information for creating internal nodes in JNDI schema tree
-    static final String OBJECTCLASS_DEFINITION_NAME =
-                        "ClassDefinition";
-    private static final String[] CLASS_DEF_ATTRS = {
-                         "objectclass", "ClassDefinition"};
-            static final String ATTRIBUTE_DEFINITION_NAME =
+    // informbtion for crebting internbl nodes in JNDI schemb tree
+    stbtic finbl String OBJECTCLASS_DEFINITION_NAME =
+                        "ClbssDefinition";
+    privbte stbtic finbl String[] CLASS_DEF_ATTRS = {
+                         "objectclbss", "ClbssDefinition"};
+            stbtic finbl String ATTRIBUTE_DEFINITION_NAME =
                         "AttributeDefinition";
-    private static final String[] ATTR_DEF_ATTRS = {
-                        "objectclass", "AttributeDefinition" };
-            static final String SYNTAX_DEFINITION_NAME =
-                        "SyntaxDefinition";
-    private static final String[] SYNTAX_DEF_ATTRS = {
-                        "objectclass", "SyntaxDefinition" };
-            static final String MATCHRULE_DEFINITION_NAME =
-                        "MatchingRule";
-    private static final String[] MATCHRULE_DEF_ATTRS = {
-                        "objectclass", "MatchingRule" };
+    privbte stbtic finbl String[] ATTR_DEF_ATTRS = {
+                        "objectclbss", "AttributeDefinition" };
+            stbtic finbl String SYNTAX_DEFINITION_NAME =
+                        "SyntbxDefinition";
+    privbte stbtic finbl String[] SYNTAX_DEF_ATTRS = {
+                        "objectclbss", "SyntbxDefinition" };
+            stbtic finbl String MATCHRULE_DEFINITION_NAME =
+                        "MbtchingRule";
+    privbte stbtic finbl String[] MATCHRULE_DEF_ATTRS = {
+                        "objectclbss", "MbtchingRule" };
 
-    // special tokens used in LDAP schema descriptions
-    private static final char   SINGLE_QUOTE = '\'';
-    private static final char   WHSP = ' ';
-    private static final char   OID_LIST_BEGIN = '(';
-    private static final char   OID_LIST_END = ')';
-    private static final char   OID_SEPARATOR = '$';
+    // specibl tokens used in LDAP schemb descriptions
+    privbte stbtic finbl chbr   SINGLE_QUOTE = '\'';
+    privbte stbtic finbl chbr   WHSP = ' ';
+    privbte stbtic finbl chbr   OID_LIST_BEGIN = '(';
+    privbte stbtic finbl chbr   OID_LIST_END = ')';
+    privbte stbtic finbl chbr   OID_SEPARATOR = '$';
 
     // common IDs
-    private static final String  NUMERICOID_ID = "NUMERICOID";
-    private static final String        NAME_ID = "NAME";
-    private static final String        DESC_ID = "DESC";
-    private static final String    OBSOLETE_ID = "OBSOLETE";
-    private static final String         SUP_ID = "SUP";
-    private static final String     PRIVATE_ID = "X-";
+    privbte stbtic finbl String  NUMERICOID_ID = "NUMERICOID";
+    privbte stbtic finbl String        NAME_ID = "NAME";
+    privbte stbtic finbl String        DESC_ID = "DESC";
+    privbte stbtic finbl String    OBSOLETE_ID = "OBSOLETE";
+    privbte stbtic finbl String         SUP_ID = "SUP";
+    privbte stbtic finbl String     PRIVATE_ID = "X-";
 
-    // Object Class specific IDs
-    private static final String    ABSTRACT_ID = "ABSTRACT";
-    private static final String  STRUCTURAL_ID = "STRUCTURAL";
-    private static final String   AUXILIARY_ID = "AUXILIARY";
-    private static final String        MUST_ID = "MUST";
-    private static final String         MAY_ID = "MAY";
+    // Object Clbss specific IDs
+    privbte stbtic finbl String    ABSTRACT_ID = "ABSTRACT";
+    privbte stbtic finbl String  STRUCTURAL_ID = "STRUCTURAL";
+    privbte stbtic finbl String   AUXILIARY_ID = "AUXILIARY";
+    privbte stbtic finbl String        MUST_ID = "MUST";
+    privbte stbtic finbl String         MAY_ID = "MAY";
 
     // Attribute Type specific IDs
-    private static final String    EQUALITY_ID = "EQUALITY";
-    private static final String    ORDERING_ID = "ORDERING";
-    private static final String      SUBSTR_ID = "SUBSTR";
-    private static final String      SYNTAX_ID = "SYNTAX";
-    private static final String  SINGLE_VAL_ID = "SINGLE-VALUE";
-    private static final String  COLLECTIVE_ID = "COLLECTIVE";
-    private static final String NO_USER_MOD_ID = "NO-USER-MODIFICATION";
-    private static final String       USAGE_ID = "USAGE";
+    privbte stbtic finbl String    EQUALITY_ID = "EQUALITY";
+    privbte stbtic finbl String    ORDERING_ID = "ORDERING";
+    privbte stbtic finbl String      SUBSTR_ID = "SUBSTR";
+    privbte stbtic finbl String      SYNTAX_ID = "SYNTAX";
+    privbte stbtic finbl String  SINGLE_VAL_ID = "SINGLE-VALUE";
+    privbte stbtic finbl String  COLLECTIVE_ID = "COLLECTIVE";
+    privbte stbtic finbl String NO_USER_MOD_ID = "NO-USER-MODIFICATION";
+    privbte stbtic finbl String       USAGE_ID = "USAGE";
 
-    // The string value we give to boolean variables
-    private static final String SCHEMA_TRUE_VALUE = "true";
+    // The string vblue we give to boolebn vbribbles
+    privbte stbtic finbl String SCHEMA_TRUE_VALUE = "true";
 
-    // To get around writing schemas that crash Netscape server
-    private boolean netscapeBug;
+    // To get bround writing schembs thbt crbsh Netscbpe server
+    privbte boolebn netscbpeBug;
 
-    LdapSchemaParser(boolean netscapeBug) {
-        this.netscapeBug = netscapeBug;
+    LdbpSchembPbrser(boolebn netscbpeBug) {
+        this.netscbpeBug = netscbpeBug;
     }
 
-    final static void LDAP2JNDISchema(Attributes schemaAttrs,
-        LdapSchemaCtx schemaRoot) throws NamingException {
-        Attribute               objectClassesAttr = null;
-        Attribute               attributeDefAttr = null;
-        Attribute               syntaxDefAttr = null;
-        Attribute               matchRuleDefAttr = null;
+    finbl stbtic void LDAP2JNDISchemb(Attributes schembAttrs,
+        LdbpSchembCtx schembRoot) throws NbmingException {
+        Attribute               objectClbssesAttr = null;
+        Attribute               bttributeDefAttr = null;
+        Attribute               syntbxDefAttr = null;
+        Attribute               mbtchRuleDefAttr = null;
 
-        objectClassesAttr = schemaAttrs.get(OBJECTCLASSDESC_ATTR_ID);
-        if(objectClassesAttr != null) {
-            objectDescs2ClassDefs(objectClassesAttr,schemaRoot);
+        objectClbssesAttr = schembAttrs.get(OBJECTCLASSDESC_ATTR_ID);
+        if(objectClbssesAttr != null) {
+            objectDescs2ClbssDefs(objectClbssesAttr,schembRoot);
         }
 
-        attributeDefAttr = schemaAttrs.get(ATTRIBUTEDESC_ATTR_ID);
-        if(attributeDefAttr != null) {
-            attrDescs2AttrDefs(attributeDefAttr, schemaRoot);
+        bttributeDefAttr = schembAttrs.get(ATTRIBUTEDESC_ATTR_ID);
+        if(bttributeDefAttr != null) {
+            bttrDescs2AttrDefs(bttributeDefAttr, schembRoot);
         }
 
-        syntaxDefAttr = schemaAttrs.get(SYNTAXDESC_ATTR_ID);
-        if(syntaxDefAttr != null) {
-            syntaxDescs2SyntaxDefs(syntaxDefAttr, schemaRoot);
+        syntbxDefAttr = schembAttrs.get(SYNTAXDESC_ATTR_ID);
+        if(syntbxDefAttr != null) {
+            syntbxDescs2SyntbxDefs(syntbxDefAttr, schembRoot);
         }
 
-        matchRuleDefAttr = schemaAttrs.get(MATCHRULEDESC_ATTR_ID);
-        if(matchRuleDefAttr != null) {
-            matchRuleDescs2MatchRuleDefs(matchRuleDefAttr, schemaRoot);
+        mbtchRuleDefAttr = schembAttrs.get(MATCHRULEDESC_ATTR_ID);
+        if(mbtchRuleDefAttr != null) {
+            mbtchRuleDescs2MbtchRuleDefs(mbtchRuleDefAttr, schembRoot);
         }
     }
 
-    final private static DirContext objectDescs2ClassDefs(Attribute objDescsAttr,
-                                                   LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbte stbtic DirContext objectDescs2ClbssDefs(Attribute objDescsAttr,
+                                                   LdbpSchembCtx schembRoot)
+        throws NbmingException {
 
-        NamingEnumeration<?> objDescs;
+        NbmingEnumerbtion<?> objDescs;
         Attributes                objDef;
-        LdapSchemaCtx             classDefTree;
+        LdbpSchembCtx             clbssDefTree;
 
-        // create the class def subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(CLASS_DEF_ATTRS[0], CLASS_DEF_ATTRS[1]);
-        classDefTree = schemaRoot.setup(LdapSchemaCtx.OBJECTCLASS_ROOT,
-            OBJECTCLASS_DEFINITION_NAME, attrs);
+        // crebte the clbss def subtree
+        Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        bttrs.put(CLASS_DEF_ATTRS[0], CLASS_DEF_ATTRS[1]);
+        clbssDefTree = schembRoot.setup(LdbpSchembCtx.OBJECTCLASS_ROOT,
+            OBJECTCLASS_DEFINITION_NAME, bttrs);
 
         objDescs = objDescsAttr.getAll();
-        String currentName;
-        while(objDescs.hasMore()) {
+        String currentNbme;
+        while(objDescs.hbsMore()) {
             String objDesc = (String)objDescs.next();
             try {
                 Object[] def = desc2Def(objDesc);
-                currentName = (String) def[0];
+                currentNbme = (String) def[0];
                 objDef = (Attributes) def[1];
-                classDefTree.setup(LdapSchemaCtx.OBJECTCLASS,
-                    currentName, objDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                clbssDefTree.setup(LdbpSchembCtx.OBJECTCLASS,
+                    currentNbme, objDef);
+            } cbtch (NbmingException ne) {
+                // error occurred while pbrsing, ignore current entry
             }
         }
 
-        return classDefTree;
+        return clbssDefTree;
     }
 
-    final private static DirContext attrDescs2AttrDefs(Attribute attributeDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbte stbtic DirContext bttrDescs2AttrDefs(Attribute bttributeDescAttr,
+                                                LdbpSchembCtx schembRoot)
+        throws NbmingException {
 
-        NamingEnumeration<?> attrDescs;
-        Attributes           attrDef;
-        LdapSchemaCtx        attrDefTree;
+        NbmingEnumerbtion<?> bttrDescs;
+        Attributes           bttrDef;
+        LdbpSchembCtx        bttrDefTree;
 
-        // create the AttributeDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(ATTR_DEF_ATTRS[0], ATTR_DEF_ATTRS[1]);
-        attrDefTree = schemaRoot.setup(LdapSchemaCtx.ATTRIBUTE_ROOT,
-            ATTRIBUTE_DEFINITION_NAME, attrs);
+        // crebte the AttributeDef subtree
+        Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        bttrs.put(ATTR_DEF_ATTRS[0], ATTR_DEF_ATTRS[1]);
+        bttrDefTree = schembRoot.setup(LdbpSchembCtx.ATTRIBUTE_ROOT,
+            ATTRIBUTE_DEFINITION_NAME, bttrs);
 
-        attrDescs = attributeDescAttr.getAll();
-        String currentName;
-        while(attrDescs.hasMore()) {
-            String attrDesc = (String)attrDescs.next();
+        bttrDescs = bttributeDescAttr.getAll();
+        String currentNbme;
+        while(bttrDescs.hbsMore()) {
+            String bttrDesc = (String)bttrDescs.next();
             try {
-                Object[] def = desc2Def(attrDesc);
-                currentName = (String) def[0];
-                attrDef = (Attributes) def[1];
-                attrDefTree.setup(LdapSchemaCtx.ATTRIBUTE,
-                    currentName, attrDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Object[] def = desc2Def(bttrDesc);
+                currentNbme = (String) def[0];
+                bttrDef = (Attributes) def[1];
+                bttrDefTree.setup(LdbpSchembCtx.ATTRIBUTE,
+                    currentNbme, bttrDef);
+            } cbtch (NbmingException ne) {
+                // error occurred while pbrsing, ignore current entry
             }
         }
 
-        return attrDefTree;
+        return bttrDefTree;
     }
 
-    final private static DirContext syntaxDescs2SyntaxDefs(
-                                                Attribute syntaxDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbte stbtic DirContext syntbxDescs2SyntbxDefs(
+                                                Attribute syntbxDescAttr,
+                                                LdbpSchembCtx schembRoot)
+        throws NbmingException {
 
-        NamingEnumeration<?> syntaxDescs;
-        Attributes           syntaxDef;
-        LdapSchemaCtx        syntaxDefTree;
+        NbmingEnumerbtion<?> syntbxDescs;
+        Attributes           syntbxDef;
+        LdbpSchembCtx        syntbxDefTree;
 
-        // create the SyntaxDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(SYNTAX_DEF_ATTRS[0], SYNTAX_DEF_ATTRS[1]);
-        syntaxDefTree = schemaRoot.setup(LdapSchemaCtx.SYNTAX_ROOT,
-            SYNTAX_DEFINITION_NAME, attrs);
+        // crebte the SyntbxDef subtree
+        Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        bttrs.put(SYNTAX_DEF_ATTRS[0], SYNTAX_DEF_ATTRS[1]);
+        syntbxDefTree = schembRoot.setup(LdbpSchembCtx.SYNTAX_ROOT,
+            SYNTAX_DEFINITION_NAME, bttrs);
 
-        syntaxDescs = syntaxDescAttr.getAll();
-        String currentName;
-        while(syntaxDescs.hasMore()) {
-            String syntaxDesc = (String)syntaxDescs.next();
+        syntbxDescs = syntbxDescAttr.getAll();
+        String currentNbme;
+        while(syntbxDescs.hbsMore()) {
+            String syntbxDesc = (String)syntbxDescs.next();
             try {
-                Object[] def = desc2Def(syntaxDesc);
-                currentName = (String) def[0];
-                syntaxDef = (Attributes) def[1];
-                syntaxDefTree.setup(LdapSchemaCtx.SYNTAX,
-                    currentName, syntaxDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Object[] def = desc2Def(syntbxDesc);
+                currentNbme = (String) def[0];
+                syntbxDef = (Attributes) def[1];
+                syntbxDefTree.setup(LdbpSchembCtx.SYNTAX,
+                    currentNbme, syntbxDef);
+            } cbtch (NbmingException ne) {
+                // error occurred while pbrsing, ignore current entry
             }
         }
 
-        return syntaxDefTree;
+        return syntbxDefTree;
     }
 
-    final private static DirContext matchRuleDescs2MatchRuleDefs(
-                                                Attribute matchRuleDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbte stbtic DirContext mbtchRuleDescs2MbtchRuleDefs(
+                                                Attribute mbtchRuleDescAttr,
+                                                LdbpSchembCtx schembRoot)
+        throws NbmingException {
 
-        NamingEnumeration<?> matchRuleDescs;
-        Attributes           matchRuleDef;
-        LdapSchemaCtx        matchRuleDefTree;
+        NbmingEnumerbtion<?> mbtchRuleDescs;
+        Attributes           mbtchRuleDef;
+        LdbpSchembCtx        mbtchRuleDefTree;
 
-        // create the MatchRuleDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(MATCHRULE_DEF_ATTRS[0], MATCHRULE_DEF_ATTRS[1]);
-        matchRuleDefTree = schemaRoot.setup(LdapSchemaCtx.MATCHRULE_ROOT,
-            MATCHRULE_DEFINITION_NAME, attrs);
+        // crebte the MbtchRuleDef subtree
+        Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        bttrs.put(MATCHRULE_DEF_ATTRS[0], MATCHRULE_DEF_ATTRS[1]);
+        mbtchRuleDefTree = schembRoot.setup(LdbpSchembCtx.MATCHRULE_ROOT,
+            MATCHRULE_DEFINITION_NAME, bttrs);
 
-        matchRuleDescs = matchRuleDescAttr.getAll();
-        String currentName;
-        while(matchRuleDescs.hasMore()) {
-            String matchRuleDesc = (String)matchRuleDescs.next();
+        mbtchRuleDescs = mbtchRuleDescAttr.getAll();
+        String currentNbme;
+        while(mbtchRuleDescs.hbsMore()) {
+            String mbtchRuleDesc = (String)mbtchRuleDescs.next();
             try {
-                Object[] def = desc2Def(matchRuleDesc);
-                currentName = (String) def[0];
-                matchRuleDef = (Attributes) def[1];
-                matchRuleDefTree.setup(LdapSchemaCtx.MATCHRULE,
-                    currentName, matchRuleDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Object[] def = desc2Def(mbtchRuleDesc);
+                currentNbme = (String) def[0];
+                mbtchRuleDef = (Attributes) def[1];
+                mbtchRuleDefTree.setup(LdbpSchembCtx.MATCHRULE,
+                    currentNbme, mbtchRuleDef);
+            } cbtch (NbmingException ne) {
+                // error occurred while pbrsing, ignore current entry
             }
         }
 
-        return matchRuleDefTree;
+        return mbtchRuleDefTree;
     }
 
-    final private static Object[] desc2Def(String desc)
-        throws NamingException {
+    finbl privbte stbtic Object[] desc2Def(String desc)
+        throws NbmingException {
             //System.err.println(desc);
 
-        Attributes      attrs = new BasicAttributes(LdapClient.caseIgnore);
-        Attribute       attr = null;
-        int[]           pos = new int[]{1}; // tolerate missing leading space
-        boolean         moreTags = true;
+        Attributes      bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        Attribute       bttr = null;
+        int[]           pos = new int[]{1}; // tolerbte missing lebding spbce
+        boolebn         moreTbgs = true;
 
-        // Always begins with <whsp numericoid whsp>
-        attr = readNumericOID(desc, pos);
-        String currentName = (String) attr.get(0);  // name is OID by default
-        attrs.put(attr);
+        // Alwbys begins with <whsp numericoid whsp>
+        bttr = rebdNumericOID(desc, pos);
+        String currentNbme = (String) bttr.get(0);  // nbme is OID by defbult
+        bttrs.put(bttr);
 
-        skipWhitespace(desc, pos);
+        skipWhitespbce(desc, pos);
 
-        while (moreTags) {
-            attr = readNextTag(desc, pos);
-            attrs.put(attr);
+        while (moreTbgs) {
+            bttr = rebdNextTbg(desc, pos);
+            bttrs.put(bttr);
 
-            if (attr.getID().equals(NAME_ID)) {
-                currentName = (String) attr.get(0);  // use NAME attribute as name
+            if (bttr.getID().equbls(NAME_ID)) {
+                currentNbme = (String) bttr.get(0);  // use NAME bttribute bs nbme
             }
 
-            skipWhitespace(desc, pos);
+            skipWhitespbce(desc, pos);
 
             if( pos[0] >= desc.length() -1 ) {
-                moreTags = false;
+                moreTbgs = fblse;
             }
         }
 
-        return new Object[] {currentName, attrs};
+        return new Object[] {currentNbme, bttrs};
     }
 
-    // returns the index of the first whitespace char of a linear whitespace
-    // sequence ending at the given position.
-    final private static int findTrailingWhitespace(String string, int pos) {
+    // returns the index of the first whitespbce chbr of b linebr whitespbce
+    // sequence ending bt the given position.
+    finbl privbte stbtic int findTrbilingWhitespbce(String string, int pos) {
         for(int i = pos; i > 0; i--) {
-            if(string.charAt(i) != WHSP) {
+            if(string.chbrAt(i) != WHSP) {
                 return i + 1;
             }
         }
         return 0;
     }
 
-    final private static void skipWhitespace(String string, int[] pos) {
+    finbl privbte stbtic void skipWhitespbce(String string, int[] pos) {
         for(int i=pos[0]; i < string.length(); i++) {
-            if(string.charAt(i) != WHSP) {
+            if(string.chbrAt(i) != WHSP) {
                 pos[0] = i;
                 if (debug) {
-                    System.err.println("skipWhitespace: skipping to "+i);
+                    System.err.println("skipWhitespbce: skipping to "+i);
                 }
                 return;
             }
         }
     }
 
-    final private static Attribute readNumericOID(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic Attribute rebdNumericOID(String string, int[] pos)
+        throws NbmingException {
 
         if (debug) {
-            System.err.println("readNumericoid: pos="+pos[0]);
+            System.err.println("rebdNumericoid: pos="+pos[0]);
         }
 
         int begin, end;
-        String value = null;
+        String vblue = null;
 
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
 
         begin = pos[0];
         end = string.indexOf(WHSP, begin);
 
         if (end == -1 || end - begin < 1) {
-            throw new InvalidAttributeValueException("no numericoid found: "
+            throw new InvblidAttributeVblueException("no numericoid found: "
                                                      + string);
         }
 
-        value = string.substring(begin, end);
+        vblue = string.substring(begin, end);
 
-        pos[0] += value.length();
+        pos[0] += vblue.length();
 
-        return new BasicAttribute(NUMERICOID_ID, value);
+        return new BbsicAttribute(NUMERICOID_ID, vblue);
     }
 
-    final private static Attribute readNextTag(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic Attribute rebdNextTbg(String string, int[] pos)
+        throws NbmingException {
 
-        Attribute       attr = null;
-        String          tagName = null;
-        String[]        values = null;
+        Attribute       bttr = null;
+        String          tbgNbme = null;
+        String[]        vblues = null;
 
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
 
         if (debug) {
-            System.err.println("readNextTag: pos="+pos[0]);
+            System.err.println("rebdNextTbg: pos="+pos[0]);
         }
 
-        // get the name and values of the attribute to return
-        int trailingSpace = string.indexOf( WHSP, pos[0] );
+        // get the nbme bnd vblues of the bttribute to return
+        int trbilingSpbce = string.indexOf( WHSP, pos[0] );
 
-        // tolerate a schema that omits the trailing space
-        if (trailingSpace < 0) {
-            tagName = string.substring( pos[0], string.length() - 1);
+        // tolerbte b schemb thbt omits the trbiling spbce
+        if (trbilingSpbce < 0) {
+            tbgNbme = string.substring( pos[0], string.length() - 1);
         } else {
-            tagName = string.substring( pos[0], trailingSpace );
+            tbgNbme = string.substring( pos[0], trbilingSpbce );
         }
 
-        values = readTag(tagName, string, pos);
+        vblues = rebdTbg(tbgNbme, string, pos);
 
-        // make sure at least one value was returned
-        if(values.length < 0) {
-            throw new InvalidAttributeValueException("no values for " +
-                                                     "attribute \"" +
-                                                     tagName + "\"");
+        // mbke sure bt lebst one vblue wbs returned
+        if(vblues.length < 0) {
+            throw new InvblidAttributeVblueException("no vblues for " +
+                                                     "bttribute \"" +
+                                                     tbgNbme + "\"");
         }
 
-        // create the attribute, using the first value
-        attr = new BasicAttribute(tagName, values[0]);
+        // crebte the bttribute, using the first vblue
+        bttr = new BbsicAttribute(tbgNbme, vblues[0]);
 
-        // add other values if there are any
-        for(int i = 1; i < values.length; i++) {
-            attr.add(values[i]);
+        // bdd other vblues if there bre bny
+        for(int i = 1; i < vblues.length; i++) {
+            bttr.bdd(vblues[i]);
         }
 
-        return attr;
+        return bttr;
     }
 
-    final private static String[] readTag(String tag, String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdTbg(String tbg, String string, int[] pos)
+        throws NbmingException {
 
         if (debug) {
-            System.err.println("ReadTag: " + tag + " pos="+pos[0]);
+            System.err.println("RebdTbg: " + tbg + " pos="+pos[0]);
         }
 
-        // move parser past tag name
-        pos[0] += tag.length();
-        skipWhitespace(string, pos);
+        // move pbrser pbst tbg nbme
+        pos[0] += tbg.length();
+        skipWhitespbce(string, pos);
 
-        if (tag.equals(NAME_ID)) {
-            return readQDescrs(string, pos);  // names[0] is NAME
+        if (tbg.equbls(NAME_ID)) {
+            return rebdQDescrs(string, pos);  // nbmes[0] is NAME
         }
 
-        if(tag.equals(DESC_ID)) {
-           return readQDString(string, pos);
+        if(tbg.equbls(DESC_ID)) {
+           return rebdQDString(string, pos);
         }
 
         if (
-           tag.equals(EQUALITY_ID) ||
-           tag.equals(ORDERING_ID) ||
-           tag.equals(SUBSTR_ID) ||
-           tag.equals(SYNTAX_ID)) {
-            return readWOID(string, pos);
+           tbg.equbls(EQUALITY_ID) ||
+           tbg.equbls(ORDERING_ID) ||
+           tbg.equbls(SUBSTR_ID) ||
+           tbg.equbls(SYNTAX_ID)) {
+            return rebdWOID(string, pos);
         }
 
-        if (tag.equals(OBSOLETE_ID) ||
-            tag.equals(ABSTRACT_ID) ||
-            tag.equals(STRUCTURAL_ID) ||
-            tag.equals(AUXILIARY_ID) ||
-            tag.equals(SINGLE_VAL_ID) ||
-            tag.equals(COLLECTIVE_ID) ||
-            tag.equals(NO_USER_MOD_ID)) {
+        if (tbg.equbls(OBSOLETE_ID) ||
+            tbg.equbls(ABSTRACT_ID) ||
+            tbg.equbls(STRUCTURAL_ID) ||
+            tbg.equbls(AUXILIARY_ID) ||
+            tbg.equbls(SINGLE_VAL_ID) ||
+            tbg.equbls(COLLECTIVE_ID) ||
+            tbg.equbls(NO_USER_MOD_ID)) {
             return new String[] {SCHEMA_TRUE_VALUE};
         }
 
-        if (tag.equals(SUP_ID) ||   // oid list for object class; WOID for attribute
-            tag.equals(MUST_ID) ||
-            tag.equals(MAY_ID) ||
-            tag.equals(USAGE_ID)) {
-            return readOIDs(string, pos);
+        if (tbg.equbls(SUP_ID) ||   // oid list for object clbss; WOID for bttribute
+            tbg.equbls(MUST_ID) ||
+            tbg.equbls(MAY_ID) ||
+            tbg.equbls(USAGE_ID)) {
+            return rebdOIDs(string, pos);
         }
 
-        // otherwise it's a schema element with a quoted string value
-        return readQDStrings(string, pos);
+        // otherwise it's b schemb element with b quoted string vblue
+        return rebdQDStrings(string, pos);
     }
 
-    final private static String[] readQDString(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdQDString(String string, int[] pos)
+        throws NbmingException {
 
         int begin, end;
 
@@ -450,20 +450,20 @@ final class LdapSchemaParser {
         end = string.indexOf(SINGLE_QUOTE, begin);
 
         if (debug) {
-            System.err.println("ReadQDString: pos=" + pos[0] +
+            System.err.println("RebdQDString: pos=" + pos[0] +
                                " begin=" + begin + " end=" + end);
         }
 
         if(begin == -1 || end == -1 || begin == end) {
-            throw new InvalidAttributeIdentifierException("malformed " +
+            throw new InvblidAttributeIdentifierException("mblformed " +
                                                           "QDString: " +
                                                           string);
         }
 
-        // make sure the qdstring end symbol is there
-        if (string.charAt(begin - 1) != SINGLE_QUOTE) {
-            throw new InvalidAttributeIdentifierException("qdstring has " +
-                                                          "no end mark: " +
+        // mbke sure the qdstring end symbol is there
+        if (string.chbrAt(begin - 1) != SINGLE_QUOTE) {
+            throw new InvblidAttributeIdentifierException("qdstring hbs " +
+                                                          "no end mbrk: " +
                                                           string);
         }
 
@@ -477,35 +477,35 @@ final class LdapSchemaParser {
     * qdstringlist    = [ qdstring *( qdstring ) ]
     * qdstrings       = qdstring / ( whsp "(" qdstringlist ")" whsp )
     */
-    private final static String[] readQDStrings(String string, int[] pos)
-        throws NamingException {
+    privbte finbl stbtic String[] rebdQDStrings(String string, int[] pos)
+        throws NbmingException {
 
-        return readQDescrs(string, pos);
+        return rebdQDescrs(string, pos);
     }
 
     /**
-     * ; object descriptors used as schema element names
+     * ; object descriptors used bs schemb element nbmes
      * qdescrs         = qdescr / ( whsp "(" qdescrlist ")" whsp )
      * qdescrlist      = [ qdescr *( qdescr ) ]
      * qdescr          = whsp "'" descr "'" whsp
      * descr           = keystring
      */
-    final private static String[] readQDescrs(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdQDescrs(String string, int[] pos)
+        throws NbmingException {
 
         if (debug) {
-            System.err.println("readQDescrs: pos="+pos[0]);
+            System.err.println("rebdQDescrs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
 
-        switch( string.charAt(pos[0]) ) {
-        case OID_LIST_BEGIN:
-            return readQDescrList(string, pos);
-        case SINGLE_QUOTE:
-            return readQDString(string, pos);
-        default:
-            throw new InvalidAttributeValueException("unexpected oids " +
+        switch( string.chbrAt(pos[0]) ) {
+        cbse OID_LIST_BEGIN:
+            return rebdQDescrList(string, pos);
+        cbse SINGLE_QUOTE:
+            return rebdQDString(string, pos);
+        defbult:
+            throw new InvblidAttributeVblueException("unexpected oids " +
                                                      "string: " + string);
         }
     }
@@ -515,60 +515,60 @@ final class LdapSchemaParser {
      * qdescr          = whsp "'" descr "'" whsp
      * descr           = keystring
      */
-    final private static String[] readQDescrList(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdQDescrList(String string, int[] pos)
+        throws NbmingException {
 
         int begin, end;
-        Vector<String> values = new Vector<>(5);
+        Vector<String> vblues = new Vector<>(5);
 
         if (debug) {
-            System.err.println("ReadQDescrList: pos="+pos[0]);
+            System.err.println("RebdQDescrList: pos="+pos[0]);
         }
 
         pos[0]++; // skip '('
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
         begin = pos[0];
         end = string.indexOf(OID_LIST_END, begin);
 
         if(end == -1) {
-            throw new InvalidAttributeValueException ("oidlist has no end "+
-                                                      "mark: " + string);
+            throw new InvblidAttributeVblueException ("oidlist hbs no end "+
+                                                      "mbrk: " + string);
         }
 
         while(begin < end) {
-            String[] one = readQDString(string,  pos);
+            String[] one = rebdQDString(string,  pos);
 
             if (debug) {
-                System.err.println("ReadQDescrList: found '" + one[0] +
-                                   "' at begin=" + begin + " end =" + end);
+                System.err.println("RebdQDescrList: found '" + one[0] +
+                                   "' bt begin=" + begin + " end =" + end);
             }
 
-            values.addElement(one[0]);
-            skipWhitespace(string, pos);
+            vblues.bddElement(one[0]);
+            skipWhitespbce(string, pos);
             begin = pos[0];
         }
 
         pos[0] = end+1; // skip ')'
 
-        String[] answer = new String[values.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = values.elementAt(i);
+        String[] bnswer = new String[vblues.size()];
+        for (int i = 0; i < bnswer.length; i++) {
+            bnswer[i] = vblues.elementAt(i);
         }
-        return answer;
+        return bnswer;
     }
 
-    final private static String[] readWOID(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdWOID(String string, int[] pos)
+        throws NbmingException {
 
         if (debug) {
-            System.err.println("readWOIDs: pos="+pos[0]);
+            System.err.println("rebdWOIDs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
 
-        if (string.charAt(pos[0]) == SINGLE_QUOTE) {
-            // %%% workaround for Netscape schema bug
-            return readQDString(string, pos);
+        if (string.chbrAt(pos[0]) == SINGLE_QUOTE) {
+            // %%% workbround for Netscbpe schemb bug
+            return rebdQDString(string, pos);
         }
 
         int begin, end;
@@ -577,12 +577,12 @@ final class LdapSchemaParser {
         end = string.indexOf(WHSP, begin);
 
         if (debug) {
-            System.err.println("ReadWOID: pos=" + pos[0] +
+            System.err.println("RebdWOID: pos=" + pos[0] +
                                " begin=" + begin + " end=" + end);
         }
 
         if(end == -1 || begin == end) {
-            throw new InvalidAttributeIdentifierException("malformed " +
+            throw new InvblidAttributeIdentifierException("mblformed " +
                                                           "OID: " +
                                                           string);
         }
@@ -595,39 +595,39 @@ final class LdapSchemaParser {
      * oids            = woid / ( "(" oidlist ")" )
      * oidlist         = woid *( "$" woid )
      */
-    final private static String[] readOIDs(String string, int[] pos)
-        throws NamingException {
+    finbl privbte stbtic String[] rebdOIDs(String string, int[] pos)
+        throws NbmingException {
 
         if (debug) {
-            System.err.println("readOIDs: pos="+pos[0]);
+            System.err.println("rebdOIDs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
 
         // Single OID
-        if (string.charAt(pos[0]) != OID_LIST_BEGIN) {
-            return readWOID(string, pos);
+        if (string.chbrAt(pos[0]) != OID_LIST_BEGIN) {
+            return rebdWOID(string, pos);
         }
 
         // Multiple OIDs
 
         int     begin, cur, end;
-        String  oidName = null;
-        Vector<String> values = new Vector<>(5);
+        String  oidNbme = null;
+        Vector<String> vblues = new Vector<>(5);
 
         if (debug) {
-            System.err.println("ReadOIDList: pos="+pos[0]);
+            System.err.println("RebdOIDList: pos="+pos[0]);
         }
 
         pos[0]++;
-        skipWhitespace(string, pos);
+        skipWhitespbce(string, pos);
         begin = pos[0];
         end = string.indexOf(OID_LIST_END, begin);
         cur = string.indexOf(OID_SEPARATOR, begin);
 
         if(end == -1) {
-            throw new InvalidAttributeValueException ("oidlist has no end "+
-                                                      "mark: " + string);
+            throw new InvblidAttributeVblueException ("oidlist hbs no end "+
+                                                      "mbrk: " + string);
         }
 
         if(cur == -1 || end < cur) {
@@ -635,534 +635,534 @@ final class LdapSchemaParser {
         }
 
         while(cur < end && cur > 0) {
-            int wsBegin = findTrailingWhitespace(string, cur - 1);
-            oidName = string.substring(begin, wsBegin);
+            int wsBegin = findTrbilingWhitespbce(string, cur - 1);
+            oidNbme = string.substring(begin, wsBegin);
             if (debug) {
-                System.err.println("ReadOIDList: found '" + oidName +
-                                   "' at begin=" + begin + " end =" + end);
+                System.err.println("RebdOIDList: found '" + oidNbme +
+                                   "' bt begin=" + begin + " end =" + end);
             }
-            values.addElement(oidName);
+            vblues.bddElement(oidNbme);
             pos[0] = cur + 1;
-            skipWhitespace(string, pos);
+            skipWhitespbce(string, pos);
             begin = pos[0];
             cur = string.indexOf(OID_SEPARATOR, begin);
-            if(debug) {System.err.println("ReadOIDList: begin = " + begin);}
+            if(debug) {System.err.println("RebdOIDList: begin = " + begin);}
         }
 
         if (debug) {
-            System.err.println("ReadOIDList: found '" + oidName +
-                               "' at begin=" + begin + " end =" + end);
+            System.err.println("RebdOIDList: found '" + oidNbme +
+                               "' bt begin=" + begin + " end =" + end);
         }
 
-        int wsBegin = findTrailingWhitespace(string, end - 1);
-        oidName = string.substring(begin, wsBegin);
-        values.addElement(oidName);
+        int wsBegin = findTrbilingWhitespbce(string, end - 1);
+        oidNbme = string.substring(begin, wsBegin);
+        vblues.bddElement(oidNbme);
 
         pos[0] = end+1;
 
-        String[] answer = new String[values.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = values.elementAt(i);
+        String[] bnswer = new String[vblues.size()];
+        for (int i = 0; i < bnswer.length; i++) {
+            bnswer[i] = vblues.elementAt(i);
         }
-        return answer;
+        return bnswer;
     }
 
-// ----------------- "unparser" methods
-// Methods that are used for translating a node in the schema tree
-// into RFC2252 format for storage back into the LDAP directory
+// ----------------- "unpbrser" methods
+// Methods thbt bre used for trbnslbting b node in the schemb tree
+// into RFC2252 formbt for storbge bbck into the LDAP directory
 /*
-     static Attributes JNDI2LDAPSchema(DirContext schemaRoot)
-        throws NamingException {
+     stbtic Attributes JNDI2LDAPSchemb(DirContext schembRoot)
+        throws NbmingException {
 
-        Attribute objDescAttr = new BasicAttribute(OBJECTCLASSDESC_ATTR_ID);
-        Attribute attrDescAttr = new BasicAttribute(ATTRIBUTEDESC_ATTR_ID);
-        Attribute syntaxDescAttr = new BasicAttribute(SYNTAXDESC_ATTR_ID);
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        DirContext classDefs, attributeDefs, syntaxDefs;
-        Attributes classDefsAttrs, attributeDefsAttrs, syntaxDefsAttrs;
-        NamingEnumeration defs;
+        Attribute objDescAttr = new BbsicAttribute(OBJECTCLASSDESC_ATTR_ID);
+        Attribute bttrDescAttr = new BbsicAttribute(ATTRIBUTEDESC_ATTR_ID);
+        Attribute syntbxDescAttr = new BbsicAttribute(SYNTAXDESC_ATTR_ID);
+        Attributes bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
+        DirContext clbssDefs, bttributeDefs, syntbxDefs;
+        Attributes clbssDefsAttrs, bttributeDefsAttrs, syntbxDefsAttrs;
+        NbmingEnumerbtion defs;
         Object obj;
         int i = 0;
 
         try {
-            obj = schemaRoot.lookup(OBJECTCLASS_DEFINITION_NAME);
-            if(obj != null && obj instanceof DirContext) {
-                classDefs = (DirContext)obj;
-                defs = classDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = schembRoot.lookup(OBJECTCLASS_DEFINITION_NAME);
+            if(obj != null && obj instbnceof DirContext) {
+                clbssDefs = (DirContext)obj;
+                defs = clbssDefs.listBindings("");
+                while(defs.hbsMoreElements()) {
                     i++;
-                    DirContext classDef = (DirContext)
+                    DirContext clbssDef = (DirContext)
                         ((Binding)(defs.next())).getObject();
-                    classDefAttrs = classDef.getAttributes("");
-                    objDescAttr.add(classDef2ObjectDesc(classDefAttrs));
+                    clbssDefAttrs = clbssDef.getAttributes("");
+                    objDescAttr.bdd(clbssDef2ObjectDesc(clbssDefAttrs));
                 }
                 if (debug)
-                    System.err.println(i + " total object classes");
-                attrs.put(objDescAttr);
+                    System.err.println(i + " totbl object clbsses");
+                bttrs.put(objDescAttr);
             } else {
-                throw new NamingException(
-                    "Problem with Schema tree: the object named " +
-                    OBJECTCLASS_DEFINITION_NAME + " is not a " +
+                throw new NbmingException(
+                    "Problem with Schemb tree: the object nbmed " +
+                    OBJECTCLASS_DEFINITION_NAME + " is not b " +
                     "DirContext");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } cbtch (NbmeNotFoundException e) {} // ignore
 
         i=0;
         try {
-            obj = schemaRoot.lookup(ATTRIBUTE_DEFINITION_NAME);
-            if(obj instanceof DirContext) {
-                attributeDefs = (DirContext)obj;
-                defs = attributeDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = schembRoot.lookup(ATTRIBUTE_DEFINITION_NAME);
+            if(obj instbnceof DirContext) {
+                bttributeDefs = (DirContext)obj;
+                defs = bttributeDefs.listBindings("");
+                while(defs.hbsMoreElements()) {
                     i++;
-                    DirContext attrDef = (DirContext)
+                    DirContext bttrDef = (DirContext)
                         ((Binding)defs.next()).getObject();
-                    attrDefAttrs = attrDef.getAttributes("");
-                    attrDescAttr.add(attrDef2AttrDesc(attrDefAttrs));
+                    bttrDefAttrs = bttrDef.getAttributes("");
+                    bttrDescAttr.bdd(bttrDef2AttrDesc(bttrDefAttrs));
                 }
                 if (debug)
-                    System.err.println(i + " attribute definitions");
-                attrs.put(attrDescAttr);
+                    System.err.println(i + " bttribute definitions");
+                bttrs.put(bttrDescAttr);
             } else {
-                throw new NamingException(
-                    "Problem with schema tree: the object named " +
-                    ATTRIBUTE_DEFINITION_NAME + " is not a " +
+                throw new NbmingException(
+                    "Problem with schemb tree: the object nbmed " +
+                    ATTRIBUTE_DEFINITION_NAME + " is not b " +
                     "DirContext");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } cbtch (NbmeNotFoundException e) {} // ignore
 
         i=0;
         try {
-            obj = schemaRoot.lookup(SYNTAX_DEFINITION_NAME);
-            if(obj instanceof DirContext) {
-                syntaxDefs = (DirContext)obj;
-                defs =syntaxDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = schembRoot.lookup(SYNTAX_DEFINITION_NAME);
+            if(obj instbnceof DirContext) {
+                syntbxDefs = (DirContext)obj;
+                defs =syntbxDefs.listBindings("");
+                while(defs.hbsMoreElements()) {
                     i++;
-                    DirContext syntaxDef = (DirContext)
+                    DirContext syntbxDef = (DirContext)
                         ((Binding)defs.next()).getObject();
-                    syntaxDefAttrs = syntaxDef.getAttributes("");
-                    syntaxDescAttr.add(syntaxDef2SyntaxDesc(syntaxDefAttrs));
+                    syntbxDefAttrs = syntbxDef.getAttributes("");
+                    syntbxDescAttr.bdd(syntbxDef2SyntbxDesc(syntbxDefAttrs));
                 }
                 if (debug)
-                    System.err.println(i + " total syntax definitions");
-                attrs.put(syntaxDescAttr);
+                    System.err.println(i + " totbl syntbx definitions");
+                bttrs.put(syntbxDescAttr);
             } else {
-                throw new NamingException(
-                    "Problem with schema tree: the object named " +
-                    SYNTAX_DEFINITION_NAME + " is not a " +
+                throw new NbmingException(
+                    "Problem with schemb tree: the object nbmed " +
+                    SYNTAX_DEFINITION_NAME + " is not b " +
                     "DirContext");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } cbtch (NbmeNotFoundException e) {} // ignore
 
-        return attrs;
+        return bttrs;
     }
 
 */
 
     /**
-      * Translate attributes that describe an object class into the
-      * string description as defined in RFC 2252.
+      * Trbnslbte bttributes thbt describe bn object clbss into the
+      * string description bs defined in RFC 2252.
       */
-    final private String classDef2ObjectDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbte String clbssDef2ObjectDesc(Attributes bttrs)
+        throws NbmingException {
 
         StringBuilder objectDesc = new StringBuilder("( ");
 
-        Attribute attr = null;
+        Attribute bttr = null;
         int count = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // extrbct bttributes by ID to gubrbntee ordering
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            objectDesc.append(writeNumericOID(attr));
+        bttr = bttrs.get(NUMERICOID_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeNumericOID(bttr));
             count++;
         } else {
-            throw new ConfigurationException("Class definition doesn't" +
-                                             "have a numeric OID");
+            throw new ConfigurbtionException("Clbss definition doesn't" +
+                                             "hbve b numeric OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            objectDesc.append(writeQDescrs(attr));
+        bttr = bttrs.get(NAME_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeQDescrs(bttr));
             count++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            objectDesc.append(writeQDString(attr));
+        bttr = bttrs.get(DESC_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeQDString(bttr));
             count++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(OBSOLETE_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(SUP_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
+        bttr = bttrs.get(SUP_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeOIDs(bttr));
             count++;
         }
 
-        attr = attrs.get(ABSTRACT_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(ABSTRACT_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(STRUCTURAL_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(STRUCTURAL_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(AUXILIARY_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(AUXILIARY_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(MUST_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
+        bttr = bttrs.get(MUST_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeOIDs(bttr));
             count++;
         }
 
-        attr = attrs.get(MAY_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
+        bttr = bttrs.get(MAY_ID);
+        if (bttr != null) {
+            objectDesc.bppend(writeOIDs(bttr));
             count++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // process bny rembining bttributes
+        if (count < bttrs.size()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // use enumerbtion becbuse bttribute ID is not known
+            for (NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+                be.hbsMoreElements(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = be.next();
+                bttrId = bttr.getID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SUP_ID) ||
-                    attrId.equals(MAY_ID) ||
-                    attrId.equals(MUST_ID) ||
-                    attrId.equals(STRUCTURAL_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(AUXILIARY_ID) ||
-                    attrId.equals(ABSTRACT_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
+                // skip those blrebdy processed
+                if (bttrId.equbls(NUMERICOID_ID) ||
+                    bttrId.equbls(NAME_ID) ||
+                    bttrId.equbls(SUP_ID) ||
+                    bttrId.equbls(MAY_ID) ||
+                    bttrId.equbls(MUST_ID) ||
+                    bttrId.equbls(STRUCTURAL_ID) ||
+                    bttrId.equbls(DESC_ID) ||
+                    bttrId.equbls(AUXILIARY_ID) ||
+                    bttrId.equbls(ABSTRACT_ID) ||
+                    bttrId.equbls(OBSOLETE_ID)) {
                     continue;
 
                 } else {
-                    objectDesc.append(writeQDStrings(attr));
+                    objectDesc.bppend(writeQDStrings(bttr));
                 }
             }
         }
 
-        objectDesc.append(")");
+        objectDesc.bppend(")");
 
         return objectDesc.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute definition into the
-      * string description as defined in RFC 2252.
+      * Trbnslbte bttributes thbt describe bn bttribute definition into the
+      * string description bs defined in RFC 2252.
       */
-    final private String attrDef2AttrDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbte String bttrDef2AttrDesc(Attributes bttrs)
+        throws NbmingException {
 
-        StringBuilder attrDesc = new StringBuilder("( "); // opening parens
+        StringBuilder bttrDesc = new StringBuilder("( "); // opening pbrens
 
-        Attribute attr = null;
+        Attribute bttr = null;
         int count = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // extrbct bttributes by ID to gubrbntee ordering
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            attrDesc.append(writeNumericOID(attr));
+        bttr = bttrs.get(NUMERICOID_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeNumericOID(bttr));
             count++;
         } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+            throw new ConfigurbtionException("Attribute type doesn't" +
+                                             "hbve b numeric OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDescrs(attr));
+        bttr = bttrs.get(NAME_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeQDescrs(bttr));
             count++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDString(attr));
+        bttr = bttrs.get(DESC_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeQDString(bttr));
             count++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(OBSOLETE_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(SUP_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
+        bttr = bttrs.get(SUP_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeWOID(bttr));
             count++;
         }
 
-        attr = attrs.get(EQUALITY_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
+        bttr = bttrs.get(EQUALITY_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeWOID(bttr));
             count++;
         }
 
-        attr = attrs.get(ORDERING_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
+        bttr = bttrs.get(ORDERING_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeWOID(bttr));
             count++;
         }
 
-        attr = attrs.get(SUBSTR_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
+        bttr = bttrs.get(SUBSTR_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeWOID(bttr));
             count++;
         }
 
-        attr = attrs.get(SYNTAX_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
+        bttr = bttrs.get(SYNTAX_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeWOID(bttr));
             count++;
         }
 
-        attr = attrs.get(SINGLE_VAL_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(SINGLE_VAL_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(COLLECTIVE_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(COLLECTIVE_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(NO_USER_MOD_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(NO_USER_MOD_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(USAGE_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDString(attr));
+        bttr = bttrs.get(USAGE_ID);
+        if (bttr != null) {
+            bttrDesc.bppend(writeQDString(bttr));
             count++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // process bny rembining bttributes
+        if (count < bttrs.size()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // use enumerbtion becbuse bttribute ID is not known
+            for (NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+                be.hbsMoreElements(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = be.next();
+                bttrId = bttr.getID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SYNTAX_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(SINGLE_VAL_ID) ||
-                    attrId.equals(EQUALITY_ID) ||
-                    attrId.equals(ORDERING_ID) ||
-                    attrId.equals(SUBSTR_ID) ||
-                    attrId.equals(NO_USER_MOD_ID) ||
-                    attrId.equals(USAGE_ID) ||
-                    attrId.equals(SUP_ID) ||
-                    attrId.equals(COLLECTIVE_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
+                // skip those blrebdy processed
+                if (bttrId.equbls(NUMERICOID_ID) ||
+                    bttrId.equbls(NAME_ID) ||
+                    bttrId.equbls(SYNTAX_ID) ||
+                    bttrId.equbls(DESC_ID) ||
+                    bttrId.equbls(SINGLE_VAL_ID) ||
+                    bttrId.equbls(EQUALITY_ID) ||
+                    bttrId.equbls(ORDERING_ID) ||
+                    bttrId.equbls(SUBSTR_ID) ||
+                    bttrId.equbls(NO_USER_MOD_ID) ||
+                    bttrId.equbls(USAGE_ID) ||
+                    bttrId.equbls(SUP_ID) ||
+                    bttrId.equbls(COLLECTIVE_ID) ||
+                    bttrId.equbls(OBSOLETE_ID)) {
                     continue;
 
                 } else {
-                    attrDesc.append(writeQDStrings(attr));
+                    bttrDesc.bppend(writeQDStrings(bttr));
                 }
             }
         }
 
-        attrDesc.append(")");  // add closing parens
+        bttrDesc.bppend(")");  // bdd closing pbrens
 
-        return attrDesc.toString();
+        return bttrDesc.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute syntax definition into the
-      * string description as defined in RFC 2252.
+      * Trbnslbte bttributes thbt describe bn bttribute syntbx definition into the
+      * string description bs defined in RFC 2252.
       */
-    final private String syntaxDef2SyntaxDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbte String syntbxDef2SyntbxDesc(Attributes bttrs)
+        throws NbmingException {
 
-        StringBuilder syntaxDesc = new StringBuilder("( "); // opening parens
+        StringBuilder syntbxDesc = new StringBuilder("( "); // opening pbrens
 
-        Attribute attr = null;
+        Attribute bttr = null;
         int count = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // extrbct bttributes by ID to gubrbntee ordering
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            syntaxDesc.append(writeNumericOID(attr));
+        bttr = bttrs.get(NUMERICOID_ID);
+        if (bttr != null) {
+            syntbxDesc.bppend(writeNumericOID(bttr));
             count++;
         } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+            throw new ConfigurbtionException("Attribute type doesn't" +
+                                             "hbve b numeric OID");
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            syntaxDesc.append(writeQDString(attr));
+        bttr = bttrs.get(DESC_ID);
+        if (bttr != null) {
+            syntbxDesc.bppend(writeQDString(bttr));
             count++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // process bny rembining bttributes
+        if (count < bttrs.size()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // use enumerbtion becbuse bttribute ID is not known
+            for (NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+                be.hbsMoreElements(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = be.next();
+                bttrId = bttr.getID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(DESC_ID)) {
+                // skip those blrebdy processed
+                if (bttrId.equbls(NUMERICOID_ID) ||
+                    bttrId.equbls(DESC_ID)) {
                     continue;
 
                 } else {
-                    syntaxDesc.append(writeQDStrings(attr));
+                    syntbxDesc.bppend(writeQDStrings(bttr));
                 }
             }
         }
 
-        syntaxDesc.append(")");
+        syntbxDesc.bppend(")");
 
-        return syntaxDesc.toString();
+        return syntbxDesc.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute matching rule
-      * definition into the string description as defined in RFC 2252.
+      * Trbnslbte bttributes thbt describe bn bttribute mbtching rule
+      * definition into the string description bs defined in RFC 2252.
       */
-    final private String matchRuleDef2MatchRuleDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbte String mbtchRuleDef2MbtchRuleDesc(Attributes bttrs)
+        throws NbmingException {
 
-        StringBuilder matchRuleDesc = new StringBuilder("( "); // opening parens
+        StringBuilder mbtchRuleDesc = new StringBuilder("( "); // opening pbrens
 
-        Attribute attr = null;
+        Attribute bttr = null;
         int count = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // extrbct bttributes by ID to gubrbntee ordering
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeNumericOID(attr));
+        bttr = bttrs.get(NUMERICOID_ID);
+        if (bttr != null) {
+            mbtchRuleDesc.bppend(writeNumericOID(bttr));
             count++;
         } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+            throw new ConfigurbtionException("Attribute type doesn't" +
+                                             "hbve b numeric OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeQDescrs(attr));
+        bttr = bttrs.get(NAME_ID);
+        if (bttr != null) {
+            mbtchRuleDesc.bppend(writeQDescrs(bttr));
             count++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeQDString(attr));
+        bttr = bttrs.get(DESC_ID);
+        if (bttr != null) {
+            mbtchRuleDesc.bppend(writeQDString(bttr));
             count++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeBoolean(attr));
+        bttr = bttrs.get(OBSOLETE_ID);
+        if (bttr != null) {
+            mbtchRuleDesc.bppend(writeBoolebn(bttr));
             count++;
         }
 
-        attr = attrs.get(SYNTAX_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeWOID(attr));
+        bttr = bttrs.get(SYNTAX_ID);
+        if (bttr != null) {
+            mbtchRuleDesc.bppend(writeWOID(bttr));
             count++;
         } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a syntax OID");
+            throw new ConfigurbtionException("Attribute type doesn't" +
+                                             "hbve b syntbx OID");
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // process bny rembining bttributes
+        if (count < bttrs.size()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // use enumerbtion becbuse bttribute ID is not known
+            for (NbmingEnumerbtion<? extends Attribute> be = bttrs.getAll();
+                be.hbsMoreElements(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = be.next();
+                bttrId = bttr.getID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SYNTAX_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
+                // skip those blrebdy processed
+                if (bttrId.equbls(NUMERICOID_ID) ||
+                    bttrId.equbls(NAME_ID) ||
+                    bttrId.equbls(SYNTAX_ID) ||
+                    bttrId.equbls(DESC_ID) ||
+                    bttrId.equbls(OBSOLETE_ID)) {
                     continue;
 
                 } else {
-                    matchRuleDesc.append(writeQDStrings(attr));
+                    mbtchRuleDesc.bppend(writeQDStrings(bttr));
                 }
             }
         }
 
-        matchRuleDesc.append(")");
+        mbtchRuleDesc.bppend(")");
 
-        return matchRuleDesc.toString();
+        return mbtchRuleDesc.toString();
     }
 
-    final private String writeNumericOID(Attribute nOIDAttr)
-        throws NamingException {
+    finbl privbte String writeNumericOID(Attribute nOIDAttr)
+        throws NbmingException {
         if(nOIDAttr.size() != 1) {
-            throw new InvalidAttributeValueException(
-                "A class definition must have exactly one numeric OID");
+            throw new InvblidAttributeVblueException(
+                "A clbss definition must hbve exbctly one numeric OID");
         }
         return (String)(nOIDAttr.get()) + WHSP;
     }
 
-    final private String writeWOID(Attribute attr) throws NamingException {
-        if (netscapeBug)
-            return writeQDString(attr);
+    finbl privbte String writeWOID(Attribute bttr) throws NbmingException {
+        if (netscbpeBug)
+            return writeQDString(bttr);
         else
-            return attr.getID() + WHSP + attr.get() + WHSP;
+            return bttr.getID() + WHSP + bttr.get() + WHSP;
     }
 
     /*  qdescr          = whsp "'" descr "'" whsp */
-    final private String writeQDString(Attribute qdStringAttr)
-        throws NamingException {
+    finbl privbte String writeQDString(Attribute qdStringAttr)
+        throws NbmingException {
         if(qdStringAttr.size() != 1) {
-            throw new InvalidAttributeValueException(
-                qdStringAttr.getID() + " must have exactly one value");
+            throw new InvblidAttributeVblueException(
+                qdStringAttr.getID() + " must hbve exbctly one vblue");
         }
 
         return qdStringAttr.getID() + WHSP +
@@ -1175,8 +1175,8 @@ final class LdapSchemaParser {
     * qdstringlist    = [ qdstring *( qdstring ) ]
     * qdstrings       = qdstring / ( whsp "(" qdstringlist ")" whsp )
     */
-    private final String writeQDStrings(Attribute attr) throws NamingException {
-        return writeQDescrs(attr);
+    privbte finbl String writeQDStrings(Attribute bttr) throws NbmingException {
+        return writeQDescrs(bttr);
     }
 
     /**
@@ -1185,48 +1185,48 @@ final class LdapSchemaParser {
      * qdescr          = whsp "'" descr "'" whsp
      * descr           = keystring
      */
-    private final String writeQDescrs(Attribute attr) throws NamingException {
-        switch(attr.size()) {
-        case 0:
-            throw new InvalidAttributeValueException(
-                attr.getID() + "has no values");
-        case 1:
-            return writeQDString(attr);
+    privbte finbl String writeQDescrs(Attribute bttr) throws NbmingException {
+        switch(bttr.size()) {
+        cbse 0:
+            throw new InvblidAttributeVblueException(
+                bttr.getID() + "hbs no vblues");
+        cbse 1:
+            return writeQDString(bttr);
         }
 
         // write QDList
 
-        StringBuilder qdList = new StringBuilder(attr.getID());
-        qdList.append(WHSP);
-        qdList.append(OID_LIST_BEGIN);
+        StringBuilder qdList = new StringBuilder(bttr.getID());
+        qdList.bppend(WHSP);
+        qdList.bppend(OID_LIST_BEGIN);
 
-        NamingEnumeration<?> values = attr.getAll();
+        NbmingEnumerbtion<?> vblues = bttr.getAll();
 
-        while(values.hasMore()) {
-            qdList.append(WHSP);
-            qdList.append(SINGLE_QUOTE);
-            qdList.append((String)values.next());
-            qdList.append(SINGLE_QUOTE);
-            qdList.append(WHSP);
+        while(vblues.hbsMore()) {
+            qdList.bppend(WHSP);
+            qdList.bppend(SINGLE_QUOTE);
+            qdList.bppend((String)vblues.next());
+            qdList.bppend(SINGLE_QUOTE);
+            qdList.bppend(WHSP);
         }
 
-        qdList.append(OID_LIST_END);
-        qdList.append(WHSP);
+        qdList.bppend(OID_LIST_END);
+        qdList.bppend(WHSP);
 
         return qdList.toString();
     }
 
-    final private String writeOIDs(Attribute oidsAttr)
-        throws NamingException {
+    finbl privbte String writeOIDs(Attribute oidsAttr)
+        throws NbmingException {
 
         switch(oidsAttr.size()) {
-        case 0:
-            throw new InvalidAttributeValueException(
-                oidsAttr.getID() + "has no values");
+        cbse 0:
+            throw new InvblidAttributeVblueException(
+                oidsAttr.getID() + "hbs no vblues");
 
-        case 1:
-            if (netscapeBug) {
-                break; // %%% write out as list to avoid crashing server
+        cbse 1:
+            if (netscbpeBug) {
+                brebk; // %%% write out bs list to bvoid crbshing server
             }
             return writeWOID(oidsAttr);
         }
@@ -1234,70 +1234,70 @@ final class LdapSchemaParser {
         // write OID List
 
         StringBuilder oidList = new StringBuilder(oidsAttr.getID());
-        oidList.append(WHSP);
-        oidList.append(OID_LIST_BEGIN);
+        oidList.bppend(WHSP);
+        oidList.bppend(OID_LIST_BEGIN);
 
-        NamingEnumeration<?> values = oidsAttr.getAll();
-        oidList.append(WHSP);
-        oidList.append(values.next());
+        NbmingEnumerbtion<?> vblues = oidsAttr.getAll();
+        oidList.bppend(WHSP);
+        oidList.bppend(vblues.next());
 
-        while(values.hasMore()) {
-            oidList.append(WHSP);
-            oidList.append(OID_SEPARATOR);
-            oidList.append(WHSP);
-            oidList.append((String)values.next());
+        while(vblues.hbsMore()) {
+            oidList.bppend(WHSP);
+            oidList.bppend(OID_SEPARATOR);
+            oidList.bppend(WHSP);
+            oidList.bppend((String)vblues.next());
         }
 
-        oidList.append(WHSP);
-        oidList.append(OID_LIST_END);
-        oidList.append(WHSP);
+        oidList.bppend(WHSP);
+        oidList.bppend(OID_LIST_END);
+        oidList.bppend(WHSP);
 
         return oidList.toString();
     }
 
-    private final String writeBoolean(Attribute booleanAttr)
-        throws NamingException {
-            return booleanAttr.getID() + WHSP;
+    privbte finbl String writeBoolebn(Attribute boolebnAttr)
+        throws NbmingException {
+            return boolebnAttr.getID() + WHSP;
     }
 
     /**
-     * Returns an attribute for updating the Object Class Definition schema
-     * attribute
+     * Returns bn bttribute for updbting the Object Clbss Definition schemb
+     * bttribute
      */
-    final Attribute stringifyObjDesc(Attributes classDefAttrs)
-        throws NamingException {
-        Attribute objDescAttr = new BasicAttribute(OBJECTCLASSDESC_ATTR_ID);
-        objDescAttr.add(classDef2ObjectDesc(classDefAttrs));
+    finbl Attribute stringifyObjDesc(Attributes clbssDefAttrs)
+        throws NbmingException {
+        Attribute objDescAttr = new BbsicAttribute(OBJECTCLASSDESC_ATTR_ID);
+        objDescAttr.bdd(clbssDef2ObjectDesc(clbssDefAttrs));
         return objDescAttr;
     }
 
     /**
-     * Returns an attribute for updating the Attribute Definition schema attribute
+     * Returns bn bttribute for updbting the Attribute Definition schemb bttribute
      */
-    final Attribute stringifyAttrDesc(Attributes attrDefAttrs)
-        throws NamingException {
-        Attribute attrDescAttr = new BasicAttribute(ATTRIBUTEDESC_ATTR_ID);
-        attrDescAttr.add(attrDef2AttrDesc(attrDefAttrs));
-        return attrDescAttr;
+    finbl Attribute stringifyAttrDesc(Attributes bttrDefAttrs)
+        throws NbmingException {
+        Attribute bttrDescAttr = new BbsicAttribute(ATTRIBUTEDESC_ATTR_ID);
+        bttrDescAttr.bdd(bttrDef2AttrDesc(bttrDefAttrs));
+        return bttrDescAttr;
     }
 
     /**
-     * Returns an attribute for updating the Syntax schema attribute
+     * Returns bn bttribute for updbting the Syntbx schemb bttribute
      */
-    final Attribute stringifySyntaxDesc(Attributes syntaxDefAttrs)
-    throws NamingException {
-        Attribute syntaxDescAttr = new BasicAttribute(SYNTAXDESC_ATTR_ID);
-        syntaxDescAttr.add(syntaxDef2SyntaxDesc(syntaxDefAttrs));
-        return syntaxDescAttr;
+    finbl Attribute stringifySyntbxDesc(Attributes syntbxDefAttrs)
+    throws NbmingException {
+        Attribute syntbxDescAttr = new BbsicAttribute(SYNTAXDESC_ATTR_ID);
+        syntbxDescAttr.bdd(syntbxDef2SyntbxDesc(syntbxDefAttrs));
+        return syntbxDescAttr;
     }
 
     /**
-     * Returns an attribute for updating the Matching Rule schema attribute
+     * Returns bn bttribute for updbting the Mbtching Rule schemb bttribute
      */
-    final Attribute stringifyMatchRuleDesc(Attributes matchRuleDefAttrs)
-    throws NamingException {
-        Attribute matchRuleDescAttr = new BasicAttribute(MATCHRULEDESC_ATTR_ID);
-        matchRuleDescAttr.add(matchRuleDef2MatchRuleDesc(matchRuleDefAttrs));
-        return matchRuleDescAttr;
+    finbl Attribute stringifyMbtchRuleDesc(Attributes mbtchRuleDefAttrs)
+    throws NbmingException {
+        Attribute mbtchRuleDescAttr = new BbsicAttribute(MATCHRULEDESC_ATTR_ID);
+        mbtchRuleDescAttr.bdd(mbtchRuleDef2MbtchRuleDesc(mbtchRuleDefAttrs));
+        return mbtchRuleDescAttr;
     }
 }

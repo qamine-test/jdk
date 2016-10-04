@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbckbge com.sun.imbgeio.plugins.gif;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import javax.imageio.IIOException;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentSbmpleModel;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.io.IOException;
+import jbvb.nio.ByteOrder;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.IIOImbge;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import com.sun.imageio.plugins.common.LZWCompressor;
-import com.sun.imageio.plugins.common.PaletteBuilder;
-import sun.awt.image.ByteComponentRaster;
+import com.sun.imbgeio.plugins.common.LZWCompressor;
+import com.sun.imbgeio.plugins.common.PbletteBuilder;
+import sun.bwt.imbge.ByteComponentRbster;
 
-public class GIFImageWriter extends ImageWriter {
-    private static final boolean DEBUG = false; // XXX false for release!
+public clbss GIFImbgeWriter extends ImbgeWriter {
+    privbte stbtic finbl boolebn DEBUG = fblse; // XXX fblse for relebse!
 
-    static final String STANDARD_METADATA_NAME =
-    IIOMetadataFormatImpl.standardMetadataFormatName;
+    stbtic finbl String STANDARD_METADATA_NAME =
+    IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme;
 
-    static final String STREAM_METADATA_NAME =
-    GIFWritableStreamMetadata.NATIVE_FORMAT_NAME;
+    stbtic finbl String STREAM_METADATA_NAME =
+    GIFWritbbleStrebmMetbdbtb.NATIVE_FORMAT_NAME;
 
-    static final String IMAGE_METADATA_NAME =
-    GIFWritableImageMetadata.NATIVE_FORMAT_NAME;
-
-    /**
-     * The <code>output</code> case to an <code>ImageOutputStream</code>.
-     */
-    private ImageOutputStream stream = null;
+    stbtic finbl String IMAGE_METADATA_NAME =
+    GIFWritbbleImbgeMetbdbtb.NATIVE_FORMAT_NAME;
 
     /**
-     * Whether a sequence is being written.
+     * The <code>output</code> cbse to bn <code>ImbgeOutputStrebm</code>.
      */
-    private boolean isWritingSequence = false;
+    privbte ImbgeOutputStrebm strebm = null;
 
     /**
-     * Whether the header has been written.
+     * Whether b sequence is being written.
      */
-    private boolean wroteSequenceHeader = false;
+    privbte boolebn isWritingSequence = fblse;
 
     /**
-     * The stream metadata of a sequence.
+     * Whether the hebder hbs been written.
      */
-    private GIFWritableStreamMetadata theStreamMetadata = null;
+    privbte boolebn wroteSequenceHebder = fblse;
 
     /**
-     * The index of the image being written.
+     * The strebm metbdbtb of b sequence.
      */
-    private int imageIndex = 0;
+    privbte GIFWritbbleStrebmMetbdbtb theStrebmMetbdbtb = null;
 
     /**
-     * The number of bits represented by the value which should be a
-     * legal length for a color table.
+     * The index of the imbge being written.
      */
-    private static int getNumBits(int value) throws IOException {
+    privbte int imbgeIndex = 0;
+
+    /**
+     * The number of bits represented by the vblue which should be b
+     * legbl length for b color tbble.
+     */
+    privbte stbtic int getNumBits(int vblue) throws IOException {
         int numBits;
-        switch(value) {
-        case 2:
+        switch(vblue) {
+        cbse 2:
             numBits = 1;
-            break;
-        case 4:
+            brebk;
+        cbse 4:
             numBits = 2;
-            break;
-        case 8:
+            brebk;
+        cbse 8:
             numBits = 3;
-            break;
-        case 16:
+            brebk;
+        cbse 16:
             numBits = 4;
-            break;
-        case 32:
+            brebk;
+        cbse 32:
             numBits = 5;
-            break;
-        case 64:
+            brebk;
+        cbse 64:
             numBits = 6;
-            break;
-        case 128:
+            brebk;
+        cbse 128:
             numBits = 7;
-            break;
-        case 256:
+            brebk;
+        cbse 256:
             numBits = 8;
-            break;
-        default:
-            throw new IOException("Bad palette length: "+value+"!");
+            brebk;
+        defbult:
+            throw new IOException("Bbd pblette length: "+vblue+"!");
         }
 
         return numBits;
     }
 
     /**
-     * Compute the source region and destination dimensions taking any
-     * parameter settings into account.
+     * Compute the source region bnd destinbtion dimensions tbking bny
+     * pbrbmeter settings into bccount.
      */
-    private static void computeRegions(Rectangle sourceBounds,
+    privbte stbtic void computeRegions(Rectbngle sourceBounds,
                                        Dimension destSize,
-                                       ImageWriteParam p) {
-        ImageWriteParam param;
+                                       ImbgeWritePbrbm p) {
+        ImbgeWritePbrbm pbrbm;
         int periodX = 1;
         int periodY = 1;
         if (p != null) {
-            int[] sourceBands = p.getSourceBands();
-            if (sourceBands != null &&
-                (sourceBands.length != 1 ||
-                 sourceBands[0] != 0)) {
-                throw new IllegalArgumentException("Cannot sub-band image!");
+            int[] sourceBbnds = p.getSourceBbnds();
+            if (sourceBbnds != null &&
+                (sourceBbnds.length != 1 ||
+                 sourceBbnds[0] != 0)) {
+                throw new IllegblArgumentException("Cbnnot sub-bbnd imbge!");
             }
 
-            // Get source region and subsampling factors
-            Rectangle sourceRegion = p.getSourceRegion();
+            // Get source region bnd subsbmpling fbctors
+            Rectbngle sourceRegion = p.getSourceRegion();
             if (sourceRegion != null) {
-                // Clip to actual image bounds
+                // Clip to bctubl imbge bounds
                 sourceRegion = sourceRegion.intersection(sourceBounds);
                 sourceBounds.setBounds(sourceRegion);
             }
 
-            // Adjust for subsampling offsets
-            int gridX = p.getSubsamplingXOffset();
-            int gridY = p.getSubsamplingYOffset();
+            // Adjust for subsbmpling offsets
+            int gridX = p.getSubsbmplingXOffset();
+            int gridY = p.getSubsbmplingYOffset();
             sourceBounds.x += gridX;
             sourceBounds.y += gridY;
             sourceBounds.width -= gridX;
             sourceBounds.height -= gridY;
 
-            // Get subsampling factors
-            periodX = p.getSourceXSubsampling();
-            periodY = p.getSourceYSubsampling();
+            // Get subsbmpling fbctors
+            periodX = p.getSourceXSubsbmpling();
+            periodY = p.getSourceYSubsbmpling();
         }
 
         // Compute output dimensions
         destSize.setSize((sourceBounds.width + periodX - 1)/periodX,
                          (sourceBounds.height + periodY - 1)/periodY);
         if (destSize.width <= 0 || destSize.height <= 0) {
-            throw new IllegalArgumentException("Empty source region!");
+            throw new IllegblArgumentException("Empty source region!");
         }
     }
 
     /**
-     * Create a color table from the image ColorModel and SampleModel.
+     * Crebte b color tbble from the imbge ColorModel bnd SbmpleModel.
      */
-    private static byte[] createColorTable(ColorModel colorModel,
-                                           SampleModel sampleModel)
+    privbte stbtic byte[] crebteColorTbble(ColorModel colorModel,
+                                           SbmpleModel sbmpleModel)
     {
-        byte[] colorTable;
-        if (colorModel instanceof IndexColorModel) {
+        byte[] colorTbble;
+        if (colorModel instbnceof IndexColorModel) {
             IndexColorModel icm = (IndexColorModel)colorModel;
-            int mapSize = icm.getMapSize();
+            int mbpSize = icm.getMbpSize();
 
             /**
-             * The GIF image format assumes that size of image palette
-             * is power of two. We will use closest larger power of two
-             * as size of color table.
+             * The GIF imbge formbt bssumes thbt size of imbge pblette
+             * is power of two. We will use closest lbrger power of two
+             * bs size of color tbble.
              */
-            int ctSize = getGifPaletteSize(mapSize);
+            int ctSize = getGifPbletteSize(mbpSize);
 
             byte[] reds = new byte[ctSize];
             byte[] greens = new byte[ctSize];
@@ -205,47 +205,47 @@ public class GIFImageWriter extends ImageWriter {
             icm.getBlues(blues);
 
             /**
-             * fill tail of color component arrays by replica of first color
-             * in order to avoid appearance of extra colors in the color table
+             * fill tbil of color component brrbys by replicb of first color
+             * in order to bvoid bppebrbnce of extrb colors in the color tbble
              */
-            for (int i = mapSize; i < ctSize; i++) {
+            for (int i = mbpSize; i < ctSize; i++) {
                 reds[i] = reds[0];
                 greens[i] = greens[0];
                 blues[i] = blues[0];
             }
 
-            colorTable = new byte[3*ctSize];
+            colorTbble = new byte[3*ctSize];
             int idx = 0;
             for (int i = 0; i < ctSize; i++) {
-                colorTable[idx++] = reds[i];
-                colorTable[idx++] = greens[i];
-                colorTable[idx++] = blues[i];
+                colorTbble[idx++] = reds[i];
+                colorTbble[idx++] = greens[i];
+                colorTbble[idx++] = blues[i];
             }
-        } else if (sampleModel.getNumBands() == 1) {
-            // create gray-scaled color table for single-banded images
-            int numBits = sampleModel.getSampleSize()[0];
+        } else if (sbmpleModel.getNumBbnds() == 1) {
+            // crebte grby-scbled color tbble for single-bbnded imbges
+            int numBits = sbmpleModel.getSbmpleSize()[0];
             if (numBits > 8) {
                 numBits = 8;
             }
-            int colorTableLength = 3*(1 << numBits);
-            colorTable = new byte[colorTableLength];
-            for (int i = 0; i < colorTableLength; i++) {
-                colorTable[i] = (byte)(i/3);
+            int colorTbbleLength = 3*(1 << numBits);
+            colorTbble = new byte[colorTbbleLength];
+            for (int i = 0; i < colorTbbleLength; i++) {
+                colorTbble[i] = (byte)(i/3);
             }
         } else {
-            // We do not have enough information here
-            // to create well-fit color table for RGB image.
-            colorTable = null;
+            // We do not hbve enough informbtion here
+            // to crebte well-fit color tbble for RGB imbge.
+            colorTbble = null;
         }
 
-        return colorTable;
+        return colorTbble;
     }
 
     /**
-     * According do GIF specification size of clor table (palette here)
-     * must be in range from 2 to 256 and must be power of 2.
+     * According do GIF specificbtion size of clor tbble (pblette here)
+     * must be in rbnge from 2 to 256 bnd must be power of 2.
      */
-    private static int getGifPaletteSize(int x) {
+    privbte stbtic int getGifPbletteSize(int x) {
         if (x <= 2) {
             return 2;
         }
@@ -260,196 +260,196 @@ public class GIFImageWriter extends ImageWriter {
 
 
 
-    public GIFImageWriter(GIFImageWriterSpi originatingProvider) {
-        super(originatingProvider);
+    public GIFImbgeWriter(GIFImbgeWriterSpi originbtingProvider) {
+        super(originbtingProvider);
         if (DEBUG) {
-            System.err.println("GIF Writer is created");
+            System.err.println("GIF Writer is crebted");
         }
     }
 
-    public boolean canWriteSequence() {
+    public boolebn cbnWriteSequence() {
         return true;
     }
 
     /**
-     * Merges <code>inData</code> into <code>outData</code>. The supplied
-     * metadata format name is attempted first and failing that the standard
-     * metadata format name is attempted.
+     * Merges <code>inDbtb</code> into <code>outDbtb</code>. The supplied
+     * metbdbtb formbt nbme is bttempted first bnd fbiling thbt the stbndbrd
+     * metbdbtb formbt nbme is bttempted.
      */
-    private void convertMetadata(String metadataFormatName,
-                                 IIOMetadata inData,
-                                 IIOMetadata outData) {
-        String formatName = null;
+    privbte void convertMetbdbtb(String metbdbtbFormbtNbme,
+                                 IIOMetbdbtb inDbtb,
+                                 IIOMetbdbtb outDbtb) {
+        String formbtNbme = null;
 
-        String nativeFormatName = inData.getNativeMetadataFormatName();
-        if (nativeFormatName != null &&
-            nativeFormatName.equals(metadataFormatName)) {
-            formatName = metadataFormatName;
+        String nbtiveFormbtNbme = inDbtb.getNbtiveMetbdbtbFormbtNbme();
+        if (nbtiveFormbtNbme != null &&
+            nbtiveFormbtNbme.equbls(metbdbtbFormbtNbme)) {
+            formbtNbme = metbdbtbFormbtNbme;
         } else {
-            String[] extraFormatNames = inData.getExtraMetadataFormatNames();
+            String[] extrbFormbtNbmes = inDbtb.getExtrbMetbdbtbFormbtNbmes();
 
-            if (extraFormatNames != null) {
-                for (int i = 0; i < extraFormatNames.length; i++) {
-                    if (extraFormatNames[i].equals(metadataFormatName)) {
-                        formatName = metadataFormatName;
-                        break;
+            if (extrbFormbtNbmes != null) {
+                for (int i = 0; i < extrbFormbtNbmes.length; i++) {
+                    if (extrbFormbtNbmes[i].equbls(metbdbtbFormbtNbme)) {
+                        formbtNbme = metbdbtbFormbtNbme;
+                        brebk;
                     }
                 }
             }
         }
 
-        if (formatName == null &&
-            inData.isStandardMetadataFormatSupported()) {
-            formatName = STANDARD_METADATA_NAME;
+        if (formbtNbme == null &&
+            inDbtb.isStbndbrdMetbdbtbFormbtSupported()) {
+            formbtNbme = STANDARD_METADATA_NAME;
         }
 
-        if (formatName != null) {
+        if (formbtNbme != null) {
             try {
-                Node root = inData.getAsTree(formatName);
-                outData.mergeTree(formatName, root);
-            } catch(IIOInvalidTreeException e) {
+                Node root = inDbtb.getAsTree(formbtNbme);
+                outDbtb.mergeTree(formbtNbme, root);
+            } cbtch(IIOInvblidTreeException e) {
                 // ignore
             }
         }
     }
 
     /**
-     * Creates a default stream metadata object and merges in the
-     * supplied metadata.
+     * Crebtes b defbult strebm metbdbtb object bnd merges in the
+     * supplied metbdbtb.
      */
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        if (inData == null) {
-            throw new IllegalArgumentException("inData == null!");
+    public IIOMetbdbtb convertStrebmMetbdbtb(IIOMetbdbtb inDbtb,
+                                             ImbgeWritePbrbm pbrbm) {
+        if (inDbtb == null) {
+            throw new IllegblArgumentException("inDbtb == null!");
         }
 
-        IIOMetadata sm = getDefaultStreamMetadata(param);
+        IIOMetbdbtb sm = getDefbultStrebmMetbdbtb(pbrbm);
 
-        convertMetadata(STREAM_METADATA_NAME, inData, sm);
+        convertMetbdbtb(STREAM_METADATA_NAME, inDbtb, sm);
 
         return sm;
     }
 
     /**
-     * Creates a default image metadata object and merges in the
-     * supplied metadata.
+     * Crebtes b defbult imbge metbdbtb object bnd merges in the
+     * supplied metbdbtb.
      */
-    public IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                            ImageTypeSpecifier imageType,
-                                            ImageWriteParam param) {
-        if (inData == null) {
-            throw new IllegalArgumentException("inData == null!");
+    public IIOMetbdbtb convertImbgeMetbdbtb(IIOMetbdbtb inDbtb,
+                                            ImbgeTypeSpecifier imbgeType,
+                                            ImbgeWritePbrbm pbrbm) {
+        if (inDbtb == null) {
+            throw new IllegblArgumentException("inDbtb == null!");
         }
-        if (imageType == null) {
-            throw new IllegalArgumentException("imageType == null!");
+        if (imbgeType == null) {
+            throw new IllegblArgumentException("imbgeType == null!");
         }
 
-        GIFWritableImageMetadata im =
-            (GIFWritableImageMetadata)getDefaultImageMetadata(imageType,
-                                                              param);
+        GIFWritbbleImbgeMetbdbtb im =
+            (GIFWritbbleImbgeMetbdbtb)getDefbultImbgeMetbdbtb(imbgeType,
+                                                              pbrbm);
 
-        // Save interlace flag state.
+        // Sbve interlbce flbg stbte.
 
-        boolean isProgressive = im.interlaceFlag;
+        boolebn isProgressive = im.interlbceFlbg;
 
-        convertMetadata(IMAGE_METADATA_NAME, inData, im);
+        convertMetbdbtb(IMAGE_METADATA_NAME, inDbtb, im);
 
-        // Undo change to interlace flag if not MODE_COPY_FROM_METADATA.
+        // Undo chbnge to interlbce flbg if not MODE_COPY_FROM_METADATA.
 
-        if (param != null && param.canWriteProgressive() &&
-            param.getProgressiveMode() != ImageWriteParam.MODE_COPY_FROM_METADATA) {
-            im.interlaceFlag = isProgressive;
+        if (pbrbm != null && pbrbm.cbnWriteProgressive() &&
+            pbrbm.getProgressiveMode() != ImbgeWritePbrbm.MODE_COPY_FROM_METADATA) {
+            im.interlbceFlbg = isProgressive;
         }
 
         return im;
     }
 
     public void endWriteSequence() throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+        if (strebm == null) {
+            throw new IllegblStbteException("output == null!");
         }
         if (!isWritingSequence) {
-            throw new IllegalStateException("prepareWriteSequence() was not invoked!");
+            throw new IllegblStbteException("prepbreWriteSequence() wbs not invoked!");
         }
-        writeTrailer();
-        resetLocal();
+        writeTrbiler();
+        resetLocbl();
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        GIFWritableImageMetadata imageMetadata =
-            new GIFWritableImageMetadata();
+    public IIOMetbdbtb getDefbultImbgeMetbdbtb(ImbgeTypeSpecifier imbgeType,
+                                               ImbgeWritePbrbm pbrbm) {
+        GIFWritbbleImbgeMetbdbtb imbgeMetbdbtb =
+            new GIFWritbbleImbgeMetbdbtb();
 
-        // Image dimensions
+        // Imbge dimensions
 
-        SampleModel sampleModel = imageType.getSampleModel();
+        SbmpleModel sbmpleModel = imbgeType.getSbmpleModel();
 
-        Rectangle sourceBounds = new Rectangle(sampleModel.getWidth(),
-                                               sampleModel.getHeight());
+        Rectbngle sourceBounds = new Rectbngle(sbmpleModel.getWidth(),
+                                               sbmpleModel.getHeight());
         Dimension destSize = new Dimension();
-        computeRegions(sourceBounds, destSize, param);
+        computeRegions(sourceBounds, destSize, pbrbm);
 
-        imageMetadata.imageWidth = destSize.width;
-        imageMetadata.imageHeight = destSize.height;
+        imbgeMetbdbtb.imbgeWidth = destSize.width;
+        imbgeMetbdbtb.imbgeHeight = destSize.height;
 
-        // Interlacing
+        // Interlbcing
 
-        if (param != null && param.canWriteProgressive() &&
-            param.getProgressiveMode() == ImageWriteParam.MODE_DISABLED) {
-            imageMetadata.interlaceFlag = false;
+        if (pbrbm != null && pbrbm.cbnWriteProgressive() &&
+            pbrbm.getProgressiveMode() == ImbgeWritePbrbm.MODE_DISABLED) {
+            imbgeMetbdbtb.interlbceFlbg = fblse;
         } else {
-            imageMetadata.interlaceFlag = true;
+            imbgeMetbdbtb.interlbceFlbg = true;
         }
 
-        // Local color table
+        // Locbl color tbble
 
-        ColorModel colorModel = imageType.getColorModel();
+        ColorModel colorModel = imbgeType.getColorModel();
 
-        imageMetadata.localColorTable =
-            createColorTable(colorModel, sampleModel);
+        imbgeMetbdbtb.locblColorTbble =
+            crebteColorTbble(colorModel, sbmpleModel);
 
-        // Transparency
+        // Trbnspbrency
 
-        if (colorModel instanceof IndexColorModel) {
-            int transparentIndex =
-                ((IndexColorModel)colorModel).getTransparentPixel();
-            if (transparentIndex != -1) {
-                imageMetadata.transparentColorFlag = true;
-                imageMetadata.transparentColorIndex = transparentIndex;
+        if (colorModel instbnceof IndexColorModel) {
+            int trbnspbrentIndex =
+                ((IndexColorModel)colorModel).getTrbnspbrentPixel();
+            if (trbnspbrentIndex != -1) {
+                imbgeMetbdbtb.trbnspbrentColorFlbg = true;
+                imbgeMetbdbtb.trbnspbrentColorIndex = trbnspbrentIndex;
             }
         }
 
-        return imageMetadata;
+        return imbgeMetbdbtb;
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        GIFWritableStreamMetadata streamMetadata =
-            new GIFWritableStreamMetadata();
-        streamMetadata.version = "89a";
-        return streamMetadata;
+    public IIOMetbdbtb getDefbultStrebmMetbdbtb(ImbgeWritePbrbm pbrbm) {
+        GIFWritbbleStrebmMetbdbtb strebmMetbdbtb =
+            new GIFWritbbleStrebmMetbdbtb();
+        strebmMetbdbtb.version = "89b";
+        return strebmMetbdbtb;
     }
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new GIFImageWriteParam(getLocale());
+    public ImbgeWritePbrbm getDefbultWritePbrbm() {
+        return new GIFImbgeWritePbrbm(getLocble());
     }
 
-    public void prepareWriteSequence(IIOMetadata streamMetadata)
+    public void prepbreWriteSequence(IIOMetbdbtb strebmMetbdbtb)
       throws IOException {
 
-        if (stream == null) {
-            throw new IllegalStateException("Output is not set.");
+        if (strebm == null) {
+            throw new IllegblStbteException("Output is not set.");
         }
 
-        resetLocal();
+        resetLocbl();
 
-        // Save the possibly converted stream metadata as an instance variable.
-        if (streamMetadata == null) {
-            this.theStreamMetadata =
-                (GIFWritableStreamMetadata)getDefaultStreamMetadata(null);
+        // Sbve the possibly converted strebm metbdbtb bs bn instbnce vbribble.
+        if (strebmMetbdbtb == null) {
+            this.theStrebmMetbdbtb =
+                (GIFWritbbleStrebmMetbdbtb)getDefbultStrebmMetbdbtb(null);
         } else {
-            this.theStreamMetadata = new GIFWritableStreamMetadata();
-            convertMetadata(STREAM_METADATA_NAME, streamMetadata,
-                            theStreamMetadata);
+            this.theStrebmMetbdbtb = new GIFWritbbleStrebmMetbdbtb();
+            convertMetbdbtb(STREAM_METADATA_NAME, strebmMetbdbtb,
+                            theStrebmMetbdbtb);
         }
 
         this.isWritingSequence = true;
@@ -457,364 +457,364 @@ public class GIFImageWriter extends ImageWriter {
 
     public void reset() {
         super.reset();
-        resetLocal();
+        resetLocbl();
     }
 
     /**
-     * Resets locally defined instance variables.
+     * Resets locblly defined instbnce vbribbles.
      */
-    private void resetLocal() {
-        this.isWritingSequence = false;
-        this.wroteSequenceHeader = false;
-        this.theStreamMetadata = null;
-        this.imageIndex = 0;
+    privbte void resetLocbl() {
+        this.isWritingSequence = fblse;
+        this.wroteSequenceHebder = fblse;
+        this.theStrebmMetbdbtb = null;
+        this.imbgeIndex = 0;
     }
 
     public void setOutput(Object output) {
         super.setOutput(output);
         if (output != null) {
-            if (!(output instanceof ImageOutputStream)) {
+            if (!(output instbnceof ImbgeOutputStrebm)) {
                 throw new
-                    IllegalArgumentException("output is not an ImageOutputStream");
+                    IllegblArgumentException("output is not bn ImbgeOutputStrebm");
             }
-            this.stream = (ImageOutputStream)output;
-            this.stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+            this.strebm = (ImbgeOutputStrebm)output;
+            this.strebm.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         } else {
-            this.stream = null;
+            this.strebm = null;
         }
     }
 
-    public void write(IIOMetadata sm,
-                      IIOImage iioimage,
-                      ImageWriteParam p) throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    public void write(IIOMetbdbtb sm,
+                      IIOImbge iioimbge,
+                      ImbgeWritePbrbm p) throws IOException {
+        if (strebm == null) {
+            throw new IllegblStbteException("output == null!");
         }
-        if (iioimage == null) {
-            throw new IllegalArgumentException("iioimage == null!");
+        if (iioimbge == null) {
+            throw new IllegblArgumentException("iioimbge == null!");
         }
-        if (iioimage.hasRaster()) {
-            throw new UnsupportedOperationException("canWriteRasters() == false!");
+        if (iioimbge.hbsRbster()) {
+            throw new UnsupportedOperbtionException("cbnWriteRbsters() == fblse!");
         }
 
-        resetLocal();
+        resetLocbl();
 
-        GIFWritableStreamMetadata streamMetadata;
+        GIFWritbbleStrebmMetbdbtb strebmMetbdbtb;
         if (sm == null) {
-            streamMetadata =
-                (GIFWritableStreamMetadata)getDefaultStreamMetadata(p);
+            strebmMetbdbtb =
+                (GIFWritbbleStrebmMetbdbtb)getDefbultStrebmMetbdbtb(p);
         } else {
-            streamMetadata =
-                (GIFWritableStreamMetadata)convertStreamMetadata(sm, p);
+            strebmMetbdbtb =
+                (GIFWritbbleStrebmMetbdbtb)convertStrebmMetbdbtb(sm, p);
         }
 
-        write(true, true, streamMetadata, iioimage, p);
+        write(true, true, strebmMetbdbtb, iioimbge, p);
     }
 
-    public void writeToSequence(IIOImage image, ImageWriteParam param)
+    public void writeToSequence(IIOImbge imbge, ImbgeWritePbrbm pbrbm)
       throws IOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+        if (strebm == null) {
+            throw new IllegblStbteException("output == null!");
         }
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+        if (imbge == null) {
+            throw new IllegblArgumentException("imbge == null!");
         }
-        if (image.hasRaster()) {
-            throw new UnsupportedOperationException("canWriteRasters() == false!");
+        if (imbge.hbsRbster()) {
+            throw new UnsupportedOperbtionException("cbnWriteRbsters() == fblse!");
         }
         if (!isWritingSequence) {
-            throw new IllegalStateException("prepareWriteSequence() was not invoked!");
+            throw new IllegblStbteException("prepbreWriteSequence() wbs not invoked!");
         }
 
-        write(!wroteSequenceHeader, false, theStreamMetadata,
-              image, param);
+        write(!wroteSequenceHebder, fblse, theStrebmMetbdbtb,
+              imbge, pbrbm);
 
-        if (!wroteSequenceHeader) {
-            wroteSequenceHeader = true;
+        if (!wroteSequenceHebder) {
+            wroteSequenceHebder = true;
         }
 
-        this.imageIndex++;
+        this.imbgeIndex++;
     }
 
 
-    private boolean needToCreateIndex(RenderedImage image) {
+    privbte boolebn needToCrebteIndex(RenderedImbge imbge) {
 
-        SampleModel sampleModel = image.getSampleModel();
-        ColorModel colorModel = image.getColorModel();
+        SbmpleModel sbmpleModel = imbge.getSbmpleModel();
+        ColorModel colorModel = imbge.getColorModel();
 
-        return sampleModel.getNumBands() != 1 ||
-            sampleModel.getSampleSize()[0] > 8 ||
+        return sbmpleModel.getNumBbnds() != 1 ||
+            sbmpleModel.getSbmpleSize()[0] > 8 ||
             colorModel.getComponentSize()[0] > 8;
     }
 
     /**
-     * Writes any extension blocks, the Image Descriptor, the image data,
-     * and optionally the header (Signature and Logical Screen Descriptor)
-     * and trailer (Block Terminator).
+     * Writes bny extension blocks, the Imbge Descriptor, the imbge dbtb,
+     * bnd optionblly the hebder (Signbture bnd Logicbl Screen Descriptor)
+     * bnd trbiler (Block Terminbtor).
      *
-     * @param writeHeader Whether to write the header.
-     * @param writeTrailer Whether to write the trailer.
-     * @param sm The stream metadata or <code>null</code> if
-     * <code>writeHeader</code> is <code>false</code>.
-     * @param iioimage The image and image metadata.
-     * @param p The write parameters.
+     * @pbrbm writeHebder Whether to write the hebder.
+     * @pbrbm writeTrbiler Whether to write the trbiler.
+     * @pbrbm sm The strebm metbdbtb or <code>null</code> if
+     * <code>writeHebder</code> is <code>fblse</code>.
+     * @pbrbm iioimbge The imbge bnd imbge metbdbtb.
+     * @pbrbm p The write pbrbmeters.
      *
-     * @throws IllegalArgumentException if the number of bands is not 1.
-     * @throws IllegalArgumentException if the number of bits per sample is
-     * greater than 8.
-     * @throws IllegalArgumentException if the color component size is
-     * greater than 8.
-     * @throws IllegalArgumentException if <code>writeHeader</code> is
-     * <code>true</code> and <code>sm</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>writeHeader</code> is
-     * <code>false</code> and a sequence is not being written.
+     * @throws IllegblArgumentException if the number of bbnds is not 1.
+     * @throws IllegblArgumentException if the number of bits per sbmple is
+     * grebter thbn 8.
+     * @throws IllegblArgumentException if the color component size is
+     * grebter thbn 8.
+     * @throws IllegblArgumentException if <code>writeHebder</code> is
+     * <code>true</code> bnd <code>sm</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>writeHebder</code> is
+     * <code>fblse</code> bnd b sequence is not being written.
      */
-    private void write(boolean writeHeader,
-                       boolean writeTrailer,
-                       IIOMetadata sm,
-                       IIOImage iioimage,
-                       ImageWriteParam p) throws IOException {
-        clearAbortRequest();
+    privbte void write(boolebn writeHebder,
+                       boolebn writeTrbiler,
+                       IIOMetbdbtb sm,
+                       IIOImbge iioimbge,
+                       ImbgeWritePbrbm p) throws IOException {
+        clebrAbortRequest();
 
-        RenderedImage image = iioimage.getRenderedImage();
+        RenderedImbge imbge = iioimbge.getRenderedImbge();
 
-        // Check for ability to encode image.
-        if (needToCreateIndex(image)) {
-            image = PaletteBuilder.createIndexedImage(image);
-            iioimage.setRenderedImage(image);
+        // Check for bbility to encode imbge.
+        if (needToCrebteIndex(imbge)) {
+            imbge = PbletteBuilder.crebteIndexedImbge(imbge);
+            iioimbge.setRenderedImbge(imbge);
         }
 
-        ColorModel colorModel = image.getColorModel();
-        SampleModel sampleModel = image.getSampleModel();
+        ColorModel colorModel = imbge.getColorModel();
+        SbmpleModel sbmpleModel = imbge.getSbmpleModel();
 
-        // Determine source region and destination dimensions.
-        Rectangle sourceBounds = new Rectangle(image.getMinX(),
-                                               image.getMinY(),
-                                               image.getWidth(),
-                                               image.getHeight());
+        // Determine source region bnd destinbtion dimensions.
+        Rectbngle sourceBounds = new Rectbngle(imbge.getMinX(),
+                                               imbge.getMinY(),
+                                               imbge.getWidth(),
+                                               imbge.getHeight());
         Dimension destSize = new Dimension();
         computeRegions(sourceBounds, destSize, p);
 
-        // Convert any provided image metadata.
-        GIFWritableImageMetadata imageMetadata = null;
-        if (iioimage.getMetadata() != null) {
-            imageMetadata = new GIFWritableImageMetadata();
-            convertMetadata(IMAGE_METADATA_NAME, iioimage.getMetadata(),
-                            imageMetadata);
-            // Converted rgb image can use palette different from global.
-            // In order to avoid color artefacts we want to be sure we use
-            // appropriate palette. For this we initialize local color table
-            // from current color and sample models.
-            // At this point we can guarantee that local color table can be
-            // build because image was already converted to indexed or
-            // gray-scale representations
-            if (imageMetadata.localColorTable == null) {
-                imageMetadata.localColorTable =
-                    createColorTable(colorModel, sampleModel);
+        // Convert bny provided imbge metbdbtb.
+        GIFWritbbleImbgeMetbdbtb imbgeMetbdbtb = null;
+        if (iioimbge.getMetbdbtb() != null) {
+            imbgeMetbdbtb = new GIFWritbbleImbgeMetbdbtb();
+            convertMetbdbtb(IMAGE_METADATA_NAME, iioimbge.getMetbdbtb(),
+                            imbgeMetbdbtb);
+            // Converted rgb imbge cbn use pblette different from globbl.
+            // In order to bvoid color brtefbcts we wbnt to be sure we use
+            // bppropribte pblette. For this we initiblize locbl color tbble
+            // from current color bnd sbmple models.
+            // At this point we cbn gubrbntee thbt locbl color tbble cbn be
+            // build becbuse imbge wbs blrebdy converted to indexed or
+            // grby-scble representbtions
+            if (imbgeMetbdbtb.locblColorTbble == null) {
+                imbgeMetbdbtb.locblColorTbble =
+                    crebteColorTbble(colorModel, sbmpleModel);
 
-                // in case of indexed image we should take care of
-                // transparent pixels
-                if (colorModel instanceof IndexColorModel) {
+                // in cbse of indexed imbge we should tbke cbre of
+                // trbnspbrent pixels
+                if (colorModel instbnceof IndexColorModel) {
                     IndexColorModel icm =
                         (IndexColorModel)colorModel;
-                    int index = icm.getTransparentPixel();
-                    imageMetadata.transparentColorFlag = (index != -1);
-                    if (imageMetadata.transparentColorFlag) {
-                        imageMetadata.transparentColorIndex = index;
+                    int index = icm.getTrbnspbrentPixel();
+                    imbgeMetbdbtb.trbnspbrentColorFlbg = (index != -1);
+                    if (imbgeMetbdbtb.trbnspbrentColorFlbg) {
+                        imbgeMetbdbtb.trbnspbrentColorIndex = index;
                     }
-                    /* NB: transparentColorFlag might have not beed reset for
-                       greyscale images but explicitly reseting it here
-                       is potentially not right thing to do until we have way
-                       to find whether current value was explicitly set by
+                    /* NB: trbnspbrentColorFlbg might hbve not beed reset for
+                       greyscble imbges but explicitly reseting it here
+                       is potentiblly not right thing to do until we hbve wby
+                       to find whether current vblue wbs explicitly set by
                        the user.
                     */
                 }
             }
         }
 
-        // Global color table values.
-        byte[] globalColorTable = null;
+        // Globbl color tbble vblues.
+        byte[] globblColorTbble = null;
 
-        // Write the header (Signature+Logical Screen Descriptor+
-        // Global Color Table).
-        if (writeHeader) {
+        // Write the hebder (Signbture+Logicbl Screen Descriptor+
+        // Globbl Color Tbble).
+        if (writeHebder) {
             if (sm == null) {
-                throw new IllegalArgumentException("Cannot write null header!");
+                throw new IllegblArgumentException("Cbnnot write null hebder!");
             }
 
-            GIFWritableStreamMetadata streamMetadata =
-                (GIFWritableStreamMetadata)sm;
+            GIFWritbbleStrebmMetbdbtb strebmMetbdbtb =
+                (GIFWritbbleStrebmMetbdbtb)sm;
 
             // Set the version if not set.
-            if (streamMetadata.version == null) {
-                streamMetadata.version = "89a";
+            if (strebmMetbdbtb.version == null) {
+                strebmMetbdbtb.version = "89b";
             }
 
-            // Set the Logical Screen Desriptor if not set.
-            if (streamMetadata.logicalScreenWidth ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            // Set the Logicbl Screen Desriptor if not set.
+            if (strebmMetbdbtb.logicblScreenWidth ==
+                GIFMetbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.logicalScreenWidth = destSize.width;
+                strebmMetbdbtb.logicblScreenWidth = destSize.width;
             }
 
-            if (streamMetadata.logicalScreenHeight ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            if (strebmMetbdbtb.logicblScreenHeight ==
+                GIFMetbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.logicalScreenHeight = destSize.height;
+                strebmMetbdbtb.logicblScreenHeight = destSize.height;
             }
 
-            if (streamMetadata.colorResolution ==
-                GIFMetadata.UNDEFINED_INTEGER_VALUE)
+            if (strebmMetbdbtb.colorResolution ==
+                GIFMetbdbtb.UNDEFINED_INTEGER_VALUE)
             {
-                streamMetadata.colorResolution = colorModel != null ?
+                strebmMetbdbtb.colorResolution = colorModel != null ?
                     colorModel.getComponentSize()[0] :
-                    sampleModel.getSampleSize()[0];
+                    sbmpleModel.getSbmpleSize()[0];
             }
 
-            // Set the Global Color Table if not set, i.e., if not
-            // provided in the stream metadata.
-            if (streamMetadata.globalColorTable == null) {
-                if (isWritingSequence && imageMetadata != null &&
-                    imageMetadata.localColorTable != null) {
-                    // Writing a sequence and a local color table was
-                    // provided in the metadata of the first image: use it.
-                    streamMetadata.globalColorTable =
-                        imageMetadata.localColorTable;
-                } else if (imageMetadata == null ||
-                           imageMetadata.localColorTable == null) {
-                    // Create a color table.
-                    streamMetadata.globalColorTable =
-                        createColorTable(colorModel, sampleModel);
+            // Set the Globbl Color Tbble if not set, i.e., if not
+            // provided in the strebm metbdbtb.
+            if (strebmMetbdbtb.globblColorTbble == null) {
+                if (isWritingSequence && imbgeMetbdbtb != null &&
+                    imbgeMetbdbtb.locblColorTbble != null) {
+                    // Writing b sequence bnd b locbl color tbble wbs
+                    // provided in the metbdbtb of the first imbge: use it.
+                    strebmMetbdbtb.globblColorTbble =
+                        imbgeMetbdbtb.locblColorTbble;
+                } else if (imbgeMetbdbtb == null ||
+                           imbgeMetbdbtb.locblColorTbble == null) {
+                    // Crebte b color tbble.
+                    strebmMetbdbtb.globblColorTbble =
+                        crebteColorTbble(colorModel, sbmpleModel);
                 }
             }
 
-            // Set the Global Color Table. At this point it should be
-            // A) the global color table provided in stream metadata, if any;
-            // B) the local color table of the image metadata, if any, if
-            //    writing a sequence;
-            // C) a table created on the basis of the first image ColorModel
-            //    and SampleModel if no local color table is available; or
-            // D) null if none of the foregoing conditions obtain (which
-            //    should only be if a sequence is not being written and
-            //    a local color table is provided in image metadata).
-            globalColorTable = streamMetadata.globalColorTable;
+            // Set the Globbl Color Tbble. At this point it should be
+            // A) the globbl color tbble provided in strebm metbdbtb, if bny;
+            // B) the locbl color tbble of the imbge metbdbtb, if bny, if
+            //    writing b sequence;
+            // C) b tbble crebted on the bbsis of the first imbge ColorModel
+            //    bnd SbmpleModel if no locbl color tbble is bvbilbble; or
+            // D) null if none of the foregoing conditions obtbin (which
+            //    should only be if b sequence is not being written bnd
+            //    b locbl color tbble is provided in imbge metbdbtb).
+            globblColorTbble = strebmMetbdbtb.globblColorTbble;
 
-            // Write the header.
+            // Write the hebder.
             int bitsPerPixel;
-            if (globalColorTable != null) {
-                bitsPerPixel = getNumBits(globalColorTable.length/3);
-            } else if (imageMetadata != null &&
-                       imageMetadata.localColorTable != null) {
+            if (globblColorTbble != null) {
+                bitsPerPixel = getNumBits(globblColorTbble.length/3);
+            } else if (imbgeMetbdbtb != null &&
+                       imbgeMetbdbtb.locblColorTbble != null) {
                 bitsPerPixel =
-                    getNumBits(imageMetadata.localColorTable.length/3);
+                    getNumBits(imbgeMetbdbtb.locblColorTbble.length/3);
             } else {
-                bitsPerPixel = sampleModel.getSampleSize(0);
+                bitsPerPixel = sbmpleModel.getSbmpleSize(0);
             }
-            writeHeader(streamMetadata, bitsPerPixel);
+            writeHebder(strebmMetbdbtb, bitsPerPixel);
         } else if (isWritingSequence) {
-            globalColorTable = theStreamMetadata.globalColorTable;
+            globblColorTbble = theStrebmMetbdbtb.globblColorTbble;
         } else {
-            throw new IllegalArgumentException("Must write header for single image!");
+            throw new IllegblArgumentException("Must write hebder for single imbge!");
         }
 
-        // Write extension blocks, Image Descriptor, and image data.
-        writeImage(iioimage.getRenderedImage(), imageMetadata, p,
-                   globalColorTable, sourceBounds, destSize);
+        // Write extension blocks, Imbge Descriptor, bnd imbge dbtb.
+        writeImbge(iioimbge.getRenderedImbge(), imbgeMetbdbtb, p,
+                   globblColorTbble, sourceBounds, destSize);
 
-        // Write the trailer.
-        if (writeTrailer) {
-            writeTrailer();
+        // Write the trbiler.
+        if (writeTrbiler) {
+            writeTrbiler();
         }
     }
 
     /**
-     * Writes any extension blocks, the Image Descriptor, and the image data
+     * Writes bny extension blocks, the Imbge Descriptor, bnd the imbge dbtb
      *
-     * @param iioimage The image and image metadata.
-     * @param param The write parameters.
-     * @param globalColorTable The Global Color Table.
-     * @param sourceBounds The source region.
-     * @param destSize The destination dimensions.
+     * @pbrbm iioimbge The imbge bnd imbge metbdbtb.
+     * @pbrbm pbrbm The write pbrbmeters.
+     * @pbrbm globblColorTbble The Globbl Color Tbble.
+     * @pbrbm sourceBounds The source region.
+     * @pbrbm destSize The destinbtion dimensions.
      */
-    private void writeImage(RenderedImage image,
-                            GIFWritableImageMetadata imageMetadata,
-                            ImageWriteParam param, byte[] globalColorTable,
-                            Rectangle sourceBounds, Dimension destSize)
+    privbte void writeImbge(RenderedImbge imbge,
+                            GIFWritbbleImbgeMetbdbtb imbgeMetbdbtb,
+                            ImbgeWritePbrbm pbrbm, byte[] globblColorTbble,
+                            Rectbngle sourceBounds, Dimension destSize)
       throws IOException {
-        ColorModel colorModel = image.getColorModel();
-        SampleModel sampleModel = image.getSampleModel();
+        ColorModel colorModel = imbge.getColorModel();
+        SbmpleModel sbmpleModel = imbge.getSbmpleModel();
 
-        boolean writeGraphicsControlExtension;
-        if (imageMetadata == null) {
-            // Create default metadata.
-            imageMetadata = (GIFWritableImageMetadata)getDefaultImageMetadata(
-                new ImageTypeSpecifier(image), param);
+        boolebn writeGrbphicsControlExtension;
+        if (imbgeMetbdbtb == null) {
+            // Crebte defbult metbdbtb.
+            imbgeMetbdbtb = (GIFWritbbleImbgeMetbdbtb)getDefbultImbgeMetbdbtb(
+                new ImbgeTypeSpecifier(imbge), pbrbm);
 
-            // Set GraphicControlExtension flag only if there is
-            // transparency.
-            writeGraphicsControlExtension = imageMetadata.transparentColorFlag;
+            // Set GrbphicControlExtension flbg only if there is
+            // trbnspbrency.
+            writeGrbphicsControlExtension = imbgeMetbdbtb.trbnspbrentColorFlbg;
         } else {
-            // Check for GraphicControlExtension element.
+            // Check for GrbphicControlExtension element.
             NodeList list = null;
             try {
-                IIOMetadataNode root = (IIOMetadataNode)
-                    imageMetadata.getAsTree(IMAGE_METADATA_NAME);
-                list = root.getElementsByTagName("GraphicControlExtension");
-            } catch(IllegalArgumentException iae) {
-                // Should never happen.
+                IIOMetbdbtbNode root = (IIOMetbdbtbNode)
+                    imbgeMetbdbtb.getAsTree(IMAGE_METADATA_NAME);
+                list = root.getElementsByTbgNbme("GrbphicControlExtension");
+            } cbtch(IllegblArgumentException ibe) {
+                // Should never hbppen.
             }
 
-            // Set GraphicControlExtension flag if element present.
-            writeGraphicsControlExtension =
+            // Set GrbphicControlExtension flbg if element present.
+            writeGrbphicsControlExtension =
                 list != null && list.getLength() > 0;
 
             // If progressive mode is not MODE_COPY_FROM_METADATA, ensure
-            // the interlacing is set per the ImageWriteParam mode setting.
-            if (param != null && param.canWriteProgressive()) {
-                if (param.getProgressiveMode() ==
-                    ImageWriteParam.MODE_DISABLED) {
-                    imageMetadata.interlaceFlag = false;
-                } else if (param.getProgressiveMode() ==
-                           ImageWriteParam.MODE_DEFAULT) {
-                    imageMetadata.interlaceFlag = true;
+            // the interlbcing is set per the ImbgeWritePbrbm mode setting.
+            if (pbrbm != null && pbrbm.cbnWriteProgressive()) {
+                if (pbrbm.getProgressiveMode() ==
+                    ImbgeWritePbrbm.MODE_DISABLED) {
+                    imbgeMetbdbtb.interlbceFlbg = fblse;
+                } else if (pbrbm.getProgressiveMode() ==
+                           ImbgeWritePbrbm.MODE_DEFAULT) {
+                    imbgeMetbdbtb.interlbceFlbg = true;
                 }
             }
         }
 
-        // Unset local color table if equal to global color table.
-        if (Arrays.equals(globalColorTable, imageMetadata.localColorTable)) {
-            imageMetadata.localColorTable = null;
+        // Unset locbl color tbble if equbl to globbl color tbble.
+        if (Arrbys.equbls(globblColorTbble, imbgeMetbdbtb.locblColorTbble)) {
+            imbgeMetbdbtb.locblColorTbble = null;
         }
 
         // Override dimensions
-        imageMetadata.imageWidth = destSize.width;
-        imageMetadata.imageHeight = destSize.height;
+        imbgeMetbdbtb.imbgeWidth = destSize.width;
+        imbgeMetbdbtb.imbgeHeight = destSize.height;
 
-        // Write Graphics Control Extension.
-        if (writeGraphicsControlExtension) {
-            writeGraphicControlExtension(imageMetadata);
+        // Write Grbphics Control Extension.
+        if (writeGrbphicsControlExtension) {
+            writeGrbphicControlExtension(imbgeMetbdbtb);
         }
 
         // Write extension blocks.
-        writePlainTextExtension(imageMetadata);
-        writeApplicationExtension(imageMetadata);
-        writeCommentExtension(imageMetadata);
+        writePlbinTextExtension(imbgeMetbdbtb);
+        writeApplicbtionExtension(imbgeMetbdbtb);
+        writeCommentExtension(imbgeMetbdbtb);
 
-        // Write Image Descriptor
+        // Write Imbge Descriptor
         int bitsPerPixel =
-            getNumBits(imageMetadata.localColorTable == null ?
-                       (globalColorTable == null ?
-                        sampleModel.getSampleSize(0) :
-                        globalColorTable.length/3) :
-                       imageMetadata.localColorTable.length/3);
-        writeImageDescriptor(imageMetadata, bitsPerPixel);
+            getNumBits(imbgeMetbdbtb.locblColorTbble == null ?
+                       (globblColorTbble == null ?
+                        sbmpleModel.getSbmpleSize(0) :
+                        globblColorTbble.length/3) :
+                       imbgeMetbdbtb.locblColorTbble.length/3);
+        writeImbgeDescriptor(imbgeMetbdbtb, bitsPerPixel);
 
-        // Write image data
-        writeRasterData(image, sourceBounds, destSize,
-                        param, imageMetadata.interlaceFlag);
+        // Write imbge dbtb
+        writeRbsterDbtb(imbge, sourceBounds, destSize,
+                        pbrbm, imbgeMetbdbtb.interlbceFlbg);
     }
 
-    private void writeRows(RenderedImage image, LZWCompressor compressor,
+    privbte void writeRows(RenderedImbge imbge, LZWCompressor compressor,
                            int sx, int sdx, int sy, int sdy, int sw,
                            int dy, int ddy, int dw, int dh,
                            int numRowsWritten, int progressReportRowPeriod)
@@ -824,19 +824,19 @@ public class GIFImageWriter extends ImageWriter {
         int[] sbuf = new int[sw];
         byte[] dbuf = new byte[dw];
 
-        Raster raster =
-            image.getNumXTiles() == 1 && image.getNumYTiles() == 1 ?
-            image.getTile(0, 0) : image.getData();
+        Rbster rbster =
+            imbge.getNumXTiles() == 1 && imbge.getNumYTiles() == 1 ?
+            imbge.getTile(0, 0) : imbge.getDbtb();
         for (int y = dy; y < dh; y += ddy) {
             if (numRowsWritten % progressReportRowPeriod == 0) {
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     processWriteAborted();
                     return;
                 }
-                processImageProgress((numRowsWritten*100.0F)/dh);
+                processImbgeProgress((numRowsWritten*100.0F)/dh);
             }
 
-            raster.getSamples(sx, sy, sw, 1, 0, sbuf);
+            rbster.getSbmples(sx, sy, sw, 1, 0, sbuf);
             for (int i = 0, j = 0; i < dw; i++, j += sdx) {
                 dbuf[i] = (byte)sbuf[j];
             }
@@ -846,7 +846,7 @@ public class GIFImageWriter extends ImageWriter {
         }
     }
 
-    private void writeRowsOpt(byte[] data, int offset, int lineStride,
+    privbte void writeRowsOpt(byte[] dbtb, int offset, int lineStride,
                               LZWCompressor compressor,
                               int dy, int ddy, int dw, int dh,
                               int numRowsWritten, int progressReportRowPeriod)
@@ -857,24 +857,24 @@ public class GIFImageWriter extends ImageWriter {
         lineStride *= ddy;
         for (int y = dy; y < dh; y += ddy) {
             if (numRowsWritten % progressReportRowPeriod == 0) {
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     processWriteAborted();
                     return;
                 }
-                processImageProgress((numRowsWritten*100.0F)/dh);
+                processImbgeProgress((numRowsWritten*100.0F)/dh);
             }
 
-            compressor.compress(data, offset, dw);
+            compressor.compress(dbtb, offset, dw);
             numRowsWritten++;
             offset += lineStride;
         }
     }
 
-    private void writeRasterData(RenderedImage image,
-                                 Rectangle sourceBounds,
+    privbte void writeRbsterDbtb(RenderedImbge imbge,
+                                 Rectbngle sourceBounds,
                                  Dimension destSize,
-                                 ImageWriteParam param,
-                                 boolean interlaceFlag) throws IOException {
+                                 ImbgeWritePbrbm pbrbm,
+                                 boolebn interlbceFlbg) throws IOException {
 
         int sourceXOffset = sourceBounds.x;
         int sourceYOffset = sourceBounds.y;
@@ -886,153 +886,153 @@ public class GIFImageWriter extends ImageWriter {
 
         int periodX;
         int periodY;
-        if (param == null) {
+        if (pbrbm == null) {
             periodX = 1;
             periodY = 1;
         } else {
-            periodX = param.getSourceXSubsampling();
-            periodY = param.getSourceYSubsampling();
+            periodX = pbrbm.getSourceXSubsbmpling();
+            periodY = pbrbm.getSourceYSubsbmpling();
         }
 
-        SampleModel sampleModel = image.getSampleModel();
-        int bitsPerPixel = sampleModel.getSampleSize()[0];
+        SbmpleModel sbmpleModel = imbge.getSbmpleModel();
+        int bitsPerPixel = sbmpleModel.getSbmpleSize()[0];
 
         int initCodeSize = bitsPerPixel;
         if (initCodeSize == 1) {
             initCodeSize++;
         }
-        stream.write(initCodeSize);
+        strebm.write(initCodeSize);
 
         LZWCompressor compressor =
-            new LZWCompressor(stream, initCodeSize, false);
+            new LZWCompressor(strebm, initCodeSize, fblse);
 
-        /* At this moment we know that input image is indexed image.
-         * We can directly copy data iff:
-         *   - no subsampling required (periodX = 1, periodY = 0)
-         *   - we can access data directly (image is non-tiled,
-         *     i.e. image data are in single block)
-         *   - we can calculate offset in data buffer (next 3 lines)
+        /* At this moment we know thbt input imbge is indexed imbge.
+         * We cbn directly copy dbtb iff:
+         *   - no subsbmpling required (periodX = 1, periodY = 0)
+         *   - we cbn bccess dbtb directly (imbge is non-tiled,
+         *     i.e. imbge dbtb bre in single block)
+         *   - we cbn cblculbte offset in dbtb buffer (next 3 lines)
          */
-        boolean isOptimizedCase =
+        boolebn isOptimizedCbse =
             periodX == 1 && periodY == 1 &&
-            image.getNumXTiles() == 1 && image.getNumYTiles() == 1 &&
-            sampleModel instanceof ComponentSampleModel &&
-            image.getTile(0, 0) instanceof ByteComponentRaster &&
-            image.getTile(0, 0).getDataBuffer() instanceof DataBufferByte;
+            imbge.getNumXTiles() == 1 && imbge.getNumYTiles() == 1 &&
+            sbmpleModel instbnceof ComponentSbmpleModel &&
+            imbge.getTile(0, 0) instbnceof ByteComponentRbster &&
+            imbge.getTile(0, 0).getDbtbBuffer() instbnceof DbtbBufferByte;
 
         int numRowsWritten = 0;
 
-        int progressReportRowPeriod = Math.max(destHeight/20, 1);
+        int progressReportRowPeriod = Mbth.mbx(destHeight/20, 1);
 
-        processImageStarted(imageIndex);
+        processImbgeStbrted(imbgeIndex);
 
-        if (interlaceFlag) {
-            if (DEBUG) System.out.println("Writing interlaced");
+        if (interlbceFlbg) {
+            if (DEBUG) System.out.println("Writing interlbced");
 
-            if (isOptimizedCase) {
-                ByteComponentRaster tile =
-                    (ByteComponentRaster)image.getTile(0, 0);
-                byte[] data = ((DataBufferByte)tile.getDataBuffer()).getData();
-                ComponentSampleModel csm =
-                    (ComponentSampleModel)tile.getSampleModel();
+            if (isOptimizedCbse) {
+                ByteComponentRbster tile =
+                    (ByteComponentRbster)imbge.getTile(0, 0);
+                byte[] dbtb = ((DbtbBufferByte)tile.getDbtbBuffer()).getDbtb();
+                ComponentSbmpleModel csm =
+                    (ComponentSbmpleModel)tile.getSbmpleModel();
                 int offset = csm.getOffset(sourceXOffset, sourceYOffset, 0);
-                // take into account the raster data offset
-                offset += tile.getDataOffset(0);
-                int lineStride = csm.getScanlineStride();
+                // tbke into bccount the rbster dbtb offset
+                offset += tile.getDbtbOffset(0);
+                int lineStride = csm.getScbnlineStride();
 
-                writeRowsOpt(data, offset, lineStride, compressor,
+                writeRowsOpt(dbtb, offset, lineStride, compressor,
                              0, 8, destWidth, destHeight,
                              numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += destHeight/8;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
+                writeRowsOpt(dbtb, offset, lineStride, compressor,
                              4, 8, destWidth, destHeight,
                              numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += (destHeight - 4)/8;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
+                writeRowsOpt(dbtb, offset, lineStride, compressor,
                              2, 4, destWidth, destHeight,
                              numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += (destHeight - 2)/4;
 
-                writeRowsOpt(data, offset, lineStride, compressor,
+                writeRowsOpt(dbtb, offset, lineStride, compressor,
                              1, 2, destWidth, destHeight,
                              numRowsWritten, progressReportRowPeriod);
             } else {
-                writeRows(image, compressor,
+                writeRows(imbge, compressor,
                           sourceXOffset, periodX,
                           sourceYOffset, 8*periodY,
                           sourceWidth,
                           0, 8, destWidth, destHeight,
                           numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += destHeight/8;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
+                writeRows(imbge, compressor, sourceXOffset, periodX,
                           sourceYOffset + 4*periodY, 8*periodY,
                           sourceWidth,
                           4, 8, destWidth, destHeight,
                           numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += (destHeight - 4)/8;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
+                writeRows(imbge, compressor, sourceXOffset, periodX,
                           sourceYOffset + 2*periodY, 4*periodY,
                           sourceWidth,
                           2, 4, destWidth, destHeight,
                           numRowsWritten, progressReportRowPeriod);
 
-                if (abortRequested()) {
+                if (bbortRequested()) {
                     return;
                 }
 
                 numRowsWritten += (destHeight - 2)/4;
 
-                writeRows(image, compressor, sourceXOffset, periodX,
+                writeRows(imbge, compressor, sourceXOffset, periodX,
                           sourceYOffset + periodY, 2*periodY,
                           sourceWidth,
                           1, 2, destWidth, destHeight,
                           numRowsWritten, progressReportRowPeriod);
             }
         } else {
-            if (DEBUG) System.out.println("Writing non-interlaced");
+            if (DEBUG) System.out.println("Writing non-interlbced");
 
-            if (isOptimizedCase) {
-                Raster tile = image.getTile(0, 0);
-                byte[] data = ((DataBufferByte)tile.getDataBuffer()).getData();
-                ComponentSampleModel csm =
-                    (ComponentSampleModel)tile.getSampleModel();
+            if (isOptimizedCbse) {
+                Rbster tile = imbge.getTile(0, 0);
+                byte[] dbtb = ((DbtbBufferByte)tile.getDbtbBuffer()).getDbtb();
+                ComponentSbmpleModel csm =
+                    (ComponentSbmpleModel)tile.getSbmpleModel();
                 int offset = csm.getOffset(sourceXOffset, sourceYOffset, 0);
-                int lineStride = csm.getScanlineStride();
+                int lineStride = csm.getScbnlineStride();
 
-                writeRowsOpt(data, offset, lineStride, compressor,
+                writeRowsOpt(dbtb, offset, lineStride, compressor,
                              0, 1, destWidth, destHeight,
                              numRowsWritten, progressReportRowPeriod);
             } else {
-                writeRows(image, compressor,
+                writeRows(imbge, compressor,
                           sourceXOffset, periodX,
                           sourceYOffset, periodY,
                           sourceWidth,
@@ -1041,276 +1041,276 @@ public class GIFImageWriter extends ImageWriter {
             }
         }
 
-        if (abortRequested()) {
+        if (bbortRequested()) {
             return;
         }
 
-        processImageProgress(100.0F);
+        processImbgeProgress(100.0F);
 
         compressor.flush();
 
-        stream.write(0x00);
+        strebm.write(0x00);
 
-        processImageComplete();
+        processImbgeComplete();
     }
 
-    private void writeHeader(String version,
-                             int logicalScreenWidth,
-                             int logicalScreenHeight,
+    privbte void writeHebder(String version,
+                             int logicblScreenWidth,
+                             int logicblScreenHeight,
                              int colorResolution,
-                             int pixelAspectRatio,
-                             int backgroundColorIndex,
-                             boolean sortFlag,
+                             int pixelAspectRbtio,
+                             int bbckgroundColorIndex,
+                             boolebn sortFlbg,
                              int bitsPerPixel,
-                             byte[] globalColorTable) throws IOException {
+                             byte[] globblColorTbble) throws IOException {
         try {
-            // Signature
-            stream.writeBytes("GIF"+version);
+            // Signbture
+            strebm.writeBytes("GIF"+version);
 
             // Screen Descriptor
             // Width
-            stream.writeShort((short)logicalScreenWidth);
+            strebm.writeShort((short)logicblScreenWidth);
 
             // Height
-            stream.writeShort((short)logicalScreenHeight);
+            strebm.writeShort((short)logicblScreenHeight);
 
-            // Global Color Table
-            // Packed fields
-            int packedFields = globalColorTable != null ? 0x80 : 0x00;
-            packedFields |= ((colorResolution - 1) & 0x7) << 4;
-            if (sortFlag) {
-                packedFields |= 0x8;
+            // Globbl Color Tbble
+            // Pbcked fields
+            int pbckedFields = globblColorTbble != null ? 0x80 : 0x00;
+            pbckedFields |= ((colorResolution - 1) & 0x7) << 4;
+            if (sortFlbg) {
+                pbckedFields |= 0x8;
             }
-            packedFields |= (bitsPerPixel - 1);
-            stream.write(packedFields);
+            pbckedFields |= (bitsPerPixel - 1);
+            strebm.write(pbckedFields);
 
-            // Background color index
-            stream.write(backgroundColorIndex);
+            // Bbckground color index
+            strebm.write(bbckgroundColorIndex);
 
-            // Pixel aspect ratio
-            stream.write(pixelAspectRatio);
+            // Pixel bspect rbtio
+            strebm.write(pixelAspectRbtio);
 
-            // Global Color Table
-            if (globalColorTable != null) {
-                stream.write(globalColorTable);
+            // Globbl Color Tbble
+            if (globblColorTbble != null) {
+                strebm.write(globblColorTbble);
             }
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing header!", e);
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error writing hebder!", e);
         }
     }
 
-    private void writeHeader(IIOMetadata streamMetadata, int bitsPerPixel)
+    privbte void writeHebder(IIOMetbdbtb strebmMetbdbtb, int bitsPerPixel)
       throws IOException {
 
-        GIFWritableStreamMetadata sm;
-        if (streamMetadata instanceof GIFWritableStreamMetadata) {
-            sm = (GIFWritableStreamMetadata)streamMetadata;
+        GIFWritbbleStrebmMetbdbtb sm;
+        if (strebmMetbdbtb instbnceof GIFWritbbleStrebmMetbdbtb) {
+            sm = (GIFWritbbleStrebmMetbdbtb)strebmMetbdbtb;
         } else {
-            sm = new GIFWritableStreamMetadata();
+            sm = new GIFWritbbleStrebmMetbdbtb();
             Node root =
-                streamMetadata.getAsTree(STREAM_METADATA_NAME);
+                strebmMetbdbtb.getAsTree(STREAM_METADATA_NAME);
             sm.setFromTree(STREAM_METADATA_NAME, root);
         }
 
-        writeHeader(sm.version,
-                    sm.logicalScreenWidth,
-                    sm.logicalScreenHeight,
+        writeHebder(sm.version,
+                    sm.logicblScreenWidth,
+                    sm.logicblScreenHeight,
                     sm.colorResolution,
-                    sm.pixelAspectRatio,
-                    sm.backgroundColorIndex,
-                    sm.sortFlag,
+                    sm.pixelAspectRbtio,
+                    sm.bbckgroundColorIndex,
+                    sm.sortFlbg,
                     bitsPerPixel,
-                    sm.globalColorTable);
+                    sm.globblColorTbble);
     }
 
-    private void writeGraphicControlExtension(int disposalMethod,
-                                              boolean userInputFlag,
-                                              boolean transparentColorFlag,
-                                              int delayTime,
-                                              int transparentColorIndex)
+    privbte void writeGrbphicControlExtension(int disposblMethod,
+                                              boolebn userInputFlbg,
+                                              boolebn trbnspbrentColorFlbg,
+                                              int delbyTime,
+                                              int trbnspbrentColorIndex)
       throws IOException {
         try {
-            stream.write(0x21);
-            stream.write(0xf9);
+            strebm.write(0x21);
+            strebm.write(0xf9);
 
-            stream.write(4);
+            strebm.write(4);
 
-            int packedFields = (disposalMethod & 0x3) << 2;
-            if (userInputFlag) {
-                packedFields |= 0x2;
+            int pbckedFields = (disposblMethod & 0x3) << 2;
+            if (userInputFlbg) {
+                pbckedFields |= 0x2;
             }
-            if (transparentColorFlag) {
-                packedFields |= 0x1;
+            if (trbnspbrentColorFlbg) {
+                pbckedFields |= 0x1;
             }
-            stream.write(packedFields);
+            strebm.write(pbckedFields);
 
-            stream.writeShort((short)delayTime);
+            strebm.writeShort((short)delbyTime);
 
-            stream.write(transparentColorIndex);
-            stream.write(0x00);
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing Graphic Control Extension!", e);
+            strebm.write(trbnspbrentColorIndex);
+            strebm.write(0x00);
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error writing Grbphic Control Extension!", e);
         }
     }
 
-    private void writeGraphicControlExtension(GIFWritableImageMetadata im)
+    privbte void writeGrbphicControlExtension(GIFWritbbleImbgeMetbdbtb im)
       throws IOException {
-        writeGraphicControlExtension(im.disposalMethod,
-                                     im.userInputFlag,
-                                     im.transparentColorFlag,
-                                     im.delayTime,
-                                     im.transparentColorIndex);
+        writeGrbphicControlExtension(im.disposblMethod,
+                                     im.userInputFlbg,
+                                     im.trbnspbrentColorFlbg,
+                                     im.delbyTime,
+                                     im.trbnspbrentColorIndex);
     }
 
-    private void writeBlocks(byte[] data) throws IOException {
-        if (data != null && data.length > 0) {
+    privbte void writeBlocks(byte[] dbtb) throws IOException {
+        if (dbtb != null && dbtb.length > 0) {
             int offset = 0;
-            while (offset < data.length) {
-                int len = Math.min(data.length - offset, 255);
-                stream.write(len);
-                stream.write(data, offset, len);
+            while (offset < dbtb.length) {
+                int len = Mbth.min(dbtb.length - offset, 255);
+                strebm.write(len);
+                strebm.write(dbtb, offset, len);
                 offset += len;
             }
         }
     }
 
-    private void writePlainTextExtension(GIFWritableImageMetadata im)
+    privbte void writePlbinTextExtension(GIFWritbbleImbgeMetbdbtb im)
       throws IOException {
-        if (im.hasPlainTextExtension) {
+        if (im.hbsPlbinTextExtension) {
             try {
-                stream.write(0x21);
-                stream.write(0x1);
+                strebm.write(0x21);
+                strebm.write(0x1);
 
-                stream.write(12);
+                strebm.write(12);
 
-                stream.writeShort(im.textGridLeft);
-                stream.writeShort(im.textGridTop);
-                stream.writeShort(im.textGridWidth);
-                stream.writeShort(im.textGridHeight);
-                stream.write(im.characterCellWidth);
-                stream.write(im.characterCellHeight);
-                stream.write(im.textForegroundColor);
-                stream.write(im.textBackgroundColor);
+                strebm.writeShort(im.textGridLeft);
+                strebm.writeShort(im.textGridTop);
+                strebm.writeShort(im.textGridWidth);
+                strebm.writeShort(im.textGridHeight);
+                strebm.write(im.chbrbcterCellWidth);
+                strebm.write(im.chbrbcterCellHeight);
+                strebm.write(im.textForegroundColor);
+                strebm.write(im.textBbckgroundColor);
 
                 writeBlocks(im.text);
 
-                stream.write(0x00);
-            } catch (IOException e) {
-                throw new IIOException("I/O error writing Plain Text Extension!", e);
+                strebm.write(0x00);
+            } cbtch (IOException e) {
+                throw new IIOException("I/O error writing Plbin Text Extension!", e);
             }
         }
     }
 
-    private void writeApplicationExtension(GIFWritableImageMetadata im)
+    privbte void writeApplicbtionExtension(GIFWritbbleImbgeMetbdbtb im)
       throws IOException {
-        if (im.applicationIDs != null) {
-            Iterator<byte[]> iterIDs = im.applicationIDs.iterator();
-            Iterator<byte[]> iterCodes = im.authenticationCodes.iterator();
-            Iterator<byte[]> iterData = im.applicationData.iterator();
+        if (im.bpplicbtionIDs != null) {
+            Iterbtor<byte[]> iterIDs = im.bpplicbtionIDs.iterbtor();
+            Iterbtor<byte[]> iterCodes = im.buthenticbtionCodes.iterbtor();
+            Iterbtor<byte[]> iterDbtb = im.bpplicbtionDbtb.iterbtor();
 
-            while (iterIDs.hasNext()) {
+            while (iterIDs.hbsNext()) {
                 try {
-                    stream.write(0x21);
-                    stream.write(0xff);
+                    strebm.write(0x21);
+                    strebm.write(0xff);
 
-                    stream.write(11);
-                    stream.write(iterIDs.next(), 0, 8);
-                    stream.write(iterCodes.next(), 0, 3);
+                    strebm.write(11);
+                    strebm.write(iterIDs.next(), 0, 8);
+                    strebm.write(iterCodes.next(), 0, 3);
 
-                    writeBlocks(iterData.next());
+                    writeBlocks(iterDbtb.next());
 
-                    stream.write(0x00);
-                } catch (IOException e) {
-                    throw new IIOException("I/O error writing Application Extension!", e);
+                    strebm.write(0x00);
+                } cbtch (IOException e) {
+                    throw new IIOException("I/O error writing Applicbtion Extension!", e);
                 }
             }
         }
     }
 
-    private void writeCommentExtension(GIFWritableImageMetadata im)
+    privbte void writeCommentExtension(GIFWritbbleImbgeMetbdbtb im)
       throws IOException {
         if (im.comments != null) {
             try {
-                Iterator<byte[]> iter = im.comments.iterator();
-                while (iter.hasNext()) {
-                    stream.write(0x21);
-                    stream.write(0xfe);
+                Iterbtor<byte[]> iter = im.comments.iterbtor();
+                while (iter.hbsNext()) {
+                    strebm.write(0x21);
+                    strebm.write(0xfe);
                     writeBlocks(iter.next());
-                    stream.write(0x00);
+                    strebm.write(0x00);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 throw new IIOException("I/O error writing Comment Extension!", e);
             }
         }
     }
 
-    private void writeImageDescriptor(int imageLeftPosition,
-                                      int imageTopPosition,
-                                      int imageWidth,
-                                      int imageHeight,
-                                      boolean interlaceFlag,
-                                      boolean sortFlag,
+    privbte void writeImbgeDescriptor(int imbgeLeftPosition,
+                                      int imbgeTopPosition,
+                                      int imbgeWidth,
+                                      int imbgeHeight,
+                                      boolebn interlbceFlbg,
+                                      boolebn sortFlbg,
                                       int bitsPerPixel,
-                                      byte[] localColorTable)
+                                      byte[] locblColorTbble)
       throws IOException {
 
         try {
-            stream.write(0x2c);
+            strebm.write(0x2c);
 
-            stream.writeShort((short)imageLeftPosition);
-            stream.writeShort((short)imageTopPosition);
-            stream.writeShort((short)imageWidth);
-            stream.writeShort((short)imageHeight);
+            strebm.writeShort((short)imbgeLeftPosition);
+            strebm.writeShort((short)imbgeTopPosition);
+            strebm.writeShort((short)imbgeWidth);
+            strebm.writeShort((short)imbgeHeight);
 
-            int packedFields = localColorTable != null ? 0x80 : 0x00;
-            if (interlaceFlag) {
-                packedFields |= 0x40;
+            int pbckedFields = locblColorTbble != null ? 0x80 : 0x00;
+            if (interlbceFlbg) {
+                pbckedFields |= 0x40;
             }
-            if (sortFlag) {
-                packedFields |= 0x8;
+            if (sortFlbg) {
+                pbckedFields |= 0x8;
             }
-            packedFields |= (bitsPerPixel - 1);
-            stream.write(packedFields);
+            pbckedFields |= (bitsPerPixel - 1);
+            strebm.write(pbckedFields);
 
-            if (localColorTable != null) {
-                stream.write(localColorTable);
+            if (locblColorTbble != null) {
+                strebm.write(locblColorTbble);
             }
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing Image Descriptor!", e);
+        } cbtch (IOException e) {
+            throw new IIOException("I/O error writing Imbge Descriptor!", e);
         }
     }
 
-    private void writeImageDescriptor(GIFWritableImageMetadata imageMetadata,
+    privbte void writeImbgeDescriptor(GIFWritbbleImbgeMetbdbtb imbgeMetbdbtb,
                                       int bitsPerPixel)
       throws IOException {
 
-        writeImageDescriptor(imageMetadata.imageLeftPosition,
-                             imageMetadata.imageTopPosition,
-                             imageMetadata.imageWidth,
-                             imageMetadata.imageHeight,
-                             imageMetadata.interlaceFlag,
-                             imageMetadata.sortFlag,
+        writeImbgeDescriptor(imbgeMetbdbtb.imbgeLeftPosition,
+                             imbgeMetbdbtb.imbgeTopPosition,
+                             imbgeMetbdbtb.imbgeWidth,
+                             imbgeMetbdbtb.imbgeHeight,
+                             imbgeMetbdbtb.interlbceFlbg,
+                             imbgeMetbdbtb.sortFlbg,
                              bitsPerPixel,
-                             imageMetadata.localColorTable);
+                             imbgeMetbdbtb.locblColorTbble);
     }
 
-    private void writeTrailer() throws IOException {
-        stream.write(0x3b);
+    privbte void writeTrbiler() throws IOException {
+        strebm.write(0x3b);
     }
 }
 
-class GIFImageWriteParam extends ImageWriteParam {
-    GIFImageWriteParam(Locale locale) {
-        super(locale);
-        this.canWriteCompressed = true;
-        this.canWriteProgressive = true;
+clbss GIFImbgeWritePbrbm extends ImbgeWritePbrbm {
+    GIFImbgeWritePbrbm(Locble locble) {
+        super(locble);
+        this.cbnWriteCompressed = true;
+        this.cbnWriteProgressive = true;
         this.compressionTypes = new String[] {"LZW", "lzw"};
         this.compressionType = compressionTypes[0];
     }
 
     public void setCompressionMode(int mode) {
         if (mode == MODE_DISABLED) {
-            throw new UnsupportedOperationException("MODE_DISABLED is not supported.");
+            throw new UnsupportedOperbtionException("MODE_DISABLED is not supported.");
         }
         super.setCompressionMode(mode);
     }

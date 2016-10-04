@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * This class decodes information from ModelPeformer for use in SoftVoice.
- * It also adds default connections if they where missing in ModelPerformer.
+ * This clbss decodes informbtion from ModelPeformer for use in SoftVoice.
+ * It blso bdds defbult connections if they where missing in ModelPerformer.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftPerformer {
+public finbl clbss SoftPerformer {
 
-    static ModelConnectionBlock[] defaultconnections
+    stbtic ModelConnectionBlock[] defbultconnections
             = new ModelConnectionBlock[42];
 
-    static {
+    stbtic {
         int o = 0;
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("noteon", "on", 0),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1, new ModelDestination(new ModelIdentifier("eg", "on", 0)));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1, new ModelDestinbtion(new ModelIdentifier("eg", "on", 0)));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("noteon", "on", 0),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1, new ModelDestination(new ModelIdentifier("eg", "on", 1)));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1, new ModelDestinbtion(new ModelIdentifier("eg", "on", 1)));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
-                new ModelIdentifier("eg", "active", 0),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1, new ModelDestination(new ModelIdentifier("mixer", "active", 0)));
+                new ModelIdentifier("eg", "bctive", 0),
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1, new ModelDestinbtion(new ModelIdentifier("mixer", "bctive", 0)));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("eg", 0),
-                ModelStandardTransform.DIRECTION_MAX2MIN,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            -960, new ModelDestination(new ModelIdentifier("mixer", "gain")));
+                ModelStbndbrdTrbnsform.DIRECTION_MAX2MIN,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            -960, new ModelDestinbtion(new ModelIdentifier("mixer", "gbin")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("noteon", "velocity"),
-                ModelStandardTransform.DIRECTION_MAX2MIN,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_CONCAVE),
-            -960, new ModelDestination(new ModelIdentifier("mixer", "gain")));
+                ModelStbndbrdTrbnsform.DIRECTION_MAX2MIN,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_CONCAVE),
+            -960, new ModelDestinbtion(new ModelIdentifier("mixer", "gbin")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi", "pitch"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
             new ModelSource(new ModelIdentifier("midi_rpn", "0"),
-                new ModelTransform() {
-                    public double transform(double value) {
-                        int v = (int) (value * 16384.0);
+                new ModelTrbnsform() {
+                    public double trbnsform(double vblue) {
+                        int v = (int) (vblue * 16384.0);
                         int msb = v >> 7;
                         int lsb = v & 127;
                         return msb * 100 + lsb;
                     }
                 }),
-            new ModelDestination(new ModelIdentifier("osc", "pitch")));
+            new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("noteon", "keynumber"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            12800, new ModelDestination(new ModelIdentifier("osc", "pitch")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            12800, new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "7"),
-                ModelStandardTransform.DIRECTION_MAX2MIN,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_CONCAVE),
-            -960, new ModelDestination(new ModelIdentifier("mixer", "gain")));
+                ModelStbndbrdTrbnsform.DIRECTION_MAX2MIN,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_CONCAVE),
+            -960, new ModelDestinbtion(new ModelIdentifier("mixer", "gbin")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "8"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1000, new ModelDestination(new ModelIdentifier("mixer", "balance")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1000, new ModelDestinbtion(new ModelIdentifier("mixer", "bblbnce")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "10"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1000, new ModelDestination(new ModelIdentifier("mixer", "pan")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1000, new ModelDestinbtion(new ModelIdentifier("mixer", "pbn")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "11"),
-                ModelStandardTransform.DIRECTION_MAX2MIN,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_CONCAVE),
-            -960, new ModelDestination(new ModelIdentifier("mixer", "gain")));
+                ModelStbndbrdTrbnsform.DIRECTION_MAX2MIN,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_CONCAVE),
+            -960, new ModelDestinbtion(new ModelIdentifier("mixer", "gbin")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "91"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1000, new ModelDestination(new ModelIdentifier("mixer", "reverb")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1000, new ModelDestinbtion(new ModelIdentifier("mixer", "reverb")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "93"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            1000, new ModelDestination(new ModelIdentifier("mixer", "chorus")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            1000, new ModelDestinbtion(new ModelIdentifier("mixer", "chorus")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "71"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            200, new ModelDestination(new ModelIdentifier("filter", "q")));
-        defaultconnections[o++] = new ModelConnectionBlock(
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            200, new ModelDestinbtion(new ModelIdentifier("filter", "q")));
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "74"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            9600, new ModelDestination(new ModelIdentifier("filter", "freq")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            9600, new ModelDestinbtion(new ModelIdentifier("filter", "freq")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "72"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            6000, new ModelDestination(new ModelIdentifier("eg", "release2")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            6000, new ModelDestinbtion(new ModelIdentifier("eg", "relebse2")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "73"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            2000, new ModelDestination(new ModelIdentifier("eg", "attack2")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            2000, new ModelDestinbtion(new ModelIdentifier("eg", "bttbck2")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "75"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            6000, new ModelDestination(new ModelIdentifier("eg", "decay2")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            6000, new ModelDestinbtion(new ModelIdentifier("eg", "decby2")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "67"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_SWITCH),
-            -50, new ModelDestination(ModelDestination.DESTINATION_GAIN));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_SWITCH),
+            -50, new ModelDestinbtion(ModelDestinbtion.DESTINATION_GAIN));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_cc", "67"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_UNIPOLAR,
-                ModelStandardTransform.TRANSFORM_SWITCH),
-            -2400, new ModelDestination(ModelDestination.DESTINATION_FILTER_FREQ));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_SWITCH),
+            -2400, new ModelDestinbtion(ModelDestinbtion.DESTINATION_FILTER_FREQ));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_rpn", "1"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            100, new ModelDestination(new ModelIdentifier("osc", "pitch")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            100, new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
                 new ModelIdentifier("midi_rpn", "2"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            12800, new ModelDestination(new ModelIdentifier("osc", "pitch")));
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            12800, new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
-                new ModelIdentifier("master", "fine_tuning"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            100, new ModelDestination(new ModelIdentifier("osc", "pitch")));
+                new ModelIdentifier("mbster", "fine_tuning"),
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            100, new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
+        defbultconnections[o++] = new ModelConnectionBlock(
             new ModelSource(
-                new ModelIdentifier("master", "coarse_tuning"),
-                ModelStandardTransform.DIRECTION_MIN2MAX,
-                ModelStandardTransform.POLARITY_BIPOLAR,
-                ModelStandardTransform.TRANSFORM_LINEAR),
-            12800, new ModelDestination(new ModelIdentifier("osc", "pitch")));
+                new ModelIdentifier("mbster", "cobrse_tuning"),
+                ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+            12800, new ModelDestinbtion(new ModelIdentifier("osc", "pitch")));
 
-        defaultconnections[o++] = new ModelConnectionBlock(13500,
-                new ModelDestination(new ModelIdentifier("filter", "freq", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(13500,
+                new ModelDestinbtion(new ModelIdentifier("filter", "freq", 0)));
 
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "delay", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "attack", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "delby", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "bttbck", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
                 new ModelIdentifier("eg", "hold", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "decay", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(1000,
-                new ModelDestination(new ModelIdentifier("eg", "sustain", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "release", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(1200.0
-                * Math.log(0.015) / Math.log(2), new ModelDestination(
-                new ModelIdentifier("eg", "shutdown", 0))); // 15 msec default
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "decby", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(1000,
+                new ModelDestinbtion(new ModelIdentifier("eg", "sustbin", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "relebse", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(1200.0
+                * Mbth.log(0.015) / Mbth.log(2), new ModelDestinbtion(
+                new ModelIdentifier("eg", "shutdown", 0))); // 15 msec defbult
 
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "delay", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "attack", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "delby", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "bttbck", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
                 new ModelIdentifier("eg", "hold", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "decay", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(1000,
-                new ModelDestination(new ModelIdentifier("eg", "sustain", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("eg", "release", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "decby", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(1000,
+                new ModelDestinbtion(new ModelIdentifier("eg", "sustbin", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("eg", "relebse", 1)));
 
-        defaultconnections[o++] = new ModelConnectionBlock(-8.51318,
-                new ModelDestination(new ModelIdentifier("lfo", "freq", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("lfo", "delay", 0)));
-        defaultconnections[o++] = new ModelConnectionBlock(-8.51318,
-                new ModelDestination(new ModelIdentifier("lfo", "freq", 1)));
-        defaultconnections[o++] = new ModelConnectionBlock(
-                Float.NEGATIVE_INFINITY, new ModelDestination(
-                new ModelIdentifier("lfo", "delay", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(-8.51318,
+                new ModelDestinbtion(new ModelIdentifier("lfo", "freq", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("lfo", "delby", 0)));
+        defbultconnections[o++] = new ModelConnectionBlock(-8.51318,
+                new ModelDestinbtion(new ModelIdentifier("lfo", "freq", 1)));
+        defbultconnections[o++] = new ModelConnectionBlock(
+                Flobt.NEGATIVE_INFINITY, new ModelDestinbtion(
+                new ModelIdentifier("lfo", "delby", 1)));
 
     }
     public int keyFrom = 0;
     public int keyTo = 127;
     public int velFrom = 0;
     public int velTo = 127;
-    public int exclusiveClass = 0;
-    public boolean selfNonExclusive = false;
-    public boolean forcedVelocity = false;
-    public boolean forcedKeynumber = false;
+    public int exclusiveClbss = 0;
+    public boolebn selfNonExclusive = fblse;
+    public boolebn forcedVelocity = fblse;
+    public boolebn forcedKeynumber = fblse;
     public ModelPerformer performer;
     public ModelConnectionBlock[] connections;
-    public ModelOscillator[] oscillators;
-    public Map<Integer, int[]> midi_rpn_connections = new HashMap<Integer, int[]>();
-    public Map<Integer, int[]> midi_nrpn_connections = new HashMap<Integer, int[]>();
+    public ModelOscillbtor[] oscillbtors;
+    public Mbp<Integer, int[]> midi_rpn_connections = new HbshMbp<Integer, int[]>();
+    public Mbp<Integer, int[]> midi_nrpn_connections = new HbshMbp<Integer, int[]>();
     public int[][] midi_ctrl_connections;
     public int[][] midi_connections;
     public int[] ctrl_connections;
-    private List<Integer> ctrl_connections_list = new ArrayList<Integer>();
+    privbte List<Integer> ctrl_connections_list = new ArrbyList<Integer>();
 
-    private static class KeySortComparator implements Comparator<ModelSource> {
+    privbte stbtic clbss KeySortCompbrbtor implements Compbrbtor<ModelSource> {
 
-        public int compare(ModelSource o1, ModelSource o2) {
-            return o1.getIdentifier().toString().compareTo(
+        public int compbre(ModelSource o1, ModelSource o2) {
+            return o1.getIdentifier().toString().compbreTo(
                     o2.getIdentifier().toString());
         }
     }
-    private static KeySortComparator keySortComparator = new KeySortComparator();
+    privbte stbtic KeySortCompbrbtor keySortCompbrbtor = new KeySortCompbrbtor();
 
-    private String extractKeys(ModelConnectionBlock conn) {
+    privbte String extrbctKeys(ModelConnectionBlock conn) {
         StringBuilder sb = new StringBuilder();
         if (conn.getSources() != null) {
-            sb.append("[");
+            sb.bppend("[");
             ModelSource[] srcs = conn.getSources();
             ModelSource[] srcs2 = new ModelSource[srcs.length];
             for (int i = 0; i < srcs.length; i++)
                 srcs2[i] = srcs[i];
-            Arrays.sort(srcs2, keySortComparator);
+            Arrbys.sort(srcs2, keySortCompbrbtor);
             for (int i = 0; i < srcs.length; i++) {
-                sb.append(srcs[i].getIdentifier());
-                sb.append(";");
+                sb.bppend(srcs[i].getIdentifier());
+                sb.bppend(";");
             }
-            sb.append("]");
+            sb.bppend("]");
         }
-        sb.append(";");
-        if (conn.getDestination() != null) {
-            sb.append(conn.getDestination().getIdentifier());
+        sb.bppend(";");
+        if (conn.getDestinbtion() != null) {
+            sb.bppend(conn.getDestinbtion().getIdentifier());
         }
-        sb.append(";");
+        sb.bppend(";");
         return sb.toString();
     }
 
-    private void processSource(ModelSource src, int ix) {
+    privbte void processSource(ModelSource src, int ix) {
         ModelIdentifier id = src.getIdentifier();
         String o = id.getObject();
-        if (o.equals("midi_cc"))
+        if (o.equbls("midi_cc"))
             processMidiControlSource(src, ix);
-        else if (o.equals("midi_rpn"))
+        else if (o.equbls("midi_rpn"))
             processMidiRpnSource(src, ix);
-        else if (o.equals("midi_nrpn"))
+        else if (o.equbls("midi_nrpn"))
             processMidiNrpnSource(src, ix);
-        else if (o.equals("midi"))
+        else if (o.equbls("midi"))
             processMidiSource(src, ix);
-        else if (o.equals("noteon"))
+        else if (o.equbls("noteon"))
             processNoteOnSource(src, ix);
-        else if (o.equals("osc"))
+        else if (o.equbls("osc"))
             return;
-        else if (o.equals("mixer"))
+        else if (o.equbls("mixer"))
             return;
         else
-            ctrl_connections_list.add(ix);
+            ctrl_connections_list.bdd(ix);
     }
 
-    private void processMidiControlSource(ModelSource src, int ix) {
-        String v = src.getIdentifier().getVariable();
+    privbte void processMidiControlSource(ModelSource src, int ix) {
+        String v = src.getIdentifier().getVbribble();
         if (v == null)
             return;
-        int c = Integer.parseInt(v);
+        int c = Integer.pbrseInt(v);
         if (midi_ctrl_connections[c] == null)
             midi_ctrl_connections[c] = new int[]{ix};
         else {
-            int[] olda = midi_ctrl_connections[c];
-            int[] newa = new int[olda.length + 1];
-            for (int i = 0; i < olda.length; i++)
-                newa[i] = olda[i];
-            newa[newa.length - 1] = ix;
-            midi_ctrl_connections[c] = newa;
+            int[] oldb = midi_ctrl_connections[c];
+            int[] newb = new int[oldb.length + 1];
+            for (int i = 0; i < oldb.length; i++)
+                newb[i] = oldb[i];
+            newb[newb.length - 1] = ix;
+            midi_ctrl_connections[c] = newb;
         }
     }
 
-    private void processNoteOnSource(ModelSource src, int ix) {
-        String v = src.getIdentifier().getVariable();
+    privbte void processNoteOnSource(ModelSource src, int ix) {
+        String v = src.getIdentifier().getVbribble();
         int c = -1;
-        if (v.equals("on"))
+        if (v.equbls("on"))
             c = 3;
-        if (v.equals("keynumber"))
+        if (v.equbls("keynumber"))
             c = 4;
         if (c == -1)
             return;
         if (midi_connections[c] == null)
             midi_connections[c] = new int[]{ix};
         else {
-            int[] olda = midi_connections[c];
-            int[] newa = new int[olda.length + 1];
-            for (int i = 0; i < olda.length; i++)
-                newa[i] = olda[i];
-            newa[newa.length - 1] = ix;
-            midi_connections[c] = newa;
+            int[] oldb = midi_connections[c];
+            int[] newb = new int[oldb.length + 1];
+            for (int i = 0; i < oldb.length; i++)
+                newb[i] = oldb[i];
+            newb[newb.length - 1] = ix;
+            midi_connections[c] = newb;
         }
     }
 
-    private void processMidiSource(ModelSource src, int ix) {
-        String v = src.getIdentifier().getVariable();
+    privbte void processMidiSource(ModelSource src, int ix) {
+        String v = src.getIdentifier().getVbribble();
         int c = -1;
-        if (v.equals("pitch"))
+        if (v.equbls("pitch"))
             c = 0;
-        if (v.equals("channel_pressure"))
+        if (v.equbls("chbnnel_pressure"))
             c = 1;
-        if (v.equals("poly_pressure"))
+        if (v.equbls("poly_pressure"))
             c = 2;
         if (c == -1)
             return;
         if (midi_connections[c] == null)
             midi_connections[c] = new int[]{ix};
         else {
-            int[] olda = midi_connections[c];
-            int[] newa = new int[olda.length + 1];
-            for (int i = 0; i < olda.length; i++)
-                newa[i] = olda[i];
-            newa[newa.length - 1] = ix;
-            midi_connections[c] = newa;
+            int[] oldb = midi_connections[c];
+            int[] newb = new int[oldb.length + 1];
+            for (int i = 0; i < oldb.length; i++)
+                newb[i] = oldb[i];
+            newb[newb.length - 1] = ix;
+            midi_connections[c] = newb;
         }
     }
 
-    private void processMidiRpnSource(ModelSource src, int ix) {
-        String v = src.getIdentifier().getVariable();
+    privbte void processMidiRpnSource(ModelSource src, int ix) {
+        String v = src.getIdentifier().getVbribble();
         if (v == null)
             return;
-        int c = Integer.parseInt(v);
+        int c = Integer.pbrseInt(v);
         if (midi_rpn_connections.get(c) == null)
             midi_rpn_connections.put(c, new int[]{ix});
         else {
-            int[] olda = midi_rpn_connections.get(c);
-            int[] newa = new int[olda.length + 1];
-            for (int i = 0; i < olda.length; i++)
-                newa[i] = olda[i];
-            newa[newa.length - 1] = ix;
-            midi_rpn_connections.put(c, newa);
+            int[] oldb = midi_rpn_connections.get(c);
+            int[] newb = new int[oldb.length + 1];
+            for (int i = 0; i < oldb.length; i++)
+                newb[i] = oldb[i];
+            newb[newb.length - 1] = ix;
+            midi_rpn_connections.put(c, newb);
         }
     }
 
-    private void processMidiNrpnSource(ModelSource src, int ix) {
-        String v = src.getIdentifier().getVariable();
+    privbte void processMidiNrpnSource(ModelSource src, int ix) {
+        String v = src.getIdentifier().getVbribble();
         if (v == null)
             return;
-        int c = Integer.parseInt(v);
+        int c = Integer.pbrseInt(v);
         if (midi_nrpn_connections.get(c) == null)
             midi_nrpn_connections.put(c, new int[]{ix});
         else {
-            int[] olda = midi_nrpn_connections.get(c);
-            int[] newa = new int[olda.length + 1];
-            for (int i = 0; i < olda.length; i++)
-                newa[i] = olda[i];
-            newa[newa.length - 1] = ix;
-            midi_nrpn_connections.put(c, newa);
+            int[] oldb = midi_nrpn_connections.get(c);
+            int[] newb = new int[oldb.length + 1];
+            for (int i = 0; i < oldb.length; i++)
+                newb[i] = oldb[i];
+            newb[newb.length - 1] = ix;
+            midi_nrpn_connections.put(c, newb);
         }
     }
 
@@ -471,97 +471,97 @@ public final class SoftPerformer {
         keyTo = performer.getKeyTo();
         velFrom = performer.getVelFrom();
         velTo = performer.getVelTo();
-        exclusiveClass = performer.getExclusiveClass();
+        exclusiveClbss = performer.getExclusiveClbss();
         selfNonExclusive = performer.isSelfNonExclusive();
 
-        Map<String, ModelConnectionBlock> connmap = new HashMap<String, ModelConnectionBlock>();
+        Mbp<String, ModelConnectionBlock> connmbp = new HbshMbp<String, ModelConnectionBlock>();
 
-        List<ModelConnectionBlock> performer_connections = new ArrayList<ModelConnectionBlock>();
-        performer_connections.addAll(performer.getConnectionBlocks());
+        List<ModelConnectionBlock> performer_connections = new ArrbyList<ModelConnectionBlock>();
+        performer_connections.bddAll(performer.getConnectionBlocks());
 
-        if (performer.isDefaultConnectionsEnabled()) {
+        if (performer.isDefbultConnectionsEnbbled()) {
 
-            // Add modulation depth range (RPN 5) to the modulation wheel (cc#1)
+            // Add modulbtion depth rbnge (RPN 5) to the modulbtion wheel (cc#1)
 
-            boolean isModulationWheelConectionFound = false;
+            boolebn isModulbtionWheelConectionFound = fblse;
             for (int j = 0; j < performer_connections.size(); j++) {
                 ModelConnectionBlock connection = performer_connections.get(j);
                 ModelSource[] sources = connection.getSources();
-                ModelDestination dest = connection.getDestination();
-                boolean isModulationWheelConection = false;
+                ModelDestinbtion dest = connection.getDestinbtion();
+                boolebn isModulbtionWheelConection = fblse;
                 if (dest != null && sources != null && sources.length > 1) {
                     for (int i = 0; i < sources.length; i++) {
-                        // check if connection block has the source "modulation
+                        // check if connection block hbs the source "modulbtion
                         // wheel cc#1"
-                        if (sources[i].getIdentifier().getObject().equals(
+                        if (sources[i].getIdentifier().getObject().equbls(
                                 "midi_cc")) {
-                            if (sources[i].getIdentifier().getVariable()
-                                    .equals("1")) {
-                                isModulationWheelConection = true;
-                                isModulationWheelConectionFound = true;
-                                break;
+                            if (sources[i].getIdentifier().getVbribble()
+                                    .equbls("1")) {
+                                isModulbtionWheelConection = true;
+                                isModulbtionWheelConectionFound = true;
+                                brebk;
                             }
                         }
                     }
                 }
-                if (isModulationWheelConection) {
+                if (isModulbtionWheelConection) {
 
                     ModelConnectionBlock newconnection = new ModelConnectionBlock();
                     newconnection.setSources(connection.getSources());
-                    newconnection.setDestination(connection.getDestination());
-                    newconnection.addSource(new ModelSource(
+                    newconnection.setDestinbtion(connection.getDestinbtion());
+                    newconnection.bddSource(new ModelSource(
                             new ModelIdentifier("midi_rpn", "5")));
-                    newconnection.setScale(connection.getScale() * 256.0);
+                    newconnection.setScble(connection.getScble() * 256.0);
                     performer_connections.set(j, newconnection);
                 }
             }
 
-            if (!isModulationWheelConectionFound) {
+            if (!isModulbtionWheelConectionFound) {
                 ModelConnectionBlock conn = new ModelConnectionBlock(
                         new ModelSource(ModelSource.SOURCE_LFO1,
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_BIPOLAR,
-                        ModelStandardTransform.TRANSFORM_LINEAR),
+                        ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                        ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
                         new ModelSource(new ModelIdentifier("midi_cc", "1", 0),
-                        ModelStandardTransform.DIRECTION_MIN2MAX,
-                        ModelStandardTransform.POLARITY_UNIPOLAR,
-                        ModelStandardTransform.TRANSFORM_LINEAR),
+                        ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                        ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                        ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
                         50,
-                        new ModelDestination(ModelDestination.DESTINATION_PITCH));
-                conn.addSource(new ModelSource(new ModelIdentifier("midi_rpn",
+                        new ModelDestinbtion(ModelDestinbtion.DESTINATION_PITCH));
+                conn.bddSource(new ModelSource(new ModelIdentifier("midi_rpn",
                         "5")));
-                conn.setScale(conn.getScale() * 256.0);
-                performer_connections.add(conn);
+                conn.setScble(conn.getScble() * 256.0);
+                performer_connections.bdd(conn);
 
             }
 
-            // Let Aftertouch to behave just like modulation wheel (cc#1)
-            boolean channel_pressure_set = false;
-            boolean poly_pressure = false;
+            // Let Aftertouch to behbve just like modulbtion wheel (cc#1)
+            boolebn chbnnel_pressure_set = fblse;
+            boolebn poly_pressure = fblse;
             ModelConnectionBlock mod_cc_1_connection = null;
             int mod_cc_1_connection_src_ix = 0;
 
             for (ModelConnectionBlock connection : performer_connections) {
                 ModelSource[] sources = connection.getSources();
-                ModelDestination dest = connection.getDestination();
+                ModelDestinbtion dest = connection.getDestinbtion();
                 // if(dest != null && sources != null)
                 if (dest != null && sources != null) {
                     for (int i = 0; i < sources.length; i++) {
                         ModelIdentifier srcid = sources[i].getIdentifier();
-                        // check if connection block has the source "modulation
+                        // check if connection block hbs the source "modulbtion
                         // wheel cc#1"
-                        if (srcid.getObject().equals("midi_cc")) {
-                            if (srcid.getVariable().equals("1")) {
+                        if (srcid.getObject().equbls("midi_cc")) {
+                            if (srcid.getVbribble().equbls("1")) {
                                 mod_cc_1_connection = connection;
                                 mod_cc_1_connection_src_ix = i;
                             }
                         }
-                        // check if channel or poly pressure are already
+                        // check if chbnnel or poly pressure bre blrebdy
                         // connected
-                        if (srcid.getObject().equals("midi")) {
-                            if (srcid.getVariable().equals("channel_pressure"))
-                                channel_pressure_set = true;
-                            if (srcid.getVariable().equals("poly_pressure"))
+                        if (srcid.getObject().equbls("midi")) {
+                            if (srcid.getVbribble().equbls("chbnnel_pressure"))
+                                chbnnel_pressure_set = true;
+                            if (srcid.getVbribble().equbls("poly_pressure"))
                                 poly_pressure = true;
                         }
                     }
@@ -570,23 +570,23 @@ public final class SoftPerformer {
             }
 
             if (mod_cc_1_connection != null) {
-                if (!channel_pressure_set) {
+                if (!chbnnel_pressure_set) {
                     ModelConnectionBlock mc = new ModelConnectionBlock();
-                    mc.setDestination(mod_cc_1_connection.getDestination());
-                    mc.setScale(mod_cc_1_connection.getScale());
+                    mc.setDestinbtion(mod_cc_1_connection.getDestinbtion());
+                    mc.setScble(mod_cc_1_connection.getScble());
                     ModelSource[] src_list = mod_cc_1_connection.getSources();
                     ModelSource[] src_list_new = new ModelSource[src_list.length];
                     for (int i = 0; i < src_list_new.length; i++)
                         src_list_new[i] = src_list[i];
                     src_list_new[mod_cc_1_connection_src_ix] = new ModelSource(
-                            new ModelIdentifier("midi", "channel_pressure"));
+                            new ModelIdentifier("midi", "chbnnel_pressure"));
                     mc.setSources(src_list_new);
-                    connmap.put(extractKeys(mc), mc);
+                    connmbp.put(extrbctKeys(mc), mc);
                 }
                 if (!poly_pressure) {
                     ModelConnectionBlock mc = new ModelConnectionBlock();
-                    mc.setDestination(mod_cc_1_connection.getDestination());
-                    mc.setScale(mod_cc_1_connection.getScale());
+                    mc.setDestinbtion(mod_cc_1_connection.getDestinbtion());
+                    mc.setScble(mod_cc_1_connection.getScble());
                     ModelSource[] src_list = mod_cc_1_connection.getSources();
                     ModelSource[] src_list_new = new ModelSource[src_list.length];
                     for (int i = 0; i < src_list_new.length; i++)
@@ -594,28 +594,28 @@ public final class SoftPerformer {
                     src_list_new[mod_cc_1_connection_src_ix] = new ModelSource(
                             new ModelIdentifier("midi", "poly_pressure"));
                     mc.setSources(src_list_new);
-                    connmap.put(extractKeys(mc), mc);
+                    connmbp.put(extrbctKeys(mc), mc);
                 }
             }
 
-            // Enable Vibration Sound Controllers : 76, 77, 78
+            // Enbble Vibrbtion Sound Controllers : 76, 77, 78
             ModelConnectionBlock found_vib_connection = null;
             for (ModelConnectionBlock connection : performer_connections) {
                 ModelSource[] sources = connection.getSources();
                 if (sources.length != 0
-                        && sources[0].getIdentifier().getObject().equals("lfo")) {
-                    if (connection.getDestination().getIdentifier().equals(
-                            ModelDestination.DESTINATION_PITCH)) {
+                        && sources[0].getIdentifier().getObject().equbls("lfo")) {
+                    if (connection.getDestinbtion().getIdentifier().equbls(
+                            ModelDestinbtion.DESTINATION_PITCH)) {
                         if (found_vib_connection == null)
                             found_vib_connection = connection;
                         else {
                             if (found_vib_connection.getSources().length > sources.length)
                                 found_vib_connection = connection;
                             else if (found_vib_connection.getSources()[0]
-                                    .getIdentifier().getInstance() < 1) {
+                                    .getIdentifier().getInstbnce() < 1) {
                                 if (found_vib_connection.getSources()[0]
-                                        .getIdentifier().getInstance() >
-                                        sources[0].getIdentifier().getInstance()) {
+                                        .getIdentifier().getInstbnce() >
+                                        sources[0].getIdentifier().getInstbnce()) {
                                     found_vib_connection = connection;
                                 }
                             }
@@ -625,69 +625,69 @@ public final class SoftPerformer {
                 }
             }
 
-            int instance = 1;
+            int instbnce = 1;
 
             if (found_vib_connection != null) {
-                instance = found_vib_connection.getSources()[0].getIdentifier()
-                        .getInstance();
+                instbnce = found_vib_connection.getSources()[0].getIdentifier()
+                        .getInstbnce();
             }
             ModelConnectionBlock connection;
 
             connection = new ModelConnectionBlock(
                 new ModelSource(new ModelIdentifier("midi_cc", "78"),
-                    ModelStandardTransform.DIRECTION_MIN2MAX,
-                    ModelStandardTransform.POLARITY_BIPOLAR,
-                    ModelStandardTransform.TRANSFORM_LINEAR),
-                2000, new ModelDestination(
-                    new ModelIdentifier("lfo", "delay2", instance)));
-            connmap.put(extractKeys(connection), connection);
+                    ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                    ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                    ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                2000, new ModelDestinbtion(
+                    new ModelIdentifier("lfo", "delby2", instbnce)));
+            connmbp.put(extrbctKeys(connection), connection);
 
-            final double scale = found_vib_connection == null ? 0
-                    : found_vib_connection.getScale();
+            finbl double scble = found_vib_connection == null ? 0
+                    : found_vib_connection.getScble();
             connection = new ModelConnectionBlock(
-                new ModelSource(new ModelIdentifier("lfo", instance)),
+                new ModelSource(new ModelIdentifier("lfo", instbnce)),
                 new ModelSource(new ModelIdentifier("midi_cc", "77"),
-                    new ModelTransform() {
-                        double s = scale;
-                        public double transform(double value) {
-                            value = value * 2 - 1;
-                            value *= 600;
+                    new ModelTrbnsform() {
+                        double s = scble;
+                        public double trbnsform(double vblue) {
+                            vblue = vblue * 2 - 1;
+                            vblue *= 600;
                             if (s == 0) {
-                                return value;
+                                return vblue;
                             } else if (s > 0) {
-                                if (value < -s)
-                                    value = -s;
-                                return value;
+                                if (vblue < -s)
+                                    vblue = -s;
+                                return vblue;
                             } else {
-                                if (value < s)
-                                    value = -s;
-                                return -value;
+                                if (vblue < s)
+                                    vblue = -s;
+                                return -vblue;
                             }
                         }
-                    }), new ModelDestination(ModelDestination.DESTINATION_PITCH));
-            connmap.put(extractKeys(connection), connection);
+                    }), new ModelDestinbtion(ModelDestinbtion.DESTINATION_PITCH));
+            connmbp.put(extrbctKeys(connection), connection);
 
             connection = new ModelConnectionBlock(
                 new ModelSource(new ModelIdentifier("midi_cc", "76"),
-                    ModelStandardTransform.DIRECTION_MIN2MAX,
-                    ModelStandardTransform.POLARITY_BIPOLAR,
-                    ModelStandardTransform.TRANSFORM_LINEAR),
-                2400, new ModelDestination(
-                    new ModelIdentifier("lfo", "freq", instance)));
-            connmap.put(extractKeys(connection), connection);
+                    ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                    ModelStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                    ModelStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                2400, new ModelDestinbtion(
+                    new ModelIdentifier("lfo", "freq", instbnce)));
+            connmbp.put(extrbctKeys(connection), connection);
 
         }
 
-        // Add default connection blocks
-        if (performer.isDefaultConnectionsEnabled())
-            for (ModelConnectionBlock connection : defaultconnections)
-                connmap.put(extractKeys(connection), connection);
+        // Add defbult connection blocks
+        if (performer.isDefbultConnectionsEnbbled())
+            for (ModelConnectionBlock connection : defbultconnections)
+                connmbp.put(extrbctKeys(connection), connection);
         // Add connection blocks from modelperformer
         for (ModelConnectionBlock connection : performer_connections)
-            connmap.put(extractKeys(connection), connection);
-        // seperate connection blocks : Init time, Midi Time, Midi/Control Time,
+            connmbp.put(extrbctKeys(connection), connection);
+        // seperbte connection blocks : Init time, Midi Time, Midi/Control Time,
         // Control Time
-        List<ModelConnectionBlock> connections = new ArrayList<ModelConnectionBlock>();
+        List<ModelConnectionBlock> connections = new ArrbyList<ModelConnectionBlock>();
 
         midi_ctrl_connections = new int[128][];
         for (int i = 0; i < midi_ctrl_connections.length; i++) {
@@ -699,25 +699,25 @@ public final class SoftPerformer {
         }
 
         int ix = 0;
-        boolean mustBeOnTop = false;
+        boolebn mustBeOnTop = fblse;
 
-        for (ModelConnectionBlock connection : connmap.values()) {
-            if (connection.getDestination() != null) {
-                ModelDestination dest = connection.getDestination();
+        for (ModelConnectionBlock connection : connmbp.vblues()) {
+            if (connection.getDestinbtion() != null) {
+                ModelDestinbtion dest = connection.getDestinbtion();
                 ModelIdentifier id = dest.getIdentifier();
-                if (id.getObject().equals("noteon")) {
+                if (id.getObject().equbls("noteon")) {
                     mustBeOnTop = true;
-                    if (id.getVariable().equals("keynumber"))
+                    if (id.getVbribble().equbls("keynumber"))
                         forcedKeynumber = true;
-                    if (id.getVariable().equals("velocity"))
+                    if (id.getVbribble().equbls("velocity"))
                         forcedVelocity = true;
                 }
             }
             if (mustBeOnTop) {
-                connections.add(0, connection);
-                mustBeOnTop = false;
+                connections.bdd(0, connection);
+                mustBeOnTop = fblse;
             } else
-                connections.add(connection);
+                connections.bdd(connection);
         }
 
         for (ModelConnectionBlock connection : connections) {
@@ -731,26 +731,26 @@ public final class SoftPerformer {
         }
 
         this.connections = new ModelConnectionBlock[connections.size()];
-        connections.toArray(this.connections);
+        connections.toArrby(this.connections);
 
         this.ctrl_connections = new int[ctrl_connections_list.size()];
 
         for (int i = 0; i < this.ctrl_connections.length; i++)
             this.ctrl_connections[i] = ctrl_connections_list.get(i);
 
-        oscillators = new ModelOscillator[performer.getOscillators().size()];
-        performer.getOscillators().toArray(oscillators);
+        oscillbtors = new ModelOscillbtor[performer.getOscillbtors().size()];
+        performer.getOscillbtors().toArrby(oscillbtors);
 
         for (ModelConnectionBlock conn : connections) {
-            if (conn.getDestination() != null) {
-                if (isUnnecessaryTransform(conn.getDestination().getTransform())) {
-                    conn.getDestination().setTransform(null);
+            if (conn.getDestinbtion() != null) {
+                if (isUnnecessbryTrbnsform(conn.getDestinbtion().getTrbnsform())) {
+                    conn.getDestinbtion().setTrbnsform(null);
                 }
             }
             if (conn.getSources() != null) {
                 for (ModelSource src : conn.getSources()) {
-                    if (isUnnecessaryTransform(src.getTransform())) {
-                        src.setTransform(null);
+                    if (isUnnecessbryTrbnsform(src.getTrbnsform())) {
+                        src.setTrbnsform(null);
                     }
                 }
             }
@@ -758,18 +758,18 @@ public final class SoftPerformer {
 
     }
 
-    private static boolean isUnnecessaryTransform(ModelTransform transform) {
-        if (transform == null)
-            return false;
-        if (!(transform instanceof ModelStandardTransform))
-            return false;
-        ModelStandardTransform stransform = (ModelStandardTransform)transform;
-        if (stransform.getDirection() != ModelStandardTransform.DIRECTION_MIN2MAX)
-            return false;
-        if (stransform.getPolarity() != ModelStandardTransform.POLARITY_UNIPOLAR)
-            return false;
-        if (stransform.getTransform() != ModelStandardTransform.TRANSFORM_LINEAR)
-            return false;
-        return false;
+    privbte stbtic boolebn isUnnecessbryTrbnsform(ModelTrbnsform trbnsform) {
+        if (trbnsform == null)
+            return fblse;
+        if (!(trbnsform instbnceof ModelStbndbrdTrbnsform))
+            return fblse;
+        ModelStbndbrdTrbnsform strbnsform = (ModelStbndbrdTrbnsform)trbnsform;
+        if (strbnsform.getDirection() != ModelStbndbrdTrbnsform.DIRECTION_MIN2MAX)
+            return fblse;
+        if (strbnsform.getPolbrity() != ModelStbndbrdTrbnsform.POLARITY_UNIPOLAR)
+            return fblse;
+        if (strbnsform.getTrbnsform() != ModelStbndbrdTrbnsform.TRANSFORM_LINEAR)
+            return fblse;
+        return fblse;
     }
 }

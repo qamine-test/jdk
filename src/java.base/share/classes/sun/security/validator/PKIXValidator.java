@@ -1,372 +1,372 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.validator;
+pbckbge sun.security.vblidbtor;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.cert.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
 
-import javax.security.auth.x500.X500Principal;
-import sun.security.action.GetBooleanAction;
-import sun.security.provider.certpath.AlgorithmChecker;
+import jbvbx.security.buth.x500.X500Principbl;
+import sun.security.bction.GetBoolebnAction;
+import sun.security.provider.certpbth.AlgorithmChecker;
 
 /**
- * Validator implementation built on the PKIX CertPath API. This
- * implementation will be emphasized going forward.<p>
+ * Vblidbtor implementbtion built on the PKIX CertPbth API. This
+ * implementbtion will be emphbsized going forwbrd.<p>
  * <p>
- * Note that the validate() implementation tries to use a PKIX validator
- * if that appears possible and a PKIX builder otherwise. This increases
- * performance and currently also leads to better exception messages
- * in case of failures.
+ * Note thbt the vblidbte() implementbtion tries to use b PKIX vblidbtor
+ * if thbt bppebrs possible bnd b PKIX builder otherwise. This increbses
+ * performbnce bnd currently blso lebds to better exception messbges
+ * in cbse of fbilures.
  * <p>
- * {@code PKIXValidator} objects are immutable once they have been created.
- * Please DO NOT add methods that can change the state of an instance once
- * it has been created.
+ * {@code PKIXVblidbtor} objects bre immutbble once they hbve been crebted.
+ * Plebse DO NOT bdd methods thbt cbn chbnge the stbte of bn instbnce once
+ * it hbs been crebted.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public final class PKIXValidator extends Validator {
+public finbl clbss PKIXVblidbtor extends Vblidbtor {
 
     /**
-     * Flag indicating whether to enable revocation check for the PKIX trust
-     * manager. Typically, this will only work if the PKIX implementation
-     * supports CRL distribution points as we do not manually setup CertStores.
+     * Flbg indicbting whether to enbble revocbtion check for the PKIX trust
+     * mbnbger. Typicblly, this will only work if the PKIX implementbtion
+     * supports CRL distribution points bs we do not mbnublly setup CertStores.
      */
-    private final static boolean checkTLSRevocation =
+    privbte finbl stbtic boolebn checkTLSRevocbtion =
         AccessController.doPrivileged
-            (new GetBooleanAction("com.sun.net.ssl.checkRevocation"));
+            (new GetBoolebnAction("com.sun.net.ssl.checkRevocbtion"));
 
-    private final Set<X509Certificate> trustedCerts;
-    private final PKIXBuilderParameters parameterTemplate;
-    private int certPathLength = -1;
+    privbte finbl Set<X509Certificbte> trustedCerts;
+    privbte finbl PKIXBuilderPbrbmeters pbrbmeterTemplbte;
+    privbte int certPbthLength = -1;
 
-    // needed only for the validator
-    private final Map<X500Principal, List<PublicKey>> trustedSubjects;
-    private final CertificateFactory factory;
+    // needed only for the vblidbtor
+    privbte finbl Mbp<X500Principbl, List<PublicKey>> trustedSubjects;
+    privbte finbl CertificbteFbctory fbctory;
 
-    private final boolean plugin;
+    privbte finbl boolebn plugin;
 
-    PKIXValidator(String variant, Collection<X509Certificate> trustedCerts) {
-        super(TYPE_PKIX, variant);
-        this.trustedCerts = (trustedCerts instanceof Set) ?
-                            (Set<X509Certificate>)trustedCerts :
-                            new HashSet<X509Certificate>(trustedCerts);
+    PKIXVblidbtor(String vbribnt, Collection<X509Certificbte> trustedCerts) {
+        super(TYPE_PKIX, vbribnt);
+        this.trustedCerts = (trustedCerts instbnceof Set) ?
+                            (Set<X509Certificbte>)trustedCerts :
+                            new HbshSet<X509Certificbte>(trustedCerts);
 
-        Set<TrustAnchor> trustAnchors = new HashSet<>();
-        for (X509Certificate cert : trustedCerts) {
-            trustAnchors.add(new TrustAnchor(cert, null));
+        Set<TrustAnchor> trustAnchors = new HbshSet<>();
+        for (X509Certificbte cert : trustedCerts) {
+            trustAnchors.bdd(new TrustAnchor(cert, null));
         }
 
         try {
-            parameterTemplate = new PKIXBuilderParameters(trustAnchors, null);
-            factory = CertificateFactory.getInstance("X.509");
-        } catch (InvalidAlgorithmParameterException e) {
+            pbrbmeterTemplbte = new PKIXBuilderPbrbmeters(trustAnchors, null);
+            fbctory = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (InvblidAlgorithmPbrbmeterException e) {
             throw new RuntimeException("Unexpected error: " + e.toString(), e);
-        } catch (CertificateException e) {
-            throw new RuntimeException("Internal error", e);
+        } cbtch (CertificbteException e) {
+            throw new RuntimeException("Internbl error", e);
         }
 
-        setDefaultParameters(variant);
-        plugin = variant.equals(VAR_PLUGIN_CODE_SIGNING);
+        setDefbultPbrbmeters(vbribnt);
+        plugin = vbribnt.equbls(VAR_PLUGIN_CODE_SIGNING);
 
         trustedSubjects = setTrustedSubjects();
     }
 
-    PKIXValidator(String variant, PKIXBuilderParameters params) {
-        super(TYPE_PKIX, variant);
-        trustedCerts = new HashSet<X509Certificate>();
-        for (TrustAnchor anchor : params.getTrustAnchors()) {
-            X509Certificate cert = anchor.getTrustedCert();
+    PKIXVblidbtor(String vbribnt, PKIXBuilderPbrbmeters pbrbms) {
+        super(TYPE_PKIX, vbribnt);
+        trustedCerts = new HbshSet<X509Certificbte>();
+        for (TrustAnchor bnchor : pbrbms.getTrustAnchors()) {
+            X509Certificbte cert = bnchor.getTrustedCert();
             if (cert != null) {
-                trustedCerts.add(cert);
+                trustedCerts.bdd(cert);
             }
         }
-        parameterTemplate = params;
+        pbrbmeterTemplbte = pbrbms;
 
         try {
-            factory = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new RuntimeException("Internal error", e);
+            fbctory = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException e) {
+            throw new RuntimeException("Internbl error", e);
         }
 
-        plugin = variant.equals(VAR_PLUGIN_CODE_SIGNING);
+        plugin = vbribnt.equbls(VAR_PLUGIN_CODE_SIGNING);
 
         trustedSubjects = setTrustedSubjects();
     }
 
     /**
-     * Populate the trustedSubjects Map using the DN and public keys from
-     * the list of trusted certificates
+     * Populbte the trustedSubjects Mbp using the DN bnd public keys from
+     * the list of trusted certificbtes
      *
-     * @return Map containing each subject DN and one or more public keys
+     * @return Mbp contbining ebch subject DN bnd one or more public keys
      *    tied to those DNs.
      */
-    private Map<X500Principal, List<PublicKey>> setTrustedSubjects() {
-        Map<X500Principal, List<PublicKey>> subjectMap = new HashMap<>();
+    privbte Mbp<X500Principbl, List<PublicKey>> setTrustedSubjects() {
+        Mbp<X500Principbl, List<PublicKey>> subjectMbp = new HbshMbp<>();
 
-        for (X509Certificate cert : trustedCerts) {
-            X500Principal dn = cert.getSubjectX500Principal();
+        for (X509Certificbte cert : trustedCerts) {
+            X500Principbl dn = cert.getSubjectX500Principbl();
             List<PublicKey> keys;
-            if (subjectMap.containsKey(dn)) {
-                keys = subjectMap.get(dn);
+            if (subjectMbp.contbinsKey(dn)) {
+                keys = subjectMbp.get(dn);
             } else {
-                keys = new ArrayList<PublicKey>();
-                subjectMap.put(dn, keys);
+                keys = new ArrbyList<PublicKey>();
+                subjectMbp.put(dn, keys);
             }
-            keys.add(cert.getPublicKey());
+            keys.bdd(cert.getPublicKey());
         }
 
-        return subjectMap;
+        return subjectMbp;
     }
 
-    public Collection<X509Certificate> getTrustedCertificates() {
+    public Collection<X509Certificbte> getTrustedCertificbtes() {
         return trustedCerts;
     }
 
     /**
-     * Returns the length of the last certification path that is validated by
-     * CertPathValidator. This is intended primarily as a callback mechanism
-     * for PKIXCertPathCheckers to determine the length of the certification
-     * path that is being validated. It is necessary since engineValidate()
-     * may modify the length of the path.
+     * Returns the length of the lbst certificbtion pbth thbt is vblidbted by
+     * CertPbthVblidbtor. This is intended primbrily bs b cbllbbck mechbnism
+     * for PKIXCertPbthCheckers to determine the length of the certificbtion
+     * pbth thbt is being vblidbted. It is necessbry since engineVblidbte()
+     * mby modify the length of the pbth.
      *
-     * @return the length of the last certification path passed to
-     *   CertPathValidator.validate, or -1 if it has not been invoked yet
+     * @return the length of the lbst certificbtion pbth pbssed to
+     *   CertPbthVblidbtor.vblidbte, or -1 if it hbs not been invoked yet
      */
-    public int getCertPathLength() { // mutable, should be private
-        return certPathLength;
+    public int getCertPbthLength() { // mutbble, should be privbte
+        return certPbthLength;
     }
 
     /**
-     * Set J2SE global default PKIX parameters. Currently, hardcoded to disable
-     * revocation checking. In the future, this should be configurable.
+     * Set J2SE globbl defbult PKIX pbrbmeters. Currently, hbrdcoded to disbble
+     * revocbtion checking. In the future, this should be configurbble.
      */
-    private void setDefaultParameters(String variant) {
-        if ((variant == Validator.VAR_TLS_SERVER) ||
-                (variant == Validator.VAR_TLS_CLIENT)) {
-            parameterTemplate.setRevocationEnabled(checkTLSRevocation);
+    privbte void setDefbultPbrbmeters(String vbribnt) {
+        if ((vbribnt == Vblidbtor.VAR_TLS_SERVER) ||
+                (vbribnt == Vblidbtor.VAR_TLS_CLIENT)) {
+            pbrbmeterTemplbte.setRevocbtionEnbbled(checkTLSRevocbtion);
         } else {
-            parameterTemplate.setRevocationEnabled(false);
+            pbrbmeterTemplbte.setRevocbtionEnbbled(fblse);
         }
     }
 
     /**
-     * Return the PKIX parameters used by this instance. An application may
-     * modify the parameters but must make sure not to perform any concurrent
-     * validations.
+     * Return the PKIX pbrbmeters used by this instbnce. An bpplicbtion mby
+     * modify the pbrbmeters but must mbke sure not to perform bny concurrent
+     * vblidbtions.
      */
-    public PKIXBuilderParameters getParameters() { // mutable, should be private
-        return parameterTemplate;
+    public PKIXBuilderPbrbmeters getPbrbmeters() { // mutbble, should be privbte
+        return pbrbmeterTemplbte;
     }
 
     @Override
-    X509Certificate[] engineValidate(X509Certificate[] chain,
-            Collection<X509Certificate> otherCerts,
-            AlgorithmConstraints constraints,
-            Object parameter) throws CertificateException {
-        if ((chain == null) || (chain.length == 0)) {
-            throw new CertificateException
-                ("null or zero-length certificate chain");
+    X509Certificbte[] engineVblidbte(X509Certificbte[] chbin,
+            Collection<X509Certificbte> otherCerts,
+            AlgorithmConstrbints constrbints,
+            Object pbrbmeter) throws CertificbteException {
+        if ((chbin == null) || (chbin.length == 0)) {
+            throw new CertificbteException
+                ("null or zero-length certificbte chbin");
         }
 
-        // add  new algorithm constraints checker
-        PKIXBuilderParameters pkixParameters =
-                    (PKIXBuilderParameters) parameterTemplate.clone();
-        AlgorithmChecker algorithmChecker = null;
-        if (constraints != null) {
-            algorithmChecker = new AlgorithmChecker(constraints);
-            pkixParameters.addCertPathChecker(algorithmChecker);
+        // bdd  new blgorithm constrbints checker
+        PKIXBuilderPbrbmeters pkixPbrbmeters =
+                    (PKIXBuilderPbrbmeters) pbrbmeterTemplbte.clone();
+        AlgorithmChecker blgorithmChecker = null;
+        if (constrbints != null) {
+            blgorithmChecker = new AlgorithmChecker(constrbints);
+            pkixPbrbmeters.bddCertPbthChecker(blgorithmChecker);
         }
 
-        // check that chain is in correct order and check if chain contains
-        // trust anchor
-        X500Principal prevIssuer = null;
-        for (int i = 0; i < chain.length; i++) {
-            X509Certificate cert = chain[i];
-            X500Principal dn = cert.getSubjectX500Principal();
-            if (i != 0 && !dn.equals(prevIssuer)) {
-                // chain is not ordered correctly, call builder instead
-                return doBuild(chain, otherCerts, pkixParameters);
+        // check thbt chbin is in correct order bnd check if chbin contbins
+        // trust bnchor
+        X500Principbl prevIssuer = null;
+        for (int i = 0; i < chbin.length; i++) {
+            X509Certificbte cert = chbin[i];
+            X500Principbl dn = cert.getSubjectX500Principbl();
+            if (i != 0 && !dn.equbls(prevIssuer)) {
+                // chbin is not ordered correctly, cbll builder instebd
+                return doBuild(chbin, otherCerts, pkixPbrbmeters);
             }
 
-            // Check if chain[i] is already trusted. It may be inside
-            // trustedCerts, or has the same dn and public key as a cert
-            // inside trustedCerts. The latter happens when a CA has
-            // updated its cert with a stronger signature algorithm in JRE
-            // but the weak one is still in circulation.
+            // Check if chbin[i] is blrebdy trusted. It mby be inside
+            // trustedCerts, or hbs the sbme dn bnd public key bs b cert
+            // inside trustedCerts. The lbtter hbppens when b CA hbs
+            // updbted its cert with b stronger signbture blgorithm in JRE
+            // but the webk one is still in circulbtion.
 
-            if (trustedCerts.contains(cert) ||          // trusted cert
-                    (trustedSubjects.containsKey(dn) && // replacing ...
-                     trustedSubjects.get(dn).contains(  // ... weak cert
+            if (trustedCerts.contbins(cert) ||          // trusted cert
+                    (trustedSubjects.contbinsKey(dn) && // replbcing ...
+                     trustedSubjects.get(dn).contbins(  // ... webk cert
                         cert.getPublicKey()))) {
                 if (i == 0) {
-                    return new X509Certificate[] {chain[0]};
+                    return new X509Certificbte[] {chbin[0]};
                 }
-                // Remove and call validator on partial chain [0 .. i-1]
-                X509Certificate[] newChain = new X509Certificate[i];
-                System.arraycopy(chain, 0, newChain, 0, i);
-                return doValidate(newChain, pkixParameters);
+                // Remove bnd cbll vblidbtor on pbrtibl chbin [0 .. i-1]
+                X509Certificbte[] newChbin = new X509Certificbte[i];
+                System.brrbycopy(chbin, 0, newChbin, 0, i);
+                return doVblidbte(newChbin, pkixPbrbmeters);
             }
-            prevIssuer = cert.getIssuerX500Principal();
+            prevIssuer = cert.getIssuerX500Principbl();
         }
 
-        // apparently issued by trust anchor?
-        X509Certificate last = chain[chain.length - 1];
-        X500Principal issuer = last.getIssuerX500Principal();
-        X500Principal subject = last.getSubjectX500Principal();
-        if (trustedSubjects.containsKey(issuer) &&
-                isSignatureValid(trustedSubjects.get(issuer), last)) {
-            return doValidate(chain, pkixParameters);
+        // bppbrently issued by trust bnchor?
+        X509Certificbte lbst = chbin[chbin.length - 1];
+        X500Principbl issuer = lbst.getIssuerX500Principbl();
+        X500Principbl subject = lbst.getSubjectX500Principbl();
+        if (trustedSubjects.contbinsKey(issuer) &&
+                isSignbtureVblid(trustedSubjects.get(issuer), lbst)) {
+            return doVblidbte(chbin, pkixPbrbmeters);
         }
 
-        // don't fallback to builder if called from plugin/webstart
+        // don't fbllbbck to builder if cblled from plugin/webstbrt
         if (plugin) {
-            // Validate chain even if no trust anchor is found. This
-            // allows plugin/webstart to make sure the chain is
-            // otherwise valid
-            if (chain.length > 1) {
-                X509Certificate[] newChain =
-                    new X509Certificate[chain.length-1];
-                System.arraycopy(chain, 0, newChain, 0, newChain.length);
+            // Vblidbte chbin even if no trust bnchor is found. This
+            // bllows plugin/webstbrt to mbke sure the chbin is
+            // otherwise vblid
+            if (chbin.length > 1) {
+                X509Certificbte[] newChbin =
+                    new X509Certificbte[chbin.length-1];
+                System.brrbycopy(chbin, 0, newChbin, 0, newChbin.length);
 
-                // temporarily set last cert as sole trust anchor
+                // temporbrily set lbst cert bs sole trust bnchor
                 try {
-                    pkixParameters.setTrustAnchors
+                    pkixPbrbmeters.setTrustAnchors
                         (Collections.singleton(new TrustAnchor
-                            (chain[chain.length-1], null)));
-                } catch (InvalidAlgorithmParameterException iape) {
+                            (chbin[chbin.length-1], null)));
+                } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
                     // should never occur, but ...
-                    throw new CertificateException(iape);
+                    throw new CertificbteException(ibpe);
                 }
-                doValidate(newChain, pkixParameters);
+                doVblidbte(newChbin, pkixPbrbmeters);
             }
-            // if the rest of the chain is valid, throw exception
-            // indicating no trust anchor was found
-            throw new ValidatorException
-                (ValidatorException.T_NO_TRUST_ANCHOR);
+            // if the rest of the chbin is vblid, throw exception
+            // indicbting no trust bnchor wbs found
+            throw new VblidbtorException
+                (VblidbtorException.T_NO_TRUST_ANCHOR);
         }
-        // otherwise, fall back to builder
+        // otherwise, fbll bbck to builder
 
-        return doBuild(chain, otherCerts, pkixParameters);
+        return doBuild(chbin, otherCerts, pkixPbrbmeters);
     }
 
-    private boolean isSignatureValid(List<PublicKey> keys,
-            X509Certificate sub) {
+    privbte boolebn isSignbtureVblid(List<PublicKey> keys,
+            X509Certificbte sub) {
         if (plugin) {
             for (PublicKey key: keys) {
                 try {
                     sub.verify(key);
                     return true;
-                } catch (Exception ex) {
+                } cbtch (Exception ex) {
                     continue;
                 }
             }
-            return false;
+            return fblse;
         }
         return true; // only check if PLUGIN is set
     }
 
-    private static X509Certificate[] toArray(CertPath path, TrustAnchor anchor)
-            throws CertificateException {
-        List<? extends java.security.cert.Certificate> list =
-                                                path.getCertificates();
-        X509Certificate[] chain = new X509Certificate[list.size() + 1];
-        list.toArray(chain);
-        X509Certificate trustedCert = anchor.getTrustedCert();
+    privbte stbtic X509Certificbte[] toArrby(CertPbth pbth, TrustAnchor bnchor)
+            throws CertificbteException {
+        List<? extends jbvb.security.cert.Certificbte> list =
+                                                pbth.getCertificbtes();
+        X509Certificbte[] chbin = new X509Certificbte[list.size() + 1];
+        list.toArrby(chbin);
+        X509Certificbte trustedCert = bnchor.getTrustedCert();
         if (trustedCert == null) {
-            throw new ValidatorException
-                ("TrustAnchor must be specified as certificate");
+            throw new VblidbtorException
+                ("TrustAnchor must be specified bs certificbte");
         }
-        chain[chain.length - 1] = trustedCert;
-        return chain;
+        chbin[chbin.length - 1] = trustedCert;
+        return chbin;
     }
 
     /**
-     * Set the check date (for debugging).
+     * Set the check dbte (for debugging).
      */
-    private void setDate(PKIXBuilderParameters params) {
-        @SuppressWarnings("deprecation")
-        Date date = validationDate;
-        if (date != null) {
-            params.setDate(date);
+    privbte void setDbte(PKIXBuilderPbrbmeters pbrbms) {
+        @SuppressWbrnings("deprecbtion")
+        Dbte dbte = vblidbtionDbte;
+        if (dbte != null) {
+            pbrbms.setDbte(dbte);
         }
     }
 
-    private X509Certificate[] doValidate(X509Certificate[] chain,
-            PKIXBuilderParameters params) throws CertificateException {
+    privbte X509Certificbte[] doVblidbte(X509Certificbte[] chbin,
+            PKIXBuilderPbrbmeters pbrbms) throws CertificbteException {
         try {
-            setDate(params);
+            setDbte(pbrbms);
 
-            // do the validation
-            CertPathValidator validator = CertPathValidator.getInstance("PKIX");
-            CertPath path = factory.generateCertPath(Arrays.asList(chain));
-            certPathLength = chain.length;
-            PKIXCertPathValidatorResult result =
-                (PKIXCertPathValidatorResult)validator.validate(path, params);
+            // do the vblidbtion
+            CertPbthVblidbtor vblidbtor = CertPbthVblidbtor.getInstbnce("PKIX");
+            CertPbth pbth = fbctory.generbteCertPbth(Arrbys.bsList(chbin));
+            certPbthLength = chbin.length;
+            PKIXCertPbthVblidbtorResult result =
+                (PKIXCertPbthVblidbtorResult)vblidbtor.vblidbte(pbth, pbrbms);
 
-            return toArray(path, result.getTrustAnchor());
-        } catch (GeneralSecurityException e) {
-            throw new ValidatorException
-                ("PKIX path validation failed: " + e.toString(), e);
+            return toArrby(pbth, result.getTrustAnchor());
+        } cbtch (GenerblSecurityException e) {
+            throw new VblidbtorException
+                ("PKIX pbth vblidbtion fbiled: " + e.toString(), e);
         }
     }
 
-    private X509Certificate[] doBuild(X509Certificate[] chain,
-        Collection<X509Certificate> otherCerts,
-        PKIXBuilderParameters params) throws CertificateException {
+    privbte X509Certificbte[] doBuild(X509Certificbte[] chbin,
+        Collection<X509Certificbte> otherCerts,
+        PKIXBuilderPbrbmeters pbrbms) throws CertificbteException {
 
         try {
-            setDate(params);
+            setDbte(pbrbms);
 
-            // setup target constraints
+            // setup tbrget constrbints
             X509CertSelector selector = new X509CertSelector();
-            selector.setCertificate(chain[0]);
-            params.setTargetCertConstraints(selector);
+            selector.setCertificbte(chbin[0]);
+            pbrbms.setTbrgetCertConstrbints(selector);
 
             // setup CertStores
-            Collection<X509Certificate> certs =
-                                        new ArrayList<X509Certificate>();
-            certs.addAll(Arrays.asList(chain));
+            Collection<X509Certificbte> certs =
+                                        new ArrbyList<X509Certificbte>();
+            certs.bddAll(Arrbys.bsList(chbin));
             if (otherCerts != null) {
-                certs.addAll(otherCerts);
+                certs.bddAll(otherCerts);
             }
-            CertStore store = CertStore.getInstance("Collection",
-                                new CollectionCertStoreParameters(certs));
-            params.addCertStore(store);
+            CertStore store = CertStore.getInstbnce("Collection",
+                                new CollectionCertStorePbrbmeters(certs));
+            pbrbms.bddCertStore(store);
 
             // do the build
-            CertPathBuilder builder = CertPathBuilder.getInstance("PKIX");
-            PKIXCertPathBuilderResult result =
-                (PKIXCertPathBuilderResult)builder.build(params);
+            CertPbthBuilder builder = CertPbthBuilder.getInstbnce("PKIX");
+            PKIXCertPbthBuilderResult result =
+                (PKIXCertPbthBuilderResult)builder.build(pbrbms);
 
-            return toArray(result.getCertPath(), result.getTrustAnchor());
-        } catch (GeneralSecurityException e) {
-            throw new ValidatorException
-                ("PKIX path building failed: " + e.toString(), e);
+            return toArrby(result.getCertPbth(), result.getTrustAnchor());
+        } cbtch (GenerblSecurityException e) {
+            throw new VblidbtorException
+                ("PKIX pbth building fbiled: " + e.toString(), e);
         }
     }
 }

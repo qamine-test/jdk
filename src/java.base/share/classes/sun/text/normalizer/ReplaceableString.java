@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,97 +27,97 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
 /**
- * <code>ReplaceableString</code> is an adapter class that implements the
- * <code>Replaceable</code> API around an ordinary <code>StringBuffer</code>.
+ * <code>ReplbcebbleString</code> is bn bdbpter clbss thbt implements the
+ * <code>Replbcebble</code> API bround bn ordinbry <code>StringBuffer</code>.
  *
- * <p><em>Note:</em> This class does not support attributes and is not
- * intended for general use.  Most clients will need to implement
- * {@link Replaceable} in their text representation class.
+ * <p><em>Note:</em> This clbss does not support bttributes bnd is not
+ * intended for generbl use.  Most clients will need to implement
+ * {@link Replbcebble} in their text representbtion clbss.
  *
- * <p>Copyright &copy; IBM Corporation 1999.  All rights reserved.
+ * <p>Copyright &copy; IBM Corporbtion 1999.  All rights reserved.
  *
- * @see Replaceable
- * @author Alan Liu
- * @stable ICU 2.0
+ * @see Replbcebble
+ * @buthor Albn Liu
+ * @stbble ICU 2.0
  */
-public class ReplaceableString implements Replaceable {
+public clbss ReplbcebbleString implements Replbcebble {
 
-    private StringBuffer buf;
+    privbte StringBuffer buf;
 
     /**
-     * Construct a new object with the given initial contents.
-     * @param str initial contents
-     * @stable ICU 2.0
+     * Construct b new object with the given initibl contents.
+     * @pbrbm str initibl contents
+     * @stbble ICU 2.0
      */
-    public ReplaceableString(String str) {
+    public ReplbcebbleString(String str) {
         buf = new StringBuffer(str);
     }
 
     //// for StringPrep
     /**
-     * Construct a new object using <code>buf</code> for internal
-     * storage.  The contents of <code>buf</code> at the time of
-     * construction are used as the initial contents.  <em>Note!
-     * Modifications to <code>buf</code> will modify this object, and
-     * vice versa.</em>
-     * @param buf object to be used as internal storage
-     * @stable ICU 2.0
+     * Construct b new object using <code>buf</code> for internbl
+     * storbge.  The contents of <code>buf</code> bt the time of
+     * construction bre used bs the initibl contents.  <em>Note!
+     * Modificbtions to <code>buf</code> will modify this object, bnd
+     * vice versb.</em>
+     * @pbrbm buf object to be used bs internbl storbge
+     * @stbble ICU 2.0
      */
-    public ReplaceableString(StringBuffer buf) {
+    public ReplbcebbleString(StringBuffer buf) {
         this.buf = buf;
     }
 
     /**
-     * Return the number of characters contained in this object.
-     * <code>Replaceable</code> API.
-     * @stable ICU 2.0
+     * Return the number of chbrbcters contbined in this object.
+     * <code>Replbcebble</code> API.
+     * @stbble ICU 2.0
      */
     public int length() {
         return buf.length();
     }
 
     /**
-     * Return the character at the given position in this object.
-     * <code>Replaceable</code> API.
-     * @param offset offset into the contents, from 0 to
+     * Return the chbrbcter bt the given position in this object.
+     * <code>Replbcebble</code> API.
+     * @pbrbm offset offset into the contents, from 0 to
      * <code>length()</code> - 1
-     * @stable ICU 2.0
+     * @stbble ICU 2.0
      */
-    public char charAt(int offset) {
-        return buf.charAt(offset);
+    public chbr chbrAt(int offset) {
+        return buf.chbrAt(offset);
     }
 
     //// for StringPrep
     /**
-     * Copies characters from this object into the destination
-     * character array.  The first character to be copied is at index
-     * <code>srcStart</code>; the last character to be copied is at
-     * index <code>srcLimit-1</code> (thus the total number of
-     * characters to be copied is <code>srcLimit-srcStart</code>). The
-     * characters are copied into the subarray of <code>dst</code>
-     * starting at index <code>dstStart</code> and ending at index
-     * <code>dstStart + (srcLimit-srcStart) - 1</code>.
+     * Copies chbrbcters from this object into the destinbtion
+     * chbrbcter brrby.  The first chbrbcter to be copied is bt index
+     * <code>srcStbrt</code>; the lbst chbrbcter to be copied is bt
+     * index <code>srcLimit-1</code> (thus the totbl number of
+     * chbrbcters to be copied is <code>srcLimit-srcStbrt</code>). The
+     * chbrbcters bre copied into the subbrrby of <code>dst</code>
+     * stbrting bt index <code>dstStbrt</code> bnd ending bt index
+     * <code>dstStbrt + (srcLimit-srcStbrt) - 1</code>.
      *
-     * @param srcStart the beginning index to copy, inclusive; <code>0
-     * <= start <= limit</code>.
-     * @param srcLimit the ending index to copy, exclusive;
-     * <code>start <= limit <= length()</code>.
-     * @param dst the destination array.
-     * @param dstStart the start offset in the destination array.
-     * @stable ICU 2.0
+     * @pbrbm srcStbrt the beginning index to copy, inclusive; <code>0
+     * <= stbrt <= limit</code>.
+     * @pbrbm srcLimit the ending index to copy, exclusive;
+     * <code>stbrt <= limit <= length()</code>.
+     * @pbrbm dst the destinbtion brrby.
+     * @pbrbm dstStbrt the stbrt offset in the destinbtion brrby.
+     * @stbble ICU 2.0
      */
-    public void getChars(int srcStart, int srcLimit, char dst[], int dstStart) {
-        Utility.getChars(buf, srcStart, srcLimit, dst, dstStart);
+    public void getChbrs(int srcStbrt, int srcLimit, chbr dst[], int dstStbrt) {
+        Utility.getChbrs(buf, srcStbrt, srcLimit, dst, dstStbrt);
     }
 }

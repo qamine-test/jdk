@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.Set;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.util.Set;
 
 
 /**
- * Provides a javax.swing.DefaultFocusManager view onto an arbitrary
- * java.awt.KeyboardFocusManager. We subclass DefaultFocusManager instead of
- * FocusManager because it seems more backward-compatible. It is likely that
- * some pre-1.4 code assumes that the object returned by
- * FocusManager.getCurrentManager is an instance of DefaultFocusManager unless
+ * Provides b jbvbx.swing.DefbultFocusMbnbger view onto bn brbitrbry
+ * jbvb.bwt.KeybobrdFocusMbnbger. We subclbss DefbultFocusMbnbger instebd of
+ * FocusMbnbger becbuse it seems more bbckwbrd-compbtible. It is likely thbt
+ * some pre-1.4 code bssumes thbt the object returned by
+ * FocusMbnbger.getCurrentMbnbger is bn instbnce of DefbultFocusMbnbger unless
  * set explicitly.
  */
-final class DelegatingDefaultFocusManager extends DefaultFocusManager {
-    private final KeyboardFocusManager delegate;
+finbl clbss DelegbtingDefbultFocusMbnbger extends DefbultFocusMbnbger {
+    privbte finbl KeybobrdFocusMbnbger delegbte;
 
-    DelegatingDefaultFocusManager(KeyboardFocusManager delegate) {
-        this.delegate = delegate;
-        setDefaultFocusTraversalPolicy(gluePolicy);
+    DelegbtingDefbultFocusMbnbger(KeybobrdFocusMbnbger delegbte) {
+        this.delegbte = delegbte;
+        setDefbultFocusTrbversblPolicy(gluePolicy);
     }
 
-    KeyboardFocusManager getDelegate() {
-        return delegate;
+    KeybobrdFocusMbnbger getDelegbte() {
+        return delegbte;
     }
 
-    // Legacy methods which first appeared in javax.swing.FocusManager.
+    // Legbcy methods which first bppebred in jbvbx.swing.FocusMbnbger.
     // Client code is most likely to invoke these methods.
 
     public void processKeyEvent(Component focusedComponent, KeyEvent e) {
-        delegate.processKeyEvent(focusedComponent, e);
+        delegbte.processKeyEvent(focusedComponent, e);
     }
-    public void focusNextComponent(Component aComponent) {
-        delegate.focusNextComponent(aComponent);
+    public void focusNextComponent(Component bComponent) {
+        delegbte.focusNextComponent(bComponent);
     }
-    public void focusPreviousComponent(Component aComponent) {
-        delegate.focusPreviousComponent(aComponent);
+    public void focusPreviousComponent(Component bComponent) {
+        delegbte.focusPreviousComponent(bComponent);
     }
 
-    // Make sure that we delegate all new methods in KeyboardFocusManager
-    // as well as the legacy methods from Swing. It is theoretically possible,
-    // although unlikely, that a client app will treat this instance as a
-    // new-style KeyboardFocusManager. We might as well be safe.
+    // Mbke sure thbt we delegbte bll new methods in KeybobrdFocusMbnbger
+    // bs well bs the legbcy methods from Swing. It is theoreticblly possible,
+    // blthough unlikely, thbt b client bpp will trebt this instbnce bs b
+    // new-style KeybobrdFocusMbnbger. We might bs well be sbfe.
     //
     // The JLS won't let us override the protected methods in
-    // KeyboardFocusManager such that they invoke the corresponding methods on
-    // the delegate. However, since client code would never be able to call
-    // those methods anyways, we don't have to worry about that problem.
+    // KeybobrdFocusMbnbger such thbt they invoke the corresponding methods on
+    // the delegbte. However, since client code would never be bble to cbll
+    // those methods bnywbys, we don't hbve to worry bbout thbt problem.
 
     public Component getFocusOwner() {
-        return delegate.getFocusOwner();
+        return delegbte.getFocusOwner();
     }
-    public void clearGlobalFocusOwner() {
-        delegate.clearGlobalFocusOwner();
+    public void clebrGlobblFocusOwner() {
+        delegbte.clebrGlobblFocusOwner();
     }
-    public Component getPermanentFocusOwner() {
-        return delegate.getPermanentFocusOwner();
+    public Component getPermbnentFocusOwner() {
+        return delegbte.getPermbnentFocusOwner();
     }
     public Window getFocusedWindow() {
-        return delegate.getFocusedWindow();
+        return delegbte.getFocusedWindow();
     }
     public Window getActiveWindow() {
-        return delegate.getActiveWindow();
+        return delegbte.getActiveWindow();
     }
-    public FocusTraversalPolicy getDefaultFocusTraversalPolicy() {
-        return delegate.getDefaultFocusTraversalPolicy();
+    public FocusTrbversblPolicy getDefbultFocusTrbversblPolicy() {
+        return delegbte.getDefbultFocusTrbversblPolicy();
     }
-    public void setDefaultFocusTraversalPolicy(FocusTraversalPolicy
-                                               defaultPolicy) {
-        if (delegate != null) {
+    public void setDefbultFocusTrbversblPolicy(FocusTrbversblPolicy
+                                               defbultPolicy) {
+        if (delegbte != null) {
             // Will be null when invoked from supers constructor.
-            delegate.setDefaultFocusTraversalPolicy(defaultPolicy);
+            delegbte.setDefbultFocusTrbversblPolicy(defbultPolicy);
         }
     }
     public void
-        setDefaultFocusTraversalKeys(int id,
+        setDefbultFocusTrbversblKeys(int id,
                                      Set<? extends AWTKeyStroke> keystrokes)
     {
-        delegate.setDefaultFocusTraversalKeys(id, keystrokes);
+        delegbte.setDefbultFocusTrbversblKeys(id, keystrokes);
     }
-    public Set<AWTKeyStroke> getDefaultFocusTraversalKeys(int id) {
-        return delegate.getDefaultFocusTraversalKeys(id);
+    public Set<AWTKeyStroke> getDefbultFocusTrbversblKeys(int id) {
+        return delegbte.getDefbultFocusTrbversblKeys(id);
     }
-    public Container getCurrentFocusCycleRoot() {
-        return delegate.getCurrentFocusCycleRoot();
+    public Contbiner getCurrentFocusCycleRoot() {
+        return delegbte.getCurrentFocusCycleRoot();
     }
-    public void setGlobalCurrentFocusCycleRoot(Container newFocusCycleRoot) {
-        delegate.setGlobalCurrentFocusCycleRoot(newFocusCycleRoot);
+    public void setGlobblCurrentFocusCycleRoot(Contbiner newFocusCycleRoot) {
+        delegbte.setGlobblCurrentFocusCycleRoot(newFocusCycleRoot);
     }
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        delegate.addPropertyChangeListener(listener);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        delegbte.bddPropertyChbngeListener(listener);
     }
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        delegate.removePropertyChangeListener(listener);
+    public void removePropertyChbngeListener(PropertyChbngeListener listener) {
+        delegbte.removePropertyChbngeListener(listener);
     }
-    public void addPropertyChangeListener(String propertyName,
-                                          PropertyChangeListener listener) {
-        delegate.addPropertyChangeListener(propertyName, listener);
+    public void bddPropertyChbngeListener(String propertyNbme,
+                                          PropertyChbngeListener listener) {
+        delegbte.bddPropertyChbngeListener(propertyNbme, listener);
     }
-    public void removePropertyChangeListener(String propertyName,
-                                             PropertyChangeListener listener) {
-        delegate.removePropertyChangeListener(propertyName, listener);
+    public void removePropertyChbngeListener(String propertyNbme,
+                                             PropertyChbngeListener listener) {
+        delegbte.removePropertyChbngeListener(propertyNbme, listener);
     }
-    public void addVetoableChangeListener(VetoableChangeListener listener) {
-        delegate.addVetoableChangeListener(listener);
+    public void bddVetobbleChbngeListener(VetobbleChbngeListener listener) {
+        delegbte.bddVetobbleChbngeListener(listener);
     }
-    public void removeVetoableChangeListener(VetoableChangeListener listener) {
-        delegate.removeVetoableChangeListener(listener);
+    public void removeVetobbleChbngeListener(VetobbleChbngeListener listener) {
+        delegbte.removeVetobbleChbngeListener(listener);
     }
-    public void addVetoableChangeListener(String propertyName,
-                                          VetoableChangeListener listener) {
-        delegate.addVetoableChangeListener(propertyName, listener);
+    public void bddVetobbleChbngeListener(String propertyNbme,
+                                          VetobbleChbngeListener listener) {
+        delegbte.bddVetobbleChbngeListener(propertyNbme, listener);
     }
-    public void removeVetoableChangeListener(String propertyName,
-                                             VetoableChangeListener listener) {
-        delegate.removeVetoableChangeListener(propertyName, listener);
+    public void removeVetobbleChbngeListener(String propertyNbme,
+                                             VetobbleChbngeListener listener) {
+        delegbte.removeVetobbleChbngeListener(propertyNbme, listener);
     }
-    public void addKeyEventDispatcher(KeyEventDispatcher dispatcher) {
-        delegate.addKeyEventDispatcher(dispatcher);
+    public void bddKeyEventDispbtcher(KeyEventDispbtcher dispbtcher) {
+        delegbte.bddKeyEventDispbtcher(dispbtcher);
     }
-    public void removeKeyEventDispatcher(KeyEventDispatcher dispatcher) {
-        delegate.removeKeyEventDispatcher(dispatcher);
+    public void removeKeyEventDispbtcher(KeyEventDispbtcher dispbtcher) {
+        delegbte.removeKeyEventDispbtcher(dispbtcher);
     }
-    public boolean dispatchEvent(AWTEvent e) {
-        return delegate.dispatchEvent(e);
+    public boolebn dispbtchEvent(AWTEvent e) {
+        return delegbte.dispbtchEvent(e);
     }
-    public boolean dispatchKeyEvent(KeyEvent e) {
-        return delegate.dispatchKeyEvent(e);
+    public boolebn dispbtchKeyEvent(KeyEvent e) {
+        return delegbte.dispbtchKeyEvent(e);
     }
-    public void upFocusCycle(Component aComponent) {
-        delegate.upFocusCycle(aComponent);
+    public void upFocusCycle(Component bComponent) {
+        delegbte.upFocusCycle(bComponent);
     }
-    public void downFocusCycle(Container aContainer) {
-        delegate.downFocusCycle(aContainer);
+    public void downFocusCycle(Contbiner bContbiner) {
+        delegbte.downFocusCycle(bContbiner);
     }
 }

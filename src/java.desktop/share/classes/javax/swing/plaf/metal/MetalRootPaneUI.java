@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.io.*;
-import java.security.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.security.*;
 
 /**
- * Provides the metal look and feel implementation of <code>RootPaneUI</code>.
+ * Provides the metbl look bnd feel implementbtion of <code>RootPbneUI</code>.
  * <p>
- * <code>MetalRootPaneUI</code> provides support for the
- * <code>windowDecorationStyle</code> property of <code>JRootPane</code>.
- * <code>MetalRootPaneUI</code> does this by way of installing a custom
- * <code>LayoutManager</code>, a private <code>Component</code> to render
- * the appropriate widgets, and a private <code>Border</code>. The
- * <code>LayoutManager</code> is always installed, regardless of the value of
- * the <code>windowDecorationStyle</code> property, but the
- * <code>Border</code> and <code>Component</code> are only installed/added if
- * the <code>windowDecorationStyle</code> is other than
- * <code>JRootPane.NONE</code>.
+ * <code>MetblRootPbneUI</code> provides support for the
+ * <code>windowDecorbtionStyle</code> property of <code>JRootPbne</code>.
+ * <code>MetblRootPbneUI</code> does this by wby of instblling b custom
+ * <code>LbyoutMbnbger</code>, b privbte <code>Component</code> to render
+ * the bppropribte widgets, bnd b privbte <code>Border</code>. The
+ * <code>LbyoutMbnbger</code> is blwbys instblled, regbrdless of the vblue of
+ * the <code>windowDecorbtionStyle</code> property, but the
+ * <code>Border</code> bnd <code>Component</code> bre only instblled/bdded if
+ * the <code>windowDecorbtionStyle</code> is other thbn
+ * <code>JRootPbne.NONE</code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Terry Kellerman
+ * @buthor Terry Kellermbn
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalRootPaneUI extends BasicRootPaneUI
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblRootPbneUI extends BbsicRootPbneUI
 {
     /**
-     * Keys to lookup borders in defaults table.
+     * Keys to lookup borders in defbults tbble.
      */
-    private static final String[] borderKeys = new String[] {
-        null, "RootPane.frameBorder", "RootPane.plainDialogBorder",
-        "RootPane.informationDialogBorder",
-        "RootPane.errorDialogBorder", "RootPane.colorChooserDialogBorder",
-        "RootPane.fileChooserDialogBorder", "RootPane.questionDialogBorder",
-        "RootPane.warningDialogBorder"
+    privbte stbtic finbl String[] borderKeys = new String[] {
+        null, "RootPbne.frbmeBorder", "RootPbne.plbinDiblogBorder",
+        "RootPbne.informbtionDiblogBorder",
+        "RootPbne.errorDiblogBorder", "RootPbne.colorChooserDiblogBorder",
+        "RootPbne.fileChooserDiblogBorder", "RootPbne.questionDiblogBorder",
+        "RootPbne.wbrningDiblogBorder"
     };
     /**
-     * The amount of space (in pixels) that the cursor is changed on.
+     * The bmount of spbce (in pixels) thbt the cursor is chbnged on.
      */
-    private static final int CORNER_DRAG_WIDTH = 16;
+    privbte stbtic finbl int CORNER_DRAG_WIDTH = 16;
 
     /**
-     * Region from edges that dragging is active from.
+     * Region from edges thbt drbgging is bctive from.
      */
-    private static final int BORDER_DRAG_THICKNESS = 5;
+    privbte stbtic finbl int BORDER_DRAG_THICKNESS = 5;
 
     /**
-     * Window the <code>JRootPane</code> is in.
+     * Window the <code>JRootPbne</code> is in.
      */
-    private Window window;
+    privbte Window window;
 
     /**
-     * <code>JComponent</code> providing window decorations. This will be
-     * null if not providing window decorations.
+     * <code>JComponent</code> providing window decorbtions. This will be
+     * null if not providing window decorbtions.
      */
-    private JComponent titlePane;
+    privbte JComponent titlePbne;
 
     /**
-     * <code>MouseInputListener</code> that is added to the parent
-     * <code>Window</code> the <code>JRootPane</code> is contained in.
+     * <code>MouseInputListener</code> thbt is bdded to the pbrent
+     * <code>Window</code> the <code>JRootPbne</code> is contbined in.
      */
-    private MouseInputListener mouseInputListener;
+    privbte MouseInputListener mouseInputListener;
 
     /**
-     * The <code>LayoutManager</code> that is set on the
-     * <code>JRootPane</code>.
+     * The <code>LbyoutMbnbger</code> thbt is set on the
+     * <code>JRootPbne</code>.
      */
-    private LayoutManager layoutManager;
+    privbte LbyoutMbnbger lbyoutMbnbger;
 
     /**
-     * <code>LayoutManager</code> of the <code>JRootPane</code> before we
-     * replaced it.
+     * <code>LbyoutMbnbger</code> of the <code>JRootPbne</code> before we
+     * replbced it.
      */
-    private LayoutManager savedOldLayout;
+    privbte LbyoutMbnbger sbvedOldLbyout;
 
     /**
-     * <code>JRootPane</code> providing the look and feel for.
+     * <code>JRootPbne</code> providing the look bnd feel for.
      */
-    private JRootPane root;
+    privbte JRootPbne root;
 
     /**
-     * <code>Cursor</code> used to track the cursor set by the user.
-     * This is initially <code>Cursor.DEFAULT_CURSOR</code>.
+     * <code>Cursor</code> used to trbck the cursor set by the user.
+     * This is initiblly <code>Cursor.DEFAULT_CURSOR</code>.
      */
-    private Cursor lastCursor =
+    privbte Cursor lbstCursor =
             Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
     /**
-     * Creates a UI for a <code>JRootPane</code>.
+     * Crebtes b UI for b <code>JRootPbne</code>.
      *
-     * @param c the JRootPane the RootPaneUI will be created for
-     * @return the RootPaneUI implementation for the passed in JRootPane
+     * @pbrbm c the JRootPbne the RootPbneUI will be crebted for
+     * @return the RootPbneUI implementbtion for the pbssed in JRootPbne
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalRootPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new MetblRootPbneUI();
     }
 
     /**
-     * Invokes supers implementation of <code>installUI</code> to install
-     * the necessary state onto the passed in <code>JRootPane</code>
-     * to render the metal look and feel implementation of
-     * <code>RootPaneUI</code>. If
-     * the <code>windowDecorationStyle</code> property of the
-     * <code>JRootPane</code> is other than <code>JRootPane.NONE</code>,
-     * this will add a custom <code>Component</code> to render the widgets to
-     * <code>JRootPane</code>, as well as installing a custom
-     * <code>Border</code> and <code>LayoutManager</code> on the
-     * <code>JRootPane</code>.
+     * Invokes supers implementbtion of <code>instbllUI</code> to instbll
+     * the necessbry stbte onto the pbssed in <code>JRootPbne</code>
+     * to render the metbl look bnd feel implementbtion of
+     * <code>RootPbneUI</code>. If
+     * the <code>windowDecorbtionStyle</code> property of the
+     * <code>JRootPbne</code> is other thbn <code>JRootPbne.NONE</code>,
+     * this will bdd b custom <code>Component</code> to render the widgets to
+     * <code>JRootPbne</code>, bs well bs instblling b custom
+     * <code>Border</code> bnd <code>LbyoutMbnbger</code> on the
+     * <code>JRootPbne</code>.
      *
-     * @param c the JRootPane to install state onto
+     * @pbrbm c the JRootPbne to instbll stbte onto
      */
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        root = (JRootPane)c;
-        int style = root.getWindowDecorationStyle();
-        if (style != JRootPane.NONE) {
-            installClientDecorations(root);
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
+        root = (JRootPbne)c;
+        int style = root.getWindowDecorbtionStyle();
+        if (style != JRootPbne.NONE) {
+            instbllClientDecorbtions(root);
         }
     }
 
 
     /**
-     * Invokes supers implementation to uninstall any of its state. This will
-     * also reset the <code>LayoutManager</code> of the <code>JRootPane</code>.
-     * If a <code>Component</code> has been added to the <code>JRootPane</code>
-     * to render the window decoration style, this method will remove it.
-     * Similarly, this will revert the Border and LayoutManager of the
-     * <code>JRootPane</code> to what it was before <code>installUI</code>
-     * was invoked.
+     * Invokes supers implementbtion to uninstbll bny of its stbte. This will
+     * blso reset the <code>LbyoutMbnbger</code> of the <code>JRootPbne</code>.
+     * If b <code>Component</code> hbs been bdded to the <code>JRootPbne</code>
+     * to render the window decorbtion style, this method will remove it.
+     * Similbrly, this will revert the Border bnd LbyoutMbnbger of the
+     * <code>JRootPbne</code> to whbt it wbs before <code>instbllUI</code>
+     * wbs invoked.
      *
-     * @param c the JRootPane to uninstall state from
+     * @pbrbm c the JRootPbne to uninstbll stbte from
      */
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
-        uninstallClientDecorations(root);
+    public void uninstbllUI(JComponent c) {
+        super.uninstbllUI(c);
+        uninstbllClientDecorbtions(root);
 
-        layoutManager = null;
+        lbyoutMbnbger = null;
         mouseInputListener = null;
         root = null;
     }
 
     /**
-     * Installs the appropriate <code>Border</code> onto the
-     * <code>JRootPane</code>.
+     * Instblls the bppropribte <code>Border</code> onto the
+     * <code>JRootPbne</code>.
      */
-    void installBorder(JRootPane root) {
-        int style = root.getWindowDecorationStyle();
+    void instbllBorder(JRootPbne root) {
+        int style = root.getWindowDecorbtionStyle();
 
-        if (style == JRootPane.NONE) {
-            LookAndFeel.uninstallBorder(root);
+        if (style == JRootPbne.NONE) {
+            LookAndFeel.uninstbllBorder(root);
         }
         else {
-            LookAndFeel.installBorder(root, borderKeys[style]);
+            LookAndFeel.instbllBorder(root, borderKeys[style]);
         }
     }
 
     /**
-     * Removes any border that may have been installed.
+     * Removes bny border thbt mby hbve been instblled.
      */
-    private void uninstallBorder(JRootPane root) {
-        LookAndFeel.uninstallBorder(root);
+    privbte void uninstbllBorder(JRootPbne root) {
+        LookAndFeel.uninstbllBorder(root);
     }
 
     /**
-     * Installs the necessary Listeners on the parent <code>Window</code>,
+     * Instblls the necessbry Listeners on the pbrent <code>Window</code>,
      * if there is one.
      * <p>
-     * This takes the parent so that cleanup can be done from
-     * <code>removeNotify</code>, at which point the parent hasn't been
+     * This tbkes the pbrent so thbt clebnup cbn be done from
+     * <code>removeNotify</code>, bt which point the pbrent hbsn't been
      * reset yet.
      *
-     * @param parent The parent of the JRootPane
+     * @pbrbm pbrent The pbrent of the JRootPbne
      */
-    private void installWindowListeners(JRootPane root, Component parent) {
-        if (parent instanceof Window) {
-            window = (Window)parent;
+    privbte void instbllWindowListeners(JRootPbne root, Component pbrent) {
+        if (pbrent instbnceof Window) {
+            window = (Window)pbrent;
         }
         else {
-            window = SwingUtilities.getWindowAncestor(parent);
+            window = SwingUtilities.getWindowAncestor(pbrent);
         }
         if (window != null) {
             if (mouseInputListener == null) {
-                mouseInputListener = createWindowMouseInputListener(root);
+                mouseInputListener = crebteWindowMouseInputListener(root);
             }
-            window.addMouseListener(mouseInputListener);
-            window.addMouseMotionListener(mouseInputListener);
+            window.bddMouseListener(mouseInputListener);
+            window.bddMouseMotionListener(mouseInputListener);
         }
     }
 
     /**
-     * Uninstalls the necessary Listeners on the <code>Window</code> the
-     * Listeners were last installed on.
+     * Uninstblls the necessbry Listeners on the <code>Window</code> the
+     * Listeners were lbst instblled on.
      */
-    private void uninstallWindowListeners(JRootPane root) {
+    privbte void uninstbllWindowListeners(JRootPbne root) {
         if (window != null) {
             window.removeMouseListener(mouseInputListener);
             window.removeMouseMotionListener(mouseInputListener);
@@ -241,69 +241,69 @@ public class MetalRootPaneUI extends BasicRootPaneUI
     }
 
     /**
-     * Installs the appropriate LayoutManager on the <code>JRootPane</code>
-     * to render the window decorations.
+     * Instblls the bppropribte LbyoutMbnbger on the <code>JRootPbne</code>
+     * to render the window decorbtions.
      */
-    private void installLayout(JRootPane root) {
-        if (layoutManager == null) {
-            layoutManager = createLayoutManager();
+    privbte void instbllLbyout(JRootPbne root) {
+        if (lbyoutMbnbger == null) {
+            lbyoutMbnbger = crebteLbyoutMbnbger();
         }
-        savedOldLayout = root.getLayout();
-        root.setLayout(layoutManager);
+        sbvedOldLbyout = root.getLbyout();
+        root.setLbyout(lbyoutMbnbger);
     }
 
     /**
-     * Uninstalls the previously installed <code>LayoutManager</code>.
+     * Uninstblls the previously instblled <code>LbyoutMbnbger</code>.
      */
-    private void uninstallLayout(JRootPane root) {
-        if (savedOldLayout != null) {
-            root.setLayout(savedOldLayout);
-            savedOldLayout = null;
+    privbte void uninstbllLbyout(JRootPbne root) {
+        if (sbvedOldLbyout != null) {
+            root.setLbyout(sbvedOldLbyout);
+            sbvedOldLbyout = null;
         }
     }
 
     /**
-     * Installs the necessary state onto the JRootPane to render client
-     * decorations. This is ONLY invoked if the <code>JRootPane</code>
-     * has a decoration style other than <code>JRootPane.NONE</code>.
+     * Instblls the necessbry stbte onto the JRootPbne to render client
+     * decorbtions. This is ONLY invoked if the <code>JRootPbne</code>
+     * hbs b decorbtion style other thbn <code>JRootPbne.NONE</code>.
      */
-    private void installClientDecorations(JRootPane root) {
-        installBorder(root);
+    privbte void instbllClientDecorbtions(JRootPbne root) {
+        instbllBorder(root);
 
-        JComponent titlePane = createTitlePane(root);
+        JComponent titlePbne = crebteTitlePbne(root);
 
-        setTitlePane(root, titlePane);
-        installWindowListeners(root, root.getParent());
-        installLayout(root);
+        setTitlePbne(root, titlePbne);
+        instbllWindowListeners(root, root.getPbrent());
+        instbllLbyout(root);
         if (window != null) {
-            root.revalidate();
-            root.repaint();
+            root.revblidbte();
+            root.repbint();
         }
     }
 
     /**
-     * Uninstalls any state that <code>installClientDecorations</code> has
-     * installed.
+     * Uninstblls bny stbte thbt <code>instbllClientDecorbtions</code> hbs
+     * instblled.
      * <p>
-     * NOTE: This may be called if you haven't installed client decorations
-     * yet (ie before <code>installClientDecorations</code> has been invoked).
+     * NOTE: This mby be cblled if you hbven't instblled client decorbtions
+     * yet (ie before <code>instbllClientDecorbtions</code> hbs been invoked).
      */
-    private void uninstallClientDecorations(JRootPane root) {
-        uninstallBorder(root);
-        uninstallWindowListeners(root);
-        setTitlePane(root, null);
-        uninstallLayout(root);
-        // We have to revalidate/repaint root if the style is JRootPane.NONE
-        // only. When we needs to call revalidate/repaint with other styles
-        // the installClientDecorations is always called after this method
-        // imediatly and it will cause the revalidate/repaint at the proper
+    privbte void uninstbllClientDecorbtions(JRootPbne root) {
+        uninstbllBorder(root);
+        uninstbllWindowListeners(root);
+        setTitlePbne(root, null);
+        uninstbllLbyout(root);
+        // We hbve to revblidbte/repbint root if the style is JRootPbne.NONE
+        // only. When we needs to cbll revblidbte/repbint with other styles
+        // the instbllClientDecorbtions is blwbys cblled bfter this method
+        // imedibtly bnd it will cbuse the revblidbte/repbint bt the proper
         // time.
-        int style = root.getWindowDecorationStyle();
-        if (style == JRootPane.NONE) {
-            root.repaint();
-            root.revalidate();
+        int style = root.getWindowDecorbtionStyle();
+        if (style == JRootPbne.NONE) {
+            root.repbint();
+            root.revblidbte();
         }
-        // Reset the cursor, as we may have changed it to a resize cursor
+        // Reset the cursor, bs we mby hbve chbnged it to b resize cursor
         if (window != null) {
             window.setCursor(Cursor.getPredefinedCursor
                              (Cursor.DEFAULT_CURSOR));
@@ -312,136 +312,136 @@ public class MetalRootPaneUI extends BasicRootPaneUI
     }
 
     /**
-     * Returns the <code>JComponent</code> to render the window decoration
+     * Returns the <code>JComponent</code> to render the window decorbtion
      * style.
      */
-    private JComponent createTitlePane(JRootPane root) {
-        return new MetalTitlePane(root, this);
+    privbte JComponent crebteTitlePbne(JRootPbne root) {
+        return new MetblTitlePbne(root, this);
     }
 
     /**
-     * Returns a <code>MouseListener</code> that will be added to the
-     * <code>Window</code> containing the <code>JRootPane</code>.
+     * Returns b <code>MouseListener</code> thbt will be bdded to the
+     * <code>Window</code> contbining the <code>JRootPbne</code>.
      */
-    private MouseInputListener createWindowMouseInputListener(JRootPane root) {
-        return new MouseInputHandler();
+    privbte MouseInputListener crebteWindowMouseInputListener(JRootPbne root) {
+        return new MouseInputHbndler();
     }
 
     /**
-     * Returns a <code>LayoutManager</code> that will be set on the
-     * <code>JRootPane</code>.
+     * Returns b <code>LbyoutMbnbger</code> thbt will be set on the
+     * <code>JRootPbne</code>.
      */
-    private LayoutManager createLayoutManager() {
-        return new MetalRootLayout();
+    privbte LbyoutMbnbger crebteLbyoutMbnbger() {
+        return new MetblRootLbyout();
     }
 
     /**
-     * Sets the window title pane -- the JComponent used to provide a plaf a
-     * way to override the native operating system's window title pane with
-     * one whose look and feel are controlled by the plaf.  The plaf creates
-     * and sets this value; the default is null, implying a native operating
-     * system window title pane.
+     * Sets the window title pbne -- the JComponent used to provide b plbf b
+     * wby to override the nbtive operbting system's window title pbne with
+     * one whose look bnd feel bre controlled by the plbf.  The plbf crebtes
+     * bnd sets this vblue; the defbult is null, implying b nbtive operbting
+     * system window title pbne.
      *
-     * @param content the <code>JComponent</code> to use for the window title pane.
+     * @pbrbm content the <code>JComponent</code> to use for the window title pbne.
      */
-    private void setTitlePane(JRootPane root, JComponent titlePane) {
-        JLayeredPane layeredPane = root.getLayeredPane();
-        JComponent oldTitlePane = getTitlePane();
+    privbte void setTitlePbne(JRootPbne root, JComponent titlePbne) {
+        JLbyeredPbne lbyeredPbne = root.getLbyeredPbne();
+        JComponent oldTitlePbne = getTitlePbne();
 
-        if (oldTitlePane != null) {
-            oldTitlePane.setVisible(false);
-            layeredPane.remove(oldTitlePane);
+        if (oldTitlePbne != null) {
+            oldTitlePbne.setVisible(fblse);
+            lbyeredPbne.remove(oldTitlePbne);
         }
-        if (titlePane != null) {
-            layeredPane.add(titlePane, JLayeredPane.FRAME_CONTENT_LAYER);
-            titlePane.setVisible(true);
+        if (titlePbne != null) {
+            lbyeredPbne.bdd(titlePbne, JLbyeredPbne.FRAME_CONTENT_LAYER);
+            titlePbne.setVisible(true);
         }
-        this.titlePane = titlePane;
+        this.titlePbne = titlePbne;
     }
 
     /**
-     * Returns the <code>JComponent</code> rendering the title pane. If this
-     * returns null, it implies there is no need to render window decorations.
+     * Returns the <code>JComponent</code> rendering the title pbne. If this
+     * returns null, it implies there is no need to render window decorbtions.
      *
-     * @return the current window title pane, or null
-     * @see #setTitlePane
+     * @return the current window title pbne, or null
+     * @see #setTitlePbne
      */
-    private JComponent getTitlePane() {
-        return titlePane;
+    privbte JComponent getTitlePbne() {
+        return titlePbne;
     }
 
     /**
-     * Returns the <code>JRootPane</code> we're providing the look and
+     * Returns the <code>JRootPbne</code> we're providing the look bnd
      * feel for.
      */
-    private JRootPane getRootPane() {
+    privbte JRootPbne getRootPbne() {
         return root;
     }
 
     /**
-     * Invoked when a property changes. <code>MetalRootPaneUI</code> is
-     * primarily interested in events originating from the
-     * <code>JRootPane</code> it has been installed on identifying the
-     * property <code>windowDecorationStyle</code>. If the
-     * <code>windowDecorationStyle</code> has changed to a value other
-     * than <code>JRootPane.NONE</code>, this will add a <code>Component</code>
-     * to the <code>JRootPane</code> to render the window decorations, as well
-     * as installing a <code>Border</code> on the <code>JRootPane</code>.
-     * On the other hand, if the <code>windowDecorationStyle</code> has
-     * changed to <code>JRootPane.NONE</code>, this will remove the
-     * <code>Component</code> that has been added to the <code>JRootPane</code>
-     * as well resetting the Border to what it was before
-     * <code>installUI</code> was invoked.
+     * Invoked when b property chbnges. <code>MetblRootPbneUI</code> is
+     * primbrily interested in events originbting from the
+     * <code>JRootPbne</code> it hbs been instblled on identifying the
+     * property <code>windowDecorbtionStyle</code>. If the
+     * <code>windowDecorbtionStyle</code> hbs chbnged to b vblue other
+     * thbn <code>JRootPbne.NONE</code>, this will bdd b <code>Component</code>
+     * to the <code>JRootPbne</code> to render the window decorbtions, bs well
+     * bs instblling b <code>Border</code> on the <code>JRootPbne</code>.
+     * On the other hbnd, if the <code>windowDecorbtionStyle</code> hbs
+     * chbnged to <code>JRootPbne.NONE</code>, this will remove the
+     * <code>Component</code> thbt hbs been bdded to the <code>JRootPbne</code>
+     * bs well resetting the Border to whbt it wbs before
+     * <code>instbllUI</code> wbs invoked.
      *
-     * @param e A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
+     * @pbrbm e A PropertyChbngeEvent object describing the event source
+     *          bnd the property thbt hbs chbnged.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        super.propertyChange(e);
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        super.propertyChbnge(e);
 
-        String propertyName = e.getPropertyName();
-        if(propertyName == null) {
+        String propertyNbme = e.getPropertyNbme();
+        if(propertyNbme == null) {
             return;
         }
 
-        if(propertyName.equals("windowDecorationStyle")) {
-            JRootPane root = (JRootPane) e.getSource();
-            int style = root.getWindowDecorationStyle();
+        if(propertyNbme.equbls("windowDecorbtionStyle")) {
+            JRootPbne root = (JRootPbne) e.getSource();
+            int style = root.getWindowDecorbtionStyle();
 
-            // This is potentially more than needs to be done,
-            // but it rarely happens and makes the install/uninstall process
-            // simpler. MetalTitlePane also assumes it will be recreated if
-            // the decoration style changes.
-            uninstallClientDecorations(root);
-            if (style != JRootPane.NONE) {
-                installClientDecorations(root);
+            // This is potentiblly more thbn needs to be done,
+            // but it rbrely hbppens bnd mbkes the instbll/uninstbll process
+            // simpler. MetblTitlePbne blso bssumes it will be recrebted if
+            // the decorbtion style chbnges.
+            uninstbllClientDecorbtions(root);
+            if (style != JRootPbne.NONE) {
+                instbllClientDecorbtions(root);
             }
         }
-        else if (propertyName.equals("ancestor")) {
-            uninstallWindowListeners(root);
-            if (((JRootPane)e.getSource()).getWindowDecorationStyle() !=
-                                           JRootPane.NONE) {
-                installWindowListeners(root, root.getParent());
+        else if (propertyNbme.equbls("bncestor")) {
+            uninstbllWindowListeners(root);
+            if (((JRootPbne)e.getSource()).getWindowDecorbtionStyle() !=
+                                           JRootPbne.NONE) {
+                instbllWindowListeners(root, root.getPbrent());
             }
         }
         return;
     }
 
     /**
-     * A custom layout manager that is responsible for the layout of
-     * layeredPane, glassPane, menuBar and titlePane, if one has been
-     * installed.
+     * A custom lbyout mbnbger thbt is responsible for the lbyout of
+     * lbyeredPbne, glbssPbne, menuBbr bnd titlePbne, if one hbs been
+     * instblled.
      */
-    // NOTE: Ideally this would extends JRootPane.RootLayout, but that
-    //       would force this to be non-static.
-    private static class MetalRootLayout implements LayoutManager2 {
+    // NOTE: Ideblly this would extends JRootPbne.RootLbyout, but thbt
+    //       would force this to be non-stbtic.
+    privbte stbtic clbss MetblRootLbyout implements LbyoutMbnbger2 {
         /**
-         * Returns the amount of space the layout would like to have.
+         * Returns the bmount of spbce the lbyout would like to hbve.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's preferred size
+         * @pbrbm the Contbiner for which this lbyout mbnbger is being used
+         * @return b Dimension object contbining the lbyout's preferred size
          */
-        public Dimension preferredLayoutSize(Container parent) {
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
             Dimension cpd, mbd, tpd;
             int cpWidth = 0;
             int cpHeight = 0;
@@ -449,11 +449,11 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             int mbHeight = 0;
             int tpWidth = 0;
             int tpHeight = 0;
-            Insets i = parent.getInsets();
-            JRootPane root = (JRootPane) parent;
+            Insets i = pbrent.getInsets();
+            JRootPbne root = (JRootPbne) pbrent;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getPreferredSize();
+            if(root.getContentPbne() != null) {
+                cpd = root.getContentPbne().getPreferredSize();
             } else {
                 cpd = root.getSize();
             }
@@ -462,20 +462,20 @@ public class MetalRootPaneUI extends BasicRootPaneUI
                 cpHeight = cpd.height;
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getPreferredSize();
+            if(root.getMenuBbr() != null) {
+                mbd = root.getMenuBbr().getPreferredSize();
                 if (mbd != null) {
                     mbWidth = mbd.width;
                     mbHeight = mbd.height;
                 }
             }
 
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    tpd = titlePane.getPreferredSize();
+            if (root.getWindowDecorbtionStyle() != JRootPbne.NONE &&
+                     (root.getUI() instbnceof MetblRootPbneUI)) {
+                JComponent titlePbne = ((MetblRootPbneUI)root.getUI()).
+                                       getTitlePbne();
+                if (titlePbne != null) {
+                    tpd = titlePbne.getPreferredSize();
                     if (tpd != null) {
                         tpWidth = tpd.width;
                         tpHeight = tpd.height;
@@ -483,17 +483,17 @@ public class MetalRootPaneUI extends BasicRootPaneUI
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
+            return new Dimension(Mbth.mbx(Mbth.mbx(cpWidth, mbWidth), tpWidth) + i.left + i.right,
                                  cpHeight + mbHeight + tpWidth + i.top + i.bottom);
         }
 
         /**
-         * Returns the minimum amount of space the layout needs.
+         * Returns the minimum bmount of spbce the lbyout needs.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's minimum size
+         * @pbrbm the Contbiner for which this lbyout mbnbger is being used
+         * @return b Dimension object contbining the lbyout's minimum size
          */
-        public Dimension minimumLayoutSize(Container parent) {
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
             Dimension cpd, mbd, tpd;
             int cpWidth = 0;
             int cpHeight = 0;
@@ -501,11 +501,11 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             int mbHeight = 0;
             int tpWidth = 0;
             int tpHeight = 0;
-            Insets i = parent.getInsets();
-            JRootPane root = (JRootPane) parent;
+            Insets i = pbrent.getInsets();
+            JRootPbne root = (JRootPbne) pbrent;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getMinimumSize();
+            if(root.getContentPbne() != null) {
+                cpd = root.getContentPbne().getMinimumSize();
             } else {
                 cpd = root.getSize();
             }
@@ -514,19 +514,19 @@ public class MetalRootPaneUI extends BasicRootPaneUI
                 cpHeight = cpd.height;
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getMinimumSize();
+            if(root.getMenuBbr() != null) {
+                mbd = root.getMenuBbr().getMinimumSize();
                 if (mbd != null) {
                     mbWidth = mbd.width;
                     mbHeight = mbd.height;
                 }
             }
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    tpd = titlePane.getMinimumSize();
+            if (root.getWindowDecorbtionStyle() != JRootPbne.NONE &&
+                     (root.getUI() instbnceof MetblRootPbneUI)) {
+                JComponent titlePbne = ((MetblRootPbneUI)root.getUI()).
+                                       getTitlePbne();
+                if (titlePbne != null) {
+                    tpd = titlePbne.getMinimumSize();
                     if (tpd != null) {
                         tpWidth = tpd.width;
                         tpHeight = tpd.height;
@@ -534,17 +534,17 @@ public class MetalRootPaneUI extends BasicRootPaneUI
                 }
             }
 
-            return new Dimension(Math.max(Math.max(cpWidth, mbWidth), tpWidth) + i.left + i.right,
+            return new Dimension(Mbth.mbx(Mbth.mbx(cpWidth, mbWidth), tpWidth) + i.left + i.right,
                                  cpHeight + mbHeight + tpWidth + i.top + i.bottom);
         }
 
         /**
-         * Returns the maximum amount of space the layout can use.
+         * Returns the mbximum bmount of spbce the lbyout cbn use.
          *
-         * @param the Container for which this layout manager is being used
-         * @return a Dimension object containing the layout's maximum size
+         * @pbrbm the Contbiner for which this lbyout mbnbger is being used
+         * @return b Dimension object contbining the lbyout's mbximum size
          */
-        public Dimension maximumLayoutSize(Container target) {
+        public Dimension mbximumLbyoutSize(Contbiner tbrget) {
             Dimension cpd, mbd, tpd;
             int cpWidth = Integer.MAX_VALUE;
             int cpHeight = Integer.MAX_VALUE;
@@ -552,32 +552,32 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             int mbHeight = Integer.MAX_VALUE;
             int tpWidth = Integer.MAX_VALUE;
             int tpHeight = Integer.MAX_VALUE;
-            Insets i = target.getInsets();
-            JRootPane root = (JRootPane) target;
+            Insets i = tbrget.getInsets();
+            JRootPbne root = (JRootPbne) tbrget;
 
-            if(root.getContentPane() != null) {
-                cpd = root.getContentPane().getMaximumSize();
+            if(root.getContentPbne() != null) {
+                cpd = root.getContentPbne().getMbximumSize();
                 if (cpd != null) {
                     cpWidth = cpd.width;
                     cpHeight = cpd.height;
                 }
             }
 
-            if(root.getMenuBar() != null) {
-                mbd = root.getMenuBar().getMaximumSize();
+            if(root.getMenuBbr() != null) {
+                mbd = root.getMenuBbr().getMbximumSize();
                 if (mbd != null) {
                     mbWidth = mbd.width;
                     mbHeight = mbd.height;
                 }
             }
 
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null)
+            if (root.getWindowDecorbtionStyle() != JRootPbne.NONE &&
+                     (root.getUI() instbnceof MetblRootPbneUI)) {
+                JComponent titlePbne = ((MetblRootPbneUI)root.getUI()).
+                                       getTitlePbne();
+                if (titlePbne != null)
                 {
-                    tpd = titlePane.getMaximumSize();
+                    tpd = titlePbne.getMbximumSize();
                     if (tpd != null) {
                         tpWidth = tpd.width;
                         tpHeight = tpd.height;
@@ -585,83 +585,83 @@ public class MetalRootPaneUI extends BasicRootPaneUI
                 }
             }
 
-            int maxHeight = Math.max(Math.max(cpHeight, mbHeight), tpHeight);
-            // Only overflows if 3 real non-MAX_VALUE heights, sum to > MAX_VALUE
-            // Only will happen if sums to more than 2 billion units.  Not likely.
-            if (maxHeight != Integer.MAX_VALUE) {
-                maxHeight = cpHeight + mbHeight + tpHeight + i.top + i.bottom;
+            int mbxHeight = Mbth.mbx(Mbth.mbx(cpHeight, mbHeight), tpHeight);
+            // Only overflows if 3 rebl non-MAX_VALUE heights, sum to > MAX_VALUE
+            // Only will hbppen if sums to more thbn 2 billion units.  Not likely.
+            if (mbxHeight != Integer.MAX_VALUE) {
+                mbxHeight = cpHeight + mbHeight + tpHeight + i.top + i.bottom;
             }
 
-            int maxWidth = Math.max(Math.max(cpWidth, mbWidth), tpWidth);
-            // Similar overflow comment as above
-            if (maxWidth != Integer.MAX_VALUE) {
-                maxWidth += i.left + i.right;
+            int mbxWidth = Mbth.mbx(Mbth.mbx(cpWidth, mbWidth), tpWidth);
+            // Similbr overflow comment bs bbove
+            if (mbxWidth != Integer.MAX_VALUE) {
+                mbxWidth += i.left + i.right;
             }
 
-            return new Dimension(maxWidth, maxHeight);
+            return new Dimension(mbxWidth, mbxHeight);
         }
 
         /**
-         * Instructs the layout manager to perform the layout for the specified
-         * container.
+         * Instructs the lbyout mbnbger to perform the lbyout for the specified
+         * contbiner.
          *
-         * @param the Container for which this layout manager is being used
+         * @pbrbm the Contbiner for which this lbyout mbnbger is being used
          */
-        public void layoutContainer(Container parent) {
-            JRootPane root = (JRootPane) parent;
-            Rectangle b = root.getBounds();
+        public void lbyoutContbiner(Contbiner pbrent) {
+            JRootPbne root = (JRootPbne) pbrent;
+            Rectbngle b = root.getBounds();
             Insets i = root.getInsets();
             int nextY = 0;
             int w = b.width - i.right - i.left;
             int h = b.height - i.top - i.bottom;
 
-            if(root.getLayeredPane() != null) {
-                root.getLayeredPane().setBounds(i.left, i.top, w, h);
+            if(root.getLbyeredPbne() != null) {
+                root.getLbyeredPbne().setBounds(i.left, i.top, w, h);
             }
-            if(root.getGlassPane() != null) {
-                root.getGlassPane().setBounds(i.left, i.top, w, h);
+            if(root.getGlbssPbne() != null) {
+                root.getGlbssPbne().setBounds(i.left, i.top, w, h);
             }
-            // Note: This is laying out the children in the layeredPane,
-            // technically, these are not our children.
-            if (root.getWindowDecorationStyle() != JRootPane.NONE &&
-                     (root.getUI() instanceof MetalRootPaneUI)) {
-                JComponent titlePane = ((MetalRootPaneUI)root.getUI()).
-                                       getTitlePane();
-                if (titlePane != null) {
-                    Dimension tpd = titlePane.getPreferredSize();
+            // Note: This is lbying out the children in the lbyeredPbne,
+            // technicblly, these bre not our children.
+            if (root.getWindowDecorbtionStyle() != JRootPbne.NONE &&
+                     (root.getUI() instbnceof MetblRootPbneUI)) {
+                JComponent titlePbne = ((MetblRootPbneUI)root.getUI()).
+                                       getTitlePbne();
+                if (titlePbne != null) {
+                    Dimension tpd = titlePbne.getPreferredSize();
                     if (tpd != null) {
                         int tpHeight = tpd.height;
-                        titlePane.setBounds(0, 0, w, tpHeight);
+                        titlePbne.setBounds(0, 0, w, tpHeight);
                         nextY += tpHeight;
                     }
                 }
             }
-            if(root.getMenuBar() != null) {
-                Dimension mbd = root.getMenuBar().getPreferredSize();
-                root.getMenuBar().setBounds(0, nextY, w, mbd.height);
+            if(root.getMenuBbr() != null) {
+                Dimension mbd = root.getMenuBbr().getPreferredSize();
+                root.getMenuBbr().setBounds(0, nextY, w, mbd.height);
                 nextY += mbd.height;
             }
-            if(root.getContentPane() != null) {
-                Dimension cpd = root.getContentPane().getPreferredSize();
-                root.getContentPane().setBounds(0, nextY, w,
+            if(root.getContentPbne() != null) {
+                Dimension cpd = root.getContentPbne().getPreferredSize();
+                root.getContentPbne().setBounds(0, nextY, w,
                 h < nextY ? 0 : h - nextY);
             }
         }
 
-        public void addLayoutComponent(String name, Component comp) {}
-        public void removeLayoutComponent(Component comp) {}
-        public void addLayoutComponent(Component comp, Object constraints) {}
-        public float getLayoutAlignmentX(Container target) { return 0.0f; }
-        public float getLayoutAlignmentY(Container target) { return 0.0f; }
-        public void invalidateLayout(Container target) {}
+        public void bddLbyoutComponent(String nbme, Component comp) {}
+        public void removeLbyoutComponent(Component comp) {}
+        public void bddLbyoutComponent(Component comp, Object constrbints) {}
+        public flobt getLbyoutAlignmentX(Contbiner tbrget) { return 0.0f; }
+        public flobt getLbyoutAlignmentY(Contbiner tbrget) { return 0.0f; }
+        public void invblidbteLbyout(Contbiner tbrget) {}
     }
 
 
     /**
-     * Maps from positions to cursor type. Refer to calculateCorner and
-     * calculatePosition for details of this.
+     * Mbps from positions to cursor type. Refer to cblculbteCorner bnd
+     * cblculbtePosition for detbils of this.
      */
-    private static final int[] cursorMapping = new int[]
+    privbte stbtic finbl int[] cursorMbpping = new int[]
     { Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR,
              Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
       Cursor.NW_RESIZE_CURSOR, 0, 0, 0, Cursor.NE_RESIZE_CURSOR,
@@ -672,150 +672,150 @@ public class MetalRootPaneUI extends BasicRootPaneUI
     };
 
     /**
-     * MouseInputHandler is responsible for handling resize/moving of
+     * MouseInputHbndler is responsible for hbndling resize/moving of
      * the Window. It sets the cursor directly on the Window when then
-     * mouse moves over a hot spot.
+     * mouse moves over b hot spot.
      */
-    private class MouseInputHandler implements MouseInputListener {
+    privbte clbss MouseInputHbndler implements MouseInputListener {
         /**
-         * Set to true if the drag operation is moving the window.
+         * Set to true if the drbg operbtion is moving the window.
          */
-        private boolean isMovingWindow;
+        privbte boolebn isMovingWindow;
 
         /**
          * Used to determine the corner the resize is occurring from.
          */
-        private int dragCursor;
+        privbte int drbgCursor;
 
         /**
-         * X location the mouse went down on for a drag operation.
+         * X locbtion the mouse went down on for b drbg operbtion.
          */
-        private int dragOffsetX;
+        privbte int drbgOffsetX;
 
         /**
-         * Y location the mouse went down on for a drag operation.
+         * Y locbtion the mouse went down on for b drbg operbtion.
          */
-        private int dragOffsetY;
+        privbte int drbgOffsetY;
 
         /**
-         * Width of the window when the drag started.
+         * Width of the window when the drbg stbrted.
          */
-        private int dragWidth;
+        privbte int drbgWidth;
 
         /**
-         * Height of the window when the drag started.
+         * Height of the window when the drbg stbrted.
          */
-        private int dragHeight;
+        privbte int drbgHeight;
 
         public void mousePressed(MouseEvent ev) {
-            JRootPane rootPane = getRootPane();
+            JRootPbne rootPbne = getRootPbne();
 
-            if (rootPane.getWindowDecorationStyle() == JRootPane.NONE) {
+            if (rootPbne.getWindowDecorbtionStyle() == JRootPbne.NONE) {
                 return;
             }
-            Point dragWindowOffset = ev.getPoint();
+            Point drbgWindowOffset = ev.getPoint();
             Window w = (Window)ev.getSource();
             if (w != null) {
                 w.toFront();
             }
-            Point convertedDragWindowOffset = SwingUtilities.convertPoint(
-                           w, dragWindowOffset, getTitlePane());
+            Point convertedDrbgWindowOffset = SwingUtilities.convertPoint(
+                           w, drbgWindowOffset, getTitlePbne());
 
-            Frame f = null;
-            Dialog d = null;
+            Frbme f = null;
+            Diblog d = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog)w;
+            if (w instbnceof Frbme) {
+                f = (Frbme)w;
+            } else if (w instbnceof Diblog) {
+                d = (Diblog)w;
             }
 
-            int frameState = (f != null) ? f.getExtendedState() : 0;
+            int frbmeStbte = (f != null) ? f.getExtendedStbte() : 0;
 
-            if (getTitlePane() != null &&
-                        getTitlePane().contains(convertedDragWindowOffset)) {
-                if ((f != null && ((frameState & Frame.MAXIMIZED_BOTH) == 0)
+            if (getTitlePbne() != null &&
+                        getTitlePbne().contbins(convertedDrbgWindowOffset)) {
+                if ((f != null && ((frbmeStbte & Frbme.MAXIMIZED_BOTH) == 0)
                         || (d != null))
-                        && dragWindowOffset.y >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x >= BORDER_DRAG_THICKNESS
-                        && dragWindowOffset.x < w.getWidth()
+                        && drbgWindowOffset.y >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffset.x >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffset.x < w.getWidth()
                             - BORDER_DRAG_THICKNESS) {
                     isMovingWindow = true;
-                    dragOffsetX = dragWindowOffset.x;
-                    dragOffsetY = dragWindowOffset.y;
+                    drbgOffsetX = drbgWindowOffset.x;
+                    drbgOffsetY = drbgWindowOffset.y;
                 }
             }
-            else if (f != null && f.isResizable()
-                    && ((frameState & Frame.MAXIMIZED_BOTH) == 0)
-                    || (d != null && d.isResizable())) {
-                dragOffsetX = dragWindowOffset.x;
-                dragOffsetY = dragWindowOffset.y;
-                dragWidth = w.getWidth();
-                dragHeight = w.getHeight();
-                dragCursor = getCursor(calculateCorner(
-                             w, dragWindowOffset.x, dragWindowOffset.y));
+            else if (f != null && f.isResizbble()
+                    && ((frbmeStbte & Frbme.MAXIMIZED_BOTH) == 0)
+                    || (d != null && d.isResizbble())) {
+                drbgOffsetX = drbgWindowOffset.x;
+                drbgOffsetY = drbgWindowOffset.y;
+                drbgWidth = w.getWidth();
+                drbgHeight = w.getHeight();
+                drbgCursor = getCursor(cblculbteCorner(
+                             w, drbgWindowOffset.x, drbgWindowOffset.y));
             }
         }
 
-        public void mouseReleased(MouseEvent ev) {
-            if (dragCursor != 0 && window != null && !window.isValid()) {
-                // Some Window systems validate as you resize, others won't,
-                // thus the check for validity before repainting.
-                window.validate();
-                getRootPane().repaint();
+        public void mouseRelebsed(MouseEvent ev) {
+            if (drbgCursor != 0 && window != null && !window.isVblid()) {
+                // Some Window systems vblidbte bs you resize, others won't,
+                // thus the check for vblidity before repbinting.
+                window.vblidbte();
+                getRootPbne().repbint();
             }
-            isMovingWindow = false;
-            dragCursor = 0;
+            isMovingWindow = fblse;
+            drbgCursor = 0;
         }
 
         public void mouseMoved(MouseEvent ev) {
-            JRootPane root = getRootPane();
+            JRootPbne root = getRootPbne();
 
-            if (root.getWindowDecorationStyle() == JRootPane.NONE) {
+            if (root.getWindowDecorbtionStyle() == JRootPbne.NONE) {
                 return;
             }
 
             Window w = (Window)ev.getSource();
 
-            Frame f = null;
-            Dialog d = null;
+            Frbme f = null;
+            Diblog d = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
-            } else if (w instanceof Dialog) {
-                d = (Dialog)w;
+            if (w instbnceof Frbme) {
+                f = (Frbme)w;
+            } else if (w instbnceof Diblog) {
+                d = (Diblog)w;
             }
 
-            // Update the cursor
-            int cursor = getCursor(calculateCorner(w, ev.getX(), ev.getY()));
+            // Updbte the cursor
+            int cursor = getCursor(cblculbteCorner(w, ev.getX(), ev.getY()));
 
-            if (cursor != 0 && ((f != null && (f.isResizable() &&
-                    (f.getExtendedState() & Frame.MAXIMIZED_BOTH) == 0))
-                    || (d != null && d.isResizable()))) {
+            if (cursor != 0 && ((f != null && (f.isResizbble() &&
+                    (f.getExtendedStbte() & Frbme.MAXIMIZED_BOTH) == 0))
+                    || (d != null && d.isResizbble()))) {
                 w.setCursor(Cursor.getPredefinedCursor(cursor));
             }
             else {
-                w.setCursor(lastCursor);
+                w.setCursor(lbstCursor);
             }
         }
 
-        private void adjust(Rectangle bounds, Dimension min, int deltaX,
-                            int deltaY, int deltaWidth, int deltaHeight) {
-            bounds.x += deltaX;
-            bounds.y += deltaY;
-            bounds.width += deltaWidth;
-            bounds.height += deltaHeight;
+        privbte void bdjust(Rectbngle bounds, Dimension min, int deltbX,
+                            int deltbY, int deltbWidth, int deltbHeight) {
+            bounds.x += deltbX;
+            bounds.y += deltbY;
+            bounds.width += deltbWidth;
+            bounds.height += deltbHeight;
             if (min != null) {
                 if (bounds.width < min.width) {
                     int correction = min.width - bounds.width;
-                    if (deltaX != 0) {
+                    if (deltbX != 0) {
                         bounds.x -= correction;
                     }
                     bounds.width = min.width;
                 }
                 if (bounds.height < min.height) {
                     int correction = min.height - bounds.height;
-                    if (deltaY != 0) {
+                    if (deltbY != 0) {
                         bounds.y -= correction;
                     }
                     bounds.height = min.height;
@@ -823,69 +823,69 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             }
         }
 
-        public void mouseDragged(MouseEvent ev) {
+        public void mouseDrbgged(MouseEvent ev) {
             Window w = (Window)ev.getSource();
             Point pt = ev.getPoint();
 
             if (isMovingWindow) {
-                Point eventLocationOnScreen = ev.getLocationOnScreen();
-                w.setLocation(eventLocationOnScreen.x - dragOffsetX,
-                              eventLocationOnScreen.y - dragOffsetY);
+                Point eventLocbtionOnScreen = ev.getLocbtionOnScreen();
+                w.setLocbtion(eventLocbtionOnScreen.x - drbgOffsetX,
+                              eventLocbtionOnScreen.y - drbgOffsetY);
             }
-            else if (dragCursor != 0) {
-                Rectangle r = w.getBounds();
-                Rectangle startBounds = new Rectangle(r);
+            else if (drbgCursor != 0) {
+                Rectbngle r = w.getBounds();
+                Rectbngle stbrtBounds = new Rectbngle(r);
                 Dimension min = w.getMinimumSize();
 
-                switch (dragCursor) {
-                case Cursor.E_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0, pt.x + (dragWidth - dragOffsetX) -
+                switch (drbgCursor) {
+                cbse Cursor.E_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, pt.x + (drbgWidth - drbgOffsetX) -
                            r.width, 0);
-                    break;
-                case Cursor.S_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0, 0, pt.y + (dragHeight - dragOffsetY) -
+                    brebk;
+                cbse Cursor.S_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, 0, pt.y + (drbgHeight - drbgOffsetY) -
                            r.height);
-                    break;
-                case Cursor.N_RESIZE_CURSOR:
-                    adjust(r, min, 0, pt.y -dragOffsetY, 0,
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.W_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX, 0,
-                           -(pt.x - dragOffsetX), 0);
-                    break;
-                case Cursor.NE_RESIZE_CURSOR:
-                    adjust(r, min, 0, pt.y - dragOffsetY,
-                           pt.x + (dragWidth - dragOffsetX) - r.width,
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.SE_RESIZE_CURSOR:
-                    adjust(r, min, 0, 0,
-                           pt.x + (dragWidth - dragOffsetX) - r.width,
-                           pt.y + (dragHeight - dragOffsetY) -
+                    brebk;
+                cbse Cursor.N_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y -drbgOffsetY, 0,
+                           -(pt.y - drbgOffsetY));
+                    brebk;
+                cbse Cursor.W_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsetX, 0,
+                           -(pt.x - drbgOffsetX), 0);
+                    brebk;
+                cbse Cursor.NE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y - drbgOffsetY,
+                           pt.x + (drbgWidth - drbgOffsetX) - r.width,
+                           -(pt.y - drbgOffsetY));
+                    brebk;
+                cbse Cursor.SE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0,
+                           pt.x + (drbgWidth - drbgOffsetX) - r.width,
+                           pt.y + (drbgHeight - drbgOffsetY) -
                            r.height);
-                    break;
-                case Cursor.NW_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX,
-                           pt.y - dragOffsetY,
-                           -(pt.x - dragOffsetX),
-                           -(pt.y - dragOffsetY));
-                    break;
-                case Cursor.SW_RESIZE_CURSOR:
-                    adjust(r, min, pt.x - dragOffsetX, 0,
-                           -(pt.x - dragOffsetX),
-                           pt.y + (dragHeight - dragOffsetY) - r.height);
-                    break;
-                default:
-                    break;
+                    brebk;
+                cbse Cursor.NW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsetX,
+                           pt.y - drbgOffsetY,
+                           -(pt.x - drbgOffsetX),
+                           -(pt.y - drbgOffsetY));
+                    brebk;
+                cbse Cursor.SW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsetX, 0,
+                           -(pt.x - drbgOffsetX),
+                           pt.y + (drbgHeight - drbgOffsetY) - r.height);
+                    brebk;
+                defbult:
+                    brebk;
                 }
-                if (!r.equals(startBounds)) {
+                if (!r.equbls(stbrtBounds)) {
                     w.setBounds(r);
-                    // Defer repaint/validate on mouseReleased unless dynamic
-                    // layout is active.
-                    if (Toolkit.getDefaultToolkit().isDynamicLayoutActive()) {
-                        w.validate();
-                        getRootPane().repaint();
+                    // Defer repbint/vblidbte on mouseRelebsed unless dynbmic
+                    // lbyout is bctive.
+                    if (Toolkit.getDefbultToolkit().isDynbmicLbyoutActive()) {
+                        w.vblidbte();
+                        getRootPbne().repbint();
                     }
                 }
             }
@@ -893,39 +893,39 @@ public class MetalRootPaneUI extends BasicRootPaneUI
 
         public void mouseEntered(MouseEvent ev) {
             Window w = (Window)ev.getSource();
-            lastCursor = w.getCursor();
+            lbstCursor = w.getCursor();
             mouseMoved(ev);
         }
 
         public void mouseExited(MouseEvent ev) {
             Window w = (Window)ev.getSource();
-            w.setCursor(lastCursor);
+            w.setCursor(lbstCursor);
         }
 
         public void mouseClicked(MouseEvent ev) {
             Window w = (Window)ev.getSource();
-            Frame f = null;
+            Frbme f = null;
 
-            if (w instanceof Frame) {
-                f = (Frame)w;
+            if (w instbnceof Frbme) {
+                f = (Frbme)w;
             } else {
                 return;
             }
 
             Point convertedPoint = SwingUtilities.convertPoint(
-                           w, ev.getPoint(), getTitlePane());
+                           w, ev.getPoint(), getTitlePbne());
 
-            int state = f.getExtendedState();
-            if (getTitlePane() != null &&
-                    getTitlePane().contains(convertedPoint)) {
+            int stbte = f.getExtendedStbte();
+            if (getTitlePbne() != null &&
+                    getTitlePbne().contbins(convertedPoint)) {
                 if ((ev.getClickCount() % 2) == 0 &&
                         ((ev.getModifiers() & InputEvent.BUTTON1_MASK) != 0)) {
-                    if (f.isResizable()) {
-                        if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                            f.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+                    if (f.isResizbble()) {
+                        if ((stbte & Frbme.MAXIMIZED_BOTH) != 0) {
+                            f.setExtendedStbte(stbte & ~Frbme.MAXIMIZED_BOTH);
                         }
                         else {
-                            f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+                            f.setExtendedStbte(stbte | Frbme.MAXIMIZED_BOTH);
                         }
                         return;
                     }
@@ -934,14 +934,14 @@ public class MetalRootPaneUI extends BasicRootPaneUI
         }
 
         /**
-         * Returns the corner that contains the point <code>x</code>,
-         * <code>y</code>, or -1 if the position doesn't match a corner.
+         * Returns the corner thbt contbins the point <code>x</code>,
+         * <code>y</code>, or -1 if the position doesn't mbtch b corner.
          */
-        private int calculateCorner(Window w, int x, int y) {
+        privbte int cblculbteCorner(Window w, int x, int y) {
             Insets insets = w.getInsets();
-            int xPosition = calculatePosition(x - insets.left,
+            int xPosition = cblculbtePosition(x - insets.left,
                     w.getWidth() - insets.left - insets.right);
-            int yPosition = calculatePosition(y - insets.top,
+            int yPosition = cblculbtePosition(y - insets.top,
                     w.getHeight() - insets.top - insets.bottom);
 
             if (xPosition == -1 || yPosition == -1) {
@@ -952,18 +952,18 @@ public class MetalRootPaneUI extends BasicRootPaneUI
 
         /**
          * Returns the Cursor to render for the specified corner. This returns
-         * 0 if the corner doesn't map to a valid Cursor
+         * 0 if the corner doesn't mbp to b vblid Cursor
          */
-        private int getCursor(int corner) {
+        privbte int getCursor(int corner) {
             if (corner == -1) {
                 return 0;
             }
-            return cursorMapping[corner];
+            return cursorMbpping[corner];
         }
 
         /**
-         * Returns an integer indicating the position of <code>spot</code>
-         * in <code>width</code>. The return value will be:
+         * Returns bn integer indicbting the position of <code>spot</code>
+         * in <code>width</code>. The return vblue will be:
          * 0 if < BORDER_DRAG_THICKNESS
          * 1 if < CORNER_DRAG_WIDTH
          * 2 if >= CORNER_DRAG_WIDTH && < width - BORDER_DRAG_THICKNESS
@@ -971,7 +971,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          * 4 if >= width - BORDER_DRAG_THICKNESS
          * 5 otherwise
          */
-        private int calculatePosition(int spot, int width) {
+        privbte int cblculbtePosition(int spot, int width) {
             if (spot < BORDER_DRAG_THICKNESS) {
                 return 0;
             }

@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.awt.Component;
-import java.awt.Rectangle;
+import jbvb.bwt.Component;
+import jbvb.bwt.Rectbngle;
 
 /**
- * The component-level paint event.
- * This event is a special type which is used to ensure that
- * paint/update method calls are serialized along with the other
+ * The component-level pbint event.
+ * This event is b specibl type which is used to ensure thbt
+ * pbint/updbte method cblls bre seriblized blong with the other
  * events delivered from the event queue.  This event is not
- * designed to be used with the Event Listener model; programs
- * should continue to override paint/update methods in order
+ * designed to be used with the Event Listener model; progrbms
+ * should continue to override pbint/updbte methods in order
  * render themselves properly.
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code PaintEvent} instance is not
- * in the range from {@code PAINT_FIRST} to {@code PAINT_LAST}.
+ * An unspecified behbvior will be cbused if the {@code id} pbrbmeter
+ * of bny pbrticulbr {@code PbintEvent} instbnce is not
+ * in the rbnge from {@code PAINT_FIRST} to {@code PAINT_LAST}.
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  * @since 1.1
  */
-public class PaintEvent extends ComponentEvent {
+public clbss PbintEvent extends ComponentEvent {
 
     /**
-     * Marks the first integer id for the range of paint event ids.
+     * Mbrks the first integer id for the rbnge of pbint event ids.
      */
-    public static final int PAINT_FIRST         = 800;
+    public stbtic finbl int PAINT_FIRST         = 800;
 
     /**
-     * Marks the last integer id for the range of paint event ids.
+     * Mbrks the lbst integer id for the rbnge of pbint event ids.
      */
-    public static final int PAINT_LAST          = 801;
+    public stbtic finbl int PAINT_LAST          = 801;
 
     /**
-     * The paint event type.
+     * The pbint event type.
      */
-    public static final int PAINT = PAINT_FIRST;
+    public stbtic finbl int PAINT = PAINT_FIRST;
 
     /**
-     * The update event type.
+     * The updbte event type.
      */
-    public static final int UPDATE = PAINT_FIRST + 1; //801
+    public stbtic finbl int UPDATE = PAINT_FIRST + 1; //801
 
     /**
-     * This is the rectangle that represents the area on the source
-     * component that requires a repaint.
-     * This rectangle should be non null.
+     * This is the rectbngle thbt represents the breb on the source
+     * component thbt requires b repbint.
+     * This rectbngle should be non null.
      *
-     * @serial
-     * @see java.awt.Rectangle
-     * @see #setUpdateRect(Rectangle)
-     * @see #getUpdateRect()
+     * @seribl
+     * @see jbvb.bwt.Rectbngle
+     * @see #setUpdbteRect(Rectbngle)
+     * @see #getUpdbteRect()
      */
-    Rectangle updateRect;
+    Rectbngle updbteRect;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 1267492026433337593L;
+    privbte stbtic finbl long seriblVersionUID = 1267492026433337593L;
 
     /**
-     * Constructs a <code>PaintEvent</code> object with the specified
-     * source component and type.
-     * <p> This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
+     * Constructs b <code>PbintEvent</code> object with the specified
+     * source component bnd type.
+     * <p> This method throws bn
+     * <code>IllegblArgumentException</code> if <code>source</code>
      * is <code>null</code>.
      *
-     * @param source     The object where the event originated
-     * @param id           The integer that identifies the event type.
-     *                     For information on allowable values, see
-     *                     the class description for {@link PaintEvent}
-     * @param updateRect The rectangle area which needs to be repainted
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm source     The object where the event originbted
+     * @pbrbm id           The integer thbt identifies the event type.
+     *                     For informbtion on bllowbble vblues, see
+     *                     the clbss description for {@link PbintEvent}
+     * @pbrbm updbteRect The rectbngle breb which needs to be repbinted
+     * @throws IllegblArgumentException if <code>source</code> is null
      * @see #getSource()
      * @see #getID()
-     * @see #getUpdateRect()
+     * @see #getUpdbteRect()
      */
-    public PaintEvent(Component source, int id, Rectangle updateRect) {
+    public PbintEvent(Component source, int id, Rectbngle updbteRect) {
         super(source, id);
-        this.updateRect = updateRect;
+        this.updbteRect = updbteRect;
     }
 
     /**
-     * Returns the rectangle representing the area which needs to be
-     * repainted in response to this event.
-     * @return the rectangle representing the area which needs to be
-     * repainted in response to this event
+     * Returns the rectbngle representing the breb which needs to be
+     * repbinted in response to this event.
+     * @return the rectbngle representing the breb which needs to be
+     * repbinted in response to this event
      */
-    public Rectangle getUpdateRect() {
-        return updateRect;
+    public Rectbngle getUpdbteRect() {
+        return updbteRect;
     }
 
     /**
-     * Sets the rectangle representing the area which needs to be
-     * repainted in response to this event.
-     * @param updateRect the rectangle area which needs to be repainted
+     * Sets the rectbngle representing the breb which needs to be
+     * repbinted in response to this event.
+     * @pbrbm updbteRect the rectbngle breb which needs to be repbinted
      */
-    public void setUpdateRect(Rectangle updateRect) {
-        this.updateRect = updateRect;
+    public void setUpdbteRect(Rectbngle updbteRect) {
+        this.updbteRect = updbteRect;
     }
 
-    public String paramString() {
+    public String pbrbmString() {
         String typeStr;
         switch(id) {
-          case PAINT:
+          cbse PAINT:
               typeStr = "PAINT";
-              break;
-          case UPDATE:
+              brebk;
+          cbse UPDATE:
               typeStr = "UPDATE";
-              break;
-          default:
+              brebk;
+          defbult:
               typeStr = "unknown type";
         }
-        return typeStr + ",updateRect="+(updateRect != null ? updateRect.toString() : "null");
+        return typeStr + ",updbteRect="+(updbteRect != null ? updbteRect.toString() : "null");
     }
 }

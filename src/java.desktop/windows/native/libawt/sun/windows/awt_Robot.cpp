@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "awt_Component.h"
-#include "awt_Robot.h"
-#include "sun_awt_windows_WRobotPeer.h"
-#include "java_awt_event_InputEvent.h"
+#include "bwt.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Component.h"
+#include "bwt_Robot.h"
+#include "sun_bwt_windows_WRobotPeer.h"
+#include "jbvb_bwt_event_InputEvent.h"
 #include <winuser.h>
 
 AwtRobot::AwtRobot( jobject peer )
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    m_peerObject = env->NewWeakGlobalRef(peer);
+    m_peerObject = env->NewWebkGlobblRef(peer);
     JNU_CHECK_EXCEPTION(env);
     JNI_SET_PDATA(peer, this);
 }
@@ -58,24 +58,24 @@ void AwtRobot::MouseMove( jint x, jint y)
       INT_PTR oldSpeed, newSpeed;
       BOOL bResult;
 
-   // The following values set mouse ballistics to 1 mickey/pixel.
+   // The following vblues set mouse bbllistics to 1 mickey/pixel.
       newAccel[0] = 0;
       newAccel[1] = 0;
       newAccel[2] = 0;
       newSpeed = 10;
 
-      // Save the Current Mouse Acceleration Constants
-      bResult = SystemParametersInfo(SPI_GETMOUSE,0,oldAccel,0);
-      bResult = SystemParametersInfo(SPI_GETMOUSESPEED, 0, &oldSpeed,0);
-      // Set the new Mouse Acceleration Constants (Disabled).
-      bResult = SystemParametersInfo(SPI_SETMOUSE,0,newAccel,SPIF_SENDCHANGE);
-      bResult = SystemParametersInfo(SPI_SETMOUSESPEED, 0,
-                // 4504963: Though the third argument to SystemParameterInfo is
-                // declared as a PVOID, as of Windows 2000 it is apparently
-                // interpreted as an int.  (The MSDN docs for SPI_SETMOUSESPEED
-                // say that it's an integer between 1 and 20, the default being
-                // 10).  Instead of passing the @ of the desired value, the
-                // value itself is now passed, cast as a PVOID so as to
+      // Sbve the Current Mouse Accelerbtion Constbnts
+      bResult = SystemPbrbmetersInfo(SPI_GETMOUSE,0,oldAccel,0);
+      bResult = SystemPbrbmetersInfo(SPI_GETMOUSESPEED, 0, &oldSpeed,0);
+      // Set the new Mouse Accelerbtion Constbnts (Disbbled).
+      bResult = SystemPbrbmetersInfo(SPI_SETMOUSE,0,newAccel,SPIF_SENDCHANGE);
+      bResult = SystemPbrbmetersInfo(SPI_SETMOUSESPEED, 0,
+                // 4504963: Though the third brgument to SystemPbrbmeterInfo is
+                // declbred bs b PVOID, bs of Windows 2000 it is bppbrently
+                // interpreted bs bn int.  (The MSDN docs for SPI_SETMOUSESPEED
+                // sby thbt it's bn integer between 1 bnd 20, the defbult being
+                // 10).  Instebd of pbssing the @ of the desired vblue, the
+                // vblue itself is now pbssed, cbst bs b PVOID so bs to
                 // compile.  -bchristi 10/02/2001
                                      (PVOID)newSpeed,
                                      SPIF_SENDCHANGE);
@@ -86,95 +86,95 @@ void AwtRobot::MouseMove( jint x, jint y)
       y -= curPos.y;
 
       mouse_event(MOUSEEVENTF_MOVE,x,y,0,0);
-      // Move the cursor to the desired coordinates.
+      // Move the cursor to the desired coordinbtes.
 
-      // Restore the old Mouse Acceleration Constants.
-      bResult = SystemParametersInfo(SPI_SETMOUSE,0, oldAccel, SPIF_SENDCHANGE);
-      bResult = SystemParametersInfo(SPI_SETMOUSESPEED, 0, (PVOID)oldSpeed,
+      // Restore the old Mouse Accelerbtion Constbnts.
+      bResult = SystemPbrbmetersInfo(SPI_SETMOUSE,0, oldAccel, SPIF_SENDCHANGE);
+      bResult = SystemPbrbmetersInfo(SPI_SETMOUSESPEED, 0, (PVOID)oldSpeed,
                                      SPIF_SENDCHANGE);
 }
 
-void AwtRobot::MousePress( jint buttonMask )
+void AwtRobot::MousePress( jint buttonMbsk )
 {
-    DWORD dwFlags = 0L;
-    // According to MSDN: Software Driving Software
-    // application should consider SM_SWAPBUTTON to correctly emulate user with
-    // left handed mouse setup
-    BOOL bSwap = ::GetSystemMetrics(SM_SWAPBUTTON);
+    DWORD dwFlbgs = 0L;
+    // According to MSDN: Softwbre Driving Softwbre
+    // bpplicbtion should consider SM_SWAPBUTTON to correctly emulbte user with
+    // left hbnded mouse setup
+    BOOL bSwbp = ::GetSystemMetrics(SM_SWAPBUTTON);
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON1_MASK ||
-        buttonMask & java_awt_event_InputEvent_BUTTON1_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_DOWN_MASK)
     {
-        dwFlags |= !bSwap ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN;
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN;
     }
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON3_MASK ||
-         buttonMask & java_awt_event_InputEvent_BUTTON3_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_DOWN_MASK)
     {
-        dwFlags |= !bSwap ? MOUSEEVENTF_RIGHTDOWN : MOUSEEVENTF_LEFTDOWN;
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_RIGHTDOWN : MOUSEEVENTF_LEFTDOWN;
     }
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON2_MASK ||
-         buttonMask & java_awt_event_InputEvent_BUTTON2_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_MASK ||
+         buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_DOWN_MASK)
     {
-        dwFlags |= MOUSEEVENTF_MIDDLEDOWN;
+        dwFlbgs |= MOUSEEVENTF_MIDDLEDOWN;
     }
 
     INPUT mouseInput = {0};
     mouseInput.type = INPUT_MOUSE;
     mouseInput.mi.time = 0;
-    mouseInput.mi.dwFlags = dwFlags;
-    if ( buttonMask & AwtComponent::masks[3] ) {
-        mouseInput.mi.dwFlags = mouseInput.mi.dwFlags | MOUSEEVENTF_XDOWN;
-        mouseInput.mi.mouseData = XBUTTON1;
+    mouseInput.mi.dwFlbgs = dwFlbgs;
+    if ( buttonMbsk & AwtComponent::mbsks[3] ) {
+        mouseInput.mi.dwFlbgs = mouseInput.mi.dwFlbgs | MOUSEEVENTF_XDOWN;
+        mouseInput.mi.mouseDbtb = XBUTTON1;
     }
 
-    if ( buttonMask & AwtComponent::masks[4] ) {
-        mouseInput.mi.dwFlags = mouseInput.mi.dwFlags | MOUSEEVENTF_XDOWN;
-        mouseInput.mi.mouseData = XBUTTON2;
+    if ( buttonMbsk & AwtComponent::mbsks[4] ) {
+        mouseInput.mi.dwFlbgs = mouseInput.mi.dwFlbgs | MOUSEEVENTF_XDOWN;
+        mouseInput.mi.mouseDbtb = XBUTTON2;
     }
     ::SendInput(1, &mouseInput, sizeof(mouseInput));
 }
 
-void AwtRobot::MouseRelease( jint buttonMask )
+void AwtRobot::MouseRelebse( jint buttonMbsk )
 {
-    DWORD dwFlags = 0L;
-    // According to MSDN: Software Driving Software
-    // application should consider SM_SWAPBUTTON to correctly emulate user with
-    // left handed mouse setup
-    BOOL bSwap = ::GetSystemMetrics(SM_SWAPBUTTON);
+    DWORD dwFlbgs = 0L;
+    // According to MSDN: Softwbre Driving Softwbre
+    // bpplicbtion should consider SM_SWAPBUTTON to correctly emulbte user with
+    // left hbnded mouse setup
+    BOOL bSwbp = ::GetSystemMetrics(SM_SWAPBUTTON);
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON1_MASK ||
-        buttonMask & java_awt_event_InputEvent_BUTTON1_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON1_DOWN_MASK)
     {
-        dwFlags |= !bSwap ? MOUSEEVENTF_LEFTUP : MOUSEEVENTF_RIGHTUP;
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_LEFTUP : MOUSEEVENTF_RIGHTUP;
     }
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON3_MASK ||
-         buttonMask & java_awt_event_InputEvent_BUTTON3_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON3_DOWN_MASK)
     {
-        dwFlags |= !bSwap ? MOUSEEVENTF_RIGHTUP : MOUSEEVENTF_LEFTUP;
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_RIGHTUP : MOUSEEVENTF_LEFTUP;
     }
 
-    if ( buttonMask & java_awt_event_InputEvent_BUTTON2_MASK ||
-        buttonMask & java_awt_event_InputEvent_BUTTON2_DOWN_MASK)
+    if ( buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_MASK ||
+        buttonMbsk & jbvb_bwt_event_InputEvent_BUTTON2_DOWN_MASK)
     {
-        dwFlags |= MOUSEEVENTF_MIDDLEUP;
+        dwFlbgs |= MOUSEEVENTF_MIDDLEUP;
     }
 
     INPUT mouseInput = {0};
     mouseInput.type = INPUT_MOUSE;
     mouseInput.mi.time = 0;
-    mouseInput.mi.dwFlags = dwFlags;
+    mouseInput.mi.dwFlbgs = dwFlbgs;
 
-    if ( buttonMask & AwtComponent::masks[3] ) {
-        mouseInput.mi.dwFlags = mouseInput.mi.dwFlags | MOUSEEVENTF_XUP;
-        mouseInput.mi.mouseData = XBUTTON1;
+    if ( buttonMbsk & AwtComponent::mbsks[3] ) {
+        mouseInput.mi.dwFlbgs = mouseInput.mi.dwFlbgs | MOUSEEVENTF_XUP;
+        mouseInput.mi.mouseDbtb = XBUTTON1;
     }
 
-    if ( buttonMask & AwtComponent::masks[4] ) {
-        mouseInput.mi.dwFlags = mouseInput.mi.dwFlags | MOUSEEVENTF_XUP;
-        mouseInput.mi.mouseData = XBUTTON2;
+    if ( buttonMbsk & AwtComponent::mbsks[4] ) {
+        mouseInput.mi.dwFlbgs = mouseInput.mi.dwFlbgs | MOUSEEVENTF_XUP;
+        mouseInput.mi.mouseDbtb = XBUTTON2;
     }
     ::SendInput(1, &mouseInput, sizeof(mouseInput));
 }
@@ -183,159 +183,159 @@ void AwtRobot::MouseWheel (jint wheelAmt) {
     mouse_event(MOUSEEVENTF_WHEEL, 0, 0, wheelAmt * -1 * WHEEL_DELTA, 0);
 }
 
-inline jint AwtRobot::WinToJavaPixel(USHORT r, USHORT g, USHORT b)
+inline jint AwtRobot::WinToJbvbPixel(USHORT r, USHORT g, USHORT b)
 {
-    jint value =
-            0xFF << 24 | // alpha channel is always turned all the way up
+    jint vblue =
+            0xFF << 24 | // blphb chbnnel is blwbys turned bll the wby up
             r << 16 |
             g << 8  |
             b << 0;
-    return value;
+    return vblue;
 }
 
-void AwtRobot::GetRGBPixels(jint x, jint y, jint width, jint height, jintArray pixelArray)
+void AwtRobot::GetRGBPixels(jint x, jint y, jint width, jint height, jintArrby pixelArrby)
 {
     DASSERT(width > 0 && height > 0);
 
-    HDC hdcScreen = ::CreateDC(TEXT("DISPLAY"), NULL, NULL, NULL);
-    HDC hdcMem = ::CreateCompatibleDC(hdcScreen);
-    HBITMAP hbitmap;
-    HBITMAP hOldBitmap;
-    HPALETTE hOldPalette = NULL;
+    HDC hdcScreen = ::CrebteDC(TEXT("DISPLAY"), NULL, NULL, NULL);
+    HDC hdcMem = ::CrebteCompbtibleDC(hdcScreen);
+    HBITMAP hbitmbp;
+    HBITMAP hOldBitmbp;
+    HPALETTE hOldPblette = NULL;
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    // create an offscreen bitmap
-    hbitmap = ::CreateCompatibleBitmap(hdcScreen, width, height);
-    if (hbitmap == NULL) {
-        throw std::bad_alloc();
+    // crebte bn offscreen bitmbp
+    hbitmbp = ::CrebteCompbtibleBitmbp(hdcScreen, width, height);
+    if (hbitmbp == NULL) {
+        throw std::bbd_blloc();
     }
-    hOldBitmap = (HBITMAP)::SelectObject(hdcMem, hbitmap);
+    hOldBitmbp = (HBITMAP)::SelectObject(hdcMem, hbitmbp);
 
     // REMIND: not multimon-friendly...
-    int primaryIndex = AwtWin32GraphicsDevice::GetDefaultDeviceIndex();
-    hOldPalette =
-        AwtWin32GraphicsDevice::SelectPalette(hdcMem, primaryIndex);
-    AwtWin32GraphicsDevice::RealizePalette(hdcMem, primaryIndex);
+    int primbryIndex = AwtWin32GrbphicsDevice::GetDefbultDeviceIndex();
+    hOldPblette =
+        AwtWin32GrbphicsDevice::SelectPblette(hdcMem, primbryIndex);
+    AwtWin32GrbphicsDevice::ReblizePblette(hdcMem, primbryIndex);
 
-    // copy screen image to offscreen bitmap
-    // CAPTUREBLT flag is required to capture WS_EX_LAYERED windows' contents
+    // copy screen imbge to offscreen bitmbp
+    // CAPTUREBLT flbg is required to cbpture WS_EX_LAYERED windows' contents
     // correctly on Win2K/XP
     VERIFY(::BitBlt(hdcMem, 0, 0, width, height, hdcScreen, x, y,
                                                 SRCCOPY|CAPTUREBLT) != 0);
 
-    static const int BITS_PER_PIXEL = 32;
-    static const int BYTES_PER_PIXEL = BITS_PER_PIXEL/8;
+    stbtic const int BITS_PER_PIXEL = 32;
+    stbtic const int BYTES_PER_PIXEL = BITS_PER_PIXEL/8;
 
-    if (!IS_SAFE_SIZE_MUL(width, height)) throw std::bad_alloc();
+    if (!IS_SAFE_SIZE_MUL(width, height)) throw std::bbd_blloc();
     int numPixels = width*height;
-    if (!IS_SAFE_SIZE_MUL(BYTES_PER_PIXEL, numPixels)) throw std::bad_alloc();
-    int pixelDataSize = BYTES_PER_PIXEL*numPixels;
-    DASSERT(pixelDataSize > 0 && pixelDataSize % 4 == 0);
-    // allocate memory for BITMAPINFO + pixel data
-    // 4620932: When using BI_BITFIELDS, GetDIBits expects an array of 3
-    // RGBQUADS to follow the BITMAPINFOHEADER, but we were only allocating the
-    // 1 that is included in BITMAPINFO.  Thus, GetDIBits was writing off the
-    // end of our block of memory.  Now we allocate sufficient memory.
+    if (!IS_SAFE_SIZE_MUL(BYTES_PER_PIXEL, numPixels)) throw std::bbd_blloc();
+    int pixelDbtbSize = BYTES_PER_PIXEL*numPixels;
+    DASSERT(pixelDbtbSize > 0 && pixelDbtbSize % 4 == 0);
+    // bllocbte memory for BITMAPINFO + pixel dbtb
+    // 4620932: When using BI_BITFIELDS, GetDIBits expects bn brrby of 3
+    // RGBQUADS to follow the BITMAPINFOHEADER, but we were only bllocbting the
+    // 1 thbt is included in BITMAPINFO.  Thus, GetDIBits wbs writing off the
+    // end of our block of memory.  Now we bllocbte sufficient memory.
     // See MSDN docs for BITMAPINFOHEADER -bchristi
 
-    if (!IS_SAFE_SIZE_ADD(sizeof(BITMAPINFOHEADER) + 3 * sizeof(RGBQUAD), pixelDataSize)) {
-        throw std::bad_alloc();
+    if (!IS_SAFE_SIZE_ADD(sizeof(BITMAPINFOHEADER) + 3 * sizeof(RGBQUAD), pixelDbtbSize)) {
+        throw std::bbd_blloc();
     }
-    BITMAPINFO * pinfo = (BITMAPINFO *)(new BYTE[sizeof(BITMAPINFOHEADER) + 3 * sizeof(RGBQUAD) + pixelDataSize]);
+    BITMAPINFO * pinfo = (BITMAPINFO *)(new BYTE[sizeof(BITMAPINFOHEADER) + 3 * sizeof(RGBQUAD) + pixelDbtbSize]);
 
-    // pixel data starts after 3 RGBQUADS for color masks
-    RGBQUAD *pixelData = &pinfo->bmiColors[3];
+    // pixel dbtb stbrts bfter 3 RGBQUADS for color mbsks
+    RGBQUAD *pixelDbtb = &pinfo->bmiColors[3];
 
-    // prepare BITMAPINFO for a 32-bit RGB bitmap
+    // prepbre BITMAPINFO for b 32-bit RGB bitmbp
     ::memset(pinfo, 0, sizeof(*pinfo));
-    pinfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    pinfo->bmiHeader.biWidth = width;
-    pinfo->bmiHeader.biHeight = -height; // negative height means a top-down DIB
-    pinfo->bmiHeader.biPlanes = 1;
-    pinfo->bmiHeader.biBitCount = BITS_PER_PIXEL;
-    pinfo->bmiHeader.biCompression = BI_BITFIELDS;
+    pinfo->bmiHebder.biSize = sizeof(BITMAPINFOHEADER);
+    pinfo->bmiHebder.biWidth = width;
+    pinfo->bmiHebder.biHeight = -height; // negbtive height mebns b top-down DIB
+    pinfo->bmiHebder.biPlbnes = 1;
+    pinfo->bmiHebder.biBitCount = BITS_PER_PIXEL;
+    pinfo->bmiHebder.biCompression = BI_BITFIELDS;
 
-    // Setup up color masks
-    static const RGBQUAD redMask =   {0, 0, 0xFF, 0};
-    static const RGBQUAD greenMask = {0, 0xFF, 0, 0};
-    static const RGBQUAD blueMask =  {0xFF, 0, 0, 0};
+    // Setup up color mbsks
+    stbtic const RGBQUAD redMbsk =   {0, 0, 0xFF, 0};
+    stbtic const RGBQUAD greenMbsk = {0, 0xFF, 0, 0};
+    stbtic const RGBQUAD blueMbsk =  {0xFF, 0, 0, 0};
 
-    pinfo->bmiColors[0] = redMask;
-    pinfo->bmiColors[1] = greenMask;
-    pinfo->bmiColors[2] = blueMask;
+    pinfo->bmiColors[0] = redMbsk;
+    pinfo->bmiColors[1] = greenMbsk;
+    pinfo->bmiColors[2] = blueMbsk;
 
-    // Get the bitmap data in device-independent, 32-bit packed pixel format
-    ::GetDIBits(hdcMem, hbitmap, 0, height, pixelData, pinfo, DIB_RGB_COLORS);
+    // Get the bitmbp dbtb in device-independent, 32-bit pbcked pixel formbt
+    ::GetDIBits(hdcMem, hbitmbp, 0, height, pixelDbtb, pinfo, DIB_RGB_COLORS);
 
-    // convert Win32 pixel format (BGRX) to Java format (ARGB)
+    // convert Win32 pixel formbt (BGRX) to Jbvb formbt (ARGB)
     DASSERT(sizeof(jint) == sizeof(RGBQUAD));
     for(int nPixel = 0; nPixel < numPixels; nPixel++) {
-        RGBQUAD * prgbq = &pixelData[nPixel];
-        jint jpixel = WinToJavaPixel(prgbq->rgbRed, prgbq->rgbGreen, prgbq->rgbBlue);
-        // stuff the 32-bit pixel back into the 32-bit RGBQUAD
+        RGBQUAD * prgbq = &pixelDbtb[nPixel];
+        jint jpixel = WinToJbvbPixel(prgbq->rgbRed, prgbq->rgbGreen, prgbq->rgbBlue);
+        // stuff the 32-bit pixel bbck into the 32-bit RGBQUAD
         *prgbq = *( (RGBQUAD *)(&jpixel) );
     }
 
-    // copy pixels into Java array
-    env->SetIntArrayRegion(pixelArray, 0, numPixels, (jint *)pixelData);
+    // copy pixels into Jbvb brrby
+    env->SetIntArrbyRegion(pixelArrby, 0, numPixels, (jint *)pixelDbtb);
     delete pinfo;
 
-    // free all the GDI objects we made
-    ::SelectObject(hdcMem, hOldBitmap);
-    if (hOldPalette != NULL) {
-        ::SelectPalette(hdcMem, hOldPalette, FALSE);
+    // free bll the GDI objects we mbde
+    ::SelectObject(hdcMem, hOldBitmbp);
+    if (hOldPblette != NULL) {
+        ::SelectPblette(hdcMem, hOldPblette, FALSE);
     }
-    ::DeleteObject(hbitmap);
+    ::DeleteObject(hbitmbp);
     ::DeleteDC(hdcMem);
     ::DeleteDC(hdcScreen);
 }
 
 void AwtRobot::KeyPress( jint jkey )
 {
-    DoKeyEvent(jkey, 0); // no flags means key down
+    DoKeyEvent(jkey, 0); // no flbgs mebns key down
 }
 
-void AwtRobot::KeyRelease( jint jkey )
+void AwtRobot::KeyRelebse( jint jkey )
 {
     DoKeyEvent(jkey, KEYEVENTF_KEYUP);
 }
 
-void AwtRobot::DoKeyEvent( jint jkey, DWORD dwFlags )
+void AwtRobot::DoKeyEvent( jint jkey, DWORD dwFlbgs )
 {
     UINT        vkey;
     UINT        modifiers;
-    UINT        scancode;
+    UINT        scbncode;
     JNIEnv *    env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    // convert Java key into Windows key (and modifiers too)
-    AwtComponent::JavaKeyToWindowsKey(jkey, &vkey, &modifiers);
+    // convert Jbvb key into Windows key (bnd modifiers too)
+    AwtComponent::JbvbKeyToWindowsKey(jkey, &vkey, &modifiers);
     if (vkey == 0) {
-        // no equivalent Windows key found for given Java keycode
-        JNU_ThrowIllegalArgumentException(env, "Invalid key code");
+        // no equivblent Windows key found for given Jbvb keycode
+        JNU_ThrowIllegblArgumentException(env, "Invblid key code");
     } else {
-        // get the scancode from the virtual key
-        scancode = ::MapVirtualKey(vkey, 0);
-        keybd_event(vkey, scancode, dwFlags, 0);
+        // get the scbncode from the virtubl key
+        scbncode = ::MbpVirtublKey(vkey, 0);
+        keybd_event(vkey, scbncode, dwFlbgs, 0);
     }
 }
 
 //
-// utility function to get the C++ object from the Java one
+// utility function to get the C++ object from the Jbvb one
 //
-// (static)
+// (stbtic)
 AwtRobot * AwtRobot::GetRobot( jobject self )
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     AwtRobot * robot = (AwtRobot *)JNI_GET_PDATA(self);
-    DASSERT( !::IsBadWritePtr( robot, sizeof(AwtRobot)));
+    DASSERT( !::IsBbdWritePtr( robot, sizeof(AwtRobot)));
     return robot;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// Native method declarations
+// Nbtive method declbrbtions
 //
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_create(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_crebte(
     JNIEnv * env, jobject self)
 {
     TRY;
@@ -345,7 +345,7 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_create(
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer__1dispose(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer__1dispose(
     JNIEnv *env, jobject self)
 {
     TRY_NO_VERIFY;
@@ -355,7 +355,7 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer__1dispose(
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mouseMoveImpl(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_mouseMoveImpl(
     JNIEnv * env, jobject self, jint x, jint y)
 {
     TRY;
@@ -365,7 +365,7 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mouseMoveImpl(
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mousePress(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_mousePress(
     JNIEnv * env, jobject self, jint buttons)
 {
     TRY;
@@ -375,17 +375,17 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mousePress(
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mouseRelease(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_mouseRelebse(
     JNIEnv * env, jobject self, jint buttons)
 {
     TRY;
 
-    AwtRobot::GetRobot(self)->MouseRelease(buttons);
+    AwtRobot::GetRobot(self)->MouseRelebse(buttons);
 
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mouseWheel(
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_mouseWheel(
     JNIEnv * env, jobject self, jint wheelAmt)
 {
     TRY;
@@ -395,32 +395,32 @@ JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_mouseWheel(
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_getRGBPixels(
-    JNIEnv *env, jobject self, jint x, jint y, jint width, jint height, jintArray pixelArray)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_getRGBPixels(
+    JNIEnv *env, jobject self, jint x, jint y, jint width, jint height, jintArrby pixelArrby)
 {
     TRY;
 
-    AwtRobot::GetRobot(self)->GetRGBPixels(x, y, width, height, pixelArray);
+    AwtRobot::GetRobot(self)->GetRGBPixels(x, y, width, height, pixelArrby);
 
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_keyPress(
-  JNIEnv *, jobject self, jint javakey )
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_keyPress(
+  JNIEnv *, jobject self, jint jbvbkey )
 {
     TRY;
 
-    AwtRobot::GetRobot(self)->KeyPress(javakey);
+    AwtRobot::GetRobot(self)->KeyPress(jbvbkey);
 
     CATCH_BAD_ALLOC;
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_windows_WRobotPeer_keyRelease(
-  JNIEnv *, jobject self, jint javakey )
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPeer_keyRelebse(
+  JNIEnv *, jobject self, jint jbvbkey )
 {
     TRY;
 
-    AwtRobot::GetRobot(self)->KeyRelease(javakey);
+    AwtRobot::GetRobot(self)->KeyRelebse(jbvbkey);
 
     CATCH_BAD_ALLOC;
 }

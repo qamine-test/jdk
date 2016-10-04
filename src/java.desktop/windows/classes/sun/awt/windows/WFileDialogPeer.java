@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.dnd.DropTarget;
-import java.awt.peer.*;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.util.Vector;
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrget;
+import jbvb.bwt.peer.*;
+import jbvb.io.File;
+import jbvb.io.FilenbmeFilter;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.util.Vector;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.AWTAccessor;
 
-final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
+finbl clbss WFileDiblogPeer extends WWindowPeer implements FileDiblogPeer {
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    private WComponentPeer parent;
-    private FilenameFilter fileFilter;
+    privbte WComponentPeer pbrent;
+    privbte FilenbmeFilter fileFilter;
 
-    private Vector<WWindowPeer> blockedWindows = new Vector<>();
+    privbte Vector<WWindowPeer> blockedWindows = new Vector<>();
 
     //Needed to fix 4152317
-    private static native void setFilterString(String allFilter);
+    privbte stbtic nbtive void setFilterString(String bllFilter);
 
     @Override
-    public void setFilenameFilter(FilenameFilter filter) {
+    public void setFilenbmeFilter(FilenbmeFilter filter) {
         this.fileFilter = filter;
     }
 
-    boolean checkFilenameFilter(String filename) {
-        FileDialog fileDialog = (FileDialog)target;
+    boolebn checkFilenbmeFilter(String filenbme) {
+        FileDiblog fileDiblog = (FileDiblog)tbrget;
         if (fileFilter == null) {
             return true;
         }
-        File file = new File(filename);
-        return fileFilter.accept(new File(file.getParent()), file.getName());
+        File file = new File(filenbme);
+        return fileFilter.bccept(new File(file.getPbrent()), file.getNbme());
     }
 
-    // Toolkit & peer internals
-    WFileDialogPeer(FileDialog target) {
-        super(target);
-    }
-
-    @Override
-    void create(WComponentPeer parent) {
-        this.parent = parent;
-    }
-
-    // don't use checkCreation() from WComponentPeer to avoid hwnd check
-    @Override
-    protected void checkCreation() {
+    // Toolkit & peer internbls
+    WFileDiblogPeer(FileDiblog tbrget) {
+        super(tbrget);
     }
 
     @Override
-    void initialize() {
-        setFilenameFilter(((FileDialog) target).getFilenameFilter());
+    void crebte(WComponentPeer pbrent) {
+        this.pbrent = pbrent;
     }
 
-    private native void _dispose();
+    // don't use checkCrebtion() from WComponentPeer to bvoid hwnd check
+    @Override
+    protected void checkCrebtion() {
+    }
+
+    @Override
+    void initiblize() {
+        setFilenbmeFilter(((FileDiblog) tbrget).getFilenbmeFilter());
+    }
+
+    privbte nbtive void _dispose();
     @Override
     protected void disposeImpl() {
-        WToolkit.targetDisposedPeer(target, this);
+        WToolkit.tbrgetDisposedPeer(tbrget, this);
         _dispose();
     }
 
-    private native void _show();
-    private native void _hide();
+    privbte nbtive void _show();
+    privbte nbtive void _hide();
 
     @Override
     public void show() {
-        new Thread(new Runnable() {
+        new Threbd(new Runnbble() {
             @Override
             public void run() {
                 _show();
             }
-        }).start();
+        }).stbrt();
     }
 
     @Override
@@ -110,7 +110,7 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
         _hide();
     }
 
-    // called from native code when the dialog is shown or hidden
+    // cblled from nbtive code when the diblog is shown or hidden
     void setHWnd(long hwnd) {
         if (this.hwnd == hwnd) {
             return;
@@ -118,31 +118,31 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
         this.hwnd = hwnd;
         for (WWindowPeer window : blockedWindows) {
             if (hwnd != 0) {
-                window.modalDisable((Dialog)target, hwnd);
+                window.modblDisbble((Diblog)tbrget, hwnd);
             } else {
-                window.modalEnable((Dialog)target);
+                window.modblEnbble((Diblog)tbrget);
             }
         }
     }
 
     /*
-     * The function converts the file names (the buffer parameter)
-     * in the Windows format into the Java format and saves the results
-     * into the FileDialog instance.
+     * The function converts the file nbmes (the buffer pbrbmeter)
+     * in the Windows formbt into the Jbvb formbt bnd sbves the results
+     * into the FileDiblog instbnce.
      *
-     * If it's the multi-select mode, the buffer contains the current
-     * directory followed by the short names of the files.
-     * The directory and file name strings are NULL separated.
-     * If it's the single-select mode, the buffer doesn't have the NULL
-     * separator between the path and the file name.
+     * If it's the multi-select mode, the buffer contbins the current
+     * directory followed by the short nbmes of the files.
+     * The directory bnd file nbme strings bre NULL sepbrbted.
+     * If it's the single-select mode, the buffer doesn't hbve the NULL
+     * sepbrbtor between the pbth bnd the file nbme.
      *
-     * NOTE: This method is called by privileged threads.
+     * NOTE: This method is cblled by privileged threbds.
      *       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    void handleSelected(final char[] buffer)
+    void hbndleSelected(finbl chbr[] buffer)
     {
         String[] wFiles = (new String(buffer)).split("\0"); // NULL is the delimiter
-        boolean multiple = (wFiles.length > 1);
+        boolebn multiple = (wFiles.length > 1);
 
         String jDirectory = null;
         String jFile = null;
@@ -155,11 +155,11 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
             for (int i = 0; i < filesNumber; i++) {
                 jFiles[i] = new File(jDirectory, wFiles[i + 1]);
         }
-            jFile = wFiles[1]; // choose any file
+            jFile = wFiles[1]; // choose bny file
         } else {
-            int index = wFiles[0].lastIndexOf(java.io.File.separatorChar);
+            int index = wFiles[0].lbstIndexOf(jbvb.io.File.sepbrbtorChbr);
             if (index == -1) {
-                jDirectory = "."+java.io.File.separator;
+                jDirectory = "."+jbvb.io.File.sepbrbtor;
                 jFile = wFiles[0];
             } else {
                 jDirectory = wFiles[0].substring(0, index + 1);
@@ -168,48 +168,48 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
             jFiles = new File[] { new File(jDirectory, jFile) };
         }
 
-        final FileDialog fileDialog = (FileDialog)target;
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        finbl FileDiblog fileDiblog = (FileDiblog)tbrget;
+        AWTAccessor.FileDiblogAccessor fileDiblogAccessor = AWTAccessor.getFileDiblogAccessor();
 
-        fileDialogAccessor.setDirectory(fileDialog, jDirectory);
-        fileDialogAccessor.setFile(fileDialog, jFile);
-        fileDialogAccessor.setFiles(fileDialog, jFiles);
+        fileDiblogAccessor.setDirectory(fileDiblog, jDirectory);
+        fileDiblogAccessor.setFile(fileDiblog, jFile);
+        fileDiblogAccessor.setFiles(fileDiblog, jFiles);
 
-        WToolkit.executeOnEventHandlerThread(fileDialog, new Runnable() {
+        WToolkit.executeOnEventHbndlerThrebd(fileDiblog, new Runnbble() {
              @Override
              public void run() {
-                 fileDialog.setVisible(false);
+                 fileDiblog.setVisible(fblse);
              }
         });
-    } // handleSelected()
+    } // hbndleSelected()
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: This method is cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    void handleCancel() {
-        final FileDialog fileDialog = (FileDialog)target;
+    void hbndleCbncel() {
+        finbl FileDiblog fileDiblog = (FileDiblog)tbrget;
 
-        AWTAccessor.getFileDialogAccessor().setFile(fileDialog, null);
-        AWTAccessor.getFileDialogAccessor().setFiles(fileDialog, null);
-        AWTAccessor.getFileDialogAccessor().setDirectory(fileDialog, null);
+        AWTAccessor.getFileDiblogAccessor().setFile(fileDiblog, null);
+        AWTAccessor.getFileDiblogAccessor().setFiles(fileDiblog, null);
+        AWTAccessor.getFileDiblogAccessor().setDirectory(fileDiblog, null);
 
-        WToolkit.executeOnEventHandlerThread(fileDialog, new Runnable() {
+        WToolkit.executeOnEventHbndlerThrebd(fileDiblog, new Runnbble() {
              @Override
              public void run() {
-                 fileDialog.setVisible(false);
+                 fileDiblog.setVisible(fblse);
              }
         });
-    } // handleCancel()
+    } // hbndleCbncel()
 
-    //This whole static block is a part of 4152317 fix
-    static {
+    //This whole stbtic block is b pbrt of 4152317 fix
+    stbtic {
         String filterString = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 @Override
                 public String run() {
                     try {
-                        ResourceBundle rb = ResourceBundle.getBundle("sun.awt.windows.awtLocalization");
-                        return rb.getString("allFiles");
-                    } catch (MissingResourceException e) {
+                        ResourceBundle rb = ResourceBundle.getBundle("sun.bwt.windows.bwtLocblizbtion");
+                        return rb.getString("bllFiles");
+                    } cbtch (MissingResourceException e) {
                         return "All Files";
                     }
                 }
@@ -218,24 +218,24 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
     }
 
     void blockWindow(WWindowPeer window) {
-        blockedWindows.add(window);
-        // if this dialog hasn't got an HWND, notification is
-        // postponed until setHWnd() is called
+        blockedWindows.bdd(window);
+        // if this diblog hbsn't got bn HWND, notificbtion is
+        // postponed until setHWnd() is cblled
         if (hwnd != 0) {
-            window.modalDisable((Dialog)target, hwnd);
+            window.modblDisbble((Diblog)tbrget, hwnd);
         }
     }
     void unblockWindow(WWindowPeer window) {
         blockedWindows.remove(window);
-        // if this dialog hasn't got an HWND or has been already
-        // closed, don't send notification
+        // if this diblog hbsn't got bn HWND or hbs been blrebdy
+        // closed, don't send notificbtion
         if (hwnd != 0) {
-            window.modalEnable((Dialog)target);
+            window.modblEnbble((Diblog)tbrget);
         }
     }
 
     @Override
-    public void blockWindows(java.util.List<Window> toBlock) {
+    public void blockWindows(jbvb.util.List<Window> toBlock) {
         for (Window w : toBlock) {
             WWindowPeer wp = (WWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
             if (wp != null) {
@@ -245,14 +245,14 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
     }
 
     @Override
-    public native void toFront();
+    public nbtive void toFront();
     @Override
-    public native void toBack();
+    public nbtive void toBbck();
 
-    // unused methods.  Overridden to disable this functionality as
-    // it requires HWND which is not available for FileDialog
+    // unused methods.  Overridden to disbble this functionblity bs
+    // it requires HWND which is not bvbilbble for FileDiblog
     @Override
-    public void updateAlwaysOnTopState() {}
+    public void updbteAlwbysOnTopStbte() {}
     @Override
     public void setDirectory(String dir) {}
     @Override
@@ -261,76 +261,76 @@ final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
     public void setTitle(String title) {}
 
     @Override
-    public void setResizable(boolean resizable) {}
+    public void setResizbble(boolebn resizbble) {}
     @Override
-    void enable() {}
+    void enbble() {}
     @Override
-    void disable() {}
+    void disbble() {}
     @Override
-    public void reshape(int x, int y, int width, int height) {}
-    public boolean handleEvent(Event e) { return false; }
+    public void reshbpe(int x, int y, int width, int height) {}
+    public boolebn hbndleEvent(Event e) { return fblse; }
     @Override
     public void setForeground(Color c) {}
     @Override
-    public void setBackground(Color c) {}
+    public void setBbckground(Color c) {}
     @Override
     public void setFont(Font f) {}
     @Override
-    public void updateMinimumSize() {}
+    public void updbteMinimumSize() {}
     @Override
-    public void updateIconImages() {}
-    public boolean requestFocus(boolean temporary,
-                                boolean focusedWindowChangeAllowed) {
-        return false;
+    public void updbteIconImbges() {}
+    public boolebn requestFocus(boolebn temporbry,
+                                boolebn focusedWindowChbngeAllowed) {
+        return fblse;
     }
 
     @Override
-    public boolean requestFocus
-         (Component lightweightChild, boolean temporary,
-          boolean focusedWindowChangeAllowed, long time, CausedFocusEvent.Cause cause)
+    public boolebn requestFocus
+         (Component lightweightChild, boolebn temporbry,
+          boolebn focusedWindowChbngeAllowed, long time, CbusedFocusEvent.Cbuse cbuse)
     {
-        return false;
+        return fblse;
     }
 
     @Override
-    void start() {}
+    void stbrt() {}
     @Override
-    public void beginValidate() {}
+    public void beginVblidbte() {}
     @Override
-    public void endValidate() {}
-    void invalidate(int x, int y, int width, int height) {}
+    public void endVblidbte() {}
+    void invblidbte(int x, int y, int width, int height) {}
     @Override
-    public void addDropTarget(DropTarget dt) {}
+    public void bddDropTbrget(DropTbrget dt) {}
     @Override
-    public void removeDropTarget(DropTarget dt) {}
+    public void removeDropTbrget(DropTbrget dt) {}
     @Override
-    public void updateFocusableWindowState() {}
+    public void updbteFocusbbleWindowStbte() {}
     @Override
-    public void setZOrder(ComponentPeer above) {}
+    public void setZOrder(ComponentPeer bbove) {}
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    // The effects are not supported for system dialogs.
+    // The effects bre not supported for system diblogs.
     @Override
-    public void applyShape(sun.java2d.pipe.Region shape) {}
+    public void bpplyShbpe(sun.jbvb2d.pipe.Region shbpe) {}
     @Override
-    public void setOpacity(float opacity) {}
+    public void setOpbcity(flobt opbcity) {}
     @Override
-    public void setOpaque(boolean isOpaque) {}
-    public void updateWindow(java.awt.image.BufferedImage backBuffer) {}
+    public void setOpbque(boolebn isOpbque) {}
+    public void updbteWindow(jbvb.bwt.imbge.BufferedImbge bbckBuffer) {}
 
-    // the file/print dialogs are native dialogs and
-    // the native system does their own rendering
+    // the file/print diblogs bre nbtive diblogs bnd
+    // the nbtive system does their own rendering
     @Override
-    public void createScreenSurface(boolean isResize) {}
+    public void crebteScreenSurfbce(boolebn isResize) {}
     @Override
-    public void replaceSurfaceData() {}
+    public void replbceSurfbceDbtb() {}
 
-    public boolean isMultipleMode() {
-        FileDialog fileDialog = (FileDialog)target;
-        return AWTAccessor.getFileDialogAccessor().isMultipleMode(fileDialog);
+    public boolebn isMultipleMode() {
+        FileDiblog fileDiblog = (FileDiblog)tbrget;
+        return AWTAccessor.getFileDiblogAccessor().isMultipleMode(fileDiblog);
     }
 }

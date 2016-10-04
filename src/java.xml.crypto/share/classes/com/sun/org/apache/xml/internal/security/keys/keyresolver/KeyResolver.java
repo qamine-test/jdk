@@ -3,70 +3,70 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver;
 
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.concurrent.CopyOnWriteArrbyList;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.DEREncodedKeyValueResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.DSAKeyValueResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.KeyInfoReferenceResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.RSAKeyValueResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.RetrievalMethodResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.X509CertificateResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.X509DigestResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.X509IssuerSerialResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.X509SKIResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.X509SubjectNameResolver;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.DEREncodedKeyVblueResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.DSAKeyVblueResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.KeyInfoReferenceResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.RSAKeyVblueResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.RetrievblMethodResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.X509CertificbteResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.X509DigestResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.X509IssuerSeriblResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.X509SKIResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions.X509SubjectNbmeResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * KeyResolver is factory class for subclass of KeyResolverSpi that
+ * KeyResolver is fbctory clbss for subclbss of KeyResolverSpi thbt
  * represent child element of KeyInfo.
  */
-public class KeyResolver {
+public clbss KeyResolver {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(KeyResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(KeyResolver.clbss.getNbme());
 
     /** Field resolverVector */
-    private static List<KeyResolver> resolverVector = new CopyOnWriteArrayList<KeyResolver>();
+    privbte stbtic List<KeyResolver> resolverVector = new CopyOnWriteArrbyList<KeyResolver>();
 
     /** Field resolverSpi */
-    private final KeyResolverSpi resolverSpi;
+    privbte finbl KeyResolverSpi resolverSpi;
 
     /**
      * Constructor.
      *
-     * @param keyResolverSpi a KeyResolverSpi instance
+     * @pbrbm keyResolverSpi b KeyResolverSpi instbnce
      */
-    private KeyResolver(KeyResolverSpi keyResolverSpi) {
+    privbte KeyResolver(KeyResolverSpi keyResolverSpi) {
         resolverSpi = keyResolverSpi;
     }
 
@@ -75,38 +75,38 @@ public class KeyResolver {
      *
      * @return the length of resolvers registered
      */
-    public static int length() {
+    public stbtic int length() {
         return resolverVector.size();
     }
 
     /**
-     * Method getX509Certificate
+     * Method getX509Certificbte
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return The certificate represented by the element.
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return The certificbte represented by the element.
      *
      * @throws KeyResolverException
      */
-    public static final X509Certificate getX509Certificate(
-        Element element, String baseURI, StorageResolver storage
+    public stbtic finbl X509Certificbte getX509Certificbte(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         for (KeyResolver resolver : resolverVector) {
             if (resolver == null) {
                 Object exArgs[] = {
                                    (((element != null)
                                        && (element.getNodeType() == Node.ELEMENT_NODE))
-                                       ? element.getTagName() : "null")
+                                       ? element.getTbgNbme() : "null")
                 };
 
-                throw new KeyResolverException("utils.resolver.noClass", exArgs);
+                throw new KeyResolverException("utils.resolver.noClbss", exArgs);
             }
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "check resolvability by class " + resolver.getClass());
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "check resolvbbility by clbss " + resolver.getClbss());
             }
 
-            X509Certificate cert = resolver.resolveX509Certificate(element, baseURI, storage);
+            X509Certificbte cert = resolver.resolveX509Certificbte(element, bbseURI, storbge);
             if (cert != null) {
                 return cert;
             }
@@ -114,40 +114,40 @@ public class KeyResolver {
 
         Object exArgs[] = {
                            (((element != null) && (element.getNodeType() == Node.ELEMENT_NODE))
-                           ? element.getTagName() : "null")
+                           ? element.getTbgNbme() : "null")
                           };
 
-        throw new KeyResolverException("utils.resolver.noClass", exArgs);
+        throw new KeyResolverException("utils.resolver.noClbss", exArgs);
     }
 
     /**
      * Method getPublicKey
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return the public key contained in the element
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return the public key contbined in the element
      *
      * @throws KeyResolverException
      */
-    public static final PublicKey getPublicKey(
-        Element element, String baseURI, StorageResolver storage
+    public stbtic finbl PublicKey getPublicKey(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         for (KeyResolver resolver : resolverVector) {
             if (resolver == null) {
                 Object exArgs[] = {
                                    (((element != null)
                                        && (element.getNodeType() == Node.ELEMENT_NODE))
-                                       ? element.getTagName() : "null")
+                                       ? element.getTbgNbme() : "null")
                 };
 
-                throw new KeyResolverException("utils.resolver.noClass", exArgs);
+                throw new KeyResolverException("utils.resolver.noClbss", exArgs);
             }
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "check resolvability by class " + resolver.getClass());
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "check resolvbbility by clbss " + resolver.getClbss());
             }
 
-            PublicKey cert = resolver.resolvePublicKey(element, baseURI, storage);
+            PublicKey cert = resolver.resolvePublicKey(element, bbseURI, storbge);
             if (cert != null) {
                 return cert;
             }
@@ -155,197 +155,197 @@ public class KeyResolver {
 
         Object exArgs[] = {
                            (((element != null) && (element.getNodeType() == Node.ELEMENT_NODE))
-                           ? element.getTagName() : "null")
+                           ? element.getTbgNbme() : "null")
                           };
 
-        throw new KeyResolverException("utils.resolver.noClass", exArgs);
+        throw new KeyResolverException("utils.resolver.noClbss", exArgs);
     }
 
     /**
-     * This method is used for registering {@link KeyResolverSpi}s which are
-     * available to <I>all</I> {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} objects. This means that
-     * personalized {@link KeyResolverSpi}s should only be registered directly
-     * to the {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} using
-     * {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo#registerInternalKeyResolver}.
-     * Please note that this method will create a new copy of the underlying array, as the
-     * underlying collection is a CopyOnWriteArrayList.
+     * This method is used for registering {@link KeyResolverSpi}s which bre
+     * bvbilbble to <I>bll</I> {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} objects. This mebns thbt
+     * personblized {@link KeyResolverSpi}s should only be registered directly
+     * to the {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} using
+     * {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo#registerInternblKeyResolver}.
+     * Plebse note thbt this method will crebte b new copy of the underlying brrby, bs the
+     * underlying collection is b CopyOnWriteArrbyList.
      *
-     * @param className
-     * @param globalResolver Whether the KeyResolverSpi is a global resolver or not
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws ClassNotFoundException
+     * @pbrbm clbssNbme
+     * @pbrbm globblResolver Whether the KeyResolverSpi is b globbl resolver or not
+     * @throws InstbntibtionException
+     * @throws IllegblAccessException
+     * @throws ClbssNotFoundException
      */
-    public static void register(String className, boolean globalResolver)
-        throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public stbtic void register(String clbssNbme, boolebn globblResolver)
+        throws ClbssNotFoundException, IllegblAccessException, InstbntibtionException {
         KeyResolverSpi keyResolverSpi =
-            (KeyResolverSpi) Class.forName(className).newInstance();
-        keyResolverSpi.setGlobalResolver(globalResolver);
-        register(keyResolverSpi, false);
+            (KeyResolverSpi) Clbss.forNbme(clbssNbme).newInstbnce();
+        keyResolverSpi.setGlobblResolver(globblResolver);
+        register(keyResolverSpi, fblse);
     }
 
     /**
-     * This method is used for registering {@link KeyResolverSpi}s which are
-     * available to <I>all</I> {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} objects. This means that
-     * personalized {@link KeyResolverSpi}s should only be registered directly
-     * to the {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} using
-     * {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo#registerInternalKeyResolver}.
-     * Please note that this method will create a new copy of the underlying array, as the
-     * underlying collection is a CopyOnWriteArrayList.
+     * This method is used for registering {@link KeyResolverSpi}s which bre
+     * bvbilbble to <I>bll</I> {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} objects. This mebns thbt
+     * personblized {@link KeyResolverSpi}s should only be registered directly
+     * to the {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} using
+     * {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo#registerInternblKeyResolver}.
+     * Plebse note thbt this method will crebte b new copy of the underlying brrby, bs the
+     * underlying collection is b CopyOnWriteArrbyList.
      *
-     * @param className
-     * @param globalResolver Whether the KeyResolverSpi is a global resolver or not
+     * @pbrbm clbssNbme
+     * @pbrbm globblResolver Whether the KeyResolverSpi is b globbl resolver or not
      */
-    public static void registerAtStart(String className, boolean globalResolver) {
+    public stbtic void registerAtStbrt(String clbssNbme, boolebn globblResolver) {
         KeyResolverSpi keyResolverSpi = null;
         Exception ex = null;
         try {
-            keyResolverSpi = (KeyResolverSpi) Class.forName(className).newInstance();
-        } catch (ClassNotFoundException e) {
+            keyResolverSpi = (KeyResolverSpi) Clbss.forNbme(clbssNbme).newInstbnce();
+        } cbtch (ClbssNotFoundException e) {
             ex = e;
-        } catch (IllegalAccessException e) {
+        } cbtch (IllegblAccessException e) {
             ex = e;
-        } catch (InstantiationException e) {
+        } cbtch (InstbntibtionException e) {
             ex = e;
         }
 
         if (ex != null) {
-            throw (IllegalArgumentException) new
-            IllegalArgumentException("Invalid KeyResolver class name").initCause(ex);
+            throw (IllegblArgumentException) new
+            IllegblArgumentException("Invblid KeyResolver clbss nbme").initCbuse(ex);
         }
-        keyResolverSpi.setGlobalResolver(globalResolver);
+        keyResolverSpi.setGlobblResolver(globblResolver);
         register(keyResolverSpi, true);
     }
 
     /**
-     * This method is used for registering {@link KeyResolverSpi}s which are
-     * available to <I>all</I> {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} objects. This means that
-     * personalized {@link KeyResolverSpi}s should only be registered directly
-     * to the {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} using
-     * {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo#registerInternalKeyResolver}.
-     * Please note that this method will create a new copy of the underlying array, as the
-     * underlying collection is a CopyOnWriteArrayList.
+     * This method is used for registering {@link KeyResolverSpi}s which bre
+     * bvbilbble to <I>bll</I> {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} objects. This mebns thbt
+     * personblized {@link KeyResolverSpi}s should only be registered directly
+     * to the {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} using
+     * {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo#registerInternblKeyResolver}.
+     * Plebse note thbt this method will crebte b new copy of the underlying brrby, bs the
+     * underlying collection is b CopyOnWriteArrbyList.
      *
-     * @param keyResolverSpi a KeyResolverSpi instance to register
-     * @param start whether to register the KeyResolverSpi at the start of the list or not
+     * @pbrbm keyResolverSpi b KeyResolverSpi instbnce to register
+     * @pbrbm stbrt whether to register the KeyResolverSpi bt the stbrt of the list or not
      */
-    public static void register(
+    public stbtic void register(
         KeyResolverSpi keyResolverSpi,
-        boolean start
+        boolebn stbrt
     ) {
         KeyResolver resolver = new KeyResolver(keyResolverSpi);
-        if (start) {
-            resolverVector.add(0, resolver);
+        if (stbrt) {
+            resolverVector.bdd(0, resolver);
         } else {
-            resolverVector.add(resolver);
+            resolverVector.bdd(resolver);
         }
     }
 
     /**
-     * This method is used for registering {@link KeyResolverSpi}s which are
-     * available to <I>all</I> {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} objects. This means that
-     * personalized {@link KeyResolverSpi}s should only be registered directly
-     * to the {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo} using
-     * {@link com.sun.org.apache.xml.internal.security.keys.KeyInfo#registerInternalKeyResolver}.
-     * The KeyResolverSpi instances are not registered as a global resolver.
+     * This method is used for registering {@link KeyResolverSpi}s which bre
+     * bvbilbble to <I>bll</I> {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} objects. This mebns thbt
+     * personblized {@link KeyResolverSpi}s should only be registered directly
+     * to the {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo} using
+     * {@link com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo#registerInternblKeyResolver}.
+     * The KeyResolverSpi instbnces bre not registered bs b globbl resolver.
      *
      *
-     * @param classNames
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws ClassNotFoundException
+     * @pbrbm clbssNbmes
+     * @throws InstbntibtionException
+     * @throws IllegblAccessException
+     * @throws ClbssNotFoundException
      */
-    public static void registerClassNames(List<String> classNames)
-        throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        List<KeyResolver> keyResolverList = new ArrayList<KeyResolver>(classNames.size());
-        for (String className : classNames) {
+    public stbtic void registerClbssNbmes(List<String> clbssNbmes)
+        throws ClbssNotFoundException, IllegblAccessException, InstbntibtionException {
+        List<KeyResolver> keyResolverList = new ArrbyList<KeyResolver>(clbssNbmes.size());
+        for (String clbssNbme : clbssNbmes) {
             KeyResolverSpi keyResolverSpi =
-                (KeyResolverSpi) Class.forName(className).newInstance();
-            keyResolverSpi.setGlobalResolver(false);
-            keyResolverList.add(new KeyResolver(keyResolverSpi));
+                (KeyResolverSpi) Clbss.forNbme(clbssNbme).newInstbnce();
+            keyResolverSpi.setGlobblResolver(fblse);
+            keyResolverList.bdd(new KeyResolver(keyResolverSpi));
         }
-        resolverVector.addAll(keyResolverList);
+        resolverVector.bddAll(keyResolverList);
     }
 
     /**
-     * This method registers the default resolvers.
+     * This method registers the defbult resolvers.
      */
-    public static void registerDefaultResolvers() {
+    public stbtic void registerDefbultResolvers() {
 
-        List<KeyResolver> keyResolverList = new ArrayList<KeyResolver>();
-        keyResolverList.add(new KeyResolver(new RSAKeyValueResolver()));
-        keyResolverList.add(new KeyResolver(new DSAKeyValueResolver()));
-        keyResolverList.add(new KeyResolver(new X509CertificateResolver()));
-        keyResolverList.add(new KeyResolver(new X509SKIResolver()));
-        keyResolverList.add(new KeyResolver(new RetrievalMethodResolver()));
-        keyResolverList.add(new KeyResolver(new X509SubjectNameResolver()));
-        keyResolverList.add(new KeyResolver(new X509IssuerSerialResolver()));
-        keyResolverList.add(new KeyResolver(new DEREncodedKeyValueResolver()));
-        keyResolverList.add(new KeyResolver(new KeyInfoReferenceResolver()));
-        keyResolverList.add(new KeyResolver(new X509DigestResolver()));
+        List<KeyResolver> keyResolverList = new ArrbyList<KeyResolver>();
+        keyResolverList.bdd(new KeyResolver(new RSAKeyVblueResolver()));
+        keyResolverList.bdd(new KeyResolver(new DSAKeyVblueResolver()));
+        keyResolverList.bdd(new KeyResolver(new X509CertificbteResolver()));
+        keyResolverList.bdd(new KeyResolver(new X509SKIResolver()));
+        keyResolverList.bdd(new KeyResolver(new RetrievblMethodResolver()));
+        keyResolverList.bdd(new KeyResolver(new X509SubjectNbmeResolver()));
+        keyResolverList.bdd(new KeyResolver(new X509IssuerSeriblResolver()));
+        keyResolverList.bdd(new KeyResolver(new DEREncodedKeyVblueResolver()));
+        keyResolverList.bdd(new KeyResolver(new KeyInfoReferenceResolver()));
+        keyResolverList.bdd(new KeyResolver(new X509DigestResolver()));
 
-        resolverVector.addAll(keyResolverList);
+        resolverVector.bddAll(keyResolverList);
     }
 
     /**
      * Method resolvePublicKey
      *
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @return resolved public key from the registered from the elements
      *
      * @throws KeyResolverException
      */
     public PublicKey resolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        return resolverSpi.engineLookupAndResolvePublicKey(element, baseURI, storage);
+        return resolverSpi.engineLookupAndResolvePublicKey(element, bbseURI, storbge);
     }
 
     /**
-     * Method resolveX509Certificate
+     * Method resolveX509Certificbte
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved X509certificate key from the registered from the elements
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return resolved X509certificbte key from the registered from the elements
      *
      * @throws KeyResolverException
      */
-    public X509Certificate resolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
+    public X509Certificbte resolveX509Certificbte(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        return resolverSpi.engineLookupResolveX509Certificate(element, baseURI, storage);
+        return resolverSpi.engineLookupResolveX509Certificbte(element, bbseURI, storbge);
     }
 
     /**
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @return resolved SecretKey key from the registered from the elements
      * @throws KeyResolverException
      */
     public SecretKey resolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        return resolverSpi.engineLookupAndResolveSecretKey(element, baseURI, storage);
+        return resolverSpi.engineLookupAndResolveSecretKey(element, bbseURI, storbge);
     }
 
     /**
      * Method setProperty
      *
-     * @param key
-     * @param value
+     * @pbrbm key
+     * @pbrbm vblue
      */
-    public void setProperty(String key, String value) {
-        resolverSpi.engineSetProperty(key, value);
+    public void setProperty(String key, String vblue) {
+        resolverSpi.engineSetProperty(key, vblue);
     }
 
     /**
      * Method getProperty
      *
-     * @param key
+     * @pbrbm key
      * @return the property set for this resolver
      */
     public String getProperty(String key) {
@@ -354,56 +354,56 @@ public class KeyResolver {
 
 
     /**
-     * Method understandsProperty
+     * Method understbndsProperty
      *
-     * @param propertyToTest
-     * @return true if the resolver understands property propertyToTest
+     * @pbrbm propertyToTest
+     * @return true if the resolver understbnds property propertyToTest
      */
-    public boolean understandsProperty(String propertyToTest) {
-        return resolverSpi.understandsProperty(propertyToTest);
+    public boolebn understbndsProperty(String propertyToTest) {
+        return resolverSpi.understbndsProperty(propertyToTest);
     }
 
 
     /**
-     * Method resolverClassName
+     * Method resolverClbssNbme
      *
-     * @return the name of the resolver.
+     * @return the nbme of the resolver.
      */
-    public String resolverClassName() {
-        return resolverSpi.getClass().getName();
+    public String resolverClbssNbme() {
+        return resolverSpi.getClbss().getNbme();
     }
 
     /**
-     * Iterate over the KeyResolverSpi instances
+     * Iterbte over the KeyResolverSpi instbnces
      */
-    static class ResolverIterator implements Iterator<KeyResolverSpi> {
+    stbtic clbss ResolverIterbtor implements Iterbtor<KeyResolverSpi> {
         List<KeyResolver> res;
-        Iterator<KeyResolver> it;
+        Iterbtor<KeyResolver> it;
 
-        public ResolverIterator(List<KeyResolver> list) {
+        public ResolverIterbtor(List<KeyResolver> list) {
             res = list;
-            it = res.iterator();
+            it = res.iterbtor();
         }
 
-        public boolean hasNext() {
-            return it.hasNext();
+        public boolebn hbsNext() {
+            return it.hbsNext();
         }
 
         public KeyResolverSpi next() {
             KeyResolver resolver = it.next();
             if (resolver == null) {
-                throw new RuntimeException("utils.resolver.noClass");
+                throw new RuntimeException("utils.resolver.noClbss");
             }
 
             return resolver.resolverSpi;
         }
 
         public void remove() {
-            throw new UnsupportedOperationException("Can't remove resolvers using the iterator");
+            throw new UnsupportedOperbtionException("Cbn't remove resolvers using the iterbtor");
         }
     };
 
-    public static Iterator<KeyResolverSpi> iterator() {
-        return new ResolverIterator(resolverVector);
+    public stbtic Iterbtor<KeyResolverSpi> iterbtor() {
+        return new ResolverIterbtor(resolverVector);
     }
 }

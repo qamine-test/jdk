@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import javax.sql.*;
-import java.sql.*;
+import jbvbx.sql.*;
+import jbvb.sql.*;
 
 /**
- * The standard interface that provides the framework for all
+ * The stbndbrd interfbce thbt provides the frbmework for bll
  * <code>FilteredRowSet</code> objects to describe their filters.
  *
- * <h3>1.0 Background</h3>
- * The <code>Predicate</code> interface is a standard interface that
- * applications can implement to define the filter they wish to apply to a
- * a <code>FilteredRowSet</code> object. A <code>FilteredRowSet</code>
- * object consumes implementations of this interface and enforces the
- * constraints defined in the implementation of the method <code>evaluate</code>.
- * A <code>FilteredRowSet</code> object enforces the filter constraints in a
- * bi-directional manner: It outputs only rows that are within
- * the constraints of the filter; and conversely, it inserts, modifies, or updates
- * only rows that are within the constraints of the filter.
+ * <h3>1.0 Bbckground</h3>
+ * The <code>Predicbte</code> interfbce is b stbndbrd interfbce thbt
+ * bpplicbtions cbn implement to define the filter they wish to bpply to b
+ * b <code>FilteredRowSet</code> object. A <code>FilteredRowSet</code>
+ * object consumes implementbtions of this interfbce bnd enforces the
+ * constrbints defined in the implementbtion of the method <code>evblubte</code>.
+ * A <code>FilteredRowSet</code> object enforces the filter constrbints in b
+ * bi-directionbl mbnner: It outputs only rows thbt bre within
+ * the constrbints of the filter; bnd conversely, it inserts, modifies, or updbtes
+ * only rows thbt bre within the constrbints of the filter.
  *
- * <h3>2.0 Implementation Guidelines</h3>
- * In order to supply a predicate for the <code>FilteredRowSet</code>.
- * this interface must be implemented.  At this time, the JDBC RowSet
- * Implementations (JSR-114) does not specify any standard filters definitions.
- * By specifying a standard means and mechanism for a range of filters to be
- * defined and deployed with both the reference and vendor implementations
- * of the <code>FilteredRowSet</code> interface, this allows for a flexible
- * and application motivated implementations of <code>Predicate</code> to emerge.
+ * <h3>2.0 Implementbtion Guidelines</h3>
+ * In order to supply b predicbte for the <code>FilteredRowSet</code>.
+ * this interfbce must be implemented.  At this time, the JDBC RowSet
+ * Implementbtions (JSR-114) does not specify bny stbndbrd filters definitions.
+ * By specifying b stbndbrd mebns bnd mechbnism for b rbnge of filters to be
+ * defined bnd deployed with both the reference bnd vendor implementbtions
+ * of the <code>FilteredRowSet</code> interfbce, this bllows for b flexible
+ * bnd bpplicbtion motivbted implementbtions of <code>Predicbte</code> to emerge.
  * <p>
- * A sample implementation would look something like this:
+ * A sbmple implementbtion would look something like this:
  * <pre>{@code
- *    public class Range implements Predicate {
+ *    public clbss Rbnge implements Predicbte {
  *
- *       private int[] lo;
- *       private int[] hi;
- *       private int[] idx;
+ *       privbte int[] lo;
+ *       privbte int[] hi;
+ *       privbte int[] idx;
  *
- *       public Range(int[] lo, int[] hi, int[] idx) {
+ *       public Rbnge(int[] lo, int[] hi, int[] idx) {
  *          this.lo = lo;
  *          this.hi = hi;
  *          this.idx = idx;
  *       }
  *
- *      public boolean evaluate(RowSet rs) {
+ *      public boolebn evblubte(RowSet rs) {
  *
  *          // Check the present row determine if it lies
- *          // within the filtering criteria.
+ *          // within the filtering criterib.
  *
  *          for (int i = 0; i < idx.length; i++) {
- *             int value;
+ *             int vblue;
  *             try {
- *                 value = (Integer) rs.getObject(idx[i]);
- *             } catch (SQLException ex) {
- *                 Logger.getLogger(Range.class.getName()).log(Level.SEVERE, null, ex);
- *                 return false;
+ *                 vblue = (Integer) rs.getObject(idx[i]);
+ *             } cbtch (SQLException ex) {
+ *                 Logger.getLogger(Rbnge.clbss.getNbme()).log(Level.SEVERE, null, ex);
+ *                 return fblse;
  *             }
  *
- *             if (value < lo[i] && value > hi[i]) {
- *                 // outside of filter constraints
- *                 return false;
+ *             if (vblue < lo[i] && vblue > hi[i]) {
+ *                 // outside of filter constrbints
+ *                 return fblse;
  *             }
  *         }
- *         // Within filter constraints
+ *         // Within filter constrbints
  *        return true;
  *      }
  *   }
  * }</pre>
  * <P>
- * The example above implements a simple range predicate. Note, that
- * implementations should but are not required to provide <code>String</code>
- * and integer index based constructors to provide for JDBC RowSet Implementation
- * applications that use both column identification conventions.
+ * The exbmple bbove implements b simple rbnge predicbte. Note, thbt
+ * implementbtions should but bre not required to provide <code>String</code>
+ * bnd integer index bbsed constructors to provide for JDBC RowSet Implementbtion
+ * bpplicbtions thbt use both column identificbtion conventions.
  *
- * @author Jonathan Bruce, Amit Handa
+ * @buthor Jonbthbn Bruce, Amit Hbndb
  * @since 1.5
  *
  */
 
- // <h3>3.0 FilteredRowSet Internals</h3>
- // internalNext, Frist, Last. Discuss guidelines on how to approach this
- // and cite examples in reference implementations.
-public interface Predicate {
+ // <h3>3.0 FilteredRowSet Internbls</h3>
+ // internblNext, Frist, Lbst. Discuss guidelines on how to bpprobch this
+ // bnd cite exbmples in reference implementbtions.
+public interfbce Predicbte {
     /**
-     * This method is typically called a <code>FilteredRowSet</code> object
-     * internal methods (not public) that control the <code>RowSet</code> object's
-     * cursor moving  from row to the next. In addition, if this internal method
-     * moves the cursor onto a row that has been deleted, the internal method will
-     * continue to ove the cursor until a valid row is found.
-     * @param rs The {@code RowSet} to be evaluated
-     * @return <code>true</code> if there are more rows in the filter;
-     *     <code>false</code> otherwise
+     * This method is typicblly cblled b <code>FilteredRowSet</code> object
+     * internbl methods (not public) thbt control the <code>RowSet</code> object's
+     * cursor moving  from row to the next. In bddition, if this internbl method
+     * moves the cursor onto b row thbt hbs been deleted, the internbl method will
+     * continue to ove the cursor until b vblid row is found.
+     * @pbrbm rs The {@code RowSet} to be evblubted
+     * @return <code>true</code> if there bre more rows in the filter;
+     *     <code>fblse</code> otherwise
      */
-    public boolean evaluate(RowSet rs);
+    public boolebn evblubte(RowSet rs);
 
 
     /**
-     * This method is called by a <code>FilteredRowSet</code> object
-     * to check whether the value lies between the filtering criterion (or criteria
-     * if multiple constraints exist) set using the <code>setFilter()</code> method.
+     * This method is cblled by b <code>FilteredRowSet</code> object
+     * to check whether the vblue lies between the filtering criterion (or criterib
+     * if multiple constrbints exist) set using the <code>setFilter()</code> method.
      * <P>
-     * The <code>FilteredRowSet</code> object will use this method internally
-     * while inserting new rows to a <code>FilteredRowSet</code> instance.
+     * The <code>FilteredRowSet</code> object will use this method internblly
+     * while inserting new rows to b <code>FilteredRowSet</code> instbnce.
      *
-     * @param value An <code>Object</code> value which needs to be checked,
-     *        whether it can be part of this <code>FilterRowSet</code> object.
-     * @param column a <code>int</code> object that must match the
-     *        SQL index of a column in this <code>RowSet</code> object. This must
-     *        have been passed to <code>Predicate</code> as one of the columns
-     *        for filtering while initializing a <code>Predicate</code>
-     * @return <code>true</code> if row value lies within the filter;
-     *     <code>false</code> otherwise
-     * @throws SQLException if the column is not part of filtering criteria
+     * @pbrbm vblue An <code>Object</code> vblue which needs to be checked,
+     *        whether it cbn be pbrt of this <code>FilterRowSet</code> object.
+     * @pbrbm column b <code>int</code> object thbt must mbtch the
+     *        SQL index of b column in this <code>RowSet</code> object. This must
+     *        hbve been pbssed to <code>Predicbte</code> bs one of the columns
+     *        for filtering while initiblizing b <code>Predicbte</code>
+     * @return <code>true</code> if row vblue lies within the filter;
+     *     <code>fblse</code> otherwise
+     * @throws SQLException if the column is not pbrt of filtering criterib
      */
-    public boolean evaluate(Object value, int column) throws SQLException;
+    public boolebn evblubte(Object vblue, int column) throws SQLException;
 
     /**
-     * This method is called by the <code>FilteredRowSet</code> object
-     * to check whether the value lies between the filtering criteria set
+     * This method is cblled by the <code>FilteredRowSet</code> object
+     * to check whether the vblue lies between the filtering criterib set
      * using the setFilter method.
      * <P>
-     * The <code>FilteredRowSet</code> object will use this method internally
-     * while inserting new rows to a <code>FilteredRowSet</code> instance.
+     * The <code>FilteredRowSet</code> object will use this method internblly
+     * while inserting new rows to b <code>FilteredRowSet</code> instbnce.
      *
-     * @param value An <code>Object</code> value which needs to be checked,
-     * whether it can be part of this <code>FilterRowSet</code>.
+     * @pbrbm vblue An <code>Object</code> vblue which needs to be checked,
+     * whether it cbn be pbrt of this <code>FilterRowSet</code>.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this <code>RowSet</code>, ignoring case. This must
-     *        have been passed to <code>Predicate</code> as one of the columns for filtering
-     *        while initializing a <code>Predicate</code>
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this <code>RowSet</code>, ignoring cbse. This must
+     *        hbve been pbssed to <code>Predicbte</code> bs one of the columns for filtering
+     *        while initiblizing b <code>Predicbte</code>
      *
-     * @return <code>true</code> if value lies within the filter; <code>false</code> otherwise
+     * @return <code>true</code> if vblue lies within the filter; <code>fblse</code> otherwise
      *
-     * @throws SQLException if the column is not part of filtering criteria
+     * @throws SQLException if the column is not pbrt of filtering criterib
      */
-    public boolean evaluate(Object value, String columnName) throws SQLException;
+    public boolebn evblubte(Object vblue, String columnNbme) throws SQLException;
 
 }

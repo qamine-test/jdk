@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.IntegerSyntbx;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class NumberUp is an integer valued printing attribute class that specifies
- * the number of print-stream pages to impose upon a single side of an
- * instance of a selected medium. That is, if the NumberUp value is <I>n,</I>
- * the printer must place <I>n</I> print-stream pages on a single side of
- * an instance of the
- * selected medium. To accomplish this, the printer may add some sort of
- * translation, scaling, or rotation. This attribute primarily controls the
- * translation, scaling and rotation of print-stream pages.
+ * Clbss NumberUp is bn integer vblued printing bttribute clbss thbt specifies
+ * the number of print-strebm pbges to impose upon b single side of bn
+ * instbnce of b selected medium. Thbt is, if the NumberUp vblue is <I>n,</I>
+ * the printer must plbce <I>n</I> print-strebm pbges on b single side of
+ * bn instbnce of the
+ * selected medium. To bccomplish this, the printer mby bdd some sort of
+ * trbnslbtion, scbling, or rotbtion. This bttribute primbrily controls the
+ * trbnslbtion, scbling bnd rotbtion of print-strebm pbges.
  * <P>
- * The effect of a NumberUp attribute on a multidoc print job (a job with
- * multiple documents) depends on whether all the docs have the same number up
- * values specified or whether different docs have different number up values
- * specified, and on the (perhaps defaulted) value of the {@link
- * MultipleDocumentHandling MultipleDocumentHandling} attribute.
+ * The effect of b NumberUp bttribute on b multidoc print job (b job with
+ * multiple documents) depends on whether bll the docs hbve the sbme number up
+ * vblues specified or whether different docs hbve different number up vblues
+ * specified, bnd on the (perhbps defbulted) vblue of the {@link
+ * MultipleDocumentHbndling MultipleDocumentHbndling} bttribute.
  * <UL>
  * <LI>
- * If all the docs have the same number up value <I>n</I> specified, then any
- * value of {@link MultipleDocumentHandling MultipleDocumentHandling} makes
- * sense, and the printer's processing depends on the {@link
- * MultipleDocumentHandling MultipleDocumentHandling} value:
+ * If bll the docs hbve the sbme number up vblue <I>n</I> specified, then bny
+ * vblue of {@link MultipleDocumentHbndling MultipleDocumentHbndling} mbkes
+ * sense, bnd the printer's processing depends on the {@link
+ * MultipleDocumentHbndling MultipleDocumentHbndling} vblue:
  * <UL>
  * <LI>
  * SINGLE_DOCUMENT -- All the input docs will be combined together into one
- * output document. Each media impression will consist of <I>n</I>m
- *  print-stream pages from the output document.
+ * output document. Ebch medib impression will consist of <I>n</I>m
+ *  print-strebm pbges from the output document.
  *
  * <LI>
  * SINGLE_DOCUMENT_NEW_SHEET -- All the input docs will be combined together
- * into one output document. Each media impression will consist of <I>n</I>
- * print-stream pages from the output document. However, the first impression of
- * each input doc will always start on a new media sheet; this means the last
- * impression of an input doc may have fewer than <I>n</I> print-stream pages
+ * into one output document. Ebch medib impression will consist of <I>n</I>
+ * print-strebm pbges from the output document. However, the first impression of
+ * ebch input doc will blwbys stbrt on b new medib sheet; this mebns the lbst
+ * impression of bn input doc mby hbve fewer thbn <I>n</I> print-strebm pbges
  *  on it.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- The input docs will remain separate.
- * Each media impression will consist of <I>n</I> print-stream pages from the
- * input doc. Since the input docs are separate, the first impression of each
- * input doc will always start on a new media sheet; this means the last
- * impression of an input doc may have fewer than <I>n</I> print-stream pages on
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- The input docs will rembin sepbrbte.
+ * Ebch medib impression will consist of <I>n</I> print-strebm pbges from the
+ * input doc. Since the input docs bre sepbrbte, the first impression of ebch
+ * input doc will blwbys stbrt on b new medib sheet; this mebns the lbst
+ * impression of bn input doc mby hbve fewer thbn <I>n</I> print-strebm pbges on
  * it.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_COLLATED_COPIES -- The input docs will remain separate.
- * Each media impression will consist of <I>n</I> print-stream pages from the
- * input doc. Since the input docs are separate, the first impression of each
- * input doc will always start on a new media sheet; this means the last
- * impression of an input doc may have fewer than <I>n</I> print-stream pages
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- The input docs will rembin sepbrbte.
+ * Ebch medib impression will consist of <I>n</I> print-strebm pbges from the
+ * input doc. Since the input docs bre sepbrbte, the first impression of ebch
+ * input doc will blwbys stbrt on b new medib sheet; this mebns the lbst
+ * impression of bn input doc mby hbve fewer thbn <I>n</I> print-strebm pbges
  * on it.
  * </UL>
  * <UL>
  * <LI>
  * SINGLE_DOCUMENT -- All the input docs will be combined together into one
- * output document. Each media impression will consist of <I>n<SUB>i</SUB></I>
- * print-stream pages from the output document, where <I>i</I> is the number of
- * the input doc corresponding to that point in the output document. When the
- * next input doc has a different number up value from the previous input doc,
- * the first print-stream page of the next input doc goes at the start of the
- * next media impression, possibly leaving fewer than the full number of
- * print-stream pages on the previous media impression.
+ * output document. Ebch medib impression will consist of <I>n<SUB>i</SUB></I>
+ * print-strebm pbges from the output document, where <I>i</I> is the number of
+ * the input doc corresponding to thbt point in the output document. When the
+ * next input doc hbs b different number up vblue from the previous input doc,
+ * the first print-strebm pbge of the next input doc goes bt the stbrt of the
+ * next medib impression, possibly lebving fewer thbn the full number of
+ * print-strebm pbges on the previous medib impression.
  *
  * <LI>
  * SINGLE_DOCUMENT_NEW_SHEET -- All the input docs will be combined together
- * into one output document. Each media impression will consist of <I>n</I>
- * print-stream pages from the output document. However, the first impression of
- * each input doc will always start on a new media sheet; this means the last
- * impression of an input doc may have fewer than <I>n</I> print-stream pages
+ * into one output document. Ebch medib impression will consist of <I>n</I>
+ * print-strebm pbges from the output document. However, the first impression of
+ * ebch input doc will blwbys stbrt on b new medib sheet; this mebns the lbst
+ * impression of bn input doc mby hbve fewer thbn <I>n</I> print-strebm pbges
  * on it.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- The input docs will remain separate.
- * For input doc <I>i,</I> each media impression will consist of
- * <I>n<SUB>i</SUB></I> print-stream pages from the input doc. Since the input
- * docs are separate, the first impression of each input doc will always start
- * on a new media sheet; this means the last impression of an input doc may have
- * fewer than <I>n<SUB>i</SUB></I> print-stream pages on it.
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- The input docs will rembin sepbrbte.
+ * For input doc <I>i,</I> ebch medib impression will consist of
+ * <I>n<SUB>i</SUB></I> print-strebm pbges from the input doc. Since the input
+ * docs bre sepbrbte, the first impression of ebch input doc will blwbys stbrt
+ * on b new medib sheet; this mebns the lbst impression of bn input doc mby hbve
+ * fewer thbn <I>n<SUB>i</SUB></I> print-strebm pbges on it.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_COLLATED_COPIES -- The input docs will remain separate.
- * For input doc <I>i,</I> each media impression will consist of
- * <I>n<SUB>i</SUB></I> print-stream pages from the input doc. Since the input
- * docs are separate, the first impression of each input doc will always start
- * on a new media sheet; this means the last impression of an input doc may
- * have fewer than <I>n<SUB>i</SUB></I> print-stream pages on it.
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- The input docs will rembin sepbrbte.
+ * For input doc <I>i,</I> ebch medib impression will consist of
+ * <I>n<SUB>i</SUB></I> print-strebm pbges from the input doc. Since the input
+ * docs bre sepbrbte, the first impression of ebch input doc will blwbys stbrt
+ * on b new medib sheet; this mebns the lbst impression of bn input doc mby
+ * hbve fewer thbn <I>n<SUB>i</SUB></I> print-strebm pbges on it.
  * </UL>
  * </UL>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value.
- * The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * <B>IPP Compbtibility:</B> The integer vblue gives the IPP integer vblue.
+ * The cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP
+ * bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class NumberUp extends IntegerSyntax
+public finbl clbss NumberUp extends IntegerSyntbx
     implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -3040436486786527811L;
+    privbte stbtic finbl long seriblVersionUID = -3040436486786527811L;
 
 
     /**
-     * Construct a new number up attribute with the given integer value.
+     * Construct b new number up bttribute with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if <CODE>value</CODE> is less than 1.
+     * @exception  IllegblArgumentException
+     *   (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn 1.
      */
-    public NumberUp(int value) {
-        super (value, 1, Integer.MAX_VALUE);
+    public NumberUp(int vblue) {
+        super (vblue, 1, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns whether this number up attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Returns whether this number up bttribute is equivblent to the pbssed in
+     * object. To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class NumberUp.
+     * <CODE>object</CODE> is bn instbnce of clbss NumberUp.
      * <LI>
-     * This number up attribute's value and <CODE>object</CODE>'s value are
-     * equal.
+     * This number up bttribute's vblue bnd <CODE>object</CODE>'s vblue bre
+     * equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this number up
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this number up
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) && object instanceof NumberUp);
+    public boolebn equbls(Object object) {
+        return (super.equbls(object) && object instbnceof NumberUp);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class NumberUp, the category is class NumberUp itself.
+     * For clbss NumberUp, the cbtegory is clbss NumberUp itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return NumberUp.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return NumberUp.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class NumberUp, the category name is <CODE>"number-up"</CODE>.
+     * For clbss NumberUp, the cbtegory nbme is <CODE>"number-up"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "number-up";
     }
 

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.*;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.util.*;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
 
 /**
- * An AttributedString holds text and related attribute information. It
- * may be used as the actual data storage in some cases where a text
- * reader wants to access attributed text through the AttributedCharacterIterator
- * interface.
+ * An AttributedString holds text bnd relbted bttribute informbtion. It
+ * mby be used bs the bctubl dbtb storbge in some cbses where b text
+ * rebder wbnts to bccess bttributed text through the AttributedChbrbcterIterbtor
+ * interfbce.
  *
  * <p>
- * An attribute is a key/value pair, identified by the key.  No two
- * attributes on a given character can have the same key.
+ * An bttribute is b key/vblue pbir, identified by the key.  No two
+ * bttributes on b given chbrbcter cbn hbve the sbme key.
  *
- * <p>The values for an attribute are immutable, or must not be mutated
- * by clients or storage.  They are always passed by reference, and not
+ * <p>The vblues for bn bttribute bre immutbble, or must not be mutbted
+ * by clients or storbge.  They bre blwbys pbssed by reference, bnd not
  * cloned.
  *
- * @see AttributedCharacterIterator
- * @see Annotation
+ * @see AttributedChbrbcterIterbtor
+ * @see Annotbtion
  * @since 1.2
  */
 
-public class AttributedString {
+public clbss AttributedString {
 
-    // since there are no vectors of int, we have to use arrays.
-    // We allocate them in chunks of 10 elements so we don't have to allocate all the time.
-    private static final int ARRAY_SIZE_INCREMENT = 10;
+    // since there bre no vectors of int, we hbve to use brrbys.
+    // We bllocbte them in chunks of 10 elements so we don't hbve to bllocbte bll the time.
+    privbte stbtic finbl int ARRAY_SIZE_INCREMENT = 10;
 
     // field holding the text
     String text;
 
-    // fields holding run attribute information
-    // run attributes are organized by run
-    int runArraySize;               // current size of the arrays
-    int runCount;                   // actual number of runs, <= runArraySize
-    int runStarts[];                // start index for each run
-    Vector<Attribute> runAttributes[];         // vector of attribute keys for each run
-    Vector<Object> runAttributeValues[];    // parallel vector of attribute values for each run
+    // fields holding run bttribute informbtion
+    // run bttributes bre orgbnized by run
+    int runArrbySize;               // current size of the brrbys
+    int runCount;                   // bctubl number of runs, <= runArrbySize
+    int runStbrts[];                // stbrt index for ebch run
+    Vector<Attribute> runAttributes[];         // vector of bttribute keys for ebch run
+    Vector<Object> runAttributeVblues[];    // pbrbllel vector of bttribute vblues for ebch run
 
     /**
-     * Constructs an AttributedString instance with the given
-     * AttributedCharacterIterators.
+     * Constructs bn AttributedString instbnce with the given
+     * AttributedChbrbcterIterbtors.
      *
-     * @param iterators AttributedCharacterIterators to construct
+     * @pbrbm iterbtors AttributedChbrbcterIterbtors to construct
      * AttributedString from.
-     * @throws NullPointerException if iterators is null
+     * @throws NullPointerException if iterbtors is null
      */
-    AttributedString(AttributedCharacterIterator[] iterators) {
-        if (iterators == null) {
-            throw new NullPointerException("Iterators must not be null");
+    AttributedString(AttributedChbrbcterIterbtor[] iterbtors) {
+        if (iterbtors == null) {
+            throw new NullPointerException("Iterbtors must not be null");
         }
-        if (iterators.length == 0) {
+        if (iterbtors.length == 0) {
             text = "";
         }
         else {
             // Build the String contents
             StringBuffer buffer = new StringBuffer();
-            for (int counter = 0; counter < iterators.length; counter++) {
-                appendContents(buffer, iterators[counter]);
+            for (int counter = 0; counter < iterbtors.length; counter++) {
+                bppendContents(buffer, iterbtors[counter]);
             }
 
             text = buffer.toString();
 
             if (text.length() > 0) {
-                // Determine the runs, creating a new run when the attributes
+                // Determine the runs, crebting b new run when the bttributes
                 // differ.
                 int offset = 0;
-                Map<Attribute,Object> last = null;
+                Mbp<Attribute,Object> lbst = null;
 
-                for (int counter = 0; counter < iterators.length; counter++) {
-                    AttributedCharacterIterator iterator = iterators[counter];
-                    int start = iterator.getBeginIndex();
-                    int end = iterator.getEndIndex();
-                    int index = start;
+                for (int counter = 0; counter < iterbtors.length; counter++) {
+                    AttributedChbrbcterIterbtor iterbtor = iterbtors[counter];
+                    int stbrt = iterbtor.getBeginIndex();
+                    int end = iterbtor.getEndIndex();
+                    int index = stbrt;
 
                     while (index < end) {
-                        iterator.setIndex(index);
+                        iterbtor.setIndex(index);
 
-                        Map<Attribute,Object> attrs = iterator.getAttributes();
+                        Mbp<Attribute,Object> bttrs = iterbtor.getAttributes();
 
-                        if (mapsDiffer(last, attrs)) {
-                            setAttributes(attrs, index - start + offset);
+                        if (mbpsDiffer(lbst, bttrs)) {
+                            setAttributes(bttrs, index - stbrt + offset);
                         }
-                        last = attrs;
-                        index = iterator.getRunLimit();
+                        lbst = bttrs;
+                        index = iterbtor.getRunLimit();
                     }
-                    offset += (end - start);
+                    offset += (end - stbrt);
                 }
             }
         }
     }
 
     /**
-     * Constructs an AttributedString instance with the given text.
-     * @param text The text for this attributed string.
+     * Constructs bn AttributedString instbnce with the given text.
+     * @pbrbm text The text for this bttributed string.
      * @exception NullPointerException if <code>text</code> is null.
      */
     public AttributedString(String text) {
@@ -130,173 +130,173 @@ public class AttributedString {
     }
 
     /**
-     * Constructs an AttributedString instance with the given text and attributes.
-     * @param text The text for this attributed string.
-     * @param attributes The attributes that apply to the entire string.
+     * Constructs bn AttributedString instbnce with the given text bnd bttributes.
+     * @pbrbm text The text for this bttributed string.
+     * @pbrbm bttributes The bttributes thbt bpply to the entire string.
      * @exception NullPointerException if <code>text</code> or
-     *            <code>attributes</code> is null.
-     * @exception IllegalArgumentException if the text has length 0
-     * and the attributes parameter is not an empty Map (attributes
-     * cannot be applied to a 0-length range).
+     *            <code>bttributes</code> is null.
+     * @exception IllegblArgumentException if the text hbs length 0
+     * bnd the bttributes pbrbmeter is not bn empty Mbp (bttributes
+     * cbnnot be bpplied to b 0-length rbnge).
      */
     public AttributedString(String text,
-                            Map<? extends Attribute, ?> attributes)
+                            Mbp<? extends Attribute, ?> bttributes)
     {
-        if (text == null || attributes == null) {
+        if (text == null || bttributes == null) {
             throw new NullPointerException();
         }
         this.text = text;
 
         if (text.length() == 0) {
-            if (attributes.isEmpty())
+            if (bttributes.isEmpty())
                 return;
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+            throw new IllegblArgumentException("Cbn't bdd bttribute to 0-length text");
         }
 
-        int attributeCount = attributes.size();
-        if (attributeCount > 0) {
-            createRunAttributeDataVectors();
-            Vector<Attribute> newRunAttributes = new Vector<>(attributeCount);
-            Vector<Object> newRunAttributeValues = new Vector<>(attributeCount);
+        int bttributeCount = bttributes.size();
+        if (bttributeCount > 0) {
+            crebteRunAttributeDbtbVectors();
+            Vector<Attribute> newRunAttributes = new Vector<>(bttributeCount);
+            Vector<Object> newRunAttributeVblues = new Vector<>(bttributeCount);
             runAttributes[0] = newRunAttributes;
-            runAttributeValues[0] = newRunAttributeValues;
+            runAttributeVblues[0] = newRunAttributeVblues;
 
-            Iterator<? extends Map.Entry<? extends Attribute, ?>> iterator = attributes.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<? extends Attribute, ?> entry = iterator.next();
-                newRunAttributes.addElement(entry.getKey());
-                newRunAttributeValues.addElement(entry.getValue());
+            Iterbtor<? extends Mbp.Entry<? extends Attribute, ?>> iterbtor = bttributes.entrySet().iterbtor();
+            while (iterbtor.hbsNext()) {
+                Mbp.Entry<? extends Attribute, ?> entry = iterbtor.next();
+                newRunAttributes.bddElement(entry.getKey());
+                newRunAttributeVblues.bddElement(entry.getVblue());
             }
         }
     }
 
     /**
-     * Constructs an AttributedString instance with the given attributed
-     * text represented by AttributedCharacterIterator.
-     * @param text The text for this attributed string.
+     * Constructs bn AttributedString instbnce with the given bttributed
+     * text represented by AttributedChbrbcterIterbtor.
+     * @pbrbm text The text for this bttributed string.
      * @exception NullPointerException if <code>text</code> is null.
      */
-    public AttributedString(AttributedCharacterIterator text) {
-        // If performance is critical, this constructor should be
-        // implemented here rather than invoking the constructor for a
-        // subrange. We can avoid some range checking in the loops.
+    public AttributedString(AttributedChbrbcterIterbtor text) {
+        // If performbnce is criticbl, this constructor should be
+        // implemented here rbther thbn invoking the constructor for b
+        // subrbnge. We cbn bvoid some rbnge checking in the loops.
         this(text, text.getBeginIndex(), text.getEndIndex(), null);
     }
 
     /**
-     * Constructs an AttributedString instance with the subrange of
-     * the given attributed text represented by
-     * AttributedCharacterIterator. If the given range produces an
-     * empty text, all attributes will be discarded.  Note that any
-     * attributes wrapped by an Annotation object are discarded for a
-     * subrange of the original attribute range.
+     * Constructs bn AttributedString instbnce with the subrbnge of
+     * the given bttributed text represented by
+     * AttributedChbrbcterIterbtor. If the given rbnge produces bn
+     * empty text, bll bttributes will be discbrded.  Note thbt bny
+     * bttributes wrbpped by bn Annotbtion object bre discbrded for b
+     * subrbnge of the originbl bttribute rbnge.
      *
-     * @param text The text for this attributed string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
+     * @pbrbm text The text for this bttributed string.
+     * @pbrbm beginIndex Index of the first chbrbcter of the rbnge.
+     * @pbrbm endIndex Index of the chbrbcter following the lbst chbrbcter
+     * of the rbnge.
      * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
-     * @see java.text.Annotation
+     * @exception IllegblArgumentException if the subrbnge given by
+     * beginIndex bnd endIndex is out of the text rbnge.
+     * @see jbvb.text.Annotbtion
      */
-    public AttributedString(AttributedCharacterIterator text,
+    public AttributedString(AttributedChbrbcterIterbtor text,
                             int beginIndex,
                             int endIndex) {
         this(text, beginIndex, endIndex, null);
     }
 
     /**
-     * Constructs an AttributedString instance with the subrange of
-     * the given attributed text represented by
-     * AttributedCharacterIterator.  Only attributes that match the
-     * given attributes will be incorporated into the instance. If the
-     * given range produces an empty text, all attributes will be
-     * discarded. Note that any attributes wrapped by an Annotation
-     * object are discarded for a subrange of the original attribute
-     * range.
+     * Constructs bn AttributedString instbnce with the subrbnge of
+     * the given bttributed text represented by
+     * AttributedChbrbcterIterbtor.  Only bttributes thbt mbtch the
+     * given bttributes will be incorporbted into the instbnce. If the
+     * given rbnge produces bn empty text, bll bttributes will be
+     * discbrded. Note thbt bny bttributes wrbpped by bn Annotbtion
+     * object bre discbrded for b subrbnge of the originbl bttribute
+     * rbnge.
      *
-     * @param text The text for this attributed string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
-     * @param attributes Specifies attributes to be extracted
-     * from the text. If null is specified, all available attributes will
+     * @pbrbm text The text for this bttributed string.
+     * @pbrbm beginIndex Index of the first chbrbcter of the rbnge.
+     * @pbrbm endIndex Index of the chbrbcter following the lbst chbrbcter
+     * of the rbnge.
+     * @pbrbm bttributes Specifies bttributes to be extrbcted
+     * from the text. If null is specified, bll bvbilbble bttributes will
      * be used.
      * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
-     * @see java.text.Annotation
+     * @exception IllegblArgumentException if the subrbnge given by
+     * beginIndex bnd endIndex is out of the text rbnge.
+     * @see jbvb.text.Annotbtion
      */
-    public AttributedString(AttributedCharacterIterator text,
+    public AttributedString(AttributedChbrbcterIterbtor text,
                             int beginIndex,
                             int endIndex,
-                            Attribute[] attributes) {
+                            Attribute[] bttributes) {
         if (text == null) {
             throw new NullPointerException();
         }
 
-        // Validate the given subrange
+        // Vblidbte the given subrbnge
         int textBeginIndex = text.getBeginIndex();
         int textEndIndex = text.getEndIndex();
         if (beginIndex < textBeginIndex || endIndex > textEndIndex || beginIndex > endIndex)
-            throw new IllegalArgumentException("Invalid substring range");
+            throw new IllegblArgumentException("Invblid substring rbnge");
 
         // Copy the given string
         StringBuilder textBuilder = new StringBuilder();
         text.setIndex(beginIndex);
-        for (char c = text.current(); text.getIndex() < endIndex; c = text.next())
-            textBuilder.append(c);
+        for (chbr c = text.current(); text.getIndex() < endIndex; c = text.next())
+            textBuilder.bppend(c);
         this.text = textBuilder.toString();
 
         if (beginIndex == endIndex)
             return;
 
-        // Select attribute keys to be taken care of
-        HashSet<Attribute> keys = new HashSet<>();
-        if (attributes == null) {
-            keys.addAll(text.getAllAttributeKeys());
+        // Select bttribute keys to be tbken cbre of
+        HbshSet<Attribute> keys = new HbshSet<>();
+        if (bttributes == null) {
+            keys.bddAll(text.getAllAttributeKeys());
         } else {
-            for (int i = 0; i < attributes.length; i++)
-                keys.add(attributes[i]);
-            keys.retainAll(text.getAllAttributeKeys());
+            for (int i = 0; i < bttributes.length; i++)
+                keys.bdd(bttributes[i]);
+            keys.retbinAll(text.getAllAttributeKeys());
         }
         if (keys.isEmpty())
             return;
 
-        // Get and set attribute runs for each attribute name. Need to
-        // scan from the top of the text so that we can discard any
-        // Annotation that is no longer applied to a subset text segment.
-        Iterator<Attribute> itr = keys.iterator();
-        while (itr.hasNext()) {
-            Attribute attributeKey = itr.next();
+        // Get bnd set bttribute runs for ebch bttribute nbme. Need to
+        // scbn from the top of the text so thbt we cbn discbrd bny
+        // Annotbtion thbt is no longer bpplied to b subset text segment.
+        Iterbtor<Attribute> itr = keys.iterbtor();
+        while (itr.hbsNext()) {
+            Attribute bttributeKey = itr.next();
             text.setIndex(textBeginIndex);
             while (text.getIndex() < endIndex) {
-                int start = text.getRunStart(attributeKey);
-                int limit = text.getRunLimit(attributeKey);
-                Object value = text.getAttribute(attributeKey);
+                int stbrt = text.getRunStbrt(bttributeKey);
+                int limit = text.getRunLimit(bttributeKey);
+                Object vblue = text.getAttribute(bttributeKey);
 
-                if (value != null) {
-                    if (value instanceof Annotation) {
-                        if (start >= beginIndex && limit <= endIndex) {
-                            addAttribute(attributeKey, value, start - beginIndex, limit - beginIndex);
+                if (vblue != null) {
+                    if (vblue instbnceof Annotbtion) {
+                        if (stbrt >= beginIndex && limit <= endIndex) {
+                            bddAttribute(bttributeKey, vblue, stbrt - beginIndex, limit - beginIndex);
                         } else {
                             if (limit > endIndex)
-                                break;
+                                brebk;
                         }
                     } else {
-                        // if the run is beyond the given (subset) range, we
+                        // if the run is beyond the given (subset) rbnge, we
                         // don't need to process further.
-                        if (start >= endIndex)
-                            break;
+                        if (stbrt >= endIndex)
+                            brebk;
                         if (limit > beginIndex) {
-                            // attribute is applied to any subrange
-                            if (start < beginIndex)
-                                start = beginIndex;
+                            // bttribute is bpplied to bny subrbnge
+                            if (stbrt < beginIndex)
+                                stbrt = beginIndex;
                             if (limit > endIndex)
                                 limit = endIndex;
-                            if (start != limit) {
-                                addAttribute(attributeKey, value, start - beginIndex, limit - beginIndex);
+                            if (stbrt != limit) {
+                                bddAttribute(bttributeKey, vblue, stbrt - beginIndex, limit - beginIndex);
                             }
                         }
                     }
@@ -307,553 +307,553 @@ public class AttributedString {
     }
 
     /**
-     * Adds an attribute to the entire string.
-     * @param attribute the attribute key
-     * @param value the value of the attribute; may be null
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if the AttributedString has length 0
-     * (attributes cannot be applied to a 0-length range).
+     * Adds bn bttribute to the entire string.
+     * @pbrbm bttribute the bttribute key
+     * @pbrbm vblue the vblue of the bttribute; mby be null
+     * @exception NullPointerException if <code>bttribute</code> is null.
+     * @exception IllegblArgumentException if the AttributedString hbs length 0
+     * (bttributes cbnnot be bpplied to b 0-length rbnge).
      */
-    public void addAttribute(Attribute attribute, Object value) {
+    public void bddAttribute(Attribute bttribute, Object vblue) {
 
-        if (attribute == null) {
+        if (bttribute == null) {
             throw new NullPointerException();
         }
 
         int len = length();
         if (len == 0) {
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+            throw new IllegblArgumentException("Cbn't bdd bttribute to 0-length text");
         }
 
-        addAttributeImpl(attribute, value, 0, len);
+        bddAttributeImpl(bttribute, vblue, 0, len);
     }
 
     /**
-     * Adds an attribute to a subrange of the string.
-     * @param attribute the attribute key
-     * @param value The value of the attribute. May be null.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character of the range.
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then 0, endIndex is
-     * greater than the length of the string, or beginIndex and endIndex together don't
-     * define a non-empty subrange of the string.
+     * Adds bn bttribute to b subrbnge of the string.
+     * @pbrbm bttribute the bttribute key
+     * @pbrbm vblue The vblue of the bttribute. Mby be null.
+     * @pbrbm beginIndex Index of the first chbrbcter of the rbnge.
+     * @pbrbm endIndex Index of the chbrbcter following the lbst chbrbcter of the rbnge.
+     * @exception NullPointerException if <code>bttribute</code> is null.
+     * @exception IllegblArgumentException if beginIndex is less then 0, endIndex is
+     * grebter thbn the length of the string, or beginIndex bnd endIndex together don't
+     * define b non-empty subrbnge of the string.
      */
-    public void addAttribute(Attribute attribute, Object value,
+    public void bddAttribute(Attribute bttribute, Object vblue,
             int beginIndex, int endIndex) {
 
-        if (attribute == null) {
+        if (bttribute == null) {
             throw new NullPointerException();
         }
 
         if (beginIndex < 0 || endIndex > length() || beginIndex >= endIndex) {
-            throw new IllegalArgumentException("Invalid substring range");
+            throw new IllegblArgumentException("Invblid substring rbnge");
         }
 
-        addAttributeImpl(attribute, value, beginIndex, endIndex);
+        bddAttributeImpl(bttribute, vblue, beginIndex, endIndex);
     }
 
     /**
-     * Adds a set of attributes to a subrange of the string.
-     * @param attributes The attributes to be added to the string.
-     * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last
-     * character of the range.
-     * @exception NullPointerException if <code>attributes</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then
-     * 0, endIndex is greater than the length of the string, or
-     * beginIndex and endIndex together don't define a non-empty
-     * subrange of the string and the attributes parameter is not an
-     * empty Map.
+     * Adds b set of bttributes to b subrbnge of the string.
+     * @pbrbm bttributes The bttributes to be bdded to the string.
+     * @pbrbm beginIndex Index of the first chbrbcter of the rbnge.
+     * @pbrbm endIndex Index of the chbrbcter following the lbst
+     * chbrbcter of the rbnge.
+     * @exception NullPointerException if <code>bttributes</code> is null.
+     * @exception IllegblArgumentException if beginIndex is less then
+     * 0, endIndex is grebter thbn the length of the string, or
+     * beginIndex bnd endIndex together don't define b non-empty
+     * subrbnge of the string bnd the bttributes pbrbmeter is not bn
+     * empty Mbp.
      */
-    public void addAttributes(Map<? extends Attribute, ?> attributes,
+    public void bddAttributes(Mbp<? extends Attribute, ?> bttributes,
                               int beginIndex, int endIndex)
     {
-        if (attributes == null) {
+        if (bttributes == null) {
             throw new NullPointerException();
         }
 
         if (beginIndex < 0 || endIndex > length() || beginIndex > endIndex) {
-            throw new IllegalArgumentException("Invalid substring range");
+            throw new IllegblArgumentException("Invblid substring rbnge");
         }
         if (beginIndex == endIndex) {
-            if (attributes.isEmpty())
+            if (bttributes.isEmpty())
                 return;
-            throw new IllegalArgumentException("Can't add attribute to 0-length text");
+            throw new IllegblArgumentException("Cbn't bdd bttribute to 0-length text");
         }
 
-        // make sure we have run attribute data vectors
+        // mbke sure we hbve run bttribute dbtb vectors
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            crebteRunAttributeDbtbVectors();
         }
 
-        // break up runs if necessary
-        int beginRunIndex = ensureRunBreak(beginIndex);
-        int endRunIndex = ensureRunBreak(endIndex);
+        // brebk up runs if necessbry
+        int beginRunIndex = ensureRunBrebk(beginIndex);
+        int endRunIndex = ensureRunBrebk(endIndex);
 
-        Iterator<? extends Map.Entry<? extends Attribute, ?>> iterator =
-            attributes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<? extends Attribute, ?> entry = iterator.next();
-            addAttributeRunData(entry.getKey(), entry.getValue(), beginRunIndex, endRunIndex);
+        Iterbtor<? extends Mbp.Entry<? extends Attribute, ?>> iterbtor =
+            bttributes.entrySet().iterbtor();
+        while (iterbtor.hbsNext()) {
+            Mbp.Entry<? extends Attribute, ?> entry = iterbtor.next();
+            bddAttributeRunDbtb(entry.getKey(), entry.getVblue(), beginRunIndex, endRunIndex);
         }
     }
 
-    private synchronized void addAttributeImpl(Attribute attribute, Object value,
+    privbte synchronized void bddAttributeImpl(Attribute bttribute, Object vblue,
             int beginIndex, int endIndex) {
 
-        // make sure we have run attribute data vectors
+        // mbke sure we hbve run bttribute dbtb vectors
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            crebteRunAttributeDbtbVectors();
         }
 
-        // break up runs if necessary
-        int beginRunIndex = ensureRunBreak(beginIndex);
-        int endRunIndex = ensureRunBreak(endIndex);
+        // brebk up runs if necessbry
+        int beginRunIndex = ensureRunBrebk(beginIndex);
+        int endRunIndex = ensureRunBrebk(endIndex);
 
-        addAttributeRunData(attribute, value, beginRunIndex, endRunIndex);
+        bddAttributeRunDbtb(bttribute, vblue, beginRunIndex, endRunIndex);
     }
 
-    private final void createRunAttributeDataVectors() {
-        // use temporary variables so things remain consistent in case of an exception
-        int newRunStarts[] = new int[ARRAY_SIZE_INCREMENT];
+    privbte finbl void crebteRunAttributeDbtbVectors() {
+        // use temporbry vbribbles so things rembin consistent in cbse of bn exception
+        int newRunStbrts[] = new int[ARRAY_SIZE_INCREMENT];
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         Vector<Attribute> newRunAttributes[] = (Vector<Attribute>[]) new Vector<?>[ARRAY_SIZE_INCREMENT];
 
-        @SuppressWarnings("unchecked")
-        Vector<Object> newRunAttributeValues[] = (Vector<Object>[]) new Vector<?>[ARRAY_SIZE_INCREMENT];
+        @SuppressWbrnings("unchecked")
+        Vector<Object> newRunAttributeVblues[] = (Vector<Object>[]) new Vector<?>[ARRAY_SIZE_INCREMENT];
 
-        runStarts = newRunStarts;
+        runStbrts = newRunStbrts;
         runAttributes = newRunAttributes;
-        runAttributeValues = newRunAttributeValues;
-        runArraySize = ARRAY_SIZE_INCREMENT;
-        runCount = 1; // assume initial run starting at index 0
+        runAttributeVblues = newRunAttributeVblues;
+        runArrbySize = ARRAY_SIZE_INCREMENT;
+        runCount = 1; // bssume initibl run stbrting bt index 0
     }
 
-    // ensure there's a run break at offset, return the index of the run
-    private final int ensureRunBreak(int offset) {
-        return ensureRunBreak(offset, true);
+    // ensure there's b run brebk bt offset, return the index of the run
+    privbte finbl int ensureRunBrebk(int offset) {
+        return ensureRunBrebk(offset, true);
     }
 
     /**
-     * Ensures there is a run break at offset, returning the index of
-     * the run. If this results in splitting a run, two things can happen:
+     * Ensures there is b run brebk bt offset, returning the index of
+     * the run. If this results in splitting b run, two things cbn hbppen:
      * <ul>
-     * <li>If copyAttrs is true, the attributes from the existing run
-     *     will be placed in both of the newly created runs.
-     * <li>If copyAttrs is false, the attributes from the existing run
-     * will NOT be copied to the run to the right (>= offset) of the break,
+     * <li>If copyAttrs is true, the bttributes from the existing run
+     *     will be plbced in both of the newly crebted runs.
+     * <li>If copyAttrs is fblse, the bttributes from the existing run
+     * will NOT be copied to the run to the right (>= offset) of the brebk,
      * but will exist on the run to the left (< offset).
      * </ul>
      */
-    private final int ensureRunBreak(int offset, boolean copyAttrs) {
+    privbte finbl int ensureRunBrebk(int offset, boolebn copyAttrs) {
         if (offset == length()) {
             return runCount;
         }
 
-        // search for the run index where this offset should be
+        // sebrch for the run index where this offset should be
         int runIndex = 0;
-        while (runIndex < runCount && runStarts[runIndex] < offset) {
+        while (runIndex < runCount && runStbrts[runIndex] < offset) {
             runIndex++;
         }
 
-        // if the offset is at a run start already, we're done
-        if (runIndex < runCount && runStarts[runIndex] == offset) {
+        // if the offset is bt b run stbrt blrebdy, we're done
+        if (runIndex < runCount && runStbrts[runIndex] == offset) {
             return runIndex;
         }
 
-        // we'll have to break up a run
-        // first, make sure we have enough space in our arrays
-        if (runCount == runArraySize) {
-            int newArraySize = runArraySize + ARRAY_SIZE_INCREMENT;
-            int newRunStarts[] = new int[newArraySize];
+        // we'll hbve to brebk up b run
+        // first, mbke sure we hbve enough spbce in our brrbys
+        if (runCount == runArrbySize) {
+            int newArrbySize = runArrbySize + ARRAY_SIZE_INCREMENT;
+            int newRunStbrts[] = new int[newArrbySize];
 
-            @SuppressWarnings("unchecked")
-            Vector<Attribute> newRunAttributes[] = (Vector<Attribute>[]) new Vector<?>[newArraySize];
+            @SuppressWbrnings("unchecked")
+            Vector<Attribute> newRunAttributes[] = (Vector<Attribute>[]) new Vector<?>[newArrbySize];
 
-            @SuppressWarnings("unchecked")
-            Vector<Object> newRunAttributeValues[] = (Vector<Object>[]) new Vector<?>[newArraySize];
+            @SuppressWbrnings("unchecked")
+            Vector<Object> newRunAttributeVblues[] = (Vector<Object>[]) new Vector<?>[newArrbySize];
 
-            for (int i = 0; i < runArraySize; i++) {
-                newRunStarts[i] = runStarts[i];
+            for (int i = 0; i < runArrbySize; i++) {
+                newRunStbrts[i] = runStbrts[i];
                 newRunAttributes[i] = runAttributes[i];
-                newRunAttributeValues[i] = runAttributeValues[i];
+                newRunAttributeVblues[i] = runAttributeVblues[i];
             }
-            runStarts = newRunStarts;
+            runStbrts = newRunStbrts;
             runAttributes = newRunAttributes;
-            runAttributeValues = newRunAttributeValues;
-            runArraySize = newArraySize;
+            runAttributeVblues = newRunAttributeVblues;
+            runArrbySize = newArrbySize;
         }
 
-        // make copies of the attribute information of the old run that the new one used to be part of
-        // use temporary variables so things remain consistent in case of an exception
+        // mbke copies of the bttribute informbtion of the old run thbt the new one used to be pbrt of
+        // use temporbry vbribbles so things rembin consistent in cbse of bn exception
         Vector<Attribute> newRunAttributes = null;
-        Vector<Object> newRunAttributeValues = null;
+        Vector<Object> newRunAttributeVblues = null;
 
         if (copyAttrs) {
             Vector<Attribute> oldRunAttributes = runAttributes[runIndex - 1];
-            Vector<Object> oldRunAttributeValues = runAttributeValues[runIndex - 1];
+            Vector<Object> oldRunAttributeVblues = runAttributeVblues[runIndex - 1];
             if (oldRunAttributes != null) {
                 newRunAttributes = new Vector<>(oldRunAttributes);
             }
-            if (oldRunAttributeValues != null) {
-                newRunAttributeValues =  new Vector<>(oldRunAttributeValues);
+            if (oldRunAttributeVblues != null) {
+                newRunAttributeVblues =  new Vector<>(oldRunAttributeVblues);
             }
         }
 
-        // now actually break up the run
+        // now bctublly brebk up the run
         runCount++;
         for (int i = runCount - 1; i > runIndex; i--) {
-            runStarts[i] = runStarts[i - 1];
+            runStbrts[i] = runStbrts[i - 1];
             runAttributes[i] = runAttributes[i - 1];
-            runAttributeValues[i] = runAttributeValues[i - 1];
+            runAttributeVblues[i] = runAttributeVblues[i - 1];
         }
-        runStarts[runIndex] = offset;
+        runStbrts[runIndex] = offset;
         runAttributes[runIndex] = newRunAttributes;
-        runAttributeValues[runIndex] = newRunAttributeValues;
+        runAttributeVblues[runIndex] = newRunAttributeVblues;
 
         return runIndex;
     }
 
-    // add the attribute attribute/value to all runs where beginRunIndex <= runIndex < endRunIndex
-    private void addAttributeRunData(Attribute attribute, Object value,
+    // bdd the bttribute bttribute/vblue to bll runs where beginRunIndex <= runIndex < endRunIndex
+    privbte void bddAttributeRunDbtb(Attribute bttribute, Object vblue,
             int beginRunIndex, int endRunIndex) {
 
         for (int i = beginRunIndex; i < endRunIndex; i++) {
-            int keyValueIndex = -1; // index of key and value in our vectors; assume we don't have an entry yet
+            int keyVblueIndex = -1; // index of key bnd vblue in our vectors; bssume we don't hbve bn entry yet
             if (runAttributes[i] == null) {
                 Vector<Attribute> newRunAttributes = new Vector<>();
-                Vector<Object> newRunAttributeValues = new Vector<>();
+                Vector<Object> newRunAttributeVblues = new Vector<>();
                 runAttributes[i] = newRunAttributes;
-                runAttributeValues[i] = newRunAttributeValues;
+                runAttributeVblues[i] = newRunAttributeVblues;
             } else {
-                // check whether we have an entry already
-                keyValueIndex = runAttributes[i].indexOf(attribute);
+                // check whether we hbve bn entry blrebdy
+                keyVblueIndex = runAttributes[i].indexOf(bttribute);
             }
 
-            if (keyValueIndex == -1) {
-                // create new entry
+            if (keyVblueIndex == -1) {
+                // crebte new entry
                 int oldSize = runAttributes[i].size();
-                runAttributes[i].addElement(attribute);
+                runAttributes[i].bddElement(bttribute);
                 try {
-                    runAttributeValues[i].addElement(value);
+                    runAttributeVblues[i].bddElement(vblue);
                 }
-                catch (Exception e) {
+                cbtch (Exception e) {
                     runAttributes[i].setSize(oldSize);
-                    runAttributeValues[i].setSize(oldSize);
+                    runAttributeVblues[i].setSize(oldSize);
                 }
             } else {
-                // update existing entry
-                runAttributeValues[i].set(keyValueIndex, value);
+                // updbte existing entry
+                runAttributeVblues[i].set(keyVblueIndex, vblue);
             }
         }
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to the entire contents of
+     * Crebtes bn AttributedChbrbcterIterbtor instbnce thbt provides bccess to the entire contents of
      * this string.
      *
-     * @return An iterator providing access to the text and its attributes.
+     * @return An iterbtor providing bccess to the text bnd its bttributes.
      */
-    public AttributedCharacterIterator getIterator() {
-        return getIterator(null, 0, length());
+    public AttributedChbrbcterIterbtor getIterbtor() {
+        return getIterbtor(null, 0, length());
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to
+     * Crebtes bn AttributedChbrbcterIterbtor instbnce thbt provides bccess to
      * selected contents of this string.
-     * Information about attributes not listed in attributes that the
-     * implementor may have need not be made accessible through the iterator.
-     * If the list is null, all available attribute information should be made
-     * accessible.
+     * Informbtion bbout bttributes not listed in bttributes thbt the
+     * implementor mby hbve need not be mbde bccessible through the iterbtor.
+     * If the list is null, bll bvbilbble bttribute informbtion should be mbde
+     * bccessible.
      *
-     * @param attributes a list of attributes that the client is interested in
-     * @return an iterator providing access to the entire text and its selected attributes
+     * @pbrbm bttributes b list of bttributes thbt the client is interested in
+     * @return bn iterbtor providing bccess to the entire text bnd its selected bttributes
      */
-    public AttributedCharacterIterator getIterator(Attribute[] attributes) {
-        return getIterator(attributes, 0, length());
+    public AttributedChbrbcterIterbtor getIterbtor(Attribute[] bttributes) {
+        return getIterbtor(bttributes, 0, length());
     }
 
     /**
-     * Creates an AttributedCharacterIterator instance that provides access to
+     * Crebtes bn AttributedChbrbcterIterbtor instbnce thbt provides bccess to
      * selected contents of this string.
-     * Information about attributes not listed in attributes that the
-     * implementor may have need not be made accessible through the iterator.
-     * If the list is null, all available attribute information should be made
-     * accessible.
+     * Informbtion bbout bttributes not listed in bttributes thbt the
+     * implementor mby hbve need not be mbde bccessible through the iterbtor.
+     * If the list is null, bll bvbilbble bttribute informbtion should be mbde
+     * bccessible.
      *
-     * @param attributes a list of attributes that the client is interested in
-     * @param beginIndex the index of the first character
-     * @param endIndex the index of the character following the last character
-     * @return an iterator providing access to the text and its attributes
-     * @exception IllegalArgumentException if beginIndex is less then 0,
-     * endIndex is greater than the length of the string, or beginIndex is
-     * greater than endIndex.
+     * @pbrbm bttributes b list of bttributes thbt the client is interested in
+     * @pbrbm beginIndex the index of the first chbrbcter
+     * @pbrbm endIndex the index of the chbrbcter following the lbst chbrbcter
+     * @return bn iterbtor providing bccess to the text bnd its bttributes
+     * @exception IllegblArgumentException if beginIndex is less then 0,
+     * endIndex is grebter thbn the length of the string, or beginIndex is
+     * grebter thbn endIndex.
      */
-    public AttributedCharacterIterator getIterator(Attribute[] attributes, int beginIndex, int endIndex) {
-        return new AttributedStringIterator(attributes, beginIndex, endIndex);
+    public AttributedChbrbcterIterbtor getIterbtor(Attribute[] bttributes, int beginIndex, int endIndex) {
+        return new AttributedStringIterbtor(bttributes, beginIndex, endIndex);
     }
 
-    // all (with the exception of length) reading operations are private,
-    // since AttributedString instances are accessed through iterators.
+    // bll (with the exception of length) rebding operbtions bre privbte,
+    // since AttributedString instbnces bre bccessed through iterbtors.
 
-    // length is package private so that CharacterIteratorFieldDelegate can
-    // access it without creating an AttributedCharacterIterator.
+    // length is pbckbge privbte so thbt ChbrbcterIterbtorFieldDelegbte cbn
+    // bccess it without crebting bn AttributedChbrbcterIterbtor.
     int length() {
         return text.length();
     }
 
-    private char charAt(int index) {
-        return text.charAt(index);
+    privbte chbr chbrAt(int index) {
+        return text.chbrAt(index);
     }
 
-    private synchronized Object getAttribute(Attribute attribute, int runIndex) {
+    privbte synchronized Object getAttribute(Attribute bttribute, int runIndex) {
         Vector<Attribute> currentRunAttributes = runAttributes[runIndex];
-        Vector<Object> currentRunAttributeValues = runAttributeValues[runIndex];
+        Vector<Object> currentRunAttributeVblues = runAttributeVblues[runIndex];
         if (currentRunAttributes == null) {
             return null;
         }
-        int attributeIndex = currentRunAttributes.indexOf(attribute);
-        if (attributeIndex != -1) {
-            return currentRunAttributeValues.elementAt(attributeIndex);
+        int bttributeIndex = currentRunAttributes.indexOf(bttribute);
+        if (bttributeIndex != -1) {
+            return currentRunAttributeVblues.elementAt(bttributeIndex);
         }
         else {
             return null;
         }
     }
 
-    // gets an attribute value, but returns an annotation only if it's range does not extend outside the range beginIndex..endIndex
-    private Object getAttributeCheckRange(Attribute attribute, int runIndex, int beginIndex, int endIndex) {
-        Object value = getAttribute(attribute, runIndex);
-        if (value instanceof Annotation) {
-            // need to check whether the annotation's range extends outside the iterator's range
+    // gets bn bttribute vblue, but returns bn bnnotbtion only if it's rbnge does not extend outside the rbnge beginIndex..endIndex
+    privbte Object getAttributeCheckRbnge(Attribute bttribute, int runIndex, int beginIndex, int endIndex) {
+        Object vblue = getAttribute(bttribute, runIndex);
+        if (vblue instbnceof Annotbtion) {
+            // need to check whether the bnnotbtion's rbnge extends outside the iterbtor's rbnge
             if (beginIndex > 0) {
                 int currIndex = runIndex;
-                int runStart = runStarts[currIndex];
-                while (runStart >= beginIndex &&
-                        valuesMatch(value, getAttribute(attribute, currIndex - 1))) {
+                int runStbrt = runStbrts[currIndex];
+                while (runStbrt >= beginIndex &&
+                        vbluesMbtch(vblue, getAttribute(bttribute, currIndex - 1))) {
                     currIndex--;
-                    runStart = runStarts[currIndex];
+                    runStbrt = runStbrts[currIndex];
                 }
-                if (runStart < beginIndex) {
-                    // annotation's range starts before iterator's range
+                if (runStbrt < beginIndex) {
+                    // bnnotbtion's rbnge stbrts before iterbtor's rbnge
                     return null;
                 }
             }
             int textLength = length();
             if (endIndex < textLength) {
                 int currIndex = runIndex;
-                int runLimit = (currIndex < runCount - 1) ? runStarts[currIndex + 1] : textLength;
+                int runLimit = (currIndex < runCount - 1) ? runStbrts[currIndex + 1] : textLength;
                 while (runLimit <= endIndex &&
-                        valuesMatch(value, getAttribute(attribute, currIndex + 1))) {
+                        vbluesMbtch(vblue, getAttribute(bttribute, currIndex + 1))) {
                     currIndex++;
-                    runLimit = (currIndex < runCount - 1) ? runStarts[currIndex + 1] : textLength;
+                    runLimit = (currIndex < runCount - 1) ? runStbrts[currIndex + 1] : textLength;
                 }
                 if (runLimit > endIndex) {
-                    // annotation's range ends after iterator's range
+                    // bnnotbtion's rbnge ends bfter iterbtor's rbnge
                     return null;
                 }
             }
-            // annotation's range is subrange of iterator's range,
-            // so we can return the value
+            // bnnotbtion's rbnge is subrbnge of iterbtor's rbnge,
+            // so we cbn return the vblue
         }
-        return value;
+        return vblue;
     }
 
-    // returns whether all specified attributes have equal values in the runs with the given indices
-    private boolean attributeValuesMatch(Set<? extends Attribute> attributes, int runIndex1, int runIndex2) {
-        Iterator<? extends Attribute> iterator = attributes.iterator();
-        while (iterator.hasNext()) {
-            Attribute key = iterator.next();
-           if (!valuesMatch(getAttribute(key, runIndex1), getAttribute(key, runIndex2))) {
-                return false;
+    // returns whether bll specified bttributes hbve equbl vblues in the runs with the given indices
+    privbte boolebn bttributeVbluesMbtch(Set<? extends Attribute> bttributes, int runIndex1, int runIndex2) {
+        Iterbtor<? extends Attribute> iterbtor = bttributes.iterbtor();
+        while (iterbtor.hbsNext()) {
+            Attribute key = iterbtor.next();
+           if (!vbluesMbtch(getAttribute(key, runIndex1), getAttribute(key, runIndex2))) {
+                return fblse;
             }
         }
         return true;
     }
 
-    // returns whether the two objects are either both null or equal
-    private final static boolean valuesMatch(Object value1, Object value2) {
-        if (value1 == null) {
-            return value2 == null;
+    // returns whether the two objects bre either both null or equbl
+    privbte finbl stbtic boolebn vbluesMbtch(Object vblue1, Object vblue2) {
+        if (vblue1 == null) {
+            return vblue2 == null;
         } else {
-            return value1.equals(value2);
+            return vblue1.equbls(vblue2);
         }
     }
 
     /**
-     * Appends the contents of the CharacterIterator iterator into the
+     * Appends the contents of the ChbrbcterIterbtor iterbtor into the
      * StringBuffer buf.
      */
-    private final void appendContents(StringBuffer buf,
-                                      CharacterIterator iterator) {
-        int index = iterator.getBeginIndex();
-        int end = iterator.getEndIndex();
+    privbte finbl void bppendContents(StringBuffer buf,
+                                      ChbrbcterIterbtor iterbtor) {
+        int index = iterbtor.getBeginIndex();
+        int end = iterbtor.getEndIndex();
 
         while (index < end) {
-            iterator.setIndex(index++);
-            buf.append(iterator.current());
+            iterbtor.setIndex(index++);
+            buf.bppend(iterbtor.current());
         }
     }
 
     /**
-     * Sets the attributes for the range from offset to the next run break
-     * (typically the end of the text) to the ones specified in attrs.
-     * This is only meant to be called from the constructor!
+     * Sets the bttributes for the rbnge from offset to the next run brebk
+     * (typicblly the end of the text) to the ones specified in bttrs.
+     * This is only mebnt to be cblled from the constructor!
      */
-    private void setAttributes(Map<Attribute, Object> attrs, int offset) {
+    privbte void setAttributes(Mbp<Attribute, Object> bttrs, int offset) {
         if (runCount == 0) {
-            createRunAttributeDataVectors();
+            crebteRunAttributeDbtbVectors();
         }
 
-        int index = ensureRunBreak(offset, false);
+        int index = ensureRunBrebk(offset, fblse);
         int size;
 
-        if (attrs != null && (size = attrs.size()) > 0) {
+        if (bttrs != null && (size = bttrs.size()) > 0) {
             Vector<Attribute> runAttrs = new Vector<>(size);
-            Vector<Object> runValues = new Vector<>(size);
-            Iterator<Map.Entry<Attribute, Object>> iterator = attrs.entrySet().iterator();
+            Vector<Object> runVblues = new Vector<>(size);
+            Iterbtor<Mbp.Entry<Attribute, Object>> iterbtor = bttrs.entrySet().iterbtor();
 
-            while (iterator.hasNext()) {
-                Map.Entry<Attribute, Object> entry = iterator.next();
+            while (iterbtor.hbsNext()) {
+                Mbp.Entry<Attribute, Object> entry = iterbtor.next();
 
-                runAttrs.add(entry.getKey());
-                runValues.add(entry.getValue());
+                runAttrs.bdd(entry.getKey());
+                runVblues.bdd(entry.getVblue());
             }
             runAttributes[index] = runAttrs;
-            runAttributeValues[index] = runValues;
+            runAttributeVblues[index] = runVblues;
         }
     }
 
     /**
-     * Returns true if the attributes specified in last and attrs differ.
+     * Returns true if the bttributes specified in lbst bnd bttrs differ.
      */
-    private static <K,V> boolean mapsDiffer(Map<K, V> last, Map<K, V> attrs) {
-        if (last == null) {
-            return (attrs != null && attrs.size() > 0);
+    privbte stbtic <K,V> boolebn mbpsDiffer(Mbp<K, V> lbst, Mbp<K, V> bttrs) {
+        if (lbst == null) {
+            return (bttrs != null && bttrs.size() > 0);
         }
-        return (!last.equals(attrs));
+        return (!lbst.equbls(bttrs));
     }
 
 
-    // the iterator class associated with this string class
+    // the iterbtor clbss bssocibted with this string clbss
 
-    final private class AttributedStringIterator implements AttributedCharacterIterator {
+    finbl privbte clbss AttributedStringIterbtor implements AttributedChbrbcterIterbtor {
 
-        // note on synchronization:
-        // we don't synchronize on the iterator, assuming that an iterator is only used in one thread.
-        // we do synchronize access to the AttributedString however, since it's more likely to be shared between threads.
+        // note on synchronizbtion:
+        // we don't synchronize on the iterbtor, bssuming thbt bn iterbtor is only used in one threbd.
+        // we do synchronize bccess to the AttributedString however, since it's more likely to be shbred between threbds.
 
-        // start and end index for our iteration
-        private int beginIndex;
-        private int endIndex;
+        // stbrt bnd end index for our iterbtion
+        privbte int beginIndex;
+        privbte int endIndex;
 
-        // attributes that our client is interested in
-        private Attribute[] relevantAttributes;
+        // bttributes thbt our client is interested in
+        privbte Attribute[] relevbntAttributes;
 
-        // the current index for our iteration
-        // invariant: beginIndex <= currentIndex <= endIndex
-        private int currentIndex;
+        // the current index for our iterbtion
+        // invbribnt: beginIndex <= currentIndex <= endIndex
+        privbte int currentIndex;
 
-        // information about the run that includes currentIndex
-        private int currentRunIndex;
-        private int currentRunStart;
-        private int currentRunLimit;
+        // informbtion bbout the run thbt includes currentIndex
+        privbte int currentRunIndex;
+        privbte int currentRunStbrt;
+        privbte int currentRunLimit;
 
         // constructor
-        AttributedStringIterator(Attribute[] attributes, int beginIndex, int endIndex) {
+        AttributedStringIterbtor(Attribute[] bttributes, int beginIndex, int endIndex) {
 
             if (beginIndex < 0 || beginIndex > endIndex || endIndex > length()) {
-                throw new IllegalArgumentException("Invalid substring range");
+                throw new IllegblArgumentException("Invblid substring rbnge");
             }
 
             this.beginIndex = beginIndex;
             this.endIndex = endIndex;
             this.currentIndex = beginIndex;
-            updateRunInfo();
-            if (attributes != null) {
-                relevantAttributes = attributes.clone();
+            updbteRunInfo();
+            if (bttributes != null) {
+                relevbntAttributes = bttributes.clone();
             }
         }
 
-        // Object methods. See documentation in that class.
+        // Object methods. See documentbtion in thbt clbss.
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof AttributedStringIterator)) {
-                return false;
+            if (!(obj instbnceof AttributedStringIterbtor)) {
+                return fblse;
             }
 
-            AttributedStringIterator that = (AttributedStringIterator) obj;
+            AttributedStringIterbtor thbt = (AttributedStringIterbtor) obj;
 
-            if (AttributedString.this != that.getString())
-                return false;
-            if (currentIndex != that.currentIndex || beginIndex != that.beginIndex || endIndex != that.endIndex)
-                return false;
+            if (AttributedString.this != thbt.getString())
+                return fblse;
+            if (currentIndex != thbt.currentIndex || beginIndex != thbt.beginIndex || endIndex != thbt.endIndex)
+                return fblse;
             return true;
         }
 
-        public int hashCode() {
-            return text.hashCode() ^ currentIndex ^ beginIndex ^ endIndex;
+        public int hbshCode() {
+            return text.hbshCode() ^ currentIndex ^ beginIndex ^ endIndex;
         }
 
         public Object clone() {
             try {
-                AttributedStringIterator other = (AttributedStringIterator) super.clone();
+                AttributedStringIterbtor other = (AttributedStringIterbtor) super.clone();
                 return other;
             }
-            catch (CloneNotSupportedException e) {
-                throw new InternalError(e);
+            cbtch (CloneNotSupportedException e) {
+                throw new InternblError(e);
             }
         }
 
-        // CharacterIterator methods. See documentation in that interface.
+        // ChbrbcterIterbtor methods. See documentbtion in thbt interfbce.
 
-        public char first() {
-            return internalSetIndex(beginIndex);
+        public chbr first() {
+            return internblSetIndex(beginIndex);
         }
 
-        public char last() {
+        public chbr lbst() {
             if (endIndex == beginIndex) {
-                return internalSetIndex(endIndex);
+                return internblSetIndex(endIndex);
             } else {
-                return internalSetIndex(endIndex - 1);
+                return internblSetIndex(endIndex - 1);
             }
         }
 
-        public char current() {
+        public chbr current() {
             if (currentIndex == endIndex) {
                 return DONE;
             } else {
-                return charAt(currentIndex);
+                return chbrAt(currentIndex);
             }
         }
 
-        public char next() {
+        public chbr next() {
             if (currentIndex < endIndex) {
-                return internalSetIndex(currentIndex + 1);
+                return internblSetIndex(currentIndex + 1);
             }
             else {
                 return DONE;
             }
         }
 
-        public char previous() {
+        public chbr previous() {
             if (currentIndex > beginIndex) {
-                return internalSetIndex(currentIndex - 1);
+                return internblSetIndex(currentIndex - 1);
             }
             else {
                 return DONE;
             }
         }
 
-        public char setIndex(int position) {
+        public chbr setIndex(int position) {
             if (position < beginIndex || position > endIndex)
-                throw new IllegalArgumentException("Invalid index");
-            return internalSetIndex(position);
+                throw new IllegblArgumentException("Invblid index");
+            return internblSetIndex(position);
         }
 
         public int getBeginIndex() {
@@ -868,46 +868,46 @@ public class AttributedString {
             return currentIndex;
         }
 
-        // AttributedCharacterIterator methods. See documentation in that interface.
+        // AttributedChbrbcterIterbtor methods. See documentbtion in thbt interfbce.
 
-        public int getRunStart() {
-            return currentRunStart;
+        public int getRunStbrt() {
+            return currentRunStbrt;
         }
 
-        public int getRunStart(Attribute attribute) {
-            if (currentRunStart == beginIndex || currentRunIndex == -1) {
-                return currentRunStart;
+        public int getRunStbrt(Attribute bttribute) {
+            if (currentRunStbrt == beginIndex || currentRunIndex == -1) {
+                return currentRunStbrt;
             } else {
-                Object value = getAttribute(attribute);
-                int runStart = currentRunStart;
+                Object vblue = getAttribute(bttribute);
+                int runStbrt = currentRunStbrt;
                 int runIndex = currentRunIndex;
-                while (runStart > beginIndex &&
-                        valuesMatch(value, AttributedString.this.getAttribute(attribute, runIndex - 1))) {
+                while (runStbrt > beginIndex &&
+                        vbluesMbtch(vblue, AttributedString.this.getAttribute(bttribute, runIndex - 1))) {
                     runIndex--;
-                    runStart = runStarts[runIndex];
+                    runStbrt = runStbrts[runIndex];
                 }
-                if (runStart < beginIndex) {
-                    runStart = beginIndex;
+                if (runStbrt < beginIndex) {
+                    runStbrt = beginIndex;
                 }
-                return runStart;
+                return runStbrt;
             }
         }
 
-        public int getRunStart(Set<? extends Attribute> attributes) {
-            if (currentRunStart == beginIndex || currentRunIndex == -1) {
-                return currentRunStart;
+        public int getRunStbrt(Set<? extends Attribute> bttributes) {
+            if (currentRunStbrt == beginIndex || currentRunIndex == -1) {
+                return currentRunStbrt;
             } else {
-                int runStart = currentRunStart;
+                int runStbrt = currentRunStbrt;
                 int runIndex = currentRunIndex;
-                while (runStart > beginIndex &&
-                        AttributedString.this.attributeValuesMatch(attributes, currentRunIndex, runIndex - 1)) {
+                while (runStbrt > beginIndex &&
+                        AttributedString.this.bttributeVbluesMbtch(bttributes, currentRunIndex, runIndex - 1)) {
                     runIndex--;
-                    runStart = runStarts[runIndex];
+                    runStbrt = runStbrts[runIndex];
                 }
-                if (runStart < beginIndex) {
-                    runStart = beginIndex;
+                if (runStbrt < beginIndex) {
+                    runStbrt = beginIndex;
                 }
-                return runStart;
+                return runStbrt;
             }
         }
 
@@ -915,17 +915,17 @@ public class AttributedString {
             return currentRunLimit;
         }
 
-        public int getRunLimit(Attribute attribute) {
+        public int getRunLimit(Attribute bttribute) {
             if (currentRunLimit == endIndex || currentRunIndex == -1) {
                 return currentRunLimit;
             } else {
-                Object value = getAttribute(attribute);
+                Object vblue = getAttribute(bttribute);
                 int runLimit = currentRunLimit;
                 int runIndex = currentRunIndex;
                 while (runLimit < endIndex &&
-                        valuesMatch(value, AttributedString.this.getAttribute(attribute, runIndex + 1))) {
+                        vbluesMbtch(vblue, AttributedString.this.getAttribute(bttribute, runIndex + 1))) {
                     runIndex++;
-                    runLimit = runIndex < runCount - 1 ? runStarts[runIndex + 1] : endIndex;
+                    runLimit = runIndex < runCount - 1 ? runStbrts[runIndex + 1] : endIndex;
                 }
                 if (runLimit > endIndex) {
                     runLimit = endIndex;
@@ -934,16 +934,16 @@ public class AttributedString {
             }
         }
 
-        public int getRunLimit(Set<? extends Attribute> attributes) {
+        public int getRunLimit(Set<? extends Attribute> bttributes) {
             if (currentRunLimit == endIndex || currentRunIndex == -1) {
                 return currentRunLimit;
             } else {
                 int runLimit = currentRunLimit;
                 int runIndex = currentRunIndex;
                 while (runLimit < endIndex &&
-                        AttributedString.this.attributeValuesMatch(attributes, currentRunIndex, runIndex + 1)) {
+                        AttributedString.this.bttributeVbluesMbtch(bttributes, currentRunIndex, runIndex + 1)) {
                     runIndex++;
-                    runLimit = runIndex < runCount - 1 ? runStarts[runIndex + 1] : endIndex;
+                    runLimit = runIndex < runCount - 1 ? runStbrts[runIndex + 1] : endIndex;
                 }
                 if (runLimit > endIndex) {
                     runLimit = endIndex;
@@ -952,34 +952,34 @@ public class AttributedString {
             }
         }
 
-        public Map<Attribute,Object> getAttributes() {
+        public Mbp<Attribute,Object> getAttributes() {
             if (runAttributes == null || currentRunIndex == -1 || runAttributes[currentRunIndex] == null) {
-                // ??? would be nice to return null, but current spec doesn't allow it
-                // returning Hashtable saves AttributeMap from dealing with emptiness
-                return new Hashtable<>();
+                // ??? would be nice to return null, but current spec doesn't bllow it
+                // returning Hbshtbble sbves AttributeMbp from debling with emptiness
+                return new Hbshtbble<>();
             }
-            return new AttributeMap(currentRunIndex, beginIndex, endIndex);
+            return new AttributeMbp(currentRunIndex, beginIndex, endIndex);
         }
 
         public Set<Attribute> getAllAttributeKeys() {
-            // ??? This should screen out attribute keys that aren't relevant to the client
+            // ??? This should screen out bttribute keys thbt bren't relevbnt to the client
             if (runAttributes == null) {
-                // ??? would be nice to return null, but current spec doesn't allow it
-                // returning HashSet saves us from dealing with emptiness
-                return new HashSet<>();
+                // ??? would be nice to return null, but current spec doesn't bllow it
+                // returning HbshSet sbves us from debling with emptiness
+                return new HbshSet<>();
             }
             synchronized (AttributedString.this) {
-                // ??? should try to create this only once, then update if necessary,
-                // and give callers read-only view
-                Set<Attribute> keys = new HashSet<>();
+                // ??? should try to crebte this only once, then updbte if necessbry,
+                // bnd give cbllers rebd-only view
+                Set<Attribute> keys = new HbshSet<>();
                 int i = 0;
                 while (i < runCount) {
-                    if (runStarts[i] < endIndex && (i == runCount - 1 || runStarts[i + 1] > beginIndex)) {
+                    if (runStbrts[i] < endIndex && (i == runCount - 1 || runStbrts[i + 1] > beginIndex)) {
                         Vector<Attribute> currentRunAttributes = runAttributes[i];
                         if (currentRunAttributes != null) {
                             int j = currentRunAttributes.size();
                             while (j-- > 0) {
-                                keys.add(currentRunAttributes.get(j));
+                                keys.bdd(currentRunAttributes.get(j));
                             }
                         }
                     }
@@ -989,55 +989,55 @@ public class AttributedString {
             }
         }
 
-        public Object getAttribute(Attribute attribute) {
+        public Object getAttribute(Attribute bttribute) {
             int runIndex = currentRunIndex;
             if (runIndex < 0) {
                 return null;
             }
-            return AttributedString.this.getAttributeCheckRange(attribute, runIndex, beginIndex, endIndex);
+            return AttributedString.this.getAttributeCheckRbnge(bttribute, runIndex, beginIndex, endIndex);
         }
 
-        // internally used methods
+        // internblly used methods
 
-        private AttributedString getString() {
+        privbte AttributedString getString() {
             return AttributedString.this;
         }
 
-        // set the current index, update information about the current run if necessary,
-        // return the character at the current index
-        private char internalSetIndex(int position) {
+        // set the current index, updbte informbtion bbout the current run if necessbry,
+        // return the chbrbcter bt the current index
+        privbte chbr internblSetIndex(int position) {
             currentIndex = position;
-            if (position < currentRunStart || position >= currentRunLimit) {
-                updateRunInfo();
+            if (position < currentRunStbrt || position >= currentRunLimit) {
+                updbteRunInfo();
             }
             if (currentIndex == endIndex) {
                 return DONE;
             } else {
-                return charAt(position);
+                return chbrAt(position);
             }
         }
 
-        // update the information about the current run
-        private void updateRunInfo() {
+        // updbte the informbtion bbout the current run
+        privbte void updbteRunInfo() {
             if (currentIndex == endIndex) {
-                currentRunStart = currentRunLimit = endIndex;
+                currentRunStbrt = currentRunLimit = endIndex;
                 currentRunIndex = -1;
             } else {
                 synchronized (AttributedString.this) {
                     int runIndex = -1;
-                    while (runIndex < runCount - 1 && runStarts[runIndex + 1] <= currentIndex)
+                    while (runIndex < runCount - 1 && runStbrts[runIndex + 1] <= currentIndex)
                         runIndex++;
                     currentRunIndex = runIndex;
                     if (runIndex >= 0) {
-                        currentRunStart = runStarts[runIndex];
-                        if (currentRunStart < beginIndex)
-                            currentRunStart = beginIndex;
+                        currentRunStbrt = runStbrts[runIndex];
+                        if (currentRunStbrt < beginIndex)
+                            currentRunStbrt = beginIndex;
                     }
                     else {
-                        currentRunStart = beginIndex;
+                        currentRunStbrt = beginIndex;
                     }
                     if (runIndex < runCount - 1) {
-                        currentRunLimit = runStarts[runIndex + 1];
+                        currentRunLimit = runStbrts[runIndex + 1];
                         if (currentRunLimit > endIndex)
                             currentRunLimit = endIndex;
                     }
@@ -1050,84 +1050,84 @@ public class AttributedString {
 
     }
 
-    // the map class associated with this string class, giving access to the attributes of one run
+    // the mbp clbss bssocibted with this string clbss, giving bccess to the bttributes of one run
 
-    final private class AttributeMap extends AbstractMap<Attribute,Object> {
+    finbl privbte clbss AttributeMbp extends AbstrbctMbp<Attribute,Object> {
 
         int runIndex;
         int beginIndex;
         int endIndex;
 
-        AttributeMap(int runIndex, int beginIndex, int endIndex) {
+        AttributeMbp(int runIndex, int beginIndex, int endIndex) {
             this.runIndex = runIndex;
             this.beginIndex = beginIndex;
             this.endIndex = endIndex;
         }
 
-        public Set<Map.Entry<Attribute, Object>> entrySet() {
-            HashSet<Map.Entry<Attribute, Object>> set = new HashSet<>();
+        public Set<Mbp.Entry<Attribute, Object>> entrySet() {
+            HbshSet<Mbp.Entry<Attribute, Object>> set = new HbshSet<>();
             synchronized (AttributedString.this) {
                 int size = runAttributes[runIndex].size();
                 for (int i = 0; i < size; i++) {
                     Attribute key = runAttributes[runIndex].get(i);
-                    Object value = runAttributeValues[runIndex].get(i);
-                    if (value instanceof Annotation) {
-                        value = AttributedString.this.getAttributeCheckRange(key,
+                    Object vblue = runAttributeVblues[runIndex].get(i);
+                    if (vblue instbnceof Annotbtion) {
+                        vblue = AttributedString.this.getAttributeCheckRbnge(key,
                                                              runIndex, beginIndex, endIndex);
-                        if (value == null) {
+                        if (vblue == null) {
                             continue;
                         }
                     }
 
-                    Map.Entry<Attribute, Object> entry = new AttributeEntry(key, value);
-                    set.add(entry);
+                    Mbp.Entry<Attribute, Object> entry = new AttributeEntry(key, vblue);
+                    set.bdd(entry);
                 }
             }
             return set;
         }
 
         public Object get(Object key) {
-            return AttributedString.this.getAttributeCheckRange((Attribute) key, runIndex, beginIndex, endIndex);
+            return AttributedString.this.getAttributeCheckRbnge((Attribute) key, runIndex, beginIndex, endIndex);
         }
     }
 }
 
-class AttributeEntry implements Map.Entry<Attribute,Object> {
+clbss AttributeEntry implements Mbp.Entry<Attribute,Object> {
 
-    private Attribute key;
-    private Object value;
+    privbte Attribute key;
+    privbte Object vblue;
 
-    AttributeEntry(Attribute key, Object value) {
+    AttributeEntry(Attribute key, Object vblue) {
         this.key = key;
-        this.value = value;
+        this.vblue = vblue;
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof AttributeEntry)) {
-            return false;
+    public boolebn equbls(Object o) {
+        if (!(o instbnceof AttributeEntry)) {
+            return fblse;
         }
         AttributeEntry other = (AttributeEntry) o;
-        return other.key.equals(key) &&
-            (value == null ? other.value == null : other.value.equals(value));
+        return other.key.equbls(key) &&
+            (vblue == null ? other.vblue == null : other.vblue.equbls(vblue));
     }
 
     public Attribute getKey() {
         return key;
     }
 
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
-    public Object setValue(Object newValue) {
-        throw new UnsupportedOperationException();
+    public Object setVblue(Object newVblue) {
+        throw new UnsupportedOperbtionException();
     }
 
-    public int hashCode() {
-        return key.hashCode() ^ (value==null ? 0 : value.hashCode());
+    public int hbshCode() {
+        return key.hbshCode() ^ (vblue==null ? 0 : vblue.hbshCode());
     }
 
     public String toString() {
-        return key.toString()+"="+value.toString();
+        return key.toString()+"="+vblue.toString();
     }
 }

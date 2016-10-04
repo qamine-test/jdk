@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,133 +30,133 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.net.*;
-import java.nio.*;
-import java.nio.charset.*;
-import java.util.regex.*;
+import jbvb.net.*;
+import jbvb.nio.*;
+import jbvb.nio.chbrset.*;
+import jbvb.util.regex.*;
 
 /**
- * An encapsulation of the request received.
+ * An encbpsulbtion of the request received.
  * <P>
- * The static method parse() is responsible for creating this
+ * The stbtic method pbrse() is responsible for crebting this
  * object.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @buthor Mbrk Reinhold
+ * @buthor Brbd R. Wetmore
  */
-class Request {
+clbss Request {
 
     /**
-     * A helper class for parsing HTTP command actions.
+     * A helper clbss for pbrsing HTTP commbnd bctions.
      */
-    static class Action {
+    stbtic clbss Action {
 
-        private String name;
-        private Action(String name) { this.name = name; }
-        public String toString() { return name; }
+        privbte String nbme;
+        privbte Action(String nbme) { this.nbme = nbme; }
+        public String toString() { return nbme; }
 
-        static Action GET = new Action("GET");
-        static Action PUT = new Action("PUT");
-        static Action POST = new Action("POST");
-        static Action HEAD = new Action("HEAD");
+        stbtic Action GET = new Action("GET");
+        stbtic Action PUT = new Action("PUT");
+        stbtic Action POST = new Action("POST");
+        stbtic Action HEAD = new Action("HEAD");
 
-        static Action parse(String s) {
-            if (s.equals("GET"))
+        stbtic Action pbrse(String s) {
+            if (s.equbls("GET"))
                 return GET;
-            if (s.equals("PUT"))
+            if (s.equbls("PUT"))
                 return PUT;
-            if (s.equals("POST"))
+            if (s.equbls("POST"))
                 return POST;
-            if (s.equals("HEAD"))
+            if (s.equbls("HEAD"))
                 return HEAD;
-            throw new IllegalArgumentException(s);
+            throw new IllegblArgumentException(s);
         }
     }
 
-    private Action action;
-    private String version;
-    private URI uri;
+    privbte Action bction;
+    privbte String version;
+    privbte URI uri;
 
-    Action action() { return action; }
+    Action bction() { return bction; }
     String version() { return version; }
     URI uri() { return uri; }
 
-    private Request(Action a, String v, URI u) {
-        action = a;
+    privbte Request(Action b, String v, URI u) {
+        bction = b;
         version = v;
         uri = u;
     }
 
     public String toString() {
-        return (action + " " + version + " " + uri);
+        return (bction + " " + version + " " + uri);
     }
 
-    static boolean isComplete(ByteBuffer bb) {
+    stbtic boolebn isComplete(ByteBuffer bb) {
         int p = bb.position() - 4;
         if (p < 0)
-            return false;
+            return fblse;
         return (((bb.get(p + 0) == '\r') &&
                  (bb.get(p + 1) == '\n') &&
                  (bb.get(p + 2) == '\r') &&
                  (bb.get(p + 3) == '\n')));
     }
 
-    private static Charset ascii = Charset.forName("US-ASCII");
+    privbte stbtic Chbrset bscii = Chbrset.forNbme("US-ASCII");
 
     /*
-     * The expected message format is first compiled into a pattern,
-     * and is then compared against the inbound character buffer to
-     * determine if there is a match.  This convienently tokenizes
-     * our request into usable pieces.
+     * The expected messbge formbt is first compiled into b pbttern,
+     * bnd is then compbred bgbinst the inbound chbrbcter buffer to
+     * determine if there is b mbtch.  This convienently tokenizes
+     * our request into usbble pieces.
      *
-     * This uses Matcher "expression capture groups" to tokenize
+     * This uses Mbtcher "expression cbpture groups" to tokenize
      * requests like:
      *
      *     GET /dir/file HTTP/1.1
-     *     Host: hostname
+     *     Host: hostnbme
      *
      * into:
      *
      *     group[1] = "GET"
      *     group[2] = "/dir/file"
      *     group[3] = "1.1"
-     *     group[4] = "hostname"
+     *     group[4] = "hostnbme"
      *
-     * The text in between the parens are used to captured the regexp text.
+     * The text in between the pbrens bre used to cbptured the regexp text.
      */
-    private static Pattern requestPattern
-        = Pattern.compile("\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$"
+    privbte stbtic Pbttern requestPbttern
+        = Pbttern.compile("\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$"
                           + ".*^Host: ([^ ]+)$.*\r\n\r\n\\z",
-                          Pattern.MULTILINE | Pattern.DOTALL);
+                          Pbttern.MULTILINE | Pbttern.DOTALL);
 
-    static Request parse(ByteBuffer bb) throws MalformedRequestException {
+    stbtic Request pbrse(ByteBuffer bb) throws MblformedRequestException {
 
-        CharBuffer cb = ascii.decode(bb);
-        Matcher m = requestPattern.matcher(cb);
-        if (!m.matches())
-            throw new MalformedRequestException();
-        Action a;
+        ChbrBuffer cb = bscii.decode(bb);
+        Mbtcher m = requestPbttern.mbtcher(cb);
+        if (!m.mbtches())
+            throw new MblformedRequestException();
+        Action b;
         try {
-            a = Action.parse(m.group(1));
-        } catch (IllegalArgumentException x) {
-            throw new MalformedRequestException();
+            b = Action.pbrse(m.group(1));
+        } cbtch (IllegblArgumentException x) {
+            throw new MblformedRequestException();
         }
         URI u;
         try {
             u = new URI("http://"
                         + m.group(4)
                         + m.group(2));
-        } catch (URISyntaxException x) {
-            throw new MalformedRequestException();
+        } cbtch (URISyntbxException x) {
+            throw new MblformedRequestException();
         }
-        return new Request(a, m.group(3), u);
+        return new Request(b, m.group(3), u);
     }
 }

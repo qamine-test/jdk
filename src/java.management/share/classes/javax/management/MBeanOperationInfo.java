@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Objects;
+import com.sun.jmx.mbebnserver.Introspector;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
+import jbvb.util.Objects;
 
 /**
- * Describes a management operation exposed by an MBean.  Instances of
- * this class are immutable.  Subclasses may be mutable but this is
+ * Describes b mbnbgement operbtion exposed by bn MBebn.  Instbnces of
+ * this clbss bre immutbble.  Subclbsses mby be mutbble but this is
  * not recommended.
  *
  * @since 1.5
  */
-public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
+public clbss MBebnOperbtionInfo extends MBebnFebtureInfo implements Clonebble {
 
-    /* Serial version */
-    static final long serialVersionUID = -6178860474881375330L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -6178860474881375330L;
 
-    static final MBeanOperationInfo[] NO_OPERATIONS =
-        new MBeanOperationInfo[0];
+    stbtic finbl MBebnOperbtionInfo[] NO_OPERATIONS =
+        new MBebnOperbtionInfo[0];
 
     /**
-     * Indicates that the operation is read-like:
-     * it returns information but does not change any state.
+     * Indicbtes thbt the operbtion is rebd-like:
+     * it returns informbtion but does not chbnge bny stbte.
      */
-    public static final int INFO = 0;
+    public stbtic finbl int INFO = 0;
 
     /**
-     * Indicates that the operation is write-like: it has an effect but does
-     * not return any information from the MBean.
+     * Indicbtes thbt the operbtion is write-like: it hbs bn effect but does
+     * not return bny informbtion from the MBebn.
      */
-    public static final int ACTION = 1;
+    public stbtic finbl int ACTION = 1;
 
     /**
-     * Indicates that the operation is both read-like and write-like:
-     * it has an effect, and it also returns information from the MBean.
+     * Indicbtes thbt the operbtion is both rebd-like bnd write-like:
+     * it hbs bn effect, bnd it blso returns informbtion from the MBebn.
      */
-    public static final int ACTION_INFO = 2;
+    public stbtic finbl int ACTION_INFO = 2;
 
     /**
-     * Indicates that the impact of the operation is unknown or cannot be
-     * expressed using one of the other values.
+     * Indicbtes thbt the impbct of the operbtion is unknown or cbnnot be
+     * expressed using one of the other vblues.
      */
-    public static final int UNKNOWN = 3;
+    public stbtic finbl int UNKNOWN = 3;
 
     /**
-     * @serial The method's return value.
+     * @seribl The method's return vblue.
      */
-    private final String type;
+    privbte finbl String type;
 
     /**
-     * @serial The signature of the method, that is, the class names
-     * of the arguments.
+     * @seribl The signbture of the method, thbt is, the clbss nbmes
+     * of the brguments.
      */
-    private final MBeanParameterInfo[] signature;
+    privbte finbl MBebnPbrbmeterInfo[] signbture;
 
     /**
-     * @serial The impact of the method, one of
+     * @seribl The impbct of the method, one of
      *         <CODE>INFO</CODE>,
      *         <CODE>ACTION</CODE>,
      *         <CODE>ACTION_INFO</CODE>,
      *         <CODE>UNKNOWN</CODE>
      */
-    private final int impact;
+    privbte finbl int impbct;
 
-    /** @see MBeanInfo#arrayGettersSafe */
-    private final transient boolean arrayGettersSafe;
+    /** @see MBebnInfo#brrbyGettersSbfe */
+    privbte finbl trbnsient boolebn brrbyGettersSbfe;
 
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.  The
+     * Constructs bn <CODE>MBebnOperbtionInfo</CODE> object.  The
      * {@link Descriptor} of the constructed object will include
-     * fields contributed by any annotations on the {@code Method}
-     * object that contain the {@link DescriptorKey} meta-annotation.
+     * fields contributed by bny bnnotbtions on the {@code Method}
+     * object thbt contbin the {@link DescriptorKey} metb-bnnotbtion.
      *
-     * @param method The <CODE>java.lang.reflect.Method</CODE> object
-     * describing the MBean operation.
-     * @param description A human readable description of the operation.
+     * @pbrbm method The <CODE>jbvb.lbng.reflect.Method</CODE> object
+     * describing the MBebn operbtion.
+     * @pbrbm description A humbn rebdbble description of the operbtion.
      */
-    public MBeanOperationInfo(String description, Method method) {
-        this(method.getName(),
+    public MBebnOperbtionInfo(String description, Method method) {
+        this(method.getNbme(),
              description,
-             methodSignature(method),
-             method.getReturnType().getName(),
+             methodSignbture(method),
+             method.getReturnType().getNbme(),
              UNKNOWN,
              Introspector.descriptorForElement(method));
     }
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.
+     * Constructs bn <CODE>MBebnOperbtionInfo</CODE> object.
      *
-     * @param name The name of the method.
-     * @param description A human readable description of the operation.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the method.  This may be
-     * null with the same effect as a zero-length array.
-     * @param type The type of the method's return value.
-     * @param impact The impact of the method, one of
+     * @pbrbm nbme The nbme of the method.
+     * @pbrbm description A humbn rebdbble description of the operbtion.
+     * @pbrbm signbture <CODE>MBebnPbrbmeterInfo</CODE> objects
+     * describing the pbrbmeters(brguments) of the method.  This mby be
+     * null with the sbme effect bs b zero-length brrby.
+     * @pbrbm type The type of the method's return vblue.
+     * @pbrbm impbct The impbct of the method, one of
      * {@link #INFO}, {@link #ACTION}, {@link #ACTION_INFO},
      * {@link #UNKNOWN}.
      */
-    public MBeanOperationInfo(String name,
+    public MBebnOperbtionInfo(String nbme,
                               String description,
-                              MBeanParameterInfo[] signature,
+                              MBebnPbrbmeterInfo[] signbture,
                               String type,
-                              int impact) {
-        this(name, description, signature, type, impact, (Descriptor) null);
+                              int impbct) {
+        this(nbme, description, signbture, type, impbct, (Descriptor) null);
     }
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.
+     * Constructs bn <CODE>MBebnOperbtionInfo</CODE> object.
      *
-     * @param name The name of the method.
-     * @param description A human readable description of the operation.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the method.  This may be
-     * null with the same effect as a zero-length array.
-     * @param type The type of the method's return value.
-     * @param impact The impact of the method, one of
+     * @pbrbm nbme The nbme of the method.
+     * @pbrbm description A humbn rebdbble description of the operbtion.
+     * @pbrbm signbture <CODE>MBebnPbrbmeterInfo</CODE> objects
+     * describing the pbrbmeters(brguments) of the method.  This mby be
+     * null with the sbme effect bs b zero-length brrby.
+     * @pbrbm type The type of the method's return vblue.
+     * @pbrbm impbct The impbct of the method, one of
      * {@link #INFO}, {@link #ACTION}, {@link #ACTION_INFO},
      * {@link #UNKNOWN}.
-     * @param descriptor The descriptor for the operation.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm descriptor The descriptor for the operbtion.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanOperationInfo(String name,
+    public MBebnOperbtionInfo(String nbme,
                               String description,
-                              MBeanParameterInfo[] signature,
+                              MBebnPbrbmeterInfo[] signbture,
                               String type,
-                              int impact,
+                              int impbct,
                               Descriptor descriptor) {
 
-        super(name, description, descriptor);
+        super(nbme, description, descriptor);
 
-        if (signature == null || signature.length == 0)
-            signature = MBeanParameterInfo.NO_PARAMS;
+        if (signbture == null || signbture.length == 0)
+            signbture = MBebnPbrbmeterInfo.NO_PARAMS;
         else
-            signature = signature.clone();
-        this.signature = signature;
+            signbture = signbture.clone();
+        this.signbture = signbture;
         this.type = type;
-        this.impact = impact;
-        this.arrayGettersSafe =
-            MBeanInfo.arrayGettersSafe(this.getClass(),
-                                       MBeanOperationInfo.class);
+        this.impbct = impbct;
+        this.brrbyGettersSbfe =
+            MBebnInfo.brrbyGettersSbfe(this.getClbss(),
+                                       MBebnOperbtionInfo.clbss);
     }
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
+     * <p>Returns b shbllow clone of this instbnce.
+     * The clone is obtbined by simply cblling <tt>super.clone()</tt>,
+     * thus cblling the defbult nbtive shbllow cloning mechbnism
      * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * No deeper cloning of bny internbl field is mbde.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of interest
-     * to subclasses.</p>
+     * <p>Since this clbss is immutbble, cloning is chiefly of interest
+     * to subclbsses.</p>
      */
      @Override
      public Object clone () {
          try {
              return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
+         } cbtch (CloneNotSupportedException e) {
+             // should not hbppen bs this clbss is clonebble
              return null;
          }
      }
 
     /**
-     * Returns the type of the method's return value.
+     * Returns the type of the method's return vblue.
      *
      * @return the return type.
      */
@@ -202,136 +202,136 @@ public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
     }
 
     /**
-     * <p>Returns the list of parameters for this operation.  Each
-     * parameter is described by an <CODE>MBeanParameterInfo</CODE>
+     * <p>Returns the list of pbrbmeters for this operbtion.  Ebch
+     * pbrbmeter is described by bn <CODE>MBebnPbrbmeterInfo</CODE>
      * object.</p>
      *
-     * <p>The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanParameterInfo</CODE> objects but
-     * that each referenced <CODE>MBeanParameterInfo</CODE> object is
+     * <p>The returned brrby is b shbllow copy of the internbl brrby,
+     * which mebns thbt it is b copy of the internbl brrby of
+     * references to the <CODE>MBebnPbrbmeterInfo</CODE> objects but
+     * thbt ebch referenced <CODE>MBebnPbrbmeterInfo</CODE> object is
      * not copied.</p>
      *
-     * @return  An array of <CODE>MBeanParameterInfo</CODE> objects.
+     * @return  An brrby of <CODE>MBebnPbrbmeterInfo</CODE> objects.
      */
-    public MBeanParameterInfo[] getSignature() {
-        // If MBeanOperationInfo was created in our implementation,
-        // signature cannot be null - because our constructors replace
-        // null with MBeanParameterInfo.NO_PARAMS;
+    public MBebnPbrbmeterInfo[] getSignbture() {
+        // If MBebnOperbtionInfo wbs crebted in our implementbtion,
+        // signbture cbnnot be null - becbuse our constructors replbce
+        // null with MBebnPbrbmeterInfo.NO_PARAMS;
         //
-        // However, signature could be null if an  MBeanOperationInfo is
-        // deserialized from a byte array produced by another implementation.
-        // This is not very likely but possible, since the serial form says
-        // nothing against it. (see 6373150)
+        // However, signbture could be null if bn  MBebnOperbtionInfo is
+        // deseriblized from b byte brrby produced by bnother implementbtion.
+        // This is not very likely but possible, since the seribl form sbys
+        // nothing bgbinst it. (see 6373150)
         //
-        if (signature == null)
-            // if signature is null simply return an empty array .
+        if (signbture == null)
+            // if signbture is null simply return bn empty brrby .
             //
-            return MBeanParameterInfo.NO_PARAMS;
-        else if (signature.length == 0)
-            return signature;
+            return MBebnPbrbmeterInfo.NO_PARAMS;
+        else if (signbture.length == 0)
+            return signbture;
         else
-            return signature.clone();
+            return signbture.clone();
     }
 
-    private MBeanParameterInfo[] fastGetSignature() {
-        if (arrayGettersSafe) {
-            // if signature is null simply return an empty array .
-            // see getSignature() above.
+    privbte MBebnPbrbmeterInfo[] fbstGetSignbture() {
+        if (brrbyGettersSbfe) {
+            // if signbture is null simply return bn empty brrby .
+            // see getSignbture() bbove.
             //
-            if (signature == null)
-                return MBeanParameterInfo.NO_PARAMS;
-            else return signature;
-        } else return getSignature();
+            if (signbture == null)
+                return MBebnPbrbmeterInfo.NO_PARAMS;
+            else return signbture;
+        } else return getSignbture();
     }
 
     /**
-     * Returns the impact of the method, one of
+     * Returns the impbct of the method, one of
      * <CODE>INFO</CODE>, <CODE>ACTION</CODE>, <CODE>ACTION_INFO</CODE>, <CODE>UNKNOWN</CODE>.
      *
-     * @return the impact code.
+     * @return the impbct code.
      */
-    public int getImpact() {
-        return impact;
+    public int getImpbct() {
+        return impbct;
     }
 
     @Override
     public String toString() {
-        String impactString;
-        switch (getImpact()) {
-        case ACTION: impactString = "action"; break;
-        case ACTION_INFO: impactString = "action/info"; break;
-        case INFO: impactString = "info"; break;
-        case UNKNOWN: impactString = "unknown"; break;
-        default: impactString = "(" + getImpact() + ")";
+        String impbctString;
+        switch (getImpbct()) {
+        cbse ACTION: impbctString = "bction"; brebk;
+        cbse ACTION_INFO: impbctString = "bction/info"; brebk;
+        cbse INFO: impbctString = "info"; brebk;
+        cbse UNKNOWN: impbctString = "unknown"; brebk;
+        defbult: impbctString = "(" + getImpbct() + ")";
         }
-        return getClass().getName() + "[" +
+        return getClbss().getNbme() + "[" +
             "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
+            "nbme=" + getNbme() + ", " +
             "returnType=" + getReturnType() + ", " +
-            "signature=" + Arrays.asList(fastGetSignature()) + ", " +
-            "impact=" + impactString + ", " +
+            "signbture=" + Arrbys.bsList(fbstGetSignbture()) + ", " +
+            "impbct=" + impbctString + ", " +
             "descriptor=" + getDescriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanOperationInfo to another.
+     * Compbre this MBebnOperbtionInfo to bnother.
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanOperationInfo such
-     * that its {@link #getName()}, {@link #getReturnType()}, {@link
-     * #getDescription()}, {@link #getImpact()}, {@link #getDescriptor()}
-     * and {@link #getSignature()} values are equal (not necessarily identical)
-     * to those of this MBeanConstructorInfo.  Two signature arrays
-     * are equal if their elements are pairwise equal.
+     * @return true if bnd only if <code>o</code> is bn MBebnOperbtionInfo such
+     * thbt its {@link #getNbme()}, {@link #getReturnType()}, {@link
+     * #getDescription()}, {@link #getImpbct()}, {@link #getDescriptor()}
+     * bnd {@link #getSignbture()} vblues bre equbl (not necessbrily identicbl)
+     * to those of this MBebnConstructorInfo.  Two signbture brrbys
+     * bre equbl if their elements bre pbirwise equbl.
      */
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanOperationInfo))
-            return false;
-        MBeanOperationInfo p = (MBeanOperationInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getReturnType(), getReturnType()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                p.getImpact() == getImpact() &&
-                Arrays.equals(p.fastGetSignature(), fastGetSignature()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+        if (!(o instbnceof MBebnOperbtionInfo))
+            return fblse;
+        MBebnOperbtionInfo p = (MBebnOperbtionInfo) o;
+        return (Objects.equbls(p.getNbme(), getNbme()) &&
+                Objects.equbls(p.getReturnType(), getReturnType()) &&
+                Objects.equbls(p.getDescription(), getDescription()) &&
+                p.getImpbct() == getImpbct() &&
+                Arrbys.equbls(p.fbstGetSignbture(), fbstGetSignbture()) &&
+                Objects.equbls(p.getDescriptor(), getDescriptor()));
     }
 
-    /* We do not include everything in the hashcode.  We assume that
-       if two operations are different they'll probably have different
-       names or types.  The penalty we pay when this assumption is
-       wrong should be less than the penalty we would pay if it were
-       right and we needlessly hashed in the description and the
-       parameter array.  */
+    /* We do not include everything in the hbshcode.  We bssume thbt
+       if two operbtions bre different they'll probbbly hbve different
+       nbmes or types.  The penblty we pby when this bssumption is
+       wrong should be less thbn the penblty we would pby if it were
+       right bnd we needlessly hbshed in the description bnd the
+       pbrbmeter brrby.  */
     @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getReturnType());
+    public int hbshCode() {
+        return Objects.hbsh(getNbme(), getReturnType());
     }
 
-    private static MBeanParameterInfo[] methodSignature(Method method) {
-        final Class<?>[] classes = method.getParameterTypes();
-        final Annotation[][] annots = method.getParameterAnnotations();
-        return parameters(classes, annots);
+    privbte stbtic MBebnPbrbmeterInfo[] methodSignbture(Method method) {
+        finbl Clbss<?>[] clbsses = method.getPbrbmeterTypes();
+        finbl Annotbtion[][] bnnots = method.getPbrbmeterAnnotbtions();
+        return pbrbmeters(clbsses, bnnots);
     }
 
-    static MBeanParameterInfo[] parameters(Class<?>[] classes,
-                                           Annotation[][] annots) {
-        final MBeanParameterInfo[] params =
-            new MBeanParameterInfo[classes.length];
-        assert(classes.length == annots.length);
+    stbtic MBebnPbrbmeterInfo[] pbrbmeters(Clbss<?>[] clbsses,
+                                           Annotbtion[][] bnnots) {
+        finbl MBebnPbrbmeterInfo[] pbrbms =
+            new MBebnPbrbmeterInfo[clbsses.length];
+        bssert(clbsses.length == bnnots.length);
 
-        for (int i = 0; i < classes.length; i++) {
-            Descriptor d = Introspector.descriptorForAnnotations(annots[i]);
-            final String pn = "p" + (i + 1);
-            params[i] =
-                new MBeanParameterInfo(pn, classes[i].getName(), "", d);
+        for (int i = 0; i < clbsses.length; i++) {
+            Descriptor d = Introspector.descriptorForAnnotbtions(bnnots[i]);
+            finbl String pn = "p" + (i + 1);
+            pbrbms[i] =
+                new MBebnPbrbmeterInfo(pn, clbsses[i].getNbme(), "", d);
         }
 
-        return params;
+        return pbrbms;
     }
 }

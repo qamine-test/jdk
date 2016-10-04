@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.math.BigInteger;
-import java.security.*;
-import java.io.IOException;
-import javax.net.ssl.SSLHandshakeException;
-import javax.crypto.SecretKey;
-import javax.crypto.KeyAgreement;
-import javax.crypto.interfaces.DHPublicKey;
-import javax.crypto.spec.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.*;
+import jbvb.io.IOException;
+import jbvbx.net.ssl.SSLHbndshbkeException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.KeyAgreement;
+import jbvbx.crypto.interfbces.DHPublicKey;
+import jbvbx.crypto.spec.*;
 
 import sun.security.util.KeyUtil;
 
 /**
- * This class implements the Diffie-Hellman key exchange algorithm.
- * D-H means combining your private key with your partners public key to
- * generate a number. The peer does the same with its private key and our
- * public key. Through the magic of Diffie-Hellman we both come up with the
- * same number. This number is secret (discounting MITM attacks) and hence
- * called the shared secret. It has the same length as the modulus, e.g. 512
- * or 1024 bit. Man-in-the-middle attacks are typically countered by an
- * independent authentication step using certificates (RSA, DSA, etc.).
+ * This clbss implements the Diffie-Hellmbn key exchbnge blgorithm.
+ * D-H mebns combining your privbte key with your pbrtners public key to
+ * generbte b number. The peer does the sbme with its privbte key bnd our
+ * public key. Through the mbgic of Diffie-Hellmbn we both come up with the
+ * sbme number. This number is secret (discounting MITM bttbcks) bnd hence
+ * cblled the shbred secret. It hbs the sbme length bs the modulus, e.g. 512
+ * or 1024 bit. Mbn-in-the-middle bttbcks bre typicblly countered by bn
+ * independent buthenticbtion step using certificbtes (RSA, DSA, etc.).
  *
- * The thing to note is that the shared secret is constant for two partners
- * with constant private keys. This is often not what we want, which is why
- * it is generally a good idea to create a new private key for each session.
- * Generating a private key involves one modular exponentiation assuming
- * suitable D-H parameters are available.
+ * The thing to note is thbt the shbred secret is constbnt for two pbrtners
+ * with constbnt privbte keys. This is often not whbt we wbnt, which is why
+ * it is generblly b good ideb to crebte b new privbte key for ebch session.
+ * Generbting b privbte key involves one modulbr exponentibtion bssuming
+ * suitbble D-H pbrbmeters bre bvbilbble.
  *
- * General usage of this class (TLS DHE case):
- *  . if we are server, call DHCrypt(keyLength,random). This generates
- *    an ephemeral keypair of the request length.
- *  . if we are client, call DHCrypt(modulus, base, random). This
- *    generates an ephemeral keypair using the parameters specified by
+ * Generbl usbge of this clbss (TLS DHE cbse):
+ *  . if we bre server, cbll DHCrypt(keyLength,rbndom). This generbtes
+ *    bn ephemerbl keypbir of the request length.
+ *  . if we bre client, cbll DHCrypt(modulus, bbse, rbndom). This
+ *    generbtes bn ephemerbl keypbir using the pbrbmeters specified by
  *    the server.
- *  . send parameters and public value to remote peer
- *  . receive peers ephemeral public key
- *  . call getAgreedSecret() to calculate the shared secret
+ *  . send pbrbmeters bnd public vblue to remote peer
+ *  . receive peers ephemerbl public key
+ *  . cbll getAgreedSecret() to cblculbte the shbred secret
  *
- * In TLS the server chooses the parameter values itself, the client must use
+ * In TLS the server chooses the pbrbmeter vblues itself, the client must use
  * those sent to it by the server.
  *
- * The use of ephemeral keys as described above also achieves what is called
- * "forward secrecy". This means that even if the authentication keys are
- * broken at a later date, the shared secret remains secure. The session is
- * compromised only if the authentication keys are already broken at the
- * time the key exchange takes place and an active MITM attack is used.
- * This is in contrast to straightforward encrypting RSA key exchanges.
+ * The use of ephemerbl keys bs described bbove blso bchieves whbt is cblled
+ * "forwbrd secrecy". This mebns thbt even if the buthenticbtion keys bre
+ * broken bt b lbter dbte, the shbred secret rembins secure. The session is
+ * compromised only if the buthenticbtion keys bre blrebdy broken bt the
+ * time the key exchbnge tbkes plbce bnd bn bctive MITM bttbck is used.
+ * This is in contrbst to strbightforwbrd encrypting RSA key exchbnges.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final class DHCrypt {
+finbl clbss DHCrypt {
 
-    // group parameters (prime modulus and generator)
-    private BigInteger modulus;                 // P (aka N)
-    private BigInteger base;                    // G (aka alpha)
+    // group pbrbmeters (prime modulus bnd generbtor)
+    privbte BigInteger modulus;                 // P (bkb N)
+    privbte BigInteger bbse;                    // G (bkb blphb)
 
-    // our private key (including private component x)
-    private PrivateKey privateKey;
+    // our privbte key (including privbte component x)
+    privbte PrivbteKey privbteKey;
 
     // public component of our key, X = (g ^ x) mod p
-    private BigInteger publicValue;             // X (aka y)
+    privbte BigInteger publicVblue;             // X (bkb y)
 
-    // the times to recove from failure if public key validation
-    private static int MAX_FAILOVER_TIMES = 2;
+    // the times to recove from fbilure if public key vblidbtion
+    privbte stbtic int MAX_FAILOVER_TIMES = 2;
 
     /**
-     * Generate a Diffie-Hellman keypair of the specified size.
+     * Generbte b Diffie-Hellmbn keypbir of the specified size.
      */
-    DHCrypt(int keyLength, SecureRandom random) {
+    DHCrypt(int keyLength, SecureRbndom rbndom) {
         try {
-            KeyPairGenerator kpg = JsseJce.getKeyPairGenerator("DiffieHellman");
-            kpg.initialize(keyLength, random);
+            KeyPbirGenerbtor kpg = JsseJce.getKeyPbirGenerbtor("DiffieHellmbn");
+            kpg.initiblize(keyLength, rbndom);
 
-            DHPublicKeySpec spec = generateDHPublicKeySpec(kpg);
+            DHPublicKeySpec spec = generbteDHPublicKeySpec(kpg);
             if (spec == null) {
-                throw new RuntimeException("Could not generate DH keypair");
+                throw new RuntimeException("Could not generbte DH keypbir");
             }
 
-            publicValue = spec.getY();
+            publicVblue = spec.getY();
             modulus = spec.getP();
-            base = spec.getG();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException("Could not generate DH keypair", e);
+            bbse = spec.getG();
+        } cbtch (GenerblSecurityException e) {
+            throw new RuntimeException("Could not generbte DH keypbir", e);
         }
     }
 
 
     /**
-     * Generate a Diffie-Hellman keypair using the specified parameters.
+     * Generbte b Diffie-Hellmbn keypbir using the specified pbrbmeters.
      *
-     * @param modulus the Diffie-Hellman modulus P
-     * @param base the Diffie-Hellman base G
+     * @pbrbm modulus the Diffie-Hellmbn modulus P
+     * @pbrbm bbse the Diffie-Hellmbn bbse G
      */
-    DHCrypt(BigInteger modulus, BigInteger base, SecureRandom random) {
+    DHCrypt(BigInteger modulus, BigInteger bbse, SecureRbndom rbndom) {
         this.modulus = modulus;
-        this.base = base;
+        this.bbse = bbse;
         try {
-            KeyPairGenerator kpg = JsseJce.getKeyPairGenerator("DiffieHellman");
-            DHParameterSpec params = new DHParameterSpec(modulus, base);
-            kpg.initialize(params, random);
+            KeyPbirGenerbtor kpg = JsseJce.getKeyPbirGenerbtor("DiffieHellmbn");
+            DHPbrbmeterSpec pbrbms = new DHPbrbmeterSpec(modulus, bbse);
+            kpg.initiblize(pbrbms, rbndom);
 
-            DHPublicKeySpec spec = generateDHPublicKeySpec(kpg);
+            DHPublicKeySpec spec = generbteDHPublicKeySpec(kpg);
             if (spec == null) {
-                throw new RuntimeException("Could not generate DH keypair");
+                throw new RuntimeException("Could not generbte DH keypbir");
             }
 
-            publicValue = spec.getY();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException("Could not generate DH keypair", e);
+            publicVblue = spec.getY();
+        } cbtch (GenerblSecurityException e) {
+            throw new RuntimeException("Could not generbte DH keypbir", e);
         }
     }
 
 
-    static DHPublicKeySpec getDHPublicKeySpec(PublicKey key) {
-        if (key instanceof DHPublicKey) {
+    stbtic DHPublicKeySpec getDHPublicKeySpec(PublicKey key) {
+        if (key instbnceof DHPublicKey) {
             DHPublicKey dhKey = (DHPublicKey)key;
-            DHParameterSpec params = dhKey.getParams();
+            DHPbrbmeterSpec pbrbms = dhKey.getPbrbms();
             return new DHPublicKeySpec(dhKey.getY(),
-                                    params.getP(), params.getG());
+                                    pbrbms.getP(), pbrbms.getG());
         }
         try {
-            KeyFactory factory = JsseJce.getKeyFactory("DH");
-            return factory.getKeySpec(key, DHPublicKeySpec.class);
-        } catch (Exception e) {
+            KeyFbctory fbctory = JsseJce.getKeyFbctory("DH");
+            return fbctory.getKeySpec(key, DHPublicKeySpec.clbss);
+        } cbtch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    /** Returns the Diffie-Hellman modulus. */
+    /** Returns the Diffie-Hellmbn modulus. */
     BigInteger getModulus() {
         return modulus;
     }
 
-    /** Returns the Diffie-Hellman base (generator).  */
-    BigInteger getBase() {
-        return base;
+    /** Returns the Diffie-Hellmbn bbse (generbtor).  */
+    BigInteger getBbse() {
+        return bbse;
     }
 
     /**
-     * Gets the public key of this end of the key exchange.
+     * Gets the public key of this end of the key exchbnge.
      */
     BigInteger getPublicKey() {
-        return publicValue;
+        return publicVblue;
     }
 
     /**
-     * Get the secret data that has been agreed on through Diffie-Hellman
-     * key agreement protocol.  Note that in the two party protocol, if
-     * the peer keys are already known, no other data needs to be sent in
-     * order to agree on a secret.  That is, a secured message may be
-     * sent without any mandatory round-trip overheads.
+     * Get the secret dbtb thbt hbs been bgreed on through Diffie-Hellmbn
+     * key bgreement protocol.  Note thbt in the two pbrty protocol, if
+     * the peer keys bre blrebdy known, no other dbtb needs to be sent in
+     * order to bgree on b secret.  Thbt is, b secured messbge mby be
+     * sent without bny mbndbtory round-trip overhebds.
      *
-     * <P>It is illegal to call this member function if the private key
-     * has not been set (or generated).
+     * <P>It is illegbl to cbll this member function if the privbte key
+     * hbs not been set (or generbted).
      *
-     * @param  peerPublicKey the peer's public key.
-     * @param  keyIsValidated whether the {@code peerPublicKey} has beed
-     *         validated
-     * @return the secret, which is an unsigned big-endian integer
-     *         the same size as the Diffie-Hellman modulus.
+     * @pbrbm  peerPublicKey the peer's public key.
+     * @pbrbm  keyIsVblidbted whether the {@code peerPublicKey} hbs beed
+     *         vblidbted
+     * @return the secret, which is bn unsigned big-endibn integer
+     *         the sbme size bs the Diffie-Hellmbn modulus.
      */
-    SecretKey getAgreedSecret(BigInteger peerPublicValue,
-            boolean keyIsValidated) throws SSLHandshakeException {
+    SecretKey getAgreedSecret(BigInteger peerPublicVblue,
+            boolebn keyIsVblidbted) throws SSLHbndshbkeException {
         try {
-            KeyFactory kf = JsseJce.getKeyFactory("DiffieHellman");
+            KeyFbctory kf = JsseJce.getKeyFbctory("DiffieHellmbn");
             DHPublicKeySpec spec =
-                        new DHPublicKeySpec(peerPublicValue, modulus, base);
-            PublicKey publicKey = kf.generatePublic(spec);
-            KeyAgreement ka = JsseJce.getKeyAgreement("DiffieHellman");
+                        new DHPublicKeySpec(peerPublicVblue, modulus, bbse);
+            PublicKey publicKey = kf.generbtePublic(spec);
+            KeyAgreement kb = JsseJce.getKeyAgreement("DiffieHellmbn");
 
-            // validate the Diffie-Hellman public key
-            if (!keyIsValidated &&
-                    !KeyUtil.isOracleJCEProvider(ka.getProvider().getName())) {
+            // vblidbte the Diffie-Hellmbn public key
+            if (!keyIsVblidbted &&
+                    !KeyUtil.isOrbcleJCEProvider(kb.getProvider().getNbme())) {
                 try {
-                    KeyUtil.validate(spec);
-                } catch (InvalidKeyException ike) {
-                    // prefer handshake_failure alert to internal_error alert
-                    throw new SSLHandshakeException(ike.getMessage());
+                    KeyUtil.vblidbte(spec);
+                } cbtch (InvblidKeyException ike) {
+                    // prefer hbndshbke_fbilure blert to internbl_error blert
+                    throw new SSLHbndshbkeException(ike.getMessbge());
                 }
             }
 
-            ka.init(privateKey);
-            ka.doPhase(publicKey, true);
-            return ka.generateSecret("TlsPremasterSecret");
-        } catch (GeneralSecurityException e) {
-            throw (SSLHandshakeException) new SSLHandshakeException(
-                "Could not generate secret").initCause(e);
+            kb.init(privbteKey);
+            kb.doPhbse(publicKey, true);
+            return kb.generbteSecret("TlsPrembsterSecret");
+        } cbtch (GenerblSecurityException e) {
+            throw (SSLHbndshbkeException) new SSLHbndshbkeException(
+                "Could not generbte secret").initCbuse(e);
         }
     }
 
-    // Generate and validate DHPublicKeySpec
-    private DHPublicKeySpec generateDHPublicKeySpec(KeyPairGenerator kpg)
-            throws GeneralSecurityException {
+    // Generbte bnd vblidbte DHPublicKeySpec
+    privbte DHPublicKeySpec generbteDHPublicKeySpec(KeyPbirGenerbtor kpg)
+            throws GenerblSecurityException {
 
-        boolean doExtraValiadtion =
-                    (!KeyUtil.isOracleJCEProvider(kpg.getProvider().getName()));
+        boolebn doExtrbVblibdtion =
+                    (!KeyUtil.isOrbcleJCEProvider(kpg.getProvider().getNbme()));
         for (int i = 0; i <= MAX_FAILOVER_TIMES; i++) {
-            KeyPair kp = kpg.generateKeyPair();
-            privateKey = kp.getPrivate();
+            KeyPbir kp = kpg.generbteKeyPbir();
+            privbteKey = kp.getPrivbte();
             DHPublicKeySpec spec = getDHPublicKeySpec(kp.getPublic());
 
-            // validate the Diffie-Hellman public key
-            if (doExtraValiadtion) {
+            // vblidbte the Diffie-Hellmbn public key
+            if (doExtrbVblibdtion) {
                 try {
-                    KeyUtil.validate(spec);
-                } catch (InvalidKeyException ivke) {
+                    KeyUtil.vblidbte(spec);
+                } cbtch (InvblidKeyException ivke) {
                     if (i == MAX_FAILOVER_TIMES) {
                         throw ivke;
                     }
-                    // otherwise, ignore the exception and try the next one
+                    // otherwise, ignore the exception bnd try the next one
                     continue;
                 }
             }

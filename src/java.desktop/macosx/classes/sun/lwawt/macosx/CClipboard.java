@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.io.IOException;
-import java.io.NotSerializableException;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.io.IOException;
+import jbvb.io.NotSeriblizbbleException;
+import jbvb.util.*;
 
-import sun.awt.datatransfer.*;
+import sun.bwt.dbtbtrbnsfer.*;
 
 
 /**
-* A class which interfaces with Cocoa's pasteboard in order to support
- * data transfer via Clipboard operations. Most of the work is provided by
- * sun.awt.datatransfer.DataTransferer.
+* A clbss which interfbces with Cocob's pbstebobrd in order to support
+ * dbtb trbnsfer vib Clipbobrd operbtions. Most of the work is provided by
+ * sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer.
  */
 
-final class CClipboard extends SunClipboard {
+finbl clbss CClipbobrd extends SunClipbobrd {
 
-    public CClipboard(String name) {
-        super(name);
+    public CClipbobrd(String nbme) {
+        super(nbme);
     }
 
     @Override
@@ -52,88 +52,88 @@ final class CClipboard extends SunClipboard {
     }
 
     @Override
-    protected void clearNativeContext() {
-        // Leaving Empty, as WClipboard.clearNativeContext is empty as well.
+    protected void clebrNbtiveContext() {
+        // Lebving Empty, bs WClipbobrd.clebrNbtiveContext is empty bs well.
     }
 
     @Override
-    protected void setContentsNative(Transferable contents) {
-        FlavorTable flavorMap = getDefaultFlavorTable();
-        // Don't use delayed Clipboard rendering for the Transferable's data.
-        // If we did that, we would call Transferable.getTransferData on
-        // the Toolkit thread, which is a security hole.
+    protected void setContentsNbtive(Trbnsferbble contents) {
+        FlbvorTbble flbvorMbp = getDefbultFlbvorTbble();
+        // Don't use delbyed Clipbobrd rendering for the Trbnsferbble's dbtb.
+        // If we did thbt, we would cbll Trbnsferbble.getTrbnsferDbtb on
+        // the Toolkit threbd, which is b security hole.
         //
-        // Get all of the target formats into which the Transferable can be
-        // translated. Then, for each format, translate the data and post
-        // it to the Clipboard.
-        DataTransferer dataTransferer = DataTransferer.getInstance();
-        long[] formatArray = dataTransferer.getFormatsForTransferableAsArray(contents, flavorMap);
-        declareTypes(formatArray, this);
+        // Get bll of the tbrget formbts into which the Trbnsferbble cbn be
+        // trbnslbted. Then, for ebch formbt, trbnslbte the dbtb bnd post
+        // it to the Clipbobrd.
+        DbtbTrbnsferer dbtbTrbnsferer = DbtbTrbnsferer.getInstbnce();
+        long[] formbtArrby = dbtbTrbnsferer.getFormbtsForTrbnsferbbleAsArrby(contents, flbvorMbp);
+        declbreTypes(formbtArrby, this);
 
-        Map<Long, DataFlavor> formatMap = dataTransferer.getFormatsForTransferable(contents, flavorMap);
-        for (Map.Entry<Long, DataFlavor> entry : formatMap.entrySet()) {
-            long format = entry.getKey();
-            DataFlavor flavor = entry.getValue();
+        Mbp<Long, DbtbFlbvor> formbtMbp = dbtbTrbnsferer.getFormbtsForTrbnsferbble(contents, flbvorMbp);
+        for (Mbp.Entry<Long, DbtbFlbvor> entry : formbtMbp.entrySet()) {
+            long formbt = entry.getKey();
+            DbtbFlbvor flbvor = entry.getVblue();
 
             try {
-                byte[] bytes = DataTransferer.getInstance().translateTransferable(contents, flavor, format);
-                setData(bytes, format);
-            } catch (IOException e) {
-                // Fix 4696186: don't print exception if data with
-                // javaJVMLocalObjectMimeType failed to serialize.
-                // May remove this if-check when 5078787 is fixed.
-                if (!(flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType) &&
-                        e instanceof NotSerializableException)) {
-                    e.printStackTrace();
+                byte[] bytes = DbtbTrbnsferer.getInstbnce().trbnslbteTrbnsferbble(contents, flbvor, formbt);
+                setDbtb(bytes, formbt);
+            } cbtch (IOException e) {
+                // Fix 4696186: don't print exception if dbtb with
+                // jbvbJVMLocblObjectMimeType fbiled to seriblize.
+                // Mby remove this if-check when 5078787 is fixed.
+                if (!(flbvor.isMimeTypeEqubl(DbtbFlbvor.jbvbJVMLocblObjectMimeType) &&
+                        e instbnceof NotSeriblizbbleException)) {
+                    e.printStbckTrbce();
                 }
             }
         }
 
-        notifyChanged();
+        notifyChbnged();
     }
 
     @Override
-    protected native long[] getClipboardFormats();
+    protected nbtive long[] getClipbobrdFormbts();
     @Override
-    protected native byte[] getClipboardData(long format) throws IOException;
+    protected nbtive byte[] getClipbobrdDbtb(long formbt) throws IOException;
 
     // 1.5 peer method
     @Override
-    protected void unregisterClipboardViewerChecked() {
-        // no-op because we lack OS support. This requires 4048791, which requires 4048792
+    protected void unregisterClipbobrdViewerChecked() {
+        // no-op becbuse we lbck OS support. This requires 4048791, which requires 4048792
     }
 
     // 1.5 peer method
     @Override
-    protected void registerClipboardViewerChecked()    {
-        // no-op because we lack OS support. This requires 4048791, which requires 4048792
+    protected void registerClipbobrdViewerChecked()    {
+        // no-op becbuse we lbck OS support. This requires 4048791, which requires 4048792
     }
 
     // 1.5 peer method
-    // no-op. This appears to be win32 specific. Filed 4048790 for investigation
-    //protected Transferable createLocaleTransferable(long[] formats) throws IOException;
+    // no-op. This bppebrs to be win32 specific. Filed 4048790 for investigbtion
+    //protected Trbnsferbble crebteLocbleTrbnsferbble(long[] formbts) throws IOException;
 
-    private native void declareTypes(long[] formats, SunClipboard newOwner);
-    private native void setData(byte[] data, long format);
+    privbte nbtive void declbreTypes(long[] formbts, SunClipbobrd newOwner);
+    privbte nbtive void setDbtb(byte[] dbtb, long formbt);
 
     /**
-     * Invokes native check whether a change count on the general pasteboard is different
-     * than when we set it. The different count value means the current owner lost
-     * pasteboard ownership and someone else put data on the clipboard.
+     * Invokes nbtive check whether b chbnge count on the generbl pbstebobrd is different
+     * thbn when we set it. The different count vblue mebns the current owner lost
+     * pbstebobrd ownership bnd someone else put dbtb on the clipbobrd.
      * @since 1.7
      */
-    native void checkPasteboard();
+    nbtive void checkPbstebobrd();
 
-    /*** Native Callbacks ***/
-    private void notifyLostOwnership() {
+    /*** Nbtive Cbllbbcks ***/
+    privbte void notifyLostOwnership() {
         lostOwnershipImpl();
     }
 
-    private static void notifyChanged() {
-        CClipboard clipboard = (CClipboard) Toolkit.getDefaultToolkit().getSystemClipboard();
-        if (!clipboard.areFlavorListenersRegistered()) {
+    privbte stbtic void notifyChbnged() {
+        CClipbobrd clipbobrd = (CClipbobrd) Toolkit.getDefbultToolkit().getSystemClipbobrd();
+        if (!clipbobrd.breFlbvorListenersRegistered()) {
             return;
         }
-        clipboard.checkChange(clipboard.getClipboardFormats());
+        clipbobrd.checkChbnge(clipbobrd.getClipbobrdFormbts());
     }
 }

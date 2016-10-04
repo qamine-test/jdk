@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.util.*;
-import java.io.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.util.*;
+import jbvb.io.*;
 import sun.reflect.misc.ReflectUtil;
 
 import com.sun.rowset.*;
-import java.text.MessageFormat;
-import javax.sql.rowset.*;
-import javax.sql.rowset.serial.SQLInputImpl;
-import javax.sql.rowset.serial.SerialArray;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialClob;
-import javax.sql.rowset.serial.SerialStruct;
-import javax.sql.rowset.spi.*;
+import jbvb.text.MessbgeFormbt;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.seribl.SQLInputImpl;
+import jbvbx.sql.rowset.seribl.SeriblArrby;
+import jbvbx.sql.rowset.seribl.SeriblBlob;
+import jbvbx.sql.rowset.seribl.SeriblClob;
+import jbvbx.sql.rowset.seribl.SeriblStruct;
+import jbvbx.sql.rowset.spi.*;
 
 
 /**
- * The facility called on internally by the <code>RIOptimisticProvider</code> implementation to
- * propagate changes back to the data source from which the rowset got its data.
+ * The fbcility cblled on internblly by the <code>RIOptimisticProvider</code> implementbtion to
+ * propbgbte chbnges bbck to the dbtb source from which the rowset got its dbtb.
  * <P>
- * A <code>CachedRowSetWriter</code> object, called a writer, has the public
- * method <code>writeData</code> for writing modified data to the underlying data source.
- * This method is invoked by the rowset internally and is never invoked directly by an application.
- * A writer also has public methods for setting and getting
- * the <code>CachedRowSetReader</code> object, called a reader, that is associated
- * with the writer. The remainder of the methods in this class are private and
- * are invoked internally, either directly or indirectly, by the method
- * <code>writeData</code>.
+ * A <code>CbchedRowSetWriter</code> object, cblled b writer, hbs the public
+ * method <code>writeDbtb</code> for writing modified dbtb to the underlying dbtb source.
+ * This method is invoked by the rowset internblly bnd is never invoked directly by bn bpplicbtion.
+ * A writer blso hbs public methods for setting bnd getting
+ * the <code>CbchedRowSetRebder</code> object, cblled b rebder, thbt is bssocibted
+ * with the writer. The rembinder of the methods in this clbss bre privbte bnd
+ * bre invoked internblly, either directly or indirectly, by the method
+ * <code>writeDbtb</code>.
  * <P>
- * Typically the <code>SyncFactory</code> manages the <code>RowSetReader</code> and
- * the <code>RowSetWriter</code> implementations using <code>SyncProvider</code> objects.
- * Standard JDBC RowSet implementations provide an object instance of this
+ * Typicblly the <code>SyncFbctory</code> mbnbges the <code>RowSetRebder</code> bnd
+ * the <code>RowSetWriter</code> implementbtions using <code>SyncProvider</code> objects.
+ * Stbndbrd JDBC RowSet implementbtions provide bn object instbnce of this
  * writer by invoking the <code>SyncProvider.getRowSetWriter()</code> method.
  *
  * @version 0.2
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @buthor Jonbthbn Bruce
+ * @see jbvbx.sql.rowset.spi.SyncProvider
+ * @see jbvbx.sql.rowset.spi.SyncFbctory
+ * @see jbvbx.sql.rowset.spi.SyncFbctoryException
  */
-public class CachedRowSetWriter implements TransactionalWriter, Serializable {
+public clbss CbchedRowSetWriter implements TrbnsbctionblWriter, Seriblizbble {
 
 /**
- * The <code>Connection</code> object that this writer will use to make a
- * connection to the data source to which it will write data.
+ * The <code>Connection</code> object thbt this writer will use to mbke b
+ * connection to the dbtb source to which it will write dbtb.
  *
  */
-    private transient Connection con;
+    privbte trbnsient Connection con;
 
 /**
- * The SQL <code>SELECT</code> command that this writer will call
- * internally. The method <code>initSQLStatements</code> builds this
- * command by supplying the words "SELECT" and "FROM," and using
- * metadata to get the table name and column names .
+ * The SQL <code>SELECT</code> commbnd thbt this writer will cbll
+ * internblly. The method <code>initSQLStbtements</code> builds this
+ * commbnd by supplying the words "SELECT" bnd "FROM," bnd using
+ * metbdbtb to get the tbble nbme bnd column nbmes .
  *
- * @serial
+ * @seribl
  */
-    private String selectCmd;
+    privbte String selectCmd;
 
 /**
- * The SQL <code>UPDATE</code> command that this writer will call
- * internally to write data to the rowset's underlying data source.
- * The method <code>initSQLStatements</code> builds this <code>String</code>
+ * The SQL <code>UPDATE</code> commbnd thbt this writer will cbll
+ * internblly to write dbtb to the rowset's underlying dbtb source.
+ * The method <code>initSQLStbtements</code> builds this <code>String</code>
  * object.
  *
- * @serial
+ * @seribl
  */
-    private String updateCmd;
+    privbte String updbteCmd;
 
 /**
- * The SQL <code>WHERE</code> clause the writer will use for update
- * statements in the <code>PreparedStatement</code> object
- * it sends to the underlying data source.
+ * The SQL <code>WHERE</code> clbuse the writer will use for updbte
+ * stbtements in the <code>PrepbredStbtement</code> object
+ * it sends to the underlying dbtb source.
  *
- * @serial
+ * @seribl
  */
-    private String updateWhere;
+    privbte String updbteWhere;
 
 /**
- * The SQL <code>DELETE</code> command that this writer will call
- * internally to delete a row in the rowset's underlying data source.
+ * The SQL <code>DELETE</code> commbnd thbt this writer will cbll
+ * internblly to delete b row in the rowset's underlying dbtb source.
  *
- * @serial
+ * @seribl
  */
-    private String deleteCmd;
+    privbte String deleteCmd;
 
 /**
- * The SQL <code>WHERE</code> clause the writer will use for delete
- * statements in the <code>PreparedStatement</code> object
- * it sends to the underlying data source.
+ * The SQL <code>WHERE</code> clbuse the writer will use for delete
+ * stbtements in the <code>PrepbredStbtement</code> object
+ * it sends to the underlying dbtb source.
  *
- * @serial
+ * @seribl
  */
-    private String deleteWhere;
+    privbte String deleteWhere;
 
 /**
- * The SQL <code>INSERT INTO</code> command that this writer will internally use
- * to insert data into the rowset's underlying data source.  The method
- * <code>initSQLStatements</code> builds this command with a question
- * mark parameter placeholder for each column in the rowset.
+ * The SQL <code>INSERT INTO</code> commbnd thbt this writer will internblly use
+ * to insert dbtb into the rowset's underlying dbtb source.  The method
+ * <code>initSQLStbtements</code> builds this commbnd with b question
+ * mbrk pbrbmeter plbceholder for ebch column in the rowset.
  *
- * @serial
+ * @seribl
  */
-    private String insertCmd;
+    privbte String insertCmd;
 
 /**
- * An array containing the column numbers of the columns that are
- * needed to uniquely identify a row in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * An brrby contbining the column numbers of the columns thbt bre
+ * needed to uniquely identify b row in the <code>CbchedRowSet</code> object
+ * for which this <code>CbchedRowSetWriter</code> object is the writer.
  *
- * @serial
+ * @seribl
  */
-    private int[] keyCols;
+    privbte int[] keyCols;
 
 /**
- * An array of the parameters that should be used to set the parameter
- * placeholders in a <code>PreparedStatement</code> object that this
+ * An brrby of the pbrbmeters thbt should be used to set the pbrbmeter
+ * plbceholders in b <code>PrepbredStbtement</code> object thbt this
  * writer will execute.
  *
- * @serial
+ * @seribl
  */
-    private Object[] params;
+    privbte Object[] pbrbms;
 
 /**
- * The <code>CachedRowSetReader</code> object that has been
- * set as the reader for the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * The <code>CbchedRowSetRebder</code> object thbt hbs been
+ * set bs the rebder for the <code>CbchedRowSet</code> object
+ * for which this <code>CbchedRowSetWriter</code> object is the writer.
  *
- * @serial
+ * @seribl
  */
-    private CachedRowSetReader reader;
+    privbte CbchedRowSetRebder rebder;
 
 /**
- * The <code>ResultSetMetaData</code> object that contains information
- * about the columns in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * The <code>ResultSetMetbDbtb</code> object thbt contbins informbtion
+ * bbout the columns in the <code>CbchedRowSet</code> object
+ * for which this <code>CbchedRowSetWriter</code> object is the writer.
  *
- * @serial
+ * @seribl
  */
-    private ResultSetMetaData callerMd;
+    privbte ResultSetMetbDbtb cbllerMd;
 
 /**
- * The number of columns in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * The number of columns in the <code>CbchedRowSet</code> object
+ * for which this <code>CbchedRowSetWriter</code> object is the writer.
  *
- * @serial
+ * @seribl
  */
-    private int callerColumnCount;
+    privbte int cbllerColumnCount;
 
 /**
- * This <code>CachedRowSet<code> will hold the conflicting values
- *  retrieved from the db and hold it.
+ * This <code>CbchedRowSet<code> will hold the conflicting vblues
+ *  retrieved from the db bnd hold it.
  */
-    private CachedRowSetImpl crsResolve;
+    privbte CbchedRowSetImpl crsResolve;
 
 /**
- * This <code>ArrayList<code> will hold the values of SyncResolver.*
+ * This <code>ArrbyList<code> will hold the vblues of SyncResolver.*
  */
-    private ArrayList<Integer> status;
+    privbte ArrbyList<Integer> stbtus;
 
 /**
- * This will check whether the same field value has changed both
- * in database and CachedRowSet.
+ * This will check whether the sbme field vblue hbs chbnged both
+ * in dbtbbbse bnd CbchedRowSet.
  */
-    private int iChangedValsInDbAndCRS;
+    privbte int iChbngedVblsInDbAndCRS;
 
 /**
- * This will hold the number of cols for which the values have
- * changed only in database.
+ * This will hold the number of cols for which the vblues hbve
+ * chbnged only in dbtbbbse.
  */
-    private int iChangedValsinDbOnly ;
+    privbte int iChbngedVblsinDbOnly ;
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbte JdbcRowSetResourceBundle resBundle;
 
-    public CachedRowSetWriter() {
+    public CbchedRowSetWriter() {
        try {
                resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-       } catch(IOException ioe) {
+       } cbtch(IOException ioe) {
                throw new RuntimeException(ioe);
        }
     }
 
 /**
- * Propagates changes in the given <code>RowSet</code> object
- * back to its underlying data source and returns <code>true</code>
+ * Propbgbtes chbnges in the given <code>RowSet</code> object
+ * bbck to its underlying dbtb source bnd returns <code>true</code>
  * if successful. The writer will check to see if
- * the data in the pre-modified rowset (the original values) differ
- * from the data in the underlying data source.  If data in the data
- * source has been modified by someone else, there is a conflict,
- * and in that case, the writer will not write to the data source.
- * In other words, the writer uses an optimistic concurrency algorithm:
- * It checks for conflicts before making changes rather than restricting
- * access for concurrent users.
+ * the dbtb in the pre-modified rowset (the originbl vblues) differ
+ * from the dbtb in the underlying dbtb source.  If dbtb in the dbtb
+ * source hbs been modified by someone else, there is b conflict,
+ * bnd in thbt cbse, the writer will not write to the dbtb source.
+ * In other words, the writer uses bn optimistic concurrency blgorithm:
+ * It checks for conflicts before mbking chbnges rbther thbn restricting
+ * bccess for concurrent users.
  * <P>
- * This method is called by the rowset internally when
- * the application invokes the method <code>acceptChanges</code>.
- * The <code>writeData</code> method in turn calls private methods that
- * it defines internally.
- * The following is a general summary of what the method
- * <code>writeData</code> does, much of which is accomplished
- * through calls to its own internal methods.
+ * This method is cblled by the rowset internblly when
+ * the bpplicbtion invokes the method <code>bcceptChbnges</code>.
+ * The <code>writeDbtb</code> method in turn cblls privbte methods thbt
+ * it defines internblly.
+ * The following is b generbl summbry of whbt the method
+ * <code>writeDbtb</code> does, much of which is bccomplished
+ * through cblls to its own internbl methods.
  * <OL>
- * <LI>Creates a <code>CachedRowSet</code> object from the given
+ * <LI>Crebtes b <code>CbchedRowSet</code> object from the given
  *     <code>RowSet</code> object
- * <LI>Makes a connection with the data source
+ * <LI>Mbkes b connection with the dbtb source
  *   <UL>
- *      <LI>Disables autocommit mode if it is not already disabled
- *      <LI>Sets the transaction isolation level to that of the rowset
+ *      <LI>Disbbles butocommit mode if it is not blrebdy disbbled
+ *      <LI>Sets the trbnsbction isolbtion level to thbt of the rowset
  *   </UL>
- * <LI>Checks to see if the reader has read new data since the writer
- *     was last called and, if so, calls the method
- *    <code>initSQLStatements</code> to initialize new SQL statements
+ * <LI>Checks to see if the rebder hbs rebd new dbtb since the writer
+ *     wbs lbst cblled bnd, if so, cblls the method
+ *    <code>initSQLStbtements</code> to initiblize new SQL stbtements
  *   <UL>
  *       <LI>Builds new <code>SELECT</code>, <code>UPDATE</code>,
- *           <code>INSERT</code>, and <code>DELETE</code> statements
- *       <LI>Uses the <code>CachedRowSet</code> object's metadata to
- *           determine the table name, column names, and the columns
- *           that make up the primary key
+ *           <code>INSERT</code>, bnd <code>DELETE</code> stbtements
+ *       <LI>Uses the <code>CbchedRowSet</code> object's metbdbtb to
+ *           determine the tbble nbme, column nbmes, bnd the columns
+ *           thbt mbke up the primbry key
  *   </UL>
- * <LI>When there is no conflict, propagates changes made to the
- *     <code>CachedRowSet</code> object back to its underlying data source
+ * <LI>When there is no conflict, propbgbtes chbnges mbde to the
+ *     <code>CbchedRowSet</code> object bbck to its underlying dbtb source
  *   <UL>
- *      <LI>Iterates through each row of the <code>CachedRowSet</code> object
- *          to determine whether it has been updated, inserted, or deleted
- *      <LI>If the corresponding row in the data source has not been changed
- *          since the rowset last read its
- *          values, the writer will use the appropriate command to update,
+ *      <LI>Iterbtes through ebch row of the <code>CbchedRowSet</code> object
+ *          to determine whether it hbs been updbted, inserted, or deleted
+ *      <LI>If the corresponding row in the dbtb source hbs not been chbnged
+ *          since the rowset lbst rebd its
+ *          vblues, the writer will use the bppropribte commbnd to updbte,
  *          insert, or delete the row
- *      <LI>If any data in the data source does not match the original values
- *          for the <code>CachedRowSet</code> object, the writer will roll
- *          back any changes it has made to the row in the data source.
+ *      <LI>If bny dbtb in the dbtb source does not mbtch the originbl vblues
+ *          for the <code>CbchedRowSet</code> object, the writer will roll
+ *          bbck bny chbnges it hbs mbde to the row in the dbtb source.
  *   </UL>
  * </OL>
  *
- * @return <code>true</code> if changes to the rowset were successfully
- *         written to the rowset's underlying data source;
- *         <code>false</code> otherwise
+ * @return <code>true</code> if chbnges to the rowset were successfully
+ *         written to the rowset's underlying dbtb source;
+ *         <code>fblse</code> otherwise
  */
-    public boolean writeData(RowSetInternal caller) throws SQLException {
+    public boolebn writeDbtb(RowSetInternbl cbller) throws SQLException {
         long conflicts = 0;
-        boolean showDel = false;
-        PreparedStatement pstmtIns = null;
-        iChangedValsInDbAndCRS = 0;
-        iChangedValsinDbOnly = 0;
+        boolebn showDel = fblse;
+        PrepbredStbtement pstmtIns = null;
+        iChbngedVblsInDbAndCRS = 0;
+        iChbngedVblsinDbOnly = 0;
 
-        // We assume caller is a CachedRowSet
-        CachedRowSetImpl crs = (CachedRowSetImpl)caller;
-        // crsResolve = new CachedRowSetImpl();
-        this.crsResolve = new CachedRowSetImpl();;
+        // We bssume cbller is b CbchedRowSet
+        CbchedRowSetImpl crs = (CbchedRowSetImpl)cbller;
+        // crsResolve = new CbchedRowSetImpl();
+        this.crsResolve = new CbchedRowSetImpl();;
 
-        // The reader is registered with the writer at design time.
-        // This is not required, in general.  The reader has logic
-        // to get a JDBC connection, so call it.
+        // The rebder is registered with the writer bt design time.
+        // This is not required, in generbl.  The rebder hbs logic
+        // to get b JDBC connection, so cbll it.
 
-        con = reader.connect(caller);
+        con = rebder.connect(cbller);
 
 
         if (con == null) {
-            throw new SQLException(resBundle.handleGetObject("crswriter.connect").toString());
+            throw new SQLException(resBundle.hbndleGetObject("crswriter.connect").toString());
         }
 
         /*
          // Fix 6200646.
-         // Don't change the connection or transaction properties. This will fail in a
-         // J2EE container.
+         // Don't chbnge the connection or trbnsbction properties. This will fbil in b
+         // J2EE contbiner.
         if (con.getAutoCommit() == true)  {
-            con.setAutoCommit(false);
+            con.setAutoCommit(fblse);
         }
 
-        con.setTransactionIsolation(crs.getTransactionIsolation());
+        con.setTrbnsbctionIsolbtion(crs.getTrbnsbctionIsolbtion());
         */
 
-        initSQLStatements(crs);
+        initSQLStbtements(crs);
         int iColCount;
 
-        RowSetMetaDataImpl rsmdWrite = (RowSetMetaDataImpl)crs.getMetaData();
-        RowSetMetaDataImpl rsmdResolv = new RowSetMetaDataImpl();
+        RowSetMetbDbtbImpl rsmdWrite = (RowSetMetbDbtbImpl)crs.getMetbDbtb();
+        RowSetMetbDbtbImpl rsmdResolv = new RowSetMetbDbtbImpl();
 
         iColCount = rsmdWrite.getColumnCount();
         int sz= crs.size()+1;
-        status = new ArrayList<>(sz);
+        stbtus = new ArrbyList<>(sz);
 
-        status.add(0,null);
+        stbtus.bdd(0,null);
         rsmdResolv.setColumnCount(iColCount);
 
         for(int i =1; i <= iColCount; i++) {
             rsmdResolv.setColumnType(i, rsmdWrite.getColumnType(i));
-            rsmdResolv.setColumnName(i, rsmdWrite.getColumnName(i));
-            rsmdResolv.setNullable(i, ResultSetMetaData.columnNullableUnknown);
+            rsmdResolv.setColumnNbme(i, rsmdWrite.getColumnNbme(i));
+            rsmdResolv.setNullbble(i, ResultSetMetbDbtb.columnNullbbleUnknown);
         }
-        this.crsResolve.setMetaData(rsmdResolv);
+        this.crsResolve.setMetbDbtb(rsmdResolv);
 
         // moved outside the insert inner loop
-        //pstmtIns = con.prepareStatement(insertCmd);
+        //pstmtIns = con.prepbreStbtement(insertCmd);
 
-        if (callerColumnCount < 1) {
-            // No data, so return success.
-            if (reader.getCloseConnection() == true)
+        if (cbllerColumnCount < 1) {
+            // No dbtb, so return success.
+            if (rebder.getCloseConnection() == true)
                     con.close();
             return true;
         }
-        // We need to see rows marked for deletion.
+        // We need to see rows mbrked for deletion.
         showDel = crs.getShowDeleted();
         crs.setShowDeleted(true);
 
-        // Look at all the rows.
+        // Look bt bll the rows.
         crs.beforeFirst();
 
         int rows =1;
         while (crs.next()) {
             if (crs.rowDeleted()) {
-                // The row has been deleted.
-                if (deleteOriginalRow(crs, this.crsResolve)) {
-                       status.add(rows, SyncResolver.DELETE_ROW_CONFLICT);
+                // The row hbs been deleted.
+                if (deleteOriginblRow(crs, this.crsResolve)) {
+                       stbtus.bdd(rows, SyncResolver.DELETE_ROW_CONFLICT);
                        conflicts++;
                 } else {
-                      // delete happened without any occurrence of conflicts
-                      // so update status accordingly
-                       status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                      // delete hbppened without bny occurrence of conflicts
+                      // so updbte stbtus bccordingly
+                       stbtus.bdd(rows, SyncResolver.NO_ROW_CONFLICT);
                 }
 
            } else if (crs.rowInserted()) {
-                // The row has been inserted.
+                // The row hbs been inserted.
 
-                pstmtIns = con.prepareStatement(insertCmd);
+                pstmtIns = con.prepbreStbtement(insertCmd);
                 if (insertNewRow(crs, pstmtIns, this.crsResolve)) {
-                          status.add(rows, SyncResolver.INSERT_ROW_CONFLICT);
+                          stbtus.bdd(rows, SyncResolver.INSERT_ROW_CONFLICT);
                           conflicts++;
                 } else {
-                      // insert happened without any occurrence of conflicts
-                      // so update status accordingly
-                       status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                      // insert hbppened without bny occurrence of conflicts
+                      // so updbte stbtus bccordingly
+                       stbtus.bdd(rows, SyncResolver.NO_ROW_CONFLICT);
                 }
-            } else  if (crs.rowUpdated()) {
-                  // The row has been updated.
-                       if (updateOriginalRow(crs)) {
-                             status.add(rows, SyncResolver.UPDATE_ROW_CONFLICT);
+            } else  if (crs.rowUpdbted()) {
+                  // The row hbs been updbted.
+                       if (updbteOriginblRow(crs)) {
+                             stbtus.bdd(rows, SyncResolver.UPDATE_ROW_CONFLICT);
                              conflicts++;
                } else {
-                      // update happened without any occurrence of conflicts
-                      // so update status accordingly
-                      status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                      // updbte hbppened without bny occurrence of conflicts
+                      // so updbte stbtus bccordingly
+                      stbtus.bdd(rows, SyncResolver.NO_ROW_CONFLICT);
                }
 
             } else {
-               /** The row is neither of inserted, updated or deleted.
+               /** The row is neither of inserted, updbted or deleted.
                 *  So set nulls in the this.crsResolve for this row,
-                *  as nothing is to be done for such rows.
-                *  Also note that if such a row has been changed in database
-                *  and we have not changed(inserted, updated or deleted)
-                *  that is fine.
+                *  bs nothing is to be done for such rows.
+                *  Also note thbt if such b row hbs been chbnged in dbtbbbse
+                *  bnd we hbve not chbnged(inserted, updbted or deleted)
+                *  thbt is fine.
                 **/
-                int icolCount = crs.getMetaData().getColumnCount();
-                status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                int icolCount = crs.getMetbDbtb().getColumnCount();
+                stbtus.bdd(rows, SyncResolver.NO_ROW_CONFLICT);
 
                 this.crsResolve.moveToInsertRow();
                 for(int cols=0;cols<iColCount;cols++) {
-                   this.crsResolve.updateNull(cols+1);
+                   this.crsResolve.updbteNull(cols+1);
                 } //end for
 
                 this.crsResolve.insertRow();
@@ -393,7 +393,7 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
          rows++;
       } //end while
 
-        // close the insert statement
+        // close the insert stbtement
         if(pstmtIns!=null)
         pstmtIns.close();
         // reset
@@ -404,16 +404,16 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
 
     if(conflicts != 0) {
         SyncProviderException spe = new SyncProviderException(conflicts + " " +
-                resBundle.handleGetObject("crswriter.conflictsno").toString());
+                resBundle.hbndleGetObject("crswriter.conflictsno").toString());
         //SyncResolver syncRes = spe.getSyncResolver();
 
          SyncResolverImpl syncResImpl = (SyncResolverImpl) spe.getSyncResolver();
 
-         syncResImpl.setCachedRowSet(crs);
-         syncResImpl.setCachedRowSetResolver(this.crsResolve);
+         syncResImpl.setCbchedRowSet(crs);
+         syncResImpl.setCbchedRowSetResolver(this.crsResolve);
 
-         syncResImpl.setStatus(status);
-         syncResImpl.setCachedRowSetWriter(this);
+         syncResImpl.setStbtus(stbtus);
+         syncResImpl.setCbchedRowSetWriter(this);
 
         throw spe;
     } else {
@@ -421,64 +421,64 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
     }
        /*
        if (conflict == true) {
-            con.rollback();
-            return false;
+            con.rollbbck();
+            return fblse;
         } else {
             con.commit();
-                if (reader.getCloseConnection() == true) {
+                if (rebder.getCloseConnection() == true) {
                        con.close();
                 }
             return true;
         }
         */
 
-  } //end writeData
+  } //end writeDbtb
 
 /**
- * Updates the given <code>CachedRowSet</code> object's underlying data
- * source so that updates to the rowset are reflected in the original
- * data source, and returns <code>false</code> if the update was successful.
- * A return value of <code>true</code> indicates that there is a conflict,
- * meaning that a value updated in the rowset has already been changed by
- * someone else in the underlying data source.  A conflict can also exist
- * if, for example, more than one row in the data source would be affected
- * by the update or if no rows would be affected.  In any case, if there is
- * a conflict, this method does not update the underlying data source.
+ * Updbtes the given <code>CbchedRowSet</code> object's underlying dbtb
+ * source so thbt updbtes to the rowset bre reflected in the originbl
+ * dbtb source, bnd returns <code>fblse</code> if the updbte wbs successful.
+ * A return vblue of <code>true</code> indicbtes thbt there is b conflict,
+ * mebning thbt b vblue updbted in the rowset hbs blrebdy been chbnged by
+ * someone else in the underlying dbtb source.  A conflict cbn blso exist
+ * if, for exbmple, more thbn one row in the dbtb source would be bffected
+ * by the updbte or if no rows would be bffected.  In bny cbse, if there is
+ * b conflict, this method does not updbte the underlying dbtb source.
  * <P>
- * This method is called internally by the method <code>writeData</code>
- * if a row in the <code>CachedRowSet</code> object for which this
- * <code>CachedRowSetWriter</code> object is the writer has been updated.
+ * This method is cblled internblly by the method <code>writeDbtb</code>
+ * if b row in the <code>CbchedRowSet</code> object for which this
+ * <code>CbchedRowSetWriter</code> object is the writer hbs been updbted.
  *
- * @return <code>false</code> if the update to the underlying data source is
+ * @return <code>fblse</code> if the updbte to the underlying dbtb source is
  *         successful; <code>true</code> otherwise
- * @throws SQLException if a database access error occurs
+ * @throws SQLException if b dbtbbbse bccess error occurs
  */
-    private boolean updateOriginalRow(CachedRowSet crs)
+    privbte boolebn updbteOriginblRow(CbchedRowSet crs)
         throws SQLException {
-        PreparedStatement pstmt;
+        PrepbredStbtement pstmt;
         int i = 0;
         int idx = 0;
 
-        // Select the row from the database.
-        ResultSet origVals = crs.getOriginalRow();
-        origVals.next();
+        // Select the row from the dbtbbbse.
+        ResultSet origVbls = crs.getOriginblRow();
+        origVbls.next();
 
         try {
-            updateWhere = buildWhereClause(updateWhere, origVals);
+            updbteWhere = buildWhereClbuse(updbteWhere, origVbls);
 
 
              /**
-              *  The following block of code is for checking a particular type of
-              *  query where in there is a where clause. Without this block, if a
-              *  SQL statement is built the "where" clause will appear twice hence
-              *  the DB errors out and a SQLException is thrown. This code also
-              *  considers that the where clause is in the right place as the
-              *  CachedRowSet object would already have been populated with this
+              *  The following block of code is for checking b pbrticulbr type of
+              *  query where in there is b where clbuse. Without this block, if b
+              *  SQL stbtement is built the "where" clbuse will bppebr twice hence
+              *  the DB errors out bnd b SQLException is thrown. This code blso
+              *  considers thbt the where clbuse is in the right plbce bs the
+              *  CbchedRowSet object would blrebdy hbve been populbted with this
               *  query before coming to this point.
               **/
 
 
-            String tempselectCmd = selectCmd.toLowerCase();
+            String tempselectCmd = selectCmd.toLowerCbse();
 
             int idxWhere = tempselectCmd.indexOf("where");
 
@@ -488,40 +488,40 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                selectCmd = tempSelect;
             }
 
-            pstmt = con.prepareStatement(selectCmd + updateWhere,
+            pstmt = con.prepbreStbtement(selectCmd + updbteWhere,
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             for (i = 0; i < keyCols.length; i++) {
-                if (params[i] != null) {
-                    pstmt.setObject(++idx, params[i]);
+                if (pbrbms[i] != null) {
+                    pstmt.setObject(++idx, pbrbms[i]);
                 } else {
                     continue;
                 }
             }
 
             try {
-                pstmt.setMaxRows(crs.getMaxRows());
-                pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                pstmt.setEscapeProcessing(crs.getEscapeProcessing());
+                pstmt.setMbxRows(crs.getMbxRows());
+                pstmt.setMbxFieldSize(crs.getMbxFieldSize());
+                pstmt.setEscbpeProcessing(crs.getEscbpeProcessing());
                 pstmt.setQueryTimeout(crs.getQueryTimeout());
-            } catch (Exception ex) {
-                // Older driver don't support these operations.
+            } cbtch (Exception ex) {
+                // Older driver don't support these operbtions.
             }
 
             ResultSet rs = null;
             rs = pstmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
+            ResultSetMetbDbtb rsmd = rs.getMetbDbtb();
 
             if (rs.next()) {
                 if (rs.next()) {
-                   /** More than one row conflict.
-                    *  If rs has only one row we are able to
-                    *  uniquely identify the row where update
-                    *  have to happen else if more than one
-                    *  row implies we cannot uniquely identify the row
-                    *  where we have to do updates.
+                   /** More thbn one row conflict.
+                    *  If rs hbs only one row we bre bble to
+                    *  uniquely identify the row where updbte
+                    *  hbve to hbppen else if more thbn one
+                    *  row implies we cbnnot uniquely identify the row
+                    *  where we hbve to do updbtes.
                     *  crs.setKeyColumns needs to be set to
-                    *  come out of this situation.
+                    *  come out of this situbtion.
                     */
 
                    return true;
@@ -533,181 +533,181 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                 // pstmt.close();
                 rs.first();
 
-                // how many fields need to be updated
-                int colsNotChanged = 0;
+                // how mbny fields need to be updbted
+                int colsNotChbnged = 0;
                 Vector<Integer> cols = new Vector<>();
-                String updateExec = updateCmd;
+                String updbteExec = updbteCmd;
                 Object orig;
                 Object curr;
-                Object rsval;
-                boolean boolNull = true;
-                Object objVal = null;
+                Object rsvbl;
+                boolebn boolNull = true;
+                Object objVbl = null;
 
-                // There's only one row and the cursor
-                // needs to be on that row.
+                // There's only one row bnd the cursor
+                // needs to be on thbt row.
 
-                boolean first = true;
-                boolean flag = true;
+                boolebn first = true;
+                boolebn flbg = true;
 
           this.crsResolve.moveToInsertRow();
 
-          for (i = 1; i <= callerColumnCount; i++) {
-                orig = origVals.getObject(i);
+          for (i = 1; i <= cbllerColumnCount; i++) {
+                orig = origVbls.getObject(i);
                 curr = crs.getObject(i);
-                rsval = rs.getObject(i);
+                rsvbl = rs.getObject(i);
                 /*
-                 * the following block creates equivalent objects
-                 * that would have been created if this rs is populated
-                 * into a CachedRowSet so that comparison of the column values
-                 * from the ResultSet and CachedRowSet are possible
+                 * the following block crebtes equivblent objects
+                 * thbt would hbve been crebted if this rs is populbted
+                 * into b CbchedRowSet so thbt compbrison of the column vblues
+                 * from the ResultSet bnd CbchedRowSet bre possible
                  */
-                Map<String, Class<?>> map = (crs.getTypeMap() == null)?con.getTypeMap():crs.getTypeMap();
-                if (rsval instanceof Struct) {
+                Mbp<String, Clbss<?>> mbp = (crs.getTypeMbp() == null)?con.getTypeMbp():crs.getTypeMbp();
+                if (rsvbl instbnceof Struct) {
 
-                    Struct s = (Struct)rsval;
+                    Struct s = (Struct)rsvbl;
 
-                    // look up the class in the map
-                    Class<?> c = null;
-                    c = map.get(s.getSQLTypeName());
+                    // look up the clbss in the mbp
+                    Clbss<?> c = null;
+                    c = mbp.get(s.getSQLTypeNbme());
                     if (c != null) {
-                        // create new instance of the class
-                        SQLData obj = null;
+                        // crebte new instbnce of the clbss
+                        SQLDbtb obj = null;
                         try {
-                            obj = (SQLData)ReflectUtil.newInstance(c);
-                        } catch (Exception ex) {
-                            throw new SQLException("Unable to Instantiate: ", ex);
+                            obj = (SQLDbtb)ReflectUtil.newInstbnce(c);
+                        } cbtch (Exception ex) {
+                            throw new SQLException("Unbble to Instbntibte: ", ex);
                         }
-                        // get the attributes from the struct
-                        Object attribs[] = s.getAttributes(map);
-                        // create the SQLInput "stream"
-                        SQLInputImpl sqlInput = new SQLInputImpl(attribs, map);
-                        // read the values...
-                        obj.readSQL(sqlInput, s.getSQLTypeName());
-                        rsval = obj;
+                        // get the bttributes from the struct
+                        Object bttribs[] = s.getAttributes(mbp);
+                        // crebte the SQLInput "strebm"
+                        SQLInputImpl sqlInput = new SQLInputImpl(bttribs, mbp);
+                        // rebd the vblues...
+                        obj.rebdSQL(sqlInput, s.getSQLTypeNbme());
+                        rsvbl = obj;
                     }
-                } else if (rsval instanceof SQLData) {
-                    rsval = new SerialStruct((SQLData)rsval, map);
-                } else if (rsval instanceof Blob) {
-                    rsval = new SerialBlob((Blob)rsval);
-                } else if (rsval instanceof Clob) {
-                    rsval = new SerialClob((Clob)rsval);
-                } else if (rsval instanceof java.sql.Array) {
-                    rsval = new SerialArray((java.sql.Array)rsval, map);
+                } else if (rsvbl instbnceof SQLDbtb) {
+                    rsvbl = new SeriblStruct((SQLDbtb)rsvbl, mbp);
+                } else if (rsvbl instbnceof Blob) {
+                    rsvbl = new SeriblBlob((Blob)rsvbl);
+                } else if (rsvbl instbnceof Clob) {
+                    rsvbl = new SeriblClob((Clob)rsvbl);
+                } else if (rsvbl instbnceof jbvb.sql.Arrby) {
+                    rsvbl = new SeriblArrby((jbvb.sql.Arrby)rsvbl, mbp);
                 }
 
-                // reset boolNull if it had been set
+                // reset boolNull if it hbd been set
                 boolNull = true;
 
-                /** This addtional checking has been added when the current value
-                 *  in the DB is null, but the DB had a different value when the
-                 *  data was actaully fetched into the CachedRowSet.
+                /** This bddtionbl checking hbs been bdded when the current vblue
+                 *  in the DB is null, but the DB hbd b different vblue when the
+                 *  dbtb wbs bctbully fetched into the CbchedRowSet.
                  **/
 
-                if(rsval == null && orig != null) {
-                   // value in db has changed
-                    // don't proceed with synchronization
-                    // get the value in db and pass it to the resolver.
+                if(rsvbl == null && orig != null) {
+                   // vblue in db hbs chbnged
+                    // don't proceed with synchronizbtion
+                    // get the vblue in db bnd pbss it to the resolver.
 
-                    iChangedValsinDbOnly++;
-                   // Set the boolNull to false,
-                   // in order to set the actual value;
-                     boolNull = false;
-                     objVal = rsval;
+                    iChbngedVblsinDbOnly++;
+                   // Set the boolNull to fblse,
+                   // in order to set the bctubl vblue;
+                     boolNull = fblse;
+                     objVbl = rsvbl;
                 }
 
-                /** Adding the checking for rsval to be "not" null or else
-                 *  it would through a NullPointerException when the values
-                 *  are compared.
+                /** Adding the checking for rsvbl to be "not" null or else
+                 *  it would through b NullPointerException when the vblues
+                 *  bre compbred.
                  **/
 
-                else if(rsval != null && (!rsval.equals(orig)))
+                else if(rsvbl != null && (!rsvbl.equbls(orig)))
                 {
-                    // value in db has changed
-                    // don't proceed with synchronization
-                    // get the value in db and pass it to the resolver.
+                    // vblue in db hbs chbnged
+                    // don't proceed with synchronizbtion
+                    // get the vblue in db bnd pbss it to the resolver.
 
-                    iChangedValsinDbOnly++;
-                   // Set the boolNull to false,
-                   // in order to set the actual value;
-                     boolNull = false;
-                     objVal = rsval;
+                    iChbngedVblsinDbOnly++;
+                   // Set the boolNull to fblse,
+                   // in order to set the bctubl vblue;
+                     boolNull = fblse;
+                     objVbl = rsvbl;
                 } else if (  (orig == null || curr == null) ) {
 
-                        /** Adding the additonal condition of checking for "flag"
-                         *  boolean variable, which would otherwise result in
-                         *  building a invalid query, as the comma would not be
-                         *  added to the query string.
+                        /** Adding the bdditonbl condition of checking for "flbg"
+                         *  boolebn vbribble, which would otherwise result in
+                         *  building b invblid query, bs the commb would not be
+                         *  bdded to the query string.
                          **/
 
-                        if (first == false || flag == false) {
-                          updateExec += ", ";
+                        if (first == fblse || flbg == fblse) {
+                          updbteExec += ", ";
                          }
-                        updateExec += crs.getMetaData().getColumnName(i);
-                        cols.add(i);
-                        updateExec += " = ? ";
-                        first = false;
+                        updbteExec += crs.getMetbDbtb().getColumnNbme(i);
+                        cols.bdd(i);
+                        updbteExec += " = ? ";
+                        first = fblse;
 
-                /** Adding the extra condition for orig to be "not" null as the
-                 *  condition for orig to be null is take prior to this, if this
-                 *  is not added it will result in a NullPointerException when
-                 *  the values are compared.
+                /** Adding the extrb condition for orig to be "not" null bs the
+                 *  condition for orig to be null is tbke prior to this, if this
+                 *  is not bdded it will result in b NullPointerException when
+                 *  the vblues bre compbred.
                  **/
 
-                }  else if (orig.equals(curr)) {
-                       colsNotChanged++;
-                     //nothing to update in this case since values are equal
+                }  else if (orig.equbls(curr)) {
+                       colsNotChbnged++;
+                     //nothing to updbte in this cbse since vblues bre equbl
 
-                /** Adding the extra condition for orig to be "not" null as the
-                 *  condition for orig to be null is take prior to this, if this
-                 *  is not added it will result in a NullPointerException when
-                 *  the values are compared.
+                /** Adding the extrb condition for orig to be "not" null bs the
+                 *  condition for orig to be null is tbke prior to this, if this
+                 *  is not bdded it will result in b NullPointerException when
+                 *  the vblues bre compbred.
                  **/
 
-                } else if(orig.equals(curr) == false) {
-                      // When values from db and values in CachedRowSet are not equal,
-                      // if db value is same as before updation for each col in
-                      // the row before fetching into CachedRowSet,
-                      // only then we go ahead with updation, else we
+                } else if(orig.equbls(curr) == fblse) {
+                      // When vblues from db bnd vblues in CbchedRowSet bre not equbl,
+                      // if db vblue is sbme bs before updbtion for ebch col in
+                      // the row before fetching into CbchedRowSet,
+                      // only then we go bhebd with updbtion, else we
                       // throw SyncProviderException.
 
-                      // if value has changed in db after fetching from db
-                      // for some cols of the row and at the same time, some other cols
-                      // have changed in CachedRowSet, no synchronization happens
+                      // if vblue hbs chbnged in db bfter fetching from db
+                      // for some cols of the row bnd bt the sbme time, some other cols
+                      // hbve chbnged in CbchedRowSet, no synchronizbtion hbppens
 
-                      // Synchronization happens only when data when fetching is
-                      // same or at most has changed in cachedrowset
+                      // Synchronizbtion hbppens only when dbtb when fetching is
+                      // sbme or bt most hbs chbnged in cbchedrowset
 
-                      // check orig value with what is there in crs for a column
-                      // before updation in crs.
+                      // check orig vblue with whbt is there in crs for b column
+                      // before updbtion in crs.
 
-                         if(crs.columnUpdated(i)) {
-                             if(rsval.equals(orig)) {
-                               // At this point we are sure that
-                               // the value updated in crs was from
-                               // what is in db now and has not changed
-                                 if (flag == false || first == false) {
-                                    updateExec += ", ";
+                         if(crs.columnUpdbted(i)) {
+                             if(rsvbl.equbls(orig)) {
+                               // At this point we bre sure thbt
+                               // the vblue updbted in crs wbs from
+                               // whbt is in db now bnd hbs not chbnged
+                                 if (flbg == fblse || first == fblse) {
+                                    updbteExec += ", ";
                                  }
-                                updateExec += crs.getMetaData().getColumnName(i);
-                                cols.add(i);
-                                updateExec += " = ? ";
-                                flag = false;
+                                updbteExec += crs.getMetbDbtb().getColumnNbme(i);
+                                cols.bdd(i);
+                                updbteExec += " = ? ";
+                                flbg = fblse;
                              } else {
-                               // Here the value has changed in the db after
-                               // data was fetched
-                               // Plus store this row from CachedRowSet and keep it
-                               // in a new CachedRowSet
-                               boolNull= false;
-                               objVal = rsval;
-                               iChangedValsInDbAndCRS++;
+                               // Here the vblue hbs chbnged in the db bfter
+                               // dbtb wbs fetched
+                               // Plus store this row from CbchedRowSet bnd keep it
+                               // in b new CbchedRowSet
+                               boolNull= fblse;
+                               objVbl = rsvbl;
+                               iChbngedVblsInDbAndCRS++;
                              }
                          }
                   }
 
                     if(!boolNull) {
-                        this.crsResolve.updateObject(i,objVal);
+                        this.crsResolve.updbteObject(i,objVbl);
                                  } else {
-                                      this.crsResolve.updateNull(i);
+                                      this.crsResolve.updbteNull(i);
                                  }
                 } //end for
 
@@ -718,25 +718,25 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                    this.crsResolve.moveToCurrentRow();
 
                 /**
-                 * if nothing has changed return now - this can happen
-                 * if column is updated to the same value.
-                 * if colsNotChanged == callerColumnCount implies we are updating
-                 * the database with ALL COLUMNS HAVING SAME VALUES,
-                 * so skip going to database, else do as usual.
+                 * if nothing hbs chbnged return now - this cbn hbppen
+                 * if column is updbted to the sbme vblue.
+                 * if colsNotChbnged == cbllerColumnCount implies we bre updbting
+                 * the dbtbbbse with ALL COLUMNS HAVING SAME VALUES,
+                 * so skip going to dbtbbbse, else do bs usubl.
                  **/
-                if ( (first == false && cols.size() == 0)  ||
-                     colsNotChanged == callerColumnCount ) {
-                    return false;
+                if ( (first == fblse && cols.size() == 0)  ||
+                     colsNotChbnged == cbllerColumnCount ) {
+                    return fblse;
                 }
 
-                if(iChangedValsInDbAndCRS != 0 || iChangedValsinDbOnly != 0) {
+                if(iChbngedVblsInDbAndCRS != 0 || iChbngedVblsinDbOnly != 0) {
                    return true;
                 }
 
 
-                updateExec += updateWhere;
+                updbteExec += updbteWhere;
 
-                pstmt = con.prepareStatement(updateExec);
+                pstmt = con.prepbreStbtement(updbteExec);
 
                 // Comments needed here
                 for (i = 0; i < cols.size(); i++) {
@@ -744,56 +744,56 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                     if (obj != null)
                         pstmt.setObject(i + 1, obj);
                     else
-                        pstmt.setNull(i + 1,crs.getMetaData().getColumnType(i + 1));
+                        pstmt.setNull(i + 1,crs.getMetbDbtb().getColumnType(i + 1));
                 }
                 idx = i;
 
                 // Comments needed here
                 for (i = 0; i < keyCols.length; i++) {
-                    if (params[i] != null) {
-                        pstmt.setObject(++idx, params[i]);
+                    if (pbrbms[i] != null) {
+                        pstmt.setObject(++idx, pbrbms[i]);
                     } else {
                         continue;
                     }
                 }
 
-                i = pstmt.executeUpdate();
+                i = pstmt.executeUpdbte();
 
                /**
-                * i should be equal to 1(row count), because we update
-                * one row(returned as row count) at a time, if all goes well.
-                * if 1 != 1, this implies we have not been able to
-                * do updations properly i.e there is a conflict in database
-                * versus what is in CachedRowSet for this particular row.
+                * i should be equbl to 1(row count), becbuse we updbte
+                * one row(returned bs row count) bt b time, if bll goes well.
+                * if 1 != 1, this implies we hbve not been bble to
+                * do updbtions properly i.e there is b conflict in dbtbbbse
+                * versus whbt is in CbchedRowSet for this pbrticulbr row.
                 **/
 
-                 return false;
+                 return fblse;
 
             } else {
                 /**
-                 * Cursor will be here, if the ResultSet may not return even a single row
-                 * i.e. we can't find the row where to update because it has been deleted
+                 * Cursor will be here, if the ResultSet mby not return even b single row
+                 * i.e. we cbn't find the row where to updbte becbuse it hbs been deleted
                  * etc. from the db.
-                 * Present the whole row as null to user, to force null to be sync'ed
-                 * and hence nothing to be synced.
+                 * Present the whole row bs null to user, to force null to be sync'ed
+                 * bnd hence nothing to be synced.
                  *
                  * NOTE:
                  * ------
-                 * In the database if a column that is mapped to java.sql.Types.REAL stores
-                 * a Double value and is compared with value got from ResultSet.getFloat()
-                 * no row is retrieved and will throw a SyncProviderException. For details
+                 * In the dbtbbbse if b column thbt is mbpped to jbvb.sql.Types.REAL stores
+                 * b Double vblue bnd is compbred with vblue got from ResultSet.getFlobt()
+                 * no row is retrieved bnd will throw b SyncProviderException. For detbils
                  * see bug Id 5053830
                  **/
                 return true;
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // if executeUpdate fails it will come here,
-            // update crsResolve with null rows
+        } cbtch (SQLException ex) {
+            ex.printStbckTrbce();
+            // if executeUpdbte fbils it will come here,
+            // updbte crsResolve with null rows
             this.crsResolve.moveToInsertRow();
 
-            for(i = 1; i <= callerColumnCount; i++) {
-               this.crsResolve.updateNull(i);
+            for(i = 1; i <= cbllerColumnCount; i++) {
+               this.crsResolve.updbteNull(i);
             }
 
             this.crsResolve.insertRow();
@@ -804,73 +804,73 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
     }
 
    /**
-    * Inserts a row that has been inserted into the given
-    * <code>CachedRowSet</code> object into the data source from which
-    * the rowset is derived, returning <code>false</code> if the insertion
-    * was successful.
+    * Inserts b row thbt hbs been inserted into the given
+    * <code>CbchedRowSet</code> object into the dbtb source from which
+    * the rowset is derived, returning <code>fblse</code> if the insertion
+    * wbs successful.
     *
-    * @param crs the <code>CachedRowSet</code> object that has had a row inserted
-    *            and to whose underlying data source the row will be inserted
-    * @param pstmt the <code>PreparedStatement</code> object that will be used
+    * @pbrbm crs the <code>CbchedRowSet</code> object thbt hbs hbd b row inserted
+    *            bnd to whose underlying dbtb source the row will be inserted
+    * @pbrbm pstmt the <code>PrepbredStbtement</code> object thbt will be used
     *              to execute the insertion
-    * @return <code>false</code> to indicate that the insertion was successful;
+    * @return <code>fblse</code> to indicbte thbt the insertion wbs successful;
     *         <code>true</code> otherwise
-    * @throws SQLException if a database access error occurs
+    * @throws SQLException if b dbtbbbse bccess error occurs
     */
-   private boolean insertNewRow(CachedRowSet crs,
-       PreparedStatement pstmt, CachedRowSetImpl crsRes) throws SQLException {
+   privbte boolebn insertNewRow(CbchedRowSet crs,
+       PrepbredStbtement pstmt, CbchedRowSetImpl crsRes) throws SQLException {
 
-       boolean returnVal = false;
+       boolebn returnVbl = fblse;
 
-       try (PreparedStatement pstmtSel = con.prepareStatement(selectCmd,
+       try (PrepbredStbtement pstmtSel = con.prepbreStbtement(selectCmd,
                        ResultSet.TYPE_SCROLL_SENSITIVE,
                        ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = pstmtSel.executeQuery();
-            ResultSet rs2 = con.getMetaData().getPrimaryKeys(null, null,
-                       crs.getTableName())
+            ResultSet rs2 = con.getMetbDbtb().getPrimbryKeys(null, null,
+                       crs.getTbbleNbme())
        ) {
 
-           ResultSetMetaData rsmd = crs.getMetaData();
+           ResultSetMetbDbtb rsmd = crs.getMetbDbtb();
            int icolCount = rsmd.getColumnCount();
-           String[] primaryKeys = new String[icolCount];
+           String[] primbryKeys = new String[icolCount];
            int k = 0;
            while (rs2.next()) {
-               primaryKeys[k] = rs2.getString("COLUMN_NAME");
+               primbryKeys[k] = rs2.getString("COLUMN_NAME");
                k++;
            }
 
            if (rs.next()) {
-               for (String pkName : primaryKeys) {
-                   if (!isPKNameValid(pkName, rsmd)) {
+               for (String pkNbme : primbryKeys) {
+                   if (!isPKNbmeVblid(pkNbme, rsmd)) {
 
-                       /* We came here as one of the the primary keys
-                        * of the table is not present in the cached
-                        * rowset object, it should be an autoincrement column
-                        * and not included while creating CachedRowSet
-                        * Object, proceed to check for other primary keys
+                       /* We cbme here bs one of the the primbry keys
+                        * of the tbble is not present in the cbched
+                        * rowset object, it should be bn butoincrement column
+                        * bnd not included while crebting CbchedRowSet
+                        * Object, proceed to check for other primbry keys
                         */
                        continue;
                    }
 
-                   Object crsPK = crs.getObject(pkName);
+                   Object crsPK = crs.getObject(pkNbme);
                    if (crsPK == null) {
                        /*
-                        * It is possible that the PK is null on some databases
-                        * and will be filled in at insert time (MySQL for example)
+                        * It is possible thbt the PK is null on some dbtbbbses
+                        * bnd will be filled in bt insert time (MySQL for exbmple)
                         */
-                       break;
+                       brebk;
                    }
 
-                   String rsPK = rs.getObject(pkName).toString();
-                   if (crsPK.toString().equals(rsPK)) {
-                       returnVal = true;
+                   String rsPK = rs.getObject(pkNbme).toString();
+                   if (crsPK.toString().equbls(rsPK)) {
+                       returnVbl = true;
                        this.crsResolve.moveToInsertRow();
                        for (int i = 1; i <= icolCount; i++) {
-                           String colname = (rs.getMetaData()).getColumnName(i);
-                           if (colname.equals(pkName))
-                               this.crsResolve.updateObject(i,rsPK);
+                           String colnbme = (rs.getMetbDbtb()).getColumnNbme(i);
+                           if (colnbme.equbls(pkNbme))
+                               this.crsResolve.updbteObject(i,rsPK);
                            else
-                               this.crsResolve.updateNull(i);
+                               this.crsResolve.updbteNull(i);
                        }
                        this.crsResolve.insertRow();
                        this.crsResolve.moveToCurrentRow();
@@ -878,8 +878,8 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                }
            }
 
-           if (returnVal) {
-               return returnVal;
+           if (returnVbl) {
+               return returnVbl;
            }
 
            try {
@@ -888,25 +888,25 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                    if (obj != null) {
                        pstmt.setObject(i, obj);
                    } else {
-                       pstmt.setNull(i,crs.getMetaData().getColumnType(i));
+                       pstmt.setNull(i,crs.getMetbDbtb().getColumnType(i));
                    }
                }
 
-               pstmt.executeUpdate();
-               return false;
+               pstmt.executeUpdbte();
+               return fblse;
 
-           } catch (SQLException ex) {
+           } cbtch (SQLException ex) {
                /*
-                * Cursor will come here if executeUpdate fails.
-                * There can be many reasons why the insertion failed,
-                * one can be violation of primary key.
-                * Hence we cannot exactly identify why the insertion failed,
-                * present the current row as a null row to the caller.
+                * Cursor will come here if executeUpdbte fbils.
+                * There cbn be mbny rebsons why the insertion fbiled,
+                * one cbn be violbtion of primbry key.
+                * Hence we cbnnot exbctly identify why the insertion fbiled,
+                * present the current row bs b null row to the cbller.
                 */
                this.crsResolve.moveToInsertRow();
 
                for (int i = 1; i <= icolCount; i++) {
-                   this.crsResolve.updateNull(i);
+                   this.crsResolve.updbteNull(i);
                }
 
                this.crsResolve.insertRow();
@@ -918,52 +918,52 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
    }
 
 /**
- * Deletes the row in the underlying data source that corresponds to
- * a row that has been deleted in the given <code> CachedRowSet</code> object
- * and returns <code>false</code> if the deletion was successful.
+ * Deletes the row in the underlying dbtb source thbt corresponds to
+ * b row thbt hbs been deleted in the given <code> CbchedRowSet</code> object
+ * bnd returns <code>fblse</code> if the deletion wbs successful.
  * <P>
- * This method is called internally by this writer's <code>writeData</code>
- * method when a row in the rowset has been deleted. The values in the
- * deleted row are the same as those that are stored in the original row
- * of the given <code>CachedRowSet</code> object.  If the values in the
- * original row differ from the row in the underlying data source, the row
- * in the data source is not deleted, and <code>deleteOriginalRow</code>
- * returns <code>true</code> to indicate that there was a conflict.
+ * This method is cblled internblly by this writer's <code>writeDbtb</code>
+ * method when b row in the rowset hbs been deleted. The vblues in the
+ * deleted row bre the sbme bs those thbt bre stored in the originbl row
+ * of the given <code>CbchedRowSet</code> object.  If the vblues in the
+ * originbl row differ from the row in the underlying dbtb source, the row
+ * in the dbtb source is not deleted, bnd <code>deleteOriginblRow</code>
+ * returns <code>true</code> to indicbte thbt there wbs b conflict.
  *
  *
- * @return <code>false</code> if the deletion was successful, which means that
- *         there was no conflict; <code>true</code> otherwise
- * @throws SQLException if there was a database access error
+ * @return <code>fblse</code> if the deletion wbs successful, which mebns thbt
+ *         there wbs no conflict; <code>true</code> otherwise
+ * @throws SQLException if there wbs b dbtbbbse bccess error
  */
-    private boolean deleteOriginalRow(CachedRowSet crs, CachedRowSetImpl crsRes) throws SQLException {
-        PreparedStatement pstmt;
+    privbte boolebn deleteOriginblRow(CbchedRowSet crs, CbchedRowSetImpl crsRes) throws SQLException {
+        PrepbredStbtement pstmt;
         int i;
         int idx = 0;
         String strSelect;
-    // Select the row from the database.
-        ResultSet origVals = crs.getOriginalRow();
-        origVals.next();
+    // Select the row from the dbtbbbse.
+        ResultSet origVbls = crs.getOriginblRow();
+        origVbls.next();
 
-        deleteWhere = buildWhereClause(deleteWhere, origVals);
-        pstmt = con.prepareStatement(selectCmd + deleteWhere,
+        deleteWhere = buildWhereClbuse(deleteWhere, origVbls);
+        pstmt = con.prepbreStbtement(selectCmd + deleteWhere,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
         for (i = 0; i < keyCols.length; i++) {
-            if (params[i] != null) {
-                pstmt.setObject(++idx, params[i]);
+            if (pbrbms[i] != null) {
+                pstmt.setObject(++idx, pbrbms[i]);
             } else {
                 continue;
             }
         }
 
         try {
-            pstmt.setMaxRows(crs.getMaxRows());
-            pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-            pstmt.setEscapeProcessing(crs.getEscapeProcessing());
+            pstmt.setMbxRows(crs.getMbxRows());
+            pstmt.setMbxFieldSize(crs.getMbxFieldSize());
+            pstmt.setEscbpeProcessing(crs.getEscbpeProcessing());
             pstmt.setQueryTimeout(crs.getQueryTimeout());
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
             /*
-             * Older driver don't support these operations...
+             * Older driver don't support these operbtions...
              */
             ;
         }
@@ -972,59 +972,59 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
 
         if (rs.next() == true) {
             if (rs.next()) {
-                // more than one row
+                // more thbn one row
                 return true;
             }
             rs.first();
 
-            // Now check all the values in rs to be same in
-            // db also before actually going ahead with deleting
-            boolean boolChanged = false;
+            // Now check bll the vblues in rs to be sbme in
+            // db blso before bctublly going bhebd with deleting
+            boolebn boolChbnged = fblse;
 
             crsRes.moveToInsertRow();
 
-            for (i = 1; i <= crs.getMetaData().getColumnCount(); i++) {
+            for (i = 1; i <= crs.getMetbDbtb().getColumnCount(); i++) {
 
-                Object original = origVals.getObject(i);
-                Object changed = rs.getObject(i);
+                Object originbl = origVbls.getObject(i);
+                Object chbnged = rs.getObject(i);
 
-                if(original != null && changed != null ) {
-                  if(! (original.toString()).equals(changed.toString()) ) {
-                      boolChanged = true;
-                      crsRes.updateObject(i,origVals.getObject(i));
+                if(originbl != null && chbnged != null ) {
+                  if(! (originbl.toString()).equbls(chbnged.toString()) ) {
+                      boolChbnged = true;
+                      crsRes.updbteObject(i,origVbls.getObject(i));
                   }
                 } else {
-                   crsRes.updateNull(i);
+                   crsRes.updbteNull(i);
                }
             }
 
            crsRes.insertRow();
            crsRes.moveToCurrentRow();
 
-           if(boolChanged) {
-               // do not delete as values in db have changed
-               // deletion will not happen for this row from db
+           if(boolChbnged) {
+               // do not delete bs vblues in db hbve chbnged
+               // deletion will not hbppen for this row from db
                    // exit now returning true. i.e. conflict
                return true;
             } else {
                 // delete the row.
-                // Go ahead with deleting,
-                // don't do anything here
+                // Go bhebd with deleting,
+                // don't do bnything here
             }
 
             String cmd = deleteCmd + deleteWhere;
-            pstmt = con.prepareStatement(cmd);
+            pstmt = con.prepbreStbtement(cmd);
 
             idx = 0;
             for (i = 0; i < keyCols.length; i++) {
-                if (params[i] != null) {
-                    pstmt.setObject(++idx, params[i]);
+                if (pbrbms[i] != null) {
+                    pstmt.setObject(++idx, pbrbms[i]);
                 } else {
                     continue;
                 }
             }
 
-            if (pstmt.executeUpdate() != 1) {
+            if (pstmt.executeUpdbte() != 1) {
                 return true;
             }
             pstmt.close();
@@ -1034,186 +1034,186 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
         }
 
         // no conflict
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets the reader for this writer to the given reader.
+     * Sets the rebder for this writer to the given rebder.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public void setReader(CachedRowSetReader reader) throws SQLException {
-        this.reader = reader;
+    public void setRebder(CbchedRowSetRebder rebder) throws SQLException {
+        this.rebder = rebder;
     }
 
     /**
-     * Gets the reader for this writer.
+     * Gets the rebder for this writer.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public CachedRowSetReader getReader() throws SQLException {
-        return reader;
+    public CbchedRowSetRebder getRebder() throws SQLException {
+        return rebder;
     }
 
     /**
-     * Composes a <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>,
-     * and <code>DELETE</code> statement that can be used by this writer to
-     * write data to the data source backing the given <code>CachedRowSet</code>
+     * Composes b <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>,
+     * bnd <code>DELETE</code> stbtement thbt cbn be used by this writer to
+     * write dbtb to the dbtb source bbcking the given <code>CbchedRowSet</code>
      * object.
      *
-     * @ param caller a <code>CachedRowSet</code> object for which this
-     *                <code>CachedRowSetWriter</code> object is the writer
-     * @throws SQLException if a database access error occurs
+     * @ pbrbm cbller b <code>CbchedRowSet</code> object for which this
+     *                <code>CbchedRowSetWriter</code> object is the writer
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    private void initSQLStatements(CachedRowSet caller) throws SQLException {
+    privbte void initSQLStbtements(CbchedRowSet cbller) throws SQLException {
 
         int i;
 
-        callerMd = caller.getMetaData();
-        callerColumnCount = callerMd.getColumnCount();
-        if (callerColumnCount < 1)
-            // No data, so return.
+        cbllerMd = cbller.getMetbDbtb();
+        cbllerColumnCount = cbllerMd.getColumnCount();
+        if (cbllerColumnCount < 1)
+            // No dbtb, so return.
             return;
 
         /*
-         * If the RowSet has a Table name we should use it.
-         * This is really a hack to get round the fact that
-         * a lot of the jdbc drivers can't provide the tab.
+         * If the RowSet hbs b Tbble nbme we should use it.
+         * This is reblly b hbck to get round the fbct thbt
+         * b lot of the jdbc drivers cbn't provide the tbb.
          */
-        String table = caller.getTableName();
-        if (table == null) {
+        String tbble = cbller.getTbbleNbme();
+        if (tbble == null) {
             /*
-             * attempt to build a table name using the info
-             * that the driver gave us for the first column
+             * bttempt to build b tbble nbme using the info
+             * thbt the driver gbve us for the first column
              * in the source result set.
              */
-            table = callerMd.getTableName(1);
-            if (table == null || table.length() == 0) {
-                throw new SQLException(resBundle.handleGetObject("crswriter.tname").toString());
+            tbble = cbllerMd.getTbbleNbme(1);
+            if (tbble == null || tbble.length() == 0) {
+                throw new SQLException(resBundle.hbndleGetObject("crswriter.tnbme").toString());
             }
         }
-        String catalog = callerMd.getCatalogName(1);
-            String schema = callerMd.getSchemaName(1);
-        DatabaseMetaData dbmd = con.getMetaData();
+        String cbtblog = cbllerMd.getCbtblogNbme(1);
+            String schemb = cbllerMd.getSchembNbme(1);
+        DbtbbbseMetbDbtb dbmd = con.getMetbDbtb();
 
         /*
-         * Compose a SELECT statement.  There are three parts.
+         * Compose b SELECT stbtement.  There bre three pbrts.
          */
 
         // Project List
         selectCmd = "SELECT ";
-        for (i=1; i <= callerColumnCount; i++) {
-            selectCmd += callerMd.getColumnName(i);
-            if ( i <  callerMd.getColumnCount() )
+        for (i=1; i <= cbllerColumnCount; i++) {
+            selectCmd += cbllerMd.getColumnNbme(i);
+            if ( i <  cbllerMd.getColumnCount() )
                 selectCmd += ", ";
             else
                 selectCmd += " ";
         }
 
-        // FROM clause.
-        selectCmd += "FROM " + buildTableName(dbmd, catalog, schema, table);
+        // FROM clbuse.
+        selectCmd += "FROM " + buildTbbleNbme(dbmd, cbtblog, schemb, tbble);
 
         /*
-         * Compose an UPDATE statement.
+         * Compose bn UPDATE stbtement.
          */
-        updateCmd = "UPDATE " + buildTableName(dbmd, catalog, schema, table);
+        updbteCmd = "UPDATE " + buildTbbleNbme(dbmd, cbtblog, schemb, tbble);
 
 
         /**
-         *  The following block of code is for checking a particular type of
-         *  query where in there is a where clause. Without this block, if a
-         *  SQL statement is built the "where" clause will appear twice hence
-         *  the DB errors out and a SQLException is thrown. This code also
-         *  considers that the where clause is in the right place as the
-         *  CachedRowSet object would already have been populated with this
+         *  The following block of code is for checking b pbrticulbr type of
+         *  query where in there is b where clbuse. Without this block, if b
+         *  SQL stbtement is built the "where" clbuse will bppebr twice hence
+         *  the DB errors out bnd b SQLException is thrown. This code blso
+         *  considers thbt the where clbuse is in the right plbce bs the
+         *  CbchedRowSet object would blrebdy hbve been populbted with this
          *  query before coming to this point.
          **/
 
-        String tempupdCmd = updateCmd.toLowerCase();
+        String tempupdCmd = updbteCmd.toLowerCbse();
 
         int idxupWhere = tempupdCmd.indexOf("where");
 
         if(idxupWhere != -1)
         {
-           updateCmd = updateCmd.substring(0,idxupWhere);
+           updbteCmd = updbteCmd.substring(0,idxupWhere);
         }
-        updateCmd += "SET ";
+        updbteCmd += "SET ";
 
         /*
-         * Compose an INSERT statement.
+         * Compose bn INSERT stbtement.
          */
-        insertCmd = "INSERT INTO " + buildTableName(dbmd, catalog, schema, table);
+        insertCmd = "INSERT INTO " + buildTbbleNbme(dbmd, cbtblog, schemb, tbble);
         // Column list
         insertCmd += "(";
-        for (i=1; i <= callerColumnCount; i++) {
-            insertCmd += callerMd.getColumnName(i);
-            if ( i <  callerMd.getColumnCount() )
+        for (i=1; i <= cbllerColumnCount; i++) {
+            insertCmd += cbllerMd.getColumnNbme(i);
+            if ( i <  cbllerMd.getColumnCount() )
                 insertCmd += ", ";
             else
                 insertCmd += ") VALUES (";
         }
-        for (i=1; i <= callerColumnCount; i++) {
+        for (i=1; i <= cbllerColumnCount; i++) {
             insertCmd += "?";
-            if (i < callerColumnCount)
+            if (i < cbllerColumnCount)
                 insertCmd += ", ";
             else
                 insertCmd += ")";
         }
 
         /*
-         * Compose a DELETE statement.
+         * Compose b DELETE stbtement.
          */
-        deleteCmd = "DELETE FROM " + buildTableName(dbmd, catalog, schema, table);
+        deleteCmd = "DELETE FROM " + buildTbbleNbme(dbmd, cbtblog, schemb, tbble);
 
         /*
-         * set the key desriptors that will be
-         * needed to construct where clauses.
+         * set the key desriptors thbt will be
+         * needed to construct where clbuses.
          */
-        buildKeyDesc(caller);
+        buildKeyDesc(cbller);
     }
 
     /**
-     * Returns a fully qualified table name built from the given catalog and
-     * table names. The given metadata object is used to get the proper order
-     * and separator.
+     * Returns b fully qublified tbble nbme built from the given cbtblog bnd
+     * tbble nbmes. The given metbdbtb object is used to get the proper order
+     * bnd sepbrbtor.
      *
-     * @param dbmd a <code>DatabaseMetaData</code> object that contains metadata
-     *          about this writer's <code>CachedRowSet</code> object
-     * @param catalog a <code>String</code> object with the rowset's catalog
-     *          name
-     * @param table a <code>String</code> object with the name of the table from
-     *          which this writer's rowset was derived
-     * @return a <code>String</code> object with the fully qualified name of the
-     *          table from which this writer's rowset was derived
-     * @throws SQLException if a database access error occurs
+     * @pbrbm dbmd b <code>DbtbbbseMetbDbtb</code> object thbt contbins metbdbtb
+     *          bbout this writer's <code>CbchedRowSet</code> object
+     * @pbrbm cbtblog b <code>String</code> object with the rowset's cbtblog
+     *          nbme
+     * @pbrbm tbble b <code>String</code> object with the nbme of the tbble from
+     *          which this writer's rowset wbs derived
+     * @return b <code>String</code> object with the fully qublified nbme of the
+     *          tbble from which this writer's rowset wbs derived
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    private String buildTableName(DatabaseMetaData dbmd,
-        String catalog, String schema, String table) throws SQLException {
+    privbte String buildTbbleNbme(DbtbbbseMetbDbtb dbmd,
+        String cbtblog, String schemb, String tbble) throws SQLException {
 
-       // trim all the leading and trailing whitespaces,
-       // white spaces can never be catalog, schema or a table name.
+       // trim bll the lebding bnd trbiling whitespbces,
+       // white spbces cbn never be cbtblog, schemb or b tbble nbme.
 
         String cmd = "";
 
-        catalog = catalog.trim();
-        schema = schema.trim();
-        table = table.trim();
+        cbtblog = cbtblog.trim();
+        schemb = schemb.trim();
+        tbble = tbble.trim();
 
-        if (dbmd.isCatalogAtStart() == true) {
-            if (catalog != null && catalog.length() > 0) {
-                cmd += catalog + dbmd.getCatalogSeparator();
+        if (dbmd.isCbtblogAtStbrt() == true) {
+            if (cbtblog != null && cbtblog.length() > 0) {
+                cmd += cbtblog + dbmd.getCbtblogSepbrbtor();
             }
-            if (schema != null && schema.length() > 0) {
-                cmd += schema + ".";
+            if (schemb != null && schemb.length() > 0) {
+                cmd += schemb + ".";
             }
-            cmd += table;
+            cmd += tbble;
         } else {
-            if (schema != null && schema.length() > 0) {
-                cmd += schema + ".";
+            if (schemb != null && schemb.length() > 0) {
+                cmd += schemb + ".";
             }
-            cmd += table;
-            if (catalog != null && catalog.length() > 0) {
-                cmd += dbmd.getCatalogSeparator() + catalog;
+            cmd += tbble;
+            if (cbtblog != null && cbtblog.length() > 0) {
+                cmd += dbmd.getCbtblogSepbrbtor() + cbtblog;
             }
         }
         cmd += " ";
@@ -1221,102 +1221,102 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
     }
 
     /**
-     * Assigns to the given <code>CachedRowSet</code> object's
-     * <code>params</code>
-     * field an array whose length equals the number of columns needed
-     * to uniquely identify a row in the rowset. The array is given
-     * values by the method <code>buildWhereClause</code>.
+     * Assigns to the given <code>CbchedRowSet</code> object's
+     * <code>pbrbms</code>
+     * field bn brrby whose length equbls the number of columns needed
+     * to uniquely identify b row in the rowset. The brrby is given
+     * vblues by the method <code>buildWhereClbuse</code>.
      * <P>
-     * If the <code>CachedRowSet</code> object's <code>keyCols</code>
-     * field has length <code>0</code> or is <code>null</code>, the array
+     * If the <code>CbchedRowSet</code> object's <code>keyCols</code>
+     * field hbs length <code>0</code> or is <code>null</code>, the brrby
      * is set with the column number of every column in the rowset.
-     * Otherwise, the array in the field <code>keyCols</code> is set with only
-     * the column numbers of the columns that are required to form a unique
-     * identifier for a row.
+     * Otherwise, the brrby in the field <code>keyCols</code> is set with only
+     * the column numbers of the columns thbt bre required to form b unique
+     * identifier for b row.
      *
-     * @param crs the <code>CachedRowSet</code> object for which this
-     *     <code>CachedRowSetWriter</code> object is the writer
+     * @pbrbm crs the <code>CbchedRowSet</code> object for which this
+     *     <code>CbchedRowSetWriter</code> object is the writer
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    private void buildKeyDesc(CachedRowSet crs) throws SQLException {
+    privbte void buildKeyDesc(CbchedRowSet crs) throws SQLException {
 
         keyCols = crs.getKeyColumns();
-        ResultSetMetaData resultsetmd = crs.getMetaData();
+        ResultSetMetbDbtb resultsetmd = crs.getMetbDbtb();
         if (keyCols == null || keyCols.length == 0) {
-            ArrayList<Integer> listKeys = new ArrayList<Integer>();
+            ArrbyList<Integer> listKeys = new ArrbyList<Integer>();
 
-            for (int i = 0; i < callerColumnCount; i++ ) {
-                if(resultsetmd.getColumnType(i+1) != java.sql.Types.CLOB &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.STRUCT &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.SQLXML &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.BLOB &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.ARRAY &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.OTHER )
-                    listKeys.add(i+1);
+            for (int i = 0; i < cbllerColumnCount; i++ ) {
+                if(resultsetmd.getColumnType(i+1) != jbvb.sql.Types.CLOB &&
+                        resultsetmd.getColumnType(i+1) != jbvb.sql.Types.STRUCT &&
+                        resultsetmd.getColumnType(i+1) != jbvb.sql.Types.SQLXML &&
+                        resultsetmd.getColumnType(i+1) != jbvb.sql.Types.BLOB &&
+                        resultsetmd.getColumnType(i+1) != jbvb.sql.Types.ARRAY &&
+                        resultsetmd.getColumnType(i+1) != jbvb.sql.Types.OTHER )
+                    listKeys.bdd(i+1);
             }
             keyCols = new int[listKeys.size()];
             for (int i = 0; i < listKeys.size(); i++ )
                 keyCols[i] = listKeys.get(i);
         }
-        params = new Object[keyCols.length];
+        pbrbms = new Object[keyCols.length];
     }
 
     /**
-         * Constructs an SQL <code>WHERE</code> clause using the given
-         * string as a starting point. The resulting clause will contain
-         * a column name and " = ?" for each key column, that is, each column
-         * that is needed to form a unique identifier for a row in the rowset.
-         * This <code>WHERE</code> clause can be added to
-         * a <code>PreparedStatement</code> object that updates, inserts, or
-         * deletes a row.
+         * Constructs bn SQL <code>WHERE</code> clbuse using the given
+         * string bs b stbrting point. The resulting clbuse will contbin
+         * b column nbme bnd " = ?" for ebch key column, thbt is, ebch column
+         * thbt is needed to form b unique identifier for b row in the rowset.
+         * This <code>WHERE</code> clbuse cbn be bdded to
+         * b <code>PrepbredStbtement</code> object thbt updbtes, inserts, or
+         * deletes b row.
          * <P>
-         * This method uses the given result set to access values in the
-         * <code>CachedRowSet</code> object that called this writer.  These
-         * values are used to build the array of parameters that will serve as
-         * replacements for the "?" parameter placeholders in the
-         * <code>PreparedStatement</code> object that is sent to the
-         * <code>CachedRowSet</code> object's underlying data source.
+         * This method uses the given result set to bccess vblues in the
+         * <code>CbchedRowSet</code> object thbt cblled this writer.  These
+         * vblues bre used to build the brrby of pbrbmeters thbt will serve bs
+         * replbcements for the "?" pbrbmeter plbceholders in the
+         * <code>PrepbredStbtement</code> object thbt is sent to the
+         * <code>CbchedRowSet</code> object's underlying dbtb source.
          *
-         * @param whereClause a <code>String</code> object that is an empty
+         * @pbrbm whereClbuse b <code>String</code> object thbt is bn empty
          *                    string ("")
-         * @param rs a <code>ResultSet</code> object that can be used
-         *           to access the <code>CachedRowSet</code> object's data
-         * @return a <code>WHERE</code> clause of the form "<code>WHERE</code>
-         *         columnName = ? AND columnName = ? AND columnName = ? ..."
-         * @throws SQLException if a database access error occurs
+         * @pbrbm rs b <code>ResultSet</code> object thbt cbn be used
+         *           to bccess the <code>CbchedRowSet</code> object's dbtb
+         * @return b <code>WHERE</code> clbuse of the form "<code>WHERE</code>
+         *         columnNbme = ? AND columnNbme = ? AND columnNbme = ? ..."
+         * @throws SQLException if b dbtbbbse bccess error occurs
          */
-    private String buildWhereClause(String whereClause,
+    privbte String buildWhereClbuse(String whereClbuse,
                                     ResultSet rs) throws SQLException {
-        whereClause = "WHERE ";
+        whereClbuse = "WHERE ";
 
         for (int i = 0; i < keyCols.length; i++) {
             if (i > 0) {
-                    whereClause += "AND ";
+                    whereClbuse += "AND ";
             }
-            whereClause += callerMd.getColumnName(keyCols[i]);
-            params[i] = rs.getObject(keyCols[i]);
-            if (rs.wasNull() == true) {
-                whereClause += " IS NULL ";
+            whereClbuse += cbllerMd.getColumnNbme(keyCols[i]);
+            pbrbms[i] = rs.getObject(keyCols[i]);
+            if (rs.wbsNull() == true) {
+                whereClbuse += " IS NULL ";
             } else {
-                whereClause += " = ? ";
+                whereClbuse += " = ? ";
             }
         }
-        return whereClause;
+        return whereClbuse;
     }
 
-    void updateResolvedConflictToDB(CachedRowSet crs, Connection con) throws SQLException {
-          //String updateExe = ;
-          PreparedStatement pStmt  ;
+    void updbteResolvedConflictToDB(CbchedRowSet crs, Connection con) throws SQLException {
+          //String updbteExe = ;
+          PrepbredStbtement pStmt  ;
           String strWhere = "WHERE " ;
           String strExec =" ";
-          String strUpdate = "UPDATE ";
-          int icolCount = crs.getMetaData().getColumnCount();
+          String strUpdbte = "UPDATE ";
+          int icolCount = crs.getMetbDbtb().getColumnCount();
           int keyColumns[] = crs.getKeyColumns();
-          Object param[];
+          Object pbrbm[];
           String strSet="";
 
-        strWhere = buildWhereClause(strWhere, crs);
+        strWhere = buildWhereClbuse(strWhere, crs);
 
         if (keyColumns == null || keyColumns.length == 0) {
             keyColumns = new int[icolCount];
@@ -1324,70 +1324,70 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
                 keyColumns[i] = ++i;
             }
           }
-          param = new Object[keyColumns.length];
+          pbrbm = new Object[keyColumns.length];
 
-         strUpdate = "UPDATE " + buildTableName(con.getMetaData(),
-                            crs.getMetaData().getCatalogName(1),
-                           crs.getMetaData().getSchemaName(1),
-                           crs.getTableName());
+         strUpdbte = "UPDATE " + buildTbbleNbme(con.getMetbDbtb(),
+                            crs.getMetbDbtb().getCbtblogNbme(1),
+                           crs.getMetbDbtb().getSchembNbme(1),
+                           crs.getTbbleNbme());
 
-         // changed or updated values will become part of
-         // set clause here
-         strUpdate += "SET ";
+         // chbnged or updbted vblues will become pbrt of
+         // set clbuse here
+         strUpdbte += "SET ";
 
-        boolean first = true;
+        boolebn first = true;
 
         for (int i=1; i<=icolCount;i++) {
-           if (crs.columnUpdated(i)) {
-                  if (first == false) {
+           if (crs.columnUpdbted(i)) {
+                  if (first == fblse) {
                     strSet += ", ";
                   }
-                 strSet += crs.getMetaData().getColumnName(i);
+                 strSet += crs.getMetbDbtb().getColumnNbme(i);
                  strSet += " = ? ";
-                 first = false;
+                 first = fblse;
          } //end if
       } //end for
 
-         // keycols will become part of where clause
-         strUpdate += strSet;
+         // keycols will become pbrt of where clbuse
+         strUpdbte += strSet;
          strWhere = "WHERE ";
 
         for (int i = 0; i < keyColumns.length; i++) {
             if (i > 0) {
                     strWhere += "AND ";
             }
-            strWhere += crs.getMetaData().getColumnName(keyColumns[i]);
-            param[i] = crs.getObject(keyColumns[i]);
-            if (crs.wasNull() == true) {
+            strWhere += crs.getMetbDbtb().getColumnNbme(keyColumns[i]);
+            pbrbm[i] = crs.getObject(keyColumns[i]);
+            if (crs.wbsNull() == true) {
                 strWhere += " IS NULL ";
             } else {
                 strWhere += " = ? ";
             }
         }
-          strUpdate += strWhere;
+          strUpdbte += strWhere;
 
-        pStmt = con.prepareStatement(strUpdate);
+        pStmt = con.prepbreStbtement(strUpdbte);
 
         int idx =0;
           for (int i = 0; i < icolCount; i++) {
-             if(crs.columnUpdated(i+1)) {
+             if(crs.columnUpdbted(i+1)) {
               Object obj = crs.getObject(i+1);
               if (obj != null) {
                   pStmt.setObject(++idx, obj);
               } else {
-                  pStmt.setNull(i + 1,crs.getMetaData().getColumnType(i + 1));
+                  pStmt.setNull(i + 1,crs.getMetbDbtb().getColumnType(i + 1));
              } //end if ..else
            } //end if crs.column...
         } //end for
 
-          // Set the key cols for after WHERE =? clause
+          // Set the key cols for bfter WHERE =? clbuse
           for (int i = 0; i < keyColumns.length; i++) {
-              if (param[i] != null) {
-                  pStmt.setObject(++idx, param[i]);
+              if (pbrbm[i] != null) {
+                  pStmt.setObject(++idx, pbrbm[i]);
               }
           }
 
-        int id = pStmt.executeUpdate();
+        int id = pStmt.executeUpdbte();
       }
 
 
@@ -1396,19 +1396,19 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
      */
     public void commit() throws SQLException {
         con.commit();
-        if (reader.getCloseConnection() == true) {
+        if (rebder.getCloseConnection() == true) {
             con.close();
         }
     }
 
-     public void commit(CachedRowSetImpl crs, boolean updateRowset) throws SQLException {
+     public void commit(CbchedRowSetImpl crs, boolebn updbteRowset) throws SQLException {
         con.commit();
-        if(updateRowset) {
-          if(crs.getCommand() != null)
+        if(updbteRowset) {
+          if(crs.getCommbnd() != null)
             crs.execute(con);
         }
 
-        if (reader.getCloseConnection() == true) {
+        if (rebder.getCloseConnection() == true) {
             con.close();
         }
     }
@@ -1416,9 +1416,9 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
     /**
      *
      */
-    public void rollback() throws SQLException {
-        con.rollback();
-        if (reader.getCloseConnection() == true) {
+    public void rollbbck() throws SQLException {
+        con.rollbbck();
+        if (rebder.getCloseConnection() == true) {
             con.close();
         }
     }
@@ -1426,45 +1426,45 @@ public class CachedRowSetWriter implements TransactionalWriter, Serializable {
     /**
      *
      */
-    public void rollback(Savepoint s) throws SQLException {
-        con.rollback(s);
-        if (reader.getCloseConnection() == true) {
+    public void rollbbck(Sbvepoint s) throws SQLException {
+        con.rollbbck(s);
+        if (rebder.getCloseConnection() == true) {
             con.close();
         }
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of  Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of  Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
     }
 
-    static final long serialVersionUID =-8506030970299413976L;
+    stbtic finbl long seriblVersionUID =-8506030970299413976L;
 
     /**
-     * Validate whether the Primary Key is known to the CachedRowSet.  If it is
-     * not, it is an auto-generated key
-     * @param pk - Primary Key to validate
-     * @param rsmd - ResultSetMetadata for the RowSet
-     * @return true if found, false otherwise (auto generated key)
+     * Vblidbte whether the Primbry Key is known to the CbchedRowSet.  If it is
+     * not, it is bn buto-generbted key
+     * @pbrbm pk - Primbry Key to vblidbte
+     * @pbrbm rsmd - ResultSetMetbdbtb for the RowSet
+     * @return true if found, fblse otherwise (buto generbted key)
      */
-    private boolean isPKNameValid(String pk, ResultSetMetaData rsmd) throws SQLException {
-        boolean isValid = false;
+    privbte boolebn isPKNbmeVblid(String pk, ResultSetMetbDbtb rsmd) throws SQLException {
+        boolebn isVblid = fblse;
         int cols = rsmd.getColumnCount();
         for(int i = 1; i<= cols; i++) {
-            String colName = rsmd.getColumnClassName(i);
-            if(colName.equalsIgnoreCase(pk)) {
-                isValid = true;
-                break;
+            String colNbme = rsmd.getColumnClbssNbme(i);
+            if(colNbme.equblsIgnoreCbse(pk)) {
+                isVblid = true;
+                brebk;
             }
         }
 
-        return isValid;
+        return isVblid;
     }
 }

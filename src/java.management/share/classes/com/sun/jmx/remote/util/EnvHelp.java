@@ -1,313 +1,313 @@
 
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.util;
+pbckbge com.sun.jmx.remote.util;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.SortedMbp;
+import jbvb.util.SortedSet;
+import jbvb.util.StringTokenizer;
+import jbvb.util.TreeMbp;
+import jbvb.util.TreeSet;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.InstanceNotFoundException;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXConnectorServerFactory;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.remote.security.NotificationAccessController;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorServer;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.remote.JMXConnectorFbctory;
+import jbvbx.mbnbgement.remote.JMXConnectorServerFbctory;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import com.sun.jmx.remote.security.NotificbtionAccessController;
+import jbvbx.mbnbgement.remote.JMXConnector;
+import jbvbx.mbnbgement.remote.JMXConnectorServer;
 
-public class EnvHelp {
+public clbss EnvHelp {
 
     /**
-     * <p>Name of the attribute that specifies a default class loader
+     * <p>Nbme of the bttribute thbt specifies b defbult clbss lobder
      * object.
-     * The value associated with this attribute is a ClassLoader object</p>
+     * The vblue bssocibted with this bttribute is b ClbssLobder object</p>
      */
-    private static final String DEFAULT_CLASS_LOADER =
-        JMXConnectorFactory.DEFAULT_CLASS_LOADER;
+    privbte stbtic finbl String DEFAULT_CLASS_LOADER =
+        JMXConnectorFbctory.DEFAULT_CLASS_LOADER;
 
     /**
-     * <p>Name of the attribute that specifies a default class loader
-     *    ObjectName.
-     * The value associated with this attribute is an ObjectName object</p>
+     * <p>Nbme of the bttribute thbt specifies b defbult clbss lobder
+     *    ObjectNbme.
+     * The vblue bssocibted with this bttribute is bn ObjectNbme object</p>
      */
-    private static final String DEFAULT_CLASS_LOADER_NAME =
-        JMXConnectorServerFactory.DEFAULT_CLASS_LOADER_NAME;
+    privbte stbtic finbl String DEFAULT_CLASS_LOADER_NAME =
+        JMXConnectorServerFbctory.DEFAULT_CLASS_LOADER_NAME;
 
     /**
-     * Get the Connector Server default class loader.
+     * Get the Connector Server defbult clbss lobder.
      * <p>
      * Returns:
      * <p>
      * <ul>
      * <li>
-     *     The ClassLoader object found in <var>env</var> for
-     *     <code>jmx.remote.default.class.loader</code>, if any.
+     *     The ClbssLobder object found in <vbr>env</vbr> for
+     *     <code>jmx.remote.defbult.clbss.lobder</code>, if bny.
      * </li>
      * <li>
-     *     The ClassLoader pointed to by the ObjectName found in
-     *     <var>env</var> for <code>jmx.remote.default.class.loader.name</code>,
-     *     and registered in <var>mbs</var> if any.
+     *     The ClbssLobder pointed to by the ObjectNbme found in
+     *     <vbr>env</vbr> for <code>jmx.remote.defbult.clbss.lobder.nbme</code>,
+     *     bnd registered in <vbr>mbs</vbr> if bny.
      * </li>
      * <li>
-     *     The current thread's context classloader otherwise.
+     *     The current threbd's context clbsslobder otherwise.
      * </li>
      * </ul>
      *
-     * @param env Environment attributes.
-     * @param mbs The MBeanServer for which the connector server provides
-     * remote access.
+     * @pbrbm env Environment bttributes.
+     * @pbrbm mbs The MBebnServer for which the connector server provides
+     * remote bccess.
      *
-     * @return the connector server's default class loader.
+     * @return the connector server's defbult clbss lobder.
      *
-     * @exception IllegalArgumentException if one of the following is true:
+     * @exception IllegblArgumentException if one of the following is true:
      * <ul>
      * <li>both
-     *     <code>jmx.remote.default.class.loader</code> and
-     *     <code>jmx.remote.default.class.loader.name</code> are specified,
+     *     <code>jmx.remote.defbult.clbss.lobder</code> bnd
+     *     <code>jmx.remote.defbult.clbss.lobder.nbme</code> bre specified,
      * </li>
      * <li>or
-     *     <code>jmx.remote.default.class.loader</code> is not
-     *     an instance of {@link ClassLoader},
+     *     <code>jmx.remote.defbult.clbss.lobder</code> is not
+     *     bn instbnce of {@link ClbssLobder},
      * </li>
      * <li>or
-     *     <code>jmx.remote.default.class.loader.name</code> is not
-     *     an instance of {@link ObjectName},
+     *     <code>jmx.remote.defbult.clbss.lobder.nbme</code> is not
+     *     bn instbnce of {@link ObjectNbme},
      * </li>
      * <li>or
-     *     <code>jmx.remote.default.class.loader.name</code> is specified
-     *     but <var>mbs</var> is null.
+     *     <code>jmx.remote.defbult.clbss.lobder.nbme</code> is specified
+     *     but <vbr>mbs</vbr> is null.
      * </li>
-     * @exception InstanceNotFoundException if
-     * <code>jmx.remote.default.class.loader.name</code> is specified
-     * and the ClassLoader MBean is not found in <var>mbs</var>.
+     * @exception InstbnceNotFoundException if
+     * <code>jmx.remote.defbult.clbss.lobder.nbme</code> is specified
+     * bnd the ClbssLobder MBebn is not found in <vbr>mbs</vbr>.
      */
-    public static ClassLoader resolveServerClassLoader(Map<String, ?> env,
-                                                       MBeanServer mbs)
-        throws InstanceNotFoundException {
+    public stbtic ClbssLobder resolveServerClbssLobder(Mbp<String, ?> env,
+                                                       MBebnServer mbs)
+        throws InstbnceNotFoundException {
 
         if (env == null)
-            return Thread.currentThread().getContextClassLoader();
+            return Threbd.currentThrebd().getContextClbssLobder();
 
-        Object loader = env.get(DEFAULT_CLASS_LOADER);
-        Object name   = env.get(DEFAULT_CLASS_LOADER_NAME);
+        Object lobder = env.get(DEFAULT_CLASS_LOADER);
+        Object nbme   = env.get(DEFAULT_CLASS_LOADER_NAME);
 
-        if (loader != null && name != null) {
-            final String msg = "Only one of " +
+        if (lobder != null && nbme != null) {
+            finbl String msg = "Only one of " +
                 DEFAULT_CLASS_LOADER + " or " +
                 DEFAULT_CLASS_LOADER_NAME +
                 " should be specified.";
-            throw new IllegalArgumentException(msg);
+            throw new IllegblArgumentException(msg);
         }
 
-        if (loader == null && name == null)
-            return Thread.currentThread().getContextClassLoader();
+        if (lobder == null && nbme == null)
+            return Threbd.currentThrebd().getContextClbssLobder();
 
-        if (loader != null) {
-            if (loader instanceof ClassLoader) {
-                return (ClassLoader) loader;
+        if (lobder != null) {
+            if (lobder instbnceof ClbssLobder) {
+                return (ClbssLobder) lobder;
             } else {
-                final String msg =
-                    "ClassLoader object is not an instance of " +
-                    ClassLoader.class.getName() + " : " +
-                    loader.getClass().getName();
-                throw new IllegalArgumentException(msg);
+                finbl String msg =
+                    "ClbssLobder object is not bn instbnce of " +
+                    ClbssLobder.clbss.getNbme() + " : " +
+                    lobder.getClbss().getNbme();
+                throw new IllegblArgumentException(msg);
             }
         }
 
-        ObjectName on;
-        if (name instanceof ObjectName) {
-            on = (ObjectName) name;
+        ObjectNbme on;
+        if (nbme instbnceof ObjectNbme) {
+            on = (ObjectNbme) nbme;
         } else {
-            final String msg =
-                "ClassLoader name is not an instance of " +
-                ObjectName.class.getName() + " : " +
-                name.getClass().getName();
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "ClbssLobder nbme is not bn instbnce of " +
+                ObjectNbme.clbss.getNbme() + " : " +
+                nbme.getClbss().getNbme();
+            throw new IllegblArgumentException(msg);
         }
 
         if (mbs == null)
-            throw new IllegalArgumentException("Null MBeanServer object");
+            throw new IllegblArgumentException("Null MBebnServer object");
 
-        return mbs.getClassLoader(on);
+        return mbs.getClbssLobder(on);
     }
 
     /**
-     * Get the Connector Client default class loader.
+     * Get the Connector Client defbult clbss lobder.
      * <p>
      * Returns:
      * <p>
      * <ul>
      * <li>
-     *     The ClassLoader object found in <var>env</var> for
-     *     <code>jmx.remote.default.class.loader</code>, if any.
+     *     The ClbssLobder object found in <vbr>env</vbr> for
+     *     <code>jmx.remote.defbult.clbss.lobder</code>, if bny.
      * </li>
-     * <li>The <tt>Thread.currentThread().getContextClassLoader()</tt>
+     * <li>The <tt>Threbd.currentThrebd().getContextClbssLobder()</tt>
      *     otherwise.
      * </li>
      * </ul>
      * <p>
-     * Usually a Connector Client will call
+     * Usublly b Connector Client will cbll
      * <pre>
-     * ClassLoader dcl = EnvHelp.resolveClientClassLoader(env);
+     * ClbssLobder dcl = EnvHelp.resolveClientClbssLobder(env);
      * </pre>
-     * in its <code>connect(Map env)</code> method.
+     * in its <code>connect(Mbp env)</code> method.
      *
-     * @return The connector client default class loader.
+     * @return The connector client defbult clbss lobder.
      *
-     * @exception IllegalArgumentException if
-     * <code>jmx.remote.default.class.loader</code> is specified
-     * and is not an instance of {@link ClassLoader}.
+     * @exception IllegblArgumentException if
+     * <code>jmx.remote.defbult.clbss.lobder</code> is specified
+     * bnd is not bn instbnce of {@link ClbssLobder}.
      */
-    public static ClassLoader resolveClientClassLoader(Map<String, ?> env) {
+    public stbtic ClbssLobder resolveClientClbssLobder(Mbp<String, ?> env) {
 
         if (env == null)
-            return Thread.currentThread().getContextClassLoader();
+            return Threbd.currentThrebd().getContextClbssLobder();
 
-        Object loader = env.get(DEFAULT_CLASS_LOADER);
+        Object lobder = env.get(DEFAULT_CLASS_LOADER);
 
-        if (loader == null)
-            return Thread.currentThread().getContextClassLoader();
+        if (lobder == null)
+            return Threbd.currentThrebd().getContextClbssLobder();
 
-        if (loader instanceof ClassLoader) {
-            return (ClassLoader) loader;
+        if (lobder instbnceof ClbssLobder) {
+            return (ClbssLobder) lobder;
         } else {
-            final String msg =
-                "ClassLoader object is not an instance of " +
-                ClassLoader.class.getName() + " : " +
-                loader.getClass().getName();
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "ClbssLobder object is not bn instbnce of " +
+                ClbssLobder.clbss.getNbme() + " : " +
+                lobder.getClbss().getNbme();
+            throw new IllegblArgumentException(msg);
         }
     }
 
     /**
-     * Initialize the cause field of a {@code Throwable} object.
+     * Initiblize the cbuse field of b {@code Throwbble} object.
      *
-     * @param throwable The {@code Throwable} on which the cause is set.
-     * @param cause The cause to set on the supplied {@code Throwable}.
-     * @return the {@code Throwable} with the cause field initialized.
+     * @pbrbm throwbble The {@code Throwbble} on which the cbuse is set.
+     * @pbrbm cbuse The cbuse to set on the supplied {@code Throwbble}.
+     * @return the {@code Throwbble} with the cbuse field initiblized.
      */
-    public static <T extends Throwable> T initCause(T throwable,
-                                                    Throwable cause) {
-        throwable.initCause(cause);
-        return throwable;
+    public stbtic <T extends Throwbble> T initCbuse(T throwbble,
+                                                    Throwbble cbuse) {
+        throwbble.initCbuse(cbuse);
+        return throwbble;
     }
 
     /**
-     * Returns the cause field of a {@code Throwable} object.
-     * The cause field can be got only if <var>t</var> has an
-     * {@link Throwable#getCause()} method (JDK Version >= 1.4)
-     * @param t {@code Throwable} on which the cause must be set.
-     * @return the cause if getCause() succeeded and the got value is not
-     * null, otherwise return the <var>t</var>.
+     * Returns the cbuse field of b {@code Throwbble} object.
+     * The cbuse field cbn be got only if <vbr>t</vbr> hbs bn
+     * {@link Throwbble#getCbuse()} method (JDK Version >= 1.4)
+     * @pbrbm t {@code Throwbble} on which the cbuse must be set.
+     * @return the cbuse if getCbuse() succeeded bnd the got vblue is not
+     * null, otherwise return the <vbr>t</vbr>.
      */
-    public static Throwable getCause(Throwable t) {
-        Throwable ret = t;
+    public stbtic Throwbble getCbuse(Throwbble t) {
+        Throwbble ret = t;
 
         try {
-            java.lang.reflect.Method getCause =
-                t.getClass().getMethod("getCause", (Class<?>[]) null);
-            ret = (Throwable)getCause.invoke(t, (Object[]) null);
+            jbvb.lbng.reflect.Method getCbuse =
+                t.getClbss().getMethod("getCbuse", (Clbss<?>[]) null);
+            ret = (Throwbble)getCbuse.invoke(t, (Object[]) null);
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             // OK.
-            // it must be older than 1.4.
+            // it must be older thbn 1.4.
         }
         return (ret != null) ? ret: t;
     }
 
 
     /**
-     * <p>Name of the attribute that specifies the size of a notification
-     * buffer for a connector server. The default value is 1000.
+     * <p>Nbme of the bttribute thbt specifies the size of b notificbtion
+     * buffer for b connector server. The defbult vblue is 1000.
      */
-    public static final String BUFFER_SIZE_PROPERTY =
-        "jmx.remote.x.notification.buffer.size";
+    public stbtic finbl String BUFFER_SIZE_PROPERTY =
+        "jmx.remote.x.notificbtion.buffer.size";
 
 
     /**
-     * Returns the size of a notification buffer for a connector server.
-     * The default value is 1000.
+     * Returns the size of b notificbtion buffer for b connector server.
+     * The defbult vblue is 1000.
      */
-    public static int getNotifBufferSize(Map<String, ?> env) {
-        int defaultQueueSize = 1000; // default value
+    public stbtic int getNotifBufferSize(Mbp<String, ?> env) {
+        int defbultQueueSize = 1000; // defbult vblue
 
-        // keep it for the compability for the fix:
-        // 6174229: Environment parameter should be notification.buffer.size
-        // instead of buffer.size
-        final String oldP = "jmx.remote.x.buffer.size";
+        // keep it for the compbbility for the fix:
+        // 6174229: Environment pbrbmeter should be notificbtion.buffer.size
+        // instebd of buffer.size
+        finbl String oldP = "jmx.remote.x.buffer.size";
 
-        // the default value re-specified in the system
+        // the defbult vblue re-specified in the system
         try {
-            GetPropertyAction act = new GetPropertyAction(BUFFER_SIZE_PROPERTY);
-            String s = AccessController.doPrivileged(act);
+            GetPropertyAction bct = new GetPropertyAction(BUFFER_SIZE_PROPERTY);
+            String s = AccessController.doPrivileged(bct);
             if (s != null) {
-                defaultQueueSize = Integer.parseInt(s);
+                defbultQueueSize = Integer.pbrseInt(s);
             } else { // try the old one
-                act = new GetPropertyAction(oldP);
-                s = AccessController.doPrivileged(act);
+                bct = new GetPropertyAction(oldP);
+                s = AccessController.doPrivileged(bct);
                 if (s != null) {
-                    defaultQueueSize = Integer.parseInt(s);
+                    defbultQueueSize = Integer.pbrseInt(s);
                 }
             }
-        } catch (RuntimeException e) {
-            logger.warning("getNotifBufferSize",
-                           "Can't use System property "+
+        } cbtch (RuntimeException e) {
+            logger.wbrning("getNotifBufferSize",
+                           "Cbn't use System property "+
                            BUFFER_SIZE_PROPERTY+ ": " + e);
               logger.debug("getNotifBufferSize", e);
         }
 
-        int queueSize = defaultQueueSize;
+        int queueSize = defbultQueueSize;
 
         try {
-            if (env.containsKey(BUFFER_SIZE_PROPERTY)) {
+            if (env.contbinsKey(BUFFER_SIZE_PROPERTY)) {
                 queueSize = (int)EnvHelp.getIntegerAttribute(env,BUFFER_SIZE_PROPERTY,
-                                            defaultQueueSize,0,
+                                            defbultQueueSize,0,
                                             Integer.MAX_VALUE);
             } else { // try the old one
                 queueSize = (int)EnvHelp.getIntegerAttribute(env,oldP,
-                                            defaultQueueSize,0,
+                                            defbultQueueSize,0,
                                             Integer.MAX_VALUE);
             }
-        } catch (RuntimeException e) {
-            logger.warning("getNotifBufferSize",
-                           "Can't determine queuesize (using default): "+
+        } cbtch (RuntimeException e) {
+            logger.wbrning("getNotifBufferSize",
+                           "Cbn't determine queuesize (using defbult): "+
                            e);
             logger.debug("getNotifBufferSize", e);
         }
@@ -316,453 +316,453 @@ public class EnvHelp {
     }
 
     /**
-     * <p>Name of the attribute that specifies the maximum number of
-     * notifications that a client will fetch from its server.. The
-     * value associated with this attribute should be an
-     * <code>Integer</code> object.  The default value is 1000.</p>
+     * <p>Nbme of the bttribute thbt specifies the mbximum number of
+     * notificbtions thbt b client will fetch from its server.. The
+     * vblue bssocibted with this bttribute should be bn
+     * <code>Integer</code> object.  The defbult vblue is 1000.</p>
      */
-    public static final String MAX_FETCH_NOTIFS =
-        "jmx.remote.x.notification.fetch.max";
+    public stbtic finbl String MAX_FETCH_NOTIFS =
+        "jmx.remote.x.notificbtion.fetch.mbx";
 
     /**
-     * Returns the maximum notification number which a client will
+     * Returns the mbximum notificbtion number which b client will
      * fetch every time.
      */
-    public static int getMaxFetchNotifNumber(Map<String, ?> env) {
+    public stbtic int getMbxFetchNotifNumber(Mbp<String, ?> env) {
         return (int) getIntegerAttribute(env, MAX_FETCH_NOTIFS, 1000, 1,
                                          Integer.MAX_VALUE);
     }
 
     /**
-     * <p>Name of the attribute that specifies the timeout for a
-     * client to fetch notifications from its server. The value
-     * associated with this attribute should be a <code>Long</code>
-     * object.  The default value is 60000 milliseconds.</p>
+     * <p>Nbme of the bttribute thbt specifies the timeout for b
+     * client to fetch notificbtions from its server. The vblue
+     * bssocibted with this bttribute should be b <code>Long</code>
+     * object.  The defbult vblue is 60000 milliseconds.</p>
      */
-    public static final String FETCH_TIMEOUT =
-        "jmx.remote.x.notification.fetch.timeout";
+    public stbtic finbl String FETCH_TIMEOUT =
+        "jmx.remote.x.notificbtion.fetch.timeout";
 
     /**
-     * Returns the timeout for a client to fetch notifications.
+     * Returns the timeout for b client to fetch notificbtions.
      */
-    public static long getFetchTimeout(Map<String, ?> env) {
+    public stbtic long getFetchTimeout(Mbp<String, ?> env) {
         return getIntegerAttribute(env, FETCH_TIMEOUT, 60000L, 0,
                 Long.MAX_VALUE);
     }
 
     /**
-     * <p>Name of the attribute that specifies an object that will check
-     * accesses to add/removeNotificationListener and also attempts to
-     * receive notifications.  The value associated with this attribute
-     * should be a <code>NotificationAccessController</code> object.
-     * The default value is null.</p>
-     * This field is not public because of its com.sun dependency.
+     * <p>Nbme of the bttribute thbt specifies bn object thbt will check
+     * bccesses to bdd/removeNotificbtionListener bnd blso bttempts to
+     * receive notificbtions.  The vblue bssocibted with this bttribute
+     * should be b <code>NotificbtionAccessController</code> object.
+     * The defbult vblue is null.</p>
+     * This field is not public becbuse of its com.sun dependency.
      */
-    public static final String NOTIF_ACCESS_CONTROLLER =
-            "com.sun.jmx.remote.notification.access.controller";
+    public stbtic finbl String NOTIF_ACCESS_CONTROLLER =
+            "com.sun.jmx.remote.notificbtion.bccess.controller";
 
-    public static NotificationAccessController getNotificationAccessController(
-            Map<String, ?> env) {
+    public stbtic NotificbtionAccessController getNotificbtionAccessController(
+            Mbp<String, ?> env) {
         return (env == null) ? null :
-            (NotificationAccessController) env.get(NOTIF_ACCESS_CONTROLLER);
+            (NotificbtionAccessController) env.get(NOTIF_ACCESS_CONTROLLER);
     }
 
     /**
-     * Get an integer-valued attribute with name <code>name</code>
+     * Get bn integer-vblued bttribute with nbme <code>nbme</code>
      * from <code>env</code>.  If <code>env</code> is null, or does
-     * not contain an entry for <code>name</code>, return
-     * <code>defaultValue</code>.  The value may be a Number, or it
-     * may be a String that is parsable as a long.  It must be at
-     * least <code>minValue</code> and at most<code>maxValue</code>.
+     * not contbin bn entry for <code>nbme</code>, return
+     * <code>defbultVblue</code>.  The vblue mby be b Number, or it
+     * mby be b String thbt is pbrsbble bs b long.  It must be bt
+     * lebst <code>minVblue</code> bnd bt most<code>mbxVblue</code>.
      *
-     * @throws IllegalArgumentException if <code>env</code> contains
-     * an entry for <code>name</code> but it does not meet the
-     * constraints above.
+     * @throws IllegblArgumentException if <code>env</code> contbins
+     * bn entry for <code>nbme</code> but it does not meet the
+     * constrbints bbove.
      */
-    public static long getIntegerAttribute(Map<String, ?> env, String name,
-                                           long defaultValue, long minValue,
-                                           long maxValue) {
-        final Object o;
+    public stbtic long getIntegerAttribute(Mbp<String, ?> env, String nbme,
+                                           long defbultVblue, long minVblue,
+                                           long mbxVblue) {
+        finbl Object o;
 
-        if (env == null || (o = env.get(name)) == null)
-            return defaultValue;
+        if (env == null || (o = env.get(nbme)) == null)
+            return defbultVblue;
 
-        final long result;
+        finbl long result;
 
-        if (o instanceof Number)
-            result = ((Number) o).longValue();
-        else if (o instanceof String) {
-            result = Long.parseLong((String) o);
-            /* May throw a NumberFormatException, which is an
-               IllegalArgumentException.  */
+        if (o instbnceof Number)
+            result = ((Number) o).longVblue();
+        else if (o instbnceof String) {
+            result = Long.pbrseLong((String) o);
+            /* Mby throw b NumberFormbtException, which is bn
+               IllegblArgumentException.  */
         } else {
-            final String msg =
-                "Attribute " + name + " value must be Integer or String: " + o;
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "Attribute " + nbme + " vblue must be Integer or String: " + o;
+            throw new IllegblArgumentException(msg);
         }
 
-        if (result < minValue) {
-            final String msg =
-                "Attribute " + name + " value must be at least " + minValue +
+        if (result < minVblue) {
+            finbl String msg =
+                "Attribute " + nbme + " vblue must be bt lebst " + minVblue +
                 ": " + result;
-            throw new IllegalArgumentException(msg);
+            throw new IllegblArgumentException(msg);
         }
 
-        if (result > maxValue) {
-            final String msg =
-                "Attribute " + name + " value must be at most " + maxValue +
+        if (result > mbxVblue) {
+            finbl String msg =
+                "Attribute " + nbme + " vblue must be bt most " + mbxVblue +
                 ": " + result;
-            throw new IllegalArgumentException(msg);
+            throw new IllegblArgumentException(msg);
         }
 
         return result;
     }
 
-    public static final String DEFAULT_ORB="java.naming.corba.orb";
+    public stbtic finbl String DEFAULT_ORB="jbvb.nbming.corbb.orb";
 
-    /* Check that all attributes have a key that is a String.
-       Could make further checks, e.g. appropriate types for attributes.  */
-    public static void checkAttributes(Map<?, ?> attributes) {
-        for (Object key : attributes.keySet()) {
-            if (!(key instanceof String)) {
-                final String msg =
-                    "Attributes contain key that is not a string: " + key;
-                throw new IllegalArgumentException(msg);
+    /* Check thbt bll bttributes hbve b key thbt is b String.
+       Could mbke further checks, e.g. bppropribte types for bttributes.  */
+    public stbtic void checkAttributes(Mbp<?, ?> bttributes) {
+        for (Object key : bttributes.keySet()) {
+            if (!(key instbnceof String)) {
+                finbl String msg =
+                    "Attributes contbin key thbt is not b string: " + key;
+                throw new IllegblArgumentException(msg);
             }
         }
     }
 
-    /* Return a writable map containing only those attributes that are
-       serializable, and that are not hidden by
-       jmx.remote.x.hidden.attributes or the default list of hidden
-       attributes.  */
-    public static <V> Map<String, V> filterAttributes(Map<String, V> attributes) {
-        if (logger.traceOn()) {
-            logger.trace("filterAttributes", "starts");
+    /* Return b writbble mbp contbining only those bttributes thbt bre
+       seriblizbble, bnd thbt bre not hidden by
+       jmx.remote.x.hidden.bttributes or the defbult list of hidden
+       bttributes.  */
+    public stbtic <V> Mbp<String, V> filterAttributes(Mbp<String, V> bttributes) {
+        if (logger.trbceOn()) {
+            logger.trbce("filterAttributes", "stbrts");
         }
 
-        SortedMap<String, V> map = new TreeMap<String, V>(attributes);
-        purgeUnserializable(map.values());
-        hideAttributes(map);
-        return map;
+        SortedMbp<String, V> mbp = new TreeMbp<String, V>(bttributes);
+        purgeUnseriblizbble(mbp.vblues());
+        hideAttributes(mbp);
+        return mbp;
     }
 
     /**
-     * Remove from the given Collection any element that is not a
-     * serializable object.
+     * Remove from the given Collection bny element thbt is not b
+     * seriblizbble object.
      */
-    private static void purgeUnserializable(Collection<?> objects) {
-        logger.trace("purgeUnserializable", "starts");
-        ObjectOutputStream oos = null;
+    privbte stbtic void purgeUnseriblizbble(Collection<?> objects) {
+        logger.trbce("purgeUnseriblizbble", "stbrts");
+        ObjectOutputStrebm oos = null;
         int i = 0;
-        for (Iterator<?> it = objects.iterator(); it.hasNext(); i++) {
+        for (Iterbtor<?> it = objects.iterbtor(); it.hbsNext(); i++) {
             Object v = it.next();
 
-            if (v == null || v instanceof String) {
-                if (logger.traceOn()) {
-                    logger.trace("purgeUnserializable",
-                                 "Value trivially serializable: " + v);
+            if (v == null || v instbnceof String) {
+                if (logger.trbceOn()) {
+                    logger.trbce("purgeUnseriblizbble",
+                                 "Vblue triviblly seriblizbble: " + v);
                 }
                 continue;
             }
 
             try {
                 if (oos == null)
-                    oos = new ObjectOutputStream(new SinkOutputStream());
+                    oos = new ObjectOutputStrebm(new SinkOutputStrebm());
                 oos.writeObject(v);
-                if (logger.traceOn()) {
-                    logger.trace("purgeUnserializable",
-                                 "Value serializable: " + v);
+                if (logger.trbceOn()) {
+                    logger.trbce("purgeUnseriblizbble",
+                                 "Vblue seriblizbble: " + v);
                 }
-            } catch (IOException e) {
-                if (logger.traceOn()) {
-                    logger.trace("purgeUnserializable",
-                                 "Value not serializable: " + v + ": " +
+            } cbtch (IOException e) {
+                if (logger.trbceOn()) {
+                    logger.trbce("purgeUnseriblizbble",
+                                 "Vblue not seriblizbble: " + v + ": " +
                                  e);
                 }
                 it.remove();
-                oos = null; // ObjectOutputStream invalid after exception
+                oos = null; // ObjectOutputStrebm invblid bfter exception
             }
         }
     }
 
     /**
-     * The value of this attribute, if present, is a string specifying
-     * what other attributes should not appear in
-     * JMXConnectorServer.getAttributes().  It is a space-separated
-     * list of attribute patterns, where each pattern is either an
-     * attribute name, or an attribute prefix followed by a "*"
-     * character.  The "*" has no special significance anywhere except
-     * at the end of a pattern.  By default, this list is added to the
+     * The vblue of this bttribute, if present, is b string specifying
+     * whbt other bttributes should not bppebr in
+     * JMXConnectorServer.getAttributes().  It is b spbce-sepbrbted
+     * list of bttribute pbtterns, where ebch pbttern is either bn
+     * bttribute nbme, or bn bttribute prefix followed by b "*"
+     * chbrbcter.  The "*" hbs no specibl significbnce bnywhere except
+     * bt the end of b pbttern.  By defbult, this list is bdded to the
      * list defined by {@link #DEFAULT_HIDDEN_ATTRIBUTES} (which
-     * uses the same format).  If the value of this attribute begins
-     * with an "=", then the remainder of the string defines the
-     * complete list of attribute patterns.
+     * uses the sbme formbt).  If the vblue of this bttribute begins
+     * with bn "=", then the rembinder of the string defines the
+     * complete list of bttribute pbtterns.
      */
-    public static final String HIDDEN_ATTRIBUTES =
-        "jmx.remote.x.hidden.attributes";
+    public stbtic finbl String HIDDEN_ATTRIBUTES =
+        "jmx.remote.x.hidden.bttributes";
 
     /**
-     * Default list of attributes not to show.
+     * Defbult list of bttributes not to show.
      * @see #HIDDEN_ATTRIBUTES
      */
     /* This list is copied directly from the spec, plus
-       java.naming.security.*.  Most of the attributes here would have
-       been eliminated from the map anyway because they are typically
-       not serializable.  But just in case they are, we list them here
+       jbvb.nbming.security.*.  Most of the bttributes here would hbve
+       been eliminbted from the mbp bnywby becbuse they bre typicblly
+       not seriblizbble.  But just in cbse they bre, we list them here
        to conform to the spec.  */
-    public static final String DEFAULT_HIDDEN_ATTRIBUTES =
-        "java.naming.security.* " +
-        "jmx.remote.authenticator " +
+    public stbtic finbl String DEFAULT_HIDDEN_ATTRIBUTES =
+        "jbvb.nbming.security.* " +
+        "jmx.remote.buthenticbtor " +
         "jmx.remote.context " +
-        "jmx.remote.default.class.loader " +
-        "jmx.remote.message.connection.server " +
-        "jmx.remote.object.wrapping " +
-        "jmx.remote.rmi.client.socket.factory " +
-        "jmx.remote.rmi.server.socket.factory " +
-        "jmx.remote.sasl.callback.handler " +
-        "jmx.remote.tls.socket.factory " +
-        "jmx.remote.x.access.file " +
-        "jmx.remote.x.password.file ";
+        "jmx.remote.defbult.clbss.lobder " +
+        "jmx.remote.messbge.connection.server " +
+        "jmx.remote.object.wrbpping " +
+        "jmx.remote.rmi.client.socket.fbctory " +
+        "jmx.remote.rmi.server.socket.fbctory " +
+        "jmx.remote.sbsl.cbllbbck.hbndler " +
+        "jmx.remote.tls.socket.fbctory " +
+        "jmx.remote.x.bccess.file " +
+        "jmx.remote.x.pbssword.file ";
 
-    private static final SortedSet<String> defaultHiddenStrings =
+    privbte stbtic finbl SortedSet<String> defbultHiddenStrings =
             new TreeSet<String>();
-    private static final SortedSet<String> defaultHiddenPrefixes =
+    privbte stbtic finbl SortedSet<String> defbultHiddenPrefixes =
             new TreeSet<String>();
 
-    private static void hideAttributes(SortedMap<String, ?> map) {
-        if (map.isEmpty())
+    privbte stbtic void hideAttributes(SortedMbp<String, ?> mbp) {
+        if (mbp.isEmpty())
             return;
 
-        final SortedSet<String> hiddenStrings;
-        final SortedSet<String> hiddenPrefixes;
+        finbl SortedSet<String> hiddenStrings;
+        finbl SortedSet<String> hiddenPrefixes;
 
-        String hide = (String) map.get(HIDDEN_ATTRIBUTES);
+        String hide = (String) mbp.get(HIDDEN_ATTRIBUTES);
         if (hide != null) {
-            if (hide.startsWith("="))
+            if (hide.stbrtsWith("="))
                 hide = hide.substring(1);
             else
                 hide += " " + DEFAULT_HIDDEN_ATTRIBUTES;
             hiddenStrings = new TreeSet<String>();
             hiddenPrefixes = new TreeSet<String>();
-            parseHiddenAttributes(hide, hiddenStrings, hiddenPrefixes);
+            pbrseHiddenAttributes(hide, hiddenStrings, hiddenPrefixes);
         } else {
             hide = DEFAULT_HIDDEN_ATTRIBUTES;
-            synchronized (defaultHiddenStrings) {
-                if (defaultHiddenStrings.isEmpty()) {
-                    parseHiddenAttributes(hide,
-                                          defaultHiddenStrings,
-                                          defaultHiddenPrefixes);
+            synchronized (defbultHiddenStrings) {
+                if (defbultHiddenStrings.isEmpty()) {
+                    pbrseHiddenAttributes(hide,
+                                          defbultHiddenStrings,
+                                          defbultHiddenPrefixes);
                 }
-                hiddenStrings = defaultHiddenStrings;
-                hiddenPrefixes = defaultHiddenPrefixes;
+                hiddenStrings = defbultHiddenStrings;
+                hiddenPrefixes = defbultHiddenPrefixes;
             }
         }
 
-        /* Construct a string that is greater than any key in the map.
-           Setting a string-to-match or a prefix-to-match to this string
-           guarantees that we will never call next() on the corresponding
-           iterator.  */
-        String sentinelKey = map.lastKey() + "X";
-        Iterator<String> keyIterator = map.keySet().iterator();
-        Iterator<String> stringIterator = hiddenStrings.iterator();
-        Iterator<String> prefixIterator = hiddenPrefixes.iterator();
+        /* Construct b string thbt is grebter thbn bny key in the mbp.
+           Setting b string-to-mbtch or b prefix-to-mbtch to this string
+           gubrbntees thbt we will never cbll next() on the corresponding
+           iterbtor.  */
+        String sentinelKey = mbp.lbstKey() + "X";
+        Iterbtor<String> keyIterbtor = mbp.keySet().iterbtor();
+        Iterbtor<String> stringIterbtor = hiddenStrings.iterbtor();
+        Iterbtor<String> prefixIterbtor = hiddenPrefixes.iterbtor();
 
         String nextString;
-        if (stringIterator.hasNext())
-            nextString = stringIterator.next();
+        if (stringIterbtor.hbsNext())
+            nextString = stringIterbtor.next();
         else
             nextString = sentinelKey;
         String nextPrefix;
-        if (prefixIterator.hasNext())
-            nextPrefix = prefixIterator.next();
+        if (prefixIterbtor.hbsNext())
+            nextPrefix = prefixIterbtor.next();
         else
             nextPrefix = sentinelKey;
 
-        /* Read each key in sorted order and, if it matches a string
+        /* Rebd ebch key in sorted order bnd, if it mbtches b string
            or prefix, remove it. */
     keys:
-        while (keyIterator.hasNext()) {
-            String key = keyIterator.next();
+        while (keyIterbtor.hbsNext()) {
+            String key = keyIterbtor.next();
 
-            /* Continue through string-match values until we find one
-               that is either greater than the current key, or equal
-               to it.  In the latter case, remove the key.  */
+            /* Continue through string-mbtch vblues until we find one
+               thbt is either grebter thbn the current key, or equbl
+               to it.  In the lbtter cbse, remove the key.  */
             int cmp = +1;
-            while ((cmp = nextString.compareTo(key)) < 0) {
-                if (stringIterator.hasNext())
-                    nextString = stringIterator.next();
+            while ((cmp = nextString.compbreTo(key)) < 0) {
+                if (stringIterbtor.hbsNext())
+                    nextString = stringIterbtor.next();
                 else
                     nextString = sentinelKey;
             }
             if (cmp == 0) {
-                keyIterator.remove();
+                keyIterbtor.remove();
                 continue keys;
             }
 
-            /* Continue through the prefix values until we find one
-               that is either greater than the current key, or a
-               prefix of it.  In the latter case, remove the key.  */
-            while (nextPrefix.compareTo(key) <= 0) {
-                if (key.startsWith(nextPrefix)) {
-                    keyIterator.remove();
+            /* Continue through the prefix vblues until we find one
+               thbt is either grebter thbn the current key, or b
+               prefix of it.  In the lbtter cbse, remove the key.  */
+            while (nextPrefix.compbreTo(key) <= 0) {
+                if (key.stbrtsWith(nextPrefix)) {
+                    keyIterbtor.remove();
                     continue keys;
                 }
-                if (prefixIterator.hasNext())
-                    nextPrefix = prefixIterator.next();
+                if (prefixIterbtor.hbsNext())
+                    nextPrefix = prefixIterbtor.next();
                 else
                     nextPrefix = sentinelKey;
             }
         }
     }
 
-    private static void parseHiddenAttributes(String hide,
+    privbte stbtic void pbrseHiddenAttributes(String hide,
                                               SortedSet<String> hiddenStrings,
                                               SortedSet<String> hiddenPrefixes) {
-        final StringTokenizer tok = new StringTokenizer(hide);
-        while (tok.hasMoreTokens()) {
+        finbl StringTokenizer tok = new StringTokenizer(hide);
+        while (tok.hbsMoreTokens()) {
             String s = tok.nextToken();
             if (s.endsWith("*"))
-                hiddenPrefixes.add(s.substring(0, s.length() - 1));
+                hiddenPrefixes.bdd(s.substring(0, s.length() - 1));
             else
-                hiddenStrings.add(s);
+                hiddenStrings.bdd(s);
         }
     }
 
     /**
-     * <p>Name of the attribute that specifies the timeout to keep a
-     * server side connection after answering last client request.
-     * The default value is 120000 milliseconds.</p>
+     * <p>Nbme of the bttribute thbt specifies the timeout to keep b
+     * server side connection bfter bnswering lbst client request.
+     * The defbult vblue is 120000 milliseconds.</p>
      */
-    public static final String SERVER_CONNECTION_TIMEOUT =
+    public stbtic finbl String SERVER_CONNECTION_TIMEOUT =
         "jmx.remote.x.server.connection.timeout";
 
     /**
      * Returns the server side connection timeout.
      */
-    public static long getServerConnectionTimeout(Map<String, ?> env) {
+    public stbtic long getServerConnectionTimeout(Mbp<String, ?> env) {
         return getIntegerAttribute(env, SERVER_CONNECTION_TIMEOUT, 120000L,
                                    0, Long.MAX_VALUE);
     }
 
     /**
-     * <p>Name of the attribute that specifies the period in
-     * millisecond for a client to check its connection.  The default
-     * value is 60000 milliseconds.</p>
+     * <p>Nbme of the bttribute thbt specifies the period in
+     * millisecond for b client to check its connection.  The defbult
+     * vblue is 60000 milliseconds.</p>
      */
-    public static final String CLIENT_CONNECTION_CHECK_PERIOD =
+    public stbtic finbl String CLIENT_CONNECTION_CHECK_PERIOD =
         "jmx.remote.x.client.connection.check.period";
 
     /**
      * Returns the client connection check period.
      */
-    public static long getConnectionCheckPeriod(Map<String, ?> env) {
+    public stbtic long getConnectionCheckPeriod(Mbp<String, ?> env) {
         return getIntegerAttribute(env, CLIENT_CONNECTION_CHECK_PERIOD, 60000L,
                                    0, Long.MAX_VALUE);
     }
 
     /**
-     * Computes a boolean value from a string value retrieved from a
-     * property in the given map.
+     * Computes b boolebn vblue from b string vblue retrieved from b
+     * property in the given mbp.
      *
-     * @param stringBoolean the string value that must be converted
-     * into a boolean value.
+     * @pbrbm stringBoolebn the string vblue thbt must be converted
+     * into b boolebn vblue.
      *
      * @return
      *   <ul>
-     *   <li>{@code false} if {@code stringBoolean} is {@code null}</li>
-     *   <li>{@code false} if
-     *       {@code stringBoolean.equalsIgnoreCase("false")}
+     *   <li>{@code fblse} if {@code stringBoolebn} is {@code null}</li>
+     *   <li>{@code fblse} if
+     *       {@code stringBoolebn.equblsIgnoreCbse("fblse")}
      *       is {@code true}</li>
      *   <li>{@code true} if
-     *       {@code stringBoolean.equalsIgnoreCase("true")}
+     *       {@code stringBoolebn.equblsIgnoreCbse("true")}
      *       is {@code true}</li>
      *   </ul>
      *
-     * @throws IllegalArgumentException if
-     * {@code ((String)env.get(prop)).equalsIgnoreCase("false")} and
-     * {@code ((String)env.get(prop)).equalsIgnoreCase("true")} are
-     * {@code false}.
+     * @throws IllegblArgumentException if
+     * {@code ((String)env.get(prop)).equblsIgnoreCbse("fblse")} bnd
+     * {@code ((String)env.get(prop)).equblsIgnoreCbse("true")} bre
+     * {@code fblse}.
      */
-    public static boolean computeBooleanFromString(String stringBoolean) {
-        // returns a default value of 'false' if no property is found...
-        return computeBooleanFromString(stringBoolean,false);
+    public stbtic boolebn computeBoolebnFromString(String stringBoolebn) {
+        // returns b defbult vblue of 'fblse' if no property is found...
+        return computeBoolebnFromString(stringBoolebn,fblse);
     }
 
     /**
-     * Computes a boolean value from a string value retrieved from a
-     * property in the given map.
+     * Computes b boolebn vblue from b string vblue retrieved from b
+     * property in the given mbp.
      *
-     * @param stringBoolean the string value that must be converted
-     * into a boolean value.
-     * @param defaultValue a default value to return in case no property
-     *        was defined.
+     * @pbrbm stringBoolebn the string vblue thbt must be converted
+     * into b boolebn vblue.
+     * @pbrbm defbultVblue b defbult vblue to return in cbse no property
+     *        wbs defined.
      *
      * @return
      *   <ul>
-     *   <li>{@code defaultValue} if {@code stringBoolean}
+     *   <li>{@code defbultVblue} if {@code stringBoolebn}
      *   is {@code null}</li>
-     *   <li>{@code false} if
-     *       {@code stringBoolean.equalsIgnoreCase("false")}
+     *   <li>{@code fblse} if
+     *       {@code stringBoolebn.equblsIgnoreCbse("fblse")}
      *       is {@code true}</li>
      *   <li>{@code true} if
-     *       {@code stringBoolean.equalsIgnoreCase("true")}
+     *       {@code stringBoolebn.equblsIgnoreCbse("true")}
      *       is {@code true}</li>
      *   </ul>
      *
-     * @throws IllegalArgumentException if
-     * {@code ((String)env.get(prop)).equalsIgnoreCase("false")} and
-     * {@code ((String)env.get(prop)).equalsIgnoreCase("true")} are
-     * {@code false}.
+     * @throws IllegblArgumentException if
+     * {@code ((String)env.get(prop)).equblsIgnoreCbse("fblse")} bnd
+     * {@code ((String)env.get(prop)).equblsIgnoreCbse("true")} bre
+     * {@code fblse}.
      */
-    public static boolean computeBooleanFromString( String stringBoolean, boolean defaultValue) {
-        if (stringBoolean == null)
-            return defaultValue;
-        else if (stringBoolean.equalsIgnoreCase("true"))
+    public stbtic boolebn computeBoolebnFromString( String stringBoolebn, boolebn defbultVblue) {
+        if (stringBoolebn == null)
+            return defbultVblue;
+        else if (stringBoolebn.equblsIgnoreCbse("true"))
             return true;
-        else if (stringBoolean.equalsIgnoreCase("false"))
-            return false;
+        else if (stringBoolebn.equblsIgnoreCbse("fblse"))
+            return fblse;
         else
-            throw new IllegalArgumentException(
-                "Property value must be \"true\" or \"false\" instead of \"" +
-                stringBoolean + "\"");
+            throw new IllegblArgumentException(
+                "Property vblue must be \"true\" or \"fblse\" instebd of \"" +
+                stringBoolebn + "\"");
     }
 
     /**
-     * Converts a map into a valid hash table, i.e.
-     * it removes all the 'null' values from the map.
+     * Converts b mbp into b vblid hbsh tbble, i.e.
+     * it removes bll the 'null' vblues from the mbp.
      */
-    public static <K, V> Hashtable<K, V> mapToHashtable(Map<K, V> map) {
-        HashMap<K, V> m = new HashMap<K, V>(map);
-        if (m.containsKey(null)) m.remove(null);
-        for (Iterator<?> i = m.values().iterator(); i.hasNext(); )
+    public stbtic <K, V> Hbshtbble<K, V> mbpToHbshtbble(Mbp<K, V> mbp) {
+        HbshMbp<K, V> m = new HbshMbp<K, V>(mbp);
+        if (m.contbinsKey(null)) m.remove(null);
+        for (Iterbtor<?> i = m.vblues().iterbtor(); i.hbsNext(); )
             if (i.next() == null) i.remove();
-        return new Hashtable<K, V>(m);
+        return new Hbshtbble<K, V>(m);
     }
 
     /**
-     * <p>Name of the attribute that specifies whether a connector server
+     * <p>Nbme of the bttribute thbt specifies whether b connector server
      * should not prevent the VM from exiting
      */
-    public static final String JMX_SERVER_DAEMON = "jmx.remote.x.daemon";
+    public stbtic finbl String JMX_SERVER_DAEMON = "jmx.remote.x.dbemon";
 
     /**
-     * Returns true if {@value SERVER_DAEMON} is specified in the {@code env}
-     * as a key and its value is a String and it is equal to true ignoring case.
+     * Returns true if {@vblue SERVER_DAEMON} is specified in the {@code env}
+     * bs b key bnd its vblue is b String bnd it is equbl to true ignoring cbse.
      *
-     * @param env
+     * @pbrbm env
      * @return
      */
-    public static boolean isServerDaemon(Map<String, ?> env) {
+    public stbtic boolebn isServerDbemon(Mbp<String, ?> env) {
         return (env != null) &&
-                ("true".equalsIgnoreCase((String)env.get(JMX_SERVER_DAEMON)));
+                ("true".equblsIgnoreCbse((String)env.get(JMX_SERVER_DAEMON)));
     }
 
-    private static final class SinkOutputStream extends OutputStream {
+    privbte stbtic finbl clbss SinkOutputStrebm extends OutputStrebm {
         public void write(byte[] b, int off, int len) {}
         public void write(int b) {}
     }
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "EnvHelp");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc", "EnvHelp");
 }

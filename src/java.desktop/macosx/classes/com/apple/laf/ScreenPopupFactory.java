@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
 
-import sun.lwawt.macosx.CPlatformWindow;
+import sun.lwbwt.mbcosx.CPlbtformWindow;
 import sun.swing.SwingAccessor;
 
-class ScreenPopupFactory extends PopupFactory {
-    static final Float TRANSLUCENT = new Float(248f/255f);
-    static final Float OPAQUE = new Float(1.0f);
+clbss ScreenPopupFbctory extends PopupFbctory {
+    stbtic finbl Flobt TRANSLUCENT = new Flobt(248f/255f);
+    stbtic finbl Flobt OPAQUE = new Flobt(1.0f);
 
-    boolean fIsActive = true;
+    boolebn fIsActive = true;
 
-    // Only popups generated with the Aqua LaF turned on will be translucent with shadows
-    void setActive(final boolean b) {
+    // Only popups generbted with the Aqub LbF turned on will be trbnslucent with shbdows
+    void setActive(finbl boolebn b) {
         fIsActive = b;
     }
 
-    private static Window getWindow(final Component c) {
+    privbte stbtic Window getWindow(finbl Component c) {
         Component w = c;
-        while(!(w instanceof Window) && (w!=null)) {
-            w = w.getParent();
+        while(!(w instbnceof Window) && (w!=null)) {
+            w = w.getPbrent();
         }
         return (Window)w;
     }
 
-    public Popup getPopup(final Component comp, final Component invoker, final int x, final int y) {
-        if (invoker == null) throw new IllegalArgumentException("Popup.getPopup must be passed non-null contents");
+    public Popup getPopup(finbl Component comp, finbl Component invoker, finbl int x, finbl int y) {
+        if (invoker == null) throw new IllegblArgumentException("Popup.getPopup must be pbssed non-null contents");
 
-        final Popup popup;
+        finbl Popup popup;
         if (fIsActive) {
-            popup = SwingAccessor.getPopupFactoryAccessor()
-                    .getHeavyWeightPopup(this, comp, invoker, x, y);
+            popup = SwingAccessor.getPopupFbctoryAccessor()
+                    .getHebvyWeightPopup(this, comp, invoker, x, y);
         } else {
             popup = super.getPopup(comp, invoker, x, y);
         }
 
-        // Make the popup semi-translucent if it is a heavy weight
-        // see <rdar://problem/3547670> JPopupMenus have incorrect background
-        final Window w = getWindow(invoker);
+        // Mbke the popup semi-trbnslucent if it is b hebvy weight
+        // see <rdbr://problem/3547670> JPopupMenus hbve incorrect bbckground
+        finbl Window w = getWindow(invoker);
         if (w == null) return popup;
 
-        if (!(w instanceof RootPaneContainer)) return popup;
-        final JRootPane popupRootPane = ((RootPaneContainer)w).getRootPane();
+        if (!(w instbnceof RootPbneContbiner)) return popup;
+        finbl JRootPbne popupRootPbne = ((RootPbneContbiner)w).getRootPbne();
 
-        // we need to set every time, because PopupFactory caches the heavy weight
-        // TODO: CPlatformWindow constants?
+        // we need to set every time, becbuse PopupFbctory cbches the hebvy weight
+        // TODO: CPlbtformWindow constbnts?
         if (fIsActive) {
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_ALPHA, TRANSLUCENT);
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_SHADOW, Boolean.TRUE);
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_FADE_DELEGATE, invoker);
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_ALPHA, TRANSLUCENT);
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_SHADOW, Boolebn.TRUE);
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_FADE_DELEGATE, invoker);
 
-            w.setBackground(UIManager.getColor("PopupMenu.translucentBackground"));
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_DRAGGABLE_BACKGROUND, Boolean.FALSE);
-            SwingUtilities.invokeLater(new Runnable() {
+            w.setBbckground(UIMbnbger.getColor("PopupMenu.trbnslucentBbckground"));
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_DRAGGABLE_BACKGROUND, Boolebn.FALSE);
+            SwingUtilities.invokeLbter(new Runnbble() {
                 public void run() {
-                    popupRootPane.putClientProperty(CPlatformWindow.WINDOW_SHADOW_REVALIDATE_NOW, Double.valueOf(Math.random()));
+                    popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_SHADOW_REVALIDATE_NOW, Double.vblueOf(Mbth.rbndom()));
                 }
             });
         } else {
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_ALPHA, OPAQUE);
-            popupRootPane.putClientProperty(CPlatformWindow.WINDOW_SHADOW, Boolean.FALSE);
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_ALPHA, OPAQUE);
+            popupRootPbne.putClientProperty(CPlbtformWindow.WINDOW_SHADOW, Boolebn.FALSE);
         }
 
         return popup;

@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.util.Locale;
+import jbvb.io.*;
+import jbvb.util.Locble;
 
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
+import jbvb.security.spec.X509EncodedKeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.crypto.SecretKeyFbctory;
+import jbvbx.crypto.spec.SecretKeySpec;
 
 /**
- * Standardized representation for serialized Key objects.
+ * Stbndbrdized representbtion for seriblized Key objects.
  *
  * <p>
  *
- * Note that a serialized Key may contain sensitive information
+ * Note thbt b seriblized Key mby contbin sensitive informbtion
  * which should not be exposed in untrusted environments.  See the
- * <a href="../../../platform/serialization/spec/security.html">
- * Security Appendix</a>
- * of the Serialization Specification for more information.
+ * <b href="../../../plbtform/seriblizbtion/spec/security.html">
+ * Security Appendix</b>
+ * of the Seriblizbtion Specificbtion for more informbtion.
  *
  * @see Key
- * @see KeyFactory
- * @see javax.crypto.spec.SecretKeySpec
- * @see java.security.spec.X509EncodedKeySpec
- * @see java.security.spec.PKCS8EncodedKeySpec
+ * @see KeyFbctory
+ * @see jbvbx.crypto.spec.SecretKeySpec
+ * @see jbvb.security.spec.X509EncodedKeySpec
+ * @see jbvb.security.spec.PKCS8EncodedKeySpec
  *
  * @since 1.5
  */
 
-public class KeyRep implements Serializable {
+public clbss KeyRep implements Seriblizbble {
 
-    private static final long serialVersionUID = -4757683898830641853L;
+    privbte stbtic finbl long seriblVersionUID = -4757683898830641853L;
 
     /**
      * Key type.
      *
      * @since 1.5
      */
-    public static enum Type {
+    public stbtic enum Type {
 
         /** Type for secret keys. */
         SECRET,
@@ -72,124 +72,124 @@ public class KeyRep implements Serializable {
         /** Type for public keys. */
         PUBLIC,
 
-        /** Type for private keys. */
+        /** Type for privbte keys. */
         PRIVATE,
 
     }
 
-    private static final String PKCS8 = "PKCS#8";
-    private static final String X509 = "X.509";
-    private static final String RAW = "RAW";
+    privbte stbtic finbl String PKCS8 = "PKCS#8";
+    privbte stbtic finbl String X509 = "X.509";
+    privbte stbtic finbl String RAW = "RAW";
 
     /**
      * Either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
      *
-     * @serial
+     * @seribl
      */
-    private Type type;
+    privbte Type type;
 
     /**
-     * The Key algorithm
+     * The Key blgorithm
      *
-     * @serial
+     * @seribl
      */
-    private String algorithm;
+    privbte String blgorithm;
 
     /**
-     * The Key encoding format
+     * The Key encoding formbt
      *
-     * @serial
+     * @seribl
      */
-    private String format;
+    privbte String formbt;
 
     /**
      * The encoded Key bytes
      *
-     * @serial
+     * @seribl
      */
-    private byte[] encoded;
+    privbte byte[] encoded;
 
     /**
-     * Construct the alternate Key class.
+     * Construct the blternbte Key clbss.
      *
      * <p>
      *
-     * @param type either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
-     * @param algorithm the algorithm returned from
+     * @pbrbm type either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
+     * @pbrbm blgorithm the blgorithm returned from
      *          {@code Key.getAlgorithm()}
-     * @param format the encoding format returned from
-     *          {@code Key.getFormat()}
-     * @param encoded the encoded bytes returned from
+     * @pbrbm formbt the encoding formbt returned from
+     *          {@code Key.getFormbt()}
+     * @pbrbm encoded the encoded bytes returned from
      *          {@code Key.getEncoded()}
      *
      * @exception NullPointerException
      *          if type is {@code null},
-     *          if algorithm is {@code null},
-     *          if format is {@code null},
+     *          if blgorithm is {@code null},
+     *          if formbt is {@code null},
      *          or if encoded is {@code null}
      */
-    public KeyRep(Type type, String algorithm,
-                String format, byte[] encoded) {
+    public KeyRep(Type type, String blgorithm,
+                String formbt, byte[] encoded) {
 
-        if (type == null || algorithm == null ||
-            format == null || encoded == null) {
-            throw new NullPointerException("invalid null input(s)");
+        if (type == null || blgorithm == null ||
+            formbt == null || encoded == null) {
+            throw new NullPointerException("invblid null input(s)");
         }
 
         this.type = type;
-        this.algorithm = algorithm;
-        this.format = format.toUpperCase(Locale.ENGLISH);
+        this.blgorithm = blgorithm;
+        this.formbt = formbt.toUpperCbse(Locble.ENGLISH);
         this.encoded = encoded.clone();
     }
 
     /**
      * Resolve the Key object.
      *
-     * <p> This method supports three Type/format combinations:
+     * <p> This method supports three Type/formbt combinbtions:
      * <ul>
-     * <li> Type.SECRET/"RAW" - returns a SecretKeySpec object
-     * constructed using encoded key bytes and algorithm
-     * <li> Type.PUBLIC/"X.509" - gets a KeyFactory instance for
-     * the key algorithm, constructs an X509EncodedKeySpec with the
-     * encoded key bytes, and generates a public key from the spec
-     * <li> Type.PRIVATE/"PKCS#8" - gets a KeyFactory instance for
-     * the key algorithm, constructs a PKCS8EncodedKeySpec with the
-     * encoded key bytes, and generates a private key from the spec
+     * <li> Type.SECRET/"RAW" - returns b SecretKeySpec object
+     * constructed using encoded key bytes bnd blgorithm
+     * <li> Type.PUBLIC/"X.509" - gets b KeyFbctory instbnce for
+     * the key blgorithm, constructs bn X509EncodedKeySpec with the
+     * encoded key bytes, bnd generbtes b public key from the spec
+     * <li> Type.PRIVATE/"PKCS#8" - gets b KeyFbctory instbnce for
+     * the key blgorithm, constructs b PKCS8EncodedKeySpec with the
+     * encoded key bytes, bnd generbtes b privbte key from the spec
      * </ul>
      *
      * <p>
      *
      * @return the resolved Key object
      *
-     * @exception ObjectStreamException if the Type/format
-     *  combination is unrecognized, if the algorithm, key format, or
-     *  encoded key bytes are unrecognized/invalid, of if the
-     *  resolution of the key fails for any reason
+     * @exception ObjectStrebmException if the Type/formbt
+     *  combinbtion is unrecognized, if the blgorithm, key formbt, or
+     *  encoded key bytes bre unrecognized/invblid, of if the
+     *  resolution of the key fbils for bny rebson
      */
-    protected Object readResolve() throws ObjectStreamException {
+    protected Object rebdResolve() throws ObjectStrebmException {
         try {
-            if (type == Type.SECRET && RAW.equals(format)) {
-                return new SecretKeySpec(encoded, algorithm);
-            } else if (type == Type.PUBLIC && X509.equals(format)) {
-                KeyFactory f = KeyFactory.getInstance(algorithm);
-                return f.generatePublic(new X509EncodedKeySpec(encoded));
-            } else if (type == Type.PRIVATE && PKCS8.equals(format)) {
-                KeyFactory f = KeyFactory.getInstance(algorithm);
-                return f.generatePrivate(new PKCS8EncodedKeySpec(encoded));
+            if (type == Type.SECRET && RAW.equbls(formbt)) {
+                return new SecretKeySpec(encoded, blgorithm);
+            } else if (type == Type.PUBLIC && X509.equbls(formbt)) {
+                KeyFbctory f = KeyFbctory.getInstbnce(blgorithm);
+                return f.generbtePublic(new X509EncodedKeySpec(encoded));
+            } else if (type == Type.PRIVATE && PKCS8.equbls(formbt)) {
+                KeyFbctory f = KeyFbctory.getInstbnce(blgorithm);
+                return f.generbtePrivbte(new PKCS8EncodedKeySpec(encoded));
             } else {
-                throw new NotSerializableException
-                        ("unrecognized type/format combination: " +
-                        type + "/" + format);
+                throw new NotSeriblizbbleException
+                        ("unrecognized type/formbt combinbtion: " +
+                        type + "/" + formbt);
             }
-        } catch (NotSerializableException nse) {
+        } cbtch (NotSeriblizbbleException nse) {
             throw nse;
-        } catch (Exception e) {
-            NotSerializableException nse = new NotSerializableException
-                                        ("java.security.Key: " +
+        } cbtch (Exception e) {
+            NotSeriblizbbleException nse = new NotSeriblizbbleException
+                                        ("jbvb.security.Key: " +
                                         "[" + type + "] " +
-                                        "[" + algorithm + "] " +
-                                        "[" + format + "]");
-            nse.initCause(e);
+                                        "[" + blgorithm + "] " +
+                                        "[" + formbt + "]");
+            nse.initCbuse(e);
             throw nse;
         }
     }

@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "D3DPipeline.h"
 #include "jlong.h"
 
-#include "GraphicsPrimitiveMgr.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "D3DContext.h"
-#include "D3DSurfaceData.h"
+#include "D3DSurfbceDbtb.h"
 #include "D3DBufImgOps.h"
-#include "D3DPaints.h"
+#include "D3DPbints.h"
 #include "D3DRenderQueue.h"
-#include "D3DShaders.h"
+#include "D3DShbders.h"
 #include "D3DTextRenderer.h"
-#include "D3DPipelineManager.h"
-#include "D3DGlyphCache.h"
+#include "D3DPipelineMbnbger.h"
+#include "D3DGlyphCbche.h"
 
 typedef struct {
     D3DBLEND src;
@@ -43,13 +43,13 @@ typedef struct {
 } D3DBlendRule;
 
 /**
- * This table contains the standard blending rules (or Porter-Duff compositing
- * factors) used in SetRenderState(), indexed by the rule constants from the
- * AlphaComposite class.
+ * This tbble contbins the stbndbrd blending rules (or Porter-Duff compositing
+ * fbctors) used in SetRenderStbte(), indexed by the rule constbnts from the
+ * AlphbComposite clbss.
  */
 D3DBlendRule StdBlendRules[] = {
     { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 0 - Nothing      */
-    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 1 - RULE_Clear   */
+    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 1 - RULE_Clebr   */
     { D3DBLEND_ONE,          D3DBLEND_ZERO        }, /* 2 - RULE_Src     */
     { D3DBLEND_ONE,          D3DBLEND_INVSRCALPHA }, /* 3 - RULE_SrcOver */
     { D3DBLEND_INVDESTALPHA, D3DBLEND_ONE         }, /* 4 - RULE_DstOver */
@@ -60,12 +60,12 @@ D3DBlendRule StdBlendRules[] = {
     { D3DBLEND_ZERO,         D3DBLEND_ONE         }, /* 9 - RULE_Dst     */
     { D3DBLEND_DESTALPHA,    D3DBLEND_INVSRCALPHA }, /*10 - RULE_SrcAtop */
     { D3DBLEND_INVDESTALPHA, D3DBLEND_SRCALPHA    }, /*11 - RULE_DstAtop */
-    { D3DBLEND_INVDESTALPHA, D3DBLEND_INVSRCALPHA }, /*12 - RULE_AlphaXor*/
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_INVSRCALPHA }, /*12 - RULE_AlphbXor*/
 };
 
 void
-D3DUtils_SetOrthoMatrixOffCenterLH(D3DMATRIX *m,
-                                   float width, float height)
+D3DUtils_SetOrthoMbtrixOffCenterLH(D3DMATRIX *m,
+                                   flobt width, flobt height)
 {
     ZeroMemory(m, sizeof(D3DMATRIX));
     m->_11 =  2.0f/width;
@@ -79,15 +79,15 @@ D3DUtils_SetOrthoMatrixOffCenterLH(D3DMATRIX *m,
 }
 
 void
-D3DUtils_SetIdentityMatrix(D3DMATRIX *m)
+D3DUtils_SetIdentityMbtrix(D3DMATRIX *m)
 {
     m->_12 = m->_13 = m->_14 = m->_21 = m->_23 = m->_24 = 0.0f;
     m->_31 = m->_32 = m->_34 = m->_41 = m->_42 = m->_43 = 0.0f;
     m->_11 = m->_22 = m->_33 = m->_44 = 1.0f;
 }
 
-// the following methods are copies of the AffineTransform's class
-// corresponding methods, with these changes to the indexes:
+// the following methods bre copies of the AffineTrbnsform's clbss
+// corresponding methods, with these chbnges to the indexes:
 // 00 -> 11
 // 11 -> 22
 // 01 -> 21
@@ -96,11 +96,11 @@ D3DUtils_SetIdentityMatrix(D3DMATRIX *m)
 // 12 -> 42
 
 void
-D3DUtils_2DConcatenateM(D3DMATRIX *m, D3DMATRIX *m1)
+D3DUtils_2DConcbtenbteM(D3DMATRIX *m, D3DMATRIX *m1)
 {
-    float M0, M1;
-    float T00, T10, T01, T11;
-    float T02, T12;
+    flobt M0, M1;
+    flobt T00, T10, T01, T11;
+    flobt T02, T12;
 
     T00 = m1->_11; T01 = m1->_21; T02 = m1->_41;
     T10 = m1->_12; T11 = m1->_22; T12 = m1->_42;
@@ -121,7 +121,7 @@ D3DUtils_2DConcatenateM(D3DMATRIX *m, D3DMATRIX *m1)
 #ifdef UPDATE_TX
 
 void
-D3DUtils_2DScaleM(D3DMATRIX *m, float sx, float sy)
+D3DUtils_2DScbleM(D3DMATRIX *m, flobt sx, flobt sy)
 {
     m->_11 *= sx;
     m->_22 *= sy;
@@ -130,14 +130,14 @@ D3DUtils_2DScaleM(D3DMATRIX *m, float sx, float sy)
 void
 D3DUtils_2DInvertM(D3DMATRIX *m)
 {
-    float M11, M21, M41;
-    float M12, M22, M42;
-    float det;
+    flobt M11, M21, M41;
+    flobt M12, M22, M42;
+    flobt det;
 
     M11 = m->_11; M21 = m->_21; M41 = m->_41;
     M12 = m->_12; M22 = m->_22; M42 = m->_42;
     det = M11 * M22 - M21 * M12;
-    if (fabs(det) <= 0.0000000001f) {
+    if (fbbs(det) <= 0.0000000001f) {
         memset(m, 0, sizeof(D3DMATRIX));
         return;
     }
@@ -150,32 +150,32 @@ D3DUtils_2DInvertM(D3DMATRIX *m)
 }
 
 void
-D3DUtils_2DTranslateM(D3DMATRIX *m, float tx, float ty)
+D3DUtils_2DTrbnslbteM(D3DMATRIX *m, flobt tx, flobt ty)
 {
     m->_41 = tx * m->_11 + ty * m->_21 + m->_41;
     m->_42 = tx * m->_12 + ty * m->_22 + m->_42;
 }
 
 void
-D3DUtils_2DTransformXY(D3DMATRIX *m, float *px, float *py)
+D3DUtils_2DTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
 {
-    float x = *px;
-    float y = *py;
+    flobt x = *px;
+    flobt y = *py;
 
     *px = x * m->_11 + y * m->_21 + m->_41;
     *py = x * m->_12 + y * m->_22 + m->_42;
 }
 
 void
-D3DUtils_2DInverseTransformXY(D3DMATRIX *m, float *px, float *py)
+D3DUtils_2DInverseTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
 {
-    float x = *px, y = *py;
+    flobt x = *px, y = *py;
 
     x -= m->_41;
     y -= m->_42;
 
-    float det = m->_11 * m->_22 - m->_21 * m->_12;
-    if (fabs(det) < 0.0000000001f) {
+    flobt det = m->_11 * m->_22 - m->_21 * m->_12;
+    if (fbbs(det) < 0.0000000001f) {
         *px = 0.0f;
         *py = 0.0f;
     } else {
@@ -186,23 +186,23 @@ D3DUtils_2DInverseTransformXY(D3DMATRIX *m, float *px, float *py)
 
 #endif // UPDATE_TX
 
-static void
-D3DContext_DisposeShader(jlong programID)
+stbtic void
+D3DContext_DisposeShbder(jlong progrbmID)
 {
-    IDirect3DPixelShader9 *shader =
-        (IDirect3DPixelShader9 *)jlong_to_ptr(programID);
+    IDirect3DPixelShbder9 *shbder =
+        (IDirect3DPixelShbder9 *)jlong_to_ptr(progrbmID);
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext_DisposeShader");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext_DisposeShbder");
 
-    SAFE_RELEASE(shader);
+    SAFE_RELEASE(shbder);
 }
 
-// static
+// stbtic
 HRESULT
-D3DContext::CreateInstance(IDirect3D9 *pd3d9, UINT adapter, D3DContext **ppCtx)
+D3DContext::CrebteInstbnce(IDirect3D9 *pd3d9, UINT bdbpter, D3DContext **ppCtx)
 {
     HRESULT res;
-    *ppCtx = new D3DContext(pd3d9, adapter);
+    *ppCtx = new D3DContext(pd3d9, bdbpter);
     if (FAILED(res = (*ppCtx)->InitContext())) {
         delete *ppCtx;
         *ppCtx = NULL;
@@ -210,115 +210,115 @@ D3DContext::CreateInstance(IDirect3D9 *pd3d9, UINT adapter, D3DContext **ppCtx)
     return res;
 }
 
-D3DContext::D3DContext(IDirect3D9 *pd3d, UINT adapter)
+D3DContext::D3DContext(IDirect3D9 *pd3d, UINT bdbpter)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::D3DContext");
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  pd3d=0x%x", pd3d);
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::D3DContext");
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  pd3d=0x%x", pd3d);
     pd3dObject = pd3d;
     pd3dDevice = NULL;
-    adapterOrdinal = adapter;
+    bdbpterOrdinbl = bdbpter;
 
     pResourceMgr = NULL;
-    pMaskCache = NULL;
-    pVCacher = NULL;
+    pMbskCbche = NULL;
+    pVCbcher = NULL;
 
     pSyncQuery = NULL;
     pSyncRTRes = NULL;
-    pStateBlock = NULL;
+    pStbteBlock = NULL;
 
-    D3DC_INIT_SHADER_LIST(convolvePrograms,   MAX_CONVOLVE);
-    D3DC_INIT_SHADER_LIST(rescalePrograms,    MAX_RESCALE);
-    D3DC_INIT_SHADER_LIST(lookupPrograms,     MAX_LOOKUP);
-    D3DC_INIT_SHADER_LIST(basicGradPrograms,  4);
-    D3DC_INIT_SHADER_LIST(linearGradPrograms, 8);
-    D3DC_INIT_SHADER_LIST(radialGradPrograms, 8);
+    D3DC_INIT_SHADER_LIST(convolveProgrbms,   MAX_CONVOLVE);
+    D3DC_INIT_SHADER_LIST(rescbleProgrbms,    MAX_RESCALE);
+    D3DC_INIT_SHADER_LIST(lookupProgrbms,     MAX_LOOKUP);
+    D3DC_INIT_SHADER_LIST(bbsicGrbdProgrbms,  4);
+    D3DC_INIT_SHADER_LIST(linebrGrbdProgrbms, 8);
+    D3DC_INIT_SHADER_LIST(rbdiblGrbdProgrbms, 8);
 
-    pLCDGlyphCache= NULL;
-    pGrayscaleGlyphCache= NULL;
-    lcdTextProgram = NULL;
-    aaPgramProgram = NULL;
+    pLCDGlyphCbche= NULL;
+    pGrbyscbleGlyphCbche= NULL;
+    lcdTextProgrbm = NULL;
+    bbPgrbmProgrbm = NULL;
 
-    contextCaps = CAPS_EMPTY;
+    contextCbps = CAPS_EMPTY;
     bBeginScenePending = FALSE;
 
-    ZeroMemory(&devCaps, sizeof(D3DCAPS9));
-    ZeroMemory(&curParams, sizeof(curParams));
+    ZeroMemory(&devCbps, sizeof(D3DCAPS9));
+    ZeroMemory(&curPbrbms, sizeof(curPbrbms));
 
-    extraAlpha = 1.0f;
+    extrbAlphb = 1.0f;
 }
 
-void D3DContext::ReleaseDefPoolResources()
+void D3DContext::RelebseDefPoolResources()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ReleaseDefPoolResources");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::RelebseDefPoolResources");
 
     EndScene();
 
-    D3DPipelineManager::NotifyAdapterEventListeners(devCaps.AdapterOrdinal,
+    D3DPipelineMbnbger::NotifyAdbpterEventListeners(devCbps.AdbpterOrdinbl,
                                                     DEVICE_RESET);
 
-    contextCaps = CAPS_EMPTY;
+    contextCbps = CAPS_EMPTY;
 
     SAFE_RELEASE(pSyncQuery);
-    SAFE_RELEASE(pStateBlock);
+    SAFE_RELEASE(pStbteBlock);
 
-    if (pVCacher != NULL) {
-        pVCacher->ReleaseDefPoolResources();
+    if (pVCbcher != NULL) {
+        pVCbcher->RelebseDefPoolResources();
     }
-    if (pMaskCache != NULL) {
-        pMaskCache->ReleaseDefPoolResources();
+    if (pMbskCbche != NULL) {
+        pMbskCbche->RelebseDefPoolResources();
     }
-    if (pLCDGlyphCache != NULL) {
-        pLCDGlyphCache->ReleaseDefPoolResources();
+    if (pLCDGlyphCbche != NULL) {
+        pLCDGlyphCbche->RelebseDefPoolResources();
     }
-    if (pGrayscaleGlyphCache != NULL) {
-        pGrayscaleGlyphCache->ReleaseDefPoolResources();
+    if (pGrbyscbleGlyphCbche != NULL) {
+        pGrbyscbleGlyphCbche->RelebseDefPoolResources();
     }
     if (pResourceMgr != NULL) {
         if (pSyncRTRes != NULL) {
-            pResourceMgr->ReleaseResource(pSyncRTRes);
+            pResourceMgr->RelebseResource(pSyncRTRes);
             pSyncRTRes = NULL;
         }
-        pResourceMgr->ReleaseDefPoolResources();
+        pResourceMgr->RelebseDefPoolResources();
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
-    ZeroMemory(lastTextureColorState, sizeof(lastTextureColorState));
+    ZeroMemory(lbstTexture, sizeof(lbstTexture));
+    ZeroMemory(lbstTextureColorStbte, sizeof(lbstTextureColorStbte));
 }
 
-void D3DContext::ReleaseContextResources()
+void D3DContext::RelebseContextResources()
 {
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::ReleaseContextResources: pd3dDevice = 0x%x",
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "D3DContext::RelebseContextResources: pd3dDevice = 0x%x",
                 pd3dDevice);
 
-    ReleaseDefPoolResources();
+    RelebseDefPoolResources();
 
-    D3DPipelineManager::NotifyAdapterEventListeners(devCaps.AdapterOrdinal,
+    D3DPipelineMbnbger::NotifyAdbpterEventListeners(devCbps.AdbpterOrdinbl,
                                                     DEVICE_DISPOSED);
 
-    // dispose shader lists
-    ShaderList_Dispose(&convolvePrograms);
-    ShaderList_Dispose(&rescalePrograms);
-    ShaderList_Dispose(&lookupPrograms);
-    ShaderList_Dispose(&basicGradPrograms);
-    ShaderList_Dispose(&linearGradPrograms);
-    ShaderList_Dispose(&radialGradPrograms);
+    // dispose shbder lists
+    ShbderList_Dispose(&convolveProgrbms);
+    ShbderList_Dispose(&rescbleProgrbms);
+    ShbderList_Dispose(&lookupProgrbms);
+    ShbderList_Dispose(&bbsicGrbdProgrbms);
+    ShbderList_Dispose(&linebrGrbdProgrbms);
+    ShbderList_Dispose(&rbdiblGrbdProgrbms);
 
-    SAFE_DELETE(pLCDGlyphCache);
-    SAFE_DELETE(pGrayscaleGlyphCache);
+    SAFE_DELETE(pLCDGlyphCbche);
+    SAFE_DELETE(pGrbyscbleGlyphCbche);
 
-    SAFE_RELEASE(lcdTextProgram);
-    SAFE_RELEASE(aaPgramProgram);
+    SAFE_RELEASE(lcdTextProgrbm);
+    SAFE_RELEASE(bbPgrbmProgrbm);
 
-    SAFE_DELETE(pVCacher);
-    SAFE_DELETE(pMaskCache);
+    SAFE_DELETE(pVCbcher);
+    SAFE_DELETE(pMbskCbche);
     SAFE_DELETE(pResourceMgr);
 }
 
 D3DContext::~D3DContext() {
-    J2dTraceLn2(J2D_TRACE_INFO,
+    J2dTrbceLn2(J2D_TRACE_INFO,
                 "~D3DContext: pd3dDevice=0x%x, pd3dObject =0x%x",
                 pd3dDevice, pd3dObject);
-    ReleaseContextResources();
+    RelebseContextResources();
     SAFE_RELEASE(pd3dDevice);
 }
 
@@ -327,111 +327,111 @@ D3DContext::InitDevice(IDirect3DDevice9 *pd3dDevice)
 {
     HRESULT res = S_OK;
 
-    pd3dDevice->GetDeviceCaps(&devCaps);
+    pd3dDevice->GetDeviceCbps(&devCbps);
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "D3DContext::InitDevice: device %d", adapterOrdinal);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO,
+                   "D3DContext::InitDevice: device %d", bdbpterOrdinbl);
 
-    // disable some of the unneeded and costly d3d functionality
-    pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_LIGHTING,  FALSE);
-    pd3dDevice->SetRenderState(D3DRS_CLIPPING,  FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, D3DZB_FALSE);
-    pd3dDevice->SetRenderState(D3DRS_COLORVERTEX, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+    // disbble some of the unneeded bnd costly d3d functionblity
+    pd3dDevice->SetRenderStbte(D3DRS_CULLMODE, D3DCULL_NONE);
+    pd3dDevice->SetRenderStbte(D3DRS_SPECULARENABLE, FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_LIGHTING,  FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_CLIPPING,  FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZWRITEENABLE, D3DZB_FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_COLORVERTEX, FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_STENCILENABLE, FALSE);
 
-    // set the default texture addressing mode
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    // set the defbult texture bddressing mode
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
     // REMIND: check supported filters with
-    // IDirect3D9::CheckDeviceFormat with D3DUSAGE_QUERY_FILTER
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+    // IDirect3D9::CheckDeviceFormbt with D3DUSAGE_QUERY_FILTER
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    pd3dDevice->SetSbmplerStbte(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 
-    // these states never change
-    pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+    // these stbtes never chbnge
+    pd3dDevice->SetTextureStbgeStbte(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDevice->SetTextureStbgeStbte(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDevice->SetTextureStbgeStbte(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    pd3dDevice->SetTextureStbgeStbte(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    pd3dDevice->SetTextureStbgeStbte(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDevice->SetTextureStbgeStbte(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDevice->SetTextureStbgeStbte(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+    pd3dDevice->SetTextureStbgeStbte(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-    // init the array of latest textures
-    ZeroMemory(lastTexture, sizeof(lastTexture));
-    ZeroMemory(lastTextureColorState, sizeof(lastTextureColorState));
+    // init the brrby of lbtest textures
+    ZeroMemory(lbstTexture, sizeof(lbstTexture));
+    ZeroMemory(lbstTextureColorStbte, sizeof(lbstTextureColorStbte));
 
-    opState = STATE_CHANGE;
+    opStbte = STATE_CHANGE;
 
     if (pResourceMgr == NULL) {
-        res = D3DResourceManager::CreateInstance(this, &pResourceMgr);
+        res = D3DResourceMbnbger::CrebteInstbnce(this, &pResourceMgr);
     } else {
         res = pResourceMgr->Init(this);
     }
     RETURN_STATUS_IF_FAILED(res);
 
-    if (pVCacher == NULL) {
-        res = D3DVertexCacher::CreateInstance(this, &pVCacher);
+    if (pVCbcher == NULL) {
+        res = D3DVertexCbcher::CrebteInstbnce(this, &pVCbcher);
     } else {
-        res = pVCacher->Init(this);
+        res = pVCbcher->Init(this);
     }
     RETURN_STATUS_IF_FAILED(res);
 
-    if (pMaskCache == NULL) {
-        res = D3DMaskCache::CreateInstance(this, &pMaskCache);
+    if (pMbskCbche == NULL) {
+        res = D3DMbskCbche::CrebteInstbnce(this, &pMbskCbche);
     } else{
-        res = pMaskCache->Init(this);
+        res = pMbskCbche->Init(this);
     }
     RETURN_STATUS_IF_FAILED(res);
 
-    if (pLCDGlyphCache != NULL) {
-        if (FAILED(res = pLCDGlyphCache->Init(this))) {
-            // we can live without the cache
-            SAFE_DELETE(pLCDGlyphCache);
+    if (pLCDGlyphCbche != NULL) {
+        if (FAILED(res = pLCDGlyphCbche->Init(this))) {
+            // we cbn live without the cbche
+            SAFE_DELETE(pLCDGlyphCbche);
             res = S_OK;
         }
     }
 
-    if (pGrayscaleGlyphCache != NULL) {
-        if (FAILED(res = pGrayscaleGlyphCache->Init(this))) {
-            // we can live without the cache
-            SAFE_DELETE(pGrayscaleGlyphCache);
+    if (pGrbyscbleGlyphCbche != NULL) {
+        if (FAILED(res = pGrbyscbleGlyphCbche->Init(this))) {
+            // we cbn live without the cbche
+            SAFE_DELETE(pGrbyscbleGlyphCbche);
             res = S_OK;
         }
     }
 
     D3DMATRIX tx;
-    D3DUtils_SetIdentityMatrix(&tx);
-    pd3dDevice->SetTransform(D3DTS_WORLD, &tx);
+    D3DUtils_SetIdentityMbtrix(&tx);
+    pd3dDevice->SetTrbnsform(D3DTS_WORLD, &tx);
     bIsIdentityTx = TRUE;
 
     if (pSyncQuery == NULL) {
-        // this is allowed to fail, do not propagate the error
-        if (FAILED(pd3dDevice->CreateQuery(D3DQUERYTYPE_EVENT, &pSyncQuery))) {
-            J2dRlsTraceLn(J2D_TRACE_WARNING,
-                          "D3DContext::InitDevice: sync query not available");
+        // this is bllowed to fbil, do not propbgbte the error
+        if (FAILED(pd3dDevice->CrebteQuery(D3DQUERYTYPE_EVENT, &pSyncQuery))) {
+            J2dRlsTrbceLn(J2D_TRACE_WARNING,
+                          "D3DContext::InitDevice: sync query not bvbilbble");
             pSyncQuery = NULL;
         }
     }
     if (pSyncRTRes == NULL) {
-        D3DFORMAT format;
-        if (FAILED(GetResourceManager()->
-                   CreateRTSurface(32, 32, TRUE, TRUE, &format, &pSyncRTRes))) {
-            J2dRlsTraceLn(J2D_TRACE_WARNING,
+        D3DFORMAT formbt;
+        if (FAILED(GetResourceMbnbger()->
+                   CrebteRTSurfbce(32, 32, TRUE, TRUE, &formbt, &pSyncRTRes))) {
+            J2dRlsTrbceLn(J2D_TRACE_WARNING,
                           "D3DContext::InitDevice: "
-                          "error creating sync surface");
+                          "error crebting sync surfbce");
         }
     }
 
     bBeginScenePending = FALSE;
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "D3DContext::InitDefice: successfully initialized device %d",
-                   adapterOrdinal);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO,
+                   "D3DContext::InitDefice: successfully initiblized device %d",
+                   bdbpterOrdinbl);
 
     return res;
 }
@@ -441,30 +441,30 @@ D3DContext::CheckAndResetDevice()
 {
     HRESULT res = E_FAIL;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::CheckAndResetDevice");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::CheckAndResetDevice");
 
     if (pd3dDevice != NULL) {
-        if (FAILED(res = pd3dDevice->TestCooperativeLevel())) {
+        if (FAILED(res = pd3dDevice->TestCooperbtiveLevel())) {
             if (res == D3DERR_DEVICELOST) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d is still lost",
-                            adapterOrdinal);
-                // nothing to be done here, wait for D3DERR_DEVICENOTRESET
+                J2dTrbceLn1(J2D_TRACE_VERBOSE, "  device %d is still lost",
+                            bdbpterOrdinbl);
+                // nothing to be done here, wbit for D3DERR_DEVICENOTRESET
                 return res;
             } else if (res == D3DERR_DEVICENOTRESET) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d needs to be reset",
-                            adapterOrdinal);
+                J2dTrbceLn1(J2D_TRACE_VERBOSE, "  device %d needs to be reset",
+                            bdbpterOrdinbl);
                 res = ResetContext();
             } else {
                 // some unexpected error
                 DebugPrintD3DError(res, "D3DContext::CheckAndResetDevice: "\
-                                   "unknown error %x from TestCooperativeLevel");
+                                   "unknown error %x from TestCooperbtiveLevel");
             }
         } else {
-            J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d is not lost",
-                        adapterOrdinal);
+            J2dTrbceLn1(J2D_TRACE_VERBOSE, "  device %d is not lost",
+                        bdbpterOrdinbl);
         }
     } else {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  null device");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  null device");
     }
     return res;
 }
@@ -474,78 +474,78 @@ D3DContext::ResetContext()
 {
     HRESULT res = E_FAIL;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "D3DContext::ResetContext");
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "D3DContext::ResetContext");
     if (pd3dDevice != NULL) {
-        D3DPRESENT_PARAMETERS newParams;
+        D3DPRESENT_PARAMETERS newPbrbms;
 
-        newParams = curParams;
+        newPbrbms = curPbrbms;
 
-        if (newParams.Windowed) {
-            // reset to the current display mode if we're windowed,
-            // otherwise to the display mode we were in when the device
-            // was lost
-            newParams.BackBufferFormat = D3DFMT_UNKNOWN;
-            newParams.FullScreen_RefreshRateInHz = 0;
-            newParams.BackBufferWidth = 0;
-            newParams.BackBufferHeight = 0;
+        if (newPbrbms.Windowed) {
+            // reset to the current displby mode if we're windowed,
+            // otherwise to the displby mode we were in when the device
+            // wbs lost
+            newPbrbms.BbckBufferFormbt = D3DFMT_UNKNOWN;
+            newPbrbms.FullScreen_RefreshRbteInHz = 0;
+            newPbrbms.BbckBufferWidth = 0;
+            newPbrbms.BbckBufferHeight = 0;
         }
-        res = ConfigureContext(&newParams);
+        res = ConfigureContext(&newPbrbms);
     }
     return res;
 }
 
 HRESULT
-D3DContext::ConfigureContext(D3DPRESENT_PARAMETERS *pNewParams)
+D3DContext::ConfigureContext(D3DPRESENT_PARAMETERS *pNewPbrbms)
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DContext::ConfigureContext device %d",
-                   adapterOrdinal);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO, "D3DContext::ConfigureContext device %d",
+                   bdbpterOrdinbl);
     HRESULT res = S_OK;
-    D3DFORMAT stencilFormat;
-    HWND focusHWND = D3DPipelineManager::GetInstance()->GetCurrentFocusWindow();
-    D3DDEVTYPE devType = D3DPipelineManager::GetInstance()->GetDeviceType();
-    // this is needed so that we can find the stencil buffer format
-    if (pNewParams->BackBufferFormat == D3DFMT_UNKNOWN) {
+    D3DFORMAT stencilFormbt;
+    HWND focusHWND = D3DPipelineMbnbger::GetInstbnce()->GetCurrentFocusWindow();
+    D3DDEVTYPE devType = D3DPipelineMbnbger::GetInstbnce()->GetDeviceType();
+    // this is needed so thbt we cbn find the stencil buffer formbt
+    if (pNewPbrbms->BbckBufferFormbt == D3DFMT_UNKNOWN) {
         D3DDISPLAYMODE dm;
 
-        pd3dObject->GetAdapterDisplayMode(adapterOrdinal, &dm);
-        pNewParams->BackBufferFormat = dm.Format;
+        pd3dObject->GetAdbpterDisplbyMode(bdbpterOrdinbl, &dm);
+        pNewPbrbms->BbckBufferFormbt = dm.Formbt;
     }
 
-    stencilFormat =
-        D3DPipelineManager::GetInstance()->GetMatchingDepthStencilFormat(
-            adapterOrdinal,
-            pNewParams->BackBufferFormat, pNewParams->BackBufferFormat);
+    stencilFormbt =
+        D3DPipelineMbnbger::GetInstbnce()->GetMbtchingDepthStencilFormbt(
+            bdbpterOrdinbl,
+            pNewPbrbms->BbckBufferFormbt, pNewPbrbms->BbckBufferFormbt);
 
-    pNewParams->EnableAutoDepthStencil = TRUE;
-    pNewParams->AutoDepthStencilFormat = stencilFormat;
+    pNewPbrbms->EnbbleAutoDepthStencil = TRUE;
+    pNewPbrbms->AutoDepthStencilFormbt = stencilFormbt;
 
-    // do not set device window in the windowed mode, we use additional
-    // swap chains for rendering, the default chain is not used. otherwise
-    // our scratch focus window will be made visible
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  windowed=%d",pNewParams->Windowed);
-    if (pNewParams->Windowed) {
-        pNewParams->hDeviceWindow = (HWND)0;
+    // do not set device window in the windowed mode, we use bdditionbl
+    // swbp chbins for rendering, the defbult chbin is not used. otherwise
+    // our scrbtch focus window will be mbde visible
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  windowed=%d",pNewPbrbms->Windowed);
+    if (pNewPbrbms->Windowed) {
+        pNewPbrbms->hDeviceWindow = (HWND)0;
     }
 
-    // The focus window may change when we're entering/exiting the full-screen
-    // mode. It may either be set to the default focus window (when there are
-    // no more devices in fs mode), or to fs window for another device
-    // in fs mode. See D3DPipelineManager::GetCurrentFocusWindow.
+    // The focus window mby chbnge when we're entering/exiting the full-screen
+    // mode. It mby either be set to the defbult focus window (when there bre
+    // no more devices in fs mode), or to fs window for bnother device
+    // in fs mode. See D3DPipelineMbnbger::GetCurrentFocusWindow.
     if (pd3dDevice != NULL) {
-        D3DDEVICE_CREATION_PARAMETERS cParams;
-        pd3dDevice->GetCreationParameters(&cParams);
-        if (cParams.hFocusWindow != focusHWND) {
-            J2dTraceLn(J2D_TRACE_VERBOSE,
-                       "  focus window changed, need to recreate the device");
+        D3DDEVICE_CREATION_PARAMETERS cPbrbms;
+        pd3dDevice->GetCrebtionPbrbmeters(&cPbrbms);
+        if (cPbrbms.hFocusWindow != focusHWND) {
+            J2dTrbceLn(J2D_TRACE_VERBOSE,
+                       "  focus window chbnged, need to recrebte the device");
 
-            // if fs -> windowed, first exit fs, then recreate, otherwise
-            // the screen might be left in a different display mode
-            if (pNewParams->Windowed && !curParams.Windowed) {
-                J2dTraceLn(J2D_TRACE_VERBOSE,
+            // if fs -> windowed, first exit fs, then recrebte, otherwise
+            // the screen might be left in b different displby mode
+            if (pNewPbrbms->Windowed && !curPbrbms.Windowed) {
+                J2dTrbceLn(J2D_TRACE_VERBOSE,
                             "  exiting full-screen mode, reset the device");
-                curParams.Windowed = FALSE;
-                ReleaseDefPoolResources();
-                res = pd3dDevice->Reset(&curParams);
+                curPbrbms.Windowed = FALSE;
+                RelebseDefPoolResources();
+                res = pd3dDevice->Reset(&curPbrbms);
 
                 if (FAILED(res)) {
                     DebugPrintD3DError(res, "D3DContext::ConfigureContext: "\
@@ -553,98 +553,98 @@ D3DContext::ConfigureContext(D3DPRESENT_PARAMETERS *pNewParams)
                 }
             }
 
-            // note that here we should release all device resources, not only
-            // thos in the default pool since the device is released
-            ReleaseContextResources();
+            // note thbt here we should relebse bll device resources, not only
+            // thos in the defbult pool since the device is relebsed
+            RelebseContextResources();
             SAFE_RELEASE(pd3dDevice);
         }
     }
 
     if (pd3dDevice != NULL) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  resetting the device");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  resetting the device");
 
-        ReleaseDefPoolResources();
+        RelebseDefPoolResources();
 
-        if (pNewParams->PresentationInterval == D3DPRESENT_INTERVAL_IMMEDIATE &&
-            !IsImmediateIntervalSupported())
+        if (pNewPbrbms->PresentbtionIntervbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !IsImmedibteIntervblSupported())
         {
-            pNewParams->PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+            pNewPbrbms->PresentbtionIntervbl = D3DPRESENT_INTERVAL_DEFAULT;
         }
 
-        res = pd3dDevice->Reset(pNewParams);
+        res = pd3dDevice->Reset(pNewPbrbms);
         if (FAILED(res)) {
             DebugPrintD3DError(res,
                 "D3DContext::ConfigureContext: cound not reset the device");
             return res;
         }
-        J2dRlsTraceLn1(J2D_TRACE_INFO,
+        J2dRlsTrbceLn1(J2D_TRACE_INFO,
             "D3DContext::ConfigureContext: successfully reset device: %d",
-            adapterOrdinal);
+            bdbpterOrdinbl);
     } else {
-        D3DCAPS9 d3dCaps;
-        DWORD dwBehaviorFlags;
+        D3DCAPS9 d3dCbps;
+        DWORD dwBehbviorFlbgs;
 
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  creating a new device");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  crebting b new device");
 
-        if (FAILED(res = pd3dObject->GetDeviceCaps(adapterOrdinal,
-                                                   devType, &d3dCaps)))
+        if (FAILED(res = pd3dObject->GetDeviceCbps(bdbpterOrdinbl,
+                                                   devType, &d3dCbps)))
         {
             DebugPrintD3DError(res,
-                "D3DContext::ConfigureContext: failed to get caps");
+                "D3DContext::ConfigureContext: fbiled to get cbps");
             return res;
         }
 
-        if (pNewParams->PresentationInterval == D3DPRESENT_INTERVAL_IMMEDIATE &&
-            !(d3dCaps.PresentationIntervals & D3DPRESENT_INTERVAL_IMMEDIATE))
+        if (pNewPbrbms->PresentbtionIntervbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !(d3dCbps.PresentbtionIntervbls & D3DPRESENT_INTERVAL_IMMEDIATE))
         {
-            pNewParams->PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+            pNewPbrbms->PresentbtionIntervbl = D3DPRESENT_INTERVAL_DEFAULT;
         }
 
-        // not preserving fpu control word could cause issues (4860749)
-        dwBehaviorFlags = D3DCREATE_FPU_PRESERVE;
+        // not preserving fpu control word could cbuse issues (4860749)
+        dwBehbviorFlbgs = D3DCREATE_FPU_PRESERVE;
 
-        J2dRlsTrace(J2D_TRACE_VERBOSE,
-                    "[V] dwBehaviorFlags=D3DCREATE_FPU_PRESERVE|");
-        if (d3dCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
-            J2dRlsTrace(J2D_TRACE_VERBOSE,
+        J2dRlsTrbce(J2D_TRACE_VERBOSE,
+                    "[V] dwBehbviorFlbgs=D3DCREATE_FPU_PRESERVE|");
+        if (d3dCbps.DevCbps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
+            J2dRlsTrbce(J2D_TRACE_VERBOSE,
                         "D3DCREATE_HARDWARE_VERTEXPROCESSING");
-            dwBehaviorFlags |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
+            dwBehbviorFlbgs |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
         } else {
-            J2dRlsTrace(J2D_TRACE_VERBOSE,
+            J2dRlsTrbce(J2D_TRACE_VERBOSE,
                         "D3DCREATE_SOFTWARE_VERTEXPROCESSING");
-            dwBehaviorFlags |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+            dwBehbviorFlbgs |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
         }
-        // Handling focus changes by ourselves proved to be problematic,
-        // so we're reverting back to D3D handling
-        // dwBehaviorFlags |= D3DCREATE_NOWINDOWCHANGES;
-        J2dRlsTrace(J2D_TRACE_VERBOSE,"\n");
+        // Hbndling focus chbnges by ourselves proved to be problembtic,
+        // so we're reverting bbck to D3D hbndling
+        // dwBehbviorFlbgs |= D3DCREATE_NOWINDOWCHANGES;
+        J2dRlsTrbce(J2D_TRACE_VERBOSE,"\n");
 
-        if (FAILED(res = pd3dObject->CreateDevice(adapterOrdinal, devType,
+        if (FAILED(res = pd3dObject->CrebteDevice(bdbpterOrdinbl, devType,
                                                   focusHWND,
-                                                  dwBehaviorFlags,
-                                                  pNewParams, &pd3dDevice)))
+                                                  dwBehbviorFlbgs,
+                                                  pNewPbrbms, &pd3dDevice)))
         {
             DebugPrintD3DError(res,
-                "D3DContext::ConfigureContext: error creating d3d device");
+                "D3DContext::ConfigureContext: error crebting d3d device");
             return res;
         }
-        J2dRlsTraceLn1(J2D_TRACE_INFO,
-            "D3DContext::ConfigureContext: successfully created device: %d",
-            adapterOrdinal);
-        bIsHWRasterizer = (devType == D3DDEVTYPE_HAL);
+        J2dRlsTrbceLn1(J2D_TRACE_INFO,
+            "D3DContext::ConfigureContext: successfully crebted device: %d",
+            bdbpterOrdinbl);
+        bIsHWRbsterizer = (devType == D3DDEVTYPE_HAL);
     }
 
-    curParams = *pNewParams;
-    // during the creation of the device d3d modifies this field, we reset
-    // it back to 0
-    curParams.Flags = 0;
+    curPbrbms = *pNewPbrbms;
+    // during the crebtion of the device d3d modifies this field, we reset
+    // it bbck to 0
+    curPbrbms.Flbgs = 0;
 
     if (FAILED(res = InitDevice(pd3dDevice))) {
-        ReleaseContextResources();
+        RelebseContextResources();
         return res;
     }
 
-    res = InitContextCaps();
+    res = InitContextCbps();
 
     return res;
 }
@@ -652,20 +652,20 @@ D3DContext::ConfigureContext(D3DPRESENT_PARAMETERS *pNewParams)
 HRESULT
 D3DContext::InitContext()
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DContext::InitContext device %d",
-                   adapterOrdinal);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO, "D3DContext::InitContext device %d",
+                   bdbpterOrdinbl);
 
-    D3DPRESENT_PARAMETERS params;
-    ZeroMemory(&params, sizeof(D3DPRESENT_PARAMETERS));
+    D3DPRESENT_PARAMETERS pbrbms;
+    ZeroMemory(&pbrbms, sizeof(D3DPRESENT_PARAMETERS));
 
-    params.hDeviceWindow = 0;
-    params.Windowed = TRUE;
-    params.BackBufferCount = 1;
-    params.BackBufferFormat = D3DFMT_UNKNOWN;
-    params.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    params.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+    pbrbms.hDeviceWindow = 0;
+    pbrbms.Windowed = TRUE;
+    pbrbms.BbckBufferCount = 1;
+    pbrbms.BbckBufferFormbt = D3DFMT_UNKNOWN;
+    pbrbms.SwbpEffect = D3DSWAPEFFECT_DISCARD;
+    pbrbms.PresentbtionIntervbl = D3DPRESENT_INTERVAL_DEFAULT;
 
-    return ConfigureContext(&params);
+    return ConfigureContext(&pbrbms);
 }
 
 HRESULT
@@ -673,78 +673,78 @@ D3DContext::Sync()
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::Sync");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::Sync");
 
     if (pSyncQuery != NULL) {
-        J2dTrace(J2D_TRACE_VERBOSE, "  flushing the device queue..");
+        J2dTrbce(J2D_TRACE_VERBOSE, "  flushing the device queue..");
         while (S_FALSE ==
-               (res = pSyncQuery->GetData(NULL, 0, D3DGETDATA_FLUSH))) ;
-        J2dTrace(J2D_TRACE_VERBOSE, ".. done\n");
+               (res = pSyncQuery->GetDbtb(NULL, 0, D3DGETDATA_FLUSH))) ;
+        J2dTrbce(J2D_TRACE_VERBOSE, ".. done\n");
     }
     if (pSyncRTRes != NULL) {
         D3DLOCKED_RECT lr;
-        IDirect3DSurface9 *pSurface = pSyncRTRes->GetSurface();
-        if (SUCCEEDED(pSurface->LockRect(&lr, NULL, D3DLOCK_NOSYSLOCK))) {
-            pSurface->UnlockRect();
+        IDirect3DSurfbce9 *pSurfbce = pSyncRTRes->GetSurfbce();
+        if (SUCCEEDED(pSurfbce->LockRect(&lr, NULL, D3DLOCK_NOSYSLOCK))) {
+            pSurfbce->UnlockRect();
         }
     }
     return res;
 }
 
 HRESULT
-D3DContext::SaveState()
+D3DContext::SbveStbte()
 {
     HRESULT res;
 
     RETURN_STATUS_IF_NULL(pd3dDevice, S_OK);
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SaveState");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::SbveStbte");
 
     FlushVertexQueue();
-    UpdateState(STATE_CHANGE);
+    UpdbteStbte(STATE_CHANGE);
 
-    if (pStateBlock != NULL) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::SaveState: existing state block!");
-        SAFE_RELEASE(pStateBlock);
+    if (pStbteBlock != NULL) {
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DContext::SbveStbte: existing stbte block!");
+        SAFE_RELEASE(pStbteBlock);
     }
 
     if (SUCCEEDED(res =
-            pd3dDevice->CreateStateBlock(D3DSBT_ALL, &pStateBlock)))
+            pd3dDevice->CrebteStbteBlock(D3DSBT_ALL, &pStbteBlock)))
     {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  created state block");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  crebted stbte block");
     } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::SaveState: failed to create state block");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DContext::SbveStbte: fbiled to crebte stbte block");
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
+    ZeroMemory(lbstTexture, sizeof(lbstTexture));
 
     return res;
 }
 
 HRESULT
-D3DContext::RestoreState()
+D3DContext::RestoreStbte()
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::RestoreState");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::RestoreStbte");
 
     FlushVertexQueue();
-    UpdateState(STATE_CHANGE);
+    UpdbteStbte(STATE_CHANGE);
 
-    if (pStateBlock != NULL) {
-        if (SUCCEEDED(res = pStateBlock->Apply())) {
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  restored device state");
+    if (pStbteBlock != NULL) {
+        if (SUCCEEDED(res = pStbteBlock->Apply())) {
+            J2dTrbceLn(J2D_TRACE_VERBOSE, "  restored device stbte");
         } else {
-            J2dTraceLn(J2D_TRACE_WARNING,
-                       "D3DContext::RestoreState: failed to restore state");
+            J2dTrbceLn(J2D_TRACE_WARNING,
+                       "D3DContext::RestoreStbte: fbiled to restore stbte");
         }
-        SAFE_RELEASE(pStateBlock);
+        SAFE_RELEASE(pStbteBlock);
     } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::RestoreState: empty state block!");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DContext::RestoreStbte: empty stbte block!");
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
+    ZeroMemory(lbstTexture, sizeof(lbstTexture));
 
     return res;
 }
@@ -756,10 +756,10 @@ BOOL
 D3DContext::IsStretchRectFilteringSupported(D3DTEXTUREFILTERTYPE fType)
 {
     if (fType == D3DTEXF_POINT) {
-        return ((devCaps.StretchRectFilterCaps & POINT_FILTER_CAP) != 0);
+        return ((devCbps.StretchRectFilterCbps & POINT_FILTER_CAP) != 0);
     }
     if (fType == D3DTEXF_LINEAR) {
-        return ((devCaps.StretchRectFilterCaps & LINEAR_FILTER_CAP) != 0);
+        return ((devCbps.StretchRectFilterCbps & LINEAR_FILTER_CAP) != 0);
     }
     return FALSE;
 }
@@ -768,79 +768,79 @@ BOOL
 D3DContext::IsTextureFilteringSupported(D3DTEXTUREFILTERTYPE fType)
 {
     if (fType == D3DTEXF_POINT) {
-        return ((devCaps.TextureFilterCaps & POINT_FILTER_CAP) != 0);
+        return ((devCbps.TextureFilterCbps & POINT_FILTER_CAP) != 0);
     }
     if (fType == D3DTEXF_LINEAR) {
-        return ((devCaps.TextureFilterCaps & LINEAR_FILTER_CAP) != 0);
+        return ((devCbps.TextureFilterCbps & LINEAR_FILTER_CAP) != 0);
     }
     return FALSE;
 }
 
 BOOL
-D3DContext::IsTextureFormatSupported(D3DFORMAT format, DWORD usage)
+D3DContext::IsTextureFormbtSupported(D3DFORMAT formbt, DWORD usbge)
 {
-    HRESULT hr = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-                                               devCaps.DeviceType,
-                                               curParams.BackBufferFormat,
-                                               usage,
+    HRESULT hr = pd3dObject->CheckDeviceFormbt(bdbpterOrdinbl,
+                                               devCbps.DeviceType,
+                                               curPbrbms.BbckBufferFormbt,
+                                               usbge,
                                                D3DRTYPE_TEXTURE,
-                                               format);
+                                               formbt);
     return SUCCEEDED( hr );
 }
 
 BOOL
-D3DContext::IsDepthStencilBufferOk(D3DSURFACE_DESC *pTargetDesc)
+D3DContext::IsDepthStencilBufferOk(D3DSURFACE_DESC *pTbrgetDesc)
 {
-    IDirect3DSurface9 *pStencil;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::IsDepthStencilBufferOk");
+    IDirect3DSurfbce9 *pStencil;
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::IsDepthStencilBufferOk");
 
-    if (SUCCEEDED(pd3dDevice->GetDepthStencilSurface(&pStencil))) {
+    if (SUCCEEDED(pd3dDevice->GetDepthStencilSurfbce(&pStencil))) {
         D3DSURFACE_DESC descStencil;
         pStencil->GetDesc(&descStencil);
-        pStencil->Release();
+        pStencil->Relebse();
 
         D3DDISPLAYMODE dm;
         return
-            (SUCCEEDED(pd3dDevice->GetDisplayMode(0, &dm)) &&
-             pTargetDesc->Width <= descStencil.Width &&
-             pTargetDesc->Height <= descStencil.Height &&
-             SUCCEEDED(pd3dObject->CheckDepthStencilMatch(
-                   adapterOrdinal,
-                   devCaps.DeviceType,
-                   dm.Format, pTargetDesc->Format,
-                   descStencil.Format)));
+            (SUCCEEDED(pd3dDevice->GetDisplbyMode(0, &dm)) &&
+             pTbrgetDesc->Width <= descStencil.Width &&
+             pTbrgetDesc->Height <= descStencil.Height &&
+             SUCCEEDED(pd3dObject->CheckDepthStencilMbtch(
+                   bdbpterOrdinbl,
+                   devCbps.DeviceType,
+                   dm.Formbt, pTbrgetDesc->Formbt,
+                   descStencil.Formbt)));
     }
-    J2dTraceLn(J2D_TRACE_VERBOSE,
-        "  current stencil buffer is not compatible with new Render Target");
+    J2dTrbceLn(J2D_TRACE_VERBOSE,
+        "  current stencil buffer is not compbtible with new Render Tbrget");
 
-    return false;
+    return fblse;
 }
 
 
 
 HRESULT
-D3DContext::InitDepthStencilBuffer(D3DSURFACE_DESC *pTargetDesc)
+D3DContext::InitDepthStencilBuffer(D3DSURFACE_DESC *pTbrgetDesc)
 {
     HRESULT res;
-    IDirect3DSurface9 *pBB;
+    IDirect3DSurfbce9 *pBB;
     D3DDISPLAYMODE dm;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::InitDepthStencilBuffer");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::InitDepthStencilBuffer");
 
-    if (FAILED(res = pd3dDevice->GetDisplayMode(0, &dm))) {
+    if (FAILED(res = pd3dDevice->GetDisplbyMode(0, &dm))) {
         return res;
     }
 
-    D3DFORMAT newFormat =
-        D3DPipelineManager::GetInstance()->GetMatchingDepthStencilFormat(
-            adapterOrdinal, dm.Format, pTargetDesc->Format);
+    D3DFORMAT newFormbt =
+        D3DPipelineMbnbger::GetInstbnce()->GetMbtchingDepthStencilFormbt(
+            bdbpterOrdinbl, dm.Formbt, pTbrgetDesc->Formbt);
 
-    res = pd3dDevice->CreateDepthStencilSurface(
-        pTargetDesc->Width, pTargetDesc->Height,
-        newFormat, D3DMULTISAMPLE_NONE, 0, false, &pBB, 0);
+    res = pd3dDevice->CrebteDepthStencilSurfbce(
+        pTbrgetDesc->Width, pTbrgetDesc->Height,
+        newFormbt, D3DMULTISAMPLE_NONE, 0, fblse, &pBB, 0);
     if (SUCCEEDED(res)) {
-        res = pd3dDevice->SetDepthStencilSurface(pBB);
-        pBB->Release();
+        res = pd3dDevice->SetDepthStencilSurfbce(pBB);
+        pBB->Relebse();
     }
 
     return res;
@@ -848,132 +848,132 @@ D3DContext::InitDepthStencilBuffer(D3DSURFACE_DESC *pTargetDesc)
 
 
 HRESULT
-D3DContext::SetRenderTarget(IDirect3DSurface9 *pSurface)
+D3DContext::SetRenderTbrget(IDirect3DSurfbce9 *pSurfbce)
 {
-    static D3DMATRIX tx;
+    stbtic D3DMATRIX tx;
     HRESULT res;
     D3DSURFACE_DESC descNew;
-    IDirect3DSurface9 *pCurrentTarget;
+    IDirect3DSurfbce9 *pCurrentTbrget;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::SetRenderTarget: pSurface=0x%x",
-                pSurface);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "D3DContext::SetRenderTbrget: pSurfbce=0x%x",
+                pSurfbce);
 
     RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
-    RETURN_STATUS_IF_NULL(pSurface, E_FAIL);
+    RETURN_STATUS_IF_NULL(pSurfbce, E_FAIL);
 
-    pSurface->GetDesc(&descNew);
+    pSurfbce->GetDesc(&descNew);
 
-    if (SUCCEEDED(res = pd3dDevice->GetRenderTarget(0, &pCurrentTarget))) {
-        if (pCurrentTarget != pSurface) {
+    if (SUCCEEDED(res = pd3dDevice->GetRenderTbrget(0, &pCurrentTbrget))) {
+        if (pCurrentTbrget != pSurfbce) {
             FlushVertexQueue();
-            if (FAILED(res = pd3dDevice->SetRenderTarget(0, pSurface))) {
-                DebugPrintD3DError(res, "D3DContext::SetRenderTarget: "\
-                                        "error setting render target");
-                SAFE_RELEASE(pCurrentTarget);
+            if (FAILED(res = pd3dDevice->SetRenderTbrget(0, pSurfbce))) {
+                DebugPrintD3DError(res, "D3DContext::SetRenderTbrget: "\
+                                        "error setting render tbrget");
+                SAFE_RELEASE(pCurrentTbrget);
                 return res;
             }
 
             if (!IsDepthStencilBufferOk(&descNew)) {
                 if (FAILED(res = InitDepthStencilBuffer(&descNew))) {
-                    SAFE_RELEASE(pCurrentTarget);
+                    SAFE_RELEASE(pCurrentTbrget);
                     return res;
                 }
             }
         }
-        SAFE_RELEASE(pCurrentTarget);
+        SAFE_RELEASE(pCurrentTbrget);
     }
-    // we set the transform even if the render target didn't change;
-    // this is because in some cases (fs mode) we use the default SwapChain of
-    // the device, and its render target will be the same as the device's, and
-    // we have to set the matrix correctly. This shouldn't be a performance
-    // issue as render target changes are relatively rare
-    D3DUtils_SetOrthoMatrixOffCenterLH(&tx,
-                       (float)descNew.Width,
-                       (float)descNew.Height);
-    pd3dDevice->SetTransform(D3DTS_PROJECTION, &tx);
+    // we set the trbnsform even if the render tbrget didn't chbnge;
+    // this is becbuse in some cbses (fs mode) we use the defbult SwbpChbin of
+    // the device, bnd its render tbrget will be the sbme bs the device's, bnd
+    // we hbve to set the mbtrix correctly. This shouldn't be b performbnce
+    // issue bs render tbrget chbnges bre relbtively rbre
+    D3DUtils_SetOrthoMbtrixOffCenterLH(&tx,
+                       (flobt)descNew.Width,
+                       (flobt)descNew.Height);
+    pd3dDevice->SetTrbnsform(D3DTS_PROJECTION, &tx);
 
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  current render target=0x%x", pSurface);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  current render tbrget=0x%x", pSurfbce);
     return res;
 }
 
 HRESULT
-D3DContext::ResetTransform()
+D3DContext::ResetTrbnsform()
 {
     HRESULT res = S_OK;
     D3DMATRIX tx;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetTransform");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::ResetTrbnsform");
     if (pd3dDevice == NULL) {
         return E_FAIL;
     }
 
-    // no need for state change, just flush the queue
+    // no need for stbte chbnge, just flush the queue
     FlushVertexQueue();
 
-    D3DUtils_SetIdentityMatrix(&tx);
-    if (FAILED(res = pd3dDevice->SetTransform(D3DTS_WORLD, &tx))) {
-        DebugPrintD3DError(res, "D3DContext::SetTransform failed");
+    D3DUtils_SetIdentityMbtrix(&tx);
+    if (FAILED(res = pd3dDevice->SetTrbnsform(D3DTS_WORLD, &tx))) {
+        DebugPrintD3DError(res, "D3DContext::SetTrbnsform fbiled");
     }
     bIsIdentityTx = TRUE;
     return res;
 }
 
 HRESULT
-D3DContext::SetTransform(jdouble m00, jdouble m10,
+D3DContext::SetTrbnsform(jdouble m00, jdouble m10,
                          jdouble m01, jdouble m11,
                          jdouble m02, jdouble m12)
 {
     HRESULT res = S_OK;
     D3DMATRIX tx, tx1;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetTransform");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::SetTrbnsform");
     if (pd3dDevice == NULL) {
         return E_FAIL;
     }
 
-    // no need for state change, just flush the queue
+    // no need for stbte chbnge, just flush the queue
     FlushVertexQueue();
 
-    // In order to correctly map texels to pixels we need to
-    // adjust geometry by -0.5f in the transformed space.
-    // In order to do that we first create a translated matrix
-    // and then concatenate it with the world transform.
+    // In order to correctly mbp texels to pixels we need to
+    // bdjust geometry by -0.5f in the trbnsformed spbce.
+    // In order to do thbt we first crebte b trbnslbted mbtrix
+    // bnd then concbtenbte it with the world trbnsform.
     //
-    // Note that we only use non-id transform with DrawTexture,
-    // the rest is rendered pre-transformed.
+    // Note thbt we only use non-id trbnsform with DrbwTexture,
+    // the rest is rendered pre-trbnsformed.
     //
-    // The identity transform for textures is handled in
-    // D3DVertexCacher::DrawTexture() because shifting by -0.5 for id
-    // transform breaks lines rendering.
+    // The identity trbnsform for textures is hbndled in
+    // D3DVertexCbcher::DrbwTexture() becbuse shifting by -0.5 for id
+    // trbnsform brebks lines rendering.
 
     ZeroMemory(&tx1, sizeof(D3DMATRIX));
 
-    tx1._11 = (float)m00;
-    tx1._12 = (float)m10;
-    tx1._21 = (float)m01;
-    tx1._22 = (float)m11;
-    tx1._41 = (float)m02;
-    tx1._42 = (float)m12;
+    tx1._11 = (flobt)m00;
+    tx1._12 = (flobt)m10;
+    tx1._21 = (flobt)m01;
+    tx1._22 = (flobt)m11;
+    tx1._41 = (flobt)m02;
+    tx1._42 = (flobt)m12;
 
     tx1._33 = 1.0f;
     tx1._44 = 1.0f;
 
-    D3DUtils_SetIdentityMatrix(&tx);
+    D3DUtils_SetIdentityMbtrix(&tx);
     tx._41 = -0.5f;
     tx._42 = -0.5f;
-    D3DUtils_2DConcatenateM(&tx, &tx1);
+    D3DUtils_2DConcbtenbteM(&tx, &tx1);
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
-    if (FAILED(res = pd3dDevice->SetTransform(D3DTS_WORLD, &tx))) {
-        DebugPrintD3DError(res, "D3DContext::SetTransform failed");
+    if (FAILED(res = pd3dDevice->SetTrbnsform(D3DTS_WORLD, &tx))) {
+        DebugPrintD3DError(res, "D3DContext::SetTrbnsform fbiled");
     }
     bIsIdentityTx = FALSE;
 
@@ -985,36 +985,36 @@ D3DContext::SetRectClip(int x1, int y1, int x2, int y2)
 {
     HRESULT res = S_OK;
     D3DSURFACE_DESC desc;
-    IDirect3DSurface9 *pCurrentTarget;
+    IDirect3DSurfbce9 *pCurrentTbrget;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetRectClip");
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::SetRectClip");
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
                 "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
                 x1, y1, x2, y2);
 
     RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
 
-    // no need for state change, just flush the queue
+    // no need for stbte chbnge, just flush the queue
     FlushVertexQueue();
 
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZENABLE, D3DZB_FALSE);
 
-    res = pd3dDevice->GetRenderTarget(0, &pCurrentTarget);
+    res = pd3dDevice->GetRenderTbrget(0, &pCurrentTbrget);
     RETURN_STATUS_IF_FAILED(res);
 
-    pCurrentTarget->GetDesc(&desc);
-    SAFE_RELEASE(pCurrentTarget);
+    pCurrentTbrget->GetDesc(&desc);
+    SAFE_RELEASE(pCurrentTbrget);
 
     if (x1 <= 0 && y1 <= 0 &&
         (UINT)x2 >= desc.Width && (UINT)y2 >= desc.Height)
     {
-        J2dTraceLn(J2D_TRACE_VERBOSE,
-                   "  disabling clip (== render target dimensions)");
-        return pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+        J2dTrbceLn(J2D_TRACE_VERBOSE,
+                   "  disbbling clip (== render tbrget dimensions)");
+        return pd3dDevice->SetRenderStbte(D3DRS_SCISSORTESTENABLE, FALSE);
     }
 
-    // clip to the dimensions of the target surface, otherwise
-    // SetScissorRect will fail
+    // clip to the dimensions of the tbrget surfbce, otherwise
+    // SetScissorRect will fbil
     if (x1 < 0)                 x1 = 0;
     if (y1 < 0)                 y1 = 0;
     if ((UINT)x2 > desc.Width)  x2 = desc.Width;
@@ -1023,10 +1023,10 @@ D3DContext::SetRectClip(int x1, int y1, int x2, int y2)
     if (y1 > y2)                y2 = y1 = 0;
     RECT newRect = { x1, y1, x2, y2 };
     if (SUCCEEDED(res = pd3dDevice->SetScissorRect(&newRect))) {
-        res = pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+        res = pd3dDevice->SetRenderStbte(D3DRS_SCISSORTESTENABLE, TRUE);
     } else {
         DebugPrintD3DError(res, "Error setting scissor rect");
-        J2dRlsTraceLn4(J2D_TRACE_ERROR,
+        J2dRlsTrbceLn4(J2D_TRACE_ERROR,
                        "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
                        x1, y1, x2, y2);
     }
@@ -1037,29 +1037,29 @@ D3DContext::SetRectClip(int x1, int y1, int x2, int y2)
 HRESULT
 D3DContext::ResetClip()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetClip");
-    // no need for state change, just flush the queue
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::ResetClip");
+    // no need for stbte chbnge, just flush the queue
     FlushVertexQueue();
-    pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-    return pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_SCISSORTESTENABLE, FALSE);
+    return pd3dDevice->SetRenderStbte(D3DRS_ZENABLE, D3DZB_FALSE);
 }
 
 ClipType
 D3DContext::GetClipType()
 {
     // REMIND: this method could be optimized: we could keep the
-    // clip state around when re/setting the clip instead of asking
+    // clip stbte bround when re/setting the clip instebd of bsking
     // every time.
-    DWORD zEnabled = 0;
-    DWORD stEnabled = 0;
+    DWORD zEnbbled = 0;
+    DWORD stEnbbled = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::GetClipType");
-    pd3dDevice->GetRenderState(D3DRS_SCISSORTESTENABLE, &stEnabled);
-    if (stEnabled) {
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::GetClipType");
+    pd3dDevice->GetRenderStbte(D3DRS_SCISSORTESTENABLE, &stEnbbled);
+    if (stEnbbled) {
         return CLIP_RECT;
     }
-    pd3dDevice->GetRenderState(D3DRS_ZENABLE, &zEnabled);
-    if (zEnabled) {
+    pd3dDevice->GetRenderStbte(D3DRS_ZENABLE, &zEnbbled);
+    if (zEnbbled) {
         return CLIP_SHAPE;
     }
     return CLIP_NONE;
@@ -1067,52 +1067,52 @@ D3DContext::GetClipType()
 
 
 /**
- * This method assumes that ::SetRenderTarget has already
- * been called. SetRenderTarget creates and attaches a
- * depth buffer to the target surface prior to setting it
- * as target surface to the device.
+ * This method bssumes thbt ::SetRenderTbrget hbs blrebdy
+ * been cblled. SetRenderTbrget crebtes bnd bttbches b
+ * depth buffer to the tbrget surfbce prior to setting it
+ * bs tbrget surfbce to the device.
  */
-DWORD dwAlphaSt, dwSrcBlendSt, dwDestBlendSt;
+DWORD dwAlphbSt, dwSrcBlendSt, dwDestBlendSt;
 D3DMATRIX tx, idTx;
 
 HRESULT
-D3DContext::BeginShapeClip()
+D3DContext::BeginShbpeClip()
 {
     HRESULT res = S_OK;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::BeginShapeClip");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::BeginShbpeClip");
 
-    UpdateState(STATE_CHANGE);
+    UpdbteStbte(STATE_CHANGE);
 
-    pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_SCISSORTESTENABLE, FALSE);
 
-    // save alpha blending state
-    pd3dDevice->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlphaSt);
-    pd3dDevice->GetRenderState(D3DRS_SRCBLEND, &dwSrcBlendSt);
-    pd3dDevice->GetRenderState(D3DRS_DESTBLEND, &dwDestBlendSt);
+    // sbve blphb blending stbte
+    pd3dDevice->GetRenderStbte(D3DRS_ALPHABLENDENABLE, &dwAlphbSt);
+    pd3dDevice->GetRenderStbte(D3DRS_SRCBLEND, &dwSrcBlendSt);
+    pd3dDevice->GetRenderStbte(D3DRS_DESTBLEND, &dwDestBlendSt);
 
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-    pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+    pd3dDevice->SetRenderStbte(D3DRS_ALPHABLENDENABLE, TRUE);
+    pd3dDevice->SetRenderStbte(D3DRS_SRCBLEND, D3DBLEND_ZERO);
+    pd3dDevice->SetRenderStbte(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-    pd3dDevice->GetTransform(D3DTS_WORLD, &tx);
-    D3DUtils_SetIdentityMatrix(&idTx);
-    // translate the clip spans by 1.0f in z direction so that the
-    // clip spans are rendered to the z buffer
+    pd3dDevice->GetTrbnsform(D3DTS_WORLD, &tx);
+    D3DUtils_SetIdentityMbtrix(&idTx);
+    // trbnslbte the clip spbns by 1.0f in z direction so thbt the
+    // clip spbns bre rendered to the z buffer
     idTx._43 = 1.0f;
-    pd3dDevice->SetTransform(D3DTS_WORLD, &idTx);
+    pd3dDevice->SetTrbnsform(D3DTS_WORLD, &idTx);
 
-    // The depth buffer is first cleared with zeroes, which is the farthest
-    // plane from the viewer (our projection matrix is an inversed orthogonal
-    // transform).
-    // To set the clip we'll render the clip spans with Z coordinates of 1.0f
-    // (the closest to the viewer). Since all rendering primitives
-    // have their vertices' Z coordinate set to 0.0, they will effectively be
-    // clipped because the Z depth test for them will fail (vertex with 1.0
-    // depth is closer than the one with 0.0f)
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    pd3dDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-    pd3dDevice->Clear(0, NULL, D3DCLEAR_ZBUFFER, 0L, 0.0f, 0x0L);
+    // The depth buffer is first clebred with zeroes, which is the fbrthest
+    // plbne from the viewer (our projection mbtrix is bn inversed orthogonbl
+    // trbnsform).
+    // To set the clip we'll render the clip spbns with Z coordinbtes of 1.0f
+    // (the closest to the viewer). Since bll rendering primitives
+    // hbve their vertices' Z coordinbte set to 0.0, they will effectively be
+    // clipped becbuse the Z depth test for them will fbil (vertex with 1.0
+    // depth is closer thbn the one with 0.0f)
+    pd3dDevice->SetRenderStbte(D3DRS_ZENABLE, D3DZB_TRUE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZWRITEENABLE, TRUE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+    pd3dDevice->Clebr(0, NULL, D3DCLEAR_ZBUFFER, 0L, 0.0f, 0x0L);
 
     //res = BeginScene(STATE_SHAPE_CLIPOP);
 
@@ -1120,37 +1120,37 @@ D3DContext::BeginShapeClip()
 }
 
 HRESULT
-D3DContext::EndShapeClip()
+D3DContext::EndShbpeClip()
 {
     HRESULT res;
 
-    // no need for state change, just flush the queue
+    // no need for stbte chbnge, just flush the queue
     res = FlushVertexQueue();
 
-    // restore alpha blending state
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaSt);
-    pd3dDevice->SetRenderState(D3DRS_SRCBLEND, dwSrcBlendSt);
-    pd3dDevice->SetRenderState(D3DRS_DESTBLEND, dwDestBlendSt);
+    // restore blphb blending stbte
+    pd3dDevice->SetRenderStbte(D3DRS_ALPHABLENDENABLE, dwAlphbSt);
+    pd3dDevice->SetRenderStbte(D3DRS_SRCBLEND, dwSrcBlendSt);
+    pd3dDevice->SetRenderStbte(D3DRS_DESTBLEND, dwDestBlendSt);
 
-    // resore the transform
-    pd3dDevice->SetTransform(D3DTS_WORLD, &tx);
+    // resore the trbnsform
+    pd3dDevice->SetTrbnsform(D3DTS_WORLD, &tx);
 
-    // Enable the depth buffer.
-    // We disable further updates to the depth buffer: it should only
-    // be updated in SetClip method.
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+    // Enbble the depth buffer.
+    // We disbble further updbtes to the depth buffer: it should only
+    // be updbted in SetClip method.
+    pd3dDevice->SetRenderStbte(D3DRS_ZWRITEENABLE, FALSE);
+    pd3dDevice->SetRenderStbte(D3DRS_ZFUNC, D3DCMP_LESS);
 
     return res;
 }
 
 HRESULT
-D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
+D3DContext::UplobdTileToTexture(D3DResource *pTextureRes, void *pixels,
                                 jint dstx, jint dsty,
                                 jint srcx, jint srcy,
                                 jint srcWidth, jint srcHeight,
                                 jint srcStride,
-                                TileFormat srcFormat,
+                                TileFormbt srcFormbt,
                                 jint *pPixelsTouchedL,
                                 jint* pPixelsTouchedR)
 {
@@ -1165,33 +1165,33 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
     RECT r = { dstx, dsty, dstx+srcWidth, dsty+srcHeight };
     RECT *pR = &r;
     D3DLOCKED_RECT lockedRect;
-    DWORD dwLockFlags = D3DLOCK_NOSYSLOCK;
-    // these are only counted for LCD glyph uploads
+    DWORD dwLockFlbgs = D3DLOCK_NOSYSLOCK;
+    // these bre only counted for LCD glyph uplobds
     jint pixelsTouchedL = 0, pixelsTouchedR = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::UploadTileToTexture");
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::UplobdTileToTexture");
+    J2dTrbceLn4(J2D_TRACE_VERBOSE,
         " rect={%-4d, %-4d, %-4d, %-4d}",
         r.left, r.top, r.right, r.bottom);
 
-    if (pDesc->Usage == D3DUSAGE_DYNAMIC) {
-        // it is safe to lock with discard because we don't care about the
-        // contents of dynamic textures and dstx,dsty for this case is
-        // always 0,0 because we are uploading into a tile texture
-        dwLockFlags |= D3DLOCK_DISCARD;
+    if (pDesc->Usbge == D3DUSAGE_DYNAMIC) {
+        // it is sbfe to lock with discbrd becbuse we don't cbre bbout the
+        // contents of dynbmic textures bnd dstx,dsty for this cbse is
+        // blwbys 0,0 becbuse we bre uplobding into b tile texture
+        dwLockFlbgs |= D3DLOCK_DISCARD;
         pR = NULL;
     }
 
-    if (FAILED(res = pTexture->LockRect(0, &lockedRect, pR, dwLockFlags))) {
+    if (FAILED(res = pTexture->LockRect(0, &lockedRect, pR, dwLockFlbgs))) {
         DebugPrintD3DError(res,
-            "D3DContext::UploadImageToTexture: could "\
+            "D3DContext::UplobdImbgeToTexture: could "\
             "not lock texture");
         return res;
     }
 
-    if (srcFormat == TILEFMT_1BYTE_ALPHA) {
-        // either a MaskFill tile, or a grayscale glyph
-        if (pDesc->Format == D3DFMT_A8) {
+    if (srcFormbt == TILEFMT_1BYTE_ALPHA) {
+        // either b MbskFill tile, or b grbyscble glyph
+        if (pDesc->Formbt == D3DFMT_A8) {
             void *pSrcPixels = PtrCoord(pixels, srcx, 1, srcy, srcStride);
             void *pDstPixels = lockedRect.pBits;
             do {
@@ -1200,33 +1200,33 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
                 pDstPixels = PtrAddBytes(pDstPixels, lockedRect.Pitch);
             } while (--srcHeight > 0);
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
+        else if (pDesc->Formbt == D3DFMT_A8R8G8B8) {
             jubyte *pSrcPixels = (jubyte*)
                 PtrCoord(pixels, srcx, 1, srcy, srcStride);
             jint *pDstPixels = (jint*)lockedRect.pBits;
             for (int yy = 0; yy < srcHeight; yy++) {
                 for (int xx = 0; xx < srcWidth; xx++) {
-                    // only need to set the alpha channel (the D3D texture
-                    // state will be setup in this case to replicate the
-                    // alpha channel as needed)
+                    // only need to set the blphb chbnnel (the D3D texture
+                    // stbte will be setup in this cbse to replicbte the
+                    // blphb chbnnel bs needed)
                     pDstPixels[xx] = pSrcPixels[xx] << 24;
                 }
                 pSrcPixels = (jubyte*)PtrAddBytes(pSrcPixels, srcStride);
                 pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
             }
         }
-    } else if (srcFormat == TILEFMT_3BYTE_RGB) {
+    } else if (srcFormbt == TILEFMT_3BYTE_RGB) {
         // LCD glyph with RGB order
-        if (pDesc->Format == D3DFMT_R8G8B8) {
+        if (pDesc->Formbt == D3DFMT_R8G8B8) {
             jubyte *pSrcPixels = (jubyte*)
                 PtrCoord(pixels, srcx, 3, srcy, srcStride);
             jubyte *pDstPixels = (jubyte*)lockedRect.pBits;
             for (int yy = 0; yy < srcHeight; yy++) {
                 for (int xx = 0; xx < srcWidth*3; xx+=3) {
-                    // alpha channel is ignored in this case
-                    // (note that this is backwards from what one might
-                    // expect; it appears that D3DFMT_R8G8B8 is actually
-                    // laid out in BGR order in memory)
+                    // blphb chbnnel is ignored in this cbse
+                    // (note thbt this is bbckwbrds from whbt one might
+                    // expect; it bppebrs thbt D3DFMT_R8G8B8 is bctublly
+                    // lbid out in BGR order in memory)
                     pDstPixels[xx+0] = pSrcPixels[xx+2];
                     pDstPixels[xx+1] = pSrcPixels[xx+1];
                     pDstPixels[xx+2] = pSrcPixels[xx+0];
@@ -1241,13 +1241,13 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
                 pDstPixels = (jubyte*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
             }
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
+        else if (pDesc->Formbt == D3DFMT_A8R8G8B8) {
             jubyte *pSrcPixels = (jubyte*)
                 PtrCoord(pixels, srcx, 3, srcy, srcStride);
             jint *pDstPixels = (jint*)lockedRect.pBits;
             for (int yy = 0; yy < srcHeight; yy++) {
                 for (int dx = 0, sx = 0; dx < srcWidth; dx++, sx+=3) {
-                    // alpha channel is ignored in this case
+                    // blphb chbnnel is ignored in this cbse
                     jubyte r = pSrcPixels[sx+0];
                     jubyte g = pSrcPixels[sx+1];
                     jubyte b = pSrcPixels[sx+2];
@@ -1260,17 +1260,17 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
                 pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
             }
         }
-    } else if (srcFormat == TILEFMT_3BYTE_BGR) {
+    } else if (srcFormbt == TILEFMT_3BYTE_BGR) {
         // LCD glyph with BGR order
-        if (pDesc->Format == D3DFMT_R8G8B8) {
+        if (pDesc->Formbt == D3DFMT_R8G8B8) {
             void *pSrcPixels = PtrCoord(pixels, srcx, 3, srcy, srcStride);
             void *pDstPixels = lockedRect.pBits;
             jubyte *pbDst;
             do {
-                // alpha channel is ignored in this case
-                // (note that this is backwards from what one might
-                // expect; it appears that D3DFMT_R8G8B8 is actually
-                // laid out in BGR order in memory)
+                // blphb chbnnel is ignored in this cbse
+                // (note thbt this is bbckwbrds from whbt one might
+                // expect; it bppebrs thbt D3DFMT_R8G8B8 is bctublly
+                // lbid out in BGR order in memory)
                 memcpy(pDstPixels, pSrcPixels, srcWidth * 3);
 
                 pbDst = (jubyte*)pDstPixels;
@@ -1282,13 +1282,13 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
                 pDstPixels = PtrAddBytes(pDstPixels, lockedRect.Pitch);
             } while (--srcHeight > 0);
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
+        else if (pDesc->Formbt == D3DFMT_A8R8G8B8) {
             jubyte *pSrcPixels = (jubyte*)
                 PtrCoord(pixels, srcx, 3, srcy, srcStride);
             jint *pDstPixels = (jint*)lockedRect.pBits;
             for (int yy = 0; yy < srcHeight; yy++) {
                 for (int dx = 0, sx = 0; dx < srcWidth; dx++, sx+=3) {
-                    // alpha channel is ignored in this case
+                    // blphb chbnnel is ignored in this cbse
                     jubyte b = pSrcPixels[sx+0];
                     jubyte g = pSrcPixels[sx+1];
                     jubyte r = pSrcPixels[sx+2];
@@ -1301,9 +1301,9 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
                 pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
             }
         }
-    } else if (srcFormat == TILEFMT_4BYTE_ARGB_PRE) {
-        // MaskBlit tile
-        if (pDesc->Format == D3DFMT_A8R8G8B8) {
+    } else if (srcFormbt == TILEFMT_4BYTE_ARGB_PRE) {
+        // MbskBlit tile
+        if (pDesc->Formbt == D3DFMT_A8R8G8B8) {
             void *pSrcPixels = PtrCoord(pixels, srcx, 4, srcy, srcStride);
             void *pDstPixels = lockedRect.pBits;
             do {
@@ -1313,7 +1313,7 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
             } while (--srcHeight > 0);
         }
     } else {
-        // should not happen, no-op just in case...
+        // should not hbppen, no-op just in cbse...
     }
 
     if (pPixelsTouchedL) {
@@ -1327,20 +1327,20 @@ D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
 }
 
 HRESULT
-D3DContext::InitLCDGlyphCache()
+D3DContext::InitLCDGlyphCbche()
 {
-    if (pLCDGlyphCache == NULL) {
-        return D3DGlyphCache::CreateInstance(this, CACHE_LCD, &pLCDGlyphCache);
+    if (pLCDGlyphCbche == NULL) {
+        return D3DGlyphCbche::CrebteInstbnce(this, CACHE_LCD, &pLCDGlyphCbche);
     }
     return S_OK;
 }
 
 HRESULT
-D3DContext::InitGrayscaleGlyphCache()
+D3DContext::InitGrbyscbleGlyphCbche()
 {
-    if (pGrayscaleGlyphCache == NULL) {
-        return D3DGlyphCache::CreateInstance(this, CACHE_GRAY,
-                                             &pGrayscaleGlyphCache);
+    if (pGrbyscbleGlyphCbche == NULL) {
+        return D3DGlyphCbche::CrebteInstbnce(this, CACHE_GRAY,
+                                             &pGrbyscbleGlyphCbche);
     }
     return S_OK;
 }
@@ -1348,106 +1348,106 @@ D3DContext::InitGrayscaleGlyphCache()
 HRESULT
 D3DContext::ResetComposite()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetComposite");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::ResetComposite");
 
     RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
 
-    HRESULT res = UpdateState(STATE_CHANGE);
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    extraAlpha = 1.0f;
+    HRESULT res = UpdbteStbte(STATE_CHANGE);
+    pd3dDevice->SetRenderStbte(D3DRS_ALPHABLENDENABLE, FALSE);
+    extrbAlphb = 1.0f;
     return res;
 }
 
 HRESULT
-D3DContext::SetAlphaComposite(jint rule, jfloat ea, jint flags)
+D3DContext::SetAlphbComposite(jint rule, jflobt eb, jint flbgs)
 {
     HRESULT res;
-    J2dTraceLn3(J2D_TRACE_INFO,
-                "D3DContext::SetAlphaComposite: rule=%-1d ea=%f flags=%d",
-                rule, ea, flags);
+    J2dTrbceLn3(J2D_TRACE_INFO,
+                "D3DContext::SetAlphbComposite: rule=%-1d eb=%f flbgs=%d",
+                rule, eb, flbgs);
 
     RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
 
-    res = UpdateState(STATE_CHANGE);
+    res = UpdbteStbte(STATE_CHANGE);
 
-    // we can safely disable blending when:
-    //   - comp is SrcNoEa or SrcOverNoEa, and
-    //   - the source is opaque
-    // (turning off blending can have a large positive impact on performance)
+    // we cbn sbfely disbble blending when:
+    //   - comp is SrcNoEb or SrcOverNoEb, bnd
+    //   - the source is opbque
+    // (turning off blending cbn hbve b lbrge positive impbct on performbnce)
     if ((rule == RULE_Src || rule == RULE_SrcOver) &&
-        (ea == 1.0f) &&
-        (flags & D3DC_SRC_IS_OPAQUE))
+        (eb == 1.0f) &&
+        (flbgs & D3DC_SRC_IS_OPAQUE))
     {
-        J2dTraceLn1(J2D_TRACE_VERBOSE,
-                    "  disabling alpha comp rule=%-1d ea=1.0 src=opq)", rule);
-        pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                    "  disbbling blphb comp rule=%-1d eb=1.0 src=opq)", rule);
+        pd3dDevice->SetRenderStbte(D3DRS_ALPHABLENDENABLE, FALSE);
     } else {
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                    "  enabling alpha comp (rule=%-1d ea=%f)", rule, ea);
-        pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                    "  enbbling blphb comp (rule=%-1d eb=%f)", rule, eb);
+        pd3dDevice->SetRenderStbte(D3DRS_ALPHABLENDENABLE, TRUE);
 
-        pd3dDevice->SetRenderState(D3DRS_SRCBLEND,
+        pd3dDevice->SetRenderStbte(D3DRS_SRCBLEND,
                                    StdBlendRules[rule].src);
-        pd3dDevice->SetRenderState(D3DRS_DESTBLEND,
+        pd3dDevice->SetRenderStbte(D3DRS_DESTBLEND,
                                    StdBlendRules[rule].dst);
     }
 
-    extraAlpha = ea;
+    extrbAlphb = eb;
     return res;
 }
 
 #ifdef UPDATE_TX
 
-// Note: this method of adjusting pixel to texel mapping proved to be
-// difficult to perfect. The current variation works great for id,
-// scale (including all kinds of flips) transforms, but not still not
-// for generic transforms.
+// Note: this method of bdjusting pixel to texel mbpping proved to be
+// difficult to perfect. The current vbribtion works grebt for id,
+// scble (including bll kinds of flips) trbnsforms, but not still not
+// for generic trbnsforms.
 //
-// Since we currently only do DrawTexture with non-id transform we instead
-// adjust the geometry (see D3DVertexCacher::DrawTexture(), SetTransform())
+// Since we currently only do DrbwTexture with non-id trbnsform we instebd
+// bdjust the geometry (see D3DVertexCbcher::DrbwTexture(), SetTrbnsform())
 //
-// In order to enable this code path UpdateTextureTransforms needs to
-// be called in SetTexture(), SetTransform() and ResetTranform().
+// In order to enbble this code pbth UpdbteTextureTrbnsforms needs to
+// be cblled in SetTexture(), SetTrbnsform() bnd ResetTrbnform().
 HRESULT
-D3DContext::UpdateTextureTransforms(DWORD dwSamplerToUpdate)
+D3DContext::UpdbteTextureTrbnsforms(DWORD dwSbmplerToUpdbte)
 {
     HRESULT res = S_OK;
-    DWORD dwSampler, dwMaxSampler;
+    DWORD dwSbmpler, dwMbxSbmpler;
 
-    if (dwSamplerToUpdate == -1) {
-        // update all used samplers, dwMaxSampler will be set to max
-        dwSampler = 0;
-        dwSampler = MAX_USED_TEXTURE_SAMPLER;
-        J2dTraceLn(J2D_TRACE_INFO, "D3DContext::UpdateTextureTransforms: "\
-                                   "updating all samplers");
+    if (dwSbmplerToUpdbte == -1) {
+        // updbte bll used sbmplers, dwMbxSbmpler will be set to mbx
+        dwSbmpler = 0;
+        dwSbmpler = MAX_USED_TEXTURE_SAMPLER;
+        J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::UpdbteTextureTrbnsforms: "\
+                                   "updbting bll sbmplers");
     } else {
-        // update only given sampler, dwMaxSampler will be set to it as well
-        dwSampler = dwSamplerToUpdate;
-        dwMaxSampler = dwSamplerToUpdate;
-        J2dTraceLn1(J2D_TRACE_INFO, "D3DContext::UpdateTextureTransforms: "\
-                                    "updating sampler %d", dwSampler);
+        // updbte only given sbmpler, dwMbxSbmpler will be set to it bs well
+        dwSbmpler = dwSbmplerToUpdbte;
+        dwMbxSbmpler = dwSbmplerToUpdbte;
+        J2dTrbceLn1(J2D_TRACE_INFO, "D3DContext::UpdbteTextureTrbnsforms: "\
+                                    "updbting sbmpler %d", dwSbmpler);
     }
 
     do {
-        D3DTRANSFORMSTATETYPE state =
-            (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + dwSampler);
-        IDirect3DTexture9 *pTexture = lastTexture[dwSampler];
+        D3DTRANSFORMSTATETYPE stbte =
+            (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + dwSbmpler);
+        IDirect3DTexture9 *pTexture = lbstTexture[dwSbmpler];
 
         if (pTexture != NULL) {
             D3DMATRIX mt, tx;
             D3DSURFACE_DESC texDesc;
 
-            pd3dDevice->GetTransform(D3DTS_WORLD, &tx);
-            J2dTraceLn4(10,
+            pd3dDevice->GetTrbnsform(D3DTS_WORLD, &tx);
+            J2dTrbceLn4(10,
                         "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
-            J2dTraceLn4(10,
+            J2dTrbceLn4(10,
                         "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
-            J2dTraceLn4(10,
+            J2dTrbceLn4(10,
                         "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
-            J2dTraceLn4(10,
+            J2dTrbceLn4(10,
                         "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
 
-            // this formula works for scales and flips
+            // this formulb works for scbles bnd flips
             if (tx._11 == 0.0f) {
                 tx._11 = tx._12;
             }
@@ -1457,171 +1457,171 @@ D3DContext::UpdateTextureTransforms(DWORD dwSamplerToUpdate)
 
             pTexture->GetLevelDesc(0, &texDesc);
 
-            // shift by .5 texel, but take into account
-            // the scale factor of the device transform
+            // shift by .5 texel, but tbke into bccount
+            // the scble fbctor of the device trbnsform
 
-            // REMIND: this approach is not entirely correct,
-            // as it only takes into account the scale of the device
-            // transform.
+            // REMIND: this bpprobch is not entirely correct,
+            // bs it only tbkes into bccount the scble of the device
+            // trbnsform.
             mt._31 = (1.0f / (2.0f * texDesc.Width  * tx._11));
             mt._32 = (1.0f / (2.0f * texDesc.Height * tx._22));
-            J2dTraceLn2(J2D_TRACE_VERBOSE, "  offsets: tx=%f ty=%f",
+            J2dTrbceLn2(J2D_TRACE_VERBOSE, "  offsets: tx=%f ty=%f",
                         mt._31, mt._32);
 
-            pd3dDevice->SetTextureStageState(dwSampler,
+            pd3dDevice->SetTextureStbgeStbte(dwSbmpler,
                                              D3DTSS_TEXTURETRANSFORMFLAGS,
                                              D3DTTFF_COUNT2);
-            res = pd3dDevice->SetTransform(state, &mt);
+            res = pd3dDevice->SetTrbnsform(stbte, &mt);
         } else {
-            res = pd3dDevice->SetTextureStageState(dwSampler,
+            res = pd3dDevice->SetTextureStbgeStbte(dwSbmpler,
                                                    D3DTSS_TEXTURETRANSFORMFLAGS,
                                                    D3DTTFF_DISABLE);
         }
-        dwSampler++;
-    } while (dwSampler <= dwMaxSampler);
+        dwSbmpler++;
+    } while (dwSbmpler <= dwMbxSbmpler);
 
     return res;
 }
 #endif // UPDATE_TX
 
 /**
- * We go into the pains of maintaining the list of set textures
- * instead of just calling GetTexture() and comparing the old one
- * with the new one because it's actually noticeably slower to call
- * GetTexture() (note that we'd have to then call Release() on the
- * texture since GetTexture() increases texture's ref. count).
+ * We go into the pbins of mbintbining the list of set textures
+ * instebd of just cblling GetTexture() bnd compbring the old one
+ * with the new one becbuse it's bctublly noticebbly slower to cbll
+ * GetTexture() (note thbt we'd hbve to then cbll Relebse() on the
+ * texture since GetTexture() increbses texture's ref. count).
  */
 HRESULT
-D3DContext::SetTexture(IDirect3DTexture9 *pTexture, DWORD dwSampler)
+D3DContext::SetTexture(IDirect3DTexture9 *pTexture, DWORD dwSbmpler)
 {
     HRESULT res = S_OK;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::SetTexture");
 
-    if (dwSampler < 0 || dwSampler > MAX_USED_TEXTURE_SAMPLER) {
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                    "D3DContext::SetTexture: incorrect sampler: %d", dwSampler);
+    if (dwSbmpler < 0 || dwSbmpler > MAX_USED_TEXTURE_SAMPLER) {
+        J2dTrbceLn1(J2D_TRACE_ERROR,
+                    "D3DContext::SetTexture: incorrect sbmpler: %d", dwSbmpler);
         return E_FAIL;
     }
-    if (lastTexture[dwSampler] != pTexture) {
+    if (lbstTexture[dwSbmpler] != pTexture) {
         if (FAILED(res = FlushVertexQueue())) {
             return res;
         }
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                    "  new texture=0x%x on sampler %d", pTexture, dwSampler);
-        res = pd3dDevice->SetTexture(dwSampler, pTexture);
+        J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                    "  new texture=0x%x on sbmpler %d", pTexture, dwSbmpler);
+        res = pd3dDevice->SetTexture(dwSbmpler, pTexture);
         if (SUCCEEDED(res)) {
-            lastTexture[dwSampler] = pTexture;
-            // REMIND: see comment at UpdateTextureTransforms
+            lbstTexture[dwSbmpler] = pTexture;
+            // REMIND: see comment bt UpdbteTextureTrbnsforms
 #ifdef UPDATE_TX
-            res = UpdateTextureTransforms(dwSampler);
+            res = UpdbteTextureTrbnsforms(dwSbmpler);
 #endif
         }  else {
-            lastTexture[dwSampler] = NULL;
+            lbstTexture[dwSbmpler] = NULL;
         }
     }
     return res;
 }
 
 HRESULT
-D3DContext::UpdateTextureColorState(DWORD dwState, DWORD dwSampler)
+D3DContext::UpdbteTextureColorStbte(DWORD dwStbte, DWORD dwSbmpler)
 {
     HRESULT res = S_OK;
 
-    if (dwState != lastTextureColorState[dwSampler]) {
-        res = pd3dDevice->SetTextureStageState(dwSampler,
-                                               D3DTSS_ALPHAARG1, dwState);
-        res = pd3dDevice->SetTextureStageState(dwSampler,
-                                               D3DTSS_COLORARG1, dwState);
-        lastTextureColorState[dwSampler] = dwState;
+    if (dwStbte != lbstTextureColorStbte[dwSbmpler]) {
+        res = pd3dDevice->SetTextureStbgeStbte(dwSbmpler,
+                                               D3DTSS_ALPHAARG1, dwStbte);
+        res = pd3dDevice->SetTextureStbgeStbte(dwSbmpler,
+                                               D3DTSS_COLORARG1, dwStbte);
+        lbstTextureColorStbte[dwSbmpler] = dwStbte;
     }
 
     return res;
 }
 
 HRESULT /*NOLOCK*/
-D3DContext::UpdateState(jbyte newState)
+D3DContext::UpdbteStbte(jbyte newStbte)
 {
     HRESULT res = S_OK;
 
-    if (opState == newState) {
-        // The op is the same as last time, so we can return immediately.
+    if (opStbte == newStbte) {
+        // The op is the sbme bs lbst time, so we cbn return immedibtely.
         return res;
-    } else if (opState != STATE_CHANGE) {
+    } else if (opStbte != STATE_CHANGE) {
         res = FlushVertexQueue();
     }
 
-    switch (opState) {
-    case STATE_MASKOP:
-        pMaskCache->Disable();
-        break;
-    case STATE_GLYPHOP:
-        D3DTR_DisableGlyphVertexCache(this);
-        break;
-    case STATE_TEXTUREOP:
-        // optimization: certain state changes (those marked STATE_CHANGE)
-        // are allowed while texturing is enabled.
-        // In this case, we can allow previousOp to remain as it is and
-        // then return early.
-        if (newState == STATE_CHANGE) {
+    switch (opStbte) {
+    cbse STATE_MASKOP:
+        pMbskCbche->Disbble();
+        brebk;
+    cbse STATE_GLYPHOP:
+        D3DTR_DisbbleGlyphVertexCbche(this);
+        brebk;
+    cbse STATE_TEXTUREOP:
+        // optimizbtion: certbin stbte chbnges (those mbrked STATE_CHANGE)
+        // bre bllowed while texturing is enbbled.
+        // In this cbse, we cbn bllow previousOp to rembin bs it is bnd
+        // then return ebrly.
+        if (newStbte == STATE_CHANGE) {
             return res;
         }
-        // REMIND: not necessary if we are switching to MASKOP or GLYPHOP
-        // (or a complex paint, for that matter), but would that be a
-        // worthwhile optimization?
+        // REMIND: not necessbry if we bre switching to MASKOP or GLYPHOP
+        // (or b complex pbint, for thbt mbtter), but would thbt be b
+        // worthwhile optimizbtion?
         SetTexture(NULL);
-        break;
-    case STATE_AAPGRAMOP:
-        res = DisableAAParallelogramProgram();
-        break;
-    default:
-        break;
+        brebk;
+    cbse STATE_AAPGRAMOP:
+        res = DisbbleAAPbrbllelogrbmProgrbm();
+        brebk;
+    defbult:
+        brebk;
     }
 
-    switch (newState) {
-    case STATE_MASKOP:
-        pMaskCache->Enable();
-        UpdateTextureColorState(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
-        break;
-    case STATE_GLYPHOP:
-        D3DTR_EnableGlyphVertexCache(this);
-        UpdateTextureColorState(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
-        break;
-    case STATE_TEXTUREOP:
-        UpdateTextureColorState(D3DTA_TEXTURE);
-        break;
-    case STATE_AAPGRAMOP:
-        res = EnableAAParallelogramProgram();
-        break;
-    default:
-        break;
+    switch (newStbte) {
+    cbse STATE_MASKOP:
+        pMbskCbche->Enbble();
+        UpdbteTextureColorStbte(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brebk;
+    cbse STATE_GLYPHOP:
+        D3DTR_EnbbleGlyphVertexCbche(this);
+        UpdbteTextureColorStbte(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brebk;
+    cbse STATE_TEXTUREOP:
+        UpdbteTextureColorStbte(D3DTA_TEXTURE);
+        brebk;
+    cbse STATE_AAPGRAMOP:
+        res = EnbbleAAPbrbllelogrbmProgrbm();
+        brebk;
+    defbult:
+        brebk;
     }
 
-    opState = newState;
+    opStbte = newStbte;
 
     return res;
 }
 
 HRESULT D3DContext::FlushVertexQueue()
 {
-    if (pVCacher != NULL) {
-        return pVCacher->Render();
+    if (pVCbcher != NULL) {
+        return pVCbcher->Render();
     }
     return E_FAIL;
 }
 
-HRESULT D3DContext::BeginScene(jbyte newState)
+HRESULT D3DContext::BeginScene(jbyte newStbte)
 {
     if (!pd3dDevice) {
         return E_FAIL;
     } else {
-        UpdateState(newState);
+        UpdbteStbte(newStbte);
         if (!bBeginScenePending) {
             bBeginScenePending = TRUE;
             HRESULT res = pd3dDevice->BeginScene();
-            J2dTraceLn(J2D_TRACE_INFO, "D3DContext::BeginScene");
+            J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::BeginScene");
             if (FAILED(res)) {
-                // this will cause context reinitialization
-                opState = STATE_CHANGE;
+                // this will cbuse context reinitiblizbtion
+                opStbte = STATE_CHANGE;
             }
             return res;
         }
@@ -1633,175 +1633,175 @@ HRESULT D3DContext::EndScene() {
     if (bBeginScenePending) {
         FlushVertexQueue();
         bBeginScenePending = FALSE;
-        J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EndScene");
+        J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::EndScene");
         return pd3dDevice->EndScene();
     }
     return S_OK;
 }
 
 /**
- * Compiles and links the given fragment shader program.  If
- * successful, this function returns a handle to the newly created shader
- * program; otherwise returns 0.
+ * Compiles bnd links the given frbgment shbder progrbm.  If
+ * successful, this function returns b hbndle to the newly crebted shbder
+ * progrbm; otherwise returns 0.
  */
-IDirect3DPixelShader9 *D3DContext::CreateFragmentProgram(DWORD **shaders,
-                                                       ShaderList *programs,
-                                                       jint flags)
+IDirect3DPixelShbder9 *D3DContext::CrebteFrbgmentProgrbm(DWORD **shbders,
+                                                       ShbderList *progrbms,
+                                                       jint flbgs)
 {
     DWORD *sourceCode;
-    IDirect3DPixelShader9 *pProgram;
+    IDirect3DPixelShbder9 *pProgrbm;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::CreateFragmentProgram: flags=%d",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "D3DContext::CrebteFrbgmentProgrbm: flbgs=%d",
+                flbgs);
 
-    sourceCode = shaders[flags];
-    if (FAILED(pd3dDevice->CreatePixelShader(sourceCode, &pProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::CreateFragmentProgram: error creating program");
+    sourceCode = shbders[flbgs];
+    if (FAILED(pd3dDevice->CrebtePixelShbder(sourceCode, &pProgrbm))) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DContext::CrebteFrbgmentProgrbm: error crebting progrbm");
         return NULL;
     }
 
-    // add it to the cache
-    ShaderList_AddProgram(programs, ptr_to_jlong(pProgram),
-                          0 /*unused*/, 0 /*unused*/, flags);
+    // bdd it to the cbche
+    ShbderList_AddProgrbm(progrbms, ptr_to_jlong(pProgrbm),
+                          0 /*unused*/, 0 /*unused*/, flbgs);
 
-    return pProgram;
+    return pProgrbm;
 }
 
 /**
- * Locates and enables a fragment program given a list of shader programs
- * (ShaderInfos), using this context's state and flags as search
- * parameters.  The "flags" parameter is a bitwise-or'd value that helps
- * differentiate one program for another; the interpretation of this value
- * varies depending on the type of shader (BufImgOp, Paint, etc) but here
- * it is only used to find another ShaderInfo with that same "flags" value.
+ * Locbtes bnd enbbles b frbgment progrbm given b list of shbder progrbms
+ * (ShbderInfos), using this context's stbte bnd flbgs bs sebrch
+ * pbrbmeters.  The "flbgs" pbrbmeter is b bitwise-or'd vblue thbt helps
+ * differentibte one progrbm for bnother; the interpretbtion of this vblue
+ * vbries depending on the type of shbder (BufImgOp, Pbint, etc) but here
+ * it is only used to find bnother ShbderInfo with thbt sbme "flbgs" vblue.
  */
-HRESULT D3DContext::EnableFragmentProgram(DWORD **shaders,
-                                          ShaderList *programList,
-                                          jint flags)
+HRESULT D3DContext::EnbbleFrbgmentProgrbm(DWORD **shbders,
+                                          ShbderList *progrbmList,
+                                          jint flbgs)
 {
     HRESULT res;
-    jlong programID;
-    IDirect3DPixelShader9 *pProgram;
+    jlong progrbmID;
+    IDirect3DPixelShbder9 *pProgrbm;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableFragmentProgram");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::EnbbleFrbgmentProgrbm");
 
-    programID =
-        ShaderList_FindProgram(programList,
-                               0 /*unused*/, 0 /*unused*/, flags);
+    progrbmID =
+        ShbderList_FindProgrbm(progrbmList,
+                               0 /*unused*/, 0 /*unused*/, flbgs);
 
-    pProgram = (IDirect3DPixelShader9 *)jlong_to_ptr(programID);
-    if (pProgram == NULL) {
-        pProgram = CreateFragmentProgram(shaders, programList, flags);
-        if (pProgram == NULL) {
+    pProgrbm = (IDirect3DPixelShbder9 *)jlong_to_ptr(progrbmID);
+    if (pProgrbm == NULL) {
+        pProgrbm = CrebteFrbgmentProgrbm(shbders, progrbmList, flbgs);
+        if (pProgrbm == NULL) {
             return E_FAIL;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(pProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::EnableFragmentProgram: error setting pixel shader");
+    if (FAILED(res = pd3dDevice->SetPixelShbder(pProgrbm))) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DContext::EnbbleFrbgmentProgrbm: error setting pixel shbder");
         return res;
     }
 
     return S_OK;
 }
 
-HRESULT D3DContext::EnableBasicGradientProgram(jint flags)
+HRESULT D3DContext::EnbbleBbsicGrbdientProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)gradShaders,
-                                 &basicGradPrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)grbdShbders,
+                                 &bbsicGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLinearGradientProgram(jint flags)
+HRESULT D3DContext::EnbbleLinebrGrbdientProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)linearShaders,
-                                 &linearGradPrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)linebrShbders,
+                                 &linebrGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableRadialGradientProgram(jint flags)
+HRESULT D3DContext::EnbbleRbdiblGrbdientProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)radialShaders,
-                                 &radialGradPrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)rbdiblShbders,
+                                 &rbdiblGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableConvolveProgram(jint flags)
+HRESULT D3DContext::EnbbleConvolveProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)convolveShaders,
-                                 &convolvePrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)convolveShbders,
+                                 &convolveProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableRescaleProgram(jint flags)
+HRESULT D3DContext::EnbbleRescbleProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)rescaleShaders,
-                                 &rescalePrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)rescbleShbders,
+                                 &rescbleProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLookupProgram(jint flags)
+HRESULT D3DContext::EnbbleLookupProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)lookupShaders,
-                                 &lookupPrograms, flags);
+    return EnbbleFrbgmentProgrbm((DWORD **)lookupShbders,
+                                 &lookupProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLCDTextProgram()
+HRESULT D3DContext::EnbbleLCDTextProgrbm()
 {
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableLCDTextProgram");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::EnbbleLCDTextProgrbm");
 
-    if (lcdTextProgram == NULL) {
-        if (FAILED(res = pd3dDevice->CreatePixelShader(lcdtext0,
-                                                       &lcdTextProgram)))
+    if (lcdTextProgrbm == NULL) {
+        if (FAILED(res = pd3dDevice->CrebtePixelShbder(lcdtext0,
+                                                       &lcdTextProgrbm)))
         {
             return res;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(lcdTextProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::EnableLCDTextProgram: error setting pixel shader");
+    if (FAILED(res = pd3dDevice->SetPixelShbder(lcdTextProgrbm))) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DContext::EnbbleLCDTextProgrbm: error setting pixel shbder");
         return res;
     }
 
     return S_OK;
 }
 
-HRESULT D3DContext::EnableAAParallelogramProgram()
+HRESULT D3DContext::EnbbleAAPbrbllelogrbmProgrbm()
 {
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableAAParallelogramProgram");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::EnbbleAAPbrbllelogrbmProgrbm");
 
-    if (aaPgramProgram == NULL) {
-        if (FAILED(res = pd3dDevice->CreatePixelShader(aapgram0,
-                                                       &aaPgramProgram))) {
-            DebugPrintD3DError(res, "D3DContext::EnableAAParallelogramProgram: "
-                               "error creating pixel shader");
+    if (bbPgrbmProgrbm == NULL) {
+        if (FAILED(res = pd3dDevice->CrebtePixelShbder(bbpgrbm0,
+                                                       &bbPgrbmProgrbm))) {
+            DebugPrintD3DError(res, "D3DContext::EnbbleAAPbrbllelogrbmProgrbm: "
+                               "error crebting pixel shbder");
             return res;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(aaPgramProgram))) {
-        DebugPrintD3DError(res, "D3DContext::EnableAAParallelogramProgram: "
-                           "error setting pixel shader");
+    if (FAILED(res = pd3dDevice->SetPixelShbder(bbPgrbmProgrbm))) {
+        DebugPrintD3DError(res, "D3DContext::EnbbleAAPbrbllelogrbmProgrbm: "
+                           "error setting pixel shbder");
         return res;
     }
 
     return S_OK;
 }
 
-HRESULT D3DContext::DisableAAParallelogramProgram()
+HRESULT D3DContext::DisbbleAAPbrbllelogrbmProgrbm()
 {
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::DisableAAParallelogramProgram");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::DisbbleAAPbrbllelogrbmProgrbm");
 
-    if (aaPgramProgram != NULL) {
-        if (FAILED(res = pd3dDevice->SetPixelShader(NULL))) {
+    if (bbPgrbmProgrbm != NULL) {
+        if (FAILED(res = pd3dDevice->SetPixelShbder(NULL))) {
             DebugPrintD3DError(res,
-                               "D3DContext::DisableAAParallelogramProgram: "
-                               "error clearing pixel shader");
+                               "D3DContext::DisbbleAAPbrbllelogrbmProgrbm: "
+                               "error clebring pixel shbder");
             return res;
         }
     }
@@ -1809,94 +1809,94 @@ HRESULT D3DContext::DisableAAParallelogramProgram()
     return S_OK;
 }
 
-BOOL D3DContext::IsAlphaRTSurfaceSupported()
+BOOL D3DContext::IsAlphbRTSurfbceSupported()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT res = pd3dObject->CheckDeviceFormbt(bdbpterOrdinbl,
+            devCbps.DeviceType,
+            curPbrbms.BbckBufferFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_SURFACE,
             D3DFMT_A8R8G8B8);
     return SUCCEEDED(res);
 }
 
-BOOL D3DContext::IsAlphaRTTSupported()
+BOOL D3DContext::IsAlphbRTTSupported()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT res = pd3dObject->CheckDeviceFormbt(bdbpterOrdinbl,
+            devCbps.DeviceType,
+            curPbrbms.BbckBufferFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_TEXTURE,
             D3DFMT_A8R8G8B8);
     return SUCCEEDED(res);
 }
 
-BOOL D3DContext::IsOpaqueRTTSupported()
+BOOL D3DContext::IsOpbqueRTTSupported()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT res = pd3dObject->CheckDeviceFormbt(bdbpterOrdinbl,
+            devCbps.DeviceType,
+            curPbrbms.BbckBufferFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_TEXTURE,
-            curParams.BackBufferFormat);
+            curPbrbms.BbckBufferFormbt);
     return SUCCEEDED(res);
 }
 
-HRESULT D3DContext::InitContextCaps() {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::InitContextCaps");
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  caps for adapter %d :", adapterOrdinal);
+HRESULT D3DContext::InitContextCbps() {
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DContext::InitContextCbps");
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  cbps for bdbpter %d :", bdbpterOrdinbl);
 
     if (pd3dDevice == NULL || pd3dObject == NULL) {
-        contextCaps = CAPS_EMPTY;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_EMPTY");
+        contextCbps = CAPS_EMPTY;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_EMPTY");
         return E_FAIL;
     }
 
-    contextCaps = CAPS_DEVICE_OK;
-    J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_DEVICE_OK");
+    contextCbps = CAPS_DEVICE_OK;
+    J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_DEVICE_OK");
 
-    if (IsAlphaRTSurfaceSupported()) {
-        contextCaps |= CAPS_RT_PLAIN_ALPHA;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_PLAIN_ALPHA");
+    if (IsAlphbRTSurfbceSupported()) {
+        contextCbps |= CAPS_RT_PLAIN_ALPHA;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_PLAIN_ALPHA");
     }
-    if (IsAlphaRTTSupported()) {
-        contextCaps |= CAPS_RT_TEXTURE_ALPHA;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_ALPHA");
+    if (IsAlphbRTTSupported()) {
+        contextCbps |= CAPS_RT_TEXTURE_ALPHA;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_ALPHA");
     }
-    if (IsOpaqueRTTSupported()) {
-        contextCaps |= CAPS_RT_TEXTURE_OPAQUE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_OPAQUE");
+    if (IsOpbqueRTTSupported()) {
+        contextCbps |= CAPS_RT_TEXTURE_OPAQUE;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_OPAQUE");
     }
-    if (IsPixelShader20Supported()) {
-        contextCaps |= CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE,
+    if (IsPixelShbder20Supported()) {
+        contextCbps |= CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE,
                       "  | CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20");
-        // Pre-PS3.0 video boards are very slow with the AA shader, so
-        // we will require PS30 hw even though the shader is compiled for 2.0a
-//        if (IsGradientInstructionExtensionSupported()) {
-//            contextCaps |= CAPS_AA_SHADER;
-//            J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+        // Pre-PS3.0 video bobrds bre very slow with the AA shbder, so
+        // we will require PS30 hw even though the shbder is compiled for 2.0b
+//        if (IsGrbdientInstructionExtensionSupported()) {
+//            contextCbps |= CAPS_AA_SHADER;
+//            J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
 //        }
     }
-    if (IsPixelShader30Supported()) {
-        if ((contextCaps & CAPS_AA_SHADER) == 0) {
-            // This flag was not already mentioned above...
-            J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+    if (IsPixelShbder30Supported()) {
+        if ((contextCbps & CAPS_AA_SHADER) == 0) {
+            // This flbg wbs not blrebdy mentioned bbove...
+            J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
         }
-        contextCaps |= CAPS_PS30 | CAPS_AA_SHADER;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_PS30");
+        contextCbps |= CAPS_PS30 | CAPS_AA_SHADER;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_PS30");
     }
     if (IsMultiTexturingSupported()) {
-        contextCaps |= CAPS_MULTITEXTURE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_MULTITEXTURE");
+        contextCbps |= CAPS_MULTITEXTURE;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_MULTITEXTURE");
     }
     if (!IsPow2TexturesOnly()) {
-        contextCaps |= CAPS_TEXNONPOW2;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONPOW2");
+        contextCbps |= CAPS_TEXNONPOW2;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONPOW2");
     }
-    if (!IsSquareTexturesOnly()) {
-        contextCaps |= CAPS_TEXNONSQUARE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONSQUARE");
+    if (!IsSqubreTexturesOnly()) {
+        contextCbps |= CAPS_TEXNONSQUARE;
+        J2dRlsTrbceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONSQUARE");
     }
     return S_OK;
 }

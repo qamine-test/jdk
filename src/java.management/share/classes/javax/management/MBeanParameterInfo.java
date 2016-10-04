@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 
 /**
- * Describes an argument of an operation exposed by an MBean.
- * Instances of this class are immutable.  Subclasses may be mutable
+ * Describes bn brgument of bn operbtion exposed by bn MBebn.
+ * Instbnces of this clbss bre immutbble.  Subclbsses mby be mutbble
  * but this is not recommended.
  *
  * @since 1.5
  */
-public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
+public clbss MBebnPbrbmeterInfo extends MBebnFebtureInfo implements Clonebble {
 
-    /* Serial version */
-    static final long serialVersionUID = 7432616882776782338L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 7432616882776782338L;
 
-    /* All zero-length arrays are interchangeable. */
-    static final MBeanParameterInfo[] NO_PARAMS = new MBeanParameterInfo[0];
+    /* All zero-length brrbys bre interchbngebble. */
+    stbtic finbl MBebnPbrbmeterInfo[] NO_PARAMS = new MBebnPbrbmeterInfo[0];
 
     /**
-     * @serial The type or class name of the data.
+     * @seribl The type or clbss nbme of the dbtb.
      */
-    private final String type;
+    privbte finbl String type;
 
 
     /**
-     * Constructs an <CODE>MBeanParameterInfo</CODE> object.
+     * Constructs bn <CODE>MBebnPbrbmeterInfo</CODE> object.
      *
-     * @param name The name of the data
-     * @param type The type or class name of the data
-     * @param description A human readable description of the data. Optional.
+     * @pbrbm nbme The nbme of the dbtb
+     * @pbrbm type The type or clbss nbme of the dbtb
+     * @pbrbm description A humbn rebdbble description of the dbtb. Optionbl.
      */
-    public MBeanParameterInfo(String name,
+    public MBebnPbrbmeterInfo(String nbme,
                               String type,
                               String description) {
-        this(name, type, description, (Descriptor) null);
+        this(nbme, type, description, (Descriptor) null);
     }
 
     /**
-     * Constructs an <CODE>MBeanParameterInfo</CODE> object.
+     * Constructs bn <CODE>MBebnPbrbmeterInfo</CODE> object.
      *
-     * @param name The name of the data
-     * @param type The type or class name of the data
-     * @param description A human readable description of the data. Optional.
-     * @param descriptor The descriptor for the operation.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbme The nbme of the dbtb
+     * @pbrbm type The type or clbss nbme of the dbtb
+     * @pbrbm description A humbn rebdbble description of the dbtb. Optionbl.
+     * @pbrbm descriptor The descriptor for the operbtion.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanParameterInfo(String name,
+    public MBebnPbrbmeterInfo(String nbme,
                               String type,
                               String description,
                               Descriptor descriptor) {
-        super(name, description, descriptor);
+        super(nbme, description, descriptor);
 
         this.type = type;
     }
 
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
+     * <p>Returns b shbllow clone of this instbnce.
+     * The clone is obtbined by simply cblling <tt>super.clone()</tt>,
+     * thus cblling the defbult nbtive shbllow cloning mechbnism
      * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * No deeper cloning of bny internbl field is mbde.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of
-     * interest to subclasses.</p>
+     * <p>Since this clbss is immutbble, cloning is chiefly of
+     * interest to subclbsses.</p>
      */
      public Object clone () {
          try {
              return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
+         } cbtch (CloneNotSupportedException e) {
+             // should not hbppen bs this clbss is clonebble
              return null;
          }
      }
 
     /**
-     * Returns the type or class name of the data.
+     * Returns the type or clbss nbme of the dbtb.
      *
      * @return the type string.
      */
@@ -113,38 +113,38 @@ public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
 
     public String toString() {
         return
-            getClass().getName() + "[" +
+            getClbss().getNbme() + "[" +
             "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
+            "nbme=" + getNbme() + ", " +
             "type=" + getType() + ", " +
             "descriptor=" + getDescriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanParameterInfo to another.
+     * Compbre this MBebnPbrbmeterInfo to bnother.
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanParameterInfo such
-     * that its {@link #getName()}, {@link #getType()},
-     * {@link #getDescriptor()}, and {@link
-     * #getDescription()} values are equal (not necessarily identical)
-     * to those of this MBeanParameterInfo.
+     * @return true if bnd only if <code>o</code> is bn MBebnPbrbmeterInfo such
+     * thbt its {@link #getNbme()}, {@link #getType()},
+     * {@link #getDescriptor()}, bnd {@link
+     * #getDescription()} vblues bre equbl (not necessbrily identicbl)
+     * to those of this MBebnPbrbmeterInfo.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanParameterInfo))
-            return false;
-        MBeanParameterInfo p = (MBeanParameterInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getType(), getType()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+        if (!(o instbnceof MBebnPbrbmeterInfo))
+            return fblse;
+        MBebnPbrbmeterInfo p = (MBebnPbrbmeterInfo) o;
+        return (Objects.equbls(p.getNbme(), getNbme()) &&
+                Objects.equbls(p.getType(), getType()) &&
+                Objects.equbls(p.getDescription(), getDescription()) &&
+                Objects.equbls(p.getDescriptor(), getDescriptor()));
     }
 
-    public int hashCode() {
-        return Objects.hash(getName(), getType());
+    public int hbshCode() {
+        return Objects.hbsh(getNbme(), getType());
     }
 }

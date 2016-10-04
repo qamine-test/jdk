@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.parser;
+pbckbge com.sun.tools.hbt.internbl.pbrser;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
+import jbvb.io.IOException;
+import jbvb.io.RbndomAccessFile;
+import jbvb.nio.MbppedByteBuffer;
+import jbvb.nio.chbnnels.FileChbnnel;
 
 /**
- * Implementation of ReadBuffer using mapped file buffer
+ * Implementbtion of RebdBuffer using mbpped file buffer
  *
- * @author A. Sundararajan
+ * @buthor A. Sundbrbrbjbn
  */
-class MappedReadBuffer implements ReadBuffer {
-    private MappedByteBuffer buf;
+clbss MbppedRebdBuffer implements RebdBuffer {
+    privbte MbppedByteBuffer buf;
 
-    MappedReadBuffer(MappedByteBuffer buf) {
+    MbppedRebdBuffer(MbppedByteBuffer buf) {
         this.buf = buf;
     }
 
-    // factory method to create correct ReadBuffer for a given file
-    static ReadBuffer create(RandomAccessFile file) throws IOException {
-        FileChannel ch = file.getChannel();
+    // fbctory method to crebte correct RebdBuffer for b given file
+    stbtic RebdBuffer crebte(RbndomAccessFile file) throws IOException {
+        FileChbnnel ch = file.getChbnnel();
         long size = ch.size();
-        // if file size is more than 2 GB and when file mapping is
-        // configured (default), use mapped file reader
-        if (canUseFileMap() && (size <= Integer.MAX_VALUE)) {
-            MappedByteBuffer buf;
+        // if file size is more thbn 2 GB bnd when file mbpping is
+        // configured (defbult), use mbpped file rebder
+        if (cbnUseFileMbp() && (size <= Integer.MAX_VALUE)) {
+            MbppedByteBuffer buf;
             try {
-                buf = ch.map(FileChannel.MapMode.READ_ONLY, 0, size);
+                buf = ch.mbp(FileChbnnel.MbpMode.READ_ONLY, 0, size);
                 ch.close();
-                return new MappedReadBuffer(buf);
-            } catch (IOException exp) {
-                exp.printStackTrace();
-                System.err.println("File mapping failed, will use direct read");
-                // fall through
+                return new MbppedRebdBuffer(buf);
+            } cbtch (IOException exp) {
+                exp.printStbckTrbce();
+                System.err.println("File mbpping fbiled, will use direct rebd");
+                // fbll through
             }
-        } // else fall through
-        return new FileReadBuffer(file);
+        } // else fbll through
+        return new FileRebdBuffer(file);
     }
 
-    private static boolean canUseFileMap() {
-        // set jhat.disableFileMap to any value other than "false"
-        // to disable file mapping
-        String prop = System.getProperty("jhat.disableFileMap");
-        return prop == null || prop.equals("false");
+    privbte stbtic boolebn cbnUseFileMbp() {
+        // set jhbt.disbbleFileMbp to bny vblue other thbn "fblse"
+        // to disbble file mbpping
+        String prop = System.getProperty("jhbt.disbbleFileMbp");
+        return prop == null || prop.equbls("fblse");
     }
 
-    private void seek(long pos) throws IOException {
-        assert pos <= Integer.MAX_VALUE :  "position overflow";
+    privbte void seek(long pos) throws IOException {
+        bssert pos <= Integer.MAX_VALUE :  "position overflow";
         buf.position((int)pos);
     }
 
@@ -87,9 +87,9 @@ class MappedReadBuffer implements ReadBuffer {
         buf.get(res);
     }
 
-    public synchronized char getChar(long pos) throws IOException {
+    public synchronized chbr getChbr(long pos) throws IOException {
         seek(pos);
-        return buf.getChar();
+        return buf.getChbr();
     }
 
     public synchronized byte getByte(long pos) throws IOException {

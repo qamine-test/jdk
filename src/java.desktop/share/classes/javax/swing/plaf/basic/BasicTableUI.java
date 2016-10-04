@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.util.Enumeration;
-import java.util.EventObject;
-import java.util.Hashtable;
-import java.util.TooManyListenersException;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.table.*;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.event.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.EventObject;
+import jbvb.util.Hbshtbble;
+import jbvb.util.TooMbnyListenersException;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.plbf.bbsic.DrbgRecognitionSupport.BeforeDrbg;
 import sun.swing.SwingUtilities2;
 
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 /**
- * BasicTableUI implementation
+ * BbsicTbbleUI implementbtion
  *
- * @author Philip Milne
- * @author Shannon Hickey (drag and drop)
+ * @buthor Philip Milne
+ * @buthor Shbnnon Hickey (drbg bnd drop)
  */
-public class BasicTableUI extends TableUI
+public clbss BbsicTbbleUI extends TbbleUI
 {
-    private static final StringBuilder BASELINE_COMPONENT_KEY =
-        new StringBuilder("Table.baselineComponent");
+    privbte stbtic finbl StringBuilder BASELINE_COMPONENT_KEY =
+        new StringBuilder("Tbble.bbselineComponent");
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
-    // The JTable that is delegating the painting to this UI.
+    // The JTbble thbt is delegbting the pbinting to this UI.
     /**
-     * The instance of {@code JTable}.
+     * The instbnce of {@code JTbble}.
      */
-    protected JTable table;
+    protected JTbble tbble;
 
     /**
-     * The instance of {@code CellRendererPane}.
+     * The instbnce of {@code CellRendererPbne}.
      */
-    protected CellRendererPane rendererPane;
+    protected CellRendererPbne rendererPbne;
 
     /**
-     * {@code KeyListener} that are attached to the {@code JTable}.
+     * {@code KeyListener} thbt bre bttbched to the {@code JTbble}.
      */
     protected KeyListener keyListener;
 
     /**
-     * {@code FocusListener} that are attached to the {@code JTable}.
+     * {@code FocusListener} thbt bre bttbched to the {@code JTbble}.
      */
     protected FocusListener focusListener;
 
     /**
-     * {@code MouseInputListener} that are attached to the {@code JTable}.
+     * {@code MouseInputListener} thbt bre bttbched to the {@code JTbble}.
      */
     protected MouseInputListener mouseInputListener;
 
-    private Handler handler;
+    privbte Hbndler hbndler;
 
     /**
-     * Local cache of Table's client property "Table.isFileList"
+     * Locbl cbche of Tbble's client property "Tbble.isFileList"
      */
-    private boolean isFileList = false;
+    privbte boolebn isFileList = fblse;
 
 //
-//  Helper class for keyboard actions
+//  Helper clbss for keybobrd bctions
 //
 
-    private static class Actions extends UIAction {
-        private static final String CANCEL_EDITING = "cancel";
-        private static final String SELECT_ALL = "selectAll";
-        private static final String CLEAR_SELECTION = "clearSelection";
-        private static final String START_EDITING = "startEditing";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String CANCEL_EDITING = "cbncel";
+        privbte stbtic finbl String SELECT_ALL = "selectAll";
+        privbte stbtic finbl String CLEAR_SELECTION = "clebrSelection";
+        privbte stbtic finbl String START_EDITING = "stbrtEditing";
 
-        private static final String NEXT_ROW = "selectNextRow";
-        private static final String NEXT_ROW_CELL = "selectNextRowCell";
-        private static final String NEXT_ROW_EXTEND_SELECTION =
+        privbte stbtic finbl String NEXT_ROW = "selectNextRow";
+        privbte stbtic finbl String NEXT_ROW_CELL = "selectNextRowCell";
+        privbte stbtic finbl String NEXT_ROW_EXTEND_SELECTION =
                 "selectNextRowExtendSelection";
-        private static final String NEXT_ROW_CHANGE_LEAD =
-                "selectNextRowChangeLead";
-        private static final String PREVIOUS_ROW = "selectPreviousRow";
-        private static final String PREVIOUS_ROW_CELL = "selectPreviousRowCell";
-        private static final String PREVIOUS_ROW_EXTEND_SELECTION =
+        privbte stbtic finbl String NEXT_ROW_CHANGE_LEAD =
+                "selectNextRowChbngeLebd";
+        privbte stbtic finbl String PREVIOUS_ROW = "selectPreviousRow";
+        privbte stbtic finbl String PREVIOUS_ROW_CELL = "selectPreviousRowCell";
+        privbte stbtic finbl String PREVIOUS_ROW_EXTEND_SELECTION =
                 "selectPreviousRowExtendSelection";
-        private static final String PREVIOUS_ROW_CHANGE_LEAD =
-                "selectPreviousRowChangeLead";
+        privbte stbtic finbl String PREVIOUS_ROW_CHANGE_LEAD =
+                "selectPreviousRowChbngeLebd";
 
-        private static final String NEXT_COLUMN = "selectNextColumn";
-        private static final String NEXT_COLUMN_CELL = "selectNextColumnCell";
-        private static final String NEXT_COLUMN_EXTEND_SELECTION =
+        privbte stbtic finbl String NEXT_COLUMN = "selectNextColumn";
+        privbte stbtic finbl String NEXT_COLUMN_CELL = "selectNextColumnCell";
+        privbte stbtic finbl String NEXT_COLUMN_EXTEND_SELECTION =
                 "selectNextColumnExtendSelection";
-        private static final String NEXT_COLUMN_CHANGE_LEAD =
-                "selectNextColumnChangeLead";
-        private static final String PREVIOUS_COLUMN = "selectPreviousColumn";
-        private static final String PREVIOUS_COLUMN_CELL =
+        privbte stbtic finbl String NEXT_COLUMN_CHANGE_LEAD =
+                "selectNextColumnChbngeLebd";
+        privbte stbtic finbl String PREVIOUS_COLUMN = "selectPreviousColumn";
+        privbte stbtic finbl String PREVIOUS_COLUMN_CELL =
                 "selectPreviousColumnCell";
-        private static final String PREVIOUS_COLUMN_EXTEND_SELECTION =
+        privbte stbtic finbl String PREVIOUS_COLUMN_EXTEND_SELECTION =
                 "selectPreviousColumnExtendSelection";
-        private static final String PREVIOUS_COLUMN_CHANGE_LEAD =
-                "selectPreviousColumnChangeLead";
+        privbte stbtic finbl String PREVIOUS_COLUMN_CHANGE_LEAD =
+                "selectPreviousColumnChbngeLebd";
 
-        private static final String SCROLL_LEFT_CHANGE_SELECTION =
-                "scrollLeftChangeSelection";
-        private static final String SCROLL_LEFT_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_LEFT_CHANGE_SELECTION =
+                "scrollLeftChbngeSelection";
+        privbte stbtic finbl String SCROLL_LEFT_EXTEND_SELECTION =
                 "scrollLeftExtendSelection";
-        private static final String SCROLL_RIGHT_CHANGE_SELECTION =
-                "scrollRightChangeSelection";
-        private static final String SCROLL_RIGHT_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_RIGHT_CHANGE_SELECTION =
+                "scrollRightChbngeSelection";
+        privbte stbtic finbl String SCROLL_RIGHT_EXTEND_SELECTION =
                 "scrollRightExtendSelection";
 
-        private static final String SCROLL_UP_CHANGE_SELECTION =
-                "scrollUpChangeSelection";
-        private static final String SCROLL_UP_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_UP_CHANGE_SELECTION =
+                "scrollUpChbngeSelection";
+        privbte stbtic finbl String SCROLL_UP_EXTEND_SELECTION =
                 "scrollUpExtendSelection";
-        private static final String SCROLL_DOWN_CHANGE_SELECTION =
-                "scrollDownChangeSelection";
-        private static final String SCROLL_DOWN_EXTEND_SELECTION =
+        privbte stbtic finbl String SCROLL_DOWN_CHANGE_SELECTION =
+                "scrollDownChbngeSelection";
+        privbte stbtic finbl String SCROLL_DOWN_EXTEND_SELECTION =
                 "scrollDownExtendSelection";
 
-        private static final String FIRST_COLUMN =
+        privbte stbtic finbl String FIRST_COLUMN =
                 "selectFirstColumn";
-        private static final String FIRST_COLUMN_EXTEND_SELECTION =
+        privbte stbtic finbl String FIRST_COLUMN_EXTEND_SELECTION =
                 "selectFirstColumnExtendSelection";
-        private static final String LAST_COLUMN =
-                "selectLastColumn";
-        private static final String LAST_COLUMN_EXTEND_SELECTION =
-                "selectLastColumnExtendSelection";
+        privbte stbtic finbl String LAST_COLUMN =
+                "selectLbstColumn";
+        privbte stbtic finbl String LAST_COLUMN_EXTEND_SELECTION =
+                "selectLbstColumnExtendSelection";
 
-        private static final String FIRST_ROW =
+        privbte stbtic finbl String FIRST_ROW =
                 "selectFirstRow";
-        private static final String FIRST_ROW_EXTEND_SELECTION =
+        privbte stbtic finbl String FIRST_ROW_EXTEND_SELECTION =
                 "selectFirstRowExtendSelection";
-        private static final String LAST_ROW =
-                "selectLastRow";
-        private static final String LAST_ROW_EXTEND_SELECTION =
-                "selectLastRowExtendSelection";
+        privbte stbtic finbl String LAST_ROW =
+                "selectLbstRow";
+        privbte stbtic finbl String LAST_ROW_EXTEND_SELECTION =
+                "selectLbstRowExtendSelection";
 
-        // add the lead item to the selection without changing lead or anchor
-        private static final String ADD_TO_SELECTION = "addToSelection";
+        // bdd the lebd item to the selection without chbnging lebd or bnchor
+        privbte stbtic finbl String ADD_TO_SELECTION = "bddToSelection";
 
-        // toggle the selected state of the lead item and move the anchor to it
-        private static final String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
+        // toggle the selected stbte of the lebd item bnd move the bnchor to it
+        privbte stbtic finbl String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
 
-        // extend the selection to the lead item
-        private static final String EXTEND_TO = "extendTo";
+        // extend the selection to the lebd item
+        privbte stbtic finbl String EXTEND_TO = "extendTo";
 
-        // move the anchor to the lead and ensure only that item is selected
-        private static final String MOVE_SELECTION_TO = "moveSelectionTo";
+        // move the bnchor to the lebd bnd ensure only thbt item is selected
+        privbte stbtic finbl String MOVE_SELECTION_TO = "moveSelectionTo";
 
-        // give focus to the JTableHeader, if one exists
-        private static final String FOCUS_HEADER = "focusHeader";
+        // give focus to the JTbbleHebder, if one exists
+        privbte stbtic finbl String FOCUS_HEADER = "focusHebder";
 
         protected int dx;
         protected int dy;
-        protected boolean extend;
-        protected boolean inSelection;
+        protected boolebn extend;
+        protected boolebn inSelection;
 
-        // horizontally, forwards always means right,
-        // regardless of component orientation
-        protected boolean forwards;
-        protected boolean vertically;
-        protected boolean toLimit;
+        // horizontblly, forwbrds blwbys mebns right,
+        // regbrdless of component orientbtion
+        protected boolebn forwbrds;
+        protected boolebn verticblly;
+        protected boolebn toLimit;
 
-        protected int leadRow;
-        protected int leadColumn;
+        protected int lebdRow;
+        protected int lebdColumn;
 
-        Actions(String name) {
-            super(name);
+        Actions(String nbme) {
+            super(nbme);
         }
 
-        Actions(String name, int dx, int dy, boolean extend,
-                boolean inSelection) {
-            super(name);
+        Actions(String nbme, int dx, int dy, boolebn extend,
+                boolebn inSelection) {
+            super(nbme);
 
-            // Actions spcifying true for "inSelection" are
-            // fairly sensitive to bad parameter values. They require
-            // that one of dx and dy be 0 and the other be -1 or 1.
-            // Bogus parameter values could cause an infinite loop.
-            // To prevent any problems we massage the params here
-            // and complain if we get something we can't deal with.
+            // Actions spcifying true for "inSelection" bre
+            // fbirly sensitive to bbd pbrbmeter vblues. They require
+            // thbt one of dx bnd dy be 0 bnd the other be -1 or 1.
+            // Bogus pbrbmeter vblues could cbuse bn infinite loop.
+            // To prevent bny problems we mbssbge the pbrbms here
+            // bnd complbin if we get something we cbn't debl with.
             if (inSelection) {
                 this.inSelection = true;
 
-                // look at the sign of dx and dy only
+                // look bt the sign of dx bnd dy only
                 dx = sign(dx);
                 dy = sign(dy);
 
-                // make sure one is zero, but not both
-                assert (dx == 0 || dy == 0) && !(dx == 0 && dy == 0);
+                // mbke sure one is zero, but not both
+                bssert (dx == 0 || dy == 0) && !(dx == 0 && dy == 0);
             }
 
             this.dx = dx;
@@ -228,186 +228,186 @@ public class BasicTableUI extends TableUI
             this.extend = extend;
         }
 
-        Actions(String name, boolean extend, boolean forwards,
-                boolean vertically, boolean toLimit) {
-            this(name, 0, 0, extend, false);
-            this.forwards = forwards;
-            this.vertically = vertically;
+        Actions(String nbme, boolebn extend, boolebn forwbrds,
+                boolebn verticblly, boolebn toLimit) {
+            this(nbme, 0, 0, extend, fblse);
+            this.forwbrds = forwbrds;
+            this.verticblly = verticblly;
             this.toLimit = toLimit;
         }
 
-        private static int clipToRange(int i, int a, int b) {
-            return Math.min(Math.max(i, a), b-1);
+        privbte stbtic int clipToRbnge(int i, int b, int b) {
+            return Mbth.min(Mbth.mbx(i, b), b-1);
         }
 
-        private void moveWithinTableRange(JTable table, int dx, int dy) {
-            leadRow = clipToRange(leadRow+dy, 0, table.getRowCount());
-            leadColumn = clipToRange(leadColumn+dx, 0, table.getColumnCount());
+        privbte void moveWithinTbbleRbnge(JTbble tbble, int dx, int dy) {
+            lebdRow = clipToRbnge(lebdRow+dy, 0, tbble.getRowCount());
+            lebdColumn = clipToRbnge(lebdColumn+dx, 0, tbble.getColumnCount());
         }
 
-        private static int sign(int num) {
+        privbte stbtic int sign(int num) {
             return (num < 0) ? -1 : ((num == 0) ? 0 : 1);
         }
 
         /**
-         * Called to move within the selected range of the given JTable.
-         * This method uses the table's notion of selection, which is
-         * important to allow the user to navigate between items visually
-         * selected on screen. This notion may or may not be the same as
-         * what could be determined by directly querying the selection models.
-         * It depends on certain table properties (such as whether or not
-         * row or column selection is allowed). When performing modifications,
-         * it is recommended that caution be taken in order to preserve
-         * the intent of this method, especially when deciding whether to
-         * query the selection models or interact with JTable directly.
+         * Cblled to move within the selected rbnge of the given JTbble.
+         * This method uses the tbble's notion of selection, which is
+         * importbnt to bllow the user to nbvigbte between items visublly
+         * selected on screen. This notion mby or mby not be the sbme bs
+         * whbt could be determined by directly querying the selection models.
+         * It depends on certbin tbble properties (such bs whether or not
+         * row or column selection is bllowed). When performing modificbtions,
+         * it is recommended thbt cbution be tbken in order to preserve
+         * the intent of this method, especiblly when deciding whether to
+         * query the selection models or interbct with JTbble directly.
          */
-        private boolean moveWithinSelectedRange(JTable table, int dx, int dy,
+        privbte boolebn moveWithinSelectedRbnge(JTbble tbble, int dx, int dy,
                 ListSelectionModel rsm, ListSelectionModel csm) {
 
-            // Note: The Actions constructor ensures that only one of
-            // dx and dy is 0, and the other is either -1 or 1
+            // Note: The Actions constructor ensures thbt only one of
+            // dx bnd dy is 0, bnd the other is either -1 or 1
 
-            // find out how many items the table is showing as selected
-            // and the range of items to navigate through
-            int totalCount;
-            int minX, maxX, minY, maxY;
+            // find out how mbny items the tbble is showing bs selected
+            // bnd the rbnge of items to nbvigbte through
+            int totblCount;
+            int minX, mbxX, minY, mbxY;
 
-            boolean rs = table.getRowSelectionAllowed();
-            boolean cs = table.getColumnSelectionAllowed();
+            boolebn rs = tbble.getRowSelectionAllowed();
+            boolebn cs = tbble.getColumnSelectionAllowed();
 
-            // both column and row selection
+            // both column bnd row selection
             if (rs && cs) {
-                totalCount = table.getSelectedRowCount() * table.getSelectedColumnCount();
+                totblCount = tbble.getSelectedRowCount() * tbble.getSelectedColumnCount();
                 minX = csm.getMinSelectionIndex();
-                maxX = csm.getMaxSelectionIndex();
+                mbxX = csm.getMbxSelectionIndex();
                 minY = rsm.getMinSelectionIndex();
-                maxY = rsm.getMaxSelectionIndex();
+                mbxY = rsm.getMbxSelectionIndex();
             // row selection only
             } else if (rs) {
-                totalCount = table.getSelectedRowCount();
+                totblCount = tbble.getSelectedRowCount();
                 minX = 0;
-                maxX = table.getColumnCount() - 1;
+                mbxX = tbble.getColumnCount() - 1;
                 minY = rsm.getMinSelectionIndex();
-                maxY = rsm.getMaxSelectionIndex();
+                mbxY = rsm.getMbxSelectionIndex();
             // column selection only
             } else if (cs) {
-                totalCount = table.getSelectedColumnCount();
+                totblCount = tbble.getSelectedColumnCount();
                 minX = csm.getMinSelectionIndex();
-                maxX = csm.getMaxSelectionIndex();
+                mbxX = csm.getMbxSelectionIndex();
                 minY = 0;
-                maxY = table.getRowCount() - 1;
-            // no selection allowed
+                mbxY = tbble.getRowCount() - 1;
+            // no selection bllowed
             } else {
-                totalCount = 0;
-                // A bogus assignment to stop javac from complaining
-                // about unitialized values. In this case, these
+                totblCount = 0;
+                // A bogus bssignment to stop jbvbc from complbining
+                // bbout unitiblized vblues. In this cbse, these
                 // won't even be used.
-                minX = maxX = minY = maxY = 0;
+                minX = mbxX = minY = mbxY = 0;
             }
 
-            // For some cases, there is no point in trying to stay within the
-            // selected area. Instead, move outside the selection, wrapping at
-            // the table boundaries. The cases are:
-            boolean stayInSelection;
+            // For some cbses, there is no point in trying to stby within the
+            // selected breb. Instebd, move outside the selection, wrbpping bt
+            // the tbble boundbries. The cbses bre:
+            boolebn stbyInSelection;
 
             // - nothing selected
-            if (totalCount == 0 ||
-                    // - one item selected, and the lead is already selected
-                    (totalCount == 1 && table.isCellSelected(leadRow, leadColumn))) {
+            if (totblCount == 0 ||
+                    // - one item selected, bnd the lebd is blrebdy selected
+                    (totblCount == 1 && tbble.isCellSelected(lebdRow, lebdColumn))) {
 
-                stayInSelection = false;
+                stbyInSelection = fblse;
 
-                maxX = table.getColumnCount() - 1;
-                maxY = table.getRowCount() - 1;
+                mbxX = tbble.getColumnCount() - 1;
+                mbxY = tbble.getRowCount() - 1;
 
-                // the mins are calculated like this in case the max is -1
-                minX = Math.min(0, maxX);
-                minY = Math.min(0, maxY);
+                // the mins bre cblculbted like this in cbse the mbx is -1
+                minX = Mbth.min(0, mbxX);
+                minY = Mbth.min(0, mbxY);
             } else {
-                stayInSelection = true;
+                stbyInSelection = true;
             }
 
-            // the algorithm below isn't prepared to deal with -1 lead/anchor
-            // so massage appropriately here first
-            if (dy == 1 && leadColumn == -1) {
-                leadColumn = minX;
-                leadRow = -1;
-            } else if (dx == 1 && leadRow == -1) {
-                leadRow = minY;
-                leadColumn = -1;
-            } else if (dy == -1 && leadColumn == -1) {
-                leadColumn = maxX;
-                leadRow = maxY + 1;
-            } else if (dx == -1 && leadRow == -1) {
-                leadRow = maxY;
-                leadColumn = maxX + 1;
+            // the blgorithm below isn't prepbred to debl with -1 lebd/bnchor
+            // so mbssbge bppropribtely here first
+            if (dy == 1 && lebdColumn == -1) {
+                lebdColumn = minX;
+                lebdRow = -1;
+            } else if (dx == 1 && lebdRow == -1) {
+                lebdRow = minY;
+                lebdColumn = -1;
+            } else if (dy == -1 && lebdColumn == -1) {
+                lebdColumn = mbxX;
+                lebdRow = mbxY + 1;
+            } else if (dx == -1 && lebdRow == -1) {
+                lebdRow = mbxY;
+                lebdColumn = mbxX + 1;
             }
 
-            // In cases where the lead is not within the search range,
-            // we need to bring it within one cell for the the search
+            // In cbses where the lebd is not within the sebrch rbnge,
+            // we need to bring it within one cell for the the sebrch
             // to work properly. Check these here.
-            leadRow = Math.min(Math.max(leadRow, minY - 1), maxY + 1);
-            leadColumn = Math.min(Math.max(leadColumn, minX - 1), maxX + 1);
+            lebdRow = Mbth.min(Mbth.mbx(lebdRow, minY - 1), mbxY + 1);
+            lebdColumn = Mbth.min(Mbth.mbx(lebdColumn, minX - 1), mbxX + 1);
 
             // find the next position, possibly looping until it is selected
             do {
-                calcNextPos(dx, minX, maxX, dy, minY, maxY);
-            } while (stayInSelection && !table.isCellSelected(leadRow, leadColumn));
+                cblcNextPos(dx, minX, mbxX, dy, minY, mbxY);
+            } while (stbyInSelection && !tbble.isCellSelected(lebdRow, lebdColumn));
 
-            return stayInSelection;
+            return stbyInSelection;
         }
 
         /**
-         * Find the next lead row and column based on the given
-         * dx/dy and max/min values.
+         * Find the next lebd row bnd column bbsed on the given
+         * dx/dy bnd mbx/min vblues.
          */
-        private void calcNextPos(int dx, int minX, int maxX,
-                                 int dy, int minY, int maxY) {
+        privbte void cblcNextPos(int dx, int minX, int mbxX,
+                                 int dy, int minY, int mbxY) {
 
             if (dx != 0) {
-                leadColumn += dx;
-                if (leadColumn > maxX) {
-                    leadColumn = minX;
-                    leadRow++;
-                    if (leadRow > maxY) {
-                        leadRow = minY;
+                lebdColumn += dx;
+                if (lebdColumn > mbxX) {
+                    lebdColumn = minX;
+                    lebdRow++;
+                    if (lebdRow > mbxY) {
+                        lebdRow = minY;
                     }
-                } else if (leadColumn < minX) {
-                    leadColumn = maxX;
-                    leadRow--;
-                    if (leadRow < minY) {
-                        leadRow = maxY;
+                } else if (lebdColumn < minX) {
+                    lebdColumn = mbxX;
+                    lebdRow--;
+                    if (lebdRow < minY) {
+                        lebdRow = mbxY;
                     }
                 }
             } else {
-                leadRow += dy;
-                if (leadRow > maxY) {
-                    leadRow = minY;
-                    leadColumn++;
-                    if (leadColumn > maxX) {
-                        leadColumn = minX;
+                lebdRow += dy;
+                if (lebdRow > mbxY) {
+                    lebdRow = minY;
+                    lebdColumn++;
+                    if (lebdColumn > mbxX) {
+                        lebdColumn = minX;
                     }
-                } else if (leadRow < minY) {
-                    leadRow = maxY;
-                    leadColumn--;
-                    if (leadColumn < minX) {
-                        leadColumn = maxX;
+                } else if (lebdRow < minY) {
+                    lebdRow = mbxY;
+                    lebdColumn--;
+                    if (lebdColumn < minX) {
+                        lebdColumn = mbxX;
                     }
                 }
             }
         }
 
-        public void actionPerformed(ActionEvent e) {
-            String key = getName();
-            JTable table = (JTable)e.getSource();
+        public void bctionPerformed(ActionEvent e) {
+            String key = getNbme();
+            JTbble tbble = (JTbble)e.getSource();
 
-            ListSelectionModel rsm = table.getSelectionModel();
-            leadRow = getAdjustedLead(table, true, rsm);
+            ListSelectionModel rsm = tbble.getSelectionModel();
+            lebdRow = getAdjustedLebd(tbble, true, rsm);
 
-            ListSelectionModel csm = table.getColumnModel().getSelectionModel();
-            leadColumn = getAdjustedLead(table, false, csm);
+            ListSelectionModel csm = tbble.getColumnModel().getSelectionModel();
+            lebdColumn = getAdjustedLebd(tbble, fblse, csm);
 
-            if (key == SCROLL_LEFT_CHANGE_SELECTION ||        // Paging Actions
+            if (key == SCROLL_LEFT_CHANGE_SELECTION ||        // Pbging Actions
                     key == SCROLL_LEFT_EXTEND_SELECTION ||
                     key == SCROLL_RIGHT_CHANGE_SELECTION ||
                     key == SCROLL_RIGHT_EXTEND_SELECTION ||
@@ -424,65 +424,65 @@ public class BasicTableUI extends TableUI
                     key == LAST_ROW ||
                     key == LAST_ROW_EXTEND_SELECTION) {
                 if (toLimit) {
-                    if (vertically) {
-                        int rowCount = table.getRowCount();
+                    if (verticblly) {
+                        int rowCount = tbble.getRowCount();
                         this.dx = 0;
-                        this.dy = forwards ? rowCount : -rowCount;
+                        this.dy = forwbrds ? rowCount : -rowCount;
                     }
                     else {
-                        int colCount = table.getColumnCount();
-                        this.dx = forwards ? colCount : -colCount;
+                        int colCount = tbble.getColumnCount();
+                        this.dx = forwbrds ? colCount : -colCount;
                         this.dy = 0;
                     }
                 }
                 else {
-                    if (!(SwingUtilities.getUnwrappedParent(table).getParent() instanceof
-                            JScrollPane)) {
+                    if (!(SwingUtilities.getUnwrbppedPbrent(tbble).getPbrent() instbnceof
+                            JScrollPbne)) {
                         return;
                     }
 
-                    Dimension delta = table.getParent().getSize();
+                    Dimension deltb = tbble.getPbrent().getSize();
 
-                    if (vertically) {
-                        Rectangle r = table.getCellRect(leadRow, 0, true);
-                        if (forwards) {
-                            // scroll by at least one cell
-                            r.y += Math.max(delta.height, r.height);
+                    if (verticblly) {
+                        Rectbngle r = tbble.getCellRect(lebdRow, 0, true);
+                        if (forwbrds) {
+                            // scroll by bt lebst one cell
+                            r.y += Mbth.mbx(deltb.height, r.height);
                         } else {
-                            r.y -= delta.height;
+                            r.y -= deltb.height;
                         }
 
                         this.dx = 0;
-                        int newRow = table.rowAtPoint(r.getLocation());
-                        if (newRow == -1 && forwards) {
-                            newRow = table.getRowCount();
+                        int newRow = tbble.rowAtPoint(r.getLocbtion());
+                        if (newRow == -1 && forwbrds) {
+                            newRow = tbble.getRowCount();
                         }
-                        this.dy = newRow - leadRow;
+                        this.dy = newRow - lebdRow;
                     }
                     else {
-                        Rectangle r = table.getCellRect(0, leadColumn, true);
+                        Rectbngle r = tbble.getCellRect(0, lebdColumn, true);
 
-                        if (forwards) {
-                            // scroll by at least one cell
-                            r.x += Math.max(delta.width, r.width);
+                        if (forwbrds) {
+                            // scroll by bt lebst one cell
+                            r.x += Mbth.mbx(deltb.width, r.width);
                         } else {
-                            r.x -= delta.width;
+                            r.x -= deltb.width;
                         }
 
-                        int newColumn = table.columnAtPoint(r.getLocation());
+                        int newColumn = tbble.columnAtPoint(r.getLocbtion());
                         if (newColumn == -1) {
-                            boolean ltr = table.getComponentOrientation().isLeftToRight();
+                            boolebn ltr = tbble.getComponentOrientbtion().isLeftToRight();
 
-                            newColumn = forwards ? (ltr ? table.getColumnCount() : 0)
-                                                 : (ltr ? 0 : table.getColumnCount());
+                            newColumn = forwbrds ? (ltr ? tbble.getColumnCount() : 0)
+                                                 : (ltr ? 0 : tbble.getColumnCount());
 
                         }
-                        this.dx = newColumn - leadColumn;
+                        this.dx = newColumn - lebdColumn;
                         this.dy = 0;
                     }
                 }
             }
-            if (key == NEXT_ROW ||  // Navigate Actions
+            if (key == NEXT_ROW ||  // Nbvigbte Actions
                     key == NEXT_ROW_CELL ||
                     key == NEXT_ROW_EXTEND_SELECTION ||
                     key == NEXT_ROW_CHANGE_LEAD ||
@@ -498,7 +498,7 @@ public class BasicTableUI extends TableUI
                     key == PREVIOUS_COLUMN_CELL ||
                     key == PREVIOUS_COLUMN_EXTEND_SELECTION ||
                     key == PREVIOUS_COLUMN_CHANGE_LEAD ||
-                    // Paging Actions.
+                    // Pbging Actions.
                     key == SCROLL_LEFT_CHANGE_SELECTION ||
                     key == SCROLL_LEFT_EXTEND_SELECTION ||
                     key == SCROLL_RIGHT_CHANGE_SELECTION ||
@@ -516,103 +516,103 @@ public class BasicTableUI extends TableUI
                     key == LAST_ROW ||
                     key == LAST_ROW_EXTEND_SELECTION) {
 
-                if (table.isEditing() &&
-                        !table.getCellEditor().stopCellEditing()) {
+                if (tbble.isEditing() &&
+                        !tbble.getCellEditor().stopCellEditing()) {
                     return;
                 }
 
-                // Unfortunately, this strategy introduces bugs because
-                // of the asynchronous nature of requestFocus() call below.
-                // Introducing a delay with invokeLater() makes this work
-                // in the typical case though race conditions then allow
-                // focus to disappear altogether. The right solution appears
-                // to be to fix requestFocus() so that it queues a request
-                // for the focus regardless of who owns the focus at the
-                // time the call to requestFocus() is made. The optimisation
-                // to ignore the call to requestFocus() when the component
-                // already has focus may ligitimately be made as the
+                // Unfortunbtely, this strbtegy introduces bugs becbuse
+                // of the bsynchronous nbture of requestFocus() cbll below.
+                // Introducing b delby with invokeLbter() mbkes this work
+                // in the typicbl cbse though rbce conditions then bllow
+                // focus to disbppebr bltogether. The right solution bppebrs
+                // to be to fix requestFocus() so thbt it queues b request
+                // for the focus regbrdless of who owns the focus bt the
+                // time the cbll to requestFocus() is mbde. The optimisbtion
+                // to ignore the cbll to requestFocus() when the component
+                // blrebdy hbs focus mby ligitimbtely be mbde bs the
                 // request focus event is dequeued, not before.
 
-                // boolean wasEditingWithFocus = table.isEditing() &&
-                // table.getEditorComponent().isFocusOwner();
+                // boolebn wbsEditingWithFocus = tbble.isEditing() &&
+                // tbble.getEditorComponent().isFocusOwner();
 
-                boolean changeLead = false;
+                boolebn chbngeLebd = fblse;
                 if (key == NEXT_ROW_CHANGE_LEAD || key == PREVIOUS_ROW_CHANGE_LEAD) {
-                    changeLead = (rsm.getSelectionMode()
+                    chbngeLebd = (rsm.getSelectionMode()
                                      == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 } else if (key == NEXT_COLUMN_CHANGE_LEAD || key == PREVIOUS_COLUMN_CHANGE_LEAD) {
-                    changeLead = (csm.getSelectionMode()
+                    chbngeLebd = (csm.getSelectionMode()
                                      == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 }
 
-                if (changeLead) {
-                    moveWithinTableRange(table, dx, dy);
+                if (chbngeLebd) {
+                    moveWithinTbbleRbnge(tbble, dx, dy);
                     if (dy != 0) {
-                        // casting should be safe since the action is only enabled
-                        // for DefaultListSelectionModel
-                        ((DefaultListSelectionModel)rsm).moveLeadSelectionIndex(leadRow);
-                        if (getAdjustedLead(table, false, csm) == -1
-                                && table.getColumnCount() > 0) {
+                        // cbsting should be sbfe since the bction is only enbbled
+                        // for DefbultListSelectionModel
+                        ((DefbultListSelectionModel)rsm).moveLebdSelectionIndex(lebdRow);
+                        if (getAdjustedLebd(tbble, fblse, csm) == -1
+                                && tbble.getColumnCount() > 0) {
 
-                            ((DefaultListSelectionModel)csm).moveLeadSelectionIndex(0);
+                            ((DefbultListSelectionModel)csm).moveLebdSelectionIndex(0);
                         }
                     } else {
-                        // casting should be safe since the action is only enabled
-                        // for DefaultListSelectionModel
-                        ((DefaultListSelectionModel)csm).moveLeadSelectionIndex(leadColumn);
-                        if (getAdjustedLead(table, true, rsm) == -1
-                                && table.getRowCount() > 0) {
+                        // cbsting should be sbfe since the bction is only enbbled
+                        // for DefbultListSelectionModel
+                        ((DefbultListSelectionModel)csm).moveLebdSelectionIndex(lebdColumn);
+                        if (getAdjustedLebd(tbble, true, rsm) == -1
+                                && tbble.getRowCount() > 0) {
 
-                            ((DefaultListSelectionModel)rsm).moveLeadSelectionIndex(0);
+                            ((DefbultListSelectionModel)rsm).moveLebdSelectionIndex(0);
                         }
                     }
 
-                    Rectangle cellRect = table.getCellRect(leadRow, leadColumn, false);
+                    Rectbngle cellRect = tbble.getCellRect(lebdRow, lebdColumn, fblse);
                     if (cellRect != null) {
-                        table.scrollRectToVisible(cellRect);
+                        tbble.scrollRectToVisible(cellRect);
                     }
                 } else if (!inSelection) {
-                    moveWithinTableRange(table, dx, dy);
-                    table.changeSelection(leadRow, leadColumn, false, extend);
+                    moveWithinTbbleRbnge(tbble, dx, dy);
+                    tbble.chbngeSelection(lebdRow, lebdColumn, fblse, extend);
                 }
                 else {
-                    if (table.getRowCount() <= 0 || table.getColumnCount() <= 0) {
-                        // bail - don't try to move selection on an empty table
+                    if (tbble.getRowCount() <= 0 || tbble.getColumnCount() <= 0) {
+                        // bbil - don't try to move selection on bn empty tbble
                         return;
                     }
 
-                    if (moveWithinSelectedRange(table, dx, dy, rsm, csm)) {
-                        // this is the only way we have to set both the lead
-                        // and the anchor without changing the selection
-                        if (rsm.isSelectedIndex(leadRow)) {
-                            rsm.addSelectionInterval(leadRow, leadRow);
+                    if (moveWithinSelectedRbnge(tbble, dx, dy, rsm, csm)) {
+                        // this is the only wby we hbve to set both the lebd
+                        // bnd the bnchor without chbnging the selection
+                        if (rsm.isSelectedIndex(lebdRow)) {
+                            rsm.bddSelectionIntervbl(lebdRow, lebdRow);
                         } else {
-                            rsm.removeSelectionInterval(leadRow, leadRow);
+                            rsm.removeSelectionIntervbl(lebdRow, lebdRow);
                         }
 
-                        if (csm.isSelectedIndex(leadColumn)) {
-                            csm.addSelectionInterval(leadColumn, leadColumn);
+                        if (csm.isSelectedIndex(lebdColumn)) {
+                            csm.bddSelectionIntervbl(lebdColumn, lebdColumn);
                         } else {
-                            csm.removeSelectionInterval(leadColumn, leadColumn);
+                            csm.removeSelectionIntervbl(lebdColumn, lebdColumn);
                         }
 
-                        Rectangle cellRect = table.getCellRect(leadRow, leadColumn, false);
+                        Rectbngle cellRect = tbble.getCellRect(lebdRow, lebdColumn, fblse);
                         if (cellRect != null) {
-                            table.scrollRectToVisible(cellRect);
+                            tbble.scrollRectToVisible(cellRect);
                         }
                     }
                     else {
-                        table.changeSelection(leadRow, leadColumn,
-                                false, false);
+                        tbble.chbngeSelection(lebdRow, lebdColumn,
+                                fblse, fblse);
                     }
                 }
 
                 /*
-                if (wasEditingWithFocus) {
-                    table.editCellAt(leadRow, leadColumn);
-                    final Component editorComp = table.getEditorComponent();
+                if (wbsEditingWithFocus) {
+                    tbble.editCellAt(lebdRow, lebdColumn);
+                    finbl Component editorComp = tbble.getEditorComponent();
                     if (editorComp != null) {
-                        SwingUtilities.invokeLater(new Runnable() {
+                        SwingUtilities.invokeLbter(new Runnbble() {
                             public void run() {
                                 editorComp.requestFocus();
                             }
@@ -621,66 +621,66 @@ public class BasicTableUI extends TableUI
                 }
                 */
             } else if (key == CANCEL_EDITING) {
-                table.removeEditor();
+                tbble.removeEditor();
             } else if (key == SELECT_ALL) {
-                table.selectAll();
+                tbble.selectAll();
             } else if (key == CLEAR_SELECTION) {
-                table.clearSelection();
+                tbble.clebrSelection();
             } else if (key == START_EDITING) {
-                if (!table.hasFocus()) {
-                    CellEditor cellEditor = table.getCellEditor();
+                if (!tbble.hbsFocus()) {
+                    CellEditor cellEditor = tbble.getCellEditor();
                     if (cellEditor != null && !cellEditor.stopCellEditing()) {
                         return;
                     }
-                    table.requestFocus();
+                    tbble.requestFocus();
                     return;
                 }
-                table.editCellAt(leadRow, leadColumn, e);
-                Component editorComp = table.getEditorComponent();
+                tbble.editCellAt(lebdRow, lebdColumn, e);
+                Component editorComp = tbble.getEditorComponent();
                 if (editorComp != null) {
                     editorComp.requestFocus();
                 }
             } else if (key == ADD_TO_SELECTION) {
-                if (!table.isCellSelected(leadRow, leadColumn)) {
+                if (!tbble.isCellSelected(lebdRow, lebdColumn)) {
                     int oldAnchorRow = rsm.getAnchorSelectionIndex();
                     int oldAnchorColumn = csm.getAnchorSelectionIndex();
-                    rsm.setValueIsAdjusting(true);
-                    csm.setValueIsAdjusting(true);
-                    table.changeSelection(leadRow, leadColumn, true, false);
+                    rsm.setVblueIsAdjusting(true);
+                    csm.setVblueIsAdjusting(true);
+                    tbble.chbngeSelection(lebdRow, lebdColumn, true, fblse);
                     rsm.setAnchorSelectionIndex(oldAnchorRow);
                     csm.setAnchorSelectionIndex(oldAnchorColumn);
-                    rsm.setValueIsAdjusting(false);
-                    csm.setValueIsAdjusting(false);
+                    rsm.setVblueIsAdjusting(fblse);
+                    csm.setVblueIsAdjusting(fblse);
                 }
             } else if (key == TOGGLE_AND_ANCHOR) {
-                table.changeSelection(leadRow, leadColumn, true, false);
+                tbble.chbngeSelection(lebdRow, lebdColumn, true, fblse);
             } else if (key == EXTEND_TO) {
-                table.changeSelection(leadRow, leadColumn, false, true);
+                tbble.chbngeSelection(lebdRow, lebdColumn, fblse, true);
             } else if (key == MOVE_SELECTION_TO) {
-                table.changeSelection(leadRow, leadColumn, false, false);
+                tbble.chbngeSelection(lebdRow, lebdColumn, fblse, fblse);
             } else if (key == FOCUS_HEADER) {
-                JTableHeader th = table.getTableHeader();
+                JTbbleHebder th = tbble.getTbbleHebder();
                 if (th != null) {
-                    //Set the header's selected column to match the table.
-                    int col = table.getSelectedColumn();
+                    //Set the hebder's selected column to mbtch the tbble.
+                    int col = tbble.getSelectedColumn();
                     if (col >= 0) {
-                        TableHeaderUI thUI = th.getUI();
-                        if (thUI instanceof BasicTableHeaderUI) {
-                            ((BasicTableHeaderUI)thUI).selectColumn(col);
+                        TbbleHebderUI thUI = th.getUI();
+                        if (thUI instbnceof BbsicTbbleHebderUI) {
+                            ((BbsicTbbleHebderUI)thUI).selectColumn(col);
                         }
                     }
 
-                    //Then give the header the focus.
+                    //Then give the hebder the focus.
                     th.requestFocusInWindow();
                 }
             }
         }
 
-        public boolean isEnabled(Object sender) {
-            String key = getName();
+        public boolebn isEnbbled(Object sender) {
+            String key = getNbme();
 
-            if (sender instanceof JTable &&
-                Boolean.TRUE.equals(((JTable)sender).getClientProperty("Table.isFileList"))) {
+            if (sender instbnceof JTbble &&
+                Boolebn.TRUE.equbls(((JTbble)sender).getClientProperty("Tbble.isFileList"))) {
                 if (key == NEXT_COLUMN ||
                         key == NEXT_COLUMN_CELL ||
                         key == NEXT_COLUMN_EXTEND_SELECTION ||
@@ -700,41 +700,41 @@ public class BasicTableUI extends TableUI
                         key == NEXT_ROW_CELL ||
                         key == PREVIOUS_ROW_CELL) {
 
-                    return false;
+                    return fblse;
                 }
             }
 
-            if (key == CANCEL_EDITING && sender instanceof JTable) {
-                return ((JTable)sender).isEditing();
+            if (key == CANCEL_EDITING && sender instbnceof JTbble) {
+                return ((JTbble)sender).isEditing();
             } else if (key == NEXT_ROW_CHANGE_LEAD ||
                        key == PREVIOUS_ROW_CHANGE_LEAD) {
-                // discontinuous selection actions are only enabled for
-                // DefaultListSelectionModel
+                // discontinuous selection bctions bre only enbbled for
+                // DefbultListSelectionModel
                 return sender != null &&
-                       ((JTable)sender).getSelectionModel()
-                           instanceof DefaultListSelectionModel;
+                       ((JTbble)sender).getSelectionModel()
+                           instbnceof DefbultListSelectionModel;
             } else if (key == NEXT_COLUMN_CHANGE_LEAD ||
                        key == PREVIOUS_COLUMN_CHANGE_LEAD) {
-                // discontinuous selection actions are only enabled for
-                // DefaultListSelectionModel
+                // discontinuous selection bctions bre only enbbled for
+                // DefbultListSelectionModel
                 return sender != null &&
-                       ((JTable)sender).getColumnModel().getSelectionModel()
-                           instanceof DefaultListSelectionModel;
-            } else if (key == ADD_TO_SELECTION && sender instanceof JTable) {
-                // This action is typically bound to SPACE.
-                // If the table is already in an editing mode, SPACE should
-                // simply enter a space character into the table, and not
-                // select a cell. Likewise, if the lead cell is already selected
-                // then hitting SPACE should just enter a space character
-                // into the cell and begin editing. In both of these cases
-                // this action will be disabled.
-                JTable table = (JTable)sender;
-                int leadRow = getAdjustedLead(table, true);
-                int leadCol = getAdjustedLead(table, false);
-                return !(table.isEditing() || table.isCellSelected(leadRow, leadCol));
-            } else if (key == FOCUS_HEADER && sender instanceof JTable) {
-                JTable table = (JTable)sender;
-                return table.getTableHeader() != null;
+                       ((JTbble)sender).getColumnModel().getSelectionModel()
+                           instbnceof DefbultListSelectionModel;
+            } else if (key == ADD_TO_SELECTION && sender instbnceof JTbble) {
+                // This bction is typicblly bound to SPACE.
+                // If the tbble is blrebdy in bn editing mode, SPACE should
+                // simply enter b spbce chbrbcter into the tbble, bnd not
+                // select b cell. Likewise, if the lebd cell is blrebdy selected
+                // then hitting SPACE should just enter b spbce chbrbcter
+                // into the cell bnd begin editing. In both of these cbses
+                // this bction will be disbbled.
+                JTbble tbble = (JTbble)sender;
+                int lebdRow = getAdjustedLebd(tbble, true);
+                int lebdCol = getAdjustedLebd(tbble, fblse);
+                return !(tbble.isEditing() || tbble.isCellSelected(lebdRow, lebdCol));
+            } else if (key == FOCUS_HEADER && sender instbnceof JTbble) {
+                JTbble tbble = (JTbble)sender;
+                return tbble.getTbbleHebder() != null;
             }
 
             return true;
@@ -743,189 +743,189 @@ public class BasicTableUI extends TableUI
 
 
 //
-//  The Table's Key listener
+//  The Tbble's Key listener
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableUI}.
-     * <p>As of Java 2 platform v1.3 this class is no longer used.
-     * Instead <code>JTable</code>
-     * overrides <code>processKeyBinding</code> to dispatch the event to
-     * the current <code>TableCellEditor</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicTbbleUI}.
+     * <p>As of Jbvb 2 plbtform v1.3 this clbss is no longer used.
+     * Instebd <code>JTbble</code>
+     * overrides <code>processKeyBinding</code> to dispbtch the event to
+     * the current <code>TbbleCellEditor</code>.
      */
-     public class KeyHandler implements KeyListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+     public clbss KeyHbndler implements KeyListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         public void keyPressed(KeyEvent e) {
-            getHandler().keyPressed(e);
+            getHbndler().keyPressed(e);
         }
 
-        public void keyReleased(KeyEvent e) {
-            getHandler().keyReleased(e);
+        public void keyRelebsed(KeyEvent e) {
+            getHbndler().keyRelebsed(e);
         }
 
         public void keyTyped(KeyEvent e) {
-            getHandler().keyTyped(e);
+            getHbndler().keyTyped(e);
         }
     }
 
 //
-//  The Table's focus listener
+//  The Tbble's focus listener
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicTbbleUI}.
      */
-    public class FocusHandler implements FocusListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+    public clbss FocusHbndler implements FocusListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void focusGbined(FocusEvent e) {
+            getHbndler().focusGbined(e);
         }
 
         public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
         }
     }
 
 //
-//  The Table's mouse and mouse motion listeners
+//  The Tbble's mouse bnd mouse motion listeners
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTableUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicTbbleUI.
      */
-    public class MouseInputHandler implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss MouseInputHbndler implements MouseInputListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+            getHbndler().mouseClicked(e);
         }
 
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            getHbndler().mouseRelebsed(e);
         }
 
         public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+            getHbndler().mouseEntered(e);
         }
 
         public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+            getHbndler().mouseExited(e);
         }
 
         public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+            getHbndler().mouseMoved(e);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        public void mouseDrbgged(MouseEvent e) {
+            getHbndler().mouseDrbgged(e);
         }
     }
 
-    private class Handler implements FocusListener, MouseInputListener,
-            PropertyChangeListener, ListSelectionListener, ActionListener,
-            BeforeDrag {
+    privbte clbss Hbndler implements FocusListener, MouseInputListener,
+            PropertyChbngeListener, ListSelectionListener, ActionListener,
+            BeforeDrbg {
 
         // FocusListener
-        private void repaintLeadCell( ) {
-            int lr = getAdjustedLead(table, true);
-            int lc = getAdjustedLead(table, false);
+        privbte void repbintLebdCell( ) {
+            int lr = getAdjustedLebd(tbble, true);
+            int lc = getAdjustedLebd(tbble, fblse);
 
             if (lr < 0 || lc < 0) {
                 return;
             }
 
-            Rectangle dirtyRect = table.getCellRect(lr, lc, false);
-            table.repaint(dirtyRect);
+            Rectbngle dirtyRect = tbble.getCellRect(lr, lc, fblse);
+            tbble.repbint(dirtyRect);
         }
 
-        public void focusGained(FocusEvent e) {
-            repaintLeadCell();
+        public void focusGbined(FocusEvent e) {
+            repbintLebdCell();
         }
 
         public void focusLost(FocusEvent e) {
-            repaintLeadCell();
+            repbintLebdCell();
         }
 
 
         // KeyListener
         public void keyPressed(KeyEvent e) { }
 
-        public void keyReleased(KeyEvent e) { }
+        public void keyRelebsed(KeyEvent e) { }
 
         public void keyTyped(KeyEvent e) {
-            KeyStroke keyStroke = KeyStroke.getKeyStroke(e.getKeyChar(),
+            KeyStroke keyStroke = KeyStroke.getKeyStroke(e.getKeyChbr(),
                     e.getModifiers());
 
-            // We register all actions using ANCESTOR_OF_FOCUSED_COMPONENT
-            // which means that we might perform the appropriate action
-            // in the table and then forward it to the editor if the editor
-            // had focus. Make sure this doesn't happen by checking our
-            // InputMaps.
-            InputMap map = table.getInputMap(JComponent.WHEN_FOCUSED);
-            if (map != null && map.get(keyStroke) != null) {
+            // We register bll bctions using ANCESTOR_OF_FOCUSED_COMPONENT
+            // which mebns thbt we might perform the bppropribte bction
+            // in the tbble bnd then forwbrd it to the editor if the editor
+            // hbd focus. Mbke sure this doesn't hbppen by checking our
+            // InputMbps.
+            InputMbp mbp = tbble.getInputMbp(JComponent.WHEN_FOCUSED);
+            if (mbp != null && mbp.get(keyStroke) != null) {
                 return;
             }
-            map = table.getInputMap(JComponent.
+            mbp = tbble.getInputMbp(JComponent.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-            if (map != null && map.get(keyStroke) != null) {
+            if (mbp != null && mbp.get(keyStroke) != null) {
                 return;
             }
 
             keyStroke = KeyStroke.getKeyStrokeForEvent(e);
 
-            // The AWT seems to generate an unconsumed \r event when
+            // The AWT seems to generbte bn unconsumed \r event when
             // ENTER (\n) is pressed.
-            if (e.getKeyChar() == '\r') {
+            if (e.getKeyChbr() == '\r') {
                 return;
             }
 
-            int leadRow = getAdjustedLead(table, true);
-            int leadColumn = getAdjustedLead(table, false);
-            if (leadRow != -1 && leadColumn != -1 && !table.isEditing()) {
-                if (!table.editCellAt(leadRow, leadColumn)) {
+            int lebdRow = getAdjustedLebd(tbble, true);
+            int lebdColumn = getAdjustedLebd(tbble, fblse);
+            if (lebdRow != -1 && lebdColumn != -1 && !tbble.isEditing()) {
+                if (!tbble.editCellAt(lebdRow, lebdColumn)) {
                     return;
                 }
             }
 
-            // Forwarding events this way seems to put the component
-            // in a state where it believes it has focus. In reality
-            // the table retains focus - though it is difficult for
-            // a user to tell, since the caret is visible and flashing.
+            // Forwbrding events this wby seems to put the component
+            // in b stbte where it believes it hbs focus. In reblity
+            // the tbble retbins focus - though it is difficult for
+            // b user to tell, since the cbret is visible bnd flbshing.
 
-            // Calling table.requestFocus() here, to get the focus back to
-            // the table, seems to have no effect.
+            // Cblling tbble.requestFocus() here, to get the focus bbck to
+            // the tbble, seems to hbve no effect.
 
-            Component editorComp = table.getEditorComponent();
-            if (table.isEditing() && editorComp != null) {
-                if (editorComp instanceof JComponent) {
+            Component editorComp = tbble.getEditorComponent();
+            if (tbble.isEditing() && editorComp != null) {
+                if (editorComp instbnceof JComponent) {
                     JComponent component = (JComponent)editorComp;
-                    map = component.getInputMap(JComponent.WHEN_FOCUSED);
-                    Object binding = (map != null) ? map.get(keyStroke) : null;
+                    mbp = component.getInputMbp(JComponent.WHEN_FOCUSED);
+                    Object binding = (mbp != null) ? mbp.get(keyStroke) : null;
                     if (binding == null) {
-                        map = component.getInputMap(JComponent.
+                        mbp = component.getInputMbp(JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-                        binding = (map != null) ? map.get(keyStroke) : null;
+                        binding = (mbp != null) ? mbp.get(keyStroke) : null;
                     }
                     if (binding != null) {
-                        ActionMap am = component.getActionMap();
-                        Action action = (am != null) ? am.get(binding) : null;
-                        if (action != null && SwingUtilities.
-                            notifyAction(action, keyStroke, e, component,
+                        ActionMbp bm = component.getActionMbp();
+                        Action bction = (bm != null) ? bm.get(binding) : null;
+                        if (bction != null && SwingUtilities.
+                            notifyAction(bction, keyStroke, e, component,
                                          e.getModifiers())) {
                             e.consume();
                         }
@@ -938,280 +938,280 @@ public class BasicTableUI extends TableUI
         // MouseInputListener
 
         // Component receiving mouse events during editing.
-        // May not be editorComponent.
-        private Component dispatchComponent;
+        // Mby not be editorComponent.
+        privbte Component dispbtchComponent;
 
         public void mouseClicked(MouseEvent e) {}
 
-        private void setDispatchComponent(MouseEvent e) {
-            Component editorComponent = table.getEditorComponent();
+        privbte void setDispbtchComponent(MouseEvent e) {
+            Component editorComponent = tbble.getEditorComponent();
             Point p = e.getPoint();
-            Point p2 = SwingUtilities.convertPoint(table, p, editorComponent);
-            dispatchComponent =
+            Point p2 = SwingUtilities.convertPoint(tbble, p, editorComponent);
+            dispbtchComponent =
                     SwingUtilities.getDeepestComponentAt(editorComponent,
                             p2.x, p2.y);
-            SwingUtilities2.setSkipClickCount(dispatchComponent,
+            SwingUtilities2.setSkipClickCount(dispbtchComponent,
                                               e.getClickCount() - 1);
         }
 
-        private boolean repostEvent(MouseEvent e) {
-            // Check for isEditing() in case another event has
-            // caused the editor to be removed. See bug #4306499.
-            if (dispatchComponent == null || !table.isEditing()) {
-                return false;
+        privbte boolebn repostEvent(MouseEvent e) {
+            // Check for isEditing() in cbse bnother event hbs
+            // cbused the editor to be removed. See bug #4306499.
+            if (dispbtchComponent == null || !tbble.isEditing()) {
+                return fblse;
             }
-            MouseEvent e2 = SwingUtilities.convertMouseEvent(table, e,
-                    dispatchComponent);
-            dispatchComponent.dispatchEvent(e2);
+            MouseEvent e2 = SwingUtilities.convertMouseEvent(tbble, e,
+                    dispbtchComponent);
+            dispbtchComponent.dispbtchEvent(e2);
             return true;
         }
 
-        private void setValueIsAdjusting(boolean flag) {
-            table.getSelectionModel().setValueIsAdjusting(flag);
-            table.getColumnModel().getSelectionModel().
-                    setValueIsAdjusting(flag);
+        privbte void setVblueIsAdjusting(boolebn flbg) {
+            tbble.getSelectionModel().setVblueIsAdjusting(flbg);
+            tbble.getColumnModel().getSelectionModel().
+                    setVblueIsAdjusting(flbg);
         }
 
-        // The row and column where the press occurred and the
+        // The row bnd column where the press occurred bnd the
         // press event itself
-        private int pressedRow;
-        private int pressedCol;
-        private MouseEvent pressedEvent;
+        privbte int pressedRow;
+        privbte int pressedCol;
+        privbte MouseEvent pressedEvent;
 
-        // Whether or not the mouse press (which is being considered as part
-        // of a drag sequence) also caused the selection change to be fully
+        // Whether or not the mouse press (which is being considered bs pbrt
+        // of b drbg sequence) blso cbused the selection chbnge to be fully
         // processed.
-        private boolean dragPressDidSelection;
+        privbte boolebn drbgPressDidSelection;
 
-        // Set to true when a drag gesture has been fully recognized and DnD
+        // Set to true when b drbg gesture hbs been fully recognized bnd DnD
         // begins. Use this to ignore further mouse events which could be
-        // delivered if DnD is cancelled (via ESCAPE for example)
-        private boolean dragStarted;
+        // delivered if DnD is cbncelled (vib ESCAPE for exbmple)
+        privbte boolebn drbgStbrted;
 
-        // Whether or not we should start the editing timer on release
-        private boolean shouldStartTimer;
+        // Whether or not we should stbrt the editing timer on relebse
+        privbte boolebn shouldStbrtTimer;
 
-        // To cache the return value of pointOutsidePrefSize since we use
+        // To cbche the return vblue of pointOutsidePrefSize since we use
         // it multiple times.
-        private boolean outsidePrefSize;
+        privbte boolebn outsidePrefSize;
 
-        // Used to delay the start of editing.
-        private Timer timer = null;
+        // Used to delby the stbrt of editing.
+        privbte Timer timer = null;
 
-        private boolean canStartDrag() {
+        privbte boolebn cbnStbrtDrbg() {
             if (pressedRow == -1 || pressedCol == -1) {
-                return false;
+                return fblse;
             }
 
             if (isFileList) {
                 return !outsidePrefSize;
             }
 
-            // if this is a single selection table
-            if ((table.getSelectionModel().getSelectionMode() ==
+            // if this is b single selection tbble
+            if ((tbble.getSelectionModel().getSelectionMode() ==
                      ListSelectionModel.SINGLE_SELECTION) &&
-                (table.getColumnModel().getSelectionModel().getSelectionMode() ==
+                (tbble.getColumnModel().getSelectionModel().getSelectionMode() ==
                      ListSelectionModel.SINGLE_SELECTION)) {
 
                 return true;
             }
 
-            return table.isCellSelected(pressedRow, pressedCol);
+            return tbble.isCellSelected(pressedRow, pressedCol);
         }
 
         public void mousePressed(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
+            if (SwingUtilities2.shouldIgnore(e, tbble)) {
                 return;
             }
 
-            if (table.isEditing() && !table.getCellEditor().stopCellEditing()) {
-                Component editorComponent = table.getEditorComponent();
-                if (editorComponent != null && !editorComponent.hasFocus()) {
+            if (tbble.isEditing() && !tbble.getCellEditor().stopCellEditing()) {
+                Component editorComponent = tbble.getEditorComponent();
+                if (editorComponent != null && !editorComponent.hbsFocus()) {
                     SwingUtilities2.compositeRequestFocus(editorComponent);
                 }
                 return;
             }
 
             Point p = e.getPoint();
-            pressedRow = table.rowAtPoint(p);
-            pressedCol = table.columnAtPoint(p);
+            pressedRow = tbble.rowAtPoint(p);
+            pressedCol = tbble.columnAtPoint(p);
             outsidePrefSize = pointOutsidePrefSize(pressedRow, pressedCol, p);
 
             if (isFileList) {
-                shouldStartTimer =
-                    table.isCellSelected(pressedRow, pressedCol) &&
+                shouldStbrtTimer =
+                    tbble.isCellSelected(pressedRow, pressedCol) &&
                     !e.isShiftDown() &&
-                    !BasicGraphicsUtils.isMenuShortcutKeyDown(e) &&
+                    !BbsicGrbphicsUtils.isMenuShortcutKeyDown(e) &&
                     !outsidePrefSize;
             }
 
-            if (table.getDragEnabled()) {
+            if (tbble.getDrbgEnbbled()) {
                 mousePressedDND(e);
             } else {
-                SwingUtilities2.adjustFocus(table);
+                SwingUtilities2.bdjustFocus(tbble);
                 if (!isFileList) {
-                    setValueIsAdjusting(true);
+                    setVblueIsAdjusting(true);
                 }
-                adjustSelection(e);
+                bdjustSelection(e);
             }
         }
 
-        private void mousePressedDND(MouseEvent e) {
+        privbte void mousePressedDND(MouseEvent e) {
             pressedEvent = e;
-            boolean grabFocus = true;
-            dragStarted = false;
+            boolebn grbbFocus = true;
+            drbgStbrted = fblse;
 
-            if (canStartDrag() && DragRecognitionSupport.mousePressed(e)) {
+            if (cbnStbrtDrbg() && DrbgRecognitionSupport.mousePressed(e)) {
 
-                dragPressDidSelection = false;
+                drbgPressDidSelection = fblse;
 
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e) && isFileList) {
-                    // do nothing for control - will be handled on release
-                    // or when drag starts
+                if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(e) && isFileList) {
+                    // do nothing for control - will be hbndled on relebse
+                    // or when drbg stbrts
                     return;
-                } else if (!e.isShiftDown() && table.isCellSelected(pressedRow, pressedCol)) {
-                    // clicking on something that's already selected
-                    // and need to make it the lead now
-                    table.getSelectionModel().addSelectionInterval(pressedRow,
+                } else if (!e.isShiftDown() && tbble.isCellSelected(pressedRow, pressedCol)) {
+                    // clicking on something thbt's blrebdy selected
+                    // bnd need to mbke it the lebd now
+                    tbble.getSelectionModel().bddSelectionIntervbl(pressedRow,
                                                                    pressedRow);
-                    table.getColumnModel().getSelectionModel().
-                        addSelectionInterval(pressedCol, pressedCol);
+                    tbble.getColumnModel().getSelectionModel().
+                        bddSelectionIntervbl(pressedCol, pressedCol);
 
                     return;
                 }
 
-                dragPressDidSelection = true;
+                drbgPressDidSelection = true;
 
-                // could be a drag initiating event - don't grab focus
-                grabFocus = false;
+                // could be b drbg initibting event - don't grbb focus
+                grbbFocus = fblse;
             } else if (!isFileList) {
-                // When drag can't happen, mouse drags might change the selection in the table
-                // so we want the isAdjusting flag to be set
-                setValueIsAdjusting(true);
+                // When drbg cbn't hbppen, mouse drbgs might chbnge the selection in the tbble
+                // so we wbnt the isAdjusting flbg to be set
+                setVblueIsAdjusting(true);
             }
 
-            if (grabFocus) {
-                SwingUtilities2.adjustFocus(table);
+            if (grbbFocus) {
+                SwingUtilities2.bdjustFocus(tbble);
             }
 
-            adjustSelection(e);
+            bdjustSelection(e);
         }
 
-        private void adjustSelection(MouseEvent e) {
+        privbte void bdjustSelection(MouseEvent e) {
             // Fix for 4835633
             if (outsidePrefSize) {
                 // If shift is down in multi-select, we should just return.
-                // For single select or non-shift-click, clear the selection
+                // For single select or non-shift-click, clebr the selection
                 if (e.getID() ==  MouseEvent.MOUSE_PRESSED &&
                     (!e.isShiftDown() ||
-                     table.getSelectionModel().getSelectionMode() ==
+                     tbble.getSelectionModel().getSelectionMode() ==
                      ListSelectionModel.SINGLE_SELECTION)) {
-                    table.clearSelection();
-                    TableCellEditor tce = table.getCellEditor();
+                    tbble.clebrSelection();
+                    TbbleCellEditor tce = tbble.getCellEditor();
                     if (tce != null) {
                         tce.stopCellEditing();
                     }
                 }
                 return;
             }
-            // The autoscroller can generate drag events outside the
-            // table's range.
+            // The butoscroller cbn generbte drbg events outside the
+            // tbble's rbnge.
             if ((pressedCol == -1) || (pressedRow == -1)) {
                 return;
             }
 
-            boolean dragEnabled = table.getDragEnabled();
+            boolebn drbgEnbbled = tbble.getDrbgEnbbled();
 
-            if (!dragEnabled && !isFileList && table.editCellAt(pressedRow, pressedCol, e)) {
-                setDispatchComponent(e);
+            if (!drbgEnbbled && !isFileList && tbble.editCellAt(pressedRow, pressedCol, e)) {
+                setDispbtchComponent(e);
                 repostEvent(e);
             }
 
-            CellEditor editor = table.getCellEditor();
-            if (dragEnabled || editor == null || editor.shouldSelectCell(e)) {
-                table.changeSelection(pressedRow, pressedCol,
-                        BasicGraphicsUtils.isMenuShortcutKeyDown(e),
+            CellEditor editor = tbble.getCellEditor();
+            if (drbgEnbbled || editor == null || editor.shouldSelectCell(e)) {
+                tbble.chbngeSelection(pressedRow, pressedCol,
+                        BbsicGrbphicsUtils.isMenuShortcutKeyDown(e),
                         e.isShiftDown());
             }
         }
 
-        public void valueChanged(ListSelectionEvent e) {
+        public void vblueChbnged(ListSelectionEvent e) {
             if (timer != null) {
                 timer.stop();
                 timer = null;
             }
         }
 
-        public void actionPerformed(ActionEvent ae) {
-            table.editCellAt(pressedRow, pressedCol, null);
-            Component editorComponent = table.getEditorComponent();
-            if (editorComponent != null && !editorComponent.hasFocus()) {
+        public void bctionPerformed(ActionEvent be) {
+            tbble.editCellAt(pressedRow, pressedCol, null);
+            Component editorComponent = tbble.getEditorComponent();
+            if (editorComponent != null && !editorComponent.hbsFocus()) {
                 SwingUtilities2.compositeRequestFocus(editorComponent);
             }
             return;
         }
 
-        private void maybeStartTimer() {
-            if (!shouldStartTimer) {
+        privbte void mbybeStbrtTimer() {
+            if (!shouldStbrtTimer) {
                 return;
             }
 
             if (timer == null) {
                 timer = new Timer(1200, this);
-                timer.setRepeats(false);
+                timer.setRepebts(fblse);
             }
 
-            timer.start();
+            timer.stbrt();
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
+        public void mouseRelebsed(MouseEvent e) {
+            if (SwingUtilities2.shouldIgnore(e, tbble)) {
                 return;
             }
 
-            if (table.getDragEnabled()) {
-                mouseReleasedDND(e);
+            if (tbble.getDrbgEnbbled()) {
+                mouseRelebsedDND(e);
             } else {
                 if (isFileList) {
-                    maybeStartTimer();
+                    mbybeStbrtTimer();
                 }
             }
 
             pressedEvent = null;
             repostEvent(e);
-            dispatchComponent = null;
-            setValueIsAdjusting(false);
+            dispbtchComponent = null;
+            setVblueIsAdjusting(fblse);
         }
 
-        private void mouseReleasedDND(MouseEvent e) {
-            MouseEvent me = DragRecognitionSupport.mouseReleased(e);
+        privbte void mouseRelebsedDND(MouseEvent e) {
+            MouseEvent me = DrbgRecognitionSupport.mouseRelebsed(e);
             if (me != null) {
-                SwingUtilities2.adjustFocus(table);
-                if (!dragPressDidSelection) {
-                    adjustSelection(me);
+                SwingUtilities2.bdjustFocus(tbble);
+                if (!drbgPressDidSelection) {
+                    bdjustSelection(me);
                 }
             }
 
-            if (!dragStarted) {
+            if (!drbgStbrted) {
                 if (isFileList) {
-                    maybeStartTimer();
+                    mbybeStbrtTimer();
                     return;
                 }
 
                 Point p = e.getPoint();
 
                 if (pressedEvent != null &&
-                        table.rowAtPoint(p) == pressedRow &&
-                        table.columnAtPoint(p) == pressedCol &&
-                        table.editCellAt(pressedRow, pressedCol, pressedEvent)) {
+                        tbble.rowAtPoint(p) == pressedRow &&
+                        tbble.columnAtPoint(p) == pressedCol &&
+                        tbble.editCellAt(pressedRow, pressedCol, pressedEvent)) {
 
-                    setDispatchComponent(pressedEvent);
+                    setDispbtchComponent(pressedEvent);
                     repostEvent(pressedEvent);
 
-                    // This may appear completely odd, but must be done for backward
-                    // compatibility reasons. Developers have been known to rely on
-                    // a call to shouldSelectCell after editing has begun.
-                    CellEditor ce = table.getCellEditor();
+                    // This mby bppebr completely odd, but must be done for bbckwbrd
+                    // compbtibility rebsons. Developers hbve been known to rely on
+                    // b cbll to shouldSelectCell bfter editing hbs begun.
+                    CellEditor ce = tbble.getCellEditor();
                     if (ce != null) {
                         ce.shouldSelectCell(pressedEvent);
                     }
@@ -1225,26 +1225,26 @@ public class BasicTableUI extends TableUI
 
         public void mouseMoved(MouseEvent e) {}
 
-        public void dragStarting(MouseEvent me) {
-            dragStarted = true;
+        public void drbgStbrting(MouseEvent me) {
+            drbgStbrted = true;
 
-            if (BasicGraphicsUtils.isMenuShortcutKeyDown(me) && isFileList) {
-                table.getSelectionModel().addSelectionInterval(pressedRow,
+            if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(me) && isFileList) {
+                tbble.getSelectionModel().bddSelectionIntervbl(pressedRow,
                                                                pressedRow);
-                table.getColumnModel().getSelectionModel().
-                    addSelectionInterval(pressedCol, pressedCol);
+                tbble.getColumnModel().getSelectionModel().
+                    bddSelectionIntervbl(pressedCol, pressedCol);
             }
 
             pressedEvent = null;
         }
 
-        public void mouseDragged(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
+        public void mouseDrbgged(MouseEvent e) {
+            if (SwingUtilities2.shouldIgnore(e, tbble)) {
                 return;
             }
 
-            if (table.getDragEnabled() &&
-                    (DragRecognitionSupport.mouseDragged(e, this) || dragStarted)) {
+            if (tbble.getDrbgEnbbled() &&
+                    (DrbgRecognitionSupport.mouseDrbgged(e, this) || drbgStbrted)) {
 
                 return;
             }
@@ -1252,90 +1252,90 @@ public class BasicTableUI extends TableUI
             repostEvent(e);
 
             // Check isFileList:
-            // Until we support drag-selection, dragging should not change
-            // the selection (act like single-select).
-            if (isFileList || table.isEditing()) {
+            // Until we support drbg-selection, drbgging should not chbnge
+            // the selection (bct like single-select).
+            if (isFileList || tbble.isEditing()) {
                 return;
             }
 
             Point p = e.getPoint();
-            int row = table.rowAtPoint(p);
-            int column = table.columnAtPoint(p);
-            // The autoscroller can generate drag events outside the
-            // table's range.
+            int row = tbble.rowAtPoint(p);
+            int column = tbble.columnAtPoint(p);
+            // The butoscroller cbn generbte drbg events outside the
+            // tbble's rbnge.
             if ((column == -1) || (row == -1)) {
                 return;
             }
 
-            table.changeSelection(row, column,
-                    BasicGraphicsUtils.isMenuShortcutKeyDown(e), true);
+            tbble.chbngeSelection(row, column,
+                    BbsicGrbphicsUtils.isMenuShortcutKeyDown(e), true);
         }
 
 
-        // PropertyChangeListener
-        public void propertyChange(PropertyChangeEvent event) {
-            String changeName = event.getPropertyName();
+        // PropertyChbngeListener
+        public void propertyChbnge(PropertyChbngeEvent event) {
+            String chbngeNbme = event.getPropertyNbme();
 
-            if ("componentOrientation" == changeName) {
-                InputMap inputMap = getInputMap(
+            if ("componentOrientbtion" == chbngeNbme) {
+                InputMbp inputMbp = getInputMbp(
                     JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-                SwingUtilities.replaceUIInputMap(table,
+                SwingUtilities.replbceUIInputMbp(tbble,
                     JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                    inputMap);
+                    inputMbp);
 
-                JTableHeader header = table.getTableHeader();
-                if (header != null) {
-                    header.setComponentOrientation(
-                            (ComponentOrientation)event.getNewValue());
+                JTbbleHebder hebder = tbble.getTbbleHebder();
+                if (hebder != null) {
+                    hebder.setComponentOrientbtion(
+                            (ComponentOrientbtion)event.getNewVblue());
                 }
-            } else if ("dropLocation" == changeName) {
-                JTable.DropLocation oldValue = (JTable.DropLocation)event.getOldValue();
-                repaintDropLocation(oldValue);
-                repaintDropLocation(table.getDropLocation());
-            } else if ("Table.isFileList" == changeName) {
-                isFileList = Boolean.TRUE.equals(table.getClientProperty("Table.isFileList"));
-                table.revalidate();
-                table.repaint();
+            } else if ("dropLocbtion" == chbngeNbme) {
+                JTbble.DropLocbtion oldVblue = (JTbble.DropLocbtion)event.getOldVblue();
+                repbintDropLocbtion(oldVblue);
+                repbintDropLocbtion(tbble.getDropLocbtion());
+            } else if ("Tbble.isFileList" == chbngeNbme) {
+                isFileList = Boolebn.TRUE.equbls(tbble.getClientProperty("Tbble.isFileList"));
+                tbble.revblidbte();
+                tbble.repbint();
                 if (isFileList) {
-                    table.getSelectionModel().addListSelectionListener(getHandler());
+                    tbble.getSelectionModel().bddListSelectionListener(getHbndler());
                 } else {
-                    table.getSelectionModel().removeListSelectionListener(getHandler());
+                    tbble.getSelectionModel().removeListSelectionListener(getHbndler());
                     timer = null;
                 }
-            } else if ("selectionModel" == changeName) {
+            } else if ("selectionModel" == chbngeNbme) {
                 if (isFileList) {
-                    ListSelectionModel old = (ListSelectionModel)event.getOldValue();
-                    old.removeListSelectionListener(getHandler());
-                    table.getSelectionModel().addListSelectionListener(getHandler());
+                    ListSelectionModel old = (ListSelectionModel)event.getOldVblue();
+                    old.removeListSelectionListener(getHbndler());
+                    tbble.getSelectionModel().bddListSelectionListener(getHbndler());
                 }
             }
         }
 
-        private void repaintDropLocation(JTable.DropLocation loc) {
+        privbte void repbintDropLocbtion(JTbble.DropLocbtion loc) {
             if (loc == null) {
                 return;
             }
 
             if (!loc.isInsertRow() && !loc.isInsertColumn()) {
-                Rectangle rect = table.getCellRect(loc.getRow(), loc.getColumn(), false);
+                Rectbngle rect = tbble.getCellRect(loc.getRow(), loc.getColumn(), fblse);
                 if (rect != null) {
-                    table.repaint(rect);
+                    tbble.repbint(rect);
                 }
                 return;
             }
 
             if (loc.isInsertRow()) {
-                Rectangle rect = extendRect(getHDropLineRect(loc), true);
+                Rectbngle rect = extendRect(getHDropLineRect(loc), true);
                 if (rect != null) {
-                    table.repaint(rect);
+                    tbble.repbint(rect);
                 }
             }
 
             if (loc.isInsertColumn()) {
-                Rectangle rect = extendRect(getVDropLineRect(loc), false);
+                Rectbngle rect = extendRect(getVDropLineRect(loc), fblse);
                 if (rect != null) {
-                    table.repaint(rect);
+                    tbble.repbint(rect);
                 }
             }
         }
@@ -1344,397 +1344,397 @@ public class BasicTableUI extends TableUI
 
     /*
      * Returns true if the given point is outside the preferredSize of the
-     * item at the given row of the table.  (Column must be 0).
-     * Returns false if the "Table.isFileList" client property is not set.
+     * item bt the given row of the tbble.  (Column must be 0).
+     * Returns fblse if the "Tbble.isFileList" client property is not set.
      */
-    private boolean pointOutsidePrefSize(int row, int column, Point p) {
+    privbte boolebn pointOutsidePrefSize(int row, int column, Point p) {
         if (!isFileList) {
-            return false;
+            return fblse;
         }
 
-        return SwingUtilities2.pointOutsidePrefSize(table, row, column, p);
+        return SwingUtilities2.pointOutsidePrefSize(tbble, row, column, p);
     }
 
 //
-//  Factory methods for the Listeners
+//  Fbctory methods for the Listeners
 //
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Creates the key listener for handling keyboard navigation in the {@code JTable}.
+     * Crebtes the key listener for hbndling keybobrd nbvigbtion in the {@code JTbble}.
      *
-     * @return the key listener for handling keyboard navigation in the {@code JTable}
+     * @return the key listener for hbndling keybobrd nbvigbtion in the {@code JTbble}
      */
-    protected KeyListener createKeyListener() {
+    protected KeyListener crebteKeyListener() {
         return null;
     }
 
     /**
-     * Creates the focus listener for handling keyboard navigation in the {@code JTable}.
+     * Crebtes the focus listener for hbndling keybobrd nbvigbtion in the {@code JTbble}.
      *
-     * @return the focus listener for handling keyboard navigation in the {@code JTable}
+     * @return the focus listener for hbndling keybobrd nbvigbtion in the {@code JTbble}
      */
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protected FocusListener crebteFocusListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the mouse listener for the {@code JTable}.
+     * Crebtes the mouse listener for the {@code JTbble}.
      *
-     * @return the mouse listener for the {@code JTable}
+     * @return the mouse listener for the {@code JTbble}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return getHandler();
+    protected MouseInputListener crebteMouseInputListener() {
+        return getHbndler();
     }
 
 //
-//  The installation/uninstall procedures and support
+//  The instbllbtion/uninstbll procedures bnd support
 //
 
     /**
-     * Returns a new instance of {@code BasicTableUI}.
+     * Returns b new instbnce of {@code BbsicTbbleUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicTableUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicTbbleUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTableUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicTbbleUI();
     }
 
-//  Installation
+//  Instbllbtion
 
-    public void installUI(JComponent c) {
-        table = (JTable)c;
+    public void instbllUI(JComponent c) {
+        tbble = (JTbble)c;
 
-        rendererPane = new CellRendererPane();
-        table.add(rendererPane);
-        installDefaults();
-        installDefaults2();
-        installListeners();
-        installKeyboardActions();
+        rendererPbne = new CellRendererPbne();
+        tbble.bdd(rendererPbne);
+        instbllDefbults();
+        instbllDefbults2();
+        instbllListeners();
+        instbllKeybobrdActions();
     }
 
     /**
-     * Initialize JTable properties, e.g. font, foreground, and background.
-     * The font, foreground, and background properties are only set if their
-     * current value is either null or a UIResource, other properties are set
-     * if the current value is null.
+     * Initiblize JTbble properties, e.g. font, foreground, bnd bbckground.
+     * The font, foreground, bnd bbckground properties bre only set if their
+     * current vblue is either null or b UIResource, other properties bre set
+     * if the current vblue is null.
      *
-     * @see #installUI
+     * @see #instbllUI
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(table, "Table.background",
-                                         "Table.foreground", "Table.font");
-        // JTable's original row height is 16.  To correctly display the
-        // contents on Linux we should have set it to 18, Windows 19 and
-        // Solaris 20.  As these values vary so much it's too hard to
-        // be backward compatable and try to update the row height, we're
-        // therefor NOT going to adjust the row height based on font.  If the
-        // developer changes the font, it's there responsability to update
+    protected void instbllDefbults() {
+        LookAndFeel.instbllColorsAndFont(tbble, "Tbble.bbckground",
+                                         "Tbble.foreground", "Tbble.font");
+        // JTbble's originbl row height is 16.  To correctly displby the
+        // contents on Linux we should hbve set it to 18, Windows 19 bnd
+        // Solbris 20.  As these vblues vbry so much it's too hbrd to
+        // be bbckwbrd compbtbble bnd try to updbte the row height, we're
+        // therefor NOT going to bdjust the row height bbsed on font.  If the
+        // developer chbnges the font, it's there responsbbility to updbte
         // the row height.
 
-        LookAndFeel.installProperty(table, "opaque", Boolean.TRUE);
+        LookAndFeel.instbllProperty(tbble, "opbque", Boolebn.TRUE);
 
-        Color sbg = table.getSelectionBackground();
-        if (sbg == null || sbg instanceof UIResource) {
-            sbg = UIManager.getColor("Table.selectionBackground");
-            table.setSelectionBackground(sbg != null ? sbg : UIManager.getColor("textHighlight"));
+        Color sbg = tbble.getSelectionBbckground();
+        if (sbg == null || sbg instbnceof UIResource) {
+            sbg = UIMbnbger.getColor("Tbble.selectionBbckground");
+            tbble.setSelectionBbckground(sbg != null ? sbg : UIMbnbger.getColor("textHighlight"));
         }
 
-        Color sfg = table.getSelectionForeground();
-        if (sfg == null || sfg instanceof UIResource) {
-            sfg = UIManager.getColor("Table.selectionForeground");
-            table.setSelectionForeground(sfg != null ? sfg : UIManager.getColor("textHighlightText"));
+        Color sfg = tbble.getSelectionForeground();
+        if (sfg == null || sfg instbnceof UIResource) {
+            sfg = UIMbnbger.getColor("Tbble.selectionForeground");
+            tbble.setSelectionForeground(sfg != null ? sfg : UIMbnbger.getColor("textHighlightText"));
         }
 
-        Color gridColor = table.getGridColor();
-        if (gridColor == null || gridColor instanceof UIResource) {
-            gridColor = UIManager.getColor("Table.gridColor");
-            table.setGridColor(gridColor != null ? gridColor : Color.GRAY);
+        Color gridColor = tbble.getGridColor();
+        if (gridColor == null || gridColor instbnceof UIResource) {
+            gridColor = UIMbnbger.getColor("Tbble.gridColor");
+            tbble.setGridColor(gridColor != null ? gridColor : Color.GRAY);
         }
 
-        // install the scrollpane border
-        Container parent = SwingUtilities.getUnwrappedParent(table);  // should be viewport
-        if (parent != null) {
-            parent = parent.getParent();  // should be the scrollpane
-            if (parent != null && parent instanceof JScrollPane) {
-                LookAndFeel.installBorder((JScrollPane)parent, "Table.scrollPaneBorder");
+        // instbll the scrollpbne border
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(tbble);  // should be viewport
+        if (pbrent != null) {
+            pbrent = pbrent.getPbrent();  // should be the scrollpbne
+            if (pbrent != null && pbrent instbnceof JScrollPbne) {
+                LookAndFeel.instbllBorder((JScrollPbne)pbrent, "Tbble.scrollPbneBorder");
             }
         }
 
-        isFileList = Boolean.TRUE.equals(table.getClientProperty("Table.isFileList"));
+        isFileList = Boolebn.TRUE.equbls(tbble.getClientProperty("Tbble.isFileList"));
     }
 
-    private void installDefaults2() {
-        TransferHandler th = table.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            table.setTransferHandler(defaultTransferHandler);
-            // default TransferHandler doesn't support drop
-            // so we don't want drop handling
-            if (table.getDropTarget() instanceof UIResource) {
-                table.setDropTarget(null);
+    privbte void instbllDefbults2() {
+        TrbnsferHbndler th = tbble.getTrbnsferHbndler();
+        if (th == null || th instbnceof UIResource) {
+            tbble.setTrbnsferHbndler(defbultTrbnsferHbndler);
+            // defbult TrbnsferHbndler doesn't support drop
+            // so we don't wbnt drop hbndling
+            if (tbble.getDropTbrget() instbnceof UIResource) {
+                tbble.setDropTbrget(null);
             }
         }
     }
 
     /**
-     * Attaches listeners to the JTable.
+     * Attbches listeners to the JTbble.
      */
-    protected void installListeners() {
-        focusListener = createFocusListener();
-        keyListener = createKeyListener();
-        mouseInputListener = createMouseInputListener();
+    protected void instbllListeners() {
+        focusListener = crebteFocusListener();
+        keyListener = crebteKeyListener();
+        mouseInputListener = crebteMouseInputListener();
 
-        table.addFocusListener(focusListener);
-        table.addKeyListener(keyListener);
-        table.addMouseListener(mouseInputListener);
-        table.addMouseMotionListener(mouseInputListener);
-        table.addPropertyChangeListener(getHandler());
+        tbble.bddFocusListener(focusListener);
+        tbble.bddKeyListener(keyListener);
+        tbble.bddMouseListener(mouseInputListener);
+        tbble.bddMouseMotionListener(mouseInputListener);
+        tbble.bddPropertyChbngeListener(getHbndler());
         if (isFileList) {
-            table.getSelectionModel().addListSelectionListener(getHandler());
+            tbble.getSelectionModel().bddListSelectionListener(getHbndler());
         }
     }
 
     /**
-     * Register all keyboard actions on the JTable.
+     * Register bll keybobrd bctions on the JTbble.
      */
-    protected void installKeyboardActions() {
-        LazyActionMap.installLazyActionMap(table, BasicTableUI.class,
-                "Table.actionMap");
+    protected void instbllKeybobrdActions() {
+        LbzyActionMbp.instbllLbzyActionMbp(tbble, BbsicTbbleUI.clbss,
+                "Tbble.bctionMbp");
 
-        InputMap inputMap = getInputMap(JComponent.
+        InputMbp inputMbp = getInputMbp(JComponent.
                                         WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        SwingUtilities.replaceUIInputMap(table,
+        SwingUtilities.replbceUIInputMbp(tbble,
                                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                                inputMap);
+                                inputMbp);
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            InputMap keyMap =
-                (InputMap)DefaultLookup.get(table, this,
-                                            "Table.ancestorInputMap");
-            InputMap rtlKeyMap;
+            InputMbp keyMbp =
+                (InputMbp)DefbultLookup.get(tbble, this,
+                                            "Tbble.bncestorInputMbp");
+            InputMbp rtlKeyMbp;
 
-            if (table.getComponentOrientation().isLeftToRight() ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(table, this,
-                                            "Table.ancestorInputMap.RightToLeft")) == null)) {
-                return keyMap;
+            if (tbble.getComponentOrientbtion().isLeftToRight() ||
+                ((rtlKeyMbp = (InputMbp)DefbultLookup.get(tbble, this,
+                                            "Tbble.bncestorInputMbp.RightToLeft")) == null)) {
+                return keyMbp;
             } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+                rtlKeyMbp.setPbrent(keyMbp);
+                return rtlKeyMbp;
             }
         }
         return null;
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        // IMPORTANT: There is a very close coupling between the parameters
-        // passed to the Actions constructor. Only certain parameter
-        // combinations are supported. For example, the following Action would
-        // not work as expected:
-        //     new Actions(Actions.NEXT_ROW_CELL, 1, 4, false, true)
-        // Actions which move within the selection only (having a true
-        // inSelection parameter) require that one of dx or dy be
-        // zero and the other be -1 or 1. The point of this warning is
-        // that you should be very careful about making sure a particular
-        // combination of parameters is supported before changing or
-        // adding anything here.
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        // IMPORTANT: There is b very close coupling between the pbrbmeters
+        // pbssed to the Actions constructor. Only certbin pbrbmeter
+        // combinbtions bre supported. For exbmple, the following Action would
+        // not work bs expected:
+        //     new Actions(Actions.NEXT_ROW_CELL, 1, 4, fblse, true)
+        // Actions which move within the selection only (hbving b true
+        // inSelection pbrbmeter) require thbt one of dx or dy be
+        // zero bnd the other be -1 or 1. The point of this wbrning is
+        // thbt you should be very cbreful bbout mbking sure b pbrticulbr
+        // combinbtion of pbrbmeters is supported before chbnging or
+        // bdding bnything here.
 
-        map.put(new Actions(Actions.NEXT_COLUMN, 1, 0,
-                false, false));
-        map.put(new Actions(Actions.NEXT_COLUMN_CHANGE_LEAD, 1, 0,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN, -1, 0,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_CHANGE_LEAD, -1, 0,
-                false, false));
-        map.put(new Actions(Actions.NEXT_ROW, 0, 1,
-                false, false));
-        map.put(new Actions(Actions.NEXT_ROW_CHANGE_LEAD, 0, 1,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW, 0, -1,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW_CHANGE_LEAD, 0, -1,
-                false, false));
-        map.put(new Actions(Actions.NEXT_COLUMN_EXTEND_SELECTION,
-                1, 0, true, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_EXTEND_SELECTION,
-                -1, 0, true, false));
-        map.put(new Actions(Actions.NEXT_ROW_EXTEND_SELECTION,
-                0, 1, true, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW_EXTEND_SELECTION,
-                0, -1, true, false));
-        map.put(new Actions(Actions.SCROLL_UP_CHANGE_SELECTION,
-                false, false, true, false));
-        map.put(new Actions(Actions.SCROLL_DOWN_CHANGE_SELECTION,
-                false, true, true, false));
-        map.put(new Actions(Actions.FIRST_COLUMN,
-                false, false, false, true));
-        map.put(new Actions(Actions.LAST_COLUMN,
-                false, true, false, true));
+        mbp.put(new Actions(Actions.NEXT_COLUMN, 1, 0,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.NEXT_COLUMN_CHANGE_LEAD, 1, 0,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_COLUMN, -1, 0,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_COLUMN_CHANGE_LEAD, -1, 0,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.NEXT_ROW, 0, 1,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.NEXT_ROW_CHANGE_LEAD, 0, 1,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_ROW, 0, -1,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_ROW_CHANGE_LEAD, 0, -1,
+                fblse, fblse));
+        mbp.put(new Actions(Actions.NEXT_COLUMN_EXTEND_SELECTION,
+                1, 0, true, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_COLUMN_EXTEND_SELECTION,
+                -1, 0, true, fblse));
+        mbp.put(new Actions(Actions.NEXT_ROW_EXTEND_SELECTION,
+                0, 1, true, fblse));
+        mbp.put(new Actions(Actions.PREVIOUS_ROW_EXTEND_SELECTION,
+                0, -1, true, fblse));
+        mbp.put(new Actions(Actions.SCROLL_UP_CHANGE_SELECTION,
+                fblse, fblse, true, fblse));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_CHANGE_SELECTION,
+                fblse, true, true, fblse));
+        mbp.put(new Actions(Actions.FIRST_COLUMN,
+                fblse, fblse, fblse, true));
+        mbp.put(new Actions(Actions.LAST_COLUMN,
+                fblse, true, fblse, true));
 
-        map.put(new Actions(Actions.SCROLL_UP_EXTEND_SELECTION,
-                true, false, true, false));
-        map.put(new Actions(Actions.SCROLL_DOWN_EXTEND_SELECTION,
-                true, true, true, false));
-        map.put(new Actions(Actions.FIRST_COLUMN_EXTEND_SELECTION,
-                true, false, false, true));
-        map.put(new Actions(Actions.LAST_COLUMN_EXTEND_SELECTION,
-                true, true, false, true));
+        mbp.put(new Actions(Actions.SCROLL_UP_EXTEND_SELECTION,
+                true, fblse, true, fblse));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_EXTEND_SELECTION,
+                true, true, true, fblse));
+        mbp.put(new Actions(Actions.FIRST_COLUMN_EXTEND_SELECTION,
+                true, fblse, fblse, true));
+        mbp.put(new Actions(Actions.LAST_COLUMN_EXTEND_SELECTION,
+                true, true, fblse, true));
 
-        map.put(new Actions(Actions.FIRST_ROW, false, false, true, true));
-        map.put(new Actions(Actions.LAST_ROW, false, true, true, true));
+        mbp.put(new Actions(Actions.FIRST_ROW, fblse, fblse, true, true));
+        mbp.put(new Actions(Actions.LAST_ROW, fblse, true, true, true));
 
-        map.put(new Actions(Actions.FIRST_ROW_EXTEND_SELECTION,
-                true, false, true, true));
-        map.put(new Actions(Actions.LAST_ROW_EXTEND_SELECTION,
+        mbp.put(new Actions(Actions.FIRST_ROW_EXTEND_SELECTION,
+                true, fblse, true, true));
+        mbp.put(new Actions(Actions.LAST_ROW_EXTEND_SELECTION,
                 true, true, true, true));
 
-        map.put(new Actions(Actions.NEXT_COLUMN_CELL,
-                1, 0, false, true));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_CELL,
-                -1, 0, false, true));
-        map.put(new Actions(Actions.NEXT_ROW_CELL, 0, 1, false, true));
-        map.put(new Actions(Actions.PREVIOUS_ROW_CELL,
-                0, -1, false, true));
+        mbp.put(new Actions(Actions.NEXT_COLUMN_CELL,
+                1, 0, fblse, true));
+        mbp.put(new Actions(Actions.PREVIOUS_COLUMN_CELL,
+                -1, 0, fblse, true));
+        mbp.put(new Actions(Actions.NEXT_ROW_CELL, 0, 1, fblse, true));
+        mbp.put(new Actions(Actions.PREVIOUS_ROW_CELL,
+                0, -1, fblse, true));
 
-        map.put(new Actions(Actions.SELECT_ALL));
-        map.put(new Actions(Actions.CLEAR_SELECTION));
-        map.put(new Actions(Actions.CANCEL_EDITING));
-        map.put(new Actions(Actions.START_EDITING));
+        mbp.put(new Actions(Actions.SELECT_ALL));
+        mbp.put(new Actions(Actions.CLEAR_SELECTION));
+        mbp.put(new Actions(Actions.CANCEL_EDITING));
+        mbp.put(new Actions(Actions.START_EDITING));
 
-        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
+        mbp.put(TrbnsferHbndler.getCutAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCutAction());
+        mbp.put(TrbnsferHbndler.getCopyAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCopyAction());
+        mbp.put(TrbnsferHbndler.getPbsteAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getPbsteAction());
 
-        map.put(new Actions(Actions.SCROLL_LEFT_CHANGE_SELECTION,
-                false, false, false, false));
-        map.put(new Actions(Actions.SCROLL_RIGHT_CHANGE_SELECTION,
-                false, true, false, false));
-        map.put(new Actions(Actions.SCROLL_LEFT_EXTEND_SELECTION,
-                true, false, false, false));
-        map.put(new Actions(Actions.SCROLL_RIGHT_EXTEND_SELECTION,
-                true, true, false, false));
+        mbp.put(new Actions(Actions.SCROLL_LEFT_CHANGE_SELECTION,
+                fblse, fblse, fblse, fblse));
+        mbp.put(new Actions(Actions.SCROLL_RIGHT_CHANGE_SELECTION,
+                fblse, true, fblse, fblse));
+        mbp.put(new Actions(Actions.SCROLL_LEFT_EXTEND_SELECTION,
+                true, fblse, fblse, fblse));
+        mbp.put(new Actions(Actions.SCROLL_RIGHT_EXTEND_SELECTION,
+                true, true, fblse, fblse));
 
-        map.put(new Actions(Actions.ADD_TO_SELECTION));
-        map.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
-        map.put(new Actions(Actions.EXTEND_TO));
-        map.put(new Actions(Actions.MOVE_SELECTION_TO));
-        map.put(new Actions(Actions.FOCUS_HEADER));
+        mbp.put(new Actions(Actions.ADD_TO_SELECTION));
+        mbp.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
+        mbp.put(new Actions(Actions.EXTEND_TO));
+        mbp.put(new Actions(Actions.MOVE_SELECTION_TO));
+        mbp.put(new Actions(Actions.FOCUS_HEADER));
     }
 
-//  Uninstallation
+//  Uninstbllbtion
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults();
+        uninstbllListeners();
+        uninstbllKeybobrdActions();
 
-        table.remove(rendererPane);
-        rendererPane = null;
-        table = null;
+        tbble.remove(rendererPbne);
+        rendererPbne = null;
+        tbble = null;
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        if (table.getTransferHandler() instanceof UIResource) {
-            table.setTransferHandler(null);
+    protected void uninstbllDefbults() {
+        if (tbble.getTrbnsferHbndler() instbnceof UIResource) {
+            tbble.setTrbnsferHbndler(null);
         }
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        table.removeFocusListener(focusListener);
-        table.removeKeyListener(keyListener);
-        table.removeMouseListener(mouseInputListener);
-        table.removeMouseMotionListener(mouseInputListener);
-        table.removePropertyChangeListener(getHandler());
+    protected void uninstbllListeners() {
+        tbble.removeFocusListener(focusListener);
+        tbble.removeKeyListener(keyListener);
+        tbble.removeMouseListener(mouseInputListener);
+        tbble.removeMouseMotionListener(mouseInputListener);
+        tbble.removePropertyChbngeListener(getHbndler());
         if (isFileList) {
-            table.getSelectionModel().removeListSelectionListener(getHandler());
+            tbble.getSelectionModel().removeListSelectionListener(getHbndler());
         }
 
         focusListener = null;
         keyListener = null;
         mouseInputListener = null;
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(table, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIInputMbp(tbble, JComponent.
                                    WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, null);
-        SwingUtilities.replaceUIActionMap(table, null);
+        SwingUtilities.replbceUIActionMbp(tbble, null);
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        UIDefaults lafDefaults = UIManager.getLookAndFeelDefaults();
-        Component renderer = (Component)lafDefaults.get(
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        UIDefbults lbfDefbults = UIMbnbger.getLookAndFeelDefbults();
+        Component renderer = (Component)lbfDefbults.get(
                 BASELINE_COMPONENT_KEY);
         if (renderer == null) {
-            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-            renderer = tcr.getTableCellRendererComponent(
-                    table, "a", false, false, -1, -1);
-            lafDefaults.put(BASELINE_COMPONENT_KEY, renderer);
+            DefbultTbbleCellRenderer tcr = new DefbultTbbleCellRenderer();
+            renderer = tcr.getTbbleCellRendererComponent(
+                    tbble, "b", fblse, fblse, -1, -1);
+            lbfDefbults.put(BASELINE_COMPONENT_KEY, renderer);
         }
-        renderer.setFont(table.getFont());
-        int rowMargin = table.getRowMargin();
-        return renderer.getBaseline(Integer.MAX_VALUE, table.getRowHeight() -
-                                    rowMargin) + rowMargin / 2;
+        renderer.setFont(tbble.getFont());
+        int rowMbrgin = tbble.getRowMbrgin();
+        return renderer.getBbseline(Integer.MAX_VALUE, tbble.getRowHeight() -
+                                    rowMbrgin) + rowMbrgin / 2;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+        super.getBbselineResizeBehbvior(c);
+        return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
     }
 
 //
 // Size Methods
 //
 
-    private Dimension createTableSize(long width) {
+    privbte Dimension crebteTbbleSize(long width) {
         int height = 0;
-        int rowCount = table.getRowCount();
-        if (rowCount > 0 && table.getColumnCount() > 0) {
-            Rectangle r = table.getCellRect(rowCount-1, 0, true);
+        int rowCount = tbble.getRowCount();
+        if (rowCount > 0 && tbble.getColumnCount() > 0) {
+            Rectbngle r = tbble.getCellRect(rowCount-1, 0, true);
             height = r.y + r.height;
         }
-        // Width is always positive. The call to abs() is a workaround for
-        // a bug in the 1.1.6 JIT on Windows.
-        long tmp = Math.abs(width);
+        // Width is blwbys positive. The cbll to bbs() is b workbround for
+        // b bug in the 1.1.6 JIT on Windows.
+        long tmp = Mbth.bbs(width);
         if (tmp > Integer.MAX_VALUE) {
             tmp = Integer.MAX_VALUE;
         }
@@ -1742,129 +1742,129 @@ public class BasicTableUI extends TableUI
     }
 
     /**
-     * Return the minimum size of the table. The minimum height is the
+     * Return the minimum size of the tbble. The minimum height is the
      * row height times the number of rows.
-     * The minimum width is the sum of the minimum widths of each column.
+     * The minimum width is the sum of the minimum widths of ebch column.
      */
     public Dimension getMinimumSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMinWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = tbble.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getMinWidth();
         }
-        return createTableSize(width);
+        return crebteTbbleSize(width);
     }
 
     /**
-     * Return the preferred size of the table. The preferred height is the
+     * Return the preferred size of the tbble. The preferred height is the
      * row height times the number of rows.
-     * The preferred width is the sum of the preferred widths of each column.
+     * The preferred width is the sum of the preferred widths of ebch column.
      */
     public Dimension getPreferredSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getPreferredWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = tbble.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getPreferredWidth();
         }
-        return createTableSize(width);
+        return crebteTbbleSize(width);
     }
 
     /**
-     * Return the maximum size of the table. The maximum height is the
+     * Return the mbximum size of the tbble. The mbximum height is the
      * row heighttimes the number of rows.
-     * The maximum width is the sum of the maximum widths of each column.
+     * The mbximum width is the sum of the mbximum widths of ebch column.
      */
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMaxWidth();
+        Enumerbtion<TbbleColumn> enumerbtion = tbble.getColumnModel().getColumns();
+        while (enumerbtion.hbsMoreElements()) {
+            TbbleColumn bColumn = enumerbtion.nextElement();
+            width = width + bColumn.getMbxWidth();
         }
-        return createTableSize(width);
+        return crebteTbbleSize(width);
     }
 
 //
-//  Paint methods and support
+//  Pbint methods bnd support
 //
 
-    /** Paint a representation of the <code>table</code> instance
-     * that was set in installUI().
+    /** Pbint b representbtion of the <code>tbble</code> instbnce
+     * thbt wbs set in instbllUI().
      */
-    public void paint(Graphics g, JComponent c) {
-        Rectangle clip = g.getClipBounds();
+    public void pbint(Grbphics g, JComponent c) {
+        Rectbngle clip = g.getClipBounds();
 
-        Rectangle bounds = table.getBounds();
-        // account for the fact that the graphics has already been translated
-        // into the table's bounds
+        Rectbngle bounds = tbble.getBounds();
+        // bccount for the fbct thbt the grbphics hbs blrebdy been trbnslbted
+        // into the tbble's bounds
         bounds.x = bounds.y = 0;
 
-        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0 ||
-                // this check prevents us from painting the entire table
-                // when the clip doesn't intersect our bounds at all
+        if (tbble.getRowCount() <= 0 || tbble.getColumnCount() <= 0 ||
+                // this check prevents us from pbinting the entire tbble
+                // when the clip doesn't intersect our bounds bt bll
                 !bounds.intersects(clip)) {
 
-            paintDropLines(g);
+            pbintDropLines(g);
             return;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbble.getComponentOrientbtion().isLeftToRight();
 
-        Point upperLeft = clip.getLocation();
+        Point upperLeft = clip.getLocbtion();
         Point lowerRight = new Point(clip.x + clip.width - 1,
                                      clip.y + clip.height - 1);
 
-        int rMin = table.rowAtPoint(upperLeft);
-        int rMax = table.rowAtPoint(lowerRight);
-        // This should never happen (as long as our bounds intersect the clip,
-        // which is why we bail above if that is the case).
+        int rMin = tbble.rowAtPoint(upperLeft);
+        int rMbx = tbble.rowAtPoint(lowerRight);
+        // This should never hbppen (bs long bs our bounds intersect the clip,
+        // which is why we bbil bbove if thbt is the cbse).
         if (rMin == -1) {
             rMin = 0;
         }
-        // If the table does not have enough rows to fill the view we'll get -1.
-        // (We could also get -1 if our bounds don't intersect the clip,
-        // which is why we bail above if that is the case).
-        // Replace this with the index of the last row.
-        if (rMax == -1) {
-            rMax = table.getRowCount()-1;
+        // If the tbble does not hbve enough rows to fill the view we'll get -1.
+        // (We could blso get -1 if our bounds don't intersect the clip,
+        // which is why we bbil bbove if thbt is the cbse).
+        // Replbce this with the index of the lbst row.
+        if (rMbx == -1) {
+            rMbx = tbble.getRowCount()-1;
         }
 
-        int cMin = table.columnAtPoint(ltr ? upperLeft : lowerRight);
-        int cMax = table.columnAtPoint(ltr ? lowerRight : upperLeft);
-        // This should never happen.
+        int cMin = tbble.columnAtPoint(ltr ? upperLeft : lowerRight);
+        int cMbx = tbble.columnAtPoint(ltr ? lowerRight : upperLeft);
+        // This should never hbppen.
         if (cMin == -1) {
             cMin = 0;
         }
-        // If the table does not have enough columns to fill the view we'll get -1.
-        // Replace this with the index of the last column.
-        if (cMax == -1) {
-            cMax = table.getColumnCount()-1;
+        // If the tbble does not hbve enough columns to fill the view we'll get -1.
+        // Replbce this with the index of the lbst column.
+        if (cMbx == -1) {
+            cMbx = tbble.getColumnCount()-1;
         }
 
-        // Paint the grid.
-        paintGrid(g, rMin, rMax, cMin, cMax);
+        // Pbint the grid.
+        pbintGrid(g, rMin, rMbx, cMin, cMbx);
 
-        // Paint the cells.
-        paintCells(g, rMin, rMax, cMin, cMax);
+        // Pbint the cells.
+        pbintCells(g, rMin, rMbx, cMin, cMbx);
 
-        paintDropLines(g);
+        pbintDropLines(g);
     }
 
-    private void paintDropLines(Graphics g) {
-        JTable.DropLocation loc = table.getDropLocation();
+    privbte void pbintDropLines(Grbphics g) {
+        JTbble.DropLocbtion loc = tbble.getDropLocbtion();
         if (loc == null) {
             return;
         }
 
-        Color color = UIManager.getColor("Table.dropLineColor");
-        Color shortColor = UIManager.getColor("Table.dropLineShortColor");
+        Color color = UIMbnbger.getColor("Tbble.dropLineColor");
+        Color shortColor = UIMbnbger.getColor("Tbble.dropLineShortColor");
         if (color == null && shortColor == null) {
             return;
         }
 
-        Rectangle rect;
+        Rectbngle rect;
 
         rect = getHDropLineRect(loc);
         if (rect != null) {
@@ -1886,7 +1886,7 @@ public class BasicTableUI extends TableUI
             int y = rect.y;
             int h = rect.height;
             if (color != null) {
-                extendRect(rect, false);
+                extendRect(rect, fblse);
                 g.setColor(color);
                 g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
@@ -1897,22 +1897,22 @@ public class BasicTableUI extends TableUI
         }
     }
 
-    private Rectangle getHDropLineRect(JTable.DropLocation loc) {
+    privbte Rectbngle getHDropLineRect(JTbble.DropLocbtion loc) {
         if (!loc.isInsertRow()) {
             return null;
         }
 
         int row = loc.getRow();
         int col = loc.getColumn();
-        if (col >= table.getColumnCount()) {
+        if (col >= tbble.getColumnCount()) {
             col--;
         }
 
-        Rectangle rect = table.getCellRect(row, col, true);
+        Rectbngle rect = tbble.getCellRect(row, col, true);
 
-        if (row >= table.getRowCount()) {
+        if (row >= tbble.getRowCount()) {
             row--;
-            Rectangle prevRect = table.getCellRect(row, col, true);
+            Rectbngle prevRect = tbble.getCellRect(row, col, true);
             rect.y = prevRect.y + prevRect.height;
         }
 
@@ -1927,18 +1927,18 @@ public class BasicTableUI extends TableUI
         return rect;
     }
 
-    private Rectangle getVDropLineRect(JTable.DropLocation loc) {
+    privbte Rectbngle getVDropLineRect(JTbble.DropLocbtion loc) {
         if (!loc.isInsertColumn()) {
             return null;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbble.getComponentOrientbtion().isLeftToRight();
         int col = loc.getColumn();
-        Rectangle rect = table.getCellRect(loc.getRow(), col, true);
+        Rectbngle rect = tbble.getCellRect(loc.getRow(), col, true);
 
-        if (col >= table.getColumnCount()) {
+        if (col >= tbble.getColumnCount()) {
             col--;
-            rect = table.getCellRect(loc.getRow(), col, true);
+            rect = tbble.getCellRect(loc.getRow(), col, true);
             if (ltr) {
                 rect.x = rect.x + rect.width;
             }
@@ -1957,22 +1957,22 @@ public class BasicTableUI extends TableUI
         return rect;
     }
 
-    private Rectangle extendRect(Rectangle rect, boolean horizontal) {
+    privbte Rectbngle extendRect(Rectbngle rect, boolebn horizontbl) {
         if (rect == null) {
             return rect;
         }
 
-        if (horizontal) {
+        if (horizontbl) {
             rect.x = 0;
-            rect.width = table.getWidth();
+            rect.width = tbble.getWidth();
         } else {
             rect.y = 0;
 
-            if (table.getRowCount() != 0) {
-                Rectangle lastRect = table.getCellRect(table.getRowCount() - 1, 0, true);
-                rect.height = lastRect.y + lastRect.height;
+            if (tbble.getRowCount() != 0) {
+                Rectbngle lbstRect = tbble.getCellRect(tbble.getRowCount() - 1, 0, true);
+                rect.height = lbstRect.y + lbstRect.height;
             } else {
-                rect.height = table.getHeight();
+                rect.height = tbble.getHeight();
             }
         }
 
@@ -1980,269 +1980,269 @@ public class BasicTableUI extends TableUI
     }
 
     /*
-     * Paints the grid lines within <I>aRect</I>, using the grid
-     * color set with <I>setGridColor</I>. Paints vertical lines
-     * if <code>getShowVerticalLines()</code> returns true and paints
-     * horizontal lines if <code>getShowHorizontalLines()</code>
+     * Pbints the grid lines within <I>bRect</I>, using the grid
+     * color set with <I>setGridColor</I>. Pbints verticbl lines
+     * if <code>getShowVerticblLines()</code> returns true bnd pbints
+     * horizontbl lines if <code>getShowHorizontblLines()</code>
      * returns true.
      */
-    private void paintGrid(Graphics g, int rMin, int rMax, int cMin, int cMax) {
-        g.setColor(table.getGridColor());
+    privbte void pbintGrid(Grbphics g, int rMin, int rMbx, int cMin, int cMbx) {
+        g.setColor(tbble.getGridColor());
 
-        Rectangle minCell = table.getCellRect(rMin, cMin, true);
-        Rectangle maxCell = table.getCellRect(rMax, cMax, true);
-        Rectangle damagedArea = minCell.union( maxCell );
+        Rectbngle minCell = tbble.getCellRect(rMin, cMin, true);
+        Rectbngle mbxCell = tbble.getCellRect(rMbx, cMbx, true);
+        Rectbngle dbmbgedAreb = minCell.union( mbxCell );
 
-        if (table.getShowHorizontalLines()) {
-            int tableWidth = damagedArea.x + damagedArea.width;
-            int y = damagedArea.y;
-            for (int row = rMin; row <= rMax; row++) {
-                y += table.getRowHeight(row);
-                g.drawLine(damagedArea.x, y - 1, tableWidth - 1, y - 1);
+        if (tbble.getShowHorizontblLines()) {
+            int tbbleWidth = dbmbgedAreb.x + dbmbgedAreb.width;
+            int y = dbmbgedAreb.y;
+            for (int row = rMin; row <= rMbx; row++) {
+                y += tbble.getRowHeight(row);
+                g.drbwLine(dbmbgedAreb.x, y - 1, tbbleWidth - 1, y - 1);
             }
         }
-        if (table.getShowVerticalLines()) {
-            TableColumnModel cm = table.getColumnModel();
-            int tableHeight = damagedArea.y + damagedArea.height;
+        if (tbble.getShowVerticblLines()) {
+            TbbleColumnModel cm = tbble.getColumnModel();
+            int tbbleHeight = dbmbgedAreb.y + dbmbgedAreb.height;
             int x;
-            if (table.getComponentOrientation().isLeftToRight()) {
-                x = damagedArea.x;
-                for (int column = cMin; column <= cMax; column++) {
+            if (tbble.getComponentOrientbtion().isLeftToRight()) {
+                x = dbmbgedAreb.x;
+                for (int column = cMin; column <= cMbx; column++) {
                     int w = cm.getColumn(column).getWidth();
                     x += w;
-                    g.drawLine(x - 1, 0, x - 1, tableHeight - 1);
+                    g.drbwLine(x - 1, 0, x - 1, tbbleHeight - 1);
                 }
             } else {
-                x = damagedArea.x;
-                for (int column = cMax; column >= cMin; column--) {
+                x = dbmbgedAreb.x;
+                for (int column = cMbx; column >= cMin; column--) {
                     int w = cm.getColumn(column).getWidth();
                     x += w;
-                    g.drawLine(x - 1, 0, x - 1, tableHeight - 1);
+                    g.drbwLine(x - 1, 0, x - 1, tbbleHeight - 1);
                 }
             }
         }
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = table.getColumnModel();
+    privbte int viewIndexForColumn(TbbleColumn bColumn) {
+        TbbleColumnModel cm = tbble.getColumnModel();
         for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
+            if (cm.getColumn(column) == bColumn) {
                 return column;
             }
         }
         return -1;
     }
 
-    private void paintCells(Graphics g, int rMin, int rMax, int cMin, int cMax) {
-        JTableHeader header = table.getTableHeader();
-        TableColumn draggedColumn = (header == null) ? null : header.getDraggedColumn();
+    privbte void pbintCells(Grbphics g, int rMin, int rMbx, int cMin, int cMbx) {
+        JTbbleHebder hebder = tbble.getTbbleHebder();
+        TbbleColumn drbggedColumn = (hebder == null) ? null : hebder.getDrbggedColumn();
 
-        TableColumnModel cm = table.getColumnModel();
-        int columnMargin = cm.getColumnMargin();
+        TbbleColumnModel cm = tbble.getColumnModel();
+        int columnMbrgin = cm.getColumnMbrgin();
 
-        Rectangle cellRect;
-        TableColumn aColumn;
+        Rectbngle cellRect;
+        TbbleColumn bColumn;
         int columnWidth;
-        if (table.getComponentOrientation().isLeftToRight()) {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                for(int column = cMin; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    if (aColumn != draggedColumn) {
-                        paintCell(g, cellRect, row, column);
+        if (tbble.getComponentOrientbtion().isLeftToRight()) {
+            for(int row = rMin; row <= rMbx; row++) {
+                cellRect = tbble.getCellRect(row, cMin, fblse);
+                for(int column = cMin; column <= cMbx; column++) {
+                    bColumn = cm.getColumn(column);
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
+                    if (bColumn != drbggedColumn) {
+                        pbintCell(g, cellRect, row, column);
                     }
                     cellRect.x += columnWidth;
                 }
             }
         } else {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                aColumn = cm.getColumn(cMin);
-                if (aColumn != draggedColumn) {
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    paintCell(g, cellRect, row, cMin);
+            for(int row = rMin; row <= rMbx; row++) {
+                cellRect = tbble.getCellRect(row, cMin, fblse);
+                bColumn = cm.getColumn(cMin);
+                if (bColumn != drbggedColumn) {
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
+                    pbintCell(g, cellRect, row, cMin);
                 }
-                for(int column = cMin+1; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
+                for(int column = cMin+1; column <= cMbx; column++) {
+                    bColumn = cm.getColumn(column);
+                    columnWidth = bColumn.getWidth();
+                    cellRect.width = columnWidth - columnMbrgin;
                     cellRect.x -= columnWidth;
-                    if (aColumn != draggedColumn) {
-                        paintCell(g, cellRect, row, column);
+                    if (bColumn != drbggedColumn) {
+                        pbintCell(g, cellRect, row, column);
                     }
                 }
             }
         }
 
-        // Paint the dragged column if we are dragging.
-        if (draggedColumn != null) {
-            paintDraggedArea(g, rMin, rMax, draggedColumn, header.getDraggedDistance());
+        // Pbint the drbgged column if we bre drbgging.
+        if (drbggedColumn != null) {
+            pbintDrbggedAreb(g, rMin, rMbx, drbggedColumn, hebder.getDrbggedDistbnce());
         }
 
-        // Remove any renderers that may be left in the rendererPane.
-        rendererPane.removeAll();
+        // Remove bny renderers thbt mby be left in the rendererPbne.
+        rendererPbne.removeAll();
     }
 
-    private void paintDraggedArea(Graphics g, int rMin, int rMax, TableColumn draggedColumn, int distance) {
-        int draggedColumnIndex = viewIndexForColumn(draggedColumn);
+    privbte void pbintDrbggedAreb(Grbphics g, int rMin, int rMbx, TbbleColumn drbggedColumn, int distbnce) {
+        int drbggedColumnIndex = viewIndexForColumn(drbggedColumn);
 
-        Rectangle minCell = table.getCellRect(rMin, draggedColumnIndex, true);
-        Rectangle maxCell = table.getCellRect(rMax, draggedColumnIndex, true);
+        Rectbngle minCell = tbble.getCellRect(rMin, drbggedColumnIndex, true);
+        Rectbngle mbxCell = tbble.getCellRect(rMbx, drbggedColumnIndex, true);
 
-        Rectangle vacatedColumnRect = minCell.union(maxCell);
+        Rectbngle vbcbtedColumnRect = minCell.union(mbxCell);
 
-        // Paint a gray well in place of the moving column.
-        g.setColor(table.getParent().getBackground());
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        // Pbint b grby well in plbce of the moving column.
+        g.setColor(tbble.getPbrent().getBbckground());
+        g.fillRect(vbcbtedColumnRect.x, vbcbtedColumnRect.y,
+                   vbcbtedColumnRect.width, vbcbtedColumnRect.height);
 
-        // Move to the where the cell has been dragged.
-        vacatedColumnRect.x += distance;
+        // Move to the where the cell hbs been drbgged.
+        vbcbtedColumnRect.x += distbnce;
 
-        // Fill the background.
-        g.setColor(table.getBackground());
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        // Fill the bbckground.
+        g.setColor(tbble.getBbckground());
+        g.fillRect(vbcbtedColumnRect.x, vbcbtedColumnRect.y,
+                   vbcbtedColumnRect.width, vbcbtedColumnRect.height);
 
-        // Paint the vertical grid lines if necessary.
-        if (table.getShowVerticalLines()) {
-            g.setColor(table.getGridColor());
-            int x1 = vacatedColumnRect.x;
-            int y1 = vacatedColumnRect.y;
-            int x2 = x1 + vacatedColumnRect.width - 1;
-            int y2 = y1 + vacatedColumnRect.height - 1;
+        // Pbint the verticbl grid lines if necessbry.
+        if (tbble.getShowVerticblLines()) {
+            g.setColor(tbble.getGridColor());
+            int x1 = vbcbtedColumnRect.x;
+            int y1 = vbcbtedColumnRect.y;
+            int x2 = x1 + vbcbtedColumnRect.width - 1;
+            int y2 = y1 + vbcbtedColumnRect.height - 1;
             // Left
-            g.drawLine(x1-1, y1, x1-1, y2);
+            g.drbwLine(x1-1, y1, x1-1, y2);
             // Right
-            g.drawLine(x2, y1, x2, y2);
+            g.drbwLine(x2, y1, x2, y2);
         }
 
-        for(int row = rMin; row <= rMax; row++) {
-            // Render the cell value
-            Rectangle r = table.getCellRect(row, draggedColumnIndex, false);
-            r.x += distance;
-            paintCell(g, r, row, draggedColumnIndex);
+        for(int row = rMin; row <= rMbx; row++) {
+            // Render the cell vblue
+            Rectbngle r = tbble.getCellRect(row, drbggedColumnIndex, fblse);
+            r.x += distbnce;
+            pbintCell(g, r, row, drbggedColumnIndex);
 
-            // Paint the (lower) horizontal grid line if necessary.
-            if (table.getShowHorizontalLines()) {
-                g.setColor(table.getGridColor());
-                Rectangle rcr = table.getCellRect(row, draggedColumnIndex, true);
-                rcr.x += distance;
+            // Pbint the (lower) horizontbl grid line if necessbry.
+            if (tbble.getShowHorizontblLines()) {
+                g.setColor(tbble.getGridColor());
+                Rectbngle rcr = tbble.getCellRect(row, drbggedColumnIndex, true);
+                rcr.x += distbnce;
                 int x1 = rcr.x;
                 int y1 = rcr.y;
                 int x2 = x1 + rcr.width - 1;
                 int y2 = y1 + rcr.height - 1;
-                g.drawLine(x1, y2, x2, y2);
+                g.drbwLine(x1, y2, x2, y2);
             }
         }
     }
 
-    private void paintCell(Graphics g, Rectangle cellRect, int row, int column) {
-        if (table.isEditing() && table.getEditingRow()==row &&
-                                 table.getEditingColumn()==column) {
-            Component component = table.getEditorComponent();
+    privbte void pbintCell(Grbphics g, Rectbngle cellRect, int row, int column) {
+        if (tbble.isEditing() && tbble.getEditingRow()==row &&
+                                 tbble.getEditingColumn()==column) {
+            Component component = tbble.getEditorComponent();
             component.setBounds(cellRect);
-            component.validate();
+            component.vblidbte();
         }
         else {
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component component = table.prepareRenderer(renderer, row, column);
-            rendererPane.paintComponent(g, component, table, cellRect.x, cellRect.y,
+            TbbleCellRenderer renderer = tbble.getCellRenderer(row, column);
+            Component component = tbble.prepbreRenderer(renderer, row, column);
+            rendererPbne.pbintComponent(g, component, tbble, cellRect.x, cellRect.y,
                                         cellRect.width, cellRect.height, true);
         }
     }
 
-    private static int getAdjustedLead(JTable table,
-                                       boolean row,
+    privbte stbtic int getAdjustedLebd(JTbble tbble,
+                                       boolebn row,
                                        ListSelectionModel model) {
 
-        int index = model.getLeadSelectionIndex();
-        int compare = row ? table.getRowCount() : table.getColumnCount();
-        return index < compare ? index : -1;
+        int index = model.getLebdSelectionIndex();
+        int compbre = row ? tbble.getRowCount() : tbble.getColumnCount();
+        return index < compbre ? index : -1;
     }
 
-    private static int getAdjustedLead(JTable table, boolean row) {
-        return row ? getAdjustedLead(table, row, table.getSelectionModel())
-                   : getAdjustedLead(table, row, table.getColumnModel().getSelectionModel());
+    privbte stbtic int getAdjustedLebd(JTbble tbble, boolebn row) {
+        return row ? getAdjustedLebd(tbble, row, tbble.getSelectionModel())
+                   : getAdjustedLebd(tbble, row, tbble.getColumnModel().getSelectionModel());
     }
 
 
-    private static final TransferHandler defaultTransferHandler = new TableTransferHandler();
+    privbte stbtic finbl TrbnsferHbndler defbultTrbnsferHbndler = new TbbleTrbnsferHbndler();
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class TableTransferHandler extends TransferHandler implements UIResource {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss TbbleTrbnsferHbndler extends TrbnsferHbndler implements UIResource {
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crebte b Trbnsferbble to use bs the source for b dbtb trbnsfer.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm c  The component holding the dbtb to be trbnsfered.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @return  The representbtion of the dbtb to be trbnsfered.
          *
          */
-        protected Transferable createTransferable(JComponent c) {
-            if (c instanceof JTable) {
-                JTable table = (JTable) c;
+        protected Trbnsferbble crebteTrbnsferbble(JComponent c) {
+            if (c instbnceof JTbble) {
+                JTbble tbble = (JTbble) c;
                 int[] rows;
                 int[] cols;
 
-                if (!table.getRowSelectionAllowed() && !table.getColumnSelectionAllowed()) {
+                if (!tbble.getRowSelectionAllowed() && !tbble.getColumnSelectionAllowed()) {
                     return null;
                 }
 
-                if (!table.getRowSelectionAllowed()) {
-                    int rowCount = table.getRowCount();
+                if (!tbble.getRowSelectionAllowed()) {
+                    int rowCount = tbble.getRowCount();
 
                     rows = new int[rowCount];
                     for (int counter = 0; counter < rowCount; counter++) {
                         rows[counter] = counter;
                     }
                 } else {
-                    rows = table.getSelectedRows();
+                    rows = tbble.getSelectedRows();
                 }
 
-                if (!table.getColumnSelectionAllowed()) {
-                    int colCount = table.getColumnCount();
+                if (!tbble.getColumnSelectionAllowed()) {
+                    int colCount = tbble.getColumnCount();
 
                     cols = new int[colCount];
                     for (int counter = 0; counter < colCount; counter++) {
                         cols[counter] = counter;
                     }
                 } else {
-                    cols = table.getSelectedColumns();
+                    cols = tbble.getSelectedColumns();
                 }
 
                 if (rows == null || cols == null || rows.length == 0 || cols.length == 0) {
                     return null;
                 }
 
-                StringBuilder plainStr = new StringBuilder();
+                StringBuilder plbinStr = new StringBuilder();
                 StringBuilder htmlStr = new StringBuilder();
 
-                htmlStr.append("<html>\n<body>\n<table>\n");
+                htmlStr.bppend("<html>\n<body>\n<tbble>\n");
 
                 for (int row = 0; row < rows.length; row++) {
-                    htmlStr.append("<tr>\n");
+                    htmlStr.bppend("<tr>\n");
                     for (int col = 0; col < cols.length; col++) {
-                        Object obj = table.getValueAt(rows[row], cols[col]);
-                        String val = ((obj == null) ? "" : obj.toString());
-                        plainStr.append(val + "\t");
-                        htmlStr.append("  <td>" + val + "</td>\n");
+                        Object obj = tbble.getVblueAt(rows[row], cols[col]);
+                        String vbl = ((obj == null) ? "" : obj.toString());
+                        plbinStr.bppend(vbl + "\t");
+                        htmlStr.bppend("  <td>" + vbl + "</td>\n");
                     }
-                    // we want a newline at the end of each line and not a tab
-                    plainStr.deleteCharAt(plainStr.length() - 1).append("\n");
-                    htmlStr.append("</tr>\n");
+                    // we wbnt b newline bt the end of ebch line bnd not b tbb
+                    plbinStr.deleteChbrAt(plbinStr.length() - 1).bppend("\n");
+                    htmlStr.bppend("</tr>\n");
                 }
 
-                // remove the last newline
-                plainStr.deleteCharAt(plainStr.length() - 1);
-                htmlStr.append("</table>\n</body>\n</html>");
+                // remove the lbst newline
+                plbinStr.deleteChbrAt(plbinStr.length() - 1);
+                htmlStr.bppend("</tbble>\n</body>\n</html>");
 
-                return new BasicTransferable(plainStr.toString(), htmlStr.toString());
+                return new BbsicTrbnsferbble(plbinStr.toString(), htmlStr.toString());
             }
 
             return null;
@@ -2253,4 +2253,4 @@ public class BasicTableUI extends TableUI
         }
 
     }
-}  // End of Class BasicTableUI
+}  // End of Clbss BbsicTbbleUI

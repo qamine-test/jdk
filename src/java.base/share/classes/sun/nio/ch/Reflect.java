@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 
-class Reflect {                                 // package-private
+clbss Reflect {                                 // pbckbge-privbte
 
-    private Reflect() { }
+    privbte Reflect() { }
 
-    private static class ReflectionError extends Error {
-        private static final long serialVersionUID = -8659519328078164097L;
-        ReflectionError(Throwable x) {
+    privbte stbtic clbss ReflectionError extends Error {
+        privbte stbtic finbl long seriblVersionUID = -8659519328078164097L;
+        ReflectionError(Throwbble x) {
             super(x);
         }
     }
 
-    private static void setAccessible(final AccessibleObject ao) {
+    privbte stbtic void setAccessible(finbl AccessibleObject bo) {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    ao.setAccessible(true);
+                    bo.setAccessible(true);
                     return null;
                 }});
     }
 
-    static Constructor<?> lookupConstructor(String className,
-                                            Class<?>[] paramTypes)
+    stbtic Constructor<?> lookupConstructor(String clbssNbme,
+                                            Clbss<?>[] pbrbmTypes)
     {
         try {
-            Class<?> cl = Class.forName(className);
-            Constructor<?> c = cl.getDeclaredConstructor(paramTypes);
+            Clbss<?> cl = Clbss.forNbme(clbssNbme);
+            Constructor<?> c = cl.getDeclbredConstructor(pbrbmTypes);
             setAccessible(c);
             return c;
-        } catch (ClassNotFoundException | NoSuchMethodException x) {
+        } cbtch (ClbssNotFoundException | NoSuchMethodException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Object invoke(Constructor<?> c, Object[] args) {
+    stbtic Object invoke(Constructor<?> c, Object[] brgs) {
         try {
-            return c.newInstance(args);
-        } catch (InstantiationException |
-                 IllegalAccessException |
-                 InvocationTargetException x) {
+            return c.newInstbnce(brgs);
+        } cbtch (InstbntibtionException |
+                 IllegblAccessException |
+                 InvocbtionTbrgetException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Method lookupMethod(String className,
-                               String methodName,
-                               Class<?>... paramTypes)
+    stbtic Method lookupMethod(String clbssNbme,
+                               String methodNbme,
+                               Clbss<?>... pbrbmTypes)
     {
         try {
-            Class<?> cl = Class.forName(className);
-            Method m = cl.getDeclaredMethod(methodName, paramTypes);
+            Clbss<?> cl = Clbss.forNbme(clbssNbme);
+            Method m = cl.getDeclbredMethod(methodNbme, pbrbmTypes);
             setAccessible(m);
             return m;
-        } catch (ClassNotFoundException | NoSuchMethodException x) {
+        } cbtch (ClbssNotFoundException | NoSuchMethodException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Object invoke(Method m, Object ob, Object[] args) {
+    stbtic Object invoke(Method m, Object ob, Object[] brgs) {
         try {
-            return m.invoke(ob, args);
-        } catch (IllegalAccessException | InvocationTargetException x) {
+            return m.invoke(ob, brgs);
+        } cbtch (IllegblAccessException | InvocbtionTbrgetException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Object invokeIO(Method m, Object ob, Object[] args)
+    stbtic Object invokeIO(Method m, Object ob, Object[] brgs)
         throws IOException
     {
         try {
-            return m.invoke(ob, args);
-        } catch (IllegalAccessException x) {
+            return m.invoke(ob, brgs);
+        } cbtch (IllegblAccessException x) {
             throw new ReflectionError(x);
-        } catch (InvocationTargetException x) {
-            if (IOException.class.isInstance(x.getCause()))
-                throw (IOException)x.getCause();
+        } cbtch (InvocbtionTbrgetException x) {
+            if (IOException.clbss.isInstbnce(x.getCbuse()))
+                throw (IOException)x.getCbuse();
             throw new ReflectionError(x);
         }
     }
 
-    static Field lookupField(String className, String fieldName) {
+    stbtic Field lookupField(String clbssNbme, String fieldNbme) {
         try {
-            Class<?> cl = Class.forName(className);
-            Field f = cl.getDeclaredField(fieldName);
+            Clbss<?> cl = Clbss.forNbme(clbssNbme);
+            Field f = cl.getDeclbredField(fieldNbme);
             setAccessible(f);
             return f;
-        } catch (ClassNotFoundException | NoSuchFieldException x) {
+        } cbtch (ClbssNotFoundException | NoSuchFieldException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Object get(Object ob, Field f) {
+    stbtic Object get(Object ob, Field f) {
         try {
             return f.get(ob);
-        } catch (IllegalAccessException x) {
+        } cbtch (IllegblAccessException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static Object get(Field f) {
+    stbtic Object get(Field f) {
         return get(null, f);
     }
 
-    static void set(Object ob, Field f, Object val) {
+    stbtic void set(Object ob, Field f, Object vbl) {
         try {
-            f.set(ob, val);
-        } catch (IllegalAccessException x) {
+            f.set(ob, vbl);
+        } cbtch (IllegblAccessException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static void setInt(Object ob, Field f, int val) {
+    stbtic void setInt(Object ob, Field f, int vbl) {
         try {
-            f.setInt(ob, val);
-        } catch (IllegalAccessException x) {
+            f.setInt(ob, vbl);
+        } cbtch (IllegblAccessException x) {
             throw new ReflectionError(x);
         }
     }
 
-    static void setBoolean(Object ob, Field f, boolean val) {
+    stbtic void setBoolebn(Object ob, Field f, boolebn vbl) {
         try {
-            f.setBoolean(ob, val);
-        } catch (IllegalAccessException x) {
+            f.setBoolebn(ob, vbl);
+        } cbtch (IllegblAccessException x) {
             throw new ReflectionError(x);
         }
     }

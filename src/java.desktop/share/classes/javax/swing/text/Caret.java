@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Graphics;
-import java.awt.Point;
-import javax.swing.Action;
-import javax.swing.event.ChangeListener;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Point;
+import jbvbx.swing.Action;
+import jbvbx.swing.event.ChbngeListener;
 
 /**
- * A place within a document view that represents where
- * things can be inserted into the document model.  A caret
- * has a position in the document referred to as a dot.
- * The dot is where the caret is currently located in the
+ * A plbce within b document view thbt represents where
+ * things cbn be inserted into the document model.  A cbret
+ * hbs b position in the document referred to bs b dot.
+ * The dot is where the cbret is currently locbted in the
  * model.  There is
- * a second position maintained by the caret that represents
- * the other end of a selection called mark.  If there is
- * no selection the dot and mark will be equal.  If a selection
- * exists, the two values will be different.
+ * b second position mbintbined by the cbret thbt represents
+ * the other end of b selection cblled mbrk.  If there is
+ * no selection the dot bnd mbrk will be equbl.  If b selection
+ * exists, the two vblues will be different.
  * <p>
- * The dot can be placed by either calling
+ * The dot cbn be plbced by either cblling
  * <code>setDot</code> or <code>moveDot</code>.  Setting
- * the dot has the effect of removing any selection that may
- * have previously existed.  The dot and mark will be equal.
- * Moving the dot has the effect of creating a selection as
- * the mark is left at whatever position it previously had.
+ * the dot hbs the effect of removing bny selection thbt mby
+ * hbve previously existed.  The dot bnd mbrk will be equbl.
+ * Moving the dot hbs the effect of crebting b selection bs
+ * the mbrk is left bt whbtever position it previously hbd.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Caret {
+public interfbce Cbret {
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  This can be used
-     * to gain access to the model that is being navigated
-     * by the implementation of this interface.
+     * Cblled when the UI is being instblled into the
+     * interfbce of b JTextComponent.  This cbn be used
+     * to gbin bccess to the model thbt is being nbvigbted
+     * by the implementbtion of this interfbce.
      *
-     * @param c the JTextComponent
+     * @pbrbm c the JTextComponent
      */
-    public void install(JTextComponent c);
+    public void instbll(JTextComponent c);
 
     /**
-     * Called when the UI is being removed from the
-     * interface of a JTextComponent.  This is used to
-     * unregister any listeners that were attached.
+     * Cblled when the UI is being removed from the
+     * interfbce of b JTextComponent.  This is used to
+     * unregister bny listeners thbt were bttbched.
      *
-     * @param c the JTextComponent
+     * @pbrbm c the JTextComponent
      */
-    public void deinstall(JTextComponent c);
+    public void deinstbll(JTextComponent c);
 
     /**
-     * Renders the caret. This method is called by UI classes.
+     * Renders the cbret. This method is cblled by UI clbsses.
      *
-     * @param g the graphics context
+     * @pbrbm g the grbphics context
      */
-    public void paint(Graphics g);
+    public void pbint(Grbphics g);
 
     /**
-     * Adds a listener to track whenever the caret position
-     * has been changed.
+     * Adds b listener to trbck whenever the cbret position
+     * hbs been chbnged.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void addChangeListener(ChangeListener l);
+    public void bddChbngeListener(ChbngeListener l);
 
     /**
-     * Removes a listener that was tracking caret position changes.
+     * Removes b listener thbt wbs trbcking cbret position chbnges.
      *
-     * @param l the change listener
+     * @pbrbm l the chbnge listener
      */
-    public void removeChangeListener(ChangeListener l);
+    public void removeChbngeListener(ChbngeListener l);
 
     /**
-     * Determines if the caret is currently visible.
+     * Determines if the cbret is currently visible.
      *
-     * @return true if the caret is visible else false
+     * @return true if the cbret is visible else fblse
      */
-    public boolean isVisible();
+    public boolebn isVisible();
 
     /**
-     * Sets the visibility of the caret.
+     * Sets the visibility of the cbret.
      *
-     * @param v  true if the caret should be shown,
-     *  and false if the caret should be hidden
+     * @pbrbm v  true if the cbret should be shown,
+     *  bnd fblse if the cbret should be hidden
      */
-    public void setVisible(boolean v);
+    public void setVisible(boolebn v);
 
     /**
      * Determines if the selection is currently visible.
      *
-     * @return true if the caret is visible else false
+     * @return true if the cbret is visible else fblse
      */
-    public boolean isSelectionVisible();
+    public boolebn isSelectionVisible();
 
     /**
      * Sets the visibility of the selection
      *
-     * @param v  true if the caret should be shown,
-     *  and false if the caret should be hidden
+     * @pbrbm v  true if the cbret should be shown,
+     *  bnd fblse if the cbret should be hidden
      */
-    public void setSelectionVisible(boolean v);
+    public void setSelectionVisible(boolebn v);
 
     /**
-     * Set the current caret visual location.  This can be used when
-     * moving between lines that have uneven end positions (such as
-     * when caret up or down actions occur).  If text flows
-     * left-to-right or right-to-left the x-coordinate will indicate
-     * the desired navigation location for vertical movement.  If
-     * the text flow is top-to-bottom, the y-coordinate will indicate
-     * the desired navigation location for horizontal movement.
+     * Set the current cbret visubl locbtion.  This cbn be used when
+     * moving between lines thbt hbve uneven end positions (such bs
+     * when cbret up or down bctions occur).  If text flows
+     * left-to-right or right-to-left the x-coordinbte will indicbte
+     * the desired nbvigbtion locbtion for verticbl movement.  If
+     * the text flow is top-to-bottom, the y-coordinbte will indicbte
+     * the desired nbvigbtion locbtion for horizontbl movement.
      *
-     * @param p  the Point to use for the saved position.  This
-     *   can be null to indicate there is no visual location.
+     * @pbrbm p  the Point to use for the sbved position.  This
+     *   cbn be null to indicbte there is no visubl locbtion.
      */
-    public void setMagicCaretPosition(Point p);
+    public void setMbgicCbretPosition(Point p);
 
     /**
-     * Gets the current caret visual location.
+     * Gets the current cbret visubl locbtion.
      *
-     * @return the visual position.
-     * @see #setMagicCaretPosition
+     * @return the visubl position.
+     * @see #setMbgicCbretPosition
      */
-    public Point getMagicCaretPosition();
+    public Point getMbgicCbretPosition();
 
     /**
-     * Sets the blink rate of the caret.  This determines if
-     * and how fast the caret blinks, commonly used as one
-     * way to attract attention to the caret.
+     * Sets the blink rbte of the cbret.  This determines if
+     * bnd how fbst the cbret blinks, commonly used bs one
+     * wby to bttrbct bttention to the cbret.
      *
-     * @param rate  the delay in milliseconds &gt;=0.  If this is
-     *  zero the caret will not blink.
+     * @pbrbm rbte  the delby in milliseconds &gt;=0.  If this is
+     *  zero the cbret will not blink.
      */
-    public void setBlinkRate(int rate);
+    public void setBlinkRbte(int rbte);
 
     /**
-     * Gets the blink rate of the caret.  This determines if
-     * and how fast the caret blinks, commonly used as one
-     * way to attract attention to the caret.
+     * Gets the blink rbte of the cbret.  This determines if
+     * bnd how fbst the cbret blinks, commonly used bs one
+     * wby to bttrbct bttention to the cbret.
      *
-     * @return the delay in milliseconds &gt;=0.  If this is
-     *  zero the caret will not blink.
+     * @return the delby in milliseconds &gt;=0.  If this is
+     *  zero the cbret will not blink.
      */
-    public int getBlinkRate();
+    public int getBlinkRbte();
 
     /**
-     * Fetches the current position of the caret.
+     * Fetches the current position of the cbret.
      *
      * @return the position &gt;=0
      */
     public int getDot();
 
     /**
-     * Fetches the current position of the mark.  If there
-     * is a selection, the mark will not be the same as
+     * Fetches the current position of the mbrk.  If there
+     * is b selection, the mbrk will not be the sbme bs
      * the dot.
      *
      * @return the position &gt;=0
      */
-    public int getMark();
+    public int getMbrk();
 
     /**
-     * Sets the caret position to some position.  This
-     * causes the mark to become the same as the dot,
-     * effectively setting the selection range to zero.
+     * Sets the cbret position to some position.  This
+     * cbuses the mbrk to become the sbme bs the dot,
+     * effectively setting the selection rbnge to zero.
      * <p>
-     * If the parameter is negative or beyond the length of the document,
-     * the caret is placed at the beginning or at the end, respectively.
+     * If the pbrbmeter is negbtive or beyond the length of the document,
+     * the cbret is plbced bt the beginning or bt the end, respectively.
      *
-     * @param dot  the new position to set the caret to
+     * @pbrbm dot  the new position to set the cbret to
      */
     public void setDot(int dot);
 
     /**
-     * Moves the caret position (dot) to some other position,
-     * leaving behind the mark.  This is useful for
-     * making selections.
+     * Moves the cbret position (dot) to some other position,
+     * lebving behind the mbrk.  This is useful for
+     * mbking selections.
      *
-     * @param dot  the new position to move the caret to &gt;=0
+     * @pbrbm dot  the new position to move the cbret to &gt;=0
      */
     public void moveDot(int dot);
 

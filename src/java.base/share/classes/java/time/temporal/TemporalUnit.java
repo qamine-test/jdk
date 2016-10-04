@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,237 +59,237 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.ChronoZonedDateTime;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Durbtion;
+import jbvb.time.LocblTime;
+import jbvb.time.Period;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.ChronoLocblDbteTime;
+import jbvb.time.chrono.ChronoZonedDbteTime;
 
 /**
- * A unit of date-time, such as Days or Hours.
+ * A unit of dbte-time, such bs Dbys or Hours.
  * <p>
- * Measurement of time is built on units, such as years, months, days, hours, minutes and seconds.
- * Implementations of this interface represent those units.
+ * Mebsurement of time is built on units, such bs yebrs, months, dbys, hours, minutes bnd seconds.
+ * Implementbtions of this interfbce represent those units.
  * <p>
- * An instance of this interface represents the unit itself, rather than an amount of the unit.
- * See {@link Period} for a class that represents an amount in terms of the common units.
+ * An instbnce of this interfbce represents the unit itself, rbther thbn bn bmount of the unit.
+ * See {@link Period} for b clbss thbt represents bn bmount in terms of the common units.
  * <p>
- * The most commonly used units are defined in {@link ChronoUnit}.
- * Further units are supplied in {@link IsoFields}.
- * Units can also be written by application code by implementing this interface.
+ * The most commonly used units bre defined in {@link ChronoUnit}.
+ * Further units bre supplied in {@link IsoFields}.
+ * Units cbn blso be written by bpplicbtion code by implementing this interfbce.
  * <p>
- * The unit works using double dispatch. Client code calls methods on a date-time like
- * {@code LocalDateTime} which check if the unit is a {@code ChronoUnit}.
- * If it is, then the date-time must handle it.
- * Otherwise, the method call is re-dispatched to the matching method in this interface.
+ * The unit works using double dispbtch. Client code cblls methods on b dbte-time like
+ * {@code LocblDbteTime} which check if the unit is b {@code ChronoUnit}.
+ * If it is, then the dbte-time must hbndle it.
+ * Otherwise, the method cbll is re-dispbtched to the mbtching method in this interfbce.
  *
  * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * It is recommended to use an enum where possible.
+ * This interfbce must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * It is recommended to use bn enum where possible.
  *
  * @since 1.8
  */
-public interface TemporalUnit {
+public interfbce TemporblUnit {
 
     /**
-     * Gets the duration of this unit, which may be an estimate.
+     * Gets the durbtion of this unit, which mby be bn estimbte.
      * <p>
-     * All units return a duration measured in standard nanoseconds from this method.
-     * The duration will be positive and non-zero.
-     * For example, an hour has a duration of {@code 60 * 60 * 1,000,000,000ns}.
+     * All units return b durbtion mebsured in stbndbrd nbnoseconds from this method.
+     * The durbtion will be positive bnd non-zero.
+     * For exbmple, bn hour hbs b durbtion of {@code 60 * 60 * 1,000,000,000ns}.
      * <p>
-     * Some units may return an accurate duration while others return an estimate.
-     * For example, days have an estimated duration due to the possibility of
-     * daylight saving time changes.
-     * To determine if the duration is an estimate, use {@link #isDurationEstimated()}.
+     * Some units mby return bn bccurbte durbtion while others return bn estimbte.
+     * For exbmple, dbys hbve bn estimbted durbtion due to the possibility of
+     * dbylight sbving time chbnges.
+     * To determine if the durbtion is bn estimbte, use {@link #isDurbtionEstimbted()}.
      *
-     * @return the duration of this unit, which may be an estimate, not null
+     * @return the durbtion of this unit, which mby be bn estimbte, not null
      */
-    Duration getDuration();
+    Durbtion getDurbtion();
 
     /**
-     * Checks if the duration of the unit is an estimate.
+     * Checks if the durbtion of the unit is bn estimbte.
      * <p>
-     * All units have a duration, however the duration is not always accurate.
-     * For example, days have an estimated duration due to the possibility of
-     * daylight saving time changes.
-     * This method returns true if the duration is an estimate and false if it is
-     * accurate. Note that accurate/estimated ignores leap seconds.
+     * All units hbve b durbtion, however the durbtion is not blwbys bccurbte.
+     * For exbmple, dbys hbve bn estimbted durbtion due to the possibility of
+     * dbylight sbving time chbnges.
+     * This method returns true if the durbtion is bn estimbte bnd fblse if it is
+     * bccurbte. Note thbt bccurbte/estimbted ignores lebp seconds.
      *
-     * @return true if the duration is estimated, false if accurate
+     * @return true if the durbtion is estimbted, fblse if bccurbte
      */
-    boolean isDurationEstimated();
+    boolebn isDurbtionEstimbted();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this unit represents a component of a date.
+     * Checks if this unit represents b component of b dbte.
      * <p>
-     * A date is time-based if it can be used to imply meaning from a date.
-     * It must have a {@linkplain #getDuration() duration} that is an integral
-     * multiple of the length of a standard day.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a unit like 36 hours.
+     * A dbte is time-bbsed if it cbn be used to imply mebning from b dbte.
+     * It must hbve b {@linkplbin #getDurbtion() durbtion} thbt is bn integrbl
+     * multiple of the length of b stbndbrd dby.
+     * Note thbt it is vblid for both {@code isDbteBbsed()} bnd {@code isTimeBbsed()}
+     * to return fblse, such bs when representing b unit like 36 hours.
      *
-     * @return true if this unit is a component of a date
+     * @return true if this unit is b component of b dbte
      */
-    boolean isDateBased();
+    boolebn isDbteBbsed();
 
     /**
-     * Checks if this unit represents a component of a time.
+     * Checks if this unit represents b component of b time.
      * <p>
-     * A unit is time-based if it can be used to imply meaning from a time.
-     * It must have a {@linkplain #getDuration() duration} that divides into
-     * the length of a standard day without remainder.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a unit like 36 hours.
+     * A unit is time-bbsed if it cbn be used to imply mebning from b time.
+     * It must hbve b {@linkplbin #getDurbtion() durbtion} thbt divides into
+     * the length of b stbndbrd dby without rembinder.
+     * Note thbt it is vblid for both {@code isDbteBbsed()} bnd {@code isTimeBbsed()}
+     * to return fblse, such bs when representing b unit like 36 hours.
      *
-     * @return true if this unit is a component of a time
+     * @return true if this unit is b component of b time
      */
-    boolean isTimeBased();
+    boolebn isTimeBbsed();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this unit is supported by the specified temporal object.
+     * Checks if this unit is supported by the specified temporbl object.
      * <p>
-     * This checks that the implementing date-time can add/subtract this unit.
-     * This can be used to avoid throwing an exception.
+     * This checks thbt the implementing dbte-time cbn bdd/subtrbct this unit.
+     * This cbn be used to bvoid throwing bn exception.
      * <p>
-     * This default implementation derives the value using
-     * {@link Temporal#plus(long, TemporalUnit)}.
+     * This defbult implementbtion derives the vblue using
+     * {@link Temporbl#plus(long, TemporblUnit)}.
      *
-     * @param temporal  the temporal object to check, not null
+     * @pbrbm temporbl  the temporbl object to check, not null
      * @return true if the unit is supported
      */
-    default boolean isSupportedBy(Temporal temporal) {
-        if (temporal instanceof LocalTime) {
-            return isTimeBased();
+    defbult boolebn isSupportedBy(Temporbl temporbl) {
+        if (temporbl instbnceof LocblTime) {
+            return isTimeBbsed();
         }
-        if (temporal instanceof ChronoLocalDate) {
-            return isDateBased();
+        if (temporbl instbnceof ChronoLocblDbte) {
+            return isDbteBbsed();
         }
-        if (temporal instanceof ChronoLocalDateTime || temporal instanceof ChronoZonedDateTime) {
+        if (temporbl instbnceof ChronoLocblDbteTime || temporbl instbnceof ChronoZonedDbteTime) {
             return true;
         }
         try {
-            temporal.plus(1, this);
+            temporbl.plus(1, this);
             return true;
-        } catch (UnsupportedTemporalTypeException ex) {
-            return false;
-        } catch (RuntimeException ex) {
+        } cbtch (UnsupportedTemporblTypeException ex) {
+            return fblse;
+        } cbtch (RuntimeException ex) {
             try {
-                temporal.plus(-1, this);
+                temporbl.plus(-1, this);
                 return true;
-            } catch (RuntimeException ex2) {
-                return false;
+            } cbtch (RuntimeException ex2) {
+                return fblse;
             }
         }
     }
 
     /**
-     * Returns a copy of the specified temporal object with the specified period added.
+     * Returns b copy of the specified temporbl object with the specified period bdded.
      * <p>
-     * The period added is a multiple of this unit. For example, this method
-     * could be used to add "3 days" to a date by calling this method on the
-     * instance representing "days", passing the date and the period "3".
-     * The period to be added may be negative, which is equivalent to subtraction.
+     * The period bdded is b multiple of this unit. For exbmple, this method
+     * could be used to bdd "3 dbys" to b dbte by cblling this method on the
+     * instbnce representing "dbys", pbssing the dbte bnd the period "3".
+     * The period to be bdded mby be negbtive, which is equivblent to subtrbction.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#plus(long, TemporalUnit)}:
+     * The second is to use {@link Temporbl#plus(long, TemporblUnit)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisUnit.addTo(temporal);
-     *   temporal = temporal.plus(thisUnit);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisUnit.bddTo(temporbl);
+     *   temporbl = temporbl.plus(thisUnit);
      * </pre>
-     * It is recommended to use the second approach, {@code plus(TemporalUnit)},
-     * as it is a lot clearer to read in code.
+     * It is recommended to use the second bpprobch, {@code plus(TemporblUnit)},
+     * bs it is b lot clebrer to rebd in code.
      * <p>
-     * Implementations should perform any queries or calculations using the units
-     * available in {@link ChronoUnit} or the fields available in {@link ChronoField}.
-     * If the unit is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * Implementbtions should perform bny queries or cblculbtions using the units
+     * bvbilbble in {@link ChronoUnit} or the fields bvbilbble in {@link ChronoField}.
+     * If the unit is not supported bn {@code UnsupportedTemporblTypeException} must be thrown.
      * <p>
-     * Implementations must not alter the specified temporal object.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable implementations.
+     * Implementbtions must not blter the specified temporbl object.
+     * Instebd, bn bdjusted copy of the originbl must be returned.
+     * This provides equivblent, sbfe behbvior for immutbble bnd mutbble implementbtions.
      *
-     * @param <R>  the type of the Temporal object
-     * @param temporal  the temporal object to adjust, not null
-     * @param amount  the amount of this unit to add, positive or negative
-     * @return the adjusted temporal object, not null
-     * @throws DateTimeException if the amount cannot be added
-     * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal
+     * @pbrbm <R>  the type of the Temporbl object
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @pbrbm bmount  the bmount of this unit to bdd, positive or negbtive
+     * @return the bdjusted temporbl object, not null
+     * @throws DbteTimeException if the bmount cbnnot be bdded
+     * @throws UnsupportedTemporblTypeException if the unit is not supported by the temporbl
      */
-    <R extends Temporal> R addTo(R temporal, long amount);
+    <R extends Temporbl> R bddTo(R temporbl, long bmount);
 
     //-----------------------------------------------------------------------
     /**
-     * Calculates the amount of time between two temporal objects.
+     * Cblculbtes the bmount of time between two temporbl objects.
      * <p>
-     * This calculates the amount in terms of this unit. The start and end
-     * points are supplied as temporal objects and must be of compatible types.
-     * The implementation will convert the second type to be an instance of the
-     * first type before the calculating the amount.
-     * The result will be negative if the end is before the start.
-     * For example, the amount in hours between two temporal objects can be
-     * calculated using {@code HOURS.between(startTime, endTime)}.
+     * This cblculbtes the bmount in terms of this unit. The stbrt bnd end
+     * points bre supplied bs temporbl objects bnd must be of compbtible types.
+     * The implementbtion will convert the second type to be bn instbnce of the
+     * first type before the cblculbting the bmount.
+     * The result will be negbtive if the end is before the stbrt.
+     * For exbmple, the bmount in hours between two temporbl objects cbn be
+     * cblculbted using {@code HOURS.between(stbrtTime, endTime)}.
      * <p>
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two temporals.
-     * For example, the amount in hours between the times 11:30 and 13:29
-     * will only be one hour as it is one minute short of two hours.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two temporbls.
+     * For exbmple, the bmount in hours between the times 11:30 bnd 13:29
+     * will only be one hour bs it is one minute short of two hours.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#until(Temporal, TemporalUnit)}:
+     * The second is to use {@link Temporbl#until(Temporbl, TemporblUnit)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   between = thisUnit.between(start, end);
-     *   between = start.until(end, thisUnit);
+     *   // these two lines bre equivblent
+     *   between = thisUnit.between(stbrt, end);
+     *   between = stbrt.until(end, thisUnit);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * For example, this method allows the number of days between two dates to
-     * be calculated:
+     * For exbmple, this method bllows the number of dbys between two dbtes to
+     * be cblculbted:
      * <pre>
-     *  long daysBetween = DAYS.between(start, end);
-     *  // or alternatively
-     *  long daysBetween = start.until(end, DAYS);
+     *  long dbysBetween = DAYS.between(stbrt, end);
+     *  // or blternbtively
+     *  long dbysBetween = stbrt.until(end, DAYS);
      * </pre>
      * <p>
-     * Implementations should perform any queries or calculations using the units
-     * available in {@link ChronoUnit} or the fields available in {@link ChronoField}.
-     * If the unit is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
-     * Implementations must not alter the specified temporal objects.
+     * Implementbtions should perform bny queries or cblculbtions using the units
+     * bvbilbble in {@link ChronoUnit} or the fields bvbilbble in {@link ChronoField}.
+     * If the unit is not supported bn {@code UnsupportedTemporblTypeException} must be thrown.
+     * Implementbtions must not blter the specified temporbl objects.
      *
      * @implSpec
-     * Implementations must begin by checking to if the two temporals have the
-     * same type using {@code getClass()}. If they do not, then the result must be
-     * obtained by calling {@code temporal1Inclusive.until(temporal2Exclusive, this)}.
+     * Implementbtions must begin by checking to if the two temporbls hbve the
+     * sbme type using {@code getClbss()}. If they do not, then the result must be
+     * obtbined by cblling {@code temporbl1Inclusive.until(temporbl2Exclusive, this)}.
      *
-     * @param temporal1Inclusive  the base temporal object, not null
-     * @param temporal2Exclusive  the other temporal object, exclusive, not null
-     * @return the amount of time between temporal1Inclusive and temporal2Exclusive
-     *  in terms of this unit; positive if temporal2Exclusive is later than
-     *  temporal1Inclusive, negative if earlier
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to the same type as the start temporal
-     * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal
+     * @pbrbm temporbl1Inclusive  the bbse temporbl object, not null
+     * @pbrbm temporbl2Exclusive  the other temporbl object, exclusive, not null
+     * @return the bmount of time between temporbl1Inclusive bnd temporbl2Exclusive
+     *  in terms of this unit; positive if temporbl2Exclusive is lbter thbn
+     *  temporbl1Inclusive, negbtive if ebrlier
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to the sbme type bs the stbrt temporbl
+     * @throws UnsupportedTemporblTypeException if the unit is not supported by the temporbl
      * @throws ArithmeticException if numeric overflow occurs
      */
-    long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive);
+    long between(Temporbl temporbl1Inclusive, Temporbl temporbl2Exclusive);
 
     //-----------------------------------------------------------------------
     /**
-     * Gets a descriptive name for the unit.
+     * Gets b descriptive nbme for the unit.
      * <p>
-     * This should be in the plural and upper-first camel case, such as 'Days' or 'Minutes'.
+     * This should be in the plurbl bnd upper-first cbmel cbse, such bs 'Dbys' or 'Minutes'.
      *
-     * @return the name of this unit, not null
+     * @return the nbme of this unit, not null
      */
     @Override
     String toString();

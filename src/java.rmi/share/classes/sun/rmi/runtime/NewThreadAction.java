@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.runtime;
+pbckbge sun.rmi.runtime;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.util.SecurityConstants;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * A PrivilegedAction for creating a new thread conveniently with an
+ * A PrivilegedAction for crebting b new threbd conveniently with bn
  * AccessController.doPrivileged construct.
  *
- * All constructors allow the choice of the Runnable for the new
- * thread to execute, the name of the new thread (which will be
- * prefixed with "RMI "), and whether or not it will be a daemon
- * thread.
+ * All constructors bllow the choice of the Runnbble for the new
+ * threbd to execute, the nbme of the new threbd (which will be
+ * prefixed with "RMI "), bnd whether or not it will be b dbemon
+ * threbd.
  *
- * The new thread may be created in the system thread group (the root
- * of the thread group tree) or an internally created non-system
- * thread group, as specified at construction of this class.
+ * The new threbd mby be crebted in the system threbd group (the root
+ * of the threbd group tree) or bn internblly crebted non-system
+ * threbd group, bs specified bt construction of this clbss.
  *
- * The new thread will have the system class loader as its initial
- * context class loader (that is, its context class loader will NOT be
- * inherited from the current thread).
+ * The new threbd will hbve the system clbss lobder bs its initibl
+ * context clbss lobder (thbt is, its context clbss lobder will NOT be
+ * inherited from the current threbd).
  *
- * @author      Peter Jones
+ * @buthor      Peter Jones
  **/
-public final class NewThreadAction implements PrivilegedAction<Thread> {
+public finbl clbss NewThrebdAction implements PrivilegedAction<Threbd> {
 
-    /** cached reference to the system (root) thread group */
-    static final ThreadGroup systemThreadGroup =
-        AccessController.doPrivileged(new PrivilegedAction<ThreadGroup>() {
-            public ThreadGroup run() {
-                ThreadGroup group = Thread.currentThread().getThreadGroup();
-                ThreadGroup parent;
-                while ((parent = group.getParent()) != null) {
-                    group = parent;
+    /** cbched reference to the system (root) threbd group */
+    stbtic finbl ThrebdGroup systemThrebdGroup =
+        AccessController.doPrivileged(new PrivilegedAction<ThrebdGroup>() {
+            public ThrebdGroup run() {
+                ThrebdGroup group = Threbd.currentThrebd().getThrebdGroup();
+                ThrebdGroup pbrent;
+                while ((pbrent = group.getPbrent()) != null) {
+                    group = pbrent;
                 }
                 return group;
             }
         });
 
     /**
-     * special child of the system thread group for running tasks that
-     * may execute user code, so that the security policy for threads in
-     * the system thread group will not apply
+     * specibl child of the system threbd group for running tbsks thbt
+     * mby execute user code, so thbt the security policy for threbds in
+     * the system threbd group will not bpply
      */
-    static final ThreadGroup userThreadGroup =
-        AccessController.doPrivileged(new PrivilegedAction<ThreadGroup>() {
-            public ThreadGroup run() {
-                return new ThreadGroup(systemThreadGroup, "RMI Runtime");
+    stbtic finbl ThrebdGroup userThrebdGroup =
+        AccessController.doPrivileged(new PrivilegedAction<ThrebdGroup>() {
+            public ThrebdGroup run() {
+                return new ThrebdGroup(systemThrebdGroup, "RMI Runtime");
             }
         });
 
-    private final ThreadGroup group;
-    private final Runnable runnable;
-    private final String name;
-    private final boolean daemon;
+    privbte finbl ThrebdGroup group;
+    privbte finbl Runnbble runnbble;
+    privbte finbl String nbme;
+    privbte finbl boolebn dbemon;
 
-    NewThreadAction(ThreadGroup group, Runnable runnable,
-                    String name, boolean daemon)
+    NewThrebdAction(ThrebdGroup group, Runnbble runnbble,
+                    String nbme, boolebn dbemon)
     {
         this.group = group;
-        this.runnable = runnable;
-        this.name = name;
-        this.daemon = daemon;
+        this.runnbble = runnbble;
+        this.nbme = nbme;
+        this.dbemon = dbemon;
     }
 
     /**
-     * Creates an action that will create a new thread in the
-     * system thread group.
+     * Crebtes bn bction thbt will crebte b new threbd in the
+     * system threbd group.
      *
-     * @param   runnable the Runnable for the new thread to execute
+     * @pbrbm   runnbble the Runnbble for the new threbd to execute
      *
-     * @param   name the name of the new thread
+     * @pbrbm   nbme the nbme of the new threbd
      *
-     * @param   daemon if true, new thread will be a daemon thread;
-     * if false, new thread will not be a daemon thread
+     * @pbrbm   dbemon if true, new threbd will be b dbemon threbd;
+     * if fblse, new threbd will not be b dbemon threbd
      */
-    public NewThreadAction(Runnable runnable, String name, boolean daemon) {
-        this(systemThreadGroup, runnable, name, daemon);
+    public NewThrebdAction(Runnbble runnbble, String nbme, boolebn dbemon) {
+        this(systemThrebdGroup, runnbble, nbme, dbemon);
     }
 
     /**
-     * Creates an action that will create a new thread.
+     * Crebtes bn bction thbt will crebte b new threbd.
      *
-     * @param   runnable the Runnable for the new thread to execute
+     * @pbrbm   runnbble the Runnbble for the new threbd to execute
      *
-     * @param   name the name of the new thread
+     * @pbrbm   nbme the nbme of the new threbd
      *
-     * @param   daemon if true, new thread will be a daemon thread;
-     * if false, new thread will not be a daemon thread
+     * @pbrbm   dbemon if true, new threbd will be b dbemon threbd;
+     * if fblse, new threbd will not be b dbemon threbd
      *
-     * @param   user if true, thread will be created in a non-system
-     * thread group; if false, thread will be created in the system
-     * thread group
+     * @pbrbm   user if true, threbd will be crebted in b non-system
+     * threbd group; if fblse, threbd will be crebted in the system
+     * threbd group
      */
-    public NewThreadAction(Runnable runnable, String name, boolean daemon,
-                           boolean user)
+    public NewThrebdAction(Runnbble runnbble, String nbme, boolebn dbemon,
+                           boolebn user)
     {
-        this(user ? userThreadGroup : systemThreadGroup,
-             runnable, name, daemon);
+        this(user ? userThrebdGroup : systemThrebdGroup,
+             runnbble, nbme, dbemon);
     }
 
-    public Thread run() {
-        SecurityManager sm = System.getSecurityManager();
+    public Threbd run() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+            sm.checkPermission(SecurityConstbnts.GET_CLASSLOADER_PERMISSION);
         }
-        Thread t = new Thread(group, runnable, "RMI " + name);
-        t.setContextClassLoader(ClassLoader.getSystemClassLoader());
-        t.setDaemon(daemon);
+        Threbd t = new Threbd(group, runnbble, "RMI " + nbme);
+        t.setContextClbssLobder(ClbssLobder.getSystemClbssLobder());
+        t.setDbemon(dbemon);
         return t;
     }
 }

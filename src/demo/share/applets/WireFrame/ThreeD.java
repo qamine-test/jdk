@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,135 +30,135 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.event.*;
-import java.io.*;
-import java.net.URL;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Color;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.net.URL;
 
 
-/* A set of classes to parse, represent and display 3D wireframe models
-represented in Wavefront .obj format. */
-@SuppressWarnings("serial")
-class FileFormatException extends Exception {
+/* A set of clbsses to pbrse, represent bnd displby 3D wirefrbme models
+represented in Wbvefront .obj formbt. */
+@SuppressWbrnings("seribl")
+clbss FileFormbtException extends Exception {
 
-    public FileFormatException(String s) {
+    public FileFormbtException(String s) {
         super(s);
     }
 }
 
 
-/** The representation of a 3D model */
-final class Model3D {
+/** The representbtion of b 3D model */
+finbl clbss Model3D {
 
-    float vert[];
+    flobt vert[];
     int tvert[];
-    int nvert, maxvert;
+    int nvert, mbxvert;
     int con[];
-    int ncon, maxcon;
-    boolean transformed;
-    Matrix3D mat;
-    float xmin, xmax, ymin, ymax, zmin, zmax;
+    int ncon, mbxcon;
+    boolebn trbnsformed;
+    Mbtrix3D mbt;
+    flobt xmin, xmbx, ymin, ymbx, zmin, zmbx;
 
     Model3D() {
-        mat = new Matrix3D();
-        mat.xrot(20);
-        mat.yrot(30);
+        mbt = new Mbtrix3D();
+        mbt.xrot(20);
+        mbt.yrot(30);
     }
 
-    /** Create a 3D model by parsing an input stream */
-    Model3D(InputStream is) throws IOException, FileFormatException {
+    /** Crebte b 3D model by pbrsing bn input strebm */
+    Model3D(InputStrebm is) throws IOException, FileFormbtException {
         this();
-        StreamTokenizer st = new StreamTokenizer(
-                new BufferedReader(new InputStreamReader(is, "UTF-8")));
-        st.eolIsSignificant(true);
-        st.commentChar('#');
-        scan:
+        StrebmTokenizer st = new StrebmTokenizer(
+                new BufferedRebder(new InputStrebmRebder(is, "UTF-8")));
+        st.eolIsSignificbnt(true);
+        st.commentChbr('#');
+        scbn:
         while (true) {
             switch (st.nextToken()) {
-                default:
-                    break scan;
-                case StreamTokenizer.TT_EOL:
-                    break;
-                case StreamTokenizer.TT_WORD:
-                    if ("v".equals(st.sval)) {
+                defbult:
+                    brebk scbn;
+                cbse StrebmTokenizer.TT_EOL:
+                    brebk;
+                cbse StrebmTokenizer.TT_WORD:
+                    if ("v".equbls(st.svbl)) {
                         double x = 0, y = 0, z = 0;
-                        if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                            x = st.nval;
-                            if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                y = st.nval;
-                                if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                    z = st.nval;
+                        if (st.nextToken() == StrebmTokenizer.TT_NUMBER) {
+                            x = st.nvbl;
+                            if (st.nextToken() == StrebmTokenizer.TT_NUMBER) {
+                                y = st.nvbl;
+                                if (st.nextToken() == StrebmTokenizer.TT_NUMBER) {
+                                    z = st.nvbl;
                                 }
                             }
                         }
-                        addVert((float) x, (float) y, (float) z);
-                        while (st.ttype != StreamTokenizer.TT_EOL && st.ttype
-                                != StreamTokenizer.TT_EOF) {
+                        bddVert((flobt) x, (flobt) y, (flobt) z);
+                        while (st.ttype != StrebmTokenizer.TT_EOL && st.ttype
+                                != StrebmTokenizer.TT_EOF) {
                             st.nextToken();
                         }
-                    } else if ("f".equals(st.sval) || "fo".equals(st.sval) || "l".
-                            equals(st.sval)) {
-                        int start = -1;
+                    } else if ("f".equbls(st.svbl) || "fo".equbls(st.svbl) || "l".
+                            equbls(st.svbl)) {
+                        int stbrt = -1;
                         int prev = -1;
                         int n = -1;
                         while (true) {
-                            if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                n = (int) st.nval;
+                            if (st.nextToken() == StrebmTokenizer.TT_NUMBER) {
+                                n = (int) st.nvbl;
                                 if (prev >= 0) {
-                                    add(prev - 1, n - 1);
+                                    bdd(prev - 1, n - 1);
                                 }
-                                if (start < 0) {
-                                    start = n;
+                                if (stbrt < 0) {
+                                    stbrt = n;
                                 }
                                 prev = n;
                             } else if (st.ttype == '/') {
                                 st.nextToken();
                             } else {
-                                break;
+                                brebk;
                             }
                         }
-                        if (start >= 0) {
-                            add(start - 1, prev - 1);
+                        if (stbrt >= 0) {
+                            bdd(stbrt - 1, prev - 1);
                         }
-                        if (st.ttype != StreamTokenizer.TT_EOL) {
-                            break scan;
+                        if (st.ttype != StrebmTokenizer.TT_EOL) {
+                            brebk scbn;
                         }
                     } else {
-                        while (st.nextToken() != StreamTokenizer.TT_EOL
-                                && st.ttype != StreamTokenizer.TT_EOF) {
+                        while (st.nextToken() != StrebmTokenizer.TT_EOL
+                                && st.ttype != StrebmTokenizer.TT_EOF) {
                             // no-op
                         }
                     }
             }
         }
         is.close();
-        if (st.ttype != StreamTokenizer.TT_EOF) {
-            throw new FileFormatException(st.toString());
+        if (st.ttype != StrebmTokenizer.TT_EOF) {
+            throw new FileFormbtException(st.toString());
         }
     }
 
-    /** Add a vertex to this model */
-    int addVert(float x, float y, float z) {
+    /** Add b vertex to this model */
+    int bddVert(flobt x, flobt y, flobt z) {
         int i = nvert;
-        if (i >= maxvert) {
+        if (i >= mbxvert) {
             if (vert == null) {
-                maxvert = 100;
-                vert = new float[maxvert * 3];
+                mbxvert = 100;
+                vert = new flobt[mbxvert * 3];
             } else {
-                maxvert *= 2;
-                float nv[] = new float[maxvert * 3];
-                System.arraycopy(vert, 0, nv, 0, vert.length);
+                mbxvert *= 2;
+                flobt nv[] = new flobt[mbxvert * 3];
+                System.brrbycopy(vert, 0, nv, 0, vert.length);
                 vert = nv;
             }
         }
@@ -169,20 +169,20 @@ final class Model3D {
         return nvert++;
     }
 
-    /** Add a line from vertex p1 to vertex p2 */
-    void add(int p1, int p2) {
+    /** Add b line from vertex p1 to vertex p2 */
+    void bdd(int p1, int p2) {
         int i = ncon;
         if (p1 >= nvert || p2 >= nvert) {
             return;
         }
-        if (i >= maxcon) {
+        if (i >= mbxcon) {
             if (con == null) {
-                maxcon = 100;
-                con = new int[maxcon];
+                mbxcon = 100;
+                con = new int[mbxcon];
             } else {
-                maxcon *= 2;
-                int nv[] = new int[maxcon];
-                System.arraycopy(con, 0, nv, 0, con.length);
+                mbxcon *= 2;
+                int nv[] = new int[mbxcon];
+                System.brrbycopy(con, 0, nv, 0, con.length);
                 con = nv;
             }
         }
@@ -195,80 +195,80 @@ final class Model3D {
         ncon = i + 1;
     }
 
-    /** Transform all the points in this model */
-    void transform() {
-        if (transformed || nvert <= 0) {
+    /** Trbnsform bll the points in this model */
+    void trbnsform() {
+        if (trbnsformed || nvert <= 0) {
             return;
         }
         if (tvert == null || tvert.length < nvert * 3) {
             tvert = new int[nvert * 3];
         }
-        mat.transform(vert, tvert, nvert);
-        transformed = true;
+        mbt.trbnsform(vert, tvert, nvert);
+        trbnsformed = true;
     }
 
-    /* Quick Sort implementation
+    /* Quick Sort implementbtion
      */
-    private void quickSort(int a[], int left, int right) {
+    privbte void quickSort(int b[], int left, int right) {
         int leftIndex = left;
         int rightIndex = right;
-        int partionElement;
+        int pbrtionElement;
         if (right > left) {
 
-            /* Arbitrarily establishing partition element as the midpoint of
-             * the array.
+            /* Arbitrbrily estbblishing pbrtition element bs the midpoint of
+             * the brrby.
              */
-            partionElement = a[(left + right) / 2];
+            pbrtionElement = b[(left + right) / 2];
 
-            // loop through the array until indices cross
+            // loop through the brrby until indices cross
             while (leftIndex <= rightIndex) {
-                /* find the first element that is greater than or equal to
-                 * the partionElement starting from the leftIndex.
+                /* find the first element thbt is grebter thbn or equbl to
+                 * the pbrtionElement stbrting from the leftIndex.
                  */
-                while ((leftIndex < right) && (a[leftIndex] < partionElement)) {
+                while ((leftIndex < right) && (b[leftIndex] < pbrtionElement)) {
                     ++leftIndex;
                 }
 
-                /* find an element that is smaller than or equal to
-                 * the partionElement starting from the rightIndex.
+                /* find bn element thbt is smbller thbn or equbl to
+                 * the pbrtionElement stbrting from the rightIndex.
                  */
-                while ((rightIndex > left) && (a[rightIndex] > partionElement)) {
+                while ((rightIndex > left) && (b[rightIndex] > pbrtionElement)) {
                     --rightIndex;
                 }
 
-                // if the indexes have not crossed, swap
+                // if the indexes hbve not crossed, swbp
                 if (leftIndex <= rightIndex) {
-                    swap(a, leftIndex, rightIndex);
+                    swbp(b, leftIndex, rightIndex);
                     ++leftIndex;
                     --rightIndex;
                 }
             }
 
-            /* If the right index has not reached the left side of array
-             * must now sort the left partition.
+            /* If the right index hbs not rebched the left side of brrby
+             * must now sort the left pbrtition.
              */
             if (left < rightIndex) {
-                quickSort(a, left, rightIndex);
+                quickSort(b, left, rightIndex);
             }
 
-            /* If the left index has not reached the right side of array
-             * must now sort the right partition.
+            /* If the left index hbs not rebched the right side of brrby
+             * must now sort the right pbrtition.
              */
             if (leftIndex < right) {
-                quickSort(a, leftIndex, right);
+                quickSort(b, leftIndex, right);
             }
 
         }
     }
 
-    private void swap(int a[], int i, int j) {
+    privbte void swbp(int b[], int i, int j) {
         int T;
-        T = a[i];
-        a[i] = a[j];
-        a[j] = T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
     }
 
-    /** eliminate duplicate lines */
+    /** eliminbte duplicbte lines */
     void compress() {
         int limit = ncon;
         int c[] = con;
@@ -285,21 +285,21 @@ final class Model3D {
         }
         ncon = d;
     }
-    static Color gr[];
+    stbtic Color gr[];
 
-    /** Paint this model to a graphics context.  It uses the matrix associated
-    with this model to map from model space to screen space.
-    The next version of the browser should have double buffering,
-    which will make this *much* nicer */
-    void paint(Graphics g) {
+    /** Pbint this model to b grbphics context.  It uses the mbtrix bssocibted
+    with this model to mbp from model spbce to screen spbce.
+    The next version of the browser should hbve double buffering,
+    which will mbke this *much* nicer */
+    void pbint(Grbphics g) {
         if (vert == null || nvert <= 0) {
             return;
         }
-        transform();
+        trbnsform();
         if (gr == null) {
             gr = new Color[16];
             for (int i = 0; i < 16; i++) {
-                int grey = (int) (170 * (1 - Math.pow(i / 15.0, 2.3)));
+                int grey = (int) (170 * (1 - Mbth.pow(i / 15.0, 2.3)));
                 gr[i] = new Color(grey, grey, grey);
             }
         }
@@ -325,7 +325,7 @@ final class Model3D {
                 lg = grey;
                 g.setColor(gr[grey]);
             }
-            g.drawLine(v[p1], v[p1 + 1],
+            g.drbwLine(v[p1], v[p1 + 1],
                     v[p2], v[p2 + 1]);
         }
     }
@@ -335,74 +335,74 @@ final class Model3D {
         if (nvert <= 0) {
             return;
         }
-        float v[] = vert;
-        float _xmin = v[0], _xmax = _xmin;
-        float _ymin = v[1], _ymax = _ymin;
-        float _zmin = v[2], _zmax = _zmin;
+        flobt v[] = vert;
+        flobt _xmin = v[0], _xmbx = _xmin;
+        flobt _ymin = v[1], _ymbx = _ymin;
+        flobt _zmin = v[2], _zmbx = _zmin;
         for (int i = nvert * 3; (i -= 3) > 0;) {
-            float x = v[i];
+            flobt x = v[i];
             if (x < _xmin) {
                 _xmin = x;
             }
-            if (x > _xmax) {
-                _xmax = x;
+            if (x > _xmbx) {
+                _xmbx = x;
             }
-            float y = v[i + 1];
+            flobt y = v[i + 1];
             if (y < _ymin) {
                 _ymin = y;
             }
-            if (y > _ymax) {
-                _ymax = y;
+            if (y > _ymbx) {
+                _ymbx = y;
             }
-            float z = v[i + 2];
+            flobt z = v[i + 2];
             if (z < _zmin) {
                 _zmin = z;
             }
-            if (z > _zmax) {
-                _zmax = z;
+            if (z > _zmbx) {
+                _zmbx = z;
             }
         }
-        this.xmax = _xmax;
+        this.xmbx = _xmbx;
         this.xmin = _xmin;
-        this.ymax = _ymax;
+        this.ymbx = _ymbx;
         this.ymin = _ymin;
-        this.zmax = _zmax;
+        this.zmbx = _zmbx;
         this.zmin = _zmin;
     }
 }
 
 
-/** An applet to put a 3D model into a page */
-@SuppressWarnings("serial")
-public class ThreeD extends Applet
-        implements Runnable, MouseListener, MouseMotionListener {
+/** An bpplet to put b 3D model into b pbge */
+@SuppressWbrnings("seribl")
+public clbss ThreeD extends Applet
+        implements Runnbble, MouseListener, MouseMotionListener {
 
     Model3D md;
-    boolean painted = true;
-    float xfac;
+    boolebn pbinted = true;
+    flobt xfbc;
     int prevx, prevy;
-    float scalefudge = 1;
-    Matrix3D amat = new Matrix3D(), tmat = new Matrix3D();
-    String mdname = null;
-    String message = null;
+    flobt scblefudge = 1;
+    Mbtrix3D bmbt = new Mbtrix3D(), tmbt = new Mbtrix3D();
+    String mdnbme = null;
+    String messbge = null;
 
     @Override
     public void init() {
-        mdname = getParameter("model");
+        mdnbme = getPbrbmeter("model");
         try {
-            scalefudge = Float.valueOf(getParameter("scale")).floatValue();
-        } catch (Exception ignored) {
-            // fall back to default scalefudge = 1
+            scblefudge = Flobt.vblueOf(getPbrbmeter("scble")).flobtVblue();
+        } cbtch (Exception ignored) {
+            // fbll bbck to defbult scblefudge = 1
         }
-        amat.yrot(20);
-        amat.xrot(20);
-        if (mdname == null) {
-            mdname = "model.obj";
+        bmbt.yrot(20);
+        bmbt.xrot(20);
+        if (mdnbme == null) {
+            mdnbme = "model.obj";
         }
         resize(getSize().width <= 20 ? 400 : getSize().width,
                 getSize().height <= 20 ? 400 : getSize().height);
-        addMouseListener(this);
-        addMouseMotionListener(this);
+        bddMouseListener(this);
+        bddMouseMotionListener(this);
     }
 
     @Override
@@ -413,43 +413,43 @@ public class ThreeD extends Applet
 
     @Override
     public void run() {
-        InputStream is = null;
+        InputStrebm is = null;
         try {
-            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-            is = getClass().getResourceAsStream(mdname);
+            Threbd.currentThrebd().setPriority(Threbd.MIN_PRIORITY);
+            is = getClbss().getResourceAsStrebm(mdnbme);
             Model3D m = new Model3D(is);
             md = m;
             m.findBB();
             m.compress();
-            float xw = m.xmax - m.xmin;
-            float yw = m.ymax - m.ymin;
-            float zw = m.zmax - m.zmin;
+            flobt xw = m.xmbx - m.xmin;
+            flobt yw = m.ymbx - m.ymin;
+            flobt zw = m.zmbx - m.zmin;
             if (yw > xw) {
                 xw = yw;
             }
             if (zw > xw) {
                 xw = zw;
             }
-            float f1 = getSize().width / xw;
-            float f2 = getSize().height / xw;
-            xfac = 0.7f * (f1 < f2 ? f1 : f2) * scalefudge;
-        } catch (Exception e) {
+            flobt f1 = getSize().width / xw;
+            flobt f2 = getSize().height / xw;
+            xfbc = 0.7f * (f1 < f2 ? f1 : f2) * scblefudge;
+        } cbtch (Exception e) {
             md = null;
-            message = e.toString();
+            messbge = e.toString();
         }
         try {
             if (is != null) {
                 is.close();
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
-        repaint();
+        repbint();
     }
 
     @Override
-    public void start() {
-        if (md == null && message == null) {
-            new Thread(this).start();
+    public void stbrt() {
+        if (md == null && messbge == null) {
+            new Threbd(this).stbrt();
         }
     }
 
@@ -469,7 +469,7 @@ public class ThreeD extends Applet
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
     }
 
     @Override
@@ -481,19 +481,19 @@ public class ThreeD extends Applet
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDrbgged(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
 
-        tmat.unit();
-        float xtheta = (prevy - y) * 360.0f / getSize().width;
-        float ytheta = (x - prevx) * 360.0f / getSize().height;
-        tmat.xrot(xtheta);
-        tmat.yrot(ytheta);
-        amat.mult(tmat);
-        if (painted) {
-            painted = false;
-            repaint();
+        tmbt.unit();
+        flobt xthetb = (prevy - y) * 360.0f / getSize().width;
+        flobt ythetb = (x - prevx) * 360.0f / getSize().height;
+        tmbt.xrot(xthetb);
+        tmbt.yrot(ythetb);
+        bmbt.mult(tmbt);
+        if (pbinted) {
+            pbinted = fblse;
+            repbint();
         }
         prevx = x;
         prevy = y;
@@ -505,40 +505,40 @@ public class ThreeD extends Applet
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
         if (md != null) {
-            md.mat.unit();
-            md.mat.translate(-(md.xmin + md.xmax) / 2,
-                    -(md.ymin + md.ymax) / 2,
-                    -(md.zmin + md.zmax) / 2);
-            md.mat.mult(amat);
-            md.mat.scale(xfac, -xfac, 16 * xfac / getSize().width);
-            md.mat.translate(getSize().width / 2, getSize().height / 2, 8);
-            md.transformed = false;
-            md.paint(g);
-            setPainted();
-        } else if (message != null) {
-            g.drawString("Error in model:", 3, 20);
-            g.drawString(message, 10, 40);
+            md.mbt.unit();
+            md.mbt.trbnslbte(-(md.xmin + md.xmbx) / 2,
+                    -(md.ymin + md.ymbx) / 2,
+                    -(md.zmin + md.zmbx) / 2);
+            md.mbt.mult(bmbt);
+            md.mbt.scble(xfbc, -xfbc, 16 * xfbc / getSize().width);
+            md.mbt.trbnslbte(getSize().width / 2, getSize().height / 2, 8);
+            md.trbnsformed = fblse;
+            md.pbint(g);
+            setPbinted();
+        } else if (messbge != null) {
+            g.drbwString("Error in model:", 3, 20);
+            g.drbwString(messbge, 10, 40);
         }
     }
 
-    private synchronized void setPainted() {
-        painted = true;
+    privbte synchronized void setPbinted() {
+        pbinted = true;
         notifyAll();
     }
 
     @Override
     public String getAppletInfo() {
-        return "Title: ThreeD \nAuthor: James Gosling? \n"
-                + "An applet to put a 3D model into a page.";
+        return "Title: ThreeD \nAuthor: Jbmes Gosling? \n"
+                + "An bpplet to put b 3D model into b pbge.";
     }
 
     @Override
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         String[][] info = {
-            { "model", "path string", "The path to the model to be displayed." },
-            { "scale", "float", "The scale of the model.  Default is 1." }
+            { "model", "pbth string", "The pbth to the model to be displbyed." },
+            { "scble", "flobt", "The scble of the model.  Defbult is 1." }
         };
         return info;
     }

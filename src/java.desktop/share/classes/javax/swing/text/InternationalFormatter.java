@@ -1,388 +1,388 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.event.ActionEvent;
-import java.io.*;
-import java.text.*;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.*;
-import javax.swing.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.io.*;
+import jbvb.text.*;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.util.*;
+import jbvbx.swing.*;
 
 /**
- * <code>InternationalFormatter</code> extends <code>DefaultFormatter</code>,
- * using an instance of <code>java.text.Format</code> to handle the
- * conversion to a String, and the conversion from a String.
+ * <code>InternbtionblFormbtter</code> extends <code>DefbultFormbtter</code>,
+ * using bn instbnce of <code>jbvb.text.Formbt</code> to hbndle the
+ * conversion to b String, bnd the conversion from b String.
  * <p>
- * If <code>getAllowsInvalid()</code> is false, this will ask the
- * <code>Format</code> to format the current text on every edit.
+ * If <code>getAllowsInvblid()</code> is fblse, this will bsk the
+ * <code>Formbt</code> to formbt the current text on every edit.
  * <p>
- * You can specify a minimum and maximum value by way of the
- * <code>setMinimum</code> and <code>setMaximum</code> methods. In order
- * for this to work the values returned from <code>stringToValue</code> must be
- * comparable to the min/max values by way of the <code>Comparable</code>
- * interface.
+ * You cbn specify b minimum bnd mbximum vblue by wby of the
+ * <code>setMinimum</code> bnd <code>setMbximum</code> methods. In order
+ * for this to work the vblues returned from <code>stringToVblue</code> must be
+ * compbrbble to the min/mbx vblues by wby of the <code>Compbrbble</code>
+ * interfbce.
  * <p>
- * Be careful how you configure the <code>Format</code> and the
- * <code>InternationalFormatter</code>, as it is possible to create a
- * situation where certain values can not be input. Consider the date
- * format 'M/d/yy', an <code>InternationalFormatter</code> that is always
- * valid (<code>setAllowsInvalid(false)</code>), is in overwrite mode
- * (<code>setOverwriteMode(true)</code>) and the date 7/1/99. In this
- * case the user will not be able to enter a two digit month or day of
- * month. To avoid this, the format should be 'MM/dd/yy'.
+ * Be cbreful how you configure the <code>Formbt</code> bnd the
+ * <code>InternbtionblFormbtter</code>, bs it is possible to crebte b
+ * situbtion where certbin vblues cbn not be input. Consider the dbte
+ * formbt 'M/d/yy', bn <code>InternbtionblFormbtter</code> thbt is blwbys
+ * vblid (<code>setAllowsInvblid(fblse)</code>), is in overwrite mode
+ * (<code>setOverwriteMode(true)</code>) bnd the dbte 7/1/99. In this
+ * cbse the user will not be bble to enter b two digit month or dby of
+ * month. To bvoid this, the formbt should be 'MM/dd/yy'.
  * <p>
- * If <code>InternationalFormatter</code> is configured to only allow valid
- * values (<code>setAllowsInvalid(false)</code>), every valid edit will result
- * in the text of the <code>JFormattedTextField</code> being completely reset
- * from the <code>Format</code>.
- * The cursor position will also be adjusted as literal characters are
- * added/removed from the resulting String.
+ * If <code>InternbtionblFormbtter</code> is configured to only bllow vblid
+ * vblues (<code>setAllowsInvblid(fblse)</code>), every vblid edit will result
+ * in the text of the <code>JFormbttedTextField</code> being completely reset
+ * from the <code>Formbt</code>.
+ * The cursor position will blso be bdjusted bs literbl chbrbcters bre
+ * bdded/removed from the resulting String.
  * <p>
- * <code>InternationalFormatter</code>'s behavior of
- * <code>stringToValue</code> is  slightly different than that of
- * <code>DefaultTextFormatter</code>, it does the following:
+ * <code>InternbtionblFormbtter</code>'s behbvior of
+ * <code>stringToVblue</code> is  slightly different thbn thbt of
+ * <code>DefbultTextFormbtter</code>, it does the following:
  * <ol>
- *   <li><code>parseObject</code> is invoked on the <code>Format</code>
- *       specified by <code>setFormat</code>
- *   <li>If a Class has been set for the values (<code>setValueClass</code>),
- *       supers implementation is invoked to convert the value returned
- *       from <code>parseObject</code> to the appropriate class.
- *   <li>If a <code>ParseException</code> has not been thrown, and the value
- *       is outside the min/max a <code>ParseException</code> is thrown.
- *   <li>The value is returned.
+ *   <li><code>pbrseObject</code> is invoked on the <code>Formbt</code>
+ *       specified by <code>setFormbt</code>
+ *   <li>If b Clbss hbs been set for the vblues (<code>setVblueClbss</code>),
+ *       supers implementbtion is invoked to convert the vblue returned
+ *       from <code>pbrseObject</code> to the bppropribte clbss.
+ *   <li>If b <code>PbrseException</code> hbs not been thrown, bnd the vblue
+ *       is outside the min/mbx b <code>PbrseException</code> is thrown.
+ *   <li>The vblue is returned.
  * </ol>
- * <code>InternationalFormatter</code> implements <code>stringToValue</code>
- * in this manner so that you can specify an alternate Class than
- * <code>Format</code> may return.
+ * <code>InternbtionblFormbtter</code> implements <code>stringToVblue</code>
+ * in this mbnner so thbt you cbn specify bn blternbte Clbss thbn
+ * <code>Formbt</code> mby return.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see java.text.Format
- * @see java.lang.Comparable
+ * @see jbvb.text.Formbt
+ * @see jbvb.lbng.Compbrbble
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class InternationalFormatter extends DefaultFormatter {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss InternbtionblFormbtter extends DefbultFormbtter {
     /**
      * Used by <code>getFields</code>.
      */
-    private static final Format.Field[] EMPTY_FIELD_ARRAY =new Format.Field[0];
+    privbte stbtic finbl Formbt.Field[] EMPTY_FIELD_ARRAY =new Formbt.Field[0];
 
     /**
-     * Object used to handle the conversion.
+     * Object used to hbndle the conversion.
      */
-    private Format format;
+    privbte Formbt formbt;
     /**
-     * Can be used to impose a maximum value.
+     * Cbn be used to impose b mbximum vblue.
      */
-    private Comparable<?> max;
+    privbte Compbrbble<?> mbx;
     /**
-     * Can be used to impose a minimum value.
+     * Cbn be used to impose b minimum vblue.
      */
-    private Comparable<?> min;
+    privbte Compbrbble<?> min;
 
     /**
-     * <code>InternationalFormatter</code>'s behavior is dicatated by a
-     * <code>AttributedCharacterIterator</code> that is obtained from
-     * the <code>Format</code>. On every edit, assuming
-     * allows invalid is false, the <code>Format</code> instance is invoked
-     * with <code>formatToCharacterIterator</code>. A <code>BitSet</code> is
-     * also kept upto date with the non-literal characters, that is
-     * for every index in the <code>AttributedCharacterIterator</code> an
-     * entry in the bit set is updated based on the return value from
-     * <code>isLiteral(Map)</code>. <code>isLiteral(int)</code> then uses
-     * this cached information.
+     * <code>InternbtionblFormbtter</code>'s behbvior is dicbtbted by b
+     * <code>AttributedChbrbcterIterbtor</code> thbt is obtbined from
+     * the <code>Formbt</code>. On every edit, bssuming
+     * bllows invblid is fblse, the <code>Formbt</code> instbnce is invoked
+     * with <code>formbtToChbrbcterIterbtor</code>. A <code>BitSet</code> is
+     * blso kept upto dbte with the non-literbl chbrbcters, thbt is
+     * for every index in the <code>AttributedChbrbcterIterbtor</code> bn
+     * entry in the bit set is updbted bbsed on the return vblue from
+     * <code>isLiterbl(Mbp)</code>. <code>isLiterbl(int)</code> then uses
+     * this cbched informbtion.
      * <p>
-     * If allowsInvalid is false, every edit results in resetting the complete
+     * If bllowsInvblid is fblse, every edit results in resetting the complete
      * text of the JTextComponent.
      * <p>
-     * InternationalFormatterFilter can also provide two actions suitable for
-     * incrementing and decrementing. To enable this a subclass must
-     * override <code>getSupportsIncrement</code> to return true, and
-     * override <code>adjustValue</code> to handle the changing of the
-     * value. If you want to support changing the value outside of
-     * the valid FieldPositions, you will need to override
-     * <code>canIncrement</code>.
+     * InternbtionblFormbtterFilter cbn blso provide two bctions suitbble for
+     * incrementing bnd decrementing. To enbble this b subclbss must
+     * override <code>getSupportsIncrement</code> to return true, bnd
+     * override <code>bdjustVblue</code> to hbndle the chbnging of the
+     * vblue. If you wbnt to support chbnging the vblue outside of
+     * the vblid FieldPositions, you will need to override
+     * <code>cbnIncrement</code>.
      */
     /**
      * A bit is set for every index identified in the
-     * AttributedCharacterIterator that is not considered decoration.
-     * This should only be used if validMask is true.
+     * AttributedChbrbcterIterbtor thbt is not considered decorbtion.
+     * This should only be used if vblidMbsk is true.
      */
-    private transient BitSet literalMask;
+    privbte trbnsient BitSet literblMbsk;
     /**
-     * Used to iterate over characters.
+     * Used to iterbte over chbrbcters.
      */
-    private transient AttributedCharacterIterator iterator;
+    privbte trbnsient AttributedChbrbcterIterbtor iterbtor;
     /**
-     * True if the Format was able to convert the value to a String and
-     * back.
+     * True if the Formbt wbs bble to convert the vblue to b String bnd
+     * bbck.
      */
-    private transient boolean validMask;
+    privbte trbnsient boolebn vblidMbsk;
     /**
-     * Current value being displayed.
+     * Current vblue being displbyed.
      */
-    private transient String string;
+    privbte trbnsient String string;
     /**
-     * If true, DocumentFilter methods are unconditionally allowed,
-     * and no checking is done on their values. This is used when
-     * incrementing/decrementing via the actions.
+     * If true, DocumentFilter methods bre unconditionblly bllowed,
+     * bnd no checking is done on their vblues. This is used when
+     * incrementing/decrementing vib the bctions.
      */
-    private transient boolean ignoreDocumentMutate;
+    privbte trbnsient boolebn ignoreDocumentMutbte;
 
 
     /**
-     * Creates an <code>InternationalFormatter</code> with no
-     * <code>Format</code> specified.
+     * Crebtes bn <code>InternbtionblFormbtter</code> with no
+     * <code>Formbt</code> specified.
      */
-    public InternationalFormatter() {
-        setOverwriteMode(false);
+    public InternbtionblFormbtter() {
+        setOverwriteMode(fblse);
     }
 
     /**
-     * Creates an <code>InternationalFormatter</code> with the specified
-     * <code>Format</code> instance.
+     * Crebtes bn <code>InternbtionblFormbtter</code> with the specified
+     * <code>Formbt</code> instbnce.
      *
-     * @param format Format instance used for converting from/to Strings
+     * @pbrbm formbt Formbt instbnce used for converting from/to Strings
      */
-    public InternationalFormatter(Format format) {
+    public InternbtionblFormbtter(Formbt formbt) {
         this();
-        setFormat(format);
+        setFormbt(formbt);
     }
 
     /**
-     * Sets the format that dictates the legal values that can be edited
-     * and displayed.
+     * Sets the formbt thbt dictbtes the legbl vblues thbt cbn be edited
+     * bnd displbyed.
      *
-     * @param format <code>Format</code> instance used for converting
+     * @pbrbm formbt <code>Formbt</code> instbnce used for converting
      * from/to Strings
      */
-    public void setFormat(Format format) {
-        this.format = format;
+    public void setFormbt(Formbt formbt) {
+        this.formbt = formbt;
     }
 
     /**
-     * Returns the format that dictates the legal values that can be edited
-     * and displayed.
+     * Returns the formbt thbt dictbtes the legbl vblues thbt cbn be edited
+     * bnd displbyed.
      *
-     * @return Format instance used for converting from/to Strings
+     * @return Formbt instbnce used for converting from/to Strings
      */
-    public Format getFormat() {
-        return format;
+    public Formbt getFormbt() {
+        return formbt;
     }
 
     /**
-     * Sets the minimum permissible value. If the <code>valueClass</code> has
-     * not been specified, and <code>minimum</code> is non null, the
-     * <code>valueClass</code> will be set to that of the class of
+     * Sets the minimum permissible vblue. If the <code>vblueClbss</code> hbs
+     * not been specified, bnd <code>minimum</code> is non null, the
+     * <code>vblueClbss</code> will be set to thbt of the clbss of
      * <code>minimum</code>.
      *
-     * @param minimum Minimum legal value that can be input
-     * @see #setValueClass
+     * @pbrbm minimum Minimum legbl vblue thbt cbn be input
+     * @see #setVblueClbss
      */
-    public void setMinimum(Comparable<?> minimum) {
-        if (getValueClass() == null && minimum != null) {
-            setValueClass(minimum.getClass());
+    public void setMinimum(Compbrbble<?> minimum) {
+        if (getVblueClbss() == null && minimum != null) {
+            setVblueClbss(minimum.getClbss());
         }
         min = minimum;
     }
 
     /**
-     * Returns the minimum permissible value.
+     * Returns the minimum permissible vblue.
      *
-     * @return Minimum legal value that can be input
+     * @return Minimum legbl vblue thbt cbn be input
      */
-    public Comparable<?> getMinimum() {
+    public Compbrbble<?> getMinimum() {
         return min;
     }
 
     /**
-     * Sets the maximum permissible value. If the <code>valueClass</code> has
-     * not been specified, and <code>max</code> is non null, the
-     * <code>valueClass</code> will be set to that of the class of
-     * <code>max</code>.
+     * Sets the mbximum permissible vblue. If the <code>vblueClbss</code> hbs
+     * not been specified, bnd <code>mbx</code> is non null, the
+     * <code>vblueClbss</code> will be set to thbt of the clbss of
+     * <code>mbx</code>.
      *
-     * @param max Maximum legal value that can be input
-     * @see #setValueClass
+     * @pbrbm mbx Mbximum legbl vblue thbt cbn be input
+     * @see #setVblueClbss
      */
-    public void setMaximum(Comparable<?> max) {
-        if (getValueClass() == null && max != null) {
-            setValueClass(max.getClass());
+    public void setMbximum(Compbrbble<?> mbx) {
+        if (getVblueClbss() == null && mbx != null) {
+            setVblueClbss(mbx.getClbss());
         }
-        this.max = max;
+        this.mbx = mbx;
     }
 
     /**
-     * Returns the maximum permissible value.
+     * Returns the mbximum permissible vblue.
      *
-     * @return Maximum legal value that can be input
+     * @return Mbximum legbl vblue thbt cbn be input
      */
-    public Comparable<?> getMaximum() {
-        return max;
+    public Compbrbble<?> getMbximum() {
+        return mbx;
     }
 
     /**
-     * Installs the <code>DefaultFormatter</code> onto a particular
-     * <code>JFormattedTextField</code>.
-     * This will invoke <code>valueToString</code> to convert the
-     * current value from the <code>JFormattedTextField</code> to
-     * a String. This will then install the <code>Action</code>s from
+     * Instblls the <code>DefbultFormbtter</code> onto b pbrticulbr
+     * <code>JFormbttedTextField</code>.
+     * This will invoke <code>vblueToString</code> to convert the
+     * current vblue from the <code>JFormbttedTextField</code> to
+     * b String. This will then instbll the <code>Action</code>s from
      * <code>getActions</code>, the <code>DocumentFilter</code>
-     * returned from <code>getDocumentFilter</code> and the
-     * <code>NavigationFilter</code> returned from
-     * <code>getNavigationFilter</code> onto the
-     * <code>JFormattedTextField</code>.
+     * returned from <code>getDocumentFilter</code> bnd the
+     * <code>NbvigbtionFilter</code> returned from
+     * <code>getNbvigbtionFilter</code> onto the
+     * <code>JFormbttedTextField</code>.
      * <p>
-     * Subclasses will typically only need to override this if they
-     * wish to install additional listeners on the
-     * <code>JFormattedTextField</code>.
+     * Subclbsses will typicblly only need to override this if they
+     * wish to instbll bdditionbl listeners on the
+     * <code>JFormbttedTextField</code>.
      * <p>
-     * If there is a <code>ParseException</code> in converting the
-     * current value to a String, this will set the text to an empty
-     * String, and mark the <code>JFormattedTextField</code> as being
-     * in an invalid state.
+     * If there is b <code>PbrseException</code> in converting the
+     * current vblue to b String, this will set the text to bn empty
+     * String, bnd mbrk the <code>JFormbttedTextField</code> bs being
+     * in bn invblid stbte.
      * <p>
-     * While this is a public method, this is typically only useful
-     * for subclassers of <code>JFormattedTextField</code>.
-     * <code>JFormattedTextField</code> will invoke this method at
-     * the appropriate times when the value changes, or its internal
-     * state changes.
+     * While this is b public method, this is typicblly only useful
+     * for subclbssers of <code>JFormbttedTextField</code>.
+     * <code>JFormbttedTextField</code> will invoke this method bt
+     * the bppropribte times when the vblue chbnges, or its internbl
+     * stbte chbnges.
      *
-     * @param ftf JFormattedTextField to format for, may be null indicating
-     *            uninstall from current JFormattedTextField.
+     * @pbrbm ftf JFormbttedTextField to formbt for, mby be null indicbting
+     *            uninstbll from current JFormbttedTextField.
      */
-    public void install(JFormattedTextField ftf) {
-        super.install(ftf);
-        updateMaskIfNecessary();
-        // invoked again as the mask should now be valid.
-        positionCursorAtInitialLocation();
+    public void instbll(JFormbttedTextField ftf) {
+        super.instbll(ftf);
+        updbteMbskIfNecessbry();
+        // invoked bgbin bs the mbsk should now be vblid.
+        positionCursorAtInitiblLocbtion();
     }
 
     /**
-     * Returns a String representation of the Object <code>value</code>.
-     * This invokes <code>format</code> on the current <code>Format</code>.
+     * Returns b String representbtion of the Object <code>vblue</code>.
+     * This invokes <code>formbt</code> on the current <code>Formbt</code>.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param value Value to convert
-     * @return String representation of value
+     * @throws PbrseException if there is bn error in the conversion
+     * @pbrbm vblue Vblue to convert
+     * @return String representbtion of vblue
      */
-    public String valueToString(Object value) throws ParseException {
-        if (value == null) {
+    public String vblueToString(Object vblue) throws PbrseException {
+        if (vblue == null) {
             return "";
         }
-        Format f = getFormat();
+        Formbt f = getFormbt();
 
         if (f == null) {
-            return value.toString();
+            return vblue.toString();
         }
-        return f.format(value);
+        return f.formbt(vblue);
     }
 
     /**
-     * Returns the <code>Object</code> representation of the
+     * Returns the <code>Object</code> representbtion of the
      * <code>String</code> <code>text</code>.
      *
-     * @param text <code>String</code> to convert
-     * @return <code>Object</code> representation of text
-     * @throws ParseException if there is an error in the conversion
+     * @pbrbm text <code>String</code> to convert
+     * @return <code>Object</code> representbtion of text
+     * @throws PbrseException if there is bn error in the conversion
      */
-    public Object stringToValue(String text) throws ParseException {
-        Object value = stringToValue(text, getFormat());
+    public Object stringToVblue(String text) throws PbrseException {
+        Object vblue = stringToVblue(text, getFormbt());
 
-        // Convert to the value class if the Value returned from the
-        // Format does not match.
-        if (value != null && getValueClass() != null &&
-                             !getValueClass().isInstance(value)) {
-            value = super.stringToValue(value.toString());
+        // Convert to the vblue clbss if the Vblue returned from the
+        // Formbt does not mbtch.
+        if (vblue != null && getVblueClbss() != null &&
+                             !getVblueClbss().isInstbnce(vblue)) {
+            vblue = super.stringToVblue(vblue.toString());
         }
         try {
-            if (!isValidValue(value, true)) {
-                throw new ParseException("Value not within min/max range", 0);
+            if (!isVblidVblue(vblue, true)) {
+                throw new PbrseException("Vblue not within min/mbx rbnge", 0);
             }
-        } catch (ClassCastException cce) {
-            throw new ParseException("Class cast exception comparing values: "
+        } cbtch (ClbssCbstException cce) {
+            throw new PbrseException("Clbss cbst exception compbring vblues: "
                                      + cce, 0);
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the <code>Format.Field</code> constants associated with
-     * the text at <code>offset</code>. If <code>offset</code> is not
-     * a valid location into the current text, this will return an
-     * empty array.
+     * Returns the <code>Formbt.Field</code> constbnts bssocibted with
+     * the text bt <code>offset</code>. If <code>offset</code> is not
+     * b vblid locbtion into the current text, this will return bn
+     * empty brrby.
      *
-     * @param offset offset into text to be examined
-     * @return Format.Field constants associated with the text at the
+     * @pbrbm offset offset into text to be exbmined
+     * @return Formbt.Field constbnts bssocibted with the text bt the
      *         given position.
      */
-    public Format.Field[] getFields(int offset) {
-        if (getAllowsInvalid()) {
-            // This will work if the currently edited value is valid.
-            updateMask();
+    public Formbt.Field[] getFields(int offset) {
+        if (getAllowsInvblid()) {
+            // This will work if the currently edited vblue is vblid.
+            updbteMbsk();
         }
 
-        Map<Attribute, Object> attrs = getAttributes(offset);
+        Mbp<Attribute, Object> bttrs = getAttributes(offset);
 
-        if (attrs != null && attrs.size() > 0) {
-            ArrayList<Attribute> al = new ArrayList<Attribute>();
+        if (bttrs != null && bttrs.size() > 0) {
+            ArrbyList<Attribute> bl = new ArrbyList<Attribute>();
 
-            al.addAll(attrs.keySet());
-            return al.toArray(EMPTY_FIELD_ARRAY);
+            bl.bddAll(bttrs.keySet());
+            return bl.toArrby(EMPTY_FIELD_ARRAY);
         }
         return EMPTY_FIELD_ARRAY;
     }
 
     /**
-     * Creates a copy of the DefaultFormatter.
+     * Crebtes b copy of the DefbultFormbtter.
      *
-     * @return copy of the DefaultFormatter
+     * @return copy of the DefbultFormbtter
      */
     public Object clone() throws CloneNotSupportedException {
-        InternationalFormatter formatter = (InternationalFormatter)super.
+        InternbtionblFormbtter formbtter = (InternbtionblFormbtter)super.
                                            clone();
 
-        formatter.literalMask = null;
-        formatter.iterator = null;
-        formatter.validMask = false;
-        formatter.string = null;
-        return formatter;
+        formbtter.literblMbsk = null;
+        formbtter.iterbtor = null;
+        formbtter.vblidMbsk = fblse;
+        formbtter.string = null;
+        return formbtter;
     }
 
     /**
      * If <code>getSupportsIncrement</code> returns true, this returns
-     * two Actions suitable for incrementing/decrementing the value.
+     * two Actions suitbble for incrementing/decrementing the vblue.
      */
     protected Action[] getActions() {
         if (getSupportsIncrement()) {
@@ -393,63 +393,63 @@ public class InternationalFormatter extends DefaultFormatter {
     }
 
     /**
-     * Invokes <code>parseObject</code> on <code>f</code>, returning
-     * its value.
+     * Invokes <code>pbrseObject</code> on <code>f</code>, returning
+     * its vblue.
      */
-    Object stringToValue(String text, Format f) throws ParseException {
+    Object stringToVblue(String text, Formbt f) throws PbrseException {
         if (f == null) {
             return text;
         }
-        return f.parseObject(text);
+        return f.pbrseObject(text);
     }
 
     /**
-     * Returns true if <code>value</code> is between the min/max.
+     * Returns true if <code>vblue</code> is between the min/mbx.
      *
-     * @param wantsCCE If false, and a ClassCastException is thrown in
-     *                 comparing the values, the exception is consumed and
-     *                 false is returned.
+     * @pbrbm wbntsCCE If fblse, bnd b ClbssCbstException is thrown in
+     *                 compbring the vblues, the exception is consumed bnd
+     *                 fblse is returned.
      */
-    boolean isValidValue(Object value, boolean wantsCCE) {
-        @SuppressWarnings("unchecked")
-        Comparable<Object> min = (Comparable<Object>)getMinimum();
+    boolebn isVblidVblue(Object vblue, boolebn wbntsCCE) {
+        @SuppressWbrnings("unchecked")
+        Compbrbble<Object> min = (Compbrbble<Object>)getMinimum();
 
         try {
-            if (min != null && min.compareTo(value) > 0) {
-                return false;
+            if (min != null && min.compbreTo(vblue) > 0) {
+                return fblse;
             }
-        } catch (ClassCastException cce) {
-            if (wantsCCE) {
+        } cbtch (ClbssCbstException cce) {
+            if (wbntsCCE) {
                 throw cce;
             }
-            return false;
+            return fblse;
         }
 
-        @SuppressWarnings("unchecked")
-        Comparable<Object> max = (Comparable<Object>)getMaximum();
+        @SuppressWbrnings("unchecked")
+        Compbrbble<Object> mbx = (Compbrbble<Object>)getMbximum();
         try {
-            if (max != null && max.compareTo(value) < 0) {
-                return false;
+            if (mbx != null && mbx.compbreTo(vblue) < 0) {
+                return fblse;
             }
-        } catch (ClassCastException cce) {
-            if (wantsCCE) {
+        } cbtch (ClbssCbstException cce) {
+            if (wbntsCCE) {
                 throw cce;
             }
-            return false;
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns a Set of the attribute identifiers at <code>index</code>.
+     * Returns b Set of the bttribute identifiers bt <code>index</code>.
      */
-    Map<Attribute, Object> getAttributes(int index) {
-        if (isValidMask()) {
-            AttributedCharacterIterator iterator = getIterator();
+    Mbp<Attribute, Object> getAttributes(int index) {
+        if (isVblidMbsk()) {
+            AttributedChbrbcterIterbtor iterbtor = getIterbtor();
 
-            if (index >= 0 && index <= iterator.getEndIndex()) {
-                iterator.setIndex(index);
-                return iterator.getAttributes();
+            if (index >= 0 && index <= iterbtor.getEndIndex()) {
+                iterbtor.setIndex(index);
+                return iterbtor.getAttributes();
             }
         }
         return null;
@@ -457,93 +457,93 @@ public class InternationalFormatter extends DefaultFormatter {
 
 
     /**
-     * Returns the start of the first run that contains the attribute
-     * <code>id</code>. This will return <code>-1</code> if the attribute
-     * can not be found.
+     * Returns the stbrt of the first run thbt contbins the bttribute
+     * <code>id</code>. This will return <code>-1</code> if the bttribute
+     * cbn not be found.
      */
-    int getAttributeStart(AttributedCharacterIterator.Attribute id) {
-        if (isValidMask()) {
-            AttributedCharacterIterator iterator = getIterator();
+    int getAttributeStbrt(AttributedChbrbcterIterbtor.Attribute id) {
+        if (isVblidMbsk()) {
+            AttributedChbrbcterIterbtor iterbtor = getIterbtor();
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                if (iterator.getAttribute(id) != null) {
-                    return iterator.getIndex();
+            iterbtor.first();
+            while (iterbtor.current() != ChbrbcterIterbtor.DONE) {
+                if (iterbtor.getAttribute(id) != null) {
+                    return iterbtor.getIndex();
                 }
-                iterator.next();
+                iterbtor.next();
             }
         }
         return -1;
     }
 
     /**
-     * Returns the <code>AttributedCharacterIterator</code> used to
-     * format the last value.
+     * Returns the <code>AttributedChbrbcterIterbtor</code> used to
+     * formbt the lbst vblue.
      */
-    AttributedCharacterIterator getIterator() {
-        return iterator;
+    AttributedChbrbcterIterbtor getIterbtor() {
+        return iterbtor;
     }
 
     /**
-     * Updates the AttributedCharacterIterator and bitset, if necessary.
+     * Updbtes the AttributedChbrbcterIterbtor bnd bitset, if necessbry.
      */
-    void updateMaskIfNecessary() {
-        if (!getAllowsInvalid() && (getFormat() != null)) {
-            if (!isValidMask()) {
-                updateMask();
+    void updbteMbskIfNecessbry() {
+        if (!getAllowsInvblid() && (getFormbt() != null)) {
+            if (!isVblidMbsk()) {
+                updbteMbsk();
             }
             else {
-                String newString = getFormattedTextField().getText();
+                String newString = getFormbttedTextField().getText();
 
-                if (!newString.equals(string)) {
-                    updateMask();
+                if (!newString.equbls(string)) {
+                    updbteMbsk();
                 }
             }
         }
     }
 
     /**
-     * Updates the AttributedCharacterIterator by invoking
-     * <code>formatToCharacterIterator</code> on the <code>Format</code>.
+     * Updbtes the AttributedChbrbcterIterbtor by invoking
+     * <code>formbtToChbrbcterIterbtor</code> on the <code>Formbt</code>.
      * If this is successful,
-     * <code>updateMask(AttributedCharacterIterator)</code>
-     * is then invoked to update the internal bitmask.
+     * <code>updbteMbsk(AttributedChbrbcterIterbtor)</code>
+     * is then invoked to updbte the internbl bitmbsk.
      */
-    void updateMask() {
-        if (getFormat() != null) {
-            Document doc = getFormattedTextField().getDocument();
+    void updbteMbsk() {
+        if (getFormbt() != null) {
+            Document doc = getFormbttedTextField().getDocument();
 
-            validMask = false;
+            vblidMbsk = fblse;
             if (doc != null) {
                 try {
                     string = doc.getText(0, doc.getLength());
-                } catch (BadLocationException ble) {
+                } cbtch (BbdLocbtionException ble) {
                     string = null;
                 }
                 if (string != null) {
                     try {
-                        Object value = stringToValue(string);
-                        AttributedCharacterIterator iterator = getFormat().
-                                  formatToCharacterIterator(value);
+                        Object vblue = stringToVblue(string);
+                        AttributedChbrbcterIterbtor iterbtor = getFormbt().
+                                  formbtToChbrbcterIterbtor(vblue);
 
-                        updateMask(iterator);
+                        updbteMbsk(iterbtor);
                     }
-                    catch (ParseException pe) {}
-                    catch (IllegalArgumentException iae) {}
-                    catch (NullPointerException npe) {}
+                    cbtch (PbrseException pe) {}
+                    cbtch (IllegblArgumentException ibe) {}
+                    cbtch (NullPointerException npe) {}
                 }
             }
         }
     }
 
     /**
-     * Returns the number of literal characters before <code>index</code>.
+     * Returns the number of literbl chbrbcters before <code>index</code>.
      */
-    int getLiteralCountTo(int index) {
+    int getLiterblCountTo(int index) {
         int lCount = 0;
 
         for (int counter = 0; counter < index; counter++) {
-            if (isLiteral(counter)) {
+            if (isLiterbl(counter)) {
                 lCount++;
             }
         }
@@ -551,106 +551,106 @@ public class InternationalFormatter extends DefaultFormatter {
     }
 
     /**
-     * Returns true if the character at index is a literal, that is
-     * not editable.
+     * Returns true if the chbrbcter bt index is b literbl, thbt is
+     * not editbble.
      */
-    boolean isLiteral(int index) {
-        if (isValidMask() && index < string.length()) {
-            return literalMask.get(index);
+    boolebn isLiterbl(int index) {
+        if (isVblidMbsk() && index < string.length()) {
+            return literblMbsk.get(index);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the literal character at index.
+     * Returns the literbl chbrbcter bt index.
      */
-    char getLiteral(int index) {
-        if (isValidMask() && string != null && index < string.length()) {
-            return string.charAt(index);
+    chbr getLiterbl(int index) {
+        if (isVblidMbsk() && string != null && index < string.length()) {
+            return string.chbrAt(index);
         }
-        return (char)0;
+        return (chbr)0;
     }
 
     /**
-     * Returns true if the character at offset is navigable too. This
-     * is implemented in terms of <code>isLiteral</code>, subclasses
-     * may wish to provide different behavior.
+     * Returns true if the chbrbcter bt offset is nbvigbble too. This
+     * is implemented in terms of <code>isLiterbl</code>, subclbsses
+     * mby wish to provide different behbvior.
      */
-    boolean isNavigatable(int offset) {
-        return !isLiteral(offset);
+    boolebn isNbvigbtbble(int offset) {
+        return !isLiterbl(offset);
     }
 
     /**
-     * Overriden to update the mask after invoking supers implementation.
+     * Overriden to updbte the mbsk bfter invoking supers implementbtion.
      */
-    void updateValue(Object value) {
-        super.updateValue(value);
-        updateMaskIfNecessary();
+    void updbteVblue(Object vblue) {
+        super.updbteVblue(vblue);
+        updbteMbskIfNecessbry();
     }
 
     /**
-     * Overriden to unconditionally allow the replace if
-     * ignoreDocumentMutate is true.
+     * Overriden to unconditionblly bllow the replbce if
+     * ignoreDocumentMutbte is true.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset,
+    void replbce(DocumentFilter.FilterBypbss fb, int offset,
                      int length, String text,
-                     AttributeSet attrs) throws BadLocationException {
-        if (ignoreDocumentMutate) {
-            fb.replace(offset, length, text, attrs);
+                     AttributeSet bttrs) throws BbdLocbtionException {
+        if (ignoreDocumentMutbte) {
+            fb.replbce(offset, length, text, bttrs);
             return;
         }
-        super.replace(fb, offset, length, text, attrs);
+        super.replbce(fb, offset, length, text, bttrs);
     }
 
     /**
-     * Returns the index of the next non-literal character starting at
-     * index. If index is not a literal, it will be returned.
+     * Returns the index of the next non-literbl chbrbcter stbrting bt
+     * index. If index is not b literbl, it will be returned.
      *
-     * @param direction Amount to increment looking for non-literal
+     * @pbrbm direction Amount to increment looking for non-literbl
      */
-    private int getNextNonliteralIndex(int index, int direction) {
-        int max = getFormattedTextField().getDocument().getLength();
+    privbte int getNextNonliterblIndex(int index, int direction) {
+        int mbx = getFormbttedTextField().getDocument().getLength();
 
-        while (index >= 0 && index < max) {
-            if (isLiteral(index)) {
+        while (index >= 0 && index < mbx) {
+            if (isLiterbl(index)) {
                 index += direction;
             }
             else {
                 return index;
             }
         }
-        return (direction == -1) ? 0 : max;
+        return (direction == -1) ? 0 : mbx;
     }
 
     /**
-     * Overriden in an attempt to honor the literals.
-     * <p>If we do not allow invalid values and are in overwrite mode, this
-     * {@code rh.length} is corrected as to preserve trailing literals.
-     * If not in overwrite mode, and there is text to insert it is
-     * inserted at the next non literal index going forward.  If there
-     * is only text to remove, it is removed from the next non literal
-     * index going backward.
+     * Overriden in bn bttempt to honor the literbls.
+     * <p>If we do not bllow invblid vblues bnd bre in overwrite mode, this
+     * {@code rh.length} is corrected bs to preserve trbiling literbls.
+     * If not in overwrite mode, bnd there is text to insert it is
+     * inserted bt the next non literbl index going forwbrd.  If there
+     * is only text to remove, it is removed from the next non literbl
+     * index going bbckwbrd.
      */
-    boolean canReplace(ReplaceHolder rh) {
-        if (!getAllowsInvalid()) {
+    boolebn cbnReplbce(ReplbceHolder rh) {
+        if (!getAllowsInvblid()) {
             String text = rh.text;
             int tl = (text != null) ? text.length() : 0;
-            JTextComponent c = getFormattedTextField();
+            JTextComponent c = getFormbttedTextField();
 
-            if (tl == 0 && rh.length == 1 && c.getSelectionStart() != rh.offset) {
-                // Backspace, adjust to actually delete next non-literal.
-                rh.offset = getNextNonliteralIndex(rh.offset, -1);
+            if (tl == 0 && rh.length == 1 && c.getSelectionStbrt() != rh.offset) {
+                // Bbckspbce, bdjust to bctublly delete next non-literbl.
+                rh.offset = getNextNonliterblIndex(rh.offset, -1);
             } else if (getOverwriteMode()) {
                 int pos = rh.offset;
                 int textPos = pos;
-                boolean overflown = false;
+                boolebn overflown = fblse;
 
                 for (int i = 0; i < rh.length; i++) {
-                    while (isLiteral(pos)) pos++;
+                    while (isLiterbl(pos)) pos++;
                     if (pos >= string.length()) {
                         pos = textPos;
                         overflown = true;
-                        break;
+                        brebk;
                     }
                     textPos = ++pos;
                 }
@@ -659,89 +659,89 @@ public class InternationalFormatter extends DefaultFormatter {
                 }
             }
             else if (tl > 0) {
-                // insert (or insert and remove)
-                rh.offset = getNextNonliteralIndex(rh.offset, 1);
+                // insert (or insert bnd remove)
+                rh.offset = getNextNonliterblIndex(rh.offset, 1);
             }
             else {
                 // remove only
-                rh.offset = getNextNonliteralIndex(rh.offset, -1);
+                rh.offset = getNextNonliterblIndex(rh.offset, -1);
             }
-            ((ExtendedReplaceHolder)rh).endOffset = rh.offset;
-            ((ExtendedReplaceHolder)rh).endTextLength = (rh.text != null) ?
+            ((ExtendedReplbceHolder)rh).endOffset = rh.offset;
+            ((ExtendedReplbceHolder)rh).endTextLength = (rh.text != null) ?
                                                     rh.text.length() : 0;
         }
         else {
-            ((ExtendedReplaceHolder)rh).endOffset = rh.offset;
-            ((ExtendedReplaceHolder)rh).endTextLength = (rh.text != null) ?
+            ((ExtendedReplbceHolder)rh).endOffset = rh.offset;
+            ((ExtendedReplbceHolder)rh).endTextLength = (rh.text != null) ?
                                                     rh.text.length() : 0;
         }
-        boolean can = super.canReplace(rh);
-        if (can && !getAllowsInvalid()) {
-            ((ExtendedReplaceHolder)rh).resetFromValue(this);
+        boolebn cbn = super.cbnReplbce(rh);
+        if (cbn && !getAllowsInvblid()) {
+            ((ExtendedReplbceHolder)rh).resetFromVblue(this);
         }
-        return can;
+        return cbn;
     }
 
     /**
-     * When in !allowsInvalid mode the text is reset on every edit, thus
-     * supers implementation will position the cursor at the wrong position.
-     * As such, this invokes supers implementation and then invokes
+     * When in !bllowsInvblid mode the text is reset on every edit, thus
+     * supers implementbtion will position the cursor bt the wrong position.
+     * As such, this invokes supers implementbtion bnd then invokes
      * <code>repositionCursor</code> to correctly reset the cursor.
      */
-    boolean replace(ReplaceHolder rh) throws BadLocationException {
-        int start = -1;
+    boolebn replbce(ReplbceHolder rh) throws BbdLocbtionException {
+        int stbrt = -1;
         int direction = 1;
-        int literalCount = -1;
+        int literblCount = -1;
 
         if (rh.length > 0 && (rh.text == null || rh.text.length() == 0) &&
-               (getFormattedTextField().getSelectionStart() != rh.offset ||
+               (getFormbttedTextField().getSelectionStbrt() != rh.offset ||
                    rh.length > 1)) {
             direction = -1;
         }
-        if (!getAllowsInvalid()) {
+        if (!getAllowsInvblid()) {
             if ((rh.text == null || rh.text.length() == 0) && rh.length > 0) {
                 // remove
-                start = getFormattedTextField().getSelectionStart();
+                stbrt = getFormbttedTextField().getSelectionStbrt();
             }
             else {
-                start = rh.offset;
+                stbrt = rh.offset;
             }
-            literalCount = getLiteralCountTo(start);
+            literblCount = getLiterblCountTo(stbrt);
         }
-        if (super.replace(rh)) {
-            if (start != -1) {
-                int end = ((ExtendedReplaceHolder)rh).endOffset;
+        if (super.replbce(rh)) {
+            if (stbrt != -1) {
+                int end = ((ExtendedReplbceHolder)rh).endOffset;
 
-                end += ((ExtendedReplaceHolder)rh).endTextLength;
-                repositionCursor(literalCount, end, direction);
+                end += ((ExtendedReplbceHolder)rh).endTextLength;
+                repositionCursor(literblCount, end, direction);
             }
             else {
-                start = ((ExtendedReplaceHolder)rh).endOffset;
+                stbrt = ((ExtendedReplbceHolder)rh).endOffset;
                 if (direction == 1) {
-                    start += ((ExtendedReplaceHolder)rh).endTextLength;
+                    stbrt += ((ExtendedReplbceHolder)rh).endTextLength;
                 }
-                repositionCursor(start, direction);
+                repositionCursor(stbrt, direction);
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Repositions the cursor. <code>startLiteralCount</code> gives
-     * the number of literals to the start of the deleted range, end
-     * gives the ending location to adjust from, direction gives
-     * the direction relative to <code>end</code> to position the
+     * Repositions the cursor. <code>stbrtLiterblCount</code> gives
+     * the number of literbls to the stbrt of the deleted rbnge, end
+     * gives the ending locbtion to bdjust from, direction gives
+     * the direction relbtive to <code>end</code> to position the
      * cursor from.
      */
-    private void repositionCursor(int startLiteralCount, int end,
+    privbte void repositionCursor(int stbrtLiterblCount, int end,
                                   int direction)  {
-        int endLiteralCount = getLiteralCountTo(end);
+        int endLiterblCount = getLiterblCountTo(end);
 
-        if (endLiteralCount != end) {
-            end -= startLiteralCount;
+        if (endLiterblCount != end) {
+            end -= stbrtLiterblCount;
             for (int counter = 0; counter < end; counter++) {
-                if (isLiteral(counter)) {
+                if (isLiterbl(counter)) {
                     end++;
                 }
             }
@@ -750,145 +750,145 @@ public class InternationalFormatter extends DefaultFormatter {
     }
 
     /**
-     * Returns the character from the mask that has been buffered
-     * at <code>index</code>.
+     * Returns the chbrbcter from the mbsk thbt hbs been buffered
+     * bt <code>index</code>.
      */
-    char getBufferedChar(int index) {
-        if (isValidMask()) {
+    chbr getBufferedChbr(int index) {
+        if (isVblidMbsk()) {
             if (string != null && index < string.length()) {
-                return string.charAt(index);
+                return string.chbrAt(index);
             }
         }
-        return (char)0;
+        return (chbr)0;
     }
 
     /**
-     * Returns true if the current mask is valid.
+     * Returns true if the current mbsk is vblid.
      */
-    boolean isValidMask() {
-        return validMask;
+    boolebn isVblidMbsk() {
+        return vblidMbsk;
     }
 
     /**
-     * Returns true if <code>attributes</code> is null or empty.
+     * Returns true if <code>bttributes</code> is null or empty.
      */
-    boolean isLiteral(Map<?, ?> attributes) {
-        return ((attributes == null) || attributes.size() == 0);
+    boolebn isLiterbl(Mbp<?, ?> bttributes) {
+        return ((bttributes == null) || bttributes.size() == 0);
     }
 
     /**
-     * Updates the interal bitset from <code>iterator</code>. This will
-     * set <code>validMask</code> to true if <code>iterator</code> is
+     * Updbtes the interbl bitset from <code>iterbtor</code>. This will
+     * set <code>vblidMbsk</code> to true if <code>iterbtor</code> is
      * non-null.
      */
-    private void updateMask(AttributedCharacterIterator iterator) {
-        if (iterator != null) {
-            validMask = true;
-            this.iterator = iterator;
+    privbte void updbteMbsk(AttributedChbrbcterIterbtor iterbtor) {
+        if (iterbtor != null) {
+            vblidMbsk = true;
+            this.iterbtor = iterbtor;
 
-            // Update the literal mask
-            if (literalMask == null) {
-                literalMask = new BitSet();
+            // Updbte the literbl mbsk
+            if (literblMbsk == null) {
+                literblMbsk = new BitSet();
             }
             else {
-                for (int counter = literalMask.length() - 1; counter >= 0;
+                for (int counter = literblMbsk.length() - 1; counter >= 0;
                      counter--) {
-                    literalMask.clear(counter);
+                    literblMbsk.clebr(counter);
                 }
             }
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                Map<Attribute,Object> attributes = iterator.getAttributes();
-                boolean set = isLiteral(attributes);
-                int start = iterator.getIndex();
-                int end = iterator.getRunLimit();
+            iterbtor.first();
+            while (iterbtor.current() != ChbrbcterIterbtor.DONE) {
+                Mbp<Attribute,Object> bttributes = iterbtor.getAttributes();
+                boolebn set = isLiterbl(bttributes);
+                int stbrt = iterbtor.getIndex();
+                int end = iterbtor.getRunLimit();
 
-                while (start < end) {
+                while (stbrt < end) {
                     if (set) {
-                        literalMask.set(start);
+                        literblMbsk.set(stbrt);
                     }
                     else {
-                        literalMask.clear(start);
+                        literblMbsk.clebr(stbrt);
                     }
-                    start++;
+                    stbrt++;
                 }
-                iterator.setIndex(start);
+                iterbtor.setIndex(stbrt);
             }
         }
     }
 
     /**
      * Returns true if <code>field</code> is non-null.
-     * Subclasses that wish to allow incrementing to happen outside of
+     * Subclbsses thbt wish to bllow incrementing to hbppen outside of
      * the known fields will need to override this.
      */
-    boolean canIncrement(Object field, int cursorPosition) {
+    boolebn cbnIncrement(Object field, int cursorPosition) {
         return (field != null);
     }
 
     /**
-     * Selects the fields identified by <code>attributes</code>.
+     * Selects the fields identified by <code>bttributes</code>.
      */
     void selectField(Object f, int count) {
-        AttributedCharacterIterator iterator = getIterator();
+        AttributedChbrbcterIterbtor iterbtor = getIterbtor();
 
-        if (iterator != null &&
-                        (f instanceof AttributedCharacterIterator.Attribute)) {
-            AttributedCharacterIterator.Attribute field =
-                                   (AttributedCharacterIterator.Attribute)f;
+        if (iterbtor != null &&
+                        (f instbnceof AttributedChbrbcterIterbtor.Attribute)) {
+            AttributedChbrbcterIterbtor.Attribute field =
+                                   (AttributedChbrbcterIterbtor.Attribute)f;
 
-            iterator.first();
-            while (iterator.current() != CharacterIterator.DONE) {
-                while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
-                if (iterator.current() != CharacterIterator.DONE) {
-                    int limit = iterator.getRunLimit(field);
+            iterbtor.first();
+            while (iterbtor.current() != ChbrbcterIterbtor.DONE) {
+                while (iterbtor.getAttribute(field) == null &&
+                       iterbtor.next() != ChbrbcterIterbtor.DONE);
+                if (iterbtor.current() != ChbrbcterIterbtor.DONE) {
+                    int limit = iterbtor.getRunLimit(field);
 
                     if (--count <= 0) {
-                        getFormattedTextField().select(iterator.getIndex(),
+                        getFormbttedTextField().select(iterbtor.getIndex(),
                                                        limit);
-                        break;
+                        brebk;
                     }
-                    iterator.setIndex(limit);
-                    iterator.next();
+                    iterbtor.setIndex(limit);
+                    iterbtor.next();
                 }
             }
         }
     }
 
     /**
-     * Returns the field that will be adjusted by adjustValue.
+     * Returns the field thbt will be bdjusted by bdjustVblue.
      */
-    Object getAdjustField(int start, Map<?, ?> attributes) {
+    Object getAdjustField(int stbrt, Mbp<?, ?> bttributes) {
         return null;
     }
 
     /**
      * Returns the number of occurrences of <code>f</code> before
-     * the location <code>start</code> in the current
-     * <code>AttributedCharacterIterator</code>.
+     * the locbtion <code>stbrt</code> in the current
+     * <code>AttributedChbrbcterIterbtor</code>.
      */
-    private int getFieldTypeCountTo(Object f, int start) {
-        AttributedCharacterIterator iterator = getIterator();
+    privbte int getFieldTypeCountTo(Object f, int stbrt) {
+        AttributedChbrbcterIterbtor iterbtor = getIterbtor();
         int count = 0;
 
-        if (iterator != null &&
-                    (f instanceof AttributedCharacterIterator.Attribute)) {
-            AttributedCharacterIterator.Attribute field =
-                                   (AttributedCharacterIterator.Attribute)f;
+        if (iterbtor != null &&
+                    (f instbnceof AttributedChbrbcterIterbtor.Attribute)) {
+            AttributedChbrbcterIterbtor.Attribute field =
+                                   (AttributedChbrbcterIterbtor.Attribute)f;
 
-            iterator.first();
-            while (iterator.getIndex() < start) {
-                while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
-                if (iterator.current() != CharacterIterator.DONE) {
-                    iterator.setIndex(iterator.getRunLimit(field));
-                    iterator.next();
+            iterbtor.first();
+            while (iterbtor.getIndex() < stbrt) {
+                while (iterbtor.getAttribute(field) == null &&
+                       iterbtor.next() != ChbrbcterIterbtor.DONE);
+                if (iterbtor.current() != ChbrbcterIterbtor.DONE) {
+                    iterbtor.setIndex(iterbtor.getRunLimit(field));
+                    iterbtor.next();
                     count++;
                 }
                 else {
-                    break;
+                    brebk;
                 }
             }
         }
@@ -896,97 +896,97 @@ public class InternationalFormatter extends DefaultFormatter {
     }
 
     /**
-     * Subclasses supporting incrementing must override this to handle
-     * the actual incrementing. <code>value</code> is the current value,
-     * <code>attributes</code> gives the field the cursor is in (may be
-     * null depending upon <code>canIncrement</code>) and
-     * <code>direction</code> is the amount to increment by.
+     * Subclbsses supporting incrementing must override this to hbndle
+     * the bctubl incrementing. <code>vblue</code> is the current vblue,
+     * <code>bttributes</code> gives the field the cursor is in (mby be
+     * null depending upon <code>cbnIncrement</code>) bnd
+     * <code>direction</code> is the bmount to increment by.
      */
-    Object adjustValue(Object value, Map<?, ?> attributes, Object field,
+    Object bdjustVblue(Object vblue, Mbp<?, ?> bttributes, Object field,
                            int direction) throws
-                      BadLocationException, ParseException {
+                      BbdLocbtionException, PbrseException {
         return null;
     }
 
     /**
-     * Returns false, indicating InternationalFormatter does not allow
-     * incrementing of the value. Subclasses that wish to support
-     * incrementing/decrementing the value should override this and
-     * return true. Subclasses should also override
-     * <code>adjustValue</code>.
+     * Returns fblse, indicbting InternbtionblFormbtter does not bllow
+     * incrementing of the vblue. Subclbsses thbt wish to support
+     * incrementing/decrementing the vblue should override this bnd
+     * return true. Subclbsses should blso override
+     * <code>bdjustVblue</code>.
      */
-    boolean getSupportsIncrement() {
-        return false;
+    boolebn getSupportsIncrement() {
+        return fblse;
     }
 
     /**
-     * Resets the value of the JFormattedTextField to be
-     * <code>value</code>.
+     * Resets the vblue of the JFormbttedTextField to be
+     * <code>vblue</code>.
      */
-    void resetValue(Object value) throws BadLocationException, ParseException {
-        Document doc = getFormattedTextField().getDocument();
-        String string = valueToString(value);
+    void resetVblue(Object vblue) throws BbdLocbtionException, PbrseException {
+        Document doc = getFormbttedTextField().getDocument();
+        String string = vblueToString(vblue);
 
         try {
-            ignoreDocumentMutate = true;
+            ignoreDocumentMutbte = true;
             doc.remove(0, doc.getLength());
             doc.insertString(0, string, null);
-        } finally {
-            ignoreDocumentMutate = false;
+        } finblly {
+            ignoreDocumentMutbte = fblse;
         }
-        updateValue(value);
+        updbteVblue(vblue);
     }
 
     /**
-     * Subclassed to update the internal representation of the mask after
-     * the default read operation has completed.
+     * Subclbssed to updbte the internbl representbtion of the mbsk bfter
+     * the defbult rebd operbtion hbs completed.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        updateMaskIfNecessary();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        updbteMbskIfNecessbry();
     }
 
 
     /**
-     * Overriden to return an instance of <code>ExtendedReplaceHolder</code>.
+     * Overriden to return bn instbnce of <code>ExtendedReplbceHolder</code>.
      */
-    ReplaceHolder getReplaceHolder(DocumentFilter.FilterBypass fb, int offset,
+    ReplbceHolder getReplbceHolder(DocumentFilter.FilterBypbss fb, int offset,
                                    int length, String text,
-                                   AttributeSet attrs) {
-        if (replaceHolder == null) {
-            replaceHolder = new ExtendedReplaceHolder();
+                                   AttributeSet bttrs) {
+        if (replbceHolder == null) {
+            replbceHolder = new ExtendedReplbceHolder();
         }
-        return super.getReplaceHolder(fb, offset, length, text, attrs);
+        return super.getReplbceHolder(fb, offset, length, text, bttrs);
     }
 
 
     /**
-     * As InternationalFormatter replaces the complete text on every edit,
-     * ExtendedReplaceHolder keeps track of the offset and length passed
-     * into canReplace.
+     * As InternbtionblFormbtter replbces the complete text on every edit,
+     * ExtendedReplbceHolder keeps trbck of the offset bnd length pbssed
+     * into cbnReplbce.
      */
-    static class ExtendedReplaceHolder extends ReplaceHolder {
-        /** Offset of the insert/remove. This may differ from offset in
-         * that if !allowsInvalid the text is replaced on every edit. */
+    stbtic clbss ExtendedReplbceHolder extends ReplbceHolder {
+        /** Offset of the insert/remove. This mby differ from offset in
+         * thbt if !bllowsInvblid the text is replbced on every edit. */
         int endOffset;
-        /** Length of the text. This may differ from text.length in
-         * that if !allowsInvalid the text is replaced on every edit. */
+        /** Length of the text. This mby differ from text.length in
+         * thbt if !bllowsInvblid the text is replbced on every edit. */
         int endTextLength;
 
         /**
-         * Resets the region to delete to be the complete document and
-         * the text from invoking valueToString on the current value.
+         * Resets the region to delete to be the complete document bnd
+         * the text from invoking vblueToString on the current vblue.
          */
-        void resetFromValue(InternationalFormatter formatter) {
-            // Need to reset the complete string as Format's result can
+        void resetFromVblue(InternbtionblFormbtter formbtter) {
+            // Need to reset the complete string bs Formbt's result cbn
             // be completely different.
             offset = 0;
             try {
-                text = formatter.valueToString(value);
-            } catch (ParseException pe) {
-                // Should never happen, otherwise canReplace would have
-                // returned value.
+                text = formbtter.vblueToString(vblue);
+            } cbtch (PbrseException pe) {
+                // Should never hbppen, otherwise cbnReplbce would hbve
+                // returned vblue.
                 text = "";
             }
             length = fb.getDocument().getLength();
@@ -995,65 +995,65 @@ public class InternationalFormatter extends DefaultFormatter {
 
 
     /**
-     * IncrementAction is used to increment the value by a certain amount.
-     * It calls into <code>adjustValue</code> to handle the actual
-     * incrementing of the value.
+     * IncrementAction is used to increment the vblue by b certbin bmount.
+     * It cblls into <code>bdjustVblue</code> to hbndle the bctubl
+     * incrementing of the vblue.
      */
-    private class IncrementAction extends AbstractAction {
-        private int direction;
+    privbte clbss IncrementAction extends AbstrbctAction {
+        privbte int direction;
 
-        IncrementAction(String name, int direction) {
-            super(name);
+        IncrementAction(String nbme, int direction) {
+            super(nbme);
             this.direction = direction;
         }
 
-        public void actionPerformed(ActionEvent ae) {
+        public void bctionPerformed(ActionEvent be) {
 
-            if (getFormattedTextField().isEditable()) {
-                if (getAllowsInvalid()) {
-                    // This will work if the currently edited value is valid.
-                    updateMask();
+            if (getFormbttedTextField().isEditbble()) {
+                if (getAllowsInvblid()) {
+                    // This will work if the currently edited vblue is vblid.
+                    updbteMbsk();
                 }
 
-                boolean validEdit = false;
+                boolebn vblidEdit = fblse;
 
-                if (isValidMask()) {
-                    int start = getFormattedTextField().getSelectionStart();
+                if (isVblidMbsk()) {
+                    int stbrt = getFormbttedTextField().getSelectionStbrt();
 
-                    if (start != -1) {
-                        AttributedCharacterIterator iterator = getIterator();
+                    if (stbrt != -1) {
+                        AttributedChbrbcterIterbtor iterbtor = getIterbtor();
 
-                        iterator.setIndex(start);
+                        iterbtor.setIndex(stbrt);
 
-                        Map<Attribute,Object> attributes = iterator.getAttributes();
-                        Object field = getAdjustField(start, attributes);
+                        Mbp<Attribute,Object> bttributes = iterbtor.getAttributes();
+                        Object field = getAdjustField(stbrt, bttributes);
 
-                        if (canIncrement(field, start)) {
+                        if (cbnIncrement(field, stbrt)) {
                             try {
-                                Object value = stringToValue(
-                                        getFormattedTextField().getText());
+                                Object vblue = stringToVblue(
+                                        getFormbttedTextField().getText());
                                 int fieldTypeCount = getFieldTypeCountTo(
-                                        field, start);
+                                        field, stbrt);
 
-                                value = adjustValue(value, attributes,
+                                vblue = bdjustVblue(vblue, bttributes,
                                         field, direction);
-                                if (value != null && isValidValue(value, false)) {
-                                    resetValue(value);
-                                    updateMask();
+                                if (vblue != null && isVblidVblue(vblue, fblse)) {
+                                    resetVblue(vblue);
+                                    updbteMbsk();
 
-                                    if (isValidMask()) {
+                                    if (isVblidMbsk()) {
                                         selectField(field, fieldTypeCount);
                                     }
-                                    validEdit = true;
+                                    vblidEdit = true;
                                 }
                             }
-                            catch (ParseException pe) { }
-                            catch (BadLocationException ble) { }
+                            cbtch (PbrseException pe) { }
+                            cbtch (BbdLocbtionException ble) { }
                         }
                     }
                 }
-                if (!validEdit) {
-                    invalidEdit();
+                if (!vblidEdit) {
+                    invblidEdit();
                 }
             }
         }

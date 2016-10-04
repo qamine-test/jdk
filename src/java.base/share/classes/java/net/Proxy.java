@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 /**
- * This class represents a proxy setting, typically a type (http, socks) and
- * a socket address.
- * A {@code Proxy} is an immutable object.
+ * This clbss represents b proxy setting, typicblly b type (http, socks) bnd
+ * b socket bddress.
+ * A {@code Proxy} is bn immutbble object.
  *
- * @see     java.net.ProxySelector
- * @author Yingxian Wang
- * @author Jean-Christophe Collet
+ * @see     jbvb.net.ProxySelector
+ * @buthor Yingxibn Wbng
+ * @buthor Jebn-Christophe Collet
  * @since   1.5
  */
-public class Proxy {
+public clbss Proxy {
 
     /**
      * Represents the proxy type.
@@ -44,128 +44,128 @@ public class Proxy {
      */
     public enum Type {
         /**
-         * Represents a direct connection, or the absence of a proxy.
+         * Represents b direct connection, or the bbsence of b proxy.
          */
         DIRECT,
         /**
-         * Represents proxy for high level protocols such as HTTP or FTP.
+         * Represents proxy for high level protocols such bs HTTP or FTP.
          */
         HTTP,
         /**
-         * Represents a SOCKS (V4 or V5) proxy.
+         * Represents b SOCKS (V4 or V5) proxy.
          */
         SOCKS
     };
 
-    private Type type;
-    private SocketAddress sa;
+    privbte Type type;
+    privbte SocketAddress sb;
 
     /**
-     * A proxy setting that represents a {@code DIRECT} connection,
-     * basically telling the protocol handler not to use any proxying.
-     * Used, for instance, to create sockets bypassing any other global
+     * A proxy setting thbt represents b {@code DIRECT} connection,
+     * bbsicblly telling the protocol hbndler not to use bny proxying.
+     * Used, for instbnce, to crebte sockets bypbssing bny other globbl
      * proxy settings (like SOCKS):
      * <P>
      * {@code Socket s = new Socket(Proxy.NO_PROXY);}
      *
      */
-    public final static Proxy NO_PROXY = new Proxy();
+    public finbl stbtic Proxy NO_PROXY = new Proxy();
 
-    // Creates the proxy that represents a {@code DIRECT} connection.
-    private Proxy() {
+    // Crebtes the proxy thbt represents b {@code DIRECT} connection.
+    privbte Proxy() {
         type = Type.DIRECT;
-        sa = null;
+        sb = null;
     }
 
     /**
-     * Creates an entry representing a PROXY connection.
-     * Certain combinations are illegal. For instance, for types Http, and
-     * Socks, a SocketAddress <b>must</b> be provided.
+     * Crebtes bn entry representing b PROXY connection.
+     * Certbin combinbtions bre illegbl. For instbnce, for types Http, bnd
+     * Socks, b SocketAddress <b>must</b> be provided.
      * <P>
-     * Use the {@code Proxy.NO_PROXY} constant
-     * for representing a direct connection.
+     * Use the {@code Proxy.NO_PROXY} constbnt
+     * for representing b direct connection.
      *
-     * @param type the {@code Type} of the proxy
-     * @param sa the {@code SocketAddress} for that proxy
-     * @throws IllegalArgumentException when the type and the address are
-     * incompatible
+     * @pbrbm type the {@code Type} of the proxy
+     * @pbrbm sb the {@code SocketAddress} for thbt proxy
+     * @throws IllegblArgumentException when the type bnd the bddress bre
+     * incompbtible
      */
-    public Proxy(Type type, SocketAddress sa) {
-        if ((type == Type.DIRECT) || !(sa instanceof InetSocketAddress))
-            throw new IllegalArgumentException("type " + type + " is not compatible with address " + sa);
+    public Proxy(Type type, SocketAddress sb) {
+        if ((type == Type.DIRECT) || !(sb instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("type " + type + " is not compbtible with bddress " + sb);
         this.type = type;
-        this.sa = sa;
+        this.sb = sb;
     }
 
     /**
      * Returns the proxy type.
      *
-     * @return a Type representing the proxy type
+     * @return b Type representing the proxy type
      */
     public Type type() {
         return type;
     }
 
     /**
-     * Returns the socket address of the proxy, or
-     * {@code null} if its a direct connection.
+     * Returns the socket bddress of the proxy, or
+     * {@code null} if its b direct connection.
      *
-     * @return a {@code SocketAddress} representing the socket end
+     * @return b {@code SocketAddress} representing the socket end
      *         point of the proxy
      */
-    public SocketAddress address() {
-        return sa;
+    public SocketAddress bddress() {
+        return sb;
     }
 
     /**
-     * Constructs a string representation of this Proxy.
-     * This String is constructed by calling toString() on its type
-     * and concatenating " @ " and the toString() result from its address
+     * Constructs b string representbtion of this Proxy.
+     * This String is constructed by cblling toString() on its type
+     * bnd concbtenbting " @ " bnd the toString() result from its bddress
      * if its type is not {@code DIRECT}.
      *
-     * @return  a string representation of this object.
+     * @return  b string representbtion of this object.
      */
     public String toString() {
         if (type() == Type.DIRECT)
             return "DIRECT";
-        return type() + " @ " + address();
+        return type() + " @ " + bddress();
     }
 
         /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same proxy as
+     * Compbres this object bgbinst the specified object.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd it represents the sbme proxy bs
      * this object.
      * <p>
-     * Two instances of {@code Proxy} represent the same
-     * address if both the SocketAddresses and type are equal.
+     * Two instbnces of {@code Proxy} represent the sbme
+     * bddress if both the SocketAddresses bnd type bre equbl.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.net.InetSocketAddress#equals(java.lang.Object)
+     * @pbrbm   obj   the object to compbre bgbinst.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see jbvb.net.InetSocketAddress#equbls(jbvb.lbng.Object)
      */
-    public final boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Proxy))
-            return false;
+    public finbl boolebn equbls(Object obj) {
+        if (obj == null || !(obj instbnceof Proxy))
+            return fblse;
         Proxy p = (Proxy) obj;
         if (p.type() == type()) {
-            if (address() == null) {
-                return (p.address() == null);
+            if (bddress() == null) {
+                return (p.bddress() == null);
             } else
-                return address().equals(p.address());
+                return bddress().equbls(p.bddress());
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hashcode for this Proxy.
+     * Returns b hbshcode for this Proxy.
      *
-     * @return  a hash code value for this Proxy.
+     * @return  b hbsh code vblue for this Proxy.
      */
-    public final int hashCode() {
-        if (address() == null)
-            return type().hashCode();
-        return type().hashCode() + address().hashCode();
+    public finbl int hbshCode() {
+        if (bddress() == null)
+            return type().hbshCode();
+        return type().hbshCode() + bddress().hbshCode();
     }
 }

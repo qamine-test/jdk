@@ -1,405 +1,405 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.ch;                                     // Formerly in sun.misc
+pbckbge sun.nio.ch;                                     // Formerly in sun.misc
 
-import java.nio.ByteOrder;
-import sun.misc.Unsafe;
+import jbvb.nio.ByteOrder;
+import sun.misc.Unsbfe;
 
 
-// ## In the fullness of time, this class will be eliminated
+// ## In the fullness of time, this clbss will be eliminbted
 
 /**
- * Proxies for objects that reside in native memory.
+ * Proxies for objects thbt reside in nbtive memory.
  */
 
-class NativeObject {                                    // package-private
+clbss NbtiveObject {                                    // pbckbge-privbte
 
-    protected static final Unsafe unsafe = Unsafe.getUnsafe();
+    protected stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    // Native allocation address;
-    // may be smaller than the base address due to page-size rounding
+    // Nbtive bllocbtion bddress;
+    // mby be smbller thbn the bbse bddress due to pbge-size rounding
     //
-    protected long allocationAddress;
+    protected long bllocbtionAddress;
 
-    // Native base address
+    // Nbtive bbse bddress
     //
-    private final long address;
+    privbte finbl long bddress;
 
     /**
-     * Creates a new native object that is based at the given native address.
+     * Crebtes b new nbtive object thbt is bbsed bt the given nbtive bddress.
      */
-    NativeObject(long address) {
-        this.allocationAddress = address;
-        this.address = address;
+    NbtiveObject(long bddress) {
+        this.bllocbtionAddress = bddress;
+        this.bddress = bddress;
     }
 
     /**
-     * Creates a new native object allocated at the given native address but
-     * whose base is at the additional offset.
+     * Crebtes b new nbtive object bllocbted bt the given nbtive bddress but
+     * whose bbse is bt the bdditionbl offset.
      */
-    NativeObject(long address, long offset) {
-        this.allocationAddress = address;
-        this.address = address + offset;
+    NbtiveObject(long bddress, long offset) {
+        this.bllocbtionAddress = bddress;
+        this.bddress = bddress + offset;
     }
 
-    // Invoked only by AllocatedNativeObject
+    // Invoked only by AllocbtedNbtiveObject
     //
-    protected NativeObject(int size, boolean pageAligned) {
-        if (!pageAligned) {
-            this.allocationAddress = unsafe.allocateMemory(size);
-            this.address = this.allocationAddress;
+    protected NbtiveObject(int size, boolebn pbgeAligned) {
+        if (!pbgeAligned) {
+            this.bllocbtionAddress = unsbfe.bllocbteMemory(size);
+            this.bddress = this.bllocbtionAddress;
         } else {
-            int ps = pageSize();
-            long a = unsafe.allocateMemory(size + ps);
-            this.allocationAddress = a;
-            this.address = a + ps - (a & (ps - 1));
+            int ps = pbgeSize();
+            long b = unsbfe.bllocbteMemory(size + ps);
+            this.bllocbtionAddress = b;
+            this.bddress = b + ps - (b & (ps - 1));
         }
     }
 
     /**
-     * Returns the native base address of this native object.
+     * Returns the nbtive bbse bddress of this nbtive object.
      *
-     * @return The native base address
+     * @return The nbtive bbse bddress
      */
-    long address() {
-        return address;
+    long bddress() {
+        return bddress;
     }
 
-    long allocationAddress() {
-        return allocationAddress;
+    long bllocbtionAddress() {
+        return bllocbtionAddress;
     }
 
     /**
-     * Creates a new native object starting at the given offset from the base
-     * of this native object.
+     * Crebtes b new nbtive object stbrting bt the given offset from the bbse
+     * of this nbtive object.
      *
-     * @param  offset
-     *         The offset from the base of this native object that is to be
-     *         the base of the new native object
+     * @pbrbm  offset
+     *         The offset from the bbse of this nbtive object thbt is to be
+     *         the bbse of the new nbtive object
      *
-     * @return The newly created native object
+     * @return The newly crebted nbtive object
      */
-    NativeObject subObject(int offset) {
-        return new NativeObject(offset + address);
+    NbtiveObject subObject(int offset) {
+        return new NbtiveObject(offset + bddress);
     }
 
     /**
-     * Reads an address from this native object at the given offset and
-     * constructs a native object using that address.
+     * Rebds bn bddress from this nbtive object bt the given offset bnd
+     * constructs b nbtive object using thbt bddress.
      *
-     * @param  offset
-     *         The offset of the address to be read.  Note that the size of an
-     *         address is implementation-dependent.
+     * @pbrbm  offset
+     *         The offset of the bddress to be rebd.  Note thbt the size of bn
+     *         bddress is implementbtion-dependent.
      *
-     * @return The native object created using the address read from the
+     * @return The nbtive object crebted using the bddress rebd from the
      *         given offset
      */
-    NativeObject getObject(int offset) {
+    NbtiveObject getObject(int offset) {
         long newAddress = 0L;
-        switch (addressSize()) {
-            case 8:
-                newAddress = unsafe.getLong(offset + address);
-                break;
-            case 4:
-                newAddress = unsafe.getInt(offset + address) & 0x00000000FFFFFFFF;
-                break;
-            default:
-                throw new InternalError("Address size not supported");
+        switch (bddressSize()) {
+            cbse 8:
+                newAddress = unsbfe.getLong(offset + bddress);
+                brebk;
+            cbse 4:
+                newAddress = unsbfe.getInt(offset + bddress) & 0x00000000FFFFFFFF;
+                brebk;
+            defbult:
+                throw new InternblError("Address size not supported");
         }
 
-        return new NativeObject(newAddress);
+        return new NbtiveObject(newAddress);
     }
 
     /**
-     * Writes the base address of the given native object at the given offset
-     * of this native object.
+     * Writes the bbse bddress of the given nbtive object bt the given offset
+     * of this nbtive object.
      *
-     * @param  offset
-     *         The offset at which the address is to be written.  Note that the
-     *         size of an address is implementation-dependent.
+     * @pbrbm  offset
+     *         The offset bt which the bddress is to be written.  Note thbt the
+     *         size of bn bddress is implementbtion-dependent.
      *
-     * @param  ob
-     *         The native object whose address is to be written
+     * @pbrbm  ob
+     *         The nbtive object whose bddress is to be written
      */
-    void putObject(int offset, NativeObject ob) {
-        switch (addressSize()) {
-            case 8:
-                putLong(offset, ob.address);
-                break;
-            case 4:
-                putInt(offset, (int)(ob.address & 0x00000000FFFFFFFF));
-                break;
-            default:
-                throw new InternalError("Address size not supported");
+    void putObject(int offset, NbtiveObject ob) {
+        switch (bddressSize()) {
+            cbse 8:
+                putLong(offset, ob.bddress);
+                brebk;
+            cbse 4:
+                putInt(offset, (int)(ob.bddress & 0x00000000FFFFFFFF));
+                brebk;
+            defbult:
+                throw new InternblError("Address size not supported");
         }
     }
 
 
-    /* -- Value accessors: No range checking! -- */
+    /* -- Vblue bccessors: No rbnge checking! -- */
 
     /**
-     * Reads a byte starting at the given offset from base of this native
+     * Rebds b byte stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the byte
+     * @pbrbm  offset
+     *         The offset bt which to rebd the byte
      *
-     * @return The byte value read
+     * @return The byte vblue rebd
      */
-    final byte getByte(int offset) {
-        return unsafe.getByte(offset + address);
+    finbl byte getByte(int offset) {
+        return unsbfe.getByte(offset + bddress);
     }
 
     /**
-     * Writes a byte at the specified offset from this native object's
-     * base address.
+     * Writes b byte bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the byte
+     * @pbrbm  offset
+     *         The offset bt which to write the byte
      *
-     * @param  value
-     *         The byte value to be written
+     * @pbrbm  vblue
+     *         The byte vblue to be written
      */
-    final void putByte(int offset, byte value) {
-        unsafe.putByte(offset + address,  value);
+    finbl void putByte(int offset, byte vblue) {
+        unsbfe.putByte(offset + bddress,  vblue);
     }
 
     /**
-     * Reads a short starting at the given offset from base of this native
+     * Rebds b short stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the short
+     * @pbrbm  offset
+     *         The offset bt which to rebd the short
      *
-     * @return The short value read
+     * @return The short vblue rebd
      */
-    final short getShort(int offset) {
-        return unsafe.getShort(offset + address);
+    finbl short getShort(int offset) {
+        return unsbfe.getShort(offset + bddress);
     }
 
     /**
-     * Writes a short at the specified offset from this native object's
-     * base address.
+     * Writes b short bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the short
+     * @pbrbm  offset
+     *         The offset bt which to write the short
      *
-     * @param  value
-     *         The short value to be written
+     * @pbrbm  vblue
+     *         The short vblue to be written
      */
-    final void putShort(int offset, short value) {
-        unsafe.putShort(offset + address,  value);
+    finbl void putShort(int offset, short vblue) {
+        unsbfe.putShort(offset + bddress,  vblue);
     }
 
     /**
-     * Reads a char starting at the given offset from base of this native
+     * Rebds b chbr stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the char
+     * @pbrbm  offset
+     *         The offset bt which to rebd the chbr
      *
-     * @return The char value read
+     * @return The chbr vblue rebd
      */
-    final char getChar(int offset) {
-        return unsafe.getChar(offset + address);
+    finbl chbr getChbr(int offset) {
+        return unsbfe.getChbr(offset + bddress);
     }
 
     /**
-     * Writes a char at the specified offset from this native object's
-     * base address.
+     * Writes b chbr bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the char
+     * @pbrbm  offset
+     *         The offset bt which to write the chbr
      *
-     * @param  value
-     *         The char value to be written
+     * @pbrbm  vblue
+     *         The chbr vblue to be written
      */
-    final void putChar(int offset, char value) {
-        unsafe.putChar(offset + address,  value);
+    finbl void putChbr(int offset, chbr vblue) {
+        unsbfe.putChbr(offset + bddress,  vblue);
     }
 
     /**
-     * Reads an int starting at the given offset from base of this native
+     * Rebds bn int stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the int
+     * @pbrbm  offset
+     *         The offset bt which to rebd the int
      *
-     * @return The int value read
+     * @return The int vblue rebd
      */
-    final int getInt(int offset) {
-        return unsafe.getInt(offset + address);
+    finbl int getInt(int offset) {
+        return unsbfe.getInt(offset + bddress);
     }
 
     /**
-     * Writes an int at the specified offset from this native object's
-     * base address.
+     * Writes bn int bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the int
+     * @pbrbm  offset
+     *         The offset bt which to write the int
      *
-     * @param  value
-     *         The int value to be written
+     * @pbrbm  vblue
+     *         The int vblue to be written
      */
-    final void putInt(int offset, int value) {
-        unsafe.putInt(offset + address, value);
+    finbl void putInt(int offset, int vblue) {
+        unsbfe.putInt(offset + bddress, vblue);
     }
 
     /**
-     * Reads a long starting at the given offset from base of this native
+     * Rebds b long stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the long
+     * @pbrbm  offset
+     *         The offset bt which to rebd the long
      *
-     * @return The long value read
+     * @return The long vblue rebd
      */
-    final long getLong(int offset) {
-        return unsafe.getLong(offset + address);
+    finbl long getLong(int offset) {
+        return unsbfe.getLong(offset + bddress);
     }
 
     /**
-     * Writes a long at the specified offset from this native object's
-     * base address.
+     * Writes b long bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the long
+     * @pbrbm  offset
+     *         The offset bt which to write the long
      *
-     * @param  value
-     *         The long value to be written
+     * @pbrbm  vblue
+     *         The long vblue to be written
      */
-    final void putLong(int offset, long value) {
-        unsafe.putLong(offset + address, value);
+    finbl void putLong(int offset, long vblue) {
+        unsbfe.putLong(offset + bddress, vblue);
     }
 
     /**
-     * Reads a float starting at the given offset from base of this native
+     * Rebds b flobt stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the float
+     * @pbrbm  offset
+     *         The offset bt which to rebd the flobt
      *
-     * @return The float value read
+     * @return The flobt vblue rebd
      */
-    final float getFloat(int offset) {
-        return unsafe.getFloat(offset + address);
+    finbl flobt getFlobt(int offset) {
+        return unsbfe.getFlobt(offset + bddress);
     }
 
     /**
-     * Writes a float at the specified offset from this native object's
-     * base address.
+     * Writes b flobt bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the float
+     * @pbrbm  offset
+     *         The offset bt which to write the flobt
      *
-     * @param  value
-     *         The float value to be written
+     * @pbrbm  vblue
+     *         The flobt vblue to be written
      */
-    final void putFloat(int offset, float value) {
-        unsafe.putFloat(offset + address, value);
+    finbl void putFlobt(int offset, flobt vblue) {
+        unsbfe.putFlobt(offset + bddress, vblue);
     }
 
     /**
-     * Reads a double starting at the given offset from base of this native
+     * Rebds b double stbrting bt the given offset from bbse of this nbtive
      * object.
      *
-     * @param  offset
-     *         The offset at which to read the double
+     * @pbrbm  offset
+     *         The offset bt which to rebd the double
      *
-     * @return The double value read
+     * @return The double vblue rebd
      */
-    final double getDouble(int offset) {
-        return unsafe.getDouble(offset + address);
+    finbl double getDouble(int offset) {
+        return unsbfe.getDouble(offset + bddress);
     }
 
     /**
-     * Writes a double at the specified offset from this native object's
-     * base address.
+     * Writes b double bt the specified offset from this nbtive object's
+     * bbse bddress.
      *
-     * @param  offset
-     *         The offset at which to write the double
+     * @pbrbm  offset
+     *         The offset bt which to write the double
      *
-     * @param  value
-     *         The double value to be written
+     * @pbrbm  vblue
+     *         The double vblue to be written
      */
-    final void putDouble(int offset, double value) {
-        unsafe.putDouble(offset + address, value);
+    finbl void putDouble(int offset, double vblue) {
+        unsbfe.putDouble(offset + bddress, vblue);
     }
 
     /**
-     * Returns the native architecture's address size in bytes.
+     * Returns the nbtive brchitecture's bddress size in bytes.
      *
-     * @return The address size of the native architecture
+     * @return The bddress size of the nbtive brchitecture
      */
-    static int addressSize() {
-        return unsafe.addressSize();
+    stbtic int bddressSize() {
+        return unsbfe.bddressSize();
     }
 
-    // Cache for byte order
-    private static ByteOrder byteOrder = null;
+    // Cbche for byte order
+    privbte stbtic ByteOrder byteOrder = null;
 
     /**
-     * Returns the byte order of the underlying hardware.
+     * Returns the byte order of the underlying hbrdwbre.
      *
-     * @return  An instance of {@link java.nio.ByteOrder}
+     * @return  An instbnce of {@link jbvb.nio.ByteOrder}
      */
-    static ByteOrder byteOrder() {
+    stbtic ByteOrder byteOrder() {
         if (byteOrder != null)
             return byteOrder;
-        long a = unsafe.allocateMemory(8);
+        long b = unsbfe.bllocbteMemory(8);
         try {
-            unsafe.putLong(a, 0x0102030405060708L);
-            byte b = unsafe.getByte(a);
+            unsbfe.putLong(b, 0x0102030405060708L);
+            byte b = unsbfe.getByte(b);
             switch (b) {
-            case 0x01: byteOrder = ByteOrder.BIG_ENDIAN;     break;
-            case 0x08: byteOrder = ByteOrder.LITTLE_ENDIAN;  break;
-            default:
-                assert false;
+            cbse 0x01: byteOrder = ByteOrder.BIG_ENDIAN;     brebk;
+            cbse 0x08: byteOrder = ByteOrder.LITTLE_ENDIAN;  brebk;
+            defbult:
+                bssert fblse;
             }
-        } finally {
-            unsafe.freeMemory(a);
+        } finblly {
+            unsbfe.freeMemory(b);
         }
         return byteOrder;
     }
 
-    // Cache for page size
-    private static int pageSize = -1;
+    // Cbche for pbge size
+    privbte stbtic int pbgeSize = -1;
 
     /**
-     * Returns the page size of the underlying hardware.
+     * Returns the pbge size of the underlying hbrdwbre.
      *
-     * @return  The page size, in bytes
+     * @return  The pbge size, in bytes
      */
-    static int pageSize() {
-        if (pageSize == -1)
-            pageSize = unsafe.pageSize();
-        return pageSize;
+    stbtic int pbgeSize() {
+        if (pbgeSize == -1)
+            pbgeSize = unsbfe.pbgeSize();
+        return pbgeSize;
     }
 
 }

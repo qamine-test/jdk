@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.dgc;
+pbckbge jbvb.rmi.dgc;
 
-import java.rmi.server.UID;
-import java.security.SecureRandom;
+import jbvb.rmi.server.UID;
+import jbvb.security.SecureRbndom;
 
 /**
- * A VMID is a identifier that is unique across all Java virtual
- * machines.  VMIDs are used by the distributed garbage collector
+ * A VMID is b identifier thbt is unique bcross bll Jbvb virtubl
+ * mbchines.  VMIDs bre used by the distributed gbrbbge collector
  * to identify client VMs.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
+ * @buthor      Ann Wollrbth
+ * @buthor      Peter Jones
  */
-public final class VMID implements java.io.Serializable {
-    /** Array of bytes uniquely identifying this host */
-    private static final byte[] randomBytes;
+public finbl clbss VMID implements jbvb.io.Seriblizbble {
+    /** Arrby of bytes uniquely identifying this host */
+    privbte stbtic finbl byte[] rbndomBytes;
 
     /**
-     * @serial array of bytes uniquely identifying host created on
+     * @seribl brrby of bytes uniquely identifying host crebted on
      */
-    private byte[] addr;
+    privbte byte[] bddr;
 
     /**
-     * @serial unique identifier with respect to host created on
+     * @seribl unique identifier with respect to host crebted on
      */
-    private UID uid;
+    privbte UID uid;
 
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -538642295484486218L;
+    /** indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -538642295484486218L;
 
-    static {
-        // Generate 8 bytes of random data.
-        SecureRandom secureRandom = new SecureRandom();
+    stbtic {
+        // Generbte 8 bytes of rbndom dbtb.
+        SecureRbndom secureRbndom = new SecureRbndom();
         byte bytes[] = new byte[8];
-        secureRandom.nextBytes(bytes);
-        randomBytes = bytes;
+        secureRbndom.nextBytes(bytes);
+        rbndomBytes = bytes;
     }
 
     /**
-     * Create a new VMID.  Each new VMID returned from this constructor
-     * is unique for all Java virtual machines under the following
-     * conditions: a) the conditions for uniqueness for objects of
-     * the class <code>java.rmi.server.UID</code> are satisfied, and b) an
-     * address can be obtained for this host that is unique and constant
+     * Crebte b new VMID.  Ebch new VMID returned from this constructor
+     * is unique for bll Jbvb virtubl mbchines under the following
+     * conditions: b) the conditions for uniqueness for objects of
+     * the clbss <code>jbvb.rmi.server.UID</code> bre sbtisfied, bnd b) bn
+     * bddress cbn be obtbined for this host thbt is unique bnd constbnt
      * for the lifetime of this object.
      */
     public VMID() {
-        addr = randomBytes;
+        bddr = rbndomBytes;
         uid = new UID();
     }
 
     /**
-     * Return true if an accurate address can be determined for this
-     * host.  If false, reliable VMID cannot be generated from this host
-     * @return true if host address can be determined, false otherwise
-     * @deprecated
+     * Return true if bn bccurbte bddress cbn be determined for this
+     * host.  If fblse, relibble VMID cbnnot be generbted from this host
+     * @return true if host bddress cbn be determined, fblse otherwise
+     * @deprecbted
      */
-    @Deprecated
-    public static boolean isUnique() {
+    @Deprecbted
+    public stbtic boolebn isUnique() {
         return true;
     }
 
     /**
-     * Compute hash code for this VMID.
+     * Compute hbsh code for this VMID.
      */
-    public int hashCode() {
-        return uid.hashCode();
+    public int hbshCode() {
+        return uid.hbshCode();
     }
 
     /**
-     * Compare this VMID to another, and return true if they are the
-     * same identifier.
+     * Compbre this VMID to bnother, bnd return true if they bre the
+     * sbme identifier.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof VMID) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof VMID) {
             VMID vmid = (VMID) obj;
-            if (!uid.equals(vmid.uid))
-                return false;
-            if ((addr == null) ^ (vmid.addr == null))
-                return false;
-            if (addr != null) {
-                if (addr.length != vmid.addr.length)
-                    return false;
-                for (int i = 0; i < addr.length; ++ i)
-                    if (addr[i] != vmid.addr[i])
-                        return false;
+            if (!uid.equbls(vmid.uid))
+                return fblse;
+            if ((bddr == null) ^ (vmid.bddr == null))
+                return fblse;
+            if (bddr != null) {
+                if (bddr.length != vmid.bddr.length)
+                    return fblse;
+                for (int i = 0; i < bddr.length; ++ i)
+                    if (bddr[i] != vmid.bddr[i])
+                        return fblse;
             }
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Return string representation of this VMID.
+     * Return string representbtion of this VMID.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (addr != null)
-            for (int i = 0; i < addr.length; ++ i) {
-                int x = addr[i] & 0xFF;
-                sb.append((x < 0x10 ? "0" : "") +
+        if (bddr != null)
+            for (int i = 0; i < bddr.length; ++ i) {
+                int x = bddr[i] & 0xFF;
+                sb.bppend((x < 0x10 ? "0" : "") +
                           Integer.toString(x, 16));
             }
-        sb.append(':');
-        sb.append(uid.toString());
+        sb.bppend(':');
+        sb.bppend(uid.toString());
         return sb.toString();
     }
 }

@@ -1,328 +1,328 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.io.File;
-import java.awt.Font;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Locale;
+import jbvb.io.File;
+import jbvb.bwt.Font;
+import jbvb.util.HbshMbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.Locble;
 
-public class FontFamily {
+public clbss FontFbmily {
 
-    private static ConcurrentHashMap<String, FontFamily>
-        familyNameMap = new ConcurrentHashMap<String, FontFamily>();
-    private static HashMap<String, FontFamily> allLocaleNames;
+    privbte stbtic ConcurrentHbshMbp<String, FontFbmily>
+        fbmilyNbmeMbp = new ConcurrentHbshMbp<String, FontFbmily>();
+    privbte stbtic HbshMbp<String, FontFbmily> bllLocbleNbmes;
 
-    protected String familyName;
-    protected Font2D plain;
+    protected String fbmilyNbme;
+    protected Font2D plbin;
     protected Font2D bold;
-    protected Font2D italic;
-    protected Font2D bolditalic;
-    protected boolean logicalFont = false;
-    protected int familyRank;
+    protected Font2D itblic;
+    protected Font2D bolditblic;
+    protected boolebn logicblFont = fblse;
+    protected int fbmilyRbnk;
 
-    public static FontFamily getFamily(String name) {
-        return familyNameMap.get(name.toLowerCase(Locale.ENGLISH));
+    public stbtic FontFbmily getFbmily(String nbme) {
+        return fbmilyNbmeMbp.get(nbme.toLowerCbse(Locble.ENGLISH));
     }
 
-    public static String[] getAllFamilyNames() {
+    public stbtic String[] getAllFbmilyNbmes() {
         return null;
     }
 
-    /* Only for use by FontManager.deRegisterBadFont(..).
-     * If this was the only font in the family, the family is removed
-     * from the map
+    /* Only for use by FontMbnbger.deRegisterBbdFont(..).
+     * If this wbs the only font in the fbmily, the fbmily is removed
+     * from the mbp
      */
-    static void remove(Font2D font2D) {
+    stbtic void remove(Font2D font2D) {
 
-        String name = font2D.getFamilyName(Locale.ENGLISH);
-        FontFamily family = getFamily(name);
-        if (family == null) {
+        String nbme = font2D.getFbmilyNbme(Locble.ENGLISH);
+        FontFbmily fbmily = getFbmily(nbme);
+        if (fbmily == null) {
             return;
         }
-        if (family.plain == font2D) {
-            family.plain = null;
+        if (fbmily.plbin == font2D) {
+            fbmily.plbin = null;
         }
-        if (family.bold == font2D) {
-            family.bold = null;
+        if (fbmily.bold == font2D) {
+            fbmily.bold = null;
         }
-        if (family.italic == font2D) {
-            family.italic = null;
+        if (fbmily.itblic == font2D) {
+            fbmily.itblic = null;
         }
-        if (family.bolditalic == font2D) {
-            family.bolditalic = null;
+        if (fbmily.bolditblic == font2D) {
+            fbmily.bolditblic = null;
         }
-        if (family.plain == null && family.bold == null &&
-            family.plain == null && family.bold == null) {
-            familyNameMap.remove(name);
+        if (fbmily.plbin == null && fbmily.bold == null &&
+            fbmily.plbin == null && fbmily.bold == null) {
+            fbmilyNbmeMbp.remove(nbme);
         }
     }
 
-    public FontFamily(String name, boolean isLogFont, int rank) {
-        logicalFont = isLogFont;
-        familyName = name;
-        familyRank = rank;
-        familyNameMap.put(name.toLowerCase(Locale.ENGLISH), this);
+    public FontFbmily(String nbme, boolebn isLogFont, int rbnk) {
+        logicblFont = isLogFont;
+        fbmilyNbme = nbme;
+        fbmilyRbnk = rbnk;
+        fbmilyNbmeMbp.put(nbme.toLowerCbse(Locble.ENGLISH), this);
     }
 
-    /* Create a family for created fonts which aren't listed in the
-     * main map.
+    /* Crebte b fbmily for crebted fonts which bren't listed in the
+     * mbin mbp.
      */
-    FontFamily(String name) {
-        logicalFont = false;
-        familyName = name;
-        familyRank = Font2D.DEFAULT_RANK;
+    FontFbmily(String nbme) {
+        logicblFont = fblse;
+        fbmilyNbme = nbme;
+        fbmilyRbnk = Font2D.DEFAULT_RANK;
     }
 
-    public String getFamilyName() {
-        return familyName;
+    public String getFbmilyNbme() {
+        return fbmilyNbme;
     }
 
-    public int getRank() {
-        return familyRank;
+    public int getRbnk() {
+        return fbmilyRbnk;
     }
 
-    private boolean isFromSameSource(Font2D font) {
-        if (!(font instanceof FileFont)) {
-            return false;
+    privbte boolebn isFromSbmeSource(Font2D font) {
+        if (!(font instbnceof FileFont)) {
+            return fblse;
         }
 
         FileFont existingFont = null;
-        if (plain instanceof FileFont) {
-            existingFont = (FileFont)plain;
-        } else if (bold instanceof FileFont) {
+        if (plbin instbnceof FileFont) {
+            existingFont = (FileFont)plbin;
+        } else if (bold instbnceof FileFont) {
             existingFont = (FileFont)bold;
-        } else if (italic instanceof FileFont) {
-             existingFont = (FileFont)italic;
-        } else if (bolditalic instanceof FileFont) {
-             existingFont = (FileFont)bolditalic;
+        } else if (itblic instbnceof FileFont) {
+             existingFont = (FileFont)itblic;
+        } else if (bolditblic instbnceof FileFont) {
+             existingFont = (FileFont)bolditblic;
         }
-        // A family isn't created until there's a font.
-        // So if we didn't find a file font it means this
-        // isn't a file-based family.
+        // A fbmily isn't crebted until there's b font.
+        // So if we didn't find b file font it mebns this
+        // isn't b file-bbsed fbmily.
         if (existingFont == null) {
-            return false;
+            return fblse;
         }
-        File existDir = (new File(existingFont.platName)).getParentFile();
+        File existDir = (new File(existingFont.plbtNbme)).getPbrentFile();
 
         FileFont newFont = (FileFont)font;
-        File newDir = (new File(newFont.platName)).getParentFile();
-        return java.util.Objects.equals(newDir, existDir);
+        File newDir = (new File(newFont.plbtNbme)).getPbrentFile();
+        return jbvb.util.Objects.equbls(newDir, existDir);
     }
 
     public void setFont(Font2D font, int style) {
-        /* Allow a lower-rank font only if its a file font
-         * from the exact same source as any previous font.
+        /* Allow b lower-rbnk font only if its b file font
+         * from the exbct sbme source bs bny previous font.
          */
-        if ((font.getRank() > familyRank) && !isFromSameSource(font)) {
+        if ((font.getRbnk() > fbmilyRbnk) && !isFromSbmeSource(font)) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger()
-                                  .warning("Rejecting adding " + font +
-                                           " of lower rank " + font.getRank() +
-                                           " to family " + this +
-                                           " of rank " + familyRank);
+                                  .wbrning("Rejecting bdding " + font +
+                                           " of lower rbnk " + font.getRbnk() +
+                                           " to fbmily " + this +
+                                           " of rbnk " + fbmilyRbnk);
             }
             return;
         }
 
         switch (style) {
 
-        case Font.PLAIN:
-            plain = font;
-            break;
+        cbse Font.PLAIN:
+            plbin = font;
+            brebk;
 
-        case Font.BOLD:
+        cbse Font.BOLD:
             bold = font;
-            break;
+            brebk;
 
-        case Font.ITALIC:
-            italic = font;
-            break;
+        cbse Font.ITALIC:
+            itblic = font;
+            brebk;
 
-        case Font.BOLD|Font.ITALIC:
-            bolditalic = font;
-            break;
+        cbse Font.BOLD|Font.ITALIC:
+            bolditblic = font;
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
         }
     }
 
-    public Font2D getFontWithExactStyleMatch(int style) {
+    public Font2D getFontWithExbctStyleMbtch(int style) {
 
         switch (style) {
 
-        case Font.PLAIN:
-            return plain;
+        cbse Font.PLAIN:
+            return plbin;
 
-        case Font.BOLD:
+        cbse Font.BOLD:
             return bold;
 
-        case Font.ITALIC:
-            return italic;
+        cbse Font.ITALIC:
+            return itblic;
 
-        case Font.BOLD|Font.ITALIC:
-            return bolditalic;
+        cbse Font.BOLD|Font.ITALIC:
+            return bolditblic;
 
-        default:
+        defbult:
             return null;
         }
     }
 
-    /* REMIND: if the callers of this method are operating in an
-     * environment in which not all fonts are registered, the returned
-     * font may be a algorithmically styled one, where in fact if loadfonts
-     * were executed, a styled font may be located. Our present "solution"
-     * to this is to register all fonts in a directory and assume that this
-     * registered all the styles of a font, since they would all be in the
-     * same location.
+    /* REMIND: if the cbllers of this method bre operbting in bn
+     * environment in which not bll fonts bre registered, the returned
+     * font mby be b blgorithmicblly styled one, where in fbct if lobdfonts
+     * were executed, b styled font mby be locbted. Our present "solution"
+     * to this is to register bll fonts in b directory bnd bssume thbt this
+     * registered bll the styles of b font, since they would bll be in the
+     * sbme locbtion.
      */
     public Font2D getFont(int style) {
 
         switch (style) {
 
-        case Font.PLAIN:
-            return plain;
+        cbse Font.PLAIN:
+            return plbin;
 
-        case Font.BOLD:
+        cbse Font.BOLD:
             if (bold != null) {
                 return bold;
-            } else if (plain != null && plain.canDoStyle(style)) {
-                    return plain;
+            } else if (plbin != null && plbin.cbnDoStyle(style)) {
+                    return plbin;
             } else {
                 return null;
             }
 
-        case Font.ITALIC:
-            if (italic != null) {
-                return italic;
-            } else if (plain != null && plain.canDoStyle(style)) {
-                    return plain;
+        cbse Font.ITALIC:
+            if (itblic != null) {
+                return itblic;
+            } else if (plbin != null && plbin.cbnDoStyle(style)) {
+                    return plbin;
             } else {
                 return null;
             }
 
-        case Font.BOLD|Font.ITALIC:
-            if (bolditalic != null) {
-                return bolditalic;
-            } else if (italic != null && italic.canDoStyle(style)) {
-                    return italic;
-            } else if (bold != null && bold.canDoStyle(style)) {
-                    return italic;
-            } else if (plain != null && plain.canDoStyle(style)) {
-                    return plain;
+        cbse Font.BOLD|Font.ITALIC:
+            if (bolditblic != null) {
+                return bolditblic;
+            } else if (itblic != null && itblic.cbnDoStyle(style)) {
+                    return itblic;
+            } else if (bold != null && bold.cbnDoStyle(style)) {
+                    return itblic;
+            } else if (plbin != null && plbin.cbnDoStyle(style)) {
+                    return plbin;
             } else {
                 return null;
             }
-        default:
+        defbult:
             return null;
         }
     }
 
-    /* Only to be called if getFont(style) returns null
-     * This method will only return null if the family is completely empty!
-     * Note that it assumes the font of the style you need isn't in the
-     * family. The logic here is that if we must substitute something
-     * it might as well be from the same family.
+    /* Only to be cblled if getFont(style) returns null
+     * This method will only return null if the fbmily is completely empty!
+     * Note thbt it bssumes the font of the style you need isn't in the
+     * fbmily. The logic here is thbt if we must substitute something
+     * it might bs well be from the sbme fbmily.
      */
      Font2D getClosestStyle(int style) {
 
         switch (style) {
-            /* if you ask for a plain font try to return a non-italic one,
-             * then a italic one, finally a bold italic one */
-        case Font.PLAIN:
+            /* if you bsk for b plbin font try to return b non-itblic one,
+             * then b itblic one, finblly b bold itblic one */
+        cbse Font.PLAIN:
             if (bold != null) {
                 return bold;
-            } else if (italic != null) {
-                return italic;
+            } else if (itblic != null) {
+                return itblic;
             } else {
-                return bolditalic;
+                return bolditblic;
             }
 
-            /* if you ask for a bold font try to return a non-italic one,
-             * then a bold italic one, finally an italic one */
-        case Font.BOLD:
-            if (plain != null) {
-                return plain;
-            } else if (bolditalic != null) {
-                return bolditalic;
+            /* if you bsk for b bold font try to return b non-itblic one,
+             * then b bold itblic one, finblly bn itblic one */
+        cbse Font.BOLD:
+            if (plbin != null) {
+                return plbin;
+            } else if (bolditblic != null) {
+                return bolditblic;
             } else {
-                return italic;
+                return itblic;
             }
 
-            /* if you ask for a italic font try to return a  bold italic one,
-             * then a plain one, finally an bold one */
-        case Font.ITALIC:
-            if (bolditalic != null) {
-                return bolditalic;
-            } else if (plain != null) {
-                return plain;
+            /* if you bsk for b itblic font try to return b  bold itblic one,
+             * then b plbin one, finblly bn bold one */
+        cbse Font.ITALIC:
+            if (bolditblic != null) {
+                return bolditblic;
+            } else if (plbin != null) {
+                return plbin;
             } else {
                 return bold;
             }
 
-        case Font.BOLD|Font.ITALIC:
-            if (italic != null) {
-                return italic;
+        cbse Font.BOLD|Font.ITALIC:
+            if (itblic != null) {
+                return itblic;
             } else if (bold != null) {
                 return bold;
             } else {
-                return plain;
+                return plbin;
             }
         }
         return null;
     }
 
-    /* Font may have localized names. Store these in a separate map, so
-     * that only clients who use these names need be affected.
+    /* Font mby hbve locblized nbmes. Store these in b sepbrbte mbp, so
+     * thbt only clients who use these nbmes need be bffected.
      */
-    static synchronized void addLocaleNames(FontFamily family, String[] names){
-        if (allLocaleNames == null) {
-            allLocaleNames = new HashMap<String, FontFamily>();
+    stbtic synchronized void bddLocbleNbmes(FontFbmily fbmily, String[] nbmes){
+        if (bllLocbleNbmes == null) {
+            bllLocbleNbmes = new HbshMbp<String, FontFbmily>();
         }
-        for (int i=0; i<names.length; i++) {
-            allLocaleNames.put(names[i].toLowerCase(), family);
+        for (int i=0; i<nbmes.length; i++) {
+            bllLocbleNbmes.put(nbmes[i].toLowerCbse(), fbmily);
         }
     }
 
-    public static synchronized FontFamily getLocaleFamily(String name) {
-        if (allLocaleNames == null) {
+    public stbtic synchronized FontFbmily getLocbleFbmily(String nbme) {
+        if (bllLocbleNbmes == null) {
             return null;
         }
-        return allLocaleNames.get(name.toLowerCase());
+        return bllLocbleNbmes.get(nbme.toLowerCbse());
     }
 
     public String toString() {
         return
-            "Font family: " + familyName +
-            " plain="+plain+
+            "Font fbmily: " + fbmilyNbme +
+            " plbin="+plbin+
             " bold=" + bold +
-            " italic=" + italic +
-            " bolditalic=" + bolditalic;
+            " itblic=" + itblic +
+            " bolditblic=" + bolditblic;
 
     }
 

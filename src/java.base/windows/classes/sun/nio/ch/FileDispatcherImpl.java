@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.*;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import jbvb.io.*;
+import sun.misc.ShbredSecrets;
+import sun.misc.JbvbIOFileDescriptorAccess;
 
-class FileDispatcherImpl extends FileDispatcher
+clbss FileDispbtcherImpl extends FileDispbtcher
 {
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 
     /**
-     * Indicates if the dispatcher should first advance the file position
+     * Indicbtes if the dispbtcher should first bdvbnce the file position
      * to the end of file when writing.
      */
-    private final boolean append;
+    privbte finbl boolebn bppend;
 
-    FileDispatcherImpl(boolean append) {
-        this.append = append;
+    FileDispbtcherImpl(boolebn bppend) {
+        this.bppend = bppend;
     }
 
-    FileDispatcherImpl() {
-        this(false);
+    FileDispbtcherImpl() {
+        this(fblse);
     }
 
     @Override
-    boolean needsPositionLock() {
+    boolebn needsPositionLock() {
         return true;
     }
 
-    int read(FileDescriptor fd, long address, int len)
+    int rebd(FileDescriptor fd, long bddress, int len)
         throws IOException
     {
-        return read0(fd, address, len);
+        return rebd0(fd, bddress, len);
     }
 
-    int pread(FileDescriptor fd, long address, int len, long position)
+    int prebd(FileDescriptor fd, long bddress, int len, long position)
         throws IOException
     {
-        return pread0(fd, address, len, position);
+        return prebd0(fd, bddress, len, position);
     }
 
-    long readv(FileDescriptor fd, long address, int len) throws IOException {
-        return readv0(fd, address, len);
+    long rebdv(FileDescriptor fd, long bddress, int len) throws IOException {
+        return rebdv0(fd, bddress, len);
     }
 
-    int write(FileDescriptor fd, long address, int len) throws IOException {
-        return write0(fd, address, len, append);
+    int write(FileDescriptor fd, long bddress, int len) throws IOException {
+        return write0(fd, bddress, len, bppend);
     }
 
-    int pwrite(FileDescriptor fd, long address, int len, long position)
+    int pwrite(FileDescriptor fd, long bddress, int len, long position)
         throws IOException
     {
-        return pwrite0(fd, address, len, position);
+        return pwrite0(fd, bddress, len, position);
     }
 
-    long writev(FileDescriptor fd, long address, int len) throws IOException {
-        return writev0(fd, address, len, append);
+    long writev(FileDescriptor fd, long bddress, int len) throws IOException {
+        return writev0(fd, bddress, len, bppend);
     }
 
-    int force(FileDescriptor fd, boolean metaData) throws IOException {
-        return force0(fd, metaData);
+    int force(FileDescriptor fd, boolebn metbDbtb) throws IOException {
+        return force0(fd, metbDbtb);
     }
 
-    int truncate(FileDescriptor fd, long size) throws IOException {
-        return truncate0(fd, size);
+    int truncbte(FileDescriptor fd, long size) throws IOException {
+        return truncbte0(fd, size);
     }
 
     long size(FileDescriptor fd) throws IOException {
         return size0(fd);
     }
 
-    int lock(FileDescriptor fd, boolean blocking, long pos, long size,
-             boolean shared) throws IOException
+    int lock(FileDescriptor fd, boolebn blocking, long pos, long size,
+             boolebn shbred) throws IOException
     {
-        return lock0(fd, blocking, pos, size, shared);
+        return lock0(fd, blocking, pos, size, shbred);
     }
 
-    void release(FileDescriptor fd, long pos, long size) throws IOException {
-        release0(fd, pos, size);
+    void relebse(FileDescriptor fd, long pos, long size) throws IOException {
+        relebse0(fd, pos, size);
     }
 
     void close(FileDescriptor fd) throws IOException {
         close0(fd);
     }
 
-    FileDescriptor duplicateForMapping(FileDescriptor fd) throws IOException {
-        // on Windows we need to keep a handle to the file
-        JavaIOFileDescriptorAccess fdAccess =
-            SharedSecrets.getJavaIOFileDescriptorAccess();
+    FileDescriptor duplicbteForMbpping(FileDescriptor fd) throws IOException {
+        // on Windows we need to keep b hbndle to the file
+        JbvbIOFileDescriptorAccess fdAccess =
+            ShbredSecrets.getJbvbIOFileDescriptorAccess();
         FileDescriptor result = new FileDescriptor();
-        long handle = duplicateHandle(fdAccess.getHandle(fd));
-        fdAccess.setHandle(result, handle);
+        long hbndle = duplicbteHbndle(fdAccess.getHbndle(fd));
+        fdAccess.setHbndle(result, hbndle);
         return result;
     }
 
-    //-- Native methods
+    //-- Nbtive methods
 
-    static native int read0(FileDescriptor fd, long address, int len)
+    stbtic nbtive int rebd0(FileDescriptor fd, long bddress, int len)
         throws IOException;
 
-    static native int pread0(FileDescriptor fd, long address, int len,
+    stbtic nbtive int prebd0(FileDescriptor fd, long bddress, int len,
                              long position) throws IOException;
 
-    static native long readv0(FileDescriptor fd, long address, int len)
+    stbtic nbtive long rebdv0(FileDescriptor fd, long bddress, int len)
         throws IOException;
 
-    static native int write0(FileDescriptor fd, long address, int len, boolean append)
+    stbtic nbtive int write0(FileDescriptor fd, long bddress, int len, boolebn bppend)
         throws IOException;
 
-    static native int pwrite0(FileDescriptor fd, long address, int len,
+    stbtic nbtive int pwrite0(FileDescriptor fd, long bddress, int len,
                              long position) throws IOException;
 
-    static native long writev0(FileDescriptor fd, long address, int len, boolean append)
+    stbtic nbtive long writev0(FileDescriptor fd, long bddress, int len, boolebn bppend)
         throws IOException;
 
-    static native int force0(FileDescriptor fd, boolean metaData)
+    stbtic nbtive int force0(FileDescriptor fd, boolebn metbDbtb)
         throws IOException;
 
-    static native int truncate0(FileDescriptor fd, long size)
+    stbtic nbtive int truncbte0(FileDescriptor fd, long size)
         throws IOException;
 
-    static native long size0(FileDescriptor fd) throws IOException;
+    stbtic nbtive long size0(FileDescriptor fd) throws IOException;
 
-    static native int lock0(FileDescriptor fd, boolean blocking, long pos,
-                            long size, boolean shared) throws IOException;
+    stbtic nbtive int lock0(FileDescriptor fd, boolebn blocking, long pos,
+                            long size, boolebn shbred) throws IOException;
 
-    static native void release0(FileDescriptor fd, long pos, long size)
+    stbtic nbtive void relebse0(FileDescriptor fd, long pos, long size)
         throws IOException;
 
-    static native void close0(FileDescriptor fd) throws IOException;
+    stbtic nbtive void close0(FileDescriptor fd) throws IOException;
 
-    static native void closeByHandle(long fd) throws IOException;
+    stbtic nbtive void closeByHbndle(long fd) throws IOException;
 
-    static native long duplicateHandle(long fd) throws IOException;
+    stbtic nbtive long duplicbteHbndle(long fd) throws IOException;
 }

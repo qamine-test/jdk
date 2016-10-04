@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.font.TextAttribute;
-import java.awt.font.TextHitInfo;
-import java.awt.im.InputMethodRequests;
-import java.lang.ref.WeakReference;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.AttributedString;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.InputMethodEvent;
+import jbvb.bwt.event.InputMethodListener;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.bwt.font.TextHitInfo;
+import jbvb.bwt.im.InputMethodRequests;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.text.AttributedString;
 
 /**
- * A composition area handler handles events and input method requests for
- * the composition area. Typically each input method context has its own
- * composition area handler if it supports passive clients or below-the-spot
- * input, but all handlers share a single composition area.
+ * A composition breb hbndler hbndles events bnd input method requests for
+ * the composition breb. Typicblly ebch input method context hbs its own
+ * composition breb hbndler if it supports pbssive clients or below-the-spot
+ * input, but bll hbndlers shbre b single composition breb.
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
 
-class CompositionAreaHandler implements InputMethodListener,
+clbss CompositionArebHbndler implements InputMethodListener,
                                                  InputMethodRequests {
 
-    private static CompositionArea compositionArea;
-    private static Object compositionAreaLock = new Object();
-    private static CompositionAreaHandler compositionAreaOwner; // synchronized through compositionArea
+    privbte stbtic CompositionAreb compositionAreb;
+    privbte stbtic Object compositionArebLock = new Object();
+    privbte stbtic CompositionArebHbndler compositionArebOwner; // synchronized through compositionAreb
 
-    private AttributedCharacterIterator composedText;
-    private TextHitInfo caret = null;
-    private WeakReference<Component> clientComponent = new WeakReference<>(null);
-    private InputMethodContext inputMethodContext;
+    privbte AttributedChbrbcterIterbtor composedText;
+    privbte TextHitInfo cbret = null;
+    privbte WebkReference<Component> clientComponent = new WebkReference<>(null);
+    privbte InputMethodContext inputMethodContext;
 
     /**
-     * Constructs the composition area handler.
+     * Constructs the composition breb hbndler.
      */
-    CompositionAreaHandler(InputMethodContext context) {
+    CompositionArebHbndler(InputMethodContext context) {
         inputMethodContext = context;
     }
 
     /**
-     * Creates the composition area.
+     * Crebtes the composition breb.
      */
-    private void createCompositionArea() {
-        synchronized(compositionAreaLock) {
-            compositionArea = new CompositionArea();
-            if (compositionAreaOwner != null) {
-                compositionArea.setHandlerInfo(compositionAreaOwner, inputMethodContext);
+    privbte void crebteCompositionAreb() {
+        synchronized(compositionArebLock) {
+            compositionAreb = new CompositionAreb();
+            if (compositionArebOwner != null) {
+                compositionAreb.setHbndlerInfo(compositionArebOwner, inputMethodContext);
             }
-            // If the client component is an active client using below-the-spot style, then
-            // make the composition window undecorated without a title bar.
+            // If the client component is bn bctive client using below-the-spot style, then
+            // mbke the composition window undecorbted without b title bbr.
             Component client = clientComponent.get();
             if(client != null){
                 InputMethodRequests req = client.getInputMethodRequests();
                 if (req != null && inputMethodContext.useBelowTheSpotInput()) {
-                    setCompositionAreaUndecorated(true);
+                    setCompositionArebUndecorbted(true);
                 }
             }
         }
     }
 
     void setClientComponent(Component clientComponent) {
-        this.clientComponent = new WeakReference<>(clientComponent);
+        this.clientComponent = new WebkReference<>(clientComponent);
     }
 
     /**
-     * Grabs the composition area, makes this handler its owner, and installs
-     * the handler and its input context into the composition area for event
-     * and input method request handling.
-     * If doUpdate is true, updates the composition area with previously sent
+     * Grbbs the composition breb, mbkes this hbndler its owner, bnd instblls
+     * the hbndler bnd its input context into the composition breb for event
+     * bnd input method request hbndling.
+     * If doUpdbte is true, updbtes the composition breb with previously sent
      * composed text.
      */
 
-    void grabCompositionArea(boolean doUpdate) {
-        synchronized (compositionAreaLock) {
-            if (compositionAreaOwner != this) {
-                compositionAreaOwner = this;
-                if (compositionArea != null) {
-                    compositionArea.setHandlerInfo(this, inputMethodContext);
+    void grbbCompositionAreb(boolebn doUpdbte) {
+        synchronized (compositionArebLock) {
+            if (compositionArebOwner != this) {
+                compositionArebOwner = this;
+                if (compositionAreb != null) {
+                    compositionAreb.setHbndlerInfo(this, inputMethodContext);
                 }
-                if (doUpdate) {
-                    // Create the composition area if necessary
-                    if ((composedText != null) && (compositionArea == null)) {
-                        createCompositionArea();
+                if (doUpdbte) {
+                    // Crebte the composition breb if necessbry
+                    if ((composedText != null) && (compositionAreb == null)) {
+                        crebteCompositionAreb();
                     }
-                    if (compositionArea != null) {
-                        compositionArea.setText(composedText, caret);
+                    if (compositionAreb != null) {
+                        compositionAreb.setText(composedText, cbret);
                     }
                 }
             }
@@ -120,70 +120,70 @@ class CompositionAreaHandler implements InputMethodListener,
     }
 
     /**
-     * Releases and closes the composition area if it is currently owned by
-     * this composition area handler.
+     * Relebses bnd closes the composition breb if it is currently owned by
+     * this composition breb hbndler.
      */
-    void releaseCompositionArea() {
-        synchronized (compositionAreaLock) {
-            if (compositionAreaOwner == this) {
-                compositionAreaOwner = null;
-                if (compositionArea != null) {
-                    compositionArea.setHandlerInfo(null, null);
-                    compositionArea.setText(null, null);
+    void relebseCompositionAreb() {
+        synchronized (compositionArebLock) {
+            if (compositionArebOwner == this) {
+                compositionArebOwner = null;
+                if (compositionAreb != null) {
+                    compositionAreb.setHbndlerInfo(null, null);
+                    compositionAreb.setText(null, null);
                 }
             }
         }
     }
 
     /**
-     * Releases and closes the composition area if it has been created,
+     * Relebses bnd closes the composition breb if it hbs been crebted,
      * independent of the current owner.
      */
-    static void closeCompositionArea() {
-        if (compositionArea != null) {
-            synchronized (compositionAreaLock) {
-                compositionAreaOwner = null;
-                compositionArea.setHandlerInfo(null, null);
-                compositionArea.setText(null, null);
+    stbtic void closeCompositionAreb() {
+        if (compositionAreb != null) {
+            synchronized (compositionArebLock) {
+                compositionArebOwner = null;
+                compositionAreb.setHbndlerInfo(null, null);
+                compositionAreb.setText(null, null);
             }
         }
     }
 
     /**
-     * Returns whether the composition area is currently visible
+     * Returns whether the composition breb is currently visible
      */
-    boolean isCompositionAreaVisible() {
-        if (compositionArea != null) {
-            return compositionArea.isCompositionAreaVisible();
+    boolebn isCompositionArebVisible() {
+        if (compositionAreb != null) {
+            return compositionAreb.isCompositionArebVisible();
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Shows or hides the composition Area
+     * Shows or hides the composition Areb
      */
-    void setCompositionAreaVisible(boolean visible) {
-        if (compositionArea != null) {
-            compositionArea.setCompositionAreaVisible(visible);
+    void setCompositionArebVisible(boolebn visible) {
+        if (compositionAreb != null) {
+            compositionAreb.setCompositionArebVisible(visible);
         }
     }
 
     void processInputMethodEvent(InputMethodEvent event) {
         if (event.getID() == InputMethodEvent.INPUT_METHOD_TEXT_CHANGED) {
-            inputMethodTextChanged(event);
+            inputMethodTextChbnged(event);
         } else {
-            caretPositionChanged(event);
+            cbretPositionChbnged(event);
         }
     }
 
     /**
-     * set the compositionArea frame decoration
+     * set the compositionAreb frbme decorbtion
      */
-    void setCompositionAreaUndecorated(boolean undecorated) {
-        if (compositionArea != null) {
-            compositionArea.setCompositionAreaUndecorated(undecorated);
+    void setCompositionArebUndecorbted(boolebn undecorbted) {
+        if (compositionAreb != null) {
+            compositionAreb.setCompositionArebUndecorbted(undecorbted);
         }
     }
 
@@ -191,59 +191,59 @@ class CompositionAreaHandler implements InputMethodListener,
     // InputMethodListener methods
     //
 
-    private static final Attribute[] IM_ATTRIBUTES =
+    privbte stbtic finbl Attribute[] IM_ATTRIBUTES =
             { TextAttribute.INPUT_METHOD_HIGHLIGHT };
 
-    public void inputMethodTextChanged(InputMethodEvent event) {
-        AttributedCharacterIterator text = event.getText();
-        int committedCharacterCount = event.getCommittedCharacterCount();
+    public void inputMethodTextChbnged(InputMethodEvent event) {
+        AttributedChbrbcterIterbtor text = event.getText();
+        int committedChbrbcterCount = event.getCommittedChbrbcterCount();
 
-        // extract composed text and prepare it for display
+        // extrbct composed text bnd prepbre it for displby
         composedText = null;
-        caret = null;
+        cbret = null;
         if (text != null
-                && committedCharacterCount < text.getEndIndex() - text.getBeginIndex()) {
+                && committedChbrbcterCount < text.getEndIndex() - text.getBeginIndex()) {
 
-            // Create the composition area if necessary
-            if (compositionArea == null) {
-                 createCompositionArea();
+            // Crebte the composition breb if necessbry
+            if (compositionAreb == null) {
+                 crebteCompositionAreb();
             }
 
             // copy the composed text
             AttributedString composedTextString;
             composedTextString = new AttributedString(text,
-                    text.getBeginIndex() + committedCharacterCount, // skip over committed text
+                    text.getBeginIndex() + committedChbrbcterCount, // skip over committed text
                     text.getEndIndex(), IM_ATTRIBUTES);
-            composedTextString.addAttribute(TextAttribute.FONT, compositionArea.getFont());
-            composedText = composedTextString.getIterator();
-            caret = event.getCaret();
+            composedTextString.bddAttribute(TextAttribute.FONT, compositionAreb.getFont());
+            composedText = composedTextString.getIterbtor();
+            cbret = event.getCbret();
         }
 
-        if (compositionArea != null) {
-            compositionArea.setText(composedText, caret);
+        if (compositionAreb != null) {
+            compositionAreb.setText(composedText, cbret);
         }
 
-        // send any committed text to the text component
-        if (committedCharacterCount > 0) {
-            inputMethodContext.dispatchCommittedText(((Component) event.getSource()),
-                                                     text, committedCharacterCount);
+        // send bny committed text to the text component
+        if (committedChbrbcterCount > 0) {
+            inputMethodContext.dispbtchCommittedText(((Component) event.getSource()),
+                                                     text, committedChbrbcterCount);
 
-            // this may have changed the text location, so reposition the window
-            if (isCompositionAreaVisible()) {
-                compositionArea.updateWindowLocation();
+            // this mby hbve chbnged the text locbtion, so reposition the window
+            if (isCompositionArebVisible()) {
+                compositionAreb.updbteWindowLocbtion();
             }
         }
 
-        // event has been handled, so consume it
+        // event hbs been hbndled, so consume it
         event.consume();
     }
 
-    public void caretPositionChanged(InputMethodEvent event) {
-        if (compositionArea != null) {
-            compositionArea.setCaret(event.getCaret());
+    public void cbretPositionChbnged(InputMethodEvent event) {
+        if (compositionAreb != null) {
+            compositionAreb.setCbret(event.getCbret());
         }
 
-        // event has been handled, so consume it
+        // event hbs been hbndled, so consume it
         event.consume();
     }
 
@@ -252,10 +252,10 @@ class CompositionAreaHandler implements InputMethodListener,
     //
 
     /**
-     * Returns the input method request handler of the client component.
-     * When using the composition window for an active client (below-the-spot
-     * input), input method requests that do not relate to the display of
-     * the composed text are forwarded to the client component.
+     * Returns the input method request hbndler of the client component.
+     * When using the composition window for bn bctive client (below-the-spot
+     * input), input method requests thbt do not relbte to the displby of
+     * the composed text bre forwbrded to the client component.
      */
     InputMethodRequests getClientInputMethodRequests() {
         Component client = clientComponent.get();
@@ -266,29 +266,29 @@ class CompositionAreaHandler implements InputMethodListener,
         return null;
     }
 
-    public Rectangle getTextLocation(TextHitInfo offset) {
-        synchronized (compositionAreaLock) {
-            if (compositionAreaOwner == this && isCompositionAreaVisible()) {
-                return compositionArea.getTextLocation(offset);
+    public Rectbngle getTextLocbtion(TextHitInfo offset) {
+        synchronized (compositionArebLock) {
+            if (compositionArebOwner == this && isCompositionArebVisible()) {
+                return compositionAreb.getTextLocbtion(offset);
             } else if (composedText != null) {
-                // there's composed text, but it's not displayed, so fake a rectangle
-                return new Rectangle(0, 0, 0, 10);
+                // there's composed text, but it's not displbyed, so fbke b rectbngle
+                return new Rectbngle(0, 0, 0, 10);
             } else {
                 InputMethodRequests requests = getClientInputMethodRequests();
                 if (requests != null) {
-                    return requests.getTextLocation(offset);
+                    return requests.getTextLocbtion(offset);
                 } else {
-                    // passive client, no composed text, so fake a rectangle
-                    return new Rectangle(0, 0, 0, 10);
+                    // pbssive client, no composed text, so fbke b rectbngle
+                    return new Rectbngle(0, 0, 0, 10);
                 }
             }
         }
     }
 
-    public TextHitInfo getLocationOffset(int x, int y) {
-        synchronized (compositionAreaLock) {
-            if (compositionAreaOwner == this && isCompositionAreaVisible()) {
-                return compositionArea.getLocationOffset(x, y);
+    public TextHitInfo getLocbtionOffset(int x, int y) {
+        synchronized (compositionArebLock) {
+            if (compositionArebOwner == this && isCompositionArebVisible()) {
+                return compositionAreb.getLocbtionOffset(x, y);
             } else {
                 return null;
             }
@@ -301,22 +301,22 @@ class CompositionAreaHandler implements InputMethodListener,
             return req.getInsertPositionOffset();
         }
 
-        // we don't have access to the client component's text.
+        // we don't hbve bccess to the client component's text.
         return 0;
     }
 
-    private static final AttributedCharacterIterator EMPTY_TEXT =
-            (new AttributedString("")).getIterator();
+    privbte stbtic finbl AttributedChbrbcterIterbtor EMPTY_TEXT =
+            (new AttributedString("")).getIterbtor();
 
-    public AttributedCharacterIterator getCommittedText(int beginIndex,
+    public AttributedChbrbcterIterbtor getCommittedText(int beginIndex,
                                                        int endIndex,
-                                                       Attribute[] attributes) {
+                                                       Attribute[] bttributes) {
         InputMethodRequests req = getClientInputMethodRequests();
         if(req != null) {
-            return req.getCommittedText(beginIndex, endIndex, attributes);
+            return req.getCommittedText(beginIndex, endIndex, bttributes);
         }
 
-        // we don't have access to the client component's text.
+        // we don't hbve bccess to the client component's text.
         return EMPTY_TEXT;
     }
 
@@ -326,28 +326,28 @@ class CompositionAreaHandler implements InputMethodListener,
             return req.getCommittedTextLength();
         }
 
-        // we don't have access to the client component's text.
+        // we don't hbve bccess to the client component's text.
         return 0;
     }
 
 
-    public AttributedCharacterIterator cancelLatestCommittedText(Attribute[] attributes) {
+    public AttributedChbrbcterIterbtor cbncelLbtestCommittedText(Attribute[] bttributes) {
         InputMethodRequests req = getClientInputMethodRequests();
         if(req != null) {
-            return req.cancelLatestCommittedText(attributes);
+            return req.cbncelLbtestCommittedText(bttributes);
         }
 
-        // we don't have access to the client component's text.
+        // we don't hbve bccess to the client component's text.
         return null;
     }
 
-    public AttributedCharacterIterator getSelectedText(Attribute[] attributes) {
+    public AttributedChbrbcterIterbtor getSelectedText(Attribute[] bttributes) {
         InputMethodRequests req = getClientInputMethodRequests();
         if(req != null) {
-            return req.getSelectedText(attributes);
+            return req.getSelectedText(bttributes);
         }
 
-        // we don't have access to the client component's text.
+        // we don't hbve bccess to the client component's text.
         return EMPTY_TEXT;
     }
 

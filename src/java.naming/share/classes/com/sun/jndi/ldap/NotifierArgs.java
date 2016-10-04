@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.directory.SearchControls;
-import javax.naming.event.*;
+import jbvbx.nbming.directory.SebrchControls;
+import jbvbx.nbming.event.*;
 
 /**
- * This class holds the information in an event registration/deregistration
- * request. This includes the name, filter, search controls and
- * the different interfaces that the listener implements. This last piece
- * of information determines which event(s) the listener is interested in.
+ * This clbss holds the informbtion in bn event registrbtion/deregistrbtion
+ * request. This includes the nbme, filter, sebrch controls bnd
+ * the different interfbces thbt the listener implements. This lbst piece
+ * of informbtion determines which event(s) the listener is interested in.
  *<p>
- * It overrides equals() and hashCode() to use all these pieces of
- * information so that it can be used correctly in a hashtable.
+ * It overrides equbls() bnd hbshCode() to use bll these pieces of
+ * informbtion so thbt it cbn be used correctly in b hbshtbble.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-final class NotifierArgs {
-    static final int ADDED_MASK = 0x1;
-    static final int REMOVED_MASK = 0x2;
-    static final int CHANGED_MASK = 0x4;
-    static final int RENAMED_MASK = 0x8;
+finbl clbss NotifierArgs {
+    stbtic finbl int ADDED_MASK = 0x1;
+    stbtic finbl int REMOVED_MASK = 0x2;
+    stbtic finbl int CHANGED_MASK = 0x4;
+    stbtic finbl int RENAMED_MASK = 0x8;
 
-    // these fields are package private; used by NamingEventNotifier
-    String name;
+    // these fields bre pbckbge privbte; used by NbmingEventNotifier
+    String nbme;
     String filter;
-    SearchControls controls;
-    int mask;
+    SebrchControls controls;
+    int mbsk;
 
-    // package private
-    NotifierArgs(String name, int scope, NamingListener l) {
-        this(name, "(objectclass=*)", null, l);
+    // pbckbge privbte
+    NotifierArgs(String nbme, int scope, NbmingListener l) {
+        this(nbme, "(objectclbss=*)", null, l);
 
-        // if scope is not default, create search ctl and set it
+        // if scope is not defbult, crebte sebrch ctl bnd set it
         if (scope != EventContext.ONELEVEL_SCOPE) {
-            controls = new SearchControls();
-            controls.setSearchScope(scope);
+            controls = new SebrchControls();
+            controls.setSebrchScope(scope);
         }
     }
 
-    // package private
-    NotifierArgs(String name, String filter, SearchControls ctls,
-        NamingListener l) {
-        this.name = name;
+    // pbckbge privbte
+    NotifierArgs(String nbme, String filter, SebrchControls ctls,
+        NbmingListener l) {
+        this.nbme = nbme;
         this.filter = filter;
         this.controls = ctls;
 
-        if (l instanceof NamespaceChangeListener) {
-            mask |= ADDED_MASK|REMOVED_MASK|RENAMED_MASK;
+        if (l instbnceof NbmespbceChbngeListener) {
+            mbsk |= ADDED_MASK|REMOVED_MASK|RENAMED_MASK;
         }
-        if (l instanceof ObjectChangeListener) {
-            mask |= CHANGED_MASK;
+        if (l instbnceof ObjectChbngeListener) {
+            mbsk |= CHANGED_MASK;
         }
     }
 
-    // checks name, filter, controls
-    public boolean equals(Object obj) {
-        if (obj instanceof NotifierArgs) {
-            NotifierArgs target = (NotifierArgs)obj;
-            return mask == target.mask &&
-                name.equals(target.name) && filter.equals(target.filter) &&
-                checkControls(target.controls);
+    // checks nbme, filter, controls
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof NotifierArgs) {
+            NotifierArgs tbrget = (NotifierArgs)obj;
+            return mbsk == tbrget.mbsk &&
+                nbme.equbls(tbrget.nbme) && filter.equbls(tbrget.filter) &&
+                checkControls(tbrget.controls);
         }
-        return false;
+        return fblse;
     }
 
-    private boolean checkControls(SearchControls ctls) {
+    privbte boolebn checkControls(SebrchControls ctls) {
         if ((controls == null || ctls == null)) {
             return ctls == controls;
         }
-        // ctls are nonempty
+        // ctls bre nonempty
 
-        return (controls.getSearchScope() == ctls.getSearchScope()) &&
+        return (controls.getSebrchScope() == ctls.getSebrchScope()) &&
             (controls.getTimeLimit() == ctls.getTimeLimit()) &&
-            (controls.getDerefLinkFlag() == ctls.getDerefLinkFlag()) &&
-            (controls.getReturningObjFlag() == ctls.getReturningObjFlag()) &&
+            (controls.getDerefLinkFlbg() == ctls.getDerefLinkFlbg()) &&
+            (controls.getReturningObjFlbg() == ctls.getReturningObjFlbg()) &&
             (controls.getCountLimit() == ctls.getCountLimit()) &&
-            checkStringArrays(controls.getReturningAttributes(),
+            checkStringArrbys(controls.getReturningAttributes(),
                 ctls.getReturningAttributes());
     }
 
-    private static boolean checkStringArrays(String[] s1, String[] s2) {
+    privbte stbtic boolebn checkStringArrbys(String[] s1, String[] s2) {
         if ((s1 == null) || (s2 == null)) {
             return s1 == s2;
         }
 
-        // both are nonnull
+        // both bre nonnull
         if (s1.length != s2.length) {
-            return false;
+            return fblse;
         }
 
         for (int i = 0; i < s1.length; i++) {
-            if (!s1[i].equals(s2[i])) {
-                return false;
+            if (!s1[i].equbls(s2[i])) {
+                return fblse;
             }
         }
         return true;
     }
 
-    // save from having to recalculate each time
-    private int sum = -1;
-    public int hashCode() {
+    // sbve from hbving to recblculbte ebch time
+    privbte int sum = -1;
+    public int hbshCode() {
         if (sum == -1)
-            sum = mask + name.hashCode() + filter.hashCode() + controlsCode();
+            sum = mbsk + nbme.hbshCode() + filter.hbshCode() + controlsCode();
         return sum;
     }
 
-    // used in calculating hash code
-    private int controlsCode() {
+    // used in cblculbting hbsh code
+    privbte int controlsCode() {
         if (controls == null) return 0;
 
-        int total = controls.getTimeLimit() + (int)controls.getCountLimit() +
-            (controls.getDerefLinkFlag() ? 1 : 0) +
-            (controls.getReturningObjFlag() ? 1 : 0);
+        int totbl = controls.getTimeLimit() + (int)controls.getCountLimit() +
+            (controls.getDerefLinkFlbg() ? 1 : 0) +
+            (controls.getReturningObjFlbg() ? 1 : 0);
 
-        String[] attrs = controls.getReturningAttributes();
-        if (attrs != null) {
-            for (int i = 0; i < attrs.length; i++) {
-                total += attrs[i].hashCode();
+        String[] bttrs = controls.getReturningAttributes();
+        if (bttrs != null) {
+            for (int i = 0; i < bttrs.length; i++) {
+                totbl += bttrs[i].hbshCode();
             }
         }
 
-        return total;
+        return totbl;
     }
 }

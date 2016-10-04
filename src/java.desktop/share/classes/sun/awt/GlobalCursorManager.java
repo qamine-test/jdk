@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.InvocationEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.InvocbtionEvent;
 
 /**
- * A stateless class which responds to native mouse moves, Component resizes,
- * Component moves, showing and hiding of Components, minimizing and
- * maximizing of top level Windows, addition and removal of Components,
- * and calls to setCursor().
+ * A stbteless clbss which responds to nbtive mouse moves, Component resizes,
+ * Component moves, showing bnd hiding of Components, minimizing bnd
+ * mbximizing of top level Windows, bddition bnd removbl of Components,
+ * bnd cblls to setCursor().
  */
-public abstract class GlobalCursorManager {
+public bbstrbct clbss GlobblCursorMbnbger {
 
-    class NativeUpdater implements Runnable {
-        boolean pending = false;
+    clbss NbtiveUpdbter implements Runnbble {
+        boolebn pending = fblse;
 
         public void run() {
-            boolean shouldUpdate = false;
+            boolebn shouldUpdbte = fblse;
             synchronized (this) {
                 if (pending) {
-                    pending = false;
-                    shouldUpdate = true;
+                    pending = fblse;
+                    shouldUpdbte = true;
                 }
             }
-            if (shouldUpdate) {
-                _updateCursor(false);
+            if (shouldUpdbte) {
+                _updbteCursor(fblse);
             }
         }
 
-        public void postIfNotPending(Component heavy, InvocationEvent in) {
-            boolean shouldPost = false;
+        public void postIfNotPending(Component hebvy, InvocbtionEvent in) {
+            boolebn shouldPost = fblse;
             synchronized (this) {
                 if (!pending) {
                     pending = shouldPost = true;
                 }
             }
             if (shouldPost) {
-                SunToolkit.postEvent(SunToolkit.targetToAppContext(heavy), in);
+                SunToolkit.postEvent(SunToolkit.tbrgetToAppContext(hebvy), in);
             }
         }
     }
 
     /**
-     * Use a singleton NativeUpdater for better performance. We cannot use
-     * a singleton InvocationEvent because we want each event to have a fresh
-     * timestamp.
+     * Use b singleton NbtiveUpdbter for better performbnce. We cbnnot use
+     * b singleton InvocbtionEvent becbuse we wbnt ebch event to hbve b fresh
+     * timestbmp.
      */
-    private final NativeUpdater nativeUpdater = new NativeUpdater();
+    privbte finbl NbtiveUpdbter nbtiveUpdbter = new NbtiveUpdbter();
 
     /**
-     * The last time the cursor was updated, in milliseconds.
+     * The lbst time the cursor wbs updbted, in milliseconds.
      */
-    private long lastUpdateMillis;
+    privbte long lbstUpdbteMillis;
 
     /**
-     * Locking object for synchronizing access to lastUpdateMillis. The VM
-     * does not guarantee atomicity of longs.
+     * Locking object for synchronizing bccess to lbstUpdbteMillis. The VM
+     * does not gubrbntee btomicity of longs.
      */
-    private final Object lastUpdateLock = new Object();
+    privbte finbl Object lbstUpdbteLock = new Object();
 
     /**
-     * Should be called for any activity at the Java level which may affect
-     * the global cursor, except for Java MOUSE_MOVED events.
+     * Should be cblled for bny bctivity bt the Jbvb level which mby bffect
+     * the globbl cursor, except for Jbvb MOUSE_MOVED events.
      */
-    public void updateCursorImmediately() {
-        synchronized (nativeUpdater) {
-            nativeUpdater.pending = false;
+    public void updbteCursorImmedibtely() {
+        synchronized (nbtiveUpdbter) {
+            nbtiveUpdbter.pending = fblse;
         }
-        _updateCursor(false);
+        _updbteCursor(fblse);
     }
 
     /**
-     * Should be called in response to Java MOUSE_MOVED events. The update
-     * will be discarded if the InputEvent is outdated.
+     * Should be cblled in response to Jbvb MOUSE_MOVED events. The updbte
+     * will be discbrded if the InputEvent is outdbted.
      *
-     * @param   e the InputEvent which triggered the cursor update.
+     * @pbrbm   e the InputEvent which triggered the cursor updbte.
      */
-    public void updateCursorImmediately(InputEvent e) {
-        boolean shouldUpdate;
-        synchronized (lastUpdateLock) {
-            shouldUpdate = (e.getWhen() >= lastUpdateMillis);
+    public void updbteCursorImmedibtely(InputEvent e) {
+        boolebn shouldUpdbte;
+        synchronized (lbstUpdbteLock) {
+            shouldUpdbte = (e.getWhen() >= lbstUpdbteMillis);
         }
-        if (shouldUpdate) {
-            _updateCursor(true);
+        if (shouldUpdbte) {
+            _updbteCursor(true);
         }
     }
 
     /**
-     * Should be called in response to a native mouse enter or native mouse
-     * button released message. Should not be called during a mouse drag.
+     * Should be cblled in response to b nbtive mouse enter or nbtive mouse
+     * button relebsed messbge. Should not be cblled during b mouse drbg.
      */
-    public void updateCursorLater(Component heavy) {
-        nativeUpdater.postIfNotPending(heavy, new InvocationEvent
-            (Toolkit.getDefaultToolkit(), nativeUpdater));
+    public void updbteCursorLbter(Component hebvy) {
+        nbtiveUpdbter.postIfNotPending(hebvy, new InvocbtionEvent
+            (Toolkit.getDefbultToolkit(), nbtiveUpdbter));
     }
 
-    protected GlobalCursorManager() { }
+    protected GlobblCursorMbnbger() { }
 
     /**
-     * Set the global cursor to the specified cursor. The component over
-     * which the Cursor current resides is provided as a convenience. Not
-     * all platforms may require the Component.
+     * Set the globbl cursor to the specified cursor. The component over
+     * which the Cursor current resides is provided bs b convenience. Not
+     * bll plbtforms mby require the Component.
      */
-    protected abstract void setCursor(Component comp, Cursor cursor,
-                                      boolean useCache);
+    protected bbstrbct void setCursor(Component comp, Cursor cursor,
+                                      boolebn useCbche);
     /**
-     * Returns the global cursor position, in screen coordinates.
+     * Returns the globbl cursor position, in screen coordinbtes.
      */
-    protected abstract void getCursorPos(Point p);
+    protected bbstrbct void getCursorPos(Point p);
 
-    protected abstract Point getLocationOnScreen(Component com);
+    protected bbstrbct Point getLocbtionOnScreen(Component com);
 
     /**
-     * Returns the most specific, visible, heavyweight Component
+     * Returns the most specific, visible, hebvyweight Component
      * under the cursor. This method should return null iff the cursor is
-     * not over any Java Window.
+     * not over bny Jbvb Window.
      *
-     * @param   useCache If true, the implementation is free to use caching
-     * mechanisms because the Z-order, visibility, and enabled state of the
-     * Components has not changed. If false, the implementation should not
-     * make these assumptions.
+     * @pbrbm   useCbche If true, the implementbtion is free to use cbching
+     * mechbnisms becbuse the Z-order, visibility, bnd enbbled stbte of the
+     * Components hbs not chbnged. If fblse, the implementbtion should not
+     * mbke these bssumptions.
      */
-    protected abstract Component findHeavyweightUnderCursor(boolean useCache);
+    protected bbstrbct Component findHebvyweightUnderCursor(boolebn useCbche);
 
     /**
-     * Updates the global cursor. We apply a three-step scheme to cursor
-     * updates:<p>
+     * Updbtes the globbl cursor. We bpply b three-step scheme to cursor
+     * updbtes:<p>
      *
-     * (1) InputEvent updates which are outdated are discarded by
-     * <code>updateCursorImmediately(InputEvent)</code>.<p>
+     * (1) InputEvent updbtes which bre outdbted bre discbrded by
+     * <code>updbteCursorImmedibtely(InputEvent)</code>.<p>
      *
-     * (2) If 'useCache' is true, the native code is free to use a cached
-     * value to determine the most specific, visible, enabled heavyweight
-     * because this update is occurring in response to a mouse move. If
-     * 'useCache' is false, the native code must perform a new search given
-     * the current mouse coordinates.
+     * (2) If 'useCbche' is true, the nbtive code is free to use b cbched
+     * vblue to determine the most specific, visible, enbbled hebvyweight
+     * becbuse this updbte is occurring in response to b mouse move. If
+     * 'useCbche' is fblse, the nbtive code must perform b new sebrch given
+     * the current mouse coordinbtes.
      *
-     * (3) Once we have determined the most specific, visible, enabled
-     * heavyweight, we use findComponentAt to find the most specific, visible,
-     * enabled Component.
+     * (3) Once we hbve determined the most specific, visible, enbbled
+     * hebvyweight, we use findComponentAt to find the most specific, visible,
+     * enbbled Component.
      */
-    private void _updateCursor(boolean useCache) {
+    privbte void _updbteCursor(boolebn useCbche) {
 
-        synchronized (lastUpdateLock) {
-            lastUpdateMillis = System.currentTimeMillis();
+        synchronized (lbstUpdbteLock) {
+            lbstUpdbteMillis = System.currentTimeMillis();
         }
 
         Point queryPos = null, p = null;
         Component comp;
 
         try {
-            comp = findHeavyweightUnderCursor(useCache);
+            comp = findHebvyweightUnderCursor(useCbche);
             if (comp == null) {
-                updateCursorOutOfJava();
+                updbteCursorOutOfJbvb();
                 return;
             }
 
-            if (comp instanceof Window) {
-                p = AWTAccessor.getComponentAccessor().getLocation(comp);
-            } else if (comp instanceof Container) {
-                p = getLocationOnScreen(comp);
+            if (comp instbnceof Window) {
+                p = AWTAccessor.getComponentAccessor().getLocbtion(comp);
+            } else if (comp instbnceof Contbiner) {
+                p = getLocbtionOnScreen(comp);
             }
             if (p != null) {
                 queryPos = new Point();
                 getCursorPos(queryPos);
-                Component c = AWTAccessor.getContainerAccessor().
-                        findComponentAt((Container) comp,
-                        queryPos.x - p.x, queryPos.y - p.y, false);
+                Component c = AWTAccessor.getContbinerAccessor().
+                        findComponentAt((Contbiner) comp,
+                        queryPos.x - p.x, queryPos.y - p.y, fblse);
 
-                // If findComponentAt returns null, then something bad has
-                // happened. For example, the heavyweight Component may
-                // have been hidden or disabled by another thread. In that
-                // case, we'll just use the originial heavyweight.
+                // If findComponentAt returns null, then something bbd hbs
+                // hbppened. For exbmple, the hebvyweight Component mby
+                // hbve been hidden or disbbled by bnother threbd. In thbt
+                // cbse, we'll just use the originibl hebvyweight.
                 if (c != null) {
                     comp = c;
                 }
             }
 
-            setCursor(comp, AWTAccessor.getComponentAccessor().getCursor(comp), useCache);
+            setCursor(comp, AWTAccessor.getComponentAccessor().getCursor(comp), useCbche);
 
-        } catch (IllegalComponentStateException e) {
-            // Shouldn't happen, but if it does, abort.
+        } cbtch (IllegblComponentStbteException e) {
+            // Shouldn't hbppen, but if it does, bbort.
         }
     }
 
-    protected void updateCursorOutOfJava() {
-        // Cursor is not over a Java Window. Do nothing...usually
-        // But we need to update it in case of grab on X.
+    protected void updbteCursorOutOfJbvb() {
+        // Cursor is not over b Jbvb Window. Do nothing...usublly
+        // But we need to updbte it in cbse of grbb on X.
     }
 }

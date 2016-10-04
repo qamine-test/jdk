@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.CausedFocusEvent;
-import sun.java2d.SurfaceData;
+import sun.bwt.CbusedFocusEvent;
+import sun.jbvb2d.SurfbceDbtb;
 
-// TODO Is it worth to generify this interface, like that:
+// TODO Is it worth to generify this interfbce, like thbt:
 //
-// public interface PlatformWindow<WindowType extends Window>
+// public interfbce PlbtformWindow<WindowType extends Window>
 //
 // ?
 
-public interface PlatformWindow {
+public interfbce PlbtformWindow {
 
     /*
-     * Delegate initialization (create native window and all the
-     * related resources).
+     * Delegbte initiblizbtion (crebte nbtive window bnd bll the
+     * relbted resources).
      */
-    public void initialize(Window target, LWWindowPeer peer, PlatformWindow owner);
+    public void initiblize(Window tbrget, LWWindowPeer peer, PlbtformWindow owner);
 
     /*
-     * Delegate shutdown (dispose native window and all the
-     * related resources).
+     * Delegbte shutdown (dispose nbtive window bnd bll the
+     * relbted resources).
      */
     public void dispose();
 
     /*
      * Shows or hides the window.
      */
-    public void setVisible(boolean visible);
+    public void setVisible(boolebn visible);
 
     /*
      * Sets the window title
@@ -61,20 +61,20 @@ public interface PlatformWindow {
     public void setTitle(String title);
 
     /*
-     * Sets the window bounds. Called when user changes window bounds
-     * with setSize/setLocation/setBounds/reshape methods.
+     * Sets the window bounds. Cblled when user chbnges window bounds
+     * with setSize/setLocbtion/setBounds/reshbpe methods.
      */
     public void setBounds(int x, int y, int w, int h);
 
     /*
-     * Returns the graphics device where the window is.
+     * Returns the grbphics device where the window is.
      */
-    public GraphicsDevice getGraphicsDevice();
+    public GrbphicsDevice getGrbphicsDevice();
 
     /*
-     * Returns the location of the window.
+     * Returns the locbtion of the window.
      */
-    public Point getLocationOnScreen();
+    public Point getLocbtionOnScreen();
 
     /*
      * Returns the window insets.
@@ -82,77 +82,77 @@ public interface PlatformWindow {
     public Insets getInsets();
 
     /*
-     * Returns the metrics for a given font.
+     * Returns the metrics for b given font.
      */
     public FontMetrics getFontMetrics(Font f);
 
     /*
-     * Get the SurfaceData for the window.
+     * Get the SurfbceDbtb for the window.
      */
-    public SurfaceData getScreenSurface();
+    public SurfbceDbtb getScreenSurfbce();
 
     /*
-     * Revalidates the window's current SurfaceData and returns
-     * the newly created one.
+     * Revblidbtes the window's current SurfbceDbtb bnd returns
+     * the newly crebted one.
      */
-    public SurfaceData replaceSurfaceData();
+    public SurfbceDbtb replbceSurfbceDbtb();
 
-    public void setModalBlocked(boolean blocked);
+    public void setModblBlocked(boolebn blocked);
 
     public void toFront();
 
-    public void toBack();
+    public void toBbck();
 
-    public void setMenuBar(MenuBar mb);
+    public void setMenuBbr(MenuBbr mb);
 
-    public void setAlwaysOnTop(boolean value);
+    public void setAlwbysOnTop(boolebn vblue);
 
-    public PlatformWindow getTopmostPlatformWindowUnderMouse();
+    public PlbtformWindow getTopmostPlbtformWindowUnderMouse();
 
-    public void updateFocusableWindowState();
+    public void updbteFocusbbleWindowStbte();
 
-    public boolean rejectFocusRequest(CausedFocusEvent.Cause cause);
+    public boolebn rejectFocusRequest(CbusedFocusEvent.Cbuse cbuse);
 
-    public boolean requestWindowFocus();
-
-    /*
-     * Returns true only when called on a frame/dialog when it's natively focused.
-     */
-    public boolean isActive();
-
-    public void setResizable(boolean resizable);
-
-    /**
-     * Applies the minimum and maximum size to the platform window.
-     */
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH);
-
-    /**
-     * Transforms the given Graphics object according to the native
-     * implementation traits (insets, etc.).
-     */
-    public Graphics transformGraphics(Graphics g);
+    public boolebn requestWindowFocus();
 
     /*
-     * Installs the images for particular window.
+     * Returns true only when cblled on b frbme/diblog when it's nbtively focused.
      */
-    public void updateIconImages();
+    public boolebn isActive();
 
-    public void setOpacity(float opacity);
+    public void setResizbble(boolebn resizbble);
 
-    public void setOpaque(boolean isOpaque);
+    /**
+     * Applies the minimum bnd mbximum size to the plbtform window.
+     */
+    public void setSizeConstrbints(int minW, int minH, int mbxW, int mbxH);
+
+    /**
+     * Trbnsforms the given Grbphics object bccording to the nbtive
+     * implementbtion trbits (insets, etc.).
+     */
+    public Grbphics trbnsformGrbphics(Grbphics g);
+
+    /*
+     * Instblls the imbges for pbrticulbr window.
+     */
+    public void updbteIconImbges();
+
+    public void setOpbcity(flobt opbcity);
+
+    public void setOpbque(boolebn isOpbque);
 
     public void enterFullScreenMode();
 
     public void exitFullScreenMode();
 
-    public boolean isFullScreenMode();
+    public boolebn isFullScreenMode();
 
-    public void setWindowState(int windowState);
+    public void setWindowStbte(int windowStbte);
 
-    public long getLayerPtr();
+    public long getLbyerPtr();
 
     public LWWindowPeer getPeer();
 
-    public boolean isUnderMouse();
+    public boolebn isUnderMouse();
 }

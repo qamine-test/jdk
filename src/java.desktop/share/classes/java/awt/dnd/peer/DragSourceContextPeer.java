@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd.peer;
+pbckbge jbvb.bwt.dnd.peer;
 
-import java.awt.Cursor;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.dnd.DragSourceContext;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Point;
+import jbvb.bwt.dnd.DrbgSourceContext;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
 
 
 /**
  * <p>
- * This interface is supplied by the underlying window system platform to
- * expose the behaviors of the Drag and Drop system to an originator of
- * the same
+ * This interfbce is supplied by the underlying window system plbtform to
+ * expose the behbviors of the Drbg bnd Drop system to bn originbtor of
+ * the sbme
  * </p>
  *
  * @since 1.2
  *
  */
 
-public interface DragSourceContextPeer {
+public interfbce DrbgSourceContextPeer {
 
     /**
-     * start a drag
-     * @param dsc the DragSourceContext
-     * @param c the cursor
-     * @param dragImage the image to be dragged
-     * @param imageOffset the offset
+     * stbrt b drbg
+     * @pbrbm dsc the DrbgSourceContext
+     * @pbrbm c the cursor
+     * @pbrbm drbgImbge the imbge to be drbgged
+     * @pbrbm imbgeOffset the offset
      */
 
-    void startDrag(DragSourceContext dsc, Cursor c, Image dragImage, Point imageOffset) throws InvalidDnDOperationException;
+    void stbrtDrbg(DrbgSourceContext dsc, Cursor c, Imbge drbgImbge, Point imbgeOffset) throws InvblidDnDOperbtionException;
 
     /**
-     * return the current drag cursor
-     * @return the current drag cursor
+     * return the current drbg cursor
+     * @return the current drbg cursor
      */
 
     Cursor getCursor();
 
     /**
-     * set the current drag cursor
-     * @param c the cursor
+     * set the current drbg cursor
+     * @pbrbm c the cursor
      */
 
-    void setCursor(Cursor c) throws InvalidDnDOperationException;
+    void setCursor(Cursor c) throws InvblidDnDOperbtionException;
 
     /**
-     * notify the peer that the Transferables DataFlavors have changed
+     * notify the peer thbt the Trbnsferbbles DbtbFlbvors hbve chbnged
      */
 
-    void transferablesFlavorsChanged();
+    void trbnsferbblesFlbvorsChbnged();
 }

@@ -1,504 +1,504 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.PublicKey;
-import java.security.cert.*;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.PKIXReason;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.*;
+import jbvb.security.cert.CertPbthVblidbtorException.BbsicRebson;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.LinkedList;
+import jbvb.util.Set;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
-import static sun.security.x509.PKIXExtensions.*;
+import sun.security.provider.certpbth.PKIX.BuilderPbrbms;
+import stbtic sun.security.x509.PKIXExtensions.*;
 import sun.security.util.Debug;
 
 /**
- * This class is able to build certification paths in either the forward
+ * This clbss is bble to build certificbtion pbths in either the forwbrd
  * or reverse directions.
  *
- * <p> If successful, it returns a certification path which has successfully
- * satisfied all the constraints and requirements specified in the
- * PKIXBuilderParameters object and has been validated according to the PKIX
- * path validation algorithm defined in RFC 3280.
+ * <p> If successful, it returns b certificbtion pbth which hbs successfully
+ * sbtisfied bll the constrbints bnd requirements specified in the
+ * PKIXBuilderPbrbmeters object bnd hbs been vblidbted bccording to the PKIX
+ * pbth vblidbtion blgorithm defined in RFC 3280.
  *
- * <p> This implementation uses a depth-first search approach to finding
- * certification paths. If it comes to a point in which it cannot find
- * any more certificates leading to the target OR the path length is too long
- * it backtracks to previous paths until the target has been found or
- * all possible paths have been exhausted.
+ * <p> This implementbtion uses b depth-first sebrch bpprobch to finding
+ * certificbtion pbths. If it comes to b point in which it cbnnot find
+ * bny more certificbtes lebding to the tbrget OR the pbth length is too long
+ * it bbcktrbcks to previous pbths until the tbrget hbs been found or
+ * bll possible pbths hbve been exhbusted.
  *
- * <p> This implementation is not thread-safe.
+ * <p> This implementbtion is not threbd-sbfe.
  *
  * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @buthor      Sebn Mullbn
+ * @buthor      Ybssir Elley
  */
-public final class SunCertPathBuilder extends CertPathBuilderSpi {
+public finbl clbss SunCertPbthBuilder extends CertPbthBuilderSpi {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
     /*
-     * private objects shared by methods
+     * privbte objects shbred by methods
      */
-    private BuilderParams buildParams;
-    private CertificateFactory cf;
-    private boolean pathCompleted = false;
-    private PolicyNode policyTreeResult;
-    private TrustAnchor trustAnchor;
-    private PublicKey finalPublicKey;
+    privbte BuilderPbrbms buildPbrbms;
+    privbte CertificbteFbctory cf;
+    privbte boolebn pbthCompleted = fblse;
+    privbte PolicyNode policyTreeResult;
+    privbte TrustAnchor trustAnchor;
+    privbte PublicKey finblPublicKey;
 
     /**
-     * Create an instance of <code>SunCertPathBuilder</code>.
+     * Crebte bn instbnce of <code>SunCertPbthBuilder</code>.
      *
-     * @throws CertPathBuilderException if an error occurs
+     * @throws CertPbthBuilderException if bn error occurs
      */
-    public SunCertPathBuilder() throws CertPathBuilderException {
+    public SunCertPbthBuilder() throws CertPbthBuilderException {
         try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new CertPathBuilderException(e);
+            cf = CertificbteFbctory.getInstbnce("X.509");
+        } cbtch (CertificbteException e) {
+            throw new CertPbthBuilderException(e);
         }
     }
 
     @Override
-    public CertPathChecker engineGetRevocationChecker() {
-        return new RevocationChecker();
+    public CertPbthChecker engineGetRevocbtionChecker() {
+        return new RevocbtionChecker();
     }
 
     /**
-     * Attempts to build a certification path using the Sun build
-     * algorithm from a trusted anchor(s) to a target subject, which must both
-     * be specified in the input parameter set. By default, this method will
-     * attempt to build in the forward direction. In order to build in the
-     * reverse direction, the caller needs to pass in an instance of
-     * SunCertPathBuilderParameters with the buildForward flag set to false.
+     * Attempts to build b certificbtion pbth using the Sun build
+     * blgorithm from b trusted bnchor(s) to b tbrget subject, which must both
+     * be specified in the input pbrbmeter set. By defbult, this method will
+     * bttempt to build in the forwbrd direction. In order to build in the
+     * reverse direction, the cbller needs to pbss in bn instbnce of
+     * SunCertPbthBuilderPbrbmeters with the buildForwbrd flbg set to fblse.
      *
-     * <p>The certification path that is constructed is validated
-     * according to the PKIX specification.
+     * <p>The certificbtion pbth thbt is constructed is vblidbted
+     * bccording to the PKIX specificbtion.
      *
-     * @param params the parameter set for building a path. Must be an instance
-     *  of <code>PKIXBuilderParameters</code>.
-     * @return a certification path builder result.
-     * @exception CertPathBuilderException Exception thrown if builder is
-     *  unable to build a complete certification path from the trusted anchor(s)
-     *  to the target subject.
-     * @throws InvalidAlgorithmParameterException if the given parameters are
-     *  inappropriate for this certification path builder.
+     * @pbrbm pbrbms the pbrbmeter set for building b pbth. Must be bn instbnce
+     *  of <code>PKIXBuilderPbrbmeters</code>.
+     * @return b certificbtion pbth builder result.
+     * @exception CertPbthBuilderException Exception thrown if builder is
+     *  unbble to build b complete certificbtion pbth from the trusted bnchor(s)
+     *  to the tbrget subject.
+     * @throws InvblidAlgorithmPbrbmeterException if the given pbrbmeters bre
+     *  inbppropribte for this certificbtion pbth builder.
      */
     @Override
-    public CertPathBuilderResult engineBuild(CertPathParameters params)
-        throws CertPathBuilderException, InvalidAlgorithmParameterException {
+    public CertPbthBuilderResult engineBuild(CertPbthPbrbmeters pbrbms)
+        throws CertPbthBuilderException, InvblidAlgorithmPbrbmeterException {
 
         if (debug != null) {
-            debug.println("SunCertPathBuilder.engineBuild(" + params + ")");
+            debug.println("SunCertPbthBuilder.engineBuild(" + pbrbms + ")");
         }
 
-        buildParams = PKIX.checkBuilderParams(params);
+        buildPbrbms = PKIX.checkBuilderPbrbms(pbrbms);
         return build();
     }
 
-    private PKIXCertPathBuilderResult build() throws CertPathBuilderException {
-        List<List<Vertex>> adjList = new ArrayList<>();
-        PKIXCertPathBuilderResult result = buildCertPath(false, adjList);
+    privbte PKIXCertPbthBuilderResult build() throws CertPbthBuilderException {
+        List<List<Vertex>> bdjList = new ArrbyList<>();
+        PKIXCertPbthBuilderResult result = buildCertPbth(fblse, bdjList);
         if (result == null) {
             if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild: 2nd pass");
+                debug.println("SunCertPbthBuilder.engineBuild: 2nd pbss");
             }
-            // try again
-            adjList.clear();
-            result = buildCertPath(true, adjList);
+            // try bgbin
+            bdjList.clebr();
+            result = buildCertPbth(true, bdjList);
             if (result == null) {
-                throw new SunCertPathBuilderException("unable to find valid "
-                    + "certification path to requested target",
-                    new AdjacencyList(adjList));
+                throw new SunCertPbthBuilderException("unbble to find vblid "
+                    + "certificbtion pbth to requested tbrget",
+                    new AdjbcencyList(bdjList));
             }
         }
         return result;
     }
 
-    private PKIXCertPathBuilderResult buildCertPath(boolean searchAllCertStores,
-                                                    List<List<Vertex>> adjList)
-        throws CertPathBuilderException
+    privbte PKIXCertPbthBuilderResult buildCertPbth(boolebn sebrchAllCertStores,
+                                                    List<List<Vertex>> bdjList)
+        throws CertPbthBuilderException
     {
-        // Init shared variables and build certification path
-        pathCompleted = false;
+        // Init shbred vbribbles bnd build certificbtion pbth
+        pbthCompleted = fblse;
         trustAnchor = null;
-        finalPublicKey = null;
+        finblPublicKey = null;
         policyTreeResult = null;
-        LinkedList<X509Certificate> certPathList = new LinkedList<>();
+        LinkedList<X509Certificbte> certPbthList = new LinkedList<>();
         try {
-            if (buildParams.buildForward()) {
-                buildForward(adjList, certPathList, searchAllCertStores);
+            if (buildPbrbms.buildForwbrd()) {
+                buildForwbrd(bdjList, certPbthList, sebrchAllCertStores);
             } else {
-                buildReverse(adjList, certPathList);
+                buildReverse(bdjList, certPbthList);
             }
-        } catch (GeneralSecurityException | IOException e) {
+        } cbtch (GenerblSecurityException | IOException e) {
             if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild() exception in "
+                debug.println("SunCertPbthBuilder.engineBuild() exception in "
                     + "build");
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            throw new SunCertPathBuilderException("unable to find valid "
-                + "certification path to requested target", e,
-                new AdjacencyList(adjList));
+            throw new SunCertPbthBuilderException("unbble to find vblid "
+                + "certificbtion pbth to requested tbrget", e,
+                new AdjbcencyList(bdjList));
         }
 
-        // construct SunCertPathBuilderResult
+        // construct SunCertPbthBuilderResult
         try {
-            if (pathCompleted) {
+            if (pbthCompleted) {
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.engineBuild() "
-                                  + "pathCompleted");
+                    debug.println("SunCertPbthBuilder.engineBuild() "
+                                  + "pbthCompleted");
 
-                // we must return a certpath which has the target
-                // as the first cert in the certpath - i.e. reverse
-                // the certPathList
-                Collections.reverse(certPathList);
+                // we must return b certpbth which hbs the tbrget
+                // bs the first cert in the certpbth - i.e. reverse
+                // the certPbthList
+                Collections.reverse(certPbthList);
 
-                return new SunCertPathBuilderResult(
-                    cf.generateCertPath(certPathList), trustAnchor,
-                    policyTreeResult, finalPublicKey,
-                    new AdjacencyList(adjList));
+                return new SunCertPbthBuilderResult(
+                    cf.generbteCertPbth(certPbthList), trustAnchor,
+                    policyTreeResult, finblPublicKey,
+                    new AdjbcencyList(bdjList));
             }
-        } catch (CertificateException e) {
+        } cbtch (CertificbteException e) {
             if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild() exception "
-                              + "in wrap-up");
-                e.printStackTrace();
+                debug.println("SunCertPbthBuilder.engineBuild() exception "
+                              + "in wrbp-up");
+                e.printStbckTrbce();
             }
-            throw new SunCertPathBuilderException("unable to find valid "
-                + "certification path to requested target", e,
-                new AdjacencyList(adjList));
+            throw new SunCertPbthBuilderException("unbble to find vblid "
+                + "certificbtion pbth to requested tbrget", e,
+                new AdjbcencyList(bdjList));
         }
 
         return null;
     }
 
     /*
-     * Private build reverse method.
+     * Privbte build reverse method.
      */
-    private void buildReverse(List<List<Vertex>> adjacencyList,
-                              LinkedList<X509Certificate> certPathList)
-        throws GeneralSecurityException, IOException
+    privbte void buildReverse(List<List<Vertex>> bdjbcencyList,
+                              LinkedList<X509Certificbte> certPbthList)
+        throws GenerblSecurityException, IOException
     {
         if (debug != null) {
-            debug.println("SunCertPathBuilder.buildReverse()...");
-            debug.println("SunCertPathBuilder.buildReverse() InitialPolicies: "
-                + buildParams.initialPolicies());
+            debug.println("SunCertPbthBuilder.buildReverse()...");
+            debug.println("SunCertPbthBuilder.buildReverse() InitiblPolicies: "
+                + buildPbrbms.initiblPolicies());
         }
 
-        ReverseState currentState = new ReverseState();
-        /* Initialize adjacency list */
-        adjacencyList.clear();
-        adjacencyList.add(new LinkedList<Vertex>());
+        ReverseStbte currentStbte = new ReverseStbte();
+        /* Initiblize bdjbcency list */
+        bdjbcencyList.clebr();
+        bdjbcencyList.bdd(new LinkedList<Vertex>());
 
         /*
-         * Perform a search using each trust anchor, until a valid
-         * path is found
+         * Perform b sebrch using ebch trust bnchor, until b vblid
+         * pbth is found
          */
-        Iterator<TrustAnchor> iter = buildParams.trustAnchors().iterator();
-        while (iter.hasNext()) {
-            TrustAnchor anchor = iter.next();
+        Iterbtor<TrustAnchor> iter = buildPbrbms.trustAnchors().iterbtor();
+        while (iter.hbsNext()) {
+            TrustAnchor bnchor = iter.next();
 
-            /* check if anchor satisfies target constraints */
-            if (anchorIsTarget(anchor, buildParams.targetCertConstraints())) {
-                this.trustAnchor = anchor;
-                this.pathCompleted = true;
-                this.finalPublicKey = anchor.getTrustedCert().getPublicKey();
-                break;
+            /* check if bnchor sbtisfies tbrget constrbints */
+            if (bnchorIsTbrget(bnchor, buildPbrbms.tbrgetCertConstrbints())) {
+                this.trustAnchor = bnchor;
+                this.pbthCompleted = true;
+                this.finblPublicKey = bnchor.getTrustedCert().getPublicKey();
+                brebk;
             }
 
-            // skip anchor if it contains a DSA key with no DSA params
-            X509Certificate trustedCert = anchor.getTrustedCert();
+            // skip bnchor if it contbins b DSA key with no DSA pbrbms
+            X509Certificbte trustedCert = bnchor.getTrustedCert();
             PublicKey pubKey = trustedCert != null ? trustedCert.getPublicKey()
-                                                   : anchor.getCAPublicKey();
+                                                   : bnchor.getCAPublicKey();
 
-            if (PKIX.isDSAPublicKeyWithoutParams(pubKey)) {
+            if (PKIX.isDSAPublicKeyWithoutPbrbms(pubKey)) {
                 continue;
             }
 
-            /* Initialize current state */
-            currentState.initState(buildParams);
-            currentState.updateState(anchor, buildParams);
+            /* Initiblize current stbte */
+            currentStbte.initStbte(buildPbrbms);
+            currentStbte.updbteStbte(bnchor, buildPbrbms);
 
-            currentState.algorithmChecker = new AlgorithmChecker(anchor);
-            currentState.untrustedChecker = new UntrustedChecker();
+            currentStbte.blgorithmChecker = new AlgorithmChecker(bnchor);
+            currentStbte.untrustedChecker = new UntrustedChecker();
             try {
-                depthFirstSearchReverse(null, currentState,
-                                        new ReverseBuilder(buildParams),
-                                        adjacencyList, certPathList);
-            } catch (GeneralSecurityException | IOException e) {
-                // continue on error if more anchors to try
-                if (iter.hasNext())
+                depthFirstSebrchReverse(null, currentStbte,
+                                        new ReverseBuilder(buildPbrbms),
+                                        bdjbcencyList, certPbthList);
+            } cbtch (GenerblSecurityException | IOException e) {
+                // continue on error if more bnchors to try
+                if (iter.hbsNext())
                     continue;
                 else
                     throw e;
             }
 
-            // break out of loop if search is successful
-            if (pathCompleted) {
-                break;
+            // brebk out of loop if sebrch is successful
+            if (pbthCompleted) {
+                brebk;
             }
         }
 
         if (debug != null) {
-            debug.println("SunCertPathBuilder.buildReverse() returned from "
-                + "depthFirstSearchReverse()");
-            debug.println("SunCertPathBuilder.buildReverse() "
-                + "certPathList.size: " + certPathList.size());
+            debug.println("SunCertPbthBuilder.buildReverse() returned from "
+                + "depthFirstSebrchReverse()");
+            debug.println("SunCertPbthBuilder.buildReverse() "
+                + "certPbthList.size: " + certPbthList.size());
         }
     }
 
     /*
-     * Private build forward method.
+     * Privbte build forwbrd method.
      */
-    private void buildForward(List<List<Vertex>> adjacencyList,
-                              LinkedList<X509Certificate> certPathList,
-                              boolean searchAllCertStores)
-        throws GeneralSecurityException, IOException
+    privbte void buildForwbrd(List<List<Vertex>> bdjbcencyList,
+                              LinkedList<X509Certificbte> certPbthList,
+                              boolebn sebrchAllCertStores)
+        throws GenerblSecurityException, IOException
     {
         if (debug != null) {
-            debug.println("SunCertPathBuilder.buildForward()...");
+            debug.println("SunCertPbthBuilder.buildForwbrd()...");
         }
 
-        /* Initialize current state */
-        ForwardState currentState = new ForwardState();
-        currentState.initState(buildParams.certPathCheckers());
+        /* Initiblize current stbte */
+        ForwbrdStbte currentStbte = new ForwbrdStbte();
+        currentStbte.initStbte(buildPbrbms.certPbthCheckers());
 
-        /* Initialize adjacency list */
-        adjacencyList.clear();
-        adjacencyList.add(new LinkedList<Vertex>());
+        /* Initiblize bdjbcency list */
+        bdjbcencyList.clebr();
+        bdjbcencyList.bdd(new LinkedList<Vertex>());
 
-        currentState.untrustedChecker = new UntrustedChecker();
+        currentStbte.untrustedChecker = new UntrustedChecker();
 
-        depthFirstSearchForward(buildParams.targetSubject(), currentState,
-                                new ForwardBuilder(buildParams,
-                                                   searchAllCertStores),
-                                adjacencyList, certPathList);
+        depthFirstSebrchForwbrd(buildPbrbms.tbrgetSubject(), currentStbte,
+                                new ForwbrdBuilder(buildPbrbms,
+                                                   sebrchAllCertStores),
+                                bdjbcencyList, certPbthList);
     }
 
     /*
-     * This method performs a depth first search for a certification
-     * path while building forward which meets the requirements set in
-     * the parameters object.
-     * It uses an adjacency list to store all certificates which were
-     * tried (i.e. at one time added to the path - they may not end up in
-     * the final path if backtracking occurs). This information can
-     * be used later to debug or demo the build.
+     * This method performs b depth first sebrch for b certificbtion
+     * pbth while building forwbrd which meets the requirements set in
+     * the pbrbmeters object.
+     * It uses bn bdjbcency list to store bll certificbtes which were
+     * tried (i.e. bt one time bdded to the pbth - they mby not end up in
+     * the finbl pbth if bbcktrbcking occurs). This informbtion cbn
+     * be used lbter to debug or demo the build.
      *
-     * See "Data Structure and Algorithms, by Aho, Hopcroft, and Ullman"
-     * for an explanation of the DFS algorithm.
+     * See "Dbtb Structure bnd Algorithms, by Aho, Hopcroft, bnd Ullmbn"
+     * for bn explbnbtion of the DFS blgorithm.
      *
-     * @param dN the distinguished name being currently searched for certs
-     * @param currentState the current PKIX validation state
+     * @pbrbm dN the distinguished nbme being currently sebrched for certs
+     * @pbrbm currentStbte the current PKIX vblidbtion stbte
      */
-    private void depthFirstSearchForward(X500Principal dN,
-                                         ForwardState currentState,
-                                         ForwardBuilder builder,
-                                         List<List<Vertex>> adjList,
-                                         LinkedList<X509Certificate> cpList)
-        throws GeneralSecurityException, IOException
+    privbte void depthFirstSebrchForwbrd(X500Principbl dN,
+                                         ForwbrdStbte currentStbte,
+                                         ForwbrdBuilder builder,
+                                         List<List<Vertex>> bdjList,
+                                         LinkedList<X509Certificbte> cpList)
+        throws GenerblSecurityException, IOException
     {
         if (debug != null) {
-            debug.println("SunCertPathBuilder.depthFirstSearchForward(" + dN
-                          + ", " + currentState.toString() + ")");
+            debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd(" + dN
+                          + ", " + currentStbte.toString() + ")");
         }
 
         /*
-         * Find all the certificates issued to dN which
-         * satisfy the PKIX certification path constraints.
+         * Find bll the certificbtes issued to dN which
+         * sbtisfy the PKIX certificbtion pbth constrbints.
          */
-        Collection<X509Certificate> certs =
-            builder.getMatchingCerts(currentState, buildParams.certStores());
-        List<Vertex> vertices = addVertices(certs, adjList);
+        Collection<X509Certificbte> certs =
+            builder.getMbtchingCerts(currentStbte, buildPbrbms.certStores());
+        List<Vertex> vertices = bddVertices(certs, bdjList);
         if (debug != null) {
-            debug.println("SunCertPathBuilder.depthFirstSearchForward(): "
+            debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd(): "
                           + "certs.size=" + vertices.size());
         }
 
         /*
-         * For each cert in the collection, verify anything
-         * that hasn't been checked yet (signature, revocation, etc)
-         * and check for loops. Call depthFirstSearchForward()
-         * recursively for each good cert.
+         * For ebch cert in the collection, verify bnything
+         * thbt hbsn't been checked yet (signbture, revocbtion, etc)
+         * bnd check for loops. Cbll depthFirstSebrchForwbrd()
+         * recursively for ebch good cert.
          */
 
                vertices:
         for (Vertex vertex : vertices) {
             /**
-             * Restore state to currentState each time through the loop.
-             * This is important because some of the user-defined
-             * checkers modify the state, which MUST be restored if
-             * the cert eventually fails to lead to the target and
-             * the next matching cert is tried.
+             * Restore stbte to currentStbte ebch time through the loop.
+             * This is importbnt becbuse some of the user-defined
+             * checkers modify the stbte, which MUST be restored if
+             * the cert eventublly fbils to lebd to the tbrget bnd
+             * the next mbtching cert is tried.
              */
-            ForwardState nextState = (ForwardState) currentState.clone();
-            X509Certificate cert = vertex.getCertificate();
+            ForwbrdStbte nextStbte = (ForwbrdStbte) currentStbte.clone();
+            X509Certificbte cert = vertex.getCertificbte();
 
             try {
-                builder.verifyCert(cert, nextState, cpList);
-            } catch (GeneralSecurityException gse) {
+                builder.verifyCert(cert, nextStbte, cpList);
+            } cbtch (GenerblSecurityException gse) {
                 if (debug != null) {
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": validation failed: " + gse);
-                    gse.printStackTrace();
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd()"
+                                  + ": vblidbtion fbiled: " + gse);
+                    gse.printStbckTrbce();
                 }
-                vertex.setThrowable(gse);
+                vertex.setThrowbble(gse);
                 continue;
             }
 
             /*
-             * Certificate is good.
-             * If cert completes the path,
-             *    process userCheckers that don't support forward checking
-             *    and process policies over whole path
-             *    and backtrack appropriately if there is a failure
-             * else if cert does not complete the path,
-             *    add it to the path
+             * Certificbte is good.
+             * If cert completes the pbth,
+             *    process userCheckers thbt don't support forwbrd checking
+             *    bnd process policies over whole pbth
+             *    bnd bbcktrbck bppropribtely if there is b fbilure
+             * else if cert does not complete the pbth,
+             *    bdd it to the pbth
              */
-            if (builder.isPathCompleted(cert)) {
+            if (builder.isPbthCompleted(cert)) {
 
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": commencing final verification");
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd()"
+                                  + ": commencing finbl verificbtion");
 
-                List<X509Certificate> appendedCerts = new ArrayList<>(cpList);
+                List<X509Certificbte> bppendedCerts = new ArrbyList<>(cpList);
 
                 /*
-                 * if the trust anchor selected is specified as a trusted
-                 * public key rather than a trusted cert, then verify this
+                 * if the trust bnchor selected is specified bs b trusted
+                 * public key rbther thbn b trusted cert, then verify this
                  * cert (which is signed by the trusted public key), but
-                 * don't add it yet to the cpList
+                 * don't bdd it yet to the cpList
                  */
                 if (builder.trustAnchor.getTrustedCert() == null) {
-                    appendedCerts.add(0, cert);
+                    bppendedCerts.bdd(0, cert);
                 }
 
                 Set<String> initExpPolSet =
                     Collections.singleton(PolicyChecker.ANY_POLICY);
 
                 PolicyNodeImpl rootNode = new PolicyNodeImpl(null,
-                    PolicyChecker.ANY_POLICY, null, false, initExpPolSet, false);
+                    PolicyChecker.ANY_POLICY, null, fblse, initExpPolSet, fblse);
 
-                List<PKIXCertPathChecker> checkers = new ArrayList<>();
+                List<PKIXCertPbthChecker> checkers = new ArrbyList<>();
                 PolicyChecker policyChecker
-                    = new PolicyChecker(buildParams.initialPolicies(),
-                                        appendedCerts.size(),
-                                        buildParams.explicitPolicyRequired(),
-                                        buildParams.policyMappingInhibited(),
-                                        buildParams.anyPolicyInhibited(),
-                                        buildParams.policyQualifiersRejected(),
+                    = new PolicyChecker(buildPbrbms.initiblPolicies(),
+                                        bppendedCerts.size(),
+                                        buildPbrbms.explicitPolicyRequired(),
+                                        buildPbrbms.policyMbppingInhibited(),
+                                        buildPbrbms.bnyPolicyInhibited(),
+                                        buildPbrbms.policyQublifiersRejected(),
                                         rootNode);
-                checkers.add(policyChecker);
+                checkers.bdd(policyChecker);
 
-                // add the algorithm checker
-                checkers.add(new AlgorithmChecker(builder.trustAnchor));
+                // bdd the blgorithm checker
+                checkers.bdd(new AlgorithmChecker(builder.trustAnchor));
 
-                BasicChecker basicChecker = null;
-                if (nextState.keyParamsNeeded()) {
+                BbsicChecker bbsicChecker = null;
+                if (nextStbte.keyPbrbmsNeeded()) {
                     PublicKey rootKey = cert.getPublicKey();
                     if (builder.trustAnchor.getTrustedCert() == null) {
                         rootKey = builder.trustAnchor.getCAPublicKey();
                         if (debug != null)
                             debug.println(
-                                "SunCertPathBuilder.depthFirstSearchForward " +
-                                "using buildParams public key: " +
+                                "SunCertPbthBuilder.depthFirstSebrchForwbrd " +
+                                "using buildPbrbms public key: " +
                                 rootKey.toString());
                     }
-                    TrustAnchor anchor = new TrustAnchor
-                        (cert.getSubjectX500Principal(), rootKey, null);
+                    TrustAnchor bnchor = new TrustAnchor
+                        (cert.getSubjectX500Principbl(), rootKey, null);
 
-                    // add the basic checker
-                    basicChecker = new BasicChecker(anchor, buildParams.date(),
-                                                    buildParams.sigProvider(),
+                    // bdd the bbsic checker
+                    bbsicChecker = new BbsicChecker(bnchor, buildPbrbms.dbte(),
+                                                    buildPbrbms.sigProvider(),
                                                     true);
-                    checkers.add(basicChecker);
+                    checkers.bdd(bbsicChecker);
                 }
 
-                buildParams.setCertPath(cf.generateCertPath(appendedCerts));
+                buildPbrbms.setCertPbth(cf.generbteCertPbth(bppendedCerts));
 
-                boolean revCheckerAdded = false;
-                List<PKIXCertPathChecker> ckrs = buildParams.certPathCheckers();
-                for (PKIXCertPathChecker ckr : ckrs) {
-                    if (ckr instanceof PKIXRevocationChecker) {
+                boolebn revCheckerAdded = fblse;
+                List<PKIXCertPbthChecker> ckrs = buildPbrbms.certPbthCheckers();
+                for (PKIXCertPbthChecker ckr : ckrs) {
+                    if (ckr instbnceof PKIXRevocbtionChecker) {
                         if (revCheckerAdded) {
-                            throw new CertPathValidatorException(
-                                "Only one PKIXRevocationChecker can be specified");
+                            throw new CertPbthVblidbtorException(
+                                "Only one PKIXRevocbtionChecker cbn be specified");
                         }
                         revCheckerAdded = true;
-                        // if it's our own, initialize it
-                        if (ckr instanceof RevocationChecker) {
-                            ((RevocationChecker)ckr).init(builder.trustAnchor,
-                                                          buildParams);
+                        // if it's our own, initiblize it
+                        if (ckr instbnceof RevocbtionChecker) {
+                            ((RevocbtionChecker)ckr).init(builder.trustAnchor,
+                                                          buildPbrbms);
                         }
                     }
                 }
-                // only add a RevocationChecker if revocation is enabled and
-                // a PKIXRevocationChecker has not already been added
-                if (buildParams.revocationEnabled() && !revCheckerAdded) {
-                    checkers.add(new RevocationChecker(builder.trustAnchor,
-                                                       buildParams));
+                // only bdd b RevocbtionChecker if revocbtion is enbbled bnd
+                // b PKIXRevocbtionChecker hbs not blrebdy been bdded
+                if (buildPbrbms.revocbtionEnbbled() && !revCheckerAdded) {
+                    checkers.bdd(new RevocbtionChecker(builder.trustAnchor,
+                                                       buildPbrbms));
                 }
 
-                checkers.addAll(ckrs);
+                checkers.bddAll(ckrs);
 
-                // Why we don't need BasicChecker and RevocationChecker
-                // if nextState.keyParamsNeeded() is false?
+                // Why we don't need BbsicChecker bnd RevocbtionChecker
+                // if nextStbte.keyPbrbmsNeeded() is fblse?
 
-                for (int i = 0; i < appendedCerts.size(); i++) {
-                    X509Certificate currCert = appendedCerts.get(i);
+                for (int i = 0; i < bppendedCerts.size(); i++) {
+                    X509Certificbte currCert = bppendedCerts.get(i);
                     if (debug != null)
                         debug.println("current subject = "
-                                      + currCert.getSubjectX500Principal());
+                                      + currCert.getSubjectX500Principbl());
                     Set<String> unresCritExts =
-                        currCert.getCriticalExtensionOIDs();
+                        currCert.getCriticblExtensionOIDs();
                     if (unresCritExts == null) {
                         unresCritExts = Collections.<String>emptySet();
                     }
 
-                    for (PKIXCertPathChecker currChecker : checkers) {
-                        if (!currChecker.isForwardCheckingSupported()) {
+                    for (PKIXCertPbthChecker currChecker : checkers) {
+                        if (!currChecker.isForwbrdCheckingSupported()) {
                             if (i == 0) {
-                                currChecker.init(false);
+                                currChecker.init(fblse);
 
                                 // The user specified
-                                // AlgorithmChecker may not be
-                                // able to set the trust anchor until now.
-                                if (currChecker instanceof AlgorithmChecker) {
+                                // AlgorithmChecker mby not be
+                                // bble to set the trust bnchor until now.
+                                if (currChecker instbnceof AlgorithmChecker) {
                                     ((AlgorithmChecker)currChecker).
                                         trySetTrustAnchor(builder.trustAnchor);
                                 }
@@ -506,33 +506,33 @@ public final class SunCertPathBuilder extends CertPathBuilderSpi {
 
                             try {
                                 currChecker.check(currCert, unresCritExts);
-                            } catch (CertPathValidatorException cpve) {
+                            } cbtch (CertPbthVblidbtorException cpve) {
                                 if (debug != null)
                                     debug.println
-                                    ("SunCertPathBuilder.depthFirstSearchForward(): " +
-                                    "final verification failed: " + cpve);
-                                // If the target cert itself is revoked, we
-                                // cannot trust it. We can bail out here.
-                                if (buildParams.targetCertConstraints().match(currCert)
-                                        && cpve.getReason() == BasicReason.REVOKED) {
+                                    ("SunCertPbthBuilder.depthFirstSebrchForwbrd(): " +
+                                    "finbl verificbtion fbiled: " + cpve);
+                                // If the tbrget cert itself is revoked, we
+                                // cbnnot trust it. We cbn bbil out here.
+                                if (buildPbrbms.tbrgetCertConstrbints().mbtch(currCert)
+                                        && cpve.getRebson() == BbsicRebson.REVOKED) {
                                     throw cpve;
                                 }
-                                vertex.setThrowable(cpve);
+                                vertex.setThrowbble(cpve);
                                 continue vertices;
                             }
                         }
                     }
 
                     /*
-                     * Remove extensions from user checkers that support
-                     * forward checking. After this step, we will have
-                     * removed all extensions that all user checkers
-                     * are capable of processing.
+                     * Remove extensions from user checkers thbt support
+                     * forwbrd checking. After this step, we will hbve
+                     * removed bll extensions thbt bll user checkers
+                     * bre cbpbble of processing.
                      */
-                    for (PKIXCertPathChecker checker :
-                         buildParams.certPathCheckers())
+                    for (PKIXCertPbthChecker checker :
+                         buildPbrbms.certPbthCheckers())
                     {
-                        if (checker.isForwardCheckingSupported()) {
+                        if (checker.isForwbrdCheckingSupported()) {
                             Set<String> suppExts =
                                 checker.getSupportedExtensions();
                             if (suppExts != null) {
@@ -542,263 +542,263 @@ public final class SunCertPathBuilder extends CertPathBuilderSpi {
                     }
 
                     if (!unresCritExts.isEmpty()) {
-                        unresCritExts.remove(BasicConstraints_Id.toString());
-                        unresCritExts.remove(NameConstraints_Id.toString());
-                        unresCritExts.remove(CertificatePolicies_Id.toString());
-                        unresCritExts.remove(PolicyMappings_Id.toString());
-                        unresCritExts.remove(PolicyConstraints_Id.toString());
+                        unresCritExts.remove(BbsicConstrbints_Id.toString());
+                        unresCritExts.remove(NbmeConstrbints_Id.toString());
+                        unresCritExts.remove(CertificbtePolicies_Id.toString());
+                        unresCritExts.remove(PolicyMbppings_Id.toString());
+                        unresCritExts.remove(PolicyConstrbints_Id.toString());
                         unresCritExts.remove(InhibitAnyPolicy_Id.toString());
                         unresCritExts.remove(
-                            SubjectAlternativeName_Id.toString());
-                        unresCritExts.remove(KeyUsage_Id.toString());
-                        unresCritExts.remove(ExtendedKeyUsage_Id.toString());
+                            SubjectAlternbtiveNbme_Id.toString());
+                        unresCritExts.remove(KeyUsbge_Id.toString());
+                        unresCritExts.remove(ExtendedKeyUsbge_Id.toString());
 
                         if (!unresCritExts.isEmpty()) {
-                            throw new CertPathValidatorException
-                                ("unrecognized critical extension(s)", null,
-                                 null, -1, PKIXReason.UNRECOGNIZED_CRIT_EXT);
+                            throw new CertPbthVblidbtorException
+                                ("unrecognized criticbl extension(s)", null,
+                                 null, -1, PKIXRebson.UNRECOGNIZED_CRIT_EXT);
                         }
                     }
                 }
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                        + ": final verification succeeded - path completed!");
-                pathCompleted = true;
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd()"
+                        + ": finbl verificbtion succeeded - pbth completed!");
+                pbthCompleted = true;
 
                 /*
-                 * if the user specified a trusted public key rather than
-                 * trusted certs, then add this cert (which is signed by
+                 * if the user specified b trusted public key rbther thbn
+                 * trusted certs, then bdd this cert (which is signed by
                  * the trusted public key) to the cpList
                  */
                 if (builder.trustAnchor.getTrustedCert() == null)
-                    builder.addCertToPath(cert, cpList);
-                // Save the trust anchor
+                    builder.bddCertToPbth(cert, cpList);
+                // Sbve the trust bnchor
                 this.trustAnchor = builder.trustAnchor;
 
                 /*
-                 * Extract and save the final target public key
+                 * Extrbct bnd sbve the finbl tbrget public key
                  */
-                if (basicChecker != null) {
-                    finalPublicKey = basicChecker.getPublicKey();
+                if (bbsicChecker != null) {
+                    finblPublicKey = bbsicChecker.getPublicKey();
                 } else {
-                    Certificate finalCert;
+                    Certificbte finblCert;
                     if (cpList.isEmpty()) {
-                        finalCert = builder.trustAnchor.getTrustedCert();
+                        finblCert = builder.trustAnchor.getTrustedCert();
                     } else {
-                        finalCert = cpList.getLast();
+                        finblCert = cpList.getLbst();
                     }
-                    finalPublicKey = finalCert.getPublicKey();
+                    finblPublicKey = finblCert.getPublicKey();
                 }
 
                 policyTreeResult = policyChecker.getPolicyTree();
                 return;
             } else {
-                builder.addCertToPath(cert, cpList);
+                builder.bddCertToPbth(cert, cpList);
             }
 
-            /* Update the PKIX state */
-            nextState.updateState(cert);
+            /* Updbte the PKIX stbte */
+            nextStbte.updbteStbte(cert);
 
             /*
-             * Append an entry for cert in adjacency list and
+             * Append bn entry for cert in bdjbcency list bnd
              * set index for current vertex.
              */
-            adjList.add(new LinkedList<Vertex>());
-            vertex.setIndex(adjList.size() - 1);
+            bdjList.bdd(new LinkedList<Vertex>());
+            vertex.setIndex(bdjList.size() - 1);
 
-            /* recursively search for matching certs at next dN */
-            depthFirstSearchForward(cert.getIssuerX500Principal(), nextState,
-                                    builder, adjList, cpList);
+            /* recursively sebrch for mbtching certs bt next dN */
+            depthFirstSebrchForwbrd(cert.getIssuerX500Principbl(), nextStbte,
+                                    builder, bdjList, cpList);
 
             /*
-             * If path has been completed, return ASAP!
+             * If pbth hbs been completed, return ASAP!
              */
-            if (pathCompleted) {
+            if (pbthCompleted) {
                 return;
             } else {
                 /*
-                 * If we get here, it means we have searched all possible
-                 * certs issued by the dN w/o finding any matching certs.
-                 * This means we have to backtrack to the previous cert in
-                 * the path and try some other paths.
+                 * If we get here, it mebns we hbve sebrched bll possible
+                 * certs issued by the dN w/o finding bny mbtching certs.
+                 * This mebns we hbve to bbcktrbck to the previous cert in
+                 * the pbth bnd try some other pbths.
                  */
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": backtracking");
-                builder.removeFinalCertFromPath(cpList);
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchForwbrd()"
+                                  + ": bbcktrbcking");
+                builder.removeFinblCertFromPbth(cpList);
             }
         }
     }
 
     /*
-     * This method performs a depth first search for a certification
-     * path while building reverse which meets the requirements set in
-     * the parameters object.
-     * It uses an adjacency list to store all certificates which were
-     * tried (i.e. at one time added to the path - they may not end up in
-     * the final path if backtracking occurs). This information can
-     * be used later to debug or demo the build.
+     * This method performs b depth first sebrch for b certificbtion
+     * pbth while building reverse which meets the requirements set in
+     * the pbrbmeters object.
+     * It uses bn bdjbcency list to store bll certificbtes which were
+     * tried (i.e. bt one time bdded to the pbth - they mby not end up in
+     * the finbl pbth if bbcktrbcking occurs). This informbtion cbn
+     * be used lbter to debug or demo the build.
      *
-     * See "Data Structure and Algorithms, by Aho, Hopcroft, and Ullman"
-     * for an explanation of the DFS algorithm.
+     * See "Dbtb Structure bnd Algorithms, by Aho, Hopcroft, bnd Ullmbn"
+     * for bn explbnbtion of the DFS blgorithm.
      *
-     * @param dN the distinguished name being currently searched for certs
-     * @param currentState the current PKIX validation state
+     * @pbrbm dN the distinguished nbme being currently sebrched for certs
+     * @pbrbm currentStbte the current PKIX vblidbtion stbte
      */
-    private void depthFirstSearchReverse(X500Principal dN,
-                                         ReverseState currentState,
+    privbte void depthFirstSebrchReverse(X500Principbl dN,
+                                         ReverseStbte currentStbte,
                                          ReverseBuilder builder,
-                                         List<List<Vertex>> adjList,
-                                         LinkedList<X509Certificate> cpList)
-        throws GeneralSecurityException, IOException
+                                         List<List<Vertex>> bdjList,
+                                         LinkedList<X509Certificbte> cpList)
+        throws GenerblSecurityException, IOException
     {
         if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse(" + dN
-                + ", " + currentState.toString() + ")");
+            debug.println("SunCertPbthBuilder.depthFirstSebrchReverse(" + dN
+                + ", " + currentStbte.toString() + ")");
 
         /*
-         * Find all the certificates issued by dN which
-         * satisfy the PKIX certification path constraints.
+         * Find bll the certificbtes issued by dN which
+         * sbtisfy the PKIX certificbtion pbth constrbints.
          */
-        Collection<X509Certificate> certs =
-            builder.getMatchingCerts(currentState, buildParams.certStores());
-        List<Vertex> vertices = addVertices(certs, adjList);
+        Collection<X509Certificbte> certs =
+            builder.getMbtchingCerts(currentStbte, buildPbrbms.certStores());
+        List<Vertex> vertices = bddVertices(certs, bdjList);
         if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse(): "
+            debug.println("SunCertPbthBuilder.depthFirstSebrchReverse(): "
                 + "certs.size=" + vertices.size());
 
         /*
-         * For each cert in the collection, verify anything
-         * that hasn't been checked yet (signature, revocation, etc)
-         * and check for loops. Call depthFirstSearchReverse()
-         * recursively for each good cert.
+         * For ebch cert in the collection, verify bnything
+         * thbt hbsn't been checked yet (signbture, revocbtion, etc)
+         * bnd check for loops. Cbll depthFirstSebrchReverse()
+         * recursively for ebch good cert.
          */
         for (Vertex vertex : vertices) {
             /**
-             * Restore state to currentState each time through the loop.
-             * This is important because some of the user-defined
-             * checkers modify the state, which MUST be restored if
-             * the cert eventually fails to lead to the target and
-             * the next matching cert is tried.
+             * Restore stbte to currentStbte ebch time through the loop.
+             * This is importbnt becbuse some of the user-defined
+             * checkers modify the stbte, which MUST be restored if
+             * the cert eventublly fbils to lebd to the tbrget bnd
+             * the next mbtching cert is tried.
              */
-            ReverseState nextState = (ReverseState) currentState.clone();
-            X509Certificate cert = vertex.getCertificate();
+            ReverseStbte nextStbte = (ReverseStbte) currentStbte.clone();
+            X509Certificbte cert = vertex.getCertificbte();
             try {
-                builder.verifyCert(cert, nextState, cpList);
-            } catch (GeneralSecurityException gse) {
+                builder.verifyCert(cert, nextStbte, cpList);
+            } cbtch (GenerblSecurityException gse) {
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": validation failed: " + gse);
-                vertex.setThrowable(gse);
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchReverse()"
+                        + ": vblidbtion fbiled: " + gse);
+                vertex.setThrowbble(gse);
                 continue;
             }
 
             /*
-             * Certificate is good, add it to the path (if it isn't a
-             * self-signed cert) and update state
+             * Certificbte is good, bdd it to the pbth (if it isn't b
+             * self-signed cert) bnd updbte stbte
              */
-            if (!currentState.isInitial())
-                builder.addCertToPath(cert, cpList);
-            // save trust anchor
-            this.trustAnchor = currentState.trustAnchor;
+            if (!currentStbte.isInitibl())
+                builder.bddCertToPbth(cert, cpList);
+            // sbve trust bnchor
+            this.trustAnchor = currentStbte.trustAnchor;
 
             /*
-             * Check if path is completed, return ASAP if so.
+             * Check if pbth is completed, return ASAP if so.
              */
-            if (builder.isPathCompleted(cert)) {
+            if (builder.isPbthCompleted(cert)) {
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": path completed!");
-                pathCompleted = true;
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchReverse()"
+                        + ": pbth completed!");
+                pbthCompleted = true;
 
-                PolicyNodeImpl rootNode = nextState.rootNode;
+                PolicyNodeImpl rootNode = nextStbte.rootNode;
 
                 if (rootNode == null)
                     policyTreeResult = null;
                 else {
                     policyTreeResult = rootNode.copyTree();
-                    ((PolicyNodeImpl)policyTreeResult).setImmutable();
+                    ((PolicyNodeImpl)policyTreeResult).setImmutbble();
                 }
 
                 /*
-                 * Extract and save the final target public key
+                 * Extrbct bnd sbve the finbl tbrget public key
                  */
-                finalPublicKey = cert.getPublicKey();
-                if (PKIX.isDSAPublicKeyWithoutParams(finalPublicKey)) {
-                    finalPublicKey =
-                        BasicChecker.makeInheritedParamsKey
-                            (finalPublicKey, currentState.pubKey);
+                finblPublicKey = cert.getPublicKey();
+                if (PKIX.isDSAPublicKeyWithoutPbrbms(finblPublicKey)) {
+                    finblPublicKey =
+                        BbsicChecker.mbkeInheritedPbrbmsKey
+                            (finblPublicKey, currentStbte.pubKey);
                 }
 
                 return;
             }
 
-            /* Update the PKIX state */
-            nextState.updateState(cert);
+            /* Updbte the PKIX stbte */
+            nextStbte.updbteStbte(cert);
 
             /*
-             * Append an entry for cert in adjacency list and
+             * Append bn entry for cert in bdjbcency list bnd
              * set index for current vertex.
              */
-            adjList.add(new LinkedList<Vertex>());
-            vertex.setIndex(adjList.size() - 1);
+            bdjList.bdd(new LinkedList<Vertex>());
+            vertex.setIndex(bdjList.size() - 1);
 
-            /* recursively search for matching certs at next dN */
-            depthFirstSearchReverse(cert.getSubjectX500Principal(), nextState,
-                                    builder, adjList, cpList);
+            /* recursively sebrch for mbtching certs bt next dN */
+            depthFirstSebrchReverse(cert.getSubjectX500Principbl(), nextStbte,
+                                    builder, bdjList, cpList);
 
             /*
-             * If path has been completed, return ASAP!
+             * If pbth hbs been completed, return ASAP!
              */
-            if (pathCompleted) {
+            if (pbthCompleted) {
                 return;
             } else {
                 /*
-                 * If we get here, it means we have searched all possible
-                 * certs issued by the dN w/o finding any matching certs. This
-                 * means we have to backtrack to the previous cert in the path
-                 * and try some other paths.
+                 * If we get here, it mebns we hbve sebrched bll possible
+                 * certs issued by the dN w/o finding bny mbtching certs. This
+                 * mebns we hbve to bbcktrbck to the previous cert in the pbth
+                 * bnd try some other pbths.
                  */
                 if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": backtracking");
-                if (!currentState.isInitial())
-                    builder.removeFinalCertFromPath(cpList);
+                    debug.println("SunCertPbthBuilder.depthFirstSebrchReverse()"
+                        + ": bbcktrbcking");
+                if (!currentStbte.isInitibl())
+                    builder.removeFinblCertFromPbth(cpList);
             }
         }
         if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse() all "
-                + "certs in this adjacency list checked");
+            debug.println("SunCertPbthBuilder.depthFirstSebrchReverse() bll "
+                + "certs in this bdjbcency list checked");
     }
 
     /*
-     * Adds a collection of matching certificates to the
-     * adjacency list.
+     * Adds b collection of mbtching certificbtes to the
+     * bdjbcency list.
      */
-    private static List<Vertex> addVertices(Collection<X509Certificate> certs,
-                                            List<List<Vertex>> adjList)
+    privbte stbtic List<Vertex> bddVertices(Collection<X509Certificbte> certs,
+                                            List<List<Vertex>> bdjList)
     {
-        List<Vertex> l = adjList.get(adjList.size() - 1);
+        List<Vertex> l = bdjList.get(bdjList.size() - 1);
 
-        for (X509Certificate cert : certs) {
+        for (X509Certificbte cert : certs) {
             Vertex v = new Vertex(cert);
-            l.add(v);
+            l.bdd(v);
         }
 
         return l;
     }
 
     /**
-     * Returns true if trust anchor certificate matches specified
-     * certificate constraints.
+     * Returns true if trust bnchor certificbte mbtches specified
+     * certificbte constrbints.
      */
-    private static boolean anchorIsTarget(TrustAnchor anchor,
+    privbte stbtic boolebn bnchorIsTbrget(TrustAnchor bnchor,
                                           CertSelector sel)
     {
-        X509Certificate anchorCert = anchor.getTrustedCert();
-        if (anchorCert != null) {
-            return sel.match(anchorCert);
+        X509Certificbte bnchorCert = bnchor.getTrustedCert();
+        if (bnchorCert != null) {
+            return sel.mbtch(bnchorCert);
         }
-        return false;
+        return fblse;
     }
 }

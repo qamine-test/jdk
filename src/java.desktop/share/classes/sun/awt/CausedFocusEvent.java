@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.event.FocusEvent;
-import java.awt.Component;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.Component;
 
 /**
- * This class represents FocusEvents with a known "cause" - reason why this event happened. It can
- * be mouse press, traversal, activation, and so on - all causes are described as Cause enum. The
- * event with the cause can be constructed in two ways - explicitly through constructor of
- * CausedFocusEvent class or implicitly, by calling appropriate requestFocusXXX method with "cause"
- * parameter. The default cause is UNKNOWN.
+ * This clbss represents FocusEvents with b known "cbuse" - rebson why this event hbppened. It cbn
+ * be mouse press, trbversbl, bctivbtion, bnd so on - bll cbuses bre described bs Cbuse enum. The
+ * event with the cbuse cbn be constructed in two wbys - explicitly through constructor of
+ * CbusedFocusEvent clbss or implicitly, by cblling bppropribte requestFocusXXX method with "cbuse"
+ * pbrbmeter. The defbult cbuse is UNKNOWN.
  */
-@SuppressWarnings("serial")
-public class CausedFocusEvent extends FocusEvent {
-    public enum Cause {
+@SuppressWbrnings("seribl")
+public clbss CbusedFocusEvent extends FocusEvent {
+    public enum Cbuse {
         UNKNOWN,
         MOUSE_EVENT,
         TRAVERSAL,
@@ -54,36 +54,36 @@ public class CausedFocusEvent extends FocusEvent {
         RETARGETED
     };
 
-    private final Cause cause;
+    privbte finbl Cbuse cbuse;
 
-    public Cause getCause() {
-        return cause;
+    public Cbuse getCbuse() {
+        return cbuse;
     }
 
     public String toString() {
-        return "java.awt.FocusEvent[" + super.paramString() + ",cause=" + cause + "] on " + getSource();
+        return "jbvb.bwt.FocusEvent[" + super.pbrbmString() + ",cbuse=" + cbuse + "] on " + getSource();
     }
 
-    public CausedFocusEvent(Component source, int id, boolean temporary,
-                            Component opposite, Cause cause) {
-        super(source, id, temporary, opposite);
-        if (cause == null) {
-            cause = Cause.UNKNOWN;
+    public CbusedFocusEvent(Component source, int id, boolebn temporbry,
+                            Component opposite, Cbuse cbuse) {
+        super(source, id, temporbry, opposite);
+        if (cbuse == null) {
+            cbuse = Cbuse.UNKNOWN;
         }
-        this.cause = cause;
+        this.cbuse = cbuse;
     }
 
     /**
-     * Retargets the original focus event to the new target.  If the
-     * original focus event is CausedFocusEvent, it remains such and
-     * cause is copied.  Otherwise, new CausedFocusEvent is created,
-     * with cause as RETARGETED.
-     * @return retargeted event, or null if e is null
+     * Retbrgets the originbl focus event to the new tbrget.  If the
+     * originbl focus event is CbusedFocusEvent, it rembins such bnd
+     * cbuse is copied.  Otherwise, new CbusedFocusEvent is crebted,
+     * with cbuse bs RETARGETED.
+     * @return retbrgeted event, or null if e is null
      */
-    public static FocusEvent retarget(FocusEvent e, Component newSource) {
+    public stbtic FocusEvent retbrget(FocusEvent e, Component newSource) {
         if (e == null) return null;
 
-        return new CausedFocusEvent(newSource, e.getID(), e.isTemporary(), e.getOppositeComponent(),
-                                    (e instanceof CausedFocusEvent) ? ((CausedFocusEvent)e).getCause() : Cause.RETARGETED);
+        return new CbusedFocusEvent(newSource, e.getID(), e.isTemporbry(), e.getOppositeComponent(),
+                                    (e instbnceof CbusedFocusEvent) ? ((CbusedFocusEvent)e).getCbuse() : Cbuse.RETARGETED);
     }
 }

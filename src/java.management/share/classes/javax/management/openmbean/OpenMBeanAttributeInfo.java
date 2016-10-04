@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
 
 
@@ -36,102 +36,102 @@ package javax.management.openmbean;
 
 
 /**
- * <p>Describes an attribute of an open MBean.</p>
+ * <p>Describes bn bttribute of bn open MBebn.</p>
  *
- * <p>This interface declares the same methods as the class {@link
- * javax.management.MBeanAttributeInfo}.  A class implementing this
- * interface (typically {@link OpenMBeanAttributeInfoSupport}) should
- * extend {@link javax.management.MBeanAttributeInfo}.</p>
+ * <p>This interfbce declbres the sbme methods bs the clbss {@link
+ * jbvbx.mbnbgement.MBebnAttributeInfo}.  A clbss implementing this
+ * interfbce (typicblly {@link OpenMBebnAttributeInfoSupport}) should
+ * extend {@link jbvbx.mbnbgement.MBebnAttributeInfo}.</p>
  *
  *
  * @since 1.5
  */
-public interface OpenMBeanAttributeInfo extends OpenMBeanParameterInfo {
+public interfbce OpenMBebnAttributeInfo extends OpenMBebnPbrbmeterInfo {
 
 
-    // Re-declares the methods that are in class MBeanAttributeInfo of JMX 1.0
-    // (these will be removed when MBeanAttributeInfo is made a parent interface of this interface)
-
-    /**
-     * Returns <tt>true</tt> if the attribute described by this <tt>OpenMBeanAttributeInfo</tt> instance is readable,
-     * <tt>false</tt> otherwise.
-     *
-     * @return true if the attribute is readable.
-     */
-    public boolean isReadable() ;
+    // Re-declbres the methods thbt bre in clbss MBebnAttributeInfo of JMX 1.0
+    // (these will be removed when MBebnAttributeInfo is mbde b pbrent interfbce of this interfbce)
 
     /**
-     * Returns <tt>true</tt> if the attribute described by this <tt>OpenMBeanAttributeInfo</tt> instance is writable,
-     * <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if the bttribute described by this <tt>OpenMBebnAttributeInfo</tt> instbnce is rebdbble,
+     * <tt>fblse</tt> otherwise.
      *
-     * @return true if the attribute is writable.
+     * @return true if the bttribute is rebdbble.
      */
-    public boolean isWritable() ;
+    public boolebn isRebdbble() ;
 
     /**
-     * Returns <tt>true</tt> if the attribute described by this <tt>OpenMBeanAttributeInfo</tt> instance
-     * is accessed through a <tt>is<i>XXX</i></tt> getter (applies only to <tt>boolean</tt> and <tt>Boolean</tt> values),
-     * <tt>false</tt> otherwise.
+     * Returns <tt>true</tt> if the bttribute described by this <tt>OpenMBebnAttributeInfo</tt> instbnce is writbble,
+     * <tt>fblse</tt> otherwise.
      *
-     * @return true if the attribute is accessed through <tt>is<i>XXX</i></tt>.
+     * @return true if the bttribute is writbble.
      */
-    public boolean isIs() ;
+    public boolebn isWritbble() ;
+
+    /**
+     * Returns <tt>true</tt> if the bttribute described by this <tt>OpenMBebnAttributeInfo</tt> instbnce
+     * is bccessed through b <tt>is<i>XXX</i></tt> getter (bpplies only to <tt>boolebn</tt> bnd <tt>Boolebn</tt> vblues),
+     * <tt>fblse</tt> otherwise.
+     *
+     * @return true if the bttribute is bccessed through <tt>is<i>XXX</i></tt>.
+     */
+    public boolebn isIs() ;
 
 
     // commodity methods
     //
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>OpenMBeanAttributeInfo</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this <code>OpenMBebnAttributeInfo</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>OpenMBeanAttributeInfo</code> interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their access properties (isReadable, isWritable and isIs) are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>OpenMBebnAttributeInfo</code> interfbce,</li>
+     * <li>their nbmes bre equbl</li>
+     * <li>their open types bre equbl</li>
+     * <li>their bccess properties (isRebdbble, isWritbble bnd isIs) bre equbl</li>
+     * <li>their defbult, min, mbx bnd legbl vblues bre equbl.</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>OpenMBeanAttributeInfo</code> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for <vbr>obj</vbr> pbrbmeters which bre
+     * different implementbtions of the <code>OpenMBebnAttributeInfo</code> interfbce.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>OpenMBeanAttributeInfo</code> instance;
+     * @pbrbm  obj  the object to be compbred for equblity with this <code>OpenMBebnAttributeInfo</code> instbnce;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanAttributeInfo</code> instance.
+     * @return  <code>true</code> if the specified object is equbl to this <code>OpenMBebnAttributeInfo</code> instbnce.
      */
-    public boolean equals(Object obj);
+    public boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this <code>OpenMBeanAttributeInfo</code> instance.
+     * Returns the hbsh code vblue for this <code>OpenMBebnAttributeInfo</code> instbnce.
      * <p>
-     * The hash code of an <code>OpenMBeanAttributeInfo</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its name, its <i>open type</i>, and its default, min, max and legal values).
+     * The hbsh code of bn <code>OpenMBebnAttributeInfo</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its nbme, its <i>open type</i>, bnd its defbult, min, mbx bnd legbl vblues).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>OpenMBeanAttributeInfo</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>OpenMBebnAttributeInfo</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      *
-     * @return  the hash code value for this <code>OpenMBeanAttributeInfo</code> instance
+     * @return  the hbsh code vblue for this <code>OpenMBebnAttributeInfo</code> instbnce
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Returns a string representation of this <code>OpenMBeanAttributeInfo</code> instance.
+     * Returns b string representbtion of this <code>OpenMBebnAttributeInfo</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.OpenMBeanAttributeInfo</code>),
-     * the string representation of the name and open type of the described attribute,
-     * and the string representation of its default, min, max and legal values.
+     * The string representbtion consists of the nbme of this clbss (ie <code>jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfo</code>),
+     * the string representbtion of the nbme bnd open type of the described bttribute,
+     * bnd the string representbtion of its defbult, min, mbx bnd legbl vblues.
      *
-     * @return  a string representation of this <code>OpenMBeanAttributeInfo</code> instance
+     * @return  b string representbtion of this <code>OpenMBebnAttributeInfo</code> instbnce
      */
     public String toString();
 
 
-    // methods specific to open MBeans are inherited from
-    // OpenMBeanParameterInfo
+    // methods specific to open MBebns bre inherited from
+    // OpenMBebnPbrbmeterInfo
     //
 
 }

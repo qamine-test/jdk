@@ -3,25 +3,25 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * ===========================================================================
@@ -31,83 +31,83 @@
  * ===========================================================================
  */
 /*
- * $Id: DOMRetrievalMethod.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMRetrievblMethod.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.ByteArrayInputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.Provider;
-import java.util.*;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.security.Provider;
+import jbvb.util.*;
 
-import javax.xml.XMLConstants;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dom.DOMURIReference;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-import javax.xml.parsers.*;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dom.DOMURIReference;
+import jbvbx.xml.crypto.dsig.keyinfo.RetrievblMethod;
+import jbvbx.xml.pbrsers.*;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * DOM-based implementation of RetrievalMethod.
+ * DOM-bbsed implementbtion of RetrievblMethod.
  *
- * @author Sean Mullan
- * @author Joyce Leung
+ * @buthor Sebn Mullbn
+ * @buthor Joyce Leung
  */
-public final class DOMRetrievalMethod extends DOMStructure
-    implements RetrievalMethod, DOMURIReference {
+public finbl clbss DOMRetrievblMethod extends DOMStructure
+    implements RetrievblMethod, DOMURIReference {
 
-    private final List<Transform> transforms;
-    private String uri;
-    private String type;
-    private Attr here;
+    privbte finbl List<Trbnsform> trbnsforms;
+    privbte String uri;
+    privbte String type;
+    privbte Attr here;
 
     /**
-     * Creates a <code>DOMRetrievalMethod</code> containing the specified
-     * URIReference and List of Transforms.
+     * Crebtes b <code>DOMRetrievblMethod</code> contbining the specified
+     * URIReference bnd List of Trbnsforms.
      *
-     * @param uri the URI
-     * @param type the type
-     * @param transforms a list of {@link Transform}s. The list is defensively
-     *    copied to prevent subsequent modification. May be <code>null</code>
+     * @pbrbm uri the URI
+     * @pbrbm type the type
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. The list is defensively
+     *    copied to prevent subsequent modificbtion. Mby be <code>null</code>
      *    or empty.
-     * @throws IllegalArgumentException if the format of <code>uri</code> is
-     *    invalid, as specified by Reference's URI attribute in the W3C
-     *    specification for XML-Signature Syntax and Processing
+     * @throws IllegblArgumentException if the formbt of <code>uri</code> is
+     *    invblid, bs specified by Reference's URI bttribute in the W3C
+     *    specificbtion for XML-Signbture Syntbx bnd Processing
      * @throws NullPointerException if <code>uriReference</code>
      *    is <code>null</code>
-     * @throws ClassCastException if <code>transforms</code> contains any
-     *    entries that are not of type {@link Transform}
+     * @throws ClbssCbstException if <code>trbnsforms</code> contbins bny
+     *    entries thbt bre not of type {@link Trbnsform}
      */
-    public DOMRetrievalMethod(String uri, String type,
-                              List<? extends Transform> transforms)
+    public DOMRetrievblMethod(String uri, String type,
+                              List<? extends Trbnsform> trbnsforms)
     {
         if (uri == null) {
-            throw new NullPointerException("uri cannot be null");
+            throw new NullPointerException("uri cbnnot be null");
         }
-        if (transforms == null || transforms.isEmpty()) {
-            this.transforms = Collections.emptyList();
+        if (trbnsforms == null || trbnsforms.isEmpty()) {
+            this.trbnsforms = Collections.emptyList();
         } else {
-            this.transforms = Collections.unmodifiableList(
-                new ArrayList<Transform>(transforms));
-            for (int i = 0, size = this.transforms.size(); i < size; i++) {
-                if (!(this.transforms.get(i) instanceof Transform)) {
-                    throw new ClassCastException
-                        ("transforms["+i+"] is not a valid type");
+            this.trbnsforms = Collections.unmodifibbleList(
+                new ArrbyList<Trbnsform>(trbnsforms));
+            for (int i = 0, size = this.trbnsforms.size(); i < size; i++) {
+                if (!(this.trbnsforms.get(i) instbnceof Trbnsform)) {
+                    throw new ClbssCbstException
+                        ("trbnsforms["+i+"] is not b vblid type");
                 }
             }
         }
         this.uri = uri;
-        if (!uri.equals("")) {
+        if (!uri.equbls("")) {
             try {
                 new URI(uri);
-            } catch (URISyntaxException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            } cbtch (URISyntbxException e) {
+                throw new IllegblArgumentException(e.getMessbge());
             }
         }
 
@@ -115,57 +115,57 @@ public final class DOMRetrievalMethod extends DOMStructure
     }
 
     /**
-     * Creates a <code>DOMRetrievalMethod</code> from an element.
+     * Crebtes b <code>DOMRetrievblMethod</code> from bn element.
      *
-     * @param rmElem a RetrievalMethod element
+     * @pbrbm rmElem b RetrievblMethod element
      */
-    public DOMRetrievalMethod(Element rmElem, XMLCryptoContext context,
+    public DOMRetrievblMethod(Element rmElem, XMLCryptoContext context,
                               Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
-        // get URI and Type attributes
-        uri = DOMUtils.getAttributeValue(rmElem, "URI");
-        type = DOMUtils.getAttributeValue(rmElem, "Type");
+        // get URI bnd Type bttributes
+        uri = DOMUtils.getAttributeVblue(rmElem, "URI");
+        type = DOMUtils.getAttributeVblue(rmElem, "Type");
 
         // get here node
         here = rmElem.getAttributeNodeNS(null, "URI");
 
-        boolean secVal = Utils.secureValidation(context);
+        boolebn secVbl = Utils.secureVblidbtion(context);
 
-        // get Transforms, if specified
-        List<Transform> transforms = new ArrayList<Transform>();
-        Element transformsElem = DOMUtils.getFirstChildElement(rmElem);
+        // get Trbnsforms, if specified
+        List<Trbnsform> trbnsforms = new ArrbyList<Trbnsform>();
+        Element trbnsformsElem = DOMUtils.getFirstChildElement(rmElem);
 
-        if (transformsElem != null) {
-            String localName = transformsElem.getLocalName();
-            if (!localName.equals("Transforms")) {
-                throw new MarshalException("Invalid element name: " +
-                                           localName + ", expected Transforms");
+        if (trbnsformsElem != null) {
+            String locblNbme = trbnsformsElem.getLocblNbme();
+            if (!locblNbme.equbls("Trbnsforms")) {
+                throw new MbrshblException("Invblid element nbme: " +
+                                           locblNbme + ", expected Trbnsforms");
             }
-            Element transformElem =
-                DOMUtils.getFirstChildElement(transformsElem, "Transform");
-            transforms.add(new DOMTransform(transformElem, context, provider));
-            transformElem = DOMUtils.getNextSiblingElement(transformElem);
-            while (transformElem != null) {
-                String name = transformElem.getLocalName();
-                if (!name.equals("Transform")) {
-                    throw new MarshalException("Invalid element name: " +
-                                               name + ", expected Transform");
+            Element trbnsformElem =
+                DOMUtils.getFirstChildElement(trbnsformsElem, "Trbnsform");
+            trbnsforms.bdd(new DOMTrbnsform(trbnsformElem, context, provider));
+            trbnsformElem = DOMUtils.getNextSiblingElement(trbnsformElem);
+            while (trbnsformElem != null) {
+                String nbme = trbnsformElem.getLocblNbme();
+                if (!nbme.equbls("Trbnsform")) {
+                    throw new MbrshblException("Invblid element nbme: " +
+                                               nbme + ", expected Trbnsform");
                 }
-                transforms.add
-                    (new DOMTransform(transformElem, context, provider));
-                if (secVal && (transforms.size() > DOMReference.MAXIMUM_TRANSFORM_COUNT)) {
-                    String error = "A maxiumum of " + DOMReference.MAXIMUM_TRANSFORM_COUNT + " "
-                        + "transforms per Reference are allowed with secure validation";
-                    throw new MarshalException(error);
+                trbnsforms.bdd
+                    (new DOMTrbnsform(trbnsformElem, context, provider));
+                if (secVbl && (trbnsforms.size() > DOMReference.MAXIMUM_TRANSFORM_COUNT)) {
+                    String error = "A mbxiumum of " + DOMReference.MAXIMUM_TRANSFORM_COUNT + " "
+                        + "trbnsforms per Reference bre bllowed with secure vblidbtion";
+                    throw new MbrshblException(error);
                 }
-                transformElem = DOMUtils.getNextSiblingElement(transformElem);
+                trbnsformElem = DOMUtils.getNextSiblingElement(trbnsformElem);
             }
         }
-        if (transforms.isEmpty()) {
-            this.transforms = Collections.emptyList();
+        if (trbnsforms.isEmpty()) {
+            this.trbnsforms = Collections.emptyList();
         } else {
-            this.transforms = Collections.unmodifiableList(transforms);
+            this.trbnsforms = Collections.unmodifibbleList(trbnsforms);
         }
     }
 
@@ -177,37 +177,37 @@ public final class DOMRetrievalMethod extends DOMStructure
         return type;
     }
 
-    public List<Transform> getTransforms() {
-        return transforms;
+    public List<Trbnsform> getTrbnsforms() {
+        return trbnsforms;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element rmElem = DOMUtils.createElement(ownerDoc, "RetrievalMethod",
-                                                XMLSignature.XMLNS, dsPrefix);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element rmElem = DOMUtils.crebteElement(ownerDoc, "RetrievblMethod",
+                                                XMLSignbture.XMLNS, dsPrefix);
 
-        // add URI and Type attributes
+        // bdd URI bnd Type bttributes
         DOMUtils.setAttribute(rmElem, "URI", uri);
         DOMUtils.setAttribute(rmElem, "Type", type);
 
-        // add Transforms elements
-        if (!transforms.isEmpty()) {
-            Element transformsElem = DOMUtils.createElement(ownerDoc,
-                                                            "Transforms",
-                                                            XMLSignature.XMLNS,
+        // bdd Trbnsforms elements
+        if (!trbnsforms.isEmpty()) {
+            Element trbnsformsElem = DOMUtils.crebteElement(ownerDoc,
+                                                            "Trbnsforms",
+                                                            XMLSignbture.XMLNS,
                                                             dsPrefix);
-            rmElem.appendChild(transformsElem);
-            for (Transform transform : transforms) {
-                ((DOMTransform)transform).marshal(transformsElem,
+            rmElem.bppendChild(trbnsformsElem);
+            for (Trbnsform trbnsform : trbnsforms) {
+                ((DOMTrbnsform)trbnsform).mbrshbl(trbnsformsElem,
                                                    dsPrefix, context);
             }
         }
 
-        parent.appendChild(rmElem);
+        pbrent.bppendChild(rmElem);
 
-        // save here node
+        // sbve here node
         here = rmElem.getAttributeNodeNS(null, "URI");
     }
 
@@ -215,11 +215,11 @@ public final class DOMRetrievalMethod extends DOMStructure
         return here;
     }
 
-    public Data dereference(XMLCryptoContext context)
+    public Dbtb dereference(XMLCryptoContext context)
         throws URIReferenceException
     {
         if (context == null) {
-            throw new NullPointerException("context cannot be null");
+            throw new NullPointerException("context cbnnot be null");
         }
 
         /*
@@ -231,81 +231,81 @@ public final class DOMRetrievalMethod extends DOMStructure
             deref = DOMURIDereferencer.INSTANCE;
         }
 
-        Data data = deref.dereference(this, context);
+        Dbtb dbtb = deref.dereference(this, context);
 
-        // pass dereferenced data through Transforms
+        // pbss dereferenced dbtb through Trbnsforms
         try {
-            for (Transform transform : transforms) {
-                data = ((DOMTransform)transform).transform(data, context);
+            for (Trbnsform trbnsform : trbnsforms) {
+                dbtb = ((DOMTrbnsform)trbnsform).trbnsform(dbtb, context);
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new URIReferenceException(e);
         }
 
-        // guard against RetrievalMethod loops
-        if ((data instanceof NodeSetData) && Utils.secureValidation(context)) {
-            NodeSetData nsd = (NodeSetData)data;
-            Iterator<?> i = nsd.iterator();
-            if (i.hasNext()) {
+        // gubrd bgbinst RetrievblMethod loops
+        if ((dbtb instbnceof NodeSetDbtb) && Utils.secureVblidbtion(context)) {
+            NodeSetDbtb nsd = (NodeSetDbtb)dbtb;
+            Iterbtor<?> i = nsd.iterbtor();
+            if (i.hbsNext()) {
                 Node root = (Node)i.next();
-                if ("RetrievalMethod".equals(root.getLocalName())) {
+                if ("RetrievblMethod".equbls(root.getLocblNbme())) {
                     throw new URIReferenceException(
-                        "It is forbidden to have one RetrievalMethod point " +
-                        "to another when secure validation is enabled");
+                        "It is forbidden to hbve one RetrievblMethod point " +
+                        "to bnother when secure vblidbtion is enbbled");
                 }
             }
         }
 
-        return data;
+        return dbtb;
     }
 
     public XMLStructure dereferenceAsXMLStructure(XMLCryptoContext context)
         throws URIReferenceException
     {
         try {
-            ApacheData data = (ApacheData)dereference(context);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setNamespaceAware(true);
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            ApbcheDbtb dbtb = (ApbcheDbtb)dereference(context);
+            DocumentBuilderFbctory dbf = DocumentBuilderFbctory.newInstbnce();
+            dbf.setNbmespbceAwbre(true);
+            dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream
-                (data.getXMLSignatureInput().getBytes()));
+            Document doc = db.pbrse(new ByteArrbyInputStrebm
+                (dbtb.getXMLSignbtureInput().getBytes()));
             Element kiElem = doc.getDocumentElement();
-            if (kiElem.getLocalName().equals("X509Data")) {
-                return new DOMX509Data(kiElem);
+            if (kiElem.getLocblNbme().equbls("X509Dbtb")) {
+                return new DOMX509Dbtb(kiElem);
             } else {
                 return null; // unsupported
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new URIReferenceException(e);
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof RetrievalMethod)) {
-            return false;
+        if (!(obj instbnceof RetrievblMethod)) {
+            return fblse;
         }
-        RetrievalMethod orm = (RetrievalMethod)obj;
+        RetrievblMethod orm = (RetrievblMethod)obj;
 
-        boolean typesEqual = (type == null ? orm.getType() == null
-                                           : type.equals(orm.getType()));
+        boolebn typesEqubl = (type == null ? orm.getType() == null
+                                           : type.equbls(orm.getType()));
 
-        return (uri.equals(orm.getURI()) &&
-            transforms.equals(orm.getTransforms()) && typesEqual);
+        return (uri.equbls(orm.getURI()) &&
+            trbnsforms.equbls(orm.getTrbnsforms()) && typesEqubl);
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (type != null) {
-            result = 31 * result + type.hashCode();
+            result = 31 * result + type.hbshCode();
         }
-        result = 31 * result + uri.hashCode();
-        result = 31 * result + transforms.hashCode();
+        result = 31 * result + uri.hbshCode();
+        result = 31 * result + trbnsforms.hbshCode();
 
         return result;
     }

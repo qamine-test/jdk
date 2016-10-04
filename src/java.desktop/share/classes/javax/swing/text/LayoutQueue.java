@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Vector;
-import sun.awt.AppContext;
+import jbvb.util.Vector;
+import sun.bwt.AppContext;
 
 /**
- * A queue of text layout tasks.
+ * A queue of text lbyout tbsks.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     AsyncBoxView
  * @since   1.3
  */
-public class LayoutQueue {
+public clbss LbyoutQueue {
 
-    private static final Object DEFAULT_QUEUE = new Object();
+    privbte stbtic finbl Object DEFAULT_QUEUE = new Object();
 
-    private Vector<Runnable> tasks;
-    private Thread worker;
+    privbte Vector<Runnbble> tbsks;
+    privbte Threbd worker;
 
     /**
-     * Construct a layout queue.
+     * Construct b lbyout queue.
      */
-    public LayoutQueue() {
-        tasks = new Vector<Runnable>();
+    public LbyoutQueue() {
+        tbsks = new Vector<Runnbble>();
     }
 
     /**
-     * Fetch the default layout queue.
+     * Fetch the defbult lbyout queue.
      */
-    public static LayoutQueue getDefaultQueue() {
-        AppContext ac = AppContext.getAppContext();
+    public stbtic LbyoutQueue getDefbultQueue() {
+        AppContext bc = AppContext.getAppContext();
         synchronized (DEFAULT_QUEUE) {
-            LayoutQueue defaultQueue = (LayoutQueue) ac.get(DEFAULT_QUEUE);
-            if (defaultQueue == null) {
-                defaultQueue = new LayoutQueue();
-                ac.put(DEFAULT_QUEUE, defaultQueue);
+            LbyoutQueue defbultQueue = (LbyoutQueue) bc.get(DEFAULT_QUEUE);
+            if (defbultQueue == null) {
+                defbultQueue = new LbyoutQueue();
+                bc.put(DEFAULT_QUEUE, defbultQueue);
             }
-            return defaultQueue;
+            return defbultQueue;
         }
     }
 
     /**
-     * Set the default layout queue.
+     * Set the defbult lbyout queue.
      *
-     * @param q the new queue.
+     * @pbrbm q the new queue.
      */
-    public static void setDefaultQueue(LayoutQueue q) {
+    public stbtic void setDefbultQueue(LbyoutQueue q) {
         synchronized (DEFAULT_QUEUE) {
             AppContext.getAppContext().put(DEFAULT_QUEUE, q);
         }
     }
 
     /**
-     * Add a task that is not needed immediately because
-     * the results are not believed to be visible.
+     * Add b tbsk thbt is not needed immedibtely becbuse
+     * the results bre not believed to be visible.
      */
-    public synchronized void addTask(Runnable task) {
+    public synchronized void bddTbsk(Runnbble tbsk) {
         if (worker == null) {
-            worker = new LayoutThread();
-            worker.start();
+            worker = new LbyoutThrebd();
+            worker.stbrt();
         }
-        tasks.addElement(task);
+        tbsks.bddElement(tbsk);
         notifyAll();
     }
 
     /**
-     * Used by the worker thread to get a new task to execute
+     * Used by the worker threbd to get b new tbsk to execute
      */
-    protected synchronized Runnable waitForWork() {
-        while (tasks.size() == 0) {
+    protected synchronized Runnbble wbitForWork() {
+        while (tbsks.size() == 0) {
             try {
-                wait();
-            } catch (InterruptedException ie) {
+                wbit();
+            } cbtch (InterruptedException ie) {
                 return null;
             }
         }
-        Runnable work = tasks.firstElement();
-        tasks.removeElementAt(0);
+        Runnbble work = tbsks.firstElement();
+        tbsks.removeElementAt(0);
         return work;
     }
 
     /**
-     * low priority thread to perform layout work forever
+     * low priority threbd to perform lbyout work forever
      */
-    class LayoutThread extends Thread {
+    clbss LbyoutThrebd extends Threbd {
 
-        LayoutThread() {
-            super("text-layout");
-            setPriority(Thread.MIN_PRIORITY);
+        LbyoutThrebd() {
+            super("text-lbyout");
+            setPriority(Threbd.MIN_PRIORITY);
         }
 
         public void run() {
-            Runnable work;
+            Runnbble work;
             do {
-                work = waitForWork();
+                work = wbitForWork();
                 if (work != null) {
                     work.run();
                 }

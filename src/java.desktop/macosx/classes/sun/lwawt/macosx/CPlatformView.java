@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.Rectbngle2D;
 
-import sun.awt.CGraphicsConfig;
-import sun.awt.CGraphicsEnvironment;
-import sun.lwawt.LWWindowPeer;
+import sun.bwt.CGrbphicsConfig;
+import sun.bwt.CGrbphicsEnvironment;
+import sun.lwbwt.LWWindowPeer;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.java2d.opengl.CGLSurfaceData;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.opengl.CGLLbyer;
+import sun.jbvb2d.opengl.CGLSurfbceDbtb;
 
-public class CPlatformView extends CFRetainedResource {
-    private native long nativeCreateView(int x, int y, int width, int height, long windowLayerPtr);
-    private static native void nativeSetAutoResizable(long awtView, boolean toResize);
-    private static native int nativeGetNSViewDisplayID(long awtView);
-    private static native Rectangle2D nativeGetLocationOnScreen(long awtView);
-    private static native boolean nativeIsViewUnderMouse(long ptr);
+public clbss CPlbtformView extends CFRetbinedResource {
+    privbte nbtive long nbtiveCrebteView(int x, int y, int width, int height, long windowLbyerPtr);
+    privbte stbtic nbtive void nbtiveSetAutoResizbble(long bwtView, boolebn toResize);
+    privbte stbtic nbtive int nbtiveGetNSViewDisplbyID(long bwtView);
+    privbte stbtic nbtive Rectbngle2D nbtiveGetLocbtionOnScreen(long bwtView);
+    privbte stbtic nbtive boolebn nbtiveIsViewUnderMouse(long ptr);
 
-    private LWWindowPeer peer;
-    private SurfaceData surfaceData;
-    private CGLLayer windowLayer;
-    private CPlatformResponder responder;
+    privbte LWWindowPeer peer;
+    privbte SurfbceDbtb surfbceDbtb;
+    privbte CGLLbyer windowLbyer;
+    privbte CPlbtformResponder responder;
 
-    public CPlatformView() {
+    public CPlbtformView() {
         super(0, true);
     }
 
-    public void initialize(LWWindowPeer peer, CPlatformResponder responder) {
-        initializeBase(peer, responder);
+    public void initiblize(LWWindowPeer peer, CPlbtformResponder responder) {
+        initiblizeBbse(peer, responder);
 
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            this.windowLayer = createCGLayer();
+        if (!LWCToolkit.getSunAwtDisbbleCALbyers()) {
+            this.windowLbyer = crebteCGLbyer();
         }
-        setPtr(nativeCreateView(0, 0, 0, 0, getWindowLayerPtr()));
+        setPtr(nbtiveCrebteView(0, 0, 0, 0, getWindowLbyerPtr()));
     }
 
-    public CGLLayer createCGLayer() {
-        return new CGLLayer(peer);
+    public CGLLbyer crebteCGLbyer() {
+        return new CGLLbyer(peer);
     }
 
-    protected void initializeBase(LWWindowPeer peer, CPlatformResponder responder) {
+    protected void initiblizeBbse(LWWindowPeer peer, CPlbtformResponder responder) {
         this.peer = peer;
         this.responder = responder;
     }
@@ -74,101 +74,101 @@ public class CPlatformView extends CFRetainedResource {
         return ptr;
     }
 
-    public boolean isOpaque() {
-        return !peer.isTranslucent();
+    public boolebn isOpbque() {
+        return !peer.isTrbnslucent();
     }
 
     /*
-     * All coordinates passed to the method should be based on the origin being in the bottom-left corner (standard
-     * Cocoa coordinates).
+     * All coordinbtes pbssed to the method should be bbsed on the origin being in the bottom-left corner (stbndbrd
+     * Cocob coordinbtes).
      */
     public void setBounds(int x, int y, int width, int height) {
-        CWrapper.NSView.setFrame(ptr, x, y, width, height);
+        CWrbpper.NSView.setFrbme(ptr, x, y, width, height);
     }
 
-    // REMIND: CGLSurfaceData expects top-level's size
-    public Rectangle getBounds() {
+    // REMIND: CGLSurfbceDbtb expects top-level's size
+    public Rectbngle getBounds() {
         return peer.getBounds();
     }
 
-    public Object getDestination() {
+    public Object getDestinbtion() {
         return peer;
     }
 
     public void setToolTip(String msg) {
-        CWrapper.NSView.setToolTip(ptr, msg);
+        CWrbpper.NSView.setToolTip(ptr, msg);
     }
 
     // ----------------------------------------------------------------------
     // PAINTING METHODS
     // ----------------------------------------------------------------------
-    public SurfaceData replaceSurfaceData() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            surfaceData = windowLayer.replaceSurfaceData();
+    public SurfbceDbtb replbceSurfbceDbtb() {
+        if (!LWCToolkit.getSunAwtDisbbleCALbyers()) {
+            surfbceDbtb = windowLbyer.replbceSurfbceDbtb();
         } else {
-            if (surfaceData == null) {
-                CGraphicsConfig graphicsConfig = (CGraphicsConfig)getGraphicsConfiguration();
-                surfaceData = graphicsConfig.createSurfaceData(this);
+            if (surfbceDbtb == null) {
+                CGrbphicsConfig grbphicsConfig = (CGrbphicsConfig)getGrbphicsConfigurbtion();
+                surfbceDbtb = grbphicsConfig.crebteSurfbceDbtb(this);
             } else {
-                validateSurface();
+                vblidbteSurfbce();
             }
         }
-        return surfaceData;
+        return surfbceDbtb;
     }
 
-    private void validateSurface() {
-        if (surfaceData != null) {
-            ((CGLSurfaceData)surfaceData).validate();
+    privbte void vblidbteSurfbce() {
+        if (surfbceDbtb != null) {
+            ((CGLSurfbceDbtb)surfbceDbtb).vblidbte();
         }
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        return peer.getGraphicsConfiguration();
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
+        return peer.getGrbphicsConfigurbtion();
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    public SurfbceDbtb getSurfbceDbtb() {
+        return surfbceDbtb;
     }
 
     @Override
     public void dispose() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            windowLayer.dispose();
+        if (!LWCToolkit.getSunAwtDisbbleCALbyers()) {
+            windowLbyer.dispose();
         }
         super.dispose();
     }
 
-    public long getWindowLayerPtr() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            return windowLayer.getPointer();
+    public long getWindowLbyerPtr() {
+        if (!LWCToolkit.getSunAwtDisbbleCALbyers()) {
+            return windowLbyer.getPointer();
         } else {
             return 0;
         }
     }
 
-    public void setAutoResizable(boolean toResize) {
-        nativeSetAutoResizable(this.getAWTView(), toResize);
+    public void setAutoResizbble(boolebn toResize) {
+        nbtiveSetAutoResizbble(this.getAWTView(), toResize);
     }
 
-    public boolean isUnderMouse() {
-        return nativeIsViewUnderMouse(getAWTView());
+    public boolebn isUnderMouse() {
+        return nbtiveIsViewUnderMouse(getAWTView());
     }
 
-    public GraphicsDevice getGraphicsDevice() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        CGraphicsEnvironment cge = (CGraphicsEnvironment)ge;
-        int displayID = nativeGetNSViewDisplayID(getAWTView());
-        GraphicsDevice gd = cge.getScreenDevice(displayID);
+    public GrbphicsDevice getGrbphicsDevice() {
+        GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        CGrbphicsEnvironment cge = (CGrbphicsEnvironment)ge;
+        int displbyID = nbtiveGetNSViewDisplbyID(getAWTView());
+        GrbphicsDevice gd = cge.getScreenDevice(displbyID);
         if (gd == null) {
-            // this could possibly happen during device removal
-            // use the default screen device in this case
-            gd = ge.getDefaultScreenDevice();
+            // this could possibly hbppen during device removbl
+            // use the defbult screen device in this cbse
+            gd = ge.getDefbultScreenDevice();
         }
         return gd;
     }
 
-    public Point getLocationOnScreen() {
-        Rectangle r = nativeGetLocationOnScreen(this.getAWTView()).getBounds();
+    public Point getLocbtionOnScreen() {
+        Rectbngle r = nbtiveGetLocbtionOnScreen(this.getAWTView()).getBounds();
         return new Point(r.x, r.y);
     }
 
@@ -177,38 +177,38 @@ public class CPlatformView extends CFRetainedResource {
     // ----------------------------------------------------------------------
 
     /*
-     * The callback is called only in the embedded case when the view is
-     * automatically resized by the superview.
-     * In normal mode this method is never called.
+     * The cbllbbck is cblled only in the embedded cbse when the view is
+     * butombticblly resized by the superview.
+     * In normbl mode this method is never cblled.
      */
-    private void deliverResize(int x, int y, int w, int h) {
-        peer.notifyReshape(x, y, w, h);
+    privbte void deliverResize(int x, int y, int w, int h) {
+        peer.notifyReshbpe(x, y, w, h);
     }
 
 
-    private void deliverMouseEvent(NSEvent event) {
+    privbte void deliverMouseEvent(NSEvent event) {
         int x = event.getX();
         int y = getBounds().height - event.getY();
 
-        if (event.getType() == CocoaConstants.NSScrollWheel) {
-            responder.handleScrollEvent(x, y, event.getModifierFlags(),
-                                        event.getScrollDeltaX(), event.getScrollDeltaY());
+        if (event.getType() == CocobConstbnts.NSScrollWheel) {
+            responder.hbndleScrollEvent(x, y, event.getModifierFlbgs(),
+                                        event.getScrollDeltbX(), event.getScrollDeltbY());
         } else {
-            responder.handleMouseEvent(event.getType(), event.getModifierFlags(), event.getButtonNumber(),
+            responder.hbndleMouseEvent(event.getType(), event.getModifierFlbgs(), event.getButtonNumber(),
                                        event.getClickCount(), x, y, event.getAbsX(), event.getAbsY());
         }
     }
 
-    private void deliverKeyEvent(NSEvent event) {
-        responder.handleKeyEvent(event.getType(), event.getModifierFlags(), event.getCharacters(),
-                                 event.getCharactersIgnoringModifiers(), event.getKeyCode(), true, false);
+    privbte void deliverKeyEvent(NSEvent event) {
+        responder.hbndleKeyEvent(event.getType(), event.getModifierFlbgs(), event.getChbrbcters(),
+                                 event.getChbrbctersIgnoringModifiers(), event.getKeyCode(), true, fblse);
     }
 
     /**
-     * Called by the native delegate in layer backed view mode or in the simple
-     * NSView mode. See NSView.drawRect().
+     * Cblled by the nbtive delegbte in lbyer bbcked view mode or in the simple
+     * NSView mode. See NSView.drbwRect().
      */
-    private void deliverWindowDidExposeEvent() {
+    privbte void deliverWindowDidExposeEvent() {
         peer.notifyExpose(peer.getSize());
     }
 }

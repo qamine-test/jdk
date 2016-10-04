@@ -1,665 +1,665 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.instrument;
+pbckbge jbvb.lbng.instrument;
 
-import  java.io.File;
-import  java.io.IOException;
-import  java.util.jar.JarFile;
+import  jbvb.io.File;
+import  jbvb.io.IOException;
+import  jbvb.util.jbr.JbrFile;
 
 /*
  * Copyright 2003 Wily Technology, Inc.
  */
 
 /**
- * This class provides services needed to instrument Java
- * programming language code.
- * Instrumentation is the addition of byte-codes to methods for the
- * purpose of gathering data to be utilized by tools.
- * Since the changes are purely additive, these tools do not modify
- * application state or behavior.
- * Examples of such benign tools include monitoring agents, profilers,
- * coverage analyzers, and event loggers.
+ * This clbss provides services needed to instrument Jbvb
+ * progrbmming lbngubge code.
+ * Instrumentbtion is the bddition of byte-codes to methods for the
+ * purpose of gbthering dbtb to be utilized by tools.
+ * Since the chbnges bre purely bdditive, these tools do not modify
+ * bpplicbtion stbte or behbvior.
+ * Exbmples of such benign tools include monitoring bgents, profilers,
+ * coverbge bnblyzers, bnd event loggers.
  *
  * <P>
- * There are two ways to obtain an instance of the
- * <code>Instrumentation</code> interface:
+ * There bre two wbys to obtbin bn instbnce of the
+ * <code>Instrumentbtion</code> interfbce:
  *
  * <ol>
- *   <li><p> When a JVM is launched in a way that indicates an agent
- *     class. In that case an <code>Instrumentation</code> instance
- *     is passed to the <code>premain</code> method of the agent class.
+ *   <li><p> When b JVM is lbunched in b wby thbt indicbtes bn bgent
+ *     clbss. In thbt cbse bn <code>Instrumentbtion</code> instbnce
+ *     is pbssed to the <code>prembin</code> method of the bgent clbss.
  *     </p></li>
- *   <li><p> When a JVM provides a mechanism to start agents sometime
- *     after the JVM is launched. In that case an <code>Instrumentation</code>
- *     instance is passed to the <code>agentmain</code> method of the
- *     agent code. </p> </li>
+ *   <li><p> When b JVM provides b mechbnism to stbrt bgents sometime
+ *     bfter the JVM is lbunched. In thbt cbse bn <code>Instrumentbtion</code>
+ *     instbnce is pbssed to the <code>bgentmbin</code> method of the
+ *     bgent code. </p> </li>
  * </ol>
  * <p>
- * These mechanisms are described in the
- * {@linkplain java.lang.instrument package specification}.
+ * These mechbnisms bre described in the
+ * {@linkplbin jbvb.lbng.instrument pbckbge specificbtion}.
  * <p>
- * Once an agent acquires an <code>Instrumentation</code> instance,
- * the agent may call methods on the instance at any time.
+ * Once bn bgent bcquires bn <code>Instrumentbtion</code> instbnce,
+ * the bgent mby cbll methods on the instbnce bt bny time.
  *
  * @since   1.5
  */
-public interface Instrumentation {
+public interfbce Instrumentbtion {
     /**
-     * Registers the supplied transformer. All future class definitions
-     * will be seen by the transformer, except definitions of classes upon which any
-     * registered transformer is dependent.
-     * The transformer is called when classes are loaded, when they are
-     * {@linkplain #redefineClasses redefined}. and if <code>canRetransform</code> is true,
-     * when they are {@linkplain #retransformClasses retransformed}.
-     * See {@link java.lang.instrument.ClassFileTransformer#transform
-     * ClassFileTransformer.transform} for the order
-     * of transform calls.
-     * If a transformer throws
-     * an exception during execution, the JVM will still call the other registered
-     * transformers in order. The same transformer may be added more than once,
-     * but it is strongly discouraged -- avoid this by creating a new instance of
-     * transformer class.
+     * Registers the supplied trbnsformer. All future clbss definitions
+     * will be seen by the trbnsformer, except definitions of clbsses upon which bny
+     * registered trbnsformer is dependent.
+     * The trbnsformer is cblled when clbsses bre lobded, when they bre
+     * {@linkplbin #redefineClbsses redefined}. bnd if <code>cbnRetrbnsform</code> is true,
+     * when they bre {@linkplbin #retrbnsformClbsses retrbnsformed}.
+     * See {@link jbvb.lbng.instrument.ClbssFileTrbnsformer#trbnsform
+     * ClbssFileTrbnsformer.trbnsform} for the order
+     * of trbnsform cblls.
+     * If b trbnsformer throws
+     * bn exception during execution, the JVM will still cbll the other registered
+     * trbnsformers in order. The sbme trbnsformer mby be bdded more thbn once,
+     * but it is strongly discourbged -- bvoid this by crebting b new instbnce of
+     * trbnsformer clbss.
      * <P>
-     * This method is intended for use in instrumentation, as described in the
-     * {@linkplain Instrumentation class specification}.
+     * This method is intended for use in instrumentbtion, bs described in the
+     * {@linkplbin Instrumentbtion clbss specificbtion}.
      *
-     * @param transformer          the transformer to register
-     * @param canRetransform       can this transformer's transformations be retransformed
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
-     * @throws java.lang.UnsupportedOperationException if <code>canRetransform</code>
-     * is true and the current configuration of the JVM does not allow
-     * retransformation ({@link #isRetransformClassesSupported} is false)
+     * @pbrbm trbnsformer          the trbnsformer to register
+     * @pbrbm cbnRetrbnsform       cbn this trbnsformer's trbnsformbtions be retrbnsformed
+     * @throws jbvb.lbng.NullPointerException if pbssed b <code>null</code> trbnsformer
+     * @throws jbvb.lbng.UnsupportedOperbtionException if <code>cbnRetrbnsform</code>
+     * is true bnd the current configurbtion of the JVM does not bllow
+     * retrbnsformbtion ({@link #isRetrbnsformClbssesSupported} is fblse)
      * @since 1.6
      */
     void
-    addTransformer(ClassFileTransformer transformer, boolean canRetransform);
+    bddTrbnsformer(ClbssFileTrbnsformer trbnsformer, boolebn cbnRetrbnsform);
 
     /**
-     * Registers the supplied transformer.
+     * Registers the supplied trbnsformer.
      * <P>
-     * Same as <code>addTransformer(transformer, false)</code>.
+     * Sbme bs <code>bddTrbnsformer(trbnsformer, fblse)</code>.
      *
-     * @param transformer          the transformer to register
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
-     * @see    #addTransformer(ClassFileTransformer,boolean)
+     * @pbrbm trbnsformer          the trbnsformer to register
+     * @throws jbvb.lbng.NullPointerException if pbssed b <code>null</code> trbnsformer
+     * @see    #bddTrbnsformer(ClbssFileTrbnsformer,boolebn)
      */
     void
-    addTransformer(ClassFileTransformer transformer);
+    bddTrbnsformer(ClbssFileTrbnsformer trbnsformer);
 
     /**
-     * Unregisters the supplied transformer. Future class definitions will
-     * not be shown to the transformer. Removes the most-recently-added matching
-     * instance of the transformer. Due to the multi-threaded nature of
-     * class loading, it is possible for a transformer to receive calls
-     * after it has been removed. Transformers should be written defensively
-     * to expect this situation.
+     * Unregisters the supplied trbnsformer. Future clbss definitions will
+     * not be shown to the trbnsformer. Removes the most-recently-bdded mbtching
+     * instbnce of the trbnsformer. Due to the multi-threbded nbture of
+     * clbss lobding, it is possible for b trbnsformer to receive cblls
+     * bfter it hbs been removed. Trbnsformers should be written defensively
+     * to expect this situbtion.
      *
-     * @param transformer          the transformer to unregister
-     * @return  true if the transformer was found and removed, false if the
-     *           transformer was not found
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
+     * @pbrbm trbnsformer          the trbnsformer to unregister
+     * @return  true if the trbnsformer wbs found bnd removed, fblse if the
+     *           trbnsformer wbs not found
+     * @throws jbvb.lbng.NullPointerException if pbssed b <code>null</code> trbnsformer
      */
-    boolean
-    removeTransformer(ClassFileTransformer transformer);
+    boolebn
+    removeTrbnsformer(ClbssFileTrbnsformer trbnsformer);
 
     /**
-     * Returns whether or not the current JVM configuration supports retransformation
-     * of classes.
-     * The ability to retransform an already loaded class is an optional capability
-     * of a JVM.
-     * Retransformation will only be supported if the
-     * <code>Can-Retransform-Classes</code> manifest attribute is set to
-     * <code>true</code> in the agent JAR file (as described in the
-     * {@linkplain java.lang.instrument package specification}) and the JVM supports
-     * this capability.
-     * During a single instantiation of a single JVM, multiple calls to this
-     * method will always return the same answer.
-     * @return  true if the current JVM configuration supports retransformation of
-     *          classes, false if not.
-     * @see #retransformClasses
+     * Returns whether or not the current JVM configurbtion supports retrbnsformbtion
+     * of clbsses.
+     * The bbility to retrbnsform bn blrebdy lobded clbss is bn optionbl cbpbbility
+     * of b JVM.
+     * Retrbnsformbtion will only be supported if the
+     * <code>Cbn-Retrbnsform-Clbsses</code> mbnifest bttribute is set to
+     * <code>true</code> in the bgent JAR file (bs described in the
+     * {@linkplbin jbvb.lbng.instrument pbckbge specificbtion}) bnd the JVM supports
+     * this cbpbbility.
+     * During b single instbntibtion of b single JVM, multiple cblls to this
+     * method will blwbys return the sbme bnswer.
+     * @return  true if the current JVM configurbtion supports retrbnsformbtion of
+     *          clbsses, fblse if not.
+     * @see #retrbnsformClbsses
      * @since 1.6
      */
-    boolean
-    isRetransformClassesSupported();
+    boolebn
+    isRetrbnsformClbssesSupported();
 
     /**
-     * Retransform the supplied set of classes.
+     * Retrbnsform the supplied set of clbsses.
      *
      * <P>
-     * This function facilitates the instrumentation
-     * of already loaded classes.
-     * When classes are initially loaded or when they are
-     * {@linkplain #redefineClasses redefined},
-     * the initial class file bytes can be transformed with the
-     * {@link java.lang.instrument.ClassFileTransformer ClassFileTransformer}.
-     * This function reruns the transformation process
-     * (whether or not a transformation has previously occurred).
-     * This retransformation follows these steps:
+     * This function fbcilitbtes the instrumentbtion
+     * of blrebdy lobded clbsses.
+     * When clbsses bre initiblly lobded or when they bre
+     * {@linkplbin #redefineClbsses redefined},
+     * the initibl clbss file bytes cbn be trbnsformed with the
+     * {@link jbvb.lbng.instrument.ClbssFileTrbnsformer ClbssFileTrbnsformer}.
+     * This function reruns the trbnsformbtion process
+     * (whether or not b trbnsformbtion hbs previously occurred).
+     * This retrbnsformbtion follows these steps:
      *  <ul>
-     *    <li>starting from the initial class file bytes
+     *    <li>stbrting from the initibl clbss file bytes
      *    </li>
-     *    <li>for each transformer that was added with <code>canRetransform</code>
-     *      false, the bytes returned by
-     *      {@link java.lang.instrument.ClassFileTransformer#transform transform}
-     *      during the last class load or redefine are
-     *      reused as the output of the transformation; note that this is
-     *      equivalent to reapplying the previous transformation, unaltered;
-     *      except that
-     *      {@link java.lang.instrument.ClassFileTransformer#transform transform}
-     *      is not called
+     *    <li>for ebch trbnsformer thbt wbs bdded with <code>cbnRetrbnsform</code>
+     *      fblse, the bytes returned by
+     *      {@link jbvb.lbng.instrument.ClbssFileTrbnsformer#trbnsform trbnsform}
+     *      during the lbst clbss lobd or redefine bre
+     *      reused bs the output of the trbnsformbtion; note thbt this is
+     *      equivblent to rebpplying the previous trbnsformbtion, unbltered;
+     *      except thbt
+     *      {@link jbvb.lbng.instrument.ClbssFileTrbnsformer#trbnsform trbnsform}
+     *      is not cblled
      *    </li>
-     *    <li>for each transformer that was added with <code>canRetransform</code>
+     *    <li>for ebch trbnsformer thbt wbs bdded with <code>cbnRetrbnsform</code>
      *      true, the
-     *      {@link java.lang.instrument.ClassFileTransformer#transform transform}
-     *      method is called in these transformers
+     *      {@link jbvb.lbng.instrument.ClbssFileTrbnsformer#trbnsform trbnsform}
+     *      method is cblled in these trbnsformers
      *    </li>
-     *    <li>the transformed class file bytes are installed as the new
-     *      definition of the class
+     *    <li>the trbnsformed clbss file bytes bre instblled bs the new
+     *      definition of the clbss
      *    </li>
      *  </ul>
      * <P>
      *
-     * The order of transformation is described in the
-     * {@link java.lang.instrument.ClassFileTransformer#transform transform} method.
-     * This same order is used in the automatic reapplication of retransformation
-     * incapable transforms.
+     * The order of trbnsformbtion is described in the
+     * {@link jbvb.lbng.instrument.ClbssFileTrbnsformer#trbnsform trbnsform} method.
+     * This sbme order is used in the butombtic rebpplicbtion of retrbnsformbtion
+     * incbpbble trbnsforms.
      * <P>
      *
-     * The initial class file bytes represent the bytes passed to
-     * {@link java.lang.ClassLoader#defineClass ClassLoader.defineClass} or
-     * {@link #redefineClasses redefineClasses}
-     * (before any transformations
-     *  were applied), however they might not exactly match them.
-     *  The constant pool might not have the same layout or contents.
-     *  The constant pool may have more or fewer entries.
-     *  Constant pool entries may be in a different order; however,
-     *  constant pool indices in the bytecodes of methods will correspond.
-     *  Some attributes may not be present.
-     *  Where order is not meaningful, for example the order of methods,
+     * The initibl clbss file bytes represent the bytes pbssed to
+     * {@link jbvb.lbng.ClbssLobder#defineClbss ClbssLobder.defineClbss} or
+     * {@link #redefineClbsses redefineClbsses}
+     * (before bny trbnsformbtions
+     *  were bpplied), however they might not exbctly mbtch them.
+     *  The constbnt pool might not hbve the sbme lbyout or contents.
+     *  The constbnt pool mby hbve more or fewer entries.
+     *  Constbnt pool entries mby be in b different order; however,
+     *  constbnt pool indices in the bytecodes of methods will correspond.
+     *  Some bttributes mby not be present.
+     *  Where order is not mebningful, for exbmple the order of methods,
      *  order might not be preserved.
      *
      * <P>
-     * This method operates on
-     * a set in order to allow interdependent changes to more than one class at the same time
-     * (a retransformation of class A can require a retransformation of class B).
+     * This method operbtes on
+     * b set in order to bllow interdependent chbnges to more thbn one clbss bt the sbme time
+     * (b retrbnsformbtion of clbss A cbn require b retrbnsformbtion of clbss B).
      *
      * <P>
-     * If a retransformed method has active stack frames, those active frames continue to
-     * run the bytecodes of the original method.
-     * The retransformed method will be used on new invokes.
+     * If b retrbnsformed method hbs bctive stbck frbmes, those bctive frbmes continue to
+     * run the bytecodes of the originbl method.
+     * The retrbnsformed method will be used on new invokes.
      *
      * <P>
-     * This method does not cause any initialization except that which would occur
-     * under the customary JVM semantics. In other words, redefining a class
-     * does not cause its initializers to be run. The values of static variables
-     * will remain as they were prior to the call.
+     * This method does not cbuse bny initiblizbtion except thbt which would occur
+     * under the custombry JVM sembntics. In other words, redefining b clbss
+     * does not cbuse its initiblizers to be run. The vblues of stbtic vbribbles
+     * will rembin bs they were prior to the cbll.
      *
      * <P>
-     * Instances of the retransformed class are not affected.
+     * Instbnces of the retrbnsformed clbss bre not bffected.
      *
      * <P>
-     * The retransformation may change method bodies, the constant pool and attributes.
-     * The retransformation must not add, remove or rename fields or methods, change the
-     * signatures of methods, or change inheritance.  These restrictions maybe be
-     * lifted in future versions.  The class file bytes are not checked, verified and installed
-     * until after the transformations have been applied, if the resultant bytes are in
-     * error this method will throw an exception.
+     * The retrbnsformbtion mby chbnge method bodies, the constbnt pool bnd bttributes.
+     * The retrbnsformbtion must not bdd, remove or renbme fields or methods, chbnge the
+     * signbtures of methods, or chbnge inheritbnce.  These restrictions mbybe be
+     * lifted in future versions.  The clbss file bytes bre not checked, verified bnd instblled
+     * until bfter the trbnsformbtions hbve been bpplied, if the resultbnt bytes bre in
+     * error this method will throw bn exception.
      *
      * <P>
-     * If this method throws an exception, no classes have been retransformed.
+     * If this method throws bn exception, no clbsses hbve been retrbnsformed.
      * <P>
-     * This method is intended for use in instrumentation, as described in the
-     * {@linkplain Instrumentation class specification}.
+     * This method is intended for use in instrumentbtion, bs described in the
+     * {@linkplbin Instrumentbtion clbss specificbtion}.
      *
-     * @param classes array of classes to retransform;
-     *                a zero-length array is allowed, in this case, this method does nothing
-     * @throws java.lang.instrument.UnmodifiableClassException if a specified class cannot be modified
-     * ({@link #isModifiableClass} would return <code>false</code>)
-     * @throws java.lang.UnsupportedOperationException if the current configuration of the JVM does not allow
-     * retransformation ({@link #isRetransformClassesSupported} is false) or the retransformation attempted
-     * to make unsupported changes
-     * @throws java.lang.ClassFormatError if the data did not contain a valid class
-     * @throws java.lang.NoClassDefFoundError if the name in the class file is not equal to the name of the class
-     * @throws java.lang.UnsupportedClassVersionError if the class file version numbers are not supported
-     * @throws java.lang.ClassCircularityError if the new classes contain a circularity
-     * @throws java.lang.LinkageError if a linkage error occurs
-     * @throws java.lang.NullPointerException if the supplied classes  array or any of its components
+     * @pbrbm clbsses brrby of clbsses to retrbnsform;
+     *                b zero-length brrby is bllowed, in this cbse, this method does nothing
+     * @throws jbvb.lbng.instrument.UnmodifibbleClbssException if b specified clbss cbnnot be modified
+     * ({@link #isModifibbleClbss} would return <code>fblse</code>)
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the current configurbtion of the JVM does not bllow
+     * retrbnsformbtion ({@link #isRetrbnsformClbssesSupported} is fblse) or the retrbnsformbtion bttempted
+     * to mbke unsupported chbnges
+     * @throws jbvb.lbng.ClbssFormbtError if the dbtb did not contbin b vblid clbss
+     * @throws jbvb.lbng.NoClbssDefFoundError if the nbme in the clbss file is not equbl to the nbme of the clbss
+     * @throws jbvb.lbng.UnsupportedClbssVersionError if the clbss file version numbers bre not supported
+     * @throws jbvb.lbng.ClbssCirculbrityError if the new clbsses contbin b circulbrity
+     * @throws jbvb.lbng.LinkbgeError if b linkbge error occurs
+     * @throws jbvb.lbng.NullPointerException if the supplied clbsses  brrby or bny of its components
      *                                        is <code>null</code>.
      *
-     * @see #isRetransformClassesSupported
-     * @see #addTransformer
-     * @see java.lang.instrument.ClassFileTransformer
+     * @see #isRetrbnsformClbssesSupported
+     * @see #bddTrbnsformer
+     * @see jbvb.lbng.instrument.ClbssFileTrbnsformer
      * @since 1.6
      */
     void
-    retransformClasses(Class<?>... classes) throws UnmodifiableClassException;
+    retrbnsformClbsses(Clbss<?>... clbsses) throws UnmodifibbleClbssException;
 
     /**
-     * Returns whether or not the current JVM configuration supports redefinition
-     * of classes.
-     * The ability to redefine an already loaded class is an optional capability
-     * of a JVM.
+     * Returns whether or not the current JVM configurbtion supports redefinition
+     * of clbsses.
+     * The bbility to redefine bn blrebdy lobded clbss is bn optionbl cbpbbility
+     * of b JVM.
      * Redefinition will only be supported if the
-     * <code>Can-Redefine-Classes</code> manifest attribute is set to
-     * <code>true</code> in the agent JAR file (as described in the
-     * {@linkplain java.lang.instrument package specification}) and the JVM supports
-     * this capability.
-     * During a single instantiation of a single JVM, multiple calls to this
-     * method will always return the same answer.
-     * @return  true if the current JVM configuration supports redefinition of classes,
-     * false if not.
-     * @see #redefineClasses
+     * <code>Cbn-Redefine-Clbsses</code> mbnifest bttribute is set to
+     * <code>true</code> in the bgent JAR file (bs described in the
+     * {@linkplbin jbvb.lbng.instrument pbckbge specificbtion}) bnd the JVM supports
+     * this cbpbbility.
+     * During b single instbntibtion of b single JVM, multiple cblls to this
+     * method will blwbys return the sbme bnswer.
+     * @return  true if the current JVM configurbtion supports redefinition of clbsses,
+     * fblse if not.
+     * @see #redefineClbsses
      */
-    boolean
-    isRedefineClassesSupported();
+    boolebn
+    isRedefineClbssesSupported();
 
     /**
-     * Redefine the supplied set of classes using the supplied class files.
+     * Redefine the supplied set of clbsses using the supplied clbss files.
      *
      * <P>
-     * This method is used to replace the definition of a class without reference
-     * to the existing class file bytes, as one might do when recompiling from source
-     * for fix-and-continue debugging.
-     * Where the existing class file bytes are to be transformed (for
-     * example in bytecode instrumentation)
-     * {@link #retransformClasses retransformClasses}
+     * This method is used to replbce the definition of b clbss without reference
+     * to the existing clbss file bytes, bs one might do when recompiling from source
+     * for fix-bnd-continue debugging.
+     * Where the existing clbss file bytes bre to be trbnsformed (for
+     * exbmple in bytecode instrumentbtion)
+     * {@link #retrbnsformClbsses retrbnsformClbsses}
      * should be used.
      *
      * <P>
-     * This method operates on
-     * a set in order to allow interdependent changes to more than one class at the same time
-     * (a redefinition of class A can require a redefinition of class B).
+     * This method operbtes on
+     * b set in order to bllow interdependent chbnges to more thbn one clbss bt the sbme time
+     * (b redefinition of clbss A cbn require b redefinition of clbss B).
      *
      * <P>
-     * If a redefined method has active stack frames, those active frames continue to
-     * run the bytecodes of the original method.
+     * If b redefined method hbs bctive stbck frbmes, those bctive frbmes continue to
+     * run the bytecodes of the originbl method.
      * The redefined method will be used on new invokes.
      *
      * <P>
-     * This method does not cause any initialization except that which would occur
-     * under the customary JVM semantics. In other words, redefining a class
-     * does not cause its initializers to be run. The values of static variables
-     * will remain as they were prior to the call.
+     * This method does not cbuse bny initiblizbtion except thbt which would occur
+     * under the custombry JVM sembntics. In other words, redefining b clbss
+     * does not cbuse its initiblizers to be run. The vblues of stbtic vbribbles
+     * will rembin bs they were prior to the cbll.
      *
      * <P>
-     * Instances of the redefined class are not affected.
+     * Instbnces of the redefined clbss bre not bffected.
      *
      * <P>
-     * The redefinition may change method bodies, the constant pool and attributes.
-     * The redefinition must not add, remove or rename fields or methods, change the
-     * signatures of methods, or change inheritance.  These restrictions maybe be
-     * lifted in future versions.  The class file bytes are not checked, verified and installed
-     * until after the transformations have been applied, if the resultant bytes are in
-     * error this method will throw an exception.
+     * The redefinition mby chbnge method bodies, the constbnt pool bnd bttributes.
+     * The redefinition must not bdd, remove or renbme fields or methods, chbnge the
+     * signbtures of methods, or chbnge inheritbnce.  These restrictions mbybe be
+     * lifted in future versions.  The clbss file bytes bre not checked, verified bnd instblled
+     * until bfter the trbnsformbtions hbve been bpplied, if the resultbnt bytes bre in
+     * error this method will throw bn exception.
      *
      * <P>
-     * If this method throws an exception, no classes have been redefined.
+     * If this method throws bn exception, no clbsses hbve been redefined.
      * <P>
-     * This method is intended for use in instrumentation, as described in the
-     * {@linkplain Instrumentation class specification}.
+     * This method is intended for use in instrumentbtion, bs described in the
+     * {@linkplbin Instrumentbtion clbss specificbtion}.
      *
-     * @param definitions array of classes to redefine with corresponding definitions;
-     *                    a zero-length array is allowed, in this case, this method does nothing
-     * @throws java.lang.instrument.UnmodifiableClassException if a specified class cannot be modified
-     * ({@link #isModifiableClass} would return <code>false</code>)
-     * @throws java.lang.UnsupportedOperationException if the current configuration of the JVM does not allow
-     * redefinition ({@link #isRedefineClassesSupported} is false) or the redefinition attempted
-     * to make unsupported changes
-     * @throws java.lang.ClassFormatError if the data did not contain a valid class
-     * @throws java.lang.NoClassDefFoundError if the name in the class file is not equal to the name of the class
-     * @throws java.lang.UnsupportedClassVersionError if the class file version numbers are not supported
-     * @throws java.lang.ClassCircularityError if the new classes contain a circularity
-     * @throws java.lang.LinkageError if a linkage error occurs
-     * @throws java.lang.NullPointerException if the supplied definitions array or any of its components
+     * @pbrbm definitions brrby of clbsses to redefine with corresponding definitions;
+     *                    b zero-length brrby is bllowed, in this cbse, this method does nothing
+     * @throws jbvb.lbng.instrument.UnmodifibbleClbssException if b specified clbss cbnnot be modified
+     * ({@link #isModifibbleClbss} would return <code>fblse</code>)
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the current configurbtion of the JVM does not bllow
+     * redefinition ({@link #isRedefineClbssesSupported} is fblse) or the redefinition bttempted
+     * to mbke unsupported chbnges
+     * @throws jbvb.lbng.ClbssFormbtError if the dbtb did not contbin b vblid clbss
+     * @throws jbvb.lbng.NoClbssDefFoundError if the nbme in the clbss file is not equbl to the nbme of the clbss
+     * @throws jbvb.lbng.UnsupportedClbssVersionError if the clbss file version numbers bre not supported
+     * @throws jbvb.lbng.ClbssCirculbrityError if the new clbsses contbin b circulbrity
+     * @throws jbvb.lbng.LinkbgeError if b linkbge error occurs
+     * @throws jbvb.lbng.NullPointerException if the supplied definitions brrby or bny of its components
      * is <code>null</code>
-     * @throws java.lang.ClassNotFoundException Can never be thrown (present for compatibility reasons only)
+     * @throws jbvb.lbng.ClbssNotFoundException Cbn never be thrown (present for compbtibility rebsons only)
      *
-     * @see #isRedefineClassesSupported
-     * @see #addTransformer
-     * @see java.lang.instrument.ClassFileTransformer
+     * @see #isRedefineClbssesSupported
+     * @see #bddTrbnsformer
+     * @see jbvb.lbng.instrument.ClbssFileTrbnsformer
      */
     void
-    redefineClasses(ClassDefinition... definitions)
-        throws  ClassNotFoundException, UnmodifiableClassException;
+    redefineClbsses(ClbssDefinition... definitions)
+        throws  ClbssNotFoundException, UnmodifibbleClbssException;
 
 
     /**
-     * Determines whether a class is modifiable by
-     * {@linkplain #retransformClasses retransformation}
-     * or {@linkplain #redefineClasses redefinition}.
-     * If a class is modifiable then this method returns <code>true</code>.
-     * If a class is not modifiable then this method returns <code>false</code>.
+     * Determines whether b clbss is modifibble by
+     * {@linkplbin #retrbnsformClbsses retrbnsformbtion}
+     * or {@linkplbin #redefineClbsses redefinition}.
+     * If b clbss is modifibble then this method returns <code>true</code>.
+     * If b clbss is not modifibble then this method returns <code>fblse</code>.
      * <P>
-     * For a class to be retransformed, {@link #isRetransformClassesSupported} must also be true.
-     * But the value of <code>isRetransformClassesSupported()</code> does not influence the value
+     * For b clbss to be retrbnsformed, {@link #isRetrbnsformClbssesSupported} must blso be true.
+     * But the vblue of <code>isRetrbnsformClbssesSupported()</code> does not influence the vblue
      * returned by this function.
-     * For a class to be redefined, {@link #isRedefineClassesSupported} must also be true.
-     * But the value of <code>isRedefineClassesSupported()</code> does not influence the value
+     * For b clbss to be redefined, {@link #isRedefineClbssesSupported} must blso be true.
+     * But the vblue of <code>isRedefineClbssesSupported()</code> does not influence the vblue
      * returned by this function.
      * <P>
-     * Primitive classes (for example, <code>java.lang.Integer.TYPE</code>)
-     * and array classes are never modifiable.
+     * Primitive clbsses (for exbmple, <code>jbvb.lbng.Integer.TYPE</code>)
+     * bnd brrby clbsses bre never modifibble.
      *
-     * @param theClass the class to check for being modifiable
-     * @return whether or not the argument class is modifiable
-     * @throws java.lang.NullPointerException if the specified class is <code>null</code>.
+     * @pbrbm theClbss the clbss to check for being modifibble
+     * @return whether or not the brgument clbss is modifibble
+     * @throws jbvb.lbng.NullPointerException if the specified clbss is <code>null</code>.
      *
-     * @see #retransformClasses
-     * @see #isRetransformClassesSupported
-     * @see #redefineClasses
-     * @see #isRedefineClassesSupported
+     * @see #retrbnsformClbsses
+     * @see #isRetrbnsformClbssesSupported
+     * @see #redefineClbsses
+     * @see #isRedefineClbssesSupported
      * @since 1.6
      */
-    boolean
-    isModifiableClass(Class<?> theClass);
+    boolebn
+    isModifibbleClbss(Clbss<?> theClbss);
 
     /**
-     * Returns an array of all classes currently loaded by the JVM.
+     * Returns bn brrby of bll clbsses currently lobded by the JVM.
      *
-     * @return an array containing all the classes loaded by the JVM, zero-length if there are none
+     * @return bn brrby contbining bll the clbsses lobded by the JVM, zero-length if there bre none
      */
-    @SuppressWarnings("rawtypes")
-    Class[]
-    getAllLoadedClasses();
+    @SuppressWbrnings("rbwtypes")
+    Clbss[]
+    getAllLobdedClbsses();
 
     /**
-     * Returns an array of all classes for which <code>loader</code> is an initiating loader.
-     * If the supplied loader is <code>null</code>, classes initiated by the bootstrap class
-     * loader are returned.
+     * Returns bn brrby of bll clbsses for which <code>lobder</code> is bn initibting lobder.
+     * If the supplied lobder is <code>null</code>, clbsses initibted by the bootstrbp clbss
+     * lobder bre returned.
      *
-     * @param loader          the loader whose initiated class list will be returned
-     * @return an array containing all the classes for which loader is an initiating loader,
-     *          zero-length if there are none
+     * @pbrbm lobder          the lobder whose initibted clbss list will be returned
+     * @return bn brrby contbining bll the clbsses for which lobder is bn initibting lobder,
+     *          zero-length if there bre none
      */
-    @SuppressWarnings("rawtypes")
-    Class[]
-    getInitiatedClasses(ClassLoader loader);
+    @SuppressWbrnings("rbwtypes")
+    Clbss[]
+    getInitibtedClbsses(ClbssLobder lobder);
 
     /**
-     * Returns an implementation-specific approximation of the amount of storage consumed by
-     * the specified object. The result may include some or all of the object's overhead,
-     * and thus is useful for comparison within an implementation but not between implementations.
+     * Returns bn implementbtion-specific bpproximbtion of the bmount of storbge consumed by
+     * the specified object. The result mby include some or bll of the object's overhebd,
+     * bnd thus is useful for compbrison within bn implementbtion but not between implementbtions.
      *
-     * The estimate may change during a single invocation of the JVM.
+     * The estimbte mby chbnge during b single invocbtion of the JVM.
      *
-     * @param objectToSize     the object to size
-     * @return an implementation-specific approximation of the amount of storage consumed by the specified object
-     * @throws java.lang.NullPointerException if the supplied Object is <code>null</code>.
+     * @pbrbm objectToSize     the object to size
+     * @return bn implementbtion-specific bpproximbtion of the bmount of storbge consumed by the specified object
+     * @throws jbvb.lbng.NullPointerException if the supplied Object is <code>null</code>.
      */
     long
     getObjectSize(Object objectToSize);
 
 
     /**
-     * Specifies a JAR file with instrumentation classes to be defined by the
-     * bootstrap class loader.
+     * Specifies b JAR file with instrumentbtion clbsses to be defined by the
+     * bootstrbp clbss lobder.
      *
-     * <p> When the virtual machine's built-in class loader, known as the "bootstrap
-     * class loader", unsuccessfully searches for a class, the entries in the {@link
-     * java.util.jar.JarFile JAR file} will be searched as well.
+     * <p> When the virtubl mbchine's built-in clbss lobder, known bs the "bootstrbp
+     * clbss lobder", unsuccessfully sebrches for b clbss, the entries in the {@link
+     * jbvb.util.jbr.JbrFile JAR file} will be sebrched bs well.
      *
-     * <p> This method may be used multiple times to add multiple JAR files to be
-     * searched in the order that this method was invoked.
+     * <p> This method mby be used multiple times to bdd multiple JAR files to be
+     * sebrched in the order thbt this method wbs invoked.
      *
-     * <p> The agent should take care to ensure that the JAR does not contain any
-     * classes or resources other than those to be defined by the bootstrap
-     * class loader for the purpose of instrumentation.
-     * Failure to observe this warning could result in unexpected
-     * behavior that is difficult to diagnose. For example, suppose there is a
-     * loader L, and L's parent for delegation is the bootstrap class loader.
-     * Furthermore, a method in class C, a class defined by L, makes reference to
-     * a non-public accessor class C$1. If the JAR file contains a class C$1 then
-     * the delegation to the bootstrap class loader will cause C$1 to be defined
-     * by the bootstrap class loader. In this example an <code>IllegalAccessError</code>
-     * will be thrown that may cause the application to fail. One approach to
-     * avoiding these types of issues, is to use a unique package name for the
-     * instrumentation classes.
+     * <p> The bgent should tbke cbre to ensure thbt the JAR does not contbin bny
+     * clbsses or resources other thbn those to be defined by the bootstrbp
+     * clbss lobder for the purpose of instrumentbtion.
+     * Fbilure to observe this wbrning could result in unexpected
+     * behbvior thbt is difficult to dibgnose. For exbmple, suppose there is b
+     * lobder L, bnd L's pbrent for delegbtion is the bootstrbp clbss lobder.
+     * Furthermore, b method in clbss C, b clbss defined by L, mbkes reference to
+     * b non-public bccessor clbss C$1. If the JAR file contbins b clbss C$1 then
+     * the delegbtion to the bootstrbp clbss lobder will cbuse C$1 to be defined
+     * by the bootstrbp clbss lobder. In this exbmple bn <code>IllegblAccessError</code>
+     * will be thrown thbt mby cbuse the bpplicbtion to fbil. One bpprobch to
+     * bvoiding these types of issues, is to use b unique pbckbge nbme for the
+     * instrumentbtion clbsses.
      *
      * <p>
-     * <cite>The Java&trade; Virtual Machine Specification</cite>
-     * specifies that a subsequent attempt to resolve a symbolic
-     * reference that the Java virtual machine has previously unsuccessfully attempted
-     * to resolve always fails with the same error that was thrown as a result of the
-     * initial resolution attempt. Consequently, if the JAR file contains an entry
-     * that corresponds to a class for which the Java virtual machine has
-     * unsuccessfully attempted to resolve a reference, then subsequent attempts to
-     * resolve that reference will fail with the same error as the initial attempt.
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * specifies thbt b subsequent bttempt to resolve b symbolic
+     * reference thbt the Jbvb virtubl mbchine hbs previously unsuccessfully bttempted
+     * to resolve blwbys fbils with the sbme error thbt wbs thrown bs b result of the
+     * initibl resolution bttempt. Consequently, if the JAR file contbins bn entry
+     * thbt corresponds to b clbss for which the Jbvb virtubl mbchine hbs
+     * unsuccessfully bttempted to resolve b reference, then subsequent bttempts to
+     * resolve thbt reference will fbil with the sbme error bs the initibl bttempt.
      *
-     * @param   jarfile
-     *          The JAR file to be searched when the bootstrap class loader
-     *          unsuccessfully searches for a class.
+     * @pbrbm   jbrfile
+     *          The JAR file to be sebrched when the bootstrbp clbss lobder
+     *          unsuccessfully sebrches for b clbss.
      *
      * @throws  NullPointerException
-     *          If <code>jarfile</code> is <code>null</code>.
+     *          If <code>jbrfile</code> is <code>null</code>.
      *
-     * @see     #appendToSystemClassLoaderSearch
-     * @see     java.lang.ClassLoader
-     * @see     java.util.jar.JarFile
+     * @see     #bppendToSystemClbssLobderSebrch
+     * @see     jbvb.lbng.ClbssLobder
+     * @see     jbvb.util.jbr.JbrFile
      *
      * @since 1.6
      */
     void
-    appendToBootstrapClassLoaderSearch(JarFile jarfile);
+    bppendToBootstrbpClbssLobderSebrch(JbrFile jbrfile);
 
     /**
-     * Specifies a JAR file with instrumentation classes to be defined by the
-     * system class loader.
+     * Specifies b JAR file with instrumentbtion clbsses to be defined by the
+     * system clbss lobder.
      *
-     * When the system class loader for delegation (see
-     * {@link java.lang.ClassLoader#getSystemClassLoader getSystemClassLoader()})
-     * unsuccessfully searches for a class, the entries in the {@link
-     * java.util.jar.JarFile JarFile} will be searched as well.
+     * When the system clbss lobder for delegbtion (see
+     * {@link jbvb.lbng.ClbssLobder#getSystemClbssLobder getSystemClbssLobder()})
+     * unsuccessfully sebrches for b clbss, the entries in the {@link
+     * jbvb.util.jbr.JbrFile JbrFile} will be sebrched bs well.
      *
-     * <p> This method may be used multiple times to add multiple JAR files to be
-     * searched in the order that this method was invoked.
+     * <p> This method mby be used multiple times to bdd multiple JAR files to be
+     * sebrched in the order thbt this method wbs invoked.
      *
-     * <p> The agent should take care to ensure that the JAR does not contain any
-     * classes or resources other than those to be defined by the system class
-     * loader for the purpose of instrumentation.
-     * Failure to observe this warning could result in unexpected
-     * behavior that is difficult to diagnose (see
-     * {@link #appendToBootstrapClassLoaderSearch
-     * appendToBootstrapClassLoaderSearch}).
+     * <p> The bgent should tbke cbre to ensure thbt the JAR does not contbin bny
+     * clbsses or resources other thbn those to be defined by the system clbss
+     * lobder for the purpose of instrumentbtion.
+     * Fbilure to observe this wbrning could result in unexpected
+     * behbvior thbt is difficult to dibgnose (see
+     * {@link #bppendToBootstrbpClbssLobderSebrch
+     * bppendToBootstrbpClbssLobderSebrch}).
      *
-     * <p> The system class loader supports adding a JAR file to be searched if
-     * it implements a method named <code>appendToClassPathForInstrumentation</code>
-     * which takes a single parameter of type <code>java.lang.String</code>. The
-     * method is not required to have <code>public</code> access. The name of
-     * the JAR file is obtained by invoking the {@link java.util.zip.ZipFile#getName
-     * getName()} method on the <code>jarfile</code> and this is provided as the
-     * parameter to the <code>appendToClassPathForInstrumentation</code> method.
+     * <p> The system clbss lobder supports bdding b JAR file to be sebrched if
+     * it implements b method nbmed <code>bppendToClbssPbthForInstrumentbtion</code>
+     * which tbkes b single pbrbmeter of type <code>jbvb.lbng.String</code>. The
+     * method is not required to hbve <code>public</code> bccess. The nbme of
+     * the JAR file is obtbined by invoking the {@link jbvb.util.zip.ZipFile#getNbme
+     * getNbme()} method on the <code>jbrfile</code> bnd this is provided bs the
+     * pbrbmeter to the <code>bppendToClbssPbthForInstrumentbtion</code> method.
      *
      * <p>
-     * <cite>The Java&trade; Virtual Machine Specification</cite>
-     * specifies that a subsequent attempt to resolve a symbolic
-     * reference that the Java virtual machine has previously unsuccessfully attempted
-     * to resolve always fails with the same error that was thrown as a result of the
-     * initial resolution attempt. Consequently, if the JAR file contains an entry
-     * that corresponds to a class for which the Java virtual machine has
-     * unsuccessfully attempted to resolve a reference, then subsequent attempts to
-     * resolve that reference will fail with the same error as the initial attempt.
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
+     * specifies thbt b subsequent bttempt to resolve b symbolic
+     * reference thbt the Jbvb virtubl mbchine hbs previously unsuccessfully bttempted
+     * to resolve blwbys fbils with the sbme error thbt wbs thrown bs b result of the
+     * initibl resolution bttempt. Consequently, if the JAR file contbins bn entry
+     * thbt corresponds to b clbss for which the Jbvb virtubl mbchine hbs
+     * unsuccessfully bttempted to resolve b reference, then subsequent bttempts to
+     * resolve thbt reference will fbil with the sbme error bs the initibl bttempt.
      *
-     * <p> This method does not change the value of <code>java.class.path</code>
-     * {@link java.lang.System#getProperties system property}.
+     * <p> This method does not chbnge the vblue of <code>jbvb.clbss.pbth</code>
+     * {@link jbvb.lbng.System#getProperties system property}.
      *
-     * @param   jarfile
-     *          The JAR file to be searched when the system class loader
-     *          unsuccessfully searches for a class.
+     * @pbrbm   jbrfile
+     *          The JAR file to be sebrched when the system clbss lobder
+     *          unsuccessfully sebrches for b clbss.
      *
-     * @throws  UnsupportedOperationException
-     *          If the system class loader does not support appending a
-     *          a JAR file to be searched.
+     * @throws  UnsupportedOperbtionException
+     *          If the system clbss lobder does not support bppending b
+     *          b JAR file to be sebrched.
      *
      * @throws  NullPointerException
-     *          If <code>jarfile</code> is <code>null</code>.
+     *          If <code>jbrfile</code> is <code>null</code>.
      *
-     * @see     #appendToBootstrapClassLoaderSearch
-     * @see     java.lang.ClassLoader#getSystemClassLoader
-     * @see     java.util.jar.JarFile
+     * @see     #bppendToBootstrbpClbssLobderSebrch
+     * @see     jbvb.lbng.ClbssLobder#getSystemClbssLobder
+     * @see     jbvb.util.jbr.JbrFile
      * @since 1.6
      */
     void
-    appendToSystemClassLoaderSearch(JarFile jarfile);
+    bppendToSystemClbssLobderSebrch(JbrFile jbrfile);
 
     /**
-     * Returns whether the current JVM configuration supports
-     * {@linkplain #setNativeMethodPrefix(ClassFileTransformer,String)
-     * setting a native method prefix}.
-     * The ability to set a native method prefix is an optional
-     * capability of a JVM.
-     * Setting a native method prefix will only be supported if the
-     * <code>Can-Set-Native-Method-Prefix</code> manifest attribute is set to
-     * <code>true</code> in the agent JAR file (as described in the
-     * {@linkplain java.lang.instrument package specification}) and the JVM supports
-     * this capability.
-     * During a single instantiation of a single JVM, multiple
-     * calls to this method will always return the same answer.
-     * @return  true if the current JVM configuration supports
-     * setting a native method prefix, false if not.
-     * @see #setNativeMethodPrefix
+     * Returns whether the current JVM configurbtion supports
+     * {@linkplbin #setNbtiveMethodPrefix(ClbssFileTrbnsformer,String)
+     * setting b nbtive method prefix}.
+     * The bbility to set b nbtive method prefix is bn optionbl
+     * cbpbbility of b JVM.
+     * Setting b nbtive method prefix will only be supported if the
+     * <code>Cbn-Set-Nbtive-Method-Prefix</code> mbnifest bttribute is set to
+     * <code>true</code> in the bgent JAR file (bs described in the
+     * {@linkplbin jbvb.lbng.instrument pbckbge specificbtion}) bnd the JVM supports
+     * this cbpbbility.
+     * During b single instbntibtion of b single JVM, multiple
+     * cblls to this method will blwbys return the sbme bnswer.
+     * @return  true if the current JVM configurbtion supports
+     * setting b nbtive method prefix, fblse if not.
+     * @see #setNbtiveMethodPrefix
      * @since 1.6
      */
-    boolean
-    isNativeMethodPrefixSupported();
+    boolebn
+    isNbtiveMethodPrefixSupported();
 
     /**
-     * This method modifies the failure handling of
-     * native method resolution by allowing retry
-     * with a prefix applied to the name.
+     * This method modifies the fbilure hbndling of
+     * nbtive method resolution by bllowing retry
+     * with b prefix bpplied to the nbme.
      * When used with the
-     * {@link java.lang.instrument.ClassFileTransformer ClassFileTransformer},
-     * it enables native methods to be
+     * {@link jbvb.lbng.instrument.ClbssFileTrbnsformer ClbssFileTrbnsformer},
+     * it enbbles nbtive methods to be
      * instrumented.
      * <p>
-     * Since native methods cannot be directly instrumented
-     * (they have no bytecodes), they must be wrapped with
-     * a non-native method which can be instrumented.
-     * For example, if we had:
+     * Since nbtive methods cbnnot be directly instrumented
+     * (they hbve no bytecodes), they must be wrbpped with
+     * b non-nbtive method which cbn be instrumented.
+     * For exbmple, if we hbd:
      * <pre>
-     *   native boolean foo(int x);</pre>
+     *   nbtive boolebn foo(int x);</pre>
      * <p>
-     * We could transform the class file (with the
-     * ClassFileTransformer during the initial definition
-     * of the class) so that this becomes:
+     * We could trbnsform the clbss file (with the
+     * ClbssFileTrbnsformer during the initibl definition
+     * of the clbss) so thbt this becomes:
      * <pre>
-     *   boolean foo(int x) {
+     *   boolebn foo(int x) {
      *     <i>... record entry to foo ...</i>
-     *     return wrapped_foo(x);
+     *     return wrbpped_foo(x);
      *   }
      *
-     *   native boolean wrapped_foo(int x);</pre>
+     *   nbtive boolebn wrbpped_foo(int x);</pre>
      * <p>
-     * Where <code>foo</code> becomes a wrapper for the actual native
-     * method with the appended prefix "wrapped_".  Note that
-     * "wrapped_" would be a poor choice of prefix since it
-     * might conceivably form the name of an existing method
-     * thus something like "$$$MyAgentWrapped$$$_" would be
-     * better but would make these examples less readable.
+     * Where <code>foo</code> becomes b wrbpper for the bctubl nbtive
+     * method with the bppended prefix "wrbpped_".  Note thbt
+     * "wrbpped_" would be b poor choice of prefix since it
+     * might conceivbbly form the nbme of bn existing method
+     * thus something like "$$$MyAgentWrbpped$$$_" would be
+     * better but would mbke these exbmples less rebdbble.
      * <p>
-     * The wrapper will allow data to be collected on the native
-     * method call, but now the problem becomes linking up the
-     * wrapped method with the native implementation.
-     * That is, the method <code>wrapped_foo</code> needs to be
-     * resolved to the native implementation of <code>foo</code>,
+     * The wrbpper will bllow dbtb to be collected on the nbtive
+     * method cbll, but now the problem becomes linking up the
+     * wrbpped method with the nbtive implementbtion.
+     * Thbt is, the method <code>wrbpped_foo</code> needs to be
+     * resolved to the nbtive implementbtion of <code>foo</code>,
      * which might be:
      * <pre>
-     *   Java_somePackage_someClass_foo(JNIEnv* env, jint x)</pre>
+     *   Jbvb_somePbckbge_someClbss_foo(JNIEnv* env, jint x)</pre>
      * <p>
-     * This function allows the prefix to be specified and the
+     * This function bllows the prefix to be specified bnd the
      * proper resolution to occur.
-     * Specifically, when the standard resolution fails, the
-     * resolution is retried taking the prefix into consideration.
-     * There are two ways that resolution occurs, explicit
-     * resolution with the JNI function <code>RegisterNatives</code>
-     * and the normal automatic resolution.  For
-     * <code>RegisterNatives</code>, the JVM will attempt this
-     * association:
+     * Specificblly, when the stbndbrd resolution fbils, the
+     * resolution is retried tbking the prefix into considerbtion.
+     * There bre two wbys thbt resolution occurs, explicit
+     * resolution with the JNI function <code>RegisterNbtives</code>
+     * bnd the normbl butombtic resolution.  For
+     * <code>RegisterNbtives</code>, the JVM will bttempt this
+     * bssocibtion:
      * <pre>{@code
-     *   method(foo) -> nativeImplementation(foo)
+     *   method(foo) -> nbtiveImplementbtion(foo)
      * }</pre>
      * <p>
-     * When this fails, the resolution will be retried with
-     * the specified prefix prepended to the method name,
+     * When this fbils, the resolution will be retried with
+     * the specified prefix prepended to the method nbme,
      * yielding the correct resolution:
      * <pre>{@code
-     *   method(wrapped_foo) -> nativeImplementation(foo)
+     *   method(wrbpped_foo) -> nbtiveImplementbtion(foo)
      * }</pre>
      * <p>
-     * For automatic resolution, the JVM will attempt:
+     * For butombtic resolution, the JVM will bttempt:
      * <pre>{@code
-     *   method(wrapped_foo) -> nativeImplementation(wrapped_foo)
+     *   method(wrbpped_foo) -> nbtiveImplementbtion(wrbpped_foo)
      * }</pre>
      * <p>
-     * When this fails, the resolution will be retried with
-     * the specified prefix deleted from the implementation name,
+     * When this fbils, the resolution will be retried with
+     * the specified prefix deleted from the implementbtion nbme,
      * yielding the correct resolution:
      * <pre>{@code
-     *   method(wrapped_foo) -> nativeImplementation(foo)
+     *   method(wrbpped_foo) -> nbtiveImplementbtion(foo)
      * }</pre>
      * <p>
-     * Note that since the prefix is only used when standard
-     * resolution fails, native methods can be wrapped selectively.
+     * Note thbt since the prefix is only used when stbndbrd
+     * resolution fbils, nbtive methods cbn be wrbpped selectively.
      * <p>
-     * Since each <code>ClassFileTransformer</code>
-     * can do its own transformation of the bytecodes, more
-     * than one layer of wrappers may be applied. Thus each
-     * transformer needs its own prefix.  Since transformations
-     * are applied in order, the prefixes, if applied, will
-     * be applied in the same order
-     * (see {@link #addTransformer(ClassFileTransformer,boolean) addTransformer}).
-     * Thus if three transformers applied
-     * wrappers, <code>foo</code> might become
-     * <code>$trans3_$trans2_$trans1_foo</code>.  But if, say,
-     * the second transformer did not apply a wrapper to
+     * Since ebch <code>ClbssFileTrbnsformer</code>
+     * cbn do its own trbnsformbtion of the bytecodes, more
+     * thbn one lbyer of wrbppers mby be bpplied. Thus ebch
+     * trbnsformer needs its own prefix.  Since trbnsformbtions
+     * bre bpplied in order, the prefixes, if bpplied, will
+     * be bpplied in the sbme order
+     * (see {@link #bddTrbnsformer(ClbssFileTrbnsformer,boolebn) bddTrbnsformer}).
+     * Thus if three trbnsformers bpplied
+     * wrbppers, <code>foo</code> might become
+     * <code>$trbns3_$trbns2_$trbns1_foo</code>.  But if, sby,
+     * the second trbnsformer did not bpply b wrbpper to
      * <code>foo</code> it would be just
-     * <code>$trans3_$trans1_foo</code>.  To be able to
+     * <code>$trbns3_$trbns1_foo</code>.  To be bble to
      * efficiently determine the sequence of prefixes,
-     * an intermediate prefix is only applied if its non-native
-     * wrapper exists.  Thus, in the last example, even though
-     * <code>$trans1_foo</code> is not a native method, the
-     * <code>$trans1_</code> prefix is applied since
-     * <code>$trans1_foo</code> exists.
+     * bn intermedibte prefix is only bpplied if its non-nbtive
+     * wrbpper exists.  Thus, in the lbst exbmple, even though
+     * <code>$trbns1_foo</code> is not b nbtive method, the
+     * <code>$trbns1_</code> prefix is bpplied since
+     * <code>$trbns1_foo</code> exists.
      *
-     * @param   transformer
-     *          The ClassFileTransformer which wraps using this prefix.
-     * @param   prefix
-     *          The prefix to apply to wrapped native methods when
-     *          retrying a failed native method resolution. If prefix
+     * @pbrbm   trbnsformer
+     *          The ClbssFileTrbnsformer which wrbps using this prefix.
+     * @pbrbm   prefix
+     *          The prefix to bpply to wrbpped nbtive methods when
+     *          retrying b fbiled nbtive method resolution. If prefix
      *          is either <code>null</code> or the empty string, then
-     *          failed native method resolutions are not retried for
-     *          this transformer.
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer.
-     * @throws java.lang.UnsupportedOperationException if the current configuration of
-     *           the JVM does not allow setting a native method prefix
-     *           ({@link #isNativeMethodPrefixSupported} is false).
-     * @throws java.lang.IllegalArgumentException if the transformer is not registered
-     *           (see {@link #addTransformer(ClassFileTransformer,boolean) addTransformer}).
+     *          fbiled nbtive method resolutions bre not retried for
+     *          this trbnsformer.
+     * @throws jbvb.lbng.NullPointerException if pbssed b <code>null</code> trbnsformer.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the current configurbtion of
+     *           the JVM does not bllow setting b nbtive method prefix
+     *           ({@link #isNbtiveMethodPrefixSupported} is fblse).
+     * @throws jbvb.lbng.IllegblArgumentException if the trbnsformer is not registered
+     *           (see {@link #bddTrbnsformer(ClbssFileTrbnsformer,boolebn) bddTrbnsformer}).
      *
      * @since 1.6
      */
     void
-    setNativeMethodPrefix(ClassFileTransformer transformer, String prefix);
+    setNbtiveMethodPrefix(ClbssFileTrbnsformer trbnsformer, String prefix);
 }

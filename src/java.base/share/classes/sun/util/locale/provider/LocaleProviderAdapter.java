@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.security.AccessController;
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.cldr.CLDRLocaleProviderAdapter;
-import sun.util.spi.CalendarProvider;
+import jbvb.security.AccessController;
+import jbvb.text.spi.BrebkIterbtorProvider;
+import jbvb.text.spi.CollbtorProvider;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.text.spi.DbteFormbtSymbolsProvider;
+import jbvb.text.spi.DecimblFormbtSymbolsProvider;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.spi.CblendbrDbtbProvider;
+import jbvb.util.spi.CblendbrNbmeProvider;
+import jbvb.util.spi.CurrencyNbmeProvider;
+import jbvb.util.spi.LocbleNbmeProvider;
+import jbvb.util.spi.LocbleServiceProvider;
+import jbvb.util.spi.TimeZoneNbmeProvider;
+import sun.util.cldr.CLDRLocbleProviderAdbpter;
+import sun.util.spi.CblendbrProvider;
 
 /**
- * The LocaleProviderAdapter abstract class.
+ * The LocbleProviderAdbpter bbstrbct clbss.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public abstract class LocaleProviderAdapter {
+public bbstrbct clbss LocbleProviderAdbpter {
     /**
-     * Adapter type.
+     * Adbpter type.
      */
-    public static enum Type {
+    public stbtic enum Type {
         JRE("sun.util.resources", "sun.text.resources"),
         CLDR("sun.util.resources.cldr", "sun.text.resources.cldr"),
         SPI,
         HOST,
         FALLBACK("sun.util.resources", "sun.text.resources");
 
-        private final String UTIL_RESOURCES_PACKAGE;
-        private final String TEXT_RESOURCES_PACKAGE;
+        privbte finbl String UTIL_RESOURCES_PACKAGE;
+        privbte finbl String TEXT_RESOURCES_PACKAGE;
 
-        private Type() {
+        privbte Type() {
             this(null, null);
         }
 
-        private Type(String util, String text) {
+        privbte Type(String util, String text) {
             UTIL_RESOURCES_PACKAGE = util;
             TEXT_RESOURCES_PACKAGE = text;
         }
 
-        public String getUtilResourcesPackage() {
+        public String getUtilResourcesPbckbge() {
             return UTIL_RESOURCES_PACKAGE;
         }
 
-        public String getTextResourcesPackage() {
+        public String getTextResourcesPbckbge() {
             return TEXT_RESOURCES_PACKAGE;
         }
     }
 
     /**
-     * LocaleProviderAdapter preference list. The default list is intended
-     * to behave the same manner in JDK7.
+     * LocbleProviderAdbpter preference list. The defbult list is intended
+     * to behbve the sbme mbnner in JDK7.
      */
-    private static final List<Type> adapterPreference;
+    privbte stbtic finbl List<Type> bdbpterPreference;
 
     /**
-     * JRE Locale Data Adapter instance
+     * JRE Locble Dbtb Adbpter instbnce
      */
-    private static LocaleProviderAdapter jreLocaleProviderAdapter = new JRELocaleProviderAdapter();
+    privbte stbtic LocbleProviderAdbpter jreLocbleProviderAdbpter = new JRELocbleProviderAdbpter();
 
     /**
-     * SPI Locale Data Adapter instance
+     * SPI Locble Dbtb Adbpter instbnce
      */
-    private static LocaleProviderAdapter spiLocaleProviderAdapter = new SPILocaleProviderAdapter();
+    privbte stbtic LocbleProviderAdbpter spiLocbleProviderAdbpter = new SPILocbleProviderAdbpter();
 
     /**
-     * CLDR Locale Data Adapter instance, if any.
+     * CLDR Locble Dbtb Adbpter instbnce, if bny.
      */
-    private static LocaleProviderAdapter cldrLocaleProviderAdapter = null;
+    privbte stbtic LocbleProviderAdbpter cldrLocbleProviderAdbpter = null;
 
     /**
-     * HOST Locale Data Adapter instance, if any.
+     * HOST Locble Dbtb Adbpter instbnce, if bny.
      */
-    private static LocaleProviderAdapter hostLocaleProviderAdapter = null;
+    privbte stbtic LocbleProviderAdbpter hostLocbleProviderAdbpter = null;
 
     /**
-     * FALLBACK Locale Data Adapter instance. It's basically the same with JRE, but only kicks
-     * in for the root locale.
+     * FALLBACK Locble Dbtb Adbpter instbnce. It's bbsicblly the sbme with JRE, but only kicks
+     * in for the root locble.
      */
-    private static LocaleProviderAdapter fallbackLocaleProviderAdapter = null;
+    privbte stbtic LocbleProviderAdbpter fbllbbckLocbleProviderAdbpter = null;
 
     /**
-     * Default fallback adapter type, which should return something meaningful in any case.
+     * Defbult fbllbbck bdbpter type, which should return something mebningful in bny cbse.
      * This is either JRE or FALLBACK.
      */
-    static LocaleProviderAdapter.Type defaultLocaleProviderAdapter = null;
+    stbtic LocbleProviderAdbpter.Type defbultLocbleProviderAdbpter = null;
 
     /**
-     * Adapter lookup cache.
+     * Adbpter lookup cbche.
      */
-    private static ConcurrentMap<Class<? extends LocaleServiceProvider>, ConcurrentMap<Locale, LocaleProviderAdapter>>
-        adapterCache = new ConcurrentHashMap<>();
+    privbte stbtic ConcurrentMbp<Clbss<? extends LocbleServiceProvider>, ConcurrentMbp<Locble, LocbleProviderAdbpter>>
+        bdbpterCbche = new ConcurrentHbshMbp<>();
 
-    static {
+    stbtic {
         String order = AccessController.doPrivileged(
-                           new sun.security.action.GetPropertyAction("java.locale.providers"));
-        List<Type> typeList = new ArrayList<>();
+                           new sun.security.bction.GetPropertyAction("jbvb.locble.providers"));
+        List<Type> typeList = new ArrbyList<>();
 
-        // Check user specified adapter preference
+        // Check user specified bdbpter preference
         if (order != null && order.length() != 0) {
             String[] types = order.split(",");
             for (String type : types) {
                 try {
-                    Type aType = Type.valueOf(type.trim().toUpperCase(Locale.ROOT));
+                    Type bType = Type.vblueOf(type.trim().toUpperCbse(Locble.ROOT));
 
-                    // load adapter if necessary
-                    switch (aType) {
-                        case CLDR:
-                            if (cldrLocaleProviderAdapter == null) {
-                                cldrLocaleProviderAdapter = new CLDRLocaleProviderAdapter();
+                    // lobd bdbpter if necessbry
+                    switch (bType) {
+                        cbse CLDR:
+                            if (cldrLocbleProviderAdbpter == null) {
+                                cldrLocbleProviderAdbpter = new CLDRLocbleProviderAdbpter();
                             }
-                            break;
-                        case HOST:
-                            if (hostLocaleProviderAdapter == null) {
-                                hostLocaleProviderAdapter = new HostLocaleProviderAdapter();
+                            brebk;
+                        cbse HOST:
+                            if (hostLocbleProviderAdbpter == null) {
+                                hostLocbleProviderAdbpter = new HostLocbleProviderAdbpter();
                             }
-                            break;
+                            brebk;
                     }
-                    if (!typeList.contains(aType)) {
-                        typeList.add(aType);
+                    if (!typeList.contbins(bType)) {
+                        typeList.bdd(bType);
                     }
-                } catch (IllegalArgumentException | UnsupportedOperationException e) {
-                    // could be caused by the user specifying wrong
-                    // provider name or format in the system property
-                    LocaleServiceProviderPool.config(LocaleProviderAdapter.class, e.toString());
+                } cbtch (IllegblArgumentException | UnsupportedOperbtionException e) {
+                    // could be cbused by the user specifying wrong
+                    // provider nbme or formbt in the system property
+                    LocbleServiceProviderPool.config(LocbleProviderAdbpter.clbss, e.toString());
                 }
             }
         }
 
         if (!typeList.isEmpty()) {
-            if (!typeList.contains(Type.JRE)) {
-                // Append FALLBACK as the last resort.
-                fallbackLocaleProviderAdapter = new FallbackLocaleProviderAdapter();
-                typeList.add(Type.FALLBACK);
-                defaultLocaleProviderAdapter = Type.FALLBACK;
+            if (!typeList.contbins(Type.JRE)) {
+                // Append FALLBACK bs the lbst resort.
+                fbllbbckLocbleProviderAdbpter = new FbllbbckLocbleProviderAdbpter();
+                typeList.bdd(Type.FALLBACK);
+                defbultLocbleProviderAdbpter = Type.FALLBACK;
             } else {
-                defaultLocaleProviderAdapter = Type.JRE;
+                defbultLocbleProviderAdbpter = Type.JRE;
             }
         } else {
-            // Default preference list
-            typeList.add(Type.JRE);
-            typeList.add(Type.SPI);
-            defaultLocaleProviderAdapter = Type.JRE;
+            // Defbult preference list
+            typeList.bdd(Type.JRE);
+            typeList.bdd(Type.SPI);
+            defbultLocbleProviderAdbpter = Type.JRE;
         }
 
-        adapterPreference = Collections.unmodifiableList(typeList);
+        bdbpterPreference = Collections.unmodifibbleList(typeList);
     }
 
     /**
-     * Returns the singleton instance for each adapter type
+     * Returns the singleton instbnce for ebch bdbpter type
      */
-    public static LocaleProviderAdapter forType(Type type) {
+    public stbtic LocbleProviderAdbpter forType(Type type) {
         switch (type) {
-        case JRE:
-            return jreLocaleProviderAdapter;
-        case CLDR:
-            return cldrLocaleProviderAdapter;
-        case SPI:
-            return spiLocaleProviderAdapter;
-        case HOST:
-            return hostLocaleProviderAdapter;
-        case FALLBACK:
-            return fallbackLocaleProviderAdapter;
-        default:
-            throw new InternalError("unknown locale data adapter type");
+        cbse JRE:
+            return jreLocbleProviderAdbpter;
+        cbse CLDR:
+            return cldrLocbleProviderAdbpter;
+        cbse SPI:
+            return spiLocbleProviderAdbpter;
+        cbse HOST:
+            return hostLocbleProviderAdbpter;
+        cbse FALLBACK:
+            return fbllbbckLocbleProviderAdbpter;
+        defbult:
+            throw new InternblError("unknown locble dbtb bdbpter type");
         }
     }
 
-    public static LocaleProviderAdapter forJRE() {
-        return jreLocaleProviderAdapter;
+    public stbtic LocbleProviderAdbpter forJRE() {
+        return jreLocbleProviderAdbpter;
     }
 
-    public static LocaleProviderAdapter getResourceBundleBased() {
-        for (Type type : getAdapterPreference()) {
+    public stbtic LocbleProviderAdbpter getResourceBundleBbsed() {
+        for (Type type : getAdbpterPreference()) {
             if (type == Type.JRE || type == Type.CLDR || type == Type.FALLBACK) {
                 return forType(type);
             }
         }
-        // Shouldn't happen.
-        throw new InternalError();
+        // Shouldn't hbppen.
+        throw new InternblError();
     }
     /**
-     * Returns the preference order of LocaleProviderAdapter.Type
+     * Returns the preference order of LocbleProviderAdbpter.Type
      */
-    public static List<Type> getAdapterPreference() {
-        return adapterPreference;
+    public stbtic List<Type> getAdbpterPreference() {
+        return bdbpterPreference;
     }
 
     /**
-     * Returns a LocaleProviderAdapter for the given locale service provider that
-     * best matches the given locale. This method returns the LocaleProviderAdapter
-     * for JRE if none is found for the given locale.
+     * Returns b LocbleProviderAdbpter for the given locble service provider thbt
+     * best mbtches the given locble. This method returns the LocbleProviderAdbpter
+     * for JRE if none is found for the given locble.
      *
-     * @param providerClass the class for the locale service provider
-     * @param locale the desired locale.
-     * @return a LocaleProviderAdapter
+     * @pbrbm providerClbss the clbss for the locble service provider
+     * @pbrbm locble the desired locble.
+     * @return b LocbleProviderAdbpter
      */
-    public static LocaleProviderAdapter getAdapter(Class<? extends LocaleServiceProvider> providerClass,
-                                               Locale locale) {
-        LocaleProviderAdapter adapter;
+    public stbtic LocbleProviderAdbpter getAdbpter(Clbss<? extends LocbleServiceProvider> providerClbss,
+                                               Locble locble) {
+        LocbleProviderAdbpter bdbpter;
 
-        // cache lookup
-        ConcurrentMap<Locale, LocaleProviderAdapter> adapterMap = adapterCache.get(providerClass);
-        if (adapterMap != null) {
-            if ((adapter = adapterMap.get(locale)) != null) {
-                return adapter;
+        // cbche lookup
+        ConcurrentMbp<Locble, LocbleProviderAdbpter> bdbpterMbp = bdbpterCbche.get(providerClbss);
+        if (bdbpterMbp != null) {
+            if ((bdbpter = bdbpterMbp.get(locble)) != null) {
+                return bdbpter;
             }
         } else {
-            adapterMap = new ConcurrentHashMap<>();
-            adapterCache.putIfAbsent(providerClass, adapterMap);
+            bdbpterMbp = new ConcurrentHbshMbp<>();
+            bdbpterCbche.putIfAbsent(providerClbss, bdbpterMbp);
         }
 
-        // Fast look-up for the given locale
-        adapter = findAdapter(providerClass, locale);
-        if (adapter != null) {
-            adapterMap.putIfAbsent(locale, adapter);
-            return adapter;
+        // Fbst look-up for the given locble
+        bdbpter = findAdbpter(providerClbss, locble);
+        if (bdbpter != null) {
+            bdbpterMbp.putIfAbsent(locble, bdbpter);
+            return bdbpter;
         }
 
-        // Try finding an adapter in the normal candidate locales path of the given locale.
-        List<Locale> lookupLocales = ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_DEFAULT)
-                                        .getCandidateLocales("", locale);
-        for (Locale loc : lookupLocales) {
-            if (loc.equals(locale)) {
-                // We've already done with this loc.
+        // Try finding bn bdbpter in the normbl cbndidbte locbles pbth of the given locble.
+        List<Locble> lookupLocbles = ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_DEFAULT)
+                                        .getCbndidbteLocbles("", locble);
+        for (Locble loc : lookupLocbles) {
+            if (loc.equbls(locble)) {
+                // We've blrebdy done with this loc.
                 continue;
             }
-            adapter = findAdapter(providerClass, loc);
-            if (adapter != null) {
-                adapterMap.putIfAbsent(locale, adapter);
-                return adapter;
+            bdbpter = findAdbpter(providerClbss, loc);
+            if (bdbpter != null) {
+                bdbpterMbp.putIfAbsent(locble, bdbpter);
+                return bdbpter;
             }
         }
 
-        // returns the adapter for FALLBACK as the last resort
-        adapterMap.putIfAbsent(locale, fallbackLocaleProviderAdapter);
-        return fallbackLocaleProviderAdapter;
+        // returns the bdbpter for FALLBACK bs the lbst resort
+        bdbpterMbp.putIfAbsent(locble, fbllbbckLocbleProviderAdbpter);
+        return fbllbbckLocbleProviderAdbpter;
     }
 
-    private static LocaleProviderAdapter findAdapter(Class<? extends LocaleServiceProvider> providerClass,
-                                                 Locale locale) {
-        for (Type type : getAdapterPreference()) {
-            LocaleProviderAdapter adapter = forType(type);
-            LocaleServiceProvider provider = adapter.getLocaleServiceProvider(providerClass);
+    privbte stbtic LocbleProviderAdbpter findAdbpter(Clbss<? extends LocbleServiceProvider> providerClbss,
+                                                 Locble locble) {
+        for (Type type : getAdbpterPreference()) {
+            LocbleProviderAdbpter bdbpter = forType(type);
+            LocbleServiceProvider provider = bdbpter.getLocbleServiceProvider(providerClbss);
             if (provider != null) {
-                if (provider.isSupportedLocale(locale)) {
-                    return adapter;
+                if (provider.isSupportedLocble(locble)) {
+                    return bdbpter;
                 }
             }
         }
@@ -292,165 +292,165 @@ public abstract class LocaleProviderAdapter {
     }
 
     /**
-     * A utility method for implementing the default LocaleServiceProvider.isSupportedLocale
-     * for the JRE, CLDR, and FALLBACK adapters.
+     * A utility method for implementing the defbult LocbleServiceProvider.isSupportedLocble
+     * for the JRE, CLDR, bnd FALLBACK bdbpters.
      */
-    static boolean isSupportedLocale(Locale locale, LocaleProviderAdapter.Type type, Set<String> langtags) {
-        assert type == Type.JRE || type == Type.CLDR || type == Type.FALLBACK;
-        if (Locale.ROOT.equals(locale)) {
+    stbtic boolebn isSupportedLocble(Locble locble, LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
+        bssert type == Type.JRE || type == Type.CLDR || type == Type.FALLBACK;
+        if (Locble.ROOT.equbls(locble)) {
             return true;
         }
 
         if (type == Type.FALLBACK) {
-            // no other locales except ROOT are supported for FALLBACK
-            return false;
+            // no other locbles except ROOT bre supported for FALLBACK
+            return fblse;
         }
 
-        locale = locale.stripExtensions();
-        if (langtags.contains(locale.toLanguageTag())) {
+        locble = locble.stripExtensions();
+        if (lbngtbgs.contbins(locble.toLbngubgeTbg())) {
             return true;
         }
         if (type == Type.JRE) {
-            String oldname = locale.toString().replace('_', '-');
-            return langtags.contains(oldname) ||
-                   "ja-JP-JP".equals(oldname) ||
-                   "th-TH-TH".equals(oldname) ||
-                   "no-NO-NY".equals(oldname);
+            String oldnbme = locble.toString().replbce('_', '-');
+            return lbngtbgs.contbins(oldnbme) ||
+                   "jb-JP-JP".equbls(oldnbme) ||
+                   "th-TH-TH".equbls(oldnbme) ||
+                   "no-NO-NY".equbls(oldnbme);
         }
-        return false;
+        return fblse;
     }
 
-    public static Locale[] toLocaleArray(Set<String> tags) {
-        Locale[] locs = new Locale[tags.size() + 1];
+    public stbtic Locble[] toLocbleArrby(Set<String> tbgs) {
+        Locble[] locs = new Locble[tbgs.size() + 1];
         int index = 0;
-        locs[index++] = Locale.ROOT;
-        for (String tag : tags) {
-            switch (tag) {
-            case "ja-JP-JP":
-                locs[index++] = JRELocaleConstants.JA_JP_JP;
-                break;
-            case "th-TH-TH":
-                locs[index++] = JRELocaleConstants.TH_TH_TH;
-                break;
-            default:
-                locs[index++] = Locale.forLanguageTag(tag);
-                break;
+        locs[index++] = Locble.ROOT;
+        for (String tbg : tbgs) {
+            switch (tbg) {
+            cbse "jb-JP-JP":
+                locs[index++] = JRELocbleConstbnts.JA_JP_JP;
+                brebk;
+            cbse "th-TH-TH":
+                locs[index++] = JRELocbleConstbnts.TH_TH_TH;
+                brebk;
+            defbult:
+                locs[index++] = Locble.forLbngubgeTbg(tbg);
+                brebk;
             }
         }
         return locs;
     }
 
     /**
-     * Returns the type of this LocaleProviderAdapter
+     * Returns the type of this LocbleProviderAdbpter
      */
-    public abstract LocaleProviderAdapter.Type getAdapterType();
+    public bbstrbct LocbleProviderAdbpter.Type getAdbpterType();
 
     /**
-     * Getter method for Locale Service Providers.
+     * Getter method for Locble Service Providers.
      */
-    public abstract <P extends LocaleServiceProvider> P getLocaleServiceProvider(Class<P> c);
+    public bbstrbct <P extends LocbleServiceProvider> P getLocbleServiceProvider(Clbss<P> c);
 
     /**
-     * Returns a BreakIteratorProvider for this LocaleProviderAdapter, or null if no
-     * BreakIteratorProvider is available.
+     * Returns b BrebkIterbtorProvider for this LocbleProviderAdbpter, or null if no
+     * BrebkIterbtorProvider is bvbilbble.
      *
-     * @return a BreakIteratorProvider
+     * @return b BrebkIterbtorProvider
      */
-    public abstract BreakIteratorProvider getBreakIteratorProvider();
+    public bbstrbct BrebkIterbtorProvider getBrebkIterbtorProvider();
 
     /**
-     * Returns a ollatorProvider for this LocaleProviderAdapter, or null if no
-     * ollatorProvider is available.
+     * Returns b ollbtorProvider for this LocbleProviderAdbpter, or null if no
+     * ollbtorProvider is bvbilbble.
      *
-     * @return a ollatorProvider
+     * @return b ollbtorProvider
      */
-    public abstract CollatorProvider getCollatorProvider();
+    public bbstrbct CollbtorProvider getCollbtorProvider();
 
     /**
-     * Returns a DateFormatProvider for this LocaleProviderAdapter, or null if no
-     * DateFormatProvider is available.
+     * Returns b DbteFormbtProvider for this LocbleProviderAdbpter, or null if no
+     * DbteFormbtProvider is bvbilbble.
      *
-     * @return a DateFormatProvider
+     * @return b DbteFormbtProvider
      */
-    public abstract DateFormatProvider getDateFormatProvider();
+    public bbstrbct DbteFormbtProvider getDbteFormbtProvider();
 
     /**
-     * Returns a DateFormatSymbolsProvider for this LocaleProviderAdapter, or null if no
-     * DateFormatSymbolsProvider is available.
+     * Returns b DbteFormbtSymbolsProvider for this LocbleProviderAdbpter, or null if no
+     * DbteFormbtSymbolsProvider is bvbilbble.
      *
-     * @return a DateFormatSymbolsProvider
+     * @return b DbteFormbtSymbolsProvider
      */
-    public abstract DateFormatSymbolsProvider getDateFormatSymbolsProvider();
+    public bbstrbct DbteFormbtSymbolsProvider getDbteFormbtSymbolsProvider();
 
     /**
-     * Returns a DecimalFormatSymbolsProvider for this LocaleProviderAdapter, or null if no
-     * DecimalFormatSymbolsProvider is available.
+     * Returns b DecimblFormbtSymbolsProvider for this LocbleProviderAdbpter, or null if no
+     * DecimblFormbtSymbolsProvider is bvbilbble.
      *
-     * @return a DecimalFormatSymbolsProvider
+     * @return b DecimblFormbtSymbolsProvider
      */
-    public abstract DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider();
+    public bbstrbct DecimblFormbtSymbolsProvider getDecimblFormbtSymbolsProvider();
 
     /**
-     * Returns a NumberFormatProvider for this LocaleProviderAdapter, or null if no
-     * NumberFormatProvider is available.
+     * Returns b NumberFormbtProvider for this LocbleProviderAdbpter, or null if no
+     * NumberFormbtProvider is bvbilbble.
      *
-     * @return a NumberFormatProvider
+     * @return b NumberFormbtProvider
      */
-    public abstract NumberFormatProvider getNumberFormatProvider();
+    public bbstrbct NumberFormbtProvider getNumberFormbtProvider();
 
     /*
-     * Getter methods for java.util.spi.* providers
+     * Getter methods for jbvb.util.spi.* providers
      */
 
     /**
-     * Returns a CurrencyNameProvider for this LocaleProviderAdapter, or null if no
-     * CurrencyNameProvider is available.
+     * Returns b CurrencyNbmeProvider for this LocbleProviderAdbpter, or null if no
+     * CurrencyNbmeProvider is bvbilbble.
      *
-     * @return a CurrencyNameProvider
+     * @return b CurrencyNbmeProvider
      */
-    public abstract CurrencyNameProvider getCurrencyNameProvider();
+    public bbstrbct CurrencyNbmeProvider getCurrencyNbmeProvider();
 
     /**
-     * Returns a LocaleNameProvider for this LocaleProviderAdapter, or null if no
-     * LocaleNameProvider is available.
+     * Returns b LocbleNbmeProvider for this LocbleProviderAdbpter, or null if no
+     * LocbleNbmeProvider is bvbilbble.
      *
-     * @return a LocaleNameProvider
+     * @return b LocbleNbmeProvider
      */
-    public abstract LocaleNameProvider getLocaleNameProvider();
+    public bbstrbct LocbleNbmeProvider getLocbleNbmeProvider();
 
     /**
-     * Returns a TimeZoneNameProvider for this LocaleProviderAdapter, or null if no
-     * TimeZoneNameProvider is available.
+     * Returns b TimeZoneNbmeProvider for this LocbleProviderAdbpter, or null if no
+     * TimeZoneNbmeProvider is bvbilbble.
      *
-     * @return a TimeZoneNameProvider
+     * @return b TimeZoneNbmeProvider
      */
-    public abstract TimeZoneNameProvider getTimeZoneNameProvider();
+    public bbstrbct TimeZoneNbmeProvider getTimeZoneNbmeProvider();
 
     /**
-     * Returns a CalendarDataProvider for this LocaleProviderAdapter, or null if no
-     * CalendarDataProvider is available.
+     * Returns b CblendbrDbtbProvider for this LocbleProviderAdbpter, or null if no
+     * CblendbrDbtbProvider is bvbilbble.
      *
-     * @return a CalendarDataProvider
+     * @return b CblendbrDbtbProvider
      */
-    public abstract CalendarDataProvider getCalendarDataProvider();
+    public bbstrbct CblendbrDbtbProvider getCblendbrDbtbProvider();
 
     /**
-     * Returns a CalendarNameProvider for this LocaleProviderAdapter, or null if no
-     * CalendarNameProvider is available.
+     * Returns b CblendbrNbmeProvider for this LocbleProviderAdbpter, or null if no
+     * CblendbrNbmeProvider is bvbilbble.
      *
-     * @return a CalendarNameProvider
+     * @return b CblendbrNbmeProvider
      */
-    public abstract CalendarNameProvider getCalendarNameProvider();
+    public bbstrbct CblendbrNbmeProvider getCblendbrNbmeProvider();
 
     /**
-     * Returns a CalendarProvider for this LocaleProviderAdapter, or null if no
-     * CalendarProvider is available.
+     * Returns b CblendbrProvider for this LocbleProviderAdbpter, or null if no
+     * CblendbrProvider is bvbilbble.
      *
-     * @return a CalendarProvider
+     * @return b CblendbrProvider
      */
-    public abstract CalendarProvider getCalendarProvider();
+    public bbstrbct CblendbrProvider getCblendbrProvider();
 
-    public abstract LocaleResources getLocaleResources(Locale locale);
+    public bbstrbct LocbleResources getLocbleResources(Locble locble);
 
-    public abstract Locale[] getAvailableLocales();
+    public bbstrbct Locble[] getAvbilbbleLocbles();
 }

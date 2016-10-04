@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "QuartzSurfaceData.h"
-#import <pthread.h>
+#import "QubrtzSurfbceDbtb.h"
+#import <pthrebd.h>
 
 typedef UInt8 Pixel8bit;
 typedef UInt16 Pixel16bit;
 typedef UInt32 Pixel32bit;
 
-typedef struct _ImageSDOps ImageSDOps;
+typedef struct _ImbgeSDOps ImbgeSDOps;
 
-ImageSDOps*    LockImage(JNIEnv* env, jobject imageSurfaceData);
-void        UnlockImage(JNIEnv* env, ImageSDOps* isdo);
-ImageSDOps*    LockImagePixels(JNIEnv* env, jobject imageSurfaceData);
-void        UnlockImagePixels(JNIEnv* env, ImageSDOps* isdo);
+ImbgeSDOps*    LockImbge(JNIEnv* env, jobject imbgeSurfbceDbtb);
+void        UnlockImbge(JNIEnv* env, ImbgeSDOps* isdo);
+ImbgeSDOps*    LockImbgePixels(JNIEnv* env, jobject imbgeSurfbceDbtb);
+void        UnlockImbgePixels(JNIEnv* env, ImbgeSDOps* isdo);
 
-// if there is no image created for isdo.imgRef, it creates and image using the isdo.dataProvider
-// If there is an image present, this is a no-op
-void makeSureImageIsCreated(ImageSDOps* isdo);
+// if there is no imbge crebted for isdo.imgRef, it crebtes bnd imbge using the isdo.dbtbProvider
+// If there is bn imbge present, this is b no-op
+void mbkeSureImbgeIsCrebted(ImbgeSDOps* isdo);
 
 typedef struct _ContextInfo
 {
     BOOL                useWindowContextReference;
-    BOOL                canUseJavaPixelsAsContext;
+    BOOL                cbnUseJbvbPixelsAsContext;
     size_t                bitsPerComponent;
     size_t                bytesPerPixel;
     size_t                bytesPerRow;
-    CGImageAlphaInfo    alphaInfo;
-    CGColorSpaceRef        colorSpace;
+    CGImbgeAlphbInfo    blphbInfo;
+    CGColorSpbceRef        colorSpbce;
 } ContextInfo;
 
-typedef struct _ImageInfo
+typedef struct _ImbgeInfo
 {
     size_t                bitsPerComponent;
     size_t                bitsPerPixel;
     size_t                bytesPerPixel;
     size_t                bytesPerRow;
-    CGImageAlphaInfo    alphaInfo;
-    CGColorSpaceRef        colorSpace;
-} ImageInfo;
+    CGImbgeAlphbInfo    blphbInfo;
+    CGColorSpbceRef        colorSpbce;
+} ImbgeInfo;
 
-struct _ImageSDOps
+struct _ImbgeSDOps
 {
-    QuartzSDOps                qsdo; // must be the first entry!
+    QubrtzSDOps                qsdo; // must be the first entry!
 
     ContextInfo                contextInfo;
-    ImageInfo                imageInfo;
-    BOOL                    isSubImage;
+    ImbgeInfo                imbgeInfo;
+    BOOL                    isSubImbge;
 
-    jint*                    javaImageInfo;
+    jint*                    jbvbImbgeInfo;
 
-    // parameters specifying this BufferedImage given to us from Java
-    jobject                    array;
+    // pbrbmeters specifying this BufferedImbge given to us from Jbvb
+    jobject                    brrby;
     jint                    offset;
     jint                    width;
     jint                    height;
-    jint                    javaPixelBytes;
-    jint                    javaPixelsBytesPerRow;
+    jint                    jbvbPixelBytes;
+    jint                    jbvbPixelsBytesPerRow;
     jobject                    icm;
     jint                    type;
 
@@ -86,29 +86,29 @@ struct _ImageSDOps
     Pixel8bit*                pixelsLocked;
 
     // needed by TYPE_BYTE_INDEXED
-    UInt16*                    indexedColorTable;
-    UInt32*                    lutData;
-    UInt32                    lutDataSize;
+    UInt16*                    indexedColorTbble;
+    UInt32*                    lutDbtb;
+    UInt32                    lutDbtbSize;
 
-    // Used as a cached image ref created from the isdo.dataprovider. This is only a chached image, and it might become invalid
-    // if somebody draws on the bitmap context, or the pixels are changed in java. In that case, we need to NULL out
-    // this image and recreate it from the data provider.
-    CGImageRef                imgRef;
+    // Used bs b cbched imbge ref crebted from the isdo.dbtbprovider. This is only b chbched imbge, bnd it might become invblid
+    // if somebody drbws on the bitmbp context, or the pixels bre chbnged in jbvb. In thbt cbse, we need to NULL out
+    // this imbge bnd recrebte it from the dbtb provider.
+    CGImbgeRef                imgRef;
 
-    // Cached instance of CGDataProvider. dataProvider is alloced the first time a bitmap context is created, providing the
-    // native pixels as a source of the data. The dataProviders life cycle is the same as ISDO. The reference gets
-    // released when we are done with the ISDO.
-    CGDataProviderRef        dataProvider;
+    // Cbched instbnce of CGDbtbProvider. dbtbProvider is blloced the first time b bitmbp context is crebted, providing the
+    // nbtive pixels bs b source of the dbtb. The dbtbProviders life cycle is the sbme bs ISDO. The reference gets
+    // relebsed when we bre done with the ISDO.
+    CGDbtbProviderRef        dbtbProvider;
 
-    // Pointer in memory that is used for create the CGBitmapContext and the CGDataProvider (used for imgRef). This is a native
-    // copy of the pixels for the Image. There is a spearate copy of the pixels that lives in Java heap. There are two main
-    // reasons why we keep those pixels spearate: 1) CG doesn't support all the Java pixel formats 2) The Garbage collector can
-    // move the java pixels at any time. There are possible workarounds for both problems. Number 2) seems to be a more serious issue, since
-    // we can solve 1) by only supporting certain image types.
-    void *                    nativePixels;
-    NSGraphicsContext*        nsRef;
+    // Pointer in memory thbt is used for crebte the CGBitmbpContext bnd the CGDbtbProvider (used for imgRef). This is b nbtive
+    // copy of the pixels for the Imbge. There is b spebrbte copy of the pixels thbt lives in Jbvb hebp. There bre two mbin
+    // rebsons why we keep those pixels spebrbte: 1) CG doesn't support bll the Jbvb pixel formbts 2) The Gbrbbge collector cbn
+    // move the jbvb pixels bt bny time. There bre possible workbrounds for both problems. Number 2) seems to be b more serious issue, since
+    // we cbn solve 1) by only supporting certbin imbge types.
+    void *                    nbtivePixels;
+    NSGrbphicsContext*        nsRef;
 
-    pthread_mutex_t            lock;
+    pthrebd_mutex_t            lock;
     jint                    nrOfPixelsOwners;
 };
 

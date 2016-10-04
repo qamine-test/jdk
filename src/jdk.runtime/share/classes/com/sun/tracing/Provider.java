@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tracing;
+pbckbge com.sun.trbcing;
 
 /**
- * {@code Provider} is a superinterface for user-defined tracing providers.
+ * {@code Provider} is b superinterfbce for user-defined trbcing providers.
  * <p>
- * To define tracepoints, users must extend this interface
- * and then use a {@code ProviderFactory} to create an instance of the
- * newly-defined interface.  Each method in the defined interface represents a
- * tracepoint (or probe), which can be triggered by calling the associated
- * method on the returned instance.
+ * To define trbcepoints, users must extend this interfbce
+ * bnd then use b {@code ProviderFbctory} to crebte bn instbnce of the
+ * newly-defined interfbce.  Ebch method in the defined interfbce represents b
+ * trbcepoint (or probe), which cbn be triggered by cblling the bssocibted
+ * method on the returned instbnce.
  * <p>
- * This interface also contains a {@code getProbe()} method, which can be
- * used to get direct handles to the {@code Probe} objects themselves.
- * {@code Probe} objects can be triggered manually, or they can be queried to
- * check their state.
+ * This interfbce blso contbins b {@code getProbe()} method, which cbn be
+ * used to get direct hbndles to the {@code Probe} objects themselves.
+ * {@code Probe} objects cbn be triggered mbnublly, or they cbn be queried to
+ * check their stbte.
  * <p>
- * When an application has finished triggering probes, it should call
- * {@code dispose()} to free up any system resources associated with the
+ * When bn bpplicbtion hbs finished triggering probes, it should cbll
+ * {@code dispose()} to free up bny system resources bssocibted with the
  * Provider.
  * <p>
- * All methods declared in a subclass of this interface should have a
- * {@code void} return type. Methods can have parameters, and when called the
- * values of the arguments will be passed to the tracing implementation.
- * If any methods do not have a {@code void} return type, an
- * {@code java.lang.IllegalArgumentException} will be thrown when the
+ * All methods declbred in b subclbss of this interfbce should hbve b
+ * {@code void} return type. Methods cbn hbve pbrbmeters, bnd when cblled the
+ * vblues of the brguments will be pbssed to the trbcing implementbtion.
+ * If bny methods do not hbve b {@code void} return type, bn
+ * {@code jbvb.lbng.IllegblArgumentException} will be thrown when the
  * provider is registered.
  * @since 1.7
  */
 
-public interface Provider {
+public interfbce Provider {
     /**
-     * Retrieves a reference to a Probe object, which is used to check status
-     * or to trigger the probe manually.
+     * Retrieves b reference to b Probe object, which is used to check stbtus
+     * or to trigger the probe mbnublly.
      *
-     * If the provided method parameter is not a method of the provider
-     * interface,  or if the provider interface has been disposed, then
+     * If the provided method pbrbmeter is not b method of the provider
+     * interfbce,  or if the provider interfbce hbs been disposed, then
      * this returns null
      *
-     * @param method a method declared in the provider.
-     * @return the specified probe represented by that method, or null.
+     * @pbrbm method b method declbred in the provider.
+     * @return the specified probe represented by thbt method, or null.
      */
-    Probe getProbe(java.lang.reflect.Method method);
+    Probe getProbe(jbvb.lbng.reflect.Method method);
 
     /**
-     * Disposes system resources associated with this provider.
+     * Disposes system resources bssocibted with this provider.
      *
-     * After calling this method, triggering the probes will have no effect.
-     * Additional calls to this method after the first call are ignored.
+     * After cblling this method, triggering the probes will hbve no effect.
+     * Additionbl cblls to this method bfter the first cbll bre ignored.
      */
     void dispose();
 }

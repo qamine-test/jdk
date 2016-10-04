@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,350 +30,350 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterJob;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.text.AttributedString;
-import java.util.EnumSet;
-import java.util.Vector;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.AdjustmentEvent;
+import jbvb.bwt.event.AdjustmentListener;
+import jbvb.bwt.event.ComponentAdbpter;
+import jbvb.bwt.event.ComponentEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseListener;
+import jbvb.bwt.event.MouseMotionListener;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.LineBrebkMebsurer;
+import jbvb.bwt.font.TextLbyout;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterJob;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.text.AttributedString;
+import jbvb.util.EnumSet;
+import jbvb.util.Vector;
 
-import javax.imageio.*;
-import javax.swing.*;
+import jbvbx.imbgeio.*;
+import jbvbx.swing.*;
 
-import static java.awt.RenderingHints.*;
+import stbtic jbvb.bwt.RenderingHints.*;
 
 /**
- * FontPanel.java
+ * FontPbnel.jbvb
  *
- * @author Shinsuke Fukuda
- * @author Ankit Patel [Conversion to Swing - 01/07/30]
+ * @buthor Shinsuke Fukudb
+ * @buthor Ankit Pbtel [Conversion to Swing - 01/07/30]
  */
 
-/// This panel is combination of the text drawing area of Font2DTest
-/// and the custom controlled scroll bar
+/// This pbnel is combinbtion of the text drbwing breb of Font2DTest
+/// bnd the custom controlled scroll bbr
 
-public final class FontPanel extends JPanel implements AdjustmentListener {
+public finbl clbss FontPbnel extends JPbnel implements AdjustmentListener {
 
-    /// Drawing Option Constants
-    private final String STYLES[] =
-      { "plain", "bold", "italic", "bold italic" };
+    /// Drbwing Option Constbnts
+    privbte finbl String STYLES[] =
+      { "plbin", "bold", "itblic", "bold itblic" };
 
-    private final int NONE = 0;
-    private final int SCALE = 1;
-    private final int SHEAR = 2;
-    private final int ROTATE = 3;
-    private final String TRANSFORMS[] =
-      { "with no transforms", "with scaling", "with Shearing", "with rotation" };
+    privbte finbl int NONE = 0;
+    privbte finbl int SCALE = 1;
+    privbte finbl int SHEAR = 2;
+    privbte finbl int ROTATE = 3;
+    privbte finbl String TRANSFORMS[] =
+      { "with no trbnsforms", "with scbling", "with Shebring", "with rotbtion" };
 
-    private final int DRAW_STRING = 0;
-    private final int DRAW_CHARS = 1;
-    private final int DRAW_BYTES = 2;
-    private final int DRAW_GLYPHV = 3;
-    private final int TL_DRAW = 4;
-    private final int GV_OUTLINE = 5;
-    private final int TL_OUTLINE = 6;
-    private final String METHODS[] = {
-        "drawString", "drawChars", "drawBytes", "drawGlyphVector",
-        "TextLayout.draw", "GlyphVector.getOutline", "TextLayout.getOutline" };
+    privbte finbl int DRAW_STRING = 0;
+    privbte finbl int DRAW_CHARS = 1;
+    privbte finbl int DRAW_BYTES = 2;
+    privbte finbl int DRAW_GLYPHV = 3;
+    privbte finbl int TL_DRAW = 4;
+    privbte finbl int GV_OUTLINE = 5;
+    privbte finbl int TL_OUTLINE = 6;
+    privbte finbl String METHODS[] = {
+        "drbwString", "drbwChbrs", "drbwBytes", "drbwGlyphVector",
+        "TextLbyout.drbw", "GlyphVector.getOutline", "TextLbyout.getOutline" };
 
-    public final int RANGE_TEXT = 0;
-    public final int ALL_GLYPHS = 1;
-    public final int USER_TEXT = 2;
-    public final int FILE_TEXT = 3;
-    private final String MS_OPENING[] =
+    public finbl int RANGE_TEXT = 0;
+    public finbl int ALL_GLYPHS = 1;
+    public finbl int USER_TEXT = 2;
+    public finbl int FILE_TEXT = 3;
+    privbte finbl String MS_OPENING[] =
       { " Unicode ", " Glyph Code ", " lines ", " lines " };
-    private final String MS_CLOSING[] =
-      { "", "", " of User Text ", " of LineBreakMeasurer-reformatted Text " };
+    privbte finbl String MS_CLOSING[] =
+      { "", "", " of User Text ", " of LineBrebkMebsurer-reformbtted Text " };
 
-    /// General Graphics Variable
-    private final JScrollBar verticalBar;
-    private final FontCanvas fc;
-    private boolean updateBackBuffer = true;
-    private boolean updateFontMetrics = true;
-    private boolean updateFont = true;
-    private boolean force16Cols = false;
-    public boolean showingError = false;
-    private int g2Transform = NONE; /// ABP
+    /// Generbl Grbphics Vbribble
+    privbte finbl JScrollBbr verticblBbr;
+    privbte finbl FontCbnvbs fc;
+    privbte boolebn updbteBbckBuffer = true;
+    privbte boolebn updbteFontMetrics = true;
+    privbte boolebn updbteFont = true;
+    privbte boolebn force16Cols = fblse;
+    public boolebn showingError = fblse;
+    privbte int g2Trbnsform = NONE; /// ABP
 
-    /// Printing constants and variables
-    public final int ONE_PAGE = 0;
-    public final int CUR_RANGE = 1;
-    public final int ALL_TEXT = 2;
-    private int printMode = ONE_PAGE;
-    private PageFormat page = null;
-    private PrinterJob printer = null;
+    /// Printing constbnts bnd vbribbles
+    public finbl int ONE_PAGE = 0;
+    public finbl int CUR_RANGE = 1;
+    public finbl int ALL_TEXT = 2;
+    privbte int printMode = ONE_PAGE;
+    privbte PbgeFormbt pbge = null;
+    privbte PrinterJob printer = null;
 
-    /// Text drawing variables
-    private String fontName = "Dialog";
-    private float fontSize = 12;
-    private int fontStyle = Font.PLAIN;
-    private int fontTransform = NONE;
-    private Font testFont = null;
-    private Object antiAliasType = VALUE_TEXT_ANTIALIAS_DEFAULT;
-    private Object fractionalMetricsType = VALUE_FRACTIONALMETRICS_DEFAULT;
-    private Object lcdContrast = getDefaultLCDContrast();
-    private int drawMethod = DRAW_STRING;
-    private int textToUse = RANGE_TEXT;
-    private String userText[] = null;
-    private String fileText[] = null;
-    private int drawRange[] = { 0x0000, 0x007f };
-    private String fontInfos[] = new String[2];
-    private boolean showGrid = true;
+    /// Text drbwing vbribbles
+    privbte String fontNbme = "Diblog";
+    privbte flobt fontSize = 12;
+    privbte int fontStyle = Font.PLAIN;
+    privbte int fontTrbnsform = NONE;
+    privbte Font testFont = null;
+    privbte Object bntiAlibsType = VALUE_TEXT_ANTIALIAS_DEFAULT;
+    privbte Object frbctionblMetricsType = VALUE_FRACTIONALMETRICS_DEFAULT;
+    privbte Object lcdContrbst = getDefbultLCDContrbst();
+    privbte int drbwMethod = DRAW_STRING;
+    privbte int textToUse = RANGE_TEXT;
+    privbte String userText[] = null;
+    privbte String fileText[] = null;
+    privbte int drbwRbnge[] = { 0x0000, 0x007f };
+    privbte String fontInfos[] = new String[2];
+    privbte boolebn showGrid = true;
 
-    /// Parent Font2DTest panel
-    private final Font2DTest f2dt;
-    private final JFrame parent;
+    /// Pbrent Font2DTest pbnel
+    privbte finbl Font2DTest f2dt;
+    privbte finbl JFrbme pbrent;
 
-    public FontPanel( Font2DTest demo, JFrame f ) {
+    public FontPbnel( Font2DTest demo, JFrbme f ) {
         f2dt = demo;
-        parent = f;
+        pbrent = f;
 
-        verticalBar = new JScrollBar ( JScrollBar.VERTICAL );
-        fc = new FontCanvas();
+        verticblBbr = new JScrollBbr ( JScrollBbr.VERTICAL );
+        fc = new FontCbnvbs();
 
-        this.setLayout( new BorderLayout() );
-        this.add( "Center", fc );
-        this.add( "East", verticalBar );
+        this.setLbyout( new BorderLbyout() );
+        this.bdd( "Center", fc );
+        this.bdd( "Ebst", verticblBbr );
 
-        verticalBar.addAdjustmentListener( this );
-        this.addComponentListener( new ComponentAdapter() {
+        verticblBbr.bddAdjustmentListener( this );
+        this.bddComponentListener( new ComponentAdbpter() {
             public void componentResized( ComponentEvent e ) {
-                updateBackBuffer = true;
-                updateFontMetrics = true;
+                updbteBbckBuffer = true;
+                updbteFontMetrics = true;
             }
         });
 
-        /// Initialize font and its infos
-        testFont = new Font(fontName, fontStyle, (int)fontSize);
-        if ((float)((int)fontSize) != fontSize) {
+        /// Initiblize font bnd its infos
+        testFont = new Font(fontNbme, fontStyle, (int)fontSize);
+        if ((flobt)((int)fontSize) != fontSize) {
             testFont = testFont.deriveFont(fontSize);
         }
-        updateFontInfo();
+        updbteFontInfo();
     }
 
     public Dimension getPreferredSize() {
         return new Dimension(600, 200);
     }
 
-    /// Functions called by the main programs to set the various parameters
+    /// Functions cblled by the mbin progrbms to set the vbrious pbrbmeters
 
-    public void setTransformG2( int transform ) {
-        g2Transform = transform;
-        updateBackBuffer = true;
-        updateFontMetrics = true;
-        fc.repaint();
+    public void setTrbnsformG2( int trbnsform ) {
+        g2Trbnsform = trbnsform;
+        updbteBbckBuffer = true;
+        updbteFontMetrics = true;
+        fc.repbint();
     }
 
-    /// convenience fcn to create AffineTransform of appropriate type
-    private AffineTransform getAffineTransform( int transform ) {
+    /// convenience fcn to crebte AffineTrbnsform of bppropribte type
+    privbte AffineTrbnsform getAffineTrbnsform( int trbnsform ) {
             /// ABP
-            AffineTransform at = new AffineTransform();
-            switch ( transform )
+            AffineTrbnsform bt = new AffineTrbnsform();
+            switch ( trbnsform )
             {
-            case SCALE:
-              at.setToScale( 1.5f, 1.5f ); break;
-            case ROTATE:
-              at.setToRotation( Math.PI / 6 ); break;
-            case SHEAR:
-              at.setToShear( 0.4f, 0 ); break;
-            case NONE:
-              break;
-            default:
-              //System.err.println( "Illegal G2 Transform Arg: " + transform);
-              break;
+            cbse SCALE:
+              bt.setToScble( 1.5f, 1.5f ); brebk;
+            cbse ROTATE:
+              bt.setToRotbtion( Mbth.PI / 6 ); brebk;
+            cbse SHEAR:
+              bt.setToShebr( 0.4f, 0 ); brebk;
+            cbse NONE:
+              brebk;
+            defbult:
+              //System.err.println( "Illegbl G2 Trbnsform Arg: " + trbnsform);
+              brebk;
             }
 
-            return at;
+            return bt;
     }
 
-    public void setFontParams(Object obj, float size,
-                              int style, int transform) {
-        setFontParams( (String)obj, size, style, transform );
+    public void setFontPbrbms(Object obj, flobt size,
+                              int style, int trbnsform) {
+        setFontPbrbms( (String)obj, size, style, trbnsform );
     }
 
-    public void setFontParams(String name, float size,
-                              int style, int transform) {
-        boolean fontModified = false;
-        if ( !name.equals( fontName ) || style != fontStyle )
+    public void setFontPbrbms(String nbme, flobt size,
+                              int style, int trbnsform) {
+        boolebn fontModified = fblse;
+        if ( !nbme.equbls( fontNbme ) || style != fontStyle )
           fontModified = true;
 
-        fontName = name;
+        fontNbme = nbme;
         fontSize = size;
         fontStyle = style;
-        fontTransform = transform;
+        fontTrbnsform = trbnsform;
 
-        /// Recreate the font as specified
-        testFont = new Font(fontName, fontStyle, (int)fontSize);
-        if ((float)((int)fontSize) != fontSize) {
+        /// Recrebte the font bs specified
+        testFont = new Font(fontNbme, fontStyle, (int)fontSize);
+        if ((flobt)((int)fontSize) != fontSize) {
             testFont = testFont.deriveFont(fontSize);
         }
 
-        if ( fontTransform != NONE ) {
-            AffineTransform at = getAffineTransform( fontTransform );
-            testFont = testFont.deriveFont( at );
+        if ( fontTrbnsform != NONE ) {
+            AffineTrbnsform bt = getAffineTrbnsform( fontTrbnsform );
+            testFont = testFont.deriveFont( bt );
         }
-        updateBackBuffer = true;
-        updateFontMetrics = true;
-        fc.repaint();
+        updbteBbckBuffer = true;
+        updbteFontMetrics = true;
+        fc.repbint();
         if ( fontModified ) {
-            /// Tell main panel to update the font info
-            updateFontInfo();
-            f2dt.fireUpdateFontInfo();
+            /// Tell mbin pbnel to updbte the font info
+            updbteFontInfo();
+            f2dt.fireUpdbteFontInfo();
         }
     }
 
-    public void setRenderingHints( Object aa, Object fm, Object contrast) {
-        antiAliasType = ((AAValues)aa).getHint();
-        fractionalMetricsType = ((FMValues)fm).getHint();
-        lcdContrast = contrast;
-        updateBackBuffer = true;
-        updateFontMetrics = true;
-        fc.repaint();
+    public void setRenderingHints( Object bb, Object fm, Object contrbst) {
+        bntiAlibsType = ((AAVblues)bb).getHint();
+        frbctionblMetricsType = ((FMVblues)fm).getHint();
+        lcdContrbst = contrbst;
+        updbteBbckBuffer = true;
+        updbteFontMetrics = true;
+        fc.repbint();
     }
 
-    public void setDrawMethod( int i ) {
-        drawMethod = i;
-        updateBackBuffer = true;
-        fc.repaint();
+    public void setDrbwMethod( int i ) {
+        drbwMethod = i;
+        updbteBbckBuffer = true;
+        fc.repbint();
     }
 
-    public void setTextToDraw( int i, int range[],
-                               String textSet[], String fileData[] ) {
+    public void setTextToDrbw( int i, int rbnge[],
+                               String textSet[], String fileDbtb[] ) {
         textToUse = i;
 
         if ( textToUse == RANGE_TEXT )
-          drawRange = range;
+          drbwRbnge = rbnge;
         else if ( textToUse == ALL_GLYPHS )
-          drawMethod = DRAW_GLYPHV;
+          drbwMethod = DRAW_GLYPHV;
         else if ( textToUse == USER_TEXT )
           userText = textSet;
         else if ( textToUse == FILE_TEXT ) {
-            fileText = fileData;
-            drawMethod = TL_DRAW;
+            fileText = fileDbtb;
+            drbwMethod = TL_DRAW;
         }
 
-        updateBackBuffer = true;
-        updateFontMetrics = true;
-        fc.repaint();
-        updateFontInfo();
+        updbteBbckBuffer = true;
+        updbteFontMetrics = true;
+        fc.repbint();
+        updbteFontInfo();
     }
 
-    public void setGridDisplay( boolean b ) {
+    public void setGridDisplby( boolebn b ) {
         showGrid = b;
-        updateBackBuffer = true;
-        fc.repaint();
+        updbteBbckBuffer = true;
+        fc.repbint();
     }
 
-    public void setForce16Columns( boolean b ) {
+    public void setForce16Columns( boolebn b ) {
         force16Cols = b;
-        updateBackBuffer = true;
-        updateFontMetrics = true;
-        fc.repaint();
+        updbteBbckBuffer = true;
+        updbteFontMetrics = true;
+        fc.repbint();
     }
 
-    /// Prints out the text display area
+    /// Prints out the text displby breb
     public void doPrint( int i ) {
         if ( printer == null ) {
             printer = PrinterJob.getPrinterJob();
-            page = printer.defaultPage();
+            pbge = printer.defbultPbge();
         }
         printMode = i;
-        printer.setPrintable( fc, page );
+        printer.setPrintbble( fc, pbge );
 
-        if ( printer.printDialog() ) {
+        if ( printer.printDiblog() ) {
             try {
                 printer.print();
             }
-            catch ( Exception e ) {
-                f2dt.fireChangeStatus( "ERROR: Printing Failed; See Stack Trace", true );
+            cbtch ( Exception e ) {
+                f2dt.fireChbngeStbtus( "ERROR: Printing Fbiled; See Stbck Trbce", true );
             }
         }
     }
 
-    /// Displays the page setup dialog and updates PageFormat info
-    public void doPageSetup() {
+    /// Displbys the pbge setup diblog bnd updbtes PbgeFormbt info
+    public void doPbgeSetup() {
         if ( printer == null ) {
             printer = PrinterJob.getPrinterJob();
-            page = printer.defaultPage();
+            pbge = printer.defbultPbge();
         }
-        page = printer.pageDialog( page );
+        pbge = printer.pbgeDiblog( pbge );
     }
 
-    /// Obtains the information about selected font
-    private void updateFontInfo() {
-        int numGlyphs = 0, numCharsInRange = drawRange[1] - drawRange[0] + 1;
-        fontInfos[0] = "Font Face Name: " + testFont.getFontName();
-        fontInfos[1] = "Glyphs in This Range: ";
+    /// Obtbins the informbtion bbout selected font
+    privbte void updbteFontInfo() {
+        int numGlyphs = 0, numChbrsInRbnge = drbwRbnge[1] - drbwRbnge[0] + 1;
+        fontInfos[0] = "Font Fbce Nbme: " + testFont.getFontNbme();
+        fontInfos[1] = "Glyphs in This Rbnge: ";
 
         if ( textToUse == RANGE_TEXT ) {
-            for ( int i = drawRange[0]; i < drawRange[1]; i++ )
-              if ( testFont.canDisplay( i ))
+            for ( int i = drbwRbnge[0]; i < drbwRbnge[1]; i++ )
+              if ( testFont.cbnDisplby( i ))
                 numGlyphs++;
-            fontInfos[1] = fontInfos[1] + numGlyphs + " / " + numCharsInRange;
+            fontInfos[1] = fontInfos[1] + numGlyphs + " / " + numChbrsInRbnge;
         }
         else
           fontInfos[1] = null;
     }
 
-    /// Accessor for the font information
+    /// Accessor for the font informbtion
     public String[] getFontInfo() {
         return fontInfos;
     }
 
-    /// Collects the currectly set options and returns them as string
+    /// Collects the currectly set options bnd returns them bs string
     public String getCurrentOptions() {
-        /// Create a new String to store the options
-        /// The array will contain all 8 setting (font name, size...) and
-        /// character range or user text data used (no file text data)
+        /// Crebte b new String to store the options
+        /// The brrby will contbin bll 8 setting (font nbme, size...) bnd
+        /// chbrbcter rbnge or user text dbtb used (no file text dbtb)
         int userTextSize = 0;
         String options;
 
-        options = ( fontName + "\n" + fontSize  + "\n" + fontStyle + "\n" +
-                    fontTransform + "\n"  + g2Transform + "\n"+
-                    textToUse + "\n" + drawMethod + "\n" +
-                    AAValues.getHintVal(antiAliasType) + "\n" +
-                    FMValues.getHintVal(fractionalMetricsType) + "\n" +
-                    lcdContrast + "\n");
+        options = ( fontNbme + "\n" + fontSize  + "\n" + fontStyle + "\n" +
+                    fontTrbnsform + "\n"  + g2Trbnsform + "\n"+
+                    textToUse + "\n" + drbwMethod + "\n" +
+                    AAVblues.getHintVbl(bntiAlibsType) + "\n" +
+                    FMVblues.getHintVbl(frbctionblMetricsType) + "\n" +
+                    lcdContrbst + "\n");
         if ( textToUse == USER_TEXT )
           for ( int i = 0; i < userText.length; i++ )
             options += ( userText[i] + "\n" );
@@ -381,810 +381,810 @@ public final class FontPanel extends JPanel implements AdjustmentListener {
         return options;
     }
 
-    /// Reload all options and refreshes the canvas
-    public void loadOptions( boolean grid, boolean force16, int start, int end,
-                             String name, float size, int style,
-                             int transform, int g2transform,
-                             int text, int method, int aa, int fm,
-                             int contrast, String user[] ) {
-        int range[] = { start, end };
+    /// Relobd bll options bnd refreshes the cbnvbs
+    public void lobdOptions( boolebn grid, boolebn force16, int stbrt, int end,
+                             String nbme, flobt size, int style,
+                             int trbnsform, int g2trbnsform,
+                             int text, int method, int bb, int fm,
+                             int contrbst, String user[] ) {
+        int rbnge[] = { stbrt, end };
 
-        /// Since repaint call has a low priority, these functions will finish
-        /// before the actual repainting is done
-        setGridDisplay( grid );
+        /// Since repbint cbll hbs b low priority, these functions will finish
+        /// before the bctubl repbinting is done
+        setGridDisplby( grid );
         setForce16Columns( force16 );
-        // previous call to readTextFile has already set the text to draw
+        // previous cbll to rebdTextFile hbs blrebdy set the text to drbw
         if (textToUse != FILE_TEXT) {
-          setTextToDraw( text, range, user, null );
+          setTextToDrbw( text, rbnge, user, null );
         }
-        setFontParams( name, size, style, transform );
-        setTransformG2( g2transform ); // ABP
-        setDrawMethod( method );
-        setRenderingHints(AAValues.getValue(aa), FMValues.getValue(fm),
-                          new Integer(contrast));
+        setFontPbrbms( nbme, size, style, trbnsform );
+        setTrbnsformG2( g2trbnsform ); // ABP
+        setDrbwMethod( method );
+        setRenderingHints(AAVblues.getVblue(bb), FMVblues.getVblue(fm),
+                          new Integer(contrbst));
     }
 
     /// Writes the current screen to PNG file
-    public void doSavePNG( String fileName ) {
-        fc.writePNG( fileName );
+    public void doSbvePNG( String fileNbme ) {
+        fc.writePNG( fileNbme );
     }
 
-    /// When scrolled using the scroll bar, update the backbuffer
-    public void adjustmentValueChanged( AdjustmentEvent e ) {
-        updateBackBuffer = true;
-        fc.repaint();
+    /// When scrolled using the scroll bbr, updbte the bbckbuffer
+    public void bdjustmentVblueChbnged( AdjustmentEvent e ) {
+        updbteBbckBuffer = true;
+        fc.repbint();
     }
 
-    public void paintComponent( Graphics g ) {
-        // Windows does not repaint correctly, after
-        // a zoom. Thus, we need to force the canvas
-        // to repaint, but only once. After the first repaint,
-        // everything stabilizes. [ABP]
-        fc.repaint();
+    public void pbintComponent( Grbphics g ) {
+        // Windows does not repbint correctly, bfter
+        // b zoom. Thus, we need to force the cbnvbs
+        // to repbint, but only once. After the first repbint,
+        // everything stbbilizes. [ABP]
+        fc.repbint();
     }
 
-    /// Inner class definition...
+    /// Inner clbss definition...
 
-    /// Inner panel that holds the actual drawing area and its routines
-    private class FontCanvas extends JPanel implements MouseListener, MouseMotionListener, Printable {
+    /// Inner pbnel thbt holds the bctubl drbwing breb bnd its routines
+    privbte clbss FontCbnvbs extends JPbnel implements MouseListener, MouseMotionListener, Printbble {
 
-        /// Number of characters that will fit across and down this canvas
-        private int numCharAcross, numCharDown;
+        /// Number of chbrbcters thbt will fit bcross bnd down this cbnvbs
+        privbte int numChbrAcross, numChbrDown;
 
-        /// First and last character/line that will be drawn
-        /// Limit is the end of range/text where no more draw will be done
-        private int drawStart, drawEnd, drawLimit;
+        /// First bnd lbst chbrbcter/line thbt will be drbwn
+        /// Limit is the end of rbnge/text where no more drbw will be done
+        privbte int drbwStbrt, drbwEnd, drbwLimit;
 
-        /// FontMetrics variables
-        /// Here, gridWidth is equivalent to maxAdvance (slightly bigger though)
-        /// and gridHeight is equivalent to lineHeight
-        private int maxAscent, maxDescent, gridWidth = 0, gridHeight = 0;
+        /// FontMetrics vbribbles
+        /// Here, gridWidth is equivblent to mbxAdvbnce (slightly bigger though)
+        /// bnd gridHeight is equivblent to lineHeight
+        privbte int mbxAscent, mbxDescent, gridWidth = 0, gridHeight = 0;
 
-        /// Offset from the top left edge of the canvas where the draw will start
-        private int canvasInset_X = 5, canvasInset_Y = 5;
+        /// Offset from the top left edge of the cbnvbs where the drbw will stbrt
+        privbte int cbnvbsInset_X = 5, cbnvbsInset_Y = 5;
 
-        /// Offscreen buffer of this canvas
-        private BufferedImage backBuffer = null;
+        /// Offscreen buffer of this cbnvbs
+        privbte BufferedImbge bbckBuffer = null;
 
-        /// LineBreak'ed TextLayout vector
-        private Vector lineBreakTLs = null;
+        /// LineBrebk'ed TextLbyout vector
+        privbte Vector lineBrebkTLs = null;
 
-        /// Whether the current draw command requested is for printing
-        private boolean isPrinting = false;
+        /// Whether the current drbw commbnd requested is for printing
+        privbte boolebn isPrinting = fblse;
 
         /// Other printing infos
-        private int lastPage, printPageNumber, currentlyShownChar = 0;
-        private final int PR_OFFSET = 10;
-        private final int PR_TITLE_LINEHEIGHT = 30;
+        privbte int lbstPbge, printPbgeNumber, currentlyShownChbr = 0;
+        privbte finbl int PR_OFFSET = 10;
+        privbte finbl int PR_TITLE_LINEHEIGHT = 30;
 
-        /// Information about zooming (used with range text draw)
-        private final JWindow zoomWindow;
-        private BufferedImage zoomImage = null;
-        private int mouseOverCharX = -1, mouseOverCharY = -1;
-        private int currMouseOverChar = -1, prevZoomChar = -1;
-        private float ZOOM = 2.0f;
-        private boolean nowZooming = false;
-        private boolean firstTime = true;
+        /// Informbtion bbout zooming (used with rbnge text drbw)
+        privbte finbl JWindow zoomWindow;
+        privbte BufferedImbge zoomImbge = null;
+        privbte int mouseOverChbrX = -1, mouseOverChbrY = -1;
+        privbte int currMouseOverChbr = -1, prevZoomChbr = -1;
+        privbte flobt ZOOM = 2.0f;
+        privbte boolebn nowZooming = fblse;
+        privbte boolebn firstTime = true;
 // ABP
 
-        /// Status bar message backup
-        private String backupStatusString = null;
+        /// Stbtus bbr messbge bbckup
+        privbte String bbckupStbtusString = null;
 
-        /// Error constants
-        private final String ERRORS[] = {
-            "ERROR: drawBytes cannot handle characters beyond 0x00FF. Select different range or draw methods.",
-            "ERROR: Cannot fit text with the current font size. Resize the window or use smaller font size.",
-            "ERROR: Cannot print with the current font size. Use smaller font size.",
+        /// Error constbnts
+        privbte finbl String ERRORS[] = {
+            "ERROR: drbwBytes cbnnot hbndle chbrbcters beyond 0x00FF. Select different rbnge or drbw methods.",
+            "ERROR: Cbnnot fit text with the current font size. Resize the window or use smbller font size.",
+            "ERROR: Cbnnot print with the current font size. Use smbller font size.",
         };
 
-        private final int DRAW_BYTES_ERROR = 0;
-        private final int CANT_FIT_DRAW = 1;
-        private final int CANT_FIT_PRINT = 2;
+        privbte finbl int DRAW_BYTES_ERROR = 0;
+        privbte finbl int CANT_FIT_DRAW = 1;
+        privbte finbl int CANT_FIT_PRINT = 2;
 
-        /// Other variables
-        private final Cursor blankCursor;
+        /// Other vbribbles
+        privbte finbl Cursor blbnkCursor;
 
-        public FontCanvas() {
-            this.addMouseListener( this );
-            this.addMouseMotionListener( this );
-            this.setForeground( Color.black );
-            this.setBackground( Color.white );
+        public FontCbnvbs() {
+            this.bddMouseListener( this );
+            this.bddMouseMotionListener( this );
+            this.setForeground( Color.blbck );
+            this.setBbckground( Color.white );
 
-            /// Creates an invisble pointer by giving it bogus image
-            /// Possibly find a workaround for this...
-            Toolkit tk = Toolkit.getDefaultToolkit();
+            /// Crebtes bn invisble pointer by giving it bogus imbge
+            /// Possibly find b workbround for this...
+            Toolkit tk = Toolkit.getDefbultToolkit();
             byte bogus[] = { (byte) 0 };
-            blankCursor =
-              tk.createCustomCursor( tk.createImage( bogus ), new Point(0, 0), "" );
+            blbnkCursor =
+              tk.crebteCustomCursor( tk.crebteImbge( bogus ), new Point(0, 0), "" );
 
-            zoomWindow = new JWindow( parent ) {
-                public void paint( Graphics g ) {
-                    g.drawImage( zoomImage, 0, 0, zoomWindow );
+            zoomWindow = new JWindow( pbrent ) {
+                public void pbint( Grbphics g ) {
+                    g.drbwImbge( zoomImbge, 0, 0, zoomWindow );
                 }
             };
-            zoomWindow.setCursor( blankCursor );
-            zoomWindow.pack();
+            zoomWindow.setCursor( blbnkCursor );
+            zoomWindow.pbck();
         }
 
-        public boolean firstTime() { return firstTime; }
+        public boolebn firstTime() { return firstTime; }
         public void refresh() {
-            firstTime = false;
-            updateBackBuffer = true;
-            repaint();
+            firstTime = fblse;
+            updbteBbckBuffer = true;
+            repbint();
         }
 
-        /// Sets the font, hints, according to the set parameters
-        private void setParams( Graphics2D g2 ) {
+        /// Sets the font, hints, bccording to the set pbrbmeters
+        privbte void setPbrbms( Grbphics2D g2 ) {
             g2.setFont( testFont );
-            g2.setRenderingHint(KEY_TEXT_ANTIALIASING, antiAliasType);
-            g2.setRenderingHint(KEY_FRACTIONALMETRICS, fractionalMetricsType);
-            g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, lcdContrast);
-            /* I am preserving a somewhat dubious behaviour of this program.
-             * Outline text would be drawn anti-aliased by setting the
-             * graphics anti-aliasing hint if the text anti-aliasing hint
-             * was set. The dubious element here is that people simply
-             * using this program may think this is built-in behaviour
-             * but its not - at least not when the app explicitly draws
+            g2.setRenderingHint(KEY_TEXT_ANTIALIASING, bntiAlibsType);
+            g2.setRenderingHint(KEY_FRACTIONALMETRICS, frbctionblMetricsType);
+            g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, lcdContrbst);
+            /* I bm preserving b somewhbt dubious behbviour of this progrbm.
+             * Outline text would be drbwn bnti-blibsed by setting the
+             * grbphics bnti-blibsing hint if the text bnti-blibsing hint
+             * wbs set. The dubious element here is thbt people simply
+             * using this progrbm mby think this is built-in behbviour
+             * but its not - bt lebst not when the bpp explicitly drbws
              * outline text.
-             * This becomes more dubious in cases such as "GASP" where the
-             * size at which text is AA'ed is not something you can easily
-             * calculate, so mimicing that behaviour isn't going to be easy.
-             * So I precisely preserve the behaviour : this is done only
-             * if the AA value is "ON". Its not applied in the other cases.
+             * This becomes more dubious in cbses such bs "GASP" where the
+             * size bt which text is AA'ed is not something you cbn ebsily
+             * cblculbte, so mimicing thbt behbviour isn't going to be ebsy.
+             * So I precisely preserve the behbviour : this is done only
+             * if the AA vblue is "ON". Its not bpplied in the other cbses.
              */
-            if (antiAliasType == VALUE_TEXT_ANTIALIAS_ON &&
-                (drawMethod == TL_OUTLINE || drawMethod == GV_OUTLINE)) {
+            if (bntiAlibsType == VALUE_TEXT_ANTIALIAS_ON &&
+                (drbwMethod == TL_OUTLINE || drbwMethod == GV_OUTLINE)) {
                 g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
             } else {
                 g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);
             }
         }
 
-        /// Draws the grid (Used for unicode/glyph range drawing)
-        private void drawGrid( Graphics2D g2 ) {
-            int totalGridWidth = numCharAcross * gridWidth;
-            int totalGridHeight = numCharDown * gridHeight;
+        /// Drbws the grid (Used for unicode/glyph rbnge drbwing)
+        privbte void drbwGrid( Grbphics2D g2 ) {
+            int totblGridWidth = numChbrAcross * gridWidth;
+            int totblGridHeight = numChbrDown * gridHeight;
 
-            g2.setColor( Color.black );
-            for ( int i = 0; i < numCharDown + 1; i++ )
-              g2.drawLine( canvasInset_X, i * gridHeight + canvasInset_Y,
-                           canvasInset_X + totalGridWidth, i * gridHeight + canvasInset_Y );
-            for ( int i = 0; i < numCharAcross + 1; i++ )
-              g2.drawLine( i * gridWidth + canvasInset_X, canvasInset_Y,
-                           i * gridWidth + canvasInset_X, canvasInset_Y + totalGridHeight );
+            g2.setColor( Color.blbck );
+            for ( int i = 0; i < numChbrDown + 1; i++ )
+              g2.drbwLine( cbnvbsInset_X, i * gridHeight + cbnvbsInset_Y,
+                           cbnvbsInset_X + totblGridWidth, i * gridHeight + cbnvbsInset_Y );
+            for ( int i = 0; i < numChbrAcross + 1; i++ )
+              g2.drbwLine( i * gridWidth + cbnvbsInset_X, cbnvbsInset_Y,
+                           i * gridWidth + cbnvbsInset_X, cbnvbsInset_Y + totblGridHeight );
         }
 
-        /// Draws one character at time onto the canvas according to
-        /// the method requested (Used for RANGE_TEXT and ALL_GLYPHS)
-        public void modeSpecificDrawChar( Graphics2D g2, int charCode,
-                                          int baseX, int baseY ) {
+        /// Drbws one chbrbcter bt time onto the cbnvbs bccording to
+        /// the method requested (Used for RANGE_TEXT bnd ALL_GLYPHS)
+        public void modeSpecificDrbwChbr( Grbphics2D g2, int chbrCode,
+                                          int bbseX, int bbseY ) {
             GlyphVector gv;
-            int oneGlyph[] = { charCode };
-            char charArray[] = Character.toChars( charCode );
+            int oneGlyph[] = { chbrCode };
+            chbr chbrArrby[] = Chbrbcter.toChbrs( chbrCode );
 
             FontRenderContext frc = g2.getFontRenderContext();
-            AffineTransform oldTX = g2.getTransform();
+            AffineTrbnsform oldTX = g2.getTrbnsform();
 
-            /// Create GlyphVector to measure the exact visual advance
-            /// Using that number, adjust the position of the character drawn
+            /// Crebte GlyphVector to mebsure the exbct visubl bdvbnce
+            /// Using thbt number, bdjust the position of the chbrbcter drbwn
             if ( textToUse == ALL_GLYPHS )
-              gv = testFont.createGlyphVector( frc, oneGlyph );
+              gv = testFont.crebteGlyphVector( frc, oneGlyph );
             else
-              gv = testFont.createGlyphVector( frc, charArray );
-            Rectangle2D r2d2 = gv.getPixelBounds(frc, 0, 0);
-            int shiftedX = baseX;
-            // getPixelBounds returns a result in device space.
-            // we need to convert back to user space to be able to
-            // calculate the shift as baseX is in user space.
+              gv = testFont.crebteGlyphVector( frc, chbrArrby );
+            Rectbngle2D r2d2 = gv.getPixelBounds(frc, 0, 0);
+            int shiftedX = bbseX;
+            // getPixelBounds returns b result in device spbce.
+            // we need to convert bbck to user spbce to be bble to
+            // cblculbte the shift bs bbseX is in user spbce.
             try {
                  double pt[] = new double[4];
                  pt[0] = r2d2.getX();
                  pt[1] = r2d2.getY();
                  pt[2] = r2d2.getX()+r2d2.getWidth();
                  pt[3] = r2d2.getY()+r2d2.getHeight();
-                 oldTX.inverseTransform(pt,0,pt,0,2);
-                 shiftedX = baseX - (int) ( pt[2] / 2 + pt[0] );
-            } catch (NoninvertibleTransformException e) {
+                 oldTX.inverseTrbnsform(pt,0,pt,0,2);
+                 shiftedX = bbseX - (int) ( pt[2] / 2 + pt[0] );
+            } cbtch (NoninvertibleTrbnsformException e) {
             }
 
-            /// ABP - keep track of old tform, restore it later
+            /// ABP - keep trbck of old tform, restore it lbter
 
-            g2.translate( shiftedX, baseY );
-            g2.transform( getAffineTransform( g2Transform ) );
+            g2.trbnslbte( shiftedX, bbseY );
+            g2.trbnsform( getAffineTrbnsform( g2Trbnsform ) );
 
             if ( textToUse == ALL_GLYPHS )
-              g2.drawGlyphVector( gv, 0f, 0f );
+              g2.drbwGlyphVector( gv, 0f, 0f );
             else {
-                if ( testFont.canDisplay( charCode ))
-                  g2.setColor( Color.black );
+                if ( testFont.cbnDisplby( chbrCode ))
+                  g2.setColor( Color.blbck );
                 else {
-                  g2.setColor( Color.lightGray );
+                  g2.setColor( Color.lightGrby );
                 }
 
-                switch ( drawMethod ) {
-                  case DRAW_STRING:
-                    g2.drawString( new String( charArray ), 0, 0 );
-                    break;
-                  case DRAW_CHARS:
-                    g2.drawChars( charArray, 0, 1, 0, 0 );
-                    break;
-                  case DRAW_BYTES:
-                    if ( charCode > 0xff )
-                      throw new CannotDrawException( DRAW_BYTES_ERROR );
-                    byte oneByte[] = { (byte) charCode };
-                    g2.drawBytes( oneByte, 0, 1, 0, 0 );
-                    break;
-                  case DRAW_GLYPHV:
-                    g2.drawGlyphVector( gv, 0f, 0f );
-                    break;
-                  case TL_DRAW:
-                    TextLayout tl = new TextLayout( new String( charArray ), testFont, frc );
-                    tl.draw( g2, 0f, 0f );
-                    break;
-                  case GV_OUTLINE:
-                    r2d2 = gv.getVisualBounds();
-                    shiftedX = baseX - (int) ( r2d2.getWidth() / 2 + r2d2.getX() );
-                    g2.draw( gv.getOutline( 0f, 0f ));
-                    break;
-                  case TL_OUTLINE:
-                    r2d2 = gv.getVisualBounds();
-                    shiftedX = baseX - (int) ( r2d2.getWidth() / 2 + r2d2.getX() );
-                    TextLayout tlo =
-                      new TextLayout( new String( charArray ), testFont,
+                switch ( drbwMethod ) {
+                  cbse DRAW_STRING:
+                    g2.drbwString( new String( chbrArrby ), 0, 0 );
+                    brebk;
+                  cbse DRAW_CHARS:
+                    g2.drbwChbrs( chbrArrby, 0, 1, 0, 0 );
+                    brebk;
+                  cbse DRAW_BYTES:
+                    if ( chbrCode > 0xff )
+                      throw new CbnnotDrbwException( DRAW_BYTES_ERROR );
+                    byte oneByte[] = { (byte) chbrCode };
+                    g2.drbwBytes( oneByte, 0, 1, 0, 0 );
+                    brebk;
+                  cbse DRAW_GLYPHV:
+                    g2.drbwGlyphVector( gv, 0f, 0f );
+                    brebk;
+                  cbse TL_DRAW:
+                    TextLbyout tl = new TextLbyout( new String( chbrArrby ), testFont, frc );
+                    tl.drbw( g2, 0f, 0f );
+                    brebk;
+                  cbse GV_OUTLINE:
+                    r2d2 = gv.getVisublBounds();
+                    shiftedX = bbseX - (int) ( r2d2.getWidth() / 2 + r2d2.getX() );
+                    g2.drbw( gv.getOutline( 0f, 0f ));
+                    brebk;
+                  cbse TL_OUTLINE:
+                    r2d2 = gv.getVisublBounds();
+                    shiftedX = bbseX - (int) ( r2d2.getWidth() / 2 + r2d2.getX() );
+                    TextLbyout tlo =
+                      new TextLbyout( new String( chbrArrby ), testFont,
                                       g2.getFontRenderContext() );
-                    g2.draw( tlo.getOutline( null ));
+                    g2.drbw( tlo.getOutline( null ));
                 }
             }
 
             /// ABP - restore old tform
-            g2.setTransform ( oldTX );
+            g2.setTrbnsform ( oldTX );
         }
 
-        /// Draws one line of text at given position
-        private void modeSpecificDrawLine( Graphics2D g2, String line,
-                                           int baseX, int baseY ) {
-            /// ABP - keep track of old tform, restore it later
-            AffineTransform oldTx = null;
-            oldTx = g2.getTransform();
-            g2.translate( baseX, baseY );
-            g2.transform( getAffineTransform( g2Transform ) );
+        /// Drbws one line of text bt given position
+        privbte void modeSpecificDrbwLine( Grbphics2D g2, String line,
+                                           int bbseX, int bbseY ) {
+            /// ABP - keep trbck of old tform, restore it lbter
+            AffineTrbnsform oldTx = null;
+            oldTx = g2.getTrbnsform();
+            g2.trbnslbte( bbseX, bbseY );
+            g2.trbnsform( getAffineTrbnsform( g2Trbnsform ) );
 
-            switch ( drawMethod ) {
-              case DRAW_STRING:
-                g2.drawString( line, 0, 0 );
-                break;
-              case DRAW_CHARS:
-                g2.drawChars( line.toCharArray(), 0, line.length(), 0, 0 );
-                break;
-              case DRAW_BYTES:
+            switch ( drbwMethod ) {
+              cbse DRAW_STRING:
+                g2.drbwString( line, 0, 0 );
+                brebk;
+              cbse DRAW_CHARS:
+                g2.drbwChbrs( line.toChbrArrby(), 0, line.length(), 0, 0 );
+                brebk;
+              cbse DRAW_BYTES:
                 try {
                     byte lineBytes[] = line.getBytes( "ISO-8859-1" );
-                    g2.drawBytes( lineBytes, 0, lineBytes.length, 0, 0 );
+                    g2.drbwBytes( lineBytes, 0, lineBytes.length, 0, 0 );
                 }
-                catch ( Exception e ) {
-                    e.printStackTrace();
+                cbtch ( Exception e ) {
+                    e.printStbckTrbce();
                 }
-                break;
-              case DRAW_GLYPHV:
+                brebk;
+              cbse DRAW_GLYPHV:
                 GlyphVector gv =
-                  testFont.createGlyphVector( g2.getFontRenderContext(), line );
-                g2.drawGlyphVector( gv, (float) 0, (float) 0 );
-                break;
-              case TL_DRAW:
-                TextLayout tl = new TextLayout( line, testFont,
+                  testFont.crebteGlyphVector( g2.getFontRenderContext(), line );
+                g2.drbwGlyphVector( gv, (flobt) 0, (flobt) 0 );
+                brebk;
+              cbse TL_DRAW:
+                TextLbyout tl = new TextLbyout( line, testFont,
                                                 g2.getFontRenderContext() );
-                tl.draw( g2, (float) 0, (float) 0 );
-                break;
-              case GV_OUTLINE:
+                tl.drbw( g2, (flobt) 0, (flobt) 0 );
+                brebk;
+              cbse GV_OUTLINE:
                 GlyphVector gvo =
-                  testFont.createGlyphVector( g2.getFontRenderContext(), line );
-                g2.draw( gvo.getOutline( (float) 0, (float) 0 ));
-                break;
-              case TL_OUTLINE:
-                TextLayout tlo =
-                  new TextLayout( line, testFont,
+                  testFont.crebteGlyphVector( g2.getFontRenderContext(), line );
+                g2.drbw( gvo.getOutline( (flobt) 0, (flobt) 0 ));
+                brebk;
+              cbse TL_OUTLINE:
+                TextLbyout tlo =
+                  new TextLbyout( line, testFont,
                                   g2.getFontRenderContext() );
-                AffineTransform at = new AffineTransform();
-                g2.draw( tlo.getOutline( at ));
+                AffineTrbnsform bt = new AffineTrbnsform();
+                g2.drbw( tlo.getOutline( bt ));
             }
 
             /// ABP - restore old tform
-            g2.setTransform ( oldTx );
+            g2.setTrbnsform ( oldTx );
 
         }
 
-        /// Draws one line of text at given position
-        private void tlDrawLine( Graphics2D g2, TextLayout tl,
-                                           float baseX, float baseY ) {
-            /// ABP - keep track of old tform, restore it later
-            AffineTransform oldTx = null;
-            oldTx = g2.getTransform();
-            g2.translate( baseX, baseY );
-            g2.transform( getAffineTransform( g2Transform ) );
+        /// Drbws one line of text bt given position
+        privbte void tlDrbwLine( Grbphics2D g2, TextLbyout tl,
+                                           flobt bbseX, flobt bbseY ) {
+            /// ABP - keep trbck of old tform, restore it lbter
+            AffineTrbnsform oldTx = null;
+            oldTx = g2.getTrbnsform();
+            g2.trbnslbte( bbseX, bbseY );
+            g2.trbnsform( getAffineTrbnsform( g2Trbnsform ) );
 
-            tl.draw( g2, (float) 0, (float) 0 );
+            tl.drbw( g2, (flobt) 0, (flobt) 0 );
 
             /// ABP - restore old tform
-            g2.setTransform ( oldTx );
+            g2.setTrbnsform ( oldTx );
 
         }
 
 
-        /// If textToUse is set to range drawing, then convert
-        /// int to hex string and prepends 0s to make it length 4
-        /// Otherwise line number was fed; simply return number + 1 converted to String
-        /// (This is because first line is 1, not 0)
-        private String modeSpecificNumStr( int i ) {
+        /// If textToUse is set to rbnge drbwing, then convert
+        /// int to hex string bnd prepends 0s to mbke it length 4
+        /// Otherwise line number wbs fed; simply return number + 1 converted to String
+        /// (This is becbuse first line is 1, not 0)
+        privbte String modeSpecificNumStr( int i ) {
             if ( textToUse == USER_TEXT || textToUse == FILE_TEXT )
-              return String.valueOf( i + 1 );
+              return String.vblueOf( i + 1 );
 
             StringBuffer s = new StringBuffer( Integer.toHexString( i ));
             while ( s.length() < 4 )
               s.insert( 0, "0" );
-            return s.toString().toUpperCase();
+            return s.toString().toUpperCbse();
         }
 
-        /// Resets the scrollbar to display correct range of text currently on screen
-        /// (This scrollbar is not part of a "ScrollPane". It merely simulates its effect by
-        ///  indicating the necessary area to be drawn within the panel.
-        ///  By doing this, it prevents creating gigantic panel when large text range,
-        ///  i.e. CJK Ideographs, is requested)
-        private void resetScrollbar( int oldValue ) {
-            int totalNumRows = 1, numCharToDisplay;
+        /// Resets the scrollbbr to displby correct rbnge of text currently on screen
+        /// (This scrollbbr is not pbrt of b "ScrollPbne". It merely simulbtes its effect by
+        ///  indicbting the necessbry breb to be drbwn within the pbnel.
+        ///  By doing this, it prevents crebting gigbntic pbnel when lbrge text rbnge,
+        ///  i.e. CJK Ideogrbphs, is requested)
+        privbte void resetScrollbbr( int oldVblue ) {
+            int totblNumRows = 1, numChbrToDisplby;
             if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
                 if ( textToUse == RANGE_TEXT )
-                  numCharToDisplay = drawRange[1] - drawRange[0];
+                  numChbrToDisplby = drbwRbnge[1] - drbwRbnge[0];
                 else /// textToUse == ALL_GLYPHS
-                  numCharToDisplay = testFont.getNumGlyphs();
+                  numChbrToDisplby = testFont.getNumGlyphs();
 
-                totalNumRows = numCharToDisplay / numCharAcross;
-                if ( numCharToDisplay % numCharAcross != 0 )
-                  totalNumRows++;
-                if ( oldValue / numCharAcross > totalNumRows )
-                  oldValue = 0;
+                totblNumRows = numChbrToDisplby / numChbrAcross;
+                if ( numChbrToDisplby % numChbrAcross != 0 )
+                  totblNumRows++;
+                if ( oldVblue / numChbrAcross > totblNumRows )
+                  oldVblue = 0;
 
-                verticalBar.setValues( oldValue / numCharAcross,
-                                       numCharDown, 0, totalNumRows );
+                verticblBbr.setVblues( oldVblue / numChbrAcross,
+                                       numChbrDown, 0, totblNumRows );
             }
             else {
                 if ( textToUse == USER_TEXT )
-                  totalNumRows = userText.length;
+                  totblNumRows = userText.length;
                 else /// textToUse == FILE_TEXT;
-                  totalNumRows = lineBreakTLs.size();
-                verticalBar.setValues( oldValue, numCharDown, 0, totalNumRows );
+                  totblNumRows = lineBrebkTLs.size();
+                verticblBbr.setVblues( oldVblue, numChbrDown, 0, totblNumRows );
             }
-            if ( totalNumRows <= numCharDown && drawStart == 0) {
-              verticalBar.setEnabled( false );
+            if ( totblNumRows <= numChbrDown && drbwStbrt == 0) {
+              verticblBbr.setEnbbled( fblse );
             }
             else {
-              verticalBar.setEnabled( true );
+              verticblBbr.setEnbbled( true );
             }
         }
 
-        /// Calculates the font's metrics that will be used for draw
-        private void calcFontMetrics( Graphics2D g2d, int w, int h ) {
+        /// Cblculbtes the font's metrics thbt will be used for drbw
+        privbte void cblcFontMetrics( Grbphics2D g2d, int w, int h ) {
             FontMetrics fm;
-            Graphics2D g2 = (Graphics2D)g2d.create();
+            Grbphics2D g2 = (Grbphics2D)g2d.crebte();
 
             /// ABP
-            if ( g2Transform != NONE && textToUse != FILE_TEXT ) {
-                g2.setFont( g2.getFont().deriveFont( getAffineTransform( g2Transform )) );
+            if ( g2Trbnsform != NONE && textToUse != FILE_TEXT ) {
+                g2.setFont( g2.getFont().deriveFont( getAffineTrbnsform( g2Trbnsform )) );
                 fm = g2.getFontMetrics();
             }
             else {
                 fm = g2.getFontMetrics();
             }
 
-            maxAscent = fm.getMaxAscent();
-            maxDescent = fm.getMaxDescent();
-            if (maxAscent == 0) maxAscent = 10;
-            if (maxDescent == 0) maxDescent = 5;
+            mbxAscent = fm.getMbxAscent();
+            mbxDescent = fm.getMbxDescent();
+            if (mbxAscent == 0) mbxAscent = 10;
+            if (mbxDescent == 0) mbxDescent = 5;
             if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
-                /// Give slight extra room for each character
-                maxAscent += 3;
-                maxDescent += 3;
-                gridWidth = fm.getMaxAdvance() + 6;
-                gridHeight = maxAscent + maxDescent;
+                /// Give slight extrb room for ebch chbrbcter
+                mbxAscent += 3;
+                mbxDescent += 3;
+                gridWidth = fm.getMbxAdvbnce() + 6;
+                gridHeight = mbxAscent + mbxDescent;
                 if ( force16Cols )
-                  numCharAcross = 16;
+                  numChbrAcross = 16;
                 else
-                  numCharAcross = ( w - 10 ) / gridWidth;
-                numCharDown = ( h - 10 ) / gridHeight;
+                  numChbrAcross = ( w - 10 ) / gridWidth;
+                numChbrDown = ( h - 10 ) / gridHeight;
 
-                canvasInset_X = ( w - numCharAcross * gridWidth ) / 2;
-                canvasInset_Y = ( h - numCharDown * gridHeight ) / 2;
-                if ( numCharDown == 0 || numCharAcross == 0 )
-                  throw new CannotDrawException( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
+                cbnvbsInset_X = ( w - numChbrAcross * gridWidth ) / 2;
+                cbnvbsInset_Y = ( h - numChbrDown * gridHeight ) / 2;
+                if ( numChbrDown == 0 || numChbrAcross == 0 )
+                  throw new CbnnotDrbwException( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
 
                 if ( !isPrinting )
-                  resetScrollbar( verticalBar.getValue() * numCharAcross );
+                  resetScrollbbr( verticblBbr.getVblue() * numChbrAcross );
             }
             else {
-                maxDescent += fm.getLeading();
-                canvasInset_X = 5;
-                canvasInset_Y = 5;
-                /// gridWidth and numCharAcross will not be used in this mode...
-                gridHeight = maxAscent + maxDescent;
-                numCharDown = ( h - canvasInset_Y * 2 ) / gridHeight;
+                mbxDescent += fm.getLebding();
+                cbnvbsInset_X = 5;
+                cbnvbsInset_Y = 5;
+                /// gridWidth bnd numChbrAcross will not be used in this mode...
+                gridHeight = mbxAscent + mbxDescent;
+                numChbrDown = ( h - cbnvbsInset_Y * 2 ) / gridHeight;
 
-                if ( numCharDown == 0 )
-                  throw new CannotDrawException( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
-                /// If this is text loaded from file, prepares the LineBreak'ed
-                /// text layout at this point
+                if ( numChbrDown == 0 )
+                  throw new CbnnotDrbwException( isPrinting ? CANT_FIT_PRINT : CANT_FIT_DRAW );
+                /// If this is text lobded from file, prepbres the LineBrebk'ed
+                /// text lbyout bt this point
                 if ( textToUse == FILE_TEXT ) {
                     if ( !isPrinting )
-                      f2dt.fireChangeStatus( "LineBreaking Text... Please Wait", false );
-                    lineBreakTLs = new Vector();
+                      f2dt.fireChbngeStbtus( "LineBrebking Text... Plebse Wbit", fblse );
+                    lineBrebkTLs = new Vector();
                     for ( int i = 0; i < fileText.length; i++ ) {
-                        AttributedString as =
+                        AttributedString bs =
                           new AttributedString( fileText[i], g2.getFont().getAttributes() );
 
-                        LineBreakMeasurer lbm =
-                          new LineBreakMeasurer( as.getIterator(), g2.getFontRenderContext() );
+                        LineBrebkMebsurer lbm =
+                          new LineBrebkMebsurer( bs.getIterbtor(), g2.getFontRenderContext() );
 
                         while ( lbm.getPosition() < fileText[i].length() )
-                          lineBreakTLs.add( lbm.nextLayout( (float) w ));
+                          lineBrebkTLs.bdd( lbm.nextLbyout( (flobt) w ));
 
                     }
                 }
                 if ( !isPrinting )
-                  resetScrollbar( verticalBar.getValue() );
+                  resetScrollbbr( verticblBbr.getVblue() );
             }
         }
 
-        /// Calculates the amount of text that will be displayed on screen
-        private void calcTextRange() {
-            String displaying = null;
+        /// Cblculbtes the bmount of text thbt will be displbyed on screen
+        privbte void cblcTextRbnge() {
+            String displbying = null;
 
             if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
                 if ( isPrinting )
                   if ( printMode == ONE_PAGE )
-                    drawStart = currentlyShownChar;
+                    drbwStbrt = currentlyShownChbr;
                   else /// printMode == CUR_RANGE
-                    drawStart = numCharAcross * numCharDown * printPageNumber;
+                    drbwStbrt = numChbrAcross * numChbrDown * printPbgeNumber;
                 else
-                  drawStart = verticalBar.getValue() * numCharAcross;
+                  drbwStbrt = verticblBbr.getVblue() * numChbrAcross;
                 if ( textToUse == RANGE_TEXT ) {
-                    drawStart += drawRange[0];
-                    drawLimit = drawRange[1];
+                    drbwStbrt += drbwRbnge[0];
+                    drbwLimit = drbwRbnge[1];
                 }
                 else
-                  drawLimit = testFont.getNumGlyphs();
-                drawEnd = drawStart + numCharAcross * numCharDown - 1;
+                  drbwLimit = testFont.getNumGlyphs();
+                drbwEnd = drbwStbrt + numChbrAcross * numChbrDown - 1;
 
-                if ( drawEnd >= drawLimit )
-                  drawEnd = drawLimit;
+                if ( drbwEnd >= drbwLimit )
+                  drbwEnd = drbwLimit;
             }
             else {
                 if ( isPrinting )
                   if ( printMode == ONE_PAGE )
-                    drawStart = currentlyShownChar;
+                    drbwStbrt = currentlyShownChbr;
                   else /// printMode == ALL_TEXT
-                    drawStart = numCharDown * printPageNumber;
+                    drbwStbrt = numChbrDown * printPbgeNumber;
                 else {
-                    drawStart = verticalBar.getValue();
+                    drbwStbrt = verticblBbr.getVblue();
                 }
 
-                drawEnd = drawStart + numCharDown - 1;
+                drbwEnd = drbwStbrt + numChbrDown - 1;
 
                 if ( textToUse == USER_TEXT )
-                  drawLimit = userText.length - 1;
+                  drbwLimit = userText.length - 1;
                 else
-                  drawLimit = lineBreakTLs.size() - 1;
+                  drbwLimit = lineBrebkTLs.size() - 1;
 
-                if ( drawEnd >= drawLimit )
-                  drawEnd = drawLimit;
+                if ( drbwEnd >= drbwLimit )
+                  drbwEnd = drbwLimit;
             }
 
             // ABP
-            if ( drawStart > drawEnd ) {
-              drawStart = 0;
-              verticalBar.setValue(drawStart);
+            if ( drbwStbrt > drbwEnd ) {
+              drbwStbrt = 0;
+              verticblBbr.setVblue(drbwStbrt);
             }
 
 
-            /// Change the status bar if not printing...
+            /// Chbnge the stbtus bbr if not printing...
             if ( !isPrinting ) {
-                backupStatusString = ( "Displaying" + MS_OPENING[textToUse] +
-                                       modeSpecificNumStr( drawStart ) + " to " +
-                                       modeSpecificNumStr( drawEnd ) +
+                bbckupStbtusString = ( "Displbying" + MS_OPENING[textToUse] +
+                                       modeSpecificNumStr( drbwStbrt ) + " to " +
+                                       modeSpecificNumStr( drbwEnd ) +
                                        MS_CLOSING[textToUse] );
-                f2dt.fireChangeStatus( backupStatusString, false );
+                f2dt.fireChbngeStbtus( bbckupStbtusString, fblse );
             }
         }
 
-        /// Draws text according to the parameters set by Font2DTest GUI
-        private void drawText( Graphics g, int w, int h ) {
-            Graphics2D g2;
+        /// Drbws text bccording to the pbrbmeters set by Font2DTest GUI
+        privbte void drbwText( Grbphics g, int w, int h ) {
+            Grbphics2D g2;
 
-            /// Create back buffer when not printing, and its Graphics2D
-            /// Then set drawing parameters for that Graphics2D object
+            /// Crebte bbck buffer when not printing, bnd its Grbphics2D
+            /// Then set drbwing pbrbmeters for thbt Grbphics2D object
             if ( isPrinting )
-              g2 = (Graphics2D) g;
+              g2 = (Grbphics2D) g;
             else  {
-                backBuffer = (BufferedImage) this.createImage( w, h );
-                g2 = backBuffer.createGraphics();
+                bbckBuffer = (BufferedImbge) this.crebteImbge( w, h );
+                g2 = bbckBuffer.crebteGrbphics();
                 g2.setColor(Color.white);
                 g2.fillRect(0, 0, w, h);
-                g2.setColor(Color.black);
+                g2.setColor(Color.blbck);
             }
 
             /// sets font, RenderingHints.
-            setParams( g2 );
+            setPbrbms( g2 );
 
-            /// If flag is set, recalculate fontMetrics and reset the scrollbar
-            if ( updateFontMetrics || isPrinting ) {
-                /// NOTE: re-calculates in case G2 transform
-                /// is something other than NONE
-                calcFontMetrics( g2, w, h );
-                updateFontMetrics = false;
+            /// If flbg is set, recblculbte fontMetrics bnd reset the scrollbbr
+            if ( updbteFontMetrics || isPrinting ) {
+                /// NOTE: re-cblculbtes in cbse G2 trbnsform
+                /// is something other thbn NONE
+                cblcFontMetrics( g2, w, h );
+                updbteFontMetrics = fblse;
             }
-            /// Calculate the amount of text that can be drawn...
-            calcTextRange();
+            /// Cblculbte the bmount of text thbt cbn be drbwn...
+            cblcTextRbnge();
 
-            /// Draw according to the set "Text to Use" mode
+            /// Drbw bccording to the set "Text to Use" mode
             if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
-                int charToDraw = drawStart;
+                int chbrToDrbw = drbwStbrt;
                 if ( showGrid )
-                  drawGrid( g2 );
+                  drbwGrid( g2 );
                 if ( !isPrinting )
-                  g.drawImage( backBuffer, 0, 0, this );
+                  g.drbwImbge( bbckBuffer, 0, 0, this );
 
-                for ( int i = 0; i < numCharDown && charToDraw <= drawEnd; i++ ) {
-                  for ( int j = 0; j < numCharAcross && charToDraw <= drawEnd; j++, charToDraw++ ) {
-                      int gridLocX = j * gridWidth + canvasInset_X;
-                      int gridLocY = i * gridHeight + canvasInset_Y;
+                for ( int i = 0; i < numChbrDown && chbrToDrbw <= drbwEnd; i++ ) {
+                  for ( int j = 0; j < numChbrAcross && chbrToDrbw <= drbwEnd; j++, chbrToDrbw++ ) {
+                      int gridLocX = j * gridWidth + cbnvbsInset_X;
+                      int gridLocY = i * gridHeight + cbnvbsInset_Y;
 
-                      modeSpecificDrawChar( g2, charToDraw,
+                      modeSpecificDrbwChbr( g2, chbrToDrbw,
                                             gridLocX + gridWidth / 2,
-                                            gridLocY + maxAscent );
+                                            gridLocY + mbxAscent );
                       //if ( !isPrinting ) {
                       //    g.setClip( gridLocX, gridLocY, gridWidth + 1, gridHeight + 1 );
-                      //    g.drawImage( backBuffer, 0, 0, this );
+                      //    g.drbwImbge( bbckBuffer, 0, 0, this );
                             //}
 
                   }
                 }
             }
             else if ( textToUse == USER_TEXT ) {
-                g2.drawRect( 0, 0, w - 1, h - 1 );
+                g2.drbwRect( 0, 0, w - 1, h - 1 );
                 if ( !isPrinting )
-                  g.drawImage( backBuffer, 0, 0, this );
+                  g.drbwImbge( bbckBuffer, 0, 0, this );
 
-                for ( int i = drawStart; i <= drawEnd; i++ ) {
-                    int lineStartX = canvasInset_Y;
-                    int lineStartY = ( i - drawStart ) * gridHeight + maxAscent;
-                    modeSpecificDrawLine( g2, userText[i], lineStartX, lineStartY );
+                for ( int i = drbwStbrt; i <= drbwEnd; i++ ) {
+                    int lineStbrtX = cbnvbsInset_Y;
+                    int lineStbrtY = ( i - drbwStbrt ) * gridHeight + mbxAscent;
+                    modeSpecificDrbwLine( g2, userText[i], lineStbrtX, lineStbrtY );
                 }
             }
             else {
-                float xPos, yPos = (float) canvasInset_Y;
-                g2.drawRect( 0, 0, w - 1, h - 1 );
+                flobt xPos, yPos = (flobt) cbnvbsInset_Y;
+                g2.drbwRect( 0, 0, w - 1, h - 1 );
                 if ( !isPrinting )
-                  g.drawImage( backBuffer, 0, 0, this );
+                  g.drbwImbge( bbckBuffer, 0, 0, this );
 
-                for ( int i = drawStart; i <= drawEnd; i++ ) {
-                    TextLayout oneLine = (TextLayout) lineBreakTLs.elementAt( i );
+                for ( int i = drbwStbrt; i <= drbwEnd; i++ ) {
+                    TextLbyout oneLine = (TextLbyout) lineBrebkTLs.elementAt( i );
                     xPos =
                       oneLine.isLeftToRight() ?
-                      canvasInset_X : ( (float) w - oneLine.getAdvance() - canvasInset_X );
+                      cbnvbsInset_X : ( (flobt) w - oneLine.getAdvbnce() - cbnvbsInset_X );
 
-                    float fmData[] = {0, oneLine.getAscent(), 0, oneLine.getDescent(), 0, oneLine.getLeading()};
-                    if (g2Transform != NONE) {
-                        AffineTransform at = getAffineTransform(g2Transform);
-                        at.transform( fmData, 0, fmData, 0, 3);
+                    flobt fmDbtb[] = {0, oneLine.getAscent(), 0, oneLine.getDescent(), 0, oneLine.getLebding()};
+                    if (g2Trbnsform != NONE) {
+                        AffineTrbnsform bt = getAffineTrbnsform(g2Trbnsform);
+                        bt.trbnsform( fmDbtb, 0, fmDbtb, 0, 3);
                     }
                     //yPos += oneLine.getAscent();
-                    yPos += fmData[1]; // ascent
-                    //oneLine.draw( g2, xPos, yPos );
-                    tlDrawLine( g2, oneLine, xPos, yPos );
-                    //yPos += oneLine.getDescent() + oneLine.getLeading();
-                    yPos += fmData[3] + fmData[5]; // descent + leading
+                    yPos += fmDbtb[1]; // bscent
+                    //oneLine.drbw( g2, xPos, yPos );
+                    tlDrbwLine( g2, oneLine, xPos, yPos );
+                    //yPos += oneLine.getDescent() + oneLine.getLebding();
+                    yPos += fmDbtb[3] + fmDbtb[5]; // descent + lebding
                 }
             }
                 if ( !isPrinting )
-                g.drawImage( backBuffer, 0, 0, this );
+                g.drbwImbge( bbckBuffer, 0, 0, this );
             g2.dispose();
         }
 
-        /// Component paintComponent function...
-        /// Draws/Refreshes canvas according to flag(s) set by other functions
-        public void paintComponent( Graphics g ) {
-            if ( updateBackBuffer ) {
+        /// Component pbintComponent function...
+        /// Drbws/Refreshes cbnvbs bccording to flbg(s) set by other functions
+        public void pbintComponent( Grbphics g ) {
+            if ( updbteBbckBuffer ) {
                 Dimension d = this.getSize();
-                isPrinting = false;
+                isPrinting = fblse;
                 try {
-                    drawText( g, d.width, d.height );
+                    drbwText( g, d.width, d.height );
                 }
-                catch ( CannotDrawException e ) {
-                    f2dt.fireChangeStatus( ERRORS[ e.id ], true );
-                    super.paintComponent(g);
+                cbtch ( CbnnotDrbwException e ) {
+                    f2dt.fireChbngeStbtus( ERRORS[ e.id ], true );
+                    super.pbintComponent(g);
                     return;
                 }
             }
             else {
               /// Screen refresh
-              g.drawImage( backBuffer, 0, 0, this );
+              g.drbwImbge( bbckBuffer, 0, 0, this );
             }
 
-            showingError = false;
-            updateBackBuffer = false;
+            showingError = fblse;
+            updbteBbckBuffer = fblse;
         }
 
-        /// Printable interface function
+        /// Printbble interfbce function
         /// Component print function...
-        public int print( Graphics g, PageFormat pf, int pageIndex ) {
-            if ( pageIndex == 0 ) {
-                /// Reset the last page index to max...
-                lastPage = Integer.MAX_VALUE;
-                currentlyShownChar = verticalBar.getValue() * numCharAcross;
+        public int print( Grbphics g, PbgeFormbt pf, int pbgeIndex ) {
+            if ( pbgeIndex == 0 ) {
+                /// Reset the lbst pbge index to mbx...
+                lbstPbge = Integer.MAX_VALUE;
+                currentlyShownChbr = verticblBbr.getVblue() * numChbrAcross;
             }
 
             if ( printMode == ONE_PAGE ) {
-                if ( pageIndex > 0 )
+                if ( pbgeIndex > 0 )
                   return NO_SUCH_PAGE;
             }
             else {
-                if ( pageIndex > lastPage )
+                if ( pbgeIndex > lbstPbge )
                   return NO_SUCH_PAGE;
             }
 
-            int pageWidth = (int) pf.getImageableWidth();
-            int pageHeight = (int) pf.getImageableHeight();
-            /// Back up metrics and other drawing info before printing modifies it
-            int backupDrawStart = drawStart, backupDrawEnd = drawEnd;
-            int backupNumCharAcross = numCharAcross, backupNumCharDown = numCharDown;
-            Vector backupLineBreakTLs = null;
+            int pbgeWidth = (int) pf.getImbgebbleWidth();
+            int pbgeHeight = (int) pf.getImbgebbleHeight();
+            /// Bbck up metrics bnd other drbwing info before printing modifies it
+            int bbckupDrbwStbrt = drbwStbrt, bbckupDrbwEnd = drbwEnd;
+            int bbckupNumChbrAcross = numChbrAcross, bbckupNumChbrDown = numChbrDown;
+            Vector bbckupLineBrebkTLs = null;
             if ( textToUse == FILE_TEXT )
-              backupLineBreakTLs = (Vector) lineBreakTLs.clone();
+              bbckupLineBrebkTLs = (Vector) lineBrebkTLs.clone();
 
-            printPageNumber = pageIndex;
+            printPbgeNumber = pbgeIndex;
             isPrinting = true;
-            /// Push the actual draw area 60 down to allow info to be printed
-            g.translate( (int) pf.getImageableX(), (int) pf.getImageableY() + 60 );
+            /// Push the bctubl drbw breb 60 down to bllow info to be printed
+            g.trbnslbte( (int) pf.getImbgebbleX(), (int) pf.getImbgebbleY() + 60 );
             try {
-                drawText( g, pageWidth, pageHeight - 60 );
+                drbwText( g, pbgeWidth, pbgeHeight - 60 );
             }
-            catch ( CannotDrawException e ) {
-                f2dt.fireChangeStatus( ERRORS[ e.id ], true );
+            cbtch ( CbnnotDrbwException e ) {
+                f2dt.fireChbngeStbtus( ERRORS[ e.id ], true );
                 return NO_SUCH_PAGE;
             }
 
-            /// Draw information about what is being printed
-            String hints = ( " with antialias " + antiAliasType + "and" +
-                             " fractional metrics " + fractionalMetricsType +
-                             " and lcd contrast = " + lcdContrast);
+            /// Drbw informbtion bbout whbt is being printed
+            String hints = ( " with bntiblibs " + bntiAlibsType + "bnd" +
+                             " frbctionbl metrics " + frbctionblMetricsType +
+                             " bnd lcd contrbst = " + lcdContrbst);
             String infoLine1 = ( "Printing" + MS_OPENING[textToUse] +
-                                 modeSpecificNumStr( drawStart ) + " to " +
-                                 modeSpecificNumStr( drawEnd ) + MS_CLOSING[textToUse] );
-            String infoLine2 = ( "With " + fontName + " " + STYLES[fontStyle] + " at " +
-                                 fontSize + " point size " + TRANSFORMS[fontTransform] );
-            String infoLine3 = "Using " + METHODS[drawMethod] + hints;
-            String infoLine4 = "Page: " + ( pageIndex + 1 );
-            g.setFont( new Font( "dialog", Font.PLAIN, 12 ));
-            g.setColor( Color.black );
-            g.translate( 0, -60 );
-            g.drawString( infoLine1, 15, 10 );
-            g.drawString( infoLine2, 15, 22 );
-            g.drawString( infoLine3, 15, 34 );
-            g.drawString( infoLine4, 15, 46 );
+                                 modeSpecificNumStr( drbwStbrt ) + " to " +
+                                 modeSpecificNumStr( drbwEnd ) + MS_CLOSING[textToUse] );
+            String infoLine2 = ( "With " + fontNbme + " " + STYLES[fontStyle] + " bt " +
+                                 fontSize + " point size " + TRANSFORMS[fontTrbnsform] );
+            String infoLine3 = "Using " + METHODS[drbwMethod] + hints;
+            String infoLine4 = "Pbge: " + ( pbgeIndex + 1 );
+            g.setFont( new Font( "diblog", Font.PLAIN, 12 ));
+            g.setColor( Color.blbck );
+            g.trbnslbte( 0, -60 );
+            g.drbwString( infoLine1, 15, 10 );
+            g.drbwString( infoLine2, 15, 22 );
+            g.drbwString( infoLine3, 15, 34 );
+            g.drbwString( infoLine4, 15, 46 );
 
-            if ( drawEnd == drawLimit )
-              /// This indicates that the draw will be completed with this page
-              lastPage = pageIndex;
+            if ( drbwEnd == drbwLimit )
+              /// This indicbtes thbt the drbw will be completed with this pbge
+              lbstPbge = pbgeIndex;
 
-            /// Restore the changed values back...
-            /// This is important for JScrollBar settings and LineBreak'ed TLs
-            drawStart = backupDrawStart;
-            drawEnd = backupDrawEnd;
-            numCharAcross = backupNumCharAcross;
-            numCharDown = backupNumCharDown;
+            /// Restore the chbnged vblues bbck...
+            /// This is importbnt for JScrollBbr settings bnd LineBrebk'ed TLs
+            drbwStbrt = bbckupDrbwStbrt;
+            drbwEnd = bbckupDrbwEnd;
+            numChbrAcross = bbckupNumChbrAcross;
+            numChbrDown = bbckupNumChbrDown;
             if ( textToUse == FILE_TEXT )
-              lineBreakTLs = backupLineBreakTLs;
+              lineBrebkTLs = bbckupLineBrebkTLs;
             return PAGE_EXISTS;
         }
 
-        /// Ouputs the current canvas into a given PNG file
-        public void writePNG( String fileName ) {
+        /// Ouputs the current cbnvbs into b given PNG file
+        public void writePNG( String fileNbme ) {
             try {
-                ImageIO.write(backBuffer, "png", new java.io.File(fileName));
+                ImbgeIO.write(bbckBuffer, "png", new jbvb.io.File(fileNbme));
             }
-            catch ( Exception e ) {
-                f2dt.fireChangeStatus( "ERROR: Failed to Save PNG image; See stack trace", true );
-                e.printStackTrace();
+            cbtch ( Exception e ) {
+                f2dt.fireChbngeStbtus( "ERROR: Fbiled to Sbve PNG imbge; See stbck trbce", true );
+                e.printStbckTrbce();
             }
         }
 
-        /// Figures out whether a character at the pointer location is valid
-        /// And if so, updates mouse location informations, as well as
-        /// the information on the status bar
-        private boolean checkMouseLoc( MouseEvent e ) {
+        /// Figures out whether b chbrbcter bt the pointer locbtion is vblid
+        /// And if so, updbtes mouse locbtion informbtions, bs well bs
+        /// the informbtion on the stbtus bbr
+        privbte boolebn checkMouseLoc( MouseEvent e ) {
             if ( gridWidth != 0 && gridHeight != 0 )
               if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
-                  int charLocX = ( e.getX() - canvasInset_X ) / gridWidth;
-                  int charLocY = ( e.getY() - canvasInset_Y ) / gridHeight;
+                  int chbrLocX = ( e.getX() - cbnvbsInset_X ) / gridWidth;
+                  int chbrLocY = ( e.getY() - cbnvbsInset_Y ) / gridHeight;
 
-                  /// Check to make sure the mouse click location is within drawn area
-                  if ( charLocX >= 0 && charLocY >= 0 &&
-                       charLocX < numCharAcross && charLocY < numCharDown ) {
-                      int mouseOverChar =
-                        charLocX + ( verticalBar.getValue() + charLocY ) * numCharAcross;
+                  /// Check to mbke sure the mouse click locbtion is within drbwn breb
+                  if ( chbrLocX >= 0 && chbrLocY >= 0 &&
+                       chbrLocX < numChbrAcross && chbrLocY < numChbrDown ) {
+                      int mouseOverChbr =
+                        chbrLocX + ( verticblBbr.getVblue() + chbrLocY ) * numChbrAcross;
                       if ( textToUse == RANGE_TEXT )
-                        mouseOverChar += drawRange[0];
-                      if ( mouseOverChar > drawEnd )
-                        return false;
+                        mouseOverChbr += drbwRbnge[0];
+                      if ( mouseOverChbr > drbwEnd )
+                        return fblse;
 
-                      mouseOverCharX = charLocX;
-                      mouseOverCharY = charLocY;
-                      currMouseOverChar = mouseOverChar;
-                      /// Update status bar
-                      f2dt.fireChangeStatus( "Pointing to" + MS_OPENING[textToUse] +
-                                             modeSpecificNumStr( mouseOverChar ), false );
+                      mouseOverChbrX = chbrLocX;
+                      mouseOverChbrY = chbrLocY;
+                      currMouseOverChbr = mouseOverChbr;
+                      /// Updbte stbtus bbr
+                      f2dt.fireChbngeStbtus( "Pointing to" + MS_OPENING[textToUse] +
+                                             modeSpecificNumStr( mouseOverChbr ), fblse );
                       return true;
                   }
               }
-            return false;
+            return fblse;
         }
 
-        /// Shows (updates) the character zoom window
+        /// Shows (updbtes) the chbrbcter zoom window
         public void showZoomed() {
             GlyphVector gv;
-            Font backup = testFont;
-            Point canvasLoc = this.getLocationOnScreen();
+            Font bbckup = testFont;
+            Point cbnvbsLoc = this.getLocbtionOnScreen();
 
-            /// Calculate the zoom area's location and size...
-            int dialogOffsetX = (int) ( gridWidth * ( ZOOM - 1 ) / 2 );
-            int dialogOffsetY = (int) ( gridHeight * ( ZOOM - 1 ) / 2 );
-            int zoomAreaX =
-              mouseOverCharX * gridWidth + canvasInset_X - dialogOffsetX;
-            int zoomAreaY =
-              mouseOverCharY * gridHeight + canvasInset_Y - dialogOffsetY;
-            int zoomAreaWidth = (int) ( gridWidth * ZOOM );
-            int zoomAreaHeight = (int) ( gridHeight * ZOOM );
+            /// Cblculbte the zoom breb's locbtion bnd size...
+            int diblogOffsetX = (int) ( gridWidth * ( ZOOM - 1 ) / 2 );
+            int diblogOffsetY = (int) ( gridHeight * ( ZOOM - 1 ) / 2 );
+            int zoomArebX =
+              mouseOverChbrX * gridWidth + cbnvbsInset_X - diblogOffsetX;
+            int zoomArebY =
+              mouseOverChbrY * gridHeight + cbnvbsInset_Y - diblogOffsetY;
+            int zoomArebWidth = (int) ( gridWidth * ZOOM );
+            int zoomArebHeight = (int) ( gridHeight * ZOOM );
 
-            /// Position and set size of zoom window as needed
-            zoomWindow.setLocation( canvasLoc.x + zoomAreaX, canvasLoc.y + zoomAreaY );
+            /// Position bnd set size of zoom window bs needed
+            zoomWindow.setLocbtion( cbnvbsLoc.x + zoomArebX, cbnvbsLoc.y + zoomArebY );
             if ( !nowZooming ) {
-                if ( zoomWindow.getWarningString() != null )
-                  /// If this is not opened as a "secure" window,
-                  /// it has a banner below the zoom dialog which makes it look really BAD
-                  /// So enlarge it by a bit
-                  zoomWindow.setSize( zoomAreaWidth + 1, zoomAreaHeight + 20 );
+                if ( zoomWindow.getWbrningString() != null )
+                  /// If this is not opened bs b "secure" window,
+                  /// it hbs b bbnner below the zoom diblog which mbkes it look reblly BAD
+                  /// So enlbrge it by b bit
+                  zoomWindow.setSize( zoomArebWidth + 1, zoomArebHeight + 20 );
                 else
-                  zoomWindow.setSize( zoomAreaWidth + 1, zoomAreaHeight + 1 );
+                  zoomWindow.setSize( zoomArebWidth + 1, zoomArebHeight + 1 );
             }
 
-            /// Prepare zoomed image
-            zoomImage =
-              (BufferedImage) zoomWindow.createImage( zoomAreaWidth + 1,
-                                                      zoomAreaHeight + 1 );
-            Graphics2D g2 = (Graphics2D) zoomImage.getGraphics();
+            /// Prepbre zoomed imbge
+            zoomImbge =
+              (BufferedImbge) zoomWindow.crebteImbge( zoomArebWidth + 1,
+                                                      zoomArebHeight + 1 );
+            Grbphics2D g2 = (Grbphics2D) zoomImbge.getGrbphics();
             testFont = testFont.deriveFont( fontSize * ZOOM );
-            setParams( g2 );
+            setPbrbms( g2 );
             g2.setColor( Color.white );
-            g2.fillRect( 0, 0, zoomAreaWidth, zoomAreaHeight );
-            g2.setColor( Color.black );
-            g2.drawRect( 0, 0, zoomAreaWidth, zoomAreaHeight );
-            modeSpecificDrawChar( g2, currMouseOverChar,
-                                  zoomAreaWidth / 2, (int) ( maxAscent * ZOOM ));
+            g2.fillRect( 0, 0, zoomArebWidth, zoomArebHeight );
+            g2.setColor( Color.blbck );
+            g2.drbwRect( 0, 0, zoomArebWidth, zoomArebHeight );
+            modeSpecificDrbwChbr( g2, currMouseOverChbr,
+                                  zoomArebWidth / 2, (int) ( mbxAscent * ZOOM ));
             g2.dispose();
             if ( !nowZooming )
               zoomWindow.show();
-            /// This is sort of redundant... since there is a paint function
-            /// inside zoomWindow definition that does the drawImage.
-            /// (I should be able to call just repaint() here)
-            /// However, for some reason, that paint function fails to respond
-            /// from second time and on; So I have to force the paint here...
-            zoomWindow.getGraphics().drawImage( zoomImage, 0, 0, this );
+            /// This is sort of redundbnt... since there is b pbint function
+            /// inside zoomWindow definition thbt does the drbwImbge.
+            /// (I should be bble to cbll just repbint() here)
+            /// However, for some rebson, thbt pbint function fbils to respond
+            /// from second time bnd on; So I hbve to force the pbint here...
+            zoomWindow.getGrbphics().drbwImbge( zoomImbge, 0, 0, this );
 
             nowZooming = true;
-            prevZoomChar = currMouseOverChar;
-            testFont = backup;
+            prevZoomChbr = currMouseOverChbr;
+            testFont = bbckup;
 
-            // Windows does not repaint correctly, after
-            // a zoom. Thus, we need to force the canvas
-            // to repaint, but only once. After the first repaint,
-            // everything stabilizes. [ABP]
+            // Windows does not repbint correctly, bfter
+            // b zoom. Thus, we need to force the cbnvbs
+            // to repbint, but only once. After the first repbint,
+            // everything stbbilizes. [ABP]
             if ( firstTime() ) {
                 refresh();
             }
@@ -1192,112 +1192,112 @@ public final class FontPanel extends JPanel implements AdjustmentListener {
 
         /// Listener Functions
 
-        /// MouseListener interface function
-        /// Zooms a character when mouse is pressed above it
+        /// MouseListener interfbce function
+        /// Zooms b chbrbcter when mouse is pressed bbove it
         public void mousePressed( MouseEvent e ) {
             if ( !showingError) {
                 if ( checkMouseLoc( e )) {
                     showZoomed();
-                    this.setCursor( blankCursor );
+                    this.setCursor( blbnkCursor );
                 }
             }
         }
 
-        /// MouseListener interface function
-        /// Redraws the area that was drawn over by zoomed character
-        public void mouseReleased( MouseEvent e ) {
+        /// MouseListener interfbce function
+        /// Redrbws the breb thbt wbs drbwn over by zoomed chbrbcter
+        public void mouseRelebsed( MouseEvent e ) {
             if ( textToUse == RANGE_TEXT || textToUse == ALL_GLYPHS ) {
                 if ( nowZooming )
                   zoomWindow.hide();
-                nowZooming = false;
+                nowZooming = fblse;
             }
-            this.setCursor( Cursor.getDefaultCursor() );
+            this.setCursor( Cursor.getDefbultCursor() );
         }
 
-        /// MouseListener interface function
-        /// Resets the status bar to display range instead of a specific character
+        /// MouseListener interfbce function
+        /// Resets the stbtus bbr to displby rbnge instebd of b specific chbrbcter
         public void mouseExited( MouseEvent e ) {
             if ( !showingError && !nowZooming )
-              f2dt.fireChangeStatus( backupStatusString, false );
+              f2dt.fireChbngeStbtus( bbckupStbtusString, fblse );
         }
 
-        /// MouseMotionListener interface function
-        /// Adjusts the status bar message when mouse moves over a character
+        /// MouseMotionListener interfbce function
+        /// Adjusts the stbtus bbr messbge when mouse moves over b chbrbcter
         public void mouseMoved( MouseEvent e ) {
             if ( !showingError ) {
                 if ( !checkMouseLoc( e ))
-                  f2dt.fireChangeStatus( backupStatusString, false );
+                  f2dt.fireChbngeStbtus( bbckupStbtusString, fblse );
             }
         }
 
-        /// MouseMotionListener interface function
-        /// Scrolls the zoomed character when mouse is dragged
-        public void mouseDragged( MouseEvent e ) {
+        /// MouseMotionListener interfbce function
+        /// Scrolls the zoomed chbrbcter when mouse is drbgged
+        public void mouseDrbgged( MouseEvent e ) {
             if ( !showingError )
               if ( nowZooming ) {
-                  if ( checkMouseLoc( e ) && currMouseOverChar != prevZoomChar )
+                  if ( checkMouseLoc( e ) && currMouseOverChbr != prevZoomChbr )
                     showZoomed();
               }
         }
 
-        /// Empty function to comply with interface requirement
+        /// Empty function to comply with interfbce requirement
         public void mouseClicked( MouseEvent e ) {}
         public void mouseEntered( MouseEvent e ) {}
     }
 
-    private final class CannotDrawException extends RuntimeException {
+    privbte finbl clbss CbnnotDrbwException extends RuntimeException {
         /// Error ID
-        public final int id;
+        public finbl int id;
 
-        public CannotDrawException( int i ) {
+        public CbnnotDrbwException( int i ) {
             id = i;
         }
     }
 
-    enum FMValues {
+    enum FMVblues {
        FMDEFAULT ("DEFAULT",  VALUE_FRACTIONALMETRICS_DEFAULT),
        FMOFF     ("OFF",      VALUE_FRACTIONALMETRICS_OFF),
        FMON      ("ON",       VALUE_FRACTIONALMETRICS_ON);
 
-        private String name;
-        private Object hint;
+        privbte String nbme;
+        privbte Object hint;
 
-        private static FMValues[] valArray;
+        privbte stbtic FMVblues[] vblArrby;
 
-        FMValues(String s, Object o) {
-            name = s;
+        FMVblues(String s, Object o) {
+            nbme = s;
             hint = o;
         }
 
         public String toString() {
-            return name;
+            return nbme;
         }
 
        public Object getHint() {
            return hint;
        }
-       public static Object getValue(int ordinal) {
-           if (valArray == null) {
-               valArray = (FMValues[])EnumSet.allOf(FMValues.class).toArray(new FMValues[0]);
+       public stbtic Object getVblue(int ordinbl) {
+           if (vblArrby == null) {
+               vblArrby = (FMVblues[])EnumSet.bllOf(FMVblues.clbss).toArrby(new FMVblues[0]);
            }
-           for (int i=0;i<valArray.length;i++) {
-               if (valArray[i].ordinal() == ordinal) {
-                   return valArray[i];
+           for (int i=0;i<vblArrby.length;i++) {
+               if (vblArrby[i].ordinbl() == ordinbl) {
+                   return vblArrby[i];
                }
            }
-           return valArray[0];
+           return vblArrby[0];
        }
-       private static FMValues[] getArray() {
-           if (valArray == null) {
-               valArray = (FMValues[])EnumSet.allOf(FMValues.class).toArray(new FMValues[0]);
+       privbte stbtic FMVblues[] getArrby() {
+           if (vblArrby == null) {
+               vblArrby = (FMVblues[])EnumSet.bllOf(FMVblues.clbss).toArrby(new FMVblues[0]);
            }
-           return valArray;
+           return vblArrby;
        }
 
-       public static int getHintVal(Object hint) {
-           getArray();
-           for (int i=0;i<valArray.length;i++) {
-               if (valArray[i].getHint() == hint) {
+       public stbtic int getHintVbl(Object hint) {
+           getArrby();
+           for (int i=0;i<vblArrby.length;i++) {
+               if (vblArrby[i].getHint() == hint) {
                    return i;
                }
            }
@@ -1305,7 +1305,7 @@ public final class FontPanel extends JPanel implements AdjustmentListener {
        }
     }
 
-   enum AAValues {
+   enum AAVblues {
        AADEFAULT ("DEFAULT",  VALUE_TEXT_ANTIALIAS_DEFAULT),
        AAOFF     ("OFF",      VALUE_TEXT_ANTIALIAS_OFF),
        AAON      ("ON",       VALUE_TEXT_ANTIALIAS_ON),
@@ -1315,53 +1315,53 @@ public final class FontPanel extends JPanel implements AdjustmentListener {
        AALCDVRGB ("LCD_VRGB", VALUE_TEXT_ANTIALIAS_LCD_VRGB),
        AALCDVBGR ("LCD_VBGR", VALUE_TEXT_ANTIALIAS_LCD_VBGR);
 
-        private String name;
-        private Object hint;
+        privbte String nbme;
+        privbte Object hint;
 
-        private static AAValues[] valArray;
+        privbte stbtic AAVblues[] vblArrby;
 
-        AAValues(String s, Object o) {
-            name = s;
+        AAVblues(String s, Object o) {
+            nbme = s;
             hint = o;
         }
 
         public String toString() {
-            return name;
+            return nbme;
         }
 
        public Object getHint() {
            return hint;
        }
 
-       public static boolean isLCDMode(Object o) {
-           return (o instanceof AAValues &&
-                   ((AAValues)o).ordinal() >= AALCDHRGB.ordinal());
+       public stbtic boolebn isLCDMode(Object o) {
+           return (o instbnceof AAVblues &&
+                   ((AAVblues)o).ordinbl() >= AALCDHRGB.ordinbl());
        }
 
-       public static Object getValue(int ordinal) {
-           if (valArray == null) {
-               valArray = (AAValues[])EnumSet.allOf(AAValues.class).toArray(new AAValues[0]);
+       public stbtic Object getVblue(int ordinbl) {
+           if (vblArrby == null) {
+               vblArrby = (AAVblues[])EnumSet.bllOf(AAVblues.clbss).toArrby(new AAVblues[0]);
            }
-           for (int i=0;i<valArray.length;i++) {
-               if (valArray[i].ordinal() == ordinal) {
-                   return valArray[i];
+           for (int i=0;i<vblArrby.length;i++) {
+               if (vblArrby[i].ordinbl() == ordinbl) {
+                   return vblArrby[i];
                }
            }
-           return valArray[0];
+           return vblArrby[0];
        }
 
-       private static AAValues[] getArray() {
-           if (valArray == null) {
-               Object [] oa = EnumSet.allOf(AAValues.class).toArray(new AAValues[0]);
-               valArray = (AAValues[])(EnumSet.allOf(AAValues.class).toArray(new AAValues[0]));
+       privbte stbtic AAVblues[] getArrby() {
+           if (vblArrby == null) {
+               Object [] ob = EnumSet.bllOf(AAVblues.clbss).toArrby(new AAVblues[0]);
+               vblArrby = (AAVblues[])(EnumSet.bllOf(AAVblues.clbss).toArrby(new AAVblues[0]));
            }
-           return valArray;
+           return vblArrby;
        }
 
-       public static int getHintVal(Object hint) {
-           getArray();
-           for (int i=0;i<valArray.length;i++) {
-               if (valArray[i].getHint() == hint) {
+       public stbtic int getHintVbl(Object hint) {
+           getArrby();
+           for (int i=0;i<vblArrby.length;i++) {
+               if (vblArrby[i].getHint() == hint) {
                    return i;
                }
            }
@@ -1370,17 +1370,17 @@ public final class FontPanel extends JPanel implements AdjustmentListener {
 
     }
 
-    private static Integer defaultContrast;
-    static Integer getDefaultLCDContrast() {
-        if (defaultContrast == null) {
-            GraphicsConfiguration gc =
-            GraphicsEnvironment.getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().getDefaultConfiguration();
-        Graphics2D g2d =
-            (Graphics2D)(gc.createCompatibleImage(1,1).getGraphics());
-        defaultContrast = (Integer)
+    privbte stbtic Integer defbultContrbst;
+    stbtic Integer getDefbultLCDContrbst() {
+        if (defbultContrbst == null) {
+            GrbphicsConfigurbtion gc =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+                getDefbultScreenDevice().getDefbultConfigurbtion();
+        Grbphics2D g2d =
+            (Grbphics2D)(gc.crebteCompbtibleImbge(1,1).getGrbphics());
+        defbultContrbst = (Integer)
             g2d.getRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST);
         }
-        return defaultContrast;
+        return defbultContrbst;
     }
 }

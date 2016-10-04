@@ -1,503 +1,503 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferUnderflowException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import sun.misc.JavaLangAccess;
-import sun.reflect.ConstantPool;
-import static sun.reflect.annotation.TypeAnnotation.*;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.HbshMbp;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import sun.misc.JbvbLbngAccess;
+import sun.reflect.ConstbntPool;
+import stbtic sun.reflect.bnnotbtion.TypeAnnotbtion.*;
 
 /**
- * TypeAnnotationParser implements the logic needed to parse
- * TypeAnnotations from an array of bytes.
+ * TypeAnnotbtionPbrser implements the logic needed to pbrse
+ * TypeAnnotbtions from bn brrby of bytes.
  */
-public final class TypeAnnotationParser {
-    private static final TypeAnnotation[] EMPTY_TYPE_ANNOTATION_ARRAY = new TypeAnnotation[0];
+public finbl clbss TypeAnnotbtionPbrser {
+    privbte stbtic finbl TypeAnnotbtion[] EMPTY_TYPE_ANNOTATION_ARRAY = new TypeAnnotbtion[0];
 
     /**
-     * Build an AnnotatedType from the parameters supplied.
+     * Build bn AnnotbtedType from the pbrbmeters supplied.
      *
-     * This method and {@code buildAnnotatedTypes} are probably
-     * the entry points you are looking for.
+     * This method bnd {@code buildAnnotbtedTypes} bre probbbly
+     * the entry points you bre looking for.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the declaration this type annotation is on
-     * @param container the Class this type annotation is on (may be the same as decl)
-     * @param type the type the AnnotatedType corresponds to
-     * @param filter the type annotation targets included in this AnnotatedType
+     * @pbrbm rbwAnnotbtions the byte[] encoding of bll type bnnotbtions on this declbrbtion
+     * @pbrbm cp the ConstbntPool needed to pbrse the embedded Annotbtion
+     * @pbrbm decl the declbrbtion this type bnnotbtion is on
+     * @pbrbm contbiner the Clbss this type bnnotbtion is on (mby be the sbme bs decl)
+     * @pbrbm type the type the AnnotbtedType corresponds to
+     * @pbrbm filter the type bnnotbtion tbrgets included in this AnnotbtedType
      */
-    public static AnnotatedType buildAnnotatedType(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement decl,
-            Class<?> container,
+    public stbtic AnnotbtedType buildAnnotbtedType(byte[] rbwAnnotbtions,
+            ConstbntPool cp,
+            AnnotbtedElement decl,
+            Clbss<?> contbiner,
             Type type,
-            TypeAnnotationTarget filter) {
-        TypeAnnotation[] tas = parseTypeAnnotations(rawAnnotations,
+            TypeAnnotbtionTbrget filter) {
+        TypeAnnotbtion[] tbs = pbrseTypeAnnotbtions(rbwAnnotbtions,
                                                     cp,
                                                     decl,
-                                                    container);
-        List<TypeAnnotation> l = new ArrayList<>(tas.length);
-        for (TypeAnnotation t : tas) {
-            TypeAnnotationTargetInfo ti = t.getTargetInfo();
-            if (ti.getTarget() == filter)
-                l.add(t);
+                                                    contbiner);
+        List<TypeAnnotbtion> l = new ArrbyList<>(tbs.length);
+        for (TypeAnnotbtion t : tbs) {
+            TypeAnnotbtionTbrgetInfo ti = t.getTbrgetInfo();
+            if (ti.getTbrget() == filter)
+                l.bdd(t);
         }
-        TypeAnnotation[] typeAnnotations = l.toArray(EMPTY_TYPE_ANNOTATION_ARRAY);
-        return AnnotatedTypeFactory.buildAnnotatedType(type,
-                                                       LocationInfo.BASE_LOCATION,
-                                                       typeAnnotations,
-                                                       typeAnnotations,
+        TypeAnnotbtion[] typeAnnotbtions = l.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY);
+        return AnnotbtedTypeFbctory.buildAnnotbtedType(type,
+                                                       LocbtionInfo.BASE_LOCATION,
+                                                       typeAnnotbtions,
+                                                       typeAnnotbtions,
                                                        decl);
     }
 
     /**
-     * Build an array of AnnotatedTypes from the parameters supplied.
+     * Build bn brrby of AnnotbtedTypes from the pbrbmeters supplied.
      *
-     * This method and {@code buildAnnotatedType} are probably
-     * the entry points you are looking for.
+     * This method bnd {@code buildAnnotbtedType} bre probbbly
+     * the entry points you bre looking for.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the declaration this type annotation is on
-     * @param container the Class this type annotation is on (may be the same as decl)
-     * @param types the Types the AnnotatedTypes corresponds to
-     * @param filter the type annotation targets that included in this AnnotatedType
+     * @pbrbm rbwAnnotbtions the byte[] encoding of bll type bnnotbtions on this declbrbtion
+     * @pbrbm cp the ConstbntPool needed to pbrse the embedded Annotbtion
+     * @pbrbm decl the declbrbtion this type bnnotbtion is on
+     * @pbrbm contbiner the Clbss this type bnnotbtion is on (mby be the sbme bs decl)
+     * @pbrbm types the Types the AnnotbtedTypes corresponds to
+     * @pbrbm filter the type bnnotbtion tbrgets thbt included in this AnnotbtedType
      */
-    public static AnnotatedType[] buildAnnotatedTypes(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement decl,
-            Class<?> container,
+    public stbtic AnnotbtedType[] buildAnnotbtedTypes(byte[] rbwAnnotbtions,
+            ConstbntPool cp,
+            AnnotbtedElement decl,
+            Clbss<?> contbiner,
             Type[] types,
-            TypeAnnotationTarget filter) {
+            TypeAnnotbtionTbrget filter) {
         int size = types.length;
-        AnnotatedType[] result = new AnnotatedType[size];
-        Arrays.fill(result, AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE);
-        @SuppressWarnings("rawtypes")
-        ArrayList[] l = new ArrayList[size]; // array of ArrayList<TypeAnnotation>
+        AnnotbtedType[] result = new AnnotbtedType[size];
+        Arrbys.fill(result, AnnotbtedTypeFbctory.EMPTY_ANNOTATED_TYPE);
+        @SuppressWbrnings("rbwtypes")
+        ArrbyList[] l = new ArrbyList[size]; // brrby of ArrbyList<TypeAnnotbtion>
 
-        TypeAnnotation[] tas = parseTypeAnnotations(rawAnnotations,
+        TypeAnnotbtion[] tbs = pbrseTypeAnnotbtions(rbwAnnotbtions,
                                                     cp,
                                                     decl,
-                                                    container);
-        for (TypeAnnotation t : tas) {
-            TypeAnnotationTargetInfo ti = t.getTargetInfo();
-            if (ti.getTarget() == filter) {
+                                                    contbiner);
+        for (TypeAnnotbtion t : tbs) {
+            TypeAnnotbtionTbrgetInfo ti = t.getTbrgetInfo();
+            if (ti.getTbrget() == filter) {
                 int pos = ti.getCount();
                 if (l[pos] == null) {
-                    ArrayList<TypeAnnotation> tmp = new ArrayList<>(tas.length);
+                    ArrbyList<TypeAnnotbtion> tmp = new ArrbyList<>(tbs.length);
                     l[pos] = tmp;
                 }
-                @SuppressWarnings("unchecked")
-                ArrayList<TypeAnnotation> tmp = l[pos];
-                tmp.add(t);
+                @SuppressWbrnings("unchecked")
+                ArrbyList<TypeAnnotbtion> tmp = l[pos];
+                tmp.bdd(t);
             }
         }
         for (int i = 0; i < size; i++) {
-            @SuppressWarnings("unchecked")
-            ArrayList<TypeAnnotation> list = l[i];
-            TypeAnnotation[] typeAnnotations;
+            @SuppressWbrnings("unchecked")
+            ArrbyList<TypeAnnotbtion> list = l[i];
+            TypeAnnotbtion[] typeAnnotbtions;
             if (list != null) {
-                typeAnnotations = list.toArray(new TypeAnnotation[list.size()]);
+                typeAnnotbtions = list.toArrby(new TypeAnnotbtion[list.size()]);
             } else {
-                typeAnnotations = EMPTY_TYPE_ANNOTATION_ARRAY;
+                typeAnnotbtions = EMPTY_TYPE_ANNOTATION_ARRAY;
             }
-            result[i] = AnnotatedTypeFactory.buildAnnotatedType(types[i],
-                                                                LocationInfo.BASE_LOCATION,
-                                                                typeAnnotations,
-                                                                typeAnnotations,
+            result[i] = AnnotbtedTypeFbctory.buildAnnotbtedType(types[i],
+                                                                LocbtionInfo.BASE_LOCATION,
+                                                                typeAnnotbtions,
+                                                                typeAnnotbtions,
                                                                 decl);
 
         }
         return result;
     }
 
-    // Class helpers
+    // Clbss helpers
 
     /**
-     * Build an AnnotatedType for the class decl's supertype.
+     * Build bn AnnotbtedType for the clbss decl's supertype.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the Class which annotated supertype is being built
+     * @pbrbm rbwAnnotbtions the byte[] encoding of bll type bnnotbtions on this declbrbtion
+     * @pbrbm cp the ConstbntPool needed to pbrse the embedded Annotbtion
+     * @pbrbm decl the Clbss which bnnotbted supertype is being built
      */
-    public static AnnotatedType buildAnnotatedSuperclass(byte[] rawAnnotations,
-            ConstantPool cp,
-            Class<?> decl) {
-        Type supertype = decl.getGenericSuperclass();
+    public stbtic AnnotbtedType buildAnnotbtedSuperclbss(byte[] rbwAnnotbtions,
+            ConstbntPool cp,
+            Clbss<?> decl) {
+        Type supertype = decl.getGenericSuperclbss();
         if (supertype == null)
-            return AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE;
-        return buildAnnotatedType(rawAnnotations,
+            return AnnotbtedTypeFbctory.EMPTY_ANNOTATED_TYPE;
+        return buildAnnotbtedType(rbwAnnotbtions,
                                   cp,
                                   decl,
                                   decl,
                                   supertype,
-                                  TypeAnnotationTarget.CLASS_EXTENDS);
+                                  TypeAnnotbtionTbrget.CLASS_EXTENDS);
     }
 
     /**
-     * Build an array of AnnotatedTypes for the class decl's implemented
-     * interfaces.
+     * Build bn brrby of AnnotbtedTypes for the clbss decl's implemented
+     * interfbces.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the Class whose annotated implemented interfaces is being built
+     * @pbrbm rbwAnnotbtions the byte[] encoding of bll type bnnotbtions on this declbrbtion
+     * @pbrbm cp the ConstbntPool needed to pbrse the embedded Annotbtion
+     * @pbrbm decl the Clbss whose bnnotbted implemented interfbces is being built
      */
-    public static AnnotatedType[] buildAnnotatedInterfaces(byte[] rawAnnotations,
-            ConstantPool cp,
-            Class<?> decl) {
-        if (decl == Object.class ||
-                decl.isArray() ||
+    public stbtic AnnotbtedType[] buildAnnotbtedInterfbces(byte[] rbwAnnotbtions,
+            ConstbntPool cp,
+            Clbss<?> decl) {
+        if (decl == Object.clbss ||
+                decl.isArrby() ||
                 decl.isPrimitive() ||
                 decl == Void.TYPE)
-            return AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE_ARRAY;
-        return buildAnnotatedTypes(rawAnnotations,
+            return AnnotbtedTypeFbctory.EMPTY_ANNOTATED_TYPE_ARRAY;
+        return buildAnnotbtedTypes(rbwAnnotbtions,
                                    cp,
                                    decl,
                                    decl,
-                                   decl.getGenericInterfaces(),
-                                   TypeAnnotationTarget.CLASS_IMPLEMENTS);
+                                   decl.getGenericInterfbces(),
+                                   TypeAnnotbtionTbrget.CLASS_IMPLEMENTS);
     }
 
-    // TypeVariable helpers
+    // TypeVbribble helpers
 
     /**
-     * Parse regular annotations on a TypeVariable declared on genericDecl.
+     * Pbrse regulbr bnnotbtions on b TypeVbribble declbred on genericDecl.
      *
-     * Regular Annotations on TypeVariables are stored in the type
-     * annotation byte[] in the class file.
+     * Regulbr Annotbtions on TypeVbribbles bre stored in the type
+     * bnnotbtion byte[] in the clbss file.
      *
-     * @param genericsDecl the declaration declaring the type variable
-     * @param typeVarIndex the 0-based index of this type variable in the declaration
+     * @pbrbm genericsDecl the declbrbtion declbring the type vbribble
+     * @pbrbm typeVbrIndex the 0-bbsed index of this type vbribble in the declbrbtion
      */
-    public static <D extends GenericDeclaration> Annotation[] parseTypeVariableAnnotations(D genericDecl,
-            int typeVarIndex) {
-        AnnotatedElement decl;
-        TypeAnnotationTarget predicate;
-        if (genericDecl instanceof Class) {
-            decl = (Class<?>)genericDecl;
-            predicate = TypeAnnotationTarget.CLASS_TYPE_PARAMETER;
-        } else if (genericDecl instanceof Executable) {
-            decl = (Executable)genericDecl;
-            predicate = TypeAnnotationTarget.METHOD_TYPE_PARAMETER;
+    public stbtic <D extends GenericDeclbrbtion> Annotbtion[] pbrseTypeVbribbleAnnotbtions(D genericDecl,
+            int typeVbrIndex) {
+        AnnotbtedElement decl;
+        TypeAnnotbtionTbrget predicbte;
+        if (genericDecl instbnceof Clbss) {
+            decl = (Clbss<?>)genericDecl;
+            predicbte = TypeAnnotbtionTbrget.CLASS_TYPE_PARAMETER;
+        } else if (genericDecl instbnceof Executbble) {
+            decl = (Executbble)genericDecl;
+            predicbte = TypeAnnotbtionTbrget.METHOD_TYPE_PARAMETER;
         } else {
-            throw new AssertionError("Unknown GenericDeclaration " + genericDecl + "\nthis should not happen.");
+            throw new AssertionError("Unknown GenericDeclbrbtion " + genericDecl + "\nthis should not hbppen.");
         }
-        List<TypeAnnotation> typeVarAnnos = TypeAnnotation.filter(parseAllTypeAnnotations(decl),
-                                                                  predicate);
-        List<Annotation> res = new ArrayList<>(typeVarAnnos.size());
-        for (TypeAnnotation t : typeVarAnnos)
-            if (t.getTargetInfo().getCount() == typeVarIndex)
-                res.add(t.getAnnotation());
-        return res.toArray(new Annotation[0]);
+        List<TypeAnnotbtion> typeVbrAnnos = TypeAnnotbtion.filter(pbrseAllTypeAnnotbtions(decl),
+                                                                  predicbte);
+        List<Annotbtion> res = new ArrbyList<>(typeVbrAnnos.size());
+        for (TypeAnnotbtion t : typeVbrAnnos)
+            if (t.getTbrgetInfo().getCount() == typeVbrIndex)
+                res.bdd(t.getAnnotbtion());
+        return res.toArrby(new Annotbtion[0]);
     }
 
     /**
-     * Build an array of AnnotatedTypes for the declaration decl's bounds.
+     * Build bn brrby of AnnotbtedTypes for the declbrbtion decl's bounds.
      *
-     * @param bounds the bounds corresponding to the annotated bounds
-     * @param decl the declaration whose annotated bounds is being built
-     * @param typeVarIndex the index of this type variable on the decl
+     * @pbrbm bounds the bounds corresponding to the bnnotbted bounds
+     * @pbrbm decl the declbrbtion whose bnnotbted bounds is being built
+     * @pbrbm typeVbrIndex the index of this type vbribble on the decl
      */
-    public static <D extends GenericDeclaration> AnnotatedType[] parseAnnotatedBounds(Type[] bounds,
+    public stbtic <D extends GenericDeclbrbtion> AnnotbtedType[] pbrseAnnotbtedBounds(Type[] bounds,
             D decl,
-            int typeVarIndex) {
-        return parseAnnotatedBounds(bounds, decl, typeVarIndex, LocationInfo.BASE_LOCATION);
+            int typeVbrIndex) {
+        return pbrseAnnotbtedBounds(bounds, decl, typeVbrIndex, LocbtionInfo.BASE_LOCATION);
     }
-    //helper for above
-    private static <D extends GenericDeclaration> AnnotatedType[] parseAnnotatedBounds(Type[] bounds,
+    //helper for bbove
+    privbte stbtic <D extends GenericDeclbrbtion> AnnotbtedType[] pbrseAnnotbtedBounds(Type[] bounds,
             D decl,
-            int typeVarIndex,
-            LocationInfo loc) {
-        List<TypeAnnotation> candidates = fetchBounds(decl);
+            int typeVbrIndex,
+            LocbtionInfo loc) {
+        List<TypeAnnotbtion> cbndidbtes = fetchBounds(decl);
         if (bounds != null) {
-            int startIndex = 0;
-            AnnotatedType[] res = new AnnotatedType[bounds.length];
+            int stbrtIndex = 0;
+            AnnotbtedType[] res = new AnnotbtedType[bounds.length];
 
             // Adjust bounds index
             //
-            // Figure out if the type annotations for this bound starts with 0
-            // or 1. The spec says within a bound the 0:th type annotation will
-            // always be on an bound of a Class type (not Interface type). So
-            // if the programmer starts with an Interface type for the first
-            // (and following) bound(s) the implicit Object bound is considered
-            // the first (that is 0:th) bound and type annotations start on
+            // Figure out if the type bnnotbtions for this bound stbrts with 0
+            // or 1. The spec sbys within b bound the 0:th type bnnotbtion will
+            // blwbys be on bn bound of b Clbss type (not Interfbce type). So
+            // if the progrbmmer stbrts with bn Interfbce type for the first
+            // (bnd following) bound(s) the implicit Object bound is considered
+            // the first (thbt is 0:th) bound bnd type bnnotbtions stbrt on
             // index 1.
             if (bounds.length > 0) {
                 Type b0 = bounds[0];
-                if (!(b0 instanceof Class<?>)) {
-                    startIndex = 1;
+                if (!(b0 instbnceof Clbss<?>)) {
+                    stbrtIndex = 1;
                 } else {
-                    Class<?> c = (Class<?>)b0;
-                    if (c.isInterface()) {
-                        startIndex = 1;
+                    Clbss<?> c = (Clbss<?>)b0;
+                    if (c.isInterfbce()) {
+                        stbrtIndex = 1;
                     }
                 }
             }
 
             for (int i = 0; i < bounds.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(candidates.size());
-                for (TypeAnnotation t : candidates) {
-                    TypeAnnotationTargetInfo tInfo = t.getTargetInfo();
-                    if (tInfo.getSecondaryIndex() == i + startIndex &&
-                            tInfo.getCount() == typeVarIndex) {
-                        l.add(t);
+                List<TypeAnnotbtion> l = new ArrbyList<>(cbndidbtes.size());
+                for (TypeAnnotbtion t : cbndidbtes) {
+                    TypeAnnotbtionTbrgetInfo tInfo = t.getTbrgetInfo();
+                    if (tInfo.getSecondbryIndex() == i + stbrtIndex &&
+                            tInfo.getCount() == typeVbrIndex) {
+                        l.bdd(t);
                     }
                 }
-                res[i] = AnnotatedTypeFactory.buildAnnotatedType(bounds[i],
+                res[i] = AnnotbtedTypeFbctory.buildAnnotbtedType(bounds[i],
                         loc,
-                        l.toArray(EMPTY_TYPE_ANNOTATION_ARRAY),
-                        candidates.toArray(EMPTY_TYPE_ANNOTATION_ARRAY),
-                        (AnnotatedElement)decl);
+                        l.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY),
+                        cbndidbtes.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY),
+                        (AnnotbtedElement)decl);
             }
             return res;
         }
-        return new AnnotatedType[0];
+        return new AnnotbtedType[0];
     }
-    private static <D extends GenericDeclaration> List<TypeAnnotation> fetchBounds(D decl) {
-        AnnotatedElement boundsDecl;
-        TypeAnnotationTarget target;
-        if (decl instanceof Class) {
-            target = TypeAnnotationTarget.CLASS_TYPE_PARAMETER_BOUND;
-            boundsDecl = (Class)decl;
+    privbte stbtic <D extends GenericDeclbrbtion> List<TypeAnnotbtion> fetchBounds(D decl) {
+        AnnotbtedElement boundsDecl;
+        TypeAnnotbtionTbrget tbrget;
+        if (decl instbnceof Clbss) {
+            tbrget = TypeAnnotbtionTbrget.CLASS_TYPE_PARAMETER_BOUND;
+            boundsDecl = (Clbss)decl;
         } else {
-            target = TypeAnnotationTarget.METHOD_TYPE_PARAMETER_BOUND;
-            boundsDecl = (Executable)decl;
+            tbrget = TypeAnnotbtionTbrget.METHOD_TYPE_PARAMETER_BOUND;
+            boundsDecl = (Executbble)decl;
         }
-        return TypeAnnotation.filter(TypeAnnotationParser.parseAllTypeAnnotations(boundsDecl), target);
+        return TypeAnnotbtion.filter(TypeAnnotbtionPbrser.pbrseAllTypeAnnotbtions(boundsDecl), tbrget);
     }
 
     /*
-     * Parse all type annotations on the declaration supplied. This is needed
-     * when you go from for example an annotated return type on a method that
-     * is a type variable declared on the class. In this case you need to
-     * 'jump' to the decl of the class and parse all type annotations there to
-     * find the ones that are applicable to the type variable.
+     * Pbrse bll type bnnotbtions on the declbrbtion supplied. This is needed
+     * when you go from for exbmple bn bnnotbted return type on b method thbt
+     * is b type vbribble declbred on the clbss. In this cbse you need to
+     * 'jump' to the decl of the clbss bnd pbrse bll type bnnotbtions there to
+     * find the ones thbt bre bpplicbble to the type vbribble.
      */
-    static TypeAnnotation[] parseAllTypeAnnotations(AnnotatedElement decl) {
-        Class<?> container;
-        byte[] rawBytes;
-        JavaLangAccess javaLangAccess = sun.misc.SharedSecrets.getJavaLangAccess();
-        if (decl instanceof Class) {
-            container = (Class<?>)decl;
-            rawBytes = javaLangAccess.getRawClassTypeAnnotations(container);
-        } else if (decl instanceof Executable) {
-            container = ((Executable)decl).getDeclaringClass();
-            rawBytes = javaLangAccess.getRawExecutableTypeAnnotations((Executable)decl);
+    stbtic TypeAnnotbtion[] pbrseAllTypeAnnotbtions(AnnotbtedElement decl) {
+        Clbss<?> contbiner;
+        byte[] rbwBytes;
+        JbvbLbngAccess jbvbLbngAccess = sun.misc.ShbredSecrets.getJbvbLbngAccess();
+        if (decl instbnceof Clbss) {
+            contbiner = (Clbss<?>)decl;
+            rbwBytes = jbvbLbngAccess.getRbwClbssTypeAnnotbtions(contbiner);
+        } else if (decl instbnceof Executbble) {
+            contbiner = ((Executbble)decl).getDeclbringClbss();
+            rbwBytes = jbvbLbngAccess.getRbwExecutbbleTypeAnnotbtions((Executbble)decl);
         } else {
-            // Should not reach here. Assert?
+            // Should not rebch here. Assert?
             return EMPTY_TYPE_ANNOTATION_ARRAY;
         }
-        return parseTypeAnnotations(rawBytes, javaLangAccess.getConstantPool(container),
-                                    decl, container);
+        return pbrseTypeAnnotbtions(rbwBytes, jbvbLbngAccess.getConstbntPool(contbiner),
+                                    decl, contbiner);
     }
 
-    /* Parse type annotations encoded as an array of bytes */
-    private static TypeAnnotation[] parseTypeAnnotations(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement baseDecl,
-            Class<?> container) {
-        if (rawAnnotations == null)
+    /* Pbrse type bnnotbtions encoded bs bn brrby of bytes */
+    privbte stbtic TypeAnnotbtion[] pbrseTypeAnnotbtions(byte[] rbwAnnotbtions,
+            ConstbntPool cp,
+            AnnotbtedElement bbseDecl,
+            Clbss<?> contbiner) {
+        if (rbwAnnotbtions == null)
             return EMPTY_TYPE_ANNOTATION_ARRAY;
 
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int annotationCount = buf.getShort() & 0xFFFF;
-        List<TypeAnnotation> typeAnnotations = new ArrayList<>(annotationCount);
+        ByteBuffer buf = ByteBuffer.wrbp(rbwAnnotbtions);
+        int bnnotbtionCount = buf.getShort() & 0xFFFF;
+        List<TypeAnnotbtion> typeAnnotbtions = new ArrbyList<>(bnnotbtionCount);
 
-        // Parse each TypeAnnotation
-        for (int i = 0; i < annotationCount; i++) {
-             TypeAnnotation ta = parseTypeAnnotation(buf, cp, baseDecl, container);
-             if (ta != null)
-                 typeAnnotations.add(ta);
+        // Pbrse ebch TypeAnnotbtion
+        for (int i = 0; i < bnnotbtionCount; i++) {
+             TypeAnnotbtion tb = pbrseTypeAnnotbtion(buf, cp, bbseDecl, contbiner);
+             if (tb != null)
+                 typeAnnotbtions.bdd(tb);
         }
 
-        return typeAnnotations.toArray(EMPTY_TYPE_ANNOTATION_ARRAY);
+        return typeAnnotbtions.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY);
     }
 
 
     // Helper
-    static Map<Class<? extends Annotation>, Annotation> mapTypeAnnotations(TypeAnnotation[] typeAnnos) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<>();
-        for (TypeAnnotation t : typeAnnos) {
-            Annotation a = t.getAnnotation();
-            Class<? extends Annotation> klass = a.annotationType();
-            AnnotationType type = AnnotationType.getInstance(klass);
+    stbtic Mbp<Clbss<? extends Annotbtion>, Annotbtion> mbpTypeAnnotbtions(TypeAnnotbtion[] typeAnnos) {
+        Mbp<Clbss<? extends Annotbtion>, Annotbtion> result =
+            new LinkedHbshMbp<>();
+        for (TypeAnnotbtion t : typeAnnos) {
+            Annotbtion b = t.getAnnotbtion();
+            Clbss<? extends Annotbtion> klbss = b.bnnotbtionType();
+            AnnotbtionType type = AnnotbtionType.getInstbnce(klbss);
             if (type.retention() == RetentionPolicy.RUNTIME)
-                if (result.put(klass, a) != null)
-                    throw new AnnotationFormatError("Duplicate annotation for class: "+klass+": " + a);
+                if (result.put(klbss, b) != null)
+                    throw new AnnotbtionFormbtError("Duplicbte bnnotbtion for clbss: "+klbss+": " + b);
         }
         return result;
     }
 
     // Position codes
-    // Regular type parameter annotations
-    private static final byte CLASS_TYPE_PARAMETER = 0x00;
-    private static final byte METHOD_TYPE_PARAMETER = 0x01;
-    // Type Annotations outside method bodies
-    private static final byte CLASS_EXTENDS = 0x10;
-    private static final byte CLASS_TYPE_PARAMETER_BOUND = 0x11;
-    private static final byte METHOD_TYPE_PARAMETER_BOUND = 0x12;
-    private static final byte FIELD = 0x13;
-    private static final byte METHOD_RETURN = 0x14;
-    private static final byte METHOD_RECEIVER = 0x15;
-    private static final byte METHOD_FORMAL_PARAMETER = 0x16;
-    private static final byte THROWS = 0x17;
-    // Type Annotations inside method bodies
-    private static final byte LOCAL_VARIABLE = (byte)0x40;
-    private static final byte RESOURCE_VARIABLE = (byte)0x41;
-    private static final byte EXCEPTION_PARAMETER = (byte)0x42;
-    private static final byte INSTANCEOF = (byte)0x43;
-    private static final byte NEW = (byte)0x44;
-    private static final byte CONSTRUCTOR_REFERENCE = (byte)0x45;
-    private static final byte METHOD_REFERENCE = (byte)0x46;
-    private static final byte CAST = (byte)0x47;
-    private static final byte CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = (byte)0x48;
-    private static final byte METHOD_INVOCATION_TYPE_ARGUMENT = (byte)0x49;
-    private static final byte CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = (byte)0x4A;
-    private static final byte METHOD_REFERENCE_TYPE_ARGUMENT = (byte)0x4B;
+    // Regulbr type pbrbmeter bnnotbtions
+    privbte stbtic finbl byte CLASS_TYPE_PARAMETER = 0x00;
+    privbte stbtic finbl byte METHOD_TYPE_PARAMETER = 0x01;
+    // Type Annotbtions outside method bodies
+    privbte stbtic finbl byte CLASS_EXTENDS = 0x10;
+    privbte stbtic finbl byte CLASS_TYPE_PARAMETER_BOUND = 0x11;
+    privbte stbtic finbl byte METHOD_TYPE_PARAMETER_BOUND = 0x12;
+    privbte stbtic finbl byte FIELD = 0x13;
+    privbte stbtic finbl byte METHOD_RETURN = 0x14;
+    privbte stbtic finbl byte METHOD_RECEIVER = 0x15;
+    privbte stbtic finbl byte METHOD_FORMAL_PARAMETER = 0x16;
+    privbte stbtic finbl byte THROWS = 0x17;
+    // Type Annotbtions inside method bodies
+    privbte stbtic finbl byte LOCAL_VARIABLE = (byte)0x40;
+    privbte stbtic finbl byte RESOURCE_VARIABLE = (byte)0x41;
+    privbte stbtic finbl byte EXCEPTION_PARAMETER = (byte)0x42;
+    privbte stbtic finbl byte INSTANCEOF = (byte)0x43;
+    privbte stbtic finbl byte NEW = (byte)0x44;
+    privbte stbtic finbl byte CONSTRUCTOR_REFERENCE = (byte)0x45;
+    privbte stbtic finbl byte METHOD_REFERENCE = (byte)0x46;
+    privbte stbtic finbl byte CAST = (byte)0x47;
+    privbte stbtic finbl byte CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = (byte)0x48;
+    privbte stbtic finbl byte METHOD_INVOCATION_TYPE_ARGUMENT = (byte)0x49;
+    privbte stbtic finbl byte CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = (byte)0x4A;
+    privbte stbtic finbl byte METHOD_REFERENCE_TYPE_ARGUMENT = (byte)0x4B;
 
-    private static TypeAnnotation parseTypeAnnotation(ByteBuffer buf,
-            ConstantPool cp,
-            AnnotatedElement baseDecl,
-            Class<?> container) {
+    privbte stbtic TypeAnnotbtion pbrseTypeAnnotbtion(ByteBuffer buf,
+            ConstbntPool cp,
+            AnnotbtedElement bbseDecl,
+            Clbss<?> contbiner) {
         try {
-            TypeAnnotationTargetInfo ti = parseTargetInfo(buf);
-            LocationInfo locationInfo = LocationInfo.parseLocationInfo(buf);
-            Annotation a = AnnotationParser.parseAnnotation(buf, cp, container, false);
-            if (ti == null) // Inside a method for example
+            TypeAnnotbtionTbrgetInfo ti = pbrseTbrgetInfo(buf);
+            LocbtionInfo locbtionInfo = LocbtionInfo.pbrseLocbtionInfo(buf);
+            Annotbtion b = AnnotbtionPbrser.pbrseAnnotbtion(buf, cp, contbiner, fblse);
+            if (ti == null) // Inside b method for exbmple
                 return null;
-            return new TypeAnnotation(ti, locationInfo, a, baseDecl);
-        } catch (IllegalArgumentException | // Bad type in const pool at specified index
+            return new TypeAnnotbtion(ti, locbtionInfo, b, bbseDecl);
+        } cbtch (IllegblArgumentException | // Bbd type in const pool bt specified index
                 BufferUnderflowException e) {
-            throw new AnnotationFormatError(e);
+            throw new AnnotbtionFormbtError(e);
         }
     }
 
-    private static TypeAnnotationTargetInfo parseTargetInfo(ByteBuffer buf) {
+    privbte stbtic TypeAnnotbtionTbrgetInfo pbrseTbrgetInfo(ByteBuffer buf) {
         int posCode = buf.get() & 0xFF;
         switch(posCode) {
-        case CLASS_TYPE_PARAMETER:
-        case METHOD_TYPE_PARAMETER: {
+        cbse CLASS_TYPE_PARAMETER:
+        cbse METHOD_TYPE_PARAMETER: {
             int index = buf.get() & 0xFF;
-            TypeAnnotationTargetInfo res;
+            TypeAnnotbtionTbrgetInfo res;
             if (posCode == CLASS_TYPE_PARAMETER)
-                res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_TYPE_PARAMETER,
+                res = new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.CLASS_TYPE_PARAMETER,
                         index);
             else
-                res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_TYPE_PARAMETER,
+                res = new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.METHOD_TYPE_PARAMETER,
                         index);
             return res;
-            } // unreachable break;
-        case CLASS_EXTENDS: {
+            } // unrebchbble brebk;
+        cbse CLASS_EXTENDS: {
             short index = buf.getShort(); //needs to be signed
             if (index == -1) {
-                return new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_EXTENDS);
+                return new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.CLASS_EXTENDS);
             } else if (index >= 0) {
-                TypeAnnotationTargetInfo res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_IMPLEMENTS,
+                TypeAnnotbtionTbrgetInfo res = new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.CLASS_IMPLEMENTS,
                         index);
                 return res;
-            }} break;
-        case CLASS_TYPE_PARAMETER_BOUND:
-            return parse2ByteTarget(TypeAnnotationTarget.CLASS_TYPE_PARAMETER_BOUND, buf);
-        case METHOD_TYPE_PARAMETER_BOUND:
-            return parse2ByteTarget(TypeAnnotationTarget.METHOD_TYPE_PARAMETER_BOUND, buf);
-        case FIELD:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.FIELD);
-        case METHOD_RETURN:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_RETURN);
-        case METHOD_RECEIVER:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_RECEIVER);
-        case METHOD_FORMAL_PARAMETER: {
+            }} brebk;
+        cbse CLASS_TYPE_PARAMETER_BOUND:
+            return pbrse2ByteTbrget(TypeAnnotbtionTbrget.CLASS_TYPE_PARAMETER_BOUND, buf);
+        cbse METHOD_TYPE_PARAMETER_BOUND:
+            return pbrse2ByteTbrget(TypeAnnotbtionTbrget.METHOD_TYPE_PARAMETER_BOUND, buf);
+        cbse FIELD:
+            return new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.FIELD);
+        cbse METHOD_RETURN:
+            return new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.METHOD_RETURN);
+        cbse METHOD_RECEIVER:
+            return new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.METHOD_RECEIVER);
+        cbse METHOD_FORMAL_PARAMETER: {
             int index = buf.get() & 0xFF;
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_FORMAL_PARAMETER,
+            return new TypeAnnotbtionTbrgetInfo(TypeAnnotbtionTbrget.METHOD_FORMAL_PARAMETER,
                     index);
-            } //unreachable break;
-        case THROWS:
-            return parseShortTarget(TypeAnnotationTarget.THROWS, buf);
+            } //unrebchbble brebk;
+        cbse THROWS:
+            return pbrseShortTbrget(TypeAnnotbtionTbrget.THROWS, buf);
 
         /*
-         * The ones below are inside method bodies, we don't care about them for core reflection
-         * other than adjusting for them in the byte stream.
+         * The ones below bre inside method bodies, we don't cbre bbout them for core reflection
+         * other thbn bdjusting for them in the byte strebm.
          */
-        case LOCAL_VARIABLE:
-        case RESOURCE_VARIABLE:
+        cbse LOCAL_VARIABLE:
+        cbse RESOURCE_VARIABLE:
             short length = buf.getShort();
             for (int i = 0; i < length; ++i) {
                 short offset = buf.getShort();
-                short varLength = buf.getShort();
+                short vbrLength = buf.getShort();
                 short index = buf.getShort();
             }
             return null;
-        case EXCEPTION_PARAMETER: {
+        cbse EXCEPTION_PARAMETER: {
             byte index = buf.get();
             }
             return null;
-        case INSTANCEOF:
-        case NEW:
-        case CONSTRUCTOR_REFERENCE:
-        case METHOD_REFERENCE: {
+        cbse INSTANCEOF:
+        cbse NEW:
+        cbse CONSTRUCTOR_REFERENCE:
+        cbse METHOD_REFERENCE: {
             short offset = buf.getShort();
             }
             return null;
-        case CAST:
-        case CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
-        case METHOD_INVOCATION_TYPE_ARGUMENT:
-        case CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
-        case METHOD_REFERENCE_TYPE_ARGUMENT: {
+        cbse CAST:
+        cbse CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
+        cbse METHOD_INVOCATION_TYPE_ARGUMENT:
+        cbse CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
+        cbse METHOD_REFERENCE_TYPE_ARGUMENT: {
             short offset = buf.getShort();
             byte index = buf.get();
             }
             return null;
 
-        default:
+        defbult:
             // will throw error below
-            break;
+            brebk;
         }
-        throw new AnnotationFormatError("Could not parse bytes for type annotations");
+        throw new AnnotbtionFormbtError("Could not pbrse bytes for type bnnotbtions");
     }
 
-    private static TypeAnnotationTargetInfo parseShortTarget(TypeAnnotationTarget target, ByteBuffer buf) {
+    privbte stbtic TypeAnnotbtionTbrgetInfo pbrseShortTbrget(TypeAnnotbtionTbrget tbrget, ByteBuffer buf) {
         int index = buf.getShort() & 0xFFFF;
-        return new TypeAnnotationTargetInfo(target, index);
+        return new TypeAnnotbtionTbrgetInfo(tbrget, index);
     }
-    private static TypeAnnotationTargetInfo parse2ByteTarget(TypeAnnotationTarget target, ByteBuffer buf) {
+    privbte stbtic TypeAnnotbtionTbrgetInfo pbrse2ByteTbrget(TypeAnnotbtionTbrget tbrget, ByteBuffer buf) {
         int count = buf.get() & 0xFF;
-        int secondaryIndex = buf.get() & 0xFF;
-        return new TypeAnnotationTargetInfo(target,
+        int secondbryIndex = buf.get() & 0xFF;
+        return new TypeAnnotbtionTbrgetInfo(tbrget,
                                             count,
-                                            secondaryIndex);
+                                            secondbryIndex);
     }
 }

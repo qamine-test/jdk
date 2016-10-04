@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.Map;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
 
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.SunClipboard;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.bwt.dbtbtrbnsfer.SunClipbobrd;
 
 
 /**
- * A class which interfaces with the Windows clipboard in order to support
- * data transfer via Clipboard operations. Most of the work is provided by
- * sun.awt.datatransfer.DataTransferer.
+ * A clbss which interfbces with the Windows clipbobrd in order to support
+ * dbtb trbnsfer vib Clipbobrd operbtions. Most of the work is provided by
+ * sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer.
  *
- * @author Tom Ball
- * @author David Mendenhall
- * @author Danila Sinopalnikov
- * @author Alexander Gerasimov
+ * @buthor Tom Bbll
+ * @buthor Dbvid Mendenhbll
+ * @buthor Dbnilb Sinopblnikov
+ * @buthor Alexbnder Gerbsimov
  *
  * @since 1.1
  */
-final class WClipboard extends SunClipboard {
+finbl clbss WClipbobrd extends SunClipbobrd {
 
-    private boolean isClipboardViewerRegistered;
+    privbte boolebn isClipbobrdViewerRegistered;
 
-    WClipboard() {
+    WClipbobrd() {
         super("System");
     }
 
@@ -61,162 +61,162 @@ final class WClipboard extends SunClipboard {
     }
 
     @Override
-    protected void setContentsNative(Transferable contents) {
-        // Don't use delayed Clipboard rendering for the Transferable's data.
-        // If we did that, we would call Transferable.getTransferData on
-        // the Toolkit thread, which is a security hole.
+    protected void setContentsNbtive(Trbnsferbble contents) {
+        // Don't use delbyed Clipbobrd rendering for the Trbnsferbble's dbtb.
+        // If we did thbt, we would cbll Trbnsferbble.getTrbnsferDbtb on
+        // the Toolkit threbd, which is b security hole.
         //
-        // Get all of the target formats into which the Transferable can be
-        // translated. Then, for each format, translate the data and post
-        // it to the Clipboard.
-        Map <Long, DataFlavor> formatMap = WDataTransferer.getInstance().
-            getFormatsForTransferable(contents, getDefaultFlavorTable());
+        // Get bll of the tbrget formbts into which the Trbnsferbble cbn be
+        // trbnslbted. Then, for ebch formbt, trbnslbte the dbtb bnd post
+        // it to the Clipbobrd.
+        Mbp <Long, DbtbFlbvor> formbtMbp = WDbtbTrbnsferer.getInstbnce().
+            getFormbtsForTrbnsferbble(contents, getDefbultFlbvorTbble());
 
-        openClipboard(this);
+        openClipbobrd(this);
 
         try {
-            for (Long format : formatMap.keySet()) {
-                DataFlavor flavor = formatMap.get(format);
+            for (Long formbt : formbtMbp.keySet()) {
+                DbtbFlbvor flbvor = formbtMbp.get(formbt);
 
                 try {
-                    byte[] bytes = WDataTransferer.getInstance().
-                        translateTransferable(contents, flavor, format);
-                    publishClipboardData(format, bytes);
-                } catch (IOException e) {
-                    // Fix 4696186: don't print exception if data with
-                    // javaJVMLocalObjectMimeType failed to serialize.
-                    // May remove this if-check when 5078787 is fixed.
-                    if (!(flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType) &&
-                          e instanceof java.io.NotSerializableException)) {
-                        e.printStackTrace();
+                    byte[] bytes = WDbtbTrbnsferer.getInstbnce().
+                        trbnslbteTrbnsferbble(contents, flbvor, formbt);
+                    publishClipbobrdDbtb(formbt, bytes);
+                } cbtch (IOException e) {
+                    // Fix 4696186: don't print exception if dbtb with
+                    // jbvbJVMLocblObjectMimeType fbiled to seriblize.
+                    // Mby remove this if-check when 5078787 is fixed.
+                    if (!(flbvor.isMimeTypeEqubl(DbtbFlbvor.jbvbJVMLocblObjectMimeType) &&
+                          e instbnceof jbvb.io.NotSeriblizbbleException)) {
+                        e.printStbckTrbce();
                     }
                 }
             }
-        } finally {
-            closeClipboard();
+        } finblly {
+            closeClipbobrd();
         }
     }
 
-    private void lostSelectionOwnershipImpl() {
+    privbte void lostSelectionOwnershipImpl() {
         lostOwnershipImpl();
     }
 
     /**
-     * Currently delayed data rendering is not used for the Windows clipboard,
-     * so there is no native context to clear.
+     * Currently delbyed dbtb rendering is not used for the Windows clipbobrd,
+     * so there is no nbtive context to clebr.
      */
     @Override
-    protected void clearNativeContext() {}
+    protected void clebrNbtiveContext() {}
 
     /**
-     * Call the Win32 OpenClipboard function. If newOwner is non-null,
-     * we also call EmptyClipboard and take ownership.
+     * Cbll the Win32 OpenClipbobrd function. If newOwner is non-null,
+     * we blso cbll EmptyClipbobrd bnd tbke ownership.
      *
-     * @throws IllegalStateException if the clipboard has not been opened
+     * @throws IllegblStbteException if the clipbobrd hbs not been opened
      */
     @Override
-    public native void openClipboard(SunClipboard newOwner) throws IllegalStateException;
+    public nbtive void openClipbobrd(SunClipbobrd newOwner) throws IllegblStbteException;
     /**
-     * Call the Win32 CloseClipboard function if we have clipboard ownership,
-     * does nothing if we have not ownership.
+     * Cbll the Win32 CloseClipbobrd function if we hbve clipbobrd ownership,
+     * does nothing if we hbve not ownership.
      */
     @Override
-    public native void closeClipboard();
+    public nbtive void closeClipbobrd();
     /**
-     * Call the Win32 SetClipboardData function.
+     * Cbll the Win32 SetClipbobrdDbtb function.
      */
-    private native void publishClipboardData(long format, byte[] bytes);
+    privbte nbtive void publishClipbobrdDbtb(long formbt, byte[] bytes);
 
-    private static native void init();
-    static {
+    privbte stbtic nbtive void init();
+    stbtic {
         init();
     }
 
     @Override
-    protected native long[] getClipboardFormats();
+    protected nbtive long[] getClipbobrdFormbts();
     @Override
-    protected native byte[] getClipboardData(long format) throws IOException;
+    protected nbtive byte[] getClipbobrdDbtb(long formbt) throws IOException;
 
     @Override
-    protected void registerClipboardViewerChecked() {
-        if (!isClipboardViewerRegistered) {
-            registerClipboardViewer();
-            isClipboardViewerRegistered = true;
+    protected void registerClipbobrdViewerChecked() {
+        if (!isClipbobrdViewerRegistered) {
+            registerClipbobrdViewer();
+            isClipbobrdViewerRegistered = true;
         }
     }
 
-    private native void registerClipboardViewer();
+    privbte nbtive void registerClipbobrdViewer();
 
     /**
-     * The clipboard viewer (it's the toolkit window) is not unregistered
+     * The clipbobrd viewer (it's the toolkit window) is not unregistered
      * until the toolkit window disposing since MSDN suggests removing
-     * the window from the clipboard viewer chain just before it is destroyed.
+     * the window from the clipbobrd viewer chbin just before it is destroyed.
      */
     @Override
-    protected void unregisterClipboardViewerChecked() {}
+    protected void unregisterClipbobrdViewerChecked() {}
 
     /**
-     * Upcall from native code.
+     * Upcbll from nbtive code.
      */
-    private void handleContentsChanged() {
-        if (!areFlavorListenersRegistered()) {
+    privbte void hbndleContentsChbnged() {
+        if (!breFlbvorListenersRegistered()) {
             return;
         }
 
-        long[] formats = null;
+        long[] formbts = null;
         try {
-            openClipboard(null);
-            formats = getClipboardFormats();
-        } catch (IllegalStateException exc) {
-            // do nothing to handle the exception, call checkChange(null)
-        } finally {
-            closeClipboard();
+            openClipbobrd(null);
+            formbts = getClipbobrdFormbts();
+        } cbtch (IllegblStbteException exc) {
+            // do nothing to hbndle the exception, cbll checkChbnge(null)
+        } finblly {
+            closeClipbobrd();
         }
-        checkChange(formats);
+        checkChbnge(formbts);
     }
 
     /**
-     * The clipboard must be opened.
+     * The clipbobrd must be opened.
      *
      * @since 1.5
      */
     @Override
-    protected Transferable createLocaleTransferable(long[] formats) throws IOException {
-        boolean found = false;
-        for (int i = 0; i < formats.length; i++) {
-            if (formats[i] == WDataTransferer.CF_LOCALE) {
+    protected Trbnsferbble crebteLocbleTrbnsferbble(long[] formbts) throws IOException {
+        boolebn found = fblse;
+        for (int i = 0; i < formbts.length; i++) {
+            if (formbts[i] == WDbtbTrbnsferer.CF_LOCALE) {
                 found = true;
-                break;
+                brebk;
             }
         }
         if (!found) {
             return null;
         }
 
-        byte[] localeData = null;
+        byte[] locbleDbtb = null;
         try {
-            localeData = getClipboardData(WDataTransferer.CF_LOCALE);
-        } catch (IOException ioexc) {
+            locbleDbtb = getClipbobrdDbtb(WDbtbTrbnsferer.CF_LOCALE);
+        } cbtch (IOException ioexc) {
             return null;
         }
 
-        final byte[] localeDataFinal = localeData;
+        finbl byte[] locbleDbtbFinbl = locbleDbtb;
 
-        return new Transferable() {
+        return new Trbnsferbble() {
                 @Override
-                public DataFlavor[] getTransferDataFlavors() {
-                    return new DataFlavor[] { DataTransferer.javaTextEncodingFlavor };
+                public DbtbFlbvor[] getTrbnsferDbtbFlbvors() {
+                    return new DbtbFlbvor[] { DbtbTrbnsferer.jbvbTextEncodingFlbvor };
                 }
                 @Override
-                public boolean isDataFlavorSupported(DataFlavor flavor) {
-                    return flavor.equals(DataTransferer.javaTextEncodingFlavor);
+                public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor) {
+                    return flbvor.equbls(DbtbTrbnsferer.jbvbTextEncodingFlbvor);
                 }
                 @Override
-                public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-                    if (isDataFlavorSupported(flavor)) {
-                        return localeDataFinal;
+                public Object getTrbnsferDbtb(DbtbFlbvor flbvor) throws UnsupportedFlbvorException {
+                    if (isDbtbFlbvorSupported(flbvor)) {
+                        return locbleDbtbFinbl;
                     }
-                    throw new UnsupportedFlavorException(flavor);
+                    throw new UnsupportedFlbvorException(flbvor);
                 }
             };
     }

@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.RandomAccessFile;
-import java.io.SequenceInputStream;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.RbndomAccessFile;
+import jbvb.io.SequenceInputStrebm;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.sbmpled.AudioFileFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioSystem;
 
-//$$fb this class is buggy. Should be replaced in future.
+//$$fb this clbss is buggy. Should be replbced in future.
 
 /**
  * AIFF file writer.
  *
- * @author Jan Borgersen
+ * @buthor Jbn Borgersen
  */
-public final class AiffFileWriter extends SunFileWriter {
+public finbl clbss AiffFileWriter extends SunFileWriter {
 
     /**
-     * Constructs a new AiffFileWriter object.
+     * Constructs b new AiffFileWriter object.
      */
     public AiffFileWriter() {
-        super(new AudioFileFormat.Type[]{AudioFileFormat.Type.AIFF});
+        super(new AudioFileFormbt.Type[]{AudioFileFormbt.Type.AIFF});
     }
 
 
     // METHODS TO IMPLEMENT AudioFileWriter
 
-    public AudioFileFormat.Type[] getAudioFileTypes(AudioInputStream stream) {
+    public AudioFileFormbt.Type[] getAudioFileTypes(AudioInputStrebm strebm) {
 
-        AudioFileFormat.Type[] filetypes = new AudioFileFormat.Type[types.length];
-        System.arraycopy(types, 0, filetypes, 0, types.length);
+        AudioFileFormbt.Type[] filetypes = new AudioFileFormbt.Type[types.length];
+        System.brrbycopy(types, 0, filetypes, 0, types.length);
 
-        // make sure we can write this stream
-        AudioFormat format = stream.getFormat();
-        AudioFormat.Encoding encoding = format.getEncoding();
+        // mbke sure we cbn write this strebm
+        AudioFormbt formbt = strebm.getFormbt();
+        AudioFormbt.Encoding encoding = formbt.getEncoding();
 
-        if( (AudioFormat.Encoding.ALAW.equals(encoding)) ||
-            (AudioFormat.Encoding.ULAW.equals(encoding)) ||
-            (AudioFormat.Encoding.PCM_SIGNED.equals(encoding)) ||
-            (AudioFormat.Encoding.PCM_UNSIGNED.equals(encoding)) ) {
+        if( (AudioFormbt.Encoding.ALAW.equbls(encoding)) ||
+            (AudioFormbt.Encoding.ULAW.equbls(encoding)) ||
+            (AudioFormbt.Encoding.PCM_SIGNED.equbls(encoding)) ||
+            (AudioFormbt.Encoding.PCM_UNSIGNED.equbls(encoding)) ) {
 
             return filetypes;
         }
 
-        return new AudioFileFormat.Type[0];
+        return new AudioFileFormbt.Type[0];
     }
 
 
-    public int write(AudioInputStream stream, AudioFileFormat.Type fileType, OutputStream out) throws IOException {
+    public int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType, OutputStrebm out) throws IOException {
 
         //$$fb the following check must come first ! Otherwise
-        // the next frame length check may throw an IOException and
-        // interrupt iterating File Writers. (see bug 4351296)
+        // the next frbme length check mby throw bn IOException bnd
+        // interrupt iterbting File Writers. (see bug 4351296)
 
-        // throws IllegalArgumentException if not supported
-        AiffFileFormat aiffFileFormat = (AiffFileFormat)getAudioFileFormat(fileType, stream);
+        // throws IllegblArgumentException if not supported
+        AiffFileFormbt biffFileFormbt = (AiffFileFormbt)getAudioFileFormbt(fileType, strebm);
 
-        // we must know the total data length to calculate the file length
-        if( stream.getFrameLength() == AudioSystem.NOT_SPECIFIED ) {
-            throw new IOException("stream length not specified");
+        // we must know the totbl dbtb length to cblculbte the file length
+        if( strebm.getFrbmeLength() == AudioSystem.NOT_SPECIFIED ) {
+            throw new IOException("strebm length not specified");
         }
 
-        int bytesWritten = writeAiffFile(stream, aiffFileFormat, out);
+        int bytesWritten = writeAiffFile(strebm, biffFileFormbt, out);
         return bytesWritten;
     }
 
 
-    public int write(AudioInputStream stream, AudioFileFormat.Type fileType, File out) throws IOException {
+    public int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType, File out) throws IOException {
 
-        // throws IllegalArgumentException if not supported
-        AiffFileFormat aiffFileFormat = (AiffFileFormat)getAudioFileFormat(fileType, stream);
+        // throws IllegblArgumentException if not supported
+        AiffFileFormbt biffFileFormbt = (AiffFileFormbt)getAudioFileFormbt(fileType, strebm);
 
-        // first write the file without worrying about length fields
-        FileOutputStream fos = new FileOutputStream( out );     // throws IOException
-        BufferedOutputStream bos = new BufferedOutputStream( fos, bisBufferSize );
-        int bytesWritten = writeAiffFile(stream, aiffFileFormat, bos );
+        // first write the file without worrying bbout length fields
+        FileOutputStrebm fos = new FileOutputStrebm( out );     // throws IOException
+        BufferedOutputStrebm bos = new BufferedOutputStrebm( fos, bisBufferSize );
+        int bytesWritten = writeAiffFile(strebm, biffFileFormbt, bos );
         bos.close();
 
-        // now, if length fields were not specified, calculate them,
-        // open as a random access file, write the appropriate fields,
-        // close again....
-        if( aiffFileFormat.getByteLength()== AudioSystem.NOT_SPECIFIED ) {
+        // now, if length fields were not specified, cblculbte them,
+        // open bs b rbndom bccess file, write the bppropribte fields,
+        // close bgbin....
+        if( biffFileFormbt.getByteLength()== AudioSystem.NOT_SPECIFIED ) {
 
-            // $$kk: 10.22.99: jan: please either implement this or throw an exception!
+            // $$kk: 10.22.99: jbn: plebse either implement this or throw bn exception!
             // $$fb: 2001-07-13: done. Fixes Bug 4479981
-            int ssndBlockSize           = (aiffFileFormat.getFormat().getChannels() * aiffFileFormat.getFormat().getSampleSizeInBits());
+            int ssndBlockSize           = (biffFileFormbt.getFormbt().getChbnnels() * biffFileFormbt.getFormbt().getSbmpleSizeInBits());
 
-            int aiffLength=bytesWritten;
-            int ssndChunkSize=aiffLength-aiffFileFormat.getHeaderSize()+16;
-            long dataSize=ssndChunkSize-16;
-            int numFrames=(int) (dataSize*8/ssndBlockSize);
+            int biffLength=bytesWritten;
+            int ssndChunkSize=biffLength-biffFileFormbt.getHebderSize()+16;
+            long dbtbSize=ssndChunkSize-16;
+            int numFrbmes=(int) (dbtbSize*8/ssndBlockSize);
 
-            RandomAccessFile raf=new RandomAccessFile(out, "rw");
-            // skip FORM magic
-            raf.skipBytes(4);
-            raf.writeInt(aiffLength-8);
-            // skip aiff2 magic, fver chunk, comm magic, comm size, channel count,
-            raf.skipBytes(4+aiffFileFormat.getFverChunkSize()+4+4+2);
-            // write frame count
-            raf.writeInt(numFrames);
-            // skip sample size, samplerate, SSND magic
-            raf.skipBytes(2+10+4);
-            raf.writeInt(ssndChunkSize-8);
-            // that's all
-            raf.close();
+            RbndomAccessFile rbf=new RbndomAccessFile(out, "rw");
+            // skip FORM mbgic
+            rbf.skipBytes(4);
+            rbf.writeInt(biffLength-8);
+            // skip biff2 mbgic, fver chunk, comm mbgic, comm size, chbnnel count,
+            rbf.skipBytes(4+biffFileFormbt.getFverChunkSize()+4+4+2);
+            // write frbme count
+            rbf.writeInt(numFrbmes);
+            // skip sbmple size, sbmplerbte, SSND mbgic
+            rbf.skipBytes(2+10+4);
+            rbf.writeInt(ssndChunkSize-8);
+            // thbt's bll
+            rbf.close();
         }
 
         return bytesWritten;
@@ -149,249 +149,249 @@ public final class AiffFileWriter extends SunFileWriter {
     // -----------------------------------------------------------------------
 
     /**
-     * Returns the AudioFileFormat describing the file that will be written from this AudioInputStream.
-     * Throws IllegalArgumentException if not supported.
+     * Returns the AudioFileFormbt describing the file thbt will be written from this AudioInputStrebm.
+     * Throws IllegblArgumentException if not supported.
      */
-    private AudioFileFormat getAudioFileFormat(AudioFileFormat.Type type, AudioInputStream stream) {
+    privbte AudioFileFormbt getAudioFileFormbt(AudioFileFormbt.Type type, AudioInputStrebm strebm) {
 
-        AudioFormat format = null;
-        AiffFileFormat fileFormat = null;
-        AudioFormat.Encoding encoding = AudioFormat.Encoding.PCM_SIGNED;
+        AudioFormbt formbt = null;
+        AiffFileFormbt fileFormbt = null;
+        AudioFormbt.Encoding encoding = AudioFormbt.Encoding.PCM_SIGNED;
 
-        AudioFormat streamFormat = stream.getFormat();
-        AudioFormat.Encoding streamEncoding = streamFormat.getEncoding();
+        AudioFormbt strebmFormbt = strebm.getFormbt();
+        AudioFormbt.Encoding strebmEncoding = strebmFormbt.getEncoding();
 
 
-        float sampleRate;
-        int sampleSizeInBits;
-        int channels;
-        int frameSize;
-        float frameRate;
+        flobt sbmpleRbte;
+        int sbmpleSizeInBits;
+        int chbnnels;
+        int frbmeSize;
+        flobt frbmeRbte;
         int fileSize;
-        boolean convert8to16 = false;
+        boolebn convert8to16 = fblse;
 
-        if( !types[0].equals(type) ) {
-            throw new IllegalArgumentException("File type " + type + " not supported.");
+        if( !types[0].equbls(type) ) {
+            throw new IllegblArgumentException("File type " + type + " not supported.");
         }
 
-        if( (AudioFormat.Encoding.ALAW.equals(streamEncoding)) ||
-            (AudioFormat.Encoding.ULAW.equals(streamEncoding)) ) {
+        if( (AudioFormbt.Encoding.ALAW.equbls(strebmEncoding)) ||
+            (AudioFormbt.Encoding.ULAW.equbls(strebmEncoding)) ) {
 
-            if( streamFormat.getSampleSizeInBits()==8 ) {
+            if( strebmFormbt.getSbmpleSizeInBits()==8 ) {
 
-                encoding = AudioFormat.Encoding.PCM_SIGNED;
-                sampleSizeInBits=16;
+                encoding = AudioFormbt.Encoding.PCM_SIGNED;
+                sbmpleSizeInBits=16;
                 convert8to16 = true;
 
             } else {
 
-                // can't convert non-8-bit ALAW,ULAW
-                throw new IllegalArgumentException("Encoding " + streamEncoding + " supported only for 8-bit data.");
+                // cbn't convert non-8-bit ALAW,ULAW
+                throw new IllegblArgumentException("Encoding " + strebmEncoding + " supported only for 8-bit dbtb.");
             }
-        } else if ( streamFormat.getSampleSizeInBits()==8 ) {
+        } else if ( strebmFormbt.getSbmpleSizeInBits()==8 ) {
 
-            encoding = AudioFormat.Encoding.PCM_UNSIGNED;
-            sampleSizeInBits=8;
+            encoding = AudioFormbt.Encoding.PCM_UNSIGNED;
+            sbmpleSizeInBits=8;
 
         } else {
 
-            encoding = AudioFormat.Encoding.PCM_SIGNED;
-            sampleSizeInBits=streamFormat.getSampleSizeInBits();
+            encoding = AudioFormbt.Encoding.PCM_SIGNED;
+            sbmpleSizeInBits=strebmFormbt.getSbmpleSizeInBits();
         }
 
 
-        format = new AudioFormat( encoding,
-                                  streamFormat.getSampleRate(),
-                                  sampleSizeInBits,
-                                  streamFormat.getChannels(),
-                                  streamFormat.getFrameSize(),
-                                  streamFormat.getFrameRate(),
-                                  true);        // AIFF is big endian
+        formbt = new AudioFormbt( encoding,
+                                  strebmFormbt.getSbmpleRbte(),
+                                  sbmpleSizeInBits,
+                                  strebmFormbt.getChbnnels(),
+                                  strebmFormbt.getFrbmeSize(),
+                                  strebmFormbt.getFrbmeRbte(),
+                                  true);        // AIFF is big endibn
 
 
-        if( stream.getFrameLength()!=AudioSystem.NOT_SPECIFIED ) {
+        if( strebm.getFrbmeLength()!=AudioSystem.NOT_SPECIFIED ) {
             if( convert8to16 ) {
-                fileSize = (int)stream.getFrameLength()*streamFormat.getFrameSize()*2 + AiffFileFormat.AIFF_HEADERSIZE;
+                fileSize = (int)strebm.getFrbmeLength()*strebmFormbt.getFrbmeSize()*2 + AiffFileFormbt.AIFF_HEADERSIZE;
             } else {
-                fileSize = (int)stream.getFrameLength()*streamFormat.getFrameSize() + AiffFileFormat.AIFF_HEADERSIZE;
+                fileSize = (int)strebm.getFrbmeLength()*strebmFormbt.getFrbmeSize() + AiffFileFormbt.AIFF_HEADERSIZE;
             }
         } else {
             fileSize = AudioSystem.NOT_SPECIFIED;
         }
 
-        fileFormat = new AiffFileFormat( AudioFileFormat.Type.AIFF,
+        fileFormbt = new AiffFileFormbt( AudioFileFormbt.Type.AIFF,
                                          fileSize,
-                                         format,
-                                         (int)stream.getFrameLength() );
+                                         formbt,
+                                         (int)strebm.getFrbmeLength() );
 
-        return fileFormat;
+        return fileFormbt;
     }
 
 
-    private int writeAiffFile(InputStream in, AiffFileFormat aiffFileFormat, OutputStream out) throws IOException {
+    privbte int writeAiffFile(InputStrebm in, AiffFileFormbt biffFileFormbt, OutputStrebm out) throws IOException {
 
-        int bytesRead = 0;
+        int bytesRebd = 0;
         int bytesWritten = 0;
-        InputStream fileStream = getFileStream(aiffFileFormat, in);
+        InputStrebm fileStrebm = getFileStrebm(biffFileFormbt, in);
         byte buffer[] = new byte[bisBufferSize];
-        int maxLength = aiffFileFormat.getByteLength();
+        int mbxLength = biffFileFormbt.getByteLength();
 
-        while( (bytesRead = fileStream.read( buffer )) >= 0 ) {
-            if (maxLength>0) {
-                if( bytesRead < maxLength ) {
-                    out.write( buffer, 0, bytesRead );
-                    bytesWritten += bytesRead;
-                    maxLength -= bytesRead;
+        while( (bytesRebd = fileStrebm.rebd( buffer )) >= 0 ) {
+            if (mbxLength>0) {
+                if( bytesRebd < mbxLength ) {
+                    out.write( buffer, 0, bytesRebd );
+                    bytesWritten += bytesRebd;
+                    mbxLength -= bytesRebd;
                 } else {
-                    out.write( buffer, 0, maxLength );
-                    bytesWritten += maxLength;
-                    maxLength = 0;
-                    break;
+                    out.write( buffer, 0, mbxLength );
+                    bytesWritten += mbxLength;
+                    mbxLength = 0;
+                    brebk;
                 }
 
             } else {
-                out.write( buffer, 0, bytesRead );
-                bytesWritten += bytesRead;
+                out.write( buffer, 0, bytesRebd );
+                bytesWritten += bytesRebd;
             }
         }
 
         return bytesWritten;
     }
 
-    private InputStream getFileStream(AiffFileFormat aiffFileFormat, InputStream audioStream) throws IOException  {
+    privbte InputStrebm getFileStrebm(AiffFileFormbt biffFileFormbt, InputStrebm budioStrebm) throws IOException  {
 
-        // private method ... assumes aiffFileFormat is a supported file format
+        // privbte method ... bssumes biffFileFormbt is b supported file formbt
 
-        AudioFormat format = aiffFileFormat.getFormat();
-        AudioFormat streamFormat = null;
-        AudioFormat.Encoding encoding = null;
+        AudioFormbt formbt = biffFileFormbt.getFormbt();
+        AudioFormbt strebmFormbt = null;
+        AudioFormbt.Encoding encoding = null;
 
-        //$$fb a little bit nicer handling of constants
+        //$$fb b little bit nicer hbndling of constbnts
 
-        //int headerSize          = 54;
-        int headerSize          = aiffFileFormat.getHeaderSize();
+        //int hebderSize          = 54;
+        int hebderSize          = biffFileFormbt.getHebderSize();
 
         //int fverChunkSize       = 0;
-        int fverChunkSize       = aiffFileFormat.getFverChunkSize();
+        int fverChunkSize       = biffFileFormbt.getFverChunkSize();
         //int commChunkSize       = 26;
-        int commChunkSize       = aiffFileFormat.getCommChunkSize();
-        int aiffLength          = -1;
+        int commChunkSize       = biffFileFormbt.getCommChunkSize();
+        int biffLength          = -1;
         int ssndChunkSize       = -1;
-        //int ssndOffset                        = headerSize - 16;
-        int ssndOffset                  = aiffFileFormat.getSsndChunkOffset();
-        short channels = (short) format.getChannels();
-        short sampleSize = (short) format.getSampleSizeInBits();
-        int ssndBlockSize               = (channels * sampleSize);
-        int numFrames                   = aiffFileFormat.getFrameLength();
-        long dataSize            = -1;
-        if( numFrames != AudioSystem.NOT_SPECIFIED) {
-            dataSize = (long) numFrames * ssndBlockSize / 8;
-            ssndChunkSize = (int)dataSize + 16;
-            aiffLength = (int)dataSize+headerSize;
+        //int ssndOffset                        = hebderSize - 16;
+        int ssndOffset                  = biffFileFormbt.getSsndChunkOffset();
+        short chbnnels = (short) formbt.getChbnnels();
+        short sbmpleSize = (short) formbt.getSbmpleSizeInBits();
+        int ssndBlockSize               = (chbnnels * sbmpleSize);
+        int numFrbmes                   = biffFileFormbt.getFrbmeLength();
+        long dbtbSize            = -1;
+        if( numFrbmes != AudioSystem.NOT_SPECIFIED) {
+            dbtbSize = (long) numFrbmes * ssndBlockSize / 8;
+            ssndChunkSize = (int)dbtbSize + 16;
+            biffLength = (int)dbtbSize+hebderSize;
         }
-        float sampleFramesPerSecond = format.getSampleRate();
-        int compCode = AiffFileFormat.AIFC_PCM;
+        flobt sbmpleFrbmesPerSecond = formbt.getSbmpleRbte();
+        int compCode = AiffFileFormbt.AIFC_PCM;
 
-        byte header[] = null;
-        ByteArrayInputStream headerStream = null;
-        ByteArrayOutputStream baos = null;
-        DataOutputStream dos = null;
-        SequenceInputStream aiffStream = null;
-        InputStream codedAudioStream = audioStream;
+        byte hebder[] = null;
+        ByteArrbyInputStrebm hebderStrebm = null;
+        ByteArrbyOutputStrebm bbos = null;
+        DbtbOutputStrebm dos = null;
+        SequenceInputStrebm biffStrebm = null;
+        InputStrebm codedAudioStrebm = budioStrebm;
 
-        // if we need to do any format conversion, do it here....
+        // if we need to do bny formbt conversion, do it here....
 
-        if( audioStream instanceof AudioInputStream ) {
+        if( budioStrebm instbnceof AudioInputStrebm ) {
 
-            streamFormat = ((AudioInputStream)audioStream).getFormat();
-            encoding = streamFormat.getEncoding();
+            strebmFormbt = ((AudioInputStrebm)budioStrebm).getFormbt();
+            encoding = strebmFormbt.getEncoding();
 
 
-            // $$jb: Note that AIFF samples are ALWAYS signed
-            if( (AudioFormat.Encoding.PCM_UNSIGNED.equals(encoding)) ||
-                ( (AudioFormat.Encoding.PCM_SIGNED.equals(encoding)) && !streamFormat.isBigEndian() ) ) {
+            // $$jb: Note thbt AIFF sbmples bre ALWAYS signed
+            if( (AudioFormbt.Encoding.PCM_UNSIGNED.equbls(encoding)) ||
+                ( (AudioFormbt.Encoding.PCM_SIGNED.equbls(encoding)) && !strebmFormbt.isBigEndibn() ) ) {
 
-                // plug in the transcoder to convert to PCM_SIGNED. big endian
-                codedAudioStream = AudioSystem.getAudioInputStream( new AudioFormat (
-                                                                                     AudioFormat.Encoding.PCM_SIGNED,
-                                                                                     streamFormat.getSampleRate(),
-                                                                                     streamFormat.getSampleSizeInBits(),
-                                                                                     streamFormat.getChannels(),
-                                                                                     streamFormat.getFrameSize(),
-                                                                                     streamFormat.getFrameRate(),
+                // plug in the trbnscoder to convert to PCM_SIGNED. big endibn
+                codedAudioStrebm = AudioSystem.getAudioInputStrebm( new AudioFormbt (
+                                                                                     AudioFormbt.Encoding.PCM_SIGNED,
+                                                                                     strebmFormbt.getSbmpleRbte(),
+                                                                                     strebmFormbt.getSbmpleSizeInBits(),
+                                                                                     strebmFormbt.getChbnnels(),
+                                                                                     strebmFormbt.getFrbmeSize(),
+                                                                                     strebmFormbt.getFrbmeRbte(),
                                                                                      true ),
-                                                                    (AudioInputStream)audioStream );
+                                                                    (AudioInputStrebm)budioStrebm );
 
-            } else if( (AudioFormat.Encoding.ULAW.equals(encoding)) ||
-                       (AudioFormat.Encoding.ALAW.equals(encoding)) ) {
+            } else if( (AudioFormbt.Encoding.ULAW.equbls(encoding)) ||
+                       (AudioFormbt.Encoding.ALAW.equbls(encoding)) ) {
 
-                if( streamFormat.getSampleSizeInBits() != 8 ) {
-                    throw new IllegalArgumentException("unsupported encoding");
+                if( strebmFormbt.getSbmpleSizeInBits() != 8 ) {
+                    throw new IllegblArgumentException("unsupported encoding");
                 }
 
-                                //$$fb 2001-07-13: this is probably not what we want:
-                                //     writing PCM when ULAW/ALAW is requested. AIFC is able to write ULAW !
+                                //$$fb 2001-07-13: this is probbbly not whbt we wbnt:
+                                //     writing PCM when ULAW/ALAW is requested. AIFC is bble to write ULAW !
 
-                                // plug in the transcoder to convert to PCM_SIGNED_BIG_ENDIAN
-                codedAudioStream = AudioSystem.getAudioInputStream( new AudioFormat (
-                                                                                     AudioFormat.Encoding.PCM_SIGNED,
-                                                                                     streamFormat.getSampleRate(),
-                                                                                     streamFormat.getSampleSizeInBits() * 2,
-                                                                                     streamFormat.getChannels(),
-                                                                                     streamFormat.getFrameSize() * 2,
-                                                                                     streamFormat.getFrameRate(),
+                                // plug in the trbnscoder to convert to PCM_SIGNED_BIG_ENDIAN
+                codedAudioStrebm = AudioSystem.getAudioInputStrebm( new AudioFormbt (
+                                                                                     AudioFormbt.Encoding.PCM_SIGNED,
+                                                                                     strebmFormbt.getSbmpleRbte(),
+                                                                                     strebmFormbt.getSbmpleSizeInBits() * 2,
+                                                                                     strebmFormbt.getChbnnels(),
+                                                                                     strebmFormbt.getFrbmeSize() * 2,
+                                                                                     strebmFormbt.getFrbmeRbte(),
                                                                                      true ),
-                                                                    (AudioInputStream)audioStream );
+                                                                    (AudioInputStrebm)budioStrebm );
             }
         }
 
 
-        // Now create an AIFF stream header...
-        baos = new ByteArrayOutputStream();
-        dos = new DataOutputStream(baos);
+        // Now crebte bn AIFF strebm hebder...
+        bbos = new ByteArrbyOutputStrebm();
+        dos = new DbtbOutputStrebm(bbos);
 
         // Write the outer FORM chunk
-        dos.writeInt(AiffFileFormat.AIFF_MAGIC);
-        dos.writeInt( (aiffLength-8) );
-        dos.writeInt(AiffFileFormat.AIFF_MAGIC2);
+        dos.writeInt(AiffFileFormbt.AIFF_MAGIC);
+        dos.writeInt( (biffLength-8) );
+        dos.writeInt(AiffFileFormbt.AIFF_MAGIC2);
 
-        // Write a FVER chunk - only for AIFC
+        // Write b FVER chunk - only for AIFC
         //dos.writeInt(FVER_MAGIC);
         //dos.writeInt( (fverChunkSize-8) );
         //dos.writeInt(FVER_TIMESTAMP);
 
-        // Write a COMM chunk
-        dos.writeInt(AiffFileFormat.COMM_MAGIC);
+        // Write b COMM chunk
+        dos.writeInt(AiffFileFormbt.COMM_MAGIC);
         dos.writeInt( (commChunkSize-8) );
-        dos.writeShort(channels);
-        dos.writeInt(numFrames);
-        dos.writeShort(sampleSize);
-        write_ieee_extended(dos, sampleFramesPerSecond);   // 10 bytes
+        dos.writeShort(chbnnels);
+        dos.writeInt(numFrbmes);
+        dos.writeShort(sbmpleSize);
+        write_ieee_extended(dos, sbmpleFrbmesPerSecond);   // 10 bytes
 
         //Only for AIFC
         //dos.writeInt(compCode);
         //dos.writeInt(compCode);
         //dos.writeShort(0);
 
-        // Write the SSND chunk header
-        dos.writeInt(AiffFileFormat.SSND_MAGIC);
+        // Write the SSND chunk hebder
+        dos.writeInt(AiffFileFormbt.SSND_MAGIC);
         dos.writeInt( (ssndChunkSize-8) );
-        // ssndOffset and ssndBlockSize set to 0 upon
-        // recommendation in "Sound Manager" chapter in
-        // "Inside Macintosh Sound", pp 2-87  (from Babu)
+        // ssndOffset bnd ssndBlockSize set to 0 upon
+        // recommendbtion in "Sound Mbnbger" chbpter in
+        // "Inside Mbcintosh Sound", pp 2-87  (from Bbbu)
         dos.writeInt(0);        // ssndOffset
         dos.writeInt(0);        // ssndBlockSize
 
-        // Concat this with the audioStream and return it
+        // Concbt this with the budioStrebm bnd return it
 
         dos.close();
-        header = baos.toByteArray();
-        headerStream = new ByteArrayInputStream( header );
+        hebder = bbos.toByteArrby();
+        hebderStrebm = new ByteArrbyInputStrebm( hebder );
 
-        aiffStream = new SequenceInputStream(headerStream,
-                            new NoCloseInputStream(codedAudioStream));
+        biffStrebm = new SequenceInputStrebm(hebderStrebm,
+                            new NoCloseInputStrebm(codedAudioStrebm));
 
-        return aiffStream;
+        return biffStrebm;
 
     }
 
@@ -400,46 +400,46 @@ public final class AiffFileWriter extends SunFileWriter {
 
     // HELPER METHODS
 
-    private static final int DOUBLE_MANTISSA_LENGTH = 52;
-    private static final int DOUBLE_EXPONENT_LENGTH = 11;
-    private static final long DOUBLE_SIGN_MASK     = 0x8000000000000000L;
-    private static final long DOUBLE_EXPONENT_MASK = 0x7FF0000000000000L;
-    private static final long DOUBLE_MANTISSA_MASK = 0x000FFFFFFFFFFFFFL;
-    private static final int DOUBLE_EXPONENT_OFFSET = 1023;
+    privbte stbtic finbl int DOUBLE_MANTISSA_LENGTH = 52;
+    privbte stbtic finbl int DOUBLE_EXPONENT_LENGTH = 11;
+    privbte stbtic finbl long DOUBLE_SIGN_MASK     = 0x8000000000000000L;
+    privbte stbtic finbl long DOUBLE_EXPONENT_MASK = 0x7FF0000000000000L;
+    privbte stbtic finbl long DOUBLE_MANTISSA_MASK = 0x000FFFFFFFFFFFFFL;
+    privbte stbtic finbl int DOUBLE_EXPONENT_OFFSET = 1023;
 
-    private static final int EXTENDED_EXPONENT_OFFSET = 16383;
-    private static final int EXTENDED_MANTISSA_LENGTH = 63;
-    private static final int EXTENDED_EXPONENT_LENGTH = 15;
-    private static final long EXTENDED_INTEGER_MASK = 0x8000000000000000L;
+    privbte stbtic finbl int EXTENDED_EXPONENT_OFFSET = 16383;
+    privbte stbtic finbl int EXTENDED_MANTISSA_LENGTH = 63;
+    privbte stbtic finbl int EXTENDED_EXPONENT_LENGTH = 15;
+    privbte stbtic finbl long EXTENDED_INTEGER_MASK = 0x8000000000000000L;
 
     /**
-     * Extended precision IEEE floating-point conversion routine.
-     * @argument DataOutputStream
-     * @argument double
+     * Extended precision IEEE flobting-point conversion routine.
+     * @brgument DbtbOutputStrebm
+     * @brgument double
      * @exception IOException
      */
-    private void write_ieee_extended(DataOutputStream dos, float f) throws IOException {
-        /* The special cases NaN, Infinity and Zero are ignored, since
-           they do not represent useful sample rates anyway.
-           Denormalized number aren't handled, too. Below, there is a cast
-           from float to double. We hope that in this conversion,
-           numbers are normalized. Numbers that cannot be normalized are
-           ignored, too, as they, too, do not represent useful sample rates. */
+    privbte void write_ieee_extended(DbtbOutputStrebm dos, flobt f) throws IOException {
+        /* The specibl cbses NbN, Infinity bnd Zero bre ignored, since
+           they do not represent useful sbmple rbtes bnywby.
+           Denormblized number bren't hbndled, too. Below, there is b cbst
+           from flobt to double. We hope thbt in this conversion,
+           numbers bre normblized. Numbers thbt cbnnot be normblized bre
+           ignored, too, bs they, too, do not represent useful sbmple rbtes. */
         long doubleBits = Double.doubleToLongBits((double) f);
 
         long sign = (doubleBits & DOUBLE_SIGN_MASK)
             >> (DOUBLE_EXPONENT_LENGTH + DOUBLE_MANTISSA_LENGTH);
         long doubleExponent = (doubleBits & DOUBLE_EXPONENT_MASK)
             >> DOUBLE_MANTISSA_LENGTH;
-        long doubleMantissa = doubleBits & DOUBLE_MANTISSA_MASK;
+        long doubleMbntissb = doubleBits & DOUBLE_MANTISSA_MASK;
 
         long extendedExponent = doubleExponent - DOUBLE_EXPONENT_OFFSET
             + EXTENDED_EXPONENT_OFFSET;
-        long extendedMantissa = doubleMantissa
+        long extendedMbntissb = doubleMbntissb
             << (EXTENDED_MANTISSA_LENGTH - DOUBLE_MANTISSA_LENGTH);
         long extendedSign = sign << EXTENDED_EXPONENT_LENGTH;
         short extendedBits79To64 = (short) (extendedSign | extendedExponent);
-        long extendedBits63To0 = EXTENDED_INTEGER_MASK | extendedMantissa;
+        long extendedBits63To0 = EXTENDED_INTEGER_MASK | extendedMbntissb;
 
         dos.writeShort(extendedBits79To64);
         dos.writeLong(extendedBits63To0);

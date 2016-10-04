@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
 
 /**
- * Queue: implements a simple queue mechanism.  Allows for enumeration of the
+ * Queue: implements b simple queue mechbnism.  Allows for enumerbtion of the
  * elements.
  *
- * @author Herb Jellinek
+ * @buthor Herb Jellinek
  */
 
-public class Queue<T> {
+public clbss Queue<T> {
 
     int length = 0;
 
-    QueueElement<T> head = null;
-    QueueElement<T> tail = null;
+    QueueElement<T> hebd = null;
+    QueueElement<T> tbil = null;
 
     public Queue() {
     }
 
     /**
-     * Enqueue an object.
+     * Enqueue bn object.
      */
     public synchronized void enqueue(T obj) {
 
         QueueElement<T> newElt = new QueueElement<>(obj);
 
-        if (head == null) {
-            head = newElt;
-            tail = newElt;
+        if (hebd == null) {
+            hebd = newElt;
+            tbil = newElt;
             length = 1;
         } else {
-            newElt.next = head;
-            head.prev = newElt;
-            head = newElt;
+            newElt.next = hebd;
+            hebd.prev = newElt;
+            hebd = newElt;
             length++;
         }
         notify();
     }
 
     /**
-     * Dequeue the oldest object on the queue.  Will wait indefinitely.
+     * Dequeue the oldest object on the queue.  Will wbit indefinitely.
      *
      * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @exception jbvb.lbng.InterruptedException if bny threbd hbs
+     *              interrupted this threbd.
      */
     public T dequeue() throws InterruptedException {
         return dequeue(0L);
@@ -78,25 +78,25 @@ public class Queue<T> {
 
     /**
      * Dequeue the oldest object on the queue.
-     * @param timeOut the number of milliseconds to wait for something
-     * to arrive.
+     * @pbrbm timeOut the number of milliseconds to wbit for something
+     * to brrive.
      *
      * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @exception jbvb.lbng.InterruptedException if bny threbd hbs
+     *              interrupted this threbd.
      */
     public synchronized T dequeue(long timeOut)
         throws InterruptedException {
 
-        while (tail == null) {
-            wait(timeOut);
+        while (tbil == null) {
+            wbit(timeOut);
         }
-        QueueElement<T> elt = tail;
-        tail = elt.prev;
-        if (tail == null) {
-            head = null;
+        QueueElement<T> elt = tbil;
+        tbil = elt.prev;
+        if (tbil == null) {
+            hebd = null;
         } else {
-            tail.next = null;
+            tbil.next = null;
         }
         length--;
         return elt.obj;
@@ -106,57 +106,57 @@ public class Queue<T> {
      * Is the queue empty?
      * @return true if the queue is empty.
      */
-    public synchronized boolean isEmpty() {
-        return (tail == null);
+    public synchronized boolebn isEmpty() {
+        return (tbil == null);
     }
 
     /**
-     * Returns an enumeration of the elements in Last-In, First-Out
-     * order. Use the Enumeration methods on the returned object to
-     * fetch the elements sequentially.
+     * Returns bn enumerbtion of the elements in Lbst-In, First-Out
+     * order. Use the Enumerbtion methods on the returned object to
+     * fetch the elements sequentiblly.
      */
-    public final synchronized Enumeration<T> elements() {
-        return new LIFOQueueEnumerator<>(this);
+    public finbl synchronized Enumerbtion<T> elements() {
+        return new LIFOQueueEnumerbtor<>(this);
     }
 
     /**
-     * Returns an enumeration of the elements in First-In, First-Out
-     * order. Use the Enumeration methods on the returned object to
-     * fetch the elements sequentially.
+     * Returns bn enumerbtion of the elements in First-In, First-Out
+     * order. Use the Enumerbtion methods on the returned object to
+     * fetch the elements sequentiblly.
      */
-    public final synchronized Enumeration<T> reverseElements() {
-        return new FIFOQueueEnumerator<>(this);
+    public finbl synchronized Enumerbtion<T> reverseElements() {
+        return new FIFOQueueEnumerbtor<>(this);
     }
 
     public synchronized void dump(String msg) {
         System.err.println(">> "+msg);
-        System.err.println("["+length+" elt(s); head = "+
-                           (head == null ? "null" : (head.obj)+"")+
-                           " tail = "+(tail == null ? "null" : (tail.obj)+""));
-        QueueElement<T> cursor = head;
-        QueueElement<T> last = null;
+        System.err.println("["+length+" elt(s); hebd = "+
+                           (hebd == null ? "null" : (hebd.obj)+"")+
+                           " tbil = "+(tbil == null ? "null" : (tbil.obj)+""));
+        QueueElement<T> cursor = hebd;
+        QueueElement<T> lbst = null;
         while (cursor != null) {
             System.err.println("  "+cursor);
-            last = cursor;
+            lbst = cursor;
             cursor = cursor.next;
         }
-        if (last != tail) {
-            System.err.println("  tail != last: "+tail+", "+last);
+        if (lbst != tbil) {
+            System.err.println("  tbil != lbst: "+tbil+", "+lbst);
         }
         System.err.println("]");
     }
 }
 
-final class FIFOQueueEnumerator<T> implements Enumeration<T> {
+finbl clbss FIFOQueueEnumerbtor<T> implements Enumerbtion<T> {
     Queue<T> queue;
     QueueElement<T> cursor;
 
-    FIFOQueueEnumerator(Queue<T> q) {
+    FIFOQueueEnumerbtor(Queue<T> q) {
         queue = q;
-        cursor = q.tail;
+        cursor = q.tbil;
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         return (cursor != null);
     }
 
@@ -168,20 +168,20 @@ final class FIFOQueueEnumerator<T> implements Enumeration<T> {
                 return result.obj;
             }
         }
-        throw new NoSuchElementException("FIFOQueueEnumerator");
+        throw new NoSuchElementException("FIFOQueueEnumerbtor");
     }
 }
 
-final class LIFOQueueEnumerator<T> implements Enumeration<T> {
+finbl clbss LIFOQueueEnumerbtor<T> implements Enumerbtion<T> {
     Queue<T> queue;
     QueueElement<T> cursor;
 
-    LIFOQueueEnumerator(Queue<T> q) {
+    LIFOQueueEnumerbtor(Queue<T> q) {
         queue = q;
-        cursor = q.head;
+        cursor = q.hebd;
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         return (cursor != null);
     }
 
@@ -193,11 +193,11 @@ final class LIFOQueueEnumerator<T> implements Enumeration<T> {
                 return result.obj;
             }
         }
-        throw new NoSuchElementException("LIFOQueueEnumerator");
+        throw new NoSuchElementException("LIFOQueueEnumerbtor");
     }
 }
 
-class QueueElement<T> {
+clbss QueueElement<T> {
     QueueElement<T> next = null;
     QueueElement<T> prev = null;
 

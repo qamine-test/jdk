@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidParameterException;
-import java.util.Set;
+import jbvb.security.KeyStore;
+import jbvb.security.KeyStoreException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.util.Set;
 
 /**
- * Parameters used as input for the PKIX {@code CertPathBuilder}
- * algorithm.
+ * Pbrbmeters used bs input for the PKIX {@code CertPbthBuilder}
+ * blgorithm.
  * <p>
- * A PKIX {@code CertPathBuilder} uses these parameters to {@link
- * CertPathBuilder#build build} a {@code CertPath} which has been
- * validated according to the PKIX certification path validation algorithm.
+ * A PKIX {@code CertPbthBuilder} uses these pbrbmeters to {@link
+ * CertPbthBuilder#build build} b {@code CertPbth} which hbs been
+ * vblidbted bccording to the PKIX certificbtion pbth vblidbtion blgorithm.
  *
- * <p>To instantiate a {@code PKIXBuilderParameters} object, an
- * application must specify one or more <i>most-trusted CAs</i> as defined by
- * the PKIX certification path validation algorithm. The most-trusted CA
- * can be specified using one of two constructors. An application
- * can call {@link #PKIXBuilderParameters(Set, CertSelector)
- * PKIXBuilderParameters(Set, CertSelector)}, specifying a
- * {@code Set} of {@code TrustAnchor} objects, each of which
- * identifies a most-trusted CA. Alternatively, an application can call
- * {@link #PKIXBuilderParameters(KeyStore, CertSelector)
- * PKIXBuilderParameters(KeyStore, CertSelector)}, specifying a
- * {@code KeyStore} instance containing trusted certificate entries, each
- * of which will be considered as a most-trusted CA.
+ * <p>To instbntibte b {@code PKIXBuilderPbrbmeters} object, bn
+ * bpplicbtion must specify one or more <i>most-trusted CAs</i> bs defined by
+ * the PKIX certificbtion pbth vblidbtion blgorithm. The most-trusted CA
+ * cbn be specified using one of two constructors. An bpplicbtion
+ * cbn cbll {@link #PKIXBuilderPbrbmeters(Set, CertSelector)
+ * PKIXBuilderPbrbmeters(Set, CertSelector)}, specifying b
+ * {@code Set} of {@code TrustAnchor} objects, ebch of which
+ * identifies b most-trusted CA. Alternbtively, bn bpplicbtion cbn cbll
+ * {@link #PKIXBuilderPbrbmeters(KeyStore, CertSelector)
+ * PKIXBuilderPbrbmeters(KeyStore, CertSelector)}, specifying b
+ * {@code KeyStore} instbnce contbining trusted certificbte entries, ebch
+ * of which will be considered bs b most-trusted CA.
  *
- * <p>In addition, an application must specify constraints on the target
- * certificate that the {@code CertPathBuilder} will attempt
- * to build a path to. The constraints are specified as a
- * {@code CertSelector} object. These constraints should provide the
- * {@code CertPathBuilder} with enough search criteria to find the target
- * certificate. Minimal criteria for an {@code X509Certificate} usually
- * include the subject name and/or one or more subject alternative names.
- * If enough criteria is not specified, the {@code CertPathBuilder}
- * may throw a {@code CertPathBuilderException}.
+ * <p>In bddition, bn bpplicbtion must specify constrbints on the tbrget
+ * certificbte thbt the {@code CertPbthBuilder} will bttempt
+ * to build b pbth to. The constrbints bre specified bs b
+ * {@code CertSelector} object. These constrbints should provide the
+ * {@code CertPbthBuilder} with enough sebrch criterib to find the tbrget
+ * certificbte. Minimbl criterib for bn {@code X509Certificbte} usublly
+ * include the subject nbme bnd/or one or more subject blternbtive nbmes.
+ * If enough criterib is not specified, the {@code CertPbthBuilder}
+ * mby throw b {@code CertPbthBuilderException}.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see CertPathBuilder
+ * @see CertPbthBuilder
  *
  * @since       1.4
- * @author      Sean Mullan
+ * @buthor      Sebn Mullbn
  */
-public class PKIXBuilderParameters extends PKIXParameters {
+public clbss PKIXBuilderPbrbmeters extends PKIXPbrbmeters {
 
-    private int maxPathLength = 5;
+    privbte int mbxPbthLength = 5;
 
     /**
-     * Creates an instance of {@code PKIXBuilderParameters} with
+     * Crebtes bn instbnce of {@code PKIXBuilderPbrbmeters} with
      * the specified {@code Set} of most-trusted CAs.
-     * Each element of the set is a {@link TrustAnchor TrustAnchor}.
+     * Ebch element of the set is b {@link TrustAnchor TrustAnchor}.
      *
-     * <p>Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * <p>Note thbt the {@code Set} is copied to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @param targetConstraints a {@code CertSelector} specifying the
-     * constraints on the target certificate
-     * @throws InvalidAlgorithmParameterException if {@code trustAnchors}
+     * @pbrbm trustAnchors b {@code Set} of {@code TrustAnchor}s
+     * @pbrbm tbrgetConstrbints b {@code CertSelector} specifying the
+     * constrbints on the tbrget certificbte
+     * @throws InvblidAlgorithmPbrbmeterException if {@code trustAnchors}
      * is empty {@code (trustAnchors.isEmpty() == true)}
      * @throws NullPointerException if {@code trustAnchors} is
      * {@code null}
-     * @throws ClassCastException if any of the elements of
-     * {@code trustAnchors} are not of type
-     * {@code java.security.cert.TrustAnchor}
+     * @throws ClbssCbstException if bny of the elements of
+     * {@code trustAnchors} bre not of type
+     * {@code jbvb.security.cert.TrustAnchor}
      */
-    public PKIXBuilderParameters(Set<TrustAnchor> trustAnchors, CertSelector
-        targetConstraints) throws InvalidAlgorithmParameterException
+    public PKIXBuilderPbrbmeters(Set<TrustAnchor> trustAnchors, CertSelector
+        tbrgetConstrbints) throws InvblidAlgorithmPbrbmeterException
     {
         super(trustAnchors);
-        setTargetCertConstraints(targetConstraints);
+        setTbrgetCertConstrbints(tbrgetConstrbints);
     }
 
     /**
-     * Creates an instance of {@code PKIXBuilderParameters} that
-     * populates the set of most-trusted CAs from the trusted
-     * certificate entries contained in the specified {@code KeyStore}.
-     * Only keystore entries that contain trusted {@code X509Certificate}s
-     * are considered; all other certificate types are ignored.
+     * Crebtes bn instbnce of {@code PKIXBuilderPbrbmeters} thbt
+     * populbtes the set of most-trusted CAs from the trusted
+     * certificbte entries contbined in the specified {@code KeyStore}.
+     * Only keystore entries thbt contbin trusted {@code X509Certificbte}s
+     * bre considered; bll other certificbte types bre ignored.
      *
-     * @param keystore a {@code KeyStore} from which the set of
-     * most-trusted CAs will be populated
-     * @param targetConstraints a {@code CertSelector} specifying the
-     * constraints on the target certificate
-     * @throws KeyStoreException if {@code keystore} has not been
-     * initialized
-     * @throws InvalidAlgorithmParameterException if {@code keystore} does
-     * not contain at least one trusted certificate entry
+     * @pbrbm keystore b {@code KeyStore} from which the set of
+     * most-trusted CAs will be populbted
+     * @pbrbm tbrgetConstrbints b {@code CertSelector} specifying the
+     * constrbints on the tbrget certificbte
+     * @throws KeyStoreException if {@code keystore} hbs not been
+     * initiblized
+     * @throws InvblidAlgorithmPbrbmeterException if {@code keystore} does
+     * not contbin bt lebst one trusted certificbte entry
      * @throws NullPointerException if {@code keystore} is
      * {@code null}
      */
-    public PKIXBuilderParameters(KeyStore keystore,
-        CertSelector targetConstraints)
-        throws KeyStoreException, InvalidAlgorithmParameterException
+    public PKIXBuilderPbrbmeters(KeyStore keystore,
+        CertSelector tbrgetConstrbints)
+        throws KeyStoreException, InvblidAlgorithmPbrbmeterException
     {
         super(keystore);
-        setTargetCertConstraints(targetConstraints);
+        setTbrgetCertConstrbints(tbrgetConstrbints);
     }
 
     /**
-     * Sets the value of the maximum number of non-self-issued intermediate
-     * certificates that may exist in a certification path. A certificate
-     * is self-issued if the DNs that appear in the subject and issuer
-     * fields are identical and are not empty. Note that the last certificate
-     * in a certification path is not an intermediate certificate, and is not
-     * included in this limit. Usually the last certificate is an end entity
-     * certificate, but it can be a CA certificate. A PKIX
-     * {@code CertPathBuilder} instance must not build
-     * paths longer than the length specified.
+     * Sets the vblue of the mbximum number of non-self-issued intermedibte
+     * certificbtes thbt mby exist in b certificbtion pbth. A certificbte
+     * is self-issued if the DNs thbt bppebr in the subject bnd issuer
+     * fields bre identicbl bnd bre not empty. Note thbt the lbst certificbte
+     * in b certificbtion pbth is not bn intermedibte certificbte, bnd is not
+     * included in this limit. Usublly the lbst certificbte is bn end entity
+     * certificbte, but it cbn be b CA certificbte. A PKIX
+     * {@code CertPbthBuilder} instbnce must not build
+     * pbths longer thbn the length specified.
      *
-     * <p> A value of 0 implies that the path can only contain
-     * a single certificate. A value of -1 implies that the
-     * path length is unconstrained (i.e. there is no maximum).
-     * The default maximum path length, if not specified, is 5.
-     * Setting a value less than -1 will cause an exception to be thrown.
+     * <p> A vblue of 0 implies thbt the pbth cbn only contbin
+     * b single certificbte. A vblue of -1 implies thbt the
+     * pbth length is unconstrbined (i.e. there is no mbximum).
+     * The defbult mbximum pbth length, if not specified, is 5.
+     * Setting b vblue less thbn -1 will cbuse bn exception to be thrown.
      *
-     * <p> If any of the CA certificates contain the
-     * {@code BasicConstraintsExtension}, the value of the
-     * {@code pathLenConstraint} field of the extension overrides
-     * the maximum path length parameter whenever the result is a
-     * certification path of smaller length.
+     * <p> If bny of the CA certificbtes contbin the
+     * {@code BbsicConstrbintsExtension}, the vblue of the
+     * {@code pbthLenConstrbint} field of the extension overrides
+     * the mbximum pbth length pbrbmeter whenever the result is b
+     * certificbtion pbth of smbller length.
      *
-     * @param maxPathLength the maximum number of non-self-issued intermediate
-     *  certificates that may exist in a certification path
-     * @throws InvalidParameterException if {@code maxPathLength} is set
-     *  to a value less than -1
+     * @pbrbm mbxPbthLength the mbximum number of non-self-issued intermedibte
+     *  certificbtes thbt mby exist in b certificbtion pbth
+     * @throws InvblidPbrbmeterException if {@code mbxPbthLength} is set
+     *  to b vblue less thbn -1
      *
-     * @see #getMaxPathLength
+     * @see #getMbxPbthLength
      */
-    public void setMaxPathLength(int maxPathLength) {
-        if (maxPathLength < -1) {
-            throw new InvalidParameterException("the maximum path "
-                + "length parameter can not be less than -1");
+    public void setMbxPbthLength(int mbxPbthLength) {
+        if (mbxPbthLength < -1) {
+            throw new InvblidPbrbmeterException("the mbximum pbth "
+                + "length pbrbmeter cbn not be less thbn -1");
         }
-        this.maxPathLength = maxPathLength;
+        this.mbxPbthLength = mbxPbthLength;
     }
 
     /**
-     * Returns the value of the maximum number of intermediate non-self-issued
-     * certificates that may exist in a certification path. See
-     * the {@link #setMaxPathLength} method for more details.
+     * Returns the vblue of the mbximum number of intermedibte non-self-issued
+     * certificbtes thbt mby exist in b certificbtion pbth. See
+     * the {@link #setMbxPbthLength} method for more detbils.
      *
-     * @return the maximum number of non-self-issued intermediate certificates
-     *  that may exist in a certification path, or -1 if there is no limit
+     * @return the mbximum number of non-self-issued intermedibte certificbtes
+     *  thbt mby exist in b certificbtion pbth, or -1 if there is no limit
      *
-     * @see #setMaxPathLength
+     * @see #setMbxPbthLength
      */
-    public int getMaxPathLength() {
-        return maxPathLength;
+    public int getMbxPbthLength() {
+        return mbxPbthLength;
     }
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      *
-     * @return a formatted string describing the parameters
+     * @return b formbtted string describing the pbrbmeters
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
-        sb.append(super.toString());
-        sb.append("  Maximum Path Length: " + maxPathLength + "\n");
-        sb.append("]\n");
+        sb.bppend("[\n");
+        sb.bppend(super.toString());
+        sb.bppend("  Mbximum Pbth Length: " + mbxPbthLength + "\n");
+        sb.bppend("]\n");
         return sb.toString();
     }
 }

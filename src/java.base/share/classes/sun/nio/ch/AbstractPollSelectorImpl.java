@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.*;
 import sun.misc.*;
 
 
 /**
- * An abstract selector impl.
+ * An bbstrbct selector impl.
  */
 
-abstract class AbstractPollSelectorImpl
+bbstrbct clbss AbstrbctPollSelectorImpl
     extends SelectorImpl
 {
 
-    // The poll fd array
-    PollArrayWrapper pollWrapper;
+    // The poll fd brrby
+    PollArrbyWrbpper pollWrbpper;
 
-    // Initial capacity of the pollfd array
-    protected final int INIT_CAP = 10;
+    // Initibl cbpbcity of the pollfd brrby
+    protected finbl int INIT_CAP = 10;
 
-    // The list of SelectableChannels serviced by this Selector
-    protected SelectionKeyImpl[] channelArray;
+    // The list of SelectbbleChbnnels serviced by this Selector
+    protected SelectionKeyImpl[] chbnnelArrby;
 
-    // In some impls the first entry of channelArray is bogus
-    protected int channelOffset = 0;
+    // In some impls the first entry of chbnnelArrby is bogus
+    protected int chbnnelOffset = 0;
 
-    // The number of valid channels in this Selector's poll array
-    protected int totalChannels;
+    // The number of vblid chbnnels in this Selector's poll brrby
+    protected int totblChbnnels;
 
-    // True if this Selector has been closed
-    private boolean closed = false;
+    // True if this Selector hbs been closed
+    privbte boolebn closed = fblse;
 
-    // Lock for close and cleanup
-    private Object closeLock = new Object();
+    // Lock for close bnd clebnup
+    privbte Object closeLock = new Object();
 
-    AbstractPollSelectorImpl(SelectorProvider sp, int channels, int offset) {
+    AbstrbctPollSelectorImpl(SelectorProvider sp, int chbnnels, int offset) {
         super(sp);
-        this.totalChannels = channels;
-        this.channelOffset = offset;
+        this.totblChbnnels = chbnnels;
+        this.chbnnelOffset = offset;
     }
 
     public void putEventOps(SelectionKeyImpl sk, int ops) {
         synchronized (closeLock) {
             if (closed)
                 throw new ClosedSelectorException();
-            pollWrapper.putEventOps(sk.getIndex(), ops);
+            pollWrbpper.putEventOps(sk.getIndex(), ops);
         }
     }
 
-    public Selector wakeup() {
-        pollWrapper.interrupt();
+    public Selector wbkeup() {
+        pollWrbpper.interrupt();
         return this;
     }
 
-    protected abstract int doSelect(long timeout) throws IOException;
+    protected bbstrbct int doSelect(long timeout) throws IOException;
 
     protected void implClose() throws IOException {
         synchronized (closeLock) {
             if (closed)
                 return;
             closed = true;
-            // Deregister channels
-            for(int i=channelOffset; i<totalChannels; i++) {
-                SelectionKeyImpl ski = channelArray[i];
-                assert(ski.getIndex() != -1);
+            // Deregister chbnnels
+            for(int i=chbnnelOffset; i<totblChbnnels; i++) {
+                SelectionKeyImpl ski = chbnnelArrby[i];
+                bssert(ski.getIndex() != -1);
                 ski.setIndex(-1);
                 deregister(ski);
-                SelectableChannel selch = channelArray[i].channel();
+                SelectbbleChbnnel selch = chbnnelArrby[i].chbnnel();
                 if (!selch.isOpen() && !selch.isRegistered())
                     ((SelChImpl)selch).kill();
             }
             implCloseInterrupt();
-            pollWrapper.free();
-            pollWrapper = null;
+            pollWrbpper.free();
+            pollWrbpper = null;
             selectedKeys = null;
-            channelArray = null;
-            totalChannels = 0;
+            chbnnelArrby = null;
+            totblChbnnels = 0;
         }
     }
 
-    protected abstract void implCloseInterrupt() throws IOException;
+    protected bbstrbct void implCloseInterrupt() throws IOException;
 
     /**
-     * Copy the information in the pollfd structs into the opss
-     * of the corresponding Channels. Add the ready keys to the
-     * ready queue.
+     * Copy the informbtion in the pollfd structs into the opss
+     * of the corresponding Chbnnels. Add the rebdy keys to the
+     * rebdy queue.
      */
-    protected int updateSelectedKeys() {
-        int numKeysUpdated = 0;
+    protected int updbteSelectedKeys() {
+        int numKeysUpdbted = 0;
         // Skip zeroth entry; it is for interrupts only
-        for (int i=channelOffset; i<totalChannels; i++) {
-            int rOps = pollWrapper.getReventOps(i);
+        for (int i=chbnnelOffset; i<totblChbnnels; i++) {
+            int rOps = pollWrbpper.getReventOps(i);
             if (rOps != 0) {
-                SelectionKeyImpl sk = channelArray[i];
-                pollWrapper.putReventOps(i, 0);
-                if (selectedKeys.contains(sk)) {
-                    if (sk.channel.translateAndSetReadyOps(rOps, sk)) {
-                        numKeysUpdated++;
+                SelectionKeyImpl sk = chbnnelArrby[i];
+                pollWrbpper.putReventOps(i, 0);
+                if (selectedKeys.contbins(sk)) {
+                    if (sk.chbnnel.trbnslbteAndSetRebdyOps(rOps, sk)) {
+                        numKeysUpdbted++;
                     }
                 } else {
-                    sk.channel.translateAndSetReadyOps(rOps, sk);
-                    if ((sk.nioReadyOps() & sk.nioInterestOps()) != 0) {
-                        selectedKeys.add(sk);
-                        numKeysUpdated++;
+                    sk.chbnnel.trbnslbteAndSetRebdyOps(rOps, sk);
+                    if ((sk.nioRebdyOps() & sk.nioInterestOps()) != 0) {
+                        selectedKeys.bdd(sk);
+                        numKeysUpdbted++;
                     }
                 }
             }
         }
-        return numKeysUpdated;
+        return numKeysUpdbted;
     }
 
     protected void implRegister(SelectionKeyImpl ski) {
@@ -142,54 +142,54 @@ abstract class AbstractPollSelectorImpl
             if (closed)
                 throw new ClosedSelectorException();
 
-            // Check to see if the array is large enough
-            if (channelArray.length == totalChannels) {
-                // Make a larger array
-                int newSize = pollWrapper.totalChannels * 2;
+            // Check to see if the brrby is lbrge enough
+            if (chbnnelArrby.length == totblChbnnels) {
+                // Mbke b lbrger brrby
+                int newSize = pollWrbpper.totblChbnnels * 2;
                 SelectionKeyImpl temp[] = new SelectionKeyImpl[newSize];
                 // Copy over
-                for (int i=channelOffset; i<totalChannels; i++)
-                    temp[i] = channelArray[i];
-                channelArray = temp;
-                // Grow the NativeObject poll array
-                pollWrapper.grow(newSize);
+                for (int i=chbnnelOffset; i<totblChbnnels; i++)
+                    temp[i] = chbnnelArrby[i];
+                chbnnelArrby = temp;
+                // Grow the NbtiveObject poll brrby
+                pollWrbpper.grow(newSize);
             }
-            channelArray[totalChannels] = ski;
-            ski.setIndex(totalChannels);
-            pollWrapper.addEntry(ski.channel);
-            totalChannels++;
-            keys.add(ski);
+            chbnnelArrby[totblChbnnels] = ski;
+            ski.setIndex(totblChbnnels);
+            pollWrbpper.bddEntry(ski.chbnnel);
+            totblChbnnels++;
+            keys.bdd(ski);
         }
     }
 
     protected void implDereg(SelectionKeyImpl ski) throws IOException {
-        // Algorithm: Copy the sc from the end of the list and put it into
-        // the location of the sc to be removed (since order doesn't
-        // matter). Decrement the sc count. Update the index of the sc
-        // that is moved.
+        // Algorithm: Copy the sc from the end of the list bnd put it into
+        // the locbtion of the sc to be removed (since order doesn't
+        // mbtter). Decrement the sc count. Updbte the index of the sc
+        // thbt is moved.
         int i = ski.getIndex();
-        assert (i >= 0);
-        if (i != totalChannels - 1) {
+        bssert (i >= 0);
+        if (i != totblChbnnels - 1) {
             // Copy end one over it
-            SelectionKeyImpl endChannel = channelArray[totalChannels-1];
-            channelArray[i] = endChannel;
-            endChannel.setIndex(i);
-            pollWrapper.release(i);
-            PollArrayWrapper.replaceEntry(pollWrapper, totalChannels - 1,
-                                          pollWrapper, i);
+            SelectionKeyImpl endChbnnel = chbnnelArrby[totblChbnnels-1];
+            chbnnelArrby[i] = endChbnnel;
+            endChbnnel.setIndex(i);
+            pollWrbpper.relebse(i);
+            PollArrbyWrbpper.replbceEntry(pollWrbpper, totblChbnnels - 1,
+                                          pollWrbpper, i);
         } else {
-            pollWrapper.release(i);
+            pollWrbpper.relebse(i);
         }
-        // Destroy the last one
-        channelArray[totalChannels-1] = null;
-        totalChannels--;
-        pollWrapper.totalChannels--;
+        // Destroy the lbst one
+        chbnnelArrby[totblChbnnels-1] = null;
+        totblChbnnels--;
+        pollWrbpper.totblChbnnels--;
         ski.setIndex(-1);
-        // Remove the key from keys and selectedKeys
+        // Remove the key from keys bnd selectedKeys
         keys.remove(ski);
         selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
+        deregister((AbstrbctSelectionKey)ski);
+        SelectbbleChbnnel selch = ski.chbnnel();
         if (!selch.isOpen() && !selch.isRegistered())
             ((SelChImpl)selch).kill();
     }

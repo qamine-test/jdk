@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
 /**
- * Reads a single HTTP query from a socket, and starts up a QueryHandler
+ * Rebds b single HTTP query from b socket, bnd stbrts up b QueryHbndler
  * to server it.
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-import java.net.Socket;
+import jbvb.net.Socket;
 
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.OutputStreamWriter;
+import jbvb.io.InputStrebm;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.BufferedWriter;
+import jbvb.io.PrintWriter;
+import jbvb.io.OutputStrebmWriter;
 
-import com.sun.tools.hat.internal.model.Snapshot;
-import com.sun.tools.hat.internal.oql.OQLEngine;
-import com.sun.tools.hat.internal.util.Misc;
+import com.sun.tools.hbt.internbl.model.Snbpshot;
+import com.sun.tools.hbt.internbl.oql.OQLEngine;
+import com.sun.tools.hbt.internbl.util.Misc;
 
-public class HttpReader implements Runnable {
+public clbss HttpRebder implements Runnbble {
 
 
-    private Socket socket;
-    private PrintWriter out;
-    private Snapshot snapshot;
-    private OQLEngine engine;
+    privbte Socket socket;
+    privbte PrintWriter out;
+    privbte Snbpshot snbpshot;
+    privbte OQLEngine engine;
 
-    public HttpReader (Socket s, Snapshot snapshot, OQLEngine engine) {
+    public HttpRebder (Socket s, Snbpshot snbpshot, OQLEngine engine) {
         this.socket = s;
-        this.snapshot = snapshot;
+        this.snbpshot = snbpshot;
         this.engine = engine;
     }
 
     public void run() {
-        InputStream in = null;
+        InputStrebm in = null;
         try {
-            in = new BufferedInputStream(socket.getInputStream());
+            in = new BufferedInputStrebm(socket.getInputStrebm());
             out = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(
-                                socket.getOutputStream())));
+                            new OutputStrebmWriter(
+                                socket.getOutputStrebm())));
             out.println("HTTP/1.0 200 OK");
-            out.println("Cache-Control: no-cache");
-            out.println("Pragma: no-cache");
+            out.println("Cbche-Control: no-cbche");
+            out.println("Prbgmb: no-cbche");
             out.println();
-            if (in.read() != 'G' || in.read() != 'E'
-                    || in.read() != 'T' || in.read() != ' ') {
+            if (in.rebd() != 'G' || in.rebd() != 'E'
+                    || in.rebd() != 'T' || in.rebd() != ' ') {
                 outputError("Protocol error");
             }
-            int data;
+            int dbtb;
             StringBuilder queryBuf = new StringBuilder();
-            while ((data = in.read()) != -1 && data != ' ') {
-                char ch = (char) data;
-                queryBuf.append(ch);
+            while ((dbtb = in.rebd()) != -1 && dbtb != ' ') {
+                chbr ch = (chbr) dbtb;
+                queryBuf.bppend(ch);
             }
             String query = queryBuf.toString();
-            query = java.net.URLDecoder.decode(query, "UTF-8");
-            QueryHandler handler = null;
-            if (snapshot == null) {
-                outputError("The heap snapshot is still being read.");
+            query = jbvb.net.URLDecoder.decode(query, "UTF-8");
+            QueryHbndler hbndler = null;
+            if (snbpshot == null) {
+                outputError("The hebp snbpshot is still being rebd.");
                 return;
-            } else if (query.equals("/")) {
-                handler = new AllClassesQuery(true, engine != null);
-                handler.setUrlStart("");
-                handler.setQuery("");
-            } else if (query.startsWith("/oql/")) {
+            } else if (query.equbls("/")) {
+                hbndler = new AllClbssesQuery(true, engine != null);
+                hbndler.setUrlStbrt("");
+                hbndler.setQuery("");
+            } else if (query.stbrtsWith("/oql/")) {
                 if (engine != null) {
-                    handler = new OQLQuery(engine);
-                    handler.setUrlStart("");
-                    handler.setQuery(query.substring(5));
+                    hbndler = new OQLQuery(engine);
+                    hbndler.setUrlStbrt("");
+                    hbndler.setQuery(query.substring(5));
                 }
-            } else if (query.startsWith("/oqlhelp/")) {
+            } else if (query.stbrtsWith("/oqlhelp/")) {
                 if (engine != null) {
-                    handler = new OQLHelp();
-                    handler.setUrlStart("");
-                    handler.setQuery("");
+                    hbndler = new OQLHelp();
+                    hbndler.setUrlStbrt("");
+                    hbndler.setQuery("");
                 }
-            } else if (query.equals("/allClassesWithPlatform/")) {
-                handler = new AllClassesQuery(false, engine != null);
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.equals("/showRoots/")) {
-                handler = new AllRootsQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.equals("/showInstanceCounts/includePlatform/")) {
-                handler = new InstancesCountQuery(false);
-                handler.setUrlStart("../../");
-                handler.setQuery("");
-            } else if (query.equals("/showInstanceCounts/")) {
-                handler = new InstancesCountQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.startsWith("/instances/")) {
-                handler = new InstancesQuery(false);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(11));
-            }  else if (query.startsWith("/newInstances/")) {
-                handler = new InstancesQuery(false, true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(14));
-            }  else if (query.startsWith("/allInstances/")) {
-                handler = new InstancesQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(14));
-            }  else if (query.startsWith("/allNewInstances/")) {
-                handler = new InstancesQuery(true, true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(17));
-            } else if (query.startsWith("/object/")) {
-                handler = new ObjectQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(8));
-            } else if (query.startsWith("/class/")) {
-                handler = new ClassQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/roots/")) {
-                handler = new RootsQuery(false);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/allRoots/")) {
-                handler = new RootsQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(10));
-            } else if (query.startsWith("/reachableFrom/")) {
-                handler = new ReachableQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(15));
-            } else if (query.startsWith("/rootStack/")) {
-                handler = new RootStackQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(11));
-            } else if (query.startsWith("/histo/")) {
-                handler = new HistogramQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/refsByType/")) {
-                handler = new RefsByTypeQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(12));
-            } else if (query.startsWith("/finalizerSummary/")) {
-                handler = new FinalizerSummaryQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.startsWith("/finalizerObjects/")) {
-                handler = new FinalizerObjectsQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
+            } else if (query.equbls("/bllClbssesWithPlbtform/")) {
+                hbndler = new AllClbssesQuery(fblse, engine != null);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery("");
+            } else if (query.equbls("/showRoots/")) {
+                hbndler = new AllRootsQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery("");
+            } else if (query.equbls("/showInstbnceCounts/includePlbtform/")) {
+                hbndler = new InstbncesCountQuery(fblse);
+                hbndler.setUrlStbrt("../../");
+                hbndler.setQuery("");
+            } else if (query.equbls("/showInstbnceCounts/")) {
+                hbndler = new InstbncesCountQuery(true);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery("");
+            } else if (query.stbrtsWith("/instbnces/")) {
+                hbndler = new InstbncesQuery(fblse);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(11));
+            }  else if (query.stbrtsWith("/newInstbnces/")) {
+                hbndler = new InstbncesQuery(fblse, true);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(14));
+            }  else if (query.stbrtsWith("/bllInstbnces/")) {
+                hbndler = new InstbncesQuery(true);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(14));
+            }  else if (query.stbrtsWith("/bllNewInstbnces/")) {
+                hbndler = new InstbncesQuery(true, true);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(17));
+            } else if (query.stbrtsWith("/object/")) {
+                hbndler = new ObjectQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(8));
+            } else if (query.stbrtsWith("/clbss/")) {
+                hbndler = new ClbssQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(7));
+            } else if (query.stbrtsWith("/roots/")) {
+                hbndler = new RootsQuery(fblse);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(7));
+            } else if (query.stbrtsWith("/bllRoots/")) {
+                hbndler = new RootsQuery(true);
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(10));
+            } else if (query.stbrtsWith("/rebchbbleFrom/")) {
+                hbndler = new RebchbbleQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(15));
+            } else if (query.stbrtsWith("/rootStbck/")) {
+                hbndler = new RootStbckQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(11));
+            } else if (query.stbrtsWith("/histo/")) {
+                hbndler = new HistogrbmQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(7));
+            } else if (query.stbrtsWith("/refsByType/")) {
+                hbndler = new RefsByTypeQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery(query.substring(12));
+            } else if (query.stbrtsWith("/finblizerSummbry/")) {
+                hbndler = new FinblizerSummbryQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery("");
+            } else if (query.stbrtsWith("/finblizerObjects/")) {
+                hbndler = new FinblizerObjectsQuery();
+                hbndler.setUrlStbrt("../");
+                hbndler.setQuery("");
             }
 
-            if (handler != null) {
-                handler.setOutput(out);
-                handler.setSnapshot(snapshot);
-                handler.run();
+            if (hbndler != null) {
+                hbndler.setOutput(out);
+                hbndler.setSnbpshot(snbpshot);
+                hbndler.run();
             } else {
                 outputError("Query '" + query + "' not implemented");
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
+        } cbtch (IOException ex) {
+            ex.printStbckTrbce();
+        } finblly {
             if (out != null) {
                 out.close();
             }
@@ -201,16 +201,16 @@ public class HttpReader implements Runnable {
                 if (in != null) {
                     in.close();
                 }
-            } catch (IOException ignored) {
+            } cbtch (IOException ignored) {
             }
             try {
                 socket.close();
-            } catch (IOException ignored) {
+            } cbtch (IOException ignored) {
             }
         }
     }
 
-    private void outputError(String msg) {
+    privbte void outputError(String msg) {
         out.println();
         out.println("<html><body bgcolor=\"#ffffff\">");
         out.println(Misc.encodeHtml(msg));

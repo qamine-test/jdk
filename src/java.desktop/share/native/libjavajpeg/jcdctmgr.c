@@ -5,40 +5,40 @@
 /*
  * jcdctmgr.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains the forward-DCT management logic.
- * This code selects a particular DCT implementation to be used,
- * and it performs related housekeeping chores including coefficient
- * quantization.
+ * This file contbins the forwbrd-DCT mbnbgement logic.
+ * This code selects b pbrticulbr DCT implementbtion to be used,
+ * bnd it performs relbted housekeeping chores including coefficient
+ * qubntizbtion.
  */
 
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jdct.h"               /* Private declarations for DCT subsystem */
+#include "jdct.h"               /* Privbte declbrbtions for DCT subsystem */
 
 
-/* Private subobject for this module */
+/* Privbte subobject for this module */
 
 typedef struct {
-  struct jpeg_forward_dct pub;  /* public fields */
+  struct jpeg_forwbrd_dct pub;  /* public fields */
 
-  /* Pointer to the DCT routine actually in use */
-  forward_DCT_method_ptr do_dct;
+  /* Pointer to the DCT routine bctublly in use */
+  forwbrd_DCT_method_ptr do_dct;
 
-  /* The actual post-DCT divisors --- not identical to the quant table
-   * entries, because of scaling (especially for an unnormalized DCT).
-   * Each table is given in normal array order.
+  /* The bctubl post-DCT divisors --- not identicbl to the qubnt tbble
+   * entries, becbuse of scbling (especiblly for bn unnormblized DCT).
+   * Ebch tbble is given in normbl brrby order.
    */
   DCTELEM * divisors[NUM_QUANT_TBLS];
 
 #ifdef DCT_FLOAT_SUPPORTED
-  /* Same as above for the floating-point case. */
-  float_DCT_method_ptr do_float_dct;
-  FAST_FLOAT * float_divisors[NUM_QUANT_TBLS];
+  /* Sbme bs bbove for the flobting-point cbse. */
+  flobt_DCT_method_ptr do_flobt_dct;
+  FAST_FLOAT * flobt_divisors[NUM_QUANT_TBLS];
 #endif
 } my_fdct_controller;
 
@@ -46,16 +46,16 @@ typedef my_fdct_controller * my_fdct_ptr;
 
 
 /*
- * Initialize for a processing pass.
- * Verify that all referenced Q-tables are present, and set up
- * the divisor table for each one.
- * In the current implementation, DCT of all components is done during
- * the first pass, even if only some components will be output in the
- * first scan.  Hence all components should be examined here.
+ * Initiblize for b processing pbss.
+ * Verify thbt bll referenced Q-tbbles bre present, bnd set up
+ * the divisor tbble for ebch one.
+ * In the current implementbtion, DCT of bll components is done during
+ * the first pbss, even if only some components will be output in the
+ * first scbn.  Hence bll components should be exbmined here.
  */
 
 METHODDEF(void)
-start_pass_fdctmgr (j_compress_ptr cinfo)
+stbrt_pbss_fdctmgr (j_compress_ptr cinfo)
 {
   my_fdct_ptr fdct = (my_fdct_ptr) cinfo->fdct;
   int ci, qtblno, i;
@@ -65,43 +65,43 @@ start_pass_fdctmgr (j_compress_ptr cinfo)
 
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    qtblno = compptr->quant_tbl_no;
-    /* Make sure specified quantization table is present */
+    qtblno = compptr->qubnt_tbl_no;
+    /* Mbke sure specified qubntizbtion tbble is present */
     if (qtblno < 0 || qtblno >= NUM_QUANT_TBLS ||
-        cinfo->quant_tbl_ptrs[qtblno] == NULL)
+        cinfo->qubnt_tbl_ptrs[qtblno] == NULL)
       ERREXIT1(cinfo, JERR_NO_QUANT_TABLE, qtblno);
-    qtbl = cinfo->quant_tbl_ptrs[qtblno];
-    /* Compute divisors for this quant table */
-    /* We may do this more than once for same table, but it's not a big deal */
+    qtbl = cinfo->qubnt_tbl_ptrs[qtblno];
+    /* Compute divisors for this qubnt tbble */
+    /* We mby do this more thbn once for sbme tbble, but it's not b big debl */
     switch (cinfo->dct_method) {
 #ifdef DCT_ISLOW_SUPPORTED
-    case JDCT_ISLOW:
-      /* For LL&M IDCT method, divisors are equal to raw quantization
-       * coefficients multiplied by 8 (to counteract scaling).
+    cbse JDCT_ISLOW:
+      /* For LL&M IDCT method, divisors bre equbl to rbw qubntizbtion
+       * coefficients multiplied by 8 (to counterbct scbling).
        */
       if (fdct->divisors[qtblno] == NULL) {
         fdct->divisors[qtblno] = (DCTELEM *)
-          (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+          (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                       DCTSIZE2 * SIZEOF(DCTELEM));
       }
       dtbl = fdct->divisors[qtblno];
       for (i = 0; i < DCTSIZE2; i++) {
-        dtbl[i] = ((DCTELEM) qtbl->quantval[i]) << 3;
+        dtbl[i] = ((DCTELEM) qtbl->qubntvbl[i]) << 3;
       }
-      break;
+      brebk;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
-    case JDCT_IFAST:
+    cbse JDCT_IFAST:
       {
-        /* For AA&N IDCT method, divisors are equal to quantization
-         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-         *   scalefactor[0] = 1
-         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-         * We apply a further scale factor of 8.
+        /* For AA&N IDCT method, divisors bre equbl to qubntizbtion
+         * coefficients scbled by scblefbctor[row]*scblefbctor[col], where
+         *   scblefbctor[0] = 1
+         *   scblefbctor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+         * We bpply b further scble fbctor of 8.
          */
 #define CONST_BITS 14
-        static const INT16 aanscales[DCTSIZE2] = {
-          /* precomputed values scaled up by 14 bits */
+        stbtic const INT16 bbnscbles[DCTSIZE2] = {
+          /* precomputed vblues scbled up by 14 bits */
           16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
           22725, 31521, 29692, 26722, 22725, 17855, 12299,  6270,
           21407, 29692, 27969, 25172, 21407, 16819, 11585,  5906,
@@ -115,109 +115,109 @@ start_pass_fdctmgr (j_compress_ptr cinfo)
 
         if (fdct->divisors[qtblno] == NULL) {
           fdct->divisors[qtblno] = (DCTELEM *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+            (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                         DCTSIZE2 * SIZEOF(DCTELEM));
         }
         dtbl = fdct->divisors[qtblno];
         for (i = 0; i < DCTSIZE2; i++) {
           dtbl[i] = (DCTELEM)
-            DESCALE(MULTIPLY16V16((INT32) qtbl->quantval[i],
-                                  (INT32) aanscales[i]),
+            DESCALE(MULTIPLY16V16((INT32) qtbl->qubntvbl[i],
+                                  (INT32) bbnscbles[i]),
                     CONST_BITS-3);
         }
       }
-      break;
+      brebk;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
-    case JDCT_FLOAT:
+    cbse JDCT_FLOAT:
       {
-        /* For float AA&N IDCT method, divisors are equal to quantization
-         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-         *   scalefactor[0] = 1
-         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-         * We apply a further scale factor of 8.
-         * What's actually stored is 1/divisor so that the inner loop can
-         * use a multiplication rather than a division.
+        /* For flobt AA&N IDCT method, divisors bre equbl to qubntizbtion
+         * coefficients scbled by scblefbctor[row]*scblefbctor[col], where
+         *   scblefbctor[0] = 1
+         *   scblefbctor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+         * We bpply b further scble fbctor of 8.
+         * Whbt's bctublly stored is 1/divisor so thbt the inner loop cbn
+         * use b multiplicbtion rbther thbn b division.
          */
         FAST_FLOAT * fdtbl;
         int row, col;
-        static const double aanscalefactor[DCTSIZE] = {
+        stbtic const double bbnscblefbctor[DCTSIZE] = {
           1.0, 1.387039845, 1.306562965, 1.175875602,
           1.0, 0.785694958, 0.541196100, 0.275899379
         };
 
-        if (fdct->float_divisors[qtblno] == NULL) {
-          fdct->float_divisors[qtblno] = (FAST_FLOAT *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+        if (fdct->flobt_divisors[qtblno] == NULL) {
+          fdct->flobt_divisors[qtblno] = (FAST_FLOAT *)
+            (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                         DCTSIZE2 * SIZEOF(FAST_FLOAT));
         }
-        fdtbl = fdct->float_divisors[qtblno];
+        fdtbl = fdct->flobt_divisors[qtblno];
         i = 0;
         for (row = 0; row < DCTSIZE; row++) {
           for (col = 0; col < DCTSIZE; col++) {
             fdtbl[i] = (FAST_FLOAT)
-              (1.0 / (((double) qtbl->quantval[i] *
-                       aanscalefactor[row] * aanscalefactor[col] * 8.0)));
+              (1.0 / (((double) qtbl->qubntvbl[i] *
+                       bbnscblefbctor[row] * bbnscblefbctor[col] * 8.0)));
             i++;
           }
         }
       }
-      break;
+      brebk;
 #endif
-    default:
+    defbult:
       ERREXIT(cinfo, JERR_NOT_COMPILED);
-      break;
+      brebk;
     }
   }
 }
 
 
 /*
- * Perform forward DCT on one or more blocks of a component.
+ * Perform forwbrd DCT on one or more blocks of b component.
  *
- * The input samples are taken from the sample_data[] array starting at
- * position start_row/start_col, and moving to the right for any additional
- * blocks. The quantized coefficients are returned in coef_blocks[].
+ * The input sbmples bre tbken from the sbmple_dbtb[] brrby stbrting bt
+ * position stbrt_row/stbrt_col, bnd moving to the right for bny bdditionbl
+ * blocks. The qubntized coefficients bre returned in coef_blocks[].
  */
 
 METHODDEF(void)
-forward_DCT (j_compress_ptr cinfo, jpeg_component_info * compptr,
-             JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
-             JDIMENSION start_row, JDIMENSION start_col,
+forwbrd_DCT (j_compress_ptr cinfo, jpeg_component_info * compptr,
+             JSAMPARRAY sbmple_dbtb, JBLOCKROW coef_blocks,
+             JDIMENSION stbrt_row, JDIMENSION stbrt_col,
              JDIMENSION num_blocks)
-/* This version is used for integer DCT implementations. */
+/* This version is used for integer DCT implementbtions. */
 {
-  /* This routine is heavily used, so it's worth coding it tightly. */
+  /* This routine is hebvily used, so it's worth coding it tightly. */
   my_fdct_ptr fdct = (my_fdct_ptr) cinfo->fdct;
-  forward_DCT_method_ptr do_dct = fdct->do_dct;
-  DCTELEM * divisors = fdct->divisors[compptr->quant_tbl_no];
-  DCTELEM workspace[DCTSIZE2];  /* work area for FDCT subroutine */
+  forwbrd_DCT_method_ptr do_dct = fdct->do_dct;
+  DCTELEM * divisors = fdct->divisors[compptr->qubnt_tbl_no];
+  DCTELEM workspbce[DCTSIZE2];  /* work breb for FDCT subroutine */
   JDIMENSION bi;
 
-  sample_data += start_row;     /* fold in the vertical offset once */
+  sbmple_dbtb += stbrt_row;     /* fold in the verticbl offset once */
 
-  for (bi = 0; bi < num_blocks; bi++, start_col += DCTSIZE) {
-    /* Load data into workspace, applying unsigned->signed conversion */
-    { register DCTELEM *workspaceptr;
+  for (bi = 0; bi < num_blocks; bi++, stbrt_col += DCTSIZE) {
+    /* Lobd dbtb into workspbce, bpplying unsigned->signed conversion */
+    { register DCTELEM *workspbceptr;
       register JSAMPROW elemptr;
       register int elemr;
 
-      workspaceptr = workspace;
+      workspbceptr = workspbce;
       for (elemr = 0; elemr < DCTSIZE; elemr++) {
-        elemptr = sample_data[elemr] + start_col;
+        elemptr = sbmple_dbtb[elemr] + stbrt_col;
 #if DCTSIZE == 8                /* unroll the inner loop */
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
-        *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+        *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
 #else
         { register int elemc;
           for (elemc = DCTSIZE; elemc > 0; elemc--) {
-            *workspaceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
+            *workspbceptr++ = GETJSAMPLE(*elemptr++) - CENTERJSAMPLE;
           }
         }
 #endif
@@ -225,41 +225,41 @@ forward_DCT (j_compress_ptr cinfo, jpeg_component_info * compptr,
     }
 
     /* Perform the DCT */
-    (*do_dct) (workspace);
+    (*do_dct) (workspbce);
 
-    /* Quantize/descale the coefficients, and store into coef_blocks[] */
-    { register DCTELEM temp, qval;
+    /* Qubntize/descble the coefficients, bnd store into coef_blocks[] */
+    { register DCTELEM temp, qvbl;
       register int i;
       register JCOEFPTR output_ptr = coef_blocks[bi];
 
       for (i = 0; i < DCTSIZE2; i++) {
-        qval = divisors[i];
-        temp = workspace[i];
-        /* Divide the coefficient value by qval, ensuring proper rounding.
-         * Since C does not specify the direction of rounding for negative
-         * quotients, we have to force the dividend positive for portability.
+        qvbl = divisors[i];
+        temp = workspbce[i];
+        /* Divide the coefficient vblue by qvbl, ensuring proper rounding.
+         * Since C does not specify the direction of rounding for negbtive
+         * quotients, we hbve to force the dividend positive for portbbility.
          *
-         * In most files, at least half of the output values will be zero
-         * (at default quantization settings, more like three-quarters...)
-         * so we should ensure that this case is fast.  On many machines,
-         * a comparison is enough cheaper than a divide to make a special test
-         * a win.  Since both inputs will be nonnegative, we need only test
-         * for a < b to discover whether a/b is 0.
-         * If your machine's division is fast enough, define FAST_DIVIDE.
+         * In most files, bt lebst hblf of the output vblues will be zero
+         * (bt defbult qubntizbtion settings, more like three-qubrters...)
+         * so we should ensure thbt this cbse is fbst.  On mbny mbchines,
+         * b compbrison is enough chebper thbn b divide to mbke b specibl test
+         * b win.  Since both inputs will be nonnegbtive, we need only test
+         * for b < b to discover whether b/b is 0.
+         * If your mbchine's division is fbst enough, define FAST_DIVIDE.
          */
 #ifdef FAST_DIVIDE
-#define DIVIDE_BY(a,b)  a /= b
+#define DIVIDE_BY(b,b)  b /= b
 #else
-#define DIVIDE_BY(a,b)  if (a >= b) a /= b; else a = 0
+#define DIVIDE_BY(b,b)  if (b >= b) b /= b; else b = 0
 #endif
         if (temp < 0) {
           temp = -temp;
-          temp += qval>>1;      /* for rounding */
-          DIVIDE_BY(temp, qval);
+          temp += qvbl>>1;      /* for rounding */
+          DIVIDE_BY(temp, qvbl);
           temp = -temp;
         } else {
-          temp += qval>>1;      /* for rounding */
-          DIVIDE_BY(temp, qval);
+          temp += qvbl>>1;      /* for rounding */
+          DIVIDE_BY(temp, qvbl);
         }
         output_ptr[i] = (JCOEF) temp;
       }
@@ -271,43 +271,43 @@ forward_DCT (j_compress_ptr cinfo, jpeg_component_info * compptr,
 #ifdef DCT_FLOAT_SUPPORTED
 
 METHODDEF(void)
-forward_DCT_float (j_compress_ptr cinfo, jpeg_component_info * compptr,
-                   JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
-                   JDIMENSION start_row, JDIMENSION start_col,
+forwbrd_DCT_flobt (j_compress_ptr cinfo, jpeg_component_info * compptr,
+                   JSAMPARRAY sbmple_dbtb, JBLOCKROW coef_blocks,
+                   JDIMENSION stbrt_row, JDIMENSION stbrt_col,
                    JDIMENSION num_blocks)
-/* This version is used for floating-point DCT implementations. */
+/* This version is used for flobting-point DCT implementbtions. */
 {
-  /* This routine is heavily used, so it's worth coding it tightly. */
+  /* This routine is hebvily used, so it's worth coding it tightly. */
   my_fdct_ptr fdct = (my_fdct_ptr) cinfo->fdct;
-  float_DCT_method_ptr do_dct = fdct->do_float_dct;
-  FAST_FLOAT * divisors = fdct->float_divisors[compptr->quant_tbl_no];
-  FAST_FLOAT workspace[DCTSIZE2]; /* work area for FDCT subroutine */
+  flobt_DCT_method_ptr do_dct = fdct->do_flobt_dct;
+  FAST_FLOAT * divisors = fdct->flobt_divisors[compptr->qubnt_tbl_no];
+  FAST_FLOAT workspbce[DCTSIZE2]; /* work breb for FDCT subroutine */
   JDIMENSION bi;
 
-  sample_data += start_row;     /* fold in the vertical offset once */
+  sbmple_dbtb += stbrt_row;     /* fold in the verticbl offset once */
 
-  for (bi = 0; bi < num_blocks; bi++, start_col += DCTSIZE) {
-    /* Load data into workspace, applying unsigned->signed conversion */
-    { register FAST_FLOAT *workspaceptr;
+  for (bi = 0; bi < num_blocks; bi++, stbrt_col += DCTSIZE) {
+    /* Lobd dbtb into workspbce, bpplying unsigned->signed conversion */
+    { register FAST_FLOAT *workspbceptr;
       register JSAMPROW elemptr;
       register int elemr;
 
-      workspaceptr = workspace;
+      workspbceptr = workspbce;
       for (elemr = 0; elemr < DCTSIZE; elemr++) {
-        elemptr = sample_data[elemr] + start_col;
+        elemptr = sbmple_dbtb[elemr] + stbrt_col;
 #if DCTSIZE == 8                /* unroll the inner loop */
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
-        *workspaceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
+        *workspbceptr++ = (FAST_FLOAT)(GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
 #else
         { register int elemc;
           for (elemc = DCTSIZE; elemc > 0; elemc--) {
-            *workspaceptr++ = (FAST_FLOAT)
+            *workspbceptr++ = (FAST_FLOAT)
               (GETJSAMPLE(*elemptr++) - CENTERJSAMPLE);
           }
         }
@@ -316,20 +316,20 @@ forward_DCT_float (j_compress_ptr cinfo, jpeg_component_info * compptr,
     }
 
     /* Perform the DCT */
-    (*do_dct) (workspace);
+    (*do_dct) (workspbce);
 
-    /* Quantize/descale the coefficients, and store into coef_blocks[] */
+    /* Qubntize/descble the coefficients, bnd store into coef_blocks[] */
     { register FAST_FLOAT temp;
       register int i;
       register JCOEFPTR output_ptr = coef_blocks[bi];
 
       for (i = 0; i < DCTSIZE2; i++) {
-        /* Apply the quantization and scaling factor */
-        temp = workspace[i] * divisors[i];
-        /* Round to nearest integer.
-         * Since C does not specify the direction of rounding for negative
-         * quotients, we have to force the dividend positive for portability.
-         * The maximum coefficient size is +-16K (for 12-bit data), so this
+        /* Apply the qubntizbtion bnd scbling fbctor */
+        temp = workspbce[i] * divisors[i];
+        /* Round to nebrest integer.
+         * Since C does not specify the direction of rounding for negbtive
+         * quotients, we hbve to force the dividend positive for portbbility.
+         * The mbximum coefficient size is +-16K (for 12-bit dbtb), so this
          * code should work for either 16-bit or 32-bit ints.
          */
         output_ptr[i] = (JCOEF) ((int) (temp + (FAST_FLOAT) 16384.5) - 16384);
@@ -342,50 +342,50 @@ forward_DCT_float (j_compress_ptr cinfo, jpeg_component_info * compptr,
 
 
 /*
- * Initialize FDCT manager.
+ * Initiblize FDCT mbnbger.
  */
 
 GLOBAL(void)
-jinit_forward_dct (j_compress_ptr cinfo)
+jinit_forwbrd_dct (j_compress_ptr cinfo)
 {
   my_fdct_ptr fdct;
   int i;
 
   fdct = (my_fdct_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 SIZEOF(my_fdct_controller));
-  cinfo->fdct = (struct jpeg_forward_dct *) fdct;
-  fdct->pub.start_pass = start_pass_fdctmgr;
+  cinfo->fdct = (struct jpeg_forwbrd_dct *) fdct;
+  fdct->pub.stbrt_pbss = stbrt_pbss_fdctmgr;
 
   switch (cinfo->dct_method) {
 #ifdef DCT_ISLOW_SUPPORTED
-  case JDCT_ISLOW:
-    fdct->pub.forward_DCT = forward_DCT;
+  cbse JDCT_ISLOW:
+    fdct->pub.forwbrd_DCT = forwbrd_DCT;
     fdct->do_dct = jpeg_fdct_islow;
-    break;
+    brebk;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
-  case JDCT_IFAST:
-    fdct->pub.forward_DCT = forward_DCT;
-    fdct->do_dct = jpeg_fdct_ifast;
-    break;
+  cbse JDCT_IFAST:
+    fdct->pub.forwbrd_DCT = forwbrd_DCT;
+    fdct->do_dct = jpeg_fdct_ifbst;
+    brebk;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
-  case JDCT_FLOAT:
-    fdct->pub.forward_DCT = forward_DCT_float;
-    fdct->do_float_dct = jpeg_fdct_float;
-    break;
+  cbse JDCT_FLOAT:
+    fdct->pub.forwbrd_DCT = forwbrd_DCT_flobt;
+    fdct->do_flobt_dct = jpeg_fdct_flobt;
+    brebk;
 #endif
-  default:
+  defbult:
     ERREXIT(cinfo, JERR_NOT_COMPILED);
-    break;
+    brebk;
   }
 
-  /* Mark divisor tables unallocated */
+  /* Mbrk divisor tbbles unbllocbted */
   for (i = 0; i < NUM_QUANT_TBLS; i++) {
     fdct->divisors[i] = NULL;
 #ifdef DCT_FLOAT_SUPPORTED
-    fdct->float_divisors[i] = NULL;
+    fdct->flobt_divisors[i] = NULL;
 #endif
   }
 }

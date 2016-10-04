@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.security.Key;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.security.InvalidKeyException;
-import java.security.interfaces.ECKey;
-import java.security.interfaces.RSAKey;
-import java.security.interfaces.DSAKey;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import javax.crypto.SecretKey;
-import javax.crypto.interfaces.DHKey;
-import javax.crypto.interfaces.DHPublicKey;
-import javax.crypto.spec.DHParameterSpec;
-import javax.crypto.spec.DHPublicKeySpec;
-import java.math.BigInteger;
+import jbvb.security.Key;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.interfbces.ECKey;
+import jbvb.security.interfbces.RSAKey;
+import jbvb.security.interfbces.DSAKey;
+import jbvb.security.SecureRbndom;
+import jbvb.security.spec.KeySpec;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.interfbces.DHKey;
+import jbvbx.crypto.interfbces.DHPublicKey;
+import jbvbx.crypto.spec.DHPbrbmeterSpec;
+import jbvbx.crypto.spec.DHPublicKeySpec;
+import jbvb.mbth.BigInteger;
 
 /**
- * A utility class to get key length, valiate keys, etc.
+ * A utility clbss to get key length, vblibte keys, etc.
  */
-public final class KeyUtil {
+public finbl clbss KeyUtil {
 
     /**
      * Returns the key size of the given key object in bits.
      *
-     * @param key the key object, cannot be null
+     * @pbrbm key the key object, cbnnot be null
      * @return the key size of the given key object in bits, or -1 if the
-     *       key size is not accessible
+     *       key size is not bccessible
      */
-    public static final int getKeySize(Key key) {
+    public stbtic finbl int getKeySize(Key key) {
         int size = -1;
 
-        if (key instanceof Length) {
+        if (key instbnceof Length) {
             try {
                 Length ruler = (Length)key;
                 size = ruler.length();
-            } catch (UnsupportedOperationException usoe) {
+            } cbtch (UnsupportedOperbtionException usoe) {
                 // ignore the exception
             }
 
@@ -69,146 +69,146 @@ public final class KeyUtil {
             }
         }
 
-        // try to parse the length from key specification
-        if (key instanceof SecretKey) {
+        // try to pbrse the length from key specificbtion
+        if (key instbnceof SecretKey) {
             SecretKey sk = (SecretKey)key;
-            String format = sk.getFormat();
-            if ("RAW".equals(format) && sk.getEncoded() != null) {
+            String formbt = sk.getFormbt();
+            if ("RAW".equbls(formbt) && sk.getEncoded() != null) {
                 size = (sk.getEncoded().length * 8);
-            }   // Otherwise, it may be a unextractable key of PKCS#11, or
-                // a key we are not able to handle.
-        } else if (key instanceof RSAKey) {
+            }   // Otherwise, it mby be b unextrbctbble key of PKCS#11, or
+                // b key we bre not bble to hbndle.
+        } else if (key instbnceof RSAKey) {
             RSAKey pubk = (RSAKey)key;
             size = pubk.getModulus().bitLength();
-        } else if (key instanceof ECKey) {
+        } else if (key instbnceof ECKey) {
             ECKey pubk = (ECKey)key;
-            size = pubk.getParams().getOrder().bitLength();
-        } else if (key instanceof DSAKey) {
+            size = pubk.getPbrbms().getOrder().bitLength();
+        } else if (key instbnceof DSAKey) {
             DSAKey pubk = (DSAKey)key;
-            size = pubk.getParams().getP().bitLength();
-        } else if (key instanceof DHKey) {
+            size = pubk.getPbrbms().getP().bitLength();
+        } else if (key instbnceof DHKey) {
             DHKey pubk = (DHKey)key;
-            size = pubk.getParams().getP().bitLength();
-        }   // Otherwise, it may be a unextractable key of PKCS#11, or
-            // a key we are not able to handle.
+            size = pubk.getPbrbms().getP().bitLength();
+        }   // Otherwise, it mby be b unextrbctbble key of PKCS#11, or
+            // b key we bre not bble to hbndle.
 
         return size;
     }
 
     /**
-     * Returns whether the key is valid or not.
+     * Returns whether the key is vblid or not.
      * <P>
-     * Note that this method is only apply to DHPublicKey at present.
+     * Note thbt this method is only bpply to DHPublicKey bt present.
      *
-     * @param  publicKey
-     *         the key object, cannot be null
+     * @pbrbm  publicKey
+     *         the key object, cbnnot be null
      *
      * @throws NullPointerException if {@code publicKey} is null
-     * @throws InvalidKeyException if {@code publicKey} is invalid
+     * @throws InvblidKeyException if {@code publicKey} is invblid
      */
-    public static final void validate(Key key)
-            throws InvalidKeyException {
+    public stbtic finbl void vblidbte(Key key)
+            throws InvblidKeyException {
         if (key == null) {
             throw new NullPointerException(
-                "The key to be validated cannot be null");
+                "The key to be vblidbted cbnnot be null");
         }
 
-        if (key instanceof DHPublicKey) {
-            validateDHPublicKey((DHPublicKey)key);
+        if (key instbnceof DHPublicKey) {
+            vblidbteDHPublicKey((DHPublicKey)key);
         }
     }
 
 
     /**
-     * Returns whether the key spec is valid or not.
+     * Returns whether the key spec is vblid or not.
      * <P>
-     * Note that this method is only apply to DHPublicKeySpec at present.
+     * Note thbt this method is only bpply to DHPublicKeySpec bt present.
      *
-     * @param  keySpec
-     *         the key spec object, cannot be null
+     * @pbrbm  keySpec
+     *         the key spec object, cbnnot be null
      *
      * @throws NullPointerException if {@code keySpec} is null
-     * @throws InvalidKeyException if {@code keySpec} is invalid
+     * @throws InvblidKeyException if {@code keySpec} is invblid
      */
-    public static final void validate(KeySpec keySpec)
-            throws InvalidKeyException {
+    public stbtic finbl void vblidbte(KeySpec keySpec)
+            throws InvblidKeyException {
         if (keySpec == null) {
             throw new NullPointerException(
-                "The key spec to be validated cannot be null");
+                "The key spec to be vblidbted cbnnot be null");
         }
 
-        if (keySpec instanceof DHPublicKeySpec) {
-            validateDHPublicKey((DHPublicKeySpec)keySpec);
+        if (keySpec instbnceof DHPublicKeySpec) {
+            vblidbteDHPublicKey((DHPublicKeySpec)keySpec);
         }
     }
 
     /**
-     * Returns whether the specified provider is Oracle provider or not.
+     * Returns whether the specified provider is Orbcle provider or not.
      * <P>
-     * Note that this method is only apply to SunJCE and SunPKCS11 at present.
+     * Note thbt this method is only bpply to SunJCE bnd SunPKCS11 bt present.
      *
-     * @param  providerName
-     *         the provider name
-     * @return true if, and only if, the provider of the specified
-     *         {@code providerName} is Oracle provider
+     * @pbrbm  providerNbme
+     *         the provider nbme
+     * @return true if, bnd only if, the provider of the specified
+     *         {@code providerNbme} is Orbcle provider
      */
-    public static final boolean isOracleJCEProvider(String providerName) {
-        return providerName != null && (providerName.equals("SunJCE") ||
-                                        providerName.startsWith("SunPKCS11"));
+    public stbtic finbl boolebn isOrbcleJCEProvider(String providerNbme) {
+        return providerNbme != null && (providerNbme.equbls("SunJCE") ||
+                                        providerNbme.stbrtsWith("SunPKCS11"));
     }
 
     /**
-     * Check the format of TLS PreMasterSecret.
+     * Check the formbt of TLS PreMbsterSecret.
      * <P>
-     * To avoid vulnerabilities described by section 7.4.7.1, RFC 5246,
-     * treating incorrectly formatted message blocks and/or mismatched
-     * version numbers in a manner indistinguishable from correctly
-     * formatted RSA blocks.
+     * To bvoid vulnerbbilities described by section 7.4.7.1, RFC 5246,
+     * trebting incorrectly formbtted messbge blocks bnd/or mismbtched
+     * version numbers in b mbnner indistinguishbble from correctly
+     * formbtted RSA blocks.
      *
-     * RFC 5246 describes the approach as :
+     * RFC 5246 describes the bpprobch bs :
      *
-     *  1. Generate a string R of 48 random bytes
+     *  1. Generbte b string R of 48 rbndom bytes
      *
-     *  2. Decrypt the message to recover the plaintext M
+     *  2. Decrypt the messbge to recover the plbintext M
      *
-     *  3. If the PKCS#1 padding is not correct, or the length of message
-     *     M is not exactly 48 bytes:
-     *        pre_master_secret = R
-     *     else If ClientHello.client_version <= TLS 1.0, and version
-     *     number check is explicitly disabled:
-     *        premaster secret = M
+     *  3. If the PKCS#1 pbdding is not correct, or the length of messbge
+     *     M is not exbctly 48 bytes:
+     *        pre_mbster_secret = R
+     *     else If ClientHello.client_version <= TLS 1.0, bnd version
+     *     number check is explicitly disbbled:
+     *        prembster secret = M
      *     else If M[0..1] != ClientHello.client_version:
-     *        premaster secret = R
+     *        prembster secret = R
      *     else:
-     *        premaster secret = M
+     *        prembster secret = M
      *
-     * Note that #2 should have completed before the call to this method.
+     * Note thbt #2 should hbve completed before the cbll to this method.
      *
-     * @param  clientVersion the version of the TLS protocol by which the
-     *         client wishes to communicate during this session
-     * @param  serverVersion the negotiated version of the TLS protocol which
-     *         contains the lower of that suggested by the client in the client
-     *         hello and the highest supported by the server.
-     * @param  encoded the encoded key in its "RAW" encoding format
-     * @param  isFailover whether or not the previous decryption of the
-     *         encrypted PreMasterSecret message run into problem
-     * @return the polished PreMasterSecret key in its "RAW" encoding format
+     * @pbrbm  clientVersion the version of the TLS protocol by which the
+     *         client wishes to communicbte during this session
+     * @pbrbm  serverVersion the negotibted version of the TLS protocol which
+     *         contbins the lower of thbt suggested by the client in the client
+     *         hello bnd the highest supported by the server.
+     * @pbrbm  encoded the encoded key in its "RAW" encoding formbt
+     * @pbrbm  isFbilover whether or not the previous decryption of the
+     *         encrypted PreMbsterSecret messbge run into problem
+     * @return the polished PreMbsterSecret key in its "RAW" encoding formbt
      */
-    public static byte[] checkTlsPreMasterSecretKey(
-            int clientVersion, int serverVersion, SecureRandom random,
-            byte[] encoded, boolean isFailOver) {
+    public stbtic byte[] checkTlsPreMbsterSecretKey(
+            int clientVersion, int serverVersion, SecureRbndom rbndom,
+            byte[] encoded, boolebn isFbilOver) {
 
-        if (random == null) {
-            random = new SecureRandom();
+        if (rbndom == null) {
+            rbndom = new SecureRbndom();
         }
-        byte[] replacer = new byte[48];
-        random.nextBytes(replacer);
+        byte[] replbcer = new byte[48];
+        rbndom.nextBytes(replbcer);
 
-        if (!isFailOver && (encoded != null)) {
+        if (!isFbilOver && (encoded != null)) {
             // check the length
             if (encoded.length != 48) {
-                // private, don't need to clone the byte array.
-                return replacer;
+                // privbte, don't need to clone the byte brrby.
+                return replbcer;
             }
 
             int encodedVersion =
@@ -216,80 +216,80 @@ public final class KeyUtil {
             if (clientVersion != encodedVersion) {
                 if (clientVersion > 0x0301 ||               // 0x0301: TLSv1
                        serverVersion != encodedVersion) {
-                    encoded = replacer;
-                }   // Otherwise, For compatibility, we maintain the behavior
-                    // that the version in pre_master_secret can be the
-                    // negotiated version for TLS v1.0 and SSL v3.0.
+                    encoded = replbcer;
+                }   // Otherwise, For compbtibility, we mbintbin the behbvior
+                    // thbt the version in pre_mbster_secret cbn be the
+                    // negotibted version for TLS v1.0 bnd SSL v3.0.
             }
 
-            // private, don't need to clone the byte array.
+            // privbte, don't need to clone the byte brrby.
             return encoded;
         }
 
-        // private, don't need to clone the byte array.
-        return replacer;
+        // privbte, don't need to clone the byte brrby.
+        return replbcer;
     }
 
     /**
-     * Returns whether the Diffie-Hellman public key is valid or not.
+     * Returns whether the Diffie-Hellmbn public key is vblid or not.
      *
-     * Per RFC 2631 and NIST SP800-56A, the following algorithm is used to
-     * validate Diffie-Hellman public keys:
-     * 1. Verify that y lies within the interval [2,p-1]. If it does not,
-     *    the key is invalid.
-     * 2. Compute y^q mod p. If the result == 1, the key is valid.
-     *    Otherwise the key is invalid.
+     * Per RFC 2631 bnd NIST SP800-56A, the following blgorithm is used to
+     * vblidbte Diffie-Hellmbn public keys:
+     * 1. Verify thbt y lies within the intervbl [2,p-1]. If it does not,
+     *    the key is invblid.
+     * 2. Compute y^q mod p. If the result == 1, the key is vblid.
+     *    Otherwise the key is invblid.
      */
-    private static void validateDHPublicKey(DHPublicKey publicKey)
-            throws InvalidKeyException {
-        DHParameterSpec paramSpec = publicKey.getParams();
+    privbte stbtic void vblidbteDHPublicKey(DHPublicKey publicKey)
+            throws InvblidKeyException {
+        DHPbrbmeterSpec pbrbmSpec = publicKey.getPbrbms();
 
-        BigInteger p = paramSpec.getP();
-        BigInteger g = paramSpec.getG();
+        BigInteger p = pbrbmSpec.getP();
+        BigInteger g = pbrbmSpec.getG();
         BigInteger y = publicKey.getY();
 
-        validateDHPublicKey(p, g, y);
+        vblidbteDHPublicKey(p, g, y);
     }
 
-    private static void validateDHPublicKey(DHPublicKeySpec publicKeySpec)
-            throws InvalidKeyException {
-        validateDHPublicKey(publicKeySpec.getP(),
+    privbte stbtic void vblidbteDHPublicKey(DHPublicKeySpec publicKeySpec)
+            throws InvblidKeyException {
+        vblidbteDHPublicKey(publicKeySpec.getP(),
             publicKeySpec.getG(), publicKeySpec.getY());
     }
 
-    private static void validateDHPublicKey(BigInteger p,
-            BigInteger g, BigInteger y) throws InvalidKeyException {
+    privbte stbtic void vblidbteDHPublicKey(BigInteger p,
+            BigInteger g, BigInteger y) throws InvblidKeyException {
 
-        // For better interoperability, the interval is limited to [2, p-2].
+        // For better interoperbbility, the intervbl is limited to [2, p-2].
         BigInteger leftOpen = BigInteger.ONE;
-        BigInteger rightOpen = p.subtract(BigInteger.ONE);
-        if (y.compareTo(leftOpen) <= 0) {
-            throw new InvalidKeyException(
-                    "Diffie-Hellman public key is too small");
+        BigInteger rightOpen = p.subtrbct(BigInteger.ONE);
+        if (y.compbreTo(leftOpen) <= 0) {
+            throw new InvblidKeyException(
+                    "Diffie-Hellmbn public key is too smbll");
         }
-        if (y.compareTo(rightOpen) >= 0) {
-            throw new InvalidKeyException(
-                    "Diffie-Hellman public key is too large");
+        if (y.compbreTo(rightOpen) >= 0) {
+            throw new InvblidKeyException(
+                    "Diffie-Hellmbn public key is too lbrge");
         }
 
         // y^q mod p == 1?
-        // Unable to perform this check as q is unknown in this circumstance.
+        // Unbble to perform this check bs q is unknown in this circumstbnce.
 
         // p is expected to be prime.  However, it is too expensive to check
-        // that p is prime.  Instead, in order to mitigate the impact of
-        // non-prime values, we check that y is not a factor of p.
-        BigInteger r = p.remainder(y);
-        if (r.equals(BigInteger.ZERO)) {
-            throw new InvalidKeyException("Invalid Diffie-Hellman parameters");
+        // thbt p is prime.  Instebd, in order to mitigbte the impbct of
+        // non-prime vblues, we check thbt y is not b fbctor of p.
+        BigInteger r = p.rembinder(y);
+        if (r.equbls(BigInteger.ZERO)) {
+            throw new InvblidKeyException("Invblid Diffie-Hellmbn pbrbmeters");
         }
     }
 
     /**
-     * Trim leading (most significant) zeroes from the result.
+     * Trim lebding (most significbnt) zeroes from the result.
      *
      * @throws NullPointerException if {@code b} is null
      */
-    public static byte[] trimZeroes(byte[] b) {
+    public stbtic byte[] trimZeroes(byte[] b) {
         int i = 0;
         while ((i < b.length - 1) && (b[i] == 0)) {
             i++;
@@ -298,7 +298,7 @@ public final class KeyUtil {
             return b;
         }
         byte[] t = new byte[b.length - i];
-        System.arraycopy(b, i, t, 0, t.length);
+        System.brrbycopy(b, i, t, 0, t.length);
         return t;
     }
 

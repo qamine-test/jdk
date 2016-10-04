@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbckbge com.sun.imbgeio.plugins.bmp;
 
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferShort;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.BandedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.BufferedImage;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentSbmpleModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DbtbBufferShort;
+import jbvb.bwt.imbge.DbtbBufferUShort;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.BbndedSbmpleModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.SinglePixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.BufferedImbge;
 
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteOrder;
-import java.util.Iterator;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.nio.ByteOrder;
+import jbvb.util.Iterbtor;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.event.IIOWriteProgressListener;
-import javax.imageio.event.IIOWriteWarningListener;
+import jbvbx.imbgeio.IIOImbge;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.event.IIOWriteProgressListener;
+import jbvbx.imbgeio.event.IIOWriteWbrningListener;
 
 
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
-import com.sun.imageio.plugins.common.ImageUtil;
-import com.sun.imageio.plugins.common.I18N;
+import jbvbx.imbgeio.plugins.bmp.BMPImbgeWritePbrbm;
+import com.sun.imbgeio.plugins.common.ImbgeUtil;
+import com.sun.imbgeio.plugins.common.I18N;
 
 /**
- * The Java Image IO plugin writer for encoding a binary RenderedImage into
- * a BMP format.
+ * The Jbvb Imbge IO plugin writer for encoding b binbry RenderedImbge into
+ * b BMP formbt.
  *
- * The encoding process may clip, subsample using the parameters
- * specified in the <code>ImageWriteParam</code>.
+ * The encoding process mby clip, subsbmple using the pbrbmeters
+ * specified in the <code>ImbgeWritePbrbm</code>.
  *
- * @see javax.imageio.plugins.bmp.BMPImageWriteParam
+ * @see jbvbx.imbgeio.plugins.bmp.BMPImbgeWritePbrbm
  */
-public class BMPImageWriter extends ImageWriter implements BMPConstants {
-    /** The output stream to write into */
-    private ImageOutputStream stream = null;
-    private ByteArrayOutputStream embedded_stream = null;
-    private int version;
-    private int compressionType;
-    private boolean isTopDown;
-    private int w, h;
-    private int compImageSize = 0;
-    private int[] bitMasks;
-    private int[] bitPos;
-    private byte[] bpixels;
-    private short[] spixels;
-    private int[] ipixels;
+public clbss BMPImbgeWriter extends ImbgeWriter implements BMPConstbnts {
+    /** The output strebm to write into */
+    privbte ImbgeOutputStrebm strebm = null;
+    privbte ByteArrbyOutputStrebm embedded_strebm = null;
+    privbte int version;
+    privbte int compressionType;
+    privbte boolebn isTopDown;
+    privbte int w, h;
+    privbte int compImbgeSize = 0;
+    privbte int[] bitMbsks;
+    privbte int[] bitPos;
+    privbte byte[] bpixels;
+    privbte short[] spixels;
+    privbte int[] ipixels;
 
-    /** Constructs <code>BMPImageWriter</code> based on the provided
-     *  <code>ImageWriterSpi</code>.
+    /** Constructs <code>BMPImbgeWriter</code> bbsed on the provided
+     *  <code>ImbgeWriterSpi</code>.
      */
-    public BMPImageWriter(ImageWriterSpi originator) {
-        super(originator);
+    public BMPImbgeWriter(ImbgeWriterSpi originbtor) {
+        super(originbtor);
     }
 
     public void setOutput(Object output) {
-        super.setOutput(output); // validates output
+        super.setOutput(output); // vblidbtes output
         if (output != null) {
-            if (!(output instanceof ImageOutputStream))
-                throw new IllegalArgumentException(I18N.getString("BMPImageWriter0"));
-            this.stream = (ImageOutputStream)output;
-            stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+            if (!(output instbnceof ImbgeOutputStrebm))
+                throw new IllegblArgumentException(I18N.getString("BMPImbgeWriter0"));
+            this.strebm = (ImbgeOutputStrebm)output;
+            strebm.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         } else
-            this.stream = null;
+            this.strebm = null;
     }
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new BMPImageWriteParam();
+    public ImbgeWritePbrbm getDefbultWritePbrbm() {
+        return new BMPImbgeWritePbrbm();
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
+    public IIOMetbdbtb getDefbultStrebmMetbdbtb(ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        BMPMetadata meta = new BMPMetadata();
-        meta.bmpVersion = VERSION_3;
-        meta.compression = getPreferredCompressionType(imageType);
-        if (param != null
-            && param.getCompressionMode() == ImageWriteParam.MODE_EXPLICIT) {
-            meta.compression = BMPCompressionTypes.getType(param.getCompressionType());
+    public IIOMetbdbtb getDefbultImbgeMetbdbtb(ImbgeTypeSpecifier imbgeType,
+                                               ImbgeWritePbrbm pbrbm) {
+        BMPMetbdbtb metb = new BMPMetbdbtb();
+        metb.bmpVersion = VERSION_3;
+        metb.compression = getPreferredCompressionType(imbgeType);
+        if (pbrbm != null
+            && pbrbm.getCompressionMode() == ImbgeWritePbrbm.MODE_EXPLICIT) {
+            metb.compression = BMPCompressionTypes.getType(pbrbm.getCompressionType());
         }
-        meta.bitsPerPixel = (short)imageType.getColorModel().getPixelSize();
-        return meta;
+        metb.bitsPerPixel = (short)imbgeType.getColorModel().getPixelSize();
+        return metb;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
+    public IIOMetbdbtb convertStrebmMetbdbtb(IIOMetbdbtb inDbtb,
+                                             ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata metadata,
-                                            ImageTypeSpecifier type,
-                                            ImageWriteParam param) {
+    public IIOMetbdbtb convertImbgeMetbdbtb(IIOMetbdbtb metbdbtb,
+                                            ImbgeTypeSpecifier type,
+                                            ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public boolean canWriteRasters() {
+    public boolebn cbnWriteRbsters() {
         return true;
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+    public void write(IIOMetbdbtb strebmMetbdbtb,
+                      IIOImbge imbge,
+                      ImbgeWritePbrbm pbrbm) throws IOException {
 
-        if (stream == null) {
-            throw new IllegalStateException(I18N.getString("BMPImageWriter7"));
+        if (strebm == null) {
+            throw new IllegblStbteException(I18N.getString("BMPImbgeWriter7"));
         }
 
-        if (image == null) {
-            throw new IllegalArgumentException(I18N.getString("BMPImageWriter8"));
+        if (imbge == null) {
+            throw new IllegblArgumentException(I18N.getString("BMPImbgeWriter8"));
         }
 
-        clearAbortRequest();
-        processImageStarted(0);
-        if (param == null)
-            param = getDefaultWriteParam();
+        clebrAbortRequest();
+        processImbgeStbrted(0);
+        if (pbrbm == null)
+            pbrbm = getDefbultWritePbrbm();
 
-        BMPImageWriteParam bmpParam = (BMPImageWriteParam)param;
+        BMPImbgeWritePbrbm bmpPbrbm = (BMPImbgeWritePbrbm)pbrbm;
 
-        // Default is using 24 bits per pixel.
+        // Defbult is using 24 bits per pixel.
         int bitsPerPixel = 24;
-        boolean isPalette = false;
-        int paletteEntries = 0;
+        boolebn isPblette = fblse;
+        int pbletteEntries = 0;
         IndexColorModel icm = null;
 
-        RenderedImage input = null;
-        Raster inputRaster = null;
-        boolean writeRaster = image.hasRaster();
-        Rectangle sourceRegion = param.getSourceRegion();
-        SampleModel sampleModel = null;
+        RenderedImbge input = null;
+        Rbster inputRbster = null;
+        boolebn writeRbster = imbge.hbsRbster();
+        Rectbngle sourceRegion = pbrbm.getSourceRegion();
+        SbmpleModel sbmpleModel = null;
         ColorModel colorModel = null;
 
-        compImageSize = 0;
+        compImbgeSize = 0;
 
-        if (writeRaster) {
-            inputRaster = image.getRaster();
-            sampleModel = inputRaster.getSampleModel();
-            colorModel = ImageUtil.createColorModel(null, sampleModel);
+        if (writeRbster) {
+            inputRbster = imbge.getRbster();
+            sbmpleModel = inputRbster.getSbmpleModel();
+            colorModel = ImbgeUtil.crebteColorModel(null, sbmpleModel);
             if (sourceRegion == null)
-                sourceRegion = inputRaster.getBounds();
+                sourceRegion = inputRbster.getBounds();
             else
-                sourceRegion = sourceRegion.intersection(inputRaster.getBounds());
+                sourceRegion = sourceRegion.intersection(inputRbster.getBounds());
         } else {
-            input = image.getRenderedImage();
-            sampleModel = input.getSampleModel();
+            input = imbge.getRenderedImbge();
+            sbmpleModel = input.getSbmpleModel();
             colorModel = input.getColorModel();
-            Rectangle rect = new Rectangle(input.getMinX(), input.getMinY(),
+            Rectbngle rect = new Rectbngle(input.getMinX(), input.getMinY(),
                                            input.getWidth(), input.getHeight());
             if (sourceRegion == null)
                 sourceRegion = rect;
@@ -196,418 +196,418 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                 sourceRegion = sourceRegion.intersection(rect);
         }
 
-        IIOMetadata imageMetadata = image.getMetadata();
-        BMPMetadata bmpImageMetadata = null;
-        if (imageMetadata != null
-            && imageMetadata instanceof BMPMetadata)
+        IIOMetbdbtb imbgeMetbdbtb = imbge.getMetbdbtb();
+        BMPMetbdbtb bmpImbgeMetbdbtb = null;
+        if (imbgeMetbdbtb != null
+            && imbgeMetbdbtb instbnceof BMPMetbdbtb)
         {
-            bmpImageMetadata = (BMPMetadata)imageMetadata;
+            bmpImbgeMetbdbtb = (BMPMetbdbtb)imbgeMetbdbtb;
         } else {
-            ImageTypeSpecifier imageType =
-                new ImageTypeSpecifier(colorModel, sampleModel);
+            ImbgeTypeSpecifier imbgeType =
+                new ImbgeTypeSpecifier(colorModel, sbmpleModel);
 
-            bmpImageMetadata = (BMPMetadata)getDefaultImageMetadata(imageType,
-                                                                    param);
+            bmpImbgeMetbdbtb = (BMPMetbdbtb)getDefbultImbgeMetbdbtb(imbgeType,
+                                                                    pbrbm);
         }
 
         if (sourceRegion.isEmpty())
-            throw new RuntimeException(I18N.getString("BMPImageWrite0"));
+            throw new RuntimeException(I18N.getString("BMPImbgeWrite0"));
 
-        int scaleX = param.getSourceXSubsampling();
-        int scaleY = param.getSourceYSubsampling();
-        int xOffset = param.getSubsamplingXOffset();
-        int yOffset = param.getSubsamplingYOffset();
+        int scbleX = pbrbm.getSourceXSubsbmpling();
+        int scbleY = pbrbm.getSourceYSubsbmpling();
+        int xOffset = pbrbm.getSubsbmplingXOffset();
+        int yOffset = pbrbm.getSubsbmplingYOffset();
 
-        // cache the data type;
-        int dataType = sampleModel.getDataType();
+        // cbche the dbtb type;
+        int dbtbType = sbmpleModel.getDbtbType();
 
-        sourceRegion.translate(xOffset, yOffset);
+        sourceRegion.trbnslbte(xOffset, yOffset);
         sourceRegion.width -= xOffset;
         sourceRegion.height -= yOffset;
 
-        int minX = sourceRegion.x / scaleX;
-        int minY = sourceRegion.y / scaleY;
-        w = (sourceRegion.width + scaleX - 1) / scaleX;
-        h = (sourceRegion.height + scaleY - 1) / scaleY;
-        xOffset = sourceRegion.x % scaleX;
-        yOffset = sourceRegion.y % scaleY;
+        int minX = sourceRegion.x / scbleX;
+        int minY = sourceRegion.y / scbleY;
+        w = (sourceRegion.width + scbleX - 1) / scbleX;
+        h = (sourceRegion.height + scbleY - 1) / scbleY;
+        xOffset = sourceRegion.x % scbleX;
+        yOffset = sourceRegion.y % scbleY;
 
-        Rectangle destinationRegion = new Rectangle(minX, minY, w, h);
-        boolean noTransform = destinationRegion.equals(sourceRegion);
+        Rectbngle destinbtionRegion = new Rectbngle(minX, minY, w, h);
+        boolebn noTrbnsform = destinbtionRegion.equbls(sourceRegion);
 
-        // Raw data can only handle bytes, everything greater must be ASCII.
-        int[] sourceBands = param.getSourceBands();
-        boolean noSubband = true;
-        int numBands = sampleModel.getNumBands();
+        // Rbw dbtb cbn only hbndle bytes, everything grebter must be ASCII.
+        int[] sourceBbnds = pbrbm.getSourceBbnds();
+        boolebn noSubbbnd = true;
+        int numBbnds = sbmpleModel.getNumBbnds();
 
-        if (sourceBands != null) {
-            sampleModel = sampleModel.createSubsetSampleModel(sourceBands);
+        if (sourceBbnds != null) {
+            sbmpleModel = sbmpleModel.crebteSubsetSbmpleModel(sourceBbnds);
             colorModel = null;
-            noSubband = false;
-            numBands = sampleModel.getNumBands();
+            noSubbbnd = fblse;
+            numBbnds = sbmpleModel.getNumBbnds();
         } else {
-            sourceBands = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                sourceBands[i] = i;
+            sourceBbnds = new int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                sourceBbnds[i] = i;
         }
 
-        int[] bandOffsets = null;
-        boolean bgrOrder = true;
+        int[] bbndOffsets = null;
+        boolebn bgrOrder = true;
 
-        if (sampleModel instanceof ComponentSampleModel) {
-            bandOffsets = ((ComponentSampleModel)sampleModel).getBandOffsets();
-            if (sampleModel instanceof BandedSampleModel) {
-                // for images with BandedSampleModel we can not work
-                //  with raster directly and must use writePixels()
-                bgrOrder = false;
+        if (sbmpleModel instbnceof ComponentSbmpleModel) {
+            bbndOffsets = ((ComponentSbmpleModel)sbmpleModel).getBbndOffsets();
+            if (sbmpleModel instbnceof BbndedSbmpleModel) {
+                // for imbges with BbndedSbmpleModel we cbn not work
+                //  with rbster directly bnd must use writePixels()
+                bgrOrder = fblse;
             } else {
-                // we can work with raster directly only in case of
+                // we cbn work with rbster directly only in cbse of
                 // BGR component order.
-                // In any other case we must use writePixels()
-                for (int i = 0; i < bandOffsets.length; i++) {
-                    bgrOrder &= (bandOffsets[i] == (bandOffsets.length - i - 1));
+                // In bny other cbse we must use writePixels()
+                for (int i = 0; i < bbndOffsets.length; i++) {
+                    bgrOrder &= (bbndOffsets[i] == (bbndOffsets.length - i - 1));
                 }
             }
         } else {
-            if (sampleModel instanceof SinglePixelPackedSampleModel) {
+            if (sbmpleModel instbnceof SinglePixelPbckedSbmpleModel) {
 
-                // BugId 4892214: we can not work with raster directly
-                // if image have different color order than RGB.
-                // We should use writePixels() for such images.
-                int[] bitOffsets = ((SinglePixelPackedSampleModel)sampleModel).getBitOffsets();
+                // BugId 4892214: we cbn not work with rbster directly
+                // if imbge hbve different color order thbn RGB.
+                // We should use writePixels() for such imbges.
+                int[] bitOffsets = ((SinglePixelPbckedSbmpleModel)sbmpleModel).getBitOffsets();
                 for (int i=0; i<bitOffsets.length-1; i++) {
                     bgrOrder &= bitOffsets[i] > bitOffsets[i+1];
                 }
             }
         }
 
-        if (bandOffsets == null) {
-            // we will use getPixels() to extract pixel data for writePixels()
-            // Please note that getPixels() provides rgb bands order.
-            bandOffsets = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                bandOffsets[i] = i;
+        if (bbndOffsets == null) {
+            // we will use getPixels() to extrbct pixel dbtb for writePixels()
+            // Plebse note thbt getPixels() provides rgb bbnds order.
+            bbndOffsets = new int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                bbndOffsets[i] = i;
         }
 
-        noTransform &= bgrOrder;
+        noTrbnsform &= bgrOrder;
 
-        int sampleSize[] = sampleModel.getSampleSize();
+        int sbmpleSize[] = sbmpleModel.getSbmpleSize();
 
         //XXX: check more
 
-        // Number of bytes that a scanline for the image written out will have.
-        int destScanlineBytes = w * numBands;
+        // Number of bytes thbt b scbnline for the imbge written out will hbve.
+        int destScbnlineBytes = w * numBbnds;
 
-        switch(bmpParam.getCompressionMode()) {
-        case ImageWriteParam.MODE_EXPLICIT:
-            compressionType = BMPCompressionTypes.getType(bmpParam.getCompressionType());
-            break;
-        case ImageWriteParam.MODE_COPY_FROM_METADATA:
-            compressionType = bmpImageMetadata.compression;
-            break;
-        case ImageWriteParam.MODE_DEFAULT:
-            compressionType = getPreferredCompressionType(colorModel, sampleModel);
-            break;
-        default:
-            // ImageWriteParam.MODE_DISABLED:
+        switch(bmpPbrbm.getCompressionMode()) {
+        cbse ImbgeWritePbrbm.MODE_EXPLICIT:
+            compressionType = BMPCompressionTypes.getType(bmpPbrbm.getCompressionType());
+            brebk;
+        cbse ImbgeWritePbrbm.MODE_COPY_FROM_METADATA:
+            compressionType = bmpImbgeMetbdbtb.compression;
+            brebk;
+        cbse ImbgeWritePbrbm.MODE_DEFAULT:
+            compressionType = getPreferredCompressionType(colorModel, sbmpleModel);
+            brebk;
+        defbult:
+            // ImbgeWritePbrbm.MODE_DISABLED:
             compressionType = BI_RGB;
         }
 
-        if (!canEncodeImage(compressionType, colorModel, sampleModel)) {
-            throw new IOException("Image can not be encoded with compression type "
-                                  + BMPCompressionTypes.getName(compressionType));
+        if (!cbnEncodeImbge(compressionType, colorModel, sbmpleModel)) {
+            throw new IOException("Imbge cbn not be encoded with compression type "
+                                  + BMPCompressionTypes.getNbme(compressionType));
         }
 
-        byte r[] = null, g[] = null, b[] = null, a[] = null;
+        byte r[] = null, g[] = null, b[] = null, b[] = null;
 
         if (compressionType == BI_BITFIELDS) {
             bitsPerPixel =
-                DataBuffer.getDataTypeSize(sampleModel.getDataType());
+                DbtbBuffer.getDbtbTypeSize(sbmpleModel.getDbtbType());
 
             if (bitsPerPixel != 16 && bitsPerPixel != 32) {
-                // we should use 32bpp images in case of BI_BITFIELD
-                // compression to avoid color conversion artefacts
+                // we should use 32bpp imbges in cbse of BI_BITFIELD
+                // compression to bvoid color conversion brtefbcts
                 bitsPerPixel = 32;
 
-                // Setting this flag to false ensures that generic
-                // writePixels() will be used to store image data
-                noTransform = false;
+                // Setting this flbg to fblse ensures thbt generic
+                // writePixels() will be used to store imbge dbtb
+                noTrbnsform = fblse;
             }
 
-            destScanlineBytes = w * bitsPerPixel + 7 >> 3;
+            destScbnlineBytes = w * bitsPerPixel + 7 >> 3;
 
-            isPalette = true;
-            paletteEntries = 3;
-            r = new byte[paletteEntries];
-            g = new byte[paletteEntries];
-            b = new byte[paletteEntries];
-            a = new byte[paletteEntries];
+            isPblette = true;
+            pbletteEntries = 3;
+            r = new byte[pbletteEntries];
+            g = new byte[pbletteEntries];
+            b = new byte[pbletteEntries];
+            b = new byte[pbletteEntries];
 
-            int rmask = 0x00ff0000;
-            int gmask = 0x0000ff00;
-            int bmask = 0x000000ff;
+            int rmbsk = 0x00ff0000;
+            int gmbsk = 0x0000ff00;
+            int bmbsk = 0x000000ff;
 
             if (bitsPerPixel == 16) {
-                /* NB: canEncodeImage() ensures we have image of
+                /* NB: cbnEncodeImbge() ensures we hbve imbge of
                  * either USHORT_565_RGB or USHORT_555_RGB type here.
-                 * Technically, it should work for other direct color
-                 * model types but it might be non compatible with win98
-                 * and friends.
+                 * Technicblly, it should work for other direct color
+                 * model types but it might be non compbtible with win98
+                 * bnd friends.
                  */
-                if (colorModel instanceof DirectColorModel) {
+                if (colorModel instbnceof DirectColorModel) {
                     DirectColorModel dcm = (DirectColorModel)colorModel;
-                    rmask = dcm.getRedMask();
-                    gmask = dcm.getGreenMask();
-                    bmask = dcm.getBlueMask();
+                    rmbsk = dcm.getRedMbsk();
+                    gmbsk = dcm.getGreenMbsk();
+                    bmbsk = dcm.getBlueMbsk();
                 } else {
-                    // it is unlikely, but if it happens, we should throw
-                    // an exception related to unsupported image format
-                    throw new IOException("Image can not be encoded with " +
+                    // it is unlikely, but if it hbppens, we should throw
+                    // bn exception relbted to unsupported imbge formbt
+                    throw new IOException("Imbge cbn not be encoded with " +
                                           "compression type " +
-                                          BMPCompressionTypes.getName(compressionType));
+                                          BMPCompressionTypes.getNbme(compressionType));
                 }
             }
-            writeMaskToPalette(rmask, 0, r, g, b, a);
-            writeMaskToPalette(gmask, 1, r, g, b, a);
-            writeMaskToPalette(bmask, 2, r, g, b, a);
+            writeMbskToPblette(rmbsk, 0, r, g, b, b);
+            writeMbskToPblette(gmbsk, 1, r, g, b, b);
+            writeMbskToPblette(bmbsk, 2, r, g, b, b);
 
-            if (!noTransform) {
-                // prepare info for writePixels procedure
-                bitMasks = new int[3];
-                bitMasks[0] = rmask;
-                bitMasks[1] = gmask;
-                bitMasks[2] = bmask;
+            if (!noTrbnsform) {
+                // prepbre info for writePixels procedure
+                bitMbsks = new int[3];
+                bitMbsks[0] = rmbsk;
+                bitMbsks[1] = gmbsk;
+                bitMbsks[2] = bmbsk;
 
                 bitPos = new int[3];
-                bitPos[0] = firstLowBit(rmask);
-                bitPos[1] = firstLowBit(gmask);
-                bitPos[2] = firstLowBit(bmask);
+                bitPos[0] = firstLowBit(rmbsk);
+                bitPos[1] = firstLowBit(gmbsk);
+                bitPos[2] = firstLowBit(bmbsk);
             }
 
-            if (colorModel instanceof IndexColorModel) {
+            if (colorModel instbnceof IndexColorModel) {
                 icm = (IndexColorModel)colorModel;
             }
-        } else { // handle BI_RGB compression
-            if (colorModel instanceof IndexColorModel) {
-                isPalette = true;
+        } else { // hbndle BI_RGB compression
+            if (colorModel instbnceof IndexColorModel) {
+                isPblette = true;
                 icm = (IndexColorModel)colorModel;
-                paletteEntries = icm.getMapSize();
+                pbletteEntries = icm.getMbpSize();
 
-                if (paletteEntries <= 2) {
+                if (pbletteEntries <= 2) {
                     bitsPerPixel = 1;
-                    destScanlineBytes = w + 7 >> 3;
-                } else if (paletteEntries <= 16) {
+                    destScbnlineBytes = w + 7 >> 3;
+                } else if (pbletteEntries <= 16) {
                     bitsPerPixel = 4;
-                    destScanlineBytes = w + 1 >> 1;
-                } else if (paletteEntries <= 256) {
+                    destScbnlineBytes = w + 1 >> 1;
+                } else if (pbletteEntries <= 256) {
                     bitsPerPixel = 8;
                 } else {
-                    // Cannot be written as a Palette image. So write out as
-                    // 24 bit image.
+                    // Cbnnot be written bs b Pblette imbge. So write out bs
+                    // 24 bit imbge.
                     bitsPerPixel = 24;
-                    isPalette = false;
-                    paletteEntries = 0;
-                    destScanlineBytes = w * 3;
+                    isPblette = fblse;
+                    pbletteEntries = 0;
+                    destScbnlineBytes = w * 3;
                 }
 
-                if (isPalette == true) {
-                    r = new byte[paletteEntries];
-                    g = new byte[paletteEntries];
-                    b = new byte[paletteEntries];
-                    a = new byte[paletteEntries];
+                if (isPblette == true) {
+                    r = new byte[pbletteEntries];
+                    g = new byte[pbletteEntries];
+                    b = new byte[pbletteEntries];
+                    b = new byte[pbletteEntries];
 
-                    icm.getAlphas(a);
+                    icm.getAlphbs(b);
                     icm.getReds(r);
                     icm.getGreens(g);
                     icm.getBlues(b);
                 }
 
             } else {
-                // Grey scale images
-                if (numBands == 1) {
+                // Grey scble imbges
+                if (numBbnds == 1) {
 
-                    isPalette = true;
-                    paletteEntries = 256;
-                    bitsPerPixel = sampleSize[0];
+                    isPblette = true;
+                    pbletteEntries = 256;
+                    bitsPerPixel = sbmpleSize[0];
 
-                    destScanlineBytes = (w * bitsPerPixel + 7 >> 3);
+                    destScbnlineBytes = (w * bitsPerPixel + 7 >> 3);
 
                     r = new byte[256];
                     g = new byte[256];
                     b = new byte[256];
-                    a = new byte[256];
+                    b = new byte[256];
 
                     for (int i = 0; i < 256; i++) {
                         r[i] = (byte)i;
                         g[i] = (byte)i;
                         b[i] = (byte)i;
-                        a[i] = (byte)255;
+                        b[i] = (byte)255;
                     }
 
                 } else {
-                    if (sampleModel instanceof SinglePixelPackedSampleModel &&
-                        noSubband)
+                    if (sbmpleModel instbnceof SinglePixelPbckedSbmpleModel &&
+                        noSubbbnd)
                     {
-                        /* NB: the actual pixel size can be smaller than
-                         * size of used DataBuffer element.
-                         * For example: in case of TYPE_INT_RGB actual pixel
-                         * size is 24 bits, but size of DataBuffere element
+                        /* NB: the bctubl pixel size cbn be smbller thbn
+                         * size of used DbtbBuffer element.
+                         * For exbmple: in cbse of TYPE_INT_RGB bctubl pixel
+                         * size is 24 bits, but size of DbtbBuffere element
                          * is 32 bits
                          */
-                        int[] sample_sizes = sampleModel.getSampleSize();
+                        int[] sbmple_sizes = sbmpleModel.getSbmpleSize();
                         bitsPerPixel = 0;
-                        for (int size : sample_sizes) {
+                        for (int size : sbmple_sizes) {
                             bitsPerPixel += size;
                         }
                         bitsPerPixel = roundBpp(bitsPerPixel);
-                        if (bitsPerPixel != DataBuffer.getDataTypeSize(sampleModel.getDataType())) {
-                            noTransform = false;
+                        if (bitsPerPixel != DbtbBuffer.getDbtbTypeSize(sbmpleModel.getDbtbType())) {
+                            noTrbnsform = fblse;
                         }
-                        destScanlineBytes = w * bitsPerPixel + 7 >> 3;
+                        destScbnlineBytes = w * bitsPerPixel + 7 >> 3;
                     }
                 }
             }
         }
 
-        // actual writing of image data
+        // bctubl writing of imbge dbtb
         int fileSize = 0;
         int offset = 0;
-        int headerSize = 0;
-        int imageSize = 0;
+        int hebderSize = 0;
+        int imbgeSize = 0;
         int xPelsPerMeter = 0;
         int yPelsPerMeter = 0;
         int colorsUsed = 0;
-        int colorsImportant = paletteEntries;
+        int colorsImportbnt = pbletteEntries;
 
-        // Calculate padding for each scanline
-        int padding = destScanlineBytes % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
+        // Cblculbte pbdding for ebch scbnline
+        int pbdding = destScbnlineBytes % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
         }
 
 
-        // FileHeader is 14 bytes, BitmapHeader is 40 bytes,
-        // add palette size and that is where the data will begin
-        offset = 54 + paletteEntries * 4;
+        // FileHebder is 14 bytes, BitmbpHebder is 40 bytes,
+        // bdd pblette size bnd thbt is where the dbtb will begin
+        offset = 54 + pbletteEntries * 4;
 
-        imageSize = (destScanlineBytes + padding) * h;
-        fileSize = imageSize + offset;
-        headerSize = 40;
+        imbgeSize = (destScbnlineBytes + pbdding) * h;
+        fileSize = imbgeSize + offset;
+        hebderSize = 40;
 
-        long headPos = stream.getStreamPosition();
+        long hebdPos = strebm.getStrebmPosition();
 
-        writeFileHeader(fileSize, offset);
+        writeFileHebder(fileSize, offset);
 
-        /* According to MSDN description, the top-down image layout
-         * is allowed only if compression type is BI_RGB or BI_BITFIELDS.
-         * Images with any other compression type must be wrote in the
-         * bottom-up layout.
+        /* According to MSDN description, the top-down imbge lbyout
+         * is bllowed only if compression type is BI_RGB or BI_BITFIELDS.
+         * Imbges with bny other compression type must be wrote in the
+         * bottom-up lbyout.
          */
         if (compressionType == BI_RGB ||
             compressionType == BI_BITFIELDS)
         {
-            isTopDown = bmpParam.isTopDown();
+            isTopDown = bmpPbrbm.isTopDown();
         } else {
-            isTopDown = false;
+            isTopDown = fblse;
         }
 
-        writeInfoHeader(headerSize, bitsPerPixel);
+        writeInfoHebder(hebderSize, bitsPerPixel);
 
         // compression
-        stream.writeInt(compressionType);
+        strebm.writeInt(compressionType);
 
-        // imageSize
-        stream.writeInt(imageSize);
+        // imbgeSize
+        strebm.writeInt(imbgeSize);
 
         // xPelsPerMeter
-        stream.writeInt(xPelsPerMeter);
+        strebm.writeInt(xPelsPerMeter);
 
         // yPelsPerMeter
-        stream.writeInt(yPelsPerMeter);
+        strebm.writeInt(yPelsPerMeter);
 
         // Colors Used
-        stream.writeInt(colorsUsed);
+        strebm.writeInt(colorsUsed);
 
-        // Colors Important
-        stream.writeInt(colorsImportant);
+        // Colors Importbnt
+        strebm.writeInt(colorsImportbnt);
 
-        // palette
-        if (isPalette == true) {
+        // pblette
+        if (isPblette == true) {
 
-            // write palette
+            // write pblette
             if (compressionType == BI_BITFIELDS) {
-                // write masks for red, green and blue components.
+                // write mbsks for red, green bnd blue components.
                 for (int i=0; i<3; i++) {
-                    int mask = (a[i]&0xFF) + ((r[i]&0xFF)*0x100) + ((g[i]&0xFF)*0x10000) + ((b[i]&0xFF)*0x1000000);
-                    stream.writeInt(mask);
+                    int mbsk = (b[i]&0xFF) + ((r[i]&0xFF)*0x100) + ((g[i]&0xFF)*0x10000) + ((b[i]&0xFF)*0x1000000);
+                    strebm.writeInt(mbsk);
                 }
             } else {
-                for (int i=0; i<paletteEntries; i++) {
-                    stream.writeByte(b[i]);
-                    stream.writeByte(g[i]);
-                    stream.writeByte(r[i]);
-                    stream.writeByte(a[i]);
+                for (int i=0; i<pbletteEntries; i++) {
+                    strebm.writeByte(b[i]);
+                    strebm.writeByte(g[i]);
+                    strebm.writeByte(r[i]);
+                    strebm.writeByte(b[i]);
                 }
             }
         }
 
-        // Writing of actual image data
-        int scanlineBytes = w * numBands;
+        // Writing of bctubl imbge dbtb
+        int scbnlineBytes = w * numBbnds;
 
         // Buffer for up to 8 rows of pixels
-        int[] pixels = new int[scanlineBytes * scaleX];
+        int[] pixels = new int[scbnlineBytes * scbleX];
 
-        // Also create a buffer to hold one line of the data
-        // to be written to the file, so we can use array writes.
-        bpixels = new byte[destScanlineBytes];
+        // Also crebte b buffer to hold one line of the dbtb
+        // to be written to the file, so we cbn use brrby writes.
+        bpixels = new byte[destScbnlineBytes];
 
         int l;
 
         if (compressionType == BI_JPEG ||
             compressionType == BI_PNG) {
 
-            // prepare embedded buffer
-            embedded_stream = new ByteArrayOutputStream();
-            writeEmbedded(image, bmpParam);
-            // update the file/image Size
-            embedded_stream.flush();
-            imageSize = embedded_stream.size();
+            // prepbre embedded buffer
+            embedded_strebm = new ByteArrbyOutputStrebm();
+            writeEmbedded(imbge, bmpPbrbm);
+            // updbte the file/imbge Size
+            embedded_strebm.flush();
+            imbgeSize = embedded_strebm.size();
 
-            long endPos = stream.getStreamPosition();
-            fileSize = offset + imageSize;
-            stream.seek(headPos);
+            long endPos = strebm.getStrebmPosition();
+            fileSize = offset + imbgeSize;
+            strebm.seek(hebdPos);
             writeSize(fileSize, 2);
-            stream.seek(headPos);
-            writeSize(imageSize, 34);
-            stream.seek(endPos);
-            stream.write(embedded_stream.toByteArray());
-            embedded_stream = null;
+            strebm.seek(hebdPos);
+            writeSize(imbgeSize, 34);
+            strebm.seek(endPos);
+            strebm.write(embedded_strebm.toByteArrby());
+            embedded_strebm = null;
 
-            if (abortRequested()) {
+            if (bbortRequested()) {
                 processWriteAborted();
             } else {
-                processImageComplete();
-                stream.flushBefore(stream.getStreamPosition());
+                processImbgeComplete();
+                strebm.flushBefore(strebm.getStrebmPosition());
             }
 
             return;
         }
 
-        int maxBandOffset = bandOffsets[0];
-        for (int i = 1; i < bandOffsets.length; i++)
-            if (bandOffsets[i] > maxBandOffset)
-                maxBandOffset = bandOffsets[i];
+        int mbxBbndOffset = bbndOffsets[0];
+        for (int i = 1; i < bbndOffsets.length; i++)
+            if (bbndOffsets[i] > mbxBbndOffset)
+                mbxBbndOffset = bbndOffsets[i];
 
-        int[] pixel = new int[maxBandOffset + 1];
+        int[] pixel = new int[mbxBbndOffset + 1];
 
-        int destScanlineLength = destScanlineBytes;
+        int destScbnlineLength = destScbnlineBytes;
 
-        if (noTransform && noSubband) {
-            destScanlineLength = destScanlineBytes / (DataBuffer.getDataTypeSize(dataType)>>3);
+        if (noTrbnsform && noSubbbnd) {
+            destScbnlineLength = destScbnlineBytes / (DbtbBuffer.getDbtbTypeSize(dbtbType)>>3);
         }
         for (int i = 0; i < h; i++) {
-            if (abortRequested()) {
-                break;
+            if (bbortRequested()) {
+                brebk;
             }
 
             int row = minY + i;
@@ -616,152 +616,152 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                 row = minY + h - i -1;
 
             // Get the pixels
-            Raster src = inputRaster;
+            Rbster src = inputRbster;
 
-            Rectangle srcRect =
-                new Rectangle(minX * scaleX + xOffset,
-                              row * scaleY + yOffset,
-                              (w - 1)* scaleX + 1,
+            Rectbngle srcRect =
+                new Rectbngle(minX * scbleX + xOffset,
+                              row * scbleY + yOffset,
+                              (w - 1)* scbleX + 1,
                               1);
-            if (!writeRaster)
-                src = input.getData(srcRect);
+            if (!writeRbster)
+                src = input.getDbtb(srcRect);
 
-            if (noTransform && noSubband) {
-                SampleModel sm = src.getSampleModel();
+            if (noTrbnsform && noSubbbnd) {
+                SbmpleModel sm = src.getSbmpleModel();
                 int pos = 0;
-                int startX = srcRect.x - src.getSampleModelTranslateX();
-                int startY = srcRect.y - src.getSampleModelTranslateY();
-                if (sm instanceof ComponentSampleModel) {
-                    ComponentSampleModel csm = (ComponentSampleModel)sm;
-                    pos = csm.getOffset(startX, startY, 0);
-                    for(int nb=1; nb < csm.getNumBands(); nb++) {
-                        if (pos > csm.getOffset(startX, startY, nb)) {
-                            pos = csm.getOffset(startX, startY, nb);
+                int stbrtX = srcRect.x - src.getSbmpleModelTrbnslbteX();
+                int stbrtY = srcRect.y - src.getSbmpleModelTrbnslbteY();
+                if (sm instbnceof ComponentSbmpleModel) {
+                    ComponentSbmpleModel csm = (ComponentSbmpleModel)sm;
+                    pos = csm.getOffset(stbrtX, stbrtY, 0);
+                    for(int nb=1; nb < csm.getNumBbnds(); nb++) {
+                        if (pos > csm.getOffset(stbrtX, stbrtY, nb)) {
+                            pos = csm.getOffset(stbrtX, stbrtY, nb);
                         }
                     }
-                } else if (sm instanceof MultiPixelPackedSampleModel) {
-                    MultiPixelPackedSampleModel mppsm =
-                        (MultiPixelPackedSampleModel)sm;
-                    pos = mppsm.getOffset(startX, startY);
-                } else if (sm instanceof SinglePixelPackedSampleModel) {
-                    SinglePixelPackedSampleModel sppsm =
-                        (SinglePixelPackedSampleModel)sm;
-                    pos = sppsm.getOffset(startX, startY);
+                } else if (sm instbnceof MultiPixelPbckedSbmpleModel) {
+                    MultiPixelPbckedSbmpleModel mppsm =
+                        (MultiPixelPbckedSbmpleModel)sm;
+                    pos = mppsm.getOffset(stbrtX, stbrtY);
+                } else if (sm instbnceof SinglePixelPbckedSbmpleModel) {
+                    SinglePixelPbckedSbmpleModel sppsm =
+                        (SinglePixelPbckedSbmpleModel)sm;
+                    pos = sppsm.getOffset(stbrtX, stbrtY);
                 }
 
                 if (compressionType == BI_RGB || compressionType == BI_BITFIELDS){
-                    switch(dataType) {
-                    case DataBuffer.TYPE_BYTE:
-                        byte[] bdata =
-                            ((DataBufferByte)src.getDataBuffer()).getData();
-                        stream.write(bdata, pos, destScanlineLength);
-                        break;
+                    switch(dbtbType) {
+                    cbse DbtbBuffer.TYPE_BYTE:
+                        byte[] bdbtb =
+                            ((DbtbBufferByte)src.getDbtbBuffer()).getDbtb();
+                        strebm.write(bdbtb, pos, destScbnlineLength);
+                        brebk;
 
-                    case DataBuffer.TYPE_SHORT:
-                        short[] sdata =
-                            ((DataBufferShort)src.getDataBuffer()).getData();
-                        stream.writeShorts(sdata, pos, destScanlineLength);
-                        break;
+                    cbse DbtbBuffer.TYPE_SHORT:
+                        short[] sdbtb =
+                            ((DbtbBufferShort)src.getDbtbBuffer()).getDbtb();
+                        strebm.writeShorts(sdbtb, pos, destScbnlineLength);
+                        brebk;
 
-                    case DataBuffer.TYPE_USHORT:
-                        short[] usdata =
-                            ((DataBufferUShort)src.getDataBuffer()).getData();
-                        stream.writeShorts(usdata, pos, destScanlineLength);
-                        break;
+                    cbse DbtbBuffer.TYPE_USHORT:
+                        short[] usdbtb =
+                            ((DbtbBufferUShort)src.getDbtbBuffer()).getDbtb();
+                        strebm.writeShorts(usdbtb, pos, destScbnlineLength);
+                        brebk;
 
-                    case DataBuffer.TYPE_INT:
-                        int[] idata =
-                            ((DataBufferInt)src.getDataBuffer()).getData();
-                        stream.writeInts(idata, pos, destScanlineLength);
-                        break;
+                    cbse DbtbBuffer.TYPE_INT:
+                        int[] idbtb =
+                            ((DbtbBufferInt)src.getDbtbBuffer()).getDbtb();
+                        strebm.writeInts(idbtb, pos, destScbnlineLength);
+                        brebk;
                     }
 
-                    for(int k=0; k<padding; k++) {
-                        stream.writeByte(0);
+                    for(int k=0; k<pbdding; k++) {
+                        strebm.writeByte(0);
                     }
                 } else if (compressionType == BI_RLE4) {
-                    if (bpixels == null || bpixels.length < scanlineBytes)
-                        bpixels = new byte[scanlineBytes];
+                    if (bpixels == null || bpixels.length < scbnlineBytes)
+                        bpixels = new byte[scbnlineBytes];
                     src.getPixels(srcRect.x, srcRect.y,
                                   srcRect.width, srcRect.height, pixels);
-                    for (int h=0; h<scanlineBytes; h++) {
+                    for (int h=0; h<scbnlineBytes; h++) {
                         bpixels[h] = (byte)pixels[h];
                     }
-                    encodeRLE4(bpixels, scanlineBytes);
+                    encodeRLE4(bpixels, scbnlineBytes);
                 } else if (compressionType == BI_RLE8) {
-                    //byte[] bdata =
-                    //    ((DataBufferByte)src.getDataBuffer()).getData();
-                    //System.out.println("bdata.length="+bdata.length);
-                    //System.arraycopy(bdata, pos, bpixels, 0, scanlineBytes);
-                    if (bpixels == null || bpixels.length < scanlineBytes)
-                        bpixels = new byte[scanlineBytes];
+                    //byte[] bdbtb =
+                    //    ((DbtbBufferByte)src.getDbtbBuffer()).getDbtb();
+                    //System.out.println("bdbtb.length="+bdbtb.length);
+                    //System.brrbycopy(bdbtb, pos, bpixels, 0, scbnlineBytes);
+                    if (bpixels == null || bpixels.length < scbnlineBytes)
+                        bpixels = new byte[scbnlineBytes];
                     src.getPixels(srcRect.x, srcRect.y,
                                   srcRect.width, srcRect.height, pixels);
-                    for (int h=0; h<scanlineBytes; h++) {
+                    for (int h=0; h<scbnlineBytes; h++) {
                         bpixels[h] = (byte)pixels[h];
                     }
 
-                    encodeRLE8(bpixels, scanlineBytes);
+                    encodeRLE8(bpixels, scbnlineBytes);
                 }
             } else {
                 src.getPixels(srcRect.x, srcRect.y,
                               srcRect.width, srcRect.height, pixels);
 
-                if (scaleX != 1 || maxBandOffset != numBands - 1) {
+                if (scbleX != 1 || mbxBbndOffset != numBbnds - 1) {
                     for (int j = 0, k = 0, n=0; j < w;
-                         j++, k += scaleX * numBands, n += numBands)
+                         j++, k += scbleX * numBbnds, n += numBbnds)
                     {
-                        System.arraycopy(pixels, k, pixel, 0, pixel.length);
+                        System.brrbycopy(pixels, k, pixel, 0, pixel.length);
 
-                        for (int m = 0; m < numBands; m++) {
-                            // pixel data is provided here in RGB order
-                            pixels[n + m] = pixel[sourceBands[m]];
+                        for (int m = 0; m < numBbnds; m++) {
+                            // pixel dbtb is provided here in RGB order
+                            pixels[n + m] = pixel[sourceBbnds[m]];
                         }
                     }
                 }
-                writePixels(0, scanlineBytes, bitsPerPixel, pixels,
-                            padding, numBands, icm);
+                writePixels(0, scbnlineBytes, bitsPerPixel, pixels,
+                            pbdding, numBbnds, icm);
             }
 
-            processImageProgress(100.0f * (((float)i) / ((float)h)));
+            processImbgeProgress(100.0f * (((flobt)i) / ((flobt)h)));
         }
 
         if (compressionType == BI_RLE4 ||
             compressionType == BI_RLE8) {
-            // Write the RLE EOF marker and
-            stream.writeByte(0);
-            stream.writeByte(1);
-            incCompImageSize(2);
-            // update the file/image Size
-            imageSize = compImageSize;
-            fileSize = compImageSize + offset;
-            long endPos = stream.getStreamPosition();
-            stream.seek(headPos);
+            // Write the RLE EOF mbrker bnd
+            strebm.writeByte(0);
+            strebm.writeByte(1);
+            incCompImbgeSize(2);
+            // updbte the file/imbge Size
+            imbgeSize = compImbgeSize;
+            fileSize = compImbgeSize + offset;
+            long endPos = strebm.getStrebmPosition();
+            strebm.seek(hebdPos);
             writeSize(fileSize, 2);
-            stream.seek(headPos);
-            writeSize(imageSize, 34);
-            stream.seek(endPos);
+            strebm.seek(hebdPos);
+            writeSize(imbgeSize, 34);
+            strebm.seek(endPos);
         }
 
-        if (abortRequested()) {
+        if (bbortRequested()) {
             processWriteAborted();
         } else {
-            processImageComplete();
-            stream.flushBefore(stream.getStreamPosition());
+            processImbgeComplete();
+            strebm.flushBefore(strebm.getStrebmPosition());
         }
     }
 
-    private void writePixels(int l, int scanlineBytes, int bitsPerPixel,
+    privbte void writePixels(int l, int scbnlineBytes, int bitsPerPixel,
                              int pixels[],
-                             int padding, int numBands,
+                             int pbdding, int numBbnds,
                              IndexColorModel icm) throws IOException {
         int pixel = 0;
         int k = 0;
         switch (bitsPerPixel) {
 
-        case 1:
+        cbse 1:
 
-            for (int j=0; j<scanlineBytes/8; j++) {
+            for (int j=0; j<scbnlineBytes/8; j++) {
                 bpixels[k++] = (byte)((pixels[l++]  << 7) |
                                       (pixels[l++]  << 6) |
                                       (pixels[l++]  << 5) |
@@ -772,71 +772,71 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                                       pixels[l++]);
             }
 
-            // Partially filled last byte, if any
-            if (scanlineBytes%8 > 0) {
+            // Pbrtiblly filled lbst byte, if bny
+            if (scbnlineBytes%8 > 0) {
                 pixel = 0;
-                for (int j=0; j<scanlineBytes%8; j++) {
+                for (int j=0; j<scbnlineBytes%8; j++) {
                     pixel |= (pixels[l++] << (7 - j));
                 }
                 bpixels[k++] = (byte)pixel;
             }
-            stream.write(bpixels, 0, (scanlineBytes+7)/8);
+            strebm.write(bpixels, 0, (scbnlineBytes+7)/8);
 
-            break;
+            brebk;
 
-        case 4:
+        cbse 4:
             if (compressionType == BI_RLE4){
-                byte[] bipixels = new byte[scanlineBytes];
-                for (int h=0; h<scanlineBytes; h++) {
+                byte[] bipixels = new byte[scbnlineBytes];
+                for (int h=0; h<scbnlineBytes; h++) {
                     bipixels[h] = (byte)pixels[l++];
                 }
-                encodeRLE4(bipixels, scanlineBytes);
+                encodeRLE4(bipixels, scbnlineBytes);
             }else {
-                for (int j=0; j<scanlineBytes/2; j++) {
+                for (int j=0; j<scbnlineBytes/2; j++) {
                     pixel = (pixels[l++] << 4) | pixels[l++];
                     bpixels[k++] = (byte)pixel;
                 }
-                // Put the last pixel of odd-length lines in the 4 MSBs
-                if ((scanlineBytes%2) == 1) {
+                // Put the lbst pixel of odd-length lines in the 4 MSBs
+                if ((scbnlineBytes%2) == 1) {
                     pixel = pixels[l] << 4;
                     bpixels[k++] = (byte)pixel;
                 }
-                stream.write(bpixels, 0, (scanlineBytes+1)/2);
+                strebm.write(bpixels, 0, (scbnlineBytes+1)/2);
             }
-            break;
+            brebk;
 
-        case 8:
+        cbse 8:
             if(compressionType == BI_RLE8) {
-                for (int h=0; h<scanlineBytes; h++) {
+                for (int h=0; h<scbnlineBytes; h++) {
                     bpixels[h] = (byte)pixels[l++];
                 }
-                encodeRLE8(bpixels, scanlineBytes);
+                encodeRLE8(bpixels, scbnlineBytes);
             }else {
-                for (int j=0; j<scanlineBytes; j++) {
+                for (int j=0; j<scbnlineBytes; j++) {
                     bpixels[j] = (byte)pixels[l++];
                 }
-                stream.write(bpixels, 0, scanlineBytes);
+                strebm.write(bpixels, 0, scbnlineBytes);
             }
-            break;
+            brebk;
 
-        case 16:
+        cbse 16:
             if (spixels == null)
-                spixels = new short[scanlineBytes / numBands];
+                spixels = new short[scbnlineBytes / numBbnds];
             /*
-             * We expect that pixel data comes in RGB order.
-             * We will assemble short pixel taking into account
+             * We expect thbt pixel dbtb comes in RGB order.
+             * We will bssemble short pixel tbking into bccount
              * the compression type:
              *
-             * BI_RGB        - the RGB order should be maintained.
-             * BI_BITFIELDS  - use bitPos array that was built
-             *                 according to bitfields masks.
+             * BI_RGB        - the RGB order should be mbintbined.
+             * BI_BITFIELDS  - use bitPos brrby thbt wbs built
+             *                 bccording to bitfields mbsks.
              */
-            for (int j = 0, m = 0; j < scanlineBytes; m++) {
+            for (int j = 0, m = 0; j < scbnlineBytes; m++) {
                 spixels[m] = 0;
                 if (compressionType == BI_RGB) {
                     /*
-                     * please note that despite other cases,
-                     * the 16bpp BI_RGB requires the RGB data order
+                     * plebse note thbt despite other cbses,
+                     * the 16bpp BI_RGB requires the RGB dbtb order
                      */
                     spixels[m] = (short)
                         (((0x1f & pixels[j    ]) << 10) |
@@ -844,28 +844,28 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                          ((0x1f & pixels[j + 2])      ));
                      j += 3;
                 } else {
-                    for(int i = 0 ; i < numBands; i++, j++) {
+                    for(int i = 0 ; i < numBbnds; i++, j++) {
                         spixels[m] |=
-                            (((pixels[j]) << bitPos[i]) & bitMasks[i]);
+                            (((pixels[j]) << bitPos[i]) & bitMbsks[i]);
                     }
                 }
             }
-            stream.writeShorts(spixels, 0, spixels.length);
-            break;
+            strebm.writeShorts(spixels, 0, spixels.length);
+            brebk;
 
-        case 24:
-            if (numBands == 3) {
-                for (int j=0; j<scanlineBytes; j+=3) {
-                    // Since BMP needs BGR format
+        cbse 24:
+            if (numBbnds == 3) {
+                for (int j=0; j<scbnlineBytes; j+=3) {
+                    // Since BMP needs BGR formbt
                     bpixels[k++] = (byte)(pixels[l+2]);
                     bpixels[k++] = (byte)(pixels[l+1]);
                     bpixels[k++] = (byte)(pixels[l]);
                     l+=3;
                 }
-                stream.write(bpixels, 0, scanlineBytes);
+                strebm.write(bpixels, 0, scbnlineBytes);
             } else {
-                // Case where IndexColorModel had > 256 colors.
-                int entries = icm.getMapSize();
+                // Cbse where IndexColorModel hbd > 256 colors.
+                int entries = icm.getMbpSize();
 
                 byte r[] = new byte[entries];
                 byte g[] = new byte[entries];
@@ -876,31 +876,31 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                 icm.getBlues(b);
                 int index;
 
-                for (int j=0; j<scanlineBytes; j++) {
+                for (int j=0; j<scbnlineBytes; j++) {
                     index = pixels[l];
                     bpixels[k++] = b[index];
                     bpixels[k++] = g[index];
                     bpixels[k++] = b[index];
                     l++;
                 }
-                stream.write(bpixels, 0, scanlineBytes*3);
+                strebm.write(bpixels, 0, scbnlineBytes*3);
             }
-            break;
+            brebk;
 
-        case 32:
+        cbse 32:
             if (ipixels == null)
-                ipixels = new int[scanlineBytes / numBands];
-            if (numBands == 3) {
+                ipixels = new int[scbnlineBytes / numBbnds];
+            if (numBbnds == 3) {
                 /*
-                 * We expect that pixel data comes in RGB order.
-                 * We will assemble int pixel taking into account
+                 * We expect thbt pixel dbtb comes in RGB order.
+                 * We will bssemble int pixel tbking into bccount
                  * the compression type.
                  *
                  * BI_RGB        - the BGR order should be used.
-                 * BI_BITFIELDS  - use bitPos array that was built
-                 *                 according to bitfields masks.
+                 * BI_BITFIELDS  - use bitPos brrby thbt wbs built
+                 *                 bccording to bitfields mbsks.
                  */
-                for (int j = 0, m = 0; j < scanlineBytes; m++) {
+                for (int j = 0, m = 0; j < scbnlineBytes; m++) {
                     ipixels[m] = 0;
                     if (compressionType == BI_RGB) {
                         ipixels[m] =
@@ -909,21 +909,21 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                             ((0xff & pixels[j    ])      );
                         j += 3;
                     } else {
-                        for(int i = 0 ; i < numBands; i++, j++) {
+                        for(int i = 0 ; i < numBbnds; i++, j++) {
                             ipixels[m] |=
-                                (((pixels[j]) << bitPos[i]) & bitMasks[i]);
+                                (((pixels[j]) << bitPos[i]) & bitMbsks[i]);
                         }
                     }
                 }
             } else {
-                // We have two possibilities here:
-                // 1. we are writing the indexed image with bitfields
-                //    compression (this covers also the case of BYTE_BINARY)
-                //    => use icm to get actual RGB color values.
-                // 2. we are writing the gray-scaled image with BI_BITFIELDS
+                // We hbve two possibilities here:
+                // 1. we bre writing the indexed imbge with bitfields
+                //    compression (this covers blso the cbse of BYTE_BINARY)
+                //    => use icm to get bctubl RGB color vblues.
+                // 2. we bre writing the grby-scbled imbge with BI_BITFIELDS
                 //    compression
-                //    => just replicate the level of gray to color components.
-                for (int j = 0; j < scanlineBytes; j++) {
+                //    => just replicbte the level of grby to color components.
+                for (int j = 0; j < scbnlineBytes; j++) {
                     if (icm != null) {
                         ipixels[j] = icm.getRGB(pixels[j]);
                     } else {
@@ -932,227 +932,227 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
                     }
                 }
             }
-            stream.writeInts(ipixels, 0, ipixels.length);
-            break;
+            strebm.writeInts(ipixels, 0, ipixels.length);
+            brebk;
         }
 
-        // Write out the padding
+        // Write out the pbdding
         if (compressionType == BI_RGB ||
             compressionType == BI_BITFIELDS)
         {
-            for(k=0; k<padding; k++) {
-                stream.writeByte(0);
+            for(k=0; k<pbdding; k++) {
+                strebm.writeByte(0);
             }
         }
     }
 
-    private void encodeRLE8(byte[] bpixels, int scanlineBytes)
+    privbte void encodeRLE8(byte[] bpixels, int scbnlineBytes)
       throws IOException{
 
-        int runCount = 1, absVal = -1, j = -1;
-        byte runVal = 0, nextVal =0 ;
+        int runCount = 1, bbsVbl = -1, j = -1;
+        byte runVbl = 0, nextVbl =0 ;
 
-        runVal = bpixels[++j];
-        byte[] absBuf = new byte[256];
+        runVbl = bpixels[++j];
+        byte[] bbsBuf = new byte[256];
 
-        while (j < scanlineBytes-1) {
-            nextVal = bpixels[++j];
-            if (nextVal == runVal ){
-                if(absVal >= 3 ){
-                    /// Check if there was an existing Absolute Run
-                    stream.writeByte(0);
-                    stream.writeByte(absVal);
-                    incCompImageSize(2);
-                    for(int a=0; a<absVal;a++){
-                        stream.writeByte(absBuf[a]);
-                        incCompImageSize(1);
+        while (j < scbnlineBytes-1) {
+            nextVbl = bpixels[++j];
+            if (nextVbl == runVbl ){
+                if(bbsVbl >= 3 ){
+                    /// Check if there wbs bn existing Absolute Run
+                    strebm.writeByte(0);
+                    strebm.writeByte(bbsVbl);
+                    incCompImbgeSize(2);
+                    for(int b=0; b<bbsVbl;b++){
+                        strebm.writeByte(bbsBuf[b]);
+                        incCompImbgeSize(1);
                     }
-                    if (!isEven(absVal)){
-                        //Padding
-                        stream.writeByte(0);
-                        incCompImageSize(1);
+                    if (!isEven(bbsVbl)){
+                        //Pbdding
+                        strebm.writeByte(0);
+                        incCompImbgeSize(1);
                     }
                 }
-                else if(absVal > -1){
-                    /// Absolute Encoding for less than 3
-                    /// treated as regular encoding
-                    /// Do not include the last element since it will
+                else if(bbsVbl > -1){
+                    /// Absolute Encoding for less thbn 3
+                    /// trebted bs regulbr encoding
+                    /// Do not include the lbst element since it will
                     /// be inclued in the next encoding/run
-                    for (int b=0;b<absVal;b++){
-                        stream.writeByte(1);
-                        stream.writeByte(absBuf[b]);
-                        incCompImageSize(2);
+                    for (int b=0;b<bbsVbl;b++){
+                        strebm.writeByte(1);
+                        strebm.writeByte(bbsBuf[b]);
+                        incCompImbgeSize(2);
                     }
                 }
-                absVal = -1;
+                bbsVbl = -1;
                 runCount++;
                 if (runCount == 256){
-                    /// Only 255 values permitted
-                    stream.writeByte(runCount-1);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
+                    /// Only 255 vblues permitted
+                    strebm.writeByte(runCount-1);
+                    strebm.writeByte(runVbl);
+                    incCompImbgeSize(2);
                     runCount = 1;
                 }
             }
             else {
                 if (runCount > 1){
-                    /// If there was an existing run
-                    stream.writeByte(runCount);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
-                } else if (absVal < 0){
+                    /// If there wbs bn existing run
+                    strebm.writeByte(runCount);
+                    strebm.writeByte(runVbl);
+                    incCompImbgeSize(2);
+                } else if (bbsVbl < 0){
                     // First time..
-                    absBuf[++absVal] = runVal;
-                    absBuf[++absVal] = nextVal;
-                } else if (absVal < 254){
+                    bbsBuf[++bbsVbl] = runVbl;
+                    bbsBuf[++bbsVbl] = nextVbl;
+                } else if (bbsVbl < 254){
                     //  0-254 only
-                    absBuf[++absVal] = nextVal;
+                    bbsBuf[++bbsVbl] = nextVbl;
                 } else {
-                    stream.writeByte(0);
-                    stream.writeByte(absVal+1);
-                    incCompImageSize(2);
-                    for(int a=0; a<=absVal;a++){
-                        stream.writeByte(absBuf[a]);
-                        incCompImageSize(1);
+                    strebm.writeByte(0);
+                    strebm.writeByte(bbsVbl+1);
+                    incCompImbgeSize(2);
+                    for(int b=0; b<=bbsVbl;b++){
+                        strebm.writeByte(bbsBuf[b]);
+                        incCompImbgeSize(1);
                     }
-                    // padding since 255 elts is not even
-                    stream.writeByte(0);
-                    incCompImageSize(1);
-                    absVal = -1;
+                    // pbdding since 255 elts is not even
+                    strebm.writeByte(0);
+                    incCompImbgeSize(1);
+                    bbsVbl = -1;
                 }
-                runVal = nextVal;
+                runVbl = nextVbl;
                 runCount = 1;
             }
 
-            if (j == scanlineBytes-1){ // EOF scanline
+            if (j == scbnlineBytes-1){ // EOF scbnline
                 // Write the run
-                if (absVal == -1){
-                    stream.writeByte(runCount);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
+                if (bbsVbl == -1){
+                    strebm.writeByte(runCount);
+                    strebm.writeByte(runVbl);
+                    incCompImbgeSize(2);
                     runCount = 1;
                 }
                 else {
                     // write the Absolute Run
-                    if(absVal >= 2){
-                        stream.writeByte(0);
-                        stream.writeByte(absVal+1);
-                        incCompImageSize(2);
-                        for(int a=0; a<=absVal;a++){
-                            stream.writeByte(absBuf[a]);
-                            incCompImageSize(1);
+                    if(bbsVbl >= 2){
+                        strebm.writeByte(0);
+                        strebm.writeByte(bbsVbl+1);
+                        incCompImbgeSize(2);
+                        for(int b=0; b<=bbsVbl;b++){
+                            strebm.writeByte(bbsBuf[b]);
+                            incCompImbgeSize(1);
                         }
-                        if (!isEven(absVal+1)){
-                            //Padding
-                            stream.writeByte(0);
-                            incCompImageSize(1);
+                        if (!isEven(bbsVbl+1)){
+                            //Pbdding
+                            strebm.writeByte(0);
+                            incCompImbgeSize(1);
                         }
 
                     }
-                    else if(absVal > -1){
-                        for (int b=0;b<=absVal;b++){
-                            stream.writeByte(1);
-                            stream.writeByte(absBuf[b]);
-                            incCompImageSize(2);
+                    else if(bbsVbl > -1){
+                        for (int b=0;b<=bbsVbl;b++){
+                            strebm.writeByte(1);
+                            strebm.writeByte(bbsBuf[b]);
+                            incCompImbgeSize(2);
                         }
                     }
                 }
-                /// EOF scanline
+                /// EOF scbnline
 
-                stream.writeByte(0);
-                stream.writeByte(0);
-                incCompImageSize(2);
+                strebm.writeByte(0);
+                strebm.writeByte(0);
+                incCompImbgeSize(2);
             }
         }
     }
 
-    private void encodeRLE4(byte[] bipixels, int scanlineBytes)
+    privbte void encodeRLE4(byte[] bipixels, int scbnlineBytes)
       throws IOException {
 
-        int runCount=2, absVal=-1, j=-1, pixel=0, q=0;
-        byte runVal1=0, runVal2=0, nextVal1=0, nextVal2=0;
-        byte[] absBuf = new byte[256];
+        int runCount=2, bbsVbl=-1, j=-1, pixel=0, q=0;
+        byte runVbl1=0, runVbl2=0, nextVbl1=0, nextVbl2=0;
+        byte[] bbsBuf = new byte[256];
 
 
-        runVal1 = bipixels[++j];
-        runVal2 = bipixels[++j];
+        runVbl1 = bipixels[++j];
+        runVbl2 = bipixels[++j];
 
-        while (j < scanlineBytes-2){
-            nextVal1 = bipixels[++j];
-            nextVal2 = bipixels[++j];
+        while (j < scbnlineBytes-2){
+            nextVbl1 = bipixels[++j];
+            nextVbl2 = bipixels[++j];
 
-            if (nextVal1 == runVal1 ) {
+            if (nextVbl1 == runVbl1 ) {
 
-                //Check if there was an existing Absolute Run
-                if(absVal >= 4){
-                    stream.writeByte(0);
-                    stream.writeByte(absVal - 1);
-                    incCompImageSize(2);
-                    // we need to exclude  last 2 elts, similarity of
-                    // which caused to enter this part of the code
-                    for(int a=0; a<absVal-2;a+=2){
-                        pixel = (absBuf[a] << 4) | absBuf[a+1];
-                        stream.writeByte((byte)pixel);
-                        incCompImageSize(1);
+                //Check if there wbs bn existing Absolute Run
+                if(bbsVbl >= 4){
+                    strebm.writeByte(0);
+                    strebm.writeByte(bbsVbl - 1);
+                    incCompImbgeSize(2);
+                    // we need to exclude  lbst 2 elts, similbrity of
+                    // which cbused to enter this pbrt of the code
+                    for(int b=0; b<bbsVbl-2;b+=2){
+                        pixel = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                        strebm.writeByte((byte)pixel);
+                        incCompImbgeSize(1);
                     }
-                    // if # of elts is odd - read the last element
-                    if(!(isEven(absVal-1))){
-                        q = absBuf[absVal-2] << 4| 0;
-                        stream.writeByte(q);
-                        incCompImageSize(1);
+                    // if # of elts is odd - rebd the lbst element
+                    if(!(isEven(bbsVbl-1))){
+                        q = bbsBuf[bbsVbl-2] << 4| 0;
+                        strebm.writeByte(q);
+                        incCompImbgeSize(1);
                     }
-                    // Padding to word align absolute encoding
-                    if ( !isEven((int)Math.ceil((absVal-1)/2)) ) {
-                        stream.writeByte(0);
-                        incCompImageSize(1);
+                    // Pbdding to word blign bbsolute encoding
+                    if ( !isEven((int)Mbth.ceil((bbsVbl-1)/2)) ) {
+                        strebm.writeByte(0);
+                        incCompImbgeSize(1);
                     }
-                } else if (absVal > -1){
-                    stream.writeByte(2);
-                    pixel = (absBuf[0] << 4) | absBuf[1];
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
+                } else if (bbsVbl > -1){
+                    strebm.writeByte(2);
+                    pixel = (bbsBuf[0] << 4) | bbsBuf[1];
+                    strebm.writeByte(pixel);
+                    incCompImbgeSize(2);
                 }
-                absVal = -1;
+                bbsVbl = -1;
 
-                if (nextVal2 == runVal2){
+                if (nextVbl2 == runVbl2){
                     // Even runlength
                     runCount+=2;
                     if(runCount == 256){
-                        stream.writeByte(runCount-1);
-                        pixel = ( runVal1 << 4) | runVal2;
-                        stream.writeByte(pixel);
-                        incCompImageSize(2);
+                        strebm.writeByte(runCount-1);
+                        pixel = ( runVbl1 << 4) | runVbl2;
+                        strebm.writeByte(pixel);
+                        incCompImbgeSize(2);
                         runCount =2;
-                        if(j< scanlineBytes - 1){
-                            runVal1 = runVal2;
-                            runVal2 = bipixels[++j];
+                        if(j< scbnlineBytes - 1){
+                            runVbl1 = runVbl2;
+                            runVbl2 = bipixels[++j];
                         } else {
-                            stream.writeByte(01);
-                            int r = runVal2 << 4 | 0;
-                            stream.writeByte(r);
-                            incCompImageSize(2);
+                            strebm.writeByte(01);
+                            int r = runVbl2 << 4 | 0;
+                            strebm.writeByte(r);
+                            incCompImbgeSize(2);
                             runCount = -1;/// Only EOF required now
                         }
                     }
                 } else {
-                    // odd runlength and the run ends here
-                    // runCount wont be > 254 since 256/255 case will
-                    // be taken care of in above code.
+                    // odd runlength bnd the run ends here
+                    // runCount wont be > 254 since 256/255 cbse will
+                    // be tbken cbre of in bbove code.
                     runCount++;
-                    pixel = ( runVal1 << 4) | runVal2;
-                    stream.writeByte(runCount);
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
+                    pixel = ( runVbl1 << 4) | runVbl2;
+                    strebm.writeByte(runCount);
+                    strebm.writeByte(pixel);
+                    incCompImbgeSize(2);
                     runCount = 2;
-                    runVal1 = nextVal2;
-                    // If end of scanline
-                    if (j < scanlineBytes -1){
-                        runVal2 = bipixels[++j];
+                    runVbl1 = nextVbl2;
+                    // If end of scbnline
+                    if (j < scbnlineBytes -1){
+                        runVbl2 = bipixels[++j];
                     }else {
-                        stream.writeByte(01);
-                        int r = nextVal2 << 4 | 0;
-                        stream.writeByte(r);
-                        incCompImageSize(2);
+                        strebm.writeByte(01);
+                        int r = nextVbl2 << 4 | 0;
+                        strebm.writeByte(r);
+                        incCompImbgeSize(2);
                         runCount = -1;/// Only EOF required now
                     }
 
@@ -1160,210 +1160,210 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
             } else{
                 // Check for existing run
                 if (runCount > 2){
-                    pixel = ( runVal1 << 4) | runVal2;
-                    stream.writeByte(runCount);
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
-                } else if (absVal < 0){ // first time
-                    absBuf[++absVal] = runVal1;
-                    absBuf[++absVal] = runVal2;
-                    absBuf[++absVal] = nextVal1;
-                    absBuf[++absVal] = nextVal2;
-                } else if (absVal < 253){ // only 255 elements
-                    absBuf[++absVal] = nextVal1;
-                    absBuf[++absVal] = nextVal2;
+                    pixel = ( runVbl1 << 4) | runVbl2;
+                    strebm.writeByte(runCount);
+                    strebm.writeByte(pixel);
+                    incCompImbgeSize(2);
+                } else if (bbsVbl < 0){ // first time
+                    bbsBuf[++bbsVbl] = runVbl1;
+                    bbsBuf[++bbsVbl] = runVbl2;
+                    bbsBuf[++bbsVbl] = nextVbl1;
+                    bbsBuf[++bbsVbl] = nextVbl2;
+                } else if (bbsVbl < 253){ // only 255 elements
+                    bbsBuf[++bbsVbl] = nextVbl1;
+                    bbsBuf[++bbsVbl] = nextVbl2;
                 } else {
-                    stream.writeByte(0);
-                    stream.writeByte(absVal+1);
-                    incCompImageSize(2);
-                    for(int a=0; a<absVal;a+=2){
-                        pixel = (absBuf[a] << 4) | absBuf[a+1];
-                        stream.writeByte((byte)pixel);
-                        incCompImageSize(1);
+                    strebm.writeByte(0);
+                    strebm.writeByte(bbsVbl+1);
+                    incCompImbgeSize(2);
+                    for(int b=0; b<bbsVbl;b+=2){
+                        pixel = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                        strebm.writeByte((byte)pixel);
+                        incCompImbgeSize(1);
                     }
-                    // Padding for word align
+                    // Pbdding for word blign
                     // since it will fit into 127 bytes
-                    stream.writeByte(0);
-                    incCompImageSize(1);
-                    absVal = -1;
+                    strebm.writeByte(0);
+                    incCompImbgeSize(1);
+                    bbsVbl = -1;
                 }
 
-                runVal1 = nextVal1;
-                runVal2 = nextVal2;
+                runVbl1 = nextVbl1;
+                runVbl2 = nextVbl2;
                 runCount = 2;
             }
-            // Handle the End of scanline for the last 2 4bits
-            if (j >= scanlineBytes-2 ) {
-                if (absVal == -1 && runCount >= 2){
-                    if (j == scanlineBytes-2){
-                        if(bipixels[++j] == runVal1){
+            // Hbndle the End of scbnline for the lbst 2 4bits
+            if (j >= scbnlineBytes-2 ) {
+                if (bbsVbl == -1 && runCount >= 2){
+                    if (j == scbnlineBytes-2){
+                        if(bipixels[++j] == runVbl1){
                             runCount++;
-                            pixel = ( runVal1 << 4) | runVal2;
-                            stream.writeByte(runCount);
-                            stream.writeByte(pixel);
-                            incCompImageSize(2);
+                            pixel = ( runVbl1 << 4) | runVbl2;
+                            strebm.writeByte(runCount);
+                            strebm.writeByte(pixel);
+                            incCompImbgeSize(2);
                         } else {
-                            pixel = ( runVal1 << 4) | runVal2;
-                            stream.writeByte(runCount);
-                            stream.writeByte(pixel);
-                            stream.writeByte(01);
+                            pixel = ( runVbl1 << 4) | runVbl2;
+                            strebm.writeByte(runCount);
+                            strebm.writeByte(pixel);
+                            strebm.writeByte(01);
                             pixel =  bipixels[j]<<4 |0;
-                            stream.writeByte(pixel);
+                            strebm.writeByte(pixel);
                             int n = bipixels[j]<<4|0;
-                            incCompImageSize(4);
+                            incCompImbgeSize(4);
                         }
                     } else {
-                        stream.writeByte(runCount);
-                        pixel =( runVal1 << 4) | runVal2 ;
-                        stream.writeByte(pixel);
-                        incCompImageSize(2);
+                        strebm.writeByte(runCount);
+                        pixel =( runVbl1 << 4) | runVbl2 ;
+                        strebm.writeByte(pixel);
+                        incCompImbgeSize(2);
                     }
-                } else if(absVal > -1){
-                    if (j == scanlineBytes-2){
-                        absBuf[++absVal] = bipixels[++j];
+                } else if(bbsVbl > -1){
+                    if (j == scbnlineBytes-2){
+                        bbsBuf[++bbsVbl] = bipixels[++j];
                     }
-                    if (absVal >=2){
-                        stream.writeByte(0);
-                        stream.writeByte(absVal+1);
-                        incCompImageSize(2);
-                        for(int a=0; a<absVal;a+=2){
-                            pixel = (absBuf[a] << 4) | absBuf[a+1];
-                            stream.writeByte((byte)pixel);
-                            incCompImageSize(1);
+                    if (bbsVbl >=2){
+                        strebm.writeByte(0);
+                        strebm.writeByte(bbsVbl+1);
+                        incCompImbgeSize(2);
+                        for(int b=0; b<bbsVbl;b+=2){
+                            pixel = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                            strebm.writeByte((byte)pixel);
+                            incCompImbgeSize(1);
                         }
-                        if(!(isEven(absVal+1))){
-                            q = absBuf[absVal] << 4|0;
-                            stream.writeByte(q);
-                            incCompImageSize(1);
+                        if(!(isEven(bbsVbl+1))){
+                            q = bbsBuf[bbsVbl] << 4|0;
+                            strebm.writeByte(q);
+                            incCompImbgeSize(1);
                         }
 
-                        // Padding
-                        if ( !isEven((int)Math.ceil((absVal+1)/2)) ) {
-                            stream.writeByte(0);
-                            incCompImageSize(1);
+                        // Pbdding
+                        if ( !isEven((int)Mbth.ceil((bbsVbl+1)/2)) ) {
+                            strebm.writeByte(0);
+                            incCompImbgeSize(1);
                         }
 
                     } else {
-                        switch (absVal){
-                        case 0:
-                            stream.writeByte(1);
-                            int n = absBuf[0]<<4 | 0;
-                            stream.writeByte(n);
-                            incCompImageSize(2);
-                            break;
-                        case 1:
-                            stream.writeByte(2);
-                            pixel = (absBuf[0] << 4) | absBuf[1];
-                            stream.writeByte(pixel);
-                            incCompImageSize(2);
-                            break;
+                        switch (bbsVbl){
+                        cbse 0:
+                            strebm.writeByte(1);
+                            int n = bbsBuf[0]<<4 | 0;
+                            strebm.writeByte(n);
+                            incCompImbgeSize(2);
+                            brebk;
+                        cbse 1:
+                            strebm.writeByte(2);
+                            pixel = (bbsBuf[0] << 4) | bbsBuf[1];
+                            strebm.writeByte(pixel);
+                            incCompImbgeSize(2);
+                            brebk;
                         }
                     }
 
                 }
-                stream.writeByte(0);
-                stream.writeByte(0);
-                incCompImageSize(2);
+                strebm.writeByte(0);
+                strebm.writeByte(0);
+                incCompImbgeSize(2);
             }
         }
     }
 
 
-    private synchronized void incCompImageSize(int value){
-        compImageSize = compImageSize + value;
+    privbte synchronized void incCompImbgeSize(int vblue){
+        compImbgeSize = compImbgeSize + vblue;
     }
 
-    private boolean isEven(int number) {
-        return (number%2 == 0 ? true : false);
+    privbte boolebn isEven(int number) {
+        return (number%2 == 0 ? true : fblse);
     }
 
-    private void writeFileHeader(int fileSize, int offset) throws IOException {
-        // magic value
-        stream.writeByte('B');
-        stream.writeByte('M');
+    privbte void writeFileHebder(int fileSize, int offset) throws IOException {
+        // mbgic vblue
+        strebm.writeByte('B');
+        strebm.writeByte('M');
 
         // File size
-        stream.writeInt(fileSize);
+        strebm.writeInt(fileSize);
 
-        // reserved1 and reserved2
-        stream.writeInt(0);
+        // reserved1 bnd reserved2
+        strebm.writeInt(0);
 
-        // offset to image data
-        stream.writeInt(offset);
+        // offset to imbge dbtb
+        strebm.writeInt(offset);
     }
 
 
-    private void writeInfoHeader(int headerSize,
+    privbte void writeInfoHebder(int hebderSize,
                                  int bitsPerPixel) throws IOException {
-        // size of header
-        stream.writeInt(headerSize);
+        // size of hebder
+        strebm.writeInt(hebderSize);
 
         // width
-        stream.writeInt(w);
+        strebm.writeInt(w);
 
         // height
-        stream.writeInt(isTopDown ? -h : h);
+        strebm.writeInt(isTopDown ? -h : h);
 
-        // number of planes
-        stream.writeShort(1);
+        // number of plbnes
+        strebm.writeShort(1);
 
         // Bits Per Pixel
-        stream.writeShort(bitsPerPixel);
+        strebm.writeShort(bitsPerPixel);
     }
 
-    private void writeSize(int dword, int offset) throws IOException {
-        stream.skipBytes(offset);
-        stream.writeInt(dword);
+    privbte void writeSize(int dword, int offset) throws IOException {
+        strebm.skipBytes(offset);
+        strebm.writeInt(dword);
     }
 
     public void reset() {
         super.reset();
-        stream = null;
+        strebm = null;
     }
 
-    private void writeEmbedded(IIOImage image,
-                               ImageWriteParam bmpParam) throws IOException {
-        String format =
+    privbte void writeEmbedded(IIOImbge imbge,
+                               ImbgeWritePbrbm bmpPbrbm) throws IOException {
+        String formbt =
             compressionType == BI_JPEG ? "jpeg" : "png";
-        Iterator<ImageWriter> iterator =
-               ImageIO.getImageWritersByFormatName(format);
-        ImageWriter writer = null;
-        if (iterator.hasNext())
-            writer = iterator.next();
+        Iterbtor<ImbgeWriter> iterbtor =
+               ImbgeIO.getImbgeWritersByFormbtNbme(formbt);
+        ImbgeWriter writer = null;
+        if (iterbtor.hbsNext())
+            writer = iterbtor.next();
         if (writer != null) {
-            if (embedded_stream == null) {
-                throw new RuntimeException("No stream for writing embedded image!");
+            if (embedded_strebm == null) {
+                throw new RuntimeException("No strebm for writing embedded imbge!");
             }
 
-            writer.addIIOWriteProgressListener(new IIOWriteProgressAdapter() {
-                    public void imageProgress(ImageWriter source, float percentageDone) {
-                        processImageProgress(percentageDone);
+            writer.bddIIOWriteProgressListener(new IIOWriteProgressAdbpter() {
+                    public void imbgeProgress(ImbgeWriter source, flobt percentbgeDone) {
+                        processImbgeProgress(percentbgeDone);
                     }
                 });
 
-            writer.addIIOWriteWarningListener(new IIOWriteWarningListener() {
-                    public void warningOccurred(ImageWriter source, int imageIndex, String warning) {
-                        processWarningOccurred(imageIndex, warning);
+            writer.bddIIOWriteWbrningListener(new IIOWriteWbrningListener() {
+                    public void wbrningOccurred(ImbgeWriter source, int imbgeIndex, String wbrning) {
+                        processWbrningOccurred(imbgeIndex, wbrning);
                     }
                 });
 
-            writer.setOutput(ImageIO.createImageOutputStream(embedded_stream));
-            ImageWriteParam param = writer.getDefaultWriteParam();
-            //param.setDestinationBands(bmpParam.getDestinationBands());
-            param.setDestinationOffset(bmpParam.getDestinationOffset());
-            param.setSourceBands(bmpParam.getSourceBands());
-            param.setSourceRegion(bmpParam.getSourceRegion());
-            param.setSourceSubsampling(bmpParam.getSourceXSubsampling(),
-                                       bmpParam.getSourceYSubsampling(),
-                                       bmpParam.getSubsamplingXOffset(),
-                                       bmpParam.getSubsamplingYOffset());
-            writer.write(null, image, param);
+            writer.setOutput(ImbgeIO.crebteImbgeOutputStrebm(embedded_strebm));
+            ImbgeWritePbrbm pbrbm = writer.getDefbultWritePbrbm();
+            //pbrbm.setDestinbtionBbnds(bmpPbrbm.getDestinbtionBbnds());
+            pbrbm.setDestinbtionOffset(bmpPbrbm.getDestinbtionOffset());
+            pbrbm.setSourceBbnds(bmpPbrbm.getSourceBbnds());
+            pbrbm.setSourceRegion(bmpPbrbm.getSourceRegion());
+            pbrbm.setSourceSubsbmpling(bmpPbrbm.getSourceXSubsbmpling(),
+                                       bmpPbrbm.getSourceYSubsbmpling(),
+                                       bmpPbrbm.getSubsbmplingXOffset(),
+                                       bmpPbrbm.getSubsbmplingYOffset());
+            writer.write(null, imbge, pbrbm);
         } else
-            throw new RuntimeException(I18N.getString("BMPImageWrite5") + " " + format);
+            throw new RuntimeException(I18N.getString("BMPImbgeWrite5") + " " + formbt);
 
     }
 
-    private int firstLowBit(int num) {
+    privbte int firstLowBit(int num) {
         int count = 0;
         while ((num & 1) == 0) {
             count++;
@@ -1372,139 +1372,139 @@ public class BMPImageWriter extends ImageWriter implements BMPConstants {
         return count;
     }
 
-    private class IIOWriteProgressAdapter implements IIOWriteProgressListener {
+    privbte clbss IIOWriteProgressAdbpter implements IIOWriteProgressListener {
 
-        public void imageComplete(ImageWriter source) {
+        public void imbgeComplete(ImbgeWriter source) {
         }
 
-        public void imageProgress(ImageWriter source, float percentageDone) {
+        public void imbgeProgress(ImbgeWriter source, flobt percentbgeDone) {
         }
 
-        public void imageStarted(ImageWriter source, int imageIndex) {
+        public void imbgeStbrted(ImbgeWriter source, int imbgeIndex) {
         }
 
-        public void thumbnailComplete(ImageWriter source) {
+        public void thumbnbilComplete(ImbgeWriter source) {
         }
 
-        public void thumbnailProgress(ImageWriter source, float percentageDone) {
+        public void thumbnbilProgress(ImbgeWriter source, flobt percentbgeDone) {
         }
 
-        public void thumbnailStarted(ImageWriter source, int imageIndex, int thumbnailIndex) {
+        public void thumbnbilStbrted(ImbgeWriter source, int imbgeIndex, int thumbnbilIndex) {
         }
 
-        public void writeAborted(ImageWriter source) {
+        public void writeAborted(ImbgeWriter source) {
         }
     }
 
     /*
-     * Returns preferred compression type for given image.
-     * The default compression type is BI_RGB, but some image types can't be
-     * encodeed with using default compression without cahnge color resolution.
-     * For example, TYPE_USHORT_565_RGB may be encodeed only by using BI_BITFIELDS
+     * Returns preferred compression type for given imbge.
+     * The defbult compression type is BI_RGB, but some imbge types cbn't be
+     * encodeed with using defbult compression without cbhnge color resolution.
+     * For exbmple, TYPE_USHORT_565_RGB mby be encodeed only by using BI_BITFIELDS
      * compression type.
      *
-     * NB: we probably need to extend this method if we encounter other image
-     * types which can not be encoded with BI_RGB compression type.
+     * NB: we probbbly need to extend this method if we encounter other imbge
+     * types which cbn not be encoded with BI_RGB compression type.
      */
-    protected int getPreferredCompressionType(ColorModel cm, SampleModel sm) {
-        ImageTypeSpecifier imageType = new ImageTypeSpecifier(cm, sm);
-        return getPreferredCompressionType(imageType);
+    protected int getPreferredCompressionType(ColorModel cm, SbmpleModel sm) {
+        ImbgeTypeSpecifier imbgeType = new ImbgeTypeSpecifier(cm, sm);
+        return getPreferredCompressionType(imbgeType);
     }
 
-    protected int getPreferredCompressionType(ImageTypeSpecifier imageType) {
-        if (imageType.getBufferedImageType() == BufferedImage.TYPE_USHORT_565_RGB) {
+    protected int getPreferredCompressionType(ImbgeTypeSpecifier imbgeType) {
+        if (imbgeType.getBufferedImbgeType() == BufferedImbge.TYPE_USHORT_565_RGB) {
             return  BI_BITFIELDS;
         }
         return BI_RGB;
     }
 
     /*
-     * Check whether we can encode image of given type using compression method in question.
+     * Check whether we cbn encode imbge of given type using compression method in question.
      *
-     * For example, TYPE_USHORT_565_RGB can be encodeed with BI_BITFIELDS compression only.
+     * For exbmple, TYPE_USHORT_565_RGB cbn be encodeed with BI_BITFIELDS compression only.
      *
-     * NB: method should be extended if other cases when we can not encode
+     * NB: method should be extended if other cbses when we cbn not encode
      *     with given compression will be discovered.
      */
-    protected boolean canEncodeImage(int compression, ColorModel cm, SampleModel sm) {
-        ImageTypeSpecifier imgType = new ImageTypeSpecifier(cm, sm);
-        return canEncodeImage(compression, imgType);
+    protected boolebn cbnEncodeImbge(int compression, ColorModel cm, SbmpleModel sm) {
+        ImbgeTypeSpecifier imgType = new ImbgeTypeSpecifier(cm, sm);
+        return cbnEncodeImbge(compression, imgType);
     }
 
-    protected boolean canEncodeImage(int compression, ImageTypeSpecifier imgType) {
-        ImageWriterSpi spi = this.getOriginatingProvider();
-        if (!spi.canEncodeImage(imgType)) {
-            return false;
+    protected boolebn cbnEncodeImbge(int compression, ImbgeTypeSpecifier imgType) {
+        ImbgeWriterSpi spi = this.getOriginbtingProvider();
+        if (!spi.cbnEncodeImbge(imgType)) {
+            return fblse;
         }
-        int biType = imgType.getBufferedImageType();
+        int biType = imgType.getBufferedImbgeType();
         int bpp = imgType.getColorModel().getPixelSize();
         if (compressionType == BI_RLE4 && bpp != 4) {
-            // only 4bpp images can be encoded as BI_RLE4
-            return false;
+            // only 4bpp imbges cbn be encoded bs BI_RLE4
+            return fblse;
         }
         if (compressionType == BI_RLE8 && bpp != 8) {
-            // only 8bpp images can be encoded as BI_RLE8
-            return false;
+            // only 8bpp imbges cbn be encoded bs BI_RLE8
+            return fblse;
         }
         if (bpp == 16) {
             /*
-             * Technically we expect that we may be able to
-             * encode only some of SinglePixelPackedSampleModel
-             * images here.
+             * Technicblly we expect thbt we mby be bble to
+             * encode only some of SinglePixelPbckedSbmpleModel
+             * imbges here.
              *
-             * In addition we should take into account following:
+             * In bddition we should tbke into bccount following:
              *
-             * 1. BI_RGB case, according to the MSDN description:
+             * 1. BI_RGB cbse, bccording to the MSDN description:
              *
-             *     The bitmap has a maximum of 2^16 colors. If the
+             *     The bitmbp hbs b mbximum of 2^16 colors. If the
              *     biCompression member of the BITMAPINFOHEADER is BI_RGB,
-             *     the bmiColors member of BITMAPINFO is NULL. Each WORD
-             *     in the bitmap array represents a single pixel. The
-             *     relative intensities of red, green, and blue are
-             *     represented with five bits for each color component.
+             *     the bmiColors member of BITMAPINFO is NULL. Ebch WORD
+             *     in the bitmbp brrby represents b single pixel. The
+             *     relbtive intensities of red, green, bnd blue bre
+             *     represented with five bits for ebch color component.
              *
-             * 2. BI_BITFIELDS case, according ot the MSDN description:
+             * 2. BI_BITFIELDS cbse, bccording ot the MSDN description:
              *
              *     Windows 95/98/Me: When the biCompression member is
              *     BI_BITFIELDS, the system supports only the following
-             *     16bpp color masks: A 5-5-5 16-bit image, where the blue
-             *     mask is 0x001F, the green mask is 0x03E0, and the red mask
-             *     is 0x7C00; and a 5-6-5 16-bit image, where the blue mask
-             *     is 0x001F, the green mask is 0x07E0, and the red mask is
+             *     16bpp color mbsks: A 5-5-5 16-bit imbge, where the blue
+             *     mbsk is 0x001F, the green mbsk is 0x03E0, bnd the red mbsk
+             *     is 0x7C00; bnd b 5-6-5 16-bit imbge, where the blue mbsk
+             *     is 0x001F, the green mbsk is 0x07E0, bnd the red mbsk is
              *     0xF800.
              */
-            boolean canUseRGB = false;
-            boolean canUseBITFIELDS = false;
+            boolebn cbnUseRGB = fblse;
+            boolebn cbnUseBITFIELDS = fblse;
 
-            SampleModel sm = imgType.getSampleModel();
-            if (sm instanceof SinglePixelPackedSampleModel) {
+            SbmpleModel sm = imgType.getSbmpleModel();
+            if (sm instbnceof SinglePixelPbckedSbmpleModel) {
                 int[] sizes =
-                    ((SinglePixelPackedSampleModel)sm).getSampleSize();
+                    ((SinglePixelPbckedSbmpleModel)sm).getSbmpleSize();
 
-                canUseRGB = true;
-                canUseBITFIELDS = true;
+                cbnUseRGB = true;
+                cbnUseBITFIELDS = true;
                 for (int i = 0; i < sizes.length; i++) {
-                    canUseRGB       &=  (sizes[i] == 5);
-                    canUseBITFIELDS &= ((sizes[i] == 5) ||
+                    cbnUseRGB       &=  (sizes[i] == 5);
+                    cbnUseBITFIELDS &= ((sizes[i] == 5) ||
                                         (i == 1 && sizes[i] == 6));
                 }
             }
 
-            return (((compressionType == BI_RGB) && canUseRGB) ||
-                    ((compressionType == BI_BITFIELDS) && canUseBITFIELDS));
+            return (((compressionType == BI_RGB) && cbnUseRGB) ||
+                    ((compressionType == BI_BITFIELDS) && cbnUseBITFIELDS));
         }
         return true;
     }
 
-    protected void writeMaskToPalette(int mask, int i,
-                                      byte[] r, byte[]g, byte[] b, byte[]a) {
-        b[i] = (byte)(0xff & (mask >> 24));
-        g[i] = (byte)(0xff & (mask >> 16));
-        r[i] = (byte)(0xff & (mask >> 8));
-        a[i] = (byte)(0xff & mask);
+    protected void writeMbskToPblette(int mbsk, int i,
+                                      byte[] r, byte[]g, byte[] b, byte[]b) {
+        b[i] = (byte)(0xff & (mbsk >> 24));
+        g[i] = (byte)(0xff & (mbsk >> 16));
+        r[i] = (byte)(0xff & (mbsk >> 8));
+        b[i] = (byte)(0xff & mbsk);
     }
 
-    private int roundBpp(int x) {
+    privbte int roundBpp(int x) {
         if (x <= 8) {
             return 8;
         } else if (x <= 16) {

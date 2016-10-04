@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Map;
-import static jdk.nio.zipfs.ZipConstants.*;
-import static jdk.nio.zipfs.ZipUtils.*;
+import jbvb.nio.file.Pbths;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import stbtic jdk.nio.zipfs.ZipConstbnts.*;
+import stbtic jdk.nio.zipfs.ZipUtils.*;
 
 /**
- * Print all loc and cen headers of the ZIP file
+ * Print bll loc bnd cen hebders of the ZIP file
  *
- * @author  Xueming Shen
+ * @buthor  Xueming Shen
  */
 
-public class ZipInfo {
+public clbss ZipInfo {
 
-    public static void main(String[] args) throws Throwable {
-        if (args.length < 1) {
-            print("Usage: java ZipInfo zfname");
+    public stbtic void mbin(String[] brgs) throws Throwbble {
+        if (brgs.length < 1) {
+            print("Usbge: jbvb ZipInfo zfnbme");
         } else {
-            Map<String, ?> env = Collections.emptyMap();
+            Mbp<String, ?> env = Collections.emptyMbp();
             ZipFileSystem zfs = (ZipFileSystem)(new ZipFileSystemProvider()
-                                    .newFileSystem(Paths.get(args[0]), env));
+                                    .newFileSystem(Pbths.get(brgs[0]), env));
             byte[] cen = zfs.cen;
             if (cen == null) {
                 print("zip file is empty%n");
@@ -58,17 +58,17 @@ public class ZipInfo {
                 print("----------------#%d--------------------%n", no++);
                 printCEN(cen, pos);
 
-                // use size CENHDR as the extra bytes to read, just in case the
-                // loc.extra is bigger than the cen.extra, try to avoid to read
+                // use size CENHDR bs the extrb bytes to rebd, just in cbse the
+                // loc.extrb is bigger thbn the cen.extrb, try to bvoid to rebd
                 // twice
                 long len = LOCHDR + CENNAM(cen, pos) + CENEXT(cen, pos) + CENHDR;
-                if (zfs.readFullyAt(buf, 0, len, locoff(cen, pos)) != len)
-                    ZipFileSystem.zerror("read loc header failed");
+                if (zfs.rebdFullyAt(buf, 0, len, locoff(cen, pos)) != len)
+                    ZipFileSystem.zerror("rebd loc hebder fbiled");
                 if (LOCEXT(buf) > CENEXT(cen, pos) + CENHDR) {
-                    // have to read the second time;
+                    // hbve to rebd the second time;
                     len = LOCHDR + LOCNAM(buf) + LOCEXT(buf);
-                    if (zfs.readFullyAt(buf, 0, len, locoff(cen, pos)) != len)
-                        ZipFileSystem.zerror("read loc header failed");
+                    if (zfs.rebdFullyAt(buf, 0, len, locoff(cen, pos)) != len)
+                        ZipFileSystem.zerror("rebd loc hebder fbiled");
                 }
                 printLOC(buf);
                 pos += CENHDR + CENNAM(cen, pos) + CENEXT(cen, pos) + CENCOM(cen, pos);
@@ -77,76 +77,76 @@ public class ZipInfo {
         }
     }
 
-    static void print(String fmt, Object... objs) {
+    stbtic void print(String fmt, Object... objs) {
         System.out.printf(fmt, objs);
     }
 
-    static void printLOC(byte[] loc) {
+    stbtic void printLOC(byte[] loc) {
         print("%n");
-        print("[Local File Header]%n");
-        print("    Signature   :   %#010x%n", LOCSIG(loc));
+        print("[Locbl File Hebder]%n");
+        print("    Signbture   :   %#010x%n", LOCSIG(loc));
         if (LOCSIG(loc) != LOCSIG) {
-           print("    Wrong signature!");
+           print("    Wrong signbture!");
            return;
         }
         print("    Version     :       %#6x    [%d.%d]%n",
                   LOCVER(loc), LOCVER(loc) / 10, LOCVER(loc) % 10);
-        print("    Flag        :       %#6x%n", LOCFLG(loc));
+        print("    Flbg        :       %#6x%n", LOCFLG(loc));
         print("    Method      :       %#6x%n", LOCHOW(loc));
-        print("    LastMTime   :   %#10x    [%tc]%n",
-              LOCTIM(loc), dosToJavaTime(LOCTIM(loc)));
+        print("    LbstMTime   :   %#10x    [%tc]%n",
+              LOCTIM(loc), dosToJbvbTime(LOCTIM(loc)));
         print("    CRC         :   %#10x%n", LOCCRC(loc));
         print("    CSize       :   %#10x%n", LOCSIZ(loc));
         print("    Size        :   %#10x%n", LOCLEN(loc));
-        print("    NameLength  :       %#6x    [%s]%n",
+        print("    NbmeLength  :       %#6x    [%s]%n",
                   LOCNAM(loc), new String(loc, LOCHDR, LOCNAM(loc)));
-        print("    ExtraLength :       %#6x%n", LOCEXT(loc));
+        print("    ExtrbLength :       %#6x%n", LOCEXT(loc));
         if (LOCEXT(loc) != 0)
-            printExtra(loc, LOCHDR + LOCNAM(loc), LOCEXT(loc));
+            printExtrb(loc, LOCHDR + LOCNAM(loc), LOCEXT(loc));
     }
 
-    static void printCEN(byte[] cen, int off) {
-        print("[Central Directory Header]%n");
-        print("    Signature   :   %#010x%n", CENSIG(cen, off));
+    stbtic void printCEN(byte[] cen, int off) {
+        print("[Centrbl Directory Hebder]%n");
+        print("    Signbture   :   %#010x%n", CENSIG(cen, off));
         if (CENSIG(cen, off) != CENSIG) {
-           print("    Wrong signature!");
+           print("    Wrong signbture!");
            return;
         }
-        print("    VerMadeby   :       %#6x    [%d, %d.%d]%n",
+        print("    VerMbdeby   :       %#6x    [%d, %d.%d]%n",
               CENVEM(cen, off), (CENVEM(cen, off) >> 8),
               (CENVEM(cen, off) & 0xff) / 10,
               (CENVEM(cen, off) & 0xff) % 10);
-        print("    VerExtract  :       %#6x    [%d.%d]%n",
+        print("    VerExtrbct  :       %#6x    [%d.%d]%n",
               CENVER(cen, off), CENVER(cen, off) / 10, CENVER(cen, off) % 10);
-        print("    Flag        :       %#6x%n", CENFLG(cen, off));
+        print("    Flbg        :       %#6x%n", CENFLG(cen, off));
         print("    Method      :       %#6x%n", CENHOW(cen, off));
-        print("    LastMTime   :   %#10x    [%tc]%n",
-              CENTIM(cen, off), dosToJavaTime(CENTIM(cen, off)));
+        print("    LbstMTime   :   %#10x    [%tc]%n",
+              CENTIM(cen, off), dosToJbvbTime(CENTIM(cen, off)));
         print("    CRC         :   %#10x%n", CENCRC(cen, off));
         print("    CSize       :   %#10x%n", CENSIZ(cen, off));
         print("    Size        :   %#10x%n", CENLEN(cen, off));
-        print("    NameLen     :       %#6x    [%s]%n",
+        print("    NbmeLen     :       %#6x    [%s]%n",
               CENNAM(cen, off), new String(cen, off + CENHDR, CENNAM(cen, off)));
-        print("    ExtraLen    :       %#6x%n", CENEXT(cen, off));
+        print("    ExtrbLen    :       %#6x%n", CENEXT(cen, off));
         if (CENEXT(cen, off) != 0)
-            printExtra(cen, off + CENHDR + CENNAM(cen, off), CENEXT(cen, off));
+            printExtrb(cen, off + CENHDR + CENNAM(cen, off), CENEXT(cen, off));
         print("    CommentLen  :       %#6x%n", CENCOM(cen, off));
-        print("    DiskStart   :       %#6x%n", CENDSK(cen, off));
+        print("    DiskStbrt   :       %#6x%n", CENDSK(cen, off));
         print("    Attrs       :       %#6x%n", CENATT(cen, off));
         print("    AttrsEx     :   %#10x%n", CENATX(cen, off));
         print("    LocOff      :   %#10x%n", CENOFF(cen, off));
 
     }
 
-    static long locoff(byte[] cen, int pos) {
+    stbtic long locoff(byte[] cen, int pos) {
         long locoff = CENOFF(cen, pos);
         if (locoff == ZIP64_MINVAL) {    //ZIP64
             int off = pos + CENHDR + CENNAM(cen, pos);
             int end = off + CENEXT(cen, pos);
             while (off + 4 < end) {
-                int tag = SH(cen, off);
+                int tbg = SH(cen, off);
                 int sz = SH(cen, off + 2);
-                if (tag != EXTID_ZIP64) {
+                if (tbg != EXTID_ZIP64) {
                     off += 4 + sz;
                     continue;
                 }
@@ -162,53 +162,53 @@ public class ZipInfo {
         return locoff;
     }
 
-    static void printExtra(byte[] extra, int off, int len) {
+    stbtic void printExtrb(byte[] extrb, int off, int len) {
         int end = off + len;
         while (off + 4 <= end) {
-            int tag = SH(extra, off);
-            int sz = SH(extra, off + 2);
-            print("        [tag=0x%04x, sz=%d, data= ", tag, sz);
+            int tbg = SH(extrb, off);
+            int sz = SH(extrb, off + 2);
+            print("        [tbg=0x%04x, sz=%d, dbtb= ", tbg, sz);
             if (off + sz > end) {
-                print("    Error: Invalid extra data, beyond extra length");
-                break;
+                print("    Error: Invblid extrb dbtb, beyond extrb length");
+                brebk;
             }
             off += 4;
             for (int i = 0; i < sz; i++)
-                print("%02x ", extra[off + i]);
+                print("%02x ", extrb[off + i]);
             print("]%n");
-            switch (tag) {
-            case EXTID_ZIP64 :
+            switch (tbg) {
+            cbse EXTID_ZIP64 :
                 print("         ->ZIP64: ");
                 int pos = off;
                 while (pos + 8 <= off + sz) {
-                    print(" *0x%x ", LL(extra, pos));
+                    print(" *0x%x ", LL(extrb, pos));
                     pos += 8;
                 }
                 print("%n");
-                break;
-            case EXTID_NTFS:
-                print("         ->PKWare NTFS%n");
+                brebk;
+            cbse EXTID_NTFS:
+                print("         ->PKWbre NTFS%n");
                 // 4 bytes reserved
-                if (SH(extra, off + 4) !=  0x0001 || SH(extra, off + 6) !=  24)
-                    print("    Error: Invalid NTFS sub-tag or subsz");
+                if (SH(extrb, off + 4) !=  0x0001 || SH(extrb, off + 6) !=  24)
+                    print("    Error: Invblid NTFS sub-tbg or subsz");
                 print("            mtime:%tc%n",
-                      winToJavaTime(LL(extra, off + 8)));
-                print("            atime:%tc%n",
-                      winToJavaTime(LL(extra, off + 16)));
+                      winToJbvbTime(LL(extrb, off + 8)));
+                print("            btime:%tc%n",
+                      winToJbvbTime(LL(extrb, off + 16)));
                 print("            ctime:%tc%n",
-                      winToJavaTime(LL(extra, off + 24)));
-                break;
-            case EXTID_EXTT:
-                print("         ->Info-ZIP Extended Timestamp: flag=%x%n",extra[off]);
+                      winToJbvbTime(LL(extrb, off + 24)));
+                brebk;
+            cbse EXTID_EXTT:
+                print("         ->Info-ZIP Extended Timestbmp: flbg=%x%n",extrb[off]);
                 pos = off + 1 ;
                 while (pos + 4 <= off + sz) {
                     print("            *%tc%n",
-                          unixToJavaTime(LG(extra, pos)));
+                          unixToJbvbTime(LG(extrb, pos)));
                     pos += 4;
                 }
-                break;
-            default:
-                print("         ->[tag=%x, size=%d]%n", tag, sz);
+                brebk;
+            defbult:
+                print("         ->[tbg=%x, size=%d]%n", tbg, sz);
             }
             off += sz;
         }

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import java.util.AbstractCollection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Objects;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Entry;
+import jbvb.util.AbstrbctCollection;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.Objects;
 
 /**
- * Collection of relocatable constant pool references.
- * It operates with respect to a particular byte array,
- * and stores some of its state in the bytes themselves.
+ * Collection of relocbtbble constbnt pool references.
+ * It operbtes with respect to b pbrticulbr byte brrby,
+ * bnd stores some of its stbte in the bytes themselves.
  * <p>
- * As a Collection, it can be iterated over, but it is not a List,
- * since it does not natively support indexed access.
+ * As b Collection, it cbn be iterbted over, but it is not b List,
+ * since it does not nbtively support indexed bccess.
  * <p>
  *
- * @author John Rose
+ * @buthor John Rose
  */
-final class Fixups extends AbstractCollection<Fixups.Fixup> {
-    byte[] bytes;    // the subject of the relocations
-    int head;        // desc locating first reloc
-    int tail;        // desc locating last reloc
-    int size;        // number of relocations
-    Entry[] entries; // [0..size-1] relocations
-    int[] bigDescs;  // descs which cannot be stored in the bytes
+finbl clbss Fixups extends AbstrbctCollection<Fixups.Fixup> {
+    byte[] bytes;    // the subject of the relocbtions
+    int hebd;        // desc locbting first reloc
+    int tbil;        // desc locbting lbst reloc
+    int size;        // number of relocbtions
+    Entry[] entries; // [0..size-1] relocbtions
+    int[] bigDescs;  // descs which cbnnot be stored in the bytes
 
-    // A "desc" (descriptor) is a bit-encoded pair of a location
-    // and format.  Every fixup occurs at a "desc".  Until final
-    // patching, bytes addressed by descs may also be used to
-    // link this data structure together.  If the bytes are missing,
-    // or if the "desc" is too large to encode in the bytes,
-    // it is kept in the bigDescs array.
+    // A "desc" (descriptor) is b bit-encoded pbir of b locbtion
+    // bnd formbt.  Every fixup occurs bt b "desc".  Until finbl
+    // pbtching, bytes bddressed by descs mby blso be used to
+    // link this dbtb structure together.  If the bytes bre missing,
+    // or if the "desc" is too lbrge to encode in the bytes,
+    // it is kept in the bigDescs brrby.
 
     Fixups(byte[] bytes) {
         this.bytes = bytes;
@@ -64,21 +64,21 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
         bigDescs = noBigDescs;
     }
     Fixups() {
-        // If there are no bytes, all descs are kept in bigDescs.
+        // If there bre no bytes, bll descs bre kept in bigDescs.
         this((byte[])null);
     }
     Fixups(byte[] bytes, Collection<Fixup> fixups) {
         this(bytes);
-        addAll(fixups);
+        bddAll(fixups);
     }
     Fixups(Collection<Fixup> fixups) {
         this((byte[])null);
-        addAll(fixups);
+        bddAll(fixups);
     }
 
-    private static final int MINBIGSIZE = 1;
-    // cleverly share empty bigDescs:
-    private static final int[] noBigDescs = {MINBIGSIZE};
+    privbte stbtic finbl int MINBIGSIZE = 1;
+    // cleverly shbre empty bigDescs:
+    privbte stbtic finbl int[] noBigDescs = {MINBIGSIZE};
 
     @Override
     public int size() {
@@ -89,7 +89,7 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
         if (size != entries.length) {
             Entry[] oldEntries = entries;
             entries = new Entry[size];
-            System.arraycopy(oldEntries, 0, entries, 0, size);
+            System.brrbycopy(oldEntries, 0, entries, 0, size);
         }
         int bigSize = bigDescs[BIGSIZE];
         if (bigSize == MINBIGSIZE) {
@@ -97,23 +97,23 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
         } else if (bigSize != bigDescs.length) {
             int[] oldBigDescs = bigDescs;
             bigDescs = new int[bigSize];
-            System.arraycopy(oldBigDescs, 0, bigDescs, 0, bigSize);
+            System.brrbycopy(oldBigDescs, 0, bigDescs, 0, bigSize);
         }
     }
 
     public void visitRefs(Collection<Entry> refs) {
         for (int i = 0; i < size; i++) {
-            refs.add(entries[i]);
+            refs.bdd(entries[i]);
         }
     }
 
     @Override
-    public void clear() {
+    public void clebr() {
         if (bytes != null) {
-            // Clean the bytes:
+            // Clebn the bytes:
             for (Fixup fx : this) {
-                //System.out.println("clean "+fx);
-                storeIndex(fx.location(), fx.format(), 0);
+                //System.out.println("clebn "+fx);
+                storeIndex(fx.locbtion(), fx.formbt(), 0);
             }
         }
         size = 0;
@@ -128,170 +128,170 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
 
     public void setBytes(byte[] newBytes) {
         if (bytes == newBytes)  return;
-        ArrayList<Fixup> old = null;
-        assert((old = new ArrayList<>(this)) != null);
+        ArrbyList<Fixup> old = null;
+        bssert((old = new ArrbyList<>(this)) != null);
         if (bytes == null || newBytes == null) {
-            // One or the other representations is deficient.
-            // Construct a checkpoint.
-            ArrayList<Fixup> save = new ArrayList<>(this);
-            clear();
+            // One or the other representbtions is deficient.
+            // Construct b checkpoint.
+            ArrbyList<Fixup> sbve = new ArrbyList<>(this);
+            clebr();
             bytes = newBytes;
-            addAll(save);
+            bddAll(sbve);
         } else {
-            // assume newBytes is some sort of bitwise copy of the old bytes
+            // bssume newBytes is some sort of bitwise copy of the old bytes
             bytes = newBytes;
         }
-        assert(old.equals(new ArrayList<>(this)));
+        bssert(old.equbls(new ArrbyList<>(this)));
     }
 
-    private static final int LOC_SHIFT = 1;
-    private static final int FMT_MASK = 0x1;
-    private static final byte UNUSED_BYTE = 0;
-    private static final byte OVERFLOW_BYTE = -1;
-    // fill pointer of bigDescs array is in element [0]
-    private static final int BIGSIZE = 0;
+    privbte stbtic finbl int LOC_SHIFT = 1;
+    privbte stbtic finbl int FMT_MASK = 0x1;
+    privbte stbtic finbl byte UNUSED_BYTE = 0;
+    privbte stbtic finbl byte OVERFLOW_BYTE = -1;
+    // fill pointer of bigDescs brrby is in element [0]
+    privbte stbtic finbl int BIGSIZE = 0;
 
-    // Format values:
-    private static final int U2_FORMAT = 0;
-    private static final int U1_FORMAT = 1;
+    // Formbt vblues:
+    privbte stbtic finbl int U2_FORMAT = 0;
+    privbte stbtic finbl int U1_FORMAT = 1;
 
-    // Special values for the static methods.
-    private static final int SPECIAL_LOC = 0;
-    private static final int SPECIAL_FMT = U2_FORMAT;
+    // Specibl vblues for the stbtic methods.
+    privbte stbtic finbl int SPECIAL_LOC = 0;
+    privbte stbtic finbl int SPECIAL_FMT = U2_FORMAT;
 
-    static int fmtLen(int fmt) { return 1+(fmt-U1_FORMAT)/(U2_FORMAT-U1_FORMAT); }
-    static int descLoc(int desc) { return desc >>> LOC_SHIFT; }
-    static int descFmt(int desc) { return desc  &  FMT_MASK; }
-    static int descEnd(int desc) { return descLoc(desc) + fmtLen(descFmt(desc)); }
-    static int makeDesc(int loc, int fmt) {
+    stbtic int fmtLen(int fmt) { return 1+(fmt-U1_FORMAT)/(U2_FORMAT-U1_FORMAT); }
+    stbtic int descLoc(int desc) { return desc >>> LOC_SHIFT; }
+    stbtic int descFmt(int desc) { return desc  &  FMT_MASK; }
+    stbtic int descEnd(int desc) { return descLoc(desc) + fmtLen(descFmt(desc)); }
+    stbtic int mbkeDesc(int loc, int fmt) {
         int desc = (loc << LOC_SHIFT) | fmt;
-        assert(descLoc(desc) == loc);
-        assert(descFmt(desc) == fmt);
+        bssert(descLoc(desc) == loc);
+        bssert(descFmt(desc) == fmt);
         return desc;
     }
     int fetchDesc(int loc, int fmt) {
         byte b1 = bytes[loc];
-        assert(b1 != OVERFLOW_BYTE);
-        int value;
+        bssert(b1 != OVERFLOW_BYTE);
+        int vblue;
         if (fmt == U2_FORMAT) {
             byte b2 = bytes[loc+1];
-            value = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
+            vblue = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
         } else {
-            value = (b1 & 0xFF);
+            vblue = (b1 & 0xFF);
         }
-        // Stored loc field is difference between its own loc and next loc.
-        return value + (loc << LOC_SHIFT);
+        // Stored loc field is difference between its own loc bnd next loc.
+        return vblue + (loc << LOC_SHIFT);
     }
-    boolean storeDesc(int loc, int fmt, int desc) {
+    boolebn storeDesc(int loc, int fmt, int desc) {
         if (bytes == null)
-            return false;
-        int value = desc - (loc << LOC_SHIFT);
+            return fblse;
+        int vblue = desc - (loc << LOC_SHIFT);
         byte b1, b2;
         switch (fmt) {
-        case U2_FORMAT:
-            assert(bytes[loc+0] == UNUSED_BYTE);
-            assert(bytes[loc+1] == UNUSED_BYTE);
-            b1 = (byte)(value >> 8);
-            b2 = (byte)(value >> 0);
-            if (value == (value & 0xFFFF) && b1 != OVERFLOW_BYTE) {
+        cbse U2_FORMAT:
+            bssert(bytes[loc+0] == UNUSED_BYTE);
+            bssert(bytes[loc+1] == UNUSED_BYTE);
+            b1 = (byte)(vblue >> 8);
+            b2 = (byte)(vblue >> 0);
+            if (vblue == (vblue & 0xFFFF) && b1 != OVERFLOW_BYTE) {
                 bytes[loc+0] = b1;
                 bytes[loc+1] = b2;
-                assert(fetchDesc(loc, fmt) == desc);
+                bssert(fetchDesc(loc, fmt) == desc);
                 return true;
             }
-            break;
-        case U1_FORMAT:
-            assert(bytes[loc] == UNUSED_BYTE);
-            b1 = (byte)value;
-            if (value == (value & 0xFF) && b1 != OVERFLOW_BYTE) {
+            brebk;
+        cbse U1_FORMAT:
+            bssert(bytes[loc] == UNUSED_BYTE);
+            b1 = (byte)vblue;
+            if (vblue == (vblue & 0xFF) && b1 != OVERFLOW_BYTE) {
                 bytes[loc] = b1;
-                assert(fetchDesc(loc, fmt) == desc);
+                bssert(fetchDesc(loc, fmt) == desc);
                 return true;
             }
-            break;
-        default: assert(false);
+            brebk;
+        defbult: bssert(fblse);
         }
-        // Failure.  Caller must allocate a bigDesc.
+        // Fbilure.  Cbller must bllocbte b bigDesc.
         bytes[loc] = OVERFLOW_BYTE;
-        assert(fmt==U1_FORMAT || (bytes[loc+1]=(byte)bigDescs[BIGSIZE])!=999);
-        return false;
+        bssert(fmt==U1_FORMAT || (bytes[loc+1]=(byte)bigDescs[BIGSIZE])!=999);
+        return fblse;
     }
-    void storeIndex(int loc, int fmt, int value) {
-        storeIndex(bytes, loc, fmt, value);
+    void storeIndex(int loc, int fmt, int vblue) {
+        storeIndex(bytes, loc, fmt, vblue);
     }
-    static
-    void storeIndex(byte[] bytes, int loc, int fmt, int value) {
+    stbtic
+    void storeIndex(byte[] bytes, int loc, int fmt, int vblue) {
         switch (fmt) {
-        case U2_FORMAT:
-            assert(value == (value & 0xFFFF)) : (value);
-            bytes[loc+0] = (byte)(value >> 8);
-            bytes[loc+1] = (byte)(value >> 0);
-            break;
-        case U1_FORMAT:
-            assert(value == (value & 0xFF)) : (value);
-            bytes[loc] = (byte)value;
-            break;
-        default: assert(false);
+        cbse U2_FORMAT:
+            bssert(vblue == (vblue & 0xFFFF)) : (vblue);
+            bytes[loc+0] = (byte)(vblue >> 8);
+            bytes[loc+1] = (byte)(vblue >> 0);
+            brebk;
+        cbse U1_FORMAT:
+            bssert(vblue == (vblue & 0xFF)) : (vblue);
+            bytes[loc] = (byte)vblue;
+            brebk;
+        defbult: bssert(fblse);
         }
     }
 
-    void addU1(int pc, Entry ref) {
-        add(pc, U1_FORMAT, ref);
+    void bddU1(int pc, Entry ref) {
+        bdd(pc, U1_FORMAT, ref);
     }
 
-    void addU2(int pc, Entry ref) {
-        add(pc, U2_FORMAT, ref);
+    void bddU2(int pc, Entry ref) {
+        bdd(pc, U2_FORMAT, ref);
     }
 
-    /** Simple and necessary tuple to present each fixup. */
-    public static
-    class Fixup implements Comparable<Fixup> {
-        int desc;         // location and format of reloc
+    /** Simple bnd necessbry tuple to present ebch fixup. */
+    public stbtic
+    clbss Fixup implements Compbrbble<Fixup> {
+        int desc;         // locbtion bnd formbt of reloc
         Entry entry;      // which entry to plug into the bytes
         Fixup(int desc, Entry entry) {
             this.desc = desc;
             this.entry = entry;
         }
         public Fixup(int loc, int fmt, Entry entry) {
-            this.desc = makeDesc(loc, fmt);
+            this.desc = mbkeDesc(loc, fmt);
             this.entry = entry;
         }
-        public int location() { return descLoc(desc); }
-        public int format() { return descFmt(desc); }
+        public int locbtion() { return descLoc(desc); }
+        public int formbt() { return descFmt(desc); }
         public Entry entry() { return entry; }
         @Override
-        public int compareTo(Fixup that) {
-            // Ordering depends only on location.
-            return this.location() - that.location();
+        public int compbreTo(Fixup thbt) {
+            // Ordering depends only on locbtion.
+            return this.locbtion() - thbt.locbtion();
         }
         @Override
-        public boolean equals(Object x) {
-            if (!(x instanceof Fixup))  return false;
-            Fixup that = (Fixup) x;
-            return this.desc == that.desc && this.entry == that.entry;
+        public boolebn equbls(Object x) {
+            if (!(x instbnceof Fixup))  return fblse;
+            Fixup thbt = (Fixup) x;
+            return this.desc == thbt.desc && this.entry == thbt.entry;
         }
         @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 59 * hash + this.desc;
-            hash = 59 * hash + Objects.hashCode(this.entry);
-            return hash;
+        public int hbshCode() {
+            int hbsh = 7;
+            hbsh = 59 * hbsh + this.desc;
+            hbsh = 59 * hbsh + Objects.hbshCode(this.entry);
+            return hbsh;
         }
         @Override
         public String toString() {
-            return "@"+location()+(format()==U1_FORMAT?".1":"")+"="+entry;
+            return "@"+locbtion()+(formbt()==U1_FORMAT?".1":"")+"="+entry;
         }
     }
 
-    private
-    class Itr implements Iterator<Fixup> {
+    privbte
+    clbss Itr implements Iterbtor<Fixup> {
         int index = 0;               // index into entries
         int bigIndex = BIGSIZE+1;    // index into bigDescs
-        int next = head;             // desc pointing to next fixup
+        int next = hebd;             // desc pointing to next fixup
         @Override
-        public boolean hasNext() { return index < size; }
+        public boolebn hbsNext() { return index < size; }
         @Override
-        public void remove() { throw new UnsupportedOperationException(); }
+        public void remove() { throw new UnsupportedOperbtionException(); }
         @Override
         public Fixup next() {
             int thisIndex = index;
@@ -301,15 +301,15 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
             index++;
             int thisDesc = next;
             if (index < size) {
-                // Fetch next desc eagerly, in case this fixup gets finalized.
+                // Fetch next desc ebgerly, in cbse this fixup gets finblized.
                 int loc = descLoc(thisDesc);
                 int fmt = descFmt(thisDesc);
                 if (bytes != null && bytes[loc] != OVERFLOW_BYTE) {
                     next = fetchDesc(loc, fmt);
                 } else {
-                    // The unused extra byte is "asserted" to be equal to BI.
+                    // The unused extrb byte is "bsserted" to be equbl to BI.
                     // This helps keep the overflow descs in sync.
-                    assert(fmt==U1_FORMAT || bytes == null || bytes[loc+1]==(byte)bigIndex);
+                    bssert(fmt==U1_FORMAT || bytes == null || bytes[loc+1]==(byte)bigIndex);
                     next = bigDescs[bigIndex++];
                 }
             }
@@ -318,54 +318,54 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
     }
 
     @Override
-    public Iterator<Fixup> iterator() {
+    public Iterbtor<Fixup> iterbtor() {
         return new Itr();
     }
-    public void add(int location, int format, Entry entry) {
-        addDesc(makeDesc(location, format), entry);
+    public void bdd(int locbtion, int formbt, Entry entry) {
+        bddDesc(mbkeDesc(locbtion, formbt), entry);
     }
     @Override
-    public boolean add(Fixup f) {
-        addDesc(f.desc, f.entry);
+    public boolebn bdd(Fixup f) {
+        bddDesc(f.desc, f.entry);
         return true;
     }
 
     @Override
-    public boolean addAll(Collection<? extends Fixup> c) {
-        if (c instanceof Fixups) {
-            // Use knowledge of Itr structure to avoid building little structs.
-            Fixups that = (Fixups) c;
-            if (that.size == 0)  return false;
-            if (this.size == 0 && entries.length < that.size)
-                growEntries(that.size);  // presize exactly
-            Entry[] thatEntries = that.entries;
-            for (Itr i = that.new Itr(); i.hasNext(); ) {
+    public boolebn bddAll(Collection<? extends Fixup> c) {
+        if (c instbnceof Fixups) {
+            // Use knowledge of Itr structure to bvoid building little structs.
+            Fixups thbt = (Fixups) c;
+            if (thbt.size == 0)  return fblse;
+            if (this.size == 0 && entries.length < thbt.size)
+                growEntries(thbt.size);  // presize exbctly
+            Entry[] thbtEntries = thbt.entries;
+            for (Itr i = thbt.new Itr(); i.hbsNext(); ) {
                 int ni = i.index;
-                addDesc(i.nextDesc(), thatEntries[ni]);
+                bddDesc(i.nextDesc(), thbtEntries[ni]);
             }
             return true;
         } else {
-            return super.addAll(c);
+            return super.bddAll(c);
         }
     }
-    // Here is how things get added:
-    private void addDesc(int thisDesc, Entry entry) {
+    // Here is how things get bdded:
+    privbte void bddDesc(int thisDesc, Entry entry) {
         if (entries.length == size)
             growEntries(size * 2);
         entries[size] = entry;
         if (size == 0) {
-            head = tail = thisDesc;
+            hebd = tbil = thisDesc;
         } else {
-            int prevDesc = tail;
-            // Store new desc in previous tail.
+            int prevDesc = tbil;
+            // Store new desc in previous tbil.
             int prevLoc = descLoc(prevDesc);
             int prevFmt = descFmt(prevDesc);
             int prevLen = fmtLen(prevFmt);
             int thisLoc = descLoc(thisDesc);
-            // The collection must go in ascending order, and not overlap.
+            // The collection must go in bscending order, bnd not overlbp.
             if (thisLoc < prevLoc + prevLen)
-                badOverlap(thisLoc);
-            tail = thisDesc;
+                bbdOverlbp(thisLoc);
+            tbil = thisDesc;
             if (!storeDesc(prevLoc, prevFmt, thisDesc)) {
                 // overflow
                 int bigSize = bigDescs[BIGSIZE];
@@ -378,65 +378,65 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
         }
         size += 1;
     }
-    private void badOverlap(int thisLoc) {
-        throw new IllegalArgumentException("locs must be ascending and must not overlap:  "+thisLoc+" >> "+this);
+    privbte void bbdOverlbp(int thisLoc) {
+        throw new IllegblArgumentException("locs must be bscending bnd must not overlbp:  "+thisLoc+" >> "+this);
     }
 
-    private void growEntries(int newSize) {
+    privbte void growEntries(int newSize) {
         Entry[] oldEntries = entries;
-        entries = new Entry[Math.max(3, newSize)];
-        System.arraycopy(oldEntries, 0, entries, 0, oldEntries.length);
+        entries = new Entry[Mbth.mbx(3, newSize)];
+        System.brrbycopy(oldEntries, 0, entries, 0, oldEntries.length);
     }
-    private void growBigDescs() {
+    privbte void growBigDescs() {
         int[] oldBigDescs = bigDescs;
         bigDescs = new int[oldBigDescs.length * 2];
-        System.arraycopy(oldBigDescs, 0, bigDescs, 0, oldBigDescs.length);
+        System.brrbycopy(oldBigDescs, 0, bigDescs, 0, oldBigDescs.length);
     }
 
-    /// Static methods that optimize the use of this class.
-    static Object addRefWithBytes(Object f, byte[] bytes, Entry e) {
-        return add(f, bytes, 0, U2_FORMAT, e);
+    /// Stbtic methods thbt optimize the use of this clbss.
+    stbtic Object bddRefWithBytes(Object f, byte[] bytes, Entry e) {
+        return bdd(f, bytes, 0, U2_FORMAT, e);
     }
-    static Object addRefWithLoc(Object f, int loc, Entry entry) {
-        return add(f, null, loc, U2_FORMAT, entry);
+    stbtic Object bddRefWithLoc(Object f, int loc, Entry entry) {
+        return bdd(f, null, loc, U2_FORMAT, entry);
     }
-    private static
-    Object add(Object prevFixups,
+    privbte stbtic
+    Object bdd(Object prevFixups,
                byte[] bytes, int loc, int fmt,
                Entry e) {
         Fixups f;
         if (prevFixups == null) {
             if (loc == SPECIAL_LOC && fmt == SPECIAL_FMT) {
-                // Special convention:  If the attribute has a
-                // U2 relocation at position zero, store the Entry
-                // rather than building a Fixups structure.
+                // Specibl convention:  If the bttribute hbs b
+                // U2 relocbtion bt position zero, store the Entry
+                // rbther thbn building b Fixups structure.
                 return e;
             }
             f = new Fixups(bytes);
-        } else if (!(prevFixups instanceof Fixups)) {
-            // Recognize the special convention:
+        } else if (!(prevFixups instbnceof Fixups)) {
+            // Recognize the specibl convention:
             Entry firstEntry = (Entry) prevFixups;
             f = new Fixups(bytes);
-            f.add(SPECIAL_LOC, SPECIAL_FMT, firstEntry);
+            f.bdd(SPECIAL_LOC, SPECIAL_FMT, firstEntry);
         } else {
             f = (Fixups) prevFixups;
-            assert(f.bytes == bytes);
+            bssert(f.bytes == bytes);
         }
-        f.add(loc, fmt, e);
+        f.bdd(loc, fmt, e);
         return f;
     }
 
-    public static
+    public stbtic
     void setBytes(Object fixups, byte[] bytes) {
-        if (fixups instanceof Fixups) {
+        if (fixups instbnceof Fixups) {
             Fixups f = (Fixups) fixups;
             f.setBytes(bytes);
         }
     }
 
-    public static
+    public stbtic
     Object trimToSize(Object fixups) {
-        if (fixups instanceof Fixups) {
+        if (fixups instbnceof Fixups) {
             Fixups f = (Fixups) fixups;
             f.trimToSize();
             if (f.size() == 0)
@@ -445,83 +445,83 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
         return fixups;
     }
 
-    // Iterate over all the references in this set of fixups.
-    public static
+    // Iterbte over bll the references in this set of fixups.
+    public stbtic
     void visitRefs(Object fixups, Collection<Entry> refs) {
         if (fixups == null) {
-        } else if (!(fixups instanceof Fixups)) {
-            // Special convention; see above.
-            refs.add((Entry) fixups);
+        } else if (!(fixups instbnceof Fixups)) {
+            // Specibl convention; see bbove.
+            refs.bdd((Entry) fixups);
         } else {
             Fixups f = (Fixups) fixups;
             f.visitRefs(refs);
         }
     }
 
-    // Clear out this set of fixups by replacing each reference
-    // by a hardcoded coding of its reference, drawn from ix.
-    public static
-    void finishRefs(Object fixups, byte[] bytes, ConstantPool.Index ix) {
+    // Clebr out this set of fixups by replbcing ebch reference
+    // by b hbrdcoded coding of its reference, drbwn from ix.
+    public stbtic
+    void finishRefs(Object fixups, byte[] bytes, ConstbntPool.Index ix) {
         if (fixups == null)
             return;
-        if (!(fixups instanceof Fixups)) {
-            // Special convention; see above.
+        if (!(fixups instbnceof Fixups)) {
+            // Specibl convention; see bbove.
             int index = ix.indexOf((Entry) fixups);
             storeIndex(bytes, SPECIAL_LOC, SPECIAL_FMT, index);
             return;
         }
         Fixups f = (Fixups) fixups;
-        assert(f.bytes == bytes);
+        bssert(f.bytes == bytes);
         f.finishRefs(ix);
     }
 
-    void finishRefs(ConstantPool.Index ix) {
+    void finishRefs(ConstbntPool.Index ix) {
         if (isEmpty())
             return;
         for (Fixup fx : this) {
             int index = ix.indexOf(fx.entry);
             //System.out.println("finish "+fx+" = "+index);
-            // Note that the iterator has already fetched the
-            // bytes we are about to overwrite.
-            storeIndex(fx.location(), fx.format(), index);
+            // Note thbt the iterbtor hbs blrebdy fetched the
+            // bytes we bre bbout to overwrite.
+            storeIndex(fx.locbtion(), fx.formbt(), index);
         }
-        // Further iterations should do nothing:
-        bytes = null;  // do not clean them
-        clear();
+        // Further iterbtions should do nothing:
+        bytes = null;  // do not clebn them
+        clebr();
     }
 
 /*
     /// Testing.
-    public static void main(String[] av) {
+    public stbtic void mbin(String[] bv) {
         byte[] bytes = new byte[1 << 20];
-        ConstantPool cp = new ConstantPool();
+        ConstbntPool cp = new ConstbntPool();
         Fixups f = new Fixups(bytes);
-        boolean isU1 = false;
-        int span = 3;
+        boolebn isU1 = fblse;
+        int spbn = 3;
         int nextLoc = 0;
         int[] locs = new int[100];
-        final int[] indexes = new int[100];
+        finbl int[] indexes = new int[100];
         int iptr = 1;
         for (int loc = 0; loc < bytes.length; loc++) {
             if (loc == nextLoc && loc+1 < bytes.length) {
                 int fmt = (isU1 ? U1_FORMAT : U2_FORMAT);
-                Entry e = ConstantPool.getUtf8Entry("L"+loc);
-                f.add(loc, fmt, e);
+                Entry e = ConstbntPool.getUtf8Entry("L"+loc);
+                f.bdd(loc, fmt, e);
                 isU1 ^= true;
                 if (iptr < 10) {
-                    // Make it close in.
+                    // Mbke it close in.
                     nextLoc += fmtLen(fmt) + (iptr < 5 ? 0 : 1);
                 } else {
-                    nextLoc += span;
-                    span = (int)(span * 1.77);
+                    nextLoc += spbn;
+                    spbn = (int)(spbn * 1.77);
                 }
-                // Here are the bytes that would have gone here:
+                // Here bre the bytes thbt would hbve gone here:
                 locs[iptr] = loc;
                 if (fmt == U1_FORMAT) {
                     indexes[iptr++] = (loc & 0xFF);
                 } else {
                     indexes[iptr++] = ((loc & 0xFF) << 8) | ((loc+1) & 0xFF);
-                    ++loc;  // skip a byte
+                    ++loc;  // skip b byte
                 }
                 continue;
             }
@@ -531,28 +531,28 @@ final class Fixups extends AbstractCollection<Fixups.Fixup> {
                            +" overflow="+(f.bigDescs[BIGSIZE]-1));
         System.out.println("Fixups: "+f);
         // Test collection contents.
-        assert(iptr == 1+f.size());
-        List l = new ArrayList(f);
-        Collections.sort(l);  // should not change the order
-        if (!l.equals(new ArrayList(f)))  System.out.println("** disordered");
+        bssert(iptr == 1+f.size());
+        List l = new ArrbyList(f);
+        Collections.sort(l);  // should not chbnge the order
+        if (!l.equbls(new ArrbyList(f)))  System.out.println("** disordered");
         f.setBytes(null);
-        if (!l.equals(new ArrayList(f)))  System.out.println("** bad set 1");
+        if (!l.equbls(new ArrbyList(f)))  System.out.println("** bbd set 1");
         f.setBytes(bytes);
-        if (!l.equals(new ArrayList(f)))  System.out.println("** bad set 2");
+        if (!l.equbls(new ArrbyList(f)))  System.out.println("** bbd set 2");
         Fixups f3 = new Fixups(f);
-        if (!l.equals(new ArrayList(f3))) System.out.println("** bad set 3");
-        Iterator fi = f.iterator();
+        if (!l.equbls(new ArrbyList(f3))) System.out.println("** bbd set 3");
+        Iterbtor fi = f.iterbtor();
         for (int i = 1; i < iptr; i++) {
             Fixup fx = (Fixup) fi.next();
-            if (fx.location() != locs[i]) {
+            if (fx.locbtion() != locs[i]) {
                 System.out.println("** "+fx+" != "+locs[i]);
             }
-            if (fx.format() == U1_FORMAT)
+            if (fx.formbt() == U1_FORMAT)
                 System.out.println(fx+" -> "+bytes[locs[i]]);
             else
                 System.out.println(fx+" -> "+bytes[locs[i]]+" "+bytes[locs[i]+1]);
         }
-        assert(!fi.hasNext());
+        bssert(!fi.hbsNext());
         indexes[0] = 1;  // like iptr
         Index ix = new Index("ix") {
             public int indexOf(Entry e) {

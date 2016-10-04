@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Copyright 2014 SAP AG. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,20 +32,20 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <signal.h>
+#include <signbl.h>
 #include <dirent.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <sys/un.h>
 
 /*
- * Based on 'LinuxVirtualMachine.c'. Non-relevant code has been removed and all
- * occurrences of the string "Linux" have been replaced by "Aix".
+ * Bbsed on 'LinuxVirtublMbchine.c'. Non-relevbnt code hbs been removed bnd bll
+ * occurrences of the string "Linux" hbve been replbced by "Aix".
  */
 
-#include "sun_tools_attach_AixVirtualMachine.h"
+#include "sun_tools_bttbch_AixVirtublMbchine.h"
 
 #define RESTARTABLE(_cmd, _result) do { \
   do { \
@@ -55,66 +55,66 @@
 
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    socket
- * Signature: ()I
+ * Signbture: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_AixVirtualMachine_socket
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_socket
+  (JNIEnv *env, jclbss cls)
 {
     int fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if (fd == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
+        JNU_ThrowIOExceptionWithLbstError(env, "socket");
     }
-    /* added time out values */
+    /* bdded time out vblues */
     else {
-        struct timeval tv;
+        struct timevbl tv;
         tv.tv_sec = 2 * 60;
         tv.tv_usec = 0;
 
-        setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (char*)&tv, sizeof(tv));
-        setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, (char*)&tv, sizeof(tv));
+        setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (chbr*)&tv, sizeof(tv));
+        setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, (chbr*)&tv, sizeof(tv));
     }
     return (jint)fd;
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    connect
- * Signature: (ILjava/lang/String;)I
+ * Signbture: (ILjbvb/lbng/String;)I
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_connect
-  (JNIEnv *env, jclass cls, jint fd, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_connect
+  (JNIEnv *env, jclbss cls, jint fd, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p != NULL) {
-        struct sockaddr_un addr;
+        struct sockbddr_un bddr;
         int err = 0;
 
-        memset(&addr, 0, sizeof(addr));
-        addr.sun_family = AF_UNIX;
-        /* strncpy is safe because addr.sun_path was zero-initialized before. */
-        strncpy(addr.sun_path, p, sizeof(addr.sun_path) - 1);
-        /* We must call bind with the actual socketaddr length. This is obligatory for AS400. */
-        if (connect(fd, (struct sockaddr*)&addr, SUN_LEN(&addr)) == -1) {
+        memset(&bddr, 0, sizeof(bddr));
+        bddr.sun_fbmily = AF_UNIX;
+        /* strncpy is sbfe becbuse bddr.sun_pbth wbs zero-initiblized before. */
+        strncpy(bddr.sun_pbth, p, sizeof(bddr.sun_pbth) - 1);
+        /* We must cbll bind with the bctubl socketbddr length. This is obligbtory for AS400. */
+        if (connect(fd, (struct sockbddr*)&bddr, SUN_LEN(&bddr)) == -1) {
             err = errno;
         }
 
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         /*
-         * If the connect failed then we throw the appropriate exception
-         * here (can't throw it before releasing the string as can't call
+         * If the connect fbiled then we throw the bppropribte exception
+         * here (cbn't throw it before relebsing the string bs cbn't cbll
          * JNI with pending exception)
          */
         if (err != 0) {
             if (err == ENOENT) {
-                JNU_ThrowByName(env, "java/io/FileNotFoundException", NULL);
+                JNU_ThrowByNbme(env, "jbvb/io/FileNotFoundException", NULL);
             } else {
-                char* msg = strdup(strerror(err));
+                chbr* msg = strdup(strerror(err));
                 JNU_ThrowIOException(env, msg);
                 if (msg != NULL) {
                     free(msg);
@@ -126,67 +126,67 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_connect
 
 
 /*
- * Structure and callback function used to send a QUIT signal to all
- * children of a given process
+ * Structure bnd cbllbbck function used to send b QUIT signbl to bll
+ * children of b given process
  */
 typedef struct {
     pid_t ppid;
 } SendQuitContext;
 
-static void SendQuitCallback(const pid_t pid, void* user_data) {
-    SendQuitContext* context = (SendQuitContext*)user_data;
-    pid_t parent = getParent(pid);
-    if (parent == context->ppid) {
+stbtic void SendQuitCbllbbck(const pid_t pid, void* user_dbtb) {
+    SendQuitContext* context = (SendQuitContext*)user_dbtb;
+    pid_t pbrent = getPbrent(pid);
+    if (pbrent == context->ppid) {
         kill(pid, SIGQUIT);
     }
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    sendQuitTo
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_sendQuitTo
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_sendQuitTo
+  (JNIEnv *env, jclbss cls, jint pid)
 {
     if (kill((pid_t)pid, SIGQUIT)) {
-        JNU_ThrowIOExceptionWithLastError(env, "kill");
+        JNU_ThrowIOExceptionWithLbstError(env, "kill");
     }
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    checkPermissions
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_checkPermissions
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_checkPermissions
+  (JNIEnv *env, jclbss cls, jstring pbth)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolebn isCopy;
+    const chbr* p = GetStringPlbtformChbrs(env, pbth, &isCopy);
     if (p != NULL) {
-        struct stat64 sb;
+        struct stbt64 sb;
         uid_t uid, gid;
         int res;
-        /* added missing initialization of the stat64 buffer */
-        memset(&sb, 0, sizeof(struct stat64));
+        /* bdded missing initiblizbtion of the stbt64 buffer */
+        memset(&sb, 0, sizeof(struct stbt64));
 
         /*
-         * Check that the path is owned by the effective uid/gid of this
-         * process. Also check that group/other access is not allowed.
+         * Check thbt the pbth is owned by the effective uid/gid of this
+         * process. Also check thbt group/other bccess is not bllowed.
          */
         uid = geteuid();
         gid = getegid();
 
-        res = stat64(p, &sb);
+        res = stbt64(p, &sb);
         if (res != 0) {
-            /* save errno */
+            /* sbve errno */
             res = errno;
         }
 
-        /* release p here before we throw an I/O exception */
+        /* relebse p here before we throw bn I/O exception */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RelebseStringPlbtformChbrs(env, pbth, p);
         }
 
         if (res == 0) {
@@ -195,7 +195,7 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_checkPermissions
                 JNU_ThrowIOException(env, "well-known file is not secure");
             }
         } else {
-            char* msg = strdup(strerror(res));
+            chbr* msg = strdup(strerror(res));
             JNU_ThrowIOException(env, msg);
             if (msg != NULL) {
                 free(msg);
@@ -205,79 +205,79 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_checkPermissions
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    close
- * Signature: (I)V
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_close
-  (JNIEnv *env, jclass cls, jint fd)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_close
+  (JNIEnv *env, jclbss cls, jint fd)
 {
     int res;
-    /* Fixed deadlock when this call of close by the client is not seen by the attach server
-     * which has accepted the (very short) connection already and is waiting for the request. But read don't get a byte,
-     * because the close is lost without shutdown.
+    /* Fixed debdlock when this cbll of close by the client is not seen by the bttbch server
+     * which hbs bccepted the (very short) connection blrebdy bnd is wbiting for the request. But rebd don't get b byte,
+     * becbuse the close is lost without shutdown.
      */
     shutdown(fd, 2);
     RESTARTABLE(close(fd), res);
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
- * Method:    read
- * Signature: (I[BI)I
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
+ * Method:    rebd
+ * Signbture: (I[BI)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_AixVirtualMachine_read
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_rebd
+  (JNIEnv *env, jclbss cls, jint fd, jbyteArrby bb, jint off, jint bbLen)
 {
-    unsigned char buf[128];
+    unsigned chbr buf[128];
     size_t len = sizeof(buf);
     ssize_t n;
 
-    size_t remaining = (size_t)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    size_t rembining = (size_t)(bbLen - off);
+    if (len > rembining) {
+        len = rembining;
     }
 
-    RESTARTABLE(read(fd, buf+off, len), n);
+    RESTARTABLE(rebd(fd, buf+off, len), n);
     if (n == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "read");
+        JNU_ThrowIOExceptionWithLbstError(env, "rebd");
     } else {
         if (n == 0) {
             n = -1;     // EOF
         } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)n, (jbyte *)(buf+off));
+            (*env)->SetByteArrbyRegion(env, bb, off, (jint)n, (jbyte *)(buf+off));
         }
     }
     return n;
 }
 
 /*
- * Class:     sun_tools_attach_AixVirtualMachine
+ * Clbss:     sun_tools_bttbch_AixVirtublMbchine
  * Method:    write
- * Signature: (I[B)V
+ * Signbture: (I[B)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_AixVirtualMachine_write
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint bufLen)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_AixVirtublMbchine_write
+  (JNIEnv *env, jclbss cls, jint fd, jbyteArrby bb, jint off, jint bufLen)
 {
-    size_t remaining = bufLen;
+    size_t rembining = bufLen;
     do {
-        unsigned char buf[128];
+        unsigned chbr buf[128];
         size_t len = sizeof(buf);
         int n;
 
-        if (len > remaining) {
-            len = remaining;
+        if (len > rembining) {
+            len = rembining;
         }
-        (*env)->GetByteArrayRegion(env, ba, off, len, (jbyte *)buf);
+        (*env)->GetByteArrbyRegion(env, bb, off, len, (jbyte *)buf);
 
         RESTARTABLE(write(fd, buf, len), n);
         if (n > 0) {
             off += n;
-            remaining -= n;
+            rembining -= n;
         } else {
-            JNU_ThrowIOExceptionWithLastError(env, "write");
+            JNU_ThrowIOExceptionWithLbstError(env, "write");
             return;
         }
 
-    } while (remaining > 0);
+    } while (rembining > 0);
 }

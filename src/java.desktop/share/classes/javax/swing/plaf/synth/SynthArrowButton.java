@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * JButton object that draws a scaled Arrow in one of the cardinal directions.
+ * JButton object thbt drbws b scbled Arrow in one of the cbrdinbl directions.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthArrowButton extends JButton implements SwingConstants, UIResource {
-    private int direction;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss SynthArrowButton extends JButton implements SwingConstbnts, UIResource {
+    privbte int direction;
 
     public SynthArrowButton(int direction) {
         super();
-        super.setFocusable(false);
+        super.setFocusbble(fblse);
         setDirection(direction);
-        setDefaultCapable(false);
+        setDefbultCbpbble(fblse);
     }
 
-    public String getUIClassID() {
+    public String getUIClbssID() {
         return "ArrowButtonUI";
     }
 
-    public void updateUI() {
+    public void updbteUI() {
         setUI(new SynthArrowButtonUI());
     }
 
     public void setDirection(int dir) {
         direction = dir;
-        putClientProperty("__arrow_direction__", Integer.valueOf(dir));
-        repaint();
+        putClientProperty("__brrow_direction__", Integer.vblueOf(dir));
+        repbint();
     }
 
     public int getDirection() {
         return direction;
     }
 
-    public void setFocusable(boolean focusable) {}
+    public void setFocusbble(boolebn focusbble) {}
 
-    private static class SynthArrowButtonUI extends SynthButtonUI {
-        protected void installDefaults(AbstractButton b) {
-            super.installDefaults(b);
-            updateStyle(b);
+    privbte stbtic clbss SynthArrowButtonUI extends SynthButtonUI {
+        protected void instbllDefbults(AbstrbctButton b) {
+            super.instbllDefbults(b);
+            updbteStyle(b);
         }
 
-        protected void paint(SynthContext context, Graphics g) {
+        protected void pbint(SynthContext context, Grbphics g) {
             SynthArrowButton button = (SynthArrowButton)context.
                                       getComponent();
-            context.getPainter().paintArrowButtonForeground(
+            context.getPbinter().pbintArrowButtonForeground(
                 context, g, 0, 0, button.getWidth(), button.getHeight(),
                 button.getDirection());
         }
 
-        void paintBackground(SynthContext context, Graphics g, JComponent c) {
-            context.getPainter().paintArrowButtonBackground(context, g, 0, 0,
+        void pbintBbckground(SynthContext context, Grbphics g, JComponent c) {
+            context.getPbinter().pbintArrowButtonBbckground(context, g, 0, 0,
                                                 c.getWidth(), c.getHeight());
         }
 
-        public void paintBorder(SynthContext context, Graphics g, int x,
+        public void pbintBorder(SynthContext context, Grbphics g, int x,
                                 int y, int w, int h) {
-            context.getPainter().paintArrowButtonBorder(context, g, x, y, w,h);
+            context.getPbinter().pbintArrowButtonBorder(context, g, x, y, w,h);
         }
 
         public Dimension getMinimumSize() {
             return new Dimension(5, 5);
         }
 
-        public Dimension getMaximumSize() {
+        public Dimension getMbximumSize() {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
         public Dimension getPreferredSize(JComponent c) {
             SynthContext context = getContext(c);
             Dimension dim = null;
-            if (context.getComponent().getName() == "ScrollBar.button") {
-                // ScrollBar arrow buttons can be non-square when
-                // the ScrollBar.squareButtons property is set to FALSE
-                // and the ScrollBar.buttonSize property is non-null
+            if (context.getComponent().getNbme() == "ScrollBbr.button") {
+                // ScrollBbr brrow buttons cbn be non-squbre when
+                // the ScrollBbr.squbreButtons property is set to FALSE
+                // bnd the ScrollBbr.buttonSize property is non-null
                 dim = (Dimension)
-                    context.getStyle().get(context, "ScrollBar.buttonSize");
+                    context.getStyle().get(context, "ScrollBbr.buttonSize");
             }
             if (dim == null) {
-                // For all other cases (including Spinner, ComboBox), we will
-                // fall back on the single ArrowButton.size value to create
-                // a square return value
+                // For bll other cbses (including Spinner, ComboBox), we will
+                // fbll bbck on the single ArrowButton.size vblue to crebte
+                // b squbre return vblue
                 int size =
                     context.getStyle().getInt(context, "ArrowButton.size", 16);
                 dim = new Dimension(size, size);
             }
 
-            // handle scaling for sizeVarients for special case components. The
-            // key "JComponent.sizeVariant" scales for large/small/mini
-            // components are based on Apples LAF
-            Container parent = context.getComponent().getParent();
-            if (parent instanceof JComponent && !(parent instanceof JComboBox)) {
-                Object scaleKey = ((JComponent)parent).
-                                    getClientProperty("JComponent.sizeVariant");
-                if (scaleKey != null){
-                    if ("large".equals(scaleKey)){
+            // hbndle scbling for sizeVbrients for specibl cbse components. The
+            // key "JComponent.sizeVbribnt" scbles for lbrge/smbll/mini
+            // components bre bbsed on Apples LAF
+            Contbiner pbrent = context.getComponent().getPbrent();
+            if (pbrent instbnceof JComponent && !(pbrent instbnceof JComboBox)) {
+                Object scbleKey = ((JComponent)pbrent).
+                                    getClientProperty("JComponent.sizeVbribnt");
+                if (scbleKey != null){
+                    if ("lbrge".equbls(scbleKey)){
                         dim = new Dimension(
                                 (int)(dim.width * 1.15),
                                 (int)(dim.height * 1.15));
-                    } else if ("small".equals(scaleKey)){
+                    } else if ("smbll".equbls(scbleKey)){
                         dim = new Dimension(
                                 (int)(dim.width * 0.857),
                                 (int)(dim.height * 0.857));
-                    } else if ("mini".equals(scaleKey)){
+                    } else if ("mini".equbls(scbleKey)){
                         dim = new Dimension(
                                 (int)(dim.width * 0.714),
                                 (int)(dim.height * 0.714));

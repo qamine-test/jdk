@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
-import java.util.Arrays;
-import sun.nio.cs.ArrayDecoder;
-import sun.nio.cs.ArrayEncoder;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.CodingErrorAction;
+import jbvb.util.Arrbys;
+import sun.nio.cs.ArrbyDecoder;
+import sun.nio.cs.ArrbyEncoder;
 
 /**
- * Utility class for zipfile name and comment decoding and encoding
+ * Utility clbss for zipfile nbme bnd comment decoding bnd encoding
  */
 
-final class ZipCoder {
+finbl clbss ZipCoder {
 
-    String toString(byte[] ba, int length) {
-        CharsetDecoder cd = decoder().reset();
-        int len = (int)(length * cd.maxCharsPerByte());
-        char[] ca = new char[len];
+    String toString(byte[] bb, int length) {
+        ChbrsetDecoder cd = decoder().reset();
+        int len = (int)(length * cd.mbxChbrsPerByte());
+        chbr[] cb = new chbr[len];
         if (len == 0)
-            return new String(ca);
-        // UTF-8 only for now. Other ArrayDeocder only handles
+            return new String(cb);
+        // UTF-8 only for now. Other ArrbyDeocder only hbndles
         // CodingErrorAction.REPLACE mode. ZipCoder uses
         // REPORT mode.
-        if (isUTF8 && cd instanceof ArrayDecoder) {
-            int clen = ((ArrayDecoder)cd).decode(ba, 0, length, ca);
-            if (clen == -1)    // malformed
-                throw new IllegalArgumentException("MALFORMED");
-            return new String(ca, 0, clen);
+        if (isUTF8 && cd instbnceof ArrbyDecoder) {
+            int clen = ((ArrbyDecoder)cd).decode(bb, 0, length, cb);
+            if (clen == -1)    // mblformed
+                throw new IllegblArgumentException("MALFORMED");
+            return new String(cb, 0, clen);
         }
-        ByteBuffer bb = ByteBuffer.wrap(ba, 0, length);
-        CharBuffer cb = CharBuffer.wrap(ca);
+        ByteBuffer bb = ByteBuffer.wrbp(bb, 0, length);
+        ChbrBuffer cb = ChbrBuffer.wrbp(cb);
         CoderResult cr = cd.decode(bb, cb, true);
         if (!cr.isUnderflow())
-            throw new IllegalArgumentException(cr.toString());
+            throw new IllegblArgumentException(cr.toString());
         cr = cd.flush(cb);
         if (!cr.isUnderflow())
-            throw new IllegalArgumentException(cr.toString());
-        return new String(ca, 0, cb.position());
+            throw new IllegblArgumentException(cr.toString());
+        return new String(cb, 0, cb.position());
     }
 
-    String toString(byte[] ba) {
-        return toString(ba, ba.length);
+    String toString(byte[] bb) {
+        return toString(bb, bb.length);
     }
 
     byte[] getBytes(String s) {
-        CharsetEncoder ce = encoder().reset();
-        char[] ca = s.toCharArray();
-        int len = (int)(ca.length * ce.maxBytesPerChar());
-        byte[] ba = new byte[len];
+        ChbrsetEncoder ce = encoder().reset();
+        chbr[] cb = s.toChbrArrby();
+        int len = (int)(cb.length * ce.mbxBytesPerChbr());
+        byte[] bb = new byte[len];
         if (len == 0)
-            return ba;
-        // UTF-8 only for now. Other ArrayDeocder only handles
+            return bb;
+        // UTF-8 only for now. Other ArrbyDeocder only hbndles
         // CodingErrorAction.REPLACE mode.
-        if (isUTF8 && ce instanceof ArrayEncoder) {
-            int blen = ((ArrayEncoder)ce).encode(ca, 0, ca.length, ba);
-            if (blen == -1)    // malformed
-                throw new IllegalArgumentException("MALFORMED");
-            return Arrays.copyOf(ba, blen);
+        if (isUTF8 && ce instbnceof ArrbyEncoder) {
+            int blen = ((ArrbyEncoder)ce).encode(cb, 0, cb.length, bb);
+            if (blen == -1)    // mblformed
+                throw new IllegblArgumentException("MALFORMED");
+            return Arrbys.copyOf(bb, blen);
         }
-        ByteBuffer bb = ByteBuffer.wrap(ba);
-        CharBuffer cb = CharBuffer.wrap(ca);
+        ByteBuffer bb = ByteBuffer.wrbp(bb);
+        ChbrBuffer cb = ChbrBuffer.wrbp(cb);
         CoderResult cr = ce.encode(cb, bb, true);
         if (!cr.isUnderflow())
-            throw new IllegalArgumentException(cr.toString());
+            throw new IllegblArgumentException(cr.toString());
         cr = ce.flush(bb);
         if (!cr.isUnderflow())
-            throw new IllegalArgumentException(cr.toString());
-        if (bb.position() == ba.length)  // defensive copy?
-            return ba;
+            throw new IllegblArgumentException(cr.toString());
+        if (bb.position() == bb.length)  // defensive copy?
+            return bb;
         else
-            return Arrays.copyOf(ba, bb.position());
+            return Arrbys.copyOf(bb, bb.position());
     }
 
-    // assume invoked only if "this" is not utf8
+    // bssume invoked only if "this" is not utf8
     byte[] getBytesUTF8(String s) {
         if (isUTF8)
             return getBytes(s);
         if (utf8 == null)
-            utf8 = new ZipCoder(StandardCharsets.UTF_8);
+            utf8 = new ZipCoder(StbndbrdChbrsets.UTF_8);
         return utf8.getBytes(s);
     }
 
 
-    String toStringUTF8(byte[] ba, int len) {
+    String toStringUTF8(byte[] bb, int len) {
         if (isUTF8)
-            return toString(ba, len);
+            return toString(bb, len);
         if (utf8 == null)
-            utf8 = new ZipCoder(StandardCharsets.UTF_8);
-        return utf8.toString(ba, len);
+            utf8 = new ZipCoder(StbndbrdChbrsets.UTF_8);
+        return utf8.toString(bb, len);
     }
 
-    boolean isUTF8() {
+    boolebn isUTF8() {
         return isUTF8;
     }
 
-    private Charset cs;
-    private CharsetDecoder dec;
-    private CharsetEncoder enc;
-    private boolean isUTF8;
-    private ZipCoder utf8;
+    privbte Chbrset cs;
+    privbte ChbrsetDecoder dec;
+    privbte ChbrsetEncoder enc;
+    privbte boolebn isUTF8;
+    privbte ZipCoder utf8;
 
-    private ZipCoder(Charset cs) {
+    privbte ZipCoder(Chbrset cs) {
         this.cs = cs;
-        this.isUTF8 = cs.name().equals(StandardCharsets.UTF_8.name());
+        this.isUTF8 = cs.nbme().equbls(StbndbrdChbrsets.UTF_8.nbme());
     }
 
-    static ZipCoder get(Charset charset) {
-        return new ZipCoder(charset);
+    stbtic ZipCoder get(Chbrset chbrset) {
+        return new ZipCoder(chbrset);
     }
 
-    private CharsetDecoder decoder() {
+    privbte ChbrsetDecoder decoder() {
         if (dec == null) {
             dec = cs.newDecoder()
-              .onMalformedInput(CodingErrorAction.REPORT)
-              .onUnmappableCharacter(CodingErrorAction.REPORT);
+              .onMblformedInput(CodingErrorAction.REPORT)
+              .onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
         }
         return dec;
     }
 
-    private CharsetEncoder encoder() {
+    privbte ChbrsetEncoder encoder() {
         if (enc == null) {
             enc = cs.newEncoder()
-              .onMalformedInput(CodingErrorAction.REPORT)
-              .onUnmappableCharacter(CodingErrorAction.REPORT);
+              .onMblformedInput(CodingErrorAction.REPORT)
+              .onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
         }
         return enc;
     }

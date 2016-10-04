@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.http;
+pbckbge sun.net.www.http;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.regex.*;
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.regex.*;
 import sun.net.NetProperties;
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Main class of the HTTP traffic capture tool.
- * Captures are triggered by the sun.net.http.captureRules system property.
- * If set, it should point to a file containing the capture rules.
- * Format for the file is simple:
+ * Mbin clbss of the HTTP trbffic cbpture tool.
+ * Cbptures bre triggered by the sun.net.http.cbptureRules system property.
+ * If set, it should point to b file contbining the cbpture rules.
+ * Formbt for the file is simple:
  * - 1 rule per line
- * - Lines starting with a # are considered comments and ignored
- * - a rule is a pair of a regular expression and file pattern, separated by a comma
- * - The regular expression is applied to URLs, if it matches, the traffic for
- *   that URL will be captured in the associated file.
- * - if the file name contains a '%d', then that sequence will be replaced by a
- *   unique random number for each URL. This allow for multi-threaded captures
- *   of URLs matching the same pattern.
- * - Rules are checked in sequence, in the same order as in the file, until a
- *   match is found or the end of the list is reached.
+ * - Lines stbrting with b # bre considered comments bnd ignored
+ * - b rule is b pbir of b regulbr expression bnd file pbttern, sepbrbted by b commb
+ * - The regulbr expression is bpplied to URLs, if it mbtches, the trbffic for
+ *   thbt URL will be cbptured in the bssocibted file.
+ * - if the file nbme contbins b '%d', then thbt sequence will be replbced by b
+ *   unique rbndom number for ebch URL. This bllow for multi-threbded cbptures
+ *   of URLs mbtching the sbme pbttern.
+ * - Rules bre checked in sequence, in the sbme order bs in the file, until b
+ *   mbtch is found or the end of the list is rebched.
  *
- * Examples of rules:
+ * Exbmples of rules:
  * www\.sun\.com , sun%d.log
- * yahoo\.com\/.*asf , yahoo.log
+ * ybhoo\.com\/.*bsf , ybhoo.log
  *
- * @author jccollet
+ * @buthor jccollet
  */
-public class HttpCapture {
-    private File file = null;
-    private boolean incoming = true;
-    private BufferedWriter out = null;
-    private static boolean initialized = false;
-    private static volatile ArrayList<Pattern> patterns = null;
-    private static volatile ArrayList<String> capFiles = null;
+public clbss HttpCbpture {
+    privbte File file = null;
+    privbte boolebn incoming = true;
+    privbte BufferedWriter out = null;
+    privbte stbtic boolebn initiblized = fblse;
+    privbte stbtic volbtile ArrbyList<Pbttern> pbtterns = null;
+    privbte stbtic volbtile ArrbyList<String> cbpFiles = null;
 
-    private static synchronized void init() {
-        initialized = true;
-        String rulesFile = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<String>() {
+    privbte stbtic synchronized void init() {
+        initiblized = true;
+        String rulesFile = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<String>() {
                 public String run() {
-                    return NetProperties.get("sun.net.http.captureRules");
+                    return NetProperties.get("sun.net.http.cbptureRules");
                 }
             });
         if (rulesFile != null && !rulesFile.isEmpty()) {
-            BufferedReader in;
+            BufferedRebder in;
             try {
-                in = new BufferedReader(new FileReader(rulesFile));
-            } catch (FileNotFoundException ex) {
+                in = new BufferedRebder(new FileRebder(rulesFile));
+            } cbtch (FileNotFoundException ex) {
                 return;
             }
             try {
-                String line = in.readLine();
+                String line = in.rebdLine();
                 while (line != null) {
                     line = line.trim();
-                    if (!line.startsWith("#")) {
-                        // skip line if it's a comment
+                    if (!line.stbrtsWith("#")) {
+                        // skip line if it's b comment
                         String[] s = line.split(",");
                         if (s.length == 2) {
-                            if (patterns == null) {
-                                patterns = new ArrayList<Pattern>();
-                                capFiles = new ArrayList<String>();
+                            if (pbtterns == null) {
+                                pbtterns = new ArrbyList<Pbttern>();
+                                cbpFiles = new ArrbyList<String>();
                             }
-                            patterns.add(Pattern.compile(s[0].trim()));
-                            capFiles.add(s[1].trim());
+                            pbtterns.bdd(Pbttern.compile(s[0].trim()));
+                            cbpFiles.bdd(s[1].trim());
                         }
                     }
-                    line = in.readLine();
+                    line = in.rebdLine();
                 }
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
 
-            } finally {
+            } finblly {
                 try {
                     in.close();
-                } catch (IOException ex) {
+                } cbtch (IOException ex) {
                 }
             }
         }
     }
 
-    private static synchronized boolean isInitialized() {
-        return initialized;
+    privbte stbtic synchronized boolebn isInitiblized() {
+        return initiblized;
     }
 
-    private HttpCapture(File f, java.net.URL url) {
+    privbte HttpCbpture(File f, jbvb.net.URL url) {
         file = f;
         try {
             out = new BufferedWriter(new FileWriter(file, true));
             out.write("URL: " + url + "\n");
-        } catch (IOException ex) {
-            PlatformLogger.getLogger(HttpCapture.class.getName()).severe(null, ex);
+        } cbtch (IOException ex) {
+            PlbtformLogger.getLogger(HttpCbpture.clbss.getNbme()).severe(null, ex);
         }
     }
 
     public synchronized void sent(int c) throws IOException {
         if (incoming) {
             out.write("\n------>\n");
-            incoming = false;
+            incoming = fblse;
             out.flush();
         }
         out.write(c);
@@ -141,29 +141,29 @@ public class HttpCapture {
         out.flush();
     }
 
-    public static HttpCapture getCapture(java.net.URL url) {
-        if (!isInitialized()) {
+    public stbtic HttpCbpture getCbpture(jbvb.net.URL url) {
+        if (!isInitiblized()) {
             init();
         }
-        if (patterns == null || patterns.isEmpty()) {
+        if (pbtterns == null || pbtterns.isEmpty()) {
             return null;
         }
         String s = url.toString();
-        for (int i = 0; i < patterns.size(); i++) {
-            Pattern p = patterns.get(i);
-            if (p.matcher(s).find()) {
-                String f = capFiles.get(i);
+        for (int i = 0; i < pbtterns.size(); i++) {
+            Pbttern p = pbtterns.get(i);
+            if (p.mbtcher(s).find()) {
+                String f = cbpFiles.get(i);
                 File fi;
                 if (f.indexOf("%d") >= 0) {
-                    java.util.Random rand = new java.util.Random();
+                    jbvb.util.Rbndom rbnd = new jbvb.util.Rbndom();
                     do {
-                        String f2 = f.replace("%d", Integer.toString(rand.nextInt()));
+                        String f2 = f.replbce("%d", Integer.toString(rbnd.nextInt()));
                         fi = new File(f2);
                     } while (fi.exists());
                 } else {
                     fi = new File(f);
                 }
-                return new HttpCapture(fi, url);
+                return new HttpCbpture(fi, url);
             }
         }
         return null;

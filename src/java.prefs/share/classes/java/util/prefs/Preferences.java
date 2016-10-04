@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Iterbtor;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 
-// These imports needed only as a workaround for a JavaDoc bug
-import java.lang.RuntimePermission;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.Float;
-import java.lang.Double;
+// These imports needed only bs b workbround for b JbvbDoc bug
+import jbvb.lbng.RuntimePermission;
+import jbvb.lbng.Integer;
+import jbvb.lbng.Long;
+import jbvb.lbng.Flobt;
+import jbvb.lbng.Double;
 
 /**
- * A node in a hierarchical collection of preference data.  This class
- * allows applications to store and retrieve user and system
- * preference and configuration data.  This data is stored
- * persistently in an implementation-dependent backing store.  Typical
- * implementations include flat files, OS-specific registries,
- * directory servers and SQL databases.  The user of this class needn't
- * be concerned with details of the backing store.
+ * A node in b hierbrchicbl collection of preference dbtb.  This clbss
+ * bllows bpplicbtions to store bnd retrieve user bnd system
+ * preference bnd configurbtion dbtb.  This dbtb is stored
+ * persistently in bn implementbtion-dependent bbcking store.  Typicbl
+ * implementbtions include flbt files, OS-specific registries,
+ * directory servers bnd SQL dbtbbbses.  The user of this clbss needn't
+ * be concerned with detbils of the bbcking store.
  *
- * <p>There are two separate trees of preference nodes, one for user
- * preferences and one for system preferences.  Each user has a separate user
- * preference tree, and all users in a given system share the same system
- * preference tree.  The precise description of "user" and "system" will vary
- * from implementation to implementation.  Typical information stored in the
+ * <p>There bre two sepbrbte trees of preference nodes, one for user
+ * preferences bnd one for system preferences.  Ebch user hbs b sepbrbte user
+ * preference tree, bnd bll users in b given system shbre the sbme system
+ * preference tree.  The precise description of "user" bnd "system" will vbry
+ * from implementbtion to implementbtion.  Typicbl informbtion stored in the
  * user preference tree might include font choice, color choice, or preferred
- * window location and size for a particular application.  Typical information
- * stored in the system preference tree might include installation
- * configuration data for an application.
+ * window locbtion bnd size for b pbrticulbr bpplicbtion.  Typicbl informbtion
+ * stored in the system preference tree might include instbllbtion
+ * configurbtion dbtb for bn bpplicbtion.
  *
- * <p>Nodes in a preference tree are named in a similar fashion to
- * directories in a hierarchical file system.   Every node in a preference
- * tree has a <i>node name</i> (which is not necessarily unique),
- * a unique <i>absolute path name</i>, and a path name <i>relative</i> to each
- * ancestor including itself.
+ * <p>Nodes in b preference tree bre nbmed in b similbr fbshion to
+ * directories in b hierbrchicbl file system.   Every node in b preference
+ * tree hbs b <i>node nbme</i> (which is not necessbrily unique),
+ * b unique <i>bbsolute pbth nbme</i>, bnd b pbth nbme <i>relbtive</i> to ebch
+ * bncestor including itself.
  *
- * <p>The root node has a node name of the empty string ("").  Every other
- * node has an arbitrary node name, specified at the time it is created.  The
- * only restrictions on this name are that it cannot be the empty string, and
- * it cannot contain the slash character ('/').
+ * <p>The root node hbs b node nbme of the empty string ("").  Every other
+ * node hbs bn brbitrbry node nbme, specified bt the time it is crebted.  The
+ * only restrictions on this nbme bre thbt it cbnnot be the empty string, bnd
+ * it cbnnot contbin the slbsh chbrbcter ('/').
  *
- * <p>The root node has an absolute path name of <tt>"/"</tt>.  Children of
- * the root node have absolute path names of <tt>"/" + </tt><i>&lt;node
- * name&gt;</i>.  All other nodes have absolute path names of <i>&lt;parent's
- * absolute path name&gt;</i><tt> + "/" + </tt><i>&lt;node name&gt;</i>.
- * Note that all absolute path names begin with the slash character.
+ * <p>The root node hbs bn bbsolute pbth nbme of <tt>"/"</tt>.  Children of
+ * the root node hbve bbsolute pbth nbmes of <tt>"/" + </tt><i>&lt;node
+ * nbme&gt;</i>.  All other nodes hbve bbsolute pbth nbmes of <i>&lt;pbrent's
+ * bbsolute pbth nbme&gt;</i><tt> + "/" + </tt><i>&lt;node nbme&gt;</i>.
+ * Note thbt bll bbsolute pbth nbmes begin with the slbsh chbrbcter.
  *
- * <p>A node <i>n</i>'s path name relative to its ancestor <i>a</i>
- * is simply the string that must be appended to <i>a</i>'s absolute path name
- * in order to form <i>n</i>'s absolute path name, with the initial slash
- * character (if present) removed.  Note that:
+ * <p>A node <i>n</i>'s pbth nbme relbtive to its bncestor <i>b</i>
+ * is simply the string thbt must be bppended to <i>b</i>'s bbsolute pbth nbme
+ * in order to form <i>n</i>'s bbsolute pbth nbme, with the initibl slbsh
+ * chbrbcter (if present) removed.  Note thbt:
  * <ul>
- * <li>No relative path names begin with the slash character.
- * <li>Every node's path name relative to itself is the empty string.
- * <li>Every node's path name relative to its parent is its node name (except
- * for the root node, which does not have a parent).
- * <li>Every node's path name relative to the root is its absolute path name
- * with the initial slash character removed.
+ * <li>No relbtive pbth nbmes begin with the slbsh chbrbcter.
+ * <li>Every node's pbth nbme relbtive to itself is the empty string.
+ * <li>Every node's pbth nbme relbtive to its pbrent is its node nbme (except
+ * for the root node, which does not hbve b pbrent).
+ * <li>Every node's pbth nbme relbtive to the root is its bbsolute pbth nbme
+ * with the initibl slbsh chbrbcter removed.
  * </ul>
  *
- * <p>Note finally that:
+ * <p>Note finblly thbt:
  * <ul>
- * <li>No path name contains multiple consecutive slash characters.
- * <li>No path name with the exception of the root's absolute path name
- * ends in the slash character.
- * <li>Any string that conforms to these two rules is a valid path name.
+ * <li>No pbth nbme contbins multiple consecutive slbsh chbrbcters.
+ * <li>No pbth nbme with the exception of the root's bbsolute pbth nbme
+ * ends in the slbsh chbrbcter.
+ * <li>Any string thbt conforms to these two rules is b vblid pbth nbme.
  * </ul>
  *
- * <p>All of the methods that modify preferences data are permitted to operate
- * asynchronously; they may return immediately, and changes will eventually
- * propagate to the persistent backing store with an implementation-dependent
- * delay.  The <tt>flush</tt> method may be used to synchronously force
- * updates to the backing store.  Normal termination of the Java Virtual
- * Machine will <i>not</i> result in the loss of pending updates -- an explicit
- * <tt>flush</tt> invocation is <i>not</i> required upon termination to ensure
- * that pending updates are made persistent.
+ * <p>All of the methods thbt modify preferences dbtb bre permitted to operbte
+ * bsynchronously; they mby return immedibtely, bnd chbnges will eventublly
+ * propbgbte to the persistent bbcking store with bn implementbtion-dependent
+ * delby.  The <tt>flush</tt> method mby be used to synchronously force
+ * updbtes to the bbcking store.  Normbl terminbtion of the Jbvb Virtubl
+ * Mbchine will <i>not</i> result in the loss of pending updbtes -- bn explicit
+ * <tt>flush</tt> invocbtion is <i>not</i> required upon terminbtion to ensure
+ * thbt pending updbtes bre mbde persistent.
  *
- * <p>All of the methods that read preferences from a <tt>Preferences</tt>
- * object require the invoker to provide a default value.  The default value is
- * returned if no value has been previously set <i>or if the backing store is
- * unavailable</i>.  The intent is to allow applications to operate, albeit
- * with slightly degraded functionality, even if the backing store becomes
- * unavailable.  Several methods, like <tt>flush</tt>, have semantics that
- * prevent them from operating if the backing store is unavailable.  Ordinary
- * applications should have no need to invoke any of these methods, which can
- * be identified by the fact that they are declared to throw {@link
- * BackingStoreException}.
+ * <p>All of the methods thbt rebd preferences from b <tt>Preferences</tt>
+ * object require the invoker to provide b defbult vblue.  The defbult vblue is
+ * returned if no vblue hbs been previously set <i>or if the bbcking store is
+ * unbvbilbble</i>.  The intent is to bllow bpplicbtions to operbte, blbeit
+ * with slightly degrbded functionblity, even if the bbcking store becomes
+ * unbvbilbble.  Severbl methods, like <tt>flush</tt>, hbve sembntics thbt
+ * prevent them from operbting if the bbcking store is unbvbilbble.  Ordinbry
+ * bpplicbtions should hbve no need to invoke bny of these methods, which cbn
+ * be identified by the fbct thbt they bre declbred to throw {@link
+ * BbckingStoreException}.
  *
- * <p>The methods in this class may be invoked concurrently by multiple threads
- * in a single JVM without the need for external synchronization, and the
- * results will be equivalent to some serial execution.  If this class is used
- * concurrently <i>by multiple JVMs</i> that store their preference data in
- * the same backing store, the data store will not be corrupted, but no
- * other guarantees are made concerning the consistency of the preference
- * data.
+ * <p>The methods in this clbss mby be invoked concurrently by multiple threbds
+ * in b single JVM without the need for externbl synchronizbtion, bnd the
+ * results will be equivblent to some seribl execution.  If this clbss is used
+ * concurrently <i>by multiple JVMs</i> thbt store their preference dbtb in
+ * the sbme bbcking store, the dbtb store will not be corrupted, but no
+ * other gubrbntees bre mbde concerning the consistency of the preference
+ * dbtb.
  *
- * <p>This class contains an export/import facility, allowing preferences
- * to be "exported" to an XML document, and XML documents representing
- * preferences to be "imported" back into the system.  This facility
- * may be used to back up all or part of a preference tree, and
- * subsequently restore from the backup.
+ * <p>This clbss contbins bn export/import fbcility, bllowing preferences
+ * to be "exported" to bn XML document, bnd XML documents representing
+ * preferences to be "imported" bbck into the system.  This fbcility
+ * mby be used to bbck up bll or pbrt of b preference tree, bnd
+ * subsequently restore from the bbckup.
  *
- * <p>The XML document has the following DOCTYPE declaration:
+ * <p>The XML document hbs the following DOCTYPE declbrbtion:
  * <pre>{@code
- * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+ * <!DOCTYPE preferences SYSTEM "http://jbvb.sun.com/dtd/preferences.dtd">
  * }</pre>
- * Note that the system URI (http://java.sun.com/dtd/preferences.dtd) is
- * <i>not</i> accessed when exporting or importing preferences; it merely
- * serves as a string to uniquely identify the DTD, which is:
+ * Note thbt the system URI (http://jbvb.sun.com/dtd/preferences.dtd) is
+ * <i>not</i> bccessed when exporting or importing preferences; it merely
+ * serves bs b string to uniquely identify the DTD, which is:
  * <pre>{@code
  *    <?xml version="1.0" encoding="UTF-8"?>
  *
- *    <!-- DTD for a Preferences tree. -->
+ *    <!-- DTD for b Preferences tree. -->
  *
- *    <!-- The preferences element is at the root of an XML document
- *         representing a Preferences tree. -->
+ *    <!-- The preferences element is bt the root of bn XML document
+ *         representing b Preferences tree. -->
  *    <!ELEMENT preferences (root)>
  *
- *    <!-- The preferences element contains an optional version attribute,
+ *    <!-- The preferences element contbins bn optionbl version bttribute,
  *          which specifies version of DTD. -->
  *    <!ATTLIST preferences EXTERNAL_XML_VERSION CDATA "0.0" >
  *
- *    <!-- The root element has a map representing the root's preferences
- *         (if any), and one node for each child of the root (if any). -->
- *    <!ELEMENT root (map, node*) >
+ *    <!-- The root element hbs b mbp representing the root's preferences
+ *         (if bny), bnd one node for ebch child of the root (if bny). -->
+ *    <!ELEMENT root (mbp, node*) >
  *
- *    <!-- Additionally, the root contains a type attribute, which
+ *    <!-- Additionblly, the root contbins b type bttribute, which
  *         specifies whether it's the system or user root. -->
  *    <!ATTLIST root
  *              type (system|user) #REQUIRED >
  *
- *    <!-- Each node has a map representing its preferences (if any),
- *         and one node for each child (if any). -->
- *    <!ELEMENT node (map, node*) >
+ *    <!-- Ebch node hbs b mbp representing its preferences (if bny),
+ *         bnd one node for ebch child (if bny). -->
+ *    <!ELEMENT node (mbp, node*) >
  *
- *    <!-- Additionally, each node has a name attribute -->
+ *    <!-- Additionblly, ebch node hbs b nbme bttribute -->
  *    <!ATTLIST node
- *              name CDATA #REQUIRED >
+ *              nbme CDATA #REQUIRED >
  *
- *    <!-- A map represents the preferences stored at a node (if any). -->
- *    <!ELEMENT map (entry*) >
+ *    <!-- A mbp represents the preferences stored bt b node (if bny). -->
+ *    <!ELEMENT mbp (entry*) >
  *
- *    <!-- An entry represents a single preference, which is simply
- *          a key-value pair. -->
+ *    <!-- An entry represents b single preference, which is simply
+ *          b key-vblue pbir. -->
  *    <!ELEMENT entry EMPTY >
  *    <!ATTLIST entry
  *              key   CDATA #REQUIRED
- *              value CDATA #REQUIRED >
+ *              vblue CDATA #REQUIRED >
  * }</pre>
  *
- * Every <tt>Preferences</tt> implementation must have an associated {@link
- * PreferencesFactory} implementation.  Every Java(TM) SE implementation must provide
- * some means of specifying which <tt>PreferencesFactory</tt> implementation
- * is used to generate the root preferences nodes.  This allows the
- * administrator to replace the default preferences implementation with an
- * alternative implementation.
+ * Every <tt>Preferences</tt> implementbtion must hbve bn bssocibted {@link
+ * PreferencesFbctory} implementbtion.  Every Jbvb(TM) SE implementbtion must provide
+ * some mebns of specifying which <tt>PreferencesFbctory</tt> implementbtion
+ * is used to generbte the root preferences nodes.  This bllows the
+ * bdministrbtor to replbce the defbult preferences implementbtion with bn
+ * blternbtive implementbtion.
  *
- * <p>Implementation note: In Sun's JRE, the <tt>PreferencesFactory</tt>
- * implementation is located as follows:
+ * <p>Implementbtion note: In Sun's JRE, the <tt>PreferencesFbctory</tt>
+ * implementbtion is locbted bs follows:
  *
  * <ol>
  *
  * <li><p>If the system property
- * <tt>java.util.prefs.PreferencesFactory</tt> is defined, then it is
- * taken to be the fully-qualified name of a class implementing the
- * <tt>PreferencesFactory</tt> interface.  The class is loaded and
- * instantiated; if this process fails then an unspecified error is
+ * <tt>jbvb.util.prefs.PreferencesFbctory</tt> is defined, then it is
+ * tbken to be the fully-qublified nbme of b clbss implementing the
+ * <tt>PreferencesFbctory</tt> interfbce.  The clbss is lobded bnd
+ * instbntibted; if this process fbils then bn unspecified error is
  * thrown.</p></li>
  *
- * <li><p> If a <tt>PreferencesFactory</tt> implementation class file
- * has been installed in a jar file that is visible to the
- * {@link java.lang.ClassLoader#getSystemClassLoader system class loader},
- * and that jar file contains a provider-configuration file named
- * <tt>java.util.prefs.PreferencesFactory</tt> in the resource
- * directory <tt>META-INF/services</tt>, then the first class name
- * specified in that file is taken.  If more than one such jar file is
- * provided, the first one found will be used.  The class is loaded
- * and instantiated; if this process fails then an unspecified error
+ * <li><p> If b <tt>PreferencesFbctory</tt> implementbtion clbss file
+ * hbs been instblled in b jbr file thbt is visible to the
+ * {@link jbvb.lbng.ClbssLobder#getSystemClbssLobder system clbss lobder},
+ * bnd thbt jbr file contbins b provider-configurbtion file nbmed
+ * <tt>jbvb.util.prefs.PreferencesFbctory</tt> in the resource
+ * directory <tt>META-INF/services</tt>, then the first clbss nbme
+ * specified in thbt file is tbken.  If more thbn one such jbr file is
+ * provided, the first one found will be used.  The clbss is lobded
+ * bnd instbntibted; if this process fbils then bn unspecified error
  * is thrown.  </p></li>
  *
- * <li><p>Finally, if neither the above-mentioned system property nor
- * an extension jar file is provided, then the system-wide default
- * <tt>PreferencesFactory</tt> implementation for the underlying
- * platform is loaded and instantiated.</p></li>
+ * <li><p>Finblly, if neither the bbove-mentioned system property nor
+ * bn extension jbr file is provided, then the system-wide defbult
+ * <tt>PreferencesFbctory</tt> implementbtion for the underlying
+ * plbtform is lobded bnd instbntibted.</p></li>
  *
  * </ol>
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @since   1.4
  */
-public abstract class Preferences {
+public bbstrbct clbss Preferences {
 
-    private static final PreferencesFactory factory = factory();
+    privbte stbtic finbl PreferencesFbctory fbctory = fbctory();
 
-    private static PreferencesFactory factory() {
+    privbte stbtic PreferencesFbctory fbctory() {
         // 1. Try user-specified system property
-        String factoryName = AccessController.doPrivileged(
+        String fbctoryNbme = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
                     return System.getProperty(
-                        "java.util.prefs.PreferencesFactory");}});
-        if (factoryName != null) {
-            // FIXME: This code should be run in a doPrivileged and
-            // not use the context classloader, to avoid being
-            // dependent on the invoking thread.
-            // Checking AllPermission also seems wrong.
+                        "jbvb.util.prefs.PreferencesFbctory");}});
+        if (fbctoryNbme != null) {
+            // FIXME: This code should be run in b doPrivileged bnd
+            // not use the context clbsslobder, to bvoid being
+            // dependent on the invoking threbd.
+            // Checking AllPermission blso seems wrong.
             try {
-                return (PreferencesFactory)
-                    Class.forName(factoryName, false,
-                                  ClassLoader.getSystemClassLoader())
-                    .newInstance();
-            } catch (Exception ex) {
+                return (PreferencesFbctory)
+                    Clbss.forNbme(fbctoryNbme, fblse,
+                                  ClbssLobder.getSystemClbssLobder())
+                    .newInstbnce();
+            } cbtch (Exception ex) {
                 try {
-                    // workaround for javaws, plugin,
-                    // load factory class using non-system classloader
-                    SecurityManager sm = System.getSecurityManager();
+                    // workbround for jbvbws, plugin,
+                    // lobd fbctory clbss using non-system clbsslobder
+                    SecurityMbnbger sm = System.getSecurityMbnbger();
                     if (sm != null) {
-                        sm.checkPermission(new java.security.AllPermission());
+                        sm.checkPermission(new jbvb.security.AllPermission());
                     }
-                    return (PreferencesFactory)
-                        Class.forName(factoryName, false,
-                                      Thread.currentThread()
-                                      .getContextClassLoader())
-                        .newInstance();
-                } catch (Exception e) {
-                    throw new InternalError(
-                        "Can't instantiate Preferences factory "
-                        + factoryName, e);
+                    return (PreferencesFbctory)
+                        Clbss.forNbme(fbctoryNbme, fblse,
+                                      Threbd.currentThrebd()
+                                      .getContextClbssLobder())
+                        .newInstbnce();
+                } cbtch (Exception e) {
+                    throw new InternblError(
+                        "Cbn't instbntibte Preferences fbctory "
+                        + fbctoryNbme, e);
                 }
             }
         }
 
         return AccessController.doPrivileged(
-            new PrivilegedAction<PreferencesFactory>() {
-                public PreferencesFactory run() {
-                    return factory1();}});
+            new PrivilegedAction<PreferencesFbctory>() {
+                public PreferencesFbctory run() {
+                    return fbctory1();}});
     }
 
-    private static PreferencesFactory factory1() {
-        // 2. Try service provider interface
-        Iterator<PreferencesFactory> itr = ServiceLoader
-            .load(PreferencesFactory.class, ClassLoader.getSystemClassLoader())
-            .iterator();
+    privbte stbtic PreferencesFbctory fbctory1() {
+        // 2. Try service provider interfbce
+        Iterbtor<PreferencesFbctory> itr = ServiceLobder
+            .lobd(PreferencesFbctory.clbss, ClbssLobder.getSystemClbssLobder())
+            .iterbtor();
 
-        // choose first provider instance
-        while (itr.hasNext()) {
+        // choose first provider instbnce
+        while (itr.hbsNext()) {
             try {
                 return itr.next();
-            } catch (ServiceConfigurationError sce) {
-                if (sce.getCause() instanceof SecurityException) {
+            } cbtch (ServiceConfigurbtionError sce) {
+                if (sce.getCbuse() instbnceof SecurityException) {
                     // Ignore the security exception, try the next provider
                     continue;
                 }
@@ -288,970 +288,970 @@ public abstract class Preferences {
             }
         }
 
-        // 3. Use platform-specific system-wide default
-        String osName = System.getProperty("os.name");
-        String platformFactory;
-        if (osName.startsWith("Windows")) {
-            platformFactory = "java.util.prefs.WindowsPreferencesFactory";
-        } else if (osName.contains("OS X")) {
-            platformFactory = "java.util.prefs.MacOSXPreferencesFactory";
+        // 3. Use plbtform-specific system-wide defbult
+        String osNbme = System.getProperty("os.nbme");
+        String plbtformFbctory;
+        if (osNbme.stbrtsWith("Windows")) {
+            plbtformFbctory = "jbvb.util.prefs.WindowsPreferencesFbctory";
+        } else if (osNbme.contbins("OS X")) {
+            plbtformFbctory = "jbvb.util.prefs.MbcOSXPreferencesFbctory";
         } else {
-            platformFactory = "java.util.prefs.FileSystemPreferencesFactory";
+            plbtformFbctory = "jbvb.util.prefs.FileSystemPreferencesFbctory";
         }
         try {
-            return (PreferencesFactory)
-                Class.forName(platformFactory, false,
-                              Preferences.class.getClassLoader()).newInstance();
-        } catch (Exception e) {
-            throw new InternalError(
-                "Can't instantiate platform default Preferences factory "
-                + platformFactory, e);
+            return (PreferencesFbctory)
+                Clbss.forNbme(plbtformFbctory, fblse,
+                              Preferences.clbss.getClbssLobder()).newInstbnce();
+        } cbtch (Exception e) {
+            throw new InternblError(
+                "Cbn't instbntibte plbtform defbult Preferences fbctory "
+                + plbtformFbctory, e);
         }
     }
 
     /**
-     * Maximum length of string allowed as a key (80 characters).
+     * Mbximum length of string bllowed bs b key (80 chbrbcters).
      */
-    public static final int MAX_KEY_LENGTH = 80;
+    public stbtic finbl int MAX_KEY_LENGTH = 80;
 
     /**
-     * Maximum length of string allowed as a value (8192 characters).
+     * Mbximum length of string bllowed bs b vblue (8192 chbrbcters).
      */
-    public static final int MAX_VALUE_LENGTH = 8*1024;
+    public stbtic finbl int MAX_VALUE_LENGTH = 8*1024;
 
     /**
-     * Maximum length of a node name (80 characters).
+     * Mbximum length of b node nbme (80 chbrbcters).
      */
-    public static final int MAX_NAME_LENGTH = 80;
+    public stbtic finbl int MAX_NAME_LENGTH = 80;
 
     /**
-     * Returns the preference node from the calling user's preference tree
-     * that is associated (by convention) with the specified class's package.
-     * The convention is as follows: the absolute path name of the node is the
-     * fully qualified package name, preceded by a slash (<tt>'/'</tt>), and
-     * with each period (<tt>'.'</tt>) replaced by a slash.  For example the
-     * absolute path name of the node associated with the class
-     * <tt>com.acme.widget.Foo</tt> is <tt>/com/acme/widget</tt>.
+     * Returns the preference node from the cblling user's preference tree
+     * thbt is bssocibted (by convention) with the specified clbss's pbckbge.
+     * The convention is bs follows: the bbsolute pbth nbme of the node is the
+     * fully qublified pbckbge nbme, preceded by b slbsh (<tt>'/'</tt>), bnd
+     * with ebch period (<tt>'.'</tt>) replbced by b slbsh.  For exbmple the
+     * bbsolute pbth nbme of the node bssocibted with the clbss
+     * <tt>com.bcme.widget.Foo</tt> is <tt>/com/bcme/widget</tt>.
      *
-     * <p>This convention does not apply to the unnamed package, whose
-     * associated preference node is <tt>&lt;unnamed&gt;</tt>.  This node
-     * is not intended for long term use, but for convenience in the early
-     * development of programs that do not yet belong to a package, and
-     * for "throwaway" programs.  <i>Valuable data should not be stored
-     * at this node as it is shared by all programs that use it.</i>
+     * <p>This convention does not bpply to the unnbmed pbckbge, whose
+     * bssocibted preference node is <tt>&lt;unnbmed&gt;</tt>.  This node
+     * is not intended for long term use, but for convenience in the ebrly
+     * development of progrbms thbt do not yet belong to b pbckbge, bnd
+     * for "throwbwby" progrbms.  <i>Vblubble dbtb should not be stored
+     * bt this node bs it is shbred by bll progrbms thbt use it.</i>
      *
-     * <p>A class <tt>Foo</tt> wishing to access preferences pertaining to its
-     * package can obtain a preference node as follows: <pre>
-     *    static Preferences prefs = Preferences.userNodeForPackage(Foo.class);
+     * <p>A clbss <tt>Foo</tt> wishing to bccess preferences pertbining to its
+     * pbckbge cbn obtbin b preference node bs follows: <pre>
+     *    stbtic Preferences prefs = Preferences.userNodeForPbckbge(Foo.clbss);
      * </pre>
-     * This idiom obviates the need for using a string to describe the
-     * preferences node and decreases the likelihood of a run-time failure.
-     * (If the class name is misspelled, it will typically result in a
+     * This idiom obvibtes the need for using b string to describe the
+     * preferences node bnd decrebses the likelihood of b run-time fbilure.
+     * (If the clbss nbme is misspelled, it will typicblly result in b
      * compile-time error.)
      *
-     * <p>Invoking this method will result in the creation of the returned
-     * node and its ancestors if they do not already exist.  If the returned
-     * node did not exist prior to this call, this node and any ancestors that
-     * were created by this call are not guaranteed to become permanent until
-     * the <tt>flush</tt> method is called on the returned node (or one of its
-     * ancestors or descendants).
+     * <p>Invoking this method will result in the crebtion of the returned
+     * node bnd its bncestors if they do not blrebdy exist.  If the returned
+     * node did not exist prior to this cbll, this node bnd bny bncestors thbt
+     * were crebted by this cbll bre not gubrbnteed to become permbnent until
+     * the <tt>flush</tt> method is cblled on the returned node (or one of its
+     * bncestors or descendbnts).
      *
-     * @param c the class for whose package a user preference node is desired.
-     * @return the user preference node associated with the package of which
-     *         <tt>c</tt> is a member.
+     * @pbrbm c the clbss for whose pbckbge b user preference node is desired.
+     * @return the user preference node bssocibted with the pbckbge of which
+     *         <tt>c</tt> is b member.
      * @throws NullPointerException if <tt>c</tt> is <tt>null</tt>.
-     * @throws SecurityException if a security manager is present and
+     * @throws SecurityException if b security mbnbger is present bnd
      *         it denies <tt>RuntimePermission("preferences")</tt>.
      * @see    RuntimePermission
      */
-    public static Preferences userNodeForPackage(Class<?> c) {
-        return userRoot().node(nodeName(c));
+    public stbtic Preferences userNodeForPbckbge(Clbss<?> c) {
+        return userRoot().node(nodeNbme(c));
     }
 
     /**
-     * Returns the preference node from the system preference tree that is
-     * associated (by convention) with the specified class's package.  The
-     * convention is as follows: the absolute path name of the node is the
-     * fully qualified package name, preceded by a slash (<tt>'/'</tt>), and
-     * with each period (<tt>'.'</tt>) replaced by a slash.  For example the
-     * absolute path name of the node associated with the class
-     * <tt>com.acme.widget.Foo</tt> is <tt>/com/acme/widget</tt>.
+     * Returns the preference node from the system preference tree thbt is
+     * bssocibted (by convention) with the specified clbss's pbckbge.  The
+     * convention is bs follows: the bbsolute pbth nbme of the node is the
+     * fully qublified pbckbge nbme, preceded by b slbsh (<tt>'/'</tt>), bnd
+     * with ebch period (<tt>'.'</tt>) replbced by b slbsh.  For exbmple the
+     * bbsolute pbth nbme of the node bssocibted with the clbss
+     * <tt>com.bcme.widget.Foo</tt> is <tt>/com/bcme/widget</tt>.
      *
-     * <p>This convention does not apply to the unnamed package, whose
-     * associated preference node is <tt>&lt;unnamed&gt;</tt>.  This node
-     * is not intended for long term use, but for convenience in the early
-     * development of programs that do not yet belong to a package, and
-     * for "throwaway" programs.  <i>Valuable data should not be stored
-     * at this node as it is shared by all programs that use it.</i>
+     * <p>This convention does not bpply to the unnbmed pbckbge, whose
+     * bssocibted preference node is <tt>&lt;unnbmed&gt;</tt>.  This node
+     * is not intended for long term use, but for convenience in the ebrly
+     * development of progrbms thbt do not yet belong to b pbckbge, bnd
+     * for "throwbwby" progrbms.  <i>Vblubble dbtb should not be stored
+     * bt this node bs it is shbred by bll progrbms thbt use it.</i>
      *
-     * <p>A class <tt>Foo</tt> wishing to access preferences pertaining to its
-     * package can obtain a preference node as follows: <pre>
-     *  static Preferences prefs = Preferences.systemNodeForPackage(Foo.class);
+     * <p>A clbss <tt>Foo</tt> wishing to bccess preferences pertbining to its
+     * pbckbge cbn obtbin b preference node bs follows: <pre>
+     *  stbtic Preferences prefs = Preferences.systemNodeForPbckbge(Foo.clbss);
      * </pre>
-     * This idiom obviates the need for using a string to describe the
-     * preferences node and decreases the likelihood of a run-time failure.
-     * (If the class name is misspelled, it will typically result in a
+     * This idiom obvibtes the need for using b string to describe the
+     * preferences node bnd decrebses the likelihood of b run-time fbilure.
+     * (If the clbss nbme is misspelled, it will typicblly result in b
      * compile-time error.)
      *
-     * <p>Invoking this method will result in the creation of the returned
-     * node and its ancestors if they do not already exist.  If the returned
-     * node did not exist prior to this call, this node and any ancestors that
-     * were created by this call are not guaranteed to become permanent until
-     * the <tt>flush</tt> method is called on the returned node (or one of its
-     * ancestors or descendants).
+     * <p>Invoking this method will result in the crebtion of the returned
+     * node bnd its bncestors if they do not blrebdy exist.  If the returned
+     * node did not exist prior to this cbll, this node bnd bny bncestors thbt
+     * were crebted by this cbll bre not gubrbnteed to become permbnent until
+     * the <tt>flush</tt> method is cblled on the returned node (or one of its
+     * bncestors or descendbnts).
      *
-     * @param c the class for whose package a system preference node is desired.
-     * @return the system preference node associated with the package of which
-     *         <tt>c</tt> is a member.
+     * @pbrbm c the clbss for whose pbckbge b system preference node is desired.
+     * @return the system preference node bssocibted with the pbckbge of which
+     *         <tt>c</tt> is b member.
      * @throws NullPointerException if <tt>c</tt> is <tt>null</tt>.
-     * @throws SecurityException if a security manager is present and
+     * @throws SecurityException if b security mbnbger is present bnd
      *         it denies <tt>RuntimePermission("preferences")</tt>.
      * @see    RuntimePermission
      */
-    public static Preferences systemNodeForPackage(Class<?> c) {
-        return systemRoot().node(nodeName(c));
+    public stbtic Preferences systemNodeForPbckbge(Clbss<?> c) {
+        return systemRoot().node(nodeNbme(c));
     }
 
     /**
-     * Returns the absolute path name of the node corresponding to the package
+     * Returns the bbsolute pbth nbme of the node corresponding to the pbckbge
      * of the specified object.
      *
-     * @throws IllegalArgumentException if the package has node preferences
-     *         node associated with it.
+     * @throws IllegblArgumentException if the pbckbge hbs node preferences
+     *         node bssocibted with it.
      */
-    private static String nodeName(Class<?> c) {
-        if (c.isArray())
-            throw new IllegalArgumentException(
-                "Arrays have no associated preferences node.");
-        String className = c.getName();
-        int pkgEndIndex = className.lastIndexOf('.');
+    privbte stbtic String nodeNbme(Clbss<?> c) {
+        if (c.isArrby())
+            throw new IllegblArgumentException(
+                "Arrbys hbve no bssocibted preferences node.");
+        String clbssNbme = c.getNbme();
+        int pkgEndIndex = clbssNbme.lbstIndexOf('.');
         if (pkgEndIndex < 0)
-            return "/<unnamed>";
-        String packageName = className.substring(0, pkgEndIndex);
-        return "/" + packageName.replace('.', '/');
+            return "/<unnbmed>";
+        String pbckbgeNbme = clbssNbme.substring(0, pkgEndIndex);
+        return "/" + pbckbgeNbme.replbce('.', '/');
     }
 
     /**
      * This permission object represents the permission required to get
-     * access to the user or system root (which in turn allows for all
-     * other operations).
+     * bccess to the user or system root (which in turn bllows for bll
+     * other operbtions).
      */
-    private static Permission prefsPerm = new RuntimePermission("preferences");
+    privbte stbtic Permission prefsPerm = new RuntimePermission("preferences");
 
     /**
-     * Returns the root preference node for the calling user.
+     * Returns the root preference node for the cblling user.
      *
-     * @return the root preference node for the calling user.
-     * @throws SecurityException If a security manager is present and
+     * @return the root preference node for the cblling user.
+     * @throws SecurityException If b security mbnbger is present bnd
      *         it denies <tt>RuntimePermission("preferences")</tt>.
      * @see    RuntimePermission
      */
-    public static Preferences userRoot() {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic Preferences userRoot() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
             security.checkPermission(prefsPerm);
 
-        return factory.userRoot();
+        return fbctory.userRoot();
     }
 
     /**
      * Returns the root preference node for the system.
      *
      * @return the root preference node for the system.
-     * @throws SecurityException If a security manager is present and
+     * @throws SecurityException If b security mbnbger is present bnd
      *         it denies <tt>RuntimePermission("preferences")</tt>.
      * @see    RuntimePermission
      */
-    public static Preferences systemRoot() {
-        SecurityManager security = System.getSecurityManager();
+    public stbtic Preferences systemRoot() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
             security.checkPermission(prefsPerm);
 
-        return factory.systemRoot();
+        return fbctory.systemRoot();
     }
 
     /**
-     * Sole constructor. (For invocation by subclass constructors, typically
+     * Sole constructor. (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
     protected Preferences() {
     }
 
     /**
-     * Associates the specified value with the specified key in this
+     * Associbtes the specified vblue with the specified key in this
      * preference node.
      *
-     * @param key key with which the specified value is to be associated.
-     * @param value value to be associated with the specified key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
-     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>value.length</tt> exceeds
+     * @pbrbm key key with which the specified vblue is to be bssocibted.
+     * @pbrbm vblue vblue to be bssocibted with the specified key.
+     * @throws NullPointerException if key or vblue is <tt>null</tt>.
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
+     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>vblue.length</tt> exceeds
      *       <tt>MAX_VALUE_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract void put(String key, String value);
+    public bbstrbct void put(String key, String vblue);
 
     /**
-     * Returns the value associated with the specified key in this preference
-     * node.  Returns the specified default if there is no value associated
-     * with the key, or the backing store is inaccessible.
+     * Returns the vblue bssocibted with the specified key in this preference
+     * node.  Returns the specified defbult if there is no vblue bssocibted
+     * with the key, or the bbcking store is inbccessible.
      *
-     * <p>Some implementations may store default values in their backing
-     * stores.  If there is no value associated with the specified key
-     * but there is such a <i>stored default</i>, it is returned in
-     * preference to the specified default.
+     * <p>Some implementbtions mby store defbult vblues in their bbcking
+     * stores.  If there is no vblue bssocibted with the specified key
+     * but there is such b <i>stored defbult</i>, it is returned in
+     * preference to the specified defbult.
      *
-     * @param key key whose associated value is to be returned.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>.
-     * @return the value associated with <tt>key</tt>, or <tt>def</tt>
-     *         if no value is associated with <tt>key</tt>, or the backing
-     *         store is inaccessible.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm key key whose bssocibted vblue is to be returned.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>.
+     * @return the vblue bssocibted with <tt>key</tt>, or <tt>def</tt>
+     *         if no vblue is bssocibted with <tt>key</tt>, or the bbcking
+     *         store is inbccessible.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
+     *         <tt>null</tt> vblue for <tt>def</tt> <i>is</i> permitted.)
      */
-    public abstract String get(String key, String def);
+    public bbstrbct String get(String key, String def);
 
     /**
-     * Removes the value associated with the specified key in this preference
-     * node, if any.
+     * Removes the vblue bssocibted with the specified key in this preference
+     * node, if bny.
      *
-     * <p>If this implementation supports <i>stored defaults</i>, and there is
-     * such a default for the specified preference, the stored default will be
-     * "exposed" by this call, in the sense that it will be returned
-     * by a succeeding call to <tt>get</tt>.
+     * <p>If this implementbtion supports <i>stored defbults</i>, bnd there is
+     * such b defbult for the specified preference, the stored defbult will be
+     * "exposed" by this cbll, in the sense thbt it will be returned
+     * by b succeeding cbll to <tt>get</tt>.
      *
-     * @param key key whose mapping is to be removed from the preference node.
+     * @pbrbm key key whose mbpping is to be removed from the preference node.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract void remove(String key);
+    public bbstrbct void remove(String key);
 
     /**
-     * Removes all of the preferences (key-value associations) in this
-     * preference node.  This call has no effect on any descendants
+     * Removes bll of the preferences (key-vblue bssocibtions) in this
+     * preference node.  This cbll hbs no effect on bny descendbnts
      * of this node.
      *
-     * <p>If this implementation supports <i>stored defaults</i>, and this
-     * node in the preferences hierarchy contains any such defaults,
-     * the stored defaults will be "exposed" by this call, in the sense that
-     * they will be returned by succeeding calls to <tt>get</tt>.
+     * <p>If this implementbtion supports <i>stored defbults</i>, bnd this
+     * node in the preferences hierbrchy contbins bny such defbults,
+     * the stored defbults will be "exposed" by this cbll, in the sense thbt
+     * they will be returned by succeeding cblls to <tt>get</tt>.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #removeNode()
      */
-    public abstract void clear() throws BackingStoreException;
+    public bbstrbct void clebr() throws BbckingStoreException;
 
     /**
-     * Associates a string representing the specified int value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the int value were passed to
+     * Associbtes b string representing the specified int vblue with the
+     * specified key in this preference node.  The bssocibted string is the
+     * one thbt would be returned if the int vblue were pbssed to
      * {@link Integer#toString(int)}.  This method is intended for use in
      * conjunction with {@link #getInt}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #getInt(String,int)
      */
-    public abstract void putInt(String key, int value);
+    public bbstrbct void putInt(String key, int vblue);
 
     /**
-     * Returns the int value represented by the string associated with the
+     * Returns the int vblue represented by the string bssocibted with the
      * specified key in this preference node.  The string is converted to
-     * an integer as by {@link Integer#parseInt(String)}.  Returns the
-     * specified default if there is no value associated with the key,
-     * the backing store is inaccessible, or if
-     * <tt>Integer.parseInt(String)</tt> would throw a {@link
-     * NumberFormatException} if the associated value were passed.  This
+     * bn integer bs by {@link Integer#pbrseInt(String)}.  Returns the
+     * specified defbult if there is no vblue bssocibted with the key,
+     * the bbcking store is inbccessible, or if
+     * <tt>Integer.pbrseInt(String)</tt> would throw b {@link
+     * NumberFormbtException} if the bssocibted vblue were pbssed.  This
      * method is intended for use in conjunction with {@link #putInt}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to an int
-     * with <tt>Integer.parseInt</tt>, this int is returned in preference to
-     * the specified default.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists, is bccessible, bnd could be converted to bn int
+     * with <tt>Integer.pbrseInt</tt>, this int is returned in preference to
+     * the specified defbult.
      *
-     * @param key key whose associated value is to be returned as an int.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as an int,
-     *        or the backing store is inaccessible.
-     * @return the int value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs bn int.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs bn int,
+     *        or the bbcking store is inbccessible.
+     * @return the int vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         an int.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         bn int.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      * @see #putInt(String,int)
      * @see #get(String,String)
      */
-    public abstract int getInt(String key, int def);
+    public bbstrbct int getInt(String key, int def);
 
     /**
-     * Associates a string representing the specified long value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the long value were passed to
+     * Associbtes b string representing the specified long vblue with the
+     * specified key in this preference node.  The bssocibted string is the
+     * one thbt would be returned if the long vblue were pbssed to
      * {@link Long#toString(long)}.  This method is intended for use in
      * conjunction with {@link #getLong}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #getLong(String,long)
      */
-    public abstract void putLong(String key, long value);
+    public bbstrbct void putLong(String key, long vblue);
 
     /**
-     * Returns the long value represented by the string associated with the
+     * Returns the long vblue represented by the string bssocibted with the
      * specified key in this preference node.  The string is converted to
-     * a long as by {@link Long#parseLong(String)}.  Returns the
-     * specified default if there is no value associated with the key,
-     * the backing store is inaccessible, or if
-     * <tt>Long.parseLong(String)</tt> would throw a {@link
-     * NumberFormatException} if the associated value were passed.  This
+     * b long bs by {@link Long#pbrseLong(String)}.  Returns the
+     * specified defbult if there is no vblue bssocibted with the key,
+     * the bbcking store is inbccessible, or if
+     * <tt>Long.pbrseLong(String)</tt> would throw b {@link
+     * NumberFormbtException} if the bssocibted vblue were pbssed.  This
      * method is intended for use in conjunction with {@link #putLong}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a long
-     * with <tt>Long.parseLong</tt>, this long is returned in preference to
-     * the specified default.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists, is bccessible, bnd could be converted to b long
+     * with <tt>Long.pbrseLong</tt>, this long is returned in preference to
+     * the specified defbult.
      *
-     * @param key key whose associated value is to be returned as a long.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a long,
-     *        or the backing store is inaccessible.
-     * @return the long value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b long.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b long,
+     *        or the bbcking store is inbccessible.
+     * @return the long vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a long.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b long.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      * @see #putLong(String,long)
      * @see #get(String,String)
      */
-    public abstract long getLong(String key, long def);
+    public bbstrbct long getLong(String key, long def);
 
     /**
-     * Associates a string representing the specified boolean value with the
-     * specified key in this preference node.  The associated string is
-     * <tt>"true"</tt> if the value is true, and <tt>"false"</tt> if it is
-     * false.  This method is intended for use in conjunction with
-     * {@link #getBoolean}.
+     * Associbtes b string representing the specified boolebn vblue with the
+     * specified key in this preference node.  The bssocibted string is
+     * <tt>"true"</tt> if the vblue is true, bnd <tt>"fblse"</tt> if it is
+     * fblse.  This method is intended for use in conjunction with
+     * {@link #getBoolebn}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #getBoolean(String,boolean)
+     * @see #getBoolebn(String,boolebn)
      * @see #get(String,String)
      */
-    public abstract void putBoolean(String key, boolean value);
+    public bbstrbct void putBoolebn(String key, boolebn vblue);
 
     /**
-     * Returns the boolean value represented by the string associated with the
-     * specified key in this preference node.  Valid strings
-     * are <tt>"true"</tt>, which represents true, and <tt>"false"</tt>, which
-     * represents false.  Case is ignored, so, for example, <tt>"TRUE"</tt>
-     * and <tt>"False"</tt> are also valid.  This method is intended for use in
-     * conjunction with {@link #putBoolean}.
+     * Returns the boolebn vblue represented by the string bssocibted with the
+     * specified key in this preference node.  Vblid strings
+     * bre <tt>"true"</tt>, which represents true, bnd <tt>"fblse"</tt>, which
+     * represents fblse.  Cbse is ignored, so, for exbmple, <tt>"TRUE"</tt>
+     * bnd <tt>"Fblse"</tt> bre blso vblid.  This method is intended for use in
+     * conjunction with {@link #putBoolebn}.
      *
-     * <p>Returns the specified default if there is no value
-     * associated with the key, the backing store is inaccessible, or if the
-     * associated value is something other than <tt>"true"</tt> or
-     * <tt>"false"</tt>, ignoring case.
+     * <p>Returns the specified defbult if there is no vblue
+     * bssocibted with the key, the bbcking store is inbccessible, or if the
+     * bssocibted vblue is something other thbn <tt>"true"</tt> or
+     * <tt>"fblse"</tt>, ignoring cbse.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists and is accessible, it is used in preference to the
-     * specified default, unless the stored default is something other than
-     * <tt>"true"</tt> or <tt>"false"</tt>, ignoring case, in which case the
-     * specified default is used.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists bnd is bccessible, it is used in preference to the
+     * specified defbult, unless the stored defbult is something other thbn
+     * <tt>"true"</tt> or <tt>"fblse"</tt>, ignoring cbse, in which cbse the
+     * specified defbult is used.
      *
-     * @param key key whose associated value is to be returned as a boolean.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a boolean,
-     *        or the backing store is inaccessible.
-     * @return the boolean value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b boolebn.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b boolebn,
+     *        or the bbcking store is inbccessible.
+     * @return the boolebn vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a boolean.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b boolebn.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      * @see #get(String,String)
-     * @see #putBoolean(String,boolean)
+     * @see #putBoolebn(String,boolebn)
      */
-    public abstract boolean getBoolean(String key, boolean def);
+    public bbstrbct boolebn getBoolebn(String key, boolebn def);
 
     /**
-     * Associates a string representing the specified float value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the float value were passed to
-     * {@link Float#toString(float)}.  This method is intended for use in
-     * conjunction with {@link #getFloat}.
+     * Associbtes b string representing the specified flobt vblue with the
+     * specified key in this preference node.  The bssocibted string is the
+     * one thbt would be returned if the flobt vblue were pbssed to
+     * {@link Flobt#toString(flobt)}.  This method is intended for use in
+     * conjunction with {@link #getFlobt}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #getFloat(String,float)
+     * @see #getFlobt(String,flobt)
      */
-    public abstract void putFloat(String key, float value);
+    public bbstrbct void putFlobt(String key, flobt vblue);
 
     /**
-     * Returns the float value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to an
-     * integer as by {@link Float#parseFloat(String)}.  Returns the specified
-     * default if there is no value associated with the key, the backing store
-     * is inaccessible, or if <tt>Float.parseFloat(String)</tt> would throw a
-     * {@link NumberFormatException} if the associated value were passed.
-     * This method is intended for use in conjunction with {@link #putFloat}.
+     * Returns the flobt vblue represented by the string bssocibted with the
+     * specified key in this preference node.  The string is converted to bn
+     * integer bs by {@link Flobt#pbrseFlobt(String)}.  Returns the specified
+     * defbult if there is no vblue bssocibted with the key, the bbcking store
+     * is inbccessible, or if <tt>Flobt.pbrseFlobt(String)</tt> would throw b
+     * {@link NumberFormbtException} if the bssocibted vblue were pbssed.
+     * This method is intended for use in conjunction with {@link #putFlobt}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a float
-     * with <tt>Float.parseFloat</tt>, this float is returned in preference to
-     * the specified default.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists, is bccessible, bnd could be converted to b flobt
+     * with <tt>Flobt.pbrseFlobt</tt>, this flobt is returned in preference to
+     * the specified defbult.
      *
-     * @param key key whose associated value is to be returned as a float.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a float,
-     *        or the backing store is inaccessible.
-     * @return the float value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b flobt.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b flobt,
+     *        or the bbcking store is inbccessible.
+     * @return the flobt vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a float.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b flobt.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @see #putFloat(String,float)
+     * @see #putFlobt(String,flobt)
      * @see #get(String,String)
      */
-    public abstract float getFloat(String key, float def);
+    public bbstrbct flobt getFlobt(String key, flobt def);
 
     /**
-     * Associates a string representing the specified double value with the
-     * specified key in this preference node.  The associated string is the
-     * one that would be returned if the double value were passed to
+     * Associbtes b string representing the specified double vblue with the
+     * specified key in this preference node.  The bssocibted string is the
+     * one thbt would be returned if the double vblue were pbssed to
      * {@link Double#toString(double)}.  This method is intended for use in
      * conjunction with {@link #getDouble}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #getDouble(String,double)
      */
-    public abstract void putDouble(String key, double value);
+    public bbstrbct void putDouble(String key, double vblue);
 
     /**
-     * Returns the double value represented by the string associated with the
-     * specified key in this preference node.  The string is converted to an
-     * integer as by {@link Double#parseDouble(String)}.  Returns the specified
-     * default if there is no value associated with the key, the backing store
-     * is inaccessible, or if <tt>Double.parseDouble(String)</tt> would throw a
-     * {@link NumberFormatException} if the associated value were passed.
+     * Returns the double vblue represented by the string bssocibted with the
+     * specified key in this preference node.  The string is converted to bn
+     * integer bs by {@link Double#pbrseDouble(String)}.  Returns the specified
+     * defbult if there is no vblue bssocibted with the key, the bbcking store
+     * is inbccessible, or if <tt>Double.pbrseDouble(String)</tt> would throw b
+     * {@link NumberFormbtException} if the bssocibted vblue were pbssed.
      * This method is intended for use in conjunction with {@link #putDouble}.
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists, is accessible, and could be converted to a double
-     * with <tt>Double.parseDouble</tt>, this double is returned in preference
-     * to the specified default.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists, is bccessible, bnd could be converted to b double
+     * with <tt>Double.pbrseDouble</tt>, this double is returned in preference
+     * to the specified defbult.
      *
-     * @param key key whose associated value is to be returned as a double.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a double,
-     *        or the backing store is inaccessible.
-     * @return the double value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b double.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b double,
+     *        or the bbcking store is inbccessible.
+     * @return the double vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a double.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b double.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      * @see #putDouble(String,double)
      * @see #get(String,String)
      */
-    public abstract double getDouble(String key, double def);
+    public bbstrbct double getDouble(String key, double def);
 
     /**
-     * Associates a string representing the specified byte array with the
-     * specified key in this preference node.  The associated string is
-     * the <i>Base64</i> encoding of the byte array, as defined in <a
-     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</a>, Section 6.8,
-     * with one minor change: the string will consist solely of characters
-     * from the <i>Base64 Alphabet</i>; it will not contain any newline
-     * characters.  Note that the maximum length of the byte array is limited
-     * to three quarters of <tt>MAX_VALUE_LENGTH</tt> so that the length
-     * of the Base64 encoded String does not exceed <tt>MAX_VALUE_LENGTH</tt>.
+     * Associbtes b string representing the specified byte brrby with the
+     * specified key in this preference node.  The bssocibted string is
+     * the <i>Bbse64</i> encoding of the byte brrby, bs defined in <b
+     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</b>, Section 6.8,
+     * with one minor chbnge: the string will consist solely of chbrbcters
+     * from the <i>Bbse64 Alphbbet</i>; it will not contbin bny newline
+     * chbrbcters.  Note thbt the mbximum length of the byte brrby is limited
+     * to three qubrters of <tt>MAX_VALUE_LENGTH</tt> so thbt the length
+     * of the Bbse64 encoded String does not exceed <tt>MAX_VALUE_LENGTH</tt>.
      * This method is intended for use in conjunction with
-     * {@link #getByteArray}.
+     * {@link #getByteArrby}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if key.length() exceeds MAX_KEY_LENGTH
-     *         or if value.length exceeds MAX_VALUE_LENGTH*3/4.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
+     * @throws NullPointerException if key or vblue is <tt>null</tt>.
+     * @throws IllegblArgumentException if key.length() exceeds MAX_KEY_LENGTH
+     *         or if vblue.length exceeds MAX_VALUE_LENGTH*3/4.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #getByteArray(String,byte[])
+     * @see #getByteArrby(String,byte[])
      * @see #get(String,String)
      */
-    public abstract void putByteArray(String key, byte[] value);
+    public bbstrbct void putByteArrby(String key, byte[] vblue);
 
     /**
-     * Returns the byte array value represented by the string associated with
-     * the specified key in this preference node.  Valid strings are
-     * <i>Base64</i> encoded binary data, as defined in <a
-     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</a>, Section 6.8,
-     * with one minor change: the string must consist solely of characters
-     * from the <i>Base64 Alphabet</i>; no newline characters or
-     * extraneous characters are permitted.  This method is intended for use
-     * in conjunction with {@link #putByteArray}.
+     * Returns the byte brrby vblue represented by the string bssocibted with
+     * the specified key in this preference node.  Vblid strings bre
+     * <i>Bbse64</i> encoded binbry dbtb, bs defined in <b
+     * href=http://www.ietf.org/rfc/rfc2045.txt>RFC 2045</b>, Section 6.8,
+     * with one minor chbnge: the string must consist solely of chbrbcters
+     * from the <i>Bbse64 Alphbbet</i>; no newline chbrbcters or
+     * extrbneous chbrbcters bre permitted.  This method is intended for use
+     * in conjunction with {@link #putByteArrby}.
      *
-     * <p>Returns the specified default if there is no value
-     * associated with the key, the backing store is inaccessible, or if the
-     * associated value is not a valid Base64 encoded byte array
-     * (as defined above).
+     * <p>Returns the specified defbult if there is no vblue
+     * bssocibted with the key, the bbcking store is inbccessible, or if the
+     * bssocibted vblue is not b vblid Bbse64 encoded byte brrby
+     * (bs defined bbove).
      *
-     * <p>If the implementation supports <i>stored defaults</i> and such a
-     * default exists and is accessible, it is used in preference to the
-     * specified default, unless the stored default is not a valid Base64
-     * encoded byte array (as defined above), in which case the
-     * specified default is used.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd such b
+     * defbult exists bnd is bccessible, it is used in preference to the
+     * specified defbult, unless the stored defbult is not b vblid Bbse64
+     * encoded byte brrby (bs defined bbove), in which cbse the
+     * specified defbult is used.
      *
-     * @param key key whose associated value is to be returned as a byte array.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a byte array,
-     *        or the backing store is inaccessible.
-     * @return the byte array value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b byte brrby.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b byte brrby,
+     *        or the bbcking store is inbccessible.
+     * @return the byte brrby vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a byte array.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b byte brrby.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
+     *         <tt>null</tt> vblue for <tt>def</tt> <i>is</i> permitted.)
      * @see #get(String,String)
-     * @see #putByteArray(String,byte[])
+     * @see #putByteArrby(String,byte[])
      */
-    public abstract byte[] getByteArray(String key, byte[] def);
+    public bbstrbct byte[] getByteArrby(String key, byte[] def);
 
     /**
-     * Returns all of the keys that have an associated value in this
-     * preference node.  (The returned array will be of size zero if
-     * this node has no preferences.)
+     * Returns bll of the keys thbt hbve bn bssocibted vblue in this
+     * preference node.  (The returned brrby will be of size zero if
+     * this node hbs no preferences.)
      *
-     * <p>If the implementation supports <i>stored defaults</i> and there
-     * are any such defaults at this node that have not been overridden,
-     * by explicit preferences, the defaults are returned in the array in
-     * addition to any explicit preferences.
+     * <p>If the implementbtion supports <i>stored defbults</i> bnd there
+     * bre bny such defbults bt this node thbt hbve not been overridden,
+     * by explicit preferences, the defbults bre returned in the brrby in
+     * bddition to bny explicit preferences.
      *
-     * @return an array of the keys that have an associated value in this
+     * @return bn brrby of the keys thbt hbve bn bssocibted vblue in this
      *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract String[] keys() throws BackingStoreException;
+    public bbstrbct String[] keys() throws BbckingStoreException;
 
     /**
-     * Returns the names of the children of this preference node, relative to
-     * this node.  (The returned array will be of size zero if this node has
+     * Returns the nbmes of the children of this preference node, relbtive to
+     * this node.  (The returned brrby will be of size zero if this node hbs
      * no children.)
      *
-     * @return the names of the children of this preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @return the nbmes of the children of this preference node.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract String[] childrenNames() throws BackingStoreException;
+    public bbstrbct String[] childrenNbmes() throws BbckingStoreException;
 
     /**
-     * Returns the parent of this preference node, or <tt>null</tt> if this is
+     * Returns the pbrent of this preference node, or <tt>null</tt> if this is
      * the root.
      *
-     * @return the parent of this preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @return the pbrent of this preference node.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract Preferences parent();
+    public bbstrbct Preferences pbrent();
 
     /**
-     * Returns the named preference node in the same tree as this node,
-     * creating it and any of its ancestors if they do not already exist.
-     * Accepts a relative or absolute path name.  Relative path names
-     * (which do not begin with the slash character <tt>('/')</tt>) are
-     * interpreted relative to this preference node.
+     * Returns the nbmed preference node in the sbme tree bs this node,
+     * crebting it bnd bny of its bncestors if they do not blrebdy exist.
+     * Accepts b relbtive or bbsolute pbth nbme.  Relbtive pbth nbmes
+     * (which do not begin with the slbsh chbrbcter <tt>('/')</tt>) bre
+     * interpreted relbtive to this preference node.
      *
-     * <p>If the returned node did not exist prior to this call, this node and
-     * any ancestors that were created by this call are not guaranteed
-     * to become permanent until the <tt>flush</tt> method is called on
-     * the returned node (or one of its ancestors or descendants).
+     * <p>If the returned node did not exist prior to this cbll, this node bnd
+     * bny bncestors thbt were crebted by this cbll bre not gubrbnteed
+     * to become permbnent until the <tt>flush</tt> method is cblled on
+     * the returned node (or one of its bncestors or descendbnts).
      *
-     * @param pathName the path name of the preference node to return.
+     * @pbrbm pbthNbme the pbth nbme of the preference node to return.
      * @return the specified preference node.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws NullPointerException if path name is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblArgumentException if the pbth nbme is invblid (i.e.,
+     *         it contbins multiple consecutive slbsh chbrbcters, or ends
+     *         with b slbsh chbrbcter bnd is more thbn one chbrbcter long).
+     * @throws NullPointerException if pbth nbme is <tt>null</tt>.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #flush()
      */
-    public abstract Preferences node(String pathName);
+    public bbstrbct Preferences node(String pbthNbme);
 
     /**
-     * Returns true if the named preference node exists in the same tree
-     * as this node.  Relative path names (which do not begin with the slash
-     * character <tt>('/')</tt>) are interpreted relative to this preference
+     * Returns true if the nbmed preference node exists in the sbme tree
+     * bs this node.  Relbtive pbth nbmes (which do not begin with the slbsh
+     * chbrbcter <tt>('/')</tt>) bre interpreted relbtive to this preference
      * node.
      *
-     * <p>If this node (or an ancestor) has already been removed with the
-     * {@link #removeNode()} method, it <i>is</i> legal to invoke this method,
-     * but only with the path name <tt>""</tt>; the invocation will return
-     * <tt>false</tt>.  Thus, the idiom <tt>p.nodeExists("")</tt> may be
-     * used to test whether <tt>p</tt> has been removed.
+     * <p>If this node (or bn bncestor) hbs blrebdy been removed with the
+     * {@link #removeNode()} method, it <i>is</i> legbl to invoke this method,
+     * but only with the pbth nbme <tt>""</tt>; the invocbtion will return
+     * <tt>fblse</tt>.  Thus, the idiom <tt>p.nodeExists("")</tt> mby be
+     * used to test whether <tt>p</tt> hbs been removed.
      *
-     * @param pathName the path name of the node whose existence
+     * @pbrbm pbthNbme the pbth nbme of the node whose existence
      *        is to be checked.
      * @return true if the specified node exists.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws NullPointerException if path name is <tt>null</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method and
-     *         <tt>pathName</tt> is not the empty string (<tt>""</tt>).
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblArgumentException if the pbth nbme is invblid (i.e.,
+     *         it contbins multiple consecutive slbsh chbrbcters, or ends
+     *         with b slbsh chbrbcter bnd is more thbn one chbrbcter long).
+     * @throws NullPointerException if pbth nbme is <tt>null</tt>.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
+     *         removed with the {@link #removeNode()} method bnd
+     *         <tt>pbthNbme</tt> is not the empty string (<tt>""</tt>).
      */
-    public abstract boolean nodeExists(String pathName)
-        throws BackingStoreException;
+    public bbstrbct boolebn nodeExists(String pbthNbme)
+        throws BbckingStoreException;
 
     /**
-     * Removes this preference node and all of its descendants, invalidating
-     * any preferences contained in the removed nodes.  Once a node has been
-     * removed, attempting any method other than {@link #name()},
-     * {@link #absolutePath()}, {@link #isUserNode()}, {@link #flush()} or
+     * Removes this preference node bnd bll of its descendbnts, invblidbting
+     * bny preferences contbined in the removed nodes.  Once b node hbs been
+     * removed, bttempting bny method other thbn {@link #nbme()},
+     * {@link #bbsolutePbth()}, {@link #isUserNode()}, {@link #flush()} or
      * {@link #node(String) nodeExists("")} on the corresponding
-     * <tt>Preferences</tt> instance will fail with an
-     * <tt>IllegalStateException</tt>.  (The methods defined on {@link Object}
-     * can still be invoked on a node after it has been removed; they will not
-     * throw <tt>IllegalStateException</tt>.)
+     * <tt>Preferences</tt> instbnce will fbil with bn
+     * <tt>IllegblStbteException</tt>.  (The methods defined on {@link Object}
+     * cbn still be invoked on b node bfter it hbs been removed; they will not
+     * throw <tt>IllegblStbteException</tt>.)
      *
-     * <p>The removal is not guaranteed to be persistent until the
-     * <tt>flush</tt> method is called on this node (or an ancestor).
+     * <p>The removbl is not gubrbnteed to be persistent until the
+     * <tt>flush</tt> method is cblled on this node (or bn bncestor).
      *
-     * <p>If this implementation supports <i>stored defaults</i>, removing a
-     * node exposes any stored defaults at or below this node.  Thus, a
-     * subsequent call to <tt>nodeExists</tt> on this node's path name may
-     * return <tt>true</tt>, and a subsequent call to <tt>node</tt> on this
-     * path name may return a (different) <tt>Preferences</tt> instance
-     * representing a non-empty collection of preferences and/or children.
+     * <p>If this implementbtion supports <i>stored defbults</i>, removing b
+     * node exposes bny stored defbults bt or below this node.  Thus, b
+     * subsequent cbll to <tt>nodeExists</tt> on this node's pbth nbme mby
+     * return <tt>true</tt>, bnd b subsequent cbll to <tt>node</tt> on this
+     * pbth nbme mby return b (different) <tt>Preferences</tt> instbnce
+     * representing b non-empty collection of preferences bnd/or children.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has already
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs blrebdy
      *         been removed with the {@link #removeNode()} method.
-     * @throws UnsupportedOperationException if this method is invoked on
+     * @throws UnsupportedOperbtionException if this method is invoked on
      *         the root node.
      * @see #flush()
      */
-    public abstract void removeNode() throws BackingStoreException;
+    public bbstrbct void removeNode() throws BbckingStoreException;
 
     /**
-     * Returns this preference node's name, relative to its parent.
+     * Returns this preference node's nbme, relbtive to its pbrent.
      *
-     * @return this preference node's name, relative to its parent.
+     * @return this preference node's nbme, relbtive to its pbrent.
      */
-    public abstract String name();
+    public bbstrbct String nbme();
 
     /**
-     * Returns this preference node's absolute path name.
+     * Returns this preference node's bbsolute pbth nbme.
      *
-     * @return this preference node's absolute path name.
+     * @return this preference node's bbsolute pbth nbme.
      */
-    public abstract String absolutePath();
+    public bbstrbct String bbsolutePbth();
 
     /**
      * Returns <tt>true</tt> if this preference node is in the user
-     * preference tree, <tt>false</tt> if it's in the system preference tree.
+     * preference tree, <tt>fblse</tt> if it's in the system preference tree.
      *
      * @return <tt>true</tt> if this preference node is in the user
-     *         preference tree, <tt>false</tt> if it's in the system
+     *         preference tree, <tt>fblse</tt> if it's in the system
      *         preference tree.
      */
-    public abstract boolean isUserNode();
+    public bbstrbct boolebn isUserNode();
 
     /**
-     * Returns a string representation of this preferences node,
-     * as if computed by the expression:<tt>(this.isUserNode() ? "User" :
-     * "System") + " Preference Node: " + this.absolutePath()</tt>.
+     * Returns b string representbtion of this preferences node,
+     * bs if computed by the expression:<tt>(this.isUserNode() ? "User" :
+     * "System") + " Preference Node: " + this.bbsolutePbth()</tt>.
      */
-    public abstract String toString();
+    public bbstrbct String toString();
 
     /**
-     * Forces any changes in the contents of this preference node and its
-     * descendants to the persistent store.  Once this method returns
-     * successfully, it is safe to assume that all changes made in the
-     * subtree rooted at this node prior to the method invocation have become
-     * permanent.
+     * Forces bny chbnges in the contents of this preference node bnd its
+     * descendbnts to the persistent store.  Once this method returns
+     * successfully, it is sbfe to bssume thbt bll chbnges mbde in the
+     * subtree rooted bt this node prior to the method invocbtion hbve become
+     * permbnent.
      *
-     * <p>Implementations are free to flush changes into the persistent store
-     * at any time.  They do not need to wait for this method to be called.
+     * <p>Implementbtions bre free to flush chbnges into the persistent store
+     * bt bny time.  They do not need to wbit for this method to be cblled.
      *
-     * <p>When a flush occurs on a newly created node, it is made persistent,
-     * as are any ancestors (and descendants) that have yet to be made
-     * persistent.  Note however that any preference value changes in
-     * ancestors are <i>not</i> guaranteed to be made persistent.
+     * <p>When b flush occurs on b newly crebted node, it is mbde persistent,
+     * bs bre bny bncestors (bnd descendbnts) thbt hbve yet to be mbde
+     * persistent.  Note however thbt bny preference vblue chbnges in
+     * bncestors bre <i>not</i> gubrbnteed to be mbde persistent.
      *
-     * <p> If this method is invoked on a node that has been removed with
+     * <p> If this method is invoked on b node thbt hbs been removed with
      * the {@link #removeNode()} method, flushSpi() is invoked on this node,
      * but not on others.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      * @see    #sync()
      */
-    public abstract void flush() throws BackingStoreException;
+    public bbstrbct void flush() throws BbckingStoreException;
 
     /**
-     * Ensures that future reads from this preference node and its
-     * descendants reflect any changes that were committed to the persistent
-     * store (from any VM) prior to the <tt>sync</tt> invocation.  As a
-     * side-effect, forces any changes in the contents of this preference node
-     * and its descendants to the persistent store, as if the <tt>flush</tt>
-     * method had been invoked on this node.
+     * Ensures thbt future rebds from this preference node bnd its
+     * descendbnts reflect bny chbnges thbt were committed to the persistent
+     * store (from bny VM) prior to the <tt>sync</tt> invocbtion.  As b
+     * side-effect, forces bny chbnges in the contents of this preference node
+     * bnd its descendbnts to the persistent store, bs if the <tt>flush</tt>
+     * method hbd been invoked on this node.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see    #flush()
      */
-    public abstract void sync() throws BackingStoreException;
+    public bbstrbct void sync() throws BbckingStoreException;
 
     /**
-     * Registers the specified listener to receive <i>preference change
-     * events</i> for this preference node.  A preference change event is
-     * generated when a preference is added to this node, removed from this
-     * node, or when the value associated with a preference is changed.
-     * (Preference change events are <i>not</i> generated by the {@link
-     * #removeNode()} method, which generates a <i>node change event</i>.
-     * Preference change events <i>are</i> generated by the <tt>clear</tt>
+     * Registers the specified listener to receive <i>preference chbnge
+     * events</i> for this preference node.  A preference chbnge event is
+     * generbted when b preference is bdded to this node, removed from this
+     * node, or when the vblue bssocibted with b preference is chbnged.
+     * (Preference chbnge events bre <i>not</i> generbted by the {@link
+     * #removeNode()} method, which generbtes b <i>node chbnge event</i>.
+     * Preference chbnge events <i>bre</i> generbted by the <tt>clebr</tt>
      * method.)
      *
-     * <p>Events are only guaranteed for changes made within the same JVM
-     * as the registered listener, though some implementations may generate
-     * events for changes made outside this JVM.  Events may be generated
-     * before the changes have been made persistent.  Events are not generated
-     * when preferences are modified in descendants of this node; a caller
-     * desiring such events must register with each descendant.
+     * <p>Events bre only gubrbnteed for chbnges mbde within the sbme JVM
+     * bs the registered listener, though some implementbtions mby generbte
+     * events for chbnges mbde outside this JVM.  Events mby be generbted
+     * before the chbnges hbve been mbde persistent.  Events bre not generbted
+     * when preferences bre modified in descendbnts of this node; b cbller
+     * desiring such events must register with ebch descendbnt.
      *
-     * @param pcl The preference change listener to add.
+     * @pbrbm pcl The preference chbnge listener to bdd.
      * @throws NullPointerException if <tt>pcl</tt> is null.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #removePreferenceChangeListener(PreferenceChangeListener)
-     * @see #addNodeChangeListener(NodeChangeListener)
+     * @see #removePreferenceChbngeListener(PreferenceChbngeListener)
+     * @see #bddNodeChbngeListener(NodeChbngeListener)
      */
-    public abstract void addPreferenceChangeListener(
-        PreferenceChangeListener pcl);
+    public bbstrbct void bddPreferenceChbngeListener(
+        PreferenceChbngeListener pcl);
 
     /**
-     * Removes the specified preference change listener, so it no longer
-     * receives preference change events.
+     * Removes the specified preference chbnge listener, so it no longer
+     * receives preference chbnge events.
      *
-     * @param pcl The preference change listener to remove.
-     * @throws IllegalArgumentException if <tt>pcl</tt> was not a registered
-     *         preference change listener on this node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm pcl The preference chbnge listener to remove.
+     * @throws IllegblArgumentException if <tt>pcl</tt> wbs not b registered
+     *         preference chbnge listener on this node.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #addPreferenceChangeListener(PreferenceChangeListener)
+     * @see #bddPreferenceChbngeListener(PreferenceChbngeListener)
      */
-    public abstract void removePreferenceChangeListener(
-        PreferenceChangeListener pcl);
+    public bbstrbct void removePreferenceChbngeListener(
+        PreferenceChbngeListener pcl);
 
     /**
-     * Registers the specified listener to receive <i>node change events</i>
-     * for this node.  A node change event is generated when a child node is
-     * added to or removed from this node.  (A single {@link #removeNode()}
-     * invocation results in multiple <i>node change events</i>, one for every
-     * node in the subtree rooted at the removed node.)
+     * Registers the specified listener to receive <i>node chbnge events</i>
+     * for this node.  A node chbnge event is generbted when b child node is
+     * bdded to or removed from this node.  (A single {@link #removeNode()}
+     * invocbtion results in multiple <i>node chbnge events</i>, one for every
+     * node in the subtree rooted bt the removed node.)
      *
-     * <p>Events are only guaranteed for changes made within the same JVM
-     * as the registered listener, though some implementations may generate
-     * events for changes made outside this JVM.  Events may be generated
-     * before the changes have become permanent.  Events are not generated
-     * when indirect descendants of this node are added or removed; a
-     * caller desiring such events must register with each descendant.
+     * <p>Events bre only gubrbnteed for chbnges mbde within the sbme JVM
+     * bs the registered listener, though some implementbtions mby generbte
+     * events for chbnges mbde outside this JVM.  Events mby be generbted
+     * before the chbnges hbve become permbnent.  Events bre not generbted
+     * when indirect descendbnts of this node bre bdded or removed; b
+     * cbller desiring such events must register with ebch descendbnt.
      *
-     * <p>Few guarantees can be made regarding node creation.  Because nodes
-     * are created implicitly upon access, it may not be feasible for an
-     * implementation to determine whether a child node existed in the backing
-     * store prior to access (for example, because the backing store is
-     * unreachable or cached information is out of date).  Under these
-     * circumstances, implementations are neither required to generate node
-     * change events nor prohibited from doing so.
+     * <p>Few gubrbntees cbn be mbde regbrding node crebtion.  Becbuse nodes
+     * bre crebted implicitly upon bccess, it mby not be febsible for bn
+     * implementbtion to determine whether b child node existed in the bbcking
+     * store prior to bccess (for exbmple, becbuse the bbcking store is
+     * unrebchbble or cbched informbtion is out of dbte).  Under these
+     * circumstbnces, implementbtions bre neither required to generbte node
+     * chbnge events nor prohibited from doing so.
      *
-     * @param ncl The <tt>NodeChangeListener</tt> to add.
+     * @pbrbm ncl The <tt>NodeChbngeListener</tt> to bdd.
      * @throws NullPointerException if <tt>ncl</tt> is null.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #removeNodeChangeListener(NodeChangeListener)
-     * @see #addPreferenceChangeListener(PreferenceChangeListener)
+     * @see #removeNodeChbngeListener(NodeChbngeListener)
+     * @see #bddPreferenceChbngeListener(PreferenceChbngeListener)
      */
-    public abstract void addNodeChangeListener(NodeChangeListener ncl);
+    public bbstrbct void bddNodeChbngeListener(NodeChbngeListener ncl);
 
     /**
-     * Removes the specified <tt>NodeChangeListener</tt>, so it no longer
-     * receives change events.
+     * Removes the specified <tt>NodeChbngeListener</tt>, so it no longer
+     * receives chbnge events.
      *
-     * @param ncl The <tt>NodeChangeListener</tt> to remove.
-     * @throws IllegalArgumentException if <tt>ncl</tt> was not a registered
-     *         <tt>NodeChangeListener</tt> on this node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm ncl The <tt>NodeChbngeListener</tt> to remove.
+     * @throws IllegblArgumentException if <tt>ncl</tt> wbs not b registered
+     *         <tt>NodeChbngeListener</tt> on this node.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #addNodeChangeListener(NodeChangeListener)
+     * @see #bddNodeChbngeListener(NodeChbngeListener)
      */
-    public abstract void removeNodeChangeListener(NodeChangeListener ncl);
+    public bbstrbct void removeNodeChbngeListener(NodeChbngeListener ncl);
 
     /**
-     * Emits on the specified output stream an XML document representing all
-     * of the preferences contained in this node (but not its descendants).
-     * This XML document is, in effect, an offline backup of the node.
+     * Emits on the specified output strebm bn XML document representing bll
+     * of the preferences contbined in this node (but not its descendbnts).
+     * This XML document is, in effect, bn offline bbckup of the node.
      *
-     * <p>The XML document will have the following DOCTYPE declaration:
+     * <p>The XML document will hbve the following DOCTYPE declbrbtion:
      * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+     * <!DOCTYPE preferences SYSTEM "http://jbvb.sun.com/dtd/preferences.dtd">
      * }</pre>
-     * The UTF-8 character encoding will be used.
+     * The UTF-8 chbrbcter encoding will be used.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  If the preferences
-     * at this node are modified concurrently with an invocation of this
-     * method, the exported preferences comprise a "fuzzy snapshot" of the
-     * preferences contained in the node; some of the concurrent modifications
-     * may be reflected in the exported data while others may not.
+     * <p>This method is bn exception to the generbl rule thbt the results of
+     * concurrently executing multiple methods in this clbss yields
+     * results equivblent to some seribl execution.  If the preferences
+     * bt this node bre modified concurrently with bn invocbtion of this
+     * method, the exported preferences comprise b "fuzzy snbpshot" of the
+     * preferences contbined in the node; some of the concurrent modificbtions
+     * mby be reflected in the exported dbtb while others mby not.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @see    #importPreferences(InputStream)
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm os the output strebm on which to emit the XML document.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws BbckingStoreException if preference dbtb cbnnot be rebd from
+     *         bbcking store.
+     * @see    #importPreferences(InputStrebm)
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public abstract void exportNode(OutputStream os)
-        throws IOException, BackingStoreException;
+    public bbstrbct void exportNode(OutputStrebm os)
+        throws IOException, BbckingStoreException;
 
     /**
-     * Emits an XML document representing all of the preferences contained
-     * in this node and all of its descendants.  This XML document is, in
-     * effect, an offline backup of the subtree rooted at the node.
+     * Emits bn XML document representing bll of the preferences contbined
+     * in this node bnd bll of its descendbnts.  This XML document is, in
+     * effect, bn offline bbckup of the subtree rooted bt the node.
      *
-     * <p>The XML document will have the following DOCTYPE declaration:
+     * <p>The XML document will hbve the following DOCTYPE declbrbtion:
      * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+     * <!DOCTYPE preferences SYSTEM "http://jbvb.sun.com/dtd/preferences.dtd">
      * }</pre>
-     * The UTF-8 character encoding will be used.
+     * The UTF-8 chbrbcter encoding will be used.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  If the preferences
-     * or nodes in the subtree rooted at this node are modified concurrently
-     * with an invocation of this method, the exported preferences comprise a
-     * "fuzzy snapshot" of the subtree; some of the concurrent modifications
-     * may be reflected in the exported data while others may not.
+     * <p>This method is bn exception to the generbl rule thbt the results of
+     * concurrently executing multiple methods in this clbss yields
+     * results equivblent to some seribl execution.  If the preferences
+     * or nodes in the subtree rooted bt this node bre modified concurrently
+     * with bn invocbtion of this method, the exported preferences comprise b
+     * "fuzzy snbpshot" of the subtree; some of the concurrent modificbtions
+     * mby be reflected in the exported dbtb while others mby not.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm os the output strebm on which to emit the XML document.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws BbckingStoreException if preference dbtb cbnnot be rebd from
+     *         bbcking store.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see    #importPreferences(InputStream)
-     * @see    #exportNode(OutputStream)
+     * @see    #importPreferences(InputStrebm)
+     * @see    #exportNode(OutputStrebm)
      */
-    public abstract void exportSubtree(OutputStream os)
-        throws IOException, BackingStoreException;
+    public bbstrbct void exportSubtree(OutputStrebm os)
+        throws IOException, BbckingStoreException;
 
     /**
-     * Imports all of the preferences represented by the XML document on the
-     * specified input stream.  The document may represent user preferences or
+     * Imports bll of the preferences represented by the XML document on the
+     * specified input strebm.  The document mby represent user preferences or
      * system preferences.  If it represents user preferences, the preferences
-     * will be imported into the calling user's preference tree (even if they
-     * originally came from a different user's preference tree).  If any of
-     * the preferences described by the document inhabit preference nodes that
-     * do not exist, the nodes will be created.
+     * will be imported into the cblling user's preference tree (even if they
+     * originblly cbme from b different user's preference tree).  If bny of
+     * the preferences described by the document inhbbit preference nodes thbt
+     * do not exist, the nodes will be crebted.
      *
-     * <p>The XML document must have the following DOCTYPE declaration:
+     * <p>The XML document must hbve the following DOCTYPE declbrbtion:
      * <pre>{@code
-     * <!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+     * <!DOCTYPE preferences SYSTEM "http://jbvb.sun.com/dtd/preferences.dtd">
      * }</pre>
      * (This method is designed for use in conjunction with
-     * {@link #exportNode(OutputStream)} and
-     * {@link #exportSubtree(OutputStream)}.
+     * {@link #exportNode(OutputStrebm)} bnd
+     * {@link #exportSubtree(OutputStrebm)}.
      *
-     * <p>This method is an exception to the general rule that the results of
-     * concurrently executing multiple methods in this class yields
-     * results equivalent to some serial execution.  The method behaves
-     * as if implemented on top of the other public methods in this class,
-     * notably {@link #node(String)} and {@link #put(String, String)}.
+     * <p>This method is bn exception to the generbl rule thbt the results of
+     * concurrently executing multiple methods in this clbss yields
+     * results equivblent to some seribl execution.  The method behbves
+     * bs if implemented on top of the other public methods in this clbss,
+     * notbbly {@link #node(String)} bnd {@link #put(String, String)}.
      *
-     * @param is the input stream from which to read the XML document.
-     * @throws IOException if reading from the specified input stream
-     *         results in an <tt>IOException</tt>.
-     * @throws InvalidPreferencesFormatException Data on input stream does not
-     *         constitute a valid XML document with the mandated document type.
-     * @throws SecurityException If a security manager is present and
+     * @pbrbm is the input strebm from which to rebd the XML document.
+     * @throws IOException if rebding from the specified input strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws InvblidPreferencesFormbtException Dbtb on input strebm does not
+     *         constitute b vblid XML document with the mbndbted document type.
+     * @throws SecurityException If b security mbnbger is present bnd
      *         it denies <tt>RuntimePermission("preferences")</tt>.
      * @see    RuntimePermission
      */
-    public static void importPreferences(InputStream is)
-        throws IOException, InvalidPreferencesFormatException
+    public stbtic void importPreferences(InputStrebm is)
+        throws IOException, InvblidPreferencesFormbtException
     {
         XmlSupport.importPreferences(is);
     }

@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.*;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.regex.Pattern;
-import java.util.zip.CRC32;
-import java.util.zip.Inflater;
-import java.util.zip.Deflater;
-import java.util.zip.InflaterInputStream;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.ZipException;
-import java.util.zip.ZipError;
-import static java.lang.Boolean.*;
-import static jdk.nio.zipfs.ZipConstants.*;
-import static jdk.nio.zipfs.ZipUtils.*;
-import static java.nio.file.StandardOpenOption.*;
-import static java.nio.file.StandardCopyOption.*;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.EOFException;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.MbppedByteBuffer;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.*;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.zip.CRC32;
+import jbvb.util.zip.Inflbter;
+import jbvb.util.zip.Deflbter;
+import jbvb.util.zip.InflbterInputStrebm;
+import jbvb.util.zip.DeflbterOutputStrebm;
+import jbvb.util.zip.ZipException;
+import jbvb.util.zip.ZipError;
+import stbtic jbvb.lbng.Boolebn.*;
+import stbtic jdk.nio.zipfs.ZipConstbnts.*;
+import stbtic jdk.nio.zipfs.ZipUtils.*;
+import stbtic jbvb.nio.file.StbndbrdOpenOption.*;
+import stbtic jbvb.nio.file.StbndbrdCopyOption.*;
 
 /**
- * A FileSystem built on a zip file
+ * A FileSystem built on b zip file
  *
- * @author Xueming Shen
+ * @buthor Xueming Shen
  */
 
-class ZipFileSystem extends FileSystem {
+clbss ZipFileSystem extends FileSystem {
 
-    private final ZipFileSystemProvider provider;
-    private final ZipPath defaultdir;
-    private boolean readOnly = false;
-    private final Path zfpath;
-    private final ZipCoder zc;
+    privbte finbl ZipFileSystemProvider provider;
+    privbte finbl ZipPbth defbultdir;
+    privbte boolebn rebdOnly = fblse;
+    privbte finbl Pbth zfpbth;
+    privbte finbl ZipCoder zc;
 
-    // configurable by env map
-    private final String  defaultDir;    // default dir for the file system
-    private final String  nameEncoding;  // default encoding for name/comment
-    private final boolean useTempFile;   // use a temp file for newOS, default
-                                         // is to use BAOS for better performance
-    private final boolean createNew;     // create a new zip if not exists
-    private static final boolean isWindows = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> System.getProperty("os.name")
-                                                    .startsWith("Windows"));
+    // configurbble by env mbp
+    privbte finbl String  defbultDir;    // defbult dir for the file system
+    privbte finbl String  nbmeEncoding;  // defbult encoding for nbme/comment
+    privbte finbl boolebn useTempFile;   // use b temp file for newOS, defbult
+                                         // is to use BAOS for better performbnce
+    privbte finbl boolebn crebteNew;     // crebte b new zip if not exists
+    privbte stbtic finbl boolebn isWindows = AccessController.doPrivileged(
+            (PrivilegedAction<Boolebn>) () -> System.getProperty("os.nbme")
+                                                    .stbrtsWith("Windows"));
 
     ZipFileSystem(ZipFileSystemProvider provider,
-                  Path zfpath,
-                  Map<String, ?> env)
+                  Pbth zfpbth,
+                  Mbp<String, ?> env)
         throws IOException
     {
-        // configurable env setup
-        this.createNew    = "true".equals(env.get("create"));
-        this.nameEncoding = env.containsKey("encoding") ?
+        // configurbble env setup
+        this.crebteNew    = "true".equbls(env.get("crebte"));
+        this.nbmeEncoding = env.contbinsKey("encoding") ?
                             (String)env.get("encoding") : "UTF-8";
-        this.useTempFile  = TRUE.equals(env.get("useTempFile"));
-        this.defaultDir   = env.containsKey("default.dir") ?
-                            (String)env.get("default.dir") : "/";
-        if (this.defaultDir.charAt(0) != '/')
-            throw new IllegalArgumentException("default dir should be absolute");
+        this.useTempFile  = TRUE.equbls(env.get("useTempFile"));
+        this.defbultDir   = env.contbinsKey("defbult.dir") ?
+                            (String)env.get("defbult.dir") : "/";
+        if (this.defbultDir.chbrAt(0) != '/')
+            throw new IllegblArgumentException("defbult dir should be bbsolute");
 
         this.provider = provider;
-        this.zfpath = zfpath;
-        if (Files.notExists(zfpath)) {
-            if (createNew) {
-                try (OutputStream os = Files.newOutputStream(zfpath, CREATE_NEW, WRITE)) {
+        this.zfpbth = zfpbth;
+        if (Files.notExists(zfpbth)) {
+            if (crebteNew) {
+                try (OutputStrebm os = Files.newOutputStrebm(zfpbth, CREATE_NEW, WRITE)) {
                     new END().write(os, 0);
                 }
             } else {
-                throw new FileSystemNotFoundException(zfpath.toString());
+                throw new FileSystemNotFoundException(zfpbth.toString());
             }
         }
-        // sm and existence check
-        zfpath.getFileSystem().provider().checkAccess(zfpath, AccessMode.READ);
-        boolean writeable = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () ->  Files.isWritable(zfpath));
-        if (!writeable)
-            this.readOnly = true;
-        this.zc = ZipCoder.get(nameEncoding);
-        this.defaultdir = new ZipPath(this, getBytes(defaultDir));
-        this.ch = Files.newByteChannel(zfpath, READ);
+        // sm bnd existence check
+        zfpbth.getFileSystem().provider().checkAccess(zfpbth, AccessMode.READ);
+        boolebn writebble = AccessController.doPrivileged(
+            (PrivilegedAction<Boolebn>) () ->  Files.isWritbble(zfpbth));
+        if (!writebble)
+            this.rebdOnly = true;
+        this.zc = ZipCoder.get(nbmeEncoding);
+        this.defbultdir = new ZipPbth(this, getBytes(defbultDir));
+        this.ch = Files.newByteChbnnel(zfpbth, READ);
         this.cen = initCEN();
     }
 
@@ -128,80 +128,80 @@ class ZipFileSystem extends FileSystem {
     }
 
     @Override
-    public String getSeparator() {
+    public String getSepbrbtor() {
         return "/";
     }
 
     @Override
-    public boolean isOpen() {
+    public boolebn isOpen() {
         return isOpen;
     }
 
     @Override
-    public boolean isReadOnly() {
-        return readOnly;
+    public boolebn isRebdOnly() {
+        return rebdOnly;
     }
 
-    private void checkWritable() throws IOException {
-        if (readOnly)
-            throw new ReadOnlyFileSystemException();
-    }
-
-    @Override
-    public Iterable<Path> getRootDirectories() {
-        ArrayList<Path> pathArr = new ArrayList<>();
-        pathArr.add(new ZipPath(this, new byte[]{'/'}));
-        return pathArr;
-    }
-
-    ZipPath getDefaultDir() {  // package private
-        return defaultdir;
+    privbte void checkWritbble() throws IOException {
+        if (rebdOnly)
+            throw new RebdOnlyFileSystemException();
     }
 
     @Override
-    public ZipPath getPath(String first, String... more) {
-        String path;
+    public Iterbble<Pbth> getRootDirectories() {
+        ArrbyList<Pbth> pbthArr = new ArrbyList<>();
+        pbthArr.bdd(new ZipPbth(this, new byte[]{'/'}));
+        return pbthArr;
+    }
+
+    ZipPbth getDefbultDir() {  // pbckbge privbte
+        return defbultdir;
+    }
+
+    @Override
+    public ZipPbth getPbth(String first, String... more) {
+        String pbth;
         if (more.length == 0) {
-            path = first;
+            pbth = first;
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append(first);
+            sb.bppend(first);
             for (String segment: more) {
                 if (segment.length() > 0) {
                     if (sb.length() > 0)
-                        sb.append('/');
-                    sb.append(segment);
+                        sb.bppend('/');
+                    sb.bppend(segment);
                 }
             }
-            path = sb.toString();
+            pbth = sb.toString();
         }
-        return new ZipPath(this, getBytes(path));
+        return new ZipPbth(this, getBytes(pbth));
     }
 
     @Override
-    public UserPrincipalLookupService getUserPrincipalLookupService() {
-        throw new UnsupportedOperationException();
+    public UserPrincipblLookupService getUserPrincipblLookupService() {
+        throw new UnsupportedOperbtionException();
     }
 
     @Override
-    public WatchService newWatchService() {
-        throw new UnsupportedOperationException();
+    public WbtchService newWbtchService() {
+        throw new UnsupportedOperbtionException();
     }
 
-    FileStore getFileStore(ZipPath path) {
-        return new ZipFileStore(path);
+    FileStore getFileStore(ZipPbth pbth) {
+        return new ZipFileStore(pbth);
     }
 
     @Override
-    public Iterable<FileStore> getFileStores() {
-        ArrayList<FileStore> list = new ArrayList<>(1);
-        list.add(new ZipFileStore(new ZipPath(this, new byte[]{'/'})));
+    public Iterbble<FileStore> getFileStores() {
+        ArrbyList<FileStore> list = new ArrbyList<>(1);
+        list.bdd(new ZipFileStore(new ZipPbth(this, new byte[]{'/'})));
         return list;
     }
 
-    private static final Set<String> supportedFileAttributeViews =
-            Collections.unmodifiableSet(
-                new HashSet<String>(Arrays.asList("basic", "zip")));
+    privbte stbtic finbl Set<String> supportedFileAttributeViews =
+            Collections.unmodifibbleSet(
+                new HbshSet<String>(Arrbys.bsList("bbsic", "zip")));
 
     @Override
     public Set<String> supportedFileAttributeViews() {
@@ -210,41 +210,41 @@ class ZipFileSystem extends FileSystem {
 
     @Override
     public String toString() {
-        return zfpath.toString();
+        return zfpbth.toString();
     }
 
-    Path getZipFile() {
-        return zfpath;
+    Pbth getZipFile() {
+        return zfpbth;
     }
 
-    private static final String GLOB_SYNTAX = "glob";
-    private static final String REGEX_SYNTAX = "regex";
+    privbte stbtic finbl String GLOB_SYNTAX = "glob";
+    privbte stbtic finbl String REGEX_SYNTAX = "regex";
 
     @Override
-    public PathMatcher getPathMatcher(String syntaxAndInput) {
-        int pos = syntaxAndInput.indexOf(':');
-        if (pos <= 0 || pos == syntaxAndInput.length()) {
-            throw new IllegalArgumentException();
+    public PbthMbtcher getPbthMbtcher(String syntbxAndInput) {
+        int pos = syntbxAndInput.indexOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.length()) {
+            throw new IllegblArgumentException();
         }
-        String syntax = syntaxAndInput.substring(0, pos);
-        String input = syntaxAndInput.substring(pos + 1);
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos + 1);
         String expr;
-        if (syntax.equals(GLOB_SYNTAX)) {
-            expr = toRegexPattern(input);
+        if (syntbx.equbls(GLOB_SYNTAX)) {
+            expr = toRegexPbttern(input);
         } else {
-            if (syntax.equals(REGEX_SYNTAX)) {
+            if (syntbx.equbls(REGEX_SYNTAX)) {
                 expr = input;
             } else {
-                throw new UnsupportedOperationException("Syntax '" + syntax +
+                throw new UnsupportedOperbtionException("Syntbx '" + syntbx +
                     "' not recognized");
             }
         }
-        // return matcher
-        final Pattern pattern = Pattern.compile(expr);
-        return new PathMatcher() {
+        // return mbtcher
+        finbl Pbttern pbttern = Pbttern.compile(expr);
+        return new PbthMbtcher() {
             @Override
-            public boolean matches(Path path) {
-                return pattern.matcher(path.toString()).matches();
+            public boolebn mbtches(Pbth pbth) {
+                return pbttern.mbtcher(pbth.toString()).mbtches();
             }
         };
     }
@@ -255,184 +255,184 @@ class ZipFileSystem extends FileSystem {
         try {
             if (!isOpen)
                 return;
-            isOpen = false;             // set closed
-        } finally {
+            isOpen = fblse;             // set closed
+        } finblly {
             endWrite();
         }
-        if (!streams.isEmpty()) {       // unlock and close all remaining streams
-            Set<InputStream> copy = new HashSet<>(streams);
-            for (InputStream is: copy)
+        if (!strebms.isEmpty()) {       // unlock bnd close bll rembining strebms
+            Set<InputStrebm> copy = new HbshSet<>(strebms);
+            for (InputStrebm is: copy)
                 is.close();
         }
-        beginWrite();                   // lock and sync
+        beginWrite();                   // lock bnd sync
         try {
             AccessController.doPrivileged((PrivilegedExceptionAction<Void>) () -> {
                 sync(); return null;
             });
-            ch.close();                          // close the ch just in case no update
-        } catch (PrivilegedActionException e) {  // and sync dose not close the ch
+            ch.close();                          // close the ch just in cbse no updbte
+        } cbtch (PrivilegedActionException e) {  // bnd sync dose not close the ch
             throw (IOException)e.getException();
-        } finally {
+        } finblly {
             endWrite();
         }
 
-        synchronized (inflaters) {
-            for (Inflater inf : inflaters)
+        synchronized (inflbters) {
+            for (Inflbter inf : inflbters)
                 inf.end();
         }
-        synchronized (deflaters) {
-            for (Deflater def : deflaters)
+        synchronized (deflbters) {
+            for (Deflbter def : deflbters)
                 def.end();
         }
 
         IOException ioe = null;
-        synchronized (tmppaths) {
-            for (Path p: tmppaths) {
+        synchronized (tmppbths) {
+            for (Pbth p: tmppbths) {
                 try {
                     AccessController.doPrivileged(
-                        (PrivilegedExceptionAction<Boolean>)() -> Files.deleteIfExists(p));
-                } catch (PrivilegedActionException e) {
+                        (PrivilegedExceptionAction<Boolebn>)() -> Files.deleteIfExists(p));
+                } cbtch (PrivilegedActionException e) {
                     IOException x = (IOException)e.getException();
                     if (ioe == null)
                         ioe = x;
                     else
-                        ioe.addSuppressed(x);
+                        ioe.bddSuppressed(x);
                 }
             }
         }
-        provider.removeFileSystem(zfpath, this);
+        provider.removeFileSystem(zfpbth, this);
         if (ioe != null)
            throw ioe;
     }
 
-    ZipFileAttributes getFileAttributes(byte[] path)
+    ZipFileAttributes getFileAttributes(byte[] pbth)
         throws IOException
     {
         Entry e;
-        beginRead();
+        beginRebd();
         try {
             ensureOpen();
-            e = getEntry0(path);
+            e = getEntry0(pbth);
             if (e == null) {
-                IndexNode inode = getInode(path);
+                IndexNode inode = getInode(pbth);
                 if (inode == null)
                     return null;
-                e = new Entry(inode.name);       // pseudo directory
+                e = new Entry(inode.nbme);       // pseudo directory
                 e.method = METHOD_STORED;        // STORED for dir
-                e.mtime = e.atime = e.ctime = -1;// -1 for all times
+                e.mtime = e.btime = e.ctime = -1;// -1 for bll times
             }
-        } finally {
-            endRead();
+        } finblly {
+            endRebd();
         }
         return new ZipFileAttributes(e);
     }
 
-    void setTimes(byte[] path, FileTime mtime, FileTime atime, FileTime ctime)
+    void setTimes(byte[] pbth, FileTime mtime, FileTime btime, FileTime ctime)
         throws IOException
     {
-        checkWritable();
+        checkWritbble();
         beginWrite();
         try {
             ensureOpen();
-            Entry e = getEntry0(path);    // ensureOpen checked
+            Entry e = getEntry0(pbth);    // ensureOpen checked
             if (e == null)
-                throw new NoSuchFileException(getString(path));
+                throw new NoSuchFileException(getString(pbth));
             if (e.type == Entry.CEN)
                 e.type = Entry.COPY;      // copy e
             if (mtime != null)
                 e.mtime = mtime.toMillis();
-            if (atime != null)
-                e.atime = atime.toMillis();
+            if (btime != null)
+                e.btime = btime.toMillis();
             if (ctime != null)
                 e.ctime = ctime.toMillis();
-            update(e);
-        } finally {
+            updbte(e);
+        } finblly {
             endWrite();
         }
     }
 
-    boolean exists(byte[] path)
+    boolebn exists(byte[] pbth)
         throws IOException
     {
-        beginRead();
+        beginRebd();
         try {
             ensureOpen();
-            return getInode(path) != null;
-        } finally {
-            endRead();
+            return getInode(pbth) != null;
+        } finblly {
+            endRebd();
         }
     }
 
-    boolean isDirectory(byte[] path)
+    boolebn isDirectory(byte[] pbth)
         throws IOException
     {
-        beginRead();
+        beginRebd();
         try {
-            IndexNode n = getInode(path);
+            IndexNode n = getInode(pbth);
             return n != null && n.isDir();
-        } finally {
-            endRead();
+        } finblly {
+            endRebd();
         }
     }
 
-    private ZipPath toZipPath(byte[] path) {
-        // make it absolute
-        byte[] p = new byte[path.length + 1];
+    privbte ZipPbth toZipPbth(byte[] pbth) {
+        // mbke it bbsolute
+        byte[] p = new byte[pbth.length + 1];
         p[0] = '/';
-        System.arraycopy(path, 0, p, 1, path.length);
-        return new ZipPath(this, p);
+        System.brrbycopy(pbth, 0, p, 1, pbth.length);
+        return new ZipPbth(this, p);
     }
 
-    // returns the list of child paths of "path"
-    Iterator<Path> iteratorOf(byte[] path,
-                              DirectoryStream.Filter<? super Path> filter)
+    // returns the list of child pbths of "pbth"
+    Iterbtor<Pbth> iterbtorOf(byte[] pbth,
+                              DirectoryStrebm.Filter<? super Pbth> filter)
         throws IOException
     {
-        beginWrite();    // iteration of inodes needs exclusive lock
+        beginWrite();    // iterbtion of inodes needs exclusive lock
         try {
             ensureOpen();
-            IndexNode inode = getInode(path);
+            IndexNode inode = getInode(pbth);
             if (inode == null)
-                throw new NotDirectoryException(getString(path));
-            List<Path> list = new ArrayList<>();
+                throw new NotDirectoryException(getString(pbth));
+            List<Pbth> list = new ArrbyList<>();
             IndexNode child = inode.child;
             while (child != null) {
-                ZipPath zp = toZipPath(child.name);
-                if (filter == null || filter.accept(zp))
-                    list.add(zp);
+                ZipPbth zp = toZipPbth(child.nbme);
+                if (filter == null || filter.bccept(zp))
+                    list.bdd(zp);
                 child = child.sibling;
             }
-            return list.iterator();
-        } finally {
+            return list.iterbtor();
+        } finblly {
             endWrite();
         }
     }
 
-    void createDirectory(byte[] dir, FileAttribute<?>... attrs)
+    void crebteDirectory(byte[] dir, FileAttribute<?>... bttrs)
         throws IOException
     {
-        checkWritable();
-        dir = toDirectoryPath(dir);
+        checkWritbble();
+        dir = toDirectoryPbth(dir);
         beginWrite();
         try {
             ensureOpen();
             if (dir.length == 0 || exists(dir))  // root dir, or exiting dir
-                throw new FileAlreadyExistsException(getString(dir));
-            checkParents(dir);
+                throw new FileAlrebdyExistsException(getString(dir));
+            checkPbrents(dir);
             Entry e = new Entry(dir, Entry.NEW);
             e.method = METHOD_STORED;            // STORED for dir
-            update(e);
-        } finally {
+            updbte(e);
+        } finblly {
             endWrite();
         }
     }
 
-    void copyFile(boolean deletesrc, byte[]src, byte[] dst, CopyOption... options)
+    void copyFile(boolebn deletesrc, byte[]src, byte[] dst, CopyOption... options)
         throws IOException
     {
-        checkWritable();
-        if (Arrays.equals(src, dst))
-            return;    // do nothing, src and dst are the same
+        checkWritbble();
+        if (Arrbys.equbls(src, dst))
+            return;    // do nothing, src bnd dst bre the sbme
 
         beginWrite();
         try {
@@ -440,151 +440,151 @@ class ZipFileSystem extends FileSystem {
             Entry eSrc = getEntry0(src);  // ensureOpen checked
             if (eSrc == null)
                 throw new NoSuchFileException(getString(src));
-            if (eSrc.isDir()) {    // spec says to create dst dir
-                createDirectory(dst);
+            if (eSrc.isDir()) {    // spec sbys to crebte dst dir
+                crebteDirectory(dst);
                 return;
             }
-            boolean hasReplace = false;
-            boolean hasCopyAttrs = false;
+            boolebn hbsReplbce = fblse;
+            boolebn hbsCopyAttrs = fblse;
             for (CopyOption opt : options) {
                 if (opt == REPLACE_EXISTING)
-                    hasReplace = true;
+                    hbsReplbce = true;
                 else if (opt == COPY_ATTRIBUTES)
-                    hasCopyAttrs = true;
+                    hbsCopyAttrs = true;
             }
             Entry eDst = getEntry0(dst);
             if (eDst != null) {
-                if (!hasReplace)
-                    throw new FileAlreadyExistsException(getString(dst));
+                if (!hbsReplbce)
+                    throw new FileAlrebdyExistsException(getString(dst));
             } else {
-                checkParents(dst);
+                checkPbrents(dst);
             }
             Entry u = new Entry(eSrc, Entry.COPY);    // copy eSrc entry
-            u.name(dst);                              // change name
+            u.nbme(dst);                              // chbnge nbme
             if (eSrc.type == Entry.NEW || eSrc.type == Entry.FILECH)
             {
-                u.type = eSrc.type;    // make it the same type
-                if (deletesrc) {       // if it's a "rename", take the data
+                u.type = eSrc.type;    // mbke it the sbme type
+                if (deletesrc) {       // if it's b "renbme", tbke the dbtb
                     u.bytes = eSrc.bytes;
                     u.file = eSrc.file;
-                } else {               // if it's not "rename", copy the data
+                } else {               // if it's not "renbme", copy the dbtb
                     if (eSrc.bytes != null)
-                        u.bytes = Arrays.copyOf(eSrc.bytes, eSrc.bytes.length);
+                        u.bytes = Arrbys.copyOf(eSrc.bytes, eSrc.bytes.length);
                     else if (eSrc.file != null) {
-                        u.file = getTempPathForEntry(null);
+                        u.file = getTempPbthForEntry(null);
                         Files.copy(eSrc.file, u.file, REPLACE_EXISTING);
                     }
                 }
             }
-            if (!hasCopyAttrs)
-                u.mtime = u.atime= u.ctime = System.currentTimeMillis();
-            update(u);
+            if (!hbsCopyAttrs)
+                u.mtime = u.btime= u.ctime = System.currentTimeMillis();
+            updbte(u);
             if (deletesrc)
-                updateDelete(eSrc);
-        } finally {
+                updbteDelete(eSrc);
+        } finblly {
             endWrite();
         }
     }
 
-    // Returns an output stream for writing the contents into the specified
+    // Returns bn output strebm for writing the contents into the specified
     // entry.
-    OutputStream newOutputStream(byte[] path, OpenOption... options)
+    OutputStrebm newOutputStrebm(byte[] pbth, OpenOption... options)
         throws IOException
     {
-        checkWritable();
-        boolean hasCreateNew = false;
-        boolean hasCreate = false;
-        boolean hasAppend = false;
+        checkWritbble();
+        boolebn hbsCrebteNew = fblse;
+        boolebn hbsCrebte = fblse;
+        boolebn hbsAppend = fblse;
         for (OpenOption opt: options) {
             if (opt == READ)
-                throw new IllegalArgumentException("READ not allowed");
+                throw new IllegblArgumentException("READ not bllowed");
             if (opt == CREATE_NEW)
-                hasCreateNew = true;
+                hbsCrebteNew = true;
             if (opt == CREATE)
-                hasCreate = true;
+                hbsCrebte = true;
             if (opt == APPEND)
-                hasAppend = true;
+                hbsAppend = true;
         }
-        beginRead();                 // only need a readlock, the "update()" will
-        try {                        // try to obtain a writelock when the os is
+        beginRebd();                 // only need b rebdlock, the "updbte()" will
+        try {                        // try to obtbin b writelock when the os is
             ensureOpen();            // being closed.
-            Entry e = getEntry0(path);
+            Entry e = getEntry0(pbth);
             if (e != null) {
-                if (e.isDir() || hasCreateNew)
-                    throw new FileAlreadyExistsException(getString(path));
-                if (hasAppend) {
-                    InputStream is = getInputStream(e);
-                    OutputStream os = getOutputStream(new Entry(e, Entry.NEW));
-                    copyStream(is, os);
+                if (e.isDir() || hbsCrebteNew)
+                    throw new FileAlrebdyExistsException(getString(pbth));
+                if (hbsAppend) {
+                    InputStrebm is = getInputStrebm(e);
+                    OutputStrebm os = getOutputStrebm(new Entry(e, Entry.NEW));
+                    copyStrebm(is, os);
                     is.close();
                     return os;
                 }
-                return getOutputStream(new Entry(e, Entry.NEW));
+                return getOutputStrebm(new Entry(e, Entry.NEW));
             } else {
-                if (!hasCreate && !hasCreateNew)
-                    throw new NoSuchFileException(getString(path));
-                checkParents(path);
-                return getOutputStream(new Entry(path, Entry.NEW));
+                if (!hbsCrebte && !hbsCrebteNew)
+                    throw new NoSuchFileException(getString(pbth));
+                checkPbrents(pbth);
+                return getOutputStrebm(new Entry(pbth, Entry.NEW));
             }
-        } finally {
-            endRead();
+        } finblly {
+            endRebd();
         }
     }
 
-    // Returns an input stream for reading the contents of the specified
+    // Returns bn input strebm for rebding the contents of the specified
     // file entry.
-    InputStream newInputStream(byte[] path) throws IOException {
-        beginRead();
+    InputStrebm newInputStrebm(byte[] pbth) throws IOException {
+        beginRebd();
         try {
             ensureOpen();
-            Entry e = getEntry0(path);
+            Entry e = getEntry0(pbth);
             if (e == null)
-                throw new NoSuchFileException(getString(path));
+                throw new NoSuchFileException(getString(pbth));
             if (e.isDir())
-                throw new FileSystemException(getString(path), "is a directory", null);
-            return getInputStream(e);
-        } finally {
-            endRead();
+                throw new FileSystemException(getString(pbth), "is b directory", null);
+            return getInputStrebm(e);
+        } finblly {
+            endRebd();
         }
     }
 
-    private void checkOptions(Set<? extends OpenOption> options) {
-        // check for options of null type and option is an intance of StandardOpenOption
+    privbte void checkOptions(Set<? extends OpenOption> options) {
+        // check for options of null type bnd option is bn intbnce of StbndbrdOpenOption
         for (OpenOption option : options) {
             if (option == null)
                 throw new NullPointerException();
-            if (!(option instanceof StandardOpenOption))
-                throw new IllegalArgumentException();
+            if (!(option instbnceof StbndbrdOpenOption))
+                throw new IllegblArgumentException();
         }
     }
 
-    // Returns a Writable/ReadByteChannel for now. Might consdier to use
-    // newFileChannel() instead, which dump the entry data into a regular
-    // file on the default file system and create a FileChannel on top of
+    // Returns b Writbble/RebdByteChbnnel for now. Might consdier to use
+    // newFileChbnnel() instebd, which dump the entry dbtb into b regulbr
+    // file on the defbult file system bnd crebte b FileChbnnel on top of
     // it.
-    SeekableByteChannel newByteChannel(byte[] path,
+    SeekbbleByteChbnnel newByteChbnnel(byte[] pbth,
                                        Set<? extends OpenOption> options,
-                                       FileAttribute<?>... attrs)
+                                       FileAttribute<?>... bttrs)
         throws IOException
     {
         checkOptions(options);
-        if (options.contains(StandardOpenOption.WRITE) ||
-            options.contains(StandardOpenOption.APPEND)) {
-            checkWritable();
-            beginRead();
+        if (options.contbins(StbndbrdOpenOption.WRITE) ||
+            options.contbins(StbndbrdOpenOption.APPEND)) {
+            checkWritbble();
+            beginRebd();
             try {
-                final WritableByteChannel wbc = Channels.newChannel(
-                    newOutputStream(path, options.toArray(new OpenOption[0])));
+                finbl WritbbleByteChbnnel wbc = Chbnnels.newChbnnel(
+                    newOutputStrebm(pbth, options.toArrby(new OpenOption[0])));
                 long leftover = 0;
-                if (options.contains(StandardOpenOption.APPEND)) {
-                    Entry e = getEntry0(path);
+                if (options.contbins(StbndbrdOpenOption.APPEND)) {
+                    Entry e = getEntry0(pbth);
                     if (e != null && e.size >= 0)
                         leftover = e.size;
                 }
-                final long offset = leftover;
-                return new SeekableByteChannel() {
+                finbl long offset = leftover;
+                return new SeekbbleByteChbnnel() {
                     long written = offset;
-                    public boolean isOpen() {
+                    public boolebn isOpen() {
                         return wbc.isOpen();
                     }
 
@@ -592,20 +592,20 @@ class ZipFileSystem extends FileSystem {
                         return written;
                     }
 
-                    public SeekableByteChannel position(long pos)
+                    public SeekbbleByteChbnnel position(long pos)
                         throws IOException
                     {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
 
-                    public int read(ByteBuffer dst) throws IOException {
-                        throw new UnsupportedOperationException();
+                    public int rebd(ByteBuffer dst) throws IOException {
+                        throw new UnsupportedOperbtionException();
                     }
 
-                    public SeekableByteChannel truncate(long size)
+                    public SeekbbleByteChbnnel truncbte(long size)
                         throws IOException
                     {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
 
                     public int write(ByteBuffer src) throws IOException {
@@ -622,51 +622,51 @@ class ZipFileSystem extends FileSystem {
                         wbc.close();
                     }
                 };
-            } finally {
-                endRead();
+            } finblly {
+                endRebd();
             }
         } else {
-            beginRead();
+            beginRebd();
             try {
                 ensureOpen();
-                Entry e = getEntry0(path);
+                Entry e = getEntry0(pbth);
                 if (e == null || e.isDir())
-                    throw new NoSuchFileException(getString(path));
-                final ReadableByteChannel rbc =
-                    Channels.newChannel(getInputStream(e));
-                final long size = e.size;
-                return new SeekableByteChannel() {
-                    long read = 0;
-                    public boolean isOpen() {
+                    throw new NoSuchFileException(getString(pbth));
+                finbl RebdbbleByteChbnnel rbc =
+                    Chbnnels.newChbnnel(getInputStrebm(e));
+                finbl long size = e.size;
+                return new SeekbbleByteChbnnel() {
+                    long rebd = 0;
+                    public boolebn isOpen() {
                         return rbc.isOpen();
                     }
 
                     public long position() throws IOException {
-                        return read;
+                        return rebd;
                     }
 
-                    public SeekableByteChannel position(long pos)
+                    public SeekbbleByteChbnnel position(long pos)
                         throws IOException
                     {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
 
-                    public int read(ByteBuffer dst) throws IOException {
-                        int n = rbc.read(dst);
+                    public int rebd(ByteBuffer dst) throws IOException {
+                        int n = rbc.rebd(dst);
                         if (n > 0) {
-                            read += n;
+                            rebd += n;
                         }
                         return n;
                     }
 
-                    public SeekableByteChannel truncate(long size)
+                    public SeekbbleByteChbnnel truncbte(long size)
                     throws IOException
                     {
-                        throw new NonWritableChannelException();
+                        throw new NonWritbbleChbnnelException();
                     }
 
                     public int write (ByteBuffer src) throws IOException {
-                        throw new NonWritableChannelException();
+                        throw new NonWritbbleChbnnelException();
                     }
 
                     public long size() throws IOException {
@@ -677,58 +677,58 @@ class ZipFileSystem extends FileSystem {
                         rbc.close();
                     }
                 };
-            } finally {
-                endRead();
+            } finblly {
+                endRebd();
             }
         }
     }
 
-    // Returns a FileChannel of the specified entry.
+    // Returns b FileChbnnel of the specified entry.
     //
-    // This implementation creates a temporary file on the default file system,
-    // copy the entry data into it if the entry exists, and then create a
-    // FileChannel on top of it.
-    FileChannel newFileChannel(byte[] path,
+    // This implementbtion crebtes b temporbry file on the defbult file system,
+    // copy the entry dbtb into it if the entry exists, bnd then crebte b
+    // FileChbnnel on top of it.
+    FileChbnnel newFileChbnnel(byte[] pbth,
                                Set<? extends OpenOption> options,
-                               FileAttribute<?>... attrs)
+                               FileAttribute<?>... bttrs)
         throws IOException
     {
         checkOptions(options);
-        final  boolean forWrite = (options.contains(StandardOpenOption.WRITE) ||
-                                   options.contains(StandardOpenOption.APPEND));
-        beginRead();
+        finbl  boolebn forWrite = (options.contbins(StbndbrdOpenOption.WRITE) ||
+                                   options.contbins(StbndbrdOpenOption.APPEND));
+        beginRebd();
         try {
             ensureOpen();
-            Entry e = getEntry0(path);
+            Entry e = getEntry0(pbth);
             if (forWrite) {
-                checkWritable();
+                checkWritbble();
                 if (e == null) {
-                if (!options.contains(StandardOpenOption.CREATE_NEW))
-                    throw new NoSuchFileException(getString(path));
+                if (!options.contbins(StbndbrdOpenOption.CREATE_NEW))
+                    throw new NoSuchFileException(getString(pbth));
                 } else {
-                    if (options.contains(StandardOpenOption.CREATE_NEW))
-                        throw new FileAlreadyExistsException(getString(path));
+                    if (options.contbins(StbndbrdOpenOption.CREATE_NEW))
+                        throw new FileAlrebdyExistsException(getString(pbth));
                     if (e.isDir())
-                        throw new FileAlreadyExistsException("directory <"
-                            + getString(path) + "> exists");
+                        throw new FileAlrebdyExistsException("directory <"
+                            + getString(pbth) + "> exists");
                 }
-                options.remove(StandardOpenOption.CREATE_NEW); // for tmpfile
+                options.remove(StbndbrdOpenOption.CREATE_NEW); // for tmpfile
             } else if (e == null || e.isDir()) {
-                throw new NoSuchFileException(getString(path));
+                throw new NoSuchFileException(getString(pbth));
             }
 
-            final boolean isFCH = (e != null && e.type == Entry.FILECH);
-            final Path tmpfile = isFCH ? e.file : getTempPathForEntry(path);
-            final FileChannel fch = tmpfile.getFileSystem()
+            finbl boolebn isFCH = (e != null && e.type == Entry.FILECH);
+            finbl Pbth tmpfile = isFCH ? e.file : getTempPbthForEntry(pbth);
+            finbl FileChbnnel fch = tmpfile.getFileSystem()
                                            .provider()
-                                           .newFileChannel(tmpfile, options, attrs);
-            final Entry u = isFCH ? e : new Entry(path, tmpfile, Entry.FILECH);
+                                           .newFileChbnnel(tmpfile, options, bttrs);
+            finbl Entry u = isFCH ? e : new Entry(pbth, tmpfile, Entry.FILECH);
             if (forWrite) {
-                u.flag = FLAG_DATADESCR;
+                u.flbg = FLAG_DATADESCR;
                 u.method = METHOD_DEFLATED;
             }
-            // is there a better way to hook into the FileChannel's close method?
-            return new FileChannel() {
+            // is there b better wby to hook into the FileChbnnel's close method?
+            return new FileChbnnel() {
                 public int write(ByteBuffer src) throws IOException {
                     return fch.write(src);
                 }
@@ -740,7 +740,7 @@ class ZipFileSystem extends FileSystem {
                 public long position() throws IOException {
                     return fch.position();
                 }
-                public FileChannel position(long newPosition)
+                public FileChbnnel position(long newPosition)
                     throws IOException
                 {
                     fch.position(newPosition);
@@ -749,213 +749,213 @@ class ZipFileSystem extends FileSystem {
                 public long size() throws IOException {
                     return fch.size();
                 }
-                public FileChannel truncate(long size)
+                public FileChbnnel truncbte(long size)
                     throws IOException
                 {
-                    fch.truncate(size);
+                    fch.truncbte(size);
                     return this;
                 }
-                public void force(boolean metaData)
+                public void force(boolebn metbDbtb)
                     throws IOException
                 {
-                    fch.force(metaData);
+                    fch.force(metbDbtb);
                 }
-                public long transferTo(long position, long count,
-                                       WritableByteChannel target)
+                public long trbnsferTo(long position, long count,
+                                       WritbbleByteChbnnel tbrget)
                     throws IOException
                 {
-                    return fch.transferTo(position, count, target);
+                    return fch.trbnsferTo(position, count, tbrget);
                 }
-                public long transferFrom(ReadableByteChannel src,
+                public long trbnsferFrom(RebdbbleByteChbnnel src,
                                          long position, long count)
                     throws IOException
                 {
-                    return fch.transferFrom(src, position, count);
+                    return fch.trbnsferFrom(src, position, count);
                 }
-                public int read(ByteBuffer dst) throws IOException {
-                    return fch.read(dst);
+                public int rebd(ByteBuffer dst) throws IOException {
+                    return fch.rebd(dst);
                 }
-                public int read(ByteBuffer dst, long position)
+                public int rebd(ByteBuffer dst, long position)
                     throws IOException
                 {
-                    return fch.read(dst, position);
+                    return fch.rebd(dst, position);
                 }
-                public long read(ByteBuffer[] dsts, int offset, int length)
+                public long rebd(ByteBuffer[] dsts, int offset, int length)
                     throws IOException
                 {
-                    return fch.read(dsts, offset, length);
+                    return fch.rebd(dsts, offset, length);
                 }
                 public int write(ByteBuffer src, long position)
                     throws IOException
                     {
                    return fch.write(src, position);
                 }
-                public MappedByteBuffer map(MapMode mode,
+                public MbppedByteBuffer mbp(MbpMode mode,
                                             long position, long size)
                     throws IOException
                 {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
-                public FileLock lock(long position, long size, boolean shared)
+                public FileLock lock(long position, long size, boolebn shbred)
                     throws IOException
                 {
-                    return fch.lock(position, size, shared);
+                    return fch.lock(position, size, shbred);
                 }
-                public FileLock tryLock(long position, long size, boolean shared)
+                public FileLock tryLock(long position, long size, boolebn shbred)
                     throws IOException
                 {
-                    return fch.tryLock(position, size, shared);
+                    return fch.tryLock(position, size, shbred);
                 }
-                protected void implCloseChannel() throws IOException {
+                protected void implCloseChbnnel() throws IOException {
                     fch.close();
                     if (forWrite) {
                         u.mtime = System.currentTimeMillis();
                         u.size = Files.size(u.file);
 
-                        update(u);
+                        updbte(u);
                     } else {
-                        if (!isFCH)    // if this is a new fch for reading
-                            removeTempPathForEntry(tmpfile);
+                        if (!isFCH)    // if this is b new fch for rebding
+                            removeTempPbthForEntry(tmpfile);
                     }
                }
             };
-        } finally {
-            endRead();
+        } finblly {
+            endRebd();
         }
     }
 
-    // the outstanding input streams that need to be closed
-    private Set<InputStream> streams =
-        Collections.synchronizedSet(new HashSet<InputStream>());
+    // the outstbnding input strebms thbt need to be closed
+    privbte Set<InputStrebm> strebms =
+        Collections.synchronizedSet(new HbshSet<InputStrebm>());
 
-    // the ex-channel and ex-path that need to close when their outstanding
-    // input streams are all closed by the obtainers.
-    private Set<ExChannelCloser> exChClosers = new HashSet<>();
+    // the ex-chbnnel bnd ex-pbth thbt need to close when their outstbnding
+    // input strebms bre bll closed by the obtbiners.
+    privbte Set<ExChbnnelCloser> exChClosers = new HbshSet<>();
 
-    private Set<Path> tmppaths = Collections.synchronizedSet(new HashSet<Path>());
-    private Path getTempPathForEntry(byte[] path) throws IOException {
-        Path tmpPath = createTempFileInSameDirectoryAs(zfpath);
-        if (path != null) {
-            Entry e = getEntry0(path);
+    privbte Set<Pbth> tmppbths = Collections.synchronizedSet(new HbshSet<Pbth>());
+    privbte Pbth getTempPbthForEntry(byte[] pbth) throws IOException {
+        Pbth tmpPbth = crebteTempFileInSbmeDirectoryAs(zfpbth);
+        if (pbth != null) {
+            Entry e = getEntry0(pbth);
             if (e != null) {
-                try (InputStream is = newInputStream(path)) {
-                    Files.copy(is, tmpPath, REPLACE_EXISTING);
+                try (InputStrebm is = newInputStrebm(pbth)) {
+                    Files.copy(is, tmpPbth, REPLACE_EXISTING);
                 }
             }
         }
-        return tmpPath;
+        return tmpPbth;
     }
 
-    private void removeTempPathForEntry(Path path) throws IOException {
-        Files.delete(path);
-        tmppaths.remove(path);
+    privbte void removeTempPbthForEntry(Pbth pbth) throws IOException {
+        Files.delete(pbth);
+        tmppbths.remove(pbth);
     }
 
-    // check if all parents really exit. ZIP spec does not require
-    // the existence of any "parent directory".
-    private void checkParents(byte[] path) throws IOException {
-        beginRead();
+    // check if bll pbrents reblly exit. ZIP spec does not require
+    // the existence of bny "pbrent directory".
+    privbte void checkPbrents(byte[] pbth) throws IOException {
+        beginRebd();
         try {
-            while ((path = getParent(path)) != null && path.length != 0) {
-                if (!inodes.containsKey(IndexNode.keyOf(path))) {
-                    throw new NoSuchFileException(getString(path));
+            while ((pbth = getPbrent(pbth)) != null && pbth.length != 0) {
+                if (!inodes.contbinsKey(IndexNode.keyOf(pbth))) {
+                    throw new NoSuchFileException(getString(pbth));
                 }
             }
-        } finally {
-            endRead();
+        } finblly {
+            endRebd();
         }
     }
 
-    private static byte[] ROOTPATH = new byte[0];
-    private static byte[] getParent(byte[] path) {
-        int off = path.length - 1;
-        if (off > 0 && path[off] == '/')  // isDirectory
+    privbte stbtic byte[] ROOTPATH = new byte[0];
+    privbte stbtic byte[] getPbrent(byte[] pbth) {
+        int off = pbth.length - 1;
+        if (off > 0 && pbth[off] == '/')  // isDirectory
             off--;
-        while (off > 0 && path[off] != '/') { off--; }
+        while (off > 0 && pbth[off] != '/') { off--; }
         if (off <= 0)
             return ROOTPATH;
-        return Arrays.copyOf(path, off + 1);
+        return Arrbys.copyOf(pbth, off + 1);
     }
 
-    private final void beginWrite() {
+    privbte finbl void beginWrite() {
         rwlock.writeLock().lock();
     }
 
-    private final void endWrite() {
+    privbte finbl void endWrite() {
         rwlock.writeLock().unlock();
     }
 
-    private final void beginRead() {
-        rwlock.readLock().lock();
+    privbte finbl void beginRebd() {
+        rwlock.rebdLock().lock();
     }
 
-    private final void endRead() {
-        rwlock.readLock().unlock();
+    privbte finbl void endRebd() {
+        rwlock.rebdLock().unlock();
     }
 
     ///////////////////////////////////////////////////////////////////
 
-    private volatile boolean isOpen = true;
-    private final SeekableByteChannel ch; // channel to the zipfile
-    final byte[]  cen;     // CEN & ENDHDR
-    private END  end;
-    private long locpos;   // position of first LOC header (usually 0)
+    privbte volbtile boolebn isOpen = true;
+    privbte finbl SeekbbleByteChbnnel ch; // chbnnel to the zipfile
+    finbl byte[]  cen;     // CEN & ENDHDR
+    privbte END  end;
+    privbte long locpos;   // position of first LOC hebder (usublly 0)
 
-    private final ReadWriteLock rwlock = new ReentrantReadWriteLock();
+    privbte finbl RebdWriteLock rwlock = new ReentrbntRebdWriteLock();
 
-    // name -> pos (in cen), IndexNode itself can be used as a "key"
-    private LinkedHashMap<IndexNode, IndexNode> inodes;
+    // nbme -> pos (in cen), IndexNode itself cbn be used bs b "key"
+    privbte LinkedHbshMbp<IndexNode, IndexNode> inodes;
 
-    final byte[] getBytes(String name) {
-        return zc.getBytes(name);
+    finbl byte[] getBytes(String nbme) {
+        return zc.getBytes(nbme);
     }
 
-    final String getString(byte[] name) {
-        return zc.toString(name);
+    finbl String getString(byte[] nbme) {
+        return zc.toString(nbme);
     }
 
-    protected void finalize() throws IOException {
+    protected void finblize() throws IOException {
         close();
     }
 
-    private long getDataPos(Entry e) throws IOException {
+    privbte long getDbtbPos(Entry e) throws IOException {
         if (e.locoff == -1) {
-            Entry e2 = getEntry0(e.name);
+            Entry e2 = getEntry0(e.nbme);
             if (e2 == null)
-                throw new ZipException("invalid loc for entry <" + e.name + ">");
+                throw new ZipException("invblid loc for entry <" + e.nbme + ">");
             e.locoff = e2.locoff;
         }
         byte[] buf = new byte[LOCHDR];
-        if (readFullyAt(buf, 0, buf.length, e.locoff) != buf.length)
-            throw new ZipException("invalid loc for entry <" + e.name + ">");
+        if (rebdFullyAt(buf, 0, buf.length, e.locoff) != buf.length)
+            throw new ZipException("invblid loc for entry <" + e.nbme + ">");
         return locpos + e.locoff + LOCHDR + LOCNAM(buf) + LOCEXT(buf);
     }
 
-    // Reads len bytes of data from the specified offset into buf.
-    // Returns the total number of bytes read.
-    // Each/every byte read from here (except the cen, which is mapped).
-    final long readFullyAt(byte[] buf, int off, long len, long pos)
+    // Rebds len bytes of dbtb from the specified offset into buf.
+    // Returns the totbl number of bytes rebd.
+    // Ebch/every byte rebd from here (except the cen, which is mbpped).
+    finbl long rebdFullyAt(byte[] buf, int off, long len, long pos)
         throws IOException
     {
-        ByteBuffer bb = ByteBuffer.wrap(buf);
+        ByteBuffer bb = ByteBuffer.wrbp(buf);
         bb.position(off);
         bb.limit((int)(off + len));
-        return readFullyAt(bb, pos);
+        return rebdFullyAt(bb, pos);
     }
 
-    private final long readFullyAt(ByteBuffer bb, long pos)
+    privbte finbl long rebdFullyAt(ByteBuffer bb, long pos)
         throws IOException
     {
         synchronized(ch) {
-            return ch.position(pos).read(bb);
+            return ch.position(pos).rebd(bb);
         }
     }
 
-    // Searches for end of central directory (END) header. The contents of
-    // the END header will be read and placed in endbuf. Returns the file
-    // position of the END header, otherwise returns -1 if the END header
-    // was not found or an error occurred.
-    private END findEND() throws IOException
+    // Sebrches for end of centrbl directory (END) hebder. The contents of
+    // the END hebder will be rebd bnd plbced in endbuf. Returns the file
+    // position of the END hebder, otherwise returns -1 if the END hebder
+    // wbs not found or bn error occurred.
+    privbte END findEND() throws IOException
     {
         byte[] buf = new byte[READBLOCKSZ];
         long ziplen = ch.size();
@@ -966,23 +966,23 @@ class ZipFileSystem extends FileSystem {
         {
             int off = 0;
             if (pos < 0) {
-                // Pretend there are some NUL bytes before start of file
+                // Pretend there bre some NUL bytes before stbrt of file
                 off = (int)-pos;
-                Arrays.fill(buf, 0, off, (byte)0);
+                Arrbys.fill(buf, 0, off, (byte)0);
             }
             int len = buf.length - off;
-            if (readFullyAt(buf, off, len, pos + off) != len)
-                zerror("zip END header not found");
+            if (rebdFullyAt(buf, off, len, pos + off) != len)
+                zerror("zip END hebder not found");
 
-            // Now scan the block backwards for END header signature
+            // Now scbn the block bbckwbrds for END hebder signbture
             for (int i = buf.length - ENDHDR; i >= 0; i--) {
                 if (buf[i+0] == (byte)'P'    &&
                     buf[i+1] == (byte)'K'    &&
                     buf[i+2] == (byte)'\005' &&
                     buf[i+3] == (byte)'\006' &&
                     (pos + i + ENDHDR + ENDCOM(buf, i) == ziplen)) {
-                    // Found END header
-                    buf = Arrays.copyOfRange(buf, i, i + ENDHDR);
+                    // Found END hebder
+                    buf = Arrbys.copyOfRbnge(buf, i, i + ENDHDR);
                     END end = new END();
                     end.endsub = ENDSUB(buf);
                     end.centot = ENDTOT(buf);
@@ -996,123 +996,123 @@ class ZipFileSystem extends FileSystem {
                     {
                         // need to find the zip64 end;
                         byte[] loc64 = new byte[ZIP64_LOCHDR];
-                        if (readFullyAt(loc64, 0, loc64.length, end.endpos - ZIP64_LOCHDR)
+                        if (rebdFullyAt(loc64, 0, loc64.length, end.endpos - ZIP64_LOCHDR)
                             != loc64.length) {
                             return end;
                         }
                         long end64pos = ZIP64_LOCOFF(loc64);
                         byte[] end64buf = new byte[ZIP64_ENDHDR];
-                        if (readFullyAt(end64buf, 0, end64buf.length, end64pos)
+                        if (rebdFullyAt(end64buf, 0, end64buf.length, end64pos)
                             != end64buf.length) {
                             return end;
                         }
-                        // end64 found, re-calcualte everything.
+                        // end64 found, re-cblcublte everything.
                         end.cenlen = ZIP64_ENDSIZ(end64buf);
                         end.cenoff = ZIP64_ENDOFF(end64buf);
-                        end.centot = (int)ZIP64_ENDTOT(end64buf); // assume total < 2g
+                        end.centot = (int)ZIP64_ENDTOT(end64buf); // bssume totbl < 2g
                         end.endpos = end64pos;
                     }
                     return end;
                 }
             }
         }
-        zerror("zip END header not found");
-        return null; //make compiler happy
+        zerror("zip END hebder not found");
+        return null; //mbke compiler hbppy
     }
 
-    // Reads zip file central directory. Returns the file position of first
-    // CEN header, otherwise returns -1 if an error occurred. If zip->msg != NULL
-    // then the error was a zip format error and zip->msg has the error text.
-    // Always pass in -1 for knownTotal; it's used for a recursive call.
-    private byte[] initCEN() throws IOException {
+    // Rebds zip file centrbl directory. Returns the file position of first
+    // CEN hebder, otherwise returns -1 if bn error occurred. If zip->msg != NULL
+    // then the error wbs b zip formbt error bnd zip->msg hbs the error text.
+    // Alwbys pbss in -1 for knownTotbl; it's used for b recursive cbll.
+    privbte byte[] initCEN() throws IOException {
         end = findEND();
         if (end.endpos == 0) {
-            inodes = new LinkedHashMap<>(10);
+            inodes = new LinkedHbshMbp<>(10);
             locpos = 0;
             buildNodeTree();
-            return null;         // only END header present
+            return null;         // only END hebder present
         }
         if (end.cenlen > end.endpos)
-            zerror("invalid END header (bad central directory size)");
-        long cenpos = end.endpos - end.cenlen;     // position of CEN table
+            zerror("invblid END hebder (bbd centrbl directory size)");
+        long cenpos = end.endpos - end.cenlen;     // position of CEN tbble
 
-        // Get position of first local file (LOC) header, taking into
-        // account that there may be a stub prefixed to the zip file.
+        // Get position of first locbl file (LOC) hebder, tbking into
+        // bccount thbt there mby be b stub prefixed to the zip file.
         locpos = cenpos - end.cenoff;
         if (locpos < 0)
-            zerror("invalid END header (bad central directory offset)");
+            zerror("invblid END hebder (bbd centrbl directory offset)");
 
-        // read in the CEN and END
+        // rebd in the CEN bnd END
         byte[] cen = new byte[(int)(end.cenlen + ENDHDR)];
-        if (readFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
-            zerror("read CEN tables failed");
+        if (rebdFullyAt(cen, 0, cen.length, cenpos) != end.cenlen + ENDHDR) {
+            zerror("rebd CEN tbbles fbiled");
         }
-        // Iterate through the entries in the central directory
-        inodes = new LinkedHashMap<>(end.centot + 1);
+        // Iterbte through the entries in the centrbl directory
+        inodes = new LinkedHbshMbp<>(end.centot + 1);
         int pos = 0;
         int limit = cen.length - ENDHDR;
         while (pos < limit) {
             if (CENSIG(cen, pos) != CENSIG)
-                zerror("invalid CEN header (bad signature)");
+                zerror("invblid CEN hebder (bbd signbture)");
             int method = CENHOW(cen, pos);
             int nlen   = CENNAM(cen, pos);
             int elen   = CENEXT(cen, pos);
             int clen   = CENCOM(cen, pos);
             if ((CENFLG(cen, pos) & 1) != 0)
-                zerror("invalid CEN header (encrypted entry)");
+                zerror("invblid CEN hebder (encrypted entry)");
             if (method != METHOD_STORED && method != METHOD_DEFLATED)
-                zerror("invalid CEN header (unsupported compression method: " + method + ")");
+                zerror("invblid CEN hebder (unsupported compression method: " + method + ")");
             if (pos + CENHDR + nlen > limit)
-                zerror("invalid CEN header (bad header size)");
-            byte[] name = Arrays.copyOfRange(cen, pos + CENHDR, pos + CENHDR + nlen);
-            IndexNode inode = new IndexNode(name, pos);
+                zerror("invblid CEN hebder (bbd hebder size)");
+            byte[] nbme = Arrbys.copyOfRbnge(cen, pos + CENHDR, pos + CENHDR + nlen);
+            IndexNode inode = new IndexNode(nbme, pos);
             inodes.put(inode, inode);
-            // skip ext and comment
+            // skip ext bnd comment
             pos += (CENHDR + nlen + elen + clen);
         }
         if (pos + ENDHDR != cen.length) {
-            zerror("invalid CEN header (bad header size)");
+            zerror("invblid CEN hebder (bbd hebder size)");
         }
         buildNodeTree();
         return cen;
     }
 
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (!isOpen)
             throw new ClosedFileSystemException();
     }
 
-    // Creates a new empty temporary file in the same directory as the
-    // specified file.  A variant of Files.createTempFile.
-    private Path createTempFileInSameDirectoryAs(Path path)
+    // Crebtes b new empty temporbry file in the sbme directory bs the
+    // specified file.  A vbribnt of Files.crebteTempFile.
+    privbte Pbth crebteTempFileInSbmeDirectoryAs(Pbth pbth)
         throws IOException
     {
-        Path parent = path.toAbsolutePath().getParent();
-        Path dir = (parent == null) ? path.getFileSystem().getPath(".") : parent;
-        Path tmpPath = Files.createTempFile(dir, "zipfstmp", null);
-        tmppaths.add(tmpPath);
-        return tmpPath;
+        Pbth pbrent = pbth.toAbsolutePbth().getPbrent();
+        Pbth dir = (pbrent == null) ? pbth.getFileSystem().getPbth(".") : pbrent;
+        Pbth tmpPbth = Files.crebteTempFile(dir, "zipfstmp", null);
+        tmppbths.bdd(tmpPbth);
+        return tmpPbth;
     }
 
-    ////////////////////update & sync //////////////////////////////////////
+    ////////////////////updbte & sync //////////////////////////////////////
 
-    private boolean hasUpdate = false;
+    privbte boolebn hbsUpdbte = fblse;
 
-    // shared key. consumer guarantees the "writeLock" before use it.
-    private final IndexNode LOOKUPKEY = IndexNode.keyOf(null);
+    // shbred key. consumer gubrbntees the "writeLock" before use it.
+    privbte finbl IndexNode LOOKUPKEY = IndexNode.keyOf(null);
 
-    private void updateDelete(IndexNode inode) {
+    privbte void updbteDelete(IndexNode inode) {
         beginWrite();
         try {
             removeFromTree(inode);
             inodes.remove(inode);
-            hasUpdate = true;
-        } finally {
+            hbsUpdbte = true;
+        } finblly {
              endWrite();
         }
     }
 
-    private void update(Entry e) {
+    privbte void updbte(Entry e) {
         beginWrite();
         try {
             IndexNode old = inodes.put(e, e);
@@ -1120,44 +1120,44 @@ class ZipFileSystem extends FileSystem {
                 removeFromTree(old);
             }
             if (e.type == Entry.NEW || e.type == Entry.FILECH || e.type == Entry.COPY) {
-                IndexNode parent = inodes.get(LOOKUPKEY.as(getParent(e.name)));
-                e.sibling = parent.child;
-                parent.child = e;
+                IndexNode pbrent = inodes.get(LOOKUPKEY.bs(getPbrent(e.nbme)));
+                e.sibling = pbrent.child;
+                pbrent.child = e;
             }
-            hasUpdate = true;
-        } finally {
+            hbsUpdbte = true;
+        } finblly {
             endWrite();
         }
     }
 
-    // copy over the whole LOC entry (header if necessary, data and ext) from
+    // copy over the whole LOC entry (hebder if necessbry, dbtb bnd ext) from
     // old zip to the new one.
-    private long copyLOCEntry(Entry e, boolean updateHeader,
-                              OutputStream os,
+    privbte long copyLOCEntry(Entry e, boolebn updbteHebder,
+                              OutputStrebm os,
                               long written, byte[] buf)
         throws IOException
     {
-        long locoff = e.locoff;  // where to read
-        e.locoff = written;      // update the e.locoff with new value
+        long locoff = e.locoff;  // where to rebd
+        e.locoff = written;      // updbte the e.locoff with new vblue
 
-        // calculate the size need to write out
+        // cblculbte the size need to write out
         long size = 0;
         //  if there is A ext
-        if ((e.flag & FLAG_DATADESCR) != 0) {
+        if ((e.flbg & FLAG_DATADESCR) != 0) {
             if (e.size >= ZIP64_MINVAL || e.csize >= ZIP64_MINVAL)
                 size = 24;
             else
                 size = 16;
         }
-        // read loc, use the original loc.elen/nlen
-        if (readFullyAt(buf, 0, LOCHDR , locoff) != LOCHDR)
-            throw new ZipException("loc: reading failed");
-        if (updateHeader) {
-            locoff += LOCHDR + LOCNAM(buf) + LOCEXT(buf);  // skip header
+        // rebd loc, use the originbl loc.elen/nlen
+        if (rebdFullyAt(buf, 0, LOCHDR , locoff) != LOCHDR)
+            throw new ZipException("loc: rebding fbiled");
+        if (updbteHebder) {
+            locoff += LOCHDR + LOCNAM(buf) + LOCEXT(buf);  // skip hebder
             size += e.csize;
             written = e.writeLOC(os) + size;
         } else {
-            os.write(buf, 0, LOCHDR);    // write out the loc header
+            os.write(buf, 0, LOCHDR);    // write out the loc hebder
             locoff += LOCHDR;
             // use e.csize,  LOCSIZ(buf) is zero if FLAG_DATADESCR is on
             // size += LOCNAM(buf) + LOCEXT(buf) + LOCSIZ(buf);
@@ -1166,7 +1166,7 @@ class ZipFileSystem extends FileSystem {
         }
         int n;
         while (size > 0 &&
-            (n = (int)readFullyAt(buf, 0, buf.length, locoff)) != -1)
+            (n = (int)rebdFullyAt(buf, 0, buf.length, locoff)) != -1)
         {
             if (size < n)
                 n = (int)size;
@@ -1177,92 +1177,92 @@ class ZipFileSystem extends FileSystem {
         return written;
     }
 
-    // sync the zip file system, if there is any udpate
-    private void sync() throws IOException {
-        //System.out.printf("->sync(%s) starting....!%n", toString());
+    // sync the zip file system, if there is bny udpbte
+    privbte void sync() throws IOException {
+        //System.out.printf("->sync(%s) stbrting....!%n", toString());
         // check ex-closer
         if (!exChClosers.isEmpty()) {
-            for (ExChannelCloser ecc : exChClosers) {
-                if (ecc.streams.isEmpty()) {
+            for (ExChbnnelCloser ecc : exChClosers) {
+                if (ecc.strebms.isEmpty()) {
                     ecc.ch.close();
-                    Files.delete(ecc.path);
+                    Files.delete(ecc.pbth);
                     exChClosers.remove(ecc);
                 }
             }
         }
-        if (!hasUpdate)
+        if (!hbsUpdbte)
             return;
-        Path tmpFile = createTempFileInSameDirectoryAs(zfpath);
-        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(tmpFile, WRITE)))
+        Pbth tmpFile = crebteTempFileInSbmeDirectoryAs(zfpbth);
+        try (OutputStrebm os = new BufferedOutputStrebm(Files.newOutputStrebm(tmpFile, WRITE)))
         {
-            ArrayList<Entry> elist = new ArrayList<>(inodes.size());
+            ArrbyList<Entry> elist = new ArrbyList<>(inodes.size());
             long written = 0;
             byte[] buf = new byte[8192];
             Entry e = null;
 
             // write loc
-            for (IndexNode inode : inodes.values()) {
-                if (inode instanceof Entry) {    // an updated inode
+            for (IndexNode inode : inodes.vblues()) {
+                if (inode instbnceof Entry) {    // bn updbted inode
                     e = (Entry)inode;
                     try {
                         if (e.type == Entry.COPY) {
-                            // entry copy: the only thing changed is the "name"
-                            // and "nlen" in LOC header, so we udpate/rewrite the
-                            // LOC in new file and simply copy the rest (data and
-                            // ext) without enflating/deflating from the old zip
+                            // entry copy: the only thing chbnged is the "nbme"
+                            // bnd "nlen" in LOC hebder, so we udpbte/rewrite the
+                            // LOC in new file bnd simply copy the rest (dbtb bnd
+                            // ext) without enflbting/deflbting from the old zip
                             // file LOC entry.
                             written += copyLOCEntry(e, true, os, written, buf);
                         } else {                          // NEW, FILECH or CEN
                             e.locoff = written;
-                            written += e.writeLOC(os);    // write loc header
-                            if (e.bytes != null) {        // in-memory, deflated
-                                os.write(e.bytes);        // already
+                            written += e.writeLOC(os);    // write loc hebder
+                            if (e.bytes != null) {        // in-memory, deflbted
+                                os.write(e.bytes);        // blrebdy
                                 written += e.bytes.length;
                             } else if (e.file != null) {  // tmp file
-                                try (InputStream is = Files.newInputStream(e.file)) {
+                                try (InputStrebm is = Files.newInputStrebm(e.file)) {
                                     int n;
-                                    if (e.type == Entry.NEW) {  // deflated already
-                                        while ((n = is.read(buf)) != -1) {
+                                    if (e.type == Entry.NEW) {  // deflbted blrebdy
+                                        while ((n = is.rebd(buf)) != -1) {
                                             os.write(buf, 0, n);
                                             written += n;
                                         }
                                     } else if (e.type == Entry.FILECH) {
-                                        // the data are not deflated, use ZEOS
-                                        try (OutputStream os2 = new EntryOutputStream(e, os)) {
-                                            while ((n = is.read(buf)) != -1) {
+                                        // the dbtb bre not deflbted, use ZEOS
+                                        try (OutputStrebm os2 = new EntryOutputStrebm(e, os)) {
+                                            while ((n = is.rebd(buf)) != -1) {
                                                 os2.write(buf, 0, n);
                                             }
                                         }
                                         written += e.csize;
-                                        if ((e.flag & FLAG_DATADESCR) != 0)
+                                        if ((e.flbg & FLAG_DATADESCR) != 0)
                                             written += e.writeEXT(os);
                                     }
                                 }
                                 Files.delete(e.file);
-                                tmppaths.remove(e.file);
+                                tmppbths.remove(e.file);
                             } else {
-                                // dir, 0-length data
+                                // dir, 0-length dbtb
                             }
                         }
-                        elist.add(e);
-                    } catch (IOException x) {
-                        x.printStackTrace();    // skip any in-accurate entry
+                        elist.bdd(e);
+                    } cbtch (IOException x) {
+                        x.printStbckTrbce();    // skip bny in-bccurbte entry
                     }
-                } else {                        // unchanged inode
+                } else {                        // unchbnged inode
                     if (inode.pos == -1) {
                         continue;               // pseudo directory node
                     }
-                    e = Entry.readCEN(this, inode.pos);
+                    e = Entry.rebdCEN(this, inode.pos);
                     try {
-                        written += copyLOCEntry(e, false, os, written, buf);
-                        elist.add(e);
-                    } catch (IOException x) {
-                        x.printStackTrace();    // skip any wrong entry
+                        written += copyLOCEntry(e, fblse, os, written, buf);
+                        elist.bdd(e);
+                    } cbtch (IOException x) {
+                        x.printStbckTrbce();    // skip bny wrong entry
                     }
                 }
             }
 
-            // now write back the cen and end table
+            // now write bbck the cen bnd end tbble
             end.cenoff = written;
             for (Entry entry : elist) {
                 written += entry.writeCEN(os);
@@ -1271,161 +1271,161 @@ class ZipFileSystem extends FileSystem {
             end.cenlen = written - end.cenoff;
             end.write(os, written);
         }
-        if (!streams.isEmpty()) {
+        if (!strebms.isEmpty()) {
             //
-            // TBD: ExChannelCloser should not be necessary if we only
-            // sync when being closed, all streams should have been
-            // closed already. Keep the logic here for now.
+            // TBD: ExChbnnelCloser should not be necessbry if we only
+            // sync when being closed, bll strebms should hbve been
+            // closed blrebdy. Keep the logic here for now.
             //
-            // There are outstanding input streams open on existing "ch",
-            // so, don't close the "cha" and delete the "file for now, let
-            // the "ex-channel-closer" to handle them
-            ExChannelCloser ecc = new ExChannelCloser(
-                                      createTempFileInSameDirectoryAs(zfpath),
+            // There bre outstbnding input strebms open on existing "ch",
+            // so, don't close the "chb" bnd delete the "file for now, let
+            // the "ex-chbnnel-closer" to hbndle them
+            ExChbnnelCloser ecc = new ExChbnnelCloser(
+                                      crebteTempFileInSbmeDirectoryAs(zfpbth),
                                       ch,
-                                      streams);
-            Files.move(zfpath, ecc.path, REPLACE_EXISTING);
-            exChClosers.add(ecc);
-            streams = Collections.synchronizedSet(new HashSet<InputStream>());
+                                      strebms);
+            Files.move(zfpbth, ecc.pbth, REPLACE_EXISTING);
+            exChClosers.bdd(ecc);
+            strebms = Collections.synchronizedSet(new HbshSet<InputStrebm>());
         } else {
             ch.close();
-            Files.delete(zfpath);
+            Files.delete(zfpbth);
         }
 
-        Files.move(tmpFile, zfpath, REPLACE_EXISTING);
-        hasUpdate = false;    // clear
+        Files.move(tmpFile, zfpbth, REPLACE_EXISTING);
+        hbsUpdbte = fblse;    // clebr
         /*
         if (isOpen) {
-            ch = zfpath.newByteChannel(READ); // re-fresh "ch" and "cen"
+            ch = zfpbth.newByteChbnnel(READ); // re-fresh "ch" bnd "cen"
             cen = initCEN();
         }
          */
         //System.out.printf("->sync(%s) done!%n", toString());
     }
 
-    private IndexNode getInode(byte[] path) {
-        if (path == null)
-            throw new NullPointerException("path");
-        IndexNode key = IndexNode.keyOf(path);
+    privbte IndexNode getInode(byte[] pbth) {
+        if (pbth == null)
+            throw new NullPointerException("pbth");
+        IndexNode key = IndexNode.keyOf(pbth);
         IndexNode inode = inodes.get(key);
         if (inode == null &&
-            (path.length == 0 || path[path.length -1] != '/')) {
-            // if does not ends with a slash
-            path = Arrays.copyOf(path, path.length + 1);
-            path[path.length - 1] = '/';
-            inode = inodes.get(key.as(path));
+            (pbth.length == 0 || pbth[pbth.length -1] != '/')) {
+            // if does not ends with b slbsh
+            pbth = Arrbys.copyOf(pbth, pbth.length + 1);
+            pbth[pbth.length - 1] = '/';
+            inode = inodes.get(key.bs(pbth));
         }
         return inode;
     }
 
-    private Entry getEntry0(byte[] path) throws IOException {
-        IndexNode inode = getInode(path);
-        if (inode instanceof Entry)
+    privbte Entry getEntry0(byte[] pbth) throws IOException {
+        IndexNode inode = getInode(pbth);
+        if (inode instbnceof Entry)
             return (Entry)inode;
         if (inode == null || inode.pos == -1)
             return null;
-        return Entry.readCEN(this, inode.pos);
+        return Entry.rebdCEN(this, inode.pos);
     }
 
-    public void deleteFile(byte[] path, boolean failIfNotExists)
+    public void deleteFile(byte[] pbth, boolebn fbilIfNotExists)
         throws IOException
     {
-        checkWritable();
+        checkWritbble();
 
-        IndexNode inode = getInode(path);
+        IndexNode inode = getInode(pbth);
         if (inode == null) {
-            if (path != null && path.length == 0)
-                throw new ZipException("root directory </> can't not be delete");
-            if (failIfNotExists)
-                throw new NoSuchFileException(getString(path));
+            if (pbth != null && pbth.length == 0)
+                throw new ZipException("root directory </> cbn't not be delete");
+            if (fbilIfNotExists)
+                throw new NoSuchFileException(getString(pbth));
         } else {
             if (inode.isDir() && inode.child != null)
-                throw new DirectoryNotEmptyException(getString(path));
-            updateDelete(inode);
+                throw new DirectoryNotEmptyException(getString(pbth));
+            updbteDelete(inode);
         }
     }
 
-    private static void copyStream(InputStream is, OutputStream os)
+    privbte stbtic void copyStrebm(InputStrebm is, OutputStrebm os)
         throws IOException
     {
         byte[] copyBuf = new byte[8192];
         int n;
-        while ((n = is.read(copyBuf)) != -1) {
+        while ((n = is.rebd(copyBuf)) != -1) {
             os.write(copyBuf, 0, n);
         }
     }
 
-    // Returns an out stream for either
-    // (1) writing the contents of a new entry, if the entry exits, or
-    // (2) updating/replacing the contents of the specified existing entry.
-    private OutputStream getOutputStream(Entry e) throws IOException {
+    // Returns bn out strebm for either
+    // (1) writing the contents of b new entry, if the entry exits, or
+    // (2) updbting/replbcing the contents of the specified existing entry.
+    privbte OutputStrebm getOutputStrebm(Entry e) throws IOException {
 
         if (e.mtime == -1)
             e.mtime = System.currentTimeMillis();
         if (e.method == -1)
-            e.method = METHOD_DEFLATED;  // TBD:  use default method
-        // store size, compressed size, and crc-32 in LOC header
-        e.flag = 0;
+            e.method = METHOD_DEFLATED;  // TBD:  use defbult method
+        // store size, compressed size, bnd crc-32 in LOC hebder
+        e.flbg = 0;
         if (zc.isUTF8())
-            e.flag |= FLAG_EFS;
-        OutputStream os;
+            e.flbg |= FLAG_EFS;
+        OutputStrebm os;
         if (useTempFile) {
-            e.file = getTempPathForEntry(null);
-            os = Files.newOutputStream(e.file, WRITE);
+            e.file = getTempPbthForEntry(null);
+            os = Files.newOutputStrebm(e.file, WRITE);
         } else {
-            os = new ByteArrayOutputStream((e.size > 0)? (int)e.size : 8192);
+            os = new ByteArrbyOutputStrebm((e.size > 0)? (int)e.size : 8192);
         }
-        return new EntryOutputStream(e, os);
+        return new EntryOutputStrebm(e, os);
     }
 
-    private InputStream getInputStream(Entry e)
+    privbte InputStrebm getInputStrebm(Entry e)
         throws IOException
     {
-        InputStream eis = null;
+        InputStrebm eis = null;
 
         if (e.type == Entry.NEW) {
             if (e.bytes != null)
-                eis = new ByteArrayInputStream(e.bytes);
+                eis = new ByteArrbyInputStrebm(e.bytes);
             else if (e.file != null)
-                eis = Files.newInputStream(e.file);
+                eis = Files.newInputStrebm(e.file);
             else
-                throw new ZipException("update entry data is missing");
+                throw new ZipException("updbte entry dbtb is missing");
         } else if (e.type == Entry.FILECH) {
             // FILECH result is un-compressed.
-            eis = Files.newInputStream(e.file);
-            // TBD: wrap to hook close()
-            // streams.add(eis);
+            eis = Files.newInputStrebm(e.file);
+            // TBD: wrbp to hook close()
+            // strebms.bdd(eis);
             return eis;
         } else {  // untouced  CEN or COPY
-            eis = new EntryInputStream(e, ch);
+            eis = new EntryInputStrebm(e, ch);
         }
         if (e.method == METHOD_DEFLATED) {
-            // MORE: Compute good size for inflater stream:
-            long bufSize = e.size + 2; // Inflater likes a bit of slack
+            // MORE: Compute good size for inflbter strebm:
+            long bufSize = e.size + 2; // Inflbter likes b bit of slbck
             if (bufSize > 65536)
                 bufSize = 8192;
-            final long size = e.size;
-            eis = new InflaterInputStream(eis, getInflater(), (int)bufSize) {
+            finbl long size = e.size;
+            eis = new InflbterInputStrebm(eis, getInflbter(), (int)bufSize) {
 
-                private boolean isClosed = false;
+                privbte boolebn isClosed = fblse;
                 public void close() throws IOException {
                     if (!isClosed) {
-                        releaseInflater(inf);
+                        relebseInflbter(inf);
                         this.in.close();
                         isClosed = true;
-                        streams.remove(this);
+                        strebms.remove(this);
                     }
                 }
-                // Override fill() method to provide an extra "dummy" byte
-                // at the end of the input stream. This is required when
-                // using the "nowrap" Inflater option. (it appears the new
+                // Override fill() method to provide bn extrb "dummy" byte
+                // bt the end of the input strebm. This is required when
+                // using the "nowrbp" Inflbter option. (it bppebrs the new
                 // zlib in 7 does not need it, but keep it for now)
                 protected void fill() throws IOException {
                     if (eof) {
                         throw new EOFException(
-                            "Unexpected end of ZLIB input stream");
+                            "Unexpected end of ZLIB input strebm");
                     }
-                    len = this.in.read(buf, 0, buf.length);
+                    len = this.in.rebd(buf, 0, buf.length);
                     if (len == -1) {
                         buf[0] = 0;
                         len = 1;
@@ -1433,43 +1433,43 @@ class ZipFileSystem extends FileSystem {
                     }
                     inf.setInput(buf, 0, len);
                 }
-                private boolean eof;
+                privbte boolebn eof;
 
-                public int available() throws IOException {
+                public int bvbilbble() throws IOException {
                     if (isClosed)
                         return 0;
-                    long avail = size - inf.getBytesWritten();
-                    return avail > (long) Integer.MAX_VALUE ?
-                        Integer.MAX_VALUE : (int) avail;
+                    long bvbil = size - inf.getBytesWritten();
+                    return bvbil > (long) Integer.MAX_VALUE ?
+                        Integer.MAX_VALUE : (int) bvbil;
                 }
             };
         } else if (e.method == METHOD_STORED) {
-            // TBD: wrap/ it does not seem necessary
+            // TBD: wrbp/ it does not seem necessbry
         } else {
-            throw new ZipException("invalid compression method");
+            throw new ZipException("invblid compression method");
         }
-        streams.add(eis);
+        strebms.bdd(eis);
         return eis;
     }
 
-    // Inner class implementing the input stream used to read
-    // a (possibly compressed) zip file entry.
-    private class EntryInputStream extends InputStream {
-        private final SeekableByteChannel zfch; // local ref to zipfs's "ch". zipfs.ch might
-                                          // point to a new channel after sync()
-        private   long pos;               // current position within entry data
-        protected long rem;               // number of remaining bytes within entry
-        protected final long size;        // uncompressed size of this entry
+    // Inner clbss implementing the input strebm used to rebd
+    // b (possibly compressed) zip file entry.
+    privbte clbss EntryInputStrebm extends InputStrebm {
+        privbte finbl SeekbbleByteChbnnel zfch; // locbl ref to zipfs's "ch". zipfs.ch might
+                                          // point to b new chbnnel bfter sync()
+        privbte   long pos;               // current position within entry dbtb
+        protected long rem;               // number of rembining bytes within entry
+        protected finbl long size;        // uncompressed size of this entry
 
-        EntryInputStream(Entry e, SeekableByteChannel zfch)
+        EntryInputStrebm(Entry e, SeekbbleByteChbnnel zfch)
             throws IOException
         {
             this.zfch = zfch;
             rem = e.csize;
             size = e.size;
-            pos = getDataPos(e);
+            pos = getDbtbPos(e);
         }
-        public int read(byte b[], int off, int len) throws IOException {
+        public int rebd(byte b[], int off, int len) throws IOException {
             ensureOpen();
             if (rem == 0) {
                 return -1;
@@ -1480,13 +1480,13 @@ class ZipFileSystem extends FileSystem {
             if (len > rem) {
                 len = (int) rem;
             }
-            // readFullyAt()
+            // rebdFullyAt()
             long n = 0;
-            ByteBuffer bb = ByteBuffer.wrap(b);
+            ByteBuffer bb = ByteBuffer.wrbp(b);
             bb.position(off);
             bb.limit(off + len);
             synchronized(zfch) {
-                n = zfch.position(pos).read(bb);
+                n = zfch.position(pos).rebd(bb);
             }
             if (n > 0) {
                 pos += n;
@@ -1497,9 +1497,9 @@ class ZipFileSystem extends FileSystem {
             }
             return (int)n;
         }
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             byte[] b = new byte[1];
-            if (read(b, 0, 1) == 1) {
+            if (rebd(b, 0, 1) == 1) {
                 return b[0] & 0xff;
             } else {
                 return -1;
@@ -1516,7 +1516,7 @@ class ZipFileSystem extends FileSystem {
             }
             return n;
         }
-        public int available() {
+        public int bvbilbble() {
             return rem > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rem;
         }
         public long size() {
@@ -1524,20 +1524,20 @@ class ZipFileSystem extends FileSystem {
         }
         public void close() {
             rem = 0;
-            streams.remove(this);
+            strebms.remove(this);
         }
     }
 
-    class EntryOutputStream extends DeflaterOutputStream
+    clbss EntryOutputStrebm extends DeflbterOutputStrebm
     {
-        private CRC32 crc;
-        private Entry e;
-        private long written;
+        privbte CRC32 crc;
+        privbte Entry e;
+        privbte long written;
 
-        EntryOutputStream(Entry e, OutputStream os)
+        EntryOutputStrebm(Entry e, OutputStrebm os)
             throws IOException
         {
-            super(os, getDeflater());
+            super(os, getDeflbter());
             if (e == null)
                 throw new NullPointerException("Zip entry is null");
             this.e = e;
@@ -1554,117 +1554,117 @@ class ZipFileSystem extends FileSystem {
                 return;
             }
             switch (e.method) {
-            case METHOD_DEFLATED:
+            cbse METHOD_DEFLATED:
                 super.write(b, off, len);
-                break;
-            case METHOD_STORED:
+                brebk;
+            cbse METHOD_STORED:
                 written += len;
                 out.write(b, off, len);
-                break;
-            default:
-                throw new ZipException("invalid compression method");
+                brebk;
+            defbult:
+                throw new ZipException("invblid compression method");
             }
-            crc.update(b, off, len);
+            crc.updbte(b, off, len);
         }
 
         @Override
         public void close() throws IOException {
             // TBD ensureOpen();
             switch (e.method) {
-            case METHOD_DEFLATED:
+            cbse METHOD_DEFLATED:
                 finish();
-                e.size  = def.getBytesRead();
+                e.size  = def.getBytesRebd();
                 e.csize = def.getBytesWritten();
-                e.crc = crc.getValue();
-                break;
-            case METHOD_STORED:
-                // we already know that both e.size and e.csize are the same
+                e.crc = crc.getVblue();
+                brebk;
+            cbse METHOD_STORED:
+                // we blrebdy know thbt both e.size bnd e.csize bre the sbme
                 e.size = e.csize = written;
-                e.crc = crc.getValue();
-                break;
-            default:
-                throw new ZipException("invalid compression method");
+                e.crc = crc.getVblue();
+                brebk;
+            defbult:
+                throw new ZipException("invblid compression method");
             }
             //crc.reset();
-            if (out instanceof ByteArrayOutputStream)
-                e.bytes = ((ByteArrayOutputStream)out).toByteArray();
+            if (out instbnceof ByteArrbyOutputStrebm)
+                e.bytes = ((ByteArrbyOutputStrebm)out).toByteArrby();
 
             if (e.type == Entry.FILECH) {
-                releaseDeflater(def);
+                relebseDeflbter(def);
                 return;
             }
             super.close();
-            releaseDeflater(def);
-            update(e);
+            relebseDeflbter(def);
+            updbte(e);
         }
     }
 
-    static void zerror(String msg) {
+    stbtic void zerror(String msg) {
         throw new ZipError(msg);
     }
 
-    // Maxmum number of de/inflater we cache
-    private final int MAX_FLATER = 20;
-    // List of available Inflater objects for decompression
-    private final List<Inflater> inflaters = new ArrayList<>();
+    // Mbxmum number of de/inflbter we cbche
+    privbte finbl int MAX_FLATER = 20;
+    // List of bvbilbble Inflbter objects for decompression
+    privbte finbl List<Inflbter> inflbters = new ArrbyList<>();
 
-    // Gets an inflater from the list of available inflaters or allocates
-    // a new one.
-    private Inflater getInflater() {
-        synchronized (inflaters) {
-            int size = inflaters.size();
+    // Gets bn inflbter from the list of bvbilbble inflbters or bllocbtes
+    // b new one.
+    privbte Inflbter getInflbter() {
+        synchronized (inflbters) {
+            int size = inflbters.size();
             if (size > 0) {
-                Inflater inf = inflaters.remove(size - 1);
+                Inflbter inf = inflbters.remove(size - 1);
                 return inf;
             } else {
-                return new Inflater(true);
+                return new Inflbter(true);
             }
         }
     }
 
-    // Releases the specified inflater to the list of available inflaters.
-    private void releaseInflater(Inflater inf) {
-        synchronized (inflaters) {
-            if (inflaters.size() < MAX_FLATER) {
+    // Relebses the specified inflbter to the list of bvbilbble inflbters.
+    privbte void relebseInflbter(Inflbter inf) {
+        synchronized (inflbters) {
+            if (inflbters.size() < MAX_FLATER) {
                 inf.reset();
-                inflaters.add(inf);
+                inflbters.bdd(inf);
             } else {
                 inf.end();
             }
         }
     }
 
-    // List of available Deflater objects for compression
-    private final List<Deflater> deflaters = new ArrayList<>();
+    // List of bvbilbble Deflbter objects for compression
+    privbte finbl List<Deflbter> deflbters = new ArrbyList<>();
 
-    // Gets an deflater from the list of available deflaters or allocates
-    // a new one.
-    private Deflater getDeflater() {
-        synchronized (deflaters) {
-            int size = deflaters.size();
+    // Gets bn deflbter from the list of bvbilbble deflbters or bllocbtes
+    // b new one.
+    privbte Deflbter getDeflbter() {
+        synchronized (deflbters) {
+            int size = deflbters.size();
             if (size > 0) {
-                Deflater def = deflaters.remove(size - 1);
+                Deflbter def = deflbters.remove(size - 1);
                 return def;
             } else {
-                return new Deflater(Deflater.DEFAULT_COMPRESSION, true);
+                return new Deflbter(Deflbter.DEFAULT_COMPRESSION, true);
             }
         }
     }
 
-    // Releases the specified inflater to the list of available inflaters.
-    private void releaseDeflater(Deflater def) {
-        synchronized (deflaters) {
-            if (inflaters.size() < MAX_FLATER) {
+    // Relebses the specified inflbter to the list of bvbilbble inflbters.
+    privbte void relebseDeflbter(Deflbter def) {
+        synchronized (deflbters) {
+            if (inflbters.size() < MAX_FLATER) {
                def.reset();
-               deflaters.add(def);
+               deflbters.bdd(def);
             } else {
                def.end();
             }
         }
     }
 
-    // End of central directory record
-    static class END {
+    // End of centrbl directory record
+    stbtic clbss END {
         int  disknum;
         int  sdisknum;
         int  endsub;     // endsub
@@ -1674,55 +1674,55 @@ class ZipFileSystem extends FileSystem {
         int  comlen;     // comment length
         byte[] comment;
 
-        /* members of Zip64 end of central directory locator */
+        /* members of Zip64 end of centrbl directory locbtor */
         int diskNum;
         long endpos;
         int disktot;
 
-        void write(OutputStream os, long offset) throws IOException {
-            boolean hasZip64 = false;
+        void write(OutputStrebm os, long offset) throws IOException {
+            boolebn hbsZip64 = fblse;
             long xlen = cenlen;
             long xoff = cenoff;
             if (xlen >= ZIP64_MINVAL) {
                 xlen = ZIP64_MINVAL;
-                hasZip64 = true;
+                hbsZip64 = true;
             }
             if (xoff >= ZIP64_MINVAL) {
                 xoff = ZIP64_MINVAL;
-                hasZip64 = true;
+                hbsZip64 = true;
             }
             int count = centot;
             if (count >= ZIP64_MINVAL32) {
                 count = ZIP64_MINVAL32;
-                hasZip64 = true;
+                hbsZip64 = true;
             }
-            if (hasZip64) {
+            if (hbsZip64) {
                 long off64 = offset;
-                //zip64 end of central directory record
-                writeInt(os, ZIP64_ENDSIG);       // zip64 END record signature
+                //zip64 end of centrbl directory record
+                writeInt(os, ZIP64_ENDSIG);       // zip64 END record signbture
                 writeLong(os, ZIP64_ENDHDR - 12); // size of zip64 end
-                writeShort(os, 45);               // version made by
-                writeShort(os, 45);               // version needed to extract
+                writeShort(os, 45);               // version mbde by
+                writeShort(os, 45);               // version needed to extrbct
                 writeInt(os, 0);                  // number of this disk
-                writeInt(os, 0);                  // central directory start disk
+                writeInt(os, 0);                  // centrbl directory stbrt disk
                 writeLong(os, centot);            // number of directory entires on disk
                 writeLong(os, centot);            // number of directory entires
-                writeLong(os, cenlen);            // length of central directory
-                writeLong(os, cenoff);            // offset of central directory
+                writeLong(os, cenlen);            // length of centrbl directory
+                writeLong(os, cenoff);            // offset of centrbl directory
 
-                //zip64 end of central directory locator
-                writeInt(os, ZIP64_LOCSIG);       // zip64 END locator signature
-                writeInt(os, 0);                  // zip64 END start disk
+                //zip64 end of centrbl directory locbtor
+                writeInt(os, ZIP64_LOCSIG);       // zip64 END locbtor signbture
+                writeInt(os, 0);                  // zip64 END stbrt disk
                 writeLong(os, off64);             // offset of zip64 END
-                writeInt(os, 1);                  // total number of disks (?)
+                writeInt(os, 1);                  // totbl number of disks (?)
             }
-            writeInt(os, ENDSIG);                 // END record signature
+            writeInt(os, ENDSIG);                 // END record signbture
             writeShort(os, 0);                    // number of this disk
-            writeShort(os, 0);                    // central directory start disk
+            writeShort(os, 0);                    // centrbl directory stbrt disk
             writeShort(os, count);                // number of directory entries on disk
-            writeShort(os, count);                // total number of directory entries
-            writeInt(os, xlen);                   // length of central directory
-            writeInt(os, xoff);                   // offset of central directory
+            writeShort(os, count);                // totbl number of directory entries
+            writeInt(os, xlen);                   // length of centrbl directory
+            writeInt(os, xoff);                   // offset of centrbl directory
             if (comment != null) {            // zip file comment
                 writeShort(os, comment.length);
                 writeBytes(os, comment);
@@ -1732,47 +1732,47 @@ class ZipFileSystem extends FileSystem {
         }
     }
 
-    // Internal node that links a "name" to its pos in cen table.
-    // The node itself can be used as a "key" to lookup itself in
-    // the HashMap inodes.
-    static class IndexNode {
-        byte[] name;
-        int    hashcode;  // node is hashable/hashed by its name
-        int    pos = -1;  // position in cen table, -1 menas the
+    // Internbl node thbt links b "nbme" to its pos in cen tbble.
+    // The node itself cbn be used bs b "key" to lookup itself in
+    // the HbshMbp inodes.
+    stbtic clbss IndexNode {
+        byte[] nbme;
+        int    hbshcode;  // node is hbshbble/hbshed by its nbme
+        int    pos = -1;  // position in cen tbble, -1 menbs the
                           // entry does not exists in zip file
-        IndexNode(byte[] name, int pos) {
-            name(name);
+        IndexNode(byte[] nbme, int pos) {
+            nbme(nbme);
             this.pos = pos;
         }
 
-        final static IndexNode keyOf(byte[] name) { // get a lookup key;
-            return new IndexNode(name, -1);
+        finbl stbtic IndexNode keyOf(byte[] nbme) { // get b lookup key;
+            return new IndexNode(nbme, -1);
         }
 
-        final void name(byte[] name) {
-            this.name = name;
-            this.hashcode = Arrays.hashCode(name);
+        finbl void nbme(byte[] nbme) {
+            this.nbme = nbme;
+            this.hbshcode = Arrbys.hbshCode(nbme);
         }
 
-        final IndexNode as(byte[] name) {           // reuse the node, mostly
-            name(name);                             // as a lookup "key"
+        finbl IndexNode bs(byte[] nbme) {           // reuse the node, mostly
+            nbme(nbme);                             // bs b lookup "key"
             return this;
         }
 
-        boolean isDir() {
-            return name != null &&
-                   (name.length == 0 || name[name.length - 1] == '/');
+        boolebn isDir() {
+            return nbme != null &&
+                   (nbme.length == 0 || nbme[nbme.length - 1] == '/');
         }
 
-        public boolean equals(Object other) {
-            if (!(other instanceof IndexNode)) {
-                return false;
+        public boolebn equbls(Object other) {
+            if (!(other instbnceof IndexNode)) {
+                return fblse;
             }
-            return Arrays.equals(name, ((IndexNode)other).name);
+            return Arrbys.equbls(nbme, ((IndexNode)other).nbme);
         }
 
-        public int hashCode() {
-            return hashcode;
+        public int hbshCode() {
+            return hbshcode;
         }
 
         IndexNode() {}
@@ -1780,76 +1780,76 @@ class ZipFileSystem extends FileSystem {
         IndexNode child;  // 1st child
     }
 
-    static class Entry extends IndexNode {
+    stbtic clbss Entry extends IndexNode {
 
-        static final int CEN    = 1;    // entry read from cen
-        static final int NEW    = 2;    // updated contents in bytes or file
-        static final int FILECH = 3;    // fch update in "file"
-        static final int COPY   = 4;    // copy of a CEN entry
+        stbtic finbl int CEN    = 1;    // entry rebd from cen
+        stbtic finbl int NEW    = 2;    // updbted contents in bytes or file
+        stbtic finbl int FILECH = 3;    // fch updbte in "file"
+        stbtic finbl int COPY   = 4;    // copy of b CEN entry
 
 
-        byte[] bytes;      // updated content bytes
-        Path   file;       // use tmp file to store bytes;
-        int    type = CEN; // default is the entry read from cen
+        byte[] bytes;      // updbted content bytes
+        Pbth   file;       // use tmp file to store bytes;
+        int    type = CEN; // defbult is the entry rebd from cen
 
-        // entry attributes
+        // entry bttributes
         int    version;
-        int    flag;
+        int    flbg;
         int    method = -1;    // compression method
-        long   mtime  = -1;    // last modification time (in DOS time)
-        long   atime  = -1;    // last access time
-        long   ctime  = -1;    // create time
-        long   crc    = -1;    // crc-32 of entry data
-        long   csize  = -1;    // compressed size of entry data
-        long   size   = -1;    // uncompressed size of entry data
-        byte[] extra;
+        long   mtime  = -1;    // lbst modificbtion time (in DOS time)
+        long   btime  = -1;    // lbst bccess time
+        long   ctime  = -1;    // crebte time
+        long   crc    = -1;    // crc-32 of entry dbtb
+        long   csize  = -1;    // compressed size of entry dbtb
+        long   size   = -1;    // uncompressed size of entry dbtb
+        byte[] extrb;
 
         // cen
-        int    versionMade;
+        int    versionMbde;
         int    disk;
-        int    attrs;
-        long   attrsEx;
+        int    bttrs;
+        long   bttrsEx;
         long   locoff;
         byte[] comment;
 
         Entry() {}
 
-        Entry(byte[] name) {
-            name(name);
-            this.mtime  = this.ctime = this.atime = System.currentTimeMillis();
+        Entry(byte[] nbme) {
+            nbme(nbme);
+            this.mtime  = this.ctime = this.btime = System.currentTimeMillis();
             this.crc    = 0;
             this.size   = 0;
             this.csize  = 0;
             this.method = METHOD_DEFLATED;
         }
 
-        Entry(byte[] name, int type) {
-            this(name);
+        Entry(byte[] nbme, int type) {
+            this(nbme);
             this.type = type;
         }
 
         Entry (Entry e, int type) {
-            name(e.name);
+            nbme(e.nbme);
             this.version   = e.version;
             this.ctime     = e.ctime;
-            this.atime     = e.atime;
+            this.btime     = e.btime;
             this.mtime     = e.mtime;
             this.crc       = e.crc;
             this.size      = e.size;
             this.csize     = e.csize;
             this.method    = e.method;
-            this.extra     = e.extra;
-            this.versionMade = e.versionMade;
+            this.extrb     = e.extrb;
+            this.versionMbde = e.versionMbde;
             this.disk      = e.disk;
-            this.attrs     = e.attrs;
-            this.attrsEx   = e.attrsEx;
+            this.bttrs     = e.bttrs;
+            this.bttrsEx   = e.bttrsEx;
             this.locoff    = e.locoff;
             this.comment   = e.comment;
             this.type      = type;
         }
 
-        Entry (byte[] name, Path file, int type) {
-            this(name, type);
+        Entry (byte[] nbme, Pbth file, int type) {
+            this(nbme, type);
             this.file = file;
             this.method = METHOD_STORED;
         }
@@ -1863,23 +1863,23 @@ class ZipFileSystem extends FileSystem {
         }
 
         ///////////////////// CEN //////////////////////
-        static Entry readCEN(ZipFileSystem zipfs, int pos)
+        stbtic Entry rebdCEN(ZipFileSystem zipfs, int pos)
             throws IOException
         {
             return new Entry().cen(zipfs, pos);
         }
 
-        private Entry cen(ZipFileSystem zipfs, int pos)
+        privbte Entry cen(ZipFileSystem zipfs, int pos)
             throws IOException
         {
             byte[] cen = zipfs.cen;
             if (CENSIG(cen, pos) != CENSIG)
-                zerror("invalid CEN header (bad signature)");
-            versionMade = CENVEM(cen, pos);
+                zerror("invblid CEN hebder (bbd signbture)");
+            versionMbde = CENVEM(cen, pos);
             version     = CENVER(cen, pos);
-            flag        = CENFLG(cen, pos);
+            flbg        = CENFLG(cen, pos);
             method      = CENHOW(cen, pos);
-            mtime       = dosToJavaTime(CENTIM(cen, pos));
+            mtime       = dosToJbvbTime(CENTIM(cen, pos));
             crc         = CENCRC(cen, pos);
             csize       = CENSIZ(cen, pos);
             size        = CENLEN(cen, pos);
@@ -1887,40 +1887,40 @@ class ZipFileSystem extends FileSystem {
             int elen    = CENEXT(cen, pos);
             int clen    = CENCOM(cen, pos);
             disk        = CENDSK(cen, pos);
-            attrs       = CENATT(cen, pos);
-            attrsEx     = CENATX(cen, pos);
+            bttrs       = CENATT(cen, pos);
+            bttrsEx     = CENATX(cen, pos);
             locoff      = CENOFF(cen, pos);
 
             pos += CENHDR;
-            name(Arrays.copyOfRange(cen, pos, pos + nlen));
+            nbme(Arrbys.copyOfRbnge(cen, pos, pos + nlen));
 
             pos += nlen;
             if (elen > 0) {
-                extra = Arrays.copyOfRange(cen, pos, pos + elen);
+                extrb = Arrbys.copyOfRbnge(cen, pos, pos + elen);
                 pos += elen;
-                readExtra(zipfs);
+                rebdExtrb(zipfs);
             }
             if (clen > 0) {
-                comment = Arrays.copyOfRange(cen, pos, pos + clen);
+                comment = Arrbys.copyOfRbnge(cen, pos, pos + clen);
             }
             return this;
         }
 
-        int writeCEN(OutputStream os) throws IOException
+        int writeCEN(OutputStrebm os) throws IOException
         {
             int written  = CENHDR;
             int version0 = version();
             long csize0  = csize;
             long size0   = size;
             long locoff0 = locoff;
-            int elen64   = 0;                // extra for ZIP64
-            int elenNTFS = 0;                // extra for NTFS (a/c/mtime)
-            int elenEXTT = 0;                // extra for Extended Timestamp
-            boolean foundExtraTime = false;  // if time stamp NTFS, EXTT present
+            int elen64   = 0;                // extrb for ZIP64
+            int elenNTFS = 0;                // extrb for NTFS (b/c/mtime)
+            int elenEXTT = 0;                // extrb for Extended Timestbmp
+            boolebn foundExtrbTime = fblse;  // if time stbmp NTFS, EXTT present
 
             // confirm size/length
-            int nlen = (name != null) ? name.length : 0;
-            int elen = (extra != null) ? extra.length : 0;
+            int nlen = (nbme != null) ? nbme.length : 0;
+            int elen = (extrb != null) ? extrb.length : 0;
             int eoff = 0;
             int clen = (comment != null) ? comment.length : 0;
             if (csize >= ZIP64_MINVAL) {
@@ -1936,54 +1936,54 @@ class ZipFileSystem extends FileSystem {
                 elen64 += 8;                 // offset(8)
             }
             if (elen64 != 0) {
-                elen64 += 4;                 // header and data sz 4 bytes
+                elen64 += 4;                 // hebder bnd dbtb sz 4 bytes
             }
             while (eoff + 4 < elen) {
-                int tag = SH(extra, eoff);
-                int sz = SH(extra, eoff + 2);
-                if (tag == EXTID_EXTT || tag == EXTID_NTFS) {
-                    foundExtraTime = true;
+                int tbg = SH(extrb, eoff);
+                int sz = SH(extrb, eoff + 2);
+                if (tbg == EXTID_EXTT || tbg == EXTID_NTFS) {
+                    foundExtrbTime = true;
                 }
                 eoff += (4 + sz);
             }
-            if (!foundExtraTime) {
+            if (!foundExtrbTime) {
                 if (isWindows) {             // use NTFS
-                    elenNTFS = 36;           // total 36 bytes
-                } else {                     // Extended Timestamp otherwise
+                    elenNTFS = 36;           // totbl 36 bytes
+                } else {                     // Extended Timestbmp otherwise
                     elenEXTT = 9;            // only mtime in cen
                 }
             }
-            writeInt(os, CENSIG);            // CEN header signature
+            writeInt(os, CENSIG);            // CEN hebder signbture
             if (elen64 != 0) {
                 writeShort(os, 45);          // ver 4.5 for zip64
                 writeShort(os, 45);
             } else {
-                writeShort(os, version0);    // version made by
-                writeShort(os, version0);    // version needed to extract
+                writeShort(os, version0);    // version mbde by
+                writeShort(os, version0);    // version needed to extrbct
             }
-            writeShort(os, flag);            // general purpose bit flag
+            writeShort(os, flbg);            // generbl purpose bit flbg
             writeShort(os, method);          // compression method
-                                             // last modification time
-            writeInt(os, (int)javaToDosTime(mtime));
+                                             // lbst modificbtion time
+            writeInt(os, (int)jbvbToDosTime(mtime));
             writeInt(os, crc);               // crc-32
             writeInt(os, csize0);            // compressed size
             writeInt(os, size0);             // uncompressed size
-            writeShort(os, name.length);
+            writeShort(os, nbme.length);
             writeShort(os, elen + elen64 + elenNTFS + elenEXTT);
 
             if (comment != null) {
-                writeShort(os, Math.min(clen, 0xffff));
+                writeShort(os, Mbth.min(clen, 0xffff));
             } else {
                 writeShort(os, 0);
             }
-            writeShort(os, 0);              // starting disk number
-            writeShort(os, 0);              // internal file attributes (unused)
-            writeInt(os, 0);                // external file attributes (unused)
-            writeInt(os, locoff0);          // relative offset of local header
-            writeBytes(os, name);
+            writeShort(os, 0);              // stbrting disk number
+            writeShort(os, 0);              // internbl file bttributes (unused)
+            writeInt(os, 0);                // externbl file bttributes (unused)
+            writeInt(os, locoff0);          // relbtive offset of locbl hebder
+            writeBytes(os, nbme);
             if (elen64 != 0) {
-                writeShort(os, EXTID_ZIP64);// Zip64 extra
-                writeShort(os, elen64 - 4); // size of "this" extra block
+                writeShort(os, EXTID_ZIP64);// Zip64 extrb
+                writeShort(os, elen64 - 4); // size of "this" extrb block
                 if (size0 == ZIP64_MINVAL)
                     writeLong(os, size);
                 if (csize0 == ZIP64_MINVAL)
@@ -1995,36 +1995,36 @@ class ZipFileSystem extends FileSystem {
                 writeShort(os, EXTID_NTFS);
                 writeShort(os, elenNTFS - 4);
                 writeInt(os, 0);            // reserved
-                writeShort(os, 0x0001);     // NTFS attr tag
+                writeShort(os, 0x0001);     // NTFS bttr tbg
                 writeShort(os, 24);
-                writeLong(os, javaToWinTime(mtime));
-                writeLong(os, javaToWinTime(atime));
-                writeLong(os, javaToWinTime(ctime));
+                writeLong(os, jbvbToWinTime(mtime));
+                writeLong(os, jbvbToWinTime(btime));
+                writeLong(os, jbvbToWinTime(ctime));
             }
             if (elenEXTT != 0) {
                 writeShort(os, EXTID_EXTT);
                 writeShort(os, elenEXTT - 4);
                 if (ctime == -1)
-                    os.write(0x3);          // mtime and atime
+                    os.write(0x3);          // mtime bnd btime
                 else
-                    os.write(0x7);          // mtime, atime and ctime
-                writeInt(os, javaToUnixTime(mtime));
+                    os.write(0x7);          // mtime, btime bnd ctime
+                writeInt(os, jbvbToUnixTime(mtime));
             }
-            if (extra != null)              // whatever not recognized
-                writeBytes(os, extra);
-            if (comment != null)            //TBD: 0, Math.min(commentBytes.length, 0xffff));
+            if (extrb != null)              // whbtever not recognized
+                writeBytes(os, extrb);
+            if (comment != null)            //TBD: 0, Mbth.min(commentBytes.length, 0xffff));
                 writeBytes(os, comment);
             return CENHDR + nlen + elen + clen + elen64 + elenNTFS + elenEXTT;
         }
 
         ///////////////////// LOC //////////////////////
-        static Entry readLOC(ZipFileSystem zipfs, long pos)
+        stbtic Entry rebdLOC(ZipFileSystem zipfs, long pos)
             throws IOException
         {
-            return readLOC(zipfs, pos, new byte[1024]);
+            return rebdLOC(zipfs, pos, new byte[1024]);
         }
 
-        static Entry readLOC(ZipFileSystem zipfs, long pos, byte[] buf)
+        stbtic Entry rebdLOC(ZipFileSystem zipfs, long pos, byte[] buf)
             throws IOException
         {
             return new Entry().loc(zipfs, pos, buf);
@@ -2033,40 +2033,40 @@ class ZipFileSystem extends FileSystem {
         Entry loc(ZipFileSystem zipfs, long pos, byte[] buf)
             throws IOException
         {
-            assert (buf.length >= LOCHDR);
-            if (zipfs.readFullyAt(buf, 0, LOCHDR , pos) != LOCHDR)
-                throw new ZipException("loc: reading failed");
+            bssert (buf.length >= LOCHDR);
+            if (zipfs.rebdFullyAt(buf, 0, LOCHDR , pos) != LOCHDR)
+                throw new ZipException("loc: rebding fbiled");
             if (LOCSIG(buf) != LOCSIG)
                 throw new ZipException("loc: wrong sig ->"
                                        + Long.toString(LOCSIG(buf), 16));
-            //startPos = pos;
+            //stbrtPos = pos;
             version  = LOCVER(buf);
-            flag     = LOCFLG(buf);
+            flbg     = LOCFLG(buf);
             method   = LOCHOW(buf);
-            mtime    = dosToJavaTime(LOCTIM(buf));
+            mtime    = dosToJbvbTime(LOCTIM(buf));
             crc      = LOCCRC(buf);
             csize    = LOCSIZ(buf);
             size     = LOCLEN(buf);
             int nlen = LOCNAM(buf);
             int elen = LOCEXT(buf);
 
-            name = new byte[nlen];
-            if (zipfs.readFullyAt(name, 0, nlen, pos + LOCHDR) != nlen) {
-                throw new ZipException("loc: name reading failed");
+            nbme = new byte[nlen];
+            if (zipfs.rebdFullyAt(nbme, 0, nlen, pos + LOCHDR) != nlen) {
+                throw new ZipException("loc: nbme rebding fbiled");
             }
             if (elen > 0) {
-                extra = new byte[elen];
-                if (zipfs.readFullyAt(extra, 0, elen, pos + LOCHDR + nlen)
+                extrb = new byte[elen];
+                if (zipfs.rebdFullyAt(extrb, 0, elen, pos + LOCHDR + nlen)
                     != elen) {
-                    throw new ZipException("loc: ext reading failed");
+                    throw new ZipException("loc: ext rebding fbiled");
                 }
             }
             pos += (LOCHDR + nlen + elen);
-            if ((flag & FLAG_DATADESCR) != 0) {
-                // Data Descriptor
-                Entry e = zipfs.getEntry0(name);  // get the size/csize from cen
+            if ((flbg & FLAG_DATADESCR) != 0) {
+                // Dbtb Descriptor
+                Entry e = zipfs.getEntry0(nbme);  // get the size/csize from cen
                 if (e == null)
-                    throw new ZipException("loc: name not found in cen");
+                    throw new ZipException("loc: nbme not found in cen");
                 size = e.size;
                 csize = e.csize;
                 pos += (method == METHOD_STORED ? size : csize);
@@ -2075,16 +2075,16 @@ class ZipFileSystem extends FileSystem {
                 else
                     pos += 16;
             } else {
-                if (extra != null &&
+                if (extrb != null &&
                     (size == ZIP64_MINVAL || csize == ZIP64_MINVAL)) {
-                    // zip64 ext: must include both size and csize
+                    // zip64 ext: must include both size bnd csize
                     int off = 0;
-                    while (off + 20 < elen) {    // HeaderID+DataSize+Data
-                        int sz = SH(extra, off + 2);
-                        if (SH(extra, off) == EXTID_ZIP64 && sz == 16) {
-                            size = LL(extra, off + 4);
-                            csize = LL(extra, off + 12);
-                            break;
+                    while (off + 20 < elen) {    // HebderID+DbtbSize+Dbtb
+                        int sz = SH(extrb, off + 2);
+                        if (SH(extrb, off) == EXTID_ZIP64 && sz == 16) {
+                            size = LL(extrb, off + 4);
+                            csize = LL(extrb, off + 12);
+                            brebk;
                         }
                         off += (sz + 4);
                     }
@@ -2094,40 +2094,40 @@ class ZipFileSystem extends FileSystem {
             return this;
         }
 
-        int writeLOC(OutputStream os)
+        int writeLOC(OutputStrebm os)
             throws IOException
         {
-            writeInt(os, LOCSIG);               // LOC header signature
+            writeInt(os, LOCSIG);               // LOC hebder signbture
             int version = version();
-            int nlen = (name != null) ? name.length : 0;
-            int elen = (extra != null) ? extra.length : 0;
-            boolean foundExtraTime = false;     // if extra timestamp present
+            int nlen = (nbme != null) ? nbme.length : 0;
+            int elen = (extrb != null) ? extrb.length : 0;
+            boolebn foundExtrbTime = fblse;     // if extrb timestbmp present
             int eoff = 0;
             int elen64 = 0;
             int elenEXTT = 0;
             int elenNTFS = 0;
-            if ((flag & FLAG_DATADESCR) != 0) {
-                writeShort(os, version());      // version needed to extract
-                writeShort(os, flag);           // general purpose bit flag
+            if ((flbg & FLAG_DATADESCR) != 0) {
+                writeShort(os, version());      // version needed to extrbct
+                writeShort(os, flbg);           // generbl purpose bit flbg
                 writeShort(os, method);         // compression method
-                // last modification time
-                writeInt(os, (int)javaToDosTime(mtime));
-                // store size, uncompressed size, and crc-32 in data descriptor
-                // immediately following compressed entry data
+                // lbst modificbtion time
+                writeInt(os, (int)jbvbToDosTime(mtime));
+                // store size, uncompressed size, bnd crc-32 in dbtb descriptor
+                // immedibtely following compressed entry dbtb
                 writeInt(os, 0);
                 writeInt(os, 0);
                 writeInt(os, 0);
             } else {
                 if (csize >= ZIP64_MINVAL || size >= ZIP64_MINVAL) {
-                    elen64 = 20;    //headid(2) + size(2) + size(8) + csize(8)
+                    elen64 = 20;    //hebdid(2) + size(2) + size(8) + csize(8)
                     writeShort(os, 45);         // ver 4.5 for zip64
                 } else {
-                    writeShort(os, version());  // version needed to extract
+                    writeShort(os, version());  // version needed to extrbct
                 }
-                writeShort(os, flag);           // general purpose bit flag
+                writeShort(os, flbg);           // generbl purpose bit flbg
                 writeShort(os, method);         // compression method
-                                                // last modification time
-                writeInt(os, (int)javaToDosTime(mtime));
+                                                // lbst modificbtion time
+                writeInt(os, (int)jbvbToDosTime(mtime));
                 writeInt(os, crc);              // crc-32
                 if (elen64 != 0) {
                     writeInt(os, ZIP64_MINVAL);
@@ -2138,27 +2138,27 @@ class ZipFileSystem extends FileSystem {
                 }
             }
             while (eoff + 4 < elen) {
-                int tag = SH(extra, eoff);
-                int sz = SH(extra, eoff + 2);
-                if (tag == EXTID_EXTT || tag == EXTID_NTFS) {
-                    foundExtraTime = true;
+                int tbg = SH(extrb, eoff);
+                int sz = SH(extrb, eoff + 2);
+                if (tbg == EXTID_EXTT || tbg == EXTID_NTFS) {
+                    foundExtrbTime = true;
                 }
                 eoff += (4 + sz);
             }
-            if (!foundExtraTime) {
+            if (!foundExtrbTime) {
                 if (isWindows) {
-                    elenNTFS = 36;              // NTFS, total 36 bytes
+                    elenNTFS = 36;              // NTFS, totbl 36 bytes
                 } else {                        // on unix use "ext time"
                     elenEXTT = 9;
-                    if (atime != -1)
+                    if (btime != -1)
                         elenEXTT += 4;
                     if (ctime != -1)
                         elenEXTT += 4;
                 }
             }
-            writeShort(os, name.length);
+            writeShort(os, nbme.length);
             writeShort(os, elen + elen64 + elenNTFS + elenEXTT);
-            writeBytes(os, name);
+            writeBytes(os, nbme);
             if (elen64 != 0) {
                 writeShort(os, EXTID_ZIP64);
                 writeShort(os, 16);
@@ -2169,38 +2169,38 @@ class ZipFileSystem extends FileSystem {
                 writeShort(os, EXTID_NTFS);
                 writeShort(os, elenNTFS - 4);
                 writeInt(os, 0);            // reserved
-                writeShort(os, 0x0001);     // NTFS attr tag
+                writeShort(os, 0x0001);     // NTFS bttr tbg
                 writeShort(os, 24);
-                writeLong(os, javaToWinTime(mtime));
-                writeLong(os, javaToWinTime(atime));
-                writeLong(os, javaToWinTime(ctime));
+                writeLong(os, jbvbToWinTime(mtime));
+                writeLong(os, jbvbToWinTime(btime));
+                writeLong(os, jbvbToWinTime(ctime));
             }
             if (elenEXTT != 0) {
                 writeShort(os, EXTID_EXTT);
-                writeShort(os, elenEXTT - 4);// size for the folowing data block
+                writeShort(os, elenEXTT - 4);// size for the folowing dbtb block
                 int fbyte = 0x1;
-                if (atime != -1)           // mtime and atime
+                if (btime != -1)           // mtime bnd btime
                     fbyte |= 0x2;
-                if (ctime != -1)           // mtime, atime and ctime
+                if (ctime != -1)           // mtime, btime bnd ctime
                     fbyte |= 0x4;
-                os.write(fbyte);           // flags byte
-                writeInt(os, javaToUnixTime(mtime));
-                if (atime != -1)
-                    writeInt(os, javaToUnixTime(atime));
+                os.write(fbyte);           // flbgs byte
+                writeInt(os, jbvbToUnixTime(mtime));
+                if (btime != -1)
+                    writeInt(os, jbvbToUnixTime(btime));
                 if (ctime != -1)
-                    writeInt(os, javaToUnixTime(ctime));
+                    writeInt(os, jbvbToUnixTime(ctime));
             }
-            if (extra != null) {
-                writeBytes(os, extra);
+            if (extrb != null) {
+                writeBytes(os, extrb);
             }
-            return LOCHDR + name.length + elen + elen64 + elenNTFS + elenEXTT;
+            return LOCHDR + nbme.length + elen + elen64 + elenNTFS + elenEXTT;
         }
 
-        // Data Descriptior
-        int writeEXT(OutputStream os)
+        // Dbtb Descriptior
+        int writeEXT(OutputStrebm os)
             throws IOException
         {
-            writeInt(os, EXTSIG);           // EXT header signature
+            writeInt(os, EXTSIG);           // EXT hebder signbture
             writeInt(os, crc);              // crc-32
             if (csize >= ZIP64_MINVAL || size >= ZIP64_MINVAL) {
                 writeLong(os, csize);
@@ -2213,183 +2213,183 @@ class ZipFileSystem extends FileSystem {
             }
         }
 
-        // read NTFS, UNIX and ZIP64 data from cen.extra
-        void readExtra(ZipFileSystem zipfs) throws IOException {
-            if (extra == null)
+        // rebd NTFS, UNIX bnd ZIP64 dbtb from cen.extrb
+        void rebdExtrb(ZipFileSystem zipfs) throws IOException {
+            if (extrb == null)
                 return;
-            int elen = extra.length;
+            int elen = extrb.length;
             int off = 0;
             int newOff = 0;
             while (off + 4 < elen) {
-                // extra spec: HeaderID+DataSize+Data
+                // extrb spec: HebderID+DbtbSize+Dbtb
                 int pos = off;
-                int tag = SH(extra, pos);
-                int sz = SH(extra, pos + 2);
+                int tbg = SH(extrb, pos);
+                int sz = SH(extrb, pos + 2);
                 pos += 4;
-                if (pos + sz > elen)         // invalid data
-                    break;
-                switch (tag) {
-                case EXTID_ZIP64 :
+                if (pos + sz > elen)         // invblid dbtb
+                    brebk;
+                switch (tbg) {
+                cbse EXTID_ZIP64 :
                     if (size == ZIP64_MINVAL) {
-                        if (pos + 8 > elen)  // invalid zip64 extra
-                            break;           // fields, just skip
-                        size = LL(extra, pos);
+                        if (pos + 8 > elen)  // invblid zip64 extrb
+                            brebk;           // fields, just skip
+                        size = LL(extrb, pos);
                         pos += 8;
                     }
                     if (csize == ZIP64_MINVAL) {
                         if (pos + 8 > elen)
-                            break;
-                        csize = LL(extra, pos);
+                            brebk;
+                        csize = LL(extrb, pos);
                         pos += 8;
                     }
                     if (locoff == ZIP64_MINVAL) {
                         if (pos + 8 > elen)
-                            break;
-                        locoff = LL(extra, pos);
+                            brebk;
+                        locoff = LL(extrb, pos);
                         pos += 8;
                     }
-                    break;
-                case EXTID_NTFS:
+                    brebk;
+                cbse EXTID_NTFS:
                     pos += 4;    // reserved 4 bytes
-                    if (SH(extra, pos) !=  0x0001)
-                        break;
-                    if (SH(extra, pos + 2) != 24)
-                        break;
-                    // override the loc field, datatime here is
-                    // more "accurate"
-                    mtime  = winToJavaTime(LL(extra, pos + 4));
-                    atime  = winToJavaTime(LL(extra, pos + 12));
-                    ctime  = winToJavaTime(LL(extra, pos + 20));
-                    break;
-                case EXTID_EXTT:
-                    // spec says the Extened timestamp in cen only has mtime
-                    // need to read the loc to get the extra a/ctime
+                    if (SH(extrb, pos) !=  0x0001)
+                        brebk;
+                    if (SH(extrb, pos + 2) != 24)
+                        brebk;
+                    // override the loc field, dbtbtime here is
+                    // more "bccurbte"
+                    mtime  = winToJbvbTime(LL(extrb, pos + 4));
+                    btime  = winToJbvbTime(LL(extrb, pos + 12));
+                    ctime  = winToJbvbTime(LL(extrb, pos + 20));
+                    brebk;
+                cbse EXTID_EXTT:
+                    // spec sbys the Extened timestbmp in cen only hbs mtime
+                    // need to rebd the loc to get the extrb b/ctime
                     byte[] buf = new byte[LOCHDR];
-                    if (zipfs.readFullyAt(buf, 0, buf.length , locoff)
+                    if (zipfs.rebdFullyAt(buf, 0, buf.length , locoff)
                         != buf.length)
-                        throw new ZipException("loc: reading failed");
+                        throw new ZipException("loc: rebding fbiled");
                     if (LOCSIG(buf) != LOCSIG)
                         throw new ZipException("loc: wrong sig ->"
                                            + Long.toString(LOCSIG(buf), 16));
 
                     int locElen = LOCEXT(buf);
-                    if (locElen < 9)    // EXTT is at lease 9 bytes
-                        break;
+                    if (locElen < 9)    // EXTT is bt lebse 9 bytes
+                        brebk;
                     int locNlen = LOCNAM(buf);
                     buf = new byte[locElen];
-                    if (zipfs.readFullyAt(buf, 0, buf.length , locoff + LOCHDR + locNlen)
+                    if (zipfs.rebdFullyAt(buf, 0, buf.length , locoff + LOCHDR + locNlen)
                         != buf.length)
-                        throw new ZipException("loc extra: reading failed");
+                        throw new ZipException("loc extrb: rebding fbiled");
                     int locPos = 0;
                     while (locPos + 4 < buf.length) {
-                        int locTag = SH(buf, locPos);
+                        int locTbg = SH(buf, locPos);
                         int locSZ  = SH(buf, locPos + 2);
                         locPos += 4;
-                        if (locTag  != EXTID_EXTT) {
+                        if (locTbg  != EXTID_EXTT) {
                             locPos += locSZ;
                              continue;
                         }
-                        int flag = CH(buf, locPos++);
-                        if ((flag & 0x1) != 0) {
-                            mtime = unixToJavaTime(LG(buf, locPos));
+                        int flbg = CH(buf, locPos++);
+                        if ((flbg & 0x1) != 0) {
+                            mtime = unixToJbvbTime(LG(buf, locPos));
                             locPos += 4;
                         }
-                        if ((flag & 0x2) != 0) {
-                            atime = unixToJavaTime(LG(buf, locPos));
+                        if ((flbg & 0x2) != 0) {
+                            btime = unixToJbvbTime(LG(buf, locPos));
                             locPos += 4;
                         }
-                        if ((flag & 0x4) != 0) {
-                            ctime = unixToJavaTime(LG(buf, locPos));
+                        if ((flbg & 0x4) != 0) {
+                            ctime = unixToJbvbTime(LG(buf, locPos));
                             locPos += 4;
                         }
-                        break;
+                        brebk;
                     }
-                    break;
-                default:    // unknown tag
-                    System.arraycopy(extra, off, extra, newOff, sz + 4);
+                    brebk;
+                defbult:    // unknown tbg
+                    System.brrbycopy(extrb, off, extrb, newOff, sz + 4);
                     newOff += (sz + 4);
                 }
                 off += (sz + 4);
             }
-            if (newOff != 0 && newOff != extra.length)
-                extra = Arrays.copyOf(extra, newOff);
+            if (newOff != 0 && newOff != extrb.length)
+                extrb = Arrbys.copyOf(extrb, newOff);
             else
-                extra = null;
+                extrb = null;
         }
     }
 
-    private static class ExChannelCloser  {
-        Path path;
-        SeekableByteChannel ch;
-        Set<InputStream> streams;
-        ExChannelCloser(Path path,
-                        SeekableByteChannel ch,
-                        Set<InputStream> streams)
+    privbte stbtic clbss ExChbnnelCloser  {
+        Pbth pbth;
+        SeekbbleByteChbnnel ch;
+        Set<InputStrebm> strebms;
+        ExChbnnelCloser(Pbth pbth,
+                        SeekbbleByteChbnnel ch,
+                        Set<InputStrebm> strebms)
         {
-            this.path = path;
+            this.pbth = pbth;
             this.ch = ch;
-            this.streams = streams;
+            this.strebms = strebms;
         }
     }
 
-    // ZIP directory has two issues:
+    // ZIP directory hbs two issues:
     // (1) ZIP spec does not require the ZIP file to include
     //     directory entry
-    // (2) all entries are not stored/organized in a "tree"
+    // (2) bll entries bre not stored/orgbnized in b "tree"
     //     structure.
-    // A possible solution is to build the node tree ourself as
+    // A possible solution is to build the node tree ourself bs
     // implemented below.
-    private IndexNode root;
+    privbte IndexNode root;
 
-    private void addToTree(IndexNode inode, HashSet<IndexNode> dirs) {
-        if (dirs.contains(inode)) {
+    privbte void bddToTree(IndexNode inode, HbshSet<IndexNode> dirs) {
+        if (dirs.contbins(inode)) {
             return;
         }
-        IndexNode parent;
-        byte[] name = inode.name;
-        byte[] pname = getParent(name);
-        if (inodes.containsKey(LOOKUPKEY.as(pname))) {
-            parent = inodes.get(LOOKUPKEY);
+        IndexNode pbrent;
+        byte[] nbme = inode.nbme;
+        byte[] pnbme = getPbrent(nbme);
+        if (inodes.contbinsKey(LOOKUPKEY.bs(pnbme))) {
+            pbrent = inodes.get(LOOKUPKEY);
         } else {    // pseudo directory entry
-            parent = new IndexNode(pname, -1);
-            inodes.put(parent, parent);
+            pbrent = new IndexNode(pnbme, -1);
+            inodes.put(pbrent, pbrent);
         }
-        addToTree(parent, dirs);
-        inode.sibling = parent.child;
-        parent.child = inode;
-        if (name[name.length -1] == '/')
-            dirs.add(inode);
+        bddToTree(pbrent, dirs);
+        inode.sibling = pbrent.child;
+        pbrent.child = inode;
+        if (nbme[nbme.length -1] == '/')
+            dirs.bdd(inode);
     }
 
-    private void removeFromTree(IndexNode inode) {
-        IndexNode parent = inodes.get(LOOKUPKEY.as(getParent(inode.name)));
-        IndexNode child = parent.child;
-        if (child.equals(inode)) {
-            parent.child = child.sibling;
+    privbte void removeFromTree(IndexNode inode) {
+        IndexNode pbrent = inodes.get(LOOKUPKEY.bs(getPbrent(inode.nbme)));
+        IndexNode child = pbrent.child;
+        if (child.equbls(inode)) {
+            pbrent.child = child.sibling;
         } else {
-            IndexNode last = child;
+            IndexNode lbst = child;
             while ((child = child.sibling) != null) {
-                if (child.equals(inode)) {
-                    last.sibling = child.sibling;
-                    break;
+                if (child.equbls(inode)) {
+                    lbst.sibling = child.sibling;
+                    brebk;
                 } else {
-                    last = child;
+                    lbst = child;
                 }
             }
         }
     }
 
-    private void buildNodeTree() throws IOException {
+    privbte void buildNodeTree() throws IOException {
         beginWrite();
         try {
-            HashSet<IndexNode> dirs = new HashSet<>();
+            HbshSet<IndexNode> dirs = new HbshSet<>();
             IndexNode root = new IndexNode(ROOTPATH, -1);
             inodes.put(root, root);
-            dirs.add(root);
-            for (IndexNode node : inodes.keySet().toArray(new IndexNode[0])) {
-                addToTree(node, dirs);
+            dirs.bdd(root);
+            for (IndexNode node : inodes.keySet().toArrby(new IndexNode[0])) {
+                bddToTree(node, dirs);
             }
-        } finally {
+        } finblly {
             endWrite();
         }
     }

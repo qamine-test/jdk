@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JScrollBbr;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicScrollBbrUI;
 
-import static sun.swing.SwingUtilities2.drawHLine;
-import static sun.swing.SwingUtilities2.drawVLine;
+import stbtic sun.swing.SwingUtilities2.drbwHLine;
+import stbtic sun.swing.SwingUtilities2.drbwVLine;
 
 
 /**
- * Implementation of ScrollBarUI for the Motif Look and Feel
+ * Implementbtion of ScrollBbrUI for the Motif Look bnd Feel
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Rich Schiavi
- * @author Hans Muller
+ * @buthor Rich Schibvi
+ * @buthor Hbns Muller
  */
-public class MotifScrollBarUI extends BasicScrollBarUI
+public clbss MotifScrollBbrUI extends BbsicScrollBbrUI
 {
 
-    public static ComponentUI createUI(JComponent c) {
-        return new MotifScrollBarUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new MotifScrollBbrUI();
     }
 
     public Dimension getPreferredSize(JComponent c) {
         Insets insets = c.getInsets();
         int dx = insets.left + insets.right;
         int dy = insets.top + insets.bottom;
-        return (scrollbar.getOrientation() == JScrollBar.VERTICAL)
+        return (scrollbbr.getOrientbtion() == JScrollBbr.VERTICAL)
             ? new Dimension(dx + 11, dy + 33)
             : new Dimension(dx + 33, dy + 11);
     }
 
-    protected JButton createDecreaseButton(int orientation) {
-        return new MotifScrollBarButton(orientation);
+    protected JButton crebteDecrebseButton(int orientbtion) {
+        return new MotifScrollBbrButton(orientbtion);
     }
 
-    protected JButton createIncreaseButton(int orientation) {
-        return new MotifScrollBarButton(orientation);
+    protected JButton crebteIncrebseButton(int orientbtion) {
+        return new MotifScrollBbrButton(orientbtion);
     }
 
-    public void paintTrack(Graphics g, JComponent c, Rectangle trackBounds)  {
-        g.setColor(trackColor);
-        g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+    public void pbintTrbck(Grbphics g, JComponent c, Rectbngle trbckBounds)  {
+        g.setColor(trbckColor);
+        g.fillRect(trbckBounds.x, trbckBounds.y, trbckBounds.width, trbckBounds.height);
     }
 
-    public void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        if (thumbBounds.isEmpty() || !scrollbar.isEnabled()) {
+    public void pbintThumb(Grbphics g, JComponent c, Rectbngle thumbBounds) {
+        if (thumbBounds.isEmpty() || !scrollbbr.isEnbbled()) {
             return;
         }
 
         int w = thumbBounds.width;
         int h = thumbBounds.height;
 
-        g.translate(thumbBounds.x, thumbBounds.y);
+        g.trbnslbte(thumbBounds.x, thumbBounds.y);
         g.setColor(thumbColor);
         g.fillRect(0, 0, w - 1, h - 1);
 
         g.setColor(thumbHighlightColor);
-        drawVLine(g, 0, 0, h - 1);
-        drawHLine(g, 1, w - 1, 0);
+        drbwVLine(g, 0, 0, h - 1);
+        drbwHLine(g, 1, w - 1, 0);
 
-        g.setColor(thumbLightShadowColor);
-        drawHLine(g, 1, w - 1, h - 1);
-        drawVLine(g, w - 1, 1, h - 2);
+        g.setColor(thumbLightShbdowColor);
+        drbwHLine(g, 1, w - 1, h - 1);
+        drbwVLine(g, w - 1, 1, h - 2);
 
-        g.translate(-thumbBounds.x, -thumbBounds.y);
+        g.trbnslbte(-thumbBounds.x, -thumbBounds.y);
     }
 }

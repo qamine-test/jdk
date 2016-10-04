@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown to indicate that an assertion has failed.
+ * Thrown to indicbte thbt bn bssertion hbs fbiled.
  *
- * <p>The seven one-argument public constructors provided by this
- * class ensure that the assertion error returned by the invocation:
+ * <p>The seven one-brgument public constructors provided by this
+ * clbss ensure thbt the bssertion error returned by the invocbtion:
  * <pre>
  *     new AssertionError(<i>expression</i>)
  * </pre>
- * has as its detail message the <i>string conversion</i> of
- * <i>expression</i> (as defined in section 15.18.1.1 of
- * <cite>The Java&trade; Language Specification</cite>),
- * regardless of the type of <i>expression</i>.
+ * hbs bs its detbil messbge the <i>string conversion</i> of
+ * <i>expression</i> (bs defined in section 15.18.1.1 of
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>),
+ * regbrdless of the type of <i>expression</i>.
  *
  * @since   1.4
  */
-public class AssertionError extends Error {
-    private static final long serialVersionUID = -5013299493970297370L;
+public clbss AssertionError extends Error {
+    privbte stbtic finbl long seriblVersionUID = -5013299493970297370L;
 
     /**
-     * Constructs an AssertionError with no detail message.
+     * Constructs bn AssertionError with no detbil messbge.
      */
     public AssertionError() {
     }
 
     /**
-     * This internal constructor does no processing on its string argument,
-     * even if it is a null reference.  The public constructors will
-     * never call this constructor with a null argument.
+     * This internbl constructor does no processing on its string brgument,
+     * even if it is b null reference.  The public constructors will
+     * never cbll this constructor with b null brgument.
      */
-    private AssertionError(String detailMessage) {
-        super(detailMessage);
+    privbte AssertionError(String detbilMessbge) {
+        super(detbilMessbge);
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified object, which is converted to a string as
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified object, which is converted to b string bs
      * defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *<p>
-     * If the specified object is an instance of {@code Throwable}, it
-     * becomes the <i>cause</i> of the newly constructed assertion error.
+     * If the specified object is bn instbnce of {@code Throwbble}, it
+     * becomes the <i>cbuse</i> of the newly constructed bssertion error.
      *
-     * @param detailMessage value to be used in constructing detail message
-     * @see   Throwable#getCause()
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
+     * @see   Throwbble#getCbuse()
      */
-    public AssertionError(Object detailMessage) {
-        this(String.valueOf(detailMessage));
-        if (detailMessage instanceof Throwable)
-            initCause((Throwable) detailMessage);
+    public AssertionError(Object detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
+        if (detbilMessbge instbnceof Throwbble)
+            initCbuse((Throwbble) detbilMessbge);
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>boolean</code>, which is converted to
-     * a string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>boolebn</code>, which is converted to
+     * b string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(boolean detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(boolebn detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>char</code>, which is converted to a
-     * string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>chbr</code>, which is converted to b
+     * string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(char detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(chbr detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>int</code>, which is converted to a
-     * string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>int</code>, which is converted to b
+     * string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(int detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(int detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>long</code>, which is converted to a
-     * string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>long</code>, which is converted to b
+     * string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(long detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(long detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>float</code>, which is converted to a
-     * string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>flobt</code>, which is converted to b
+     * string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(float detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(flobt detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs an AssertionError with its detail message derived
-     * from the specified <code>double</code>, which is converted to a
-     * string as defined in section 15.18.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Constructs bn AssertionError with its detbil messbge derived
+     * from the specified <code>double</code>, which is converted to b
+     * string bs defined in section 15.18.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param detailMessage value to be used in constructing detail message
+     * @pbrbm detbilMessbge vblue to be used in constructing detbil messbge
      */
-    public AssertionError(double detailMessage) {
-        this(String.valueOf(detailMessage));
+    public AssertionError(double detbilMessbge) {
+        this(String.vblueOf(detbilMessbge));
     }
 
     /**
-     * Constructs a new {@code AssertionError} with the specified
-     * detail message and cause.
+     * Constructs b new {@code AssertionError} with the specified
+     * detbil messbge bnd cbuse.
      *
-     * <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this error's detail message.
+     * <p>Note thbt the detbil messbge bssocibted with
+     * {@code cbuse} is <i>not</i> butombticblly incorporbted in
+     * this error's detbil messbge.
      *
-     * @param  message the detail message, may be {@code null}
-     * @param  cause the cause, may be {@code null}
+     * @pbrbm  messbge the detbil messbge, mby be {@code null}
+     * @pbrbm  cbuse the cbuse, mby be {@code null}
      *
      * @since 1.7
      */
-    public AssertionError(String message, Throwable cause) {
-        super(message, cause);
+    public AssertionError(String messbge, Throwbble cbuse) {
+        super(messbge, cbuse);
     }
 }

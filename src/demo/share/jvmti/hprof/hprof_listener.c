@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,91 +30,91 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* The hprof listener loop thread. net=hostname:port option */
+/* The hprof listener loop threbd. net=hostnbme:port option */
 
 /*
- * The option net=hostname:port causes all hprof output to be sent down
- *   a socket connection, and also allows for commands to come in over the
- *   socket. The commands are documented below.
+ * The option net=hostnbme:port cbuses bll hprof output to be sent down
+ *   b socket connection, bnd blso bllows for commbnds to come in over the
+ *   socket. The commbnds bre documented below.
  *
- * This thread can cause havoc when started prematurely or not terminated
- *   properly, see listener_init() and listener_term(), and their calls
+ * This threbd cbn cbuse hbvoc when stbrted prembturely or not terminbted
+ *   properly, see listener_init() bnd listener_term(), bnd their cblls
  *   in hprof_init.c.
  *
- * The listener loop (hprof_listener.c) can dynamically turn on or off the
- *  sampling of all or selected threads.
+ * The listener loop (hprof_listener.c) cbn dynbmicblly turn on or off the
+ *  sbmpling of bll or selected threbds.
  *
- * The specification of this command protocol is only here, in the comments
- *  below.  The HAT tools uses this interface.
- *  It is also unknown how well these options work given the limited
- *  testing of this interface.
+ * The specificbtion of this commbnd protocol is only here, in the comments
+ *  below.  The HAT tools uses this interfbce.
+ *  It is blso unknown how well these options work given the limited
+ *  testing of this interfbce.
  *
  */
 
 #include "hprof.h"
 
-/* When the hprof Agent in the VM is connected via a socket to the
- * profiling client, the client may send the hprof Agent a set of commands.
- * The commands have the following format:
+/* When the hprof Agent in the VM is connected vib b socket to the
+ * profiling client, the client mby send the hprof Agent b set of commbnds.
+ * The commbnds hbve the following formbt:
  *
- * u1           a TAG denoting the type of the record
- * u4           a serial number
- * u4           number of bytes *remaining* in the record. Note that
- *              this number excludes the tag and the length field itself.
- * [u1]*        BODY of the record (a sequence of bytes)
+ * u1           b TAG denoting the type of the record
+ * u4           b seribl number
+ * u4           number of bytes *rembining* in the record. Note thbt
+ *              this number excludes the tbg bnd the length field itself.
+ * [u1]*        BODY of the record (b sequence of bytes)
  */
 
-/* The following commands are presently supported:
+/* The following commbnds bre presently supported:
  *
  * TAG           BODY       notes
  * ----------------------------------------------------------
- * HPROF_CMD_GC             force a GC.
+ * HPROF_CMD_GC             force b GC.
  *
- * HPROF_CMD_DUMP_HEAP      obtain a heap dump
+ * HPROF_CMD_DUMP_HEAP      obtbin b hebp dump
  *
- * HPROF_CMD_ALLOC_SITES    obtain allocation sites
+ * HPROF_CMD_ALLOC_SITES    obtbin bllocbtion sites
  *
- *               u2         flags 0x0001: incremental vs. complete
- *                                0x0002: sorted by allocation vs. live
- *                                0x0004: whether to force a GC
- *               u4         cutoff ratio (0.0 ~ 1.0)
+ *               u2         flbgs 0x0001: incrementbl vs. complete
+ *                                0x0002: sorted by bllocbtion vs. live
+ *                                0x0004: whether to force b GC
+ *               u4         cutoff rbtio (0.0 ~ 1.0)
  *
- * HPROF_CMD_HEAP_SUMMARY   obtain heap summary
+ * HPROF_CMD_HEAP_SUMMARY   obtbin hebp summbry
  *
- * HPROF_CMD_DUMP_TRACES    obtain all newly created traces
+ * HPROF_CMD_DUMP_TRACES    obtbin bll newly crebted trbces
  *
- * HPROF_CMD_CPU_SAMPLES    obtain a HPROF_CPU_SAMPLES record
+ * HPROF_CMD_CPU_SAMPLES    obtbin b HPROF_CPU_SAMPLES record
  *
  *               u2         ignored for now
- *               u4         cutoff ratio (0.0 ~ 1.0)
+ *               u4         cutoff rbtio (0.0 ~ 1.0)
  *
- * HPROF_CMD_CONTROL        changing settings
+ * HPROF_CMD_CONTROL        chbnging settings
  *
- *               u2         0x0001: alloc traces on
- *                          0x0002: alloc traces off
+ *               u2         0x0001: blloc trbces on
+ *                          0x0002: blloc trbces off
  *
- *                          0x0003: CPU sampling on
+ *                          0x0003: CPU sbmpling on
  *
- *                                  id:   thread object id (NULL for all)
+ *                                  id:   threbd object id (NULL for bll)
  *
- *                          0x0004: CPU sampling off
+ *                          0x0004: CPU sbmpling off
  *
- *                                  id:   thread object id (NULL for all)
+ *                                  id:   threbd object id (NULL for bll)
  *
- *                          0x0005: CPU sampling clear
+ *                          0x0005: CPU sbmpling clebr
  *
- *                          0x0006: clear alloc sites info
+ *                          0x0006: clebr blloc sites info
  *
- *                          0x0007: set max stack depth in CPU samples
- *                                  and alloc traces
+ *                          0x0007: set mbx stbck depth in CPU sbmples
+ *                                  bnd blloc trbces
  *
  *                                  u2:   new depth
  */
@@ -131,8 +131,8 @@ typedef enum HprofCmd {
     HPROF_CMD_EOF               = 0xFF
 } HprofCmd;
 
-static jint
-recv_fully(int f, char *buf, int len)
+stbtic jint
+recv_fully(int f, chbr *buf, int len)
 {
     jint nbytes;
 
@@ -146,104 +146,104 @@ recv_fully(int f, char *buf, int len)
         res = md_recv(f, buf + nbytes, (len - nbytes), 0);
         if (res < 0) {
             /*
-             * hprof was disabled before we returned from recv() above.
-             * This means the command socket is closed so we let that
-             * trickle back up the command processing stack.
+             * hprof wbs disbbled before we returned from recv() bbove.
+             * This mebns the commbnd socket is closed so we let thbt
+             * trickle bbck up the commbnd processing stbck.
              */
             LOG("recv() returned < 0");
-            break;
+            brebk;
         }
         nbytes += res;
     }
     return nbytes;
 }
 
-static unsigned char
+stbtic unsigned chbr
 recv_u1(void)
 {
-    unsigned char c;
+    unsigned chbr c;
     jint nbytes;
 
-    nbytes = recv_fully(gdata->fd, (char *)&c, (int)sizeof(unsigned char));
+    nbytes = recv_fully(gdbtb->fd, (chbr *)&c, (int)sizeof(unsigned chbr));
     if (nbytes == 0) {
         c = HPROF_CMD_EOF;
     }
     return c;
 }
 
-static unsigned short
+stbtic unsigned short
 recv_u2(void)
 {
     unsigned short s;
     jint nbytes;
 
-    nbytes = recv_fully(gdata->fd, (char *)&s, (int)sizeof(unsigned short));
+    nbytes = recv_fully(gdbtb->fd, (chbr *)&s, (int)sizeof(unsigned short));
     if (nbytes == 0) {
         s = (unsigned short)-1;
     }
     return md_ntohs(s);
 }
 
-static unsigned
+stbtic unsigned
 recv_u4(void)
 {
     unsigned i;
     jint nbytes;
 
-    nbytes = recv_fully(gdata->fd, (char *)&i, (int)sizeof(unsigned));
+    nbytes = recv_fully(gdbtb->fd, (chbr *)&i, (int)sizeof(unsigned));
     if (nbytes == 0) {
         i = (unsigned)-1;
     }
     return md_ntohl(i);
 }
 
-static ObjectIndex
+stbtic ObjectIndex
 recv_id(void)
 {
     ObjectIndex result;
     jint        nbytes;
 
-    nbytes = recv_fully(gdata->fd, (char *)&result, (int)sizeof(ObjectIndex));
+    nbytes = recv_fully(gdbtb->fd, (chbr *)&result, (int)sizeof(ObjectIndex));
     if (nbytes == 0) {
         result = (ObjectIndex)0;
     }
     return result;
 }
 
-static void JNICALL
+stbtic void JNICALL
 listener_loop_function(jvmtiEnv *jvmti, JNIEnv *env, void *p)
 {
-    jboolean keep_processing;
-    unsigned char tag;
-    jboolean kill_the_whole_process;
+    jboolebn keep_processing;
+    unsigned chbr tbg;
+    jboolebn kill_the_whole_process;
 
     kill_the_whole_process = JNI_FALSE;
-    tag = 0;
+    tbg = 0;
 
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        gdata->listener_loop_running = JNI_TRUE;
-        keep_processing = gdata->listener_loop_running;
-        /* Tell listener_init() that we have started */
-        rawMonitorNotifyAll(gdata->listener_loop_lock);
-    } rawMonitorExit(gdata->listener_loop_lock);
+    rbwMonitorEnter(gdbtb->listener_loop_lock); {
+        gdbtb->listener_loop_running = JNI_TRUE;
+        keep_processing = gdbtb->listener_loop_running;
+        /* Tell listener_init() thbt we hbve stbrted */
+        rbwMonitorNotifyAll(gdbtb->listener_loop_lock);
+    } rbwMonitorExit(gdbtb->listener_loop_lock);
 
     while ( keep_processing ) {
 
-        LOG("listener loop iteration");
+        LOG("listener loop iterbtion");
 
-        tag = recv_u1();  /* This blocks here on the socket read, a close()
-                           *   on this fd will wake this up. And if recv_u1()
-                           *   can't read anything, it returns HPROF_CMD_EOF.
+        tbg = recv_u1();  /* This blocks here on the socket rebd, b close()
+                           *   on this fd will wbke this up. And if recv_u1()
+                           *   cbn't rebd bnything, it returns HPROF_CMD_EOF.
                            */
 
-        LOG3("listener_loop", "command = ", tag);
+        LOG3("listener_loop", "commbnd = ", tbg);
 
-        if (tag == HPROF_CMD_EOF) {
-            /* The cmd socket has closed so the listener thread is done
-             *   just fall out of loop and let the thread die.
+        if (tbg == HPROF_CMD_EOF) {
+            /* The cmd socket hbs closed so the listener threbd is done
+             *   just fbll out of loop bnd let the threbd die.
              */
             keep_processing = JNI_FALSE;
-            break;
+            brebk;
         }
 
         /* seq_num not used */
@@ -251,186 +251,186 @@ listener_loop_function(jvmtiEnv *jvmti, JNIEnv *env, void *p)
         /* length not used */
         (void)recv_u4();
 
-        switch (tag) {
-            case HPROF_CMD_GC:
+        switch (tbg) {
+            cbse HPROF_CMD_GC:
                 runGC();
-                break;
-            case HPROF_CMD_DUMP_HEAP: {
-                site_heapdump(env);
-                break;
+                brebk;
+            cbse HPROF_CMD_DUMP_HEAP: {
+                site_hebpdump(env);
+                brebk;
             }
-            case HPROF_CMD_ALLOC_SITES: {
-                unsigned short flags;
+            cbse HPROF_CMD_ALLOC_SITES: {
+                unsigned short flbgs;
                 unsigned i_tmp;
-                float ratio;
+                flobt rbtio;
 
-                flags = recv_u2();
+                flbgs = recv_u2();
                 i_tmp = recv_u4();
-                ratio = *(float *)(&i_tmp);
-                site_write(env, flags, ratio);
-                break;
+                rbtio = *(flobt *)(&i_tmp);
+                site_write(env, flbgs, rbtio);
+                brebk;
             }
-            case HPROF_CMD_HEAP_SUMMARY: {
-                rawMonitorEnter(gdata->data_access_lock); {
-                    io_write_heap_summary(  gdata->total_live_bytes,
-                                            gdata->total_live_instances,
-                                            gdata->total_alloced_bytes,
-                                            gdata->total_alloced_instances);
-                } rawMonitorExit(gdata->data_access_lock);
-                break;
+            cbse HPROF_CMD_HEAP_SUMMARY: {
+                rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+                    io_write_hebp_summbry(  gdbtb->totbl_live_bytes,
+                                            gdbtb->totbl_live_instbnces,
+                                            gdbtb->totbl_blloced_bytes,
+                                            gdbtb->totbl_blloced_instbnces);
+                } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
+                brebk;
             }
-            case HPROF_CMD_EXIT:
+            cbse HPROF_CMD_EXIT:
                 keep_processing = JNI_FALSE;
                 kill_the_whole_process = JNI_TRUE;
-                verbose_message("HPROF: received exit event, exiting ...\n");
-                break;
-            case HPROF_CMD_DUMP_TRACES:
-                rawMonitorEnter(gdata->data_access_lock); {
-                    trace_output_unmarked(env);
-                } rawMonitorExit(gdata->data_access_lock);
-                break;
-            case HPROF_CMD_CPU_SAMPLES: {
+                verbose_messbge("HPROF: received exit event, exiting ...\n");
+                brebk;
+            cbse HPROF_CMD_DUMP_TRACES:
+                rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+                    trbce_output_unmbrked(env);
+                } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
+                brebk;
+            cbse HPROF_CMD_CPU_SAMPLES: {
                 unsigned i_tmp;
-                float ratio;
+                flobt rbtio;
 
-                /* flags not used */
+                /* flbgs not used */
                 (void)recv_u2();
                 i_tmp = recv_u4();
-                ratio = *(float *)(&i_tmp);
-                trace_output_cost(env, ratio);
-                break;
+                rbtio = *(flobt *)(&i_tmp);
+                trbce_output_cost(env, rbtio);
+                brebk;
             }
-            case HPROF_CMD_CONTROL: {
+            cbse HPROF_CMD_CONTROL: {
                 unsigned short cmd = recv_u2();
                 if (cmd == 0x0001) {
-                    setEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
-                    tracker_engage(env);
+                    setEventNotificbtionMode(JVMTI_ENABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
+                    trbcker_engbge(env);
                 } else if (cmd == 0x0002) {
-                    setEventNotificationMode(JVMTI_DISABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
-                    tracker_disengage(env);
+                    setEventNotificbtionMode(JVMTI_DISABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
+                    trbcker_disengbge(env);
                 } else if (cmd == 0x0003) {
-                    ObjectIndex thread_object_index;
-                    thread_object_index = recv_id();
-                    cpu_sample_on(env, thread_object_index);
+                    ObjectIndex threbd_object_index;
+                    threbd_object_index = recv_id();
+                    cpu_sbmple_on(env, threbd_object_index);
                 } else if (cmd == 0x0004) {
-                    ObjectIndex thread_object_index;
-                    thread_object_index = recv_id();
-                    cpu_sample_off(env, thread_object_index);
+                    ObjectIndex threbd_object_index;
+                    threbd_object_index = recv_id();
+                    cpu_sbmple_off(env, threbd_object_index);
                 } else if (cmd == 0x0005) {
-                    rawMonitorEnter(gdata->data_access_lock); {
-                        trace_clear_cost();
-                    } rawMonitorExit(gdata->data_access_lock);
+                    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+                        trbce_clebr_cost();
+                    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
                 } else if (cmd == 0x0006) {
-                    rawMonitorEnter(gdata->data_access_lock); {
-                        site_cleanup();
+                    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+                        site_clebnup();
                         site_init();
-                    } rawMonitorExit(gdata->data_access_lock);
+                    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
                 } else if (cmd == 0x0007) {
-                    gdata->max_trace_depth = recv_u2();
+                    gdbtb->mbx_trbce_depth = recv_u2();
                 }
-                break;
+                brebk;
             }
-            default:{
-                char buf[80];
+            defbult:{
+                chbr buf[80];
 
                 keep_processing = JNI_FALSE;
                 kill_the_whole_process = JNI_TRUE;
                 (void)md_snprintf(buf, sizeof(buf),
-                        "failed to recognize cmd %d, exiting..", (int)tag);
+                        "fbiled to recognize cmd %d, exiting..", (int)tbg);
                 buf[sizeof(buf)-1] = 0;
                 HPROF_ERROR(JNI_FALSE, buf);
-                break;
+                brebk;
             }
         }
 
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
             io_flush();
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
-        rawMonitorEnter(gdata->listener_loop_lock); {
-            if ( !gdata->listener_loop_running ) {
+        rbwMonitorEnter(gdbtb->listener_loop_lock); {
+            if ( !gdbtb->listener_loop_running ) {
                 keep_processing         = JNI_FALSE;
             }
-        } rawMonitorExit(gdata->listener_loop_lock);
+        } rbwMonitorExit(gdbtb->listener_loop_lock);
 
     }
 
-    /* If listener_term() is causing this loop to terminate, then
-     *   you will block here until listener_term wants you to proceed.
+    /* If listener_term() is cbusing this loop to terminbte, then
+     *   you will block here until listener_term wbnts you to proceed.
      */
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        if ( gdata->listener_loop_running ) {
-            /* We are terminating for our own reasons, maybe because of
-             *   EOF (socket closed?), or EXIT request, or invalid command.
+    rbwMonitorEnter(gdbtb->listener_loop_lock); {
+        if ( gdbtb->listener_loop_running ) {
+            /* We bre terminbting for our own rebsons, mbybe becbuse of
+             *   EOF (socket closed?), or EXIT request, or invblid commbnd.
              *   Not from listener_term().
-             *   We set gdata->listener_loop_running=FALSE so that any
-             *   future call to listener_term() will do nothing.
+             *   We set gdbtb->listener_loop_running=FALSE so thbt bny
+             *   future cbll to listener_term() will do nothing.
              */
-            gdata->listener_loop_running = JNI_FALSE;
+            gdbtb->listener_loop_running = JNI_FALSE;
         } else {
-            /* We assume that listener_term() is stopping us,
+            /* We bssume thbt listener_term() is stopping us,
              *    now we need to tell it we understood.
              */
-            rawMonitorNotifyAll(gdata->listener_loop_lock);
+            rbwMonitorNotifyAll(gdbtb->listener_loop_lock);
         }
-    } rawMonitorExit(gdata->listener_loop_lock);
+    } rbwMonitorExit(gdbtb->listener_loop_lock);
 
-    LOG3("listener_loop", "finished command = ", tag);
+    LOG3("listener_loop", "finished commbnd = ", tbg);
 
-    /* If we got an explicit command request to die, die here */
+    /* If we got bn explicit commbnd request to die, die here */
     if ( kill_the_whole_process ) {
         error_exit_process(0);
     }
 
 }
 
-/* External functions */
+/* Externbl functions */
 
 void
 listener_init(JNIEnv *env)
 {
-    /* Create the raw monitor */
-    gdata->listener_loop_lock = createRawMonitor("HPROF listener lock");
+    /* Crebte the rbw monitor */
+    gdbtb->listener_loop_lock = crebteRbwMonitor("HPROF listener lock");
 
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        createAgentThread(env, "HPROF listener thread",
+    rbwMonitorEnter(gdbtb->listener_loop_lock); {
+        crebteAgentThrebd(env, "HPROF listener threbd",
                                 &listener_loop_function);
-        /* Wait for listener_loop_function() to tell us it started. */
-        rawMonitorWait(gdata->listener_loop_lock, 0);
-    } rawMonitorExit(gdata->listener_loop_lock);
+        /* Wbit for listener_loop_function() to tell us it stbrted. */
+        rbwMonitorWbit(gdbtb->listener_loop_lock, 0);
+    } rbwMonitorExit(gdbtb->listener_loop_lock);
 }
 
 void
 listener_term(JNIEnv *env)
 {
-    rawMonitorEnter(gdata->listener_loop_lock); {
+    rbwMonitorEnter(gdbtb->listener_loop_lock); {
 
-        /* If we are in the middle of sending bytes down the socket, this
-         *   at least keeps us blocked until that processing is done.
+        /* If we bre in the middle of sending bytes down the socket, this
+         *   bt lebst keeps us blocked until thbt processing is done.
          */
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
-            /* Make sure the socket gets everything */
+            /* Mbke sure the socket gets everything */
             io_flush();
 
             /*
-             * Graceful shutdown of the socket will assure that all data
+             * Grbceful shutdown of the socket will bssure thbt bll dbtb
              * sent is received before the socket close completes.
              */
-            (void)md_shutdown(gdata->fd, 2 /* disallow sends and receives */);
+            (void)md_shutdown(gdbtb->fd, 2 /* disbllow sends bnd receives */);
 
-            /* This close will cause the listener loop to possibly wake up
-             *    from the recv_u1(), this is critical to get thread running again.
+            /* This close will cbuse the listener loop to possibly wbke up
+             *    from the recv_u1(), this is criticbl to get threbd running bgbin.
              */
-            md_close(gdata->fd);
-        } rawMonitorExit(gdata->data_access_lock);
+            md_close(gdbtb->fd);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
-        /* It could have shut itself down, so we check the global flag */
-        if ( gdata->listener_loop_running ) {
-            /* It stopped because of something listener_term() did. */
-            gdata->listener_loop_running = JNI_FALSE;
-            /* Wait for listener_loop_function() to tell us it finished. */
-            rawMonitorWait(gdata->listener_loop_lock, 0);
+        /* It could hbve shut itself down, so we check the globbl flbg */
+        if ( gdbtb->listener_loop_running ) {
+            /* It stopped becbuse of something listener_term() did. */
+            gdbtb->listener_loop_running = JNI_FALSE;
+            /* Wbit for listener_loop_function() to tell us it finished. */
+            rbwMonitorWbit(gdbtb->listener_loop_lock, 0);
         }
-    } rawMonitorExit(gdata->listener_loop_lock);
+    } rbwMonitorExit(gdbtb->listener_loop_lock);
 }

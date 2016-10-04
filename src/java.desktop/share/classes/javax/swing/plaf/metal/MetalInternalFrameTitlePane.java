@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
 import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.InternalFrameEvent;
-import java.util.EventListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.InternblFrbmeEvent;
+import jbvb.util.EventListener;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvbx.swing.plbf.bbsic.BbsicInternblFrbmeTitlePbne;
 
 
 /**
- * Class that manages a JLF title bar
- * @author Steve Wilson
- * @author Brian Beck
+ * Clbss thbt mbnbges b JLF title bbr
+ * @buthor Steve Wilson
+ * @buthor Bribn Beck
  * @since 1.3
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class MetalInternalFrameTitlePane  extends BasicInternalFrameTitlePane {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss MetblInternblFrbmeTitlePbne  extends BbsicInternblFrbmeTitlePbne {
 
     /**
-     * The value {@code isPalette}
+     * The vblue {@code isPblette}
      */
-    protected boolean isPalette = false;
+    protected boolebn isPblette = fblse;
 
     /**
-     * The palette close icon.
+     * The pblette close icon.
      */
-    protected Icon paletteCloseIcon;
+    protected Icon pbletteCloseIcon;
 
     /**
-     * The height of the palette title.
+     * The height of the pblette title.
      */
-    protected int paletteTitleHeight;
+    protected int pbletteTitleHeight;
 
-    private static final Border handyEmptyBorder = new EmptyBorder(0,0,0,0);
+    privbte stbtic finbl Border hbndyEmptyBorder = new EmptyBorder(0,0,0,0);
 
     /**
-     * Key used to lookup Color from UIManager. If this is null,
-     * <code>getWindowTitleBackground</code> is used.
+     * Key used to lookup Color from UIMbnbger. If this is null,
+     * <code>getWindowTitleBbckground</code> is used.
      */
-    private String selectedBackgroundKey;
+    privbte String selectedBbckgroundKey;
     /**
-     * Key used to lookup Color from UIManager. If this is null,
+     * Key used to lookup Color from UIMbnbger. If this is null,
      * <code>getWindowTitleForeground</code> is used.
      */
-    private String selectedForegroundKey;
+    privbte String selectedForegroundKey;
     /**
-     * Key used to lookup shadow color from UIManager. If this is null,
-     * <code>getPrimaryControlDarkShadow</code> is used.
+     * Key used to lookup shbdow color from UIMbnbger. If this is null,
+     * <code>getPrimbryControlDbrkShbdow</code> is used.
      */
-    private String selectedShadowKey;
+    privbte String selectedShbdowKey;
     /**
-     * Boolean indicating the state of the <code>JInternalFrame</code>s
-     * closable property at <code>updateUI</code> time.
+     * Boolebn indicbting the stbte of the <code>JInternblFrbme</code>s
+     * closbble property bt <code>updbteUI</code> time.
      */
-    private boolean wasClosable;
+    privbte boolebn wbsClosbble;
 
     int buttonsWidth = 0;
 
-    MetalBumps activeBumps
-        = new MetalBumps( 0, 0,
-                          MetalLookAndFeel.getPrimaryControlHighlight(),
-                          MetalLookAndFeel.getPrimaryControlDarkShadow(),
-          (UIManager.get("InternalFrame.activeTitleGradient") != null) ? null :
-                          MetalLookAndFeel.getPrimaryControl() );
-    MetalBumps inactiveBumps
-        = new MetalBumps( 0, 0,
-                          MetalLookAndFeel.getControlHighlight(),
-                          MetalLookAndFeel.getControlDarkShadow(),
-        (UIManager.get("InternalFrame.inactiveTitleGradient") != null) ? null :
-                          MetalLookAndFeel.getControl() );
-    MetalBumps paletteBumps;
+    MetblBumps bctiveBumps
+        = new MetblBumps( 0, 0,
+                          MetblLookAndFeel.getPrimbryControlHighlight(),
+                          MetblLookAndFeel.getPrimbryControlDbrkShbdow(),
+          (UIMbnbger.get("InternblFrbme.bctiveTitleGrbdient") != null) ? null :
+                          MetblLookAndFeel.getPrimbryControl() );
+    MetblBumps inbctiveBumps
+        = new MetblBumps( 0, 0,
+                          MetblLookAndFeel.getControlHighlight(),
+                          MetblLookAndFeel.getControlDbrkShbdow(),
+        (UIMbnbger.get("InternblFrbme.inbctiveTitleGrbdient") != null) ? null :
+                          MetblLookAndFeel.getControl() );
+    MetblBumps pbletteBumps;
 
-    private Color activeBumpsHighlight = MetalLookAndFeel.
-                             getPrimaryControlHighlight();
-    private Color activeBumpsShadow = MetalLookAndFeel.
-                             getPrimaryControlDarkShadow();
+    privbte Color bctiveBumpsHighlight = MetblLookAndFeel.
+                             getPrimbryControlHighlight();
+    privbte Color bctiveBumpsShbdow = MetblLookAndFeel.
+                             getPrimbryControlDbrkShbdow();
 
     /**
-     * Constructs a new instance of {@code MetalInternalFrameTitlePane}
+     * Constructs b new instbnce of {@code MetblInternblFrbmeTitlePbne}
      *
-     * @param f an instance of {@code JInternalFrame}
+     * @pbrbm f bn instbnce of {@code JInternblFrbme}
      */
-    public MetalInternalFrameTitlePane(JInternalFrame f) {
+    public MetblInternblFrbmeTitlePbne(JInternblFrbme f) {
         super( f );
     }
 
-    public void addNotify() {
-        super.addNotify();
-        // This is done here instead of in installDefaults as I was worried
-        // that the BasicInternalFrameUI might not be fully initialized, and
-        // that if this resets the closable state the BasicInternalFrameUI
-        // Listeners that get notified might be in an odd/uninitialized state.
-        updateOptionPaneState();
+    public void bddNotify() {
+        super.bddNotify();
+        // This is done here instebd of in instbllDefbults bs I wbs worried
+        // thbt the BbsicInternblFrbmeUI might not be fully initiblized, bnd
+        // thbt if this resets the closbble stbte the BbsicInternblFrbmeUI
+        // Listeners thbt get notified might be in bn odd/uninitiblized stbte.
+        updbteOptionPbneStbte();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        setFont( UIManager.getFont("InternalFrame.titleFont") );
-        paletteTitleHeight
-            = UIManager.getInt("InternalFrame.paletteTitleHeight");
-        paletteCloseIcon = UIManager.getIcon("InternalFrame.paletteCloseIcon");
-        wasClosable = frame.isClosable();
-        selectedForegroundKey = selectedBackgroundKey = null;
-        if (MetalLookAndFeel.usingOcean()) {
-            setOpaque(true);
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        setFont( UIMbnbger.getFont("InternblFrbme.titleFont") );
+        pbletteTitleHeight
+            = UIMbnbger.getInt("InternblFrbme.pbletteTitleHeight");
+        pbletteCloseIcon = UIMbnbger.getIcon("InternblFrbme.pbletteCloseIcon");
+        wbsClosbble = frbme.isClosbble();
+        selectedForegroundKey = selectedBbckgroundKey = null;
+        if (MetblLookAndFeel.usingOcebn()) {
+            setOpbque(true);
         }
     }
 
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
-        if (wasClosable != frame.isClosable()) {
-            frame.setClosable(wasClosable);
+    protected void uninstbllDefbults() {
+        super.uninstbllDefbults();
+        if (wbsClosbble != frbme.isClosbble()) {
+            frbme.setClosbble(wbsClosbble);
         }
     }
 
-    protected void createButtons() {
-        super.createButtons();
+    protected void crebteButtons() {
+        super.crebteButtons();
 
-        Boolean paintActive = frame.isSelected() ? Boolean.TRUE:Boolean.FALSE;
-        iconButton.putClientProperty("paintActive", paintActive);
-        iconButton.setBorder(handyEmptyBorder);
+        Boolebn pbintActive = frbme.isSelected() ? Boolebn.TRUE:Boolebn.FALSE;
+        iconButton.putClientProperty("pbintActive", pbintActive);
+        iconButton.setBorder(hbndyEmptyBorder);
 
-        maxButton.putClientProperty("paintActive", paintActive);
-        maxButton.setBorder(handyEmptyBorder);
+        mbxButton.putClientProperty("pbintActive", pbintActive);
+        mbxButton.setBorder(hbndyEmptyBorder);
 
-        closeButton.putClientProperty("paintActive", paintActive);
-        closeButton.setBorder(handyEmptyBorder);
+        closeButton.putClientProperty("pbintActive", pbintActive);
+        closeButton.setBorder(hbndyEmptyBorder);
 
-        // The palette close icon isn't opaque while the regular close icon is.
-        // This makes sure palette close buttons have the right background.
-        closeButton.setBackground(MetalLookAndFeel.getPrimaryControlShadow());
+        // The pblette close icon isn't opbque while the regulbr close icon is.
+        // This mbkes sure pblette close buttons hbve the right bbckground.
+        closeButton.setBbckground(MetblLookAndFeel.getPrimbryControlShbdow());
 
-        if (MetalLookAndFeel.usingOcean()) {
-            iconButton.setContentAreaFilled(false);
-            maxButton.setContentAreaFilled(false);
-            closeButton.setContentAreaFilled(false);
+        if (MetblLookAndFeel.usingOcebn()) {
+            iconButton.setContentArebFilled(fblse);
+            mbxButton.setContentArebFilled(fblse);
+            closeButton.setContentArebFilled(fblse);
         }
     }
 
     /**
-     * Override the parent's method to do nothing. Metal frames do not
-     * have system menus.
+     * Override the pbrent's method to do nothing. Metbl frbmes do not
+     * hbve system menus.
      */
-    protected void assembleSystemMenu() {}
+    protected void bssembleSystemMenu() {}
 
     /**
-     * Override the parent's method to do nothing. Metal frames do not
-     * have system menus.
+     * Override the pbrent's method to do nothing. Metbl frbmes do not
+     * hbve system menus.
      */
-    protected void addSystemMenuItems(JMenu systemMenu) {}
+    protected void bddSystemMenuItems(JMenu systemMenu) {}
 
     /**
-     * Override the parent's method to do nothing. Metal frames do not
-     * have system menus.
+     * Override the pbrent's method to do nothing. Metbl frbmes do not
+     * hbve system menus.
      */
     protected void showSystemMenu() {}
 
     /**
-     * Override the parent's method avoid creating a menu bar. Metal frames
-     * do not have system menus.
+     * Override the pbrent's method bvoid crebting b menu bbr. Metbl frbmes
+     * do not hbve system menus.
      */
-    protected void addSubComponents() {
-        add(iconButton);
-        add(maxButton);
-        add(closeButton);
+    protected void bddSubComponents() {
+        bdd(iconButton);
+        bdd(mbxButton);
+        bdd(closeButton);
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new MetalPropertyChangeHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new MetblPropertyChbngeHbndler();
     }
 
-    protected LayoutManager createLayout() {
-        return new MetalTitlePaneLayout();
+    protected LbyoutMbnbger crebteLbyout() {
+        return new MetblTitlePbneLbyout();
     }
 
-    class MetalPropertyChangeHandler
-        extends BasicInternalFrameTitlePane.PropertyChangeHandler
+    clbss MetblPropertyChbngeHbndler
+        extends BbsicInternblFrbmeTitlePbne.PropertyChbngeHbndler
     {
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
-            if( prop.equals(JInternalFrame.IS_SELECTED_PROPERTY) ) {
-                Boolean b = (Boolean)evt.getNewValue();
-                iconButton.putClientProperty("paintActive", b);
-                closeButton.putClientProperty("paintActive", b);
-                maxButton.putClientProperty("paintActive", b);
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String prop = evt.getPropertyNbme();
+            if( prop.equbls(JInternblFrbme.IS_SELECTED_PROPERTY) ) {
+                Boolebn b = (Boolebn)evt.getNewVblue();
+                iconButton.putClientProperty("pbintActive", b);
+                closeButton.putClientProperty("pbintActive", b);
+                mbxButton.putClientProperty("pbintActive", b);
             }
-            else if ("JInternalFrame.messageType".equals(prop)) {
-                updateOptionPaneState();
-                frame.repaint();
+            else if ("JInternblFrbme.messbgeType".equbls(prop)) {
+                updbteOptionPbneStbte();
+                frbme.repbint();
             }
-            super.propertyChange(evt);
+            super.propertyChbnge(evt);
         }
     }
 
-    class MetalTitlePaneLayout extends TitlePaneLayout {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            return minimumLayoutSize(c);
+    clbss MetblTitlePbneLbyout extends TitlePbneLbyout {
+        public void bddLbyoutComponent(String nbme, Component c) {}
+        public void removeLbyoutComponent(Component c) {}
+        public Dimension preferredLbyoutSize(Contbiner c)  {
+            return minimumLbyoutSize(c);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLbyoutSize(Contbiner c) {
             // Compute width.
             int width = 30;
-            if (frame.isClosable()) {
+            if (frbme.isClosbble()) {
                 width += 21;
             }
-            if (frame.isMaximizable()) {
-                width += 16 + (frame.isClosable() ? 10 : 4);
+            if (frbme.isMbximizbble()) {
+                width += 16 + (frbme.isClosbble() ? 10 : 4);
             }
-            if (frame.isIconifiable()) {
-                width += 16 + (frame.isMaximizable() ? 2 :
-                    (frame.isClosable() ? 10 : 4));
+            if (frbme.isIconifibble()) {
+                width += 16 + (frbme.isMbximizbble() ? 2 :
+                    (frbme.isClosbble() ? 10 : 4));
             }
-            FontMetrics fm = frame.getFontMetrics(getFont());
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? SwingUtilities2.stringWidth(
-                               frame, fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
+            FontMetrics fm = frbme.getFontMetrics(getFont());
+            String frbmeTitle = frbme.getTitle();
+            int title_w = frbmeTitle != null ? SwingUtilities2.stringWidth(
+                               frbme, fm, frbmeTitle) : 0;
+            int title_length = frbmeTitle != null ? frbmeTitle.length() : 0;
 
             if (title_length > 2) {
-                int subtitle_w = SwingUtilities2.stringWidth(frame, fm,
-                                     frame.getTitle().substring(0, 2) + "...");
+                int subtitle_w = SwingUtilities2.stringWidth(frbme, fm,
+                                     frbme.getTitle().substring(0, 2) + "...");
                 width += (title_w < subtitle_w) ? title_w : subtitle_w;
             }
             else {
@@ -259,62 +259,62 @@ public class MetalInternalFrameTitlePane  extends BasicInternalFrameTitlePane {
 
             // Compute height.
             int height;
-            if (isPalette) {
-                height = paletteTitleHeight;
+            if (isPblette) {
+                height = pbletteTitleHeight;
             } else {
                 int fontHeight = fm.getHeight();
                 fontHeight += 7;
-                Icon icon = frame.getFrameIcon();
+                Icon icon = frbme.getFrbmeIcon();
                 int iconHeight = 0;
                 if (icon != null) {
-                    // SystemMenuBar forces the icon to be 16x16 or less.
-                    iconHeight = Math.min(icon.getIconHeight(), 16);
+                    // SystemMenuBbr forces the icon to be 16x16 or less.
+                    iconHeight = Mbth.min(icon.getIconHeight(), 16);
                 }
                 iconHeight += 5;
-                height = Math.max(fontHeight, iconHeight);
+                height = Mbth.mbx(fontHeight, iconHeight);
             }
 
             return new Dimension(width, height);
         }
 
-        public void layoutContainer(Container c) {
-            boolean leftToRight = MetalUtils.isLeftToRight(frame);
+        public void lbyoutContbiner(Contbiner c) {
+            boolebn leftToRight = MetblUtils.isLeftToRight(frbme);
 
             int w = getWidth();
             int x = leftToRight ? w : 0;
             int y = 2;
-            int spacing;
+            int spbcing;
 
-            // assumes all buttons have the same dimensions
+            // bssumes bll buttons hbve the sbme dimensions
             // these dimensions include the borders
             int buttonHeight = closeButton.getIcon().getIconHeight();
             int buttonWidth = closeButton.getIcon().getIconWidth();
 
-            if(frame.isClosable()) {
-                if (isPalette) {
-                    spacing = 3;
-                    x += leftToRight ? -spacing -(buttonWidth+2) : spacing;
+            if(frbme.isClosbble()) {
+                if (isPblette) {
+                    spbcing = 3;
+                    x += leftToRight ? -spbcing -(buttonWidth+2) : spbcing;
                     closeButton.setBounds(x, y, buttonWidth+2, getHeight()-4);
                     if( !leftToRight ) x += (buttonWidth+2);
                 } else {
-                    spacing = 4;
-                    x += leftToRight ? -spacing -buttonWidth : spacing;
+                    spbcing = 4;
+                    x += leftToRight ? -spbcing -buttonWidth : spbcing;
                     closeButton.setBounds(x, y, buttonWidth, buttonHeight);
                     if( !leftToRight ) x += buttonWidth;
                 }
             }
 
-            if(frame.isMaximizable() && !isPalette ) {
-                spacing = frame.isClosable() ? 10 : 4;
-                x += leftToRight ? -spacing -buttonWidth : spacing;
-                maxButton.setBounds(x, y, buttonWidth, buttonHeight);
+            if(frbme.isMbximizbble() && !isPblette ) {
+                spbcing = frbme.isClosbble() ? 10 : 4;
+                x += leftToRight ? -spbcing -buttonWidth : spbcing;
+                mbxButton.setBounds(x, y, buttonWidth, buttonHeight);
                 if( !leftToRight ) x += buttonWidth;
             }
 
-            if(frame.isIconifiable() && !isPalette ) {
-                spacing = frame.isMaximizable() ? 2
-                          : (frame.isClosable() ? 10 : 4);
-                x += leftToRight ? -spacing -buttonWidth : spacing;
+            if(frbme.isIconifibble() && !isPblette ) {
+                spbcing = frbme.isMbximizbble() ? 2
+                          : (frbme.isClosbble() ? 10 : 4);
+                x += leftToRight ? -spbcing -buttonWidth : spbcing;
                 iconButton.setBounds(x, y, buttonWidth, buttonHeight);
                 if( !leftToRight ) x += buttonWidth;
             }
@@ -324,156 +324,156 @@ public class MetalInternalFrameTitlePane  extends BasicInternalFrameTitlePane {
     }
 
     /**
-     * Paints palette.
+     * Pbints pblette.
      *
-     * @param g a instance of {@code Graphics}
+     * @pbrbm g b instbnce of {@code Grbphics}
      */
-    public void paintPalette(Graphics g)  {
-        boolean leftToRight = MetalUtils.isLeftToRight(frame);
+    public void pbintPblette(Grbphics g)  {
+        boolebn leftToRight = MetblUtils.isLeftToRight(frbme);
 
         int width = getWidth();
         int height = getHeight();
 
-        if (paletteBumps == null) {
-            paletteBumps
-                = new MetalBumps(0, 0,
-                                 MetalLookAndFeel.getPrimaryControlHighlight(),
-                                 MetalLookAndFeel.getPrimaryControlInfo(),
-                                 MetalLookAndFeel.getPrimaryControlShadow() );
+        if (pbletteBumps == null) {
+            pbletteBumps
+                = new MetblBumps(0, 0,
+                                 MetblLookAndFeel.getPrimbryControlHighlight(),
+                                 MetblLookAndFeel.getPrimbryControlInfo(),
+                                 MetblLookAndFeel.getPrimbryControlShbdow() );
         }
 
-        Color background = MetalLookAndFeel.getPrimaryControlShadow();
-        Color darkShadow = MetalLookAndFeel.getPrimaryControlDarkShadow();
+        Color bbckground = MetblLookAndFeel.getPrimbryControlShbdow();
+        Color dbrkShbdow = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
 
-        g.setColor(background);
+        g.setColor(bbckground);
         g.fillRect(0, 0, width, height);
 
-        g.setColor( darkShadow );
-        g.drawLine ( 0, height - 1, width, height -1);
+        g.setColor( dbrkShbdow );
+        g.drbwLine ( 0, height - 1, width, height -1);
 
         int xOffset = leftToRight ? 4 : buttonsWidth + 4;
         int bumpLength = width - buttonsWidth -2*4;
         int bumpHeight = getHeight()  - 4;
-        paletteBumps.setBumpArea( bumpLength, bumpHeight );
-        paletteBumps.paintIcon( this, g, xOffset, 2);
+        pbletteBumps.setBumpAreb( bumpLength, bumpHeight );
+        pbletteBumps.pbintIcon( this, g, xOffset, 2);
     }
 
-    public void paintComponent(Graphics g)  {
-        if(isPalette) {
-            paintPalette(g);
+    public void pbintComponent(Grbphics g)  {
+        if(isPblette) {
+            pbintPblette(g);
             return;
         }
 
-        boolean leftToRight = MetalUtils.isLeftToRight(frame);
-        boolean isSelected = frame.isSelected();
+        boolebn leftToRight = MetblUtils.isLeftToRight(frbme);
+        boolebn isSelected = frbme.isSelected();
 
         int width = getWidth();
         int height = getHeight();
 
-        Color background = null;
+        Color bbckground = null;
         Color foreground = null;
-        Color shadow = null;
+        Color shbdow = null;
 
-        MetalBumps bumps;
-        String gradientKey;
+        MetblBumps bumps;
+        String grbdientKey;
 
         if (isSelected) {
-            if (!MetalLookAndFeel.usingOcean()) {
-                closeButton.setContentAreaFilled(true);
-                maxButton.setContentAreaFilled(true);
-                iconButton.setContentAreaFilled(true);
+            if (!MetblLookAndFeel.usingOcebn()) {
+                closeButton.setContentArebFilled(true);
+                mbxButton.setContentArebFilled(true);
+                iconButton.setContentArebFilled(true);
             }
-            if (selectedBackgroundKey != null) {
-                background = UIManager.getColor(selectedBackgroundKey);
+            if (selectedBbckgroundKey != null) {
+                bbckground = UIMbnbger.getColor(selectedBbckgroundKey);
             }
-            if (background == null) {
-                background = MetalLookAndFeel.getWindowTitleBackground();
+            if (bbckground == null) {
+                bbckground = MetblLookAndFeel.getWindowTitleBbckground();
             }
             if (selectedForegroundKey != null) {
-                foreground = UIManager.getColor(selectedForegroundKey);
+                foreground = UIMbnbger.getColor(selectedForegroundKey);
             }
-            if (selectedShadowKey != null) {
-                shadow = UIManager.getColor(selectedShadowKey);
+            if (selectedShbdowKey != null) {
+                shbdow = UIMbnbger.getColor(selectedShbdowKey);
             }
-            if (shadow == null) {
-                shadow = MetalLookAndFeel.getPrimaryControlDarkShadow();
+            if (shbdow == null) {
+                shbdow = MetblLookAndFeel.getPrimbryControlDbrkShbdow();
             }
             if (foreground == null) {
-                foreground = MetalLookAndFeel.getWindowTitleForeground();
+                foreground = MetblLookAndFeel.getWindowTitleForeground();
             }
-            activeBumps.setBumpColors(activeBumpsHighlight, activeBumpsShadow,
-                        UIManager.get("InternalFrame.activeTitleGradient") !=
-                                      null ? null : background);
-            bumps = activeBumps;
-            gradientKey = "InternalFrame.activeTitleGradient";
+            bctiveBumps.setBumpColors(bctiveBumpsHighlight, bctiveBumpsShbdow,
+                        UIMbnbger.get("InternblFrbme.bctiveTitleGrbdient") !=
+                                      null ? null : bbckground);
+            bumps = bctiveBumps;
+            grbdientKey = "InternblFrbme.bctiveTitleGrbdient";
         } else {
-            if (!MetalLookAndFeel.usingOcean()) {
-                closeButton.setContentAreaFilled(false);
-                maxButton.setContentAreaFilled(false);
-                iconButton.setContentAreaFilled(false);
+            if (!MetblLookAndFeel.usingOcebn()) {
+                closeButton.setContentArebFilled(fblse);
+                mbxButton.setContentArebFilled(fblse);
+                iconButton.setContentArebFilled(fblse);
             }
-            background = MetalLookAndFeel.getWindowTitleInactiveBackground();
-            foreground = MetalLookAndFeel.getWindowTitleInactiveForeground();
-            shadow = MetalLookAndFeel.getControlDarkShadow();
-            bumps = inactiveBumps;
-            gradientKey = "InternalFrame.inactiveTitleGradient";
+            bbckground = MetblLookAndFeel.getWindowTitleInbctiveBbckground();
+            foreground = MetblLookAndFeel.getWindowTitleInbctiveForeground();
+            shbdow = MetblLookAndFeel.getControlDbrkShbdow();
+            bumps = inbctiveBumps;
+            grbdientKey = "InternblFrbme.inbctiveTitleGrbdient";
         }
 
-        if (!MetalUtils.drawGradient(this, g, gradientKey, 0, 0, width,
+        if (!MetblUtils.drbwGrbdient(this, g, grbdientKey, 0, 0, width,
                                      height, true)) {
-            g.setColor(background);
+            g.setColor(bbckground);
             g.fillRect(0, 0, width, height);
         }
 
-        g.setColor( shadow );
-        g.drawLine ( 0, height - 1, width, height -1);
-        g.drawLine ( 0, 0, 0 ,0);
-        g.drawLine ( width - 1, 0 , width -1, 0);
+        g.setColor( shbdow );
+        g.drbwLine ( 0, height - 1, width, height -1);
+        g.drbwLine ( 0, 0, 0 ,0);
+        g.drbwLine ( width - 1, 0 , width -1, 0);
 
 
         int titleLength;
         int xOffset = leftToRight ? 5 : width - 5;
-        String frameTitle = frame.getTitle();
+        String frbmeTitle = frbme.getTitle();
 
-        Icon icon = frame.getFrameIcon();
+        Icon icon = frbme.getFrbmeIcon();
         if ( icon != null ) {
             if( !leftToRight )
                 xOffset -= icon.getIconWidth();
             int iconY = ((height / 2) - (icon.getIconHeight() /2));
-            icon.paintIcon(frame, g, xOffset, iconY);
+            icon.pbintIcon(frbme, g, xOffset, iconY);
             xOffset += leftToRight ? icon.getIconWidth() + 5 : -5;
         }
 
-        if(frameTitle != null) {
+        if(frbmeTitle != null) {
             Font f = getFont();
             g.setFont(f);
-            FontMetrics fm = SwingUtilities2.getFontMetrics(frame, g, f);
+            FontMetrics fm = SwingUtilities2.getFontMetrics(frbme, g, f);
             int fHeight = fm.getHeight();
 
             g.setColor(foreground);
 
             int yOffset = ( (height - fm.getHeight() ) / 2 ) + fm.getAscent();
 
-            Rectangle rect = new Rectangle(0, 0, 0, 0);
-            if (frame.isIconifiable()) { rect = iconButton.getBounds(); }
-            else if (frame.isMaximizable()) { rect = maxButton.getBounds(); }
-            else if (frame.isClosable()) { rect = closeButton.getBounds(); }
+            Rectbngle rect = new Rectbngle(0, 0, 0, 0);
+            if (frbme.isIconifibble()) { rect = iconButton.getBounds(); }
+            else if (frbme.isMbximizbble()) { rect = mbxButton.getBounds(); }
+            else if (frbme.isClosbble()) { rect = closeButton.getBounds(); }
             int titleW;
 
             if( leftToRight ) {
               if (rect.x == 0) {
-                rect.x = frame.getWidth()-frame.getInsets().right-2;
+                rect.x = frbme.getWidth()-frbme.getInsets().right-2;
               }
               titleW = rect.x - xOffset - 4;
-              frameTitle = getTitle(frameTitle, fm, titleW);
+              frbmeTitle = getTitle(frbmeTitle, fm, titleW);
             } else {
               titleW = xOffset - rect.x - rect.width - 4;
-              frameTitle = getTitle(frameTitle, fm, titleW);
-              xOffset -= SwingUtilities2.stringWidth(frame, fm, frameTitle);
+              frbmeTitle = getTitle(frbmeTitle, fm, titleW);
+              xOffset -= SwingUtilities2.stringWidth(frbme, fm, frbmeTitle);
             }
 
-            titleLength = SwingUtilities2.stringWidth(frame, fm, frameTitle);
-            SwingUtilities2.drawString(frame, g, frameTitle, xOffset, yOffset);
+            titleLength = SwingUtilities2.stringWidth(frbme, fm, frbmeTitle);
+            SwingUtilities2.drbwString(frbme, g, frbmeTitle, xOffset, yOffset);
             xOffset += leftToRight ? titleLength + 5  : -5;
         }
 
@@ -488,90 +488,90 @@ public class MetalInternalFrameTitlePane  extends BasicInternalFrameTitlePane {
         }
         int bumpYOffset = 3;
         int bumpHeight = getHeight() - (2 * bumpYOffset);
-        bumps.setBumpArea( bumpLength, bumpHeight );
-        bumps.paintIcon(this, g, bumpXOffset, bumpYOffset);
+        bumps.setBumpAreb( bumpLength, bumpHeight );
+        bumps.pbintIcon(this, g, bumpXOffset, bumpYOffset);
     }
 
     /**
-     * If {@code b} is {@code true}, sets palette icons.
+     * If {@code b} is {@code true}, sets pblette icons.
      *
-     * @param b if {@code true}, sets palette icons
+     * @pbrbm b if {@code true}, sets pblette icons
      */
-    public void setPalette(boolean b) {
-        isPalette = b;
+    public void setPblette(boolebn b) {
+        isPblette = b;
 
-        if (isPalette) {
-            closeButton.setIcon(paletteCloseIcon);
-         if( frame.isMaximizable() )
-                remove(maxButton);
-            if( frame.isIconifiable() )
+        if (isPblette) {
+            closeButton.setIcon(pbletteCloseIcon);
+         if( frbme.isMbximizbble() )
+                remove(mbxButton);
+            if( frbme.isIconifibble() )
                 remove(iconButton);
         } else {
             closeButton.setIcon(closeIcon);
-            if( frame.isMaximizable() )
-                add(maxButton);
-            if( frame.isIconifiable() )
-                add(iconButton);
+            if( frbme.isMbximizbble() )
+                bdd(mbxButton);
+            if( frbme.isIconifibble() )
+                bdd(iconButton);
         }
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Updates any state dependant upon the JInternalFrame being shown in
-     * a <code>JOptionPane</code>.
+     * Updbtes bny stbte dependbnt upon the JInternblFrbme being shown in
+     * b <code>JOptionPbne</code>.
      */
-    private void updateOptionPaneState() {
+    privbte void updbteOptionPbneStbte() {
         int type = -2;
-        boolean closable = wasClosable;
-        Object obj = frame.getClientProperty("JInternalFrame.messageType");
+        boolebn closbble = wbsClosbble;
+        Object obj = frbme.getClientProperty("JInternblFrbme.messbgeType");
 
         if (obj == null) {
-            // Don't change the closable state unless in an JOptionPane.
+            // Don't chbnge the closbble stbte unless in bn JOptionPbne.
             return;
         }
-        if (obj instanceof Integer) {
-            type = ((Integer) obj).intValue();
+        if (obj instbnceof Integer) {
+            type = ((Integer) obj).intVblue();
         }
         switch (type) {
-        case JOptionPane.ERROR_MESSAGE:
-            selectedBackgroundKey =
-                              "OptionPane.errorDialog.titlePane.background";
+        cbse JOptionPbne.ERROR_MESSAGE:
+            selectedBbckgroundKey =
+                              "OptionPbne.errorDiblog.titlePbne.bbckground";
             selectedForegroundKey =
-                              "OptionPane.errorDialog.titlePane.foreground";
-            selectedShadowKey = "OptionPane.errorDialog.titlePane.shadow";
-            closable = false;
-            break;
-        case JOptionPane.QUESTION_MESSAGE:
-            selectedBackgroundKey =
-                            "OptionPane.questionDialog.titlePane.background";
+                              "OptionPbne.errorDiblog.titlePbne.foreground";
+            selectedShbdowKey = "OptionPbne.errorDiblog.titlePbne.shbdow";
+            closbble = fblse;
+            brebk;
+        cbse JOptionPbne.QUESTION_MESSAGE:
+            selectedBbckgroundKey =
+                            "OptionPbne.questionDiblog.titlePbne.bbckground";
             selectedForegroundKey =
-                    "OptionPane.questionDialog.titlePane.foreground";
-            selectedShadowKey =
-                          "OptionPane.questionDialog.titlePane.shadow";
-            closable = false;
-            break;
-        case JOptionPane.WARNING_MESSAGE:
-            selectedBackgroundKey =
-                              "OptionPane.warningDialog.titlePane.background";
+                    "OptionPbne.questionDiblog.titlePbne.foreground";
+            selectedShbdowKey =
+                          "OptionPbne.questionDiblog.titlePbne.shbdow";
+            closbble = fblse;
+            brebk;
+        cbse JOptionPbne.WARNING_MESSAGE:
+            selectedBbckgroundKey =
+                              "OptionPbne.wbrningDiblog.titlePbne.bbckground";
             selectedForegroundKey =
-                              "OptionPane.warningDialog.titlePane.foreground";
-            selectedShadowKey = "OptionPane.warningDialog.titlePane.shadow";
-            closable = false;
-            break;
-        case JOptionPane.INFORMATION_MESSAGE:
-        case JOptionPane.PLAIN_MESSAGE:
-            selectedBackgroundKey = selectedForegroundKey = selectedShadowKey =
+                              "OptionPbne.wbrningDiblog.titlePbne.foreground";
+            selectedShbdowKey = "OptionPbne.wbrningDiblog.titlePbne.shbdow";
+            closbble = fblse;
+            brebk;
+        cbse JOptionPbne.INFORMATION_MESSAGE:
+        cbse JOptionPbne.PLAIN_MESSAGE:
+            selectedBbckgroundKey = selectedForegroundKey = selectedShbdowKey =
                                     null;
-            closable = false;
-            break;
-        default:
-            selectedBackgroundKey = selectedForegroundKey = selectedShadowKey =
+            closbble = fblse;
+            brebk;
+        defbult:
+            selectedBbckgroundKey = selectedForegroundKey = selectedShbdowKey =
                                     null;
-            break;
+            brebk;
         }
-        if (closable != frame.isClosable()) {
-            frame.setClosable(closable);
+        if (closbble != frbme.isClosbble()) {
+            frbme.setClosbble(closbble);
         }
     }
 }

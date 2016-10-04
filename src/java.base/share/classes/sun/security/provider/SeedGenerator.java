@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
 /**
- * This class generates seeds for the SHA1PRNG cryptographically strong
- * random number generator.
+ * This clbss generbtes seeds for the SHA1PRNG cryptogrbphicblly strong
+ * rbndom number generbtor.
  * <p>
- * The seed is produced using one of two techniques, via a computation
- * of current system activity or from an entropy gathering device.
+ * The seed is produced using one of two techniques, vib b computbtion
+ * of current system bctivity or from bn entropy gbthering device.
  * <p>
- * In the default technique the seed is produced by counting the
- * number of times the VM manages to loop in a given period. This number
- * roughly reflects the machine load at that point in time.
- * The samples are translated using a permutation (s-box)
- * and then XORed together. This process is non linear and
- * should prevent the samples from "averaging out". The s-box
- * was designed to have even statistical distribution; it's specific
- * values are not crucial for the security of the seed.
- * We also create a number of sleeper threads which add entropy
+ * In the defbult technique the seed is produced by counting the
+ * number of times the VM mbnbges to loop in b given period. This number
+ * roughly reflects the mbchine lobd bt thbt point in time.
+ * The sbmples bre trbnslbted using b permutbtion (s-box)
+ * bnd then XORed together. This process is non linebr bnd
+ * should prevent the sbmples from "bverbging out". The s-box
+ * wbs designed to hbve even stbtisticbl distribution; it's specific
+ * vblues bre not crucibl for the security of the seed.
+ * We blso crebte b number of sleeper threbds which bdd entropy
  * to the system by keeping the scheduler busy.
- * Twenty such samples should give us roughly 160 bits of randomness.
+ * Twenty such sbmples should give us roughly 160 bits of rbndomness.
  * <p>
- * These values are gathered in the background by a daemon thread
- * thus allowing the system to continue performing it's different
- * activites, which in turn add entropy to the random seed.
+ * These vblues bre gbthered in the bbckground by b dbemon threbd
+ * thus bllowing the system to continue performing it's different
+ * bctivites, which in turn bdd entropy to the rbndom seed.
  * <p>
- * The class also gathers miscellaneous system information, some
- * machine dependent, some not. This information is then hashed together
+ * The clbss blso gbthers miscellbneous system informbtion, some
+ * mbchine dependent, some not. This informbtion is then hbshed together
  * with the 20 seed bytes.
  * <p>
- * The alternative to the above approach is to acquire seed material
- * from an entropy gathering device, such as /dev/random. This can be
- * accomplished by setting the value of the {@code securerandom.source}
- * Security property to a URL specifying the location of the entropy
- * gathering device, or by setting the {@code java.security.egd} System
+ * The blternbtive to the bbove bpprobch is to bcquire seed mbteribl
+ * from bn entropy gbthering device, such bs /dev/rbndom. This cbn be
+ * bccomplished by setting the vblue of the {@code securerbndom.source}
+ * Security property to b URL specifying the locbtion of the entropy
+ * gbthering device, or by setting the {@code jbvb.security.egd} System
  * property.
  * <p>
- * In the event the specified URL cannot be accessed the default
- * threading mechanism is used.
+ * In the event the specified URL cbnnot be bccessed the defbult
+ * threbding mechbnism is used.
  *
- * @author Joshua Bloch
- * @author Gadi Guy
+ * @buthor Joshub Bloch
+ * @buthor Gbdi Guy
  */
 
-import java.security.*;
-import java.io.*;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.net.*;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Random;
+import jbvb.security.*;
+import jbvb.io.*;
+import jbvb.util.Properties;
+import jbvb.util.Enumerbtion;
+import jbvb.net.*;
+import jbvb.nio.file.DirectoryStrebm;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbth;
+import jbvb.util.Rbndom;
 import sun.security.util.Debug;
 
-abstract class SeedGenerator {
+bbstrbct clbss SeedGenerbtor {
 
-    // Static instance is created at link time
-    private static SeedGenerator instance;
+    // Stbtic instbnce is crebted bt link time
+    privbte stbtic SeedGenerbtor instbnce;
 
-    private static final Debug debug = Debug.getInstance("provider");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("provider");
 
-    // Static initializer to hook in selected or best performing generator
-    static {
+    // Stbtic initiblizer to hook in selected or best performing generbtor
+    stbtic {
         String egdSource = SunEntries.getSeedSource();
 
         /*
-         * Try the URL specifying the source (e.g. file:/dev/random)
+         * Try the URL specifying the source (e.g. file:/dev/rbndom)
          *
-         * The URLs "file:/dev/random" or "file:/dev/urandom" are used to
-         * indicate the SeedGenerator should use OS support, if available.
+         * The URLs "file:/dev/rbndom" or "file:/dev/urbndom" bre used to
+         * indicbte the SeedGenerbtor should use OS support, if bvbilbble.
          *
-         * On Windows, this causes the MS CryptoAPI seeder to be used.
+         * On Windows, this cbuses the MS CryptoAPI seeder to be used.
          *
-         * On Solaris/Linux/MacOS, this is identical to using
-         * URLSeedGenerator to read from /dev/[u]random
+         * On Solbris/Linux/MbcOS, this is identicbl to using
+         * URLSeedGenerbtor to rebd from /dev/[u]rbndom
          */
-        if (egdSource.equals(SunEntries.URL_DEV_RANDOM) ||
-                egdSource.equals(SunEntries.URL_DEV_URANDOM)) {
+        if (egdSource.equbls(SunEntries.URL_DEV_RANDOM) ||
+                egdSource.equbls(SunEntries.URL_DEV_URANDOM)) {
             try {
-                instance = new NativeSeedGenerator(egdSource);
+                instbnce = new NbtiveSeedGenerbtor(egdSource);
                 if (debug != null) {
                     debug.println(
-                        "Using operating system seed generator" + egdSource);
+                        "Using operbting system seed generbtor" + egdSource);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 if (debug != null) {
-                    debug.println("Failed to use operating system seed "
-                                  + "generator: " + e.toString());
+                    debug.println("Fbiled to use operbting system seed "
+                                  + "generbtor: " + e.toString());
                 }
             }
         } else if (egdSource.length() != 0) {
             try {
-                instance = new URLSeedGenerator(egdSource);
+                instbnce = new URLSeedGenerbtor(egdSource);
                 if (debug != null) {
-                    debug.println("Using URL seed generator reading from "
+                    debug.println("Using URL seed generbtor rebding from "
                                   + egdSource);
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 if (debug != null) {
-                    debug.println("Failed to create seed generator with "
+                    debug.println("Fbiled to crebte seed generbtor with "
                                   + egdSource + ": " + e.toString());
                 }
             }
         }
 
-        // Fall back to ThreadedSeedGenerator
-        if (instance == null) {
+        // Fbll bbck to ThrebdedSeedGenerbtor
+        if (instbnce == null) {
             if (debug != null) {
-                debug.println("Using default threaded seed generator");
+                debug.println("Using defbult threbded seed generbtor");
             }
-            instance = new ThreadedSeedGenerator();
+            instbnce = new ThrebdedSeedGenerbtor();
         }
     }
 
     /**
-     * Fill result with bytes from the queue. Wait for it if it isn't ready.
+     * Fill result with bytes from the queue. Wbit for it if it isn't rebdy.
      */
-    static public void generateSeed(byte[] result) {
-        instance.getSeedBytes(result);
+    stbtic public void generbteSeed(byte[] result) {
+        instbnce.getSeedBytes(result);
     }
 
-    abstract void getSeedBytes(byte[] result);
+    bbstrbct void getSeedBytes(byte[] result);
 
     /**
-     * Retrieve some system information, hashed.
+     * Retrieve some system informbtion, hbshed.
      */
-    static byte[] getSystemEntropy() {
-        final MessageDigest md;
+    stbtic byte[] getSystemEntropy() {
+        finbl MessbgeDigest md;
 
         try {
-            md = MessageDigest.getInstance("SHA");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new InternalError("internal error: SHA-1 not available.",
-                    nsae);
+            md = MessbgeDigest.getInstbnce("SHA");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new InternblError("internbl error: SHA-1 not bvbilbble.",
+                    nsbe);
         }
 
         // The current time in millis
         byte b =(byte)System.currentTimeMillis();
-        md.update(b);
+        md.updbte(b);
 
-        java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<Void>() {
+        jbvb.security.AccessController.doPrivileged
+            (new jbvb.security.PrivilegedAction<Void>() {
                 @Override
                 public Void run() {
                     try {
-                        // System properties can change from machine to machine
+                        // System properties cbn chbnge from mbchine to mbchine
                         Properties p = System.getProperties();
-                        for (String s: p.stringPropertyNames()) {
-                            md.update(s.getBytes());
-                            md.update(p.getProperty(s).getBytes());
+                        for (String s: p.stringPropertyNbmes()) {
+                            md.updbte(s.getBytes());
+                            md.updbte(p.getProperty(s).getBytes());
                         }
 
-                        // Include network adapter names (and a Mac address)
-                        addNetworkAdapterInfo(md);
+                        // Include network bdbpter nbmes (bnd b Mbc bddress)
+                        bddNetworkAdbpterInfo(md);
 
-                        // The temporary dir
-                        File f = new File(p.getProperty("java.io.tmpdir"));
+                        // The temporbry dir
+                        File f = new File(p.getProperty("jbvb.io.tmpdir"));
                         int count = 0;
                         try (
-                            DirectoryStream<Path> stream =
-                                Files.newDirectoryStream(f.toPath())) {
-                            // We use a Random object to choose what file names
-                            // should be used. Otherwise on a machine with too
-                            // many files, the same first 1024 files always get
-                            // used. Any, We make sure the first 512 files are
-                            // always used.
-                            Random r = new Random();
-                            for (Path entry: stream) {
-                                if (count < 512 || r.nextBoolean()) {
-                                    md.update(entry.getFileName()
+                            DirectoryStrebm<Pbth> strebm =
+                                Files.newDirectoryStrebm(f.toPbth())) {
+                            // We use b Rbndom object to choose whbt file nbmes
+                            // should be used. Otherwise on b mbchine with too
+                            // mbny files, the sbme first 1024 files blwbys get
+                            // used. Any, We mbke sure the first 512 files bre
+                            // blwbys used.
+                            Rbndom r = new Rbndom();
+                            for (Pbth entry: strebm) {
+                                if (count < 512 || r.nextBoolebn()) {
+                                    md.updbte(entry.getFileNbme()
                                         .toString().getBytes());
                                 }
                                 if (count++ > 1024) {
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
-                    } catch (Exception ex) {
-                        md.update((byte)ex.hashCode());
+                    } cbtch (Exception ex) {
+                        md.updbte((byte)ex.hbshCode());
                     }
 
-                    // get Runtime memory stats
+                    // get Runtime memory stbts
                     Runtime rt = Runtime.getRuntime();
-                    byte[] memBytes = longToByteArray(rt.totalMemory());
-                    md.update(memBytes, 0, memBytes.length);
-                    memBytes = longToByteArray(rt.freeMemory());
-                    md.update(memBytes, 0, memBytes.length);
+                    byte[] memBytes = longToByteArrby(rt.totblMemory());
+                    md.updbte(memBytes, 0, memBytes.length);
+                    memBytes = longToByteArrby(rt.freeMemory());
+                    md.updbte(memBytes, 0, memBytes.length);
 
                     return null;
                 }
@@ -218,154 +218,154 @@ abstract class SeedGenerator {
     }
 
     /*
-     * Include network adapter names and, if available, a Mac address
+     * Include network bdbpter nbmes bnd, if bvbilbble, b Mbc bddress
      *
-     * See also java.util.concurrent.ThreadLocalRandom.initialSeed()
+     * See blso jbvb.util.concurrent.ThrebdLocblRbndom.initiblSeed()
      */
-    private static void addNetworkAdapterInfo(MessageDigest md) {
+    privbte stbtic void bddNetworkAdbpterInfo(MessbgeDigest md) {
 
         try {
-            Enumeration<NetworkInterface> ifcs =
-                NetworkInterface.getNetworkInterfaces();
-            while (ifcs.hasMoreElements()) {
-                NetworkInterface ifc = ifcs.nextElement();
-                md.update(ifc.toString().getBytes());
-                if (!ifc.isVirtual()) { // skip fake addresses
-                    byte[] bs = ifc.getHardwareAddress();
+            Enumerbtion<NetworkInterfbce> ifcs =
+                NetworkInterfbce.getNetworkInterfbces();
+            while (ifcs.hbsMoreElements()) {
+                NetworkInterfbce ifc = ifcs.nextElement();
+                md.updbte(ifc.toString().getBytes());
+                if (!ifc.isVirtubl()) { // skip fbke bddresses
+                    byte[] bs = ifc.getHbrdwbreAddress();
                     if (bs != null) {
-                        md.update(bs);
-                        break;
+                        md.updbte(bs);
+                        brebk;
                     }
                 }
             }
-        } catch (Exception ignore) {
+        } cbtch (Exception ignore) {
         }
     }
 
     /**
-     * Helper function to convert a long into a byte array (least significant
+     * Helper function to convert b long into b byte brrby (lebst significbnt
      * byte first).
      */
-    private static byte[] longToByteArray(long l) {
-        byte[] retVal = new byte[8];
+    privbte stbtic byte[] longToByteArrby(long l) {
+        byte[] retVbl = new byte[8];
 
         for (int i=0; i<8; i++) {
-            retVal[i] = (byte) l;
+            retVbl[i] = (byte) l;
             l >>= 8;
         }
 
-        return retVal;
+        return retVbl;
     }
 
     /*
     // This method helps the test utility receive unprocessed seed bytes.
-    public static int genTestSeed() {
+    public stbtic int genTestSeed() {
         return myself.getByte();
     }
     */
 
 
-    private static class ThreadedSeedGenerator extends SeedGenerator
-            implements Runnable {
+    privbte stbtic clbss ThrebdedSeedGenerbtor extends SeedGenerbtor
+            implements Runnbble {
         // Queue is used to collect seed bytes
-        private byte[] pool;
-        private int start, end, count;
+        privbte byte[] pool;
+        privbte int stbrt, end, count;
 
-        // Thread group for our threads
-        ThreadGroup seedGroup;
+        // Threbd group for our threbds
+        ThrebdGroup seedGroup;
 
         /**
-         * The constructor is only called once to construct the one
-         * instance we actually use. It instantiates the message digest
-         * and starts the thread going.
+         * The constructor is only cblled once to construct the one
+         * instbnce we bctublly use. It instbntibtes the messbge digest
+         * bnd stbrts the threbd going.
          */
-        ThreadedSeedGenerator() {
+        ThrebdedSeedGenerbtor() {
             pool = new byte[20];
-            start = end = 0;
+            stbrt = end = 0;
 
-            MessageDigest digest;
+            MessbgeDigest digest;
 
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException e) {
-                throw new InternalError("internal error: SHA-1 not available."
+                digest = MessbgeDigest.getInstbnce("SHA");
+            } cbtch (NoSuchAlgorithmException e) {
+                throw new InternblError("internbl error: SHA-1 not bvbilbble."
                         , e);
             }
 
-            final ThreadGroup[] finalsg = new ThreadGroup[1];
-            Thread t = java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction<Thread>() {
+            finbl ThrebdGroup[] finblsg = new ThrebdGroup[1];
+            Threbd t = jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedAction<Threbd>() {
                         @Override
-                        public Thread run() {
-                            ThreadGroup parent, group =
-                                Thread.currentThread().getThreadGroup();
-                            while ((parent = group.getParent()) != null) {
-                                group = parent;
+                        public Threbd run() {
+                            ThrebdGroup pbrent, group =
+                                Threbd.currentThrebd().getThrebdGroup();
+                            while ((pbrent = group.getPbrent()) != null) {
+                                group = pbrent;
                             }
-                            finalsg[0] = new ThreadGroup
-                                (group, "SeedGenerator ThreadGroup");
-                            Thread newT = new Thread(finalsg[0],
-                                ThreadedSeedGenerator.this,
-                                "SeedGenerator Thread");
-                            newT.setPriority(Thread.MIN_PRIORITY);
-                            newT.setDaemon(true);
+                            finblsg[0] = new ThrebdGroup
+                                (group, "SeedGenerbtor ThrebdGroup");
+                            Threbd newT = new Threbd(finblsg[0],
+                                ThrebdedSeedGenerbtor.this,
+                                "SeedGenerbtor Threbd");
+                            newT.setPriority(Threbd.MIN_PRIORITY);
+                            newT.setDbemon(true);
                             return newT;
                         }
                     });
-            seedGroup = finalsg[0];
-            t.start();
+            seedGroup = finblsg[0];
+            t.stbrt();
         }
 
         /**
-         * This method does the actual work. It collects random bytes and
+         * This method does the bctubl work. It collects rbndom bytes bnd
          * pushes them into the queue.
          */
         @Override
-        final public void run() {
+        finbl public void run() {
             try {
                 while (true) {
-                    // Queue full? Wait till there's room.
+                    // Queue full? Wbit till there's room.
                     synchronized(this) {
                         while (count >= pool.length) {
-                            wait();
+                            wbit();
                         }
                     }
 
-                    int counter, quanta;
+                    int counter, qubntb;
                     byte v = 0;
 
                     // Spin count must not be under 64000
-                    for (counter = quanta = 0;
-                            (counter < 64000) && (quanta < 6); quanta++) {
+                    for (counter = qubntb = 0;
+                            (counter < 64000) && (qubntb < 6); qubntb++) {
 
-                        // Start some noisy threads
+                        // Stbrt some noisy threbds
                         try {
-                            BogusThread bt = new BogusThread();
-                            Thread t = new Thread
-                                (seedGroup, bt, "SeedGenerator Thread");
-                            t.start();
-                        } catch (Exception e) {
-                            throw new InternalError("internal error: " +
-                                "SeedGenerator thread creation error.", e);
+                            BogusThrebd bt = new BogusThrebd();
+                            Threbd t = new Threbd
+                                (seedGroup, bt, "SeedGenerbtor Threbd");
+                            t.stbrt();
+                        } cbtch (Exception e) {
+                            throw new InternblError("internbl error: " +
+                                "SeedGenerbtor threbd crebtion error.", e);
                         }
 
-                        // We wait 250milli quanta, so the minimum wait time
-                        // cannot be under 250milli.
-                        int latch = 0;
+                        // We wbit 250milli qubntb, so the minimum wbit time
+                        // cbnnot be under 250milli.
+                        int lbtch = 0;
                         long l = System.currentTimeMillis() + 250;
                         while (System.currentTimeMillis() < l) {
                             synchronized(this){};
-                            latch++;
+                            lbtch++;
                         }
 
-                        // Translate the value using the permutation, and xor
-                        // it with previous values gathered.
-                        v ^= rndTab[latch % 255];
-                        counter += latch;
+                        // Trbnslbte the vblue using the permutbtion, bnd xor
+                        // it with previous vblues gbthered.
+                        v ^= rndTbb[lbtch % 255];
+                        counter += lbtch;
                     }
 
-                    // Push it into the queue and notify anybody who might
-                    // be waiting for it.
+                    // Push it into the queue bnd notify bnybody who might
+                    // be wbiting for it.
                     synchronized(this) {
                         pool[end] = v;
                         end++;
@@ -377,9 +377,9 @@ abstract class SeedGenerator {
                         notifyAll();
                     }
                 }
-            } catch (Exception e) {
-                throw new InternalError("internal error: " +
-                    "SeedGenerator thread generated an exception.", e);
+            } cbtch (Exception e) {
+                throw new InternblError("internbl error: " +
+                    "SeedGenerbtor threbd generbted bn exception.", e);
             }
         }
 
@@ -394,42 +394,42 @@ abstract class SeedGenerator {
             byte b;
 
             try {
-                // Wait for it...
+                // Wbit for it...
                 synchronized(this) {
                     while (count <= 0) {
-                        wait();
+                        wbit();
                     }
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 if (count <= 0) {
-                    throw new InternalError("internal error: " +
-                        "SeedGenerator thread generated an exception.", e);
+                    throw new InternblError("internbl error: " +
+                        "SeedGenerbtor threbd generbted bn exception.", e);
                 }
             }
 
             synchronized(this) {
                 // Get it from the queue
-                b = pool[start];
-                pool[start] = 0;
-                start++;
+                b = pool[stbrt];
+                pool[stbrt] = 0;
+                stbrt++;
                 count--;
-                if (start == pool.length) {
-                    start = 0;
+                if (stbrt == pool.length) {
+                    stbrt = 0;
                 }
 
-                // Notify the daemon thread, just in case it is
-                // waiting for us to make room in the queue.
+                // Notify the dbemon threbd, just in cbse it is
+                // wbiting for us to mbke room in the queue.
                 notifyAll();
             }
 
             return b;
         }
 
-        // The permutation was calculated by generating 64k of random
-        // data and using it to mix the trivial permutation.
-        // It should be evenly distributed. The specific values
-        // are not crucial to the security of this class.
-        private static byte[] rndTab = {
+        // The permutbtion wbs cblculbted by generbting 64k of rbndom
+        // dbtb bnd using it to mix the trivibl permutbtion.
+        // It should be evenly distributed. The specific vblues
+        // bre not crucibl to the security of this clbss.
+        privbte stbtic byte[] rndTbb = {
             56, 30, -107, -6, -86, 25, -83, 75, -12, -64,
             5, -128, 78, 21, 16, 32, 70, -81, 37, -51,
             -43, -46, -108, 87, 29, 17, -55, 22, -11, -111,
@@ -459,91 +459,91 @@ abstract class SeedGenerator {
         };
 
         /**
-         * This inner thread causes the thread scheduler to become 'noisy',
-         * thus adding entropy to the system load.
-         * At least one instance of this class is generated for every seed byte.
+         * This inner threbd cbuses the threbd scheduler to become 'noisy',
+         * thus bdding entropy to the system lobd.
+         * At lebst one instbnce of this clbss is generbted for every seed byte.
          */
-        private static class BogusThread implements Runnable {
+        privbte stbtic clbss BogusThrebd implements Runnbble {
             @Override
-            final public void run() {
+            finbl public void run() {
                 try {
                     for (int i = 0; i < 5; i++) {
-                        Thread.sleep(50);
+                        Threbd.sleep(50);
                     }
                     // System.gc();
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                 }
             }
         }
     }
 
-    static class URLSeedGenerator extends SeedGenerator {
+    stbtic clbss URLSeedGenerbtor extends SeedGenerbtor {
 
-        private String deviceName;
-        private InputStream seedStream;
+        privbte String deviceNbme;
+        privbte InputStrebm seedStrebm;
 
         /**
-         * The constructor is only called once to construct the one
-         * instance we actually use. It opens the entropy gathering device
-         * which will supply the randomness.
+         * The constructor is only cblled once to construct the one
+         * instbnce we bctublly use. It opens the entropy gbthering device
+         * which will supply the rbndomness.
          */
 
-        URLSeedGenerator(String egdurl) throws IOException {
+        URLSeedGenerbtor(String egdurl) throws IOException {
         if (egdurl == null) {
-                throw new IOException("No random source specified");
+                throw new IOException("No rbndom source specified");
             }
-            deviceName = egdurl;
+            deviceNbme = egdurl;
             init();
         }
 
-        private void init() throws IOException {
-            final URL device = new URL(deviceName);
+        privbte void init() throws IOException {
+            finbl URL device = new URL(deviceNbme);
             try {
-                seedStream = java.security.AccessController.doPrivileged
-                    (new java.security.PrivilegedExceptionAction<InputStream>() {
+                seedStrebm = jbvb.security.AccessController.doPrivileged
+                    (new jbvb.security.PrivilegedExceptionAction<InputStrebm>() {
                         @Override
-                        public InputStream run() throws IOException {
+                        public InputStrebm run() throws IOException {
                             /*
-                             * return a FileInputStream for file URLs and
-                             * avoid buffering. The openStream() call wraps
-                             * InputStream in a BufferedInputStream which
-                             * can buffer up to 8K bytes. This read is a
-                             * performance issue for entropy sources which
-                             * can be slow to replenish.
+                             * return b FileInputStrebm for file URLs bnd
+                             * bvoid buffering. The openStrebm() cbll wrbps
+                             * InputStrebm in b BufferedInputStrebm which
+                             * cbn buffer up to 8K bytes. This rebd is b
+                             * performbnce issue for entropy sources which
+                             * cbn be slow to replenish.
                              */
-                            if (device.getProtocol().equalsIgnoreCase("file")) {
+                            if (device.getProtocol().equblsIgnoreCbse("file")) {
                                 File deviceFile =
                                     SunEntries.getDeviceFile(device);
-                                return new FileInputStream(deviceFile);
+                                return new FileInputStrebm(deviceFile);
                             } else {
-                                return device.openStream();
+                                return device.openStrebm();
                             }
                         }
                     });
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new IOException(
-                    "Failed to open " + deviceName, e.getCause());
+                    "Fbiled to open " + deviceNbme, e.getCbuse());
             }
         }
 
         @Override
         void getSeedBytes(byte[] result) {
             int len = result.length;
-            int read = 0;
+            int rebd = 0;
             try {
-                while (read < len) {
-                    int count = seedStream.read(result, read, len - read);
-                    // /dev/random blocks - should never have EOF
+                while (rebd < len) {
+                    int count = seedStrebm.rebd(result, rebd, len - rebd);
+                    // /dev/rbndom blocks - should never hbve EOF
                     if (count < 0) {
-                        throw new InternalError(
-                            "URLSeedGenerator " + deviceName +
-                            " reached end of file");
+                        throw new InternblError(
+                            "URLSeedGenerbtor " + deviceNbme +
+                            " rebched end of file");
                     }
-                    read += count;
+                    rebd += count;
                 }
-            } catch (IOException ioe) {
-                throw new InternalError("URLSeedGenerator " + deviceName +
-                    " generated exception: " + ioe.getMessage(), ioe);
+            } cbtch (IOException ioe) {
+                throw new InternblError("URLSeedGenerbtor " + deviceNbme +
+                    " generbted exception: " + ioe.getMessbge(), ioe);
             }
         }
     }

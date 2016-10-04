@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.lang.ref.SoftReference;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Dictionbry;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
 
 /**
- * Caches the collision list.
+ * Cbches the collision list.
  */
-class CacheEntry {
-    int hash;
+clbss CbcheEntry {
+    int hbsh;
     Object key;
-    CacheEntry next;
-    SoftReference<Object> value;
+    CbcheEntry next;
+    SoftReference<Object> vblue;
 
-    public CacheEntry() {
-        value = null;
+    public CbcheEntry() {
+        vblue = null;
     }
 
-    public CacheEntry(Object o) {
-        value = new SoftReference<>(o);
+    public CbcheEntry(Object o) {
+        vblue = new SoftReference<>(o);
     }
 
     public Object get() {
-        return value.get();
+        return vblue.get();
     }
 
     public void setThing(Object thing) {
-        value = new SoftReference<>(thing);
+        vblue = new SoftReference<>(thing);
     }
 }
 
 /**
- * The Cache class. Maps keys to values. Any object can be used as
- * a key and/or value.  This is very similar to the Hashtable
- * class, except that after putting an object into the Cache,
- * it is not guaranteed that a subsequent get will return it.
- * The Cache will automatically remove entries if memory is
- * getting tight and if the entry is not referenced from outside
- * the Cache.<p>
+ * The Cbche clbss. Mbps keys to vblues. Any object cbn be used bs
+ * b key bnd/or vblue.  This is very similbr to the Hbshtbble
+ * clbss, except thbt bfter putting bn object into the Cbche,
+ * it is not gubrbnteed thbt b subsequent get will return it.
+ * The Cbche will butombticblly remove entries if memory is
+ * getting tight bnd if the entry is not referenced from outside
+ * the Cbche.<p>
  *
- * To sucessfully store and retrieve objects from a hash table the
- * object used as the key must implement the hashCode() and equals()
+ * To sucessfully store bnd retrieve objects from b hbsh tbble the
+ * object used bs the key must implement the hbshCode() bnd equbls()
  * methods.<p>
  *
- * This example creates a Cache of numbers. It uses the names of
- * the numbers as keys:
+ * This exbmple crebtes b Cbche of numbers. It uses the nbmes of
+ * the numbers bs keys:
  * <pre>
- *      Cache numbers = new Cache();
+ *      Cbche numbers = new Cbche();
  *      numbers.put("one", new Integer(1));
  *      numbers.put("two", new Integer(1));
  *      numbers.put("three", new Integer(1));
  * </pre>
- * To retrieve a number use:
+ * To retrieve b number use:
  * <pre>
  *      Integer n = (Integer)numbers.get("two");
  *      if (n != null) {
@@ -85,127 +85,127 @@ class CacheEntry {
  *      }
  * </pre>
  *
- * @see java.lang.Object#hashCode
- * @see java.lang.Object#equals
- * @deprecated Consider {@link java.util.LinkedHashMap} for LRU caches.
+ * @see jbvb.lbng.Object#hbshCode
+ * @see jbvb.lbng.Object#equbls
+ * @deprecbted Consider {@link jbvb.util.LinkedHbshMbp} for LRU cbches.
  */
-@Deprecated
+@Deprecbted
 public
-    class Cache extends Dictionary<Object, Object> {
+    clbss Cbche extends Dictionbry<Object, Object> {
     /**
-     * The hash table data.
+     * The hbsh tbble dbtb.
      */
-    private CacheEntry table[];
+    privbte CbcheEntry tbble[];
 
     /**
-     * The total number of entries in the hash table.
+     * The totbl number of entries in the hbsh tbble.
      */
-    private int count;
+    privbte int count;
 
     /**
-     * Rehashes the table when count exceeds this threshold.
+     * Rehbshes the tbble when count exceeds this threshold.
      */
-    private int threshold;
+    privbte int threshold;
 
     /**
-     * The load factor for the hashtable.
+     * The lobd fbctor for the hbshtbble.
      */
-    private float loadFactor;
+    privbte flobt lobdFbctor;
 
-    private void init(int initialCapacity, float loadFactor) {
-        if ((initialCapacity <= 0) || (loadFactor <= 0.0)) {
-            throw new IllegalArgumentException();
+    privbte void init(int initiblCbpbcity, flobt lobdFbctor) {
+        if ((initiblCbpbcity <= 0) || (lobdFbctor <= 0.0)) {
+            throw new IllegblArgumentException();
         }
-        this.loadFactor = loadFactor;
-        table = new CacheEntry[initialCapacity];
-        threshold = (int) (initialCapacity * loadFactor);
+        this.lobdFbctor = lobdFbctor;
+        tbble = new CbcheEntry[initiblCbpbcity];
+        threshold = (int) (initiblCbpbcity * lobdFbctor);
     }
 
     /**
-     * Constructs a new, empty Cache with the specified initial
-     * capacity and the specified load factor.
-     * @param initialCapacity the initial number of buckets
-     * @param loadFactor a number between 0.0 and 1.0, it defines
-     *          the threshold for rehashing the Cache into
-     *          a bigger one.
-     * @exception IllegalArgumentException If the initial capacity
-     * is less than or equal to zero.
-     * @exception IllegalArgumentException If the load factor is
-     * less than or equal to zero.
+     * Constructs b new, empty Cbche with the specified initibl
+     * cbpbcity bnd the specified lobd fbctor.
+     * @pbrbm initiblCbpbcity the initibl number of buckets
+     * @pbrbm lobdFbctor b number between 0.0 bnd 1.0, it defines
+     *          the threshold for rehbshing the Cbche into
+     *          b bigger one.
+     * @exception IllegblArgumentException If the initibl cbpbcity
+     * is less thbn or equbl to zero.
+     * @exception IllegblArgumentException If the lobd fbctor is
+     * less thbn or equbl to zero.
      */
-    public Cache (int initialCapacity, float loadFactor) {
-        init(initialCapacity, loadFactor);
+    public Cbche (int initiblCbpbcity, flobt lobdFbctor) {
+        init(initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Constructs a new, empty Cache with the specified initial
-     * capacity.
-     * @param initialCapacity the initial number of buckets
+     * Constructs b new, empty Cbche with the specified initibl
+     * cbpbcity.
+     * @pbrbm initiblCbpbcity the initibl number of buckets
      */
-    public Cache (int initialCapacity) {
-        init(initialCapacity, 0.75f);
+    public Cbche (int initiblCbpbcity) {
+        init(initiblCbpbcity, 0.75f);
     }
 
     /**
-     * Constructs a new, empty Cache. A default capacity and load factor
-     * is used. Note that the Cache will automatically grow when it gets
+     * Constructs b new, empty Cbche. A defbult cbpbcity bnd lobd fbctor
+     * is used. Note thbt the Cbche will butombticblly grow when it gets
      * full.
      */
-    public Cache () {
+    public Cbche () {
         try {
             init(101, 0.75f);
-        } catch (IllegalArgumentException ex) {
-            // This should never happen
-            throw new Error("panic");
+        } cbtch (IllegblArgumentException ex) {
+            // This should never hbppen
+            throw new Error("pbnic");
         }
     }
 
     /**
-     * Returns the number of elements contained within the Cache.
+     * Returns the number of elements contbined within the Cbche.
      */
     public int size() {
         return count;
     }
 
     /**
-     * Returns true if the Cache contains no elements.
+     * Returns true if the Cbche contbins no elements.
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return count == 0;
     }
 
     /**
-     * Returns an enumeration of the Cache's keys.
-     * @see Cache#elements
-     * @see Enumeration
+     * Returns bn enumerbtion of the Cbche's keys.
+     * @see Cbche#elements
+     * @see Enumerbtion
      */
-    public synchronized Enumeration<Object> keys() {
-        return new CacheEnumerator(table, true);
+    public synchronized Enumerbtion<Object> keys() {
+        return new CbcheEnumerbtor(tbble, true);
     }
 
     /**
-     * Returns an enumeration of the elements. Use the Enumeration methods
-     * on the returned object to fetch the elements sequentially.
-     * @see Cache#keys
-     * @see Enumeration
+     * Returns bn enumerbtion of the elements. Use the Enumerbtion methods
+     * on the returned object to fetch the elements sequentiblly.
+     * @see Cbche#keys
+     * @see Enumerbtion
      */
-    public synchronized Enumeration<Object> elements() {
-        return new CacheEnumerator(table, false);
+    public synchronized Enumerbtion<Object> elements() {
+        return new CbcheEnumerbtor(tbble, fblse);
     }
 
     /**
-     * Gets the object associated with the specified key in the Cache.
-     * @param key the key in the hash table
+     * Gets the object bssocibted with the specified key in the Cbche.
+     * @pbrbm key the key in the hbsh tbble
      * @returns the element for the key or null if the key
-     *          is not defined in the hash table.
-     * @see Cache#put
+     *          is not defined in the hbsh tbble.
+     * @see Cbche#put
      */
     public synchronized Object get(Object key) {
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (CacheEntry e = tab[index]; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+        CbcheEntry tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        for (CbcheEntry e = tbb[index]; e != null; e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
                 return e.get();
             }
         }
@@ -213,101 +213,101 @@ public
     }
 
     /**
-     * Rehashes the contents of the table into a bigger table.
-     * This is method is called automatically when the Cache's
+     * Rehbshes the contents of the tbble into b bigger tbble.
+     * This is method is cblled butombticblly when the Cbche's
      * size exceeds the threshold.
      */
-    protected void rehash() {
-        int oldCapacity = table.length;
-        CacheEntry oldTable[] = table;
+    protected void rehbsh() {
+        int oldCbpbcity = tbble.length;
+        CbcheEntry oldTbble[] = tbble;
 
-        int newCapacity = oldCapacity * 2 + 1;
-        CacheEntry newTable[] = new CacheEntry[newCapacity];
+        int newCbpbcity = oldCbpbcity * 2 + 1;
+        CbcheEntry newTbble[] = new CbcheEntry[newCbpbcity];
 
-        threshold = (int) (newCapacity * loadFactor);
-        table = newTable;
+        threshold = (int) (newCbpbcity * lobdFbctor);
+        tbble = newTbble;
 
-        // System.out.println("rehash old=" + oldCapacity + ", new=" +
-        // newCapacity + ", thresh=" + threshold + ", count=" + count);
+        // System.out.println("rehbsh old=" + oldCbpbcity + ", new=" +
+        // newCbpbcity + ", thresh=" + threshold + ", count=" + count);
 
-        for (int i = oldCapacity; i-- > 0;) {
-            for (CacheEntry old = oldTable[i]; old != null;) {
-                CacheEntry e = old;
+        for (int i = oldCbpbcity; i-- > 0;) {
+            for (CbcheEntry old = oldTbble[i]; old != null;) {
+                CbcheEntry e = old;
                 old = old.next;
                 if (e.get() != null) {
-                    int index = (e.hash & 0x7FFFFFFF) % newCapacity;
-                    e.next = newTable[index];
-                    newTable[index] = e;
+                    int index = (e.hbsh & 0x7FFFFFFF) % newCbpbcity;
+                    e.next = newTbble[index];
+                    newTbble[index] = e;
                 } else
-                    count--;    /* remove entries that have disappeared */
+                    count--;    /* remove entries thbt hbve disbppebred */
             }
         }
     }
 
     /**
-     * Puts the specified element into the Cache, using the specified
-     * key.  The element may be retrieved by doing a get() with the same
-     * key.  The key and the element cannot be null.
-     * @param key the specified hashtable key
-     * @param value the specified element
-     * @return the old value of the key, or null if it did not have one.
-     * @exception NullPointerException If the value of the specified
+     * Puts the specified element into the Cbche, using the specified
+     * key.  The element mby be retrieved by doing b get() with the sbme
+     * key.  The key bnd the element cbnnot be null.
+     * @pbrbm key the specified hbshtbble key
+     * @pbrbm vblue the specified element
+     * @return the old vblue of the key, or null if it did not hbve one.
+     * @exception NullPointerException If the vblue of the specified
      * element is null.
-     * @see Cache#get
+     * @see Cbche#get
      */
-    public synchronized Object put(Object key, Object value) {
-        // Make sure the value is not null
-        if (value == null) {
+    public synchronized Object put(Object key, Object vblue) {
+        // Mbke sure the vblue is not null
+        if (vblue == null) {
             throw new NullPointerException();
         }
-        // Makes sure the key is not already in the cache.
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        CacheEntry ne = null;
-        for (CacheEntry e = tab[index]; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+        // Mbkes sure the key is not blrebdy in the cbche.
+        CbcheEntry tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        CbcheEntry ne = null;
+        for (CbcheEntry e = tbb[index]; e != null; e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
                 Object old = e.get();
-                e.setThing(value);
+                e.setThing(vblue);
                 return old;
             } else if (e.get() == null)
-                ne = e;         /* reuse old flushed value */
+                ne = e;         /* reuse old flushed vblue */
         }
 
         if (count >= threshold) {
-            // Rehash the table if the threshold is exceeded
-            rehash();
-            return put(key, value);
+            // Rehbsh the tbble if the threshold is exceeded
+            rehbsh();
+            return put(key, vblue);
         }
-        // Creates the new entry.
+        // Crebtes the new entry.
         if (ne == null) {
-            ne = new CacheEntry ();
-            ne.next = tab[index];
-            tab[index] = ne;
+            ne = new CbcheEntry ();
+            ne.next = tbb[index];
+            tbb[index] = ne;
             count++;
         }
-        ne.hash = hash;
+        ne.hbsh = hbsh;
         ne.key = key;
-        ne.setThing(value);
+        ne.setThing(vblue);
         return null;
     }
 
     /**
      * Removes the element corresponding to the key. Does nothing if the
      * key is not present.
-     * @param key the key that needs to be removed
-     * @return the value of key, or null if the key was not found.
+     * @pbrbm key the key thbt needs to be removed
+     * @return the vblue of key, or null if the key wbs not found.
      */
     public synchronized Object remove(Object key) {
-        CacheEntry tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (CacheEntry e = tab[index], prev = null; e != null; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+        CbcheEntry tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        for (CbcheEntry e = tbb[index], prev = null; e != null; prev = e, e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
                 if (prev != null) {
                     prev.next = e.next;
                 } else {
-                    tab[index] = e.next;
+                    tbb[index] = e.next;
                 }
                 count--;
                 return e.get();
@@ -318,45 +318,45 @@ public
 }
 
 /**
- * A Cache enumerator class.  This class should remain opaque
- * to the client. It will use the Enumeration interface.
+ * A Cbche enumerbtor clbss.  This clbss should rembin opbque
+ * to the client. It will use the Enumerbtion interfbce.
  */
-class CacheEnumerator implements Enumeration<Object> {
-    boolean keys;
+clbss CbcheEnumerbtor implements Enumerbtion<Object> {
+    boolebn keys;
     int index;
-    CacheEntry table[];
-    CacheEntry entry;
+    CbcheEntry tbble[];
+    CbcheEntry entry;
 
-    CacheEnumerator (CacheEntry table[], boolean keys) {
-        this.table = table;
+    CbcheEnumerbtor (CbcheEntry tbble[], boolebn keys) {
+        this.tbble = tbble;
         this.keys = keys;
-        this.index = table.length;
+        this.index = tbble.length;
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         while (index >= 0) {
             while (entry != null)
                 if (entry.get() != null)
                     return true;
                 else
                     entry = entry.next;
-            while (--index >= 0 && (entry = table[index]) == null) ;
+            while (--index >= 0 && (entry = tbble[index]) == null) ;
         }
-        return false;
+        return fblse;
     }
 
     public Object nextElement() {
         while (index >= 0) {
             if (entry == null)
-                while (--index >= 0 && (entry = table[index]) == null) ;
+                while (--index >= 0 && (entry = tbble[index]) == null) ;
             if (entry != null) {
-                CacheEntry e = entry;
+                CbcheEntry e = entry;
                 entry = e.next;
                 if (e.get() != null)
                     return keys ? e.key : e.get();
             }
         }
-        throw new NoSuchElementException("CacheEnumerator");
+        throw new NoSuchElementException("CbcheEnumerbtor");
     }
 
 }

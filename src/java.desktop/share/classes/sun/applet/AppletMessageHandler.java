@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.text.MessageFormat;
+import jbvb.util.ResourceBundle;
+import jbvb.util.MissingResourceException;
+import jbvb.text.MessbgeFormbt;
 
 /**
- * An hanlder of localized messages.
+ * An hbnlder of locblized messbges.
  *
- * @author      Koji Uno
+ * @buthor      Koji Uno
  */
-class AppletMessageHandler {
-    private static ResourceBundle rb;
-    private String baseKey = null;
+clbss AppletMessbgeHbndler {
+    privbte stbtic ResourceBundle rb;
+    privbte String bbseKey = null;
 
-    static {
+    stbtic {
         try {
             rb = ResourceBundle.getBundle
-                ("sun.applet.resources.MsgAppletViewer");
-        } catch (MissingResourceException e) {
-            System.out.println(e.getMessage());
+                ("sun.bpplet.resources.MsgAppletViewer");
+        } cbtch (MissingResourceException e) {
+            System.out.println(e.getMessbge());
             System.exit(1);
         }
     }
 
-    AppletMessageHandler(String baseKey) {
-        this.baseKey = baseKey;
+    AppletMessbgeHbndler(String bbseKey) {
+        this.bbseKey = bbseKey;
     }
 
-    String getMessage(String key) {
-        return rb.getString(getQualifiedKey(key));
+    String getMessbge(String key) {
+        return rb.getString(getQublifiedKey(key));
     }
 
-    String getMessage(String key, Object arg){
-        String basemsgfmt = rb.getString(getQualifiedKey(key));
-        MessageFormat msgfmt = new MessageFormat(basemsgfmt);
+    String getMessbge(String key, Object brg){
+        String bbsemsgfmt = rb.getString(getQublifiedKey(key));
+        MessbgeFormbt msgfmt = new MessbgeFormbt(bbsemsgfmt);
         Object msgobj[] = new Object[1];
-        if (arg == null) {
-            arg = "null"; // mimic java.io.PrintStream.print(String)
+        if (brg == null) {
+            brg = "null"; // mimic jbvb.io.PrintStrebm.print(String)
         }
-        msgobj[0] = arg;
-        return msgfmt.format(msgobj);
+        msgobj[0] = brg;
+        return msgfmt.formbt(msgobj);
     }
 
-    String getMessage(String key, Object arg1, Object arg2) {
-        String basemsgfmt = rb.getString(getQualifiedKey(key));
-        MessageFormat msgfmt = new MessageFormat(basemsgfmt);
+    String getMessbge(String key, Object brg1, Object brg2) {
+        String bbsemsgfmt = rb.getString(getQublifiedKey(key));
+        MessbgeFormbt msgfmt = new MessbgeFormbt(bbsemsgfmt);
         Object msgobj[] = new Object[2];
-        if (arg1 == null) {
-            arg1 = "null";
+        if (brg1 == null) {
+            brg1 = "null";
         }
-        if (arg2 == null) {
-            arg2 = "null";
+        if (brg2 == null) {
+            brg2 = "null";
         }
-        msgobj[0] = arg1;
-        msgobj[1] = arg2;
-        return msgfmt.format(msgobj);
+        msgobj[0] = brg1;
+        msgobj[1] = brg2;
+        return msgfmt.formbt(msgobj);
     }
 
-    String getMessage(String key, Object arg1, Object arg2, Object arg3) {
-        String basemsgfmt = rb.getString(getQualifiedKey(key));
-        MessageFormat msgfmt = new MessageFormat(basemsgfmt);
+    String getMessbge(String key, Object brg1, Object brg2, Object brg3) {
+        String bbsemsgfmt = rb.getString(getQublifiedKey(key));
+        MessbgeFormbt msgfmt = new MessbgeFormbt(bbsemsgfmt);
         Object msgobj[] = new Object[3];
-        if (arg1 == null) {
-            arg1 = "null";
+        if (brg1 == null) {
+            brg1 = "null";
         }
-        if (arg2 == null) {
-            arg2 = "null";
+        if (brg2 == null) {
+            brg2 = "null";
         }
-        if (arg3 == null) {
-            arg3 = "null";
+        if (brg3 == null) {
+            brg3 = "null";
         }
-        msgobj[0] = arg1;
-        msgobj[1] = arg2;
-        msgobj[2] = arg3;
-        return msgfmt.format(msgobj);
+        msgobj[0] = brg1;
+        msgobj[1] = brg2;
+        msgobj[2] = brg3;
+        return msgfmt.formbt(msgobj);
     }
 
-    String getMessage(String key, Object arg[]) {
-        String basemsgfmt = rb.getString(getQualifiedKey(key));
-        MessageFormat msgfmt = new MessageFormat(basemsgfmt);
-        return msgfmt.format(arg);
+    String getMessbge(String key, Object brg[]) {
+        String bbsemsgfmt = rb.getString(getQublifiedKey(key));
+        MessbgeFormbt msgfmt = new MessbgeFormbt(bbsemsgfmt);
+        return msgfmt.formbt(brg);
     }
 
-    String getQualifiedKey(String subKey) {
-        return baseKey + "." + subKey;
+    String getQublifiedKey(String subKey) {
+        return bbseKey + "." + subKey;
     }
 }

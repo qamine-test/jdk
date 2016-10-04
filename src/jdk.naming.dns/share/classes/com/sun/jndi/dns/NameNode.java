@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 
 /**
- * A NameNode represents a node in the DNS namespace.  Each node
- * has a label, which is its name relative to its parent (so the
- * node at Sun.COM has label "Sun").  Each node has a hashtable of
- * children indexed by their labels converted to lower-case.
+ * A NbmeNode represents b node in the DNS nbmespbce.  Ebch node
+ * hbs b lbbel, which is its nbme relbtive to its pbrent (so the
+ * node bt Sun.COM hbs lbbel "Sun").  Ebch node hbs b hbshtbble of
+ * children indexed by their lbbels converted to lower-cbse.
  *
- * <p> A node may be addressed from another by giving a DnsName
- * consisting of the sequence of labels from one node to the other.
+ * <p> A node mby be bddressed from bnother by giving b DnsNbme
+ * consisting of the sequence of lbbels from one node to the other.
  *
- * <p> Each node also has an <tt>isZoneCut</tt> flag, used to indicate
- * if the node is a zone cut.  A zone cut is a node with an NS record
- * that is contained in one zone, but that actually belongs to a child zone.
+ * <p> Ebch node blso hbs bn <tt>isZoneCut</tt> flbg, used to indicbte
+ * if the node is b zone cut.  A zone cut is b node with bn NS record
+ * thbt is contbined in one zone, but thbt bctublly belongs to b child zone.
  *
- * <p> All access is unsynchronized.
+ * <p> All bccess is unsynchronized.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-class NameNode {
+clbss NbmeNode {
 
-    private String label;               // name of this node relative to its
-                                        // parent, or null for root of a tree
-    private Hashtable<String,NameNode> children = null;  // child nodes
-    private boolean isZoneCut = false;  // true if this node is a zone cut
-    private int depth = 0;              // depth in tree (0 for root)
+    privbte String lbbel;               // nbme of this node relbtive to its
+                                        // pbrent, or null for root of b tree
+    privbte Hbshtbble<String,NbmeNode> children = null;  // child nodes
+    privbte boolebn isZoneCut = fblse;  // true if this node is b zone cut
+    privbte int depth = 0;              // depth in tree (0 for root)
 
-    NameNode(String label) {
-        this.label = label;
+    NbmeNode(String lbbel) {
+        this.lbbel = lbbel;
     }
 
     /*
-     * Returns a newly-allocated NameNode.  Used to allocate new nodes
-     * in a tree.  Should be overridden in a subclass to return an object
-     * of the subclass's type.
+     * Returns b newly-bllocbted NbmeNode.  Used to bllocbte new nodes
+     * in b tree.  Should be overridden in b subclbss to return bn object
+     * of the subclbss's type.
      */
-    protected NameNode newNameNode(String label) {
-        return new NameNode(label);
+    protected NbmeNode newNbmeNode(String lbbel) {
+        return new NbmeNode(lbbel);
     }
 
     /*
-     * Returns the name of this node relative to its parent, or null for
-     * the root of a tree.
+     * Returns the nbme of this node relbtive to its pbrent, or null for
+     * the root of b tree.
      */
-    String getLabel() {
-        return label;
+    String getLbbel() {
+        return lbbel;
     }
 
     /*
@@ -85,67 +85,67 @@ class NameNode {
         return depth;
     }
 
-    boolean isZoneCut() {
+    boolebn isZoneCut() {
         return isZoneCut;
     }
 
-    void setZoneCut(boolean isZoneCut) {
+    void setZoneCut(boolebn isZoneCut) {
         this.isZoneCut = isZoneCut;
     }
 
     /*
-     * Returns the children of this node, or null if there are none.
-     * The caller must not modify the Hashtable returned.
+     * Returns the children of this node, or null if there bre none.
+     * The cbller must not modify the Hbshtbble returned.
      */
-    Hashtable<String,NameNode> getChildren() {
+    Hbshtbble<String,NbmeNode> getChildren() {
         return children;
     }
 
     /*
-     * Returns the child node given the hash key (the down-cased label)
-     * for its name relative to this node, or null if there is no such
+     * Returns the child node given the hbsh key (the down-cbsed lbbel)
+     * for its nbme relbtive to this node, or null if there is no such
      * child.
      */
-    NameNode get(String key) {
+    NbmeNode get(String key) {
         return (children != null)
             ? children.get(key)
             : null;
     }
 
     /*
-     * Returns the node at the end of a path, or null if the
+     * Returns the node bt the end of b pbth, or null if the
      * node does not exist.
-     * The path is specified by the labels of <tt>name</tt>, beginning
-     * at index idx.
+     * The pbth is specified by the lbbels of <tt>nbme</tt>, beginning
+     * bt index idx.
      */
-    NameNode get(DnsName name, int idx) {
-        NameNode node = this;
-        for (int i = idx; i < name.size() && node != null; i++) {
-            node = node.get(name.getKey(i));
+    NbmeNode get(DnsNbme nbme, int idx) {
+        NbmeNode node = this;
+        for (int i = idx; i < nbme.size() && node != null; i++) {
+            node = node.get(nbme.getKey(i));
         }
         return node;
     }
 
     /*
-     * Returns the node at the end of a path, creating it and any
-     * intermediate nodes as needed.
-     * The path is specified by the labels of <tt>name</tt>, beginning
-     * at index idx.
+     * Returns the node bt the end of b pbth, crebting it bnd bny
+     * intermedibte nodes bs needed.
+     * The pbth is specified by the lbbels of <tt>nbme</tt>, beginning
+     * bt index idx.
      */
-    NameNode add(DnsName name, int idx) {
-        NameNode node = this;
-        for (int i = idx; i < name.size(); i++) {
-            String label = name.get(i);
-            String key = name.getKey(i);
+    NbmeNode bdd(DnsNbme nbme, int idx) {
+        NbmeNode node = this;
+        for (int i = idx; i < nbme.size(); i++) {
+            String lbbel = nbme.get(i);
+            String key = nbme.getKey(i);
 
-            NameNode child = null;
+            NbmeNode child = null;
             if (node.children == null) {
-                node.children = new Hashtable<>();
+                node.children = new Hbshtbble<>();
             } else {
                 child = node.children.get(key);
             }
             if (child == null) {
-                child = newNameNode(label);
+                child = newNbmeNode(lbbel);
                 child.depth = node.depth + 1;
                 node.children.put(key, child);
             }

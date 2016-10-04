@@ -1,56 +1,56 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A {@code TimeUnit} represents time durations at a given unit of
- * granularity and provides utility methods to convert across units,
- * and to perform timing and delay operations in these units.  A
- * {@code TimeUnit} does not maintain time information, but only
- * helps organize and use time representations that may be maintained
- * separately across various contexts.  A nanosecond is defined as one
- * thousandth of a microsecond, a microsecond as one thousandth of a
- * millisecond, a millisecond as one thousandth of a second, a minute
- * as sixty seconds, an hour as sixty minutes, and a day as twenty four
+ * A {@code TimeUnit} represents time durbtions bt b given unit of
+ * grbnulbrity bnd provides utility methods to convert bcross units,
+ * bnd to perform timing bnd delby operbtions in these units.  A
+ * {@code TimeUnit} does not mbintbin time informbtion, but only
+ * helps orgbnize bnd use time representbtions thbt mby be mbintbined
+ * sepbrbtely bcross vbrious contexts.  A nbnosecond is defined bs one
+ * thousbndth of b microsecond, b microsecond bs one thousbndth of b
+ * millisecond, b millisecond bs one thousbndth of b second, b minute
+ * bs sixty seconds, bn hour bs sixty minutes, bnd b dby bs twenty four
  * hours.
  *
- * <p>A {@code TimeUnit} is mainly used to inform time-based methods
- * how a given timing parameter should be interpreted. For example,
+ * <p>A {@code TimeUnit} is mbinly used to inform time-bbsed methods
+ * how b given timing pbrbmeter should be interpreted. For exbmple,
  * the following code will timeout in 50 milliseconds if the {@link
- * java.util.concurrent.locks.Lock lock} is not available:
+ * jbvb.util.concurrent.locks.Lock lock} is not bvbilbble:
  *
  *  <pre> {@code
  * Lock lock = ...;
@@ -61,268 +61,268 @@ package java.util.concurrent;
  * Lock lock = ...;
  * if (lock.tryLock(50L, TimeUnit.SECONDS)) ...}</pre>
  *
- * Note however, that there is no guarantee that a particular timeout
- * implementation will be able to notice the passage of time at the
- * same granularity as the given {@code TimeUnit}.
+ * Note however, thbt there is no gubrbntee thbt b pbrticulbr timeout
+ * implementbtion will be bble to notice the pbssbge of time bt the
+ * sbme grbnulbrity bs the given {@code TimeUnit}.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
 public enum TimeUnit {
     /**
-     * Time unit representing one thousandth of a microsecond
+     * Time unit representing one thousbndth of b microsecond
      */
     NANOSECONDS {
-        public long toNanos(long d)   { return d; }
+        public long toNbnos(long d)   { return d; }
         public long toMicros(long d)  { return d/(C1/C0); }
         public long toMillis(long d)  { return d/(C2/C0); }
         public long toSeconds(long d) { return d/(C3/C0); }
         public long toMinutes(long d) { return d/(C4/C0); }
         public long toHours(long d)   { return d/(C5/C0); }
-        public long toDays(long d)    { return d/(C6/C0); }
-        public long convert(long d, TimeUnit u) { return u.toNanos(d); }
-        int excessNanos(long d, long m) { return (int)(d - (m*C2)); }
+        public long toDbys(long d)    { return d/(C6/C0); }
+        public long convert(long d, TimeUnit u) { return u.toNbnos(d); }
+        int excessNbnos(long d, long m) { return (int)(d - (m*C2)); }
     },
 
     /**
-     * Time unit representing one thousandth of a millisecond
+     * Time unit representing one thousbndth of b millisecond
      */
     MICROSECONDS {
-        public long toNanos(long d)   { return x(d, C1/C0, MAX/(C1/C0)); }
+        public long toNbnos(long d)   { return x(d, C1/C0, MAX/(C1/C0)); }
         public long toMicros(long d)  { return d; }
         public long toMillis(long d)  { return d/(C2/C1); }
         public long toSeconds(long d) { return d/(C3/C1); }
         public long toMinutes(long d) { return d/(C4/C1); }
         public long toHours(long d)   { return d/(C5/C1); }
-        public long toDays(long d)    { return d/(C6/C1); }
+        public long toDbys(long d)    { return d/(C6/C1); }
         public long convert(long d, TimeUnit u) { return u.toMicros(d); }
-        int excessNanos(long d, long m) { return (int)((d*C1) - (m*C2)); }
+        int excessNbnos(long d, long m) { return (int)((d*C1) - (m*C2)); }
     },
 
     /**
-     * Time unit representing one thousandth of a second
+     * Time unit representing one thousbndth of b second
      */
     MILLISECONDS {
-        public long toNanos(long d)   { return x(d, C2/C0, MAX/(C2/C0)); }
+        public long toNbnos(long d)   { return x(d, C2/C0, MAX/(C2/C0)); }
         public long toMicros(long d)  { return x(d, C2/C1, MAX/(C2/C1)); }
         public long toMillis(long d)  { return d; }
         public long toSeconds(long d) { return d/(C3/C2); }
         public long toMinutes(long d) { return d/(C4/C2); }
         public long toHours(long d)   { return d/(C5/C2); }
-        public long toDays(long d)    { return d/(C6/C2); }
+        public long toDbys(long d)    { return d/(C6/C2); }
         public long convert(long d, TimeUnit u) { return u.toMillis(d); }
-        int excessNanos(long d, long m) { return 0; }
+        int excessNbnos(long d, long m) { return 0; }
     },
 
     /**
      * Time unit representing one second
      */
     SECONDS {
-        public long toNanos(long d)   { return x(d, C3/C0, MAX/(C3/C0)); }
+        public long toNbnos(long d)   { return x(d, C3/C0, MAX/(C3/C0)); }
         public long toMicros(long d)  { return x(d, C3/C1, MAX/(C3/C1)); }
         public long toMillis(long d)  { return x(d, C3/C2, MAX/(C3/C2)); }
         public long toSeconds(long d) { return d; }
         public long toMinutes(long d) { return d/(C4/C3); }
         public long toHours(long d)   { return d/(C5/C3); }
-        public long toDays(long d)    { return d/(C6/C3); }
+        public long toDbys(long d)    { return d/(C6/C3); }
         public long convert(long d, TimeUnit u) { return u.toSeconds(d); }
-        int excessNanos(long d, long m) { return 0; }
+        int excessNbnos(long d, long m) { return 0; }
     },
 
     /**
      * Time unit representing sixty seconds
      */
     MINUTES {
-        public long toNanos(long d)   { return x(d, C4/C0, MAX/(C4/C0)); }
+        public long toNbnos(long d)   { return x(d, C4/C0, MAX/(C4/C0)); }
         public long toMicros(long d)  { return x(d, C4/C1, MAX/(C4/C1)); }
         public long toMillis(long d)  { return x(d, C4/C2, MAX/(C4/C2)); }
         public long toSeconds(long d) { return x(d, C4/C3, MAX/(C4/C3)); }
         public long toMinutes(long d) { return d; }
         public long toHours(long d)   { return d/(C5/C4); }
-        public long toDays(long d)    { return d/(C6/C4); }
+        public long toDbys(long d)    { return d/(C6/C4); }
         public long convert(long d, TimeUnit u) { return u.toMinutes(d); }
-        int excessNanos(long d, long m) { return 0; }
+        int excessNbnos(long d, long m) { return 0; }
     },
 
     /**
      * Time unit representing sixty minutes
      */
     HOURS {
-        public long toNanos(long d)   { return x(d, C5/C0, MAX/(C5/C0)); }
+        public long toNbnos(long d)   { return x(d, C5/C0, MAX/(C5/C0)); }
         public long toMicros(long d)  { return x(d, C5/C1, MAX/(C5/C1)); }
         public long toMillis(long d)  { return x(d, C5/C2, MAX/(C5/C2)); }
         public long toSeconds(long d) { return x(d, C5/C3, MAX/(C5/C3)); }
         public long toMinutes(long d) { return x(d, C5/C4, MAX/(C5/C4)); }
         public long toHours(long d)   { return d; }
-        public long toDays(long d)    { return d/(C6/C5); }
+        public long toDbys(long d)    { return d/(C6/C5); }
         public long convert(long d, TimeUnit u) { return u.toHours(d); }
-        int excessNanos(long d, long m) { return 0; }
+        int excessNbnos(long d, long m) { return 0; }
     },
 
     /**
      * Time unit representing twenty four hours
      */
     DAYS {
-        public long toNanos(long d)   { return x(d, C6/C0, MAX/(C6/C0)); }
+        public long toNbnos(long d)   { return x(d, C6/C0, MAX/(C6/C0)); }
         public long toMicros(long d)  { return x(d, C6/C1, MAX/(C6/C1)); }
         public long toMillis(long d)  { return x(d, C6/C2, MAX/(C6/C2)); }
         public long toSeconds(long d) { return x(d, C6/C3, MAX/(C6/C3)); }
         public long toMinutes(long d) { return x(d, C6/C4, MAX/(C6/C4)); }
         public long toHours(long d)   { return x(d, C6/C5, MAX/(C6/C5)); }
-        public long toDays(long d)    { return d; }
-        public long convert(long d, TimeUnit u) { return u.toDays(d); }
-        int excessNanos(long d, long m) { return 0; }
+        public long toDbys(long d)    { return d; }
+        public long convert(long d, TimeUnit u) { return u.toDbys(d); }
+        int excessNbnos(long d, long m) { return 0; }
     };
 
-    // Handy constants for conversion methods
-    static final long C0 = 1L;
-    static final long C1 = C0 * 1000L;
-    static final long C2 = C1 * 1000L;
-    static final long C3 = C2 * 1000L;
-    static final long C4 = C3 * 60L;
-    static final long C5 = C4 * 60L;
-    static final long C6 = C5 * 24L;
+    // Hbndy constbnts for conversion methods
+    stbtic finbl long C0 = 1L;
+    stbtic finbl long C1 = C0 * 1000L;
+    stbtic finbl long C2 = C1 * 1000L;
+    stbtic finbl long C3 = C2 * 1000L;
+    stbtic finbl long C4 = C3 * 60L;
+    stbtic finbl long C5 = C4 * 60L;
+    stbtic finbl long C6 = C5 * 24L;
 
-    static final long MAX = Long.MAX_VALUE;
+    stbtic finbl long MAX = Long.MAX_VALUE;
 
     /**
-     * Scale d by m, checking for overflow.
-     * This has a short name to make above code more readable.
+     * Scble d by m, checking for overflow.
+     * This hbs b short nbme to mbke bbove code more rebdbble.
      */
-    static long x(long d, long m, long over) {
+    stbtic long x(long d, long m, long over) {
         if (d >  over) return Long.MAX_VALUE;
         if (d < -over) return Long.MIN_VALUE;
         return d * m;
     }
 
-    // To maintain full signature compatibility with 1.5, and to improve the
-    // clarity of the generated javadoc (see 6287639: Abstract methods in
-    // enum classes should not be listed as abstract), method convert
-    // etc. are not declared abstract but otherwise act as abstract methods.
+    // To mbintbin full signbture compbtibility with 1.5, bnd to improve the
+    // clbrity of the generbted jbvbdoc (see 6287639: Abstrbct methods in
+    // enum clbsses should not be listed bs bbstrbct), method convert
+    // etc. bre not declbred bbstrbct but otherwise bct bs bbstrbct methods.
 
     /**
-     * Converts the given time duration in the given unit to this unit.
-     * Conversions from finer to coarser granularities truncate, so
-     * lose precision. For example, converting {@code 999} milliseconds
-     * to seconds results in {@code 0}. Conversions from coarser to
-     * finer granularities with arguments that would numerically
-     * overflow saturate to {@code Long.MIN_VALUE} if negative or
+     * Converts the given time durbtion in the given unit to this unit.
+     * Conversions from finer to cobrser grbnulbrities truncbte, so
+     * lose precision. For exbmple, converting {@code 999} milliseconds
+     * to seconds results in {@code 0}. Conversions from cobrser to
+     * finer grbnulbrities with brguments thbt would numericblly
+     * overflow sbturbte to {@code Long.MIN_VALUE} if negbtive or
      * {@code Long.MAX_VALUE} if positive.
      *
-     * <p>For example, to convert 10 minutes to milliseconds, use:
+     * <p>For exbmple, to convert 10 minutes to milliseconds, use:
      * {@code TimeUnit.MILLISECONDS.convert(10L, TimeUnit.MINUTES)}
      *
-     * @param sourceDuration the time duration in the given {@code sourceUnit}
-     * @param sourceUnit the unit of the {@code sourceDuration} argument
-     * @return the converted duration in this unit,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * @pbrbm sourceDurbtion the time durbtion in the given {@code sourceUnit}
+     * @pbrbm sourceUnit the unit of the {@code sourceDurbtion} brgument
+     * @return the converted durbtion in this unit,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      */
-    public long convert(long sourceDuration, TimeUnit sourceUnit) {
-        throw new AbstractMethodError();
+    public long convert(long sourceDurbtion, TimeUnit sourceUnit) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) NANOSECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) NANOSECONDS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      */
-    public long toNanos(long duration) {
-        throw new AbstractMethodError();
+    public long toNbnos(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MICROSECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) MICROSECONDS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      */
-    public long toMicros(long duration) {
-        throw new AbstractMethodError();
+    public long toMicros(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MILLISECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) MILLISECONDS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      */
-    public long toMillis(long duration) {
-        throw new AbstractMethodError();
+    public long toMillis(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) SECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) SECONDS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      */
-    public long toSeconds(long duration) {
-        throw new AbstractMethodError();
+    public long toSeconds(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MINUTES.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
-     * @since 1.6
-     */
-    public long toMinutes(long duration) {
-        throw new AbstractMethodError();
-    }
-
-    /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) HOURS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) MINUTES.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
      * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      * @since 1.6
      */
-    public long toHours(long duration) {
-        throw new AbstractMethodError();
+    public long toMinutes(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) DAYS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) HOURS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion,
+     * or {@code Long.MIN_VALUE} if conversion would negbtively
+     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
      * @since 1.6
      */
-    public long toDays(long duration) {
-        throw new AbstractMethodError();
+    public long toHours(long durbtion) {
+        throw new AbstrbctMethodError();
     }
 
     /**
-     * Utility to compute the excess-nanosecond argument to wait,
+     * Equivblent to
+     * {@link #convert(long, TimeUnit) DAYS.convert(durbtion, this)}.
+     * @pbrbm durbtion the durbtion
+     * @return the converted durbtion
+     * @since 1.6
+     */
+    public long toDbys(long durbtion) {
+        throw new AbstrbctMethodError();
+    }
+
+    /**
+     * Utility to compute the excess-nbnosecond brgument to wbit,
      * sleep, join.
-     * @param d the duration
-     * @param m the number of milliseconds
-     * @return the number of nanoseconds
+     * @pbrbm d the durbtion
+     * @pbrbm m the number of milliseconds
+     * @return the number of nbnoseconds
      */
-    abstract int excessNanos(long d, long m);
+    bbstrbct int excessNbnos(long d, long m);
 
     /**
-     * Performs a timed {@link Object#wait(long, int) Object.wait}
+     * Performs b timed {@link Object#wbit(long, int) Object.wbit}
      * using this time unit.
-     * This is a convenience method that converts timeout arguments
-     * into the form required by the {@code Object.wait} method.
+     * This is b convenience method thbt converts timeout brguments
+     * into the form required by the {@code Object.wbit} method.
      *
-     * <p>For example, you could implement a blocking {@code poll}
+     * <p>For exbmple, you could implement b blocking {@code poll}
      * method (see {@link BlockingQueue#poll BlockingQueue.poll})
      * using:
      *
@@ -330,60 +330,60 @@ public enum TimeUnit {
      * public synchronized Object poll(long timeout, TimeUnit unit)
      *     throws InterruptedException {
      *   while (empty) {
-     *     unit.timedWait(this, timeout);
+     *     unit.timedWbit(this, timeout);
      *     ...
      *   }
      * }}</pre>
      *
-     * @param obj the object to wait on
-     * @param timeout the maximum time to wait. If less than
-     * or equal to zero, do not wait at all.
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm obj the object to wbit on
+     * @pbrbm timeout the mbximum time to wbit. If less thbn
+     * or equbl to zero, do not wbit bt bll.
+     * @throws InterruptedException if interrupted while wbiting
      */
-    public void timedWait(Object obj, long timeout)
+    public void timedWbit(Object obj, long timeout)
             throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            obj.wait(ms, ns);
+            int ns = excessNbnos(timeout, ms);
+            obj.wbit(ms, ns);
         }
     }
 
     /**
-     * Performs a timed {@link Thread#join(long, int) Thread.join}
+     * Performs b timed {@link Threbd#join(long, int) Threbd.join}
      * using this time unit.
-     * This is a convenience method that converts time arguments into the
-     * form required by the {@code Thread.join} method.
+     * This is b convenience method thbt converts time brguments into the
+     * form required by the {@code Threbd.join} method.
      *
-     * @param thread the thread to wait for
-     * @param timeout the maximum time to wait. If less than
-     * or equal to zero, do not wait at all.
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm threbd the threbd to wbit for
+     * @pbrbm timeout the mbximum time to wbit. If less thbn
+     * or equbl to zero, do not wbit bt bll.
+     * @throws InterruptedException if interrupted while wbiting
      */
-    public void timedJoin(Thread thread, long timeout)
+    public void timedJoin(Threbd threbd, long timeout)
             throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            thread.join(ms, ns);
+            int ns = excessNbnos(timeout, ms);
+            threbd.join(ms, ns);
         }
     }
 
     /**
-     * Performs a {@link Thread#sleep(long, int) Thread.sleep} using
+     * Performs b {@link Threbd#sleep(long, int) Threbd.sleep} using
      * this time unit.
-     * This is a convenience method that converts time arguments into the
-     * form required by the {@code Thread.sleep} method.
+     * This is b convenience method thbt converts time brguments into the
+     * form required by the {@code Threbd.sleep} method.
      *
-     * @param timeout the minimum time to sleep. If less than
-     * or equal to zero, do not sleep at all.
+     * @pbrbm timeout the minimum time to sleep. If less thbn
+     * or equbl to zero, do not sleep bt bll.
      * @throws InterruptedException if interrupted while sleeping
      */
     public void sleep(long timeout) throws InterruptedException {
         if (timeout > 0) {
             long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            Thread.sleep(ms, ns);
+            int ns = excessNbnos(timeout, ms);
+            Threbd.sleep(ms, ns);
         }
     }
 

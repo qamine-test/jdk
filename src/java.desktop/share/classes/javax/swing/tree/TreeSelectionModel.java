@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import javax.swing.event.*;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.event.*;
+import jbvb.bebns.PropertyChbngeListener;
 
 /**
-  * This interface represents the current state of the selection for
+  * This interfbce represents the current stbte of the selection for
   * the tree component.
-  * For information and examples of using tree selection models,
-  * see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
-  * in <em>The Java Tutorial.</em>
+  * For informbtion bnd exbmples of using tree selection models,
+  * see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+  * in <em>The Jbvb Tutoribl.</em>
   *
   * <p>
-  * The state of the tree selection is characterized by
-  * a set of TreePaths, and optionally a set of integers. The mapping
-  * from TreePath to integer is done by way of an instance of RowMapper.
-  * It is not necessary for a TreeSelectionModel to have a RowMapper to
-  * correctly operate, but without a RowMapper <code>getSelectionRows</code>
+  * The stbte of the tree selection is chbrbcterized by
+  * b set of TreePbths, bnd optionblly b set of integers. The mbpping
+  * from TreePbth to integer is done by wby of bn instbnce of RowMbpper.
+  * It is not necessbry for b TreeSelectionModel to hbve b RowMbpper to
+  * correctly operbte, but without b RowMbpper <code>getSelectionRows</code>
   * will return null.
   *
   * <p>
   *
-  * A TreeSelectionModel can be configured to allow only one
-  * path (<code>SINGLE_TREE_SELECTION</code>) a number of
-  * contiguous paths (<code>CONTIGUOUS_TREE_SELECTION</code>) or a number of
-  * discontiguous paths (<code>DISCONTIGUOUS_TREE_SELECTION</code>).
-  * A <code>RowMapper</code> is used to determine if TreePaths are
+  * A TreeSelectionModel cbn be configured to bllow only one
+  * pbth (<code>SINGLE_TREE_SELECTION</code>) b number of
+  * contiguous pbths (<code>CONTIGUOUS_TREE_SELECTION</code>) or b number of
+  * discontiguous pbths (<code>DISCONTIGUOUS_TREE_SELECTION</code>).
+  * A <code>RowMbpper</code> is used to determine if TreePbths bre
   * contiguous.
-  * In the absence of a RowMapper <code>CONTIGUOUS_TREE_SELECTION</code> and
-  * <code>DISCONTIGUOUS_TREE_SELECTION</code> behave the same, that is they
-  * allow any number of paths to be contained in the TreeSelectionModel.
+  * In the bbsence of b RowMbpper <code>CONTIGUOUS_TREE_SELECTION</code> bnd
+  * <code>DISCONTIGUOUS_TREE_SELECTION</code> behbve the sbme, thbt is they
+  * bllow bny number of pbths to be contbined in the TreeSelectionModel.
   *
   * <p>
   *
-  * For a selection model of <code>CONTIGUOUS_TREE_SELECTION</code> any
-  * time the paths are changed (<code>setSelectionPath</code>,
-  * <code>addSelectionPath</code> ...) the TreePaths are again checked to
-  * make they are contiguous. A check of the TreePaths can also be forced
-  * by invoking <code>resetRowSelection</code>. How a set of discontiguous
-  * TreePaths is mapped to a contiguous set is left to implementors of
-  * this interface to enforce a particular policy.
+  * For b selection model of <code>CONTIGUOUS_TREE_SELECTION</code> bny
+  * time the pbths bre chbnged (<code>setSelectionPbth</code>,
+  * <code>bddSelectionPbth</code> ...) the TreePbths bre bgbin checked to
+  * mbke they bre contiguous. A check of the TreePbths cbn blso be forced
+  * by invoking <code>resetRowSelection</code>. How b set of discontiguous
+  * TreePbths is mbpped to b contiguous set is left to implementors of
+  * this interfbce to enforce b pbrticulbr policy.
   *
   * <p>
   *
-  * Implementations should combine duplicate TreePaths that are
-  * added to the selection. For example, the following code
+  * Implementbtions should combine duplicbte TreePbths thbt bre
+  * bdded to the selection. For exbmple, the following code
   * <pre>
-  *   TreePath[] paths = new TreePath[] { treePath, treePath };
-  *   treeSelectionModel.setSelectionPaths(paths);
+  *   TreePbth[] pbths = new TreePbth[] { treePbth, treePbth };
+  *   treeSelectionModel.setSelectionPbths(pbths);
   * </pre>
-  * should result in only one path being selected:
-  * <code>treePath</code>, and
-  * not two copies of <code>treePath</code>.
+  * should result in only one pbth being selected:
+  * <code>treePbth</code>, bnd
+  * not two copies of <code>treePbth</code>.
   *
   * <p>
   *
-  * The lead TreePath is the last path that was added (or set). The lead
-  * row is then the row that corresponds to the TreePath as determined
-  * from the RowMapper.
+  * The lebd TreePbth is the lbst pbth thbt wbs bdded (or set). The lebd
+  * row is then the row thbt corresponds to the TreePbth bs determined
+  * from the RowMbpper.
   *
-  * @author Scott Violet
+  * @buthor Scott Violet
   */
 
-public interface TreeSelectionModel
+public interfbce TreeSelectionModel
 {
-    /** Selection can only contain one path at a time. */
-    public static final int               SINGLE_TREE_SELECTION = 1;
+    /** Selection cbn only contbin one pbth bt b time. */
+    public stbtic finbl int               SINGLE_TREE_SELECTION = 1;
 
-    /** Selection can only be contiguous. This will only be enforced if
-     * a RowMapper instance is provided. That is, if no RowMapper is set
-     * this behaves the same as DISCONTIGUOUS_TREE_SELECTION. */
-    public static final int               CONTIGUOUS_TREE_SELECTION = 2;
+    /** Selection cbn only be contiguous. This will only be enforced if
+     * b RowMbpper instbnce is provided. Thbt is, if no RowMbpper is set
+     * this behbves the sbme bs DISCONTIGUOUS_TREE_SELECTION. */
+    public stbtic finbl int               CONTIGUOUS_TREE_SELECTION = 2;
 
-    /** Selection can contain any number of items that are not necessarily
+    /** Selection cbn contbin bny number of items thbt bre not necessbrily
      * contiguous. */
-    public static final int               DISCONTIGUOUS_TREE_SELECTION = 4;
+    public stbtic finbl int               DISCONTIGUOUS_TREE_SELECTION = 4;
 
     /**
      * Sets the selection model, which must be one of SINGLE_TREE_SELECTION,
      * CONTIGUOUS_TREE_SELECTION or DISCONTIGUOUS_TREE_SELECTION.
      * <p>
-     * This may change the selection if the current selection is not valid
-     * for the new mode. For example, if three TreePaths are
-     * selected when the mode is changed to <code>SINGLE_TREE_SELECTION</code>,
-     * only one TreePath will remain selected. It is up to the particular
-     * implementation to decide what TreePath remains selected.
+     * This mby chbnge the selection if the current selection is not vblid
+     * for the new mode. For exbmple, if three TreePbths bre
+     * selected when the mode is chbnged to <code>SINGLE_TREE_SELECTION</code>,
+     * only one TreePbth will rembin selected. It is up to the pbrticulbr
+     * implementbtion to decide whbt TreePbth rembins selected.
      *
-     * @param   mode    selection mode to be set
+     * @pbrbm   mode    selection mode to be set
      */
     void setSelectionMode(int mode);
 
@@ -125,222 +125,222 @@ public interface TreeSelectionModel
     int getSelectionMode();
 
     /**
-      * Sets the selection to path. If this represents a change, then
-      * the TreeSelectionListeners are notified. If <code>path</code> is
-      * null, this has the same effect as invoking <code>clearSelection</code>.
+      * Sets the selection to pbth. If this represents b chbnge, then
+      * the TreeSelectionListeners bre notified. If <code>pbth</code> is
+      * null, this hbs the sbme effect bs invoking <code>clebrSelection</code>.
       *
-      * @param  path    new path to select
+      * @pbrbm  pbth    new pbth to select
       */
-    void setSelectionPath(TreePath path);
+    void setSelectionPbth(TreePbth pbth);
 
     /**
-      * Sets the selection to path. If this represents a change, then
-      * the TreeSelectionListeners are notified. If <code>paths</code> is
-      * null, this has the same effect as invoking <code>clearSelection</code>.
+      * Sets the selection to pbth. If this represents b chbnge, then
+      * the TreeSelectionListeners bre notified. If <code>pbths</code> is
+      * null, this hbs the sbme effect bs invoking <code>clebrSelection</code>.
       *
-      * @param  paths   new selection
+      * @pbrbm  pbths   new selection
       */
-    void setSelectionPaths(TreePath[] paths);
+    void setSelectionPbths(TreePbth[] pbths);
 
     /**
-      * Adds path to the current selection. If path is not currently
-      * in the selection the TreeSelectionListeners are notified. This has
-      * no effect if <code>path</code> is null.
+      * Adds pbth to the current selection. If pbth is not currently
+      * in the selection the TreeSelectionListeners bre notified. This hbs
+      * no effect if <code>pbth</code> is null.
       *
-      * @param  path    the new path to add to the current selection
+      * @pbrbm  pbth    the new pbth to bdd to the current selection
       */
-    void addSelectionPath(TreePath path);
+    void bddSelectionPbth(TreePbth pbth);
 
     /**
-      * Adds paths to the current selection.  If any of the paths in
-      * paths are not currently in the selection the TreeSelectionListeners
-      * are notified. This has
-      * no effect if <code>paths</code> is null.
+      * Adds pbths to the current selection.  If bny of the pbths in
+      * pbths bre not currently in the selection the TreeSelectionListeners
+      * bre notified. This hbs
+      * no effect if <code>pbths</code> is null.
       *
-      * @param  paths   the new paths to add to the current selection
+      * @pbrbm  pbths   the new pbths to bdd to the current selection
       */
-    void addSelectionPaths(TreePath[] paths);
+    void bddSelectionPbths(TreePbth[] pbths);
 
     /**
-      * Removes path from the selection. If path is in the selection
-      * The TreeSelectionListeners are notified. This has no effect if
-      * <code>path</code> is null.
+      * Removes pbth from the selection. If pbth is in the selection
+      * The TreeSelectionListeners bre notified. This hbs no effect if
+      * <code>pbth</code> is null.
       *
-      * @param  path    the path to remove from the selection
+      * @pbrbm  pbth    the pbth to remove from the selection
       */
-    void removeSelectionPath(TreePath path);
+    void removeSelectionPbth(TreePbth pbth);
 
     /**
-      * Removes paths from the selection.  If any of the paths in
-      * <code>paths</code>
-      * are in the selection, the TreeSelectionListeners are notified.
-      * This method has no effect if <code>paths</code> is null.
+      * Removes pbths from the selection.  If bny of the pbths in
+      * <code>pbths</code>
+      * bre in the selection, the TreeSelectionListeners bre notified.
+      * This method hbs no effect if <code>pbths</code> is null.
       *
-      * @param  paths   the path to remove from the selection
+      * @pbrbm  pbths   the pbth to remove from the selection
       */
-    void removeSelectionPaths(TreePath[] paths);
+    void removeSelectionPbths(TreePbth[] pbths);
 
     /**
-      * Returns the first path in the selection. How first is defined is
-      * up to implementors, and may not necessarily be the TreePath with
-      * the smallest integer value as determined from the
-      * <code>RowMapper</code>.
+      * Returns the first pbth in the selection. How first is defined is
+      * up to implementors, bnd mby not necessbrily be the TreePbth with
+      * the smbllest integer vblue bs determined from the
+      * <code>RowMbpper</code>.
       *
-      * @return         the first path in the selection
+      * @return         the first pbth in the selection
       */
-    TreePath getSelectionPath();
+    TreePbth getSelectionPbth();
 
     /**
-      * Returns the paths in the selection. This will return null (or an
-      * empty array) if nothing is currently selected.
+      * Returns the pbths in the selection. This will return null (or bn
+      * empty brrby) if nothing is currently selected.
       *
-      * @return         the paths in the selection
+      * @return         the pbths in the selection
       */
-    TreePath[] getSelectionPaths();
+    TreePbth[] getSelectionPbths();
 
     /**
-     * Returns the number of paths that are selected.
+     * Returns the number of pbths thbt bre selected.
      *
-     * @return          the number of paths that are selected
+     * @return          the number of pbths thbt bre selected
      */
     int getSelectionCount();
 
     /**
-      * Returns true if the path, <code>path</code>, is in the current
+      * Returns true if the pbth, <code>pbth</code>, is in the current
       * selection.
       *
-      * @param  path    the path to be loked for
-      * @return         whether the {@code path} is in the current selection
+      * @pbrbm  pbth    the pbth to be loked for
+      * @return         whether the {@code pbth} is in the current selection
       */
-    boolean isPathSelected(TreePath path);
+    boolebn isPbthSelected(TreePbth pbth);
 
     /**
       * Returns true if the selection is currently empty.
       *
       * @return         whether the selection is currently empty
       */
-    boolean isSelectionEmpty();
+    boolebn isSelectionEmpty();
 
     /**
-      * Empties the current selection.  If this represents a change in the
-      * current selection, the selection listeners are notified.
+      * Empties the current selection.  If this represents b chbnge in the
+      * current selection, the selection listeners bre notified.
       */
-    void clearSelection();
+    void clebrSelection();
 
     /**
-     * Sets the RowMapper instance. This instance is used to determine
-     * the row for a particular TreePath.
+     * Sets the RowMbpper instbnce. This instbnce is used to determine
+     * the row for b pbrticulbr TreePbth.
      *
-     * @param   newMapper   RowMapper to be set
+     * @pbrbm   newMbpper   RowMbpper to be set
      */
-    void setRowMapper(RowMapper newMapper);
+    void setRowMbpper(RowMbpper newMbpper);
 
     /**
-     * Returns the RowMapper instance that is able to map a TreePath to a
+     * Returns the RowMbpper instbnce thbt is bble to mbp b TreePbth to b
      * row.
      *
-     * @return          the RowMapper instance that is able to map a TreePath
-     *                  to a row
+     * @return          the RowMbpper instbnce thbt is bble to mbp b TreePbth
+     *                  to b row
      */
-    RowMapper getRowMapper();
+    RowMbpper getRowMbpper();
 
     /**
-      * Returns all of the currently selected rows. This will return
-      * null (or an empty array) if there are no selected TreePaths or
-      * a RowMapper has not been set.
+      * Returns bll of the currently selected rows. This will return
+      * null (or bn empty brrby) if there bre no selected TreePbths or
+      * b RowMbpper hbs not been set.
       *
-      * @return         all of the currently selected rows
+      * @return         bll of the currently selected rows
       */
     int[] getSelectionRows();
 
     /**
-     * Returns the smallest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Returns the smbllest vblue obtbined from the RowMbpper for the
+     * current set of selected TreePbths. If nothing is selected,
+     * or there is no RowMbpper, this will return -1.
      *
-     * @return          the smallest value obtained from the RowMapper
-     *                  for the current set of selected TreePaths
+     * @return          the smbllest vblue obtbined from the RowMbpper
+     *                  for the current set of selected TreePbths
       */
     int getMinSelectionRow();
 
     /**
-     * Returns the largest value obtained from the RowMapper for the
-     * current set of selected TreePaths. If nothing is selected,
-     * or there is no RowMapper, this will return -1.
+     * Returns the lbrgest vblue obtbined from the RowMbpper for the
+     * current set of selected TreePbths. If nothing is selected,
+     * or there is no RowMbpper, this will return -1.
      *
-     * @return          the largest value obtained from the RowMapper
-     *                  for the current set of selected TreePaths
+     * @return          the lbrgest vblue obtbined from the RowMbpper
+     *                  for the current set of selected TreePbths
       */
-    int getMaxSelectionRow();
+    int getMbxSelectionRow();
 
     /**
       * Returns true if the row identified by <code>row</code> is selected.
       *
-      * @param  row     row to check
+      * @pbrbm  row     row to check
       * @return         whether the row is selected
       */
-    boolean isRowSelected(int row);
+    boolebn isRowSelected(int row);
 
     /**
-     * Updates this object's mapping from TreePaths to rows. This should
-     * be invoked when the mapping from TreePaths to integers has changed
-     * (for example, a node has been expanded).
+     * Updbtes this object's mbpping from TreePbths to rows. This should
+     * be invoked when the mbpping from TreePbths to integers hbs chbnged
+     * (for exbmple, b node hbs been expbnded).
      * <p>
-     * You do not normally have to call this; JTree and its associated
-     * listeners will invoke this for you. If you are implementing your own
-     * view class, then you will have to invoke this.
+     * You do not normblly hbve to cbll this; JTree bnd its bssocibted
+     * listeners will invoke this for you. If you bre implementing your own
+     * view clbss, then you will hbve to invoke this.
      */
     void resetRowSelection();
 
     /**
-     * Returns the lead selection index. That is the last index that was
-     * added.
+     * Returns the lebd selection index. Thbt is the lbst index thbt wbs
+     * bdded.
      *
-     * @return          the lead selection index
+     * @return          the lebd selection index
      */
-    int getLeadSelectionRow();
+    int getLebdSelectionRow();
 
     /**
-     * Returns the last path that was added. This may differ from the
-     * leadSelectionPath property maintained by the JTree.
+     * Returns the lbst pbth thbt wbs bdded. This mby differ from the
+     * lebdSelectionPbth property mbintbined by the JTree.
      *
-     * @return          the last path that was added
+     * @return          the lbst pbth thbt wbs bdded
      */
-    TreePath getLeadSelectionPath();
+    TreePbth getLebdSelectionPbth();
 
     /**
-     * Adds a PropertyChangeListener to the listener list.
-     * The listener is registered for all properties.
+     * Adds b PropertyChbngeListener to the listener list.
+     * The listener is registered for bll properties.
      * <p>
-     * A PropertyChangeEvent will get fired when the selection mode
-     * changes.
+     * A PropertyChbngeEvent will get fired when the selection mode
+     * chbnges.
      *
-     * @param   listener    the PropertyChangeListener to be added
+     * @pbrbm   listener    the PropertyChbngeListener to be bdded
      */
-    void addPropertyChangeListener(PropertyChangeListener listener);
+    void bddPropertyChbngeListener(PropertyChbngeListener listener);
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
-     * This removes a PropertyChangeListener that was registered
-     * for all properties.
+     * Removes b PropertyChbngeListener from the listener list.
+     * This removes b PropertyChbngeListener thbt wbs registered
+     * for bll properties.
      *
-     * @param   listener    the PropertyChangeListener to be removed
+     * @pbrbm   listener    the PropertyChbngeListener to be removed
      */
-    void removePropertyChangeListener(PropertyChangeListener listener);
+    void removePropertyChbngeListener(PropertyChbngeListener listener);
 
     /**
-      * Adds x to the list of listeners that are notified each time the
-      * set of selected TreePaths changes.
+      * Adds x to the list of listeners thbt bre notified ebch time the
+      * set of selected TreePbths chbnges.
       *
-      * @param  x       the new listener to be added
+      * @pbrbm  x       the new listener to be bdded
       */
-    void addTreeSelectionListener(TreeSelectionListener x);
+    void bddTreeSelectionListener(TreeSelectionListener x);
 
     /**
-      * Removes x from the list of listeners that are notified each time
-      * the set of selected TreePaths changes.
+      * Removes x from the list of listeners thbt bre notified ebch time
+      * the set of selected TreePbths chbnges.
       *
-      * @param  x       the listener to remove
+      * @pbrbm  x       the listener to remove
       */
     void removeTreeSelectionListener(TreeSelectionListener x);
 }

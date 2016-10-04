@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth;
+pbckbge jbvbx.security.buth;
 
 /**
- * This class is for authentication permissions.
- * An AuthPermission contains a name
- * (also referred to as a "target name")
- * but no actions list; you either have the named permission
+ * This clbss is for buthenticbtion permissions.
+ * An AuthPermission contbins b nbme
+ * (blso referred to bs b "tbrget nbme")
+ * but no bctions list; you either hbve the nbmed permission
  * or you don't.
  *
- * <p> The target name is the name of a security configuration parameter
+ * <p> The tbrget nbme is the nbme of b security configurbtion pbrbmeter
  * (see below).  Currently the AuthPermission object is used to
- * guard access to the Policy, Subject, LoginContext,
- * and Configuration objects.
+ * gubrd bccess to the Policy, Subject, LoginContext,
+ * bnd Configurbtion objects.
  *
- * <p> The possible target names for an Authentication Permission are:
+ * <p> The possible tbrget nbmes for bn Authenticbtion Permission bre:
  *
  * <pre>
- *      doAs -                  allow the caller to invoke the
+ *      doAs -                  bllow the cbller to invoke the
  *                              {@code Subject.doAs} methods.
  *
- *      doAsPrivileged -        allow the caller to invoke the
+ *      doAsPrivileged -        bllow the cbller to invoke the
  *                              {@code Subject.doAsPrivileged} methods.
  *
- *      getSubject -            allow for the retrieval of the
- *                              Subject(s) associated with the
- *                              current Thread.
+ *      getSubject -            bllow for the retrievbl of the
+ *                              Subject(s) bssocibted with the
+ *                              current Threbd.
  *
- *      getSubjectFromDomainCombiner -  allow for the retrieval of the
- *                              Subject associated with the
- *                              a {@code SubjectDomainCombiner}.
+ *      getSubjectFromDombinCombiner -  bllow for the retrievbl of the
+ *                              Subject bssocibted with the
+ *                              b {@code SubjectDombinCombiner}.
  *
- *      setReadOnly -           allow the caller to set a Subject
- *                              to be read-only.
+ *      setRebdOnly -           bllow the cbller to set b Subject
+ *                              to be rebd-only.
  *
- *      modifyPrincipals -      allow the caller to modify the {@code Set}
- *                              of Principals associated with a
+ *      modifyPrincipbls -      bllow the cbller to modify the {@code Set}
+ *                              of Principbls bssocibted with b
  *                              {@code Subject}
  *
- *      modifyPublicCredentials - allow the caller to modify the
- *                              {@code Set} of public credentials
- *                              associated with a {@code Subject}
+ *      modifyPublicCredentibls - bllow the cbller to modify the
+ *                              {@code Set} of public credentibls
+ *                              bssocibted with b {@code Subject}
  *
- *      modifyPrivateCredentials - allow the caller to modify the
- *                              {@code Set} of private credentials
- *                              associated with a {@code Subject}
+ *      modifyPrivbteCredentibls - bllow the cbller to modify the
+ *                              {@code Set} of privbte credentibls
+ *                              bssocibted with b {@code Subject}
  *
- *      refreshCredential -     allow code to invoke the {@code refresh}
- *                              method on a credential which implements
- *                              the {@code Refreshable} interface.
+ *      refreshCredentibl -     bllow code to invoke the {@code refresh}
+ *                              method on b credentibl which implements
+ *                              the {@code Refreshbble} interfbce.
  *
- *      destroyCredential -     allow code to invoke the {@code destroy}
- *                              method on a credential {@code object}
- *                              which implements the {@code Destroyable}
- *                              interface.
+ *      destroyCredentibl -     bllow code to invoke the {@code destroy}
+ *                              method on b credentibl {@code object}
+ *                              which implements the {@code Destroybble}
+ *                              interfbce.
  *
- *      createLoginContext.{name} -  allow code to instantiate a
+ *      crebteLoginContext.{nbme} -  bllow code to instbntibte b
  *                              {@code LoginContext} with the
- *                              specified <i>name</i>.  <i>name</i>
- *                              is used as the index into the installed login
- *                              {@code Configuration}
- *                              (that returned by
- *                              {@code Configuration.getConfiguration()}).
- *                              <i>name</i> can be wildcarded (set to '*')
- *                              to allow for any name.
+ *                              specified <i>nbme</i>.  <i>nbme</i>
+ *                              is used bs the index into the instblled login
+ *                              {@code Configurbtion}
+ *                              (thbt returned by
+ *                              {@code Configurbtion.getConfigurbtion()}).
+ *                              <i>nbme</i> cbn be wildcbrded (set to '*')
+ *                              to bllow for bny nbme.
  *
- *      getLoginConfiguration - allow for the retrieval of the system-wide
- *                              login Configuration.
+ *      getLoginConfigurbtion - bllow for the retrievbl of the system-wide
+ *                              login Configurbtion.
  *
- *      createLoginConfiguration.{type} - allow code to obtain a Configuration
- *                              object via
- *                              {@code Configuration.getInstance}.
+ *      crebteLoginConfigurbtion.{type} - bllow code to obtbin b Configurbtion
+ *                              object vib
+ *                              {@code Configurbtion.getInstbnce}.
  *
- *      setLoginConfiguration - allow for the setting of the system-wide
- *                              login Configuration.
+ *      setLoginConfigurbtion - bllow for the setting of the system-wide
+ *                              login Configurbtion.
  *
- *      refreshLoginConfiguration - allow for the refreshing of the system-wide
- *                              login Configuration.
+ *      refreshLoginConfigurbtion - bllow for the refreshing of the system-wide
+ *                              login Configurbtion.
  * </pre>
  *
- * <p> The following target name has been deprecated in favor of
- * {@code createLoginContext.{name}}.
+ * <p> The following tbrget nbme hbs been deprecbted in fbvor of
+ * {@code crebteLoginContext.{nbme}}.
  *
  * <pre>
- *      createLoginContext -    allow code to instantiate a
+ *      crebteLoginContext -    bllow code to instbntibte b
  *                              {@code LoginContext}.
  * </pre>
  *
- * <p> {@code javax.security.auth.Policy} has been
- * deprecated in favor of {@code java.security.Policy}.
- * Therefore, the following target names have also been deprecated:
+ * <p> {@code jbvbx.security.buth.Policy} hbs been
+ * deprecbted in fbvor of {@code jbvb.security.Policy}.
+ * Therefore, the following tbrget nbmes hbve blso been deprecbted:
  *
  * <pre>
- *      getPolicy -             allow the caller to retrieve the system-wide
- *                              Subject-based access control policy.
+ *      getPolicy -             bllow the cbller to retrieve the system-wide
+ *                              Subject-bbsed bccess control policy.
  *
- *      setPolicy -             allow the caller to set the system-wide
- *                              Subject-based access control policy.
+ *      setPolicy -             bllow the cbller to set the system-wide
+ *                              Subject-bbsed bccess control policy.
  *
- *      refreshPolicy -         allow the caller to refresh the system-wide
- *                              Subject-based access control policy.
+ *      refreshPolicy -         bllow the cbller to refresh the system-wide
+ *                              Subject-bbsed bccess control policy.
  * </pre>
  *
  */
-public final class AuthPermission extends
-java.security.BasicPermission {
+public finbl clbss AuthPermission extends
+jbvb.security.BbsicPermission {
 
-    private static final long serialVersionUID = 5806031445061587174L;
+    privbte stbtic finbl long seriblVersionUID = 5806031445061587174L;
 
     /**
-     * Creates a new AuthPermission with the specified name.
-     * The name is the symbolic name of the AuthPermission.
+     * Crebtes b new AuthPermission with the specified nbme.
+     * The nbme is the symbolic nbme of the AuthPermission.
      *
      * <p>
      *
-     * @param name the name of the AuthPermission
+     * @pbrbm nbme the nbme of the AuthPermission
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public AuthPermission(String name) {
-        // for backwards compatibility --
-        // createLoginContext is deprecated in favor of createLoginContext.*
-        super("createLoginContext".equals(name) ?
-                "createLoginContext.*" : name);
+    public AuthPermission(String nbme) {
+        // for bbckwbrds compbtibility --
+        // crebteLoginContext is deprecbted in fbvor of crebteLoginContext.*
+        super("crebteLoginContext".equbls(nbme) ?
+                "crebteLoginContext.*" : nbme);
     }
 
     /**
-     * Creates a new AuthPermission object with the specified name.
-     * The name is the symbolic name of the AuthPermission, and the
-     * actions String is currently unused and should be null.
+     * Crebtes b new AuthPermission object with the specified nbme.
+     * The nbme is the symbolic nbme of the AuthPermission, bnd the
+     * bctions String is currently unused bnd should be null.
      *
      * <p>
      *
-     * @param name the name of the AuthPermission <p>
+     * @pbrbm nbme the nbme of the AuthPermission <p>
      *
-     * @param actions should be null.
+     * @pbrbm bctions should be null.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @throws NullPointerException if {@code nbme} is {@code null}.
+     * @throws IllegblArgumentException if {@code nbme} is empty.
      */
-    public AuthPermission(String name, String actions) {
-        // for backwards compatibility --
-        // createLoginContext is deprecated in favor of createLoginContext.*
-        super("createLoginContext".equals(name) ?
-                "createLoginContext.*" : name, actions);
+    public AuthPermission(String nbme, String bctions) {
+        // for bbckwbrds compbtibility --
+        // crebteLoginContext is deprecbted in fbvor of crebteLoginContext.*
+        super("crebteLoginContext".equbls(nbme) ?
+                "crebteLoginContext.*" : nbme, bctions);
     }
 }

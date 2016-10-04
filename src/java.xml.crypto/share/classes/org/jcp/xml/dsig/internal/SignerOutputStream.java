@@ -3,66 +3,66 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: SignerOutputStream.java,v 1.2 2005/09/15 14:29:02 mullan Exp $
+ * $Id: SignerOutputStrebm.jbvb,v 1.2 2005/09/15 14:29:02 mullbn Exp $
  */
-package org.jcp.xml.dsig.internal;
+pbckbge org.jcp.xml.dsig.internbl;
 
-import java.io.ByteArrayOutputStream;
-import java.security.Signature;
-import java.security.SignatureException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.security.Signbture;
+import jbvb.security.SignbtureException;
 
 /**
- * Derived from Apache sources and changed to use java.security.Signature
- * objects as input instead of
- * com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm objects.
+ * Derived from Apbche sources bnd chbnged to use jbvb.security.Signbture
+ * objects bs input instebd of
+ * com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithm objects.
  *
- * @author raul
- * @author Sean Mullan
+ * @buthor rbul
+ * @buthor Sebn Mullbn
  */
-public class SignerOutputStream extends ByteArrayOutputStream {
-    private final Signature sig;
+public clbss SignerOutputStrebm extends ByteArrbyOutputStrebm {
+    privbte finbl Signbture sig;
 
-    public SignerOutputStream(Signature sig) {
+    public SignerOutputStrebm(Signbture sig) {
         this.sig = sig;
     }
 
     @Override
-    public void write(int arg0) {
-        super.write(arg0);
+    public void write(int brg0) {
+        super.write(brg0);
         try {
-            sig.update((byte)arg0);
-        } catch (SignatureException e) {
+            sig.updbte((byte)brg0);
+        } cbtch (SignbtureException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void write(byte[] arg0, int arg1, int arg2) {
-        super.write(arg0, arg1, arg2);
+    public void write(byte[] brg0, int brg1, int brg2) {
+        super.write(brg0, brg1, brg2);
         try {
-            sig.update(arg0, arg1, arg2);
-        } catch (SignatureException e) {
+            sig.updbte(brg0, brg1, brg2);
+        } cbtch (SignbtureException e) {
             throw new RuntimeException(e);
         }
     }

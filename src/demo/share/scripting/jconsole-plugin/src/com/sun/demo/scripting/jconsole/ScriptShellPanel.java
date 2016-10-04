@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,141 +30,141 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.demo.scripting.jconsole;
+pbckbge com.sun.demo.scripting.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.util.concurrent.Executors;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
 
 
 /**
- * A JPanel subclass containing a scrollable text area displaying the
+ * A JPbnel subclbss contbining b scrollbble text breb displbying the
  * jconsole's script console.
  */
 
-public class ScriptShellPanel extends JPanel {
+public clbss ScriptShellPbnel extends JPbnel {
 
-    private static final long serialVersionUID = 4116273141148726319L;
+    privbte stbtic finbl long seriblVersionUID = 4116273141148726319L;
 
-    // interface to evaluate script command and script prompt
-    interface CommandProcessor {
-        // execute given String as script and return the result
-        public String executeCommand(String cmd);
-        // get prompt used for interactive read-eval-loop
+    // interfbce to evblubte script commbnd bnd script prompt
+    interfbce CommbndProcessor {
+        // execute given String bs script bnd return the result
+        public String executeCommbnd(String cmd);
+        // get prompt used for interbctive rebd-evbl-loop
         public String getPrompt();
     }
 
-    // my script command processor
-    private CommandProcessor commandProcessor;
-    // editor component for command editing
-    private JTextComponent editor;
+    // my script commbnd processor
+    privbte CommbndProcessor commbndProcessor;
+    // editor component for commbnd editing
+    privbte JTextComponent editor;
 
-    private final ExecutorService commandExecutor =
-            Executors.newSingleThreadExecutor();
+    privbte finbl ExecutorService commbndExecutor =
+            Executors.newSingleThrebdExecutor();
 
-    // document management
-    private boolean updating;
+    // document mbnbgement
+    privbte boolebn updbting;
 
-    public ScriptShellPanel(CommandProcessor cmdProc) {
-        setLayout(new BorderLayout());
-        this.commandProcessor = cmdProc;
-        this.editor = new JTextArea();
-        editor.setDocument(new EditableAtEndDocument());
-        JScrollPane scroller = new JScrollPane();
-        scroller.getViewport().add(editor);
-        add(scroller, BorderLayout.CENTER);
+    public ScriptShellPbnel(CommbndProcessor cmdProc) {
+        setLbyout(new BorderLbyout());
+        this.commbndProcessor = cmdProc;
+        this.editor = new JTextAreb();
+        editor.setDocument(new EditbbleAtEndDocument());
+        JScrollPbne scroller = new JScrollPbne();
+        scroller.getViewport().bdd(editor);
+        bdd(scroller, BorderLbyout.CENTER);
 
-        editor.getDocument().addDocumentListener(new DocumentListener() {
+        editor.getDocument().bddDocumentListener(new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {
+            public void chbngedUpdbte(DocumentEvent e) {
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                if (updating) return;
-                beginUpdate();
-                editor.setCaretPosition(editor.getDocument().getLength());
-                if (insertContains(e, '\n')) {
-                    String cmd = getMarkedText();
-                    // Handle multi-line input
+            public void insertUpdbte(DocumentEvent e) {
+                if (updbting) return;
+                beginUpdbte();
+                editor.setCbretPosition(editor.getDocument().getLength());
+                if (insertContbins(e, '\n')) {
+                    String cmd = getMbrkedText();
+                    // Hbndle multi-line input
                     if ((cmd.length() == 0) ||
-                        (cmd.charAt(cmd.length() - 1) != '\\')) {
-                        // Trim "\\n" combinations
-                        final String cmd1 = trimContinuations(cmd);
-                        commandExecutor.execute(new Runnable() {
+                        (cmd.chbrAt(cmd.length() - 1) != '\\')) {
+                        // Trim "\\n" combinbtions
+                        finbl String cmd1 = trimContinubtions(cmd);
+                        commbndExecutor.execute(new Runnbble() {
                             @Override
                             public void run() {
-                                final String result = executeCommand(cmd1);
+                                finbl String result = executeCommbnd(cmd1);
 
-                                SwingUtilities.invokeLater(new Runnable() {
+                                SwingUtilities.invokeLbter(new Runnbble() {
                                     @Override
                                     public void run() {
                                         if (result != null) {
                                             print(result + "\n");
                                         }
                                         printPrompt();
-                                        setMark();
-                                        endUpdate();
+                                        setMbrk();
+                                        endUpdbte();
                                     }
                                 });
                             }
                         });
                     } else {
-                        endUpdate();
+                        endUpdbte();
                     }
                 } else {
-                    endUpdate();
+                    endUpdbte();
                 }
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
+            public void removeUpdbte(DocumentEvent e) {
             }
         });
 
-        // This is a bit of a hack but is probably better than relying on
-        // the JEditorPane to update the caret's position precisely the
+        // This is b bit of b hbck but is probbbly better thbn relying on
+        // the JEditorPbne to updbte the cbret's position precisely the
         // size of the insertion
-        editor.addCaretListener(new CaretListener() {
+        editor.bddCbretListener(new CbretListener() {
             @Override
-            public void caretUpdate(CaretEvent e) {
+            public void cbretUpdbte(CbretEvent e) {
                 int len = editor.getDocument().getLength();
                 if (e.getDot() > len) {
-                    editor.setCaretPosition(len);
+                    editor.setCbretPosition(len);
                 }
             }
         });
 
-        Box hbox = Box.createHorizontalBox();
-        hbox.add(Box.createGlue());
-        JButton button = new JButton("Clear"); // FIXME: i18n?
-        button.addActionListener(new ActionListener() {
+        Box hbox = Box.crebteHorizontblBox();
+        hbox.bdd(Box.crebteGlue());
+        JButton button = new JButton("Clebr"); // FIXME: i18n?
+        button.bddActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                clear();
+            public void bctionPerformed(ActionEvent e) {
+                clebr();
             }
         });
-        hbox.add(button);
-        hbox.add(Box.createGlue());
-        add(hbox, BorderLayout.SOUTH);
+        hbox.bdd(button);
+        hbox.bdd(Box.crebteGlue());
+        bdd(hbox, BorderLbyout.SOUTH);
 
-        clear();
+        clebr();
     }
 
     public void dispose() {
-        commandExecutor.shutdown();
+        commbndExecutor.shutdown();
     }
 
     @Override
@@ -172,32 +172,32 @@ public class ScriptShellPanel extends JPanel {
         editor.requestFocus();
     }
 
-    public void clear() {
-        clear(true);
+    public void clebr() {
+        clebr(true);
     }
 
-    public void clear(boolean prompt) {
-        EditableAtEndDocument d = (EditableAtEndDocument) editor.getDocument();
-        d.clear();
+    public void clebr(boolebn prompt) {
+        EditbbleAtEndDocument d = (EditbbleAtEndDocument) editor.getDocument();
+        d.clebr();
         if (prompt) printPrompt();
-        setMark();
+        setMbrk();
         editor.requestFocus();
     }
 
-    public void setMark() {
-        ((EditableAtEndDocument) editor.getDocument()).setMark();
+    public void setMbrk() {
+        ((EditbbleAtEndDocument) editor.getDocument()).setMbrk();
     }
 
-    public String getMarkedText() {
+    public String getMbrkedText() {
         try {
-            String s = ((EditableAtEndDocument) editor.getDocument()).getMarkedText();
+            String s = ((EditbbleAtEndDocument) editor.getDocument()).getMbrkedText();
             int i = s.length();
-            while ((i > 0) && (s.charAt(i - 1) == '\n')) {
+            while ((i > 0) && (s.chbrAt(i - 1) == '\n')) {
                 i--;
             }
             return s.substring(0, i);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+        } cbtch (BbdLocbtionException e) {
+            e.printStbckTrbce();
             return null;
         }
     }
@@ -206,54 +206,54 @@ public class ScriptShellPanel extends JPanel {
         Document d = editor.getDocument();
         try {
             d.insertString(d.getLength(), s, null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+        } cbtch (BbdLocbtionException e) {
+            e.printStbckTrbce();
         }
     }
 
 
     //
-    // Internals only below this point
+    // Internbls only below this point
     //
 
-    private String executeCommand(String cmd) {
-        return commandProcessor.executeCommand(cmd);
+    privbte String executeCommbnd(String cmd) {
+        return commbndProcessor.executeCommbnd(cmd);
     }
 
-    private String getPrompt() {
-        return commandProcessor.getPrompt();
+    privbte String getPrompt() {
+        return commbndProcessor.getPrompt();
     }
 
-    private void beginUpdate() {
-        editor.setEditable(false);
-        updating = true;
+    privbte void beginUpdbte() {
+        editor.setEditbble(fblse);
+        updbting = true;
     }
 
-    private void endUpdate() {
-        editor.setEditable(true);
-        updating = false;
+    privbte void endUpdbte() {
+        editor.setEditbble(true);
+        updbting = fblse;
     }
 
-    private void printPrompt() {
+    privbte void printPrompt() {
         print(getPrompt());
     }
 
-    private boolean insertContains(DocumentEvent e, char c) {
+    privbte boolebn insertContbins(DocumentEvent e, chbr c) {
         String s = null;
         try {
             s = editor.getText(e.getOffset(), e.getLength());
             for (int i = 0; i < e.getLength(); i++) {
-                if (s.charAt(i) == c) {
+                if (s.chbrAt(i) == c) {
                     return true;
                 }
             }
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        } cbtch (BbdLocbtionException ex) {
+            ex.printStbckTrbce();
         }
-        return false;
+        return fblse;
     }
 
-    private String trimContinuations(String text) {
+    privbte String trimContinubtions(String text) {
         int i;
         while ((i = text.indexOf("\\\n")) >= 0) {
             text = text.substring(0, i) + text.substring(i+1, text.length());

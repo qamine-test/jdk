@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
-import sun.security.util.DerValue;
+import sun.security.util.DerVblue;
 import sun.security.util.ECUtil;
 
 /**
- * EC KeyFactory implementation.
+ * EC KeyFbctory implementbtion.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.6
  */
-final class P11ECKeyFactory extends P11KeyFactory {
-    private static Provider sunECprovider;
+finbl clbss P11ECKeyFbctory extends P11KeyFbctory {
+    privbte stbtic Provider sunECprovider;
 
-    private static Provider getSunECProvider() {
+    privbte stbtic Provider getSunECProvider() {
         if (sunECprovider == null) {
             sunECprovider = Security.getProvider("SunEC");
             if (sunECprovider == null) {
-                throw new RuntimeException("Cannot load SunEC provider");
+                throw new RuntimeException("Cbnnot lobd SunEC provider");
             }
         }
 
         return sunECprovider;
     }
 
-    P11ECKeyFactory(Token token, String algorithm) {
-        super(token, algorithm);
+    P11ECKeyFbctory(Token token, String blgorithm) {
+        super(token, blgorithm);
     }
 
-    static ECParameterSpec getECParameterSpec(String name) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), name);
+    stbtic ECPbrbmeterSpec getECPbrbmeterSpec(String nbme) {
+        return ECUtil.getECPbrbmeterSpec(getSunECProvider(), nbme);
     }
 
-    static ECParameterSpec getECParameterSpec(int keySize) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), keySize);
+    stbtic ECPbrbmeterSpec getECPbrbmeterSpec(int keySize) {
+        return ECUtil.getECPbrbmeterSpec(getSunECProvider(), keySize);
     }
 
-    // Check that spec is a known supported curve and convert it to our
-    // ECParameterSpec subclass. If not possible, return null.
-    static ECParameterSpec getECParameterSpec(ECParameterSpec spec) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), spec);
+    // Check thbt spec is b known supported curve bnd convert it to our
+    // ECPbrbmeterSpec subclbss. If not possible, return null.
+    stbtic ECPbrbmeterSpec getECPbrbmeterSpec(ECPbrbmeterSpec spec) {
+        return ECUtil.getECPbrbmeterSpec(getSunECProvider(), spec);
     }
 
-    static ECParameterSpec decodeParameters(byte[] params) throws IOException {
-        return ECUtil.getECParameterSpec(getSunECProvider(), params);
+    stbtic ECPbrbmeterSpec decodePbrbmeters(byte[] pbrbms) throws IOException {
+        return ECUtil.getECPbrbmeterSpec(getSunECProvider(), pbrbms);
     }
 
-    static byte[] encodeParameters(ECParameterSpec params) {
-        return ECUtil.encodeECParameterSpec(getSunECProvider(), params);
+    stbtic byte[] encodePbrbmeters(ECPbrbmeterSpec pbrbms) {
+        return ECUtil.encodeECPbrbmeterSpec(getSunECProvider(), pbrbms);
     }
 
-    static ECPoint decodePoint(byte[] encoded, EllipticCurve curve) throws IOException {
+    stbtic ECPoint decodePoint(byte[] encoded, EllipticCurve curve) throws IOException {
         return ECUtil.decodePoint(encoded, curve);
     }
 
     // Used by ECDH KeyAgreement
-    static byte[] getEncodedPublicValue(PublicKey key) throws InvalidKeyException {
-        if (key instanceof ECPublicKey) {
+    stbtic byte[] getEncodedPublicVblue(PublicKey key) throws InvblidKeyException {
+        if (key instbnceof ECPublicKey) {
             ECPublicKey ecKey = (ECPublicKey)key;
             ECPoint w = ecKey.getW();
-            ECParameterSpec params = ecKey.getParams();
-            return ECUtil.encodePoint(w, params.getCurve());
+            ECPbrbmeterSpec pbrbms = ecKey.getPbrbms();
+            return ECUtil.encodePoint(w, pbrbms.getCurve());
         } else {
             // should never occur
-            throw new InvalidKeyException
-                ("Key class not yet supported: " + key.getClass().getName());
+            throw new InvblidKeyException
+                ("Key clbss not yet supported: " + key.getClbss().getNbme());
         }
     }
 
-    PublicKey implTranslatePublicKey(PublicKey key) throws InvalidKeyException {
+    PublicKey implTrbnslbtePublicKey(PublicKey key) throws InvblidKeyException {
         try {
-            if (key instanceof ECPublicKey) {
+            if (key instbnceof ECPublicKey) {
                 ECPublicKey ecKey = (ECPublicKey)key;
-                return generatePublic(
+                return generbtePublic(
                     ecKey.getW(),
-                    ecKey.getParams()
+                    ecKey.getPbrbms()
                 );
-            } else if ("X.509".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
+            } else if ("X.509".equbls(key.getFormbt())) {
+                // let Sun provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
 
                 try {
                     key = ECUtil.decodeX509ECPublicKey(encoded);
-                } catch (InvalidKeySpecException ikse) {
-                    throw new InvalidKeyException(ikse);
+                } cbtch (InvblidKeySpecException ikse) {
+                    throw new InvblidKeyException(ikse);
                 }
 
-                return implTranslatePublicKey(key);
+                return implTrbnslbtePublicKey(key);
             } else {
-                throw new InvalidKeyException("PublicKey must be instance "
-                        + "of ECPublicKey or have X.509 encoding");
+                throw new InvblidKeyException("PublicKey must be instbnce "
+                        + "of ECPublicKey or hbve X.509 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create EC public key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte EC public key", e);
         }
     }
 
-    PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
+    PrivbteKey implTrbnslbtePrivbteKey(PrivbteKey key)
+            throws InvblidKeyException {
         try {
-            if (key instanceof ECPrivateKey) {
-                ECPrivateKey ecKey = (ECPrivateKey)key;
-                return generatePrivate(
+            if (key instbnceof ECPrivbteKey) {
+                ECPrivbteKey ecKey = (ECPrivbteKey)key;
+                return generbtePrivbte(
                     ecKey.getS(),
-                    ecKey.getParams()
+                    ecKey.getPbrbms()
                 );
-            } else if ("PKCS#8".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
+            } else if ("PKCS#8".equbls(key.getFormbt())) {
+                // let Sun provider pbrse for us, then recurse
                 byte[] encoded = key.getEncoded();
 
                 try {
-                    key = ECUtil.decodePKCS8ECPrivateKey(encoded);
-                } catch (InvalidKeySpecException ikse) {
-                    throw new InvalidKeyException(ikse);
+                    key = ECUtil.decodePKCS8ECPrivbteKey(encoded);
+                } cbtch (InvblidKeySpecException ikse) {
+                    throw new InvblidKeyException(ikse);
                 }
 
-                return implTranslatePrivateKey(key);
+                return implTrbnslbtePrivbteKey(key);
             } else {
-                throw new InvalidKeyException("PrivateKey must be instance "
-                        + "of ECPrivateKey or have PKCS#8 encoding");
+                throw new InvblidKeyException("PrivbteKey must be instbnce "
+                        + "of ECPrivbteKey or hbve PKCS#8 encoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create EC private key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte EC privbte key", e);
         }
     }
 
     // see JCA spec
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof X509EncodedKeySpec) {
+    protected PublicKey engineGenerbtePublic(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof X509EncodedKeySpec) {
             try {
                 byte[] encoded = ((X509EncodedKeySpec)keySpec).getEncoded();
                 PublicKey key = ECUtil.decodeX509ECPublicKey(encoded);
-                return implTranslatePublicKey(key);
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create EC public key", e);
+                return implTrbnslbtePublicKey(key);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte EC public key", e);
             }
         }
-        if (keySpec instanceof ECPublicKeySpec == false) {
-            throw new InvalidKeySpecException("Only ECPublicKeySpec and "
+        if (keySpec instbnceof ECPublicKeySpec == fblse) {
+            throw new InvblidKeySpecException("Only ECPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for EC public keys");
         }
         try {
             ECPublicKeySpec ec = (ECPublicKeySpec)keySpec;
-            return generatePublic(
+            return generbtePublic(
                 ec.getW(),
-                ec.getParams()
+                ec.getPbrbms()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create EC public key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte EC public key", e);
         }
     }
 
     // see JCA spec
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
+    protected PrivbteKey engineGenerbtePrivbte(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
+        if (keySpec instbnceof PKCS8EncodedKeySpec) {
             try {
                 byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
-                PrivateKey key = ECUtil.decodePKCS8ECPrivateKey(encoded);
-                return implTranslatePrivateKey(key);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create EC private key", e);
+                PrivbteKey key = ECUtil.decodePKCS8ECPrivbteKey(encoded);
+                return implTrbnslbtePrivbteKey(key);
+            } cbtch (GenerblSecurityException e) {
+                throw new InvblidKeySpecException
+                        ("Could not crebte EC privbte key", e);
             }
         }
-        if (keySpec instanceof ECPrivateKeySpec == false) {
-            throw new InvalidKeySpecException("Only ECPrivateKeySpec and "
-                + "PKCS8EncodedKeySpec supported for EC private keys");
+        if (keySpec instbnceof ECPrivbteKeySpec == fblse) {
+            throw new InvblidKeySpecException("Only ECPrivbteKeySpec bnd "
+                + "PKCS8EncodedKeySpec supported for EC privbte keys");
         }
         try {
-            ECPrivateKeySpec ec = (ECPrivateKeySpec)keySpec;
-            return generatePrivate(
+            ECPrivbteKeySpec ec = (ECPrivbteKeySpec)keySpec;
+            return generbtePrivbte(
                 ec.getS(),
-                ec.getParams()
+                ec.getPbrbms()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create EC private key", e);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeySpecException
+                ("Could not crebte EC privbte key", e);
         }
     }
 
-    private PublicKey generatePublic(ECPoint point, ECParameterSpec params)
+    privbte PublicKey generbtePublic(ECPoint point, ECPbrbmeterSpec pbrbms)
             throws PKCS11Exception {
-        byte[] encodedParams =
-            ECUtil.encodeECParameterSpec(getSunECProvider(), params);
+        byte[] encodedPbrbms =
+            ECUtil.encodeECPbrbmeterSpec(getSunECProvider(), pbrbms);
         byte[] encodedPoint =
-            ECUtil.encodePoint(point, params.getCurve());
+            ECUtil.encodePoint(point, pbrbms.getCurve());
 
-        // Check whether the X9.63 encoding of an EC point shall be wrapped
-        // in an ASN.1 OCTET STRING
+        // Check whether the X9.63 encoding of bn EC point shbll be wrbpped
+        // in bn ASN.1 OCTET STRING
         if (!token.config.getUseEcX963Encoding()) {
             try {
                 encodedPoint =
-                    new DerValue(DerValue.tag_OctetString, encodedPoint)
-                        .toByteArray();
-            } catch (IOException e) {
+                    new DerVblue(DerVblue.tbg_OctetString, encodedPoint)
+                        .toByteArrby();
+            } cbtch (IOException e) {
                 throw new
-                    IllegalArgumentException("Could not DER encode point", e);
+                    IllegblArgumentException("Could not DER encode point", e);
             }
         }
 
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
             new CK_ATTRIBUTE(CKA_EC_POINT, encodedPoint),
-            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedParams),
+            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedPbrbms),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PUBLIC_KEY, CKK_EC, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_EC, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
             return P11Key.publicKey
-                (session, keyID, "EC", params.getCurve().getField().getFieldSize(), attributes);
-        } finally {
-            token.releaseSession(session);
+                (session, keyID, "EC", pbrbms.getCurve().getField().getFieldSize(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger s, ECParameterSpec params)
+    privbte PrivbteKey generbtePrivbte(BigInteger s, ECPbrbmeterSpec pbrbms)
             throws PKCS11Exception {
-        byte[] encodedParams =
-            ECUtil.encodeECParameterSpec(getSunECProvider(), params);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+        byte[] encodedPbrbms =
+            ECUtil.encodeECPbrbmeterSpec(getSunECProvider(), pbrbms);
+        CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
             new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
             new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
             new CK_ATTRIBUTE(CKA_VALUE, s),
-            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedParams),
+            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedPbrbms),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_EC, attributes);
+        bttributes = token.getAttributes
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_EC, bttributes);
         Session session = null;
         try {
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session, keyID, "EC", params.getCurve().getField().getFieldSize(), attributes);
-        } finally {
-            token.releaseSession(session);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
+            return P11Key.privbteKey
+                (session, keyID, "EC", pbrbms.getCurve().getField().getFieldSize(), bttributes);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
-    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (ECPublicKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (ECPublicKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_EC_POINT),
                 new CK_ATTRIBUTE(CKA_EC_PARAMS),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
             try {
-                ECParameterSpec params = decodeParameters(attributes[1].getByteArray());
-                ECPoint point = decodePoint(attributes[0].getByteArray(), params.getCurve());
-                return keySpec.cast(new ECPublicKeySpec(point, params));
-            } catch (IOException e) {
-                throw new InvalidKeySpecException("Could not parse key", e);
+                ECPbrbmeterSpec pbrbms = decodePbrbmeters(bttributes[1].getByteArrby());
+                ECPoint point = decodePoint(bttributes[0].getByteArrby(), pbrbms.getCurve());
+                return keySpec.cbst(new ECPublicKeySpec(point, pbrbms));
+            } cbtch (IOException e) {
+                throw new InvblidKeySpecException("Could not pbrse key", e);
             }
-        } else { // X.509 handled in superclass
-            throw new InvalidKeySpecException("Only ECPublicKeySpec and "
+        } else { // X.509 hbndled in superclbss
+            throw new InvblidKeySpecException("Only ECPublicKeySpec bnd "
                 + "X509EncodedKeySpec supported for EC public keys");
         }
     }
 
-    <T extends KeySpec> T implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (ECPrivateKeySpec.class.isAssignableFrom(keySpec)) {
+    <T extends KeySpec> T implGetPrivbteKeySpec(P11Key key, Clbss<T> keySpec,
+            Session[] session) throws PKCS11Exception, InvblidKeySpecException {
+        if (ECPrivbteKeySpec.clbss.isAssignbbleFrom(keySpec)) {
             session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+            CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_VALUE),
                 new CK_ATTRIBUTE(CKA_EC_PARAMS),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            token.p11.C_GetAttributeVblue(session[0].id(), key.keyID, bttributes);
             try {
-                ECParameterSpec params = decodeParameters(attributes[1].getByteArray());
-                return keySpec.cast(
-                    new ECPrivateKeySpec(attributes[0].getBigInteger(), params));
-            } catch (IOException e) {
-                throw new InvalidKeySpecException("Could not parse key", e);
+                ECPbrbmeterSpec pbrbms = decodePbrbmeters(bttributes[1].getByteArrby());
+                return keySpec.cbst(
+                    new ECPrivbteKeySpec(bttributes[0].getBigInteger(), pbrbms));
+            } cbtch (IOException e) {
+                throw new InvblidKeySpecException("Could not pbrse key", e);
             }
-        } else { // PKCS#8 handled in superclass
-            throw new InvalidKeySpecException("Only ECPrivateKeySpec "
-                + "and PKCS8EncodedKeySpec supported for EC private keys");
+        } else { // PKCS#8 hbndled in superclbss
+            throw new InvblidKeySpecException("Only ECPrivbteKeySpec "
+                + "bnd PKCS8EncodedKeySpec supported for EC privbte keys");
         }
     }
 
-    KeyFactory implGetSoftwareFactory() throws GeneralSecurityException {
-        return KeyFactory.getInstance("EC", getSunECProvider());
+    KeyFbctory implGetSoftwbreFbctory() throws GenerblSecurityException {
+        return KeyFbctory.getInstbnce("EC", getSunECProvider());
     }
 
 }

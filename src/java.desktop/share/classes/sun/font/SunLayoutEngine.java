@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -28,146 +28,146 @@
  * (C) Copyright IBM Corp. 2003 - All Rights Reserved
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import sun.font.GlyphLayout.*;
-import java.awt.geom.Point2D;
-import java.lang.ref.SoftReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Locale;
+import sun.font.GlyphLbyout.*;
+import jbvb.bwt.geom.Point2D;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.Locble;
 
 /*
- * different ways to do this
- * 1) each physical font2d keeps a hashtable mapping scripts to layout
- * engines, we query and fill this cache.
- * 2) we keep a mapping independent of font using the key Most likely
+ * different wbys to do this
+ * 1) ebch physicbl font2d keeps b hbshtbble mbpping scripts to lbyout
+ * engines, we query bnd fill this cbche.
+ * 2) we keep b mbpping independent of font using the key Most likely
  * few fonts will be used, so option 2 seems better
  *
- * Once we know which engine to use for a font, we always know, so we
- * shouldn't have to recheck each time we do layout.  So the cache is
+ * Once we know which engine to use for b font, we blwbys know, so we
+ * shouldn't hbve to recheck ebch time we do lbyout.  So the cbche is
  * ok.
  *
- * Should we reuse engines?  We could instantiate an engine for each
- * font/script pair.  The engine would hold onto the table(s) from the
- * font that it needs.  If we have multiple threads using the same
- * engine, we still need to keep the state separate, so the native
- * engines would still need to be allocated for each call, since they
- * keep their state in themselves.  If they used the passed-in GVData
- * arrays directly (with some checks for space) then since each GVData
- * is different per thread, we could reuse the layout engines.  This
- * still requires a separate layout engine per font, because of the
- * table state in the engine.  If we pushed that out too and passed it
- * in with the native call as well, we'd be ok if the layout engines
- * keep all their process state on the stack, but I don't know if this
- * is true.  Then we'd basically just be down to an engine index which
- * we pass into native and then invoke the engine code (now a
- * procedure call, not an object invocation) based on a switch on the
- * index.  There would be only half a dozen engine objects then, not
- * potentially half a dozen per font.  But we'd have to stack-allocate
- * some state that included the pointer to the required font tables.
+ * Should we reuse engines?  We could instbntibte bn engine for ebch
+ * font/script pbir.  The engine would hold onto the tbble(s) from the
+ * font thbt it needs.  If we hbve multiple threbds using the sbme
+ * engine, we still need to keep the stbte sepbrbte, so the nbtive
+ * engines would still need to be bllocbted for ebch cbll, since they
+ * keep their stbte in themselves.  If they used the pbssed-in GVDbtb
+ * brrbys directly (with some checks for spbce) then since ebch GVDbtb
+ * is different per threbd, we could reuse the lbyout engines.  This
+ * still requires b sepbrbte lbyout engine per font, becbuse of the
+ * tbble stbte in the engine.  If we pushed thbt out too bnd pbssed it
+ * in with the nbtive cbll bs well, we'd be ok if the lbyout engines
+ * keep bll their process stbte on the stbck, but I don't know if this
+ * is true.  Then we'd bbsicblly just be down to bn engine index which
+ * we pbss into nbtive bnd then invoke the engine code (now b
+ * procedure cbll, not bn object invocbtion) bbsed on b switch on the
+ * index.  There would be only hblf b dozen engine objects then, not
+ * potentiblly hblf b dozen per font.  But we'd hbve to stbck-bllocbte
+ * some stbte thbt included the pointer to the required font tbbles.
  *
- * Seems for now that the way to do things is to come in with a
- * selector and the font.  The selector indicates which engine to use,
- * the engine is stack allocated and initialized with the required
- * font tables (the selector indicates which).  Then layout is called,
- * the contents are copied (or not), and the stack is destroyed on
- * exit. So the association is between the font/script (layout engine
- * desc) and and one of a few permanent engine objects, which are
- * handed the key when they need to process something.  In the native
- * case, the engine holds an index, and just passes it together with
- * the key info down to native.  Some default cases are the 'default
- * layout' case that just runs the c2gmapper, this stays in java and
- * just uses the mapper from the font/strike.  Another default case
- * might be the unicode arabic shaper, since this doesn't care about
- * the font (or script or lang?) it wouldn't need to extract this
- * data.  It could be (yikes) ported back to java even to avoid
- * upcalls to check if the font supports a particular unicode
- * character.
+ * Seems for now thbt the wby to do things is to come in with b
+ * selector bnd the font.  The selector indicbtes which engine to use,
+ * the engine is stbck bllocbted bnd initiblized with the required
+ * font tbbles (the selector indicbtes which).  Then lbyout is cblled,
+ * the contents bre copied (or not), bnd the stbck is destroyed on
+ * exit. So the bssocibtion is between the font/script (lbyout engine
+ * desc) bnd bnd one of b few permbnent engine objects, which bre
+ * hbnded the key when they need to process something.  In the nbtive
+ * cbse, the engine holds bn index, bnd just pbsses it together with
+ * the key info down to nbtive.  Some defbult cbses bre the 'defbult
+ * lbyout' cbse thbt just runs the c2gmbpper, this stbys in jbvb bnd
+ * just uses the mbpper from the font/strike.  Another defbult cbse
+ * might be the unicode brbbic shbper, since this doesn't cbre bbout
+ * the font (or script or lbng?) it wouldn't need to extrbct this
+ * dbtb.  It could be (yikes) ported bbck to jbvb even to bvoid
+ * upcblls to check if the font supports b pbrticulbr unicode
+ * chbrbcter.
  *
- * I'd expect that the majority of scripts use the default mapper for
- * a particular font.  Loading the hastable with 40 or so keys 30+ of
- * which all map to the same object is unfortunate.  It might be worth
- * instead having a per-font list of 'scripts with non-default
- * engines', e.g. the factory has a hashtable mapping fonts to 'script
- * lists' (the factory has this since the design potentially has other
- * factories, though I admit there's no client for this yet and no
- * public api) and then the script list is queried for the script in
- * question.  it can be preloaded at creation time with all the
- * scripts that don't have default engines-- either a list or a hash
- * table, so a null return from the table means 'default' and not 'i
+ * I'd expect thbt the mbjority of scripts use the defbult mbpper for
+ * b pbrticulbr font.  Lobding the hbstbble with 40 or so keys 30+ of
+ * which bll mbp to the sbme object is unfortunbte.  It might be worth
+ * instebd hbving b per-font list of 'scripts with non-defbult
+ * engines', e.g. the fbctory hbs b hbshtbble mbpping fonts to 'script
+ * lists' (the fbctory hbs this since the design potentiblly hbs other
+ * fbctories, though I bdmit there's no client for this yet bnd no
+ * public bpi) bnd then the script list is queried for the script in
+ * question.  it cbn be prelobded bt crebtion time with bll the
+ * scripts thbt don't hbve defbult engines-- either b list or b hbsh
+ * tbble, so b null return from the tbble mebns 'defbult' bnd not 'i
  * don't know yet'.
  *
- * On the other hand, in most all cases the number of unique
- * script/font combinations will be small, so a flat hashtable should
+ * On the other hbnd, in most bll cbses the number of unique
+ * script/font combinbtions will be smbll, so b flbt hbshtbble should
  * suffice.
  * */
-public final class SunLayoutEngine implements LayoutEngine, LayoutEngineFactory {
-    private static native void initGVIDs();
-    static {
-        FontManagerNativeLibrary.load();
+public finbl clbss SunLbyoutEngine implements LbyoutEngine, LbyoutEngineFbctory {
+    privbte stbtic nbtive void initGVIDs();
+    stbtic {
+        FontMbnbgerNbtiveLibrbry.lobd();
         initGVIDs();
     }
 
-    private LayoutEngineKey key;
+    privbte LbyoutEngineKey key;
 
-    private static LayoutEngineFactory instance;
+    privbte stbtic LbyoutEngineFbctory instbnce;
 
-    public static LayoutEngineFactory instance() {
-        if (instance == null) {
-            instance = new SunLayoutEngine();
+    public stbtic LbyoutEngineFbctory instbnce() {
+        if (instbnce == null) {
+            instbnce = new SunLbyoutEngine();
         }
-        return instance;
+        return instbnce;
     }
 
-    private SunLayoutEngine() {
-        // actually a factory, key is null so layout cannot be called on it
+    privbte SunLbyoutEngine() {
+        // bctublly b fbctory, key is null so lbyout cbnnot be cblled on it
     }
 
-    public LayoutEngine getEngine(Font2D font, int script, int lang) {
-        return getEngine(new LayoutEngineKey(font, script, lang));
+    public LbyoutEngine getEngine(Font2D font, int script, int lbng) {
+        return getEngine(new LbyoutEngineKey(font, script, lbng));
     }
 
-  // !!! don't need this unless we have more than one sun layout engine...
-    public LayoutEngine getEngine(LayoutEngineKey key) {
-        ConcurrentHashMap<LayoutEngineKey, LayoutEngine> cache = cacheref.get();
-        if (cache == null) {
-            cache = new ConcurrentHashMap<>();
-            cacheref = new SoftReference<>(cache);
+  // !!! don't need this unless we hbve more thbn one sun lbyout engine...
+    public LbyoutEngine getEngine(LbyoutEngineKey key) {
+        ConcurrentHbshMbp<LbyoutEngineKey, LbyoutEngine> cbche = cbcheref.get();
+        if (cbche == null) {
+            cbche = new ConcurrentHbshMbp<>();
+            cbcheref = new SoftReference<>(cbche);
         }
 
-        LayoutEngine e = cache.get(key);
+        LbyoutEngine e = cbche.get(key);
         if (e == null) {
-            LayoutEngineKey copy = key.copy();
-            e = new SunLayoutEngine(copy);
-            cache.put(copy, e);
+            LbyoutEngineKey copy = key.copy();
+            e = new SunLbyoutEngine(copy);
+            cbche.put(copy, e);
         }
         return e;
     }
-    private SoftReference<ConcurrentHashMap<LayoutEngineKey, LayoutEngine>> cacheref =
+    privbte SoftReference<ConcurrentHbshMbp<LbyoutEngineKey, LbyoutEngine>> cbcheref =
         new SoftReference<>(null);
 
-    private SunLayoutEngine(LayoutEngineKey key) {
+    privbte SunLbyoutEngine(LbyoutEngineKey key) {
         this.key = key;
     }
 
-    public void layout(FontStrikeDesc desc, float[] mat, int gmask,
-                       int baseIndex, TextRecord tr, int typo_flags,
-                       Point2D.Float pt, GVData data) {
+    public void lbyout(FontStrikeDesc desc, flobt[] mbt, int gmbsk,
+                       int bbseIndex, TextRecord tr, int typo_flbgs,
+                       Point2D.Flobt pt, GVDbtb dbtb) {
         Font2D font = key.font();
         FontStrike strike = font.getStrike(desc);
-        long layoutTables = 0;
-        if (font instanceof TrueTypeFont) {
-            layoutTables = ((TrueTypeFont) font).getLayoutTableCache();
+        long lbyoutTbbles = 0;
+        if (font instbnceof TrueTypeFont) {
+            lbyoutTbbles = ((TrueTypeFont) font).getLbyoutTbbleCbche();
         }
-        nativeLayout(font, strike, mat, gmask, baseIndex,
-             tr.text, tr.start, tr.limit, tr.min, tr.max,
-             key.script(), key.lang(), typo_flags, pt, data,
-             font.getUnitsPerEm(), layoutTables);
+        nbtiveLbyout(font, strike, mbt, gmbsk, bbseIndex,
+             tr.text, tr.stbrt, tr.limit, tr.min, tr.mbx,
+             key.script(), key.lbng(), typo_flbgs, pt, dbtb,
+             font.getUnitsPerEm(), lbyoutTbbles);
     }
 
-    private static native void
-        nativeLayout(Font2D font, FontStrike strike, float[] mat, int gmask,
-             int baseIndex, char[] chars, int offset, int limit,
-             int min, int max, int script, int lang, int typo_flags,
-             Point2D.Float pt, GVData data, long upem, long layoutTables);
+    privbte stbtic nbtive void
+        nbtiveLbyout(Font2D font, FontStrike strike, flobt[] mbt, int gmbsk,
+             int bbseIndex, chbr[] chbrs, int offset, int limit,
+             int min, int mbx, int script, int lbng, int typo_flbgs,
+             Point2D.Flobt pt, GVDbtb dbtb, long upem, long lbyoutTbbles);
 }

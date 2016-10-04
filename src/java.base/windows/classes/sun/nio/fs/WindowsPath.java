@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.*;
-import java.net.URI;
-import java.util.*;
-import java.lang.ref.WeakReference;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.*;
+import jbvb.net.URI;
+import jbvb.util.*;
+import jbvb.lbng.ref.WebkReference;
 
-import com.sun.nio.file.ExtendedWatchEventModifier;
+import com.sun.nio.file.ExtendedWbtchEventModifier;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of Path
+ * Windows implementbtion of Pbth
  */
 
-class WindowsPath extends AbstractPath {
+clbss WindowsPbth extends AbstrbctPbth {
 
-    // The maximum path that does not require long path prefix. On Windows
-    // the maximum path is 260 minus 1 (NUL) but for directories it is 260
-    // minus 12 minus 1 (to allow for the creation of a 8.3 file in the
+    // The mbximum pbth thbt does not require long pbth prefix. On Windows
+    // the mbximum pbth is 260 minus 1 (NUL) but for directories it is 260
+    // minus 12 minus 1 (to bllow for the crebtion of b 8.3 file in the
     // directory).
-    private static final int MAX_PATH = 247;
+    privbte stbtic finbl int MAX_PATH = 247;
 
-    // Maximum extended-length path
-    private static final int MAX_LONG_PATH = 32000;
+    // Mbximum extended-length pbth
+    privbte stbtic finbl int MAX_LONG_PATH = 32000;
 
-    // FIXME - eliminate this reference to reduce space
-    private final WindowsFileSystem fs;
+    // FIXME - eliminbte this reference to reduce spbce
+    privbte finbl WindowsFileSystem fs;
 
-    // path type
-    private final WindowsPathType type;
-    // root component (may be empty)
-    private final String root;
-    // normalized path
-    private final String path;
+    // pbth type
+    privbte finbl WindowsPbthType type;
+    // root component (mby be empty)
+    privbte finbl String root;
+    // normblized pbth
+    privbte finbl String pbth;
 
-    // the path to use in Win32 calls. This differs from path for relative
-    // paths and has a long path prefix for all paths longer than MAX_PATH.
-    private volatile WeakReference<String> pathForWin32Calls;
+    // the pbth to use in Win32 cblls. This differs from pbth for relbtive
+    // pbths bnd hbs b long pbth prefix for bll pbths longer thbn MAX_PATH.
+    privbte volbtile WebkReference<String> pbthForWin32Cblls;
 
-    // offsets into name components (computed lazily)
-    private volatile Integer[] offsets;
+    // offsets into nbme components (computed lbzily)
+    privbte volbtile Integer[] offsets;
 
-    // computed hash code (computed lazily, no need to be volatile)
-    private int hash;
+    // computed hbsh code (computed lbzily, no need to be volbtile)
+    privbte int hbsh;
 
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    private WindowsPath(WindowsFileSystem fs,
-                        WindowsPathType type,
+    privbte WindowsPbth(WindowsFileSystem fs,
+                        WindowsPbthType type,
                         String root,
-                        String path)
+                        String pbth)
     {
         this.fs = fs;
         this.type = type;
         this.root = root;
-        this.path = path;
+        this.pbth = pbth;
     }
 
     /**
-     * Creates a Path by parsing the given path.
+     * Crebtes b Pbth by pbrsing the given pbth.
      */
-    static WindowsPath parse(WindowsFileSystem fs, String path) {
-        WindowsPathParser.Result result = WindowsPathParser.parse(path);
-        return new WindowsPath(fs, result.type(), result.root(), result.path());
+    stbtic WindowsPbth pbrse(WindowsFileSystem fs, String pbth) {
+        WindowsPbthPbrser.Result result = WindowsPbthPbrser.pbrse(pbth);
+        return new WindowsPbth(fs, result.type(), result.root(), result.pbth());
     }
 
     /**
-     * Creates a Path from a given path that is known to be normalized.
+     * Crebtes b Pbth from b given pbth thbt is known to be normblized.
      */
-    static WindowsPath createFromNormalizedPath(WindowsFileSystem fs,
-                                                String path,
-                                                BasicFileAttributes attrs)
+    stbtic WindowsPbth crebteFromNormblizedPbth(WindowsFileSystem fs,
+                                                String pbth,
+                                                BbsicFileAttributes bttrs)
     {
         try {
-            WindowsPathParser.Result result =
-                WindowsPathParser.parseNormalizedPath(path);
-            if (attrs == null) {
-                return new WindowsPath(fs,
+            WindowsPbthPbrser.Result result =
+                WindowsPbthPbrser.pbrseNormblizedPbth(pbth);
+            if (bttrs == null) {
+                return new WindowsPbth(fs,
                                        result.type(),
                                        result.root(),
-                                       result.path());
+                                       result.pbth());
             } else {
-                return new WindowsPathWithAttributes(fs,
+                return new WindowsPbthWithAttributes(fs,
                                                      result.type(),
                                                      result.root(),
-                                                     result.path(),
-                                                     attrs);
+                                                     result.pbth(),
+                                                     bttrs);
             }
-        } catch (InvalidPathException x) {
-            throw new AssertionError(x.getMessage());
+        } cbtch (InvblidPbthException x) {
+            throw new AssertionError(x.getMessbge());
         }
     }
 
     /**
-     * Creates a WindowsPath from a given path that is known to be normalized.
+     * Crebtes b WindowsPbth from b given pbth thbt is known to be normblized.
      */
-    static WindowsPath createFromNormalizedPath(WindowsFileSystem fs,
-                                                String path)
+    stbtic WindowsPbth crebteFromNormblizedPbth(WindowsFileSystem fs,
+                                                String pbth)
     {
-        return createFromNormalizedPath(fs, path, null);
+        return crebteFromNormblizedPbth(fs, pbth, null);
     }
 
     /**
-     * Special implementation with attached/cached attributes (used to quicken
-     * file tree traversal)
+     * Specibl implementbtion with bttbched/cbched bttributes (used to quicken
+     * file tree trbversbl)
      */
-    private static class WindowsPathWithAttributes
-        extends WindowsPath implements BasicFileAttributesHolder
+    privbte stbtic clbss WindowsPbthWithAttributes
+        extends WindowsPbth implements BbsicFileAttributesHolder
     {
-        final WeakReference<BasicFileAttributes> ref;
+        finbl WebkReference<BbsicFileAttributes> ref;
 
-        WindowsPathWithAttributes(WindowsFileSystem fs,
-                                  WindowsPathType type,
+        WindowsPbthWithAttributes(WindowsFileSystem fs,
+                                  WindowsPbthType type,
                                   String root,
-                                  String path,
-                                  BasicFileAttributes attrs)
+                                  String pbth,
+                                  BbsicFileAttributes bttrs)
         {
-            super(fs, type, root, path);
-            ref = new WeakReference<BasicFileAttributes>(attrs);
+            super(fs, type, root, pbth);
+            ref = new WebkReference<BbsicFileAttributes>(bttrs);
         }
 
         @Override
-        public BasicFileAttributes get() {
+        public BbsicFileAttributes get() {
             return ref.get();
         }
 
         @Override
-        public void invalidate() {
-            ref.clear();
+        public void invblidbte() {
+            ref.clebr();
         }
 
-        // no need to override equals/hashCode.
+        // no need to override equbls/hbshCode.
     }
 
-    // use this message when throwing exceptions
-    String getPathForExceptionMessage() {
-        return path;
+    // use this messbge when throwing exceptions
+    String getPbthForExceptionMessbge() {
+        return pbth;
     }
 
-    // use this path for permission checks
-    String getPathForPermissionCheck() {
-        return path;
+    // use this pbth for permission checks
+    String getPbthForPermissionCheck() {
+        return pbth;
     }
 
-    // use this path for Win32 calls
-    // This method will prefix long paths with \\?\ or \\?\UNC as required.
-    String getPathForWin32Calls() throws WindowsException {
-        // short absolute paths can be used directly
-        if (isAbsolute() && path.length() <= MAX_PATH)
-            return path;
+    // use this pbth for Win32 cblls
+    // This method will prefix long pbths with \\?\ or \\?\UNC bs required.
+    String getPbthForWin32Cblls() throws WindowsException {
+        // short bbsolute pbths cbn be used directly
+        if (isAbsolute() && pbth.length() <= MAX_PATH)
+            return pbth;
 
-        // return cached values if available
-        WeakReference<String> ref = pathForWin32Calls;
+        // return cbched vblues if bvbilbble
+        WebkReference<String> ref = pbthForWin32Cblls;
         String resolved = (ref != null) ? ref.get() : null;
         if (resolved != null) {
-            // Win32 path already available
+            // Win32 pbth blrebdy bvbilbble
             return resolved;
         }
 
-        // resolve against default directory
-        resolved = getAbsolutePath();
+        // resolve bgbinst defbult directory
+        resolved = getAbsolutePbth();
 
-        // Long paths need to have "." and ".." removed and be prefixed with
-        // "\\?\". Note that it is okay to remove ".." even when it follows
-        // a link - for example, it is okay for foo/link/../bar to be changed
-        // to foo/bar. The reason is that Win32 APIs to access foo/link/../bar
-        // will access foo/bar anyway (which differs to Unix systems)
+        // Long pbths need to hbve "." bnd ".." removed bnd be prefixed with
+        // "\\?\". Note thbt it is okby to remove ".." even when it follows
+        // b link - for exbmple, it is okby for foo/link/../bbr to be chbnged
+        // to foo/bbr. The rebson is thbt Win32 APIs to bccess foo/link/../bbr
+        // will bccess foo/bbr bnywby (which differs to Unix systems)
         if (resolved.length() > MAX_PATH) {
             if (resolved.length() > MAX_LONG_PATH) {
-                throw new WindowsException("Cannot access file with path exceeding "
-                    + MAX_LONG_PATH + " characters");
+                throw new WindowsException("Cbnnot bccess file with pbth exceeding "
+                    + MAX_LONG_PATH + " chbrbcters");
             }
-            resolved = addPrefixIfNeeded(GetFullPathName(resolved));
+            resolved = bddPrefixIfNeeded(GetFullPbthNbme(resolved));
         }
 
-        // cache the resolved path (except drive relative paths as the working
-        // directory on removal media devices can change during the lifetime
+        // cbche the resolved pbth (except drive relbtive pbths bs the working
+        // directory on removbl medib devices cbn chbnge during the lifetime
         // of the VM)
-        if (type != WindowsPathType.DRIVE_RELATIVE) {
-            synchronized (path) {
-                pathForWin32Calls = new WeakReference<String>(resolved);
+        if (type != WindowsPbthType.DRIVE_RELATIVE) {
+            synchronized (pbth) {
+                pbthForWin32Cblls = new WebkReference<String>(resolved);
             }
         }
         return resolved;
     }
 
-    // return this path resolved against the file system's default directory
-    private String getAbsolutePath() throws WindowsException {
+    // return this pbth resolved bgbinst the file system's defbult directory
+    privbte String getAbsolutePbth() throws WindowsException {
         if (isAbsolute())
-            return path;
+            return pbth;
 
-        // Relative path ("foo" for example)
-        if (type == WindowsPathType.RELATIVE) {
-            String defaultDirectory = getFileSystem().defaultDirectory();
+        // Relbtive pbth ("foo" for exbmple)
+        if (type == WindowsPbthType.RELATIVE) {
+            String defbultDirectory = getFileSystem().defbultDirectory();
             if (isEmpty())
-                return defaultDirectory;
-            if (defaultDirectory.endsWith("\\")) {
-                return defaultDirectory + path;
+                return defbultDirectory;
+            if (defbultDirectory.endsWith("\\")) {
+                return defbultDirectory + pbth;
             } else {
                 StringBuilder sb =
-                    new StringBuilder(defaultDirectory.length() + path.length() + 1);
-                return sb.append(defaultDirectory).append('\\').append(path).toString();
+                    new StringBuilder(defbultDirectory.length() + pbth.length() + 1);
+                return sb.bppend(defbultDirectory).bppend('\\').bppend(pbth).toString();
             }
         }
 
-        // Directory relative path ("\foo" for example)
-        if (type == WindowsPathType.DIRECTORY_RELATIVE) {
-            String defaultRoot = getFileSystem().defaultRoot();
-            return defaultRoot + path.substring(1);
+        // Directory relbtive pbth ("\foo" for exbmple)
+        if (type == WindowsPbthType.DIRECTORY_RELATIVE) {
+            String defbultRoot = getFileSystem().defbultRoot();
+            return defbultRoot + pbth.substring(1);
         }
 
-        // Drive relative path ("C:foo" for example).
-        if (isSameDrive(root, getFileSystem().defaultRoot())) {
-            // relative to default directory
-            String remaining = path.substring(root.length());
-            String defaultDirectory = getFileSystem().defaultDirectory();
+        // Drive relbtive pbth ("C:foo" for exbmple).
+        if (isSbmeDrive(root, getFileSystem().defbultRoot())) {
+            // relbtive to defbult directory
+            String rembining = pbth.substring(root.length());
+            String defbultDirectory = getFileSystem().defbultDirectory();
             String result;
-            if (defaultDirectory.endsWith("\\")) {
-                result = defaultDirectory + remaining;
+            if (defbultDirectory.endsWith("\\")) {
+                result = defbultDirectory + rembining;
             } else {
-                result = defaultDirectory + "\\" + remaining;
+                result = defbultDirectory + "\\" + rembining;
             }
             return result;
         } else {
-            // relative to some other drive
+            // relbtive to some other drive
             String wd;
             try {
                 int dt = GetDriveType(root + "\\");
                 if (dt == DRIVE_UNKNOWN || dt == DRIVE_NO_ROOT_DIR)
                     throw new WindowsException("");
-                wd = GetFullPathName(root + ".");
-            } catch (WindowsException x) {
-                throw new WindowsException("Unable to get working directory of drive '" +
-                    Character.toUpperCase(root.charAt(0)) + "'");
+                wd = GetFullPbthNbme(root + ".");
+            } cbtch (WindowsException x) {
+                throw new WindowsException("Unbble to get working directory of drive '" +
+                    Chbrbcter.toUpperCbse(root.chbrAt(0)) + "'");
             }
             String result = wd;
             if (wd.endsWith("\\")) {
-                result += path.substring(root.length());
+                result += pbth.substring(root.length());
             } else {
-                if (path.length() > root.length())
-                    result += "\\" + path.substring(root.length());
+                if (pbth.length() > root.length())
+                    result += "\\" + pbth.substring(root.length());
             }
             return result;
         }
     }
 
-    // returns true if same drive letter
-    private static boolean isSameDrive(String root1, String root2) {
-        return Character.toUpperCase(root1.charAt(0)) ==
-               Character.toUpperCase(root2.charAt(0));
+    // returns true if sbme drive letter
+    privbte stbtic boolebn isSbmeDrive(String root1, String root2) {
+        return Chbrbcter.toUpperCbse(root1.chbrAt(0)) ==
+               Chbrbcter.toUpperCbse(root2.chbrAt(0));
     }
 
-    // Add long path prefix to path if required
-    static String addPrefixIfNeeded(String path) {
-        if (path.length() > MAX_PATH) {
-            if (path.startsWith("\\\\")) {
-                path = "\\\\?\\UNC" + path.substring(1, path.length());
+    // Add long pbth prefix to pbth if required
+    stbtic String bddPrefixIfNeeded(String pbth) {
+        if (pbth.length() > MAX_PATH) {
+            if (pbth.stbrtsWith("\\\\")) {
+                pbth = "\\\\?\\UNC" + pbth.substring(1, pbth.length());
             } else {
-                path = "\\\\?\\" + path;
+                pbth = "\\\\?\\" + pbth;
             }
         }
-        return path;
+        return pbth;
     }
 
     @Override
@@ -298,443 +298,443 @@ class WindowsPath extends AbstractPath {
         return fs;
     }
 
-    // -- Path operations --
+    // -- Pbth operbtions --
 
-    private boolean isEmpty() {
-        return path.length() == 0;
+    privbte boolebn isEmpty() {
+        return pbth.length() == 0;
     }
 
-    private WindowsPath emptyPath() {
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", "");
+    privbte WindowsPbth emptyPbth() {
+        return new WindowsPbth(getFileSystem(), WindowsPbthType.RELATIVE, "", "");
     }
 
     @Override
-    public Path getFileName() {
-        int len = path.length();
-        // represents empty path
+    public Pbth getFileNbme() {
+        int len = pbth.length();
+        // represents empty pbth
         if (len == 0)
             return this;
         // represents root component only
         if (root.length() == len)
             return null;
-        int off = path.lastIndexOf('\\');
+        int off = pbth.lbstIndexOf('\\');
         if (off < root.length())
             off = root.length();
         else
             off++;
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", path.substring(off));
+        return new WindowsPbth(getFileSystem(), WindowsPbthType.RELATIVE, "", pbth.substring(off));
     }
 
     @Override
-    public WindowsPath getParent() {
+    public WindowsPbth getPbrent() {
         // represents root component only
-        if (root.length() == path.length())
+        if (root.length() == pbth.length())
             return null;
-        int off = path.lastIndexOf('\\');
+        int off = pbth.lbstIndexOf('\\');
         if (off < root.length())
             return getRoot();
         else
-            return new WindowsPath(getFileSystem(),
+            return new WindowsPbth(getFileSystem(),
                                    type,
                                    root,
-                                   path.substring(0, off));
+                                   pbth.substring(0, off));
     }
 
     @Override
-    public WindowsPath getRoot() {
+    public WindowsPbth getRoot() {
         if (root.length() == 0)
             return null;
-        return new WindowsPath(getFileSystem(), type, root, root);
+        return new WindowsPbth(getFileSystem(), type, root, root);
     }
 
-    // package-private
-    WindowsPathType type() {
+    // pbckbge-privbte
+    WindowsPbthType type() {
         return type;
     }
 
-    // package-private
-    boolean isUnc() {
-        return type == WindowsPathType.UNC;
+    // pbckbge-privbte
+    boolebn isUnc() {
+        return type == WindowsPbthType.UNC;
     }
 
-    boolean needsSlashWhenResolving() {
-        if (path.endsWith("\\"))
-            return false;
-        return path.length() > root.length();
+    boolebn needsSlbshWhenResolving() {
+        if (pbth.endsWith("\\"))
+            return fblse;
+        return pbth.length() > root.length();
     }
 
     @Override
-    public boolean isAbsolute() {
-        return type == WindowsPathType.ABSOLUTE || type == WindowsPathType.UNC;
+    public boolebn isAbsolute() {
+        return type == WindowsPbthType.ABSOLUTE || type == WindowsPbthType.UNC;
     }
 
-    static WindowsPath toWindowsPath(Path path) {
-        if (path == null)
+    stbtic WindowsPbth toWindowsPbth(Pbth pbth) {
+        if (pbth == null)
             throw new NullPointerException();
-        if (!(path instanceof WindowsPath)) {
-            throw new ProviderMismatchException();
+        if (!(pbth instbnceof WindowsPbth)) {
+            throw new ProviderMismbtchException();
         }
-        return (WindowsPath)path;
+        return (WindowsPbth)pbth;
     }
 
     @Override
-    public WindowsPath relativize(Path obj) {
-        WindowsPath other = toWindowsPath(obj);
-        if (this.equals(other))
-            return emptyPath();
+    public WindowsPbth relbtivize(Pbth obj) {
+        WindowsPbth other = toWindowsPbth(obj);
+        if (this.equbls(other))
+            return emptyPbth();
 
-        // can only relativize paths of the same type
+        // cbn only relbtivize pbths of the sbme type
         if (this.type != other.type)
-            throw new IllegalArgumentException("'other' is different type of Path");
+            throw new IllegblArgumentException("'other' is different type of Pbth");
 
-        // can only relativize paths if root component matches
-        if (!this.root.equalsIgnoreCase(other.root))
-            throw new IllegalArgumentException("'other' has different root");
+        // cbn only relbtivize pbths if root component mbtches
+        if (!this.root.equblsIgnoreCbse(other.root))
+            throw new IllegblArgumentException("'other' hbs different root");
 
-        int bn = this.getNameCount();
-        int cn = other.getNameCount();
+        int bn = this.getNbmeCount();
+        int cn = other.getNbmeCount();
 
-        // skip matching names
+        // skip mbtching nbmes
         int n = (bn > cn) ? cn : bn;
         int i = 0;
         while (i < n) {
-            if (!this.getName(i).equals(other.getName(i)))
-                break;
+            if (!this.getNbme(i).equbls(other.getNbme(i)))
+                brebk;
             i++;
         }
 
-        // append ..\ for remaining names in the base
+        // bppend ..\ for rembining nbmes in the bbse
         StringBuilder result = new StringBuilder();
         for (int j=i; j<bn; j++) {
-            result.append("..\\");
+            result.bppend("..\\");
         }
 
-        // append remaining names in child
+        // bppend rembining nbmes in child
         for (int j=i; j<cn; j++) {
-            result.append(other.getName(j).toString());
-            result.append("\\");
+            result.bppend(other.getNbme(j).toString());
+            result.bppend("\\");
         }
 
-        // drop trailing slash in result
+        // drop trbiling slbsh in result
         result.setLength(result.length()-1);
-        return createFromNormalizedPath(getFileSystem(), result.toString());
+        return crebteFromNormblizedPbth(getFileSystem(), result.toString());
     }
 
     @Override
-    public Path normalize() {
-        final int count = getNameCount();
+    public Pbth normblize() {
+        finbl int count = getNbmeCount();
         if (count == 0 || isEmpty())
             return this;
 
-        boolean[] ignore = new boolean[count];      // true => ignore name
-        int remaining = count;                      // number of names remaining
+        boolebn[] ignore = new boolebn[count];      // true => ignore nbme
+        int rembining = count;                      // number of nbmes rembining
 
-        // multiple passes to eliminate all occurrences of "." and "name/.."
-        int prevRemaining;
+        // multiple pbsses to eliminbte bll occurrences of "." bnd "nbme/.."
+        int prevRembining;
         do {
-            prevRemaining = remaining;
-            int prevName = -1;
+            prevRembining = rembining;
+            int prevNbme = -1;
             for (int i=0; i<count; i++) {
                 if (ignore[i])
                     continue;
 
-                String name = elementAsString(i);
+                String nbme = elementAsString(i);
 
                 // not "." or ".."
-                if (name.length() > 2) {
-                    prevName = i;
+                if (nbme.length() > 2) {
+                    prevNbme = i;
                     continue;
                 }
 
                 // "." or something else
-                if (name.length() == 1) {
+                if (nbme.length() == 1) {
                     // ignore "."
-                    if (name.charAt(0) == '.') {
+                    if (nbme.chbrAt(0) == '.') {
                         ignore[i] = true;
-                        remaining--;
+                        rembining--;
                     } else {
-                        prevName = i;
+                        prevNbme = i;
                     }
                     continue;
                 }
 
                 // not ".."
-                if (name.charAt(0) != '.' || name.charAt(1) != '.') {
-                    prevName = i;
+                if (nbme.chbrAt(0) != '.' || nbme.chbrAt(1) != '.') {
+                    prevNbme = i;
                     continue;
                 }
 
                 // ".." found
-                if (prevName >= 0) {
-                    // name/<ignored>/.. found so mark name and ".." to be
+                if (prevNbme >= 0) {
+                    // nbme/<ignored>/.. found so mbrk nbme bnd ".." to be
                     // ignored
-                    ignore[prevName] = true;
+                    ignore[prevNbme] = true;
                     ignore[i] = true;
-                    remaining = remaining - 2;
-                    prevName = -1;
+                    rembining = rembining - 2;
+                    prevNbme = -1;
                 } else {
-                    // Cases:
+                    // Cbses:
                     //    C:\<ignored>\..
-                    //    \\server\\share\<ignored>\..
+                    //    \\server\\shbre\<ignored>\..
                     //    \<ignored>..
-                    if (isAbsolute() || type == WindowsPathType.DIRECTORY_RELATIVE) {
-                        boolean hasPrevious = false;
+                    if (isAbsolute() || type == WindowsPbthType.DIRECTORY_RELATIVE) {
+                        boolebn hbsPrevious = fblse;
                         for (int j=0; j<i; j++) {
                             if (!ignore[j]) {
-                                hasPrevious = true;
-                                break;
+                                hbsPrevious = true;
+                                brebk;
                             }
                         }
-                        if (!hasPrevious) {
-                            // all proceeding names are ignored
+                        if (!hbsPrevious) {
+                            // bll proceeding nbmes bre ignored
                             ignore[i] = true;
-                            remaining--;
+                            rembining--;
                         }
                     }
                 }
             }
-        } while (prevRemaining > remaining);
+        } while (prevRembining > rembining);
 
-        // no redundant names
-        if (remaining == count)
+        // no redundbnt nbmes
+        if (rembining == count)
             return this;
 
-        // corner case - all names removed
-        if (remaining == 0) {
-            return (root.length() == 0) ? emptyPath() : getRoot();
+        // corner cbse - bll nbmes removed
+        if (rembining == 0) {
+            return (root.length() == 0) ? emptyPbth() : getRoot();
         }
 
-        // re-constitute the path from the remaining names.
+        // re-constitute the pbth from the rembining nbmes.
         StringBuilder result = new StringBuilder();
         if (root != null)
-            result.append(root);
+            result.bppend(root);
         for (int i=0; i<count; i++) {
             if (!ignore[i]) {
-                result.append(getName(i));
-                result.append("\\");
+                result.bppend(getNbme(i));
+                result.bppend("\\");
             }
         }
 
-        // drop trailing slash in result
+        // drop trbiling slbsh in result
         result.setLength(result.length()-1);
-        return createFromNormalizedPath(getFileSystem(), result.toString());
+        return crebteFromNormblizedPbth(getFileSystem(), result.toString());
     }
 
     @Override
-    public WindowsPath resolve(Path obj) {
-        WindowsPath other = toWindowsPath(obj);
+    public WindowsPbth resolve(Pbth obj) {
+        WindowsPbth other = toWindowsPbth(obj);
         if (other.isEmpty())
             return this;
         if (other.isAbsolute())
             return other;
 
         switch (other.type) {
-            case RELATIVE: {
+            cbse RELATIVE: {
                 String result;
-                if (path.endsWith("\\") || (root.length() == path.length())) {
-                    result = path + other.path;
+                if (pbth.endsWith("\\") || (root.length() == pbth.length())) {
+                    result = pbth + other.pbth;
                 } else {
-                    result = path + "\\" + other.path;
+                    result = pbth + "\\" + other.pbth;
                 }
-                return new WindowsPath(getFileSystem(), type, root, result);
+                return new WindowsPbth(getFileSystem(), type, root, result);
             }
 
-            case DIRECTORY_RELATIVE: {
+            cbse DIRECTORY_RELATIVE: {
                 String result;
                 if (root.endsWith("\\")) {
-                    result = root + other.path.substring(1);
+                    result = root + other.pbth.substring(1);
                 } else {
-                    result = root + other.path;
+                    result = root + other.pbth;
                 }
-                return createFromNormalizedPath(getFileSystem(), result);
+                return crebteFromNormblizedPbth(getFileSystem(), result);
             }
 
-            case DRIVE_RELATIVE: {
+            cbse DRIVE_RELATIVE: {
                 if (!root.endsWith("\\"))
                     return other;
                 // if different roots then return other
                 String thisRoot = root.substring(0, root.length()-1);
-                if (!thisRoot.equalsIgnoreCase(other.root))
+                if (!thisRoot.equblsIgnoreCbse(other.root))
                     return other;
-                // same roots
-                String remaining = other.path.substring(other.root.length());
+                // sbme roots
+                String rembining = other.pbth.substring(other.root.length());
                 String result;
-                if (path.endsWith("\\")) {
-                    result = path + remaining;
+                if (pbth.endsWith("\\")) {
+                    result = pbth + rembining;
                 } else {
-                    result = path + "\\" + remaining;
+                    result = pbth + "\\" + rembining;
                 }
-                return createFromNormalizedPath(getFileSystem(), result);
+                return crebteFromNormblizedPbth(getFileSystem(), result);
             }
 
-            default:
+            defbult:
                 throw new AssertionError();
         }
     }
 
-    // generate offset array
-    private void initOffsets() {
+    // generbte offset brrby
+    privbte void initOffsets() {
         if (offsets == null) {
-            ArrayList<Integer> list = new ArrayList<>();
+            ArrbyList<Integer> list = new ArrbyList<>();
             if (isEmpty()) {
-                // empty path considered to have one name element
-                list.add(0);
+                // empty pbth considered to hbve one nbme element
+                list.bdd(0);
             } else {
-                int start = root.length();
+                int stbrt = root.length();
                 int off = root.length();
-                while (off < path.length()) {
-                    if (path.charAt(off) != '\\') {
+                while (off < pbth.length()) {
+                    if (pbth.chbrAt(off) != '\\') {
                         off++;
                     } else {
-                        list.add(start);
-                        start = ++off;
+                        list.bdd(stbrt);
+                        stbrt = ++off;
                     }
                 }
-                if (start != off)
-                    list.add(start);
+                if (stbrt != off)
+                    list.bdd(stbrt);
             }
             synchronized (this) {
                 if (offsets == null)
-                    offsets = list.toArray(new Integer[list.size()]);
+                    offsets = list.toArrby(new Integer[list.size()]);
             }
         }
     }
 
     @Override
-    public int getNameCount() {
+    public int getNbmeCount() {
         initOffsets();
         return offsets.length;
     }
 
-    private String elementAsString(int i) {
+    privbte String elementAsString(int i) {
         initOffsets();
         if (i == (offsets.length-1))
-            return path.substring(offsets[i]);
-        return path.substring(offsets[i], offsets[i+1]-1);
+            return pbth.substring(offsets[i]);
+        return pbth.substring(offsets[i], offsets[i+1]-1);
     }
 
     @Override
-    public WindowsPath getName(int index) {
+    public WindowsPbth getNbme(int index) {
         initOffsets();
         if (index < 0 || index >= offsets.length)
-            throw new IllegalArgumentException();
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", elementAsString(index));
+            throw new IllegblArgumentException();
+        return new WindowsPbth(getFileSystem(), WindowsPbthType.RELATIVE, "", elementAsString(index));
     }
 
     @Override
-    public WindowsPath subpath(int beginIndex, int endIndex) {
+    public WindowsPbth subpbth(int beginIndex, int endIndex) {
         initOffsets();
         if (beginIndex < 0)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (beginIndex >= offsets.length)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (endIndex > offsets.length)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (beginIndex >= endIndex)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
 
         StringBuilder sb = new StringBuilder();
         Integer[] nelems = new Integer[endIndex - beginIndex];
         for (int i = beginIndex; i < endIndex; i++) {
             nelems[i-beginIndex] = sb.length();
-            sb.append(elementAsString(i));
+            sb.bppend(elementAsString(i));
             if (i != (endIndex-1))
-                sb.append("\\");
+                sb.bppend("\\");
         }
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", sb.toString());
+        return new WindowsPbth(getFileSystem(), WindowsPbthType.RELATIVE, "", sb.toString());
     }
 
     @Override
-    public boolean startsWith(Path obj) {
-        if (!(Objects.requireNonNull(obj) instanceof WindowsPath))
-            return false;
-        WindowsPath other = (WindowsPath)obj;
+    public boolebn stbrtsWith(Pbth obj) {
+        if (!(Objects.requireNonNull(obj) instbnceof WindowsPbth))
+            return fblse;
+        WindowsPbth other = (WindowsPbth)obj;
 
-        // if this path has a root component the given path's root must match
-        if (!this.root.equalsIgnoreCase(other.root)) {
-            return false;
+        // if this pbth hbs b root component the given pbth's root must mbtch
+        if (!this.root.equblsIgnoreCbse(other.root)) {
+            return fblse;
         }
 
-        // empty path starts with itself
+        // empty pbth stbrts with itself
         if (other.isEmpty())
             return this.isEmpty();
 
-        // roots match so compare elements
-        int thisCount = getNameCount();
-        int otherCount = other.getNameCount();
+        // roots mbtch so compbre elements
+        int thisCount = getNbmeCount();
+        int otherCount = other.getNbmeCount();
         if (otherCount <= thisCount) {
             while (--otherCount >= 0) {
                 String thisElement = this.elementAsString(otherCount);
                 String otherElement = other.elementAsString(otherCount);
-                // FIXME: should compare in uppercase
-                if (!thisElement.equalsIgnoreCase(otherElement))
-                    return false;
+                // FIXME: should compbre in uppercbse
+                if (!thisElement.equblsIgnoreCbse(otherElement))
+                    return fblse;
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean endsWith(Path obj) {
-        if (!(Objects.requireNonNull(obj) instanceof WindowsPath))
-            return false;
-        WindowsPath other = (WindowsPath)obj;
+    public boolebn endsWith(Pbth obj) {
+        if (!(Objects.requireNonNull(obj) instbnceof WindowsPbth))
+            return fblse;
+        WindowsPbth other = (WindowsPbth)obj;
 
-        // other path is longer
-        if (other.path.length() > this.path.length()) {
-            return false;
+        // other pbth is longer
+        if (other.pbth.length() > this.pbth.length()) {
+            return fblse;
         }
 
-        // empty path ends in itself
+        // empty pbth ends in itself
         if (other.isEmpty()) {
             return this.isEmpty();
         }
 
-        int thisCount = this.getNameCount();
-        int otherCount = other.getNameCount();
+        int thisCount = this.getNbmeCount();
+        int otherCount = other.getNbmeCount();
 
-        // given path has more elements that this path
+        // given pbth hbs more elements thbt this pbth
         if (otherCount > thisCount) {
-            return false;
+            return fblse;
         }
 
-        // compare roots
+        // compbre roots
         if (other.root.length() > 0) {
             if (otherCount < thisCount)
-                return false;
-            // FIXME: should compare in uppercase
-            if (!this.root.equalsIgnoreCase(other.root))
-                return false;
+                return fblse;
+            // FIXME: should compbre in uppercbse
+            if (!this.root.equblsIgnoreCbse(other.root))
+                return fblse;
         }
 
-        // match last 'otherCount' elements
+        // mbtch lbst 'otherCount' elements
         int off = thisCount - otherCount;
         while (--otherCount >= 0) {
             String thisElement = this.elementAsString(off + otherCount);
             String otherElement = other.elementAsString(otherCount);
-            // FIXME: should compare in uppercase
-            if (!thisElement.equalsIgnoreCase(otherElement))
-                return false;
+            // FIXME: should compbre in uppercbse
+            if (!thisElement.equblsIgnoreCbse(otherElement))
+                return fblse;
         }
         return true;
     }
 
     @Override
-    public int compareTo(Path obj) {
+    public int compbreTo(Pbth obj) {
         if (obj == null)
             throw new NullPointerException();
-        String s1 = path;
-        String s2 = ((WindowsPath)obj).path;
+        String s1 = pbth;
+        String s2 = ((WindowsPbth)obj).pbth;
         int n1 = s1.length();
         int n2 = s2.length();
-        int min = Math.min(n1, n2);
+        int min = Mbth.min(n1, n2);
         for (int i = 0; i < min; i++) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
+            chbr c1 = s1.chbrAt(i);
+            chbr c2 = s2.chbrAt(i);
              if (c1 != c2) {
-                 c1 = Character.toUpperCase(c1);
-                 c2 = Character.toUpperCase(c2);
+                 c1 = Chbrbcter.toUpperCbse(c1);
+                 c2 = Chbrbcter.toUpperCbse(c2);
                  if (c1 != c2) {
                      return c1 - c2;
                  }
@@ -744,66 +744,66 @@ class WindowsPath extends AbstractPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof WindowsPath)) {
-            return compareTo((Path)obj) == 0;
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof WindowsPbth)) {
+            return compbreTo((Pbth)obj) == 0;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        // OK if two or more threads compute hash
-        int h = hash;
+    public int hbshCode() {
+        // OK if two or more threbds compute hbsh
+        int h = hbsh;
         if (h == 0) {
-            for (int i = 0; i< path.length(); i++) {
-                h = 31*h + Character.toUpperCase(path.charAt(i));
+            for (int i = 0; i< pbth.length(); i++) {
+                h = 31*h + Chbrbcter.toUpperCbse(pbth.chbrAt(i));
             }
-            hash = h;
+            hbsh = h;
         }
         return h;
     }
 
     @Override
     public String toString() {
-        return path;
+        return pbth;
     }
 
-    // -- file operations --
+    // -- file operbtions --
 
-    // package-private
-    long openForReadAttributeAccess(boolean followLinks)
+    // pbckbge-privbte
+    long openForRebdAttributeAccess(boolebn followLinks)
         throws WindowsException
     {
-        int flags = FILE_FLAG_BACKUP_SEMANTICS;
+        int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
         if (!followLinks && getFileSystem().supportsLinks())
-            flags |= FILE_FLAG_OPEN_REPARSE_POINT;
-        return CreateFile(getPathForWin32Calls(),
+            flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+        return CrebteFile(getPbthForWin32Cblls(),
                           FILE_READ_ATTRIBUTES,
                           (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                           0L,
                           OPEN_EXISTING,
-                          flags);
+                          flbgs);
     }
 
-    void checkRead() {
-        SecurityManager sm = System.getSecurityManager();
+    void checkRebd() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkRead(getPathForPermissionCheck());
+            sm.checkRebd(getPbthForPermissionCheck());
         }
     }
 
     void checkWrite() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkWrite(getPathForPermissionCheck());
+            sm.checkWrite(getPbthForPermissionCheck());
         }
     }
 
     void checkDelete() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkDelete(getPathForPermissionCheck());
+            sm.checkDelete(getPbthForPermissionCheck());
         }
     }
 
@@ -813,65 +813,65 @@ class WindowsPath extends AbstractPath {
     }
 
     @Override
-    public WindowsPath toAbsolutePath() {
+    public WindowsPbth toAbsolutePbth() {
         if (isAbsolute())
             return this;
 
-        // permission check as per spec
-        SecurityManager sm = System.getSecurityManager();
+        // permission check bs per spec
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertyAccess("user.dir");
         }
 
         try {
-            return createFromNormalizedPath(getFileSystem(), getAbsolutePath());
-        } catch (WindowsException x) {
-            throw new IOError(new IOException(x.getMessage()));
+            return crebteFromNormblizedPbth(getFileSystem(), getAbsolutePbth());
+        } cbtch (WindowsException x) {
+            throw new IOError(new IOException(x.getMessbge()));
         }
     }
 
     @Override
-    public WindowsPath toRealPath(LinkOption... options) throws IOException {
-        checkRead();
-        String rp = WindowsLinkSupport.getRealPath(this, Util.followLinks(options));
-        return createFromNormalizedPath(getFileSystem(), rp);
+    public WindowsPbth toReblPbth(LinkOption... options) throws IOException {
+        checkRebd();
+        String rp = WindowsLinkSupport.getReblPbth(this, Util.followLinks(options));
+        return crebteFromNormblizedPbth(getFileSystem(), rp);
     }
 
     @Override
-    public WatchKey register(WatchService watcher,
-                             WatchEvent.Kind<?>[] events,
-                             WatchEvent.Modifier... modifiers)
+    public WbtchKey register(WbtchService wbtcher,
+                             WbtchEvent.Kind<?>[] events,
+                             WbtchEvent.Modifier... modifiers)
         throws IOException
     {
-        if (watcher == null)
+        if (wbtcher == null)
             throw new NullPointerException();
-        if (!(watcher instanceof WindowsWatchService))
-            throw new ProviderMismatchException();
+        if (!(wbtcher instbnceof WindowsWbtchService))
+            throw new ProviderMismbtchException();
 
-        // When a security manager is set then we need to make a defensive
-        // copy of the modifiers and check for the Windows specific FILE_TREE
-        // modifier. When the modifier is present then check that permission
-        // has been granted recursively.
-        SecurityManager sm = System.getSecurityManager();
+        // When b security mbnbger is set then we need to mbke b defensive
+        // copy of the modifiers bnd check for the Windows specific FILE_TREE
+        // modifier. When the modifier is present then check thbt permission
+        // hbs been grbnted recursively.
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            boolean watchSubtree = false;
-            final int ml = modifiers.length;
+            boolebn wbtchSubtree = fblse;
+            finbl int ml = modifiers.length;
             if (ml > 0) {
-                modifiers = Arrays.copyOf(modifiers, ml);
+                modifiers = Arrbys.copyOf(modifiers, ml);
                 int i=0;
                 while (i < ml) {
-                    if (modifiers[i++] == ExtendedWatchEventModifier.FILE_TREE) {
-                        watchSubtree = true;
-                        break;
+                    if (modifiers[i++] == ExtendedWbtchEventModifier.FILE_TREE) {
+                        wbtchSubtree = true;
+                        brebk;
                     }
                 }
             }
-            String s = getPathForPermissionCheck();
-            sm.checkRead(s);
-            if (watchSubtree)
-                sm.checkRead(s + "\\-");
+            String s = getPbthForPermissionCheck();
+            sm.checkRebd(s);
+            if (wbtchSubtree)
+                sm.checkRebd(s + "\\-");
         }
 
-        return ((WindowsWatchService)watcher).register(this, events, modifiers);
+        return ((WindowsWbtchService)wbtcher).register(this, events, modifiers);
     }
 }

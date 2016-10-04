@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
 import sun.tools.tree.*;
 
 /**
- * This is the protocol by which a Parser makes callbacks
- * to the later phases of the compiler.
+ * This is the protocol by which b Pbrser mbkes cbllbbcks
+ * to the lbter phbses of the compiler.
  * <p>
- * (As a backwards compatibility trick, Parser implements
- * this protocol, so that an instance of a Parser subclass
- * can handle its own actions.  The preferred way to use a
- * Parser, however, is to instantiate it directly with a
- * reference to your own ParserActions implementation.)
+ * (As b bbckwbrds compbtibility trick, Pbrser implements
+ * this protocol, so thbt bn instbnce of b Pbrser subclbss
+ * cbn hbndle its own bctions.  The preferred wby to use b
+ * Pbrser, however, is to instbntibte it directly with b
+ * reference to your own PbrserActions implementbtion.)
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author      John R. Rose
+ * @buthor      John R. Rose
  */
-public interface ParserActions {
+public interfbce PbrserActions {
     /**
-     * package declaration
+     * pbckbge declbrbtion
      */
-    void packageDeclaration(long off, IdentifierToken nm);
+    void pbckbgeDeclbrbtion(long off, IdentifierToken nm);
 
     /**
-     * import class
+     * import clbss
      */
-    void importClass(long off, IdentifierToken nm);
+    void importClbss(long off, IdentifierToken nm);
 
     /**
-     * import package
+     * import pbckbge
      */
-    void importPackage(long off, IdentifierToken nm);
+    void importPbckbge(long off, IdentifierToken nm);
 
     /**
-     * Define class
-     * @return a cookie for the class
-     * This cookie is used by the parser when calling defineField
-     * and endClass, and is not examined otherwise.
+     * Define clbss
+     * @return b cookie for the clbss
+     * This cookie is used by the pbrser when cblling defineField
+     * bnd endClbss, bnd is not exbmined otherwise.
      */
-    ClassDefinition beginClass(long off, String doc,
+    ClbssDefinition beginClbss(long off, String doc,
                                int mod, IdentifierToken nm,
                                IdentifierToken sup, IdentifierToken impl[]);
 
 
     /**
-     * End class
-     * @param c a cookie returned by the corresponding beginClass call
+     * End clbss
+     * @pbrbm c b cookie returned by the corresponding beginClbss cbll
      */
-    void endClass(long off, ClassDefinition c);
+    void endClbss(long off, ClbssDefinition c);
 
     /**
-     * Define a field
-     * @param c a cookie returned by the corresponding beginClass call
+     * Define b field
+     * @pbrbm c b cookie returned by the corresponding beginClbss cbll
      */
-    void defineField(long where, ClassDefinition c,
+    void defineField(long where, ClbssDefinition c,
                      String doc, int mod, Type t,
-                     IdentifierToken nm, IdentifierToken args[],
-                     IdentifierToken exp[], Node val);
+                     IdentifierToken nm, IdentifierToken brgs[],
+                     IdentifierToken exp[], Node vbl);
 }

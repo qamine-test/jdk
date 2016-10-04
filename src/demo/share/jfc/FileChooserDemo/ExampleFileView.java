@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,71 +30,71 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import jbvbx.swing.*;
+import jbvbx.swing.filechooser.*;
+import jbvb.io.File;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * A convenience implementation of the FileView interface that
- * manages name, icon, traversable, and file type information.
+ * A convenience implementbtion of the FileView interfbce thbt
+ * mbnbges nbme, icon, trbversbble, bnd file type informbtion.
  *
- * This implementation will work well with file systems that use
- * "dot" extensions to indicate file type. For example: "picture.gif"
- * as a gif image.
+ * This implementbtion will work well with file systems thbt use
+ * "dot" extensions to indicbte file type. For exbmple: "picture.gif"
+ * bs b gif imbge.
  *
- * If the java.io.File ever contains some of this information, such as
- * file type, icon, and hidden file inforation, this implementation may
- * become obsolete. At minimum, it should be rewritten at that time to
- * use any new type information provided by java.io.File
+ * If the jbvb.io.File ever contbins some of this informbtion, such bs
+ * file type, icon, bnd hidden file inforbtion, this implementbtion mby
+ * become obsolete. At minimum, it should be rewritten bt thbt time to
+ * use bny new type informbtion provided by jbvb.io.File
  *
- * Example:
+ * Exbmple:
  *    JFileChooser chooser = new JFileChooser();
- *    fileView = new ExampleFileView();
- *    fileView.putIcon("jpg", new ImageIcon("images/jpgIcon.jpg"));
- *    fileView.putIcon("gif", new ImageIcon("images/gifIcon.gif"));
+ *    fileView = new ExbmpleFileView();
+ *    fileView.putIcon("jpg", new ImbgeIcon("imbges/jpgIcon.jpg"));
+ *    fileView.putIcon("gif", new ImbgeIcon("imbges/gifIcon.gif"));
  *    chooser.setFileView(fileView);
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-public class ExampleFileView extends FileView {
+public clbss ExbmpleFileView extends FileView {
 
-    private final Map<String, Icon> icons = new HashMap<String, Icon>();
-    private final Map<File, String> fileDescriptions =
-            new HashMap<File, String>();
-    private final Map<String, String> typeDescriptions =
-            new HashMap<String, String>();
+    privbte finbl Mbp<String, Icon> icons = new HbshMbp<String, Icon>();
+    privbte finbl Mbp<File, String> fileDescriptions =
+            new HbshMbp<File, String>();
+    privbte finbl Mbp<String, String> typeDescriptions =
+            new HbshMbp<String, String>();
 
     /**
-     * The name of the file.  Do nothing special here. Let
-     * the system file view handle this.
-     * @see FileView#getName
+     * The nbme of the file.  Do nothing specibl here. Let
+     * the system file view hbndle this.
+     * @see FileView#getNbme
      */
     @Override
-    public String getName(File f) {
+    public String getNbme(File f) {
         return null;
     }
 
     /**
-     * Adds a human readable description of the file.
+     * Adds b humbn rebdbble description of the file.
      */
     public void putDescription(File f, String fileDescription) {
         fileDescriptions.put(f, fileDescription);
     }
 
     /**
-     * A human readable description of the file.
+     * A humbn rebdbble description of the file.
      *
      * @see FileView#getDescription
      */
@@ -104,24 +104,24 @@ public class ExampleFileView extends FileView {
     }
 
     /**
-     * Adds a human readable type description for files. Based on "dot"
-     * extension strings, e.g: ".gif". Case is ignored.
+     * Adds b humbn rebdbble type description for files. Bbsed on "dot"
+     * extension strings, e.g: ".gif". Cbse is ignored.
      */
     public void putTypeDescription(String extension, String typeDescription) {
         typeDescriptions.put(extension, typeDescription);
     }
 
     /**
-     * Adds a human readable type description for files of the type of
-     * the passed in file. Based on "dot" extension strings, e.g: ".gif".
-     * Case is ignored.
+     * Adds b humbn rebdbble type description for files of the type of
+     * the pbssed in file. Bbsed on "dot" extension strings, e.g: ".gif".
+     * Cbse is ignored.
      */
     public void putTypeDescription(File f, String typeDescription) {
         putTypeDescription(getExtension(f), typeDescription);
     }
 
     /**
-     * A human readable description of the type of the file.
+     * A humbn rebdbble description of the type of the file.
      *
      * @see FileView#getTypeDescription
      */
@@ -131,32 +131,32 @@ public class ExampleFileView extends FileView {
     }
 
     /**
-     * Convenience method that returns the "dot" extension for the
+     * Convenience method thbt returns the "dot" extension for the
      * given file.
      */
-    private String getExtension(File f) {
-        String name = f.getName();
-        if (name != null) {
-            int extensionIndex = name.lastIndexOf('.');
+    privbte String getExtension(File f) {
+        String nbme = f.getNbme();
+        if (nbme != null) {
+            int extensionIndex = nbme.lbstIndexOf('.');
             if (extensionIndex < 0) {
                 return null;
             }
-            return name.substring(extensionIndex + 1).toLowerCase();
+            return nbme.substring(extensionIndex + 1).toLowerCbse();
         }
         return null;
     }
 
     /**
-     * Adds an icon based on the file type "dot" extension
-     * string, e.g: ".gif". Case is ignored.
+     * Adds bn icon bbsed on the file type "dot" extension
+     * string, e.g: ".gif". Cbse is ignored.
      */
     public void putIcon(String extension, Icon icon) {
         icons.put(extension, icon);
     }
 
     /**
-     * Icon that reperesents this file. Default implementation returns
-     * null. You might want to override this to return something more
+     * Icon thbt reperesents this file. Defbult implementbtion returns
+     * null. You might wbnt to override this to return something more
      * interesting.
      *
      * @see FileView#getIcon
@@ -172,22 +172,22 @@ public class ExampleFileView extends FileView {
     }
 
     /**
-     * Whether the directory is traversable or not. Generic implementation
-     * returns true for all directories and special folders.
+     * Whether the directory is trbversbble or not. Generic implementbtion
+     * returns true for bll directories bnd specibl folders.
      *
-     * You might want to subtype ExampleFileView to do somethimg more interesting,
-     * such as recognize compound documents directories; in such a case you might
-     * return a special icon for the directory that makes it look like a regular
-     * document, and return false for isTraversable to not allow users to
+     * You might wbnt to subtype ExbmpleFileView to do somethimg more interesting,
+     * such bs recognize compound documents directories; in such b cbse you might
+     * return b specibl icon for the directory thbt mbkes it look like b regulbr
+     * document, bnd return fblse for isTrbversbble to not bllow users to
      * descend into the directory.
      *
-     * @see FileView#isTraversable
+     * @see FileView#isTrbversbble
      */
     @Override
-    public Boolean isTraversable(File f) {
-        // if (some_reason) {
-        //    return Boolean.FALSE;
+    public Boolebn isTrbversbble(File f) {
+        // if (some_rebson) {
+        //    return Boolebn.FALSE;
         // }
-        return null;    // Use default from FileSystemView
+        return null;    // Use defbult from FileSystemView
     }
 }

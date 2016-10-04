@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,44 +30,44 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-// this checker function runs asynchronously
-function memoryChecker(memoryBean, threshold, interval) {
+// this checker function runs bsynchronously
+function memoryChecker(memoryBebn, threshold, intervbl) {
     while (true) {
-        var memUsage = memoryBean.HeapMemoryUsage;
-        var usage = memUsage.get("used") / (1024 * 1024);
+        vbr memUsbge = memoryBebn.HebpMemoryUsbge;
+        vbr usbge = memUsbge.get("used") / (1024 * 1024);
 
-        println("usage: " + usage);
+        println("usbge: " + usbge);
 
-        if (usage > threshold) {
-            alert("Hey! heap usage threshold exceeded!");
-            // after first alert just return.
+        if (usbge > threshold) {
+            blert("Hey! hebp usbge threshold exceeded!");
+            // bfter first blert just return.
             return;
         }
 
-        java.lang.Thread.sleep(interval);
+        jbvb.lbng.Threbd.sleep(intervbl);
     }
 }
 
-// add "Tools->Memory Monitor" menu item
-if (this.application != undefined) {
-    this.application.addTool("Memory Monitor",
+// bdd "Tools->Memory Monitor" menu item
+if (this.bpplicbtion != undefined) {
+    this.bpplicbtion.bddTool("Memory Monitor",
         function () {
-            // show threshold box with default of 50 MB
-            var threshold = prompt("Threshold (mb)", 50);
+            // show threshold box with defbult of 50 MB
+            vbr threshold = prompt("Threshold (mb)", 50);
 
-            // show interval box with default of 1000 millisec.
-            var interval = prompt("Sample Interval (ms):", 1000);
-            var memoryBean = mbean("java.lang:type=Memory");
+            // show intervbl box with defbult of 1000 millisec.
+            vbr intervbl = prompt("Sbmple Intervbl (ms):", 1000);
+            vbr memoryBebn = mbebn("jbvb.lbng:type=Memory");
 
-            // ".future" makes the function to be called
-            // asynchronously in a separate thread.
-            memoryChecker.future(memoryBean, threshold, interval);
+            // ".future" mbkes the function to be cblled
+            // bsynchronously in b sepbrbte threbd.
+            memoryChecker.future(memoryBebn, threshold, intervbl);
         });
 }

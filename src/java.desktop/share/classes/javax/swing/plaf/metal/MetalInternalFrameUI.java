@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvbx.swing.plbf.*;
 
 /**
- * Metal implementation of JInternalFrame.
+ * Metbl implementbtion of JInternblFrbme.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-public class MetalInternalFrameUI extends BasicInternalFrameUI {
+public clbss MetblInternblFrbmeUI extends BbsicInternblFrbmeUI {
 
-  private static final PropertyChangeListener metalPropertyChangeListener =
-        new MetalPropertyChangeHandler();
+  privbte stbtic finbl PropertyChbngeListener metblPropertyChbngeListener =
+        new MetblPropertyChbngeHbndler();
 
-  private static final Border handyEmptyBorder = new EmptyBorder(0,0,0,0);
+  privbte stbtic finbl Border hbndyEmptyBorder = new EmptyBorder(0,0,0,0);
 
   /**
-   * The property {@code JInternalFrame.isPalette}.
+   * The property {@code JInternblFrbme.isPblette}.
    */
-  protected static String IS_PALETTE   = "JInternalFrame.isPalette";
-  private static String IS_PALETTE_KEY = "JInternalFrame.isPalette";
-  private static String FRAME_TYPE     = "JInternalFrame.frameType";
-  private static String NORMAL_FRAME   = "normal";
-  private static String PALETTE_FRAME  = "palette";
-  private static String OPTION_DIALOG  = "optionDialog";
+  protected stbtic String IS_PALETTE   = "JInternblFrbme.isPblette";
+  privbte stbtic String IS_PALETTE_KEY = "JInternblFrbme.isPblette";
+  privbte stbtic String FRAME_TYPE     = "JInternblFrbme.frbmeType";
+  privbte stbtic String NORMAL_FRAME   = "normbl";
+  privbte stbtic String PALETTE_FRAME  = "pblette";
+  privbte stbtic String OPTION_DIALOG  = "optionDiblog";
 
 
   /**
-   * Constructs a new {@code MetalInternalFrameUI} instance.
+   * Constructs b new {@code MetblInternblFrbmeUI} instbnce.
    *
-   * @param b an internal frame
+   * @pbrbm b bn internbl frbme
    */
-  public MetalInternalFrameUI(JInternalFrame b)   {
+  public MetblInternblFrbmeUI(JInternblFrbme b)   {
     super(b);
   }
 
   /**
-   * Constructs a new {@code MetalInternalFrameUI} instance.
+   * Constructs b new {@code MetblInternblFrbmeUI} instbnce.
    *
-   * @param c a component
-   * @return a new {@code MetalInternalFrameUI} instance
+   * @pbrbm c b component
+   * @return b new {@code MetblInternblFrbmeUI} instbnce
    */
-  public static ComponentUI createUI(JComponent c)    {
-      return new MetalInternalFrameUI( (JInternalFrame) c);
+  public stbtic ComponentUI crebteUI(JComponent c)    {
+      return new MetblInternblFrbmeUI( (JInternblFrbme) c);
   }
 
-  public void installUI(JComponent c) {
-    super.installUI(c);
+  public void instbllUI(JComponent c) {
+    super.instbllUI(c);
 
-    Object paletteProp = c.getClientProperty(IS_PALETTE_KEY);
-    if ( paletteProp != null ) {
-        setPalette( ((Boolean)paletteProp).booleanValue() );
+    Object pbletteProp = c.getClientProperty(IS_PALETTE_KEY);
+    if ( pbletteProp != null ) {
+        setPblette( ((Boolebn)pbletteProp).boolebnVblue() );
     }
 
-    Container content = frame.getContentPane();
+    Contbiner content = frbme.getContentPbne();
     stripContentBorder(content);
-    //c.setOpaque(false);
+    //c.setOpbque(fblse);
   }
 
-  public void uninstallUI(JComponent c) {
-      frame = (JInternalFrame)c;
+  public void uninstbllUI(JComponent c) {
+      frbme = (JInternblFrbme)c;
 
-      Container cont = ((JInternalFrame)(c)).getContentPane();
-      if (cont instanceof JComponent) {
+      Contbiner cont = ((JInternblFrbme)(c)).getContentPbne();
+      if (cont instbnceof JComponent) {
         JComponent content = (JComponent)cont;
-        if ( content.getBorder() == handyEmptyBorder) {
+        if ( content.getBorder() == hbndyEmptyBorder) {
           content.setBorder(null);
         }
       }
-      super.uninstallUI(c);
+      super.uninstbllUI(c);
   }
 
-    protected void installListeners() {
-        super.installListeners();
-        frame.addPropertyChangeListener(metalPropertyChangeListener);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        frbme.bddPropertyChbngeListener(metblPropertyChbngeListener);
     }
 
-    protected void uninstallListeners() {
-        frame.removePropertyChangeListener(metalPropertyChangeListener);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        frbme.removePropertyChbngeListener(metblPropertyChbngeListener);
+        super.uninstbllListeners();
     }
 
-  protected void installKeyboardActions(){
-      super.installKeyboardActions();
-      ActionMap map = SwingUtilities.getUIActionMap(frame);
-      if (map != null) {
-          // BasicInternalFrameUI creates an action with the same name, we override
-          // it as Metal frames do not have system menus.
-          map.remove("showSystemMenu");
+  protected void instbllKeybobrdActions(){
+      super.instbllKeybobrdActions();
+      ActionMbp mbp = SwingUtilities.getUIActionMbp(frbme);
+      if (mbp != null) {
+          // BbsicInternblFrbmeUI crebtes bn bction with the sbme nbme, we override
+          // it bs Metbl frbmes do not hbve system menus.
+          mbp.remove("showSystemMenu");
       }
   }
 
-  protected void uninstallKeyboardActions(){
-      super.uninstallKeyboardActions();
+  protected void uninstbllKeybobrdActions(){
+      super.uninstbllKeybobrdActions();
   }
 
-    protected void uninstallComponents() {
-        titlePane = null;
-        super.uninstallComponents();
+    protected void uninstbllComponents() {
+        titlePbne = null;
+        super.uninstbllComponents();
     }
 
-  private void stripContentBorder(Object c) {
-        if ( c instanceof JComponent ) {
+  privbte void stripContentBorder(Object c) {
+        if ( c instbnceof JComponent ) {
             JComponent contentComp = (JComponent)c;
             Border contentBorder = contentComp.getBorder();
-            if (contentBorder == null || contentBorder instanceof UIResource) {
-                contentComp.setBorder( handyEmptyBorder );
+            if (contentBorder == null || contentBorder instbnceof UIResource) {
+                contentComp.setBorder( hbndyEmptyBorder );
             }
         }
   }
 
 
-  protected JComponent createNorthPane(JInternalFrame w) {
-      return new MetalInternalFrameTitlePane(w);
+  protected JComponent crebteNorthPbne(JInternblFrbme w) {
+      return new MetblInternblFrbmeTitlePbne(w);
   }
 
 
-  private void setFrameType( String frameType )
+  privbte void setFrbmeType( String frbmeType )
   {
-      if ( frameType.equals( OPTION_DIALOG ) )
+      if ( frbmeType.equbls( OPTION_DIALOG ) )
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.optionDialogBorder");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( false );
+          LookAndFeel.instbllBorder(frbme, "InternblFrbme.optionDiblogBorder");
+          ((MetblInternblFrbmeTitlePbne)titlePbne).setPblette( fblse );
       }
-      else if ( frameType.equals( PALETTE_FRAME ) )
+      else if ( frbmeType.equbls( PALETTE_FRAME ) )
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.paletteBorder");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( true );
+          LookAndFeel.instbllBorder(frbme, "InternblFrbme.pbletteBorder");
+          ((MetblInternblFrbmeTitlePbne)titlePbne).setPblette( true );
       }
       else
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.border");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( false );
+          LookAndFeel.instbllBorder(frbme, "InternblFrbme.border");
+          ((MetblInternblFrbmeTitlePbne)titlePbne).setPblette( fblse );
       }
   }
 
   /**
-   * If {@code isPalette} is {@code true}, sets palette border and title
+   * If {@code isPblette} is {@code true}, sets pblette border bnd title
    *
-   * @param isPalette if {@code true}, sets palette border and title
+   * @pbrbm isPblette if {@code true}, sets pblette border bnd title
    */
-  // this should be deprecated - jcs
-  public void setPalette(boolean isPalette) {
-    if (isPalette) {
-        LookAndFeel.installBorder(frame, "InternalFrame.paletteBorder");
+  // this should be deprecbted - jcs
+  public void setPblette(boolebn isPblette) {
+    if (isPblette) {
+        LookAndFeel.instbllBorder(frbme, "InternblFrbme.pbletteBorder");
     } else {
-        LookAndFeel.installBorder(frame, "InternalFrame.border");
+        LookAndFeel.instbllBorder(frbme, "InternblFrbme.border");
     }
-    ((MetalInternalFrameTitlePane)titlePane).setPalette(isPalette);
+    ((MetblInternblFrbmeTitlePbne)titlePbne).setPblette(isPblette);
 
   }
 
-  private static class MetalPropertyChangeHandler implements
-        PropertyChangeListener
+  privbte stbtic clbss MetblPropertyChbngeHbndler implements
+        PropertyChbngeListener
   {
-      public void propertyChange(PropertyChangeEvent e)
+      public void propertyChbnge(PropertyChbngeEvent e)
       {
-          String name = e.getPropertyName();
-          JInternalFrame jif = (JInternalFrame)e.getSource();
+          String nbme = e.getPropertyNbme();
+          JInternblFrbme jif = (JInternblFrbme)e.getSource();
 
-          if (!(jif.getUI() instanceof MetalInternalFrameUI)) {
+          if (!(jif.getUI() instbnceof MetblInternblFrbmeUI)) {
               return;
           }
 
-          MetalInternalFrameUI ui = (MetalInternalFrameUI)jif.getUI();
+          MetblInternblFrbmeUI ui = (MetblInternblFrbmeUI)jif.getUI();
 
-          if ( name.equals( FRAME_TYPE ) )
+          if ( nbme.equbls( FRAME_TYPE ) )
           {
-              if ( e.getNewValue() instanceof String )
+              if ( e.getNewVblue() instbnceof String )
               {
-                  ui.setFrameType( (String) e.getNewValue() );
+                  ui.setFrbmeType( (String) e.getNewVblue() );
               }
           }
-          else if ( name.equals(IS_PALETTE_KEY) )
+          else if ( nbme.equbls(IS_PALETTE_KEY) )
           {
-              if ( e.getNewValue() != null )
+              if ( e.getNewVblue() != null )
               {
-                  ui.setPalette( ((Boolean)e.getNewValue()).booleanValue() );
+                  ui.setPblette( ((Boolebn)e.getNewVblue()).boolebnVblue() );
               }
               else
               {
-                  ui.setPalette( false );
+                  ui.setPblette( fblse );
               }
-          } else if ( name.equals( JInternalFrame.CONTENT_PANE_PROPERTY ) ) {
-              ui.stripContentBorder(e.getNewValue());
+          } else if ( nbme.equbls( JInternblFrbme.CONTENT_PANE_PROPERTY ) ) {
+              ui.stripContentBorder(e.getNewVblue());
           }
       }
-  } // end class MetalPropertyChangeHandler
+  } // end clbss MetblPropertyChbngeHbndler
 
 
-    private class BorderListener1 extends BorderListener implements SwingConstants
+    privbte clbss BorderListener1 extends BorderListener implements SwingConstbnts
     {
 
-        Rectangle getIconBounds() {
-            boolean leftToRight = MetalUtils.isLeftToRight(frame);
-            int xOffset = leftToRight ? 5 : titlePane.getWidth() - 5;
-            Rectangle rect = null;
+        Rectbngle getIconBounds() {
+            boolebn leftToRight = MetblUtils.isLeftToRight(frbme);
+            int xOffset = leftToRight ? 5 : titlePbne.getWidth() - 5;
+            Rectbngle rect = null;
 
-            Icon icon = frame.getFrameIcon();
+            Icon icon = frbme.getFrbmeIcon();
             if ( icon != null ) {
                 if ( !leftToRight ) {
                     xOffset -= icon.getIconWidth();
                 }
-                int iconY = ((titlePane.getHeight() / 2) - (icon.getIconHeight() /2));
-                rect = new Rectangle(xOffset, iconY,
+                int iconY = ((titlePbne.getHeight() / 2) - (icon.getIconHeight() /2));
+                rect = new Rectbngle(xOffset, iconY,
                     icon.getIconWidth(), icon.getIconHeight());
             }
             return rect;
         }
 
         public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2 && e.getSource() == getNorthPane() &&
-                frame.isClosable() && !frame.isIcon()) {
-                Rectangle rect = getIconBounds();
-                if ((rect != null) && rect.contains(e.getX(), e.getY())) {
-                    frame.doDefaultCloseAction();
+            if (e.getClickCount() == 2 && e.getSource() == getNorthPbne() &&
+                frbme.isClosbble() && !frbme.isIcon()) {
+                Rectbngle rect = getIconBounds();
+                if ((rect != null) && rect.contbins(e.getX(), e.getY())) {
+                    frbme.doDefbultCloseAction();
                 }
                 else {
                     super.mouseClicked(e);
@@ -256,19 +256,19 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
                 super.mouseClicked(e);
             }
         }
-    };    /// End BorderListener Class
+    };    /// End BorderListener Clbss
 
 
     /**
-     * Returns the <code>MouseInputAdapter</code> that will be installed
-     * on the TitlePane.
+     * Returns the <code>MouseInputAdbpter</code> thbt will be instblled
+     * on the TitlePbne.
      *
-     * @param w the <code>JInternalFrame</code>
-     * @return the <code>MouseInputAdapter</code> that will be installed
-     * on the TitlePane.
+     * @pbrbm w the <code>JInternblFrbme</code>
+     * @return the <code>MouseInputAdbpter</code> thbt will be instblled
+     * on the TitlePbne.
      * @since 1.6
      */
-    protected MouseInputAdapter createBorderListener(JInternalFrame w) {
+    protected MouseInputAdbpter crebteBorderListener(JInternblFrbme w) {
         return new BorderListener1();
     }
 }

@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,28 +53,28 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// Virtual (built-in) profiles
+// Virtubl (built-in) profiles
 // -----------------------------------------------------------------------------------
 
-static
-cmsBool SetTextTags(cmsHPROFILE hProfile, const wchar_t* Description)
+stbtic
+cmsBool SetTextTbgs(cmsHPROFILE hProfile, const wchbr_t* Description)
 {
     cmsMLU *DescriptionMLU, *CopyrightMLU;
     cmsBool  rc = FALSE;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    DescriptionMLU  = cmsMLUalloc(ContextID, 1);
-    CopyrightMLU    = cmsMLUalloc(ContextID, 1);
+    DescriptionMLU  = cmsMLUblloc(ContextID, 1);
+    CopyrightMLU    = cmsMLUblloc(ContextID, 1);
 
     if (DescriptionMLU == NULL || CopyrightMLU == NULL) goto Error;
 
     if (!cmsMLUsetWide(DescriptionMLU,  "en", "US", Description)) goto Error;
     if (!cmsMLUsetWide(CopyrightMLU,    "en", "US", L"No copyright, use freely")) goto Error;
 
-    if (!cmsWriteTag(hProfile, cmsSigProfileDescriptionTag,  DescriptionMLU)) goto Error;
-    if (!cmsWriteTag(hProfile, cmsSigCopyrightTag,           CopyrightMLU)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigProfileDescriptionTbg,  DescriptionMLU)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigCopyrightTbg,           CopyrightMLU)) goto Error;
 
     rc = TRUE;
 
@@ -88,8 +88,8 @@ Error:
 }
 
 
-static
-cmsBool  SetSeqDescTag(cmsHPROFILE hProfile, const char* Model)
+stbtic
+cmsBool  SetSeqDescTbg(cmsHPROFILE hProfile, const chbr* Model)
 {
     cmsBool  rc = FALSE;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
@@ -97,20 +97,20 @@ cmsBool  SetSeqDescTag(cmsHPROFILE hProfile, const char* Model)
 
     if (Seq == NULL) return FALSE;
 
-    Seq->seq[0].deviceMfg = (cmsSignature) 0;
-    Seq->seq[0].deviceModel = (cmsSignature) 0;
+    Seq->seq[0].deviceMfg = (cmsSignbture) 0;
+    Seq->seq[0].deviceModel = (cmsSignbture) 0;
 
 #ifdef CMS_DONT_USE_INT64
-    Seq->seq[0].attributes[0] = 0;
-    Seq->seq[0].attributes[1] = 0;
+    Seq->seq[0].bttributes[0] = 0;
+    Seq->seq[0].bttributes[1] = 0;
 #else
-    Seq->seq[0].attributes = 0;
+    Seq->seq[0].bttributes = 0;
 #endif
 
-    Seq->seq[0].technology = (cmsTechnologySignature) 0;
+    Seq->seq[0].technology = (cmsTechnologySignbture) 0;
 
-    cmsMLUsetASCII( Seq->seq[0].Manufacturer, cmsNoLanguage, cmsNoCountry, "Little CMS");
-    cmsMLUsetASCII( Seq->seq[0].Model,        cmsNoLanguage, cmsNoCountry, Model);
+    cmsMLUsetASCII( Seq->seq[0].Mbnufbcturer, cmsNoLbngubge, cmsNoCountry, "Little CMS");
+    cmsMLUsetASCII( Seq->seq[0].Model,        cmsNoLbngubge, cmsNoCountry, Model);
 
     if (!_cmsWriteProfileSequence(hProfile, Seq)) goto Error;
 
@@ -125,113 +125,113 @@ Error:
 
 
 
-// This function creates a profile based on White point, primaries and
-// transfer functions.
-cmsHPROFILE CMSEXPORT cmsCreateRGBProfileTHR(cmsContext ContextID,
+// This function crebtes b profile bbsed on White point, primbries bnd
+// trbnsfer functions.
+cmsHPROFILE CMSEXPORT cmsCrebteRGBProfileTHR(cmsContext ContextID,
                                           const cmsCIExyY* WhitePoint,
-                                          const cmsCIExyYTRIPLE* Primaries,
-                                          cmsToneCurve* const TransferFunction[3])
+                                          const cmsCIExyYTRIPLE* Primbries,
+                                          cmsToneCurve* const TrbnsferFunction[3])
 {
     cmsHPROFILE hICC;
-    cmsMAT3 MColorants;
-    cmsCIEXYZTRIPLE Colorants;
-    cmsCIExyY MaxWhite;
+    cmsMAT3 MColorbnts;
+    cmsCIEXYZTRIPLE Colorbnts;
+    cmsCIExyY MbxWhite;
     cmsMAT3 CHAD;
     cmsCIEXYZ WhitePointXYZ;
 
-    hICC = cmsCreateProfilePlaceholder(ContextID);
-    if (!hICC)                          // can't allocate
+    hICC = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hICC)                          // cbn't bllocbte
         return NULL;
 
     cmsSetProfileVersion(hICC, 4.3);
 
-    cmsSetDeviceClass(hICC,      cmsSigDisplayClass);
-    cmsSetColorSpace(hICC,       cmsSigRgbData);
-    cmsSetPCS(hICC,              cmsSigXYZData);
+    cmsSetDeviceClbss(hICC,      cmsSigDisplbyClbss);
+    cmsSetColorSpbce(hICC,       cmsSigRgbDbtb);
+    cmsSetPCS(hICC,              cmsSigXYZDbtb);
 
-    cmsSetHeaderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
+    cmsSetHebderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
 
 
-    // Implement profile using following tags:
+    // Implement profile using following tbgs:
     //
-    //  1 cmsSigProfileDescriptionTag
-    //  2 cmsSigMediaWhitePointTag
-    //  3 cmsSigRedColorantTag
-    //  4 cmsSigGreenColorantTag
-    //  5 cmsSigBlueColorantTag
-    //  6 cmsSigRedTRCTag
-    //  7 cmsSigGreenTRCTag
-    //  8 cmsSigBlueTRCTag
-    //  9 Chromatic adaptation Tag
-    // This conforms a standard RGB DisplayProfile as says ICC, and then I add (As per addendum II)
-    // 10 cmsSigChromaticityTag
+    //  1 cmsSigProfileDescriptionTbg
+    //  2 cmsSigMedibWhitePointTbg
+    //  3 cmsSigRedColorbntTbg
+    //  4 cmsSigGreenColorbntTbg
+    //  5 cmsSigBlueColorbntTbg
+    //  6 cmsSigRedTRCTbg
+    //  7 cmsSigGreenTRCTbg
+    //  8 cmsSigBlueTRCTbg
+    //  9 Chrombtic bdbptbtion Tbg
+    // This conforms b stbndbrd RGB DisplbyProfile bs sbys ICC, bnd then I bdd (As per bddendum II)
+    // 10 cmsSigChrombticityTbg
 
 
-    if (!SetTextTags(hICC, L"RGB built-in")) goto Error;
+    if (!SetTextTbgs(hICC, L"RGB built-in")) goto Error;
 
     if (WhitePoint) {
 
-        if (!cmsWriteTag(hICC, cmsSigMediaWhitePointTag, cmsD50_XYZ())) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigMedibWhitePointTbg, cmsD50_XYZ())) goto Error;
 
         cmsxyY2XYZ(&WhitePointXYZ, WhitePoint);
-        _cmsAdaptationMatrix(&CHAD, NULL, &WhitePointXYZ, cmsD50_XYZ());
+        _cmsAdbptbtionMbtrix(&CHAD, NULL, &WhitePointXYZ, cmsD50_XYZ());
 
-        // This is a V4 tag, but many CMM does read and understand it no matter which version
-        if (!cmsWriteTag(hICC, cmsSigChromaticAdaptationTag, (void*) &CHAD)) goto Error;
+        // This is b V4 tbg, but mbny CMM does rebd bnd understbnd it no mbtter which version
+        if (!cmsWriteTbg(hICC, cmsSigChrombticAdbptbtionTbg, (void*) &CHAD)) goto Error;
     }
 
-    if (WhitePoint && Primaries) {
+    if (WhitePoint && Primbries) {
 
-        MaxWhite.x =  WhitePoint -> x;
-        MaxWhite.y =  WhitePoint -> y;
-        MaxWhite.Y =  1.0;
+        MbxWhite.x =  WhitePoint -> x;
+        MbxWhite.y =  WhitePoint -> y;
+        MbxWhite.Y =  1.0;
 
-        if (!_cmsBuildRGB2XYZtransferMatrix(&MColorants, &MaxWhite, Primaries)) goto Error;
+        if (!_cmsBuildRGB2XYZtrbnsferMbtrix(&MColorbnts, &MbxWhite, Primbries)) goto Error;
 
-        Colorants.Red.X   = MColorants.v[0].n[0];
-        Colorants.Red.Y   = MColorants.v[1].n[0];
-        Colorants.Red.Z   = MColorants.v[2].n[0];
+        Colorbnts.Red.X   = MColorbnts.v[0].n[0];
+        Colorbnts.Red.Y   = MColorbnts.v[1].n[0];
+        Colorbnts.Red.Z   = MColorbnts.v[2].n[0];
 
-        Colorants.Green.X = MColorants.v[0].n[1];
-        Colorants.Green.Y = MColorants.v[1].n[1];
-        Colorants.Green.Z = MColorants.v[2].n[1];
+        Colorbnts.Green.X = MColorbnts.v[0].n[1];
+        Colorbnts.Green.Y = MColorbnts.v[1].n[1];
+        Colorbnts.Green.Z = MColorbnts.v[2].n[1];
 
-        Colorants.Blue.X  = MColorants.v[0].n[2];
-        Colorants.Blue.Y  = MColorants.v[1].n[2];
-        Colorants.Blue.Z  = MColorants.v[2].n[2];
+        Colorbnts.Blue.X  = MColorbnts.v[0].n[2];
+        Colorbnts.Blue.Y  = MColorbnts.v[1].n[2];
+        Colorbnts.Blue.Z  = MColorbnts.v[2].n[2];
 
-        if (!cmsWriteTag(hICC, cmsSigRedColorantTag,   (void*) &Colorants.Red)) goto Error;
-        if (!cmsWriteTag(hICC, cmsSigBlueColorantTag,  (void*) &Colorants.Blue)) goto Error;
-        if (!cmsWriteTag(hICC, cmsSigGreenColorantTag, (void*) &Colorants.Green)) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigRedColorbntTbg,   (void*) &Colorbnts.Red)) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigBlueColorbntTbg,  (void*) &Colorbnts.Blue)) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigGreenColorbntTbg, (void*) &Colorbnts.Green)) goto Error;
     }
 
 
-    if (TransferFunction) {
+    if (TrbnsferFunction) {
 
-        // Tries to minimize space. Thanks to Richard Hughes for this nice idea
-        if (!cmsWriteTag(hICC, cmsSigRedTRCTag,   (void*) TransferFunction[0])) goto Error;
+        // Tries to minimize spbce. Thbnks to Richbrd Hughes for this nice ideb
+        if (!cmsWriteTbg(hICC, cmsSigRedTRCTbg,   (void*) TrbnsferFunction[0])) goto Error;
 
-        if (TransferFunction[1] == TransferFunction[0]) {
+        if (TrbnsferFunction[1] == TrbnsferFunction[0]) {
 
-            if (!cmsLinkTag (hICC, cmsSigGreenTRCTag, cmsSigRedTRCTag)) goto Error;
+            if (!cmsLinkTbg (hICC, cmsSigGreenTRCTbg, cmsSigRedTRCTbg)) goto Error;
 
         } else {
 
-            if (!cmsWriteTag(hICC, cmsSigGreenTRCTag, (void*) TransferFunction[1])) goto Error;
+            if (!cmsWriteTbg(hICC, cmsSigGreenTRCTbg, (void*) TrbnsferFunction[1])) goto Error;
         }
 
-        if (TransferFunction[2] == TransferFunction[0]) {
+        if (TrbnsferFunction[2] == TrbnsferFunction[0]) {
 
-            if (!cmsLinkTag (hICC, cmsSigBlueTRCTag, cmsSigRedTRCTag)) goto Error;
+            if (!cmsLinkTbg (hICC, cmsSigBlueTRCTbg, cmsSigRedTRCTbg)) goto Error;
 
         } else {
 
-            if (!cmsWriteTag(hICC, cmsSigBlueTRCTag, (void*) TransferFunction[2])) goto Error;
+            if (!cmsWriteTbg(hICC, cmsSigBlueTRCTbg, (void*) TrbnsferFunction[2])) goto Error;
         }
     }
 
-    if (Primaries) {
-        if (!cmsWriteTag(hICC, cmsSigChromaticityTag, (void*) Primaries)) goto Error;
+    if (Primbries) {
+        if (!cmsWriteTbg(hICC, cmsSigChrombticityTbg, (void*) Primbries)) goto Error;
     }
 
 
@@ -243,57 +243,57 @@ Error:
     return NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreateRGBProfile(const cmsCIExyY* WhitePoint,
-                                          const cmsCIExyYTRIPLE* Primaries,
-                                          cmsToneCurve* const TransferFunction[3])
+cmsHPROFILE CMSEXPORT cmsCrebteRGBProfile(const cmsCIExyY* WhitePoint,
+                                          const cmsCIExyYTRIPLE* Primbries,
+                                          cmsToneCurve* const TrbnsferFunction[3])
 {
-    return cmsCreateRGBProfileTHR(NULL, WhitePoint, Primaries, TransferFunction);
+    return cmsCrebteRGBProfileTHR(NULL, WhitePoint, Primbries, TrbnsferFunction);
 }
 
 
 
-// This function creates a profile based on White point and transfer function.
-cmsHPROFILE CMSEXPORT cmsCreateGrayProfileTHR(cmsContext ContextID,
+// This function crebtes b profile bbsed on White point bnd trbnsfer function.
+cmsHPROFILE CMSEXPORT cmsCrebteGrbyProfileTHR(cmsContext ContextID,
                                            const cmsCIExyY* WhitePoint,
-                                           const cmsToneCurve* TransferFunction)
+                                           const cmsToneCurve* TrbnsferFunction)
 {
     cmsHPROFILE hICC;
     cmsCIEXYZ tmp;
 
-    hICC = cmsCreateProfilePlaceholder(ContextID);
-    if (!hICC)                          // can't allocate
+    hICC = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hICC)                          // cbn't bllocbte
         return NULL;
 
     cmsSetProfileVersion(hICC, 4.3);
 
-    cmsSetDeviceClass(hICC,      cmsSigDisplayClass);
-    cmsSetColorSpace(hICC,       cmsSigGrayData);
-    cmsSetPCS(hICC,              cmsSigXYZData);
-    cmsSetHeaderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
+    cmsSetDeviceClbss(hICC,      cmsSigDisplbyClbss);
+    cmsSetColorSpbce(hICC,       cmsSigGrbyDbtb);
+    cmsSetPCS(hICC,              cmsSigXYZDbtb);
+    cmsSetHebderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
 
 
-    // Implement profile using following tags:
+    // Implement profile using following tbgs:
     //
-    //  1 cmsSigProfileDescriptionTag
-    //  2 cmsSigMediaWhitePointTag
-    //  3 cmsSigGrayTRCTag
+    //  1 cmsSigProfileDescriptionTbg
+    //  2 cmsSigMedibWhitePointTbg
+    //  3 cmsSigGrbyTRCTbg
 
-    // This conforms a standard Gray DisplayProfile
+    // This conforms b stbndbrd Grby DisplbyProfile
 
-    // Fill-in the tags
+    // Fill-in the tbgs
 
-    if (!SetTextTags(hICC, L"gray built-in")) goto Error;
+    if (!SetTextTbgs(hICC, L"grby built-in")) goto Error;
 
 
     if (WhitePoint) {
 
         cmsxyY2XYZ(&tmp, WhitePoint);
-        if (!cmsWriteTag(hICC, cmsSigMediaWhitePointTag, (void*) &tmp)) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigMedibWhitePointTbg, (void*) &tmp)) goto Error;
     }
 
-    if (TransferFunction) {
+    if (TrbnsferFunction) {
 
-        if (!cmsWriteTag(hICC, cmsSigGrayTRCTag, (void*) TransferFunction)) goto Error;
+        if (!cmsWriteTbg(hICC, cmsSigGrbyTRCTbg, (void*) TrbnsferFunction)) goto Error;
     }
 
     return hICC;
@@ -306,52 +306,52 @@ Error:
 
 
 
-cmsHPROFILE CMSEXPORT cmsCreateGrayProfile(const cmsCIExyY* WhitePoint,
-                                                    const cmsToneCurve* TransferFunction)
+cmsHPROFILE CMSEXPORT cmsCrebteGrbyProfile(const cmsCIExyY* WhitePoint,
+                                                    const cmsToneCurve* TrbnsferFunction)
 {
-    return cmsCreateGrayProfileTHR(NULL, WhitePoint, TransferFunction);
+    return cmsCrebteGrbyProfileTHR(NULL, WhitePoint, TrbnsferFunction);
 }
 
-// This is a devicelink operating in the target colorspace with as many transfer functions as components
+// This is b devicelink operbting in the tbrget colorspbce with bs mbny trbnsfer functions bs components
 
-cmsHPROFILE CMSEXPORT cmsCreateLinearizationDeviceLinkTHR(cmsContext ContextID,
-                                                          cmsColorSpaceSignature ColorSpace,
-                                                          cmsToneCurve* const TransferFunctions[])
+cmsHPROFILE CMSEXPORT cmsCrebteLinebrizbtionDeviceLinkTHR(cmsContext ContextID,
+                                                          cmsColorSpbceSignbture ColorSpbce,
+                                                          cmsToneCurve* const TrbnsferFunctions[])
 {
     cmsHPROFILE hICC;
     cmsPipeline* Pipeline;
-    int nChannels;
+    int nChbnnels;
 
-    hICC = cmsCreateProfilePlaceholder(ContextID);
+    hICC = cmsCrebteProfilePlbceholder(ContextID);
     if (!hICC)
         return NULL;
 
     cmsSetProfileVersion(hICC, 4.3);
 
-    cmsSetDeviceClass(hICC,      cmsSigLinkClass);
-    cmsSetColorSpace(hICC,       ColorSpace);
-    cmsSetPCS(hICC,              ColorSpace);
+    cmsSetDeviceClbss(hICC,      cmsSigLinkClbss);
+    cmsSetColorSpbce(hICC,       ColorSpbce);
+    cmsSetPCS(hICC,              ColorSpbce);
 
-    cmsSetHeaderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
+    cmsSetHebderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
 
-    // Set up channels
-    nChannels = cmsChannelsOf(ColorSpace);
+    // Set up chbnnels
+    nChbnnels = cmsChbnnelsOf(ColorSpbce);
 
-    // Creates a Pipeline with prelinearization step only
-    Pipeline = cmsPipelineAlloc(ContextID, nChannels, nChannels);
+    // Crebtes b Pipeline with prelinebrizbtion step only
+    Pipeline = cmsPipelineAlloc(ContextID, nChbnnels, nChbnnels);
     if (Pipeline == NULL) goto Error;
 
 
-    // Copy tables to Pipeline
-    if (!cmsPipelineInsertStage(Pipeline, cmsAT_BEGIN, cmsStageAllocToneCurves(ContextID, nChannels, TransferFunctions)))
+    // Copy tbbles to Pipeline
+    if (!cmsPipelineInsertStbge(Pipeline, cmsAT_BEGIN, cmsStbgeAllocToneCurves(ContextID, nChbnnels, TrbnsferFunctions)))
         goto Error;
 
-    // Create tags
-    if (!SetTextTags(hICC, L"Linearization built-in")) goto Error;
-    if (!cmsWriteTag(hICC, cmsSigAToB0Tag, (void*) Pipeline)) goto Error;
-    if (!SetSeqDescTag(hICC, "Linearization built-in")) goto Error;
+    // Crebte tbgs
+    if (!SetTextTbgs(hICC, L"Linebrizbtion built-in")) goto Error;
+    if (!cmsWriteTbg(hICC, cmsSigAToB0Tbg, (void*) Pipeline)) goto Error;
+    if (!SetSeqDescTbg(hICC, "Linebrizbtion built-in")) goto Error;
 
-    // Pipeline is already on virtual profile
+    // Pipeline is blrebdy on virtubl profile
     cmsPipelineFree(Pipeline);
 
     // Ok, done
@@ -366,34 +366,34 @@ Error:
     return NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreateLinearizationDeviceLink(cmsColorSpaceSignature ColorSpace,
-                                                                 cmsToneCurve* const TransferFunctions[])
+cmsHPROFILE CMSEXPORT cmsCrebteLinebrizbtionDeviceLink(cmsColorSpbceSignbture ColorSpbce,
+                                                                 cmsToneCurve* const TrbnsferFunctions[])
 {
-    return cmsCreateLinearizationDeviceLinkTHR(NULL, ColorSpace, TransferFunctions);
+    return cmsCrebteLinebrizbtionDeviceLinkTHR(NULL, ColorSpbce, TrbnsferFunctions);
 }
 
-// Ink-limiting algorithm
+// Ink-limiting blgorithm
 //
 //  Sum = C + M + Y + K
 //  If Sum > InkLimit
-//        Ratio= 1 - (Sum - InkLimit) / (C + M + Y)
-//        if Ratio <0
-//              Ratio=0
+//        Rbtio= 1 - (Sum - InkLimit) / (C + M + Y)
+//        if Rbtio <0
+//              Rbtio=0
 //        endif
 //     Else
-//         Ratio=1
+//         Rbtio=1
 //     endif
 //
-//     C = Ratio * C
-//     M = Ratio * M
-//     Y = Ratio * Y
-//     K: Does not change
+//     C = Rbtio * C
+//     M = Rbtio * M
+//     Y = Rbtio * Y
+//     K: Does not chbnge
 
-static
-int InkLimitingSampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+stbtic
+int InkLimitingSbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
-    cmsFloat64Number InkLimit = *(cmsFloat64Number *) Cargo;
-    cmsFloat64Number SumCMY, SumCMYK, Ratio;
+    cmsFlobt64Number InkLimit = *(cmsFlobt64Number *) Cbrgo;
+    cmsFlobt64Number SumCMY, SumCMYK, Rbtio;
 
     InkLimit = (InkLimit * 655.35);
 
@@ -402,82 +402,82 @@ int InkLimitingSampler(register const cmsUInt16Number In[], register cmsUInt16Nu
 
     if (SumCMYK > InkLimit) {
 
-        Ratio = 1 - ((SumCMYK - InkLimit) / SumCMY);
-        if (Ratio < 0)
-            Ratio = 0;
+        Rbtio = 1 - ((SumCMYK - InkLimit) / SumCMY);
+        if (Rbtio < 0)
+            Rbtio = 0;
     }
-    else Ratio = 1;
+    else Rbtio = 1;
 
-    Out[0] = _cmsQuickSaturateWord(In[0] * Ratio);     // C
-    Out[1] = _cmsQuickSaturateWord(In[1] * Ratio);     // M
-    Out[2] = _cmsQuickSaturateWord(In[2] * Ratio);     // Y
+    Out[0] = _cmsQuickSbturbteWord(In[0] * Rbtio);     // C
+    Out[1] = _cmsQuickSbturbteWord(In[1] * Rbtio);     // M
+    Out[2] = _cmsQuickSbturbteWord(In[2] * Rbtio);     // Y
 
     Out[3] = In[3];                                 // K (untouched)
 
     return TRUE;
 }
 
-// This is a devicelink operating in CMYK for ink-limiting
+// This is b devicelink operbting in CMYK for ink-limiting
 
-cmsHPROFILE CMSEXPORT cmsCreateInkLimitingDeviceLinkTHR(cmsContext ContextID,
-                                                     cmsColorSpaceSignature ColorSpace,
-                                                     cmsFloat64Number Limit)
+cmsHPROFILE CMSEXPORT cmsCrebteInkLimitingDeviceLinkTHR(cmsContext ContextID,
+                                                     cmsColorSpbceSignbture ColorSpbce,
+                                                     cmsFlobt64Number Limit)
 {
     cmsHPROFILE hICC;
     cmsPipeline* LUT;
-    cmsStage* CLUT;
-    int nChannels;
+    cmsStbge* CLUT;
+    int nChbnnels;
 
-    if (ColorSpace != cmsSigCmykData) {
-        cmsSignalError(ContextID, cmsERROR_COLORSPACE_CHECK, "InkLimiting: Only CMYK currently supported");
+    if (ColorSpbce != cmsSigCmykDbtb) {
+        cmsSignblError(ContextID, cmsERROR_COLORSPACE_CHECK, "InkLimiting: Only CMYK currently supported");
         return NULL;
     }
 
     if (Limit < 0.0 || Limit > 400) {
 
-        cmsSignalError(ContextID, cmsERROR_RANGE, "InkLimiting: Limit should be between 0..400");
+        cmsSignblError(ContextID, cmsERROR_RANGE, "InkLimiting: Limit should be between 0..400");
         if (Limit < 0) Limit = 0;
         if (Limit > 400) Limit = 400;
 
     }
 
-    hICC = cmsCreateProfilePlaceholder(ContextID);
-    if (!hICC)                          // can't allocate
+    hICC = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hICC)                          // cbn't bllocbte
         return NULL;
 
     cmsSetProfileVersion(hICC, 4.3);
 
-    cmsSetDeviceClass(hICC,      cmsSigLinkClass);
-    cmsSetColorSpace(hICC,       ColorSpace);
-    cmsSetPCS(hICC,              ColorSpace);
+    cmsSetDeviceClbss(hICC,      cmsSigLinkClbss);
+    cmsSetColorSpbce(hICC,       ColorSpbce);
+    cmsSetPCS(hICC,              ColorSpbce);
 
-    cmsSetHeaderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
+    cmsSetHebderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
 
 
-    // Creates a Pipeline with 3D grid only
+    // Crebtes b Pipeline with 3D grid only
     LUT = cmsPipelineAlloc(ContextID, 4, 4);
     if (LUT == NULL) goto Error;
 
 
-    nChannels = cmsChannelsOf(ColorSpace);
+    nChbnnels = cmsChbnnelsOf(ColorSpbce);
 
-    CLUT = cmsStageAllocCLut16bit(ContextID, 17, nChannels, nChannels, NULL);
+    CLUT = cmsStbgeAllocCLut16bit(ContextID, 17, nChbnnels, nChbnnels, NULL);
     if (CLUT == NULL) goto Error;
 
-    if (!cmsStageSampleCLut16bit(CLUT, InkLimitingSampler, (void*) &Limit, 0)) goto Error;
+    if (!cmsStbgeSbmpleCLut16bit(CLUT, InkLimitingSbmpler, (void*) &Limit, 0)) goto Error;
 
-    if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocIdentityCurves(ContextID, nChannels)) ||
-        !cmsPipelineInsertStage(LUT, cmsAT_END, CLUT) ||
-        !cmsPipelineInsertStage(LUT, cmsAT_END, _cmsStageAllocIdentityCurves(ContextID, nChannels)))
+    if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocIdentityCurves(ContextID, nChbnnels)) ||
+        !cmsPipelineInsertStbge(LUT, cmsAT_END, CLUT) ||
+        !cmsPipelineInsertStbge(LUT, cmsAT_END, _cmsStbgeAllocIdentityCurves(ContextID, nChbnnels)))
         goto Error;
 
-    // Create tags
-    if (!SetTextTags(hICC, L"ink-limiting built-in")) goto Error;
+    // Crebte tbgs
+    if (!SetTextTbgs(hICC, L"ink-limiting built-in")) goto Error;
 
-    if (!cmsWriteTag(hICC, cmsSigAToB0Tag, (void*) LUT))  goto Error;
-    if (!SetSeqDescTag(hICC, "ink-limiting built-in")) goto Error;
+    if (!cmsWriteTbg(hICC, cmsSigAToB0Tbg, (void*) LUT))  goto Error;
+    if (!SetSeqDescTbg(hICC, "ink-limiting built-in")) goto Error;
 
-    // cmsPipeline is already on virtual profile
+    // cmsPipeline is blrebdy on virtubl profile
     cmsPipelineFree(LUT);
 
     // Ok, done
@@ -493,37 +493,37 @@ Error:
     return NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreateInkLimitingDeviceLink(cmsColorSpaceSignature ColorSpace, cmsFloat64Number Limit)
+cmsHPROFILE CMSEXPORT cmsCrebteInkLimitingDeviceLink(cmsColorSpbceSignbture ColorSpbce, cmsFlobt64Number Limit)
 {
-    return cmsCreateInkLimitingDeviceLinkTHR(NULL, ColorSpace, Limit);
+    return cmsCrebteInkLimitingDeviceLinkTHR(NULL, ColorSpbce, Limit);
 }
 
 
-// Creates a fake Lab identity.
-cmsHPROFILE CMSEXPORT cmsCreateLab2ProfileTHR(cmsContext ContextID, const cmsCIExyY* WhitePoint)
+// Crebtes b fbke Lbb identity.
+cmsHPROFILE CMSEXPORT cmsCrebteLbb2ProfileTHR(cmsContext ContextID, const cmsCIExyY* WhitePoint)
 {
     cmsHPROFILE hProfile;
     cmsPipeline* LUT = NULL;
 
-    hProfile = cmsCreateRGBProfileTHR(ContextID, WhitePoint == NULL ? cmsD50_xyY() : WhitePoint, NULL, NULL);
+    hProfile = cmsCrebteRGBProfileTHR(ContextID, WhitePoint == NULL ? cmsD50_xyY() : WhitePoint, NULL, NULL);
     if (hProfile == NULL) return NULL;
 
     cmsSetProfileVersion(hProfile, 2.1);
 
-    cmsSetDeviceClass(hProfile, cmsSigAbstractClass);
-    cmsSetColorSpace(hProfile,  cmsSigLabData);
-    cmsSetPCS(hProfile,         cmsSigLabData);
+    cmsSetDeviceClbss(hProfile, cmsSigAbstrbctClbss);
+    cmsSetColorSpbce(hProfile,  cmsSigLbbDbtb);
+    cmsSetPCS(hProfile,         cmsSigLbbDbtb);
 
-    if (!SetTextTags(hProfile, L"Lab identity built-in")) return NULL;
+    if (!SetTextTbgs(hProfile, L"Lbb identity built-in")) return NULL;
 
-    // An identity LUT is all we need
+    // An identity LUT is bll we need
     LUT = cmsPipelineAlloc(ContextID, 3, 3);
     if (LUT == NULL) goto Error;
 
-    if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocIdentityCLut(ContextID, 3)))
+    if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocIdentityCLut(ContextID, 3)))
         goto Error;
 
-    if (!cmsWriteTag(hProfile, cmsSigAToB0Tag, LUT)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigAToB0Tbg, LUT)) goto Error;
     cmsPipelineFree(LUT);
 
     return hProfile;
@@ -540,37 +540,37 @@ Error:
 }
 
 
-cmsHPROFILE CMSEXPORT cmsCreateLab2Profile(const cmsCIExyY* WhitePoint)
+cmsHPROFILE CMSEXPORT cmsCrebteLbb2Profile(const cmsCIExyY* WhitePoint)
 {
-    return cmsCreateLab2ProfileTHR(NULL, WhitePoint);
+    return cmsCrebteLbb2ProfileTHR(NULL, WhitePoint);
 }
 
 
-// Creates a fake Lab V4 identity.
-cmsHPROFILE CMSEXPORT cmsCreateLab4ProfileTHR(cmsContext ContextID, const cmsCIExyY* WhitePoint)
+// Crebtes b fbke Lbb V4 identity.
+cmsHPROFILE CMSEXPORT cmsCrebteLbb4ProfileTHR(cmsContext ContextID, const cmsCIExyY* WhitePoint)
 {
     cmsHPROFILE hProfile;
     cmsPipeline* LUT = NULL;
 
-    hProfile = cmsCreateRGBProfileTHR(ContextID, WhitePoint == NULL ? cmsD50_xyY() : WhitePoint, NULL, NULL);
+    hProfile = cmsCrebteRGBProfileTHR(ContextID, WhitePoint == NULL ? cmsD50_xyY() : WhitePoint, NULL, NULL);
     if (hProfile == NULL) return NULL;
 
     cmsSetProfileVersion(hProfile, 4.3);
 
-    cmsSetDeviceClass(hProfile, cmsSigAbstractClass);
-    cmsSetColorSpace(hProfile,  cmsSigLabData);
-    cmsSetPCS(hProfile,         cmsSigLabData);
+    cmsSetDeviceClbss(hProfile, cmsSigAbstrbctClbss);
+    cmsSetColorSpbce(hProfile,  cmsSigLbbDbtb);
+    cmsSetPCS(hProfile,         cmsSigLbbDbtb);
 
-    if (!SetTextTags(hProfile, L"Lab identity built-in")) goto Error;
+    if (!SetTextTbgs(hProfile, L"Lbb identity built-in")) goto Error;
 
-    // An empty LUTs is all we need
+    // An empty LUTs is bll we need
     LUT = cmsPipelineAlloc(ContextID, 3, 3);
     if (LUT == NULL) goto Error;
 
-    if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocIdentityCurves(ContextID, 3)))
+    if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocIdentityCurves(ContextID, 3)))
         goto Error;
 
-    if (!cmsWriteTag(hProfile, cmsSigAToB0Tag, LUT)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigAToB0Tbg, LUT)) goto Error;
     cmsPipelineFree(LUT);
 
     return hProfile;
@@ -586,37 +586,37 @@ Error:
     return NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreateLab4Profile(const cmsCIExyY* WhitePoint)
+cmsHPROFILE CMSEXPORT cmsCrebteLbb4Profile(const cmsCIExyY* WhitePoint)
 {
-    return cmsCreateLab4ProfileTHR(NULL, WhitePoint);
+    return cmsCrebteLbb4ProfileTHR(NULL, WhitePoint);
 }
 
 
-// Creates a fake XYZ identity
-cmsHPROFILE CMSEXPORT cmsCreateXYZProfileTHR(cmsContext ContextID)
+// Crebtes b fbke XYZ identity
+cmsHPROFILE CMSEXPORT cmsCrebteXYZProfileTHR(cmsContext ContextID)
 {
     cmsHPROFILE hProfile;
     cmsPipeline* LUT = NULL;
 
-    hProfile = cmsCreateRGBProfileTHR(ContextID, cmsD50_xyY(), NULL, NULL);
+    hProfile = cmsCrebteRGBProfileTHR(ContextID, cmsD50_xyY(), NULL, NULL);
     if (hProfile == NULL) return NULL;
 
     cmsSetProfileVersion(hProfile, 4.3);
 
-    cmsSetDeviceClass(hProfile, cmsSigAbstractClass);
-    cmsSetColorSpace(hProfile,  cmsSigXYZData);
-    cmsSetPCS(hProfile,         cmsSigXYZData);
+    cmsSetDeviceClbss(hProfile, cmsSigAbstrbctClbss);
+    cmsSetColorSpbce(hProfile,  cmsSigXYZDbtb);
+    cmsSetPCS(hProfile,         cmsSigXYZDbtb);
 
-    if (!SetTextTags(hProfile, L"XYZ identity built-in")) goto Error;
+    if (!SetTextTbgs(hProfile, L"XYZ identity built-in")) goto Error;
 
-    // An identity LUT is all we need
+    // An identity LUT is bll we need
     LUT = cmsPipelineAlloc(ContextID, 3, 3);
     if (LUT == NULL) goto Error;
 
-    if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocIdentityCurves(ContextID, 3)))
+    if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocIdentityCurves(ContextID, 3)))
         goto Error;
 
-    if (!cmsWriteTag(hProfile, cmsSigAToB0Tag, LUT)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigAToB0Tbg, LUT)) goto Error;
     cmsPipelineFree(LUT);
 
     return hProfile;
@@ -633,13 +633,13 @@ Error:
 }
 
 
-cmsHPROFILE CMSEXPORT cmsCreateXYZProfile(void)
+cmsHPROFILE CMSEXPORT cmsCrebteXYZProfile(void)
 {
-    return cmsCreateXYZProfileTHR(NULL);
+    return cmsCrebteXYZProfileTHR(NULL);
 }
 
 
-//sRGB Curves are defined by:
+//sRGB Curves bre defined by:
 //
 //If  R’sRGB,G’sRGB, B’sRGB < 0.04045
 //
@@ -654,41 +654,41 @@ cmsHPROFILE CMSEXPORT cmsCreateXYZProfile(void)
 //    G = ((G’sRGB + 0.055) / 1.055)^2.4
 //    B = ((B’sRGB + 0.055) / 1.055)^2.4
 
-static
-cmsToneCurve* Build_sRGBGamma(cmsContext ContextID)
+stbtic
+cmsToneCurve* Build_sRGBGbmmb(cmsContext ContextID)
 {
-    cmsFloat64Number Parameters[5];
+    cmsFlobt64Number Pbrbmeters[5];
 
-    Parameters[0] = 2.4;
-    Parameters[1] = 1. / 1.055;
-    Parameters[2] = 0.055 / 1.055;
-    Parameters[3] = 1. / 12.92;
-    Parameters[4] = 0.04045;
+    Pbrbmeters[0] = 2.4;
+    Pbrbmeters[1] = 1. / 1.055;
+    Pbrbmeters[2] = 0.055 / 1.055;
+    Pbrbmeters[3] = 1. / 12.92;
+    Pbrbmeters[4] = 0.04045;
 
-    return cmsBuildParametricToneCurve(ContextID, 4, Parameters);
+    return cmsBuildPbrbmetricToneCurve(ContextID, 4, Pbrbmeters);
 }
 
-// Create the ICC virtual profile for sRGB space
-cmsHPROFILE CMSEXPORT cmsCreate_sRGBProfileTHR(cmsContext ContextID)
+// Crebte the ICC virtubl profile for sRGB spbce
+cmsHPROFILE CMSEXPORT cmsCrebte_sRGBProfileTHR(cmsContext ContextID)
 {
        cmsCIExyY       D65;
-       cmsCIExyYTRIPLE Rec709Primaries = {
+       cmsCIExyYTRIPLE Rec709Primbries = {
                                    {0.6400, 0.3300, 1.0},
                                    {0.3000, 0.6000, 1.0},
                                    {0.1500, 0.0600, 1.0}
                                    };
-       cmsToneCurve* Gamma22[3];
+       cmsToneCurve* Gbmmb22[3];
        cmsHPROFILE  hsRGB;
 
        cmsWhitePointFromTemp(&D65, 6504);
-       Gamma22[0] = Gamma22[1] = Gamma22[2] = Build_sRGBGamma(ContextID);
-       if (Gamma22[0] == NULL) return NULL;
+       Gbmmb22[0] = Gbmmb22[1] = Gbmmb22[2] = Build_sRGBGbmmb(ContextID);
+       if (Gbmmb22[0] == NULL) return NULL;
 
-       hsRGB = cmsCreateRGBProfileTHR(ContextID, &D65, &Rec709Primaries, Gamma22);
-       cmsFreeToneCurve(Gamma22[0]);
+       hsRGB = cmsCrebteRGBProfileTHR(ContextID, &D65, &Rec709Primbries, Gbmmb22);
+       cmsFreeToneCurve(Gbmmb22[0]);
        if (hsRGB == NULL) return NULL;
 
-       if (!SetTextTags(hsRGB, L"sRGB built-in")) {
+       if (!SetTextTbgs(hsRGB, L"sRGB built-in")) {
            cmsCloseProfile(hsRGB);
            return NULL;
        }
@@ -696,68 +696,68 @@ cmsHPROFILE CMSEXPORT cmsCreate_sRGBProfileTHR(cmsContext ContextID)
        return hsRGB;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreate_sRGBProfile(void)
+cmsHPROFILE CMSEXPORT cmsCrebte_sRGBProfile(void)
 {
-    return cmsCreate_sRGBProfileTHR(NULL);
+    return cmsCrebte_sRGBProfileTHR(NULL);
 }
 
 
 
 typedef struct {
-                cmsFloat64Number Brightness;
-                cmsFloat64Number Contrast;
-                cmsFloat64Number Hue;
-                cmsFloat64Number Saturation;
+                cmsFlobt64Number Brightness;
+                cmsFlobt64Number Contrbst;
+                cmsFlobt64Number Hue;
+                cmsFlobt64Number Sbturbtion;
                 cmsCIEXYZ WPsrc, WPdest;
 
 } BCHSWADJUSTS, *LPBCHSWADJUSTS;
 
 
-static
-int bchswSampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+stbtic
+int bchswSbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
-    cmsCIELab LabIn, LabOut;
+    cmsCIELbb LbbIn, LbbOut;
     cmsCIELCh LChIn, LChOut;
     cmsCIEXYZ XYZ;
-    LPBCHSWADJUSTS bchsw = (LPBCHSWADJUSTS) Cargo;
+    LPBCHSWADJUSTS bchsw = (LPBCHSWADJUSTS) Cbrgo;
 
 
-    cmsLabEncoded2Float(&LabIn, In);
+    cmsLbbEncoded2Flobt(&LbbIn, In);
 
 
-    cmsLab2LCh(&LChIn, &LabIn);
+    cmsLbb2LCh(&LChIn, &LbbIn);
 
-    // Do some adjusts on LCh
+    // Do some bdjusts on LCh
 
-    LChOut.L = LChIn.L * bchsw ->Contrast + bchsw ->Brightness;
-    LChOut.C = LChIn.C + bchsw -> Saturation;
+    LChOut.L = LChIn.L * bchsw ->Contrbst + bchsw ->Brightness;
+    LChOut.C = LChIn.C + bchsw -> Sbturbtion;
     LChOut.h = LChIn.h + bchsw -> Hue;
 
 
-    cmsLCh2Lab(&LabOut, &LChOut);
+    cmsLCh2Lbb(&LbbOut, &LChOut);
 
-    // Move white point in Lab
+    // Move white point in Lbb
 
-    cmsLab2XYZ(&bchsw ->WPsrc,  &XYZ, &LabOut);
-    cmsXYZ2Lab(&bchsw ->WPdest, &LabOut, &XYZ);
+    cmsLbb2XYZ(&bchsw ->WPsrc,  &XYZ, &LbbOut);
+    cmsXYZ2Lbb(&bchsw ->WPdest, &LbbOut, &XYZ);
 
-    // Back to encoded
+    // Bbck to encoded
 
-    cmsFloat2LabEncoded(Out, &LabOut);
+    cmsFlobt2LbbEncoded(Out, &LbbOut);
 
     return TRUE;
 }
 
 
-// Creates an abstract profile operating in Lab space for Brightness,
-// contrast, Saturation and white point displacement
+// Crebtes bn bbstrbct profile operbting in Lbb spbce for Brightness,
+// contrbst, Sbturbtion bnd white point displbcement
 
-cmsHPROFILE CMSEXPORT cmsCreateBCHSWabstractProfileTHR(cmsContext ContextID,
+cmsHPROFILE CMSEXPORT cmsCrebteBCHSWbbstrbctProfileTHR(cmsContext ContextID,
     int nLUTPoints,
-    cmsFloat64Number Bright,
-    cmsFloat64Number Contrast,
-    cmsFloat64Number Hue,
-    cmsFloat64Number Saturation,
+    cmsFlobt64Number Bright,
+    cmsFlobt64Number Contrbst,
+    cmsFlobt64Number Hue,
+    cmsFlobt64Number Sbturbtion,
     int TempSrc,
     int TempDest)
 {
@@ -765,14 +765,14 @@ cmsHPROFILE CMSEXPORT cmsCreateBCHSWabstractProfileTHR(cmsContext ContextID,
     cmsPipeline* Pipeline;
     BCHSWADJUSTS bchsw;
     cmsCIExyY WhitePnt;
-    cmsStage* CLUT;
+    cmsStbge* CLUT;
     cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
     int i;
 
     bchsw.Brightness = Bright;
-    bchsw.Contrast   = Contrast;
+    bchsw.Contrbst   = Contrbst;
     bchsw.Hue        = Hue;
-    bchsw.Saturation = Saturation;
+    bchsw.Sbturbtion = Sbturbtion;
 
     cmsWhitePointFromTemp(&WhitePnt, TempSrc );
     cmsxyY2XYZ(&bchsw.WPsrc, &WhitePnt);
@@ -780,18 +780,18 @@ cmsHPROFILE CMSEXPORT cmsCreateBCHSWabstractProfileTHR(cmsContext ContextID,
     cmsWhitePointFromTemp(&WhitePnt, TempDest);
     cmsxyY2XYZ(&bchsw.WPdest, &WhitePnt);
 
-    hICC = cmsCreateProfilePlaceholder(ContextID);
-    if (!hICC)                          // can't allocate
+    hICC = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hICC)                          // cbn't bllocbte
         return NULL;
 
 
-    cmsSetDeviceClass(hICC,      cmsSigAbstractClass);
-    cmsSetColorSpace(hICC,       cmsSigLabData);
-    cmsSetPCS(hICC,              cmsSigLabData);
+    cmsSetDeviceClbss(hICC,      cmsSigAbstrbctClbss);
+    cmsSetColorSpbce(hICC,       cmsSigLbbDbtb);
+    cmsSetPCS(hICC,              cmsSigLbbDbtb);
 
-    cmsSetHeaderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
+    cmsSetHebderRenderingIntent(hICC,  INTENT_PERCEPTUAL);
 
-    // Creates a Pipeline with 3D grid only
+    // Crebtes b Pipeline with 3D grid only
     Pipeline = cmsPipelineAlloc(ContextID, 3, 3);
     if (Pipeline == NULL) {
         cmsCloseProfile(hICC);
@@ -799,28 +799,28 @@ cmsHPROFILE CMSEXPORT cmsCreateBCHSWabstractProfileTHR(cmsContext ContextID,
     }
 
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++) Dimensions[i] = nLUTPoints;
-    CLUT = cmsStageAllocCLut16bitGranular(ContextID, Dimensions, 3, 3, NULL);
+    CLUT = cmsStbgeAllocCLut16bitGrbnulbr(ContextID, Dimensions, 3, 3, NULL);
     if (CLUT == NULL) return NULL;
 
 
-    if (!cmsStageSampleCLut16bit(CLUT, bchswSampler, (void*) &bchsw, 0)) {
+    if (!cmsStbgeSbmpleCLut16bit(CLUT, bchswSbmpler, (void*) &bchsw, 0)) {
 
-        // Shouldn't reach here
+        // Shouldn't rebch here
         goto Error;
     }
 
-    if (!cmsPipelineInsertStage(Pipeline, cmsAT_END, CLUT)) {
+    if (!cmsPipelineInsertStbge(Pipeline, cmsAT_END, CLUT)) {
         goto Error;
     }
 
-    // Create tags
-    if (!SetTextTags(hICC, L"BCHS built-in")) return NULL;
+    // Crebte tbgs
+    if (!SetTextTbgs(hICC, L"BCHS built-in")) return NULL;
 
-    cmsWriteTag(hICC, cmsSigMediaWhitePointTag, (void*) cmsD50_XYZ());
+    cmsWriteTbg(hICC, cmsSigMedibWhitePointTbg, (void*) cmsD50_XYZ());
 
-    cmsWriteTag(hICC, cmsSigAToB0Tag, (void*) Pipeline);
+    cmsWriteTbg(hICC, cmsSigAToB0Tbg, (void*) Pipeline);
 
-    // Pipeline is already on virtual profile
+    // Pipeline is blrebdy on virtubl profile
     cmsPipelineFree(Pipeline);
 
     // Ok, done
@@ -833,55 +833,55 @@ Error:
 }
 
 
-CMSAPI cmsHPROFILE   CMSEXPORT cmsCreateBCHSWabstractProfile(int nLUTPoints,
-                                                             cmsFloat64Number Bright,
-                                                             cmsFloat64Number Contrast,
-                                                             cmsFloat64Number Hue,
-                                                             cmsFloat64Number Saturation,
+CMSAPI cmsHPROFILE   CMSEXPORT cmsCrebteBCHSWbbstrbctProfile(int nLUTPoints,
+                                                             cmsFlobt64Number Bright,
+                                                             cmsFlobt64Number Contrbst,
+                                                             cmsFlobt64Number Hue,
+                                                             cmsFlobt64Number Sbturbtion,
                                                              int TempSrc,
                                                              int TempDest)
 {
-    return cmsCreateBCHSWabstractProfileTHR(NULL, nLUTPoints, Bright, Contrast, Hue, Saturation, TempSrc, TempDest);
+    return cmsCrebteBCHSWbbstrbctProfileTHR(NULL, nLUTPoints, Bright, Contrbst, Hue, Sbturbtion, TempSrc, TempDest);
 }
 
 
-// Creates a fake NULL profile. This profile return 1 channel as always 0.
-// Is useful only for gamut checking tricks
-cmsHPROFILE CMSEXPORT cmsCreateNULLProfileTHR(cmsContext ContextID)
+// Crebtes b fbke NULL profile. This profile return 1 chbnnel bs blwbys 0.
+// Is useful only for gbmut checking tricks
+cmsHPROFILE CMSEXPORT cmsCrebteNULLProfileTHR(cmsContext ContextID)
 {
     cmsHPROFILE hProfile;
     cmsPipeline* LUT = NULL;
-    cmsStage* PostLin;
-    cmsToneCurve* EmptyTab;
+    cmsStbge* PostLin;
+    cmsToneCurve* EmptyTbb;
     cmsUInt16Number Zero[2] = { 0, 0 };
 
-    hProfile = cmsCreateProfilePlaceholder(ContextID);
-    if (!hProfile)                          // can't allocate
+    hProfile = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hProfile)                          // cbn't bllocbte
         return NULL;
 
     cmsSetProfileVersion(hProfile, 4.3);
 
-    if (!SetTextTags(hProfile, L"NULL profile built-in")) goto Error;
+    if (!SetTextTbgs(hProfile, L"NULL profile built-in")) goto Error;
 
 
 
-    cmsSetDeviceClass(hProfile, cmsSigOutputClass);
-    cmsSetColorSpace(hProfile,  cmsSigGrayData);
-    cmsSetPCS(hProfile,         cmsSigLabData);
+    cmsSetDeviceClbss(hProfile, cmsSigOutputClbss);
+    cmsSetColorSpbce(hProfile,  cmsSigGrbyDbtb);
+    cmsSetPCS(hProfile,         cmsSigLbbDbtb);
 
-    // An empty LUTs is all we need
+    // An empty LUTs is bll we need
     LUT = cmsPipelineAlloc(ContextID, 1, 1);
     if (LUT == NULL) goto Error;
 
-    EmptyTab = cmsBuildTabulatedToneCurve16(ContextID, 2, Zero);
-    PostLin = cmsStageAllocToneCurves(ContextID, 1, &EmptyTab);
-    cmsFreeToneCurve(EmptyTab);
+    EmptyTbb = cmsBuildTbbulbtedToneCurve16(ContextID, 2, Zero);
+    PostLin = cmsStbgeAllocToneCurves(ContextID, 1, &EmptyTbb);
+    cmsFreeToneCurve(EmptyTbb);
 
-    if (!cmsPipelineInsertStage(LUT, cmsAT_END, PostLin))
+    if (!cmsPipelineInsertStbge(LUT, cmsAT_END, PostLin))
         goto Error;
 
-    if (!cmsWriteTag(hProfile, cmsSigBToA0Tag, (void*) LUT)) goto Error;
-    if (!cmsWriteTag(hProfile, cmsSigMediaWhitePointTag, cmsD50_XYZ())) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigBToA0Tbg, (void*) LUT)) goto Error;
+    if (!cmsWriteTbg(hProfile, cmsSigMedibWhitePointTbg, cmsD50_XYZ())) goto Error;
 
     cmsPipelineFree(LUT);
     return hProfile;
@@ -897,106 +897,106 @@ Error:
     return NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsCreateNULLProfile(void)
+cmsHPROFILE CMSEXPORT cmsCrebteNULLProfile(void)
 {
-    return cmsCreateNULLProfileTHR(NULL);
+    return cmsCrebteNULLProfileTHR(NULL);
 }
 
 
-static
-int IsPCS(cmsColorSpaceSignature ColorSpace)
+stbtic
+int IsPCS(cmsColorSpbceSignbture ColorSpbce)
 {
-    return (ColorSpace == cmsSigXYZData ||
-            ColorSpace == cmsSigLabData);
+    return (ColorSpbce == cmsSigXYZDbtb ||
+            ColorSpbce == cmsSigLbbDbtb);
 }
 
 
-static
-void FixColorSpaces(cmsHPROFILE hProfile,
-                              cmsColorSpaceSignature ColorSpace,
-                              cmsColorSpaceSignature PCS,
-                              cmsUInt32Number dwFlags)
+stbtic
+void FixColorSpbces(cmsHPROFILE hProfile,
+                              cmsColorSpbceSignbture ColorSpbce,
+                              cmsColorSpbceSignbture PCS,
+                              cmsUInt32Number dwFlbgs)
 {
-    if (dwFlags & cmsFLAGS_GUESSDEVICECLASS) {
+    if (dwFlbgs & cmsFLAGS_GUESSDEVICECLASS) {
 
-            if (IsPCS(ColorSpace) && IsPCS(PCS)) {
+            if (IsPCS(ColorSpbce) && IsPCS(PCS)) {
 
-                    cmsSetDeviceClass(hProfile,      cmsSigAbstractClass);
-                    cmsSetColorSpace(hProfile,       ColorSpace);
+                    cmsSetDeviceClbss(hProfile,      cmsSigAbstrbctClbss);
+                    cmsSetColorSpbce(hProfile,       ColorSpbce);
                     cmsSetPCS(hProfile,              PCS);
                     return;
             }
 
-            if (IsPCS(ColorSpace) && !IsPCS(PCS)) {
+            if (IsPCS(ColorSpbce) && !IsPCS(PCS)) {
 
-                    cmsSetDeviceClass(hProfile, cmsSigOutputClass);
-                    cmsSetPCS(hProfile,         ColorSpace);
-                    cmsSetColorSpace(hProfile,  PCS);
+                    cmsSetDeviceClbss(hProfile, cmsSigOutputClbss);
+                    cmsSetPCS(hProfile,         ColorSpbce);
+                    cmsSetColorSpbce(hProfile,  PCS);
                     return;
             }
 
-            if (IsPCS(PCS) && !IsPCS(ColorSpace)) {
+            if (IsPCS(PCS) && !IsPCS(ColorSpbce)) {
 
-                   cmsSetDeviceClass(hProfile,  cmsSigInputClass);
-                   cmsSetColorSpace(hProfile,   ColorSpace);
+                   cmsSetDeviceClbss(hProfile,  cmsSigInputClbss);
+                   cmsSetColorSpbce(hProfile,   ColorSpbce);
                    cmsSetPCS(hProfile,          PCS);
                    return;
             }
     }
 
-    cmsSetDeviceClass(hProfile,      cmsSigLinkClass);
-    cmsSetColorSpace(hProfile,       ColorSpace);
+    cmsSetDeviceClbss(hProfile,      cmsSigLinkClbss);
+    cmsSetColorSpbce(hProfile,       ColorSpbce);
     cmsSetPCS(hProfile,              PCS);
 }
 
 
 
-// This function creates a named color profile dumping all the contents of transform to a single profile
-// In this way, LittleCMS may be used to "group" several named color databases into a single profile.
-// It has, however, several minor limitations. PCS is always Lab, which is not very critic since this
-// is the normal PCS for named color profiles.
-static
-cmsHPROFILE CreateNamedColorDevicelink(cmsHTRANSFORM xform)
+// This function crebtes b nbmed color profile dumping bll the contents of trbnsform to b single profile
+// In this wby, LittleCMS mby be used to "group" severbl nbmed color dbtbbbses into b single profile.
+// It hbs, however, severbl minor limitbtions. PCS is blwbys Lbb, which is not very critic since this
+// is the normbl PCS for nbmed color profiles.
+stbtic
+cmsHPROFILE CrebteNbmedColorDevicelink(cmsHTRANSFORM xform)
 {
     _cmsTRANSFORM* v = (_cmsTRANSFORM*) xform;
     cmsHPROFILE hICC = NULL;
     int i, nColors;
-    cmsNAMEDCOLORLIST *nc2 = NULL, *Original = NULL;
+    cmsNAMEDCOLORLIST *nc2 = NULL, *Originbl = NULL;
 
-    // Create an empty placeholder
-    hICC = cmsCreateProfilePlaceholder(v->ContextID);
+    // Crebte bn empty plbceholder
+    hICC = cmsCrebteProfilePlbceholder(v->ContextID);
     if (hICC == NULL) return NULL;
 
-    // Critical information
-    cmsSetDeviceClass(hICC, cmsSigNamedColorClass);
-    cmsSetColorSpace(hICC, v ->ExitColorSpace);
-    cmsSetPCS(hICC, cmsSigLabData);
+    // Criticbl informbtion
+    cmsSetDeviceClbss(hICC, cmsSigNbmedColorClbss);
+    cmsSetColorSpbce(hICC, v ->ExitColorSpbce);
+    cmsSetPCS(hICC, cmsSigLbbDbtb);
 
-    // Tag profile with information
-    if (!SetTextTags(hICC, L"Named color devicelink")) goto Error;
+    // Tbg profile with informbtion
+    if (!SetTextTbgs(hICC, L"Nbmed color devicelink")) goto Error;
 
-    Original = cmsGetNamedColorList(xform);
-    if (Original == NULL) goto Error;
+    Originbl = cmsGetNbmedColorList(xform);
+    if (Originbl == NULL) goto Error;
 
-    nColors = cmsNamedColorCount(Original);
-    nc2     = cmsDupNamedColorList(Original);
+    nColors = cmsNbmedColorCount(Originbl);
+    nc2     = cmsDupNbmedColorList(Originbl);
     if (nc2 == NULL) goto Error;
 
-    // Colorant count now depends on the output space
-    nc2 ->ColorantCount = cmsPipelineOutputChannels(v ->Lut);
+    // Colorbnt count now depends on the output spbce
+    nc2 ->ColorbntCount = cmsPipelineOutputChbnnels(v ->Lut);
 
-    // Make sure we have proper formatters
-    cmsChangeBuffersFormat(xform, TYPE_NAMED_COLOR_INDEX,
-        FLOAT_SH(0) | COLORSPACE_SH(_cmsLCMScolorSpace(v ->ExitColorSpace))
-        | BYTES_SH(2) | CHANNELS_SH(cmsChannelsOf(v ->ExitColorSpace)));
+    // Mbke sure we hbve proper formbtters
+    cmsChbngeBuffersFormbt(xform, TYPE_NAMED_COLOR_INDEX,
+        FLOAT_SH(0) | COLORSPACE_SH(_cmsLCMScolorSpbce(v ->ExitColorSpbce))
+        | BYTES_SH(2) | CHANNELS_SH(cmsChbnnelsOf(v ->ExitColorSpbce)));
 
-    // Apply the transfor to colorants.
+    // Apply the trbnsfor to colorbnts.
     for (i=0; i < nColors; i++) {
-        cmsDoTransform(xform, &i, nc2 ->List[i].DeviceColorant, 1);
+        cmsDoTrbnsform(xform, &i, nc2 ->List[i].DeviceColorbnt, 1);
     }
 
-    if (!cmsWriteTag(hICC, cmsSigNamedColor2Tag, (void*) nc2)) goto Error;
-    cmsFreeNamedColorList(nc2);
+    if (!cmsWriteTbg(hICC, cmsSigNbmedColor2Tbg, (void*) nc2)) goto Error;
+    cmsFreeNbmedColorList(nc2);
 
     return hICC;
 
@@ -1006,171 +1006,171 @@ Error:
 }
 
 
-// This structure holds information about which MPU can be stored on a profile based on the version
+// This structure holds informbtion bbout which MPU cbn be stored on b profile bbsed on the version
 
 typedef struct {
-    cmsBool              IsV4;             // Is a V4 tag?
-    cmsTagSignature      RequiredTag;      // Set to 0 for both types
-    cmsTagTypeSignature  LutType;          // The LUT type
+    cmsBool              IsV4;             // Is b V4 tbg?
+    cmsTbgSignbture      RequiredTbg;      // Set to 0 for both types
+    cmsTbgTypeSignbture  LutType;          // The LUT type
     int                  nTypes;           // Number of types (up to 5)
-    cmsStageSignature    MpeTypes[5];      // 5 is the maximum number
+    cmsStbgeSignbture    MpeTypes[5];      // 5 is the mbximum number
 
 } cmsAllowedLUT;
 
-static const cmsAllowedLUT AllowedLUTTypes[] = {
+stbtic const cmsAllowedLUT AllowedLUTTypes[] = {
 
-    { FALSE, 0,              cmsSigLut16Type,    4,  { cmsSigMatrixElemType,  cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
+    { FALSE, 0,              cmsSigLut16Type,    4,  { cmsSigMbtrixElemType,  cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
     { FALSE, 0,              cmsSigLut16Type,    3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
     { FALSE, 0,              cmsSigLut16Type,    2,  { cmsSigCurveSetElemType, cmsSigCLutElemType}},
     { TRUE , 0,              cmsSigLutAtoBType,  1,  { cmsSigCurveSetElemType }},
-    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType } },
-    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType   } },
-    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  5,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  1,  { cmsSigCurveSetElemType }},
-    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  5,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }}
+    { TRUE , cmsSigAToB0Tbg, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigMbtrixElemType, cmsSigCurveSetElemType } },
+    { TRUE , cmsSigAToB0Tbg, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType   } },
+    { TRUE , cmsSigAToB0Tbg, cmsSigLutAtoBType,  5,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, cmsSigMbtrixElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tbg, cmsSigLutBtoAType,  1,  { cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tbg, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigMbtrixElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tbg, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tbg, cmsSigLutBtoAType,  5,  { cmsSigCurveSetElemType, cmsSigMbtrixElemType, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }}
 };
 
 #define SIZE_OF_ALLOWED_LUT (sizeof(AllowedLUTTypes)/sizeof(cmsAllowedLUT))
 
-// Check a single entry
-static
-cmsBool CheckOne(const cmsAllowedLUT* Tab, const cmsPipeline* Lut)
+// Check b single entry
+stbtic
+cmsBool CheckOne(const cmsAllowedLUT* Tbb, const cmsPipeline* Lut)
 {
-    cmsStage* mpe;
+    cmsStbge* mpe;
     int n;
 
     for (n=0, mpe = Lut ->Elements; mpe != NULL; mpe = mpe ->Next, n++) {
 
-        if (n > Tab ->nTypes) return FALSE;
-        if (cmsStageType(mpe) != Tab ->MpeTypes[n]) return FALSE;
+        if (n > Tbb ->nTypes) return FALSE;
+        if (cmsStbgeType(mpe) != Tbb ->MpeTypes[n]) return FALSE;
     }
 
-    return (n == Tab ->nTypes);
+    return (n == Tbb ->nTypes);
 }
 
 
-static
-const cmsAllowedLUT* FindCombination(const cmsPipeline* Lut, cmsBool IsV4, cmsTagSignature DestinationTag)
+stbtic
+const cmsAllowedLUT* FindCombinbtion(const cmsPipeline* Lut, cmsBool IsV4, cmsTbgSignbture DestinbtionTbg)
 {
     cmsUInt32Number n;
 
     for (n=0; n < SIZE_OF_ALLOWED_LUT; n++) {
 
-        const cmsAllowedLUT* Tab = AllowedLUTTypes + n;
+        const cmsAllowedLUT* Tbb = AllowedLUTTypes + n;
 
-        if (IsV4 ^ Tab -> IsV4) continue;
-        if ((Tab ->RequiredTag != 0) && (Tab ->RequiredTag != DestinationTag)) continue;
+        if (IsV4 ^ Tbb -> IsV4) continue;
+        if ((Tbb ->RequiredTbg != 0) && (Tbb ->RequiredTbg != DestinbtionTbg)) continue;
 
-        if (CheckOne(Tab, Lut)) return Tab;
+        if (CheckOne(Tbb, Lut)) return Tbb;
     }
 
     return NULL;
 }
 
 
-// Does convert a transform into a device link profile
-cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat64Number Version, cmsUInt32Number dwFlags)
+// Does convert b trbnsform into b device link profile
+cmsHPROFILE CMSEXPORT cmsTrbnsform2DeviceLink(cmsHTRANSFORM hTrbnsform, cmsFlobt64Number Version, cmsUInt32Number dwFlbgs)
 {
     cmsHPROFILE hProfile = NULL;
-    cmsUInt32Number FrmIn, FrmOut, ChansIn, ChansOut;
-    cmsUInt32Number ColorSpaceBitsIn, ColorSpaceBitsOut;
-    _cmsTRANSFORM* xform = (_cmsTRANSFORM*) hTransform;
+    cmsUInt32Number FrmIn, FrmOut, ChbnsIn, ChbnsOut;
+    cmsUInt32Number ColorSpbceBitsIn, ColorSpbceBitsOut;
+    _cmsTRANSFORM* xform = (_cmsTRANSFORM*) hTrbnsform;
     cmsPipeline* LUT = NULL;
-    cmsStage* mpe;
-    cmsContext ContextID = cmsGetTransformContextID(hTransform);
+    cmsStbge* mpe;
+    cmsContext ContextID = cmsGetTrbnsformContextID(hTrbnsform);
     const cmsAllowedLUT* AllowedLUT;
-    cmsTagSignature DestinationTag;
-    cmsProfileClassSignature deviceClass;
+    cmsTbgSignbture DestinbtionTbg;
+    cmsProfileClbssSignbture deviceClbss;
 
-    _cmsAssert(hTransform != NULL);
+    _cmsAssert(hTrbnsform != NULL);
 
-    // Get the first mpe to check for named color
-    mpe = cmsPipelineGetPtrToFirstStage(xform ->Lut);
+    // Get the first mpe to check for nbmed color
+    mpe = cmsPipelineGetPtrToFirstStbge(xform ->Lut);
 
-    // Check if is a named color transform
+    // Check if is b nbmed color trbnsform
     if (mpe != NULL) {
 
-        if (cmsStageType(mpe) == cmsSigNamedColorElemType) {
-            return CreateNamedColorDevicelink(hTransform);
+        if (cmsStbgeType(mpe) == cmsSigNbmedColorElemType) {
+            return CrebteNbmedColorDevicelink(hTrbnsform);
         }
     }
 
-    // First thing to do is to get a copy of the transformation
+    // First thing to do is to get b copy of the trbnsformbtion
     LUT = cmsPipelineDup(xform ->Lut);
     if (LUT == NULL) return NULL;
 
-    // Time to fix the Lab2/Lab4 issue.
-    if ((xform ->EntryColorSpace == cmsSigLabData) && (Version < 4.0)) {
+    // Time to fix the Lbb2/Lbb4 issue.
+    if ((xform ->EntryColorSpbce == cmsSigLbbDbtb) && (Version < 4.0)) {
 
-        if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocLabV2ToV4curves(ContextID)))
+        if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocLbbV2ToV4curves(ContextID)))
             goto Error;
     }
 
     // On the output side too
-    if ((xform ->ExitColorSpace) == cmsSigLabData && (Version < 4.0)) {
+    if ((xform ->ExitColorSpbce) == cmsSigLbbDbtb && (Version < 4.0)) {
 
-        if (!cmsPipelineInsertStage(LUT, cmsAT_END, _cmsStageAllocLabV4ToV2(ContextID)))
+        if (!cmsPipelineInsertStbge(LUT, cmsAT_END, _cmsStbgeAllocLbbV4ToV2(ContextID)))
             goto Error;
     }
 
 
-    hProfile = cmsCreateProfilePlaceholder(ContextID);
-    if (!hProfile) goto Error;                    // can't allocate
+    hProfile = cmsCrebteProfilePlbceholder(ContextID);
+    if (!hProfile) goto Error;                    // cbn't bllocbte
 
     cmsSetProfileVersion(hProfile, Version);
 
-    FixColorSpaces(hProfile, xform -> EntryColorSpace, xform -> ExitColorSpace, dwFlags);
+    FixColorSpbces(hProfile, xform -> EntryColorSpbce, xform -> ExitColorSpbce, dwFlbgs);
 
-    // Optimize the LUT and precalculate a devicelink
+    // Optimize the LUT bnd precblculbte b devicelink
 
-    ChansIn  = cmsChannelsOf(xform -> EntryColorSpace);
-    ChansOut = cmsChannelsOf(xform -> ExitColorSpace);
+    ChbnsIn  = cmsChbnnelsOf(xform -> EntryColorSpbce);
+    ChbnsOut = cmsChbnnelsOf(xform -> ExitColorSpbce);
 
-    ColorSpaceBitsIn  = _cmsLCMScolorSpace(xform -> EntryColorSpace);
-    ColorSpaceBitsOut = _cmsLCMScolorSpace(xform -> ExitColorSpace);
+    ColorSpbceBitsIn  = _cmsLCMScolorSpbce(xform -> EntryColorSpbce);
+    ColorSpbceBitsOut = _cmsLCMScolorSpbce(xform -> ExitColorSpbce);
 
-    FrmIn  = COLORSPACE_SH(ColorSpaceBitsIn) | CHANNELS_SH(ChansIn)|BYTES_SH(2);
-    FrmOut = COLORSPACE_SH(ColorSpaceBitsOut) | CHANNELS_SH(ChansOut)|BYTES_SH(2);
+    FrmIn  = COLORSPACE_SH(ColorSpbceBitsIn) | CHANNELS_SH(ChbnsIn)|BYTES_SH(2);
+    FrmOut = COLORSPACE_SH(ColorSpbceBitsOut) | CHANNELS_SH(ChbnsOut)|BYTES_SH(2);
 
-    deviceClass = cmsGetDeviceClass(hProfile);
+    deviceClbss = cmsGetDeviceClbss(hProfile);
 
-     if (deviceClass == cmsSigOutputClass)
-         DestinationTag = cmsSigBToA0Tag;
+     if (deviceClbss == cmsSigOutputClbss)
+         DestinbtionTbg = cmsSigBToA0Tbg;
      else
-         DestinationTag = cmsSigAToB0Tag;
+         DestinbtionTbg = cmsSigAToB0Tbg;
 
-    // Check if the profile/version can store the result
-    if (dwFlags & cmsFLAGS_FORCE_CLUT)
+    // Check if the profile/version cbn store the result
+    if (dwFlbgs & cmsFLAGS_FORCE_CLUT)
         AllowedLUT = NULL;
     else
-        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
+        AllowedLUT = FindCombinbtion(LUT, Version >= 4.0, DestinbtionTbg);
 
     if (AllowedLUT == NULL) {
 
         // Try to optimize
-        _cmsOptimizePipeline(&LUT, xform ->RenderingIntent, &FrmIn, &FrmOut, &dwFlags);
-        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
+        _cmsOptimizePipeline(&LUT, xform ->RenderingIntent, &FrmIn, &FrmOut, &dwFlbgs);
+        AllowedLUT = FindCombinbtion(LUT, Version >= 4.0, DestinbtionTbg);
 
     }
 
-    // If no way, then force CLUT that for sure can be written
+    // If no wby, then force CLUT thbt for sure cbn be written
     if (AllowedLUT == NULL) {
 
-        dwFlags |= cmsFLAGS_FORCE_CLUT;
-        _cmsOptimizePipeline(&LUT, xform ->RenderingIntent, &FrmIn, &FrmOut, &dwFlags);
+        dwFlbgs |= cmsFLAGS_FORCE_CLUT;
+        _cmsOptimizePipeline(&LUT, xform ->RenderingIntent, &FrmIn, &FrmOut, &dwFlbgs);
 
         // Put identity curves if needed
-        if (cmsPipelineGetPtrToFirstStage(LUT) ->Type != cmsSigCurveSetElemType)
-             if (!cmsPipelineInsertStage(LUT, cmsAT_BEGIN, _cmsStageAllocIdentityCurves(ContextID, ChansIn)))
+        if (cmsPipelineGetPtrToFirstStbge(LUT) ->Type != cmsSigCurveSetElemType)
+             if (!cmsPipelineInsertStbge(LUT, cmsAT_BEGIN, _cmsStbgeAllocIdentityCurves(ContextID, ChbnsIn)))
                  goto Error;
 
-        if (cmsPipelineGetPtrToLastStage(LUT) ->Type != cmsSigCurveSetElemType)
-             if (!cmsPipelineInsertStage(LUT, cmsAT_END,   _cmsStageAllocIdentityCurves(ContextID, ChansOut)))
+        if (cmsPipelineGetPtrToLbstStbge(LUT) ->Type != cmsSigCurveSetElemType)
+             if (!cmsPipelineInsertStbge(LUT, cmsAT_END,   _cmsStbgeAllocIdentityCurves(ContextID, ChbnsOut)))
                  goto Error;
 
-        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
+        AllowedLUT = FindCombinbtion(LUT, Version >= 4.0, DestinbtionTbg);
     }
 
     // Somethings is wrong...
@@ -1179,39 +1179,39 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
     }
 
 
-    if (dwFlags & cmsFLAGS_8BITS_DEVICELINK)
-                     cmsPipelineSetSaveAs8bitsFlag(LUT, TRUE);
+    if (dwFlbgs & cmsFLAGS_8BITS_DEVICELINK)
+                     cmsPipelineSetSbveAs8bitsFlbg(LUT, TRUE);
 
-    // Tag profile with information
-    if (!SetTextTags(hProfile, L"devicelink")) goto Error;
+    // Tbg profile with informbtion
+    if (!SetTextTbgs(hProfile, L"devicelink")) goto Error;
 
     // Store result
-    if (!cmsWriteTag(hProfile, DestinationTag, LUT)) goto Error;
+    if (!cmsWriteTbg(hProfile, DestinbtionTbg, LUT)) goto Error;
 
 
-    if (xform -> InputColorant != NULL) {
-           if (!cmsWriteTag(hProfile, cmsSigColorantTableTag, xform->InputColorant)) goto Error;
+    if (xform -> InputColorbnt != NULL) {
+           if (!cmsWriteTbg(hProfile, cmsSigColorbntTbbleTbg, xform->InputColorbnt)) goto Error;
     }
 
-    if (xform -> OutputColorant != NULL) {
-           if (!cmsWriteTag(hProfile, cmsSigColorantTableOutTag, xform->OutputColorant)) goto Error;
+    if (xform -> OutputColorbnt != NULL) {
+           if (!cmsWriteTbg(hProfile, cmsSigColorbntTbbleOutTbg, xform->OutputColorbnt)) goto Error;
     }
 
-    if ((deviceClass == cmsSigLinkClass) && (xform ->Sequence != NULL)) {
+    if ((deviceClbss == cmsSigLinkClbss) && (xform ->Sequence != NULL)) {
         if (!_cmsWriteProfileSequence(hProfile, xform ->Sequence)) goto Error;
     }
 
     // Set the white point
-    if (deviceClass == cmsSigInputClass) {
-        if (!cmsWriteTag(hProfile, cmsSigMediaWhitePointTag, &xform ->EntryWhitePoint)) goto Error;
+    if (deviceClbss == cmsSigInputClbss) {
+        if (!cmsWriteTbg(hProfile, cmsSigMedibWhitePointTbg, &xform ->EntryWhitePoint)) goto Error;
     }
     else {
-         if (!cmsWriteTag(hProfile, cmsSigMediaWhitePointTag, &xform ->ExitWhitePoint)) goto Error;
+         if (!cmsWriteTbg(hProfile, cmsSigMedibWhitePointTbg, &xform ->ExitWhitePoint)) goto Error;
     }
 
 
     // Per 7.2.15 in spec 4.3
-    cmsSetHeaderRenderingIntent(hProfile, xform ->RenderingIntent);
+    cmsSetHebderRenderingIntent(hProfile, xform ->RenderingIntent);
 
     cmsPipelineFree(LUT);
     return hProfile;

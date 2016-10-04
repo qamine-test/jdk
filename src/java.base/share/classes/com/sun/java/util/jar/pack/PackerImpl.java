@@ -1,350 +1,350 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.Attribute.Layout;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TimeZone;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.jar.Pack200;
+import com.sun.jbvb.util.jbr.pbck.Attribute.Lbyout;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.SortedMbp;
+import jbvb.util.TimeZone;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.JbrInputStrebm;
+import jbvb.util.jbr.Pbck200;
 
 
 /*
- * Implementation of the Pack provider.
+ * Implementbtion of the Pbck provider.
  * </pre></blockquote>
- * @author John Rose
- * @author Kumar Srinivasan
+ * @buthor John Rose
+ * @buthor Kumbr Srinivbsbn
  */
 
 
-public class PackerImpl  extends TLGlobals implements Pack200.Packer {
+public clbss PbckerImpl  extends TLGlobbls implements Pbck200.Pbcker {
 
     /**
-     * Constructs a Packer object and sets the initial state of
-     * the packer engines.
+     * Constructs b Pbcker object bnd sets the initibl stbte of
+     * the pbcker engines.
      */
-    public PackerImpl() {}
+    public PbckerImpl() {}
 
     /**
-     * Get the set of options for the pack and unpack engines.
-     * @return A sorted association of option key strings to option values.
+     * Get the set of options for the pbck bnd unpbck engines.
+     * @return A sorted bssocibtion of option key strings to option vblues.
      */
-    public SortedMap<String, String> properties() {
+    public SortedMbp<String, String> properties() {
         return props;
     }
 
     //Driver routines
 
     /**
-     * Takes a JarFile and converts into a pack-stream.
+     * Tbkes b JbrFile bnd converts into b pbck-strebm.
      * <p>
-     * Closes its input but not its output.  (Pack200 archives are appendable.)
-     * @param in a JarFile
-     * @param out an OutputStream
-     * @exception IOException if an error is encountered.
+     * Closes its input but not its output.  (Pbck200 brchives bre bppendbble.)
+     * @pbrbm in b JbrFile
+     * @pbrbm out bn OutputStrebm
+     * @exception IOException if bn error is encountered.
      */
-    public synchronized void pack(JarFile in, OutputStream out) throws IOException {
-        assert(Utils.currentInstance.get() == null);
-        TimeZone tz = (props.getBoolean(Utils.PACK_DEFAULT_TIMEZONE))
+    public synchronized void pbck(JbrFile in, OutputStrebm out) throws IOException {
+        bssert(Utils.currentInstbnce.get() == null);
+        TimeZone tz = (props.getBoolebn(Utils.PACK_DEFAULT_TIMEZONE))
                       ? null
-                      : TimeZone.getDefault();
+                      : TimeZone.getDefbult();
         try {
-            Utils.currentInstance.set(this);
-            if (tz != null) TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+            Utils.currentInstbnce.set(this);
+            if (tz != null) TimeZone.setDefbult(TimeZone.getTimeZone("UTC"));
 
-            if ("0".equals(props.getProperty(Pack200.Packer.EFFORT))) {
-                Utils.copyJarFile(in, out);
+            if ("0".equbls(props.getProperty(Pbck200.Pbcker.EFFORT))) {
+                Utils.copyJbrFile(in, out);
             } else {
-                (new DoPack()).run(in, out);
+                (new DoPbck()).run(in, out);
             }
-        } finally {
-            Utils.currentInstance.set(null);
-            if (tz != null) TimeZone.setDefault(tz);
+        } finblly {
+            Utils.currentInstbnce.set(null);
+            if (tz != null) TimeZone.setDefbult(tz);
             in.close();
         }
     }
 
     /**
-     * Takes a JarInputStream and converts into a pack-stream.
+     * Tbkes b JbrInputStrebm bnd converts into b pbck-strebm.
      * <p>
-     * Closes its input but not its output.  (Pack200 archives are appendable.)
+     * Closes its input but not its output.  (Pbck200 brchives bre bppendbble.)
      * <p>
-     * The modification time and deflation hint attributes are not available,
-     * for the jar-manifest file and the directory containing the file.
+     * The modificbtion time bnd deflbtion hint bttributes bre not bvbilbble,
+     * for the jbr-mbnifest file bnd the directory contbining the file.
      *
      * @see #MODIFICATION_TIME
      * @see #DEFLATION_HINT
-     * @param in a JarInputStream
-     * @param out an OutputStream
-     * @exception IOException if an error is encountered.
+     * @pbrbm in b JbrInputStrebm
+     * @pbrbm out bn OutputStrebm
+     * @exception IOException if bn error is encountered.
      */
-    public synchronized void pack(JarInputStream in, OutputStream out) throws IOException {
-        assert(Utils.currentInstance.get() == null);
-        TimeZone tz = (props.getBoolean(Utils.PACK_DEFAULT_TIMEZONE)) ? null :
-            TimeZone.getDefault();
+    public synchronized void pbck(JbrInputStrebm in, OutputStrebm out) throws IOException {
+        bssert(Utils.currentInstbnce.get() == null);
+        TimeZone tz = (props.getBoolebn(Utils.PACK_DEFAULT_TIMEZONE)) ? null :
+            TimeZone.getDefbult();
         try {
-            Utils.currentInstance.set(this);
-            if (tz != null) TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-            if ("0".equals(props.getProperty(Pack200.Packer.EFFORT))) {
-                Utils.copyJarFile(in, out);
+            Utils.currentInstbnce.set(this);
+            if (tz != null) TimeZone.setDefbult(TimeZone.getTimeZone("UTC"));
+            if ("0".equbls(props.getProperty(Pbck200.Pbcker.EFFORT))) {
+                Utils.copyJbrFile(in, out);
             } else {
-                (new DoPack()).run(in, out);
+                (new DoPbck()).run(in, out);
             }
-        } finally {
-            Utils.currentInstance.set(null);
-            if (tz != null) TimeZone.setDefault(tz);
+        } finblly {
+            Utils.currentInstbnce.set(null);
+            if (tz != null) TimeZone.setDefbult(tz);
             in.close();
         }
     }
 
     // All the worker bees.....
-    // The packer worker.
-    private class DoPack {
-        final int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
+    // The pbcker worker.
+    privbte clbss DoPbck {
+        finbl int verbose = props.getInteger(Utils.DEBUG_VERBOSE);
 
         {
-            props.setInteger(Pack200.Packer.PROGRESS, 0);
+            props.setInteger(Pbck200.Pbcker.PROGRESS, 0);
             if (verbose > 0) Utils.log.info(props.toString());
         }
 
-        // Here's where the bits are collected before getting packed, we also
-        // initialize the version numbers now.
-        final Package pkg = new Package(Package.Version.makeVersion(props, "min.class"),
-                                        Package.Version.makeVersion(props, "max.class"),
-                                        Package.Version.makeVersion(props, "package"));
+        // Here's where the bits bre collected before getting pbcked, we blso
+        // initiblize the version numbers now.
+        finbl Pbckbge pkg = new Pbckbge(Pbckbge.Version.mbkeVersion(props, "min.clbss"),
+                                        Pbckbge.Version.mbkeVersion(props, "mbx.clbss"),
+                                        Pbckbge.Version.mbkeVersion(props, "pbckbge"));
 
-        final String unknownAttrCommand;
+        finbl String unknownAttrCommbnd;
         {
-            String uaMode = props.getProperty(Pack200.Packer.UNKNOWN_ATTRIBUTE, Pack200.Packer.PASS);
-            if (!(Pack200.Packer.STRIP.equals(uaMode) ||
-                  Pack200.Packer.PASS.equals(uaMode) ||
-                  Pack200.Packer.ERROR.equals(uaMode))) {
-                throw new RuntimeException("Bad option: " + Pack200.Packer.UNKNOWN_ATTRIBUTE + " = " + uaMode);
+            String ubMode = props.getProperty(Pbck200.Pbcker.UNKNOWN_ATTRIBUTE, Pbck200.Pbcker.PASS);
+            if (!(Pbck200.Pbcker.STRIP.equbls(ubMode) ||
+                  Pbck200.Pbcker.PASS.equbls(ubMode) ||
+                  Pbck200.Pbcker.ERROR.equbls(ubMode))) {
+                throw new RuntimeException("Bbd option: " + Pbck200.Pbcker.UNKNOWN_ATTRIBUTE + " = " + ubMode);
             }
-            unknownAttrCommand = uaMode.intern();
+            unknownAttrCommbnd = ubMode.intern();
         }
-        final String classFormatCommand;
+        finbl String clbssFormbtCommbnd;
         {
-            String fmtMode = props.getProperty(Utils.CLASS_FORMAT_ERROR, Pack200.Packer.PASS);
-            if (!(Pack200.Packer.PASS.equals(fmtMode) ||
-                  Pack200.Packer.ERROR.equals(fmtMode))) {
-                throw new RuntimeException("Bad option: " + Utils.CLASS_FORMAT_ERROR + " = " + fmtMode);
+            String fmtMode = props.getProperty(Utils.CLASS_FORMAT_ERROR, Pbck200.Pbcker.PASS);
+            if (!(Pbck200.Pbcker.PASS.equbls(fmtMode) ||
+                  Pbck200.Pbcker.ERROR.equbls(fmtMode))) {
+                throw new RuntimeException("Bbd option: " + Utils.CLASS_FORMAT_ERROR + " = " + fmtMode);
             }
-            classFormatCommand = fmtMode.intern();
+            clbssFormbtCommbnd = fmtMode.intern();
         }
 
-        final Map<Attribute.Layout, Attribute> attrDefs;
-        final Map<Attribute.Layout, String> attrCommands;
+        finbl Mbp<Attribute.Lbyout, Attribute> bttrDefs;
+        finbl Mbp<Attribute.Lbyout, String> bttrCommbnds;
         {
-            Map<Attribute.Layout, Attribute> lattrDefs   = new HashMap<>();
-            Map<Attribute.Layout, String>  lattrCommands = new HashMap<>();
+            Mbp<Attribute.Lbyout, Attribute> lbttrDefs   = new HbshMbp<>();
+            Mbp<Attribute.Lbyout, String>  lbttrCommbnds = new HbshMbp<>();
             String[] keys = {
-                Pack200.Packer.CLASS_ATTRIBUTE_PFX,
-                Pack200.Packer.FIELD_ATTRIBUTE_PFX,
-                Pack200.Packer.METHOD_ATTRIBUTE_PFX,
-                Pack200.Packer.CODE_ATTRIBUTE_PFX
+                Pbck200.Pbcker.CLASS_ATTRIBUTE_PFX,
+                Pbck200.Pbcker.FIELD_ATTRIBUTE_PFX,
+                Pbck200.Pbcker.METHOD_ATTRIBUTE_PFX,
+                Pbck200.Pbcker.CODE_ATTRIBUTE_PFX
             };
             int[] ctypes = {
-                Constants.ATTR_CONTEXT_CLASS,
-                Constants.ATTR_CONTEXT_FIELD,
-                Constants.ATTR_CONTEXT_METHOD,
-                Constants.ATTR_CONTEXT_CODE
+                Constbnts.ATTR_CONTEXT_CLASS,
+                Constbnts.ATTR_CONTEXT_FIELD,
+                Constbnts.ATTR_CONTEXT_METHOD,
+                Constbnts.ATTR_CONTEXT_CODE
             };
             for (int i = 0; i < ctypes.length; i++) {
                 String pfx = keys[i];
-                Map<String, String> map = props.prefixMap(pfx);
-                for (String key : map.keySet()) {
-                    assert(key.startsWith(pfx));
-                    String name = key.substring(pfx.length());
-                    String layout = props.getProperty(key);
-                    Layout lkey = Attribute.keyForLookup(ctypes[i], name);
-                    if (Pack200.Packer.STRIP.equals(layout) ||
-                        Pack200.Packer.PASS.equals(layout) ||
-                        Pack200.Packer.ERROR.equals(layout)) {
-                        lattrCommands.put(lkey, layout.intern());
+                Mbp<String, String> mbp = props.prefixMbp(pfx);
+                for (String key : mbp.keySet()) {
+                    bssert(key.stbrtsWith(pfx));
+                    String nbme = key.substring(pfx.length());
+                    String lbyout = props.getProperty(key);
+                    Lbyout lkey = Attribute.keyForLookup(ctypes[i], nbme);
+                    if (Pbck200.Pbcker.STRIP.equbls(lbyout) ||
+                        Pbck200.Pbcker.PASS.equbls(lbyout) ||
+                        Pbck200.Pbcker.ERROR.equbls(lbyout)) {
+                        lbttrCommbnds.put(lkey, lbyout.intern());
                     } else {
-                        Attribute.define(lattrDefs, ctypes[i], name, layout);
+                        Attribute.define(lbttrDefs, ctypes[i], nbme, lbyout);
                         if (verbose > 1) {
-                            Utils.log.fine("Added layout for "+Constants.ATTR_CONTEXT_NAME[i]+" attribute "+name+" = "+layout);
+                            Utils.log.fine("Added lbyout for "+Constbnts.ATTR_CONTEXT_NAME[i]+" bttribute "+nbme+" = "+lbyout);
                         }
-                        assert(lattrDefs.containsKey(lkey));
+                        bssert(lbttrDefs.contbinsKey(lkey));
                     }
                 }
             }
-            this.attrDefs = (lattrDefs.isEmpty()) ? null : lattrDefs;
-            this.attrCommands = (lattrCommands.isEmpty()) ? null : lattrCommands;
+            this.bttrDefs = (lbttrDefs.isEmpty()) ? null : lbttrDefs;
+            this.bttrCommbnds = (lbttrCommbnds.isEmpty()) ? null : lbttrCommbnds;
         }
 
-        final boolean keepFileOrder
-            = props.getBoolean(Pack200.Packer.KEEP_FILE_ORDER);
-        final boolean keepClassOrder
-            = props.getBoolean(Utils.PACK_KEEP_CLASS_ORDER);
+        finbl boolebn keepFileOrder
+            = props.getBoolebn(Pbck200.Pbcker.KEEP_FILE_ORDER);
+        finbl boolebn keepClbssOrder
+            = props.getBoolebn(Utils.PACK_KEEP_CLASS_ORDER);
 
-        final boolean keepModtime
-            = Pack200.Packer.KEEP.equals(props.getProperty(Pack200.Packer.MODIFICATION_TIME));
-        final boolean latestModtime
-            = Pack200.Packer.LATEST.equals(props.getProperty(Pack200.Packer.MODIFICATION_TIME));
-        final boolean keepDeflateHint
-            = Pack200.Packer.KEEP.equals(props.getProperty(Pack200.Packer.DEFLATE_HINT));
+        finbl boolebn keepModtime
+            = Pbck200.Pbcker.KEEP.equbls(props.getProperty(Pbck200.Pbcker.MODIFICATION_TIME));
+        finbl boolebn lbtestModtime
+            = Pbck200.Pbcker.LATEST.equbls(props.getProperty(Pbck200.Pbcker.MODIFICATION_TIME));
+        finbl boolebn keepDeflbteHint
+            = Pbck200.Pbcker.KEEP.equbls(props.getProperty(Pbck200.Pbcker.DEFLATE_HINT));
         {
-            if (!keepModtime && !latestModtime) {
-                int modtime = props.getTime(Pack200.Packer.MODIFICATION_TIME);
-                if (modtime != Constants.NO_MODTIME) {
-                    pkg.default_modtime = modtime;
+            if (!keepModtime && !lbtestModtime) {
+                int modtime = props.getTime(Pbck200.Pbcker.MODIFICATION_TIME);
+                if (modtime != Constbnts.NO_MODTIME) {
+                    pkg.defbult_modtime = modtime;
                 }
             }
-            if (!keepDeflateHint) {
-                boolean deflate_hint = props.getBoolean(Pack200.Packer.DEFLATE_HINT);
-                if (deflate_hint) {
-                    pkg.default_options |= Constants.AO_DEFLATE_HINT;
+            if (!keepDeflbteHint) {
+                boolebn deflbte_hint = props.getBoolebn(Pbck200.Pbcker.DEFLATE_HINT);
+                if (deflbte_hint) {
+                    pkg.defbult_options |= Constbnts.AO_DEFLATE_HINT;
                 }
             }
         }
 
-        long totalOutputSize = 0;
+        long totblOutputSize = 0;
         int  segmentCount = 0;
-        long segmentTotalSize = 0;
+        long segmentTotblSize = 0;
         long segmentSize = 0;  // running counter
-        final long segmentLimit;
+        finbl long segmentLimit;
         {
             long limit;
-            if (props.getProperty(Pack200.Packer.SEGMENT_LIMIT, "").equals(""))
+            if (props.getProperty(Pbck200.Pbcker.SEGMENT_LIMIT, "").equbls(""))
                 limit = -1;
             else
-                limit = props.getLong(Pack200.Packer.SEGMENT_LIMIT);
-            limit = Math.min(Integer.MAX_VALUE, limit);
-            limit = Math.max(-1, limit);
+                limit = props.getLong(Pbck200.Pbcker.SEGMENT_LIMIT);
+            limit = Mbth.min(Integer.MAX_VALUE, limit);
+            limit = Mbth.mbx(-1, limit);
             if (limit == -1)
                 limit = Long.MAX_VALUE;
             segmentLimit = limit;
         }
 
-        final List<String> passFiles;  // parsed pack.pass.file options
+        finbl List<String> pbssFiles;  // pbrsed pbck.pbss.file options
         {
-            // Which class files will be passed through?
-            passFiles = props.getProperties(Pack200.Packer.PASS_FILE_PFX);
-            for (ListIterator<String> i = passFiles.listIterator(); i.hasNext(); ) {
+            // Which clbss files will be pbssed through?
+            pbssFiles = props.getProperties(Pbck200.Pbcker.PASS_FILE_PFX);
+            for (ListIterbtor<String> i = pbssFiles.listIterbtor(); i.hbsNext(); ) {
                 String file = i.next();
                 if (file == null) { i.remove(); continue; }
-                file = Utils.getJarEntryName(file);  // normalize '\\' to '/'
+                file = Utils.getJbrEntryNbme(file);  // normblize '\\' to '/'
                 if (file.endsWith("/"))
                     file = file.substring(0, file.length()-1);
                 i.set(file);
             }
-            if (verbose > 0) Utils.log.info("passFiles = " + passFiles);
+            if (verbose > 0) Utils.log.info("pbssFiles = " + pbssFiles);
         }
 
         {
-            // Hook for testing:  Forces use of special archive modes.
-            int opt = props.getInteger(Utils.COM_PREFIX+"archive.options");
+            // Hook for testing:  Forces use of specibl brchive modes.
+            int opt = props.getInteger(Utils.COM_PREFIX+"brchive.options");
             if (opt != 0)
-                pkg.default_options |= opt;
+                pkg.defbult_options |= opt;
         }
 
         // (Done collecting options from props.)
 
-        boolean isClassFile(String name) {
-            if (!name.endsWith(".class"))  return false;
-            for (String prefix = name; ; ) {
-                if (passFiles.contains(prefix))  return false;
-                int chop = prefix.lastIndexOf('/');
-                if (chop < 0)  break;
+        boolebn isClbssFile(String nbme) {
+            if (!nbme.endsWith(".clbss"))  return fblse;
+            for (String prefix = nbme; ; ) {
+                if (pbssFiles.contbins(prefix))  return fblse;
+                int chop = prefix.lbstIndexOf('/');
+                if (chop < 0)  brebk;
                 prefix = prefix.substring(0, chop);
             }
             return true;
         }
 
-        boolean isMetaInfFile(String name) {
-            return name.startsWith("/" + Utils.METAINF) ||
-                        name.startsWith(Utils.METAINF);
+        boolebn isMetbInfFile(String nbme) {
+            return nbme.stbrtsWith("/" + Utils.METAINF) ||
+                        nbme.stbrtsWith(Utils.METAINF);
         }
 
-        // Get a new package, based on the old one.
-        private void makeNextPackage() {
+        // Get b new pbckbge, bbsed on the old one.
+        privbte void mbkeNextPbckbge() {
             pkg.reset();
         }
 
-        final class InFile {
-            final String name;
-            final JarFile jf;
-            final JarEntry je;
-            final File f;
-            int modtime = Constants.NO_MODTIME;
+        finbl clbss InFile {
+            finbl String nbme;
+            finbl JbrFile jf;
+            finbl JbrEntry je;
+            finbl File f;
+            int modtime = Constbnts.NO_MODTIME;
             int options;
-            InFile(String name) {
-                this.name = Utils.getJarEntryName(name);
-                this.f = new File(name);
+            InFile(String nbme) {
+                this.nbme = Utils.getJbrEntryNbme(nbme);
+                this.f = new File(nbme);
                 this.jf = null;
                 this.je = null;
-                int timeSecs = getModtime(f.lastModified());
-                if (keepModtime && timeSecs != Constants.NO_MODTIME) {
+                int timeSecs = getModtime(f.lbstModified());
+                if (keepModtime && timeSecs != Constbnts.NO_MODTIME) {
                     this.modtime = timeSecs;
-                } else if (latestModtime && timeSecs > pkg.default_modtime) {
-                    pkg.default_modtime = timeSecs;
+                } else if (lbtestModtime && timeSecs > pkg.defbult_modtime) {
+                    pkg.defbult_modtime = timeSecs;
                 }
             }
-            InFile(JarFile jf, JarEntry je) {
-                this.name = Utils.getJarEntryName(je.getName());
+            InFile(JbrFile jf, JbrEntry je) {
+                this.nbme = Utils.getJbrEntryNbme(je.getNbme());
                 this.f = null;
                 this.jf = jf;
                 this.je = je;
                 int timeSecs = getModtime(je.getTime());
-                if (keepModtime && timeSecs != Constants.NO_MODTIME) {
+                if (keepModtime && timeSecs != Constbnts.NO_MODTIME) {
                      this.modtime = timeSecs;
-                } else if (latestModtime && timeSecs > pkg.default_modtime) {
-                    pkg.default_modtime = timeSecs;
+                } else if (lbtestModtime && timeSecs > pkg.defbult_modtime) {
+                    pkg.defbult_modtime = timeSecs;
                 }
-                if (keepDeflateHint && je.getMethod() == JarEntry.DEFLATED) {
-                    options |= Constants.FO_DEFLATE_HINT;
+                if (keepDeflbteHint && je.getMethod() == JbrEntry.DEFLATED) {
+                    options |= Constbnts.FO_DEFLATE_HINT;
                 }
             }
-            InFile(JarEntry je) {
+            InFile(JbrEntry je) {
                 this(null, je);
             }
             long getInputLength() {
                 long len = (je != null)? je.getSize(): f.length();
-                assert(len >= 0) : this+".len="+len;
-                // Bump size by pathname length and modtime/def-hint bytes.
-                return Math.max(0, len) + name.length() + 5;
+                bssert(len >= 0) : this+".len="+len;
+                // Bump size by pbthnbme length bnd modtime/def-hint bytes.
+                return Mbth.mbx(0, len) + nbme.length() + 5;
             }
             int getModtime(long timeMillis) {
                 // Convert milliseconds to seconds.
@@ -352,259 +352,259 @@ public class PackerImpl  extends TLGlobals implements Pack200.Packer {
                 if ((int)seconds == seconds) {
                     return (int)seconds;
                 } else {
-                    Utils.log.warning("overflow in modtime for "+f);
-                    return Constants.NO_MODTIME;
+                    Utils.log.wbrning("overflow in modtime for "+f);
+                    return Constbnts.NO_MODTIME;
                 }
             }
-            void copyTo(Package.File file) {
-                if (modtime != Constants.NO_MODTIME)
+            void copyTo(Pbckbge.File file) {
+                if (modtime != Constbnts.NO_MODTIME)
                     file.modtime = modtime;
                 file.options |= options;
             }
-            InputStream getInputStream() throws IOException {
+            InputStrebm getInputStrebm() throws IOException {
                 if (jf != null)
-                    return jf.getInputStream(je);
+                    return jf.getInputStrebm(je);
                 else
-                    return new FileInputStream(f);
+                    return new FileInputStrebm(f);
             }
 
             public String toString() {
-                return name;
+                return nbme;
             }
         }
 
-        private int nread = 0;  // used only if (verbose > 0)
-        private void noteRead(InFile f) {
-            nread++;
+        privbte int nrebd = 0;  // used only if (verbose > 0)
+        privbte void noteRebd(InFile f) {
+            nrebd++;
             if (verbose > 2)
-                Utils.log.fine("...read "+f.name);
-            if (verbose > 0 && (nread % 1000) == 0)
-                Utils.log.info("Have read "+nread+" files...");
+                Utils.log.fine("...rebd "+f.nbme);
+            if (verbose > 0 && (nrebd % 1000) == 0)
+                Utils.log.info("Hbve rebd "+nrebd+" files...");
         }
 
-        void run(JarInputStream in, OutputStream out) throws IOException {
-            // First thing we do is get the manifest, as JIS does
-            // not provide the Manifest as an entry.
-            if (in.getManifest() != null) {
-                ByteArrayOutputStream tmp = new ByteArrayOutputStream();
-                in.getManifest().write(tmp);
-                InputStream tmpIn = new ByteArrayInputStream(tmp.toByteArray());
-                pkg.addFile(readFile(JarFile.MANIFEST_NAME, tmpIn));
+        void run(JbrInputStrebm in, OutputStrebm out) throws IOException {
+            // First thing we do is get the mbnifest, bs JIS does
+            // not provide the Mbnifest bs bn entry.
+            if (in.getMbnifest() != null) {
+                ByteArrbyOutputStrebm tmp = new ByteArrbyOutputStrebm();
+                in.getMbnifest().write(tmp);
+                InputStrebm tmpIn = new ByteArrbyInputStrebm(tmp.toByteArrby());
+                pkg.bddFile(rebdFile(JbrFile.MANIFEST_NAME, tmpIn));
             }
-            for (JarEntry je; (je = in.getNextJarEntry()) != null; ) {
+            for (JbrEntry je; (je = in.getNextJbrEntry()) != null; ) {
                 InFile inFile = new InFile(je);
 
-                String name = inFile.name;
-                Package.File bits = readFile(name, in);
-                Package.File file = null;
+                String nbme = inFile.nbme;
+                Pbckbge.File bits = rebdFile(nbme, in);
+                Pbckbge.File file = null;
                 // (5078608) : discount the resource files in META-INF
-                // from segment computation.
-                long inflen = (isMetaInfFile(name))
+                // from segment computbtion.
+                long inflen = (isMetbInfFile(nbme))
                               ? 0L
                               : inFile.getInputLength();
 
                 if ((segmentSize += inflen) > segmentLimit) {
                     segmentSize -= inflen;
-                    int nextCount = -1;  // don't know; it's a stream
-                    flushPartial(out, nextCount);
+                    int nextCount = -1;  // don't know; it's b strebm
+                    flushPbrtibl(out, nextCount);
                 }
                 if (verbose > 1) {
-                    Utils.log.fine("Reading " + name);
+                    Utils.log.fine("Rebding " + nbme);
                 }
 
-                assert(je.isDirectory() == name.endsWith("/"));
+                bssert(je.isDirectory() == nbme.endsWith("/"));
 
-                if (isClassFile(name)) {
-                    file = readClass(name, bits.getInputStream());
+                if (isClbssFile(nbme)) {
+                    file = rebdClbss(nbme, bits.getInputStrebm());
                 }
                 if (file == null) {
                     file = bits;
-                    pkg.addFile(file);
+                    pkg.bddFile(file);
                 }
                 inFile.copyTo(file);
-                noteRead(inFile);
+                noteRebd(inFile);
             }
             flushAll(out);
         }
 
-        void run(JarFile in, OutputStream out) throws IOException {
-            List<InFile> inFiles = scanJar(in);
+        void run(JbrFile in, OutputStrebm out) throws IOException {
+            List<InFile> inFiles = scbnJbr(in);
 
             if (verbose > 0)
-                Utils.log.info("Reading " + inFiles.size() + " files...");
+                Utils.log.info("Rebding " + inFiles.size() + " files...");
 
             int numDone = 0;
             for (InFile inFile : inFiles) {
-                String name      = inFile.name;
+                String nbme      = inFile.nbme;
                 // (5078608) : discount the resource files completely from segmenting
-                long inflen = (isMetaInfFile(name))
+                long inflen = (isMetbInfFile(nbme))
                                ? 0L
                                : inFile.getInputLength() ;
                 if ((segmentSize += inflen) > segmentLimit) {
                     segmentSize -= inflen;
-                    // Estimate number of remaining segments:
-                    float filesDone = numDone+1;
-                    float segsDone  = segmentCount+1;
-                    float filesToDo = inFiles.size() - filesDone;
-                    float segsToDo  = filesToDo * (segsDone/filesDone);
+                    // Estimbte number of rembining segments:
+                    flobt filesDone = numDone+1;
+                    flobt segsDone  = segmentCount+1;
+                    flobt filesToDo = inFiles.size() - filesDone;
+                    flobt segsToDo  = filesToDo * (segsDone/filesDone);
                     if (verbose > 1)
-                        Utils.log.fine("Estimated segments to do: "+segsToDo);
-                    flushPartial(out, (int) Math.ceil(segsToDo));
+                        Utils.log.fine("Estimbted segments to do: "+segsToDo);
+                    flushPbrtibl(out, (int) Mbth.ceil(segsToDo));
                 }
-                InputStream strm = inFile.getInputStream();
+                InputStrebm strm = inFile.getInputStrebm();
                 if (verbose > 1)
-                    Utils.log.fine("Reading " + name);
-                Package.File file = null;
-                if (isClassFile(name)) {
-                    file = readClass(name, strm);
+                    Utils.log.fine("Rebding " + nbme);
+                Pbckbge.File file = null;
+                if (isClbssFile(nbme)) {
+                    file = rebdClbss(nbme, strm);
                     if (file == null) {
                         strm.close();
-                        strm = inFile.getInputStream();
+                        strm = inFile.getInputStrebm();
                     }
                 }
                 if (file == null) {
-                    file = readFile(name, strm);
-                    pkg.addFile(file);
+                    file = rebdFile(nbme, strm);
+                    pkg.bddFile(file);
                 }
                 inFile.copyTo(file);
                 strm.close();  // tidy up
-                noteRead(inFile);
+                noteRebd(inFile);
                 numDone += 1;
             }
             flushAll(out);
         }
 
-        Package.File readClass(String fname, InputStream in) throws IOException {
-            Package.Class cls = pkg.new Class(fname);
-            in = new BufferedInputStream(in);
-            ClassReader reader = new ClassReader(cls, in);
-            reader.setAttrDefs(attrDefs);
-            reader.setAttrCommands(attrCommands);
-            reader.unknownAttrCommand = unknownAttrCommand;
+        Pbckbge.File rebdClbss(String fnbme, InputStrebm in) throws IOException {
+            Pbckbge.Clbss cls = pkg.new Clbss(fnbme);
+            in = new BufferedInputStrebm(in);
+            ClbssRebder rebder = new ClbssRebder(cls, in);
+            rebder.setAttrDefs(bttrDefs);
+            rebder.setAttrCommbnds(bttrCommbnds);
+            rebder.unknownAttrCommbnd = unknownAttrCommbnd;
             try {
-                reader.read();
-            } catch (IOException ioe) {
-                String message = "Passing class file uncompressed due to";
-                if (ioe instanceof Attribute.FormatException) {
-                    Attribute.FormatException ee = (Attribute.FormatException) ioe;
-                    // He passed up the category to us in layout.
-                    if (ee.layout.equals(Pack200.Packer.PASS)) {
+                rebder.rebd();
+            } cbtch (IOException ioe) {
+                String messbge = "Pbssing clbss file uncompressed due to";
+                if (ioe instbnceof Attribute.FormbtException) {
+                    Attribute.FormbtException ee = (Attribute.FormbtException) ioe;
+                    // He pbssed up the cbtegory to us in lbyout.
+                    if (ee.lbyout.equbls(Pbck200.Pbcker.PASS)) {
                         Utils.log.info(ee.toString());
-                        Utils.log.warning(message + " unrecognized attribute: " +
-                                fname);
+                        Utils.log.wbrning(messbge + " unrecognized bttribute: " +
+                                fnbme);
                         return null;
                     }
-                } else if (ioe instanceof ClassReader.ClassFormatException) {
-                    ClassReader.ClassFormatException ce = (ClassReader.ClassFormatException) ioe;
-                    if (classFormatCommand.equals(Pack200.Packer.PASS)) {
+                } else if (ioe instbnceof ClbssRebder.ClbssFormbtException) {
+                    ClbssRebder.ClbssFormbtException ce = (ClbssRebder.ClbssFormbtException) ioe;
+                    if (clbssFormbtCommbnd.equbls(Pbck200.Pbcker.PASS)) {
                         Utils.log.info(ce.toString());
-                        Utils.log.warning(message + " unknown class format: " +
-                                fname);
+                        Utils.log.wbrning(messbge + " unknown clbss formbt: " +
+                                fnbme);
                         return null;
                     }
                 }
-                // Otherwise, it must be an error.
+                // Otherwise, it must be bn error.
                 throw ioe;
             }
-            pkg.addClass(cls);
+            pkg.bddClbss(cls);
             return cls.file;
         }
 
-        // Read raw data.
-        Package.File readFile(String fname, InputStream in) throws IOException {
+        // Rebd rbw dbtb.
+        Pbckbge.File rebdFile(String fnbme, InputStrebm in) throws IOException {
 
-            Package.File file = pkg.new File(fname);
-            file.readFrom(in);
+            Pbckbge.File file = pkg.new File(fnbme);
+            file.rebdFrom(in);
             if (file.isDirectory() && file.getFileLength() != 0)
-                throw new IllegalArgumentException("Non-empty directory: "+file.getFileName());
+                throw new IllegblArgumentException("Non-empty directory: "+file.getFileNbme());
             return file;
         }
 
-        void flushPartial(OutputStream out, int nextCount) throws IOException {
-            if (pkg.files.isEmpty() && pkg.classes.isEmpty()) {
-                return;  // do not flush an empty segment
+        void flushPbrtibl(OutputStrebm out, int nextCount) throws IOException {
+            if (pkg.files.isEmpty() && pkg.clbsses.isEmpty()) {
+                return;  // do not flush bn empty segment
             }
-            flushPackage(out, Math.max(1, nextCount));
-            props.setInteger(Pack200.Packer.PROGRESS, 25);
-            // In case there will be another segment:
-            makeNextPackage();
+            flushPbckbge(out, Mbth.mbx(1, nextCount));
+            props.setInteger(Pbck200.Pbcker.PROGRESS, 25);
+            // In cbse there will be bnother segment:
+            mbkeNextPbckbge();
             segmentCount += 1;
-            segmentTotalSize += segmentSize;
+            segmentTotblSize += segmentSize;
             segmentSize = 0;
         }
 
-        void flushAll(OutputStream out) throws IOException {
-            props.setInteger(Pack200.Packer.PROGRESS, 50);
-            flushPackage(out, 0);
+        void flushAll(OutputStrebm out) throws IOException {
+            props.setInteger(Pbck200.Pbcker.PROGRESS, 50);
+            flushPbckbge(out, 0);
             out.flush();
-            props.setInteger(Pack200.Packer.PROGRESS, 100);
+            props.setInteger(Pbck200.Pbcker.PROGRESS, 100);
             segmentCount += 1;
-            segmentTotalSize += segmentSize;
+            segmentTotblSize += segmentSize;
             segmentSize = 0;
             if (verbose > 0 && segmentCount > 1) {
-                Utils.log.info("Transmitted "
-                                 +segmentTotalSize+" input bytes in "
-                                 +segmentCount+" segments totaling "
-                                 +totalOutputSize+" bytes");
+                Utils.log.info("Trbnsmitted "
+                                 +segmentTotblSize+" input bytes in "
+                                 +segmentCount+" segments totbling "
+                                 +totblOutputSize+" bytes");
             }
         }
 
 
-        /** Write all information in the current package segment
-         *  to the output stream.
+        /** Write bll informbtion in the current pbckbge segment
+         *  to the output strebm.
          */
-        void flushPackage(OutputStream out, int nextCount) throws IOException {
+        void flushPbckbge(OutputStrebm out, int nextCount) throws IOException {
             int nfiles = pkg.files.size();
             if (!keepFileOrder) {
-                // Keeping the order of classes costs about 1%
-                // Keeping the order of all files costs something more.
+                // Keeping the order of clbsses costs bbout 1%
+                // Keeping the order of bll files costs something more.
                 if (verbose > 1)  Utils.log.fine("Reordering files.");
-                boolean stripDirectories = true;
-                pkg.reorderFiles(keepClassOrder, stripDirectories);
+                boolebn stripDirectories = true;
+                pkg.reorderFiles(keepClbssOrder, stripDirectories);
             } else {
-                // Package builder must have created a stub for each class.
-                assert(pkg.files.containsAll(pkg.getClassStubs()));
-                // Order of stubs in file list must agree with classes.
-                List<Package.File> res = pkg.files;
-                assert((res = new ArrayList<>(pkg.files))
-                       .retainAll(pkg.getClassStubs()) || true);
-                assert(res.equals(pkg.getClassStubs()));
+                // Pbckbge builder must hbve crebted b stub for ebch clbss.
+                bssert(pkg.files.contbinsAll(pkg.getClbssStubs()));
+                // Order of stubs in file list must bgree with clbsses.
+                List<Pbckbge.File> res = pkg.files;
+                bssert((res = new ArrbyList<>(pkg.files))
+                       .retbinAll(pkg.getClbssStubs()) || true);
+                bssert(res.equbls(pkg.getClbssStubs()));
             }
             pkg.trimStubs();
 
-            // Do some stripping, maybe.
-            if (props.getBoolean(Utils.COM_PREFIX+"strip.debug"))        pkg.stripAttributeKind("Debug");
-            if (props.getBoolean(Utils.COM_PREFIX+"strip.compile"))      pkg.stripAttributeKind("Compile");
-            if (props.getBoolean(Utils.COM_PREFIX+"strip.constants"))    pkg.stripAttributeKind("Constant");
-            if (props.getBoolean(Utils.COM_PREFIX+"strip.exceptions"))   pkg.stripAttributeKind("Exceptions");
-            if (props.getBoolean(Utils.COM_PREFIX+"strip.innerclasses")) pkg.stripAttributeKind("InnerClasses");
+            // Do some stripping, mbybe.
+            if (props.getBoolebn(Utils.COM_PREFIX+"strip.debug"))        pkg.stripAttributeKind("Debug");
+            if (props.getBoolebn(Utils.COM_PREFIX+"strip.compile"))      pkg.stripAttributeKind("Compile");
+            if (props.getBoolebn(Utils.COM_PREFIX+"strip.constbnts"))    pkg.stripAttributeKind("Constbnt");
+            if (props.getBoolebn(Utils.COM_PREFIX+"strip.exceptions"))   pkg.stripAttributeKind("Exceptions");
+            if (props.getBoolebn(Utils.COM_PREFIX+"strip.innerclbsses")) pkg.stripAttributeKind("InnerClbsses");
 
-            PackageWriter pw = new PackageWriter(pkg, out);
-            pw.archiveNextCount = nextCount;
+            PbckbgeWriter pw = new PbckbgeWriter(pkg, out);
+            pw.brchiveNextCount = nextCount;
             pw.write();
             out.flush();
             if (verbose > 0) {
-                long outSize = pw.archiveSize0+pw.archiveSize1;
-                totalOutputSize += outSize;
+                long outSize = pw.brchiveSize0+pw.brchiveSize1;
+                totblOutputSize += outSize;
                 long inSize = segmentSize;
-                Utils.log.info("Transmitted "
+                Utils.log.info("Trbnsmitted "
                                  +nfiles+" files of "
-                                 +inSize+" input bytes in a segment of "
+                                 +inSize+" input bytes in b segment of "
                                  +outSize+" bytes");
             }
         }
 
-        List<InFile> scanJar(JarFile jf) throws IOException {
-            // Collect jar entries, preserving order.
-            List<InFile> inFiles = new ArrayList<>();
+        List<InFile> scbnJbr(JbrFile jf) throws IOException {
+            // Collect jbr entries, preserving order.
+            List<InFile> inFiles = new ArrbyList<>();
             try {
-                for (JarEntry je : Collections.list(jf.entries())) {
+                for (JbrEntry je : Collections.list(jf.entries())) {
                     InFile inFile = new InFile(jf, je);
-                    assert(je.isDirectory() == inFile.name.endsWith("/"));
-                    inFiles.add(inFile);
+                    bssert(je.isDirectory() == inFile.nbme.endsWith("/"));
+                    inFiles.bdd(inFile);
                 }
-            } catch (IllegalStateException ise) {
-                throw new IOException(ise.getLocalizedMessage(), ise);
+            } cbtch (IllegblStbteException ise) {
+                throw new IOException(ise.getLocblizedMessbge(), ise);
             }
             return inFiles;
         }

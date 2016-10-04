@@ -3,276 +3,276 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: ApacheCanonicalizer.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: ApbcheCbnonicblizer.jbvb 1333869 2012-05-04 10:42:44Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.Set;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.TransformException;
-import javax.xml.crypto.dsig.TransformService;
-import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.util.Set;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.TrbnsformException;
+import jbvbx.xml.crypto.dsig.TrbnsformService;
+import jbvbx.xml.crypto.dsig.spec.C14NMethodPbrbmeterSpec;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public abstract class ApacheCanonicalizer extends TransformService {
+public bbstrbct clbss ApbcheCbnonicblizer extends TrbnsformService {
 
-    static {
-        com.sun.org.apache.xml.internal.security.Init.init();
+    stbtic {
+        com.sun.org.bpbche.xml.internbl.security.Init.init();
     }
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
-    protected Canonicalizer apacheCanonicalizer;
-    private Transform apacheTransform;
-    protected String inclusiveNamespaces;
-    protected C14NMethodParameterSpec params;
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
+    protected Cbnonicblizer bpbcheCbnonicblizer;
+    privbte Trbnsform bpbcheTrbnsform;
+    protected String inclusiveNbmespbces;
+    protected C14NMethodPbrbmeterSpec pbrbms;
     protected Document ownerDoc;
-    protected Element transformElem;
+    protected Element trbnsformElem;
 
-    public final AlgorithmParameterSpec getParameterSpec()
+    public finbl AlgorithmPbrbmeterSpec getPbrbmeterSpec()
     {
-        return params;
+        return pbrbms;
     }
 
-    public void init(XMLStructure parent, XMLCryptoContext context)
-        throws InvalidAlgorithmParameterException
+    public void init(XMLStructure pbrent, XMLCryptoContext context)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        if (context != null && !(context instanceof DOMCryptoContext)) {
-            throw new ClassCastException
+        if (context != null && !(context instbnceof DOMCryptoContext)) {
+            throw new ClbssCbstException
                 ("context must be of type DOMCryptoContext");
         }
-        if (parent == null) {
+        if (pbrent == null) {
             throw new NullPointerException();
         }
-        if (!(parent instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("parent must be of type DOMStructure");
+        if (!(pbrent instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("pbrent must be of type DOMStructure");
         }
-        transformElem = (Element)
-            ((javax.xml.crypto.dom.DOMStructure)parent).getNode();
-        ownerDoc = DOMUtils.getOwnerDocument(transformElem);
+        trbnsformElem = (Element)
+            ((jbvbx.xml.crypto.dom.DOMStructure)pbrent).getNode();
+        ownerDoc = DOMUtils.getOwnerDocument(trbnsformElem);
     }
 
-    public void marshalParams(XMLStructure parent, XMLCryptoContext context)
-        throws MarshalException
+    public void mbrshblPbrbms(XMLStructure pbrent, XMLCryptoContext context)
+        throws MbrshblException
     {
-        if (context != null && !(context instanceof DOMCryptoContext)) {
-            throw new ClassCastException
+        if (context != null && !(context instbnceof DOMCryptoContext)) {
+            throw new ClbssCbstException
                 ("context must be of type DOMCryptoContext");
         }
-        if (parent == null) {
+        if (pbrent == null) {
             throw new NullPointerException();
         }
-        if (!(parent instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("parent must be of type DOMStructure");
+        if (!(pbrent instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("pbrent must be of type DOMStructure");
         }
-        transformElem = (Element)
-            ((javax.xml.crypto.dom.DOMStructure)parent).getNode();
-        ownerDoc = DOMUtils.getOwnerDocument(transformElem);
+        trbnsformElem = (Element)
+            ((jbvbx.xml.crypto.dom.DOMStructure)pbrent).getNode();
+        ownerDoc = DOMUtils.getOwnerDocument(trbnsformElem);
     }
 
-    public Data canonicalize(Data data, XMLCryptoContext xc)
-        throws TransformException
+    public Dbtb cbnonicblize(Dbtb dbtb, XMLCryptoContext xc)
+        throws TrbnsformException
     {
-        return canonicalize(data, xc, null);
+        return cbnonicblize(dbtb, xc, null);
     }
 
-    public Data canonicalize(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    public Dbtb cbnonicblize(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
-        if (apacheCanonicalizer == null) {
+        if (bpbcheCbnonicblizer == null) {
             try {
-                apacheCanonicalizer = Canonicalizer.getInstance(getAlgorithm());
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Created canonicalizer for algorithm: " + getAlgorithm());
+                bpbcheCbnonicblizer = Cbnonicblizer.getInstbnce(getAlgorithm());
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Crebted cbnonicblizer for blgorithm: " + getAlgorithm());
                 }
-            } catch (InvalidCanonicalizerException ice) {
-                throw new TransformException
-                    ("Couldn't find Canonicalizer for: " + getAlgorithm() +
-                     ": " + ice.getMessage(), ice);
+            } cbtch (InvblidCbnonicblizerException ice) {
+                throw new TrbnsformException
+                    ("Couldn't find Cbnonicblizer for: " + getAlgorithm() +
+                     ": " + ice.getMessbge(), ice);
             }
         }
 
         if (os != null) {
-            apacheCanonicalizer.setWriter(os);
+            bpbcheCbnonicblizer.setWriter(os);
         } else {
-            apacheCanonicalizer.setWriter(new ByteArrayOutputStream());
+            bpbcheCbnonicblizer.setWriter(new ByteArrbyOutputStrebm());
         }
 
         try {
             Set<Node> nodeSet = null;
-            if (data instanceof ApacheData) {
-                XMLSignatureInput in =
-                    ((ApacheData)data).getXMLSignatureInput();
+            if (dbtb instbnceof ApbcheDbtb) {
+                XMLSignbtureInput in =
+                    ((ApbcheDbtb)dbtb).getXMLSignbtureInput();
                 if (in.isElement()) {
-                    if (inclusiveNamespaces != null) {
-                        return new OctetStreamData(new ByteArrayInputStream
-                            (apacheCanonicalizer.canonicalizeSubtree
-                                (in.getSubNode(), inclusiveNamespaces)));
+                    if (inclusiveNbmespbces != null) {
+                        return new OctetStrebmDbtb(new ByteArrbyInputStrebm
+                            (bpbcheCbnonicblizer.cbnonicblizeSubtree
+                                (in.getSubNode(), inclusiveNbmespbces)));
                     } else {
-                        return new OctetStreamData(new ByteArrayInputStream
-                            (apacheCanonicalizer.canonicalizeSubtree
+                        return new OctetStrebmDbtb(new ByteArrbyInputStrebm
+                            (bpbcheCbnonicblizer.cbnonicblizeSubtree
                                 (in.getSubNode())));
                     }
                 } else if (in.isNodeSet()) {
                     nodeSet = in.getNodeSet();
                 } else {
-                    return new OctetStreamData(new ByteArrayInputStream(
-                        apacheCanonicalizer.canonicalize(
-                            Utils.readBytesFromStream(in.getOctetStream()))));
+                    return new OctetStrebmDbtb(new ByteArrbyInputStrebm(
+                        bpbcheCbnonicblizer.cbnonicblize(
+                            Utils.rebdBytesFromStrebm(in.getOctetStrebm()))));
                 }
-            } else if (data instanceof DOMSubTreeData) {
-                DOMSubTreeData subTree = (DOMSubTreeData)data;
-                if (inclusiveNamespaces != null) {
-                    return new OctetStreamData(new ByteArrayInputStream
-                        (apacheCanonicalizer.canonicalizeSubtree
-                         (subTree.getRoot(), inclusiveNamespaces)));
+            } else if (dbtb instbnceof DOMSubTreeDbtb) {
+                DOMSubTreeDbtb subTree = (DOMSubTreeDbtb)dbtb;
+                if (inclusiveNbmespbces != null) {
+                    return new OctetStrebmDbtb(new ByteArrbyInputStrebm
+                        (bpbcheCbnonicblizer.cbnonicblizeSubtree
+                         (subTree.getRoot(), inclusiveNbmespbces)));
                 } else {
-                    return new OctetStreamData(new ByteArrayInputStream
-                        (apacheCanonicalizer.canonicalizeSubtree
+                    return new OctetStrebmDbtb(new ByteArrbyInputStrebm
+                        (bpbcheCbnonicblizer.cbnonicblizeSubtree
                          (subTree.getRoot())));
                 }
-            } else if (data instanceof NodeSetData) {
-                NodeSetData nsd = (NodeSetData)data;
-                // convert Iterator to Set
-                @SuppressWarnings("unchecked")
-                Set<Node> ns = Utils.toNodeSet(nsd.iterator());
+            } else if (dbtb instbnceof NodeSetDbtb) {
+                NodeSetDbtb nsd = (NodeSetDbtb)dbtb;
+                // convert Iterbtor to Set
+                @SuppressWbrnings("unchecked")
+                Set<Node> ns = Utils.toNodeSet(nsd.iterbtor());
                 nodeSet = ns;
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Canonicalizing " + nodeSet.size() + " nodes");
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Cbnonicblizing " + nodeSet.size() + " nodes");
                 }
             } else {
-                return new OctetStreamData(new ByteArrayInputStream(
-                    apacheCanonicalizer.canonicalize(
-                        Utils.readBytesFromStream(
-                        ((OctetStreamData)data).getOctetStream()))));
+                return new OctetStrebmDbtb(new ByteArrbyInputStrebm(
+                    bpbcheCbnonicblizer.cbnonicblize(
+                        Utils.rebdBytesFromStrebm(
+                        ((OctetStrebmDbtb)dbtb).getOctetStrebm()))));
             }
-            if (inclusiveNamespaces != null) {
-                return new OctetStreamData(new ByteArrayInputStream(
-                    apacheCanonicalizer.canonicalizeXPathNodeSet
-                        (nodeSet, inclusiveNamespaces)));
+            if (inclusiveNbmespbces != null) {
+                return new OctetStrebmDbtb(new ByteArrbyInputStrebm(
+                    bpbcheCbnonicblizer.cbnonicblizeXPbthNodeSet
+                        (nodeSet, inclusiveNbmespbces)));
             } else {
-                return new OctetStreamData(new ByteArrayInputStream(
-                    apacheCanonicalizer.canonicalizeXPathNodeSet(nodeSet)));
+                return new OctetStrebmDbtb(new ByteArrbyInputStrebm(
+                    bpbcheCbnonicblizer.cbnonicblizeXPbthNodeSet(nodeSet)));
             }
-        } catch (Exception e) {
-            throw new TransformException(e);
+        } cbtch (Exception e) {
+            throw new TrbnsformException(e);
         }
     }
 
-    public Data transform(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    public Dbtb trbnsform(Dbtb dbtb, XMLCryptoContext xc, OutputStrebm os)
+        throws TrbnsformException
     {
-        if (data == null) {
-            throw new NullPointerException("data must not be null");
+        if (dbtb == null) {
+            throw new NullPointerException("dbtb must not be null");
         }
         if (os == null) {
-            throw new NullPointerException("output stream must not be null");
+            throw new NullPointerException("output strebm must not be null");
         }
 
         if (ownerDoc == null) {
-            throw new TransformException("transform must be marshalled");
+            throw new TrbnsformException("trbnsform must be mbrshblled");
         }
 
-        if (apacheTransform == null) {
+        if (bpbcheTrbnsform == null) {
             try {
-                apacheTransform =
-                    new Transform(ownerDoc, getAlgorithm(), transformElem.getChildNodes());
-                apacheTransform.setElement(transformElem, xc.getBaseURI());
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Created transform for algorithm: " + getAlgorithm());
+                bpbcheTrbnsform =
+                    new Trbnsform(ownerDoc, getAlgorithm(), trbnsformElem.getChildNodes());
+                bpbcheTrbnsform.setElement(trbnsformElem, xc.getBbseURI());
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Crebted trbnsform for blgorithm: " + getAlgorithm());
                 }
-            } catch (Exception ex) {
-                throw new TransformException
-                    ("Couldn't find Transform for: " + getAlgorithm(), ex);
+            } cbtch (Exception ex) {
+                throw new TrbnsformException
+                    ("Couldn't find Trbnsform for: " + getAlgorithm(), ex);
             }
         }
 
-        XMLSignatureInput in;
-        if (data instanceof ApacheData) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "ApacheData = true");
+        XMLSignbtureInput in;
+        if (dbtb instbnceof ApbcheDbtb) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "ApbcheDbtb = true");
             }
-            in = ((ApacheData)data).getXMLSignatureInput();
-        } else if (data instanceof NodeSetData) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "isNodeSet() = true");
+            in = ((ApbcheDbtb)dbtb).getXMLSignbtureInput();
+        } else if (dbtb instbnceof NodeSetDbtb) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "isNodeSet() = true");
             }
-            if (data instanceof DOMSubTreeData) {
-                DOMSubTreeData subTree = (DOMSubTreeData)data;
-                in = new XMLSignatureInput(subTree.getRoot());
+            if (dbtb instbnceof DOMSubTreeDbtb) {
+                DOMSubTreeDbtb subTree = (DOMSubTreeDbtb)dbtb;
+                in = new XMLSignbtureInput(subTree.getRoot());
                 in.setExcludeComments(subTree.excludeComments());
             } else {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 Set<Node> nodeSet =
-                    Utils.toNodeSet(((NodeSetData)data).iterator());
-                in = new XMLSignatureInput(nodeSet);
+                    Utils.toNodeSet(((NodeSetDbtb)dbtb).iterbtor());
+                in = new XMLSignbtureInput(nodeSet);
             }
         } else {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "isNodeSet() = false");
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "isNodeSet() = fblse");
             }
             try {
-                in = new XMLSignatureInput
-                    (((OctetStreamData)data).getOctetStream());
-            } catch (Exception ex) {
-                throw new TransformException(ex);
+                in = new XMLSignbtureInput
+                    (((OctetStrebmDbtb)dbtb).getOctetStrebm());
+            } cbtch (Exception ex) {
+                throw new TrbnsformException(ex);
             }
         }
 
         try {
-            in = apacheTransform.performTransform(in, os);
+            in = bpbcheTrbnsform.performTrbnsform(in, os);
             if (!in.isNodeSet() && !in.isElement()) {
                 return null;
             }
-            if (in.isOctetStream()) {
-                return new ApacheOctetStreamData(in);
+            if (in.isOctetStrebm()) {
+                return new ApbcheOctetStrebmDbtb(in);
             } else {
-                return new ApacheNodeSetData(in);
+                return new ApbcheNodeSetDbtb(in);
             }
-        } catch (Exception ex) {
-            throw new TransformException(ex);
+        } cbtch (Exception ex) {
+            throw new TrbnsformException(ex);
         }
     }
 
-    public final boolean isFeatureSupported(String feature) {
-        if (feature == null) {
+    public finbl boolebn isFebtureSupported(String febture) {
+        if (febture == null) {
             throw new NullPointerException();
         } else {
-            return false;
+            return fblse;
         }
     }
 }

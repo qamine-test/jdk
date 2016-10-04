@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
-import java.security.*;
-import java.lang.reflect.*;
-import java.lang.invoke.MethodHandleNatives.Constants;
-import java.lang.invoke.MethodHandles.Lookup;
-import static java.lang.invoke.MethodHandleStatics.*;
+import jbvb.security.*;
+import jbvb.lbng.reflect.*;
+import jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts;
+import jbvb.lbng.invoke.MethodHbndles.Lookup;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
 
 /*
- * Auxiliary to MethodHandleInfo, wants to nest in MethodHandleInfo but must be non-public.
+ * Auxilibry to MethodHbndleInfo, wbnts to nest in MethodHbndleInfo but must be non-public.
  */
 /*non-public*/
-final
-class InfoFromMemberName implements MethodHandleInfo {
-    private final MemberName member;
-    private final int referenceKind;
+finbl
+clbss InfoFromMemberNbme implements MethodHbndleInfo {
+    privbte finbl MemberNbme member;
+    privbte finbl int referenceKind;
 
-    InfoFromMemberName(Lookup lookup, MemberName member, byte referenceKind) {
-        assert(member.isResolved() || member.isMethodHandleInvoke());
-        assert(member.referenceKindIsConsistentWith(referenceKind));
+    InfoFromMemberNbme(Lookup lookup, MemberNbme member, byte referenceKind) {
+        bssert(member.isResolved() || member.isMethodHbndleInvoke());
+        bssert(member.referenceKindIsConsistentWith(referenceKind));
         this.member = member;
         this.referenceKind = referenceKind;
     }
 
     @Override
-    public Class<?> getDeclaringClass() {
-        return member.getDeclaringClass();
+    public Clbss<?> getDeclbringClbss() {
+        return member.getDeclbringClbss();
     }
 
     @Override
-    public String getName() {
-        return member.getName();
+    public String getNbme() {
+        return member.getNbme();
     }
 
     @Override
@@ -74,72 +74,72 @@ class InfoFromMemberName implements MethodHandleInfo {
 
     @Override
     public String toString() {
-        return MethodHandleInfo.toString(getReferenceKind(), getDeclaringClass(), getName(), getMethodType());
+        return MethodHbndleInfo.toString(getReferenceKind(), getDeclbringClbss(), getNbme(), getMethodType());
     }
 
     @Override
-    public <T extends Member> T reflectAs(Class<T> expected, Lookup lookup) {
-        if (member.isMethodHandleInvoke() && !member.isVarargs()) {
-            // This member is an instance of a signature-polymorphic method, which cannot be reflected
-            // A method handle invoker can come in either of two forms:
-            // A generic placeholder (present in the source code, and varargs)
-            // and a signature-polymorphic instance (synthetic and not varargs).
-            // For more information see comments on {@link MethodHandleNatives#linkMethod}.
-            throw new IllegalArgumentException("cannot reflect signature polymorphic method");
+    public <T extends Member> T reflectAs(Clbss<T> expected, Lookup lookup) {
+        if (member.isMethodHbndleInvoke() && !member.isVbrbrgs()) {
+            // This member is bn instbnce of b signbture-polymorphic method, which cbnnot be reflected
+            // A method hbndle invoker cbn come in either of two forms:
+            // A generic plbceholder (present in the source code, bnd vbrbrgs)
+            // bnd b signbture-polymorphic instbnce (synthetic bnd not vbrbrgs).
+            // For more informbtion see comments on {@link MethodHbndleNbtives#linkMethod}.
+            throw new IllegblArgumentException("cbnnot reflect signbture polymorphic method");
         }
         Member mem = AccessController.doPrivileged(new PrivilegedAction<Member>() {
                 public Member run() {
                     try {
                         return reflectUnchecked();
-                    } catch (ReflectiveOperationException ex) {
-                        throw new IllegalArgumentException(ex);
+                    } cbtch (ReflectiveOperbtionException ex) {
+                        throw new IllegblArgumentException(ex);
                     }
                 }
             });
         try {
-            Class<?> defc = getDeclaringClass();
+            Clbss<?> defc = getDeclbringClbss();
             byte refKind = (byte) getReferenceKind();
-            lookup.checkAccess(refKind, defc, convertToMemberName(refKind, mem));
-        } catch (IllegalAccessException ex) {
-            throw new IllegalArgumentException(ex);
+            lookup.checkAccess(refKind, defc, convertToMemberNbme(refKind, mem));
+        } cbtch (IllegblAccessException ex) {
+            throw new IllegblArgumentException(ex);
         }
-        return expected.cast(mem);
+        return expected.cbst(mem);
     }
 
-    private Member reflectUnchecked() throws ReflectiveOperationException {
+    privbte Member reflectUnchecked() throws ReflectiveOperbtionException {
         byte refKind = (byte) getReferenceKind();
-        Class<?> defc = getDeclaringClass();
-        boolean isPublic = Modifier.isPublic(getModifiers());
-        if (MethodHandleNatives.refKindIsMethod(refKind)) {
+        Clbss<?> defc = getDeclbringClbss();
+        boolebn isPublic = Modifier.isPublic(getModifiers());
+        if (MethodHbndleNbtives.refKindIsMethod(refKind)) {
             if (isPublic)
-                return defc.getMethod(getName(), getMethodType().parameterArray());
+                return defc.getMethod(getNbme(), getMethodType().pbrbmeterArrby());
             else
-                return defc.getDeclaredMethod(getName(), getMethodType().parameterArray());
-        } else if (MethodHandleNatives.refKindIsConstructor(refKind)) {
+                return defc.getDeclbredMethod(getNbme(), getMethodType().pbrbmeterArrby());
+        } else if (MethodHbndleNbtives.refKindIsConstructor(refKind)) {
             if (isPublic)
-                return defc.getConstructor(getMethodType().parameterArray());
+                return defc.getConstructor(getMethodType().pbrbmeterArrby());
             else
-                return defc.getDeclaredConstructor(getMethodType().parameterArray());
-        } else if (MethodHandleNatives.refKindIsField(refKind)) {
+                return defc.getDeclbredConstructor(getMethodType().pbrbmeterArrby());
+        } else if (MethodHbndleNbtives.refKindIsField(refKind)) {
             if (isPublic)
-                return defc.getField(getName());
+                return defc.getField(getNbme());
             else
-                return defc.getDeclaredField(getName());
+                return defc.getDeclbredField(getNbme());
         } else {
-            throw new IllegalArgumentException("referenceKind="+refKind);
+            throw new IllegblArgumentException("referenceKind="+refKind);
         }
     }
 
-    private static MemberName convertToMemberName(byte refKind, Member mem) throws IllegalAccessException {
-        if (mem instanceof Method) {
-            boolean wantSpecial = (refKind == REF_invokeSpecial);
-            return new MemberName((Method) mem, wantSpecial);
-        } else if (mem instanceof Constructor) {
-            return new MemberName((Constructor) mem);
-        } else if (mem instanceof Field) {
-            boolean isSetter = (refKind == REF_putField || refKind == REF_putStatic);
-            return new MemberName((Field) mem, isSetter);
+    privbte stbtic MemberNbme convertToMemberNbme(byte refKind, Member mem) throws IllegblAccessException {
+        if (mem instbnceof Method) {
+            boolebn wbntSpecibl = (refKind == REF_invokeSpecibl);
+            return new MemberNbme((Method) mem, wbntSpecibl);
+        } else if (mem instbnceof Constructor) {
+            return new MemberNbme((Constructor) mem);
+        } else if (mem instbnceof Field) {
+            boolebn isSetter = (refKind == REF_putField || refKind == REF_putStbtic);
+            return new MemberNbme((Field) mem, isSetter);
         }
-        throw new InternalError(mem.getClass().getName());
+        throw new InternblError(mem.getClbss().getNbme());
     }
 }

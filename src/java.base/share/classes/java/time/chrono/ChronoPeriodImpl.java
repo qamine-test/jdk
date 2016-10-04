@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2013, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,104 +54,104 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectStrebmException;
+import jbvb.io.Seriblizbble;
+import jbvb.time.DbteTimeException;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
 /**
- * A period expressed in terms of a standard year-month-day calendar system.
+ * A period expressed in terms of b stbndbrd yebr-month-dby cblendbr system.
  * <p>
- * This class is used by applications seeking to handle dates in non-ISO calendar systems.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * This clbss is used by bpplicbtions seeking to hbndle dbtes in non-ISO cblendbr systems.
+ * For exbmple, the Jbpbnese, Minguo, Thbi Buddhist bnd others.
  *
  * @implSpec
- * This class is immutable nad thread-safe.
+ * This clbss is immutbble nbd threbd-sbfe.
  *
  * @since 1.8
  */
-final class ChronoPeriodImpl
-        implements ChronoPeriod, Serializable {
-    // this class is only used by JDK chronology implementations and makes assumptions based on that fact
+finbl clbss ChronoPeriodImpl
+        implements ChronoPeriod, Seriblizbble {
+    // this clbss is only used by JDK chronology implementbtions bnd mbkes bssumptions bbsed on thbt fbct
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 57387258289L;
+    privbte stbtic finbl long seriblVersionUID = 57387258289L;
 
     /**
      * The set of supported units.
      */
-    private static final List<TemporalUnit> SUPPORTED_UNITS =
-            Collections.unmodifiableList(Arrays.<TemporalUnit>asList(YEARS, MONTHS, DAYS));
+    privbte stbtic finbl List<TemporblUnit> SUPPORTED_UNITS =
+            Collections.unmodifibbleList(Arrbys.<TemporblUnit>bsList(YEARS, MONTHS, DAYS));
 
     /**
      * The chronology.
      */
-    private final Chronology chrono;
+    privbte finbl Chronology chrono;
     /**
-     * The number of years.
+     * The number of yebrs.
      */
-    final int years;
+    finbl int yebrs;
     /**
      * The number of months.
      */
-    final int months;
+    finbl int months;
     /**
-     * The number of days.
+     * The number of dbys.
      */
-    final int days;
+    finbl int dbys;
 
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      */
-    ChronoPeriodImpl(Chronology chrono, int years, int months, int days) {
+    ChronoPeriodImpl(Chronology chrono, int yebrs, int months, int dbys) {
         Objects.requireNonNull(chrono, "chrono");
         this.chrono = chrono;
-        this.years = years;
+        this.yebrs = yebrs;
         this.months = months;
-        this.days = days;
+        this.dbys = dbys;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public long get(TemporalUnit unit) {
+    public long get(TemporblUnit unit) {
         if (unit == ChronoUnit.YEARS) {
-            return years;
+            return yebrs;
         } else if (unit == ChronoUnit.MONTHS) {
             return months;
         } else if (unit == ChronoUnit.DAYS) {
-            return days;
+            return dbys;
         } else {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
     }
 
     @Override
-    public List<TemporalUnit> getUnits() {
+    public List<TemporblUnit> getUnits() {
         return ChronoPeriodImpl.SUPPORTED_UNITS;
     }
 
@@ -162,176 +162,176 @@ final class ChronoPeriodImpl
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isZero() {
-        return years == 0 && months == 0 && days == 0;
+    public boolebn isZero() {
+        return yebrs == 0 && months == 0 && dbys == 0;
     }
 
     @Override
-    public boolean isNegative() {
-        return years < 0 || months < 0 || days < 0;
+    public boolebn isNegbtive() {
+        return yebrs < 0 || months < 0 || dbys < 0;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoPeriod plus(TemporalAmount amountToAdd) {
-        ChronoPeriodImpl amount = validateAmount(amountToAdd);
+    public ChronoPeriod plus(TemporblAmount bmountToAdd) {
+        ChronoPeriodImpl bmount = vblidbteAmount(bmountToAdd);
         return new ChronoPeriodImpl(
                 chrono,
-                Math.addExact(years, amount.years),
-                Math.addExact(months, amount.months),
-                Math.addExact(days, amount.days));
+                Mbth.bddExbct(yebrs, bmount.yebrs),
+                Mbth.bddExbct(months, bmount.months),
+                Mbth.bddExbct(dbys, bmount.dbys));
     }
 
     @Override
-    public ChronoPeriod minus(TemporalAmount amountToSubtract) {
-        ChronoPeriodImpl amount = validateAmount(amountToSubtract);
+    public ChronoPeriod minus(TemporblAmount bmountToSubtrbct) {
+        ChronoPeriodImpl bmount = vblidbteAmount(bmountToSubtrbct);
         return new ChronoPeriodImpl(
                 chrono,
-                Math.subtractExact(years, amount.years),
-                Math.subtractExact(months, amount.months),
-                Math.subtractExact(days, amount.days));
+                Mbth.subtrbctExbct(yebrs, bmount.yebrs),
+                Mbth.subtrbctExbct(months, bmount.months),
+                Mbth.subtrbctExbct(dbys, bmount.dbys));
     }
 
     /**
-     * Obtains an instance of {@code ChronoPeriodImpl} from a temporal amount.
+     * Obtbins bn instbnce of {@code ChronoPeriodImpl} from b temporbl bmount.
      *
-     * @param amount  the temporal amount to convert, not null
+     * @pbrbm bmount  the temporbl bmount to convert, not null
      * @return the period, not null
      */
-    private ChronoPeriodImpl validateAmount(TemporalAmount amount) {
-        Objects.requireNonNull(amount, "amount");
-        if (amount instanceof ChronoPeriodImpl == false) {
-            throw new DateTimeException("Unable to obtain ChronoPeriod from TemporalAmount: " + amount.getClass());
+    privbte ChronoPeriodImpl vblidbteAmount(TemporblAmount bmount) {
+        Objects.requireNonNull(bmount, "bmount");
+        if (bmount instbnceof ChronoPeriodImpl == fblse) {
+            throw new DbteTimeException("Unbble to obtbin ChronoPeriod from TemporblAmount: " + bmount.getClbss());
         }
-        ChronoPeriodImpl period = (ChronoPeriodImpl) amount;
-        if (chrono.equals(period.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + period.getChronology().getId());
+        ChronoPeriodImpl period = (ChronoPeriodImpl) bmount;
+        if (chrono.equbls(period.getChronology()) == fblse) {
+            throw new ClbssCbstException("Chronology mismbtch, expected: " + chrono.getId() + ", bctubl: " + period.getChronology().getId());
         }
         return period;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoPeriod multipliedBy(int scalar) {
-        if (this.isZero() || scalar == 1) {
+    public ChronoPeriod multipliedBy(int scblbr) {
+        if (this.isZero() || scblbr == 1) {
             return this;
         }
         return new ChronoPeriodImpl(
                 chrono,
-                Math.multiplyExact(years, scalar),
-                Math.multiplyExact(months, scalar),
-                Math.multiplyExact(days, scalar));
+                Mbth.multiplyExbct(yebrs, scblbr),
+                Mbth.multiplyExbct(months, scblbr),
+                Mbth.multiplyExbct(dbys, scblbr));
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ChronoPeriod normalized() {
-        long monthRange = monthRange();
-        if (monthRange > 0) {
-            long totalMonths = years * monthRange + months;
-            long splitYears = totalMonths / monthRange;
-            int splitMonths = (int) (totalMonths % monthRange);  // no overflow
-            if (splitYears == years && splitMonths == months) {
+    public ChronoPeriod normblized() {
+        long monthRbnge = monthRbnge();
+        if (monthRbnge > 0) {
+            long totblMonths = yebrs * monthRbnge + months;
+            long splitYebrs = totblMonths / monthRbnge;
+            int splitMonths = (int) (totblMonths % monthRbnge);  // no overflow
+            if (splitYebrs == yebrs && splitMonths == months) {
                 return this;
             }
-            return new ChronoPeriodImpl(chrono, Math.toIntExact(splitYears), splitMonths, days);
+            return new ChronoPeriodImpl(chrono, Mbth.toIntExbct(splitYebrs), splitMonths, dbys);
 
         }
         return this;
     }
 
     /**
-     * Calculates the range of months.
+     * Cblculbtes the rbnge of months.
      *
-     * @return the month range, -1 if not fixed range
+     * @return the month rbnge, -1 if not fixed rbnge
      */
-    private long monthRange() {
-        ValueRange startRange = chrono.range(MONTH_OF_YEAR);
-        if (startRange.isFixed() && startRange.isIntValue()) {
-            return startRange.getMaximum() - startRange.getMinimum() + 1;
+    privbte long monthRbnge() {
+        VblueRbnge stbrtRbnge = chrono.rbnge(MONTH_OF_YEAR);
+        if (stbrtRbnge.isFixed() && stbrtRbnge.isIntVblue()) {
+            return stbrtRbnge.getMbximum() - stbrtRbnge.getMinimum() + 1;
         }
         return -1;
     }
 
     //-------------------------------------------------------------------------
     @Override
-    public Temporal addTo(Temporal temporal) {
-        validateChrono(temporal);
+    public Temporbl bddTo(Temporbl temporbl) {
+        vblidbteChrono(temporbl);
         if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.plus(years, YEARS);
+            if (yebrs != 0) {
+                temporbl = temporbl.plus(yebrs, YEARS);
             }
         } else {
-            long monthRange = monthRange();
-            if (monthRange > 0) {
-                temporal = temporal.plus(years * monthRange + months, MONTHS);
+            long monthRbnge = monthRbnge();
+            if (monthRbnge > 0) {
+                temporbl = temporbl.plus(yebrs * monthRbnge + months, MONTHS);
             } else {
-                if (years != 0) {
-                    temporal = temporal.plus(years, YEARS);
+                if (yebrs != 0) {
+                    temporbl = temporbl.plus(yebrs, YEARS);
                 }
-                temporal = temporal.plus(months, MONTHS);
+                temporbl = temporbl.plus(months, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.plus(days, DAYS);
+        if (dbys != 0) {
+            temporbl = temporbl.plus(dbys, DAYS);
         }
-        return temporal;
+        return temporbl;
     }
 
 
 
     @Override
-    public Temporal subtractFrom(Temporal temporal) {
-        validateChrono(temporal);
+    public Temporbl subtrbctFrom(Temporbl temporbl) {
+        vblidbteChrono(temporbl);
         if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.minus(years, YEARS);
+            if (yebrs != 0) {
+                temporbl = temporbl.minus(yebrs, YEARS);
             }
         } else {
-            long monthRange = monthRange();
-            if (monthRange > 0) {
-                temporal = temporal.minus(years * monthRange + months, MONTHS);
+            long monthRbnge = monthRbnge();
+            if (monthRbnge > 0) {
+                temporbl = temporbl.minus(yebrs * monthRbnge + months, MONTHS);
             } else {
-                if (years != 0) {
-                    temporal = temporal.minus(years, YEARS);
+                if (yebrs != 0) {
+                    temporbl = temporbl.minus(yebrs, YEARS);
                 }
-                temporal = temporal.minus(months, MONTHS);
+                temporbl = temporbl.minus(months, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.minus(days, DAYS);
+        if (dbys != 0) {
+            temporbl = temporbl.minus(dbys, DAYS);
         }
-        return temporal;
+        return temporbl;
     }
 
     /**
-     * Validates that the temporal has the correct chronology.
+     * Vblidbtes thbt the temporbl hbs the correct chronology.
      */
-    private void validateChrono(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
-        if (temporalChrono != null && chrono.equals(temporalChrono) == false) {
-            throw new DateTimeException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + temporalChrono.getId());
+    privbte void vblidbteChrono(TemporblAccessor temporbl) {
+        Objects.requireNonNull(temporbl, "temporbl");
+        Chronology temporblChrono = temporbl.query(TemporblQueries.chronology());
+        if (temporblChrono != null && chrono.equbls(temporblChrono) == fblse) {
+            throw new DbteTimeException("Chronology mismbtch, expected: " + chrono.getId() + ", bctubl: " + temporblChrono.getId());
         }
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ChronoPeriodImpl) {
+        if (obj instbnceof ChronoPeriodImpl) {
             ChronoPeriodImpl other = (ChronoPeriodImpl) obj;
-            return years == other.years && months == other.months &&
-                    days == other.days && chrono.equals(other.chrono);
+            return yebrs == other.yebrs && months == other.months &&
+                    dbys == other.dbys && chrono.equbls(other.chrono);
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        return (years + Integer.rotateLeft(months, 8) + Integer.rotateLeft(days, 16)) ^ chrono.hashCode();
+    public int hbshCode() {
+        return (yebrs + Integer.rotbteLeft(months, 8) + Integer.rotbteLeft(dbys, 16)) ^ chrono.hbshCode();
     }
 
     //-----------------------------------------------------------------------
@@ -341,15 +341,15 @@ final class ChronoPeriodImpl
             return getChronology().toString() + " P0D";
         } else {
             StringBuilder buf = new StringBuilder();
-            buf.append(getChronology().toString()).append(' ').append('P');
-            if (years != 0) {
-                buf.append(years).append('Y');
+            buf.bppend(getChronology().toString()).bppend(' ').bppend('P');
+            if (yebrs != 0) {
+                buf.bppend(yebrs).bppend('Y');
             }
             if (months != 0) {
-                buf.append(months).append('M');
+                buf.bppend(months).bppend('M');
             }
-            if (days != 0) {
-                buf.append(days).append('D');
+            if (dbys != 0) {
+                buf.bppend(dbys).bppend('D');
             }
             return buf.toString();
         }
@@ -357,45 +357,45 @@ final class ChronoPeriodImpl
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the Chronology using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
+     * Writes the Chronology using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
      * <pre>
-     *  out.writeByte(12);  // identifies this as a ChronoPeriodImpl
+     *  out.writeByte(12);  // identifies this bs b ChronoPeriodImpl
      *  out.writeUTF(getId());  // the chronology
-     *  out.writeInt(years);
+     *  out.writeInt(yebrs);
      *  out.writeInt(months);
-     *  out.writeInt(days);
+     *  out.writeInt(dbys);
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    protected Object writeReplace() {
+    protected Object writeReplbce() {
         return new Ser(Ser.CHRONO_PERIOD_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws ObjectStrebmException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
+    void writeExternbl(DbtbOutput out) throws IOException {
         out.writeUTF(chrono.getId());
-        out.writeInt(years);
+        out.writeInt(yebrs);
         out.writeInt(months);
-        out.writeInt(days);
+        out.writeInt(dbys);
     }
 
-    static ChronoPeriodImpl readExternal(DataInput in) throws IOException {
-        Chronology chrono = Chronology.of(in.readUTF());
-        int years = in.readInt();
-        int months = in.readInt();
-        int days = in.readInt();
-        return new ChronoPeriodImpl(chrono, years, months, days);
+    stbtic ChronoPeriodImpl rebdExternbl(DbtbInput in) throws IOException {
+        Chronology chrono = Chronology.of(in.rebdUTF());
+        int yebrs = in.rebdInt();
+        int months = in.rebdInt();
+        int dbys = in.rebdInt();
+        return new ChronoPeriodImpl(chrono, yebrs, months, dbys);
     }
 
 }

@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.Surrogate;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import sun.nio.cs.Surrogbte;
 
-public class GB18030
-    extends Charset
+public clbss GB18030
+    extends Chbrset
 {
-    private static final int GB18030_SINGLE_BYTE = 1;
-    private static final int GB18030_DOUBLE_BYTE = 2;
-    private static final int GB18030_FOUR_BYTE = 3;
+    privbte stbtic finbl int GB18030_SINGLE_BYTE = 1;
+    privbte stbtic finbl int GB18030_DOUBLE_BYTE = 2;
+    privbte stbtic finbl int GB18030_FOUR_BYTE = 3;
 
     public GB18030() {
-        super("GB18030", ExtendedCharsets.aliasesFor("GB18030"));
+        super("GB18030", ExtendedChbrsets.blibsesFor("GB18030"));
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs.name().equals("GBK"))
-                || (cs.name().equals("ISO-8859-1"))
-                || (cs.name().equals("ISO-8859-2"))
-                || (cs.name().equals("ISO-8859-3"))
-                || (cs.name().equals("ISO-8859-4"))
-                || (cs.name().equals("ISO-8859-5"))
-                || (cs.name().equals("ISO-8859-6"))
-                || (cs.name().equals("ISO-8859-7"))
-                || (cs.name().equals("ISO-8859-8"))
-                || (cs.name().equals("ISO-8859-9"))
-                || (cs.name().equals("ISO-8859-13"))
-                || (cs.name().equals("UTF-8"))
-                || (cs.name().equals("UTF-16"))
-                || (cs.name().equals("UTF-16LE"))
-                || (cs.name().equals("UTF-16BE"))
-                || (cs.name().equals("ISO-8859-15"))
-                || (cs.name().equals("windows-1251"))
-                || (cs.name().equals("windows-1252"))
-                || (cs.name().equals("windows-1253"))
-                || (cs.name().equals("windows-1254"))
-                || (cs.name().equals("windows-1255"))
-                || (cs.name().equals("windows-1256"))
-                || (cs.name().equals("windows-1257"))
-                || (cs.name().equals("windows-1258"))
-                || (cs.name().equals("windows-932"))
-                || (cs.name().equals("x-mswin-936"))
-                || (cs.name().equals("x-windows-949"))
-                || (cs.name().equals("x-windows-950"))
-                || (cs.name().equals("windows-31j"))
-                || (cs.name().equals("JIS_X0201"))
-                || (cs.name().equals("JIS_X0208-1990"))
-                || (cs.name().equals("JIS_X0212"))
-                || (cs.name().equals("Shift_JIS"))
-                || (cs.name().equals("GB2312"))
-                || (cs.name().equals("EUC-KR"))
-                || (cs.name().equals("x-EUC-TW"))
-                || (cs.name().equals("EUC-JP"))
-                || (cs.name().equals("euc-jp-linux"))
-                || (cs.name().equals("KOI8-R"))
-                || (cs.name().equals("TIS-620"))
-                || (cs.name().equals("x-ISCII91"))
-                || (cs.name().equals("Big5"))
-                || (cs.name().equals("Big5-HKSCS"))
-                || (cs.name().equals("x-MS950-HKSCS"))
-                || (cs.name().equals("ISO-2022-JP"))
-                || (cs.name().equals("ISO-2022-KR"))
-                || (cs.name().equals("x-ISO-2022-CN-CNS"))
-                || (cs.name().equals("x-ISO-2022-CN-GB"))
-                || (cs.name().equals("x-Johab"))
-                || (cs instanceof GB18030));
+    public boolebn contbins(Chbrset cs) {
+        return ((cs.nbme().equbls("US-ASCII"))
+                || (cs.nbme().equbls("GBK"))
+                || (cs.nbme().equbls("ISO-8859-1"))
+                || (cs.nbme().equbls("ISO-8859-2"))
+                || (cs.nbme().equbls("ISO-8859-3"))
+                || (cs.nbme().equbls("ISO-8859-4"))
+                || (cs.nbme().equbls("ISO-8859-5"))
+                || (cs.nbme().equbls("ISO-8859-6"))
+                || (cs.nbme().equbls("ISO-8859-7"))
+                || (cs.nbme().equbls("ISO-8859-8"))
+                || (cs.nbme().equbls("ISO-8859-9"))
+                || (cs.nbme().equbls("ISO-8859-13"))
+                || (cs.nbme().equbls("UTF-8"))
+                || (cs.nbme().equbls("UTF-16"))
+                || (cs.nbme().equbls("UTF-16LE"))
+                || (cs.nbme().equbls("UTF-16BE"))
+                || (cs.nbme().equbls("ISO-8859-15"))
+                || (cs.nbme().equbls("windows-1251"))
+                || (cs.nbme().equbls("windows-1252"))
+                || (cs.nbme().equbls("windows-1253"))
+                || (cs.nbme().equbls("windows-1254"))
+                || (cs.nbme().equbls("windows-1255"))
+                || (cs.nbme().equbls("windows-1256"))
+                || (cs.nbme().equbls("windows-1257"))
+                || (cs.nbme().equbls("windows-1258"))
+                || (cs.nbme().equbls("windows-932"))
+                || (cs.nbme().equbls("x-mswin-936"))
+                || (cs.nbme().equbls("x-windows-949"))
+                || (cs.nbme().equbls("x-windows-950"))
+                || (cs.nbme().equbls("windows-31j"))
+                || (cs.nbme().equbls("JIS_X0201"))
+                || (cs.nbme().equbls("JIS_X0208-1990"))
+                || (cs.nbme().equbls("JIS_X0212"))
+                || (cs.nbme().equbls("Shift_JIS"))
+                || (cs.nbme().equbls("GB2312"))
+                || (cs.nbme().equbls("EUC-KR"))
+                || (cs.nbme().equbls("x-EUC-TW"))
+                || (cs.nbme().equbls("EUC-JP"))
+                || (cs.nbme().equbls("euc-jp-linux"))
+                || (cs.nbme().equbls("KOI8-R"))
+                || (cs.nbme().equbls("TIS-620"))
+                || (cs.nbme().equbls("x-ISCII91"))
+                || (cs.nbme().equbls("Big5"))
+                || (cs.nbme().equbls("Big5-HKSCS"))
+                || (cs.nbme().equbls("x-MS950-HKSCS"))
+                || (cs.nbme().equbls("ISO-2022-JP"))
+                || (cs.nbme().equbls("ISO-2022-KR"))
+                || (cs.nbme().equbls("x-ISO-2022-CN-CNS"))
+                || (cs.nbme().equbls("x-ISO-2022-CN-GB"))
+                || (cs.nbme().equbls("x-Johbb"))
+                || (cs instbnceof GB18030));
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    private final static String innerDecoderIndex0=
+    privbte finbl stbtic String innerDecoderIndex0=
         "\u0080"+
         "\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088"+
         "\u0089\u008A\u008B\u008C\u008D\u008E\u008F\u0090"+
@@ -624,7 +624,7 @@ public class GB18030
         "\u110E\u110F\u1110\u1111\u1112\u1113\u1114\u1115"+
         "\u1116\u1117\u1118\u1119\u111A\u111B\u111C\u111D";
 
-    private final static String innerDecoderIndex1=
+    privbte finbl stbtic String innerDecoderIndex1=
         "\u111E\u111F\u1120\u1121\u1122\u1123\u1124\u1125"+
         "\u1126\u1127\u1128\u1129\u112A\u112B\u112C\u112D"+
         "\u112E\u112F\u1130\u1131\u1132\u1133\u1134\u1135"+
@@ -1138,7 +1138,7 @@ public class GB18030
         "\u2124\u2125\u2126\u2127\u2128\u2129\u212A\u212B"+
         "\u212C\u212D\u212E\u212F\u2130\u2131\u2132\u2133";
 
-    private final static String innerDecoderIndex2=
+    privbte finbl stbtic String innerDecoderIndex2=
         "\u2134\u2135\u2136\u2137\u2138\u2139\u213A\u213B"+
         "\u213C\u213D\u213E\u213F\u2140\u2141\u2142\u2143"+
         "\u2144\u2145\u2146\u2147\u2148\u2149\u214A\u214B"+
@@ -1652,7 +1652,7 @@ public class GB18030
         "\u334E\u334F\u3350\u3351\u3352\u3353\u3354\u3355"+
         "\u3356\u3357\u3358\u3359\u335A\u335B\u335C\u335D";
 
-    private final static String innerDecoderIndex3=
+    privbte finbl stbtic String innerDecoderIndex3=
         "\u335E\u335F\u3360\u3361\u3362\u3363\u3364\u3365"+
         "\u3366\u3367\u3368\u3369\u336A\u336B\u336C\u336D"+
         "\u336E\u336F\u3370\u3371\u3372\u3373\u3374\u3375"+
@@ -2166,7 +2166,7 @@ public class GB18030
         "\u436A\u436B\u436C\u436D\u436E\u436F\u4370\u4371"+
         "\u4372\u4373\u4374\u4375\u4376\u4377\u4378\u4379";
 
-    private final static String innerDecoderIndex4=
+    privbte finbl stbtic String innerDecoderIndex4=
         "\u437A\u437B\u437C\u437D\u437E\u437F\u4380\u4381"+
         "\u4382\u4383\u4384\u4385\u4386\u4387\u4388\u4389"+
         "\u438A\u438B\u438C\u438D\u438E\u438F\u4390\u4391"+
@@ -2680,7 +2680,7 @@ public class GB18030
         "\uFB5C\uFB5D\uFB5E\uFB5F\uFB60\uFB61\uFB62\uFB63"+
         "\uFB64\uFB65\uFB66\uFB67\uFB68\uFB69\uFB6A\uFB6B";
 
-    private final static String innerDecoderIndex5=
+    privbte finbl stbtic String innerDecoderIndex5=
         "\uFB6C\uFB6D\uFB6E\uFB6F\uFB70\uFB71\uFB72\uFB73"+
         "\uFB74\uFB75\uFB76\uFB77\uFB78\uFB79\uFB7A\uFB7B"+
         "\uFB7C\uFB7D\uFB7E\uFB7F\uFB80\uFB81\uFB82\uFB83"+
@@ -2810,7 +2810,7 @@ public class GB18030
         "\uFFF4\uFFF5\uFFF6\uFFF7\uFFF8\uFFF9\uFFFA\uFFFB"+
         "\uFFFC\uFFFD\uFFFE\uFFFF\uFFFD\uFFFD\uFFFD\uFFFD";
 
-    private final static short decoderIndex1[] = {
+    privbte finbl stbtic short decoderIndex1[] = {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
         16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
         32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
@@ -2829,7 +2829,7 @@ public class GB18030
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    static String decoderIndex2[] = {
+    stbtic String decoderIndex2[] = {
         innerDecoderIndex0,
         innerDecoderIndex1,
         innerDecoderIndex2,
@@ -2841,7 +2841,7 @@ public class GB18030
 /*
  *
  */
-    private final static String innerIndex0=
+    privbte finbl stbtic String innerIndex0=
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
@@ -3225,7 +3225,7 @@ public class GB18030
         "\u5FE5\u5FE6\u5FE8\u5FE9\u5FEC\u5FEF\u5FF0\u5FF2"+
         "\u5FF3\u5FF4\u5FF6\u5FF7\u5FF9\u5FFA\u5FFC\u6007";
 
-    private final static String innerIndex1=
+    privbte finbl stbtic String innerIndex1=
         "\u6008\u6009\u600B\u600C\u6010\u6011\u6013\u6017"+
         "\u6018\u601A\u601E\u601F\u6022\u6023\u6024\u602C"+
         "\u602D\u602E\u6030\u6031\u6032\u6033\u6034\u6036"+
@@ -3609,7 +3609,7 @@ public class GB18030
         "\u71C2\u71C4\u71C5\u71C6\u71C7\u71C8\u71C9\u71CA"+
         "\u71CB\u71CC\u71CD\u71CF\u71D0\u71D1\u71D2\u71D3";
 
-    private final static String innerIndex2=
+    privbte finbl stbtic String innerIndex2=
         "\u71D6\u71D7\u71D8\u71D9\u71DA\u71DB\u71DC\u71DD"+
         "\u71DE\u71DF\u71E1\u71E2\u71E3\u71E4\u71E6\u71E8"+
         "\u71E9\u71EA\u71EB\u71EC\u71ED\u71EF\u71F0\u71F1"+
@@ -3993,7 +3993,7 @@ public class GB18030
         "\uE224\uE225\uE226\uE227\uE228\uE229\uE22A\uE22B"+
         "\uE22C\uE22D\uE22E\uE22F\uE230\uE231\uE232\uE233";
 
-    private final static String innerIndex3=
+    privbte finbl stbtic String innerIndex3=
         "\u7645\u7646\u7647\u7648\u7649\u764A\u764B\u764E"+
         "\u764F\u7650\u7651\u7652\u7653\u7655\u7657\u7658"+
         "\u7659\u765A\u765B\u765D\u765F\u7660\u7661\u7662"+
@@ -4377,7 +4377,7 @@ public class GB18030
         "\u5321\u7B50\u72C2\u6846\u77FF\u7736\u65F7\u51B5"+
         "\u4E8F\u76D4\u5CBF\u7AA5\u8475\u594E\u9B41\u5080";
 
-    private final static String innerIndex4=
+    privbte finbl stbtic String innerIndex4=
         "\u7E5E\u7E5F\u7E60\u7E61\u7E62\u7E63\u7E64\u7E65"+
         "\u7E66\u7E67\u7E68\u7E69\u7E6A\u7E6B\u7E6C\u7E6D"+
         "\u7E6E\u7E6F\u7E70\u7E71\u7E72\u7E73\u7E74\u7E75"+
@@ -4761,7 +4761,7 @@ public class GB18030
         "\u5DF7\u6A61\u50CF\u5411\u8C61\u8427\u785D\u9704"+
         "\u524A\u54EE\u56A3\u9500\u6D88\u5BB5\u6DC6\u6653";
 
-    private final static String innerIndex5=
+    privbte finbl stbtic String innerIndex5=
         "\u8824\u8825\u8826\u8827\u8828\u8829\u882A\u882B"+
         "\u882C\u882D\u882E\u882F\u8830\u8831\u8833\u8834"+
         "\u8835\u8836\u8837\u8838\u883A\u883B\u883D\u883E"+
@@ -5145,7 +5145,7 @@ public class GB18030
         "\u5522\u5523\u550F\u5511\u5527\u552A\u5567\u558F"+
         "\u55B5\u5549\u556D\u5541\u5555\u553F\u5550\u553C";
 
-    private final static String innerIndex6=
+    privbte finbl stbtic String innerIndex6=
         "\u90C2\u90C3\u90C6\u90C8\u90C9\u90CB\u90CC\u90CD"+
         "\u90D2\u90D4\u90D5\u90D6\u90D8\u90D9\u90DA\u90DE"+
         "\u90DF\u90E0\u90E3\u90E4\u90E5\u90E9\u90EA\u90EC"+
@@ -5529,7 +5529,7 @@ public class GB18030
         "\u9572\u9573\u953A\u77E7\u77EC\u96C9\u79D5\u79ED"+
         "\u79E3\u79EB\u7A06\u5D47\u7A03\u7A02\u7A1E\u7A14";
 
-    private final static String innerIndex7=
+    privbte finbl stbtic String innerIndex7=
         "\u9908\u9909\u990A\u990B\u990C\u990E\u990F\u9911"+
         "\u9912\u9913\u9914\u9915\u9916\u9917\u9918\u9919"+
         "\u991A\u991B\u991C\u991D\u991E\u991F\u9920\u9921"+
@@ -5890,7 +5890,7 @@ public class GB18030
         "\uE4BD\uE4BE\uE4BF\uE4C0\uE4C1\uE4C2\uE4C3\uE4C4"+
         "\uE4C5";
 
-    final static short index1[] = {
+    finbl stbtic short index1[] = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -5909,7 +5909,7 @@ public class GB18030
         112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 0
     };
 
-    static String index2[] = {
+    stbtic String index2[] = {
         innerIndex0,
         innerIndex1,
         innerIndex2,
@@ -5924,7 +5924,7 @@ public class GB18030
 
 
 
-    private final static String innerEncoderIndex0=
+    privbte finbl stbtic String innerEncoderIndex0=
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
         "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"+
@@ -6438,7 +6438,7 @@ public class GB18030
         "\u2ED2\u2ED3\u2ED4\u2ED5\u2ED6\u2ED7\u2ED8\u2ED9"+
         "\u2EDA\u2EDB\u2EDC\u2EDD\u2EDE\u2EDF\u2EE0\u2EE1";
 
-    private final static String innerEncoderIndex1=
+    privbte finbl stbtic String innerEncoderIndex1=
         "\u2EE2\u2EE3\u2EE4\u2EE5\u2EE6\u2EE7\u2EE8\u2EE9"+
         "\u2EEA\u2EEB\u2EEC\u2EED\u2EEE\u2EEF\u2EF0\u2EF1"+
         "\u2EF2\u2EF3\u2EF4\u2EF5\u2EF6\u2EF7\u2EF8\u2EF9"+
@@ -6952,7 +6952,7 @@ public class GB18030
         "\u3ED2\u3ED3\u3ED4\u3ED5\u3ED6\u3ED7\u3ED8\u3ED9"+
         "\u3EDA\u3EDB\u3EDC\u3EDD\u3EDE\u3EDF\u3EE0\u3EE1";
 
-    private final static String innerEncoderIndex2=
+    privbte finbl stbtic String innerEncoderIndex2=
         "\u3EE2\u3EE3\u3EE4\u3EE5\u3EE6\u3EE7\u3EE8\u3EE9"+
         "\u3EEA\u3EEB\u3EEC\u3EED\u3EEE\u3EEF\u3EF0\u3EF1"+
         "\uA95C\u3EF2\u3EF3\uA843\uA1AA\uA844\uA1AC\u3EF4"+
@@ -7466,7 +7466,7 @@ public class GB18030
         "\uA98A\uA98B\uA98C\uA98D\uA98E\uA98F\uA990\uA991"+
         "\uA992\uA993\uA994\uA995\u4DA2\u4DA3\u4DA4\u4DA5";
 
-    private final static String innerEncoderIndex3=
+    privbte finbl stbtic String innerEncoderIndex3=
         "\uA1A1\uA1A2\uA1A3\uA1A8\u4DA6\uA1A9\uA965\uA996"+
         "\uA1B4\uA1B5\uA1B6\uA1B7\uA1B8\uA1B9\uA1BA\uA1BB"+
         "\uA1BE\uA1BF\uA893\uA1FE\uA1B2\uA1B3\uA1BC\uA1BD"+
@@ -7980,7 +7980,7 @@ public class GB18030
         "\u5C79\u5C7A\u5C7B\u5C7C\u5C7D\u5C7E\u5C7F\u5C80"+
         "\u5C81\u5C82\u5C83\u5C84\u5C85\u5C86\u5C87\u5C88";
 
-    private final static String innerEncoderIndex4=
+    privbte finbl stbtic String innerEncoderIndex4=
         "\u5C89\u5C8A\u5C8B\u5C8C\u5C8D\u5C8E\u5C8F\u5C90"+
         "\u5C91\u5C92\u5C93\u5C94\u5C95\u5C96\u5C97\u5C98"+
         "\u5C99\u5C9A\u5C9B\u5C9C\u5C9D\u5C9E\u5C9F\u5CA0"+
@@ -8494,7 +8494,7 @@ public class GB18030
         "\u8269\uBEE3\u826A\uD9BD\u826B\u826C\u826D\u826E"+
         "\uD9BA\u826F\uB0B3\u8270\u8271\u8272\uD9C2\u8273";
 
-    private final static String innerEncoderIndex5=
+    privbte finbl stbtic String innerEncoderIndex5=
         "\u8274\u8275\u8276\u8277\u8278\u8279\u827A\u827B"+
         "\u827C\u827D\u827E\u8280\uD9C4\uB1B6\u8281\uD9BF"+
         "\u8282\u8283\uB5B9\u8284\uBEF3\u8285\u8286\u8287"+
@@ -9008,7 +9008,7 @@ public class GB18030
         "\u8FF5\uB3C0\u8FF6\u8FF7\u8FF8\uC4EE\u8FF9\u8FFA"+
         "\uE2EE\u8FFB\u8FFC\uD0C3\u8FFD\uBAF6\uE2E9\uB7DE";
 
-    private final static String innerEncoderIndex6=
+    privbte finbl stbtic String innerEncoderIndex6=
         "\uBBB3\uCCAC\uCBCB\uE2E4\uE2E6\uE2EA\uE2EB\u8FFE"+
         "\u9040\u9041\uE2F7\u9042\u9043\uE2F4\uD4F5\uE2F3"+
         "\u9044\u9045\uC5AD\u9046\uD5FA\uC5C2\uB2C0\u9047"+
@@ -9522,7 +9522,7 @@ public class GB18030
         "\u9E48\u9E49\u9E4A\u9E4B\u9E4C\u9E4D\u9E4E\u9E4F"+
         "\u9E50\u9E51\u9E52\u9E53\u9E54\u9E55\u9E56\u9E57";
 
-    private final static String innerEncoderIndex7=
+    privbte finbl stbtic String innerEncoderIndex7=
         "\u9E58\u9E59\u9E5A\u9E5B\u9E5C\u9E5D\u9E5E\u9E5F"+
         "\u9E60\u9E61\u9E62\u9E63\u9E64\u9E65\u9E66\u9E67"+
         "\u9E68\uC6D9\u9E69\u9E6A\u9E6B\u9E6C\u9E6D\u9E6E"+
@@ -10036,7 +10036,7 @@ public class GB18030
         "\uBAB2\uB0BF\uC248\uF4E8\uC249\uC24A\uC24B\uC24C"+
         "\uC24D\uC24E\uC24F\uB7AD\uD2ED\uC250\uC251\uC252";
 
-    private final static String innerEncoderIndex8=
+    privbte finbl stbtic String innerEncoderIndex8=
         "\uD2AB\uC0CF\uC253\uBFBC\uEBA3\uD5DF\uEAC8\uC254"+
         "\uC255\uC256\uC257\uF1F3\uB6F8\uCBA3\uC258\uC259"+
         "\uC4CD\uC25A\uF1E7\uC25B\uF1E8\uB8FB\uF1E9\uBAC4"+
@@ -10550,7 +10550,7 @@ public class GB18030
         "\uCAF6\uDE90\uDE91\uE5C9\uDE92\uDE93\uDE94\uC3D4"+
         "\uB1C5\uBCA3\uDE95\uDE96\uDE97\uD7B7\uDE98\uDE99";
 
-    private final static String innerEncoderIndex9=
+    privbte finbl stbtic String innerEncoderIndex9=
         "\uCDCB\uCBCD\uCACA\uCCD3\uE5CC\uE5CB\uC4E6\uDE9A"+
         "\uDE9B\uD1A1\uD1B7\uE5CD\uDE9C\uE5D0\uDE9D\uCDB8"+
         "\uD6F0\uE5CF\uB5DD\uDE9E\uCDBE\uDE9F\uE5D1\uB6BA"+
@@ -11064,7 +11064,7 @@ public class GB18030
         "\u6AAD\u6AAE\u6AAF\u6AB0\u6AB1\u6AB2\u6AB3\u6AB4"+
         "\u6AB5\u6AB6\u6AB7\u6AB8\u6AB9\u6ABA\u6ABB\u6ABC";
 
-    private final static String innerEncoderIndex10=
+    privbte finbl stbtic String innerEncoderIndex10=
         "\u6ABD\u6ABE\u6ABF\u6AC0\u6AC1\u6AC2\u6AC3\u6AC4"+
         "\u6AC5\u6AC6\u6AC7\u6AC8\u6AC9\u6ACA\u6ACB\u6ACC"+
         "\u6ACD\u6ACE\u6ACF\u6AD0\u6AD1\u6AD2\u6AD3\u6AD4"+
@@ -11578,7 +11578,7 @@ public class GB18030
         "\u22DC\u22DD\u22DE\u22DF\u22E0\u22E1\u22E2\u22E3"+
         "\u22E4\u22E5\u22E6\u22E7\u22E8\u22E9\u22EA\u22EB";
 
-    private final static String innerEncoderIndex11=
+    privbte finbl stbtic String innerEncoderIndex11=
         "\u22EC\u22ED\u22EE\u22EF\u22F0\u22F1\u22F2\u22F3"+
         "\u22F4\u22F5\u22F6\u22F7\u22F8\u22F9\u22FA\u22FB"+
         "\u22FC\u22FD\u22FE\u22FF\u2300\u2301\u2302\u2303"+
@@ -12092,7 +12092,7 @@ public class GB18030
         "\u21DB\u21DC\u21DD\u21DE\u21DF\u21E0\u21E1\u21E2"+
         "\u21E3\u21E4\u21E5\u21E6\u21E7\u21E8\u21E9\u21EA";
 
-    private final static String innerEncoderIndex12=
+    privbte finbl stbtic String innerEncoderIndex12=
         "\u21EB\u21EC\u21ED\u21EE\u21EF\u21F0\u21F1\u21F2"+
         "\u21F3\u21F4\u21F5\u21F6\u21F7\u21F8\u21F9\u21FA"+
         "\u21FB\u21FC\u21FD\u21FE\u21FF\u2200\u2201\u2202"+
@@ -12254,7 +12254,7 @@ public class GB18030
         "\u2643\u2644\u2645\u2646\u2647\u2648\u2649\u264A"+
         "\u264B\u264C\u264D\u264E\u264F\u2650\u2651\u2652";
 
-    private final static short encoderIndex1[] = {
+    privbte finbl stbtic short encoderIndex1[] = {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
         16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
         32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
@@ -12273,7 +12273,7 @@ public class GB18030
         181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196
     };
 
-    static String encoderIndex2[] = {
+    stbtic String encoderIndex2[] = {
         innerEncoderIndex0,
         innerEncoderIndex1,
         innerEncoderIndex2,
@@ -12288,56 +12288,56 @@ public class GB18030
         innerEncoderIndex11,
         innerEncoderIndex12
     };
-    private static class Decoder extends CharsetDecoder {
+    privbte stbtic clbss Decoder extends ChbrsetDecoder {
 
-        private static final char REPLACE_CHAR = '\uFFFD';
-        private int currentState = GB18030_DOUBLE_BYTE;
+        privbte stbtic finbl chbr REPLACE_CHAR = '\uFFFD';
+        privbte int currentStbte = GB18030_DOUBLE_BYTE;
 
-        private Decoder(Charset cs) {
+        privbte Decoder(Chbrset cs) {
             super(cs, 1.0f, 2.0f);
         }
 
-        private char getChar(int offset) {
+        privbte chbr getChbr(int offset) {
             int byte1 = (offset >>8) & 0xFF;
             int byte2 = (offset & 0xFF);
-            int start = 0, end = 0xFF;
+            int stbrt = 0, end = 0xFF;
 
             if (((byte1 < 0) || (byte1 > decoderIndex1.length))
-                 || ((byte2 < start) || (byte2 > end))) {
+                 || ((byte2 < stbrt) || (byte2 > end))) {
                        return REPLACE_CHAR;
             }
 
-            int n = (decoderIndex1[byte1] & 0xf) * (end - start + 1) + (byte2 - start);
-            return decoderIndex2[decoderIndex1[byte1] >> 4].charAt(n);
+            int n = (decoderIndex1[byte1] & 0xf) * (end - stbrt + 1) + (byte2 - stbrt);
+            return decoderIndex2[decoderIndex1[byte1] >> 4].chbrAt(n);
         }
 
-        protected char decodeDouble(int byte1, int byte2) {
-            int start = 0x40, end = 0xFE;
+        protected chbr decodeDouble(int byte1, int byte2) {
+            int stbrt = 0x40, end = 0xFE;
             if (((byte1 < 0) || (byte1 > index1.length))
-                || ((byte2 < start) || (byte2 > end)))
+                || ((byte2 < stbrt) || (byte2 > end)))
                 return '\uFFFD';
 
-            int n = (index1[byte1] & 0xf) * (end - start + 1) + (byte2 - start);
-            return index2[index1[byte1] >> 4].charAt(n);
+            int n = (index1[byte1] & 0xf) * (end - stbrt + 1) + (byte2 - stbrt);
+            return index2[index1[byte1] >> 4].chbrAt(n);
         }
 
         protected void implReset() {
-            currentState = GB18030_DOUBLE_BYTE;
+            currentStbte = GB18030_DOUBLE_BYTE;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int inputSize = 1;
@@ -12346,283 +12346,283 @@ public class GB18030
                 while (sp < sl) {
                     int byte1 = 0 , byte2 = 0, byte3 = 0, byte4 = 0;
                     // Get the input byte
-                    byte1 = sa[sp] & 0xFF;
+                    byte1 = sb[sp] & 0xFF;
                     inputSize = 1;
 
-                    if ((byte1 & (byte)0x80) == 0){ // US-ASCII range
-                        currentState = GB18030_SINGLE_BYTE;
+                    if ((byte1 & (byte)0x80) == 0){ // US-ASCII rbnge
+                        currentStbte = GB18030_SINGLE_BYTE;
                     }
                     else if (byte1 < 0x81 || byte1 > 0xfe) {
-                        return CoderResult.malformedForLength(1);
+                        return CoderResult.mblformedForLength(1);
                     }
                     else { // Either 2 or 4 byte sequence follows
                         if ( sl - sp < 2 )
                             return CoderResult.UNDERFLOW;
-                        byte2 = sa[sp + 1] & 0xFF;
+                        byte2 = sb[sp + 1] & 0xFF;
                         inputSize = 2;
 
                         if (byte2 < 0x30)
-                                return CoderResult.malformedForLength(1);
+                                return CoderResult.mblformedForLength(1);
                         else if (byte2 >= 0x30 && byte2 <= 0x39) {
-                            currentState = GB18030_FOUR_BYTE;
+                            currentStbte = GB18030_FOUR_BYTE;
 
                             if (sl - sp < 4)
                                 return CoderResult.UNDERFLOW;
 
-                            byte3 = sa[sp + 2] & 0xFF;
+                            byte3 = sb[sp + 2] & 0xFF;
                             if (byte3 < 0x81 || byte3 > 0xfe)
-                                return CoderResult.malformedForLength(3);
+                                return CoderResult.mblformedForLength(3);
 
-                            byte4 = sa[sp + 3] & 0xFF;
+                            byte4 = sb[sp + 3] & 0xFF;
                             inputSize = 4;
 
                             if (byte4 < 0x30 || byte4 > 0x39)
-                                return CoderResult.malformedForLength(4);
+                                return CoderResult.mblformedForLength(4);
                         }
                         else if (byte2 == 0x7f || byte2 == 0xff ||
                                 (byte2 < 0x40 )) {
-                           return CoderResult.malformedForLength(2);
+                           return CoderResult.mblformedForLength(2);
                         }
                         else
-                            currentState = GB18030_DOUBLE_BYTE;
+                            currentStbte = GB18030_DOUBLE_BYTE;
                     }
 
                     if (dl - dp < 1)
                         return CoderResult.OVERFLOW;
-                    switch (currentState){
-                        case GB18030_SINGLE_BYTE:
-                            da[dp++] = (char)byte1;
-                            break;
-                        case GB18030_DOUBLE_BYTE:
-                            da[dp++] = decodeDouble(byte1, byte2);
-                            break;
-                        case GB18030_FOUR_BYTE:
+                    switch (currentStbte){
+                        cbse GB18030_SINGLE_BYTE:
+                            db[dp++] = (chbr)byte1;
+                            brebk;
+                        cbse GB18030_DOUBLE_BYTE:
+                            db[dp++] = decodeDouble(byte1, byte2);
+                            brebk;
+                        cbse GB18030_FOUR_BYTE:
                             int offset = (((byte1 - 0x81) * 10 +
                                            (byte2 - 0x30)) * 126 +
                                             byte3 - 0x81) * 10 + byte4 - 0x30;
                             int hiByte = (offset >>8) & 0xFF;
                             int lowByte = (offset & 0xFF);
 
-                        // Mixture of table lookups and algorithmic calculation
-                        // of character values.
+                        // Mixture of tbble lookups bnd blgorithmic cblculbtion
+                        // of chbrbcter vblues.
 
-                        // BMP Ranges
+                        // BMP Rbnges
                         if (offset <= 0x4A62)
-                            da[dp++] = getChar(offset);
+                            db[dp++] = getChbr(offset);
                         else if (offset > 0x4A62 && offset <= 0x82BC)
-                            da[dp++] = (char)(offset + 0x5543);
+                            db[dp++] = (chbr)(offset + 0x5543);
                         else if (offset >= 0x82BD && offset <= 0x830D)
-                            da[dp++] = getChar(offset);
+                            db[dp++] = getChbr(offset);
                         else if (offset >= 0x830D && offset <= 0x93A8)
-                            da[dp++] = (char)(offset + 0x6557);
+                            db[dp++] = (chbr)(offset + 0x6557);
                         else if (offset >= 0x93A9 && offset <= 0x99FB)
-                            da[dp++] = getChar(offset);
-                        // Supplemental UCS planes handled via surrogates
+                            db[dp++] = getChbr(offset);
+                        // Supplementbl UCS plbnes hbndled vib surrogbtes
                         else if (offset >= 0x2E248 && offset < 0x12E248) {
                             if (offset >= 0x12E248)
-                                return CoderResult.malformedForLength(4);
+                                return CoderResult.mblformedForLength(4);
                             offset -= 0x1e248;
                             if ( dl - dp < 2)
                                 return CoderResult.OVERFLOW;
-                            // emit high + low surrogate
-                            da[dp++] = (char)((offset - 0x10000) / 0x400 + 0xD800);
-                            da[dp++] = (char)((offset - 0x10000) % 0x400 + 0xDC00);
+                            // emit high + low surrogbte
+                            db[dp++] = (chbr)((offset - 0x10000) / 0x400 + 0xD800);
+                            db[dp++] = (chbr)((offset - 0x10000) % 0x400 + 0xDC00);
                         }
                         else
-                            return CoderResult.malformedForLength(inputSize);
-                        break;
+                            return CoderResult.mblformedForLength(inputSize);
+                        brebk;
                       }
                       sp += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeBufferLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
 
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     int byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0;
                     byte1 = src.get() & 0xFF;
                     int inputSize = 1;
 
-                    if ((byte1 & (byte)0x80) == 0){ // US-ASCII range
-                        currentState = GB18030_SINGLE_BYTE;
+                    if ((byte1 & (byte)0x80) == 0){ // US-ASCII rbnge
+                        currentStbte = GB18030_SINGLE_BYTE;
                     }
                     else if (byte1 < 0x81 || byte1 > 0xfe) {
-                        return CoderResult.malformedForLength(1);
+                        return CoderResult.mblformedForLength(1);
                     }
                     else { // Either 2 or 4 byte sequence follows
-                        if ( src.remaining() < 1 )
+                        if ( src.rembining() < 1 )
                             return CoderResult.UNDERFLOW;
                         byte2 = src.get() & 0xFF;
                         inputSize = 2;
 
                         if (byte2 < 0x30)
-                                return CoderResult.malformedForLength(1);
+                                return CoderResult.mblformedForLength(1);
                         else if (byte2 >= 0x30 && byte2 <= 0x39) {
-                            currentState = GB18030_FOUR_BYTE;
+                            currentStbte = GB18030_FOUR_BYTE;
 
-                            if (src.remaining() < 2)
+                            if (src.rembining() < 2)
                                 return CoderResult.UNDERFLOW;
 
                             byte3 = src.get() & 0xFF;
                             if (byte3 < 0x81 || byte3 > 0xfe)
-                                return CoderResult.malformedForLength(3);
+                                return CoderResult.mblformedForLength(3);
 
                             byte4 = src.get() & 0xFF;
                             inputSize = 4;
 
                             if (byte4 < 0x30 || byte4 > 0x39)
-                                return CoderResult.malformedForLength(4);
+                                return CoderResult.mblformedForLength(4);
                         }
                         else if (byte2 == 0x7f || byte2 == 0xff ||
                                 (byte2 < 0x40 )) {
-                           return CoderResult.malformedForLength(2);
+                           return CoderResult.mblformedForLength(2);
                         }
                         else
-                            currentState = GB18030_DOUBLE_BYTE;
+                            currentStbte = GB18030_DOUBLE_BYTE;
                     }
 
-                    if (dst.remaining() < 1)
+                    if (dst.rembining() < 1)
                         return CoderResult.OVERFLOW;
-                    switch (currentState){
-                        case GB18030_SINGLE_BYTE:
-                            dst.put((char)byte1);
-                            break;
-                        case GB18030_DOUBLE_BYTE:
+                    switch (currentStbte){
+                        cbse GB18030_SINGLE_BYTE:
+                            dst.put((chbr)byte1);
+                            brebk;
+                        cbse GB18030_DOUBLE_BYTE:
                             dst.put(decodeDouble(byte1, byte2));
-                            break;
-                        case GB18030_FOUR_BYTE:
+                            brebk;
+                        cbse GB18030_FOUR_BYTE:
                             int offset = (((byte1 - 0x81) * 10 +
                                            (byte2 - 0x30)) * 126 +
                                             byte3 - 0x81) * 10 + byte4 - 0x30;
                             int hiByte = (offset >>8) & 0xFF;
                             int lowByte = (offset & 0xFF);
 
-                        // Mixture of table lookups and algorithmic calculation
-                        // of character values.
+                        // Mixture of tbble lookups bnd blgorithmic cblculbtion
+                        // of chbrbcter vblues.
 
-                        // BMP Ranges
+                        // BMP Rbnges
                         if (offset <= 0x4A62)
-                            dst.put(getChar(offset));
+                            dst.put(getChbr(offset));
                         else if (offset > 0x4A62 && offset <= 0x82BC)
-                            dst.put((char)(offset + 0x5543));
+                            dst.put((chbr)(offset + 0x5543));
                         else if (offset >= 0x82BD && offset <= 0x830D)
-                            dst.put(getChar(offset));
+                            dst.put(getChbr(offset));
                         else if (offset >= 0x830D && offset <= 0x93A8)
-                            dst.put((char)(offset + 0x6557));
+                            dst.put((chbr)(offset + 0x6557));
                         else if (offset >= 0x93A9 && offset <= 0x99F9)
-                            dst.put(getChar(offset));
-                        // Supplemental UCS planes handled via surrogates
+                            dst.put(getChbr(offset));
+                        // Supplementbl UCS plbnes hbndled vib surrogbtes
                         else if (offset >= 0x2E248 && offset < 0x12E248) {
                             if (offset >= 0x12E248)
-                                return CoderResult.malformedForLength(4);
+                                return CoderResult.mblformedForLength(4);
                             offset -= 0x1e248;
-                            if ( dst.remaining() < 2)
+                            if ( dst.rembining() < 2)
                                 return CoderResult.OVERFLOW;
-                            // emit high + low surrogate
-                            dst.put((char)((offset - 0x10000) / 0x400 + 0xD800));
-                            dst.put((char)((offset - 0x10000) % 0x400 + 0xDC00));
+                            // emit high + low surrogbte
+                            dst.put((chbr)((offset - 0x10000) / 0x400 + 0xD800));
+                            dst.put((chbr)((offset - 0x10000) % 0x400 + 0xDC00));
                         } else {
-                            return CoderResult.malformedForLength(inputSize);
+                            return CoderResult.mblformedForLength(inputSize);
                         }
                     }
-                    mark += inputSize;
+                    mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
 
         protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+                                         ChbrBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
     }
 
-    private static class Encoder extends CharsetEncoder {
+    privbte stbtic clbss Encoder extends ChbrsetEncoder {
 
-        private int currentState = GB18030_DOUBLE_BYTE;
+        privbte int currentStbte = GB18030_DOUBLE_BYTE;
 
-        private Encoder(Charset cs) {
-            super(cs, 4.0f, 4.0f); // max of 4 bytes per char
+        privbte Encoder(Chbrset cs) {
+            super(cs, 4.0f, 4.0f); // mbx of 4 bytes per chbr
         }
 
-        public boolean canEncode(char c) {
-            return ! Character.isSurrogate(c);
+        public boolebn cbnEncode(chbr c) {
+            return ! Chbrbcter.isSurrogbte(c);
         }
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
+        privbte finbl Surrogbte.Pbrser sgp = new Surrogbte.Pbrser();
 
-        private int getGB18030(short[] outerIndex, String[] innerEncoderIndex,
-                               char ch) {
+        privbte int getGB18030(short[] outerIndex, String[] innerEncoderIndex,
+                               chbr ch) {
             int offset = outerIndex[((ch & 0xff00) >> 8 )] << 8;
-            return innerEncoderIndex[offset >> 12].charAt((offset & 0xfff) +
+            return innerEncoderIndex[offset >> 12].chbrAt((offset & 0xfff) +
                         (ch & 0xff));
         }
 
         protected void implReset() {
-            currentState = GB18030_DOUBLE_BYTE;
+            currentStbte = GB18030_DOUBLE_BYTE;
         }
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
+        privbte CoderResult encodeArrbyLoop(ChbrBuffer src,
                                             ByteBuffer dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
-            int condensedKey = 0;  // expands to a four byte sequence
+            int condensedKey = 0;  // expbnds to b four byte sequence
             int hiByte = 0, loByte = 0;
-            currentState = GB18030_DOUBLE_BYTE;
+            currentStbte = GB18030_DOUBLE_BYTE;
 
             try {
                 while (sp < sl) {
                     int inputSize = 1;
-                    char c = sa[sp];
+                    chbr c = sb[sp];
 
-                    if (Character.isSurrogate(c)) {
-                        if ((condensedKey=sgp.parse(c, sa, sp, sl)) < 0)
+                    if (Chbrbcter.isSurrogbte(c)) {
+                        if ((condensedKey=sgp.pbrse(c, sb, sp, sl)) < 0)
                             return sgp.error();
-                        // Character.toCodePoint looks like
+                        // Chbrbcter.toCodePoint looks like
                         // (((high & 0x3ff) << 10) | (low & 0x3ff)) + 0x10000;
-                        // so we add (0x2e248 - 0x10000) to get the "key".
+                        // so we bdd (0x2e248 - 0x10000) to get the "key".
                         condensedKey += 0x1E248;
-                        currentState = GB18030_FOUR_BYTE;
+                        currentStbte = GB18030_FOUR_BYTE;
                         inputSize = sgp.increment();
                     }
                     else if (c >= 0x0000 && c <= 0x007F) {
-                        currentState = GB18030_SINGLE_BYTE;
+                        currentStbte = GB18030_SINGLE_BYTE;
                     }
                     else if (c <= 0xA4C6 || c >= 0xE000) {
-                        int outByteVal = getGB18030(encoderIndex1,
+                        int outByteVbl = getGB18030(encoderIndex1,
                                                     encoderIndex2,
                                                     c);
-                        if (outByteVal == 0xFFFD )
-                                return CoderResult.unmappableForLength(1);
+                        if (outByteVbl == 0xFFFD )
+                                return CoderResult.unmbppbbleForLength(1);
 
-                        hiByte = (outByteVal & 0xFF00) >> 8;
-                        loByte = (outByteVal & 0xFF);
+                        hiByte = (outByteVbl & 0xFF00) >> 8;
+                        loByte = (outByteVbl & 0xFF);
 
                         condensedKey = (hiByte - 0x20) * 256 + loByte;
 
@@ -12632,88 +12632,88 @@ public class GB18030
                                 condensedKey += 0x93A9;
 
                         if (hiByte > 0x80)
-                             currentState = GB18030_DOUBLE_BYTE;
+                             currentStbte = GB18030_DOUBLE_BYTE;
                         else
-                             currentState = GB18030_FOUR_BYTE;
+                             currentStbte = GB18030_FOUR_BYTE;
                     }
                     else if (c >= 0xA4C7 && c <= 0xD7FF) {
                         condensedKey = c - 0x5543;
-                        currentState = GB18030_FOUR_BYTE;
+                        currentStbte = GB18030_FOUR_BYTE;
                     }
 
-                    switch(currentState) {
-                        case GB18030_SINGLE_BYTE:
+                    switch(currentStbte) {
+                        cbse GB18030_SINGLE_BYTE:
                             if (dl - dp < 1)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)c;
-                            break;
+                            db[dp++] = (byte)c;
+                            brebk;
 
-                        case GB18030_DOUBLE_BYTE:
+                        cbse GB18030_DOUBLE_BYTE:
                             if (dl - dp < 2)
                                 return CoderResult.OVERFLOW;
-                            da[dp++] = (byte)hiByte;
-                            da[dp++] = (byte)loByte;
-                            break;
+                            db[dp++] = (byte)hiByte;
+                            db[dp++] = (byte)loByte;
+                            brebk;
 
-                        case GB18030_FOUR_BYTE: // Four Byte encoding
+                        cbse GB18030_FOUR_BYTE: // Four Byte encoding
                             byte b1, b2, b3, b4;
 
                             if (dl - dp < 4)
                                 return CoderResult.OVERFLOW;
-                            // Decompose the condensed key into its 4 byte equivalent
+                            // Decompose the condensed key into its 4 byte equivblent
                             b4 = (byte)((condensedKey % 10) + 0x30);
                             condensedKey /= 10;
                             b3 = (byte)((condensedKey % 126) + 0x81);
                             condensedKey /= 126;
                             b2 = (byte)((condensedKey % 10) + 0x30);
                             b1 = (byte)((condensedKey / 10) + 0x81);
-                            da[dp++] = b1;
-                            da[dp++] = b2;
-                            da[dp++] = b3;
-                            da[dp++] = b4;
-                            break;
-                        default:
-                            assert(false);
+                            db[dp++] = b1;
+                            db[dp++] = b2;
+                            db[dp++] = b3;
+                            db[dp++] = b4;
+                            brebk;
+                        defbult:
+                            bssert(fblse);
                         }
                     sp += inputSize;
                 }
             return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
+        privbte CoderResult encodeBufferLoop(ChbrBuffer src,
                                              ByteBuffer dst)
         {
             int condensedKey = 0;
             int hiByte = 0, loByte = 0;
-            currentState = GB18030_DOUBLE_BYTE;
-            int mark = src.position();
+            currentStbte = GB18030_DOUBLE_BYTE;
+            int mbrk = src.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
                     int inputSize = 1;
-                    if (Character.isSurrogate(c)) {
-                        if ((condensedKey = sgp.parse(c, src))<0)
+                    if (Chbrbcter.isSurrogbte(c)) {
+                        if ((condensedKey = sgp.pbrse(c, src))<0)
                            return sgp.error();
                         condensedKey += 0x1e248;
-                        currentState = GB18030_FOUR_BYTE;
+                        currentStbte = GB18030_FOUR_BYTE;
                         inputSize = 2;
                     }
                     else if (c >= 0x0000 && c <= 0x007F) {
-                        currentState = GB18030_SINGLE_BYTE;
+                        currentStbte = GB18030_SINGLE_BYTE;
                     }
                     else if (c <= 0xA4C6 || c >= 0xE000) {
-                        int outByteVal = getGB18030(encoderIndex1,
+                        int outByteVbl = getGB18030(encoderIndex1,
                                                     encoderIndex2,
                                                     c);
-                        if (outByteVal == 0xFFFD )
-                            return CoderResult.unmappableForLength(1);
+                        if (outByteVbl == 0xFFFD )
+                            return CoderResult.unmbppbbleForLength(1);
 
-                        hiByte = (outByteVal & 0xFF00) >> 8;
-                        loByte = (outByteVal & 0xFF);
+                        hiByte = (outByteVbl & 0xFF00) >> 8;
+                        loByte = (outByteVbl & 0xFF);
 
                         condensedKey = (hiByte - 0x20) * 256 + loByte;
 
@@ -12723,21 +12723,21 @@ public class GB18030
                                 condensedKey += 0x93A9;
 
                         if (hiByte > 0x80)
-                             currentState = GB18030_DOUBLE_BYTE;
+                             currentStbte = GB18030_DOUBLE_BYTE;
                         else
-                             currentState = GB18030_FOUR_BYTE;
+                             currentStbte = GB18030_FOUR_BYTE;
                     }
                     else if (c >= 0xA4C7 && c <= 0xD7FF) {
                         condensedKey = c - 0x5543;
-                        currentState = GB18030_FOUR_BYTE;
+                        currentStbte = GB18030_FOUR_BYTE;
                     }
 
-                    if (currentState == GB18030_SINGLE_BYTE) {
-                        if (dst.remaining() < 1)
+                    if (currentStbte == GB18030_SINGLE_BYTE) {
+                        if (dst.rembining() < 1)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)c);
-                    } else if (currentState == GB18030_DOUBLE_BYTE) {
-                        if (dst.remaining() < 2)
+                    } else if (currentStbte == GB18030_DOUBLE_BYTE) {
+                        if (dst.rembining() < 2)
                             return CoderResult.OVERFLOW;
                         dst.put((byte)hiByte);
                         dst.put((byte)loByte);
@@ -12745,9 +12745,9 @@ public class GB18030
                     else { // Four Byte encoding
                         byte b1, b2, b3, b4;
 
-                        if (dst.remaining() < 4)
+                        if (dst.rembining() < 4)
                             return CoderResult.OVERFLOW;
-                        // Decompose the condensed key into its 4 byte equivalent
+                        // Decompose the condensed key into its 4 byte equivblent
                         b4 = (byte)((condensedKey % 10) + 0x30);
                         condensedKey /= 10;
                         b3 = (byte)((condensedKey % 126) + 0x81);
@@ -12759,18 +12759,18 @@ public class GB18030
                         dst.put(b3);
                         dst.put(b4);
                     }
-                    mark += inputSize;
+                    mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
-        protected CoderResult encodeLoop(CharBuffer src,
+        protected CoderResult encodeLoop(ChbrBuffer src,
                                          ByteBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }

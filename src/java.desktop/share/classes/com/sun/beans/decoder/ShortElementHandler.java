@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
 /**
- * This class is intended to handle &lt;short&gt; element.
- * This element specifies {@code short} values.
- * The class {@link Short} is used as wrapper for these values.
- * The result value is created from text of the body of this element.
- * The body parsing is described in the class {@link StringElementHandler}.
- * For example:<pre>
+ * This clbss is intended to hbndle &lt;short&gt; element.
+ * This element specifies {@code short} vblues.
+ * The clbss {@link Short} is used bs wrbpper for these vblues.
+ * The result vblue is crebted from text of the body of this element.
+ * The body pbrsing is described in the clbss {@link StringElementHbndler}.
+ * For exbmple:<pre>
  * &lt;short&gt;200&lt;/short&gt;</pre>
  * is shortcut to<pre>
- * &lt;method name="decode" class="java.lang.Short"&gt;
+ * &lt;method nbme="decode" clbss="jbvb.lbng.Short"&gt;
  *     &lt;string&gt;200&lt;/string&gt;
  * &lt;/method&gt;</pre>
- * which is equivalent to {@code Short.decode("200")} in Java code.
- * <p>The following attribute is supported:
+ * which is equivblent to {@code Short.decode("200")} in Jbvb code.
+ * <p>The following bttribute is supported:
  * <dl>
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>the identifier of the vbribble thbt is intended to store the result
  * </dl>
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-final class ShortElementHandler extends StringElementHandler {
+finbl clbss ShortElementHbndler extends StringElementHbndler {
 
     /**
-     * Creates {@code short} value from
+     * Crebtes {@code short} vblue from
      * the text of the body of this element.
      *
-     * @param argument  the text of the body
-     * @return evaluated {@code short} value
+     * @pbrbm brgument  the text of the body
+     * @return evblubted {@code short} vblue
      */
     @Override
-    public Object getValue(String argument) {
-        return Short.decode(argument);
+    public Object getVblue(String brgument) {
+        return Short.decode(brgument);
     }
 }

@@ -3,74 +3,74 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.helper.C14nHelper;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.helper.C14nHelper;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Implements <A HREF="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
- * XML Version 1.0</A>, a W3C Recommendation from 15 March 2001.
+ * Implements <A HREF="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Cbnonicbl
+ * XML Version 1.0</A>, b W3C Recommendbtion from 15 Mbrch 2001.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
+ * @buthor Christibn Geuer-Pollmbnn <geuerp@bpbche.org>
  */
-public abstract class Canonicalizer20010315 extends CanonicalizerBase {
-    private static final String XMLNS_URI = Constants.NamespaceSpecNS;
-    private static final String XML_LANG_URI = Constants.XML_LANG_SPACE_SpecNS;
+public bbstrbct clbss Cbnonicblizer20010315 extends CbnonicblizerBbse {
+    privbte stbtic finbl String XMLNS_URI = Constbnts.NbmespbceSpecNS;
+    privbte stbtic finbl String XML_LANG_URI = Constbnts.XML_LANG_SPACE_SpecNS;
 
-    private boolean firstCall = true;
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbte boolebn firstCbll = true;
+    privbte finbl SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
 
-    private static class XmlAttrStack {
-        static class XmlsStackElement {
+    privbte stbtic clbss XmlAttrStbck {
+        stbtic clbss XmlsStbckElement {
             int level;
-            boolean rendered = false;
-            List<Attr> nodes = new ArrayList<Attr>();
+            boolebn rendered = fblse;
+            List<Attr> nodes = new ArrbyList<Attr>();
         };
 
         int currentLevel = 0;
-        int lastlevel = 0;
-        XmlsStackElement cur;
-        List<XmlsStackElement> levels = new ArrayList<XmlsStackElement>();
+        int lbstlevel = 0;
+        XmlsStbckElement cur;
+        List<XmlsStbckElement> levels = new ArrbyList<XmlsStbckElement>();
 
         void push(int level) {
             currentLevel = level;
@@ -78,158 +78,158 @@ public abstract class Canonicalizer20010315 extends CanonicalizerBase {
                 return;
             }
             cur = null;
-            while (lastlevel >= currentLevel) {
+            while (lbstlevel >= currentLevel) {
                 levels.remove(levels.size() - 1);
                 int newSize = levels.size();
                 if (newSize == 0) {
-                    lastlevel = 0;
+                    lbstlevel = 0;
                     return;
                 }
-                lastlevel = (levels.get(newSize - 1)).level;
+                lbstlevel = (levels.get(newSize - 1)).level;
             }
         }
 
-        void addXmlnsAttr(Attr n) {
+        void bddXmlnsAttr(Attr n) {
             if (cur == null) {
-                cur = new XmlsStackElement();
+                cur = new XmlsStbckElement();
                 cur.level = currentLevel;
-                levels.add(cur);
-                lastlevel = currentLevel;
+                levels.bdd(cur);
+                lbstlevel = currentLevel;
             }
-            cur.nodes.add(n);
+            cur.nodes.bdd(n);
         }
 
         void getXmlnsAttr(Collection<Attr> col) {
             int size = levels.size() - 1;
             if (cur == null) {
-                cur = new XmlsStackElement();
+                cur = new XmlsStbckElement();
                 cur.level = currentLevel;
-                lastlevel = currentLevel;
-                levels.add(cur);
+                lbstlevel = currentLevel;
+                levels.bdd(cur);
             }
-            boolean parentRendered = false;
-            XmlsStackElement e = null;
+            boolebn pbrentRendered = fblse;
+            XmlsStbckElement e = null;
             if (size == -1) {
-                parentRendered = true;
+                pbrentRendered = true;
             } else {
                 e = levels.get(size);
                 if (e.rendered && e.level + 1 == currentLevel) {
-                    parentRendered = true;
+                    pbrentRendered = true;
                 }
             }
-            if (parentRendered) {
-                col.addAll(cur.nodes);
+            if (pbrentRendered) {
+                col.bddAll(cur.nodes);
                 cur.rendered = true;
                 return;
             }
 
-            Map<String, Attr> loa = new HashMap<String, Attr>();
+            Mbp<String, Attr> lob = new HbshMbp<String, Attr>();
             for (; size >= 0; size--) {
                 e = levels.get(size);
-                Iterator<Attr> it = e.nodes.iterator();
-                while (it.hasNext()) {
+                Iterbtor<Attr> it = e.nodes.iterbtor();
+                while (it.hbsNext()) {
                     Attr n = it.next();
-                    if (!loa.containsKey(n.getName())) {
-                        loa.put(n.getName(), n);
+                    if (!lob.contbinsKey(n.getNbme())) {
+                        lob.put(n.getNbme(), n);
                     }
                 }
             }
 
             cur.rendered = true;
-            col.addAll(loa.values());
+            col.bddAll(lob.vblues());
         }
 
     }
 
-    private XmlAttrStack xmlattrStack = new XmlAttrStack();
+    privbte XmlAttrStbck xmlbttrStbck = new XmlAttrStbck();
 
     /**
-     * Constructor Canonicalizer20010315
+     * Constructor Cbnonicblizer20010315
      *
-     * @param includeComments
+     * @pbrbm includeComments
      */
-    public Canonicalizer20010315(boolean includeComments) {
+    public Cbnonicblizer20010315(boolebn includeComments) {
         super(includeComments);
     }
 
     /**
-     * Always throws a CanonicalizationException because this is inclusive c14n.
+     * Alwbys throws b CbnonicblizbtionException becbuse this is inclusive c14n.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException always
+     * @pbrbm xpbthNodeSet
+     * @pbrbm inclusiveNbmespbces
+     * @return none it blwbys fbils
+     * @throws CbnonicblizbtionException blwbys
      */
-    public byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    public byte[] engineCbnonicblizeXPbthNodeSet(Set<Node> xpbthNodeSet, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ well, should we throw UnsupportedOperbtionException ? */
+        throw new CbnonicblizbtionException("c14n.Cbnonicblizer.UnsupportedOperbtion");
     }
 
     /**
-     * Always throws a CanonicalizationException because this is inclusive c14n.
+     * Alwbys throws b CbnonicblizbtionException becbuse this is inclusive c14n.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException
+     * @pbrbm rootNode
+     * @pbrbm inclusiveNbmespbces
+     * @return none it blwbys fbils
+     * @throws CbnonicblizbtionException
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    public byte[] engineCbnonicblizeSubTree(Node rootNode, String inclusiveNbmespbces)
+        throws CbnonicblizbtionException {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ well, should we throw UnsupportedOperbtionException ? */
+        throw new CbnonicblizbtionException("c14n.Cbnonicblizer.UnsupportedOperbtion");
     }
 
     /**
      * Returns the Attr[]s to be output for the given element.
      * <br>
-     * The code of this method is a copy of {@link #handleAttributes(Element,
-     * NameSpaceSymbTable)},
-     * whereas it takes into account that subtree-c14n is -- well -- subtree-based.
-     * So if the element in question isRoot of c14n, it's parent is not in the
-     * node set, as well as all other ancestors.
+     * The code of this method is b copy of {@link #hbndleAttributes(Element,
+     * NbmeSpbceSymbTbble)},
+     * wherebs it tbkes into bccount thbt subtree-c14n is -- well -- subtree-bbsed.
+     * So if the element in question isRoot of c14n, it's pbrent is not in the
+     * node set, bs well bs bll other bncestors.
      *
-     * @param element
-     * @param ns
+     * @pbrbm element
+     * @pbrbm ns
      * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
     @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        if (!element.hasAttributes() && !firstCall) {
+    protected Iterbtor<Attr> hbndleAttributesSubtree(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
+        if (!element.hbsAttributes() && !firstCbll) {
             return null;
         }
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+        // result will contbin the bttrs which hbve to be output
+        finbl SortedSet<Attr> result = this.result;
+        result.clebr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (element.hbsAttributes()) {
+            NbmedNodeMbp bttrs = element.getAttributes();
+            int bttrsLength = bttrs.getLength();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NUri = attribute.getNamespaceURI();
-                String NName = attribute.getLocalName();
-                String NValue = attribute.getValue();
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr bttribute = (Attr) bttrs.item(i);
+                String NUri = bttribute.getNbmespbceURI();
+                String NNbme = bttribute.getLocblNbme();
+                String NVblue = bttribute.getVblue();
 
-                if (!XMLNS_URI.equals(NUri)) {
-                    //It's not a namespace attr node. Add to the result and continue.
-                    result.add(attribute);
-                } else if (!(XML.equals(NName) && XML_LANG_URI.equals(NValue))) {
-                    //The default mapping for xml must not be output.
-                    Node n = ns.addMappingAndRender(NName, NValue, attribute);
+                if (!XMLNS_URI.equbls(NUri)) {
+                    //It's not b nbmespbce bttr node. Add to the result bnd continue.
+                    result.bdd(bttribute);
+                } else if (!(XML.equbls(NNbme) && XML_LANG_URI.equbls(NVblue))) {
+                    //The defbult mbpping for xml must not be output.
+                    Node n = ns.bddMbppingAndRender(NNbme, NVblue, bttribute);
 
                     if (n != null) {
                         //Render the ns definition
-                        result.add((Attr)n);
-                        if (C14nHelper.namespaceIsRelative(attribute)) {
-                            Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                            throw new CanonicalizationException(
-                                "c14n.Canonicalizer.RelativeNamespace", exArgs
+                        result.bdd((Attr)n);
+                        if (C14nHelper.nbmespbceIsRelbtive(bttribute)) {
+                            Object exArgs[] = { element.getTbgNbme(), NNbme, bttribute.getNodeVblue() };
+                            throw new CbnonicblizbtionException(
+                                "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
                             );
                         }
                     }
@@ -237,114 +237,114 @@ public abstract class Canonicalizer20010315 extends CanonicalizerBase {
             }
         }
 
-        if (firstCall) {
+        if (firstCbll) {
             //It is the first node of the subtree
-            //Obtain all the namespaces defined in the parents, and added to the output.
+            //Obtbin bll the nbmespbces defined in the pbrents, bnd bdded to the output.
             ns.getUnrenderedNodes(result);
-            //output the attributes in the xml namespace.
-            xmlattrStack.getXmlnsAttr(result);
-            firstCall = false;
+            //output the bttributes in the xml nbmespbce.
+            xmlbttrStbck.getXmlnsAttr(result);
+            firstCbll = fblse;
         }
 
-        return result.iterator();
+        return result.iterbtor();
     }
 
     /**
      * Returns the Attr[]s to be output for the given element.
      * <br>
-     * IMPORTANT: This method expects to work on a modified DOM tree, i.e. a DOM which has
-     * been prepared using {@link com.sun.org.apache.xml.internal.security.utils.XMLUtils#circumventBug2650(
+     * IMPORTANT: This method expects to work on b modified DOM tree, i.e. b DOM which hbs
+     * been prepbred using {@link com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils#circumventBug2650(
      * org.w3c.dom.Document)}.
      *
-     * @param element
-     * @param ns
+     * @pbrbm element
+     * @pbrbm ns
      * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
     @Override
-    protected Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        xmlattrStack.push(ns.getLevel());
-        boolean isRealVisible = isVisibleDO(element, ns.getLevel()) == 1;
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    protected Iterbtor<Attr> hbndleAttributes(Element element, NbmeSpbceSymbTbble ns)
+        throws CbnonicblizbtionException {
+        // result will contbin the bttrs which hbve to be output
+        xmlbttrStbck.push(ns.getLevel());
+        boolebn isReblVisible = isVisibleDO(element, ns.getLevel()) == 1;
+        finbl SortedSet<Attr> result = this.result;
+        result.clebr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (element.hbsAttributes()) {
+            NbmedNodeMbp bttrs = element.getAttributes();
+            int bttrsLength = bttrs.getLength();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NUri = attribute.getNamespaceURI();
-                String NName = attribute.getLocalName();
-                String NValue = attribute.getValue();
+            for (int i = 0; i < bttrsLength; i++) {
+                Attr bttribute = (Attr) bttrs.item(i);
+                String NUri = bttribute.getNbmespbceURI();
+                String NNbme = bttribute.getLocblNbme();
+                String NVblue = bttribute.getVblue();
 
-                if (!XMLNS_URI.equals(NUri)) {
-                    //A non namespace definition node.
-                    if (XML_LANG_URI.equals(NUri)) {
-                        xmlattrStack.addXmlnsAttr(attribute);
-                    } else if (isRealVisible) {
-                        //The node is visible add the attribute to the list of output attributes.
-                        result.add(attribute);
+                if (!XMLNS_URI.equbls(NUri)) {
+                    //A non nbmespbce definition node.
+                    if (XML_LANG_URI.equbls(NUri)) {
+                        xmlbttrStbck.bddXmlnsAttr(bttribute);
+                    } else if (isReblVisible) {
+                        //The node is visible bdd the bttribute to the list of output bttributes.
+                        result.bdd(bttribute);
                     }
-                } else if (!XML.equals(NName) || !XML_LANG_URI.equals(NValue)) {
-                    /* except omit namespace node with local name xml, which defines
-                     * the xml prefix, if its string value is http://www.w3.org/XML/1998/namespace.
+                } else if (!XML.equbls(NNbme) || !XML_LANG_URI.equbls(NVblue)) {
+                    /* except omit nbmespbce node with locbl nbme xml, which defines
+                     * the xml prefix, if its string vblue is http://www.w3.org/XML/1998/nbmespbce.
                      */
-                    //add the prefix binding to the ns symb table.
-                    if (isVisible(attribute))  {
-                        if (isRealVisible || !ns.removeMappingIfRender(NName)) {
-                            //The xpath select this node output it if needed.
-                            Node n = ns.addMappingAndRender(NName, NValue, attribute);
+                    //bdd the prefix binding to the ns symb tbble.
+                    if (isVisible(bttribute))  {
+                        if (isReblVisible || !ns.removeMbppingIfRender(NNbme)) {
+                            //The xpbth select this node output it if needed.
+                            Node n = ns.bddMbppingAndRender(NNbme, NVblue, bttribute);
                             if (n != null) {
-                                result.add((Attr)n);
-                                if (C14nHelper.namespaceIsRelative(attribute)) {
-                                    Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                                    throw new CanonicalizationException(
-                                        "c14n.Canonicalizer.RelativeNamespace", exArgs
+                                result.bdd((Attr)n);
+                                if (C14nHelper.nbmespbceIsRelbtive(bttribute)) {
+                                    Object exArgs[] = { element.getTbgNbme(), NNbme, bttribute.getNodeVblue() };
+                                    throw new CbnonicblizbtionException(
+                                        "c14n.Cbnonicblizer.RelbtiveNbmespbce", exArgs
                                     );
                                 }
                             }
                         }
                     } else {
-                        if (isRealVisible && !XMLNS.equals(NName)) {
-                            ns.removeMapping(NName);
+                        if (isReblVisible && !XMLNS.equbls(NNbme)) {
+                            ns.removeMbpping(NNbme);
                         } else {
-                            ns.addMapping(NName, NValue, attribute);
+                            ns.bddMbpping(NNbme, NVblue, bttribute);
                         }
                     }
                 }
             }
         }
-        if (isRealVisible) {
-            //The element is visible, handle the xmlns definition
+        if (isReblVisible) {
+            //The element is visible, hbndle the xmlns definition
             Attr xmlns = element.getAttributeNodeNS(XMLNS_URI, XMLNS);
             Node n = null;
             if (xmlns == null) {
-                //No xmlns def just get the already defined.
-                n = ns.getMapping(XMLNS);
+                //No xmlns def just get the blrebdy defined.
+                n = ns.getMbpping(XMLNS);
             } else if (!isVisible(xmlns)) {
-                //There is a definition but the xmlns is not selected by the xpath.
+                //There is b definition but the xmlns is not selected by the xpbth.
                 //then xmlns=""
-                n = ns.addMappingAndRender(
+                n = ns.bddMbppingAndRender(
                         XMLNS, "", getNullNode(xmlns.getOwnerDocument()));
             }
             //output the xmlns def if needed.
             if (n != null) {
-                result.add((Attr)n);
+                result.bdd((Attr)n);
             }
-            //Float all xml:* attributes of the unselected parent elements to this one.
-            xmlattrStack.getXmlnsAttr(result);
+            //Flobt bll xml:* bttributes of the unselected pbrent elements to this one.
+            xmlbttrStbck.getXmlnsAttr(result);
             ns.getUnrenderedNodes(result);
         }
 
-        return result.iterator();
+        return result.iterbtor();
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException, IOException, SAXException {
-        if (!input.isNeedsToBeExpanded()) {
+    protected void circumventBugIfNeeded(XMLSignbtureInput input)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException, IOException, SAXException {
+        if (!input.isNeedsToBeExpbnded()) {
             return;
         }
         Document doc = null;
@@ -357,39 +357,39 @@ public abstract class Canonicalizer20010315 extends CanonicalizerBase {
     }
 
     @Override
-    protected void handleParent(Element e, NameSpaceSymbTable ns) {
-        if (!e.hasAttributes() && e.getNamespaceURI() == null) {
+    protected void hbndlePbrent(Element e, NbmeSpbceSymbTbble ns) {
+        if (!e.hbsAttributes() && e.getNbmespbceURI() == null) {
             return;
         }
-        xmlattrStack.push(-1);
-        NamedNodeMap attrs = e.getAttributes();
-        int attrsLength = attrs.getLength();
-        for (int i = 0; i < attrsLength; i++) {
-            Attr attribute = (Attr) attrs.item(i);
-            String NName = attribute.getLocalName();
-            String NValue = attribute.getNodeValue();
+        xmlbttrStbck.push(-1);
+        NbmedNodeMbp bttrs = e.getAttributes();
+        int bttrsLength = bttrs.getLength();
+        for (int i = 0; i < bttrsLength; i++) {
+            Attr bttribute = (Attr) bttrs.item(i);
+            String NNbme = bttribute.getLocblNbme();
+            String NVblue = bttribute.getNodeVblue();
 
-            if (Constants.NamespaceSpecNS.equals(attribute.getNamespaceURI())) {
-                if (!XML.equals(NName) || !Constants.XML_LANG_SPACE_SpecNS.equals(NValue)) {
-                    ns.addMapping(NName, NValue, attribute);
+            if (Constbnts.NbmespbceSpecNS.equbls(bttribute.getNbmespbceURI())) {
+                if (!XML.equbls(NNbme) || !Constbnts.XML_LANG_SPACE_SpecNS.equbls(NVblue)) {
+                    ns.bddMbpping(NNbme, NVblue, bttribute);
                 }
-            } else if (XML_LANG_URI.equals(attribute.getNamespaceURI())) {
-                xmlattrStack.addXmlnsAttr(attribute);
+            } else if (XML_LANG_URI.equbls(bttribute.getNbmespbceURI())) {
+                xmlbttrStbck.bddXmlnsAttr(bttribute);
             }
         }
-        if (e.getNamespaceURI() != null) {
-            String NName = e.getPrefix();
-            String NValue = e.getNamespaceURI();
-            String Name;
-            if (NName == null || NName.equals("")) {
-                NName = "xmlns";
-                Name = "xmlns";
+        if (e.getNbmespbceURI() != null) {
+            String NNbme = e.getPrefix();
+            String NVblue = e.getNbmespbceURI();
+            String Nbme;
+            if (NNbme == null || NNbme.equbls("")) {
+                NNbme = "xmlns";
+                Nbme = "xmlns";
             } else {
-                Name = "xmlns:" + NName;
+                Nbme = "xmlns:" + NNbme;
             }
-            Attr n = e.getOwnerDocument().createAttributeNS("http://www.w3.org/2000/xmlns/", Name);
-            n.setValue(NValue);
-            ns.addMapping(NName, NValue, n);
+            Attr n = e.getOwnerDocument().crebteAttributeNS("http://www.w3.org/2000/xmlns/", Nbme);
+            n.setVblue(NVblue);
+            ns.bddMbpping(NNbme, NVblue, n);
         }
     }
 }

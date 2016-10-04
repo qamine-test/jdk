@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * FTP stream opener.
+ * FTP strebm opener.
  */
 
-package sun.net.www.protocol.ftp;
+pbckbge sun.net.www.protocol.ftp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.net.SocketPermission;
-import java.net.UnknownHostException;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.util.StringTokenizer;
-import java.util.Iterator;
-import java.security.Permission;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.FileNotFoundException;
+import jbvb.net.URL;
+import jbvb.net.SocketPermission;
+import jbvb.net.UnknownHostException;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.URI;
+import jbvb.net.Proxy;
+import jbvb.net.ProxySelector;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Iterbtor;
+import jbvb.security.Permission;
 import sun.net.NetworkClient;
-import sun.net.www.MessageHeader;
-import sun.net.www.MeteredStream;
+import sun.net.www.MessbgeHebder;
+import sun.net.www.MeteredStrebm;
 import sun.net.www.URLConnection;
 import sun.net.www.protocol.http.HttpURLConnection;
 import sun.net.ftp.FtpClient;
 import sun.net.ftp.FtpProtocolException;
 import sun.net.ProgressSource;
 import sun.net.ProgressMonitor;
-import sun.net.www.ParseUtil;
-import sun.security.action.GetPropertyAction;
+import sun.net.www.PbrseUtil;
+import sun.security.bction.GetPropertyAction;
 
 
 /**
- * This class Opens an FTP input (or output) stream given a URL.
- * It works as a one shot FTP transfer :
+ * This clbss Opens bn FTP input (or output) strebm given b URL.
+ * It works bs b one shot FTP trbnsfer :
  * <UL>
  * <LI>Login</LI>
  * <LI>Get (or Put) the file</LI>
  * <LI>Disconnect</LI>
  * </UL>
- * You should not have to use it directly in most cases because all will be handled
- * in a abstract layer. Here is an example of how to use the class :
+ * You should not hbve to use it directly in most cbses becbuse bll will be hbndled
+ * in b bbstrbct lbyer. Here is bn exbmple of how to use the clbss :
  * <P>
  * <code>URL url = new URL("ftp://ftp.sun.com/pub/test.txt");<p>
  * UrlConnection con = url.openConnection();<p>
- * InputStream is = con.getInputStream();<p>
+ * InputStrebm is = con.getInputStrebm();<p>
  * ...<p>
  * is.close();</code>
  *
  * @see sun.net.ftp.FtpClient
  */
-public class FtpURLConnection extends URLConnection {
+public clbss FtpURLConnection extends URLConnection {
 
-    // In case we have to use proxies, we use HttpURLConnection
+    // In cbse we hbve to use proxies, we use HttpURLConnection
     HttpURLConnection http = null;
-    private Proxy instProxy;
+    privbte Proxy instProxy;
 
-    InputStream is = null;
-    OutputStream os = null;
+    InputStrebm is = null;
+    OutputStrebm os = null;
 
     FtpClient ftp = null;
     Permission permission;
 
-    String password;
+    String pbssword;
     String user;
 
     String host;
-    String pathname;
-    String filename;
-    String fullpath;
+    String pbthnbme;
+    String filenbme;
+    String fullpbth;
     int port;
-    static final int NONE = 0;
-    static final int ASCII = 1;
-    static final int BIN = 2;
-    static final int DIR = 3;
+    stbtic finbl int NONE = 0;
+    stbtic finbl int ASCII = 1;
+    stbtic finbl int BIN = 2;
+    stbtic finbl int DIR = 3;
     int type = NONE;
-    /* Redefine timeouts from java.net.URLConnection as we need -1 to mean
-     * not set. This is to ensure backward compatibility.
+    /* Redefine timeouts from jbvb.net.URLConnection bs we need -1 to mebn
+     * not set. This is to ensure bbckwbrd compbtibility.
      */
-    private int connectTimeout = NetworkClient.DEFAULT_CONNECT_TIMEOUT;;
-    private int readTimeout = NetworkClient.DEFAULT_READ_TIMEOUT;;
+    privbte int connectTimeout = NetworkClient.DEFAULT_CONNECT_TIMEOUT;;
+    privbte int rebdTimeout = NetworkClient.DEFAULT_READ_TIMEOUT;;
 
     /**
-     * For FTP URLs we need to have a special InputStream because we
-     * need to close 2 sockets after we're done with it :
-     *  - The Data socket (for the file).
-     *   - The command socket (FtpClient).
-     * Since that's the only class that needs to see that, it is an inner class.
+     * For FTP URLs we need to hbve b specibl InputStrebm becbuse we
+     * need to close 2 sockets bfter we're done with it :
+     *  - The Dbtb socket (for the file).
+     *   - The commbnd socket (FtpClient).
+     * Since thbt's the only clbss thbt needs to see thbt, it is bn inner clbss.
      */
-    protected class FtpInputStream extends FilterInputStream {
+    protected clbss FtpInputStrebm extends FilterInputStrebm {
         FtpClient ftp;
-        FtpInputStream(FtpClient cl, InputStream fd) {
-            super(new BufferedInputStream(fd));
+        FtpInputStrebm(FtpClient cl, InputStrebm fd) {
+            super(new BufferedInputStrebm(fd));
             ftp = cl;
         }
 
@@ -133,15 +133,15 @@ public class FtpURLConnection extends URLConnection {
     }
 
     /**
-     * For FTP URLs we need to have a special OutputStream because we
-     * need to close 2 sockets after we're done with it :
-     *  - The Data socket (for the file).
-     *   - The command socket (FtpClient).
-     * Since that's the only class that needs to see that, it is an inner class.
+     * For FTP URLs we need to hbve b specibl OutputStrebm becbuse we
+     * need to close 2 sockets bfter we're done with it :
+     *  - The Dbtb socket (for the file).
+     *   - The commbnd socket (FtpClient).
+     * Since thbt's the only clbss thbt needs to see thbt, it is bn inner clbss.
      */
-    protected class FtpOutputStream extends FilterOutputStream {
+    protected clbss FtpOutputStrebm extends FilterOutputStrebm {
         FtpClient ftp;
-        FtpOutputStream(FtpClient cl, OutputStream fd) {
+        FtpOutputStrebm(FtpClient cl, OutputStrebm fd) {
             super(fd);
             ftp = cl;
         }
@@ -156,16 +156,16 @@ public class FtpURLConnection extends URLConnection {
     }
 
     /**
-     * Creates an FtpURLConnection from a URL.
+     * Crebtes bn FtpURLConnection from b URL.
      *
-     * @param   url     The <code>URL</code> to retrieve or store.
+     * @pbrbm   url     The <code>URL</code> to retrieve or store.
      */
     public FtpURLConnection(URL url) {
         this(url, null);
     }
 
     /**
-     * Same as FtpURLconnection(URL) with a per connection proxy specified
+     * Sbme bs FtpURLconnection(URL) with b per connection proxy specified
      */
     FtpURLConnection(URL url, Proxy p) {
         super(url);
@@ -174,35 +174,35 @@ public class FtpURLConnection extends URLConnection {
         port = url.getPort();
         String userInfo = url.getUserInfo();
 
-        if (userInfo != null) { // get the user and password
+        if (userInfo != null) { // get the user bnd pbssword
             int delimiter = userInfo.indexOf(':');
             if (delimiter == -1) {
-                user = ParseUtil.decode(userInfo);
-                password = null;
+                user = PbrseUtil.decode(userInfo);
+                pbssword = null;
             } else {
-                user = ParseUtil.decode(userInfo.substring(0, delimiter++));
-                password = ParseUtil.decode(userInfo.substring(delimiter));
+                user = PbrseUtil.decode(userInfo.substring(0, delimiter++));
+                pbssword = PbrseUtil.decode(userInfo.substring(delimiter));
             }
         }
     }
 
-    private void setTimeouts() {
+    privbte void setTimeouts() {
         if (ftp != null) {
             if (connectTimeout >= 0) {
                 ftp.setConnectTimeout(connectTimeout);
             }
-            if (readTimeout >= 0) {
-                ftp.setReadTimeout(readTimeout);
+            if (rebdTimeout >= 0) {
+                ftp.setRebdTimeout(rebdTimeout);
             }
         }
     }
 
     /**
-     * Connects to the FTP server and logs in.
+     * Connects to the FTP server bnd logs in.
      *
      * @throws  FtpLoginException if the login is unsuccessful
-     * @throws  FtpProtocolException if an error occurs
-     * @throws  UnknownHostException if trying to connect to an unknown host
+     * @throws  FtpProtocolException if bn error occurs
+     * @throws  UnknownHostException if trying to connect to bn unknown host
      */
 
     public synchronized void connect() throws IOException {
@@ -213,30 +213,30 @@ public class FtpURLConnection extends URLConnection {
         Proxy p = null;
         if (instProxy == null) { // no per connection proxy specified
             /**
-             * Do we have to use a proxy?
+             * Do we hbve to use b proxy?
              */
-            ProxySelector sel = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<ProxySelector>() {
+            ProxySelector sel = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<ProxySelector>() {
                         public ProxySelector run() {
-                            return ProxySelector.getDefault();
+                            return ProxySelector.getDefbult();
                         }
                     });
             if (sel != null) {
-                URI uri = sun.net.www.ParseUtil.toURI(url);
-                Iterator<Proxy> it = sel.select(uri).iterator();
-                while (it.hasNext()) {
+                URI uri = sun.net.www.PbrseUtil.toURI(url);
+                Iterbtor<Proxy> it = sel.select(uri).iterbtor();
+                while (it.hbsNext()) {
                     p = it.next();
                     if (p == null || p == Proxy.NO_PROXY ||
                         p.type() == Proxy.Type.SOCKS) {
-                        break;
+                        brebk;
                     }
                     if (p.type() != Proxy.Type.HTTP ||
-                            !(p.address() instanceof InetSocketAddress)) {
-                        sel.connectFailed(uri, p.address(), new IOException("Wrong proxy type"));
+                            !(p.bddress() instbnceof InetSocketAddress)) {
+                        sel.connectFbiled(uri, p.bddress(), new IOException("Wrong proxy type"));
                         continue;
                     }
-                    // OK, we have an http proxy
-                    InetSocketAddress paddr = (InetSocketAddress) p.address();
+                    // OK, we hbve bn http proxy
+                    InetSocketAddress pbddr = (InetSocketAddress) p.bddress();
                     try {
                         http = new HttpURLConnection(url, p);
                         http.setDoInput(getDoInput());
@@ -244,14 +244,14 @@ public class FtpURLConnection extends URLConnection {
                         if (connectTimeout >= 0) {
                             http.setConnectTimeout(connectTimeout);
                         }
-                        if (readTimeout >= 0) {
-                            http.setReadTimeout(readTimeout);
+                        if (rebdTimeout >= 0) {
+                            http.setRebdTimeout(rebdTimeout);
                         }
                         http.connect();
                         connected = true;
                         return;
-                    } catch (IOException ioe) {
-                        sel.connectFailed(uri, paddr, ioe);
+                    } cbtch (IOException ioe) {
+                        sel.connectFbiled(uri, pbddr, ioe);
                         http = null;
                     }
                 }
@@ -265,8 +265,8 @@ public class FtpURLConnection extends URLConnection {
                 if (connectTimeout >= 0) {
                     http.setConnectTimeout(connectTimeout);
                 }
-                if (readTimeout >= 0) {
-                    http.setReadTimeout(readTimeout);
+                if (rebdTimeout >= 0) {
+                    http.setRebdTimeout(rebdTimeout);
                 }
                 http.connect();
                 connected = true;
@@ -275,15 +275,15 @@ public class FtpURLConnection extends URLConnection {
         }
 
         if (user == null) {
-            user = "anonymous";
-            String vers = java.security.AccessController.doPrivileged(
-                    new GetPropertyAction("java.version"));
-            password = java.security.AccessController.doPrivileged(
+            user = "bnonymous";
+            String vers = jbvb.security.AccessController.doPrivileged(
+                    new GetPropertyAction("jbvb.version"));
+            pbssword = jbvb.security.AccessController.doPrivileged(
                     new GetPropertyAction("ftp.protocol.user",
-                                          "Java" + vers + "@"));
+                                          "Jbvb" + vers + "@"));
         }
         try {
-            ftp = FtpClient.create();
+            ftp = FtpClient.crebte();
             if (p != null) {
                 ftp.setProxy(p);
             }
@@ -291,200 +291,200 @@ public class FtpURLConnection extends URLConnection {
             if (port != -1) {
                 ftp.connect(new InetSocketAddress(host, port));
             } else {
-                ftp.connect(new InetSocketAddress(host, FtpClient.defaultPort()));
+                ftp.connect(new InetSocketAddress(host, FtpClient.defbultPort()));
             }
-        } catch (UnknownHostException e) {
-            // Maybe do something smart here, like use a proxy like iftp.
+        } cbtch (UnknownHostException e) {
+            // Mbybe do something smbrt here, like use b proxy like iftp.
             // Just keep throwing for now.
             throw e;
-        } catch (FtpProtocolException fe) {
+        } cbtch (FtpProtocolException fe) {
             throw new IOException(fe);
         }
         try {
-            ftp.login(user, password == null ? null : password.toCharArray());
-        } catch (sun.net.ftp.FtpProtocolException e) {
+            ftp.login(user, pbssword == null ? null : pbssword.toChbrArrby());
+        } cbtch (sun.net.ftp.FtpProtocolException e) {
             ftp.close();
-            // Backward compatibility
-            throw new sun.net.ftp.FtpLoginException("Invalid username/password");
+            // Bbckwbrd compbtibility
+            throw new sun.net.ftp.FtpLoginException("Invblid usernbme/pbssword");
         }
         connected = true;
     }
 
 
     /*
-     * Decodes the path as per the RFC-1738 specifications.
+     * Decodes the pbth bs per the RFC-1738 specificbtions.
      */
-    private void decodePath(String path) {
-        int i = path.indexOf(";type=");
+    privbte void decodePbth(String pbth) {
+        int i = pbth.indexOf(";type=");
         if (i >= 0) {
-            String s1 = path.substring(i + 6, path.length());
-            if ("i".equalsIgnoreCase(s1)) {
+            String s1 = pbth.substring(i + 6, pbth.length());
+            if ("i".equblsIgnoreCbse(s1)) {
                 type = BIN;
             }
-            if ("a".equalsIgnoreCase(s1)) {
+            if ("b".equblsIgnoreCbse(s1)) {
                 type = ASCII;
             }
-            if ("d".equalsIgnoreCase(s1)) {
+            if ("d".equblsIgnoreCbse(s1)) {
                 type = DIR;
             }
-            path = path.substring(0, i);
+            pbth = pbth.substring(0, i);
         }
-        if (path != null && path.length() > 1 &&
-                path.charAt(0) == '/') {
-            path = path.substring(1);
+        if (pbth != null && pbth.length() > 1 &&
+                pbth.chbrAt(0) == '/') {
+            pbth = pbth.substring(1);
         }
-        if (path == null || path.length() == 0) {
-            path = "./";
+        if (pbth == null || pbth.length() == 0) {
+            pbth = "./";
         }
-        if (!path.endsWith("/")) {
-            i = path.lastIndexOf('/');
+        if (!pbth.endsWith("/")) {
+            i = pbth.lbstIndexOf('/');
             if (i > 0) {
-                filename = path.substring(i + 1, path.length());
-                filename = ParseUtil.decode(filename);
-                pathname = path.substring(0, i);
+                filenbme = pbth.substring(i + 1, pbth.length());
+                filenbme = PbrseUtil.decode(filenbme);
+                pbthnbme = pbth.substring(0, i);
             } else {
-                filename = ParseUtil.decode(path);
-                pathname = null;
+                filenbme = PbrseUtil.decode(pbth);
+                pbthnbme = null;
             }
         } else {
-            pathname = path.substring(0, path.length() - 1);
-            filename = null;
+            pbthnbme = pbth.substring(0, pbth.length() - 1);
+            filenbme = null;
         }
-        if (pathname != null) {
-            fullpath = pathname + "/" + (filename != null ? filename : "");
+        if (pbthnbme != null) {
+            fullpbth = pbthnbme + "/" + (filenbme != null ? filenbme : "");
         } else {
-            fullpath = filename;
+            fullpbth = filenbme;
         }
     }
 
     /*
-     * As part of RFC-1738 it is specified that the path should be
-     * interpreted as a series of FTP CWD commands.
-     * This is because, '/' is not necessarly the directory delimiter
+     * As pbrt of RFC-1738 it is specified thbt the pbth should be
+     * interpreted bs b series of FTP CWD commbnds.
+     * This is becbuse, '/' is not necessbrly the directory delimiter
      * on every systems.
      */
-    private void cd(String path) throws FtpProtocolException, IOException {
-        if (path == null || path.isEmpty()) {
+    privbte void cd(String pbth) throws FtpProtocolException, IOException {
+        if (pbth == null || pbth.isEmpty()) {
             return;
         }
-        if (path.indexOf('/') == -1) {
-            ftp.changeDirectory(ParseUtil.decode(path));
+        if (pbth.indexOf('/') == -1) {
+            ftp.chbngeDirectory(PbrseUtil.decode(pbth));
             return;
         }
 
-        StringTokenizer token = new StringTokenizer(path, "/");
-        while (token.hasMoreTokens()) {
-            ftp.changeDirectory(ParseUtil.decode(token.nextToken()));
+        StringTokenizer token = new StringTokenizer(pbth, "/");
+        while (token.hbsMoreTokens()) {
+            ftp.chbngeDirectory(PbrseUtil.decode(token.nextToken()));
         }
     }
 
     /**
-     * Get the InputStream to retreive the remote file. It will issue the
-     * "get" (or "dir") command to the ftp server.
+     * Get the InputStrebm to retreive the remote file. It will issue the
+     * "get" (or "dir") commbnd to the ftp server.
      *
-     * @return  the <code>InputStream</code> to the connection.
+     * @return  the <code>InputStrebm</code> to the connection.
      *
-     * @throws  IOException if already opened for output
-     * @throws  FtpProtocolException if errors occur during the transfert.
+     * @throws  IOException if blrebdy opened for output
+     * @throws  FtpProtocolException if errors occur during the trbnsfert.
      */
     @Override
-    public InputStream getInputStream() throws IOException {
+    public InputStrebm getInputStrebm() throws IOException {
         if (!connected) {
             connect();
         }
 
         if (http != null) {
-            return http.getInputStream();
+            return http.getInputStrebm();
         }
 
         if (os != null) {
-            throw new IOException("Already opened for output");
+            throw new IOException("Alrebdy opened for output");
         }
 
         if (is != null) {
             return is;
         }
 
-        MessageHeader msgh = new MessageHeader();
+        MessbgeHebder msgh = new MessbgeHebder();
 
-        boolean isAdir = false;
+        boolebn isAdir = fblse;
         try {
-            decodePath(url.getPath());
-            if (filename == null || type == DIR) {
+            decodePbth(url.getPbth());
+            if (filenbme == null || type == DIR) {
                 ftp.setAsciiType();
-                cd(pathname);
-                if (filename == null) {
-                    is = new FtpInputStream(ftp, ftp.list(null));
+                cd(pbthnbme);
+                if (filenbme == null) {
+                    is = new FtpInputStrebm(ftp, ftp.list(null));
                 } else {
-                    is = new FtpInputStream(ftp, ftp.nameList(filename));
+                    is = new FtpInputStrebm(ftp, ftp.nbmeList(filenbme));
                 }
             } else {
                 if (type == ASCII) {
                     ftp.setAsciiType();
                 } else {
-                    ftp.setBinaryType();
+                    ftp.setBinbryType();
                 }
-                cd(pathname);
-                is = new FtpInputStream(ftp, ftp.getFileStream(filename));
+                cd(pbthnbme);
+                is = new FtpInputStrebm(ftp, ftp.getFileStrebm(filenbme));
             }
 
-            /* Try to get the size of the file in bytes.  If that is
-            successful, then create a MeteredStream. */
+            /* Try to get the size of the file in bytes.  If thbt is
+            successful, then crebte b MeteredStrebm. */
             try {
-                long l = ftp.getLastTransferSize();
-                msgh.add("content-length", Long.toString(l));
+                long l = ftp.getLbstTrbnsferSize();
+                msgh.bdd("content-length", Long.toString(l));
                 if (l > 0) {
 
-                    // Wrap input stream with MeteredStream to ensure read() will always return -1
-                    // at expected length.
+                    // Wrbp input strebm with MeteredStrebm to ensure rebd() will blwbys return -1
+                    // bt expected length.
 
                     // Check if URL should be metered
-                    boolean meteredInput = ProgressMonitor.getDefault().shouldMeterInput(url, "GET");
+                    boolebn meteredInput = ProgressMonitor.getDefbult().shouldMeterInput(url, "GET");
                     ProgressSource pi = null;
 
                     if (meteredInput) {
                         pi = new ProgressSource(url, "GET", l);
-                        pi.beginTracking();
+                        pi.beginTrbcking();
                     }
 
-                    is = new MeteredStream(is, pi, l);
+                    is = new MeteredStrebm(is, pi, l);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            /* do nothing, since all we were doing was trying to
+            } cbtch (Exception e) {
+                e.printStbckTrbce();
+            /* do nothing, since bll we were doing wbs trying to
             get the size in bytes of the file */
             }
 
             if (isAdir) {
-                msgh.add("content-type", "text/plain");
-                msgh.add("access-type", "directory");
+                msgh.bdd("content-type", "text/plbin");
+                msgh.bdd("bccess-type", "directory");
             } else {
-                msgh.add("access-type", "file");
-                String ftype = guessContentTypeFromName(fullpath);
-                if (ftype == null && is.markSupported()) {
-                    ftype = guessContentTypeFromStream(is);
+                msgh.bdd("bccess-type", "file");
+                String ftype = guessContentTypeFromNbme(fullpbth);
+                if (ftype == null && is.mbrkSupported()) {
+                    ftype = guessContentTypeFromStrebm(is);
                 }
                 if (ftype != null) {
-                    msgh.add("content-type", ftype);
+                    msgh.bdd("content-type", ftype);
                 }
             }
-        } catch (FileNotFoundException e) {
+        } cbtch (FileNotFoundException e) {
             try {
-                cd(fullpath);
-                /* if that worked, then make a directory listing
-                and build an html stream with all the files in
+                cd(fullpbth);
+                /* if thbt worked, then mbke b directory listing
+                bnd build bn html strebm with bll the files in
                 the directory */
                 ftp.setAsciiType();
 
-                is = new FtpInputStream(ftp, ftp.list(null));
-                msgh.add("content-type", "text/plain");
-                msgh.add("access-type", "directory");
-            } catch (IOException ex) {
-                throw new FileNotFoundException(fullpath);
-            } catch (FtpProtocolException ex2) {
-                throw new FileNotFoundException(fullpath);
+                is = new FtpInputStrebm(ftp, ftp.list(null));
+                msgh.bdd("content-type", "text/plbin");
+                msgh.bdd("bccess-type", "directory");
+            } cbtch (IOException ex) {
+                throw new FileNotFoundException(fullpbth);
+            } cbtch (FtpProtocolException ex2) {
+                throw new FileNotFoundException(fullpbth);
             }
-        } catch (FtpProtocolException ftpe) {
+        } cbtch (FtpProtocolException ftpe) {
             throw new IOException(ftpe);
         }
         setProperties(msgh);
@@ -492,63 +492,63 @@ public class FtpURLConnection extends URLConnection {
     }
 
     /**
-     * Get the OutputStream to store the remote file. It will issue the
-     * "put" command to the ftp server.
+     * Get the OutputStrebm to store the remote file. It will issue the
+     * "put" commbnd to the ftp server.
      *
-     * @return  the <code>OutputStream</code> to the connection.
+     * @return  the <code>OutputStrebm</code> to the connection.
      *
-     * @throws  IOException if already opened for input or the URL
-     *          points to a directory
-     * @throws  FtpProtocolException if errors occur during the transfert.
+     * @throws  IOException if blrebdy opened for input or the URL
+     *          points to b directory
+     * @throws  FtpProtocolException if errors occur during the trbnsfert.
      */
     @Override
-    public OutputStream getOutputStream() throws IOException {
+    public OutputStrebm getOutputStrebm() throws IOException {
         if (!connected) {
             connect();
         }
 
         if (http != null) {
-            OutputStream out = http.getOutputStream();
-            // getInputStream() is neccessary to force a writeRequests()
+            OutputStrebm out = http.getOutputStrebm();
+            // getInputStrebm() is neccessbry to force b writeRequests()
             // on the http client.
-            http.getInputStream();
+            http.getInputStrebm();
             return out;
         }
 
         if (is != null) {
-            throw new IOException("Already opened for input");
+            throw new IOException("Alrebdy opened for input");
         }
 
         if (os != null) {
             return os;
         }
 
-        decodePath(url.getPath());
-        if (filename == null || filename.length() == 0) {
-            throw new IOException("illegal filename for a PUT");
+        decodePbth(url.getPbth());
+        if (filenbme == null || filenbme.length() == 0) {
+            throw new IOException("illegbl filenbme for b PUT");
         }
         try {
-            if (pathname != null) {
-                cd(pathname);
+            if (pbthnbme != null) {
+                cd(pbthnbme);
             }
             if (type == ASCII) {
                 ftp.setAsciiType();
             } else {
-                ftp.setBinaryType();
+                ftp.setBinbryType();
             }
-            os = new FtpOutputStream(ftp, ftp.putFileStream(filename, false));
-        } catch (FtpProtocolException e) {
+            os = new FtpOutputStrebm(ftp, ftp.putFileStrebm(filenbme, fblse));
+        } cbtch (FtpProtocolException e) {
             throw new IOException(e);
         }
         return os;
     }
 
-    String guessContentTypeFromFilename(String fname) {
-        return guessContentTypeFromName(fname);
+    String guessContentTypeFromFilenbme(String fnbme) {
+        return guessContentTypeFromNbme(fnbme);
     }
 
     /**
-     * Gets the <code>Permission</code> associated with the host & port.
+     * Gets the <code>Permission</code> bssocibted with the host & port.
      *
      * @return  The <code>Permission</code> object.
      */
@@ -556,7 +556,7 @@ public class FtpURLConnection extends URLConnection {
     public Permission getPermission() {
         if (permission == null) {
             int urlport = url.getPort();
-            urlport = urlport < 0 ? FtpClient.defaultPort() : urlport;
+            urlport = urlport < 0 ? FtpClient.defbultPort() : urlport;
             String urlhost = this.host + ":" + urlport;
             permission = new SocketPermission(urlhost, "connect");
         }
@@ -564,61 +564,61 @@ public class FtpURLConnection extends URLConnection {
     }
 
     /**
-     * Sets the general request property. If a property with the key already
-     * exists, overwrite its value with the new value.
+     * Sets the generbl request property. If b property with the key blrebdy
+     * exists, overwrite its vblue with the new vblue.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
-     * @throws IllegalStateException if already connected
-     * @see #getRequestProperty(java.lang.String)
+     * @pbrbm   key     the keyword by which the request is known
+     *                  (e.g., "<code>bccept</code>").
+     * @pbrbm   vblue   the vblue bssocibted with it.
+     * @throws IllegblStbteException if blrebdy connected
+     * @see #getRequestProperty(jbvb.lbng.String)
      */
     @Override
-    public void setRequestProperty(String key, String value) {
-        super.setRequestProperty(key, value);
-        if ("type".equals(key)) {
-            if ("i".equalsIgnoreCase(value)) {
+    public void setRequestProperty(String key, String vblue) {
+        super.setRequestProperty(key, vblue);
+        if ("type".equbls(key)) {
+            if ("i".equblsIgnoreCbse(vblue)) {
                 type = BIN;
-            } else if ("a".equalsIgnoreCase(value)) {
+            } else if ("b".equblsIgnoreCbse(vblue)) {
                 type = ASCII;
-            } else if ("d".equalsIgnoreCase(value)) {
+            } else if ("d".equblsIgnoreCbse(vblue)) {
                 type = DIR;
             } else {
-                throw new IllegalArgumentException(
-                        "Value of '" + key +
-                        "' request property was '" + value +
-                        "' when it must be either 'i', 'a' or 'd'");
+                throw new IllegblArgumentException(
+                        "Vblue of '" + key +
+                        "' request property wbs '" + vblue +
+                        "' when it must be either 'i', 'b' or 'd'");
             }
         }
     }
 
     /**
-     * Returns the value of the named general request property for this
+     * Returns the vblue of the nbmed generbl request property for this
      * connection.
      *
-     * @param key the keyword by which the request is known (e.g., "accept").
-     * @return  the value of the named general request property for this
+     * @pbrbm key the keyword by which the request is known (e.g., "bccept").
+     * @return  the vblue of the nbmed generbl request property for this
      *           connection.
-     * @throws IllegalStateException if already connected
-     * @see #setRequestProperty(java.lang.String, java.lang.String)
+     * @throws IllegblStbteException if blrebdy connected
+     * @see #setRequestProperty(jbvb.lbng.String, jbvb.lbng.String)
      */
     @Override
     public String getRequestProperty(String key) {
-        String value = super.getRequestProperty(key);
+        String vblue = super.getRequestProperty(key);
 
-        if (value == null) {
-            if ("type".equals(key)) {
-                value = (type == ASCII ? "a" : type == DIR ? "d" : "i");
+        if (vblue == null) {
+            if ("type".equbls(key)) {
+                vblue = (type == ASCII ? "b" : type == DIR ? "d" : "i");
             }
         }
 
-        return value;
+        return vblue;
     }
 
     @Override
     public void setConnectTimeout(int timeout) {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeouts can't be negative");
+            throw new IllegblArgumentException("timeouts cbn't be negbtive");
         }
         connectTimeout = timeout;
     }
@@ -629,15 +629,15 @@ public class FtpURLConnection extends URLConnection {
     }
 
     @Override
-    public void setReadTimeout(int timeout) {
+    public void setRebdTimeout(int timeout) {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeouts can't be negative");
+            throw new IllegblArgumentException("timeouts cbn't be negbtive");
         }
-        readTimeout = timeout;
+        rebdTimeout = timeout;
     }
 
     @Override
-    public int getReadTimeout() {
-        return readTimeout < 0 ? 0 : readTimeout;
+    public int getRebdTimeout() {
+        return rebdTimeout < 0 ? 0 : rebdTimeout;
     }
 }

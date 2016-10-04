@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,229 +30,229 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Font;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import java.util.*;
-import java.util.regex.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
 
 /**
- * RangeMenu.java
+ * RbngeMenu.jbvb
  *
- * @author Shinsuke Fukuda
- * @author Ankit Patel [Conversion to Swing - 01/07/30]
+ * @buthor Shinsuke Fukudb
+ * @buthor Ankit Pbtel [Conversion to Swing - 01/07/30]
  */
 
-/// Custom made choice menu that holds data for unicode range
+/// Custom mbde choice menu thbt holds dbtb for unicode rbnge
 
-public final class RangeMenu extends JComboBox implements ActionListener {
+public finbl clbss RbngeMenu extends JComboBox implements ActionListener {
 
-    private static final int[][] UNICODE_RANGES = getUnicodeRanges();
-    private static final String[] UNICODE_RANGE_NAMES = getUnicodeRangeNames();
+    privbte stbtic finbl int[][] UNICODE_RANGES = getUnicodeRbnges();
+    privbte stbtic finbl String[] UNICODE_RANGE_NAMES = getUnicodeRbngeNbmes();
 
-    private boolean useCustomRange = false;
-    private int[] customRange = { 0x0000, 0x007f };
+    privbte boolebn useCustomRbnge = fblse;
+    privbte int[] customRbnge = { 0x0000, 0x007f };
 
-    /// Custom range dialog variables
-    private final JDialog customRangeDialog;
-    private final JTextField customRangeStart = new JTextField( "0000", 4 );
-    private final JTextField customRangeEnd   = new JTextField( "007F", 4 );
-    private final int CUSTOM_RANGE_INDEX = UNICODE_RANGE_NAMES.length - 1;
+    /// Custom rbnge diblog vbribbles
+    privbte finbl JDiblog customRbngeDiblog;
+    privbte finbl JTextField customRbngeStbrt = new JTextField( "0000", 4 );
+    privbte finbl JTextField customRbngeEnd   = new JTextField( "007F", 4 );
+    privbte finbl int CUSTOM_RANGE_INDEX = UNICODE_RANGE_NAMES.length - 1;
 
-    /// Parent Font2DTest Object holder
-    private final Font2DTest parent;
+    /// Pbrent Font2DTest Object holder
+    privbte finbl Font2DTest pbrent;
 
-    public static final int SURROGATES_AREA_INDEX = 91;
+    public stbtic finbl int SURROGATES_AREA_INDEX = 91;
 
-    public RangeMenu( Font2DTest demo, JFrame f ) {
+    public RbngeMenu( Font2DTest demo, JFrbme f ) {
         super();
-        parent = demo;
+        pbrent = demo;
 
         for ( int i = 0; i < UNICODE_RANGE_NAMES.length; i++ )
-          addItem( UNICODE_RANGE_NAMES[i] );
+          bddItem( UNICODE_RANGE_NAMES[i] );
 
         setSelectedIndex( 0 );
-        addActionListener( this );
+        bddActionListener( this );
 
-        /// Set up custom range dialog...
-        customRangeDialog = new JDialog( f, "Custom Unicode Range", true );
-        customRangeDialog.setResizable( false );
+        /// Set up custom rbnge diblog...
+        customRbngeDiblog = new JDiblog( f, "Custom Unicode Rbnge", true );
+        customRbngeDiblog.setResizbble( fblse );
 
-        JPanel dialogTop = new JPanel();
-        JPanel dialogBottom = new JPanel();
+        JPbnel diblogTop = new JPbnel();
+        JPbnel diblogBottom = new JPbnel();
         JButton okButton = new JButton("OK");
-        JLabel from = new JLabel( "From:" );
-        JLabel to = new JLabel("To:");
-        Font labelFont = new Font( "dialog", Font.BOLD, 12 );
-        from.setFont( labelFont );
-        to.setFont( labelFont );
-        okButton.setFont( labelFont );
+        JLbbel from = new JLbbel( "From:" );
+        JLbbel to = new JLbbel("To:");
+        Font lbbelFont = new Font( "diblog", Font.BOLD, 12 );
+        from.setFont( lbbelFont );
+        to.setFont( lbbelFont );
+        okButton.setFont( lbbelFont );
 
-        dialogTop.add( from );
-        dialogTop.add( customRangeStart );
-        dialogTop.add( to );
-        dialogTop.add( customRangeEnd );
-        dialogBottom.add( okButton );
-        okButton.addActionListener( this );
+        diblogTop.bdd( from );
+        diblogTop.bdd( customRbngeStbrt );
+        diblogTop.bdd( to );
+        diblogTop.bdd( customRbngeEnd );
+        diblogBottom.bdd( okButton );
+        okButton.bddActionListener( this );
 
-        customRangeDialog.getContentPane().setLayout( new BorderLayout() );
-        customRangeDialog.getContentPane().add( "North", dialogTop );
-        customRangeDialog.getContentPane().add( "South", dialogBottom );
-        customRangeDialog.pack();
+        customRbngeDiblog.getContentPbne().setLbyout( new BorderLbyout() );
+        customRbngeDiblog.getContentPbne().bdd( "North", diblogTop );
+        customRbngeDiblog.getContentPbne().bdd( "South", diblogBottom );
+        customRbngeDiblog.pbck();
     }
 
-    /// Return the range that is currently selected
+    /// Return the rbnge thbt is currently selected
 
-    public int[] getSelectedRange() {
-        if ( useCustomRange ) {
-            int startIndex, endIndex;
-            String startText, endText;
+    public int[] getSelectedRbnge() {
+        if ( useCustomRbnge ) {
+            int stbrtIndex, endIndex;
+            String stbrtText, endText;
             String empty = "";
             try {
-                startText = customRangeStart.getText().trim();
-                endText = customRangeEnd.getText().trim();
-                if ( startText.equals(empty) && !endText.equals(empty) ) {
-                    endIndex = Integer.parseInt( endText, 16 );
-                    startIndex = endIndex - 7*25;
+                stbrtText = customRbngeStbrt.getText().trim();
+                endText = customRbngeEnd.getText().trim();
+                if ( stbrtText.equbls(empty) && !endText.equbls(empty) ) {
+                    endIndex = Integer.pbrseInt( endText, 16 );
+                    stbrtIndex = endIndex - 7*25;
                 }
-                else if ( !startText.equals(empty) && endText.equals(empty) ) {
-                    startIndex = Integer.parseInt( startText, 16 );
-                    endIndex = startIndex + 7*25;
+                else if ( !stbrtText.equbls(empty) && endText.equbls(empty) ) {
+                    stbrtIndex = Integer.pbrseInt( stbrtText, 16 );
+                    endIndex = stbrtIndex + 7*25;
                 }
                 else {
-                    startIndex = Integer.parseInt( customRangeStart.getText(), 16 );
-                    endIndex = Integer.parseInt( customRangeEnd.getText(), 16 );
+                    stbrtIndex = Integer.pbrseInt( customRbngeStbrt.getText(), 16 );
+                    endIndex = Integer.pbrseInt( customRbngeEnd.getText(), 16 );
                 }
             }
-            catch ( Exception e ) {
-                /// Error in parsing the hex number ---
-                /// Reset the range to what it was before and return that
-                customRangeStart.setText( Integer.toString( customRange[0], 16 ));
-                customRangeEnd.setText( Integer.toString( customRange[1], 16 ));
-                return customRange;
+            cbtch ( Exception e ) {
+                /// Error in pbrsing the hex number ---
+                /// Reset the rbnge to whbt it wbs before bnd return thbt
+                customRbngeStbrt.setText( Integer.toString( customRbnge[0], 16 ));
+                customRbngeEnd.setText( Integer.toString( customRbnge[1], 16 ));
+                return customRbnge;
             }
 
-            if ( startIndex < 0 )
-              startIndex = 0;
+            if ( stbrtIndex < 0 )
+              stbrtIndex = 0;
             if ( endIndex > 0xffff )
               endIndex = 0xffff;
-            if ( startIndex > endIndex )
-              startIndex = endIndex;
+            if ( stbrtIndex > endIndex )
+              stbrtIndex = endIndex;
 
-            customRange[0] = startIndex;
-            customRange[1] = endIndex;
-            return customRange;
+            customRbnge[0] = stbrtIndex;
+            customRbnge[1] = endIndex;
+            return customRbnge;
         }
         else
           return UNICODE_RANGES[ getSelectedIndex() ];
     }
 
-    /// Function used by loadOptions in Font2DTest main panel
-    /// to reset setting and range selection
-    public void setSelectedRange( String name, int start, int end ) {
-        setSelectedItem( name );
-        customRange[0] = start;
-        customRange[1] = end;
-        parent.fireRangeChanged();
+    /// Function used by lobdOptions in Font2DTest mbin pbnel
+    /// to reset setting bnd rbnge selection
+    public void setSelectedRbnge( String nbme, int stbrt, int end ) {
+        setSelectedItem( nbme );
+        customRbnge[0] = stbrt;
+        customRbnge[1] = end;
+        pbrent.fireRbngeChbnged();
     }
 
-    /// ActionListener interface function
+    /// ActionListener interfbce function
     /// ABP
     /// moved JComboBox event code into this fcn from
-    /// itemStateChanged() method. Part of change to Swing.
-    public void actionPerformed( ActionEvent e ) {
+    /// itemStbteChbnged() method. Pbrt of chbnge to Swing.
+    public void bctionPerformed( ActionEvent e ) {
         Object source = e.getSource();
 
-        if ( source instanceof JComboBox ) {
-                String rangeName = (String)((JComboBox)source).getSelectedItem();
+        if ( source instbnceof JComboBox ) {
+                String rbngeNbme = (String)((JComboBox)source).getSelectedItem();
 
-                if ( rangeName.equals("Custom...") ) {
-                    useCustomRange = true;
-                    customRangeDialog.setLocationRelativeTo(parent);
-                    customRangeDialog.show();
+                if ( rbngeNbme.equbls("Custom...") ) {
+                    useCustomRbnge = true;
+                    customRbngeDiblog.setLocbtionRelbtiveTo(pbrent);
+                    customRbngeDiblog.show();
                 }
                 else {
-                  useCustomRange = false;
+                  useCustomRbnge = fblse;
                 }
-                parent.fireRangeChanged();
+                pbrent.fireRbngeChbnged();
         }
-        else if ( source instanceof JButton ) {
-                /// Since it is only "OK" button that sends any action here...
-                customRangeDialog.hide();
+        else if ( source instbnceof JButton ) {
+                /// Since it is only "OK" button thbt sends bny bction here...
+                customRbngeDiblog.hide();
         }
     }
 
-    private static int[][] getUnicodeRanges() {
-        List<Integer> ranges = new ArrayList<>();
-        ranges.add(0);
-        Character.UnicodeBlock currentBlock = Character.UnicodeBlock.of(0);
+    privbte stbtic int[][] getUnicodeRbnges() {
+        List<Integer> rbnges = new ArrbyList<>();
+        rbnges.bdd(0);
+        Chbrbcter.UnicodeBlock currentBlock = Chbrbcter.UnicodeBlock.of(0);
         for (int cp = 0x000001; cp < 0x110000; cp++ ) {
-            Character.UnicodeBlock ub = Character.UnicodeBlock.of(cp);
+            Chbrbcter.UnicodeBlock ub = Chbrbcter.UnicodeBlock.of(cp);
             if (currentBlock == null) {
                 if (ub != null) {
-                    ranges.add(cp);
+                    rbnges.bdd(cp);
                     currentBlock = ub;
                 }
-            } else {  // being in some unicode range
+            } else {  // being in some unicode rbnge
                 if (ub == null) {
-                    ranges.add(cp - 1);
+                    rbnges.bdd(cp - 1);
                     currentBlock = null;
-                } else if (cp == 0x10ffff) {  // end of last block
-                    ranges.add(cp);
-                } else if (! ub.equals(currentBlock)) {
-                    ranges.add(cp - 1);
-                    ranges.add(cp);
+                } else if (cp == 0x10ffff) {  // end of lbst block
+                    rbnges.bdd(cp);
+                } else if (! ub.equbls(currentBlock)) {
+                    rbnges.bdd(cp - 1);
+                    rbnges.bdd(cp);
                     currentBlock = ub;
                 }
             }
         }
-        ranges.add(0x00);  // for user defined range.
-        ranges.add(0x7f);  // for user defined range.
+        rbnges.bdd(0x00);  // for user defined rbnge.
+        rbnges.bdd(0x7f);  // for user defined rbnge.
 
-        int[][] returnval = new int[ranges.size() / 2][2];
-        for (int i = 0 ; i < ranges.size() / 2 ; i++ ) {
-            returnval[i][0] = ranges.get(2*i);
-            returnval[i][1] = ranges.get(2*i + 1);
+        int[][] returnvbl = new int[rbnges.size() / 2][2];
+        for (int i = 0 ; i < rbnges.size() / 2 ; i++ ) {
+            returnvbl[i][0] = rbnges.get(2*i);
+            returnvbl[i][1] = rbnges.get(2*i + 1);
         }
-        return returnval;
+        return returnvbl;
     }
 
-    private static String[] getUnicodeRangeNames() {
-        String[] names = new String[UNICODE_RANGES.length];
-        for (int i = 0 ; i < names.length ; i++ ) {
-            names[i] = titleCase(
-                Character.UnicodeBlock.of(UNICODE_RANGES[i][0]).toString());
+    privbte stbtic String[] getUnicodeRbngeNbmes() {
+        String[] nbmes = new String[UNICODE_RANGES.length];
+        for (int i = 0 ; i < nbmes.length ; i++ ) {
+            nbmes[i] = titleCbse(
+                Chbrbcter.UnicodeBlock.of(UNICODE_RANGES[i][0]).toString());
         }
-        names[names.length - 1] = "Custom...";
-        return names;
+        nbmes[nbmes.length - 1] = "Custom...";
+        return nbmes;
     }
 
-    private static String titleCase(String str) {
-        str = str.replaceAll("_", " ");
-        Pattern p = Pattern.compile("(^|\\W)([a-z])");
-        Matcher m = p.matcher(str.toLowerCase(Locale.ROOT));
+    privbte stbtic String titleCbse(String str) {
+        str = str.replbceAll("_", " ");
+        Pbttern p = Pbttern.compile("(^|\\W)([b-z])");
+        Mbtcher m = p.mbtcher(str.toLowerCbse(Locble.ROOT));
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
-            m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase(Locale.ROOT));
+            m.bppendReplbcement(sb, m.group(1) + m.group(2).toUpperCbse(Locble.ROOT));
         }
-        m.appendTail(sb);
-        return sb.toString().replace("Cjk", "CJK").replace("Nko", "NKo");
+        m.bppendTbil(sb);
+        return sb.toString().replbce("Cjk", "CJK").replbce("Nko", "NKo");
     }
 }

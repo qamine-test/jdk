@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Rbndom;
+import jbvb.util.Set;
+import jbvb.util.zip.Deflbter;
+import jbvb.util.zip.DeflbterOutputStrebm;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 /**
- * Heuristic chooser of basic encodings.
- * Runs "zip" to measure the apparent information content after coding.
- * @author John Rose
+ * Heuristic chooser of bbsic encodings.
+ * Runs "zip" to mebsure the bppbrent informbtion content bfter coding.
+ * @buthor John Rose
  */
-class CodingChooser {
+clbss CodingChooser {
     int verbose;
     int effort;
-    boolean optUseHistogram = true;
-    boolean optUsePopulationCoding = true;
-    boolean optUseAdaptiveCoding = true;
-    boolean disablePopCoding;
-    boolean disableRunCoding;
-    boolean topLevel = true;
+    boolebn optUseHistogrbm = true;
+    boolebn optUsePopulbtionCoding = true;
+    boolebn optUseAdbptiveCoding = true;
+    boolebn disbblePopCoding;
+    boolebn disbbleRunCoding;
+    boolebn topLevel = true;
 
-    // Derived from effort; >1 (<1) means try more (less) experiments
-    // when looking to beat a best score.
+    // Derived from effort; >1 (<1) mebns try more (less) experiments
+    // when looking to bebt b best score.
     double fuzz;
 
-    Coding[] allCodingChoices;
+    Coding[] bllCodingChoices;
     Choice[] choices;
-    ByteArrayOutputStream context;
+    ByteArrbyOutputStrebm context;
     CodingChooser popHelper;
     CodingChooser runHelper;
 
-    Random stress;  // If not null, stress mode oracle.
+    Rbndom stress;  // If not null, stress mode orbcle.
 
     // Element in sorted set of coding choices:
-    static
-    class Choice {
-        final Coding coding;
-        final int index;       // index in choices
-        final int[] distance;  // cache of distance
-        Choice(Coding coding, int index, int[] distance) {
+    stbtic
+    clbss Choice {
+        finbl Coding coding;
+        finbl int index;       // index in choices
+        finbl int[] distbnce;  // cbche of distbnce
+        Choice(Coding coding, int index, int[] distbnce) {
             this.coding   = coding;
             this.index    = index;
-            this.distance = distance;
+            this.distbnce = distbnce;
         }
-        // These variables are reset and reused:
-        int searchOrder; // order in which it is checked
-        int minDistance; // min distance from already-checked choices
-        int zipSize;     // size of encoding in sample, zipped output
-        int byteSize;    // size of encoding in sample (debug only)
-        int histSize;    // size of encoding, according to histogram
+        // These vbribbles bre reset bnd reused:
+        int sebrchOrder; // order in which it is checked
+        int minDistbnce; // min distbnce from blrebdy-checked choices
+        int zipSize;     // size of encoding in sbmple, zipped output
+        int byteSize;    // size of encoding in sbmple (debug only)
+        int histSize;    // size of encoding, bccording to histogrbm
 
         void reset() {
-            searchOrder = Integer.MAX_VALUE;
-            minDistance = Integer.MAX_VALUE;
+            sebrchOrder = Integer.MAX_VALUE;
+            minDistbnce = Integer.MAX_VALUE;
             zipSize = byteSize = histSize = -1;
         }
 
-        boolean isExtra() {
+        boolebn isExtrb() {
             return index < 0;
         }
 
@@ -97,12 +97,12 @@ class CodingChooser {
             return stringForDebug();
         }
 
-        private String stringForDebug() {
+        privbte String stringForDebug() {
             String s = "";
-            if (searchOrder < Integer.MAX_VALUE)
-                s += " so: "+searchOrder;
-            if (minDistance < Integer.MAX_VALUE)
-                s += " md: "+minDistance;
+            if (sebrchOrder < Integer.MAX_VALUE)
+                s += " so: "+sebrchOrder;
+            if (minDistbnce < Integer.MAX_VALUE)
+                s += " md: "+minDistbnce;
             if (zipSize > 0)
                 s += " zs: "+zipSize;
             if (byteSize > 0)
@@ -113,260 +113,260 @@ class CodingChooser {
         }
     }
 
-    CodingChooser(int effort, Coding[] allCodingChoices) {
-        PropMap p200 = Utils.currentPropMap();
+    CodingChooser(int effort, Coding[] bllCodingChoices) {
+        PropMbp p200 = Utils.currentPropMbp();
         if (p200 != null) {
             this.verbose
-                = Math.max(p200.getInteger(Utils.DEBUG_VERBOSE),
+                = Mbth.mbx(p200.getInteger(Utils.DEBUG_VERBOSE),
                            p200.getInteger(Utils.COM_PREFIX+"verbose.coding"));
-            this.optUseHistogram
-                = !p200.getBoolean(Utils.COM_PREFIX+"no.histogram");
-            this.optUsePopulationCoding
-                = !p200.getBoolean(Utils.COM_PREFIX+"no.population.coding");
-            this.optUseAdaptiveCoding
-                = !p200.getBoolean(Utils.COM_PREFIX+"no.adaptive.coding");
+            this.optUseHistogrbm
+                = !p200.getBoolebn(Utils.COM_PREFIX+"no.histogrbm");
+            this.optUsePopulbtionCoding
+                = !p200.getBoolebn(Utils.COM_PREFIX+"no.populbtion.coding");
+            this.optUseAdbptiveCoding
+                = !p200.getBoolebn(Utils.COM_PREFIX+"no.bdbptive.coding");
             int lstress
                 = p200.getInteger(Utils.COM_PREFIX+"stress.coding");
             if (lstress != 0)
-                this.stress = new Random(lstress);
+                this.stress = new Rbndom(lstress);
         }
 
         this.effort = effort;
-        // The following line "makes sense" but is too much
-        // work for a simple heuristic.
+        // The following line "mbkes sense" but is too much
+        // work for b simple heuristic.
         //if (effort > 5)  zipDef.setLevel(effort);
 
-        this.allCodingChoices = allCodingChoices;
+        this.bllCodingChoices = bllCodingChoices;
 
-        // If effort = 9, look carefully at any solution
-        // whose initial metrics are within 1% of the best
-        // so far.  If effort = 1, look carefully only at
-        // solutions whose initial metrics promise a 1% win.
+        // If effort = 9, look cbrefully bt bny solution
+        // whose initibl metrics bre within 1% of the best
+        // so fbr.  If effort = 1, look cbrefully only bt
+        // solutions whose initibl metrics promise b 1% win.
         this.fuzz = 1 + (0.0025 * (effort-MID_EFFORT));
 
         int nc = 0;
-        for (int i = 0; i < allCodingChoices.length; i++) {
-            if (allCodingChoices[i] == null)  continue;
+        for (int i = 0; i < bllCodingChoices.length; i++) {
+            if (bllCodingChoices[i] == null)  continue;
             nc++;
         }
         choices = new Choice[nc];
         nc = 0;
-        for (int i = 0; i < allCodingChoices.length; i++) {
-            if (allCodingChoices[i] == null)  continue;
-            int[] distance = new int[choices.length];
-            choices[nc++] = new Choice(allCodingChoices[i], i, distance);
+        for (int i = 0; i < bllCodingChoices.length; i++) {
+            if (bllCodingChoices[i] == null)  continue;
+            int[] distbnce = new int[choices.length];
+            choices[nc++] = new Choice(bllCodingChoices[i], i, distbnce);
         }
         for (int i = 0; i < choices.length; i++) {
             Coding ci = choices[i].coding;
-            assert(ci.distanceFrom(ci) == 0);
+            bssert(ci.distbnceFrom(ci) == 0);
             for (int j = 0; j < i; j++) {
                 Coding cj = choices[j].coding;
-                int dij = ci.distanceFrom(cj);
-                assert(dij > 0);
-                assert(dij == cj.distanceFrom(ci));
-                choices[i].distance[j] = dij;
-                choices[j].distance[i] = dij;
+                int dij = ci.distbnceFrom(cj);
+                bssert(dij > 0);
+                bssert(dij == cj.distbnceFrom(ci));
+                choices[i].distbnce[j] = dij;
+                choices[j].distbnce[i] = dij;
             }
         }
     }
 
-    Choice makeExtraChoice(Coding coding) {
-        int[] distance = new int[choices.length];
-        for (int i = 0; i < distance.length; i++) {
+    Choice mbkeExtrbChoice(Coding coding) {
+        int[] distbnce = new int[choices.length];
+        for (int i = 0; i < distbnce.length; i++) {
             Coding ci = choices[i].coding;
-            int dij = coding.distanceFrom(ci);
-            assert(dij > 0);
-            assert(dij == ci.distanceFrom(coding));
-            distance[i] = dij;
+            int dij = coding.distbnceFrom(ci);
+            bssert(dij > 0);
+            bssert(dij == ci.distbnceFrom(coding));
+            distbnce[i] = dij;
         }
-        Choice c = new Choice(coding, -1, distance);
+        Choice c = new Choice(coding, -1, distbnce);
         c.reset();
         return c;
     }
 
-    ByteArrayOutputStream getContext() {
+    ByteArrbyOutputStrebm getContext() {
         if (context == null)
-            context = new ByteArrayOutputStream(1 << 16);
+            context = new ByteArrbyOutputStrebm(1 << 16);
         return context;
     }
 
-    // These variables are reset and reused:
-    private int[] values;
-    private int start, end;  // slice of values
-    private int[] deltas;
-    private int min, max;
-    private Histogram vHist;
-    private Histogram dHist;
-    private int searchOrder;
-    private Choice regularChoice;
-    private Choice bestChoice;
-    private CodingMethod bestMethod;
-    private int bestByteSize;
-    private int bestZipSize;
-    private int targetSize;   // fuzzed target byte size
+    // These vbribbles bre reset bnd reused:
+    privbte int[] vblues;
+    privbte int stbrt, end;  // slice of vblues
+    privbte int[] deltbs;
+    privbte int min, mbx;
+    privbte Histogrbm vHist;
+    privbte Histogrbm dHist;
+    privbte int sebrchOrder;
+    privbte Choice regulbrChoice;
+    privbte Choice bestChoice;
+    privbte CodingMethod bestMethod;
+    privbte int bestByteSize;
+    privbte int bestZipSize;
+    privbte int tbrgetSize;   // fuzzed tbrget byte size
 
-    private void reset(int[] values, int start, int end) {
-        this.values = values;
-        this.start = start;
+    privbte void reset(int[] vblues, int stbrt, int end) {
+        this.vblues = vblues;
+        this.stbrt = stbrt;
         this.end = end;
-        this.deltas = null;
+        this.deltbs = null;
         this.min = Integer.MAX_VALUE;
-        this.max = Integer.MIN_VALUE;
+        this.mbx = Integer.MIN_VALUE;
         this.vHist = null;
         this.dHist = null;
-        this.searchOrder = 0;
-        this.regularChoice = null;
+        this.sebrchOrder = 0;
+        this.regulbrChoice = null;
         this.bestChoice = null;
         this.bestMethod = null;
         this.bestZipSize = Integer.MAX_VALUE;
         this.bestByteSize = Integer.MAX_VALUE;
-        this.targetSize = Integer.MAX_VALUE;
+        this.tbrgetSize = Integer.MAX_VALUE;
     }
 
-    public static final int MIN_EFFORT = 1;
-    public static final int MID_EFFORT = 5;
-    public static final int MAX_EFFORT = 9;
+    public stbtic finbl int MIN_EFFORT = 1;
+    public stbtic finbl int MID_EFFORT = 5;
+    public stbtic finbl int MAX_EFFORT = 9;
 
-    public static final int POP_EFFORT = MID_EFFORT-1;
-    public static final int RUN_EFFORT = MID_EFFORT-2;
+    public stbtic finbl int POP_EFFORT = MID_EFFORT-1;
+    public stbtic finbl int RUN_EFFORT = MID_EFFORT-2;
 
-    public static final int BYTE_SIZE = 0;
-    public static final int ZIP_SIZE = 1;
+    public stbtic finbl int BYTE_SIZE = 0;
+    public stbtic finbl int ZIP_SIZE = 1;
 
-    CodingMethod choose(int[] values, int start, int end, Coding regular, int[] sizes) {
-        // Save the value array
-        reset(values, start, end);
+    CodingMethod choose(int[] vblues, int stbrt, int end, Coding regulbr, int[] sizes) {
+        // Sbve the vblue brrby
+        reset(vblues, stbrt, end);
 
-        if (effort <= MIN_EFFORT || start >= end) {
+        if (effort <= MIN_EFFORT || stbrt >= end) {
             if (sizes != null) {
-                int[] computed = computeSizePrivate(regular);
+                int[] computed = computeSizePrivbte(regulbr);
                 sizes[BYTE_SIZE] = computed[BYTE_SIZE];
                 sizes[ZIP_SIZE]  = computed[ZIP_SIZE];
             }
-            return regular;
+            return regulbr;
         }
 
-        if (optUseHistogram) {
-            getValueHistogram();
-            getDeltaHistogram();
+        if (optUseHistogrbm) {
+            getVblueHistogrbm();
+            getDeltbHistogrbm();
         }
 
-        for (int i = start; i < end; i++) {
-            int val = values[i];
-            if (min > val)  min = val;
-            if (max < val)  max = val;
+        for (int i = stbrt; i < end; i++) {
+            int vbl = vblues[i];
+            if (min > vbl)  min = vbl;
+            if (mbx < vbl)  mbx = vbl;
         }
 
-        // Find all the preset choices that might be worth looking at:
-        int numChoices = markUsableChoices(regular);
+        // Find bll the preset choices thbt might be worth looking bt:
+        int numChoices = mbrkUsbbleChoices(regulbr);
 
         if (stress != null) {
-            // Make a random choice.
-            int rand = stress.nextInt(numChoices*2 + 4);
+            // Mbke b rbndom choice.
+            int rbnd = stress.nextInt(numChoices*2 + 4);
             CodingMethod coding = null;
             for (int i = 0; i < choices.length; i++) {
                 Choice c = choices[i];
-                if (c.searchOrder >= 0 && rand-- == 0) {
+                if (c.sebrchOrder >= 0 && rbnd-- == 0) {
                     coding = c.coding;
-                    break;
+                    brebk;
                 }
             }
             if (coding == null) {
-                if ((rand & 7) != 0) {
-                    coding = regular;
+                if ((rbnd & 7) != 0) {
+                    coding = regulbr;
                 } else {
-                    // Pick a totally random coding 6% of the time.
-                    coding = stressCoding(min, max);
+                    // Pick b totblly rbndom coding 6% of the time.
+                    coding = stressCoding(min, mbx);
                 }
             }
-            if (!disablePopCoding
-                && optUsePopulationCoding
+            if (!disbblePopCoding
+                && optUsePopulbtionCoding
                 && effort >= POP_EFFORT) {
                 coding = stressPopCoding(coding);
             }
-            if (!disableRunCoding
-                && optUseAdaptiveCoding
+            if (!disbbleRunCoding
+                && optUseAdbptiveCoding
                 && effort >= RUN_EFFORT) {
-                coding = stressAdaptiveCoding(coding);
+                coding = stressAdbptiveCoding(coding);
             }
             return coding;
         }
 
-        double searchScale = 1.0;
+        double sebrchScble = 1.0;
         for (int x = effort; x < MAX_EFFORT; x++) {
-            searchScale /= 1.414;  // every 2 effort points doubles work
+            sebrchScble /= 1.414;  // every 2 effort points doubles work
         }
-        int searchOrderLimit = (int)Math.ceil( numChoices * searchScale );
+        int sebrchOrderLimit = (int)Mbth.ceil( numChoices * sebrchScble );
 
-        // Start by evaluating the "regular" choice.
-        bestChoice = regularChoice;
-        evaluate(regularChoice);
-        int maxd = updateDistances(regularChoice);
+        // Stbrt by evblubting the "regulbr" choice.
+        bestChoice = regulbrChoice;
+        evblubte(regulbrChoice);
+        int mbxd = updbteDistbnces(regulbrChoice);
 
-        // save these first-cut numbers for later
+        // sbve these first-cut numbers for lbter
         int zipSize1 = bestZipSize;
         int byteSize1 = bestByteSize;
 
-        if (regularChoice.coding == regular && topLevel) {
-            // Give credit for being the default; no band header is needed.
-            // Rather than increasing every other size value by the band
-            // header amount, we decrement this one metric, to give it an edge.
-            // Decreasing zipSize by a byte length is conservatively correct,
-            // especially considering that the escape byte is not likely to
-            // zip well with other bytes in the band.
-            int X = BandStructure.encodeEscapeValue(_meta_canon_max, regular);
-            if (regular.canRepresentSigned(X)) {
-                int Xlen = regular.getLength(X);  // band coding header
-                //regularChoice.histSize -= Xlen; // keep exact byteSize
-                //regularChoice.byteSize -= Xlen; // keep exact byteSize
-                regularChoice.zipSize -= Xlen;
-                bestByteSize = regularChoice.byteSize;
-                bestZipSize = regularChoice.zipSize;
+        if (regulbrChoice.coding == regulbr && topLevel) {
+            // Give credit for being the defbult; no bbnd hebder is needed.
+            // Rbther thbn increbsing every other size vblue by the bbnd
+            // hebder bmount, we decrement this one metric, to give it bn edge.
+            // Decrebsing zipSize by b byte length is conservbtively correct,
+            // especiblly considering thbt the escbpe byte is not likely to
+            // zip well with other bytes in the bbnd.
+            int X = BbndStructure.encodeEscbpeVblue(_metb_cbnon_mbx, regulbr);
+            if (regulbr.cbnRepresentSigned(X)) {
+                int Xlen = regulbr.getLength(X);  // bbnd coding hebder
+                //regulbrChoice.histSize -= Xlen; // keep exbct byteSize
+                //regulbrChoice.byteSize -= Xlen; // keep exbct byteSize
+                regulbrChoice.zipSize -= Xlen;
+                bestByteSize = regulbrChoice.byteSize;
+                bestZipSize = regulbrChoice.zipSize;
             }
         }
 
-        int dscale = 1;
-        // Continually select a new choice to evaluate.
-        while (searchOrder < searchOrderLimit) {
+        int dscble = 1;
+        // Continublly select b new choice to evblubte.
+        while (sebrchOrder < sebrchOrderLimit) {
             Choice nextChoice;
-            if (dscale > maxd)  dscale = 1;  // cycle dscale values!
-            int dhi = maxd / dscale;
-            int dlo = maxd / (dscale *= 2) + 1;
-            nextChoice = findChoiceNear(bestChoice, dhi, dlo);
+            if (dscble > mbxd)  dscble = 1;  // cycle dscble vblues!
+            int dhi = mbxd / dscble;
+            int dlo = mbxd / (dscble *= 2) + 1;
+            nextChoice = findChoiceNebr(bestChoice, dhi, dlo);
             if (nextChoice == null)  continue;
-            assert(nextChoice.coding.canRepresent(min, max));
-            evaluate(nextChoice);
-            int nextMaxd = updateDistances(nextChoice);
+            bssert(nextChoice.coding.cbnRepresent(min, mbx));
+            evblubte(nextChoice);
+            int nextMbxd = updbteDistbnces(nextChoice);
             if (nextChoice == bestChoice) {
-                maxd = nextMaxd;
-                if (verbose > 5)  Utils.log.info("maxd = "+maxd);
+                mbxd = nextMbxd;
+                if (verbose > 5)  Utils.log.info("mbxd = "+mbxd);
             }
         }
 
-        // Record best "plain coding" choice.
-        Coding plainBest = bestChoice.coding;
-        assert(plainBest == bestMethod);
+        // Record best "plbin coding" choice.
+        Coding plbinBest = bestChoice.coding;
+        bssert(plbinBest == bestMethod);
 
         if (verbose > 2) {
-            Utils.log.info("chooser: plain result="+bestChoice+" after "+bestChoice.searchOrder+" rounds, "+(regularChoice.zipSize-bestZipSize)+" fewer bytes than regular "+regular);
+            Utils.log.info("chooser: plbin result="+bestChoice+" bfter "+bestChoice.sebrchOrder+" rounds, "+(regulbrChoice.zipSize-bestZipSize)+" fewer bytes thbn regulbr "+regulbr);
         }
         bestChoice = null;
 
-        if (!disablePopCoding
-            && optUsePopulationCoding
+        if (!disbblePopCoding
+            && optUsePopulbtionCoding
             && effort >= POP_EFFORT
-            && bestMethod instanceof Coding) {
-            tryPopulationCoding(plainBest);
+            && bestMethod instbnceof Coding) {
+            tryPopulbtionCoding(plbinBest);
         }
 
-        if (!disableRunCoding
-            && optUseAdaptiveCoding
+        if (!disbbleRunCoding
+            && optUseAdbptiveCoding
             && effort >= RUN_EFFORT
-            && bestMethod instanceof Coding) {
-            tryAdaptiveCoding(plainBest);
+            && bestMethod instbnceof Coding) {
+            tryAdbptiveCoding(plbinBest);
         }
 
-        // Pass back the requested information:
+        // Pbss bbck the requested informbtion:
         if (sizes != null) {
             sizes[BYTE_SIZE] = bestByteSize;
             sizes[ZIP_SIZE]  = bestZipSize;
@@ -374,65 +374,65 @@ class CodingChooser {
         if (verbose > 1) {
             Utils.log.info("chooser: result="+bestMethod+" "+
                              (zipSize1-bestZipSize)+
-                             " fewer bytes than regular "+regular+
+                             " fewer bytes thbn regulbr "+regulbr+
                              "; win="+pct(zipSize1-bestZipSize, zipSize1));
         }
         CodingMethod lbestMethod = this.bestMethod;
         reset(null, 0, 0);  // for GC
         return lbestMethod;
     }
-    CodingMethod choose(int[] values, int start, int end, Coding regular) {
-        return choose(values, start, end, regular, null);
+    CodingMethod choose(int[] vblues, int stbrt, int end, Coding regulbr) {
+        return choose(vblues, stbrt, end, regulbr, null);
     }
-    CodingMethod choose(int[] values, Coding regular, int[] sizes) {
-        return choose(values, 0, values.length, regular, sizes);
+    CodingMethod choose(int[] vblues, Coding regulbr, int[] sizes) {
+        return choose(vblues, 0, vblues.length, regulbr, sizes);
     }
-    CodingMethod choose(int[] values, Coding regular) {
-        return choose(values, 0, values.length, regular, null);
+    CodingMethod choose(int[] vblues, Coding regulbr) {
+        return choose(vblues, 0, vblues.length, regulbr, null);
     }
 
-    private int markUsableChoices(Coding regular) {
+    privbte int mbrkUsbbleChoices(Coding regulbr) {
         int numChoices = 0;
         for (int i = 0; i < choices.length; i++) {
             Choice c = choices[i];
             c.reset();
-            if (!c.coding.canRepresent(min, max)) {
-                // Mark as already visited:
-                c.searchOrder = -1;
-                if (verbose > 1 && c.coding == regular) {
-                    Utils.log.info("regular coding cannot represent ["+min+".."+max+"]: "+regular);
+            if (!c.coding.cbnRepresent(min, mbx)) {
+                // Mbrk bs blrebdy visited:
+                c.sebrchOrder = -1;
+                if (verbose > 1 && c.coding == regulbr) {
+                    Utils.log.info("regulbr coding cbnnot represent ["+min+".."+mbx+"]: "+regulbr);
                 }
                 continue;
             }
-            if (c.coding == regular)
-                regularChoice = c;
+            if (c.coding == regulbr)
+                regulbrChoice = c;
             numChoices++;
         }
-        if (regularChoice == null && regular.canRepresent(min, max)) {
-            regularChoice = makeExtraChoice(regular);
+        if (regulbrChoice == null && regulbr.cbnRepresent(min, mbx)) {
+            regulbrChoice = mbkeExtrbChoice(regulbr);
             if (verbose > 1) {
-                Utils.log.info("*** regular choice is extra: "+regularChoice.coding);
+                Utils.log.info("*** regulbr choice is extrb: "+regulbrChoice.coding);
             }
         }
-        if (regularChoice == null) {
+        if (regulbrChoice == null) {
             for (int i = 0; i < choices.length; i++) {
                 Choice c = choices[i];
-                if (c.searchOrder != -1) {
-                    regularChoice = c;  // arbitrary pick
-                    break;
+                if (c.sebrchOrder != -1) {
+                    regulbrChoice = c;  // brbitrbry pick
+                    brebk;
                 }
             }
             if (verbose > 1) {
-                Utils.log.info("*** regular choice does not apply "+regular);
-                Utils.log.info("    using instead "+regularChoice.coding);
+                Utils.log.info("*** regulbr choice does not bpply "+regulbr);
+                Utils.log.info("    using instebd "+regulbrChoice.coding);
             }
         }
         if (verbose > 2) {
-            Utils.log.info("chooser: #choices="+numChoices+" ["+min+".."+max+"]");
+            Utils.log.info("chooser: #choices="+numChoices+" ["+min+".."+mbx+"]");
             if (verbose > 4) {
                 for (int i = 0; i < choices.length; i++) {
                     Choice c = choices[i];
-                    if (c.searchOrder >= 0)
+                    if (c.sebrchOrder >= 0)
                         Utils.log.info("  "+c);
                 }
             }
@@ -440,22 +440,22 @@ class CodingChooser {
         return numChoices;
     }
 
-    // Find an arbitrary choice at least dlo away from a previously
-    // evaluated choices, and at most dhi.  Try also to regulate its
-    // min distance to all previously evaluated choices, in this range.
-    private Choice findChoiceNear(Choice near, int dhi, int dlo) {
+    // Find bn brbitrbry choice bt lebst dlo bwby from b previously
+    // evblubted choices, bnd bt most dhi.  Try blso to regulbte its
+    // min distbnce to bll previously evblubted choices, in this rbnge.
+    privbte Choice findChoiceNebr(Choice nebr, int dhi, int dlo) {
         if (verbose > 5)
-            Utils.log.info("findChoice "+dhi+".."+dlo+" near: "+near);
-        int[] distance = near.distance;
+            Utils.log.info("findChoice "+dhi+".."+dlo+" nebr: "+nebr);
+        int[] distbnce = nebr.distbnce;
         Choice found = null;
         for (int i = 0; i < choices.length; i++) {
             Choice c = choices[i];
-            if (c.searchOrder < searchOrder)
-                continue;  // already searched
-            // Distance from "near" guy must be in bounds:
-            if (distance[i] >= dlo && distance[i] <= dhi) {
-                // Try also to keep min-distance from other guys in bounds:
-                if (c.minDistance >= dlo && c.minDistance <= dhi) {
+            if (c.sebrchOrder < sebrchOrder)
+                continue;  // blrebdy sebrched
+            // Distbnce from "nebr" guy must be in bounds:
+            if (distbnce[i] >= dlo && distbnce[i] <= dhi) {
+                // Try blso to keep min-distbnce from other guys in bounds:
+                if (c.minDistbnce >= dlo && c.minDistbnce <= dhi) {
                     if (verbose > 5)
                         Utils.log.info("findChoice => good "+c);
                     return c;
@@ -468,38 +468,38 @@ class CodingChooser {
         return found;
     }
 
-    private void evaluate(Choice c) {
-        assert(c.searchOrder == Integer.MAX_VALUE);
-        c.searchOrder = searchOrder++;
-        boolean mustComputeSize;
-        if (c == bestChoice || c.isExtra()) {
+    privbte void evblubte(Choice c) {
+        bssert(c.sebrchOrder == Integer.MAX_VALUE);
+        c.sebrchOrder = sebrchOrder++;
+        boolebn mustComputeSize;
+        if (c == bestChoice || c.isExtrb()) {
             mustComputeSize = true;
-        } else if (optUseHistogram) {
-            Histogram hist = getHistogram(c.coding.isDelta());
-            c.histSize = (int)Math.ceil(hist.getBitLength(c.coding) / 8);
+        } else if (optUseHistogrbm) {
+            Histogrbm hist = getHistogrbm(c.coding.isDeltb());
+            c.histSize = (int)Mbth.ceil(hist.getBitLength(c.coding) / 8);
             c.byteSize = c.histSize;
-            mustComputeSize = (c.byteSize <= targetSize);
+            mustComputeSize = (c.byteSize <= tbrgetSize);
         } else {
             mustComputeSize = true;
         }
         if (mustComputeSize) {
-            int[] sizes = computeSizePrivate(c.coding);
+            int[] sizes = computeSizePrivbte(c.coding);
             c.byteSize = sizes[BYTE_SIZE];
             c.zipSize  = sizes[ZIP_SIZE];
             if (noteSizes(c.coding, c.byteSize, c.zipSize))
                 bestChoice = c;
         }
         if (c.histSize >= 0) {
-            assert(c.byteSize == c.histSize);  // models should agree
+            bssert(c.byteSize == c.histSize);  // models should bgree
         }
         if (verbose > 4) {
-            Utils.log.info("evaluated "+c);
+            Utils.log.info("evblubted "+c);
         }
     }
 
-    private boolean noteSizes(CodingMethod c, int byteSize, int zipSize) {
-        assert(zipSize > 0 && byteSize > 0);
-        boolean better = (zipSize < bestZipSize);
+    privbte boolebn noteSizes(CodingMethod c, int byteSize, int zipSize) {
+        bssert(zipSize > 0 && byteSize > 0);
+        boolebn better = (zipSize < bestZipSize);
         if (verbose > 3)
             Utils.log.info("computed size "+c+" "+byteSize+"/zs="+zipSize+
                              ((better && bestMethod != null)?
@@ -509,108 +509,108 @@ class CodingChooser {
             bestMethod = c;
             bestZipSize = zipSize;
             bestByteSize = byteSize;
-            targetSize = (int)(byteSize * fuzz);
+            tbrgetSize = (int)(byteSize * fuzz);
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
 
-    private int updateDistances(Choice c) {
-        // update all minDistance values in still unevaluated choices
-        int[] distance = c.distance;
-        int maxd = 0;  // how far is c from everybody else?
+    privbte int updbteDistbnces(Choice c) {
+        // updbte bll minDistbnce vblues in still unevblubted choices
+        int[] distbnce = c.distbnce;
+        int mbxd = 0;  // how fbr is c from everybody else?
         for (int i = 0; i < choices.length; i++) {
             Choice c2 = choices[i];
-            if (c2.searchOrder < searchOrder)
+            if (c2.sebrchOrder < sebrchOrder)
                 continue;
-            int d = distance[i];
+            int d = distbnce[i];
             if (verbose > 5)
-                Utils.log.info("evaluate dist "+d+" to "+c2);
-            int mind = c2.minDistance;
+                Utils.log.info("evblubte dist "+d+" to "+c2);
+            int mind = c2.minDistbnce;
             if (mind > d)
-                c2.minDistance = mind = d;
-            if (maxd < d)
-                maxd = d;
+                c2.minDistbnce = mind = d;
+            if (mbxd < d)
+                mbxd = d;
         }
-        // Now maxd has the distance of the farthest outlier
-        // from all evaluated choices.
+        // Now mbxd hbs the distbnce of the fbrthest outlier
+        // from bll evblubted choices.
         if (verbose > 5)
-            Utils.log.info("evaluate maxd => "+maxd);
-        return maxd;
+            Utils.log.info("evblubte mbxd => "+mbxd);
+        return mbxd;
     }
 
-    // Compute the coded size of a sequence of values.
+    // Compute the coded size of b sequence of vblues.
     // The first int is the size in uncompressed bytes.
-    // The second is an estimate of the compressed size of these bytes.
-    public void computeSize(CodingMethod c, int[] values, int start, int end, int[] sizes) {
-        if (end <= start) {
+    // The second is bn estimbte of the compressed size of these bytes.
+    public void computeSize(CodingMethod c, int[] vblues, int stbrt, int end, int[] sizes) {
+        if (end <= stbrt) {
             sizes[BYTE_SIZE] = sizes[ZIP_SIZE] = 0;
             return;
         }
         try {
-            resetData();
-            c.writeArrayTo(byteSizer, values, start, end);
+            resetDbtb();
+            c.writeArrbyTo(byteSizer, vblues, stbrt, end);
             sizes[BYTE_SIZE] = getByteSize();
             sizes[ZIP_SIZE] = getZipSize();
-        } catch (IOException ee) {
-            throw new RuntimeException(ee); // cannot happen
+        } cbtch (IOException ee) {
+            throw new RuntimeException(ee); // cbnnot hbppen
         }
     }
-    public void computeSize(CodingMethod c, int[] values, int[] sizes) {
-        computeSize(c, values, 0, values.length, sizes);
+    public void computeSize(CodingMethod c, int[] vblues, int[] sizes) {
+        computeSize(c, vblues, 0, vblues.length, sizes);
     }
-    public int[] computeSize(CodingMethod c, int[] values, int start, int end) {
+    public int[] computeSize(CodingMethod c, int[] vblues, int stbrt, int end) {
         int[] sizes = { 0, 0 };
-        computeSize(c, values, start, end, sizes);
+        computeSize(c, vblues, stbrt, end, sizes);
         return sizes;
     }
-    public int[] computeSize(CodingMethod c, int[] values) {
-        return computeSize(c, values, 0, values.length);
+    public int[] computeSize(CodingMethod c, int[] vblues) {
+        return computeSize(c, vblues, 0, vblues.length);
     }
-    // This version uses the implicit local arguments
-    private int[] computeSizePrivate(CodingMethod c) {
+    // This version uses the implicit locbl brguments
+    privbte int[] computeSizePrivbte(CodingMethod c) {
         int[] sizes = { 0, 0 };
-        computeSize(c, values, start, end, sizes);
+        computeSize(c, vblues, stbrt, end, sizes);
         return sizes;
     }
-    public int computeByteSize(CodingMethod cm, int[] values, int start, int end) {
-        int len = end-start;
+    public int computeByteSize(CodingMethod cm, int[] vblues, int stbrt, int end) {
+        int len = end-stbrt;
         if (len < 0) {
             return 0;
         }
-        if (cm instanceof Coding) {
+        if (cm instbnceof Coding) {
             Coding c = (Coding) cm;
-            int size = c.getLength(values, start, end);
+            int size = c.getLength(vblues, stbrt, end);
             int size2;
-            assert(size == (size2=countBytesToSizer(cm, values, start, end)))
+            bssert(size == (size2=countBytesToSizer(cm, vblues, stbrt, end)))
                 : (cm+" : "+size+" != "+size2);
             return size;
         }
-        return countBytesToSizer(cm, values, start, end);
+        return countBytesToSizer(cm, vblues, stbrt, end);
     }
-    private int countBytesToSizer(CodingMethod cm, int[] values, int start, int end) {
+    privbte int countBytesToSizer(CodingMethod cm, int[] vblues, int stbrt, int end) {
         try {
             byteOnlySizer.reset();
-            cm.writeArrayTo(byteOnlySizer, values, start, end);
+            cm.writeArrbyTo(byteOnlySizer, vblues, stbrt, end);
             return byteOnlySizer.getSize();
-        } catch (IOException ee) {
-            throw new RuntimeException(ee); // cannot happen
+        } cbtch (IOException ee) {
+            throw new RuntimeException(ee); // cbnnot hbppen
         }
     }
 
-    int[] getDeltas(int min, int max) {
-        if ((min|max) != 0)
-            return Coding.makeDeltas(values, start, end, min, max);
-        if (deltas == null) {
-            deltas = Coding.makeDeltas(values, start, end, 0, 0);
+    int[] getDeltbs(int min, int mbx) {
+        if ((min|mbx) != 0)
+            return Coding.mbkeDeltbs(vblues, stbrt, end, min, mbx);
+        if (deltbs == null) {
+            deltbs = Coding.mbkeDeltbs(vblues, stbrt, end, 0, 0);
         }
-        return deltas;
+        return deltbs;
     }
-    Histogram getValueHistogram() {
+    Histogrbm getVblueHistogrbm() {
         if (vHist == null) {
-            vHist = new Histogram(values, start, end);
+            vHist = new Histogrbm(vblues, stbrt, end);
             if (verbose > 3) {
                 vHist.print("vHist", System.out);
             } else if (verbose > 1) {
@@ -619,9 +619,9 @@ class CodingChooser {
         }
         return vHist;
     }
-    Histogram getDeltaHistogram() {
+    Histogrbm getDeltbHistogrbm() {
         if (dHist == null) {
-            dHist = new Histogram(getDeltas(0, 0));
+            dHist = new Histogrbm(getDeltbs(0, 0));
             if (verbose > 3) {
                 dHist.print("dHist", System.out);
             } else if (verbose > 1) {
@@ -630,83 +630,83 @@ class CodingChooser {
         }
         return dHist;
     }
-    Histogram getHistogram(boolean isDelta) {
-        return isDelta ? getDeltaHistogram(): getValueHistogram();
+    Histogrbm getHistogrbm(boolebn isDeltb) {
+        return isDeltb ? getDeltbHistogrbm(): getVblueHistogrbm();
     }
 
-    private void tryPopulationCoding(Coding plainCoding) {
-        // assert(plainCoding.canRepresent(min, max));
-        Histogram hist = getValueHistogram();
-        // Start with "reasonable" default codings.
-        final int approxL = 64;
-        Coding favoredCoding = plainCoding.getValueCoding();
-        Coding tokenCoding = BandStructure.UNSIGNED5.setL(approxL);
-        Coding unfavoredCoding = plainCoding.getValueCoding();
-        // There's going to be a band header.  Estimate conservatively large.
-        final int BAND_HEADER = 4;
-        // Keep a running model of the predicted sizes of the F/T/U sequences.
+    privbte void tryPopulbtionCoding(Coding plbinCoding) {
+        // bssert(plbinCoding.cbnRepresent(min, mbx));
+        Histogrbm hist = getVblueHistogrbm();
+        // Stbrt with "rebsonbble" defbult codings.
+        finbl int bpproxL = 64;
+        Coding fbvoredCoding = plbinCoding.getVblueCoding();
+        Coding tokenCoding = BbndStructure.UNSIGNED5.setL(bpproxL);
+        Coding unfbvoredCoding = plbinCoding.getVblueCoding();
+        // There's going to be b bbnd hebder.  Estimbte conservbtively lbrge.
+        finbl int BAND_HEADER = 4;
+        // Keep b running model of the predicted sizes of the F/T/U sequences.
         int currentFSize;
         int currentTSize;
         int currentUSize;
-        // Start by assuming a degenerate favored-value length of 0,
-        // which looks like a bunch of zero tokens followed by the
-        // original sequence.
-        // The {F} list ends with a repeated F value; find worst case:
+        // Stbrt by bssuming b degenerbte fbvored-vblue length of 0,
+        // which looks like b bunch of zero tokens followed by the
+        // originbl sequence.
+        // The {F} list ends with b repebted F vblue; find worst cbse:
         currentFSize =
-            BAND_HEADER + Math.max(favoredCoding.getLength(min),
-                                   favoredCoding.getLength(max));
-        // The {T} list starts out a bunch of zeros, each of length 1.
-        final int ZERO_LEN = tokenCoding.getLength(0);
-        currentTSize = ZERO_LEN * (end-start);
-        // The {U} list starts out a copy of the plainCoding:
-        currentUSize = (int) Math.ceil(hist.getBitLength(unfavoredCoding) / 8);
+            BAND_HEADER + Mbth.mbx(fbvoredCoding.getLength(min),
+                                   fbvoredCoding.getLength(mbx));
+        // The {T} list stbrts out b bunch of zeros, ebch of length 1.
+        finbl int ZERO_LEN = tokenCoding.getLength(0);
+        currentTSize = ZERO_LEN * (end-stbrt);
+        // The {U} list stbrts out b copy of the plbinCoding:
+        currentUSize = (int) Mbth.ceil(hist.getBitLength(unfbvoredCoding) / 8);
 
         int bestPopSize = (currentFSize + currentTSize + currentUSize);
         int bestPopFVC  = 0;
 
-        // Record all the values, in decreasing order of favor.
-        int[] allFavoredValues = new int[1+hist.getTotalLength()];
-        //int[] allPopSizes    = new int[1+hist.getTotalLength()];
+        // Record bll the vblues, in decrebsing order of fbvor.
+        int[] bllFbvoredVblues = new int[1+hist.getTotblLength()];
+        //int[] bllPopSizes    = new int[1+hist.getTotblLength()];
 
-        // What sizes are "interesting"?
-        int targetLowFVC = -1;
-        int targetHighFVC = -1;
+        // Whbt sizes bre "interesting"?
+        int tbrgetLowFVC = -1;
+        int tbrgetHighFVC = -1;
 
-        // For each length, adjust the currentXSize model, and look for a win.
-        int[][] matrix = hist.getMatrix();
+        // For ebch length, bdjust the currentXSize model, bnd look for b win.
+        int[][] mbtrix = hist.getMbtrix();
         int mrow = -1;
         int mcol = 1;
         int mrowFreq = 0;
-        for (int fvcount = 1; fvcount <= hist.getTotalLength(); fvcount++) {
-            // The {F} list gets an additional member.
-            // Take it from the end of the current matrix row.
-            // (It's the end, so that we get larger favored values first.)
+        for (int fvcount = 1; fvcount <= hist.getTotblLength(); fvcount++) {
+            // The {F} list gets bn bdditionbl member.
+            // Tbke it from the end of the current mbtrix row.
+            // (It's the end, so thbt we get lbrger fbvored vblues first.)
             if (mcol == 1) {
                 mrow += 1;
-                mrowFreq = matrix[mrow][0];
-                mcol = matrix[mrow].length;
+                mrowFreq = mbtrix[mrow][0];
+                mcol = mbtrix[mrow].length;
             }
-            int thisValue = matrix[mrow][--mcol];
-            allFavoredValues[fvcount] = thisValue;
-            int thisVLen = favoredCoding.getLength(thisValue);
+            int thisVblue = mbtrix[mrow][--mcol];
+            bllFbvoredVblues[fvcount] = thisVblue;
+            int thisVLen = fbvoredCoding.getLength(thisVblue);
             currentFSize += thisVLen;
-            // The token list replaces occurrences of zero with a new token:
+            // The token list replbces occurrences of zero with b new token:
             int thisVCount = mrowFreq;
             int thisToken = fvcount;
             currentTSize += (tokenCoding.getLength(thisToken)
                              - ZERO_LEN) * thisVCount;
-            // The unfavored list loses occurrences of the newly favored value.
+            // The unfbvored list loses occurrences of the newly fbvored vblue.
             // (This is the whole point of the exercise!)
             currentUSize -= thisVLen * thisVCount;
             int currentSize = (currentFSize + currentTSize + currentUSize);
-            //allPopSizes[fvcount] = currentSize;
+            //bllPopSizes[fvcount] = currentSize;
             if (bestPopSize > currentSize) {
-                if (currentSize <= targetSize) {
-                    targetHighFVC = fvcount;
-                    if (targetLowFVC < 0)
-                        targetLowFVC = fvcount;
+                if (currentSize <= tbrgetSize) {
+                    tbrgetHighFVC = fvcount;
+                    if (tbrgetLowFVC < 0)
+                        tbrgetLowFVC = fvcount;
                     if (verbose > 4)
-                        Utils.log.info("better pop-size at fvc="+fvcount+
+                        Utils.log.info("better pop-size bt fvc="+fvcount+
                                          " by "+pct(bestPopSize-currentSize,
                                                     bestPopSize));
                 }
@@ -714,12 +714,12 @@ class CodingChooser {
                 bestPopFVC = fvcount;
             }
         }
-        if (targetLowFVC < 0) {
+        if (tbrgetLowFVC < 0) {
             if (verbose > 1) {
                 // Complete loss.
                 if (verbose > 1)
-                    Utils.log.info("no good pop-size; best was "+
-                                     bestPopSize+" at "+bestPopFVC+
+                    Utils.log.info("no good pop-size; best wbs "+
+                                     bestPopSize+" bt "+bestPopFVC+
                                      " worse by "+
                                      pct(bestPopSize-bestByteSize,
                                          bestByteSize));
@@ -727,41 +727,41 @@ class CodingChooser {
             return;
         }
         if (verbose > 1)
-            Utils.log.info("initial best pop-size at fvc="+bestPopFVC+
-                             " in ["+targetLowFVC+".."+targetHighFVC+"]"+
+            Utils.log.info("initibl best pop-size bt fvc="+bestPopFVC+
+                             " in ["+tbrgetLowFVC+".."+tbrgetHighFVC+"]"+
                              " by "+pct(bestByteSize-bestPopSize,
                                         bestByteSize));
         int oldZipSize = bestZipSize;
-        // Now close onto a specific coding, testing more rigorously
+        // Now close onto b specific coding, testing more rigorously
         // with the zipSize metric.
         // Questions to decide:
-        //   1. How many favored values?
-        //   2. What token coding (TC)?
-        //   3. Sort favored values by value within length brackets?
-        //   4. What favored coding?
-        //   5. What unfavored coding?
-        // Steps 1/2/3 are interdependent, and may be iterated.
-        // Steps 4 and 5 may be decided independently afterward.
-        int[] LValuesCoded = PopulationCoding.LValuesCoded;
-        List<Coding> bestFits = new ArrayList<>();
-        List<Coding> fullFits = new ArrayList<>();
-        List<Coding> longFits = new ArrayList<>();
-        final int PACK_TO_MAX_S = 1;
+        //   1. How mbny fbvored vblues?
+        //   2. Whbt token coding (TC)?
+        //   3. Sort fbvored vblues by vblue within length brbckets?
+        //   4. Whbt fbvored coding?
+        //   5. Whbt unfbvored coding?
+        // Steps 1/2/3 bre interdependent, bnd mby be iterbted.
+        // Steps 4 bnd 5 mby be decided independently bfterwbrd.
+        int[] LVbluesCoded = PopulbtionCoding.LVbluesCoded;
+        List<Coding> bestFits = new ArrbyList<>();
+        List<Coding> fullFits = new ArrbyList<>();
+        List<Coding> longFits = new ArrbyList<>();
+        finbl int PACK_TO_MAX_S = 1;
         if (bestPopFVC <= 255) {
-            bestFits.add(BandStructure.BYTE1);
+            bestFits.bdd(BbndStructure.BYTE1);
         } else {
             int bestB = Coding.B_MAX;
-            boolean doFullAlso = (effort > POP_EFFORT);
+            boolebn doFullAlso = (effort > POP_EFFORT);
             if (doFullAlso)
-                fullFits.add(BandStructure.BYTE1.setS(PACK_TO_MAX_S));
-            for (int i = LValuesCoded.length-1; i >= 1; i--) {
-                int L = LValuesCoded[i];
-                Coding c0 = PopulationCoding.fitTokenCoding(targetLowFVC,  L);
-                Coding c1 = PopulationCoding.fitTokenCoding(bestPopFVC,    L);
-                Coding c3 = PopulationCoding.fitTokenCoding(targetHighFVC, L);
+                fullFits.bdd(BbndStructure.BYTE1.setS(PACK_TO_MAX_S));
+            for (int i = LVbluesCoded.length-1; i >= 1; i--) {
+                int L = LVbluesCoded[i];
+                Coding c0 = PopulbtionCoding.fitTokenCoding(tbrgetLowFVC,  L);
+                Coding c1 = PopulbtionCoding.fitTokenCoding(bestPopFVC,    L);
+                Coding c3 = PopulbtionCoding.fitTokenCoding(tbrgetHighFVC, L);
                 if (c1 != null) {
-                    if (!bestFits.contains(c1))
-                        bestFits.add(c1);
+                    if (!bestFits.contbins(c1))
+                        bestFits.bdd(c1);
                     if (bestB > c1.B())
                         bestB = c1.B();
                 }
@@ -771,80 +771,80 @@ class CodingChooser {
                         if (B == c1.B())  continue;
                         if (B == 1)  continue;
                         Coding c2 = c3.setB(B).setS(PACK_TO_MAX_S);
-                        if (!fullFits.contains(c2))
-                            fullFits.add(c2);
+                        if (!fullFits.contbins(c2))
+                            fullFits.bdd(c2);
                     }
                 }
             }
-            // interleave all B greater than bestB with best and full fits
-            for (Iterator<Coding> i = bestFits.iterator(); i.hasNext(); ) {
+            // interlebve bll B grebter thbn bestB with best bnd full fits
+            for (Iterbtor<Coding> i = bestFits.iterbtor(); i.hbsNext(); ) {
                 Coding c = i.next();
                 if (c.B() > bestB) {
                     i.remove();
-                    longFits.add(0, c);
+                    longFits.bdd(0, c);
                 }
             }
         }
-        List<Coding> allFits = new ArrayList<>();
-        for (Iterator<Coding> i = bestFits.iterator(),
-                      j = fullFits.iterator(),
-                      k = longFits.iterator();
-             i.hasNext() || j.hasNext() || k.hasNext(); ) {
-            if (i.hasNext())  allFits.add(i.next());
-            if (j.hasNext())  allFits.add(j.next());
-            if (k.hasNext())  allFits.add(k.next());
+        List<Coding> bllFits = new ArrbyList<>();
+        for (Iterbtor<Coding> i = bestFits.iterbtor(),
+                      j = fullFits.iterbtor(),
+                      k = longFits.iterbtor();
+             i.hbsNext() || j.hbsNext() || k.hbsNext(); ) {
+            if (i.hbsNext())  bllFits.bdd(i.next());
+            if (j.hbsNext())  bllFits.bdd(j.next());
+            if (k.hbsNext())  bllFits.bdd(k.next());
         }
-        bestFits.clear();
-        fullFits.clear();
-        longFits.clear();
-        int maxFits = allFits.size();
+        bestFits.clebr();
+        fullFits.clebr();
+        longFits.clebr();
+        int mbxFits = bllFits.size();
         if (effort == POP_EFFORT)
-            maxFits = 2;
-        else if (maxFits > 4) {
-            maxFits -= 4;
-            maxFits = (maxFits * (effort-POP_EFFORT)
+            mbxFits = 2;
+        else if (mbxFits > 4) {
+            mbxFits -= 4;
+            mbxFits = (mbxFits * (effort-POP_EFFORT)
                        ) / (MAX_EFFORT-POP_EFFORT);
-            maxFits += 4;
+            mbxFits += 4;
         }
-        if (allFits.size() > maxFits) {
+        if (bllFits.size() > mbxFits) {
             if (verbose > 4)
-                Utils.log.info("allFits before clip: "+allFits);
-            allFits.subList(maxFits, allFits.size()).clear();
+                Utils.log.info("bllFits before clip: "+bllFits);
+            bllFits.subList(mbxFits, bllFits.size()).clebr();
         }
         if (verbose > 3)
-            Utils.log.info("allFits: "+allFits);
-        for (Coding tc : allFits) {
-            boolean packToMax = false;
+            Utils.log.info("bllFits: "+bllFits);
+        for (Coding tc : bllFits) {
+            boolebn pbckToMbx = fblse;
             if (tc.S() == PACK_TO_MAX_S) {
-                // Kludge:  setS(PACK_TO_MAX_S) means packToMax here.
-                packToMax = true;
+                // Kludge:  setS(PACK_TO_MAX_S) mebns pbckToMbx here.
+                pbckToMbx = true;
                 tc = tc.setS(0);
             }
             int fVlen;
-            if (!packToMax) {
+            if (!pbckToMbx) {
                 fVlen = bestPopFVC;
-                assert(tc.umax() >= fVlen);
-                assert(tc.B() == 1 || tc.setB(tc.B()-1).umax() < fVlen);
+                bssert(tc.umbx() >= fVlen);
+                bssert(tc.B() == 1 || tc.setB(tc.B()-1).umbx() < fVlen);
             } else {
-                fVlen = Math.min(tc.umax(), targetHighFVC);
-                if (fVlen < targetLowFVC)
+                fVlen = Mbth.min(tc.umbx(), tbrgetHighFVC);
+                if (fVlen < tbrgetLowFVC)
                     continue;
                 if (fVlen == bestPopFVC)
-                    continue;  // redundant test
+                    continue;  // redundbnt test
             }
-            PopulationCoding pop = new PopulationCoding();
-            pop.setHistogram(hist);
+            PopulbtionCoding pop = new PopulbtionCoding();
+            pop.setHistogrbm(hist);
             pop.setL(tc.L());
-            pop.setFavoredValues(allFavoredValues, fVlen);
-            assert(pop.tokenCoding == tc);  // predict correctly
-            pop.resortFavoredValues();
+            pop.setFbvoredVblues(bllFbvoredVblues, fVlen);
+            bssert(pop.tokenCoding == tc);  // predict correctly
+            pop.resortFbvoredVblues();
             int[] tcsizes =
-                computePopSizePrivate(pop,
-                                      favoredCoding, unfavoredCoding);
+                computePopSizePrivbte(pop,
+                                      fbvoredCoding, unfbvoredCoding);
             noteSizes(pop, tcsizes[BYTE_SIZE], BAND_HEADER+tcsizes[ZIP_SIZE]);
         }
         if (verbose > 3) {
-            Utils.log.info("measured best pop, size="+bestByteSize+
+            Utils.log.info("mebsured best pop, size="+bestByteSize+
                              "/zs="+bestZipSize+
                              " better by "+
                              pct(oldZipSize-bestZipSize, oldZipSize));
@@ -855,39 +855,39 @@ class CodingChooser {
         }
     }
 
-    private
-    int[] computePopSizePrivate(PopulationCoding pop,
-                                Coding favoredCoding,
-                                Coding unfavoredCoding) {
+    privbte
+    int[] computePopSizePrivbte(PopulbtionCoding pop,
+                                Coding fbvoredCoding,
+                                Coding unfbvoredCoding) {
         if (popHelper == null) {
-            popHelper = new CodingChooser(effort, allCodingChoices);
+            popHelper = new CodingChooser(effort, bllCodingChoices);
             if (stress != null)
-                popHelper.addStressSeed(stress.nextInt());
-            popHelper.topLevel = false;
+                popHelper.bddStressSeed(stress.nextInt());
+            popHelper.topLevel = fblse;
             popHelper.verbose -= 1;
-            popHelper.disablePopCoding = true;
-            popHelper.disableRunCoding = this.disableRunCoding;
+            popHelper.disbblePopCoding = true;
+            popHelper.disbbleRunCoding = this.disbbleRunCoding;
             if (effort < MID_EFFORT)
                 // No nested run codings.
-                popHelper.disableRunCoding = true;
+                popHelper.disbbleRunCoding = true;
         }
         int fVlen = pop.fVlen;
         if (verbose > 2) {
-            Utils.log.info("computePopSizePrivate fvlen="+fVlen+
+            Utils.log.info("computePopSizePrivbte fvlen="+fVlen+
                              " tc="+pop.tokenCoding);
             Utils.log.info("{ //BEGIN");
         }
 
-        // Find good coding choices for the token and unfavored sequences.
-        int[] favoredValues = pop.fValues;
-        int[][] vals = pop.encodeValues(values, start, end);
-        int[] tokens = vals[0];
-        int[] unfavoredValues = vals[1];
+        // Find good coding choices for the token bnd unfbvored sequences.
+        int[] fbvoredVblues = pop.fVblues;
+        int[][] vbls = pop.encodeVblues(vblues, stbrt, end);
+        int[] tokens = vbls[0];
+        int[] unfbvoredVblues = vbls[1];
         if (verbose > 2)
-            Utils.log.info("-- refine on fv["+fVlen+"] fc="+favoredCoding);
-        pop.setFavoredCoding(popHelper.choose(favoredValues, 1, 1+fVlen, favoredCoding));
-        if (pop.tokenCoding instanceof Coding &&
-            (stress == null || stress.nextBoolean())) {
+            Utils.log.info("-- refine on fv["+fVlen+"] fc="+fbvoredCoding);
+        pop.setFbvoredCoding(popHelper.choose(fbvoredVblues, 1, 1+fVlen, fbvoredCoding));
+        if (pop.tokenCoding instbnceof Coding &&
+            (stress == null || stress.nextBoolebn())) {
             if (verbose > 2)
                 Utils.log.info("-- refine on tv["+tokens.length+"] tc="+pop.tokenCoding);
             CodingMethod tc = popHelper.choose(tokens, (Coding) pop.tokenCoding);
@@ -897,81 +897,81 @@ class CodingChooser {
                 pop.setTokenCoding(tc);
             }
         }
-        if (unfavoredValues.length == 0)
-            pop.setUnfavoredCoding(null);
+        if (unfbvoredVblues.length == 0)
+            pop.setUnfbvoredCoding(null);
         else {
             if (verbose > 2)
-                Utils.log.info("-- refine on uv["+unfavoredValues.length+"] uc="+pop.unfavoredCoding);
-            pop.setUnfavoredCoding(popHelper.choose(unfavoredValues, unfavoredCoding));
+                Utils.log.info("-- refine on uv["+unfbvoredVblues.length+"] uc="+pop.unfbvoredCoding);
+            pop.setUnfbvoredCoding(popHelper.choose(unfbvoredVblues, unfbvoredCoding));
         }
         if (verbose > 3) {
-            Utils.log.info("finish computePopSizePrivate fvlen="+fVlen+
-                             " fc="+pop.favoredCoding+
+            Utils.log.info("finish computePopSizePrivbte fvlen="+fVlen+
+                             " fc="+pop.fbvoredCoding+
                              " tc="+pop.tokenCoding+
-                             " uc="+pop.unfavoredCoding);
+                             " uc="+pop.unfbvoredCoding);
             //pop.hist.print("pop-hist", null, System.out);
             StringBuilder sb = new StringBuilder();
-            sb.append("fv = {");
+            sb.bppend("fv = {");
             for (int i = 1; i <= fVlen; i++) {
                 if ((i % 10) == 0)
-                    sb.append('\n');
-                sb.append(" ").append(favoredValues[i]);
+                    sb.bppend('\n');
+                sb.bppend(" ").bppend(fbvoredVblues[i]);
             }
-            sb.append('\n');
-            sb.append("}");
+            sb.bppend('\n');
+            sb.bppend("}");
             Utils.log.info(sb.toString());
         }
         if (verbose > 2) {
             Utils.log.info("} //END");
         }
         if (stress != null) {
-            return null;  // do not bother with size computation
+            return null;  // do not bother with size computbtion
         }
         int[] sizes;
         try {
-            resetData();
-            // Write the array of favored values.
-            pop.writeSequencesTo(byteSizer, tokens, unfavoredValues);
+            resetDbtb();
+            // Write the brrby of fbvored vblues.
+            pop.writeSequencesTo(byteSizer, tokens, unfbvoredVblues);
             sizes = new int[] { getByteSize(), getZipSize() };
-        } catch (IOException ee) {
-            throw new RuntimeException(ee); // cannot happen
+        } cbtch (IOException ee) {
+            throw new RuntimeException(ee); // cbnnot hbppen
         }
         int[] checkSizes = null;
-        assert((checkSizes = computeSizePrivate(pop)) != null);
-        assert(checkSizes[BYTE_SIZE] == sizes[BYTE_SIZE])
+        bssert((checkSizes = computeSizePrivbte(pop)) != null);
+        bssert(checkSizes[BYTE_SIZE] == sizes[BYTE_SIZE])
             : (checkSizes[BYTE_SIZE]+" != "+sizes[BYTE_SIZE]);
         return sizes;
     }
 
-    private void tryAdaptiveCoding(Coding plainCoding) {
+    privbte void tryAdbptiveCoding(Coding plbinCoding) {
         int oldZipSize = bestZipSize;
-        // Scan the value sequence, determining whether an interesting
-        // run occupies too much space.  ("Too much" means, say 5% more
-        // than the average integer size of the band as a whole.)
-        // Try to find a better coding for those segments.
-        int   lstart  = this.start;
+        // Scbn the vblue sequence, determining whether bn interesting
+        // run occupies too much spbce.  ("Too much" mebns, sby 5% more
+        // thbn the bverbge integer size of the bbnd bs b whole.)
+        // Try to find b better coding for those segments.
+        int   lstbrt  = this.stbrt;
         int   lend    = this.end;
-        int[] lvalues = this.values;
-        int len = lend-lstart;
-        if (plainCoding.isDelta()) {
-            lvalues = getDeltas(0,0); //%%% not quite right!
-            lstart = 0;
-            lend = lvalues.length;
+        int[] lvblues = this.vblues;
+        int len = lend-lstbrt;
+        if (plbinCoding.isDeltb()) {
+            lvblues = getDeltbs(0,0); //%%% not quite right!
+            lstbrt = 0;
+            lend = lvblues.length;
         }
         int[] sizes = new int[len+1];
         int fillp = 0;
-        int totalSize = 0;
-        for (int i = lstart; i < lend; i++) {
-            int val = lvalues[i];
-            sizes[fillp++] = totalSize;
-            int size = plainCoding.getLength(val);
-            assert(size < Integer.MAX_VALUE);
-            //System.out.println("len "+val+" = "+size);
-            totalSize += size;
+        int totblSize = 0;
+        for (int i = lstbrt; i < lend; i++) {
+            int vbl = lvblues[i];
+            sizes[fillp++] = totblSize;
+            int size = plbinCoding.getLength(vbl);
+            bssert(size < Integer.MAX_VALUE);
+            //System.out.println("len "+vbl+" = "+size);
+            totblSize += size;
         }
-        sizes[fillp++] = totalSize;
-        assert(fillp == sizes.length);
-        double avgSize = (double)totalSize / len;
+        sizes[fillp++] = totblSize;
+        bssert(fillp == sizes.length);
+        double bvgSize = (double)totblSize / len;
         double sizeFuzz;
         double sizeFuzz2;
         double sizeFuzz3;
@@ -990,25 +990,25 @@ class CodingChooser {
         sizeFuzz *= sizeFuzz; // double the thresh
         sizeFuzz2 = (sizeFuzz*sizeFuzz);
         sizeFuzz3 = (sizeFuzz*sizeFuzz*sizeFuzz);
-        // Find some mesh scales we like.
+        // Find some mesh scbles we like.
         double[] dmeshes = new double[1 + (effort-RUN_EFFORT)];
-        double logLen = Math.log(len);
+        double logLen = Mbth.log(len);
         for (int i = 0; i < dmeshes.length; i++) {
-            dmeshes[i] = Math.exp(logLen*(i+1)/(dmeshes.length+1));
+            dmeshes[i] = Mbth.exp(logLen*(i+1)/(dmeshes.length+1));
         }
         int[] meshes = new int[dmeshes.length];
         int mfillp = 0;
         for (int i = 0; i < dmeshes.length; i++) {
-            int m = (int)Math.round(dmeshes[i]);
-            m = AdaptiveCoding.getNextK(m-1);
+            int m = (int)Mbth.round(dmeshes[i]);
+            m = AdbptiveCoding.getNextK(m-1);
             if (m <= 0 || m >= len)  continue;
             if (mfillp > 0 && m == meshes[mfillp-1])  continue;
             meshes[mfillp++] = m;
         }
-        meshes = BandStructure.realloc(meshes, mfillp);
-        // There's going to be a band header.  Estimate conservatively large.
-        final int BAND_HEADER = 4; // op, KB, A, B
-        // Threshold values for a "too big" mesh.
+        meshes = BbndStructure.reblloc(meshes, mfillp);
+        // There's going to be b bbnd hebder.  Estimbte conservbtively lbrge.
+        finbl int BAND_HEADER = 4; // op, KB, A, B
+        // Threshold vblues for b "too big" mesh.
         int[]    threshes = new int[meshes.length];
         double[] fuzzes   = new double[meshes.length];
         for (int i = 0; i < meshes.length; i++) {
@@ -1021,11 +1021,11 @@ class CodingChooser {
             else
                 lfuzz = sizeFuzz;
             fuzzes[i] = lfuzz;
-            threshes[i] = BAND_HEADER + (int)Math.ceil(mesh * avgSize * lfuzz);
+            threshes[i] = BAND_HEADER + (int)Mbth.ceil(mesh * bvgSize * lfuzz);
         }
         if (verbose > 1) {
-            System.out.print("tryAdaptiveCoding ["+len+"]"+
-                             " avgS="+avgSize+" fuzz="+sizeFuzz+
+            System.out.print("tryAdbptiveCoding ["+len+"]"+
+                             " bvgS="+bvgSize+" fuzz="+sizeFuzz+
                              " meshes: {");
             for (int i = 0; i < meshes.length; i++) {
                 System.out.print(" " + meshes[i] + "(" + threshes[i] + ")");
@@ -1033,19 +1033,19 @@ class CodingChooser {
             Utils.log.info(" }");
         }
         if (runHelper == null) {
-            runHelper = new CodingChooser(effort, allCodingChoices);
+            runHelper = new CodingChooser(effort, bllCodingChoices);
             if (stress != null)
-                runHelper.addStressSeed(stress.nextInt());
-            runHelper.topLevel = false;
+                runHelper.bddStressSeed(stress.nextInt());
+            runHelper.topLevel = fblse;
             runHelper.verbose -= 1;
-            runHelper.disableRunCoding = true;
-            runHelper.disablePopCoding = this.disablePopCoding;
+            runHelper.disbbleRunCoding = true;
+            runHelper.disbblePopCoding = this.disbblePopCoding;
             if (effort < MID_EFFORT)
                 // No nested pop codings.
-                runHelper.disablePopCoding = true;
+                runHelper.disbblePopCoding = true;
         }
         for (int i = 0; i < len; i++) {
-            i = AdaptiveCoding.getNextK(i-1);
+            i = AdbptiveCoding.getNextK(i-1);
             if (i > len)  i = len;
             for (int j = meshes.length-1; j >= 0; j--) {
                 int mesh   = meshes[j];
@@ -1053,81 +1053,81 @@ class CodingChooser {
                 if (i+mesh > len)  continue;
                 int size = sizes[i+mesh] - sizes[i];
                 if (size >= thresh) {
-                    // Found a size bulge.
+                    // Found b size bulge.
                     int bend  = i+mesh;
                     int bsize = size;
-                    double bigSize = avgSize * fuzzes[j];
+                    double bigSize = bvgSize * fuzzes[j];
                     while (bend < len && (bend-i) <= len/2) {
                         int bend0 = bend;
                         int bsize0 = bsize;
                         bend += mesh;
-                        bend = i+AdaptiveCoding.getNextK(bend-i-1);
+                        bend = i+AdbptiveCoding.getNextK(bend-i-1);
                         if (bend < 0 || bend > len)
                             bend = len;
                         bsize = sizes[bend]-sizes[i];
                         if (bsize < BAND_HEADER + (bend-i) * bigSize) {
                             bsize = bsize0;
                             bend = bend0;
-                            break;
+                            brebk;
                         }
                     }
                     int nexti = bend;
                     if (verbose > 2) {
-                        Utils.log.info("bulge at "+i+"["+(bend-i)+"] of "+
-                                         pct(bsize - avgSize*(bend-i),
-                                             avgSize*(bend-i)));
+                        Utils.log.info("bulge bt "+i+"["+(bend-i)+"] of "+
+                                         pct(bsize - bvgSize*(bend-i),
+                                             bvgSize*(bend-i)));
                         Utils.log.info("{ //BEGIN");
                     }
                     CodingMethod begcm, midcm, endcm;
-                    midcm = runHelper.choose(this.values,
-                                             this.start+i,
-                                             this.start+bend,
-                                             plainCoding);
-                    if (midcm == plainCoding) {
+                    midcm = runHelper.choose(this.vblues,
+                                             this.stbrt+i,
+                                             this.stbrt+bend,
+                                             plbinCoding);
+                    if (midcm == plbinCoding) {
                         // No use working further.
-                        begcm = plainCoding;
-                        endcm = plainCoding;
+                        begcm = plbinCoding;
+                        endcm = plbinCoding;
                     } else {
-                        begcm = runHelper.choose(this.values,
-                                                 this.start,
-                                                 this.start+i,
-                                                 plainCoding);
-                        endcm = runHelper.choose(this.values,
-                                                 this.start+bend,
-                                                 this.start+len,
-                                                 plainCoding);
+                        begcm = runHelper.choose(this.vblues,
+                                                 this.stbrt,
+                                                 this.stbrt+i,
+                                                 plbinCoding);
+                        endcm = runHelper.choose(this.vblues,
+                                                 this.stbrt+bend,
+                                                 this.stbrt+len,
+                                                 plbinCoding);
                     }
                     if (verbose > 2)
                         Utils.log.info("} //END");
                     if (begcm == midcm && i > 0 &&
-                        AdaptiveCoding.isCodableLength(bend)) {
+                        AdbptiveCoding.isCodbbleLength(bend)) {
                         i = 0;
                     }
                     if (midcm == endcm && bend < len) {
                         bend = len;
                     }
-                    if (begcm != plainCoding ||
-                        midcm != plainCoding ||
-                        endcm != plainCoding) {
-                        CodingMethod chain;
+                    if (begcm != plbinCoding ||
+                        midcm != plbinCoding ||
+                        endcm != plbinCoding) {
+                        CodingMethod chbin;
                         int hlen = 0;
                         if (bend == len) {
-                            chain = midcm;
+                            chbin = midcm;
                         } else {
-                            chain = new AdaptiveCoding(bend-i, midcm, endcm);
+                            chbin = new AdbptiveCoding(bend-i, midcm, endcm);
                             hlen += BAND_HEADER;
                         }
                         if (i > 0) {
-                            chain = new AdaptiveCoding(i, begcm, chain);
+                            chbin = new AdbptiveCoding(i, begcm, chbin);
                             hlen += BAND_HEADER;
                         }
-                        int[] chainSize = computeSizePrivate(chain);
-                        noteSizes(chain,
-                                  chainSize[BYTE_SIZE],
-                                  chainSize[ZIP_SIZE]+hlen);
+                        int[] chbinSize = computeSizePrivbte(chbin);
+                        noteSizes(chbin,
+                                  chbinSize[BYTE_SIZE],
+                                  chbinSize[ZIP_SIZE]+hlen);
                     }
                     i = nexti;
-                    break;
+                    brebk;
                 }
             }
         }
@@ -1139,21 +1139,21 @@ class CodingChooser {
         }
     }
 
-    static private
+    stbtic privbte
     String pct(double num, double den) {
-        return (Math.round((num / den)*10000)/100.0)+"%";
+        return (Mbth.round((num / den)*10000)/100.0)+"%";
     }
 
-    static
-    class Sizer extends OutputStream {
-        final OutputStream out;  // if non-null, copy output here also
-        Sizer(OutputStream out) {
+    stbtic
+    clbss Sizer extends OutputStrebm {
+        finbl OutputStrebm out;  // if non-null, copy output here blso
+        Sizer(OutputStrebm out) {
             this.out = out;
         }
         Sizer() {
             this(null);
         }
-        private int count;
+        privbte int count;
         public void write(int b) throws IOException {
             count++;
             if (out != null)  out.write(b);
@@ -1169,8 +1169,8 @@ class CodingChooser {
 
         public String toString() {
             String str = super.toString();
-            // If -ea, print out more informative strings!
-            assert((str = stringForDebug()) != null);
+            // If -eb, print out more informbtive strings!
+            bssert((str = stringForDebug()) != null);
             return str;
         }
         String stringForDebug() {
@@ -1178,210 +1178,210 @@ class CodingChooser {
         }
     }
 
-    private Sizer zipSizer  = new Sizer();
-    private Deflater zipDef = new Deflater();
-    private DeflaterOutputStream zipOut = new DeflaterOutputStream(zipSizer, zipDef);
-    private Sizer byteSizer = new Sizer(zipOut);
-    private Sizer byteOnlySizer = new Sizer();
+    privbte Sizer zipSizer  = new Sizer();
+    privbte Deflbter zipDef = new Deflbter();
+    privbte DeflbterOutputStrebm zipOut = new DeflbterOutputStrebm(zipSizer, zipDef);
+    privbte Sizer byteSizer = new Sizer(zipOut);
+    privbte Sizer byteOnlySizer = new Sizer();
 
-    private void resetData() {
-        flushData();
+    privbte void resetDbtb() {
+        flushDbtb();
         zipDef.reset();
         if (context != null) {
-            // Prepend given salt to the test output.
+            // Prepend given sblt to the test output.
             try {
                 context.writeTo(byteSizer);
-            } catch (IOException ee) {
-                throw new RuntimeException(ee); // cannot happen
+            } cbtch (IOException ee) {
+                throw new RuntimeException(ee); // cbnnot hbppen
             }
         }
         zipSizer.reset();
         byteSizer.reset();
     }
-    private void flushData() {
+    privbte void flushDbtb() {
         try {
             zipOut.finish();
-        } catch (IOException ee) {
-            throw new RuntimeException(ee); // cannot happen
+        } cbtch (IOException ee) {
+            throw new RuntimeException(ee); // cbnnot hbppen
         }
     }
-    private int getByteSize() {
+    privbte int getByteSize() {
         return byteSizer.getSize();
     }
-    private int getZipSize() {
-        flushData();
+    privbte int getZipSize() {
+        flushDbtb();
         return zipSizer.getSize();
     }
 
 
     /// Stress-test helpers.
 
-    void addStressSeed(int x) {
+    void bddStressSeed(int x) {
         if (stress == null)  return;
         stress.setSeed(x + ((long)stress.nextInt() << 32));
     }
 
-    // Pick a random pop-coding.
-    private CodingMethod stressPopCoding(CodingMethod coding) {
-        assert(stress != null);  // this method is only for testing
-        // Don't turn it into a pop coding if it's already something special.
-        if (!(coding instanceof Coding))  return coding;
-        Coding valueCoding = ((Coding)coding).getValueCoding();
-        Histogram hist = getValueHistogram();
-        int fVlen = stressLen(hist.getTotalLength());
+    // Pick b rbndom pop-coding.
+    privbte CodingMethod stressPopCoding(CodingMethod coding) {
+        bssert(stress != null);  // this method is only for testing
+        // Don't turn it into b pop coding if it's blrebdy something specibl.
+        if (!(coding instbnceof Coding))  return coding;
+        Coding vblueCoding = ((Coding)coding).getVblueCoding();
+        Histogrbm hist = getVblueHistogrbm();
+        int fVlen = stressLen(hist.getTotblLength());
         if (fVlen == 0)  return coding;
-        List<Integer> popvals = new ArrayList<>();
-        if (stress.nextBoolean()) {
-            // Build the population from the value list.
-            Set<Integer> popset = new HashSet<>();
-            for (int i = start; i < end; i++) {
-                if (popset.add(values[i]))  popvals.add(values[i]);
+        List<Integer> popvbls = new ArrbyList<>();
+        if (stress.nextBoolebn()) {
+            // Build the populbtion from the vblue list.
+            Set<Integer> popset = new HbshSet<>();
+            for (int i = stbrt; i < end; i++) {
+                if (popset.bdd(vblues[i]))  popvbls.bdd(vblues[i]);
             }
         } else {
-            int[][] matrix = hist.getMatrix();
-            for (int mrow = 0; mrow < matrix.length; mrow++) {
-                int[] row = matrix[mrow];
+            int[][] mbtrix = hist.getMbtrix();
+            for (int mrow = 0; mrow < mbtrix.length; mrow++) {
+                int[] row = mbtrix[mrow];
                 for (int mcol = 1; mcol < row.length; mcol++) {
-                    popvals.add(row[mcol]);
+                    popvbls.bdd(row[mcol]);
                 }
             }
         }
         int reorder = stress.nextInt();
         if ((reorder & 7) <= 2) {
             // Lose the order.
-            Collections.shuffle(popvals, stress);
+            Collections.shuffle(popvbls, stress);
         } else {
             // Keep the order, mostly.
-            if (((reorder >>>= 3) & 7) <= 2)  Collections.sort(popvals);
-            if (((reorder >>>= 3) & 7) <= 2)  Collections.reverse(popvals);
-            if (((reorder >>>= 3) & 7) <= 2)  Collections.rotate(popvals, stressLen(popvals.size()));
+            if (((reorder >>>= 3) & 7) <= 2)  Collections.sort(popvbls);
+            if (((reorder >>>= 3) & 7) <= 2)  Collections.reverse(popvbls);
+            if (((reorder >>>= 3) & 7) <= 2)  Collections.rotbte(popvbls, stressLen(popvbls.size()));
         }
-        if (popvals.size() > fVlen) {
+        if (popvbls.size() > fVlen) {
             // Cut the list down.
             if (((reorder >>>= 3) & 7) <= 2) {
-                // Cut at end.
-                popvals.subList(fVlen,   popvals.size()).clear();
+                // Cut bt end.
+                popvbls.subList(fVlen,   popvbls.size()).clebr();
             } else {
-                // Cut at start.
-                popvals.subList(0, popvals.size()-fVlen).clear();
+                // Cut bt stbrt.
+                popvbls.subList(0, popvbls.size()-fVlen).clebr();
             }
         }
-        fVlen = popvals.size();
-        int[] fvals = new int[1+fVlen];
+        fVlen = popvbls.size();
+        int[] fvbls = new int[1+fVlen];
         for (int i = 0; i < fVlen; i++) {
-            fvals[1+i] = (popvals.get(i)).intValue();
+            fvbls[1+i] = (popvbls.get(i)).intVblue();
         }
-        PopulationCoding pop = new PopulationCoding();
-        pop.setFavoredValues(fvals, fVlen);
-        int[] lvals = PopulationCoding.LValuesCoded;
-        for (int i = 0; i < lvals.length / 2; i++) {
-            int popl = lvals[stress.nextInt(lvals.length)];
+        PopulbtionCoding pop = new PopulbtionCoding();
+        pop.setFbvoredVblues(fvbls, fVlen);
+        int[] lvbls = PopulbtionCoding.LVbluesCoded;
+        for (int i = 0; i < lvbls.length / 2; i++) {
+            int popl = lvbls[stress.nextInt(lvbls.length)];
             if (popl < 0)  continue;
-            if (PopulationCoding.fitTokenCoding(fVlen, popl) != null) {
+            if (PopulbtionCoding.fitTokenCoding(fVlen, popl) != null) {
                 pop.setL(popl);
-                break;
+                brebk;
             }
         }
         if (pop.tokenCoding == null) {
-            int lmin = fvals[1], lmax = lmin;
+            int lmin = fvbls[1], lmbx = lmin;
             for (int i = 2; i <= fVlen; i++) {
-                int val = fvals[i];
-                if (lmin > val)  lmin = val;
-                if (lmax < val)  lmax = val;
+                int vbl = fvbls[i];
+                if (lmin > vbl)  lmin = vbl;
+                if (lmbx < vbl)  lmbx = vbl;
             }
-            pop.tokenCoding = stressCoding(lmin, lmax);
+            pop.tokenCoding = stressCoding(lmin, lmbx);
         }
 
-        computePopSizePrivate(pop, valueCoding, valueCoding);
+        computePopSizePrivbte(pop, vblueCoding, vblueCoding);
         return pop;
     }
 
-    // Pick a random adaptive coding.
-    private CodingMethod stressAdaptiveCoding(CodingMethod coding) {
-        assert(stress != null);  // this method is only for testing
-        // Don't turn it into a run coding if it's already something special.
-        if (!(coding instanceof Coding))  return coding;
-        Coding plainCoding = (Coding)coding;
-        int len = end-start;
+    // Pick b rbndom bdbptive coding.
+    privbte CodingMethod stressAdbptiveCoding(CodingMethod coding) {
+        bssert(stress != null);  // this method is only for testing
+        // Don't turn it into b run coding if it's blrebdy something specibl.
+        if (!(coding instbnceof Coding))  return coding;
+        Coding plbinCoding = (Coding)coding;
+        int len = end-stbrt;
         if (len < 2)  return coding;
-        // Decide how many spans we'll create.
-        int spanlen = stressLen(len-1)+1;
-        if (spanlen == len)  return coding;
+        // Decide how mbny spbns we'll crebte.
+        int spbnlen = stressLen(len-1)+1;
+        if (spbnlen == len)  return coding;
         try {
-            assert(!disableRunCoding);
-            disableRunCoding = true;  // temporary, while I decide spans
-            int[] allValues = values.clone();
+            bssert(!disbbleRunCoding);
+            disbbleRunCoding = true;  // temporbry, while I decide spbns
+            int[] bllVblues = vblues.clone();
             CodingMethod result = null;
-            int scan  = this.end;
-            int lstart = this.start;
-            for (int split; scan > lstart; scan = split) {
-                int thisspan;
-                int rand = (scan - lstart < 100)? -1: stress.nextInt();
-                if ((rand & 7) != 0) {
-                    thisspan = (spanlen==1? spanlen: stressLen(spanlen-1)+1);
+            int scbn  = this.end;
+            int lstbrt = this.stbrt;
+            for (int split; scbn > lstbrt; scbn = split) {
+                int thisspbn;
+                int rbnd = (scbn - lstbrt < 100)? -1: stress.nextInt();
+                if ((rbnd & 7) != 0) {
+                    thisspbn = (spbnlen==1? spbnlen: stressLen(spbnlen-1)+1);
                 } else {
-                    // Every so often generate a value based on KX/KB format.
-                    int KX = (rand >>>= 3) & AdaptiveCoding.KX_MAX;
-                    int KB = (rand >>>= 3) & AdaptiveCoding.KB_MAX;
+                    // Every so often generbte b vblue bbsed on KX/KB formbt.
+                    int KX = (rbnd >>>= 3) & AdbptiveCoding.KX_MAX;
+                    int KB = (rbnd >>>= 3) & AdbptiveCoding.KB_MAX;
                     for (;;) {
-                        thisspan = AdaptiveCoding.decodeK(KX, KB);
-                        if (thisspan <= scan - lstart)  break;
-                        // Try smaller and smaller codings:
-                        if (KB != AdaptiveCoding.KB_DEFAULT)
-                            KB = AdaptiveCoding.KB_DEFAULT;
+                        thisspbn = AdbptiveCoding.decodeK(KX, KB);
+                        if (thisspbn <= scbn - lstbrt)  brebk;
+                        // Try smbller bnd smbller codings:
+                        if (KB != AdbptiveCoding.KB_DEFAULT)
+                            KB = AdbptiveCoding.KB_DEFAULT;
                         else
                             KX -= 1;
                     }
-                    //System.out.println("KX="+KX+" KB="+KB+" K="+thisspan);
-                    assert(AdaptiveCoding.isCodableLength(thisspan));
+                    //System.out.println("KX="+KX+" KB="+KB+" K="+thisspbn);
+                    bssert(AdbptiveCoding.isCodbbleLength(thisspbn));
                 }
-                if (thisspan > scan - lstart)  thisspan = scan - lstart;
-                while (!AdaptiveCoding.isCodableLength(thisspan)) {
-                    --thisspan;
+                if (thisspbn > scbn - lstbrt)  thisspbn = scbn - lstbrt;
+                while (!AdbptiveCoding.isCodbbleLength(thisspbn)) {
+                    --thisspbn;
                 }
-                split = scan - thisspan;
-                assert(split < scan);
-                assert(split >= lstart);
-                // Choose a coding for the span [split..scan).
-                CodingMethod sc = choose(allValues, split, scan, plainCoding);
+                split = scbn - thisspbn;
+                bssert(split < scbn);
+                bssert(split >= lstbrt);
+                // Choose b coding for the spbn [split..scbn).
+                CodingMethod sc = choose(bllVblues, split, scbn, plbinCoding);
                 if (result == null) {
-                    result = sc;  // the caboose
+                    result = sc;  // the cbboose
                 } else {
-                    result = new AdaptiveCoding(scan-split, sc, result);
+                    result = new AdbptiveCoding(scbn-split, sc, result);
                 }
             }
             return result;
-        } finally {
-            disableRunCoding = false; // return to normal value
+        } finblly {
+            disbbleRunCoding = fblse; // return to normbl vblue
         }
     }
 
-    // Return a random value in [0..len], gently biased toward extremes.
-    private Coding stressCoding(int min, int max) {
-        assert(stress != null);  // this method is only for testing
+    // Return b rbndom vblue in [0..len], gently bibsed towbrd extremes.
+    privbte Coding stressCoding(int min, int mbx) {
+        bssert(stress != null);  // this method is only for testing
         for (int i = 0; i < 100; i++) {
             Coding c = Coding.of(stress.nextInt(Coding.B_MAX)+1,
                                  stress.nextInt(Coding.H_MAX)+1,
                                  stress.nextInt(Coding.S_MAX+1));
             if (c.B() == 1)  c = c.setH(256);
             if (c.H() == 256 && c.B() >= 5)  c = c.setB(4);
-            if (stress.nextBoolean()) {
+            if (stress.nextBoolebn()) {
                 Coding dc = c.setD(1);
-                if (dc.canRepresent(min, max))  return dc;
+                if (dc.cbnRepresent(min, mbx))  return dc;
             }
-            if (c.canRepresent(min, max))  return c;
+            if (c.cbnRepresent(min, mbx))  return c;
         }
-        return BandStructure.UNSIGNED5;
+        return BbndStructure.UNSIGNED5;
     }
 
-    // Return a random value in [0..len], gently biased toward extremes.
-    private int stressLen(int len) {
-        assert(stress != null);  // this method is only for testing
-        assert(len >= 0);
-        int rand = stress.nextInt(100);
-        if (rand < 20)
-            return Math.min(len/5, rand);
-        else if (rand < 40)
+    // Return b rbndom vblue in [0..len], gently bibsed towbrd extremes.
+    privbte int stressLen(int len) {
+        bssert(stress != null);  // this method is only for testing
+        bssert(len >= 0);
+        int rbnd = stress.nextInt(100);
+        if (rbnd < 20)
+            return Mbth.min(len/5, rbnd);
+        else if (rbnd < 40)
             return len;
         else
             return stress.nextInt(len);
@@ -1389,98 +1389,98 @@ class CodingChooser {
 
     // For debug only.
 /*
-    public static
-    int[] readValuesFrom(InputStream instr) {
-        return readValuesFrom(new InputStreamReader(instr));
+    public stbtic
+    int[] rebdVbluesFrom(InputStrebm instr) {
+        return rebdVbluesFrom(new InputStrebmRebder(instr));
     }
-    public static
-    int[] readValuesFrom(Reader inrdr) {
-        inrdr = new BufferedReader(inrdr);
-        final StreamTokenizer in = new StreamTokenizer(inrdr);
-        final int TT_NOTHING = -99;
-        in.commentChar('#');
-        return readValuesFrom(new Iterator() {
+    public stbtic
+    int[] rebdVbluesFrom(Rebder inrdr) {
+        inrdr = new BufferedRebder(inrdr);
+        finbl StrebmTokenizer in = new StrebmTokenizer(inrdr);
+        finbl int TT_NOTHING = -99;
+        in.commentChbr('#');
+        return rebdVbluesFrom(new Iterbtor() {
             int token = TT_NOTHING;
-            private int getToken() {
+            privbte int getToken() {
                 if (token == TT_NOTHING) {
                     try {
                         token = in.nextToken();
-                        assert(token != TT_NOTHING);
-                    } catch (IOException ee) {
+                        bssert(token != TT_NOTHING);
+                    } cbtch (IOException ee) {
                         throw new RuntimeException(ee);
                     }
                 }
                 return token;
             }
-            public boolean hasNext() {
-                return getToken() != StreamTokenizer.TT_EOF;
+            public boolebn hbsNext() {
+                return getToken() != StrebmTokenizer.TT_EOF;
             }
             public Object next() {
                 int ntok = getToken();
                 token = TT_NOTHING;
                 switch (ntok) {
-                case StreamTokenizer.TT_EOF:
+                cbse StrebmTokenizer.TT_EOF:
                     throw new NoSuchElementException();
-                case StreamTokenizer.TT_NUMBER:
-                    return Integer.valueOf((int) in.nval);
-                default:
-                    assert(false);
+                cbse StrebmTokenizer.TT_NUMBER:
+                    return Integer.vblueOf((int) in.nvbl);
+                defbult:
+                    bssert(fblse);
                     return null;
                 }
             }
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperbtionException();
             }
         });
     }
-    public static
-    int[] readValuesFrom(Iterator iter) {
-        return readValuesFrom(iter, 0);
+    public stbtic
+    int[] rebdVbluesFrom(Iterbtor iter) {
+        return rebdVbluesFrom(iter, 0);
     }
-    public static
-    int[] readValuesFrom(Iterator iter, int initSize) {
-        int[] na = new int[Math.max(10, initSize)];
+    public stbtic
+    int[] rebdVbluesFrom(Iterbtor iter, int initSize) {
+        int[] nb = new int[Mbth.mbx(10, initSize)];
         int np = 0;
-        while (iter.hasNext()) {
-            Integer val = (Integer) iter.next();
-            if (np == na.length) {
-                na = BandStructure.realloc(na);
+        while (iter.hbsNext()) {
+            Integer vbl = (Integer) iter.next();
+            if (np == nb.length) {
+                nb = BbndStructure.reblloc(nb);
             }
-            na[np++] = val.intValue();
+            nb[np++] = vbl.intVblue();
         }
-        if (np != na.length) {
-            na = BandStructure.realloc(na, np);
+        if (np != nb.length) {
+            nb = BbndStructure.reblloc(nb, np);
         }
-        return na;
+        return nb;
     }
 
-    public static
-    void main(String[] av) throws IOException {
+    public stbtic
+    void mbin(String[] bv) throws IOException {
         int effort = MID_EFFORT;
-        int ap = 0;
-        if (ap < av.length && av[ap].equals("-e")) {
-            ap++;
-            effort = Integer.parseInt(av[ap++]);
+        int bp = 0;
+        if (bp < bv.length && bv[bp].equbls("-e")) {
+            bp++;
+            effort = Integer.pbrseInt(bv[bp++]);
         }
         int verbose = 1;
-        if (ap < av.length && av[ap].equals("-v")) {
-            ap++;
-            verbose = Integer.parseInt(av[ap++]);
+        if (bp < bv.length && bv[bp].equbls("-v")) {
+            bp++;
+            verbose = Integer.pbrseInt(bv[bp++]);
         }
-        Coding[] bcs = BandStructure.getBasicCodings();
+        Coding[] bcs = BbndStructure.getBbsicCodings();
         CodingChooser cc = new CodingChooser(effort, bcs);
-        if (ap < av.length && av[ap].equals("-p")) {
-            ap++;
-            cc.optUsePopulationCoding = false;
+        if (bp < bv.length && bv[bp].equbls("-p")) {
+            bp++;
+            cc.optUsePopulbtionCoding = fblse;
         }
-        if (ap < av.length && av[ap].equals("-a")) {
-            ap++;
-            cc.optUseAdaptiveCoding = false;
+        if (bp < bv.length && bv[bp].equbls("-b")) {
+            bp++;
+            cc.optUseAdbptiveCoding = fblse;
         }
         cc.verbose = verbose;
-        int[] values = readValuesFrom(System.in);
+        int[] vblues = rebdVbluesFrom(System.in);
         int[] sizes = {0,0};
-        CodingMethod cm = cc.choose(values, BandStructure.UNSIGNED5, sizes);
+        CodingMethod cm = cc.choose(vblues, BbndStructure.UNSIGNED5, sizes);
         System.out.println("size: "+sizes[BYTE_SIZE]+"/zs="+sizes[ZIP_SIZE]);
         System.out.println(cm);
     }

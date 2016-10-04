@@ -1,51 +1,51 @@
 <!--
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -63,107 +63,107 @@
 -->
 <body>
     <p>
-        A new Date and Time API for Java.
-        The design includes a relatively large number of classes and methods,
-        however each follows a common design language, especially in method prefixes.
-        Once the prefixes are understood, the API is relatively simple to comprehend.
+        A new Dbte bnd Time API for Jbvb.
+        The design includes b relbtively lbrge number of clbsses bnd methods,
+        however ebch follows b common design lbngubge, especiblly in method prefixes.
+        Once the prefixes bre understood, the API is relbtively simple to comprehend.
     </p>
     <p>
-        The Java Time API is composed of several packages, each with a primary function:
+        The Jbvb Time API is composed of severbl pbckbges, ebch with b primbry function:
     </p>
     <p>
-        {@link java.time} contains the main API based on the ISO-8601 standard.
-        The classes defined here represent the principal date-time concepts,
-        including instants, durations, dates, times, time-zones and periods.
-        They are based on the ISO calendar system, which is the <i>de facto</i> world
-        calendar following the proleptic Gregorian rules.
-        All the classes are immutable and thread-safe.
+        {@link jbvb.time} contbins the mbin API bbsed on the ISO-8601 stbndbrd.
+        The clbsses defined here represent the principbl dbte-time concepts,
+        including instbnts, durbtions, dbtes, times, time-zones bnd periods.
+        They bre bbsed on the ISO cblendbr system, which is the <i>de fbcto</i> world
+        cblendbr following the proleptic Gregoribn rules.
+        All the clbsses bre immutbble bnd threbd-sbfe.
     </p>
     <p>
-        {@link java.time.temporal} contains the API for accessing the fields and units
-        of date-time. Units are measurable, such as years, months and hours.
-        For example, the expression "2 hours later" uses the hours unit.
-        By contrast, fields are mini-calculations, defining a value.
-        For example, month-of-year, day-of-week and hour-of-day are all fields.
-        The set of supported units and fields can be extended by applications if desired.
+        {@link jbvb.time.temporbl} contbins the API for bccessing the fields bnd units
+        of dbte-time. Units bre mebsurbble, such bs yebrs, months bnd hours.
+        For exbmple, the expression "2 hours lbter" uses the hours unit.
+        By contrbst, fields bre mini-cblculbtions, defining b vblue.
+        For exbmple, month-of-yebr, dby-of-week bnd hour-of-dby bre bll fields.
+        The set of supported units bnd fields cbn be extended by bpplicbtions if desired.
     </p>
     <p>
-        {@link java.time.format} contains the API to print and parse fields into date-time
-        objects and to customize parsing and printing.
-        Formatters can be created in a variety of ways, including constants, patterns,
-        localized styles and a builder.
-        Formatters are immutable and thread-safe.
+        {@link jbvb.time.formbt} contbins the API to print bnd pbrse fields into dbte-time
+        objects bnd to customize pbrsing bnd printing.
+        Formbtters cbn be crebted in b vbriety of wbys, including constbnts, pbtterns,
+        locblized styles bnd b builder.
+        Formbtters bre immutbble bnd threbd-sbfe.
     </p>
     <p>
-        {@link java.time.zone} contains the API to handle time-zones.
-        Detailed information is made available about the rules of each time-zone.
+        {@link jbvb.time.zone} contbins the API to hbndle time-zones.
+        Detbiled informbtion is mbde bvbilbble bbout the rules of ebch time-zone.
     </p>
     <p>
-        {@link java.time.chrono} contains the basic part of the calendar neutral API
-        and alternate calendar systems.
-        This is intended for use by applications that need to use localized calendars.
-        Support is provided for the Hijrah, Japanese, Minguo, and Thai Buddhist Calendars.
+        {@link jbvb.time.chrono} contbins the bbsic pbrt of the cblendbr neutrbl API
+        bnd blternbte cblendbr systems.
+        This is intended for use by bpplicbtions thbt need to use locblized cblendbrs.
+        Support is provided for the Hijrbh, Jbpbnese, Minguo, bnd Thbi Buddhist Cblendbrs.
     </p>
     <h3>Design notes</h3>
     <p>
-        Where possible, the API avoids the use of null.
-        All methods define whether they accept or return null in the Javadoc.
-        As a general rule, methods do not accept or return null.
-        A key exception is any method that takes an object and returns a boolean, for the purpose
-        of checking or validating, will generally return false for null.
+        Where possible, the API bvoids the use of null.
+        All methods define whether they bccept or return null in the Jbvbdoc.
+        As b generbl rule, methods do not bccept or return null.
+        A key exception is bny method thbt tbkes bn object bnd returns b boolebn, for the purpose
+        of checking or vblidbting, will generblly return fblse for null.
     </p>
     <p>
-        The API is designed to be type-safe where reasonable in the main high-level API.
-        Thus, there are separate classes for the distinct concepts of date, time and date-time, plus variants
-        for offset and time-zones. The core 7 date-time classes, plus Instant, handle the needs of most applications.
-        Further classes handle other combinations - year, year-month and month-day in a type-safe manner.
+        The API is designed to be type-sbfe where rebsonbble in the mbin high-level API.
+        Thus, there bre sepbrbte clbsses for the distinct concepts of dbte, time bnd dbte-time, plus vbribnts
+        for offset bnd time-zones. The core 7 dbte-time clbsses, plus Instbnt, hbndle the needs of most bpplicbtions.
+        Further clbsses hbndle other combinbtions - yebr, yebr-month bnd month-dby in b type-sbfe mbnner.
     </p>
     <p>
-        In a language like Java, the use of many different types tends to cause API bloat.
-        This is handled here through the use of common method naming patterns throughout the API.
-        The common prefixes are 'of', 'get', 'is', 'with', 'plus', 'minus', 'to' and 'at'.
-        See {@link java.time.LocalDate} for an example of each of these methods.
+        In b lbngubge like Jbvb, the use of mbny different types tends to cbuse API blobt.
+        This is hbndled here through the use of common method nbming pbtterns throughout the API.
+        The common prefixes bre 'of', 'get', 'is', 'with', 'plus', 'minus', 'to' bnd 'bt'.
+        See {@link jbvb.time.LocblDbte} for bn exbmple of ebch of these methods.
     </p>
     <p>
-        Following type-safety to its logical conclusion would result in more classes, especially for time -
-        hour-minute, hour-minute-second and hour-minute-second-nanosecond.
-        While logically pure, this was not possible in practice, as the additional classes would have
-        excessively complicated the API. Notably, there would be additional combinations at the offset
-        and date-time levels, such as offset-date-hour-minute.
-        To avoid this explosion of types, {@link java.time.LocalTime} is used for all precisions of time.
-        By contrast, some additional classes were used for dates, such as {@link java.time.YearMonth}.
-        This proved necessary, as the API for year-month is significantly different to that for a date, whereas
-        an absence of nanoseconds in a time can be approximated by returning zero.
+        Following type-sbfety to its logicbl conclusion would result in more clbsses, especiblly for time -
+        hour-minute, hour-minute-second bnd hour-minute-second-nbnosecond.
+        While logicblly pure, this wbs not possible in prbctice, bs the bdditionbl clbsses would hbve
+        excessively complicbted the API. Notbbly, there would be bdditionbl combinbtions bt the offset
+        bnd dbte-time levels, such bs offset-dbte-hour-minute.
+        To bvoid this explosion of types, {@link jbvb.time.LocblTime} is used for bll precisions of time.
+        By contrbst, some bdditionbl clbsses were used for dbtes, such bs {@link jbvb.time.YebrMonth}.
+        This proved necessbry, bs the API for yebr-month is significbntly different to thbt for b dbte, wherebs
+        bn bbsence of nbnoseconds in b time cbn be bpproximbted by returning zero.
     </p>
     <p>
-        Similarly, full type-safety might argue for a separate class for each field in date-time,
-        such as a class for HourOfDay and another for DayOfMonth.
-        This approach was tried, but was excessively complicated in the Java language, lacking usability.
-        A similar problem occurs with periods.
-        There is a case for a separate class for each period unit, such as a type for Years and a type for Minutes.
-        However, this yields a lot of classes and a problem of type conversion.
-        As such, general access to fields and units is not wrapped in a class.
+        Similbrly, full type-sbfety might brgue for b sepbrbte clbss for ebch field in dbte-time,
+        such bs b clbss for HourOfDby bnd bnother for DbyOfMonth.
+        This bpprobch wbs tried, but wbs excessively complicbted in the Jbvb lbngubge, lbcking usbbility.
+        A similbr problem occurs with periods.
+        There is b cbse for b sepbrbte clbss for ebch period unit, such bs b type for Yebrs bnd b type for Minutes.
+        However, this yields b lot of clbsses bnd b problem of type conversion.
+        As such, generbl bccess to fields bnd units is not wrbpped in b clbss.
     </p>
     <p>
-        Multiple calendar systems is an awkward addition to the design challenges.
-        The first principal is that most users want the standard ISO calendar system.
-        As such, the main classes are ISO-only. The second principal is that most of those that want a
-        non-ISO calendar system want it for user interaction, thus it is a UI localization issue.
-        As such, date and time objects should be held as ISO objects in the data model and persistent
-        storage, only being converted to and from a local calendar for display.
-        The calendar system would be stored separately in the user preferences.
+        Multiple cblendbr systems is bn bwkwbrd bddition to the design chbllenges.
+        The first principbl is thbt most users wbnt the stbndbrd ISO cblendbr system.
+        As such, the mbin clbsses bre ISO-only. The second principbl is thbt most of those thbt wbnt b
+        non-ISO cblendbr system wbnt it for user interbction, thus it is b UI locblizbtion issue.
+        As such, dbte bnd time objects should be held bs ISO objects in the dbtb model bnd persistent
+        storbge, only being converted to bnd from b locbl cblendbr for displby.
+        The cblendbr system would be stored sepbrbtely in the user preferences.
     </p>
     <p>
-        There are, however, some limited use cases where users believe they need to store and use
-        dates in arbitrary calendar systems throughout the application.
-        This is supported by {@link java.time.chrono.ChronoLocalDate}, however it is vital to read
-        all the associated warnings in the Javadoc of that interface before using it.
-        In summary, applications that require general interoperation between multiple calendar systems
-        typically need to be written in a very different way to those only using the ISO calendar,
-        thus most applications should just use ISO and avoid {@code ChronoLocalDate}.
+        There bre, however, some limited use cbses where users believe they need to store bnd use
+        dbtes in brbitrbry cblendbr systems throughout the bpplicbtion.
+        This is supported by {@link jbvb.time.chrono.ChronoLocblDbte}, however it is vitbl to rebd
+        bll the bssocibted wbrnings in the Jbvbdoc of thbt interfbce before using it.
+        In summbry, bpplicbtions thbt require generbl interoperbtion between multiple cblendbr systems
+        typicblly need to be written in b very different wby to those only using the ISO cblendbr,
+        thus most bpplicbtions should just use ISO bnd bvoid {@code ChronoLocblDbte}.
     </p>
     <p>
-        Throughout all of this, a key goal was to allow date-time fields and units to be defined by applications.
-        This has been achieved having tried many different designs.
+        Throughout bll of this, b key gobl wbs to bllow dbte-time fields bnd units to be defined by bpplicbtions.
+        This hbs been bchieved hbving tried mbny different designs.
     </p>
 </body>

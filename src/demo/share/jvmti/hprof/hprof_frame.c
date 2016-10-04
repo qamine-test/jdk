@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,181 +30,181 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* This file contains support for handling frames, or (method,location) pairs. */
+/* This file contbins support for hbndling frbmes, or (method,locbtion) pbirs. */
 
 #include "hprof.h"
 
 /*
- *  Frames map 1-to-1 to (methodID,location) pairs.
+ *  Frbmes mbp 1-to-1 to (methodID,locbtion) pbirs.
  *  When no line number is known, -1 should be used.
  *
- *  Frames are mostly used in traces (see hprof_trace.c) and will be marked
- *    with their status flag as they are written out to the hprof output file.
+ *  Frbmes bre mostly used in trbces (see hprof_trbce.c) bnd will be mbrked
+ *    with their stbtus flbg bs they bre written out to the hprof output file.
  *
  */
 
-enum LinenoState {
+enum LinenoStbte {
     LINENUM_UNINITIALIZED = 0,
     LINENUM_AVAILABLE     = 1,
     LINENUM_UNAVAILABLE   = 2
 };
 
-typedef struct FrameKey {
+typedef struct FrbmeKey {
     jmethodID   method;
-    jlocation   location;
-} FrameKey;
+    jlocbtion   locbtion;
+} FrbmeKey;
 
-typedef struct FrameInfo {
+typedef struct FrbmeInfo {
     unsigned short      lineno;
-    unsigned char       lineno_state; /* LinenoState */
-    unsigned char       status;
-    SerialNumber serial_num;
-} FrameInfo;
+    unsigned chbr       lineno_stbte; /* LinenoStbte */
+    unsigned chbr       stbtus;
+    SeriblNumber seribl_num;
+} FrbmeInfo;
 
-static FrameKey*
-get_pkey(FrameIndex index)
+stbtic FrbmeKey*
+get_pkey(FrbmeIndex index)
 {
     void *key_ptr;
     int   key_len;
 
-    table_get_key(gdata->frame_table, index, &key_ptr, &key_len);
-    HPROF_ASSERT(key_len==sizeof(FrameKey));
+    tbble_get_key(gdbtb->frbme_tbble, index, &key_ptr, &key_len);
+    HPROF_ASSERT(key_len==sizeof(FrbmeKey));
     HPROF_ASSERT(key_ptr!=NULL);
-    return (FrameKey*)key_ptr;
+    return (FrbmeKey*)key_ptr;
 }
 
-static FrameInfo *
-get_info(FrameIndex index)
+stbtic FrbmeInfo *
+get_info(FrbmeIndex index)
 {
-    FrameInfo *info;
+    FrbmeInfo *info;
 
-    info = (FrameInfo*)table_get_info(gdata->frame_table, index);
+    info = (FrbmeInfo*)tbble_get_info(gdbtb->frbme_tbble, index);
     return info;
 }
 
-static void
-list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtic void
+list_item(TbbleIndex i, void *key_ptr, int key_len, void *info_ptr, void *brg)
 {
-    FrameKey   key;
-    FrameInfo *info;
+    FrbmeKey   key;
+    FrbmeInfo *info;
 
     HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(FrameKey));
+    HPROF_ASSERT(key_len==sizeof(FrbmeKey));
     HPROF_ASSERT(info_ptr!=NULL);
 
-    key = *((FrameKey*)key_ptr);
-    info = (FrameInfo*)info_ptr;
-    debug_message(
-        "Frame 0x%08x: method=%p, location=%d, lineno=%d(%d), status=%d \n",
-                i, (void*)key.method, (jint)key.location,
-                info->lineno, info->lineno_state, info->status);
+    key = *((FrbmeKey*)key_ptr);
+    info = (FrbmeInfo*)info_ptr;
+    debug_messbge(
+        "Frbme 0x%08x: method=%p, locbtion=%d, lineno=%d(%d), stbtus=%d \n",
+                i, (void*)key.method, (jint)key.locbtion,
+                info->lineno, info->lineno_stbte, info->stbtus);
 }
 
 void
-frame_init(void)
+frbme_init(void)
 {
-    gdata->frame_table = table_initialize("Frame",
-                            1024, 1024, 1023, (int)sizeof(FrameInfo));
+    gdbtb->frbme_tbble = tbble_initiblize("Frbme",
+                            1024, 1024, 1023, (int)sizeof(FrbmeInfo));
 }
 
-FrameIndex
-frame_find_or_create(jmethodID method, jlocation location)
+FrbmeIndex
+frbme_find_or_crebte(jmethodID method, jlocbtion locbtion)
 {
-    FrameIndex index;
-    static FrameKey empty_key;
-    FrameKey key;
-    jboolean new_one;
+    FrbmeIndex index;
+    stbtic FrbmeKey empty_key;
+    FrbmeKey key;
+    jboolebn new_one;
 
     key          = empty_key;
     key.method   = method;
-    key.location = location;
+    key.locbtion = locbtion;
     new_one      = JNI_FALSE;
-    index        = table_find_or_create_entry(gdata->frame_table,
+    index        = tbble_find_or_crebte_entry(gdbtb->frbme_tbble,
                         &key, (int)sizeof(key), &new_one, NULL);
     if ( new_one ) {
-        FrameInfo *info;
+        FrbmeInfo *info;
 
         info = get_info(index);
-        info->lineno_state = LINENUM_UNINITIALIZED;
-        if ( location < 0 ) {
-            info->lineno_state = LINENUM_UNAVAILABLE;
+        info->lineno_stbte = LINENUM_UNINITIALIZED;
+        if ( locbtion < 0 ) {
+            info->lineno_stbte = LINENUM_UNAVAILABLE;
         }
-        info->serial_num = gdata->frame_serial_number_counter++;
+        info->seribl_num = gdbtb->frbme_seribl_number_counter++;
     }
     return index;
 }
 
 void
-frame_list(void)
+frbme_list(void)
 {
-    debug_message(
-        "--------------------- Frame Table ------------------------\n");
-    table_walk_items(gdata->frame_table, &list_item, NULL);
-    debug_message(
+    debug_messbge(
+        "--------------------- Frbme Tbble ------------------------\n");
+    tbble_wblk_items(gdbtb->frbme_tbble, &list_item, NULL);
+    debug_messbge(
         "----------------------------------------------------------\n");
 }
 
 void
-frame_cleanup(void)
+frbme_clebnup(void)
 {
-    table_cleanup(gdata->frame_table, NULL, NULL);
-    gdata->frame_table = NULL;
+    tbble_clebnup(gdbtb->frbme_tbble, NULL, NULL);
+    gdbtb->frbme_tbble = NULL;
 }
 
 void
-frame_set_status(FrameIndex index, jint status)
+frbme_set_stbtus(FrbmeIndex index, jint stbtus)
 {
-    FrameInfo *info;
+    FrbmeInfo *info;
 
     info = get_info(index);
-    info->status = (unsigned char)status;
+    info->stbtus = (unsigned chbr)stbtus;
 }
 
 void
-frame_get_location(FrameIndex index, SerialNumber *pserial_num,
-                   jmethodID *pmethod, jlocation *plocation, jint *plineno)
+frbme_get_locbtion(FrbmeIndex index, SeriblNumber *pseribl_num,
+                   jmethodID *pmethod, jlocbtion *plocbtion, jint *plineno)
 {
-    FrameKey  *pkey;
-    FrameInfo *info;
+    FrbmeKey  *pkey;
+    FrbmeInfo *info;
     jint       lineno;
 
     pkey       = get_pkey(index);
     *pmethod   = pkey->method;
-    *plocation = pkey->location;
+    *plocbtion = pkey->locbtion;
     info       = get_info(index);
     lineno     = (jint)info->lineno;
-    if ( info->lineno_state == LINENUM_UNINITIALIZED ) {
-        info->lineno_state = LINENUM_UNAVAILABLE;
-        if ( gdata->lineno_in_traces ) {
-            if ( pkey->location >= 0 && !isMethodNative(pkey->method) ) {
-                lineno = getLineNumber(pkey->method, pkey->location);
+    if ( info->lineno_stbte == LINENUM_UNINITIALIZED ) {
+        info->lineno_stbte = LINENUM_UNAVAILABLE;
+        if ( gdbtb->lineno_in_trbces ) {
+            if ( pkey->locbtion >= 0 && !isMethodNbtive(pkey->method) ) {
+                lineno = getLineNumber(pkey->method, pkey->locbtion);
                 if ( lineno >= 0 ) {
-                    info->lineno = (unsigned short)lineno; /* save it */
-                    info->lineno_state = LINENUM_AVAILABLE;
+                    info->lineno = (unsigned short)lineno; /* sbve it */
+                    info->lineno_stbte = LINENUM_AVAILABLE;
                 }
             }
         }
     }
-    if ( info->lineno_state == LINENUM_UNAVAILABLE ) {
+    if ( info->lineno_stbte == LINENUM_UNAVAILABLE ) {
         lineno = -1;
     }
     *plineno     = lineno;
-    *pserial_num = info->serial_num;
+    *pseribl_num = info->seribl_num;
 }
 
 jint
-frame_get_status(FrameIndex index)
+frbme_get_stbtus(FrbmeIndex index)
 {
-    FrameInfo *info;
+    FrbmeInfo *info;
 
     info = get_info(index);
-    return (jint)info->status;
+    return (jint)info->stbtus;
 }

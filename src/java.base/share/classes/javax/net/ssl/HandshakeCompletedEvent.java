@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.util.EventObject;
-import java.security.cert.Certificate;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
+import jbvb.util.EventObject;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.Principbl;
+import jbvb.security.cert.X509Certificbte;
 
 /**
- * This event indicates that an SSL handshake completed on a given
- * SSL connection.  All of the core information about that handshake's
- * result is captured through an "SSLSession" object.  As a convenience,
- * this event class provides direct access to some important session
- * attributes.
+ * This event indicbtes thbt bn SSL hbndshbke completed on b given
+ * SSL connection.  All of the core informbtion bbout thbt hbndshbke's
+ * result is cbptured through bn "SSLSession" object.  As b convenience,
+ * this event clbss provides direct bccess to some importbnt session
+ * bttributes.
  *
- * <P> The source of this event is the SSLSocket on which handshaking
+ * <P> The source of this event is the SSLSocket on which hbndshbking
  * just completed.
  *
  * @see SSLSocket
- * @see HandshakeCompletedListener
+ * @see HbndshbkeCompletedListener
  * @see SSLSession
  *
  * @since 1.4
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public class HandshakeCompletedEvent extends EventObject
+public clbss HbndshbkeCompletedEvent extends EventObject
 {
-    private static final long serialVersionUID = 7914963744257769778L;
+    privbte stbtic finbl long seriblVersionUID = 7914963744257769778L;
 
-    private transient SSLSession session;
+    privbte trbnsient SSLSession session;
 
     /**
-     * Constructs a new HandshakeCompletedEvent.
+     * Constructs b new HbndshbkeCompletedEvent.
      *
-     * @param sock the SSLSocket acting as the source of the event
-     * @param s the SSLSession this event is associated with
+     * @pbrbm sock the SSLSocket bcting bs the source of the event
+     * @pbrbm s the SSLSession this event is bssocibted with
      */
-    public HandshakeCompletedEvent(SSLSocket sock, SSLSession s)
+    public HbndshbkeCompletedEvent(SSLSocket sock, SSLSession s)
     {
         super(sock);
         session = s;
@@ -67,9 +67,9 @@ public class HandshakeCompletedEvent extends EventObject
 
 
     /**
-     * Returns the session that triggered this event.
+     * Returns the session thbt triggered this event.
      *
-     * @return the <code>SSLSession</code> for this handshake
+     * @return the <code>SSLSession</code> for this hbndshbke
      */
     public SSLSession getSession()
     {
@@ -78,11 +78,11 @@ public class HandshakeCompletedEvent extends EventObject
 
 
     /**
-     * Returns the cipher suite in use by the session which was produced
-     * by the handshake.  (This is a convenience method for
+     * Returns the cipher suite in use by the session which wbs produced
+     * by the hbndshbke.  (This is b convenience method for
      * getting the ciphersuite from the SSLsession.)
      *
-     * @return the name of the cipher suite negotiated during this session.
+     * @return the nbme of the cipher suite negotibted during this session.
      */
     public String getCipherSuite()
     {
@@ -91,142 +91,142 @@ public class HandshakeCompletedEvent extends EventObject
 
 
     /**
-     * Returns the certificate(s) that were sent to the peer during
-     * handshaking.
-     * Note: This method is useful only when using certificate-based
+     * Returns the certificbte(s) thbt were sent to the peer during
+     * hbndshbking.
+     * Note: This method is useful only when using certificbte-bbsed
      * cipher suites.
      *
-     * When multiple certificates are available for use in a
-     * handshake, the implementation chooses what it considers the
-     * "best" certificate chain available, and transmits that to
-     * the other side.  This method allows the caller to know
-     * which certificate chain was actually used.
+     * When multiple certificbtes bre bvbilbble for use in b
+     * hbndshbke, the implementbtion chooses whbt it considers the
+     * "best" certificbte chbin bvbilbble, bnd trbnsmits thbt to
+     * the other side.  This method bllows the cbller to know
+     * which certificbte chbin wbs bctublly used.
      *
-     * @return an ordered array of certificates, with the local
-     *          certificate first followed by any
-     *          certificate authorities.  If no certificates were sent,
+     * @return bn ordered brrby of certificbtes, with the locbl
+     *          certificbte first followed by bny
+     *          certificbte buthorities.  If no certificbtes were sent,
      *          then null is returned.
-     * @see #getLocalPrincipal()
+     * @see #getLocblPrincipbl()
      */
-    public java.security.cert.Certificate [] getLocalCertificates()
+    public jbvb.security.cert.Certificbte [] getLocblCertificbtes()
     {
-        return session.getLocalCertificates();
+        return session.getLocblCertificbtes();
     }
 
 
     /**
-     * Returns the identity of the peer which was established as part
+     * Returns the identity of the peer which wbs estbblished bs pbrt
      * of defining the session.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * @return an ordered array of the peer certificates,
-     *          with the peer's own certificate first followed by
-     *          any certificate authorities.
+     * @return bn ordered brrby of the peer certificbtes,
+     *          with the peer's own certificbte first followed by
+     *          bny certificbte buthorities.
      * @exception SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @see #getPeerPrincipbl()
      */
-    public java.security.cert.Certificate [] getPeerCertificates()
+    public jbvb.security.cert.Certificbte [] getPeerCertificbtes()
             throws SSLPeerUnverifiedException
     {
-        return session.getPeerCertificates();
+        return session.getPeerCertificbtes();
     }
 
 
     /**
-     * Returns the identity of the peer which was identified as part
+     * Returns the identity of the peer which wbs identified bs pbrt
      * of defining the session.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Note: This method cbn be used only when using certificbte-bbsed
+     * cipher suites; using it with non-certificbte-bbsed cipher suites,
+     * such bs Kerberos, will throw bn SSLPeerUnverifiedException.
      *
-     * <p><em>Note: this method exists for compatibility with previous
-     * releases. New applications should use
-     * {@link #getPeerCertificates} instead.</em></p>
+     * <p><em>Note: this method exists for compbtibility with previous
+     * relebses. New bpplicbtions should use
+     * {@link #getPeerCertificbtes} instebd.</em></p>
      *
-     * @return an ordered array of peer X.509 certificates,
-     *          with the peer's own certificate first followed by any
-     *          certificate authorities.  (The certificates are in
-     *          the original JSSE
-     *          {@link javax.security.cert.X509Certificate} format).
+     * @return bn ordered brrby of peer X.509 certificbtes,
+     *          with the peer's own certificbte first followed by bny
+     *          certificbte buthorities.  (The certificbtes bre in
+     *          the originbl JSSE
+     *          {@link jbvbx.security.cert.X509Certificbte} formbt).
      * @exception SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @see #getPeerPrincipbl()
      */
-    public javax.security.cert.X509Certificate [] getPeerCertificateChain()
+    public jbvbx.security.cert.X509Certificbte [] getPeerCertificbteChbin()
             throws SSLPeerUnverifiedException
     {
-        return session.getPeerCertificateChain();
+        return session.getPeerCertificbteChbin();
     }
 
     /**
-     * Returns the identity of the peer which was established as part of
+     * Returns the identity of the peer which wbs estbblished bs pbrt of
      * defining the session.
      *
-     * @return the peer's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @return the peer's principbl. Returns bn X500Principbl of the
+     * end-entity certiticbte for X509-bbsed cipher suites, bnd
+     * KerberosPrincipbl for Kerberos cipher suites.
      *
-     * @throws SSLPeerUnverifiedException if the peer's identity has not
+     * @throws SSLPeerUnverifiedException if the peer's identity hbs not
      *          been verified
      *
-     * @see #getPeerCertificates()
-     * @see #getLocalPrincipal()
+     * @see #getPeerCertificbtes()
+     * @see #getLocblPrincipbl()
      *
      * @since 1.5
      */
-    public Principal getPeerPrincipal()
+    public Principbl getPeerPrincipbl()
             throws SSLPeerUnverifiedException
     {
-        Principal principal;
+        Principbl principbl;
         try {
-            principal = session.getPeerPrincipal();
-        } catch (AbstractMethodError e) {
-            // if the provider does not support it, fallback to peer certs.
-            // return the X500Principal of the end-entity cert.
-            Certificate[] certs = getPeerCertificates();
-            principal = ((X509Certificate)certs[0]).getSubjectX500Principal();
+            principbl = session.getPeerPrincipbl();
+        } cbtch (AbstrbctMethodError e) {
+            // if the provider does not support it, fbllbbck to peer certs.
+            // return the X500Principbl of the end-entity cert.
+            Certificbte[] certs = getPeerCertificbtes();
+            principbl = ((X509Certificbte)certs[0]).getSubjectX500Principbl();
         }
-        return principal;
+        return principbl;
     }
 
     /**
-     * Returns the principal that was sent to the peer during handshaking.
+     * Returns the principbl thbt wbs sent to the peer during hbndshbking.
      *
-     * @return the principal sent to the peer. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites. If no principal was
+     * @return the principbl sent to the peer. Returns bn X500Principbl
+     * of the end-entity certificbte for X509-bbsed cipher suites, bnd
+     * KerberosPrincipbl for Kerberos cipher suites. If no principbl wbs
      * sent, then null is returned.
      *
-     * @see #getLocalCertificates()
-     * @see #getPeerPrincipal()
+     * @see #getLocblCertificbtes()
+     * @see #getPeerPrincipbl()
      *
      * @since 1.5
      */
-    public Principal getLocalPrincipal()
+    public Principbl getLocblPrincipbl()
     {
-        Principal principal;
+        Principbl principbl;
         try {
-            principal = session.getLocalPrincipal();
-        } catch (AbstractMethodError e) {
-            principal = null;
-            // if the provider does not support it, fallback to local certs.
-            // return the X500Principal of the end-entity cert.
-            Certificate[] certs = getLocalCertificates();
+            principbl = session.getLocblPrincipbl();
+        } cbtch (AbstrbctMethodError e) {
+            principbl = null;
+            // if the provider does not support it, fbllbbck to locbl certs.
+            // return the X500Principbl of the end-entity cert.
+            Certificbte[] certs = getLocblCertificbtes();
             if (certs != null) {
-                principal =
-                        ((X509Certificate)certs[0]).getSubjectX500Principal();
+                principbl =
+                        ((X509Certificbte)certs[0]).getSubjectX500Principbl();
             }
         }
-        return principal;
+        return principbl;
     }
 
     /**
      * Returns the socket which is the source of this event.
-     * (This is a convenience function, to let applications
-     * write code without type casts.)
+     * (This is b convenience function, to let bpplicbtions
+     * write code without type cbsts.)
      *
-     * @return the socket on which the connection was made.
+     * @return the socket on which the connection wbs mbde.
      */
     public SSLSocket getSocket()
     {

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.IntegerSyntbx;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobImpressions is an integer valued printing attribute class that
- * specifies the total size in number of impressions of the document(s) being
- * submitted. An "impression" is the image (possibly many print-stream pages in
- * different configurations) imposed onto a single media page.
+ * Clbss JobImpressions is bn integer vblued printing bttribute clbss thbt
+ * specifies the totbl size in number of impressions of the document(s) being
+ * submitted. An "impression" is the imbge (possibly mbny print-strebm pbges in
+ * different configurbtions) imposed onto b single medib pbge.
  * <P>
- * The JobImpressions attribute describes the size of the job. This attribute is
- * not intended to be a counter; it is intended to be useful routing and
- * scheduling information if known. The printer may try to compute the
- * JobImpressions attribute's value if it is not supplied in the Print Request.
- * Even if the client does supply a value for the JobImpressions attribute in
- * the Print Request, the printer may choose to change the value if the printer
- * is able to compute a value which is more accurate than the client supplied
- * value. The printer may be able to determine the correct value for the
- * JobImpressions attribute either right at job submission time or at any later
+ * The JobImpressions bttribute describes the size of the job. This bttribute is
+ * not intended to be b counter; it is intended to be useful routing bnd
+ * scheduling informbtion if known. The printer mby try to compute the
+ * JobImpressions bttribute's vblue if it is not supplied in the Print Request.
+ * Even if the client does supply b vblue for the JobImpressions bttribute in
+ * the Print Request, the printer mby choose to chbnge the vblue if the printer
+ * is bble to compute b vblue which is more bccurbte thbn the client supplied
+ * vblue. The printer mby be bble to determine the correct vblue for the
+ * JobImpressions bttribute either right bt job submission time or bt bny lbter
  * point in time.
  * <P>
- * As with {@link JobKOctets JobKOctets}, the JobImpressions value must not
- * include the multiplicative factors contributed by the number of copies
- * specified by the {@link Copies Copies} attribute, independent of whether the
- * device can process multiple copies without making multiple passes over the
- * job or document data and independent of whether the output is collated or
- * not. Thus the value is independent of the implementation and reflects the
- * size of the document(s) measured in impressions independent of the number of
+ * As with {@link JobKOctets JobKOctets}, the JobImpressions vblue must not
+ * include the multiplicbtive fbctors contributed by the number of copies
+ * specified by the {@link Copies Copies} bttribute, independent of whether the
+ * device cbn process multiple copies without mbking multiple pbsses over the
+ * job or document dbtb bnd independent of whether the output is collbted or
+ * not. Thus the vblue is independent of the implementbtion bnd reflects the
+ * size of the document(s) mebsured in impressions independent of the number of
  * copies.
  * <P>
- * As with {@link JobKOctets JobKOctets}, the JobImpressions value must also not
- * include the multiplicative factor due to a copies instruction embedded in the
- * document data. If the document data actually includes replications of the
- * document data, this value will include such replication. In other words, this
- * value is always the number of impressions in the source document data, rather
- * than a measure of the number of impressions to be produced by the job.
+ * As with {@link JobKOctets JobKOctets}, the JobImpressions vblue must blso not
+ * include the multiplicbtive fbctor due to b copies instruction embedded in the
+ * document dbtb. If the document dbtb bctublly includes replicbtions of the
+ * document dbtb, this vblue will include such replicbtion. In other words, this
+ * vblue is blwbys the number of impressions in the source document dbtb, rbther
+ * thbn b mebsure of the number of impressions to be produced by the job.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> The integer vblue gives the IPP integer vblue. The
+ * cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP bttribute
+ * nbme.
  *
  * @see JobImpressionsSupported
  * @see JobImpressionsCompleted
  * @see JobKOctets
- * @see JobMediaSheets
+ * @see JobMedibSheets
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class JobImpressions extends IntegerSyntax
+public finbl clbss JobImpressions extends IntegerSyntbx
     implements PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = 8225537206784322464L;
+    privbte stbtic finbl long seriblVersionUID = 8225537206784322464L;
 
 
     /**
-     * Construct a new job impressions attribute with the given integer value.
+     * Construct b new job impressions bttribute with the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @exception  IllegblArgumentException
+     *  (Unchecked exception) Thrown if <CODE>vblue</CODE> is less thbn 0.
      */
-    public JobImpressions(int value) {
-        super(value, 0, Integer.MAX_VALUE);
+    public JobImpressions(int vblue) {
+        super(vblue, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job impressions attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions must
+     * Returns whether this job impressions bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions must
      * be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobImpressions.
+     * <CODE>object</CODE> is bn instbnce of clbss JobImpressions.
      * <LI>
-     * This job impressions attribute's value and <CODE>object</CODE>'s value
-     * are equal.
+     * This job impressions bttribute's vblue bnd <CODE>object</CODE>'s vblue
+     * bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job
-     *          impressions attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this job
+     *          impressions bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return super.equals (object) && object instanceof JobImpressions;
+    public boolebn equbls(Object object) {
+        return super.equbls (object) && object instbnceof JobImpressions;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobImpressions, the category is class JobImpressions itself.
+     * For clbss JobImpressions, the cbtegory is clbss JobImpressions itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobImpressions.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobImpressions.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobImpressions, the category name is
+     * For clbss JobImpressions, the cbtegory nbme is
      * <CODE>"job-impressions"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "job-impressions";
     }
 

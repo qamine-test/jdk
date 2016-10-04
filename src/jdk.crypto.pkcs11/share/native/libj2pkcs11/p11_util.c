@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,130 +45,130 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#include "pkcs11wrbpper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <bssert.h>
 
-/* declare file private functions */
+/* declbre file privbte functions */
 
-ModuleData * getModuleEntry(JNIEnv *env, jobject pkcs11Implementation);
-int isModulePresent(JNIEnv *env, jobject pkcs11Implementation);
+ModuleDbtb * getModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion);
+int isModulePresent(JNIEnv *env, jobject pkcs11Implementbtion);
 void removeAllModuleEntries(JNIEnv *env);
 
 
 /* ************************************************************************** */
-/* Functions for keeping track of currently active and loaded modules         */
+/* Functions for keeping trbck of currently bctive bnd lobded modules         */
 /* ************************************************************************** */
 
 
 /*
- * Create a new object for locking.
+ * Crebte b new object for locking.
  */
-jobject createLockObject(JNIEnv *env) {
-    jclass jObjectClass;
+jobject crebteLockObject(JNIEnv *env) {
+    jclbss jObjectClbss;
     jobject jLockObject;
     jmethodID jConstructor;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Object");
-    if (jObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jObjectClass, "<init>", "()V");
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Object");
+    if (jObjectClbss == NULL) { return NULL; }
+    jConstructor = (*env)->GetMethodID(env, jObjectClbss, "<init>", "()V");
     if (jConstructor == NULL) { return NULL; }
-    jLockObject = (*env)->NewObject(env, jObjectClass, jConstructor);
+    jLockObject = (*env)->NewObject(env, jObjectClbss, jConstructor);
     if (jLockObject == NULL) { return NULL; }
-    jLockObject = (*env)->NewGlobalRef(env, jLockObject);
+    jLockObject = (*env)->NewGlobblRef(env, jLockObject);
 
     return jLockObject ;
 }
 
 /*
- * Create a new object for locking.
+ * Crebte b new object for locking.
  */
 void destroyLockObject(JNIEnv *env, jobject jLockObject) {
     if (jLockObject != NULL) {
-        (*env)->DeleteGlobalRef(env, jLockObject);
+        (*env)->DeleteGlobblRef(env, jLockObject);
     }
 }
 
 /*
- * Add the given pkcs11Implementation object to the list of present modules.
- * Attach the given data to the entry. If the given pkcs11Implementation is
- * already in the lsit, just override its old module data with the new one.
- * None of the arguments can be NULL. If one of the arguments is NULL, this
+ * Add the given pkcs11Implementbtion object to the list of present modules.
+ * Attbch the given dbtb to the entry. If the given pkcs11Implementbtion is
+ * blrebdy in the lsit, just override its old module dbtb with the new one.
+ * None of the brguments cbn be NULL. If one of the brguments is NULL, this
  * function does nothing.
  */
-void putModuleEntry(JNIEnv *env, jobject pkcs11Implementation, ModuleData *moduleData) {
-    if (pkcs11Implementation == NULL_PTR) {
+void putModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion, ModuleDbtb *moduleDbtb) {
+    if (pkcs11Implementbtion == NULL_PTR) {
         return ;
     }
-    if (moduleData == NULL) {
+    if (moduleDbtb == NULL) {
         return ;
     }
-    (*env)->SetLongField(env, pkcs11Implementation, pNativeDataID, ptr_to_jlong(moduleData));
+    (*env)->SetLongField(env, pkcs11Implementbtion, pNbtiveDbtbID, ptr_to_jlong(moduleDbtb));
 }
 
 
 /*
- * Get the module data of the entry for the given pkcs11Implementation. Returns
- * NULL, if the pkcs11Implementation is not in the list.
+ * Get the module dbtb of the entry for the given pkcs11Implementbtion. Returns
+ * NULL, if the pkcs11Implementbtion is not in the list.
  */
-ModuleData * getModuleEntry(JNIEnv *env, jobject pkcs11Implementation) {
-    jlong jData;
-    if (pkcs11Implementation == NULL) {
+ModuleDbtb * getModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion) {
+    jlong jDbtb;
+    if (pkcs11Implementbtion == NULL) {
         return NULL;
     }
-    jData = (*env)->GetLongField(env, pkcs11Implementation, pNativeDataID);
-    return (ModuleData*)jlong_to_ptr(jData);
+    jDbtb = (*env)->GetLongField(env, pkcs11Implementbtion, pNbtiveDbtbID);
+    return (ModuleDbtb*)jlong_to_ptr(jDbtb);
 }
 
-CK_FUNCTION_LIST_PTR getFunctionList(JNIEnv *env, jobject pkcs11Implementation) {
-    ModuleData *moduleData;
+CK_FUNCTION_LIST_PTR getFunctionList(JNIEnv *env, jobject pkcs11Implementbtion) {
+    ModuleDbtb *moduleDbtb;
     CK_FUNCTION_LIST_PTR ckpFunctions;
 
-    moduleData = getModuleEntry(env, pkcs11Implementation);
-    if (moduleData == NULL) {
+    moduleDbtb = getModuleEntry(env, pkcs11Implementbtion);
+    if (moduleDbtb == NULL) {
         throwDisconnectedRuntimeException(env);
         return NULL;
     }
-    ckpFunctions = moduleData->ckFunctionListPtr;
+    ckpFunctions = moduleDbtb->ckFunctionListPtr;
     return ckpFunctions;
 }
 
 
 /*
- * Returns 1, if the given pkcs11Implementation is in the list.
+ * Returns 1, if the given pkcs11Implementbtion is in the list.
  * 0, otherwise.
  */
-int isModulePresent(JNIEnv *env, jobject pkcs11Implementation) {
+int isModulePresent(JNIEnv *env, jobject pkcs11Implementbtion) {
     int present;
 
-    ModuleData *moduleData = getModuleEntry(env, pkcs11Implementation);
+    ModuleDbtb *moduleDbtb = getModuleEntry(env, pkcs11Implementbtion);
 
-    present = (moduleData != NULL) ? 1 : 0;
+    present = (moduleDbtb != NULL) ? 1 : 0;
 
     return present ;
 }
 
 
 /*
- * Removes the entry for the given pkcs11Implementation from the list. Returns
- * the module's data, after the node was removed. If this function returns NULL
- * the pkcs11Implementation was not in the list.
+ * Removes the entry for the given pkcs11Implementbtion from the list. Returns
+ * the module's dbtb, bfter the node wbs removed. If this function returns NULL
+ * the pkcs11Implementbtion wbs not in the list.
  */
-ModuleData * removeModuleEntry(JNIEnv *env, jobject pkcs11Implementation) {
-    ModuleData *moduleData = getModuleEntry(env, pkcs11Implementation);
-    if (moduleData == NULL) {
+ModuleDbtb * removeModuleEntry(JNIEnv *env, jobject pkcs11Implementbtion) {
+    ModuleDbtb *moduleDbtb = getModuleEntry(env, pkcs11Implementbtion);
+    if (moduleDbtb == NULL) {
         return NULL;
     }
-    (*env)->SetLongField(env, pkcs11Implementation, pNativeDataID, 0);
-    return moduleData;
+    (*env)->SetLongField(env, pkcs11Implementbtion, pNbtiveDbtbID, 0);
+    return moduleDbtb;
 }
 
 /*
- * Removes all present entries from the list of modules and frees all
- * associated resources. This function is used for clean-up.
+ * Removes bll present entries from the list of modules bnd frees bll
+ * bssocibted resources. This function is used for clebn-up.
  */
 void removeAllModuleEntries(JNIEnv *env) {
     /* XXX empty */
@@ -176,441 +176,441 @@ void removeAllModuleEntries(JNIEnv *env) {
 
 /* ************************************************************************** */
 /* Below there follow the helper functions to support conversions between     */
-/* Java and Cryptoki types                                                    */
+/* Jbvb bnd Cryptoki types                                                    */
 /* ************************************************************************** */
 
 /*
- * function to convert a PKCS#11 return value into a PKCS#11Exception
+ * function to convert b PKCS#11 return vblue into b PKCS#11Exception
  *
- * This function generates a PKCS#11Exception with the returnValue as the errorcode
- * if the returnValue is not CKR_OK. The functin returns 0, if the returnValue is
- * CKR_OK. Otherwise, it returns the returnValue as a jLong.
+ * This function generbtes b PKCS#11Exception with the returnVblue bs the errorcode
+ * if the returnVblue is not CKR_OK. The functin returns 0, if the returnVblue is
+ * CKR_OK. Otherwise, it returns the returnVblue bs b jLong.
  *
- * @param env - used to call JNI funktions and to get the Exception class
- * @param returnValue - of the PKCS#11 function
+ * @pbrbm env - used to cbll JNI funktions bnd to get the Exception clbss
+ * @pbrbm returnVblue - of the PKCS#11 function
  */
-jlong ckAssertReturnValueOK(JNIEnv *env, CK_RV returnValue)
+jlong ckAssertReturnVblueOK(JNIEnv *env, CK_RV returnVblue)
 {
-    jclass jPKCS11ExceptionClass;
+    jclbss jPKCS11ExceptionClbss;
     jmethodID jConstructor;
-    jthrowable jPKCS11Exception;
+    jthrowbble jPKCS11Exception;
     jlong jErrorCode = 0L;
 
-    if (returnValue != CKR_OK) {
-        jErrorCode = ckULongToJLong(returnValue);
-        jPKCS11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (jPKCS11ExceptionClass != NULL) {
-            jConstructor = (*env)->GetMethodID(env, jPKCS11ExceptionClass, "<init>", "(J)V");
+    if (returnVblue != CKR_OK) {
+        jErrorCode = ckULongToJLong(returnVblue);
+        jPKCS11ExceptionClbss = (*env)->FindClbss(env, CLASS_PKCS11EXCEPTION);
+        if (jPKCS11ExceptionClbss != NULL) {
+            jConstructor = (*env)->GetMethodID(env, jPKCS11ExceptionClbss, "<init>", "(J)V");
             if (jConstructor != NULL) {
-                jPKCS11Exception = (jthrowable) (*env)->NewObject(env, jPKCS11ExceptionClass, jConstructor, jErrorCode);
+                jPKCS11Exception = (jthrowbble) (*env)->NewObject(env, jPKCS11ExceptionClbss, jConstructor, jErrorCode);
                 if (jPKCS11Exception != NULL) {
                     (*env)->Throw(env, jPKCS11Exception);
                 }
             }
         }
-        (*env)->DeleteLocalRef(env, jPKCS11ExceptionClass);
+        (*env)->DeleteLocblRef(env, jPKCS11ExceptionClbss);
     }
     return jErrorCode ;
 }
 
 
 /*
- * Throws a Java Exception by name
+ * Throws b Jbvb Exception by nbme
  */
-void throwByName(JNIEnv *env, const char *name, const char *msg)
+void throwByNbme(JNIEnv *env, const chbr *nbme, const chbr *msg)
 {
-    jclass cls = (*env)->FindClass(env, name);
+    jclbss cls = (*env)->FindClbss(env, nbme);
 
-    if (cls != 0) /* Otherwise an exception has already been thrown */
+    if (cls != 0) /* Otherwise bn exception hbs blrebdy been thrown */
         (*env)->ThrowNew(env, cls, msg);
 }
 
 /*
- * Throws java.lang.OutOfMemoryError
+ * Throws jbvb.lbng.OutOfMemoryError
  */
-void throwOutOfMemoryError(JNIEnv *env, const char *msg)
+void throwOutOfMemoryError(JNIEnv *env, const chbr *msg)
 {
-    throwByName(env, "java/lang/OutOfMemoryError", msg);
+    throwByNbme(env, "jbvb/lbng/OutOfMemoryError", msg);
 }
 
 /*
- * Throws java.lang.NullPointerException
+ * Throws jbvb.lbng.NullPointerException
  */
-void throwNullPointerException(JNIEnv *env, const char *msg)
+void throwNullPointerException(JNIEnv *env, const chbr *msg)
 {
-    throwByName(env, "java/lang/NullPointerException", msg);
+    throwByNbme(env, "jbvb/lbng/NullPointerException", msg);
 }
 
 /*
- * Throws java.io.IOException
+ * Throws jbvb.io.IOException
  */
-void throwIOException(JNIEnv *env, const char *msg)
+void throwIOException(JNIEnv *env, const chbr *msg)
 {
-    throwByName(env, "java/io/IOException", msg);
+    throwByNbme(env, "jbvb/io/IOException", msg);
 }
 
 /*
- * This function simply throws a PKCS#11RuntimeException with the given
- * string as its message.
+ * This function simply throws b PKCS#11RuntimeException with the given
+ * string bs its messbge.
  *
- * @param env Used to call JNI funktions and to get the Exception class.
- * @param jmessage The message string of the Exception object.
+ * @pbrbm env Used to cbll JNI funktions bnd to get the Exception clbss.
+ * @pbrbm jmessbge The messbge string of the Exception object.
  */
-void throwPKCS11RuntimeException(JNIEnv *env, const char *message)
+void throwPKCS11RuntimeException(JNIEnv *env, const chbr *messbge)
 {
-    throwByName(env, CLASS_PKCS11RUNTIMEEXCEPTION, message);
+    throwByNbme(env, CLASS_PKCS11RUNTIMEEXCEPTION, messbge);
 }
 
 /*
- * This function simply throws a PKCS#11RuntimeException. The message says that
+ * This function simply throws b PKCS#11RuntimeException. The messbge sbys thbt
  * the object is not connected to the module.
  *
- * @param env Used to call JNI funktions and to get the Exception class.
+ * @pbrbm env Used to cbll JNI funktions bnd to get the Exception clbss.
  */
 void throwDisconnectedRuntimeException(JNIEnv *env)
 {
-    throwPKCS11RuntimeException(env, "This object is not connected to a module.");
+    throwPKCS11RuntimeException(env, "This object is not connected to b module.");
 }
 
-/* This function frees the specified CK_ATTRIBUTE array.
+/* This function frees the specified CK_ATTRIBUTE brrby.
  *
- * @param attrPtr pointer to the to-be-freed CK_ATTRIBUTE array.
- * @param len the length of the array
+ * @pbrbm bttrPtr pointer to the to-be-freed CK_ATTRIBUTE brrby.
+ * @pbrbm len the length of the brrby
  */
-void freeCKAttributeArray(CK_ATTRIBUTE_PTR attrPtr, int len)
+void freeCKAttributeArrby(CK_ATTRIBUTE_PTR bttrPtr, int len)
 {
     int i;
 
     for (i=0; i<len; i++) {
-        if (attrPtr[i].pValue != NULL_PTR) {
-            free(attrPtr[i].pValue);
+        if (bttrPtr[i].pVblue != NULL_PTR) {
+            free(bttrPtr[i].pVblue);
         }
     }
-    free(attrPtr);
+    free(bttrPtr);
 }
 
 /*
- * the following functions convert Java arrays to PKCS#11 array pointers and
- * their array length and vice versa
+ * the following functions convert Jbvb brrbys to PKCS#11 brrby pointers bnd
+ * their brrby length bnd vice versb
  *
- * void j<Type>ArrayToCK<Type>Array(JNIEnv *env,
- *                                  const j<Type>Array jArray,
- *                                  CK_<Type>_PTR *ckpArray,
+ * void j<Type>ArrbyToCK<Type>Arrby(JNIEnv *env,
+ *                                  const j<Type>Arrby jArrby,
+ *                                  CK_<Type>_PTR *ckpArrby,
  *                                  CK_ULONG_PTR ckLength);
  *
- * j<Type>Array ck<Type>ArrayToJ<Type>Array(JNIEnv *env,
- *                                          const CK_<Type>_PTR ckpArray,
+ * j<Type>Arrby ck<Type>ArrbyToJ<Type>Arrby(JNIEnv *env,
+ *                                          const CK_<Type>_PTR ckpArrby,
  *                                          CK_ULONG ckLength);
  *
- * PKCS#11 arrays consist always of a pointer to the beginning of the array and
- * the array length whereas Java arrays carry their array length.
+ * PKCS#11 brrbys consist blwbys of b pointer to the beginning of the brrby bnd
+ * the brrby length wherebs Jbvb brrbys cbrry their brrby length.
  *
- * The Functions to convert a Java array to a PKCS#11 array are void functions.
- * Their arguments are the Java array object to convert, the reference to the
- * array pointer, where the new PKCS#11 array should be stored and the reference
- * to the array length where the PKCS#11 array length should be stored. These two
+ * The Functions to convert b Jbvb brrby to b PKCS#11 brrby bre void functions.
+ * Their brguments bre the Jbvb brrby object to convert, the reference to the
+ * brrby pointer, where the new PKCS#11 brrby should be stored bnd the reference
+ * to the brrby length where the PKCS#11 brrby length should be stored. These two
  * references must not be NULL_PTR.
  *
- * The functions first obtain the array length of the Java array and then allocate
- * the memory for the PKCS#11 array and set the array length. Then each element
- * gets converted depending on their type. After use the allocated memory of the
- * PKCS#11 array has to be explicitly freed.
+ * The functions first obtbin the brrby length of the Jbvb brrby bnd then bllocbte
+ * the memory for the PKCS#11 brrby bnd set the brrby length. Then ebch element
+ * gets converted depending on their type. After use the bllocbted memory of the
+ * PKCS#11 brrby hbs to be explicitly freed.
  *
- * The Functions to convert a PKCS#11 array to a Java array get the PKCS#11 array
- * pointer and the array length and they return the new Java array object. The
- * Java array does not need to get freed after use.
+ * The Functions to convert b PKCS#11 brrby to b Jbvb brrby get the PKCS#11 brrby
+ * pointer bnd the brrby length bnd they return the new Jbvb brrby object. The
+ * Jbvb brrby does not need to get freed bfter use.
  */
 
 /*
- * converts a jbooleanArray to a CK_BBOOL array. The allocated memory has to be freed after use!
+ * converts b jboolebnArrby to b CK_BBOOL brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_BBOOL array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_BBOOL brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jBooleanArrayToCKBBoolArray(JNIEnv *env, const jbooleanArray jArray, CK_BBOOL **ckpArray, CK_ULONG_PTR ckpLength)
+void jBoolebnArrbyToCKBBoolArrby(JNIEnv *env, const jboolebnArrby jArrby, CK_BBOOL **ckpArrby, CK_ULONG_PTR ckpLength)
 {
-    jboolean* jpTemp;
+    jboolebn* jpTemp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jboolean*) malloc((*ckpLength) * sizeof(jboolean));
+    *ckpLength = (*env)->GetArrbyLength(env, jArrby);
+    jpTemp = (jboolebn*) mblloc((*ckpLength) * sizeof(jboolebn));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    (*env)->GetBooleanArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
+    (*env)->GetBoolebnArrbyRegion(env, jArrby, 0, *ckpLength, jpTemp);
     if ((*env)->ExceptionCheck(env)) {
         free(jpTemp);
         return;
     }
 
-    *ckpArray = (CK_BBOOL*) malloc ((*ckpLength) * sizeof(CK_BBOOL));
-    if (*ckpArray == NULL) {
+    *ckpArrby = (CK_BBOOL*) mblloc ((*ckpLength) * sizeof(CK_BBOOL));
+    if (*ckpArrby == NULL) {
         free(jpTemp);
         throwOutOfMemoryError(env, 0);
         return;
     }
     for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jBooleanToCKBBool(jpTemp[i]);
+        (*ckpArrby)[i] = jBoolebnToCKBBool(jpTemp[i]);
     }
     free(jpTemp);
 }
 
 /*
- * converts a jbyteArray to a CK_BYTE array. The allocated memory has to be freed after use!
+ * converts b jbyteArrby to b CK_BYTE brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_BYTE array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_BYTE brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jByteArrayToCKByteArray(JNIEnv *env, const jbyteArray jArray, CK_BYTE_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jByteArrbyToCKByteArrby(JNIEnv *env, const jbyteArrby jArrby, CK_BYTE_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
     jbyte* jpTemp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jbyte*) malloc((*ckpLength) * sizeof(jbyte));
+    *ckpLength = (*env)->GetArrbyLength(env, jArrby);
+    jpTemp = (jbyte*) mblloc((*ckpLength) * sizeof(jbyte));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    (*env)->GetByteArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
+    (*env)->GetByteArrbyRegion(env, jArrby, 0, *ckpLength, jpTemp);
     if ((*env)->ExceptionCheck(env)) {
         free(jpTemp);
         return;
     }
 
-    /* if CK_BYTE is the same size as jbyte, we save an additional copy */
+    /* if CK_BYTE is the sbme size bs jbyte, we sbve bn bdditionbl copy */
     if (sizeof(CK_BYTE) == sizeof(jbyte)) {
-        *ckpArray = (CK_BYTE_PTR) jpTemp;
+        *ckpArrby = (CK_BYTE_PTR) jpTemp;
     } else {
-        *ckpArray = (CK_BYTE_PTR) malloc ((*ckpLength) * sizeof(CK_BYTE));
-        if (*ckpArray == NULL) {
+        *ckpArrby = (CK_BYTE_PTR) mblloc ((*ckpLength) * sizeof(CK_BYTE));
+        if (*ckpArrby == NULL) {
             free(jpTemp);
             throwOutOfMemoryError(env, 0);
             return;
         }
         for (i=0; i<(*ckpLength); i++) {
-            (*ckpArray)[i] = jByteToCKByte(jpTemp[i]);
+            (*ckpArrby)[i] = jByteToCKByte(jpTemp[i]);
         }
         free(jpTemp);
     }
 }
 
 /*
- * converts a jlongArray to a CK_ULONG array. The allocated memory has to be freed after use!
+ * converts b jlongArrby to b CK_ULONG brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_ULONG array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_ULONG brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jLongArrayToCKULongArray(JNIEnv *env, const jlongArray jArray, CK_ULONG_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jLongArrbyToCKULongArrby(JNIEnv *env, const jlongArrby jArrby, CK_ULONG_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
     jlong* jTemp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jTemp = (jlong*) malloc((*ckpLength) * sizeof(jlong));
+    *ckpLength = (*env)->GetArrbyLength(env, jArrby);
+    jTemp = (jlong*) mblloc((*ckpLength) * sizeof(jlong));
     if (jTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    (*env)->GetLongArrayRegion(env, jArray, 0, *ckpLength, jTemp);
+    (*env)->GetLongArrbyRegion(env, jArrby, 0, *ckpLength, jTemp);
     if ((*env)->ExceptionCheck(env)) {
         free(jTemp);
         return;
     }
 
-    *ckpArray = (CK_ULONG_PTR) malloc (*ckpLength * sizeof(CK_ULONG));
-    if (*ckpArray == NULL) {
+    *ckpArrby = (CK_ULONG_PTR) mblloc (*ckpLength * sizeof(CK_ULONG));
+    if (*ckpArrby == NULL) {
         free(jTemp);
         throwOutOfMemoryError(env, 0);
         return;
     }
     for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jLongToCKULong(jTemp[i]);
+        (*ckpArrby)[i] = jLongToCKULong(jTemp[i]);
     }
     free(jTemp);
 }
 
 /*
- * converts a jcharArray to a CK_CHAR array. The allocated memory has to be freed after use!
+ * converts b jchbrArrby to b CK_CHAR brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_CHAR brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jCharArrayToCKCharArray(JNIEnv *env, const jcharArray jArray, CK_CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jChbrArrbyToCKChbrArrby(JNIEnv *env, const jchbrArrby jArrby, CK_CHAR_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
-    jchar* jpTemp;
+    jchbr* jpTemp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jchar*) malloc((*ckpLength) * sizeof(jchar));
+    *ckpLength = (*env)->GetArrbyLength(env, jArrby);
+    jpTemp = (jchbr*) mblloc((*ckpLength) * sizeof(jchbr));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    (*env)->GetCharArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
+    (*env)->GetChbrArrbyRegion(env, jArrby, 0, *ckpLength, jpTemp);
     if ((*env)->ExceptionCheck(env)) {
         free(jpTemp);
         return;
     }
 
-    *ckpArray = (CK_CHAR_PTR) malloc (*ckpLength * sizeof(CK_CHAR));
-    if (*ckpArray == NULL) {
+    *ckpArrby = (CK_CHAR_PTR) mblloc (*ckpLength * sizeof(CK_CHAR));
+    if (*ckpArrby == NULL) {
         free(jpTemp);
         throwOutOfMemoryError(env, 0);
         return;
     }
     for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jCharToCKChar(jpTemp[i]);
+        (*ckpArrby)[i] = jChbrToCKChbr(jpTemp[i]);
     }
     free(jpTemp);
 }
 
 /*
- * converts a jcharArray to a CK_UTF8CHAR array. The allocated memory has to be freed after use!
+ * converts b jchbrArrby to b CK_UTF8CHAR brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_UTF8CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_UTF8CHAR brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jCharArrayToCKUTF8CharArray(JNIEnv *env, const jcharArray jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jChbrArrbyToCKUTF8ChbrArrby(JNIEnv *env, const jchbrArrby jArrby, CK_UTF8CHAR_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
-    jchar* jTemp;
+    jchbr* jTemp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jTemp = (jchar*) malloc((*ckpLength) * sizeof(jchar));
+    *ckpLength = (*env)->GetArrbyLength(env, jArrby);
+    jTemp = (jchbr*) mblloc((*ckpLength) * sizeof(jchbr));
     if (jTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    (*env)->GetCharArrayRegion(env, jArray, 0, *ckpLength, jTemp);
+    (*env)->GetChbrArrbyRegion(env, jArrby, 0, *ckpLength, jTemp);
     if ((*env)->ExceptionCheck(env)) {
         free(jTemp);
         return;
     }
 
-    *ckpArray = (CK_UTF8CHAR_PTR) malloc (*ckpLength * sizeof(CK_UTF8CHAR));
-    if (*ckpArray == NULL) {
+    *ckpArrby = (CK_UTF8CHAR_PTR) mblloc (*ckpLength * sizeof(CK_UTF8CHAR));
+    if (*ckpArrby == NULL) {
         free(jTemp);
         throwOutOfMemoryError(env, 0);
         return;
     }
     for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jCharToCKUTF8Char(jTemp[i]);
+        (*ckpArrby)[i] = jChbrToCKUTF8Chbr(jTemp[i]);
     }
     free(jTemp);
 }
 
 /*
- * converts a jstring to a CK_CHAR array. The allocated memory has to be freed after use!
+ * converts b jstring to b CK_CHAR brrby. The bllocbted memory hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb brrby to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_CHAR brrby will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jStringToCKUTF8CharArray(JNIEnv *env, const jstring jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jStringToCKUTF8ChbrArrby(JNIEnv *env, const jstring jArrby, CK_UTF8CHAR_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
-    const char* pCharArray;
-    jboolean isCopy;
+    const chbr* pChbrArrby;
+    jboolebn isCopy;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    if(jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
 
-    pCharArray = (*env)->GetStringUTFChars(env, jArray, &isCopy);
-    if (pCharArray == NULL) { return; }
+    pChbrArrby = (*env)->GetStringUTFChbrs(env, jArrby, &isCopy);
+    if (pChbrArrby == NULL) { return; }
 
-    *ckpLength = strlen(pCharArray);
-    *ckpArray = (CK_UTF8CHAR_PTR) malloc((*ckpLength + 1) * sizeof(CK_UTF8CHAR));
-    if (*ckpArray == NULL) {
-        (*env)->ReleaseStringUTFChars(env, (jstring) jArray, pCharArray);
+    *ckpLength = strlen(pChbrArrby);
+    *ckpArrby = (CK_UTF8CHAR_PTR) mblloc((*ckpLength + 1) * sizeof(CK_UTF8CHAR));
+    if (*ckpArrby == NULL) {
+        (*env)->RelebseStringUTFChbrs(env, (jstring) jArrby, pChbrArrby);
         throwOutOfMemoryError(env, 0);
         return;
     }
-    strcpy((char*)*ckpArray, pCharArray);
-    (*env)->ReleaseStringUTFChars(env, (jstring) jArray, pCharArray);
+    strcpy((chbr*)*ckpArrby, pChbrArrby);
+    (*env)->RelebseStringUTFChbrs(env, (jstring) jArrby, pChbrArrby);
 }
 
 /*
- * converts a jobjectArray with Java Attributes to a CK_ATTRIBUTE array. The allocated memory
- * has to be freed after use!
+ * converts b jobjectArrby with Jbvb Attributes to b CK_ATTRIBUTE brrby. The bllocbted memory
+ * hbs to be freed bfter use!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java Attribute array (template) to convert
- * @param ckpArray - the reference, where the pointer to the new CK_ATTRIBUTE array will be
+ * @pbrbm env - used to cbll JNI funktions to get the brrby informtbion
+ * @pbrbm jArrby - the Jbvb Attribute brrby (templbte) to convert
+ * @pbrbm ckpArrby - the reference, where the pointer to the new CK_ATTRIBUTE brrby will be
  *                   stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm ckpLength - the reference, where the brrby length will be stored
  */
-void jAttributeArrayToCKAttributeArray(JNIEnv *env, jobjectArray jArray, CK_ATTRIBUTE_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jAttributeArrbyToCKAttributeArrby(JNIEnv *env, jobjectArrby jArrby, CK_ATTRIBUTE_PTR *ckpArrby, CK_ULONG_PTR ckpLength)
 {
     CK_ULONG i;
     jlong jLength;
     jobject jAttribute;
 
-    TRACE0("\nDEBUG: jAttributeArrayToCKAttributeArray");
-    if (jArray == NULL) {
-        *ckpArray = NULL_PTR;
+    TRACE0("\nDEBUG: jAttributeArrbyToCKAttributeArrby");
+    if (jArrby == NULL) {
+        *ckpArrby = NULL_PTR;
         *ckpLength = 0L;
         return;
     }
-    jLength = (*env)->GetArrayLength(env, jArray);
+    jLength = (*env)->GetArrbyLength(env, jArrby);
     *ckpLength = jLongToCKULong(jLength);
-    *ckpArray = (CK_ATTRIBUTE_PTR) malloc(*ckpLength * sizeof(CK_ATTRIBUTE));
-    if (*ckpArray == NULL) {
+    *ckpArrby = (CK_ATTRIBUTE_PTR) mblloc(*ckpLength * sizeof(CK_ATTRIBUTE));
+    if (*ckpArrby == NULL) {
         throwOutOfMemoryError(env, 0);
         return;
     }
-    TRACE1(", converting %d attributes", jLength);
+    TRACE1(", converting %d bttributes", jLength);
     for (i=0; i<(*ckpLength); i++) {
-        TRACE1(", getting %d. attribute", i);
-        jAttribute = (*env)->GetObjectArrayElement(env, jArray, i);
+        TRACE1(", getting %d. bttribute", i);
+        jAttribute = (*env)->GetObjectArrbyElement(env, jArrby, i);
         if ((*env)->ExceptionCheck(env)) {
-            freeCKAttributeArray(*ckpArray, i);
+            freeCKAttributeArrby(*ckpArrby, i);
             return;
         }
         TRACE1(", jAttribute = %d", jAttribute);
-        TRACE1(", converting %d. attribute", i);
-        (*ckpArray)[i] = jAttributeToCKAttribute(env, jAttribute);
+        TRACE1(", converting %d. bttribute", i);
+        (*ckpArrby)[i] = jAttributeToCKAttribute(env, jAttribute);
         if ((*env)->ExceptionCheck(env)) {
-            freeCKAttributeArray(*ckpArray, i);
+            freeCKAttributeArrby(*ckpArrby, i);
             return;
         }
     }
@@ -618,372 +618,372 @@ void jAttributeArrayToCKAttributeArray(JNIEnv *env, jobjectArray jArray, CK_ATTR
 }
 
 /*
- * converts a CK_BYTE array and its length to a jbyteArray.
+ * converts b CK_BYTE brrby bnd its length to b jbyteArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_BYTE array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java byte array or NULL if error occurred
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb brrby
+ * @pbrbm ckpArrby - the pointer to the CK_BYTE brrby to convert
+ * @pbrbm ckpLength - the length of the brrby to convert
+ * @return - the new Jbvb byte brrby or NULL if error occurred
  */
-jbyteArray ckByteArrayToJByteArray(JNIEnv *env, const CK_BYTE_PTR ckpArray, CK_ULONG ckLength)
+jbyteArrby ckByteArrbyToJByteArrby(JNIEnv *env, const CK_BYTE_PTR ckpArrby, CK_ULONG ckLength)
 {
     CK_ULONG i;
     jbyte* jpTemp;
-    jbyteArray jArray;
+    jbyteArrby jArrby;
 
-    /* if CK_BYTE is the same size as jbyte, we save an additional copy */
+    /* if CK_BYTE is the sbme size bs jbyte, we sbve bn bdditionbl copy */
     if (sizeof(CK_BYTE) == sizeof(jbyte)) {
-        jpTemp = (jbyte*) ckpArray;
+        jpTemp = (jbyte*) ckpArrby;
     } else {
-        jpTemp = (jbyte*) malloc((ckLength) * sizeof(jbyte));
+        jpTemp = (jbyte*) mblloc((ckLength) * sizeof(jbyte));
         if (jpTemp == NULL) {
             throwOutOfMemoryError(env, 0);
             return NULL;
         }
         for (i=0; i<ckLength; i++) {
-            jpTemp[i] = ckByteToJByte(ckpArray[i]);
+            jpTemp[i] = ckByteToJByte(ckpArrby[i]);
         }
     }
 
-    jArray = (*env)->NewByteArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetByteArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*env)->NewByteArrby(env, ckULongToJSize(ckLength));
+    if (jArrby != NULL) {
+        (*env)->SetByteArrbyRegion(env, jArrby, 0, ckULongToJSize(ckLength), jpTemp);
     }
 
     if (sizeof(CK_BYTE) != sizeof(jbyte)) { free(jpTemp); }
 
-    return jArray ;
+    return jArrby ;
 }
 
 /*
- * converts a CK_ULONG array and its length to a jlongArray.
+ * converts b CK_ULONG brrby bnd its length to b jlongArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_ULONG array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java long array
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb brrby
+ * @pbrbm ckpArrby - the pointer to the CK_ULONG brrby to convert
+ * @pbrbm ckpLength - the length of the brrby to convert
+ * @return - the new Jbvb long brrby
  */
-jlongArray ckULongArrayToJLongArray(JNIEnv *env, const CK_ULONG_PTR ckpArray, CK_ULONG ckLength)
+jlongArrby ckULongArrbyToJLongArrby(JNIEnv *env, const CK_ULONG_PTR ckpArrby, CK_ULONG ckLength)
 {
     CK_ULONG i;
     jlong* jpTemp;
-    jlongArray jArray;
+    jlongArrby jArrby;
 
-    jpTemp = (jlong*) malloc((ckLength) * sizeof(jlong));
+    jpTemp = (jlong*) mblloc((ckLength) * sizeof(jlong));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
     for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckLongToJLong(ckpArray[i]);
+        jpTemp[i] = ckLongToJLong(ckpArrby[i]);
     }
-    jArray = (*env)->NewLongArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetLongArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*env)->NewLongArrby(env, ckULongToJSize(ckLength));
+    if (jArrby != NULL) {
+        (*env)->SetLongArrbyRegion(env, jArrby, 0, ckULongToJSize(ckLength), jpTemp);
     }
     free(jpTemp);
 
-    return jArray ;
+    return jArrby ;
 }
 
 /*
- * converts a CK_CHAR array and its length to a jcharArray.
+ * converts b CK_CHAR brrby bnd its length to b jchbrArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_CHAR array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java char array
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb brrby
+ * @pbrbm ckpArrby - the pointer to the CK_CHAR brrby to convert
+ * @pbrbm ckpLength - the length of the brrby to convert
+ * @return - the new Jbvb chbr brrby
  */
-jcharArray ckCharArrayToJCharArray(JNIEnv *env, const CK_CHAR_PTR ckpArray, CK_ULONG ckLength)
+jchbrArrby ckChbrArrbyToJChbrArrby(JNIEnv *env, const CK_CHAR_PTR ckpArrby, CK_ULONG ckLength)
 {
     CK_ULONG i;
-    jchar* jpTemp;
-    jcharArray jArray;
+    jchbr* jpTemp;
+    jchbrArrby jArrby;
 
-    jpTemp = (jchar*) malloc(ckLength * sizeof(jchar));
+    jpTemp = (jchbr*) mblloc(ckLength * sizeof(jchbr));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
     for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckCharToJChar(ckpArray[i]);
+        jpTemp[i] = ckChbrToJChbr(ckpArrby[i]);
     }
-    jArray = (*env)->NewCharArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetCharArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*env)->NewChbrArrby(env, ckULongToJSize(ckLength));
+    if (jArrby != NULL) {
+        (*env)->SetChbrArrbyRegion(env, jArrby, 0, ckULongToJSize(ckLength), jpTemp);
     }
     free(jpTemp);
 
-    return jArray ;
+    return jArrby ;
 }
 
 /*
- * converts a CK_UTF8CHAR array and its length to a jcharArray.
+ * converts b CK_UTF8CHAR brrby bnd its length to b jchbrArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_UTF8CHAR array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java char array
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb brrby
+ * @pbrbm ckpArrby - the pointer to the CK_UTF8CHAR brrby to convert
+ * @pbrbm ckpLength - the length of the brrby to convert
+ * @return - the new Jbvb chbr brrby
  */
-jcharArray ckUTF8CharArrayToJCharArray(JNIEnv *env, const CK_UTF8CHAR_PTR ckpArray, CK_ULONG ckLength)
+jchbrArrby ckUTF8ChbrArrbyToJChbrArrby(JNIEnv *env, const CK_UTF8CHAR_PTR ckpArrby, CK_ULONG ckLength)
 {
     CK_ULONG i;
-    jchar* jpTemp;
-    jcharArray jArray;
+    jchbr* jpTemp;
+    jchbrArrby jArrby;
 
-    jpTemp = (jchar*) malloc(ckLength * sizeof(jchar));
+    jpTemp = (jchbr*) mblloc(ckLength * sizeof(jchbr));
     if (jpTemp == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
     for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckUTF8CharToJChar(ckpArray[i]);
+        jpTemp[i] = ckUTF8ChbrToJChbr(ckpArrby[i]);
     }
-    jArray = (*env)->NewCharArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetCharArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*env)->NewChbrArrby(env, ckULongToJSize(ckLength));
+    if (jArrby != NULL) {
+        (*env)->SetChbrArrbyRegion(env, jArrby, 0, ckULongToJSize(ckLength), jpTemp);
     }
     free(jpTemp);
 
-    return jArray ;
+    return jArrby ;
 }
 
 /*
- * the following functions convert Java objects to PKCS#11 pointers and the
- * length in bytes and vice versa
+ * the following functions convert Jbvb objects to PKCS#11 pointers bnd the
+ * length in bytes bnd vice versb
  *
  * CK_<Type>_PTR j<Object>ToCK<Type>Ptr(JNIEnv *env, jobject jObject);
  *
- * jobject ck<Type>PtrToJ<Object>(JNIEnv *env, const CK_<Type>_PTR ckpValue);
+ * jobject ck<Type>PtrToJ<Object>(JNIEnv *env, const CK_<Type>_PTR ckpVblue);
  *
- * The functions that convert a Java object to a PKCS#11 pointer first allocate
- * the memory for the PKCS#11 pointer. Then they set each element corresponding
- * to the fields in the Java object to convert. After use the allocated memory of
- * the PKCS#11 pointer has to be explicitly freed.
+ * The functions thbt convert b Jbvb object to b PKCS#11 pointer first bllocbte
+ * the memory for the PKCS#11 pointer. Then they set ebch element corresponding
+ * to the fields in the Jbvb object to convert. After use the bllocbted memory of
+ * the PKCS#11 pointer hbs to be explicitly freed.
  *
- * The functions to convert a PKCS#11 pointer to a Java object create a new Java
- * object first and than they set all fields in the object depending on the values
+ * The functions to convert b PKCS#11 pointer to b Jbvb object crebte b new Jbvb
+ * object first bnd thbn they set bll fields in the object depending on the vblues
  * of the type or structure where the PKCS#11 pointer points to.
  */
 
 /*
- * converts a CK_BBOOL pointer to a Java boolean Object.
+ * converts b CK_BBOOL pointer to b Jbvb boolebn Object.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpValue - the pointer to the CK_BBOOL value
- * @return - the new Java boolean object with the boolean value
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb object
+ * @pbrbm ckpVblue - the pointer to the CK_BBOOL vblue
+ * @return - the new Jbvb boolebn object with the boolebn vblue
  */
-jobject ckBBoolPtrToJBooleanObject(JNIEnv *env, const CK_BBOOL *ckpValue)
+jobject ckBBoolPtrToJBoolebnObject(JNIEnv *env, const CK_BBOOL *ckpVblue)
 {
-    jclass jValueObjectClass;
+    jclbss jVblueObjectClbss;
     jmethodID jConstructor;
-    jobject jValueObject;
-    jboolean jValue;
+    jobject jVblueObject;
+    jboolebn jVblue;
 
-    jValueObjectClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jValueObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jValueObjectClass, "<init>", "(Z)V");
+    jVblueObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Boolebn");
+    if (jVblueObjectClbss == NULL) { return NULL; }
+    jConstructor = (*env)->GetMethodID(env, jVblueObjectClbss, "<init>", "(Z)V");
     if (jConstructor == NULL) { return NULL; }
-    jValue = ckBBoolToJBoolean(*ckpValue);
-    jValueObject = (*env)->NewObject(env, jValueObjectClass, jConstructor, jValue);
+    jVblue = ckBBoolToJBoolebn(*ckpVblue);
+    jVblueObject = (*env)->NewObject(env, jVblueObjectClbss, jConstructor, jVblue);
 
-    return jValueObject ;
+    return jVblueObject ;
 }
 
 /*
- * converts a CK_ULONG pointer to a Java long Object.
+ * converts b CK_ULONG pointer to b Jbvb long Object.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpValue - the pointer to the CK_ULONG value
- * @return - the new Java long object with the long value
+ * @pbrbm env - used to cbll JNI funktions to crebte the new Jbvb object
+ * @pbrbm ckpVblue - the pointer to the CK_ULONG vblue
+ * @return - the new Jbvb long object with the long vblue
  */
-jobject ckULongPtrToJLongObject(JNIEnv *env, const CK_ULONG_PTR ckpValue)
+jobject ckULongPtrToJLongObject(JNIEnv *env, const CK_ULONG_PTR ckpVblue)
 {
-    jclass jValueObjectClass;
+    jclbss jVblueObjectClbss;
     jmethodID jConstructor;
-    jobject jValueObject;
-    jlong jValue;
+    jobject jVblueObject;
+    jlong jVblue;
 
-    jValueObjectClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jValueObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jValueObjectClass, "<init>", "(J)V");
+    jVblueObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Long");
+    if (jVblueObjectClbss == NULL) { return NULL; }
+    jConstructor = (*env)->GetMethodID(env, jVblueObjectClbss, "<init>", "(J)V");
     if (jConstructor == NULL) { return NULL; }
-    jValue = ckULongToJLong(*ckpValue);
-    jValueObject = (*env)->NewObject(env, jValueObjectClass, jConstructor, jValue);
+    jVblue = ckULongToJLong(*ckpVblue);
+    jVblueObject = (*env)->NewObject(env, jVblueObjectClbss, jConstructor, jVblue);
 
-    return jValueObject ;
+    return jVblueObject ;
 }
 
 /*
- * converts a Java boolean object into a pointer to a CK_BBOOL value. The memory has to be
- * freed after use!
+ * converts b Jbvb boolebn object into b pointer to b CK_BBOOL vblue. The memory hbs to be
+ * freed bfter use!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Boolean" object to convert
- * @return - the pointer to the new CK_BBOOL value
+ * @pbrbm env - used to cbll JNI funktions to get the vblue out of the Jbvb object
+ * @pbrbm jObject - the "jbvb/lbng/Boolebn" object to convert
+ * @return - the pointer to the new CK_BBOOL vblue
  */
-CK_BBOOL* jBooleanObjectToCKBBoolPtr(JNIEnv *env, jobject jObject)
+CK_BBOOL* jBoolebnObjectToCKBBoolPtr(JNIEnv *env, jobject jObject)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jboolean jValue;
-    CK_BBOOL *ckpValue;
+    jclbss jObjectClbss;
+    jmethodID jVblueMethod;
+    jboolebn jVblue;
+    CK_BBOOL *ckpVblue;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "booleanValue", "()Z");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallBooleanMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_BBOOL *) malloc(sizeof(CK_BBOOL));
-    if (ckpValue == NULL) {
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Boolebn");
+    if (jObjectClbss == NULL) { return NULL; }
+    jVblueMethod = (*env)->GetMethodID(env, jObjectClbss, "boolebnVblue", "()Z");
+    if (jVblueMethod == NULL) { return NULL; }
+    jVblue = (*env)->CbllBoolebnMethod(env, jObject, jVblueMethod);
+    ckpVblue = (CK_BBOOL *) mblloc(sizeof(CK_BBOOL));
+    if (ckpVblue == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    *ckpValue = jBooleanToCKBBool(jValue);
+    *ckpVblue = jBoolebnToCKBBool(jVblue);
 
-    return ckpValue ;
+    return ckpVblue ;
 }
 
 /*
- * converts a Java byte object into a pointer to a CK_BYTE value. The memory has to be
- * freed after use!
+ * converts b Jbvb byte object into b pointer to b CK_BYTE vblue. The memory hbs to be
+ * freed bfter use!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Byte" object to convert
- * @return - the pointer to the new CK_BYTE value
+ * @pbrbm env - used to cbll JNI funktions to get the vblue out of the Jbvb object
+ * @pbrbm jObject - the "jbvb/lbng/Byte" object to convert
+ * @return - the pointer to the new CK_BYTE vblue
  */
 CK_BYTE_PTR jByteObjectToCKBytePtr(JNIEnv *env, jobject jObject)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jbyte jValue;
-    CK_BYTE_PTR ckpValue;
+    jclbss jObjectClbss;
+    jmethodID jVblueMethod;
+    jbyte jVblue;
+    CK_BYTE_PTR ckpVblue;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Byte");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "byteValue", "()B");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallByteMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_BYTE_PTR) malloc(sizeof(CK_BYTE));
-    if (ckpValue == NULL) {
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Byte");
+    if (jObjectClbss == NULL) { return NULL; }
+    jVblueMethod = (*env)->GetMethodID(env, jObjectClbss, "byteVblue", "()B");
+    if (jVblueMethod == NULL) { return NULL; }
+    jVblue = (*env)->CbllByteMethod(env, jObject, jVblueMethod);
+    ckpVblue = (CK_BYTE_PTR) mblloc(sizeof(CK_BYTE));
+    if (ckpVblue == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    *ckpValue = jByteToCKByte(jValue);
-    return ckpValue ;
+    *ckpVblue = jByteToCKByte(jVblue);
+    return ckpVblue ;
 }
 
 /*
- * converts a Java integer object into a pointer to a CK_ULONG value. The memory has to be
- * freed after use!
+ * converts b Jbvb integer object into b pointer to b CK_ULONG vblue. The memory hbs to be
+ * freed bfter use!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Integer" object to convert
- * @return - the pointer to the new CK_ULONG value
+ * @pbrbm env - used to cbll JNI funktions to get the vblue out of the Jbvb object
+ * @pbrbm jObject - the "jbvb/lbng/Integer" object to convert
+ * @return - the pointer to the new CK_ULONG vblue
  */
 CK_ULONG* jIntegerObjectToCKULongPtr(JNIEnv *env, jobject jObject)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jint jValue;
-    CK_ULONG *ckpValue;
+    jclbss jObjectClbss;
+    jmethodID jVblueMethod;
+    jint jVblue;
+    CK_ULONG *ckpVblue;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Integer");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "intValue", "()I");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallIntMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_ULONG *) malloc(sizeof(CK_ULONG));
-    if (ckpValue == NULL) {
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Integer");
+    if (jObjectClbss == NULL) { return NULL; }
+    jVblueMethod = (*env)->GetMethodID(env, jObjectClbss, "intVblue", "()I");
+    if (jVblueMethod == NULL) { return NULL; }
+    jVblue = (*env)->CbllIntMethod(env, jObject, jVblueMethod);
+    ckpVblue = (CK_ULONG *) mblloc(sizeof(CK_ULONG));
+    if (ckpVblue == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    *ckpValue = jLongToCKLong(jValue);
-    return ckpValue ;
+    *ckpVblue = jLongToCKLong(jVblue);
+    return ckpVblue ;
 }
 
 /*
- * converts a Java long object into a pointer to a CK_ULONG value. The memory has to be
- * freed after use!
+ * converts b Jbvb long object into b pointer to b CK_ULONG vblue. The memory hbs to be
+ * freed bfter use!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Long" object to convert
- * @return - the pointer to the new CK_ULONG value
+ * @pbrbm env - used to cbll JNI funktions to get the vblue out of the Jbvb object
+ * @pbrbm jObject - the "jbvb/lbng/Long" object to convert
+ * @return - the pointer to the new CK_ULONG vblue
  */
 CK_ULONG* jLongObjectToCKULongPtr(JNIEnv *env, jobject jObject)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jlong jValue;
-    CK_ULONG *ckpValue;
+    jclbss jObjectClbss;
+    jmethodID jVblueMethod;
+    jlong jVblue;
+    CK_ULONG *ckpVblue;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "longValue", "()J");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallLongMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_ULONG *) malloc(sizeof(CK_ULONG));
-    if (ckpValue == NULL) {
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Long");
+    if (jObjectClbss == NULL) { return NULL; }
+    jVblueMethod = (*env)->GetMethodID(env, jObjectClbss, "longVblue", "()J");
+    if (jVblueMethod == NULL) { return NULL; }
+    jVblue = (*env)->CbllLongMethod(env, jObject, jVblueMethod);
+    ckpVblue = (CK_ULONG *) mblloc(sizeof(CK_ULONG));
+    if (ckpVblue == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    *ckpValue = jLongToCKULong(jValue);
+    *ckpVblue = jLongToCKULong(jVblue);
 
-    return ckpValue ;
+    return ckpVblue ;
 }
 
 /*
- * converts a Java char object into a pointer to a CK_CHAR value. The memory has to be
- * freed after use!
+ * converts b Jbvb chbr object into b pointer to b CK_CHAR vblue. The memory hbs to be
+ * freed bfter use!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Char" object to convert
- * @return - the pointer to the new CK_CHAR value
+ * @pbrbm env - used to cbll JNI funktions to get the vblue out of the Jbvb object
+ * @pbrbm jObject - the "jbvb/lbng/Chbr" object to convert
+ * @return - the pointer to the new CK_CHAR vblue
  */
-CK_CHAR_PTR jCharObjectToCKCharPtr(JNIEnv *env, jobject jObject)
+CK_CHAR_PTR jChbrObjectToCKChbrPtr(JNIEnv *env, jobject jObject)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jchar jValue;
-    CK_CHAR_PTR ckpValue;
+    jclbss jObjectClbss;
+    jmethodID jVblueMethod;
+    jchbr jVblue;
+    CK_CHAR_PTR ckpVblue;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Char");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "charValue", "()C");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallCharMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_CHAR_PTR) malloc(sizeof(CK_CHAR));
-    if (ckpValue == NULL) {
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Chbr");
+    if (jObjectClbss == NULL) { return NULL; }
+    jVblueMethod = (*env)->GetMethodID(env, jObjectClbss, "chbrVblue", "()C");
+    if (jVblueMethod == NULL) { return NULL; }
+    jVblue = (*env)->CbllChbrMethod(env, jObject, jVblueMethod);
+    ckpVblue = (CK_CHAR_PTR) mblloc(sizeof(CK_CHAR));
+    if (ckpVblue == NULL) {
         throwOutOfMemoryError(env, 0);
         return NULL;
     }
-    *ckpValue = jCharToCKChar(jValue);
+    *ckpVblue = jChbrToCKChbr(jVblue);
 
-    return ckpValue ;
+    return ckpVblue ;
 }
 
 /*
- * converts a Java object into a pointer to CK-type or a CK-structure with the length in Bytes.
- * The memory of *ckpObjectPtr to be freed after use! This function is only used by
+ * converts b Jbvb object into b pointer to CK-type or b CK-structure with the length in Bytes.
+ * The memory of *ckpObjectPtr to be freed bfter use! This function is only used by
  * jAttributeToCKAttribute by now.
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jObject - the Java object to convert
- * @param ckpObjectPtr - the reference of the new pointer to the new CK-value or CK-structure
- * @param ckpLength - the reference of the length in bytes of the new CK-value or CK-structure
+ * @pbrbm env - used to cbll JNI funktions to get the Jbvb clbsses bnd objects
+ * @pbrbm jObject - the Jbvb object to convert
+ * @pbrbm ckpObjectPtr - the reference of the new pointer to the new CK-vblue or CK-structure
+ * @pbrbm ckpLength - the reference of the length in bytes of the new CK-vblue or CK-structure
  */
 void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env, jobject jObject, CK_VOID_PTR *ckpObjectPtr, CK_ULONG *ckpLength)
 {
-    jclass jLongClass, jBooleanClass, jByteArrayClass, jCharArrayClass;
-    jclass jByteClass, jDateClass, jCharacterClass, jIntegerClass;
-    jclass jBooleanArrayClass, jIntArrayClass, jLongArrayClass;
-    jclass jStringClass;
-    jclass jObjectClass, jClassClass;
+    jclbss jLongClbss, jBoolebnClbss, jByteArrbyClbss, jChbrArrbyClbss;
+    jclbss jByteClbss, jDbteClbss, jChbrbcterClbss, jIntegerClbss;
+    jclbss jBoolebnArrbyClbss, jIntArrbyClbss, jLongArrbyClbss;
+    jclbss jStringClbss;
+    jclbss jObjectClbss, jClbssClbss;
     CK_VOID_PTR ckpVoid = *ckpObjectPtr;
     jmethodID jMethod;
-    jobject jClassObject;
-    jstring jClassNameString;
-    char *classNameString, *exceptionMsgPrefix, *exceptionMsg;
+    jobject jClbssObject;
+    jstring jClbssNbmeString;
+    chbr *clbssNbmeString, *exceptionMsgPrefix, *exceptionMsg;
 
     TRACE0("\nDEBUG: jObjectToPrimitiveCKObjectPtrPtr");
     if (jObject == NULL) {
@@ -992,131 +992,131 @@ void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env, jobject jObject, CK_VOID_PTR 
         return;
     }
 
-    jLongClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jLongClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jLongClass)) {
+    jLongClbss = (*env)->FindClbss(env, "jbvb/lbng/Long");
+    if (jLongClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jLongClbss)) {
         *ckpObjectPtr = jLongObjectToCKULongPtr(env, jObject);
         *ckpLength = sizeof(CK_ULONG);
-        TRACE1("<converted long value %X>", *((CK_ULONG *) *ckpObjectPtr));
+        TRACE1("<converted long vblue %X>", *((CK_ULONG *) *ckpObjectPtr));
         return;
     }
 
-    jBooleanClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jBooleanClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jBooleanClass)) {
-        *ckpObjectPtr = jBooleanObjectToCKBBoolPtr(env, jObject);
+    jBoolebnClbss = (*env)->FindClbss(env, "jbvb/lbng/Boolebn");
+    if (jBoolebnClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jBoolebnClbss)) {
+        *ckpObjectPtr = jBoolebnObjectToCKBBoolPtr(env, jObject);
         *ckpLength = sizeof(CK_BBOOL);
-        TRACE0(" <converted boolean value ");
+        TRACE0(" <converted boolebn vblue ");
         TRACE0((*((CK_BBOOL *) *ckpObjectPtr) == TRUE) ? "TRUE>" : "FALSE>");
         return;
     }
 
-    jByteArrayClass = (*env)->FindClass(env, "[B");
-    if (jByteArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jByteArrayClass)) {
-        jByteArrayToCKByteArray(env, jObject, (CK_BYTE_PTR*)ckpObjectPtr, ckpLength);
+    jByteArrbyClbss = (*env)->FindClbss(env, "[B");
+    if (jByteArrbyClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jByteArrbyClbss)) {
+        jByteArrbyToCKByteArrby(env, jObject, (CK_BYTE_PTR*)ckpObjectPtr, ckpLength);
         return;
     }
 
-    jCharArrayClass = (*env)->FindClass(env, "[C");
-    if (jCharArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jCharArrayClass)) {
-        jCharArrayToCKUTF8CharArray(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
+    jChbrArrbyClbss = (*env)->FindClbss(env, "[C");
+    if (jChbrArrbyClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jChbrArrbyClbss)) {
+        jChbrArrbyToCKUTF8ChbrArrby(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
         return;
     }
 
-    jByteClass = (*env)->FindClass(env, "java/lang/Byte");
-    if (jByteClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jByteClass)) {
+    jByteClbss = (*env)->FindClbss(env, "jbvb/lbng/Byte");
+    if (jByteClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jByteClbss)) {
         *ckpObjectPtr = jByteObjectToCKBytePtr(env, jObject);
         *ckpLength = sizeof(CK_BYTE);
-        TRACE1("<converted byte value %X>", *((CK_BYTE *) *ckpObjectPtr));
+        TRACE1("<converted byte vblue %X>", *((CK_BYTE *) *ckpObjectPtr));
         return;
     }
 
-    jDateClass = (*env)->FindClass(env, CLASS_DATE);
-    if (jDateClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jDateClass)) {
-        *ckpObjectPtr = jDateObjectPtrToCKDatePtr(env, jObject);
+    jDbteClbss = (*env)->FindClbss(env, CLASS_DATE);
+    if (jDbteClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jDbteClbss)) {
+        *ckpObjectPtr = jDbteObjectPtrToCKDbtePtr(env, jObject);
         *ckpLength = sizeof(CK_DATE);
-        TRACE3("<converted date value %.4s-%.2s-%.2s>", (*((CK_DATE *) *ckpObjectPtr)).year, (*((CK_DATE *) *ckpObjectPtr)).month, (*((CK_DATE *) *ckpObjectPtr)).day);
+        TRACE3("<converted dbte vblue %.4s-%.2s-%.2s>", (*((CK_DATE *) *ckpObjectPtr)).yebr, (*((CK_DATE *) *ckpObjectPtr)).month, (*((CK_DATE *) *ckpObjectPtr)).dby);
         return;
     }
 
-    jCharacterClass = (*env)->FindClass(env, "java/lang/Character");
-    if (jCharacterClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jCharacterClass)) {
-        *ckpObjectPtr = jCharObjectToCKCharPtr(env, jObject);
+    jChbrbcterClbss = (*env)->FindClbss(env, "jbvb/lbng/Chbrbcter");
+    if (jChbrbcterClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jChbrbcterClbss)) {
+        *ckpObjectPtr = jChbrObjectToCKChbrPtr(env, jObject);
         *ckpLength = sizeof(CK_UTF8CHAR);
-        TRACE1("<converted char value %c>", *((CK_CHAR *) *ckpObjectPtr));
+        TRACE1("<converted chbr vblue %c>", *((CK_CHAR *) *ckpObjectPtr));
         return;
     }
 
-    jIntegerClass = (*env)->FindClass(env, "java/lang/Integer");
-    if (jIntegerClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jIntegerClass)) {
+    jIntegerClbss = (*env)->FindClbss(env, "jbvb/lbng/Integer");
+    if (jIntegerClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jIntegerClbss)) {
         *ckpObjectPtr = jIntegerObjectToCKULongPtr(env, jObject);
         *ckpLength = sizeof(CK_ULONG);
-        TRACE1("<converted integer value %X>", *((CK_ULONG *) *ckpObjectPtr));
+        TRACE1("<converted integer vblue %X>", *((CK_ULONG *) *ckpObjectPtr));
         return;
     }
 
-    jBooleanArrayClass = (*env)->FindClass(env, "[Z");
-    if (jBooleanArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jBooleanArrayClass)) {
-        jBooleanArrayToCKBBoolArray(env, jObject, (CK_BBOOL**)ckpObjectPtr, ckpLength);
+    jBoolebnArrbyClbss = (*env)->FindClbss(env, "[Z");
+    if (jBoolebnArrbyClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jBoolebnArrbyClbss)) {
+        jBoolebnArrbyToCKBBoolArrby(env, jObject, (CK_BBOOL**)ckpObjectPtr, ckpLength);
         return;
     }
 
-    jIntArrayClass = (*env)->FindClass(env, "[I");
-    if (jIntArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jIntArrayClass)) {
-        jLongArrayToCKULongArray(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
+    jIntArrbyClbss = (*env)->FindClbss(env, "[I");
+    if (jIntArrbyClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jIntArrbyClbss)) {
+        jLongArrbyToCKULongArrby(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
         return;
     }
 
-    jLongArrayClass = (*env)->FindClass(env, "[J");
-    if (jLongArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jLongArrayClass)) {
-        jLongArrayToCKULongArray(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
+    jLongArrbyClbss = (*env)->FindClbss(env, "[J");
+    if (jLongArrbyClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jLongArrbyClbss)) {
+        jLongArrbyToCKULongArrby(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
         return;
     }
 
-    jStringClass = (*env)->FindClass(env, "java/lang/String");
-    if (jStringClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jStringClass)) {
-        jStringToCKUTF8CharArray(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
+    jStringClbss = (*env)->FindClbss(env, "jbvb/lbng/String");
+    if (jStringClbss == NULL) { return; }
+    if ((*env)->IsInstbnceOf(env, jObject, jStringClbss)) {
+        jStringToCKUTF8ChbrArrby(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
         return;
     }
 
     /* type of jObject unknown, throw PKCS11RuntimeException */
-    jObjectClass = (*env)->FindClass(env, "java/lang/Object");
-    if (jObjectClass == NULL) { return; }
-    jMethod = (*env)->GetMethodID(env, jObjectClass, "getClass", "()Ljava/lang/Class;");
+    jObjectClbss = (*env)->FindClbss(env, "jbvb/lbng/Object");
+    if (jObjectClbss == NULL) { return; }
+    jMethod = (*env)->GetMethodID(env, jObjectClbss, "getClbss", "()Ljbvb/lbng/Clbss;");
     if (jMethod == NULL) { return; }
-    jClassObject = (*env)->CallObjectMethod(env, jObject, jMethod);
-    assert(jClassObject != 0);
-    jClassClass = (*env)->FindClass(env, "java/lang/Class");
-    if (jClassClass == NULL) { return; }
-    jMethod = (*env)->GetMethodID(env, jClassClass, "getName", "()Ljava/lang/String;");
+    jClbssObject = (*env)->CbllObjectMethod(env, jObject, jMethod);
+    bssert(jClbssObject != 0);
+    jClbssClbss = (*env)->FindClbss(env, "jbvb/lbng/Clbss");
+    if (jClbssClbss == NULL) { return; }
+    jMethod = (*env)->GetMethodID(env, jClbssClbss, "getNbme", "()Ljbvb/lbng/String;");
     if (jMethod == NULL) { return; }
-    jClassNameString = (jstring)
-        (*env)->CallObjectMethod(env, jClassObject, jMethod);
-    assert(jClassNameString != 0);
-    classNameString = (char*)
-        (*env)->GetStringUTFChars(env, jClassNameString, NULL);
-    if (classNameString == NULL) { return; }
-    exceptionMsgPrefix = "Java object of this class cannot be converted to native PKCS#11 type: ";
-    exceptionMsg = (char *)
-        malloc((strlen(exceptionMsgPrefix) + strlen(classNameString) + 1));
+    jClbssNbmeString = (jstring)
+        (*env)->CbllObjectMethod(env, jClbssObject, jMethod);
+    bssert(jClbssNbmeString != 0);
+    clbssNbmeString = (chbr*)
+        (*env)->GetStringUTFChbrs(env, jClbssNbmeString, NULL);
+    if (clbssNbmeString == NULL) { return; }
+    exceptionMsgPrefix = "Jbvb object of this clbss cbnnot be converted to nbtive PKCS#11 type: ";
+    exceptionMsg = (chbr *)
+        mblloc((strlen(exceptionMsgPrefix) + strlen(clbssNbmeString) + 1));
     if (exceptionMsg == NULL) {
-        (*env)->ReleaseStringUTFChars(env, jClassNameString, classNameString);
+        (*env)->RelebseStringUTFChbrs(env, jClbssNbmeString, clbssNbmeString);
         throwOutOfMemoryError(env, 0);
         return;
     }
     strcpy(exceptionMsg, exceptionMsgPrefix);
-    strcat(exceptionMsg, classNameString);
-    (*env)->ReleaseStringUTFChars(env, jClassNameString, classNameString);
+    strcbt(exceptionMsg, clbssNbmeString);
+    (*env)->RelebseStringUTFChbrs(env, jClbssNbmeString, clbssNbmeString);
     throwPKCS11RuntimeException(env, exceptionMsg);
     free(exceptionMsg);
     *ckpObjectPtr = NULL;
@@ -1127,16 +1127,16 @@ void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env, jobject jObject, CK_VOID_PTR 
 
 #ifdef P11_MEMORYDEBUG
 
-#undef malloc
+#undef mblloc
 #undef free
 
-void *p11malloc(size_t c, char *file, int line) {
-    void *p = malloc(c);
-    printf("malloc\t%08x\t%d\t%s:%d\n", p, c, file, line); fflush(stdout);
+void *p11mblloc(size_t c, chbr *file, int line) {
+    void *p = mblloc(c);
+    printf("mblloc\t%08x\t%d\t%s:%d\n", p, c, file, line); fflush(stdout);
     return p;
 }
 
-void p11free(void *p, char *file, int line) {
+void p11free(void *p, chbr *file, int line) {
     printf("free\t%08x\t\t%s:%d\n", p, file, line); fflush(stdout);
     free(p);
 }

@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
-import javax.crypto.spec.*;
+import jbvbx.crypto.spec.*;
 
 /**
- * The CryptoPermission class extends the
- * java.security.Permission class. A
+ * The CryptoPermission clbss extends the
+ * jbvb.security.Permission clbss. A
  * CryptoPermission object is used to represent
- * the ability of an application/applet to use certain
- * algorithms with certain key sizes and other
- * restrictions in certain environments. <p>
+ * the bbility of bn bpplicbtion/bpplet to use certbin
+ * blgorithms with certbin key sizes bnd other
+ * restrictions in certbin environments. <p>
  *
- * @see java.security.Permission
+ * @see jbvb.security.Permission
  *
- * @author Jan Luehe
- * @author Sharon Liu
+ * @buthor Jbn Luehe
+ * @buthor Shbron Liu
  * @since 1.4
  */
-class CryptoPermission extends java.security.Permission {
+clbss CryptoPermission extends jbvb.security.Permission {
 
-    private static final long serialVersionUID = 8987399626114087514L;
+    privbte stbtic finbl long seriblVersionUID = 8987399626114087514L;
 
-    private String alg;
-    private int maxKeySize = Integer.MAX_VALUE; // no restriction on maxKeySize
-    private String exemptionMechanism = null;
-    private AlgorithmParameterSpec algParamSpec = null;
-    private boolean checkParam = false; // no restriction on param
+    privbte String blg;
+    privbte int mbxKeySize = Integer.MAX_VALUE; // no restriction on mbxKeySize
+    privbte String exemptionMechbnism = null;
+    privbte AlgorithmPbrbmeterSpec blgPbrbmSpec = null;
+    privbte boolebn checkPbrbm = fblse; // no restriction on pbrbm
 
-    static final String ALG_NAME_WILDCARD = "*";
+    stbtic finbl String ALG_NAME_WILDCARD = "*";
 
     /**
-     * Constructor that takes an algorithm name.
+     * Constructor thbt tbkes bn blgorithm nbme.
      *
-     * This constructor implies that the given algorithm can be
-     * used without any restrictions.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used without bny restrictions.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg the blgorithm nbme.
      */
-    CryptoPermission(String alg) {
+    CryptoPermission(String blg) {
         super(null);
-        this.alg = alg;
+        this.blg = blg;
     }
 
     /**
-     * Constructor that takes an algorithm name and a maximum
+     * Constructor thbt tbkes bn blgorithm nbme bnd b mbximum
      * key size.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used with b key size up to <code>mbxKeySize</code>.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg the blgorithm nbme.
      *
-     * @param maxKeySize the maximum allowable key size,
+     * @pbrbm mbxKeySize the mbximum bllowbble key size,
      * specified in number of bits.
      */
-    CryptoPermission(String alg, int maxKeySize) {
+    CryptoPermission(String blg, int mbxKeySize) {
         super(null);
-        this.alg = alg;
-        this.maxKeySize = maxKeySize;
+        this.blg = blg;
+        this.mbxKeySize = mbxKeySize;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum
-     * key size, and an AlgorithmParameterSpec object.
+     * Constructor thbt tbkes bn blgorithm nbme, b mbximum
+     * key size, bnd bn AlgorithmPbrbmeterSpec object.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>, and
-     * algorithm
-     * parameters up to the limits set in <code>algParamSpec</code>.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used with b key size up to <code>mbxKeySize</code>, bnd
+     * blgorithm
+     * pbrbmeters up to the limits set in <code>blgPbrbmSpec</code>.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg the blgorithm nbme.
      *
-     * @param maxKeySize the maximum allowable key size,
+     * @pbrbm mbxKeySize the mbximum bllowbble key size,
      * specified in number of bits.
      *
-     * @param algParamSpec the limits for allowable algorithm
-     * parameters.
+     * @pbrbm blgPbrbmSpec the limits for bllowbble blgorithm
+     * pbrbmeters.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     AlgorithmParameterSpec algParamSpec) {
+    CryptoPermission(String blg,
+                     int mbxKeySize,
+                     AlgorithmPbrbmeterSpec blgPbrbmSpec) {
         super(null);
-        this.alg = alg;
-        this.maxKeySize = maxKeySize;
-        this.checkParam = true;
-        this.algParamSpec = algParamSpec;
+        this.blg = blg;
+        this.mbxKeySize = mbxKeySize;
+        this.checkPbrbm = true;
+        this.blgPbrbmSpec = blgPbrbmSpec;
     }
 
     /**
-     * Constructor that takes an algorithm name and the name of
-     * an exemption mechanism.
+     * Constructor thbt tbkes bn blgorithm nbme bnd the nbme of
+     * bn exemption mechbnism.
      *
-     * This constructor implies that the given algorithm can be
-     * used without any key size or algorithm parameter restrictions
-     * provided that the specified exemption mechanism is enforced.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used without bny key size or blgorithm pbrbmeter restrictions
+     * provided thbt the specified exemption mechbnism is enforced.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg the blgorithm nbme.
      *
-     * @param exemptionMechanism the name of the exemption mechanism.
+     * @pbrbm exemptionMechbnism the nbme of the exemption mechbnism.
      */
-    CryptoPermission(String alg,
-                     String exemptionMechanism) {
+    CryptoPermission(String blg,
+                     String exemptionMechbnism) {
         super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
+        this.blg = blg;
+        this.exemptionMechbnism = exemptionMechbnism;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum key
-     * size, and the name of an exemption mechanism.
+     * Constructor thbt tbkes bn blgorithm nbme, b mbximum key
+     * size, bnd the nbme of bn exemption mechbnism.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>
-     * provided that the
-     * specified exemption mechanism is enforced.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used with b key size up to <code>mbxKeySize</code>
+     * provided thbt the
+     * specified exemption mechbnism is enforced.
      *
-     * @param alg the algorithm name.
-     * @param maxKeySize the maximum allowable key size,
+     * @pbrbm blg the blgorithm nbme.
+     * @pbrbm mbxKeySize the mbximum bllowbble key size,
      * specified in number of bits.
-     * @param exemptionMechanism the name of the exemption
-     * mechanism.
+     * @pbrbm exemptionMechbnism the nbme of the exemption
+     * mechbnism.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     String exemptionMechanism) {
+    CryptoPermission(String blg,
+                     int mbxKeySize,
+                     String exemptionMechbnism) {
         super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
-        this.maxKeySize = maxKeySize;
+        this.blg = blg;
+        this.exemptionMechbnism = exemptionMechbnism;
+        this.mbxKeySize = mbxKeySize;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum key
-     * size, the name of an exemption mechanism, and an
-     * AlgorithmParameterSpec object.
+     * Constructor thbt tbkes bn blgorithm nbme, b mbximum key
+     * size, the nbme of bn exemption mechbnism, bnd bn
+     * AlgorithmPbrbmeterSpec object.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>
-     * and algorithm
-     * parameters up to the limits set in <code>algParamSpec</code>
-     * provided that
-     * the specified exemption mechanism is enforced.
+     * This constructor implies thbt the given blgorithm cbn be
+     * used with b key size up to <code>mbxKeySize</code>
+     * bnd blgorithm
+     * pbrbmeters up to the limits set in <code>blgPbrbmSpec</code>
+     * provided thbt
+     * the specified exemption mechbnism is enforced.
      *
-     * @param alg the algorithm name.
-     * @param maxKeySize the maximum allowable key size,
+     * @pbrbm blg the blgorithm nbme.
+     * @pbrbm mbxKeySize the mbximum bllowbble key size,
      * specified in number of bits.
-     * @param algParamSpec the limit for allowable algorithm
-     *  parameter spec.
-     * @param exemptionMechanism the name of the exemption
-     * mechanism.
+     * @pbrbm blgPbrbmSpec the limit for bllowbble blgorithm
+     *  pbrbmeter spec.
+     * @pbrbm exemptionMechbnism the nbme of the exemption
+     * mechbnism.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     AlgorithmParameterSpec algParamSpec,
-                     String exemptionMechanism) {
+    CryptoPermission(String blg,
+                     int mbxKeySize,
+                     AlgorithmPbrbmeterSpec blgPbrbmSpec,
+                     String exemptionMechbnism) {
         super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
-        this.maxKeySize = maxKeySize;
-        this.checkParam = true;
-        this.algParamSpec = algParamSpec;
+        this.blg = blg;
+        this.exemptionMechbnism = exemptionMechbnism;
+        this.mbxKeySize = mbxKeySize;
+        this.checkPbrbm = true;
+        this.blgPbrbmSpec = blgPbrbmSpec;
     }
 
     /**
      * Checks if the specified permission is "implied" by
      * this object.
      * <p>
-     * More specifically, this method returns true if:<p>
+     * More specificblly, this method returns true if:<p>
      * <ul>
-     * <li> <i>p</i> is an instance of CryptoPermission, and<p>
-     * <li> <i>p</i>'s algorithm name equals or (in the case of wildcards)
-     *       is implied by this permission's algorithm name, and<p>
-     * <li> <i>p</i>'s maximum allowable key size is less or
-     *       equal to this permission's maximum allowable key size, and<p>
-     * <li> <i>p</i>'s algorithm parameter spec equals or is
-     *        implied by this permission's algorithm parameter spec, and<p>
-     * <li> <i>p</i>'s exemptionMechanism equals or
+     * <li> <i>p</i> is bn instbnce of CryptoPermission, bnd<p>
+     * <li> <i>p</i>'s blgorithm nbme equbls or (in the cbse of wildcbrds)
+     *       is implied by this permission's blgorithm nbme, bnd<p>
+     * <li> <i>p</i>'s mbximum bllowbble key size is less or
+     *       equbl to this permission's mbximum bllowbble key size, bnd<p>
+     * <li> <i>p</i>'s blgorithm pbrbmeter spec equbls or is
+     *        implied by this permission's blgorithm pbrbmeter spec, bnd<p>
+     * <li> <i>p</i>'s exemptionMechbnism equbls or
      *        is implied by this permission's
-     *        exemptionMechanism (a <code>null</code> exemption mechanism
-     *        implies any other exemption mechanism).
+     *        exemptionMechbnism (b <code>null</code> exemption mechbnism
+     *        implies bny other exemption mechbnism).
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
-     * @return true if the specified permission is equal to or
-     * implied by this permission, false otherwise.
+     * @return true if the specified permission is equbl to or
+     * implied by this permission, fblse otherwise.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof CryptoPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof CryptoPermission))
+            return fblse;
 
         CryptoPermission cp = (CryptoPermission)p;
 
-        if ((!alg.equalsIgnoreCase(cp.alg)) &&
-            (!alg.equalsIgnoreCase(ALG_NAME_WILDCARD))) {
-            return false;
+        if ((!blg.equblsIgnoreCbse(cp.blg)) &&
+            (!blg.equblsIgnoreCbse(ALG_NAME_WILDCARD))) {
+            return fblse;
         }
 
-        // alg is the same as cp's alg or
-        // alg is a wildcard.
-        if (cp.maxKeySize <= this.maxKeySize) {
-            // check algParamSpec.
-            if (!impliesParameterSpec(cp.checkParam, cp.algParamSpec)) {
-                return false;
+        // blg is the sbme bs cp's blg or
+        // blg is b wildcbrd.
+        if (cp.mbxKeySize <= this.mbxKeySize) {
+            // check blgPbrbmSpec.
+            if (!impliesPbrbmeterSpec(cp.checkPbrbm, cp.blgPbrbmSpec)) {
+                return fblse;
             }
 
-            // check exemptionMechanism.
-            if (impliesExemptionMechanism(cp.exemptionMechanism)) {
+            // check exemptionMechbnism.
+            if (impliesExemptionMechbnism(cp.exemptionMechbnism)) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks two CryptoPermission objects for equality. Checks that
-     * <code>obj</code> is a CryptoPermission, and has the same
-     * algorithm name,
-     * exemption mechanism name, maximum allowable key size and
-     * algorithm parameter spec
-     * as this object.
+     * Checks two CryptoPermission objects for equblity. Checks thbt
+     * <code>obj</code> is b CryptoPermission, bnd hbs the sbme
+     * blgorithm nbme,
+     * exemption mechbnism nbme, mbximum bllowbble key size bnd
+     * blgorithm pbrbmeter spec
+     * bs this object.
      * <P>
-     * @param obj the object to test for equality with this object.
-     * @return true if <code>obj</code> is equal to this object.
+     * @pbrbm obj the object to test for equblity with this object.
+     * @return true if <code>obj</code> is equbl to this object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (!(obj instanceof CryptoPermission))
-            return false;
+        if (!(obj instbnceof CryptoPermission))
+            return fblse;
 
-        CryptoPermission that = (CryptoPermission) obj;
+        CryptoPermission thbt = (CryptoPermission) obj;
 
-        if (!(alg.equalsIgnoreCase(that.alg)) ||
-            (maxKeySize != that.maxKeySize)) {
-            return false;
+        if (!(blg.equblsIgnoreCbse(thbt.blg)) ||
+            (mbxKeySize != thbt.mbxKeySize)) {
+            return fblse;
         }
-        if (this.checkParam != that.checkParam) {
-            return false;
+        if (this.checkPbrbm != thbt.checkPbrbm) {
+            return fblse;
         }
-        return (equalObjects(this.exemptionMechanism,
-                             that.exemptionMechanism) &&
-                equalObjects(this.algParamSpec,
-                             that.algParamSpec));
+        return (equblObjects(this.exemptionMechbnism,
+                             thbt.exemptionMechbnism) &&
+                equblObjects(this.blgPbrbmSpec,
+                             thbt.blgPbrbmSpec));
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
 
-    public int hashCode() {
-        int retval = alg.hashCode();
-        retval ^= maxKeySize;
-        if (exemptionMechanism != null) {
-            retval ^= exemptionMechanism.hashCode();
+    public int hbshCode() {
+        int retvbl = blg.hbshCode();
+        retvbl ^= mbxKeySize;
+        if (exemptionMechbnism != null) {
+            retvbl ^= exemptionMechbnism.hbshCode();
         }
-        if (checkParam) retval ^= 100;
-        if (algParamSpec != null) {
-            retval ^= algParamSpec.hashCode();
+        if (checkPbrbm) retvbl ^= 100;
+        if (blgPbrbmSpec != null) {
+            retvbl ^= blgPbrbmSpec.hbshCode();
         }
-        return retval;
+        return retvbl;
     }
 
     /**
-     * There is no action defined for a CryptoPermission
+     * There is no bction defined for b CryptoPermission
      * onject.
      */
     public String getActions()
@@ -306,10 +306,10 @@ class CryptoPermission extends java.security.Permission {
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
+     * Returns b new PermissionCollection object for storing
      * CryptoPermission objects.
      *
-     * @return a new PermissionCollection object suitable for storing
+     * @return b new PermissionCollection object suitbble for storing
      * CryptoPermissions.
      */
 
@@ -318,167 +318,167 @@ class CryptoPermission extends java.security.Permission {
     }
 
     /**
-     * Returns the algorithm name associated with
+     * Returns the blgorithm nbme bssocibted with
      * this CryptoPermission object.
      */
-    final String getAlgorithm() {
-        return alg;
+    finbl String getAlgorithm() {
+        return blg;
     }
 
     /**
-     * Returns the exemption mechanism name
-     * associated with this CryptoPermission
+     * Returns the exemption mechbnism nbme
+     * bssocibted with this CryptoPermission
      * object.
      */
-    final String getExemptionMechanism() {
-        return exemptionMechanism;
+    finbl String getExemptionMechbnism() {
+        return exemptionMechbnism;
     }
 
     /**
-     * Returns the maximum allowable key size associated
+     * Returns the mbximum bllowbble key size bssocibted
      * with this CryptoPermission object.
      */
-    final int getMaxKeySize() {
-        return maxKeySize;
+    finbl int getMbxKeySize() {
+        return mbxKeySize;
     }
 
     /**
-     * Returns true if there is a limitation on the
-     * AlgorithmParameterSpec associated with this
-     * CryptoPermission object and false if otherwise.
+     * Returns true if there is b limitbtion on the
+     * AlgorithmPbrbmeterSpec bssocibted with this
+     * CryptoPermission object bnd fblse if otherwise.
      */
-    final boolean getCheckParam() {
-        return checkParam;
+    finbl boolebn getCheckPbrbm() {
+        return checkPbrbm;
     }
 
     /**
-     * Returns the AlgorithmParameterSpec
-     * associated with this CryptoPermission
+     * Returns the AlgorithmPbrbmeterSpec
+     * bssocibted with this CryptoPermission
      * object.
      */
-    final AlgorithmParameterSpec getAlgorithmParameterSpec() {
-        return algParamSpec;
+    finbl AlgorithmPbrbmeterSpec getAlgorithmPbrbmeterSpec() {
+        return blgPbrbmSpec;
     }
 
     /**
-     * Returns a string describing this CryptoPermission.  The convention is to
-     * specify the class name, the algorithm name, the maximum allowable
-     * key size, and the name of the exemption mechanism, in the following
-     * format: '("ClassName" "algorithm" "keysize" "exemption_mechanism")'.
+     * Returns b string describing this CryptoPermission.  The convention is to
+     * specify the clbss nbme, the blgorithm nbme, the mbximum bllowbble
+     * key size, bnd the nbme of the exemption mechbnism, in the following
+     * formbt: '("ClbssNbme" "blgorithm" "keysize" "exemption_mechbnism")'.
      *
-     * @return information about this CryptoPermission.
+     * @return informbtion bbout this CryptoPermission.
      */
     public String toString() {
         StringBuilder buf = new StringBuilder(100);
-        buf.append("(CryptoPermission " + alg + " " + maxKeySize);
-        if (algParamSpec != null) {
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                buf.append(" , effective " +
-                    ((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits());
-            } else if (algParamSpec instanceof RC5ParameterSpec) {
-                buf.append(" , rounds " +
-                    ((RC5ParameterSpec)algParamSpec).getRounds());
+        buf.bppend("(CryptoPermission " + blg + " " + mbxKeySize);
+        if (blgPbrbmSpec != null) {
+            if (blgPbrbmSpec instbnceof RC2PbrbmeterSpec) {
+                buf.bppend(" , effective " +
+                    ((RC2PbrbmeterSpec)blgPbrbmSpec).getEffectiveKeyBits());
+            } else if (blgPbrbmSpec instbnceof RC5PbrbmeterSpec) {
+                buf.bppend(" , rounds " +
+                    ((RC5PbrbmeterSpec)blgPbrbmSpec).getRounds());
             }
         }
-        if (exemptionMechanism != null) { // OPTIONAL
-            buf.append(" " + exemptionMechanism);
+        if (exemptionMechbnism != null) { // OPTIONAL
+            buf.bppend(" " + exemptionMechbnism);
         }
-        buf.append(")");
+        buf.bppend(")");
         return buf.toString();
     }
 
-    private boolean impliesExemptionMechanism(String exemptionMechanism) {
-        if (this.exemptionMechanism == null) {
+    privbte boolebn impliesExemptionMechbnism(String exemptionMechbnism) {
+        if (this.exemptionMechbnism == null) {
             return true;
         }
 
-        if (exemptionMechanism == null) {
-            return false;
+        if (exemptionMechbnism == null) {
+            return fblse;
         }
 
-        if (this.exemptionMechanism.equals(exemptionMechanism)) {
+        if (this.exemptionMechbnism.equbls(exemptionMechbnism)) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
-    private boolean impliesParameterSpec(boolean checkParam,
-                                         AlgorithmParameterSpec algParamSpec) {
-        if ((this.checkParam) && checkParam) {
-            if (algParamSpec == null) {
+    privbte boolebn impliesPbrbmeterSpec(boolebn checkPbrbm,
+                                         AlgorithmPbrbmeterSpec blgPbrbmSpec) {
+        if ((this.checkPbrbm) && checkPbrbm) {
+            if (blgPbrbmSpec == null) {
                 return true;
-            } else if (this.algParamSpec == null) {
-                return false;
+            } else if (this.blgPbrbmSpec == null) {
+                return fblse;
             }
 
-            if (this.algParamSpec.getClass() != algParamSpec.getClass()) {
-                return false;
+            if (this.blgPbrbmSpec.getClbss() != blgPbrbmSpec.getClbss()) {
+                return fblse;
             }
 
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                if (((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits() <=
-                    ((RC2ParameterSpec)
-                     (this.algParamSpec)).getEffectiveKeyBits()) {
+            if (blgPbrbmSpec instbnceof RC2PbrbmeterSpec) {
+                if (((RC2PbrbmeterSpec)blgPbrbmSpec).getEffectiveKeyBits() <=
+                    ((RC2PbrbmeterSpec)
+                     (this.blgPbrbmSpec)).getEffectiveKeyBits()) {
                     return true;
                 }
             }
 
-            if (algParamSpec instanceof RC5ParameterSpec) {
-                if (((RC5ParameterSpec)algParamSpec).getRounds() <=
-                    ((RC5ParameterSpec)this.algParamSpec).getRounds()) {
+            if (blgPbrbmSpec instbnceof RC5PbrbmeterSpec) {
+                if (((RC5PbrbmeterSpec)blgPbrbmSpec).getRounds() <=
+                    ((RC5PbrbmeterSpec)this.blgPbrbmSpec).getRounds()) {
                     return true;
                 }
             }
 
-            if (algParamSpec instanceof PBEParameterSpec) {
-                if (((PBEParameterSpec)algParamSpec).getIterationCount() <=
-                    ((PBEParameterSpec)this.algParamSpec).getIterationCount()) {
+            if (blgPbrbmSpec instbnceof PBEPbrbmeterSpec) {
+                if (((PBEPbrbmeterSpec)blgPbrbmSpec).getIterbtionCount() <=
+                    ((PBEPbrbmeterSpec)this.blgPbrbmSpec).getIterbtionCount()) {
                     return true;
                 }
             }
 
-            // For classes we don't know, the following
-            // may be the best try.
-            if (this.algParamSpec.equals(algParamSpec)) {
+            // For clbsses we don't know, the following
+            // mby be the best try.
+            if (this.blgPbrbmSpec.equbls(blgPbrbmSpec)) {
                 return true;
             }
-            return false;
-        } else if (this.checkParam) {
-            return false;
+            return fblse;
+        } else if (this.checkPbrbm) {
+            return fblse;
         } else {
             return true;
         }
     }
 
-    private boolean equalObjects(Object obj1, Object obj2) {
+    privbte boolebn equblObjects(Object obj1, Object obj2) {
         if (obj1 == null) {
-            return (obj2 == null ? true : false);
+            return (obj2 == null ? true : fblse);
         }
 
-        return obj1.equals(obj2);
+        return obj1.equbls(obj2);
     }
 }
 
 /**
- * A CryptoPermissionCollection stores a set of CryptoPermission
+ * A CryptoPermissionCollection stores b set of CryptoPermission
  * permissions.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
  *
- * @author Sharon Liu
+ * @buthor Shbron Liu
  */
-final class CryptoPermissionCollection extends PermissionCollection
-    implements Serializable
+finbl clbss CryptoPermissionCollection extends PermissionCollection
+    implements Seriblizbble
 {
-    private static final long serialVersionUID = -511215555898802763L;
+    privbte stbtic finbl long seriblVersionUID = -511215555898802763L;
 
-    private Vector<Permission> permissions;
+    privbte Vector<Permission> permissions;
 
     /**
-     * Creates an empty CryptoPermissionCollection
+     * Crebtes bn empty CryptoPermissionCollection
      * object.
      */
     CryptoPermissionCollection() {
@@ -486,58 +486,58 @@ final class CryptoPermissionCollection extends PermissionCollection
     }
 
     /**
-     * Adds a permission to the CryptoPermissionCollection.
+     * Adds b permission to the CryptoPermissionCollection.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
      * @exception SecurityException - if this CryptoPermissionCollection
-     * object has been marked <i>readOnly</i>.
+     * object hbs been mbrked <i>rebdOnly</i>.
      */
-    public void add(Permission permission) {
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission " +
-                                        "to a readonly PermissionCollection");
+    public void bdd(Permission permission) {
+        if (isRebdOnly())
+            throw new SecurityException("bttempt to bdd b Permission " +
+                                        "to b rebdonly PermissionCollection");
 
-        if (!(permission instanceof CryptoPermission))
+        if (!(permission instbnceof CryptoPermission))
             return;
 
-        permissions.addElement(permission);
+        permissions.bddElement(permission);
     }
 
     /**
-     * Check and see if this CryptoPermission object implies
+     * Check bnd see if this CryptoPermission object implies
      * the given Permission object.
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
      * @return true if the given permission  is implied by this
-     * CryptoPermissionCollection, false if not.
+     * CryptoPermissionCollection, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (!(permission instanceof CryptoPermission))
-            return false;
+    public boolebn implies(Permission permission) {
+        if (!(permission instbnceof CryptoPermission))
+            return fblse;
 
         CryptoPermission cp = (CryptoPermission)permission;
 
-        Enumeration<Permission> e = permissions.elements();
+        Enumerbtion<Permission> e = permissions.elements();
 
-        while (e.hasMoreElements()) {
+        while (e.hbsMoreElements()) {
             CryptoPermission x = (CryptoPermission) e.nextElement();
             if (x.implies(cp)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the CryptoPermission objects
-     * in the container.
+     * Returns bn enumerbtion of bll the CryptoPermission objects
+     * in the contbiner.
      *
-     * @return an enumeration of all the CryptoPermission objects.
+     * @return bn enumerbtion of bll the CryptoPermission objects.
      */
 
-    public Enumeration<Permission> elements() {
+    public Enumerbtion<Permission> elements() {
         return permissions.elements();
     }
 }

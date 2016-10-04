@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-public abstract class XErrorHandler {
-
-    /*
-     * Called under AWT lock
-     */
-    public abstract int handleError(long display, XErrorEvent err);
+public bbstrbct clbss XErrorHbndler {
 
     /*
-     * Forwards all the errors to saved error handler (which was
-     * set before XToolkit had been initialized).
+     * Cblled under AWT lock
      */
-    public static class XBaseErrorHandler extends XErrorHandler {
+    public bbstrbct int hbndleError(long displby, XErrorEvent err);
+
+    /*
+     * Forwbrds bll the errors to sbved error hbndler (which wbs
+     * set before XToolkit hbd been initiblized).
+     */
+    public stbtic clbss XBbseErrorHbndler extends XErrorHbndler {
         @Override
-        public int handleError(long display, XErrorEvent err) {
-            return XErrorHandlerUtil.SAVED_XERROR_HANDLER(display, err);
+        public int hbndleError(long displby, XErrorEvent err) {
+            return XErrorHbndlerUtil.SAVED_XERROR_HANDLER(displby, err);
         }
     }
 
     /*
-     * Instead of validating window id, we simply call XGetWindowProperty,
-     * but temporary install this function as the error handler to ignore
-     * BadWindow error.
+     * Instebd of vblidbting window id, we simply cbll XGetWindowProperty,
+     * but temporbry instbll this function bs the error hbndler to ignore
+     * BbdWindow error.
      */
-    public static class IgnoreBadWindowHandler extends XBaseErrorHandler {
+    public stbtic clbss IgnoreBbdWindowHbndler extends XBbseErrorHbndler {
         @Override
-        public int handleError(long display, XErrorEvent err) {
-            if (err.get_error_code() == XConstants.BadWindow) {
+        public int hbndleError(long displby, XErrorEvent err) {
+            if (err.get_error_code() == XConstbnts.BbdWindow) {
                 return 0;
             }
-            return super.handleError(display, err);
+            return super.hbndleError(displby, err);
         }
-        // Shared instance
-        private static IgnoreBadWindowHandler theInstance = new IgnoreBadWindowHandler();
-        public static IgnoreBadWindowHandler getInstance() {
-            return theInstance;
+        // Shbred instbnce
+        privbte stbtic IgnoreBbdWindowHbndler theInstbnce = new IgnoreBbdWindowHbndler();
+        public stbtic IgnoreBbdWindowHbndler getInstbnce() {
+            return theInstbnce;
         }
     }
 
-    public static class VerifyChangePropertyHandler extends XBaseErrorHandler {
+    public stbtic clbss VerifyChbngePropertyHbndler extends XBbseErrorHbndler {
         @Override
-        public int handleError(long display, XErrorEvent err) {
-            if (err.get_request_code() == XProtocolConstants.X_ChangeProperty) {
+        public int hbndleError(long displby, XErrorEvent err) {
+            if (err.get_request_code() == XProtocolConstbnts.X_ChbngeProperty) {
                 return 0;
             }
-            return super.handleError(display, err);
+            return super.hbndleError(displby, err);
         }
-        // Shared instance
-        private static VerifyChangePropertyHandler theInstance = new VerifyChangePropertyHandler();
-        public static VerifyChangePropertyHandler getInstance() {
-            return theInstance;
+        // Shbred instbnce
+        privbte stbtic VerifyChbngePropertyHbndler theInstbnce = new VerifyChbngePropertyHbndler();
+        public stbtic VerifyChbngePropertyHbndler getInstbnce() {
+            return theInstbnce;
         }
     }
 }

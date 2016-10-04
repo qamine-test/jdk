@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -39,48 +39,48 @@
 
 #define NT_TZ_KEY               "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones"
 #define WIN_TZ_KEY              "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Time Zones"
-#define WIN_CURRENT_TZ_KEY      "System\\CurrentControlSet\\Control\\TimeZoneInformation"
+#define WIN_CURRENT_TZ_KEY      "System\\CurrentControlSet\\Control\\TimeZoneInformbtion"
 
-typedef struct _TziValue {
-    LONG        bias;
-    LONG        stdBias;
-    LONG        dstBias;
-    SYSTEMTIME  stdDate;
-    SYSTEMTIME  dstDate;
-} TziValue;
+typedef struct _TziVblue {
+    LONG        bibs;
+    LONG        stdBibs;
+    LONG        dstBibs;
+    SYSTEMTIME  stdDbte;
+    SYSTEMTIME  dstDbte;
+} TziVblue;
 
 /*
- * Registry key names
+ * Registry key nbmes
  */
-static void *keyNames[] = {
-    (void *) L"StandardName",
-    (void *) "StandardName",
+stbtic void *keyNbmes[] = {
+    (void *) L"StbndbrdNbme",
+    (void *) "StbndbrdNbme",
     (void *) L"Std",
     (void *) "Std"
 };
 
 /*
- * Indices to keyNames[]
+ * Indices to keyNbmes[]
  */
 #define STANDARD_NAME           0
 #define STD_NAME                2
 
 /*
- * Calls RegQueryValueEx() to get the value for the specified key. If
- * the platform is NT, 2000 or XP, it calls the Unicode
- * version. Otherwise, it calls the ANSI version and converts the
- * value to Unicode. In this case, it assumes that the current ANSI
- * Code Page is the same as the native platform code page (e.g., Code
- * Page 932 for the Japanese Windows systems.
+ * Cblls RegQueryVblueEx() to get the vblue for the specified key. If
+ * the plbtform is NT, 2000 or XP, it cblls the Unicode
+ * version. Otherwise, it cblls the ANSI version bnd converts the
+ * vblue to Unicode. In this cbse, it bssumes thbt the current ANSI
+ * Code Pbge is the sbme bs the nbtive plbtform code pbge (e.g., Code
+ * Pbge 932 for the Jbpbnese Windows systems.
  *
- * `keyIndex' is an index value to the keyNames in Unicode
- * (WCHAR). `keyIndex' + 1 points to its ANSI value.
+ * `keyIndex' is bn index vblue to the keyNbmes in Unicode
+ * (WCHAR). `keyIndex' + 1 points to its ANSI vblue.
  *
- * Returns the status value. ERROR_SUCCESS if succeeded, a
- * non-ERROR_SUCCESS value otherwise.
+ * Returns the stbtus vblue. ERROR_SUCCESS if succeeded, b
+ * non-ERROR_SUCCESS vblue otherwise.
  */
-static LONG
-getValueInRegistry(HKEY hKey,
+stbtic LONG
+getVblueInRegistry(HKEY hKey,
                    int keyIndex,
                    LPDWORD typePtr,
                    LPBYTE buf,
@@ -88,20 +88,20 @@ getValueInRegistry(HKEY hKey,
 {
     LONG ret;
     DWORD bufLength = *bufLengthPtr;
-    char val[MAX_ZONE_CHAR];
-    DWORD valSize;
+    chbr vbl[MAX_ZONE_CHAR];
+    DWORD vblSize;
     int len;
 
     *typePtr = 0;
-    ret = RegQueryValueExW(hKey, (WCHAR *) keyNames[keyIndex], NULL,
+    ret = RegQueryVblueExW(hKey, (WCHAR *) keyNbmes[keyIndex], NULL,
                            typePtr, buf, bufLengthPtr);
     if (ret == ERROR_SUCCESS && *typePtr == REG_SZ) {
         return ret;
     }
 
-    valSize = sizeof(val);
-    ret = RegQueryValueExA(hKey, (char *) keyNames[keyIndex + 1], NULL,
-                           typePtr, val, &valSize);
+    vblSize = sizeof(vbl);
+    ret = RegQueryVblueExA(hKey, (chbr *) keyNbmes[keyIndex + 1], NULL,
+                           typePtr, vbl, &vblSize);
     if (ret != ERROR_SUCCESS) {
         return ret;
     }
@@ -109,8 +109,8 @@ getValueInRegistry(HKEY hKey,
         return ERROR_BADKEY;
     }
 
-    len = MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS,
-                              (LPCSTR) val, -1,
+    len = MultiByteToWideChbr(CP_ACP, MB_ERR_INVALID_CHARS,
+                              (LPCSTR) vbl, -1,
                               (LPWSTR) buf, bufLength/sizeof(WCHAR));
     if (len <= 0) {
         return ERROR_BADKEY;
@@ -119,17 +119,17 @@ getValueInRegistry(HKEY hKey,
 }
 
 /*
- * Produces custom name "GMT+hh:mm" from the given bias in buffer.
+ * Produces custom nbme "GMT+hh:mm" from the given bibs in buffer.
  */
-static void customZoneName(LONG bias, char *buffer) {
+stbtic void customZoneNbme(LONG bibs, chbr *buffer) {
     LONG gmtOffset;
     int sign;
 
-    if (bias > 0) {
-        gmtOffset = bias;
+    if (bibs > 0) {
+        gmtOffset = bibs;
         sign = -1;
     } else {
-        gmtOffset = -bias;
+        gmtOffset = -bibs;
         sign = 1;
     }
     if (gmtOffset != 0) {
@@ -145,81 +145,81 @@ static void customZoneName(LONG bias, char *buffer) {
 /*
  * Gets the current time zone entry in the "Time Zones" registry.
  */
-static int getWinTimeZone(char *winZoneName, char *winMapID)
+stbtic int getWinTimeZone(chbr *winZoneNbme, chbr *winMbpID)
 {
     TIME_ZONE_INFORMATION tzi;
     OSVERSIONINFO ver;
-    int onlyMapID;
+    int onlyMbpID;
     HANDLE hKey = NULL, hSubKey = NULL;
     LONG ret;
     DWORD nSubKeys, i;
-    ULONG valueType;
-    TCHAR subKeyName[MAX_ZONE_CHAR];
-    TCHAR szValue[MAX_ZONE_CHAR];
-    WCHAR stdNameInReg[MAX_ZONE_CHAR];
-    TziValue tempTzi;
-    WCHAR *stdNamePtr = tzi.StandardName;
-    DWORD valueSize;
+    ULONG vblueType;
+    TCHAR subKeyNbme[MAX_ZONE_CHAR];
+    TCHAR szVblue[MAX_ZONE_CHAR];
+    WCHAR stdNbmeInReg[MAX_ZONE_CHAR];
+    TziVblue tempTzi;
+    WCHAR *stdNbmePtr = tzi.StbndbrdNbme;
+    DWORD vblueSize;
     DWORD timeType;
-    int isVista;
+    int isVistb;
 
     /*
-     * Get the current time zone setting of the platform.
+     * Get the current time zone setting of the plbtform.
      */
-    timeType = GetTimeZoneInformation(&tzi);
+    timeType = GetTimeZoneInformbtion(&tzi);
     if (timeType == TIME_ZONE_ID_INVALID) {
         goto err;
     }
 
     /*
-     * Determine if this is an NT system.
+     * Determine if this is bn NT system.
      */
     ver.dwOSVersionInfoSize = sizeof(ver);
     GetVersionEx(&ver);
-    isVista = ver.dwMajorVersion >= 6;
+    isVistb = ver.dwMbjorVersion >= 6;
 
     ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, WIN_CURRENT_TZ_KEY, 0,
                        KEY_READ, (PHKEY)&hKey);
     if (ret == ERROR_SUCCESS) {
-        DWORD val;
+        DWORD vbl;
         DWORD bufSize;
 
         /*
-         * Determine if auto-daylight time adjustment is turned off.
+         * Determine if buto-dbylight time bdjustment is turned off.
          */
-        valueType = 0;
-        bufSize = sizeof(val);
-        ret = RegQueryValueExA(hKey, "DisableAutoDaylightTimeSet",
-                               NULL, &valueType, (LPBYTE) &val, &bufSize);
+        vblueType = 0;
+        bufSize = sizeof(vbl);
+        ret = RegQueryVblueExA(hKey, "DisbbleAutoDbylightTimeSet",
+                               NULL, &vblueType, (LPBYTE) &vbl, &bufSize);
         /*
-         * Vista uses the different key name.
+         * Vistb uses the different key nbme.
          */
         if (ret != ERROR_SUCCESS) {
-          bufSize = sizeof(val);
-            ret = RegQueryValueExA(hKey, "DynamicDaylightTimeDisabled",
-                                   NULL, &valueType, (LPBYTE) &val, &bufSize);
+          bufSize = sizeof(vbl);
+            ret = RegQueryVblueExA(hKey, "DynbmicDbylightTimeDisbbled",
+                                   NULL, &vblueType, (LPBYTE) &vbl, &bufSize);
         }
 
         if (ret == ERROR_SUCCESS) {
-            int daylightSavingsUpdateDisabledOther = val == 1 && tzi.DaylightDate.wMonth != 0;
-            int daylightSavingsUpdateDisabledVista = val == 1;
-            int daylightSavingsUpdateDisabled = isVista ? daylightSavingsUpdateDisabledVista : daylightSavingsUpdateDisabledOther;
+            int dbylightSbvingsUpdbteDisbbledOther = vbl == 1 && tzi.DbylightDbte.wMonth != 0;
+            int dbylightSbvingsUpdbteDisbbledVistb = vbl == 1;
+            int dbylightSbvingsUpdbteDisbbled = isVistb ? dbylightSbvingsUpdbteDisbbledVistb : dbylightSbvingsUpdbteDisbbledOther;
 
-            if (daylightSavingsUpdateDisabled) {
+            if (dbylightSbvingsUpdbteDisbbled) {
                 (void) RegCloseKey(hKey);
-                customZoneName(tzi.Bias, winZoneName);
+                customZoneNbme(tzi.Bibs, winZoneNbme);
                 return VALUE_GMTOFFSET;
             }
         }
 
         /*
-         * Vista has the key for the current "Time Zones" entry.
+         * Vistb hbs the key for the current "Time Zones" entry.
          */
-        if (isVista) {
-            valueType = 0;
+        if (isVistb) {
+            vblueType = 0;
             bufSize = MAX_ZONE_CHAR;
-            ret = RegQueryValueExA(hKey, "TimeZoneKeyName", NULL,
-                                   &valueType, (LPBYTE) winZoneName, &bufSize);
+            ret = RegQueryVblueExA(hKey, "TimeZoneKeyNbme", NULL,
+                                   &vblueType, (LPBYTE) winZoneNbme, &bufSize);
             if (ret != ERROR_SUCCESS) {
                 goto err;
             }
@@ -228,22 +228,22 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
         }
 
         /*
-         * Win32 problem: If the length of the standard time name is equal
-         * to (or probably longer than) 32 in the registry,
-         * GetTimeZoneInformation() on NT returns a null string as its
-         * standard time name. We need to work around this problem by
-         * getting the same information from the TimeZoneInformation
-         * registry. The function on Win98 seems to return its key name.
-         * We can't do anything in that case.
+         * Win32 problem: If the length of the stbndbrd time nbme is equbl
+         * to (or probbbly longer thbn) 32 in the registry,
+         * GetTimeZoneInformbtion() on NT returns b null string bs its
+         * stbndbrd time nbme. We need to work bround this problem by
+         * getting the sbme informbtion from the TimeZoneInformbtion
+         * registry. The function on Win98 seems to return its key nbme.
+         * We cbn't do bnything in thbt cbse.
          */
-        if (tzi.StandardName[0] == 0) {
-            bufSize = sizeof(stdNameInReg);
-            ret = getValueInRegistry(hKey, STANDARD_NAME, &valueType,
-                                     (LPBYTE) stdNameInReg, &bufSize);
+        if (tzi.StbndbrdNbme[0] == 0) {
+            bufSize = sizeof(stdNbmeInReg);
+            ret = getVblueInRegistry(hKey, STANDARD_NAME, &vblueType,
+                                     (LPBYTE) stdNbmeInReg, &bufSize);
             if (ret != ERROR_SUCCESS) {
                 goto err;
             }
-            stdNamePtr = stdNameInReg;
+            stdNbmePtr = stdNbmeInReg;
         }
         (void) RegCloseKey(hKey);
     }
@@ -255,7 +255,7 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
     if (ret != ERROR_SUCCESS) {
         ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, WIN_TZ_KEY, 0, KEY_READ, (PHKEY)&hKey);
         /*
-         * If both failed, then give up.
+         * If both fbiled, then give up.
          */
         if (ret != ERROR_SUCCESS) {
             return VALUE_UNKNOWN;
@@ -264,7 +264,7 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
 
     /*
      * Get the number of subkeys of the "Time Zones" registry for
-     * enumeration.
+     * enumerbtion.
      */
     ret = RegQueryInfoKey(hKey, NULL, NULL, NULL, &nSubKeys,
                           NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -273,61 +273,61 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
     }
 
     /*
-     * Compare to the "Std" value of each subkey and find the entry that
-     * matches the current control panel setting.
+     * Compbre to the "Std" vblue of ebch subkey bnd find the entry thbt
+     * mbtches the current control pbnel setting.
      */
-    onlyMapID = 0;
+    onlyMbpID = 0;
     for (i = 0; i < nSubKeys; ++i) {
-        DWORD size = sizeof(subKeyName);
-        ret = RegEnumKeyEx(hKey, i, subKeyName, &size, NULL, NULL, NULL, NULL);
+        DWORD size = sizeof(subKeyNbme);
+        ret = RegEnumKeyEx(hKey, i, subKeyNbme, &size, NULL, NULL, NULL, NULL);
         if (ret != ERROR_SUCCESS) {
             goto err;
         }
-        ret = RegOpenKeyEx(hKey, subKeyName, 0, KEY_READ, (PHKEY)&hSubKey);
+        ret = RegOpenKeyEx(hKey, subKeyNbme, 0, KEY_READ, (PHKEY)&hSubKey);
         if (ret != ERROR_SUCCESS) {
             goto err;
         }
 
-        size = sizeof(szValue);
-        ret = getValueInRegistry(hSubKey, STD_NAME, &valueType,
-                                 szValue, &size);
+        size = sizeof(szVblue);
+        ret = getVblueInRegistry(hSubKey, STD_NAME, &vblueType,
+                                 szVblue, &size);
         if (ret != ERROR_SUCCESS) {
             /*
-             * NT 4.0 SP3 fails here since it doesn't have the "Std"
+             * NT 4.0 SP3 fbils here since it doesn't hbve the "Std"
              * entry in the Time Zones registry.
              */
             RegCloseKey(hSubKey);
-            onlyMapID = 1;
-            ret = RegOpenKeyExW(hKey, stdNamePtr, 0, KEY_READ, (PHKEY)&hSubKey);
+            onlyMbpID = 1;
+            ret = RegOpenKeyExW(hKey, stdNbmePtr, 0, KEY_READ, (PHKEY)&hSubKey);
             if (ret != ERROR_SUCCESS) {
                 goto err;
             }
-            break;
+            brebk;
         }
 
-        if (wcscmp((WCHAR *)szValue, stdNamePtr) == 0) {
+        if (wcscmp((WCHAR *)szVblue, stdNbmePtr) == 0) {
             /*
-             * Some localized Win32 platforms use a same name to
-             * different time zones. So, we can't rely only on the name
-             * here. We need to check GMT offsets and transition dates
-             * to make sure it's the registry of the current time
+             * Some locblized Win32 plbtforms use b sbme nbme to
+             * different time zones. So, we cbn't rely only on the nbme
+             * here. We need to check GMT offsets bnd trbnsition dbtes
+             * to mbke sure it's the registry of the current time
              * zone.
              */
-            DWORD tziValueSize = sizeof(tempTzi);
-            ret = RegQueryValueEx(hSubKey, "TZI", NULL, &valueType,
-                                  (unsigned char *) &tempTzi, &tziValueSize);
+            DWORD tziVblueSize = sizeof(tempTzi);
+            ret = RegQueryVblueEx(hSubKey, "TZI", NULL, &vblueType,
+                                  (unsigned chbr *) &tempTzi, &tziVblueSize);
             if (ret == ERROR_SUCCESS) {
-                if ((tzi.Bias != tempTzi.bias) ||
-                    (memcmp((const void *) &tzi.StandardDate,
-                            (const void *) &tempTzi.stdDate,
+                if ((tzi.Bibs != tempTzi.bibs) ||
+                    (memcmp((const void *) &tzi.StbndbrdDbte,
+                            (const void *) &tempTzi.stdDbte,
                             sizeof(SYSTEMTIME)) != 0)) {
                         goto out;
                 }
 
-                if (tzi.DaylightBias != 0) {
-                    if ((tzi.DaylightBias != tempTzi.dstBias) ||
-                        (memcmp((const void *) &tzi.DaylightDate,
-                                (const void *) &tempTzi.dstDate,
+                if (tzi.DbylightBibs != 0) {
+                    if ((tzi.DbylightBibs != tempTzi.dstBibs) ||
+                        (memcmp((const void *) &tzi.DbylightDbte,
+                                (const void *) &tempTzi.dstDbte,
                                 sizeof(SYSTEMTIME)) != 0)) {
                         goto out;
                     }
@@ -335,30 +335,30 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
             }
 
             /*
-             * found matched record, terminate search
+             * found mbtched record, terminbte sebrch
              */
-            strcpy(winZoneName, subKeyName);
-            break;
+            strcpy(winZoneNbme, subKeyNbme);
+            brebk;
         }
     out:
         (void) RegCloseKey(hSubKey);
     }
 
     /*
-     * Get the "MapID" value of the registry to be able to eliminate
-     * duplicated key names later.
+     * Get the "MbpID" vblue of the registry to be bble to eliminbte
+     * duplicbted key nbmes lbter.
      */
-    valueSize = MAX_MAPID_LENGTH;
-    ret = RegQueryValueExA(hSubKey, "MapID", NULL, &valueType, winMapID, &valueSize);
+    vblueSize = MAX_MAPID_LENGTH;
+    ret = RegQueryVblueExA(hSubKey, "MbpID", NULL, &vblueType, winMbpID, &vblueSize);
     (void) RegCloseKey(hSubKey);
     (void) RegCloseKey(hKey);
 
     if (ret != ERROR_SUCCESS) {
         /*
-         * Vista doesn't have mapID. VALUE_UNKNOWN should be returned
+         * Vistb doesn't hbve mbpID. VALUE_UNKNOWN should be returned
          * only for Windows NT.
          */
-        if (onlyMapID == 1) {
+        if (onlyMbpID == 1) {
             return VALUE_UNKNOWN;
         }
     }
@@ -373,12 +373,12 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
 }
 
 /*
- * The mapping table file name.
+ * The mbpping tbble file nbme.
  */
-#define MAPPINGS_FILE "\\lib\\tzmappings"
+#define MAPPINGS_FILE "\\lib\\tzmbppings"
 
 /*
- * Index values for the mapping table.
+ * Index vblues for the mbpping tbble.
  */
 #define TZ_WIN_NAME     0
 #define TZ_MAPID        1
@@ -388,128 +388,128 @@ static int getWinTimeZone(char *winZoneName, char *winMapID)
 #define TZ_NITEMS       4       /* number of items (fields) */
 
 /*
- * Looks up the mapping table (tzmappings) and returns a Java time
- * zone ID (e.g., "America/Los_Angeles") if found. Otherwise, NULL is
+ * Looks up the mbpping tbble (tzmbppings) bnd returns b Jbvb time
+ * zone ID (e.g., "Americb/Los_Angeles") if found. Otherwise, NULL is
  * returned.
  *
- * value_type is one of the following values:
- *      VALUE_KEY for exact key matching
- *      VALUE_MAPID for MapID (this is
- *      required for the old Windows, such as NT 4.0 SP3).
+ * vblue_type is one of the following vblues:
+ *      VALUE_KEY for exbct key mbtching
+ *      VALUE_MAPID for MbpID (this is
+ *      required for the old Windows, such bs NT 4.0 SP3).
  */
-static char *matchJavaTZ(const char *java_home_dir, int value_type, char *tzName,
-                         char *mapID)
+stbtic chbr *mbtchJbvbTZ(const chbr *jbvb_home_dir, int vblue_type, chbr *tzNbme,
+                         chbr *mbpID)
 {
     int line;
-    int IDmatched = 0;
+    int IDmbtched = 0;
     FILE *fp;
-    char *javaTZName = NULL;
-    char *items[TZ_NITEMS];
-    char *mapFileName;
-    char lineBuffer[MAX_ZONE_CHAR * 4];
-    int noMapID = *mapID == '\0';       /* no mapID on Vista and later */
+    chbr *jbvbTZNbme = NULL;
+    chbr *items[TZ_NITEMS];
+    chbr *mbpFileNbme;
+    chbr lineBuffer[MAX_ZONE_CHAR * 4];
+    int noMbpID = *mbpID == '\0';       /* no mbpID on Vistb bnd lbter */
 
-    mapFileName = malloc(strlen(java_home_dir) + strlen(MAPPINGS_FILE) + 1);
-    if (mapFileName == NULL) {
+    mbpFileNbme = mblloc(strlen(jbvb_home_dir) + strlen(MAPPINGS_FILE) + 1);
+    if (mbpFileNbme == NULL) {
         return NULL;
     }
-    strcpy(mapFileName, java_home_dir);
-    strcat(mapFileName, MAPPINGS_FILE);
+    strcpy(mbpFileNbme, jbvb_home_dir);
+    strcbt(mbpFileNbme, MAPPINGS_FILE);
 
-    if ((fp = fopen(mapFileName, "r")) == NULL) {
-        jio_fprintf(stderr, "can't open %s.\n", mapFileName);
-        free((void *) mapFileName);
+    if ((fp = fopen(mbpFileNbme, "r")) == NULL) {
+        jio_fprintf(stderr, "cbn't open %s.\n", mbpFileNbme);
+        free((void *) mbpFileNbme);
         return NULL;
     }
-    free((void *) mapFileName);
+    free((void *) mbpFileNbme);
 
     line = 0;
     while (fgets(lineBuffer, sizeof(lineBuffer), fp) != NULL) {
-        char *start, *idx, *endp;
+        chbr *stbrt, *idx, *endp;
         int itemIndex = 0;
 
         line++;
-        start = idx = lineBuffer;
+        stbrt = idx = lineBuffer;
         endp = &lineBuffer[sizeof(lineBuffer)];
 
         /*
-         * Ignore comment and blank lines.
+         * Ignore comment bnd blbnk lines.
          */
         if (*idx == '#' || *idx == '\n') {
             continue;
         }
 
         for (itemIndex = 0; itemIndex < TZ_NITEMS; itemIndex++) {
-            items[itemIndex] = start;
+            items[itemIndex] = stbrt;
             while (*idx && *idx != ':') {
                 if (++idx >= endp) {
-                    goto illegal_format;
+                    goto illegbl_formbt;
                 }
             }
             if (*idx == '\0') {
-                goto illegal_format;
+                goto illegbl_formbt;
             }
             *idx++ = '\0';
-            start = idx;
+            stbrt = idx;
         }
 
         if (*idx != '\n') {
-            goto illegal_format;
+            goto illegbl_formbt;
         }
 
-        if (noMapID || strcmp(mapID, items[TZ_MAPID]) == 0) {
+        if (noMbpID || strcmp(mbpID, items[TZ_MAPID]) == 0) {
             /*
-             * When there's no mapID, we need to scan items until the
-             * exact match is found or the end of data is detected.
+             * When there's no mbpID, we need to scbn items until the
+             * exbct mbtch is found or the end of dbtb is detected.
              */
-            if (!noMapID) {
-                IDmatched = 1;
+            if (!noMbpID) {
+                IDmbtched = 1;
             }
-            if (strcmp(items[TZ_WIN_NAME], tzName) == 0) {
+            if (strcmp(items[TZ_WIN_NAME], tzNbme) == 0) {
                 /*
-                 * Found the time zone in the mapping table.
+                 * Found the time zone in the mbpping tbble.
                  */
-                javaTZName = _strdup(items[TZ_JAVA_NAME]);
-                break;
+                jbvbTZNbme = _strdup(items[TZ_JAVA_NAME]);
+                brebk;
             }
         } else {
-            if (IDmatched == 1) {
+            if (IDmbtched == 1) {
                 /*
-                 * No need to look up the mapping table further.
+                 * No need to look up the mbpping tbble further.
                  */
-                break;
+                brebk;
             }
         }
     }
     fclose(fp);
 
-    return javaTZName;
+    return jbvbTZNbme;
 
- illegal_format:
+ illegbl_formbt:
     (void) fclose(fp);
-    jio_fprintf(stderr, "tzmappings: Illegal format at line %d.\n", line);
+    jio_fprintf(stderr, "tzmbppings: Illegbl formbt bt line %d.\n", line);
     return NULL;
 }
 
 /*
- * Detects the platform time zone which maps to a Java time zone ID.
+ * Detects the plbtform time zone which mbps to b Jbvb time zone ID.
  */
-char *findJavaTZ_md(const char *java_home_dir)
+chbr *findJbvbTZ_md(const chbr *jbvb_home_dir)
 {
-    char winZoneName[MAX_ZONE_CHAR];
-    char winMapID[MAX_MAPID_LENGTH];
-    char *std_timezone = NULL;
+    chbr winZoneNbme[MAX_ZONE_CHAR];
+    chbr winMbpID[MAX_MAPID_LENGTH];
+    chbr *std_timezone = NULL;
     int  result;
 
-    winMapID[0] = 0;
-    result = getWinTimeZone(winZoneName, winMapID);
+    winMbpID[0] = 0;
+    result = getWinTimeZone(winZoneNbme, winMbpID);
 
     if (result != VALUE_UNKNOWN) {
         if (result == VALUE_GMTOFFSET) {
-            std_timezone = _strdup(winZoneName);
+            std_timezone = _strdup(winZoneNbme);
         } else {
-            std_timezone = matchJavaTZ(java_home_dir, result,
-                                       winZoneName, winMapID);
+            std_timezone = mbtchJbvbTZ(jbvb_home_dir, result,
+                                       winZoneNbme, winMbpID);
         }
     }
 
@@ -517,10 +517,10 @@ char *findJavaTZ_md(const char *java_home_dir)
 }
 
 /**
- * Returns a GMT-offset-based time zone ID. On Win32, it always return
- * NULL since the fall back is performed in getWinTimeZone().
+ * Returns b GMT-offset-bbsed time zone ID. On Win32, it blwbys return
+ * NULL since the fbll bbck is performed in getWinTimeZone().
  */
-char *
+chbr *
 getGMTOffsetID()
 {
     return NULL;

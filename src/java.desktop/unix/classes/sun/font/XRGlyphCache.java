@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import sun.awt.*;
-import sun.java2d.xr.*;
+import sun.bwt.*;
+import sun.jbvb2d.xr.*;
 
 /**
- * Glyph cache used by the XRender pipeline.
+ * Glyph cbche used by the XRender pipeline.
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
 
-public class XRGlyphCache implements GlyphDisposedListener {
-    XRBackend con;
-    XRCompositeManager maskBuffer;
-    HashMap<MutableInteger, XRGlyphCacheEntry> cacheMap = new HashMap<MutableInteger, XRGlyphCacheEntry>(256);
+public clbss XRGlyphCbche implements GlyphDisposedListener {
+    XRBbckend con;
+    XRCompositeMbnbger mbskBuffer;
+    HbshMbp<MutbbleInteger, XRGlyphCbcheEntry> cbcheMbp = new HbshMbp<MutbbleInteger, XRGlyphCbcheEntry>(256);
 
     int nextID = 1;
-    MutableInteger tmp = new MutableInteger(0);
+    MutbbleInteger tmp = new MutbbleInteger(0);
 
-    int grayGlyphSet;
+    int grbyGlyphSet;
     int lcdGlyphSet;
 
     int time = 0;
-    int cachedPixels = 0;
-    static final int MAX_CACHED_PIXELS = 100000;
+    int cbchedPixels = 0;
+    stbtic finbl int MAX_CACHED_PIXELS = 100000;
 
-    ArrayList<Integer> freeGlyphIDs = new ArrayList<Integer>(255);
+    ArrbyList<Integer> freeGlyphIDs = new ArrbyList<Integer>(255);
 
-    static final boolean batchGlyphUpload = true; // Boolean.parseBoolean(System.getProperty("sun.java2d.xrender.batchGlyphUpload"));
+    stbtic finbl boolebn bbtchGlyphUplobd = true; // Boolebn.pbrseBoolebn(System.getProperty("sun.jbvb2d.xrender.bbtchGlyphUplobd"));
 
-    public XRGlyphCache(XRCompositeManager maskBuf) {
-        this.con = maskBuf.getBackend();
-        this.maskBuffer = maskBuf;
+    public XRGlyphCbche(XRCompositeMbnbger mbskBuf) {
+        this.con = mbskBuf.getBbckend();
+        this.mbskBuffer = mbskBuf;
 
-        grayGlyphSet = con.XRenderCreateGlyphSet(XRUtils.PictStandardA8);
-        lcdGlyphSet = con.XRenderCreateGlyphSet(XRUtils.PictStandardARGB32);
+        grbyGlyphSet = con.XRenderCrebteGlyphSet(XRUtils.PictStbndbrdA8);
+        lcdGlyphSet = con.XRenderCrebteGlyphSet(XRUtils.PictStbndbrdARGB32);
 
-        StrikeCache.addGlyphDisposedListener(this);
+        StrikeCbche.bddGlyphDisposedListener(this);
     }
 
-    public void glyphDisposed(ArrayList<Long> glyphPtrList) {
+    public void glyphDisposed(ArrbyList<Long> glyphPtrList) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            GrowableIntArray glyphIDList = new GrowableIntArray(1, glyphPtrList.size());
+            GrowbbleIntArrby glyphIDList = new GrowbbleIntArrby(1, glyphPtrList.size());
             for (long glyphPtr : glyphPtrList) {
-                int glyphID = XRGlyphCacheEntry.getGlyphID(glyphPtr);
+                int glyphID = XRGlyphCbcheEntry.getGlyphID(glyphPtr);
 
-                //Check if glyph hasn't been freed already
+                //Check if glyph hbsn't been freed blrebdy
                 if (glyphID != 0) {
-                   glyphIDList.addInt(glyphID);
+                   glyphIDList.bddInt(glyphID);
                 }
             }
             freeGlyphs(glyphIDList);
-        } finally {
-            SunToolkit.awtUnlock();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
@@ -93,213 +93,213 @@ public class XRGlyphCache implements GlyphDisposedListener {
         return nextID++;
     }
 
-    protected XRGlyphCacheEntry getEntryForPointer(long imgPtr) {
-        int id = XRGlyphCacheEntry.getGlyphID(imgPtr);
+    protected XRGlyphCbcheEntry getEntryForPointer(long imgPtr) {
+        int id = XRGlyphCbcheEntry.getGlyphID(imgPtr);
 
         if (id == 0) {
             return null;
         }
 
-        tmp.setValue(id);
-        return cacheMap.get(tmp);
+        tmp.setVblue(id);
+        return cbcheMbp.get(tmp);
     }
 
-    public XRGlyphCacheEntry[] cacheGlyphs(GlyphList glyphList) {
+    public XRGlyphCbcheEntry[] cbcheGlyphs(GlyphList glyphList) {
         time++;
 
-        XRGlyphCacheEntry[] entries = new XRGlyphCacheEntry[glyphList.getNumGlyphs()];
-        long[] imgPtrs = glyphList.getImages();
-        ArrayList<XRGlyphCacheEntry> uncachedGlyphs = null;
+        XRGlyphCbcheEntry[] entries = new XRGlyphCbcheEntry[glyphList.getNumGlyphs()];
+        long[] imgPtrs = glyphList.getImbges();
+        ArrbyList<XRGlyphCbcheEntry> uncbchedGlyphs = null;
 
         for (int i = 0; i < glyphList.getNumGlyphs(); i++) {
-            XRGlyphCacheEntry glyph;
+            XRGlyphCbcheEntry glyph;
 
-            // Find uncached glyphs and queue them for upload
+            // Find uncbched glyphs bnd queue them for uplobd
             if ((glyph = getEntryForPointer(imgPtrs[i])) == null) {
-                glyph = new XRGlyphCacheEntry(imgPtrs[i], glyphList);
+                glyph = new XRGlyphCbcheEntry(imgPtrs[i], glyphList);
                 glyph.setGlyphID(getFreeGlyphID());
-                cacheMap.put(new MutableInteger(glyph.getGlyphID()), glyph);
+                cbcheMbp.put(new MutbbleInteger(glyph.getGlyphID()), glyph);
 
-                if (uncachedGlyphs == null) {
-                    uncachedGlyphs = new ArrayList<XRGlyphCacheEntry>();
+                if (uncbchedGlyphs == null) {
+                    uncbchedGlyphs = new ArrbyList<XRGlyphCbcheEntry>();
                 }
-                uncachedGlyphs.add(glyph);
+                uncbchedGlyphs.bdd(glyph);
             }
-            glyph.setLastUsed(time);
+            glyph.setLbstUsed(time);
             entries[i] = glyph;
         }
 
-        // Add glyphs to cache
-        if (uncachedGlyphs != null) {
-            uploadGlyphs(entries, uncachedGlyphs, glyphList, null);
+        // Add glyphs to cbche
+        if (uncbchedGlyphs != null) {
+            uplobdGlyphs(entries, uncbchedGlyphs, glyphList, null);
         }
 
         return entries;
     }
 
-    protected void uploadGlyphs(XRGlyphCacheEntry[] glyphs, ArrayList<XRGlyphCacheEntry> uncachedGlyphs, GlyphList gl, int[] glIndices) {
-        for (XRGlyphCacheEntry glyph : uncachedGlyphs) {
-            cachedPixels += glyph.getPixelCnt();
+    protected void uplobdGlyphs(XRGlyphCbcheEntry[] glyphs, ArrbyList<XRGlyphCbcheEntry> uncbchedGlyphs, GlyphList gl, int[] glIndices) {
+        for (XRGlyphCbcheEntry glyph : uncbchedGlyphs) {
+            cbchedPixels += glyph.getPixelCnt();
         }
 
-        if (cachedPixels > MAX_CACHED_PIXELS) {
-            clearCache(glyphs);
+        if (cbchedPixels > MAX_CACHED_PIXELS) {
+            clebrCbche(glyphs);
         }
 
-        boolean containsLCDGlyphs = containsLCDGlyphs(uncachedGlyphs);
-        List<XRGlyphCacheEntry>[] seperatedGlyphList = seperateGlyphTypes(uncachedGlyphs, containsLCDGlyphs);
-        List<XRGlyphCacheEntry> grayGlyphList = seperatedGlyphList[0];
-        List<XRGlyphCacheEntry> lcdGlyphList = seperatedGlyphList[1];
+        boolebn contbinsLCDGlyphs = contbinsLCDGlyphs(uncbchedGlyphs);
+        List<XRGlyphCbcheEntry>[] seperbtedGlyphList = seperbteGlyphTypes(uncbchedGlyphs, contbinsLCDGlyphs);
+        List<XRGlyphCbcheEntry> grbyGlyphList = seperbtedGlyphList[0];
+        List<XRGlyphCbcheEntry> lcdGlyphList = seperbtedGlyphList[1];
 
         /*
-         * Some XServers crash when uploading multiple glyphs at once. TODO:
-         * Implement build-switch in local case for distributors who know their
+         * Some XServers crbsh when uplobding multiple glyphs bt once. TODO:
+         * Implement build-switch in locbl cbse for distributors who know their
          * XServer is fixed
          */
-        if (batchGlyphUpload) {
-            if (grayGlyphList != null && grayGlyphList.size() > 0) {
-                con.XRenderAddGlyphs(grayGlyphSet, gl, grayGlyphList, generateGlyphImageStream(grayGlyphList));
+        if (bbtchGlyphUplobd) {
+            if (grbyGlyphList != null && grbyGlyphList.size() > 0) {
+                con.XRenderAddGlyphs(grbyGlyphSet, gl, grbyGlyphList, generbteGlyphImbgeStrebm(grbyGlyphList));
             }
             if (lcdGlyphList != null && lcdGlyphList.size() > 0) {
-                con.XRenderAddGlyphs(lcdGlyphSet, gl, lcdGlyphList, generateGlyphImageStream(lcdGlyphList));
+                con.XRenderAddGlyphs(lcdGlyphSet, gl, lcdGlyphList, generbteGlyphImbgeStrebm(lcdGlyphList));
             }
         } else {
-            ArrayList<XRGlyphCacheEntry> tmpList = new ArrayList<XRGlyphCacheEntry>(1);
-            tmpList.add(null);
+            ArrbyList<XRGlyphCbcheEntry> tmpList = new ArrbyList<XRGlyphCbcheEntry>(1);
+            tmpList.bdd(null);
 
-            for (XRGlyphCacheEntry entry : uncachedGlyphs) {
+            for (XRGlyphCbcheEntry entry : uncbchedGlyphs) {
                 tmpList.set(0, entry);
 
-                if (entry.getGlyphSet() == grayGlyphSet) {
-                    con.XRenderAddGlyphs(grayGlyphSet, gl, tmpList, generateGlyphImageStream(tmpList));
+                if (entry.getGlyphSet() == grbyGlyphSet) {
+                    con.XRenderAddGlyphs(grbyGlyphSet, gl, tmpList, generbteGlyphImbgeStrebm(tmpList));
                 } else {
-                    con.XRenderAddGlyphs(lcdGlyphSet, gl, tmpList, generateGlyphImageStream(tmpList));
+                    con.XRenderAddGlyphs(lcdGlyphSet, gl, tmpList, generbteGlyphImbgeStrebm(tmpList));
                 }
             }
         }
     }
 
     /**
-     * Seperates lcd and grayscale glyphs queued for upload, and sets the
-     * appropriate glyphset for the cache entries.
+     * Seperbtes lcd bnd grbyscble glyphs queued for uplobd, bnd sets the
+     * bppropribte glyphset for the cbche entries.
      */
-    protected List<XRGlyphCacheEntry>[] seperateGlyphTypes(List<XRGlyphCacheEntry> glyphList, boolean containsLCDGlyphs) {
-        ArrayList<XRGlyphCacheEntry> lcdGlyphs = null;
-        ArrayList<XRGlyphCacheEntry> grayGlyphs = null;
+    protected List<XRGlyphCbcheEntry>[] seperbteGlyphTypes(List<XRGlyphCbcheEntry> glyphList, boolebn contbinsLCDGlyphs) {
+        ArrbyList<XRGlyphCbcheEntry> lcdGlyphs = null;
+        ArrbyList<XRGlyphCbcheEntry> grbyGlyphs = null;
 
-        for (XRGlyphCacheEntry cacheEntry : glyphList) {
-            if (cacheEntry.isGrayscale(containsLCDGlyphs)) {
-                if (grayGlyphs == null) {
-                    grayGlyphs = new ArrayList<>(glyphList.size());
+        for (XRGlyphCbcheEntry cbcheEntry : glyphList) {
+            if (cbcheEntry.isGrbyscble(contbinsLCDGlyphs)) {
+                if (grbyGlyphs == null) {
+                    grbyGlyphs = new ArrbyList<>(glyphList.size());
                 }
-                cacheEntry.setGlyphSet(grayGlyphSet);
-                grayGlyphs.add(cacheEntry);
+                cbcheEntry.setGlyphSet(grbyGlyphSet);
+                grbyGlyphs.bdd(cbcheEntry);
             } else {
                 if (lcdGlyphs == null) {
-                    lcdGlyphs = new ArrayList<>(glyphList.size());
+                    lcdGlyphs = new ArrbyList<>(glyphList.size());
                 }
-                cacheEntry.setGlyphSet(lcdGlyphSet);
-                lcdGlyphs.add(cacheEntry);
+                cbcheEntry.setGlyphSet(lcdGlyphSet);
+                lcdGlyphs.bdd(cbcheEntry);
             }
         }
-        // Arrays and generics don't play well together
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        List<XRGlyphCacheEntry>[] tmp =
-            (List<XRGlyphCacheEntry>[]) (new List[] { grayGlyphs, lcdGlyphs });
+        // Arrbys bnd generics don't plby well together
+        @SuppressWbrnings({"unchecked", "rbwtypes"})
+        List<XRGlyphCbcheEntry>[] tmp =
+            (List<XRGlyphCbcheEntry>[]) (new List[] { grbyGlyphs, lcdGlyphs });
         return tmp;
     }
 
     /**
-     * Copies the glyph-images into a continous buffer, required for uploading.
+     * Copies the glyph-imbges into b continous buffer, required for uplobding.
      */
-    protected byte[] generateGlyphImageStream(List<XRGlyphCacheEntry> glyphList) {
-        boolean isLCDGlyph = glyphList.get(0).getGlyphSet() == lcdGlyphSet;
+    protected byte[] generbteGlyphImbgeStrebm(List<XRGlyphCbcheEntry> glyphList) {
+        boolebn isLCDGlyph = glyphList.get(0).getGlyphSet() == lcdGlyphSet;
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream((isLCDGlyph ? 4 : 1) * 48 * glyphList.size());
-        for (XRGlyphCacheEntry cacheEntry : glyphList) {
-            cacheEntry.writePixelData(stream, isLCDGlyph);
+        ByteArrbyOutputStrebm strebm = new ByteArrbyOutputStrebm((isLCDGlyph ? 4 : 1) * 48 * glyphList.size());
+        for (XRGlyphCbcheEntry cbcheEntry : glyphList) {
+            cbcheEntry.writePixelDbtb(strebm, isLCDGlyph);
         }
 
-        return stream.toByteArray();
+        return strebm.toByteArrby();
     }
 
-    protected boolean containsLCDGlyphs(List<XRGlyphCacheEntry> entries) {
-        boolean containsLCDGlyphs = false;
+    protected boolebn contbinsLCDGlyphs(List<XRGlyphCbcheEntry> entries) {
+        boolebn contbinsLCDGlyphs = fblse;
 
-        for (XRGlyphCacheEntry entry : entries) {
-            containsLCDGlyphs = !(entry.getSourceRowBytes() == entry.getWidth());
+        for (XRGlyphCbcheEntry entry : entries) {
+            contbinsLCDGlyphs = !(entry.getSourceRowBytes() == entry.getWidth());
 
-            if (containsLCDGlyphs) {
+            if (contbinsLCDGlyphs) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    protected void clearCache(XRGlyphCacheEntry[] glyps) {
+    protected void clebrCbche(XRGlyphCbcheEntry[] glyps) {
         /*
-         * Glyph uploading is so slow anyway, we can afford some inefficiency
-         * here, as the cache should usually be quite small. TODO: Implement
-         * something not that stupid ;)
+         * Glyph uplobding is so slow bnywby, we cbn bfford some inefficiency
+         * here, bs the cbche should usublly be quite smbll. TODO: Implement
+         * something not thbt stupid ;)
          */
-        ArrayList<XRGlyphCacheEntry> cacheList = new ArrayList<XRGlyphCacheEntry>(cacheMap.values());
-        Collections.sort(cacheList, new Comparator<XRGlyphCacheEntry>() {
-            public int compare(XRGlyphCacheEntry e1, XRGlyphCacheEntry e2) {
-                return e2.getLastUsed() - e1.getLastUsed();
+        ArrbyList<XRGlyphCbcheEntry> cbcheList = new ArrbyList<XRGlyphCbcheEntry>(cbcheMbp.vblues());
+        Collections.sort(cbcheList, new Compbrbtor<XRGlyphCbcheEntry>() {
+            public int compbre(XRGlyphCbcheEntry e1, XRGlyphCbcheEntry e2) {
+                return e2.getLbstUsed() - e1.getLbstUsed();
             }
         });
 
-        for (XRGlyphCacheEntry glyph : glyps) {
+        for (XRGlyphCbcheEntry glyph : glyps) {
             glyph.setPinned();
         }
 
-        GrowableIntArray deleteGlyphList = new GrowableIntArray(1, 10);
-        int pixelsToRelease = cachedPixels - MAX_CACHED_PIXELS;
+        GrowbbleIntArrby deleteGlyphList = new GrowbbleIntArrby(1, 10);
+        int pixelsToRelebse = cbchedPixels - MAX_CACHED_PIXELS;
 
-        for (int i = cacheList.size() - 1; i >= 0 && pixelsToRelease > 0; i--) {
-            XRGlyphCacheEntry entry = cacheList.get(i);
+        for (int i = cbcheList.size() - 1; i >= 0 && pixelsToRelebse > 0; i--) {
+            XRGlyphCbcheEntry entry = cbcheList.get(i);
 
             if (!entry.isPinned()) {
-                pixelsToRelease -= entry.getPixelCnt();
-                deleteGlyphList.addInt(entry.getGlyphID());
+                pixelsToRelebse -= entry.getPixelCnt();
+                deleteGlyphList.bddInt(entry.getGlyphID());
             }
         }
 
-        for (XRGlyphCacheEntry glyph : glyps) {
+        for (XRGlyphCbcheEntry glyph : glyps) {
             glyph.setUnpinned();
         }
 
         freeGlyphs(deleteGlyphList);
     }
 
-    private void freeGlyphs(GrowableIntArray glyphIdList) {
-        GrowableIntArray removedLCDGlyphs = new GrowableIntArray(1, 10);
-        GrowableIntArray removedGrayscaleGlyphs = new GrowableIntArray(1, 10);
+    privbte void freeGlyphs(GrowbbleIntArrby glyphIdList) {
+        GrowbbleIntArrby removedLCDGlyphs = new GrowbbleIntArrby(1, 10);
+        GrowbbleIntArrby removedGrbyscbleGlyphs = new GrowbbleIntArrby(1, 10);
 
         for (int i=0; i < glyphIdList.getSize(); i++) {
             int glyphId = glyphIdList.getInt(i);
-            freeGlyphIDs.add(glyphId);
+            freeGlyphIDs.bdd(glyphId);
 
-            tmp.setValue(glyphId);
-            XRGlyphCacheEntry entry = cacheMap.get(tmp);
-            cachedPixels -= entry.getPixelCnt();
-            cacheMap.remove(tmp);
+            tmp.setVblue(glyphId);
+            XRGlyphCbcheEntry entry = cbcheMbp.get(tmp);
+            cbchedPixels -= entry.getPixelCnt();
+            cbcheMbp.remove(tmp);
 
-            if (entry.getGlyphSet() == grayGlyphSet) {
-                removedGrayscaleGlyphs.addInt(glyphId);
+            if (entry.getGlyphSet() == grbyGlyphSet) {
+                removedGrbyscbleGlyphs.bddInt(glyphId);
             } else {
-                removedLCDGlyphs.addInt(glyphId);
+                removedLCDGlyphs.bddInt(glyphId);
             }
 
             entry.setGlyphID(0);
         }
 
-        if (removedGrayscaleGlyphs.getSize() > 0) {
-            con.XRenderFreeGlyphs(grayGlyphSet, removedGrayscaleGlyphs.getSizedArray());
+        if (removedGrbyscbleGlyphs.getSize() > 0) {
+            con.XRenderFreeGlyphs(grbyGlyphSet, removedGrbyscbleGlyphs.getSizedArrby());
         }
 
         if (removedLCDGlyphs.getSize() > 0) {
-            con.XRenderFreeGlyphs(lcdGlyphSet, removedLCDGlyphs.getSizedArray());
+            con.XRenderFreeGlyphs(lcdGlyphSet, removedLCDGlyphs.getSizedArrby());
         }
     }
 }

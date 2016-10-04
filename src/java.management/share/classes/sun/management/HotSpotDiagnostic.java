@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.management.ObjectName;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import com.sun.management.HotSpotDiagnosticMXBean;
-import com.sun.management.VMOption;
+import com.sun.mbnbgement.HotSpotDibgnosticMXBebn;
+import com.sun.mbnbgement.VMOption;
 
 /**
- * Implementation of the diagnostic MBean for Hotspot VM.
+ * Implementbtion of the dibgnostic MBebn for Hotspot VM.
  */
-public class HotSpotDiagnostic implements HotSpotDiagnosticMXBean {
-    public HotSpotDiagnostic() {
+public clbss HotSpotDibgnostic implements HotSpotDibgnosticMXBebn {
+    public HotSpotDibgnostic() {
     }
 
-    public void dumpHeap(String outputFile, boolean live) throws IOException {
-        SecurityManager security = System.getSecurityManager();
+    public void dumpHebp(String outputFile, boolebn live) throws IOException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkWrite(outputFile);
             Util.checkControlAccess();
         }
 
-        dumpHeap0(outputFile, live);
+        dumpHebp0(outputFile, live);
     }
 
-    private native void dumpHeap0(String outputFile, boolean live) throws IOException;
+    privbte nbtive void dumpHebp0(String outputFile, boolebn live) throws IOException;
 
-    public List<VMOption> getDiagnosticOptions() {
-        List<Flag> allFlags = Flag.getAllFlags();
-        List<VMOption> result = new ArrayList<>();
-        for (Flag flag : allFlags) {
-            if (flag.isWriteable() && flag.isExternal()) {
-                result.add(flag.getVMOption());
+    public List<VMOption> getDibgnosticOptions() {
+        List<Flbg> bllFlbgs = Flbg.getAllFlbgs();
+        List<VMOption> result = new ArrbyList<>();
+        for (Flbg flbg : bllFlbgs) {
+            if (flbg.isWritebble() && flbg.isExternbl()) {
+                result.bdd(flbg.getVMOption());
             }
         }
         return result;
     }
 
-    public VMOption getVMOption(String name) {
-        if (name == null) {
-            throw new NullPointerException("name cannot be null");
+    public VMOption getVMOption(String nbme) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme cbnnot be null");
         }
 
-        Flag f = Flag.getFlag(name);
+        Flbg f = Flbg.getFlbg(nbme);
         if (f == null) {
-            throw new IllegalArgumentException("VM option \"" +
-                name + "\" does not exist");
+            throw new IllegblArgumentException("VM option \"" +
+                nbme + "\" does not exist");
         }
         return f.getVMOption();
     }
 
-    public void setVMOption(String name, String value) {
-        if (name == null) {
-            throw new NullPointerException("name cannot be null");
+    public void setVMOption(String nbme, String vblue) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme cbnnot be null");
         }
-        if (value == null) {
-            throw new NullPointerException("value cannot be null");
+        if (vblue == null) {
+            throw new NullPointerException("vblue cbnnot be null");
         }
 
         Util.checkControlAccess();
-        Flag flag = Flag.getFlag(name);
-        if (flag == null) {
-            throw new IllegalArgumentException("VM option \"" +
-                name + "\" does not exist");
+        Flbg flbg = Flbg.getFlbg(nbme);
+        if (flbg == null) {
+            throw new IllegblArgumentException("VM option \"" +
+                nbme + "\" does not exist");
         }
-        if (!flag.isWriteable()){
-            throw new IllegalArgumentException("VM Option \"" +
-                name + "\" is not writeable");
+        if (!flbg.isWritebble()){
+            throw new IllegblArgumentException("VM Option \"" +
+                nbme + "\" is not writebble");
         }
 
-        // Check the type of the value
-        Object v = flag.getValue();
-        if (v instanceof Long) {
+        // Check the type of the vblue
+        Object v = flbg.getVblue();
+        if (v instbnceof Long) {
             try {
-                long l = Long.parseLong(value);
-                Flag.setLongValue(name, l);
-            } catch (NumberFormatException e) {
-                IllegalArgumentException iae =
-                    new IllegalArgumentException("Invalid value:" +
-                        " VM Option \"" + name + "\"" +
-                        " expects numeric value");
-                iae.initCause(e);
-                throw iae;
+                long l = Long.pbrseLong(vblue);
+                Flbg.setLongVblue(nbme, l);
+            } cbtch (NumberFormbtException e) {
+                IllegblArgumentException ibe =
+                    new IllegblArgumentException("Invblid vblue:" +
+                        " VM Option \"" + nbme + "\"" +
+                        " expects numeric vblue");
+                ibe.initCbuse(e);
+                throw ibe;
             }
-        } else if (v instanceof Boolean) {
-            if (!value.equalsIgnoreCase("true") &&
-                !value.equalsIgnoreCase("false")) {
-                throw new IllegalArgumentException("Invalid value:" +
-                    " VM Option \"" + name + "\"" +
-                    " expects \"true\" or \"false\".");
+        } else if (v instbnceof Boolebn) {
+            if (!vblue.equblsIgnoreCbse("true") &&
+                !vblue.equblsIgnoreCbse("fblse")) {
+                throw new IllegblArgumentException("Invblid vblue:" +
+                    " VM Option \"" + nbme + "\"" +
+                    " expects \"true\" or \"fblse\".");
             }
-            Flag.setBooleanValue(name, Boolean.parseBoolean(value));
-        } else if (v instanceof String) {
-            Flag.setStringValue(name, value);
+            Flbg.setBoolebnVblue(nbme, Boolebn.pbrseBoolebn(vblue));
+        } else if (v instbnceof String) {
+            Flbg.setStringVblue(nbme, vblue);
         } else {
-            throw new IllegalArgumentException("VM Option \"" +
-                name + "\" is of an unsupported type: " +
-                v.getClass().getName());
+            throw new IllegblArgumentException("VM Option \"" +
+                nbme + "\" is of bn unsupported type: " +
+                v.getClbss().getNbme());
         }
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName("com.sun.management:type=HotSpotDiagnostic");
+    public ObjectNbme getObjectNbme() {
+        return Util.newObjectNbme("com.sun.mbnbgement:type=HotSpotDibgnostic");
     }
 }

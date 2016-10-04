@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Executbble;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.PrivilegedAction;
 import sun.reflect.misc.ReflectUtil;
 
-/** <P> The master factory for all reflective objects, both those in
-    java.lang.reflect (Fields, Methods, Constructors) as well as their
-    delegates (FieldAccessors, MethodAccessors, ConstructorAccessors).
+/** <P> The mbster fbctory for bll reflective objects, both those in
+    jbvb.lbng.reflect (Fields, Methods, Constructors) bs well bs their
+    delegbtes (FieldAccessors, MethodAccessors, ConstructorAccessors).
     </P>
 
-    <P> The methods in this class are extremely unsafe and can cause
-    subversion of both the language and the verifier. For this reason,
-    they are all instance methods, and access to the constructor of
-    this factory is guarded by a security check, in similar style to
-    {@link sun.misc.Unsafe}. </P>
+    <P> The methods in this clbss bre extremely unsbfe bnd cbn cbuse
+    subversion of both the lbngubge bnd the verifier. For this rebson,
+    they bre bll instbnce methods, bnd bccess to the constructor of
+    this fbctory is gubrded by b security check, in similbr style to
+    {@link sun.misc.Unsbfe}. </P>
 */
 
-public class ReflectionFactory {
+public clbss ReflectionFbctory {
 
-    private static boolean initted = false;
-    private static Permission reflectionFactoryAccessPerm
-        = new RuntimePermission("reflectionFactoryAccess");
-    private static ReflectionFactory soleInstance = new ReflectionFactory();
-    // Provides access to package-private mechanisms in java.lang.reflect
-    private static volatile LangReflectAccess langReflectAccess;
+    privbte stbtic boolebn initted = fblse;
+    privbte stbtic Permission reflectionFbctoryAccessPerm
+        = new RuntimePermission("reflectionFbctoryAccess");
+    privbte stbtic ReflectionFbctory soleInstbnce = new ReflectionFbctory();
+    // Provides bccess to pbckbge-privbte mechbnisms in jbvb.lbng.reflect
+    privbte stbtic volbtile LbngReflectAccess lbngReflectAccess;
 
     //
-    // "Inflation" mechanism. Loading bytecodes to implement
-    // Method.invoke() and Constructor.newInstance() currently costs
-    // 3-4x more than an invocation via native code for the first
-    // invocation (though subsequent invocations have been benchmarked
-    // to be over 20x faster). Unfortunately this cost increases
-    // startup time for certain applications that use reflection
-    // intensively (but only once per class) to bootstrap themselves.
-    // To avoid this penalty we reuse the existing JVM entry points
-    // for the first few invocations of Methods and Constructors and
-    // then switch to the bytecode-based implementations.
+    // "Inflbtion" mechbnism. Lobding bytecodes to implement
+    // Method.invoke() bnd Constructor.newInstbnce() currently costs
+    // 3-4x more thbn bn invocbtion vib nbtive code for the first
+    // invocbtion (though subsequent invocbtions hbve been benchmbrked
+    // to be over 20x fbster). Unfortunbtely this cost increbses
+    // stbrtup time for certbin bpplicbtions thbt use reflection
+    // intensively (but only once per clbss) to bootstrbp themselves.
+    // To bvoid this penblty we reuse the existing JVM entry points
+    // for the first few invocbtions of Methods bnd Constructors bnd
+    // then switch to the bytecode-bbsed implementbtions.
     //
-    // Package-private to be accessible to NativeMethodAccessorImpl
-    // and NativeConstructorAccessorImpl
-    private static boolean noInflation        = false;
-    private static int     inflationThreshold = 15;
+    // Pbckbge-privbte to be bccessible to NbtiveMethodAccessorImpl
+    // bnd NbtiveConstructorAccessorImpl
+    privbte stbtic boolebn noInflbtion        = fblse;
+    privbte stbtic int     inflbtionThreshold = 15;
 
-    private ReflectionFactory() {
+    privbte ReflectionFbctory() {
     }
 
     /**
-     * A convenience class for acquiring the capability to instantiate
-     * reflective objects.  Use this instead of a raw call to {@link
-     * #getReflectionFactory} in order to avoid being limited by the
-     * permissions of your callers.
+     * A convenience clbss for bcquiring the cbpbbility to instbntibte
+     * reflective objects.  Use this instebd of b rbw cbll to {@link
+     * #getReflectionFbctory} in order to bvoid being limited by the
+     * permissions of your cbllers.
      *
-     * <p>An instance of this class can be used as the argument of
+     * <p>An instbnce of this clbss cbn be used bs the brgument of
      * <code>AccessController.doPrivileged</code>.
      */
-    public static final class GetReflectionFactoryAction
-        implements PrivilegedAction<ReflectionFactory> {
-        public ReflectionFactory run() {
-            return getReflectionFactory();
+    public stbtic finbl clbss GetReflectionFbctoryAction
+        implements PrivilegedAction<ReflectionFbctory> {
+        public ReflectionFbctory run() {
+            return getReflectionFbctory();
         }
     }
 
     /**
-     * Provides the caller with the capability to instantiate reflective
+     * Provides the cbller with the cbpbbility to instbntibte reflective
      * objects.
      *
-     * <p> First, if there is a security manager, its
-     * <code>checkPermission</code> method is called with a {@link
-     * java.lang.RuntimePermission} with target
-     * <code>"reflectionFactoryAccess"</code>.  This may result in a
+     * <p> First, if there is b security mbnbger, its
+     * <code>checkPermission</code> method is cblled with b {@link
+     * jbvb.lbng.RuntimePermission} with tbrget
+     * <code>"reflectionFbctoryAccess"</code>.  This mby result in b
      * security exception.
      *
-     * <p> The returned <code>ReflectionFactory</code> object should be
-     * carefully guarded by the caller, since it can be used to read and
-     * write private data and invoke private methods, as well as to load
-     * unverified bytecodes.  It must never be passed to untrusted code.
+     * <p> The returned <code>ReflectionFbctory</code> object should be
+     * cbrefully gubrded by the cbller, since it cbn be used to rebd bnd
+     * write privbte dbtb bnd invoke privbte methods, bs well bs to lobd
+     * unverified bytecodes.  It must never be pbssed to untrusted code.
      *
-     * @exception SecurityException if a security manager exists and its
-     *             <code>checkPermission</code> method doesn't allow
-     *             access to the RuntimePermission "reflectionFactoryAccess".  */
-    public static ReflectionFactory getReflectionFactory() {
-        SecurityManager security = System.getSecurityManager();
+     * @exception SecurityException if b security mbnbger exists bnd its
+     *             <code>checkPermission</code> method doesn't bllow
+     *             bccess to the RuntimePermission "reflectionFbctoryAccess".  */
+    public stbtic ReflectionFbctory getReflectionFbctory() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            // TO DO: security.checkReflectionFactoryAccess();
-            security.checkPermission(reflectionFactoryAccessPerm);
+            // TO DO: security.checkReflectionFbctoryAccess();
+            security.checkPermission(reflectionFbctoryAccessPerm);
         }
-        return soleInstance;
+        return soleInstbnce;
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by java.lang.reflect
+    // Routines used by jbvb.lbng.reflect
     //
     //
 
-    /** Called only by java.lang.reflect.Modifier's static initializer */
-    public void setLangReflectAccess(LangReflectAccess access) {
-        langReflectAccess = access;
+    /** Cblled only by jbvb.lbng.reflect.Modifier's stbtic initiblizer */
+    public void setLbngReflectAccess(LbngReflectAccess bccess) {
+        lbngReflectAccess = bccess;
     }
 
     /**
-     * Note: this routine can cause the declaring class for the field
-     * be initialized and therefore must not be called until the
+     * Note: this routine cbn cbuse the declbring clbss for the field
+     * be initiblized bnd therefore must not be cblled until the
      * first get/set of this field.
-     * @param field the field
-     * @param override true if caller has overridden aaccessibility
+     * @pbrbm field the field
+     * @pbrbm override true if cbller hbs overridden bbccessibility
      */
-    public FieldAccessor newFieldAccessor(Field field, boolean override) {
+    public FieldAccessor newFieldAccessor(Field field, boolebn override) {
         checkInitted();
-        return UnsafeFieldAccessorFactory.newFieldAccessor(field, override);
+        return UnsbfeFieldAccessorFbctory.newFieldAccessor(field, override);
     }
 
     public MethodAccessor newMethodAccessor(Method method) {
         checkInitted();
 
-        if (noInflation && !ReflectUtil.isVMAnonymousClass(method.getDeclaringClass())) {
-            return new MethodAccessorGenerator().
-                generateMethod(method.getDeclaringClass(),
-                               method.getName(),
-                               method.getParameterTypes(),
+        if (noInflbtion && !ReflectUtil.isVMAnonymousClbss(method.getDeclbringClbss())) {
+            return new MethodAccessorGenerbtor().
+                generbteMethod(method.getDeclbringClbss(),
+                               method.getNbme(),
+                               method.getPbrbmeterTypes(),
                                method.getReturnType(),
                                method.getExceptionTypes(),
                                method.getModifiers());
         } else {
-            NativeMethodAccessorImpl acc =
-                new NativeMethodAccessorImpl(method);
-            DelegatingMethodAccessorImpl res =
-                new DelegatingMethodAccessorImpl(acc);
-            acc.setParent(res);
+            NbtiveMethodAccessorImpl bcc =
+                new NbtiveMethodAccessorImpl(method);
+            DelegbtingMethodAccessorImpl res =
+                new DelegbtingMethodAccessorImpl(bcc);
+            bcc.setPbrent(res);
             return res;
         }
     }
@@ -166,242 +166,242 @@ public class ReflectionFactory {
     public ConstructorAccessor newConstructorAccessor(Constructor<?> c) {
         checkInitted();
 
-        Class<?> declaringClass = c.getDeclaringClass();
-        if (Modifier.isAbstract(declaringClass.getModifiers())) {
-            return new InstantiationExceptionConstructorAccessorImpl(null);
+        Clbss<?> declbringClbss = c.getDeclbringClbss();
+        if (Modifier.isAbstrbct(declbringClbss.getModifiers())) {
+            return new InstbntibtionExceptionConstructorAccessorImpl(null);
         }
-        if (declaringClass == Class.class) {
-            return new InstantiationExceptionConstructorAccessorImpl
-                ("Can not instantiate java.lang.Class");
+        if (declbringClbss == Clbss.clbss) {
+            return new InstbntibtionExceptionConstructorAccessorImpl
+                ("Cbn not instbntibte jbvb.lbng.Clbss");
         }
-        // Bootstrapping issue: since we use Class.newInstance() in
-        // the ConstructorAccessor generation process, we have to
-        // break the cycle here.
-        if (Reflection.isSubclassOf(declaringClass,
-                                    ConstructorAccessorImpl.class)) {
-            return new BootstrapConstructorAccessorImpl(c);
+        // Bootstrbpping issue: since we use Clbss.newInstbnce() in
+        // the ConstructorAccessor generbtion process, we hbve to
+        // brebk the cycle here.
+        if (Reflection.isSubclbssOf(declbringClbss,
+                                    ConstructorAccessorImpl.clbss)) {
+            return new BootstrbpConstructorAccessorImpl(c);
         }
 
-        if (noInflation && !ReflectUtil.isVMAnonymousClass(c.getDeclaringClass())) {
-            return new MethodAccessorGenerator().
-                generateConstructor(c.getDeclaringClass(),
-                                    c.getParameterTypes(),
+        if (noInflbtion && !ReflectUtil.isVMAnonymousClbss(c.getDeclbringClbss())) {
+            return new MethodAccessorGenerbtor().
+                generbteConstructor(c.getDeclbringClbss(),
+                                    c.getPbrbmeterTypes(),
                                     c.getExceptionTypes(),
                                     c.getModifiers());
         } else {
-            NativeConstructorAccessorImpl acc =
-                new NativeConstructorAccessorImpl(c);
-            DelegatingConstructorAccessorImpl res =
-                new DelegatingConstructorAccessorImpl(acc);
-            acc.setParent(res);
+            NbtiveConstructorAccessorImpl bcc =
+                new NbtiveConstructorAccessorImpl(c);
+            DelegbtingConstructorAccessorImpl res =
+                new DelegbtingConstructorAccessorImpl(bcc);
+            bcc.setPbrent(res);
             return res;
         }
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by java.lang
+    // Routines used by jbvb.lbng
     //
     //
 
-    /** Creates a new java.lang.reflect.Field. Access checks as per
-        java.lang.reflect.AccessibleObject are not overridden. */
-    public Field newField(Class<?> declaringClass,
-                          String name,
-                          Class<?> type,
+    /** Crebtes b new jbvb.lbng.reflect.Field. Access checks bs per
+        jbvb.lbng.reflect.AccessibleObject bre not overridden. */
+    public Field newField(Clbss<?> declbringClbss,
+                          String nbme,
+                          Clbss<?> type,
                           int modifiers,
                           int slot,
-                          String signature,
-                          byte[] annotations)
+                          String signbture,
+                          byte[] bnnotbtions)
     {
-        return langReflectAccess().newField(declaringClass,
-                                            name,
+        return lbngReflectAccess().newField(declbringClbss,
+                                            nbme,
                                             type,
                                             modifiers,
                                             slot,
-                                            signature,
-                                            annotations);
+                                            signbture,
+                                            bnnotbtions);
     }
 
-    /** Creates a new java.lang.reflect.Method. Access checks as per
-        java.lang.reflect.AccessibleObject are not overridden. */
-    public Method newMethod(Class<?> declaringClass,
-                            String name,
-                            Class<?>[] parameterTypes,
-                            Class<?> returnType,
-                            Class<?>[] checkedExceptions,
+    /** Crebtes b new jbvb.lbng.reflect.Method. Access checks bs per
+        jbvb.lbng.reflect.AccessibleObject bre not overridden. */
+    public Method newMethod(Clbss<?> declbringClbss,
+                            String nbme,
+                            Clbss<?>[] pbrbmeterTypes,
+                            Clbss<?> returnType,
+                            Clbss<?>[] checkedExceptions,
                             int modifiers,
                             int slot,
-                            String signature,
-                            byte[] annotations,
-                            byte[] parameterAnnotations,
-                            byte[] annotationDefault)
+                            String signbture,
+                            byte[] bnnotbtions,
+                            byte[] pbrbmeterAnnotbtions,
+                            byte[] bnnotbtionDefbult)
     {
-        return langReflectAccess().newMethod(declaringClass,
-                                             name,
-                                             parameterTypes,
+        return lbngReflectAccess().newMethod(declbringClbss,
+                                             nbme,
+                                             pbrbmeterTypes,
                                              returnType,
                                              checkedExceptions,
                                              modifiers,
                                              slot,
-                                             signature,
-                                             annotations,
-                                             parameterAnnotations,
-                                             annotationDefault);
+                                             signbture,
+                                             bnnotbtions,
+                                             pbrbmeterAnnotbtions,
+                                             bnnotbtionDefbult);
     }
 
-    /** Creates a new java.lang.reflect.Constructor. Access checks as
-        per java.lang.reflect.AccessibleObject are not overridden. */
-    public Constructor<?> newConstructor(Class<?> declaringClass,
-                                         Class<?>[] parameterTypes,
-                                         Class<?>[] checkedExceptions,
+    /** Crebtes b new jbvb.lbng.reflect.Constructor. Access checks bs
+        per jbvb.lbng.reflect.AccessibleObject bre not overridden. */
+    public Constructor<?> newConstructor(Clbss<?> declbringClbss,
+                                         Clbss<?>[] pbrbmeterTypes,
+                                         Clbss<?>[] checkedExceptions,
                                          int modifiers,
                                          int slot,
-                                         String signature,
-                                         byte[] annotations,
-                                         byte[] parameterAnnotations)
+                                         String signbture,
+                                         byte[] bnnotbtions,
+                                         byte[] pbrbmeterAnnotbtions)
     {
-        return langReflectAccess().newConstructor(declaringClass,
-                                                  parameterTypes,
+        return lbngReflectAccess().newConstructor(declbringClbss,
+                                                  pbrbmeterTypes,
                                                   checkedExceptions,
                                                   modifiers,
                                                   slot,
-                                                  signature,
-                                                  annotations,
-                                                  parameterAnnotations);
+                                                  signbture,
+                                                  bnnotbtions,
+                                                  pbrbmeterAnnotbtions);
     }
 
-    /** Gets the MethodAccessor object for a java.lang.reflect.Method */
+    /** Gets the MethodAccessor object for b jbvb.lbng.reflect.Method */
     public MethodAccessor getMethodAccessor(Method m) {
-        return langReflectAccess().getMethodAccessor(m);
+        return lbngReflectAccess().getMethodAccessor(m);
     }
 
-    /** Sets the MethodAccessor object for a java.lang.reflect.Method */
-    public void setMethodAccessor(Method m, MethodAccessor accessor) {
-        langReflectAccess().setMethodAccessor(m, accessor);
+    /** Sets the MethodAccessor object for b jbvb.lbng.reflect.Method */
+    public void setMethodAccessor(Method m, MethodAccessor bccessor) {
+        lbngReflectAccess().setMethodAccessor(m, bccessor);
     }
 
-    /** Gets the ConstructorAccessor object for a
-        java.lang.reflect.Constructor */
+    /** Gets the ConstructorAccessor object for b
+        jbvb.lbng.reflect.Constructor */
     public ConstructorAccessor getConstructorAccessor(Constructor<?> c) {
-        return langReflectAccess().getConstructorAccessor(c);
+        return lbngReflectAccess().getConstructorAccessor(c);
     }
 
-    /** Sets the ConstructorAccessor object for a
-        java.lang.reflect.Constructor */
+    /** Sets the ConstructorAccessor object for b
+        jbvb.lbng.reflect.Constructor */
     public void setConstructorAccessor(Constructor<?> c,
-                                       ConstructorAccessor accessor)
+                                       ConstructorAccessor bccessor)
     {
-        langReflectAccess().setConstructorAccessor(c, accessor);
+        lbngReflectAccess().setConstructorAccessor(c, bccessor);
     }
 
-    /** Makes a copy of the passed method. The returned method is a
-        "child" of the passed one; see the comments in Method.java for
-        details. */
-    public Method copyMethod(Method arg) {
-        return langReflectAccess().copyMethod(arg);
+    /** Mbkes b copy of the pbssed method. The returned method is b
+        "child" of the pbssed one; see the comments in Method.jbvb for
+        detbils. */
+    public Method copyMethod(Method brg) {
+        return lbngReflectAccess().copyMethod(brg);
     }
 
-    /** Makes a copy of the passed field. The returned field is a
-        "child" of the passed one; see the comments in Field.java for
-        details. */
-    public Field copyField(Field arg) {
-        return langReflectAccess().copyField(arg);
+    /** Mbkes b copy of the pbssed field. The returned field is b
+        "child" of the pbssed one; see the comments in Field.jbvb for
+        detbils. */
+    public Field copyField(Field brg) {
+        return lbngReflectAccess().copyField(brg);
     }
 
-    /** Makes a copy of the passed constructor. The returned
-        constructor is a "child" of the passed one; see the comments
-        in Constructor.java for details. */
-    public <T> Constructor<T> copyConstructor(Constructor<T> arg) {
-        return langReflectAccess().copyConstructor(arg);
+    /** Mbkes b copy of the pbssed constructor. The returned
+        constructor is b "child" of the pbssed one; see the comments
+        in Constructor.jbvb for detbils. */
+    public <T> Constructor<T> copyConstructor(Constructor<T> brg) {
+        return lbngReflectAccess().copyConstructor(brg);
     }
 
-    /** Gets the byte[] that encodes TypeAnnotations on an executable.
+    /** Gets the byte[] thbt encodes TypeAnnotbtions on bn executbble.
      */
-    public byte[] getExecutableTypeAnnotationBytes(Executable ex) {
-        return langReflectAccess().getExecutableTypeAnnotationBytes(ex);
+    public byte[] getExecutbbleTypeAnnotbtionBytes(Executbble ex) {
+        return lbngReflectAccess().getExecutbbleTypeAnnotbtionBytes(ex);
     }
 
     //--------------------------------------------------------------------------
     //
-    // Routines used by serialization
+    // Routines used by seriblizbtion
     //
     //
 
-    public Constructor<?> newConstructorForSerialization
-        (Class<?> classToInstantiate, Constructor<?> constructorToCall)
+    public Constructor<?> newConstructorForSeriblizbtion
+        (Clbss<?> clbssToInstbntibte, Constructor<?> constructorToCbll)
     {
-        // Fast path
-        if (constructorToCall.getDeclaringClass() == classToInstantiate) {
-            return constructorToCall;
+        // Fbst pbth
+        if (constructorToCbll.getDeclbringClbss() == clbssToInstbntibte) {
+            return constructorToCbll;
         }
 
-        ConstructorAccessor acc = new MethodAccessorGenerator().
-            generateSerializationConstructor(classToInstantiate,
-                                             constructorToCall.getParameterTypes(),
-                                             constructorToCall.getExceptionTypes(),
-                                             constructorToCall.getModifiers(),
-                                             constructorToCall.getDeclaringClass());
-        Constructor<?> c = newConstructor(constructorToCall.getDeclaringClass(),
-                                          constructorToCall.getParameterTypes(),
-                                          constructorToCall.getExceptionTypes(),
-                                          constructorToCall.getModifiers(),
-                                          langReflectAccess().
-                                          getConstructorSlot(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorSignature(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorAnnotations(constructorToCall),
-                                          langReflectAccess().
-                                          getConstructorParameterAnnotations(constructorToCall));
-        setConstructorAccessor(c, acc);
+        ConstructorAccessor bcc = new MethodAccessorGenerbtor().
+            generbteSeriblizbtionConstructor(clbssToInstbntibte,
+                                             constructorToCbll.getPbrbmeterTypes(),
+                                             constructorToCbll.getExceptionTypes(),
+                                             constructorToCbll.getModifiers(),
+                                             constructorToCbll.getDeclbringClbss());
+        Constructor<?> c = newConstructor(constructorToCbll.getDeclbringClbss(),
+                                          constructorToCbll.getPbrbmeterTypes(),
+                                          constructorToCbll.getExceptionTypes(),
+                                          constructorToCbll.getModifiers(),
+                                          lbngReflectAccess().
+                                          getConstructorSlot(constructorToCbll),
+                                          lbngReflectAccess().
+                                          getConstructorSignbture(constructorToCbll),
+                                          lbngReflectAccess().
+                                          getConstructorAnnotbtions(constructorToCbll),
+                                          lbngReflectAccess().
+                                          getConstructorPbrbmeterAnnotbtions(constructorToCbll));
+        setConstructorAccessor(c, bcc);
         return c;
     }
 
     //--------------------------------------------------------------------------
     //
-    // Internals only below this point
+    // Internbls only below this point
     //
 
-    static int inflationThreshold() {
-        return inflationThreshold;
+    stbtic int inflbtionThreshold() {
+        return inflbtionThreshold;
     }
 
-    /** We have to defer full initialization of this class until after
-        the static initializer is run since java.lang.reflect.Method's
-        static initializer (more properly, that for
-        java.lang.reflect.AccessibleObject) causes this class's to be
-        run, before the system properties are set up. */
-    private static void checkInitted() {
+    /** We hbve to defer full initiblizbtion of this clbss until bfter
+        the stbtic initiblizer is run since jbvb.lbng.reflect.Method's
+        stbtic initiblizer (more properly, thbt for
+        jbvb.lbng.reflect.AccessibleObject) cbuses this clbss's to be
+        run, before the system properties bre set up. */
+    privbte stbtic void checkInitted() {
         if (initted) return;
         AccessController.doPrivileged(
             new PrivilegedAction<Void>() {
                 public Void run() {
-                    // Tests to ensure the system properties table is fully
-                    // initialized. This is needed because reflection code is
-                    // called very early in the initialization process (before
-                    // command-line arguments have been parsed and therefore
-                    // these user-settable properties installed.) We assume that
-                    // if System.out is non-null then the System class has been
-                    // fully initialized and that the bulk of the startup code
-                    // has been run.
+                    // Tests to ensure the system properties tbble is fully
+                    // initiblized. This is needed becbuse reflection code is
+                    // cblled very ebrly in the initiblizbtion process (before
+                    // commbnd-line brguments hbve been pbrsed bnd therefore
+                    // these user-settbble properties instblled.) We bssume thbt
+                    // if System.out is non-null then the System clbss hbs been
+                    // fully initiblized bnd thbt the bulk of the stbrtup code
+                    // hbs been run.
 
                     if (System.out == null) {
-                        // java.lang.System not yet fully initialized
+                        // jbvb.lbng.System not yet fully initiblized
                         return null;
                     }
 
-                    String val = System.getProperty("sun.reflect.noInflation");
-                    if (val != null && val.equals("true")) {
-                        noInflation = true;
+                    String vbl = System.getProperty("sun.reflect.noInflbtion");
+                    if (vbl != null && vbl.equbls("true")) {
+                        noInflbtion = true;
                     }
 
-                    val = System.getProperty("sun.reflect.inflationThreshold");
-                    if (val != null) {
+                    vbl = System.getProperty("sun.reflect.inflbtionThreshold");
+                    if (vbl != null) {
                         try {
-                            inflationThreshold = Integer.parseInt(val);
-                        } catch (NumberFormatException e) {
-                            throw new RuntimeException("Unable to parse property sun.reflect.inflationThreshold", e);
+                            inflbtionThreshold = Integer.pbrseInt(vbl);
+                        } cbtch (NumberFormbtException e) {
+                            throw new RuntimeException("Unbble to pbrse property sun.reflect.inflbtionThreshold", e);
                         }
                     }
 
@@ -411,14 +411,14 @@ public class ReflectionFactory {
             });
     }
 
-    private static LangReflectAccess langReflectAccess() {
-        if (langReflectAccess == null) {
-            // Call a static method to get class java.lang.reflect.Modifier
-            // initialized. Its static initializer will cause
-            // setLangReflectAccess() to be called from the context of the
-            // java.lang.reflect package.
+    privbte stbtic LbngReflectAccess lbngReflectAccess() {
+        if (lbngReflectAccess == null) {
+            // Cbll b stbtic method to get clbss jbvb.lbng.reflect.Modifier
+            // initiblized. Its stbtic initiblizer will cbuse
+            // setLbngReflectAccess() to be cblled from the context of the
+            // jbvb.lbng.reflect pbckbge.
             Modifier.isPublic(Modifier.PUBLIC);
         }
-        return langReflectAccess;
+        return lbngReflectAccess;
     }
 }

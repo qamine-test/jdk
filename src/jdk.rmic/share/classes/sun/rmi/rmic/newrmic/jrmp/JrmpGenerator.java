@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic.jrmp;
+pbckbge sun.rmi.rmic.newrmic.jrmp;
 
-import com.sun.javadoc.ClassDoc;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import sun.rmi.rmic.newrmic.BatchEnvironment;
-import sun.rmi.rmic.newrmic.Generator;
+import com.sun.jbvbdoc.ClbssDoc;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import sun.rmi.rmic.newrmic.BbtchEnvironment;
+import sun.rmi.rmic.newrmic.Generbtor;
 import sun.rmi.rmic.newrmic.IndentingWriter;
-import sun.rmi.rmic.newrmic.Main;
+import sun.rmi.rmic.newrmic.Mbin;
 import sun.rmi.rmic.newrmic.Resources;
 
-import static sun.rmi.rmic.newrmic.jrmp.Constants.*;
+import stbtic sun.rmi.rmic.newrmic.jrmp.Constbnts.*;
 
 /**
- * JRMP rmic back end; generates source code for JRMP stub and
- * skeleton classes.
+ * JRMP rmic bbck end; generbtes source code for JRMP stub bnd
+ * skeleton clbsses.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-public class JrmpGenerator implements Generator {
+public clbss JrmpGenerbtor implements Generbtor {
 
-    private static final Map<String,StubVersion> versionOptions =
-        new HashMap<String,StubVersion>();
-    static {
+    privbte stbtic finbl Mbp<String,StubVersion> versionOptions =
+        new HbshMbp<String,StubVersion>();
+    stbtic {
         versionOptions.put("-v1.1", StubVersion.V1_1);
-        versionOptions.put("-vcompat", StubVersion.VCOMPAT);
+        versionOptions.put("-vcompbt", StubVersion.VCOMPAT);
         versionOptions.put("-v1.2", StubVersion.V1_2);
     }
 
-    private static final Set<String> bootstrapClassNames =
-        new HashSet<String>();
-    static {
-        bootstrapClassNames.add("java.lang.Exception");
-        bootstrapClassNames.add("java.rmi.Remote");
-        bootstrapClassNames.add("java.rmi.RemoteException");
-        bootstrapClassNames.add("java.lang.RuntimeException");
+    privbte stbtic finbl Set<String> bootstrbpClbssNbmes =
+        new HbshSet<String>();
+    stbtic {
+        bootstrbpClbssNbmes.bdd("jbvb.lbng.Exception");
+        bootstrbpClbssNbmes.bdd("jbvb.rmi.Remote");
+        bootstrbpClbssNbmes.bdd("jbvb.rmi.RemoteException");
+        bootstrbpClbssNbmes.bdd("jbvb.lbng.RuntimeException");
     };
 
-    /** version of the JRMP stub protocol to generate code for */
-    private StubVersion version = StubVersion.V1_2;     // default is -v1.2
+    /** version of the JRMP stub protocol to generbte code for */
+    privbte StubVersion version = StubVersion.V1_2;     // defbult is -v1.2
 
     /**
-     * Creates a new JrmpGenerator.
+     * Crebtes b new JrmpGenerbtor.
      **/
-    public JrmpGenerator() { }
+    public JrmpGenerbtor() { }
 
     /**
-     * The JRMP generator recognizes command line options for
-     * selecting the JRMP stub protocol version to generate classes
-     * for.  Only one such option is allowed.
+     * The JRMP generbtor recognizes commbnd line options for
+     * selecting the JRMP stub protocol version to generbte clbsses
+     * for.  Only one such option is bllowed.
      **/
-    public boolean parseArgs(String[] args, Main main) {
+    public boolebn pbrseArgs(String[] brgs, Mbin mbin) {
         String explicitVersion = null;
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            if (versionOptions.containsKey(arg)) {
-                if (explicitVersion != null && !explicitVersion.equals(arg)) {
-                    main.error("rmic.cannot.use.both", explicitVersion, arg);
-                    return false;
+        for (int i = 0; i < brgs.length; i++) {
+            String brg = brgs[i];
+            if (versionOptions.contbinsKey(brg)) {
+                if (explicitVersion != null && !explicitVersion.equbls(brg)) {
+                    mbin.error("rmic.cbnnot.use.both", explicitVersion, brg);
+                    return fblse;
                 }
-                explicitVersion = arg;
-                version = versionOptions.get(arg);
-                args[i] = null;
+                explicitVersion = brg;
+                version = versionOptions.get(brg);
+                brgs[i] = null;
             }
         }
         return true;
     }
 
     /**
-     * The JRMP generator does not require an environment class more
-     * specific than BatchEnvironment.
+     * The JRMP generbtor does not require bn environment clbss more
+     * specific thbn BbtchEnvironment.
      **/
-    public Class<? extends BatchEnvironment> envClass() {
-        return BatchEnvironment.class;
+    public Clbss<? extends BbtchEnvironment> envClbss() {
+        return BbtchEnvironment.clbss;
     }
 
-    public Set<String> bootstrapClassNames() {
-        return Collections.unmodifiableSet(bootstrapClassNames);
+    public Set<String> bootstrbpClbssNbmes() {
+        return Collections.unmodifibbleSet(bootstrbpClbssNbmes);
     }
 
     /**
-     * Generates the source file(s) for the JRMP stub class and
-     * (optionally) skeleton class for the specified remote
-     * implementation class.
+     * Generbtes the source file(s) for the JRMP stub clbss bnd
+     * (optionblly) skeleton clbss for the specified remote
+     * implementbtion clbss.
      **/
-    public void generate(BatchEnvironment env,
-                         ClassDoc inputClass,
+    public void generbte(BbtchEnvironment env,
+                         ClbssDoc inputClbss,
                          File destDir)
     {
-        RemoteClass remoteClass = RemoteClass.forClass(env, inputClass);
-        if (remoteClass == null) {
-            return;     // an error must have occurred
+        RemoteClbss remoteClbss = RemoteClbss.forClbss(env, inputClbss);
+        if (remoteClbss == null) {
+            return;     // bn error must hbve occurred
         }
 
         StubSkeletonWriter writer =
-            new StubSkeletonWriter(env, remoteClass, version);
+            new StubSkeletonWriter(env, remoteClbss, version);
 
-        File stubFile = sourceFileForClass(writer.stubClassName(), destDir);
+        File stubFile = sourceFileForClbss(writer.stubClbssNbme(), destDir);
         try {
             IndentingWriter out = new IndentingWriter(
-                new OutputStreamWriter(new FileOutputStream(stubFile)));
+                new OutputStrebmWriter(new FileOutputStrebm(stubFile)));
             writer.writeStub(out);
             out.close();
             if (env.verbose()) {
                 env.output(Resources.getText("rmic.wrote",
-                                             stubFile.getPath()));
+                                             stubFile.getPbth()));
             }
-            env.addGeneratedFile(stubFile);
-        } catch (IOException e) {
-            env.error("rmic.cant.write", stubFile.toString());
+            env.bddGenerbtedFile(stubFile);
+        } cbtch (IOException e) {
+            env.error("rmic.cbnt.write", stubFile.toString());
             return;
         }
 
         File skeletonFile =
-            sourceFileForClass(writer.skeletonClassName(), destDir);
+            sourceFileForClbss(writer.skeletonClbssNbme(), destDir);
         if (version == StubVersion.V1_1 ||
             version == StubVersion.VCOMPAT)
         {
             try {
                 IndentingWriter out = new IndentingWriter(
-                    new OutputStreamWriter(
-                        new FileOutputStream(skeletonFile)));
+                    new OutputStrebmWriter(
+                        new FileOutputStrebm(skeletonFile)));
                 writer.writeSkeleton(out);
                 out.close();
                 if (env.verbose()) {
                     env.output(Resources.getText("rmic.wrote",
-                                                 skeletonFile.getPath()));
+                                                 skeletonFile.getPbth()));
                 }
-                env.addGeneratedFile(skeletonFile);
-            } catch (IOException e) {
-                env.error("rmic.cant.write", skeletonFile.toString());
+                env.bddGenerbtedFile(skeletonFile);
+            } cbtch (IOException e) {
+                env.error("rmic.cbnt.write", skeletonFile.toString());
                 return;
             }
         } else {
             /*
-             * If skeleton files are not being generated for this run,
-             * delete old skeleton source or class files for this
-             * remote implementation class that were (presumably) left
-             * over from previous runs, to avoid user confusion from
-             * extraneous or inconsistent generated files.
+             * If skeleton files bre not being generbted for this run,
+             * delete old skeleton source or clbss files for this
+             * remote implementbtion clbss thbt were (presumbbly) left
+             * over from previous runs, to bvoid user confusion from
+             * extrbneous or inconsistent generbted files.
              */
-            File skeletonClassFile =
-                classFileForClass(writer.skeletonClassName(), destDir);
+            File skeletonClbssFile =
+                clbssFileForClbss(writer.skeletonClbssNbme(), destDir);
 
-            skeletonFile.delete();      // ignore failures (no big deal)
-            skeletonClassFile.delete();
+            skeletonFile.delete();      // ignore fbilures (no big debl)
+            skeletonClbssFile.delete();
         }
     }
 
 
     /**
-     * Returns the File object to be used as the source file for a
-     * class with the specified binary name, with the specified
-     * destination directory as the top of the package hierarchy.
+     * Returns the File object to be used bs the source file for b
+     * clbss with the specified binbry nbme, with the specified
+     * destinbtion directory bs the top of the pbckbge hierbrchy.
      **/
-    private File sourceFileForClass(String binaryName, File destDir) {
-        return fileForClass(binaryName, destDir, ".java");
+    privbte File sourceFileForClbss(String binbryNbme, File destDir) {
+        return fileForClbss(binbryNbme, destDir, ".jbvb");
     }
 
     /**
-     * Returns the File object to be used as the class file for a
-     * class with the specified binary name, with the supplied
-     * destination directory as the top of the package hierarchy.
+     * Returns the File object to be used bs the clbss file for b
+     * clbss with the specified binbry nbme, with the supplied
+     * destinbtion directory bs the top of the pbckbge hierbrchy.
      **/
-    private File classFileForClass(String binaryName, File destDir) {
-        return fileForClass(binaryName, destDir, ".class");
+    privbte File clbssFileForClbss(String binbryNbme, File destDir) {
+        return fileForClbss(binbryNbme, destDir, ".clbss");
     }
 
-    private File fileForClass(String binaryName, File destDir, String ext) {
-        int i = binaryName.lastIndexOf('.');
-        String classFileName = binaryName.substring(i + 1) + ext;
+    privbte File fileForClbss(String binbryNbme, File destDir, String ext) {
+        int i = binbryNbme.lbstIndexOf('.');
+        String clbssFileNbme = binbryNbme.substring(i + 1) + ext;
         if (i != -1) {
-            String packageName = binaryName.substring(0, i);
-            String packagePath = packageName.replace('.', File.separatorChar);
-            File packageDir = new File(destDir, packagePath);
+            String pbckbgeNbme = binbryNbme.substring(0, i);
+            String pbckbgePbth = pbckbgeNbme.replbce('.', File.sepbrbtorChbr);
+            File pbckbgeDir = new File(destDir, pbckbgePbth);
             /*
-             * Make sure that the directory for this package exists.
-             * We assume that the caller has verified that the top-
-             * level destination directory exists, so we need not
-             * worry about creating it unintentionally.
+             * Mbke sure thbt the directory for this pbckbge exists.
+             * We bssume thbt the cbller hbs verified thbt the top-
+             * level destinbtion directory exists, so we need not
+             * worry bbout crebting it unintentionblly.
              */
-            if (!packageDir.exists()) {
-                packageDir.mkdirs();
+            if (!pbckbgeDir.exists()) {
+                pbckbgeDir.mkdirs();
             }
-            return new File(packageDir, classFileName);
+            return new File(pbckbgeDir, clbssFileNbme);
         } else {
-            return new File(destDir, classFileName);
+            return new File(destDir, clbssFileNbme);
         }
     }
 }

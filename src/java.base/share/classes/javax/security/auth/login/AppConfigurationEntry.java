@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.login;
+pbckbge jbvbx.security.buth.login;
 
-import java.util.Map;
-import java.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.Collections;
 
 /**
- * This class represents a single {@code LoginModule} entry
- * configured for the application specified in the
- * {@code getAppConfigurationEntry(String appName)}
- * method in the {@code Configuration} class.  Each respective
- * {@code AppConfigurationEntry} contains a {@code LoginModule} name,
- * a control flag (specifying whether this {@code LoginModule} is
- * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), and LoginModule-specific
- * options.  Please refer to the {@code Configuration} class for
- * more information on the different control flags and their semantics.
+ * This clbss represents b single {@code LoginModule} entry
+ * configured for the bpplicbtion specified in the
+ * {@code getAppConfigurbtionEntry(String bppNbme)}
+ * method in the {@code Configurbtion} clbss.  Ebch respective
+ * {@code AppConfigurbtionEntry} contbins b {@code LoginModule} nbme,
+ * b control flbg (specifying whether this {@code LoginModule} is
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModule-specific
+ * options.  Plebse refer to the {@code Configurbtion} clbss for
+ * more informbtion on the different control flbgs bnd their sembntics.
  *
- * @see javax.security.auth.login.Configuration
+ * @see jbvbx.security.buth.login.Configurbtion
  */
-public class AppConfigurationEntry {
+public clbss AppConfigurbtionEntry {
 
-    private String loginModuleName;
-    private LoginModuleControlFlag controlFlag;
-    private Map<String,?> options;
+    privbte String loginModuleNbme;
+    privbte LoginModuleControlFlbg controlFlbg;
+    privbte Mbp<String,?> options;
 
     /**
-     * Default constructor for this class.
+     * Defbult constructor for this clbss.
      *
-     * <p> This entry represents a single {@code LoginModule}
-     * entry configured for the application specified in the
-     * {@code getAppConfigurationEntry(String appName)}
-     * method from the {@code Configuration} class.
+     * <p> This entry represents b single {@code LoginModule}
+     * entry configured for the bpplicbtion specified in the
+     * {@code getAppConfigurbtionEntry(String bppNbme)}
+     * method from the {@code Configurbtion} clbss.
      *
-     * @param loginModuleName String representing the class name of the
+     * @pbrbm loginModuleNbme String representing the clbss nbme of the
      *                  {@code LoginModule} configured for the
-     *                  specified application. <p>
+     *                  specified bpplicbtion. <p>
      *
-     * @param controlFlag either REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm controlFlbg either REQUIRED, REQUISITE, SUFFICIENT,
      *                  or OPTIONAL. <p>
      *
-     * @param options the options configured for this {@code LoginModule}.
+     * @pbrbm options the options configured for this {@code LoginModule}.
      *
-     * @exception IllegalArgumentException if {@code loginModuleName}
-     *                  is null, if {@code LoginModuleName}
-     *                  has a length of 0, if {@code controlFlag}
+     * @exception IllegblArgumentException if {@code loginModuleNbme}
+     *                  is null, if {@code LoginModuleNbme}
+     *                  hbs b length of 0, if {@code controlFlbg}
      *                  is not either REQUIRED, REQUISITE, SUFFICIENT
      *                  or OPTIONAL, or if {@code options} is null.
      */
-    public AppConfigurationEntry(String loginModuleName,
-                                LoginModuleControlFlag controlFlag,
-                                Map<String,?> options)
+    public AppConfigurbtionEntry(String loginModuleNbme,
+                                LoginModuleControlFlbg controlFlbg,
+                                Mbp<String,?> options)
     {
-        if (loginModuleName == null || loginModuleName.length() == 0 ||
-            (controlFlag != LoginModuleControlFlag.REQUIRED &&
-                controlFlag != LoginModuleControlFlag.REQUISITE &&
-                controlFlag != LoginModuleControlFlag.SUFFICIENT &&
-                controlFlag != LoginModuleControlFlag.OPTIONAL) ||
+        if (loginModuleNbme == null || loginModuleNbme.length() == 0 ||
+            (controlFlbg != LoginModuleControlFlbg.REQUIRED &&
+                controlFlbg != LoginModuleControlFlbg.REQUISITE &&
+                controlFlbg != LoginModuleControlFlbg.SUFFICIENT &&
+                controlFlbg != LoginModuleControlFlbg.OPTIONAL) ||
             options == null)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
 
-        this.loginModuleName = loginModuleName;
-        this.controlFlag = controlFlag;
-        this.options = Collections.unmodifiableMap(options);
+        this.loginModuleNbme = loginModuleNbme;
+        this.controlFlbg = controlFlbg;
+        this.options = Collections.unmodifibbleMbp(options);
     }
 
     /**
-     * Get the class name of the configured {@code LoginModule}.
+     * Get the clbss nbme of the configured {@code LoginModule}.
      *
-     * @return the class name of the configured {@code LoginModule} as
-     *          a String.
+     * @return the clbss nbme of the configured {@code LoginModule} bs
+     *          b String.
      */
-    public String getLoginModuleName() {
-        return loginModuleName;
+    public String getLoginModuleNbme() {
+        return loginModuleNbme;
     }
 
     /**
-     * Return the controlFlag
+     * Return the controlFlbg
      * (either REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
      * for this {@code LoginModule}.
      *
-     * @return the controlFlag
+     * @return the controlFlbg
      *          (either REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
      *          for this {@code LoginModule}.
      */
-    public LoginModuleControlFlag getControlFlag() {
-        return controlFlag;
+    public LoginModuleControlFlbg getControlFlbg() {
+        return controlFlbg;
     }
 
     /**
      * Get the options configured for this {@code LoginModule}.
      *
      * @return the options configured for this {@code LoginModule}
-     *          as an unmodifiable {@code Map}.
+     *          bs bn unmodifibble {@code Mbp}.
      */
-    public Map<String,?> getOptions() {
+    public Mbp<String,?> getOptions() {
         return options;
     }
 
     /**
-     * This class represents whether or not a {@code LoginModule}
+     * This clbss represents whether or not b {@code LoginModule}
      * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
      */
-    public static class LoginModuleControlFlag {
+    public stbtic clbss LoginModuleControlFlbg {
 
-        private String controlFlag;
+        privbte String controlFlbg;
 
         /**
          * Required {@code LoginModule}.
          */
-        public static final LoginModuleControlFlag REQUIRED =
-                                new LoginModuleControlFlag("required");
+        public stbtic finbl LoginModuleControlFlbg REQUIRED =
+                                new LoginModuleControlFlbg("required");
 
         /**
          * Requisite {@code LoginModule}.
          */
-        public static final LoginModuleControlFlag REQUISITE =
-                                new LoginModuleControlFlag("requisite");
+        public stbtic finbl LoginModuleControlFlbg REQUISITE =
+                                new LoginModuleControlFlbg("requisite");
 
         /**
          * Sufficient {@code LoginModule}.
          */
-        public static final LoginModuleControlFlag SUFFICIENT =
-                                new LoginModuleControlFlag("sufficient");
+        public stbtic finbl LoginModuleControlFlbg SUFFICIENT =
+                                new LoginModuleControlFlbg("sufficient");
 
         /**
-         * Optional {@code LoginModule}.
+         * Optionbl {@code LoginModule}.
          */
-        public static final LoginModuleControlFlag OPTIONAL =
-                                new LoginModuleControlFlag("optional");
+        public stbtic finbl LoginModuleControlFlbg OPTIONAL =
+                                new LoginModuleControlFlbg("optionbl");
 
-        private LoginModuleControlFlag(String controlFlag) {
-            this.controlFlag = controlFlag;
+        privbte LoginModuleControlFlbg(String controlFlbg) {
+            this.controlFlbg = controlFlbg;
         }
 
         /**
-         * Return a String representation of this controlFlag.
+         * Return b String representbtion of this controlFlbg.
          *
-         * <p> The String has the format, "LoginModuleControlFlag: <i>flag</i>",
-         * where <i>flag</i> is either <i>required</i>, <i>requisite</i>,
-         * <i>sufficient</i>, or <i>optional</i>.
+         * <p> The String hbs the formbt, "LoginModuleControlFlbg: <i>flbg</i>",
+         * where <i>flbg</i> is either <i>required</i>, <i>requisite</i>,
+         * <i>sufficient</i>, or <i>optionbl</i>.
          *
-         * @return a String representation of this controlFlag.
+         * @return b String representbtion of this controlFlbg.
          */
         public String toString() {
             return (sun.security.util.ResourcesMgr.getString
-                ("LoginModuleControlFlag.") + controlFlag);
+                ("LoginModuleControlFlbg.") + controlFlbg);
         }
     }
 }

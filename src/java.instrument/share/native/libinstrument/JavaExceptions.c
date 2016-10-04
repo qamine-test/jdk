@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -32,83 +32,83 @@
 
 #include    "JPLISAssert.h"
 #include    "Utilities.h"
-#include    "JavaExceptions.h"
+#include    "JbvbExceptions.h"
 
 /**
- * This module contains utility routines for manipulating Java throwables
- * and JNIEnv throwable state from native code.
+ * This module contbins utility routines for mbnipulbting Jbvb throwbbles
+ * bnd JNIEnv throwbble stbte from nbtive code.
  */
 
-static jthrowable   sFallbackInternalError  = NULL;
+stbtic jthrowbble   sFbllbbckInternblError  = NULL;
 
 /*
- * Local forward declarations.
+ * Locbl forwbrd declbrbtions.
  */
 
-/* insist on having a throwable. If we already have one, return it.
- * If not, map to fallback
+/* insist on hbving b throwbble. If we blrebdy hbve one, return it.
+ * If not, mbp to fbllbbck
  */
-jthrowable
-forceFallback(jthrowable potentialException);
+jthrowbble
+forceFbllbbck(jthrowbble potentiblException);
 
 
-jthrowable
-forceFallback(jthrowable potentialException) {
-    if ( potentialException == NULL ) {
-        return sFallbackInternalError;
+jthrowbble
+forceFbllbbck(jthrowbble potentiblException) {
+    if ( potentiblException == NULL ) {
+        return sFbllbbckInternblError;
     }
     else {
-        return potentialException;
+        return potentiblException;
     }
 }
 
 /**
- *  Returns true if it properly sets up a fallback exception
+ *  Returns true if it properly sets up b fbllbbck exception
  */
-jboolean
-initializeFallbackError(JNIEnv* jnienv) {
-    jplis_assert(isSafeForJNICalls(jnienv));
-    sFallbackInternalError = createInternalError(jnienv, NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return (sFallbackInternalError != NULL);
+jboolebn
+initiblizeFbllbbckError(JNIEnv* jnienv) {
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    sFbllbbckInternblError = crebteInternblError(jnienv, NULL);
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    return (sFbllbbckInternblError != NULL);
 }
 
 
 /*
- *  Map everything to InternalError.
+ *  Mbp everything to InternblError.
  */
-jthrowable
-mapAllCheckedToInternalErrorMapper( JNIEnv *    jnienv,
-                                    jthrowable  throwableToMap) {
-    jthrowable  mappedThrowable = NULL;
-    jstring     message         = NULL;
+jthrowbble
+mbpAllCheckedToInternblErrorMbpper( JNIEnv *    jnienv,
+                                    jthrowbble  throwbbleToMbp) {
+    jthrowbble  mbppedThrowbble = NULL;
+    jstring     messbge         = NULL;
 
-    jplis_assert(throwableToMap != NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
-    jplis_assert(!isUnchecked(jnienv, throwableToMap));
+    jplis_bssert(throwbbleToMbp != NULL);
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    jplis_bssert(!isUnchecked(jnienv, throwbbleToMbp));
 
-    message = getMessageFromThrowable(jnienv, throwableToMap);
-    mappedThrowable = createInternalError(jnienv, message);
+    messbge = getMessbgeFromThrowbble(jnienv, throwbbleToMbp);
+    mbppedThrowbble = crebteInternblError(jnienv, messbge);
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return mappedThrowable;
+    jplis_bssert(isSbfeForJNICblls(jnienv));
+    return mbppedThrowbble;
 }
 
 
-jboolean
-checkForThrowable(  JNIEnv*     jnienv) {
+jboolebn
+checkForThrowbble(  JNIEnv*     jnienv) {
     return (*jnienv)->ExceptionCheck(jnienv);
 }
 
-jboolean
-isSafeForJNICalls(  JNIEnv * jnienv) {
+jboolebn
+isSbfeForJNICblls(  JNIEnv * jnienv) {
     return !(*jnienv)->ExceptionCheck(jnienv);
 }
 
 
 void
-logThrowable(   JNIEnv * jnienv) {
-    if ( checkForThrowable(jnienv) ) {
+logThrowbble(   JNIEnv * jnienv) {
+    if ( checkForThrowbble(jnienv) ) {
         (*jnienv)->ExceptionDescribe(jnienv);
     }
 }
@@ -116,299 +116,299 @@ logThrowable(   JNIEnv * jnienv) {
 
 
 /**
- *  Creates an exception or error with the fully qualified classname (ie java/lang/Error)
- *  and message passed to its constructor
+ *  Crebtes bn exception or error with the fully qublified clbssnbme (ie jbvb/lbng/Error)
+ *  bnd messbge pbssed to its constructor
  */
-jthrowable
-createThrowable(    JNIEnv *        jnienv,
-                    const char *    className,
-                    jstring         message) {
-    jthrowable  exception           = NULL;
+jthrowbble
+crebteThrowbble(    JNIEnv *        jnienv,
+                    const chbr *    clbssNbme,
+                    jstring         messbge) {
+    jthrowbble  exception           = NULL;
     jmethodID   constructor         = NULL;
-    jclass      exceptionClass      = NULL;
-    jboolean    errorOutstanding    = JNI_FALSE;
+    jclbss      exceptionClbss      = NULL;
+    jboolebn    errorOutstbnding    = JNI_FALSE;
 
-    jplis_assert(className != NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssert(clbssNbme != NULL);
+    jplis_bssert(isSbfeForJNICblls(jnienv));
 
-    /* create new VMError with message from exception */
-    exceptionClass = (*jnienv)->FindClass(jnienv, className);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    jplis_assert(!errorOutstanding);
+    /* crebte new VMError with messbge from exception */
+    exceptionClbss = (*jnienv)->FindClbss(jnienv, clbssNbme);
+    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+    jplis_bssert(!errorOutstbnding);
 
-    if (!errorOutstanding) {
+    if (!errorOutstbnding) {
         constructor = (*jnienv)->GetMethodID(   jnienv,
-                                                exceptionClass,
+                                                exceptionClbss,
                                                 "<init>",
-                                                "(Ljava/lang/String;)V");
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+                                                "(Ljbvb/lbng/String;)V");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert(!errorOutstbnding);
     }
 
-    if (!errorOutstanding) {
-        exception = (*jnienv)->NewObject(jnienv, exceptionClass, constructor, message);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+    if (!errorOutstbnding) {
+        exception = (*jnienv)->NewObject(jnienv, exceptionClbss, constructor, messbge);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert(!errorOutstbnding);
     }
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssert(isSbfeForJNICblls(jnienv));
     return exception;
 }
 
-jthrowable
-createInternalError(JNIEnv * jnienv, jstring message) {
-    return createThrowable( jnienv,
-                            "java/lang/InternalError",
-                            message);
+jthrowbble
+crebteInternblError(JNIEnv * jnienv, jstring messbge) {
+    return crebteThrowbble( jnienv,
+                            "jbvb/lbng/InternblError",
+                            messbge);
 }
 
-jthrowable
-createThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
-    const char * throwableClassName = NULL;
-    const char * message            = NULL;
-    jstring messageString           = NULL;
+jthrowbble
+crebteThrowbbleFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
+    const chbr * throwbbleClbssNbme = NULL;
+    const chbr * messbge            = NULL;
+    jstring messbgeString           = NULL;
 
     switch ( errorCode ) {
-        case JVMTI_ERROR_NULL_POINTER:
-                throwableClassName = "java/lang/NullPointerException";
-                break;
+        cbse JVMTI_ERROR_NULL_POINTER:
+                throwbbleClbssNbme = "jbvb/lbng/NullPointerException";
+                brebk;
 
-        case JVMTI_ERROR_ILLEGAL_ARGUMENT:
-                throwableClassName = "java/lang/IllegalArgumentException";
-                break;
+        cbse JVMTI_ERROR_ILLEGAL_ARGUMENT:
+                throwbbleClbssNbme = "jbvb/lbng/IllegblArgumentException";
+                brebk;
 
-        case JVMTI_ERROR_OUT_OF_MEMORY:
-                throwableClassName = "java/lang/OutOfMemoryError";
-                break;
+        cbse JVMTI_ERROR_OUT_OF_MEMORY:
+                throwbbleClbssNbme = "jbvb/lbng/OutOfMemoryError";
+                brebk;
 
-        case JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
-                throwableClassName = "java/lang/ClassCircularityError";
-                break;
+        cbse JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
+                throwbbleClbssNbme = "jbvb/lbng/ClbssCirculbrityError";
+                brebk;
 
-        case JVMTI_ERROR_FAILS_VERIFICATION:
-                throwableClassName = "java/lang/VerifyError";
-                break;
+        cbse JVMTI_ERROR_FAILS_VERIFICATION:
+                throwbbleClbssNbme = "jbvb/lbng/VerifyError";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to add a method";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to bdd b method";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change the schema (add/remove fields)";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to chbnge the schemb (bdd/remove fields)";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change superclass or interfaces";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to chbnge superclbss or interfbces";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to delete a method";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to delete b method";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change the class modifiers";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to chbnge the clbss modifiers";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change method modifiers";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "clbss redefinition fbiled: bttempted to chbnge method modifiers";
+                brebk;
 
-        case JVMTI_ERROR_UNSUPPORTED_VERSION:
-                throwableClassName = "java/lang/UnsupportedClassVersionError";
-                break;
+        cbse JVMTI_ERROR_UNSUPPORTED_VERSION:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedClbssVersionError";
+                brebk;
 
-        case JVMTI_ERROR_NAMES_DONT_MATCH:
-                throwableClassName = "java/lang/NoClassDefFoundError";
-                message = "class names don't match";
-                break;
+        cbse JVMTI_ERROR_NAMES_DONT_MATCH:
+                throwbbleClbssNbme = "jbvb/lbng/NoClbssDefFoundError";
+                messbge = "clbss nbmes don't mbtch";
+                brebk;
 
-        case JVMTI_ERROR_INVALID_CLASS_FORMAT:
-                throwableClassName = "java/lang/ClassFormatError";
-                break;
+        cbse JVMTI_ERROR_INVALID_CLASS_FORMAT:
+                throwbbleClbssNbme = "jbvb/lbng/ClbssFormbtError";
+                brebk;
 
-        case JVMTI_ERROR_UNMODIFIABLE_CLASS:
-                throwableClassName = "java/lang/instrument/UnmodifiableClassException";
-                break;
+        cbse JVMTI_ERROR_UNMODIFIABLE_CLASS:
+                throwbbleClbssNbme = "jbvb/lbng/instrument/UnmodifibbleClbssException";
+                brebk;
 
-        case JVMTI_ERROR_INVALID_CLASS:
-                throwableClassName = "java/lang/InternalError";
-                message = "class redefinition failed: invalid class";
-                break;
+        cbse JVMTI_ERROR_INVALID_CLASS:
+                throwbbleClbssNbme = "jbvb/lbng/InternblError";
+                messbge = "clbss redefinition fbiled: invblid clbss";
+                brebk;
 
-        case JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "unsupported operation";
-                break;
+        cbse JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED:
+                throwbbleClbssNbme = "jbvb/lbng/UnsupportedOperbtionException";
+                messbge = "unsupported operbtion";
+                brebk;
 
-        case JVMTI_ERROR_INTERNAL:
-        default:
-                throwableClassName = "java/lang/InternalError";
-                break;
+        cbse JVMTI_ERROR_INTERNAL:
+        defbult:
+                throwbbleClbssNbme = "jbvb/lbng/InternblError";
+                brebk;
         }
 
-    if ( message != NULL ) {
-        jboolean errorOutstanding;
+    if ( messbge != NULL ) {
+        jboolebn errorOutstbnding;
 
-        messageString = (*jnienv)->NewStringUTF(jnienv, message);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert_msg(!errorOutstanding, "can't create exception java string");
+        messbgeString = (*jnienv)->NewStringUTF(jnienv, messbge);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert_msg(!errorOutstbnding, "cbn't crebte exception jbvb string");
     }
-    return createThrowable( jnienv,
-                            throwableClassName,
-                            messageString);
+    return crebteThrowbble( jnienv,
+                            throwbbleClbssNbme,
+                            messbgeString);
 
 }
 
 
 /**
- *  Calls toString() on the given message which is the same call made by
- *  Exception when passed a throwable to its constructor
+ *  Cblls toString() on the given messbge which is the sbme cbll mbde by
+ *  Exception when pbssed b throwbble to its constructor
  */
 jstring
-getMessageFromThrowable(    JNIEnv*     jnienv,
-                            jthrowable  exception) {
-    jclass      exceptionClass      = NULL;
+getMessbgeFromThrowbble(    JNIEnv*     jnienv,
+                            jthrowbble  exception) {
+    jclbss      exceptionClbss      = NULL;
     jmethodID   method              = NULL;
-    jstring     message             = NULL;
-    jboolean    errorOutstanding    = JNI_FALSE;
+    jstring     messbge             = NULL;
+    jboolebn    errorOutstbnding    = JNI_FALSE;
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssert(isSbfeForJNICblls(jnienv));
 
-    /* call getMessage on exception */
-    exceptionClass = (*jnienv)->GetObjectClass(jnienv, exception);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    jplis_assert(!errorOutstanding);
+    /* cbll getMessbge on exception */
+    exceptionClbss = (*jnienv)->GetObjectClbss(jnienv, exception);
+    errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+    jplis_bssert(!errorOutstbnding);
 
-    if (!errorOutstanding) {
+    if (!errorOutstbnding) {
         method = (*jnienv)->GetMethodID(jnienv,
-                                        exceptionClass,
+                                        exceptionClbss,
                                         "toString",
-                                        "()Ljava/lang/String;");
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+                                        "()Ljbvb/lbng/String;");
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert(!errorOutstbnding);
     }
 
-    if (!errorOutstanding) {
-        message = (*jnienv)->CallObjectMethod(jnienv, exception, method);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+    if (!errorOutstbnding) {
+        messbge = (*jnienv)->CbllObjectMethod(jnienv, exception, method);
+        errorOutstbnding = checkForAndClebrThrowbble(jnienv);
+        jplis_bssert(!errorOutstbnding);
     }
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssert(isSbfeForJNICblls(jnienv));
 
-    return message;
+    return messbge;
 }
 
 
 /**
- *  Returns whether the exception given is an unchecked exception:
- *  a subclass of Error or RuntimeException
+ *  Returns whether the exception given is bn unchecked exception:
+ *  b subclbss of Error or RuntimeException
  */
-jboolean
+jboolebn
 isUnchecked(    JNIEnv*     jnienv,
-                jthrowable  exception) {
-    jboolean result = JNI_FALSE;
+                jthrowbble  exception) {
+    jboolebn result = JNI_FALSE;
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssert(isSbfeForJNICblls(jnienv));
     result =    (exception == NULL) ||
-                isInstanceofClassName(jnienv, exception, "java/lang/Error") ||
-                isInstanceofClassName(jnienv, exception, "java/lang/RuntimeException");
-    jplis_assert(isSafeForJNICalls(jnienv));
+                isInstbnceofClbssNbme(jnienv, exception, "jbvb/lbng/Error") ||
+                isInstbnceofClbssNbme(jnienv, exception, "jbvb/lbng/RuntimeException");
+    jplis_bssert(isSbfeForJNICblls(jnienv));
     return result;
 }
 
 /*
- *  Returns the current throwable, if any. Clears the throwable state.
- *  Clients can use this to preserve the current throwable state on the stack.
+ *  Returns the current throwbble, if bny. Clebrs the throwbble stbte.
+ *  Clients cbn use this to preserve the current throwbble stbte on the stbck.
  */
-jthrowable
-preserveThrowable(JNIEnv * jnienv) {
-    jthrowable result = (*jnienv)->ExceptionOccurred(jnienv);
+jthrowbble
+preserveThrowbble(JNIEnv * jnienv) {
+    jthrowbble result = (*jnienv)->ExceptionOccurred(jnienv);
     if ( result != NULL ) {
-        (*jnienv)->ExceptionClear(jnienv);
+        (*jnienv)->ExceptionClebr(jnienv);
     }
     return result;
 }
 
 /*
- *  Installs the supplied throwable into the JNIEnv if the throwable is not null.
- *  Clients can use this to preserve the current throwable state on the stack.
+ *  Instblls the supplied throwbble into the JNIEnv if the throwbble is not null.
+ *  Clients cbn use this to preserve the current throwbble stbte on the stbck.
  */
 void
-restoreThrowable(   JNIEnv *    jnienv,
-                    jthrowable  preservedException) {
-    throwThrowable( jnienv,
+restoreThrowbble(   JNIEnv *    jnienv,
+                    jthrowbble  preservedException) {
+    throwThrowbble( jnienv,
                     preservedException);
     return;
 }
 
 void
-throwThrowable(     JNIEnv *    jnienv,
-                    jthrowable  exception) {
+throwThrowbble(     JNIEnv *    jnienv,
+                    jthrowbble  exception) {
     if ( exception != NULL ) {
         jint result = (*jnienv)->Throw(jnienv, exception);
-        jplis_assert_msg(result == JNI_OK, "throwThrowable failed to re-throw");
+        jplis_bssert_msg(result == JNI_OK, "throwThrowbble fbiled to re-throw");
     }
     return;
 }
 
 
 /*
- *  Always clears the JNIEnv throwable state. Returns true if an exception was present
- *  before the clearing operation.
+ *  Alwbys clebrs the JNIEnv throwbble stbte. Returns true if bn exception wbs present
+ *  before the clebring operbtion.
  */
-jboolean
-checkForAndClearThrowable(  JNIEnv *    jnienv) {
-    jboolean result = (*jnienv)->ExceptionCheck(jnienv);
+jboolebn
+checkForAndClebrThrowbble(  JNIEnv *    jnienv) {
+    jboolebn result = (*jnienv)->ExceptionCheck(jnienv);
     if ( result ) {
-        (*jnienv)->ExceptionClear(jnienv);
+        (*jnienv)->ExceptionClebr(jnienv);
     }
     return result;
 }
 
-/* creates a java.lang.InternalError and installs it into the JNIEnv */
+/* crebtes b jbvb.lbng.InternblError bnd instblls it into the JNIEnv */
 void
-createAndThrowInternalError(JNIEnv * jnienv) {
-    jthrowable internalError = createInternalError( jnienv, NULL);
-    throwThrowable(jnienv, forceFallback(internalError));
+crebteAndThrowInternblError(JNIEnv * jnienv) {
+    jthrowbble internblError = crebteInternblError( jnienv, NULL);
+    throwThrowbble(jnienv, forceFbllbbck(internblError));
 }
 
 void
-createAndThrowThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
-    jthrowable throwable = createThrowableFromJVMTIErrorCode(jnienv, errorCode);
-    throwThrowable(jnienv, forceFallback(throwable));
+crebteAndThrowThrowbbleFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
+    jthrowbble throwbble = crebteThrowbbleFromJVMTIErrorCode(jnienv, errorCode);
+    throwThrowbble(jnienv, forceFbllbbck(throwbble));
 }
 
 void
-mapThrownThrowableIfNecessary(  JNIEnv *                jnienv,
-                                CheckedExceptionMapper  mapper) {
-    jthrowable  originalThrowable   = NULL;
-    jthrowable  resultThrowable     = NULL;
+mbpThrownThrowbbleIfNecessbry(  JNIEnv *                jnienv,
+                                CheckedExceptionMbpper  mbpper) {
+    jthrowbble  originblThrowbble   = NULL;
+    jthrowbble  resultThrowbble     = NULL;
 
-    originalThrowable = preserveThrowable(jnienv);
+    originblThrowbble = preserveThrowbble(jnienv);
 
-    /* the throwable is now cleared, so JNI calls are safe */
-    if ( originalThrowable != NULL ) {
-        /* if there is an exception: we can just throw it if it is unchecked. If checked,
-         * we need to map it (mapper is conditional, will vary by usage, hence the callback)
+    /* the throwbble is now clebred, so JNI cblls bre sbfe */
+    if ( originblThrowbble != NULL ) {
+        /* if there is bn exception: we cbn just throw it if it is unchecked. If checked,
+         * we need to mbp it (mbpper is conditionbl, will vbry by usbge, hence the cbllbbck)
          */
-        if ( isUnchecked(jnienv, originalThrowable) ) {
-            resultThrowable = originalThrowable;
+        if ( isUnchecked(jnienv, originblThrowbble) ) {
+            resultThrowbble = originblThrowbble;
         }
         else {
-            resultThrowable = (*mapper) (jnienv, originalThrowable);
+            resultThrowbble = (*mbpper) (jnienv, originblThrowbble);
         }
     }
 
-    /* re-establish the correct throwable */
-    if ( resultThrowable != NULL ) {
-        throwThrowable(jnienv, forceFallback(resultThrowable));
+    /* re-estbblish the correct throwbble */
+    if ( resultThrowbble != NULL ) {
+        throwThrowbble(jnienv, forceFbllbbck(resultThrowbble));
     }
 
 }

@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.tools.jdi.*;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import com.sun.jdi.VirtualMachine;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Random;
-import java.io.IOException;
-import java.io.File;
+import com.sun.jdi.VirtublMbchine;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Rbndom;
+import jbvb.io.IOException;
+import jbvb.io.File;
 
-public class SunCommandLineLauncher extends AbstractLauncher implements LaunchingConnector {
+public clbss SunCommbndLineLbuncher extends AbstrbctLbuncher implements LbunchingConnector {
 
-    static private final String ARG_HOME = "home";
-    static private final String ARG_OPTIONS = "options";
-    static private final String ARG_MAIN = "main";
-    static private final String ARG_INIT_SUSPEND = "suspend";
-    static private final String ARG_QUOTE = "quote";
-    static private final String ARG_VM_EXEC = "vmexec";
+    stbtic privbte finbl String ARG_HOME = "home";
+    stbtic privbte finbl String ARG_OPTIONS = "options";
+    stbtic privbte finbl String ARG_MAIN = "mbin";
+    stbtic privbte finbl String ARG_INIT_SUSPEND = "suspend";
+    stbtic privbte finbl String ARG_QUOTE = "quote";
+    stbtic privbte finbl String ARG_VM_EXEC = "vmexec";
 
-    TransportService transportService;
-    Transport transport;
-    boolean usingSharedMemory = false;
+    TrbnsportService trbnsportService;
+    Trbnsport trbnsport;
+    boolebn usingShbredMemory = fblse;
 
-    TransportService transportService() {
-        return transportService;
+    TrbnsportService trbnsportService() {
+        return trbnsportService;
     }
 
-    public Transport transport() {
-        return transport;
+    public Trbnsport trbnsport() {
+        return trbnsport;
     }
 
-    public SunCommandLineLauncher() {
+    public SunCommbndLineLbuncher() {
         super();
 
         /**
-         * By default this connector uses either the shared memory
-         * transport or the socket transport
+         * By defbult this connector uses either the shbred memory
+         * trbnsport or the socket trbnsport
          */
         try {
-            Class<?> c = Class.forName("com.sun.tools.jdi.SharedMemoryTransportService");
-            transportService = (TransportService)c.newInstance();
-            transport = new Transport() {
-                public String name() {
+            Clbss<?> c = Clbss.forNbme("com.sun.tools.jdi.ShbredMemoryTrbnsportService");
+            trbnsportService = (TrbnsportService)c.newInstbnce();
+            trbnsport = new Trbnsport() {
+                public String nbme() {
                     return "dt_shmem";
                 }
             };
-            usingSharedMemory = true;
-        } catch (ClassNotFoundException x) {
-        } catch (UnsatisfiedLinkError x) {
-        } catch (InstantiationException x) {
-        } catch (IllegalAccessException x) {
+            usingShbredMemory = true;
+        } cbtch (ClbssNotFoundException x) {
+        } cbtch (UnsbtisfiedLinkError x) {
+        } cbtch (InstbntibtionException x) {
+        } cbtch (IllegblAccessException x) {
         };
-        if (transportService == null) {
-            transportService = new SocketTransportService();
-            transport = new Transport() {
-                public String name() {
+        if (trbnsportService == null) {
+            trbnsportService = new SocketTrbnsportService();
+            trbnsport = new Trbnsport() {
+                public String nbme() {
                     return "dt_socket";
                 }
             };
         }
 
-        addStringArgument(
+        bddStringArgument(
                 ARG_HOME,
-                getString("sun.home.label"),
+                getString("sun.home.lbbel"),
                 getString("sun.home"),
-                System.getProperty("java.home"),
-                false);
-        addStringArgument(
+                System.getProperty("jbvb.home"),
+                fblse);
+        bddStringArgument(
                 ARG_OPTIONS,
-                getString("sun.options.label"),
+                getString("sun.options.lbbel"),
                 getString("sun.options"),
                 "",
-                false);
-        addStringArgument(
+                fblse);
+        bddStringArgument(
                 ARG_MAIN,
-                getString("sun.main.label"),
-                getString("sun.main"),
+                getString("sun.mbin.lbbel"),
+                getString("sun.mbin"),
                 "",
                 true);
 
-        addBooleanArgument(
+        bddBoolebnArgument(
                 ARG_INIT_SUSPEND,
-                getString("sun.init_suspend.label"),
+                getString("sun.init_suspend.lbbel"),
                 getString("sun.init_suspend"),
                 true,
-                false);
+                fblse);
 
-        addStringArgument(
+        bddStringArgument(
                 ARG_QUOTE,
-                getString("sun.quote.label"),
+                getString("sun.quote.lbbel"),
                 getString("sun.quote"),
                 "\"",
                 true);
-        addStringArgument(
+        bddStringArgument(
                 ARG_VM_EXEC,
-                getString("sun.vm_exec.label"),
+                getString("sun.vm_exec.lbbel"),
                 getString("sun.vm_exec"),
-                "java",
+                "jbvb",
                 true);
     }
 
-    static boolean hasWhitespace(String string) {
+    stbtic boolebn hbsWhitespbce(String string) {
         int length = string.length();
         for (int i = 0; i < length; i++) {
-            if (Character.isWhitespace(string.charAt(i))) {
+            if (Chbrbcter.isWhitespbce(string.chbrAt(i))) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public VirtualMachine
-        launch(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException,
-               VMStartException
+    public VirtublMbchine
+        lbunch(Mbp<String,? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException,
+               VMStbrtException
     {
-        VirtualMachine vm;
+        VirtublMbchine vm;
 
-        String home = argument(ARG_HOME, arguments).value();
-        String options = argument(ARG_OPTIONS, arguments).value();
-        String mainClassAndArgs = argument(ARG_MAIN, arguments).value();
-        boolean wait = ((BooleanArgumentImpl)argument(ARG_INIT_SUSPEND,
-                                                  arguments)).booleanValue();
-        String quote = argument(ARG_QUOTE, arguments).value();
-        String exe = argument(ARG_VM_EXEC, arguments).value();
-        String exePath = null;
+        String home = brgument(ARG_HOME, brguments).vblue();
+        String options = brgument(ARG_OPTIONS, brguments).vblue();
+        String mbinClbssAndArgs = brgument(ARG_MAIN, brguments).vblue();
+        boolebn wbit = ((BoolebnArgumentImpl)brgument(ARG_INIT_SUSPEND,
+                                                  brguments)).boolebnVblue();
+        String quote = brgument(ARG_QUOTE, brguments).vblue();
+        String exe = brgument(ARG_VM_EXEC, brguments).vblue();
+        String exePbth = null;
 
         if (quote.length() > 1) {
-            throw new IllegalConnectorArgumentsException("Invalid length",
+            throw new IllegblConnectorArgumentsException("Invblid length",
                                                          ARG_QUOTE);
         }
 
-        if ((options.indexOf("-Djava.compiler=") != -1) &&
-            (options.toLowerCase().indexOf("-djava.compiler=none") == -1)) {
-            throw new IllegalConnectorArgumentsException("Cannot debug with a JIT compiler",
+        if ((options.indexOf("-Djbvb.compiler=") != -1) &&
+            (options.toLowerCbse().indexOf("-djbvb.compiler=none") == -1)) {
+            throw new IllegblConnectorArgumentsException("Cbnnot debug with b JIT compiler",
                                                          ARG_OPTIONS);
         }
 
         /*
-         * Start listening.
-         * If we're using the shared memory transport then we pick a
-         * random address rather than using the (fixed) default.
-         * Random() uses System.currentTimeMillis() as the seed
-         * which can be a problem on windows (many calls to
-         * currentTimeMillis can return the same value), so
-         * we do a few retries if we get an IOException (we
-         * assume the IOException is the filename is already in use.)
+         * Stbrt listening.
+         * If we're using the shbred memory trbnsport then we pick b
+         * rbndom bddress rbther thbn using the (fixed) defbult.
+         * Rbndom() uses System.currentTimeMillis() bs the seed
+         * which cbn be b problem on windows (mbny cblls to
+         * currentTimeMillis cbn return the sbme vblue), so
+         * we do b few retries if we get bn IOException (we
+         * bssume the IOException is the filenbme is blrebdy in use.)
          */
-        TransportService.ListenKey listenKey;
-        if (usingSharedMemory) {
-            Random rr = new Random();
-            int failCount = 0;
+        TrbnsportService.ListenKey listenKey;
+        if (usingShbredMemory) {
+            Rbndom rr = new Rbndom();
+            int fbilCount = 0;
             while(true) {
                 try {
-                    String address = "javadebug" +
-                        String.valueOf(rr.nextInt(100000));
-                    listenKey = transportService().startListening(address);
-                    break;
-                } catch (IOException ioe) {
-                    if (++failCount > 5) {
+                    String bddress = "jbvbdebug" +
+                        String.vblueOf(rr.nextInt(100000));
+                    listenKey = trbnsportService().stbrtListening(bddress);
+                    brebk;
+                } cbtch (IOException ioe) {
+                    if (++fbilCount > 5) {
                         throw ioe;
                     }
                 }
             }
         } else {
-            listenKey = transportService().startListening();
+            listenKey = trbnsportService().stbrtListening();
         }
-        String address = listenKey.address();
+        String bddress = listenKey.bddress();
 
         try {
             if (home.length() > 0) {
-                exePath = home + File.separator + "bin" + File.separator + exe;
+                exePbth = home + File.sepbrbtor + "bin" + File.sepbrbtor + exe;
             } else {
-                exePath = exe;
+                exePbth = exe;
             }
-            // Quote only if necessary in case the quote arg value is bogus
-            if (hasWhitespace(exePath)) {
-                exePath = quote + exePath + quote;
+            // Quote only if necessbry in cbse the quote brg vblue is bogus
+            if (hbsWhitespbce(exePbth)) {
+                exePbth = quote + exePbth + quote;
             }
 
-            String xrun = "transport=" + transport().name() +
-                          ",address=" + address +
-                          ",suspend=" + (wait? 'y' : 'n');
-            // Quote only if necessary in case the quote arg value is bogus
-            if (hasWhitespace(xrun)) {
+            String xrun = "trbnsport=" + trbnsport().nbme() +
+                          ",bddress=" + bddress +
+                          ",suspend=" + (wbit? 'y' : 'n');
+            // Quote only if necessbry in cbse the quote brg vblue is bogus
+            if (hbsWhitespbce(xrun)) {
                 xrun = quote + xrun + quote;
             }
 
-            String command = exePath + ' ' +
+            String commbnd = exePbth + ' ' +
                              options + ' ' +
                              "-Xdebug " +
                              "-Xrunjdwp:" + xrun + ' ' +
-                             mainClassAndArgs;
+                             mbinClbssAndArgs;
 
-            // System.err.println("Command: \"" + command + '"');
-            vm = launch(tokenizeCommand(command, quote.charAt(0)), address, listenKey,
-                        transportService());
-        } finally {
-            transportService().stopListening(listenKey);
+            // System.err.println("Commbnd: \"" + commbnd + '"');
+            vm = lbunch(tokenizeCommbnd(commbnd, quote.chbrAt(0)), bddress, listenKey,
+                        trbnsportService());
+        } finblly {
+            trbnsportService().stopListening(listenKey);
         }
 
         return vm;
     }
 
-    public String name() {
-        return "com.sun.jdi.CommandLineLaunch";
+    public String nbme() {
+        return "com.sun.jdi.CommbndLineLbunch";
     }
 
     public String description() {

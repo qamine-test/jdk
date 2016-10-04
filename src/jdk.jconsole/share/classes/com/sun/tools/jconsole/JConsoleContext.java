@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jconsole;
+pbckbge com.sun.tools.jconsole;
 
-import javax.management.MBeanServerConnection;
-import java.beans.PropertyChangeListener;
-import javax.swing.event.SwingPropertyChangeSupport;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.event.SwingPropertyChbngeSupport;
 
 /**
- * {@code JConsoleContext} represents a JConsole connection to a target
- * application.
+ * {@code JConsoleContext} represents b JConsole connection to b tbrget
+ * bpplicbtion.
  * <p>
- * {@code JConsoleContext} notifies any {@code PropertyChangeListeners}
- * about the {@linkplain #CONNECTION_STATE_PROPERTY <i>ConnectionState</i>}
- * property change to {@link ConnectionState#CONNECTED CONNECTED} and
- * {@link ConnectionState#DISCONNECTED DISCONNECTED}.
- * The {@code JConsoleContext} instance will be the source for
- * any generated events.
+ * {@code JConsoleContext} notifies bny {@code PropertyChbngeListeners}
+ * bbout the {@linkplbin #CONNECTION_STATE_PROPERTY <i>ConnectionStbte</i>}
+ * property chbnge to {@link ConnectionStbte#CONNECTED CONNECTED} bnd
+ * {@link ConnectionStbte#DISCONNECTED DISCONNECTED}.
+ * The {@code JConsoleContext} instbnce will be the source for
+ * bny generbted events.
  * <p>
  *
  * @since 1.6
  */
 @jdk.Exported
-public interface JConsoleContext {
+public interfbce JConsoleContext {
     /**
-     * The {@link ConnectionState ConnectionState} bound property name.
+     * The {@link ConnectionStbte ConnectionStbte} bound property nbme.
      */
-    public static String CONNECTION_STATE_PROPERTY = "connectionState";
+    public stbtic String CONNECTION_STATE_PROPERTY = "connectionStbte";
 
     /**
-     * Values for the {@linkplain #CONNECTION_STATE_PROPERTY
-     * <i>ConnectionState</i>} bound property.
+     * Vblues for the {@linkplbin #CONNECTION_STATE_PROPERTY
+     * <i>ConnectionStbte</i>} bound property.
      */
     @jdk.Exported
-    public enum ConnectionState {
+    public enum ConnectionStbte {
         /**
-         * The connection has been successfully established.
+         * The connection hbs been successfully estbblished.
          */
         CONNECTED,
         /**
@@ -65,52 +65,52 @@ public interface JConsoleContext {
          */
         DISCONNECTED,
         /**
-         * The connection is being attempted.
+         * The connection is being bttempted.
          */
         CONNECTING
     }
 
     /**
-     * Returns the {@link MBeanServerConnection MBeanServerConnection} for the
-     * connection to an application.  The returned
-     * {@code MBeanServerConnection} object becomes invalid when
-     * the connection state is changed to the
-     * {@link ConnectionState#DISCONNECTED DISCONNECTED} state.
+     * Returns the {@link MBebnServerConnection MBebnServerConnection} for the
+     * connection to bn bpplicbtion.  The returned
+     * {@code MBebnServerConnection} object becomes invblid when
+     * the connection stbte is chbnged to the
+     * {@link ConnectionStbte#DISCONNECTED DISCONNECTED} stbte.
      *
-     * @return the {@code MBeanServerConnection} for the
-     * connection to an application.
+     * @return the {@code MBebnServerConnection} for the
+     * connection to bn bpplicbtion.
      */
-    public MBeanServerConnection getMBeanServerConnection();
+    public MBebnServerConnection getMBebnServerConnection();
 
     /**
-     * Returns the current connection state.
-     * @return the current connection state.
+     * Returns the current connection stbte.
+     * @return the current connection stbte.
      */
-    public ConnectionState getConnectionState();
+    public ConnectionStbte getConnectionStbte();
 
     /**
-     * Add a {@link java.beans.PropertyChangeListener PropertyChangeListener}
+     * Add b {@link jbvb.bebns.PropertyChbngeListener PropertyChbngeListener}
      * to the listener list.
-     * The listener is registered for all properties.
-     * The same listener object may be added more than once, and will be called
-     * as many times as it is added.
-     * If {@code listener} is {@code null}, no exception is thrown and
-     * no action is taken.
+     * The listener is registered for bll properties.
+     * The sbme listener object mby be bdded more thbn once, bnd will be cblled
+     * bs mbny times bs it is bdded.
+     * If {@code listener} is {@code null}, no exception is thrown bnd
+     * no bction is tbken.
      *
-     * @param listener  The {@code PropertyChangeListener} to be added
+     * @pbrbm listener  The {@code PropertyChbngeListener} to be bdded
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener);
 
     /**
-     * Removes a {@link java.beans.PropertyChangeListener PropertyChangeListener}
+     * Removes b {@link jbvb.bebns.PropertyChbngeListener PropertyChbngeListener}
      * from the listener list. This
-     * removes a {@code PropertyChangeListener} that was registered for all
-     * properties. If {@code listener} was added more than once to the same
-     * event source, it will be notified one less time after being removed. If
-     * {@code listener} is {@code null}, or was never added, no exception is
-     * thrown and no action is taken.
+     * removes b {@code PropertyChbngeListener} thbt wbs registered for bll
+     * properties. If {@code listener} wbs bdded more thbn once to the sbme
+     * event source, it will be notified one less time bfter being removed. If
+     * {@code listener} is {@code null}, or wbs never bdded, no exception is
+     * thrown bnd no bction is tbken.
      *
-     * @param listener the {@code PropertyChangeListener} to be removed
+     * @pbrbm listener the {@code PropertyChbngeListener} to be removed
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+    public void removePropertyChbngeListener(PropertyChbngeListener listener);
 }

@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import sun.awt.SunGraphicsCallback;
-import sun.java2d.pipe.Region;
+import sun.bwt.SunGrbphicsCbllbbck;
+import sun.jbvb2d.pipe.Region;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.peer.ContainerPeer;
-import java.util.LinkedList;
-import java.util.List;
+import jbvb.bwt.Color;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.peer.ContbinerPeer;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponent;
 
-abstract class LWContainerPeer<T extends Container, D extends JComponent>
-        extends LWCanvasPeer<T, D> implements ContainerPeer {
+bbstrbct clbss LWContbinerPeer<T extends Contbiner, D extends JComponent>
+        extends LWCbnvbsPeer<T, D> implements ContbinerPeer {
 
     /**
      * List of child peers sorted by z-order from bottom-most to top-most.
      */
-    private final List<LWComponentPeer<?, ?>> childPeers = new LinkedList<>();
+    privbte finbl List<LWComponentPeer<?, ?>> childPeers = new LinkedList<>();
 
-    LWContainerPeer(final T target, final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWContbinerPeer(finbl T tbrget, finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
     }
 
-    final void addChildPeer(final LWComponentPeer<?, ?> child) {
+    finbl void bddChildPeer(finbl LWComponentPeer<?, ?> child) {
         synchronized (getPeerTreeLock()) {
-            childPeers.add(childPeers.size(), child);
-            // TODO: repaint
+            childPeers.bdd(childPeers.size(), child);
+            // TODO: repbint
         }
     }
 
-    final void removeChildPeer(final LWComponentPeer<?, ?> child) {
+    finbl void removeChildPeer(finbl LWComponentPeer<?, ?> child) {
         synchronized (getPeerTreeLock()) {
             childPeers.remove(child);
         }
-        // TODO: repaint
+        // TODO: repbint
     }
 
     // Used by LWComponentPeer.setZOrder()
-    final void setChildPeerZOrder(final LWComponentPeer<?, ?> peer,
-                                  final LWComponentPeer<?, ?> above) {
+    finbl void setChildPeerZOrder(finbl LWComponentPeer<?, ?> peer,
+                                  finbl LWComponentPeer<?, ?> bbove) {
         synchronized (getPeerTreeLock()) {
             childPeers.remove(peer);
-            int index = (above != null) ? childPeers.indexOf(above) : childPeers.size();
+            int index = (bbove != null) ? childPeers.indexOf(bbove) : childPeers.size();
             if (index >= 0) {
-                childPeers.add(index, peer);
+                childPeers.bdd(index, peer);
             } else {
                 // TODO: log
             }
         }
-        // TODO: repaint
+        // TODO: repbint
     }
 
     // ---- PEER METHODS ---- //
@@ -92,40 +92,40 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     }
 
     @Override
-    public final void beginValidate() {
-        // TODO: it seems that begin/endValidate() is only useful
-        // for heavyweight windows, when a batch movement for
-        // child windows  occurs. That's why no-op
+    public finbl void beginVblidbte() {
+        // TODO: it seems thbt begin/endVblidbte() is only useful
+        // for hebvyweight windows, when b bbtch movement for
+        // child windows  occurs. Thbt's why no-op
     }
 
     @Override
-    public final void endValidate() {
-        // TODO: it seems that begin/endValidate() is only useful
-        // for heavyweight windows, when a batch movement for
-        // child windows  occurs. That's why no-op
+    public finbl void endVblidbte() {
+        // TODO: it seems thbt begin/endVblidbte() is only useful
+        // for hebvyweight windows, when b bbtch movement for
+        // child windows  occurs. Thbt's why no-op
     }
 
     @Override
-    public final void beginLayout() {
-        // Skip all painting till endLayout()
-        setLayouting(true);
+    public finbl void beginLbyout() {
+        // Skip bll pbinting till endLbyout()
+        setLbyouting(true);
     }
 
     @Override
-    public final void endLayout() {
-        setLayouting(false);
+    public finbl void endLbyout() {
+        setLbyouting(fblse);
 
-        // Post an empty event to flush all the pending target paints
-        postPaintEvent(0, 0, 0, 0);
+        // Post bn empty event to flush bll the pending tbrget pbints
+        postPbintEvent(0, 0, 0, 0);
     }
 
     // ---- PEER NOTIFICATIONS ---- //
 
     /**
-     * Returns a copy of the childPeer collection.
+     * Returns b copy of the childPeer collection.
      */
-    @SuppressWarnings("unchecked")
-    final List<LWComponentPeer<?, ?>> getChildren() {
+    @SuppressWbrnings("unchecked")
+    finbl List<LWComponentPeer<?, ?>> getChildren() {
         synchronized (getPeerTreeLock()) {
             Object copy = ((LinkedList<?>) childPeers).clone();
             return (List<LWComponentPeer<?, ?>>) copy;
@@ -133,26 +133,26 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     }
 
     @Override
-    final Region getVisibleRegion() {
+    finbl Region getVisibleRegion() {
         return cutChildren(super.getVisibleRegion(), null);
     }
 
     /**
-     * Removes bounds of children above specific child from the region. If above
-     * is null removes all bounds of children.
+     * Removes bounds of children bbove specific child from the region. If bbove
+     * is null removes bll bounds of children.
      */
-    final Region cutChildren(Region r, final LWComponentPeer<?, ?> above) {
-        boolean aboveFound = above == null;
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!aboveFound && child == above) {
-                aboveFound = true;
+    finbl Region cutChildren(Region r, finbl LWComponentPeer<?, ?> bbove) {
+        boolebn bboveFound = bbove == null;
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            if (!bboveFound && child == bbove) {
+                bboveFound = true;
                 continue;
             }
-            if (aboveFound) {
+            if (bboveFound) {
                 if(child.isVisible()){
-                    final Rectangle cb = child.getBounds();
-                    final Region cr = child.getRegion();
-                    final Region tr = cr.getTranslatedRegion(cb.x, cb.y);
+                    finbl Rectbngle cb = child.getBounds();
+                    finbl Region cr = child.getRegion();
+                    finbl Region tr = cr.getTrbnslbtedRegion(cb.x, cb.y);
                     r = r.getDifference(tr.getIntersection(getContentSize()));
                 }
             }
@@ -163,23 +163,23 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     // ---- UTILITY METHODS ---- //
 
     /**
-     * Finds a top-most visible component for the given point. The location is
-     * specified relative to the peer's parent.
+     * Finds b top-most visible component for the given point. The locbtion is
+     * specified relbtive to the peer's pbrent.
      */
     @Override
-    final LWComponentPeer<?, ?> findPeerAt(int x, int y) {
+    finbl LWComponentPeer<?, ?> findPeerAt(int x, int y) {
         LWComponentPeer<?, ?> peer = super.findPeerAt(x, y);
-        final Rectangle r = getBounds();
-        // Translate to this container's coordinates to pass to children
+        finbl Rectbngle r = getBounds();
+        // Trbnslbte to this contbiner's coordinbtes to pbss to children
         x -= r.x;
         y -= r.y;
-        if (peer != null && getContentSize().contains(x, y)) {
+        if (peer != null && getContentSize().contbins(x, y)) {
             synchronized (getPeerTreeLock()) {
                 for (int i = childPeers.size() - 1; i >= 0; --i) {
                     LWComponentPeer<?, ?> p = childPeers.get(i).findPeerAt(x, y);
                     if (p != null) {
                         peer = p;
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -188,64 +188,64 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     }
 
     /*
-    * Called by the container when any part of this peer or child
-    * peers should be repainted
+    * Cblled by the contbiner when bny pbrt of this peer or child
+    * peers should be repbinted
     */
     @Override
-    final void repaintPeer(final Rectangle r) {
-        final Rectangle toPaint = getSize().intersection(r);
-        if (!isShowing() || toPaint.isEmpty()) {
+    finbl void repbintPeer(finbl Rectbngle r) {
+        finbl Rectbngle toPbint = getSize().intersection(r);
+        if (!isShowing() || toPbint.isEmpty()) {
             return;
         }
-        // First, post the PaintEvent for this peer
-        super.repaintPeer(toPaint);
-        // Second, handle all the children
-        // Use the straight order of children, so the bottom
-        // ones are painted first
-        repaintChildren(toPaint);
+        // First, post the PbintEvent for this peer
+        super.repbintPeer(toPbint);
+        // Second, hbndle bll the children
+        // Use the strbight order of children, so the bottom
+        // ones bre pbinted first
+        repbintChildren(toPbint);
     }
 
     /**
-     * Paints all the child peers in the straight z-order, so the
-     * bottom-most ones are painted first.
+     * Pbints bll the child peers in the strbight z-order, so the
+     * bottom-most ones bre pbinted first.
      */
-    private void repaintChildren(final Rectangle r) {
-        final Rectangle content = getContentSize();
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            final Rectangle childBounds = child.getBounds();
-            Rectangle toPaint = r.intersection(childBounds);
-            toPaint = toPaint.intersection(content);
-            toPaint.translate(-childBounds.x, -childBounds.y);
-            child.repaintPeer(toPaint);
+    privbte void repbintChildren(finbl Rectbngle r) {
+        finbl Rectbngle content = getContentSize();
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            finbl Rectbngle childBounds = child.getBounds();
+            Rectbngle toPbint = r.intersection(childBounds);
+            toPbint = toPbint.intersection(content);
+            toPbint.trbnslbte(-childBounds.x, -childBounds.y);
+            child.repbintPeer(toPbint);
         }
     }
 
-    Rectangle getContentSize() {
+    Rectbngle getContentSize() {
         return getSize();
     }
 
     @Override
-    public void setEnabled(final boolean e) {
-        super.setEnabled(e);
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            child.setEnabled(e && child.getTarget().isEnabled());
+    public void setEnbbled(finbl boolebn e) {
+        super.setEnbbled(e);
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            child.setEnbbled(e && child.getTbrget().isEnbbled());
         }
     }
 
     @Override
-    public void setBackground(final Color c) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isBackgroundSet()) {
-                child.setBackground(c);
+    public void setBbckground(finbl Color c) {
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            if (!child.getTbrget().isBbckgroundSet()) {
+                child.setBbckground(c);
             }
         }
-        super.setBackground(c);
+        super.setBbckground(c);
     }
 
     @Override
-    public void setForeground(final Color c) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isForegroundSet()) {
+    public void setForeground(finbl Color c) {
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            if (!child.getTbrget().isForegroundSet()) {
                 child.setForeground(c);
             }
         }
@@ -253,9 +253,9 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     }
 
     @Override
-    public void setFont(final Font f) {
-        for (final LWComponentPeer<?, ?> child : getChildren()) {
-            if (!child.getTarget().isFontSet()) {
+    public void setFont(finbl Font f) {
+        for (finbl LWComponentPeer<?, ?> child : getChildren()) {
+            if (!child.getTbrget().isFontSet()) {
                 child.setFont(f);
             }
         }
@@ -263,20 +263,20 @@ abstract class LWContainerPeer<T extends Container, D extends JComponent>
     }
 
     @Override
-    public final void paint(final Graphics g) {
-        super.paint(g);
-        SunGraphicsCallback.PaintHeavyweightComponentsCallback.getInstance()
-                .runComponents(getTarget().getComponents(), g,
-                               SunGraphicsCallback.LIGHTWEIGHTS
-                               | SunGraphicsCallback.HEAVYWEIGHTS);
+    public finbl void pbint(finbl Grbphics g) {
+        super.pbint(g);
+        SunGrbphicsCbllbbck.PbintHebvyweightComponentsCbllbbck.getInstbnce()
+                .runComponents(getTbrget().getComponents(), g,
+                               SunGrbphicsCbllbbck.LIGHTWEIGHTS
+                               | SunGrbphicsCbllbbck.HEAVYWEIGHTS);
     }
 
     @Override
-    public final void print(final Graphics g) {
+    public finbl void print(finbl Grbphics g) {
         super.print(g);
-        SunGraphicsCallback.PrintHeavyweightComponentsCallback.getInstance()
-                .runComponents(getTarget().getComponents(), g,
-                               SunGraphicsCallback.LIGHTWEIGHTS
-                               | SunGraphicsCallback.HEAVYWEIGHTS);
+        SunGrbphicsCbllbbck.PrintHebvyweightComponentsCbllbbck.getInstbnce()
+                .runComponents(getTbrget().getComponents(), g,
+                               SunGrbphicsCbllbbck.LIGHTWEIGHTS
+                               | SunGrbphicsCbllbbck.HEAVYWEIGHTS);
     }
 }

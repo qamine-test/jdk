@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.Arrays;
-import java.util.regex.*;
+import jbvb.util.Arrbys;
+import jbvb.util.regex.*;
 
 /**
- * A class for converting between ASCII and decimal representations of a single
- * or double precision floating point number. Most conversions are provided via
- * static convenience methods, although a <code>BinaryToASCIIConverter</code>
- * instance may be obtained and reused.
+ * A clbss for converting between ASCII bnd decimbl representbtions of b single
+ * or double precision flobting point number. Most conversions bre provided vib
+ * stbtic convenience methods, blthough b <code>BinbryToASCIIConverter</code>
+ * instbnce mby be obtbined bnd reused.
  */
-public class FloatingDecimal{
+public clbss FlobtingDecimbl{
     //
-    // Constants of the implementation;
-    // most are IEEE-754 related.
-    // (There are more really boring constants at the end.)
+    // Constbnts of the implementbtion;
+    // most bre IEEE-754 relbted.
+    // (There bre more reblly boring constbnts bt the end.)
     //
-    static final int    EXP_SHIFT = DoubleConsts.SIGNIFICAND_WIDTH - 1;
-    static final long   FRACT_HOB = ( 1L<<EXP_SHIFT ); // assumed High-Order bit
-    static final long   EXP_ONE   = ((long)DoubleConsts.EXP_BIAS)<<EXP_SHIFT; // exponent of 1.0
-    static final int    MAX_SMALL_BIN_EXP = 62;
-    static final int    MIN_SMALL_BIN_EXP = -( 63 / 3 );
-    static final int    MAX_DECIMAL_DIGITS = 15;
-    static final int    MAX_DECIMAL_EXPONENT = 308;
-    static final int    MIN_DECIMAL_EXPONENT = -324;
-    static final int    BIG_DECIMAL_EXPONENT = 324; // i.e. abs(MIN_DECIMAL_EXPONENT)
-    static final int    MAX_NDIGITS = 1100;
+    stbtic finbl int    EXP_SHIFT = DoubleConsts.SIGNIFICAND_WIDTH - 1;
+    stbtic finbl long   FRACT_HOB = ( 1L<<EXP_SHIFT ); // bssumed High-Order bit
+    stbtic finbl long   EXP_ONE   = ((long)DoubleConsts.EXP_BIAS)<<EXP_SHIFT; // exponent of 1.0
+    stbtic finbl int    MAX_SMALL_BIN_EXP = 62;
+    stbtic finbl int    MIN_SMALL_BIN_EXP = -( 63 / 3 );
+    stbtic finbl int    MAX_DECIMAL_DIGITS = 15;
+    stbtic finbl int    MAX_DECIMAL_EXPONENT = 308;
+    stbtic finbl int    MIN_DECIMAL_EXPONENT = -324;
+    stbtic finbl int    BIG_DECIMAL_EXPONENT = 324; // i.e. bbs(MIN_DECIMAL_EXPONENT)
+    stbtic finbl int    MAX_NDIGITS = 1100;
 
-    static final int    SINGLE_EXP_SHIFT  =   FloatConsts.SIGNIFICAND_WIDTH - 1;
-    static final int    SINGLE_FRACT_HOB  =   1<<SINGLE_EXP_SHIFT;
-    static final int    SINGLE_MAX_DECIMAL_DIGITS = 7;
-    static final int    SINGLE_MAX_DECIMAL_EXPONENT = 38;
-    static final int    SINGLE_MIN_DECIMAL_EXPONENT = -45;
-    static final int    SINGLE_MAX_NDIGITS = 200;
+    stbtic finbl int    SINGLE_EXP_SHIFT  =   FlobtConsts.SIGNIFICAND_WIDTH - 1;
+    stbtic finbl int    SINGLE_FRACT_HOB  =   1<<SINGLE_EXP_SHIFT;
+    stbtic finbl int    SINGLE_MAX_DECIMAL_DIGITS = 7;
+    stbtic finbl int    SINGLE_MAX_DECIMAL_EXPONENT = 38;
+    stbtic finbl int    SINGLE_MIN_DECIMAL_EXPONENT = -45;
+    stbtic finbl int    SINGLE_MAX_NDIGITS = 200;
 
-    static final int    INT_DECIMAL_DIGITS = 9;
+    stbtic finbl int    INT_DECIMAL_DIGITS = 9;
 
     /**
-     * Converts a double precision floating point value to a <code>String</code>.
+     * Converts b double precision flobting point vblue to b <code>String</code>.
      *
-     * @param d The double precision value.
-     * @return The value converted to a <code>String</code>.
+     * @pbrbm d The double precision vblue.
+     * @return The vblue converted to b <code>String</code>.
      */
-    public static String toJavaFormatString(double d) {
-        return getBinaryToASCIIConverter(d).toJavaFormatString();
+    public stbtic String toJbvbFormbtString(double d) {
+        return getBinbryToASCIIConverter(d).toJbvbFormbtString();
     }
 
     /**
-     * Converts a single precision floating point value to a <code>String</code>.
+     * Converts b single precision flobting point vblue to b <code>String</code>.
      *
-     * @param f The single precision value.
-     * @return The value converted to a <code>String</code>.
+     * @pbrbm f The single precision vblue.
+     * @return The vblue converted to b <code>String</code>.
      */
-    public static String toJavaFormatString(float f) {
-        return getBinaryToASCIIConverter(f).toJavaFormatString();
+    public stbtic String toJbvbFormbtString(flobt f) {
+        return getBinbryToASCIIConverter(f).toJbvbFormbtString();
     }
 
     /**
-     * Appends a double precision floating point value to an <code>Appendable</code>.
-     * @param d The double precision value.
-     * @param buf The <code>Appendable</code> with the value appended.
+     * Appends b double precision flobting point vblue to bn <code>Appendbble</code>.
+     * @pbrbm d The double precision vblue.
+     * @pbrbm buf The <code>Appendbble</code> with the vblue bppended.
      */
-    public static void appendTo(double d, Appendable buf) {
-        getBinaryToASCIIConverter(d).appendTo(buf);
+    public stbtic void bppendTo(double d, Appendbble buf) {
+        getBinbryToASCIIConverter(d).bppendTo(buf);
     }
 
     /**
-     * Appends a single precision floating point value to an <code>Appendable</code>.
-     * @param f The single precision value.
-     * @param buf The <code>Appendable</code> with the value appended.
+     * Appends b single precision flobting point vblue to bn <code>Appendbble</code>.
+     * @pbrbm f The single precision vblue.
+     * @pbrbm buf The <code>Appendbble</code> with the vblue bppended.
      */
-    public static void appendTo(float f, Appendable buf) {
-        getBinaryToASCIIConverter(f).appendTo(buf);
+    public stbtic void bppendTo(flobt f, Appendbble buf) {
+        getBinbryToASCIIConverter(f).bppendTo(buf);
     }
 
     /**
-     * Converts a <code>String</code> to a double precision floating point value.
+     * Converts b <code>String</code> to b double precision flobting point vblue.
      *
-     * @param s The <code>String</code> to convert.
-     * @return The double precision value.
-     * @throws NumberFormatException If the <code>String</code> does not
-     * represent a properly formatted double precision value.
+     * @pbrbm s The <code>String</code> to convert.
+     * @return The double precision vblue.
+     * @throws NumberFormbtException If the <code>String</code> does not
+     * represent b properly formbtted double precision vblue.
      */
-    public static double parseDouble(String s) throws NumberFormatException {
-        return readJavaFormatString(s).doubleValue();
+    public stbtic double pbrseDouble(String s) throws NumberFormbtException {
+        return rebdJbvbFormbtString(s).doubleVblue();
     }
 
     /**
-     * Converts a <code>String</code> to a single precision floating point value.
+     * Converts b <code>String</code> to b single precision flobting point vblue.
      *
-     * @param s The <code>String</code> to convert.
-     * @return The single precision value.
-     * @throws NumberFormatException If the <code>String</code> does not
-     * represent a properly formatted single precision value.
+     * @pbrbm s The <code>String</code> to convert.
+     * @return The single precision vblue.
+     * @throws NumberFormbtException If the <code>String</code> does not
+     * represent b properly formbtted single precision vblue.
      */
-    public static float parseFloat(String s) throws NumberFormatException {
-        return readJavaFormatString(s).floatValue();
+    public stbtic flobt pbrseFlobt(String s) throws NumberFormbtException {
+        return rebdJbvbFormbtString(s).flobtVblue();
     }
 
     /**
-     * A converter which can process single or double precision floating point
-     * values into an ASCII <code>String</code> representation.
+     * A converter which cbn process single or double precision flobting point
+     * vblues into bn ASCII <code>String</code> representbtion.
      */
-    public interface BinaryToASCIIConverter {
+    public interfbce BinbryToASCIIConverter {
         /**
-         * Converts a floating point value into an ASCII <code>String</code>.
-         * @return The value converted to a <code>String</code>.
+         * Converts b flobting point vblue into bn ASCII <code>String</code>.
+         * @return The vblue converted to b <code>String</code>.
          */
-        public String toJavaFormatString();
+        public String toJbvbFormbtString();
 
         /**
-         * Appends a floating point value to an <code>Appendable</code>.
-         * @param buf The <code>Appendable</code> to receive the value.
+         * Appends b flobting point vblue to bn <code>Appendbble</code>.
+         * @pbrbm buf The <code>Appendbble</code> to receive the vblue.
          */
-        public void appendTo(Appendable buf);
+        public void bppendTo(Appendbble buf);
 
         /**
-         * Retrieves the decimal exponent most closely corresponding to this value.
-         * @return The decimal exponent.
+         * Retrieves the decimbl exponent most closely corresponding to this vblue.
+         * @return The decimbl exponent.
          */
-        public int getDecimalExponent();
+        public int getDecimblExponent();
 
         /**
-         * Retrieves the value as an array of digits.
-         * @param digits The digit array.
-         * @return The number of valid digits copied into the array.
+         * Retrieves the vblue bs bn brrby of digits.
+         * @pbrbm digits The digit brrby.
+         * @return The number of vblid digits copied into the brrby.
          */
-        public int getDigits(char[] digits);
+        public int getDigits(chbr[] digits);
 
         /**
-         * Indicates the sign of the value.
-         * @return <code>value < 0.0</code>.
+         * Indicbtes the sign of the vblue.
+         * @return <code>vblue < 0.0</code>.
          */
-        public boolean isNegative();
+        public boolebn isNegbtive();
 
         /**
-         * Indicates whether the value is either infinite or not a number.
+         * Indicbtes whether the vblue is either infinite or not b number.
          *
-         * @return <code>true</code> if and only if the value is <code>NaN</code>
+         * @return <code>true</code> if bnd only if the vblue is <code>NbN</code>
          * or infinite.
          */
-        public boolean isExceptional();
+        public boolebn isExceptionbl();
 
         /**
-         * Indicates whether the value was rounded up during the binary to ASCII
+         * Indicbtes whether the vblue wbs rounded up during the binbry to ASCII
          * conversion.
          *
-         * @return <code>true</code> if and only if the value was rounded up.
+         * @return <code>true</code> if bnd only if the vblue wbs rounded up.
          */
-        public boolean digitsRoundedUp();
+        public boolebn digitsRoundedUp();
 
         /**
-         * Indicates whether the binary to ASCII conversion was exact.
+         * Indicbtes whether the binbry to ASCII conversion wbs exbct.
          *
-         * @return <code>true</code> if any only if the conversion was exact.
+         * @return <code>true</code> if bny only if the conversion wbs exbct.
          */
-        public boolean decimalDigitsExact();
+        public boolebn decimblDigitsExbct();
     }
 
     /**
-     * A <code>BinaryToASCIIConverter</code> which represents <code>NaN</code>
-     * and infinite values.
+     * A <code>BinbryToASCIIConverter</code> which represents <code>NbN</code>
+     * bnd infinite vblues.
      */
-    private static class ExceptionalBinaryToASCIIBuffer implements BinaryToASCIIConverter {
-        final private String image;
-        private boolean isNegative;
+    privbte stbtic clbss ExceptionblBinbryToASCIIBuffer implements BinbryToASCIIConverter {
+        finbl privbte String imbge;
+        privbte boolebn isNegbtive;
 
-        public ExceptionalBinaryToASCIIBuffer(String image, boolean isNegative) {
-            this.image = image;
-            this.isNegative = isNegative;
+        public ExceptionblBinbryToASCIIBuffer(String imbge, boolebn isNegbtive) {
+            this.imbge = imbge;
+            this.isNegbtive = isNegbtive;
         }
 
         @Override
-        public String toJavaFormatString() {
-            return image;
+        public String toJbvbFormbtString() {
+            return imbge;
         }
 
         @Override
-        public void appendTo(Appendable buf) {
-            if (buf instanceof StringBuilder) {
-                ((StringBuilder) buf).append(image);
-            } else if (buf instanceof StringBuffer) {
-                ((StringBuffer) buf).append(image);
+        public void bppendTo(Appendbble buf) {
+            if (buf instbnceof StringBuilder) {
+                ((StringBuilder) buf).bppend(imbge);
+            } else if (buf instbnceof StringBuffer) {
+                ((StringBuffer) buf).bppend(imbge);
             } else {
-                assert false;
+                bssert fblse;
             }
         }
 
         @Override
-        public int getDecimalExponent() {
-            throw new IllegalArgumentException("Exceptional value does not have an exponent");
+        public int getDecimblExponent() {
+            throw new IllegblArgumentException("Exceptionbl vblue does not hbve bn exponent");
         }
 
         @Override
-        public int getDigits(char[] digits) {
-            throw new IllegalArgumentException("Exceptional value does not have digits");
+        public int getDigits(chbr[] digits) {
+            throw new IllegblArgumentException("Exceptionbl vblue does not hbve digits");
         }
 
         @Override
-        public boolean isNegative() {
-            return isNegative;
+        public boolebn isNegbtive() {
+            return isNegbtive;
         }
 
         @Override
-        public boolean isExceptional() {
+        public boolebn isExceptionbl() {
             return true;
         }
 
         @Override
-        public boolean digitsRoundedUp() {
-            throw new IllegalArgumentException("Exceptional value is not rounded");
+        public boolebn digitsRoundedUp() {
+            throw new IllegblArgumentException("Exceptionbl vblue is not rounded");
         }
 
         @Override
-        public boolean decimalDigitsExact() {
-            throw new IllegalArgumentException("Exceptional value is not exact");
+        public boolebn decimblDigitsExbct() {
+            throw new IllegblArgumentException("Exceptionbl vblue is not exbct");
         }
     }
 
-    private static final String INFINITY_REP = "Infinity";
-    private static final int INFINITY_LENGTH = INFINITY_REP.length();
-    private static final String NAN_REP = "NaN";
-    private static final int NAN_LENGTH = NAN_REP.length();
+    privbte stbtic finbl String INFINITY_REP = "Infinity";
+    privbte stbtic finbl int INFINITY_LENGTH = INFINITY_REP.length();
+    privbte stbtic finbl String NAN_REP = "NbN";
+    privbte stbtic finbl int NAN_LENGTH = NAN_REP.length();
 
-    private static final BinaryToASCIIConverter B2AC_POSITIVE_INFINITY = new ExceptionalBinaryToASCIIBuffer(INFINITY_REP, false);
-    private static final BinaryToASCIIConverter B2AC_NEGATIVE_INFINITY = new ExceptionalBinaryToASCIIBuffer("-" + INFINITY_REP, true);
-    private static final BinaryToASCIIConverter B2AC_NOT_A_NUMBER = new ExceptionalBinaryToASCIIBuffer(NAN_REP, false);
-    private static final BinaryToASCIIConverter B2AC_POSITIVE_ZERO = new BinaryToASCIIBuffer(false, new char[]{'0'});
-    private static final BinaryToASCIIConverter B2AC_NEGATIVE_ZERO = new BinaryToASCIIBuffer(true,  new char[]{'0'});
+    privbte stbtic finbl BinbryToASCIIConverter B2AC_POSITIVE_INFINITY = new ExceptionblBinbryToASCIIBuffer(INFINITY_REP, fblse);
+    privbte stbtic finbl BinbryToASCIIConverter B2AC_NEGATIVE_INFINITY = new ExceptionblBinbryToASCIIBuffer("-" + INFINITY_REP, true);
+    privbte stbtic finbl BinbryToASCIIConverter B2AC_NOT_A_NUMBER = new ExceptionblBinbryToASCIIBuffer(NAN_REP, fblse);
+    privbte stbtic finbl BinbryToASCIIConverter B2AC_POSITIVE_ZERO = new BinbryToASCIIBuffer(fblse, new chbr[]{'0'});
+    privbte stbtic finbl BinbryToASCIIConverter B2AC_NEGATIVE_ZERO = new BinbryToASCIIBuffer(true,  new chbr[]{'0'});
 
     /**
-     * A buffered implementation of <code>BinaryToASCIIConverter</code>.
+     * A buffered implementbtion of <code>BinbryToASCIIConverter</code>.
      */
-    static class BinaryToASCIIBuffer implements BinaryToASCIIConverter {
-        private boolean isNegative;
-        private int decExponent;
-        private int firstDigitIndex;
-        private int nDigits;
-        private final char[] digits;
-        private final char[] buffer = new char[26];
+    stbtic clbss BinbryToASCIIBuffer implements BinbryToASCIIConverter {
+        privbte boolebn isNegbtive;
+        privbte int decExponent;
+        privbte int firstDigitIndex;
+        privbte int nDigits;
+        privbte finbl chbr[] digits;
+        privbte finbl chbr[] buffer = new chbr[26];
 
         //
-        // The fields below provide additional information about the result of
-        // the binary to decimal digits conversion done in dtoa() and roundup()
-        // methods. They are changed if needed by those two methods.
+        // The fields below provide bdditionbl informbtion bbout the result of
+        // the binbry to decimbl digits conversion done in dtob() bnd roundup()
+        // methods. They bre chbnged if needed by those two methods.
         //
 
-        // True if the dtoa() binary to decimal conversion was exact.
-        private boolean exactDecimalConversion = false;
+        // True if the dtob() binbry to decimbl conversion wbs exbct.
+        privbte boolebn exbctDecimblConversion = fblse;
 
-        // True if the result of the binary to decimal conversion was rounded-up
-        // at the end of the conversion process, i.e. roundUp() method was called.
-        private boolean decimalDigitsRoundedUp = false;
+        // True if the result of the binbry to decimbl conversion wbs rounded-up
+        // bt the end of the conversion process, i.e. roundUp() method wbs cblled.
+        privbte boolebn decimblDigitsRoundedUp = fblse;
 
         /**
-         * Default constructor; used for non-zero values,
-         * <code>BinaryToASCIIBuffer</code> may be thread-local and reused
+         * Defbult constructor; used for non-zero vblues,
+         * <code>BinbryToASCIIBuffer</code> mby be threbd-locbl bnd reused
          */
-        BinaryToASCIIBuffer(){
-            this.digits = new char[20];
+        BinbryToASCIIBuffer(){
+            this.digits = new chbr[20];
         }
 
         /**
-         * Creates a specialized value (positive and negative zeros).
+         * Crebtes b speciblized vblue (positive bnd negbtive zeros).
          */
-        BinaryToASCIIBuffer(boolean isNegative, char[] digits){
-            this.isNegative = isNegative;
+        BinbryToASCIIBuffer(boolebn isNegbtive, chbr[] digits){
+            this.isNegbtive = isNegbtive;
             this.decExponent  = 0;
             this.digits = digits;
             this.firstDigitIndex = 0;
@@ -297,312 +297,312 @@ public class FloatingDecimal{
         }
 
         @Override
-        public String toJavaFormatString() {
-            int len = getChars(buffer);
+        public String toJbvbFormbtString() {
+            int len = getChbrs(buffer);
             return new String(buffer, 0, len);
         }
 
         @Override
-        public void appendTo(Appendable buf) {
-            int len = getChars(buffer);
-            if (buf instanceof StringBuilder) {
-                ((StringBuilder) buf).append(buffer, 0, len);
-            } else if (buf instanceof StringBuffer) {
-                ((StringBuffer) buf).append(buffer, 0, len);
+        public void bppendTo(Appendbble buf) {
+            int len = getChbrs(buffer);
+            if (buf instbnceof StringBuilder) {
+                ((StringBuilder) buf).bppend(buffer, 0, len);
+            } else if (buf instbnceof StringBuffer) {
+                ((StringBuffer) buf).bppend(buffer, 0, len);
             } else {
-                assert false;
+                bssert fblse;
             }
         }
 
         @Override
-        public int getDecimalExponent() {
+        public int getDecimblExponent() {
             return decExponent;
         }
 
         @Override
-        public int getDigits(char[] digits) {
-            System.arraycopy(this.digits,firstDigitIndex,digits,0,this.nDigits);
+        public int getDigits(chbr[] digits) {
+            System.brrbycopy(this.digits,firstDigitIndex,digits,0,this.nDigits);
             return this.nDigits;
         }
 
         @Override
-        public boolean isNegative() {
-            return isNegative;
+        public boolebn isNegbtive() {
+            return isNegbtive;
         }
 
         @Override
-        public boolean isExceptional() {
-            return false;
+        public boolebn isExceptionbl() {
+            return fblse;
         }
 
         @Override
-        public boolean digitsRoundedUp() {
-            return decimalDigitsRoundedUp;
+        public boolebn digitsRoundedUp() {
+            return decimblDigitsRoundedUp;
         }
 
         @Override
-        public boolean decimalDigitsExact() {
-            return exactDecimalConversion;
+        public boolebn decimblDigitsExbct() {
+            return exbctDecimblConversion;
         }
 
-        private void setSign(boolean isNegative) {
-            this.isNegative = isNegative;
+        privbte void setSign(boolebn isNegbtive) {
+            this.isNegbtive = isNegbtive;
         }
 
         /**
-         * This is the easy subcase --
-         * all the significant bits, after scaling, are held in lvalue.
-         * negSign and decExponent tell us what processing and scaling
-         * has already been done. Exceptional cases have already been
+         * This is the ebsy subcbse --
+         * bll the significbnt bits, bfter scbling, bre held in lvblue.
+         * negSign bnd decExponent tell us whbt processing bnd scbling
+         * hbs blrebdy been done. Exceptionbl cbses hbve blrebdy been
          * stripped out.
-         * In particular:
-         * lvalue is a finite number (not Inf, nor NaN)
-         * lvalue > 0L (not zero, nor negative).
+         * In pbrticulbr:
+         * lvblue is b finite number (not Inf, nor NbN)
+         * lvblue > 0L (not zero, nor negbtive).
          *
-         * The only reason that we develop the digits here, rather than
-         * calling on Long.toString() is that we can do it a little faster,
-         * and besides want to treat trailing 0s specially. If Long.toString
-         * changes, we should re-evaluate this strategy!
+         * The only rebson thbt we develop the digits here, rbther thbn
+         * cblling on Long.toString() is thbt we cbn do it b little fbster,
+         * bnd besides wbnt to trebt trbiling 0s speciblly. If Long.toString
+         * chbnges, we should re-evblubte this strbtegy!
          */
-        private void developLongDigits( int decExponent, long lvalue, int insignificantDigits ){
-            if ( insignificantDigits != 0 ){
-                // Discard non-significant low-order bits, while rounding,
-                // up to insignificant value.
-                long pow10 = FDBigInteger.LONG_5_POW[insignificantDigits] << insignificantDigits; // 10^i == 5^i * 2^i;
-                long residue = lvalue % pow10;
-                lvalue /= pow10;
-                decExponent += insignificantDigits;
+        privbte void developLongDigits( int decExponent, long lvblue, int insignificbntDigits ){
+            if ( insignificbntDigits != 0 ){
+                // Discbrd non-significbnt low-order bits, while rounding,
+                // up to insignificbnt vblue.
+                long pow10 = FDBigInteger.LONG_5_POW[insignificbntDigits] << insignificbntDigits; // 10^i == 5^i * 2^i;
+                long residue = lvblue % pow10;
+                lvblue /= pow10;
+                decExponent += insignificbntDigits;
                 if ( residue >= (pow10>>1) ){
-                    // round up based on the low-order bits we're discarding
-                    lvalue++;
+                    // round up bbsed on the low-order bits we're discbrding
+                    lvblue++;
                 }
             }
             int  digitno = digits.length -1;
             int  c;
-            if ( lvalue <= Integer.MAX_VALUE ){
-                assert lvalue > 0L : lvalue; // lvalue <= 0
-                // even easier subcase!
-                // can do int arithmetic rather than long!
-                int  ivalue = (int)lvalue;
-                c = ivalue%10;
-                ivalue /= 10;
+            if ( lvblue <= Integer.MAX_VALUE ){
+                bssert lvblue > 0L : lvblue; // lvblue <= 0
+                // even ebsier subcbse!
+                // cbn do int brithmetic rbther thbn long!
+                int  ivblue = (int)lvblue;
+                c = ivblue%10;
+                ivblue /= 10;
                 while ( c == 0 ){
                     decExponent++;
-                    c = ivalue%10;
-                    ivalue /= 10;
+                    c = ivblue%10;
+                    ivblue /= 10;
                 }
-                while ( ivalue != 0){
-                    digits[digitno--] = (char)(c+'0');
+                while ( ivblue != 0){
+                    digits[digitno--] = (chbr)(c+'0');
                     decExponent++;
-                    c = ivalue%10;
-                    ivalue /= 10;
+                    c = ivblue%10;
+                    ivblue /= 10;
                 }
-                digits[digitno] = (char)(c+'0');
+                digits[digitno] = (chbr)(c+'0');
             } else {
-                // same algorithm as above (same bugs, too )
-                // but using long arithmetic.
-                c = (int)(lvalue%10L);
-                lvalue /= 10L;
+                // sbme blgorithm bs bbove (sbme bugs, too )
+                // but using long brithmetic.
+                c = (int)(lvblue%10L);
+                lvblue /= 10L;
                 while ( c == 0 ){
                     decExponent++;
-                    c = (int)(lvalue%10L);
-                    lvalue /= 10L;
+                    c = (int)(lvblue%10L);
+                    lvblue /= 10L;
                 }
-                while ( lvalue != 0L ){
-                    digits[digitno--] = (char)(c+'0');
+                while ( lvblue != 0L ){
+                    digits[digitno--] = (chbr)(c+'0');
                     decExponent++;
-                    c = (int)(lvalue%10L);
-                    lvalue /= 10;
+                    c = (int)(lvblue%10L);
+                    lvblue /= 10;
                 }
-                digits[digitno] = (char)(c+'0');
+                digits[digitno] = (chbr)(c+'0');
             }
             this.decExponent = decExponent+1;
             this.firstDigitIndex = digitno;
             this.nDigits = this.digits.length - digitno;
         }
 
-        private void dtoa( int binExp, long fractBits, int nSignificantBits, boolean isCompatibleFormat)
+        privbte void dtob( int binExp, long frbctBits, int nSignificbntBits, boolebn isCompbtibleFormbt)
         {
-            assert fractBits > 0 ; // fractBits here can't be zero or negative
-            assert (fractBits & FRACT_HOB)!=0  ; // Hi-order bit should be set
-            // Examine number. Determine if it is an easy case,
-            // which we can do pretty trivially using float/long conversion,
-            // or whether we must do real work.
-            final int tailZeros = Long.numberOfTrailingZeros(fractBits);
+            bssert frbctBits > 0 ; // frbctBits here cbn't be zero or negbtive
+            bssert (frbctBits & FRACT_HOB)!=0  ; // Hi-order bit should be set
+            // Exbmine number. Determine if it is bn ebsy cbse,
+            // which we cbn do pretty triviblly using flobt/long conversion,
+            // or whether we must do rebl work.
+            finbl int tbilZeros = Long.numberOfTrbilingZeros(frbctBits);
 
-            // number of significant bits of fractBits;
-            final int nFractBits = EXP_SHIFT+1-tailZeros;
+            // number of significbnt bits of frbctBits;
+            finbl int nFrbctBits = EXP_SHIFT+1-tbilZeros;
 
-            // reset flags to default values as dtoa() does not always set these
-            // flags and a prior call to dtoa() might have set them to incorrect
-            // values with respect to the current state.
-            decimalDigitsRoundedUp = false;
-            exactDecimalConversion = false;
+            // reset flbgs to defbult vblues bs dtob() does not blwbys set these
+            // flbgs bnd b prior cbll to dtob() might hbve set them to incorrect
+            // vblues with respect to the current stbte.
+            decimblDigitsRoundedUp = fblse;
+            exbctDecimblConversion = fblse;
 
-            // number of significant bits to the right of the point.
-            int nTinyBits = Math.max( 0, nFractBits - binExp - 1 );
+            // number of significbnt bits to the right of the point.
+            int nTinyBits = Mbth.mbx( 0, nFrbctBits - binExp - 1 );
             if ( binExp <= MAX_SMALL_BIN_EXP && binExp >= MIN_SMALL_BIN_EXP ){
-                // Look more closely at the number to decide if,
-                // with scaling by 10^nTinyBits, the result will fit in
-                // a long.
-                if ( (nTinyBits < FDBigInteger.LONG_5_POW.length) && ((nFractBits + N_5_BITS[nTinyBits]) < 64 ) ){
+                // Look more closely bt the number to decide if,
+                // with scbling by 10^nTinyBits, the result will fit in
+                // b long.
+                if ( (nTinyBits < FDBigInteger.LONG_5_POW.length) && ((nFrbctBits + N_5_BITS[nTinyBits]) < 64 ) ){
                     //
-                    // We can do this:
-                    // take the fraction bits, which are normalized.
-                    // (a) nTinyBits == 0: Shift left or right appropriately
-                    //     to align the binary point at the extreme right, i.e.
-                    //     where a long int point is expected to be. The integer
-                    //     result is easily converted to a string.
-                    // (b) nTinyBits > 0: Shift right by EXP_SHIFT-nFractBits,
-                    //     which effectively converts to long and scales by
+                    // We cbn do this:
+                    // tbke the frbction bits, which bre normblized.
+                    // (b) nTinyBits == 0: Shift left or right bppropribtely
+                    //     to blign the binbry point bt the extreme right, i.e.
+                    //     where b long int point is expected to be. The integer
+                    //     result is ebsily converted to b string.
+                    // (b) nTinyBits > 0: Shift right by EXP_SHIFT-nFrbctBits,
+                    //     which effectively converts to long bnd scbles by
                     //     2^nTinyBits. Then multiply by 5^nTinyBits to
-                    //     complete the scaling. We know this won't overflow
-                    //     because we just counted the number of bits necessary
-                    //     in the result. The integer you get from this can
-                    //     then be converted to a string pretty easily.
+                    //     complete the scbling. We know this won't overflow
+                    //     becbuse we just counted the number of bits necessbry
+                    //     in the result. The integer you get from this cbn
+                    //     then be converted to b string pretty ebsily.
                     //
                     if ( nTinyBits == 0 ) {
-                        int insignificant;
-                        if ( binExp > nSignificantBits ){
-                            insignificant = insignificantDigitsForPow2(binExp-nSignificantBits-1);
+                        int insignificbnt;
+                        if ( binExp > nSignificbntBits ){
+                            insignificbnt = insignificbntDigitsForPow2(binExp-nSignificbntBits-1);
                         } else {
-                            insignificant = 0;
+                            insignificbnt = 0;
                         }
                         if ( binExp >= EXP_SHIFT ){
-                            fractBits <<= (binExp-EXP_SHIFT);
+                            frbctBits <<= (binExp-EXP_SHIFT);
                         } else {
-                            fractBits >>>= (EXP_SHIFT-binExp) ;
+                            frbctBits >>>= (EXP_SHIFT-binExp) ;
                         }
-                        developLongDigits( 0, fractBits, insignificant );
+                        developLongDigits( 0, frbctBits, insignificbnt );
                         return;
                     }
                     //
-                    // The following causes excess digits to be printed
-                    // out in the single-float case. Our manipulation of
-                    // halfULP here is apparently not correct. If we
-                    // better understand how this works, perhaps we can
-                    // use this special case again. But for the time being,
+                    // The following cbuses excess digits to be printed
+                    // out in the single-flobt cbse. Our mbnipulbtion of
+                    // hblfULP here is bppbrently not correct. If we
+                    // better understbnd how this works, perhbps we cbn
+                    // use this specibl cbse bgbin. But for the time being,
                     // we do not.
                     // else {
-                    //     fractBits >>>= EXP_SHIFT+1-nFractBits;
-                    //     fractBits//= long5pow[ nTinyBits ];
-                    //     halfULP = long5pow[ nTinyBits ] >> (1+nSignificantBits-nFractBits);
-                    //     developLongDigits( -nTinyBits, fractBits, insignificantDigits(halfULP) );
+                    //     frbctBits >>>= EXP_SHIFT+1-nFrbctBits;
+                    //     frbctBits//= long5pow[ nTinyBits ];
+                    //     hblfULP = long5pow[ nTinyBits ] >> (1+nSignificbntBits-nFrbctBits);
+                    //     developLongDigits( -nTinyBits, frbctBits, insignificbntDigits(hblfULP) );
                     //     return;
                     // }
                     //
                 }
             }
             //
-            // This is the hard case. We are going to compute large positive
-            // integers B and S and integer decExp, s.t.
+            // This is the hbrd cbse. We bre going to compute lbrge positive
+            // integers B bnd S bnd integer decExp, s.t.
             //      d = ( B / S )// 10^decExp
             //      1 <= B / S < 10
-            // Obvious choices are:
+            // Obvious choices bre:
             //      decExp = floor( log10(d) )
-            //      B      = d// 2^nTinyBits// 10^max( 0, -decExp )
-            //      S      = 10^max( 0, decExp)// 2^nTinyBits
-            // (noting that nTinyBits has already been forced to non-negative)
-            // I am also going to compute a large positive integer
-            //      M      = (1/2^nSignificantBits)// 2^nTinyBits// 10^max( 0, -decExp )
-            // i.e. M is (1/2) of the ULP of d, scaled like B.
-            // When we iterate through dividing B/S and picking off the
-            // quotient bits, we will know when to stop when the remainder
+            //      B      = d// 2^nTinyBits// 10^mbx( 0, -decExp )
+            //      S      = 10^mbx( 0, decExp)// 2^nTinyBits
+            // (noting thbt nTinyBits hbs blrebdy been forced to non-negbtive)
+            // I bm blso going to compute b lbrge positive integer
+            //      M      = (1/2^nSignificbntBits)// 2^nTinyBits// 10^mbx( 0, -decExp )
+            // i.e. M is (1/2) of the ULP of d, scbled like B.
+            // When we iterbte through dividing B/S bnd picking off the
+            // quotient bits, we will know when to stop when the rembinder
             // is <= M.
             //
-            // We keep track of powers of 2 and powers of 5.
+            // We keep trbck of powers of 2 bnd powers of 5.
             //
-            int decExp = estimateDecExp(fractBits,binExp);
-            int B2, B5; // powers of 2 and powers of 5, respectively, in B
-            int S2, S5; // powers of 2 and powers of 5, respectively, in S
-            int M2, M5; // powers of 2 and powers of 5, respectively, in M
+            int decExp = estimbteDecExp(frbctBits,binExp);
+            int B2, B5; // powers of 2 bnd powers of 5, respectively, in B
+            int S2, S5; // powers of 2 bnd powers of 5, respectively, in S
+            int M2, M5; // powers of 2 bnd powers of 5, respectively, in M
 
-            B5 = Math.max( 0, -decExp );
+            B5 = Mbth.mbx( 0, -decExp );
             B2 = B5 + nTinyBits + binExp;
 
-            S5 = Math.max( 0, decExp );
+            S5 = Mbth.mbx( 0, decExp );
             S2 = S5 + nTinyBits;
 
             M5 = B5;
-            M2 = B2 - nSignificantBits;
+            M2 = B2 - nSignificbntBits;
 
             //
-            // the long integer fractBits contains the (nFractBits) interesting
-            // bits from the mantissa of d ( hidden 1 added if necessary) followed
-            // by (EXP_SHIFT+1-nFractBits) zeros. In the interest of compactness,
-            // I will shift out those zeros before turning fractBits into a
+            // the long integer frbctBits contbins the (nFrbctBits) interesting
+            // bits from the mbntissb of d ( hidden 1 bdded if necessbry) followed
+            // by (EXP_SHIFT+1-nFrbctBits) zeros. In the interest of compbctness,
+            // I will shift out those zeros before turning frbctBits into b
             // FDBigInteger. The resulting whole number will be
-            //      d * 2^(nFractBits-1-binExp).
+            //      d * 2^(nFrbctBits-1-binExp).
             //
-            fractBits >>>= tailZeros;
-            B2 -= nFractBits-1;
-            int common2factor = Math.min( B2, S2 );
-            B2 -= common2factor;
-            S2 -= common2factor;
-            M2 -= common2factor;
+            frbctBits >>>= tbilZeros;
+            B2 -= nFrbctBits-1;
+            int common2fbctor = Mbth.min( B2, S2 );
+            B2 -= common2fbctor;
+            S2 -= common2fbctor;
+            M2 -= common2fbctor;
 
             //
-            // HACK!! For exact powers of two, the next smallest number
-            // is only half as far away as we think (because the meaning of
-            // ULP changes at power-of-two bounds) for this reason, we
-            // hack M2. Hope this works.
+            // HACK!! For exbct powers of two, the next smbllest number
+            // is only hblf bs fbr bwby bs we think (becbuse the mebning of
+            // ULP chbnges bt power-of-two bounds) for this rebson, we
+            // hbck M2. Hope this works.
             //
-            if ( nFractBits == 1 ) {
+            if ( nFrbctBits == 1 ) {
                 M2 -= 1;
             }
 
             if ( M2 < 0 ){
                 // oops.
-                // since we cannot scale M down far enough,
-                // we must scale the other values up.
+                // since we cbnnot scble M down fbr enough,
+                // we must scble the other vblues up.
                 B2 -= M2;
                 S2 -= M2;
                 M2 =  0;
             }
             //
-            // Construct, Scale, iterate.
-            // Some day, we'll write a stopping test that takes
-            // account of the asymmetry of the spacing of floating-point
+            // Construct, Scble, iterbte.
+            // Some dby, we'll write b stopping test thbt tbkes
+            // bccount of the bsymmetry of the spbcing of flobting-point
             // numbers below perfect powers of 2
-            // 26 Sept 96 is not that day.
-            // So we use a symmetric test.
+            // 26 Sept 96 is not thbt dby.
+            // So we use b symmetric test.
             //
             int ndigit = 0;
-            boolean low, high;
+            boolebn low, high;
             long lowDigitDifference;
             int  q;
 
             //
-            // Detect the special cases where all the numbers we are about
+            // Detect the specibl cbses where bll the numbers we bre bbout
             // to compute will fit in int or long integers.
-            // In these cases, we will avoid doing FDBigInteger arithmetic.
-            // We use the same algorithms, except that we "normalize"
-            // our FDBigIntegers before iterating. This is to make division easier,
-            // as it makes our fist guess (quotient of high-order words)
-            // more accurate!
+            // In these cbses, we will bvoid doing FDBigInteger brithmetic.
+            // We use the sbme blgorithms, except thbt we "normblize"
+            // our FDBigIntegers before iterbting. This is to mbke division ebsier,
+            // bs it mbkes our fist guess (quotient of high-order words)
+            // more bccurbte!
             //
-            // Some day, we'll write a stopping test that takes
-            // account of the asymmetry of the spacing of floating-point
+            // Some dby, we'll write b stopping test thbt tbkes
+            // bccount of the bsymmetry of the spbcing of flobting-point
             // numbers below perfect powers of 2
-            // 26 Sept 96 is not that day.
-            // So we use a symmetric test.
+            // 26 Sept 96 is not thbt dby.
+            // So we use b symmetric test.
             //
-            // binary digits needed to represent B, approx.
-            int Bbits = nFractBits + B2 + (( B5 < N_5_BITS.length )? N_5_BITS[B5] : ( B5*3 ));
+            // binbry digits needed to represent B, bpprox.
+            int Bbits = nFrbctBits + B2 + (( B5 < N_5_BITS.length )? N_5_BITS[B5] : ( B5*3 ));
 
-            // binary digits needed to represent 10*S, approx.
+            // binbry digits needed to represent 10*S, bpprox.
             int tenSbits = S2+1 + (( (S5+1) < N_5_BITS.length )? N_5_BITS[(S5+1)] : ( (S5+1)*3 ));
             if ( Bbits < 64 && tenSbits < 64){
                 if ( Bbits < 32 && tenSbits < 32){
-                    // wa-hoo! They're all ints!
-                    int b = ((int)fractBits * FDBigInteger.SMALL_5_POW[B5] ) << B2;
+                    // wb-hoo! They're bll ints!
+                    int b = ((int)frbctBits * FDBigInteger.SMALL_5_POW[B5] ) << B2;
                     int s = FDBigInteger.SMALL_5_POW[S5] << S2;
                     int m = FDBigInteger.SMALL_5_POW[M5] << M2;
                     int tens = s * 10;
                     //
-                    // Unroll the first iteration. If our decExp estimate
-                    // was too high, our first quotient will be zero. In this
-                    // case, we discard it and decrement decExp.
+                    // Unroll the first iterbtion. If our decExp estimbte
+                    // wbs too high, our first quotient will be zero. In this
+                    // cbse, we discbrd it bnd decrement decExp.
                     //
                     ndigit = 0;
                     q = b / s;
@@ -610,53 +610,53 @@ public class FloatingDecimal{
                     m *= 10;
                     low  = (b <  m );
                     high = (b+m > tens );
-                    assert q < 10 : q; // excessively large digit
+                    bssert q < 10 : q; // excessively lbrge digit
                     if ( (q == 0) && ! high ){
-                        // oops. Usually ignore leading zero.
+                        // oops. Usublly ignore lebding zero.
                         decExp--;
                     } else {
-                        digits[ndigit++] = (char)('0' + q);
+                        digits[ndigit++] = (chbr)('0' + q);
                     }
                     //
-                    // HACK! Java spec sez that we always have at least
-                    // one digit after the . in either F- or E-form output.
-                    // Thus we will need more than one digit if we're using
+                    // HACK! Jbvb spec sez thbt we blwbys hbve bt lebst
+                    // one digit bfter the . in either F- or E-form output.
+                    // Thus we will need more thbn one digit if we're using
                     // E-form
                     //
-                    if ( !isCompatibleFormat ||decExp < -3 || decExp >= 8 ){
-                        high = low = false;
+                    if ( !isCompbtibleFormbt ||decExp < -3 || decExp >= 8 ){
+                        high = low = fblse;
                     }
                     while( ! low && ! high ){
                         q = b / s;
                         b = 10 * ( b % s );
                         m *= 10;
-                        assert q < 10 : q; // excessively large digit
+                        bssert q < 10 : q; // excessively lbrge digit
                         if ( m > 0L ){
                             low  = (b <  m );
                             high = (b+m > tens );
                         } else {
-                            // hack -- m might overflow!
-                            // in this case, it is certainly > b,
+                            // hbck -- m might overflow!
+                            // in this cbse, it is certbinly > b,
                             // which won't
-                            // and b+m > tens, too, since that has overflowed
+                            // bnd b+m > tens, too, since thbt hbs overflowed
                             // either!
                             low = true;
                             high = true;
                         }
-                        digits[ndigit++] = (char)('0' + q);
+                        digits[ndigit++] = (chbr)('0' + q);
                     }
                     lowDigitDifference = (b<<1) - tens;
-                    exactDecimalConversion  = (b == 0);
+                    exbctDecimblConversion  = (b == 0);
                 } else {
-                    // still good! they're all longs!
-                    long b = (fractBits * FDBigInteger.LONG_5_POW[B5] ) << B2;
+                    // still good! they're bll longs!
+                    long b = (frbctBits * FDBigInteger.LONG_5_POW[B5] ) << B2;
                     long s = FDBigInteger.LONG_5_POW[S5] << S2;
                     long m = FDBigInteger.LONG_5_POW[M5] << M2;
                     long tens = s * 10L;
                     //
-                    // Unroll the first iteration. If our decExp estimate
-                    // was too high, our first quotient will be zero. In this
-                    // case, we discard it and decrement decExp.
+                    // Unroll the first iterbtion. If our decExp estimbte
+                    // wbs too high, our first quotient will be zero. In this
+                    // cbse, we discbrd it bnd decrement decExp.
                     //
                     ndigit = 0;
                     q = (int) ( b / s );
@@ -664,110 +664,110 @@ public class FloatingDecimal{
                     m *= 10L;
                     low  = (b <  m );
                     high = (b+m > tens );
-                    assert q < 10 : q; // excessively large digit
+                    bssert q < 10 : q; // excessively lbrge digit
                     if ( (q == 0) && ! high ){
-                        // oops. Usually ignore leading zero.
+                        // oops. Usublly ignore lebding zero.
                         decExp--;
                     } else {
-                        digits[ndigit++] = (char)('0' + q);
+                        digits[ndigit++] = (chbr)('0' + q);
                     }
                     //
-                    // HACK! Java spec sez that we always have at least
-                    // one digit after the . in either F- or E-form output.
-                    // Thus we will need more than one digit if we're using
+                    // HACK! Jbvb spec sez thbt we blwbys hbve bt lebst
+                    // one digit bfter the . in either F- or E-form output.
+                    // Thus we will need more thbn one digit if we're using
                     // E-form
                     //
-                    if ( !isCompatibleFormat || decExp < -3 || decExp >= 8 ){
-                        high = low = false;
+                    if ( !isCompbtibleFormbt || decExp < -3 || decExp >= 8 ){
+                        high = low = fblse;
                     }
                     while( ! low && ! high ){
                         q = (int) ( b / s );
                         b = 10 * ( b % s );
                         m *= 10;
-                        assert q < 10 : q;  // excessively large digit
+                        bssert q < 10 : q;  // excessively lbrge digit
                         if ( m > 0L ){
                             low  = (b <  m );
                             high = (b+m > tens );
                         } else {
-                            // hack -- m might overflow!
-                            // in this case, it is certainly > b,
+                            // hbck -- m might overflow!
+                            // in this cbse, it is certbinly > b,
                             // which won't
-                            // and b+m > tens, too, since that has overflowed
+                            // bnd b+m > tens, too, since thbt hbs overflowed
                             // either!
                             low = true;
                             high = true;
                         }
-                        digits[ndigit++] = (char)('0' + q);
+                        digits[ndigit++] = (chbr)('0' + q);
                     }
                     lowDigitDifference = (b<<1) - tens;
-                    exactDecimalConversion  = (b == 0);
+                    exbctDecimblConversion  = (b == 0);
                 }
             } else {
                 //
-                // We really must do FDBigInteger arithmetic.
-                // Fist, construct our FDBigInteger initial values.
+                // We reblly must do FDBigInteger brithmetic.
+                // Fist, construct our FDBigInteger initibl vblues.
                 //
-                FDBigInteger Sval = FDBigInteger.valueOfPow52(S5, S2);
-                int shiftBias = Sval.getNormalizationBias();
-                Sval = Sval.leftShift(shiftBias); // normalize so that division works better
+                FDBigInteger Svbl = FDBigInteger.vblueOfPow52(S5, S2);
+                int shiftBibs = Svbl.getNormblizbtionBibs();
+                Svbl = Svbl.leftShift(shiftBibs); // normblize so thbt division works better
 
-                FDBigInteger Bval = FDBigInteger.valueOfMulPow52(fractBits, B5, B2 + shiftBias);
-                FDBigInteger Mval = FDBigInteger.valueOfPow52(M5 + 1, M2 + shiftBias + 1);
+                FDBigInteger Bvbl = FDBigInteger.vblueOfMulPow52(frbctBits, B5, B2 + shiftBibs);
+                FDBigInteger Mvbl = FDBigInteger.vblueOfPow52(M5 + 1, M2 + shiftBibs + 1);
 
-                FDBigInteger tenSval = FDBigInteger.valueOfPow52(S5 + 1, S2 + shiftBias + 1); //Sval.mult( 10 );
+                FDBigInteger tenSvbl = FDBigInteger.vblueOfPow52(S5 + 1, S2 + shiftBibs + 1); //Svbl.mult( 10 );
                 //
-                // Unroll the first iteration. If our decExp estimate
-                // was too high, our first quotient will be zero. In this
-                // case, we discard it and decrement decExp.
+                // Unroll the first iterbtion. If our decExp estimbte
+                // wbs too high, our first quotient will be zero. In this
+                // cbse, we discbrd it bnd decrement decExp.
                 //
                 ndigit = 0;
-                q = Bval.quoRemIteration( Sval );
-                low  = (Bval.cmp( Mval ) < 0);
-                high = tenSval.addAndCmp(Bval,Mval)<=0;
+                q = Bvbl.quoRemIterbtion( Svbl );
+                low  = (Bvbl.cmp( Mvbl ) < 0);
+                high = tenSvbl.bddAndCmp(Bvbl,Mvbl)<=0;
 
-                assert q < 10 : q; // excessively large digit
+                bssert q < 10 : q; // excessively lbrge digit
                 if ( (q == 0) && ! high ){
-                    // oops. Usually ignore leading zero.
+                    // oops. Usublly ignore lebding zero.
                     decExp--;
                 } else {
-                    digits[ndigit++] = (char)('0' + q);
+                    digits[ndigit++] = (chbr)('0' + q);
                 }
                 //
-                // HACK! Java spec sez that we always have at least
-                // one digit after the . in either F- or E-form output.
-                // Thus we will need more than one digit if we're using
+                // HACK! Jbvb spec sez thbt we blwbys hbve bt lebst
+                // one digit bfter the . in either F- or E-form output.
+                // Thus we will need more thbn one digit if we're using
                 // E-form
                 //
-                if (!isCompatibleFormat || decExp < -3 || decExp >= 8 ){
-                    high = low = false;
+                if (!isCompbtibleFormbt || decExp < -3 || decExp >= 8 ){
+                    high = low = fblse;
                 }
                 while( ! low && ! high ){
-                    q = Bval.quoRemIteration( Sval );
-                    assert q < 10 : q;  // excessively large digit
-                    Mval = Mval.multBy10(); //Mval = Mval.mult( 10 );
-                    low  = (Bval.cmp( Mval ) < 0);
-                    high = tenSval.addAndCmp(Bval,Mval)<=0;
-                    digits[ndigit++] = (char)('0' + q);
+                    q = Bvbl.quoRemIterbtion( Svbl );
+                    bssert q < 10 : q;  // excessively lbrge digit
+                    Mvbl = Mvbl.multBy10(); //Mvbl = Mvbl.mult( 10 );
+                    low  = (Bvbl.cmp( Mvbl ) < 0);
+                    high = tenSvbl.bddAndCmp(Bvbl,Mvbl)<=0;
+                    digits[ndigit++] = (chbr)('0' + q);
                 }
                 if ( high && low ){
-                    Bval = Bval.leftShift(1);
-                    lowDigitDifference = Bval.cmp(tenSval);
+                    Bvbl = Bvbl.leftShift(1);
+                    lowDigitDifference = Bvbl.cmp(tenSvbl);
                 } else {
-                    lowDigitDifference = 0L; // this here only for flow analysis!
+                    lowDigitDifference = 0L; // this here only for flow bnblysis!
                 }
-                exactDecimalConversion  = (Bval.cmp( FDBigInteger.ZERO ) == 0);
+                exbctDecimblConversion  = (Bvbl.cmp( FDBigInteger.ZERO ) == 0);
             }
             this.decExponent = decExp+1;
             this.firstDigitIndex = 0;
             this.nDigits = ndigit;
             //
-            // Last digit gets rounded based on stopping condition.
+            // Lbst digit gets rounded bbsed on stopping condition.
             //
             if ( high ){
                 if ( low ){
                     if ( lowDigitDifference == 0L ){
-                        // it's a tie!
-                        // choose based on which digits we like.
+                        // it's b tie!
+                        // choose bbsed on which digits we like.
                         if ( (digits[firstDigitIndex+nDigits-1]&1) != 0 ) {
                             roundup();
                         }
@@ -780,12 +780,12 @@ public class FloatingDecimal{
             }
         }
 
-        // add one to the least significant digit.
-        // in the unlikely event there is a carry out, deal with it.
-        // assert that this will only happen where there
-        // is only one digit, e.g. (float)1e-44 seems to do it.
+        // bdd one to the lebst significbnt digit.
+        // in the unlikely event there is b cbrry out, debl with it.
+        // bssert thbt this will only hbppen where there
+        // is only one digit, e.g. (flobt)1e-44 seems to do it.
         //
-        private void roundup() {
+        privbte void roundup() {
             int i = (firstDigitIndex + nDigits - 1);
             int q = digits[i];
             if (q == '9') {
@@ -794,75 +794,75 @@ public class FloatingDecimal{
                     q = digits[--i];
                 }
                 if (q == '9') {
-                    // carryout! High-order 1, rest 0s, larger exp.
+                    // cbrryout! High-order 1, rest 0s, lbrger exp.
                     decExponent += 1;
                     digits[firstDigitIndex] = '1';
                     return;
                 }
-                // else fall through.
+                // else fbll through.
             }
-            digits[i] = (char) (q + 1);
-            decimalDigitsRoundedUp = true;
+            digits[i] = (chbr) (q + 1);
+            decimblDigitsRoundedUp = true;
         }
 
         /**
-         * Estimate decimal exponent. (If it is small-ish,
+         * Estimbte decimbl exponent. (If it is smbll-ish,
          * we could double-check.)
          *
-         * First, scale the mantissa bits such that 1 <= d2 < 2.
-         * We are then going to estimate
+         * First, scble the mbntissb bits such thbt 1 <= d2 < 2.
+         * We bre then going to estimbte
          *          log10(d2) ~=~  (d2-1.5)/1.5 + log(1.5)
-         * and so we can estimate
+         * bnd so we cbn estimbte
          *      log10(d) ~=~ log10(d2) + binExp * log10(2)
-         * take the floor and call it decExp.
+         * tbke the floor bnd cbll it decExp.
          */
-        static int estimateDecExp(long fractBits, int binExp) {
-            double d2 = Double.longBitsToDouble( EXP_ONE | ( fractBits & DoubleConsts.SIGNIF_BIT_MASK ) );
+        stbtic int estimbteDecExp(long frbctBits, int binExp) {
+            double d2 = Double.longBitsToDouble( EXP_ONE | ( frbctBits & DoubleConsts.SIGNIF_BIT_MASK ) );
             double d = (d2-1.5D)*0.289529654D + 0.176091259 + (double)binExp * 0.301029995663981;
-            long dBits = Double.doubleToRawLongBits(d);  //can't be NaN here so use raw
+            long dBits = Double.doubleToRbwLongBits(d);  //cbn't be NbN here so use rbw
             int exponent = (int)((dBits & DoubleConsts.EXP_BIT_MASK) >> EXP_SHIFT) - DoubleConsts.EXP_BIAS;
-            boolean isNegative = (dBits & DoubleConsts.SIGN_BIT_MASK) != 0; // discover sign
-            if(exponent>=0 && exponent<52) { // hot path
-                long mask   = DoubleConsts.SIGNIF_BIT_MASK >> exponent;
+            boolebn isNegbtive = (dBits & DoubleConsts.SIGN_BIT_MASK) != 0; // discover sign
+            if(exponent>=0 && exponent<52) { // hot pbth
+                long mbsk   = DoubleConsts.SIGNIF_BIT_MASK >> exponent;
                 int r = (int)(( (dBits&DoubleConsts.SIGNIF_BIT_MASK) | FRACT_HOB )>>(EXP_SHIFT-exponent));
-                return isNegative ? (((mask & dBits) == 0L ) ? -r : -r-1 ) : r;
+                return isNegbtive ? (((mbsk & dBits) == 0L ) ? -r : -r-1 ) : r;
             } else if (exponent < 0) {
                 return (((dBits&~DoubleConsts.SIGN_BIT_MASK) == 0) ? 0 :
-                        ( (isNegative) ? -1 : 0) );
+                        ( (isNegbtive) ? -1 : 0) );
             } else { //if (exponent >= 52)
                 return (int)d;
             }
         }
 
-        private static int insignificantDigits(int insignificant) {
+        privbte stbtic int insignificbntDigits(int insignificbnt) {
             int i;
-            for ( i = 0; insignificant >= 10L; i++ ) {
-                insignificant /= 10L;
+            for ( i = 0; insignificbnt >= 10L; i++ ) {
+                insignificbnt /= 10L;
             }
             return i;
         }
 
         /**
-         * Calculates
+         * Cblculbtes
          * <pre>
-         * insignificantDigitsForPow2(v) == insignificantDigits(1L<<v)
+         * insignificbntDigitsForPow2(v) == insignificbntDigits(1L<<v)
          * </pre>
          */
-        private static int insignificantDigitsForPow2(int p2) {
-            if(p2>1 && p2 < insignificantDigitsNumber.length) {
-                return insignificantDigitsNumber[p2];
+        privbte stbtic int insignificbntDigitsForPow2(int p2) {
+            if(p2>1 && p2 < insignificbntDigitsNumber.length) {
+                return insignificbntDigitsNumber[p2];
             }
             return 0;
         }
 
         /**
-         *  If insignificant==(1L << ixd)
-         *  i = insignificantDigitsNumber[idx] is the same as:
+         *  If insignificbnt==(1L << ixd)
+         *  i = insignificbntDigitsNumber[idx] is the sbme bs:
          *  int i;
-         *  for ( i = 0; insignificant >= 10L; i++ )
-         *         insignificant /= 10L;
+         *  for ( i = 0; insignificbnt >= 10L; i++ )
+         *         insignificbnt /= 10L;
          */
-        private static int[] insignificantDigitsNumber = {
+        privbte stbtic int[] insignificbntDigitsNumber = {
             0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3,
             4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7,
             8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 11, 11, 11,
@@ -871,8 +871,8 @@ public class FloatingDecimal{
             18, 18, 18, 19
         };
 
-        // approximately ceil( log2( long5pow[i] ) )
-        private static final int[] N_5_BITS = {
+        // bpproximbtely ceil( log2( long5pow[i] ) )
+        privbte stbtic finbl int[] N_5_BITS = {
                 0,
                 3,
                 5,
@@ -902,29 +902,29 @@ public class FloatingDecimal{
                 61,
         };
 
-        private int getChars(char[] result) {
-            assert nDigits <= 19 : nDigits; // generous bound on size of nDigits
+        privbte int getChbrs(chbr[] result) {
+            bssert nDigits <= 19 : nDigits; // generous bound on size of nDigits
             int i = 0;
-            if (isNegative) {
+            if (isNegbtive) {
                 result[0] = '-';
                 i = 1;
             }
             if (decExponent > 0 && decExponent < 8) {
                 // print digits.digits.
-                int charLength = Math.min(nDigits, decExponent);
-                System.arraycopy(digits, firstDigitIndex, result, i, charLength);
-                i += charLength;
-                if (charLength < decExponent) {
-                    charLength = decExponent - charLength;
-                    Arrays.fill(result,i,i+charLength,'0');
-                    i += charLength;
+                int chbrLength = Mbth.min(nDigits, decExponent);
+                System.brrbycopy(digits, firstDigitIndex, result, i, chbrLength);
+                i += chbrLength;
+                if (chbrLength < decExponent) {
+                    chbrLength = decExponent - chbrLength;
+                    Arrbys.fill(result,i,i+chbrLength,'0');
+                    i += chbrLength;
                     result[i++] = '.';
                     result[i++] = '0';
                 } else {
                     result[i++] = '.';
-                    if (charLength < nDigits) {
-                        int t = nDigits - charLength;
-                        System.arraycopy(digits, firstDigitIndex+charLength, result, i, t);
+                    if (chbrLength < nDigits) {
+                        int t = nDigits - chbrLength;
+                        System.brrbycopy(digits, firstDigitIndex+chbrLength, result, i, t);
                         i += t;
                     } else {
                         result[i++] = '0';
@@ -934,16 +934,16 @@ public class FloatingDecimal{
                 result[i++] = '0';
                 result[i++] = '.';
                 if (decExponent != 0) {
-                    Arrays.fill(result, i, i-decExponent, '0');
+                    Arrbys.fill(result, i, i-decExponent, '0');
                     i -= decExponent;
                 }
-                System.arraycopy(digits, firstDigitIndex, result, i, nDigits);
+                System.brrbycopy(digits, firstDigitIndex, result, i, nDigits);
                 i += nDigits;
             } else {
                 result[i++] = digits[firstDigitIndex];
                 result[i++] = '.';
                 if (nDigits > 1) {
-                    System.arraycopy(digits, firstDigitIndex+1, result, i, nDigits - 1);
+                    System.brrbycopy(digits, firstDigitIndex+1, result, i, nDigits - 1);
                     i += nDigits - 1;
                 } else {
                     result[i++] = '0';
@@ -956,17 +956,17 @@ public class FloatingDecimal{
                 } else {
                     e = decExponent - 1;
                 }
-                // decExponent has 1, 2, or 3, digits
+                // decExponent hbs 1, 2, or 3, digits
                 if (e <= 9) {
-                    result[i++] = (char) (e + '0');
+                    result[i++] = (chbr) (e + '0');
                 } else if (e <= 99) {
-                    result[i++] = (char) (e / 10 + '0');
-                    result[i++] = (char) (e % 10 + '0');
+                    result[i++] = (chbr) (e / 10 + '0');
+                    result[i++] = (chbr) (e % 10 + '0');
                 } else {
-                    result[i++] = (char) (e / 100 + '0');
+                    result[i++] = (chbr) (e / 100 + '0');
                     e %= 100;
-                    result[i++] = (char) (e / 10 + '0');
-                    result[i++] = (char) (e % 10 + '0');
+                    result[i++] = (chbr) (e / 10 + '0');
+                    result[i++] = (chbr) (e % 10 + '0');
                 }
             }
             return i;
@@ -974,546 +974,546 @@ public class FloatingDecimal{
 
     }
 
-    private static final ThreadLocal<BinaryToASCIIBuffer> threadLocalBinaryToASCIIBuffer =
-            new ThreadLocal<BinaryToASCIIBuffer>() {
+    privbte stbtic finbl ThrebdLocbl<BinbryToASCIIBuffer> threbdLocblBinbryToASCIIBuffer =
+            new ThrebdLocbl<BinbryToASCIIBuffer>() {
                 @Override
-                protected BinaryToASCIIBuffer initialValue() {
-                    return new BinaryToASCIIBuffer();
+                protected BinbryToASCIIBuffer initiblVblue() {
+                    return new BinbryToASCIIBuffer();
                 }
             };
 
-    private static BinaryToASCIIBuffer getBinaryToASCIIBuffer() {
-        return threadLocalBinaryToASCIIBuffer.get();
+    privbte stbtic BinbryToASCIIBuffer getBinbryToASCIIBuffer() {
+        return threbdLocblBinbryToASCIIBuffer.get();
     }
 
     /**
-     * A converter which can process an ASCII <code>String</code> representation
-     * of a single or double precision floating point value into a
-     * <code>float</code> or a <code>double</code>.
+     * A converter which cbn process bn ASCII <code>String</code> representbtion
+     * of b single or double precision flobting point vblue into b
+     * <code>flobt</code> or b <code>double</code>.
      */
-    interface ASCIIToBinaryConverter {
+    interfbce ASCIIToBinbryConverter {
 
-        double doubleValue();
+        double doubleVblue();
 
-        float floatValue();
+        flobt flobtVblue();
 
     }
 
     /**
-     * A <code>ASCIIToBinaryConverter</code> container for a <code>double</code>.
+     * A <code>ASCIIToBinbryConverter</code> contbiner for b <code>double</code>.
      */
-    static class PreparedASCIIToBinaryBuffer implements ASCIIToBinaryConverter {
-        final private double doubleVal;
-        final private float floatVal;
+    stbtic clbss PrepbredASCIIToBinbryBuffer implements ASCIIToBinbryConverter {
+        finbl privbte double doubleVbl;
+        finbl privbte flobt flobtVbl;
 
-        public PreparedASCIIToBinaryBuffer(double doubleVal, float floatVal) {
-            this.doubleVal = doubleVal;
-            this.floatVal = floatVal;
+        public PrepbredASCIIToBinbryBuffer(double doubleVbl, flobt flobtVbl) {
+            this.doubleVbl = doubleVbl;
+            this.flobtVbl = flobtVbl;
         }
 
         @Override
-        public double doubleValue() {
-            return doubleVal;
+        public double doubleVblue() {
+            return doubleVbl;
         }
 
         @Override
-        public float floatValue() {
-            return floatVal;
+        public flobt flobtVblue() {
+            return flobtVbl;
         }
     }
 
-    static final ASCIIToBinaryConverter A2BC_POSITIVE_INFINITY = new PreparedASCIIToBinaryBuffer(Double.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-    static final ASCIIToBinaryConverter A2BC_NEGATIVE_INFINITY = new PreparedASCIIToBinaryBuffer(Double.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-    static final ASCIIToBinaryConverter A2BC_NOT_A_NUMBER  = new PreparedASCIIToBinaryBuffer(Double.NaN, Float.NaN);
-    static final ASCIIToBinaryConverter A2BC_POSITIVE_ZERO = new PreparedASCIIToBinaryBuffer(0.0d, 0.0f);
-    static final ASCIIToBinaryConverter A2BC_NEGATIVE_ZERO = new PreparedASCIIToBinaryBuffer(-0.0d, -0.0f);
+    stbtic finbl ASCIIToBinbryConverter A2BC_POSITIVE_INFINITY = new PrepbredASCIIToBinbryBuffer(Double.POSITIVE_INFINITY, Flobt.POSITIVE_INFINITY);
+    stbtic finbl ASCIIToBinbryConverter A2BC_NEGATIVE_INFINITY = new PrepbredASCIIToBinbryBuffer(Double.NEGATIVE_INFINITY, Flobt.NEGATIVE_INFINITY);
+    stbtic finbl ASCIIToBinbryConverter A2BC_NOT_A_NUMBER  = new PrepbredASCIIToBinbryBuffer(Double.NbN, Flobt.NbN);
+    stbtic finbl ASCIIToBinbryConverter A2BC_POSITIVE_ZERO = new PrepbredASCIIToBinbryBuffer(0.0d, 0.0f);
+    stbtic finbl ASCIIToBinbryConverter A2BC_NEGATIVE_ZERO = new PrepbredASCIIToBinbryBuffer(-0.0d, -0.0f);
 
     /**
-     * A buffered implementation of <code>ASCIIToBinaryConverter</code>.
+     * A buffered implementbtion of <code>ASCIIToBinbryConverter</code>.
      */
-    static class ASCIIToBinaryBuffer implements ASCIIToBinaryConverter {
-        boolean     isNegative;
+    stbtic clbss ASCIIToBinbryBuffer implements ASCIIToBinbryConverter {
+        boolebn     isNegbtive;
         int         decExponent;
-        char        digits[];
+        chbr        digits[];
         int         nDigits;
 
-        ASCIIToBinaryBuffer( boolean negSign, int decExponent, char[] digits, int n)
+        ASCIIToBinbryBuffer( boolebn negSign, int decExponent, chbr[] digits, int n)
         {
-            this.isNegative = negSign;
+            this.isNegbtive = negSign;
             this.decExponent = decExponent;
             this.digits = digits;
             this.nDigits = n;
         }
 
         /**
-         * Takes a FloatingDecimal, which we presumably just scanned in,
-         * and finds out what its value is, as a double.
+         * Tbkes b FlobtingDecimbl, which we presumbbly just scbnned in,
+         * bnd finds out whbt its vblue is, bs b double.
          *
          * AS A SIDE EFFECT, SET roundDir TO INDICATE PREFERRED
-         * ROUNDING DIRECTION in case the result is really destined
-         * for a single-precision float.
+         * ROUNDING DIRECTION in cbse the result is reblly destined
+         * for b single-precision flobt.
          */
         @Override
-        public double doubleValue() {
-            int kDigits = Math.min(nDigits, MAX_DECIMAL_DIGITS + 1);
+        public double doubleVblue() {
+            int kDigits = Mbth.min(nDigits, MAX_DECIMAL_DIGITS + 1);
             //
-            // convert the lead kDigits to a long integer.
+            // convert the lebd kDigits to b long integer.
             //
-            // (special performance hack: start to do it using int)
-            int iValue = (int) digits[0] - (int) '0';
-            int iDigits = Math.min(kDigits, INT_DECIMAL_DIGITS);
+            // (specibl performbnce hbck: stbrt to do it using int)
+            int iVblue = (int) digits[0] - (int) '0';
+            int iDigits = Mbth.min(kDigits, INT_DECIMAL_DIGITS);
             for (int i = 1; i < iDigits; i++) {
-                iValue = iValue * 10 + (int) digits[i] - (int) '0';
+                iVblue = iVblue * 10 + (int) digits[i] - (int) '0';
             }
-            long lValue = (long) iValue;
+            long lVblue = (long) iVblue;
             for (int i = iDigits; i < kDigits; i++) {
-                lValue = lValue * 10L + (long) ((int) digits[i] - (int) '0');
+                lVblue = lVblue * 10L + (long) ((int) digits[i] - (int) '0');
             }
-            double dValue = (double) lValue;
+            double dVblue = (double) lVblue;
             int exp = decExponent - kDigits;
             //
-            // lValue now contains a long integer with the value of
+            // lVblue now contbins b long integer with the vblue of
             // the first kDigits digits of the number.
-            // dValue contains the (double) of the same.
+            // dVblue contbins the (double) of the sbme.
             //
 
             if (nDigits <= MAX_DECIMAL_DIGITS) {
                 //
-                // possibly an easy case.
-                // We know that the digits can be represented
-                // exactly. And if the exponent isn't too outrageous,
-                // the whole thing can be done with one operation,
+                // possibly bn ebsy cbse.
+                // We know thbt the digits cbn be represented
+                // exbctly. And if the exponent isn't too outrbgeous,
+                // the whole thing cbn be done with one operbtion,
                 // thus one rounding error.
-                // Note that all our constructors trim all leading and
-                // trailing zeros, so simple values (including zero)
-                // will always end up here
+                // Note thbt bll our constructors trim bll lebding bnd
+                // trbiling zeros, so simple vblues (including zero)
+                // will blwbys end up here
                 //
-                if (exp == 0 || dValue == 0.0) {
-                    return (isNegative) ? -dValue : dValue; // small floating integer
+                if (exp == 0 || dVblue == 0.0) {
+                    return (isNegbtive) ? -dVblue : dVblue; // smbll flobting integer
                 }
                 else if (exp >= 0) {
                     if (exp <= MAX_SMALL_TEN) {
                         //
-                        // Can get the answer with one operation,
+                        // Cbn get the bnswer with one operbtion,
                         // thus one roundoff.
                         //
-                        double rValue = dValue * SMALL_10_POW[exp];
-                        return (isNegative) ? -rValue : rValue;
+                        double rVblue = dVblue * SMALL_10_POW[exp];
+                        return (isNegbtive) ? -rVblue : rVblue;
                     }
                     int slop = MAX_DECIMAL_DIGITS - kDigits;
                     if (exp <= MAX_SMALL_TEN + slop) {
                         //
-                        // We can multiply dValue by 10^(slop)
-                        // and it is still "small" and exact.
-                        // Then we can multiply by 10^(exp-slop)
+                        // We cbn multiply dVblue by 10^(slop)
+                        // bnd it is still "smbll" bnd exbct.
+                        // Then we cbn multiply by 10^(exp-slop)
                         // with one rounding.
                         //
-                        dValue *= SMALL_10_POW[slop];
-                        double rValue = dValue * SMALL_10_POW[exp - slop];
-                        return (isNegative) ? -rValue : rValue;
+                        dVblue *= SMALL_10_POW[slop];
+                        double rVblue = dVblue * SMALL_10_POW[exp - slop];
+                        return (isNegbtive) ? -rVblue : rVblue;
                     }
                     //
-                    // Else we have a hard case with a positive exp.
+                    // Else we hbve b hbrd cbse with b positive exp.
                     //
                 } else {
                     if (exp >= -MAX_SMALL_TEN) {
                         //
-                        // Can get the answer in one division.
+                        // Cbn get the bnswer in one division.
                         //
-                        double rValue = dValue / SMALL_10_POW[-exp];
-                        return (isNegative) ? -rValue : rValue;
+                        double rVblue = dVblue / SMALL_10_POW[-exp];
+                        return (isNegbtive) ? -rVblue : rVblue;
                     }
                     //
-                    // Else we have a hard case with a negative exp.
+                    // Else we hbve b hbrd cbse with b negbtive exp.
                     //
                 }
             }
 
             //
-            // Harder cases:
-            // The sum of digits plus exponent is greater than
-            // what we think we can do with one error.
+            // Hbrder cbses:
+            // The sum of digits plus exponent is grebter thbn
+            // whbt we think we cbn do with one error.
             //
-            // Start by approximating the right answer by,
-            // naively, scaling by powers of 10.
+            // Stbrt by bpproximbting the right bnswer by,
+            // nbively, scbling by powers of 10.
             //
             if (exp > 0) {
                 if (decExponent > MAX_DECIMAL_EXPONENT + 1) {
                     //
-                    // Lets face it. This is going to be
-                    // Infinity. Cut to the chase.
+                    // Lets fbce it. This is going to be
+                    // Infinity. Cut to the chbse.
                     //
-                    return (isNegative) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+                    return (isNegbtive) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
                 }
                 if ((exp & 15) != 0) {
-                    dValue *= SMALL_10_POW[exp & 15];
+                    dVblue *= SMALL_10_POW[exp & 15];
                 }
                 if ((exp >>= 4) != 0) {
                     int j;
                     for (j = 0; exp > 1; j++, exp >>= 1) {
                         if ((exp & 1) != 0) {
-                            dValue *= BIG_10_POW[j];
+                            dVblue *= BIG_10_POW[j];
                         }
                     }
                     //
-                    // The reason for the weird exp > 1 condition
-                    // in the above loop was so that the last multiply
-                    // would get unrolled. We handle it here.
+                    // The rebson for the weird exp > 1 condition
+                    // in the bbove loop wbs so thbt the lbst multiply
+                    // would get unrolled. We hbndle it here.
                     // It could overflow.
                     //
-                    double t = dValue * BIG_10_POW[j];
+                    double t = dVblue * BIG_10_POW[j];
                     if (Double.isInfinite(t)) {
                         //
                         // It did overflow.
-                        // Look more closely at the result.
-                        // If the exponent is just one too large,
-                        // then use the maximum finite as our estimate
-                        // value. Else call the result infinity
-                        // and punt it.
-                        // ( I presume this could happen because
+                        // Look more closely bt the result.
+                        // If the exponent is just one too lbrge,
+                        // then use the mbximum finite bs our estimbte
+                        // vblue. Else cbll the result infinity
+                        // bnd punt it.
+                        // ( I presume this could hbppen becbuse
                         // rounding forces the result here to be
-                        // an ULP or two larger than
+                        // bn ULP or two lbrger thbn
                         // Double.MAX_VALUE ).
                         //
-                        t = dValue / 2.0;
+                        t = dVblue / 2.0;
                         t *= BIG_10_POW[j];
                         if (Double.isInfinite(t)) {
-                            return (isNegative) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+                            return (isNegbtive) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
                         }
                         t = Double.MAX_VALUE;
                     }
-                    dValue = t;
+                    dVblue = t;
                 }
             } else if (exp < 0) {
                 exp = -exp;
                 if (decExponent < MIN_DECIMAL_EXPONENT - 1) {
                     //
-                    // Lets face it. This is going to be
-                    // zero. Cut to the chase.
+                    // Lets fbce it. This is going to be
+                    // zero. Cut to the chbse.
                     //
-                    return (isNegative) ? -0.0 : 0.0;
+                    return (isNegbtive) ? -0.0 : 0.0;
                 }
                 if ((exp & 15) != 0) {
-                    dValue /= SMALL_10_POW[exp & 15];
+                    dVblue /= SMALL_10_POW[exp & 15];
                 }
                 if ((exp >>= 4) != 0) {
                     int j;
                     for (j = 0; exp > 1; j++, exp >>= 1) {
                         if ((exp & 1) != 0) {
-                            dValue *= TINY_10_POW[j];
+                            dVblue *= TINY_10_POW[j];
                         }
                     }
                     //
-                    // The reason for the weird exp > 1 condition
-                    // in the above loop was so that the last multiply
-                    // would get unrolled. We handle it here.
+                    // The rebson for the weird exp > 1 condition
+                    // in the bbove loop wbs so thbt the lbst multiply
+                    // would get unrolled. We hbndle it here.
                     // It could underflow.
                     //
-                    double t = dValue * TINY_10_POW[j];
+                    double t = dVblue * TINY_10_POW[j];
                     if (t == 0.0) {
                         //
                         // It did underflow.
-                        // Look more closely at the result.
-                        // If the exponent is just one too small,
-                        // then use the minimum finite as our estimate
-                        // value. Else call the result 0.0
-                        // and punt it.
-                        // ( I presume this could happen because
+                        // Look more closely bt the result.
+                        // If the exponent is just one too smbll,
+                        // then use the minimum finite bs our estimbte
+                        // vblue. Else cbll the result 0.0
+                        // bnd punt it.
+                        // ( I presume this could hbppen becbuse
                         // rounding forces the result here to be
-                        // an ULP or two less than
+                        // bn ULP or two less thbn
                         // Double.MIN_VALUE ).
                         //
-                        t = dValue * 2.0;
+                        t = dVblue * 2.0;
                         t *= TINY_10_POW[j];
                         if (t == 0.0) {
-                            return (isNegative) ? -0.0 : 0.0;
+                            return (isNegbtive) ? -0.0 : 0.0;
                         }
                         t = Double.MIN_VALUE;
                     }
-                    dValue = t;
+                    dVblue = t;
                 }
             }
 
             //
-            // dValue is now approximately the result.
-            // The hard part is adjusting it, by comparison
-            // with FDBigInteger arithmetic.
-            // Formulate the EXACT big-number result as
+            // dVblue is now bpproximbtely the result.
+            // The hbrd pbrt is bdjusting it, by compbrison
+            // with FDBigInteger brithmetic.
+            // Formulbte the EXACT big-number result bs
             // bigD0 * 10^exp
             //
             if (nDigits > MAX_NDIGITS) {
                 nDigits = MAX_NDIGITS + 1;
                 digits[MAX_NDIGITS] = '1';
             }
-            FDBigInteger bigD0 = new FDBigInteger(lValue, digits, kDigits, nDigits);
+            FDBigInteger bigD0 = new FDBigInteger(lVblue, digits, kDigits, nDigits);
             exp = decExponent - nDigits;
 
-            long ieeeBits = Double.doubleToRawLongBits(dValue); // IEEE-754 bits of double candidate
-            final int B5 = Math.max(0, -exp); // powers of 5 in bigB, value is not modified inside correctionLoop
-            final int D5 = Math.max(0, exp); // powers of 5 in bigD, value is not modified inside correctionLoop
+            long ieeeBits = Double.doubleToRbwLongBits(dVblue); // IEEE-754 bits of double cbndidbte
+            finbl int B5 = Mbth.mbx(0, -exp); // powers of 5 in bigB, vblue is not modified inside correctionLoop
+            finbl int D5 = Mbth.mbx(0, exp); // powers of 5 in bigD, vblue is not modified inside correctionLoop
             bigD0 = bigD0.multByPow52(D5, 0);
-            bigD0.makeImmutable();   // prevent bigD0 modification inside correctionLoop
+            bigD0.mbkeImmutbble();   // prevent bigD0 modificbtion inside correctionLoop
             FDBigInteger bigD = null;
             int prevD2 = 0;
 
             correctionLoop:
             while (true) {
-                // here ieeeBits can't be NaN, Infinity or zero
+                // here ieeeBits cbn't be NbN, Infinity or zero
                 int binexp = (int) (ieeeBits >>> EXP_SHIFT);
                 long bigBbits = ieeeBits & DoubleConsts.SIGNIF_BIT_MASK;
                 if (binexp > 0) {
                     bigBbits |= FRACT_HOB;
-                } else { // Normalize denormalized numbers.
-                    assert bigBbits != 0L : bigBbits; // doubleToBigInt(0.0)
-                    int leadingZeros = Long.numberOfLeadingZeros(bigBbits);
-                    int shift = leadingZeros - (63 - EXP_SHIFT);
+                } else { // Normblize denormblized numbers.
+                    bssert bigBbits != 0L : bigBbits; // doubleToBigInt(0.0)
+                    int lebdingZeros = Long.numberOfLebdingZeros(bigBbits);
+                    int shift = lebdingZeros - (63 - EXP_SHIFT);
                     bigBbits <<= shift;
                     binexp = 1 - shift;
                 }
                 binexp -= DoubleConsts.EXP_BIAS;
-                int lowOrderZeros = Long.numberOfTrailingZeros(bigBbits);
+                int lowOrderZeros = Long.numberOfTrbilingZeros(bigBbits);
                 bigBbits >>>= lowOrderZeros;
-                final int bigIntExp = binexp - EXP_SHIFT + lowOrderZeros;
-                final int bigIntNBits = EXP_SHIFT + 1 - lowOrderZeros;
+                finbl int bigIntExp = binexp - EXP_SHIFT + lowOrderZeros;
+                finbl int bigIntNBits = EXP_SHIFT + 1 - lowOrderZeros;
 
                 //
-                // Scale bigD, bigB appropriately for
-                // big-integer operations.
-                // Naively, we multiply by powers of ten
-                // and powers of two. What we actually do
-                // is keep track of the powers of 5 and
-                // powers of 2 we would use, then factor out
+                // Scble bigD, bigB bppropribtely for
+                // big-integer operbtions.
+                // Nbively, we multiply by powers of ten
+                // bnd powers of two. Whbt we bctublly do
+                // is keep trbck of the powers of 5 bnd
+                // powers of 2 we would use, then fbctor out
                 // common divisors before doing the work.
                 //
                 int B2 = B5; // powers of 2 in bigB
                 int D2 = D5; // powers of 2 in bigD
-                int Ulp2;   // powers of 2 in halfUlp.
+                int Ulp2;   // powers of 2 in hblfUlp.
                 if (bigIntExp >= 0) {
                     B2 += bigIntExp;
                 } else {
                     D2 -= bigIntExp;
                 }
                 Ulp2 = B2;
-                // shift bigB and bigD left by a number s. t.
-                // halfUlp is still an integer.
-                int hulpbias;
+                // shift bigB bnd bigD left by b number s. t.
+                // hblfUlp is still bn integer.
+                int hulpbibs;
                 if (binexp <= -DoubleConsts.EXP_BIAS) {
-                    // This is going to be a denormalized number
-                    // (if not actually zero).
-                    // half an ULP is at 2^-(DoubleConsts.EXP_BIAS+EXP_SHIFT+1)
-                    hulpbias = binexp + lowOrderZeros + DoubleConsts.EXP_BIAS;
+                    // This is going to be b denormblized number
+                    // (if not bctublly zero).
+                    // hblf bn ULP is bt 2^-(DoubleConsts.EXP_BIAS+EXP_SHIFT+1)
+                    hulpbibs = binexp + lowOrderZeros + DoubleConsts.EXP_BIAS;
                 } else {
-                    hulpbias = 1 + lowOrderZeros;
+                    hulpbibs = 1 + lowOrderZeros;
                 }
-                B2 += hulpbias;
-                D2 += hulpbias;
-                // if there are common factors of 2, we might just as well
-                // factor them out, as they add nothing useful.
-                int common2 = Math.min(B2, Math.min(D2, Ulp2));
+                B2 += hulpbibs;
+                D2 += hulpbibs;
+                // if there bre common fbctors of 2, we might just bs well
+                // fbctor them out, bs they bdd nothing useful.
+                int common2 = Mbth.min(B2, Mbth.min(D2, Ulp2));
                 B2 -= common2;
                 D2 -= common2;
                 Ulp2 -= common2;
-                // do multiplications by powers of 5 and 2
-                FDBigInteger bigB = FDBigInteger.valueOfMulPow52(bigBbits, B5, B2);
+                // do multiplicbtions by powers of 5 bnd 2
+                FDBigInteger bigB = FDBigInteger.vblueOfMulPow52(bigBbits, B5, B2);
                 if (bigD == null || prevD2 != D2) {
                     bigD = bigD0.leftShift(D2);
                     prevD2 = D2;
                 }
                 //
-                // to recap:
-                // bigB is the scaled-big-int version of our floating-point
-                // candidate.
-                // bigD is the scaled-big-int version of the exact value
-                // as we understand it.
-                // halfUlp is 1/2 an ulp of bigB, except for special cases
-                // of exact powers of 2
+                // to recbp:
+                // bigB is the scbled-big-int version of our flobting-point
+                // cbndidbte.
+                // bigD is the scbled-big-int version of the exbct vblue
+                // bs we understbnd it.
+                // hblfUlp is 1/2 bn ulp of bigB, except for specibl cbses
+                // of exbct powers of 2
                 //
-                // the plan is to compare bigB with bigD, and if the difference
-                // is less than halfUlp, then we're satisfied. Otherwise,
-                // use the ratio of difference to halfUlp to calculate a fudge
-                // factor to add to the floating value, then go 'round again.
+                // the plbn is to compbre bigB with bigD, bnd if the difference
+                // is less thbn hblfUlp, then we're sbtisfied. Otherwise,
+                // use the rbtio of difference to hblfUlp to cblculbte b fudge
+                // fbctor to bdd to the flobting vblue, then go 'round bgbin.
                 //
                 FDBigInteger diff;
                 int cmpResult;
-                boolean overvalue;
+                boolebn overvblue;
                 if ((cmpResult = bigB.cmp(bigD)) > 0) {
-                    overvalue = true; // our candidate is too big.
-                    diff = bigB.leftInplaceSub(bigD); // bigB is not user further - reuse
+                    overvblue = true; // our cbndidbte is too big.
+                    diff = bigB.leftInplbceSub(bigD); // bigB is not user further - reuse
                     if ((bigIntNBits == 1) && (bigIntExp > -DoubleConsts.EXP_BIAS + 1)) {
-                        // candidate is a normalized exact power of 2 and
-                        // is too big (larger than Double.MIN_NORMAL). We will be subtracting.
+                        // cbndidbte is b normblized exbct power of 2 bnd
+                        // is too big (lbrger thbn Double.MIN_NORMAL). We will be subtrbcting.
                         // For our purposes, ulp is the ulp of the
-                        // next smaller range.
+                        // next smbller rbnge.
                         Ulp2 -= 1;
                         if (Ulp2 < 0) {
-                            // rats. Cannot de-scale ulp this far.
-                            // must scale diff in other direction.
+                            // rbts. Cbnnot de-scble ulp this fbr.
+                            // must scble diff in other direction.
                             Ulp2 = 0;
                             diff = diff.leftShift(1);
                         }
                     }
                 } else if (cmpResult < 0) {
-                    overvalue = false; // our candidate is too small.
-                    diff = bigD.rightInplaceSub(bigB); // bigB is not user further - reuse
+                    overvblue = fblse; // our cbndidbte is too smbll.
+                    diff = bigD.rightInplbceSub(bigB); // bigB is not user further - reuse
                 } else {
-                    // the candidate is exactly right!
-                    // this happens with surprising frequency
-                    break correctionLoop;
+                    // the cbndidbte is exbctly right!
+                    // this hbppens with surprising frequency
+                    brebk correctionLoop;
                 }
                 cmpResult = diff.cmpPow52(B5, Ulp2);
                 if ((cmpResult) < 0) {
-                    // difference is small.
+                    // difference is smbll.
                     // this is close enough
-                    break correctionLoop;
+                    brebk correctionLoop;
                 } else if (cmpResult == 0) {
-                    // difference is exactly half an ULP
-                    // round to some other value maybe, then finish
-                    if ((ieeeBits & 1) != 0) { // half ties to even
-                        ieeeBits += overvalue ? -1 : 1; // nextDown or nextUp
+                    // difference is exbctly hblf bn ULP
+                    // round to some other vblue mbybe, then finish
+                    if ((ieeeBits & 1) != 0) { // hblf ties to even
+                        ieeeBits += overvblue ? -1 : 1; // nextDown or nextUp
                     }
-                    break correctionLoop;
+                    brebk correctionLoop;
                 } else {
-                    // difference is non-trivial.
-                    // could scale addend by ratio of difference to
-                    // halfUlp here, if we bothered to compute that difference.
-                    // Most of the time ( I hope ) it is about 1 anyway.
-                    ieeeBits += overvalue ? -1 : 1; // nextDown or nextUp
+                    // difference is non-trivibl.
+                    // could scble bddend by rbtio of difference to
+                    // hblfUlp here, if we bothered to compute thbt difference.
+                    // Most of the time ( I hope ) it is bbout 1 bnywby.
+                    ieeeBits += overvblue ? -1 : 1; // nextDown or nextUp
                     if (ieeeBits == 0 || ieeeBits == DoubleConsts.EXP_BIT_MASK) { // 0.0 or Double.POSITIVE_INFINITY
-                        break correctionLoop; // oops. Fell off end of range.
+                        brebk correctionLoop; // oops. Fell off end of rbnge.
                     }
-                    continue; // try again.
+                    continue; // try bgbin.
                 }
 
             }
-            if (isNegative) {
+            if (isNegbtive) {
                 ieeeBits |= DoubleConsts.SIGN_BIT_MASK;
             }
             return Double.longBitsToDouble(ieeeBits);
         }
 
         /**
-         * Takes a FloatingDecimal, which we presumably just scanned in,
-         * and finds out what its value is, as a float.
-         * This is distinct from doubleValue() to avoid the extremely
-         * unlikely case of a double rounding error, wherein the conversion
-         * to double has one rounding error, and the conversion of that double
-         * to a float has another rounding error, IN THE WRONG DIRECTION,
-         * ( because of the preference to a zero low-order bit ).
+         * Tbkes b FlobtingDecimbl, which we presumbbly just scbnned in,
+         * bnd finds out whbt its vblue is, bs b flobt.
+         * This is distinct from doubleVblue() to bvoid the extremely
+         * unlikely cbse of b double rounding error, wherein the conversion
+         * to double hbs one rounding error, bnd the conversion of thbt double
+         * to b flobt hbs bnother rounding error, IN THE WRONG DIRECTION,
+         * ( becbuse of the preference to b zero low-order bit ).
          */
         @Override
-        public float floatValue() {
-            int kDigits = Math.min(nDigits, SINGLE_MAX_DECIMAL_DIGITS + 1);
+        public flobt flobtVblue() {
+            int kDigits = Mbth.min(nDigits, SINGLE_MAX_DECIMAL_DIGITS + 1);
             //
-            // convert the lead kDigits to an integer.
+            // convert the lebd kDigits to bn integer.
             //
-            int iValue = (int) digits[0] - (int) '0';
+            int iVblue = (int) digits[0] - (int) '0';
             for (int i = 1; i < kDigits; i++) {
-                iValue = iValue * 10 + (int) digits[i] - (int) '0';
+                iVblue = iVblue * 10 + (int) digits[i] - (int) '0';
             }
-            float fValue = (float) iValue;
+            flobt fVblue = (flobt) iVblue;
             int exp = decExponent - kDigits;
             //
-            // iValue now contains an integer with the value of
+            // iVblue now contbins bn integer with the vblue of
             // the first kDigits digits of the number.
-            // fValue contains the (float) of the same.
+            // fVblue contbins the (flobt) of the sbme.
             //
 
             if (nDigits <= SINGLE_MAX_DECIMAL_DIGITS) {
                 //
-                // possibly an easy case.
-                // We know that the digits can be represented
-                // exactly. And if the exponent isn't too outrageous,
-                // the whole thing can be done with one operation,
+                // possibly bn ebsy cbse.
+                // We know thbt the digits cbn be represented
+                // exbctly. And if the exponent isn't too outrbgeous,
+                // the whole thing cbn be done with one operbtion,
                 // thus one rounding error.
-                // Note that all our constructors trim all leading and
-                // trailing zeros, so simple values (including zero)
-                // will always end up here.
+                // Note thbt bll our constructors trim bll lebding bnd
+                // trbiling zeros, so simple vblues (including zero)
+                // will blwbys end up here.
                 //
-                if (exp == 0 || fValue == 0.0f) {
-                    return (isNegative) ? -fValue : fValue; // small floating integer
+                if (exp == 0 || fVblue == 0.0f) {
+                    return (isNegbtive) ? -fVblue : fVblue; // smbll flobting integer
                 } else if (exp >= 0) {
                     if (exp <= SINGLE_MAX_SMALL_TEN) {
                         //
-                        // Can get the answer with one operation,
+                        // Cbn get the bnswer with one operbtion,
                         // thus one roundoff.
                         //
-                        fValue *= SINGLE_SMALL_10_POW[exp];
-                        return (isNegative) ? -fValue : fValue;
+                        fVblue *= SINGLE_SMALL_10_POW[exp];
+                        return (isNegbtive) ? -fVblue : fVblue;
                     }
                     int slop = SINGLE_MAX_DECIMAL_DIGITS - kDigits;
                     if (exp <= SINGLE_MAX_SMALL_TEN + slop) {
                         //
-                        // We can multiply fValue by 10^(slop)
-                        // and it is still "small" and exact.
-                        // Then we can multiply by 10^(exp-slop)
+                        // We cbn multiply fVblue by 10^(slop)
+                        // bnd it is still "smbll" bnd exbct.
+                        // Then we cbn multiply by 10^(exp-slop)
                         // with one rounding.
                         //
-                        fValue *= SINGLE_SMALL_10_POW[slop];
-                        fValue *= SINGLE_SMALL_10_POW[exp - slop];
-                        return (isNegative) ? -fValue : fValue;
+                        fVblue *= SINGLE_SMALL_10_POW[slop];
+                        fVblue *= SINGLE_SMALL_10_POW[exp - slop];
+                        return (isNegbtive) ? -fVblue : fVblue;
                     }
                     //
-                    // Else we have a hard case with a positive exp.
+                    // Else we hbve b hbrd cbse with b positive exp.
                     //
                 } else {
                     if (exp >= -SINGLE_MAX_SMALL_TEN) {
                         //
-                        // Can get the answer in one division.
+                        // Cbn get the bnswer in one division.
                         //
-                        fValue /= SINGLE_SMALL_10_POW[-exp];
-                        return (isNegative) ? -fValue : fValue;
+                        fVblue /= SINGLE_SMALL_10_POW[-exp];
+                        return (isNegbtive) ? -fVblue : fVblue;
                     }
                     //
-                    // Else we have a hard case with a negative exp.
+                    // Else we hbve b hbrd cbse with b negbtive exp.
                     //
                 }
             } else if ((decExponent >= nDigits) && (nDigits + decExponent <= MAX_DECIMAL_DIGITS)) {
                 //
-                // In double-precision, this is an exact floating integer.
-                // So we can compute to double, then shorten to float
-                // with one round, and get the right answer.
+                // In double-precision, this is bn exbct flobting integer.
+                // So we cbn compute to double, then shorten to flobt
+                // with one round, bnd get the right bnswer.
                 //
-                // First, finish accumulating digits.
-                // Then convert that integer to a double, multiply
-                // by the appropriate power of ten, and convert to float.
+                // First, finish bccumulbting digits.
+                // Then convert thbt integer to b double, multiply
+                // by the bppropribte power of ten, bnd convert to flobt.
                 //
-                long lValue = (long) iValue;
+                long lVblue = (long) iVblue;
                 for (int i = kDigits; i < nDigits; i++) {
-                    lValue = lValue * 10L + (long) ((int) digits[i] - (int) '0');
+                    lVblue = lVblue * 10L + (long) ((int) digits[i] - (int) '0');
                 }
-                double dValue = (double) lValue;
+                double dVblue = (double) lVblue;
                 exp = decExponent - nDigits;
-                dValue *= SMALL_10_POW[exp];
-                fValue = (float) dValue;
-                return (isNegative) ? -fValue : fValue;
+                dVblue *= SMALL_10_POW[exp];
+                fVblue = (flobt) dVblue;
+                return (isNegbtive) ? -fVblue : fVblue;
 
             }
             //
-            // Harder cases:
-            // The sum of digits plus exponent is greater than
-            // what we think we can do with one error.
+            // Hbrder cbses:
+            // The sum of digits plus exponent is grebter thbn
+            // whbt we think we cbn do with one error.
             //
-            // Start by approximating the right answer by,
-            // naively, scaling by powers of 10.
-            // Scaling uses doubles to avoid overflow/underflow.
+            // Stbrt by bpproximbting the right bnswer by,
+            // nbively, scbling by powers of 10.
+            // Scbling uses doubles to bvoid overflow/underflow.
             //
-            double dValue = fValue;
+            double dVblue = fVblue;
             if (exp > 0) {
                 if (decExponent > SINGLE_MAX_DECIMAL_EXPONENT + 1) {
                     //
-                    // Lets face it. This is going to be
-                    // Infinity. Cut to the chase.
+                    // Lets fbce it. This is going to be
+                    // Infinity. Cut to the chbse.
                     //
-                    return (isNegative) ? Float.NEGATIVE_INFINITY : Float.POSITIVE_INFINITY;
+                    return (isNegbtive) ? Flobt.NEGATIVE_INFINITY : Flobt.POSITIVE_INFINITY;
                 }
                 if ((exp & 15) != 0) {
-                    dValue *= SMALL_10_POW[exp & 15];
+                    dVblue *= SMALL_10_POW[exp & 15];
                 }
                 if ((exp >>= 4) != 0) {
                     int j;
                     for (j = 0; exp > 0; j++, exp >>= 1) {
                         if ((exp & 1) != 0) {
-                            dValue *= BIG_10_POW[j];
+                            dVblue *= BIG_10_POW[j];
                         }
                     }
                 }
@@ -1521,188 +1521,188 @@ public class FloatingDecimal{
                 exp = -exp;
                 if (decExponent < SINGLE_MIN_DECIMAL_EXPONENT - 1) {
                     //
-                    // Lets face it. This is going to be
-                    // zero. Cut to the chase.
+                    // Lets fbce it. This is going to be
+                    // zero. Cut to the chbse.
                     //
-                    return (isNegative) ? -0.0f : 0.0f;
+                    return (isNegbtive) ? -0.0f : 0.0f;
                 }
                 if ((exp & 15) != 0) {
-                    dValue /= SMALL_10_POW[exp & 15];
+                    dVblue /= SMALL_10_POW[exp & 15];
                 }
                 if ((exp >>= 4) != 0) {
                     int j;
                     for (j = 0; exp > 0; j++, exp >>= 1) {
                         if ((exp & 1) != 0) {
-                            dValue *= TINY_10_POW[j];
+                            dVblue *= TINY_10_POW[j];
                         }
                     }
                 }
             }
-            fValue = Math.max(Float.MIN_VALUE, Math.min(Float.MAX_VALUE, (float) dValue));
+            fVblue = Mbth.mbx(Flobt.MIN_VALUE, Mbth.min(Flobt.MAX_VALUE, (flobt) dVblue));
 
             //
-            // fValue is now approximately the result.
-            // The hard part is adjusting it, by comparison
-            // with FDBigInteger arithmetic.
-            // Formulate the EXACT big-number result as
+            // fVblue is now bpproximbtely the result.
+            // The hbrd pbrt is bdjusting it, by compbrison
+            // with FDBigInteger brithmetic.
+            // Formulbte the EXACT big-number result bs
             // bigD0 * 10^exp
             //
             if (nDigits > SINGLE_MAX_NDIGITS) {
                 nDigits = SINGLE_MAX_NDIGITS + 1;
                 digits[SINGLE_MAX_NDIGITS] = '1';
             }
-            FDBigInteger bigD0 = new FDBigInteger(iValue, digits, kDigits, nDigits);
+            FDBigInteger bigD0 = new FDBigInteger(iVblue, digits, kDigits, nDigits);
             exp = decExponent - nDigits;
 
-            int ieeeBits = Float.floatToRawIntBits(fValue); // IEEE-754 bits of float candidate
-            final int B5 = Math.max(0, -exp); // powers of 5 in bigB, value is not modified inside correctionLoop
-            final int D5 = Math.max(0, exp); // powers of 5 in bigD, value is not modified inside correctionLoop
+            int ieeeBits = Flobt.flobtToRbwIntBits(fVblue); // IEEE-754 bits of flobt cbndidbte
+            finbl int B5 = Mbth.mbx(0, -exp); // powers of 5 in bigB, vblue is not modified inside correctionLoop
+            finbl int D5 = Mbth.mbx(0, exp); // powers of 5 in bigD, vblue is not modified inside correctionLoop
             bigD0 = bigD0.multByPow52(D5, 0);
-            bigD0.makeImmutable();   // prevent bigD0 modification inside correctionLoop
+            bigD0.mbkeImmutbble();   // prevent bigD0 modificbtion inside correctionLoop
             FDBigInteger bigD = null;
             int prevD2 = 0;
 
             correctionLoop:
             while (true) {
-                // here ieeeBits can't be NaN, Infinity or zero
+                // here ieeeBits cbn't be NbN, Infinity or zero
                 int binexp = ieeeBits >>> SINGLE_EXP_SHIFT;
-                int bigBbits = ieeeBits & FloatConsts.SIGNIF_BIT_MASK;
+                int bigBbits = ieeeBits & FlobtConsts.SIGNIF_BIT_MASK;
                 if (binexp > 0) {
                     bigBbits |= SINGLE_FRACT_HOB;
-                } else { // Normalize denormalized numbers.
-                    assert bigBbits != 0 : bigBbits; // floatToBigInt(0.0)
-                    int leadingZeros = Integer.numberOfLeadingZeros(bigBbits);
-                    int shift = leadingZeros - (31 - SINGLE_EXP_SHIFT);
+                } else { // Normblize denormblized numbers.
+                    bssert bigBbits != 0 : bigBbits; // flobtToBigInt(0.0)
+                    int lebdingZeros = Integer.numberOfLebdingZeros(bigBbits);
+                    int shift = lebdingZeros - (31 - SINGLE_EXP_SHIFT);
                     bigBbits <<= shift;
                     binexp = 1 - shift;
                 }
-                binexp -= FloatConsts.EXP_BIAS;
-                int lowOrderZeros = Integer.numberOfTrailingZeros(bigBbits);
+                binexp -= FlobtConsts.EXP_BIAS;
+                int lowOrderZeros = Integer.numberOfTrbilingZeros(bigBbits);
                 bigBbits >>>= lowOrderZeros;
-                final int bigIntExp = binexp - SINGLE_EXP_SHIFT + lowOrderZeros;
-                final int bigIntNBits = SINGLE_EXP_SHIFT + 1 - lowOrderZeros;
+                finbl int bigIntExp = binexp - SINGLE_EXP_SHIFT + lowOrderZeros;
+                finbl int bigIntNBits = SINGLE_EXP_SHIFT + 1 - lowOrderZeros;
 
                 //
-                // Scale bigD, bigB appropriately for
-                // big-integer operations.
-                // Naively, we multiply by powers of ten
-                // and powers of two. What we actually do
-                // is keep track of the powers of 5 and
-                // powers of 2 we would use, then factor out
+                // Scble bigD, bigB bppropribtely for
+                // big-integer operbtions.
+                // Nbively, we multiply by powers of ten
+                // bnd powers of two. Whbt we bctublly do
+                // is keep trbck of the powers of 5 bnd
+                // powers of 2 we would use, then fbctor out
                 // common divisors before doing the work.
                 //
                 int B2 = B5; // powers of 2 in bigB
                 int D2 = D5; // powers of 2 in bigD
-                int Ulp2;   // powers of 2 in halfUlp.
+                int Ulp2;   // powers of 2 in hblfUlp.
                 if (bigIntExp >= 0) {
                     B2 += bigIntExp;
                 } else {
                     D2 -= bigIntExp;
                 }
                 Ulp2 = B2;
-                // shift bigB and bigD left by a number s. t.
-                // halfUlp is still an integer.
-                int hulpbias;
-                if (binexp <= -FloatConsts.EXP_BIAS) {
-                    // This is going to be a denormalized number
-                    // (if not actually zero).
-                    // half an ULP is at 2^-(FloatConsts.EXP_BIAS+SINGLE_EXP_SHIFT+1)
-                    hulpbias = binexp + lowOrderZeros + FloatConsts.EXP_BIAS;
+                // shift bigB bnd bigD left by b number s. t.
+                // hblfUlp is still bn integer.
+                int hulpbibs;
+                if (binexp <= -FlobtConsts.EXP_BIAS) {
+                    // This is going to be b denormblized number
+                    // (if not bctublly zero).
+                    // hblf bn ULP is bt 2^-(FlobtConsts.EXP_BIAS+SINGLE_EXP_SHIFT+1)
+                    hulpbibs = binexp + lowOrderZeros + FlobtConsts.EXP_BIAS;
                 } else {
-                    hulpbias = 1 + lowOrderZeros;
+                    hulpbibs = 1 + lowOrderZeros;
                 }
-                B2 += hulpbias;
-                D2 += hulpbias;
-                // if there are common factors of 2, we might just as well
-                // factor them out, as they add nothing useful.
-                int common2 = Math.min(B2, Math.min(D2, Ulp2));
+                B2 += hulpbibs;
+                D2 += hulpbibs;
+                // if there bre common fbctors of 2, we might just bs well
+                // fbctor them out, bs they bdd nothing useful.
+                int common2 = Mbth.min(B2, Mbth.min(D2, Ulp2));
                 B2 -= common2;
                 D2 -= common2;
                 Ulp2 -= common2;
-                // do multiplications by powers of 5 and 2
-                FDBigInteger bigB = FDBigInteger.valueOfMulPow52(bigBbits, B5, B2);
+                // do multiplicbtions by powers of 5 bnd 2
+                FDBigInteger bigB = FDBigInteger.vblueOfMulPow52(bigBbits, B5, B2);
                 if (bigD == null || prevD2 != D2) {
                     bigD = bigD0.leftShift(D2);
                     prevD2 = D2;
                 }
                 //
-                // to recap:
-                // bigB is the scaled-big-int version of our floating-point
-                // candidate.
-                // bigD is the scaled-big-int version of the exact value
-                // as we understand it.
-                // halfUlp is 1/2 an ulp of bigB, except for special cases
-                // of exact powers of 2
+                // to recbp:
+                // bigB is the scbled-big-int version of our flobting-point
+                // cbndidbte.
+                // bigD is the scbled-big-int version of the exbct vblue
+                // bs we understbnd it.
+                // hblfUlp is 1/2 bn ulp of bigB, except for specibl cbses
+                // of exbct powers of 2
                 //
-                // the plan is to compare bigB with bigD, and if the difference
-                // is less than halfUlp, then we're satisfied. Otherwise,
-                // use the ratio of difference to halfUlp to calculate a fudge
-                // factor to add to the floating value, then go 'round again.
+                // the plbn is to compbre bigB with bigD, bnd if the difference
+                // is less thbn hblfUlp, then we're sbtisfied. Otherwise,
+                // use the rbtio of difference to hblfUlp to cblculbte b fudge
+                // fbctor to bdd to the flobting vblue, then go 'round bgbin.
                 //
                 FDBigInteger diff;
                 int cmpResult;
-                boolean overvalue;
+                boolebn overvblue;
                 if ((cmpResult = bigB.cmp(bigD)) > 0) {
-                    overvalue = true; // our candidate is too big.
-                    diff = bigB.leftInplaceSub(bigD); // bigB is not user further - reuse
-                    if ((bigIntNBits == 1) && (bigIntExp > -FloatConsts.EXP_BIAS + 1)) {
-                        // candidate is a normalized exact power of 2 and
-                        // is too big (larger than Float.MIN_NORMAL). We will be subtracting.
+                    overvblue = true; // our cbndidbte is too big.
+                    diff = bigB.leftInplbceSub(bigD); // bigB is not user further - reuse
+                    if ((bigIntNBits == 1) && (bigIntExp > -FlobtConsts.EXP_BIAS + 1)) {
+                        // cbndidbte is b normblized exbct power of 2 bnd
+                        // is too big (lbrger thbn Flobt.MIN_NORMAL). We will be subtrbcting.
                         // For our purposes, ulp is the ulp of the
-                        // next smaller range.
+                        // next smbller rbnge.
                         Ulp2 -= 1;
                         if (Ulp2 < 0) {
-                            // rats. Cannot de-scale ulp this far.
-                            // must scale diff in other direction.
+                            // rbts. Cbnnot de-scble ulp this fbr.
+                            // must scble diff in other direction.
                             Ulp2 = 0;
                             diff = diff.leftShift(1);
                         }
                     }
                 } else if (cmpResult < 0) {
-                    overvalue = false; // our candidate is too small.
-                    diff = bigD.rightInplaceSub(bigB); // bigB is not user further - reuse
+                    overvblue = fblse; // our cbndidbte is too smbll.
+                    diff = bigD.rightInplbceSub(bigB); // bigB is not user further - reuse
                 } else {
-                    // the candidate is exactly right!
-                    // this happens with surprising frequency
-                    break correctionLoop;
+                    // the cbndidbte is exbctly right!
+                    // this hbppens with surprising frequency
+                    brebk correctionLoop;
                 }
                 cmpResult = diff.cmpPow52(B5, Ulp2);
                 if ((cmpResult) < 0) {
-                    // difference is small.
+                    // difference is smbll.
                     // this is close enough
-                    break correctionLoop;
+                    brebk correctionLoop;
                 } else if (cmpResult == 0) {
-                    // difference is exactly half an ULP
-                    // round to some other value maybe, then finish
-                    if ((ieeeBits & 1) != 0) { // half ties to even
-                        ieeeBits += overvalue ? -1 : 1; // nextDown or nextUp
+                    // difference is exbctly hblf bn ULP
+                    // round to some other vblue mbybe, then finish
+                    if ((ieeeBits & 1) != 0) { // hblf ties to even
+                        ieeeBits += overvblue ? -1 : 1; // nextDown or nextUp
                     }
-                    break correctionLoop;
+                    brebk correctionLoop;
                 } else {
-                    // difference is non-trivial.
-                    // could scale addend by ratio of difference to
-                    // halfUlp here, if we bothered to compute that difference.
-                    // Most of the time ( I hope ) it is about 1 anyway.
-                    ieeeBits += overvalue ? -1 : 1; // nextDown or nextUp
-                    if (ieeeBits == 0 || ieeeBits == FloatConsts.EXP_BIT_MASK) { // 0.0 or Float.POSITIVE_INFINITY
-                        break correctionLoop; // oops. Fell off end of range.
+                    // difference is non-trivibl.
+                    // could scble bddend by rbtio of difference to
+                    // hblfUlp here, if we bothered to compute thbt difference.
+                    // Most of the time ( I hope ) it is bbout 1 bnywby.
+                    ieeeBits += overvblue ? -1 : 1; // nextDown or nextUp
+                    if (ieeeBits == 0 || ieeeBits == FlobtConsts.EXP_BIT_MASK) { // 0.0 or Flobt.POSITIVE_INFINITY
+                        brebk correctionLoop; // oops. Fell off end of rbnge.
                     }
-                    continue; // try again.
+                    continue; // try bgbin.
                 }
 
             }
-            if (isNegative) {
-                ieeeBits |= FloatConsts.SIGN_BIT_MASK;
+            if (isNegbtive) {
+                ieeeBits |= FlobtConsts.SIGN_BIT_MASK;
             }
-            return Float.intBitsToFloat(ieeeBits);
+            return Flobt.intBitsToFlobt(ieeeBits);
         }
 
 
         /**
-         * All the positive powers of 10 that can be
-         * represented exactly in double/float.
+         * All the positive powers of 10 thbt cbn be
+         * represented exbctly in double/flobt.
          */
-        private static final double[] SMALL_10_POW = {
+        privbte stbtic finbl double[] SMALL_10_POW = {
             1.0e0,
             1.0e1, 1.0e2, 1.0e3, 1.0e4, 1.0e5,
             1.0e6, 1.0e7, 1.0e8, 1.0e9, 1.0e10,
@@ -1711,183 +1711,183 @@ public class FloatingDecimal{
             1.0e21, 1.0e22
         };
 
-        private static final float[] SINGLE_SMALL_10_POW = {
+        privbte stbtic finbl flobt[] SINGLE_SMALL_10_POW = {
             1.0e0f,
             1.0e1f, 1.0e2f, 1.0e3f, 1.0e4f, 1.0e5f,
             1.0e6f, 1.0e7f, 1.0e8f, 1.0e9f, 1.0e10f
         };
 
-        private static final double[] BIG_10_POW = {
+        privbte stbtic finbl double[] BIG_10_POW = {
             1e16, 1e32, 1e64, 1e128, 1e256 };
-        private static final double[] TINY_10_POW = {
+        privbte stbtic finbl double[] TINY_10_POW = {
             1e-16, 1e-32, 1e-64, 1e-128, 1e-256 };
 
-        private static final int MAX_SMALL_TEN = SMALL_10_POW.length-1;
-        private static final int SINGLE_MAX_SMALL_TEN = SINGLE_SMALL_10_POW.length-1;
+        privbte stbtic finbl int MAX_SMALL_TEN = SMALL_10_POW.length-1;
+        privbte stbtic finbl int SINGLE_MAX_SMALL_TEN = SINGLE_SMALL_10_POW.length-1;
 
     }
 
     /**
-     * Returns a <code>BinaryToASCIIConverter</code> for a <code>double</code>.
-     * The returned object is a <code>ThreadLocal</code> variable of this class.
+     * Returns b <code>BinbryToASCIIConverter</code> for b <code>double</code>.
+     * The returned object is b <code>ThrebdLocbl</code> vbribble of this clbss.
      *
-     * @param d The double precision value to convert.
+     * @pbrbm d The double precision vblue to convert.
      * @return The converter.
      */
-    public static BinaryToASCIIConverter getBinaryToASCIIConverter(double d) {
-        return getBinaryToASCIIConverter(d, true);
+    public stbtic BinbryToASCIIConverter getBinbryToASCIIConverter(double d) {
+        return getBinbryToASCIIConverter(d, true);
     }
 
     /**
-     * Returns a <code>BinaryToASCIIConverter</code> for a <code>double</code>.
-     * The returned object is a <code>ThreadLocal</code> variable of this class.
+     * Returns b <code>BinbryToASCIIConverter</code> for b <code>double</code>.
+     * The returned object is b <code>ThrebdLocbl</code> vbribble of this clbss.
      *
-     * @param d The double precision value to convert.
-     * @param isCompatibleFormat
+     * @pbrbm d The double precision vblue to convert.
+     * @pbrbm isCompbtibleFormbt
      * @return The converter.
      */
-    static BinaryToASCIIConverter getBinaryToASCIIConverter(double d, boolean isCompatibleFormat) {
-        long dBits = Double.doubleToRawLongBits(d);
-        boolean isNegative = (dBits&DoubleConsts.SIGN_BIT_MASK) != 0; // discover sign
-        long fractBits = dBits & DoubleConsts.SIGNIF_BIT_MASK;
+    stbtic BinbryToASCIIConverter getBinbryToASCIIConverter(double d, boolebn isCompbtibleFormbt) {
+        long dBits = Double.doubleToRbwLongBits(d);
+        boolebn isNegbtive = (dBits&DoubleConsts.SIGN_BIT_MASK) != 0; // discover sign
+        long frbctBits = dBits & DoubleConsts.SIGNIF_BIT_MASK;
         int  binExp = (int)( (dBits&DoubleConsts.EXP_BIT_MASK) >> EXP_SHIFT );
-        // Discover obvious special cases of NaN and Infinity.
+        // Discover obvious specibl cbses of NbN bnd Infinity.
         if ( binExp == (int)(DoubleConsts.EXP_BIT_MASK>>EXP_SHIFT) ) {
-            if ( fractBits == 0L ){
-                return isNegative ? B2AC_NEGATIVE_INFINITY : B2AC_POSITIVE_INFINITY;
+            if ( frbctBits == 0L ){
+                return isNegbtive ? B2AC_NEGATIVE_INFINITY : B2AC_POSITIVE_INFINITY;
             } else {
                 return B2AC_NOT_A_NUMBER;
             }
         }
-        // Finish unpacking
-        // Normalize denormalized numbers.
-        // Insert assumed high-order bit for normalized numbers.
-        // Subtract exponent bias.
-        int  nSignificantBits;
+        // Finish unpbcking
+        // Normblize denormblized numbers.
+        // Insert bssumed high-order bit for normblized numbers.
+        // Subtrbct exponent bibs.
+        int  nSignificbntBits;
         if ( binExp == 0 ){
-            if ( fractBits == 0L ){
-                // not a denorm, just a 0!
-                return isNegative ? B2AC_NEGATIVE_ZERO : B2AC_POSITIVE_ZERO;
+            if ( frbctBits == 0L ){
+                // not b denorm, just b 0!
+                return isNegbtive ? B2AC_NEGATIVE_ZERO : B2AC_POSITIVE_ZERO;
             }
-            int leadingZeros = Long.numberOfLeadingZeros(fractBits);
-            int shift = leadingZeros-(63-EXP_SHIFT);
-            fractBits <<= shift;
+            int lebdingZeros = Long.numberOfLebdingZeros(frbctBits);
+            int shift = lebdingZeros-(63-EXP_SHIFT);
+            frbctBits <<= shift;
             binExp = 1 - shift;
-            nSignificantBits =  64-leadingZeros; // recall binExp is  - shift count.
+            nSignificbntBits =  64-lebdingZeros; // recbll binExp is  - shift count.
         } else {
-            fractBits |= FRACT_HOB;
-            nSignificantBits = EXP_SHIFT+1;
+            frbctBits |= FRACT_HOB;
+            nSignificbntBits = EXP_SHIFT+1;
         }
         binExp -= DoubleConsts.EXP_BIAS;
-        BinaryToASCIIBuffer buf = getBinaryToASCIIBuffer();
-        buf.setSign(isNegative);
-        // call the routine that actually does all the hard work.
-        buf.dtoa(binExp, fractBits, nSignificantBits, isCompatibleFormat);
+        BinbryToASCIIBuffer buf = getBinbryToASCIIBuffer();
+        buf.setSign(isNegbtive);
+        // cbll the routine thbt bctublly does bll the hbrd work.
+        buf.dtob(binExp, frbctBits, nSignificbntBits, isCompbtibleFormbt);
         return buf;
     }
 
-    private static BinaryToASCIIConverter getBinaryToASCIIConverter(float f) {
-        int fBits = Float.floatToRawIntBits( f );
-        boolean isNegative = (fBits&FloatConsts.SIGN_BIT_MASK) != 0;
-        int fractBits = fBits&FloatConsts.SIGNIF_BIT_MASK;
-        int binExp = (fBits&FloatConsts.EXP_BIT_MASK) >> SINGLE_EXP_SHIFT;
-        // Discover obvious special cases of NaN and Infinity.
-        if ( binExp == (FloatConsts.EXP_BIT_MASK>>SINGLE_EXP_SHIFT) ) {
-            if ( fractBits == 0L ){
-                return isNegative ? B2AC_NEGATIVE_INFINITY : B2AC_POSITIVE_INFINITY;
+    privbte stbtic BinbryToASCIIConverter getBinbryToASCIIConverter(flobt f) {
+        int fBits = Flobt.flobtToRbwIntBits( f );
+        boolebn isNegbtive = (fBits&FlobtConsts.SIGN_BIT_MASK) != 0;
+        int frbctBits = fBits&FlobtConsts.SIGNIF_BIT_MASK;
+        int binExp = (fBits&FlobtConsts.EXP_BIT_MASK) >> SINGLE_EXP_SHIFT;
+        // Discover obvious specibl cbses of NbN bnd Infinity.
+        if ( binExp == (FlobtConsts.EXP_BIT_MASK>>SINGLE_EXP_SHIFT) ) {
+            if ( frbctBits == 0L ){
+                return isNegbtive ? B2AC_NEGATIVE_INFINITY : B2AC_POSITIVE_INFINITY;
             } else {
                 return B2AC_NOT_A_NUMBER;
             }
         }
-        // Finish unpacking
-        // Normalize denormalized numbers.
-        // Insert assumed high-order bit for normalized numbers.
-        // Subtract exponent bias.
-        int  nSignificantBits;
+        // Finish unpbcking
+        // Normblize denormblized numbers.
+        // Insert bssumed high-order bit for normblized numbers.
+        // Subtrbct exponent bibs.
+        int  nSignificbntBits;
         if ( binExp == 0 ){
-            if ( fractBits == 0 ){
-                // not a denorm, just a 0!
-                return isNegative ? B2AC_NEGATIVE_ZERO : B2AC_POSITIVE_ZERO;
+            if ( frbctBits == 0 ){
+                // not b denorm, just b 0!
+                return isNegbtive ? B2AC_NEGATIVE_ZERO : B2AC_POSITIVE_ZERO;
             }
-            int leadingZeros = Integer.numberOfLeadingZeros(fractBits);
-            int shift = leadingZeros-(31-SINGLE_EXP_SHIFT);
-            fractBits <<= shift;
+            int lebdingZeros = Integer.numberOfLebdingZeros(frbctBits);
+            int shift = lebdingZeros-(31-SINGLE_EXP_SHIFT);
+            frbctBits <<= shift;
             binExp = 1 - shift;
-            nSignificantBits =  32 - leadingZeros; // recall binExp is  - shift count.
+            nSignificbntBits =  32 - lebdingZeros; // recbll binExp is  - shift count.
         } else {
-            fractBits |= SINGLE_FRACT_HOB;
-            nSignificantBits = SINGLE_EXP_SHIFT+1;
+            frbctBits |= SINGLE_FRACT_HOB;
+            nSignificbntBits = SINGLE_EXP_SHIFT+1;
         }
-        binExp -= FloatConsts.EXP_BIAS;
-        BinaryToASCIIBuffer buf = getBinaryToASCIIBuffer();
-        buf.setSign(isNegative);
-        // call the routine that actually does all the hard work.
-        buf.dtoa(binExp, ((long)fractBits)<<(EXP_SHIFT-SINGLE_EXP_SHIFT), nSignificantBits, true);
+        binExp -= FlobtConsts.EXP_BIAS;
+        BinbryToASCIIBuffer buf = getBinbryToASCIIBuffer();
+        buf.setSign(isNegbtive);
+        // cbll the routine thbt bctublly does bll the hbrd work.
+        buf.dtob(binExp, ((long)frbctBits)<<(EXP_SHIFT-SINGLE_EXP_SHIFT), nSignificbntBits, true);
         return buf;
     }
 
-    @SuppressWarnings("fallthrough")
-    static ASCIIToBinaryConverter readJavaFormatString( String in ) throws NumberFormatException {
-        boolean isNegative = false;
-        boolean signSeen   = false;
+    @SuppressWbrnings("fbllthrough")
+    stbtic ASCIIToBinbryConverter rebdJbvbFormbtString( String in ) throws NumberFormbtException {
+        boolebn isNegbtive = fblse;
+        boolebn signSeen   = fblse;
         int     decExp;
-        char    c;
+        chbr    c;
 
-    parseNumber:
+    pbrseNumber:
         try{
-            in = in.trim(); // don't fool around with white space.
+            in = in.trim(); // don't fool bround with white spbce.
                             // throws NullPointerException if null
             int len = in.length();
             if ( len == 0 ) {
-                throw new NumberFormatException("empty String");
+                throw new NumberFormbtException("empty String");
             }
             int i = 0;
-            switch (in.charAt(i)){
-            case '-':
-                isNegative = true;
+            switch (in.chbrAt(i)){
+            cbse '-':
+                isNegbtive = true;
                 //FALLTHROUGH
-            case '+':
+            cbse '+':
                 i++;
                 signSeen = true;
             }
-            c = in.charAt(i);
-            if(c == 'N') { // Check for NaN
+            c = in.chbrAt(i);
+            if(c == 'N') { // Check for NbN
                 if((len-i)==NAN_LENGTH && in.indexOf(NAN_REP,i)==i) {
                     return A2BC_NOT_A_NUMBER;
                 }
                 // something went wrong, throw exception
-                break parseNumber;
+                brebk pbrseNumber;
             } else if(c == 'I') { // Check for Infinity strings
                 if((len-i)==INFINITY_LENGTH && in.indexOf(INFINITY_REP,i)==i) {
-                    return isNegative? A2BC_NEGATIVE_INFINITY : A2BC_POSITIVE_INFINITY;
+                    return isNegbtive? A2BC_NEGATIVE_INFINITY : A2BC_POSITIVE_INFINITY;
                 }
                 // something went wrong, throw exception
-                break parseNumber;
-            } else if (c == '0')  { // check for hexadecimal floating-point number
+                brebk pbrseNumber;
+            } else if (c == '0')  { // check for hexbdecimbl flobting-point number
                 if (len > i+1 ) {
-                    char ch = in.charAt(i+1);
+                    chbr ch = in.chbrAt(i+1);
                     if (ch == 'x' || ch == 'X' ) { // possible hex string
-                        return parseHexString(in);
+                        return pbrseHexString(in);
                     }
                 }
-            }  // look for and process decimal floating-point string
+            }  // look for bnd process decimbl flobting-point string
 
-            char[] digits = new char[ len ];
+            chbr[] digits = new chbr[ len ];
             int    nDigits= 0;
-            boolean decSeen = false;
+            boolebn decSeen = fblse;
             int decPt = 0;
-            int nLeadZero = 0;
-            int nTrailZero= 0;
+            int nLebdZero = 0;
+            int nTrbilZero= 0;
 
-        skipLeadingZerosLoop:
+        skipLebdingZerosLoop:
             while (i < len) {
-                c = in.charAt(i);
+                c = in.chbrAt(i);
                 if (c == '0') {
-                    nLeadZero++;
+                    nLebdZero++;
                 } else if (c == '.') {
                     if (decSeen) {
-                        // already saw one ., this is the 2nd.
-                        throw new NumberFormatException("multiple points");
+                        // blrebdy sbw one ., this is the 2nd.
+                        throw new NumberFormbtException("multiple points");
                     }
                     decPt = i;
                     if (signSeen) {
@@ -1895,23 +1895,23 @@ public class FloatingDecimal{
                     }
                     decSeen = true;
                 } else {
-                    break skipLeadingZerosLoop;
+                    brebk skipLebdingZerosLoop;
                 }
                 i++;
             }
         digitLoop:
             while (i < len) {
-                c = in.charAt(i);
+                c = in.chbrAt(i);
                 if (c >= '1' && c <= '9') {
                     digits[nDigits++] = c;
-                    nTrailZero = 0;
+                    nTrbilZero = 0;
                 } else if (c == '0') {
                     digits[nDigits++] = c;
-                    nTrailZero++;
+                    nTrbilZero++;
                 } else if (c == '.') {
                     if (decSeen) {
-                        // already saw one ., this is the 2nd.
-                        throw new NumberFormatException("multiple points");
+                        // blrebdy sbw one ., this is the 2nd.
+                        throw new NumberFormbtException("multiple points");
                     }
                     decPt = i;
                     if (signSeen) {
@@ -1919,571 +1919,571 @@ public class FloatingDecimal{
                     }
                     decSeen = true;
                 } else {
-                    break digitLoop;
+                    brebk digitLoop;
                 }
                 i++;
             }
-            nDigits -=nTrailZero;
+            nDigits -=nTrbilZero;
             //
-            // At this point, we've scanned all the digits and decimal
-            // point we're going to see. Trim off leading and trailing
-            // zeros, which will just confuse us later, and adjust
-            // our initial decimal exponent accordingly.
+            // At this point, we've scbnned bll the digits bnd decimbl
+            // point we're going to see. Trim off lebding bnd trbiling
+            // zeros, which will just confuse us lbter, bnd bdjust
+            // our initibl decimbl exponent bccordingly.
             // To review:
-            // we have seen i total characters.
-            // nLeadZero of them were zeros before any other digits.
-            // nTrailZero of them were zeros after any other digits.
-            // if ( decSeen ), then a . was seen after decPt characters
-            // ( including leading zeros which have been discarded )
-            // nDigits characters were neither lead nor trailing
+            // we hbve seen i totbl chbrbcters.
+            // nLebdZero of them were zeros before bny other digits.
+            // nTrbilZero of them were zeros bfter bny other digits.
+            // if ( decSeen ), then b . wbs seen bfter decPt chbrbcters
+            // ( including lebding zeros which hbve been discbrded )
+            // nDigits chbrbcters were neither lebd nor trbiling
             // zeros, nor point
             //
             //
-            // special hack: if we saw no non-zero digits, then the
-            // answer is zero!
-            // Unfortunately, we feel honor-bound to keep parsing!
+            // specibl hbck: if we sbw no non-zero digits, then the
+            // bnswer is zero!
+            // Unfortunbtely, we feel honor-bound to keep pbrsing!
             //
-            boolean isZero = (nDigits == 0);
-            if ( isZero &&  nLeadZero == 0 ){
-                // we saw NO DIGITS AT ALL,
-                // not even a crummy 0!
-                // this is not allowed.
-                break parseNumber; // go throw exception
+            boolebn isZero = (nDigits == 0);
+            if ( isZero &&  nLebdZero == 0 ){
+                // we sbw NO DIGITS AT ALL,
+                // not even b crummy 0!
+                // this is not bllowed.
+                brebk pbrseNumber; // go throw exception
             }
             //
-            // Our initial exponent is decPt, adjusted by the number of
-            // discarded zeros. Or, if there was no decPt,
-            // then its just nDigits adjusted by discarded trailing zeros.
+            // Our initibl exponent is decPt, bdjusted by the number of
+            // discbrded zeros. Or, if there wbs no decPt,
+            // then its just nDigits bdjusted by discbrded trbiling zeros.
             //
             if ( decSeen ){
-                decExp = decPt - nLeadZero;
+                decExp = decPt - nLebdZero;
             } else {
-                decExp = nDigits + nTrailZero;
+                decExp = nDigits + nTrbilZero;
             }
 
             //
-            // Look for 'e' or 'E' and an optionally signed integer.
+            // Look for 'e' or 'E' bnd bn optionblly signed integer.
             //
-            if ( (i < len) &&  (((c = in.charAt(i) )=='e') || (c == 'E') ) ){
+            if ( (i < len) &&  (((c = in.chbrAt(i) )=='e') || (c == 'E') ) ){
                 int expSign = 1;
-                int expVal  = 0;
-                int reallyBig = Integer.MAX_VALUE / 10;
-                boolean expOverflow = false;
-                switch( in.charAt(++i) ){
-                case '-':
+                int expVbl  = 0;
+                int rebllyBig = Integer.MAX_VALUE / 10;
+                boolebn expOverflow = fblse;
+                switch( in.chbrAt(++i) ){
+                cbse '-':
                     expSign = -1;
                     //FALLTHROUGH
-                case '+':
+                cbse '+':
                     i++;
                 }
                 int expAt = i;
             expLoop:
                 while ( i < len  ){
-                    if ( expVal >= reallyBig ){
-                        // the next character will cause integer
+                    if ( expVbl >= rebllyBig ){
+                        // the next chbrbcter will cbuse integer
                         // overflow.
                         expOverflow = true;
                     }
-                    c = in.charAt(i++);
+                    c = in.chbrAt(i++);
                     if(c>='0' && c<='9') {
-                        expVal = expVal*10 + ( (int)c - (int)'0' );
+                        expVbl = expVbl*10 + ( (int)c - (int)'0' );
                     } else {
-                        i--;           // back up.
-                        break expLoop; // stop parsing exponent.
+                        i--;           // bbck up.
+                        brebk expLoop; // stop pbrsing exponent.
                     }
                 }
-                int expLimit = BIG_DECIMAL_EXPONENT+nDigits+nTrailZero;
-                if ( expOverflow || ( expVal > expLimit ) ){
+                int expLimit = BIG_DECIMAL_EXPONENT+nDigits+nTrbilZero;
+                if ( expOverflow || ( expVbl > expLimit ) ){
                     //
                     // The intent here is to end up with
-                    // infinity or zero, as appropriate.
-                    // The reason for yielding such a small decExponent,
-                    // rather than something intuitive such as
-                    // expSign*Integer.MAX_VALUE, is that this value
-                    // is subject to further manipulation in
-                    // doubleValue() and floatValue(), and I don't want
-                    // it to be able to cause overflow there!
-                    // (The only way we can get into trouble here is for
-                    // really outrageous nDigits+nTrailZero, such as 2 billion. )
+                    // infinity or zero, bs bppropribte.
+                    // The rebson for yielding such b smbll decExponent,
+                    // rbther thbn something intuitive such bs
+                    // expSign*Integer.MAX_VALUE, is thbt this vblue
+                    // is subject to further mbnipulbtion in
+                    // doubleVblue() bnd flobtVblue(), bnd I don't wbnt
+                    // it to be bble to cbuse overflow there!
+                    // (The only wby we cbn get into trouble here is for
+                    // reblly outrbgeous nDigits+nTrbilZero, such bs 2 billion. )
                     //
                     decExp = expSign*expLimit;
                 } else {
                     // this should not overflow, since we tested
-                    // for expVal > (MAX+N), where N >= abs(decExp)
-                    decExp = decExp + expSign*expVal;
+                    // for expVbl > (MAX+N), where N >= bbs(decExp)
+                    decExp = decExp + expSign*expVbl;
                 }
 
-                // if we saw something not a digit ( or end of string )
-                // after the [Ee][+-], without seeing any digits at all
-                // this is certainly an error. If we saw some digits,
-                // but then some trailing garbage, that might be ok.
-                // so we just fall through in that case.
+                // if we sbw something not b digit ( or end of string )
+                // bfter the [Ee][+-], without seeing bny digits bt bll
+                // this is certbinly bn error. If we sbw some digits,
+                // but then some trbiling gbrbbge, thbt might be ok.
+                // so we just fbll through in thbt cbse.
                 // HUMBUG
                 if ( i == expAt ) {
-                    break parseNumber; // certainly bad
+                    brebk pbrseNumber; // certbinly bbd
                 }
             }
             //
-            // We parsed everything we could.
-            // If there are leftovers, then this is not good input!
+            // We pbrsed everything we could.
+            // If there bre leftovers, then this is not good input!
             //
             if ( i < len &&
                 ((i != len - 1) ||
-                (in.charAt(i) != 'f' &&
-                 in.charAt(i) != 'F' &&
-                 in.charAt(i) != 'd' &&
-                 in.charAt(i) != 'D'))) {
-                break parseNumber; // go throw exception
+                (in.chbrAt(i) != 'f' &&
+                 in.chbrAt(i) != 'F' &&
+                 in.chbrAt(i) != 'd' &&
+                 in.chbrAt(i) != 'D'))) {
+                brebk pbrseNumber; // go throw exception
             }
             if(isZero) {
-                return isNegative ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
+                return isNegbtive ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
             }
-            return new ASCIIToBinaryBuffer(isNegative, decExp, digits, nDigits);
-        } catch ( StringIndexOutOfBoundsException e ){ }
-        throw new NumberFormatException("For input string: \"" + in + "\"");
+            return new ASCIIToBinbryBuffer(isNegbtive, decExp, digits, nDigits);
+        } cbtch ( StringIndexOutOfBoundsException e ){ }
+        throw new NumberFormbtException("For input string: \"" + in + "\"");
     }
 
-    private static class HexFloatPattern {
+    privbte stbtic clbss HexFlobtPbttern {
         /**
-         * Grammar is compatible with hexadecimal floating-point constants
-         * described in section 6.4.4.2 of the C99 specification.
+         * Grbmmbr is compbtible with hexbdecimbl flobting-point constbnts
+         * described in section 6.4.4.2 of the C99 specificbtion.
          */
-        private static final Pattern VALUE = Pattern.compile(
+        privbte stbtic finbl Pbttern VALUE = Pbttern.compile(
                    //1           234                   56                7                   8      9
                     "([-+])?0[xX](((\\p{XDigit}+)\\.?)|((\\p{XDigit}*)\\.(\\p{XDigit}+)))[pP]([-+])?(\\p{Digit}+)[fFdD]?"
                     );
     }
 
     /**
-     * Converts string s to a suitable floating decimal; uses the
-     * double constructor and sets the roundDir variable appropriately
-     * in case the value is later converted to a float.
+     * Converts string s to b suitbble flobting decimbl; uses the
+     * double constructor bnd sets the roundDir vbribble bppropribtely
+     * in cbse the vblue is lbter converted to b flobt.
      *
-     * @param s The <code>String</code> to parse.
+     * @pbrbm s The <code>String</code> to pbrse.
      */
-   static ASCIIToBinaryConverter parseHexString(String s) {
-            // Verify string is a member of the hexadecimal floating-point
-            // string language.
-            Matcher m = HexFloatPattern.VALUE.matcher(s);
-            boolean validInput = m.matches();
-            if (!validInput) {
-                // Input does not match pattern
-                throw new NumberFormatException("For input string: \"" + s + "\"");
-            } else { // validInput
+   stbtic ASCIIToBinbryConverter pbrseHexString(String s) {
+            // Verify string is b member of the hexbdecimbl flobting-point
+            // string lbngubge.
+            Mbtcher m = HexFlobtPbttern.VALUE.mbtcher(s);
+            boolebn vblidInput = m.mbtches();
+            if (!vblidInput) {
+                // Input does not mbtch pbttern
+                throw new NumberFormbtException("For input string: \"" + s + "\"");
+            } else { // vblidInput
                 //
-                // We must isolate the sign, significand, and exponent
-                // fields.  The sign value is straightforward.  Since
-                // floating-point numbers are stored with a normalized
-                // representation, the significand and exponent are
-                // interrelated.
+                // We must isolbte the sign, significbnd, bnd exponent
+                // fields.  The sign vblue is strbightforwbrd.  Since
+                // flobting-point numbers bre stored with b normblized
+                // representbtion, the significbnd bnd exponent bre
+                // interrelbted.
                 //
-                // After extracting the sign, we normalized the
-                // significand as a hexadecimal value, calculating an
-                // exponent adjust for any shifts made during
-                // normalization.  If the significand is zero, the
-                // exponent doesn't need to be examined since the output
+                // After extrbcting the sign, we normblized the
+                // significbnd bs b hexbdecimbl vblue, cblculbting bn
+                // exponent bdjust for bny shifts mbde during
+                // normblizbtion.  If the significbnd is zero, the
+                // exponent doesn't need to be exbmined since the output
                 // will be zero.
                 //
-                // Next the exponent in the input string is extracted.
-                // Afterwards, the significand is normalized as a *binary*
-                // value and the input value's normalized exponent can be
-                // computed.  The significand bits are copied into a
-                // double significand; if the string has more logical bits
-                // than can fit in a double, the extra bits affect the
-                // round and sticky bits which are used to round the final
-                // value.
+                // Next the exponent in the input string is extrbcted.
+                // Afterwbrds, the significbnd is normblized bs b *binbry*
+                // vblue bnd the input vblue's normblized exponent cbn be
+                // computed.  The significbnd bits bre copied into b
+                // double significbnd; if the string hbs more logicbl bits
+                // thbn cbn fit in b double, the extrb bits bffect the
+                // round bnd sticky bits which bre used to round the finbl
+                // vblue.
                 //
-                //  Extract significand sign
+                //  Extrbct significbnd sign
                 String group1 = m.group(1);
-                boolean isNegative = ((group1 != null) && group1.equals("-"));
+                boolebn isNegbtive = ((group1 != null) && group1.equbls("-"));
 
-                //  Extract Significand magnitude
+                //  Extrbct Significbnd mbgnitude
                 //
-                // Based on the form of the significand, calculate how the
-                // binary exponent needs to be adjusted to create a
-                // normalized//hexadecimal* floating-point number; that
-                // is, a number where there is one nonzero hex digit to
-                // the left of the (hexa)decimal point.  Since we are
-                // adjusting a binary, not hexadecimal exponent, the
-                // exponent is adjusted by a multiple of 4.
+                // Bbsed on the form of the significbnd, cblculbte how the
+                // binbry exponent needs to be bdjusted to crebte b
+                // normblized//hexbdecimbl* flobting-point number; thbt
+                // is, b number where there is one nonzero hex digit to
+                // the left of the (hexb)decimbl point.  Since we bre
+                // bdjusting b binbry, not hexbdecimbl exponent, the
+                // exponent is bdjusted by b multiple of 4.
                 //
-                // There are a number of significand scenarios to consider;
-                // letters are used in indicate nonzero digits:
+                // There bre b number of significbnd scenbrios to consider;
+                // letters bre used in indicbte nonzero digits:
                 //
-                // 1. 000xxxx       =>      x.xxx   normalized
-                //    increase exponent by (number of x's - 1)*4
+                // 1. 000xxxx       =>      x.xxx   normblized
+                //    increbse exponent by (number of x's - 1)*4
                 //
-                // 2. 000xxx.yyyy =>        x.xxyyyy        normalized
-                //    increase exponent by (number of x's - 1)*4
+                // 2. 000xxx.yyyy =>        x.xxyyyy        normblized
+                //    increbse exponent by (number of x's - 1)*4
                 //
-                // 3. .000yyy  =>   y.yy    normalized
-                //    decrease exponent by (number of zeros + 1)*4
+                // 3. .000yyy  =>   y.yy    normblized
+                //    decrebse exponent by (number of zeros + 1)*4
                 //
-                // 4. 000.00000yyy => y.yy normalized
-                //    decrease exponent by (number of zeros to right of point + 1)*4
+                // 4. 000.00000yyy => y.yy normblized
+                //    decrebse exponent by (number of zeros to right of point + 1)*4
                 //
-                // If the significand is exactly zero, return a properly
+                // If the significbnd is exbctly zero, return b properly
                 // signed zero.
                 //
 
-                String significandString = null;
+                String significbndString = null;
                 int signifLength = 0;
                 int exponentAdjust = 0;
                 {
-                    int leftDigits = 0; // number of meaningful digits to
-                    // left of "decimal" point
-                    // (leading zeros stripped)
+                    int leftDigits = 0; // number of mebningful digits to
+                    // left of "decimbl" point
+                    // (lebding zeros stripped)
                     int rightDigits = 0; // number of digits to right of
-                    // "decimal" point; leading zeros
-                    // must always be accounted for
+                    // "decimbl" point; lebding zeros
+                    // must blwbys be bccounted for
                     //
-                    // The significand is made up of either
+                    // The significbnd is mbde up of either
                     //
                     // 1. group 4 entirely (integer portion only)
                     //
                     // OR
                     //
-                    // 2. the fractional portion from group 7 plus any
-                    // (optional) integer portions from group 6.
+                    // 2. the frbctionbl portion from group 7 plus bny
+                    // (optionbl) integer portions from group 6.
                     //
                     String group4;
-                    if ((group4 = m.group(4)) != null) {  // Integer-only significand
-                        // Leading zeros never matter on the integer portion
-                        significandString = stripLeadingZeros(group4);
-                        leftDigits = significandString.length();
+                    if ((group4 = m.group(4)) != null) {  // Integer-only significbnd
+                        // Lebding zeros never mbtter on the integer portion
+                        significbndString = stripLebdingZeros(group4);
+                        leftDigits = significbndString.length();
                     } else {
-                        // Group 6 is the optional integer; leading zeros
-                        // never matter on the integer portion
-                        String group6 = stripLeadingZeros(m.group(6));
+                        // Group 6 is the optionbl integer; lebding zeros
+                        // never mbtter on the integer portion
+                        String group6 = stripLebdingZeros(m.group(6));
                         leftDigits = group6.length();
 
-                        // fraction
+                        // frbction
                         String group7 = m.group(7);
                         rightDigits = group7.length();
 
-                        // Turn "integer.fraction" into "integer"+"fraction"
-                        significandString =
+                        // Turn "integer.frbction" into "integer"+"frbction"
+                        significbndString =
                                 ((group6 == null) ? "" : group6) + // is the null
-                                        // check necessary?
+                                        // check necessbry?
                                         group7;
                     }
 
-                    significandString = stripLeadingZeros(significandString);
-                    signifLength = significandString.length();
+                    significbndString = stripLebdingZeros(significbndString);
+                    signifLength = significbndString.length();
 
                     //
-                    // Adjust exponent as described above
+                    // Adjust exponent bs described bbove
                     //
-                    if (leftDigits >= 1) {  // Cases 1 and 2
+                    if (leftDigits >= 1) {  // Cbses 1 bnd 2
                         exponentAdjust = 4 * (leftDigits - 1);
-                    } else {                // Cases 3 and 4
+                    } else {                // Cbses 3 bnd 4
                         exponentAdjust = -4 * (rightDigits - signifLength + 1);
                     }
 
-                    // If the significand is zero, the exponent doesn't
-                    // matter; return a properly signed zero.
+                    // If the significbnd is zero, the exponent doesn't
+                    // mbtter; return b properly signed zero.
 
                     if (signifLength == 0) { // Only zeros in input
-                        return isNegative ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
+                        return isNegbtive ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
                     }
                 }
 
-                //  Extract Exponent
+                //  Extrbct Exponent
                 //
-                // Use an int to read in the exponent value; this should
-                // provide more than sufficient range for non-contrived
-                // inputs.  If reading the exponent in as an int does
-                // overflow, examine the sign of the exponent and
-                // significand to determine what to do.
+                // Use bn int to rebd in the exponent vblue; this should
+                // provide more thbn sufficient rbnge for non-contrived
+                // inputs.  If rebding the exponent in bs bn int does
+                // overflow, exbmine the sign of the exponent bnd
+                // significbnd to determine whbt to do.
                 //
                 String group8 = m.group(8);
-                boolean positiveExponent = (group8 == null) || group8.equals("+");
-                long unsignedRawExponent;
+                boolebn positiveExponent = (group8 == null) || group8.equbls("+");
+                long unsignedRbwExponent;
                 try {
-                    unsignedRawExponent = Integer.parseInt(m.group(9));
+                    unsignedRbwExponent = Integer.pbrseInt(m.group(9));
                 }
-                catch (NumberFormatException e) {
+                cbtch (NumberFormbtException e) {
                     // At this point, we know the exponent is
-                    // syntactically well-formed as a sequence of
-                    // digits.  Therefore, if an NumberFormatException
+                    // syntbcticblly well-formed bs b sequence of
+                    // digits.  Therefore, if bn NumberFormbtException
                     // is thrown, it must be due to overflowing int's
-                    // range.  Also, at this point, we have already
-                    // checked for a zero significand.  Thus the signs
-                    // of the exponent and significand determine the
-                    // final result:
+                    // rbnge.  Also, bt this point, we hbve blrebdy
+                    // checked for b zero significbnd.  Thus the signs
+                    // of the exponent bnd significbnd determine the
+                    // finbl result:
                     //
-                    //                      significand
+                    //                      significbnd
                     //                      +               -
                     // exponent     +       +infinity       -infinity
                     //              -       +0.0            -0.0
-                    return isNegative ?
+                    return isNegbtive ?
                               (positiveExponent ? A2BC_NEGATIVE_INFINITY : A2BC_NEGATIVE_ZERO)
                             : (positiveExponent ? A2BC_POSITIVE_INFINITY : A2BC_POSITIVE_ZERO);
 
                 }
 
-                long rawExponent =
+                long rbwExponent =
                         (positiveExponent ? 1L : -1L) * // exponent sign
-                                unsignedRawExponent;            // exponent magnitude
+                                unsignedRbwExponent;            // exponent mbgnitude
 
-                // Calculate partially adjusted exponent
-                long exponent = rawExponent + exponentAdjust;
+                // Cblculbte pbrtiblly bdjusted exponent
+                long exponent = rbwExponent + exponentAdjust;
 
-                // Starting copying non-zero bits into proper position in
-                // a long; copy explicit bit too; this will be masked
-                // later for normal values.
+                // Stbrting copying non-zero bits into proper position in
+                // b long; copy explicit bit too; this will be mbsked
+                // lbter for normbl vblues.
 
-                boolean round = false;
-                boolean sticky = false;
+                boolebn round = fblse;
+                boolebn sticky = fblse;
                 int nextShift = 0;
-                long significand = 0L;
-                // First iteration is different, since we only copy
-                // from the leading significand bit; one more exponent
-                // adjust will be needed...
+                long significbnd = 0L;
+                // First iterbtion is different, since we only copy
+                // from the lebding significbnd bit; one more exponent
+                // bdjust will be needed...
 
-                // IMPORTANT: make leadingDigit a long to avoid
-                // surprising shift semantics!
-                long leadingDigit = getHexDigit(significandString, 0);
+                // IMPORTANT: mbke lebdingDigit b long to bvoid
+                // surprising shift sembntics!
+                long lebdingDigit = getHexDigit(significbndString, 0);
 
                 //
-                // Left shift the leading digit (53 - (bit position of
-                // leading 1 in digit)); this sets the top bit of the
-                // significand to 1.  The nextShift value is adjusted
-                // to take into account the number of bit positions of
-                // the leadingDigit actually used.  Finally, the
-                // exponent is adjusted to normalize the significand
-                // as a binary value, not just a hex value.
+                // Left shift the lebding digit (53 - (bit position of
+                // lebding 1 in digit)); this sets the top bit of the
+                // significbnd to 1.  The nextShift vblue is bdjusted
+                // to tbke into bccount the number of bit positions of
+                // the lebdingDigit bctublly used.  Finblly, the
+                // exponent is bdjusted to normblize the significbnd
+                // bs b binbry vblue, not just b hex vblue.
                 //
-                if (leadingDigit == 1) {
-                    significand |= leadingDigit << 52;
+                if (lebdingDigit == 1) {
+                    significbnd |= lebdingDigit << 52;
                     nextShift = 52 - 4;
                     // exponent += 0
-                } else if (leadingDigit <= 3) { // [2, 3]
-                    significand |= leadingDigit << 51;
+                } else if (lebdingDigit <= 3) { // [2, 3]
+                    significbnd |= lebdingDigit << 51;
                     nextShift = 52 - 5;
                     exponent += 1;
-                } else if (leadingDigit <= 7) { // [4, 7]
-                    significand |= leadingDigit << 50;
+                } else if (lebdingDigit <= 7) { // [4, 7]
+                    significbnd |= lebdingDigit << 50;
                     nextShift = 52 - 6;
                     exponent += 2;
-                } else if (leadingDigit <= 15) { // [8, f]
-                    significand |= leadingDigit << 49;
+                } else if (lebdingDigit <= 15) { // [8, f]
+                    significbnd |= lebdingDigit << 49;
                     nextShift = 52 - 7;
                     exponent += 3;
                 } else {
-                    throw new AssertionError("Result from digit conversion too large!");
+                    throw new AssertionError("Result from digit conversion too lbrge!");
                 }
-                // The preceding if-else could be replaced by a single
-                // code block based on the high-order bit set in
-                // leadingDigit.  Given leadingOnePosition,
+                // The preceding if-else could be replbced by b single
+                // code block bbsed on the high-order bit set in
+                // lebdingDigit.  Given lebdingOnePosition,
 
-                // significand |= leadingDigit << (SIGNIFICAND_WIDTH - leadingOnePosition);
-                // nextShift = 52 - (3 + leadingOnePosition);
-                // exponent += (leadingOnePosition-1);
+                // significbnd |= lebdingDigit << (SIGNIFICAND_WIDTH - lebdingOnePosition);
+                // nextShift = 52 - (3 + lebdingOnePosition);
+                // exponent += (lebdingOnePosition-1);
 
                 //
-                // Now the exponent variable is equal to the normalized
-                // binary exponent.  Code below will make representation
-                // adjustments if the exponent is incremented after
+                // Now the exponent vbribble is equbl to the normblized
+                // binbry exponent.  Code below will mbke representbtion
+                // bdjustments if the exponent is incremented bfter
                 // rounding (includes overflows to infinity) or if the
-                // result is subnormal.
+                // result is subnormbl.
                 //
 
-                // Copy digit into significand until the significand can't
-                // hold another full hex digit or there are no more input
+                // Copy digit into significbnd until the significbnd cbn't
+                // hold bnother full hex digit or there bre no more input
                 // hex digits.
                 int i = 0;
                 for (i = 1;
                      i < signifLength && nextShift >= 0;
                      i++) {
-                    long currentDigit = getHexDigit(significandString, i);
-                    significand |= (currentDigit << nextShift);
+                    long currentDigit = getHexDigit(significbndString, i);
+                    significbnd |= (currentDigit << nextShift);
                     nextShift -= 4;
                 }
 
-                // After the above loop, the bulk of the string is copied.
-                // Now, we must copy any partial hex digits into the
-                // significand AND compute the round bit and start computing
+                // After the bbove loop, the bulk of the string is copied.
+                // Now, we must copy bny pbrtibl hex digits into the
+                // significbnd AND compute the round bit bnd stbrt computing
                 // sticky bit.
 
-                if (i < signifLength) { // at least one hex input digit exists
-                    long currentDigit = getHexDigit(significandString, i);
+                if (i < signifLength) { // bt lebst one hex input digit exists
+                    long currentDigit = getHexDigit(significbndString, i);
 
-                    // from nextShift, figure out how many bits need
-                    // to be copied, if any
-                    switch (nextShift) { // must be negative
-                        case -1:
-                            // three bits need to be copied in; can
+                    // from nextShift, figure out how mbny bits need
+                    // to be copied, if bny
+                    switch (nextShift) { // must be negbtive
+                        cbse -1:
+                            // three bits need to be copied in; cbn
                             // set round bit
-                            significand |= ((currentDigit & 0xEL) >> 1);
+                            significbnd |= ((currentDigit & 0xEL) >> 1);
                             round = (currentDigit & 0x1L) != 0L;
-                            break;
+                            brebk;
 
-                        case -2:
-                            // two bits need to be copied in; can
-                            // set round and start sticky
-                            significand |= ((currentDigit & 0xCL) >> 2);
+                        cbse -2:
+                            // two bits need to be copied in; cbn
+                            // set round bnd stbrt sticky
+                            significbnd |= ((currentDigit & 0xCL) >> 2);
                             round = (currentDigit & 0x2L) != 0L;
                             sticky = (currentDigit & 0x1L) != 0;
-                            break;
+                            brebk;
 
-                        case -3:
+                        cbse -3:
                             // one bit needs to be copied in
-                            significand |= ((currentDigit & 0x8L) >> 3);
-                            // Now set round and start sticky, if possible
+                            significbnd |= ((currentDigit & 0x8L) >> 3);
+                            // Now set round bnd stbrt sticky, if possible
                             round = (currentDigit & 0x4L) != 0L;
                             sticky = (currentDigit & 0x3L) != 0;
-                            break;
+                            brebk;
 
-                        case -4:
-                            // all bits copied into significand; set
-                            // round and start sticky
+                        cbse -4:
+                            // bll bits copied into significbnd; set
+                            // round bnd stbrt sticky
                             round = ((currentDigit & 0x8L) != 0);  // is top bit set?
                             // nonzeros in three low order bits?
                             sticky = (currentDigit & 0x7L) != 0;
-                            break;
+                            brebk;
 
-                        default:
-                            throw new AssertionError("Unexpected shift distance remainder.");
-                            // break;
+                        defbult:
+                            throw new AssertionError("Unexpected shift distbnce rembinder.");
+                            // brebk;
                     }
 
                     // Round is set; sticky might be set.
 
                     // For the sticky bit, it suffices to check the
-                    // current digit and test for any nonzero digits in
-                    // the remaining unprocessed input.
+                    // current digit bnd test for bny nonzero digits in
+                    // the rembining unprocessed input.
                     i++;
                     while (i < signifLength && !sticky) {
-                        currentDigit = getHexDigit(significandString, i);
+                        currentDigit = getHexDigit(significbndString, i);
                         sticky = sticky || (currentDigit != 0);
                         i++;
                     }
 
                 }
-                // else all of string was seen, round and sticky are
-                // correct as false.
+                // else bll of string wbs seen, round bnd sticky bre
+                // correct bs fblse.
 
-                // Float calculations
-                int floatBits = isNegative ? FloatConsts.SIGN_BIT_MASK : 0;
-                if (exponent >= FloatConsts.MIN_EXPONENT) {
-                    if (exponent > FloatConsts.MAX_EXPONENT) {
-                        // Float.POSITIVE_INFINITY
-                        floatBits |= FloatConsts.EXP_BIT_MASK;
+                // Flobt cblculbtions
+                int flobtBits = isNegbtive ? FlobtConsts.SIGN_BIT_MASK : 0;
+                if (exponent >= FlobtConsts.MIN_EXPONENT) {
+                    if (exponent > FlobtConsts.MAX_EXPONENT) {
+                        // Flobt.POSITIVE_INFINITY
+                        flobtBits |= FlobtConsts.EXP_BIT_MASK;
                     } else {
-                        int threshShift = DoubleConsts.SIGNIFICAND_WIDTH - FloatConsts.SIGNIFICAND_WIDTH - 1;
-                        boolean floatSticky = (significand & ((1L << threshShift) - 1)) != 0 || round || sticky;
-                        int iValue = (int) (significand >>> threshShift);
-                        if ((iValue & 3) != 1 || floatSticky) {
-                            iValue++;
+                        int threshShift = DoubleConsts.SIGNIFICAND_WIDTH - FlobtConsts.SIGNIFICAND_WIDTH - 1;
+                        boolebn flobtSticky = (significbnd & ((1L << threshShift) - 1)) != 0 || round || sticky;
+                        int iVblue = (int) (significbnd >>> threshShift);
+                        if ((iVblue & 3) != 1 || flobtSticky) {
+                            iVblue++;
                         }
-                        floatBits |= (((((int) exponent) + (FloatConsts.EXP_BIAS - 1))) << SINGLE_EXP_SHIFT) + (iValue >> 1);
+                        flobtBits |= (((((int) exponent) + (FlobtConsts.EXP_BIAS - 1))) << SINGLE_EXP_SHIFT) + (iVblue >> 1);
                     }
                 } else {
-                    if (exponent < FloatConsts.MIN_SUB_EXPONENT - 1) {
+                    if (exponent < FlobtConsts.MIN_SUB_EXPONENT - 1) {
                         // 0
                     } else {
                         // exponent == -127 ==> threshShift = 53 - 2 + (-149) - (-127) = 53 - 24
-                        int threshShift = (int) ((DoubleConsts.SIGNIFICAND_WIDTH - 2 + FloatConsts.MIN_SUB_EXPONENT) - exponent);
-                        assert threshShift >= DoubleConsts.SIGNIFICAND_WIDTH - FloatConsts.SIGNIFICAND_WIDTH;
-                        assert threshShift < DoubleConsts.SIGNIFICAND_WIDTH;
-                        boolean floatSticky = (significand & ((1L << threshShift) - 1)) != 0 || round || sticky;
-                        int iValue = (int) (significand >>> threshShift);
-                        if ((iValue & 3) != 1 || floatSticky) {
-                            iValue++;
+                        int threshShift = (int) ((DoubleConsts.SIGNIFICAND_WIDTH - 2 + FlobtConsts.MIN_SUB_EXPONENT) - exponent);
+                        bssert threshShift >= DoubleConsts.SIGNIFICAND_WIDTH - FlobtConsts.SIGNIFICAND_WIDTH;
+                        bssert threshShift < DoubleConsts.SIGNIFICAND_WIDTH;
+                        boolebn flobtSticky = (significbnd & ((1L << threshShift) - 1)) != 0 || round || sticky;
+                        int iVblue = (int) (significbnd >>> threshShift);
+                        if ((iVblue & 3) != 1 || flobtSticky) {
+                            iVblue++;
                         }
-                        floatBits |= iValue >> 1;
+                        flobtBits |= iVblue >> 1;
                     }
                 }
-                float fValue = Float.intBitsToFloat(floatBits);
+                flobt fVblue = Flobt.intBitsToFlobt(flobtBits);
 
-                // Check for overflow and update exponent accordingly.
+                // Check for overflow bnd updbte exponent bccordingly.
                 if (exponent > DoubleConsts.MAX_EXPONENT) {         // Infinite result
                     // overflow to properly signed infinity
-                    return isNegative ? A2BC_NEGATIVE_INFINITY : A2BC_POSITIVE_INFINITY;
-                } else {  // Finite return value
-                    if (exponent <= DoubleConsts.MAX_EXPONENT && // (Usually) normal result
+                    return isNegbtive ? A2BC_NEGATIVE_INFINITY : A2BC_POSITIVE_INFINITY;
+                } else {  // Finite return vblue
+                    if (exponent <= DoubleConsts.MAX_EXPONENT && // (Usublly) normbl result
                             exponent >= DoubleConsts.MIN_EXPONENT) {
 
-                        // The result returned in this block cannot be a
-                        // zero or subnormal; however after the
-                        // significand is adjusted from rounding, we could
+                        // The result returned in this block cbnnot be b
+                        // zero or subnormbl; however bfter the
+                        // significbnd is bdjusted from rounding, we could
                         // still overflow in infinity.
 
-                        // AND exponent bits into significand; if the
-                        // significand is incremented and overflows from
-                        // rounding, this combination will update the
-                        // exponent correctly, even in the case of
+                        // AND exponent bits into significbnd; if the
+                        // significbnd is incremented bnd overflows from
+                        // rounding, this combinbtion will updbte the
+                        // exponent correctly, even in the cbse of
                         // Double.MAX_VALUE overflowing to infinity.
 
-                        significand = ((( exponent +
+                        significbnd = ((( exponent +
                                 (long) DoubleConsts.EXP_BIAS) <<
                                 (DoubleConsts.SIGNIFICAND_WIDTH - 1))
                                 & DoubleConsts.EXP_BIT_MASK) |
-                                (DoubleConsts.SIGNIF_BIT_MASK & significand);
+                                (DoubleConsts.SIGNIF_BIT_MASK & significbnd);
 
-                    } else {  // Subnormal or zero
+                    } else {  // Subnormbl or zero
                         // (exponent < DoubleConsts.MIN_EXPONENT)
 
                         if (exponent < (DoubleConsts.MIN_SUB_EXPONENT - 1)) {
-                            // No way to round back to nonzero value
-                            // regardless of significand if the exponent is
-                            // less than -1075.
-                            return isNegative ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
+                            // No wby to round bbck to nonzero vblue
+                            // regbrdless of significbnd if the exponent is
+                            // less thbn -1075.
+                            return isNegbtive ? A2BC_NEGATIVE_ZERO : A2BC_POSITIVE_ZERO;
                         } else { //  -1075 <= exponent <= MIN_EXPONENT -1 = -1023
                             //
                             // Find bit position to round to; recompute
-                            // round and sticky bits, and shift
-                            // significand right appropriately.
+                            // round bnd sticky bits, bnd shift
+                            // significbnd right bppropribtely.
                             //
 
                             sticky = sticky || round;
-                            round = false;
+                            round = fblse;
 
-                            // Number of bits of significand to preserve is
-                            // exponent - abs_min_exp +1
+                            // Number of bits of significbnd to preserve is
+                            // exponent - bbs_min_exp +1
                             // check:
                             // -1075 +1074 + 1 = 0
                             // -1023 +1074 + 1 = 52
 
-                            int bitsDiscarded = 53 -
+                            int bitsDiscbrded = 53 -
                                     ((int) exponent - DoubleConsts.MIN_SUB_EXPONENT + 1);
-                            assert bitsDiscarded >= 1 && bitsDiscarded <= 53;
+                            bssert bitsDiscbrded >= 1 && bitsDiscbrded <= 53;
 
-                            // What to do here:
-                            // First, isolate the new round bit
-                            round = (significand & (1L << (bitsDiscarded - 1))) != 0L;
-                            if (bitsDiscarded > 1) {
-                                // create mask to update sticky bits; low
-                                // order bitsDiscarded bits should be 1
-                                long mask = ~((~0L) << (bitsDiscarded - 1));
-                                sticky = sticky || ((significand & mask) != 0L);
+                            // Whbt to do here:
+                            // First, isolbte the new round bit
+                            round = (significbnd & (1L << (bitsDiscbrded - 1))) != 0L;
+                            if (bitsDiscbrded > 1) {
+                                // crebte mbsk to updbte sticky bits; low
+                                // order bitsDiscbrded bits should be 1
+                                long mbsk = ~((~0L) << (bitsDiscbrded - 1));
+                                sticky = sticky || ((significbnd & mbsk) != 0L);
                             }
 
-                            // Now, discard the bits
-                            significand = significand >> bitsDiscarded;
+                            // Now, discbrd the bits
+                            significbnd = significbnd >> bitsDiscbrded;
 
-                            significand = ((((long) (DoubleConsts.MIN_EXPONENT - 1) + // subnorm exp.
+                            significbnd = ((((long) (DoubleConsts.MIN_EXPONENT - 1) + // subnorm exp.
                                     (long) DoubleConsts.EXP_BIAS) <<
                                     (DoubleConsts.SIGNIFICAND_WIDTH - 1))
                                     & DoubleConsts.EXP_BIT_MASK) |
-                                    (DoubleConsts.SIGNIF_BIT_MASK & significand);
+                                    (DoubleConsts.SIGNIF_BIT_MASK & significbnd);
                         }
                     }
 
-                    // The significand variable now contains the currently
-                    // appropriate exponent bits too.
+                    // The significbnd vbribble now contbins the currently
+                    // bppropribte exponent bits too.
 
                     //
-                    // Determine if significand should be incremented;
-                    // making this determination depends on the least
-                    // significant bit and the round and sticky bits.
+                    // Determine if significbnd should be incremented;
+                    // mbking this determinbtion depends on the lebst
+                    // significbnt bit bnd the round bnd sticky bits.
                     //
-                    // Round to nearest even rounding table, adapted from
-                    // table 4.7 in "Computer Arithmetic" by IsraelKoren.
-                    // The digit to the left of the "decimal" point is the
-                    // least significant bit, the digits to the right of
-                    // the point are the round and sticky bits
+                    // Round to nebrest even rounding tbble, bdbpted from
+                    // tbble 4.7 in "Computer Arithmetic" by IsrbelKoren.
+                    // The digit to the left of the "decimbl" point is the
+                    // lebst significbnt bit, the digits to the right of
+                    // the point bre the round bnd sticky bits
                     //
                     // Number       Round(x)
                     // x0.00        x0.
@@ -2495,29 +2495,29 @@ public class FloatingDecimal{
                     // x1.10        x1. + 1
                     // x1.11        x1. + 1
                     //
-                    boolean leastZero = ((significand & 1L) == 0L);
-                    if ((leastZero && round && sticky) ||
-                            ((!leastZero) && round)) {
-                        significand++;
+                    boolebn lebstZero = ((significbnd & 1L) == 0L);
+                    if ((lebstZero && round && sticky) ||
+                            ((!lebstZero) && round)) {
+                        significbnd++;
                     }
 
-                    double value = isNegative ?
-                            Double.longBitsToDouble(significand | DoubleConsts.SIGN_BIT_MASK) :
-                            Double.longBitsToDouble(significand );
+                    double vblue = isNegbtive ?
+                            Double.longBitsToDouble(significbnd | DoubleConsts.SIGN_BIT_MASK) :
+                            Double.longBitsToDouble(significbnd );
 
-                    return new PreparedASCIIToBinaryBuffer(value, fValue);
+                    return new PrepbredASCIIToBinbryBuffer(vblue, fVblue);
                 }
             }
     }
 
     /**
-     * Returns <code>s</code> with any leading zeros removed.
+     * Returns <code>s</code> with bny lebding zeros removed.
      */
-    static String stripLeadingZeros(String s) {
-//        return  s.replaceFirst("^0+", "");
-        if(!s.isEmpty() && s.charAt(0)=='0') {
+    stbtic String stripLebdingZeros(String s) {
+//        return  s.replbceFirst("^0+", "");
+        if(!s.isEmpty() && s.chbrAt(0)=='0') {
             for(int i=1; i<s.length(); i++) {
-                if(s.charAt(i)!='0') {
+                if(s.chbrAt(i)!='0') {
                     return s.substring(i);
                 }
             }
@@ -2527,15 +2527,15 @@ public class FloatingDecimal{
     }
 
     /**
-     * Extracts a hexadecimal digit from position <code>position</code>
+     * Extrbcts b hexbdecimbl digit from position <code>position</code>
      * of string <code>s</code>.
      */
-    static int getHexDigit(String s, int position) {
-        int value = Character.digit(s.charAt(position), 16);
-        if (value <= -1 || value >= 16) {
-            throw new AssertionError("Unexpected failure of digit conversion of " +
-                                     s.charAt(position));
+    stbtic int getHexDigit(String s, int position) {
+        int vblue = Chbrbcter.digit(s.chbrAt(position), 16);
+        if (vblue <= -1 || vblue >= 16) {
+            throw new AssertionError("Unexpected fbilure of digit conversion of " +
+                                     s.chbrAt(position));
         }
-        return value;
+        return vblue;
     }
 }

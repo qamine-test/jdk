@@ -1,368 +1,368 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Font;
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Arc2D;
-import java.awt.geom.IllegalPathStateException;
-import java.awt.geom.Path2D;
-import java.awt.font.GlyphVector;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.FontInfo;
-import sun.java2d.loops.DrawPolygons;
-import sun.java2d.loops.FillParallelogram;
-import sun.java2d.loops.DrawParallelogram;
-import sun.awt.SunHints;
+import jbvb.bwt.Font;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.RoundRectbngle2D;
+import jbvb.bwt.geom.Ellipse2D;
+import jbvb.bwt.geom.Arc2D;
+import jbvb.bwt.geom.IllegblPbthStbteException;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.font.GlyphVector;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.FontInfo;
+import sun.jbvb2d.loops.DrbwPolygons;
+import sun.jbvb2d.loops.FillPbrbllelogrbm;
+import sun.jbvb2d.loops.DrbwPbrbllelogrbm;
+import sun.bwt.SunHints;
 
-public class LoopPipe
-    implements PixelDrawPipe,
+public clbss LoopPipe
+    implements PixelDrbwPipe,
                PixelFillPipe,
-               ParallelogramPipe,
-               ShapeDrawPipe,
-               LoopBasedPipe
+               PbrbllelogrbmPipe,
+               ShbpeDrbwPipe,
+               LoopBbsedPipe
 {
-    final static RenderingEngine RenderEngine = RenderingEngine.getInstance();
+    finbl stbtic RenderingEngine RenderEngine = RenderingEngine.getInstbnce();
 
-    public void drawLine(SunGraphics2D sg2d,
+    public void drbwLine(SunGrbphics2D sg2d,
                          int x1, int y1, int x2, int y2)
     {
-        int tX = sg2d.transX;
-        int tY = sg2d.transY;
-        sg2d.loops.drawLineLoop.DrawLine(sg2d, sg2d.getSurfaceData(),
+        int tX = sg2d.trbnsX;
+        int tY = sg2d.trbnsY;
+        sg2d.loops.drbwLineLoop.DrbwLine(sg2d, sg2d.getSurfbceDbtb(),
                                          x1 + tX, y1 + tY,
                                          x2 + tX, y2 + tY);
     }
 
-    public void drawRect(SunGraphics2D sg2d,
+    public void drbwRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        sg2d.loops.drawRectLoop.DrawRect(sg2d, sg2d.getSurfaceData(),
-                                         x + sg2d.transX,
-                                         y + sg2d.transY,
+        sg2d.loops.drbwRectLoop.DrbwRect(sg2d, sg2d.getSurfbceDbtb(),
+                                         x + sg2d.trbnsX,
+                                         y + sg2d.trbnsY,
                                          width, height);
     }
 
-    public void drawRoundRect(SunGraphics2D sg2d,
+    public void drbwRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
-        sg2d.shapepipe.draw(sg2d,
-                            new RoundRectangle2D.Float(x, y, width, height,
-                                                       arcWidth, arcHeight));
+        sg2d.shbpepipe.drbw(sg2d,
+                            new RoundRectbngle2D.Flobt(x, y, width, height,
+                                                       brcWidth, brcHeight));
     }
 
-    public void drawOval(SunGraphics2D sg2d,
+    public void drbwOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        sg2d.shapepipe.draw(sg2d, new Ellipse2D.Float(x, y, width, height));
+        sg2d.shbpepipe.drbw(sg2d, new Ellipse2D.Flobt(x, y, width, height));
     }
 
-    public void drawArc(SunGraphics2D sg2d,
+    public void drbwArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
-        sg2d.shapepipe.draw(sg2d, new Arc2D.Float(x, y, width, height,
-                                                  startAngle, arcAngle,
+        sg2d.shbpepipe.drbw(sg2d, new Arc2D.Flobt(x, y, width, height,
+                                                  stbrtAngle, brcAngle,
                                                   Arc2D.OPEN));
     }
 
-    public void drawPolyline(SunGraphics2D sg2d,
+    public void drbwPolyline(SunGrbphics2D sg2d,
                              int xPoints[], int yPoints[],
                              int nPoints)
     {
-        int nPointsArray[] = { nPoints };
-        sg2d.loops.drawPolygonsLoop.DrawPolygons(sg2d, sg2d.getSurfaceData(),
+        int nPointsArrby[] = { nPoints };
+        sg2d.loops.drbwPolygonsLoop.DrbwPolygons(sg2d, sg2d.getSurfbceDbtb(),
                                                  xPoints, yPoints,
-                                                 nPointsArray, 1,
-                                                 sg2d.transX, sg2d.transY,
-                                                 false);
+                                                 nPointsArrby, 1,
+                                                 sg2d.trbnsX, sg2d.trbnsY,
+                                                 fblse);
     }
 
-    public void drawPolygon(SunGraphics2D sg2d,
+    public void drbwPolygon(SunGrbphics2D sg2d,
                             int xPoints[], int yPoints[],
                             int nPoints)
     {
-        int nPointsArray[] = { nPoints };
-        sg2d.loops.drawPolygonsLoop.DrawPolygons(sg2d, sg2d.getSurfaceData(),
+        int nPointsArrby[] = { nPoints };
+        sg2d.loops.drbwPolygonsLoop.DrbwPolygons(sg2d, sg2d.getSurfbceDbtb(),
                                                  xPoints, yPoints,
-                                                 nPointsArray, 1,
-                                                 sg2d.transX, sg2d.transY,
+                                                 nPointsArrby, 1,
+                                                 sg2d.trbnsX, sg2d.trbnsY,
                                                  true);
     }
 
-    public void fillRect(SunGraphics2D sg2d,
+    public void fillRect(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        sg2d.loops.fillRectLoop.FillRect(sg2d, sg2d.getSurfaceData(),
-                                         x + sg2d.transX,
-                                         y + sg2d.transY,
+        sg2d.loops.fillRectLoop.FillRect(sg2d, sg2d.getSurfbceDbtb(),
+                                         x + sg2d.trbnsX,
+                                         y + sg2d.trbnsY,
                                          width, height);
     }
 
-    public void fillRoundRect(SunGraphics2D sg2d,
+    public void fillRoundRect(SunGrbphics2D sg2d,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight)
+                              int brcWidth, int brcHeight)
     {
-        sg2d.shapepipe.fill(sg2d,
-                            new RoundRectangle2D.Float(x, y, width, height,
-                                                       arcWidth, arcHeight));
+        sg2d.shbpepipe.fill(sg2d,
+                            new RoundRectbngle2D.Flobt(x, y, width, height,
+                                                       brcWidth, brcHeight));
     }
 
-    public void fillOval(SunGraphics2D sg2d,
+    public void fillOvbl(SunGrbphics2D sg2d,
                          int x, int y, int width, int height)
     {
-        sg2d.shapepipe.fill(sg2d, new Ellipse2D.Float(x, y, width, height));
+        sg2d.shbpepipe.fill(sg2d, new Ellipse2D.Flobt(x, y, width, height));
     }
 
-    public void fillArc(SunGraphics2D sg2d,
+    public void fillArc(SunGrbphics2D sg2d,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle)
+                        int stbrtAngle, int brcAngle)
     {
-        sg2d.shapepipe.fill(sg2d, new Arc2D.Float(x, y, width, height,
-                                                  startAngle, arcAngle,
+        sg2d.shbpepipe.fill(sg2d, new Arc2D.Flobt(x, y, width, height,
+                                                  stbrtAngle, brcAngle,
                                                   Arc2D.PIE));
     }
 
-    public void fillPolygon(SunGraphics2D sg2d,
+    public void fillPolygon(SunGrbphics2D sg2d,
                             int xPoints[], int yPoints[],
                             int nPoints)
     {
-        ShapeSpanIterator sr = getFillSSI(sg2d);
+        ShbpeSpbnIterbtor sr = getFillSSI(sg2d);
 
         try {
-            sr.setOutputArea(sg2d.getCompClip());
-            sr.appendPoly(xPoints, yPoints, nPoints, sg2d.transX, sg2d.transY);
-            fillSpans(sg2d, sr);
-        } finally {
+            sr.setOutputAreb(sg2d.getCompClip());
+            sr.bppendPoly(xPoints, yPoints, nPoints, sg2d.trbnsX, sg2d.trbnsY);
+            fillSpbns(sg2d, sr);
+        } finblly {
             sr.dispose();
         }
     }
 
 
-    public void draw(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            Path2D.Float p2df;
-            int transX;
-            int transY;
-            if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-                if (s instanceof Path2D.Float) {
-                    p2df = (Path2D.Float)s;
+    public void drbw(SunGrbphics2D sg2d, Shbpe s) {
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_THIN) {
+            Pbth2D.Flobt p2df;
+            int trbnsX;
+            int trbnsY;
+            if (sg2d.trbnsformStbte <= SunGrbphics2D.TRANSFORM_INT_TRANSLATE) {
+                if (s instbnceof Pbth2D.Flobt) {
+                    p2df = (Pbth2D.Flobt)s;
                 } else {
-                    p2df = new Path2D.Float(s);
+                    p2df = new Pbth2D.Flobt(s);
                 }
-                transX = sg2d.transX;
-                transY = sg2d.transY;
+                trbnsX = sg2d.trbnsX;
+                trbnsY = sg2d.trbnsY;
             } else {
-                p2df = new Path2D.Float(s, sg2d.transform);
-                transX = 0;
-                transY = 0;
+                p2df = new Pbth2D.Flobt(s, sg2d.trbnsform);
+                trbnsX = 0;
+                trbnsY = 0;
             }
-            sg2d.loops.drawPathLoop.DrawPath(sg2d, sg2d.getSurfaceData(),
-                                             transX, transY, p2df);
+            sg2d.loops.drbwPbthLoop.DrbwPbth(sg2d, sg2d.getSurfbceDbtb(),
+                                             trbnsX, trbnsY, p2df);
             return;
         }
 
-        if (sg2d.strokeState == SunGraphics2D.STROKE_CUSTOM) {
-            fill(sg2d, sg2d.stroke.createStrokedShape(s));
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_CUSTOM) {
+            fill(sg2d, sg2d.stroke.crebteStrokedShbpe(s));
             return;
         }
 
-        ShapeSpanIterator sr = getStrokeSpans(sg2d, s);
+        ShbpeSpbnIterbtor sr = getStrokeSpbns(sg2d, s);
 
         try {
-            fillSpans(sg2d, sr);
-        } finally {
+            fillSpbns(sg2d, sr);
+        } finblly {
             sr.dispose();
         }
     }
 
     /**
-     * Return a ShapeSpanIterator instance that normalizes as
-     * appropriate for a fill operation as per the settings in
-     * the specified SunGraphics2D object.
+     * Return b ShbpeSpbnIterbtor instbnce thbt normblizes bs
+     * bppropribte for b fill operbtion bs per the settings in
+     * the specified SunGrbphics2D object.
      *
-     * The ShapeSpanIterator will be newly constructed and ready
-     * to start taking in geometry.
+     * The ShbpeSpbnIterbtor will be newly constructed bnd rebdy
+     * to stbrt tbking in geometry.
      *
-     * Note that the caller is responsible for calling dispose()
-     * on the returned ShapeSpanIterator inside a try/finally block:
+     * Note thbt the cbller is responsible for cblling dispose()
+     * on the returned ShbpeSpbnIterbtor inside b try/finblly block:
      * <pre>
-     *     ShapeSpanIterator ssi = LoopPipe.getFillSSI(sg2d);
+     *     ShbpeSpbnIterbtor ssi = LoopPipe.getFillSSI(sg2d);
      *     try {
-     *         ssi.setOutputArea(clip);
-     *         ssi.appendPath(...); // or appendPoly
-     *         // iterate the spans from ssi and operate on them
-     *     } finally {
+     *         ssi.setOutputAreb(clip);
+     *         ssi.bppendPbth(...); // or bppendPoly
+     *         // iterbte the spbns from ssi bnd operbte on them
+     *     } finblly {
      *         ssi.dispose();
      *     }
      * </pre>
      */
-    public static ShapeSpanIterator getFillSSI(SunGraphics2D sg2d) {
-        boolean adjust = ((sg2d.stroke instanceof BasicStroke) &&
+    public stbtic ShbpeSpbnIterbtor getFillSSI(SunGrbphics2D sg2d) {
+        boolebn bdjust = ((sg2d.stroke instbnceof BbsicStroke) &&
                           sg2d.strokeHint != SunHints.INTVAL_STROKE_PURE);
-        return new ShapeSpanIterator(adjust);
+        return new ShbpeSpbnIterbtor(bdjust);
     }
 
     /*
-     * Return a ShapeSpanIterator ready to iterate the spans of the wide
-     * outline of Shape s using the attributes of the SunGraphics2D
+     * Return b ShbpeSpbnIterbtor rebdy to iterbte the spbns of the wide
+     * outline of Shbpe s using the bttributes of the SunGrbphics2D
      * object.
      *
-     * The ShapeSpanIterator returned will be fully constructed
-     * and filled with the geometry from the Shape widened by the
-     * appropriate BasicStroke and normalization parameters taken
-     * from the SunGraphics2D object and be ready to start returning
-     * spans.
+     * The ShbpeSpbnIterbtor returned will be fully constructed
+     * bnd filled with the geometry from the Shbpe widened by the
+     * bppropribte BbsicStroke bnd normblizbtion pbrbmeters tbken
+     * from the SunGrbphics2D object bnd be rebdy to stbrt returning
+     * spbns.
      *
-     * Note that the caller is responsible for calling dispose()
-     * on the returned ShapeSpanIterator inside a try/finally block.
+     * Note thbt the cbller is responsible for cblling dispose()
+     * on the returned ShbpeSpbnIterbtor inside b try/finblly block.
      * <pre>
-     *     ShapeSpanIterator ssi = LoopPipe.getStrokeSpans(sg2d, s);
+     *     ShbpeSpbnIterbtor ssi = LoopPipe.getStrokeSpbns(sg2d, s);
      *     try {
-     *         // iterate the spans from ssi and operate on them
-     *     } finally {
+     *         // iterbte the spbns from ssi bnd operbte on them
+     *     } finblly {
      *         ssi.dispose();
      *     }
      * </pre>
      *
-     * REMIND: This should return a SpanIterator interface object
-     * but the caller needs to dispose() the object and that method
-     * is only on ShapeSpanIterator.
-     * TODO: Add a dispose() method to the SpanIterator interface.
+     * REMIND: This should return b SpbnIterbtor interfbce object
+     * but the cbller needs to dispose() the object bnd thbt method
+     * is only on ShbpeSpbnIterbtor.
+     * TODO: Add b dispose() method to the SpbnIterbtor interfbce.
      */
-    public static ShapeSpanIterator getStrokeSpans(SunGraphics2D sg2d,
-                                                   Shape s)
+    public stbtic ShbpeSpbnIterbtor getStrokeSpbns(SunGrbphics2D sg2d,
+                                                   Shbpe s)
     {
-        ShapeSpanIterator sr = new ShapeSpanIterator(false);
+        ShbpeSpbnIterbtor sr = new ShbpeSpbnIterbtor(fblse);
 
         try {
-            sr.setOutputArea(sg2d.getCompClip());
-            sr.setRule(PathIterator.WIND_NON_ZERO);
+            sr.setOutputAreb(sg2d.getCompClip());
+            sr.setRule(PbthIterbtor.WIND_NON_ZERO);
 
-            BasicStroke bs = (BasicStroke) sg2d.stroke;
-            boolean thin = (sg2d.strokeState <= SunGraphics2D.STROKE_THINDASHED);
-            boolean normalize =
+            BbsicStroke bs = (BbsicStroke) sg2d.stroke;
+            boolebn thin = (sg2d.strokeStbte <= SunGrbphics2D.STROKE_THINDASHED);
+            boolebn normblize =
                 (sg2d.strokeHint != SunHints.INTVAL_STROKE_PURE);
 
             RenderEngine.strokeTo(s,
-                                  sg2d.transform, bs,
-                                  thin, normalize, false, sr);
-        } catch (Throwable t) {
+                                  sg2d.trbnsform, bs,
+                                  thin, normblize, fblse, sr);
+        } cbtch (Throwbble t) {
             sr.dispose();
             sr = null;
-            throw new InternalError("Unable to Stroke shape ("+
-                                    t.getMessage()+")", t);
+            throw new InternblError("Unbble to Stroke shbpe ("+
+                                    t.getMessbge()+")", t);
         }
         return sr;
     }
 
-    public void fill(SunGraphics2D sg2d, Shape s) {
-        if (sg2d.strokeState == SunGraphics2D.STROKE_THIN) {
-            Path2D.Float p2df;
-            int transX;
-            int transY;
-            if (sg2d.transformState <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-                if (s instanceof Path2D.Float) {
-                    p2df = (Path2D.Float)s;
+    public void fill(SunGrbphics2D sg2d, Shbpe s) {
+        if (sg2d.strokeStbte == SunGrbphics2D.STROKE_THIN) {
+            Pbth2D.Flobt p2df;
+            int trbnsX;
+            int trbnsY;
+            if (sg2d.trbnsformStbte <= SunGrbphics2D.TRANSFORM_INT_TRANSLATE) {
+                if (s instbnceof Pbth2D.Flobt) {
+                    p2df = (Pbth2D.Flobt)s;
                 } else {
-                    p2df = new Path2D.Float(s);
+                    p2df = new Pbth2D.Flobt(s);
                 }
-                transX = sg2d.transX;
-                transY = sg2d.transY;
+                trbnsX = sg2d.trbnsX;
+                trbnsY = sg2d.trbnsY;
             } else {
-                p2df = new Path2D.Float(s, sg2d.transform);
-                transX = 0;
-                transY = 0;
+                p2df = new Pbth2D.Flobt(s, sg2d.trbnsform);
+                trbnsX = 0;
+                trbnsY = 0;
             }
-            sg2d.loops.fillPathLoop.FillPath(sg2d, sg2d.getSurfaceData(),
-                                             transX, transY, p2df);
+            sg2d.loops.fillPbthLoop.FillPbth(sg2d, sg2d.getSurfbceDbtb(),
+                                             trbnsX, trbnsY, p2df);
             return;
         }
 
-        ShapeSpanIterator sr = getFillSSI(sg2d);
+        ShbpeSpbnIterbtor sr = getFillSSI(sg2d);
         try {
-            sr.setOutputArea(sg2d.getCompClip());
-            AffineTransform at =
-                ((sg2d.transformState == SunGraphics2D.TRANSFORM_ISIDENT)
+            sr.setOutputAreb(sg2d.getCompClip());
+            AffineTrbnsform bt =
+                ((sg2d.trbnsformStbte == SunGrbphics2D.TRANSFORM_ISIDENT)
                  ? null
-                 : sg2d.transform);
-            sr.appendPath(s.getPathIterator(at));
-            fillSpans(sg2d, sr);
-        } finally {
+                 : sg2d.trbnsform);
+            sr.bppendPbth(s.getPbthIterbtor(bt));
+            fillSpbns(sg2d, sr);
+        } finblly {
             sr.dispose();
         }
     }
 
-    private static void fillSpans(SunGraphics2D sg2d, SpanIterator si) {
-        // REMIND: Eventually, the plan is that it will not be possible for
-        // fs to be null since the FillSpans loop will be the fundamental
-        // loop implemented for any destination type...
-        if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
+    privbte stbtic void fillSpbns(SunGrbphics2D sg2d, SpbnIterbtor si) {
+        // REMIND: Eventublly, the plbn is thbt it will not be possible for
+        // fs to be null since the FillSpbns loop will be the fundbmentbl
+        // loop implemented for bny destinbtion type...
+        if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
             si = sg2d.clipRegion.filter(si);
-            // REMIND: Region.filter produces a Java-only iterator
-            // with no native counterpart...
+            // REMIND: Region.filter produces b Jbvb-only iterbtor
+            // with no nbtive counterpbrt...
         } else {
-            sun.java2d.loops.FillSpans fs = sg2d.loops.fillSpansLoop;
+            sun.jbvb2d.loops.FillSpbns fs = sg2d.loops.fillSpbnsLoop;
             if (fs != null) {
-                fs.FillSpans(sg2d, sg2d.getSurfaceData(), si);
+                fs.FillSpbns(sg2d, sg2d.getSurfbceDbtb(), si);
                 return;
             }
         }
-        int spanbox[] = new int[4];
-        SurfaceData sd = sg2d.getSurfaceData();
-        while (si.nextSpan(spanbox)) {
-            int x = spanbox[0];
-            int y = spanbox[1];
-            int w = spanbox[2] - x;
-            int h = spanbox[3] - y;
+        int spbnbox[] = new int[4];
+        SurfbceDbtb sd = sg2d.getSurfbceDbtb();
+        while (si.nextSpbn(spbnbox)) {
+            int x = spbnbox[0];
+            int y = spbnbox[1];
+            int w = spbnbox[2] - x;
+            int h = spbnbox[3] - y;
             sg2d.loops.fillRectLoop.FillRect(sg2d, sd, x, y, w, h);
         }
     }
 
-    public void fillParallelogram(SunGraphics2D sg2d,
+    public void fillPbrbllelogrbm(SunGrbphics2D sg2d,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
                                   double dx1, double dy1,
                                   double dx2, double dy2)
     {
-        FillParallelogram fp = sg2d.loops.fillParallelogramLoop;
-        fp.FillParallelogram(sg2d, sg2d.getSurfaceData(),
+        FillPbrbllelogrbm fp = sg2d.loops.fillPbrbllelogrbmLoop;
+        fp.FillPbrbllelogrbm(sg2d, sg2d.getSurfbceDbtb(),
                              x, y, dx1, dy1, dx2, dy2);
     }
 
-    public void drawParallelogram(SunGraphics2D sg2d,
+    public void drbwPbrbllelogrbm(SunGrbphics2D sg2d,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
@@ -370,8 +370,8 @@ public class LoopPipe
                                   double dx2, double dy2,
                                   double lw1, double lw2)
     {
-        DrawParallelogram dp = sg2d.loops.drawParallelogramLoop;
-        dp.DrawParallelogram(sg2d, sg2d.getSurfaceData(),
+        DrbwPbrbllelogrbm dp = sg2d.loops.drbwPbrbllelogrbmLoop;
+        dp.DrbwPbrbllelogrbm(sg2d, sg2d.getSurfbceDbtb(),
                              x, y, dx1, dy1, dx2, dy2, lw1, lw2);
     }
 }

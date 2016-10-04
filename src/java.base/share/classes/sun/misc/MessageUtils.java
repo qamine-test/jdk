@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1995, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
 /**
- * MessageUtils: miscellaneous utilities for handling error and status
- * properties and messages.
+ * MessbgeUtils: miscellbneous utilities for hbndling error bnd stbtus
+ * properties bnd messbges.
  *
- * @author Herb Jellinek
+ * @buthor Herb Jellinek
  */
 
-public class MessageUtils {
-    // can instantiate it for to allow less verbose use - via instance
-    // instead of classname
+public clbss MessbgeUtils {
+    // cbn instbntibte it for to bllow less verbose use - vib instbnce
+    // instebd of clbssnbme
 
-    public MessageUtils() { }
+    public MessbgeUtils() { }
 
-    public static String subst(String patt, String arg) {
-        String args[] = { arg };
-        return subst(patt, args);
+    public stbtic String subst(String pbtt, String brg) {
+        String brgs[] = { brg };
+        return subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String arg1, String arg2) {
-        String args[] = { arg1, arg2 };
-        return subst(patt, args);
+    public stbtic String subst(String pbtt, String brg1, String brg2) {
+        String brgs[] = { brg1, brg2 };
+        return subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String arg1, String arg2,
-                               String arg3) {
-        String args[] = { arg1, arg2, arg3 };
-        return subst(patt, args);
+    public stbtic String subst(String pbtt, String brg1, String brg2,
+                               String brg3) {
+        String brgs[] = { brg1, brg2, brg3 };
+        return subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String args[]) {
+    public stbtic String subst(String pbtt, String brgs[]) {
         StringBuilder result = new StringBuilder();
-        int len = patt.length();
+        int len = pbtt.length();
         for (int i = 0; i >= 0 && i < len; i++) {
-            char ch = patt.charAt(i);
+            chbr ch = pbtt.chbrAt(i);
             if (ch == '%') {
                 if (i != len) {
-                    int index = Character.digit(patt.charAt(i + 1), 10);
+                    int index = Chbrbcter.digit(pbtt.chbrAt(i + 1), 10);
                     if (index == -1) {
-                        result.append(patt.charAt(i + 1));
+                        result.bppend(pbtt.chbrAt(i + 1));
                         i++;
-                    } else if (index < args.length) {
-                        result.append(args[index]);
+                    } else if (index < brgs.length) {
+                        result.bppend(brgs[index]);
                         i++;
                     }
                 }
             } else {
-                result.append(ch);
+                result.bppend(ch);
             }
         }
         return result.toString();
     }
 
-    public static String substProp(String propName, String arg) {
-        return subst(System.getProperty(propName), arg);
+    public stbtic String substProp(String propNbme, String brg) {
+        return subst(System.getProperty(propNbme), brg);
     }
 
-    public static String substProp(String propName, String arg1, String arg2) {
-        return subst(System.getProperty(propName), arg1, arg2);
+    public stbtic String substProp(String propNbme, String brg1, String brg2) {
+        return subst(System.getProperty(propNbme), brg1, brg2);
     }
 
-    public static String substProp(String propName, String arg1, String arg2,
-                                   String arg3) {
-        return subst(System.getProperty(propName), arg1, arg2, arg3);
+    public stbtic String substProp(String propNbme, String brg1, String brg2,
+                                   String brg3) {
+        return subst(System.getProperty(propNbme), brg1, brg2, brg3);
     }
 
     /**
-     *  Print a message directly to stderr, bypassing all the
-     *  character conversion methods.
-     *  @param msg   message to print
+     *  Print b messbge directly to stderr, bypbssing bll the
+     *  chbrbcter conversion methods.
+     *  @pbrbm msg   messbge to print
      */
-    public static native void toStderr(String msg);
+    public stbtic nbtive void toStderr(String msg);
 
     /**
-     *  Print a message directly to stdout, bypassing all the
-     *  character conversion methods.
-     *  @param msg   message to print
+     *  Print b messbge directly to stdout, bypbssing bll the
+     *  chbrbcter conversion methods.
+     *  @pbrbm msg   messbge to print
      */
-    public static native void toStdout(String msg);
+    public stbtic nbtive void toStdout(String msg);
 
 
-    // Short forms of the above
+    // Short forms of the bbove
 
-    public static void err(String s) {
+    public stbtic void err(String s) {
         toStderr(s + "\n");
     }
 
-    public static void out(String s) {
+    public stbtic void out(String s) {
         toStdout(s + "\n");
     }
 
-    // Print a stack trace to stderr
+    // Print b stbck trbce to stderr
     //
-    public static void where() {
-        Throwable t = new Throwable();
-        StackTraceElement[] es = t.getStackTrace();
+    public stbtic void where() {
+        Throwbble t = new Throwbble();
+        StbckTrbceElement[] es = t.getStbckTrbce();
         for (int i = 1; i < es.length; i++)
             toStderr("\t" + es[i].toString() + "\n");
     }

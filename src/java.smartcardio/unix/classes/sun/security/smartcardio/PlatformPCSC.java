@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.smartcardio;
+pbckbge sun.security.smbrtcbrdio;
 
-import java.io.File;
-import java.io.IOException;
+import jbvb.io.File;
+import jbvb.io.IOException;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 import sun.security.util.Debug;
 
 /**
- * Platform specific code and functions for Unix / MUSCLE based PC/SC
- * implementations.
+ * Plbtform specific code bnd functions for Unix / MUSCLE bbsed PC/SC
+ * implementbtions.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-class PlatformPCSC {
+clbss PlbtformPCSC {
 
-    static final Debug debug = Debug.getInstance("pcsc");
+    stbtic finbl Debug debug = Debug.getInstbnce("pcsc");
 
-    static final Throwable initException;
+    stbtic finbl Throwbble initException;
 
-    private final static String PROP_NAME = "sun.security.smartcardio.library";
+    privbte finbl stbtic String PROP_NAME = "sun.security.smbrtcbrdio.librbry";
 
-    private final static String LIB1 = "/usr/$LIBISA/libpcsclite.so";
-    private final static String LIB2 = "/usr/local/$LIBISA/libpcsclite.so";
-    private final static String PCSC_FRAMEWORK = "/System/Library/Frameworks/PCSC.framework/Versions/Current/PCSC";
+    privbte finbl stbtic String LIB1 = "/usr/$LIBISA/libpcsclite.so";
+    privbte finbl stbtic String LIB2 = "/usr/locbl/$LIBISA/libpcsclite.so";
+    privbte finbl stbtic String PCSC_FRAMEWORK = "/System/Librbry/Frbmeworks/PCSC.frbmework/Versions/Current/PCSC";
 
-    PlatformPCSC() {
+    PlbtformPCSC() {
         // empty
     }
 
-    static {
-        initException = AccessController.doPrivileged(new PrivilegedAction<Throwable>() {
-            public Throwable run() {
+    stbtic {
+        initException = AccessController.doPrivileged(new PrivilegedAction<Throwbble>() {
+            public Throwbble run() {
                 try {
-                    System.loadLibrary("j2pcsc");
-                    String library = getLibraryName();
+                    System.lobdLibrbry("j2pcsc");
+                    String librbry = getLibrbryNbme();
                     if (debug != null) {
-                        debug.println("Using PC/SC library: " + library);
+                        debug.println("Using PC/SC librbry: " + librbry);
                     }
-                    initialize(library);
+                    initiblize(librbry);
                     return null;
-                } catch (Throwable e) {
+                } cbtch (Throwbble e) {
                     return e;
                 }
             }
         });
     }
 
-    // expand $LIBISA to the system specific directory name for libraries
-    private static String expand(String lib) {
+    // expbnd $LIBISA to the system specific directory nbme for librbries
+    privbte stbtic String expbnd(String lib) {
         int k = lib.indexOf("$LIBISA");
         if (k == -1) {
             return lib;
@@ -83,11 +83,11 @@ class PlatformPCSC {
         String s1 = lib.substring(0, k);
         String s2 = lib.substring(k + 7);
         String libDir;
-        if ("64".equals(System.getProperty("sun.arch.data.model"))) {
-            if ("SunOS".equals(System.getProperty("os.name"))) {
+        if ("64".equbls(System.getProperty("sun.brch.dbtb.model"))) {
+            if ("SunOS".equbls(System.getProperty("os.nbme"))) {
                 libDir = "lib/64";
             } else {
-                // assume Linux convention
+                // bssume Linux convention
                 libDir = "lib64";
             }
         } else {
@@ -98,44 +98,44 @@ class PlatformPCSC {
         return s;
     }
 
-    private static String getLibraryName() throws IOException {
-        // if system property is set, use that library
-        String lib = expand(System.getProperty(PROP_NAME, "").trim());
+    privbte stbtic String getLibrbryNbme() throws IOException {
+        // if system property is set, use thbt librbry
+        String lib = expbnd(System.getProperty(PROP_NAME, "").trim());
         if (lib.length() != 0) {
             return lib;
         }
-        lib = expand(LIB1);
+        lib = expbnd(LIB1);
         if (new File(lib).isFile()) {
-            // if LIB1 exists, use that
+            // if LIB1 exists, use thbt
             return lib;
         }
-        lib = expand(LIB2);
+        lib = expbnd(LIB2);
         if (new File(lib).isFile()) {
-            // if LIB2 exists, use that
+            // if LIB2 exists, use thbt
             return lib;
         }
         lib = PCSC_FRAMEWORK;
         if (new File(lib).isFile()) {
-            // if PCSC.framework exists, use that
+            // if PCSC.frbmework exists, use thbt
             return lib;
         }
-        throw new IOException("No PC/SC library found on this system");
+        throw new IOException("No PC/SC librbry found on this system");
     }
 
-    private static native void initialize(String libraryName);
+    privbte stbtic nbtive void initiblize(String librbryNbme);
 
-    // PCSC constants defined differently under Windows and MUSCLE
+    // PCSC constbnts defined differently under Windows bnd MUSCLE
     // MUSCLE version
-    final static int SCARD_PROTOCOL_T0     =  0x0001;
-    final static int SCARD_PROTOCOL_T1     =  0x0002;
-    final static int SCARD_PROTOCOL_RAW    =  0x0004;
+    finbl stbtic int SCARD_PROTOCOL_T0     =  0x0001;
+    finbl stbtic int SCARD_PROTOCOL_T1     =  0x0002;
+    finbl stbtic int SCARD_PROTOCOL_RAW    =  0x0004;
 
-    final static int SCARD_UNKNOWN         =  0x0001;
-    final static int SCARD_ABSENT          =  0x0002;
-    final static int SCARD_PRESENT         =  0x0004;
-    final static int SCARD_SWALLOWED       =  0x0008;
-    final static int SCARD_POWERED         =  0x0010;
-    final static int SCARD_NEGOTIABLE      =  0x0020;
-    final static int SCARD_SPECIFIC        =  0x0040;
+    finbl stbtic int SCARD_UNKNOWN         =  0x0001;
+    finbl stbtic int SCARD_ABSENT          =  0x0002;
+    finbl stbtic int SCARD_PRESENT         =  0x0004;
+    finbl stbtic int SCARD_SWALLOWED       =  0x0008;
+    finbl stbtic int SCARD_POWERED         =  0x0010;
+    finbl stbtic int SCARD_NEGOTIABLE      =  0x0020;
+    finbl stbtic int SCARD_SPECIFIC        =  0x0040;
 
 }

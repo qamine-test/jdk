@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.regex.PatternSyntaxException;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.regex.PbtternSyntbxException;
+import jbvb.util.concurrent.TimeUnit;
 
 /**
  *
- * @author Xueming Shen
+ * @buthor Xueming Shen
  */
 
-class ZipUtils {
+clbss ZipUtils {
 
     /*
-     * Writes a 16-bit short to the output stream in little-endian byte order.
+     * Writes b 16-bit short to the output strebm in little-endibn byte order.
      */
-    public static void writeShort(OutputStream os, int v) throws IOException {
+    public stbtic void writeShort(OutputStrebm os, int v) throws IOException {
         os.write(v & 0xff);
         os.write((v >>> 8) & 0xff);
     }
 
     /*
-     * Writes a 32-bit int to the output stream in little-endian byte order.
+     * Writes b 32-bit int to the output strebm in little-endibn byte order.
      */
-    public static void writeInt(OutputStream os, long v) throws IOException {
+    public stbtic void writeInt(OutputStrebm os, long v) throws IOException {
         os.write((int)(v & 0xff));
         os.write((int)((v >>>  8) & 0xff));
         os.write((int)((v >>> 16) & 0xff));
@@ -58,9 +58,9 @@ class ZipUtils {
     }
 
     /*
-     * Writes a 64-bit int to the output stream in little-endian byte order.
+     * Writes b 64-bit int to the output strebm in little-endibn byte order.
      */
-    public static void writeLong(OutputStream os, long v) throws IOException {
+    public stbtic void writeLong(OutputStrebm os, long v) throws IOException {
         os.write((int)(v & 0xff));
         os.write((int)((v >>>  8) & 0xff));
         os.write((int)((v >>> 16) & 0xff));
@@ -72,39 +72,39 @@ class ZipUtils {
     }
 
     /*
-     * Writes an array of bytes to the output stream.
+     * Writes bn brrby of bytes to the output strebm.
      */
-    public static void writeBytes(OutputStream os, byte[] b)
+    public stbtic void writeBytes(OutputStrebm os, byte[] b)
         throws IOException
     {
         os.write(b, 0, b.length);
     }
 
     /*
-     * Writes an array of bytes to the output stream.
+     * Writes bn brrby of bytes to the output strebm.
      */
-    public static void writeBytes(OutputStream os, byte[] b, int off, int len)
+    public stbtic void writeBytes(OutputStrebm os, byte[] b, int off, int len)
         throws IOException
     {
         os.write(b, off, len);
     }
 
     /*
-     * Append a slash at the end, if it does not have one yet
+     * Append b slbsh bt the end, if it does not hbve one yet
      */
-    public static byte[] toDirectoryPath(byte[] dir) {
+    public stbtic byte[] toDirectoryPbth(byte[] dir) {
         if (dir.length != 0 && dir[dir.length - 1] != '/') {
-            dir = Arrays.copyOf(dir, dir.length + 1);
+            dir = Arrbys.copyOf(dir, dir.length + 1);
             dir[dir.length - 1] = '/';
         }
         return dir;
     }
 
     /*
-     * Converts DOS time to Java time (number of milliseconds since epoch).
+     * Converts DOS time to Jbvb time (number of milliseconds since epoch).
      */
-    public static long dosToJavaTime(long dtime) {
-        Date d = new Date((int)(((dtime >> 25) & 0x7f) + 80),
+    public stbtic long dosToJbvbTime(long dtime) {
+        Dbte d = new Dbte((int)(((dtime >> 25) & 0x7f) + 80),
                           (int)(((dtime >> 21) & 0x0f) - 1),
                           (int)((dtime >> 16) & 0x1f),
                           (int)((dtime >> 11) & 0x1f),
@@ -114,192 +114,192 @@ class ZipUtils {
     }
 
     /*
-     * Converts Java time to DOS time.
+     * Converts Jbvb time to DOS time.
      */
-    public static long javaToDosTime(long time) {
-        Date d = new Date(time);
-        int year = d.getYear() + 1900;
-        if (year < 1980) {
+    public stbtic long jbvbToDosTime(long time) {
+        Dbte d = new Dbte(time);
+        int yebr = d.getYebr() + 1900;
+        if (yebr < 1980) {
             return (1 << 21) | (1 << 16);
         }
-        return (year - 1980) << 25 | (d.getMonth() + 1) << 21 |
-               d.getDate() << 16 | d.getHours() << 11 | d.getMinutes() << 5 |
+        return (yebr - 1980) << 25 | (d.getMonth() + 1) << 21 |
+               d.getDbte() << 16 | d.getHours() << 11 | d.getMinutes() << 5 |
                d.getSeconds() >> 1;
     }
 
 
-    // used to adjust values between Windows and java epoch
-    private static final long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
-    public static final long winToJavaTime(long wtime) {
+    // used to bdjust vblues between Windows bnd jbvb epoch
+    privbte stbtic finbl long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
+    public stbtic finbl long winToJbvbTime(long wtime) {
         return TimeUnit.MILLISECONDS.convert(
                wtime / 10 + WINDOWS_EPOCH_IN_MICROSECONDS, TimeUnit.MICROSECONDS);
     }
 
-    public static final long javaToWinTime(long time) {
+    public stbtic finbl long jbvbToWinTime(long time) {
         return (TimeUnit.MICROSECONDS.convert(time, TimeUnit.MILLISECONDS)
                - WINDOWS_EPOCH_IN_MICROSECONDS) * 10;
     }
 
-    public static final long unixToJavaTime(long utime) {
+    public stbtic finbl long unixToJbvbTime(long utime) {
         return TimeUnit.MILLISECONDS.convert(utime, TimeUnit.SECONDS);
     }
 
-    public static final long javaToUnixTime(long time) {
+    public stbtic finbl long jbvbToUnixTime(long time) {
         return TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
     }
 
-    private static final String regexMetaChars = ".^$+{[]|()";
-    private static final String globMetaChars = "\\*?[{";
-    private static boolean isRegexMeta(char c) {
-        return regexMetaChars.indexOf(c) != -1;
+    privbte stbtic finbl String regexMetbChbrs = ".^$+{[]|()";
+    privbte stbtic finbl String globMetbChbrs = "\\*?[{";
+    privbte stbtic boolebn isRegexMetb(chbr c) {
+        return regexMetbChbrs.indexOf(c) != -1;
     }
-    private static boolean isGlobMeta(char c) {
-        return globMetaChars.indexOf(c) != -1;
+    privbte stbtic boolebn isGlobMetb(chbr c) {
+        return globMetbChbrs.indexOf(c) != -1;
     }
-    private static char EOL = 0;  //TBD
-    private static char next(String glob, int i) {
+    privbte stbtic chbr EOL = 0;  //TBD
+    privbte stbtic chbr next(String glob, int i) {
         if (i < glob.length()) {
-            return glob.charAt(i);
+            return glob.chbrAt(i);
         }
         return EOL;
     }
 
     /*
-     * Creates a regex pattern from the given glob expression.
+     * Crebtes b regex pbttern from the given glob expression.
      *
-     * @throws  PatternSyntaxException
+     * @throws  PbtternSyntbxException
      */
-    public static String toRegexPattern(String globPattern) {
-        boolean inGroup = false;
+    public stbtic String toRegexPbttern(String globPbttern) {
+        boolebn inGroup = fblse;
         StringBuilder regex = new StringBuilder("^");
 
         int i = 0;
-        while (i < globPattern.length()) {
-            char c = globPattern.charAt(i++);
+        while (i < globPbttern.length()) {
+            chbr c = globPbttern.chbrAt(i++);
             switch (c) {
-                case '\\':
-                    // escape special characters
-                    if (i == globPattern.length()) {
-                        throw new PatternSyntaxException("No character to escape",
-                                globPattern, i - 1);
+                cbse '\\':
+                    // escbpe specibl chbrbcters
+                    if (i == globPbttern.length()) {
+                        throw new PbtternSyntbxException("No chbrbcter to escbpe",
+                                globPbttern, i - 1);
                     }
-                    char next = globPattern.charAt(i++);
-                    if (isGlobMeta(next) || isRegexMeta(next)) {
-                        regex.append('\\');
+                    chbr next = globPbttern.chbrAt(i++);
+                    if (isGlobMetb(next) || isRegexMetb(next)) {
+                        regex.bppend('\\');
                     }
-                    regex.append(next);
-                    break;
-                case '/':
-                    regex.append(c);
-                    break;
-                case '[':
-                    // don't match name separator in class
-                    regex.append("[[^/]&&[");
-                    if (next(globPattern, i) == '^') {
-                        // escape the regex negation char if it appears
-                        regex.append("\\^");
+                    regex.bppend(next);
+                    brebk;
+                cbse '/':
+                    regex.bppend(c);
+                    brebk;
+                cbse '[':
+                    // don't mbtch nbme sepbrbtor in clbss
+                    regex.bppend("[[^/]&&[");
+                    if (next(globPbttern, i) == '^') {
+                        // escbpe the regex negbtion chbr if it bppebrs
+                        regex.bppend("\\^");
                         i++;
                     } else {
-                        // negation
-                        if (next(globPattern, i) == '!') {
-                            regex.append('^');
+                        // negbtion
+                        if (next(globPbttern, i) == '!') {
+                            regex.bppend('^');
                             i++;
                         }
-                        // hyphen allowed at start
-                        if (next(globPattern, i) == '-') {
-                            regex.append('-');
+                        // hyphen bllowed bt stbrt
+                        if (next(globPbttern, i) == '-') {
+                            regex.bppend('-');
                             i++;
                         }
                     }
-                    boolean hasRangeStart = false;
-                    char last = 0;
-                    while (i < globPattern.length()) {
-                        c = globPattern.charAt(i++);
+                    boolebn hbsRbngeStbrt = fblse;
+                    chbr lbst = 0;
+                    while (i < globPbttern.length()) {
+                        c = globPbttern.chbrAt(i++);
                         if (c == ']') {
-                            break;
+                            brebk;
                         }
                         if (c == '/') {
-                            throw new PatternSyntaxException("Explicit 'name separator' in class",
-                                    globPattern, i - 1);
+                            throw new PbtternSyntbxException("Explicit 'nbme sepbrbtor' in clbss",
+                                    globPbttern, i - 1);
                         }
-                        // TBD: how to specify ']' in a class?
+                        // TBD: how to specify ']' in b clbss?
                         if (c == '\\' || c == '[' ||
-                                c == '&' && next(globPattern, i) == '&') {
-                            // escape '\', '[' or "&&" for regex class
-                            regex.append('\\');
+                                c == '&' && next(globPbttern, i) == '&') {
+                            // escbpe '\', '[' or "&&" for regex clbss
+                            regex.bppend('\\');
                         }
-                        regex.append(c);
+                        regex.bppend(c);
 
                         if (c == '-') {
-                            if (!hasRangeStart) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 1);
+                            if (!hbsRbngeStbrt) {
+                                throw new PbtternSyntbxException("Invblid rbnge",
+                                        globPbttern, i - 1);
                             }
-                            if ((c = next(globPattern, i++)) == EOL || c == ']') {
-                                break;
+                            if ((c = next(globPbttern, i++)) == EOL || c == ']') {
+                                brebk;
                             }
-                            if (c < last) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 3);
+                            if (c < lbst) {
+                                throw new PbtternSyntbxException("Invblid rbnge",
+                                        globPbttern, i - 3);
                             }
-                            regex.append(c);
-                            hasRangeStart = false;
+                            regex.bppend(c);
+                            hbsRbngeStbrt = fblse;
                         } else {
-                            hasRangeStart = true;
-                            last = c;
+                            hbsRbngeStbrt = true;
+                            lbst = c;
                         }
                     }
                     if (c != ']') {
-                        throw new PatternSyntaxException("Missing ']", globPattern, i - 1);
+                        throw new PbtternSyntbxException("Missing ']", globPbttern, i - 1);
                     }
-                    regex.append("]]");
-                    break;
-                case '{':
+                    regex.bppend("]]");
+                    brebk;
+                cbse '{':
                     if (inGroup) {
-                        throw new PatternSyntaxException("Cannot nest groups",
-                                globPattern, i - 1);
+                        throw new PbtternSyntbxException("Cbnnot nest groups",
+                                globPbttern, i - 1);
                     }
-                    regex.append("(?:(?:");
+                    regex.bppend("(?:(?:");
                     inGroup = true;
-                    break;
-                case '}':
+                    brebk;
+                cbse '}':
                     if (inGroup) {
-                        regex.append("))");
-                        inGroup = false;
+                        regex.bppend("))");
+                        inGroup = fblse;
                     } else {
-                        regex.append('}');
+                        regex.bppend('}');
                     }
-                    break;
-                case ',':
+                    brebk;
+                cbse ',':
                     if (inGroup) {
-                        regex.append(")|(?:");
+                        regex.bppend(")|(?:");
                     } else {
-                        regex.append(',');
+                        regex.bppend(',');
                     }
-                    break;
-                case '*':
-                    if (next(globPattern, i) == '*') {
-                        // crosses directory boundaries
-                        regex.append(".*");
+                    brebk;
+                cbse '*':
+                    if (next(globPbttern, i) == '*') {
+                        // crosses directory boundbries
+                        regex.bppend(".*");
                         i++;
                     } else {
-                        // within directory boundary
-                        regex.append("[^/]*");
+                        // within directory boundbry
+                        regex.bppend("[^/]*");
                     }
-                    break;
-                case '?':
-                   regex.append("[^/]");
-                   break;
-                default:
-                    if (isRegexMeta(c)) {
-                        regex.append('\\');
+                    brebk;
+                cbse '?':
+                   regex.bppend("[^/]");
+                   brebk;
+                defbult:
+                    if (isRegexMetb(c)) {
+                        regex.bppend('\\');
                     }
-                    regex.append(c);
+                    regex.bppend(c);
             }
         }
         if (inGroup) {
-            throw new PatternSyntaxException("Missing '}", globPattern, i - 1);
+            throw new PbtternSyntbxException("Missing '}", globPbttern, i - 1);
         }
-        return regex.append('$').toString();
+        return regex.bppend('$').toString();
     }
 }

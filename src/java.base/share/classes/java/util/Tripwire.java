@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util;
+pbckbge jbvb.util;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Utility class for detecting inadvertent uses of boxing in
- * {@code java.util} classes.  The detection is turned on or off based on
- * whether the system property {@code org.openjdk.java.util.stream.tripwire} is
- * considered {@code true} according to {@link Boolean#getBoolean(String)}.
- * This should normally be turned off for production use.
+ * Utility clbss for detecting inbdvertent uses of boxing in
+ * {@code jbvb.util} clbsses.  The detection is turned on or off bbsed on
+ * whether the system property {@code org.openjdk.jbvb.util.strebm.tripwire} is
+ * considered {@code true} bccording to {@link Boolebn#getBoolebn(String)}.
+ * This should normblly be turned off for production use.
  *
- * @apiNote
- * Typical usage would be for boxing code to do:
+ * @bpiNote
+ * Typicbl usbge would be for boxing code to do:
  * <pre>{@code
  *     if (Tripwire.ENABLED)
- *         Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfInt.nextInt()");
+ *         Tripwire.trip(getClbss(), "{0} cblling PrimitiveIterbtor.OfInt.nextInt()");
  * }</pre>
  *
  * @since 1.8
  */
-final class Tripwire {
-    private static final String TRIPWIRE_PROPERTY = "org.openjdk.java.util.stream.tripwire";
+finbl clbss Tripwire {
+    privbte stbtic finbl String TRIPWIRE_PROPERTY = "org.openjdk.jbvb.util.strebm.tripwire";
 
-    /** Should debugging checks be enabled? */
-    static final boolean ENABLED = AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean(TRIPWIRE_PROPERTY));
+    /** Should debugging checks be enbbled? */
+    stbtic finbl boolebn ENABLED = AccessController.doPrivileged(
+            (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn(TRIPWIRE_PROPERTY));
 
-    private Tripwire() { }
+    privbte Tripwire() { }
 
     /**
-     * Produces a log warning, using {@code PlatformLogger.getLogger(className)},
-     * using the supplied message.  The class name of {@code trippingClass} will
-     * be used as the first parameter to the message.
+     * Produces b log wbrning, using {@code PlbtformLogger.getLogger(clbssNbme)},
+     * using the supplied messbge.  The clbss nbme of {@code trippingClbss} will
+     * be used bs the first pbrbmeter to the messbge.
      *
-     * @param trippingClass Name of the class generating the message
-     * @param msg A message format string of the type expected by
-     * {@link PlatformLogger}
+     * @pbrbm trippingClbss Nbme of the clbss generbting the messbge
+     * @pbrbm msg A messbge formbt string of the type expected by
+     * {@link PlbtformLogger}
      */
-    static void trip(Class<?> trippingClass, String msg) {
-        PlatformLogger.getLogger(trippingClass.getName()).warning(msg, trippingClass.getName());
+    stbtic void trip(Clbss<?> trippingClbss, String msg) {
+        PlbtformLogger.getLogger(trippingClbss.getNbme()).wbrning(msg, trippingClbss.getNbme());
     }
 }

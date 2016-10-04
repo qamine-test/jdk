@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "math.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "mbth.h"
+#include "GrbphicsPrimitiveMgr.h"
 #include "LineUtils.h"
-#include "Trace.h"
-#include "ParallelogramUtils.h"
+#include "Trbce.h"
+#include "PbrbllelogrbmUtils.h"
 
-#include "sun_java2d_loops_DrawParallelogram.h"
+#include "sun_jbvb2d_loops_DrbwPbrbllelogrbm.h"
 
 #define HANDLE_PGRAM_EDGE(X1, Y1, X2, Y2, \
-                          pRasInfo, pixel, pPrim, pFunc, pCompInfo) \
+                          pRbsInfo, pixel, pPrim, pFunc, pCompInfo) \
     do { \
          jint ix1 = (jint) floor(X1); \
          jint ix2 = (jint) floor(X2); \
          jint iy1 = (jint) floor(Y1); \
          jint iy2 = (jint) floor(Y2); \
-         LineUtils_ProcessLine(pRasInfo, pixel, \
+         LineUtils_ProcessLine(pRbsInfo, pixel, \
                                pFunc, pPrim, pCompInfo, \
                                ix1, iy1, ix2, iy2, JNI_TRUE); \
     } while (0)
@@ -49,7 +49,7 @@ typedef struct {
     jdouble y1;
     jdouble slope;
     jlong dx;
-    jint ystart;
+    jint ystbrt;
     jint yend;
 } EdgeInfo;
 
@@ -60,7 +60,7 @@ typedef struct {
         (pEDGE)->y1 = (Y1); \
         (pEDGE)->slope = (SLOPE); \
         (pEDGE)->dx = (DELTAX); \
-        (pEDGE)->ystart = (jint) floor((Y0) + 0.5); \
+        (pEDGE)->ystbrt = (jint) floor((Y0) + 0.5); \
         (pEDGE)->yend   = (jint) floor((Y1) + 0.5); \
     } while (0)
 
@@ -83,44 +83,44 @@ typedef struct {
     } while (0)
 
 /*
- * Class:     sun_java2d_loops_DrawParallelogram
- * Method:    DrawParallelogram
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;DDDDDDDD)V
+ * Clbss:     sun_jbvb2d_loops_DrbwPbrbllelogrbm
+ * Method:    DrbwPbrbllelogrbm
+ * Signbture: (Lsun/jbvb2d/SunGrbphics2D;Lsun/jbvb2d/SurfbceDbtb;DDDDDDDD)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
+Jbvb_sun_jbvb2d_loops_DrbwPbrbllelogrbm_DrbwPbrbllelogrbm
     (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData,
+     jobject sg2d, jobject sDbtb,
      jdouble x0, jdouble y0,
      jdouble dx1, jdouble dy1,
      jdouble dx2, jdouble dy2,
      jdouble lw1, jdouble lw2)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
+    SurfbceDbtbOps *sdOps;
+    SurfbceDbtbRbsInfo rbsInfo;
+    NbtivePrimitive *pPrim;
     CompositeInfo compInfo;
     jint pixel;
     EdgeInfo edges[8];
-    EdgeInfo *active[4];
+    EdgeInfo *bctive[4];
     jint ix1, iy1, ix2, iy2;
     jdouble ldx1, ldy1, ldx2, ldy2;
     jdouble ox0, oy0;
 
     /*
-     * Sort parallelogram by y values, ensure that each delta vector
-     * has a non-negative y delta.
+     * Sort pbrbllelogrbm by y vblues, ensure thbt ebch deltb vector
+     * hbs b non-negbtive y deltb.
      */
     SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2,
                v = lw1; lw1 = lw2; lw2 = v;);
 
-    // dx,dy for line width in the "1" and "2" directions.
+    // dx,dy for line width in the "1" bnd "2" directions.
     ldx1 = dx1 * lw1;
     ldy1 = dy1 * lw1;
     ldx2 = dx2 * lw2;
     ldy2 = dy2 * lw2;
 
-    // calculate origin of the outer parallelogram
+    // cblculbte origin of the outer pbrbllelogrbm
     ox0 = x0 - (ldx1 + ldx2) / 2.0;
     oy0 = y0 - (ldy1 + ldy2) / 2.0;
 
@@ -128,7 +128,7 @@ Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
     iy1 = (jint) floor(oy0 + 0.5);
     iy2 = (jint) floor(oy0 + dy1 + ldy1 + dy2 + ldy2 + 0.5);
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GetNbtivePrim(env, self);
     if (pPrim == NULL) {
         return;
     }
@@ -137,54 +137,54 @@ Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
         GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbceDbtb_GetOps(env, sDbtb);
     if (sdOps == NULL) {
         return;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    SurfaceData_IntersectBoundsXYXY(&rasInfo.bounds, ix1, iy1, ix2, iy2);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGetClip(env, sg2d, &rbsInfo.bounds);
+    SurfbceDbtb_IntersectBoundsXYXY(&rbsInfo.bounds, ix1, iy1, ix2, iy2);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
         return;
     }
 
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
+    if (sdOps->Lock(env, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
         return;
     }
 
-    ix1 = rasInfo.bounds.x1;
-    iy1 = rasInfo.bounds.y1;
-    ix2 = rasInfo.bounds.x2;
-    iy2 = rasInfo.bounds.y2;
+    ix1 = rbsInfo.bounds.x1;
+    iy1 = rbsInfo.bounds.y1;
+    ix2 = rbsInfo.bounds.x2;
+    iy2 = rbsInfo.bounds.y2;
     if (ix2 > ix1 && iy2 > iy1) {
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
+        sdOps->GetRbsInfo(env, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbse) {
             jdouble lslope, rslope;
             jlong ldx, rdx;
             jint loy, hiy, numedges;
-            FillParallelogramFunc *pFill =
-                pPrim->funcs.drawparallelogram->fillpgram;
+            FillPbrbllelogrbmFunc *pFill =
+                pPrim->funcs.drbwpbrbllelogrbm->fillpgrbm;
 
             lslope = (dy1 == 0) ? 0 : dx1 / dy1;
             rslope = (dy2 == 0) ? 0 : dx2 / dy2;
             ldx = DblToLong(lslope);
             rdx = DblToLong(rslope);
 
-            // Only need to generate 4 quads if the interior still
-            // has a hole in it (i.e. if the line width ratios were
-            // both less than 1.0)
+            // Only need to generbte 4 qubds if the interior still
+            // hbs b hole in it (i.e. if the line width rbtios were
+            // both less thbn 1.0)
             if (lw1 < 1.0 && lw2 < 1.0) {
-                // If the line widths are both less than a pixel wide
-                // then we can use a drawline function instead for even
-                // more performance.
+                // If the line widths bre both less thbn b pixel wide
+                // then we cbn use b drbwline function instebd for even
+                // more performbnce.
                 lw1 = sqrt(ldx1*ldx1 + ldy1*ldy1);
                 lw2 = sqrt(ldx2*ldx2 + ldy2*ldy2);
                 if (lw1 <= 1.0001 && lw2 <= 1.0001) {
                     jdouble x3, y3;
-                    DrawLineFunc *pLine =
-                        pPrim->funcs.drawparallelogram->drawline;
+                    DrbwLineFunc *pLine =
+                        pPrim->funcs.drbwpbrbllelogrbm->drbwline;
 
                     x3 = (dx1 += x0);
                     y3 = (dy1 += y0);
@@ -194,28 +194,28 @@ Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
                     dy2 += y0;
 
                     HANDLE_PGRAM_EDGE( x0,  y0, dx1, dy1,
-                                      &rasInfo, pixel, pPrim, pLine, &compInfo);
+                                      &rbsInfo, pixel, pPrim, pLine, &compInfo);
                     HANDLE_PGRAM_EDGE(dx1, dy1,  x3,  y3,
-                                      &rasInfo, pixel, pPrim, pLine, &compInfo);
+                                      &rbsInfo, pixel, pPrim, pLine, &compInfo);
                     HANDLE_PGRAM_EDGE( x3,  y3, dx2, dy2,
-                                      &rasInfo, pixel, pPrim, pLine, &compInfo);
+                                      &rbsInfo, pixel, pPrim, pLine, &compInfo);
                     HANDLE_PGRAM_EDGE(dx2, dy2,  x0,  y0,
-                                      &rasInfo, pixel, pPrim, pLine, &compInfo);
-                    SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
-                    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+                                      &rbsInfo, pixel, pPrim, pLine, &compInfo);
+                    SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
+                    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
                     return;
                 }
 
-                // To simplify the edge management below we presort the
-                // inner and outer edges so that they are globally sorted
-                // from left to right.  If you scan across the array of
-                // edges for a given Y range then the edges you encounter
-                // will be sorted in X as well.
-                // If AB are left top and bottom edges of outer parallelogram,
-                // and CD are the right pair of edges, and abcd are the
-                // corresponding inner parallelogram edges then we want them
-                // sorted as ABabcdCD to ensure this horizontal ordering.
-                // Conceptually it is like 2 pairs of nested parentheses.
+                // To simplify the edge mbnbgement below we presort the
+                // inner bnd outer edges so thbt they bre globblly sorted
+                // from left to right.  If you scbn bcross the brrby of
+                // edges for b given Y rbnge then the edges you encounter
+                // will be sorted in X bs well.
+                // If AB bre left top bnd bottom edges of outer pbrbllelogrbm,
+                // bnd CD bre the right pbir of edges, bnd bbcd bre the
+                // corresponding inner pbrbllelogrbm edges then we wbnt them
+                // sorted bs ABbbcdCD to ensure this horizontbl ordering.
+                // Conceptublly it is like 2 pbirs of nested pbrentheses.
                 STORE_PGRAM(edges + 2, edges + 4,
                             ox0 + ldx1 + ldx2, oy0 + ldy1 + ldy2,
                             dx1 - ldx1, dy1 - ldy1,
@@ -223,73 +223,73 @@ Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
                             lslope, rslope, ldx, rdx);
                 numedges = 8;
             } else {
-                // The line width ratios were large enough to consume
-                // the entire hole in the middle of the parallelogram
-                // so we can just issue one large quad for the outer
-                // parallelogram.
+                // The line width rbtios were lbrge enough to consume
+                // the entire hole in the middle of the pbrbllelogrbm
+                // so we cbn just issue one lbrge qubd for the outer
+                // pbrbllelogrbm.
                 numedges = 4;
             }
 
-            // The outer parallelogram always goes in the first two
-            // and last two entries in the array so we either have
-            // ABabcdCD ordering for 8 edges or ABCD ordering for 4
-            // edges.  See comment above where we store the inner
-            // parallelogram for a more complete description.
+            // The outer pbrbllelogrbm blwbys goes in the first two
+            // bnd lbst two entries in the brrby so we either hbve
+            // ABbbcdCD ordering for 8 edges or ABCD ordering for 4
+            // edges.  See comment bbove where we store the inner
+            // pbrbllelogrbm for b more complete description.
             STORE_PGRAM(edges + 0, edges + numedges-2,
                         ox0, oy0,
                         dx1 + ldx1, dy1 + ldy1,
                         dx2 + ldx2, dy2 + ldy2,
                         lslope, rslope, ldx, rdx);
 
-            loy = edges[0].ystart;
+            loy = edges[0].ystbrt;
             if (loy < iy1) loy = iy1;
             while (loy < iy2) {
-                jint numactive = 0;
+                jint numbctive = 0;
                 jint cur;
 
                 hiy = iy2;
-                // Maintaining a sorted edge list is probably overkill for
-                // 4 or 8 edges.  The indices chosen above for storing the
-                // inner and outer left and right edges already guarantee
-                // left to right ordering so we just need to scan for edges
-                // that overlap the current Y range (and also determine the
-                // maximum Y value for which the range is valid).
+                // Mbintbining b sorted edge list is probbbly overkill for
+                // 4 or 8 edges.  The indices chosen bbove for storing the
+                // inner bnd outer left bnd right edges blrebdy gubrbntee
+                // left to right ordering so we just need to scbn for edges
+                // thbt overlbp the current Y rbnge (bnd blso determine the
+                // mbximum Y vblue for which the rbnge is vblid).
                 for (cur = 0; cur < numedges; cur++) {
                     EdgeInfo *pEdge = &edges[cur];
                     jint yend = pEdge->yend;
                     if (loy < yend) {
-                        // This edge is still in play, have we reached it yet?
-                        jint ystart = pEdge->ystart;
-                        if (loy < ystart) {
-                            // This edge is not active (yet)
+                        // This edge is still in plby, hbve we rebched it yet?
+                        jint ystbrt = pEdge->ystbrt;
+                        if (loy < ystbrt) {
+                            // This edge is not bctive (yet)
                             // Stop before we get to the top of it
-                            if (hiy > ystart) hiy = ystart;
+                            if (hiy > ystbrt) hiy = ystbrt;
                         } else {
-                            // This edge is active, store it
-                            active[numactive++] = pEdge;
+                            // This edge is bctive, store it
+                            bctive[numbctive++] = pEdge;
                             // And stop when we get to the bottom of it
                             if (hiy > yend) hiy = yend;
                         }
                     }
                 }
 #ifdef DEBUG
-                if ((numactive & 1) != 0) {
-                    J2dTraceLn1(J2D_TRACE_ERROR,
-                                "DrawParallelogram: "
+                if ((numbctive & 1) != 0) {
+                    J2dTrbceLn1(J2D_TRACE_ERROR,
+                                "DrbwPbrbllelogrbm: "
                                 "ODD NUMBER OF PGRAM EDGES (%d)!!",
-                                numactive);
+                                numbctive);
                 }
 #endif
-                for (cur = 0; cur < numactive; cur += 2) {
-                    EdgeInfo *pLeft  = active[cur+0];
-                    EdgeInfo *pRight = active[cur+1];
+                for (cur = 0; cur < numbctive; cur += 2) {
+                    EdgeInfo *pLeft  = bctive[cur+0];
+                    EdgeInfo *pRight = bctive[cur+1];
                     jlong lx = PGRAM_INIT_X(loy,
                                             pLeft->x0, pLeft->y0,
                                             pLeft->slope);
                     jlong rx = PGRAM_INIT_X(loy,
                                             pRight->x0, pRight->y0,
                                             pRight->slope);
-                    (*pFill)(&rasInfo,
+                    (*pFill)(&rbsInfo,
                              ix1, loy, ix2, hiy,
                              lx, pLeft->dx,
                              rx, pRight->dx,
@@ -298,7 +298,7 @@ Java_sun_java2d_loops_DrawParallelogram_DrawParallelogram
                 loy = hiy;
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbceDbtb_InvokeRelebse(env, sdOps, &rbsInfo);
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbceDbtb_InvokeUnlock(env, sdOps, &rbsInfo);
 }

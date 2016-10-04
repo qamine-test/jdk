@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
-	<!-- This is a special purpose locale so that a user can request the C or POSIX
-		 style formatting. This does not include grouping separators in numbers, nor
-		 unusual characters for infinity or NaN. Some people have known this to be the
-		 invariant locale, which is different from the root locale.
-		 This locale should not be modified to create some sort of custom collation to
-		 represent a specific codepage. Many users complained when the C locale was
-		 being used, and multi-level UCA collation was expected.
+	<!-- This is b specibl purpose locble so thbt b user cbn request the C or POSIX
+		 style formbtting. This does not include grouping sepbrbtors in numbers, nor
+		 unusubl chbrbcters for infinity or NbN. Some people hbve known this to be the
+		 invbribnt locble, which is different from the root locble.
+		 This locble should not be modified to crebte some sort of custom collbtion to
+		 represent b specific codepbge. Mbny users complbined when the C locble wbs
+		 being used, bnd multi-level UCA collbtion wbs expected.
 	-->
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="en"/>
 		<territory type="US"/>
-		<variant type="POSIX"/>
+		<vbribnt type="POSIX"/>
 	</identity>
 	<numbers>
-		<symbols numberSystem="latn">
+		<symbols numberSystem="lbtn">
 			<perMille>0/00</perMille>
 			<infinity>INF</infinity>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#0.######</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>0.000000E+000</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#0.######</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern>0.000000E+000</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤ #0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 </ldml>

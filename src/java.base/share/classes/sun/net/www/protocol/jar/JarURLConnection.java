@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.jar;
+pbckbge sun.net.www.protocol.jbr;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.BufferedInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.net.UnknownServiceException;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.security.Permission;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.net.MblformedURLException;
+import jbvb.net.UnknownServiceException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.Mbnifest;
+import jbvb.security.Permission;
 
 /**
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  * @since 1.2
  */
-public class JarURLConnection extends java.net.JarURLConnection {
+public clbss JbrURLConnection extends jbvb.net.JbrURLConnection {
 
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    /* the Jar file factory. It handles both retrieval and caching.
+    /* the Jbr file fbctory. It hbndles both retrievbl bnd cbching.
      */
-    private static final JarFileFactory factory = JarFileFactory.getInstance();
+    privbte stbtic finbl JbrFileFbctory fbctory = JbrFileFbctory.getInstbnce();
 
-    /* the url for the Jar file */
-    private URL jarFileURL;
+    /* the url for the Jbr file */
+    privbte URL jbrFileURL;
 
-    /* the permission to get this JAR file. This is the actual, ultimate,
-     * permission, returned by the jar file factory.
+    /* the permission to get this JAR file. This is the bctubl, ultimbte,
+     * permission, returned by the jbr file fbctory.
      */
-    private Permission permission;
+    privbte Permission permission;
 
     /* the url connection for the JAR file */
-    private URLConnection jarFileURLConnection;
+    privbte URLConnection jbrFileURLConnection;
 
-    /* the entry name, if any */
-    private String entryName;
+    /* the entry nbme, if bny */
+    privbte String entryNbme;
 
-    /* the JarEntry */
-    private JarEntry jarEntry;
+    /* the JbrEntry */
+    privbte JbrEntry jbrEntry;
 
-    /* the jar file corresponding to this connection */
-    private JarFile jarFile;
+    /* the jbr file corresponding to this connection */
+    privbte JbrFile jbrFile;
 
     /* the content type for this connection */
-    private String contentType;
+    privbte String contentType;
 
-    public JarURLConnection(URL url, Handler handler)
-    throws MalformedURLException, IOException {
+    public JbrURLConnection(URL url, Hbndler hbndler)
+    throws MblformedURLException, IOException {
         super(url);
 
-        jarFileURL = getJarFileURL();
-        jarFileURLConnection = jarFileURL.openConnection();
-        entryName = getEntryName();
+        jbrFileURL = getJbrFileURL();
+        jbrFileURLConnection = jbrFileURL.openConnection();
+        entryNbme = getEntryNbme();
     }
 
-    public JarFile getJarFile() throws IOException {
+    public JbrFile getJbrFile() throws IOException {
         connect();
-        return jarFile;
+        return jbrFile;
     }
 
-    public JarEntry getJarEntry() throws IOException {
+    public JbrEntry getJbrEntry() throws IOException {
         connect();
-        return jarEntry;
+        return jbrEntry;
     }
 
     public Permission getPermission() throws IOException {
-        return jarFileURLConnection.getPermission();
+        return jbrFileURLConnection.getPermission();
     }
 
-    class JarURLInputStream extends java.io.FilterInputStream {
-        JarURLInputStream (InputStream src) {
+    clbss JbrURLInputStrebm extends jbvb.io.FilterInputStrebm {
+        JbrURLInputStrebm (InputStrebm src) {
             super (src);
         }
         public void close () throws IOException {
             try {
                 super.close();
-            } finally {
-                if (!getUseCaches()) {
-                    jarFile.close();
+            } finblly {
+                if (!getUseCbches()) {
+                    jbrFile.close();
                 }
             }
         }
@@ -118,48 +118,48 @@ public class JarURLConnection extends java.net.JarURLConnection {
 
     public void connect() throws IOException {
         if (!connected) {
-            /* the factory call will do the security checks */
-            jarFile = factory.get(getJarFileURL(), getUseCaches());
+            /* the fbctory cbll will do the security checks */
+            jbrFile = fbctory.get(getJbrFileURL(), getUseCbches());
 
-            /* we also ask the factory the permission that was required
-             * to get the jarFile, and set it as our permission.
+            /* we blso bsk the fbctory the permission thbt wbs required
+             * to get the jbrFile, bnd set it bs our permission.
              */
-            if (getUseCaches()) {
-                jarFileURLConnection = factory.getConnection(jarFile);
+            if (getUseCbches()) {
+                jbrFileURLConnection = fbctory.getConnection(jbrFile);
             }
 
-            if ((entryName != null)) {
-                jarEntry = (JarEntry)jarFile.getEntry(entryName);
-                if (jarEntry == null) {
+            if ((entryNbme != null)) {
+                jbrEntry = (JbrEntry)jbrFile.getEntry(entryNbme);
+                if (jbrEntry == null) {
                     try {
-                        if (!getUseCaches()) {
-                            jarFile.close();
+                        if (!getUseCbches()) {
+                            jbrFile.close();
                         }
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                     }
-                    throw new FileNotFoundException("JAR entry " + entryName +
+                    throw new FileNotFoundException("JAR entry " + entryNbme +
                                                     " not found in " +
-                                                    jarFile.getName());
+                                                    jbrFile.getNbme());
                 }
             }
             connected = true;
         }
     }
 
-    public InputStream getInputStream() throws IOException {
+    public InputStrebm getInputStrebm() throws IOException {
         connect();
 
-        InputStream result = null;
+        InputStrebm result = null;
 
-        if (entryName == null) {
-            throw new IOException("no entry name specified");
+        if (entryNbme == null) {
+            throw new IOException("no entry nbme specified");
         } else {
-            if (jarEntry == null) {
-                throw new FileNotFoundException("JAR entry " + entryName +
+            if (jbrEntry == null) {
+                throw new FileNotFoundException("JAR entry " + entryNbme +
                                                 " not found in " +
-                                                jarFile.getName());
+                                                jbrFile.getNbme());
             }
-            result = new JarURLInputStream (jarFile.getInputStream(jarEntry));
+            result = new JbrURLInputStrebm (jbrFile.getInputStrebm(jbrEntry));
         }
         return result;
     }
@@ -175,14 +175,14 @@ public class JarURLConnection extends java.net.JarURLConnection {
         long result = -1;
         try {
             connect();
-            if (jarEntry == null) {
-                /* if the URL referes to an archive */
-                result = jarFileURLConnection.getContentLengthLong();
+            if (jbrEntry == null) {
+                /* if the URL referes to bn brchive */
+                result = jbrFileURLConnection.getContentLengthLong();
             } else {
-                /* if the URL referes to an archive entry */
-                result = getJarEntry().getSize();
+                /* if the URL referes to bn brchive entry */
+                result = getJbrEntry().getSize();
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
         }
         return result;
     }
@@ -191,8 +191,8 @@ public class JarURLConnection extends java.net.JarURLConnection {
         Object result = null;
 
         connect();
-        if (entryName == null) {
-            result = jarFile;
+        if (entryNbme == null) {
+            result = jbrFile;
         } else {
             result = super.getContent();
         }
@@ -201,21 +201,21 @@ public class JarURLConnection extends java.net.JarURLConnection {
 
     public String getContentType() {
         if (contentType == null) {
-            if (entryName == null) {
-                contentType = "x-java/jar";
+            if (entryNbme == null) {
+                contentType = "x-jbvb/jbr";
             } else {
                 try {
                     connect();
-                    InputStream in = jarFile.getInputStream(jarEntry);
-                    contentType = guessContentTypeFromStream(
-                                        new BufferedInputStream(in));
+                    InputStrebm in = jbrFile.getInputStrebm(jbrEntry);
+                    contentType = guessContentTypeFromStrebm(
+                                        new BufferedInputStrebm(in));
                     in.close();
-                } catch (IOException e) {
-                    // don't do anything
+                } cbtch (IOException e) {
+                    // don't do bnything
                 }
             }
             if (contentType == null) {
-                contentType = guessContentTypeFromName(entryName);
+                contentType = guessContentTypeFromNbme(entryNbme);
             }
             if (contentType == null) {
                 contentType = "content/unknown";
@@ -224,151 +224,151 @@ public class JarURLConnection extends java.net.JarURLConnection {
         return contentType;
     }
 
-    public String getHeaderField(String name) {
-        return jarFileURLConnection.getHeaderField(name);
+    public String getHebderField(String nbme) {
+        return jbrFileURLConnection.getHebderField(nbme);
     }
 
     /**
-     * Sets the general request property.
+     * Sets the generbl request property.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
+     * @pbrbm   key     the keyword by which the request is known
+     *                  (e.g., "<code>bccept</code>").
+     * @pbrbm   vblue   the vblue bssocibted with it.
      */
-    public void setRequestProperty(String key, String value) {
-        jarFileURLConnection.setRequestProperty(key, value);
+    public void setRequestProperty(String key, String vblue) {
+        jbrFileURLConnection.setRequestProperty(key, vblue);
     }
 
     /**
-     * Returns the value of the named general request property for this
+     * Returns the vblue of the nbmed generbl request property for this
      * connection.
      *
-     * @return  the value of the named general request property for this
+     * @return  the vblue of the nbmed generbl request property for this
      *           connection.
      */
     public String getRequestProperty(String key) {
-        return jarFileURLConnection.getRequestProperty(key);
+        return jbrFileURLConnection.getRequestProperty(key);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Adds b generbl request property specified by b
+     * key-vblue pbir.  This method will not overwrite
+     * existing vblues bssocibted with the sbme key.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
+     * @pbrbm   key     the keyword by which the request is known
+     *                  (e.g., "<code>bccept</code>").
+     * @pbrbm   vblue   the vblue bssocibted with it.
      */
-    public void addRequestProperty(String key, String value) {
-        jarFileURLConnection.addRequestProperty(key, value);
+    public void bddRequestProperty(String key, String vblue) {
+        jbrFileURLConnection.bddRequestProperty(key, vblue);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Returns bn unmodifibble Mbp of generbl request
+     * properties for this connection. The Mbp keys
+     * bre Strings thbt represent the request-hebder
+     * field nbmes. Ebch Mbp vblue is b unmodifibble List
+     * of Strings thbt represents the corresponding
+     * field vblues.
      *
-     * @return  a Map of the general request properties for this connection.
+     * @return  b Mbp of the generbl request properties for this connection.
      */
-    public Map<String,List<String>> getRequestProperties() {
-        return jarFileURLConnection.getRequestProperties();
+    public Mbp<String,List<String>> getRequestProperties() {
+        return jbrFileURLConnection.getRequestProperties();
     }
 
     /**
-     * Set the value of the <code>allowUserInteraction</code> field of
+     * Set the vblue of the <code>bllowUserInterbction</code> field of
      * this <code>URLConnection</code>.
      *
-     * @param   allowuserinteraction   the new value.
-     * @see     java.net.URLConnection#allowUserInteraction
+     * @pbrbm   bllowuserinterbction   the new vblue.
+     * @see     jbvb.net.URLConnection#bllowUserInterbction
      */
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
-        jarFileURLConnection.setAllowUserInteraction(allowuserinteraction);
+    public void setAllowUserInterbction(boolebn bllowuserinterbction) {
+        jbrFileURLConnection.setAllowUserInterbction(bllowuserinterbction);
     }
 
     /**
-     * Returns the value of the <code>allowUserInteraction</code> field for
+     * Returns the vblue of the <code>bllowUserInterbction</code> field for
      * this object.
      *
-     * @return  the value of the <code>allowUserInteraction</code> field for
+     * @return  the vblue of the <code>bllowUserInterbction</code> field for
      *          this object.
-     * @see     java.net.URLConnection#allowUserInteraction
+     * @see     jbvb.net.URLConnection#bllowUserInterbction
      */
-    public boolean getAllowUserInteraction() {
-        return jarFileURLConnection.getAllowUserInteraction();
+    public boolebn getAllowUserInterbction() {
+        return jbrFileURLConnection.getAllowUserInterbction();
     }
 
     /*
-     * cache control
+     * cbche control
      */
 
     /**
-     * Sets the value of the <code>useCaches</code> field of this
-     * <code>URLConnection</code> to the specified value.
+     * Sets the vblue of the <code>useCbches</code> field of this
+     * <code>URLConnection</code> to the specified vblue.
      * <p>
-     * Some protocols do caching of documents.  Occasionally, it is important
-     * to be able to "tunnel through" and ignore the caches (e.g., the
-     * "reload" button in a browser).  If the UseCaches flag on a connection
-     * is true, the connection is allowed to use whatever caches it can.
-     *  If false, caches are to be ignored.
-     *  The default value comes from DefaultUseCaches, which defaults to
+     * Some protocols do cbching of documents.  Occbsionblly, it is importbnt
+     * to be bble to "tunnel through" bnd ignore the cbches (e.g., the
+     * "relobd" button in b browser).  If the UseCbches flbg on b connection
+     * is true, the connection is bllowed to use whbtever cbches it cbn.
+     *  If fblse, cbches bre to be ignored.
+     *  The defbult vblue comes from DefbultUseCbches, which defbults to
      * true.
      *
-     * @see     java.net.URLConnection#useCaches
+     * @see     jbvb.net.URLConnection#useCbches
      */
-    public void setUseCaches(boolean usecaches) {
-        jarFileURLConnection.setUseCaches(usecaches);
+    public void setUseCbches(boolebn usecbches) {
+        jbrFileURLConnection.setUseCbches(usecbches);
     }
 
     /**
-     * Returns the value of this <code>URLConnection</code>'s
-     * <code>useCaches</code> field.
+     * Returns the vblue of this <code>URLConnection</code>'s
+     * <code>useCbches</code> field.
      *
-     * @return  the value of this <code>URLConnection</code>'s
-     *          <code>useCaches</code> field.
-     * @see     java.net.URLConnection#useCaches
+     * @return  the vblue of this <code>URLConnection</code>'s
+     *          <code>useCbches</code> field.
+     * @see     jbvb.net.URLConnection#useCbches
      */
-    public boolean getUseCaches() {
-        return jarFileURLConnection.getUseCaches();
+    public boolebn getUseCbches() {
+        return jbrFileURLConnection.getUseCbches();
     }
 
     /**
-     * Sets the value of the <code>ifModifiedSince</code> field of
-     * this <code>URLConnection</code> to the specified value.
+     * Sets the vblue of the <code>ifModifiedSince</code> field of
+     * this <code>URLConnection</code> to the specified vblue.
      *
-     * @param   value   the new value.
-     * @see     java.net.URLConnection#ifModifiedSince
+     * @pbrbm   vblue   the new vblue.
+     * @see     jbvb.net.URLConnection#ifModifiedSince
      */
     public void setIfModifiedSince(long ifmodifiedsince) {
-        jarFileURLConnection.setIfModifiedSince(ifmodifiedsince);
+        jbrFileURLConnection.setIfModifiedSince(ifmodifiedsince);
     }
 
    /**
-     * Sets the default value of the <code>useCaches</code> field to the
-     * specified value.
+     * Sets the defbult vblue of the <code>useCbches</code> field to the
+     * specified vblue.
      *
-     * @param   defaultusecaches   the new value.
-     * @see     java.net.URLConnection#useCaches
+     * @pbrbm   defbultusecbches   the new vblue.
+     * @see     jbvb.net.URLConnection#useCbches
      */
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        jarFileURLConnection.setDefaultUseCaches(defaultusecaches);
+    public void setDefbultUseCbches(boolebn defbultusecbches) {
+        jbrFileURLConnection.setDefbultUseCbches(defbultusecbches);
     }
 
    /**
-     * Returns the default value of a <code>URLConnection</code>'s
-     * <code>useCaches</code> flag.
+     * Returns the defbult vblue of b <code>URLConnection</code>'s
+     * <code>useCbches</code> flbg.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Ths defbult is "sticky", being b pbrt of the stbtic stbte of bll
+     * URLConnections.  This flbg bpplies to the next, bnd bll following
+     * URLConnections thbt bre crebted.
      *
-     * @return  the default value of a <code>URLConnection</code>'s
-     *          <code>useCaches</code> flag.
-     * @see     java.net.URLConnection#useCaches
+     * @return  the defbult vblue of b <code>URLConnection</code>'s
+     *          <code>useCbches</code> flbg.
+     * @see     jbvb.net.URLConnection#useCbches
      */
-    public boolean getDefaultUseCaches() {
-        return jarFileURLConnection.getDefaultUseCaches();
+    public boolebn getDefbultUseCbches() {
+        return jbrFileURLConnection.getDefbultUseCbches();
     }
 }

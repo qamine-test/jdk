@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This header file defines the data structures sent by the VM
- * through the JVMTI CompiledMethodLoad callback function via the
- * "void * compile_info" parameter. The memory pointed to by the
- * compile_info parameter may not be referenced after returning from
- * the CompiledMethodLoad callback. These are VM implementation
- * specific data structures that may evolve in future releases. A
- * JVMTI agent should interpret a non-NULL compile_info as a pointer
- * to a region of memory containing a list of records. In a typical
- * usage scenario, a JVMTI agent would cast each record to a
- * jvmtiCompiledMethodLoadRecordHeader, a struct that represents
- * arbitrary information. This struct contains a kind field to indicate
- * the kind of information being passed, and a pointer to the next
- * record. If the kind field indicates inlining information, then the
- * agent would cast the record to a jvmtiCompiledMethodLoadInlineRecord.
- * This record contains an array of PCStackInfo structs, which indicate
- * for every pc address what are the methods on the invocation stack.
- * The "methods" and "bcis" fields in each PCStackInfo struct specify a
- * 1-1 mapping between these inlined methods and their bytecode indices.
- * This can be used to derive the proper source lines of the inlined
+ * This hebder file defines the dbtb structures sent by the VM
+ * through the JVMTI CompiledMethodLobd cbllbbck function vib the
+ * "void * compile_info" pbrbmeter. The memory pointed to by the
+ * compile_info pbrbmeter mby not be referenced bfter returning from
+ * the CompiledMethodLobd cbllbbck. These bre VM implementbtion
+ * specific dbtb structures thbt mby evolve in future relebses. A
+ * JVMTI bgent should interpret b non-NULL compile_info bs b pointer
+ * to b region of memory contbining b list of records. In b typicbl
+ * usbge scenbrio, b JVMTI bgent would cbst ebch record to b
+ * jvmtiCompiledMethodLobdRecordHebder, b struct thbt represents
+ * brbitrbry informbtion. This struct contbins b kind field to indicbte
+ * the kind of informbtion being pbssed, bnd b pointer to the next
+ * record. If the kind field indicbtes inlining informbtion, then the
+ * bgent would cbst the record to b jvmtiCompiledMethodLobdInlineRecord.
+ * This record contbins bn brrby of PCStbckInfo structs, which indicbte
+ * for every pc bddress whbt bre the methods on the invocbtion stbck.
+ * The "methods" bnd "bcis" fields in ebch PCStbckInfo struct specify b
+ * 1-1 mbpping between these inlined methods bnd their bytecode indices.
+ * This cbn be used to derive the proper source lines of the inlined
  * methods.
  */
 
@@ -57,7 +57,7 @@ enum {
     JVMTI_CMLR_MINOR_VERSION   = 0x00000000
 
     /*
-     * This comment is for the "JDK import from HotSpot" sanity check:
+     * This comment is for the "JDK import from HotSpot" sbnity check:
      * version: 1.0.0
      */
 };
@@ -68,48 +68,48 @@ typedef enum {
 } jvmtiCMLRKind;
 
 /*
- * Record that represents arbitrary information passed through JVMTI
- * CompiledMethodLoadEvent void pointer.
+ * Record thbt represents brbitrbry informbtion pbssed through JVMTI
+ * CompiledMethodLobdEvent void pointer.
  */
-typedef struct _jvmtiCompiledMethodLoadRecordHeader {
-  jvmtiCMLRKind kind;     /* id for the kind of info passed in the record */
-  jint majorinfoversion;  /* major and minor info version values. Init'ed */
-  jint minorinfoversion;  /* to current version value in jvmtiExport.cpp. */
+typedef struct _jvmtiCompiledMethodLobdRecordHebder {
+  jvmtiCMLRKind kind;     /* id for the kind of info pbssed in the record */
+  jint mbjorinfoversion;  /* mbjor bnd minor info version vblues. Init'ed */
+  jint minorinfoversion;  /* to current version vblue in jvmtiExport.cpp. */
 
-  struct _jvmtiCompiledMethodLoadRecordHeader* next;
-} jvmtiCompiledMethodLoadRecordHeader;
-
-/*
- * Record that gives information about the methods on the compile-time
- * stack at a specific pc address of a compiled method. Each element in
- * the methods array maps to same element in the bcis array.
- */
-typedef struct _PCStackInfo {
-  void* pc;             /* the pc address for this compiled method */
-  jint numstackframes;  /* number of methods on the stack */
-  jmethodID* methods;   /* array of numstackframes method ids */
-  jint* bcis;           /* array of numstackframes bytecode indices */
-} PCStackInfo;
+  struct _jvmtiCompiledMethodLobdRecordHebder* next;
+} jvmtiCompiledMethodLobdRecordHebder;
 
 /*
- * Record that contains inlining information for each pc address of
- * an nmethod.
+ * Record thbt gives informbtion bbout the methods on the compile-time
+ * stbck bt b specific pc bddress of b compiled method. Ebch element in
+ * the methods brrby mbps to sbme element in the bcis brrby.
  */
-typedef struct _jvmtiCompiledMethodLoadInlineRecord {
-  jvmtiCompiledMethodLoadRecordHeader header;  /* common header for casting */
+typedef struct _PCStbckInfo {
+  void* pc;             /* the pc bddress for this compiled method */
+  jint numstbckfrbmes;  /* number of methods on the stbck */
+  jmethodID* methods;   /* brrby of numstbckfrbmes method ids */
+  jint* bcis;           /* brrby of numstbckfrbmes bytecode indices */
+} PCStbckInfo;
+
+/*
+ * Record thbt contbins inlining informbtion for ebch pc bddress of
+ * bn nmethod.
+ */
+typedef struct _jvmtiCompiledMethodLobdInlineRecord {
+  jvmtiCompiledMethodLobdRecordHebder hebder;  /* common hebder for cbsting */
   jint numpcs;          /* number of pc descriptors in this nmethod */
-  PCStackInfo* pcinfo;  /* array of numpcs pc descriptors */
-} jvmtiCompiledMethodLoadInlineRecord;
+  PCStbckInfo* pcinfo;  /* brrby of numpcs pc descriptors */
+} jvmtiCompiledMethodLobdInlineRecord;
 
 /*
- * Dummy record used to test that we can pass records with different
- * information through the void pointer provided that they can be cast
- * to a jvmtiCompiledMethodLoadRecordHeader.
+ * Dummy record used to test thbt we cbn pbss records with different
+ * informbtion through the void pointer provided thbt they cbn be cbst
+ * to b jvmtiCompiledMethodLobdRecordHebder.
  */
 
-typedef struct _jvmtiCompiledMethodLoadDummyRecord {
-  jvmtiCompiledMethodLoadRecordHeader header;  /* common header for casting */
-  char message[50];
-} jvmtiCompiledMethodLoadDummyRecord;
+typedef struct _jvmtiCompiledMethodLobdDummyRecord {
+  jvmtiCompiledMethodLobdRecordHebder hebder;  /* common hebder for cbsting */
+  chbr messbge[50];
+} jvmtiCompiledMethodLobdDummyRecord;
 
 #endif

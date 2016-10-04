@@ -1,280 +1,280 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.Map;
-import java.util.Set;
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.io.IOException;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Linux implementation of DosFileAttributeView for use on file systems such
- * as ext3 that have extended attributes enabled and SAMBA configured to store
- * DOS attributes.
+ * Linux implementbtion of DosFileAttributeView for use on file systems such
+ * bs ext3 thbt hbve extended bttributes enbbled bnd SAMBA configured to store
+ * DOS bttributes.
  */
 
-class LinuxDosFileAttributeView
-    extends UnixFileAttributeViews.Basic implements DosFileAttributeView
+clbss LinuxDosFileAttributeView
+    extends UnixFileAttributeViews.Bbsic implements DosFileAttributeView
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    private static final String READONLY_NAME = "readonly";
-    private static final String ARCHIVE_NAME = "archive";
-    private static final String SYSTEM_NAME = "system";
-    private static final String HIDDEN_NAME = "hidden";
+    privbte stbtic finbl String READONLY_NAME = "rebdonly";
+    privbte stbtic finbl String ARCHIVE_NAME = "brchive";
+    privbte stbtic finbl String SYSTEM_NAME = "system";
+    privbte stbtic finbl String HIDDEN_NAME = "hidden";
 
-    private static final String DOS_XATTR_NAME = "user.DOSATTRIB";
-    private static final byte[] DOS_XATTR_NAME_AS_BYTES = Util.toBytes(DOS_XATTR_NAME);
+    privbte stbtic finbl String DOS_XATTR_NAME = "user.DOSATTRIB";
+    privbte stbtic finbl byte[] DOS_XATTR_NAME_AS_BYTES = Util.toBytes(DOS_XATTR_NAME);
 
-    private static final int DOS_XATTR_READONLY = 0x01;
-    private static final int DOS_XATTR_HIDDEN   = 0x02;
-    private static final int DOS_XATTR_SYSTEM   = 0x04;
-    private static final int DOS_XATTR_ARCHIVE  = 0x20;
+    privbte stbtic finbl int DOS_XATTR_READONLY = 0x01;
+    privbte stbtic finbl int DOS_XATTR_HIDDEN   = 0x02;
+    privbte stbtic finbl int DOS_XATTR_SYSTEM   = 0x04;
+    privbte stbtic finbl int DOS_XATTR_ARCHIVE  = 0x20;
 
-    // the names of the DOS attributes (includes basic)
-    private static final Set<String> dosAttributeNames =
-        Util.newSet(basicAttributeNames, READONLY_NAME, ARCHIVE_NAME, SYSTEM_NAME, HIDDEN_NAME);
+    // the nbmes of the DOS bttributes (includes bbsic)
+    privbte stbtic finbl Set<String> dosAttributeNbmes =
+        Util.newSet(bbsicAttributeNbmes, READONLY_NAME, ARCHIVE_NAME, SYSTEM_NAME, HIDDEN_NAME);
 
-    LinuxDosFileAttributeView(UnixPath file, boolean followLinks) {
+    LinuxDosFileAttributeView(UnixPbth file, boolebn followLinks) {
         super(file, followLinks);
     }
 
     @Override
-    public String name() {
+    public String nbme() {
         return "dos";
     }
 
     @Override
-    public void setAttribute(String attribute, Object value)
+    public void setAttribute(String bttribute, Object vblue)
         throws IOException
     {
-        if (attribute.equals(READONLY_NAME)) {
-            setReadOnly((Boolean)value);
+        if (bttribute.equbls(READONLY_NAME)) {
+            setRebdOnly((Boolebn)vblue);
             return;
         }
-        if (attribute.equals(ARCHIVE_NAME)) {
-            setArchive((Boolean)value);
+        if (bttribute.equbls(ARCHIVE_NAME)) {
+            setArchive((Boolebn)vblue);
             return;
         }
-        if (attribute.equals(SYSTEM_NAME)) {
-            setSystem((Boolean)value);
+        if (bttribute.equbls(SYSTEM_NAME)) {
+            setSystem((Boolebn)vblue);
             return;
         }
-        if (attribute.equals(HIDDEN_NAME)) {
-            setHidden((Boolean)value);
+        if (bttribute.equbls(HIDDEN_NAME)) {
+            setHidden((Boolebn)vblue);
             return;
         }
-        super.setAttribute(attribute, value);
+        super.setAttribute(bttribute, vblue);
     }
 
     @Override
-    public Map<String,Object> readAttributes(String[] attributes)
+    public Mbp<String,Object> rebdAttributes(String[] bttributes)
         throws IOException
     {
         AttributesBuilder builder =
-            AttributesBuilder.create(dosAttributeNames, attributes);
-        DosFileAttributes attrs = readAttributes();
-        addRequestedBasicAttributes(attrs, builder);
-        if (builder.match(READONLY_NAME))
-            builder.add(READONLY_NAME, attrs.isReadOnly());
-        if (builder.match(ARCHIVE_NAME))
-            builder.add(ARCHIVE_NAME, attrs.isArchive());
-        if (builder.match(SYSTEM_NAME))
-            builder.add(SYSTEM_NAME, attrs.isSystem());
-        if (builder.match(HIDDEN_NAME))
-            builder.add(HIDDEN_NAME, attrs.isHidden());
-        return builder.unmodifiableMap();
+            AttributesBuilder.crebte(dosAttributeNbmes, bttributes);
+        DosFileAttributes bttrs = rebdAttributes();
+        bddRequestedBbsicAttributes(bttrs, builder);
+        if (builder.mbtch(READONLY_NAME))
+            builder.bdd(READONLY_NAME, bttrs.isRebdOnly());
+        if (builder.mbtch(ARCHIVE_NAME))
+            builder.bdd(ARCHIVE_NAME, bttrs.isArchive());
+        if (builder.mbtch(SYSTEM_NAME))
+            builder.bdd(SYSTEM_NAME, bttrs.isSystem());
+        if (builder.mbtch(HIDDEN_NAME))
+            builder.bdd(HIDDEN_NAME, bttrs.isHidden());
+        return builder.unmodifibbleMbp();
     }
 
     @Override
-    public DosFileAttributes readAttributes() throws IOException {
-        file.checkRead();
+    public DosFileAttributes rebdAttributes() throws IOException {
+        file.checkRebd();
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
-             final UnixFileAttributes attrs = UnixFileAttributes.get(fd);
-             final int dosAttribute = getDosAttribute(fd);
+             finbl UnixFileAttributes bttrs = UnixFileAttributes.get(fd);
+             finbl int dosAttribute = getDosAttribute(fd);
 
              return new DosFileAttributes() {
                 @Override
-                public FileTime lastModifiedTime() {
-                    return attrs.lastModifiedTime();
+                public FileTime lbstModifiedTime() {
+                    return bttrs.lbstModifiedTime();
                 }
                 @Override
-                public FileTime lastAccessTime() {
-                    return attrs.lastAccessTime();
+                public FileTime lbstAccessTime() {
+                    return bttrs.lbstAccessTime();
                 }
                 @Override
-                public FileTime creationTime() {
-                    return attrs.creationTime();
+                public FileTime crebtionTime() {
+                    return bttrs.crebtionTime();
                 }
                 @Override
-                public boolean isRegularFile() {
-                    return attrs.isRegularFile();
+                public boolebn isRegulbrFile() {
+                    return bttrs.isRegulbrFile();
                 }
                 @Override
-                public boolean isDirectory() {
-                    return attrs.isDirectory();
+                public boolebn isDirectory() {
+                    return bttrs.isDirectory();
                 }
                 @Override
-                public boolean isSymbolicLink() {
-                    return attrs.isSymbolicLink();
+                public boolebn isSymbolicLink() {
+                    return bttrs.isSymbolicLink();
                 }
                 @Override
-                public boolean isOther() {
-                    return attrs.isOther();
+                public boolebn isOther() {
+                    return bttrs.isOther();
                 }
                 @Override
                 public long size() {
-                    return attrs.size();
+                    return bttrs.size();
                 }
                 @Override
                 public Object fileKey() {
-                    return attrs.fileKey();
+                    return bttrs.fileKey();
                 }
                 @Override
-                public boolean isReadOnly() {
+                public boolebn isRebdOnly() {
                     return (dosAttribute & DOS_XATTR_READONLY) != 0;
                 }
                 @Override
-                public boolean isHidden() {
+                public boolebn isHidden() {
                     return (dosAttribute & DOS_XATTR_HIDDEN) != 0;
                 }
                 @Override
-                public boolean isArchive() {
+                public boolebn isArchive() {
                     return (dosAttribute & DOS_XATTR_ARCHIVE) != 0;
                 }
                 @Override
-                public boolean isSystem() {
+                public boolebn isSystem() {
                     return (dosAttribute & DOS_XATTR_SYSTEM) != 0;
                 }
              };
 
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
-            return null;    // keep compiler happy
-        } finally {
+            return null;    // keep compiler hbppy
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public void setReadOnly(boolean value) throws IOException {
-        updateDosAttribute(DOS_XATTR_READONLY, value);
+    public void setRebdOnly(boolebn vblue) throws IOException {
+        updbteDosAttribute(DOS_XATTR_READONLY, vblue);
     }
 
     @Override
-    public void setHidden(boolean value) throws IOException {
-        updateDosAttribute(DOS_XATTR_HIDDEN, value);
+    public void setHidden(boolebn vblue) throws IOException {
+        updbteDosAttribute(DOS_XATTR_HIDDEN, vblue);
     }
 
     @Override
-    public void setArchive(boolean value) throws IOException {
-        updateDosAttribute(DOS_XATTR_ARCHIVE, value);
+    public void setArchive(boolebn vblue) throws IOException {
+        updbteDosAttribute(DOS_XATTR_ARCHIVE, vblue);
     }
 
     @Override
-    public void setSystem(boolean value) throws IOException {
-        updateDosAttribute(DOS_XATTR_SYSTEM, value);
+    public void setSystem(boolebn vblue) throws IOException {
+        updbteDosAttribute(DOS_XATTR_SYSTEM, vblue);
     }
 
     /**
-     * Reads the value of the user.DOSATTRIB extended attribute
+     * Rebds the vblue of the user.DOSATTRIB extended bttribute
      */
-    private int getDosAttribute(int fd) throws UnixException {
-        final int size = 24;
+    privbte int getDosAttribute(int fd) throws UnixException {
+        finbl int size = 24;
 
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(size);
         try {
-            int len = LinuxNativeDispatcher
-                .fgetxattr(fd, DOS_XATTR_NAME_AS_BYTES, buffer.address(), size);
+            int len = LinuxNbtiveDispbtcher
+                .fgetxbttr(fd, DOS_XATTR_NAME_AS_BYTES, buffer.bddress(), size);
 
             if (len > 0) {
-                // ignore null terminator
-                if (unsafe.getByte(buffer.address()+len-1) == 0)
+                // ignore null terminbtor
+                if (unsbfe.getByte(buffer.bddress()+len-1) == 0)
                     len--;
 
-                // convert to String and parse
+                // convert to String bnd pbrse
                 byte[] buf = new byte[len];
-                unsafe.copyMemory(null, buffer.address(), buf,
-                    Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
-                String value = Util.toString(buf);
+                unsbfe.copyMemory(null, buffer.bddress(), buf,
+                    Unsbfe.ARRAY_BYTE_BASE_OFFSET, len);
+                String vblue = Util.toString(buf);
 
                 // should be something like 0x20
-                if (value.length() >= 3 && value.startsWith("0x")) {
+                if (vblue.length() >= 3 && vblue.stbrtsWith("0x")) {
                     try {
-                        return Integer.parseInt(value.substring(2), 16);
-                    } catch (NumberFormatException x) {
+                        return Integer.pbrseInt(vblue.substring(2), 16);
+                    } cbtch (NumberFormbtException x) {
                         // ignore
                     }
                 }
             }
-            throw new UnixException("Value of " + DOS_XATTR_NAME + " attribute is invalid");
-        } catch (UnixException x) {
-            // default value when attribute does not exist
+            throw new UnixException("Vblue of " + DOS_XATTR_NAME + " bttribute is invblid");
+        } cbtch (UnixException x) {
+            // defbult vblue when bttribute does not exist
             if (x.errno() == ENODATA)
                 return 0;
             throw x;
-        } finally {
-            buffer.release();
+        } finblly {
+            buffer.relebse();
         }
     }
 
     /**
-     * Updates the value of the user.DOSATTRIB extended attribute
+     * Updbtes the vblue of the user.DOSATTRIB extended bttribute
      */
-    private void updateDosAttribute(int flag, boolean enable) throws IOException {
+    privbte void updbteDosAttribute(int flbg, boolebn enbble) throws IOException {
         file.checkWrite();
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
-            int oldValue = getDosAttribute(fd);
-            int newValue = oldValue;
-            if (enable) {
-                newValue |= flag;
+            int oldVblue = getDosAttribute(fd);
+            int newVblue = oldVblue;
+            if (enbble) {
+                newVblue |= flbg;
             } else {
-                newValue &= ~flag;
+                newVblue &= ~flbg;
             }
-            if (newValue != oldValue) {
-                byte[] value = Util.toBytes("0x" + Integer.toHexString(newValue));
-                NativeBuffer buffer = NativeBuffers.asNativeBuffer(value);
+            if (newVblue != oldVblue) {
+                byte[] vblue = Util.toBytes("0x" + Integer.toHexString(newVblue));
+                NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(vblue);
                 try {
-                    LinuxNativeDispatcher.fsetxattr(fd, DOS_XATTR_NAME_AS_BYTES,
-                        buffer.address(), value.length+1);
-                } finally {
-                    buffer.release();
+                    LinuxNbtiveDispbtcher.fsetxbttr(fd, DOS_XATTR_NAME_AS_BYTES,
+                        buffer.bddress(), vblue.length+1);
+                } finblly {
+                    buffer.relebse();
                 }
             }
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
-        } finally {
+        } finblly {
             close(fd);
         }
     }

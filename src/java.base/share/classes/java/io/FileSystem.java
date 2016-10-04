@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Package-private abstract class for the local filesystem abstraction.
+ * Pbckbge-privbte bbstrbct clbss for the locbl filesystem bbstrbction.
  */
 
-abstract class FileSystem {
+bbstrbct clbss FileSystem {
 
-    /* -- Normalization and construction -- */
+    /* -- Normblizbtion bnd construction -- */
 
     /**
-     * Return the local filesystem's name-separator character.
+     * Return the locbl filesystem's nbme-sepbrbtor chbrbcter.
      */
-    public abstract char getSeparator();
+    public bbstrbct chbr getSepbrbtor();
 
     /**
-     * Return the local filesystem's path-separator character.
+     * Return the locbl filesystem's pbth-sepbrbtor chbrbcter.
      */
-    public abstract char getPathSeparator();
+    public bbstrbct chbr getPbthSepbrbtor();
 
     /**
-     * Convert the given pathname string to normal form.  If the string is
-     * already in normal form then it is simply returned.
+     * Convert the given pbthnbme string to normbl form.  If the string is
+     * blrebdy in normbl form then it is simply returned.
      */
-    public abstract String normalize(String path);
+    public bbstrbct String normblize(String pbth);
 
     /**
-     * Compute the length of this pathname string's prefix.  The pathname
-     * string must be in normal form.
+     * Compute the length of this pbthnbme string's prefix.  The pbthnbme
+     * string must be in normbl form.
      */
-    public abstract int prefixLength(String path);
+    public bbstrbct int prefixLength(String pbth);
 
     /**
-     * Resolve the child pathname string against the parent.
-     * Both strings must be in normal form, and the result
-     * will be in normal form.
+     * Resolve the child pbthnbme string bgbinst the pbrent.
+     * Both strings must be in normbl form, bnd the result
+     * will be in normbl form.
      */
-    public abstract String resolve(String parent, String child);
+    public bbstrbct String resolve(String pbrent, String child);
 
     /**
-     * Return the parent pathname string to be used when the parent-directory
-     * argument in one of the two-argument File constructors is the empty
-     * pathname.
+     * Return the pbrent pbthnbme string to be used when the pbrent-directory
+     * brgument in one of the two-brgument File constructors is the empty
+     * pbthnbme.
      */
-    public abstract String getDefaultParent();
+    public bbstrbct String getDefbultPbrent();
 
     /**
-     * Post-process the given URI path string if necessary.  This is used on
-     * win32, e.g., to transform "/c:/foo" into "c:/foo".  The path string
-     * still has slash separators; code in the File class will translate them
-     * after this method returns.
+     * Post-process the given URI pbth string if necessbry.  This is used on
+     * win32, e.g., to trbnsform "/c:/foo" into "c:/foo".  The pbth string
+     * still hbs slbsh sepbrbtors; code in the File clbss will trbnslbte them
+     * bfter this method returns.
      */
-    public abstract String fromURIPath(String path);
+    public bbstrbct String fromURIPbth(String pbth);
 
 
-    /* -- Path operations -- */
+    /* -- Pbth operbtions -- */
 
     /**
-     * Tell whether or not the given abstract pathname is absolute.
+     * Tell whether or not the given bbstrbct pbthnbme is bbsolute.
      */
-    public abstract boolean isAbsolute(File f);
+    public bbstrbct boolebn isAbsolute(File f);
 
     /**
-     * Resolve the given abstract pathname into absolute form.  Invoked by the
-     * getAbsolutePath and getCanonicalPath methods in the File class.
+     * Resolve the given bbstrbct pbthnbme into bbsolute form.  Invoked by the
+     * getAbsolutePbth bnd getCbnonicblPbth methods in the File clbss.
      */
-    public abstract String resolve(File f);
+    public bbstrbct String resolve(File f);
 
-    public abstract String canonicalize(String path) throws IOException;
+    public bbstrbct String cbnonicblize(String pbth) throws IOException;
 
 
-    /* -- Attribute accessors -- */
+    /* -- Attribute bccessors -- */
 
-    /* Constants for simple boolean attributes */
-    @Native public static final int BA_EXISTS    = 0x01;
-    @Native public static final int BA_REGULAR   = 0x02;
-    @Native public static final int BA_DIRECTORY = 0x04;
-    @Native public static final int BA_HIDDEN    = 0x08;
+    /* Constbnts for simple boolebn bttributes */
+    @Nbtive public stbtic finbl int BA_EXISTS    = 0x01;
+    @Nbtive public stbtic finbl int BA_REGULAR   = 0x02;
+    @Nbtive public stbtic finbl int BA_DIRECTORY = 0x04;
+    @Nbtive public stbtic finbl int BA_HIDDEN    = 0x08;
 
     /**
-     * Return the simple boolean attributes for the file or directory denoted
-     * by the given abstract pathname, or zero if it does not exist or some
+     * Return the simple boolebn bttributes for the file or directory denoted
+     * by the given bbstrbct pbthnbme, or zero if it does not exist or some
      * other I/O error occurs.
      */
-    public abstract int getBooleanAttributes(File f);
+    public bbstrbct int getBoolebnAttributes(File f);
 
-    @Native public static final int ACCESS_READ    = 0x04;
-    @Native public static final int ACCESS_WRITE   = 0x02;
-    @Native public static final int ACCESS_EXECUTE = 0x01;
+    @Nbtive public stbtic finbl int ACCESS_READ    = 0x04;
+    @Nbtive public stbtic finbl int ACCESS_WRITE   = 0x02;
+    @Nbtive public stbtic finbl int ACCESS_EXECUTE = 0x01;
 
     /**
-     * Check whether the file or directory denoted by the given abstract
-     * pathname may be accessed by this process.  The second argument specifies
-     * which access, ACCESS_READ, ACCESS_WRITE or ACCESS_EXECUTE, to check.
-     * Return false if access is denied or an I/O error occurs
+     * Check whether the file or directory denoted by the given bbstrbct
+     * pbthnbme mby be bccessed by this process.  The second brgument specifies
+     * which bccess, ACCESS_READ, ACCESS_WRITE or ACCESS_EXECUTE, to check.
+     * Return fblse if bccess is denied or bn I/O error occurs
      */
-    public abstract boolean checkAccess(File f, int access);
+    public bbstrbct boolebn checkAccess(File f, int bccess);
     /**
-     * Set on or off the access permission (to owner only or to all) to the file
-     * or directory denoted by the given abstract pathname, based on the parameters
-     * enable, access and oweronly.
+     * Set on or off the bccess permission (to owner only or to bll) to the file
+     * or directory denoted by the given bbstrbct pbthnbme, bbsed on the pbrbmeters
+     * enbble, bccess bnd oweronly.
      */
-    public abstract boolean setPermission(File f, int access, boolean enable, boolean owneronly);
+    public bbstrbct boolebn setPermission(File f, int bccess, boolebn enbble, boolebn owneronly);
 
     /**
-     * Return the time at which the file or directory denoted by the given
-     * abstract pathname was last modified, or zero if it does not exist or
+     * Return the time bt which the file or directory denoted by the given
+     * bbstrbct pbthnbme wbs lbst modified, or zero if it does not exist or
      * some other I/O error occurs.
      */
-    public abstract long getLastModifiedTime(File f);
+    public bbstrbct long getLbstModifiedTime(File f);
 
     /**
-     * Return the length in bytes of the file denoted by the given abstract
-     * pathname, or zero if it does not exist, is a directory, or some other
+     * Return the length in bytes of the file denoted by the given bbstrbct
+     * pbthnbme, or zero if it does not exist, is b directory, or some other
      * I/O error occurs.
      */
-    public abstract long getLength(File f);
+    public bbstrbct long getLength(File f);
 
 
-    /* -- File operations -- */
+    /* -- File operbtions -- */
 
     /**
-     * Create a new empty file with the given pathname.  Return
-     * <code>true</code> if the file was created and <code>false</code> if a
-     * file or directory with the given pathname already exists.  Throw an
-     * IOException if an I/O error occurs.
+     * Crebte b new empty file with the given pbthnbme.  Return
+     * <code>true</code> if the file wbs crebted bnd <code>fblse</code> if b
+     * file or directory with the given pbthnbme blrebdy exists.  Throw bn
+     * IOException if bn I/O error occurs.
      */
-    public abstract boolean createFileExclusively(String pathname)
+    public bbstrbct boolebn crebteFileExclusively(String pbthnbme)
         throws IOException;
 
     /**
-     * Delete the file or directory denoted by the given abstract pathname,
-     * returning <code>true</code> if and only if the operation succeeds.
+     * Delete the file or directory denoted by the given bbstrbct pbthnbme,
+     * returning <code>true</code> if bnd only if the operbtion succeeds.
      */
-    public abstract boolean delete(File f);
+    public bbstrbct boolebn delete(File f);
 
     /**
-     * List the elements of the directory denoted by the given abstract
-     * pathname.  Return an array of strings naming the elements of the
+     * List the elements of the directory denoted by the given bbstrbct
+     * pbthnbme.  Return bn brrby of strings nbming the elements of the
      * directory if successful; otherwise, return <code>null</code>.
      */
-    public abstract String[] list(File f);
+    public bbstrbct String[] list(File f);
 
     /**
-     * Create a new directory denoted by the given abstract pathname,
-     * returning <code>true</code> if and only if the operation succeeds.
+     * Crebte b new directory denoted by the given bbstrbct pbthnbme,
+     * returning <code>true</code> if bnd only if the operbtion succeeds.
      */
-    public abstract boolean createDirectory(File f);
+    public bbstrbct boolebn crebteDirectory(File f);
 
     /**
-     * Rename the file or directory denoted by the first abstract pathname to
-     * the second abstract pathname, returning <code>true</code> if and only if
-     * the operation succeeds.
+     * Renbme the file or directory denoted by the first bbstrbct pbthnbme to
+     * the second bbstrbct pbthnbme, returning <code>true</code> if bnd only if
+     * the operbtion succeeds.
      */
-    public abstract boolean rename(File f1, File f2);
+    public bbstrbct boolebn renbme(File f1, File f2);
 
     /**
-     * Set the last-modified time of the file or directory denoted by the
-     * given abstract pathname, returning <code>true</code> if and only if the
-     * operation succeeds.
+     * Set the lbst-modified time of the file or directory denoted by the
+     * given bbstrbct pbthnbme, returning <code>true</code> if bnd only if the
+     * operbtion succeeds.
      */
-    public abstract boolean setLastModifiedTime(File f, long time);
+    public bbstrbct boolebn setLbstModifiedTime(File f, long time);
 
     /**
-     * Mark the file or directory denoted by the given abstract pathname as
-     * read-only, returning <code>true</code> if and only if the operation
+     * Mbrk the file or directory denoted by the given bbstrbct pbthnbme bs
+     * rebd-only, returning <code>true</code> if bnd only if the operbtion
      * succeeds.
      */
-    public abstract boolean setReadOnly(File f);
+    public bbstrbct boolebn setRebdOnly(File f);
 
 
-    /* -- Filesystem interface -- */
-
-    /**
-     * List the available filesystem roots.
-     */
-    public abstract File[] listRoots();
-
-    /* -- Disk usage -- */
-    @Native public static final int SPACE_TOTAL  = 0;
-    @Native public static final int SPACE_FREE   = 1;
-    @Native public static final int SPACE_USABLE = 2;
-
-    public abstract long getSpace(File f, int t);
-
-    /* -- Basic infrastructure -- */
+    /* -- Filesystem interfbce -- */
 
     /**
-     * Compare two abstract pathnames lexicographically.
+     * List the bvbilbble filesystem roots.
      */
-    public abstract int compare(File f1, File f2);
+    public bbstrbct File[] listRoots();
+
+    /* -- Disk usbge -- */
+    @Nbtive public stbtic finbl int SPACE_TOTAL  = 0;
+    @Nbtive public stbtic finbl int SPACE_FREE   = 1;
+    @Nbtive public stbtic finbl int SPACE_USABLE = 2;
+
+    public bbstrbct long getSpbce(File f, int t);
+
+    /* -- Bbsic infrbstructure -- */
 
     /**
-     * Compute the hash code of an abstract pathname.
+     * Compbre two bbstrbct pbthnbmes lexicogrbphicblly.
      */
-    public abstract int hashCode(File f);
+    public bbstrbct int compbre(File f1, File f2);
 
-    // Flags for enabling/disabling performance optimizations for file
-    // name canonicalization
-    static boolean useCanonCaches      = true;
-    static boolean useCanonPrefixCache = true;
+    /**
+     * Compute the hbsh code of bn bbstrbct pbthnbme.
+     */
+    public bbstrbct int hbshCode(File f);
 
-    private static boolean getBooleanProperty(String prop, boolean defaultVal) {
-        String val = System.getProperty(prop);
-        if (val == null) return defaultVal;
-        if (val.equalsIgnoreCase("true")) {
+    // Flbgs for enbbling/disbbling performbnce optimizbtions for file
+    // nbme cbnonicblizbtion
+    stbtic boolebn useCbnonCbches      = true;
+    stbtic boolebn useCbnonPrefixCbche = true;
+
+    privbte stbtic boolebn getBoolebnProperty(String prop, boolebn defbultVbl) {
+        String vbl = System.getProperty(prop);
+        if (vbl == null) return defbultVbl;
+        if (vbl.equblsIgnoreCbse("true")) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    static {
-        useCanonCaches      = getBooleanProperty("sun.io.useCanonCaches",
-                                                 useCanonCaches);
-        useCanonPrefixCache = getBooleanProperty("sun.io.useCanonPrefixCache",
-                                                 useCanonPrefixCache);
+    stbtic {
+        useCbnonCbches      = getBoolebnProperty("sun.io.useCbnonCbches",
+                                                 useCbnonCbches);
+        useCbnonPrefixCbche = getBoolebnProperty("sun.io.useCbnonPrefixCbche",
+                                                 useCbnonPrefixCbche);
     }
 }

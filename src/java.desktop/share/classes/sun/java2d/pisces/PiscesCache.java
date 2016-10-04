@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pisces;
+pbckbge sun.jbvb2d.pisces;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * An object used to cache pre-rendered complex paths.
+ * An object used to cbche pre-rendered complex pbths.
  *
  * @see PiscesRenderer#render
  */
-final class PiscesCache {
+finbl clbss PiscesCbche {
 
-    final int bboxX0, bboxY0, bboxX1, bboxY1;
+    finbl int bboxX0, bboxY0, bboxX1, bboxY1;
 
     // rowAARLE[i] holds the encoding of the pixel row with y = bboxY0+i.
-    // The format of each of the inner arrays is: rowAARLE[i][0,1] = (x0, n)
-    // where x0 is the first x in row i with nonzero alpha, and n is the
+    // The formbt of ebch of the inner brrbys is: rowAARLE[i][0,1] = (x0, n)
+    // where x0 is the first x in row i with nonzero blphb, bnd n is the
     // number of RLE entries in this row. rowAARLE[i][j,j+1] for j>1 is
-    // (val,runlen)
-    final int[][] rowAARLE;
+    // (vbl,runlen)
+    finbl int[][] rowAARLE;
 
-    // RLE encodings are added in increasing y rows and then in increasing
-    // x inside those rows. Therefore, at any one time there is a well
-    // defined position (x,y) where a run length is about to be added (or
-    // the row terminated). x0,y0 is this (x,y)-(bboxX0,bboxY0). They
-    // are used to get indices into the current tile.
-    private int x0 = Integer.MIN_VALUE, y0 = Integer.MIN_VALUE;
+    // RLE encodings bre bdded in increbsing y rows bnd then in increbsing
+    // x inside those rows. Therefore, bt bny one time there is b well
+    // defined position (x,y) where b run length is bbout to be bdded (or
+    // the row terminbted). x0,y0 is this (x,y)-(bboxX0,bboxY0). They
+    // bre used to get indices into the current tile.
+    privbte int x0 = Integer.MIN_VALUE, y0 = Integer.MIN_VALUE;
 
-    // touchedTile[i][j] is the sum of all the alphas in the tile with
-    // y=i*TILE_SIZE+bboxY0 and x=j*TILE_SIZE+bboxX0.
-    private final int[][] touchedTile;
+    // touchedTile[i][j] is the sum of bll the blphbs in the tile with
+    // y=i*TILE_SIZE+bboxY0 bnd x=j*TILE_SIZE+bboxX0.
+    privbte finbl int[][] touchedTile;
 
-    static final int TILE_SIZE_LG = 5;
-    static final int TILE_SIZE = 1 << TILE_SIZE_LG; // 32
-    private static final int INIT_ROW_SIZE = 8; // enough for 3 run lengths
+    stbtic finbl int TILE_SIZE_LG = 5;
+    stbtic finbl int TILE_SIZE = 1 << TILE_SIZE_LG; // 32
+    privbte stbtic finbl int INIT_ROW_SIZE = 8; // enough for 3 run lengths
 
-    PiscesCache(int minx, int miny, int maxx, int maxy) {
-        assert maxy >= miny && maxx >= minx;
+    PiscesCbche(int minx, int miny, int mbxx, int mbxy) {
+        bssert mbxy >= miny && mbxx >= minx;
         bboxX0 = minx;
         bboxY0 = miny;
-        bboxX1 = maxx + 1;
-        bboxY1 = maxy + 1;
-        // we could just leave the inner arrays as null and allocate them
-        // lazily (which would be beneficial for shapes with gaps), but we
-        // assume there won't be too many of those so we allocate everything
-        // up front (which is better for other cases)
+        bboxX1 = mbxx + 1;
+        bboxY1 = mbxy + 1;
+        // we could just lebve the inner brrbys bs null bnd bllocbte them
+        // lbzily (which would be beneficibl for shbpes with gbps), but we
+        // bssume there won't be too mbny of those so we bllocbte everything
+        // up front (which is better for other cbses)
         rowAARLE = new int[bboxY1 - bboxY0 + 1][INIT_ROW_SIZE];
         x0 = 0;
-        y0 = -1; // -1 makes the first assert in startRow succeed
-        // the ceiling of (maxy - miny + 1) / TILE_SIZE;
-        int nyTiles = (maxy - miny + TILE_SIZE) >> TILE_SIZE_LG;
-        int nxTiles = (maxx - minx + TILE_SIZE) >> TILE_SIZE_LG;
+        y0 = -1; // -1 mbkes the first bssert in stbrtRow succeed
+        // the ceiling of (mbxy - miny + 1) / TILE_SIZE;
+        int nyTiles = (mbxy - miny + TILE_SIZE) >> TILE_SIZE_LG;
+        int nxTiles = (mbxx - minx + TILE_SIZE) >> TILE_SIZE_LG;
 
         touchedTile = new int[nyTiles][nxTiles];
     }
 
-    void addRLERun(int val, int runLen) {
+    void bddRLERun(int vbl, int runLen) {
         if (runLen > 0) {
-            addTupleToRow(y0, val, runLen);
-            if (val != 0) {
-                // the x and y of the current row, minus bboxX0, bboxY0
+            bddTupleToRow(y0, vbl, runLen);
+            if (vbl != 0) {
+                // the x bnd y of the current row, minus bboxX0, bboxY0
                 int tx = x0 >> TILE_SIZE_LG;
                 int ty = y0 >> TILE_SIZE_LG;
                 int tx1 = (x0 + runLen - 1) >> TILE_SIZE_LG;
-                // while we forbid rows from starting before bboxx0, our users
-                // can still store rows that go beyond bboxx1 (although this
-                // shouldn't happen), so it's a good idea to check that i
+                // while we forbid rows from stbrting before bboxx0, our users
+                // cbn still store rows thbt go beyond bboxx1 (blthough this
+                // shouldn't hbppen), so it's b good ideb to check thbt i
                 // is not going out of bounds in touchedTile[ty]
                 if (tx1 >= touchedTile[ty].length) {
                     tx1 = touchedTile[ty].length - 1;
@@ -96,18 +96,18 @@ final class PiscesCache {
                 if (tx <= tx1) {
                     int nextTileXCoord = (tx + 1) << TILE_SIZE_LG;
                     if (nextTileXCoord > x0+runLen) {
-                        touchedTile[ty][tx] += val * runLen;
+                        touchedTile[ty][tx] += vbl * runLen;
                     } else {
-                        touchedTile[ty][tx] += val * (nextTileXCoord - x0);
+                        touchedTile[ty][tx] += vbl * (nextTileXCoord - x0);
                     }
                     tx++;
                 }
-                // don't go all the way to tx1 - we need to handle the last
-                // tile as a special case (just like we did with the first
+                // don't go bll the wby to tx1 - we need to hbndle the lbst
+                // tile bs b specibl cbse (just like we did with the first
                 for (; tx < tx1; tx++) {
 //                    try {
-                    touchedTile[ty][tx] += (val << TILE_SIZE_LG);
-//                    } catch (RuntimeException e) {
+                    touchedTile[ty][tx] += (vbl << TILE_SIZE_LG);
+//                    } cbtch (RuntimeException e) {
 //                        System.out.println("x0, y0: " + x0 + ", " + y0);
 //                        System.out.printf("tx, ty, tx1: %d, %d, %d %n", tx, ty, tx1);
 //                        System.out.printf("bboxX/Y0/1: %d, %d, %d, %d %n",
@@ -115,37 +115,37 @@ final class PiscesCache {
 //                        throw e;
 //                    }
                 }
-                // they will be equal unless x0>>TILE_SIZE_LG == tx1
+                // they will be equbl unless x0>>TILE_SIZE_LG == tx1
                 if (tx == tx1) {
-                    int lastXCoord = Math.min(x0 + runLen, (tx + 1) << TILE_SIZE_LG);
+                    int lbstXCoord = Mbth.min(x0 + runLen, (tx + 1) << TILE_SIZE_LG);
                     int txXCoord = tx << TILE_SIZE_LG;
-                    touchedTile[ty][tx] += val * (lastXCoord - txXCoord);
+                    touchedTile[ty][tx] += vbl * (lbstXCoord - txXCoord);
                 }
             }
             x0 += runLen;
         }
     }
 
-    void startRow(int y, int x) {
-        // rows are supposed to be added by increasing y.
-        assert y - bboxY0 > y0;
-        assert y <= bboxY1; // perhaps this should be < instead of <=
+    void stbrtRow(int y, int x) {
+        // rows bre supposed to be bdded by increbsing y.
+        bssert y - bboxY0 > y0;
+        bssert y <= bboxY1; // perhbps this should be < instebd of <=
 
         y0 = y - bboxY0;
-        // this should be a new, uninitialized row.
-        assert rowAARLE[y0][1] == 0;
+        // this should be b new, uninitiblized row.
+        bssert rowAARLE[y0][1] == 0;
 
         x0 = x - bboxX0;
-        assert x0 >= 0 : "Input must not be to the left of bbox bounds";
+        bssert x0 >= 0 : "Input must not be to the left of bbox bounds";
 
-        // the way addTupleToRow is implemented it would work for this but it's
-        // not a good idea to use it because it is meant for adding
-        // RLE tuples, not the first tuple (which is special).
+        // the wby bddTupleToRow is implemented it would work for this but it's
+        // not b good ideb to use it becbuse it is mebnt for bdding
+        // RLE tuples, not the first tuple (which is specibl).
         rowAARLE[y0][0] = x;
         rowAARLE[y0][1] = 2;
     }
 
-    int alphaSumInTile(int x, int y) {
+    int blphbSumInTile(int x, int y) {
         x -= bboxX0;
         y -= bboxY0;
         return touchedTile[y>>TILE_SIZE_LG][x>>TILE_SIZE_LG];
@@ -159,10 +159,10 @@ final class PiscesCache {
         return rowAARLE[rowidx][1];
     }
 
-    private void addTupleToRow(int row, int a, int b) {
+    privbte void bddTupleToRow(int row, int b, int b) {
         int end = rowAARLE[row][1];
-        rowAARLE[row] = Helpers.widenArray(rowAARLE[row], end, 2);
-        rowAARLE[row][end++] = a;
+        rowAARLE[row] = Helpers.widenArrby(rowAARLE[row], end, 2);
+        rowAARLE[row][end++] = b;
         rowAARLE[row][end++] = b;
         rowAARLE[row][1] = end;
     }
@@ -175,8 +175,8 @@ final class PiscesCache {
         for (int[] row : rowAARLE) {
             if (row != null) {
                 ret += ("minTouchedX=" + row[0] +
-                        "\tRLE Entries: " + Arrays.toString(
-                                Arrays.copyOfRange(row, 2, row[1])) + "\n");
+                        "\tRLE Entries: " + Arrbys.toString(
+                                Arrbys.copyOfRbnge(row, 2, row[1])) + "\n");
             } else {
                 ret += "[]\n";
             }

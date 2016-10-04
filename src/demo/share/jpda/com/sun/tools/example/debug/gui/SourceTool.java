@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class SourceTool extends JPanel {
+public clbss SourceTool extends JPbnel {
 
-    private static final long serialVersionUID = -5461299294186395257L;
+    privbte stbtic finbl long seriblVersionUID = -5461299294186395257L;
 
-    private Environment env;
+    privbte Environment env;
 
-    private ExecutionManager runtime;
-    private ContextManager context;
-    private SourceManager sourceManager;
+    privbte ExecutionMbnbger runtime;
+    privbte ContextMbnbger context;
+    privbte SourceMbnbger sourceMbnbger;
 
-    private JList list;
-    private ListModel sourceModel;
+    privbte JList list;
+    privbte ListModel sourceModel;
 
-    // Information on source file that is on display, or failed to be
-    // displayed due to inaccessible source.  Used to update display
-    // when sourcepath is changed.
+    // Informbtion on source file thbt is on displby, or fbiled to be
+    // displbyed due to inbccessible source.  Used to updbte displby
+    // when sourcepbth is chbnged.
 
-    private String sourceName;          // relative path name, if showSourceFile
-    private Location sourceLocn;        // location, if showSourceForLocation
-    private CommandInterpreter interpreter;
+    privbte String sourceNbme;          // relbtive pbth nbme, if showSourceFile
+    privbte Locbtion sourceLocn;        // locbtion, if showSourceForLocbtion
+    privbte CommbndInterpreter interpreter;
 
     public SourceTool(Environment env) {
 
-        super(new BorderLayout());
+        super(new BorderLbyout());
 
         this.env = env;
 
-        runtime = env.getExecutionManager();
-        sourceManager = env.getSourceManager();
-        this.context = env.getContextManager();
-        this.interpreter = new CommandInterpreter(env, true);
+        runtime = env.getExecutionMbnbger();
+        sourceMbnbger = env.getSourceMbnbger();
+        this.context = env.getContextMbnbger();
+        this.interpreter = new CommbndInterpreter(env, true);
 
-        sourceModel = new DefaultListModel();  // empty
+        sourceModel = new DefbultListModel();  // empty
 
         list = new JList(sourceModel);
         list.setCellRenderer(new SourceLineRenderer());
 
-        list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+        list.setPrototypeCellVblue(SourceModel.prototypeCellVblue);
 
         SourceToolListener listener = new SourceToolListener();
-        context.addContextListener(listener);
-        runtime.addSpecListener(listener);
-        sourceManager.addSourceListener(listener);
+        context.bddContextListener(listener);
+        runtime.bddSpecListener(listener);
+        sourceMbnbger.bddSourceListener(listener);
 
         MouseListener squeek = new STMouseListener();
-        list.addMouseListener(squeek);
+        list.bddMouseListener(squeek);
 
-        add(new JScrollPane(list));
+        bdd(new JScrollPbne(list));
     }
 
     public void setTextFont(Font f) {
         list.setFont(f);
-        list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+        list.setPrototypeCellVblue(SourceModel.prototypeCellVblue);
     }
 
-    private class SourceToolListener
+    privbte clbss SourceToolListener
                implements ContextListener, SourceListener, SpecListener
     {
 
         // ContextListener
 
         @Override
-        public void currentFrameChanged(CurrentFrameChangedEvent e) {
-            showSourceContext(e.getThread(), e.getIndex());
+        public void currentFrbmeChbnged(CurrentFrbmeChbngedEvent e) {
+            showSourceContext(e.getThrebd(), e.getIndex());
         }
 
-            // Clear source view.
-            //      sourceModel = new DefaultListModel();  // empty
+            // Clebr source view.
+            //      sourceModel = new DefbultListModel();  // empty
 
         // SourceListener
 
         @Override
-        public void sourcepathChanged(SourcepathChangedEvent e) {
-            // Reload source view if its contents depend
-            // on the source path.
-            if (sourceName != null) {
-                showSourceFile(sourceName);
+        public void sourcepbthChbnged(SourcepbthChbngedEvent e) {
+            // Relobd source view if its contents depend
+            // on the source pbth.
+            if (sourceNbme != null) {
+                showSourceFile(sourceNbme);
             } else if (sourceLocn != null) {
-                showSourceForLocation(sourceLocn);
+                showSourceForLocbtion(sourceLocn);
             }
         }
 
         // SpecListener
 
         @Override
-        public void breakpointSet(SpecEvent e) {
-            breakpointResolved(e);
+        public void brebkpointSet(SpecEvent e) {
+            brebkpointResolved(e);
         }
 
         @Override
-        public void breakpointDeferred(SpecEvent e) { }
+        public void brebkpointDeferred(SpecEvent e) { }
 
         @Override
-        public void breakpointDeleted(SpecEvent e) {
-            BreakpointRequest req = (BreakpointRequest)e.getEventRequest();
-            Location loc = req.location();
+        public void brebkpointDeleted(SpecEvent e) {
+            BrebkpointRequest req = (BrebkpointRequest)e.getEventRequest();
+            Locbtion loc = req.locbtion();
             if (loc != null) {
                 try {
-                    SourceModel sm = sourceManager.sourceForLocation(loc);
-                    sm.showBreakpoint(loc.lineNumber(), false);
-                    showSourceForLocation(loc);
-                } catch (Exception exc) {
+                    SourceModel sm = sourceMbnbger.sourceForLocbtion(loc);
+                    sm.showBrebkpoint(loc.lineNumber(), fblse);
+                    showSourceForLocbtion(loc);
+                } cbtch (Exception exc) {
                 }
             }
         }
 
         @Override
-        public void breakpointResolved(SpecEvent e) {
-            BreakpointRequest req = (BreakpointRequest)e.getEventRequest();
-            Location loc = req.location();
+        public void brebkpointResolved(SpecEvent e) {
+            BrebkpointRequest req = (BrebkpointRequest)e.getEventRequest();
+            Locbtion loc = req.locbtion();
             try {
-                SourceModel sm = sourceManager.sourceForLocation(loc);
-                sm.showBreakpoint(loc.lineNumber(), true);
-                showSourceForLocation(loc);
-            } catch (Exception exc) {
+                SourceModel sm = sourceMbnbger.sourceForLocbtion(loc);
+                sm.showBrebkpoint(loc.lineNumber(), true);
+                showSourceForLocbtion(loc);
+            } cbtch (Exception exc) {
             }
         }
 
         @Override
-        public void breakpointError(SpecErrorEvent e) {
-            breakpointDeleted(e);
+        public void brebkpointError(SpecErrorEvent e) {
+            brebkpointDeleted(e);
         }
 
         @Override
-        public void watchpointSet(SpecEvent e) {
+        public void wbtchpointSet(SpecEvent e) {
         }
         @Override
-        public void watchpointDeferred(SpecEvent e) {
+        public void wbtchpointDeferred(SpecEvent e) {
         }
         @Override
-        public void watchpointDeleted(SpecEvent e) {
+        public void wbtchpointDeleted(SpecEvent e) {
         }
         @Override
-        public void watchpointResolved(SpecEvent e) {
+        public void wbtchpointResolved(SpecEvent e) {
         }
         @Override
-        public void watchpointError(SpecErrorEvent e) {
+        public void wbtchpointError(SpecErrorEvent e) {
         }
 
         @Override
@@ -200,75 +200,75 @@ public class SourceTool extends JPanel {
         }
     }
 
-    private void showSourceContext(ThreadReference thread, int index) {
-        //### Should use ThreadInfo here.
-        StackFrame frame = null;
-        if (thread != null) {
+    privbte void showSourceContext(ThrebdReference threbd, int index) {
+        //### Should use ThrebdInfo here.
+        StbckFrbme frbme = null;
+        if (threbd != null) {
             try {
-                frame = thread.frame(index);
-            } catch (IncompatibleThreadStateException e) {}
+                frbme = threbd.frbme(index);
+            } cbtch (IncompbtibleThrebdStbteException e) {}
         }
-        if (frame == null) {
+        if (frbme == null) {
             return;
         }
-        Location locn = frame.location();
+        Locbtion locn = frbme.locbtion();
         /*****
-        if (!showSourceForLocation(locn)) {
-            env.notice("Could not display source for "
-                       + Utils.locationString(locn));
+        if (!showSourceForLocbtion(locn)) {
+            env.notice("Could not displby source for "
+                       + Utils.locbtionString(locn));
         }
         *****/
-        showSourceForLocation(locn);
+        showSourceForLocbtion(locn);
     }
 
-    public boolean showSourceForLocation(Location locn) {
-        sourceName = null;
+    public boolebn showSourceForLocbtion(Locbtion locn) {
+        sourceNbme = null;
         sourceLocn = locn;
         int lineNo = locn.lineNumber();
         if (lineNo != -1) {
-            SourceModel source = sourceManager.sourceForLocation(locn);
+            SourceModel source = sourceMbnbger.sourceForLocbtion(locn);
             if (source != null) {
                 showSourceAtLine(source, lineNo-1);
                 return true;
             }
         }
-        // Here if we could not display source.
-        showSourceUnavailable();
-        return false;
+        // Here if we could not displby source.
+        showSourceUnbvbilbble();
+        return fblse;
     }
 
-    public boolean showSourceFile(String fileName) {
+    public boolebn showSourceFile(String fileNbme) {
         sourceLocn = null;
         File file;
-        if (!fileName.startsWith(File.separator)) {
-            sourceName = fileName;
-            SearchPath sourcePath = sourceManager.getSourcePath();
-            file = sourcePath.resolve(fileName);
+        if (!fileNbme.stbrtsWith(File.sepbrbtor)) {
+            sourceNbme = fileNbme;
+            SebrchPbth sourcePbth = sourceMbnbger.getSourcePbth();
+            file = sourcePbth.resolve(fileNbme);
             if (file == null) {
-                //env.failure("Source not found on current source path.");
-                showSourceUnavailable();
-                return false;
+                //env.fbilure("Source not found on current source pbth.");
+                showSourceUnbvbilbble();
+                return fblse;
             }
         } else {
-            sourceName = null;  // Absolute pathname does not depend on sourcepath.
-            file = new File(fileName);
+            sourceNbme = null;  // Absolute pbthnbme does not depend on sourcepbth.
+            file = new File(fileNbme);
         }
-        SourceModel source = sourceManager.sourceForFile(file);
+        SourceModel source = sourceMbnbger.sourceForFile(file);
         if (source != null) {
             showSource(source);
             return true;
         }
-        showSourceUnavailable();
-        return false;
+        showSourceUnbvbilbble();
+        return fblse;
     }
 
-    private void showSource(SourceModel model) {
+    privbte void showSource(SourceModel model) {
         setViewModel(model);
     }
 
-    private void showSourceAtLine(SourceModel model, int lineNo) {
+    privbte void showSourceAtLine(SourceModel model, int lineNo) {
         setViewModel(model);
-        if (model.isActuallySource && (lineNo < model.getSize())) {
+        if (model.isActubllySource && (lineNo < model.getSize())) {
             list.setSelectedIndex(lineNo);
             if (lineNo+4 < model.getSize()) {
                 list.ensureIndexIsVisible(lineNo+4);  // give some context
@@ -277,48 +277,48 @@ public class SourceTool extends JPanel {
         }
     }
 
-    private void showSourceUnavailable() {
-        SourceModel model = new SourceModel("[Source code is not available]");
+    privbte void showSourceUnbvbilbble() {
+        SourceModel model = new SourceModel("[Source code is not bvbilbble]");
         setViewModel(model);
     }
 
-    private void setViewModel(SourceModel model) {
+    privbte void setViewModel(SourceModel model) {
         if (model != sourceModel) {
-            // install new model
+            // instbll new model
             list.setModel(model);
             sourceModel = model;
         }
     }
 
-    private class SourceLineRenderer extends DefaultListCellRenderer {
+    privbte clbss SourceLineRenderer extends DefbultListCellRenderer {
 
         @Override
         public Component getListCellRendererComponent(JList list,
-                                                      Object value,
+                                                      Object vblue,
                                                       int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+                                                      boolebn isSelected,
+                                                      boolebn cellHbsFocus) {
 
-            //### Should set background highlight and/or icon if breakpoint on this line.
+            //### Should set bbckground highlight bnd/or icon if brebkpoint on this line.
             // Configures "this"
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
+            super.getListCellRendererComponent(list, vblue, index,
+                                               isSelected, cellHbsFocus);
 
-            SourceModel.Line line = (SourceModel.Line)value;
+            SourceModel.Line line = (SourceModel.Line)vblue;
 
-            //### Tab expansion is now done when source file is read in,
-            //### to speed up display.  This costs a lot of space, slows
-            //### down source file loading, and has not been demonstrated
-            //### to yield an observable improvement in display performance.
-            //### Measurements may be appropriate here.
-            //String sourceLine = expandTabs((String)value);
+            //### Tbb expbnsion is now done when source file is rebd in,
+            //### to speed up displby.  This costs b lot of spbce, slows
+            //### down source file lobding, bnd hbs not been demonstrbted
+            //### to yield bn observbble improvement in displby performbnce.
+            //### Mebsurements mby be bppropribte here.
+            //String sourceLine = expbndTbbs((String)vblue);
             setText(line.text);
-            if (line.hasBreakpoint) {
+            if (line.hbsBrebkpoint) {
                 setIcon(Icons.stopSignIcon);
-            } else if (line.isExecutable()) {
+            } else if (line.isExecutbble()) {
                 setIcon(Icons.execIcon);
             } else {
-                setIcon(Icons.blankIcon);
+                setIcon(Icons.blbnkIcon);
             }
 
 
@@ -333,7 +333,7 @@ public class SourceTool extends JPanel {
 
     }
 
-    private class STMouseListener extends MouseAdapter implements MouseListener {
+    privbte clbss STMouseListener extends MouseAdbpter implements MouseListener {
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.isPopupTrigger()) {
@@ -343,47 +343,47 @@ public class SourceTool extends JPanel {
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             if (e.isPopupTrigger()) {
                 showPopupMenu((Component)e.getSource(),
                               e.getX(), e.getY());
             }
         }
 
-        private void showPopupMenu(Component invoker, int x, int y) {
+        privbte void showPopupMenu(Component invoker, int x, int y) {
             JList list = (JList)invoker;
             int ln = list.getSelectedIndex() + 1;
             SourceModel.Line line =
-                (SourceModel.Line)list.getSelectedValue();
+                (SourceModel.Line)list.getSelectedVblue();
             JPopupMenu popup = new JPopupMenu();
 
             if (line == null) {
-                popup.add(new JMenuItem("please select a line"));
-            } else if (line.isExecutable()) {
-                String className = line.refType.name();
-                if (line.hasBreakpoint()) {
-                    popup.add(commandItem("Clear Breakpoint",
-                                          "clear " + className +
+                popup.bdd(new JMenuItem("plebse select b line"));
+            } else if (line.isExecutbble()) {
+                String clbssNbme = line.refType.nbme();
+                if (line.hbsBrebkpoint()) {
+                    popup.bdd(commbndItem("Clebr Brebkpoint",
+                                          "clebr " + clbssNbme +
                                           ":" + ln));
                 } else {
-                    popup.add(commandItem("Set Breakpoint",
-                                          "stop at " + className +
+                    popup.bdd(commbndItem("Set Brebkpoint",
+                                          "stop bt " + clbssNbme +
                                           ":" + ln));
                 }
             } else {
-                popup.add(new JMenuItem("not an executable line"));
+                popup.bdd(new JMenuItem("not bn executbble line"));
             }
 
             popup.show(invoker,
                        x + popup.getWidth()/2, y + popup.getHeight()/2);
         }
 
-        private JMenuItem commandItem(String label, final String cmd) {
-            JMenuItem item = new JMenuItem(label);
-            item.addActionListener(new ActionListener() {
+        privbte JMenuItem commbndItem(String lbbel, finbl String cmd) {
+            JMenuItem item = new JMenuItem(lbbel);
+            item.bddActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    interpreter.executeCommand(cmd);
+                public void bctionPerformed(ActionEvent e) {
+                    interpreter.executeCommbnd(cmd);
                 }
             });
             return item;

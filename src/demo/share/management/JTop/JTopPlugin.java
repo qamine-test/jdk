@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,100 +30,100 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  *
- * Example of a JConsole Plugin.  This loads JTop as a JConsole tab.
+ * Exbmple of b JConsole Plugin.  This lobds JTop bs b JConsole tbb.
  *
- * @author Mandy Chung
+ * @buthor Mbndy Chung
  */
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
 
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.SwingWorker;
 
 import com.sun.tools.jconsole.JConsoleContext;
-import com.sun.tools.jconsole.JConsoleContext.ConnectionState;
+import com.sun.tools.jconsole.JConsoleContext.ConnectionStbte;
 import com.sun.tools.jconsole.JConsolePlugin;
 
 /**
- * JTopPlugin is a subclass to com.sun.tools.jconsole.JConsolePlugin
+ * JTopPlugin is b subclbss to com.sun.tools.jconsole.JConsolePlugin
  *
- * JTopPlugin is loaded and instantiated by JConsole.  One instance
- * is created for each window that JConsole creates. It listens to
- * the connected property change so that it will update JTop with
- * the valid MBeanServerConnection object.  JTop is a JPanel object
- * displaying the thread and its CPU usage information.
+ * JTopPlugin is lobded bnd instbntibted by JConsole.  One instbnce
+ * is crebted for ebch window thbt JConsole crebtes. It listens to
+ * the connected property chbnge so thbt it will updbte JTop with
+ * the vblid MBebnServerConnection object.  JTop is b JPbnel object
+ * displbying the threbd bnd its CPU usbge informbtion.
  */
-public class JTopPlugin extends JConsolePlugin implements PropertyChangeListener
+public clbss JTopPlugin extends JConsolePlugin implements PropertyChbngeListener
 {
-    private JTop jtop = null;
-    private Map<String, JPanel> tabs = null;
+    privbte JTop jtop = null;
+    privbte Mbp<String, JPbnel> tbbs = null;
 
     public JTopPlugin() {
-        // register itself as a listener
-        addContextPropertyChangeListener(this);
+        // register itself bs b listener
+        bddContextPropertyChbngeListener(this);
     }
 
     /*
-     * Returns a JTop tab to be added in JConsole.
+     * Returns b JTop tbb to be bdded in JConsole.
      */
     @Override
-    public synchronized Map<String, JPanel> getTabs() {
-        if (tabs == null) {
+    public synchronized Mbp<String, JPbnel> getTbbs() {
+        if (tbbs == null) {
             jtop = new JTop();
-            jtop.setMBeanServerConnection(
-                getContext().getMBeanServerConnection());
-            // use LinkedHashMap if you want a predictable order
-            // of the tabs to be added in JConsole
-            tabs = new LinkedHashMap<String, JPanel>();
-            tabs.put("JTop", jtop);
+            jtop.setMBebnServerConnection(
+                getContext().getMBebnServerConnection());
+            // use LinkedHbshMbp if you wbnt b predictbble order
+            // of the tbbs to be bdded in JConsole
+            tbbs = new LinkedHbshMbp<String, JPbnel>();
+            tbbs.put("JTop", jtop);
         }
-        return tabs;
+        return tbbs;
     }
 
     /*
-     * Returns a SwingWorker which is responsible for updating the JTop tab.
+     * Returns b SwingWorker which is responsible for updbting the JTop tbb.
      */
     @Override
     public SwingWorker<?,?> newSwingWorker() {
         return jtop.newSwingWorker();
     }
 
-    // You can implement the dispose() method if you need to release
-    // any resource when the plugin instance is disposed when the JConsole
+    // You cbn implement the dispose() method if you need to relebse
+    // bny resource when the plugin instbnce is disposed when the JConsole
     // window is closed.
     //
     // public void dispose() {
     // }
 
     /*
-     * Property listener to reset the MBeanServerConnection
-     * at reconnection time.
+     * Property listener to reset the MBebnServerConnection
+     * bt reconnection time.
      */
     @Override
-    public void propertyChange(PropertyChangeEvent ev) {
-        String prop = ev.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent ev) {
+        String prop = ev.getPropertyNbme();
         if (prop == JConsoleContext.CONNECTION_STATE_PROPERTY) {
-            ConnectionState newState = (ConnectionState)ev.getNewValue();
-            // JConsole supports disconnection and reconnection
-            // The MBeanServerConnection will become invalid when
-            // disconnected. Need to use the new MBeanServerConnection object
-            // created at reconnection time.
-            if (newState == ConnectionState.CONNECTED && jtop != null) {
-                jtop.setMBeanServerConnection(
-                    getContext().getMBeanServerConnection());
+            ConnectionStbte newStbte = (ConnectionStbte)ev.getNewVblue();
+            // JConsole supports disconnection bnd reconnection
+            // The MBebnServerConnection will become invblid when
+            // disconnected. Need to use the new MBebnServerConnection object
+            // crebted bt reconnection time.
+            if (newStbte == ConnectionStbte.CONNECTED && jtop != null) {
+                jtop.setMBebnServerConnection(
+                    getContext().getMBebnServerConnection());
             }
         }
     }

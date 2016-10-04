@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.text.AttributedCharacterIterator;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.text.AttributedChbrbcterIterbtor;
 
 /**
- * Graphics subclass supporting graphics debugging. Overrides most methods
- * from Graphics.  DebugGraphics objects are rarely created by hand.  They
- * are most frequently created automatically when a JComponent's
- * debugGraphicsOptions are changed using the setDebugGraphicsOptions()
+ * Grbphics subclbss supporting grbphics debugging. Overrides most methods
+ * from Grbphics.  DebugGrbphics objects bre rbrely crebted by hbnd.  They
+ * bre most frequently crebted butombticblly when b JComponent's
+ * debugGrbphicsOptions bre chbnged using the setDebugGrbphicsOptions()
  * method.
  * <p>
- * NOTE: You must turn off double buffering to use DebugGraphics:
- *       RepaintManager repaintManager = RepaintManager.currentManager(component);
- *       repaintManager.setDoubleBufferingEnabled(false);
+ * NOTE: You must turn off double buffering to use DebugGrbphics:
+ *       RepbintMbnbger repbintMbnbger = RepbintMbnbger.currentMbnbger(component);
+ *       repbintMbnbger.setDoubleBufferingEnbbled(fblse);
  *
- * @see JComponent#setDebugGraphicsOptions
- * @see RepaintManager#currentManager
- * @see RepaintManager#setDoubleBufferingEnabled
+ * @see JComponent#setDebugGrbphicsOptions
+ * @see RepbintMbnbger#currentMbnbger
+ * @see RepbintMbnbger#setDoubleBufferingEnbbled
  *
- * @author Dave Karlton
+ * @buthor Dbve Kbrlton
  * @since 1.2
  */
-public class DebugGraphics extends Graphics {
-    Graphics                    graphics;
-    Image                       buffer;
+public clbss DebugGrbphics extends Grbphics {
+    Grbphics                    grbphics;
+    Imbge                       buffer;
     int                         debugOptions;
-    int                         graphicsID = graphicsCount++;
+    int                         grbphicsID = grbphicsCount++;
     int                         xOffset, yOffset;
-    private static int          graphicsCount = 0;
-    private static ImageIcon    imageLoadingIcon = new ImageIcon();
+    privbte stbtic int          grbphicsCount = 0;
+    privbte stbtic ImbgeIcon    imbgeLobdingIcon = new ImbgeIcon();
 
-    /** Log graphics operations. */
-    public static final int     LOG_OPTION   = 1 << 0;
-    /** Flash graphics operations. */
-    public static final int     FLASH_OPTION = 1 << 1;
-    /** Show buffered operations in a separate <code>Frame</code>. */
-    public static final int     BUFFERED_OPTION = 1 << 2;
-    /** Don't debug graphics operations. */
-    public static final int     NONE_OPTION = -1;
+    /** Log grbphics operbtions. */
+    public stbtic finbl int     LOG_OPTION   = 1 << 0;
+    /** Flbsh grbphics operbtions. */
+    public stbtic finbl int     FLASH_OPTION = 1 << 1;
+    /** Show buffered operbtions in b sepbrbte <code>Frbme</code>. */
+    public stbtic finbl int     BUFFERED_OPTION = 1 << 2;
+    /** Don't debug grbphics operbtions. */
+    public stbtic finbl int     NONE_OPTION = -1;
 
-    static {
+    stbtic {
         JComponent.DEBUG_GRAPHICS_LOADED = true;
     }
 
     /**
-     * Constructs a new debug graphics context that supports slowed
-     * down drawing.
+     * Constructs b new debug grbphics context thbt supports slowed
+     * down drbwing.
      */
-    public DebugGraphics() {
+    public DebugGrbphics() {
         super();
         buffer = null;
         xOffset = yOffset = 0;
     }
 
     /**
-     * Constructs a debug graphics context from an existing graphics
-     * context that slows down drawing for the specified component.
+     * Constructs b debug grbphics context from bn existing grbphics
+     * context thbt slows down drbwing for the specified component.
      *
-     * @param graphics  the Graphics context to slow down
-     * @param component the JComponent to draw slowly
+     * @pbrbm grbphics  the Grbphics context to slow down
+     * @pbrbm component the JComponent to drbw slowly
      */
-    public DebugGraphics(Graphics graphics, JComponent component) {
-        this(graphics);
-        setDebugOptions(component.shouldDebugGraphics());
+    public DebugGrbphics(Grbphics grbphics, JComponent component) {
+        this(grbphics);
+        setDebugOptions(component.shouldDebugGrbphics());
     }
 
     /**
-     * Constructs a debug graphics context from an existing graphics
-     * context that supports slowed down drawing.
+     * Constructs b debug grbphics context from bn existing grbphics
+     * context thbt supports slowed down drbwing.
      *
-     * @param graphics  the Graphics context to slow down
+     * @pbrbm grbphics  the Grbphics context to slow down
      */
-    public DebugGraphics(Graphics graphics) {
+    public DebugGrbphics(Grbphics grbphics) {
         this();
-        this.graphics = graphics;
+        this.grbphics = grbphics;
     }
 
     /**
-     * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
+     * Overrides <code>Grbphics.crebte</code> to return b DebugGrbphics object.
      */
-    public Graphics create() {
-        DebugGraphics debugGraphics;
+    public Grbphics crebte() {
+        DebugGrbphics debugGrbphics;
 
-        debugGraphics = new DebugGraphics();
-        debugGraphics.graphics = graphics.create();
-        debugGraphics.debugOptions = debugOptions;
-        debugGraphics.buffer = buffer;
+        debugGrbphics = new DebugGrbphics();
+        debugGrbphics.grbphics = grbphics.crebte();
+        debugGrbphics.debugOptions = debugOptions;
+        debugGrbphics.buffer = buffer;
 
-        return debugGraphics;
+        return debugGrbphics;
     }
 
     /**
-     * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
+     * Overrides <code>Grbphics.crebte</code> to return b DebugGrbphics object.
      */
-    public Graphics create(int x, int y, int width, int height) {
-        DebugGraphics debugGraphics;
+    public Grbphics crebte(int x, int y, int width, int height) {
+        DebugGrbphics debugGrbphics;
 
-        debugGraphics = new DebugGraphics();
-        debugGraphics.graphics = graphics.create(x, y, width, height);
-        debugGraphics.debugOptions = debugOptions;
-        debugGraphics.buffer = buffer;
-        debugGraphics.xOffset = xOffset + x;
-        debugGraphics.yOffset = yOffset + y;
+        debugGrbphics = new DebugGrbphics();
+        debugGrbphics.grbphics = grbphics.crebte(x, y, width, height);
+        debugGrbphics.debugOptions = debugOptions;
+        debugGrbphics.buffer = buffer;
+        debugGrbphics.xOffset = xOffset + x;
+        debugGrbphics.yOffset = yOffset + y;
 
-        return debugGraphics;
+        return debugGrbphics;
     }
 
 
@@ -138,111 +138,111 @@ public class DebugGraphics extends Graphics {
     //------------------------------------------------
 
     /**
-     * Sets the Color used to flash drawing operations.
+     * Sets the Color used to flbsh drbwing operbtions.
      *
-     * @param flashColor the Color used to flash drawing operations
+     * @pbrbm flbshColor the Color used to flbsh drbwing operbtions
      */
-    public static void setFlashColor(Color flashColor) {
-        info().flashColor = flashColor;
+    public stbtic void setFlbshColor(Color flbshColor) {
+        info().flbshColor = flbshColor;
     }
 
     /**
-     * Returns the Color used to flash drawing operations.
+     * Returns the Color used to flbsh drbwing operbtions.
      *
-     * @return the Color used to flash drawing operations
-     * @see #setFlashColor
+     * @return the Color used to flbsh drbwing operbtions
+     * @see #setFlbshColor
      */
-    public static Color flashColor() {
-        return info().flashColor;
+    public stbtic Color flbshColor() {
+        return info().flbshColor;
     }
 
     /**
-     * Sets the time delay of drawing operation flashing.
+     * Sets the time delby of drbwing operbtion flbshing.
      *
-     * @param flashTime the time delay of drawing operation flashing
+     * @pbrbm flbshTime the time delby of drbwing operbtion flbshing
      */
-    public static void setFlashTime(int flashTime) {
-        info().flashTime = flashTime;
+    public stbtic void setFlbshTime(int flbshTime) {
+        info().flbshTime = flbshTime;
     }
 
     /**
-     * Returns the time delay of drawing operation flashing.
+     * Returns the time delby of drbwing operbtion flbshing.
      *
-     * @return the time delay of drawing operation flashing
-     * @see #setFlashTime
+     * @return the time delby of drbwing operbtion flbshing
+     * @see #setFlbshTime
      */
-    public static int flashTime() {
-        return info().flashTime;
+    public stbtic int flbshTime() {
+        return info().flbshTime;
     }
 
     /**
-     * Sets the number of times that drawing operations will flash.
+     * Sets the number of times thbt drbwing operbtions will flbsh.
      *
-     * @param flashCount number of times that drawing operations will flash
+     * @pbrbm flbshCount number of times thbt drbwing operbtions will flbsh
      */
-    public static void setFlashCount(int flashCount) {
-        info().flashCount = flashCount;
+    public stbtic void setFlbshCount(int flbshCount) {
+        info().flbshCount = flbshCount;
     }
 
     /**
-     * Returns the number of times that drawing operations will flash.
+     * Returns the number of times thbt drbwing operbtions will flbsh.
      *
-     * @return the number of times that drawing operations will flash
-     * @see #setFlashCount
+     * @return the number of times thbt drbwing operbtions will flbsh
+     * @see #setFlbshCount
      */
-    public static int flashCount() {
-        return info().flashCount;
+    public stbtic int flbshCount() {
+        return info().flbshCount;
     }
 
     /**
-     * Sets the stream to which the DebugGraphics logs drawing operations.
+     * Sets the strebm to which the DebugGrbphics logs drbwing operbtions.
      *
-     * @param stream the stream to which the DebugGraphics logs drawing operations
+     * @pbrbm strebm the strebm to which the DebugGrbphics logs drbwing operbtions
      */
-    public static void setLogStream(java.io.PrintStream stream) {
-        info().stream = stream;
+    public stbtic void setLogStrebm(jbvb.io.PrintStrebm strebm) {
+        info().strebm = strebm;
     }
 
     /**
-     * Returns the stream to which the DebugGraphics logs drawing operations.
+     * Returns the strebm to which the DebugGrbphics logs drbwing operbtions.
      *
-     * @return the stream to which the DebugGraphics logs drawing operations
-     * @see #setLogStream
+     * @return the strebm to which the DebugGrbphics logs drbwing operbtions
+     * @see #setLogStrebm
      */
-    public static java.io.PrintStream logStream() {
-        return info().stream;
+    public stbtic jbvb.io.PrintStrebm logStrebm() {
+        return info().strebm;
     }
 
-    /** Sets the Font used for text drawing operations.
+    /** Sets the Font used for text drbwing operbtions.
       */
-    public void setFont(Font aFont) {
+    public void setFont(Font bFont) {
         if (debugLog()) {
-            info().log(toShortString() + " Setting font: " + aFont);
+            info().log(toShortString() + " Setting font: " + bFont);
         }
-        graphics.setFont(aFont);
+        grbphics.setFont(bFont);
     }
 
-    /** Returns the Font used for text drawing operations.
+    /** Returns the Font used for text drbwing operbtions.
       * @see #setFont
       */
     public Font getFont() {
-        return graphics.getFont();
+        return grbphics.getFont();
     }
 
-    /** Sets the color to be used for drawing and filling lines and shapes.
+    /** Sets the color to be used for drbwing bnd filling lines bnd shbpes.
       */
-    public void setColor(Color aColor) {
+    public void setColor(Color bColor) {
         if (debugLog()) {
-            info().log(toShortString() + " Setting color: " + aColor);
+            info().log(toShortString() + " Setting color: " + bColor);
         }
-        graphics.setColor(aColor);
+        grbphics.setColor(bColor);
     }
 
-    /** Returns the Color used for text drawing operations.
+    /** Returns the Color used for text drbwing operbtions.
       * @see #setColor
       */
     public Color getColor() {
-        return graphics.getColor();
+        return grbphics.getColor();
     }
 
 
@@ -251,597 +251,597 @@ public class DebugGraphics extends Graphics {
     //------------------------------------------------
 
     /**
-     * Overrides <code>Graphics.getFontMetrics</code>.
+     * Overrides <code>Grbphics.getFontMetrics</code>.
      */
     public FontMetrics getFontMetrics() {
-        return graphics.getFontMetrics();
+        return grbphics.getFontMetrics();
     }
 
     /**
-     * Overrides <code>Graphics.getFontMetrics</code>.
+     * Overrides <code>Grbphics.getFontMetrics</code>.
      */
     public FontMetrics getFontMetrics(Font f) {
-        return graphics.getFontMetrics(f);
+        return grbphics.getFontMetrics(f);
     }
 
     /**
-     * Overrides <code>Graphics.translate</code>.
+     * Overrides <code>Grbphics.trbnslbte</code>.
      */
-    public void translate(int x, int y) {
+    public void trbnslbte(int x, int y) {
         if (debugLog()) {
             info().log(toShortString() +
-                " Translating by: " + new Point(x, y));
+                " Trbnslbting by: " + new Point(x, y));
         }
         xOffset += x;
         yOffset += y;
-        graphics.translate(x, y);
+        grbphics.trbnslbte(x, y);
     }
 
     /**
-     * Overrides <code>Graphics.setPaintMode</code>.
+     * Overrides <code>Grbphics.setPbintMode</code>.
      */
-    public void setPaintMode() {
+    public void setPbintMode() {
         if (debugLog()) {
-            info().log(toShortString() + " Setting paint mode");
+            info().log(toShortString() + " Setting pbint mode");
         }
-        graphics.setPaintMode();
+        grbphics.setPbintMode();
     }
 
     /**
-     * Overrides <code>Graphics.setXORMode</code>.
+     * Overrides <code>Grbphics.setXORMode</code>.
      */
-    public void setXORMode(Color aColor) {
+    public void setXORMode(Color bColor) {
         if (debugLog()) {
-            info().log(toShortString() + " Setting XOR mode: " + aColor);
+            info().log(toShortString() + " Setting XOR mode: " + bColor);
         }
-        graphics.setXORMode(aColor);
+        grbphics.setXORMode(bColor);
     }
 
     /**
-     * Overrides <code>Graphics.getClipBounds</code>.
+     * Overrides <code>Grbphics.getClipBounds</code>.
      */
-    public Rectangle getClipBounds() {
-        return graphics.getClipBounds();
+    public Rectbngle getClipBounds() {
+        return grbphics.getClipBounds();
     }
 
     /**
-     * Overrides <code>Graphics.clipRect</code>.
+     * Overrides <code>Grbphics.clipRect</code>.
      */
     public void clipRect(int x, int y, int width, int height) {
-        graphics.clipRect(x, y, width, height);
+        grbphics.clipRect(x, y, width, height);
         if (debugLog()) {
             info().log(toShortString() +
-                " Setting clipRect: " + (new Rectangle(x, y, width, height)) +
-                " New clipRect: " + graphics.getClip());
+                " Setting clipRect: " + (new Rectbngle(x, y, width, height)) +
+                " New clipRect: " + grbphics.getClip());
         }
     }
 
     /**
-     * Overrides <code>Graphics.setClip</code>.
+     * Overrides <code>Grbphics.setClip</code>.
      */
     public void setClip(int x, int y, int width, int height) {
-        graphics.setClip(x, y, width, height);
+        grbphics.setClip(x, y, width, height);
         if (debugLog()) {
             info().log(toShortString() +
-                        " Setting new clipRect: " + graphics.getClip());
+                        " Setting new clipRect: " + grbphics.getClip());
         }
     }
 
     /**
-     * Overrides <code>Graphics.getClip</code>.
+     * Overrides <code>Grbphics.getClip</code>.
      */
-    public Shape getClip() {
-        return graphics.getClip();
+    public Shbpe getClip() {
+        return grbphics.getClip();
     }
 
     /**
-     * Overrides <code>Graphics.setClip</code>.
+     * Overrides <code>Grbphics.setClip</code>.
      */
-    public void setClip(Shape clip) {
-        graphics.setClip(clip);
+    public void setClip(Shbpe clip) {
+        grbphics.setClip(clip);
         if (debugLog()) {
             info().log(toShortString() +
-                       " Setting new clipRect: " +  graphics.getClip());
+                       " Setting new clipRect: " +  grbphics.getClip());
         }
     }
 
     /**
-     * Overrides <code>Graphics.drawRect</code>.
+     * Overrides <code>Grbphics.drbwRect</code>.
      */
-    public void drawRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    public void drbwRect(int x, int y, int width, int height) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing rect: " +
-                      new Rectangle(x, y, width, height));
+                      " Drbwing rect: " +
+                      new Rectbngle(x, y, width, height));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawRect(x, y, width, height);
-                debugGraphics.dispose();
+                debugGrbphics.drbwRect(x, y, width, height);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwRect(x, y, width, height);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawRect(x, y, width, height);
+        grbphics.drbwRect(x, y, width, height);
     }
 
     /**
-     * Overrides <code>Graphics.fillRect</code>.
+     * Overrides <code>Grbphics.fillRect</code>.
      */
     public void fillRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
                       " Filling rect: " +
-                      new Rectangle(x, y, width, height));
+                      new Rectbngle(x, y, width, height));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fillRect(x, y, width, height);
-                debugGraphics.dispose();
+                debugGrbphics.fillRect(x, y, width, height);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fillRect(x, y, width, height);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fillRect(x, y, width, height);
+        grbphics.fillRect(x, y, width, height);
     }
 
     /**
-     * Overrides <code>Graphics.clearRect</code>.
+     * Overrides <code>Grbphics.clebrRect</code>.
      */
-    public void clearRect(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    public void clebrRect(int x, int y, int width, int height) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Clearing rect: " +
-                      new Rectangle(x, y, width, height));
+                      " Clebring rect: " +
+                      new Rectbngle(x, y, width, height));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.clearRect(x, y, width, height);
-                debugGraphics.dispose();
+                debugGrbphics.clebrRect(x, y, width, height);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.clearRect(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.clebrRect(x, y, width, height);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.clearRect(x, y, width, height);
+        grbphics.clebrRect(x, y, width, height);
     }
 
     /**
-     * Overrides <code>Graphics.drawRoundRect</code>.
+     * Overrides <code>Grbphics.drbwRoundRect</code>.
      */
-    public void drawRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        DebugGraphicsInfo info = info();
+    public void drbwRoundRect(int x, int y, int width, int height,
+                              int brcWidth, int brcHeight) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing round rect: " +
-                      new Rectangle(x, y, width, height) +
-                      " arcWidth: " + arcWidth +
-                      " archHeight: " + arcHeight);
+                      " Drbwing round rect: " +
+                      new Rectbngle(x, y, width, height) +
+                      " brcWidth: " + brcWidth +
+                      " brchHeight: " + brcHeight);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawRoundRect(x, y, width, height,
-                                            arcWidth, arcHeight);
-                debugGraphics.dispose();
+                debugGrbphics.drbwRoundRect(x, y, width, height,
+                                            brcWidth, brcHeight);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawRoundRect(x, y, width, height,
-                                       arcWidth, arcHeight);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwRoundRect(x, y, width, height,
+                                       brcWidth, brcHeight);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+        grbphics.drbwRoundRect(x, y, width, height, brcWidth, brcHeight);
     }
 
     /**
-     * Overrides <code>Graphics.fillRoundRect</code>.
+     * Overrides <code>Grbphics.fillRoundRect</code>.
      */
     public void fillRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        DebugGraphicsInfo info = info();
+                              int brcWidth, int brcHeight) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
                       " Filling round rect: " +
-                      new Rectangle(x, y, width, height) +
-                      " arcWidth: " + arcWidth +
-                      " archHeight: " + arcHeight);
+                      new Rectbngle(x, y, width, height) +
+                      " brcWidth: " + brcWidth +
+                      " brchHeight: " + brcHeight);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fillRoundRect(x, y, width, height,
-                                            arcWidth, arcHeight);
-                debugGraphics.dispose();
+                debugGrbphics.fillRoundRect(x, y, width, height,
+                                            brcWidth, brcHeight);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillRoundRect(x, y, width, height,
-                                       arcWidth, arcHeight);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fillRoundRect(x, y, width, height,
+                                       brcWidth, brcHeight);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+        grbphics.fillRoundRect(x, y, width, height, brcWidth, brcHeight);
     }
 
     /**
-     * Overrides <code>Graphics.drawLine</code>.
+     * Overrides <code>Grbphics.drbwLine</code>.
      */
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        DebugGraphicsInfo info = info();
+    public void drbwLine(int x1, int y1, int x2, int y2) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing line: from " + pointToString(x1, y1) +
+                       " Drbwing line: from " + pointToString(x1, y1) +
                        " to " +  pointToString(x2, y2));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawLine(x1, y1, x2, y2);
-                debugGraphics.dispose();
+                debugGrbphics.drbwLine(x1, y1, x2, y2);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawLine(x1, y1, x2, y2);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwLine(x1, y1, x2, y2);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawLine(x1, y1, x2, y2);
+        grbphics.drbwLine(x1, y1, x2, y2);
     }
 
     /**
-     * Overrides <code>Graphics.draw3DRect</code>.
+     * Overrides <code>Grbphics.drbw3DRect</code>.
      */
-    public void draw3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        DebugGraphicsInfo info = info();
+    public void drbw3DRect(int x, int y, int width, int height,
+                           boolebn rbised) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing 3D rect: " +
-                       new Rectangle(x, y, width, height) +
-                       " Raised bezel: " + raised);
+                       " Drbwing 3D rect: " +
+                       new Rectbngle(x, y, width, height) +
+                       " Rbised bezel: " + rbised);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.draw3DRect(x, y, width, height, raised);
-                debugGraphics.dispose();
+                debugGrbphics.drbw3DRect(x, y, width, height, rbised);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.draw3DRect(x, y, width, height, raised);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbw3DRect(x, y, width, height, rbised);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.draw3DRect(x, y, width, height, raised);
+        grbphics.drbw3DRect(x, y, width, height, rbised);
     }
 
     /**
-     * Overrides <code>Graphics.fill3DRect</code>.
+     * Overrides <code>Grbphics.fill3DRect</code>.
      */
     public void fill3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        DebugGraphicsInfo info = info();
+                           boolebn rbised) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
                        " Filling 3D rect: " +
-                       new Rectangle(x, y, width, height) +
-                       " Raised bezel: " + raised);
+                       new Rectbngle(x, y, width, height) +
+                       " Rbised bezel: " + rbised);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fill3DRect(x, y, width, height, raised);
-                debugGraphics.dispose();
+                debugGrbphics.fill3DRect(x, y, width, height, rbised);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fill3DRect(x, y, width, height, raised);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fill3DRect(x, y, width, height, rbised);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fill3DRect(x, y, width, height, raised);
+        grbphics.fill3DRect(x, y, width, height, rbised);
     }
 
     /**
-     * Overrides <code>Graphics.drawOval</code>.
+     * Overrides <code>Grbphics.drbwOvbl</code>.
      */
-    public void drawOval(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    public void drbwOvbl(int x, int y, int width, int height) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing oval: " +
-                      new Rectangle(x, y, width, height));
+                      " Drbwing ovbl: " +
+                      new Rectbngle(x, y, width, height));
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawOval(x, y, width, height);
-                debugGraphics.dispose();
+                debugGrbphics.drbwOvbl(x, y, width, height);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawOval(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwOvbl(x, y, width, height);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawOval(x, y, width, height);
+        grbphics.drbwOvbl(x, y, width, height);
     }
 
     /**
-     * Overrides <code>Graphics.fillOval</code>.
+     * Overrides <code>Grbphics.fillOvbl</code>.
      */
-    public void fillOval(int x, int y, int width, int height) {
-        DebugGraphicsInfo info = info();
+    public void fillOvbl(int x, int y, int width, int height) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Filling oval: " +
-                      new Rectangle(x, y, width, height));
+                      " Filling ovbl: " +
+                      new Rectbngle(x, y, width, height));
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fillOval(x, y, width, height);
-                debugGraphics.dispose();
+                debugGrbphics.fillOvbl(x, y, width, height);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillOval(x, y, width, height);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fillOvbl(x, y, width, height);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fillOval(x, y, width, height);
+        grbphics.fillOvbl(x, y, width, height);
     }
 
     /**
-     * Overrides <code>Graphics.drawArc</code>.
+     * Overrides <code>Grbphics.drbwArc</code>.
      */
-    public void drawArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        DebugGraphicsInfo info = info();
+    public void drbwArc(int x, int y, int width, int height,
+                        int stbrtAngle, int brcAngle) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing arc: " +
-                      new Rectangle(x, y, width, height) +
-                      " startAngle: " + startAngle +
-                      " arcAngle: " + arcAngle);
+                      " Drbwing brc: " +
+                      new Rectbngle(x, y, width, height) +
+                      " stbrtAngle: " + stbrtAngle +
+                      " brcAngle: " + brcAngle);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawArc(x, y, width, height,
-                                      startAngle, arcAngle);
-                debugGraphics.dispose();
+                debugGrbphics.drbwArc(x, y, width, height,
+                                      stbrtAngle, brcAngle);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawArc(x, y, width, height, startAngle, arcAngle);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwArc(x, y, width, height, stbrtAngle, brcAngle);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawArc(x, y, width, height, startAngle, arcAngle);
+        grbphics.drbwArc(x, y, width, height, stbrtAngle, brcAngle);
     }
 
     /**
-     * Overrides <code>Graphics.fillArc</code>.
+     * Overrides <code>Grbphics.fillArc</code>.
      */
     public void fillArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        DebugGraphicsInfo info = info();
+                        int stbrtAngle, int brcAngle) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Filling arc: " +
-                      new Rectangle(x, y, width, height) +
-                      " startAngle: " + startAngle +
-                      " arcAngle: " + arcAngle);
+                      " Filling brc: " +
+                      new Rectbngle(x, y, width, height) +
+                      " stbrtAngle: " + stbrtAngle +
+                      " brcAngle: " + brcAngle);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fillArc(x, y, width, height,
-                                      startAngle, arcAngle);
-                debugGraphics.dispose();
+                debugGrbphics.fillArc(x, y, width, height,
+                                      stbrtAngle, brcAngle);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillArc(x, y, width, height, startAngle, arcAngle);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fillArc(x, y, width, height, stbrtAngle, brcAngle);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fillArc(x, y, width, height, startAngle, arcAngle);
+        grbphics.fillArc(x, y, width, height, stbrtAngle, brcAngle);
     }
 
     /**
-     * Overrides <code>Graphics.drawPolyline</code>.
+     * Overrides <code>Grbphics.drbwPolyline</code>.
      */
-    public void drawPolyline(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+    public void drbwPolyline(int xPoints[], int yPoints[], int nPoints) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing polyline: " +
+                      " Drbwing polyline: " +
                       " nPoints: " + nPoints +
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawPolyline(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                debugGrbphics.drbwPolyline(xPoints, yPoints, nPoints);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawPolyline(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwPolyline(xPoints, yPoints, nPoints);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawPolyline(xPoints, yPoints, nPoints);
+        grbphics.drbwPolyline(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.drawPolygon</code>.
+     * Overrides <code>Grbphics.drbwPolygon</code>.
      */
-    public void drawPolygon(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+    public void drbwPolygon(int xPoints[], int yPoints[], int nPoints) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                      " Drawing polygon: " +
+                      " Drbwing polygon: " +
                       " nPoints: " + nPoints +
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawPolygon(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                debugGrbphics.drbwPolygon(xPoints, yPoints, nPoints);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.drawPolygon(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.drbwPolygon(xPoints, yPoints, nPoints);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawPolygon(xPoints, yPoints, nPoints);
+        grbphics.drbwPolygon(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.fillPolygon</code>.
+     * Overrides <code>Grbphics.fillPolygon</code>.
      */
     public void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
-        DebugGraphicsInfo info = info();
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
@@ -850,527 +850,527 @@ public class DebugGraphics extends Graphics {
                       " X's: " + xPoints +
                       " Y's: " + yPoints);
         }
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.fillPolygon(xPoints, yPoints, nPoints);
-                debugGraphics.dispose();
+                debugGrbphics.fillPolygon(xPoints, yPoints, nPoints);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor : oldColor);
-                graphics.fillPolygon(xPoints, yPoints, nPoints);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphics.fillPolygon(xPoints, yPoints, nPoints);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.fillPolygon(xPoints, yPoints, nPoints);
+        grbphics.fillPolygon(xPoints, yPoints, nPoints);
     }
 
     /**
-     * Overrides <code>Graphics.drawString</code>.
+     * Overrides <code>Grbphics.drbwString</code>.
      */
-    public void drawString(String aString, int x, int y) {
-        DebugGraphicsInfo info = info();
+    public void drbwString(String bString, int x, int y) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing string: \"" + aString +
-                       "\" at: " + new Point(x, y));
+                       " Drbwing string: \"" + bString +
+                       "\" bt: " + new Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawString(aString, x, y);
-                debugGraphics.dispose();
+                debugGrbphics.drbwString(bString, x, y);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor
                                   : oldColor);
-                graphics.drawString(aString, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.drbwString(bString, x, y);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawString(aString, x, y);
+        grbphics.drbwString(bString, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawString</code>.
+     * Overrides <code>Grbphics.drbwString</code>.
      */
-    public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-        DebugGraphicsInfo info = info();
+    public void drbwString(AttributedChbrbcterIterbtor iterbtor, int x, int y) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing text: \"" + iterator +
-                       "\" at: " + new Point(x, y));
+                       " Drbwing text: \"" + iterbtor +
+                       "\" bt: " + new Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawString(iterator, x, y);
-                debugGraphics.dispose();
+                debugGrbphics.drbwString(iterbtor, x, y);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor
                                   : oldColor);
-                graphics.drawString(iterator, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.drbwString(iterbtor, x, y);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawString(iterator, x, y);
+        grbphics.drbwString(iterbtor, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawBytes</code>.
+     * Overrides <code>Grbphics.drbwBytes</code>.
      */
-    public void drawBytes(byte data[], int offset, int length, int x, int y) {
-        DebugGraphicsInfo info = info();
+    public void drbwBytes(byte dbtb[], int offset, int length, int x, int y) {
+        DebugGrbphicsInfo info = info();
 
-        Font font = graphics.getFont();
+        Font font = grbphics.getFont();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing bytes at: " + new Point(x, y));
+                       " Drbwing bytes bt: " + new Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawBytes(data, offset, length, x, y);
-                debugGraphics.dispose();
+                debugGrbphics.drbwBytes(dbtb, offset, length, x, y);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor
                                   : oldColor);
-                graphics.drawBytes(data, offset, length, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.drbwBytes(dbtb, offset, length, x, y);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawBytes(data, offset, length, x, y);
+        grbphics.drbwBytes(dbtb, offset, length, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawChars</code>.
+     * Overrides <code>Grbphics.drbwChbrs</code>.
      */
-    public void drawChars(char data[], int offset, int length, int x, int y) {
-        DebugGraphicsInfo info = info();
+    public void drbwChbrs(chbr dbtb[], int offset, int length, int x, int y) {
+        DebugGrbphicsInfo info = info();
 
-        Font font = graphics.getFont();
+        Font font = grbphics.getFont();
 
         if (debugLog()) {
             info().log(toShortString() +
-                       " Drawing chars at " +  new Point(x, y));
+                       " Drbwing chbrs bt " +  new Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawChars(data, offset, length, x, y);
-                debugGraphics.dispose();
+                debugGrbphics.drbwChbrs(dbtb, offset, length, x, y);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
+        } else if (debugFlbsh()) {
             Color oldColor = getColor();
-            int i, count = (info.flashCount * 2) - 1;
+            int i, count = (info.flbshCount * 2) - 1;
 
             for (i = 0; i < count; i++) {
-                graphics.setColor((i % 2) == 0 ? info.flashColor
+                grbphics.setColor((i % 2) == 0 ? info.flbshColor
                                   : oldColor);
-                graphics.drawChars(data, offset, length, x, y);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                grbphics.drbwChbrs(dbtb, offset, length, x, y);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
-            graphics.setColor(oldColor);
+            grbphics.setColor(oldColor);
         }
-        graphics.drawChars(data, offset, length, x, y);
+        grbphics.drbwChbrs(dbtb, offset, length, x, y);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img, int x, int y,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    public boolebn drbwImbge(Imbge img, int x, int y,
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Point(x, y));
+                     " Drbwing imbge: " + img +
+                     " bt: " + new Point(x, y));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, x, y, observer);
-                debugGraphics.dispose();
+                debugGrbphics.drbwImbge(img, x, y, observer);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw, x, y,
+                                   imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, x, y, observer);
+        return grbphics.drbwImbge(img, x, y, observer);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img, int x, int y, int width, int height,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+    public boolebn drbwImbge(Imbge img, int x, int y, int width, int height,
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Rectangle(x, y, width, height));
+                     " Drbwing imbge: " + img +
+                     " bt: " + new Rectbngle(x, y, width, height));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, x, y, width, height, observer);
-                debugGraphics.dispose();
+                debugGrbphics.drbwImbge(img, x, y, width, height, observer);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   width, height, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw, x, y,
+                                   width, height, imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, x, y, width, height, observer);
+        return grbphics.drbwImbge(img, x, y, width, height, observer);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img, int x, int y,
+    public boolebn drbwImbge(Imbge img, int x, int y,
                              Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Point(x, y) +
+                     " Drbwing imbge: " + img +
+                     " bt: " + new Point(x, y) +
                      ", bgcolor: " + bgcolor);
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, x, y, bgcolor, observer);
-                debugGraphics.dispose();
+                debugGrbphics.drbwImbge(img, x, y, bgcolor, observer);
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw, x, y,
+                                   bgcolor, imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, x, y, bgcolor, observer);
+        return grbphics.drbwImbge(img, x, y, bgcolor, observer);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img, int x, int y,int width, int height,
+    public boolebn drbwImbge(Imbge img, int x, int y,int width, int height,
                              Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " at: " + new Rectangle(x, y, width, height) +
+                     " Drbwing imbge: " + img +
+                     " bt: " + new Rectbngle(x, y, width, height) +
                      ", bgcolor: " + bgcolor);
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, x, y, width, height,
+                debugGrbphics.drbwImbge(img, x, y, width, height,
                                         bgcolor, observer);
-                debugGraphics.dispose();
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw, x, y,
-                                   width, height, bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw, x, y,
+                                   width, height, bgcolor, imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, x, y, width, height, bgcolor, observer);
+        return grbphics.drbwImbge(img, x, y, width, height, bgcolor, observer);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " destination: " + new Rectangle(dx1, dy1, dx2, dy2) +
-                     " source: " + new Rectangle(sx1, sy1, sx2, sy2));
+                     " Drbwing imbge: " + img +
+                     " destinbtion: " + new Rectbngle(dx1, dy1, dx2, dy2) +
+                     " source: " + new Rectbngle(sx1, sy1, sx2, sy2));
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, dx1, dy1, dx2, dy2,
+                debugGrbphics.drbwImbge(img, dx1, dy1, dx2, dy2,
                                         sx1, sy1, sx2, sy2, observer);
-                debugGraphics.dispose();
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw,
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw,
                                    dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                   imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                                   imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+        return grbphics.drbwImbge(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
                                   observer);
     }
 
     /**
-     * Overrides <code>Graphics.drawImage</code>.
+     * Overrides <code>Grbphics.drbwImbge</code>.
      */
-    public boolean drawImage(Image img,
+    public boolebn drbwImbge(Imbge img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
                              Color bgcolor,
-                             ImageObserver observer) {
-        DebugGraphicsInfo info = info();
+                             ImbgeObserver observer) {
+        DebugGrbphicsInfo info = info();
 
         if (debugLog()) {
             info.log(toShortString() +
-                     " Drawing image: " + img +
-                     " destination: " + new Rectangle(dx1, dy1, dx2, dy2) +
-                     " source: " + new Rectangle(sx1, sy1, sx2, sy2) +
+                     " Drbwing imbge: " + img +
+                     " destinbtion: " + new Rectbngle(dx1, dy1, dx2, dy2) +
+                     " source: " + new Rectbngle(sx1, sy1, sx2, sy2) +
                      ", bgcolor: " + bgcolor);
         }
 
-        if (isDrawingBuffer()) {
+        if (isDrbwingBuffer()) {
             if (debugBuffered()) {
-                Graphics debugGraphics = debugGraphics();
+                Grbphics debugGrbphics = debugGrbphics();
 
-                debugGraphics.drawImage(img, dx1, dy1, dx2, dy2,
+                debugGrbphics.drbwImbge(img, dx1, dy1, dx2, dy2,
                                         sx1, sy1, sx2, sy2, bgcolor, observer);
-                debugGraphics.dispose();
+                debugGrbphics.dispose();
             }
-        } else if (debugFlash()) {
-            int i, count = (info.flashCount * 2) - 1;
-            ImageProducer oldProducer = img.getSource();
-            ImageProducer newProducer
-                = new FilteredImageSource(oldProducer,
-                                new DebugGraphicsFilter(info.flashColor));
-            Image newImage
-                = Toolkit.getDefaultToolkit().createImage(newProducer);
-            DebugGraphicsObserver imageObserver
-                = new DebugGraphicsObserver();
+        } else if (debugFlbsh()) {
+            int i, count = (info.flbshCount * 2) - 1;
+            ImbgeProducer oldProducer = img.getSource();
+            ImbgeProducer newProducer
+                = new FilteredImbgeSource(oldProducer,
+                                new DebugGrbphicsFilter(info.flbshColor));
+            Imbge newImbge
+                = Toolkit.getDefbultToolkit().crebteImbge(newProducer);
+            DebugGrbphicsObserver imbgeObserver
+                = new DebugGrbphicsObserver();
 
-            Image imageToDraw;
+            Imbge imbgeToDrbw;
             for (i = 0; i < count; i++) {
-                imageToDraw = (i % 2) == 0 ? newImage : img;
-                loadImage(imageToDraw);
-                graphics.drawImage(imageToDraw,
+                imbgeToDrbw = (i % 2) == 0 ? newImbge : img;
+                lobdImbge(imbgeToDrbw);
+                grbphics.drbwImbge(imbgeToDrbw,
                                    dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-                                   bgcolor, imageObserver);
-                Toolkit.getDefaultToolkit().sync();
-                sleep(info.flashTime);
+                                   bgcolor, imbgeObserver);
+                Toolkit.getDefbultToolkit().sync();
+                sleep(info.flbshTime);
             }
         }
-        return graphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+        return grbphics.drbwImbge(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
                                   bgcolor, observer);
     }
 
-    static void loadImage(Image img) {
-        imageLoadingIcon.loadImage(img);
+    stbtic void lobdImbge(Imbge img) {
+        imbgeLobdingIcon.lobdImbge(img);
     }
 
 
     /**
-     * Overrides <code>Graphics.copyArea</code>.
+     * Overrides <code>Grbphics.copyAreb</code>.
      */
-    public void copyArea(int x, int y, int width, int height,
+    public void copyAreb(int x, int y, int width, int height,
                          int destX, int destY) {
         if (debugLog()) {
             info().log(toShortString() +
-                      " Copying area from: " +
-                      new Rectangle(x, y, width, height) +
+                      " Copying breb from: " +
+                      new Rectbngle(x, y, width, height) +
                       " to: " + new Point(destX, destY));
         }
-        graphics.copyArea(x, y, width, height, destX, destY);
+        grbphics.copyAreb(x, y, width, height, destX, destY);
     }
 
-    final void sleep(int mSecs) {
+    finbl void sleep(int mSecs) {
         try {
-            Thread.sleep(mSecs);
-        } catch (Exception e) {
+            Threbd.sleep(mSecs);
+        } cbtch (Exception e) {
         }
     }
 
     /**
-     * Overrides <code>Graphics.dispose</code>.
+     * Overrides <code>Grbphics.dispose</code>.
      */
     public void dispose() {
-        graphics.dispose();
-        graphics = null;
+        grbphics.dispose();
+        grbphics = null;
     }
 
     // ALERT!
     /**
-     * Returns the drawingBuffer value.
+     * Returns the drbwingBuffer vblue.
      *
-     * @return true if this object is drawing from a Buffer
+     * @return true if this object is drbwing from b Buffer
      */
-    public boolean isDrawingBuffer() {
+    public boolebn isDrbwingBuffer() {
         return buffer != null;
     }
 
     String toShortString() {
-        return "Graphics" + (isDrawingBuffer() ? "<B>" : "") + "(" + graphicsID + "-" + debugOptions + ")";
+        return "Grbphics" + (isDrbwingBuffer() ? "<B>" : "") + "(" + grbphicsID + "-" + debugOptions + ")";
     }
 
     String pointToString(int x, int y) {
         return "(" + x + ", " + y + ")";
     }
 
-    /** Enables/disables diagnostic information about every graphics
-      * operation. The value of <b>options</b> indicates how this information
-      * should be displayed. LOG_OPTION causes a text message to be printed.
-      * FLASH_OPTION causes the drawing to flash several times. BUFFERED_OPTION
-      * creates a new Frame that shows each operation on an
-      * offscreen buffer. The value of <b>options</b> is bitwise OR'd into
-      * the current value. To disable debugging use NONE_OPTION.
+    /** Enbbles/disbbles dibgnostic informbtion bbout every grbphics
+      * operbtion. The vblue of <b>options</b> indicbtes how this informbtion
+      * should be displbyed. LOG_OPTION cbuses b text messbge to be printed.
+      * FLASH_OPTION cbuses the drbwing to flbsh severbl times. BUFFERED_OPTION
+      * crebtes b new Frbme thbt shows ebch operbtion on bn
+      * offscreen buffer. The vblue of <b>options</b> is bitwise OR'd into
+      * the current vblue. To disbble debugging use NONE_OPTION.
       *
-      * @param options indicates how diagnostic information should be displayed
+      * @pbrbm options indicbtes how dibgnostic informbtion should be displbyed
       */
     public void setDebugOptions(int options) {
         if (options != 0) {
             if (options == NONE_OPTION) {
                 if (debugOptions != 0) {
-                    System.err.println(toShortString() + " Disabling debug");
+                    System.err.println(toShortString() + " Disbbling debug");
                     debugOptions = 0;
                 }
             } else {
                 if (debugOptions != options) {
                     debugOptions |= options;
                     if (debugLog()) {
-                        System.err.println(toShortString() + " Enabling debug");
+                        System.err.println(toShortString() + " Enbbling debug");
                     }
                 }
             }
@@ -1378,114 +1378,114 @@ public class DebugGraphics extends Graphics {
     }
 
     /**
-     * Returns the current debugging options for this DebugGraphics.
+     * Returns the current debugging options for this DebugGrbphics.
      *
-     * @return the current debugging options for this DebugGraphics
+     * @return the current debugging options for this DebugGrbphics
      * @see #setDebugOptions
      */
     public int getDebugOptions() {
         return debugOptions;
     }
 
-    /** Static wrapper method for DebugGraphicsInfo.setDebugOptions(). Stores
-      * options on a per component basis.
+    /** Stbtic wrbpper method for DebugGrbphicsInfo.setDebugOptions(). Stores
+      * options on b per component bbsis.
       */
-    static void setDebugOptions(JComponent component, int options) {
+    stbtic void setDebugOptions(JComponent component, int options) {
         info().setDebugOptions(component, options);
     }
 
-    /** Static wrapper method for DebugGraphicsInfo.getDebugOptions().
+    /** Stbtic wrbpper method for DebugGrbphicsInfo.getDebugOptions().
       */
-    static int getDebugOptions(JComponent component) {
-        DebugGraphicsInfo debugGraphicsInfo = info();
-        if (debugGraphicsInfo == null) {
+    stbtic int getDebugOptions(JComponent component) {
+        DebugGrbphicsInfo debugGrbphicsInfo = info();
+        if (debugGrbphicsInfo == null) {
             return 0;
         } else {
-            return debugGraphicsInfo.getDebugOptions(component);
+            return debugGrbphicsInfo.getDebugOptions(component);
         }
     }
 
-    /** Returns non-zero if <b>component</b> should display with DebugGraphics,
-      * zero otherwise. Walks the JComponent's parent tree to determine if
-      * any debugging options have been set.
+    /** Returns non-zero if <b>component</b> should displby with DebugGrbphics,
+      * zero otherwise. Wblks the JComponent's pbrent tree to determine if
+      * bny debugging options hbve been set.
       */
-    static int shouldComponentDebug(JComponent component) {
-        DebugGraphicsInfo info = info();
+    stbtic int shouldComponentDebug(JComponent component) {
+        DebugGrbphicsInfo info = info();
         if (info == null) {
             return 0;
         } else {
-            Container container = (Container)component;
+            Contbiner contbiner = (Contbiner)component;
             int debugOptions = 0;
 
-            while (container != null && (container instanceof JComponent)) {
-                debugOptions |= info.getDebugOptions((JComponent)container);
-                container = container.getParent();
+            while (contbiner != null && (contbiner instbnceof JComponent)) {
+                debugOptions |= info.getDebugOptions((JComponent)contbiner);
+                contbiner = contbiner.getPbrent();
             }
 
             return debugOptions;
         }
     }
 
-    /** Returns the number of JComponents that have debugging options turned
+    /** Returns the number of JComponents thbt hbve debugging options turned
       * on.
       */
-    static int debugComponentCount() {
-        DebugGraphicsInfo debugGraphicsInfo = info();
-        if (debugGraphicsInfo != null &&
-                    debugGraphicsInfo.componentToDebug != null) {
-            return debugGraphicsInfo.componentToDebug.size();
+    stbtic int debugComponentCount() {
+        DebugGrbphicsInfo debugGrbphicsInfo = info();
+        if (debugGrbphicsInfo != null &&
+                    debugGrbphicsInfo.componentToDebug != null) {
+            return debugGrbphicsInfo.componentToDebug.size();
         } else {
             return 0;
         }
     }
 
-    boolean debugLog() {
+    boolebn debugLog() {
         return (debugOptions & LOG_OPTION) == LOG_OPTION;
     }
 
-    boolean debugFlash() {
+    boolebn debugFlbsh() {
         return (debugOptions & FLASH_OPTION) == FLASH_OPTION;
     }
 
-    boolean debugBuffered() {
+    boolebn debugBuffered() {
         return (debugOptions & BUFFERED_OPTION) == BUFFERED_OPTION;
     }
 
-    /** Returns a DebugGraphics for use in buffering window.
+    /** Returns b DebugGrbphics for use in buffering window.
       */
-    private Graphics debugGraphics() {
-        DebugGraphics        debugGraphics;
-        DebugGraphicsInfo    info = info();
-        JFrame               debugFrame;
+    privbte Grbphics debugGrbphics() {
+        DebugGrbphics        debugGrbphics;
+        DebugGrbphicsInfo    info = info();
+        JFrbme               debugFrbme;
 
-        if (info.debugFrame == null) {
-            info.debugFrame = new JFrame();
-            info.debugFrame.setSize(500, 500);
+        if (info.debugFrbme == null) {
+            info.debugFrbme = new JFrbme();
+            info.debugFrbme.setSize(500, 500);
         }
-        debugFrame = info.debugFrame;
-        debugFrame.show();
-        debugGraphics = new DebugGraphics(debugFrame.getGraphics());
-        debugGraphics.setFont(getFont());
-        debugGraphics.setColor(getColor());
-        debugGraphics.translate(xOffset, yOffset);
-        debugGraphics.setClip(getClipBounds());
-        if (debugFlash()) {
-            debugGraphics.setDebugOptions(FLASH_OPTION);
+        debugFrbme = info.debugFrbme;
+        debugFrbme.show();
+        debugGrbphics = new DebugGrbphics(debugFrbme.getGrbphics());
+        debugGrbphics.setFont(getFont());
+        debugGrbphics.setColor(getColor());
+        debugGrbphics.trbnslbte(xOffset, yOffset);
+        debugGrbphics.setClip(getClipBounds());
+        if (debugFlbsh()) {
+            debugGrbphics.setDebugOptions(FLASH_OPTION);
         }
-        return debugGraphics;
+        return debugGrbphics;
     }
 
-    /** Returns DebugGraphicsInfo, or creates one if none exists.
+    /** Returns DebugGrbphicsInfo, or crebtes one if none exists.
       */
-    static DebugGraphicsInfo info() {
-        DebugGraphicsInfo debugGraphicsInfo = (DebugGraphicsInfo)
-            SwingUtilities.appContextGet(debugGraphicsInfoKey);
-        if (debugGraphicsInfo == null) {
-            debugGraphicsInfo = new DebugGraphicsInfo();
-            SwingUtilities.appContextPut(debugGraphicsInfoKey,
-                                         debugGraphicsInfo);
+    stbtic DebugGrbphicsInfo info() {
+        DebugGrbphicsInfo debugGrbphicsInfo = (DebugGrbphicsInfo)
+            SwingUtilities.bppContextGet(debugGrbphicsInfoKey);
+        if (debugGrbphicsInfo == null) {
+            debugGrbphicsInfo = new DebugGrbphicsInfo();
+            SwingUtilities.bppContextPut(debugGrbphicsInfoKey,
+                                         debugGrbphicsInfo);
         }
-        return debugGraphicsInfo;
+        return debugGrbphicsInfo;
     }
-    private static final Class<DebugGraphicsInfo> debugGraphicsInfoKey = DebugGraphicsInfo.class;
+    privbte stbtic finbl Clbss<DebugGrbphicsInfo> debugGrbphicsInfoKey = DebugGrbphicsInfo.clbss;
 }

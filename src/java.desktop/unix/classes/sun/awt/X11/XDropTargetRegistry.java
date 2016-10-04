@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import sun.util.logging.PlbtformLogger;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
 
 /**
- * The class responsible for registration/deregistration of drop sites.
+ * The clbss responsible for registrbtion/deregistrbtion of drop sites.
  *
  * @since 1.5
  */
-final class XDropTargetRegistry {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetRegistry");
+finbl clbss XDropTbrgetRegistry {
+    privbte stbtic finbl PlbtformLogger logger =
+        PlbtformLogger.getLogger("sun.bwt.X11.xembed.xdnd.XDropTbrgetRegistry");
 
-    private static final long DELAYED_REGISTRATION_PERIOD = 200;
+    privbte stbtic finbl long DELAYED_REGISTRATION_PERIOD = 200;
 
-    private static final XDropTargetRegistry theInstance =
-        new XDropTargetRegistry();
+    privbte stbtic finbl XDropTbrgetRegistry theInstbnce =
+        new XDropTbrgetRegistry();
 
-    private final HashMap<Long, Runnable> delayedRegistrationMap =
-        new HashMap<Long, Runnable>();
+    privbte finbl HbshMbp<Long, Runnbble> delbyedRegistrbtionMbp =
+        new HbshMbp<Long, Runnbble>();
 
-    private XDropTargetRegistry() {}
+    privbte XDropTbrgetRegistry() {}
 
-    static XDropTargetRegistry getRegistry() {
-        return theInstance;
+    stbtic XDropTbrgetRegistry getRegistry() {
+        return theInstbnce;
     }
 
     /**
-     * Returns the XID of the topmost window with WM_STATE set in the ancestor
-     * hierarchy of the specified window or 0 if none found.
+     * Returns the XID of the topmost window with WM_STATE set in the bncestor
+     * hierbrchy of the specified window or 0 if none found.
      */
-    private long getToplevelWindow(long window) {
-        XBaseWindow candWindow = XToolkit.windowToXWindow(window);
-        if (candWindow != null) {
-            XWindowPeer toplevel = candWindow.getToplevelXWindow();
-            if (toplevel != null && !(toplevel instanceof XEmbeddedFramePeer)) {
+    privbte long getToplevelWindow(long window) {
+        XBbseWindow cbndWindow = XToolkit.windowToXWindow(window);
+        if (cbndWindow != null) {
+            XWindowPeer toplevel = cbndWindow.getToplevelXWindow();
+            if (toplevel != null && !(toplevel instbnceof XEmbeddedFrbmePeer)) {
                 return toplevel.getWindow();
             }
         }
 
-        /* Traverse the ancestor tree from window up to the root and find
-           the top-level client window nearest to the root. */
+        /* Trbverse the bncestor tree from window up to the root bnd find
+           the top-level client window nebrest to the root. */
         do {
             if (XlibUtil.isTrueToplevelWindow(window)) {
                 return window;
             }
 
-            window = XlibUtil.getParentWindow(window);
+            window = XlibUtil.getPbrentWindow(window);
 
         } while (window != 0);
 
         return window;
     }
 
-    static final long getDnDProxyWindow() {
+    stbtic finbl long getDnDProxyWindow() {
         return XWindow.getXAWTRootWindow().getWindow();
     }
 
-    private static final class EmbeddedDropSiteEntry {
-        private final long root;
-        private final long event_mask;
-        private List<XDropTargetProtocol> supportedProtocols;
-        private final HashSet<Long> nonXEmbedClientSites = new HashSet<Long>();
-        private final List<Long> sites = new ArrayList<Long>();
+    privbte stbtic finbl clbss EmbeddedDropSiteEntry {
+        privbte finbl long root;
+        privbte finbl long event_mbsk;
+        privbte List<XDropTbrgetProtocol> supportedProtocols;
+        privbte finbl HbshSet<Long> nonXEmbedClientSites = new HbshSet<Long>();
+        privbte finbl List<Long> sites = new ArrbyList<Long>();
 
-        public EmbeddedDropSiteEntry(long root, long event_mask,
-                                     List<XDropTargetProtocol> supportedProtocols) {
+        public EmbeddedDropSiteEntry(long root, long event_mbsk,
+                                     List<XDropTbrgetProtocol> supportedProtocols) {
             if (supportedProtocols == null) {
                 throw new NullPointerException("Null supportedProtocols");
             }
             this.root = root;
-            this.event_mask = event_mask;
+            this.event_mbsk = event_mbsk;
             this.supportedProtocols = supportedProtocols;
         }
 
         public long getRoot() {
             return root;
         }
-        public long getEventMask() {
-            return event_mask;
+        public long getEventMbsk() {
+            return event_mbsk;
         }
-        public boolean hasNonXEmbedClientSites() {
+        public boolebn hbsNonXEmbedClientSites() {
             return !nonXEmbedClientSites.isEmpty();
         }
-        public synchronized void addSite(long window, boolean isXEmbedClient) {
-            Long lWindow = Long.valueOf(window);
-            if (!sites.contains(lWindow)) {
-                sites.add(lWindow);
+        public synchronized void bddSite(long window, boolebn isXEmbedClient) {
+            Long lWindow = Long.vblueOf(window);
+            if (!sites.contbins(lWindow)) {
+                sites.bdd(lWindow);
             }
             if (!isXEmbedClient) {
-                nonXEmbedClientSites.add(lWindow);
+                nonXEmbedClientSites.bdd(lWindow);
             }
         }
         public synchronized void removeSite(long window) {
-            Long lWindow = Long.valueOf(window);
+            Long lWindow = Long.vblueOf(window);
             sites.remove(lWindow);
             nonXEmbedClientSites.remove(lWindow);
         }
-        public void setSupportedProtocols(List<XDropTargetProtocol> list) {
+        public void setSupportedProtocols(List<XDropTbrgetProtocol> list) {
             supportedProtocols = list;
         }
-        public List<XDropTargetProtocol> getSupportedProtocols() {
+        public List<XDropTbrgetProtocol> getSupportedProtocols() {
             return supportedProtocols;
         }
-        public boolean hasSites() {
+        public boolebn hbsSites() {
             return !sites.isEmpty();
         }
         public long[] getSites() {
             long[] ret = new long[sites.size()];
-            Iterator<Long> iter = sites.iterator();
+            Iterbtor<Long> iter = sites.iterbtor();
             int index = 0;
-            while (iter.hasNext()) {
+            while (iter.hbsNext()) {
                 Long l = iter.next();
-                ret[index++] = l.longValue();
+                ret[index++] = l.longVblue();
             }
             return ret;
         }
         public long getSite(int x, int y) {
-            assert XToolkit.isAWTLockHeldByCurrentThread();
+            bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-            Iterator<Long> iter = sites.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<Long> iter = sites.iterbtor();
+            while (iter.hbsNext()) {
                 Long l = iter.next();
-                long window = l.longValue();
+                long window = l.longVblue();
 
-                Point p = XBaseWindow.toOtherWindow(getRoot(), window, x, y);
+                Point p = XBbseWindow.toOtherWindow(getRoot(), window, x, y);
 
                 if (p == null) {
                     continue;
@@ -166,26 +166,26 @@ final class XDropTargetRegistry {
                 int dest_x = p.x;
                 int dest_y = p.y;
                 if (dest_x >= 0 && dest_y >= 0) {
-                    XWindowAttributes wattr = new XWindowAttributes();
+                    XWindowAttributes wbttr = new XWindowAttributes();
                     try {
-                        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                        int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                                      window, wattr.pData);
-                        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                        XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                        int stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                                      window, wbttr.pDbtb);
+                        XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                        if ((status == 0) ||
-                            ((XErrorHandlerUtil.saved_error != null) &&
-                            (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
+                        if ((stbtus == 0) ||
+                            ((XErrorHbndlerUtil.sbved_error != null) &&
+                            (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success))) {
                             continue;
                         }
 
-                        if (wattr.get_map_state() != XConstants.IsUnmapped
-                            && dest_x < wattr.get_width()
-                            && dest_y < wattr.get_height()) {
+                        if (wbttr.get_mbp_stbte() != XConstbnts.IsUnmbpped
+                            && dest_x < wbttr.get_width()
+                            && dest_y < wbttr.get_height()) {
                             return window;
                         }
-                    } finally {
-                        wattr.dispose();
+                    } finblly {
+                        wbttr.dispose();
                     }
                 }
             }
@@ -193,255 +193,255 @@ final class XDropTargetRegistry {
         }
     }
 
-    private final HashMap<Long, EmbeddedDropSiteEntry> embeddedDropSiteRegistry =
-        new HashMap<Long, EmbeddedDropSiteEntry>();
+    privbte finbl HbshMbp<Long, EmbeddedDropSiteEntry> embeddedDropSiteRegistry =
+        new HbshMbp<Long, EmbeddedDropSiteEntry>();
 
-    private EmbeddedDropSiteEntry registerEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbte EmbeddedDropSiteEntry registerEmbedderDropSite(long embedder) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
         // The list of protocols supported by the embedder.
-        List<XDropTargetProtocol> embedderProtocols = new ArrayList<>();
+        List<XDropTbrgetProtocol> embedderProtocols = new ArrbyList<>();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.isProtocolSupported(embedder)) {
-                embedderProtocols.add(dropTargetProtocol);
+        while (dropTbrgetProtocols.hbsNext()) {
+            XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+            if (dropTbrgetProtocol.isProtocolSupported(embedder)) {
+                embedderProtocols.bdd(dropTbrgetProtocol);
             }
         }
 
-        embedderProtocols = Collections.unmodifiableList(embedderProtocols);
+        embedderProtocols = Collections.unmodifibbleList(embedderProtocols);
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb server, since we bre working with the window thbt belongs to
+           bnother client. */
+        XlibWrbpper.XGrbbServer(XToolkit.getDisplby());
         try {
             long root = 0;
-            long event_mask = 0;
-            XWindowAttributes wattr = new XWindowAttributes();
+            long event_mbsk = 0;
+            XWindowAttributes wbttr = new XWindowAttributes();
             try {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                              embedder, wattr.pData);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                int stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                              embedder, wbttr.pDbtb);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                if ((status == 0) ||
-                    ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                    throw new XException("XGetWindowAttributes failed");
+                if ((stbtus == 0) ||
+                    ((XErrorHbndlerUtil.sbved_error != null) &&
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success))) {
+                    throw new XException("XGetWindowAttributes fbiled");
                 }
 
-                event_mask = wattr.get_your_event_mask();
-                root = wattr.get_root();
-            } finally {
-                wattr.dispose();
+                event_mbsk = wbttr.get_your_event_mbsk();
+                root = wbttr.get_root();
+            } finblly {
+                wbttr.dispose();
             }
 
-            if ((event_mask & XConstants.PropertyChangeMask) == 0) {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), embedder,
-                                         event_mask | XConstants.PropertyChangeMask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            if ((event_mbsk & XConstbnts.PropertyChbngeMbsk) == 0) {
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                XlibWrbpper.XSelectInput(XToolkit.getDisplby(), embedder,
+                                         event_mbsk | XConstbnts.PropertyChbngeMbsk);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("XSelectInput failed");
+                if ((XErrorHbndlerUtil.sbved_error != null) &&
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                    throw new XException("XSelectInput fbiled");
                 }
             }
 
-            return new EmbeddedDropSiteEntry(root, event_mask, embedderProtocols);
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+            return new EmbeddedDropSiteEntry(root, event_mbsk, embedderProtocols);
+        } finblly {
+            XlibWrbpper.XUngrbbServer(XToolkit.getDisplby());
         }
     }
 
-    private static final boolean XEMBED_PROTOCOLS = true;
-    private static final boolean NON_XEMBED_PROTOCOLS = false;
+    privbte stbtic finbl boolebn XEMBED_PROTOCOLS = true;
+    privbte stbtic finbl boolebn NON_XEMBED_PROTOCOLS = fblse;
 
-    private void registerProtocols(long embedder, boolean protocols,
-                                   List<XDropTargetProtocol> supportedProtocols) {
-        Iterator<XDropTargetProtocol> dropTargetProtocols = null;
+    privbte void registerProtocols(long embedder, boolebn protocols,
+                                   List<XDropTbrgetProtocol> supportedProtocols) {
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols = null;
 
         /*
-         * By default, we register a drop site that supports all dnd
-         * protocols. This approach is not appropriate in plugin
-         * scenario if the browser supports Motif DnD and doesn't support
-         * XDnD. If we forcibly set XdndAware on the browser toplevel, any drag
-         * source that supports both protocols and prefers XDnD will be unable
-         * to drop anything on the browser.
+         * By defbult, we register b drop site thbt supports bll dnd
+         * protocols. This bpprobch is not bppropribte in plugin
+         * scenbrio if the browser supports Motif DnD bnd doesn't support
+         * XDnD. If we forcibly set XdndAwbre on the browser toplevel, bny drbg
+         * source thbt supports both protocols bnd prefers XDnD will be unbble
+         * to drop bnything on the browser.
          * The solution for this problem is not to register XDnD drop site
          * if the browser supports only Motif DnD.
-         * In general, if the browser already supports some protocols, we
+         * In generbl, if the browser blrebdy supports some protocols, we
          * register the embedded drop site only for those protocols. Otherwise
-         * we register the embedded drop site for all protocols.
+         * we register the embedded drop site for bll protocols.
          */
         if (!supportedProtocols.isEmpty()) {
-            dropTargetProtocols = supportedProtocols.iterator();
+            dropTbrgetProtocols = supportedProtocols.iterbtor();
         } else {
-            dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
         }
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb server, since we bre working with the window thbt belongs to
+           bnother client. */
+        XlibWrbpper.XGrbbServer(XToolkit.getDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
                 if ((protocols == XEMBED_PROTOCOLS) ==
-                    dropTargetProtocol.isXEmbedSupported()) {
-                    dropTargetProtocol.registerEmbedderDropSite(embedder);
+                    dropTbrgetProtocol.isXEmbedSupported()) {
+                    dropTbrgetProtocol.registerEmbedderDropSite(embedder);
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbpper.XUngrbbServer(XToolkit.getDisplby());
         }
     }
 
-    public void updateEmbedderDropSite(long embedder) {
-        XBaseWindow xbaseWindow = XToolkit.windowToXWindow(embedder);
-        // No need to update our own drop sites.
-        if (xbaseWindow != null) {
+    public void updbteEmbedderDropSite(long embedder) {
+        XBbseWindow xbbseWindow = XToolkit.windowToXWindow(embedder);
+        // No need to updbte our own drop sites.
+        if (xbbseWindow != null) {
             return;
         }
 
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
         // The list of protocols supported by the embedder.
-        List<XDropTargetProtocol> embedderProtocols = new ArrayList<>();
+        List<XDropTbrgetProtocol> embedderProtocols = new ArrbyList<>();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.isProtocolSupported(embedder)) {
-                embedderProtocols.add(dropTargetProtocol);
+        while (dropTbrgetProtocols.hbsNext()) {
+            XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+            if (dropTbrgetProtocol.isProtocolSupported(embedder)) {
+                embedderProtocols.bdd(dropTbrgetProtocol);
             }
         }
 
-        embedderProtocols = Collections.unmodifiableList(embedderProtocols);
+        embedderProtocols = Collections.unmodifibbleList(embedderProtocols);
 
-        Long lToplevel = Long.valueOf(embedder);
-        boolean isXEmbedServer = false;
+        Long lToplevel = Long.vblueOf(embedder);
+        boolebn isXEmbedServer = fblse;
         synchronized (this) {
             EmbeddedDropSiteEntry entry = embeddedDropSiteRegistry.get(lToplevel);
             if (entry == null) {
                 return;
             }
             entry.setSupportedProtocols(embedderProtocols);
-            isXEmbedServer = !entry.hasNonXEmbedClientSites();
+            isXEmbedServer = !entry.hbsNonXEmbedClientSites();
         }
 
         /*
-         * By default, we register a drop site that supports all dnd
-         * protocols. This approach is not appropriate in plugin
-         * scenario if the browser supports Motif DnD and doesn't support
-         * XDnD. If we forcibly set XdndAware on the browser toplevel, any drag
-         * source that supports both protocols and prefers XDnD will be unable
-         * to drop anything on the browser.
+         * By defbult, we register b drop site thbt supports bll dnd
+         * protocols. This bpprobch is not bppropribte in plugin
+         * scenbrio if the browser supports Motif DnD bnd doesn't support
+         * XDnD. If we forcibly set XdndAwbre on the browser toplevel, bny drbg
+         * source thbt supports both protocols bnd prefers XDnD will be unbble
+         * to drop bnything on the browser.
          * The solution for this problem is not to register XDnD drop site
          * if the browser supports only Motif DnD.
-         * In general, if the browser already supports some protocols, we
+         * In generbl, if the browser blrebdy supports some protocols, we
          * register the embedded drop site only for those protocols. Otherwise
-         * we register the embedded drop site for all protocols.
+         * we register the embedded drop site for bll protocols.
          */
         if (!embedderProtocols.isEmpty()) {
-            dropTargetProtocols = embedderProtocols.iterator();
+            dropTbrgetProtocols = embedderProtocols.iterbtor();
         } else {
-            dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
         }
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb server, since we bre working with the window thbt belongs to
+           bnother client. */
+        XlibWrbpper.XGrbbServer(XToolkit.getDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                if (!isXEmbedServer || !dropTargetProtocol.isXEmbedSupported()) {
-                    dropTargetProtocol.registerEmbedderDropSite(embedder);
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+                if (!isXEmbedServer || !dropTbrgetProtocol.isXEmbedSupported()) {
+                    dropTbrgetProtocol.registerEmbedderDropSite(embedder);
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbpper.XUngrbbServer(XToolkit.getDisplby());
         }
     }
 
-    private void unregisterEmbedderDropSite(long embedder,
+    privbte void unregisterEmbedderDropSite(long embedder,
                                             EmbeddedDropSiteEntry entry) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb server, since we bre working with the window thbt belongs to
+           bnother client. */
+        XlibWrbpper.XGrbbServer(XToolkit.getDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                dropTargetProtocol.unregisterEmbedderDropSite(embedder);
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+                dropTbrgetProtocol.unregisterEmbedderDropSite(embedder);
             }
 
-            long event_mask = entry.getEventMask();
+            long event_mbsk = entry.getEventMbsk();
 
-            /* Restore the original event mask for the embedder. */
-            if ((event_mask & XConstants.PropertyChangeMask) == 0) {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), embedder,
-                                         event_mask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            /* Restore the originbl event mbsk for the embedder. */
+            if ((event_mbsk & XConstbnts.PropertyChbngeMbsk) == 0) {
+                XErrorHbndlerUtil.WITH_XERROR_HANDLER(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
+                XlibWrbpper.XSelectInput(XToolkit.getDisplby(), embedder,
+                                         event_mbsk);
+                XErrorHbndlerUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("XSelectInput failed");
+                if ((XErrorHbndlerUtil.sbved_error != null) &&
+                    (XErrorHbndlerUtil.sbved_error.get_error_code() != XConstbnts.Success)) {
+                    throw new XException("XSelectInput fbiled");
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbpper.XUngrbbServer(XToolkit.getDisplby());
         }
     }
 
-    private void registerEmbeddedDropSite(long toplevel, long window) {
-        XBaseWindow xBaseWindow = XToolkit.windowToXWindow(window);
-        boolean isXEmbedClient =
-            (xBaseWindow instanceof XEmbeddedFramePeer) &&
-            ((XEmbeddedFramePeer)xBaseWindow).isXEmbedActive();
+    privbte void registerEmbeddedDropSite(long toplevel, long window) {
+        XBbseWindow xBbseWindow = XToolkit.windowToXWindow(window);
+        boolebn isXEmbedClient =
+            (xBbseWindow instbnceof XEmbeddedFrbmePeer) &&
+            ((XEmbeddedFrbmePeer)xBbseWindow).isXEmbedActive();
 
-        XEmbedCanvasPeer peer = null;
+        XEmbedCbnvbsPeer peer = null;
         {
-            XBaseWindow xbaseWindow = XToolkit.windowToXWindow(toplevel);
-            if (xbaseWindow != null) {
-                if (xbaseWindow instanceof XEmbedCanvasPeer) {
-                    peer = (XEmbedCanvasPeer)xbaseWindow;
+            XBbseWindow xbbseWindow = XToolkit.windowToXWindow(toplevel);
+            if (xbbseWindow != null) {
+                if (xbbseWindow instbnceof XEmbedCbnvbsPeer) {
+                    peer = (XEmbedCbnvbsPeer)xbbseWindow;
                 } else {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
             }
         }
 
-        Long lToplevel = Long.valueOf(toplevel);
+        Long lToplevel = Long.vblueOf(toplevel);
         EmbeddedDropSiteEntry entry = null;
         synchronized (this) {
             entry = embeddedDropSiteRegistry.get(lToplevel);
             if (entry == null) {
                 if (peer != null) {
-                    // Toplevel is an XEmbed server within this VM.
-                    // Register an XEmbed drop site.
-                    peer.setXEmbedDropTarget();
-                    // Create a dummy entry to register the embedded site.
+                    // Toplevel is bn XEmbed server within this VM.
+                    // Register bn XEmbed drop site.
+                    peer.setXEmbedDropTbrget();
+                    // Crebte b dummy entry to register the embedded site.
                     entry = new EmbeddedDropSiteEntry(0, 0,
-                                                      Collections.<XDropTargetProtocol>emptyList());
+                                                      Collections.<XDropTbrgetProtocol>emptyList());
                 } else {
                     // Foreign toplevel.
-                    // Select for PropertyNotify events on the toplevel, so that
-                    // we can track changes of the properties relevant to DnD
+                    // Select for PropertyNotify events on the toplevel, so thbt
+                    // we cbn trbck chbnges of the properties relevbnt to DnD
                     // protocols.
                     entry = registerEmbedderDropSite(toplevel);
-                    // Register the toplevel with all DnD protocols that are not
-                    // supported by XEmbed - actually setup a proxy, so that
-                    // all DnD notifications sent to the toplevel are first
+                    // Register the toplevel with bll DnD protocols thbt bre not
+                    // supported by XEmbed - bctublly setup b proxy, so thbt
+                    // bll DnD notificbtions sent to the toplevel bre first
                     // routed to us.
                     registerProtocols(toplevel, NON_XEMBED_PROTOCOLS,
                                       entry.getSupportedProtocols());
@@ -450,42 +450,42 @@ final class XDropTargetRegistry {
             }
         }
 
-        assert entry != null;
+        bssert entry != null;
 
         synchronized (entry) {
-            // For a foreign toplevel.
+            // For b foreign toplevel.
             if (peer == null) {
                 if (!isXEmbedClient) {
-                    // Since this is not an XEmbed client we can no longer rely
-                    // on XEmbed to route DnD notifications even for DnD
-                    // protocols that are supported by XEmbed.
-                    // We rollback to the XEmbed-unfriendly solution - setup
-                    // a proxy, so that all DnD notifications sent to the
-                    // toplevel are first routed to us.
+                    // Since this is not bn XEmbed client we cbn no longer rely
+                    // on XEmbed to route DnD notificbtions even for DnD
+                    // protocols thbt bre supported by XEmbed.
+                    // We rollbbck to the XEmbed-unfriendly solution - setup
+                    // b proxy, so thbt bll DnD notificbtions sent to the
+                    // toplevel bre first routed to us.
                     registerProtocols(toplevel, XEMBED_PROTOCOLS,
                                       entry.getSupportedProtocols());
                 } else {
-                    Iterator<XDropTargetProtocol> dropTargetProtocols =
-                        XDragAndDropProtocols.getDropTargetProtocols();
+                    Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                        XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-                    // Register the embedded window as a plain drop site with
-                    // all DnD protocols that are supported by XEmbed.
-                    while (dropTargetProtocols.hasNext()) {
-                        XDropTargetProtocol dropTargetProtocol =
-                            dropTargetProtocols.next();
-                        if (dropTargetProtocol.isXEmbedSupported()) {
-                            dropTargetProtocol.registerEmbedderDropSite(window);
+                    // Register the embedded window bs b plbin drop site with
+                    // bll DnD protocols thbt bre supported by XEmbed.
+                    while (dropTbrgetProtocols.hbsNext()) {
+                        XDropTbrgetProtocol dropTbrgetProtocol =
+                            dropTbrgetProtocols.next();
+                        if (dropTbrgetProtocol.isXEmbedSupported()) {
+                            dropTbrgetProtocol.registerEmbedderDropSite(window);
                         }
                     }
                 }
             }
 
-            entry.addSite(window, isXEmbedClient);
+            entry.bddSite(window, isXEmbedClient);
         }
     }
 
-    private void unregisterEmbeddedDropSite(long toplevel, long window) {
-        Long lToplevel = Long.valueOf(toplevel);
+    privbte void unregisterEmbeddedDropSite(long toplevel, long window) {
+        Long lToplevel = Long.vblueOf(toplevel);
         EmbeddedDropSiteEntry entry = null;
         synchronized (this) {
             entry = embeddedDropSiteRegistry.get(lToplevel);
@@ -493,17 +493,17 @@ final class XDropTargetRegistry {
                 return;
             }
             entry.removeSite(window);
-            if (!entry.hasSites()) {
+            if (!entry.hbsSites()) {
                 embeddedDropSiteRegistry.remove(lToplevel);
 
-                XBaseWindow xbaseWindow = XToolkit.windowToXWindow(toplevel);
-                if (xbaseWindow != null) {
-                    if (xbaseWindow instanceof XEmbedCanvasPeer) {
-                        XEmbedCanvasPeer peer = (XEmbedCanvasPeer)xbaseWindow;
-                        // Unregister an XEmbed drop site.
-                        peer.removeXEmbedDropTarget();
+                XBbseWindow xbbseWindow = XToolkit.windowToXWindow(toplevel);
+                if (xbbseWindow != null) {
+                    if (xbbseWindow instbnceof XEmbedCbnvbsPeer) {
+                        XEmbedCbnvbsPeer peer = (XEmbedCbnvbsPeer)xbbseWindow;
+                        // Unregister bn XEmbed drop site.
+                        peer.removeXEmbedDropTbrget();
                     } else {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
                 } else {
                     unregisterEmbedderDropSite(toplevel, entry);
@@ -513,11 +513,11 @@ final class XDropTargetRegistry {
     }
 
     /*
-     * Returns a drop site that is embedded in the specified embedder window and
-     * contains the point with the specified root coordinates.
+     * Returns b drop site thbt is embedded in the specified embedder window bnd
+     * contbins the point with the specified root coordinbtes.
      */
     public long getEmbeddedDropSite(long embedder, int x, int y) {
-        Long lToplevel = Long.valueOf(embedder);
+        Long lToplevel = Long.vblueOf(embedder);
         EmbeddedDropSiteEntry entry = embeddedDropSiteRegistry.get(lToplevel);
         if (entry == null) {
             return 0;
@@ -526,40 +526,40 @@ final class XDropTargetRegistry {
     }
 
     /*
-     * Note: this method should be called under AWT lock.
+     * Note: this method should be cblled under AWT lock.
      */
     public void registerDropSite(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         if (window == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        XDropTargetEventProcessor.activate();
+        XDropTbrgetEventProcessor.bctivbte();
 
         long toplevel = getToplevelWindow(window);
 
         /*
          * No window with WM_STATE property is found.
-         * Since the window can be a plugin window reparented to the browser
-         * toplevel, we cannot determine which window will eventually have
-         * WM_STATE property set. So we schedule a timer callback that will
-         * periodically attempt to find an ancestor with WM_STATE and
-         * register the drop site appropriately.
+         * Since the window cbn be b plugin window repbrented to the browser
+         * toplevel, we cbnnot determine which window will eventublly hbve
+         * WM_STATE property set. So we schedule b timer cbllbbck thbt will
+         * periodicblly bttempt to find bn bncestor with WM_STATE bnd
+         * register the drop site bppropribtely.
          */
         if (toplevel == 0) {
-            addDelayedRegistrationEntry(window);
+            bddDelbyedRegistrbtionEntry(window);
             return;
         }
 
         if (toplevel == window) {
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol =
-                    dropTargetProtocols.next();
-                dropTargetProtocol.registerDropTarget(toplevel);
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol =
+                    dropTbrgetProtocols.next();
+                dropTbrgetProtocol.registerDropTbrget(toplevel);
             }
         } else {
             registerEmbeddedDropSite(toplevel, window);
@@ -567,114 +567,114 @@ final class XDropTargetRegistry {
     }
 
     /*
-     * Note: this method should be called under AWT lock.
+     * Note: this method should be cblled under AWT lock.
      */
     public void unregisterDropSite(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         if (window == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
         long toplevel = getToplevelWindow(window);
 
         if (toplevel == window) {
-            Iterator<XDropTargetProtocol> dropProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Iterbtor<XDropTbrgetProtocol> dropProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-            removeDelayedRegistrationEntry(window);
+            removeDelbyedRegistrbtionEntry(window);
 
-            while (dropProtocols.hasNext()) {
-                XDropTargetProtocol dropProtocol = dropProtocols.next();
-                dropProtocol.unregisterDropTarget(window);
+            while (dropProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropProtocol = dropProtocols.next();
+                dropProtocol.unregisterDropTbrget(window);
             }
         } else {
             unregisterEmbeddedDropSite(toplevel, window);
         }
     }
 
-    public void registerXEmbedClient(long canvasWindow, long clientWindow) {
-        // If the client has an associated XDnD drop site, add a drop target
-        // to the XEmbedCanvasPeer's target to route drag notifications to the
+    public void registerXEmbedClient(long cbnvbsWindow, long clientWindow) {
+        // If the client hbs bn bssocibted XDnD drop site, bdd b drop tbrget
+        // to the XEmbedCbnvbsPeer's tbrget to route drbg notificbtions to the
         // client.
 
-        XDragSourceProtocol xdndDragProtocol =
-            XDragAndDropProtocols.getDragSourceProtocol(XDragAndDropProtocols.XDnD);
-        XDragSourceProtocol.TargetWindowInfo info =
-            xdndDragProtocol.getTargetWindowInfo(clientWindow);
+        XDrbgSourceProtocol xdndDrbgProtocol =
+            XDrbgAndDropProtocols.getDrbgSourceProtocol(XDrbgAndDropProtocols.XDnD);
+        XDrbgSourceProtocol.TbrgetWindowInfo info =
+            xdndDrbgProtocol.getTbrgetWindowInfo(clientWindow);
         if (info != null &&
-            info.getProtocolVersion() >= XDnDConstants.XDND_MIN_PROTOCOL_VERSION) {
+            info.getProtocolVersion() >= XDnDConstbnts.XDND_MIN_PROTOCOL_VERSION) {
 
-            if (logger.isLoggable(PlatformLogger.Level.FINE)) {
+            if (logger.isLoggbble(PlbtformLogger.Level.FINE)) {
                 logger.fine("        XEmbed drop site will be registered for " + Long.toHexString(clientWindow));
             }
-            registerEmbeddedDropSite(canvasWindow, clientWindow);
+            registerEmbeddedDropSite(cbnvbsWindow, clientWindow);
 
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+                XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                dropTargetProtocol.registerEmbeddedDropSite(clientWindow);
+            while (dropTbrgetProtocols.hbsNext()) {
+                XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+                dropTbrgetProtocol.registerEmbeddedDropSite(clientWindow);
             }
 
-            if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-                logger.fine("        XEmbed drop site has been registered for " + Long.toHexString(clientWindow));
+            if (logger.isLoggbble(PlbtformLogger.Level.FINE)) {
+                logger.fine("        XEmbed drop site hbs been registered for " + Long.toHexString(clientWindow));
             }
         }
     }
 
-    public void unregisterXEmbedClient(long canvasWindow, long clientWindow) {
-        if (logger.isLoggable(PlatformLogger.Level.FINE)) {
+    public void unregisterXEmbedClient(long cbnvbsWindow, long clientWindow) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINE)) {
             logger.fine("        XEmbed drop site will be unregistered for " + Long.toHexString(clientWindow));
         }
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Iterbtor<XDropTbrgetProtocol> dropTbrgetProtocols =
+            XDrbgAndDropProtocols.getDropTbrgetProtocols();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            dropTargetProtocol.unregisterEmbeddedDropSite(clientWindow);
+        while (dropTbrgetProtocols.hbsNext()) {
+            XDropTbrgetProtocol dropTbrgetProtocol = dropTbrgetProtocols.next();
+            dropTbrgetProtocol.unregisterEmbeddedDropSite(clientWindow);
         }
 
-        unregisterEmbeddedDropSite(canvasWindow, clientWindow);
+        unregisterEmbeddedDropSite(cbnvbsWindow, clientWindow);
 
-        if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-            logger.fine("        XEmbed drop site has beed unregistered for " + Long.toHexString(clientWindow));
+        if (logger.isLoggbble(PlbtformLogger.Level.FINE)) {
+            logger.fine("        XEmbed drop site hbs beed unregistered for " + Long.toHexString(clientWindow));
         }
     }
 
-    /**************** Delayed drop site registration *******************************/
+    /**************** Delbyed drop site registrbtion *******************************/
 
-    private void addDelayedRegistrationEntry(final long window) {
-        Long lWindow = Long.valueOf(window);
-        Runnable runnable = new Runnable() {
+    privbte void bddDelbyedRegistrbtionEntry(finbl long window) {
+        Long lWindow = Long.vblueOf(window);
+        Runnbble runnbble = new Runnbble() {
                 public void run() {
-                    removeDelayedRegistrationEntry(window);
+                    removeDelbyedRegistrbtionEntry(window);
                     registerDropSite(window);
                 }
             };
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            removeDelayedRegistrationEntry(window);
-            delayedRegistrationMap.put(lWindow, runnable);
-            XToolkit.schedule(runnable, DELAYED_REGISTRATION_PERIOD);
-        } finally {
-            XToolkit.awtUnlock();
+            removeDelbyedRegistrbtionEntry(window);
+            delbyedRegistrbtionMbp.put(lWindow, runnbble);
+            XToolkit.schedule(runnbble, DELAYED_REGISTRATION_PERIOD);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    private void removeDelayedRegistrationEntry(long window) {
-        Long lWindow = Long.valueOf(window);
+    privbte void removeDelbyedRegistrbtionEntry(long window) {
+        Long lWindow = Long.vblueOf(window);
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            Runnable runnable = delayedRegistrationMap.remove(lWindow);
-            if (runnable != null) {
-                XToolkit.remove(runnable);
+            Runnbble runnbble = delbyedRegistrbtionMbp.remove(lWindow);
+            if (runnbble != null) {
+                XToolkit.remove(runnbble);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
     /*******************************************************************************/

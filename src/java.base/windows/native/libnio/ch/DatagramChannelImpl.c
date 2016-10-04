@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,83 +28,83 @@
 #include "jvm.h"
 #include "jlong.h"
 #include <io.h>
-#include "sun_nio_ch_DatagramChannelImpl.h"
+#include "sun_nio_ch_DbtbgrbmChbnnelImpl.h"
 #include "nio.h"
 #include "nio_util.h"
 #include "net_util.h"
 #include <winsock2.h>
 
-static jfieldID dci_senderID;   /* sender in sun.nio.ch.DatagramChannelImpl */
-static jfieldID dci_senderAddrID; /* sender InetAddress in sun.nio.ch.DatagramChannelImpl */
-static jfieldID dci_senderPortID; /* sender port in sun.nio.ch.DatagramChannelImpl */
-static jclass isa_class;        /* java.net.InetSocketAddress */
-static jmethodID isa_ctorID;    /* java.net.InetSocketAddress(InetAddress, int) */
+stbtic jfieldID dci_senderID;   /* sender in sun.nio.ch.DbtbgrbmChbnnelImpl */
+stbtic jfieldID dci_senderAddrID; /* sender InetAddress in sun.nio.ch.DbtbgrbmChbnnelImpl */
+stbtic jfieldID dci_senderPortID; /* sender port in sun.nio.ch.DbtbgrbmChbnnelImpl */
+stbtic jclbss isb_clbss;        /* jbvb.net.InetSocketAddress */
+stbtic jmethodID isb_ctorID;    /* jbvb.net.InetSocketAddress(InetAddress, int) */
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_DatagramChannelImpl_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_ch_DbtbgrbmChbnnelImpl_initIDs(JNIEnv *env, jclbss clbzz)
 {
-    clazz = (*env)->FindClass(env, "java/net/InetSocketAddress");
-    CHECK_NULL(clazz);
-    isa_class = (*env)->NewGlobalRef(env, clazz);
-    if (isa_class == NULL) {
+    clbzz = (*env)->FindClbss(env, "jbvb/net/InetSocketAddress");
+    CHECK_NULL(clbzz);
+    isb_clbss = (*env)->NewGlobblRef(env, clbzz);
+    if (isb_clbss == NULL) {
         JNU_ThrowOutOfMemoryError(env, NULL);
         return;
     }
-    isa_ctorID = (*env)->GetMethodID(env, clazz, "<init>",
-                                     "(Ljava/net/InetAddress;I)V");
-    CHECK_NULL(isa_ctorID);
+    isb_ctorID = (*env)->GetMethodID(env, clbzz, "<init>",
+                                     "(Ljbvb/net/InetAddress;I)V");
+    CHECK_NULL(isb_ctorID);
 
-    clazz = (*env)->FindClass(env, "sun/nio/ch/DatagramChannelImpl");
-    CHECK_NULL(clazz);
-    dci_senderID = (*env)->GetFieldID(env, clazz, "sender",
-                                      "Ljava/net/SocketAddress;");
+    clbzz = (*env)->FindClbss(env, "sun/nio/ch/DbtbgrbmChbnnelImpl");
+    CHECK_NULL(clbzz);
+    dci_senderID = (*env)->GetFieldID(env, clbzz, "sender",
+                                      "Ljbvb/net/SocketAddress;");
     CHECK_NULL(dci_senderID);
-    dci_senderAddrID = (*env)->GetFieldID(env, clazz,
-                                          "cachedSenderInetAddress",
-                                          "Ljava/net/InetAddress;");
+    dci_senderAddrID = (*env)->GetFieldID(env, clbzz,
+                                          "cbchedSenderInetAddress",
+                                          "Ljbvb/net/InetAddress;");
     CHECK_NULL(dci_senderAddrID);
-    dci_senderPortID = (*env)->GetFieldID(env, clazz,
-                                          "cachedSenderPort", "I");
+    dci_senderPortID = (*env)->GetFieldID(env, clbzz,
+                                          "cbchedSenderPort", "I");
     CHECK_NULL(dci_senderPortID);
 }
 
 /*
- * This function "purges" all outstanding ICMP port unreachable packets
- * outstanding on a socket and returns JNI_TRUE if any ICMP messages
- * have been purged. The rational for purging is to emulate normal BSD
- * behaviour whereby receiving a "connection reset" status resets the
+ * This function "purges" bll outstbnding ICMP port unrebchbble pbckets
+ * outstbnding on b socket bnd returns JNI_TRUE if bny ICMP messbges
+ * hbve been purged. The rbtionbl for purging is to emulbte normbl BSD
+ * behbviour whereby receiving b "connection reset" stbtus resets the
  * socket.
  */
-jboolean purgeOutstandingICMP(JNIEnv *env, jclass clazz, jint fd)
+jboolebn purgeOutstbndingICMP(JNIEnv *env, jclbss clbzz, jint fd)
 {
-    jboolean got_icmp = JNI_FALSE;
-    char buf[1];
+    jboolebn got_icmp = JNI_FALSE;
+    chbr buf[1];
     fd_set tbl;
-    struct timeval t = { 0, 0 };
-    SOCKETADDRESS sa;
-    int addrlen = sizeof(sa);
+    struct timevbl t = { 0, 0 };
+    SOCKETADDRESS sb;
+    int bddrlen = sizeof(sb);
 
     /*
-     * Peek at the queue to see if there is an ICMP port unreachable. If there
+     * Peek bt the queue to see if there is bn ICMP port unrebchbble. If there
      * is then receive it.
      */
     FD_ZERO(&tbl);
     FD_SET((u_int)fd, &tbl);
     while(1) {
         if (select(/*ignored*/fd+1, &tbl, 0, 0, &t) <= 0) {
-            break;
+            brebk;
         }
         if (recvfrom(fd, buf, 1, MSG_PEEK,
-                     (struct sockaddr *)&sa, &addrlen) != SOCKET_ERROR) {
-            break;
+                     (struct sockbddr *)&sb, &bddrlen) != SOCKET_ERROR) {
+            brebk;
         }
-        if (WSAGetLastError() != WSAECONNRESET) {
-            /* some other error - we don't care here */
-            break;
+        if (WSAGetLbstError() != WSAECONNRESET) {
+            /* some other error - we don't cbre here */
+            brebk;
         }
 
-        recvfrom(fd, buf, 1, 0,  (struct sockaddr *)&sa, &addrlen);
+        recvfrom(fd, buf, 1, 0,  (struct sockbddr *)&sb, &bddrlen);
         got_icmp = JNI_TRUE;
     }
 
@@ -112,37 +112,37 @@ jboolean purgeOutstandingICMP(JNIEnv *env, jclass clazz, jint fd)
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_DatagramChannelImpl_disconnect0(JNIEnv *env, jobject this,
-                                                jobject fdo, jboolean isIPv6)
+Jbvb_sun_nio_ch_DbtbgrbmChbnnelImpl_disconnect0(JNIEnv *env, jobject this,
+                                                jobject fdo, jboolebn isIPv6)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(env, fdo);
     int rv = 0;
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    SOCKETADDRESS sb;
+    int sb_len = sizeof(sb);
 
-    memset(&sa, 0, sa_len);
+    memset(&sb, 0, sb_len);
 
-    rv = connect((SOCKET)fd, (struct sockaddr *)&sa, sa_len);
+    rv = connect((SOCKET)fd, (struct sockbddr *)&sb, sb_len);
     if (rv == SOCKET_ERROR) {
-        handleSocketError(env, WSAGetLastError());
+        hbndleSocketError(env, WSAGetLbstError());
     } else {
-        /* Disable WSAECONNRESET errors as socket is no longer connected */
-        BOOL enable = FALSE;
+        /* Disbble WSAECONNRESET errors bs socket is no longer connected */
+        BOOL enbble = FALSE;
         DWORD bytesReturned = 0;
-        WSAIoctl((SOCKET)fd, SIO_UDP_CONNRESET, &enable, sizeof(enable),
+        WSAIoctl((SOCKET)fd, SIO_UDP_CONNRESET, &enbble, sizeof(enbble),
                  NULL, 0, &bytesReturned, NULL, NULL);
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_DatagramChannelImpl_receive0(JNIEnv *env, jobject this,
-                                            jobject fdo, jlong address,
-                                            jint len, jboolean connected)
+Jbvb_sun_nio_ch_DbtbgrbmChbnnelImpl_receive0(JNIEnv *env, jobject this,
+                                            jobject fdo, jlong bddress,
+                                            jint len, jboolebn connected)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
+    SOCKETADDRESS sb;
+    int sb_len = sizeof(sb);
     BOOL retry = FALSE;
     jint n;
     jobject senderAddr;
@@ -150,81 +150,81 @@ Java_sun_nio_ch_DatagramChannelImpl_receive0(JNIEnv *env, jobject this,
     do {
         retry = FALSE;
         n = recvfrom((SOCKET)fd,
-                     (char *)buf,
+                     (chbr *)buf,
                      len,
                      0,
-                     (struct sockaddr *)&sa,
-                     &sa_len);
+                     (struct sockbddr *)&sb,
+                     &sb_len);
 
         if (n == SOCKET_ERROR) {
-            int theErr = (jint)WSAGetLastError();
+            int theErr = (jint)WSAGetLbstError();
             if (theErr == WSAEMSGSIZE) {
-                /* Spec says the rest of the data will be discarded... */
+                /* Spec sbys the rest of the dbtb will be discbrded... */
                 n = len;
             } else if (theErr == WSAECONNRESET) {
-                purgeOutstandingICMP(env, this, fd);
+                purgeOutstbndingICMP(env, this, fd);
                 if (connected == JNI_FALSE) {
                     retry = TRUE;
                 } else {
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException", 0);
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "PortUnrebchbbleException", 0);
                     return IOS_THROWN;
                 }
             } else if (theErr == WSAEWOULDBLOCK) {
                 return IOS_UNAVAILABLE;
-            } else return handleSocketError(env, theErr);
+            } else return hbndleSocketError(env, theErr);
         }
     } while (retry);
 
     /*
-     * If the source address and port match the cached address
-     * and port in DatagramChannelImpl then we don't need to
-     * create InetAddress and InetSocketAddress objects.
+     * If the source bddress bnd port mbtch the cbched bddress
+     * bnd port in DbtbgrbmChbnnelImpl then we don't need to
+     * crebte InetAddress bnd InetSocketAddress objects.
      */
     senderAddr = (*env)->GetObjectField(env, this, dci_senderAddrID);
     if (senderAddr != NULL) {
-        if (!NET_SockaddrEqualsInetAddress(env, (struct sockaddr *)&sa,
+        if (!NET_SockbddrEqublsInetAddress(env, (struct sockbddr *)&sb,
                                            senderAddr)) {
             senderAddr = NULL;
         } else {
             jint port = (*env)->GetIntField(env, this, dci_senderPortID);
-            if (port != NET_GetPortFromSockaddr((struct sockaddr *)&sa)) {
+            if (port != NET_GetPortFromSockbddr((struct sockbddr *)&sb)) {
                 senderAddr = NULL;
             }
         }
     }
     if (senderAddr == NULL) {
-        jobject isa = NULL;
+        jobject isb = NULL;
         int port;
-        jobject ia = NET_SockaddrToInetAddress(env, (struct sockaddr *)&sa, &port);
-        if (ia != NULL) {
-            isa = (*env)->NewObject(env, isa_class, isa_ctorID, ia, port);
+        jobject ib = NET_SockbddrToInetAddress(env, (struct sockbddr *)&sb, &port);
+        if (ib != NULL) {
+            isb = (*env)->NewObject(env, isb_clbss, isb_ctorID, ib, port);
         }
-        CHECK_NULL_RETURN(isa, IOS_THROWN);
+        CHECK_NULL_RETURN(isb, IOS_THROWN);
 
-        // update cachedSenderInetAddress/cachedSenderPort
-        (*env)->SetObjectField(env, this, dci_senderAddrID, ia);
+        // updbte cbchedSenderInetAddress/cbchedSenderPort
+        (*env)->SetObjectField(env, this, dci_senderAddrID, ib);
         (*env)->SetIntField(env, this, dci_senderPortID,
-                            NET_GetPortFromSockaddr((struct sockaddr *)&sa));
-        (*env)->SetObjectField(env, this, dci_senderID, isa);
+                            NET_GetPortFromSockbddr((struct sockbddr *)&sb));
+        (*env)->SetObjectField(env, this, dci_senderID, isb);
     }
     return n;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_DatagramChannelImpl_send0(JNIEnv *env, jobject this,
-                                          jboolean preferIPv6, jobject fdo,
-                                          jlong address, jint len,
+Jbvb_sun_nio_ch_DbtbgrbmChbnnelImpl_send0(JNIEnv *env, jobject this,
+                                          jboolebn preferIPv6, jobject fdo,
+                                          jlong bddress, jint len,
                                           jobject destAddress, jint destPort)
 {
-    jint fd = fdval(env, fdo);
-    void *buf = (void *)jlong_to_ptr(address);
-    SOCKETADDRESS sa;
-    int sa_len;
+    jint fd = fdvbl(env, fdo);
+    void *buf = (void *)jlong_to_ptr(bddress);
+    SOCKETADDRESS sb;
+    int sb_len;
     jint rv = 0;
 
-    if (NET_InetAddressToSockaddr(env, destAddress, destPort,
-                                  (struct sockaddr *)&sa,
-                                   &sa_len, preferIPv6) != 0) {
+    if (NET_InetAddressToSockbddr(env, destAddress, destPort,
+                                  (struct sockbddr *)&sb,
+                                   &sb_len, preferIPv6) != 0) {
       return IOS_THROWN;
     }
 
@@ -232,14 +232,14 @@ Java_sun_nio_ch_DatagramChannelImpl_send0(JNIEnv *env, jobject this,
                buf,
                len,
                0,
-               (struct sockaddr *)&sa,
-               sa_len);
+               (struct sockbddr *)&sb,
+               sb_len);
     if (rv == SOCKET_ERROR) {
-        int theErr = (jint)WSAGetLastError();
+        int theErr = (jint)WSAGetLbstError();
         if (theErr == WSAEWOULDBLOCK) {
             return IOS_UNAVAILABLE;
         }
-        return handleSocketError(env, (jint)WSAGetLastError());
+        return hbndleSocketError(env, (jint)WSAGetLbstError());
     }
     return rv;
 }

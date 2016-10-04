@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2002, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.motif;
+pbckbge sun.bwt.motif;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CharsetDecoder;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.ChbrsetDecoder;
 import sun.nio.cs.ext.DoubleByteEncoder;
 
-public class X11Johab extends Charset {
-    public X11Johab () {
-        super("X11Johab", null);
+public clbss X11Johbb extends Chbrset {
+    public X11Johbb () {
+        super("X11Johbb", null);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    public CharsetDecoder newDecoder() {
-        throw new Error("Decoder is not supported by X11Johab Charset");
+    public ChbrsetDecoder newDecoder() {
+        throw new Error("Decoder is not supported by X11Johbb Chbrset");
     }
 
-    public boolean contains(Charset cs) {
-        return cs instanceof X11GB18030_1;
+    public boolebn contbins(Chbrset cs) {
+        return cs instbnceof X11GB18030_1;
     }
 
-    private static class Encoder extends DoubleByteEncoder {
-        public Encoder(Charset cs) {
+    privbte stbtic clbss Encoder extends DoubleByteEncoder {
+        public Encoder(Chbrset cs) {
             super(cs, index1, index2);
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
+        public boolebn isLegblReplbcement(byte[] repl) {
             return true;
         }
 
-        private final static String innerIndex0=
+        privbte finbl stbtic String innerIndex0=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
@@ -570,7 +570,7 @@ public class X11Johab extends Charset {
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-        private final static String innerIndex1=
+        privbte finbl stbtic String innerIndex1=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
@@ -1084,7 +1084,7 @@ public class X11Johab extends Charset {
             "\uE978\u0000\u0000\u0000\uF866\u0000\uE4F6\u0000"+
             "\u0000\u0000\u0000\uF3DA\u0000\uF894\u0000\u0000";
 
-        private final static String innerIndex2=
+        privbte finbl stbtic String innerIndex2=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\uEC9F"+
             "\u0000\u0000\u0000\u0000\u0000\uE5CF\uE39A\u0000"+
             "\u0000\uE1DF\u0000\u0000\uF5CB\u0000\uED92\uE0AB"+
@@ -1598,7 +1598,7 @@ public class X11Johab extends Charset {
             "\uF6C1\u0000\u0000\uEEB6\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-        private final static String innerIndex3=
+        privbte finbl stbtic String innerIndex3=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\uEDC7\uE63C\u0000\u0000\u0000"+
             "\u0000\uE957\u0000\u0000\u0000\u0000\u0000\uEBA9"+
@@ -2112,7 +2112,7 @@ public class X11Johab extends Charset {
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\uE1A7\u0000\u0000\uE33C\u0000";
 
-        private final static String innerIndex4=
+        privbte finbl stbtic String innerIndex4=
             "\uE3BA\u0000\uF3C4\u0000\uEDB3\uF8F5\uEFE1\uF9E0"+
             "\uF94C\u0000\uE832\uE833\u0000\uE431\u0000\u0000"+
             "\uE491\u0000\u0000\u0000\uEC7D\u0000\u0000\uEA79"+
@@ -2626,7 +2626,7 @@ public class X11Johab extends Charset {
             "\u0000\u0000\u0000\u0000\uE695\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\uE9B8\uE2C5\uEADF\u0000\u0000";
 
-        private final static String innerIndex5=
+        privbte finbl stbtic String innerIndex5=
             "\u0000\u0000\u0000\u0000\uF44E\uF631\u0000\uF0CB"+
             "\uF3FC\u0000\uF4C7\u0000\u0000\uEB7B\u0000\u0000"+
             "\u0000\u0000\u0000\uF1FC\u0000\u0000\uEBDB\u0000"+
@@ -3140,7 +3140,7 @@ public class X11Johab extends Charset {
             "\u0000\u0000\u0000\uE995\uE7B0\u0000\uEE79\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-        private final static String innerIndex6=
+        privbte finbl stbtic String innerIndex6=
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\uED4C\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
@@ -3654,7 +3654,7 @@ public class X11Johab extends Charset {
             "\u9E89\u9E8A\u9E8B\u9E8C\u9E8D\u9E8E\u9E8F\u9E90"+
             "\u9E91\u9E93\u9E94\u9E95\u9E96\u9E97\u9E98\u9E99";
 
-        private final static String innerIndex7=
+        privbte finbl stbtic String innerIndex7=
             "\u9E9A\u9E9B\u9E9C\u9E9D\u9EA1\u9EA2\u9EA3\u9EA4"+
             "\u9EA5\u9EA6\u9EA7\u9EA8\u9EA9\u9EAA\u9EAB\u9EAC"+
             "\u9EAD\u9EAE\u9EAF\u9EB0\u9EB1\u9EB3\u9EB4\u9EB5"+
@@ -4168,7 +4168,7 @@ public class X11Johab extends Charset {
             "\uBA71\uBA73\uBA74\uBA75\uBA76\uBA77\uBA78\uBA79"+
             "\uBA7A\uBA7B\uBA7C\uBA7D\uBA81\uBA82\uBA83\uBA84";
 
-        private final static String innerIndex8=
+        privbte finbl stbtic String innerIndex8=
             "\uBA85\uBA86\uBA87\uBA88\uBA89\uBA8A\uBA8B\uBA8C"+
             "\uBA8D\uBA8E\uBA8F\uBA90\uBA91\uBA93\uBA94\uBA95"+
             "\uBA96\uBA97\uBA98\uBA99\uBA9A\uBA9B\uBA9C\uBA9D"+
@@ -4682,7 +4682,7 @@ public class X11Johab extends Charset {
             "\uF171\uF174\uF177\uF178\uF199\uF19A\uF19C\uF1A1"+
             "\uF1A2\uF1A3\uF1EE\uF26B\uF44D\uF49C\uF4B1\uF537";
 
-        private final static String innerIndex9=
+        privbte finbl stbtic String innerIndex9=
             "\uF57E\uF696\uF698\uF6B8\uF6C8\uF6D3\uF76B\uF792"+
             "\uF831\uF832\uF876\uF939\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
@@ -4748,7 +4748,7 @@ public class X11Johab extends Charset {
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"+
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000";
 
-        private final static short index1[] = {
+        privbte finbl stbtic short index1[] = {
             1, 2, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             6, 7, 8, 9, 10, 11, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -4767,7 +4767,7 @@ public class X11Johab extends Charset {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 144, 0, 0, 0, 0, 145
         };
 
-        private static String index2[] = {
+        privbte stbtic String index2[] = {
             innerIndex0,
             innerIndex1,
             innerIndex2,

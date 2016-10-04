@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import jbvb.io.Seriblizbble;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
 
 // jmx imports
 //
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdObjectServer;
 
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
+import jbvb.lbng.mbnbgement.GbrbbgeCollectorMXBebn;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
 
-import sun.management.snmp.jvmmib.JvmMemGCTableMeta;
-import sun.management.snmp.util.SnmpCachedData;
-import sun.management.snmp.util.SnmpTableCache;
-import sun.management.snmp.util.SnmpTableHandler;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmMemGCTbbleMetb;
+import sun.mbnbgement.snmp.util.SnmpCbchedDbtb;
+import sun.mbnbgement.snmp.util.SnmpTbbleCbche;
+import sun.mbnbgement.snmp.util.SnmpTbbleHbndler;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmMemGCTable" table.
+ * The clbss is used for implementing the "JvmMemGCTbble" tbble.
  */
-public class JvmMemGCTableMetaImpl extends  JvmMemGCTableMeta {
+public clbss JvmMemGCTbbleMetbImpl extends  JvmMemGCTbbleMetb {
 
-    static final long serialVersionUID = 8250461197108867607L;
+    stbtic finbl long seriblVersionUID = 8250461197108867607L;
 
     /**
-     * This class acts as a filter over the SnmpTableHandler
-     * used for the JvmMemoryManagerTable. It filters out
-     * (skip) all MemoryManagerMXBean that are not instances of
-     * GarbageCollectorMXBean so that only Garbage Collectors are
-     * seen. This is a better solution than relying on
-     * ManagementFactory.getGarbageCollectorMXBeans() because it makes it
-     * possible to guarantee the consistency betwen the MemoryManager table
-     * and the GCTable since both will be sharing the same cache.
+     * This clbss bcts bs b filter over the SnmpTbbleHbndler
+     * used for the JvmMemoryMbnbgerTbble. It filters out
+     * (skip) bll MemoryMbnbgerMXBebn thbt bre not instbnces of
+     * GbrbbgeCollectorMXBebn so thbt only Gbrbbge Collectors bre
+     * seen. This is b better solution thbn relying on
+     * MbnbgementFbctory.getGbrbbgeCollectorMXBebns() becbuse it mbkes it
+     * possible to gubrbntee the consistency betwen the MemoryMbnbger tbble
+     * bnd the GCTbble since both will be shbring the sbme cbche.
      **/
-    protected static class GCTableFilter {
+    protected stbtic clbss GCTbbleFilter {
 
         /**
-         * Returns the index that immediately follows the given
-         * <var>index</var>. The returned index is strictly greater
-         * than the given <var>index</var>, and is contained in the table.
-         * <br>If the given <var>index</var> is null, returns the first
-         * index in the table.
-         * <br>If there are no index after the given <var>index</var>,
+         * Returns the index thbt immedibtely follows the given
+         * <vbr>index</vbr>. The returned index is strictly grebter
+         * thbn the given <vbr>index</vbr>, bnd is contbined in the tbble.
+         * <br>If the given <vbr>index</vbr> is null, returns the first
+         * index in the tbble.
+         * <br>If there bre no index bfter the given <vbr>index</vbr>,
          * returns null.
-         * This method is an optimization for the case where the
-         * SnmpTableHandler is in fact an instance of SnmpCachedData.
+         * This method is bn optimizbtion for the cbse where the
+         * SnmpTbbleHbndler is in fbct bn instbnce of SnmpCbchedDbtb.
          **/
-        public SnmpOid getNext(SnmpCachedData datas, SnmpOid index) {
+        public SnmpOid getNext(SnmpCbchedDbtb dbtbs, SnmpOid index) {
 
-            final boolean dbg = log.isDebugOn();
+            finbl boolebn dbg = log.isDebugOn();
 
-            // We're going to loop until we find an instance of
-            // GarbageCollectorMXBean. First we attempt to find
+            // We're going to loop until we find bn instbnce of
+            // GbrbbgeCollectorMXBebn. First we bttempt to find
             // the next element whose OID follows the given index.
             // If `index' is null, the insertion point is -1
             // (the next is 0 = -insertion - 1)
             //
-            final int insertion = (index==null)?-1:datas.find(index);
-            if (dbg) log.debug("GCTableFilter","oid="+index+
-                               " at insertion="+insertion);
+            finbl int insertion = (index==null)?-1:dbtbs.find(index);
+            if (dbg) log.debug("GCTbbleFilter","oid="+index+
+                               " bt insertion="+insertion);
 
             int next;
             if (insertion > -1) next = insertion+1;
             else next = -insertion -1;
 
-            // Now `next' points to the element that imediately
+            // Now `next' points to the element thbt imedibtely
             // follows the given `index'. We're going to loop
-            // through the table, starting at `next' (included),
-            // and return the first element which is an instance
-            // of GarbageCollectorMXBean.
+            // through the tbble, stbrting bt `next' (included),
+            // bnd return the first element which is bn instbnce
+            // of GbrbbgeCollectorMXBebn.
             //
-            for (;next<datas.indexes.length;next++) {
-                if (dbg) log.debug("GCTableFilter","next="+next);
-                final Object value = datas.datas[next];
-                if (dbg) log.debug("GCTableFilter","value["+next+"]=" +
-                      ((MemoryManagerMXBean)value).getName());
-                if (value instanceof GarbageCollectorMXBean) {
-                    // That's the next: return it.
-                    if (dbg) log.debug("GCTableFilter",
-                          ((MemoryManagerMXBean)value).getName() +
-                          " is a  GarbageCollectorMXBean.");
-                    return datas.indexes[next];
+            for (;next<dbtbs.indexes.length;next++) {
+                if (dbg) log.debug("GCTbbleFilter","next="+next);
+                finbl Object vblue = dbtbs.dbtbs[next];
+                if (dbg) log.debug("GCTbbleFilter","vblue["+next+"]=" +
+                      ((MemoryMbnbgerMXBebn)vblue).getNbme());
+                if (vblue instbnceof GbrbbgeCollectorMXBebn) {
+                    // Thbt's the next: return it.
+                    if (dbg) log.debug("GCTbbleFilter",
+                          ((MemoryMbnbgerMXBebn)vblue).getNbme() +
+                          " is b  GbrbbgeCollectorMXBebn.");
+                    return dbtbs.indexes[next];
                 }
-                if (dbg) log.debug("GCTableFilter",
-                      ((MemoryManagerMXBean)value).getName() +
-                      " is not a  GarbageCollectorMXBean: " +
-                      value.getClass().getName());
+                if (dbg) log.debug("GCTbbleFilter",
+                      ((MemoryMbnbgerMXBebn)vblue).getNbme() +
+                      " is not b  GbrbbgeCollectorMXBebn: " +
+                      vblue.getClbss().getNbme());
                 // skip to next index...
             }
             return null;
         }
 
         /**
-         * Returns the index that immediately follows the given
-         * <var>index</var>. The returned index is strictly greater
-         * than the given <var>index</var>, and is contained in the table.
-         * <br>If the given <var>index</var> is null, returns the first
-         * index in the table.
-         * <br>If there are no index after the given <var>index</var>,
+         * Returns the index thbt immedibtely follows the given
+         * <vbr>index</vbr>. The returned index is strictly grebter
+         * thbn the given <vbr>index</vbr>, bnd is contbined in the tbble.
+         * <br>If the given <vbr>index</vbr> is null, returns the first
+         * index in the tbble.
+         * <br>If there bre no index bfter the given <vbr>index</vbr>,
          * returns null.
          **/
-        public SnmpOid getNext(SnmpTableHandler handler, SnmpOid index) {
+        public SnmpOid getNext(SnmpTbbleHbndler hbndler, SnmpOid index) {
 
-            // try to call the optimized method
-            if (handler instanceof SnmpCachedData)
-                return getNext((SnmpCachedData)handler, index);
+            // try to cbll the optimized method
+            if (hbndler instbnceof SnmpCbchedDbtb)
+                return getNext((SnmpCbchedDbtb)hbndler, index);
 
-            // too bad - revert to non-optimized generic algorithm
+            // too bbd - revert to non-optimized generic blgorithm
             SnmpOid next = index;
             do {
-                next = handler.getNext(next);
-                final Object value = handler.getData(next);
-                if (value instanceof GarbageCollectorMXBean)
-                    // That's the next! return it
+                next = hbndler.getNext(next);
+                finbl Object vblue = hbndler.getDbtb(next);
+                if (vblue instbnceof GbrbbgeCollectorMXBebn)
+                    // Thbt's the next! return it
                     return next;
                 // skip to next index...
             } while (next != null);
@@ -157,104 +157,104 @@ public class JvmMemGCTableMetaImpl extends  JvmMemGCTableMeta {
         }
 
         /**
-         * Returns the data associated with the given index.
+         * Returns the dbtb bssocibted with the given index.
          * If the given index is not found, null is returned.
-         * Note that returning null does not necessarily means that
-         * the index was not found.
+         * Note thbt returning null does not necessbrily mebns thbt
+         * the index wbs not found.
          **/
-        public Object  getData(SnmpTableHandler handler, SnmpOid index) {
-            final Object value = handler.getData(index);
-            if (value instanceof GarbageCollectorMXBean) return value;
-            // Behaves as if there was nothing at this index...
+        public Object  getDbtb(SnmpTbbleHbndler hbndler, SnmpOid index) {
+            finbl Object vblue = hbndler.getDbtb(index);
+            if (vblue instbnceof GbrbbgeCollectorMXBebn) return vblue;
+            // Behbves bs if there wbs nothing bt this index...
             //
             return null;
         }
 
         /**
-         * Returns true if the given <var>index</var> is present.
+         * Returns true if the given <vbr>index</vbr> is present.
          **/
-        public boolean contains(SnmpTableHandler handler, SnmpOid index) {
-            if (handler.getData(index) instanceof GarbageCollectorMXBean)
+        public boolebn contbins(SnmpTbbleHbndler hbndler, SnmpOid index) {
+            if (hbndler.getDbtb(index) instbnceof GbrbbgeCollectorMXBebn)
                 return true;
-            // Behaves as if there was nothing at this index...
+            // Behbves bs if there wbs nothing bt this index...
             //
-            return false;
+            return fblse;
         }
     }
 
 
-    private transient JvmMemManagerTableMetaImpl managers = null;
-    private static GCTableFilter filter = new GCTableFilter();
+    privbte trbnsient JvmMemMbnbgerTbbleMetbImpl mbnbgers = null;
+    privbte stbtic GCTbbleFilter filter = new GCTbbleFilter();
 
 
     /**
-     * Constructor for the table. Initialize metadata for "JvmMemGCTableMeta".
+     * Constructor for the tbble. Initiblize metbdbtb for "JvmMemGCTbbleMetb".
      */
-    public JvmMemGCTableMetaImpl(SnmpMib myMib,
-                                 SnmpStandardObjectServer objserv) {
+    public JvmMemGCTbbleMetbImpl(SnmpMib myMib,
+                                 SnmpStbndbrdObjectServer objserv) {
         super(myMib,objserv);
     }
 
-    // Returns a pointer to the JvmMemManager meta node - we're going
-    // to reuse its SnmpTableHandler by filtering out all that is
-    // not a GarbageCollectorMXBean.
-    private final JvmMemManagerTableMetaImpl getManagers(SnmpMib mib) {
-        if (managers == null) {
-            managers = (JvmMemManagerTableMetaImpl)
-                mib.getRegisteredTableMeta("JvmMemManagerTable");
+    // Returns b pointer to the JvmMemMbnbger metb node - we're going
+    // to reuse its SnmpTbbleHbndler by filtering out bll thbt is
+    // not b GbrbbgeCollectorMXBebn.
+    privbte finbl JvmMemMbnbgerTbbleMetbImpl getMbnbgers(SnmpMib mib) {
+        if (mbnbgers == null) {
+            mbnbgers = (JvmMemMbnbgerTbbleMetbImpl)
+                mib.getRegisteredTbbleMetb("JvmMemMbnbgerTbble");
         }
-        return managers;
+        return mbnbgers;
     }
 
     /**
-     * Returns the JvmMemManagerTable SnmpTableHandler
+     * Returns the JvmMemMbnbgerTbble SnmpTbbleHbndler
      **/
-    protected SnmpTableHandler getHandler(Object userData) {
-        JvmMemManagerTableMetaImpl managerTable= getManagers(theMib);
-        return managerTable.getHandler(userData);
+    protected SnmpTbbleHbndler getHbndler(Object userDbtb) {
+        JvmMemMbnbgerTbbleMetbImpl mbnbgerTbble= getMbnbgers(theMib);
+        return mbnbgerTbble.getHbndler(userDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
-        // null means get the first OID.
-        return getNextOid(null,userData);
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(Object userDbtb)
+        throws SnmpStbtusException {
+        // null mebns get the first OID.
+        return getNextOid(null,userDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
-        final boolean dbg = log.isDebugOn();
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(SnmpOid oid, Object userDbtb)
+        throws SnmpStbtusException {
+        finbl boolebn dbg = log.isDebugOn();
         try {
             if (dbg) log.debug("getNextOid", "previous=" + oid);
 
-            // Get the data handler.
+            // Get the dbtb hbndler.
             //
-            SnmpTableHandler handler = getHandler(userData);
-            if (handler == null) {
-                // This should never happen.
-                // If we get here it's a bug.
+            SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
+            if (hbndler == null) {
+                // This should never hbppen.
+                // If we get here it's b bug.
                 //
-                if (dbg) log.debug("getNextOid", "handler is null!");
+                if (dbg) log.debug("getNextOid", "hbndler is null!");
                 throw new
-                    SnmpStatusException(SnmpStatusException.noSuchInstance);
+                    SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
             }
 
 
             // Get the next oid, using the GC filter.
             //
-            final SnmpOid next = filter.getNext(handler,oid);
+            finbl SnmpOid next = filter.getNext(hbndler,oid);
             if (dbg) log.debug("getNextOid", "next=" + next);
 
-            // if next is null: we reached the end of the table.
+            // if next is null: we rebched the end of the tbble.
             //
             if (next == null)
                 throw new
-                    SnmpStatusException(SnmpStatusException.noSuchInstance);
+                    SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
             return next;
-        } catch (RuntimeException x) {
-            // debug. This should never happen.
+        } cbtch (RuntimeException x) {
+            // debug. This should never hbppen.
             //
             if (dbg) log.debug("getNextOid",x);
             throw x;
@@ -262,101 +262,101 @@ public class JvmMemGCTableMetaImpl extends  JvmMemGCTableMeta {
     }
 
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected boolean contains(SnmpOid oid, Object userData) {
-        // Get the handler.
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected boolebn contbins(SnmpOid oid, Object userDbtb) {
+        // Get the hbndler.
         //
-        SnmpTableHandler handler = getHandler(userData);
+        SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            return false;
-        return filter.contains(handler,oid);
+        if (hbndler == null)
+            return fblse;
+        return filter.contbins(hbndler,oid);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
     public Object getEntry(SnmpOid oid)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
         if (oid == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Get the request contextual cache (userData).
+        // Get the request contextubl cbche (userDbtb).
         //
-        final Map<Object, Object> m = JvmContextFactory.getUserData();
+        finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
-        // First look in the request contextual cache: maybe we've already
-        // created this entry...
+        // First look in the request contextubl cbche: mbybe we've blrebdy
+        // crebted this entry...
         //
 
-        // We know in the case of this table that the index is an integer,
-        // it is thus the first OID arc of the index OID.
+        // We know in the cbse of this tbble thbt the index is bn integer,
+        // it is thus the first OID brc of the index OID.
         //
-        final long   index    = oid.getOidArc(0);
+        finbl long   index    = oid.getOidArc(0);
 
-        // We're going to use this name to store/retrieve the entry in
-        // the request contextual cache.
+        // We're going to use this nbme to store/retrieve the entry in
+        // the request contextubl cbche.
         //
-        // Revisit: Probably better programming to put all these strings
-        //          in some interface.
+        // Revisit: Probbbly better progrbmming to put bll these strings
+        //          in some interfbce.
         //
-        final String entryTag = ((m==null)?null:("JvmMemGCTable.entry." +
+        finbl String entryTbg = ((m==null)?null:("JvmMemGCTbble.entry." +
                                                  index));
 
-        // If the entry is in the cache, simply return it.
+        // If the entry is in the cbche, simply return it.
         //
         if (m != null) {
-            final Object entry = m.get(entryTag);
+            finbl Object entry = m.get(entryTbg);
             if (entry != null) return entry;
         }
 
-        // Entry was not in request cache. Make a new one.
+        // Entry wbs not in request cbche. Mbke b new one.
         //
-        // Get the data hanler.
+        // Get the dbtb hbnler.
         //
-        SnmpTableHandler handler = getHandler(m);
+        SnmpTbbleHbndler hbndler = getHbndler(m);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (hbndler == null)
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Use the filter to retrieve only GarabageCollectorMBean data.
+        // Use the filter to retrieve only GbrbbbgeCollectorMBebn dbtb.
         //
-        final Object data = filter.getData(handler,oid);
+        finbl Object dbtb = filter.getDbtb(hbndler,oid);
 
-        // data may be null if the OID we were given is not valid.
-        // (e.g. it identifies a MemoryManager which is not a
-        // GarbageCollector)
+        // dbtb mby be null if the OID we were given is not vblid.
+        // (e.g. it identifies b MemoryMbnbger which is not b
+        // GbrbbgeCollector)
         //
-        if (data == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (dbtb == null)
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Make a new entryy (transient object that will be kept only
-        // for the duration of the request.
+        // Mbke b new entryy (trbnsient object thbt will be kept only
+        // for the durbtion of the request.
         //
-        final Object entry =
-            new JvmMemGCEntryImpl((GarbageCollectorMXBean)data,(int)index);
+        finbl Object entry =
+            new JvmMemGCEntryImpl((GbrbbgeCollectorMXBebn)dbtb,(int)index);
 
-        // Put the entry in the request cache in case we need it later
-        // in the processing of the request. Note that we could have
-        // optimized this by making JvmMemGCEntryImpl extend
-        // JvmMemManagerEntryImpl, and then make sure that
-        // JvmMemManagerTableMetaImpl creates an instance of JvmMemGCEntryImpl
-        // instead of JvmMemManagerEntryImpl when the associated data is
-        // an instance of GarbageCollectorMXBean. This would have made it
-        // possible to share the transient entry object.
-        // As it is, we may have two transient objects that points to
-        // the same underlying MemoryManagerMXBean (which is definitely
-        // not a problem - but is only a small dysatisfaction)
+        // Put the entry in the request cbche in cbse we need it lbter
+        // in the processing of the request. Note thbt we could hbve
+        // optimized this by mbking JvmMemGCEntryImpl extend
+        // JvmMemMbnbgerEntryImpl, bnd then mbke sure thbt
+        // JvmMemMbnbgerTbbleMetbImpl crebtes bn instbnce of JvmMemGCEntryImpl
+        // instebd of JvmMemMbnbgerEntryImpl when the bssocibted dbtb is
+        // bn instbnce of GbrbbgeCollectorMXBebn. This would hbve mbde it
+        // possible to shbre the trbnsient entry object.
+        // As it is, we mby hbve two trbnsient objects thbt points to
+        // the sbme underlying MemoryMbnbgerMXBebn (which is definitely
+        // not b problem - but is only b smbll dysbtisfbction)
         //
         if (m != null && entry != null) {
-            m.put(entryTag,entry);
+            m.put(entryTbg,entry);
         }
 
         return entry;
     }
 
-    static final MibLogger log = new MibLogger(JvmMemGCTableMetaImpl.class);
+    stbtic finbl MibLogger log = new MibLogger(JvmMemGCTbbleMetbImpl.clbss);
 }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef HEADLESS
-    #error This file should not be included in headless library
+    #error This file should not be included in hebdless librbry
 #endif
 
-#include "awt_p.h"
-#include "java_awt_Component.h"
+#include "bwt_p.h"
+#include "jbvb_bwt_Component.h"
 
-#include "awt_Component.h"
+#include "bwt_Component.h"
 
 #include <jni.h>
 #include <jni_util.h>
-#include <jawt_md.h>
+#include <jbwt_md.h>
 
 extern struct ComponentIDs componentIDs;
 
-#include "awt_GraphicsEnv.h"
+#include "bwt_GrbphicsEnv.h"
 extern jfieldID windowID;
-extern jfieldID targetID;
-extern jfieldID graphicsConfigID;
-extern jfieldID drawStateID;
-extern struct X11GraphicsConfigIDs x11GraphicsConfigIDs;
+extern jfieldID tbrgetID;
+extern jfieldID grbphicsConfigID;
+extern jfieldID drbwStbteID;
+extern struct X11GrbphicsConfigIDs x11GrbphicsConfigIDs;
 
 /*
- * Lock the surface of the target component for native rendering.
- * When finished drawing, the surface must be unlocked with
- * Unlock().  This function returns a bitmask with one or more of the
- * following values:
+ * Lock the surfbce of the tbrget component for nbtive rendering.
+ * When finished drbwing, the surfbce must be unlocked with
+ * Unlock().  This function returns b bitmbsk with one or more of the
+ * following vblues:
  *
- * JAWT_LOCK_ERROR - When an error has occurred and the surface could not
+ * JAWT_LOCK_ERROR - When bn error hbs occurred bnd the surfbce could not
  * be locked.
  *
- * JAWT_LOCK_CLIP_CHANGED - When the clip region has changed.
+ * JAWT_LOCK_CLIP_CHANGED - When the clip region hbs chbnged.
  *
- * JAWT_LOCK_BOUNDS_CHANGED - When the bounds of the surface have changed.
+ * JAWT_LOCK_BOUNDS_CHANGED - When the bounds of the surfbce hbve chbnged.
  *
- * JAWT_LOCK_SURFACE_CHANGED - When the surface itself has changed
+ * JAWT_LOCK_SURFACE_CHANGED - When the surfbce itself hbs chbnged
  */
-JNIEXPORT jint JNICALL awt_DrawingSurface_Lock(JAWT_DrawingSurface* ds)
+JNIEXPORT jint JNICALL bwt_DrbwingSurfbce_Lock(JAWT_DrbwingSurfbce* ds)
 {
     JNIEnv* env;
-    jobject target, peer;
-    jclass componentClass;
-    jint drawState;
+    jobject tbrget, peer;
+    jclbss componentClbss;
+    jint drbwStbte;
 
     if (ds == NULL) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce is NULL\n");
 #endif
         return (jint)JAWT_LOCK_ERROR;
     }
     env = ds->env;
-    target = ds->target;
+    tbrget = ds->tbrget;
 
-    /* Make sure the target is a java.awt.Component */
-    componentClass = (*env)->FindClass(env, "java/awt/Component");
-    CHECK_NULL_RETURN(componentClass, (jint)JAWT_LOCK_ERROR);
+    /* Mbke sure the tbrget is b jbvb.bwt.Component */
+    componentClbss = (*env)->FindClbss(env, "jbvb/bwt/Component");
+    CHECK_NULL_RETURN(componentClbss, (jint)JAWT_LOCK_ERROR);
 
-    if (!(*env)->IsInstanceOf(env, target, componentClass)) {
+    if (!(*env)->IsInstbnceOf(env, tbrget, componentClbss)) {
 #ifdef DEBUG
-            fprintf(stderr, "Target is not a component\n");
+            fprintf(stderr, "Tbrget is not b component\n");
 #endif
         return (jint)JAWT_LOCK_ERROR;
         }
 
-    if (!awtLockInited) {
+    if (!bwtLockInited) {
         return (jint)JAWT_LOCK_ERROR;
     }
     AWT_LOCK();
 
-    /* Get the peer of the target component */
-    peer = (*env)->GetObjectField(env, target, componentIDs.peer);
+    /* Get the peer of the tbrget component */
+    peer = (*env)->GetObjectField(env, tbrget, componentIDs.peer);
     if (JNU_IsNull(env, peer)) {
 #ifdef DEBUG
         fprintf(stderr, "Component peer is NULL\n");
@@ -102,49 +102,49 @@ JNIEXPORT jint JNICALL awt_DrawingSurface_Lock(JAWT_DrawingSurface* ds)
         return (jint)JAWT_LOCK_ERROR;
     }
 
-   drawState = (*env)->GetIntField(env, peer, drawStateID);
-    (*env)->SetIntField(env, peer, drawStateID, 0);
-    return drawState;
+   drbwStbte = (*env)->GetIntField(env, peer, drbwStbteID);
+    (*env)->SetIntField(env, peer, drbwStbteID, 0);
+    return drbwStbte;
 }
 
 JNIEXPORT int32_t JNICALL
-    awt_GetColor(JAWT_DrawingSurface* ds, int32_t r, int32_t g, int32_t b)
+    bwt_GetColor(JAWT_DrbwingSurfbce* ds, int32_t r, int32_t g, int32_t b)
 {
     JNIEnv* env;
-    jobject target, peer;
-    jclass componentClass;
-    AwtGraphicsConfigDataPtr adata;
+    jobject tbrget, peer;
+    jclbss componentClbss;
+    AwtGrbphicsConfigDbtbPtr bdbtb;
     int32_t result;
      jobject gc_object;
     if (ds == NULL) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce is NULL\n");
 #endif
         return (int32_t) 0;
     }
 
     env = ds->env;
-    target = ds->target;
+    tbrget = ds->tbrget;
 
-    /* Make sure the target is a java.awt.Component */
-    componentClass = (*env)->FindClass(env, "java/awt/Component");
-    CHECK_NULL_RETURN(componentClass, (int32_t) 0);
+    /* Mbke sure the tbrget is b jbvb.bwt.Component */
+    componentClbss = (*env)->FindClbss(env, "jbvb/bwt/Component");
+    CHECK_NULL_RETURN(componentClbss, (int32_t) 0);
 
-    if (!(*env)->IsInstanceOf(env, target, componentClass)) {
+    if (!(*env)->IsInstbnceOf(env, tbrget, componentClbss)) {
 #ifdef DEBUG
-        fprintf(stderr, "DrawingSurface target must be a component\n");
+        fprintf(stderr, "DrbwingSurfbce tbrget must be b component\n");
 #endif
         return (int32_t) 0;
     }
 
-    if (!awtLockInited) {
+    if (!bwtLockInited) {
         return (int32_t) 0;
     }
 
     AWT_LOCK();
 
-    /* Get the peer of the target component */
-    peer = (*env)->GetObjectField(env, target, componentIDs.peer);
+    /* Get the peer of the tbrget component */
+    peer = (*env)->GetObjectField(env, tbrget, componentIDs.peer);
     if (JNU_IsNull(env, peer)) {
 #ifdef DEBUG
         fprintf(stderr, "Component peer is NULL\n");
@@ -152,70 +152,70 @@ JNIEXPORT int32_t JNICALL
         AWT_UNLOCK();
         return (int32_t) 0;
     }
-     /* GraphicsConfiguration object of MComponentPeer */
-    gc_object = (*env)->GetObjectField(env, peer, graphicsConfigID);
+     /* GrbphicsConfigurbtion object of MComponentPeer */
+    gc_object = (*env)->GetObjectField(env, peer, grbphicsConfigID);
 
     if (gc_object != NULL) {
-        adata = (AwtGraphicsConfigDataPtr)
+        bdbtb = (AwtGrbphicsConfigDbtbPtr)
             JNU_GetLongFieldAsPtr(env, gc_object,
-                                  x11GraphicsConfigIDs.aData);
+                                  x11GrbphicsConfigIDs.bDbtb);
     } else {
-        adata = getDefaultConfig(DefaultScreen(awt_display));
+        bdbtb = getDefbultConfig(DefbultScreen(bwt_displby));
     }
 
-    result = adata->AwtColorMatch(r, g, b, adata);
+    result = bdbtb->AwtColorMbtch(r, g, b, bdbtb);
         AWT_UNLOCK();
         return result;
 }
 
 /*
- * Get the drawing surface info.
- * The value returned may be cached, but the values may change if
- * additional calls to Lock() or Unlock() are made.
- * Lock() must be called before this can return a valid value.
- * Returns NULL if an error has occurred.
- * When finished with the returned value, FreeDrawingSurfaceInfo must be
- * called.
+ * Get the drbwing surfbce info.
+ * The vblue returned mby be cbched, but the vblues mby chbnge if
+ * bdditionbl cblls to Lock() or Unlock() bre mbde.
+ * Lock() must be cblled before this cbn return b vblid vblue.
+ * Returns NULL if bn error hbs occurred.
+ * When finished with the returned vblue, FreeDrbwingSurfbceInfo must be
+ * cblled.
  */
-JNIEXPORT JAWT_DrawingSurfaceInfo* JNICALL
-awt_DrawingSurface_GetDrawingSurfaceInfo(JAWT_DrawingSurface* ds)
+JNIEXPORT JAWT_DrbwingSurfbceInfo* JNICALL
+bwt_DrbwingSurfbce_GetDrbwingSurfbceInfo(JAWT_DrbwingSurfbce* ds)
 {
     JNIEnv* env;
-    jobject target, peer;
-    jclass componentClass;
-    JAWT_X11DrawingSurfaceInfo* px;
-    JAWT_DrawingSurfaceInfo* p;
-    XWindowAttributes attrs;
+    jobject tbrget, peer;
+    jclbss componentClbss;
+    JAWT_X11DrbwingSurfbceInfo* px;
+    JAWT_DrbwingSurfbceInfo* p;
+    XWindowAttributes bttrs;
 
     if (ds == NULL) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce is NULL\n");
 #endif
         return NULL;
     }
 
     env = ds->env;
-    target = ds->target;
+    tbrget = ds->tbrget;
 
-    /* Make sure the target is a java.awt.Component */
-    componentClass = (*env)->FindClass(env, "java/awt/Component");
-    CHECK_NULL_RETURN(componentClass, NULL);
+    /* Mbke sure the tbrget is b jbvb.bwt.Component */
+    componentClbss = (*env)->FindClbss(env, "jbvb/bwt/Component");
+    CHECK_NULL_RETURN(componentClbss, NULL);
 
-    if (!(*env)->IsInstanceOf(env, target, componentClass)) {
+    if (!(*env)->IsInstbnceOf(env, tbrget, componentClbss)) {
 #ifdef DEBUG
-        fprintf(stderr, "DrawingSurface target must be a component\n");
+        fprintf(stderr, "DrbwingSurfbce tbrget must be b component\n");
 #endif
         return NULL;
         }
 
-    if (!awtLockInited) {
+    if (!bwtLockInited) {
         return NULL;
     }
 
     AWT_LOCK();
 
-    /* Get the peer of the target component */
-    peer = (*env)->GetObjectField(env, target, componentIDs.peer);
+    /* Get the peer of the tbrget component */
+    peer = (*env)->GetObjectField(env, tbrget, componentIDs.peer);
     if (JNU_IsNull(env, peer)) {
 #ifdef DEBUG
         fprintf(stderr, "Component peer is NULL\n");
@@ -226,31 +226,31 @@ awt_DrawingSurface_GetDrawingSurfaceInfo(JAWT_DrawingSurface* ds)
 
     AWT_UNLOCK();
 
-    /* Allocate platform-specific data */
-    px = (JAWT_X11DrawingSurfaceInfo*)
-        malloc(sizeof(JAWT_X11DrawingSurfaceInfo));
+    /* Allocbte plbtform-specific dbtb */
+    px = (JAWT_X11DrbwingSurfbceInfo*)
+        mblloc(sizeof(JAWT_X11DrbwingSurfbceInfo));
 
-    /* Set drawable and display */
-    px->drawable = (*env)->GetLongField(env, peer, windowID);
-    px->display = awt_display;
+    /* Set drbwbble bnd displby */
+    px->drbwbble = (*env)->GetLongField(env, peer, windowID);
+    px->displby = bwt_displby;
 
-    /* Get window attributes to set other values */
-    XGetWindowAttributes(awt_display, (Window)(px->drawable), &attrs);
+    /* Get window bttributes to set other vblues */
+    XGetWindowAttributes(bwt_displby, (Window)(px->drbwbble), &bttrs);
 
-    /* Set the other values */
-    px->visualID = XVisualIDFromVisual(attrs.visual);
-    px->colormapID = attrs.colormap;
-    px->depth = attrs.depth;
-    px->GetAWTColor = awt_GetColor;
+    /* Set the other vblues */
+    px->visublID = XVisublIDFromVisubl(bttrs.visubl);
+    px->colormbpID = bttrs.colormbp;
+    px->depth = bttrs.depth;
+    px->GetAWTColor = bwt_GetColor;
 
-    /* Allocate and initialize platform-independent data */
-    p = (JAWT_DrawingSurfaceInfo*)malloc(sizeof(JAWT_DrawingSurfaceInfo));
-    p->platformInfo = px;
+    /* Allocbte bnd initiblize plbtform-independent dbtb */
+    p = (JAWT_DrbwingSurfbceInfo*)mblloc(sizeof(JAWT_DrbwingSurfbceInfo));
+    p->plbtformInfo = px;
     p->ds = ds;
-    p->bounds.x = (*env)->GetIntField(env, target, componentIDs.x);
-    p->bounds.y = (*env)->GetIntField(env, target, componentIDs.y);
-    p->bounds.width = (*env)->GetIntField(env, target, componentIDs.width);
-    p->bounds.height = (*env)->GetIntField(env, target, componentIDs.height);
+    p->bounds.x = (*env)->GetIntField(env, tbrget, componentIDs.x);
+    p->bounds.y = (*env)->GetIntField(env, tbrget, componentIDs.y);
+    p->bounds.width = (*env)->GetIntField(env, tbrget, componentIDs.width);
+    p->bounds.height = (*env)->GetIntField(env, tbrget, componentIDs.height);
     p->clipSize = 1;
     p->clip = &(p->bounds);
 
@@ -259,30 +259,30 @@ awt_DrawingSurface_GetDrawingSurfaceInfo(JAWT_DrawingSurface* ds)
 }
 
 /*
- * Free the drawing surface info.
+ * Free the drbwing surfbce info.
  */
 JNIEXPORT void JNICALL
-awt_DrawingSurface_FreeDrawingSurfaceInfo(JAWT_DrawingSurfaceInfo* dsi)
+bwt_DrbwingSurfbce_FreeDrbwingSurfbceInfo(JAWT_DrbwingSurfbceInfo* dsi)
 {
     if (dsi == NULL ) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface Info is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce Info is NULL\n");
 #endif
         return;
     }
-    free(dsi->platformInfo);
+    free(dsi->plbtformInfo);
     free(dsi);
 }
 
 /*
- * Unlock the drawing surface of the target component for native rendering.
+ * Unlock the drbwing surfbce of the tbrget component for nbtive rendering.
  */
-JNIEXPORT void JNICALL awt_DrawingSurface_Unlock(JAWT_DrawingSurface* ds)
+JNIEXPORT void JNICALL bwt_DrbwingSurfbce_Unlock(JAWT_DrbwingSurfbce* ds)
 {
     JNIEnv* env;
     if (ds == NULL) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce is NULL\n");
 #endif
         return;
     }
@@ -290,90 +290,90 @@ JNIEXPORT void JNICALL awt_DrawingSurface_Unlock(JAWT_DrawingSurface* ds)
     AWT_FLUSH_UNLOCK();
 }
 
-JNIEXPORT JAWT_DrawingSurface* JNICALL
-    awt_GetDrawingSurface(JNIEnv* env, jobject target)
+JNIEXPORT JAWT_DrbwingSurfbce* JNICALL
+    bwt_GetDrbwingSurfbce(JNIEnv* env, jobject tbrget)
 {
-    jclass componentClass;
-    JAWT_DrawingSurface* p;
+    jclbss componentClbss;
+    JAWT_DrbwingSurfbce* p;
 
-    /* Make sure the target component is a java.awt.Component */
-    componentClass = (*env)->FindClass(env, "java/awt/Component");
-    CHECK_NULL_RETURN(componentClass, NULL);
+    /* Mbke sure the tbrget component is b jbvb.bwt.Component */
+    componentClbss = (*env)->FindClbss(env, "jbvb/bwt/Component");
+    CHECK_NULL_RETURN(componentClbss, NULL);
 
-    if (!(*env)->IsInstanceOf(env, target, componentClass)) {
+    if (!(*env)->IsInstbnceOf(env, tbrget, componentClbss)) {
 #ifdef DEBUG
         fprintf(stderr,
-            "GetDrawingSurface target must be a java.awt.Component\n");
+            "GetDrbwingSurfbce tbrget must be b jbvb.bwt.Component\n");
 #endif
         return NULL;
     }
 
-    p = (JAWT_DrawingSurface*)malloc(sizeof(JAWT_DrawingSurface));
+    p = (JAWT_DrbwingSurfbce*)mblloc(sizeof(JAWT_DrbwingSurfbce));
     p->env = env;
-    p->target = (*env)->NewGlobalRef(env, target);
-    p->Lock = awt_DrawingSurface_Lock;
-    p->GetDrawingSurfaceInfo = awt_DrawingSurface_GetDrawingSurfaceInfo;
-    p->FreeDrawingSurfaceInfo = awt_DrawingSurface_FreeDrawingSurfaceInfo;
-    p->Unlock = awt_DrawingSurface_Unlock;
+    p->tbrget = (*env)->NewGlobblRef(env, tbrget);
+    p->Lock = bwt_DrbwingSurfbce_Lock;
+    p->GetDrbwingSurfbceInfo = bwt_DrbwingSurfbce_GetDrbwingSurfbceInfo;
+    p->FreeDrbwingSurfbceInfo = bwt_DrbwingSurfbce_FreeDrbwingSurfbceInfo;
+    p->Unlock = bwt_DrbwingSurfbce_Unlock;
     return p;
 }
 
 JNIEXPORT void JNICALL
-    awt_FreeDrawingSurface(JAWT_DrawingSurface* ds)
+    bwt_FreeDrbwingSurfbce(JAWT_DrbwingSurfbce* ds)
 {
     JNIEnv* env;
 
     if (ds == NULL ) {
 #ifdef DEBUG
-        fprintf(stderr, "Drawing Surface is NULL\n");
+        fprintf(stderr, "Drbwing Surfbce is NULL\n");
 #endif
         return;
     }
     env = ds->env;
-    (*env)->DeleteGlobalRef(env, ds->target);
+    (*env)->DeleteGlobblRef(env, ds->tbrget);
     free(ds);
 }
 
 JNIEXPORT void JNICALL
-    awt_Lock(JNIEnv* env)
+    bwt_Lock(JNIEnv* env)
 {
-    if (awtLockInited) {
+    if (bwtLockInited) {
         AWT_LOCK();
     }
 }
 
 JNIEXPORT void JNICALL
-    awt_Unlock(JNIEnv* env)
+    bwt_Unlock(JNIEnv* env)
 {
-    if (awtLockInited) {
+    if (bwtLockInited) {
         AWT_FLUSH_UNLOCK();
     }
 }
 
 JNIEXPORT jobject JNICALL
-    awt_GetComponent(JNIEnv* env, void* platformInfo)
+    bwt_GetComponent(JNIEnv* env, void* plbtformInfo)
 {
-    Window window = (Window)platformInfo;
+    Window window = (Window)plbtformInfo;
     jobject peer = NULL;
-    jobject target = NULL;
+    jobject tbrget = NULL;
 
     AWT_LOCK();
 
     if (window != None) {
-        peer = JNU_CallStaticMethodByName(env, NULL, "sun/awt/X11/XToolkit",
-            "windowToXWindow", "(J)Lsun/awt/X11/XBaseWindow;", (jlong)window).l;
+        peer = JNU_CbllStbticMethodByNbme(env, NULL, "sun/bwt/X11/XToolkit",
+            "windowToXWindow", "(J)Lsun/bwt/X11/XBbseWindow;", (jlong)window).l;
         if ((*env)->ExceptionCheck(env)) {
             AWT_UNLOCK();
             return (jobject)NULL;
         }
     }
     if ((peer != NULL) &&
-        (JNU_IsInstanceOfByName(env, peer, "sun/awt/X11/XWindow") == 1)) {
-        target = (*env)->GetObjectField(env, peer, targetID);
+        (JNU_IsInstbnceOfByNbme(env, peer, "sun/bwt/X11/XWindow") == 1)) {
+        tbrget = (*env)->GetObjectField(env, peer, tbrgetID);
     }
 
-    if (target == NULL) {
-        (*env)->ExceptionClear(env);
+    if (tbrget == NULL) {
+        (*env)->ExceptionClebr(env);
         JNU_ThrowNullPointerException(env, "NullPointerException");
         AWT_UNLOCK();
         return (jobject)NULL;
@@ -381,5 +381,5 @@ JNIEXPORT jobject JNICALL
 
     AWT_UNLOCK();
 
-    return target;
+    return tbrget;
 }

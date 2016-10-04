@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,173 +30,173 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
-import javax.management.MBeanServerConnection;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.remote.JMXConnector;
+import jbvbx.mbnbgement.remote.JMXConnectorFbctory;
+import jbvbx.mbnbgement.remote.JMXServiceURL;
+import jbvbx.rmi.ssl.SslRMIClientSocketFbctory;
 
 /**
- * The ScanDirClient class is a very simple programmatic client example
- * which is able to connect to a secured JMX <i>scandir</i> application.
- * <p>The program initialize the connection environment map with the
- * appropriate properties and credentials, and then connects to the
- * secure JMX <i>scandir</i> daemon.</p>
- * <p>It gets the application's current configuration and prints it on
+ * The ScbnDirClient clbss is b very simple progrbmmbtic client exbmple
+ * which is bble to connect to b secured JMX <i>scbndir</i> bpplicbtion.
+ * <p>The progrbm initiblize the connection environment mbp with the
+ * bppropribte properties bnd credentibls, bnd then connects to the
+ * secure JMX <i>scbndir</i> dbemon.</p>
+ * <p>It gets the bpplicbtion's current configurbtion bnd prints it on
  * its <code>System.out</code>.</p>
- * <p>The {@link #main main} method takes two arguments: the host on which
- * the server is running (localhost), and the port number
- * that was configured to start the server RMI Connector (4545).
+ * <p>The {@link #mbin mbin} method tbkes two brguments: the host on which
+ * the server is running (locblhost), bnd the port number
+ * thbt wbs configured to stbrt the server RMI Connector (4545).
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  **/
-public class ScanDirClient {
+public clbss ScbnDirClient {
 
-    // This class has only a main.
-    private ScanDirClient() { }
+    // This clbss hbs only b mbin.
+    privbte ScbnDirClient() { }
 
     /**
-     * The usage string for the ScanDirClient.
+     * The usbge string for the ScbnDirClient.
      */
-    public static final String USAGE = ScanDirClient.class.getSimpleName() +
+    public stbtic finbl String USAGE = ScbnDirClient.clbss.getSimpleNbme() +
             " <server-host> <rmi-port-number>";
 
     /**
-     * Connects to a secured JMX <i>scandir</i> application.
-     * @param args The {@code main} method takes two parameters:
+     * Connects to b secured JMX <i>scbndir</i> bpplicbtion.
+     * @pbrbm brgs The {@code mbin} method tbkes two pbrbmeters:
      *        <ul>
-     *        <li>args[0] must be the server's host</li>
-     *        <li>args[1] must be the rmi port number at which the
-     *        JMX <i>scandir</i> daemon is listening for connections
-     *        - that is, the port number of its JMX RMI Connector which
-     *        was configured in {@code management.properties}
+     *        <li>brgs[0] must be the server's host</li>
+     *        <li>brgs[1] must be the rmi port number bt which the
+     *        JMX <i>scbndir</i> dbemon is listening for connections
+     *        - thbt is, the port number of its JMX RMI Connector which
+     *        wbs configured in {@code mbnbgement.properties}
      *        </li>
      *        <ul>
      **/
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            // Check args
+            // Check brgs
             //
-            if (args==null || args.length!=2) {
-                System.err.println("Bad number of arguments: usage is: \n\t" +
+            if (brgs==null || brgs.length!=2) {
+                System.err.println("Bbd number of brguments: usbge is: \n\t" +
                         USAGE);
                 System.exit(1);
             }
             try {
-                InetAddress.getByName(args[0]);
-            } catch (UnknownHostException x) {
-                System.err.println("No such host: " + args[0]+
-                            "\n usage is: \n\t" + USAGE);
+                InetAddress.getByNbme(brgs[0]);
+            } cbtch (UnknownHostException x) {
+                System.err.println("No such host: " + brgs[0]+
+                            "\n usbge is: \n\t" + USAGE);
                 System.exit(2);
-            } catch (Exception x) {
-                System.err.println("Bad address: " + args[0]+
-                            "\n usage is: \n\t" + USAGE);
+            } cbtch (Exception x) {
+                System.err.println("Bbd bddress: " + brgs[0]+
+                            "\n usbge is: \n\t" + USAGE);
                 System.exit(2);
             }
             try {
-                if (Integer.parseInt(args[1]) <= 0) {
-                    System.err.println("Bad port value: " + args[1]+
-                            "\n usage is: \n\t" + USAGE);
+                if (Integer.pbrseInt(brgs[1]) <= 0) {
+                    System.err.println("Bbd port vblue: " + brgs[1]+
+                            "\n usbge is: \n\t" + USAGE);
                     System.exit(2);
                 }
-            } catch (Exception x) {
-                System.err.println("Bad argument: " + args[1]+
-                        "\n usage is: \n\t" + USAGE);
+            } cbtch (Exception x) {
+                System.err.println("Bbd brgument: " + brgs[1]+
+                        "\n usbge is: \n\t" + USAGE);
                 System.exit(2);
             }
 
-            // Create an environment map to hold connection properties
-            // like credentials etc... We will later pass this map
+            // Crebte bn environment mbp to hold connection properties
+            // like credentibls etc... We will lbter pbss this mbp
             // to the JMX Connector.
             //
-            System.out.println("\nInitialize the environment map");
-            final Map<String,Object> env = new HashMap<String,Object>();
+            System.out.println("\nInitiblize the environment mbp");
+            finbl Mbp<String,Object> env = new HbshMbp<String,Object>();
 
-            // Provide the credentials required by the server
-            // to successfully perform user authentication
+            // Provide the credentibls required by the server
+            // to successfully perform user buthenticbtion
             //
-            final String[] credentials = new String[] { "guest" , "guestpasswd" };
-            env.put("jmx.remote.credentials", credentials);
+            finbl String[] credentibls = new String[] { "guest" , "guestpbsswd" };
+            env.put("jmx.remote.credentibls", credentibls);
 
-            // Provide the SSL/TLS-based RMI Client Socket Factory required
-            // by the JNDI/RMI Registry Service Provider to communicate with
+            // Provide the SSL/TLS-bbsed RMI Client Socket Fbctory required
+            // by the JNDI/RMI Registry Service Provider to communicbte with
             // the SSL/TLS-protected RMI Registry
             //
-            env.put("com.sun.jndi.rmi.factory.socket",
-                    new SslRMIClientSocketFactory());
+            env.put("com.sun.jndi.rmi.fbctory.socket",
+                    new SslRMIClientSocketFbctory());
 
-            // Create the RMI connector client and
+            // Crebte the RMI connector client bnd
             // connect it to the RMI connector server
-            // args[0] is the server's host - localhost
-            // args[1] is the secure server port - 4545
+            // brgs[0] is the server's host - locblhost
+            // brgs[1] is the secure server port - 4545
             //
-            System.out.println("\nCreate the RMI connector client and " +
+            System.out.println("\nCrebte the RMI connector client bnd " +
                     "connect it to the RMI connector server");
-            final JMXServiceURL url = new JMXServiceURL(
-                    "service:jmx:rmi:///jndi/rmi://"+args[0]+":"+args[1] +
+            finbl JMXServiceURL url = new JMXServiceURL(
+                    "service:jmx:rmi:///jndi/rmi://"+brgs[0]+":"+brgs[1] +
                     "/jmxrmi");
 
             System.out.println("Connecting to: "+url);
-            final JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
+            finbl JMXConnector jmxc = JMXConnectorFbctory.connect(url, env);
 
-            // Get an MBeanServerConnection
+            // Get bn MBebnServerConnection
             //
-            System.out.println("\nGet the MBeanServerConnection");
-            final MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+            System.out.println("\nGet the MBebnServerConnection");
+            finbl MBebnServerConnection mbsc = jmxc.getMBebnServerConnection();
 
-            // Create a proxy for the ScanManager MXBean
+            // Crebte b proxy for the ScbnMbnbger MXBebn
             //
-            final ScanManagerMXBean proxy =
-                    ScanManager.newSingletonProxy(mbsc);
+            finbl ScbnMbnbgerMXBebn proxy =
+                    ScbnMbnbger.newSingletonProxy(mbsc);
 
-            // Get the ScanDirConfig MXBean from the scan manager
+            // Get the ScbnDirConfig MXBebn from the scbn mbnbger
             //
             System.out.println(
-                    "\nGet ScanDirConfigMXBean from ScanManagerMXBean");
-            final ScanDirConfigMXBean configMBean =
-                    proxy.getConfigurationMBean();
+                    "\nGet ScbnDirConfigMXBebn from ScbnMbnbgerMXBebn");
+            finbl ScbnDirConfigMXBebn configMBebn =
+                    proxy.getConfigurbtionMBebn();
 
-            // Print the scan dir configuration
+            // Print the scbn dir configurbtion
             //
             System.out.println(
-                    "\nGet 'Configuration' attribute on ScanDirConfigMXBean");
-            System.out.println("\nConfiguration:\n" +
-                    configMBean.getConfiguration());
+                    "\nGet 'Configurbtion' bttribute on ScbnDirConfigMXBebn");
+            System.out.println("\nConfigurbtion:\n" +
+                    configMBebn.getConfigurbtion());
 
-            // Try to invoke the "close" method on the ScanManager MXBean.
+            // Try to invoke the "close" method on the ScbnMbnbger MXBebn.
             //
-            // Should get a SecurityException as the user "guest" doesn't
-            // have readwrite access.
+            // Should get b SecurityException bs the user "guest" doesn't
+            // hbve rebdwrite bccess.
             //
-            System.out.println("\nInvoke 'close' on ScanManagerMXBean");
+            System.out.println("\nInvoke 'close' on ScbnMbnbgerMXBebn");
             try {
                 proxy.close();
-            } catch (SecurityException e) {
+            } cbtch (SecurityException e) {
                 System.out.println("\nGot expected security exception: " + e);
             }
 
-            // Close MBeanServer connection
+            // Close MBebnServer connection
             //
             System.out.println("\nClose the connection to the server");
             jmxc.close();
             System.out.println("\nBye! Bye!");
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             System.out.println("\nGot unexpected exception: " + e);
-            e.printStackTrace();
+            e.printStbckTrbce();
             System.exit(3);
         }
     }

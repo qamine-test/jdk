@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util;
+pbckbge sun.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-import sun.util.locale.provider.CalendarDataUtility;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.util.GregoribnCblendbr;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.TimeZone;
+import sun.util.locble.provider.CblendbrDbtbUtility;
 
-public class BuddhistCalendar extends GregorianCalendar {
+public clbss BuddhistCblendbr extends GregoribnCblendbr {
 
 //////////////////
-// Class Variables
+// Clbss Vbribbles
 //////////////////
 
-    private static final long serialVersionUID = -8527488697350388578L;
+    privbte stbtic finbl long seriblVersionUID = -8527488697350388578L;
 
-    private static final int BUDDHIST_YEAR_OFFSET = 543;
+    privbte stbtic finbl int BUDDHIST_YEAR_OFFSET = 543;
 
 ///////////////
 // Constructors
 ///////////////
 
     /**
-     * Constructs a default BuddhistCalendar using the current time
-     * in the default time zone with the default locale.
+     * Constructs b defbult BuddhistCblendbr using the current time
+     * in the defbult time zone with the defbult locble.
      */
-    public BuddhistCalendar() {
+    public BuddhistCblendbr() {
         super();
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the given time zone with the default locale.
-     * @param zone the given time zone.
+     * Constructs b BuddhistCblendbr bbsed on the current time
+     * in the given time zone with the defbult locble.
+     * @pbrbm zone the given time zone.
      */
-    public BuddhistCalendar(TimeZone zone) {
+    public BuddhistCblendbr(TimeZone zone) {
         super(zone);
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the default time zone with the given locale.
-     * @param aLocale the given locale.
+     * Constructs b BuddhistCblendbr bbsed on the current time
+     * in the defbult time zone with the given locble.
+     * @pbrbm bLocble the given locble.
      */
-    public BuddhistCalendar(Locale aLocale) {
-        super(aLocale);
+    public BuddhistCblendbr(Locble bLocble) {
+        super(bLocble);
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the given time zone with the given locale.
-     * @param zone the given time zone.
-     * @param aLocale the given locale.
+     * Constructs b BuddhistCblendbr bbsed on the current time
+     * in the given time zone with the given locble.
+     * @pbrbm zone the given time zone.
+     * @pbrbm bLocble the given locble.
      */
-    public BuddhistCalendar(TimeZone zone, Locale aLocale) {
-        super(zone, aLocale);
+    public BuddhistCblendbr(TimeZone zone, Locble bLocble) {
+        super(zone, bLocble);
     }
 
 /////////////////
@@ -88,174 +88,174 @@ public class BuddhistCalendar extends GregorianCalendar {
 /////////////////
 
     /**
-     * Returns {@code "buddhist"} as the calendar type of this Calendar.
+     * Returns {@code "buddhist"} bs the cblendbr type of this Cblendbr.
      */
     @Override
-    public String getCalendarType() {
+    public String getCblendbrType() {
         return "buddhist";
     }
 
     /**
-     * Compares this BuddhistCalendar to an object reference.
-     * @param obj the object reference with which to compare
-     * @return true if this object is equal to <code>obj</code>; false otherwise
+     * Compbres this BuddhistCblendbr to bn object reference.
+     * @pbrbm obj the object reference with which to compbre
+     * @return true if this object is equbl to <code>obj</code>; fblse otherwise
      */
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof BuddhistCalendar
-            && super.equals(obj);
+    public boolebn equbls(Object obj) {
+        return obj instbnceof BuddhistCblendbr
+            && super.equbls(obj);
     }
 
     /**
-     * Override hashCode.
-     * Generates the hash code for the BuddhistCalendar object
+     * Override hbshCode.
+     * Generbtes the hbsh code for the BuddhistCblendbr object
      */
     @Override
-    public int hashCode() {
-        return super.hashCode() ^ BUDDHIST_YEAR_OFFSET;
+    public int hbshCode() {
+        return super.hbshCode() ^ BUDDHIST_YEAR_OFFSET;
     }
 
     /**
-     * Gets the value for a given time field.
-     * @param field the given time field.
-     * @return the value for the given time field.
+     * Gets the vblue for b given time field.
+     * @pbrbm field the given time field.
+     * @return the vblue for the given time field.
      */
     @Override
     public int get(int field)
     {
         if (field == YEAR) {
-            return super.get(field) + yearOffset;
+            return super.get(field) + yebrOffset;
         }
         return super.get(field);
     }
 
     /**
-     * Sets the time field with the given value.
-     * @param field the given time field.
-     * @param value the value to be set for the given time field.
+     * Sets the time field with the given vblue.
+     * @pbrbm field the given time field.
+     * @pbrbm vblue the vblue to be set for the given time field.
      */
     @Override
-    public void set(int field, int value)
+    public void set(int field, int vblue)
     {
         if (field == YEAR) {
-            super.set(field, value - yearOffset);
+            super.set(field, vblue - yebrOffset);
         } else {
-            super.set(field, value);
+            super.set(field, vblue);
         }
     }
 
     /**
-     * Adds the specified (signed) amount of time to the given time field.
-     * @param field the time field.
-     * @param amount the amount of date or time to be added to the field.
+     * Adds the specified (signed) bmount of time to the given time field.
+     * @pbrbm field the time field.
+     * @pbrbm bmount the bmount of dbte or time to be bdded to the field.
      */
     @Override
-    public void add(int field, int amount)
+    public void bdd(int field, int bmount)
     {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+        int sbvedYebrOffset = yebrOffset;
+        // To let the superclbss cblculbte dbte-time vblues correctly,
+        // temporbrily mbke this GregoribnCblendbr.
+        yebrOffset = 0;
         try {
-            super.add(field, amount);
-        } finally {
-            yearOffset = savedYearOffset;
+            super.bdd(field, bmount);
+        } finblly {
+            yebrOffset = sbvedYebrOffset;
         }
     }
 
     /**
-     * Add to field a signed amount without changing larger fields.
-     * A negative roll amount means to subtract from field without changing
-     * larger fields.
-     * @param field the time field.
-     * @param amount the signed amount to add to <code>field</code>.
+     * Add to field b signed bmount without chbnging lbrger fields.
+     * A negbtive roll bmount mebns to subtrbct from field without chbnging
+     * lbrger fields.
+     * @pbrbm field the time field.
+     * @pbrbm bmount the signed bmount to bdd to <code>field</code>.
      */
     @Override
-    public void roll(int field, int amount)
+    public void roll(int field, int bmount)
     {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+        int sbvedYebrOffset = yebrOffset;
+        // To let the superclbss cblculbte dbte-time vblues correctly,
+        // temporbrily mbke this GregoribnCblendbr.
+        yebrOffset = 0;
         try {
-            super.roll(field, amount);
-        } finally {
-            yearOffset = savedYearOffset;
+            super.roll(field, bmount);
+        } finblly {
+            yebrOffset = sbvedYebrOffset;
         }
     }
 
     @Override
-    public String getDisplayName(int field, int style, Locale locale) {
+    public String getDisplbyNbme(int field, int style, Locble locble) {
         if (field != ERA) {
-            return super.getDisplayName(field, style, locale);
+            return super.getDisplbyNbme(field, style, locble);
         }
 
-        return CalendarDataUtility.retrieveFieldValueName("buddhist", field, get(field), style, locale);
+        return CblendbrDbtbUtility.retrieveFieldVblueNbme("buddhist", field, get(field), style, locble);
     }
 
     @Override
-    public Map<String,Integer> getDisplayNames(int field, int style, Locale locale) {
+    public Mbp<String,Integer> getDisplbyNbmes(int field, int style, Locble locble) {
         if (field != ERA) {
-            return super.getDisplayNames(field, style, locale);
+            return super.getDisplbyNbmes(field, style, locble);
         }
-        return CalendarDataUtility.retrieveFieldValueNames("buddhist", field, style, locale);
+        return CblendbrDbtbUtility.retrieveFieldVblueNbmes("buddhist", field, style, locble);
     }
 
     /**
-     * Returns the maximum value that this field could have, given the
-     * current date.  For example, with the date "Feb 3, 2540" and the
-     * <code>DAY_OF_MONTH</code> field, the actual maximum is 28; for
+     * Returns the mbximum vblue thbt this field could hbve, given the
+     * current dbte.  For exbmple, with the dbte "Feb 3, 2540" bnd the
+     * <code>DAY_OF_MONTH</code> field, the bctubl mbximum is 28; for
      * "Feb 3, 2539" it is 29.
      *
-     * @param field the field to determine the maximum of
-     * @return the maximum of the given field for the current date of this Calendar
+     * @pbrbm field the field to determine the mbximum of
+     * @return the mbximum of the given field for the current dbte of this Cblendbr
      */
     @Override
-    public int getActualMaximum(int field) {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+    public int getActublMbximum(int field) {
+        int sbvedYebrOffset = yebrOffset;
+        // To let the superclbss cblculbte dbte-time vblues correctly,
+        // temporbrily mbke this GregoribnCblendbr.
+        yebrOffset = 0;
         try {
-            return super.getActualMaximum(field);
-        } finally {
-            yearOffset = savedYearOffset;
+            return super.getActublMbximum(field);
+        } finblly {
+            yebrOffset = sbvedYebrOffset;
         }
     }
 
     @Override
-    @SuppressWarnings("empty-statement")
+    @SuppressWbrnings("empty-stbtement")
     public String toString() {
-        // The super class produces a String with the Gregorian year
-        // value (or '?')
+        // The super clbss produces b String with the Gregoribn yebr
+        // vblue (or '?')
         String s = super.toString();
-        // If the YEAR field is UNSET, then return the Gregorian string.
+        // If the YEAR field is UNSET, then return the Gregoribn string.
         if (!isSet(YEAR)) {
             return s;
         }
 
-        final String yearField = "YEAR=";
-        int p = s.indexOf(yearField);
-        // If the string doesn't include the year value for some
-        // reason, then return the Gregorian string.
+        finbl String yebrField = "YEAR=";
+        int p = s.indexOf(yebrField);
+        // If the string doesn't include the yebr vblue for some
+        // rebson, then return the Gregoribn string.
         if (p == -1) {
             return s;
         }
-        p += yearField.length();
+        p += yebrField.length();
         StringBuilder sb = new StringBuilder(s.substring(0, p));
-        // Skip the year number
-        while (Character.isDigit(s.charAt(p++)))
+        // Skip the yebr number
+        while (Chbrbcter.isDigit(s.chbrAt(p++)))
             ;
-        int year = internalGet(YEAR) + BUDDHIST_YEAR_OFFSET;
-        sb.append(year).append(s.substring(p - 1));
+        int yebr = internblGet(YEAR) + BUDDHIST_YEAR_OFFSET;
+        sb.bppend(yebr).bppend(s.substring(p - 1));
         return sb.toString();
     }
 
-    private transient int yearOffset = BUDDHIST_YEAR_OFFSET;
+    privbte trbnsient int yebrOffset = BUDDHIST_YEAR_OFFSET;
 
-    private void readObject(ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        yearOffset = BUDDHIST_YEAR_OFFSET;
+    privbte void rebdObject(ObjectInputStrebm strebm)
+        throws IOException, ClbssNotFoundException {
+        strebm.defbultRebdObject();
+        yebrOffset = BUDDHIST_YEAR_OFFSET;
     }
 }

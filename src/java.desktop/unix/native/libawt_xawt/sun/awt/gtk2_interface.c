@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <dlfcn.h>
@@ -28,16 +28,16 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-#include "gtk2_interface.h"
-#include "java_awt_Transparency.h"
+#include "gtk2_interfbce.h"
+#include "jbvb_bwt_Trbnspbrency.h"
 #include "jvm_md.h"
-#include "sizecalc.h"
+#include "sizecblc.h"
 #include <jni_util.h>
 
 #define GTK2_LIB_VERSIONED VERSIONED_JNI_LIB_NAME("gtk-x11-2.0", "0")
 #define GTK2_LIB JNI_LIB_NAME("gtk-x11-2.0")
-#define GTHREAD_LIB_VERSIONED VERSIONED_JNI_LIB_NAME("gthread-2.0", "0")
-#define GTHREAD_LIB JNI_LIB_NAME("gthread-2.0")
+#define GTHREAD_LIB_VERSIONED VERSIONED_JNI_LIB_NAME("gthrebd-2.0", "0")
+#define GTHREAD_LIB JNI_LIB_NAME("gthrebd-2.0")
 
 #define G_TYPE_INVALID                  G_TYPE_MAKE_FUNDAMENTAL (0)
 #define G_TYPE_NONE                     G_TYPE_MAKE_FUNDAMENTAL (1)
@@ -65,13 +65,13 @@
 
 #define G_TYPE_FUNDAMENTAL_SHIFT        (2)
 #define G_TYPE_MAKE_FUNDAMENTAL(x)      ((GType) ((x) << G_TYPE_FUNDAMENTAL_SHIFT))
-#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+#define MIN(b, b)  (((b) < (b)) ? (b) : (b))
 
 #define CONV_BUFFER_SIZE 128
 
 #define NO_SYMBOL_EXCEPTION 1
 
-/* SynthConstants */
+/* SynthConstbnts */
 const gint ENABLED    = 1 << 0;
 const gint MOUSE_OVER = 1 << 1;
 const gint PRESSED    = 1 << 2;
@@ -80,29 +80,29 @@ const gint FOCUSED    = 1 << 8;
 const gint SELECTED   = 1 << 9;
 const gint DEFAULT    = 1 << 10;
 
-static void *gtk2_libhandle = NULL;
-static void *gthread_libhandle = NULL;
+stbtic void *gtk2_libhbndle = NULL;
+stbtic void *gthrebd_libhbndle = NULL;
 
-static jmp_buf j;
+stbtic jmp_buf j;
 
 /* Widgets */
-static GtkWidget *gtk2_widget = NULL;
-static GtkWidget *gtk2_window = NULL;
-static GtkFixed  *gtk2_fixed  = NULL;
+stbtic GtkWidget *gtk2_widget = NULL;
+stbtic GtkWidget *gtk2_window = NULL;
+stbtic GtkFixed  *gtk2_fixed  = NULL;
 
-/* Paint system */
-static GdkPixmap *gtk2_white_pixmap = NULL;
-static GdkPixmap *gtk2_black_pixmap = NULL;
-static GdkPixbuf *gtk2_white_pixbuf = NULL;
-static GdkPixbuf *gtk2_black_pixbuf = NULL;
-static int gtk2_pixbuf_width = 0;
-static int gtk2_pixbuf_height = 0;
+/* Pbint system */
+stbtic GdkPixmbp *gtk2_white_pixmbp = NULL;
+stbtic GdkPixmbp *gtk2_blbck_pixmbp = NULL;
+stbtic GdkPixbuf *gtk2_white_pixbuf = NULL;
+stbtic GdkPixbuf *gtk2_blbck_pixbuf = NULL;
+stbtic int gtk2_pixbuf_width = 0;
+stbtic int gtk2_pixbuf_height = 0;
 
-/* Static buffer for conversion from java.lang.String to UTF-8 */
-static char convertionBuffer[CONV_BUFFER_SIZE];
+/* Stbtic buffer for conversion from jbvb.lbng.String to UTF-8 */
+stbtic chbr convertionBuffer[CONV_BUFFER_SIZE];
 
-static gboolean new_combo = TRUE;
-const char ENV_PREFIX[] = "GTK_MODULES=";
+stbtic gboolebn new_combo = TRUE;
+const chbr ENV_PREFIX[] = "GTK_MODULES=";
 
 /*******************/
 enum GtkWidgetType
@@ -153,271 +153,271 @@ enum GtkWidgetType
 };
 
 
-static GtkWidget *gtk2_widgets[_GTK_WIDGET_TYPE_SIZE];
+stbtic GtkWidget *gtk2_widgets[_GTK_WIDGET_TYPE_SIZE];
 
 /*************************
  * Glib function pointers
  *************************/
 
-static gboolean (*fp_g_main_context_iteration)(GMainContext *context,
-                                             gboolean may_block);
+stbtic gboolebn (*fp_g_mbin_context_iterbtion)(GMbinContext *context,
+                                             gboolebn mby_block);
 
-static GValue*      (*fp_g_value_init)(GValue *value, GType g_type);
-static gboolean     (*fp_g_type_is_a)(GType type, GType is_a_type);
-static gboolean     (*fp_g_value_get_boolean)(const GValue *value);
-static gchar        (*fp_g_value_get_char)(const GValue *value);
-static guchar       (*fp_g_value_get_uchar)(const GValue *value);
-static gint         (*fp_g_value_get_int)(const GValue *value);
-static guint        (*fp_g_value_get_uint)(const GValue *value);
-static glong        (*fp_g_value_get_long)(const GValue *value);
-static gulong       (*fp_g_value_get_ulong)(const GValue *value);
-static gint64       (*fp_g_value_get_int64)(const GValue *value);
-static guint64      (*fp_g_value_get_uint64)(const GValue *value);
-static gfloat       (*fp_g_value_get_float)(const GValue *value);
-static gdouble      (*fp_g_value_get_double)(const GValue *value);
-static const gchar* (*fp_g_value_get_string)(const GValue *value);
-static gint         (*fp_g_value_get_enum)(const GValue *value);
-static guint        (*fp_g_value_get_flags)(const GValue *value);
-static GParamSpec*  (*fp_g_value_get_param)(const GValue *value);
-static gpointer*    (*fp_g_value_get_boxed)(const GValue *value);
-static gpointer*    (*fp_g_value_get_pointer)(const GValue *value);
-static GObject*     (*fp_g_value_get_object)(const GValue *value);
-static GParamSpec*  (*fp_g_param_spec_int)(const gchar *name,
-        const gchar *nick, const gchar *blurb,
-        gint minimum, gint maximum, gint default_value,
-        GParamFlags flags);
-static void         (*fp_g_object_get)(gpointer object,
-                                       const gchar* fpn, ...);
-static void         (*fp_g_object_set)(gpointer object,
-                                       const gchar *first_property_name,
+stbtic GVblue*      (*fp_g_vblue_init)(GVblue *vblue, GType g_type);
+stbtic gboolebn     (*fp_g_type_is_b)(GType type, GType is_b_type);
+stbtic gboolebn     (*fp_g_vblue_get_boolebn)(const GVblue *vblue);
+stbtic gchbr        (*fp_g_vblue_get_chbr)(const GVblue *vblue);
+stbtic guchbr       (*fp_g_vblue_get_uchbr)(const GVblue *vblue);
+stbtic gint         (*fp_g_vblue_get_int)(const GVblue *vblue);
+stbtic guint        (*fp_g_vblue_get_uint)(const GVblue *vblue);
+stbtic glong        (*fp_g_vblue_get_long)(const GVblue *vblue);
+stbtic gulong       (*fp_g_vblue_get_ulong)(const GVblue *vblue);
+stbtic gint64       (*fp_g_vblue_get_int64)(const GVblue *vblue);
+stbtic guint64      (*fp_g_vblue_get_uint64)(const GVblue *vblue);
+stbtic gflobt       (*fp_g_vblue_get_flobt)(const GVblue *vblue);
+stbtic gdouble      (*fp_g_vblue_get_double)(const GVblue *vblue);
+stbtic const gchbr* (*fp_g_vblue_get_string)(const GVblue *vblue);
+stbtic gint         (*fp_g_vblue_get_enum)(const GVblue *vblue);
+stbtic guint        (*fp_g_vblue_get_flbgs)(const GVblue *vblue);
+stbtic GPbrbmSpec*  (*fp_g_vblue_get_pbrbm)(const GVblue *vblue);
+stbtic gpointer*    (*fp_g_vblue_get_boxed)(const GVblue *vblue);
+stbtic gpointer*    (*fp_g_vblue_get_pointer)(const GVblue *vblue);
+stbtic GObject*     (*fp_g_vblue_get_object)(const GVblue *vblue);
+stbtic GPbrbmSpec*  (*fp_g_pbrbm_spec_int)(const gchbr *nbme,
+        const gchbr *nick, const gchbr *blurb,
+        gint minimum, gint mbximum, gint defbult_vblue,
+        GPbrbmFlbgs flbgs);
+stbtic void         (*fp_g_object_get)(gpointer object,
+                                       const gchbr* fpn, ...);
+stbtic void         (*fp_g_object_set)(gpointer object,
+                                       const gchbr *first_property_nbme,
                                        ...);
 /************************
  * GDK function pointers
  ************************/
-static GdkPixmap *(*fp_gdk_pixmap_new)(GdkDrawable *drawable,
+stbtic GdkPixmbp *(*fp_gdk_pixmbp_new)(GdkDrbwbble *drbwbble,
         gint width, gint height, gint depth);
-static GdkGC *(*fp_gdk_gc_new)(GdkDrawable*);
-static void (*fp_gdk_rgb_gc_set_foreground)(GdkGC*, guint32);
-static void (*fp_gdk_draw_rectangle)(GdkDrawable*, GdkGC*, gboolean,
+stbtic GdkGC *(*fp_gdk_gc_new)(GdkDrbwbble*);
+stbtic void (*fp_gdk_rgb_gc_set_foreground)(GdkGC*, guint32);
+stbtic void (*fp_gdk_drbw_rectbngle)(GdkDrbwbble*, GdkGC*, gboolebn,
         gint, gint, gint, gint);
-static GdkPixbuf *(*fp_gdk_pixbuf_new)(GdkColorspace colorspace,
-        gboolean has_alpha, int bits_per_sample, int width, int height);
-static GdkPixbuf *(*fp_gdk_pixbuf_get_from_drawable)(GdkPixbuf *dest,
-        GdkDrawable *src, GdkColormap *cmap, int src_x, int src_y,
+stbtic GdkPixbuf *(*fp_gdk_pixbuf_new)(GdkColorspbce colorspbce,
+        gboolebn hbs_blphb, int bits_per_sbmple, int width, int height);
+stbtic GdkPixbuf *(*fp_gdk_pixbuf_get_from_drbwbble)(GdkPixbuf *dest,
+        GdkDrbwbble *src, GdkColormbp *cmbp, int src_x, int src_y,
         int dest_x, int dest_y, int width, int height);
-static void (*fp_gdk_drawable_get_size)(GdkDrawable *drawable,
+stbtic void (*fp_gdk_drbwbble_get_size)(GdkDrbwbble *drbwbble,
         gint* width, gint* height);
 
 /************************
  * Gtk function pointers
  ************************/
-static gboolean (*fp_gtk_init_check)(int* argc, char** argv);
+stbtic gboolebn (*fp_gtk_init_check)(int* brgc, chbr** brgv);
 
-/* Painting */
-static void (*fp_gtk_paint_hline)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GdkRectangle* area, GtkWidget* widget,
-        const gchar* detail, gint x1, gint x2, gint y);
-static void (*fp_gtk_paint_vline)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GdkRectangle* area, GtkWidget* widget,
-        const gchar* detail, gint y1, gint y2, gint x);
-static void (*fp_gtk_paint_shadow)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+/* Pbinting */
+stbtic void (*fp_gtk_pbint_hline)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GdkRectbngle* breb, GtkWidget* widget,
+        const gchbr* detbil, gint x1, gint x2, gint y);
+stbtic void (*fp_gtk_pbint_vline)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GdkRectbngle* breb, GtkWidget* widget,
+        const gchbr* detbil, gint y1, gint y2, gint x);
+stbtic void (*fp_gtk_pbint_shbdow)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_arrow)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
-        GtkArrowType arrow_type, gboolean fill, gint x, gint y,
+stbtic void (*fp_gtk_pbint_brrow)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
+        GtkArrowType brrow_type, gboolebn fill, gint x, gint y,
         gint width, gint height);
-static void (*fp_gtk_paint_diamond)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_dibmond)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_box)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_box)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_flat_box)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_flbt_box)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_check)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_check)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_option)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_option)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_box_gap)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
+stbtic void (*fp_gtk_pbint_box_gbp)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
         gint x, gint y, gint width, gint height,
-        GtkPositionType gap_side, gint gap_x, gint gap_width);
-static void (*fp_gtk_paint_extension)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
-        gint x, gint y, gint width, gint height, GtkPositionType gap_side);
-static void (*fp_gtk_paint_focus)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GdkRectangle* area, GtkWidget* widget,
-        const gchar* detail, gint x, gint y, gint width, gint height);
-static void (*fp_gtk_paint_slider)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
-        gint x, gint y, gint width, gint height, GtkOrientation orientation);
-static void (*fp_gtk_paint_handle)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GtkShadowType shadow_type,
-        GdkRectangle* area, GtkWidget* widget, const gchar* detail,
-        gint x, gint y, gint width, gint height, GtkOrientation orientation);
-static void (*fp_gtk_paint_expander)(GtkStyle* style, GdkWindow* window,
-        GtkStateType state_type, GdkRectangle* area, GtkWidget* widget,
-        const gchar* detail, gint x, gint y, GtkExpanderStyle expander_style);
-static void (*fp_gtk_style_apply_default_background)(GtkStyle* style,
-        GdkWindow* window, gboolean set_bg, GtkStateType state_type,
-        GdkRectangle* area, gint x, gint y, gint width, gint height);
+        GtkPositionType gbp_side, gint gbp_x, gint gbp_width);
+stbtic void (*fp_gtk_pbint_extension)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
+        gint x, gint y, gint width, gint height, GtkPositionType gbp_side);
+stbtic void (*fp_gtk_pbint_focus)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GdkRectbngle* breb, GtkWidget* widget,
+        const gchbr* detbil, gint x, gint y, gint width, gint height);
+stbtic void (*fp_gtk_pbint_slider)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
+        gint x, gint y, gint width, gint height, GtkOrientbtion orientbtion);
+stbtic void (*fp_gtk_pbint_hbndle)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GtkShbdowType shbdow_type,
+        GdkRectbngle* breb, GtkWidget* widget, const gchbr* detbil,
+        gint x, gint y, gint width, gint height, GtkOrientbtion orientbtion);
+stbtic void (*fp_gtk_pbint_expbnder)(GtkStyle* style, GdkWindow* window,
+        GtkStbteType stbte_type, GdkRectbngle* breb, GtkWidget* widget,
+        const gchbr* detbil, gint x, gint y, GtkExpbnderStyle expbnder_style);
+stbtic void (*fp_gtk_style_bpply_defbult_bbckground)(GtkStyle* style,
+        GdkWindow* window, gboolebn set_bg, GtkStbteType stbte_type,
+        GdkRectbngle* breb, gint x, gint y, gint width, gint height);
 
-/* Widget creation */
-static GtkWidget* (*fp_gtk_arrow_new)(GtkArrowType arrow_type,
-                                      GtkShadowType shadow_type);
-static GtkWidget* (*fp_gtk_button_new)();
-static GtkWidget* (*fp_gtk_check_button_new)();
-static GtkWidget* (*fp_gtk_check_menu_item_new)();
-static GtkWidget* (*fp_gtk_color_selection_dialog_new)(const gchar* title);
-static GtkWidget* (*fp_gtk_combo_box_new)();
-static GtkWidget* (*fp_gtk_combo_box_entry_new)();
-static GtkWidget* (*fp_gtk_entry_new)();
-static GtkWidget* (*fp_gtk_fixed_new)();
-static GtkWidget* (*fp_gtk_handle_box_new)();
-static GtkWidget* (*fp_gtk_hpaned_new)();
-static GtkWidget* (*fp_gtk_vpaned_new)();
-static GtkWidget* (*fp_gtk_hscale_new)(GtkAdjustment* adjustment);
-static GtkWidget* (*fp_gtk_vscale_new)(GtkAdjustment* adjustment);
-static GtkWidget* (*fp_gtk_hscrollbar_new)(GtkAdjustment* adjustment);
-static GtkWidget* (*fp_gtk_vscrollbar_new)(GtkAdjustment* adjustment);
-static GtkWidget* (*fp_gtk_hseparator_new)();
-static GtkWidget* (*fp_gtk_vseparator_new)();
-static GtkWidget* (*fp_gtk_image_new)();
-static GtkWidget* (*fp_gtk_label_new)(const gchar* str);
-static GtkWidget* (*fp_gtk_menu_new)();
-static GtkWidget* (*fp_gtk_menu_bar_new)();
-static GtkWidget* (*fp_gtk_menu_item_new)();
-static GtkWidget* (*fp_gtk_notebook_new)();
-static GtkWidget* (*fp_gtk_progress_bar_new)();
-static GtkWidget* (*fp_gtk_progress_bar_set_orientation)(
-        GtkProgressBar *pbar,
-        GtkProgressBarOrientation orientation);
-static GtkWidget* (*fp_gtk_radio_button_new)(GSList *group);
-static GtkWidget* (*fp_gtk_radio_menu_item_new)(GSList *group);
-static GtkWidget* (*fp_gtk_scrolled_window_new)(GtkAdjustment *hadjustment,
-        GtkAdjustment *vadjustment);
-static GtkWidget* (*fp_gtk_separator_menu_item_new)();
-static GtkWidget* (*fp_gtk_separator_tool_item_new)();
-static GtkWidget* (*fp_gtk_text_view_new)();
-static GtkWidget* (*fp_gtk_toggle_button_new)();
-static GtkWidget* (*fp_gtk_toolbar_new)();
-static GtkWidget* (*fp_gtk_tree_view_new)();
-static GtkWidget* (*fp_gtk_viewport_new)(GtkAdjustment *hadjustment,
-        GtkAdjustment *vadjustment);
-static GtkWidget* (*fp_gtk_window_new)(GtkWindowType type);
-static GtkWidget* (*fp_gtk_dialog_new)();
-static GtkWidget* (*fp_gtk_spin_button_new)(GtkAdjustment *adjustment,
-        gdouble climb_rate, guint digits);
-static GtkWidget* (*fp_gtk_frame_new)(const gchar *label);
+/* Widget crebtion */
+stbtic GtkWidget* (*fp_gtk_brrow_new)(GtkArrowType brrow_type,
+                                      GtkShbdowType shbdow_type);
+stbtic GtkWidget* (*fp_gtk_button_new)();
+stbtic GtkWidget* (*fp_gtk_check_button_new)();
+stbtic GtkWidget* (*fp_gtk_check_menu_item_new)();
+stbtic GtkWidget* (*fp_gtk_color_selection_diblog_new)(const gchbr* title);
+stbtic GtkWidget* (*fp_gtk_combo_box_new)();
+stbtic GtkWidget* (*fp_gtk_combo_box_entry_new)();
+stbtic GtkWidget* (*fp_gtk_entry_new)();
+stbtic GtkWidget* (*fp_gtk_fixed_new)();
+stbtic GtkWidget* (*fp_gtk_hbndle_box_new)();
+stbtic GtkWidget* (*fp_gtk_hpbned_new)();
+stbtic GtkWidget* (*fp_gtk_vpbned_new)();
+stbtic GtkWidget* (*fp_gtk_hscble_new)(GtkAdjustment* bdjustment);
+stbtic GtkWidget* (*fp_gtk_vscble_new)(GtkAdjustment* bdjustment);
+stbtic GtkWidget* (*fp_gtk_hscrollbbr_new)(GtkAdjustment* bdjustment);
+stbtic GtkWidget* (*fp_gtk_vscrollbbr_new)(GtkAdjustment* bdjustment);
+stbtic GtkWidget* (*fp_gtk_hsepbrbtor_new)();
+stbtic GtkWidget* (*fp_gtk_vsepbrbtor_new)();
+stbtic GtkWidget* (*fp_gtk_imbge_new)();
+stbtic GtkWidget* (*fp_gtk_lbbel_new)(const gchbr* str);
+stbtic GtkWidget* (*fp_gtk_menu_new)();
+stbtic GtkWidget* (*fp_gtk_menu_bbr_new)();
+stbtic GtkWidget* (*fp_gtk_menu_item_new)();
+stbtic GtkWidget* (*fp_gtk_notebook_new)();
+stbtic GtkWidget* (*fp_gtk_progress_bbr_new)();
+stbtic GtkWidget* (*fp_gtk_progress_bbr_set_orientbtion)(
+        GtkProgressBbr *pbbr,
+        GtkProgressBbrOrientbtion orientbtion);
+stbtic GtkWidget* (*fp_gtk_rbdio_button_new)(GSList *group);
+stbtic GtkWidget* (*fp_gtk_rbdio_menu_item_new)(GSList *group);
+stbtic GtkWidget* (*fp_gtk_scrolled_window_new)(GtkAdjustment *hbdjustment,
+        GtkAdjustment *vbdjustment);
+stbtic GtkWidget* (*fp_gtk_sepbrbtor_menu_item_new)();
+stbtic GtkWidget* (*fp_gtk_sepbrbtor_tool_item_new)();
+stbtic GtkWidget* (*fp_gtk_text_view_new)();
+stbtic GtkWidget* (*fp_gtk_toggle_button_new)();
+stbtic GtkWidget* (*fp_gtk_toolbbr_new)();
+stbtic GtkWidget* (*fp_gtk_tree_view_new)();
+stbtic GtkWidget* (*fp_gtk_viewport_new)(GtkAdjustment *hbdjustment,
+        GtkAdjustment *vbdjustment);
+stbtic GtkWidget* (*fp_gtk_window_new)(GtkWindowType type);
+stbtic GtkWidget* (*fp_gtk_diblog_new)();
+stbtic GtkWidget* (*fp_gtk_spin_button_new)(GtkAdjustment *bdjustment,
+        gdouble climb_rbte, guint digits);
+stbtic GtkWidget* (*fp_gtk_frbme_new)(const gchbr *lbbel);
 
-/* Other widget operations */
-static GtkObject* (*fp_gtk_adjustment_new)(gdouble value,
+/* Other widget operbtions */
+stbtic GtkObject* (*fp_gtk_bdjustment_new)(gdouble vblue,
         gdouble lower, gdouble upper, gdouble step_increment,
-        gdouble page_increment, gdouble page_size);
-static void (*fp_gtk_container_add)(GtkContainer *window, GtkWidget *widget);
-static void (*fp_gtk_menu_shell_append)(GtkMenuShell *menu_shell,
+        gdouble pbge_increment, gdouble pbge_size);
+stbtic void (*fp_gtk_contbiner_bdd)(GtkContbiner *window, GtkWidget *widget);
+stbtic void (*fp_gtk_menu_shell_bppend)(GtkMenuShell *menu_shell,
         GtkWidget *child);
-static void (*fp_gtk_menu_item_set_submenu)(GtkMenuItem *menu_item,
+stbtic void (*fp_gtk_menu_item_set_submenu)(GtkMenuItem *menu_item,
         GtkWidget *submenu);
-static void (*fp_gtk_widget_realize)(GtkWidget *widget);
-static GdkPixbuf* (*fp_gtk_widget_render_icon)(GtkWidget *widget,
-        const gchar *stock_id, GtkIconSize size, const gchar *detail);
-static void (*fp_gtk_widget_set_name)(GtkWidget *widget, const gchar *name);
-static void (*fp_gtk_widget_set_parent)(GtkWidget *widget, GtkWidget *parent);
-static void (*fp_gtk_widget_set_direction)(GtkWidget *widget,
+stbtic void (*fp_gtk_widget_reblize)(GtkWidget *widget);
+stbtic GdkPixbuf* (*fp_gtk_widget_render_icon)(GtkWidget *widget,
+        const gchbr *stock_id, GtkIconSize size, const gchbr *detbil);
+stbtic void (*fp_gtk_widget_set_nbme)(GtkWidget *widget, const gchbr *nbme);
+stbtic void (*fp_gtk_widget_set_pbrent)(GtkWidget *widget, GtkWidget *pbrent);
+stbtic void (*fp_gtk_widget_set_direction)(GtkWidget *widget,
         GtkTextDirection direction);
-static void (*fp_gtk_widget_style_get)(GtkWidget *widget,
-        const gchar *first_property_name, ...);
-static void (*fp_gtk_widget_class_install_style_property)(
-        GtkWidgetClass* class, GParamSpec *pspec);
-static GParamSpec* (*fp_gtk_widget_class_find_style_property)(
-        GtkWidgetClass* class, const gchar* property_name);
-static void (*fp_gtk_widget_style_get_property)(GtkWidget* widget,
-        const gchar* property_name, GValue* value);
-static char* (*fp_pango_font_description_to_string)(
-        const PangoFontDescription* fd);
-static GtkSettings* (*fp_gtk_settings_get_default)();
-static GtkSettings* (*fp_gtk_widget_get_settings)(GtkWidget *widget);
-static GType        (*fp_gtk_border_get_type)();
-static void (*fp_gtk_arrow_set)(GtkWidget* arrow,
-                                GtkArrowType arrow_type,
-                                GtkShadowType shadow_type);
-static void (*fp_gtk_widget_size_request)(GtkWidget *widget,
+stbtic void (*fp_gtk_widget_style_get)(GtkWidget *widget,
+        const gchbr *first_property_nbme, ...);
+stbtic void (*fp_gtk_widget_clbss_instbll_style_property)(
+        GtkWidgetClbss* clbss, GPbrbmSpec *pspec);
+stbtic GPbrbmSpec* (*fp_gtk_widget_clbss_find_style_property)(
+        GtkWidgetClbss* clbss, const gchbr* property_nbme);
+stbtic void (*fp_gtk_widget_style_get_property)(GtkWidget* widget,
+        const gchbr* property_nbme, GVblue* vblue);
+stbtic chbr* (*fp_pbngo_font_description_to_string)(
+        const PbngoFontDescription* fd);
+stbtic GtkSettings* (*fp_gtk_settings_get_defbult)();
+stbtic GtkSettings* (*fp_gtk_widget_get_settings)(GtkWidget *widget);
+stbtic GType        (*fp_gtk_border_get_type)();
+stbtic void (*fp_gtk_brrow_set)(GtkWidget* brrow,
+                                GtkArrowType brrow_type,
+                                GtkShbdowType shbdow_type);
+stbtic void (*fp_gtk_widget_size_request)(GtkWidget *widget,
                                           GtkRequisition *requisition);
-static GtkAdjustment* (*fp_gtk_range_get_adjustment)(GtkRange* range);
+stbtic GtkAdjustment* (*fp_gtk_rbnge_get_bdjustment)(GtkRbnge* rbnge);
 
 /* Method bodies */
-const char *getStrFor(JNIEnv *env, jstring val)
+const chbr *getStrFor(JNIEnv *env, jstring vbl)
 {
-    int length = (*env)->GetStringLength(env, val);
+    int length = (*env)->GetStringLength(env, vbl);
     if (length > CONV_BUFFER_SIZE-1)
     {
         length = CONV_BUFFER_SIZE-1;
 #ifdef INTERNAL_BUILD
-        fprintf(stderr, "Note: Detail is too long: %d chars\n", length);
+        fprintf(stderr, "Note: Detbil is too long: %d chbrs\n", length);
 #endif /* INTERNAL_BUILD */
     }
 
-    (*env)->GetStringUTFRegion(env, val, 0, length, convertionBuffer);
+    (*env)->GetStringUTFRegion(env, vbl, 0, length, convertionBuffer);
     return convertionBuffer;
 }
 
-static void throw_exception(JNIEnv *env, const char* name, const char* message)
+stbtic void throw_exception(JNIEnv *env, const chbr* nbme, const chbr* messbge)
 {
-    jclass class = (*env)->FindClass(env, name);
+    jclbss clbss = (*env)->FindClbss(env, nbme);
 
-    if (class != NULL)
-        (*env)->ThrowNew(env, class, message);
+    if (clbss != NULL)
+        (*env)->ThrowNew(env, clbss, messbge);
 
-    (*env)->DeleteLocalRef(env, class);
+    (*env)->DeleteLocblRef(env, clbss);
 }
 
-/* This is a workaround for the bug:
- * http://sourceware.org/bugzilla/show_bug.cgi?id=1814
- * (dlsym/dlopen clears dlerror state)
- * This bug is specific to Linux, but there is no harm in
- * applying this workaround on Solaris as well.
+/* This is b workbround for the bug:
+ * http://sourcewbre.org/bugzillb/show_bug.cgi?id=1814
+ * (dlsym/dlopen clebrs dlerror stbte)
+ * This bug is specific to Linux, but there is no hbrm in
+ * bpplying this workbround on Solbris bs well.
  */
-static void* dl_symbol(const char* name)
+stbtic void* dl_symbol(const chbr* nbme)
 {
-    void* result = dlsym(gtk2_libhandle, name);
+    void* result = dlsym(gtk2_libhbndle, nbme);
     if (!result)
         longjmp(j, NO_SYMBOL_EXCEPTION);
 
     return result;
 }
 
-static void* dl_symbol_gthread(const char* name)
+stbtic void* dl_symbol_gthrebd(const chbr* nbme)
 {
-    void* result = dlsym(gthread_libhandle, name);
+    void* result = dlsym(gthrebd_libhbndle, nbme);
     if (!result)
         longjmp(j, NO_SYMBOL_EXCEPTION);
 
     return result;
 }
 
-gboolean gtk2_check_version()
+gboolebn gtk2_check_version()
 {
-    if (gtk2_libhandle != NULL) {
-        /* We've already successfully opened the GTK libs, so return true. */
+    if (gtk2_libhbndle != NULL) {
+        /* We've blrebdy successfully opened the GTK libs, so return true. */
         return TRUE;
     } else {
         void *lib = NULL;
-        gboolean result = FALSE;
+        gboolebn result = FALSE;
 
         lib = dlopen(GTK2_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
         if (lib == NULL) {
@@ -433,66 +433,66 @@ gboolean gtk2_check_version()
             result = TRUE;
         }
 
-        // 8048289: workaround for https://bugzilla.gnome.org/show_bug.cgi?id=733065
+        // 8048289: workbround for https://bugzillb.gnome.org/show_bug.cgi?id=733065
         // dlclose(lib);
 
         return result;
     }
 }
 
-#define ADD_SUPPORTED_ACTION(actionStr) \
+#define ADD_SUPPORTED_ACTION(bctionStr) \
 do { \
-    jfieldID fld_action = (*env)->GetStaticFieldID(env, cls_action, actionStr, "Ljava/awt/Desktop$Action;"); \
+    jfieldID fld_bction = (*env)->GetStbticFieldID(env, cls_bction, bctionStr, "Ljbvb/bwt/Desktop$Action;"); \
     if (!(*env)->ExceptionCheck(env)) { \
-        jobject action = (*env)->GetStaticObjectField(env, cls_action, fld_action); \
-        (*env)->CallBooleanMethod(env, supportedActions, mid_arrayListAdd, action); \
+        jobject bction = (*env)->GetStbticObjectField(env, cls_bction, fld_bction); \
+        (*env)->CbllBoolebnMethod(env, supportedActions, mid_brrbyListAdd, bction); \
     } else { \
-        (*env)->ExceptionClear(env); \
+        (*env)->ExceptionClebr(env); \
     } \
 } while(0);
 
 
-void update_supported_actions(JNIEnv *env) {
-    GVfs * (*fp_g_vfs_get_default) (void);
-    const gchar * const * (*fp_g_vfs_get_supported_uri_schemes) (GVfs * vfs);
-    const gchar * const * schemes = NULL;
+void updbte_supported_bctions(JNIEnv *env) {
+    GVfs * (*fp_g_vfs_get_defbult) (void);
+    const gchbr * const * (*fp_g_vfs_get_supported_uri_schemes) (GVfs * vfs);
+    const gchbr * const * schemes = NULL;
 
-    jclass cls_action = (*env)->FindClass(env, "java/awt/Desktop$Action");
-    CHECK_NULL(cls_action);
-    jclass cls_xDesktopPeer = (*env)->FindClass(env, "sun/awt/X11/XDesktopPeer");
+    jclbss cls_bction = (*env)->FindClbss(env, "jbvb/bwt/Desktop$Action");
+    CHECK_NULL(cls_bction);
+    jclbss cls_xDesktopPeer = (*env)->FindClbss(env, "sun/bwt/X11/XDesktopPeer");
     CHECK_NULL(cls_xDesktopPeer);
-    jfieldID fld_supportedActions = (*env)->GetStaticFieldID(env, cls_xDesktopPeer, "supportedActions", "Ljava/util/List;");
+    jfieldID fld_supportedActions = (*env)->GetStbticFieldID(env, cls_xDesktopPeer, "supportedActions", "Ljbvb/util/List;");
     CHECK_NULL(fld_supportedActions);
-    jobject supportedActions = (*env)->GetStaticObjectField(env, cls_xDesktopPeer, fld_supportedActions);
+    jobject supportedActions = (*env)->GetStbticObjectField(env, cls_xDesktopPeer, fld_supportedActions);
 
-    jclass cls_arrayList = (*env)->FindClass(env, "java/util/ArrayList");
-    CHECK_NULL(cls_arrayList);
-    jmethodID mid_arrayListAdd = (*env)->GetMethodID(env, cls_arrayList, "add", "(Ljava/lang/Object;)Z");
-    CHECK_NULL(mid_arrayListAdd);
-    jmethodID mid_arrayListClear = (*env)->GetMethodID(env, cls_arrayList, "clear", "()V");
-    CHECK_NULL(mid_arrayListClear);
+    jclbss cls_brrbyList = (*env)->FindClbss(env, "jbvb/util/ArrbyList");
+    CHECK_NULL(cls_brrbyList);
+    jmethodID mid_brrbyListAdd = (*env)->GetMethodID(env, cls_brrbyList, "bdd", "(Ljbvb/lbng/Object;)Z");
+    CHECK_NULL(mid_brrbyListAdd);
+    jmethodID mid_brrbyListClebr = (*env)->GetMethodID(env, cls_brrbyList, "clebr", "()V");
+    CHECK_NULL(mid_brrbyListClebr);
 
-    (*env)->CallVoidMethod(env, supportedActions, mid_arrayListClear);
+    (*env)->CbllVoidMethod(env, supportedActions, mid_brrbyListClebr);
 
     ADD_SUPPORTED_ACTION("OPEN");
 
     /**
-     * gtk_show_uri() documentation says:
+     * gtk_show_uri() documentbtion sbys:
      *
-     * > you need to install gvfs to get support for uri schemes such as http://
-     * > or ftp://, as only local files are handled by GIO itself.
+     * > you need to instbll gvfs to get support for uri schemes such bs http://
+     * > or ftp://, bs only locbl files bre hbndled by GIO itself.
      *
-     * So OPEN action was safely added here.
-     * However, it looks like Solaris 11 have gvfs support only for 32-bit
-     * applications only by default.
+     * So OPEN bction wbs sbfely bdded here.
+     * However, it looks like Solbris 11 hbve gvfs support only for 32-bit
+     * bpplicbtions only by defbult.
      */
 
-    fp_g_vfs_get_default = dl_symbol("g_vfs_get_default");
+    fp_g_vfs_get_defbult = dl_symbol("g_vfs_get_defbult");
     fp_g_vfs_get_supported_uri_schemes = dl_symbol("g_vfs_get_supported_uri_schemes");
     dlerror();
 
-    if (fp_g_vfs_get_default && fp_g_vfs_get_supported_uri_schemes) {
-        GVfs * vfs = fp_g_vfs_get_default();
+    if (fp_g_vfs_get_defbult && fp_g_vfs_get_supported_uri_schemes) {
+        GVfs * vfs = fp_g_vfs_get_defbult();
         schemes = vfs ? fp_g_vfs_get_supported_uri_schemes(vfs) : NULL;
         if (schemes) {
             int i = 0;
@@ -500,46 +500,46 @@ void update_supported_actions(JNIEnv *env) {
                 if (strcmp(schemes[i], "http") == 0) {
                     ADD_SUPPORTED_ACTION("BROWSE");
                     ADD_SUPPORTED_ACTION("MAIL");
-                    break;
+                    brebk;
                 }
                 i++;
             }
         }
     } else {
 #ifdef INTERNAL_BUILD
-        fprintf(stderr, "Cannot load g_vfs_get_supported_uri_schemes\n");
+        fprintf(stderr, "Cbnnot lobd g_vfs_get_supported_uri_schemes\n");
 #endif /* INTERNAL_BUILD */
     }
 
 }
 /**
- * Functions for awt_Desktop.c
+ * Functions for bwt_Desktop.c
  */
-gboolean gtk2_show_uri_load(JNIEnv *env) {
-     gboolean success = FALSE;
+gboolebn gtk2_show_uri_lobd(JNIEnv *env) {
+     gboolebn success = FALSE;
      dlerror();
-     const char *gtk_version = fp_gtk_check_version(2, 14, 0);
+     const chbr *gtk_version = fp_gtk_check_version(2, 14, 0);
      if (gtk_version != NULL) {
-         // The gtk_show_uri is available from GTK+ 2.14
+         // The gtk_show_uri is bvbilbble from GTK+ 2.14
 #ifdef INTERNAL_BUILD
          fprintf (stderr, "The version of GTK is %s. "
              "The gtk_show_uri function is supported "
              "since GTK+ 2.14.\n", gtk_version);
 #endif /* INTERNAL_BUILD */
      } else {
-         // Loading symbols only if the GTK version is 2.14 and higher
+         // Lobding symbols only if the GTK version is 2.14 bnd higher
          fp_gtk_show_uri = dl_symbol("gtk_show_uri");
-         const char *dlsym_error = dlerror();
+         const chbr *dlsym_error = dlerror();
          if (dlsym_error) {
 #ifdef INTERNAL_BUILD
-             fprintf (stderr, "Cannot load symbol: %s \n", dlsym_error);
+             fprintf (stderr, "Cbnnot lobd symbol: %s \n", dlsym_error);
 #endif /* INTERNAL_BUILD */
          } else if (fp_gtk_show_uri == NULL) {
 #ifdef INTERNAL_BUILD
              fprintf(stderr, "dlsym(gtk_show_uri) returned NULL\n");
 #endif /* INTERNAL_BUILD */
         } else {
-            update_supported_actions(env);
+            updbte_supported_bctions(env);
             success = TRUE;
         }
      }
@@ -547,55 +547,55 @@ gboolean gtk2_show_uri_load(JNIEnv *env) {
 }
 
 /**
- * Functions for sun_awt_X11_GtkFileDialogPeer.c
+ * Functions for sun_bwt_X11_GtkFileDiblogPeer.c
  */
-void gtk2_file_chooser_load()
+void gtk2_file_chooser_lobd()
 {
-    fp_gtk_file_chooser_get_filename = dl_symbol(
-            "gtk_file_chooser_get_filename");
-    fp_gtk_file_chooser_dialog_new = dl_symbol("gtk_file_chooser_dialog_new");
+    fp_gtk_file_chooser_get_filenbme = dl_symbol(
+            "gtk_file_chooser_get_filenbme");
+    fp_gtk_file_chooser_diblog_new = dl_symbol("gtk_file_chooser_diblog_new");
     fp_gtk_file_chooser_set_current_folder = dl_symbol(
             "gtk_file_chooser_set_current_folder");
-    fp_gtk_file_chooser_set_filename = dl_symbol(
-            "gtk_file_chooser_set_filename");
-    fp_gtk_file_chooser_set_current_name = dl_symbol(
-            "gtk_file_chooser_set_current_name");
-    fp_gtk_file_filter_add_custom = dl_symbol("gtk_file_filter_add_custom");
+    fp_gtk_file_chooser_set_filenbme = dl_symbol(
+            "gtk_file_chooser_set_filenbme");
+    fp_gtk_file_chooser_set_current_nbme = dl_symbol(
+            "gtk_file_chooser_set_current_nbme");
+    fp_gtk_file_filter_bdd_custom = dl_symbol("gtk_file_filter_bdd_custom");
     fp_gtk_file_chooser_set_filter = dl_symbol("gtk_file_chooser_set_filter");
     fp_gtk_file_chooser_get_type = dl_symbol("gtk_file_chooser_get_type");
     fp_gtk_file_filter_new = dl_symbol("gtk_file_filter_new");
     if (fp_gtk_check_version(2, 8, 0) == NULL) {
-        fp_gtk_file_chooser_set_do_overwrite_confirmation = dl_symbol(
-                "gtk_file_chooser_set_do_overwrite_confirmation");
+        fp_gtk_file_chooser_set_do_overwrite_confirmbtion = dl_symbol(
+                "gtk_file_chooser_set_do_overwrite_confirmbtion");
     }
     fp_gtk_file_chooser_set_select_multiple = dl_symbol(
             "gtk_file_chooser_set_select_multiple");
     fp_gtk_file_chooser_get_current_folder = dl_symbol(
             "gtk_file_chooser_get_current_folder");
-    fp_gtk_file_chooser_get_filenames = dl_symbol(
-            "gtk_file_chooser_get_filenames");
+    fp_gtk_file_chooser_get_filenbmes = dl_symbol(
+            "gtk_file_chooser_get_filenbmes");
     fp_gtk_g_slist_length = dl_symbol("g_slist_length");
 }
 
-gboolean gtk2_load(JNIEnv *env)
+gboolebn gtk2_lobd(JNIEnv *env)
 {
-    gboolean result;
+    gboolebn result;
     int i;
-    int (*handler)();
-    int (*io_handler)();
-    char *gtk_modules_env;
+    int (*hbndler)();
+    int (*io_hbndler)();
+    chbr *gtk_modules_env;
 
-    gtk2_libhandle = dlopen(GTK2_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
-    if (gtk2_libhandle == NULL) {
-        gtk2_libhandle = dlopen(GTK2_LIB, RTLD_LAZY | RTLD_LOCAL);
-        if (gtk2_libhandle == NULL)
+    gtk2_libhbndle = dlopen(GTK2_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
+    if (gtk2_libhbndle == NULL) {
+        gtk2_libhbndle = dlopen(GTK2_LIB, RTLD_LAZY | RTLD_LOCAL);
+        if (gtk2_libhbndle == NULL)
             return FALSE;
     }
 
-    gthread_libhandle = dlopen(GTHREAD_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
-    if (gthread_libhandle == NULL) {
-        gthread_libhandle = dlopen(GTHREAD_LIB, RTLD_LAZY | RTLD_LOCAL);
-        if (gthread_libhandle == NULL)
+    gthrebd_libhbndle = dlopen(GTHREAD_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
+    if (gthrebd_libhbndle == NULL) {
+        gthrebd_libhbndle = dlopen(GTHREAD_LIB, RTLD_LAZY | RTLD_LOCAL);
+        if (gthrebd_libhbndle == NULL)
             return FALSE;
     }
 
@@ -608,50 +608,50 @@ gboolean gtk2_load(JNIEnv *env)
         }
 
         /* GLib */
-        fp_glib_check_version = dlsym(gtk2_libhandle, "glib_check_version");
+        fp_glib_check_version = dlsym(gtk2_libhbndle, "glib_check_version");
         if (!fp_glib_check_version) {
             dlerror();
         }
         fp_g_free = dl_symbol("g_free");
         fp_g_object_unref = dl_symbol("g_object_unref");
 
-        fp_g_main_context_iteration =
-            dl_symbol("g_main_context_iteration");
+        fp_g_mbin_context_iterbtion =
+            dl_symbol("g_mbin_context_iterbtion");
 
-        fp_g_value_init = dl_symbol("g_value_init");
-        fp_g_type_is_a = dl_symbol("g_type_is_a");
+        fp_g_vblue_init = dl_symbol("g_vblue_init");
+        fp_g_type_is_b = dl_symbol("g_type_is_b");
 
-        fp_g_value_get_boolean = dl_symbol("g_value_get_boolean");
-        fp_g_value_get_char = dl_symbol("g_value_get_char");
-        fp_g_value_get_uchar = dl_symbol("g_value_get_uchar");
-        fp_g_value_get_int = dl_symbol("g_value_get_int");
-        fp_g_value_get_uint = dl_symbol("g_value_get_uint");
-        fp_g_value_get_long = dl_symbol("g_value_get_long");
-        fp_g_value_get_ulong = dl_symbol("g_value_get_ulong");
-        fp_g_value_get_int64 = dl_symbol("g_value_get_int64");
-        fp_g_value_get_uint64 = dl_symbol("g_value_get_uint64");
-        fp_g_value_get_float = dl_symbol("g_value_get_float");
-        fp_g_value_get_double = dl_symbol("g_value_get_double");
-        fp_g_value_get_string = dl_symbol("g_value_get_string");
-        fp_g_value_get_enum = dl_symbol("g_value_get_enum");
-        fp_g_value_get_flags = dl_symbol("g_value_get_flags");
-        fp_g_value_get_param = dl_symbol("g_value_get_param");
-        fp_g_value_get_boxed = dl_symbol("g_value_get_boxed");
-        fp_g_value_get_pointer = dl_symbol("g_value_get_pointer");
-        fp_g_value_get_object = dl_symbol("g_value_get_object");
-        fp_g_param_spec_int = dl_symbol("g_param_spec_int");
+        fp_g_vblue_get_boolebn = dl_symbol("g_vblue_get_boolebn");
+        fp_g_vblue_get_chbr = dl_symbol("g_vblue_get_chbr");
+        fp_g_vblue_get_uchbr = dl_symbol("g_vblue_get_uchbr");
+        fp_g_vblue_get_int = dl_symbol("g_vblue_get_int");
+        fp_g_vblue_get_uint = dl_symbol("g_vblue_get_uint");
+        fp_g_vblue_get_long = dl_symbol("g_vblue_get_long");
+        fp_g_vblue_get_ulong = dl_symbol("g_vblue_get_ulong");
+        fp_g_vblue_get_int64 = dl_symbol("g_vblue_get_int64");
+        fp_g_vblue_get_uint64 = dl_symbol("g_vblue_get_uint64");
+        fp_g_vblue_get_flobt = dl_symbol("g_vblue_get_flobt");
+        fp_g_vblue_get_double = dl_symbol("g_vblue_get_double");
+        fp_g_vblue_get_string = dl_symbol("g_vblue_get_string");
+        fp_g_vblue_get_enum = dl_symbol("g_vblue_get_enum");
+        fp_g_vblue_get_flbgs = dl_symbol("g_vblue_get_flbgs");
+        fp_g_vblue_get_pbrbm = dl_symbol("g_vblue_get_pbrbm");
+        fp_g_vblue_get_boxed = dl_symbol("g_vblue_get_boxed");
+        fp_g_vblue_get_pointer = dl_symbol("g_vblue_get_pointer");
+        fp_g_vblue_get_object = dl_symbol("g_vblue_get_object");
+        fp_g_pbrbm_spec_int = dl_symbol("g_pbrbm_spec_int");
         fp_g_object_get = dl_symbol("g_object_get");
         fp_g_object_set = dl_symbol("g_object_set");
 
         /* GDK */
-        fp_gdk_pixmap_new = dl_symbol("gdk_pixmap_new");
-        fp_gdk_pixbuf_get_from_drawable =
-            dl_symbol("gdk_pixbuf_get_from_drawable");
+        fp_gdk_pixmbp_new = dl_symbol("gdk_pixmbp_new");
+        fp_gdk_pixbuf_get_from_drbwbble =
+            dl_symbol("gdk_pixbuf_get_from_drbwbble");
         fp_gdk_gc_new = dl_symbol("gdk_gc_new");
         fp_gdk_rgb_gc_set_foreground =
             dl_symbol("gdk_rgb_gc_set_foreground");
-        fp_gdk_draw_rectangle = dl_symbol("gdk_draw_rectangle");
-        fp_gdk_drawable_get_size = dl_symbol("gdk_drawable_get_size");
+        fp_gdk_drbw_rectbngle = dl_symbol("gdk_drbw_rectbngle");
+        fp_gdk_drbwbble_get_size = dl_symbol("gdk_drbwbble_get_size");
 
         /* Pixbuf */
         fp_gdk_pixbuf_new = dl_symbol("gdk_pixbuf_new");
@@ -662,77 +662,77 @@ gboolean gtk2_load(JNIEnv *env)
         fp_gdk_pixbuf_get_pixels = dl_symbol("gdk_pixbuf_get_pixels");
         fp_gdk_pixbuf_get_rowstride =
                 dl_symbol("gdk_pixbuf_get_rowstride");
-        fp_gdk_pixbuf_get_has_alpha =
-                dl_symbol("gdk_pixbuf_get_has_alpha");
-        fp_gdk_pixbuf_get_bits_per_sample =
-                dl_symbol("gdk_pixbuf_get_bits_per_sample");
-        fp_gdk_pixbuf_get_n_channels =
-                dl_symbol("gdk_pixbuf_get_n_channels");
+        fp_gdk_pixbuf_get_hbs_blphb =
+                dl_symbol("gdk_pixbuf_get_hbs_blphb");
+        fp_gdk_pixbuf_get_bits_per_sbmple =
+                dl_symbol("gdk_pixbuf_get_bits_per_sbmple");
+        fp_gdk_pixbuf_get_n_chbnnels =
+                dl_symbol("gdk_pixbuf_get_n_chbnnels");
 
-        /* GTK painting */
+        /* GTK pbinting */
         fp_gtk_init_check = dl_symbol("gtk_init_check");
-        fp_gtk_paint_hline = dl_symbol("gtk_paint_hline");
-        fp_gtk_paint_vline = dl_symbol("gtk_paint_vline");
-        fp_gtk_paint_shadow = dl_symbol("gtk_paint_shadow");
-        fp_gtk_paint_arrow = dl_symbol("gtk_paint_arrow");
-        fp_gtk_paint_diamond = dl_symbol("gtk_paint_diamond");
-        fp_gtk_paint_box = dl_symbol("gtk_paint_box");
-        fp_gtk_paint_flat_box = dl_symbol("gtk_paint_flat_box");
-        fp_gtk_paint_check = dl_symbol("gtk_paint_check");
-        fp_gtk_paint_option = dl_symbol("gtk_paint_option");
-        fp_gtk_paint_box_gap = dl_symbol("gtk_paint_box_gap");
-        fp_gtk_paint_extension = dl_symbol("gtk_paint_extension");
-        fp_gtk_paint_focus = dl_symbol("gtk_paint_focus");
-        fp_gtk_paint_slider = dl_symbol("gtk_paint_slider");
-        fp_gtk_paint_handle = dl_symbol("gtk_paint_handle");
-        fp_gtk_paint_expander = dl_symbol("gtk_paint_expander");
-        fp_gtk_style_apply_default_background =
-                dl_symbol("gtk_style_apply_default_background");
+        fp_gtk_pbint_hline = dl_symbol("gtk_pbint_hline");
+        fp_gtk_pbint_vline = dl_symbol("gtk_pbint_vline");
+        fp_gtk_pbint_shbdow = dl_symbol("gtk_pbint_shbdow");
+        fp_gtk_pbint_brrow = dl_symbol("gtk_pbint_brrow");
+        fp_gtk_pbint_dibmond = dl_symbol("gtk_pbint_dibmond");
+        fp_gtk_pbint_box = dl_symbol("gtk_pbint_box");
+        fp_gtk_pbint_flbt_box = dl_symbol("gtk_pbint_flbt_box");
+        fp_gtk_pbint_check = dl_symbol("gtk_pbint_check");
+        fp_gtk_pbint_option = dl_symbol("gtk_pbint_option");
+        fp_gtk_pbint_box_gbp = dl_symbol("gtk_pbint_box_gbp");
+        fp_gtk_pbint_extension = dl_symbol("gtk_pbint_extension");
+        fp_gtk_pbint_focus = dl_symbol("gtk_pbint_focus");
+        fp_gtk_pbint_slider = dl_symbol("gtk_pbint_slider");
+        fp_gtk_pbint_hbndle = dl_symbol("gtk_pbint_hbndle");
+        fp_gtk_pbint_expbnder = dl_symbol("gtk_pbint_expbnder");
+        fp_gtk_style_bpply_defbult_bbckground =
+                dl_symbol("gtk_style_bpply_defbult_bbckground");
 
         /* GTK widgets */
-        fp_gtk_arrow_new = dl_symbol("gtk_arrow_new");
+        fp_gtk_brrow_new = dl_symbol("gtk_brrow_new");
         fp_gtk_button_new = dl_symbol("gtk_button_new");
         fp_gtk_spin_button_new = dl_symbol("gtk_spin_button_new");
         fp_gtk_check_button_new = dl_symbol("gtk_check_button_new");
         fp_gtk_check_menu_item_new =
                 dl_symbol("gtk_check_menu_item_new");
-        fp_gtk_color_selection_dialog_new =
-                dl_symbol("gtk_color_selection_dialog_new");
+        fp_gtk_color_selection_diblog_new =
+                dl_symbol("gtk_color_selection_diblog_new");
         fp_gtk_entry_new = dl_symbol("gtk_entry_new");
         fp_gtk_fixed_new = dl_symbol("gtk_fixed_new");
-        fp_gtk_handle_box_new = dl_symbol("gtk_handle_box_new");
-        fp_gtk_image_new = dl_symbol("gtk_image_new");
-        fp_gtk_hpaned_new = dl_symbol("gtk_hpaned_new");
-        fp_gtk_vpaned_new = dl_symbol("gtk_vpaned_new");
-        fp_gtk_hscale_new = dl_symbol("gtk_hscale_new");
-        fp_gtk_vscale_new = dl_symbol("gtk_vscale_new");
-        fp_gtk_hscrollbar_new = dl_symbol("gtk_hscrollbar_new");
-        fp_gtk_vscrollbar_new = dl_symbol("gtk_vscrollbar_new");
-        fp_gtk_hseparator_new = dl_symbol("gtk_hseparator_new");
-        fp_gtk_vseparator_new = dl_symbol("gtk_vseparator_new");
-        fp_gtk_label_new = dl_symbol("gtk_label_new");
+        fp_gtk_hbndle_box_new = dl_symbol("gtk_hbndle_box_new");
+        fp_gtk_imbge_new = dl_symbol("gtk_imbge_new");
+        fp_gtk_hpbned_new = dl_symbol("gtk_hpbned_new");
+        fp_gtk_vpbned_new = dl_symbol("gtk_vpbned_new");
+        fp_gtk_hscble_new = dl_symbol("gtk_hscble_new");
+        fp_gtk_vscble_new = dl_symbol("gtk_vscble_new");
+        fp_gtk_hscrollbbr_new = dl_symbol("gtk_hscrollbbr_new");
+        fp_gtk_vscrollbbr_new = dl_symbol("gtk_vscrollbbr_new");
+        fp_gtk_hsepbrbtor_new = dl_symbol("gtk_hsepbrbtor_new");
+        fp_gtk_vsepbrbtor_new = dl_symbol("gtk_vsepbrbtor_new");
+        fp_gtk_lbbel_new = dl_symbol("gtk_lbbel_new");
         fp_gtk_menu_new = dl_symbol("gtk_menu_new");
-        fp_gtk_menu_bar_new = dl_symbol("gtk_menu_bar_new");
+        fp_gtk_menu_bbr_new = dl_symbol("gtk_menu_bbr_new");
         fp_gtk_menu_item_new = dl_symbol("gtk_menu_item_new");
         fp_gtk_menu_item_set_submenu =
                 dl_symbol("gtk_menu_item_set_submenu");
         fp_gtk_notebook_new = dl_symbol("gtk_notebook_new");
-        fp_gtk_progress_bar_new =
-            dl_symbol("gtk_progress_bar_new");
-        fp_gtk_progress_bar_set_orientation =
-            dl_symbol("gtk_progress_bar_set_orientation");
-        fp_gtk_radio_button_new =
-            dl_symbol("gtk_radio_button_new");
-        fp_gtk_radio_menu_item_new =
-            dl_symbol("gtk_radio_menu_item_new");
+        fp_gtk_progress_bbr_new =
+            dl_symbol("gtk_progress_bbr_new");
+        fp_gtk_progress_bbr_set_orientbtion =
+            dl_symbol("gtk_progress_bbr_set_orientbtion");
+        fp_gtk_rbdio_button_new =
+            dl_symbol("gtk_rbdio_button_new");
+        fp_gtk_rbdio_menu_item_new =
+            dl_symbol("gtk_rbdio_menu_item_new");
         fp_gtk_scrolled_window_new =
             dl_symbol("gtk_scrolled_window_new");
-        fp_gtk_separator_menu_item_new =
-            dl_symbol("gtk_separator_menu_item_new");
+        fp_gtk_sepbrbtor_menu_item_new =
+            dl_symbol("gtk_sepbrbtor_menu_item_new");
         fp_gtk_text_view_new = dl_symbol("gtk_text_view_new");
         fp_gtk_toggle_button_new =
             dl_symbol("gtk_toggle_button_new");
-        fp_gtk_toolbar_new = dl_symbol("gtk_toolbar_new");
+        fp_gtk_toolbbr_new = dl_symbol("gtk_toolbbr_new");
         fp_gtk_tree_view_new = dl_symbol("gtk_tree_view_new");
         fp_gtk_viewport_new = dl_symbol("gtk_viewport_new");
         fp_gtk_window_new = dl_symbol("gtk_window_new");
@@ -740,103 +740,103 @@ gboolean gtk2_load(JNIEnv *env)
         fp_gtk_window_move = dl_symbol("gtk_window_move");
         fp_gtk_window_resize = dl_symbol("gtk_window_resize");
 
-          fp_gtk_dialog_new = dl_symbol("gtk_dialog_new");
-        fp_gtk_frame_new = dl_symbol("gtk_frame_new");
+          fp_gtk_diblog_new = dl_symbol("gtk_diblog_new");
+        fp_gtk_frbme_new = dl_symbol("gtk_frbme_new");
 
-        fp_gtk_adjustment_new = dl_symbol("gtk_adjustment_new");
-        fp_gtk_container_add = dl_symbol("gtk_container_add");
-        fp_gtk_menu_shell_append =
-            dl_symbol("gtk_menu_shell_append");
-        fp_gtk_widget_realize = dl_symbol("gtk_widget_realize");
+        fp_gtk_bdjustment_new = dl_symbol("gtk_bdjustment_new");
+        fp_gtk_contbiner_bdd = dl_symbol("gtk_contbiner_bdd");
+        fp_gtk_menu_shell_bppend =
+            dl_symbol("gtk_menu_shell_bppend");
+        fp_gtk_widget_reblize = dl_symbol("gtk_widget_reblize");
         fp_gtk_widget_destroy = dl_symbol("gtk_widget_destroy");
         fp_gtk_widget_render_icon =
             dl_symbol("gtk_widget_render_icon");
-        fp_gtk_widget_set_name =
-            dl_symbol("gtk_widget_set_name");
-        fp_gtk_widget_set_parent =
-            dl_symbol("gtk_widget_set_parent");
+        fp_gtk_widget_set_nbme =
+            dl_symbol("gtk_widget_set_nbme");
+        fp_gtk_widget_set_pbrent =
+            dl_symbol("gtk_widget_set_pbrent");
         fp_gtk_widget_set_direction =
             dl_symbol("gtk_widget_set_direction");
         fp_gtk_widget_style_get =
             dl_symbol("gtk_widget_style_get");
-        fp_gtk_widget_class_install_style_property =
-            dl_symbol("gtk_widget_class_install_style_property");
-        fp_gtk_widget_class_find_style_property =
-            dl_symbol("gtk_widget_class_find_style_property");
+        fp_gtk_widget_clbss_instbll_style_property =
+            dl_symbol("gtk_widget_clbss_instbll_style_property");
+        fp_gtk_widget_clbss_find_style_property =
+            dl_symbol("gtk_widget_clbss_find_style_property");
         fp_gtk_widget_style_get_property =
             dl_symbol("gtk_widget_style_get_property");
-        fp_pango_font_description_to_string =
-            dl_symbol("pango_font_description_to_string");
-        fp_gtk_settings_get_default =
-            dl_symbol("gtk_settings_get_default");
+        fp_pbngo_font_description_to_string =
+            dl_symbol("pbngo_font_description_to_string");
+        fp_gtk_settings_get_defbult =
+            dl_symbol("gtk_settings_get_defbult");
         fp_gtk_widget_get_settings =
             dl_symbol("gtk_widget_get_settings");
         fp_gtk_border_get_type =  dl_symbol("gtk_border_get_type");
-        fp_gtk_arrow_set = dl_symbol("gtk_arrow_set");
+        fp_gtk_brrow_set = dl_symbol("gtk_brrow_set");
         fp_gtk_widget_size_request =
             dl_symbol("gtk_widget_size_request");
-        fp_gtk_range_get_adjustment =
-            dl_symbol("gtk_range_get_adjustment");
+        fp_gtk_rbnge_get_bdjustment =
+            dl_symbol("gtk_rbnge_get_bdjustment");
 
         fp_gtk_widget_hide = dl_symbol("gtk_widget_hide");
-        fp_gtk_main_quit = dl_symbol("gtk_main_quit");
-        fp_g_signal_connect_data = dl_symbol("g_signal_connect_data");
+        fp_gtk_mbin_quit = dl_symbol("gtk_mbin_quit");
+        fp_g_signbl_connect_dbtb = dl_symbol("g_signbl_connect_dbtb");
         fp_gtk_widget_show = dl_symbol("gtk_widget_show");
-        fp_gtk_main = dl_symbol("gtk_main");
+        fp_gtk_mbin = dl_symbol("gtk_mbin");
 
-        fp_g_path_get_dirname = dl_symbol("g_path_get_dirname");
+        fp_g_pbth_get_dirnbme = dl_symbol("g_pbth_get_dirnbme");
 
         /**
-         * GLib thread system
+         * GLib threbd system
          */
         if (GLIB_CHECK_VERSION(2, 20, 0)) {
-            fp_g_thread_get_initialized = dl_symbol_gthread("g_thread_get_initialized");
+            fp_g_threbd_get_initiblized = dl_symbol_gthrebd("g_threbd_get_initiblized");
         }
-        fp_g_thread_init = dl_symbol_gthread("g_thread_init");
-        fp_gdk_threads_init = dl_symbol("gdk_threads_init");
-        fp_gdk_threads_enter = dl_symbol("gdk_threads_enter");
-        fp_gdk_threads_leave = dl_symbol("gdk_threads_leave");
+        fp_g_threbd_init = dl_symbol_gthrebd("g_threbd_init");
+        fp_gdk_threbds_init = dl_symbol("gdk_threbds_init");
+        fp_gdk_threbds_enter = dl_symbol("gdk_threbds_enter");
+        fp_gdk_threbds_lebve = dl_symbol("gdk_threbds_lebve");
 
         /**
-         * Functions for sun_awt_X11_GtkFileDialogPeer.c
+         * Functions for sun_bwt_X11_GtkFileDiblogPeer.c
          */
         if (fp_gtk_check_version(2, 4, 0) == NULL) {
-            // The current GtkFileChooser is available from GTK+ 2.4
-            gtk2_file_chooser_load();
+            // The current GtkFileChooser is bvbilbble from GTK+ 2.4
+            gtk2_file_chooser_lobd();
         }
 
-        /* Some functions may be missing in pre-2.4 GTK.
-           We handle them specially here.
+        /* Some functions mby be missing in pre-2.4 GTK.
+           We hbndle them speciblly here.
          */
-        fp_gtk_combo_box_new = dlsym(gtk2_libhandle, "gtk_combo_box_new");
+        fp_gtk_combo_box_new = dlsym(gtk2_libhbndle, "gtk_combo_box_new");
         if (fp_gtk_combo_box_new == NULL) {
             fp_gtk_combo_box_new = dl_symbol("gtk_combo_new");
         }
 
         fp_gtk_combo_box_entry_new =
-            dlsym(gtk2_libhandle, "gtk_combo_box_entry_new");
+            dlsym(gtk2_libhbndle, "gtk_combo_box_entry_new");
         if (fp_gtk_combo_box_entry_new == NULL) {
             fp_gtk_combo_box_entry_new = dl_symbol("gtk_combo_new");
             new_combo = FALSE;
         }
 
-        fp_gtk_separator_tool_item_new =
-            dlsym(gtk2_libhandle, "gtk_separator_tool_item_new");
-        if (fp_gtk_separator_tool_item_new == NULL) {
-            fp_gtk_separator_tool_item_new =
-                dl_symbol("gtk_vseparator_new");
+        fp_gtk_sepbrbtor_tool_item_new =
+            dlsym(gtk2_libhbndle, "gtk_sepbrbtor_tool_item_new");
+        if (fp_gtk_sepbrbtor_tool_item_new == NULL) {
+            fp_gtk_sepbrbtor_tool_item_new =
+                dl_symbol("gtk_vsepbrbtor_new");
         }
     }
-    /* Now we have only one kind of exceptions: NO_SYMBOL_EXCEPTION
-     * Otherwise we can check the return value of setjmp method.
+    /* Now we hbve only one kind of exceptions: NO_SYMBOL_EXCEPTION
+     * Otherwise we cbn check the return vblue of setjmp method.
      */
     else
     {
-        dlclose(gtk2_libhandle);
-        gtk2_libhandle = NULL;
+        dlclose(gtk2_libhbndle);
+        gtk2_libhbndle = NULL;
 
-        dlclose(gthread_libhandle);
-        gthread_libhandle = NULL;
+        dlclose(gthrebd_libhbndle);
+        gthrebd_libhbndle = NULL;
 
         return FALSE;
     }
@@ -846,34 +846,34 @@ gboolean gtk2_load(JNIEnv *env)
      */
     gtk_modules_env = getenv ("GTK_MODULES");
 
-    if (gtk_modules_env && strstr (gtk_modules_env, "atk-bridge") ||
-        gtk_modules_env && strstr (gtk_modules_env, "gail"))
+    if (gtk_modules_env && strstr (gtk_modules_env, "btk-bridge") ||
+        gtk_modules_env && strstr (gtk_modules_env, "gbil"))
     {
-        /* the new env will be smaller than the old one */
-        gchar *s, *new_env = SAFE_SIZE_STRUCT_ALLOC(malloc,
+        /* the new env will be smbller thbn the old one */
+        gchbr *s, *new_env = SAFE_SIZE_STRUCT_ALLOC(mblloc,
                 sizeof(ENV_PREFIX), 1, strlen (gtk_modules_env));
 
         if (new_env != NULL )
         {
-            /* careful, strtok modifies its args */
-            gchar *tmp_env = strdup (gtk_modules_env);
+            /* cbreful, strtok modifies its brgs */
+            gchbr *tmp_env = strdup (gtk_modules_env);
             strcpy(new_env, ENV_PREFIX);
 
-            /* strip out 'atk-bridge' and 'gail' */
+            /* strip out 'btk-bridge' bnd 'gbil' */
             size_t PREFIX_LENGTH = strlen(ENV_PREFIX);
             while (s = strtok(tmp_env, ":"))
             {
-                if ((!strstr (s, "atk-bridge")) && (!strstr (s, "gail")))
+                if ((!strstr (s, "btk-bridge")) && (!strstr (s, "gbil")))
                 {
                     if (strlen (new_env) > PREFIX_LENGTH) {
-                        new_env = strcat (new_env, ":");
+                        new_env = strcbt (new_env, ":");
                     }
-                    new_env = strcat(new_env, s);
+                    new_env = strcbt(new_env, s);
                 }
                 if (tmp_env)
                 {
                     free (tmp_env);
-                    tmp_env = NULL; /* next call to strtok arg1==NULL */
+                    tmp_env = NULL; /* next cbll to strtok brg1==NULL */
                 }
             }
             putenv (new_env);
@@ -883,51 +883,51 @@ gboolean gtk2_load(JNIEnv *env)
     }
 
     /*
-     * GTK should be initialized with gtk_init_check() before use.
+     * GTK should be initiblized with gtk_init_check() before use.
      *
-     * gtk_init_check installs its own error handlers. It is critical that
-     * we preserve error handler set from AWT. Otherwise we'll crash on
-     * BadMatch errors which we would normally ignore. The IO error handler
+     * gtk_init_check instblls its own error hbndlers. It is criticbl thbt
+     * we preserve error hbndler set from AWT. Otherwise we'll crbsh on
+     * BbdMbtch errors which we would normblly ignore. The IO error hbndler
      * is preserved here, too, just for consistency.
     */
-    handler = XSetErrorHandler(NULL);
-    io_handler = XSetIOErrorHandler(NULL);
+    hbndler = XSetErrorHbndler(NULL);
+    io_hbndler = XSetIOErrorHbndler(NULL);
 
     if (fp_gtk_check_version(2, 2, 0) == NULL) {
-        jclass clazz = (*env)->FindClass(env, "sun/misc/GThreadHelper");
-        jmethodID mid_getAndSetInitializationNeededFlag =
-                (*env)->GetStaticMethodID(env, clazz, "getAndSetInitializationNeededFlag", "()Z");
-        jmethodID mid_lock = (*env)->GetStaticMethodID(env, clazz, "lock", "()V");
-        jmethodID mid_unlock = (*env)->GetStaticMethodID(env, clazz, "unlock", "()V");
+        jclbss clbzz = (*env)->FindClbss(env, "sun/misc/GThrebdHelper");
+        jmethodID mid_getAndSetInitiblizbtionNeededFlbg =
+                (*env)->GetStbticMethodID(env, clbzz, "getAndSetInitiblizbtionNeededFlbg", "()Z");
+        jmethodID mid_lock = (*env)->GetStbticMethodID(env, clbzz, "lock", "()V");
+        jmethodID mid_unlock = (*env)->GetStbticMethodID(env, clbzz, "unlock", "()V");
 
-        // Init the thread system to use GLib in a thread-safe mode
-        (*env)->CallStaticVoidMethod(env, clazz, mid_lock);
+        // Init the threbd system to use GLib in b threbd-sbfe mode
+        (*env)->CbllStbticVoidMethod(env, clbzz, mid_lock);
 
-        // Calling g_thread_init() multiple times leads to crash on GLib < 2.24
-        // We can use g_thread_get_initialized () but it is available only for
-        // GLib >= 2.20. We rely on GThreadHelper for GLib < 2.20.
-        gboolean is_g_thread_get_initialized = FALSE;
+        // Cblling g_threbd_init() multiple times lebds to crbsh on GLib < 2.24
+        // We cbn use g_threbd_get_initiblized () but it is bvbilbble only for
+        // GLib >= 2.20. We rely on GThrebdHelper for GLib < 2.20.
+        gboolebn is_g_threbd_get_initiblized = FALSE;
         if (GLIB_CHECK_VERSION(2, 20, 0)) {
-            is_g_thread_get_initialized = fp_g_thread_get_initialized();
+            is_g_threbd_get_initiblized = fp_g_threbd_get_initiblized();
         }
 
-        if (!(*env)->CallStaticBooleanMethod(env, clazz, mid_getAndSetInitializationNeededFlag)) {
-            if (!is_g_thread_get_initialized) {
-                fp_g_thread_init(NULL);
+        if (!(*env)->CbllStbticBoolebnMethod(env, clbzz, mid_getAndSetInitiblizbtionNeededFlbg)) {
+            if (!is_g_threbd_get_initiblized) {
+                fp_g_threbd_init(NULL);
             }
 
-            //According the GTK documentation, gdk_threads_init() should be
-            //called before gtk_init() or gtk_init_check()
-            fp_gdk_threads_init();
+            //According the GTK documentbtion, gdk_threbds_init() should be
+            //cblled before gtk_init() or gtk_init_check()
+            fp_gdk_threbds_init();
         }
-        (*env)->CallStaticVoidMethod(env, clazz, mid_unlock);
+        (*env)->CbllStbticVoidMethod(env, clbzz, mid_unlock);
     }
     result = (*fp_gtk_init_check)(NULL, NULL);
 
-    XSetErrorHandler(handler);
-    XSetIOErrorHandler(io_handler);
+    XSetErrorHbndler(hbndler);
+    XSetIOErrorHbndler(io_hbndler);
 
-    /* Initialize widget array. */
+    /* Initiblize widget brrby. */
     for (i = 0; i < _GTK_WIDGET_TYPE_SIZE; i++)
     {
         gtk2_widgets[i] = NULL;
@@ -936,37 +936,37 @@ gboolean gtk2_load(JNIEnv *env)
     return result;
 }
 
-int gtk2_unload()
+int gtk2_unlobd()
 {
     int i;
-    char *gtk2_error;
+    chbr *gtk2_error;
 
-    if (!gtk2_libhandle)
+    if (!gtk2_libhbndle)
         return TRUE;
 
-    /* Release painting objects */
-    if (gtk2_white_pixmap != NULL) {
-        (*fp_g_object_unref)(gtk2_white_pixmap);
-        (*fp_g_object_unref)(gtk2_black_pixmap);
+    /* Relebse pbinting objects */
+    if (gtk2_white_pixmbp != NULL) {
+        (*fp_g_object_unref)(gtk2_white_pixmbp);
+        (*fp_g_object_unref)(gtk2_blbck_pixmbp);
         (*fp_g_object_unref)(gtk2_white_pixbuf);
-        (*fp_g_object_unref)(gtk2_black_pixbuf);
-        gtk2_white_pixmap = gtk2_black_pixmap =
-            gtk2_white_pixbuf = gtk2_black_pixbuf = NULL;
+        (*fp_g_object_unref)(gtk2_blbck_pixbuf);
+        gtk2_white_pixmbp = gtk2_blbck_pixmbp =
+            gtk2_white_pixbuf = gtk2_blbck_pixbuf = NULL;
     }
     gtk2_pixbuf_width = 0;
     gtk2_pixbuf_height = 0;
 
     if (gtk2_window != NULL) {
-        /* Destroying toplevel widget will destroy all contained widgets */
+        /* Destroying toplevel widget will destroy bll contbined widgets */
         (*fp_gtk_widget_destroy)(gtk2_window);
 
-        /* Unset some static data so they get reinitialized on next load */
+        /* Unset some stbtic dbtb so they get reinitiblized on next lobd */
         gtk2_window = NULL;
     }
 
     dlerror();
-    dlclose(gtk2_libhandle);
-    dlclose(gthread_libhandle);
+    dlclose(gtk2_libhbndle);
+    dlclose(gthrebd_libhbndle);
     if ((gtk2_error = dlerror()) != NULL)
     {
         return FALSE;
@@ -974,328 +974,328 @@ int gtk2_unload()
     return TRUE;
 }
 
-/* Dispatch all pending events from the GTK event loop.
- * This is needed to catch theme change and update widgets' style.
+/* Dispbtch bll pending events from the GTK event loop.
+ * This is needed to cbtch theme chbnge bnd updbte widgets' style.
  */
 void flush_gtk_event_loop()
 {
-    while( (*fp_g_main_context_iteration)(NULL, FALSE));
+    while( (*fp_g_mbin_context_iterbtion)(NULL, FALSE));
 }
 
 /*
- * Initialize components of containment hierarchy. This creates a GtkFixed
- * inside a GtkWindow. All widgets get realized.
+ * Initiblize components of contbinment hierbrchy. This crebtes b GtkFixed
+ * inside b GtkWindow. All widgets get reblized.
  */
-static void init_containers()
+stbtic void init_contbiners()
 {
     if (gtk2_window == NULL)
     {
         gtk2_window = (*fp_gtk_window_new)(GTK_WINDOW_TOPLEVEL);
         gtk2_fixed = (GtkFixed *)(*fp_gtk_fixed_new)();
-        (*fp_gtk_container_add)((GtkContainer*)gtk2_window,
+        (*fp_gtk_contbiner_bdd)((GtkContbiner*)gtk2_window,
                                 (GtkWidget *)gtk2_fixed);
-        (*fp_gtk_widget_realize)(gtk2_window);
-        (*fp_gtk_widget_realize)((GtkWidget *)gtk2_fixed);
+        (*fp_gtk_widget_reblize)(gtk2_window);
+        (*fp_gtk_widget_reblize)((GtkWidget *)gtk2_fixed);
     }
 }
 
 /*
- * Ensure everything is ready for drawing an element of the specified width
- * and height.
+ * Ensure everything is rebdy for drbwing bn element of the specified width
+ * bnd height.
  *
- * We should somehow handle translucent images. GTK can draw to X Drawables
- * only, which don't support alpha. When we retrieve the image back from
- * the server, translucency information is lost. There're several ways to
- * work around this:
- * 1) Subclass GdkPixmap and cache translucent objects on client side. This
- * requires us to implement parts of X server drawing logic on client side.
- * Many X requests can potentially be "translucent"; e.g. XDrawLine with
- * fill=tile and a translucent tile is a "translucent" operation, whereas
- * XDrawLine with fill=solid is an "opaque" one. Moreover themes can (and some
- * do) intermix transparent and opaque operations which makes caching even
- * more problematic.
- * 2) Use Xorg 32bit ARGB visual when available. GDK has no native support
- * for it (as of version 2.6). Also even in JDS 3 Xorg does not support
- * these visuals by default, which makes optimizing for them pointless.
- * We can consider doing this at a later point when ARGB visuals become more
- * popular.
- * 3') GTK has plans to use Cairo as its graphical backend (presumably in
- * 2.8), and Cairo supports alpha. With it we could also get rid of the
- * unnecessary round trip to server and do all the drawing on client side.
- * 4) For now we draw to two different pixmaps and restore alpha channel by
- * comparing results. This can be optimized by using subclassed pixmap and
- * doing the second drawing only if necessary.
+ * We should somehow hbndle trbnslucent imbges. GTK cbn drbw to X Drbwbbles
+ * only, which don't support blphb. When we retrieve the imbge bbck from
+ * the server, trbnslucency informbtion is lost. There're severbl wbys to
+ * work bround this:
+ * 1) Subclbss GdkPixmbp bnd cbche trbnslucent objects on client side. This
+ * requires us to implement pbrts of X server drbwing logic on client side.
+ * Mbny X requests cbn potentiblly be "trbnslucent"; e.g. XDrbwLine with
+ * fill=tile bnd b trbnslucent tile is b "trbnslucent" operbtion, wherebs
+ * XDrbwLine with fill=solid is bn "opbque" one. Moreover themes cbn (bnd some
+ * do) intermix trbnspbrent bnd opbque operbtions which mbkes cbching even
+ * more problembtic.
+ * 2) Use Xorg 32bit ARGB visubl when bvbilbble. GDK hbs no nbtive support
+ * for it (bs of version 2.6). Also even in JDS 3 Xorg does not support
+ * these visubls by defbult, which mbkes optimizing for them pointless.
+ * We cbn consider doing this bt b lbter point when ARGB visubls become more
+ * populbr.
+ * 3') GTK hbs plbns to use Cbiro bs its grbphicbl bbckend (presumbbly in
+ * 2.8), bnd Cbiro supports blphb. With it we could blso get rid of the
+ * unnecessbry round trip to server bnd do bll the drbwing on client side.
+ * 4) For now we drbw to two different pixmbps bnd restore blphb chbnnel by
+ * compbring results. This cbn be optimized by using subclbssed pixmbp bnd
+ * doing the second drbwing only if necessbry.
 */
-void gtk2_init_painting(JNIEnv *env, gint width, gint height)
+void gtk2_init_pbinting(JNIEnv *env, gint width, gint height)
 {
     GdkGC *gc;
-    GdkPixbuf *white, *black;
+    GdkPixbuf *white, *blbck;
 
-    init_containers();
+    init_contbiners();
 
     if (gtk2_pixbuf_width < width || gtk2_pixbuf_height < height)
     {
         white = (*fp_gdk_pixbuf_new)(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-        black = (*fp_gdk_pixbuf_new)(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+        blbck = (*fp_gdk_pixbuf_new)(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 
-        if (white == NULL || black == NULL)
+        if (white == NULL || blbck == NULL)
         {
-            snprintf(convertionBuffer, CONV_BUFFER_SIZE, "Couldn't create pixbuf of size %dx%d", width, height);
-            throw_exception(env, "java/lang/RuntimeException", convertionBuffer);
-            fp_gdk_threads_leave();
+            snprintf(convertionBuffer, CONV_BUFFER_SIZE, "Couldn't crebte pixbuf of size %dx%d", width, height);
+            throw_exception(env, "jbvb/lbng/RuntimeException", convertionBuffer);
+            fp_gdk_threbds_lebve();
             return;
         }
 
-        if (gtk2_white_pixmap != NULL) {
+        if (gtk2_white_pixmbp != NULL) {
             /* free old stuff */
-            (*fp_g_object_unref)(gtk2_white_pixmap);
-            (*fp_g_object_unref)(gtk2_black_pixmap);
+            (*fp_g_object_unref)(gtk2_white_pixmbp);
+            (*fp_g_object_unref)(gtk2_blbck_pixmbp);
             (*fp_g_object_unref)(gtk2_white_pixbuf);
-            (*fp_g_object_unref)(gtk2_black_pixbuf);
+            (*fp_g_object_unref)(gtk2_blbck_pixbuf);
         }
 
-        gtk2_white_pixmap = (*fp_gdk_pixmap_new)(gtk2_window->window, width, height, -1);
-        gtk2_black_pixmap = (*fp_gdk_pixmap_new)(gtk2_window->window, width, height, -1);
+        gtk2_white_pixmbp = (*fp_gdk_pixmbp_new)(gtk2_window->window, width, height, -1);
+        gtk2_blbck_pixmbp = (*fp_gdk_pixmbp_new)(gtk2_window->window, width, height, -1);
 
         gtk2_white_pixbuf = white;
-        gtk2_black_pixbuf = black;
+        gtk2_blbck_pixbuf = blbck;
 
         gtk2_pixbuf_width = width;
         gtk2_pixbuf_height = height;
     }
 
-    /* clear the pixmaps */
-    gc = (*fp_gdk_gc_new)(gtk2_white_pixmap);
+    /* clebr the pixmbps */
+    gc = (*fp_gdk_gc_new)(gtk2_white_pixmbp);
     (*fp_gdk_rgb_gc_set_foreground)(gc, 0xffffff);
-    (*fp_gdk_draw_rectangle)(gtk2_white_pixmap, gc, TRUE, 0, 0, width, height);
+    (*fp_gdk_drbw_rectbngle)(gtk2_white_pixmbp, gc, TRUE, 0, 0, width, height);
     (*fp_g_object_unref)(gc);
 
-    gc = (*fp_gdk_gc_new)(gtk2_black_pixmap);
+    gc = (*fp_gdk_gc_new)(gtk2_blbck_pixmbp);
     (*fp_gdk_rgb_gc_set_foreground)(gc, 0x000000);
-    (*fp_gdk_draw_rectangle)(gtk2_black_pixmap, gc, TRUE, 0, 0, width, height);
+    (*fp_gdk_drbw_rectbngle)(gtk2_blbck_pixmbp, gc, TRUE, 0, 0, width, height);
     (*fp_g_object_unref)(gc);
 }
 
 /*
- * Restore image from white and black pixmaps and copy it into destination
- * buffer. This method compares two pixbufs taken from white and black
- * pixmaps and decodes color and alpha components. Pixbufs are RGB without
- * alpha, destination buffer is ABGR.
+ * Restore imbge from white bnd blbck pixmbps bnd copy it into destinbtion
+ * buffer. This method compbres two pixbufs tbken from white bnd blbck
+ * pixmbps bnd decodes color bnd blphb components. Pixbufs bre RGB without
+ * blphb, destinbtion buffer is ABGR.
  *
- * The return value is the transparency type of the resulting image, either
- * one of java_awt_Transparency_OPAQUE, java_awt_Transparency_BITMASK, and
- * java_awt_Transparency_TRANSLUCENT.
+ * The return vblue is the trbnspbrency type of the resulting imbge, either
+ * one of jbvb_bwt_Trbnspbrency_OPAQUE, jbvb_bwt_Trbnspbrency_BITMASK, bnd
+ * jbvb_bwt_Trbnspbrency_TRANSLUCENT.
  */
-gint gtk2_copy_image(gint *dst, gint width, gint height)
+gint gtk2_copy_imbge(gint *dst, gint width, gint height)
 {
     gint i, j, r, g, b;
-    guchar *white, *black;
-    gint stride, padding;
-    gboolean is_opaque = TRUE;
-    gboolean is_bitmask = TRUE;
+    guchbr *white, *blbck;
+    gint stride, pbdding;
+    gboolebn is_opbque = TRUE;
+    gboolebn is_bitmbsk = TRUE;
 
-    (*fp_gdk_pixbuf_get_from_drawable)(gtk2_white_pixbuf, gtk2_white_pixmap,
+    (*fp_gdk_pixbuf_get_from_drbwbble)(gtk2_white_pixbuf, gtk2_white_pixmbp,
             NULL, 0, 0, 0, 0, width, height);
-    (*fp_gdk_pixbuf_get_from_drawable)(gtk2_black_pixbuf, gtk2_black_pixmap,
+    (*fp_gdk_pixbuf_get_from_drbwbble)(gtk2_blbck_pixbuf, gtk2_blbck_pixmbp,
             NULL, 0, 0, 0, 0, width, height);
 
     white = (*fp_gdk_pixbuf_get_pixels)(gtk2_white_pixbuf);
-    black = (*fp_gdk_pixbuf_get_pixels)(gtk2_black_pixbuf);
-    stride = (*fp_gdk_pixbuf_get_rowstride)(gtk2_black_pixbuf);
-    padding = stride - width * 4;
+    blbck = (*fp_gdk_pixbuf_get_pixels)(gtk2_blbck_pixbuf);
+    stride = (*fp_gdk_pixbuf_get_rowstride)(gtk2_blbck_pixbuf);
+    pbdding = stride - width * 4;
 
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
             int r1 = *white++;
-            int r2 = *black++;
-            int alpha = 0xff + r2 - r1;
+            int r2 = *blbck++;
+            int blphb = 0xff + r2 - r1;
 
-            switch (alpha) {
-                case 0:       /* transparent pixel */
+            switch (blphb) {
+                cbse 0:       /* trbnspbrent pixel */
                     r = g = b = 0;
-                    black += 3;
+                    blbck += 3;
                     white += 3;
-                    is_opaque = FALSE;
-                    break;
+                    is_opbque = FALSE;
+                    brebk;
 
-                case 0xff:    /* opaque pixel */
+                cbse 0xff:    /* opbque pixel */
                     r = r2;
-                    g = *black++;
-                    b = *black++;
-                    black++;
+                    g = *blbck++;
+                    b = *blbck++;
+                    blbck++;
                     white += 3;
-                    break;
+                    brebk;
 
-                default:      /* translucent pixel */
-                    r = 0xff * r2 / alpha;
-                    g = 0xff * *black++ / alpha;
-                    b = 0xff * *black++ / alpha;
-                    black++;
+                defbult:      /* trbnslucent pixel */
+                    r = 0xff * r2 / blphb;
+                    g = 0xff * *blbck++ / blphb;
+                    b = 0xff * *blbck++ / blphb;
+                    blbck++;
                     white += 3;
-                    is_opaque = FALSE;
-                    is_bitmask = FALSE;
-                    break;
+                    is_opbque = FALSE;
+                    is_bitmbsk = FALSE;
+                    brebk;
             }
 
-            *dst++ = (alpha << 24 | r << 16 | g << 8 | b);
+            *dst++ = (blphb << 24 | r << 16 | g << 8 | b);
         }
 
-        white += padding;
-        black += padding;
+        white += pbdding;
+        blbck += pbdding;
     }
-    return is_opaque ? java_awt_Transparency_OPAQUE :
-                       (is_bitmask ? java_awt_Transparency_BITMASK :
-                                     java_awt_Transparency_TRANSLUCENT);
+    return is_opbque ? jbvb_bwt_Trbnspbrency_OPAQUE :
+                       (is_bitmbsk ? jbvb_bwt_Trbnspbrency_BITMASK :
+                                     jbvb_bwt_Trbnspbrency_TRANSLUCENT);
 }
 
-static void
+stbtic void
 gtk2_set_direction(GtkWidget *widget, GtkTextDirection dir)
 {
     /*
-     * Some engines (inexplicably) look at the direction of the widget's
-     * parent, so we need to set the direction of both the widget and its
-     * parent.
+     * Some engines (inexplicbbly) look bt the direction of the widget's
+     * pbrent, so we need to set the direction of both the widget bnd its
+     * pbrent.
      */
     (*fp_gtk_widget_set_direction)(widget, dir);
-    if (widget->parent != NULL) {
-        (*fp_gtk_widget_set_direction)(widget->parent, dir);
+    if (widget->pbrent != NULL) {
+        (*fp_gtk_widget_set_direction)(widget->pbrent, dir);
     }
 }
 
 /*
- * Initializes the widget to correct state for some engines.
- * This is a pure empirical method.
+ * Initiblizes the widget to correct stbte for some engines.
+ * This is b pure empiricbl method.
  */
-static void init_toggle_widget(WidgetType widget_type, gint synth_state)
+stbtic void init_toggle_widget(WidgetType widget_type, gint synth_stbte)
 {
-    gboolean is_active = ((synth_state & SELECTED) != 0);
+    gboolebn is_bctive = ((synth_stbte & SELECTED) != 0);
 
     if (widget_type == RADIO_BUTTON ||
         widget_type == CHECK_BOX ||
         widget_type == TOGGLE_BUTTON) {
-        ((GtkToggleButton*)gtk2_widget)->active = is_active;
+        ((GtkToggleButton*)gtk2_widget)->bctive = is_bctive;
     }
 
-    if ((synth_state & FOCUSED) != 0) {
-        ((GtkObject*)gtk2_widget)->flags |= GTK_HAS_FOCUS;
+    if ((synth_stbte & FOCUSED) != 0) {
+        ((GtkObject*)gtk2_widget)->flbgs |= GTK_HAS_FOCUS;
     } else {
-        ((GtkObject*)gtk2_widget)->flags &= ~GTK_HAS_FOCUS;
+        ((GtkObject*)gtk2_widget)->flbgs &= ~GTK_HAS_FOCUS;
     }
 
-    if ((synth_state & MOUSE_OVER) != 0 && (synth_state & PRESSED) == 0 ||
-           (synth_state & FOCUSED) != 0 && (synth_state & PRESSED) != 0) {
-        gtk2_widget->state = GTK_STATE_PRELIGHT;
-    } else if ((synth_state & DISABLED) != 0) {
-        gtk2_widget->state = GTK_STATE_INSENSITIVE;
+    if ((synth_stbte & MOUSE_OVER) != 0 && (synth_stbte & PRESSED) == 0 ||
+           (synth_stbte & FOCUSED) != 0 && (synth_stbte & PRESSED) != 0) {
+        gtk2_widget->stbte = GTK_STATE_PRELIGHT;
+    } else if ((synth_stbte & DISABLED) != 0) {
+        gtk2_widget->stbte = GTK_STATE_INSENSITIVE;
     } else {
-        gtk2_widget->state = is_active ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
+        gtk2_widget->stbte = is_bctive ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
     }
 }
 
-/* GTK state_type filter */
-static GtkStateType get_gtk_state_type(WidgetType widget_type, gint synth_state)
+/* GTK stbte_type filter */
+stbtic GtkStbteType get_gtk_stbte_type(WidgetType widget_type, gint synth_stbte)
 {
-    GtkStateType result = GTK_STATE_NORMAL;
+    GtkStbteType result = GTK_STATE_NORMAL;
 
-    if ((synth_state & DISABLED) != 0) {
+    if ((synth_stbte & DISABLED) != 0) {
         result = GTK_STATE_INSENSITIVE;
-    } else if ((synth_state & PRESSED) != 0) {
+    } else if ((synth_stbte & PRESSED) != 0) {
         result = GTK_STATE_ACTIVE;
-    } else if ((synth_state & MOUSE_OVER) != 0) {
+    } else if ((synth_stbte & MOUSE_OVER) != 0) {
         result = GTK_STATE_PRELIGHT;
     }
     return result;
 }
 
-/* GTK shadow_type filter */
-static GtkShadowType get_gtk_shadow_type(WidgetType widget_type, gint synth_state)
+/* GTK shbdow_type filter */
+stbtic GtkShbdowType get_gtk_shbdow_type(WidgetType widget_type, gint synth_stbte)
 {
-    GtkShadowType result = GTK_SHADOW_OUT;
+    GtkShbdowType result = GTK_SHADOW_OUT;
 
-    if ((synth_state & SELECTED) != 0) {
+    if ((synth_stbte & SELECTED) != 0) {
         result = GTK_SHADOW_IN;
     }
     return result;
 }
 
 
-static GtkWidget* gtk2_get_arrow(GtkArrowType arrow_type, GtkShadowType shadow_type)
+stbtic GtkWidget* gtk2_get_brrow(GtkArrowType brrow_type, GtkShbdowType shbdow_type)
 {
-    GtkWidget *arrow = NULL;
+    GtkWidget *brrow = NULL;
     if (NULL == gtk2_widgets[_GTK_ARROW_TYPE])
     {
-        gtk2_widgets[_GTK_ARROW_TYPE] = (*fp_gtk_arrow_new)(arrow_type, shadow_type);
-        (*fp_gtk_container_add)((GtkContainer *)gtk2_fixed, gtk2_widgets[_GTK_ARROW_TYPE]);
-        (*fp_gtk_widget_realize)(gtk2_widgets[_GTK_ARROW_TYPE]);
+        gtk2_widgets[_GTK_ARROW_TYPE] = (*fp_gtk_brrow_new)(brrow_type, shbdow_type);
+        (*fp_gtk_contbiner_bdd)((GtkContbiner *)gtk2_fixed, gtk2_widgets[_GTK_ARROW_TYPE]);
+        (*fp_gtk_widget_reblize)(gtk2_widgets[_GTK_ARROW_TYPE]);
     }
-    arrow = gtk2_widgets[_GTK_ARROW_TYPE];
+    brrow = gtk2_widgets[_GTK_ARROW_TYPE];
 
-    (*fp_gtk_arrow_set)(arrow, arrow_type, shadow_type);
-    return arrow;
+    (*fp_gtk_brrow_set)(brrow, brrow_type, shbdow_type);
+    return brrow;
 }
 
-static GtkAdjustment* create_adjustment()
+stbtic GtkAdjustment* crebte_bdjustment()
 {
     return (GtkAdjustment *)
-            (*fp_gtk_adjustment_new)(50.0, 0.0, 100.0, 10.0, 20.0, 20.0);
+            (*fp_gtk_bdjustment_new)(50.0, 0.0, 100.0, 10.0, 20.0, 20.0);
 }
 
 /**
- * Returns a pointer to the cached native widget for the specified widget
+ * Returns b pointer to the cbched nbtive widget for the specified widget
  * type.
  */
-static GtkWidget *gtk2_get_widget(WidgetType widget_type)
+stbtic GtkWidget *gtk2_get_widget(WidgetType widget_type)
 {
-    gboolean init_result = FALSE;
+    gboolebn init_result = FALSE;
     GtkWidget *result = NULL;
     switch (widget_type)
     {
-        case BUTTON:
-        case TABLE_HEADER:
+        cbse BUTTON:
+        cbse TABLE_HEADER:
             if (init_result = (NULL == gtk2_widgets[_GTK_BUTTON_TYPE]))
             {
                 gtk2_widgets[_GTK_BUTTON_TYPE] = (*fp_gtk_button_new)();
             }
             result = gtk2_widgets[_GTK_BUTTON_TYPE];
-            break;
-        case CHECK_BOX:
+            brebk;
+        cbse CHECK_BOX:
             if (init_result = (NULL == gtk2_widgets[_GTK_CHECK_BUTTON_TYPE]))
             {
                 gtk2_widgets[_GTK_CHECK_BUTTON_TYPE] =
                     (*fp_gtk_check_button_new)();
             }
             result = gtk2_widgets[_GTK_CHECK_BUTTON_TYPE];
-            break;
-        case CHECK_BOX_MENU_ITEM:
+            brebk;
+        cbse CHECK_BOX_MENU_ITEM:
             if (init_result = (NULL == gtk2_widgets[_GTK_CHECK_MENU_ITEM_TYPE]))
             {
                 gtk2_widgets[_GTK_CHECK_MENU_ITEM_TYPE] =
                     (*fp_gtk_check_menu_item_new)();
             }
             result = gtk2_widgets[_GTK_CHECK_MENU_ITEM_TYPE];
-            break;
+            brebk;
         /************************************************************
-         *    Creation a dedicated color chooser is dangerous because
-         * it deadlocks the EDT
+         *    Crebtion b dedicbted color chooser is dbngerous becbuse
+         * it debdlocks the EDT
          ************************************************************/
-/*        case COLOR_CHOOSER:
+/*        cbse COLOR_CHOOSER:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_COLOR_SELECTION_DIALOG_TYPE]))
             {
                 gtk2_widgets[_GTK_COLOR_SELECTION_DIALOG_TYPE] =
-                    (*fp_gtk_color_selection_dialog_new)(NULL);
+                    (*fp_gtk_color_selection_diblog_new)(NULL);
             }
             result = gtk2_widgets[_GTK_COLOR_SELECTION_DIALOG_TYPE];
-            break;*/
-        case COMBO_BOX:
+            brebk;*/
+        cbse COMBO_BOX:
             if (init_result = (NULL == gtk2_widgets[_GTK_COMBO_BOX_TYPE]))
             {
                 gtk2_widgets[_GTK_COMBO_BOX_TYPE] =
                     (*fp_gtk_combo_box_new)();
             }
             result = gtk2_widgets[_GTK_COMBO_BOX_TYPE];
-            break;
-        case COMBO_BOX_ARROW_BUTTON:
+            brebk;
+        cbse COMBO_BOX_ARROW_BUTTON:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_COMBO_BOX_ARROW_BUTTON_TYPE]))
             {
@@ -1303,8 +1303,8 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                      (*fp_gtk_toggle_button_new)();
             }
             result = gtk2_widgets[_GTK_COMBO_BOX_ARROW_BUTTON_TYPE];
-            break;
-        case COMBO_BOX_TEXT_FIELD:
+            brebk;
+        cbse COMBO_BOX_TEXT_FIELD:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_COMBO_BOX_TEXT_FIELD_TYPE]))
             {
@@ -1315,44 +1315,44 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                 fp_g_object_set(settings, "gtk-cursor-blink", FALSE, NULL);
             }
             result = gtk2_widgets[_GTK_COMBO_BOX_TEXT_FIELD_TYPE];
-            break;
-        case DESKTOP_ICON:
-        case INTERNAL_FRAME_TITLE_PANE:
-        case LABEL:
+            brebk;
+        cbse DESKTOP_ICON:
+        cbse INTERNAL_FRAME_TITLE_PANE:
+        cbse LABEL:
             if (init_result = (NULL == gtk2_widgets[_GTK_LABEL_TYPE]))
             {
                 gtk2_widgets[_GTK_LABEL_TYPE] =
-                    (*fp_gtk_label_new)(NULL);
+                    (*fp_gtk_lbbel_new)(NULL);
             }
             result = gtk2_widgets[_GTK_LABEL_TYPE];
-            break;
-        case DESKTOP_PANE:
-        case PANEL:
-        case ROOT_PANE:
+            brebk;
+        cbse DESKTOP_PANE:
+        cbse PANEL:
+        cbse ROOT_PANE:
             if (init_result = (NULL == gtk2_widgets[_GTK_CONTAINER_TYPE]))
             {
-                /* There is no constructor for a container type.  I've
-                 * chosen GtkFixed container since it has a default
+                /* There is no constructor for b contbiner type.  I've
+                 * chosen GtkFixed contbiner since it hbs b defbult
                  * constructor.
                  */
                 gtk2_widgets[_GTK_CONTAINER_TYPE] =
                     (*fp_gtk_fixed_new)();
             }
             result = gtk2_widgets[_GTK_CONTAINER_TYPE];
-            break;
-        case EDITOR_PANE:
-        case TEXT_AREA:
-        case TEXT_PANE:
+            brebk;
+        cbse EDITOR_PANE:
+        cbse TEXT_AREA:
+        cbse TEXT_PANE:
             if (init_result = (NULL == gtk2_widgets[_GTK_TEXT_VIEW_TYPE]))
             {
                 gtk2_widgets[_GTK_TEXT_VIEW_TYPE] =
                     (*fp_gtk_text_view_new)();
             }
             result = gtk2_widgets[_GTK_TEXT_VIEW_TYPE];
-            break;
-        case FORMATTED_TEXT_FIELD:
-        case PASSWORD_FIELD:
-        case TEXT_FIELD:
+            brebk;
+        cbse FORMATTED_TEXT_FIELD:
+        cbse PASSWORD_FIELD:
+        cbse TEXT_FIELD:
             if (init_result = (NULL == gtk2_widgets[_GTK_ENTRY_TYPE]))
             {
                 gtk2_widgets[_GTK_ENTRY_TYPE] =
@@ -1363,180 +1363,180 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                 fp_g_object_set(settings, "gtk-cursor-blink", FALSE, NULL);
             }
             result = gtk2_widgets[_GTK_ENTRY_TYPE];
-            break;
-        case HANDLE_BOX:
+            brebk;
+        cbse HANDLE_BOX:
             if (init_result = (NULL == gtk2_widgets[_GTK_HANDLE_BOX_TYPE]))
             {
                 gtk2_widgets[_GTK_HANDLE_BOX_TYPE] =
-                    (*fp_gtk_handle_box_new)();
+                    (*fp_gtk_hbndle_box_new)();
             }
             result = gtk2_widgets[_GTK_HANDLE_BOX_TYPE];
-            break;
-        case HSCROLL_BAR:
-        case HSCROLL_BAR_BUTTON_LEFT:
-        case HSCROLL_BAR_BUTTON_RIGHT:
-        case HSCROLL_BAR_TRACK:
-        case HSCROLL_BAR_THUMB:
+            brebk;
+        cbse HSCROLL_BAR:
+        cbse HSCROLL_BAR_BUTTON_LEFT:
+        cbse HSCROLL_BAR_BUTTON_RIGHT:
+        cbse HSCROLL_BAR_TRACK:
+        cbse HSCROLL_BAR_THUMB:
             if (init_result = (NULL == gtk2_widgets[_GTK_HSCROLLBAR_TYPE]))
             {
                 gtk2_widgets[_GTK_HSCROLLBAR_TYPE] =
-                    (*fp_gtk_hscrollbar_new)(create_adjustment());
+                    (*fp_gtk_hscrollbbr_new)(crebte_bdjustment());
             }
             result = gtk2_widgets[_GTK_HSCROLLBAR_TYPE];
-            break;
-        case HSEPARATOR:
+            brebk;
+        cbse HSEPARATOR:
             if (init_result = (NULL == gtk2_widgets[_GTK_HSEPARATOR_TYPE]))
             {
                 gtk2_widgets[_GTK_HSEPARATOR_TYPE] =
-                    (*fp_gtk_hseparator_new)();
+                    (*fp_gtk_hsepbrbtor_new)();
             }
             result = gtk2_widgets[_GTK_HSEPARATOR_TYPE];
-            break;
-        case HSLIDER:
-        case HSLIDER_THUMB:
-        case HSLIDER_TRACK:
+            brebk;
+        cbse HSLIDER:
+        cbse HSLIDER_THUMB:
+        cbse HSLIDER_TRACK:
             if (init_result = (NULL == gtk2_widgets[_GTK_HSCALE_TYPE]))
             {
                 gtk2_widgets[_GTK_HSCALE_TYPE] =
-                    (*fp_gtk_hscale_new)(NULL);
+                    (*fp_gtk_hscble_new)(NULL);
             }
             result = gtk2_widgets[_GTK_HSCALE_TYPE];
-            break;
-        case HSPLIT_PANE_DIVIDER:
-        case SPLIT_PANE:
+            brebk;
+        cbse HSPLIT_PANE_DIVIDER:
+        cbse SPLIT_PANE:
             if (init_result = (NULL == gtk2_widgets[_GTK_HPANED_TYPE]))
             {
-                gtk2_widgets[_GTK_HPANED_TYPE] = (*fp_gtk_hpaned_new)();
+                gtk2_widgets[_GTK_HPANED_TYPE] = (*fp_gtk_hpbned_new)();
             }
             result = gtk2_widgets[_GTK_HPANED_TYPE];
-            break;
-        case IMAGE:
+            brebk;
+        cbse IMAGE:
             if (init_result = (NULL == gtk2_widgets[_GTK_IMAGE_TYPE]))
             {
-                gtk2_widgets[_GTK_IMAGE_TYPE] = (*fp_gtk_image_new)();
+                gtk2_widgets[_GTK_IMAGE_TYPE] = (*fp_gtk_imbge_new)();
             }
             result = gtk2_widgets[_GTK_IMAGE_TYPE];
-            break;
-        case INTERNAL_FRAME:
+            brebk;
+        cbse INTERNAL_FRAME:
             if (init_result = (NULL == gtk2_widgets[_GTK_WINDOW_TYPE]))
             {
                 gtk2_widgets[_GTK_WINDOW_TYPE] =
                     (*fp_gtk_window_new)(GTK_WINDOW_TOPLEVEL);
             }
             result = gtk2_widgets[_GTK_WINDOW_TYPE];
-            break;
-        case TOOL_TIP:
+            brebk;
+        cbse TOOL_TIP:
             if (init_result = (NULL == gtk2_widgets[_GTK_TOOLTIP_TYPE]))
             {
                 result = (*fp_gtk_window_new)(GTK_WINDOW_TOPLEVEL);
-                (*fp_gtk_widget_set_name)(result, "gtk-tooltips");
+                (*fp_gtk_widget_set_nbme)(result, "gtk-tooltips");
                 gtk2_widgets[_GTK_TOOLTIP_TYPE] = result;
             }
             result = gtk2_widgets[_GTK_TOOLTIP_TYPE];
-            break;
-        case LIST:
-        case TABLE:
-        case TREE:
-        case TREE_CELL:
+            brebk;
+        cbse LIST:
+        cbse TABLE:
+        cbse TREE:
+        cbse TREE_CELL:
             if (init_result = (NULL == gtk2_widgets[_GTK_TREE_VIEW_TYPE]))
             {
                 gtk2_widgets[_GTK_TREE_VIEW_TYPE] =
                     (*fp_gtk_tree_view_new)();
             }
             result = gtk2_widgets[_GTK_TREE_VIEW_TYPE];
-            break;
-        case TITLED_BORDER:
+            brebk;
+        cbse TITLED_BORDER:
             if (init_result = (NULL == gtk2_widgets[_GTK_FRAME_TYPE]))
             {
-                gtk2_widgets[_GTK_FRAME_TYPE] = fp_gtk_frame_new(NULL);
+                gtk2_widgets[_GTK_FRAME_TYPE] = fp_gtk_frbme_new(NULL);
             }
             result = gtk2_widgets[_GTK_FRAME_TYPE];
-            break;
-        case POPUP_MENU:
+            brebk;
+        cbse POPUP_MENU:
             if (init_result = (NULL == gtk2_widgets[_GTK_MENU_TYPE]))
             {
                 gtk2_widgets[_GTK_MENU_TYPE] =
                     (*fp_gtk_menu_new)();
             }
             result = gtk2_widgets[_GTK_MENU_TYPE];
-            break;
-        case MENU:
-        case MENU_ITEM:
-        case MENU_ITEM_ACCELERATOR:
+            brebk;
+        cbse MENU:
+        cbse MENU_ITEM:
+        cbse MENU_ITEM_ACCELERATOR:
             if (init_result = (NULL == gtk2_widgets[_GTK_MENU_ITEM_TYPE]))
             {
                 gtk2_widgets[_GTK_MENU_ITEM_TYPE] =
                     (*fp_gtk_menu_item_new)();
             }
             result = gtk2_widgets[_GTK_MENU_ITEM_TYPE];
-            break;
-        case MENU_BAR:
+            brebk;
+        cbse MENU_BAR:
             if (init_result = (NULL == gtk2_widgets[_GTK_MENU_BAR_TYPE]))
             {
                 gtk2_widgets[_GTK_MENU_BAR_TYPE] =
-                    (*fp_gtk_menu_bar_new)();
+                    (*fp_gtk_menu_bbr_new)();
             }
             result = gtk2_widgets[_GTK_MENU_BAR_TYPE];
-            break;
-        case COLOR_CHOOSER:
-        case OPTION_PANE:
+            brebk;
+        cbse COLOR_CHOOSER:
+        cbse OPTION_PANE:
             if (init_result = (NULL == gtk2_widgets[_GTK_DIALOG_TYPE]))
             {
                 gtk2_widgets[_GTK_DIALOG_TYPE] =
-                    (*fp_gtk_dialog_new)();
+                    (*fp_gtk_diblog_new)();
             }
             result = gtk2_widgets[_GTK_DIALOG_TYPE];
-            break;
-        case POPUP_MENU_SEPARATOR:
+            brebk;
+        cbse POPUP_MENU_SEPARATOR:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_SEPARATOR_MENU_ITEM_TYPE]))
             {
                 gtk2_widgets[_GTK_SEPARATOR_MENU_ITEM_TYPE] =
-                    (*fp_gtk_separator_menu_item_new)();
+                    (*fp_gtk_sepbrbtor_menu_item_new)();
             }
             result = gtk2_widgets[_GTK_SEPARATOR_MENU_ITEM_TYPE];
-            break;
-        case HPROGRESS_BAR:
+            brebk;
+        cbse HPROGRESS_BAR:
             if (init_result = (NULL == gtk2_widgets[_GTK_HPROGRESS_BAR_TYPE]))
             {
                 gtk2_widgets[_GTK_HPROGRESS_BAR_TYPE] =
-                    (*fp_gtk_progress_bar_new)();
+                    (*fp_gtk_progress_bbr_new)();
             }
             result = gtk2_widgets[_GTK_HPROGRESS_BAR_TYPE];
-            break;
-        case VPROGRESS_BAR:
+            brebk;
+        cbse VPROGRESS_BAR:
             if (init_result = (NULL == gtk2_widgets[_GTK_VPROGRESS_BAR_TYPE]))
             {
                 gtk2_widgets[_GTK_VPROGRESS_BAR_TYPE] =
-                    (*fp_gtk_progress_bar_new)();
+                    (*fp_gtk_progress_bbr_new)();
                 /*
-                 * Vertical JProgressBars always go bottom-to-top,
-                 * regardless of the ComponentOrientation.
+                 * Verticbl JProgressBbrs blwbys go bottom-to-top,
+                 * regbrdless of the ComponentOrientbtion.
                  */
-                (*fp_gtk_progress_bar_set_orientation)(
-                    (GtkProgressBar *)gtk2_widgets[_GTK_VPROGRESS_BAR_TYPE],
+                (*fp_gtk_progress_bbr_set_orientbtion)(
+                    (GtkProgressBbr *)gtk2_widgets[_GTK_VPROGRESS_BAR_TYPE],
                     GTK_PROGRESS_BOTTOM_TO_TOP);
             }
             result = gtk2_widgets[_GTK_VPROGRESS_BAR_TYPE];
-            break;
-        case RADIO_BUTTON:
+            brebk;
+        cbse RADIO_BUTTON:
             if (init_result = (NULL == gtk2_widgets[_GTK_RADIO_BUTTON_TYPE]))
             {
                 gtk2_widgets[_GTK_RADIO_BUTTON_TYPE] =
-                    (*fp_gtk_radio_button_new)(NULL);
+                    (*fp_gtk_rbdio_button_new)(NULL);
             }
             result = gtk2_widgets[_GTK_RADIO_BUTTON_TYPE];
-            break;
-        case RADIO_BUTTON_MENU_ITEM:
+            brebk;
+        cbse RADIO_BUTTON_MENU_ITEM:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_RADIO_MENU_ITEM_TYPE]))
             {
                 gtk2_widgets[_GTK_RADIO_MENU_ITEM_TYPE] =
-                    (*fp_gtk_radio_menu_item_new)(NULL);
+                    (*fp_gtk_rbdio_menu_item_new)(NULL);
             }
             result = gtk2_widgets[_GTK_RADIO_MENU_ITEM_TYPE];
-            break;
-        case SCROLL_PANE:
+            brebk;
+        cbse SCROLL_PANE:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_SCROLLED_WINDOW_TYPE]))
             {
@@ -1544,10 +1544,10 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                     (*fp_gtk_scrolled_window_new)(NULL, NULL);
             }
             result = gtk2_widgets[_GTK_SCROLLED_WINDOW_TYPE];
-            break;
-        case SPINNER:
-        case SPINNER_ARROW_BUTTON:
-        case SPINNER_TEXT_FIELD:
+            brebk;
+        cbse SPINNER:
+        cbse SPINNER_ARROW_BUTTON:
+        cbse SPINNER_TEXT_FIELD:
             if (init_result = (NULL == gtk2_widgets[_GTK_SPIN_BUTTON_TYPE]))
             {
                 result = gtk2_widgets[_GTK_SPIN_BUTTON_TYPE] =
@@ -1557,99 +1557,99 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                 fp_g_object_set(settings, "gtk-cursor-blink", FALSE, NULL);
             }
             result = gtk2_widgets[_GTK_SPIN_BUTTON_TYPE];
-            break;
-        case TABBED_PANE:
-        case TABBED_PANE_TAB_AREA:
-        case TABBED_PANE_CONTENT:
-        case TABBED_PANE_TAB:
+            brebk;
+        cbse TABBED_PANE:
+        cbse TABBED_PANE_TAB_AREA:
+        cbse TABBED_PANE_CONTENT:
+        cbse TABBED_PANE_TAB:
             if (init_result = (NULL == gtk2_widgets[_GTK_NOTEBOOK_TYPE]))
             {
                 gtk2_widgets[_GTK_NOTEBOOK_TYPE] =
                     (*fp_gtk_notebook_new)(NULL);
             }
             result = gtk2_widgets[_GTK_NOTEBOOK_TYPE];
-            break;
-        case TOGGLE_BUTTON:
+            brebk;
+        cbse TOGGLE_BUTTON:
             if (init_result = (NULL == gtk2_widgets[_GTK_TOGGLE_BUTTON_TYPE]))
             {
                 gtk2_widgets[_GTK_TOGGLE_BUTTON_TYPE] =
                     (*fp_gtk_toggle_button_new)(NULL);
             }
             result = gtk2_widgets[_GTK_TOGGLE_BUTTON_TYPE];
-            break;
-        case TOOL_BAR:
-        case TOOL_BAR_DRAG_WINDOW:
+            brebk;
+        cbse TOOL_BAR:
+        cbse TOOL_BAR_DRAG_WINDOW:
             if (init_result = (NULL == gtk2_widgets[_GTK_TOOLBAR_TYPE]))
             {
                 gtk2_widgets[_GTK_TOOLBAR_TYPE] =
-                    (*fp_gtk_toolbar_new)(NULL);
+                    (*fp_gtk_toolbbr_new)(NULL);
             }
             result = gtk2_widgets[_GTK_TOOLBAR_TYPE];
-            break;
-        case TOOL_BAR_SEPARATOR:
+            brebk;
+        cbse TOOL_BAR_SEPARATOR:
             if (init_result =
                     (NULL == gtk2_widgets[_GTK_SEPARATOR_TOOL_ITEM_TYPE]))
             {
                 gtk2_widgets[_GTK_SEPARATOR_TOOL_ITEM_TYPE] =
-                    (*fp_gtk_separator_tool_item_new)();
+                    (*fp_gtk_sepbrbtor_tool_item_new)();
             }
             result = gtk2_widgets[_GTK_SEPARATOR_TOOL_ITEM_TYPE];
-            break;
-        case VIEWPORT:
+            brebk;
+        cbse VIEWPORT:
             if (init_result = (NULL == gtk2_widgets[_GTK_VIEWPORT_TYPE]))
             {
-                GtkAdjustment *adjustment = create_adjustment();
+                GtkAdjustment *bdjustment = crebte_bdjustment();
                 gtk2_widgets[_GTK_VIEWPORT_TYPE] =
-                    (*fp_gtk_viewport_new)(adjustment, adjustment);
+                    (*fp_gtk_viewport_new)(bdjustment, bdjustment);
             }
             result = gtk2_widgets[_GTK_VIEWPORT_TYPE];
-            break;
-        case VSCROLL_BAR:
-        case VSCROLL_BAR_BUTTON_UP:
-        case VSCROLL_BAR_BUTTON_DOWN:
-        case VSCROLL_BAR_TRACK:
-        case VSCROLL_BAR_THUMB:
+            brebk;
+        cbse VSCROLL_BAR:
+        cbse VSCROLL_BAR_BUTTON_UP:
+        cbse VSCROLL_BAR_BUTTON_DOWN:
+        cbse VSCROLL_BAR_TRACK:
+        cbse VSCROLL_BAR_THUMB:
             if (init_result = (NULL == gtk2_widgets[_GTK_VSCROLLBAR_TYPE]))
             {
                 gtk2_widgets[_GTK_VSCROLLBAR_TYPE] =
-                    (*fp_gtk_vscrollbar_new)(create_adjustment());
+                    (*fp_gtk_vscrollbbr_new)(crebte_bdjustment());
             }
             result = gtk2_widgets[_GTK_VSCROLLBAR_TYPE];
-            break;
-        case VSEPARATOR:
+            brebk;
+        cbse VSEPARATOR:
             if (init_result = (NULL == gtk2_widgets[_GTK_VSEPARATOR_TYPE]))
             {
                 gtk2_widgets[_GTK_VSEPARATOR_TYPE] =
-                    (*fp_gtk_vseparator_new)();
+                    (*fp_gtk_vsepbrbtor_new)();
             }
             result = gtk2_widgets[_GTK_VSEPARATOR_TYPE];
-            break;
-        case VSLIDER:
-        case VSLIDER_THUMB:
-        case VSLIDER_TRACK:
+            brebk;
+        cbse VSLIDER:
+        cbse VSLIDER_THUMB:
+        cbse VSLIDER_TRACK:
             if (init_result = (NULL == gtk2_widgets[_GTK_VSCALE_TYPE]))
             {
                 gtk2_widgets[_GTK_VSCALE_TYPE] =
-                    (*fp_gtk_vscale_new)(NULL);
+                    (*fp_gtk_vscble_new)(NULL);
             }
             result = gtk2_widgets[_GTK_VSCALE_TYPE];
             /*
-             * Vertical JSliders start at the bottom, while vertical
-             * GtkVScale widgets start at the top (by default), so to fix
-             * this we set the "inverted" flag to get the Swing behavior.
+             * Verticbl JSliders stbrt bt the bottom, while verticbl
+             * GtkVScble widgets stbrt bt the top (by defbult), so to fix
+             * this we set the "inverted" flbg to get the Swing behbvior.
              */
-            ((GtkRange*)result)->inverted = 1;
-            break;
-        case VSPLIT_PANE_DIVIDER:
+            ((GtkRbnge*)result)->inverted = 1;
+            brebk;
+        cbse VSPLIT_PANE_DIVIDER:
             if (init_result = (NULL == gtk2_widgets[_GTK_VPANED_TYPE]))
             {
-                gtk2_widgets[_GTK_VPANED_TYPE] = (*fp_gtk_vpaned_new)();
+                gtk2_widgets[_GTK_VPANED_TYPE] = (*fp_gtk_vpbned_new)();
             }
             result = gtk2_widgets[_GTK_VPANED_TYPE];
-            break;
-        default:
+            brebk;
+        defbult:
             result = NULL;
-            break;
+            brebk;
     }
 
     if (result != NULL && init_result)
@@ -1661,495 +1661,495 @@ static GtkWidget *gtk2_get_widget(WidgetType widget_type)
                 widget_type == POPUP_MENU_SEPARATOR)
         {
             GtkWidget *menu = gtk2_get_widget(POPUP_MENU);
-            (*fp_gtk_menu_shell_append)((GtkMenuShell *)menu, result);
+            (*fp_gtk_menu_shell_bppend)((GtkMenuShell *)menu, result);
         }
         else if (widget_type == POPUP_MENU)
         {
-            GtkWidget *menu_bar = gtk2_get_widget(MENU_BAR);
+            GtkWidget *menu_bbr = gtk2_get_widget(MENU_BAR);
             GtkWidget *root_menu = (*fp_gtk_menu_item_new)();
             (*fp_gtk_menu_item_set_submenu)((GtkMenuItem*)root_menu, result);
-            (*fp_gtk_menu_shell_append)((GtkMenuShell *)menu_bar, root_menu);
+            (*fp_gtk_menu_shell_bppend)((GtkMenuShell *)menu_bbr, root_menu);
         }
         else if (widget_type == COMBO_BOX_ARROW_BUTTON ||
                  widget_type == COMBO_BOX_TEXT_FIELD)
         {
             /*
-            * We add a regular GtkButton/GtkEntry to a GtkComboBoxEntry
-            * in order to trick engines into thinking it's a real combobox
-            * arrow button/text field.
+            * We bdd b regulbr GtkButton/GtkEntry to b GtkComboBoxEntry
+            * in order to trick engines into thinking it's b rebl combobox
+            * brrow button/text field.
             */
             GtkWidget *combo = (*fp_gtk_combo_box_entry_new)();
 
             if (new_combo && widget_type == COMBO_BOX_ARROW_BUTTON) {
-                (*fp_gtk_widget_set_parent)(result, combo);
+                (*fp_gtk_widget_set_pbrent)(result, combo);
                 ((GtkBin*)combo)->child = result;
             } else {
-                (*fp_gtk_container_add)((GtkContainer *)combo, result);
+                (*fp_gtk_contbiner_bdd)((GtkContbiner *)combo, result);
             }
-            (*fp_gtk_container_add)((GtkContainer *)gtk2_fixed, combo);
+            (*fp_gtk_contbiner_bdd)((GtkContbiner *)gtk2_fixed, combo);
         }
         else if (widget_type != TOOL_TIP &&
                  widget_type != INTERNAL_FRAME &&
                  widget_type != OPTION_PANE)
         {
-            (*fp_gtk_container_add)((GtkContainer *)gtk2_fixed, result);
+            (*fp_gtk_contbiner_bdd)((GtkContbiner *)gtk2_fixed, result);
         }
-        (*fp_gtk_widget_realize)(result);
+        (*fp_gtk_widget_reblize)(result);
     }
     return result;
 }
 
-void gtk2_paint_arrow(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
+void gtk2_pbint_brrow(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
         gint x, gint y, gint width, gint height,
-        GtkArrowType arrow_type, gboolean fill)
+        GtkArrowType brrow_type, gboolebn fill)
 {
-    static int w, h;
-    static GtkRequisition size;
+    stbtic int w, h;
+    stbtic GtkRequisition size;
 
     if (widget_type == COMBO_BOX_ARROW_BUTTON || widget_type == TABLE)
-        gtk2_widget = gtk2_get_arrow(arrow_type, shadow_type);
+        gtk2_widget = gtk2_get_brrow(brrow_type, shbdow_type);
     else
         gtk2_widget = gtk2_get_widget(widget_type);
 
     switch (widget_type)
     {
-        case SPINNER_ARROW_BUTTON:
+        cbse SPINNER_ARROW_BUTTON:
             x = 1;
-            y = ((arrow_type == GTK_ARROW_UP) ? 2 : 0);
+            y = ((brrow_type == GTK_ARROW_UP) ? 2 : 0);
             height -= 2;
             width -= 3;
 
             w = width / 2;
             w -= w % 2 - 1;
             h = (w + 1) / 2;
-            break;
+            brebk;
 
-        case HSCROLL_BAR_BUTTON_LEFT:
-        case HSCROLL_BAR_BUTTON_RIGHT:
-        case VSCROLL_BAR_BUTTON_UP:
-        case VSCROLL_BAR_BUTTON_DOWN:
+        cbse HSCROLL_BAR_BUTTON_LEFT:
+        cbse HSCROLL_BAR_BUTTON_RIGHT:
+        cbse VSCROLL_BAR_BUTTON_UP:
+        cbse VSCROLL_BAR_BUTTON_DOWN:
             w = width / 2;
             h = height / 2;
-            break;
+            brebk;
 
-        case COMBO_BOX_ARROW_BUTTON:
-        case TABLE:
+        cbse COMBO_BOX_ARROW_BUTTON:
+        cbse TABLE:
             x = 1;
             (*fp_gtk_widget_size_request)(gtk2_widget, &size);
-            w = size.width - ((GtkMisc*)gtk2_widget)->xpad * 2;
-            h = size.height - ((GtkMisc*)gtk2_widget)->ypad * 2;
+            w = size.width - ((GtkMisc*)gtk2_widget)->xpbd * 2;
+            h = size.height - ((GtkMisc*)gtk2_widget)->ypbd * 2;
             w = h = MIN(MIN(w, h), MIN(width,height)) * 0.7;
-            break;
+            brebk;
 
-        default:
+        defbult:
             w = width;
             h = height;
-            break;
+            brebk;
     }
     x += (width - w) / 2;
     y += (height - h) / 2;
 
-    (*fp_gtk_paint_arrow)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, arrow_type, fill,
+    (*fp_gtk_pbint_brrow)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, brrow_type, fill,
             x, y, w, h);
-    (*fp_gtk_paint_arrow)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, arrow_type, fill,
+    (*fp_gtk_pbint_brrow)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, brrow_type, fill,
             x, y, w, h);
 }
 
-void gtk2_paint_box(WidgetType widget_type, GtkStateType state_type,
-                    GtkShadowType shadow_type, const gchar *detail,
+void gtk2_pbint_box(WidgetType widget_type, GtkStbteType stbte_type,
+                    GtkShbdowType shbdow_type, const gchbr *detbil,
                     gint x, gint y, gint width, gint height,
-                    gint synth_state, GtkTextDirection dir)
+                    gint synth_stbte, GtkTextDirection dir)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
 
     /*
-     * The clearlooks engine sometimes looks at the widget's state field
-     * instead of just the state_type variable that we pass in, so to account
-     * for those cases we set the widget's state field accordingly.  The
-     * flags field is similarly important for things like focus/default state.
+     * The clebrlooks engine sometimes looks bt the widget's stbte field
+     * instebd of just the stbte_type vbribble thbt we pbss in, so to bccount
+     * for those cbses we set the widget's stbte field bccordingly.  The
+     * flbgs field is similbrly importbnt for things like focus/defbult stbte.
      */
-    gtk2_widget->state = state_type;
+    gtk2_widget->stbte = stbte_type;
 
     if (widget_type == HSLIDER_TRACK) {
         /*
-         * For horizontal JSliders with right-to-left orientation, we need
-         * to set the "inverted" flag to match the native GTK behavior where
+         * For horizontbl JSliders with right-to-left orientbtion, we need
+         * to set the "inverted" flbg to mbtch the nbtive GTK behbvior where
          * the foreground highlight is on the right side of the slider thumb.
-         * This is needed especially for the ubuntulooks engine, which looks
-         * exclusively at the "inverted" flag to determine on which side of
-         * the thumb to paint the highlight...
+         * This is needed especiblly for the ubuntulooks engine, which looks
+         * exclusively bt the "inverted" flbg to determine on which side of
+         * the thumb to pbint the highlight...
          */
-        ((GtkRange*)gtk2_widget)->inverted = (dir == GTK_TEXT_DIR_RTL);
+        ((GtkRbnge*)gtk2_widget)->inverted = (dir == GTK_TEXT_DIR_RTL);
 
         /*
-         * Note however that other engines like clearlooks will look at both
-         * the "inverted" field and the text direction to determine how
-         * the foreground highlight is painted:
-         *     !inverted && ltr --> paint highlight on left side
-         *     !inverted && rtl --> paint highlight on right side
-         *      inverted && ltr --> paint highlight on right side
-         *      inverted && rtl --> paint highlight on left side
-         * So the only way to reliably get the desired results for horizontal
-         * JSlider (i.e., highlight on left side for LTR ComponentOrientation
-         * and highlight on right side for RTL ComponentOrientation) is to
-         * always override text direction as LTR, and then set the "inverted"
-         * flag accordingly (as we have done above).
+         * Note however thbt other engines like clebrlooks will look bt both
+         * the "inverted" field bnd the text direction to determine how
+         * the foreground highlight is pbinted:
+         *     !inverted && ltr --> pbint highlight on left side
+         *     !inverted && rtl --> pbint highlight on right side
+         *      inverted && ltr --> pbint highlight on right side
+         *      inverted && rtl --> pbint highlight on left side
+         * So the only wby to relibbly get the desired results for horizontbl
+         * JSlider (i.e., highlight on left side for LTR ComponentOrientbtion
+         * bnd highlight on right side for RTL ComponentOrientbtion) is to
+         * blwbys override text direction bs LTR, bnd then set the "inverted"
+         * flbg bccordingly (bs we hbve done bbove).
          */
         dir = GTK_TEXT_DIR_LTR;
     }
 
     /*
-     * Some engines (e.g. clearlooks) will paint the shadow of certain
+     * Some engines (e.g. clebrlooks) will pbint the shbdow of certbin
      * widgets (e.g. COMBO_BOX_ARROW_BUTTON) differently depending on the
      * the text direction.
      */
     gtk2_set_direction(gtk2_widget, dir);
 
     switch (widget_type) {
-    case BUTTON:
-        if (synth_state & DEFAULT) {
-            ((GtkObject*)gtk2_widget)->flags |= GTK_HAS_DEFAULT;
+    cbse BUTTON:
+        if (synth_stbte & DEFAULT) {
+            ((GtkObject*)gtk2_widget)->flbgs |= GTK_HAS_DEFAULT;
         } else {
-            ((GtkObject*)gtk2_widget)->flags &= ~GTK_HAS_DEFAULT;
+            ((GtkObject*)gtk2_widget)->flbgs &= ~GTK_HAS_DEFAULT;
         }
-        break;
-    case TOGGLE_BUTTON:
-        init_toggle_widget(widget_type, synth_state);
-        break;
-    case HSCROLL_BAR_BUTTON_LEFT:
+        brebk;
+    cbse TOGGLE_BUTTON:
+        init_toggle_widget(widget_type, synth_stbte);
+        brebk;
+    cbse HSCROLL_BAR_BUTTON_LEFT:
         /*
-         * The clearlooks engine will draw a "left" button when:
-         *   x == w->allocation.x
+         * The clebrlooks engine will drbw b "left" button when:
+         *   x == w->bllocbtion.x
          *
-         * The ubuntulooks engine will draw a "left" button when:
+         * The ubuntulooks engine will drbw b "left" button when:
          *   [x,y,width,height]
          *     intersects
-         *   [w->alloc.x,w->alloc.y,width,height]
+         *   [w->blloc.x,w->blloc.y,width,height]
          *
-         * The values that are set below should ensure that a "left"
-         * button is rendered for both of these (and other) engines.
+         * The vblues thbt bre set below should ensure thbt b "left"
+         * button is rendered for both of these (bnd other) engines.
          */
-        gtk2_widget->allocation.x = x;
-        gtk2_widget->allocation.y = y;
-        gtk2_widget->allocation.width = width;
-        gtk2_widget->allocation.height = height;
-        break;
-    case HSCROLL_BAR_BUTTON_RIGHT:
+        gtk2_widget->bllocbtion.x = x;
+        gtk2_widget->bllocbtion.y = y;
+        gtk2_widget->bllocbtion.width = width;
+        gtk2_widget->bllocbtion.height = height;
+        brebk;
+    cbse HSCROLL_BAR_BUTTON_RIGHT:
         /*
-         * The clearlooks engine will draw a "right" button when:
-         *   x + width == w->allocation.x + w->allocation.width
+         * The clebrlooks engine will drbw b "right" button when:
+         *   x + width == w->bllocbtion.x + w->bllocbtion.width
          *
-         * The ubuntulooks engine will draw a "right" button when:
+         * The ubuntulooks engine will drbw b "right" button when:
          *   [x,y,width,height]
          *     does not intersect
-         *   [w->alloc.x,w->alloc.y,width,height]
+         *   [w->blloc.x,w->blloc.y,width,height]
          *     but does intersect
-         *   [w->alloc.x+width,w->alloc.y,width,height]
+         *   [w->blloc.x+width,w->blloc.y,width,height]
          *
-         * The values that are set below should ensure that a "right"
-         * button is rendered for both of these (and other) engines.
+         * The vblues thbt bre set below should ensure thbt b "right"
+         * button is rendered for both of these (bnd other) engines.
          */
-        gtk2_widget->allocation.x = x+width;
-        gtk2_widget->allocation.y = 0;
-        gtk2_widget->allocation.width = 0;
-        gtk2_widget->allocation.height = height;
-        break;
-    case VSCROLL_BAR_BUTTON_UP:
+        gtk2_widget->bllocbtion.x = x+width;
+        gtk2_widget->bllocbtion.y = 0;
+        gtk2_widget->bllocbtion.width = 0;
+        gtk2_widget->bllocbtion.height = height;
+        brebk;
+    cbse VSCROLL_BAR_BUTTON_UP:
         /*
-         * The clearlooks engine will draw an "up" button when:
-         *   y == w->allocation.y
+         * The clebrlooks engine will drbw bn "up" button when:
+         *   y == w->bllocbtion.y
          *
-         * The ubuntulooks engine will draw an "up" button when:
+         * The ubuntulooks engine will drbw bn "up" button when:
          *   [x,y,width,height]
          *     intersects
-         *   [w->alloc.x,w->alloc.y,width,height]
+         *   [w->blloc.x,w->blloc.y,width,height]
          *
-         * The values that are set below should ensure that an "up"
-         * button is rendered for both of these (and other) engines.
+         * The vblues thbt bre set below should ensure thbt bn "up"
+         * button is rendered for both of these (bnd other) engines.
          */
-        gtk2_widget->allocation.x = x;
-        gtk2_widget->allocation.y = y;
-        gtk2_widget->allocation.width = width;
-        gtk2_widget->allocation.height = height;
-        break;
-    case VSCROLL_BAR_BUTTON_DOWN:
+        gtk2_widget->bllocbtion.x = x;
+        gtk2_widget->bllocbtion.y = y;
+        gtk2_widget->bllocbtion.width = width;
+        gtk2_widget->bllocbtion.height = height;
+        brebk;
+    cbse VSCROLL_BAR_BUTTON_DOWN:
         /*
-         * The clearlooks engine will draw a "down" button when:
-         *   y + height == w->allocation.y + w->allocation.height
+         * The clebrlooks engine will drbw b "down" button when:
+         *   y + height == w->bllocbtion.y + w->bllocbtion.height
          *
-         * The ubuntulooks engine will draw a "down" button when:
+         * The ubuntulooks engine will drbw b "down" button when:
          *   [x,y,width,height]
          *     does not intersect
-         *   [w->alloc.x,w->alloc.y,width,height]
+         *   [w->blloc.x,w->blloc.y,width,height]
          *     but does intersect
-         *   [w->alloc.x,w->alloc.y+height,width,height]
+         *   [w->blloc.x,w->blloc.y+height,width,height]
          *
-         * The values that are set below should ensure that a "down"
-         * button is rendered for both of these (and other) engines.
+         * The vblues thbt bre set below should ensure thbt b "down"
+         * button is rendered for both of these (bnd other) engines.
          */
-        gtk2_widget->allocation.x = x;
-        gtk2_widget->allocation.y = y+height;
-        gtk2_widget->allocation.width = width;
-        gtk2_widget->allocation.height = 0;
-        break;
-    default:
-        break;
+        gtk2_widget->bllocbtion.x = x;
+        gtk2_widget->bllocbtion.y = y+height;
+        gtk2_widget->bllocbtion.width = width;
+        gtk2_widget->bllocbtion.height = 0;
+        brebk;
+    defbult:
+        brebk;
     }
 
-    (*fp_gtk_paint_box)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, x, y, width, height);
-    (*fp_gtk_paint_box)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, x, y, width, height);
+    (*fp_gtk_pbint_box)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, x, y, width, height);
+    (*fp_gtk_pbint_box)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, x, y, width, height);
 
     /*
-     * Reset the text direction to the default value so that we don't
-     * accidentally affect other operations and widgets.
+     * Reset the text direction to the defbult vblue so thbt we don't
+     * bccidentblly bffect other operbtions bnd widgets.
      */
     gtk2_set_direction(gtk2_widget, GTK_TEXT_DIR_LTR);
 }
 
-void gtk2_paint_box_gap(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
+void gtk2_pbint_box_gbp(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
         gint x, gint y, gint width, gint height,
-        GtkPositionType gap_side, gint gap_x, gint gap_width)
+        GtkPositionType gbp_side, gint gbp_x, gint gbp_width)
 {
-    /* Clearlooks needs a real clip area to paint the gap properly */
-    GdkRectangle area = { x, y, width, height };
+    /* Clebrlooks needs b rebl clip breb to pbint the gbp properly */
+    GdkRectbngle breb = { x, y, width, height };
 
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_box_gap)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, &area, gtk2_widget, detail,
-            x, y, width, height, gap_side, gap_x, gap_width);
-    (*fp_gtk_paint_box_gap)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, &area, gtk2_widget, detail,
-            x, y, width, height, gap_side, gap_x, gap_width);
+    (*fp_gtk_pbint_box_gbp)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, &breb, gtk2_widget, detbil,
+            x, y, width, height, gbp_side, gbp_x, gbp_width);
+    (*fp_gtk_pbint_box_gbp)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, &breb, gtk2_widget, detbil,
+            x, y, width, height, gbp_side, gbp_x, gbp_width);
 }
 
-void gtk2_paint_check(WidgetType widget_type, gint synth_state,
-        const gchar *detail, gint x, gint y, gint width, gint height)
+void gtk2_pbint_check(WidgetType widget_type, gint synth_stbte,
+        const gchbr *detbil, gint x, gint y, gint width, gint height)
 {
-    GtkStateType state_type = get_gtk_state_type(widget_type, synth_state);
-    GtkShadowType shadow_type = get_gtk_shadow_type(widget_type, synth_state);
+    GtkStbteType stbte_type = get_gtk_stbte_type(widget_type, synth_stbte);
+    GtkShbdowType shbdow_type = get_gtk_shbdow_type(widget_type, synth_stbte);
 
     gtk2_widget = gtk2_get_widget(widget_type);
-    init_toggle_widget(widget_type, synth_state);
+    init_toggle_widget(widget_type, synth_stbte);
 
-    (*fp_gtk_paint_check)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_check)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
-    (*fp_gtk_paint_check)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_check)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
 }
 
-void gtk2_paint_diamond(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
+void gtk2_pbint_dibmond(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
         gint x, gint y, gint width, gint height)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_diamond)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_dibmond)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
-    (*fp_gtk_paint_diamond)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_dibmond)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
 }
 
-void gtk2_paint_expander(WidgetType widget_type, GtkStateType state_type,
-        const gchar *detail, gint x, gint y, gint width, gint height,
-        GtkExpanderStyle expander_style)
+void gtk2_pbint_expbnder(WidgetType widget_type, GtkStbteType stbte_type,
+        const gchbr *detbil, gint x, gint y, gint width, gint height,
+        GtkExpbnderStyle expbnder_style)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_expander)(gtk2_widget->style, gtk2_white_pixmap,
-            state_type, NULL, gtk2_widget, detail,
-            x + width / 2, y + height / 2, expander_style);
-    (*fp_gtk_paint_expander)(gtk2_widget->style, gtk2_black_pixmap,
-            state_type, NULL, gtk2_widget, detail,
-            x + width / 2, y + height / 2, expander_style);
+    (*fp_gtk_pbint_expbnder)(gtk2_widget->style, gtk2_white_pixmbp,
+            stbte_type, NULL, gtk2_widget, detbil,
+            x + width / 2, y + height / 2, expbnder_style);
+    (*fp_gtk_pbint_expbnder)(gtk2_widget->style, gtk2_blbck_pixmbp,
+            stbte_type, NULL, gtk2_widget, detbil,
+            x + width / 2, y + height / 2, expbnder_style);
 }
 
-void gtk2_paint_extension(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
-        gint x, gint y, gint width, gint height, GtkPositionType gap_side)
+void gtk2_pbint_extension(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
+        gint x, gint y, gint width, gint height, GtkPositionType gbp_side)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_extension)(gtk2_widget->style, gtk2_white_pixmap,
-            state_type, shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, gap_side);
-    (*fp_gtk_paint_extension)(gtk2_widget->style, gtk2_black_pixmap,
-            state_type, shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, gap_side);
+    (*fp_gtk_pbint_extension)(gtk2_widget->style, gtk2_white_pixmbp,
+            stbte_type, shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, gbp_side);
+    (*fp_gtk_pbint_extension)(gtk2_widget->style, gtk2_blbck_pixmbp,
+            stbte_type, shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, gbp_side);
 }
 
-void gtk2_paint_flat_box(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
-        gint x, gint y, gint width, gint height, gboolean has_focus)
+void gtk2_pbint_flbt_box(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
+        gint x, gint y, gint width, gint height, gboolebn hbs_focus)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
 
-    if (has_focus)
-        ((GtkObject*)gtk2_widget)->flags |= GTK_HAS_FOCUS;
+    if (hbs_focus)
+        ((GtkObject*)gtk2_widget)->flbgs |= GTK_HAS_FOCUS;
     else
-        ((GtkObject*)gtk2_widget)->flags &= ~GTK_HAS_FOCUS;
+        ((GtkObject*)gtk2_widget)->flbgs &= ~GTK_HAS_FOCUS;
 
-    (*fp_gtk_paint_flat_box)(gtk2_widget->style, gtk2_white_pixmap,
-            state_type, shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_flbt_box)(gtk2_widget->style, gtk2_white_pixmbp,
+            stbte_type, shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
-    (*fp_gtk_paint_flat_box)(gtk2_widget->style, gtk2_black_pixmap,
-            state_type, shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height);
-}
-
-void gtk2_paint_focus(WidgetType widget_type, GtkStateType state_type,
-        const char *detail, gint x, gint y, gint width, gint height)
-{
-    gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_focus)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            NULL, gtk2_widget, detail, x, y, width, height);
-    (*fp_gtk_paint_focus)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            NULL, gtk2_widget, detail, x, y, width, height);
-}
-
-void gtk2_paint_handle(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
-        gint x, gint y, gint width, gint height, GtkOrientation orientation)
-{
-    gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_handle)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, orientation);
-    (*fp_gtk_paint_handle)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, orientation);
-}
-
-void gtk2_paint_hline(WidgetType widget_type, GtkStateType state_type,
-        const gchar *detail, gint x, gint y, gint width, gint height)
-{
-    gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_hline)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            NULL, gtk2_widget, detail, x, x + width, y);
-    (*fp_gtk_paint_hline)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            NULL, gtk2_widget, detail, x, x + width, y);
-}
-
-void gtk2_paint_option(WidgetType widget_type, gint synth_state,
-        const gchar *detail, gint x, gint y, gint width, gint height)
-{
-    GtkStateType state_type = get_gtk_state_type(widget_type, synth_state);
-    GtkShadowType shadow_type = get_gtk_shadow_type(widget_type, synth_state);
-
-    gtk2_widget = gtk2_get_widget(widget_type);
-    init_toggle_widget(widget_type, synth_state);
-
-    (*fp_gtk_paint_option)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height);
-    (*fp_gtk_paint_option)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
+    (*fp_gtk_pbint_flbt_box)(gtk2_widget->style, gtk2_blbck_pixmbp,
+            stbte_type, shbdow_type, NULL, gtk2_widget, detbil,
             x, y, width, height);
 }
 
-void gtk2_paint_shadow(WidgetType widget_type, GtkStateType state_type,
-                       GtkShadowType shadow_type, const gchar *detail,
+void gtk2_pbint_focus(WidgetType widget_type, GtkStbteType stbte_type,
+        const chbr *detbil, gint x, gint y, gint width, gint height)
+{
+    gtk2_widget = gtk2_get_widget(widget_type);
+    (*fp_gtk_pbint_focus)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, x, y, width, height);
+    (*fp_gtk_pbint_focus)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, x, y, width, height);
+}
+
+void gtk2_pbint_hbndle(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
+        gint x, gint y, gint width, gint height, GtkOrientbtion orientbtion)
+{
+    gtk2_widget = gtk2_get_widget(widget_type);
+    (*fp_gtk_pbint_hbndle)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, orientbtion);
+    (*fp_gtk_pbint_hbndle)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, orientbtion);
+}
+
+void gtk2_pbint_hline(WidgetType widget_type, GtkStbteType stbte_type,
+        const gchbr *detbil, gint x, gint y, gint width, gint height)
+{
+    gtk2_widget = gtk2_get_widget(widget_type);
+    (*fp_gtk_pbint_hline)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, x, x + width, y);
+    (*fp_gtk_pbint_hline)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, x, x + width, y);
+}
+
+void gtk2_pbint_option(WidgetType widget_type, gint synth_stbte,
+        const gchbr *detbil, gint x, gint y, gint width, gint height)
+{
+    GtkStbteType stbte_type = get_gtk_stbte_type(widget_type, synth_stbte);
+    GtkShbdowType shbdow_type = get_gtk_shbdow_type(widget_type, synth_stbte);
+
+    gtk2_widget = gtk2_get_widget(widget_type);
+    init_toggle_widget(widget_type, synth_stbte);
+
+    (*fp_gtk_pbint_option)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height);
+    (*fp_gtk_pbint_option)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height);
+}
+
+void gtk2_pbint_shbdow(WidgetType widget_type, GtkStbteType stbte_type,
+                       GtkShbdowType shbdow_type, const gchbr *detbil,
                        gint x, gint y, gint width, gint height,
-                       gint synth_state, GtkTextDirection dir)
+                       gint synth_stbte, GtkTextDirection dir)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
 
     /*
-     * The clearlooks engine sometimes looks at the widget's state field
-     * instead of just the state_type variable that we pass in, so to account
-     * for those cases we set the widget's state field accordingly.  The
-     * flags field is similarly important for things like focus state.
+     * The clebrlooks engine sometimes looks bt the widget's stbte field
+     * instebd of just the stbte_type vbribble thbt we pbss in, so to bccount
+     * for those cbses we set the widget's stbte field bccordingly.  The
+     * flbgs field is similbrly importbnt for things like focus stbte.
      */
-    gtk2_widget->state = state_type;
+    gtk2_widget->stbte = stbte_type;
 
     /*
-     * Some engines (e.g. clearlooks) will paint the shadow of certain
+     * Some engines (e.g. clebrlooks) will pbint the shbdow of certbin
      * widgets (e.g. COMBO_BOX_TEXT_FIELD) differently depending on the
      * the text direction.
      */
     gtk2_set_direction(gtk2_widget, dir);
 
     switch (widget_type) {
-    case COMBO_BOX_TEXT_FIELD:
-    case FORMATTED_TEXT_FIELD:
-    case PASSWORD_FIELD:
-    case SPINNER_TEXT_FIELD:
-    case TEXT_FIELD:
-        if (synth_state & FOCUSED) {
-            ((GtkObject*)gtk2_widget)->flags |= GTK_HAS_FOCUS;
+    cbse COMBO_BOX_TEXT_FIELD:
+    cbse FORMATTED_TEXT_FIELD:
+    cbse PASSWORD_FIELD:
+    cbse SPINNER_TEXT_FIELD:
+    cbse TEXT_FIELD:
+        if (synth_stbte & FOCUSED) {
+            ((GtkObject*)gtk2_widget)->flbgs |= GTK_HAS_FOCUS;
         } else {
-            ((GtkObject*)gtk2_widget)->flags &= ~GTK_HAS_FOCUS;
+            ((GtkObject*)gtk2_widget)->flbgs &= ~GTK_HAS_FOCUS;
         }
-        break;
-    default:
-        break;
+        brebk;
+    defbult:
+        brebk;
     }
 
-    (*fp_gtk_paint_shadow)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, x, y, width, height);
-    (*fp_gtk_paint_shadow)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail, x, y, width, height);
+    (*fp_gtk_pbint_shbdow)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, x, y, width, height);
+    (*fp_gtk_pbint_shbdow)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil, x, y, width, height);
 
     /*
-     * Reset the text direction to the default value so that we don't
-     * accidentally affect other operations and widgets.
+     * Reset the text direction to the defbult vblue so thbt we don't
+     * bccidentblly bffect other operbtions bnd widgets.
      */
     gtk2_set_direction(gtk2_widget, GTK_TEXT_DIR_LTR);
 }
 
-void gtk2_paint_slider(WidgetType widget_type, GtkStateType state_type,
-        GtkShadowType shadow_type, const gchar *detail,
-        gint x, gint y, gint width, gint height, GtkOrientation orientation)
+void gtk2_pbint_slider(WidgetType widget_type, GtkStbteType stbte_type,
+        GtkShbdowType shbdow_type, const gchbr *detbil,
+        gint x, gint y, gint width, gint height, GtkOrientbtion orientbtion)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_slider)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, orientation);
-    (*fp_gtk_paint_slider)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            shadow_type, NULL, gtk2_widget, detail,
-            x, y, width, height, orientation);
+    (*fp_gtk_pbint_slider)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, orientbtion);
+    (*fp_gtk_pbint_slider)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            shbdow_type, NULL, gtk2_widget, detbil,
+            x, y, width, height, orientbtion);
 }
 
-void gtk2_paint_vline(WidgetType widget_type, GtkStateType state_type,
-        const gchar *detail, gint x, gint y, gint width, gint height)
+void gtk2_pbint_vline(WidgetType widget_type, GtkStbteType stbte_type,
+        const gchbr *detbil, gint x, gint y, gint width, gint height)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_paint_vline)(gtk2_widget->style, gtk2_white_pixmap, state_type,
-            NULL, gtk2_widget, detail, y, y + height, x);
-    (*fp_gtk_paint_vline)(gtk2_widget->style, gtk2_black_pixmap, state_type,
-            NULL, gtk2_widget, detail, y, y + height, x);
+    (*fp_gtk_pbint_vline)(gtk2_widget->style, gtk2_white_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, y, y + height, x);
+    (*fp_gtk_pbint_vline)(gtk2_widget->style, gtk2_blbck_pixmbp, stbte_type,
+            NULL, gtk2_widget, detbil, y, y + height, x);
 }
 
-void gtk_paint_background(WidgetType widget_type, GtkStateType state_type,
+void gtk_pbint_bbckground(WidgetType widget_type, GtkStbteType stbte_type,
         gint x, gint y, gint width, gint height)
 {
     gtk2_widget = gtk2_get_widget(widget_type);
-    (*fp_gtk_style_apply_default_background)(gtk2_widget->style,
-            gtk2_white_pixmap, TRUE, state_type, NULL, x, y, width, height);
-    (*fp_gtk_style_apply_default_background)(gtk2_widget->style,
-            gtk2_black_pixmap, TRUE, state_type, NULL, x, y, width, height);
+    (*fp_gtk_style_bpply_defbult_bbckground)(gtk2_widget->style,
+            gtk2_white_pixmbp, TRUE, stbte_type, NULL, x, y, width, height);
+    (*fp_gtk_style_bpply_defbult_bbckground)(gtk2_widget->style,
+            gtk2_blbck_pixmbp, TRUE, stbte_type, NULL, x, y, width, height);
 }
 
-GdkPixbuf *gtk2_get_stock_icon(gint widget_type, const gchar *stock_id,
-        GtkIconSize size, GtkTextDirection direction, const char *detail)
+GdkPixbuf *gtk2_get_stock_icon(gint widget_type, const gchbr *stock_id,
+        GtkIconSize size, GtkTextDirection direction, const chbr *detbil)
 {
-    init_containers();
+    init_contbiners();
     gtk2_widget = gtk2_get_widget((widget_type < 0) ? IMAGE : widget_type);
-    gtk2_widget->state = GTK_STATE_NORMAL;
+    gtk2_widget->stbte = GTK_STATE_NORMAL;
     (*fp_gtk_widget_set_direction)(gtk2_widget, direction);
-    return (*fp_gtk_widget_render_icon)(gtk2_widget, stock_id, size, detail);
+    return (*fp_gtk_widget_render_icon)(gtk2_widget, stock_id, size, detbil);
 }
 
 /*************************************************/
 gint gtk2_get_xthickness(JNIEnv *env, WidgetType widget_type)
 {
-    init_containers();
+    init_contbiners();
 
     gtk2_widget = gtk2_get_widget(widget_type);
     GtkStyle* style = gtk2_widget->style;
@@ -2158,7 +2158,7 @@ gint gtk2_get_xthickness(JNIEnv *env, WidgetType widget_type)
 
 gint gtk2_get_ythickness(JNIEnv *env, WidgetType widget_type)
 {
-    init_containers();
+    init_contbiners();
 
     gtk2_widget = gtk2_get_widget(widget_type);
     GtkStyle* style = gtk2_widget->style;
@@ -2166,52 +2166,52 @@ gint gtk2_get_ythickness(JNIEnv *env, WidgetType widget_type)
 }
 
 /*************************************************/
-guint8 recode_color(guint16 channel)
+guint8 recode_color(guint16 chbnnel)
 {
-    return (guint8)(channel>>8);
+    return (guint8)(chbnnel>>8);
 }
 
-gint gtk2_get_color_for_state(JNIEnv *env, WidgetType widget_type,
-                              GtkStateType state_type, ColorType color_type)
+gint gtk2_get_color_for_stbte(JNIEnv *env, WidgetType widget_type,
+                              GtkStbteType stbte_type, ColorType color_type)
 {
     gint result = 0;
     GdkColor *color = NULL;
 
-    init_containers();
+    init_contbiners();
 
     gtk2_widget = gtk2_get_widget(widget_type);
     GtkStyle* style = gtk2_widget->style;
 
     switch (color_type)
     {
-        case FOREGROUND:
-            color = &(style->fg[state_type]);
-            break;
-        case BACKGROUND:
-            color = &(style->bg[state_type]);
-            break;
-        case TEXT_FOREGROUND:
-            color = &(style->text[state_type]);
-            break;
-        case TEXT_BACKGROUND:
-            color = &(style->base[state_type]);
-            break;
-        case LIGHT:
-            color = &(style->light[state_type]);
-            break;
-        case DARK:
-            color = &(style->dark[state_type]);
-            break;
-        case MID:
-            color = &(style->mid[state_type]);
-            break;
-        case FOCUS:
-        case BLACK:
-            color = &(style->black);
-            break;
-        case WHITE:
+        cbse FOREGROUND:
+            color = &(style->fg[stbte_type]);
+            brebk;
+        cbse BACKGROUND:
+            color = &(style->bg[stbte_type]);
+            brebk;
+        cbse TEXT_FOREGROUND:
+            color = &(style->text[stbte_type]);
+            brebk;
+        cbse TEXT_BACKGROUND:
+            color = &(style->bbse[stbte_type]);
+            brebk;
+        cbse LIGHT:
+            color = &(style->light[stbte_type]);
+            brebk;
+        cbse DARK:
+            color = &(style->dbrk[stbte_type]);
+            brebk;
+        cbse MID:
+            color = &(style->mid[stbte_type]);
+            brebk;
+        cbse FOCUS:
+        cbse BLACK:
+            color = &(style->blbck);
+            brebk;
+        cbse WHITE:
             color = &(style->white);
-            break;
+            brebk;
     }
 
     if (color)
@@ -2223,260 +2223,260 @@ gint gtk2_get_color_for_state(JNIEnv *env, WidgetType widget_type,
 }
 
 /*************************************************/
-jobject create_Boolean(JNIEnv *env, jboolean boolean_value);
-jobject create_Integer(JNIEnv *env, jint int_value);
-jobject create_Long(JNIEnv *env, jlong long_value);
-jobject create_Float(JNIEnv *env, jfloat float_value);
-jobject create_Double(JNIEnv *env, jdouble double_value);
-jobject create_Character(JNIEnv *env, jchar char_value);
-jobject create_Insets(JNIEnv *env, GtkBorder *border);
+jobject crebte_Boolebn(JNIEnv *env, jboolebn boolebn_vblue);
+jobject crebte_Integer(JNIEnv *env, jint int_vblue);
+jobject crebte_Long(JNIEnv *env, jlong long_vblue);
+jobject crebte_Flobt(JNIEnv *env, jflobt flobt_vblue);
+jobject crebte_Double(JNIEnv *env, jdouble double_vblue);
+jobject crebte_Chbrbcter(JNIEnv *env, jchbr chbr_vblue);
+jobject crebte_Insets(JNIEnv *env, GtkBorder *border);
 
-jobject gtk2_get_class_value(JNIEnv *env, WidgetType widget_type, jstring jkey)
+jobject gtk2_get_clbss_vblue(JNIEnv *env, WidgetType widget_type, jstring jkey)
 {
-    init_containers();
+    init_contbiners();
 
-    const char* key = getStrFor(env, jkey);
+    const chbr* key = getStrFor(env, jkey);
     gtk2_widget = gtk2_get_widget(widget_type);
 
-    GValue value;
-    value.g_type = 0;
+    GVblue vblue;
+    vblue.g_type = 0;
 
-    GParamSpec* param = (*fp_gtk_widget_class_find_style_property)(
-                                    ((GTypeInstance*)gtk2_widget)->g_class, key);
-    if( param )
+    GPbrbmSpec* pbrbm = (*fp_gtk_widget_clbss_find_style_property)(
+                                    ((GTypeInstbnce*)gtk2_widget)->g_clbss, key);
+    if( pbrbm )
     {
-        (*fp_g_value_init)( &value, param->value_type );
-        (*fp_gtk_widget_style_get_property)(gtk2_widget, key, &value);
+        (*fp_g_vblue_init)( &vblue, pbrbm->vblue_type );
+        (*fp_gtk_widget_style_get_property)(gtk2_widget, key, &vblue);
 
-        if( (*fp_g_type_is_a)( param->value_type, G_TYPE_BOOLEAN ))
+        if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_BOOLEAN ))
         {
-            gboolean val = (*fp_g_value_get_boolean)(&value);
-            return create_Boolean(env, (jboolean)val);
+            gboolebn vbl = (*fp_g_vblue_get_boolebn)(&vblue);
+            return crebte_Boolebn(env, (jboolebn)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_CHAR ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_CHAR ))
         {
-            gchar val = (*fp_g_value_get_char)(&value);
-            return create_Character(env, (jchar)val);
+            gchbr vbl = (*fp_g_vblue_get_chbr)(&vblue);
+            return crebte_Chbrbcter(env, (jchbr)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_UCHAR ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_UCHAR ))
         {
-            guchar val = (*fp_g_value_get_uchar)(&value);
-            return create_Character(env, (jchar)val);
+            guchbr vbl = (*fp_g_vblue_get_uchbr)(&vblue);
+            return crebte_Chbrbcter(env, (jchbr)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_INT ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_INT ))
         {
-            gint val = (*fp_g_value_get_int)(&value);
-            return create_Integer(env, (jint)val);
+            gint vbl = (*fp_g_vblue_get_int)(&vblue);
+            return crebte_Integer(env, (jint)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_UINT ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_UINT ))
         {
-            guint val = (*fp_g_value_get_uint)(&value);
-            return create_Integer(env, (jint)val);
+            guint vbl = (*fp_g_vblue_get_uint)(&vblue);
+            return crebte_Integer(env, (jint)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_LONG ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_LONG ))
         {
-            glong val = (*fp_g_value_get_long)(&value);
-            return create_Long(env, (jlong)val);
+            glong vbl = (*fp_g_vblue_get_long)(&vblue);
+            return crebte_Long(env, (jlong)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_ULONG ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_ULONG ))
         {
-            gulong val = (*fp_g_value_get_ulong)(&value);
-            return create_Long(env, (jlong)val);
+            gulong vbl = (*fp_g_vblue_get_ulong)(&vblue);
+            return crebte_Long(env, (jlong)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_INT64 ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_INT64 ))
         {
-            gint64 val = (*fp_g_value_get_int64)(&value);
-            return create_Long(env, (jlong)val);
+            gint64 vbl = (*fp_g_vblue_get_int64)(&vblue);
+            return crebte_Long(env, (jlong)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_UINT64 ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_UINT64 ))
         {
-            guint64 val = (*fp_g_value_get_uint64)(&value);
-            return create_Long(env, (jlong)val);
+            guint64 vbl = (*fp_g_vblue_get_uint64)(&vblue);
+            return crebte_Long(env, (jlong)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_FLOAT ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_FLOAT ))
         {
-            gfloat val = (*fp_g_value_get_float)(&value);
-            return create_Float(env, (jfloat)val);
+            gflobt vbl = (*fp_g_vblue_get_flobt)(&vblue);
+            return crebte_Flobt(env, (jflobt)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_DOUBLE ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_DOUBLE ))
         {
-            gdouble val = (*fp_g_value_get_double)(&value);
-            return create_Double(env, (jdouble)val);
+            gdouble vbl = (*fp_g_vblue_get_double)(&vblue);
+            return crebte_Double(env, (jdouble)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_ENUM ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_ENUM ))
         {
-            gint val = (*fp_g_value_get_enum)(&value);
-            return create_Integer(env, (jint)val);
+            gint vbl = (*fp_g_vblue_get_enum)(&vblue);
+            return crebte_Integer(env, (jint)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_FLAGS ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_FLAGS ))
         {
-            guint val = (*fp_g_value_get_flags)(&value);
-            return create_Integer(env, (jint)val);
+            guint vbl = (*fp_g_vblue_get_flbgs)(&vblue);
+            return crebte_Integer(env, (jint)vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_STRING ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_STRING ))
         {
-            const gchar* val = (*fp_g_value_get_string)(&value);
+            const gchbr* vbl = (*fp_g_vblue_get_string)(&vblue);
 
-            /* We suppose that all values come in C locale and
-             * utf-8 representation of a string is the same as
+            /* We suppose thbt bll vblues come in C locble bnd
+             * utf-8 representbtion of b string is the sbme bs
              * the string itself. If this isn't so we should
              * use g_convert.
              */
-            return (*env)->NewStringUTF(env, val);
+            return (*env)->NewStringUTF(env, vbl);
         }
-        else if( (*fp_g_type_is_a)( param->value_type, GTK_TYPE_BORDER ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, GTK_TYPE_BORDER ))
         {
-            GtkBorder *border = (GtkBorder*)(*fp_g_value_get_boxed)(&value);
-            return border ? create_Insets(env, border) : NULL;
+            GtkBorder *border = (GtkBorder*)(*fp_g_vblue_get_boxed)(&vblue);
+            return border ? crebte_Insets(env, border) : NULL;
         }
 
-        /*      TODO: Other types are not supported yet.*/
-/*        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_PARAM ))
+        /*      TODO: Other types bre not supported yet.*/
+/*        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_PARAM ))
         {
-            GParamSpec* val = (*fp_g_value_get_param)(&value);
-            printf( "Param: %p\n", val );
+            GPbrbmSpec* vbl = (*fp_g_vblue_get_pbrbm)(&vblue);
+            printf( "Pbrbm: %p\n", vbl );
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_BOXED ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_BOXED ))
         {
-            gpointer* val = (*fp_g_value_get_boxed)(&value);
-            printf( "Boxed: %p\n", val );
+            gpointer* vbl = (*fp_g_vblue_get_boxed)(&vblue);
+            printf( "Boxed: %p\n", vbl );
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_POINTER ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_POINTER ))
         {
-            gpointer* val = (*fp_g_value_get_pointer)(&value);
-            printf( "Pointer: %p\n", val );
+            gpointer* vbl = (*fp_g_vblue_get_pointer)(&vblue);
+            printf( "Pointer: %p\n", vbl );
         }
-        else if( (*fp_g_type_is_a)( param->value_type, G_TYPE_OBJECT ))
+        else if( (*fp_g_type_is_b)( pbrbm->vblue_type, G_TYPE_OBJECT ))
         {
-            GObject* val = (GObject*)(*fp_g_value_get_object)(&value);
-            printf( "Object: %p\n", val );
+            GObject* vbl = (GObject*)(*fp_g_vblue_get_object)(&vblue);
+            printf( "Object: %p\n", vbl );
         }*/
     }
 
     return NULL;
 }
 
-void gtk2_set_range_value(WidgetType widget_type, jdouble value,
-                          jdouble min, jdouble max, jdouble visible)
+void gtk2_set_rbnge_vblue(WidgetType widget_type, jdouble vblue,
+                          jdouble min, jdouble mbx, jdouble visible)
 {
-    GtkAdjustment *adj;
+    GtkAdjustment *bdj;
 
     gtk2_widget = gtk2_get_widget(widget_type);
 
-    adj = (*fp_gtk_range_get_adjustment)((GtkRange *)gtk2_widget);
-    adj->value = (gdouble)value;
-    adj->lower = (gdouble)min;
-    adj->upper = (gdouble)max;
-    adj->page_size = (gdouble)visible;
+    bdj = (*fp_gtk_rbnge_get_bdjustment)((GtkRbnge *)gtk2_widget);
+    bdj->vblue = (gdouble)vblue;
+    bdj->lower = (gdouble)min;
+    bdj->upper = (gdouble)mbx;
+    bdj->pbge_size = (gdouble)visible;
 }
 
 /*************************************************/
-jobject create_Object(JNIEnv *env, jmethodID *cid,
-                             const char* class_name,
-                             const char* signature,
-                             jvalue* value)
+jobject crebte_Object(JNIEnv *env, jmethodID *cid,
+                             const chbr* clbss_nbme,
+                             const chbr* signbture,
+                             jvblue* vblue)
 {
-    jclass  class;
+    jclbss  clbss;
     jobject result;
 
-    class = (*env)->FindClass(env, class_name);
-    if( class == NULL )
-        return NULL; /* can't find/load the class, exception thrown */
+    clbss = (*env)->FindClbss(env, clbss_nbme);
+    if( clbss == NULL )
+        return NULL; /* cbn't find/lobd the clbss, exception thrown */
 
     if( *cid == NULL)
     {
-        *cid = (*env)->GetMethodID(env, class, "<init>", signature);
+        *cid = (*env)->GetMethodID(env, clbss, "<init>", signbture);
         if( *cid == NULL )
         {
-            (*env)->DeleteLocalRef(env, class);
-            return NULL; /* can't find/get the method, exception thrown */
+            (*env)->DeleteLocblRef(env, clbss);
+            return NULL; /* cbn't find/get the method, exception thrown */
         }
     }
 
-    result = (*env)->NewObjectA(env, class, *cid, value);
+    result = (*env)->NewObjectA(env, clbss, *cid, vblue);
 
-    (*env)->DeleteLocalRef(env, class);
+    (*env)->DeleteLocblRef(env, clbss);
     return result;
 }
 
-jobject create_Boolean(JNIEnv *env, jboolean boolean_value)
+jobject crebte_Boolebn(JNIEnv *env, jboolebn boolebn_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.z = boolean_value;
+    vblue.z = boolebn_vblue;
 
-    return create_Object(env, &cid, "java/lang/Boolean", "(Z)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Boolebn", "(Z)V", &vblue);
 }
 
-jobject create_Integer(JNIEnv *env, jint int_value)
+jobject crebte_Integer(JNIEnv *env, jint int_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.i = int_value;
+    vblue.i = int_vblue;
 
-    return create_Object(env, &cid, "java/lang/Integer", "(I)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Integer", "(I)V", &vblue);
 }
 
-jobject create_Long(JNIEnv *env, jlong long_value)
+jobject crebte_Long(JNIEnv *env, jlong long_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.j = long_value;
+    vblue.j = long_vblue;
 
-    return create_Object(env, &cid, "java/lang/Long", "(J)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Long", "(J)V", &vblue);
 }
 
-jobject create_Float(JNIEnv *env, jfloat float_value)
+jobject crebte_Flobt(JNIEnv *env, jflobt flobt_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.f = float_value;
+    vblue.f = flobt_vblue;
 
-    return create_Object(env, &cid, "java/lang/Float", "(F)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Flobt", "(F)V", &vblue);
 }
 
-jobject create_Double(JNIEnv *env, jdouble double_value)
+jobject crebte_Double(JNIEnv *env, jdouble double_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.d = double_value;
+    vblue.d = double_vblue;
 
-    return create_Object(env, &cid, "java/lang/Double", "(D)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Double", "(D)V", &vblue);
 }
 
-jobject create_Character(JNIEnv *env, jchar char_value)
+jobject crebte_Chbrbcter(JNIEnv *env, jchbr chbr_vblue)
 {
-    static jmethodID cid = NULL;
-    jvalue value;
+    stbtic jmethodID cid = NULL;
+    jvblue vblue;
 
-    value.c = char_value;
+    vblue.c = chbr_vblue;
 
-    return create_Object(env, &cid, "java/lang/Character", "(C)V", &value);
+    return crebte_Object(env, &cid, "jbvb/lbng/Chbrbcter", "(C)V", &vblue);
 }
 
 
-jobject create_Insets(JNIEnv *env, GtkBorder *border)
+jobject crebte_Insets(JNIEnv *env, GtkBorder *border)
 {
-    static jmethodID cid = NULL;
-    jvalue values[4];
+    stbtic jmethodID cid = NULL;
+    jvblue vblues[4];
 
-    values[0].i = border->top;
-    values[1].i = border->left;
-    values[2].i = border->bottom;
-    values[3].i = border->right;
+    vblues[0].i = border->top;
+    vblues[1].i = border->left;
+    vblues[2].i = border->bottom;
+    vblues[3].i = border->right;
 
-    return create_Object(env, &cid, "java/awt/Insets", "(IIII)V", values);
+    return crebte_Object(env, &cid, "jbvb/bwt/Insets", "(IIII)V", vblues);
 }
 
 /*********************************************/
-jstring gtk2_get_pango_font_name(JNIEnv *env, WidgetType widget_type)
+jstring gtk2_get_pbngo_font_nbme(JNIEnv *env, WidgetType widget_type)
 {
-    init_containers();
+    init_contbiners();
 
     gtk2_widget = gtk2_get_widget(widget_type);
     jstring  result = NULL;
@@ -2484,44 +2484,44 @@ jstring gtk2_get_pango_font_name(JNIEnv *env, WidgetType widget_type)
 
     if (style && style->font_desc)
     {
-        gchar* val = (*fp_pango_font_description_to_string)(style->font_desc);
-        result = (*env)->NewStringUTF(env, val);
-        (*fp_g_free)( val );
+        gchbr* vbl = (*fp_pbngo_font_description_to_string)(style->font_desc);
+        result = (*env)->NewStringUTF(env, vbl);
+        (*fp_g_free)( vbl );
     }
 
     return result;
 }
 
 /***********************************************/
-jobject get_string_property(JNIEnv *env, GtkSettings* settings, const gchar* key)
+jobject get_string_property(JNIEnv *env, GtkSettings* settings, const gchbr* key)
 {
     jobject result = NULL;
-    gchar*  strval = NULL;
+    gchbr*  strvbl = NULL;
 
-    (*fp_g_object_get)(settings, key, &strval, NULL);
-    result = (*env)->NewStringUTF(env, strval);
-    (*fp_g_free)(strval);
+    (*fp_g_object_get)(settings, key, &strvbl, NULL);
+    result = (*env)->NewStringUTF(env, strvbl);
+    (*fp_g_free)(strvbl);
 
     return result;
 }
 /*
-jobject get_integer_property(JNIEnv *env, GtkSettings* settings, const gchar* key)
+jobject get_integer_property(JNIEnv *env, GtkSettings* settings, const gchbr* key)
 {
-    gint    intval = NULL;
+    gint    intvbl = NULL;
 
-    (*fp_g_object_get)(settings, key, &intval, NULL);
-    return create_Integer(env, intval);
+    (*fp_g_object_get)(settings, key, &intvbl, NULL);
+    return crebte_Integer(env, intvbl);
 }*/
 
 jobject gtk2_get_setting(JNIEnv *env, Setting property)
 {
-    GtkSettings* settings = (*fp_gtk_settings_get_default)();
+    GtkSettings* settings = (*fp_gtk_settings_get_defbult)();
 
     switch (property)
     {
-        case GTK_FONT_NAME:
-            return get_string_property(env, settings, "gtk-font-name");
-        case GTK_ICON_SIZES:
+        cbse GTK_FONT_NAME:
+            return get_string_property(env, settings, "gtk-font-nbme");
+        cbse GTK_ICON_SIZES:
             return get_string_property(env, settings, "gtk-icon-sizes");
     }
 

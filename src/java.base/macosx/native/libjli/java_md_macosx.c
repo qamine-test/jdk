@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "java.h"
+#include "jbvb.h"
 #include "jvm_md.h"
 #include <dirent.h>
 #include <dlfcn.h>
@@ -32,88 +32,88 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
 
-#include "manifest_info.h"
+#include "mbnifest_info.h"
 #include "version_comp.h"
 
-/* Support Cocoa event loop on the main thread */
-#include <Cocoa/Cocoa.h>
+/* Support Cocob event loop on the mbin threbd */
+#include <Cocob/Cocob.h>
 #include <objc/objc-runtime.h>
-#include <objc/objc-auto.h>
+#include <objc/objc-buto.h>
 
 #include <errno.h>
-#include <spawn.h>
+#include <spbwn.h>
 
 struct NSAppArgs {
-    int argc;
-    char **argv;
+    int brgc;
+    chbr **brgv;
 };
 
 #define JVM_DLL "libjvm.dylib"
-#define JAVA_DLL "libjava.dylib"
-/* FALLBACK avoids naming conflicts with system libraries
- * (eg, ImageIO's libJPEG.dylib) */
+#define JAVA_DLL "libjbvb.dylib"
+/* FALLBACK bvoids nbming conflicts with system librbries
+ * (eg, ImbgeIO's libJPEG.dylib) */
 #define LD_LIBRARY_PATH "DYLD_FALLBACK_LIBRARY_PATH"
 
 /*
- * If a processor / os combination has the ability to run binaries of
- * two data models and cohabitation of jre/jdk bits with both data
- * models is supported, then DUAL_MODE is defined. MacOSX is a hybrid
- * system in that, the universal library can contain all types of libraries
- * 32/64 and client/server, thus the spawn is capable of linking with the
- * appropriate library as requested.
+ * If b processor / os combinbtion hbs the bbility to run binbries of
+ * two dbtb models bnd cohbbitbtion of jre/jdk bits with both dbtb
+ * models is supported, then DUAL_MODE is defined. MbcOSX is b hybrid
+ * system in thbt, the universbl librbry cbn contbin bll types of librbries
+ * 32/64 bnd client/server, thus the spbwn is cbpbble of linking with the
+ * bppropribte librbry bs requested.
  *
  * Notes:
- * 1. VM. DUAL_MODE is disabled, and not supported, however, it is left here in
- *    for experimentation and perhaps enable it in the future.
- * 2. At the time of this writing, the universal library contains only
- *    a server 64-bit server JVM.
- * 3. "-client" command line option is supported merely as a command line flag,
- *    for, compatibility reasons, however, a server VM will be launched.
+ * 1. VM. DUAL_MODE is disbbled, bnd not supported, however, it is left here in
+ *    for experimentbtion bnd perhbps enbble it in the future.
+ * 2. At the time of this writing, the universbl librbry contbins only
+ *    b server 64-bit server JVM.
+ * 3. "-client" commbnd line option is supported merely bs b commbnd line flbg,
+ *    for, compbtibility rebsons, however, b server VM will be lbunched.
  */
 
 /*
- * Flowchart of launcher execs and options processing on unix
+ * Flowchbrt of lbuncher execs bnd options processing on unix
  *
- * The selection of the proper vm shared library to open depends on
- * several classes of command line options, including vm "flavor"
- * options (-client, -server) and the data model options, -d32  and
- * -d64, as well as a version specification which may have come from
- * the command line or from the manifest of an executable jar file.
- * The vm selection options are not passed to the running
- * virtual machine; they must be screened out by the launcher.
+ * The selection of the proper vm shbred librbry to open depends on
+ * severbl clbsses of commbnd line options, including vm "flbvor"
+ * options (-client, -server) bnd the dbtb model options, -d32  bnd
+ * -d64, bs well bs b version specificbtion which mby hbve come from
+ * the commbnd line or from the mbnifest of bn executbble jbr file.
+ * The vm selection options bre not pbssed to the running
+ * virtubl mbchine; they must be screened out by the lbuncher.
  *
- * The version specification (if any) is processed first by the
- * platform independent routine SelectVersion.  This may result in
- * the exec of the specified launcher version.
+ * The version specificbtion (if bny) is processed first by the
+ * plbtform independent routine SelectVersion.  This mby result in
+ * the exec of the specified lbuncher version.
  *
- * Now, in most cases,the launcher will dlopen the target libjvm.so. All
- * required libraries are loaded by the runtime linker, using the known paths
- * baked into the shared libraries at compile time. Therefore,
- * in most cases, the launcher will only exec, if the data models are
- * mismatched, and will not set any environment variables, regardless of the
- * data models.
+ * Now, in most cbses,the lbuncher will dlopen the tbrget libjvm.so. All
+ * required librbries bre lobded by the runtime linker, using the known pbths
+ * bbked into the shbred librbries bt compile time. Therefore,
+ * in most cbses, the lbuncher will only exec, if the dbtb models bre
+ * mismbtched, bnd will not set bny environment vbribbles, regbrdless of the
+ * dbtb models.
  *
  *
  *
- *  Main
- *  (incoming argv)
+ *  Mbin
+ *  (incoming brgv)
  *  |
  * \|/
  * SelectVersion
- * (selects the JRE version, note: not data model)
+ * (selects the JRE version, note: not dbtb model)
  *  |
  * \|/
- * CreateExecutionEnvironment
- * (determines desired data model)
+ * CrebteExecutionEnvironment
+ * (determines desired dbtb model)
  *  |
  *  |
  * \|/
- *  Have Desired Model ? --> NO --> Is Dual-Mode ? --> NO --> Exit(with error)
+ *  Hbve Desired Model ? --> NO --> Is Dubl-Mode ? --> NO --> Exit(with error)
  *  |                                          |
  *  |                                          |
  *  |                                         \|/
@@ -126,7 +126,7 @@ struct NSAppArgs {
  *  |                                          |
  *  |                                          |
  * \|/                                        \|/
- * YES                             Find the desired executable/library
+ * YES                             Find the desired executbble/librbry
  *  |                                          |
  *  |                                          |
  * \|/                                        \|/
@@ -135,15 +135,15 @@ struct NSAppArgs {
  *  |
  *  |
  * \|/
- * TranslateDashJArgs...
- * (Prepare to pass args to vm)
+ * TrbnslbteDbshJArgs...
+ * (Prepbre to pbss brgs to vm)
  *  |
  *  |
  * \|/
- * ParseArguments
- * (removes -d32 and -d64 if any,
+ * PbrseArguments
+ * (removes -d32 bnd -d64 if bny,
  *  processes version options,
- *  creates argument list for vm,
+ *  crebtes brgument list for vm,
  *  etc.)
  *   |
  *   |
@@ -152,98 +152,98 @@ struct NSAppArgs {
  *   |
  *   |
  *  \|/
- * Path is desired JRE ? YES --> Have Desired Model ? NO --> Re-exec --> Main
+ * Pbth is desired JRE ? YES --> Hbve Desired Model ? NO --> Re-exec --> Mbin
  *  NO                               YES --> Continue
  *   |
  *   |
  *  \|/
- * Paths have well known
- * jvm paths ?       --> NO --> Have Desired Model ? NO --> Re-exec --> Main
+ * Pbths hbve well known
+ * jvm pbths ?       --> NO --> Hbve Desired Model ? NO --> Re-exec --> Mbin
  *  YES                              YES --> Continue
  *   |
  *   |
  *  \|/
  *  Does libjvm.so exist
- *  in any of them ? --> NO --> Have Desired Model ? NO --> Re-exec --> Main
+ *  in bny of them ? --> NO --> Hbve Desired Model ? NO --> Re-exec --> Mbin
  *   YES                             YES --> Continue
  *   |
  *   |
  *  \|/
- * Re-exec / Spawn
+ * Re-exec / Spbwn
  *   |
  *   |
  *  \|/
- * Main
+ * Mbin
  */
 
-#define GetArch() GetArchPath(CURRENT_DATA_MODEL)
+#define GetArch() GetArchPbth(CURRENT_DATA_MODEL)
 
-/* Store the name of the executable once computed */
-static char *execname = NULL;
+/* Store the nbme of the executbble once computed */
+stbtic chbr *execnbme = NULL;
 
 /*
- * execname accessor from other parts of platform dependent logic
+ * execnbme bccessor from other pbrts of plbtform dependent logic
  */
-const char *
-GetExecName() {
-    return execname;
+const chbr *
+GetExecNbme() {
+    return execnbme;
 }
 
-const char *
-GetArchPath(int nbits)
+const chbr *
+GetArchPbth(int nbits)
 {
     switch(nbits) {
-        default:
+        defbult:
             return LIBARCHNAME;
     }
 }
 
 
 /*
- * Exports the JNI interface from libjli
+ * Exports the JNI interfbce from libjli
  *
- * This allows client code to link against the .jre/.jdk bundles,
- * and not worry about trying to pick a HotSpot to link against.
+ * This bllows client code to link bgbinst the .jre/.jdk bundles,
+ * bnd not worry bbout trying to pick b HotSpot to link bgbinst.
  *
- * Switching architectures is unsupported, since client code has
- * made that choice before the JVM was requested.
+ * Switching brchitectures is unsupported, since client code hbs
+ * mbde thbt choice before the JVM wbs requested.
  */
 
-static InvocationFunctions *sExportedJNIFunctions = NULL;
-static char *sPreferredJVMType = NULL;
+stbtic InvocbtionFunctions *sExportedJNIFunctions = NULL;
+stbtic chbr *sPreferredJVMType = NULL;
 
-static InvocationFunctions *GetExportedJNIFunctions() {
+stbtic InvocbtionFunctions *GetExportedJNIFunctions() {
     if (sExportedJNIFunctions != NULL) return sExportedJNIFunctions;
 
-    char jrePath[PATH_MAX];
-    jboolean gotJREPath = GetJREPath(jrePath, sizeof(jrePath), GetArch(), JNI_FALSE);
-    if (!gotJREPath) {
-        JLI_ReportErrorMessage("Failed to GetJREPath()");
+    chbr jrePbth[PATH_MAX];
+    jboolebn gotJREPbth = GetJREPbth(jrePbth, sizeof(jrePbth), GetArch(), JNI_FALSE);
+    if (!gotJREPbth) {
+        JLI_ReportErrorMessbge("Fbiled to GetJREPbth()");
         return NULL;
     }
 
-    char *preferredJVM = sPreferredJVMType;
+    chbr *preferredJVM = sPreferredJVMType;
     if (preferredJVM == NULL) {
 #if defined(__i386__)
         preferredJVM = "client";
 #elif defined(__x86_64__)
         preferredJVM = "server";
 #else
-#error "Unknown architecture - needs definition"
+#error "Unknown brchitecture - needs definition"
 #endif
     }
 
-    char jvmPath[PATH_MAX];
-    jboolean gotJVMPath = GetJVMPath(jrePath, preferredJVM, jvmPath, sizeof(jvmPath), GetArch(), CURRENT_DATA_MODEL);
-    if (!gotJVMPath) {
-        JLI_ReportErrorMessage("Failed to GetJVMPath()");
+    chbr jvmPbth[PATH_MAX];
+    jboolebn gotJVMPbth = GetJVMPbth(jrePbth, preferredJVM, jvmPbth, sizeof(jvmPbth), GetArch(), CURRENT_DATA_MODEL);
+    if (!gotJVMPbth) {
+        JLI_ReportErrorMessbge("Fbiled to GetJVMPbth()");
         return NULL;
     }
 
-    InvocationFunctions *fxns = malloc(sizeof(InvocationFunctions));
-    jboolean vmLoaded = LoadJavaVM(jvmPath, fxns);
-    if (!vmLoaded) {
-        JLI_ReportErrorMessage("Failed to LoadJavaVM()");
+    InvocbtionFunctions *fxns = mblloc(sizeof(InvocbtionFunctions));
+    jboolebn vmLobded = LobdJbvbVM(jvmPbth, fxns);
+    if (!vmLobded) {
+        JLI_ReportErrorMessbge("Fbiled to LobdJbvbVM()");
         return NULL;
     }
 
@@ -251,31 +251,31 @@ static InvocationFunctions *GetExportedJNIFunctions() {
 }
 
 JNIEXPORT jint JNICALL
-JNI_GetDefaultJavaVMInitArgs(void *args) {
-    InvocationFunctions *ifn = GetExportedJNIFunctions();
+JNI_GetDefbultJbvbVMInitArgs(void *brgs) {
+    InvocbtionFunctions *ifn = GetExportedJNIFunctions();
     if (ifn == NULL) return JNI_ERR;
-    return ifn->GetDefaultJavaVMInitArgs(args);
+    return ifn->GetDefbultJbvbVMInitArgs(brgs);
 }
 
 JNIEXPORT jint JNICALL
-JNI_CreateJavaVM(JavaVM **pvm, void **penv, void *args) {
-    InvocationFunctions *ifn = GetExportedJNIFunctions();
+JNI_CrebteJbvbVM(JbvbVM **pvm, void **penv, void *brgs) {
+    InvocbtionFunctions *ifn = GetExportedJNIFunctions();
     if (ifn == NULL) return JNI_ERR;
-    return ifn->CreateJavaVM(pvm, penv, args);
+    return ifn->CrebteJbvbVM(pvm, penv, brgs);
 }
 
 JNIEXPORT jint JNICALL
-JNI_GetCreatedJavaVMs(JavaVM **vmBuf, jsize bufLen, jsize *nVMs) {
-    InvocationFunctions *ifn = GetExportedJNIFunctions();
+JNI_GetCrebtedJbvbVMs(JbvbVM **vmBuf, jsize bufLen, jsize *nVMs) {
+    InvocbtionFunctions *ifn = GetExportedJNIFunctions();
     if (ifn == NULL) return JNI_ERR;
-    return ifn->GetCreatedJavaVMs(vmBuf, bufLen, nVMs);
+    return ifn->GetCrebtedJbvbVMs(vmBuf, bufLen, nVMs);
 }
 
 /*
- * Allow JLI-aware launchers to specify a client/server preference
+ * Allow JLI-bwbre lbunchers to specify b client/server preference
  */
 JNIEXPORT void JNICALL
-JLI_SetPreferredJVM(const char *prefJVM) {
+JLI_SetPreferredJVM(const chbr *prefJVM) {
     if (sPreferredJVMType != NULL) {
         free(sPreferredJVMType);
         sPreferredJVMType = NULL;
@@ -285,285 +285,285 @@ JLI_SetPreferredJVM(const char *prefJVM) {
     sPreferredJVMType = strdup(prefJVM);
 }
 
-static BOOL awtLoaded = NO;
-static pthread_mutex_t awtLoaded_mutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t  awtLoaded_cv = PTHREAD_COND_INITIALIZER;
+stbtic BOOL bwtLobded = NO;
+stbtic pthrebd_mutex_t bwtLobded_mutex = PTHREAD_MUTEX_INITIALIZER;
+stbtic pthrebd_cond_t  bwtLobded_cv = PTHREAD_COND_INITIALIZER;
 
 JNIEXPORT void JNICALL
-JLI_NotifyAWTLoaded()
+JLI_NotifyAWTLobded()
 {
-    pthread_mutex_lock(&awtLoaded_mutex);
-    awtLoaded = YES;
-    pthread_cond_signal(&awtLoaded_cv);
-    pthread_mutex_unlock(&awtLoaded_mutex);
+    pthrebd_mutex_lock(&bwtLobded_mutex);
+    bwtLobded = YES;
+    pthrebd_cond_signbl(&bwtLobded_cv);
+    pthrebd_mutex_unlock(&bwtLobded_mutex);
 }
 
-static int (*main_fptr)(int argc, char **argv) = NULL;
+stbtic int (*mbin_fptr)(int brgc, chbr **brgv) = NULL;
 
 /*
- * Unwrap the arguments and re-run main()
+ * Unwrbp the brguments bnd re-run mbin()
  */
-static void *apple_main (void *arg)
+stbtic void *bpple_mbin (void *brg)
 {
-    objc_registerThreadWithCollector();
+    objc_registerThrebdWithCollector();
 
-    if (main_fptr == NULL) {
-        main_fptr = (int (*)())dlsym(RTLD_DEFAULT, "main");
-        if (main_fptr == NULL) {
-            JLI_ReportErrorMessageSys("error locating main entrypoint\n");
+    if (mbin_fptr == NULL) {
+        mbin_fptr = (int (*)())dlsym(RTLD_DEFAULT, "mbin");
+        if (mbin_fptr == NULL) {
+            JLI_ReportErrorMessbgeSys("error locbting mbin entrypoint\n");
             exit(1);
         }
     }
 
-    struct NSAppArgs *args = (struct NSAppArgs *) arg;
-    exit(main_fptr(args->argc, args->argv));
+    struct NSAppArgs *brgs = (struct NSAppArgs *) brg;
+    exit(mbin_fptr(brgs->brgc, brgs->brgv));
 }
 
-static void dummyTimer(CFRunLoopTimerRef timer, void *info) {}
+stbtic void dummyTimer(CFRunLoopTimerRef timer, void *info) {}
 
-static void ParkEventLoop() {
-    // RunLoop needs at least one source, and 1e20 is pretty far into the future
-    CFRunLoopTimerRef t = CFRunLoopTimerCreate(kCFAllocatorDefault, 1.0e20, 0.0, 0, 0, dummyTimer, NULL);
-    CFRunLoopAddTimer(CFRunLoopGetCurrent(), t, kCFRunLoopDefaultMode);
-    CFRelease(t);
+stbtic void PbrkEventLoop() {
+    // RunLoop needs bt lebst one source, bnd 1e20 is pretty fbr into the future
+    CFRunLoopTimerRef t = CFRunLoopTimerCrebte(kCFAllocbtorDefbult, 1.0e20, 0.0, 0, 0, dummyTimer, NULL);
+    CFRunLoopAddTimer(CFRunLoopGetCurrent(), t, kCFRunLoopDefbultMode);
+    CFRelebse(t);
 
-    // Park this thread in the main run loop.
+    // Pbrk this threbd in the mbin run loop.
     int32_t result;
     do {
-        result = CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0e20, false);
+        result = CFRunLoopRunInMode(kCFRunLoopDefbultMode, 1.0e20, fblse);
     } while (result != kCFRunLoopRunFinished);
 }
 
 /*
- * Mac OS X mandates that the GUI event loop run on very first thread of
- * an application. This requires that we re-call Java's main() on a new
- * thread, reserving the 'main' thread for Cocoa.
+ * Mbc OS X mbndbtes thbt the GUI event loop run on very first threbd of
+ * bn bpplicbtion. This requires thbt we re-cbll Jbvb's mbin() on b new
+ * threbd, reserving the 'mbin' threbd for Cocob.
  */
-static void MacOSXStartup(int argc, char *argv[]) {
-    // Thread already started?
-    static jboolean started = false;
-    if (started) {
+stbtic void MbcOSXStbrtup(int brgc, chbr *brgv[]) {
+    // Threbd blrebdy stbrted?
+    stbtic jboolebn stbrted = fblse;
+    if (stbrted) {
         return;
     }
-    started = true;
+    stbrted = true;
 
-    // Hand off arguments
-    struct NSAppArgs args;
-    args.argc = argc;
-    args.argv = argv;
+    // Hbnd off brguments
+    struct NSAppArgs brgs;
+    brgs.brgc = brgc;
+    brgs.brgv = brgv;
 
-    // Fire up the main thread
-    pthread_t main_thr;
-    if (pthread_create(&main_thr, NULL, &apple_main, &args) != 0) {
-        JLI_ReportErrorMessageSys("Could not create main thread: %s\n", strerror(errno));
+    // Fire up the mbin threbd
+    pthrebd_t mbin_thr;
+    if (pthrebd_crebte(&mbin_thr, NULL, &bpple_mbin, &brgs) != 0) {
+        JLI_ReportErrorMessbgeSys("Could not crebte mbin threbd: %s\n", strerror(errno));
         exit(1);
     }
-    if (pthread_detach(main_thr)) {
-        JLI_ReportErrorMessageSys("pthread_detach() failed: %s\n", strerror(errno));
+    if (pthrebd_detbch(mbin_thr)) {
+        JLI_ReportErrorMessbgeSys("pthrebd_detbch() fbiled: %s\n", strerror(errno));
         exit(1);
     }
 
-    ParkEventLoop();
+    PbrkEventLoop();
 }
 
 void
-CreateExecutionEnvironment(int *pargc, char ***pargv,
-                           char jrepath[], jint so_jrepath,
-                           char jvmpath[], jint so_jvmpath,
-                           char jvmcfg[],  jint so_jvmcfg) {
+CrebteExecutionEnvironment(int *pbrgc, chbr ***pbrgv,
+                           chbr jrepbth[], jint so_jrepbth,
+                           chbr jvmpbth[], jint so_jvmpbth,
+                           chbr jvmcfg[],  jint so_jvmcfg) {
   /*
-   * First, determine if we are running the desired data model.  If we
-   * are running the desired data model, all the error messages
-   * associated with calling GetJREPath, ReadKnownVMs, etc. should be
-   * output.  However, if we are not running the desired data model,
+   * First, determine if we bre running the desired dbtb model.  If we
+   * bre running the desired dbtb model, bll the error messbges
+   * bssocibted with cblling GetJREPbth, RebdKnownVMs, etc. should be
+   * output.  However, if we bre not running the desired dbtb model,
    * some of the errors should be suppressed since it is more
-   * informative to issue an error message based on whether or not the
-   * os/processor combination has dual mode capabilities.
+   * informbtive to issue bn error messbge bbsed on whether or not the
+   * os/processor combinbtion hbs dubl mode cbpbbilities.
    */
-    jboolean jvmpathExists;
+    jboolebn jvmpbthExists;
 
-    /* Compute/set the name of the executable */
-    SetExecname(*pargv);
+    /* Compute/set the nbme of the executbble */
+    SetExecnbme(*pbrgv);
 
-    /* Check data model flags, and exec process, if needed */
+    /* Check dbtb model flbgs, bnd exec process, if needed */
     {
-      char *arch        = (char *)GetArch(); /* like sparc or sparcv9 */
-      char * jvmtype    = NULL;
-      int  argc         = *pargc;
-      char **argv       = *pargv;
+      chbr *brch        = (chbr *)GetArch(); /* like spbrc or spbrcv9 */
+      chbr * jvmtype    = NULL;
+      int  brgc         = *pbrgc;
+      chbr **brgv       = *pbrgv;
       int running       = CURRENT_DATA_MODEL;
 
-      int wanted        = running;      /* What data mode is being
-                                           asked for? Current model is
-                                           fine unless another model
-                                           is asked for */
+      int wbnted        = running;      /* Whbt dbtb mode is being
+                                           bsked for? Current model is
+                                           fine unless bnother model
+                                           is bsked for */
 
-      char** newargv    = NULL;
-      int    newargc    = 0;
+      chbr** newbrgv    = NULL;
+      int    newbrgc    = 0;
 
       /*
-       * Starting in 1.5, all unix platforms accept the -d32 and -d64
-       * options.  On platforms where only one data-model is supported
-       * (e.g. ia-64 Linux), using the flag for the other data model is
-       * an error and will terminate the program.
+       * Stbrting in 1.5, bll unix plbtforms bccept the -d32 bnd -d64
+       * options.  On plbtforms where only one dbtb-model is supported
+       * (e.g. ib-64 Linux), using the flbg for the other dbtb model is
+       * bn error bnd will terminbte the progrbm.
        */
 
-      { /* open new scope to declare local variables */
+      { /* open new scope to declbre locbl vbribbles */
         int i;
 
-        newargv = (char **)JLI_MemAlloc((argc+1) * sizeof(char*));
-        newargv[newargc++] = argv[0];
+        newbrgv = (chbr **)JLI_MemAlloc((brgc+1) * sizeof(chbr*));
+        newbrgv[newbrgc++] = brgv[0];
 
-        /* scan for data model arguments and remove from argument list;
-           last occurrence determines desired data model */
-        for (i=1; i < argc; i++) {
+        /* scbn for dbtb model brguments bnd remove from brgument list;
+           lbst occurrence determines desired dbtb model */
+        for (i=1; i < brgc; i++) {
 
-          if (JLI_StrCmp(argv[i], "-J-d64") == 0 || JLI_StrCmp(argv[i], "-d64") == 0) {
-            wanted = 64;
+          if (JLI_StrCmp(brgv[i], "-J-d64") == 0 || JLI_StrCmp(brgv[i], "-d64") == 0) {
+            wbnted = 64;
             continue;
           }
-          if (JLI_StrCmp(argv[i], "-J-d32") == 0 || JLI_StrCmp(argv[i], "-d32") == 0) {
-            wanted = 32;
+          if (JLI_StrCmp(brgv[i], "-J-d32") == 0 || JLI_StrCmp(brgv[i], "-d32") == 0) {
+            wbnted = 32;
             continue;
           }
-          newargv[newargc++] = argv[i];
+          newbrgv[newbrgc++] = brgv[i];
 
-          if (IsJavaArgs()) {
-            if (argv[i][0] != '-') continue;
+          if (IsJbvbArgs()) {
+            if (brgv[i][0] != '-') continue;
           } else {
-            if (JLI_StrCmp(argv[i], "-classpath") == 0 || JLI_StrCmp(argv[i], "-cp") == 0) {
+            if (JLI_StrCmp(brgv[i], "-clbsspbth") == 0 || JLI_StrCmp(brgv[i], "-cp") == 0) {
               i++;
-              if (i >= argc) break;
-              newargv[newargc++] = argv[i];
+              if (i >= brgc) brebk;
+              newbrgv[newbrgc++] = brgv[i];
               continue;
             }
-            if (argv[i][0] != '-') { i++; break; }
+            if (brgv[i][0] != '-') { i++; brebk; }
           }
         }
 
-        /* copy rest of args [i .. argc) */
-        while (i < argc) {
-          newargv[newargc++] = argv[i++];
+        /* copy rest of brgs [i .. brgc) */
+        while (i < brgc) {
+          newbrgv[newbrgc++] = brgv[i++];
         }
-        newargv[newargc] = NULL;
+        newbrgv[newbrgc] = NULL;
 
         /*
-         * newargv has all proper arguments here
+         * newbrgv hbs bll proper brguments here
          */
 
-        argc = newargc;
-        argv = newargv;
+        brgc = newbrgc;
+        brgv = newbrgv;
       }
 
-      /* If the data model is not changing, it is an error if the
-         jvmpath does not exist */
-      if (wanted == running) {
-        /* Find out where the JRE is that we will be using. */
-        if (!GetJREPath(jrepath, so_jrepath, arch, JNI_FALSE) ) {
-          JLI_ReportErrorMessage(JRE_ERROR1);
+      /* If the dbtb model is not chbnging, it is bn error if the
+         jvmpbth does not exist */
+      if (wbnted == running) {
+        /* Find out where the JRE is thbt we will be using. */
+        if (!GetJREPbth(jrepbth, so_jrepbth, brch, JNI_FALSE) ) {
+          JLI_ReportErrorMessbge(JRE_ERROR1);
           exit(2);
         }
         JLI_Snprintf(jvmcfg, so_jvmcfg, "%s%slib%s%s%sjvm.cfg",
-          jrepath, FILESEP, FILESEP,  "", "");
+          jrepbth, FILESEP, FILESEP,  "", "");
         /* Find the specified JVM type */
-        if (ReadKnownVMs(jvmcfg, JNI_FALSE) < 1) {
-          JLI_ReportErrorMessage(CFG_ERROR7);
+        if (RebdKnownVMs(jvmcfg, JNI_FALSE) < 1) {
+          JLI_ReportErrorMessbge(CFG_ERROR7);
           exit(1);
         }
 
-        jvmpath[0] = '\0';
-        jvmtype = CheckJvmType(pargc, pargv, JNI_FALSE);
+        jvmpbth[0] = '\0';
+        jvmtype = CheckJvmType(pbrgc, pbrgv, JNI_FALSE);
         if (JLI_StrCmp(jvmtype, "ERROR") == 0) {
-            JLI_ReportErrorMessage(CFG_ERROR9);
+            JLI_ReportErrorMessbge(CFG_ERROR9);
             exit(4);
         }
 
-        if (!GetJVMPath(jrepath, jvmtype, jvmpath, so_jvmpath, arch, wanted)) {
-          JLI_ReportErrorMessage(CFG_ERROR8, jvmtype, jvmpath);
+        if (!GetJVMPbth(jrepbth, jvmtype, jvmpbth, so_jvmpbth, brch, wbnted)) {
+          JLI_ReportErrorMessbge(CFG_ERROR8, jvmtype, jvmpbth);
           exit(4);
         }
 
         /*
-         * Mac OS X requires the Cocoa event loop to be run on the "main"
-         * thread. Spawn off a new thread to run main() and pass
-         * this thread off to the Cocoa event loop.
+         * Mbc OS X requires the Cocob event loop to be run on the "mbin"
+         * threbd. Spbwn off b new threbd to run mbin() bnd pbss
+         * this threbd off to the Cocob event loop.
          */
-        MacOSXStartup(argc, argv);
+        MbcOSXStbrtup(brgc, brgv);
 
         /*
-         * we seem to have everything we need, so without further ado
-         * we return back, otherwise proceed to set the environment.
+         * we seem to hbve everything we need, so without further bdo
+         * we return bbck, otherwise proceed to set the environment.
          */
         return;
-      } else {  /* do the same speculatively or exit */
+      } else {  /* do the sbme speculbtively or exit */
 #if defined(DUAL_MODE)
-        if (running != wanted) {
-          /* Find out where the JRE is that we will be using. */
-          if (!GetJREPath(jrepath, so_jrepath, GetArchPath(wanted), JNI_TRUE)) {
-            /* give up and let other code report error message */
-            JLI_ReportErrorMessage(JRE_ERROR2, wanted);
+        if (running != wbnted) {
+          /* Find out where the JRE is thbt we will be using. */
+          if (!GetJREPbth(jrepbth, so_jrepbth, GetArchPbth(wbnted), JNI_TRUE)) {
+            /* give up bnd let other code report error messbge */
+            JLI_ReportErrorMessbge(JRE_ERROR2, wbnted);
             exit(1);
           }
           JLI_Snprintf(jvmcfg, so_jvmcfg, "%s%slib%s%s%sjvm.cfg",
-            jrepath, FILESEP, FILESEP,  "", "");
+            jrepbth, FILESEP, FILESEP,  "", "");
           /*
-           * Read in jvm.cfg for target data model and process vm
+           * Rebd in jvm.cfg for tbrget dbtb model bnd process vm
            * selection options.
            */
-          if (ReadKnownVMs(jvmcfg, JNI_TRUE) < 1) {
-            /* give up and let other code report error message */
-            JLI_ReportErrorMessage(JRE_ERROR2, wanted);
+          if (RebdKnownVMs(jvmcfg, JNI_TRUE) < 1) {
+            /* give up bnd let other code report error messbge */
+            JLI_ReportErrorMessbge(JRE_ERROR2, wbnted);
             exit(1);
           }
-          jvmpath[0] = '\0';
-          jvmtype = CheckJvmType(pargc, pargv, JNI_TRUE);
+          jvmpbth[0] = '\0';
+          jvmtype = CheckJvmType(pbrgc, pbrgv, JNI_TRUE);
           if (JLI_StrCmp(jvmtype, "ERROR") == 0) {
-            JLI_ReportErrorMessage(CFG_ERROR9);
+            JLI_ReportErrorMessbge(CFG_ERROR9);
             exit(4);
           }
 
-          /* exec child can do error checking on the existence of the path */
-          jvmpathExists = GetJVMPath(jrepath, jvmtype, jvmpath, so_jvmpath, GetArchPath(wanted), wanted);
+          /* exec child cbn do error checking on the existence of the pbth */
+          jvmpbthExists = GetJVMPbth(jrepbth, jvmtype, jvmpbth, so_jvmpbth, GetArchPbth(wbnted), wbnted);
         }
 #else /* ! DUAL_MODE */
-        JLI_ReportErrorMessage(JRE_ERROR2, wanted);
+        JLI_ReportErrorMessbge(JRE_ERROR2, wbnted);
         exit(1);
 #endif /* DUAL_MODE */
         }
         {
-            char *newexec = execname;
-            JLI_TraceLauncher("TRACER_MARKER:About to EXEC\n");
+            chbr *newexec = execnbme;
+            JLI_TrbceLbuncher("TRACER_MARKER:About to EXEC\n");
             (void) fflush(stdout);
             (void) fflush(stderr);
             /*
-            * Use posix_spawn() instead of execv() on Mac OS X.
-            * This allows us to choose which architecture the child process
-            * should run as.
+            * Use posix_spbwn() instebd of execv() on Mbc OS X.
+            * This bllows us to choose which brchitecture the child process
+            * should run bs.
             */
             {
-                posix_spawnattr_t attr;
+                posix_spbwnbttr_t bttr;
                 size_t unused_size;
                 pid_t  unused_pid;
 
 #if defined(__i386__) || defined(__x86_64__)
-                cpu_type_t cpu_type[] = { (wanted == 64) ? CPU_TYPE_X86_64 : CPU_TYPE_X86,
+                cpu_type_t cpu_type[] = { (wbnted == 64) ? CPU_TYPE_X86_64 : CPU_TYPE_X86,
                                     (running== 64) ? CPU_TYPE_X86_64 : CPU_TYPE_X86 };
 #else
                 cpu_type_t cpu_type[] = { CPU_TYPE_ANY };
 #endif /* __i386 .. */
 
-                posix_spawnattr_init(&attr);
-                posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETEXEC);
-                posix_spawnattr_setbinpref_np(&attr, sizeof(cpu_type) / sizeof(cpu_type_t),
+                posix_spbwnbttr_init(&bttr);
+                posix_spbwnbttr_setflbgs(&bttr, POSIX_SPAWN_SETEXEC);
+                posix_spbwnbttr_setbinpref_np(&bttr, sizeof(cpu_type) / sizeof(cpu_type_t),
                                             cpu_type, &unused_size);
 
-                posix_spawn(&unused_pid, newexec, NULL, &attr, argv, environ);
+                posix_spbwn(&unused_pid, newexec, NULL, &bttr, brgv, environ);
             }
-            JLI_ReportErrorMessageSys(JRE_ERROR4, newexec);
+            JLI_ReportErrorMessbgeSys(JRE_ERROR4, newexec);
 
 #if defined(DUAL_MODE)
-            if (running != wanted) {
-                JLI_ReportErrorMessage(JRE_ERROR5, wanted, running);
+            if (running != wbnted) {
+                JLI_ReportErrorMessbge(JRE_ERROR5, wbnted, running);
             }
 #endif /* DUAL_MODE */
         }
@@ -572,124 +572,124 @@ CreateExecutionEnvironment(int *pargc, char ***pargv,
 }
 
 /*
- * VM choosing is done by the launcher (java.c).
+ * VM choosing is done by the lbuncher (jbvb.c).
  */
-static jboolean
-GetJVMPath(const char *jrepath, const char *jvmtype,
-           char *jvmpath, jint jvmpathsize, const char * arch, int bitsWanted)
+stbtic jboolebn
+GetJVMPbth(const chbr *jrepbth, const chbr *jvmtype,
+           chbr *jvmpbth, jint jvmpbthsize, const chbr * brch, int bitsWbnted)
 {
-    struct stat s;
+    struct stbt s;
 
     if (JLI_StrChr(jvmtype, '/')) {
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s/" JVM_DLL, jvmtype);
+        JLI_Snprintf(jvmpbth, jvmpbthsize, "%s/" JVM_DLL, jvmtype);
     } else {
         /*
-         * macosx client library is built thin, i386 only.
-         * 64 bit client requests must load server library
+         * mbcosx client librbry is built thin, i386 only.
+         * 64 bit client requests must lobd server librbry
          */
-        const char *jvmtypeUsed = ((bitsWanted == 64) && (strcmp(jvmtype, "client") == 0)) ? "server" : jvmtype;
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s/lib/%s/" JVM_DLL, jrepath, jvmtypeUsed);
+        const chbr *jvmtypeUsed = ((bitsWbnted == 64) && (strcmp(jvmtype, "client") == 0)) ? "server" : jvmtype;
+        JLI_Snprintf(jvmpbth, jvmpbthsize, "%s/lib/%s/" JVM_DLL, jrepbth, jvmtypeUsed);
     }
 
-    JLI_TraceLauncher("Does `%s' exist ... ", jvmpath);
+    JLI_TrbceLbuncher("Does `%s' exist ... ", jvmpbth);
 
-    if (stat(jvmpath, &s) == 0) {
-        JLI_TraceLauncher("yes.\n");
+    if (stbt(jvmpbth, &s) == 0) {
+        JLI_TrbceLbuncher("yes.\n");
         return JNI_TRUE;
     } else {
-        JLI_TraceLauncher("no.\n");
+        JLI_TrbceLbuncher("no.\n");
         return JNI_FALSE;
     }
 }
 
 /*
- * Find path to JRE based on .exe's location or registry settings.
+ * Find pbth to JRE bbsed on .exe's locbtion or registry settings.
  */
-static jboolean
-GetJREPath(char *path, jint pathsize, const char * arch, jboolean speculative)
+stbtic jboolebn
+GetJREPbth(chbr *pbth, jint pbthsize, const chbr * brch, jboolebn speculbtive)
 {
-    char libjava[MAXPATHLEN];
+    chbr libjbvb[MAXPATHLEN];
 
-    if (GetApplicationHome(path, pathsize)) {
-        /* Is JRE co-located with the application? */
-        JLI_Snprintf(libjava, sizeof(libjava), "%s/lib/" JAVA_DLL, path);
-        if (access(libjava, F_OK) == 0) {
+    if (GetApplicbtionHome(pbth, pbthsize)) {
+        /* Is JRE co-locbted with the bpplicbtion? */
+        JLI_Snprintf(libjbvb, sizeof(libjbvb), "%s/lib/" JAVA_DLL, pbth);
+        if (bccess(libjbvb, F_OK) == 0) {
             return JNI_TRUE;
         }
 
-        /* Does the app ship a private JRE in <apphome>/jre directory? */
-        JLI_Snprintf(libjava, sizeof(libjava), "%s/jre/lib/" JAVA_DLL, path);
-        if (access(libjava, F_OK) == 0) {
-            JLI_StrCat(path, "/jre");
-            JLI_TraceLauncher("JRE path is %s\n", path);
+        /* Does the bpp ship b privbte JRE in <bpphome>/jre directory? */
+        JLI_Snprintf(libjbvb, sizeof(libjbvb), "%s/jre/lib/" JAVA_DLL, pbth);
+        if (bccess(libjbvb, F_OK) == 0) {
+            JLI_StrCbt(pbth, "/jre");
+            JLI_TrbceLbuncher("JRE pbth is %s\n", pbth);
             return JNI_TRUE;
         }
     }
 
-    /* try to find ourselves instead */
+    /* try to find ourselves instebd */
     Dl_info selfInfo;
-    dladdr(&GetJREPath, &selfInfo);
+    dlbddr(&GetJREPbth, &selfInfo);
 
-    char *realPathToSelf = realpath(selfInfo.dli_fname, path);
-    if (realPathToSelf != path) {
+    chbr *reblPbthToSelf = reblpbth(selfInfo.dli_fnbme, pbth);
+    if (reblPbthToSelf != pbth) {
         return JNI_FALSE;
     }
 
-    size_t pathLen = strlen(realPathToSelf);
-    if (pathLen == 0) {
+    size_t pbthLen = strlen(reblPbthToSelf);
+    if (pbthLen == 0) {
         return JNI_FALSE;
     }
 
-    const char lastPathComponent[] = "/lib/jli/libjli.dylib";
-    size_t sizeOfLastPathComponent = sizeof(lastPathComponent) - 1;
-    if (pathLen < sizeOfLastPathComponent) {
+    const chbr lbstPbthComponent[] = "/lib/jli/libjli.dylib";
+    size_t sizeOfLbstPbthComponent = sizeof(lbstPbthComponent) - 1;
+    if (pbthLen < sizeOfLbstPbthComponent) {
         return JNI_FALSE;
     }
 
-    size_t indexOfLastPathComponent = pathLen - sizeOfLastPathComponent;
-    if (0 == strncmp(realPathToSelf + indexOfLastPathComponent, lastPathComponent, sizeOfLastPathComponent - 1)) {
-        realPathToSelf[indexOfLastPathComponent + 1] = '\0';
+    size_t indexOfLbstPbthComponent = pbthLen - sizeOfLbstPbthComponent;
+    if (0 == strncmp(reblPbthToSelf + indexOfLbstPbthComponent, lbstPbthComponent, sizeOfLbstPbthComponent - 1)) {
+        reblPbthToSelf[indexOfLbstPbthComponent + 1] = '\0';
         return JNI_TRUE;
     }
 
-    if (!speculative)
-      JLI_ReportErrorMessage(JRE_ERROR8 JAVA_DLL);
+    if (!speculbtive)
+      JLI_ReportErrorMessbge(JRE_ERROR8 JAVA_DLL);
     return JNI_FALSE;
 }
 
-jboolean
-LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn)
+jboolebn
+LobdJbvbVM(const chbr *jvmpbth, InvocbtionFunctions *ifn)
 {
     Dl_info dlinfo;
     void *libjvm;
 
-    JLI_TraceLauncher("JVM path is %s\n", jvmpath);
+    JLI_TrbceLbuncher("JVM pbth is %s\n", jvmpbth);
 
-    libjvm = dlopen(jvmpath, RTLD_NOW + RTLD_GLOBAL);
+    libjvm = dlopen(jvmpbth, RTLD_NOW + RTLD_GLOBAL);
     if (libjvm == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR1, __LINE__);
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
+        JLI_ReportErrorMessbge(DLL_ERROR1, __LINE__);
+        JLI_ReportErrorMessbge(DLL_ERROR2, jvmpbth, dlerror());
         return JNI_FALSE;
     }
 
-    ifn->CreateJavaVM = (CreateJavaVM_t)
-        dlsym(libjvm, "JNI_CreateJavaVM");
-    if (ifn->CreateJavaVM == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
+    ifn->CrebteJbvbVM = (CrebteJbvbVM_t)
+        dlsym(libjvm, "JNI_CrebteJbvbVM");
+    if (ifn->CrebteJbvbVM == NULL) {
+        JLI_ReportErrorMessbge(DLL_ERROR2, jvmpbth, dlerror());
         return JNI_FALSE;
     }
 
-    ifn->GetDefaultJavaVMInitArgs = (GetDefaultJavaVMInitArgs_t)
-        dlsym(libjvm, "JNI_GetDefaultJavaVMInitArgs");
-    if (ifn->GetDefaultJavaVMInitArgs == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
+    ifn->GetDefbultJbvbVMInitArgs = (GetDefbultJbvbVMInitArgs_t)
+        dlsym(libjvm, "JNI_GetDefbultJbvbVMInitArgs");
+    if (ifn->GetDefbultJbvbVMInitArgs == NULL) {
+        JLI_ReportErrorMessbge(DLL_ERROR2, jvmpbth, dlerror());
         return JNI_FALSE;
     }
 
-    ifn->GetCreatedJavaVMs = (GetCreatedJavaVMs_t)
-    dlsym(libjvm, "JNI_GetCreatedJavaVMs");
-    if (ifn->GetCreatedJavaVMs == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
+    ifn->GetCrebtedJbvbVMs = (GetCrebtedJbvbVMs_t)
+    dlsym(libjvm, "JNI_GetCrebtedJbvbVMs");
+    if (ifn->GetCrebtedJbvbVMs == NULL) {
+        JLI_ReportErrorMessbge(DLL_ERROR2, jvmpbth, dlerror());
         return JNI_FALSE;
     }
 
@@ -697,386 +697,386 @@ LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn)
 }
 
 /*
- * Compute the name of the executable
+ * Compute the nbme of the executbble
  *
- * In order to re-exec securely we need the absolute path of the
- * executable. On Solaris getexecname(3c) may not return an absolute
- * path so we use dladdr to get the filename of the executable and
- * then use realpath to derive an absolute path. From Solaris 9
- * onwards the filename returned in DL_info structure from dladdr is
- * an absolute pathname so technically realpath isn't required.
- * On Linux we read the executable name from /proc/self/exe.
- * As a fallback, and for platforms other than Solaris and Linux,
- * we use FindExecName to compute the executable name.
+ * In order to re-exec securely we need the bbsolute pbth of the
+ * executbble. On Solbris getexecnbme(3c) mby not return bn bbsolute
+ * pbth so we use dlbddr to get the filenbme of the executbble bnd
+ * then use reblpbth to derive bn bbsolute pbth. From Solbris 9
+ * onwbrds the filenbme returned in DL_info structure from dlbddr is
+ * bn bbsolute pbthnbme so technicblly reblpbth isn't required.
+ * On Linux we rebd the executbble nbme from /proc/self/exe.
+ * As b fbllbbck, bnd for plbtforms other thbn Solbris bnd Linux,
+ * we use FindExecNbme to compute the executbble nbme.
  */
-const char*
-SetExecname(char **argv)
+const chbr*
+SetExecnbme(chbr **brgv)
 {
-    char* exec_path = NULL;
+    chbr* exec_pbth = NULL;
     {
         Dl_info dlinfo;
         int (*fptr)();
 
-        fptr = (int (*)())dlsym(RTLD_DEFAULT, "main");
+        fptr = (int (*)())dlsym(RTLD_DEFAULT, "mbin");
         if (fptr == NULL) {
-            JLI_ReportErrorMessage(DLL_ERROR3, dlerror());
+            JLI_ReportErrorMessbge(DLL_ERROR3, dlerror());
             return JNI_FALSE;
         }
 
-        if (dladdr((void*)fptr, &dlinfo)) {
-            char *resolved = (char*)JLI_MemAlloc(PATH_MAX+1);
+        if (dlbddr((void*)fptr, &dlinfo)) {
+            chbr *resolved = (chbr*)JLI_MemAlloc(PATH_MAX+1);
             if (resolved != NULL) {
-                exec_path = realpath(dlinfo.dli_fname, resolved);
-                if (exec_path == NULL) {
+                exec_pbth = reblpbth(dlinfo.dli_fnbme, resolved);
+                if (exec_pbth == NULL) {
                     JLI_MemFree(resolved);
                 }
             }
         }
     }
-    if (exec_path == NULL) {
-        exec_path = FindExecName(argv[0]);
+    if (exec_pbth == NULL) {
+        exec_pbth = FindExecNbme(brgv[0]);
     }
-    execname = exec_path;
-    return exec_path;
+    execnbme = exec_pbth;
+    return exec_pbth;
 }
 
 /*
- * BSD's implementation of CounterGet()
+ * BSD's implementbtion of CounterGet()
  */
 int64_t
 CounterGet()
 {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
+    struct timevbl tv;
+    gettimeofdby(&tv, NULL);
     return (tv.tv_sec * 1000) + tv.tv_usec;
 }
 
 
-/* --- Splash Screen shared library support --- */
+/* --- Splbsh Screen shbred librbry support --- */
 
-static JavaVM* SetJavaVMValue()
+stbtic JbvbVM* SetJbvbVMVblue()
 {
-    JavaVM * jvm = NULL;
+    JbvbVM * jvm = NULL;
 
-    // The handle is good for both the launcher and the libosxapp.dylib
-    void * handle = dlopen(NULL, RTLD_LAZY | RTLD_GLOBAL);
-    if (handle) {
-        typedef JavaVM* (*JLI_GetJavaVMInstance_t)();
+    // The hbndle is good for both the lbuncher bnd the libosxbpp.dylib
+    void * hbndle = dlopen(NULL, RTLD_LAZY | RTLD_GLOBAL);
+    if (hbndle) {
+        typedef JbvbVM* (*JLI_GetJbvbVMInstbnce_t)();
 
-        JLI_GetJavaVMInstance_t JLI_GetJavaVMInstance =
-            (JLI_GetJavaVMInstance_t)dlsym(handle,
-                    "JLI_GetJavaVMInstance");
-        if (JLI_GetJavaVMInstance) {
-            jvm = JLI_GetJavaVMInstance();
+        JLI_GetJbvbVMInstbnce_t JLI_GetJbvbVMInstbnce =
+            (JLI_GetJbvbVMInstbnce_t)dlsym(hbndle,
+                    "JLI_GetJbvbVMInstbnce");
+        if (JLI_GetJbvbVMInstbnce) {
+            jvm = JLI_GetJbvbVMInstbnce();
         }
 
         if (jvm) {
-            typedef void (*OSXAPP_SetJavaVM_t)(JavaVM*);
+            typedef void (*OSXAPP_SetJbvbVM_t)(JbvbVM*);
 
-            OSXAPP_SetJavaVM_t OSXAPP_SetJavaVM =
-                (OSXAPP_SetJavaVM_t)dlsym(handle, "OSXAPP_SetJavaVM");
-            if (OSXAPP_SetJavaVM) {
-                OSXAPP_SetJavaVM(jvm);
+            OSXAPP_SetJbvbVM_t OSXAPP_SetJbvbVM =
+                (OSXAPP_SetJbvbVM_t)dlsym(hbndle, "OSXAPP_SetJbvbVM");
+            if (OSXAPP_SetJbvbVM) {
+                OSXAPP_SetJbvbVM(jvm);
             } else {
                 jvm = NULL;
             }
         }
 
-        dlclose(handle);
+        dlclose(hbndle);
     }
 
     return jvm;
 }
 
-static const char* SPLASHSCREEN_SO = JNI_LIB_NAME("splashscreen");
+stbtic const chbr* SPLASHSCREEN_SO = JNI_LIB_NAME("splbshscreen");
 
-static void* hSplashLib = NULL;
+stbtic void* hSplbshLib = NULL;
 
-void* SplashProcAddress(const char* name) {
-    if (!hSplashLib) {
-        char jrePath[PATH_MAX];
-        if (!GetJREPath(jrePath, sizeof(jrePath), GetArch(), JNI_FALSE)) {
-            JLI_ReportErrorMessage(JRE_ERROR1);
+void* SplbshProcAddress(const chbr* nbme) {
+    if (!hSplbshLib) {
+        chbr jrePbth[PATH_MAX];
+        if (!GetJREPbth(jrePbth, sizeof(jrePbth), GetArch(), JNI_FALSE)) {
+            JLI_ReportErrorMessbge(JRE_ERROR1);
             return NULL;
         }
 
-        char splashPath[PATH_MAX];
-        const int ret = JLI_Snprintf(splashPath, sizeof(splashPath),
-                "%s/lib/%s", jrePath, SPLASHSCREEN_SO);
-        if (ret >= (int)sizeof(splashPath)) {
-            JLI_ReportErrorMessage(JRE_ERROR11);
+        chbr splbshPbth[PATH_MAX];
+        const int ret = JLI_Snprintf(splbshPbth, sizeof(splbshPbth),
+                "%s/lib/%s", jrePbth, SPLASHSCREEN_SO);
+        if (ret >= (int)sizeof(splbshPbth)) {
+            JLI_ReportErrorMessbge(JRE_ERROR11);
             return NULL;
         }
         if (ret < 0) {
-            JLI_ReportErrorMessage(JRE_ERROR13);
+            JLI_ReportErrorMessbge(JRE_ERROR13);
             return NULL;
         }
 
-        hSplashLib = dlopen(splashPath, RTLD_LAZY | RTLD_GLOBAL);
-        // It's OK if dlopen() fails. The splash screen library binary file
-        // might have been stripped out from the JRE image to reduce its size
-        // (e.g. on embedded platforms).
+        hSplbshLib = dlopen(splbshPbth, RTLD_LAZY | RTLD_GLOBAL);
+        // It's OK if dlopen() fbils. The splbsh screen librbry binbry file
+        // might hbve been stripped out from the JRE imbge to reduce its size
+        // (e.g. on embedded plbtforms).
 
-        if (hSplashLib) {
-            if (!SetJavaVMValue()) {
-                dlclose(hSplashLib);
-                hSplashLib = NULL;
+        if (hSplbshLib) {
+            if (!SetJbvbVMVblue()) {
+                dlclose(hSplbshLib);
+                hSplbshLib = NULL;
             }
         }
     }
-    if (hSplashLib) {
-        void* sym = dlsym(hSplashLib, name);
+    if (hSplbshLib) {
+        void* sym = dlsym(hSplbshLib, nbme);
         return sym;
     } else {
         return NULL;
     }
 }
 
-void SplashFreeLibrary() {
-    if (hSplashLib) {
-        dlclose(hSplashLib);
-        hSplashLib = NULL;
+void SplbshFreeLibrbry() {
+    if (hSplbshLib) {
+        dlclose(hSplbshLib);
+        hSplbshLib = NULL;
     }
 }
 
 /*
- * Block current thread and continue execution in a new thread
+ * Block current threbd bnd continue execution in b new threbd
  */
 int
-ContinueInNewThread0(int (JNICALL *continuation)(void *), jlong stack_size, void * args) {
+ContinueInNewThrebd0(int (JNICALL *continubtion)(void *), jlong stbck_size, void * brgs) {
     int rslt;
-    pthread_t tid;
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    pthrebd_t tid;
+    pthrebd_bttr_t bttr;
+    pthrebd_bttr_init(&bttr);
+    pthrebd_bttr_setdetbchstbte(&bttr, PTHREAD_CREATE_JOINABLE);
 
-    if (stack_size > 0) {
-      pthread_attr_setstacksize(&attr, stack_size);
+    if (stbck_size > 0) {
+      pthrebd_bttr_setstbcksize(&bttr, stbck_size);
     }
 
-    if (pthread_create(&tid, &attr, (void *(*)(void*))continuation, (void*)args) == 0) {
+    if (pthrebd_crebte(&tid, &bttr, (void *(*)(void*))continubtion, (void*)brgs) == 0) {
       void * tmp;
-      pthread_join(tid, &tmp);
+      pthrebd_join(tid, &tmp);
       rslt = (int)tmp;
     } else {
      /*
-      * Continue execution in current thread if for some reason (e.g. out of
-      * memory/LWP)  a new thread can't be created. This will likely fail
-      * later in continuation as JNI_CreateJavaVM needs to create quite a
-      * few new threads, anyway, just give it a try..
+      * Continue execution in current threbd if for some rebson (e.g. out of
+      * memory/LWP)  b new threbd cbn't be crebted. This will likely fbil
+      * lbter in continubtion bs JNI_CrebteJbvbVM needs to crebte quite b
+      * few new threbds, bnywby, just give it b try..
       */
-      rslt = continuation(args);
+      rslt = continubtion(brgs);
     }
 
-    pthread_attr_destroy(&attr);
+    pthrebd_bttr_destroy(&bttr);
     return rslt;
 }
 
-void SetJavaLauncherPlatformProps() {
+void SetJbvbLbuncherPlbtformProps() {
    /* Linux only */
 }
 
-jboolean
-ServerClassMachine(void) {
+jboolebn
+ServerClbssMbchine(void) {
     return JNI_TRUE;
 }
 
-static JavaVM* jvmInstance = NULL;
-static jboolean sameThread = JNI_FALSE; /* start VM in current thread */
+stbtic JbvbVM* jvmInstbnce = NULL;
+stbtic jboolebn sbmeThrebd = JNI_FALSE; /* stbrt VM in current threbd */
 
 /*
- * Note there is a callback on this function from the splashscreen logic,
- * this as well SetJavaVMValue() needs to be simplified.
+ * Note there is b cbllbbck on this function from the splbshscreen logic,
+ * this bs well SetJbvbVMVblue() needs to be simplified.
  */
-JavaVM*
-JLI_GetJavaVMInstance()
+JbvbVM*
+JLI_GetJbvbVMInstbnce()
 {
-    return jvmInstance;
+    return jvmInstbnce;
 }
 
 void
-RegisterThread()
+RegisterThrebd()
 {
-    objc_registerThreadWithCollector();
+    objc_registerThrebdWithCollector();
 }
 
-static void
-SetXDockArgForAWT(const char *arg)
+stbtic void
+SetXDockArgForAWT(const chbr *brg)
 {
-    char envVar[80];
-    if (strstr(arg, "-Xdock:name=") == arg) {
+    chbr envVbr[80];
+    if (strstr(brg, "-Xdock:nbme=") == brg) {
         /*
-         * The APP_NAME_<pid> environment variable is used to pass
-         * an application name as specified with the -Xdock:name command
-         * line option from Java launcher code to the AWT code in order
-         * to assign this name to the app's dock tile on the Mac.
-         * The _<pid> part is added to avoid collisions with child processes.
+         * The APP_NAME_<pid> environment vbribble is used to pbss
+         * bn bpplicbtion nbme bs specified with the -Xdock:nbme commbnd
+         * line option from Jbvb lbuncher code to the AWT code in order
+         * to bssign this nbme to the bpp's dock tile on the Mbc.
+         * The _<pid> pbrt is bdded to bvoid collisions with child processes.
          *
-         * WARNING: This environment variable is an implementation detail and
-         * isn't meant for use outside of the core platform. The mechanism for
-         * passing this information from Java launcher to other modules may
-         * change drastically between update release, and it may even be
-         * removed or replaced with another mechanism.
+         * WARNING: This environment vbribble is bn implementbtion detbil bnd
+         * isn't mebnt for use outside of the core plbtform. The mechbnism for
+         * pbssing this informbtion from Jbvb lbuncher to other modules mby
+         * chbnge drbsticblly between updbte relebse, bnd it mby even be
+         * removed or replbced with bnother mechbnism.
          *
-         * NOTE: It is used by SWT, and JavaFX.
+         * NOTE: It is used by SWT, bnd JbvbFX.
          */
-        snprintf(envVar, sizeof(envVar), "APP_NAME_%d", getpid());
-        setenv(envVar, (arg + 12), 1);
+        snprintf(envVbr, sizeof(envVbr), "APP_NAME_%d", getpid());
+        setenv(envVbr, (brg + 12), 1);
     }
 
-    if (strstr(arg, "-Xdock:icon=") == arg) {
+    if (strstr(brg, "-Xdock:icon=") == brg) {
         /*
-         * The APP_ICON_<pid> environment variable is used to pass
-         * an application icon as specified with the -Xdock:icon command
-         * line option from Java launcher code to the AWT code in order
-         * to assign this icon to the app's dock tile on the Mac.
-         * The _<pid> part is added to avoid collisions with child processes.
+         * The APP_ICON_<pid> environment vbribble is used to pbss
+         * bn bpplicbtion icon bs specified with the -Xdock:icon commbnd
+         * line option from Jbvb lbuncher code to the AWT code in order
+         * to bssign this icon to the bpp's dock tile on the Mbc.
+         * The _<pid> pbrt is bdded to bvoid collisions with child processes.
          *
-         * WARNING: This environment variable is an implementation detail and
-         * isn't meant for use outside of the core platform. The mechanism for
-         * passing this information from Java launcher to other modules may
-         * change drastically between update release, and it may even be
-         * removed or replaced with another mechanism.
+         * WARNING: This environment vbribble is bn implementbtion detbil bnd
+         * isn't mebnt for use outside of the core plbtform. The mechbnism for
+         * pbssing this informbtion from Jbvb lbuncher to other modules mby
+         * chbnge drbsticblly between updbte relebse, bnd it mby even be
+         * removed or replbced with bnother mechbnism.
          *
-         * NOTE: It is used by SWT, and JavaFX.
+         * NOTE: It is used by SWT, bnd JbvbFX.
          */
-        snprintf(envVar, sizeof(envVar), "APP_ICON_%d", getpid());
-        setenv(envVar, (arg + 12), 1);
+        snprintf(envVbr, sizeof(envVbr), "APP_ICON_%d", getpid());
+        setenv(envVbr, (brg + 12), 1);
     }
 }
 
-static void
-SetMainClassForAWT(JNIEnv *env, jclass mainClass) {
-    jclass classClass = NULL;
-    NULL_CHECK(classClass = FindBootStrapClass(env, "java/lang/Class"));
+stbtic void
+SetMbinClbssForAWT(JNIEnv *env, jclbss mbinClbss) {
+    jclbss clbssClbss = NULL;
+    NULL_CHECK(clbssClbss = FindBootStrbpClbss(env, "jbvb/lbng/Clbss"));
 
-    jmethodID getCanonicalNameMID = NULL;
-    NULL_CHECK(getCanonicalNameMID = (*env)->GetMethodID(env, classClass, "getCanonicalName", "()Ljava/lang/String;"));
+    jmethodID getCbnonicblNbmeMID = NULL;
+    NULL_CHECK(getCbnonicblNbmeMID = (*env)->GetMethodID(env, clbssClbss, "getCbnonicblNbme", "()Ljbvb/lbng/String;"));
 
-    jstring mainClassString = NULL;
-    NULL_CHECK(mainClassString = (*env)->CallObjectMethod(env, mainClass, getCanonicalNameMID));
+    jstring mbinClbssString = NULL;
+    NULL_CHECK(mbinClbssString = (*env)->CbllObjectMethod(env, mbinClbss, getCbnonicblNbmeMID));
 
-    const char *mainClassName = NULL;
-    NULL_CHECK(mainClassName = (*env)->GetStringUTFChars(env, mainClassString, NULL));
+    const chbr *mbinClbssNbme = NULL;
+    NULL_CHECK(mbinClbssNbme = (*env)->GetStringUTFChbrs(env, mbinClbssString, NULL));
 
-    char envVar[80];
+    chbr envVbr[80];
     /*
-     * The JAVA_MAIN_CLASS_<pid> environment variable is used to pass
-     * the name of a Java class whose main() method is invoked by
-     * the Java launcher code to start the application, to the AWT code
-     * in order to assign the name to the Apple menu bar when the app
-     * is active on the Mac.
-     * The _<pid> part is added to avoid collisions with child processes.
+     * The JAVA_MAIN_CLASS_<pid> environment vbribble is used to pbss
+     * the nbme of b Jbvb clbss whose mbin() method is invoked by
+     * the Jbvb lbuncher code to stbrt the bpplicbtion, to the AWT code
+     * in order to bssign the nbme to the Apple menu bbr when the bpp
+     * is bctive on the Mbc.
+     * The _<pid> pbrt is bdded to bvoid collisions with child processes.
      *
-     * WARNING: This environment variable is an implementation detail and
-     * isn't meant for use outside of the core platform. The mechanism for
-     * passing this information from Java launcher to other modules may
-     * change drastically between update release, and it may even be
-     * removed or replaced with another mechanism.
+     * WARNING: This environment vbribble is bn implementbtion detbil bnd
+     * isn't mebnt for use outside of the core plbtform. The mechbnism for
+     * pbssing this informbtion from Jbvb lbuncher to other modules mby
+     * chbnge drbsticblly between updbte relebse, bnd it mby even be
+     * removed or replbced with bnother mechbnism.
      *
-     * NOTE: It is used by SWT, and JavaFX.
+     * NOTE: It is used by SWT, bnd JbvbFX.
      */
-    snprintf(envVar, sizeof(envVar), "JAVA_MAIN_CLASS_%d", getpid());
-    setenv(envVar, mainClassName, 1);
+    snprintf(envVbr, sizeof(envVbr), "JAVA_MAIN_CLASS_%d", getpid());
+    setenv(envVbr, mbinClbssNbme, 1);
 
-    (*env)->ReleaseStringUTFChars(env, mainClassString, mainClassName);
+    (*env)->RelebseStringUTFChbrs(env, mbinClbssString, mbinClbssNbme);
 }
 
 void
-SetXStartOnFirstThreadArg()
+SetXStbrtOnFirstThrebdArg()
 {
     // XXX: BEGIN HACK
-    // short circuit hack for <https://bugs.eclipse.org/bugs/show_bug.cgi?id=211625>
-    // need a way to get AWT/Swing apps launched when spawned from Eclipse,
-    // which currently has no UI to not pass the -XstartOnFirstThread option
+    // short circuit hbck for <https://bugs.eclipse.org/bugs/show_bug.cgi?id=211625>
+    // need b wby to get AWT/Swing bpps lbunched when spbwned from Eclipse,
+    // which currently hbs no UI to not pbss the -XstbrtOnFirstThrebd option
     if (getenv("HACK_IGNORE_START_ON_FIRST_THREAD") != NULL) return;
     // XXX: END HACK
 
-    sameThread = JNI_TRUE;
-    // Set a variable that tells us we started on the main thread.
-    // This is used by the AWT during startup. (See LWCToolkit.m)
-    char envVar[80];
-    snprintf(envVar, sizeof(envVar), "JAVA_STARTED_ON_FIRST_THREAD_%d", getpid());
-    setenv(envVar, "1", 1);
+    sbmeThrebd = JNI_TRUE;
+    // Set b vbribble thbt tells us we stbrted on the mbin threbd.
+    // This is used by the AWT during stbrtup. (See LWCToolkit.m)
+    chbr envVbr[80];
+    snprintf(envVbr, sizeof(envVbr), "JAVA_STARTED_ON_FIRST_THREAD_%d", getpid());
+    setenv(envVbr, "1", 1);
 }
 
-/* This class is made for performSelectorOnMainThread when java main
- * should be launched on main thread.
- * We cannot use dispatch_sync here, because it blocks the main dispatch queue
- * which is used inside Cocoa
+/* This clbss is mbde for performSelectorOnMbinThrebd when jbvb mbin
+ * should be lbunched on mbin threbd.
+ * We cbnnot use dispbtch_sync here, becbuse it blocks the mbin dispbtch queue
+ * which is used inside Cocob
  */
-@interface JavaLaunchHelper : NSObject {
-    int _returnValue;
+@interfbce JbvbLbunchHelper : NSObject {
+    int _returnVblue;
 }
-- (void) launchJava:(NSValue*)argsValue;
-- (int) getReturnValue;
+- (void) lbunchJbvb:(NSVblue*)brgsVblue;
+- (int) getReturnVblue;
 @end
 
-@implementation JavaLaunchHelper
+@implementbtion JbvbLbunchHelper
 
-- (void) launchJava:(NSValue*)argsValue
+- (void) lbunchJbvb:(NSVblue*)brgsVblue
 {
-    _returnValue = JavaMain([argsValue pointerValue]);
+    _returnVblue = JbvbMbin([brgsVblue pointerVblue]);
 }
 
-- (int) getReturnValue
+- (int) getReturnVblue
 {
-    return _returnValue;
+    return _returnVblue;
 }
 
 @end
 
-// MacOSX we may continue in the same thread
+// MbcOSX we mby continue in the sbme threbd
 int
-JVMInit(InvocationFunctions* ifn, jlong threadStackSize,
-                 int argc, char **argv,
-                 int mode, char *what, int ret) {
-    if (sameThread) {
-        JLI_TraceLauncher("In same thread\n");
-        // need to block this thread against the main thread
-        // so signals get caught correctly
-        JavaMainArgs args;
-        args.argc = argc;
-        args.argv = argv;
-        args.mode = mode;
-        args.what = what;
-        args.ifn  = *ifn;
+JVMInit(InvocbtionFunctions* ifn, jlong threbdStbckSize,
+                 int brgc, chbr **brgv,
+                 int mode, chbr *whbt, int ret) {
+    if (sbmeThrebd) {
+        JLI_TrbceLbuncher("In sbme threbd\n");
+        // need to block this threbd bgbinst the mbin threbd
+        // so signbls get cbught correctly
+        JbvbMbinArgs brgs;
+        brgs.brgc = brgc;
+        brgs.brgv = brgv;
+        brgs.mode = mode;
+        brgs.whbt = whbt;
+        brgs.ifn  = *ifn;
         int rslt;
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        NSAutorelebsePool *pool = [[NSAutorelebsePool blloc] init];
         {
-            JavaLaunchHelper* launcher = [[[JavaLaunchHelper alloc] init] autorelease];
-            [launcher performSelectorOnMainThread:@selector(launchJava:)
-                                       withObject:[NSValue valueWithPointer:(void*)&args]
-                                    waitUntilDone:YES];
-            rslt = [launcher getReturnValue];
+            JbvbLbunchHelper* lbuncher = [[[JbvbLbunchHelper blloc] init] butorelebse];
+            [lbuncher performSelectorOnMbinThrebd:@selector(lbunchJbvb:)
+                                       withObject:[NSVblue vblueWithPointer:(void*)&brgs]
+                                    wbitUntilDone:YES];
+            rslt = [lbuncher getReturnVblue];
         }
-        [pool drain];
+        [pool drbin];
         return rslt;
     } else {
-        return ContinueInNewThread(ifn, threadStackSize, argc, argv, mode, what, ret);
+        return ContinueInNewThrebd(ifn, threbdStbckSize, brgc, brgv, mode, whbt, ret);
     }
 }
 
 /*
- * Note the jvmInstance must be initialized first before entering into
- * ShowSplashScreen, as there is a callback into the JLI_GetJavaVMInstance.
+ * Note the jvmInstbnce must be initiblized first before entering into
+ * ShowSplbshScreen, bs there is b cbllbbck into the JLI_GetJbvbVMInstbnce.
  */
-void PostJVMInit(JNIEnv *env, jstring mainClass, JavaVM *vm) {
-    jvmInstance = vm;
-    SetMainClassForAWT(env, mainClass);
-    ShowSplashScreen();
+void PostJVMInit(JNIEnv *env, jstring mbinClbss, JbvbVM *vm) {
+    jvmInstbnce = vm;
+    SetMbinClbssForAWT(env, mbinClbss);
+    ShowSplbshScreen();
 }
 
-jboolean
-ProcessPlatformOption(const char* arg)
+jboolebn
+ProcessPlbtformOption(const chbr* brg)
 {
-    if (JLI_StrCmp(arg, "-XstartOnFirstThread") == 0) {
-       SetXStartOnFirstThreadArg();
+    if (JLI_StrCmp(brg, "-XstbrtOnFirstThrebd") == 0) {
+       SetXStbrtOnFirstThrebdArg();
        return JNI_TRUE;
-    } else if (JLI_StrCCmp(arg, "-Xdock:") == 0) {
-       SetXDockArgForAWT(arg);
+    } else if (JLI_StrCCmp(brg, "-Xdock:") == 0) {
+       SetXDockArgForAWT(brg);
        return JNI_TRUE;
     }
-    // arguments we know not
+    // brguments we know not
     return JNI_FALSE;
 }

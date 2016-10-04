@@ -1,26 +1,26 @@
 
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,53 +28,53 @@
  *
  *                    n
  * Method:  Let x =  2   * (1+f)
- *      1. Compute and return log2(x) in two pieces:
+ *      1. Compute bnd return log2(x) in two pieces:
  *              log2(x) = w1 + w2,
- *         where w1 has 53-24 = 29 bit trailing zeros.
- *      2. Perform y*log2(x) = n+y' by simulating muti-precision
- *         arithmetic, where |y'|<=0.5.
+ *         where w1 hbs 53-24 = 29 bit trbiling zeros.
+ *      2. Perform y*log2(x) = n+y' by simulbting muti-precision
+ *         brithmetic, where |y'|<=0.5.
  *      3. Return x**y = 2**n*exp(y'*log2)
  *
- * Special cases:
- *      1.  (anything) ** 0  is 1
- *      2.  (anything) ** 1  is itself
- *      3.  (anything) ** NAN is NAN
- *      4.  NAN ** (anything except 0) is NAN
+ * Specibl cbses:
+ *      1.  (bnything) ** 0  is 1
+ *      2.  (bnything) ** 1  is itself
+ *      3.  (bnything) ** NAN is NAN
+ *      4.  NAN ** (bnything except 0) is NAN
  *      5.  +-(|x| > 1) **  +INF is +INF
  *      6.  +-(|x| > 1) **  -INF is +0
  *      7.  +-(|x| < 1) **  +INF is +0
  *      8.  +-(|x| < 1) **  -INF is +INF
  *      9.  +-1         ** +-INF is NAN
- *      10. +0 ** (+anything except 0, NAN)               is +0
- *      11. -0 ** (+anything except 0, NAN, odd integer)  is +0
- *      12. +0 ** (-anything except 0, NAN)               is +INF
- *      13. -0 ** (-anything except 0, NAN, odd integer)  is +INF
+ *      10. +0 ** (+bnything except 0, NAN)               is +0
+ *      11. -0 ** (+bnything except 0, NAN, odd integer)  is +0
+ *      12. +0 ** (-bnything except 0, NAN)               is +INF
+ *      13. -0 ** (-bnything except 0, NAN, odd integer)  is +INF
  *      14. -0 ** (odd integer) = -( +0 ** (odd integer) )
- *      15. +INF ** (+anything except 0,NAN) is +INF
- *      16. +INF ** (-anything except 0,NAN) is +0
- *      17. -INF ** (anything)  = -0 ** (-anything)
- *      18. (-anything) ** (integer) is (-1)**(integer)*(+anything**integer)
- *      19. (-anything except 0 and inf) ** (non-integer) is NAN
+ *      15. +INF ** (+bnything except 0,NAN) is +INF
+ *      16. +INF ** (-bnything except 0,NAN) is +0
+ *      17. -INF ** (bnything)  = -0 ** (-bnything)
+ *      18. (-bnything) ** (integer) is (-1)**(integer)*(+bnything**integer)
+ *      19. (-bnything except 0 bnd inf) ** (non-integer) is NAN
  *
- * Accuracy:
- *      pow(x,y) returns x**y nearly rounded. In particular
+ * Accurbcy:
+ *      pow(x,y) returns x**y nebrly rounded. In pbrticulbr
  *                      pow(integer,integer)
- *      always returns the correct integer provided it is
- *      representable.
+ *      blwbys returns the correct integer provided it is
+ *      representbble.
  *
- * Constants :
- * The hexadecimal values are the intended ones for the following
- * constants. The decimal values may be used, provided that the
- * compiler will convert from decimal to binary accurately enough
- * to produce the hexadecimal values shown.
+ * Constbnts :
+ * The hexbdecimbl vblues bre the intended ones for the following
+ * constbnts. The decimbl vblues mby be used, provided thbt the
+ * compiler will convert from decimbl to binbry bccurbtely enough
+ * to produce the hexbdecimbl vblues shown.
  */
 
 #include "fdlibm.h"
 
 #ifdef __STDC__
-static const double
+stbtic const double
 #else
-static double
+stbtic double
 #endif
 bp[] = {1.0, 1.5,},
 dp_h[] = { 0.0, 5.84962487220764160156e-01,}, /* 0x3FE2B803, 0x40000000 */
@@ -102,11 +102,11 @@ lg2_h  =  6.93147182464599609375e-01, /* 0x3FE62E43, 0x00000000 */
 lg2_l  = -1.90465429995776804525e-09, /* 0xBE205C61, 0x0CA86C39 */
 ovt =  8.0085662595372944372e-0017, /* -(1024-log2(ovfl+.5ulp)) */
 cp    =  9.61796693925975554329e-01, /* 0x3FEEC709, 0xDC3A03FD =2/(3ln2) */
-cp_h  =  9.61796700954437255859e-01, /* 0x3FEEC709, 0xE0000000 =(float)cp */
-cp_l  = -7.02846165095275826516e-09, /* 0xBE3E2FE0, 0x145B01F5 =tail of cp_h*/
+cp_h  =  9.61796700954437255859e-01, /* 0x3FEEC709, 0xE0000000 =(flobt)cp */
+cp_l  = -7.02846165095275826516e-09, /* 0xBE3E2FE0, 0x145B01F5 =tbil of cp_h*/
 ivln2    =  1.44269504088896338700e+00, /* 0x3FF71547, 0x652B82FE =1/ln2 */
 ivln2_h  =  1.44269502162933349609e+00, /* 0x3FF71547, 0x60000000 =24b 1/ln2*/
-ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
+ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tbil*/
 
 #ifdef __STDC__
         double __ieee754_pow(double x, double y)
@@ -115,7 +115,7 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
         double x, y;
 #endif
 {
-        double z,ax,z_h,z_l,p_h,p_l;
+        double z,bx,z_h,z_l,p_h,p_l;
         double y1,t1,t2,r,s,t,u,v,w;
         int i0,i1,i,j,k,yisint,n;
         int hx,hy,ix,iy;
@@ -129,15 +129,15 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
     /* y==zero: x**0 = 1 */
         if((iy|ly)==0) return one;
 
-    /* +-NaN return x+y */
+    /* +-NbN return x+y */
         if(ix > 0x7ff00000 || ((ix==0x7ff00000)&&(lx!=0)) ||
            iy > 0x7ff00000 || ((iy==0x7ff00000)&&(ly!=0)))
                 return x+y;
 
-    /* determine if y is an odd int when x < 0
-     * yisint = 0       ... y is not an integer
-     * yisint = 1       ... y is an odd int
-     * yisint = 2       ... y is an even int
+    /* determine if y is bn odd int when x < 0
+     * yisint = 0       ... y is not bn integer
+     * yisint = 1       ... y is bn odd int
+     * yisint = 2       ... y is bn even int
      */
         yisint  = 0;
         if(hx<0) {
@@ -154,11 +154,11 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
             }
         }
 
-    /* special value of y */
+    /* specibl vblue of y */
         if(ly==0) {
             if (iy==0x7ff00000) {       /* y is +-inf */
                 if(((ix-0x3ff00000)|lx)==0)
-                    return  y - y;      /* inf**+-1 is NaN */
+                    return  y - y;      /* inf**+-1 is NbN */
                 else if (ix >= 0x3ff00000)/* (|x|>1)**+-inf = inf,0 */
                     return (hy>=0)? y: zero;
                 else                    /* (|x|<1)**-,+inf = inf,0 */
@@ -174,15 +174,15 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
             }
         }
 
-        ax   = fabs(x);
-    /* special value of x */
+        bx   = fbbs(x);
+    /* specibl vblue of x */
         if(lx==0) {
             if(ix==0x7ff00000||ix==0||ix==0x3ff00000){
-                z = ax;                 /*x is +-0,+-inf,+-1*/
+                z = bx;                 /*x is +-0,+-inf,+-1*/
                 if(hy<0) z = one/z;     /* z = (1/|x|) */
                 if(hx<0) {
                     if(((ix-0x3ff00000)|yisint)==0) {
-                        z = (z-z)/(z-z); /* (-1)**non-int is NaN */
+                        z = (z-z)/(z-z); /* (-1)**non-int is NbN */
                     } else if(yisint==1)
                         z = -1.0*z;             /* (x<0)**odd = -(|x|**odd) */
                 }
@@ -192,7 +192,7 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
 
         n = (hx>>31)+1;
 
-    /* (x<0)**(non-int) is NaN */
+    /* (x<0)**(non-int) is NbN */
         if((n|yisint)==0) return (x-x)/(x-x);
 
         s = one; /* s (sign of result -ve**odd) = -1 else = 1 */
@@ -209,9 +209,9 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
             if(ix>0x3ff00000) return (hy>0)? s*huge*huge:s*tiny*tiny;
         /* now |1-x| is tiny <= 2**-20, suffice to compute
            log(x) by x-x^2/2+x^3/3-x^4/4 */
-            t = ax-one;         /* t has 20 trailing zeros */
+            t = bx-one;         /* t hbs 20 trbiling zeros */
             w = (t*t)*(0.5-t*(0.3333333333333333333333-t*0.25));
-            u = ivln2_h*t;      /* ivln2_h has 21 sig. bits */
+            u = ivln2_h*t;      /* ivln2_h hbs 21 sig. bits */
             v = t*ivln2_l-w*ivln2;
             t1 = u+v;
             __LO(t1) = 0;
@@ -219,30 +219,30 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
         } else {
             double ss,s2,s_h,s_l,t_h,t_l;
             n = 0;
-        /* take care subnormal number */
+        /* tbke cbre subnormbl number */
             if(ix<0x00100000)
-                {ax *= two53; n -= 53; ix = __HI(ax); }
+                {bx *= two53; n -= 53; ix = __HI(bx); }
             n  += ((ix)>>20)-0x3ff;
             j  = ix&0x000fffff;
-        /* determine interval */
-            ix = j|0x3ff00000;          /* normalize ix */
+        /* determine intervbl */
+            ix = j|0x3ff00000;          /* normblize ix */
             if(j<=0x3988E) k=0;         /* |x|<sqrt(3/2) */
             else if(j<0xBB67A) k=1;     /* |x|<sqrt(3)   */
             else {k=0;n+=1;ix -= 0x00100000;}
-            __HI(ax) = ix;
+            __HI(bx) = ix;
 
         /* compute ss = s_h+s_l = (x-1)/(x+1) or (x-1.5)/(x+1.5) */
-            u = ax-bp[k];               /* bp[0]=1.0, bp[1]=1.5 */
-            v = one/(ax+bp[k]);
+            u = bx-bp[k];               /* bp[0]=1.0, bp[1]=1.5 */
+            v = one/(bx+bp[k]);
             ss = u*v;
             s_h = ss;
             __LO(s_h) = 0;
-        /* t_h=ax+bp[k] High */
+        /* t_h=bx+bp[k] High */
             t_h = zero;
             __HI(t_h)=((ix>>1)|0x20000000)+0x00080000+(k<<18);
-            t_l = ax - (t_h-bp[k]);
+            t_l = bx - (t_h-bp[k]);
             s_l = v*((u-s_h*t_h)-s_h*t_l);
-        /* compute log(ax) */
+        /* compute log(bx) */
             s2 = ss*ss;
             r = s2*s2*(L1+s2*(L2+s2*(L3+s2*(L4+s2*(L5+s2*L6)))));
             r += s_l*(s_h+ss);
@@ -259,14 +259,14 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
             p_l = v-(p_h-u);
             z_h = cp_h*p_h;             /* cp_h+cp_l = 2/(3*log2) */
             z_l = cp_l*p_h+p_l*cp+dp_l[k];
-        /* log2(ax) = (ss+..)*2/(3*log2) = n + dp_h + z_h + z_l */
+        /* log2(bx) = (ss+..)*2/(3*log2) = n + dp_h + z_h + z_l */
             t = (double)n;
             t1 = (((z_h+z_l)+dp_h[k])+t);
             __LO(t1) = 0;
             t2 = z_l-(((t1-t)-dp_h[k])-z_h);
         }
 
-    /* split up y into y1+y2 and compute (y1+y2)*(t1+t2) */
+    /* split up y into y1+y2 bnd compute (y1+y2)*(t1+t2) */
         y1  = y;
         __LO(y1) = 0;
         p_l = (y-y1)*t1+y*t2;
@@ -314,7 +314,7 @@ ivln2_l  =  1.92596299112661746887e-08; /* 0x3E54AE0B, 0xF85DDF44 =1/ln2 tail*/
         z  = one-(r-z);
         j  = __HI(z);
         j += (n<<20);
-        if((j>>20)<=0) z = scalbn(z,n); /* subnormal output */
+        if((j>>20)<=0) z = scblbn(z,n); /* subnormbl output */
         else __HI(z) += (n<<20);
         return s*z;
 }

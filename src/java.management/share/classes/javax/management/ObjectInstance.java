@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-// java import
-import java.io.Serializable;
+// jbvb import
+import jbvb.io.Seriblizbble;
 
 // RI import
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 
 /**
- * Used to represent the object name of an MBean and its class name.
- * If the MBean is a Dynamic MBean the class name should be retrieved from
- * the <CODE>MBeanInfo</CODE> it provides.
+ * Used to represent the object nbme of bn MBebn bnd its clbss nbme.
+ * If the MBebn is b Dynbmic MBebn the clbss nbme should be retrieved from
+ * the <CODE>MBebnInfo</CODE> it provides.
  *
  * @since 1.5
  */
-public class ObjectInstance implements Serializable   {
+public clbss ObjectInstbnce implements Seriblizbble   {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = -4099952623687795850L;
-
-    /**
-     * @serial Object name.
-     */
-    private ObjectName name;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -4099952623687795850L;
 
     /**
-     * @serial Class name.
+     * @seribl Object nbme.
      */
-    private String className;
+    privbte ObjectNbme nbme;
 
     /**
-     * Allows an object instance to be created given a string representation of
-     * an object name and the full class name, including the package name.
+     * @seribl Clbss nbme.
+     */
+    privbte String clbssNbme;
+
+    /**
+     * Allows bn object instbnce to be crebted given b string representbtion of
+     * bn object nbme bnd the full clbss nbme, including the pbckbge nbme.
      *
-     * @param objectName  A string representation of the object name.
-     * @param className The full class name, including the package
-     * name, of the object instance.  If the MBean is a Dynamic MBean
-     * the class name corresponds to its {@link
-     * DynamicMBean#getMBeanInfo()
-     * getMBeanInfo()}<code>.getClassName()</code>.
+     * @pbrbm objectNbme  A string representbtion of the object nbme.
+     * @pbrbm clbssNbme The full clbss nbme, including the pbckbge
+     * nbme, of the object instbnce.  If the MBebn is b Dynbmic MBebn
+     * the clbss nbme corresponds to its {@link
+     * DynbmicMBebn#getMBebnInfo()
+     * getMBebnInfo()}<code>.getClbssNbme()</code>.
      *
-     * @exception MalformedObjectNameException The string passed as a
-     * parameter does not have the right format.
+     * @exception MblformedObjectNbmeException The string pbssed bs b
+     * pbrbmeter does not hbve the right formbt.
      *
      */
-    public ObjectInstance(String objectName, String className)
-            throws MalformedObjectNameException {
-        this(new ObjectName(objectName), className);
+    public ObjectInstbnce(String objectNbme, String clbssNbme)
+            throws MblformedObjectNbmeException {
+        this(new ObjectNbme(objectNbme), clbssNbme);
     }
 
     /**
-     * Allows an object instance to be created given an object name and
-     * the full class name, including the package name.
+     * Allows bn object instbnce to be crebted given bn object nbme bnd
+     * the full clbss nbme, including the pbckbge nbme.
      *
-     * @param objectName  The object name.
-     * @param className  The full class name, including the package
-     * name, of the object instance.  If the MBean is a Dynamic MBean
-     * the class name corresponds to its {@link
-     * DynamicMBean#getMBeanInfo()
-     * getMBeanInfo()}<code>.getClassName()</code>.
-     * If the MBean is a Dynamic MBean the class name should be retrieved
-     * from the <CODE>MBeanInfo</CODE> it provides.
+     * @pbrbm objectNbme  The object nbme.
+     * @pbrbm clbssNbme  The full clbss nbme, including the pbckbge
+     * nbme, of the object instbnce.  If the MBebn is b Dynbmic MBebn
+     * the clbss nbme corresponds to its {@link
+     * DynbmicMBebn#getMBebnInfo()
+     * getMBebnInfo()}<code>.getClbssNbme()</code>.
+     * If the MBebn is b Dynbmic MBebn the clbss nbme should be retrieved
+     * from the <CODE>MBebnInfo</CODE> it provides.
      *
      */
-    public ObjectInstance(ObjectName objectName, String className) {
-        if (objectName.isPattern()) {
-            final IllegalArgumentException iae =
-                new IllegalArgumentException("Invalid name->"+
-                                             objectName.toString());
-            throw new RuntimeOperationsException(iae);
+    public ObjectInstbnce(ObjectNbme objectNbme, String clbssNbme) {
+        if (objectNbme.isPbttern()) {
+            finbl IllegblArgumentException ibe =
+                new IllegblArgumentException("Invblid nbme->"+
+                                             objectNbme.toString());
+            throw new RuntimeOperbtionsException(ibe);
         }
-        this.name= objectName;
-        this.className= className;
+        this.nbme= objectNbme;
+        this.clbssNbme= clbssNbme;
     }
 
 
     /**
-     * Compares the current object instance with another object instance.
+     * Compbres the current object instbnce with bnother object instbnce.
      *
-     * @param object  The object instance that the current object instance is
-     *     to be compared with.
+     * @pbrbm object  The object instbnce thbt the current object instbnce is
+     *     to be compbred with.
      *
-     * @return  True if the two object instances are equal, otherwise false.
+     * @return  True if the two object instbnces bre equbl, otherwise fblse.
      */
-    public boolean equals(Object object)  {
-        if (!(object instanceof ObjectInstance)) {
-            return false;
+    public boolebn equbls(Object object)  {
+        if (!(object instbnceof ObjectInstbnce)) {
+            return fblse;
         }
-        ObjectInstance val = (ObjectInstance) object;
-        if (! name.equals(val.getObjectName())) return false;
-        if (className == null)
-            return (val.getClassName() == null);
-        return className.equals(val.getClassName());
+        ObjectInstbnce vbl = (ObjectInstbnce) object;
+        if (! nbme.equbls(vbl.getObjectNbme())) return fblse;
+        if (clbssNbme == null)
+            return (vbl.getClbssNbme() == null);
+        return clbssNbme.equbls(vbl.getClbssNbme());
     }
 
-    public int hashCode() {
-        final int classHash = ((className==null)?0:className.hashCode());
-        return name.hashCode() ^ classHash;
+    public int hbshCode() {
+        finbl int clbssHbsh = ((clbssNbme==null)?0:clbssNbme.hbshCode());
+        return nbme.hbshCode() ^ clbssHbsh;
     }
 
     /**
-     * Returns the object name part.
+     * Returns the object nbme pbrt.
      *
-     * @return the object name.
+     * @return the object nbme.
      */
-    public ObjectName getObjectName()  {
-        return name;
+    public ObjectNbme getObjectNbme()  {
+        return nbme;
     }
 
     /**
-     * Returns the class part.
+     * Returns the clbss pbrt.
      *
-     * @return the class name.
+     * @return the clbss nbme.
      */
-    public String getClassName()  {
-        return className;
+    public String getClbssNbme()  {
+        return clbssNbme;
     }
 
     /**
-     * Returns a string representing this ObjectInstance object. The format of this string
-     * is not specified, but users can expect that two ObjectInstances return the same
-     * string if and only if they are equal.
+     * Returns b string representing this ObjectInstbnce object. The formbt of this string
+     * is not specified, but users cbn expect thbt two ObjectInstbnces return the sbme
+     * string if bnd only if they bre equbl.
      */
     public String toString() {
-        return getClassName() + "[" + getObjectName() + "]";
+        return getClbssNbme() + "[" + getObjectNbme() + "]";
     }
  }

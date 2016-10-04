@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 /**
- * The AccessibleValue interface should be supported by any object
- * that supports a numerical value (e.g., a scroll bar).  This interface
- * provides the standard mechanism for an assistive technology to determine
- * and set the numerical value as well as get the minimum and maximum values.
- * Applications can determine
- * if an object supports the AccessibleValue interface by first
- * obtaining its AccessibleContext (see
- * {@link Accessible}) and then calling the
- * {@link AccessibleContext#getAccessibleValue} method.
- * If the return value is not null, the object supports this interface.
+ * The AccessibleVblue interfbce should be supported by bny object
+ * thbt supports b numericbl vblue (e.g., b scroll bbr).  This interfbce
+ * provides the stbndbrd mechbnism for bn bssistive technology to determine
+ * bnd set the numericbl vblue bs well bs get the minimum bnd mbximum vblues.
+ * Applicbtions cbn determine
+ * if bn object supports the AccessibleVblue interfbce by first
+ * obtbining its AccessibleContext (see
+ * {@link Accessible}) bnd then cblling the
+ * {@link AccessibleContext#getAccessibleVblue} method.
+ * If the return vblue is not null, the object supports this interfbce.
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
  * @see AccessibleContext
- * @see AccessibleContext#getAccessibleValue
+ * @see AccessibleContext#getAccessibleVblue
  *
- * @author      Peter Korn
- * @author      Hans Muller
- * @author      Willie Walker
+ * @buthor      Peter Korn
+ * @buthor      Hbns Muller
+ * @buthor      Willie Wblker
  */
-public interface AccessibleValue {
+public interfbce AccessibleVblue {
 
     /**
-     * Get the value of this object as a Number.  If the value has not been
-     * set, the return value will be null.
+     * Get the vblue of this object bs b Number.  If the vblue hbs not been
+     * set, the return vblue will be null.
      *
-     * @return value of the object
-     * @see #setCurrentAccessibleValue
+     * @return vblue of the object
+     * @see #setCurrentAccessibleVblue
      */
-    public Number getCurrentAccessibleValue();
+    public Number getCurrentAccessibleVblue();
 
     /**
-     * Set the value of this object as a Number.
+     * Set the vblue of this object bs b Number.
      *
-     * @param n the number to use for the value
-     * @return True if the value was set; else False
-     * @see #getCurrentAccessibleValue
+     * @pbrbm n the number to use for the vblue
+     * @return True if the vblue wbs set; else Fblse
+     * @see #getCurrentAccessibleVblue
      */
-    public boolean setCurrentAccessibleValue(Number n);
+    public boolebn setCurrentAccessibleVblue(Number n);
 
 //    /**
-//     * Get the description of the value of this object.
+//     * Get the description of the vblue of this object.
 //     *
-//     * @return description of the value of the object
+//     * @return description of the vblue of the object
 //     */
-//    public String getAccessibleValueDescription();
+//    public String getAccessibleVblueDescription();
 
     /**
-     * Get the minimum value of this object as a Number.
+     * Get the minimum vblue of this object bs b Number.
      *
-     * @return Minimum value of the object; null if this object does not
-     * have a minimum value
-     * @see #getMaximumAccessibleValue
+     * @return Minimum vblue of the object; null if this object does not
+     * hbve b minimum vblue
+     * @see #getMbximumAccessibleVblue
      */
-    public Number getMinimumAccessibleValue();
+    public Number getMinimumAccessibleVblue();
 
     /**
-     * Get the maximum value of this object as a Number.
+     * Get the mbximum vblue of this object bs b Number.
      *
-     * @return Maximum value of the object; null if this object does not
-     * have a maximum value
-     * @see #getMinimumAccessibleValue
+     * @return Mbximum vblue of the object; null if this object does not
+     * hbve b mbximum vblue
+     * @see #getMinimumAccessibleVblue
      */
-    public Number getMaximumAccessibleValue();
+    public Number getMbximumAccessibleVblue();
 }

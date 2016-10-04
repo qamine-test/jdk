@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.dns;
+pbckbge sun.net.dns;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import jbvb.util.List;
+import jbvb.util.LinkedList;
+import jbvb.util.StringTokenizer;
 
 /*
- * An implementation of sun.net.ResolverConfiguration for Windows.
+ * An implementbtion of sun.net.ResolverConfigurbtion for Windows.
  */
 
-public class ResolverConfigurationImpl
-    extends ResolverConfiguration
+public clbss ResolverConfigurbtionImpl
+    extends ResolverConfigurbtion
 {
-    // Lock helds whilst loading configuration or checking
-    private static Object lock = new Object();
+    // Lock helds whilst lobding configurbtion or checking
+    privbte stbtic Object lock = new Object();
 
     // Resolver options
-    private final Options opts;
+    privbte finbl Options opts;
 
-    // Addreses have changed
-    private static boolean changed = false;
+    // Addreses hbve chbnged
+    privbte stbtic boolebn chbnged = fblse;
 
-    // Time of last refresh.
-    private static long lastRefresh = -1;
+    // Time of lbst refresh.
+    privbte stbtic long lbstRefresh = -1;
 
-    // Cache timeout (120 seconds) - should be converted into property
-    // or configured as preference in the future.
-    private static final int TIMEOUT = 120000;
+    // Cbche timeout (120 seconds) - should be converted into property
+    // or configured bs preference in the future.
+    privbte stbtic finbl int TIMEOUT = 120000;
 
-    // DNS suffix list and name servers populated by native method
-    private static String os_searchlist;
-    private static String os_nameservers;
+    // DNS suffix list bnd nbme servers populbted by nbtive method
+    privbte stbtic String os_sebrchlist;
+    privbte stbtic String os_nbmeservers;
 
-    // Cached lists
-    private static LinkedList<String> searchlist;
-    private static LinkedList<String> nameservers;
+    // Cbched lists
+    privbte stbtic LinkedList<String> sebrchlist;
+    privbte stbtic LinkedList<String> nbmeservers;
 
-    // Parse string that consists of token delimited by space or commas
-    // and return LinkedHashMap
-    private LinkedList<String> stringToList(String str) {
+    // Pbrse string thbt consists of token delimited by spbce or commbs
+    // bnd return LinkedHbshMbp
+    privbte LinkedList<String> stringToList(String str) {
         LinkedList<String> ll = new LinkedList<>();
 
-        // comma and space are valid delimites
+        // commb bnd spbce bre vblid delimites
         StringTokenizer st = new StringTokenizer(str, ", ");
-        while (st.hasMoreTokens()) {
+        while (st.hbsMoreTokens()) {
             String s = st.nextToken();
-            if (!ll.contains(s)) {
-                ll.add(s);
+            if (!ll.contbins(s)) {
+                ll.bdd(s);
             }
         }
         return ll;
     }
 
-    // Load DNS configuration from OS
+    // Lobd DNS configurbtion from OS
 
-    private void loadConfig() {
-        assert Thread.holdsLock(lock);
+    privbte void lobdConfig() {
+        bssert Threbd.holdsLock(lock);
 
-        // if address have changed then DNS probably changed aswell;
-        // otherwise check if cached settings have expired.
+        // if bddress hbve chbnged then DNS probbbly chbnged bswell;
+        // otherwise check if cbched settings hbve expired.
         //
-        if (changed) {
-            changed = false;
+        if (chbnged) {
+            chbnged = fblse;
         } else {
-            if (lastRefresh >= 0) {
+            if (lbstRefresh >= 0) {
                 long currTime = System.currentTimeMillis();
-                if ((currTime - lastRefresh) < TIMEOUT) {
+                if ((currTime - lbstRefresh) < TIMEOUT) {
                     return;
                 }
             }
         }
 
-        // load DNS configuration, update timestamp, create
-        // new HashMaps from the loaded configuration
+        // lobd DNS configurbtion, updbte timestbmp, crebte
+        // new HbshMbps from the lobded configurbtion
         //
-        loadDNSconfig0();
+        lobdDNSconfig0();
 
-        lastRefresh = System.currentTimeMillis();
-        searchlist = stringToList(os_searchlist);
-        nameservers = stringToList(os_nameservers);
-        os_searchlist = null;                       // can be GC'ed
-        os_nameservers = null;
+        lbstRefresh = System.currentTimeMillis();
+        sebrchlist = stringToList(os_sebrchlist);
+        nbmeservers = stringToList(os_nbmeservers);
+        os_sebrchlist = null;                       // cbn be GC'ed
+        os_nbmeservers = null;
     }
 
-    ResolverConfigurationImpl() {
+    ResolverConfigurbtionImpl() {
         opts = new OptionsImpl();
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public List<String> searchlist() {
+    @SuppressWbrnings("unchecked") // clone()
+    public List<String> sebrchlist() {
         synchronized (lock) {
-            loadConfig();
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)searchlist.clone();
+            // List is mutbble so return b shbllow copy
+            return (List<String>)sebrchlist.clone();
         }
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public List<String> nameservers() {
+    @SuppressWbrnings("unchecked") // clone()
+    public List<String> nbmeservers() {
         synchronized (lock) {
-            loadConfig();
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)nameservers.clone();
+            // List is mutbble so return b shbllow copy
+            return (List<String>)nbmeservers.clone();
          }
     }
 
@@ -135,49 +135,49 @@ public class ResolverConfigurationImpl
         return opts;
     }
 
-    // --- Address Change Listener
+    // --- Address Chbnge Listener
 
-    static class AddressChangeListener extends Thread {
+    stbtic clbss AddressChbngeListener extends Threbd {
         public void run() {
             for (;;) {
-                // wait for configuration to change
-                if (notifyAddrChange0() != 0)
+                // wbit for configurbtion to chbnge
+                if (notifyAddrChbnge0() != 0)
                     return;
                 synchronized (lock) {
-                    changed = true;
+                    chbnged = true;
                 }
             }
         }
     }
 
 
-    // --- Native methods --
+    // --- Nbtive methods --
 
-    static native void init0();
+    stbtic nbtive void init0();
 
-    static native void loadDNSconfig0();
+    stbtic nbtive void lobdDNSconfig0();
 
-    static native int notifyAddrChange0();
+    stbtic nbtive int notifyAddrChbnge0();
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
         init0();
 
-        // start the address listener thread
-        AddressChangeListener thr = new AddressChangeListener();
-        thr.setDaemon(true);
-        thr.start();
+        // stbrt the bddress listener threbd
+        AddressChbngeListener thr = new AddressChbngeListener();
+        thr.setDbemon(true);
+        thr.stbrt();
     }
 }
 
 /**
- * Implementation of {@link ResolverConfiguration.Options}
+ * Implementbtion of {@link ResolverConfigurbtion.Options}
  */
-class OptionsImpl extends ResolverConfiguration.Options {
+clbss OptionsImpl extends ResolverConfigurbtion.Options {
 }

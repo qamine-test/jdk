@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.StringTokenizer;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.StringTokenizer;
 
 
 
 /**
- * Audio configuration class for exposing attributes specific to the platform or system.
+ * Audio configurbtion clbss for exposing bttributes specific to the plbtform or system.
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-final class Platform {
+finbl clbss Plbtform {
 
 
     // STATIC FINAL CHARACTERISTICS
 
-    // native library we need to load
-    private static final String libNameMain     = "jsound";
-    private static final String libNameALSA     = "jsoundalsa";
-    private static final String libNameDSound   = "jsoundds";
+    // nbtive librbry we need to lobd
+    privbte stbtic finbl String libNbmeMbin     = "jsound";
+    privbte stbtic finbl String libNbmeALSA     = "jsoundblsb";
+    privbte stbtic finbl String libNbmeDSound   = "jsoundds";
 
-    // extra libs handling: bit flags for each different library
-    public static final int LIB_MAIN     = 1;
-    public static final int LIB_ALSA     = 2;
-    public static final int LIB_DSOUND   = 4;
+    // extrb libs hbndling: bit flbgs for ebch different librbry
+    public stbtic finbl int LIB_MAIN     = 1;
+    public stbtic finbl int LIB_ALSA     = 2;
+    public stbtic finbl int LIB_DSOUND   = 4;
 
-    // bit field of the constants above. Willbe set in loadLibraries
-    private static int loadedLibs = 0;
+    // bit field of the constbnts bbove. Willbe set in lobdLibrbries
+    privbte stbtic int lobdedLibs = 0;
 
-    // features: the main native library jsound reports which feature is
-    // contained in which lib
-    public static final int FEATURE_MIDIIO       = 1;
-    public static final int FEATURE_PORTS        = 2;
-    public static final int FEATURE_DIRECT_AUDIO = 3;
+    // febtures: the mbin nbtive librbry jsound reports which febture is
+    // contbined in which lib
+    public stbtic finbl int FEATURE_MIDIIO       = 1;
+    public stbtic finbl int FEATURE_PORTS        = 2;
+    public stbtic finbl int FEATURE_DIRECT_AUDIO = 3;
 
     // SYSTEM CHARACTERISTICS
-    // vary according to hardware architecture
+    // vbry bccording to hbrdwbre brchitecture
 
-    // signed8 (use signed 8-bit values) is true for everything we support except for
-    // the solaris sbpro card.
-    // we'll leave it here as a variable; in the future we may need this in java.
-    // wait, is that true?  i'm not sure.  i think solaris takes unsigned data?
-    // $$kk: 03.11.99: i think solaris takes unsigned 8-bit or signed 16-bit data....
-    private static boolean signed8;
+    // signed8 (use signed 8-bit vblues) is true for everything we support except for
+    // the solbris sbpro cbrd.
+    // we'll lebve it here bs b vbribble; in the future we mby need this in jbvb.
+    // wbit, is thbt true?  i'm not sure.  i think solbris tbkes unsigned dbtb?
+    // $$kk: 03.11.99: i think solbris tbkes unsigned 8-bit or signed 16-bit dbtb....
+    privbte stbtic boolebn signed8;
 
-    // intel is little-endian.  sparc is big-endian.
-    private static boolean bigEndian;
+    // intel is little-endibn.  spbrc is big-endibn.
+    privbte stbtic boolebn bigEndibn;
 
-    // this is the value of the "java.home" system property.  i am looking it up here
-    // for use when trying to load the soundbank, just so
-    // that all the privileged code is localized in this file....
-    private static String javahome;
+    // this is the vblue of the "jbvb.home" system property.  i bm looking it up here
+    // for use when trying to lobd the soundbbnk, just so
+    // thbt bll the privileged code is locblized in this file....
+    privbte stbtic String jbvbhome;
 
-    // this is the value of the "java.class.path" system property
-    private static String classpath;
-
-
+    // this is the vblue of the "jbvb.clbss.pbth" system property
+    privbte stbtic String clbsspbth;
 
 
-    static {
-        if(Printer.trace)Printer.trace(">> Platform.java: static");
 
-        loadLibraries();
-        readProperties();
+
+    stbtic {
+        if(Printer.trbce)Printer.trbce(">> Plbtform.jbvb: stbtic");
+
+        lobdLibrbries();
+        rebdProperties();
     }
 
 
     /**
-     * Private constructor.
+     * Privbte constructor.
      */
-    private Platform() {
+    privbte Plbtform() {
     }
 
 
@@ -104,142 +104,142 @@ final class Platform {
 
 
     /**
-     * Dummy method for forcing initialization.
+     * Dummy method for forcing initiblizbtion.
      */
-    static void initialize() {
+    stbtic void initiblize() {
 
-        if(Printer.trace)Printer.trace("Platform: initialize()");
+        if(Printer.trbce)Printer.trbce("Plbtform: initiblize()");
     }
 
 
     /**
-     * Determine whether the system is big-endian.
+     * Determine whether the system is big-endibn.
      */
-    static boolean isBigEndian() {
+    stbtic boolebn isBigEndibn() {
 
-        return bigEndian;
+        return bigEndibn;
     }
 
 
     /**
-     * Determine whether the system takes signed 8-bit data.
+     * Determine whether the system tbkes signed 8-bit dbtb.
      */
-    static boolean isSigned8() {
+    stbtic boolebn isSigned8() {
 
         return signed8;
     }
 
 
     /**
-     * Obtain javahome.
-     * $$kk: 04.16.99: this is *bad*!!
+     * Obtbin jbvbhome.
+     * $$kk: 04.16.99: this is *bbd*!!
      */
-    static String getJavahome() {
+    stbtic String getJbvbhome() {
 
-        return javahome;
+        return jbvbhome;
     }
 
     /**
-     * Obtain classpath.
-     * $$jb: 04.21.99: this is *bad* too!!
+     * Obtbin clbsspbth.
+     * $$jb: 04.21.99: this is *bbd* too!!
      */
-    static String getClasspath() {
+    stbtic String getClbsspbth() {
 
-        return classpath;
+        return clbsspbth;
     }
 
 
     // PRIVATE METHODS
 
     /**
-     * Load the native library or libraries.
+     * Lobd the nbtive librbry or librbries.
      */
-    private static void loadLibraries() {
-        if(Printer.trace)Printer.trace(">>Platform.loadLibraries");
+    privbte stbtic void lobdLibrbries() {
+        if(Printer.trbce)Printer.trbce(">>Plbtform.lobdLibrbries");
 
         try {
-            // load the main library
+            // lobd the mbin librbry
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override
                 public Void run() {
-                    System.loadLibrary(libNameMain);
+                    System.lobdLibrbry(libNbmeMbin);
                     return null;
                 }
             });
             // just for the heck of it...
-            loadedLibs |= LIB_MAIN;
-        } catch (SecurityException e) {
-            if(Printer.err)Printer.err("Security exception loading main native library.  JavaSound requires access to these resources.");
+            lobdedLibs |= LIB_MAIN;
+        } cbtch (SecurityException e) {
+            if(Printer.err)Printer.err("Security exception lobding mbin nbtive librbry.  JbvbSound requires bccess to these resources.");
             throw(e);
         }
 
-        // now try to load extra libs. They are defined at compile time in the Makefile
+        // now try to lobd extrb libs. They bre defined bt compile time in the Mbkefile
         // with the define EXTRA_SOUND_JNI_LIBS
-        String extraLibs = nGetExtraLibraries();
-        // the string is the libraries, separated by white space
-        StringTokenizer st = new StringTokenizer(extraLibs);
-        while (st.hasMoreTokens()) {
-            final String lib = st.nextToken();
+        String extrbLibs = nGetExtrbLibrbries();
+        // the string is the librbries, sepbrbted by white spbce
+        StringTokenizer st = new StringTokenizer(extrbLibs);
+        while (st.hbsMoreTokens()) {
+            finbl String lib = st.nextToken();
             try {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     @Override
                     public Void run() {
-                        System.loadLibrary(lib);
+                        System.lobdLibrbry(lib);
                         return null;
                     }
                 });
 
-                if (lib.equals(libNameALSA)) {
-                    loadedLibs |= LIB_ALSA;
-                    if (Printer.debug) Printer.debug("Loaded ALSA lib successfully.");
-                } else if (lib.equals(libNameDSound)) {
-                    loadedLibs |= LIB_DSOUND;
-                    if (Printer.debug) Printer.debug("Loaded DirectSound lib successfully.");
+                if (lib.equbls(libNbmeALSA)) {
+                    lobdedLibs |= LIB_ALSA;
+                    if (Printer.debug) Printer.debug("Lobded ALSA lib successfully.");
+                } else if (lib.equbls(libNbmeDSound)) {
+                    lobdedLibs |= LIB_DSOUND;
+                    if (Printer.debug) Printer.debug("Lobded DirectSound lib successfully.");
                 } else {
-                    if (Printer.err) Printer.err("Loaded unknown lib '"+lib+"' successfully.");
+                    if (Printer.err) Printer.err("Lobded unknown lib '"+lib+"' successfully.");
                 }
-            } catch (Throwable t) {
-                if (Printer.err) Printer.err("Couldn't load library "+lib+": "+t.toString());
+            } cbtch (Throwbble t) {
+                if (Printer.err) Printer.err("Couldn't lobd librbry "+lib+": "+t.toString());
             }
         }
     }
 
 
-    static boolean isMidiIOEnabled() {
-        return isFeatureLibLoaded(FEATURE_MIDIIO);
+    stbtic boolebn isMidiIOEnbbled() {
+        return isFebtureLibLobded(FEATURE_MIDIIO);
     }
 
-    static boolean isPortsEnabled() {
-        return isFeatureLibLoaded(FEATURE_PORTS);
+    stbtic boolebn isPortsEnbbled() {
+        return isFebtureLibLobded(FEATURE_PORTS);
     }
 
-    static boolean isDirectAudioEnabled() {
-        return isFeatureLibLoaded(FEATURE_DIRECT_AUDIO);
+    stbtic boolebn isDirectAudioEnbbled() {
+        return isFebtureLibLobded(FEATURE_DIRECT_AUDIO);
     }
 
-    private static boolean isFeatureLibLoaded(int feature) {
-        if (Printer.debug) Printer.debug("Platform: Checking for feature "+feature+"...");
-        int requiredLib = nGetLibraryForFeature(feature);
-        boolean isLoaded = (requiredLib != 0) && ((loadedLibs & requiredLib) == requiredLib);
-        if (Printer.debug) Printer.debug("          ...needs library "+requiredLib+". Result is loaded="+isLoaded);
-        return isLoaded;
+    privbte stbtic boolebn isFebtureLibLobded(int febture) {
+        if (Printer.debug) Printer.debug("Plbtform: Checking for febture "+febture+"...");
+        int requiredLib = nGetLibrbryForFebture(febture);
+        boolebn isLobded = (requiredLib != 0) && ((lobdedLibs & requiredLib) == requiredLib);
+        if (Printer.debug) Printer.debug("          ...needs librbry "+requiredLib+". Result is lobded="+isLobded);
+        return isLobded;
     }
 
-    // the following native methods are implemented in Platform.c
-    private native static boolean nIsBigEndian();
-    private native static boolean nIsSigned8();
-    private native static String nGetExtraLibraries();
-    private native static int nGetLibraryForFeature(int feature);
+    // the following nbtive methods bre implemented in Plbtform.c
+    privbte nbtive stbtic boolebn nIsBigEndibn();
+    privbte nbtive stbtic boolebn nIsSigned8();
+    privbte nbtive stbtic String nGetExtrbLibrbries();
+    privbte nbtive stbtic int nGetLibrbryForFebture(int febture);
 
 
     /**
-     * Read the required system properties.
+     * Rebd the required system properties.
      */
-    private static void readProperties() {
-        // $$fb 2002-03-06: implement check for endianness in native. Facilitates porting !
-        bigEndian = nIsBigEndian();
-        signed8 = nIsSigned8(); // Solaris on Sparc: signed, all others unsigned
-        javahome = JSSecurityManager.getProperty("java.home");
-        classpath = JSSecurityManager.getProperty("java.class.path");
+    privbte stbtic void rebdProperties() {
+        // $$fb 2002-03-06: implement check for endibnness in nbtive. Fbcilitbtes porting !
+        bigEndibn = nIsBigEndibn();
+        signed8 = nIsSigned8(); // Solbris on Spbrc: signed, bll others unsigned
+        jbvbhome = JSSecurityMbnbger.getProperty("jbvb.home");
+        clbsspbth = JSSecurityMbnbger.getProperty("jbvb.clbss.pbth");
     }
 }

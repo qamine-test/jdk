@@ -1,643 +1,643 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for a memory pool.  A memory pool
- * represents the memory resource managed by the Java virtual machine
- * and is managed by one or more {@link MemoryManagerMXBean memory managers}.
+ * The mbnbgement interfbce for b memory pool.  A memory pool
+ * represents the memory resource mbnbged by the Jbvb virtubl mbchine
+ * bnd is mbnbged by one or more {@link MemoryMbnbgerMXBebn memory mbnbgers}.
  *
- * <p> A Java virtual machine has one or more instances of the
- * implementation class of this interface.  An instance
- * implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getMemoryPoolMXBeans} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbchine hbs one or more instbnces of the
+ * implementbtion clbss of this interfbce.  An instbnce
+ * implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getMemoryPoolMXBebns} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>} method.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * a memory pool within an <tt>MBeanServer</tt> is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * b memory pool within bn <tt>MBebnServer</tt> is:
  * <blockquote>
- *    {@link ManagementFactory#MEMORY_POOL_MXBEAN_DOMAIN_TYPE
- *    <tt>java.lang:type=MemoryPool</tt>}<tt>,name=</tt><i>pool's name</i>
+ *    {@link MbnbgementFbctory#MEMORY_POOL_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:type=MemoryPool</tt>}<tt>,nbme=</tt><i>pool's nbme</i>
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
  * <h3>Memory Type</h3>
- * <p>The Java virtual machine has a heap for object allocation and also
- * maintains non-heap memory for the method area and the Java virtual
- * machine execution.  The Java virtual machine can have one or more
- * memory pools.  Each memory pool represents a memory area
+ * <p>The Jbvb virtubl mbchine hbs b hebp for object bllocbtion bnd blso
+ * mbintbins non-hebp memory for the method breb bnd the Jbvb virtubl
+ * mbchine execution.  The Jbvb virtubl mbchine cbn hbve one or more
+ * memory pools.  Ebch memory pool represents b memory breb
  * of one of the following types:
  * <ul>
- *   <li>{@link MemoryType#HEAP heap}</li>
- *   <li>{@link MemoryType#NON_HEAP non-heap}</li>
+ *   <li>{@link MemoryType#HEAP hebp}</li>
+ *   <li>{@link MemoryType#NON_HEAP non-hebp}</li>
  * </ul>
  *
- * <h3>Memory Usage Monitoring</h3>
+ * <h3>Memory Usbge Monitoring</h3>
  *
- * A memory pool has the following attributes:
+ * A memory pool hbs the following bttributes:
  * <ul>
- *   <li><a href="#Usage">Memory usage</a></li>
- *   <li><a href="#PeakUsage">Peak memory usage</a></li>
- *   <li><a href="#UsageThreshold">Usage Threshold</a></li>
- *   <li><a href="#CollectionThreshold">Collection Usage Threshold</a>
- *       (only supported by some <em>garbage-collected</em> memory pools)</li>
+ *   <li><b href="#Usbge">Memory usbge</b></li>
+ *   <li><b href="#PebkUsbge">Pebk memory usbge</b></li>
+ *   <li><b href="#UsbgeThreshold">Usbge Threshold</b></li>
+ *   <li><b href="#CollectionThreshold">Collection Usbge Threshold</b>
+ *       (only supported by some <em>gbrbbge-collected</em> memory pools)</li>
  * </ul>
  *
- * <h3><a name="Usage">1. Memory Usage</a></h3>
+ * <h3><b nbme="Usbge">1. Memory Usbge</b></h3>
  *
- * The {@link #getUsage} method provides an estimate
- * of the current usage of a memory pool.
- * For a garbage-collected memory pool, the amount of used memory
- * includes the memory occupied by all objects in the pool
- * including both <em>reachable</em> and <em>unreachable</em> objects.
+ * The {@link #getUsbge} method provides bn estimbte
+ * of the current usbge of b memory pool.
+ * For b gbrbbge-collected memory pool, the bmount of used memory
+ * includes the memory occupied by bll objects in the pool
+ * including both <em>rebchbble</em> bnd <em>unrebchbble</em> objects.
  *
- * <p>In general, this method is a lightweight operation for getting
- * an approximate memory usage.  For some memory pools, for example,
- * when objects are not packed contiguously, this method may be
- * an expensive operation that requires some computation to determine
- * the current memory usage.  An implementation should document when
- * this is the case.
+ * <p>In generbl, this method is b lightweight operbtion for getting
+ * bn bpproximbte memory usbge.  For some memory pools, for exbmple,
+ * when objects bre not pbcked contiguously, this method mby be
+ * bn expensive operbtion thbt requires some computbtion to determine
+ * the current memory usbge.  An implementbtion should document when
+ * this is the cbse.
  *
- * <h3><a name="PeakUsage">2. Peak Memory Usage</a></h3>
+ * <h3><b nbme="PebkUsbge">2. Pebk Memory Usbge</b></h3>
  *
- * The Java virtual machine maintains the peak memory usage of a memory
- * pool since the virtual machine was started or the peak was reset.
- * The peak memory usage is returned by the {@link #getPeakUsage} method
- * and reset by calling the {@link #resetPeakUsage} method.
+ * The Jbvb virtubl mbchine mbintbins the pebk memory usbge of b memory
+ * pool since the virtubl mbchine wbs stbrted or the pebk wbs reset.
+ * The pebk memory usbge is returned by the {@link #getPebkUsbge} method
+ * bnd reset by cblling the {@link #resetPebkUsbge} method.
  *
- * <h3><a name="UsageThreshold">3. Usage Threshold</a></h3>
+ * <h3><b nbme="UsbgeThreshold">3. Usbge Threshold</b></h3>
  *
- * Each memory pool has a manageable attribute
- * called the <i>usage threshold</i> which has a default value supplied
- * by the Java virtual machine.  The default value is platform-dependent.
- * The usage threshold can be set via the
- * {@link #setUsageThreshold setUsageThreshold} method.
- * If the threshold is set to a positive value, the usage threshold crossing
- * checking is enabled in this memory pool.
- * If the usage threshold is set to zero, usage
- * threshold crossing checking on this memory pool is disabled.
- * The {@link MemoryPoolMXBean#isUsageThresholdSupported} method can
- * be used to determine if this functionality is supported.
+ * Ebch memory pool hbs b mbnbgebble bttribute
+ * cblled the <i>usbge threshold</i> which hbs b defbult vblue supplied
+ * by the Jbvb virtubl mbchine.  The defbult vblue is plbtform-dependent.
+ * The usbge threshold cbn be set vib the
+ * {@link #setUsbgeThreshold setUsbgeThreshold} method.
+ * If the threshold is set to b positive vblue, the usbge threshold crossing
+ * checking is enbbled in this memory pool.
+ * If the usbge threshold is set to zero, usbge
+ * threshold crossing checking on this memory pool is disbbled.
+ * The {@link MemoryPoolMXBebn#isUsbgeThresholdSupported} method cbn
+ * be used to determine if this functionblity is supported.
  * <p>
- * A Java virtual machine performs usage threshold crossing checking on a
- * memory pool basis at its best appropriate time, typically,
- * at garbage collection time.
- * Each memory pool maintains a {@link #getUsageThresholdCount
- * usage threshold count} that will get incremented
- * every time when the Java virtual machine
- * detects that the memory pool usage is crossing the threshold.
+ * A Jbvb virtubl mbchine performs usbge threshold crossing checking on b
+ * memory pool bbsis bt its best bppropribte time, typicblly,
+ * bt gbrbbge collection time.
+ * Ebch memory pool mbintbins b {@link #getUsbgeThresholdCount
+ * usbge threshold count} thbt will get incremented
+ * every time when the Jbvb virtubl mbchine
+ * detects thbt the memory pool usbge is crossing the threshold.
  * <p>
- * This manageable usage threshold attribute is designed for monitoring the
- * increasing trend of memory usage with low overhead.
- * Usage threshold may not be appropriate for some memory pools.
- * For example, a generational garbage collector, a common garbage collection
- * algorithm used in many Java virtual machine implementations,
- * manages two or more generations segregating objects by age.
- * Most of the objects are allocated in
- * the <em>youngest generation</em> (say a nursery memory pool).
- * The nursery memory pool is designed to be filled up and
- * collecting the nursery memory pool will free most of its memory space
- * since it is expected to contain mostly short-lived objects
- * and mostly are unreachable at garbage collection time.
- * In this case, it is more appropriate for the nursery memory pool
- * not to support a usage threshold.  In addition,
- * if the cost of an object allocation
- * in one memory pool is very low (for example, just atomic pointer exchange),
- * the Java virtual machine would probably not support the usage threshold
- * for that memory pool since the overhead in comparing the usage with
- * the threshold is higher than the cost of object allocation.
+ * This mbnbgebble usbge threshold bttribute is designed for monitoring the
+ * increbsing trend of memory usbge with low overhebd.
+ * Usbge threshold mby not be bppropribte for some memory pools.
+ * For exbmple, b generbtionbl gbrbbge collector, b common gbrbbge collection
+ * blgorithm used in mbny Jbvb virtubl mbchine implementbtions,
+ * mbnbges two or more generbtions segregbting objects by bge.
+ * Most of the objects bre bllocbted in
+ * the <em>youngest generbtion</em> (sby b nursery memory pool).
+ * The nursery memory pool is designed to be filled up bnd
+ * collecting the nursery memory pool will free most of its memory spbce
+ * since it is expected to contbin mostly short-lived objects
+ * bnd mostly bre unrebchbble bt gbrbbge collection time.
+ * In this cbse, it is more bppropribte for the nursery memory pool
+ * not to support b usbge threshold.  In bddition,
+ * if the cost of bn object bllocbtion
+ * in one memory pool is very low (for exbmple, just btomic pointer exchbnge),
+ * the Jbvb virtubl mbchine would probbbly not support the usbge threshold
+ * for thbt memory pool since the overhebd in compbring the usbge with
+ * the threshold is higher thbn the cost of object bllocbtion.
  *
  * <p>
- * The memory usage of the system can be monitored using
- * <a href="#Polling">polling</a> or
- * <a href="#ThresholdNotification">threshold notification</a> mechanisms.
+ * The memory usbge of the system cbn be monitored using
+ * <b href="#Polling">polling</b> or
+ * <b href="#ThresholdNotificbtion">threshold notificbtion</b> mechbnisms.
  *
- * <ol type="a">
- *   <li><a name="Polling"><b>Polling</b></a>
+ * <ol type="b">
+ *   <li><b nbme="Polling"><b>Polling</b></b>
  *       <p>
- *       An application can continuously monitor its memory usage
- *       by calling either the {@link #getUsage} method for all
- *       memory pools or the {@link #isUsageThresholdExceeded} method
- *       for those memory pools that support a usage threshold.
- *       Below is example code that has a thread dedicated for
- *       task distribution and processing.  At every interval,
- *       it will determine if it should receive and process new tasks based
- *       on its memory usage.  If the memory usage exceeds its usage threshold,
- *       it will redistribute all outstanding tasks to other VMs and
- *       stop receiving new tasks until the memory usage returns
- *       below its usage threshold.
+ *       An bpplicbtion cbn continuously monitor its memory usbge
+ *       by cblling either the {@link #getUsbge} method for bll
+ *       memory pools or the {@link #isUsbgeThresholdExceeded} method
+ *       for those memory pools thbt support b usbge threshold.
+ *       Below is exbmple code thbt hbs b threbd dedicbted for
+ *       tbsk distribution bnd processing.  At every intervbl,
+ *       it will determine if it should receive bnd process new tbsks bbsed
+ *       on its memory usbge.  If the memory usbge exceeds its usbge threshold,
+ *       it will redistribute bll outstbnding tbsks to other VMs bnd
+ *       stop receiving new tbsks until the memory usbge returns
+ *       below its usbge threshold.
  *
  *       <pre>
- *       // Assume the usage threshold is supported for this pool.
- *       // Set the threshold to myThreshold above which no new tasks
- *       // should be taken.
- *       pool.setUsageThreshold(myThreshold);
+ *       // Assume the usbge threshold is supported for this pool.
+ *       // Set the threshold to myThreshold bbove which no new tbsks
+ *       // should be tbken.
+ *       pool.setUsbgeThreshold(myThreshold);
  *       ....
  *
- *       boolean lowMemory = false;
+ *       boolebn lowMemory = fblse;
  *       while (true) {
- *          if (pool.isUsageThresholdExceeded()) {
- *              // potential low memory, so redistribute tasks to other VMs
+ *          if (pool.isUsbgeThresholdExceeded()) {
+ *              // potentibl low memory, so redistribute tbsks to other VMs
  *              lowMemory = true;
- *              redistributeTasks();
- *              // stop receiving new tasks
- *              stopReceivingTasks();
+ *              redistributeTbsks();
+ *              // stop receiving new tbsks
+ *              stopReceivingTbsks();
  *          } else {
  *              if (lowMemory) {
- *                  // resume receiving tasks
- *                  lowMemory = false;
- *                  resumeReceivingTasks();
+ *                  // resume receiving tbsks
+ *                  lowMemory = fblse;
+ *                  resumeReceivingTbsks();
  *              }
- *              // processing outstanding task
+ *              // processing outstbnding tbsk
  *              ...
  *          }
  *          // sleep for sometime
  *          try {
- *              Thread.sleep(sometime);
- *          } catch (InterruptedException e) {
+ *              Threbd.sleep(sometime);
+ *          } cbtch (InterruptedException e) {
  *              ...
  *          }
  *       }
  *       </pre>
  *
  * <hr>
- *       The above example does not differentiate the case where
- *       the memory usage has temporarily dropped below the usage threshold
- *       from the case where the memory usage remains above the threshold
- *       between two iterations.  The usage threshold count returned by
- *       the {@link #getUsageThresholdCount} method
- *       can be used to determine
- *       if the memory usage has returned below the threshold
+ *       The bbove exbmple does not differentibte the cbse where
+ *       the memory usbge hbs temporbrily dropped below the usbge threshold
+ *       from the cbse where the memory usbge rembins bbove the threshold
+ *       between two iterbtions.  The usbge threshold count returned by
+ *       the {@link #getUsbgeThresholdCount} method
+ *       cbn be used to determine
+ *       if the memory usbge hbs returned below the threshold
  *       between two polls.
  *       <p>
- *       Below shows another example that takes some action if a
- *       memory pool is under low memory and ignores the memory usage
- *       changes during the action processing time.
+ *       Below shows bnother exbmple thbt tbkes some bction if b
+ *       memory pool is under low memory bnd ignores the memory usbge
+ *       chbnges during the bction processing time.
  *
  *       <pre>
- *       // Assume the usage threshold is supported for this pool.
+ *       // Assume the usbge threshold is supported for this pool.
  *       // Set the threshold to myThreshold which determines if
- *       // the application will take some action under low memory condition.
- *       pool.setUsageThreshold(myThreshold);
+ *       // the bpplicbtion will tbke some bction under low memory condition.
+ *       pool.setUsbgeThreshold(myThreshold);
  *
  *       int prevCrossingCount = 0;
  *       while (true) {
- *           // A busy loop to detect when the memory usage
- *           // has exceeded the threshold.
- *           while (!pool.isUsageThresholdExceeded() ||
- *                  pool.getUsageThresholdCount() == prevCrossingCount) {
+ *           // A busy loop to detect when the memory usbge
+ *           // hbs exceeded the threshold.
+ *           while (!pool.isUsbgeThresholdExceeded() ||
+ *                  pool.getUsbgeThresholdCount() == prevCrossingCount) {
  *               try {
- *                   Thread.sleep(sometime)
- *               } catch (InterruptException e) {
+ *                   Threbd.sleep(sometime)
+ *               } cbtch (InterruptException e) {
  *                   ....
  *               }
  *           }
  *
- *           // Do some processing such as check for memory usage
- *           // and issue a warning
+ *           // Do some processing such bs check for memory usbge
+ *           // bnd issue b wbrning
  *           ....
  *
  *           // Gets the current threshold count. The busy loop will then
- *           // ignore any crossing of threshold happens during the processing.
- *           prevCrossingCount = pool.getUsageThresholdCount();
+ *           // ignore bny crossing of threshold hbppens during the processing.
+ *           prevCrossingCount = pool.getUsbgeThresholdCount();
  *       }
  *       </pre><hr>
  *   </li>
- *   <li><a name="ThresholdNotification"><b>Usage Threshold Notifications</b></a>
+ *   <li><b nbme="ThresholdNotificbtion"><b>Usbge Threshold Notificbtions</b></b>
  *       <p>
- *       Usage threshold notification will be emitted by {@link MemoryMXBean}.
- *       When the Java virtual machine detects that the memory usage of
- *       a memory pool has reached or exceeded the usage threshold
- *       the virtual machine will trigger the <tt>MemoryMXBean</tt> to emit an
- *       {@link MemoryNotificationInfo#MEMORY_THRESHOLD_EXCEEDED
- *       usage threshold exceeded notification}.
- *       Another usage threshold exceeded notification will not be
- *       generated until the usage has fallen below the threshold and
- *       then exceeded it again.
+ *       Usbge threshold notificbtion will be emitted by {@link MemoryMXBebn}.
+ *       When the Jbvb virtubl mbchine detects thbt the memory usbge of
+ *       b memory pool hbs rebched or exceeded the usbge threshold
+ *       the virtubl mbchine will trigger the <tt>MemoryMXBebn</tt> to emit bn
+ *       {@link MemoryNotificbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ *       usbge threshold exceeded notificbtion}.
+ *       Another usbge threshold exceeded notificbtion will not be
+ *       generbted until the usbge hbs fbllen below the threshold bnd
+ *       then exceeded it bgbin.
  *       <p>
- *       Below is an example code implementing the same logic as the
- *       first example above but using the usage threshold notification
- *       mechanism to detect low memory conditions instead of polling.
- *       In this example code, upon receiving notification, the notification
- *       listener notifies another thread to perform the actual action
- *       such as to redistribute outstanding tasks, stop receiving tasks,
- *       or resume receiving tasks.
- *       The <tt>handleNotification</tt> method should be designed to
- *       do a very minimal amount of work and return without delay to avoid
- *       causing delay in delivering subsequent notifications.  Time-consuming
- *       actions should be performed by a separate thread.
- *       The notification listener may be invoked by multiple threads
- *       concurrently; so the tasks performed by the listener
+ *       Below is bn exbmple code implementing the sbme logic bs the
+ *       first exbmple bbove but using the usbge threshold notificbtion
+ *       mechbnism to detect low memory conditions instebd of polling.
+ *       In this exbmple code, upon receiving notificbtion, the notificbtion
+ *       listener notifies bnother threbd to perform the bctubl bction
+ *       such bs to redistribute outstbnding tbsks, stop receiving tbsks,
+ *       or resume receiving tbsks.
+ *       The <tt>hbndleNotificbtion</tt> method should be designed to
+ *       do b very minimbl bmount of work bnd return without delby to bvoid
+ *       cbusing delby in delivering subsequent notificbtions.  Time-consuming
+ *       bctions should be performed by b sepbrbte threbd.
+ *       The notificbtion listener mby be invoked by multiple threbds
+ *       concurrently; so the tbsks performed by the listener
  *       should be properly synchronized.
  *
  *       <pre>
- *       class MyListener implements javax.management.NotificationListener {
- *            public void handleNotification(Notification notification, Object handback)  {
- *                String notifType = notification.getType();
- *                if (notifType.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) {
- *                    // potential low memory, notify another thread
- *                    // to redistribute outstanding tasks to other VMs
- *                    // and stop receiving new tasks.
+ *       clbss MyListener implements jbvbx.mbnbgement.NotificbtionListener {
+ *            public void hbndleNotificbtion(Notificbtion notificbtion, Object hbndbbck)  {
+ *                String notifType = notificbtion.getType();
+ *                if (notifType.equbls(MemoryNotificbtionInfo.MEMORY_THRESHOLD_EXCEEDED)) {
+ *                    // potentibl low memory, notify bnother threbd
+ *                    // to redistribute outstbnding tbsks to other VMs
+ *                    // bnd stop receiving new tbsks.
  *                    lowMemory = true;
- *                    notifyAnotherThread(lowMemory);
+ *                    notifyAnotherThrebd(lowMemory);
  *                }
  *            }
  *       }
  *
- *       // Register MyListener with MemoryMXBean
- *       MemoryMXBean mbean = ManagementFactory.getMemoryMXBean();
- *       NotificationEmitter emitter = (NotificationEmitter) mbean;
+ *       // Register MyListener with MemoryMXBebn
+ *       MemoryMXBebn mbebn = MbnbgementFbctory.getMemoryMXBebn();
+ *       NotificbtionEmitter emitter = (NotificbtionEmitter) mbebn;
  *       MyListener listener = new MyListener();
- *       emitter.addNotificationListener(listener, null, null);
+ *       emitter.bddNotificbtionListener(listener, null, null);
  *
- *       // Assume this pool supports a usage threshold.
- *       // Set the threshold to myThreshold above which no new tasks
- *       // should be taken.
- *       pool.setUsageThreshold(myThreshold);
+ *       // Assume this pool supports b usbge threshold.
+ *       // Set the threshold to myThreshold bbove which no new tbsks
+ *       // should be tbken.
+ *       pool.setUsbgeThreshold(myThreshold);
  *
- *       // Usage threshold detection is enabled and notification will be
- *       // handled by MyListener.  Continue for other processing.
+ *       // Usbge threshold detection is enbbled bnd notificbtion will be
+ *       // hbndled by MyListener.  Continue for other processing.
  *       ....
  *
  *       </pre>
  * <hr>
  *       <p>
- *       There is no guarantee about when the <tt>MemoryMXBean</tt> will emit
- *       a threshold notification and when the notification will be delivered.
- *       When a notification listener is invoked, the memory usage of
- *       the memory pool may have crossed the usage threshold more
- *       than once.
- *       The {@link MemoryNotificationInfo#getCount} method returns the number
- *       of times that the memory usage has crossed the usage threshold
- *       at the point in time when the notification was constructed.
- *       It can be compared with the current usage threshold count returned
- *       by the {@link #getUsageThresholdCount} method to determine if
- *       such situation has occurred.
+ *       There is no gubrbntee bbout when the <tt>MemoryMXBebn</tt> will emit
+ *       b threshold notificbtion bnd when the notificbtion will be delivered.
+ *       When b notificbtion listener is invoked, the memory usbge of
+ *       the memory pool mby hbve crossed the usbge threshold more
+ *       thbn once.
+ *       The {@link MemoryNotificbtionInfo#getCount} method returns the number
+ *       of times thbt the memory usbge hbs crossed the usbge threshold
+ *       bt the point in time when the notificbtion wbs constructed.
+ *       It cbn be compbred with the current usbge threshold count returned
+ *       by the {@link #getUsbgeThresholdCount} method to determine if
+ *       such situbtion hbs occurred.
  *   </li>
  * </ol>
  *
- * <h3><a name="CollectionThreshold">4. Collection Usage Threshold</a></h3>
+ * <h3><b nbme="CollectionThreshold">4. Collection Usbge Threshold</b></h3>
  *
- * Collection usage threshold is a manageable attribute only applicable
- * to some garbage-collected memory pools.
- * After a Java virtual machine has expended effort in reclaiming memory
- * space by recycling unused objects in a memory pool at garbage collection
- * time, some number of bytes in the memory pools that are garbaged
- * collected will still be in use.  The collection usage threshold
- * allows a value to be set for this number of bytes such
- * that if the threshold is exceeded,
- * a {@link MemoryNotificationInfo#MEMORY_THRESHOLD_EXCEEDED
- * collection usage threshold exceeded notification}
- * will be emitted by the {@link MemoryMXBean}.
- * In addition, the {@link #getCollectionUsageThresholdCount
- * collection usage threshold count} will then be incremented.
- *
- * <p>
- * The {@link MemoryPoolMXBean#isCollectionUsageThresholdSupported} method can
- * be used to determine if this functionality is supported.
+ * Collection usbge threshold is b mbnbgebble bttribute only bpplicbble
+ * to some gbrbbge-collected memory pools.
+ * After b Jbvb virtubl mbchine hbs expended effort in reclbiming memory
+ * spbce by recycling unused objects in b memory pool bt gbrbbge collection
+ * time, some number of bytes in the memory pools thbt bre gbrbbged
+ * collected will still be in use.  The collection usbge threshold
+ * bllows b vblue to be set for this number of bytes such
+ * thbt if the threshold is exceeded,
+ * b {@link MemoryNotificbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ * collection usbge threshold exceeded notificbtion}
+ * will be emitted by the {@link MemoryMXBebn}.
+ * In bddition, the {@link #getCollectionUsbgeThresholdCount
+ * collection usbge threshold count} will then be incremented.
  *
  * <p>
- * A Java virtual machine performs collection usage threshold checking
- * on a memory pool basis.  This checking is enabled if the collection
- * usage threshold is set to a positive value.
- * If the collection usage threshold is set to zero, this checking
- * is disabled on this memory pool.  Default value is zero.
- * The Java virtual machine performs the collection usage threshold
- * checking at garbage collection time.
+ * The {@link MemoryPoolMXBebn#isCollectionUsbgeThresholdSupported} method cbn
+ * be used to determine if this functionblity is supported.
  *
  * <p>
- * Some garbage-collected memory pools may
- * choose not to support the collection usage threshold.  For example,
- * a memory pool is only managed by a continuous concurrent garbage
- * collector.  Objects can be allocated in this memory pool by some thread
- * while the unused objects are reclaimed by the concurrent garbage
- * collector simultaneously.  Unless there is a well-defined
- * garbage collection time which is the best appropriate time
- * to check the memory usage, the collection usage threshold should not
+ * A Jbvb virtubl mbchine performs collection usbge threshold checking
+ * on b memory pool bbsis.  This checking is enbbled if the collection
+ * usbge threshold is set to b positive vblue.
+ * If the collection usbge threshold is set to zero, this checking
+ * is disbbled on this memory pool.  Defbult vblue is zero.
+ * The Jbvb virtubl mbchine performs the collection usbge threshold
+ * checking bt gbrbbge collection time.
+ *
+ * <p>
+ * Some gbrbbge-collected memory pools mby
+ * choose not to support the collection usbge threshold.  For exbmple,
+ * b memory pool is only mbnbged by b continuous concurrent gbrbbge
+ * collector.  Objects cbn be bllocbted in this memory pool by some threbd
+ * while the unused objects bre reclbimed by the concurrent gbrbbge
+ * collector simultbneously.  Unless there is b well-defined
+ * gbrbbge collection time which is the best bppropribte time
+ * to check the memory usbge, the collection usbge threshold should not
  * be supported.
  *
  * <p>
- * The collection usage threshold is designed for monitoring the memory usage
- * after the Java virtual machine has expended effort in reclaiming
- * memory space.  The collection usage could also be monitored
- * by the polling and threshold notification mechanism
- * described above for the <a href="#UsageThreshold">usage threshold</a>
- * in a similar fashion.
+ * The collection usbge threshold is designed for monitoring the memory usbge
+ * bfter the Jbvb virtubl mbchine hbs expended effort in reclbiming
+ * memory spbce.  The collection usbge could blso be monitored
+ * by the polling bnd threshold notificbtion mechbnism
+ * described bbove for the <b href="#UsbgeThreshold">usbge threshold</b>
+ * in b similbr fbshion.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
-public interface MemoryPoolMXBean extends PlatformManagedObject {
+public interfbce MemoryPoolMXBebn extends PlbtformMbnbgedObject {
     /**
-     * Returns the name representing this memory pool.
+     * Returns the nbme representing this memory pool.
      *
-     * @return the name of this memory pool.
+     * @return the nbme of this memory pool.
      */
-    public String getName();
+    public String getNbme();
 
     /**
      * Returns the type of this memory pool.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryType</tt> is <tt>String</tt>
-     * and the value is the name of the <tt>MemoryType</tt>.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>MemoryType</tt> is <tt>String</tt>
+     * bnd the vblue is the nbme of the <tt>MemoryType</tt>.
      *
      * @return the type of this memory pool.
      */
     public MemoryType getType();
 
     /**
-     * Returns an estimate of the memory usage of this memory pool.
+     * Returns bn estimbte of the memory usbge of this memory pool.
      * This method returns <tt>null</tt>
-     * if this memory pool is not valid (i.e. no longer exists).
+     * if this memory pool is not vblid (i.e. no longer exists).
      *
      * <p>
-     * This method requests the Java virtual machine to make
-     * a best-effort estimate of the current memory usage of this
-     * memory pool. For some memory pools, this method may be an
-     * expensive operation that requires some computation to determine
-     * the estimate.  An implementation should document when
-     * this is the case.
+     * This method requests the Jbvb virtubl mbchine to mbke
+     * b best-effort estimbte of the current memory usbge of this
+     * memory pool. For some memory pools, this method mby be bn
+     * expensive operbtion thbt requires some computbtion to determine
+     * the estimbte.  An implementbtion should document when
+     * this is the cbse.
      *
      * <p>This method is designed for use in monitoring system
-     * memory usage and detecting low memory condition.
+     * memory usbge bnd detecting low memory condition.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>MemoryUsbge</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in
+     * {@link MemoryUsbge#from MemoryUsbge}.
      *
-     * @return a {@link MemoryUsage} object; or <tt>null</tt> if
-     * this pool not valid.
+     * @return b {@link MemoryUsbge} object; or <tt>null</tt> if
+     * this pool not vblid.
      */
-    public MemoryUsage getUsage();
+    public MemoryUsbge getUsbge();
 
     /**
-     * Returns the peak memory usage of this memory pool since the
-     * Java virtual machine was started or since the peak was reset.
+     * Returns the pebk memory usbge of this memory pool since the
+     * Jbvb virtubl mbchine wbs stbrted or since the pebk wbs reset.
      * This method returns <tt>null</tt>
-     * if this memory pool is not valid (i.e. no longer exists).
+     * if this memory pool is not vblid (i.e. no longer exists).
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>MemoryUsbge</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in
+     * {@link MemoryUsbge#from MemoryUsbge}.
      *
-     * @return a {@link MemoryUsage} object representing the peak
-     * memory usage; or <tt>null</tt> if this pool is not valid.
+     * @return b {@link MemoryUsbge} object representing the pebk
+     * memory usbge; or <tt>null</tt> if this pool is not vblid.
      *
      */
-    public MemoryUsage getPeakUsage();
+    public MemoryUsbge getPebkUsbge();
 
     /**
-     * Resets the peak memory usage statistic of this memory pool
-     * to the current memory usage.
+     * Resets the pebk memory usbge stbtistic of this memory pool
+     * to the current memory usbge.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      */
-    public void resetPeakUsage();
+    public void resetPebkUsbge();
 
     /**
-     * Tests if this memory pool is valid in the Java virtual
-     * machine.  A memory pool becomes invalid once the Java virtual
-     * machine removes it from the memory system.
+     * Tests if this memory pool is vblid in the Jbvb virtubl
+     * mbchine.  A memory pool becomes invblid once the Jbvb virtubl
+     * mbchine removes it from the memory system.
      *
-     * @return <tt>true</tt> if the memory pool is valid in the running
-     *              Java virtual machine;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the memory pool is vblid in the running
+     *              Jbvb virtubl mbchine;
+     *         <tt>fblse</tt> otherwise.
      */
-    public boolean isValid();
+    public boolebn isVblid();
 
     /**
-     * Returns the name of memory managers that manages this memory pool.
-     * Each memory pool will be managed by at least one memory manager.
+     * Returns the nbme of memory mbnbgers thbt mbnbges this memory pool.
+     * Ebch memory pool will be mbnbged by bt lebst one memory mbnbger.
      *
-     * @return an array of <tt>String</tt> objects, each is the name of
-     * a memory manager managing this memory pool.
+     * @return bn brrby of <tt>String</tt> objects, ebch is the nbme of
+     * b memory mbnbger mbnbging this memory pool.
      */
-    public String[] getMemoryManagerNames();
+    public String[] getMemoryMbnbgerNbmes();
 
     /**
-     * Returns the usage threshold value of this memory pool in bytes.
-     * Each memory pool has a platform-dependent default threshold value.
-     * The current usage threshold can be changed via the
-     * {@link #setUsageThreshold setUsageThreshold} method.
+     * Returns the usbge threshold vblue of this memory pool in bytes.
+     * Ebch memory pool hbs b plbtform-dependent defbult threshold vblue.
+     * The current usbge threshold cbn be chbnged vib the
+     * {@link #setUsbgeThreshold setUsbgeThreshold} method.
      *
-     * @return the usage threshold value of this memory pool in bytes.
+     * @return the usbge threshold vblue of this memory pool in bytes.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b usbge threshold.
      *
-     * @see #isUsageThresholdSupported
+     * @see #isUsbgeThresholdSupported
      */
-    public long getUsageThreshold();
+    public long getUsbgeThreshold();
 
     /**
      * Sets the threshold of this memory pool to the given <tt>threshold</tt>
-     * value if this memory pool supports the usage threshold.
-     * The usage threshold crossing checking is enabled in this memory pool
-     * if the threshold is set to a positive value.
-     * The usage threshold crossing checking is disabled
+     * vblue if this memory pool supports the usbge threshold.
+     * The usbge threshold crossing checking is enbbled in this memory pool
+     * if the threshold is set to b positive vblue.
+     * The usbge threshold crossing checking is disbbled
      * if it is set to zero.
      *
-     * @param threshold the new threshold value in bytes. Must be non-negative.
+     * @pbrbm threshold the new threshold vblue in bytes. Must be non-negbtive.
      *
-     * @throws IllegalArgumentException if <tt>threshold</tt> is negative
-     *         or greater than the maximum amount of memory for
+     * @throws IllegblArgumentException if <tt>threshold</tt> is negbtive
+     *         or grebter thbn the mbximum bmount of memory for
      *         this memory pool if defined.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b usbge threshold.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #isUsageThresholdSupported
-     * @see <a href="#UsageThreshold">Usage threshold</a>
+     * @see #isUsbgeThresholdSupported
+     * @see <b href="#UsbgeThreshold">Usbge threshold</b>
      */
-    public void setUsageThreshold(long threshold);
+    public void setUsbgeThreshold(long threshold);
 
     /**
-     * Tests if the memory usage of this memory pool
-     * reaches or exceeds its usage threshold value.
+     * Tests if the memory usbge of this memory pool
+     * rebches or exceeds its usbge threshold vblue.
      *
-     * @return <tt>true</tt> if the memory usage of
-     * this memory pool reaches or exceeds the threshold value;
-     * <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the memory usbge of
+     * this memory pool rebches or exceeds the threshold vblue;
+     * <tt>fblse</tt> otherwise.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b usbge threshold.
      */
-    public boolean isUsageThresholdExceeded();
+    public boolebn isUsbgeThresholdExceeded();
 
     /**
-     * Returns the number of times that the memory usage has crossed
-     * the usage threshold.
+     * Returns the number of times thbt the memory usbge hbs crossed
+     * the usbge threshold.
      *
-     * @return the number of times that the memory usage
-     * has crossed its usage threshold value.
+     * @return the number of times thbt the memory usbge
+     * hbs crossed its usbge threshold vblue.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     * does not support a usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     * does not support b usbge threshold.
      */
-    public long getUsageThresholdCount();
+    public long getUsbgeThresholdCount();
 
     /**
-     * Tests if this memory pool supports usage threshold.
+     * Tests if this memory pool supports usbge threshold.
      *
-     * @return <tt>true</tt> if this memory pool supports usage threshold;
-     * <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if this memory pool supports usbge threshold;
+     * <tt>fblse</tt> otherwise.
      */
-    public boolean isUsageThresholdSupported();
+    public boolebn isUsbgeThresholdSupported();
 
     /**
-     * Returns the collection usage threshold value of this memory pool
-     * in bytes.  The default value is zero. The collection usage
-     * threshold can be changed via the
-     * {@link #setCollectionUsageThreshold setCollectionUsageThreshold} method.
+     * Returns the collection usbge threshold vblue of this memory pool
+     * in bytes.  The defbult vblue is zero. The collection usbge
+     * threshold cbn be chbnged vib the
+     * {@link #setCollectionUsbgeThreshold setCollectionUsbgeThreshold} method.
      *
-     * @return the collection usage threshold of this memory pool in bytes.
+     * @return the collection usbge threshold of this memory pool in bytes.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b collection usbge threshold.
      *
-     * @see #isCollectionUsageThresholdSupported
+     * @see #isCollectionUsbgeThresholdSupported
      */
-    public long getCollectionUsageThreshold();
+    public long getCollectionUsbgeThreshold();
 
     /**
-     * Sets the collection usage threshold of this memory pool to
-     * the given <tt>threshold</tt> value.
-     * When this threshold is set to positive, the Java virtual machine
-     * will check the memory usage at its best appropriate time after it has
+     * Sets the collection usbge threshold of this memory pool to
+     * the given <tt>threshold</tt> vblue.
+     * When this threshold is set to positive, the Jbvb virtubl mbchine
+     * will check the memory usbge bt its best bppropribte time bfter it hbs
      * expended effort in recycling unused objects in this memory pool.
      * <p>
-     * The collection usage threshold crossing checking is enabled
-     * in this memory pool if the threshold is set to a positive value.
-     * The collection usage threshold crossing checking is disabled
+     * The collection usbge threshold crossing checking is enbbled
+     * in this memory pool if the threshold is set to b positive vblue.
+     * The collection usbge threshold crossing checking is disbbled
      * if it is set to zero.
      *
-     * @param threshold the new collection usage threshold value in bytes.
-     *              Must be non-negative.
+     * @pbrbm threshold the new collection usbge threshold vblue in bytes.
+     *              Must be non-negbtive.
      *
-     * @throws IllegalArgumentException if <tt>threshold</tt> is negative
-     *         or greater than the maximum amount of memory for
+     * @throws IllegblArgumentException if <tt>threshold</tt> is negbtive
+     *         or grebter thbn the mbximum bmount of memory for
      *         this memory pool if defined.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b collection usbge threshold.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #isCollectionUsageThresholdSupported
-     * @see <a href="#CollectionThreshold">Collection usage threshold</a>
+     * @see #isCollectionUsbgeThresholdSupported
+     * @see <b href="#CollectionThreshold">Collection usbge threshold</b>
      */
-    public void setCollectionUsageThreshold(long threshold);
+    public void setCollectionUsbgeThreshold(long threshold);
 
     /**
-     * Tests if the memory usage of this memory pool after
-     * the most recent collection on which the Java virtual
-     * machine has expended effort has reached or
-     * exceeded its collection usage threshold.
-     * This method does not request the Java virtual
-     * machine to perform any garbage collection other than its normal
-     * automatic memory management.
+     * Tests if the memory usbge of this memory pool bfter
+     * the most recent collection on which the Jbvb virtubl
+     * mbchine hbs expended effort hbs rebched or
+     * exceeded its collection usbge threshold.
+     * This method does not request the Jbvb virtubl
+     * mbchine to perform bny gbrbbge collection other thbn its normbl
+     * butombtic memory mbnbgement.
      *
-     * @return <tt>true</tt> if the memory usage of this memory pool
-     * reaches or exceeds the collection usage threshold value
+     * @return <tt>true</tt> if the memory usbge of this memory pool
+     * rebches or exceeds the collection usbge threshold vblue
      * in the most recent collection;
-     * <tt>false</tt> otherwise.
+     * <tt>fblse</tt> otherwise.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b usbge threshold.
      */
-    public boolean isCollectionUsageThresholdExceeded();
+    public boolebn isCollectionUsbgeThresholdExceeded();
 
     /**
-     * Returns the number of times that the Java virtual machine
-     * has detected that the memory usage has reached or
-     * exceeded the collection usage threshold.
+     * Returns the number of times thbt the Jbvb virtubl mbchine
+     * hbs detected thbt the memory usbge hbs rebched or
+     * exceeded the collection usbge threshold.
      *
-     * @return the number of times that the memory
-     * usage has reached or exceeded the collection usage threshold.
+     * @return the number of times thbt the memory
+     * usbge hbs rebched or exceeded the collection usbge threshold.
      *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
+     * @throws UnsupportedOperbtionException if this memory pool
+     *         does not support b collection usbge threshold.
      *
-     * @see #isCollectionUsageThresholdSupported
+     * @see #isCollectionUsbgeThresholdSupported
      */
-    public long getCollectionUsageThresholdCount();
+    public long getCollectionUsbgeThresholdCount();
 
     /**
-     * Returns the memory usage after the Java virtual machine
+     * Returns the memory usbge bfter the Jbvb virtubl mbchine
      * most recently expended effort in recycling unused objects
      * in this memory pool.
-     * This method does not request the Java virtual
-     * machine to perform any garbage collection other than its normal
-     * automatic memory management.
-     * This method returns <tt>null</tt> if the Java virtual
-     * machine does not support this method.
+     * This method does not request the Jbvb virtubl
+     * mbchine to perform bny gbrbbge collection other thbn its normbl
+     * butombtic memory mbnbgement.
+     * This method returns <tt>null</tt> if the Jbvb virtubl
+     * mbchine does not support this method.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>MemoryUsbge</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in
+     * {@link MemoryUsbge#from MemoryUsbge}.
      *
-     * @return a {@link MemoryUsage} representing the memory usage of
-     * this memory pool after the Java virtual machine most recently
+     * @return b {@link MemoryUsbge} representing the memory usbge of
+     * this memory pool bfter the Jbvb virtubl mbchine most recently
      * expended effort in recycling unused objects;
      * <tt>null</tt> if this method is not supported.
      */
-    public MemoryUsage getCollectionUsage();
+    public MemoryUsbge getCollectionUsbge();
 
     /**
-     * Tests if this memory pool supports a collection usage threshold.
+     * Tests if this memory pool supports b collection usbge threshold.
      *
      * @return <tt>true</tt> if this memory pool supports the
-     * collection usage threshold; <tt>false</tt> otherwise.
+     * collection usbge threshold; <tt>fblse</tt> otherwise.
      */
-    public boolean isCollectionUsageThresholdSupported();
+    public boolebn isCollectionUsbgeThresholdSupported();
 }

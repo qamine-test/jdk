@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2009-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2009-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,307 +59,307 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbckbge jbvb.time.zone;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Durbtion;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblDbteTime;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.Yebr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Objects;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
 /**
- * The rules defining how the zone offset varies for a single time-zone.
+ * The rules defining how the zone offset vbries for b single time-zone.
  * <p>
- * The rules model all the historic and future transitions for a time-zone.
- * {@link ZoneOffsetTransition} is used for known transitions, typically historic.
- * {@link ZoneOffsetTransitionRule} is used for future transitions that are based
- * on the result of an algorithm.
+ * The rules model bll the historic bnd future trbnsitions for b time-zone.
+ * {@link ZoneOffsetTrbnsition} is used for known trbnsitions, typicblly historic.
+ * {@link ZoneOffsetTrbnsitionRule} is used for future trbnsitions thbt bre bbsed
+ * on the result of bn blgorithm.
  * <p>
- * The rules are loaded via {@link ZoneRulesProvider} using a {@link ZoneId}.
- * The same rules may be shared internally between multiple zone IDs.
+ * The rules bre lobded vib {@link ZoneRulesProvider} using b {@link ZoneId}.
+ * The sbme rules mby be shbred internblly between multiple zone IDs.
  * <p>
- * Serializing an instance of {@code ZoneRules} will store the entire set of rules.
- * It does not store the zone ID as it is not part of the state of this object.
+ * Seriblizing bn instbnce of {@code ZoneRules} will store the entire set of rules.
+ * It does not store the zone ID bs it is not pbrt of the stbte of this object.
  * <p>
- * A rule implementation may or may not store full information about historic
- * and future transitions, and the information stored is only as accurate as
- * that supplied to the implementation by the rules provider.
- * Applications should treat the data provided as representing the best information
- * available to the implementation of this rule.
+ * A rule implementbtion mby or mby not store full informbtion bbout historic
+ * bnd future trbnsitions, bnd the informbtion stored is only bs bccurbte bs
+ * thbt supplied to the implementbtion by the rules provider.
+ * Applicbtions should trebt the dbtb provided bs representing the best informbtion
+ * bvbilbble to the implementbtion of this rule.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ZoneRules implements Serializable {
+public finbl clbss ZoneRules implements Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 3044319355680032515L;
+    privbte stbtic finbl long seriblVersionUID = 3044319355680032515L;
     /**
-     * The last year to have its transitions cached.
+     * The lbst yebr to hbve its trbnsitions cbched.
      */
-    private static final int LAST_CACHED_YEAR = 2100;
+    privbte stbtic finbl int LAST_CACHED_YEAR = 2100;
 
     /**
-     * The transitions between standard offsets (epoch seconds), sorted.
+     * The trbnsitions between stbndbrd offsets (epoch seconds), sorted.
      */
-    private final long[] standardTransitions;
+    privbte finbl long[] stbndbrdTrbnsitions;
     /**
-     * The standard offsets.
+     * The stbndbrd offsets.
      */
-    private final ZoneOffset[] standardOffsets;
+    privbte finbl ZoneOffset[] stbndbrdOffsets;
     /**
-     * The transitions between instants (epoch seconds), sorted.
+     * The trbnsitions between instbnts (epoch seconds), sorted.
      */
-    private final long[] savingsInstantTransitions;
+    privbte finbl long[] sbvingsInstbntTrbnsitions;
     /**
-     * The transitions between local date-times, sorted.
-     * This is a paired array, where the first entry is the start of the transition
-     * and the second entry is the end of the transition.
+     * The trbnsitions between locbl dbte-times, sorted.
+     * This is b pbired brrby, where the first entry is the stbrt of the trbnsition
+     * bnd the second entry is the end of the trbnsition.
      */
-    private final LocalDateTime[] savingsLocalTransitions;
+    privbte finbl LocblDbteTime[] sbvingsLocblTrbnsitions;
     /**
-     * The wall offsets.
+     * The wbll offsets.
      */
-    private final ZoneOffset[] wallOffsets;
+    privbte finbl ZoneOffset[] wbllOffsets;
     /**
-     * The last rule.
+     * The lbst rule.
      */
-    private final ZoneOffsetTransitionRule[] lastRules;
+    privbte finbl ZoneOffsetTrbnsitionRule[] lbstRules;
     /**
-     * The map of recent transitions.
+     * The mbp of recent trbnsitions.
      */
-    private final transient ConcurrentMap<Integer, ZoneOffsetTransition[]> lastRulesCache =
-                new ConcurrentHashMap<Integer, ZoneOffsetTransition[]>();
+    privbte finbl trbnsient ConcurrentMbp<Integer, ZoneOffsetTrbnsition[]> lbstRulesCbche =
+                new ConcurrentHbshMbp<Integer, ZoneOffsetTrbnsition[]>();
     /**
-     * The zero-length long array.
+     * The zero-length long brrby.
      */
-    private static final long[] EMPTY_LONG_ARRAY = new long[0];
+    privbte stbtic finbl long[] EMPTY_LONG_ARRAY = new long[0];
     /**
-     * The zero-length lastrules array.
+     * The zero-length lbstrules brrby.
      */
-    private static final ZoneOffsetTransitionRule[] EMPTY_LASTRULES =
-        new ZoneOffsetTransitionRule[0];
+    privbte stbtic finbl ZoneOffsetTrbnsitionRule[] EMPTY_LASTRULES =
+        new ZoneOffsetTrbnsitionRule[0];
     /**
-     * The zero-length ldt array.
+     * The zero-length ldt brrby.
      */
-    private static final LocalDateTime[] EMPTY_LDT_ARRAY = new LocalDateTime[0];
+    privbte stbtic finbl LocblDbteTime[] EMPTY_LDT_ARRAY = new LocblDbteTime[0];
 
     /**
-     * Obtains an instance of a ZoneRules.
+     * Obtbins bn instbnce of b ZoneRules.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
+     * @pbrbm bbseStbndbrdOffset  the stbndbrd offset to use before legbl rules were set, not null
+     * @pbrbm bbseWbllOffset  the wbll offset to use before legbl rules were set, not null
+     * @pbrbm stbndbrdOffsetTrbnsitionList  the list of chbnges to the stbndbrd offset, not null
+     * @pbrbm trbnsitionList  the list of trbnsitions, not null
+     * @pbrbm lbstRules  the recurring lbst rules, size 16 or less, not null
      * @return the zone rules, not null
      */
-    public static ZoneRules of(ZoneOffset baseStandardOffset,
-                               ZoneOffset baseWallOffset,
-                               List<ZoneOffsetTransition> standardOffsetTransitionList,
-                               List<ZoneOffsetTransition> transitionList,
-                               List<ZoneOffsetTransitionRule> lastRules) {
-        Objects.requireNonNull(baseStandardOffset, "baseStandardOffset");
-        Objects.requireNonNull(baseWallOffset, "baseWallOffset");
-        Objects.requireNonNull(standardOffsetTransitionList, "standardOffsetTransitionList");
-        Objects.requireNonNull(transitionList, "transitionList");
-        Objects.requireNonNull(lastRules, "lastRules");
-        return new ZoneRules(baseStandardOffset, baseWallOffset,
-                             standardOffsetTransitionList, transitionList, lastRules);
+    public stbtic ZoneRules of(ZoneOffset bbseStbndbrdOffset,
+                               ZoneOffset bbseWbllOffset,
+                               List<ZoneOffsetTrbnsition> stbndbrdOffsetTrbnsitionList,
+                               List<ZoneOffsetTrbnsition> trbnsitionList,
+                               List<ZoneOffsetTrbnsitionRule> lbstRules) {
+        Objects.requireNonNull(bbseStbndbrdOffset, "bbseStbndbrdOffset");
+        Objects.requireNonNull(bbseWbllOffset, "bbseWbllOffset");
+        Objects.requireNonNull(stbndbrdOffsetTrbnsitionList, "stbndbrdOffsetTrbnsitionList");
+        Objects.requireNonNull(trbnsitionList, "trbnsitionList");
+        Objects.requireNonNull(lbstRules, "lbstRules");
+        return new ZoneRules(bbseStbndbrdOffset, bbseWbllOffset,
+                             stbndbrdOffsetTrbnsitionList, trbnsitionList, lbstRules);
     }
 
     /**
-     * Obtains an instance of ZoneRules that has fixed zone rules.
+     * Obtbins bn instbnce of ZoneRules thbt hbs fixed zone rules.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
+     * @pbrbm offset  the offset this fixed zone rules is bbsed on, not null
      * @return the zone rules, not null
      * @see #isFixedOffset()
      */
-    public static ZoneRules of(ZoneOffset offset) {
+    public stbtic ZoneRules of(ZoneOffset offset) {
         Objects.requireNonNull(offset, "offset");
         return new ZoneRules(offset);
     }
 
     /**
-     * Creates an instance.
+     * Crebtes bn instbnce.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
+     * @pbrbm bbseStbndbrdOffset  the stbndbrd offset to use before legbl rules were set, not null
+     * @pbrbm bbseWbllOffset  the wbll offset to use before legbl rules were set, not null
+     * @pbrbm stbndbrdOffsetTrbnsitionList  the list of chbnges to the stbndbrd offset, not null
+     * @pbrbm trbnsitionList  the list of trbnsitions, not null
+     * @pbrbm lbstRules  the recurring lbst rules, size 16 or less, not null
      */
-    ZoneRules(ZoneOffset baseStandardOffset,
-              ZoneOffset baseWallOffset,
-              List<ZoneOffsetTransition> standardOffsetTransitionList,
-              List<ZoneOffsetTransition> transitionList,
-              List<ZoneOffsetTransitionRule> lastRules) {
+    ZoneRules(ZoneOffset bbseStbndbrdOffset,
+              ZoneOffset bbseWbllOffset,
+              List<ZoneOffsetTrbnsition> stbndbrdOffsetTrbnsitionList,
+              List<ZoneOffsetTrbnsition> trbnsitionList,
+              List<ZoneOffsetTrbnsitionRule> lbstRules) {
         super();
 
-        // convert standard transitions
+        // convert stbndbrd trbnsitions
 
-        this.standardTransitions = new long[standardOffsetTransitionList.size()];
+        this.stbndbrdTrbnsitions = new long[stbndbrdOffsetTrbnsitionList.size()];
 
-        this.standardOffsets = new ZoneOffset[standardOffsetTransitionList.size() + 1];
-        this.standardOffsets[0] = baseStandardOffset;
-        for (int i = 0; i < standardOffsetTransitionList.size(); i++) {
-            this.standardTransitions[i] = standardOffsetTransitionList.get(i).toEpochSecond();
-            this.standardOffsets[i + 1] = standardOffsetTransitionList.get(i).getOffsetAfter();
+        this.stbndbrdOffsets = new ZoneOffset[stbndbrdOffsetTrbnsitionList.size() + 1];
+        this.stbndbrdOffsets[0] = bbseStbndbrdOffset;
+        for (int i = 0; i < stbndbrdOffsetTrbnsitionList.size(); i++) {
+            this.stbndbrdTrbnsitions[i] = stbndbrdOffsetTrbnsitionList.get(i).toEpochSecond();
+            this.stbndbrdOffsets[i + 1] = stbndbrdOffsetTrbnsitionList.get(i).getOffsetAfter();
         }
 
-        // convert savings transitions to locals
-        List<LocalDateTime> localTransitionList = new ArrayList<>();
-        List<ZoneOffset> localTransitionOffsetList = new ArrayList<>();
-        localTransitionOffsetList.add(baseWallOffset);
-        for (ZoneOffsetTransition trans : transitionList) {
-            if (trans.isGap()) {
-                localTransitionList.add(trans.getDateTimeBefore());
-                localTransitionList.add(trans.getDateTimeAfter());
+        // convert sbvings trbnsitions to locbls
+        List<LocblDbteTime> locblTrbnsitionList = new ArrbyList<>();
+        List<ZoneOffset> locblTrbnsitionOffsetList = new ArrbyList<>();
+        locblTrbnsitionOffsetList.bdd(bbseWbllOffset);
+        for (ZoneOffsetTrbnsition trbns : trbnsitionList) {
+            if (trbns.isGbp()) {
+                locblTrbnsitionList.bdd(trbns.getDbteTimeBefore());
+                locblTrbnsitionList.bdd(trbns.getDbteTimeAfter());
             } else {
-                localTransitionList.add(trans.getDateTimeAfter());
-                localTransitionList.add(trans.getDateTimeBefore());
+                locblTrbnsitionList.bdd(trbns.getDbteTimeAfter());
+                locblTrbnsitionList.bdd(trbns.getDbteTimeBefore());
             }
-            localTransitionOffsetList.add(trans.getOffsetAfter());
+            locblTrbnsitionOffsetList.bdd(trbns.getOffsetAfter());
         }
-        this.savingsLocalTransitions = localTransitionList.toArray(new LocalDateTime[localTransitionList.size()]);
-        this.wallOffsets = localTransitionOffsetList.toArray(new ZoneOffset[localTransitionOffsetList.size()]);
+        this.sbvingsLocblTrbnsitions = locblTrbnsitionList.toArrby(new LocblDbteTime[locblTrbnsitionList.size()]);
+        this.wbllOffsets = locblTrbnsitionOffsetList.toArrby(new ZoneOffset[locblTrbnsitionOffsetList.size()]);
 
-        // convert savings transitions to instants
-        this.savingsInstantTransitions = new long[transitionList.size()];
-        for (int i = 0; i < transitionList.size(); i++) {
-            this.savingsInstantTransitions[i] = transitionList.get(i).toEpochSecond();
+        // convert sbvings trbnsitions to instbnts
+        this.sbvingsInstbntTrbnsitions = new long[trbnsitionList.size()];
+        for (int i = 0; i < trbnsitionList.size(); i++) {
+            this.sbvingsInstbntTrbnsitions[i] = trbnsitionList.get(i).toEpochSecond();
         }
 
-        // last rules
-        if (lastRules.size() > 16) {
-            throw new IllegalArgumentException("Too many transition rules");
+        // lbst rules
+        if (lbstRules.size() > 16) {
+            throw new IllegblArgumentException("Too mbny trbnsition rules");
         }
-        this.lastRules = lastRules.toArray(new ZoneOffsetTransitionRule[lastRules.size()]);
+        this.lbstRules = lbstRules.toArrby(new ZoneOffsetTrbnsitionRule[lbstRules.size()]);
     }
 
     /**
      * Constructor.
      *
-     * @param standardTransitions  the standard transitions, not null
-     * @param standardOffsets  the standard offsets, not null
-     * @param savingsInstantTransitions  the standard transitions, not null
-     * @param wallOffsets  the wall offsets, not null
-     * @param lastRules  the recurring last rules, size 15 or less, not null
+     * @pbrbm stbndbrdTrbnsitions  the stbndbrd trbnsitions, not null
+     * @pbrbm stbndbrdOffsets  the stbndbrd offsets, not null
+     * @pbrbm sbvingsInstbntTrbnsitions  the stbndbrd trbnsitions, not null
+     * @pbrbm wbllOffsets  the wbll offsets, not null
+     * @pbrbm lbstRules  the recurring lbst rules, size 15 or less, not null
      */
-    private ZoneRules(long[] standardTransitions,
-                      ZoneOffset[] standardOffsets,
-                      long[] savingsInstantTransitions,
-                      ZoneOffset[] wallOffsets,
-                      ZoneOffsetTransitionRule[] lastRules) {
+    privbte ZoneRules(long[] stbndbrdTrbnsitions,
+                      ZoneOffset[] stbndbrdOffsets,
+                      long[] sbvingsInstbntTrbnsitions,
+                      ZoneOffset[] wbllOffsets,
+                      ZoneOffsetTrbnsitionRule[] lbstRules) {
         super();
 
-        this.standardTransitions = standardTransitions;
-        this.standardOffsets = standardOffsets;
-        this.savingsInstantTransitions = savingsInstantTransitions;
-        this.wallOffsets = wallOffsets;
-        this.lastRules = lastRules;
+        this.stbndbrdTrbnsitions = stbndbrdTrbnsitions;
+        this.stbndbrdOffsets = stbndbrdOffsets;
+        this.sbvingsInstbntTrbnsitions = sbvingsInstbntTrbnsitions;
+        this.wbllOffsets = wbllOffsets;
+        this.lbstRules = lbstRules;
 
-        if (savingsInstantTransitions.length == 0) {
-            this.savingsLocalTransitions = EMPTY_LDT_ARRAY;
+        if (sbvingsInstbntTrbnsitions.length == 0) {
+            this.sbvingsLocblTrbnsitions = EMPTY_LDT_ARRAY;
         } else {
-            // convert savings transitions to locals
-            List<LocalDateTime> localTransitionList = new ArrayList<>();
-            for (int i = 0; i < savingsInstantTransitions.length; i++) {
-                ZoneOffset before = wallOffsets[i];
-                ZoneOffset after = wallOffsets[i + 1];
-                ZoneOffsetTransition trans = new ZoneOffsetTransition(savingsInstantTransitions[i], before, after);
-                if (trans.isGap()) {
-                    localTransitionList.add(trans.getDateTimeBefore());
-                    localTransitionList.add(trans.getDateTimeAfter());
+            // convert sbvings trbnsitions to locbls
+            List<LocblDbteTime> locblTrbnsitionList = new ArrbyList<>();
+            for (int i = 0; i < sbvingsInstbntTrbnsitions.length; i++) {
+                ZoneOffset before = wbllOffsets[i];
+                ZoneOffset bfter = wbllOffsets[i + 1];
+                ZoneOffsetTrbnsition trbns = new ZoneOffsetTrbnsition(sbvingsInstbntTrbnsitions[i], before, bfter);
+                if (trbns.isGbp()) {
+                    locblTrbnsitionList.bdd(trbns.getDbteTimeBefore());
+                    locblTrbnsitionList.bdd(trbns.getDbteTimeAfter());
                 } else {
-                    localTransitionList.add(trans.getDateTimeAfter());
-                    localTransitionList.add(trans.getDateTimeBefore());
+                    locblTrbnsitionList.bdd(trbns.getDbteTimeAfter());
+                    locblTrbnsitionList.bdd(trbns.getDbteTimeBefore());
                }
             }
-            this.savingsLocalTransitions = localTransitionList.toArray(new LocalDateTime[localTransitionList.size()]);
+            this.sbvingsLocblTrbnsitions = locblTrbnsitionList.toArrby(new LocblDbteTime[locblTrbnsitionList.size()]);
         }
     }
 
     /**
-     * Creates an instance of ZoneRules that has fixed zone rules.
+     * Crebtes bn instbnce of ZoneRules thbt hbs fixed zone rules.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
+     * @pbrbm offset  the offset this fixed zone rules is bbsed on, not null
      * @return the zone rules, not null
      * @see #isFixedOffset()
      */
-    private ZoneRules(ZoneOffset offset) {
-        this.standardOffsets = new ZoneOffset[1];
-        this.standardOffsets[0] = offset;
-        this.standardTransitions = EMPTY_LONG_ARRAY;
-        this.savingsInstantTransitions = EMPTY_LONG_ARRAY;
-        this.savingsLocalTransitions = EMPTY_LDT_ARRAY;
-        this.wallOffsets = standardOffsets;
-        this.lastRules = EMPTY_LASTRULES;
+    privbte ZoneRules(ZoneOffset offset) {
+        this.stbndbrdOffsets = new ZoneOffset[1];
+        this.stbndbrdOffsets[0] = offset;
+        this.stbndbrdTrbnsitions = EMPTY_LONG_ARRAY;
+        this.sbvingsInstbntTrbnsitions = EMPTY_LONG_ARRAY;
+        this.sbvingsLocblTrbnsitions = EMPTY_LDT_ARRAY;
+        this.wbllOffsets = stbndbrdOffsets;
+        this.lbstRules = EMPTY_LASTRULES;
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.zone.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre style="font-size:1.0em">{@code
      *
-     *   out.writeByte(1);  // identifies a ZoneRules
-     *   out.writeInt(standardTransitions.length);
-     *   for (long trans : standardTransitions) {
-     *       Ser.writeEpochSec(trans, out);
+     *   out.writeByte(1);  // identifies b ZoneRules
+     *   out.writeInt(stbndbrdTrbnsitions.length);
+     *   for (long trbns : stbndbrdTrbnsitions) {
+     *       Ser.writeEpochSec(trbns, out);
      *   }
-     *   for (ZoneOffset offset : standardOffsets) {
+     *   for (ZoneOffset offset : stbndbrdOffsets) {
      *       Ser.writeOffset(offset, out);
      *   }
-     *   out.writeInt(savingsInstantTransitions.length);
-     *   for (long trans : savingsInstantTransitions) {
-     *       Ser.writeEpochSec(trans, out);
+     *   out.writeInt(sbvingsInstbntTrbnsitions.length);
+     *   for (long trbns : sbvingsInstbntTrbnsitions) {
+     *       Ser.writeEpochSec(trbns, out);
      *   }
-     *   for (ZoneOffset offset : wallOffsets) {
+     *   for (ZoneOffset offset : wbllOffsets) {
      *       Ser.writeOffset(offset, out);
      *   }
-     *   out.writeByte(lastRules.length);
-     *   for (ZoneOffsetTransitionRule rule : lastRules) {
-     *       rule.writeExternal(out);
+     *   out.writeByte(lbstRules.length);
+     *   for (ZoneOffsetTrbnsitionRule rule : lbstRules) {
+     *       rule.writeExternbl(out);
      *   }
      * }
      * </pre>
      * <p>
-     * Epoch second values used for offsets are encoded in a variable
-     * length form to make the common cases put fewer bytes in the stream.
+     * Epoch second vblues used for offsets bre encoded in b vbribble
+     * length form to mbke the common cbses put fewer bytes in the strebm.
      * <pre style="font-size:1.0em">{@code
      *
-     *  static void writeEpochSec(long epochSec, DataOutput out) throws IOException {
-     *     if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // quarter hours between 1825 and 2300
+     *  stbtic void writeEpochSec(long epochSec, DbtbOutput out) throws IOException {
+     *     if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // qubrter hours between 1825 bnd 2300
      *         int store = (int) ((epochSec + 4575744000L) / 900);
      *         out.writeByte((store >>> 16) & 255);
      *         out.writeByte((store >>> 8) & 255);
@@ -372,12 +372,12 @@ public final class ZoneRules implements Serializable {
      * }
      * </pre>
      * <p>
-     * ZoneOffset values are encoded in a variable length form so the
-     * common cases put fewer bytes in the stream.
+     * ZoneOffset vblues bre encoded in b vbribble length form so the
+     * common cbses put fewer bytes in the strebm.
      * <pre style="font-size:1.0em">{@code
      *
-     *  static void writeOffset(ZoneOffset offset, DataOutput out) throws IOException {
-     *     final int offsetSecs = offset.getTotalSeconds();
+     *  stbtic void writeOffset(ZoneOffset offset, DbtbOutput out) throws IOException {
+     *     finbl int offsetSecs = offset.getTotblSeconds();
      *     int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
      *     out.writeByte(offsetByte);
      *     if (offsetByte == 127) {
@@ -386,263 +386,263 @@ public final class ZoneRules implements Serializable {
      * }
      *}
      * </pre>
-     * @return the replacing object, not null
+     * @return the replbcing object, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.ZRULES, this);
     }
 
     /**
-     * Writes the state to the stream.
+     * Writes the stbte to the strebm.
      *
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm out  the output strebm, not null
+     * @throws IOException if bn error occurs
      */
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeInt(standardTransitions.length);
-        for (long trans : standardTransitions) {
-            Ser.writeEpochSec(trans, out);
+    void writeExternbl(DbtbOutput out) throws IOException {
+        out.writeInt(stbndbrdTrbnsitions.length);
+        for (long trbns : stbndbrdTrbnsitions) {
+            Ser.writeEpochSec(trbns, out);
         }
-        for (ZoneOffset offset : standardOffsets) {
+        for (ZoneOffset offset : stbndbrdOffsets) {
             Ser.writeOffset(offset, out);
         }
-        out.writeInt(savingsInstantTransitions.length);
-        for (long trans : savingsInstantTransitions) {
-            Ser.writeEpochSec(trans, out);
+        out.writeInt(sbvingsInstbntTrbnsitions.length);
+        for (long trbns : sbvingsInstbntTrbnsitions) {
+            Ser.writeEpochSec(trbns, out);
         }
-        for (ZoneOffset offset : wallOffsets) {
+        for (ZoneOffset offset : wbllOffsets) {
             Ser.writeOffset(offset, out);
         }
-        out.writeByte(lastRules.length);
-        for (ZoneOffsetTransitionRule rule : lastRules) {
-            rule.writeExternal(out);
+        out.writeByte(lbstRules.length);
+        for (ZoneOffsetTrbnsitionRule rule : lbstRules) {
+            rule.writeExternbl(out);
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rebds the stbte from the strebm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  the input strebm, not null
+     * @return the crebted object, not null
+     * @throws IOException if bn error occurs
      */
-    static ZoneRules readExternal(DataInput in) throws IOException, ClassNotFoundException {
-        int stdSize = in.readInt();
-        long[] stdTrans = (stdSize == 0) ? EMPTY_LONG_ARRAY
+    stbtic ZoneRules rebdExternbl(DbtbInput in) throws IOException, ClbssNotFoundException {
+        int stdSize = in.rebdInt();
+        long[] stdTrbns = (stdSize == 0) ? EMPTY_LONG_ARRAY
                                          : new long[stdSize];
         for (int i = 0; i < stdSize; i++) {
-            stdTrans[i] = Ser.readEpochSec(in);
+            stdTrbns[i] = Ser.rebdEpochSec(in);
         }
         ZoneOffset[] stdOffsets = new ZoneOffset[stdSize + 1];
         for (int i = 0; i < stdOffsets.length; i++) {
-            stdOffsets[i] = Ser.readOffset(in);
+            stdOffsets[i] = Ser.rebdOffset(in);
         }
-        int savSize = in.readInt();
-        long[] savTrans = (savSize == 0) ? EMPTY_LONG_ARRAY
-                                         : new long[savSize];
-        for (int i = 0; i < savSize; i++) {
-            savTrans[i] = Ser.readEpochSec(in);
+        int sbvSize = in.rebdInt();
+        long[] sbvTrbns = (sbvSize == 0) ? EMPTY_LONG_ARRAY
+                                         : new long[sbvSize];
+        for (int i = 0; i < sbvSize; i++) {
+            sbvTrbns[i] = Ser.rebdEpochSec(in);
         }
-        ZoneOffset[] savOffsets = new ZoneOffset[savSize + 1];
-        for (int i = 0; i < savOffsets.length; i++) {
-            savOffsets[i] = Ser.readOffset(in);
+        ZoneOffset[] sbvOffsets = new ZoneOffset[sbvSize + 1];
+        for (int i = 0; i < sbvOffsets.length; i++) {
+            sbvOffsets[i] = Ser.rebdOffset(in);
         }
-        int ruleSize = in.readByte();
-        ZoneOffsetTransitionRule[] rules = (ruleSize == 0) ?
-            EMPTY_LASTRULES : new ZoneOffsetTransitionRule[ruleSize];
+        int ruleSize = in.rebdByte();
+        ZoneOffsetTrbnsitionRule[] rules = (ruleSize == 0) ?
+            EMPTY_LASTRULES : new ZoneOffsetTrbnsitionRule[ruleSize];
         for (int i = 0; i < ruleSize; i++) {
-            rules[i] = ZoneOffsetTransitionRule.readExternal(in);
+            rules[i] = ZoneOffsetTrbnsitionRule.rebdExternbl(in);
         }
-        return new ZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules);
+        return new ZoneRules(stdTrbns, stdOffsets, sbvTrbns, sbvOffsets, rules);
     }
 
     /**
-     * Checks of the zone rules are fixed, such that the offset never varies.
+     * Checks of the zone rules bre fixed, such thbt the offset never vbries.
      *
-     * @return true if the time-zone is fixed and the offset never changes
+     * @return true if the time-zone is fixed bnd the offset never chbnges
      */
-    public boolean isFixedOffset() {
-        return savingsInstantTransitions.length == 0;
+    public boolebn isFixedOffset() {
+        return sbvingsInstbntTrbnsitions.length == 0;
     }
 
     /**
-     * Gets the offset applicable at the specified instant in these rules.
+     * Gets the offset bpplicbble bt the specified instbnt in these rules.
      * <p>
-     * The mapping from an instant to an offset is simple, there is only
-     * one valid offset for each instant.
-     * This method returns that offset.
+     * The mbpping from bn instbnt to bn offset is simple, there is only
+     * one vblid offset for ebch instbnt.
+     * This method returns thbt offset.
      *
-     * @param instant  the instant to find the offset for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @pbrbm instbnt  the instbnt to find the offset for, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
      * @return the offset, not null
      */
-    public ZoneOffset getOffset(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    public ZoneOffset getOffset(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
+            return stbndbrdOffsets[0];
         }
-        long epochSec = instant.getEpochSecond();
-        // check if using last rules
-        if (lastRules.length > 0 &&
-                epochSec > savingsInstantTransitions[savingsInstantTransitions.length - 1]) {
-            int year = findYear(epochSec, wallOffsets[wallOffsets.length - 1]);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            ZoneOffsetTransition trans = null;
-            for (int i = 0; i < transArray.length; i++) {
-                trans = transArray[i];
-                if (epochSec < trans.toEpochSecond()) {
-                    return trans.getOffsetBefore();
+        long epochSec = instbnt.getEpochSecond();
+        // check if using lbst rules
+        if (lbstRules.length > 0 &&
+                epochSec > sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.length - 1]) {
+            int yebr = findYebr(epochSec, wbllOffsets[wbllOffsets.length - 1]);
+            ZoneOffsetTrbnsition[] trbnsArrby = findTrbnsitionArrby(yebr);
+            ZoneOffsetTrbnsition trbns = null;
+            for (int i = 0; i < trbnsArrby.length; i++) {
+                trbns = trbnsArrby[i];
+                if (epochSec < trbns.toEpochSecond()) {
+                    return trbns.getOffsetBefore();
                 }
             }
-            return trans.getOffsetAfter();
+            return trbns.getOffsetAfter();
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index  = Arrbys.binbrySebrch(sbvingsInstbntTrbnsitions, epochSec);
         if (index < 0) {
-            // switch negative insert position to start of matched range
+            // switch negbtive insert position to stbrt of mbtched rbnge
             index = -index - 2;
         }
-        return wallOffsets[index + 1];
+        return wbllOffsets[index + 1];
     }
 
     /**
-     * Gets a suitable offset for the specified local date-time in these rules.
+     * Gets b suitbble offset for the specified locbl dbte-time in these rules.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * The mbpping from b locbl dbte-time to bn offset is not strbightforwbrd.
+     * There bre three cbses:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, with one vblid offset. For the vbst mbjority of the yebr, the normbl
+     *  cbse bpplies, where there is b single vblid offset for the locbl dbte-time.</li>
+     * <li>Gbp, with zero vblid offsets. This is when clocks jump forwbrd typicblly
+     *  due to the spring dbylight sbvings chbnge from "winter" to "summer".
+     *  In b gbp there bre locbl dbte-time vblues with no vblid offset.</li>
+     * <li>Overlbp, with two vblid offsets. This is when clocks bre set bbck typicblly
+     *  due to the butumn dbylight sbvings chbnge from "summer" to "winter".
+     *  In bn overlbp there bre locbl dbte-time vblues with two vblid offsets.</li>
      * </ul>
-     * Thus, for any given local date-time there can be zero, one or two valid offsets.
-     * This method returns the single offset in the Normal case, and in the Gap or Overlap
-     * case it returns the offset before the transition.
+     * Thus, for bny given locbl dbte-time there cbn be zero, one or two vblid offsets.
+     * This method returns the single offset in the Normbl cbse, bnd in the Gbp or Overlbp
+     * cbse it returns the offset before the trbnsition.
      * <p>
-     * Since, in the case of Gap and Overlap, the offset returned is a "best" value, rather
-     * than the "correct" value, it should be treated with care. Applications that care
-     * about the correct offset should use a combination of this method,
-     * {@link #getValidOffsets(LocalDateTime)} and {@link #getTransition(LocalDateTime)}.
+     * Since, in the cbse of Gbp bnd Overlbp, the offset returned is b "best" vblue, rbther
+     * thbn the "correct" vblue, it should be trebted with cbre. Applicbtions thbt cbre
+     * bbout the correct offset should use b combinbtion of this method,
+     * {@link #getVblidOffsets(LocblDbteTime)} bnd {@link #getTrbnsition(LocblDbteTime)}.
      *
-     * @param localDateTime  the local date-time to query, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the best available offset for the local date-time, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time to query, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the best bvbilbble offset for the locbl dbte-time, not null
      */
-    public ZoneOffset getOffset(LocalDateTime localDateTime) {
-        Object info = getOffsetInfo(localDateTime);
-        if (info instanceof ZoneOffsetTransition) {
-            return ((ZoneOffsetTransition) info).getOffsetBefore();
+    public ZoneOffset getOffset(LocblDbteTime locblDbteTime) {
+        Object info = getOffsetInfo(locblDbteTime);
+        if (info instbnceof ZoneOffsetTrbnsition) {
+            return ((ZoneOffsetTrbnsition) info).getOffsetBefore();
         }
         return (ZoneOffset) info;
     }
 
     /**
-     * Gets the offset applicable at the specified local date-time in these rules.
+     * Gets the offset bpplicbble bt the specified locbl dbte-time in these rules.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * The mbpping from b locbl dbte-time to bn offset is not strbightforwbrd.
+     * There bre three cbses:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, with one vblid offset. For the vbst mbjority of the yebr, the normbl
+     *  cbse bpplies, where there is b single vblid offset for the locbl dbte-time.</li>
+     * <li>Gbp, with zero vblid offsets. This is when clocks jump forwbrd typicblly
+     *  due to the spring dbylight sbvings chbnge from "winter" to "summer".
+     *  In b gbp there bre locbl dbte-time vblues with no vblid offset.</li>
+     * <li>Overlbp, with two vblid offsets. This is when clocks bre set bbck typicblly
+     *  due to the butumn dbylight sbvings chbnge from "summer" to "winter".
+     *  In bn overlbp there bre locbl dbte-time vblues with two vblid offsets.</li>
      * </ul>
-     * Thus, for any given local date-time there can be zero, one or two valid offsets.
-     * This method returns that list of valid offsets, which is a list of size 0, 1 or 2.
-     * In the case where there are two offsets, the earlier offset is returned at index 0
-     * and the later offset at index 1.
+     * Thus, for bny given locbl dbte-time there cbn be zero, one or two vblid offsets.
+     * This method returns thbt list of vblid offsets, which is b list of size 0, 1 or 2.
+     * In the cbse where there bre two offsets, the ebrlier offset is returned bt index 0
+     * bnd the lbter offset bt index 1.
      * <p>
-     * There are various ways to handle the conversion from a {@code LocalDateTime}.
+     * There bre vbrious wbys to hbndle the conversion from b {@code LocblDbteTime}.
      * One technique, using this method, would be:
      * <pre>
-     *  List&lt;ZoneOffset&gt; validOffsets = rules.getOffset(localDT);
-     *  if (validOffsets.size() == 1) {
-     *    // Normal case: only one valid offset
-     *    zoneOffset = validOffsets.get(0);
+     *  List&lt;ZoneOffset&gt; vblidOffsets = rules.getOffset(locblDT);
+     *  if (vblidOffsets.size() == 1) {
+     *    // Normbl cbse: only one vblid offset
+     *    zoneOffset = vblidOffsets.get(0);
      *  } else {
-     *    // Gap or Overlap: determine what to do from transition (which will be non-null)
-     *    ZoneOffsetTransition trans = rules.getTransition(localDT);
+     *    // Gbp or Overlbp: determine whbt to do from trbnsition (which will be non-null)
+     *    ZoneOffsetTrbnsition trbns = rules.getTrbnsition(locblDT);
      *  }
      * </pre>
      * <p>
-     * In theory, it is possible for there to be more than two valid offsets.
-     * This would happen if clocks to be put back more than once in quick succession.
-     * This has never happened in the history of time-zones and thus has no special handling.
-     * However, if it were to happen, then the list would return more than 2 entries.
+     * In theory, it is possible for there to be more thbn two vblid offsets.
+     * This would hbppen if clocks to be put bbck more thbn once in quick succession.
+     * This hbs never hbppened in the history of time-zones bnd thus hbs no specibl hbndling.
+     * However, if it were to hbppen, then the list would return more thbn 2 entries.
      *
-     * @param localDateTime  the local date-time to query for valid offsets, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the list of valid offsets, may be immutable, not null
+     * @pbrbm locblDbteTime  the locbl dbte-time to query for vblid offsets, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the list of vblid offsets, mby be immutbble, not null
      */
-    public List<ZoneOffset> getValidOffsets(LocalDateTime localDateTime) {
-        // should probably be optimized
-        Object info = getOffsetInfo(localDateTime);
-        if (info instanceof ZoneOffsetTransition) {
-            return ((ZoneOffsetTransition) info).getValidOffsets();
+    public List<ZoneOffset> getVblidOffsets(LocblDbteTime locblDbteTime) {
+        // should probbbly be optimized
+        Object info = getOffsetInfo(locblDbteTime);
+        if (info instbnceof ZoneOffsetTrbnsition) {
+            return ((ZoneOffsetTrbnsition) info).getVblidOffsets();
         }
         return Collections.singletonList((ZoneOffset) info);
     }
 
     /**
-     * Gets the offset transition applicable at the specified local date-time in these rules.
+     * Gets the offset trbnsition bpplicbble bt the specified locbl dbte-time in these rules.
      * <p>
-     * The mapping from a local date-time to an offset is not straightforward.
-     * There are three cases:
+     * The mbpping from b locbl dbte-time to bn offset is not strbightforwbrd.
+     * There bre three cbses:
      * <ul>
-     * <li>Normal, with one valid offset. For the vast majority of the year, the normal
-     *  case applies, where there is a single valid offset for the local date-time.</li>
-     * <li>Gap, with zero valid offsets. This is when clocks jump forward typically
-     *  due to the spring daylight savings change from "winter" to "summer".
-     *  In a gap there are local date-time values with no valid offset.</li>
-     * <li>Overlap, with two valid offsets. This is when clocks are set back typically
-     *  due to the autumn daylight savings change from "summer" to "winter".
-     *  In an overlap there are local date-time values with two valid offsets.</li>
+     * <li>Normbl, with one vblid offset. For the vbst mbjority of the yebr, the normbl
+     *  cbse bpplies, where there is b single vblid offset for the locbl dbte-time.</li>
+     * <li>Gbp, with zero vblid offsets. This is when clocks jump forwbrd typicblly
+     *  due to the spring dbylight sbvings chbnge from "winter" to "summer".
+     *  In b gbp there bre locbl dbte-time vblues with no vblid offset.</li>
+     * <li>Overlbp, with two vblid offsets. This is when clocks bre set bbck typicblly
+     *  due to the butumn dbylight sbvings chbnge from "summer" to "winter".
+     *  In bn overlbp there bre locbl dbte-time vblues with two vblid offsets.</li>
      * </ul>
-     * A transition is used to model the cases of a Gap or Overlap.
-     * The Normal case will return null.
+     * A trbnsition is used to model the cbses of b Gbp or Overlbp.
+     * The Normbl cbse will return null.
      * <p>
-     * There are various ways to handle the conversion from a {@code LocalDateTime}.
+     * There bre vbrious wbys to hbndle the conversion from b {@code LocblDbteTime}.
      * One technique, using this method, would be:
      * <pre>
-     *  ZoneOffsetTransition trans = rules.getTransition(localDT);
-     *  if (trans == null) {
-     *    // Gap or Overlap: determine what to do from transition
+     *  ZoneOffsetTrbnsition trbns = rules.getTrbnsition(locblDT);
+     *  if (trbns == null) {
+     *    // Gbp or Overlbp: determine whbt to do from trbnsition
      *  } else {
-     *    // Normal case: only one valid offset
-     *    zoneOffset = rule.getOffset(localDT);
+     *    // Normbl cbse: only one vblid offset
+     *    zoneOffset = rule.getOffset(locblDT);
      *  }
      * </pre>
      *
-     * @param localDateTime  the local date-time to query for offset transition, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the offset transition, null if the local date-time is not in transition
+     * @pbrbm locblDbteTime  the locbl dbte-time to query for offset trbnsition, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the offset trbnsition, null if the locbl dbte-time is not in trbnsition
      */
-    public ZoneOffsetTransition getTransition(LocalDateTime localDateTime) {
-        Object info = getOffsetInfo(localDateTime);
-        return (info instanceof ZoneOffsetTransition ? (ZoneOffsetTransition) info : null);
+    public ZoneOffsetTrbnsition getTrbnsition(LocblDbteTime locblDbteTime) {
+        Object info = getOffsetInfo(locblDbteTime);
+        return (info instbnceof ZoneOffsetTrbnsition ? (ZoneOffsetTrbnsition) info : null);
     }
 
-    private Object getOffsetInfo(LocalDateTime dt) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    privbte Object getOffsetInfo(LocblDbteTime dt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
+            return stbndbrdOffsets[0];
         }
-        // check if using last rules
-        if (lastRules.length > 0 &&
-                dt.isAfter(savingsLocalTransitions[savingsLocalTransitions.length - 1])) {
-            ZoneOffsetTransition[] transArray = findTransitionArray(dt.getYear());
+        // check if using lbst rules
+        if (lbstRules.length > 0 &&
+                dt.isAfter(sbvingsLocblTrbnsitions[sbvingsLocblTrbnsitions.length - 1])) {
+            ZoneOffsetTrbnsition[] trbnsArrby = findTrbnsitionArrby(dt.getYebr());
             Object info = null;
-            for (ZoneOffsetTransition trans : transArray) {
-                info = findOffsetInfo(dt, trans);
-                if (info instanceof ZoneOffsetTransition || info.equals(trans.getOffsetBefore())) {
+            for (ZoneOffsetTrbnsition trbns : trbnsArrby) {
+                info = findOffsetInfo(dt, trbns);
+                if (info instbnceof ZoneOffsetTrbnsition || info.equbls(trbns.getOffsetBefore())) {
                     return info;
                 }
             }
@@ -650,379 +650,379 @@ public final class ZoneRules implements Serializable {
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsLocalTransitions, dt);
+        int index  = Arrbys.binbrySebrch(sbvingsLocblTrbnsitions, dt);
         if (index == -1) {
-            // before first transition
-            return wallOffsets[0];
+            // before first trbnsition
+            return wbllOffsets[0];
         }
         if (index < 0) {
-            // switch negative insert position to start of matched range
+            // switch negbtive insert position to stbrt of mbtched rbnge
             index = -index - 2;
-        } else if (index < savingsLocalTransitions.length - 1 &&
-                savingsLocalTransitions[index].equals(savingsLocalTransitions[index + 1])) {
-            // handle overlap immediately following gap
+        } else if (index < sbvingsLocblTrbnsitions.length - 1 &&
+                sbvingsLocblTrbnsitions[index].equbls(sbvingsLocblTrbnsitions[index + 1])) {
+            // hbndle overlbp immedibtely following gbp
             index++;
         }
         if ((index & 1) == 0) {
-            // gap or overlap
-            LocalDateTime dtBefore = savingsLocalTransitions[index];
-            LocalDateTime dtAfter = savingsLocalTransitions[index + 1];
-            ZoneOffset offsetBefore = wallOffsets[index / 2];
-            ZoneOffset offsetAfter = wallOffsets[index / 2 + 1];
-            if (offsetAfter.getTotalSeconds() > offsetBefore.getTotalSeconds()) {
-                // gap
-                return new ZoneOffsetTransition(dtBefore, offsetBefore, offsetAfter);
+            // gbp or overlbp
+            LocblDbteTime dtBefore = sbvingsLocblTrbnsitions[index];
+            LocblDbteTime dtAfter = sbvingsLocblTrbnsitions[index + 1];
+            ZoneOffset offsetBefore = wbllOffsets[index / 2];
+            ZoneOffset offsetAfter = wbllOffsets[index / 2 + 1];
+            if (offsetAfter.getTotblSeconds() > offsetBefore.getTotblSeconds()) {
+                // gbp
+                return new ZoneOffsetTrbnsition(dtBefore, offsetBefore, offsetAfter);
             } else {
-                // overlap
-                return new ZoneOffsetTransition(dtAfter, offsetBefore, offsetAfter);
+                // overlbp
+                return new ZoneOffsetTrbnsition(dtAfter, offsetBefore, offsetAfter);
             }
         } else {
-            // normal (neither gap or overlap)
-            return wallOffsets[index / 2 + 1];
+            // normbl (neither gbp or overlbp)
+            return wbllOffsets[index / 2 + 1];
         }
     }
 
     /**
-     * Finds the offset info for a local date-time and transition.
+     * Finds the offset info for b locbl dbte-time bnd trbnsition.
      *
-     * @param dt  the date-time, not null
-     * @param trans  the transition, not null
+     * @pbrbm dt  the dbte-time, not null
+     * @pbrbm trbns  the trbnsition, not null
      * @return the offset info, not null
      */
-    private Object findOffsetInfo(LocalDateTime dt, ZoneOffsetTransition trans) {
-        LocalDateTime localTransition = trans.getDateTimeBefore();
-        if (trans.isGap()) {
-            if (dt.isBefore(localTransition)) {
-                return trans.getOffsetBefore();
+    privbte Object findOffsetInfo(LocblDbteTime dt, ZoneOffsetTrbnsition trbns) {
+        LocblDbteTime locblTrbnsition = trbns.getDbteTimeBefore();
+        if (trbns.isGbp()) {
+            if (dt.isBefore(locblTrbnsition)) {
+                return trbns.getOffsetBefore();
             }
-            if (dt.isBefore(trans.getDateTimeAfter())) {
-                return trans;
+            if (dt.isBefore(trbns.getDbteTimeAfter())) {
+                return trbns;
             } else {
-                return trans.getOffsetAfter();
+                return trbns.getOffsetAfter();
             }
         } else {
-            if (dt.isBefore(localTransition) == false) {
-                return trans.getOffsetAfter();
+            if (dt.isBefore(locblTrbnsition) == fblse) {
+                return trbns.getOffsetAfter();
             }
-            if (dt.isBefore(trans.getDateTimeAfter())) {
-                return trans.getOffsetBefore();
+            if (dt.isBefore(trbns.getDbteTimeAfter())) {
+                return trbns.getOffsetBefore();
             } else {
-                return trans;
+                return trbns;
             }
         }
     }
 
     /**
-     * Finds the appropriate transition array for the given year.
+     * Finds the bppropribte trbnsition brrby for the given yebr.
      *
-     * @param year  the year, not null
-     * @return the transition array, not null
+     * @pbrbm yebr  the yebr, not null
+     * @return the trbnsition brrby, not null
      */
-    private ZoneOffsetTransition[] findTransitionArray(int year) {
-        Integer yearObj = year;  // should use Year class, but this saves a class load
-        ZoneOffsetTransition[] transArray = lastRulesCache.get(yearObj);
-        if (transArray != null) {
-            return transArray;
+    privbte ZoneOffsetTrbnsition[] findTrbnsitionArrby(int yebr) {
+        Integer yebrObj = yebr;  // should use Yebr clbss, but this sbves b clbss lobd
+        ZoneOffsetTrbnsition[] trbnsArrby = lbstRulesCbche.get(yebrObj);
+        if (trbnsArrby != null) {
+            return trbnsArrby;
         }
-        ZoneOffsetTransitionRule[] ruleArray = lastRules;
-        transArray  = new ZoneOffsetTransition[ruleArray.length];
-        for (int i = 0; i < ruleArray.length; i++) {
-            transArray[i] = ruleArray[i].createTransition(year);
+        ZoneOffsetTrbnsitionRule[] ruleArrby = lbstRules;
+        trbnsArrby  = new ZoneOffsetTrbnsition[ruleArrby.length];
+        for (int i = 0; i < ruleArrby.length; i++) {
+            trbnsArrby[i] = ruleArrby[i].crebteTrbnsition(yebr);
         }
-        if (year < LAST_CACHED_YEAR) {
-            lastRulesCache.putIfAbsent(yearObj, transArray);
+        if (yebr < LAST_CACHED_YEAR) {
+            lbstRulesCbche.putIfAbsent(yebrObj, trbnsArrby);
         }
-        return transArray;
+        return trbnsArrby;
     }
 
     /**
-     * Gets the standard offset for the specified instant in this zone.
+     * Gets the stbndbrd offset for the specified instbnt in this zone.
      * <p>
-     * This provides access to historic information on how the standard offset
-     * has changed over time.
-     * The standard offset is the offset before any daylight saving time is applied.
-     * This is typically the offset applicable during winter.
+     * This provides bccess to historic informbtion on how the stbndbrd offset
+     * hbs chbnged over time.
+     * The stbndbrd offset is the offset before bny dbylight sbving time is bpplied.
+     * This is typicblly the offset bpplicbble during winter.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the standard offset, not null
+     * @pbrbm instbnt  the instbnt to find the offset informbtion for, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the stbndbrd offset, not null
      */
-    public ZoneOffset getStandardOffset(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return standardOffsets[0];
+    public ZoneOffset getStbndbrdOffset(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
+            return stbndbrdOffsets[0];
         }
-        long epochSec = instant.getEpochSecond();
-        int index  = Arrays.binarySearch(standardTransitions, epochSec);
+        long epochSec = instbnt.getEpochSecond();
+        int index  = Arrbys.binbrySebrch(stbndbrdTrbnsitions, epochSec);
         if (index < 0) {
-            // switch negative insert position to start of matched range
+            // switch negbtive insert position to stbrt of mbtched rbnge
             index = -index - 2;
         }
-        return standardOffsets[index + 1];
+        return stbndbrdOffsets[index + 1];
     }
 
     /**
-     * Gets the amount of daylight savings in use for the specified instant in this zone.
+     * Gets the bmount of dbylight sbvings in use for the specified instbnt in this zone.
      * <p>
-     * This provides access to historic information on how the amount of daylight
-     * savings has changed over time.
-     * This is the difference between the standard offset and the actual offset.
-     * Typically the amount is zero during winter and one hour during summer.
-     * Time-zones are second-based, so the nanosecond part of the duration will be zero.
+     * This provides bccess to historic informbtion on how the bmount of dbylight
+     * sbvings hbs chbnged over time.
+     * This is the difference between the stbndbrd offset bnd the bctubl offset.
+     * Typicblly the bmount is zero during winter bnd one hour during summer.
+     * Time-zones bre second-bbsed, so the nbnosecond pbrt of the durbtion will be zero.
      * <p>
-     * This default implementation calculates the duration from the
-     * {@link #getOffset(java.time.Instant) actual} and
-     * {@link #getStandardOffset(java.time.Instant) standard} offsets.
+     * This defbult implementbtion cblculbtes the durbtion from the
+     * {@link #getOffset(jbvb.time.Instbnt) bctubl} bnd
+     * {@link #getStbndbrdOffset(jbvb.time.Instbnt) stbndbrd} offsets.
      *
-     * @param instant  the instant to find the daylight savings for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the difference between the standard and actual offset, not null
+     * @pbrbm instbnt  the instbnt to find the dbylight sbvings for, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the difference between the stbndbrd bnd bctubl offset, not null
      */
-    public Duration getDaylightSavings(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
-            return Duration.ZERO;
+    public Durbtion getDbylightSbvings(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
+            return Durbtion.ZERO;
         }
-        ZoneOffset standardOffset = getStandardOffset(instant);
-        ZoneOffset actualOffset = getOffset(instant);
-        return Duration.ofSeconds(actualOffset.getTotalSeconds() - standardOffset.getTotalSeconds());
+        ZoneOffset stbndbrdOffset = getStbndbrdOffset(instbnt);
+        ZoneOffset bctublOffset = getOffset(instbnt);
+        return Durbtion.ofSeconds(bctublOffset.getTotblSeconds() - stbndbrdOffset.getTotblSeconds());
     }
 
     /**
-     * Checks if the specified instant is in daylight savings.
+     * Checks if the specified instbnt is in dbylight sbvings.
      * <p>
-     * This checks if the standard offset and the actual offset are the same
-     * for the specified instant.
-     * If they are not, it is assumed that daylight savings is in operation.
+     * This checks if the stbndbrd offset bnd the bctubl offset bre the sbme
+     * for the specified instbnt.
+     * If they bre not, it is bssumed thbt dbylight sbvings is in operbtion.
      * <p>
-     * This default implementation compares the {@link #getOffset(java.time.Instant) actual}
-     * and {@link #getStandardOffset(java.time.Instant) standard} offsets.
+     * This defbult implementbtion compbres the {@link #getOffset(jbvb.time.Instbnt) bctubl}
+     * bnd {@link #getStbndbrdOffset(jbvb.time.Instbnt) stbndbrd} offsets.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the standard offset, not null
+     * @pbrbm instbnt  the instbnt to find the offset informbtion for, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the stbndbrd offset, not null
      */
-    public boolean isDaylightSavings(Instant instant) {
-        return (getStandardOffset(instant).equals(getOffset(instant)) == false);
+    public boolebn isDbylightSbvings(Instbnt instbnt) {
+        return (getStbndbrdOffset(instbnt).equbls(getOffset(instbnt)) == fblse);
     }
 
     /**
-     * Checks if the offset date-time is valid for these rules.
+     * Checks if the offset dbte-time is vblid for these rules.
      * <p>
-     * To be valid, the local date-time must not be in a gap and the offset
-     * must match one of the valid offsets.
+     * To be vblid, the locbl dbte-time must not be in b gbp bnd the offset
+     * must mbtch one of the vblid offsets.
      * <p>
-     * This default implementation checks if {@link #getValidOffsets(java.time.LocalDateTime)}
-     * contains the specified offset.
+     * This defbult implementbtion checks if {@link #getVblidOffsets(jbvb.time.LocblDbteTime)}
+     * contbins the specified offset.
      *
-     * @param localDateTime  the date-time to check, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @param offset  the offset to check, null returns false
-     * @return true if the offset date-time is valid for these rules
+     * @pbrbm locblDbteTime  the dbte-time to check, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @pbrbm offset  the offset to check, null returns fblse
+     * @return true if the offset dbte-time is vblid for these rules
      */
-    public boolean isValidOffset(LocalDateTime localDateTime, ZoneOffset offset) {
-        return getValidOffsets(localDateTime).contains(offset);
+    public boolebn isVblidOffset(LocblDbteTime locblDbteTime, ZoneOffset offset) {
+        return getVblidOffsets(locblDbteTime).contbins(offset);
     }
 
     /**
-     * Gets the next transition after the specified instant.
+     * Gets the next trbnsition bfter the specified instbnt.
      * <p>
-     * This returns details of the next transition after the specified instant.
-     * For example, if the instant represents a point where "Summer" daylight savings time
-     * applies, then the method will return the transition to the next "Winter" time.
+     * This returns detbils of the next trbnsition bfter the specified instbnt.
+     * For exbmple, if the instbnt represents b point where "Summer" dbylight sbvings time
+     * bpplies, then the method will return the trbnsition to the next "Winter" time.
      *
-     * @param instant  the instant to get the next transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the next transition after the specified instant, null if this is after the last transition
+     * @pbrbm instbnt  the instbnt to get the next trbnsition bfter, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the next trbnsition bfter the specified instbnt, null if this is bfter the lbst trbnsition
      */
-    public ZoneOffsetTransition nextTransition(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
+    public ZoneOffsetTrbnsition nextTrbnsition(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
             return null;
         }
-        long epochSec = instant.getEpochSecond();
-        // check if using last rules
-        if (epochSec >= savingsInstantTransitions[savingsInstantTransitions.length - 1]) {
-            if (lastRules.length == 0) {
+        long epochSec = instbnt.getEpochSecond();
+        // check if using lbst rules
+        if (epochSec >= sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.length - 1]) {
+            if (lbstRules.length == 0) {
                 return null;
             }
-            // search year the instant is in
-            int year = findYear(epochSec, wallOffsets[wallOffsets.length - 1]);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            for (ZoneOffsetTransition trans : transArray) {
-                if (epochSec < trans.toEpochSecond()) {
-                    return trans;
+            // sebrch yebr the instbnt is in
+            int yebr = findYebr(epochSec, wbllOffsets[wbllOffsets.length - 1]);
+            ZoneOffsetTrbnsition[] trbnsArrby = findTrbnsitionArrby(yebr);
+            for (ZoneOffsetTrbnsition trbns : trbnsArrby) {
+                if (epochSec < trbns.toEpochSecond()) {
+                    return trbns;
                 }
             }
-            // use first from following year
-            if (year < Year.MAX_VALUE) {
-                transArray = findTransitionArray(year + 1);
-                return transArray[0];
+            // use first from following yebr
+            if (yebr < Yebr.MAX_VALUE) {
+                trbnsArrby = findTrbnsitionArrby(yebr + 1);
+                return trbnsArrby[0];
             }
             return null;
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index  = Arrbys.binbrySebrch(sbvingsInstbntTrbnsitions, epochSec);
         if (index < 0) {
-            index = -index - 1;  // switched value is the next transition
+            index = -index - 1;  // switched vblue is the next trbnsition
         } else {
-            index += 1;  // exact match, so need to add one to get the next
+            index += 1;  // exbct mbtch, so need to bdd one to get the next
         }
-        return new ZoneOffsetTransition(savingsInstantTransitions[index], wallOffsets[index], wallOffsets[index + 1]);
+        return new ZoneOffsetTrbnsition(sbvingsInstbntTrbnsitions[index], wbllOffsets[index], wbllOffsets[index + 1]);
     }
 
     /**
-     * Gets the previous transition before the specified instant.
+     * Gets the previous trbnsition before the specified instbnt.
      * <p>
-     * This returns details of the previous transition after the specified instant.
-     * For example, if the instant represents a point where "summer" daylight saving time
-     * applies, then the method will return the transition from the previous "winter" time.
+     * This returns detbils of the previous trbnsition bfter the specified instbnt.
+     * For exbmple, if the instbnt represents b point where "summer" dbylight sbving time
+     * bpplies, then the method will return the trbnsition from the previous "winter" time.
      *
-     * @param instant  the instant to get the previous transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @return the previous transition after the specified instant, null if this is before the first transition
+     * @pbrbm instbnt  the instbnt to get the previous trbnsition bfter, not null, but null
+     *  mby be ignored if the rules hbve b single offset for bll instbnts
+     * @return the previous trbnsition bfter the specified instbnt, null if this is before the first trbnsition
      */
-    public ZoneOffsetTransition previousTransition(Instant instant) {
-        if (savingsInstantTransitions.length == 0) {
+    public ZoneOffsetTrbnsition previousTrbnsition(Instbnt instbnt) {
+        if (sbvingsInstbntTrbnsitions.length == 0) {
             return null;
         }
-        long epochSec = instant.getEpochSecond();
-        if (instant.getNano() > 0 && epochSec < Long.MAX_VALUE) {
-            epochSec += 1;  // allow rest of method to only use seconds
+        long epochSec = instbnt.getEpochSecond();
+        if (instbnt.getNbno() > 0 && epochSec < Long.MAX_VALUE) {
+            epochSec += 1;  // bllow rest of method to only use seconds
         }
 
-        // check if using last rules
-        long lastHistoric = savingsInstantTransitions[savingsInstantTransitions.length - 1];
-        if (lastRules.length > 0 && epochSec > lastHistoric) {
-            // search year the instant is in
-            ZoneOffset lastHistoricOffset = wallOffsets[wallOffsets.length - 1];
-            int year = findYear(epochSec, lastHistoricOffset);
-            ZoneOffsetTransition[] transArray = findTransitionArray(year);
-            for (int i = transArray.length - 1; i >= 0; i--) {
-                if (epochSec > transArray[i].toEpochSecond()) {
-                    return transArray[i];
+        // check if using lbst rules
+        long lbstHistoric = sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.length - 1];
+        if (lbstRules.length > 0 && epochSec > lbstHistoric) {
+            // sebrch yebr the instbnt is in
+            ZoneOffset lbstHistoricOffset = wbllOffsets[wbllOffsets.length - 1];
+            int yebr = findYebr(epochSec, lbstHistoricOffset);
+            ZoneOffsetTrbnsition[] trbnsArrby = findTrbnsitionArrby(yebr);
+            for (int i = trbnsArrby.length - 1; i >= 0; i--) {
+                if (epochSec > trbnsArrby[i].toEpochSecond()) {
+                    return trbnsArrby[i];
                 }
             }
-            // use last from preceding year
-            int lastHistoricYear = findYear(lastHistoric, lastHistoricOffset);
-            if (--year > lastHistoricYear) {
-                transArray = findTransitionArray(year);
-                return transArray[transArray.length - 1];
+            // use lbst from preceding yebr
+            int lbstHistoricYebr = findYebr(lbstHistoric, lbstHistoricOffset);
+            if (--yebr > lbstHistoricYebr) {
+                trbnsArrby = findTrbnsitionArrby(yebr);
+                return trbnsArrby[trbnsArrby.length - 1];
             }
             // drop through
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index  = Arrbys.binbrySebrch(sbvingsInstbntTrbnsitions, epochSec);
         if (index < 0) {
             index = -index - 1;
         }
         if (index <= 0) {
             return null;
         }
-        return new ZoneOffsetTransition(savingsInstantTransitions[index - 1], wallOffsets[index - 1], wallOffsets[index]);
+        return new ZoneOffsetTrbnsition(sbvingsInstbntTrbnsitions[index - 1], wbllOffsets[index - 1], wbllOffsets[index]);
     }
 
-    private int findYear(long epochSecond, ZoneOffset offset) {
-        // inline for performance
-        long localSecond = epochSecond + offset.getTotalSeconds();
-        long localEpochDay = Math.floorDiv(localSecond, 86400);
-        return LocalDate.ofEpochDay(localEpochDay).getYear();
+    privbte int findYebr(long epochSecond, ZoneOffset offset) {
+        // inline for performbnce
+        long locblSecond = epochSecond + offset.getTotblSeconds();
+        long locblEpochDby = Mbth.floorDiv(locblSecond, 86400);
+        return LocblDbte.ofEpochDby(locblEpochDby).getYebr();
     }
 
     /**
-     * Gets the complete list of fully defined transitions.
+     * Gets the complete list of fully defined trbnsitions.
      * <p>
-     * The complete set of transitions for this rules instance is defined by this method
-     * and {@link #getTransitionRules()}. This method returns those transitions that have
-     * been fully defined. These are typically historical, but may be in the future.
+     * The complete set of trbnsitions for this rules instbnce is defined by this method
+     * bnd {@link #getTrbnsitionRules()}. This method returns those trbnsitions thbt hbve
+     * been fully defined. These bre typicblly historicbl, but mby be in the future.
      * <p>
-     * The list will be empty for fixed offset rules and for any time-zone where there has
-     * only ever been a single offset. The list will also be empty if the transition rules are unknown.
+     * The list will be empty for fixed offset rules bnd for bny time-zone where there hbs
+     * only ever been b single offset. The list will blso be empty if the trbnsition rules bre unknown.
      *
-     * @return an immutable list of fully defined transitions, not null
+     * @return bn immutbble list of fully defined trbnsitions, not null
      */
-    public List<ZoneOffsetTransition> getTransitions() {
-        List<ZoneOffsetTransition> list = new ArrayList<>();
-        for (int i = 0; i < savingsInstantTransitions.length; i++) {
-            list.add(new ZoneOffsetTransition(savingsInstantTransitions[i], wallOffsets[i], wallOffsets[i + 1]));
+    public List<ZoneOffsetTrbnsition> getTrbnsitions() {
+        List<ZoneOffsetTrbnsition> list = new ArrbyList<>();
+        for (int i = 0; i < sbvingsInstbntTrbnsitions.length; i++) {
+            list.bdd(new ZoneOffsetTrbnsition(sbvingsInstbntTrbnsitions[i], wbllOffsets[i], wbllOffsets[i + 1]));
         }
-        return Collections.unmodifiableList(list);
+        return Collections.unmodifibbleList(list);
     }
 
     /**
-     * Gets the list of transition rules for years beyond those defined in the transition list.
+     * Gets the list of trbnsition rules for yebrs beyond those defined in the trbnsition list.
      * <p>
-     * The complete set of transitions for this rules instance is defined by this method
-     * and {@link #getTransitions()}. This method returns instances of {@link ZoneOffsetTransitionRule}
-     * that define an algorithm for when transitions will occur.
+     * The complete set of trbnsitions for this rules instbnce is defined by this method
+     * bnd {@link #getTrbnsitions()}. This method returns instbnces of {@link ZoneOffsetTrbnsitionRule}
+     * thbt define bn blgorithm for when trbnsitions will occur.
      * <p>
-     * For any given {@code ZoneRules}, this list contains the transition rules for years
-     * beyond those years that have been fully defined. These rules typically refer to future
-     * daylight saving time rule changes.
+     * For bny given {@code ZoneRules}, this list contbins the trbnsition rules for yebrs
+     * beyond those yebrs thbt hbve been fully defined. These rules typicblly refer to future
+     * dbylight sbving time rule chbnges.
      * <p>
-     * If the zone defines daylight savings into the future, then the list will normally
-     * be of size two and hold information about entering and exiting daylight savings.
-     * If the zone does not have daylight savings, or information about future changes
-     * is uncertain, then the list will be empty.
+     * If the zone defines dbylight sbvings into the future, then the list will normblly
+     * be of size two bnd hold informbtion bbout entering bnd exiting dbylight sbvings.
+     * If the zone does not hbve dbylight sbvings, or informbtion bbout future chbnges
+     * is uncertbin, then the list will be empty.
      * <p>
-     * The list will be empty for fixed offset rules and for any time-zone where there is no
-     * daylight saving time. The list will also be empty if the transition rules are unknown.
+     * The list will be empty for fixed offset rules bnd for bny time-zone where there is no
+     * dbylight sbving time. The list will blso be empty if the trbnsition rules bre unknown.
      *
-     * @return an immutable list of transition rules, not null
+     * @return bn immutbble list of trbnsition rules, not null
      */
-    public List<ZoneOffsetTransitionRule> getTransitionRules() {
-        return Collections.unmodifiableList(Arrays.asList(lastRules));
+    public List<ZoneOffsetTrbnsitionRule> getTrbnsitionRules() {
+        return Collections.unmodifibbleList(Arrbys.bsList(lbstRules));
     }
 
     /**
-     * Checks if this set of rules equals another.
+     * Checks if this set of rules equbls bnother.
      * <p>
-     * Two rule sets are equal if they will always result in the same output
-     * for any given input instant or local date-time.
-     * Rules from two different groups may return false even if they are in fact the same.
+     * Two rule sets bre equbl if they will blwbys result in the sbme output
+     * for bny given input instbnt or locbl dbte-time.
+     * Rules from two different groups mby return fblse even if they bre in fbct the sbme.
      * <p>
-     * This definition should result in implementations comparing their entire state.
+     * This definition should result in implementbtions compbring their entire stbte.
      *
-     * @param otherRules  the other rules, null returns false
-     * @return true if this rules is the same as that specified
+     * @pbrbm otherRules  the other rules, null returns fblse
+     * @return true if this rules is the sbme bs thbt specified
      */
     @Override
-    public boolean equals(Object otherRules) {
+    public boolebn equbls(Object otherRules) {
         if (this == otherRules) {
            return true;
         }
-        if (otherRules instanceof ZoneRules) {
+        if (otherRules instbnceof ZoneRules) {
             ZoneRules other = (ZoneRules) otherRules;
-            return Arrays.equals(standardTransitions, other.standardTransitions) &&
-                    Arrays.equals(standardOffsets, other.standardOffsets) &&
-                    Arrays.equals(savingsInstantTransitions, other.savingsInstantTransitions) &&
-                    Arrays.equals(wallOffsets, other.wallOffsets) &&
-                    Arrays.equals(lastRules, other.lastRules);
+            return Arrbys.equbls(stbndbrdTrbnsitions, other.stbndbrdTrbnsitions) &&
+                    Arrbys.equbls(stbndbrdOffsets, other.stbndbrdOffsets) &&
+                    Arrbys.equbls(sbvingsInstbntTrbnsitions, other.sbvingsInstbntTrbnsitions) &&
+                    Arrbys.equbls(wbllOffsets, other.wbllOffsets) &&
+                    Arrbys.equbls(lbstRules, other.lbstRules);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a suitable hash code given the definition of {@code #equals}.
+     * Returns b suitbble hbsh code given the definition of {@code #equbls}.
      *
-     * @return the hash code
+     * @return the hbsh code
      */
     @Override
-    public int hashCode() {
-        return Arrays.hashCode(standardTransitions) ^
-                Arrays.hashCode(standardOffsets) ^
-                Arrays.hashCode(savingsInstantTransitions) ^
-                Arrays.hashCode(wallOffsets) ^
-                Arrays.hashCode(lastRules);
+    public int hbshCode() {
+        return Arrbys.hbshCode(stbndbrdTrbnsitions) ^
+                Arrbys.hbshCode(stbndbrdOffsets) ^
+                Arrbys.hbshCode(sbvingsInstbntTrbnsitions) ^
+                Arrbys.hbshCode(wbllOffsets) ^
+                Arrbys.hbshCode(lbstRules);
     }
 
     /**
-     * Returns a string describing this object.
+     * Returns b string describing this object.
      *
-     * @return a string for debugging, not null
+     * @return b string for debugging, not null
      */
     @Override
     public String toString() {
-        return "ZoneRules[currentStandardOffset=" + standardOffsets[standardOffsets.length - 1] + "]";
+        return "ZoneRules[currentStbndbrdOffset=" + stbndbrdOffsets[stbndbrdOffsets.length - 1] + "]";
     }
 
 }

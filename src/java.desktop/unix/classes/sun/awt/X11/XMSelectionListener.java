@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
  /*
-   * This code is ported to XAWT from MAWT based on awt_mgrsel.c
-   * and XSettings.java code written originally by Valeriy Ushakov
+   * This code is ported to XAWT from MAWT bbsed on bwt_mgrsel.c
+   * bnd XSettings.jbvb code written originblly by Vbleriy Ushbkov
    * Author : Bino George
    */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-public interface  XMSelectionListener {
+public interfbce  XMSelectionListener {
 
    /*
-    * This method is called when the owner changes
+    * This method is cblled when the owner chbnges
     */
-   public void ownerChanged(int screen, XMSelection sel, long newOwner, long data, long timestamp);
+   public void ownerChbnged(int screen, XMSelection sel, long newOwner, long dbtb, long timestbmp);
 
    /*
-    * This method is called when the owner dies
+    * This method is cblled when the owner dies
     */
-   public void ownerDeath(int screen, XMSelection sel, long deadOwner);
+   public void ownerDebth(int screen, XMSelection sel, long debdOwner);
 
    /*
-    * This method is for selection change notification
+    * This method is for selection chbnge notificbtion
     *
-    * This method will only get called if you use the default constructor
-    * or expilicitly specify PropertyChangeMask.
+    * This method will only get cblled if you use the defbult constructor
+    * or expilicitly specify PropertyChbngeMbsk.
     */
 
-   public void selectionChanged(int screen, XMSelection sel, long owner, XPropertyEvent event);
+   public void selectionChbnged(int screen, XMSelection sel, long owner, XPropertyEvent event);
 
 }

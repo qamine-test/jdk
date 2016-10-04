@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.peer.*;
 
-import java.beans.*;
+import jbvb.bebns.*;
 
-import java.util.*;
-import java.util.List;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import jbvb.util.List;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-import sun.java2d.pipe.Region;
+import sun.jbvb2d.pipe.Region;
 
-public class WWindowPeer extends WPanelPeer implements WindowPeer,
-       DisplayChangedListener
+public clbss WWindowPeer extends WPbnelPeer implements WindowPeer,
+       DisplbyChbngedListener
 {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WWindowPeer");
-    private static final PlatformLogger screenLog = PlatformLogger.getLogger("sun.awt.windows.screen.WWindowPeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.windows.WWindowPeer");
+    privbte stbtic finbl PlbtformLogger screenLog = PlbtformLogger.getLogger("sun.bwt.windows.screen.WWindowPeer");
 
-    // we can't use WDialogPeer as blocker may be an instance of WPrintDialogPeer that
-    // extends WWindowPeer, not WDialogPeer
-    private WWindowPeer modalBlocker = null;
+    // we cbn't use WDiblogPeer bs blocker mby be bn instbnce of WPrintDiblogPeer thbt
+    // extends WWindowPeer, not WDiblogPeer
+    privbte WWindowPeer modblBlocker = null;
 
-    private boolean isOpaque;
+    privbte boolebn isOpbque;
 
-    private TranslucentWindowPainter painter;
-
-    /*
-     * A key used for storing a list of active windows in AppContext. The value
-     * is a list of windows, sorted by the time of activation: later a window is
-     * activated, greater its index is in the list.
-     */
-    private final static StringBuffer ACTIVE_WINDOWS_KEY =
-        new StringBuffer("active_windows_list");
+    privbte TrbnslucentWindowPbinter pbinter;
 
     /*
-     * Listener for 'activeWindow' KFM property changes. It is added to each
-     * AppContext KFM. See ActiveWindowListener inner class below.
+     * A key used for storing b list of bctive windows in AppContext. The vblue
+     * is b list of windows, sorted by the time of bctivbtion: lbter b window is
+     * bctivbted, grebter its index is in the list.
      */
-    private static PropertyChangeListener activeWindowListener =
+    privbte finbl stbtic StringBuffer ACTIVE_WINDOWS_KEY =
+        new StringBuffer("bctive_windows_list");
+
+    /*
+     * Listener for 'bctiveWindow' KFM property chbnges. It is bdded to ebch
+     * AppContext KFM. See ActiveWindowListener inner clbss below.
+     */
+    privbte stbtic PropertyChbngeListener bctiveWindowListener =
         new ActiveWindowListener();
 
     /*
-     * The object is a listener for the AppContext.GUI_DISPOSED property.
+     * The object is b listener for the AppContext.GUI_DISPOSED property.
      */
-    private final static PropertyChangeListener guiDisposedListener =
+    privbte finbl stbtic PropertyChbngeListener guiDisposedListener =
         new GuiDisposedListener();
 
     /*
-     * Called (on the Toolkit thread) before the appropriate
-     * WindowStateEvent is posted to the EventQueue.
+     * Cblled (on the Toolkit threbd) before the bppropribte
+     * WindowStbteEvent is posted to the EventQueue.
      */
-    private WindowListener windowListener;
+    privbte WindowListener windowListener;
 
     /**
-     * Initialize JNI field IDs
+     * Initiblize JNI field IDs
      */
-    private static native void initIDs();
-    static {
+    privbte stbtic nbtive void initIDs();
+    stbtic {
         initIDs();
     }
 
     // WComponentPeer overrides
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     protected void disposeImpl() {
-        AppContext appContext = SunToolkit.targetToAppContext(target);
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+        AppContext bppContext = SunToolkit.tbrgetToAppContext(tbrget);
+        synchronized (bppContext) {
+            List<WWindowPeer> l = (List<WWindowPeer>)bppContext.get(ACTIVE_WINDOWS_KEY);
             if (l != null) {
                 l.remove(this);
             }
         }
 
-        // Remove ourself from the Map of DisplayChangeListeners
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        ((Win32GraphicsDevice)gc.getDevice()).removeDisplayChangedListener(this);
+        // Remove ourself from the Mbp of DisplbyChbngeListeners
+        GrbphicsConfigurbtion gc = getGrbphicsConfigurbtion();
+        ((Win32GrbphicsDevice)gc.getDevice()).removeDisplbyChbngedListener(this);
 
-        synchronized (getStateLock()) {
-            TranslucentWindowPainter currentPainter = painter;
-            if (currentPainter != null) {
-                currentPainter.flush();
-                // don't set the current one to null here; reduces the chances of
+        synchronized (getStbteLock()) {
+            TrbnslucentWindowPbinter currentPbinter = pbinter;
+            if (currentPbinter != null) {
+                currentPbinter.flush();
+                // don't set the current one to null here; reduces the chbnces of
                 // MT issues (like NPEs)
             }
         }
@@ -117,201 +117,201 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
         super.disposeImpl();
     }
 
-    // WindowPeer implementation
+    // WindowPeer implementbtion
 
     @Override
     public void toFront() {
-        updateFocusableWindowState();
+        updbteFocusbbleWindowStbte();
         _toFront();
     }
-    private native void _toFront();
+    privbte nbtive void _toFront();
 
     @Override
-    public native void toBack();
+    public nbtive void toBbck();
 
-    private native void setAlwaysOnTopNative(boolean value);
+    privbte nbtive void setAlwbysOnTopNbtive(boolebn vblue);
 
-    public void setAlwaysOnTop(boolean value) {
-        if ((value && ((Window)target).isVisible()) || !value) {
-            setAlwaysOnTopNative(value);
+    public void setAlwbysOnTop(boolebn vblue) {
+        if ((vblue && ((Window)tbrget).isVisible()) || !vblue) {
+            setAlwbysOnTopNbtive(vblue);
         }
     }
 
     @Override
-    public void updateAlwaysOnTopState() {
-        setAlwaysOnTop(((Window)target).isAlwaysOnTop());
+    public void updbteAlwbysOnTopStbte() {
+        setAlwbysOnTop(((Window)tbrget).isAlwbysOnTop());
     }
 
     @Override
-    public void updateFocusableWindowState() {
-        setFocusableWindow(((Window)target).isFocusableWindow());
+    public void updbteFocusbbleWindowStbte() {
+        setFocusbbleWindow(((Window)tbrget).isFocusbbleWindow());
     }
-    native void setFocusableWindow(boolean value);
+    nbtive void setFocusbbleWindow(boolebn vblue);
 
-    // FramePeer & DialogPeer partial shared implementation
+    // FrbmePeer & DiblogPeer pbrtibl shbred implementbtion
 
     public void setTitle(String title) {
-        // allow a null title to pass as an empty string.
+        // bllow b null title to pbss bs bn empty string.
         if (title == null) {
             title = "";
         }
         _setTitle(title);
     }
-    private native void _setTitle(String title);
+    privbte nbtive void _setTitle(String title);
 
-    public void setResizable(boolean resizable) {
-        _setResizable(resizable);
+    public void setResizbble(boolebn resizbble) {
+        _setResizbble(resizbble);
     }
 
-    private native void _setResizable(boolean resizable);
+    privbte nbtive void _setResizbble(boolebn resizbble);
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WWindowPeer(Window target) {
-        super(target);
+    WWindowPeer(Window tbrget) {
+        super(tbrget);
     }
 
     @Override
-    void initialize() {
-        super.initialize();
+    void initiblize() {
+        super.initiblize();
 
-        updateInsets(insets_);
+        updbteInsets(insets_);
 
-        Font f = ((Window)target).getFont();
+        Font f = ((Window)tbrget).getFont();
         if (f == null) {
-            f = defaultFont;
-            ((Window)target).setFont(f);
+            f = defbultFont;
+            ((Window)tbrget).setFont(f);
             setFont(f);
         }
-        // Express our interest in display changes
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        ((Win32GraphicsDevice)gc.getDevice()).addDisplayChangedListener(this);
+        // Express our interest in displby chbnges
+        GrbphicsConfigurbtion gc = getGrbphicsConfigurbtion();
+        ((Win32GrbphicsDevice)gc.getDevice()).bddDisplbyChbngedListener(this);
 
-        initActiveWindowsTracking((Window)target);
+        initActiveWindowsTrbcking((Window)tbrget);
 
-        updateIconImages();
+        updbteIconImbges();
 
-        Shape shape = ((Window)target).getShape();
-        if (shape != null) {
-            applyShape(Region.getInstance(shape, null));
+        Shbpe shbpe = ((Window)tbrget).getShbpe();
+        if (shbpe != null) {
+            bpplyShbpe(Region.getInstbnce(shbpe, null));
         }
 
-        float opacity = ((Window)target).getOpacity();
-        if (opacity < 1.0f) {
-            setOpacity(opacity);
+        flobt opbcity = ((Window)tbrget).getOpbcity();
+        if (opbcity < 1.0f) {
+            setOpbcity(opbcity);
         }
 
-        synchronized (getStateLock()) {
-            // default value of a boolean field is 'false', so set isOpaque to
+        synchronized (getStbteLock()) {
+            // defbult vblue of b boolebn field is 'fblse', so set isOpbque to
             // true here explicitly
-            this.isOpaque = true;
-            setOpaque(((Window)target).isOpaque());
+            this.isOpbque = true;
+            setOpbque(((Window)tbrget).isOpbque());
         }
     }
 
-    native void createAwtWindow(WComponentPeer parent);
+    nbtive void crebteAwtWindow(WComponentPeer pbrent);
 
-    private volatile Window.Type windowType = Window.Type.NORMAL;
+    privbte volbtile Window.Type windowType = Window.Type.NORMAL;
 
-    // This method must be called for Window, Dialog, and Frame before creating
+    // This method must be cblled for Window, Diblog, bnd Frbme before crebting
     // the hwnd
-    void preCreate(WComponentPeer parent) {
-        windowType = ((Window)target).getType();
+    void preCrebte(WComponentPeer pbrent) {
+        windowType = ((Window)tbrget).getType();
     }
 
     @Override
-    void create(WComponentPeer parent) {
-        preCreate(parent);
-        createAwtWindow(parent);
+    void crebte(WComponentPeer pbrent) {
+        preCrebte(pbrent);
+        crebteAwtWindow(pbrent);
     }
 
     @Override
-    final WComponentPeer getNativeParent() {
-        final Container owner = ((Window) target).getOwner();
-        return (WComponentPeer) WToolkit.targetToPeer(owner);
+    finbl WComponentPeer getNbtivePbrent() {
+        finbl Contbiner owner = ((Window) tbrget).getOwner();
+        return (WComponentPeer) WToolkit.tbrgetToPeer(owner);
     }
 
-    // should be overriden in WDialogPeer
-    protected void realShow() {
+    // should be overriden in WDiblogPeer
+    protected void reblShow() {
         super.show();
     }
 
     @Override
     public void show() {
-        updateFocusableWindowState();
+        updbteFocusbbleWindowStbte();
 
-        boolean alwaysOnTop = ((Window)target).isAlwaysOnTop();
+        boolebn blwbysOnTop = ((Window)tbrget).isAlwbysOnTop();
 
         // Fix for 4868278.
-        // If we create a window with a specific GraphicsConfig, and then move it with
-        // setLocation() or setBounds() to another one before its peer has been created,
-        // then calling Window.getGraphicsConfig() returns wrong config. That may lead
-        // to some problems like wrong-placed tooltips. It is caused by calling
-        // super.displayChanged() in WWindowPeer.displayChanged() regardless of whether
-        // GraphicsDevice was really changed, or not. So we need to track it here.
-        updateGC();
+        // If we crebte b window with b specific GrbphicsConfig, bnd then move it with
+        // setLocbtion() or setBounds() to bnother one before its peer hbs been crebted,
+        // then cblling Window.getGrbphicsConfig() returns wrong config. Thbt mby lebd
+        // to some problems like wrong-plbced tooltips. It is cbused by cblling
+        // super.displbyChbnged() in WWindowPeer.displbyChbnged() regbrdless of whether
+        // GrbphicsDevice wbs reblly chbnged, or not. So we need to trbck it here.
+        updbteGC();
 
-        realShow();
-        updateMinimumSize();
+        reblShow();
+        updbteMinimumSize();
 
-        if (((Window)target).isAlwaysOnTopSupported() && alwaysOnTop) {
-            setAlwaysOnTop(alwaysOnTop);
+        if (((Window)tbrget).isAlwbysOnTopSupported() && blwbysOnTop) {
+            setAlwbysOnTop(blwbysOnTop);
         }
 
-        synchronized (getStateLock()) {
-            if (!isOpaque) {
-                updateWindow(true);
+        synchronized (getStbteLock()) {
+            if (!isOpbque) {
+                updbteWindow(true);
             }
         }
 
-        // See https://javafx-jira.kenai.com/browse/RT-32570
-        WComponentPeer owner = getNativeParent();
-        if (owner != null && owner.isLightweightFramePeer()) {
-            Rectangle b = getBounds();
-            handleExpose(0, 0, b.width, b.height);
+        // See https://jbvbfx-jirb.kenbi.com/browse/RT-32570
+        WComponentPeer owner = getNbtivePbrent();
+        if (owner != null && owner.isLightweightFrbmePeer()) {
+            Rectbngle b = getBounds();
+            hbndleExpose(0, 0, b.width, b.height);
         }
     }
 
-    // Synchronize the insets members (here & in helper) with actual window
-    // state.
-    native void updateInsets(Insets i);
+    // Synchronize the insets members (here & in helper) with bctubl window
+    // stbte.
+    nbtive void updbteInsets(Insets i);
 
-    static native int getSysMinWidth();
-    static native int getSysMinHeight();
-    static native int getSysIconWidth();
-    static native int getSysIconHeight();
-    static native int getSysSmIconWidth();
-    static native int getSysSmIconHeight();
-    /**windows/classes/sun/awt/windows/
-     * Creates native icon from specified raster data and updates
-     * icon for window and all descendant windows that inherit icon.
-     * Raster data should be passed in the ARGB form.
-     * Note that raster data format was changed to provide support
-     * for XP icons with alpha-channel
+    stbtic nbtive int getSysMinWidth();
+    stbtic nbtive int getSysMinHeight();
+    stbtic nbtive int getSysIconWidth();
+    stbtic nbtive int getSysIconHeight();
+    stbtic nbtive int getSysSmIconWidth();
+    stbtic nbtive int getSysSmIconHeight();
+    /**windows/clbsses/sun/bwt/windows/
+     * Crebtes nbtive icon from specified rbster dbtb bnd updbtes
+     * icon for window bnd bll descendbnt windows thbt inherit icon.
+     * Rbster dbtb should be pbssed in the ARGB form.
+     * Note thbt rbster dbtb formbt wbs chbnged to provide support
+     * for XP icons with blphb-chbnnel
      */
-    native void setIconImagesData(int[] iconRaster, int w, int h,
-                                  int[] smallIconRaster, int smw, int smh);
+    nbtive void setIconImbgesDbtb(int[] iconRbster, int w, int h,
+                                  int[] smbllIconRbster, int smw, int smh);
 
-    synchronized native void reshapeFrame(int x, int y, int width, int height);
+    synchronized nbtive void reshbpeFrbme(int x, int y, int width, int height);
 
-    public boolean requestWindowFocus(CausedFocusEvent.Cause cause) {
+    public boolebn requestWindowFocus(CbusedFocusEvent.Cbuse cbuse) {
         if (!focusAllowedFor()) {
-            return false;
+            return fblse;
         }
-        return requestWindowFocus(cause == CausedFocusEvent.Cause.MOUSE_EVENT);
+        return requestWindowFocus(cbuse == CbusedFocusEvent.Cbuse.MOUSE_EVENT);
     }
-    private native boolean requestWindowFocus(boolean isMouseEventCause);
+    privbte nbtive boolebn requestWindowFocus(boolebn isMouseEventCbuse);
 
-    public boolean focusAllowedFor() {
-        Window window = (Window)this.target;
+    public boolebn focusAllowedFor() {
+        Window window = (Window)this.tbrget;
         if (!window.isVisible() ||
-            !window.isEnabled() ||
-            !window.isFocusableWindow())
+            !window.isEnbbled() ||
+            !window.isFocusbbleWindow())
         {
-            return false;
+            return fblse;
         }
-        if (isModalBlocked()) {
-            return false;
+        if (isModblBlocked()) {
+            return fblse;
         }
         return true;
     }
@@ -320,44 +320,44 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
     void hide() {
         WindowListener listener = windowListener;
         if (listener != null) {
-            // We're not getting WINDOW_CLOSING from the native code when hiding
-            // the window programmatically. So, create it and notify the listener.
-            listener.windowClosing(new WindowEvent((Window)target, WindowEvent.WINDOW_CLOSING));
+            // We're not getting WINDOW_CLOSING from the nbtive code when hiding
+            // the window progrbmmbticblly. So, crebte it bnd notify the listener.
+            listener.windowClosing(new WindowEvent((Window)tbrget, WindowEvent.WINDOW_CLOSING));
         }
         super.hide();
     }
 
-    // WARNING: it's called on the Toolkit thread!
+    // WARNING: it's cblled on the Toolkit threbd!
     @Override
     void preprocessPostEvent(AWTEvent event) {
-        if (event instanceof WindowEvent) {
+        if (event instbnceof WindowEvent) {
             WindowListener listener = windowListener;
             if (listener != null) {
                 switch(event.getID()) {
-                    case WindowEvent.WINDOW_CLOSING:
+                    cbse WindowEvent.WINDOW_CLOSING:
                         listener.windowClosing((WindowEvent)event);
-                        break;
-                    case WindowEvent.WINDOW_ICONIFIED:
+                        brebk;
+                    cbse WindowEvent.WINDOW_ICONIFIED:
                         listener.windowIconified((WindowEvent)event);
-                        break;
+                        brebk;
                 }
             }
         }
     }
 
-    synchronized void addWindowListener(WindowListener l) {
-        windowListener = AWTEventMulticaster.add(windowListener, l);
+    synchronized void bddWindowListener(WindowListener l) {
+        windowListener = AWTEventMulticbster.bdd(windowListener, l);
     }
 
     synchronized void removeWindowListener(WindowListener l) {
-        windowListener = AWTEventMulticaster.remove(windowListener, l);
+        windowListener = AWTEventMulticbster.remove(windowListener, l);
     }
 
     @Override
-    public void updateMinimumSize() {
+    public void updbteMinimumSize() {
         Dimension minimumSize = null;
-        if (((Component)target).isMinimumSizeSet()) {
-            minimumSize = ((Component)target).getMinimumSize();
+        if (((Component)tbrget).isMinimumSizeSet()) {
+            minimumSize = ((Component)tbrget).getMinimumSize();
         }
         if (minimumSize != null) {
             int msw = getSysMinWidth();
@@ -371,90 +371,90 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
     }
 
     @Override
-    public void updateIconImages() {
-        java.util.List<Image> imageList = ((Window)target).getIconImages();
-        if (imageList == null || imageList.size() == 0) {
-            setIconImagesData(null, 0, 0, null, 0, 0);
+    public void updbteIconImbges() {
+        jbvb.util.List<Imbge> imbgeList = ((Window)tbrget).getIconImbges();
+        if (imbgeList == null || imbgeList.size() == 0) {
+            setIconImbgesDbtb(null, 0, 0, null, 0, 0);
         } else {
             int w = getSysIconWidth();
             int h = getSysIconHeight();
             int smw = getSysSmIconWidth();
             int smh = getSysSmIconHeight();
-            DataBufferInt iconData = SunToolkit.getScaledIconData(imageList,
+            DbtbBufferInt iconDbtb = SunToolkit.getScbledIconDbtb(imbgeList,
                                                                   w, h);
-            DataBufferInt iconSmData = SunToolkit.getScaledIconData(imageList,
+            DbtbBufferInt iconSmDbtb = SunToolkit.getScbledIconDbtb(imbgeList,
                                                                     smw, smh);
-            if (iconData != null && iconSmData != null) {
-                setIconImagesData(iconData.getData(), w, h,
-                                  iconSmData.getData(), smw, smh);
+            if (iconDbtb != null && iconSmDbtb != null) {
+                setIconImbgesDbtb(iconDbtb.getDbtb(), w, h,
+                                  iconSmDbtb.getDbtb(), smw, smh);
             } else {
-                setIconImagesData(null, 0, 0, null, 0, 0);
+                setIconImbgesDbtb(null, 0, 0, null, 0, 0);
             }
         }
     }
 
-    native void setMinSize(int width, int height);
+    nbtive void setMinSize(int width, int height);
 
 /*
  * ---- MODALITY SUPPORT ----
  */
 
     /**
-     * Some modality-related code here because WFileDialogPeer, WPrintDialogPeer and
-     *   WPageDialogPeer are descendants of WWindowPeer, not WDialogPeer
+     * Some modblity-relbted code here becbuse WFileDiblogPeer, WPrintDiblogPeer bnd
+     *   WPbgeDiblogPeer bre descendbnts of WWindowPeer, not WDiblogPeer
      */
 
-    public boolean isModalBlocked() {
-        return modalBlocker != null;
+    public boolebn isModblBlocked() {
+        return modblBlocker != null;
     }
 
      @Override
-     @SuppressWarnings("deprecation")
-    public void setModalBlocked(Dialog dialog, boolean blocked) {
-        synchronized (((Component)getTarget()).getTreeLock()) // State lock should always be after awtLock
+     @SuppressWbrnings("deprecbtion")
+    public void setModblBlocked(Diblog diblog, boolebn blocked) {
+        synchronized (((Component)getTbrget()).getTreeLock()) // Stbte lock should blwbys be bfter bwtLock
         {
-            // use WWindowPeer instead of WDialogPeer because of FileDialogs and PrintDialogs
-            WWindowPeer blockerPeer = (WWindowPeer)dialog.getPeer();
+            // use WWindowPeer instebd of WDiblogPeer becbuse of FileDiblogs bnd PrintDiblogs
+            WWindowPeer blockerPeer = (WWindowPeer)diblog.getPeer();
             if (blocked)
             {
-                modalBlocker = blockerPeer;
-                // handle native dialogs separately, as they may have not
-                // got HWND yet; modalEnable/modalDisable is called from
+                modblBlocker = blockerPeer;
+                // hbndle nbtive diblogs sepbrbtely, bs they mby hbve not
+                // got HWND yet; modblEnbble/modblDisbble is cblled from
                 // their setHWnd() methods
-                if (blockerPeer instanceof WFileDialogPeer) {
-                    ((WFileDialogPeer)blockerPeer).blockWindow(this);
-                } else if (blockerPeer instanceof WPrintDialogPeer) {
-                    ((WPrintDialogPeer)blockerPeer).blockWindow(this);
+                if (blockerPeer instbnceof WFileDiblogPeer) {
+                    ((WFileDiblogPeer)blockerPeer).blockWindow(this);
+                } else if (blockerPeer instbnceof WPrintDiblogPeer) {
+                    ((WPrintDiblogPeer)blockerPeer).blockWindow(this);
                 } else {
-                    modalDisable(dialog, blockerPeer.getHWnd());
+                    modblDisbble(diblog, blockerPeer.getHWnd());
                 }
             } else {
-                modalBlocker = null;
-                if (blockerPeer instanceof WFileDialogPeer) {
-                    ((WFileDialogPeer)blockerPeer).unblockWindow(this);
-                } else if (blockerPeer instanceof WPrintDialogPeer) {
-                    ((WPrintDialogPeer)blockerPeer).unblockWindow(this);
+                modblBlocker = null;
+                if (blockerPeer instbnceof WFileDiblogPeer) {
+                    ((WFileDiblogPeer)blockerPeer).unblockWindow(this);
+                } else if (blockerPeer instbnceof WPrintDiblogPeer) {
+                    ((WPrintDiblogPeer)blockerPeer).unblockWindow(this);
                 } else {
-                    modalEnable(dialog);
+                    modblEnbble(diblog);
                 }
             }
         }
     }
 
-    native void modalDisable(Dialog blocker, long blockerHWnd);
-    native void modalEnable(Dialog blocker);
+    nbtive void modblDisbble(Diblog blocker, long blockerHWnd);
+    nbtive void modblEnbble(Diblog blocker);
 
     /*
-     * Returns all the ever active windows from the current AppContext.
-     * The list is sorted by the time of activation, so the latest
-     * active window is always at the end.
+     * Returns bll the ever bctive windows from the current AppContext.
+     * The list is sorted by the time of bctivbtion, so the lbtest
+     * bctive window is blwbys bt the end.
      */
-    @SuppressWarnings("unchecked")
-    public static long[] getActiveWindowHandles(Component target) {
-        AppContext appContext = SunToolkit.targetToAppContext(target);
-        if (appContext == null) return null;
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+    @SuppressWbrnings("unchecked")
+    public stbtic long[] getActiveWindowHbndles(Component tbrget) {
+        AppContext bppContext = SunToolkit.tbrgetToAppContext(tbrget);
+        if (bppContext == null) return null;
+        synchronized (bppContext) {
+            List<WWindowPeer> l = (List<WWindowPeer>)bppContext.get(ACTIVE_WINDOWS_KEY);
             if (l == null) {
                 return null;
             }
@@ -471,122 +471,122 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
  */
 
     /*
-     * Called from native code when we have been dragged onto another screen.
+     * Cblled from nbtive code when we hbve been drbgged onto bnother screen.
      */
-    void draggedToNewScreen() {
-        SunToolkit.executeOnEventHandlerThread((Component)target,new Runnable()
+    void drbggedToNewScreen() {
+        SunToolkit.executeOnEventHbndlerThrebd((Component)tbrget,new Runnbble()
         {
             @Override
             public void run() {
-                displayChanged();
+                displbyChbnged();
             }
         });
     }
 
-    public void updateGC() {
+    public void updbteGC() {
         int scrn = getScreenImOn();
-        if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
+        if (screenLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer("Screen number: " + scrn);
         }
 
         // get current GD
-        Win32GraphicsDevice oldDev = (Win32GraphicsDevice)winGraphicsConfig
+        Win32GrbphicsDevice oldDev = (Win32GrbphicsDevice)winGrbphicsConfig
                                      .getDevice();
 
-        Win32GraphicsDevice newDev;
-        GraphicsDevice devs[] = GraphicsEnvironment
-            .getLocalGraphicsEnvironment()
+        Win32GrbphicsDevice newDev;
+        GrbphicsDevice devs[] = GrbphicsEnvironment
+            .getLocblGrbphicsEnvironment()
             .getScreenDevices();
-        // Occasionally during device addition/removal getScreenImOn can return
-        // a non-existing screen number. Use the default device in this case.
+        // Occbsionblly during device bddition/removbl getScreenImOn cbn return
+        // b non-existing screen number. Use the defbult device in this cbse.
         if (scrn >= devs.length) {
-            newDev = (Win32GraphicsDevice)GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            newDev = (Win32GrbphicsDevice)GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment().getDefbultScreenDevice();
         } else {
-            newDev = (Win32GraphicsDevice)devs[scrn];
+            newDev = (Win32GrbphicsDevice)devs[scrn];
         }
 
-        // Set winGraphicsConfig to the default GC for the monitor this Window
+        // Set winGrbphicsConfig to the defbult GC for the monitor this Window
         // is now mostly on.
-        winGraphicsConfig = (Win32GraphicsConfig)newDev
-                            .getDefaultConfiguration();
-        if (screenLog.isLoggable(PlatformLogger.Level.FINE)) {
-            if (winGraphicsConfig == null) {
-                screenLog.fine("Assertion (winGraphicsConfig != null) failed");
+        winGrbphicsConfig = (Win32GrbphicsConfig)newDev
+                            .getDefbultConfigurbtion();
+        if (screenLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            if (winGrbphicsConfig == null) {
+                screenLog.fine("Assertion (winGrbphicsConfig != null) fbiled");
             }
         }
 
-        // if on a different display, take off old GD and put on new GD
+        // if on b different displby, tbke off old GD bnd put on new GD
         if (oldDev != newDev) {
-            oldDev.removeDisplayChangedListener(this);
-            newDev.addDisplayChangedListener(this);
+            oldDev.removeDisplbyChbngedListener(this);
+            newDev.bddDisplbyChbngedListener(this);
         }
 
         AWTAccessor.getComponentAccessor().
-            setGraphicsConfiguration((Component)target, winGraphicsConfig);
+            setGrbphicsConfigurbtion((Component)tbrget, winGrbphicsConfig);
     }
 
     /**
-     * From the DisplayChangedListener interface.
+     * From the DisplbyChbngedListener interfbce.
      *
-     * This method handles a display change - either when the display settings
-     * are changed, or when the window has been dragged onto a different
-     * display.
-     * Called after a change in the display mode.  This event
-     * triggers replacing the surfaceData object (since that object
-     * reflects the current display depth information, which has
-     * just changed).
+     * This method hbndles b displby chbnge - either when the displby settings
+     * bre chbnged, or when the window hbs been drbgged onto b different
+     * displby.
+     * Cblled bfter b chbnge in the displby mode.  This event
+     * triggers replbcing the surfbceDbtb object (since thbt object
+     * reflects the current displby depth informbtion, which hbs
+     * just chbnged).
      */
     @Override
-    public void displayChanged() {
-        updateGC();
+    public void displbyChbnged() {
+        updbteGC();
     }
 
     /**
-     * Part of the DisplayChangedListener interface: components
-     * do not need to react to this event
+     * Pbrt of the DisplbyChbngedListener interfbce: components
+     * do not need to rebct to this event
      */
     @Override
-    public void paletteChanged() {
+    public void pbletteChbnged() {
     }
 
-    private native int getScreenImOn();
+    privbte nbtive int getScreenImOn();
 
-    // Used in Win32GraphicsDevice.
-    public final native void setFullScreenExclusiveModeState(boolean state);
+    // Used in Win32GrbphicsDevice.
+    public finbl nbtive void setFullScreenExclusiveModeStbte(boolebn stbte);
 
 /*
  * ----END DISPLAY CHANGE SUPPORT----
  */
 
-     public void grab() {
-         nativeGrab();
+     public void grbb() {
+         nbtiveGrbb();
      }
 
-     public void ungrab() {
-         nativeUngrab();
+     public void ungrbb() {
+         nbtiveUngrbb();
      }
-     private native void nativeGrab();
-     private native void nativeUngrab();
+     privbte nbtive void nbtiveGrbb();
+     privbte nbtive void nbtiveUngrbb();
 
-     private final boolean hasWarningWindow() {
-         return ((Window)target).getWarningString() != null;
+     privbte finbl boolebn hbsWbrningWindow() {
+         return ((Window)tbrget).getWbrningString() != null;
      }
 
-     boolean isTargetUndecorated() {
+     boolebn isTbrgetUndecorbted() {
          return true;
      }
 
-     // These are the peer bounds. They get updated at:
+     // These bre the peer bounds. They get updbted bt:
      //    1. the WWindowPeer.setBounds() method.
-     //    2. the native code (on WM_SIZE/WM_MOVE)
-     private volatile int sysX = 0;
-     private volatile int sysY = 0;
-     private volatile int sysW = 0;
-     private volatile int sysH = 0;
+     //    2. the nbtive code (on WM_SIZE/WM_MOVE)
+     privbte volbtile int sysX = 0;
+     privbte volbtile int sysY = 0;
+     privbte volbtile int sysW = 0;
+     privbte volbtile int sysH = 0;
 
      @Override
-     public native void repositionSecurityWarning();
+     public nbtive void repositionSecurityWbrning();
 
      @Override
      public void setBounds(int x, int y, int width, int height, int op) {
@@ -599,241 +599,241 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
      }
 
     @Override
-    public void print(Graphics g) {
-        // We assume we print the whole frame,
-        // so we expect no clip was set previously
-        Shape shape = AWTAccessor.getWindowAccessor().getShape((Window)target);
-        if (shape != null) {
-            g.setClip(shape);
+    public void print(Grbphics g) {
+        // We bssume we print the whole frbme,
+        // so we expect no clip wbs set previously
+        Shbpe shbpe = AWTAccessor.getWindowAccessor().getShbpe((Window)tbrget);
+        if (shbpe != null) {
+            g.setClip(shbpe);
         }
         super.print(g);
     }
 
-    @SuppressWarnings("deprecation")
-    private void replaceSurfaceDataRecursively(Component c) {
-        if (c instanceof Container) {
-            for (Component child : ((Container)c).getComponents()) {
-                replaceSurfaceDataRecursively(child);
+    @SuppressWbrnings("deprecbtion")
+    privbte void replbceSurfbceDbtbRecursively(Component c) {
+        if (c instbnceof Contbiner) {
+            for (Component child : ((Contbiner)c).getComponents()) {
+                replbceSurfbceDbtbRecursively(child);
             }
         }
         ComponentPeer cp = c.getPeer();
-        if (cp instanceof WComponentPeer) {
-            ((WComponentPeer)cp).replaceSurfaceDataLater();
+        if (cp instbnceof WComponentPeer) {
+            ((WComponentPeer)cp).replbceSurfbceDbtbLbter();
         }
     }
 
-    public final Graphics getTranslucentGraphics() {
-        synchronized (getStateLock()) {
-            return isOpaque ? null : painter.getBackBuffer(false).getGraphics();
+    public finbl Grbphics getTrbnslucentGrbphics() {
+        synchronized (getStbteLock()) {
+            return isOpbque ? null : pbinter.getBbckBuffer(fblse).getGrbphics();
         }
     }
 
     @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        synchronized (getStateLock()) {
-            if (!isOpaque && ((Window)target).isVisible()) {
-                updateWindow(true);
+    public void setBbckground(Color c) {
+        super.setBbckground(c);
+        synchronized (getStbteLock()) {
+            if (!isOpbque && ((Window)tbrget).isVisible()) {
+                updbteWindow(true);
             }
         }
     }
 
-    private native void setOpacity(int iOpacity);
-    private float opacity = 1.0f;
+    privbte nbtive void setOpbcity(int iOpbcity);
+    privbte flobt opbcity = 1.0f;
 
     @Override
-    public void setOpacity(float opacity) {
-        if (!((SunToolkit)((Window)target).getToolkit()).
-            isWindowOpacitySupported())
+    public void setOpbcity(flobt opbcity) {
+        if (!((SunToolkit)((Window)tbrget).getToolkit()).
+            isWindowOpbcitySupported())
         {
             return;
         }
 
-        if (opacity < 0.0f || opacity > 1.0f) {
-            throw new IllegalArgumentException(
-                "The value of opacity should be in the range [0.0f .. 1.0f].");
+        if (opbcity < 0.0f || opbcity > 1.0f) {
+            throw new IllegblArgumentException(
+                "The vblue of opbcity should be in the rbnge [0.0f .. 1.0f].");
         }
 
-        if (((this.opacity == 1.0f && opacity <  1.0f) ||
-             (this.opacity <  1.0f && opacity == 1.0f)) &&
-            !Win32GraphicsEnvironment.isVistaOS())
+        if (((this.opbcity == 1.0f && opbcity <  1.0f) ||
+             (this.opbcity <  1.0f && opbcity == 1.0f)) &&
+            !Win32GrbphicsEnvironment.isVistbOS())
         {
-            // non-Vista OS: only replace the surface data if opacity status
-            // changed (see WComponentPeer.isAccelCapable() for more)
-            replaceSurfaceDataRecursively((Component)getTarget());
+            // non-Vistb OS: only replbce the surfbce dbtb if opbcity stbtus
+            // chbnged (see WComponentPeer.isAccelCbpbble() for more)
+            replbceSurfbceDbtbRecursively((Component)getTbrget());
         }
 
-        this.opacity = opacity;
+        this.opbcity = opbcity;
 
-        final int maxOpacity = 0xff;
-        int iOpacity = (int)(opacity * maxOpacity);
-        if (iOpacity < 0) {
-            iOpacity = 0;
+        finbl int mbxOpbcity = 0xff;
+        int iOpbcity = (int)(opbcity * mbxOpbcity);
+        if (iOpbcity < 0) {
+            iOpbcity = 0;
         }
-        if (iOpacity > maxOpacity) {
-            iOpacity = maxOpacity;
+        if (iOpbcity > mbxOpbcity) {
+            iOpbcity = mbxOpbcity;
         }
 
-        setOpacity(iOpacity);
+        setOpbcity(iOpbcity);
 
-        synchronized (getStateLock()) {
-            if (!isOpaque && ((Window)target).isVisible()) {
-                updateWindow(true);
+        synchronized (getStbteLock()) {
+            if (!isOpbque && ((Window)tbrget).isVisible()) {
+                updbteWindow(true);
             }
         }
     }
 
-    private native void setOpaqueImpl(boolean isOpaque);
+    privbte nbtive void setOpbqueImpl(boolebn isOpbque);
 
     @Override
-    public void setOpaque(boolean isOpaque) {
-        synchronized (getStateLock()) {
-            if (this.isOpaque == isOpaque) {
+    public void setOpbque(boolebn isOpbque) {
+        synchronized (getStbteLock()) {
+            if (this.isOpbque == isOpbque) {
                 return;
             }
         }
 
-        Window target = (Window)getTarget();
+        Window tbrget = (Window)getTbrget();
 
-        if (!isOpaque) {
-            SunToolkit sunToolkit = (SunToolkit)target.getToolkit();
-            if (!sunToolkit.isWindowTranslucencySupported() ||
-                !sunToolkit.isTranslucencyCapable(target.getGraphicsConfiguration()))
+        if (!isOpbque) {
+            SunToolkit sunToolkit = (SunToolkit)tbrget.getToolkit();
+            if (!sunToolkit.isWindowTrbnslucencySupported() ||
+                !sunToolkit.isTrbnslucencyCbpbble(tbrget.getGrbphicsConfigurbtion()))
             {
                 return;
             }
         }
 
-        boolean isVistaOS = Win32GraphicsEnvironment.isVistaOS();
+        boolebn isVistbOS = Win32GrbphicsEnvironment.isVistbOS();
 
-        if (this.isOpaque != isOpaque && !isVistaOS) {
-            // non-Vista OS: only replace the surface data if the opacity
-            // status changed (see WComponentPeer.isAccelCapable() for more)
-            replaceSurfaceDataRecursively(target);
+        if (this.isOpbque != isOpbque && !isVistbOS) {
+            // non-Vistb OS: only replbce the surfbce dbtb if the opbcity
+            // stbtus chbnged (see WComponentPeer.isAccelCbpbble() for more)
+            replbceSurfbceDbtbRecursively(tbrget);
         }
 
-        synchronized (getStateLock()) {
-            this.isOpaque = isOpaque;
-            setOpaqueImpl(isOpaque);
-            if (isOpaque) {
-                TranslucentWindowPainter currentPainter = painter;
-                if (currentPainter != null) {
-                    currentPainter.flush();
-                    painter = null;
+        synchronized (getStbteLock()) {
+            this.isOpbque = isOpbque;
+            setOpbqueImpl(isOpbque);
+            if (isOpbque) {
+                TrbnslucentWindowPbinter currentPbinter = pbinter;
+                if (currentPbinter != null) {
+                    currentPbinter.flush();
+                    pbinter = null;
                 }
             } else {
-                painter = TranslucentWindowPainter.createInstance(this);
+                pbinter = TrbnslucentWindowPbinter.crebteInstbnce(this);
             }
         }
 
-        if (isVistaOS) {
-            // On Vista: setting the window non-opaque makes the window look
-            // rectangular, though still catching the mouse clicks within
-            // its shape only. To restore the correct visual appearance
-            // of the window (i.e. w/ the correct shape) we have to reset
-            // the shape.
-            Shape shape = target.getShape();
-            if (shape != null) {
-                target.setShape(shape);
+        if (isVistbOS) {
+            // On Vistb: setting the window non-opbque mbkes the window look
+            // rectbngulbr, though still cbtching the mouse clicks within
+            // its shbpe only. To restore the correct visubl bppebrbnce
+            // of the window (i.e. w/ the correct shbpe) we hbve to reset
+            // the shbpe.
+            Shbpe shbpe = tbrget.getShbpe();
+            if (shbpe != null) {
+                tbrget.setShbpe(shbpe);
             }
         }
 
-        if (target.isVisible()) {
-            updateWindow(true);
+        if (tbrget.isVisible()) {
+            updbteWindow(true);
         }
     }
 
-    native void updateWindowImpl(int[] data, int width, int height);
+    nbtive void updbteWindowImpl(int[] dbtb, int width, int height);
 
     @Override
-    public void updateWindow() {
-        updateWindow(false);
+    public void updbteWindow() {
+        updbteWindow(fblse);
     }
 
-    private void updateWindow(boolean repaint) {
-        Window w = (Window)target;
-        synchronized (getStateLock()) {
-            if (isOpaque || !w.isVisible() ||
+    privbte void updbteWindow(boolebn repbint) {
+        Window w = (Window)tbrget;
+        synchronized (getStbteLock()) {
+            if (isOpbque || !w.isVisible() ||
                 (w.getWidth() <= 0) || (w.getHeight() <= 0))
             {
                 return;
             }
-            TranslucentWindowPainter currentPainter = painter;
-            if (currentPainter != null) {
-                currentPainter.updateWindow(repaint);
-            } else if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Translucent window painter is null in updateWindow");
+            TrbnslucentWindowPbinter currentPbinter = pbinter;
+            if (currentPbinter != null) {
+                currentPbinter.updbteWindow(repbint);
+            } else if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+                log.finer("Trbnslucent window pbinter is null in updbteWindow");
             }
         }
     }
 
     /*
-     * The method maps the list of the active windows to the window's AppContext,
+     * The method mbps the list of the bctive windows to the window's AppContext,
      * then the method registers ActiveWindowListener, GuiDisposedListener listeners;
-     * it executes the initilialization only once per AppContext.
+     * it executes the initiliblizbtion only once per AppContext.
      */
-    @SuppressWarnings("unchecked")
-    private static void initActiveWindowsTracking(Window w) {
-        AppContext appContext = AppContext.getAppContext();
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+    @SuppressWbrnings("unchecked")
+    privbte stbtic void initActiveWindowsTrbcking(Window w) {
+        AppContext bppContext = AppContext.getAppContext();
+        synchronized (bppContext) {
+            List<WWindowPeer> l = (List<WWindowPeer>)bppContext.get(ACTIVE_WINDOWS_KEY);
             if (l == null) {
                 l = new LinkedList<WWindowPeer>();
-                appContext.put(ACTIVE_WINDOWS_KEY, l);
-                appContext.addPropertyChangeListener(AppContext.GUI_DISPOSED, guiDisposedListener);
+                bppContext.put(ACTIVE_WINDOWS_KEY, l);
+                bppContext.bddPropertyChbngeListener(AppContext.GUI_DISPOSED, guiDisposedListener);
 
-                KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-                kfm.addPropertyChangeListener("activeWindow", activeWindowListener);
+                KeybobrdFocusMbnbger kfm = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
+                kfm.bddPropertyChbngeListener("bctiveWindow", bctiveWindowListener);
             }
         }
     }
 
     /*
-     * The GuiDisposedListener class listens for the AppContext.GUI_DISPOSED property,
-     * it removes the list of the active windows from the disposed AppContext and
+     * The GuiDisposedListener clbss listens for the AppContext.GUI_DISPOSED property,
+     * it removes the list of the bctive windows from the disposed AppContext bnd
      * unregisters ActiveWindowListener listener.
      */
-    private static class GuiDisposedListener implements PropertyChangeListener {
+    privbte stbtic clbss GuiDisposedListener implements PropertyChbngeListener {
         @Override
-        public void propertyChange(PropertyChangeEvent e) {
-            boolean isDisposed = (Boolean)e.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            boolebn isDisposed = (Boolebn)e.getNewVblue();
             if (isDisposed != true) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine(" Assertion (newValue != true) failed for AppContext.GUI_DISPOSED ");
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine(" Assertion (newVblue != true) fbiled for AppContext.GUI_DISPOSED ");
                 }
             }
-            AppContext appContext = AppContext.getAppContext();
-            synchronized (appContext) {
-                appContext.remove(ACTIVE_WINDOWS_KEY);
-                appContext.removePropertyChangeListener(AppContext.GUI_DISPOSED, this);
+            AppContext bppContext = AppContext.getAppContext();
+            synchronized (bppContext) {
+                bppContext.remove(ACTIVE_WINDOWS_KEY);
+                bppContext.removePropertyChbngeListener(AppContext.GUI_DISPOSED, this);
 
-                KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-                kfm.removePropertyChangeListener("activeWindow", activeWindowListener);
+                KeybobrdFocusMbnbger kfm = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
+                kfm.removePropertyChbngeListener("bctiveWindow", bctiveWindowListener);
             }
         }
     }
 
     /*
-     * Static inner class, listens for 'activeWindow' KFM property changes and
-     * updates the list of active windows per AppContext, so the latest active
-     * window is always at the end of the list. The list is stored in AppContext.
+     * Stbtic inner clbss, listens for 'bctiveWindow' KFM property chbnges bnd
+     * updbtes the list of bctive windows per AppContext, so the lbtest bctive
+     * window is blwbys bt the end of the list. The list is stored in AppContext.
      */
-    @SuppressWarnings( value = {"deprecation", "unchecked"})
-    private static class ActiveWindowListener implements PropertyChangeListener {
+    @SuppressWbrnings( vblue = {"deprecbtion", "unchecked"})
+    privbte stbtic clbss ActiveWindowListener implements PropertyChbngeListener {
         @Override
-        public void propertyChange(PropertyChangeEvent e) {
-            Window w = (Window)e.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            Window w = (Window)e.getNewVblue();
             if (w == null) {
                 return;
             }
-            AppContext appContext = SunToolkit.targetToAppContext(w);
-            synchronized (appContext) {
+            AppContext bppContext = SunToolkit.tbrgetToAppContext(w);
+            synchronized (bppContext) {
                 WWindowPeer wp = (WWindowPeer)w.getPeer();
-                // add/move wp to the end of the list
-                List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+                // bdd/move wp to the end of the list
+                List<WWindowPeer> l = (List<WWindowPeer>)bppContext.get(ACTIVE_WINDOWS_KEY);
                 if (l != null) {
                     l.remove(wp);
-                    l.add(wp);
+                    l.bdd(wp);
                 }
             }
         }

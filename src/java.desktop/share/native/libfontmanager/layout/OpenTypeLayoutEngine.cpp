@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -32,231 +32,231 @@
 
 #include "LETypes.h"
 #include "LEScripts.h"
-#include "LELanguages.h"
+#include "LELbngubges.h"
 
-#include "LayoutEngine.h"
-#include "CanonShaping.h"
-#include "OpenTypeLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "CharSubstitutionFilter.h"
+#include "LbyoutEngine.h"
+#include "CbnonShbping.h"
+#include "OpenTypeLbyoutEngine.h"
+#include "ScriptAndLbngubgeTbgs.h"
+#include "ChbrSubstitutionFilter.h"
 
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphPositioningTbbles.h"
 
-#include "LEGlyphStorage.h"
+#include "LEGlyphStorbge.h"
 #include "GlyphPositionAdjustments.h"
 
-#include "GDEFMarkFilter.h"
+#include "GDEFMbrkFilter.h"
 
-#include "KernTable.h"
+#include "KernTbble.h"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(OpenTypeLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(OpenTypeLbyoutEngine)
 
-#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
-#define ligaFeatureTag LE_LIGA_FEATURE_TAG
-#define cligFeatureTag LE_CLIG_FEATURE_TAG
-#define kernFeatureTag LE_KERN_FEATURE_TAG
-#define markFeatureTag LE_MARK_FEATURE_TAG
-#define mkmkFeatureTag LE_MKMK_FEATURE_TAG
-#define loclFeatureTag LE_LOCL_FEATURE_TAG
-#define caltFeatureTag LE_CALT_FEATURE_TAG
+#define ccmpFebtureTbg LE_CCMP_FEATURE_TAG
+#define ligbFebtureTbg LE_LIGA_FEATURE_TAG
+#define cligFebtureTbg LE_CLIG_FEATURE_TAG
+#define kernFebtureTbg LE_KERN_FEATURE_TAG
+#define mbrkFebtureTbg LE_MARK_FEATURE_TAG
+#define mkmkFebtureTbg LE_MKMK_FEATURE_TAG
+#define loclFebtureTbg LE_LOCL_FEATURE_TAG
+#define cbltFebtureTbg LE_CALT_FEATURE_TAG
 
-#define dligFeatureTag LE_DLIG_FEATURE_TAG
-#define rligFeatureTag LE_RLIG_FEATURE_TAG
-#define paltFeatureTag LE_PALT_FEATURE_TAG
+#define dligFebtureTbg LE_DLIG_FEATURE_TAG
+#define rligFebtureTbg LE_RLIG_FEATURE_TAG
+#define pbltFebtureTbg LE_PALT_FEATURE_TAG
 
-#define hligFeatureTag LE_HLIG_FEATURE_TAG
-#define smcpFeatureTag LE_SMCP_FEATURE_TAG
-#define fracFeatureTag LE_FRAC_FEATURE_TAG
-#define afrcFeatureTag LE_AFRC_FEATURE_TAG
-#define zeroFeatureTag LE_ZERO_FEATURE_TAG
-#define swshFeatureTag LE_SWSH_FEATURE_TAG
-#define cswhFeatureTag LE_CSWH_FEATURE_TAG
-#define saltFeatureTag LE_SALT_FEATURE_TAG
-#define naltFeatureTag LE_NALT_FEATURE_TAG
-#define rubyFeatureTag LE_RUBY_FEATURE_TAG
-#define ss01FeatureTag LE_SS01_FEATURE_TAG
-#define ss02FeatureTag LE_SS02_FEATURE_TAG
-#define ss03FeatureTag LE_SS03_FEATURE_TAG
-#define ss04FeatureTag LE_SS04_FEATURE_TAG
-#define ss05FeatureTag LE_SS05_FEATURE_TAG
-#define ss06FeatureTag LE_SS06_FEATURE_TAG
-#define ss07FeatureTag LE_SS07_FEATURE_TAG
+#define hligFebtureTbg LE_HLIG_FEATURE_TAG
+#define smcpFebtureTbg LE_SMCP_FEATURE_TAG
+#define frbcFebtureTbg LE_FRAC_FEATURE_TAG
+#define bfrcFebtureTbg LE_AFRC_FEATURE_TAG
+#define zeroFebtureTbg LE_ZERO_FEATURE_TAG
+#define swshFebtureTbg LE_SWSH_FEATURE_TAG
+#define cswhFebtureTbg LE_CSWH_FEATURE_TAG
+#define sbltFebtureTbg LE_SALT_FEATURE_TAG
+#define nbltFebtureTbg LE_NALT_FEATURE_TAG
+#define rubyFebtureTbg LE_RUBY_FEATURE_TAG
+#define ss01FebtureTbg LE_SS01_FEATURE_TAG
+#define ss02FebtureTbg LE_SS02_FEATURE_TAG
+#define ss03FebtureTbg LE_SS03_FEATURE_TAG
+#define ss04FebtureTbg LE_SS04_FEATURE_TAG
+#define ss05FebtureTbg LE_SS05_FEATURE_TAG
+#define ss06FebtureTbg LE_SS06_FEATURE_TAG
+#define ss07FebtureTbg LE_SS07_FEATURE_TAG
 
-#define ccmpFeatureMask 0x80000000UL
-#define ligaFeatureMask 0x40000000UL
-#define cligFeatureMask 0x20000000UL
-#define kernFeatureMask 0x10000000UL
-#define paltFeatureMask 0x08000000UL
-#define markFeatureMask 0x04000000UL
-#define mkmkFeatureMask 0x02000000UL
-#define loclFeatureMask 0x01000000UL
-#define caltFeatureMask 0x00800000UL
+#define ccmpFebtureMbsk 0x80000000UL
+#define ligbFebtureMbsk 0x40000000UL
+#define cligFebtureMbsk 0x20000000UL
+#define kernFebtureMbsk 0x10000000UL
+#define pbltFebtureMbsk 0x08000000UL
+#define mbrkFebtureMbsk 0x04000000UL
+#define mkmkFebtureMbsk 0x02000000UL
+#define loclFebtureMbsk 0x01000000UL
+#define cbltFebtureMbsk 0x00800000UL
 
-#define dligFeatureMask 0x00400000UL
-#define rligFeatureMask 0x00200000UL
-#define hligFeatureMask 0x00100000UL
-#define smcpFeatureMask 0x00080000UL
-#define fracFeatureMask 0x00040000UL
-#define afrcFeatureMask 0x00020000UL
-#define zeroFeatureMask 0x00010000UL
-#define swshFeatureMask 0x00008000UL
-#define cswhFeatureMask 0x00004000UL
-#define saltFeatureMask 0x00002000UL
-#define naltFeatureMask 0x00001000UL
-#define rubyFeatureMask 0x00000800UL
-#define ss01FeatureMask 0x00000400UL
-#define ss02FeatureMask 0x00000200UL
-#define ss03FeatureMask 0x00000100UL
-#define ss04FeatureMask 0x00000080UL
-#define ss05FeatureMask 0x00000040UL
-#define ss06FeatureMask 0x00000020UL
-#define ss07FeatureMask 0x00000010UL
+#define dligFebtureMbsk 0x00400000UL
+#define rligFebtureMbsk 0x00200000UL
+#define hligFebtureMbsk 0x00100000UL
+#define smcpFebtureMbsk 0x00080000UL
+#define frbcFebtureMbsk 0x00040000UL
+#define bfrcFebtureMbsk 0x00020000UL
+#define zeroFebtureMbsk 0x00010000UL
+#define swshFebtureMbsk 0x00008000UL
+#define cswhFebtureMbsk 0x00004000UL
+#define sbltFebtureMbsk 0x00002000UL
+#define nbltFebtureMbsk 0x00001000UL
+#define rubyFebtureMbsk 0x00000800UL
+#define ss01FebtureMbsk 0x00000400UL
+#define ss02FebtureMbsk 0x00000200UL
+#define ss03FebtureMbsk 0x00000100UL
+#define ss04FebtureMbsk 0x00000080UL
+#define ss05FebtureMbsk 0x00000040UL
+#define ss06FebtureMbsk 0x00000020UL
+#define ss07FebtureMbsk 0x00000010UL
 
-#define minimalFeatures     (ccmpFeatureMask | markFeatureMask | mkmkFeatureMask | loclFeatureMask | caltFeatureMask)
+#define minimblFebtures     (ccmpFebtureMbsk | mbrkFebtureMbsk | mkmkFebtureMbsk | loclFebtureMbsk | cbltFebtureMbsk)
 
-static const FeatureMap featureMap[] =
+stbtic const FebtureMbp febtureMbp[] =
 {
-    {ccmpFeatureTag, ccmpFeatureMask},
-    {ligaFeatureTag, ligaFeatureMask},
-    {cligFeatureTag, cligFeatureMask},
-    {kernFeatureTag, kernFeatureMask},
-    {paltFeatureTag, paltFeatureMask},
-    {markFeatureTag, markFeatureMask},
-    {mkmkFeatureTag, mkmkFeatureMask},
-    {loclFeatureTag, loclFeatureMask},
-    {caltFeatureTag, caltFeatureMask},
-    {hligFeatureTag, hligFeatureMask},
-    {smcpFeatureTag, smcpFeatureMask},
-    {fracFeatureTag, fracFeatureMask},
-    {afrcFeatureTag, afrcFeatureMask},
-    {zeroFeatureTag, zeroFeatureMask},
-    {swshFeatureTag, swshFeatureMask},
-    {cswhFeatureTag, cswhFeatureMask},
-    {saltFeatureTag, saltFeatureMask},
-    {naltFeatureTag, naltFeatureMask},
-    {rubyFeatureTag, rubyFeatureMask},
-    {ss01FeatureTag, ss01FeatureMask},
-    {ss02FeatureTag, ss02FeatureMask},
-    {ss03FeatureTag, ss03FeatureMask},
-    {ss04FeatureTag, ss04FeatureMask},
-    {ss05FeatureTag, ss05FeatureMask},
-    {ss06FeatureTag, ss06FeatureMask},
-    {ss07FeatureTag, ss07FeatureMask}
+    {ccmpFebtureTbg, ccmpFebtureMbsk},
+    {ligbFebtureTbg, ligbFebtureMbsk},
+    {cligFebtureTbg, cligFebtureMbsk},
+    {kernFebtureTbg, kernFebtureMbsk},
+    {pbltFebtureTbg, pbltFebtureMbsk},
+    {mbrkFebtureTbg, mbrkFebtureMbsk},
+    {mkmkFebtureTbg, mkmkFebtureMbsk},
+    {loclFebtureTbg, loclFebtureMbsk},
+    {cbltFebtureTbg, cbltFebtureMbsk},
+    {hligFebtureTbg, hligFebtureMbsk},
+    {smcpFebtureTbg, smcpFebtureMbsk},
+    {frbcFebtureTbg, frbcFebtureMbsk},
+    {bfrcFebtureTbg, bfrcFebtureMbsk},
+    {zeroFebtureTbg, zeroFebtureMbsk},
+    {swshFebtureTbg, swshFebtureMbsk},
+    {cswhFebtureTbg, cswhFebtureMbsk},
+    {sbltFebtureTbg, sbltFebtureMbsk},
+    {nbltFebtureTbg, nbltFebtureMbsk},
+    {rubyFebtureTbg, rubyFebtureMbsk},
+    {ss01FebtureTbg, ss01FebtureMbsk},
+    {ss02FebtureTbg, ss02FebtureMbsk},
+    {ss03FebtureTbg, ss03FebtureMbsk},
+    {ss04FebtureTbg, ss04FebtureMbsk},
+    {ss05FebtureTbg, ss05FebtureMbsk},
+    {ss06FebtureTbg, ss06FebtureMbsk},
+    {ss07FebtureTbg, ss07FebtureMbsk}
 };
 
-static const le_int32 featureMapCount = LE_ARRAY_SIZE(featureMap);
+stbtic const le_int32 febtureMbpCount = LE_ARRAY_SIZE(febtureMbp);
 
-OpenTypeLayoutEngine::OpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                     le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success)
-    : LayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success), fFeatureMask(minimalFeatures),
-      fFeatureMap(featureMap), fFeatureMapCount(featureMapCount), fFeatureOrder(FALSE),
-      fGSUBTable(gsubTable),
-      fGDEFTable(fontInstance, LE_GDEF_TABLE_TAG, success),
-      fGPOSTable(fontInstance, LE_GPOS_TABLE_TAG, success), fSubstitutionFilter(NULL)
+OpenTypeLbyoutEngine::OpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                     le_int32 typoFlbgs, const LEReferenceTo<GlyphSubstitutionTbbleHebder> &gsubTbble, LEErrorCode &success)
+    : LbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success), fFebtureMbsk(minimblFebtures),
+      fFebtureMbp(febtureMbp), fFebtureMbpCount(febtureMbpCount), fFebtureOrder(FALSE),
+      fGSUBTbble(gsubTbble),
+      fGDEFTbble(fontInstbnce, LE_GDEF_TABLE_TAG, success),
+      fGPOSTbble(fontInstbnce, LE_GPOS_TABLE_TAG, success), fSubstitutionFilter(NULL)
 {
-    applyTypoFlags();
+    bpplyTypoFlbgs();
 
-    setScriptAndLanguageTags();
+    setScriptAndLbngubgeTbgs();
 
-// JK patch, 2008-05-30 - see Sinhala bug report and LKLUG font
-//    if (gposTable != NULL && gposTable->coversScriptAndLanguage(fScriptTag, fLangSysTag)) {
-    if (!fGPOSTable.isEmpty()&& !fGPOSTable->coversScript(fGPOSTable, fScriptTag, success)) {
-      fGPOSTable.clear(); // already loaded
+// JK pbtch, 2008-05-30 - see Sinhblb bug report bnd LKLUG font
+//    if (gposTbble != NULL && gposTbble->coversScriptAndLbngubge(fScriptTbg, fLbngSysTbg)) {
+    if (!fGPOSTbble.isEmpty()&& !fGPOSTbble->coversScript(fGPOSTbble, fScriptTbg, success)) {
+      fGPOSTbble.clebr(); // blrebdy lobded
     }
 }
 
-void OpenTypeLayoutEngine::applyTypoFlags() {
-    const le_int32& typoFlags = fTypoFlags;
-    const LEFontInstance *fontInstance = fFontInstance;
+void OpenTypeLbyoutEngine::bpplyTypoFlbgs() {
+    const le_int32& typoFlbgs = fTypoFlbgs;
+    const LEFontInstbnce *fontInstbnce = fFontInstbnce;
 
-    switch (typoFlags & (LE_SS01_FEATURE_FLAG
+    switch (typoFlbgs & (LE_SS01_FEATURE_FLAG
                          | LE_SS02_FEATURE_FLAG
                          | LE_SS03_FEATURE_FLAG
                          | LE_SS04_FEATURE_FLAG
                          | LE_SS05_FEATURE_FLAG
                          | LE_SS06_FEATURE_FLAG
                          | LE_SS07_FEATURE_FLAG)) {
-        case LE_SS01_FEATURE_FLAG:
-            fFeatureMask |= ss01FeatureMask;
-            break;
-        case LE_SS02_FEATURE_FLAG:
-            fFeatureMask |= ss02FeatureMask;
-            break;
-        case LE_SS03_FEATURE_FLAG:
-            fFeatureMask |= ss03FeatureMask;
-            break;
-        case LE_SS04_FEATURE_FLAG:
-            fFeatureMask |= ss04FeatureMask;
-            break;
-        case LE_SS05_FEATURE_FLAG:
-            fFeatureMask |= ss05FeatureMask;
-            break;
-        case LE_SS06_FEATURE_FLAG:
-            fFeatureMask |= ss06FeatureMask;
-            break;
-        case LE_SS07_FEATURE_FLAG:
-            fFeatureMask |= ss07FeatureMask;
-            break;
+        cbse LE_SS01_FEATURE_FLAG:
+            fFebtureMbsk |= ss01FebtureMbsk;
+            brebk;
+        cbse LE_SS02_FEATURE_FLAG:
+            fFebtureMbsk |= ss02FebtureMbsk;
+            brebk;
+        cbse LE_SS03_FEATURE_FLAG:
+            fFebtureMbsk |= ss03FebtureMbsk;
+            brebk;
+        cbse LE_SS04_FEATURE_FLAG:
+            fFebtureMbsk |= ss04FebtureMbsk;
+            brebk;
+        cbse LE_SS05_FEATURE_FLAG:
+            fFebtureMbsk |= ss05FebtureMbsk;
+            brebk;
+        cbse LE_SS06_FEATURE_FLAG:
+            fFebtureMbsk |= ss06FebtureMbsk;
+            brebk;
+        cbse LE_SS07_FEATURE_FLAG:
+            fFebtureMbsk |= ss07FebtureMbsk;
+            brebk;
     }
 
-    if (typoFlags & LE_Kerning_FEATURE_FLAG) {
-      fFeatureMask |= (kernFeatureMask | paltFeatureMask);
+    if (typoFlbgs & LE_Kerning_FEATURE_FLAG) {
+      fFebtureMbsk |= (kernFebtureMbsk | pbltFebtureMbsk);
       // Convenience.
     }
-    if (typoFlags & LE_Ligatures_FEATURE_FLAG) {
-      fFeatureMask |= (ligaFeatureMask | cligFeatureMask);
-      // Convenience TODO: should add: .. dligFeatureMask | rligFeatureMask ?
+    if (typoFlbgs & LE_Ligbtures_FEATURE_FLAG) {
+      fFebtureMbsk |= (ligbFebtureMbsk | cligFebtureMbsk);
+      // Convenience TODO: should bdd: .. dligFebtureMbsk | rligFebtureMbsk ?
     }
-    if (typoFlags & LE_CLIG_FEATURE_FLAG) fFeatureMask |= cligFeatureMask;
-    if (typoFlags & LE_DLIG_FEATURE_FLAG) fFeatureMask |= dligFeatureMask;
-    if (typoFlags & LE_HLIG_FEATURE_FLAG) fFeatureMask |= hligFeatureMask;
-    if (typoFlags & LE_LIGA_FEATURE_FLAG) fFeatureMask |= ligaFeatureMask;
-    if (typoFlags & LE_RLIG_FEATURE_FLAG) fFeatureMask |= rligFeatureMask;
-    if (typoFlags & LE_SMCP_FEATURE_FLAG) fFeatureMask |= smcpFeatureMask;
-    if (typoFlags & LE_FRAC_FEATURE_FLAG) fFeatureMask |= fracFeatureMask;
-    if (typoFlags & LE_AFRC_FEATURE_FLAG) fFeatureMask |= afrcFeatureMask;
-    if (typoFlags & LE_ZERO_FEATURE_FLAG) fFeatureMask |= zeroFeatureMask;
-    if (typoFlags & LE_SWSH_FEATURE_FLAG) fFeatureMask |= swshFeatureMask;
-    if (typoFlags & LE_CSWH_FEATURE_FLAG) fFeatureMask |= cswhFeatureMask;
-    if (typoFlags & LE_SALT_FEATURE_FLAG) fFeatureMask |= saltFeatureMask;
-    if (typoFlags & LE_RUBY_FEATURE_FLAG) fFeatureMask |= rubyFeatureMask;
-    if (typoFlags & LE_NALT_FEATURE_FLAG) {
-      // Mutually exclusive with ALL other features. http://www.microsoft.com/typography/otspec/features_ko.htm
-      fFeatureMask = naltFeatureMask;
+    if (typoFlbgs & LE_CLIG_FEATURE_FLAG) fFebtureMbsk |= cligFebtureMbsk;
+    if (typoFlbgs & LE_DLIG_FEATURE_FLAG) fFebtureMbsk |= dligFebtureMbsk;
+    if (typoFlbgs & LE_HLIG_FEATURE_FLAG) fFebtureMbsk |= hligFebtureMbsk;
+    if (typoFlbgs & LE_LIGA_FEATURE_FLAG) fFebtureMbsk |= ligbFebtureMbsk;
+    if (typoFlbgs & LE_RLIG_FEATURE_FLAG) fFebtureMbsk |= rligFebtureMbsk;
+    if (typoFlbgs & LE_SMCP_FEATURE_FLAG) fFebtureMbsk |= smcpFebtureMbsk;
+    if (typoFlbgs & LE_FRAC_FEATURE_FLAG) fFebtureMbsk |= frbcFebtureMbsk;
+    if (typoFlbgs & LE_AFRC_FEATURE_FLAG) fFebtureMbsk |= bfrcFebtureMbsk;
+    if (typoFlbgs & LE_ZERO_FEATURE_FLAG) fFebtureMbsk |= zeroFebtureMbsk;
+    if (typoFlbgs & LE_SWSH_FEATURE_FLAG) fFebtureMbsk |= swshFebtureMbsk;
+    if (typoFlbgs & LE_CSWH_FEATURE_FLAG) fFebtureMbsk |= cswhFebtureMbsk;
+    if (typoFlbgs & LE_SALT_FEATURE_FLAG) fFebtureMbsk |= sbltFebtureMbsk;
+    if (typoFlbgs & LE_RUBY_FEATURE_FLAG) fFebtureMbsk |= rubyFebtureMbsk;
+    if (typoFlbgs & LE_NALT_FEATURE_FLAG) {
+      // Mutublly exclusive with ALL other febtures. http://www.microsoft.com/typogrbphy/otspec/febtures_ko.htm
+      fFebtureMbsk = nbltFebtureMbsk;
     }
 
-    if (typoFlags & LE_CHAR_FILTER_FEATURE_FLAG) {
-      // This isn't a font feature, but requests a Char Substitution Filter
-      fSubstitutionFilter = new CharSubstitutionFilter(fontInstance);
+    if (typoFlbgs & LE_CHAR_FILTER_FEATURE_FLAG) {
+      // This isn't b font febture, but requests b Chbr Substitution Filter
+      fSubstitutionFilter = new ChbrSubstitutionFilter(fontInstbnce);
     }
 
 }
 
-void OpenTypeLayoutEngine::reset()
+void OpenTypeLbyoutEngine::reset()
 {
-    // NOTE: if we're called from
-    // the destructor, LayoutEngine;:reset()
-    // will have been called already by
-    // LayoutEngine::~LayoutEngine()
-    LayoutEngine::reset();
+    // NOTE: if we're cblled from
+    // the destructor, LbyoutEngine;:reset()
+    // will hbve been cblled blrebdy by
+    // LbyoutEngine::~LbyoutEngine()
+    LbyoutEngine::reset();
 }
 
-OpenTypeLayoutEngine::OpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                       le_int32 typoFlags, LEErrorCode &success)
-    : LayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success), fFeatureOrder(FALSE),
-      fGSUBTable(), fGDEFTable(), fGPOSTable(), fSubstitutionFilter(NULL)
+OpenTypeLbyoutEngine::OpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                       le_int32 typoFlbgs, LEErrorCode &success)
+    : LbyoutEngine(fontInstbnce, scriptCode, lbngubgeCode, typoFlbgs, success), fFebtureOrder(FALSE),
+      fGSUBTbble(), fGDEFTbble(), fGPOSTbble(), fSubstitutionFilter(NULL)
 {
-  applyTypoFlags();
-  setScriptAndLanguageTags();
+  bpplyTypoFlbgs();
+  setScriptAndLbngubgeTbgs();
 }
 
-OpenTypeLayoutEngine::~OpenTypeLayoutEngine()
+OpenTypeLbyoutEngine::~OpenTypeLbyoutEngine()
 {
-    if (fTypoFlags & LE_CHAR_FILTER_FEATURE_FLAG) {
+    if (fTypoFlbgs & LE_CHAR_FILTER_FEATURE_FLAG) {
         delete fSubstitutionFilter;
         fSubstitutionFilter = NULL;
     }
@@ -264,323 +264,323 @@ OpenTypeLayoutEngine::~OpenTypeLayoutEngine()
     reset();
 }
 
-LETag OpenTypeLayoutEngine::getScriptTag(le_int32 scriptCode)
+LETbg OpenTypeLbyoutEngine::getScriptTbg(le_int32 scriptCode)
 {
     if (scriptCode < 0 || scriptCode >= scriptCodeCount) {
         return 0xFFFFFFFF;
     }
-    return scriptTags[scriptCode];
+    return scriptTbgs[scriptCode];
 }
 
-LETag OpenTypeLayoutEngine::getV2ScriptTag(le_int32 scriptCode)
+LETbg OpenTypeLbyoutEngine::getV2ScriptTbg(le_int32 scriptCode)
 {
         switch (scriptCode) {
-                case bengScriptCode :    return bng2ScriptTag;
-                case devaScriptCode :    return dev2ScriptTag;
-                case gujrScriptCode :    return gjr2ScriptTag;
-                case guruScriptCode :    return gur2ScriptTag;
-                case kndaScriptCode :    return knd2ScriptTag;
-                case mlymScriptCode :    return mlm2ScriptTag;
-                case oryaScriptCode :    return ory2ScriptTag;
-                case tamlScriptCode :    return tml2ScriptTag;
-                case teluScriptCode :    return tel2ScriptTag;
-                default:                 return nullScriptTag;
+                cbse bengScriptCode :    return bng2ScriptTbg;
+                cbse devbScriptCode :    return dev2ScriptTbg;
+                cbse gujrScriptCode :    return gjr2ScriptTbg;
+                cbse guruScriptCode :    return gur2ScriptTbg;
+                cbse kndbScriptCode :    return knd2ScriptTbg;
+                cbse mlymScriptCode :    return mlm2ScriptTbg;
+                cbse orybScriptCode :    return ory2ScriptTbg;
+                cbse tbmlScriptCode :    return tml2ScriptTbg;
+                cbse teluScriptCode :    return tel2ScriptTbg;
+                defbult:                 return nullScriptTbg;
         }
 }
 
-LETag OpenTypeLayoutEngine::getLangSysTag(le_int32 languageCode)
+LETbg OpenTypeLbyoutEngine::getLbngSysTbg(le_int32 lbngubgeCode)
 {
-    if (languageCode < 0 || languageCode >= languageCodeCount) {
+    if (lbngubgeCode < 0 || lbngubgeCode >= lbngubgeCodeCount) {
         return 0xFFFFFFFF;
     }
 
-    return languageTags[languageCode];
+    return lbngubgeTbgs[lbngubgeCode];
 }
 
-void OpenTypeLayoutEngine::setScriptAndLanguageTags()
+void OpenTypeLbyoutEngine::setScriptAndLbngubgeTbgs()
 {
-    fScriptTag  = getScriptTag(fScriptCode);
-    fScriptTagV2 = getV2ScriptTag(fScriptCode);
-    fLangSysTag = getLangSysTag(fLanguageCode);
+    fScriptTbg  = getScriptTbg(fScriptCode);
+    fScriptTbgV2 = getV2ScriptTbg(fScriptCode);
+    fLbngSysTbg = getLbngSysTbg(fLbngubgeCode);
 }
 
-le_int32 OpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-                LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 OpenTypeLbyoutEngine::chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    // This is the cheapest way to get mark reordering only for Hebrew.
-    // We could just do the mark reordering for all scripts, but most
-    // of them probably don't need it... Another option would be to
-    // add a HebrewOpenTypeLayoutEngine subclass, but the only thing it
-    // would need to do is mark reordering, so that seems like overkill.
+    // This is the chebpest wby to get mbrk reordering only for Hebrew.
+    // We could just do the mbrk reordering for bll scripts, but most
+    // of them probbbly don't need it... Another option would be to
+    // bdd b HebrewOpenTypeLbyoutEngine subclbss, but the only thing it
+    // would need to do is mbrk reordering, so thbt seems like overkill.
     if (fScriptCode == hebrScriptCode) {
-        outChars = LE_NEW_ARRAY(LEUnicode, count);
+        outChbrs = LE_NEW_ARRAY(LEUnicode, count);
 
-        if (outChars == NULL) {
+        if (outChbrs == NULL) {
             success = LE_MEMORY_ALLOCATION_ERROR;
             return 0;
         }
 
     if (LE_FAILURE(success)) {
-            LE_DELETE_ARRAY(outChars);
+            LE_DELETE_ARRAY(outChbrs);
         return 0;
     }
 
-        CanonShaping::reorderMarks(&chars[offset], count, rightToLeft, outChars, glyphStorage);
+        CbnonShbping::reorderMbrks(&chbrs[offset], count, rightToLeft, outChbrs, glyphStorbge);
     }
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    glyphStorage.allocateGlyphArray(count, rightToLeft, success);
-    glyphStorage.allocateAuxData(success);
+    glyphStorbge.bllocbteGlyphArrby(count, rightToLeft, success);
+    glyphStorbge.bllocbteAuxDbtb(success);
 
     for (le_int32 i = 0; i < count; i += 1) {
-        glyphStorage.setAuxData(i, fFeatureMask, success);
+        glyphStorbge.setAuxDbtb(i, fFebtureMbsk, success);
     }
 
     return count;
 }
 
-// Input: characters, tags
-// Output: glyphs, char indices
-le_int32 OpenTypeLayoutEngine::glyphProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-                                               LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Input: chbrbcters, tbgs
+// Output: glyphs, chbr indices
+le_int32 OpenTypeLbyoutEngine::glyphProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                                               LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    mapCharsToGlyphs(chars, offset, count, rightToLeft, rightToLeft, glyphStorage, success);
+    mbpChbrsToGlyphs(chbrs, offset, count, rightToLeft, rightToLeft, glyphStorbge, success);
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (fGSUBTable.isValid()) {
-      if (fScriptTagV2 != nullScriptTag && fGSUBTable->coversScriptAndLanguage(fGSUBTable, fScriptTagV2, fLangSysTag, success)) {
-          count = fGSUBTable->process(fGSUBTable, glyphStorage, rightToLeft, fScriptTagV2, fLangSysTag, fGDEFTable, fSubstitutionFilter,
-                                    fFeatureMap, fFeatureMapCount, fFeatureOrder, success);
+    if (fGSUBTbble.isVblid()) {
+      if (fScriptTbgV2 != nullScriptTbg && fGSUBTbble->coversScriptAndLbngubge(fGSUBTbble, fScriptTbgV2, fLbngSysTbg, success)) {
+          count = fGSUBTbble->process(fGSUBTbble, glyphStorbge, rightToLeft, fScriptTbgV2, fLbngSysTbg, fGDEFTbble, fSubstitutionFilter,
+                                    fFebtureMbp, fFebtureMbpCount, fFebtureOrder, success);
 
         } else {
-          count = fGSUBTable->process(fGSUBTable, glyphStorage, rightToLeft, fScriptTag, fLangSysTag, fGDEFTable, fSubstitutionFilter,
-                                    fFeatureMap, fFeatureMapCount, fFeatureOrder, success);
+          count = fGSUBTbble->process(fGSUBTbble, glyphStorbge, rightToLeft, fScriptTbg, fLbngSysTbg, fGDEFTbble, fSubstitutionFilter,
+                                    fFebtureMbp, fFebtureMbpCount, fFebtureOrder, success);
     }
     }
 
     return count;
 }
-// Input: characters, tags
-// Output: glyphs, char indices
-le_int32 OpenTypeLayoutEngine::glyphSubstitution(le_int32 count, le_int32 max, le_bool rightToLeft,
-                                               LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Input: chbrbcters, tbgs
+// Output: glyphs, chbr indices
+le_int32 OpenTypeLbyoutEngine::glyphSubstitution(le_int32 count, le_int32 mbx, le_bool rightToLeft,
+                                               LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if ( count < 0 || max < 0 ) {
+    if ( count < 0 || mbx < 0 ) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    if (fGSUBTable.isValid()) {
-       if (fScriptTagV2 != nullScriptTag && fGSUBTable->coversScriptAndLanguage(fGSUBTable,fScriptTagV2,fLangSysTag,success)) {
-          count = fGSUBTable->process(fGSUBTable, glyphStorage, rightToLeft, fScriptTagV2, fLangSysTag, fGDEFTable, fSubstitutionFilter,
-                                    fFeatureMap, fFeatureMapCount, fFeatureOrder, success);
+    if (fGSUBTbble.isVblid()) {
+       if (fScriptTbgV2 != nullScriptTbg && fGSUBTbble->coversScriptAndLbngubge(fGSUBTbble,fScriptTbgV2,fLbngSysTbg,success)) {
+          count = fGSUBTbble->process(fGSUBTbble, glyphStorbge, rightToLeft, fScriptTbgV2, fLbngSysTbg, fGDEFTbble, fSubstitutionFilter,
+                                    fFebtureMbp, fFebtureMbpCount, fFebtureOrder, success);
 
         } else {
-          count = fGSUBTable->process(fGSUBTable, glyphStorage, rightToLeft, fScriptTag, fLangSysTag, fGDEFTable, fSubstitutionFilter,
-                                    fFeatureMap, fFeatureMapCount, fFeatureOrder, success);
+          count = fGSUBTbble->process(fGSUBTbble, glyphStorbge, rightToLeft, fScriptTbg, fLbngSysTbg, fGDEFTbble, fSubstitutionFilter,
+                                    fFebtureMbp, fFebtureMbpCount, fFebtureOrder, success);
         }
     }
 
     return count;
 }
-le_int32 OpenTypeLayoutEngine::glyphPostProcessing(LEGlyphStorage &tempGlyphStorage, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 OpenTypeLbyoutEngine::glyphPostProcessing(LEGlyphStorbge &tempGlyphStorbge, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    glyphStorage.adoptGlyphArray(tempGlyphStorage);
-    glyphStorage.adoptCharIndicesArray(tempGlyphStorage);
-    glyphStorage.adoptAuxDataArray(tempGlyphStorage);
-    glyphStorage.adoptGlyphCount(tempGlyphStorage);
+    glyphStorbge.bdoptGlyphArrby(tempGlyphStorbge);
+    glyphStorbge.bdoptChbrIndicesArrby(tempGlyphStorbge);
+    glyphStorbge.bdoptAuxDbtbArrby(tempGlyphStorbge);
+    glyphStorbge.bdoptGlyphCount(tempGlyphStorbge);
 
-    return glyphStorage.getGlyphCount();
+    return glyphStorbge.getGlyphCount();
 }
 
-le_int32 OpenTypeLayoutEngine::computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+le_int32 OpenTypeLbyoutEngine::computeGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft, LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
-    LEUnicode *outChars = NULL;
-    LEGlyphStorage fakeGlyphStorage;
-    le_int32 outCharCount, outGlyphCount;
+    LEUnicode *outChbrs = NULL;
+    LEGlyphStorbge fbkeGlyphStorbge;
+    le_int32 outChbrCount, outGlyphCount;
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
+    if (chbrs == NULL || offset < 0 || count < 0 || mbx < 0 || offset >= mbx || offset + count > mbx) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return 0;
     }
 
-    outCharCount = characterProcessing(chars, offset, count, max, rightToLeft, outChars, fakeGlyphStorage, success);
+    outChbrCount = chbrbcterProcessing(chbrs, offset, count, mbx, rightToLeft, outChbrs, fbkeGlyphStorbge, success);
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    if (outChars != NULL) {
-        // le_int32 fakeGlyphCount =
-        glyphProcessing(outChars, 0, outCharCount, outCharCount, rightToLeft, fakeGlyphStorage, success);
-        LE_DELETE_ARRAY(outChars); // FIXME: a subclass may have allocated this, in which case this delete might not work...
-        //adjustGlyphs(outChars, 0, outCharCount, rightToLeft, fakeGlyphs, fakeGlyphCount);
+    if (outChbrs != NULL) {
+        // le_int32 fbkeGlyphCount =
+        glyphProcessing(outChbrs, 0, outChbrCount, outChbrCount, rightToLeft, fbkeGlyphStorbge, success);
+        LE_DELETE_ARRAY(outChbrs); // FIXME: b subclbss mby hbve bllocbted this, in which cbse this delete might not work...
+        //bdjustGlyphs(outChbrs, 0, outChbrCount, rightToLeft, fbkeGlyphs, fbkeGlyphCount);
     } else {
-        // le_int32 fakeGlyphCount =
-        glyphProcessing(chars, offset, count, max, rightToLeft, fakeGlyphStorage, success);
-        //adjustGlyphs(chars, offset, count, rightToLeft, fakeGlyphs, fakeGlyphCount);
+        // le_int32 fbkeGlyphCount =
+        glyphProcessing(chbrs, offset, count, mbx, rightToLeft, fbkeGlyphStorbge, success);
+        //bdjustGlyphs(chbrs, offset, count, rightToLeft, fbkeGlyphs, fbkeGlyphCount);
     }
 
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    outGlyphCount = glyphPostProcessing(fakeGlyphStorage, glyphStorage, success);
+    outGlyphCount = glyphPostProcessing(fbkeGlyphStorbge, glyphStorbge, success);
 
     return outGlyphCount;
 }
 
-// apply GPOS table, if any
-void OpenTypeLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                                LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// bpply GPOS tbble, if bny
+void OpenTypeLbyoutEngine::bdjustGlyphPositions(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse,
+                                                LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
-    _LETRACE("OTLE::adjustGPOS");
+    _LETRACE("OTLE::bdjustGPOS");
     if (LE_FAILURE(success)) {
         return;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
+    if (chbrs == NULL || offset < 0 || count < 0) {
         success = LE_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
 
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
     if (glyphCount == 0) {
         return;
     }
 
-    if (!fGPOSTable.isEmpty()) {
-        GlyphPositionAdjustments *adjustments = new GlyphPositionAdjustments(glyphCount);
+    if (!fGPOSTbble.isEmpty()) {
+        GlyphPositionAdjustments *bdjustments = new GlyphPositionAdjustments(glyphCount);
         le_int32 i;
 
-        if (adjustments == NULL) {
+        if (bdjustments == NULL) {
             success = LE_MEMORY_ALLOCATION_ERROR;
             return;
         }
 
 #if 0
-        // Don't need to do this if we allocate
-        // the adjustments array w/ new...
+        // Don't need to do this if we bllocbte
+        // the bdjustments brrby w/ new...
         for (i = 0; i < glyphCount; i += 1) {
-            adjustments->setXPlacement(i, 0);
-            adjustments->setYPlacement(i, 0);
+            bdjustments->setXPlbcement(i, 0);
+            bdjustments->setYPlbcement(i, 0);
 
-            adjustments->setXAdvance(i, 0);
-            adjustments->setYAdvance(i, 0);
+            bdjustments->setXAdvbnce(i, 0);
+            bdjustments->setYAdvbnce(i, 0);
 
-            adjustments->setBaseOffset(i, -1);
+            bdjustments->setBbseOffset(i, -1);
         }
 #endif
 
-        if (!fGPOSTable.isEmpty()) {
-            if (fScriptTagV2 != nullScriptTag &&
-                fGPOSTable->coversScriptAndLanguage(fGPOSTable, fScriptTagV2,fLangSysTag,success)) {
+        if (!fGPOSTbble.isEmpty()) {
+            if (fScriptTbgV2 != nullScriptTbg &&
+                fGPOSTbble->coversScriptAndLbngubge(fGPOSTbble, fScriptTbgV2,fLbngSysTbg,success)) {
               _LETRACE("OTLE::process [0]");
-              fGPOSTable->process(fGPOSTable, glyphStorage, adjustments, reverse, fScriptTagV2, fLangSysTag,
-                                  fGDEFTable, success, fFontInstance, fFeatureMap, fFeatureMapCount, fFeatureOrder);
+              fGPOSTbble->process(fGPOSTbble, glyphStorbge, bdjustments, reverse, fScriptTbgV2, fLbngSysTbg,
+                                  fGDEFTbble, success, fFontInstbnce, fFebtureMbp, fFebtureMbpCount, fFebtureOrder);
 
             } else {
               _LETRACE("OTLE::process [1]");
-              fGPOSTable->process(fGPOSTable, glyphStorage, adjustments, reverse, fScriptTag, fLangSysTag,
-                                  fGDEFTable, success, fFontInstance, fFeatureMap, fFeatureMapCount, fFeatureOrder);
+              fGPOSTbble->process(fGPOSTbble, glyphStorbge, bdjustments, reverse, fScriptTbg, fLbngSysTbg,
+                                  fGDEFTbble, success, fFontInstbnce, fFebtureMbp, fFebtureMbpCount, fFebtureOrder);
             }
-        } else if (fTypoFlags & LE_Kerning_FEATURE_FLAG) { /* kerning enabled */
+        } else if (fTypoFlbgs & LE_Kerning_FEATURE_FLAG) { /* kerning enbbled */
           _LETRACE("OTLE::kerning");
-          LETableReference kernTable(fFontInstance, LE_KERN_TABLE_TAG, success);
-          KernTable kt(kernTable, success);
-          kt.process(glyphStorage, success);
+          LETbbleReference kernTbble(fFontInstbnce, LE_KERN_TABLE_TAG, success);
+          KernTbble kt(kernTbble, success);
+          kt.process(glyphStorbge, success);
         }
 
-        float xAdjust = 0, yAdjust = 0;
+        flobt xAdjust = 0, yAdjust = 0;
 
         for (i = 0; i < glyphCount; i += 1) {
-            float xAdvance   = adjustments->getXAdvance(i);
-            float yAdvance   = adjustments->getYAdvance(i);
-            float xPlacement = 0;
-            float yPlacement = 0;
+            flobt xAdvbnce   = bdjustments->getXAdvbnce(i);
+            flobt yAdvbnce   = bdjustments->getYAdvbnce(i);
+            flobt xPlbcement = 0;
+            flobt yPlbcement = 0;
 
 
 #if 0
-            // This is where separate kerning adjustments
-            // should get applied.
+            // This is where sepbrbte kerning bdjustments
+            // should get bpplied.
             xAdjust += xKerning;
             yAdjust += yKerning;
 #endif
 
-            for (le_int32 base = i; base >= 0; base = adjustments->getBaseOffset(base)) {
-                xPlacement += adjustments->getXPlacement(base);
-                yPlacement += adjustments->getYPlacement(base);
+            for (le_int32 bbse = i; bbse >= 0; bbse = bdjustments->getBbseOffset(bbse)) {
+                xPlbcement += bdjustments->getXPlbcement(bbse);
+                yPlbcement += bdjustments->getYPlbcement(bbse);
             }
 
-            xPlacement = fFontInstance->xUnitsToPoints(xPlacement);
-            yPlacement = fFontInstance->yUnitsToPoints(yPlacement);
-            _LETRACE("OTLE GPOS: #%d, (%.2f,%.2f)", i, xPlacement, yPlacement);
-            glyphStorage.adjustPosition(i, xAdjust + xPlacement, -(yAdjust + yPlacement), success);
+            xPlbcement = fFontInstbnce->xUnitsToPoints(xPlbcement);
+            yPlbcement = fFontInstbnce->yUnitsToPoints(yPlbcement);
+            _LETRACE("OTLE GPOS: #%d, (%.2f,%.2f)", i, xPlbcement, yPlbcement);
+            glyphStorbge.bdjustPosition(i, xAdjust + xPlbcement, -(yAdjust + yPlbcement), success);
 
-            xAdjust += fFontInstance->xUnitsToPoints(xAdvance);
-            yAdjust += fFontInstance->yUnitsToPoints(yAdvance);
+            xAdjust += fFontInstbnce->xUnitsToPoints(xAdvbnce);
+            yAdjust += fFontInstbnce->yUnitsToPoints(yAdvbnce);
         }
 
-        glyphStorage.adjustPosition(glyphCount, xAdjust, -yAdjust, success);
+        glyphStorbge.bdjustPosition(glyphCount, xAdjust, -yAdjust, success);
 
-        delete adjustments;
+        delete bdjustments;
     } else {
-        // if there was no GPOS table, maybe there's non-OpenType kerning we can use
-        LayoutEngine::adjustGlyphPositions(chars, offset, count, reverse, glyphStorage, success);
+        // if there wbs no GPOS tbble, mbybe there's non-OpenType kerning we cbn use
+        LbyoutEngine::bdjustGlyphPositions(chbrs, offset, count, reverse, glyphStorbge, success);
     }
 
-    LEGlyphID zwnj  = fFontInstance->mapCharToGlyph(0x200C);
+    LEGlyphID zwnj  = fFontInstbnce->mbpChbrToGlyph(0x200C);
 
     if (zwnj != 0x0000) {
         for (le_int32 g = 0; g < glyphCount; g += 1) {
-            LEGlyphID glyph = glyphStorage[g];
+            LEGlyphID glyph = glyphStorbge[g];
 
             if (glyph == zwnj) {
-                glyphStorage[g] = LE_SET_GLYPH(glyph, 0xFFFF);
+                glyphStorbge[g] = LE_SET_GLYPH(glyph, 0xFFFF);
             }
         }
     }
 
 #if 0
     // Don't know why this is here...
-    LE_DELETE_ARRAY(fFeatureTags);
-    fFeatureTags = NULL;
+    LE_DELETE_ARRAY(fFebtureTbgs);
+    fFebtureTbgs = NULL;
 #endif
 }
 

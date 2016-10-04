@@ -1,382 +1,382 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
-import java.util.Collection;
+pbckbge jbvb.util.concurrent.locks;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.Collection;
 
 /**
- * A reentrant mutual exclusion {@link Lock} with the same basic
- * behavior and semantics as the implicit monitor lock accessed using
- * {@code synchronized} methods and statements, but with extended
- * capabilities.
+ * A reentrbnt mutubl exclusion {@link Lock} with the sbme bbsic
+ * behbvior bnd sembntics bs the implicit monitor lock bccessed using
+ * {@code synchronized} methods bnd stbtements, but with extended
+ * cbpbbilities.
  *
- * <p>A {@code ReentrantLock} is <em>owned</em> by the thread last
- * successfully locking, but not yet unlocking it. A thread invoking
- * {@code lock} will return, successfully acquiring the lock, when
- * the lock is not owned by another thread. The method will return
- * immediately if the current thread already owns the lock. This can
- * be checked using methods {@link #isHeldByCurrentThread}, and {@link
+ * <p>A {@code ReentrbntLock} is <em>owned</em> by the threbd lbst
+ * successfully locking, but not yet unlocking it. A threbd invoking
+ * {@code lock} will return, successfully bcquiring the lock, when
+ * the lock is not owned by bnother threbd. The method will return
+ * immedibtely if the current threbd blrebdy owns the lock. This cbn
+ * be checked using methods {@link #isHeldByCurrentThrebd}, bnd {@link
  * #getHoldCount}.
  *
- * <p>The constructor for this class accepts an optional
- * <em>fairness</em> parameter.  When set {@code true}, under
- * contention, locks favor granting access to the longest-waiting
- * thread.  Otherwise this lock does not guarantee any particular
- * access order.  Programs using fair locks accessed by many threads
- * may display lower overall throughput (i.e., are slower; often much
- * slower) than those using the default setting, but have smaller
- * variances in times to obtain locks and guarantee lack of
- * starvation. Note however, that fairness of locks does not guarantee
- * fairness of thread scheduling. Thus, one of many threads using a
- * fair lock may obtain it multiple times in succession while other
- * active threads are not progressing and not currently holding the
+ * <p>The constructor for this clbss bccepts bn optionbl
+ * <em>fbirness</em> pbrbmeter.  When set {@code true}, under
+ * contention, locks fbvor grbnting bccess to the longest-wbiting
+ * threbd.  Otherwise this lock does not gubrbntee bny pbrticulbr
+ * bccess order.  Progrbms using fbir locks bccessed by mbny threbds
+ * mby displby lower overbll throughput (i.e., bre slower; often much
+ * slower) thbn those using the defbult setting, but hbve smbller
+ * vbribnces in times to obtbin locks bnd gubrbntee lbck of
+ * stbrvbtion. Note however, thbt fbirness of locks does not gubrbntee
+ * fbirness of threbd scheduling. Thus, one of mbny threbds using b
+ * fbir lock mby obtbin it multiple times in succession while other
+ * bctive threbds bre not progressing bnd not currently holding the
  * lock.
- * Also note that the untimed {@link #tryLock()} method does not
- * honor the fairness setting. It will succeed if the lock
- * is available even if other threads are waiting.
+ * Also note thbt the untimed {@link #tryLock()} method does not
+ * honor the fbirness setting. It will succeed if the lock
+ * is bvbilbble even if other threbds bre wbiting.
  *
- * <p>It is recommended practice to <em>always</em> immediately
- * follow a call to {@code lock} with a {@code try} block, most
- * typically in a before/after construction such as:
+ * <p>It is recommended prbctice to <em>blwbys</em> immedibtely
+ * follow b cbll to {@code lock} with b {@code try} block, most
+ * typicblly in b before/bfter construction such bs:
  *
  *  <pre> {@code
- * class X {
- *   private final ReentrantLock lock = new ReentrantLock();
+ * clbss X {
+ *   privbte finbl ReentrbntLock lock = new ReentrbntLock();
  *   // ...
  *
  *   public void m() {
  *     lock.lock();  // block until condition holds
  *     try {
  *       // ... method body
- *     } finally {
+ *     } finblly {
  *       lock.unlock()
  *     }
  *   }
  * }}</pre>
  *
- * <p>In addition to implementing the {@link Lock} interface, this
- * class defines a number of {@code public} and {@code protected}
- * methods for inspecting the state of the lock.  Some of these
- * methods are only useful for instrumentation and monitoring.
+ * <p>In bddition to implementing the {@link Lock} interfbce, this
+ * clbss defines b number of {@code public} bnd {@code protected}
+ * methods for inspecting the stbte of the lock.  Some of these
+ * methods bre only useful for instrumentbtion bnd monitoring.
  *
- * <p>Serialization of this class behaves in the same way as built-in
- * locks: a deserialized lock is in the unlocked state, regardless of
- * its state when serialized.
+ * <p>Seriblizbtion of this clbss behbves in the sbme wby bs built-in
+ * locks: b deseriblized lock is in the unlocked stbte, regbrdless of
+ * its stbte when seriblized.
  *
- * <p>This lock supports a maximum of 2147483647 recursive locks by
- * the same thread. Attempts to exceed this limit result in
+ * <p>This lock supports b mbximum of 2147483647 recursive locks by
+ * the sbme threbd. Attempts to exceed this limit result in
  * {@link Error} throws from locking methods.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class ReentrantLock implements Lock, java.io.Serializable {
-    private static final long serialVersionUID = 7373984872572414699L;
-    /** Synchronizer providing all implementation mechanics */
-    private final Sync sync;
+public clbss ReentrbntLock implements Lock, jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 7373984872572414699L;
+    /** Synchronizer providing bll implementbtion mechbnics */
+    privbte finbl Sync sync;
 
     /**
-     * Base of synchronization control for this lock. Subclassed
-     * into fair and nonfair versions below. Uses AQS state to
+     * Bbse of synchronizbtion control for this lock. Subclbssed
+     * into fbir bnd nonfbir versions below. Uses AQS stbte to
      * represent the number of holds on the lock.
      */
-    abstract static class Sync extends AbstractQueuedSynchronizer {
-        private static final long serialVersionUID = -5179523762034025860L;
+    bbstrbct stbtic clbss Sync extends AbstrbctQueuedSynchronizer {
+        privbte stbtic finbl long seriblVersionUID = -5179523762034025860L;
 
         /**
-         * Performs {@link Lock#lock}. The main reason for subclassing
-         * is to allow fast path for nonfair version.
+         * Performs {@link Lock#lock}. The mbin rebson for subclbssing
+         * is to bllow fbst pbth for nonfbir version.
          */
-        abstract void lock();
+        bbstrbct void lock();
 
         /**
-         * Performs non-fair tryLock.  tryAcquire is implemented in
-         * subclasses, but both need nonfair try for trylock method.
+         * Performs non-fbir tryLock.  tryAcquire is implemented in
+         * subclbsses, but both need nonfbir try for trylock method.
          */
-        final boolean nonfairTryAcquire(int acquires) {
-            final Thread current = Thread.currentThread();
-            int c = getState();
+        finbl boolebn nonfbirTryAcquire(int bcquires) {
+            finbl Threbd current = Threbd.currentThrebd();
+            int c = getStbte();
             if (c == 0) {
-                if (compareAndSetState(0, acquires)) {
-                    setExclusiveOwnerThread(current);
+                if (compbreAndSetStbte(0, bcquires)) {
+                    setExclusiveOwnerThrebd(current);
                     return true;
                 }
             }
-            else if (current == getExclusiveOwnerThread()) {
-                int nextc = c + acquires;
+            else if (current == getExclusiveOwnerThrebd()) {
+                int nextc = c + bcquires;
                 if (nextc < 0) // overflow
-                    throw new Error("Maximum lock count exceeded");
-                setState(nextc);
+                    throw new Error("Mbximum lock count exceeded");
+                setStbte(nextc);
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        protected final boolean tryRelease(int releases) {
-            int c = getState() - releases;
-            if (Thread.currentThread() != getExclusiveOwnerThread())
-                throw new IllegalMonitorStateException();
-            boolean free = false;
+        protected finbl boolebn tryRelebse(int relebses) {
+            int c = getStbte() - relebses;
+            if (Threbd.currentThrebd() != getExclusiveOwnerThrebd())
+                throw new IllegblMonitorStbteException();
+            boolebn free = fblse;
             if (c == 0) {
                 free = true;
-                setExclusiveOwnerThread(null);
+                setExclusiveOwnerThrebd(null);
             }
-            setState(c);
+            setStbte(c);
             return free;
         }
 
-        protected final boolean isHeldExclusively() {
-            // While we must in general read state before owner,
-            // we don't need to do so to check if current thread is owner
-            return getExclusiveOwnerThread() == Thread.currentThread();
+        protected finbl boolebn isHeldExclusively() {
+            // While we must in generbl rebd stbte before owner,
+            // we don't need to do so to check if current threbd is owner
+            return getExclusiveOwnerThrebd() == Threbd.currentThrebd();
         }
 
-        final ConditionObject newCondition() {
+        finbl ConditionObject newCondition() {
             return new ConditionObject();
         }
 
-        // Methods relayed from outer class
+        // Methods relbyed from outer clbss
 
-        final Thread getOwner() {
-            return getState() == 0 ? null : getExclusiveOwnerThread();
+        finbl Threbd getOwner() {
+            return getStbte() == 0 ? null : getExclusiveOwnerThrebd();
         }
 
-        final int getHoldCount() {
-            return isHeldExclusively() ? getState() : 0;
+        finbl int getHoldCount() {
+            return isHeldExclusively() ? getStbte() : 0;
         }
 
-        final boolean isLocked() {
-            return getState() != 0;
+        finbl boolebn isLocked() {
+            return getStbte() != 0;
         }
 
         /**
-         * Reconstitutes the instance from a stream (that is, deserializes it).
+         * Reconstitutes the instbnce from b strebm (thbt is, deseriblizes it).
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-            s.defaultReadObject();
-            setState(0); // reset to unlocked state
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+            s.defbultRebdObject();
+            setStbte(0); // reset to unlocked stbte
         }
     }
 
     /**
-     * Sync object for non-fair locks
+     * Sync object for non-fbir locks
      */
-    static final class NonfairSync extends Sync {
-        private static final long serialVersionUID = 7316153563782823691L;
+    stbtic finbl clbss NonfbirSync extends Sync {
+        privbte stbtic finbl long seriblVersionUID = 7316153563782823691L;
 
         /**
-         * Performs lock.  Try immediate barge, backing up to normal
-         * acquire on failure.
+         * Performs lock.  Try immedibte bbrge, bbcking up to normbl
+         * bcquire on fbilure.
          */
-        final void lock() {
-            if (compareAndSetState(0, 1))
-                setExclusiveOwnerThread(Thread.currentThread());
+        finbl void lock() {
+            if (compbreAndSetStbte(0, 1))
+                setExclusiveOwnerThrebd(Threbd.currentThrebd());
             else
-                acquire(1);
+                bcquire(1);
         }
 
-        protected final boolean tryAcquire(int acquires) {
-            return nonfairTryAcquire(acquires);
+        protected finbl boolebn tryAcquire(int bcquires) {
+            return nonfbirTryAcquire(bcquires);
         }
     }
 
     /**
-     * Sync object for fair locks
+     * Sync object for fbir locks
      */
-    static final class FairSync extends Sync {
-        private static final long serialVersionUID = -3000897897090466540L;
+    stbtic finbl clbss FbirSync extends Sync {
+        privbte stbtic finbl long seriblVersionUID = -3000897897090466540L;
 
-        final void lock() {
-            acquire(1);
+        finbl void lock() {
+            bcquire(1);
         }
 
         /**
-         * Fair version of tryAcquire.  Don't grant access unless
-         * recursive call or no waiters or is first.
+         * Fbir version of tryAcquire.  Don't grbnt bccess unless
+         * recursive cbll or no wbiters or is first.
          */
-        protected final boolean tryAcquire(int acquires) {
-            final Thread current = Thread.currentThread();
-            int c = getState();
+        protected finbl boolebn tryAcquire(int bcquires) {
+            finbl Threbd current = Threbd.currentThrebd();
+            int c = getStbte();
             if (c == 0) {
-                if (!hasQueuedPredecessors() &&
-                    compareAndSetState(0, acquires)) {
-                    setExclusiveOwnerThread(current);
+                if (!hbsQueuedPredecessors() &&
+                    compbreAndSetStbte(0, bcquires)) {
+                    setExclusiveOwnerThrebd(current);
                     return true;
                 }
             }
-            else if (current == getExclusiveOwnerThread()) {
-                int nextc = c + acquires;
+            else if (current == getExclusiveOwnerThrebd()) {
+                int nextc = c + bcquires;
                 if (nextc < 0)
-                    throw new Error("Maximum lock count exceeded");
-                setState(nextc);
+                    throw new Error("Mbximum lock count exceeded");
+                setStbte(nextc);
                 return true;
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Creates an instance of {@code ReentrantLock}.
-     * This is equivalent to using {@code ReentrantLock(false)}.
+     * Crebtes bn instbnce of {@code ReentrbntLock}.
+     * This is equivblent to using {@code ReentrbntLock(fblse)}.
      */
-    public ReentrantLock() {
-        sync = new NonfairSync();
+    public ReentrbntLock() {
+        sync = new NonfbirSync();
     }
 
     /**
-     * Creates an instance of {@code ReentrantLock} with the
-     * given fairness policy.
+     * Crebtes bn instbnce of {@code ReentrbntLock} with the
+     * given fbirness policy.
      *
-     * @param fair {@code true} if this lock should use a fair ordering policy
+     * @pbrbm fbir {@code true} if this lock should use b fbir ordering policy
      */
-    public ReentrantLock(boolean fair) {
-        sync = fair ? new FairSync() : new NonfairSync();
+    public ReentrbntLock(boolebn fbir) {
+        sync = fbir ? new FbirSync() : new NonfbirSync();
     }
 
     /**
      * Acquires the lock.
      *
-     * <p>Acquires the lock if it is not held by another thread and returns
-     * immediately, setting the lock hold count to one.
+     * <p>Acquires the lock if it is not held by bnother threbd bnd returns
+     * immedibtely, setting the lock hold count to one.
      *
-     * <p>If the current thread already holds the lock then the hold
-     * count is incremented by one and the method returns immediately.
+     * <p>If the current threbd blrebdy holds the lock then the hold
+     * count is incremented by one bnd the method returns immedibtely.
      *
-     * <p>If the lock is held by another thread then the
-     * current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until the lock has been acquired,
-     * at which time the lock hold count is set to one.
+     * <p>If the lock is held by bnother threbd then the
+     * current threbd becomes disbbled for threbd scheduling
+     * purposes bnd lies dormbnt until the lock hbs been bcquired,
+     * bt which time the lock hold count is set to one.
      */
     public void lock() {
         sync.lock();
     }
 
     /**
-     * Acquires the lock unless the current thread is
-     * {@linkplain Thread#interrupt interrupted}.
+     * Acquires the lock unless the current threbd is
+     * {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires the lock if it is not held by another thread and returns
-     * immediately, setting the lock hold count to one.
+     * <p>Acquires the lock if it is not held by bnother threbd bnd returns
+     * immedibtely, setting the lock hold count to one.
      *
-     * <p>If the current thread already holds this lock then the hold count
-     * is incremented by one and the method returns immediately.
+     * <p>If the current threbd blrebdy holds this lock then the hold count
+     * is incremented by one bnd the method returns immedibtely.
      *
-     * <p>If the lock is held by another thread then the
-     * current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of two things happens:
+     * <p>If the lock is held by bnother threbd then the
+     * current threbd becomes disbbled for threbd scheduling
+     * purposes bnd lies dormbnt until one of two things hbppens:
      *
      * <ul>
      *
-     * <li>The lock is acquired by the current thread; or
+     * <li>The lock is bcquired by the current threbd; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread.
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts} the
+     * current threbd.
      *
      * </ul>
      *
-     * <p>If the lock is acquired by the current thread then the lock hold
+     * <p>If the lock is bcquired by the current threbd then the lock hold
      * count is set to one.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      *
      * <ul>
      *
-     * <li>has its interrupted status set on entry to this method; or
+     * <li>hbs its interrupted stbtus set on entry to this method; or
      *
-     * <li>is {@linkplain Thread#interrupt interrupted} while acquiring
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while bcquiring
      * the lock,
      *
      * </ul>
      *
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>In this implementation, as this method is an explicit
+     * <p>In this implementbtion, bs this method is bn explicit
      * interruption point, preference is given to responding to the
-     * interrupt over normal or reentrant acquisition of the lock.
+     * interrupt over normbl or reentrbnt bcquisition of the lock.
      *
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current threbd is interrupted
      */
     public void lockInterruptibly() throws InterruptedException {
-        sync.acquireInterruptibly(1);
+        sync.bcquireInterruptibly(1);
     }
 
     /**
-     * Acquires the lock only if it is not held by another thread at the time
-     * of invocation.
+     * Acquires the lock only if it is not held by bnother threbd bt the time
+     * of invocbtion.
      *
-     * <p>Acquires the lock if it is not held by another thread and
-     * returns immediately with the value {@code true}, setting the
-     * lock hold count to one. Even when this lock has been set to use a
-     * fair ordering policy, a call to {@code tryLock()} <em>will</em>
-     * immediately acquire the lock if it is available, whether or not
-     * other threads are currently waiting for the lock.
-     * This &quot;barging&quot; behavior can be useful in certain
-     * circumstances, even though it breaks fairness. If you want to honor
-     * the fairness setting for this lock, then use
+     * <p>Acquires the lock if it is not held by bnother threbd bnd
+     * returns immedibtely with the vblue {@code true}, setting the
+     * lock hold count to one. Even when this lock hbs been set to use b
+     * fbir ordering policy, b cbll to {@code tryLock()} <em>will</em>
+     * immedibtely bcquire the lock if it is bvbilbble, whether or not
+     * other threbds bre currently wbiting for the lock.
+     * This &quot;bbrging&quot; behbvior cbn be useful in certbin
+     * circumstbnces, even though it brebks fbirness. If you wbnt to honor
+     * the fbirness setting for this lock, then use
      * {@link #tryLock(long, TimeUnit) tryLock(0, TimeUnit.SECONDS) }
-     * which is almost equivalent (it also detects interruption).
+     * which is blmost equivblent (it blso detects interruption).
      *
-     * <p>If the current thread already holds this lock then the hold
-     * count is incremented by one and the method returns {@code true}.
+     * <p>If the current threbd blrebdy holds this lock then the hold
+     * count is incremented by one bnd the method returns {@code true}.
      *
-     * <p>If the lock is held by another thread then this method will return
-     * immediately with the value {@code false}.
+     * <p>If the lock is held by bnother threbd then this method will return
+     * immedibtely with the vblue {@code fblse}.
      *
-     * @return {@code true} if the lock was free and was acquired by the
-     *         current thread, or the lock was already held by the current
-     *         thread; and {@code false} otherwise
+     * @return {@code true} if the lock wbs free bnd wbs bcquired by the
+     *         current threbd, or the lock wbs blrebdy held by the current
+     *         threbd; bnd {@code fblse} otherwise
      */
-    public boolean tryLock() {
-        return sync.nonfairTryAcquire(1);
+    public boolebn tryLock() {
+        return sync.nonfbirTryAcquire(1);
     }
 
     /**
-     * Acquires the lock if it is not held by another thread within the given
-     * waiting time and the current thread has not been
-     * {@linkplain Thread#interrupt interrupted}.
+     * Acquires the lock if it is not held by bnother threbd within the given
+     * wbiting time bnd the current threbd hbs not been
+     * {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires the lock if it is not held by another thread and returns
-     * immediately with the value {@code true}, setting the lock hold count
-     * to one. If this lock has been set to use a fair ordering policy then
-     * an available lock <em>will not</em> be acquired if any other threads
-     * are waiting for the lock. This is in contrast to the {@link #tryLock()}
-     * method. If you want a timed {@code tryLock} that does permit barging on
-     * a fair lock then combine the timed and un-timed forms together:
+     * <p>Acquires the lock if it is not held by bnother threbd bnd returns
+     * immedibtely with the vblue {@code true}, setting the lock hold count
+     * to one. If this lock hbs been set to use b fbir ordering policy then
+     * bn bvbilbble lock <em>will not</em> be bcquired if bny other threbds
+     * bre wbiting for the lock. This is in contrbst to the {@link #tryLock()}
+     * method. If you wbnt b timed {@code tryLock} thbt does permit bbrging on
+     * b fbir lock then combine the timed bnd un-timed forms together:
      *
      *  <pre> {@code
      * if (lock.tryLock() ||
@@ -384,113 +384,113 @@ public class ReentrantLock implements Lock, java.io.Serializable {
      *   ...
      * }}</pre>
      *
-     * <p>If the current thread
-     * already holds this lock then the hold count is incremented by one and
+     * <p>If the current threbd
+     * blrebdy holds this lock then the hold count is incremented by one bnd
      * the method returns {@code true}.
      *
-     * <p>If the lock is held by another thread then the
-     * current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If the lock is held by bnother threbd then the
+     * current threbd becomes disbbled for threbd scheduling
+     * purposes bnd lies dormbnt until one of three things hbppens:
      *
      * <ul>
      *
-     * <li>The lock is acquired by the current thread; or
+     * <li>The lock is bcquired by the current threbd; or
      *
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd; or
      *
-     * <li>The specified waiting time elapses
+     * <li>The specified wbiting time elbpses
      *
      * </ul>
      *
-     * <p>If the lock is acquired then the value {@code true} is returned and
+     * <p>If the lock is bcquired then the vblue {@code true} is returned bnd
      * the lock hold count is set to one.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      *
      * <ul>
      *
-     * <li>has its interrupted status set on entry to this method; or
+     * <li>hbs its interrupted stbtus set on entry to this method; or
      *
-     * <li>is {@linkplain Thread#interrupt interrupted} while
-     * acquiring the lock,
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while
+     * bcquiring the lock,
      *
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.
+     * <p>If the specified wbiting time elbpses then the vblue {@code fblse}
+     * is returned.  If the time is less thbn or equbl to zero, the method
+     * will not wbit bt bll.
      *
-     * <p>In this implementation, as this method is an explicit
+     * <p>In this implementbtion, bs this method is bn explicit
      * interruption point, preference is given to responding to the
-     * interrupt over normal or reentrant acquisition of the lock, and
-     * over reporting the elapse of the waiting time.
+     * interrupt over normbl or reentrbnt bcquisition of the lock, bnd
+     * over reporting the elbpse of the wbiting time.
      *
-     * @param timeout the time to wait for the lock
-     * @param unit the time unit of the timeout argument
-     * @return {@code true} if the lock was free and was acquired by the
-     *         current thread, or the lock was already held by the current
-     *         thread; and {@code false} if the waiting time elapsed before
-     *         the lock could be acquired
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm timeout the time to wbit for the lock
+     * @pbrbm unit the time unit of the timeout brgument
+     * @return {@code true} if the lock wbs free bnd wbs bcquired by the
+     *         current threbd, or the lock wbs blrebdy held by the current
+     *         threbd; bnd {@code fblse} if the wbiting time elbpsed before
+     *         the lock could be bcquired
+     * @throws InterruptedException if the current threbd is interrupted
      * @throws NullPointerException if the time unit is null
      */
-    public boolean tryLock(long timeout, TimeUnit unit)
+    public boolebn tryLock(long timeout, TimeUnit unit)
             throws InterruptedException {
-        return sync.tryAcquireNanos(1, unit.toNanos(timeout));
+        return sync.tryAcquireNbnos(1, unit.toNbnos(timeout));
     }
 
     /**
-     * Attempts to release this lock.
+     * Attempts to relebse this lock.
      *
-     * <p>If the current thread is the holder of this lock then the hold
+     * <p>If the current threbd is the holder of this lock then the hold
      * count is decremented.  If the hold count is now zero then the lock
-     * is released.  If the current thread is not the holder of this
-     * lock then {@link IllegalMonitorStateException} is thrown.
+     * is relebsed.  If the current threbd is not the holder of this
+     * lock then {@link IllegblMonitorStbteException} is thrown.
      *
-     * @throws IllegalMonitorStateException if the current thread does not
+     * @throws IllegblMonitorStbteException if the current threbd does not
      *         hold this lock
      */
     public void unlock() {
-        sync.release(1);
+        sync.relebse(1);
     }
 
     /**
-     * Returns a {@link Condition} instance for use with this
-     * {@link Lock} instance.
+     * Returns b {@link Condition} instbnce for use with this
+     * {@link Lock} instbnce.
      *
-     * <p>The returned {@link Condition} instance supports the same
-     * usages as do the {@link Object} monitor methods ({@link
-     * Object#wait() wait}, {@link Object#notify notify}, and {@link
+     * <p>The returned {@link Condition} instbnce supports the sbme
+     * usbges bs do the {@link Object} monitor methods ({@link
+     * Object#wbit() wbit}, {@link Object#notify notify}, bnd {@link
      * Object#notifyAll notifyAll}) when used with the built-in
      * monitor lock.
      *
      * <ul>
      *
-     * <li>If this lock is not held when any of the {@link Condition}
-     * {@linkplain Condition#await() waiting} or {@linkplain
-     * Condition#signal signalling} methods are called, then an {@link
-     * IllegalMonitorStateException} is thrown.
+     * <li>If this lock is not held when bny of the {@link Condition}
+     * {@linkplbin Condition#bwbit() wbiting} or {@linkplbin
+     * Condition#signbl signblling} methods bre cblled, then bn {@link
+     * IllegblMonitorStbteException} is thrown.
      *
-     * <li>When the condition {@linkplain Condition#await() waiting}
-     * methods are called the lock is released and, before they
-     * return, the lock is reacquired and the lock hold count restored
-     * to what it was when the method was called.
+     * <li>When the condition {@linkplbin Condition#bwbit() wbiting}
+     * methods bre cblled the lock is relebsed bnd, before they
+     * return, the lock is rebcquired bnd the lock hold count restored
+     * to whbt it wbs when the method wbs cblled.
      *
-     * <li>If a thread is {@linkplain Thread#interrupt interrupted}
-     * while waiting then the wait will terminate, an {@link
-     * InterruptedException} will be thrown, and the thread's
-     * interrupted status will be cleared.
+     * <li>If b threbd is {@linkplbin Threbd#interrupt interrupted}
+     * while wbiting then the wbit will terminbte, bn {@link
+     * InterruptedException} will be thrown, bnd the threbd's
+     * interrupted stbtus will be clebred.
      *
-     * <li> Waiting threads are signalled in FIFO order.
+     * <li> Wbiting threbds bre signblled in FIFO order.
      *
-     * <li>The ordering of lock reacquisition for threads returning
-     * from waiting methods is the same as for threads initially
-     * acquiring the lock, which is in the default case not specified,
-     * but for <em>fair</em> locks favors those threads that have been
-     * waiting the longest.
+     * <li>The ordering of lock rebcquisition for threbds returning
+     * from wbiting methods is the sbme bs for threbds initiblly
+     * bcquiring the lock, which is in the defbult cbse not specified,
+     * but for <em>fbir</em> locks fbvors those threbds thbt hbve been
+     * wbiting the longest.
      *
      * </ul>
      *
@@ -501,262 +501,262 @@ public class ReentrantLock implements Lock, java.io.Serializable {
     }
 
     /**
-     * Queries the number of holds on this lock by the current thread.
+     * Queries the number of holds on this lock by the current threbd.
      *
-     * <p>A thread has a hold on a lock for each lock action that is not
-     * matched by an unlock action.
+     * <p>A threbd hbs b hold on b lock for ebch lock bction thbt is not
+     * mbtched by bn unlock bction.
      *
-     * <p>The hold count information is typically only used for testing and
-     * debugging purposes. For example, if a certain section of code should
-     * not be entered with the lock already held then we can assert that
-     * fact:
+     * <p>The hold count informbtion is typicblly only used for testing bnd
+     * debugging purposes. For exbmple, if b certbin section of code should
+     * not be entered with the lock blrebdy held then we cbn bssert thbt
+     * fbct:
      *
      *  <pre> {@code
-     * class X {
-     *   ReentrantLock lock = new ReentrantLock();
+     * clbss X {
+     *   ReentrbntLock lock = new ReentrbntLock();
      *   // ...
      *   public void m() {
-     *     assert lock.getHoldCount() == 0;
+     *     bssert lock.getHoldCount() == 0;
      *     lock.lock();
      *     try {
      *       // ... method body
-     *     } finally {
+     *     } finblly {
      *       lock.unlock();
      *     }
      *   }
      * }}</pre>
      *
-     * @return the number of holds on this lock by the current thread,
-     *         or zero if this lock is not held by the current thread
+     * @return the number of holds on this lock by the current threbd,
+     *         or zero if this lock is not held by the current threbd
      */
     public int getHoldCount() {
         return sync.getHoldCount();
     }
 
     /**
-     * Queries if this lock is held by the current thread.
+     * Queries if this lock is held by the current threbd.
      *
-     * <p>Analogous to the {@link Thread#holdsLock(Object)} method for
-     * built-in monitor locks, this method is typically used for
-     * debugging and testing. For example, a method that should only be
-     * called while a lock is held can assert that this is the case:
+     * <p>Anblogous to the {@link Threbd#holdsLock(Object)} method for
+     * built-in monitor locks, this method is typicblly used for
+     * debugging bnd testing. For exbmple, b method thbt should only be
+     * cblled while b lock is held cbn bssert thbt this is the cbse:
      *
      *  <pre> {@code
-     * class X {
-     *   ReentrantLock lock = new ReentrantLock();
+     * clbss X {
+     *   ReentrbntLock lock = new ReentrbntLock();
      *   // ...
      *
      *   public void m() {
-     *       assert lock.isHeldByCurrentThread();
+     *       bssert lock.isHeldByCurrentThrebd();
      *       // ... method body
      *   }
      * }}</pre>
      *
-     * <p>It can also be used to ensure that a reentrant lock is used
-     * in a non-reentrant manner, for example:
+     * <p>It cbn blso be used to ensure thbt b reentrbnt lock is used
+     * in b non-reentrbnt mbnner, for exbmple:
      *
      *  <pre> {@code
-     * class X {
-     *   ReentrantLock lock = new ReentrantLock();
+     * clbss X {
+     *   ReentrbntLock lock = new ReentrbntLock();
      *   // ...
      *
      *   public void m() {
-     *       assert !lock.isHeldByCurrentThread();
+     *       bssert !lock.isHeldByCurrentThrebd();
      *       lock.lock();
      *       try {
      *           // ... method body
-     *       } finally {
+     *       } finblly {
      *           lock.unlock();
      *       }
      *   }
      * }}</pre>
      *
-     * @return {@code true} if current thread holds this lock and
-     *         {@code false} otherwise
+     * @return {@code true} if current threbd holds this lock bnd
+     *         {@code fblse} otherwise
      */
-    public boolean isHeldByCurrentThread() {
+    public boolebn isHeldByCurrentThrebd() {
         return sync.isHeldExclusively();
     }
 
     /**
-     * Queries if this lock is held by any thread. This method is
-     * designed for use in monitoring of the system state,
-     * not for synchronization control.
+     * Queries if this lock is held by bny threbd. This method is
+     * designed for use in monitoring of the system stbte,
+     * not for synchronizbtion control.
      *
-     * @return {@code true} if any thread holds this lock and
-     *         {@code false} otherwise
+     * @return {@code true} if bny threbd holds this lock bnd
+     *         {@code fblse} otherwise
      */
-    public boolean isLocked() {
+    public boolebn isLocked() {
         return sync.isLocked();
     }
 
     /**
-     * Returns {@code true} if this lock has fairness set true.
+     * Returns {@code true} if this lock hbs fbirness set true.
      *
-     * @return {@code true} if this lock has fairness set true
+     * @return {@code true} if this lock hbs fbirness set true
      */
-    public final boolean isFair() {
-        return sync instanceof FairSync;
+    public finbl boolebn isFbir() {
+        return sync instbnceof FbirSync;
     }
 
     /**
-     * Returns the thread that currently owns this lock, or
-     * {@code null} if not owned. When this method is called by a
-     * thread that is not the owner, the return value reflects a
-     * best-effort approximation of current lock status. For example,
-     * the owner may be momentarily {@code null} even if there are
-     * threads trying to acquire the lock but have not yet done so.
-     * This method is designed to facilitate construction of
-     * subclasses that provide more extensive lock monitoring
-     * facilities.
+     * Returns the threbd thbt currently owns this lock, or
+     * {@code null} if not owned. When this method is cblled by b
+     * threbd thbt is not the owner, the return vblue reflects b
+     * best-effort bpproximbtion of current lock stbtus. For exbmple,
+     * the owner mby be momentbrily {@code null} even if there bre
+     * threbds trying to bcquire the lock but hbve not yet done so.
+     * This method is designed to fbcilitbte construction of
+     * subclbsses thbt provide more extensive lock monitoring
+     * fbcilities.
      *
      * @return the owner, or {@code null} if not owned
      */
-    protected Thread getOwner() {
+    protected Threbd getOwner() {
         return sync.getOwner();
     }
 
     /**
-     * Queries whether any threads are waiting to acquire this lock. Note that
-     * because cancellations may occur at any time, a {@code true}
-     * return does not guarantee that any other thread will ever
-     * acquire this lock.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Queries whether bny threbds bre wbiting to bcquire this lock. Note thbt
+     * becbuse cbncellbtions mby occur bt bny time, b {@code true}
+     * return does not gubrbntee thbt bny other threbd will ever
+     * bcquire this lock.  This method is designed primbrily for use in
+     * monitoring of the system stbte.
      *
-     * @return {@code true} if there may be other threads waiting to
-     *         acquire the lock
+     * @return {@code true} if there mby be other threbds wbiting to
+     *         bcquire the lock
      */
-    public final boolean hasQueuedThreads() {
-        return sync.hasQueuedThreads();
+    public finbl boolebn hbsQueuedThrebds() {
+        return sync.hbsQueuedThrebds();
     }
 
     /**
-     * Queries whether the given thread is waiting to acquire this
-     * lock. Note that because cancellations may occur at any time, a
-     * {@code true} return does not guarantee that this thread
-     * will ever acquire this lock.  This method is designed primarily for use
-     * in monitoring of the system state.
+     * Queries whether the given threbd is wbiting to bcquire this
+     * lock. Note thbt becbuse cbncellbtions mby occur bt bny time, b
+     * {@code true} return does not gubrbntee thbt this threbd
+     * will ever bcquire this lock.  This method is designed primbrily for use
+     * in monitoring of the system stbte.
      *
-     * @param thread the thread
-     * @return {@code true} if the given thread is queued waiting for this lock
-     * @throws NullPointerException if the thread is null
+     * @pbrbm threbd the threbd
+     * @return {@code true} if the given threbd is queued wbiting for this lock
+     * @throws NullPointerException if the threbd is null
      */
-    public final boolean hasQueuedThread(Thread thread) {
-        return sync.isQueued(thread);
+    public finbl boolebn hbsQueuedThrebd(Threbd threbd) {
+        return sync.isQueued(threbd);
     }
 
     /**
-     * Returns an estimate of the number of threads waiting to
-     * acquire this lock.  The value is only an estimate because the number of
-     * threads may change dynamically while this method traverses
-     * internal data structures.  This method is designed for use in
-     * monitoring of the system state, not for synchronization
+     * Returns bn estimbte of the number of threbds wbiting to
+     * bcquire this lock.  The vblue is only bn estimbte becbuse the number of
+     * threbds mby chbnge dynbmicblly while this method trbverses
+     * internbl dbtb structures.  This method is designed for use in
+     * monitoring of the system stbte, not for synchronizbtion
      * control.
      *
-     * @return the estimated number of threads waiting for this lock
+     * @return the estimbted number of threbds wbiting for this lock
      */
-    public final int getQueueLength() {
+    public finbl int getQueueLength() {
         return sync.getQueueLength();
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire this lock.  Because the actual set of threads may change
-     * dynamically while constructing this result, the returned
-     * collection is only a best-effort estimate.  The elements of the
-     * returned collection are in no particular order.  This method is
-     * designed to facilitate construction of subclasses that provide
-     * more extensive monitoring facilities.
+     * Returns b collection contbining threbds thbt mby be wbiting to
+     * bcquire this lock.  Becbuse the bctubl set of threbds mby chbnge
+     * dynbmicblly while constructing this result, the returned
+     * collection is only b best-effort estimbte.  The elements of the
+     * returned collection bre in no pbrticulbr order.  This method is
+     * designed to fbcilitbte construction of subclbsses thbt provide
+     * more extensive monitoring fbcilities.
      *
-     * @return the collection of threads
+     * @return the collection of threbds
      */
-    protected Collection<Thread> getQueuedThreads() {
-        return sync.getQueuedThreads();
+    protected Collection<Threbd> getQueuedThrebds() {
+        return sync.getQueuedThrebds();
     }
 
     /**
-     * Queries whether any threads are waiting on the given condition
-     * associated with this lock. Note that because timeouts and
-     * interrupts may occur at any time, a {@code true} return does
-     * not guarantee that a future {@code signal} will awaken any
-     * threads.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Queries whether bny threbds bre wbiting on the given condition
+     * bssocibted with this lock. Note thbt becbuse timeouts bnd
+     * interrupts mby occur bt bny time, b {@code true} return does
+     * not gubrbntee thbt b future {@code signbl} will bwbken bny
+     * threbds.  This method is designed primbrily for use in
+     * monitoring of the system stbte.
      *
-     * @param condition the condition
-     * @return {@code true} if there are any waiting threads
-     * @throws IllegalMonitorStateException if this lock is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this lock
+     * @pbrbm condition the condition
+     * @return {@code true} if there bre bny wbiting threbds
+     * @throws IllegblMonitorStbteException if this lock is not held
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this lock
      * @throws NullPointerException if the condition is null
      */
-    public boolean hasWaiters(Condition condition) {
+    public boolebn hbsWbiters(Condition condition) {
         if (condition == null)
             throw new NullPointerException();
-        if (!(condition instanceof AbstractQueuedSynchronizer.ConditionObject))
-            throw new IllegalArgumentException("not owner");
-        return sync.hasWaiters((AbstractQueuedSynchronizer.ConditionObject)condition);
+        if (!(condition instbnceof AbstrbctQueuedSynchronizer.ConditionObject))
+            throw new IllegblArgumentException("not owner");
+        return sync.hbsWbiters((AbstrbctQueuedSynchronizer.ConditionObject)condition);
     }
 
     /**
-     * Returns an estimate of the number of threads waiting on the
-     * given condition associated with this lock. Note that because
-     * timeouts and interrupts may occur at any time, the estimate
-     * serves only as an upper bound on the actual number of waiters.
+     * Returns bn estimbte of the number of threbds wbiting on the
+     * given condition bssocibted with this lock. Note thbt becbuse
+     * timeouts bnd interrupts mby occur bt bny time, the estimbte
+     * serves only bs bn upper bound on the bctubl number of wbiters.
      * This method is designed for use in monitoring of the system
-     * state, not for synchronization control.
+     * stbte, not for synchronizbtion control.
      *
-     * @param condition the condition
-     * @return the estimated number of waiting threads
-     * @throws IllegalMonitorStateException if this lock is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this lock
+     * @pbrbm condition the condition
+     * @return the estimbted number of wbiting threbds
+     * @throws IllegblMonitorStbteException if this lock is not held
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this lock
      * @throws NullPointerException if the condition is null
      */
-    public int getWaitQueueLength(Condition condition) {
+    public int getWbitQueueLength(Condition condition) {
         if (condition == null)
             throw new NullPointerException();
-        if (!(condition instanceof AbstractQueuedSynchronizer.ConditionObject))
-            throw new IllegalArgumentException("not owner");
-        return sync.getWaitQueueLength((AbstractQueuedSynchronizer.ConditionObject)condition);
+        if (!(condition instbnceof AbstrbctQueuedSynchronizer.ConditionObject))
+            throw new IllegblArgumentException("not owner");
+        return sync.getWbitQueueLength((AbstrbctQueuedSynchronizer.ConditionObject)condition);
     }
 
     /**
-     * Returns a collection containing those threads that may be
-     * waiting on the given condition associated with this lock.
-     * Because the actual set of threads may change dynamically while
-     * constructing this result, the returned collection is only a
-     * best-effort estimate. The elements of the returned collection
-     * are in no particular order.  This method is designed to
-     * facilitate construction of subclasses that provide more
-     * extensive condition monitoring facilities.
+     * Returns b collection contbining those threbds thbt mby be
+     * wbiting on the given condition bssocibted with this lock.
+     * Becbuse the bctubl set of threbds mby chbnge dynbmicblly while
+     * constructing this result, the returned collection is only b
+     * best-effort estimbte. The elements of the returned collection
+     * bre in no pbrticulbr order.  This method is designed to
+     * fbcilitbte construction of subclbsses thbt provide more
+     * extensive condition monitoring fbcilities.
      *
-     * @param condition the condition
-     * @return the collection of threads
-     * @throws IllegalMonitorStateException if this lock is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this lock
+     * @pbrbm condition the condition
+     * @return the collection of threbds
+     * @throws IllegblMonitorStbteException if this lock is not held
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this lock
      * @throws NullPointerException if the condition is null
      */
-    protected Collection<Thread> getWaitingThreads(Condition condition) {
+    protected Collection<Threbd> getWbitingThrebds(Condition condition) {
         if (condition == null)
             throw new NullPointerException();
-        if (!(condition instanceof AbstractQueuedSynchronizer.ConditionObject))
-            throw new IllegalArgumentException("not owner");
-        return sync.getWaitingThreads((AbstractQueuedSynchronizer.ConditionObject)condition);
+        if (!(condition instbnceof AbstrbctQueuedSynchronizer.ConditionObject))
+            throw new IllegblArgumentException("not owner");
+        return sync.getWbitingThrebds((AbstrbctQueuedSynchronizer.ConditionObject)condition);
     }
 
     /**
-     * Returns a string identifying this lock, as well as its lock state.
-     * The state, in brackets, includes either the String {@code "Unlocked"}
+     * Returns b string identifying this lock, bs well bs its lock stbte.
+     * The stbte, in brbckets, includes either the String {@code "Unlocked"}
      * or the String {@code "Locked by"} followed by the
-     * {@linkplain Thread#getName name} of the owning thread.
+     * {@linkplbin Threbd#getNbme nbme} of the owning threbd.
      *
-     * @return a string identifying this lock, as well as its lock state
+     * @return b string identifying this lock, bs well bs its lock stbte
      */
     public String toString() {
-        Thread o = sync.getOwner();
+        Threbd o = sync.getOwner();
         return super.toString() + ((o == null) ?
                                    "[Unlocked]" :
-                                   "[Locked by thread " + o.getName() + "]");
+                                   "[Locked by threbd " + o.getNbme() + "]");
     }
 }

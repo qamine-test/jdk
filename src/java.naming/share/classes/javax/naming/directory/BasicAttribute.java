@@ -1,557 +1,557 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-import java.lang.reflect.Array;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
+import jbvb.lbng.reflect.Arrby;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
-import javax.naming.OperationNotSupportedException;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.NbmingEnumerbtion;
+import jbvbx.nbming.OperbtionNotSupportedException;
 
 /**
-  * This class provides a basic implementation of the <tt>Attribute</tt> interface.
+  * This clbss provides b bbsic implementbtion of the <tt>Attribute</tt> interfbce.
   *<p>
-  * This implementation does not support the schema methods
-  * <tt>getAttributeDefinition()</tt> and <tt>getAttributeSyntaxDefinition()</tt>.
-  * They simply throw <tt>OperationNotSupportedException</tt>.
-  * Subclasses of <tt>BasicAttribute</tt> should override these methods if they
+  * This implementbtion does not support the schemb methods
+  * <tt>getAttributeDefinition()</tt> bnd <tt>getAttributeSyntbxDefinition()</tt>.
+  * They simply throw <tt>OperbtionNotSupportedException</tt>.
+  * Subclbsses of <tt>BbsicAttribute</tt> should override these methods if they
   * support them.
   *<p>
-  * The <tt>BasicAttribute</tt> class by default uses <tt>Object.equals()</tt> to
-  * determine equality of attribute values when testing for equality or
-  * when searching for values, <em>except</em> when the value is an array.
-  * For an array, each element of the array is checked using <tt>Object.equals()</tt>.
-  * Subclasses of <tt>BasicAttribute</tt> can make use of schema information
-  * when doing similar equality checks by overriding methods
-  * in which such use of schema is meaningful.
-  * Similarly, the <tt>BasicAttribute</tt> class by default returns the values passed to its
-  * constructor and/or manipulated using the add/remove methods.
-  * Subclasses of <tt>BasicAttribute</tt> can override <tt>get()</tt> and <tt>getAll()</tt>
-  * to get the values dynamically from the directory (or implement
-  * the <tt>Attribute</tt> interface directly instead of subclassing <tt>BasicAttribute</tt>).
+  * The <tt>BbsicAttribute</tt> clbss by defbult uses <tt>Object.equbls()</tt> to
+  * determine equblity of bttribute vblues when testing for equblity or
+  * when sebrching for vblues, <em>except</em> when the vblue is bn brrby.
+  * For bn brrby, ebch element of the brrby is checked using <tt>Object.equbls()</tt>.
+  * Subclbsses of <tt>BbsicAttribute</tt> cbn mbke use of schemb informbtion
+  * when doing similbr equblity checks by overriding methods
+  * in which such use of schemb is mebningful.
+  * Similbrly, the <tt>BbsicAttribute</tt> clbss by defbult returns the vblues pbssed to its
+  * constructor bnd/or mbnipulbted using the bdd/remove methods.
+  * Subclbsses of <tt>BbsicAttribute</tt> cbn override <tt>get()</tt> bnd <tt>getAll()</tt>
+  * to get the vblues dynbmicblly from the directory (or implement
+  * the <tt>Attribute</tt> interfbce directly instebd of subclbssing <tt>BbsicAttribute</tt>).
   *<p>
-  * Note that updates to <tt>BasicAttribute</tt> (such as adding or removing a value)
-  * does not affect the corresponding representation of the attribute
-  * in the directory.  Updates to the directory can only be effected
-  * using operations in the <tt>DirContext</tt> interface.
+  * Note thbt updbtes to <tt>BbsicAttribute</tt> (such bs bdding or removing b vblue)
+  * does not bffect the corresponding representbtion of the bttribute
+  * in the directory.  Updbtes to the directory cbn only be effected
+  * using operbtions in the <tt>DirContext</tt> interfbce.
   *<p>
-  * A <tt>BasicAttribute</tt> instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify a
-  * <tt>BasicAttribute</tt> should lock the object.
+  * A <tt>BbsicAttribute</tt> instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify b
+  * <tt>BbsicAttribute</tt> should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
-public class BasicAttribute implements Attribute {
+public clbss BbsicAttribute implements Attribute {
     /**
-     * Holds the attribute's id. It is initialized by the public constructor and
-     * cannot be null unless methods in BasicAttribute that use attrID
-     * have been overridden.
-     * @serial
+     * Holds the bttribute's id. It is initiblized by the public constructor bnd
+     * cbnnot be null unless methods in BbsicAttribute thbt use bttrID
+     * hbve been overridden.
+     * @seribl
      */
-    protected String attrID;
+    protected String bttrID;
 
     /**
-     * Holds the attribute's values. Initialized by public constructors.
-     * Cannot be null unless methods in BasicAttribute that use
-     * values have been overridden.
+     * Holds the bttribute's vblues. Initiblized by public constructors.
+     * Cbnnot be null unless methods in BbsicAttribute thbt use
+     * vblues hbve been overridden.
      */
-    protected transient Vector<Object> values;
+    protected trbnsient Vector<Object> vblues;
 
     /**
-     * A flag for recording whether this attribute's values are ordered.
-     * @serial
+     * A flbg for recording whether this bttribute's vblues bre ordered.
+     * @seribl
      */
-    protected boolean ordered = false;
+    protected boolebn ordered = fblse;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public Object clone() {
-        BasicAttribute attr;
+        BbsicAttribute bttr;
         try {
-            attr = (BasicAttribute)super.clone();
-        } catch (CloneNotSupportedException e) {
-            attr = new BasicAttribute(attrID, ordered);
+            bttr = (BbsicAttribute)super.clone();
+        } cbtch (CloneNotSupportedException e) {
+            bttr = new BbsicAttribute(bttrID, ordered);
         }
-        attr.values = (Vector<Object>)values.clone();
-        return attr;
+        bttr.vblues = (Vector<Object>)vblues.clone();
+        return bttr;
     }
 
     /**
-      * Determines whether obj is equal to this attribute.
-      * Two attributes are equal if their attribute-ids, syntaxes
-      * and values are equal.
-      * If the attribute values are unordered, the order that the values were added
-      * are irrelevant. If the attribute values are ordered, then the
-      * order the values must match.
-      * If obj is null or not an Attribute, false is returned.
+      * Determines whether obj is equbl to this bttribute.
+      * Two bttributes bre equbl if their bttribute-ids, syntbxes
+      * bnd vblues bre equbl.
+      * If the bttribute vblues bre unordered, the order thbt the vblues were bdded
+      * bre irrelevbnt. If the bttribute vblues bre ordered, then the
+      * order the vblues must mbtch.
+      * If obj is null or not bn Attribute, fblse is returned.
       *<p>
-      * By default <tt>Object.equals()</tt> is used when comparing the attribute
-      * id and its values except when a value is an array. For an array,
-      * each element of the array is checked using <tt>Object.equals()</tt>.
-      * A subclass may override this to make
-      * use of schema syntax information and matching rules,
-      * which define what it means for two attributes to be equal.
-      * How and whether a subclass makes
-      * use of the schema information is determined by the subclass.
-      * If a subclass overrides <tt>equals()</tt>, it should also override
-      * <tt>hashCode()</tt>
-      * such that two attributes that are equal have the same hash code.
+      * By defbult <tt>Object.equbls()</tt> is used when compbring the bttribute
+      * id bnd its vblues except when b vblue is bn brrby. For bn brrby,
+      * ebch element of the brrby is checked using <tt>Object.equbls()</tt>.
+      * A subclbss mby override this to mbke
+      * use of schemb syntbx informbtion bnd mbtching rules,
+      * which define whbt it mebns for two bttributes to be equbl.
+      * How bnd whether b subclbss mbkes
+      * use of the schemb informbtion is determined by the subclbss.
+      * If b subclbss overrides <tt>equbls()</tt>, it should blso override
+      * <tt>hbshCode()</tt>
+      * such thbt two bttributes thbt bre equbl hbve the sbme hbsh code.
       *
-      * @param obj      The possibly null object to check.
-      * @return true if obj is equal to this attribute; false otherwise.
-      * @see #hashCode
-      * @see #contains
+      * @pbrbm obj      The possibly null object to check.
+      * @return true if obj is equbl to this bttribute; fblse otherwise.
+      * @see #hbshCode
+      * @see #contbins
       */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof Attribute)) {
-            Attribute target = (Attribute)obj;
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof Attribute)) {
+            Attribute tbrget = (Attribute)obj;
 
             // Check order first
-            if (isOrdered() != target.isOrdered()) {
-                return false;
+            if (isOrdered() != tbrget.isOrdered()) {
+                return fblse;
             }
             int len;
-            if (attrID.equals(target.getID()) &&
-                (len=size()) == target.size()) {
+            if (bttrID.equbls(tbrget.getID()) &&
+                (len=size()) == tbrget.size()) {
                 try {
                     if (isOrdered()) {
-                        // Go through both list of values
+                        // Go through both list of vblues
                         for (int i = 0; i < len; i++) {
-                            if (!valueEquals(get(i), target.get(i))) {
-                                return false;
+                            if (!vblueEqubls(get(i), tbrget.get(i))) {
+                                return fblse;
                             }
                         }
                     } else {
-                        // order is not relevant; check for existence
-                        Enumeration<?> theirs = target.getAll();
-                        while (theirs.hasMoreElements()) {
+                        // order is not relevbnt; check for existence
+                        Enumerbtion<?> theirs = tbrget.getAll();
+                        while (theirs.hbsMoreElements()) {
                             if (find(theirs.nextElement()) < 0)
-                                return false;
+                                return fblse;
                         }
                     }
-                } catch (NamingException e) {
-                    return false;
+                } cbtch (NbmingException e) {
+                    return fblse;
                 }
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-      * Calculates the hash code of this attribute.
+      * Cblculbtes the hbsh code of this bttribute.
       *<p>
-      * The hash code is computed by adding the hash code of
-      * the attribute's id and that of all of its values except for
-      * values that are arrays.
-      * For an array, the hash code of each element of the array is summed.
-      * If a subclass overrides <tt>hashCode()</tt>, it should override
-      * <tt>equals()</tt>
-      * as well so that two attributes that are equal have the same hash code.
+      * The hbsh code is computed by bdding the hbsh code of
+      * the bttribute's id bnd thbt of bll of its vblues except for
+      * vblues thbt bre brrbys.
+      * For bn brrby, the hbsh code of ebch element of the brrby is summed.
+      * If b subclbss overrides <tt>hbshCode()</tt>, it should override
+      * <tt>equbls()</tt>
+      * bs well so thbt two bttributes thbt bre equbl hbve the sbme hbsh code.
       *
-      * @return an int representing the hash code of this attribute.
-      * @see #equals
+      * @return bn int representing the hbsh code of this bttribute.
+      * @see #equbls
       */
-    public int hashCode() {
-        int hash = attrID.hashCode();
-        int num = values.size();
-        Object val;
+    public int hbshCode() {
+        int hbsh = bttrID.hbshCode();
+        int num = vblues.size();
+        Object vbl;
         for (int i = 0; i < num; i ++) {
-            val = values.elementAt(i);
-            if (val != null) {
-                if (val.getClass().isArray()) {
+            vbl = vblues.elementAt(i);
+            if (vbl != null) {
+                if (vbl.getClbss().isArrby()) {
                     Object it;
-                    int len = Array.getLength(val);
+                    int len = Arrby.getLength(vbl);
                     for (int j = 0 ; j < len ; j++) {
-                        it = Array.get(val, j);
+                        it = Arrby.get(vbl, j);
                         if (it != null) {
-                            hash += it.hashCode();
+                            hbsh += it.hbshCode();
                         }
                     }
                 } else {
-                    hash += val.hashCode();
+                    hbsh += vbl.hbshCode();
                 }
             }
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-      * Generates the string representation of this attribute.
-      * The string consists of the attribute's id and its values.
-      * This string is meant for debugging and not meant to be
-      * interpreted programmatically.
-      * @return The non-null string representation of this attribute.
+      * Generbtes the string representbtion of this bttribute.
+      * The string consists of the bttribute's id bnd its vblues.
+      * This string is mebnt for debugging bnd not mebnt to be
+      * interpreted progrbmmbticblly.
+      * @return The non-null string representbtion of this bttribute.
       */
     public String toString() {
-        StringBuilder answer = new StringBuilder(attrID + ": ");
-        if (values.size() == 0) {
-            answer.append("No values");
+        StringBuilder bnswer = new StringBuilder(bttrID + ": ");
+        if (vblues.size() == 0) {
+            bnswer.bppend("No vblues");
         } else {
-            boolean start = true;
-            for (Enumeration<Object> e = values.elements(); e.hasMoreElements(); ) {
-                if (!start)
-                    answer.append(", ");
-                answer.append(e.nextElement());
-                start = false;
+            boolebn stbrt = true;
+            for (Enumerbtion<Object> e = vblues.elements(); e.hbsMoreElements(); ) {
+                if (!stbrt)
+                    bnswer.bppend(", ");
+                bnswer.bppend(e.nextElement());
+                stbrt = fblse;
             }
         }
-        return answer.toString();
+        return bnswer.toString();
     }
 
     /**
-      * Constructs a new instance of an unordered attribute with no value.
+      * Constructs b new instbnce of bn unordered bttribute with no vblue.
       *
-      * @param id The attribute's id. It cannot be null.
+      * @pbrbm id The bttribute's id. It cbnnot be null.
       */
-    public BasicAttribute(String id) {
-        this(id, false);
+    public BbsicAttribute(String id) {
+        this(id, fblse);
     }
 
     /**
-      * Constructs a new instance of an unordered attribute with a single value.
+      * Constructs b new instbnce of bn unordered bttribute with b single vblue.
       *
-      * @param id The attribute's id. It cannot be null.
-      * @param value The attribute's value. If null, a null
-      *        value is added to the attribute.
+      * @pbrbm id The bttribute's id. It cbnnot be null.
+      * @pbrbm vblue The bttribute's vblue. If null, b null
+      *        vblue is bdded to the bttribute.
       */
-    public BasicAttribute(String id, Object value) {
-        this(id, value, false);
+    public BbsicAttribute(String id, Object vblue) {
+        this(id, vblue, fblse);
     }
 
     /**
-      * Constructs a new instance of a possibly ordered attribute with no value.
+      * Constructs b new instbnce of b possibly ordered bttribute with no vblue.
       *
-      * @param id The attribute's id. It cannot be null.
-      * @param ordered true means the attribute's values will be ordered;
-      * false otherwise.
+      * @pbrbm id The bttribute's id. It cbnnot be null.
+      * @pbrbm ordered true mebns the bttribute's vblues will be ordered;
+      * fblse otherwise.
       */
-    public BasicAttribute(String id, boolean ordered) {
-        attrID = id;
-        values = new Vector<>();
+    public BbsicAttribute(String id, boolebn ordered) {
+        bttrID = id;
+        vblues = new Vector<>();
         this.ordered = ordered;
     }
 
     /**
-      * Constructs a new instance of a possibly ordered attribute with a
-      * single value.
+      * Constructs b new instbnce of b possibly ordered bttribute with b
+      * single vblue.
       *
-      * @param id The attribute's id. It cannot be null.
-      * @param value The attribute's value. If null, a null
-      *        value is added to the attribute.
-      * @param ordered true means the attribute's values will be ordered;
-      * false otherwise.
+      * @pbrbm id The bttribute's id. It cbnnot be null.
+      * @pbrbm vblue The bttribute's vblue. If null, b null
+      *        vblue is bdded to the bttribute.
+      * @pbrbm ordered true mebns the bttribute's vblues will be ordered;
+      * fblse otherwise.
       */
-    public BasicAttribute(String id, Object value, boolean ordered) {
+    public BbsicAttribute(String id, Object vblue, boolebn ordered) {
         this(id, ordered);
-        values.addElement(value);
+        vblues.bddElement(vblue);
     }
 
     /**
-      * Retrieves an enumeration of this attribute's values.
+      * Retrieves bn enumerbtion of this bttribute's vblues.
       *<p>
-      * By default, the values returned are those passed to the
-      * constructor and/or manipulated using the add/replace/remove methods.
-      * A subclass may override this to retrieve the values dynamically
+      * By defbult, the vblues returned bre those pbssed to the
+      * constructor bnd/or mbnipulbted using the bdd/replbce/remove methods.
+      * A subclbss mby override this to retrieve the vblues dynbmicblly
       * from the directory.
       */
-    public NamingEnumeration<?> getAll() throws NamingException {
-      return new ValuesEnumImpl();
+    public NbmingEnumerbtion<?> getAll() throws NbmingException {
+      return new VbluesEnumImpl();
     }
 
     /**
-      * Retrieves one of this attribute's values.
+      * Retrieves one of this bttribute's vblues.
       *<p>
-      * By default, the value returned is one of those passed to the
-      * constructor and/or manipulated using the add/replace/remove methods.
-      * A subclass may override this to retrieve the value dynamically
+      * By defbult, the vblue returned is one of those pbssed to the
+      * constructor bnd/or mbnipulbted using the bdd/replbce/remove methods.
+      * A subclbss mby override this to retrieve the vblue dynbmicblly
       * from the directory.
       */
-    public Object get() throws NamingException {
-        if (values.size() == 0) {
+    public Object get() throws NbmingException {
+        if (vblues.size() == 0) {
             throw new
-        NoSuchElementException("Attribute " + getID() + " has no value");
+        NoSuchElementException("Attribute " + getID() + " hbs no vblue");
         } else {
-            return values.elementAt(0);
+            return vblues.elementAt(0);
         }
     }
 
     public int size() {
-      return values.size();
+      return vblues.size();
     }
 
     public String getID() {
-        return attrID;
+        return bttrID;
     }
 
     /**
-      * Determines whether a value is in this attribute.
+      * Determines whether b vblue is in this bttribute.
       *<p>
-      * By default,
-      * <tt>Object.equals()</tt> is used when comparing <tt>attrVal</tt>
-      * with this attribute's values except when <tt>attrVal</tt> is an array.
-      * For an array, each element of the array is checked using
-      * <tt>Object.equals()</tt>.
-      * A subclass may use schema information to determine equality.
+      * By defbult,
+      * <tt>Object.equbls()</tt> is used when compbring <tt>bttrVbl</tt>
+      * with this bttribute's vblues except when <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, ebch element of the brrby is checked using
+      * <tt>Object.equbls()</tt>.
+      * A subclbss mby use schemb informbtion to determine equblity.
       */
-    public boolean contains(Object attrVal) {
-        return (find(attrVal) >= 0);
+    public boolebn contbins(Object bttrVbl) {
+        return (find(bttrVbl) >= 0);
     }
 
-    // For finding first element that has a null in JDK1.1 Vector.
-    // In the Java 2 platform, can just replace this with Vector.indexOf(target);
-    private int find(Object target) {
-        Class<?> cl;
-        if (target == null) {
-            int ct = values.size();
+    // For finding first element thbt hbs b null in JDK1.1 Vector.
+    // In the Jbvb 2 plbtform, cbn just replbce this with Vector.indexOf(tbrget);
+    privbte int find(Object tbrget) {
+        Clbss<?> cl;
+        if (tbrget == null) {
+            int ct = vblues.size();
             for (int i = 0 ; i < ct ; i++) {
-                if (values.elementAt(i) == null)
+                if (vblues.elementAt(i) == null)
                     return i;
             }
-        } else if ((cl=target.getClass()).isArray()) {
-            int ct = values.size();
+        } else if ((cl=tbrget.getClbss()).isArrby()) {
+            int ct = vblues.size();
             Object it;
             for (int i = 0 ; i < ct ; i++) {
-                it = values.elementAt(i);
-                if (it != null && cl == it.getClass()
-                    && arrayEquals(target, it))
+                it = vblues.elementAt(i);
+                if (it != null && cl == it.getClbss()
+                    && brrbyEqubls(tbrget, it))
                     return i;
             }
         } else {
-            return values.indexOf(target, 0);
+            return vblues.indexOf(tbrget, 0);
         }
         return -1;  // not found
     }
 
     /**
-     * Determines whether two attribute values are equal.
-     * Use arrayEquals for arrays and <tt>Object.equals()</tt> otherwise.
+     * Determines whether two bttribute vblues bre equbl.
+     * Use brrbyEqubls for brrbys bnd <tt>Object.equbls()</tt> otherwise.
      */
-    private static boolean valueEquals(Object obj1, Object obj2) {
+    privbte stbtic boolebn vblueEqubls(Object obj1, Object obj2) {
         if (obj1 == obj2) {
-            return true; // object references are equal
+            return true; // object references bre equbl
         }
         if (obj1 == null) {
-            return false; // obj2 was not false
+            return fblse; // obj2 wbs not fblse
         }
-        if (obj1.getClass().isArray() &&
-            obj2.getClass().isArray()) {
-            return arrayEquals(obj1, obj2);
+        if (obj1.getClbss().isArrby() &&
+            obj2.getClbss().isArrby()) {
+            return brrbyEqubls(obj1, obj2);
         }
-        return (obj1.equals(obj2));
+        return (obj1.equbls(obj2));
     }
 
     /**
-     * Determines whether two arrays are equal by comparing each of their
-     * elements using <tt>Object.equals()</tt>.
+     * Determines whether two brrbys bre equbl by compbring ebch of their
+     * elements using <tt>Object.equbls()</tt>.
      */
-    private static boolean arrayEquals(Object a1, Object a2) {
+    privbte stbtic boolebn brrbyEqubls(Object b1, Object b2) {
         int len;
-        if ((len = Array.getLength(a1)) != Array.getLength(a2))
-            return false;
+        if ((len = Arrby.getLength(b1)) != Arrby.getLength(b2))
+            return fblse;
 
         for (int j = 0; j < len; j++) {
-            Object i1 = Array.get(a1, j);
-            Object i2 = Array.get(a2, j);
+            Object i1 = Arrby.get(b1, j);
+            Object i2 = Arrby.get(b2, j);
             if (i1 == null || i2 == null) {
                 if (i1 != i2)
-                    return false;
-            } else if (!i1.equals(i2)) {
-                return false;
+                    return fblse;
+            } else if (!i1.equbls(i2)) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-      * Adds a new value to this attribute.
+      * Adds b new vblue to this bttribute.
       *<p>
-      * By default, <tt>Object.equals()</tt> is used when comparing <tt>attrVal</tt>
-      * with this attribute's values except when <tt>attrVal</tt> is an array.
-      * For an array, each element of the array is checked using
-      * <tt>Object.equals()</tt>.
-      * A subclass may use schema information to determine equality.
+      * By defbult, <tt>Object.equbls()</tt> is used when compbring <tt>bttrVbl</tt>
+      * with this bttribute's vblues except when <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, ebch element of the brrby is checked using
+      * <tt>Object.equbls()</tt>.
+      * A subclbss mby use schemb informbtion to determine equblity.
       */
-    public boolean add(Object attrVal) {
-        if (isOrdered() || (find(attrVal) < 0)) {
-            values.addElement(attrVal);
+    public boolebn bdd(Object bttrVbl) {
+        if (isOrdered() || (find(bttrVbl) < 0)) {
+            vblues.bddElement(bttrVbl);
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-      * Removes a specified value from this attribute.
+      * Removes b specified vblue from this bttribute.
       *<p>
-      * By default, <tt>Object.equals()</tt> is used when comparing <tt>attrVal</tt>
-      * with this attribute's values except when <tt>attrVal</tt> is an array.
-      * For an array, each element of the array is checked using
-      * <tt>Object.equals()</tt>.
-      * A subclass may use schema information to determine equality.
+      * By defbult, <tt>Object.equbls()</tt> is used when compbring <tt>bttrVbl</tt>
+      * with this bttribute's vblues except when <tt>bttrVbl</tt> is bn brrby.
+      * For bn brrby, ebch element of the brrby is checked using
+      * <tt>Object.equbls()</tt>.
+      * A subclbss mby use schemb informbtion to determine equblity.
       */
-    public boolean remove(Object attrval) {
-        // For the Java 2 platform, can just use "return removeElement(attrval);"
-        // Need to do the following to handle null case
+    public boolebn remove(Object bttrvbl) {
+        // For the Jbvb 2 plbtform, cbn just use "return removeElement(bttrvbl);"
+        // Need to do the following to hbndle null cbse
 
-        int i = find(attrval);
+        int i = find(bttrvbl);
         if (i >= 0) {
-            values.removeElementAt(i);
+            vblues.removeElementAt(i);
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public void clear() {
-        values.setSize(0);
+    public void clebr() {
+        vblues.setSize(0);
     }
 
 //  ---- ordering methods
 
-    public boolean isOrdered() {
+    public boolebn isOrdered() {
         return ordered;
     }
 
-    public Object get(int ix) throws NamingException {
-        return values.elementAt(ix);
+    public Object get(int ix) throws NbmingException {
+        return vblues.elementAt(ix);
     }
 
     public Object remove(int ix) {
-        Object answer = values.elementAt(ix);
-        values.removeElementAt(ix);
-        return answer;
+        Object bnswer = vblues.elementAt(ix);
+        vblues.removeElementAt(ix);
+        return bnswer;
     }
 
-    public void add(int ix, Object attrVal) {
-        if (!isOrdered() && contains(attrVal)) {
-            throw new IllegalStateException(
-                "Cannot add duplicate to unordered attribute");
+    public void bdd(int ix, Object bttrVbl) {
+        if (!isOrdered() && contbins(bttrVbl)) {
+            throw new IllegblStbteException(
+                "Cbnnot bdd duplicbte to unordered bttribute");
         }
-        values.insertElementAt(attrVal, ix);
+        vblues.insertElementAt(bttrVbl, ix);
     }
 
-    public Object set(int ix, Object attrVal) {
-        if (!isOrdered() && contains(attrVal)) {
-            throw new IllegalStateException(
-                "Cannot add duplicate to unordered attribute");
+    public Object set(int ix, Object bttrVbl) {
+        if (!isOrdered() && contbins(bttrVbl)) {
+            throw new IllegblStbteException(
+                "Cbnnot bdd duplicbte to unordered bttribute");
         }
 
-        Object answer = values.elementAt(ix);
-        values.setElementAt(attrVal, ix);
-        return answer;
+        Object bnswer = vblues.elementAt(ix);
+        vblues.setElementAt(bttrVbl, ix);
+        return bnswer;
     }
 
-// ----------------- Schema methods
+// ----------------- Schemb methods
 
     /**
-      * Retrieves the syntax definition associated with this attribute.
+      * Retrieves the syntbx definition bssocibted with this bttribute.
       *<p>
-      * This method by default throws OperationNotSupportedException. A subclass
-      * should override this method if it supports schema.
+      * This method by defbult throws OperbtionNotSupportedException. A subclbss
+      * should override this method if it supports schemb.
       */
-    public DirContext getAttributeSyntaxDefinition() throws NamingException {
-            throw new OperationNotSupportedException("attribute syntax");
+    public DirContext getAttributeSyntbxDefinition() throws NbmingException {
+            throw new OperbtionNotSupportedException("bttribute syntbx");
     }
 
     /**
-      * Retrieves this attribute's schema definition.
+      * Retrieves this bttribute's schemb definition.
       *<p>
-      * This method by default throws OperationNotSupportedException. A subclass
-      * should override this method if it supports schema.
+      * This method by defbult throws OperbtionNotSupportedException. A subclbss
+      * should override this method if it supports schemb.
       */
-    public DirContext getAttributeDefinition() throws NamingException {
-        throw new OperationNotSupportedException("attribute definition");
+    public DirContext getAttributeDefinition() throws NbmingException {
+        throw new OperbtionNotSupportedException("bttribute definition");
     }
 
 
-//  ---- serialization methods
+//  ---- seriblizbtion methods
 
     /**
-     * Overridden to avoid exposing implementation details
-     * @serialData Default field (the attribute ID -- a String),
-     * followed by the number of values (an int), and the
-     * individual values.
+     * Overridden to bvoid exposing implementbtion detbils
+     * @seriblDbtb Defbult field (the bttribute ID -- b String),
+     * followed by the number of vblues (bn int), bnd the
+     * individubl vblues.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject(); // write out the attrID
-        s.writeInt(values.size());
-        for (int i = 0; i < values.size(); i++) {
-            s.writeObject(values.elementAt(i));
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
+        s.defbultWriteObject(); // write out the bttrID
+        s.writeInt(vblues.size());
+        for (int i = 0; i < vblues.size(); i++) {
+            s.writeObject(vblues.elementAt(i));
         }
     }
 
     /**
-     * Overridden to avoid exposing implementation details.
+     * Overridden to bvoid exposing implementbtion detbils.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();  // read in the attrID
-        int n = s.readInt();    // number of values
-        values = new Vector<>(n);
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();  // rebd in the bttrID
+        int n = s.rebdInt();    // number of vblues
+        vblues = new Vector<>(n);
         while (--n >= 0) {
-            values.addElement(s.readObject());
+            vblues.bddElement(s.rebdObject());
         }
     }
 
 
-    class ValuesEnumImpl implements NamingEnumeration<Object> {
-        Enumeration<Object> list;
+    clbss VbluesEnumImpl implements NbmingEnumerbtion<Object> {
+        Enumerbtion<Object> list;
 
-        ValuesEnumImpl() {
-            list = values.elements();
+        VbluesEnumImpl() {
+            list = vblues.elements();
         }
 
-        public boolean hasMoreElements() {
-            return list.hasMoreElements();
+        public boolebn hbsMoreElements() {
+            return list.hbsMoreElements();
         }
 
         public Object nextElement() {
             return(list.nextElement());
         }
 
-        public Object next() throws NamingException {
+        public Object next() throws NbmingException {
             return list.nextElement();
         }
 
-        public boolean hasMore() throws NamingException {
-            return list.hasMoreElements();
+        public boolebn hbsMore() throws NbmingException {
+            return list.hbsMoreElements();
         }
 
-        public void close() throws NamingException {
+        public void close() throws NbmingException {
             list = null;
         }
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability.
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility.
      */
-    private static final long serialVersionUID = 6743528196119291326L;
+    privbte stbtic finbl long seriblVersionUID = 6743528196119291326L;
 }

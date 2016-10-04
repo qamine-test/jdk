@@ -1,326 +1,326 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
-import javax.management.Notification;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.ObjectNbme;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import static com.sun.jmx.mbeanserver.Util.cast;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import stbtic com.sun.jmx.mbebnserver.Util.cbst;
 
 /**
- * A notification of a change in the Relation Service.
- * A RelationNotification notification is sent when a relation is created via
- * the Relation Service, or an MBean is added as a relation in the Relation
- * Service, or a role is updated in a relation, or a relation is removed from
- * the Relation Service.
+ * A notificbtion of b chbnge in the Relbtion Service.
+ * A RelbtionNotificbtion notificbtion is sent when b relbtion is crebted vib
+ * the Relbtion Service, or bn MBebn is bdded bs b relbtion in the Relbtion
+ * Service, or b role is updbted in b relbtion, or b relbtion is removed from
+ * the Relbtion Service.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6871117877523310399L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>-6871117877523310399L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RelationNotification extends Notification {
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss RelbtionNotificbtion extends Notificbtion {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -2126464566505527147L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = -2126464566505527147L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6871117877523310399L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = -6871117877523310399L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-        new ObjectStreamField("myNewRoleValue", ArrayList.class),
-        new ObjectStreamField("myOldRoleValue", ArrayList.class),
-        new ObjectStreamField("myRelId", String.class),
-        new ObjectStreamField("myRelObjName", ObjectName.class),
-        new ObjectStreamField("myRelTypeName", String.class),
-        new ObjectStreamField("myRoleName", String.class),
-        new ObjectStreamField("myUnregMBeanList", ArrayList.class)
+        new ObjectStrebmField("myNewRoleVblue", ArrbyList.clbss),
+        new ObjectStrebmField("myOldRoleVblue", ArrbyList.clbss),
+        new ObjectStrebmField("myRelId", String.clbss),
+        new ObjectStrebmField("myRelObjNbme", ObjectNbme.clbss),
+        new ObjectStrebmField("myRelTypeNbme", String.clbss),
+        new ObjectStrebmField("myRoleNbme", String.clbss),
+        new ObjectStrebmField("myUnregMBebnList", ArrbyList.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-        new ObjectStreamField("newRoleValue", List.class),
-        new ObjectStreamField("oldRoleValue", List.class),
-        new ObjectStreamField("relationId", String.class),
-        new ObjectStreamField("relationObjName", ObjectName.class),
-        new ObjectStreamField("relationTypeName", String.class),
-        new ObjectStreamField("roleName", String.class),
-        new ObjectStreamField("unregisterMBeanList", List.class)
+        new ObjectStrebmField("newRoleVblue", List.clbss),
+        new ObjectStrebmField("oldRoleVblue", List.clbss),
+        new ObjectStrebmField("relbtionId", String.clbss),
+        new ObjectStrebmField("relbtionObjNbme", ObjectNbme.clbss),
+        new ObjectStrebmField("relbtionTypeNbme", String.clbss),
+        new ObjectStrebmField("roleNbme", String.clbss),
+        new ObjectStrebmField("unregisterMBebnList", List.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField relationId String Relation identifier of
-     * created/removed/updated relation
-     * @serialField relationTypeName String Relation type name of
-     * created/removed/updated relation
-     * @serialField relationObjName ObjectName {@link ObjectName} of
-     * the relation MBean of created/removed/updated relation (only if
-     * the relation is represented by an MBean)
-     * @serialField unregisterMBeanList List List of {@link
-     * ObjectName}s of referenced MBeans to be unregistered due to
-     * relation removal
-     * @serialField roleName String Name of updated role (only for role update)
-     * @serialField oldRoleValue List Old role value ({@link
-     * ArrayList} of {@link ObjectName}s) (only for role update)
-     * @serialField newRoleValue List New role value ({@link
-     * ArrayList} of {@link ObjectName}s) (only for role update)
+     * @seriblField relbtionId String Relbtion identifier of
+     * crebted/removed/updbted relbtion
+     * @seriblField relbtionTypeNbme String Relbtion type nbme of
+     * crebted/removed/updbted relbtion
+     * @seriblField relbtionObjNbme ObjectNbme {@link ObjectNbme} of
+     * the relbtion MBebn of crebted/removed/updbted relbtion (only if
+     * the relbtion is represented by bn MBebn)
+     * @seriblField unregisterMBebnList List List of {@link
+     * ObjectNbme}s of referenced MBebns to be unregistered due to
+     * relbtion removbl
+     * @seriblField roleNbme String Nbme of updbted role (only for role updbte)
+     * @seriblField oldRoleVblue List Old role vblue ({@link
+     * ArrbyList} of {@link ObjectNbme}s) (only for role updbte)
+     * @seriblField newRoleVblue List New role vblue ({@link
+     * ArrbyList} of {@link ObjectNbme}s) (only for role updbte)
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Notification types
-    //
-
-    /**
-     * Type for the creation of an internal relation.
-     */
-    public static final String RELATION_BASIC_CREATION = "jmx.relation.creation.basic";
-    /**
-     * Type for the relation MBean added into the Relation Service.
-     */
-    public static final String RELATION_MBEAN_CREATION = "jmx.relation.creation.mbean";
-    /**
-     * Type for an update of an internal relation.
-     */
-    public static final String RELATION_BASIC_UPDATE = "jmx.relation.update.basic";
-    /**
-     * Type for the update of a relation MBean.
-     */
-    public static final String RELATION_MBEAN_UPDATE = "jmx.relation.update.mbean";
-    /**
-     * Type for the removal from the Relation Service of an internal relation.
-     */
-    public static final String RELATION_BASIC_REMOVAL = "jmx.relation.removal.basic";
-    /**
-     * Type for the removal from the Relation Service of a relation MBean.
-     */
-    public static final String RELATION_MBEAN_REMOVAL = "jmx.relation.removal.mbean";
-
-    //
-    // Private members
+    // Notificbtion types
     //
 
     /**
-     * @serial Relation identifier of created/removed/updated relation
+     * Type for the crebtion of bn internbl relbtion.
      */
-    private String relationId = null;
+    public stbtic finbl String RELATION_BASIC_CREATION = "jmx.relbtion.crebtion.bbsic";
+    /**
+     * Type for the relbtion MBebn bdded into the Relbtion Service.
+     */
+    public stbtic finbl String RELATION_MBEAN_CREATION = "jmx.relbtion.crebtion.mbebn";
+    /**
+     * Type for bn updbte of bn internbl relbtion.
+     */
+    public stbtic finbl String RELATION_BASIC_UPDATE = "jmx.relbtion.updbte.bbsic";
+    /**
+     * Type for the updbte of b relbtion MBebn.
+     */
+    public stbtic finbl String RELATION_MBEAN_UPDATE = "jmx.relbtion.updbte.mbebn";
+    /**
+     * Type for the removbl from the Relbtion Service of bn internbl relbtion.
+     */
+    public stbtic finbl String RELATION_BASIC_REMOVAL = "jmx.relbtion.removbl.bbsic";
+    /**
+     * Type for the removbl from the Relbtion Service of b relbtion MBebn.
+     */
+    public stbtic finbl String RELATION_MBEAN_REMOVAL = "jmx.relbtion.removbl.mbebn";
+
+    //
+    // Privbte members
+    //
 
     /**
-     * @serial Relation type name of created/removed/updated relation
+     * @seribl Relbtion identifier of crebted/removed/updbted relbtion
      */
-    private String relationTypeName = null;
+    privbte String relbtionId = null;
 
     /**
-     * @serial {@link ObjectName} of the relation MBean of created/removed/updated relation
-     *         (only if the relation is represented by an MBean)
+     * @seribl Relbtion type nbme of crebted/removed/updbted relbtion
      */
-    private ObjectName relationObjName = null;
+    privbte String relbtionTypeNbme = null;
 
     /**
-     * @serial List of {@link ObjectName}s of referenced MBeans to be unregistered due to
-     *         relation removal
+     * @seribl {@link ObjectNbme} of the relbtion MBebn of crebted/removed/updbted relbtion
+     *         (only if the relbtion is represented by bn MBebn)
      */
-    private List<ObjectName> unregisterMBeanList = null;
+    privbte ObjectNbme relbtionObjNbme = null;
 
     /**
-     * @serial Name of updated role (only for role update)
+     * @seribl List of {@link ObjectNbme}s of referenced MBebns to be unregistered due to
+     *         relbtion removbl
      */
-    private String roleName = null;
+    privbte List<ObjectNbme> unregisterMBebnList = null;
 
     /**
-     * @serial Old role value ({@link ArrayList} of {@link ObjectName}s) (only for role update)
+     * @seribl Nbme of updbted role (only for role updbte)
      */
-    private List<ObjectName> oldRoleValue = null;
+    privbte String roleNbme = null;
 
     /**
-     * @serial New role value ({@link ArrayList} of {@link ObjectName}s) (only for role update)
+     * @seribl Old role vblue ({@link ArrbyList} of {@link ObjectNbme}s) (only for role updbte)
      */
-    private List<ObjectName> newRoleValue = null;
+    privbte List<ObjectNbme> oldRoleVblue = null;
+
+    /**
+     * @seribl New role vblue ({@link ArrbyList} of {@link ObjectNbme}s) (only for role updbte)
+     */
+    privbte List<ObjectNbme> newRoleVblue = null;
 
     //
     // Constructors
     //
 
     /**
-     * Creates a notification for either a relation creation (RelationSupport
-     * object created internally in the Relation Service, or an MBean added as a
-     * relation) or for a relation removal from the Relation Service.
+     * Crebtes b notificbtion for either b relbtion crebtion (RelbtionSupport
+     * object crebted internblly in the Relbtion Service, or bn MBebn bdded bs b
+     * relbtion) or for b relbtion removbl from the Relbtion Service.
      *
-     * @param notifType  type of the notification; either:
+     * @pbrbm notifType  type of the notificbtion; either:
      * <P>- RELATION_BASIC_CREATION
      * <P>- RELATION_MBEAN_CREATION
      * <P>- RELATION_BASIC_REMOVAL
      * <P>- RELATION_MBEAN_REMOVAL
-     * @param sourceObj  source object, sending the notification.  This is either
-     * an ObjectName or a RelationService object.  In the latter case it must be
-     * the MBean emitting the notification; the MBean Server will rewrite the
-     * source to be the ObjectName under which that MBean is registered.
-     * @param sequence  sequence number to identify the notification
-     * @param timeStamp  time stamp
-     * @param message  human-readable message describing the notification
-     * @param id  relation id identifying the relation in the Relation
+     * @pbrbm sourceObj  source object, sending the notificbtion.  This is either
+     * bn ObjectNbme or b RelbtionService object.  In the lbtter cbse it must be
+     * the MBebn emitting the notificbtion; the MBebn Server will rewrite the
+     * source to be the ObjectNbme under which thbt MBebn is registered.
+     * @pbrbm sequence  sequence number to identify the notificbtion
+     * @pbrbm timeStbmp  time stbmp
+     * @pbrbm messbge  humbn-rebdbble messbge describing the notificbtion
+     * @pbrbm id  relbtion id identifying the relbtion in the Relbtion
      * Service
-     * @param typeName  name of the relation type
-     * @param objectName  ObjectName of the relation object if it is an MBean
-     * (null for relations internally handled by the Relation Service)
-     * @param unregMBeanList  list of ObjectNames of referenced MBeans
-     * expected to be unregistered due to relation removal (only for removal,
-     * due to CIM qualifiers, can be null)
+     * @pbrbm typeNbme  nbme of the relbtion type
+     * @pbrbm objectNbme  ObjectNbme of the relbtion object if it is bn MBebn
+     * (null for relbtions internblly hbndled by the Relbtion Service)
+     * @pbrbm unregMBebnList  list of ObjectNbmes of referenced MBebns
+     * expected to be unregistered due to relbtion removbl (only for removbl,
+     * due to CIM qublifiers, cbn be null)
      *
-     * @exception IllegalArgumentException  if:
-     * <P>- no value for the notification type
-     * <P>- the notification type is not RELATION_BASIC_CREATION,
+     * @exception IllegblArgumentException  if:
+     * <P>- no vblue for the notificbtion type
+     * <P>- the notificbtion type is not RELATION_BASIC_CREATION,
      * RELATION_MBEAN_CREATION, RELATION_BASIC_REMOVAL or
      * RELATION_MBEAN_REMOVAL
      * <P>- no source object
-     * <P>- the source object is not a Relation Service
-     * <P>- no relation id
-     * <P>- no relation type name
+     * <P>- the source object is not b Relbtion Service
+     * <P>- no relbtion id
+     * <P>- no relbtion type nbme
      */
-    public RelationNotification(String notifType,
+    public RelbtionNotificbtion(String notifType,
                                 Object sourceObj,
                                 long sequence,
-                                long timeStamp,
-                                String message,
+                                long timeStbmp,
+                                String messbge,
                                 String id,
-                                String typeName,
-                                ObjectName objectName,
-                                List<ObjectName> unregMBeanList)
-        throws IllegalArgumentException {
+                                String typeNbme,
+                                ObjectNbme objectNbme,
+                                List<ObjectNbme> unregMBebnList)
+        throws IllegblArgumentException {
 
-        super(notifType, sourceObj, sequence, timeStamp, message);
+        super(notifType, sourceObj, sequence, timeStbmp, messbge);
 
-        if (!isValidBasicStrict(notifType,sourceObj,id,typeName) || !isValidCreate(notifType)) {
-            throw new IllegalArgumentException("Invalid parameter.");
+        if (!isVblidBbsicStrict(notifType,sourceObj,id,typeNbme) || !isVblidCrebte(notifType)) {
+            throw new IllegblArgumentException("Invblid pbrbmeter.");
         }
 
-        relationId = id;
-        relationTypeName = typeName;
-        relationObjName = safeGetObjectName(objectName);
-        unregisterMBeanList = safeGetObjectNameList(unregMBeanList);
+        relbtionId = id;
+        relbtionTypeNbme = typeNbme;
+        relbtionObjNbme = sbfeGetObjectNbme(objectNbme);
+        unregisterMBebnList = sbfeGetObjectNbmeList(unregMBebnList);
     }
 
     /**
-     * Creates a notification for a role update in a relation.
+     * Crebtes b notificbtion for b role updbte in b relbtion.
      *
-     * @param notifType  type of the notification; either:
+     * @pbrbm notifType  type of the notificbtion; either:
      * <P>- RELATION_BASIC_UPDATE
      * <P>- RELATION_MBEAN_UPDATE
-     * @param sourceObj  source object, sending the notification. This is either
-     * an ObjectName or a RelationService object.  In the latter case it must be
-     * the MBean emitting the notification; the MBean Server will rewrite the
-     * source to be the ObjectName under which that MBean is registered.
-     * @param sequence  sequence number to identify the notification
-     * @param timeStamp  time stamp
-     * @param message  human-readable message describing the notification
-     * @param id  relation id identifying the relation in the Relation
+     * @pbrbm sourceObj  source object, sending the notificbtion. This is either
+     * bn ObjectNbme or b RelbtionService object.  In the lbtter cbse it must be
+     * the MBebn emitting the notificbtion; the MBebn Server will rewrite the
+     * source to be the ObjectNbme under which thbt MBebn is registered.
+     * @pbrbm sequence  sequence number to identify the notificbtion
+     * @pbrbm timeStbmp  time stbmp
+     * @pbrbm messbge  humbn-rebdbble messbge describing the notificbtion
+     * @pbrbm id  relbtion id identifying the relbtion in the Relbtion
      * Service
-     * @param typeName  name of the relation type
-     * @param objectName  ObjectName of the relation object if it is an MBean
-     * (null for relations internally handled by the Relation Service)
-     * @param name  name of the updated role
-     * @param newValue  new role value (List of ObjectName objects)
-     * @param oldValue  old role value (List of ObjectName objects)
+     * @pbrbm typeNbme  nbme of the relbtion type
+     * @pbrbm objectNbme  ObjectNbme of the relbtion object if it is bn MBebn
+     * (null for relbtions internblly hbndled by the Relbtion Service)
+     * @pbrbm nbme  nbme of the updbted role
+     * @pbrbm newVblue  new role vblue (List of ObjectNbme objects)
+     * @pbrbm oldVblue  old role vblue (List of ObjectNbme objects)
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
-    public RelationNotification(String notifType,
+    public RelbtionNotificbtion(String notifType,
                                 Object sourceObj,
                                 long sequence,
-                                long timeStamp,
-                                String message,
+                                long timeStbmp,
+                                String messbge,
                                 String id,
-                                String typeName,
-                                ObjectName objectName,
-                                String name,
-                                List<ObjectName> newValue,
-                                List<ObjectName> oldValue
+                                String typeNbme,
+                                ObjectNbme objectNbme,
+                                String nbme,
+                                List<ObjectNbme> newVblue,
+                                List<ObjectNbme> oldVblue
                                 )
-            throws IllegalArgumentException {
+            throws IllegblArgumentException {
 
-        super(notifType, sourceObj, sequence, timeStamp, message);
+        super(notifType, sourceObj, sequence, timeStbmp, messbge);
 
-        if (!isValidBasicStrict(notifType,sourceObj,id,typeName) || !isValidUpdate(notifType,name,newValue,oldValue)) {
-            throw new IllegalArgumentException("Invalid parameter.");
+        if (!isVblidBbsicStrict(notifType,sourceObj,id,typeNbme) || !isVblidUpdbte(notifType,nbme,newVblue,oldVblue)) {
+            throw new IllegblArgumentException("Invblid pbrbmeter.");
         }
 
-        relationId = id;
-        relationTypeName = typeName;
-        relationObjName = safeGetObjectName(objectName);
+        relbtionId = id;
+        relbtionTypeNbme = typeNbme;
+        relbtionObjNbme = sbfeGetObjectNbme(objectNbme);
 
-        roleName = name;
-        oldRoleValue = safeGetObjectNameList(oldValue);
-        newRoleValue = safeGetObjectNameList(newValue);
+        roleNbme = nbme;
+        oldRoleVblue = sbfeGetObjectNbmeList(oldVblue);
+        newRoleVblue = sbfeGetObjectNbmeList(newVblue);
     }
 
     //
@@ -328,43 +328,43 @@ public class RelationNotification extends Notification {
     //
 
     /**
-     * Returns the relation identifier of created/removed/updated relation.
+     * Returns the relbtion identifier of crebted/removed/updbted relbtion.
      *
-     * @return the relation id.
+     * @return the relbtion id.
      */
-    public String getRelationId() {
-        return relationId;
+    public String getRelbtionId() {
+        return relbtionId;
     }
 
     /**
-     * Returns the relation type name of created/removed/updated relation.
+     * Returns the relbtion type nbme of crebted/removed/updbted relbtion.
      *
-     * @return the relation type name.
+     * @return the relbtion type nbme.
      */
-    public String getRelationTypeName() {
-        return relationTypeName;
+    public String getRelbtionTypeNbme() {
+        return relbtionTypeNbme;
     }
 
     /**
-     * Returns the ObjectName of the
-     * created/removed/updated relation.
+     * Returns the ObjectNbme of the
+     * crebted/removed/updbted relbtion.
      *
-     * @return the ObjectName if the relation is an MBean, otherwise null.
+     * @return the ObjectNbme if the relbtion is bn MBebn, otherwise null.
      */
-    public ObjectName getObjectName() {
-        return relationObjName;
+    public ObjectNbme getObjectNbme() {
+        return relbtionObjNbme;
     }
 
     /**
-     * Returns the list of ObjectNames of MBeans expected to be unregistered
-     * due to a relation removal (only for relation removal).
+     * Returns the list of ObjectNbmes of MBebns expected to be unregistered
+     * due to b relbtion removbl (only for relbtion removbl).
      *
-     * @return a {@link List} of {@link ObjectName}.
+     * @return b {@link List} of {@link ObjectNbme}.
      */
-    public List<ObjectName> getMBeansToUnregister() {
-        List<ObjectName> result;
-        if (unregisterMBeanList != null) {
-            result = new ArrayList<ObjectName>(unregisterMBeanList);
+    public List<ObjectNbme> getMBebnsToUnregister() {
+        List<ObjectNbme> result;
+        if (unregisterMBebnList != null) {
+            result = new ArrbyList<ObjectNbme>(unregisterMBebnList);
         } else {
             result = Collections.emptyList();
         }
@@ -372,27 +372,27 @@ public class RelationNotification extends Notification {
     }
 
     /**
-     * Returns name of updated role of updated relation (only for role update).
+     * Returns nbme of updbted role of updbted relbtion (only for role updbte).
      *
-     * @return the name of the updated role.
+     * @return the nbme of the updbted role.
      */
-    public String getRoleName() {
+    public String getRoleNbme() {
         String result = null;
-        if (roleName != null) {
-            result = roleName;
+        if (roleNbme != null) {
+            result = roleNbme;
         }
         return result;
     }
 
     /**
-     * Returns old value of updated role (only for role update).
+     * Returns old vblue of updbted role (only for role updbte).
      *
-     * @return the old value of the updated role.
+     * @return the old vblue of the updbted role.
      */
-    public List<ObjectName> getOldRoleValue() {
-        List<ObjectName> result;
-        if (oldRoleValue != null) {
-            result = new ArrayList<ObjectName>(oldRoleValue);
+    public List<ObjectNbme> getOldRoleVblue() {
+        List<ObjectNbme> result;
+        if (oldRoleVblue != null) {
+            result = new ArrbyList<ObjectNbme>(oldRoleVblue);
         } else {
             result = Collections.emptyList();
         }
@@ -400,14 +400,14 @@ public class RelationNotification extends Notification {
     }
 
     /**
-     * Returns new value of updated role (only for role update).
+     * Returns new vblue of updbted role (only for role updbte).
      *
-     * @return the new value of the updated role.
+     * @return the new vblue of the updbted role.
      */
-    public List<ObjectName> getNewRoleValue() {
-        List<ObjectName> result;
-        if (newRoleValue != null) {
-            result = new ArrayList<ObjectName>(newRoleValue);
+    public List<ObjectNbme> getNewRoleVblue() {
+        List<ObjectNbme> result;
+        if (newRoleVblue != null) {
+            result = new ArrbyList<ObjectNbme>(newRoleVblue);
         } else {
             result = Collections.emptyList();
         }
@@ -418,198 +418,198 @@ public class RelationNotification extends Notification {
     // Misc
     //
 
-    // Initializes members
+    // Initiblizes members
     //
-    // -param notifKind  1 for creation/removal, 2 for update
-    // -param notifType  type of the notification; either:
+    // -pbrbm notifKind  1 for crebtion/removbl, 2 for updbte
+    // -pbrbm notifType  type of the notificbtion; either:
     //  - RELATION_BASIC_UPDATE
     //  - RELATION_MBEAN_UPDATE
-    //  for an update, or:
+    //  for bn updbte, or:
     //  - RELATION_BASIC_CREATION
     //  - RELATION_MBEAN_CREATION
     //  - RELATION_BASIC_REMOVAL
     //  - RELATION_MBEAN_REMOVAL
-    //  for a creation or removal
-    // -param sourceObj  source object, sending the notification. Will always
-    //  be a RelationService object.
-    // -param sequence  sequence number to identify the notification
-    // -param timeStamp  time stamp
-    // -param message  human-readable message describing the notification
-    // -param id  relation id identifying the relation in the Relation
+    //  for b crebtion or removbl
+    // -pbrbm sourceObj  source object, sending the notificbtion. Will blwbys
+    //  be b RelbtionService object.
+    // -pbrbm sequence  sequence number to identify the notificbtion
+    // -pbrbm timeStbmp  time stbmp
+    // -pbrbm messbge  humbn-rebdbble messbge describing the notificbtion
+    // -pbrbm id  relbtion id identifying the relbtion in the Relbtion
     //  Service
-    // -param typeName  name of the relation type
-    // -param objectName  ObjectName of the relation object if it is an MBean
-    //  (null for relations internally handled by the Relation Service)
-    // -param unregMBeanList  list of ObjectNames of MBeans expected to be
-    //  removed due to relation removal
-    // -param name  name of the updated role
-    // -param newValue  new value (List of ObjectName objects)
-    // -param oldValue  old value (List of ObjectName objects)
+    // -pbrbm typeNbme  nbme of the relbtion type
+    // -pbrbm objectNbme  ObjectNbme of the relbtion object if it is bn MBebn
+    //  (null for relbtions internblly hbndled by the Relbtion Service)
+    // -pbrbm unregMBebnList  list of ObjectNbmes of MBebns expected to be
+    //  removed due to relbtion removbl
+    // -pbrbm nbme  nbme of the updbted role
+    // -pbrbm newVblue  new vblue (List of ObjectNbme objects)
+    // -pbrbm oldVblue  old vblue (List of ObjectNbme objects)
     //
-    // -exception IllegalArgumentException  if:
-    //  - no value for the notification type
-    //  - incorrect notification type
+    // -exception IllegblArgumentException  if:
+    //  - no vblue for the notificbtion type
+    //  - incorrect notificbtion type
     //  - no source object
-    //  - the source object is not a Relation Service
-    //  - no relation id
-    //  - no relation type name
-    //  - no role name (for role update)
-    //  - no role old value (for role update)
-    //  - no role new value (for role update)
+    //  - the source object is not b Relbtion Service
+    //  - no relbtion id
+    //  - no relbtion type nbme
+    //  - no role nbme (for role updbte)
+    //  - no role old vblue (for role updbte)
+    //  - no role new vblue (for role updbte)
 
-    // Despite the fact, that validation in constructor of RelationNotification prohibit
-    // creation of the class instance with null sourceObj its possible to set it to null later
+    // Despite the fbct, thbt vblidbtion in constructor of RelbtionNotificbtion prohibit
+    // crebtion of the clbss instbnce with null sourceObj its possible to set it to null lbter
     // by public setSource() method.
-    // So we should relax validation rules to preserve serialization behavior compatibility.
+    // So we should relbx vblidbtion rules to preserve seriblizbtion behbvior compbtibility.
 
-    private boolean isValidBasicStrict(String notifType, Object sourceObj, String id, String typeName){
+    privbte boolebn isVblidBbsicStrict(String notifType, Object sourceObj, String id, String typeNbme){
         if (sourceObj == null) {
-            return false;
+            return fblse;
         }
-        return isValidBasic(notifType,sourceObj,id,typeName);
+        return isVblidBbsic(notifType,sourceObj,id,typeNbme);
     }
 
-    private boolean isValidBasic(String notifType, Object sourceObj, String id, String typeName){
-        if (notifType == null || id == null || typeName == null) {
-            return false;
+    privbte boolebn isVblidBbsic(String notifType, Object sourceObj, String id, String typeNbme){
+        if (notifType == null || id == null || typeNbme == null) {
+            return fblse;
         }
 
         if (sourceObj != null && (
-            !(sourceObj instanceof RelationService) &&
-            !(sourceObj instanceof ObjectName))) {
-            return false;
+            !(sourceObj instbnceof RelbtionService) &&
+            !(sourceObj instbnceof ObjectNbme))) {
+            return fblse;
         }
 
         return true;
     }
 
-    private boolean isValidCreate(String notifType) {
-        String[] validTypes= {RelationNotification.RELATION_BASIC_CREATION,
-                              RelationNotification.RELATION_MBEAN_CREATION,
-                              RelationNotification.RELATION_BASIC_REMOVAL,
-                              RelationNotification.RELATION_MBEAN_REMOVAL};
+    privbte boolebn isVblidCrebte(String notifType) {
+        String[] vblidTypes= {RelbtionNotificbtion.RELATION_BASIC_CREATION,
+                              RelbtionNotificbtion.RELATION_MBEAN_CREATION,
+                              RelbtionNotificbtion.RELATION_BASIC_REMOVAL,
+                              RelbtionNotificbtion.RELATION_MBEAN_REMOVAL};
 
-        Set<String> ctSet = new HashSet<String>(Arrays.asList(validTypes));
-        return ctSet.contains(notifType);
+        Set<String> ctSet = new HbshSet<String>(Arrbys.bsList(vblidTypes));
+        return ctSet.contbins(notifType);
     }
 
-    private boolean isValidUpdate(String notifType, String name,
-                                  List<ObjectName> newValue, List<ObjectName> oldValue) {
+    privbte boolebn isVblidUpdbte(String notifType, String nbme,
+                                  List<ObjectNbme> newVblue, List<ObjectNbme> oldVblue) {
 
-        if (!(notifType.equals(RelationNotification.RELATION_BASIC_UPDATE)) &&
-            !(notifType.equals(RelationNotification.RELATION_MBEAN_UPDATE))) {
-            return false;
+        if (!(notifType.equbls(RelbtionNotificbtion.RELATION_BASIC_UPDATE)) &&
+            !(notifType.equbls(RelbtionNotificbtion.RELATION_MBEAN_UPDATE))) {
+            return fblse;
         }
 
-        if (name == null || oldValue == null || newValue == null) {
-            return false;
+        if (nbme == null || oldVblue == null || newVblue == null) {
+            return fblse;
         }
 
         return true;
     }
 
-    private ArrayList<ObjectName> safeGetObjectNameList(List<ObjectName> src){
-        ArrayList<ObjectName> dest = null;
+    privbte ArrbyList<ObjectNbme> sbfeGetObjectNbmeList(List<ObjectNbme> src){
+        ArrbyList<ObjectNbme> dest = null;
         if (src != null) {
-            dest = new ArrayList<ObjectName>();
-            for (ObjectName item : src) {
-                // NPE thrown if we attempt to add null object
-                dest.add(ObjectName.getInstance(item));
+            dest = new ArrbyList<ObjectNbme>();
+            for (ObjectNbme item : src) {
+                // NPE thrown if we bttempt to bdd null object
+                dest.bdd(ObjectNbme.getInstbnce(item));
             }
         }
         return dest;
     }
 
-    private ObjectName safeGetObjectName(ObjectName src){
-        ObjectName dest = null;
+    privbte ObjectNbme sbfeGetObjectNbme(ObjectNbme src){
+        ObjectNbme dest = null;
         if (src != null) {
-            dest = ObjectName.getInstance(src);
+            dest = ObjectNbme.getInstbnce(src);
         }
         return dest;
     }
 
     /**
-     * Deserializes a {@link RelationNotification} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link RelbtionNotificbtion} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
 
-        String tmpRelationId, tmpRelationTypeName, tmpRoleName;
+        String tmpRelbtionId, tmpRelbtionTypeNbme, tmpRoleNbme;
 
-        ObjectName tmpRelationObjName;
-        List<ObjectName> tmpNewRoleValue, tmpOldRoleValue, tmpUnregMBeanList;
+        ObjectNbme tmpRelbtionObjNbme;
+        List<ObjectNbme> tmpNewRoleVblue, tmpOldRoleVblue, tmpUnregMBebnList;
 
-        ObjectInputStream.GetField fields = in.readFields();
+        ObjectInputStrebm.GetField fields = in.rebdFields();
 
-        if (compat) {
-            tmpRelationId = (String)fields.get("myRelId", null);
-            tmpRelationTypeName = (String)fields.get("myRelTypeName", null);
-            tmpRoleName = (String)fields.get("myRoleName", null);
+        if (compbt) {
+            tmpRelbtionId = (String)fields.get("myRelId", null);
+            tmpRelbtionTypeNbme = (String)fields.get("myRelTypeNbme", null);
+            tmpRoleNbme = (String)fields.get("myRoleNbme", null);
 
-            tmpRelationObjName = (ObjectName)fields.get("myRelObjName", null);
-            tmpNewRoleValue = cast(fields.get("myNewRoleValue", null));
-            tmpOldRoleValue = cast(fields.get("myOldRoleValue", null));
-            tmpUnregMBeanList = cast(fields.get("myUnregMBeanList", null));
+            tmpRelbtionObjNbme = (ObjectNbme)fields.get("myRelObjNbme", null);
+            tmpNewRoleVblue = cbst(fields.get("myNewRoleVblue", null));
+            tmpOldRoleVblue = cbst(fields.get("myOldRoleVblue", null));
+            tmpUnregMBebnList = cbst(fields.get("myUnregMBebnList", null));
         }
         else {
-            tmpRelationId = (String)fields.get("relationId", null);
-            tmpRelationTypeName = (String)fields.get("relationTypeName", null);
-            tmpRoleName = (String)fields.get("roleName", null);
+            tmpRelbtionId = (String)fields.get("relbtionId", null);
+            tmpRelbtionTypeNbme = (String)fields.get("relbtionTypeNbme", null);
+            tmpRoleNbme = (String)fields.get("roleNbme", null);
 
-            tmpRelationObjName = (ObjectName)fields.get("relationObjName", null);
-            tmpNewRoleValue = cast(fields.get("newRoleValue", null));
-            tmpOldRoleValue = cast(fields.get("oldRoleValue", null));
-            tmpUnregMBeanList = cast(fields.get("unregisterMBeanList", null));
+            tmpRelbtionObjNbme = (ObjectNbme)fields.get("relbtionObjNbme", null);
+            tmpNewRoleVblue = cbst(fields.get("newRoleVblue", null));
+            tmpOldRoleVblue = cbst(fields.get("oldRoleVblue", null));
+            tmpUnregMBebnList = cbst(fields.get("unregisterMBebnList", null));
         }
 
-        // Validate fields we just read, throw InvalidObjectException
+        // Vblidbte fields we just rebd, throw InvblidObjectException
         // if something goes wrong
 
         String notifType = super.getType();
-        if (!isValidBasic(notifType,super.getSource(),tmpRelationId,tmpRelationTypeName)  ||
-            (!isValidCreate(notifType) &&
-             !isValidUpdate(notifType,tmpRoleName,tmpNewRoleValue,tmpOldRoleValue))) {
+        if (!isVblidBbsic(notifType,super.getSource(),tmpRelbtionId,tmpRelbtionTypeNbme)  ||
+            (!isVblidCrebte(notifType) &&
+             !isVblidUpdbte(notifType,tmpRoleNbme,tmpNewRoleVblue,tmpOldRoleVblue))) {
 
             super.setSource(null);
-            throw new InvalidObjectException("Invalid object read");
+            throw new InvblidObjectException("Invblid object rebd");
         }
 
-        // assign deserialized vaules to object fields
-        relationObjName = safeGetObjectName(tmpRelationObjName);
-        newRoleValue = safeGetObjectNameList(tmpNewRoleValue);
-        oldRoleValue = safeGetObjectNameList(tmpOldRoleValue);
-        unregisterMBeanList = safeGetObjectNameList(tmpUnregMBeanList);
+        // bssign deseriblized vbules to object fields
+        relbtionObjNbme = sbfeGetObjectNbme(tmpRelbtionObjNbme);
+        newRoleVblue = sbfeGetObjectNbmeList(tmpNewRoleVblue);
+        oldRoleVblue = sbfeGetObjectNbmeList(tmpOldRoleVblue);
+        unregisterMBebnList = sbfeGetObjectNbmeList(tmpUnregMBebnList);
 
-        relationId = tmpRelationId;
-        relationTypeName = tmpRelationTypeName;
-        roleName = tmpRoleName;
+        relbtionId = tmpRelbtionId;
+        relbtionTypeNbme = tmpRelbtionTypeNbme;
+        roleNbme = tmpRoleNbme;
     }
 
 
     /**
-     * Serializes a {@link RelationNotification} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link RelbtionNotificbtion} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myNewRoleValue", newRoleValue);
-        fields.put("myOldRoleValue", oldRoleValue);
-        fields.put("myRelId", relationId);
-        fields.put("myRelObjName", relationObjName);
-        fields.put("myRelTypeName", relationTypeName);
-        fields.put("myRoleName",roleName);
-        fields.put("myUnregMBeanList", unregisterMBeanList);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("myNewRoleVblue", newRoleVblue);
+        fields.put("myOldRoleVblue", oldRoleVblue);
+        fields.put("myRelId", relbtionId);
+        fields.put("myRelObjNbme", relbtionObjNbme);
+        fields.put("myRelTypeNbme", relbtionTypeNbme);
+        fields.put("myRoleNbme",roleNbme);
+        fields.put("myUnregMBebnList", unregisterMBebnList);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 }

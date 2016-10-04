@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.MenuComponentPeer;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.MenuComponentPeer;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ButtonUI;
 
-import com.apple.laf.AquaMenuItemUI.IndeterminateListener;
+import com.bpple.lbf.AqubMenuItemUI.IndeterminbteListener;
 
-import sun.lwawt.macosx.*;
+import sun.lwbwt.mbcosx.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-final class ScreenMenuItemCheckbox extends CheckboxMenuItem implements ActionListener, ComponentListener, ScreenMenuPropertyHandler, ItemListener {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+finbl clbss ScreenMenuItemCheckbox extends CheckboxMenuItem implements ActionListener, ComponentListener, ScreenMenuPropertyHbndler, ItemListener {
     JMenuItem fMenuItem;
-    MenuContainer fParent;
+    MenuContbiner fPbrent;
 
-    ScreenMenuItemCheckbox(final JCheckBoxMenuItem mi) {
-        super(mi.getText(), mi.getState());
+    ScreenMenuItemCheckbox(finbl JCheckBoxMenuItem mi) {
+        super(mi.getText(), mi.getStbte());
         init(mi);
     }
 
-    ScreenMenuItemCheckbox(final JRadioButtonMenuItem mi) {
+    ScreenMenuItemCheckbox(finbl JRbdioButtonMenuItem mi) {
         super(mi.getText(), mi.getModel().isSelected());
         init(mi);
     }
 
-    public void init(final JMenuItem mi) {
+    public void init(finbl JMenuItem mi) {
         fMenuItem = mi;
-        setEnabled(fMenuItem.isEnabled());
+        setEnbbled(fMenuItem.isEnbbled());
     }
 
     ScreenMenuPropertyListener fPropertyListener;
-    public void addNotify() {
-        super.addNotify();
+    public void bddNotify() {
+        super.bddNotify();
 
-        // Avoid the Auto toggle behavior of AWT CheckBoxMenuItem
+        // Avoid the Auto toggle behbvior of AWT CheckBoxMenuItem
         CCheckboxMenuItem ccb = (CCheckboxMenuItem) getPeer();
-        ccb.setAutoToggle(false);
+        ccb.setAutoToggle(fblse);
 
-        fMenuItem.addComponentListener(this);
+        fMenuItem.bddComponentListener(this);
         fPropertyListener = new ScreenMenuPropertyListener(this);
-        fMenuItem.addPropertyChangeListener(fPropertyListener);
-        addActionListener(this);
-        addItemListener(this);
-        fMenuItem.addItemListener(this);
-        setIndeterminate(IndeterminateListener.isIndeterminate(fMenuItem));
+        fMenuItem.bddPropertyChbngeListener(fPropertyListener);
+        bddActionListener(this);
+        bddItemListener(this);
+        fMenuItem.bddItemListener(this);
+        setIndeterminbte(IndeterminbteListener.isIndeterminbte(fMenuItem));
 
-        // can't setState or setAccelerator or setIcon till we have a peer
-        setAccelerator(fMenuItem.getAccelerator());
+        // cbn't setStbte or setAccelerbtor or setIcon till we hbve b peer
+        setAccelerbtor(fMenuItem.getAccelerbtor());
 
-        final Icon icon = fMenuItem.getIcon();
+        finbl Icon icon = fMenuItem.getIcon();
         if (icon != null) {
             this.setIcon(icon);
         }
 
-        final String tooltipText = fMenuItem.getToolTipText();
+        finbl String tooltipText = fMenuItem.getToolTipText();
         if (tooltipText != null) {
             this.setToolTipText(tooltipText);
         }
 
-        // sja fix is this needed?
-        fMenuItem.addItemListener(this);
+        // sjb fix is this needed?
+        fMenuItem.bddItemListener(this);
 
-        final ButtonUI ui = fMenuItem.getUI();
-        if (ui instanceof ScreenMenuItemUI) {
-            ((ScreenMenuItemUI)ui).updateListenersForScreenMenuItem();
+        finbl ButtonUI ui = fMenuItem.getUI();
+        if (ui instbnceof ScreenMenuItemUI) {
+            ((ScreenMenuItemUI)ui).updbteListenersForScreenMenuItem();
         }
 
-        if (fMenuItem instanceof JCheckBoxMenuItem) {
-            forceSetState(fMenuItem.isSelected());
+        if (fMenuItem instbnceof JCheckBoxMenuItem) {
+            forceSetStbte(fMenuItem.isSelected());
         } else {
-            forceSetState(fMenuItem.getModel().isSelected());
+            forceSetStbte(fMenuItem.getModel().isSelected());
         }
     }
 
     public void removeNotify() {
         fMenuItem.removeComponentListener(this);
-        fMenuItem.removePropertyChangeListener(fPropertyListener);
+        fMenuItem.removePropertyChbngeListener(fPropertyListener);
         fPropertyListener = null;
         removeActionListener(this);
         removeItemListener(this);
@@ -112,119 +112,119 @@ final class ScreenMenuItemCheckbox extends CheckboxMenuItem implements ActionLis
     }
 
     @Override
-    public synchronized void setLabel(final String label) {
-        ScreenMenuItem.syncLabelAndKS(this, label, fMenuItem.getAccelerator());
+    public synchronized void setLbbel(finbl String lbbel) {
+        ScreenMenuItem.syncLbbelAndKS(this, lbbel, fMenuItem.getAccelerbtor());
     }
 
     @Override
-    public void setAccelerator(final KeyStroke ks) {
-        ScreenMenuItem.syncLabelAndKS(this, fMenuItem.getText(), ks);
+    public void setAccelerbtor(finbl KeyStroke ks) {
+        ScreenMenuItem.syncLbbelAndKS(this, fMenuItem.getText(), ks);
     }
 
-    public void actionPerformed(final ActionEvent e) {
-        fMenuItem.doClick(0); // This takes care of all the different events
+    public void bctionPerformed(finbl ActionEvent e) {
+        fMenuItem.doClick(0); // This tbkes cbre of bll the different events
     }
 
     /**
-     * Invoked when the component's size changes.
+     * Invoked when the component's size chbnges.
      */
-    public void componentResized(final ComponentEvent e) {}
+    public void componentResized(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component's position changes.
+     * Invoked when the component's position chbnges.
      */
-    public void componentMoved(final ComponentEvent e) {}
+    public void componentMoved(finbl ComponentEvent e) {}
 
     /**
-     * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
+     * Invoked when the component hbs been mbde visible.
+     * See componentHidden - we should still hbve b MenuItem
      * it just isn't inserted
      */
-    public void componentShown(final ComponentEvent e) {
+    public void componentShown(finbl ComponentEvent e) {
         setVisible(true);
     }
 
     /**
-     * Invoked when the component has been made invisible.
+     * Invoked when the component hbs been mbde invisible.
      * MenuComponent.setVisible does nothing,
      * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+     * but lebve it in fItems
      */
-    public void componentHidden(final ComponentEvent e) {
-        setVisible(false);
+    public void componentHidden(finbl ComponentEvent e) {
+        setVisible(fblse);
     }
 
-    public void setToolTipText(final String text) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setToolTipText(finbl String text) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
         ((CMenuItem)peer).setToolTipText(text);
     }
 
-    public void setIcon(final Icon i) {
-        final MenuComponentPeer peer = getPeer();
-        if (!(peer instanceof CMenuItem)) return;
+    public void setIcon(finbl Icon i) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (!(peer instbnceof CMenuItem)) return;
 
-        final CMenuItem cmi = (CMenuItem)peer;
-        Image img = null;
+        finbl CMenuItem cmi = (CMenuItem)peer;
+        Imbge img = null;
 
         if (i != null) {
             if (i.getIconWidth() > 0 && i.getIconHeight() > 0) {
-                img = AquaIcon.getImageForIcon(i);
+                img = AqubIcon.getImbgeForIcon(i);
             }
         }
-        cmi.setImage(img);
+        cmi.setImbge(img);
     }
 
-    public void setVisible(final boolean b) {
-        // Tell our parent to add/remove us
-        // Hang on to our parent
-        if (fParent == null) fParent = getParent();
-        ((ScreenMenuPropertyHandler)fParent).setChildVisible(fMenuItem, b);
+    public void setVisible(finbl boolebn b) {
+        // Tell our pbrent to bdd/remove us
+        // Hbng on to our pbrent
+        if (fPbrent == null) fPbrent = getPbrent();
+        ((ScreenMenuPropertyHbndler)fPbrent).setChildVisible(fMenuItem, b);
     }
 
-    // we have no children
-    public void setChildVisible(final JMenuItem child, final boolean b) {}
+    // we hbve no children
+    public void setChildVisible(finbl JMenuItem child, finbl boolebn b) {}
 
     /**
-     * Invoked when an item's state has been changed.
+     * Invoked when bn item's stbte hbs been chbnged.
      */
-    public void itemStateChanged(final ItemEvent e) {
+    public void itemStbteChbnged(finbl ItemEvent e) {
         if (e.getSource() == this) {
             fMenuItem.doClick(0);
             return;
         }
 
-            switch (e.getStateChange()) {
-                case ItemEvent.SELECTED:
-                    forceSetState(true);
-                    break;
-                case ItemEvent.DESELECTED:
-                    forceSetState(false);
-                    break;
+            switch (e.getStbteChbnge()) {
+                cbse ItemEvent.SELECTED:
+                    forceSetStbte(true);
+                    brebk;
+                cbse ItemEvent.DESELECTED:
+                    forceSetStbte(fblse);
+                    brebk;
             }
         }
 
-    public void setIndeterminate(final boolean indeterminate) {
-        final MenuComponentPeer peer = getPeer();
-        if (peer instanceof CCheckboxMenuItem) {
-            ((CCheckboxMenuItem)peer).setIsIndeterminate(indeterminate);
+    public void setIndeterminbte(finbl boolebn indeterminbte) {
+        finbl MenuComponentPeer peer = getPeer();
+        if (peer instbnceof CCheckboxMenuItem) {
+            ((CCheckboxMenuItem)peer).setIsIndeterminbte(indeterminbte);
         }
     }
 
     /*
-     * The CCheckboxMenuItem peer is calling setState unconditionally every time user clicks the menu
-     * However for Swing controls in the screen menu bar it is wrong - the state should be changed only
-     * in response to the ITEM_STATE_CHANGED event. So the setState is overridden to no-op and all the
-     * correct state changes are made with forceSetState
+     * The CCheckboxMenuItem peer is cblling setStbte unconditionblly every time user clicks the menu
+     * However for Swing controls in the screen menu bbr it is wrong - the stbte should be chbnged only
+     * in response to the ITEM_STATE_CHANGED event. So the setStbte is overridden to no-op bnd bll the
+     * correct stbte chbnges bre mbde with forceSetStbte
      */
 
     @Override
-    public synchronized void setState(boolean b) {
+    public synchronized void setStbte(boolebn b) {
         // No Op
     }
 
-    private void forceSetState(boolean b) {
-        super.setState(b);
+    privbte void forceSetStbte(boolebn b) {
+        super.setStbte(b);
     }
 }

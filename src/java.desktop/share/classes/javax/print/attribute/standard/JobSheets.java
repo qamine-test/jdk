@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class JobSheets is a printing attribute class, an enumeration, that
- * determines which job start and end sheets, if any, must be printed with a
- * job. Class JobSheets declares keywords for standard job sheets values.
- * Implementation- or site-defined names for a job sheets attribute may also be
- * created by defining a subclass of class JobSheets.
+ * Clbss JobSheets is b printing bttribute clbss, bn enumerbtion, thbt
+ * determines which job stbrt bnd end sheets, if bny, must be printed with b
+ * job. Clbss JobSheets declbres keywords for stbndbrd job sheets vblues.
+ * Implementbtion- or site-defined nbmes for b job sheets bttribute mby blso be
+ * crebted by defining b subclbss of clbss JobSheets.
  * <P>
- * The effect of a JobSheets attribute on multidoc print jobs (jobs with
- * multiple documents) may be affected by the {@link MultipleDocumentHandling
- * MultipleDocumentHandling} job attribute, depending on the meaning of the
- * particular JobSheets value.
+ * The effect of b JobSheets bttribute on multidoc print jobs (jobs with
+ * multiple documents) mby be bffected by the {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} job bttribute, depending on the mebning of the
+ * pbrticulbr JobSheets vblue.
  * <P>
- * <B>IPP Compatibility:</B>  The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The
- * enumeration's integer value is the IPP enum value.  The
- * <code>toString()</code> method returns the IPP string representation of
- * the attribute value. For a subclass, the attribute value must be
- * localized to give the IPP name and natural language values.
+ * <B>IPP Compbtibility:</B>  The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The
+ * enumerbtion's integer vblue is the IPP enum vblue.  The
+ * <code>toString()</code> method returns the IPP string representbtion of
+ * the bttribute vblue. For b subclbss, the bttribute vblue must be
+ * locblized to give the IPP nbme bnd nbturbl lbngubge vblues.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class JobSheets extends EnumSyntax
+public clbss JobSheets extends EnumSyntbx
         implements PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -4735258056132519759L;
+    privbte stbtic finbl long seriblVersionUID = -4735258056132519759L;
 
     /**
-     * No job sheets are printed.
+     * No job sheets bre printed.
      */
-    public static final JobSheets NONE = new JobSheets(0);
+    public stbtic finbl JobSheets NONE = new JobSheets(0);
 
     /**
-     * One or more site specific standard job sheets are printed. e.g. a
-     * single start sheet is printed, or both start and end sheets are
+     * One or more site specific stbndbrd job sheets bre printed. e.g. b
+     * single stbrt sheet is printed, or both stbrt bnd end sheets bre
      * printed.
      */
-    public static final JobSheets STANDARD = new JobSheets(1);
+    public stbtic finbl JobSheets STANDARD = new JobSheets(1);
 
     /**
-     * Construct a new job sheets enumeration value with the given integer
-     * value.
+     * Construct b new job sheets enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected JobSheets(int value) {
-        super (value);
+    protected JobSheets(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "none",
-        "standard"
+        "stbndbrd"
     };
 
-    private static final JobSheets[] myEnumValueTable = {
+    privbte stbtic finbl JobSheets[] myEnumVblueTbble = {
         NONE,
         STANDARD
     };
 
     /**
-     * Returns the string table for class JobSheets.
+     * Returns the string tbble for clbss JobSheets.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class JobSheets.
+     * Returns the enumerbtion vblue tbble for clbss JobSheets.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class JobSheets and any vendor-defined subclasses, the category is
-     * class JobSheets itself.
+     * For clbss JobSheets bnd bny vendor-defined subclbsses, the cbtegory is
+     * clbss JobSheets itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobSheets.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return JobSheets.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class JobSheets and any vendor-defined subclasses, the category
-     * name is <CODE>"job-sheets"</CODE>.
+     * For clbss JobSheets bnd bny vendor-defined subclbsses, the cbtegory
+     * nbme is <CODE>"job-sheets"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "job-sheets";
     }
 

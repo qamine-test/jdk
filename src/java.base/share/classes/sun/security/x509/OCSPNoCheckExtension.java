@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
  * Represent the OCSP NoCheck Extension from RFC2560.
  * <p>
- * A CA may specify that an OCSP client can trust a responder for the
- * lifetime of the responder's certificate. The CA does so by including
- * the extension id-pkix-ocsp-nocheck. This SHOULD be a non-critical
- * extension. The value of the extension should be NULL. CAs issuing
- * such a certificate should realized that a compromise of the
- * responder's key, is as serious as the compromise of a CA key used to
- * sign CRLs, at least for the validity period of this certificate. CA's
- * may choose to issue this type of certificate with a very short
- * lifetime and renew it frequently.
+ * A CA mby specify thbt bn OCSP client cbn trust b responder for the
+ * lifetime of the responder's certificbte. The CA does so by including
+ * the extension id-pkix-ocsp-nocheck. This SHOULD be b non-criticbl
+ * extension. The vblue of the extension should be NULL. CAs issuing
+ * such b certificbte should reblized thbt b compromise of the
+ * responder's key, is bs serious bs the compromise of b CA key used to
+ * sign CRLs, bt lebst for the vblidity period of this certificbte. CA's
+ * mby choose to issue this type of certificbte with b very short
+ * lifetime bnd renew it frequently.
  * <pre>
  * id-pkix-ocsp-nocheck OBJECT IDENTIFIER ::= { id-pkix-ocsp 5 }
  * </pre>
  *
- * @author Xuelei Fan
+ * @buthor Xuelei Fbn
  * @see Extension
  * @see CertAttrSet
  */
-public class OCSPNoCheckExtension extends Extension
+public clbss OCSPNoCheckExtension extends Extension
     implements CertAttrSet<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
+    public stbtic finbl String IDENT =
                          "x509.info.extensions.OCSPNoCheck";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "OCSPNoCheck";
+    public stbtic finbl String NAME = "OCSPNoCheck";
 
     /**
-     * Create a OCSPNoCheckExtension
+     * Crebte b OCSPNoCheckExtension
      */
     public OCSPNoCheckExtension() throws IOException {
         this.extensionId = PKIXExtensions.OCSPNoCheck_Id;
-        this.critical = false;
-        this.extensionValue = new byte[0];
+        this.criticbl = fblse;
+        this.extensionVblue = new byte[0];
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crebte the extension from the pbssed DER encoded vblue.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
      * @exception IOException on error.
      */
-    public OCSPNoCheckExtension(Boolean critical, Object value)
+    public OCSPNoCheckExtension(Boolebn criticbl, Object vblue)
         throws IOException {
 
         this.extensionId = PKIXExtensions.OCSPNoCheck_Id;
-        this.critical = critical.booleanValue();
+        this.criticbl = criticbl.boolebnVblue();
 
-        // the value should be null, just ignore it here.
-        this.extensionValue = new byte[0];
+        // the vblue should be null, just ignore it here.
+        this.extensionVblue = new byte[0];
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        throw new IOException("No attribute is allowed by " +
+    public void set(String nbme, Object obj) throws IOException {
+        throw new IOException("No bttribute is bllowed by " +
                         "CertAttrSet:OCSPNoCheckExtension.");
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Object get(String name) throws IOException {
-        throw new IOException("No attribute is allowed by " +
+    public Object get(String nbme) throws IOException {
+        throw new IOException("No bttribute is bllowed by " +
                         "CertAttrSet:OCSPNoCheckExtension.");
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        throw new IOException("No attribute is allowed by " +
+    public void delete(String nbme) throws IOException {
+        throw new IOException("No bttribute is bllowed by " +
                         "CertAttrSet:OCSPNoCheckExtension.");
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        return (new AttributeNameEnumeration()).elements();
+    public Enumerbtion<String> getElements() {
+        return (new AttributeNbmeEnumerbtion()).elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 }

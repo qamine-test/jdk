@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
 
-import java.lang.management.ThreadInfo;
+import jbvb.lbng.mbnbgement.ThrebdInfo;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Implementation class for the thread subsystem.
- * Standard and committed hotspot-specific metrics if any.
+ * Implementbtion clbss for the threbd subsystem.
+ * Stbndbrd bnd committed hotspot-specific metrics if bny.
  *
- * ManagementFactory.getThreadMXBean() returns an instance
- * of this class.
+ * MbnbgementFbctory.getThrebdMXBebn() returns bn instbnce
+ * of this clbss.
  */
-class ThreadImpl implements com.sun.management.ThreadMXBean {
+clbss ThrebdImpl implements com.sun.mbnbgement.ThrebdMXBebn {
 
-    private final VMManagement jvm;
+    privbte finbl VMMbnbgement jvm;
 
-    // default for thread contention monitoring is disabled.
-    private boolean contentionMonitoringEnabled = false;
-    private boolean cpuTimeEnabled;
-    private boolean allocatedMemoryEnabled;
+    // defbult for threbd contention monitoring is disbbled.
+    privbte boolebn contentionMonitoringEnbbled = fblse;
+    privbte boolebn cpuTimeEnbbled;
+    privbte boolebn bllocbtedMemoryEnbbled;
 
     /**
-     * Constructor of ThreadImpl class.
+     * Constructor of ThrebdImpl clbss.
      */
-    ThreadImpl(VMManagement vm) {
+    ThrebdImpl(VMMbnbgement vm) {
         this.jvm = vm;
-        this.cpuTimeEnabled = jvm.isThreadCpuTimeEnabled();
-        this.allocatedMemoryEnabled = jvm.isThreadAllocatedMemoryEnabled();
+        this.cpuTimeEnbbled = jvm.isThrebdCpuTimeEnbbled();
+        this.bllocbtedMemoryEnbbled = jvm.isThrebdAllocbtedMemoryEnbbled();
     }
 
-    public int getThreadCount() {
-        return jvm.getLiveThreadCount();
+    public int getThrebdCount() {
+        return jvm.getLiveThrebdCount();
     }
 
-    public int getPeakThreadCount() {
-        return jvm.getPeakThreadCount();
+    public int getPebkThrebdCount() {
+        return jvm.getPebkThrebdCount();
     }
 
-    public long getTotalStartedThreadCount() {
-        return jvm.getTotalThreadCount();
+    public long getTotblStbrtedThrebdCount() {
+        return jvm.getTotblThrebdCount();
     }
 
-    public int getDaemonThreadCount() {
-        return jvm.getDaemonThreadCount();
+    public int getDbemonThrebdCount() {
+        return jvm.getDbemonThrebdCount();
     }
 
-    public boolean isThreadContentionMonitoringSupported() {
-        return jvm.isThreadContentionMonitoringSupported();
+    public boolebn isThrebdContentionMonitoringSupported() {
+        return jvm.isThrebdContentionMonitoringSupported();
     }
 
-    public synchronized boolean isThreadContentionMonitoringEnabled() {
-       if (!isThreadContentionMonitoringSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread contention monitoring is not supported.");
+    public synchronized boolebn isThrebdContentionMonitoringEnbbled() {
+       if (!isThrebdContentionMonitoringSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd contention monitoring is not supported.");
         }
-        return contentionMonitoringEnabled;
+        return contentionMonitoringEnbbled;
     }
 
-    public boolean isThreadCpuTimeSupported() {
-        return jvm.isOtherThreadCpuTimeSupported();
+    public boolebn isThrebdCpuTimeSupported() {
+        return jvm.isOtherThrebdCpuTimeSupported();
     }
 
-    public boolean isCurrentThreadCpuTimeSupported() {
-        return jvm.isCurrentThreadCpuTimeSupported();
+    public boolebn isCurrentThrebdCpuTimeSupported() {
+        return jvm.isCurrentThrebdCpuTimeSupported();
     }
 
-    public boolean isThreadAllocatedMemorySupported() {
-        return jvm.isThreadAllocatedMemorySupported();
+    public boolebn isThrebdAllocbtedMemorySupported() {
+        return jvm.isThrebdAllocbtedMemorySupported();
     }
 
-    public boolean isThreadCpuTimeEnabled() {
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported");
+    public boolebn isThrebdCpuTimeEnbbled() {
+        if (!isThrebdCpuTimeSupported() &&
+            !isCurrentThrebdCpuTimeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd CPU time mebsurement is not supported");
         }
-        return cpuTimeEnabled;
+        return cpuTimeEnbbled;
     }
 
-    public boolean isThreadAllocatedMemoryEnabled() {
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported");
+    public boolebn isThrebdAllocbtedMemoryEnbbled() {
+        if (!isThrebdAllocbtedMemorySupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd bllocbted memory mebsurement is not supported");
         }
-        return allocatedMemoryEnabled;
+        return bllocbtedMemoryEnbbled;
     }
 
-    public long[] getAllThreadIds() {
+    public long[] getAllThrebdIds() {
         Util.checkMonitorAccess();
 
-        Thread[] threads = getThreads();
-        int length = threads.length;
+        Threbd[] threbds = getThrebds();
+        int length = threbds.length;
         long[] ids = new long[length];
         for (int i = 0; i < length; i++) {
-            Thread t = threads[i];
+            Threbd t = threbds[i];
             ids[i] = t.getId();
         }
         return ids;
     }
 
-    public ThreadInfo getThreadInfo(long id) {
+    public ThrebdInfo getThrebdInfo(long id) {
         long[] ids = new long[1];
         ids[0] = id;
-        final ThreadInfo[] infos = getThreadInfo(ids, 0);
+        finbl ThrebdInfo[] infos = getThrebdInfo(ids, 0);
         return infos[0];
     }
 
-    public ThreadInfo getThreadInfo(long id, int maxDepth) {
+    public ThrebdInfo getThrebdInfo(long id, int mbxDepth) {
         long[] ids = new long[1];
         ids[0] = id;
-        final ThreadInfo[] infos = getThreadInfo(ids, maxDepth);
+        finbl ThrebdInfo[] infos = getThrebdInfo(ids, mbxDepth);
         return infos[0];
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids) {
-        return getThreadInfo(ids, 0);
+    public ThrebdInfo[] getThrebdInfo(long[] ids) {
+        return getThrebdInfo(ids, 0);
     }
 
-    private void verifyThreadIds(long[] ids) {
+    privbte void verifyThrebdIds(long[] ids) {
         if (ids == null) {
-            throw new NullPointerException("Null ids parameter.");
+            throw new NullPointerException("Null ids pbrbmeter.");
         }
 
         for (int i = 0; i < ids.length; i++) {
             if (ids[i] <= 0) {
-                throw new IllegalArgumentException(
-                    "Invalid thread ID parameter: " + ids[i]);
+                throw new IllegblArgumentException(
+                    "Invblid threbd ID pbrbmeter: " + ids[i]);
             }
         }
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids, int maxDepth) {
-        verifyThreadIds(ids);
+    public ThrebdInfo[] getThrebdInfo(long[] ids, int mbxDepth) {
+        verifyThrebdIds(ids);
 
-        if (maxDepth < 0) {
-            throw new IllegalArgumentException(
-                "Invalid maxDepth parameter: " + maxDepth);
+        if (mbxDepth < 0) {
+            throw new IllegblArgumentException(
+                "Invblid mbxDepth pbrbmeter: " + mbxDepth);
         }
 
         Util.checkMonitorAccess();
 
-        ThreadInfo[] infos = new ThreadInfo[ids.length]; // nulls
-        if (maxDepth == Integer.MAX_VALUE) {
-            getThreadInfo1(ids, -1, infos);
+        ThrebdInfo[] infos = new ThrebdInfo[ids.length]; // nulls
+        if (mbxDepth == Integer.MAX_VALUE) {
+            getThrebdInfo1(ids, -1, infos);
         } else {
-            getThreadInfo1(ids, maxDepth, infos);
+            getThrebdInfo1(ids, mbxDepth, infos);
         }
         return infos;
     }
 
-    public void setThreadContentionMonitoringEnabled(boolean enable) {
-        if (!isThreadContentionMonitoringSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread contention monitoring is not supported");
+    public void setThrebdContentionMonitoringEnbbled(boolebn enbble) {
+        if (!isThrebdContentionMonitoringSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd contention monitoring is not supported");
         }
 
         Util.checkControlAccess();
 
         synchronized (this) {
-            if (contentionMonitoringEnabled != enable) {
-                if (enable) {
-                    // if reeabled, reset contention time statistics
-                    // for all threads
+            if (contentionMonitoringEnbbled != enbble) {
+                if (enbble) {
+                    // if reebbled, reset contention time stbtistics
+                    // for bll threbds
                     resetContentionTimes0(0);
                 }
 
-                // update the VM of the state change
-                setThreadContentionMonitoringEnabled0(enable);
+                // updbte the VM of the stbte chbnge
+                setThrebdContentionMonitoringEnbbled0(enbble);
 
-                contentionMonitoringEnabled = enable;
+                contentionMonitoringEnbbled = enbble;
             }
         }
     }
 
-    private boolean verifyCurrentThreadCpuTime() {
-        // check if Thread CPU time measurement is supported.
-        if (!isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Current thread CPU time measurement is not supported.");
+    privbte boolebn verifyCurrentThrebdCpuTime() {
+        // check if Threbd CPU time mebsurement is supported.
+        if (!isCurrentThrebdCpuTimeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Current threbd CPU time mebsurement is not supported.");
         }
-        return isThreadCpuTimeEnabled();
+        return isThrebdCpuTimeEnbbled();
     }
 
-    public long getCurrentThreadCpuTime() {
-        if (verifyCurrentThreadCpuTime()) {
-            return getThreadTotalCpuTime0(0);
+    public long getCurrentThrebdCpuTime() {
+        if (verifyCurrentThrebdCpuTime()) {
+            return getThrebdTotblCpuTime0(0);
         }
         return -1;
     }
 
-    public long getThreadCpuTime(long id) {
+    public long getThrebdCpuTime(long id) {
         long[] ids = new long[1];
         ids[0] = id;
-        final long[] times = getThreadCpuTime(ids);
+        finbl long[] times = getThrebdCpuTime(ids);
         return times[0];
     }
 
-    private boolean verifyThreadCpuTime(long[] ids) {
-        verifyThreadIds(ids);
+    privbte boolebn verifyThrebdCpuTime(long[] ids) {
+        verifyThrebdIds(ids);
 
-        // check if Thread CPU time measurement is supported.
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported.");
+        // check if Threbd CPU time mebsurement is supported.
+        if (!isThrebdCpuTimeSupported() &&
+            !isCurrentThrebdCpuTimeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd CPU time mebsurement is not supported.");
         }
 
-        if (!isThreadCpuTimeSupported()) {
-            // support current thread only
+        if (!isThrebdCpuTimeSupported()) {
+            // support current threbd only
             for (int i = 0; i < ids.length; i++) {
-                if (ids[i] != Thread.currentThread().getId()) {
-                    throw new UnsupportedOperationException(
-                        "Thread CPU time measurement is only supported" +
-                        " for the current thread.");
+                if (ids[i] != Threbd.currentThrebd().getId()) {
+                    throw new UnsupportedOperbtionException(
+                        "Threbd CPU time mebsurement is only supported" +
+                        " for the current threbd.");
                 }
             }
         }
 
-        return isThreadCpuTimeEnabled();
+        return isThrebdCpuTimeEnbbled();
     }
 
-    public long[] getThreadCpuTime(long[] ids) {
-        boolean verified = verifyThreadCpuTime(ids);
+    public long[] getThrebdCpuTime(long[] ids) {
+        boolebn verified = verifyThrebdCpuTime(ids);
 
         int length = ids.length;
         long[] times = new long[length];
-        java.util.Arrays.fill(times, -1);
+        jbvb.util.Arrbys.fill(times, -1);
 
         if (verified) {
             if (length == 1) {
                 long id = ids[0];
-                if (id == Thread.currentThread().getId()) {
+                if (id == Threbd.currentThrebd().getId()) {
                     id = 0;
                 }
-                times[0] = getThreadTotalCpuTime0(id);
+                times[0] = getThrebdTotblCpuTime0(id);
             } else {
-                getThreadTotalCpuTime1(ids, times);
+                getThrebdTotblCpuTime1(ids, times);
             }
         }
         return times;
     }
 
-    public long getCurrentThreadUserTime() {
-        if (verifyCurrentThreadCpuTime()) {
-            return getThreadUserCpuTime0(0);
+    public long getCurrentThrebdUserTime() {
+        if (verifyCurrentThrebdCpuTime()) {
+            return getThrebdUserCpuTime0(0);
         }
         return -1;
     }
 
-    public long getThreadUserTime(long id) {
+    public long getThrebdUserTime(long id) {
         long[] ids = new long[1];
         ids[0] = id;
-        final long[] times = getThreadUserTime(ids);
+        finbl long[] times = getThrebdUserTime(ids);
         return times[0];
     }
 
-    public long[] getThreadUserTime(long[] ids) {
-        boolean verified = verifyThreadCpuTime(ids);
+    public long[] getThrebdUserTime(long[] ids) {
+        boolebn verified = verifyThrebdCpuTime(ids);
 
         int length = ids.length;
         long[] times = new long[length];
-        java.util.Arrays.fill(times, -1);
+        jbvb.util.Arrbys.fill(times, -1);
 
         if (verified) {
             if (length == 1) {
                 long id = ids[0];
-                if (id == Thread.currentThread().getId()) {
+                if (id == Threbd.currentThrebd().getId()) {
                     id = 0;
                 }
-                times[0] = getThreadUserCpuTime0(id);
+                times[0] = getThrebdUserCpuTime0(id);
             } else {
-                getThreadUserCpuTime1(ids, times);
+                getThrebdUserCpuTime1(ids, times);
             }
         }
         return times;
     }
 
-    public void setThreadCpuTimeEnabled(boolean enable) {
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported");
+    public void setThrebdCpuTimeEnbbled(boolebn enbble) {
+        if (!isThrebdCpuTimeSupported() &&
+            !isCurrentThrebdCpuTimeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd CPU time mebsurement is not supported");
         }
 
         Util.checkControlAccess();
         synchronized (this) {
-            if (cpuTimeEnabled != enable) {
-                // notify VM of the state change
-                setThreadCpuTimeEnabled0(enable);
-                cpuTimeEnabled = enable;
+            if (cpuTimeEnbbled != enbble) {
+                // notify VM of the stbte chbnge
+                setThrebdCpuTimeEnbbled0(enbble);
+                cpuTimeEnbbled = enbble;
             }
         }
     }
 
-    public long getThreadAllocatedBytes(long id) {
+    public long getThrebdAllocbtedBytes(long id) {
         long[] ids = new long[1];
         ids[0] = id;
-        final long[] sizes = getThreadAllocatedBytes(ids);
+        finbl long[] sizes = getThrebdAllocbtedBytes(ids);
         return sizes[0];
     }
 
-    private boolean verifyThreadAllocatedMemory(long[] ids) {
-        verifyThreadIds(ids);
+    privbte boolebn verifyThrebdAllocbtedMemory(long[] ids) {
+        verifyThrebdIds(ids);
 
-        // check if Thread allocated memory measurement is supported.
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported.");
+        // check if Threbd bllocbted memory mebsurement is supported.
+        if (!isThrebdAllocbtedMemorySupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd bllocbted memory mebsurement is not supported.");
         }
 
-        return isThreadAllocatedMemoryEnabled();
+        return isThrebdAllocbtedMemoryEnbbled();
     }
 
-    public long[] getThreadAllocatedBytes(long[] ids) {
-        boolean verified = verifyThreadAllocatedMemory(ids);
+    public long[] getThrebdAllocbtedBytes(long[] ids) {
+        boolebn verified = verifyThrebdAllocbtedMemory(ids);
 
         long[] sizes = new long[ids.length];
-        java.util.Arrays.fill(sizes, -1);
+        jbvb.util.Arrbys.fill(sizes, -1);
 
         if (verified) {
-            getThreadAllocatedMemory1(ids, sizes);
+            getThrebdAllocbtedMemory1(ids, sizes);
         }
         return sizes;
     }
 
-    public void setThreadAllocatedMemoryEnabled(boolean enable) {
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported.");
+    public void setThrebdAllocbtedMemoryEnbbled(boolebn enbble) {
+        if (!isThrebdAllocbtedMemorySupported()) {
+            throw new UnsupportedOperbtionException(
+                "Threbd bllocbted memory mebsurement is not supported.");
         }
 
         Util.checkControlAccess();
         synchronized (this) {
-            if (allocatedMemoryEnabled != enable) {
-                // notify VM of the state change
-                setThreadAllocatedMemoryEnabled0(enable);
-                allocatedMemoryEnabled = enable;
+            if (bllocbtedMemoryEnbbled != enbble) {
+                // notify VM of the stbte chbnge
+                setThrebdAllocbtedMemoryEnbbled0(enbble);
+                bllocbtedMemoryEnbbled = enbble;
             }
         }
     }
 
-    public long[] findMonitorDeadlockedThreads() {
+    public long[] findMonitorDebdlockedThrebds() {
         Util.checkMonitorAccess();
 
-        Thread[] threads = findMonitorDeadlockedThreads0();
-        if (threads == null) {
+        Threbd[] threbds = findMonitorDebdlockedThrebds0();
+        if (threbds == null) {
             return null;
         }
 
-        long[] ids = new long[threads.length];
-        for (int i = 0; i < threads.length; i++) {
-            Thread t = threads[i];
+        long[] ids = new long[threbds.length];
+        for (int i = 0; i < threbds.length; i++) {
+            Threbd t = threbds[i];
             ids[i] = t.getId();
         }
         return ids;
     }
 
-    public long[] findDeadlockedThreads() {
-        if (!isSynchronizerUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Synchronizer Usage is not supported.");
+    public long[] findDebdlockedThrebds() {
+        if (!isSynchronizerUsbgeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Monitoring of Synchronizer Usbge is not supported.");
         }
 
         Util.checkMonitorAccess();
 
-        Thread[] threads = findDeadlockedThreads0();
-        if (threads == null) {
+        Threbd[] threbds = findDebdlockedThrebds0();
+        if (threbds == null) {
             return null;
         }
 
-        long[] ids = new long[threads.length];
-        for (int i = 0; i < threads.length; i++) {
-            Thread t = threads[i];
+        long[] ids = new long[threbds.length];
+        for (int i = 0; i < threbds.length; i++) {
+            Threbd t = threbds[i];
             ids[i] = t.getId();
         }
         return ids;
     }
 
-    public void resetPeakThreadCount() {
+    public void resetPebkThrebdCount() {
         Util.checkControlAccess();
-        resetPeakThreadCount0();
+        resetPebkThrebdCount0();
     }
 
-    public boolean isObjectMonitorUsageSupported() {
-        return jvm.isObjectMonitorUsageSupported();
+    public boolebn isObjectMonitorUsbgeSupported() {
+        return jvm.isObjectMonitorUsbgeSupported();
     }
 
-    public boolean isSynchronizerUsageSupported() {
-        return jvm.isSynchronizerUsageSupported();
+    public boolebn isSynchronizerUsbgeSupported() {
+        return jvm.isSynchronizerUsbgeSupported();
     }
 
-    private void verifyDumpThreads(boolean lockedMonitors,
-                                   boolean lockedSynchronizers) {
-        if (lockedMonitors && !isObjectMonitorUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Object Monitor Usage is not supported.");
+    privbte void verifyDumpThrebds(boolebn lockedMonitors,
+                                   boolebn lockedSynchronizers) {
+        if (lockedMonitors && !isObjectMonitorUsbgeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Monitoring of Object Monitor Usbge is not supported.");
         }
 
-        if (lockedSynchronizers && !isSynchronizerUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Synchronizer Usage is not supported.");
+        if (lockedSynchronizers && !isSynchronizerUsbgeSupported()) {
+            throw new UnsupportedOperbtionException(
+                "Monitoring of Synchronizer Usbge is not supported.");
         }
 
         Util.checkMonitorAccess();
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids,
-                                      boolean lockedMonitors,
-                                      boolean lockedSynchronizers) {
-        verifyThreadIds(ids);
-        verifyDumpThreads(lockedMonitors, lockedSynchronizers);
-        return dumpThreads0(ids, lockedMonitors, lockedSynchronizers);
+    public ThrebdInfo[] getThrebdInfo(long[] ids,
+                                      boolebn lockedMonitors,
+                                      boolebn lockedSynchronizers) {
+        verifyThrebdIds(ids);
+        verifyDumpThrebds(lockedMonitors, lockedSynchronizers);
+        return dumpThrebds0(ids, lockedMonitors, lockedSynchronizers);
     }
 
-    public ThreadInfo[] dumpAllThreads(boolean lockedMonitors,
-                                       boolean lockedSynchronizers) {
-        verifyDumpThreads(lockedMonitors, lockedSynchronizers);
-        return dumpThreads0(null, lockedMonitors, lockedSynchronizers);
+    public ThrebdInfo[] dumpAllThrebds(boolebn lockedMonitors,
+                                       boolebn lockedSynchronizers) {
+        verifyDumpThrebds(lockedMonitors, lockedSynchronizers);
+        return dumpThrebds0(null, lockedMonitors, lockedSynchronizers);
     }
 
-    // VM support where maxDepth == -1 to request entire stack dump
-    private static native Thread[] getThreads();
-    private static native void getThreadInfo1(long[] ids,
-                                              int maxDepth,
-                                              ThreadInfo[] result);
-    private static native long getThreadTotalCpuTime0(long id);
-    private static native void getThreadTotalCpuTime1(long[] ids, long[] result);
-    private static native long getThreadUserCpuTime0(long id);
-    private static native void getThreadUserCpuTime1(long[] ids, long[] result);
-    private static native void getThreadAllocatedMemory1(long[] ids, long[] result);
-    private static native void setThreadCpuTimeEnabled0(boolean enable);
-    private static native void setThreadAllocatedMemoryEnabled0(boolean enable);
-    private static native void setThreadContentionMonitoringEnabled0(boolean enable);
-    private static native Thread[] findMonitorDeadlockedThreads0();
-    private static native Thread[] findDeadlockedThreads0();
-    private static native void resetPeakThreadCount0();
-    private static native ThreadInfo[] dumpThreads0(long[] ids,
-                                                    boolean lockedMonitors,
-                                                    boolean lockedSynchronizers);
+    // VM support where mbxDepth == -1 to request entire stbck dump
+    privbte stbtic nbtive Threbd[] getThrebds();
+    privbte stbtic nbtive void getThrebdInfo1(long[] ids,
+                                              int mbxDepth,
+                                              ThrebdInfo[] result);
+    privbte stbtic nbtive long getThrebdTotblCpuTime0(long id);
+    privbte stbtic nbtive void getThrebdTotblCpuTime1(long[] ids, long[] result);
+    privbte stbtic nbtive long getThrebdUserCpuTime0(long id);
+    privbte stbtic nbtive void getThrebdUserCpuTime1(long[] ids, long[] result);
+    privbte stbtic nbtive void getThrebdAllocbtedMemory1(long[] ids, long[] result);
+    privbte stbtic nbtive void setThrebdCpuTimeEnbbled0(boolebn enbble);
+    privbte stbtic nbtive void setThrebdAllocbtedMemoryEnbbled0(boolebn enbble);
+    privbte stbtic nbtive void setThrebdContentionMonitoringEnbbled0(boolebn enbble);
+    privbte stbtic nbtive Threbd[] findMonitorDebdlockedThrebds0();
+    privbte stbtic nbtive Threbd[] findDebdlockedThrebds0();
+    privbte stbtic nbtive void resetPebkThrebdCount0();
+    privbte stbtic nbtive ThrebdInfo[] dumpThrebds0(long[] ids,
+                                                    boolebn lockedMonitors,
+                                                    boolebn lockedSynchronizers);
 
-    // tid == 0 to reset contention times for all threads
-    private static native void resetContentionTimes0(long tid);
+    // tid == 0 to reset contention times for bll threbds
+    privbte stbtic nbtive void resetContentionTimes0(long tid);
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.THREAD_MXBEAN_NAME);
+    public ObjectNbme getObjectNbme() {
+        return Util.newObjectNbme(MbnbgementFbctory.THREAD_MXBEAN_NAME);
     }
 
 }

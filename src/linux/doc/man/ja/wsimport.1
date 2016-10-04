@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: wsimport
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
-.\" SectDesc: Java Web¥µ¡¼¥Ó¥¹¡¦¥Ä¡¼¥ë
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013Ç¯11·î21Æü
+.\" SectDesc: Jbvb Web¥µ¡¼¥Ó¥¹¡¦¥Ä¡¼¥ë
+.\" Softwbre: JDK 8
 .\" Arch: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "wsimport" "1" "2013Ç¯11·î21Æü" "JDK 8" "Java Web¥µ¡¼¥Ó¥¹¡¦¥Ä¡¼¥ë"
+.TH "wsimport" "1" "2013Ç¯11·î21Æü" "JDK 8" "Jbvb Web¥µ¡¼¥Ó¥¹¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -75,7 +75,7 @@ Web¥µ¡¼¥Ó¥¹¤ò¸Æ¤Ó½Ð¤¹ÊýË¡¡¢¥Ñ¥é¥á¡¼¥¿¤ËÉ¬Í×¤ÊÃÍ¡¢ÊÖ¤µ¤ì¤ë¥Ç¡¼¥¿¹½Â¤¤Ë¤Ä¤¤¤Æ¤Î¥³¥
 .PP
 \fIwsimport\fR¥³¥Þ¥ó¥É¤Ï¡¢¼¡¤ÎJAX\-WS¥Ý¡¼¥¿¥Ö¥ë¡¦¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤òÀ¸À®¤·¤Þ¤¹¡£¤³¤ì¤é¤Î¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤Ï¡¢¥Ç¥×¥í¥¤¤¹¤ëWSDL¤ª¤è¤Ó¥¹¥­¡¼¥Þ¡¦¥É¥­¥å¥á¥ó¥È¤ª¤è¤Ó¥¨¥ó¥É¥Ý¥¤¥ó¥È¼ÂÁõ¤È¤È¤â¤Ë¡¢WAR¥Õ¥¡¥¤¥ë¤Ë¥Ñ¥Ã¥±¡¼¥¸¤Ç¤­¤Þ¤¹¡£\fIwsimport\fR¥³¥Þ¥ó¥É¤Ç¤Ï\fIwsimport\fR
 Ant¥¿¥¹¥¯¤âÄó¶¡¤µ¤ì¤Þ¤¹¡£
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤ÎWsimport Ant Task¥Ú¡¼¥¸¤ÎTools¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html¤ÎWsimport Ant Tbsk¥Ú¡¼¥¸¤ÎTools¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .sp
 .RS 4
 .ie n \{\
@@ -107,7 +107,7 @@ http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤ÎWsimport An
 .sp -1
 .IP \(bu 2.3
 .\}
-Îã³°¥¯¥é¥¹¤Ï\fIwsdl:fault\fR¤«¤é¥Þ¥Ã¥×¤µ¤ì¤Þ¤¹(Â¸ºß¤¹¤ë¾ì¹ç)
+Îã³°¥¯¥é¥¹¤Ï\fIwsdl:fbult\fR¤«¤é¥Þ¥Ã¥×¤µ¤ì¤Þ¤¹(Â¸ºß¤¹¤ë¾ì¹ç)
 .RE
 .sp
 .RS 4
@@ -118,7 +118,7 @@ http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤ÎWsimport An
 .sp -1
 .IP \(bu 2.3
 .\}
-ÈóÆ±´ü¥ì¥¹¥Ý¥ó¥¹Bean¤Ï¥ì¥¹¥Ý¥ó¥¹\fIwsdl:message\fR¤«¤éÇÉÀ¸¤·¤Þ¤¹(Â¸ºß¤¹¤ë¾ì¹ç)
+ÈóÆ±´ü¥ì¥¹¥Ý¥ó¥¹Bebn¤Ï¥ì¥¹¥Ý¥ó¥¹\fIwsdl:messbge\fR¤«¤éÇÉÀ¸¤·¤Þ¤¹(Â¸ºß¤¹¤ë¾ì¹ç)
 .RE
 .sp
 .RS 4
@@ -129,12 +129,12 @@ http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤ÎWsimport An
 .sp -1
 .IP \(bu 2.3
 .\}
-JAXB¤¬À¸À®¤¹¤ëÃÍ¥¿¥¤¥×(¥¹¥­¡¼¥Þ¤Î¥¿¥¤¥×¤«¤é¥Þ¥Ã¥×¤µ¤ì¤¿Java¥¯¥é¥¹)
+JAXB¤¬À¸À®¤¹¤ëÃÍ¥¿¥¤¥×(¥¹¥­¡¼¥Þ¤Î¥¿¥¤¥×¤«¤é¥Þ¥Ã¥×¤µ¤ì¤¿Jbvb¥¯¥é¥¹)
 .RE
 .PP
 \fIwsgen\fR¥³¥Þ¥ó¥É¤òµ¯Æ°¤¹¤ë¤Ë¤Ï¡¢¼¡¤ò¹Ô¤¤¤Þ¤¹¡£
 .PP
-\fBOracle Solaris/Linux\fR:
+\fBOrbcle Solbris/Linux\fR:
 .sp
 .if n \{\
 .RS 4
@@ -152,7 +152,7 @@ JAXB¤¬À¸À®¤¹¤ëÃÍ¥¿¥¤¥×(¥¹¥­¡¼¥Þ¤Î¥¿¥¤¥×¤«¤é¥Þ¥Ã¥×¤µ¤ì¤¿Java¥¯¥é¥¹)
 .RS 4
 .\}
 .nf
-\ebin\ewsimport\&.bat \-help
+\ebin\ewsimport\&.bbt \-help
 .fi
 .if n \{\
 .RE
@@ -164,21 +164,21 @@ JAXB¤¬À¸À®¤¹¤ëÃÍ¥¿¥¤¥×(¥¹¥­¡¼¥Þ¤Î¥¿¥¤¥×¤«¤é¥Þ¥Ã¥×¤µ¤ì¤¿Java¥¯¥é¥¹)
 À¸À®¤µ¤ì¤ë½ÐÎÏ¥Õ¥¡¥¤¥ë¤ò³ÊÇ¼¤¹¤ë¾ì½ê¤ò»ØÄê¤·¤Þ¤¹¡£
 .RE
 .PP
-\-b \fIpath\fR
+\-b \fIpbth\fR
 .RS 4
-³°ÉôJAX\-WS¤Þ¤¿¤ÏJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Þ¤¹¡£\fI\-b\fR¥ª¥×¥·¥ç¥ó¤ÇÊ£¿ô¤ÎJAX\-WS¤ª¤è¤ÓJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤·¤Æ¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¡¢BeanÌ¾¤Ê¤É¤ò¥«¥¹¥¿¥Þ¥¤¥º¤Ç¤­¤Þ¤¹¡£JAX\-WS¤ª¤è¤ÓJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤Î¾ÜºÙ¤Ï¡¢
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤ÎWSDL Customization¤ÎUsers Guide¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
+³°ÉôJAX\-WS¤Þ¤¿¤ÏJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Þ¤¹¡£\fI\-b\fR¥ª¥×¥·¥ç¥ó¤ÇÊ£¿ô¤ÎJAX\-WS¤ª¤è¤ÓJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤·¤Æ¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¡¢BebnÌ¾¤Ê¤É¤ò¥«¥¹¥¿¥Þ¥¤¥º¤Ç¤­¤Þ¤¹¡£JAX\-WS¤ª¤è¤ÓJAXB¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤Î¾ÜºÙ¤Ï¡¢
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html¤ÎWSDL Customizbtion¤ÎUsers Guide¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
 .RE
 .PP
-\-B \fIjaxbOption\fR
+\-B \fIjbxbOption\fR
 .RS 4
-JAXB¥¹¥­¡¼¥Þ¡¦¥³¥ó¥Ñ¥¤¥é¤Ë\fIjaxbOption\fR¥ª¥×¥·¥ç¥ó¤òÅÏ¤·¤Þ¤¹¡£
+JAXB¥¹¥­¡¼¥Þ¡¦¥³¥ó¥Ñ¥¤¥é¤Ë\fIjbxbOption\fR¥ª¥×¥·¥ç¥ó¤òÅÏ¤·¤Þ¤¹¡£
 .RE
 .PP
-\-catalog
+\-cbtblog
 .RS 4
-³°Éô¥¨¥ó¥Æ¥£¥Æ¥£»²¾È¤ò²ò·è¤¹¤ë¥«¥¿¥í¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Þ¤¹¡£\fI\-catalog\fR¥ª¥×¥·¥ç¥ó¤Ï¡¢TR9401¡¢XCatalog¡¢OASIS XML Catalog¤Î³Æ·Á¼°¤ò¥µ¥Ý¡¼¥È¤·¤Æ¤¤¤Þ¤¹¡£http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/catalog\-support\&.html¤Î
-Catalog Support¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+³°Éô¥¨¥ó¥Æ¥£¥Æ¥£»²¾È¤ò²ò·è¤¹¤ë¥«¥¿¥í¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤·¤Þ¤¹¡£\fI\-cbtblog\fR¥ª¥×¥·¥ç¥ó¤Ï¡¢TR9401¡¢XCbtblog¡¢OASIS XML Cbtblog¤Î³Æ·Á¼°¤ò¥µ¥Ý¡¼¥È¤·¤Æ¤¤¤Þ¤¹¡£http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/cbtblog\-support\&.html¤Î
+Cbtblog Support¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .PP
 \-extension
@@ -201,9 +201,9 @@ HTTP¥×¥í¥­¥·¡¦¥µ¡¼¥Ð¡¼¤ò»ØÄê¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ï8080¤Ç¤¹¡£
 À¸À®¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤òÊÝ»ý¤·¤Þ¤¹
 .RE
 .PP
-\-p \fIname\fR
+\-p \fInbme\fR
 .RS 4
-¥¿¡¼¥²¥Ã¥È¡¦¥Ñ¥Ã¥±¡¼¥¸\fIname\fR¤ò»ØÄê¤·¤Æ¡¢WSDL¤ª¤è¤Ó¥¹¥­¡¼¥Þ¡¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Î¥«¥¹¥¿¥Þ¥¤¥º¡¢¤ª¤è¤Ó»ÅÍÍÉô¤ÇÄêµÁ¤µ¤ì¤¿¥Ç¥Õ¥©¥ë¥È¤Î¥¢¥ë¥´¥ê¥º¥à¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É¤·¤Þ¤¹¡£
+¥¿¡¼¥²¥Ã¥È¡¦¥Ñ¥Ã¥±¡¼¥¸\fInbme\fR¤ò»ØÄê¤·¤Æ¡¢WSDL¤ª¤è¤Ó¥¹¥­¡¼¥Þ¡¦¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤Î¥«¥¹¥¿¥Þ¥¤¥º¡¢¤ª¤è¤Ó»ÅÍÍÉô¤ÇÄêµÁ¤µ¤ì¤¿¥Ç¥Õ¥©¥ë¥È¤Î¥¢¥ë¥´¥ê¥º¥à¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É¤·¤Þ¤¹¡£
 .RE
 .PP
 \-s \fIdirectory\fR
@@ -221,12 +221,12 @@ HTTP¥×¥í¥­¥·¡¦¥µ¡¼¥Ð¡¼¤ò»ØÄê¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ï8080¤Ç¤¹¡£
 ¥ê¥ê¡¼¥¹¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
-\-wsdllocation \fIlocation\fR
+\-wsdllocbtion \fIlocbtion\fR
 .RS 4
-\fI@WebServiceClient\&.wsdlLocation\fR¤ÎÃÍ¤ò»ØÄê¤·¤Þ¤¹¡£
+\fI@WebServiceClient\&.wsdlLocbtion\fR¤ÎÃÍ¤ò»ØÄê¤·¤Þ¤¹¡£
 .RE
 .PP
-\-target
+\-tbrget
 .RS 4
 »ØÄê¤µ¤ì¤¿JAX\-WS»ÅÍÍ¥Ð¡¼¥¸¥ç¥ó¤Ë½¾¤Ã¤Æ¡¢¥³¡¼¥É¤òÀ¸À®¤·¤Þ¤¹¡£¥Ð¡¼¥¸¥ç¥ó2\&.0¤Ç¤Ï¡¢JAX\-WS 2\&.0»ÅÍÍ¤Ë½àµò¤·¤¿¥³¡¼¥É¤òÀ¸À®¤·¤Þ¤¹¡£
 .RE
@@ -236,20 +236,20 @@ HTTP¥×¥í¥­¥·¡¦¥µ¡¼¥Ð¡¼¤ò»ØÄê¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Ï8080¤Ç¤¹¡£
 \fIwsimport\fR¥³¥Þ¥ó¥É½ÐÎÏ¤òÍÞÀ©¤·¤Þ¤¹¡£
 .RE
 .PP
-\fI\-b\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢Ê£¿ô¤Î\fIJAX\-WS\fR¤ª¤è¤Ó\fIJAXB\fR¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤·¤Æ¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤äBeanÌ¾¤Ê¤É¡¢ÍÍ¡¹¤Ê¤â¤Î¤ò¥«¥¹¥¿¥Þ¥¤¥º¤Ç¤­¤Þ¤¹¡£\fIJAX\-WS\fR¤ª¤è¤Ó\fIJAXB\fR¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤Î¾ÜºÙ¤Ï¡¢
-https://jax\-ws\&.dev\&.java\&.net/nonav/2\&.1\&.1/docs/customizations\&.html¤ÎJAXB¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
+\fI\-b\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¡¢Ê£¿ô¤Î\fIJAX\-WS\fR¤ª¤è¤Ó\fIJAXB\fR¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤ò»ØÄê¤Ç¤­¤Þ¤¹¡£¤³¤ì¤é¤Î¥Õ¥¡¥¤¥ë¤ò»ÈÍÑ¤·¤Æ¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤äBebnÌ¾¤Ê¤É¡¢ÍÍ¡¹¤Ê¤â¤Î¤ò¥«¥¹¥¿¥Þ¥¤¥º¤Ç¤­¤Þ¤¹¡£\fIJAX\-WS\fR¤ª¤è¤Ó\fIJAXB\fR¥Ð¥¤¥ó¥Ç¥£¥ó¥°¡¦¥Õ¥¡¥¤¥ë¤Î¾ÜºÙ¤Ï¡¢
+https://jbx\-ws\&.dev\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/customizbtions\&.html¤ÎJAXB¥¿¥Ö¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
 .SH "ÈóÉ¸½à¥ª¥×¥·¥ç¥ó"
 .PP
-\-XadditionalHeaders
+\-XbdditionblHebders
 .RS 4
-¥ê¥¯¥¨¥¹¥È¤Þ¤¿¤Ï¥ì¥¹¥Ý¥ó¥¹¡¦¥á¥Ã¥»¡¼¥¸¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Ê¤¤¥Ø¥Ã¥À¡¼¤òJava¥á¥½¥Ã¥É¤Î¥Ñ¥é¥á¡¼¥¿¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹
+¥ê¥¯¥¨¥¹¥È¤Þ¤¿¤Ï¥ì¥¹¥Ý¥ó¥¹¡¦¥á¥Ã¥»¡¼¥¸¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Ê¤¤¥Ø¥Ã¥À¡¼¤òJbvb¥á¥½¥Ã¥É¤Î¥Ñ¥é¥á¡¼¥¿¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹
 .RE
 .PP
-\-Xauthfile \fIfile\fR
+\-Xbuthfile \fIfile\fR
 .RS 4
 Ç§¾Ú¾ðÊó¤ò´Þ¤à¥Õ¥¡¥¤¥ë¤ò»ØÄê¤¹¤ëWSDL URI¤Ç¤¹¡£¤³¤ÎURI¤Î·Á¼°¤Ï¼¡¤Î¤È¤ª¤ê¤Ç¤¹¡£
 .sp
-http://\fIuser\-name\fR:\fIpassword\fR@\fIhost\-name\fR/\fIweb\-service\-name\fR>?wsdl
+http://\fIuser\-nbme\fR:\fIpbssword\fR@\fIhost\-nbme\fR/\fIweb\-service\-nbme\fR>?wsdl
 .RE
 .PP
 \-Xdebug
@@ -257,24 +257,24 @@ http://\fIuser\-name\fR:\fIpassword\fR@\fIhost\-name\fR/\fIweb\-service\-name\fR
 ¥Ç¥Ð¥Ã¥°¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹
 .RE
 .PP
-\-Xno\-addressing\-databinding
+\-Xno\-bddressing\-dbtbbinding
 .RS 4
-W3C EndpointReferenceType¤ÈJava¤Î¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÍ­¸ú¤Ë¤·¤Þ¤¹¡£
+W3C EndpointReferenceType¤ÈJbvb¤Î¥Ð¥¤¥ó¥Ç¥£¥ó¥°¤òÍ­¸ú¤Ë¤·¤Þ¤¹¡£
 .RE
 .PP
 \-Xnocompile
 .RS 4
-À¸À®¤µ¤ì¤¿Java¥Õ¥¡¥¤¥ë¤ò¥³¥ó¥Ñ¥¤¥ë¤·¤Þ¤»¤ó
+À¸À®¤µ¤ì¤¿Jbvb¥Õ¥¡¥¤¥ë¤ò¥³¥ó¥Ñ¥¤¥ë¤·¤Þ¤»¤ó
 .RE
 .SH "Îã"
 .PP
-¼¡¤ÎÎã¤Ç¤Ï¡¢Java¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤òÀ¸À®¤·¡¢\fIhttp://stockquote\&.example\&.com/quote?wsdl\fR¤ò¥¤¥ó¥Ý¡¼¥È¤·¤Æ¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤ò¥³¥ó¥Ñ¥¤¥ë¤·¤Þ¤¹¡£
+¼¡¤ÎÎã¤Ç¤Ï¡¢Jbvb¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤òÀ¸À®¤·¡¢\fIhttp://stockquote\&.exbmple\&.com/quote?wsdl\fR¤ò¥¤¥ó¥Ý¡¼¥È¤·¤Æ¥¢¡¼¥Æ¥£¥Õ¥¡¥¯¥È¤ò¥³¥ó¥Ñ¥¤¥ë¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-wsimport \-p stockquote http://stockquote\&.example\&.com/quote?wsdl
+wsimport \-p stockquote http://stockquote\&.exbmple\&.com/quote?wsdl
 .fi
 .if n \{\
 .RE
@@ -300,8 +300,8 @@ wsgen(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤Î
-Wsimport Ant Task¥Ú¡¼¥¸¤ÎTools¥¿¥Ö
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html¤Î
+Wsimport Ant Tbsk¥Ú¡¼¥¸¤ÎTools¥¿¥Ö
 .RE
 .sp
 .RS 4
@@ -312,8 +312,8 @@ Wsimport Ant Task¥Ú¡¼¥¸¤ÎTools¥¿¥Ö
 .sp -1
 .IP \(bu 2.3
 .\}
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/catalog\-support\&.html¤Î
-Catalog Support¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/cbtblog\-support\&.html¤Î
+Cbtblog Support¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö
 .RE
 .sp
 .RS 4
@@ -324,8 +324,8 @@ Catalog Support¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö
 .sp -1
 .IP \(bu 2.3
 .\}
-http://jax\-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsimportant\&.html¤Î
-WSDL Customization¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö
+http://jbx\-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html¤Î
+WSDL Customizbtion¥Ú¡¼¥¸¤ÎUsers Guide¥¿¥Ö
 .RE
 .br
 'pl 8.5i

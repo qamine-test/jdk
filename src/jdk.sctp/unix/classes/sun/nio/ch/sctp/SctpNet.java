@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.ch.sctp;
+pbckbge sun.nio.ch.sctp;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.channels.AlreadyBoundException;
-import java.util.Set;
-import java.util.HashSet;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.SocketAddress;
+import jbvb.nio.chbnnels.AlrebdyBoundException;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 import sun.nio.ch.IOUtil;
 import sun.nio.ch.Net;
 import com.sun.nio.sctp.SctpSocketOption;
-import static com.sun.nio.sctp.SctpStandardSocketOptions.*;
+import stbtic com.sun.nio.sctp.SctpStbndbrdSocketOptions.*;
 
-public class SctpNet {
-    private static final String osName = AccessController.doPrivileged(
-        (PrivilegedAction<String>) () -> System.getProperty("os.name"));
+public clbss SctpNet {
+    privbte stbtic finbl String osNbme = AccessController.doPrivileged(
+        (PrivilegedAction<String>) () -> System.getProperty("os.nbme"));
 
-    /* -- Miscellaneous SCTP utilities -- */
+    /* -- Miscellbneous SCTP utilities -- */
 
-    private static boolean IPv4MappedAddresses() {
-        if ("SunOS".equals(osName)) {
-            /* Solaris supports IPv4Mapped Addresses with bindx */
+    privbte stbtic boolebn IPv4MbppedAddresses() {
+        if ("SunOS".equbls(osNbme)) {
+            /* Solbris supports IPv4Mbpped Addresses with bindx */
             return true;
-        } /* else {  //other OS/implementations  */
+        } /* else {  //other OS/implementbtions  */
 
-        /* lksctp/linux requires Ipv4 addresses */
-        return false;
+        /* lksctp/linux requires Ipv4 bddresses */
+        return fblse;
     }
 
-    static boolean throwAlreadyBoundException() throws IOException {
-        throw new AlreadyBoundException();
+    stbtic boolebn throwAlrebdyBoundException() throws IOException {
+        throw new AlrebdyBoundException();
     }
 
-    static void listen(int fd, int backlog) throws IOException {
-        listen0(fd, backlog);
+    stbtic void listen(int fd, int bbcklog) throws IOException {
+        listen0(fd, bbcklog);
     }
 
-    static int connect(int fd, InetAddress remote, int remotePort)
+    stbtic int connect(int fd, InetAddress remote, int remotePort)
             throws IOException {
         return connect0(fd, remote, remotePort);
     }
 
-    static void close(int fd) throws IOException {
+    stbtic void close(int fd) throws IOException {
         close0(fd);
     }
 
-    static void preClose(int fd) throws IOException {
+    stbtic void preClose(int fd) throws IOException {
         preClose0(fd);
     }
 
     /**
-     * @param  oneToOne
-     *         if {@code true} returns a one-to-one sctp socket, otherwise
-     *         returns a one-to-many sctp socket
+     * @pbrbm  oneToOne
+     *         if {@code true} returns b one-to-one sctp socket, otherwise
+     *         returns b one-to-mbny sctp socket
      */
-    static FileDescriptor socket(boolean oneToOne) throws IOException {
-        int nativefd = socket0(oneToOne);
-        return IOUtil.newFD(nativefd);
+    stbtic FileDescriptor socket(boolebn oneToOne) throws IOException {
+        int nbtivefd = socket0(oneToOne);
+        return IOUtil.newFD(nbtivefd);
     }
 
-    static void bindx(int fd, InetAddress[] addrs, int port, boolean add)
+    stbtic void bindx(int fd, InetAddress[] bddrs, int port, boolebn bdd)
             throws IOException {
-        bindx(fd, addrs, port, addrs.length, add,
-                IPv4MappedAddresses());
+        bindx(fd, bddrs, port, bddrs.length, bdd,
+                IPv4MbppedAddresses());
     }
 
-    static Set<SocketAddress> getLocalAddresses(int fd)
+    stbtic Set<SocketAddress> getLocblAddresses(int fd)
             throws IOException {
         Set<SocketAddress> set = null;
-        SocketAddress[] saa = getLocalAddresses0(fd);
+        SocketAddress[] sbb = getLocblAddresses0(fd);
 
-        if (saa != null) {
-            set = getRevealedLocalAddressSet(saa);
+        if (sbb != null) {
+            set = getRevebledLocblAddressSet(sbb);
         }
 
         return set;
     }
 
-    private static Set<SocketAddress> getRevealedLocalAddressSet(
-            SocketAddress[] saa)
+    privbte stbtic Set<SocketAddress> getRevebledLocblAddressSet(
+            SocketAddress[] sbb)
     {
-         SecurityManager sm = System.getSecurityManager();
-         Set<SocketAddress> set = new HashSet<>(saa.length);
-         for (SocketAddress sa : saa) {
-             set.add(getRevealedLocalAddress(sa, sm));
+         SecurityMbnbger sm = System.getSecurityMbnbger();
+         Set<SocketAddress> set = new HbshSet<>(sbb.length);
+         for (SocketAddress sb : sbb) {
+             set.bdd(getRevebledLocblAddress(sb, sm));
          }
          return set;
     }
 
-    private static SocketAddress getRevealedLocalAddress(SocketAddress sa,
-                                                         SecurityManager sm)
+    privbte stbtic SocketAddress getRevebledLocblAddress(SocketAddress sb,
+                                                         SecurityMbnbger sm)
     {
-        if (sm == null || sa == null)
-            return sa;
-        InetSocketAddress ia = (InetSocketAddress)sa;
+        if (sm == null || sb == null)
+            return sb;
+        InetSocketAddress ib = (InetSocketAddress)sb;
         try{
-            sm.checkConnect(ia.getAddress().getHostAddress(), -1);
-            // Security check passed
-        } catch (SecurityException e) {
-            // Return loopback address
-            return new InetSocketAddress(InetAddress.getLoopbackAddress(),
-                                         ia.getPort());
+            sm.checkConnect(ib.getAddress().getHostAddress(), -1);
+            // Security check pbssed
+        } cbtch (SecurityException e) {
+            // Return loopbbck bddress
+            return new InetSocketAddress(InetAddress.getLoopbbckAddress(),
+                                         ib.getPort());
         }
-        return sa;
+        return sb;
     }
 
-    static Set<SocketAddress> getRemoteAddresses(int fd, int assocId)
+    stbtic Set<SocketAddress> getRemoteAddresses(int fd, int bssocId)
             throws IOException {
-        HashSet<SocketAddress> set = null;
-        SocketAddress[] saa = getRemoteAddresses0(fd, assocId);
+        HbshSet<SocketAddress> set = null;
+        SocketAddress[] sbb = getRemoteAddresses0(fd, bssocId);
 
-        if (saa != null) {
-            set = new HashSet<SocketAddress>(saa.length);
-            for (SocketAddress sa : saa)
-                set.add(sa);
+        if (sbb != null) {
+            set = new HbshSet<SocketAddress>(sbb.length);
+            for (SocketAddress sb : sbb)
+                set.bdd(sb);
         }
 
         return set;
     }
 
-    static <T> void setSocketOption(int fd,
-                                    SctpSocketOption<T> name,
-                                    T value,
-                                    int assocId)
+    stbtic <T> void setSocketOption(int fd,
+                                    SctpSocketOption<T> nbme,
+                                    T vblue,
+                                    int bssocId)
             throws IOException {
-        if (value == null)
-            throw new IllegalArgumentException("Invalid option value");
+        if (vblue == null)
+            throw new IllegblArgumentException("Invblid option vblue");
 
-        if (name.equals(SCTP_INIT_MAXSTREAMS)) {
-            InitMaxStreams maxStreamValue = (InitMaxStreams)value;
+        if (nbme.equbls(SCTP_INIT_MAXSTREAMS)) {
+            InitMbxStrebms mbxStrebmVblue = (InitMbxStrebms)vblue;
             SctpNet.setInitMsgOption0(fd,
-                 maxStreamValue.maxInStreams(), maxStreamValue.maxOutStreams());
-        } else if (name.equals(SCTP_PRIMARY_ADDR) ||
-                   name.equals(SCTP_SET_PEER_PRIMARY_ADDR)) {
+                 mbxStrebmVblue.mbxInStrebms(), mbxStrebmVblue.mbxOutStrebms());
+        } else if (nbme.equbls(SCTP_PRIMARY_ADDR) ||
+                   nbme.equbls(SCTP_SET_PEER_PRIMARY_ADDR)) {
 
-            SocketAddress addr  = (SocketAddress) value;
-            if (addr == null)
-                throw new IllegalArgumentException("Invalid option value");
+            SocketAddress bddr  = (SocketAddress) vblue;
+            if (bddr == null)
+                throw new IllegblArgumentException("Invblid option vblue");
 
-            Net.checkAddress(addr);
-            InetSocketAddress netAddr = (InetSocketAddress)addr;
+            Net.checkAddress(bddr);
+            InetSocketAddress netAddr = (InetSocketAddress)bddr;
 
-            if (name.equals(SCTP_PRIMARY_ADDR)) {
+            if (nbme.equbls(SCTP_PRIMARY_ADDR)) {
                 setPrimAddrOption0(fd,
-                                   assocId,
+                                   bssocId,
                                    netAddr.getAddress(),
                                    netAddr.getPort());
             } else {
                 setPeerPrimAddrOption0(fd,
-                                       assocId,
+                                       bssocId,
                                        netAddr.getAddress(),
                                        netAddr.getPort(),
-                                       IPv4MappedAddresses());
+                                       IPv4MbppedAddresses());
             }
-        } else if (name.equals(SCTP_DISABLE_FRAGMENTS) ||
-            name.equals(SCTP_EXPLICIT_COMPLETE) ||
-            name.equals(SCTP_FRAGMENT_INTERLEAVE) ||
-            name.equals(SCTP_NODELAY) ||
-            name.equals(SO_SNDBUF) ||
-            name.equals(SO_RCVBUF) ||
-            name.equals(SO_LINGER)) {
-            setIntOption(fd, name, value);
+        } else if (nbme.equbls(SCTP_DISABLE_FRAGMENTS) ||
+            nbme.equbls(SCTP_EXPLICIT_COMPLETE) ||
+            nbme.equbls(SCTP_FRAGMENT_INTERLEAVE) ||
+            nbme.equbls(SCTP_NODELAY) ||
+            nbme.equbls(SO_SNDBUF) ||
+            nbme.equbls(SO_RCVBUF) ||
+            nbme.equbls(SO_LINGER)) {
+            setIntOption(fd, nbme, vblue);
         } else {
             throw new AssertionError("Unknown socket option");
         }
     }
 
-    static Object getSocketOption(int fd, SctpSocketOption<?> name, int assocId)
+    stbtic Object getSocketOption(int fd, SctpSocketOption<?> nbme, int bssocId)
              throws IOException {
-         if (name.equals(SCTP_SET_PEER_PRIMARY_ADDR)) {
-            throw new IllegalArgumentException(
-                    "SCTP_SET_PEER_PRIMARY_ADDR cannot be retrieved");
-        } else if (name.equals(SCTP_INIT_MAXSTREAMS)) {
-            /* container for holding maxIn/Out streams */
-            int[] values = new int[2];
-            SctpNet.getInitMsgOption0(fd, values);
-            return InitMaxStreams.create(values[0], values[1]);
-        } else if (name.equals(SCTP_PRIMARY_ADDR)) {
-            return getPrimAddrOption0(fd, assocId);
-        } else if (name.equals(SCTP_DISABLE_FRAGMENTS) ||
-            name.equals(SCTP_EXPLICIT_COMPLETE) ||
-            name.equals(SCTP_FRAGMENT_INTERLEAVE) ||
-            name.equals(SCTP_NODELAY) ||
-            name.equals(SO_SNDBUF) ||
-            name.equals(SO_RCVBUF) ||
-            name.equals(SO_LINGER)) {
-            return getIntOption(fd, name);
+         if (nbme.equbls(SCTP_SET_PEER_PRIMARY_ADDR)) {
+            throw new IllegblArgumentException(
+                    "SCTP_SET_PEER_PRIMARY_ADDR cbnnot be retrieved");
+        } else if (nbme.equbls(SCTP_INIT_MAXSTREAMS)) {
+            /* contbiner for holding mbxIn/Out strebms */
+            int[] vblues = new int[2];
+            SctpNet.getInitMsgOption0(fd, vblues);
+            return InitMbxStrebms.crebte(vblues[0], vblues[1]);
+        } else if (nbme.equbls(SCTP_PRIMARY_ADDR)) {
+            return getPrimAddrOption0(fd, bssocId);
+        } else if (nbme.equbls(SCTP_DISABLE_FRAGMENTS) ||
+            nbme.equbls(SCTP_EXPLICIT_COMPLETE) ||
+            nbme.equbls(SCTP_FRAGMENT_INTERLEAVE) ||
+            nbme.equbls(SCTP_NODELAY) ||
+            nbme.equbls(SO_SNDBUF) ||
+            nbme.equbls(SO_RCVBUF) ||
+            nbme.equbls(SO_LINGER)) {
+            return getIntOption(fd, nbme);
         } else {
             throw new AssertionError("Unknown socket option");
         }
     }
 
-    static void setIntOption(int fd, SctpSocketOption<?> name, Object value)
+    stbtic void setIntOption(int fd, SctpSocketOption<?> nbme, Object vblue)
             throws IOException {
-        if (value == null)
-            throw new IllegalArgumentException("Invalid option value");
+        if (vblue == null)
+            throw new IllegblArgumentException("Invblid option vblue");
 
-        Class<?> type = name.type();
-        if (type != Integer.class && type != Boolean.class)
-            throw new AssertionError("Should not reach here");
+        Clbss<?> type = nbme.type();
+        if (type != Integer.clbss && type != Boolebn.clbss)
+            throw new AssertionError("Should not rebch here");
 
-        if (name == SO_RCVBUF ||
-            name == SO_SNDBUF)
+        if (nbme == SO_RCVBUF ||
+            nbme == SO_SNDBUF)
         {
-            int i = ((Integer)value).intValue();
+            int i = ((Integer)vblue).intVblue();
             if (i < 0)
-                throw new IllegalArgumentException(
-                        "Invalid send/receive buffer size");
-        } else if (name == SO_LINGER) {
-            int i = ((Integer)value).intValue();
+                throw new IllegblArgumentException(
+                        "Invblid send/receive buffer size");
+        } else if (nbme == SO_LINGER) {
+            int i = ((Integer)vblue).intVblue();
             if (i < 0)
-                value = Integer.valueOf(-1);
+                vblue = Integer.vblueOf(-1);
             if (i > 65535)
-                value = Integer.valueOf(65535);
-        } else if (name.equals(SCTP_FRAGMENT_INTERLEAVE)) {
-            int i = ((Integer)value).intValue();
+                vblue = Integer.vblueOf(65535);
+        } else if (nbme.equbls(SCTP_FRAGMENT_INTERLEAVE)) {
+            int i = ((Integer)vblue).intVblue();
             if (i < 0 || i > 2)
-                throw new IllegalArgumentException(
-                        "Invalid value for SCTP_FRAGMENT_INTERLEAVE");
+                throw new IllegblArgumentException(
+                        "Invblid vblue for SCTP_FRAGMENT_INTERLEAVE");
         }
 
-        int arg;
-        if (type == Integer.class) {
-            arg = ((Integer)value).intValue();
+        int brg;
+        if (type == Integer.clbss) {
+            brg = ((Integer)vblue).intVblue();
         } else {
-            boolean b = ((Boolean)value).booleanValue();
-            arg = (b) ? 1 : 0;
+            boolebn b = ((Boolebn)vblue).boolebnVblue();
+            brg = (b) ? 1 : 0;
         }
 
-        setIntOption0(fd, ((SctpStdSocketOption)name).constValue(), arg);
+        setIntOption0(fd, ((SctpStdSocketOption)nbme).constVblue(), brg);
     }
 
-    static Object getIntOption(int fd, SctpSocketOption<?> name)
+    stbtic Object getIntOption(int fd, SctpSocketOption<?> nbme)
             throws IOException {
-        Class<?> type = name.type();
+        Clbss<?> type = nbme.type();
 
-        if (type != Integer.class && type != Boolean.class)
-            throw new AssertionError("Should not reach here");
+        if (type != Integer.clbss && type != Boolebn.clbss)
+            throw new AssertionError("Should not rebch here");
 
-        if (!(name instanceof SctpStdSocketOption))
-            throw new AssertionError("Should not reach here");
+        if (!(nbme instbnceof SctpStdSocketOption))
+            throw new AssertionError("Should not rebch here");
 
-        int value = getIntOption0(fd,
-                ((SctpStdSocketOption)name).constValue());
+        int vblue = getIntOption0(fd,
+                ((SctpStdSocketOption)nbme).constVblue());
 
-        if (type == Integer.class) {
-            return Integer.valueOf(value);
+        if (type == Integer.clbss) {
+            return Integer.vblueOf(vblue);
         } else {
-            return (value == 0) ? Boolean.FALSE : Boolean.TRUE;
+            return (vblue == 0) ? Boolebn.FALSE : Boolebn.TRUE;
         }
     }
 
-    static void shutdown(int fd, int assocId)
+    stbtic void shutdown(int fd, int bssocId)
             throws IOException {
-        shutdown0(fd, assocId);
+        shutdown0(fd, bssocId);
     }
 
-    static FileDescriptor branch(int fd, int assocId) throws IOException {
-        int nativefd = branch0(fd, assocId);
-        return IOUtil.newFD(nativefd);
+    stbtic FileDescriptor brbnch(int fd, int bssocId) throws IOException {
+        int nbtivefd = brbnch0(fd, bssocId);
+        return IOUtil.newFD(nbtivefd);
     }
 
-    /* Native Methods */
-    static native int socket0(boolean oneToOne) throws IOException;
+    /* Nbtive Methods */
+    stbtic nbtive int socket0(boolebn oneToOne) throws IOException;
 
-    static native void listen0(int fd, int backlog) throws IOException;
+    stbtic nbtive void listen0(int fd, int bbcklog) throws IOException;
 
-    static native int connect0(int fd, InetAddress remote, int remotePort)
+    stbtic nbtive int connect0(int fd, InetAddress remote, int remotePort)
         throws IOException;
 
-    static native void close0(int fd) throws IOException;
+    stbtic nbtive void close0(int fd) throws IOException;
 
-    static native void preClose0(int fd) throws IOException;
+    stbtic nbtive void preClose0(int fd) throws IOException;
 
-    static native void bindx(int fd, InetAddress[] addrs, int port, int length,
-            boolean add, boolean preferIPv6) throws IOException;
+    stbtic nbtive void bindx(int fd, InetAddress[] bddrs, int port, int length,
+            boolebn bdd, boolebn preferIPv6) throws IOException;
 
-    static native int getIntOption0(int fd, int opt) throws IOException;
+    stbtic nbtive int getIntOption0(int fd, int opt) throws IOException;
 
-    static native void setIntOption0(int fd, int opt, int arg)
+    stbtic nbtive void setIntOption0(int fd, int opt, int brg)
         throws IOException;
 
-    static native SocketAddress[] getLocalAddresses0(int fd) throws IOException;
+    stbtic nbtive SocketAddress[] getLocblAddresses0(int fd) throws IOException;
 
-    static native SocketAddress[] getRemoteAddresses0(int fd, int assocId)
+    stbtic nbtive SocketAddress[] getRemoteAddresses0(int fd, int bssocId)
             throws IOException;
 
-    static native int branch0(int fd, int assocId) throws IOException;
+    stbtic nbtive int brbnch0(int fd, int bssocId) throws IOException;
 
-    static native void setPrimAddrOption0(int fd, int assocId, InetAddress ia,
+    stbtic nbtive void setPrimAddrOption0(int fd, int bssocId, InetAddress ib,
             int port) throws IOException;
 
-    static native void setPeerPrimAddrOption0(int fd, int assocId,
-            InetAddress ia, int port, boolean preferIPv6) throws IOException;
+    stbtic nbtive void setPeerPrimAddrOption0(int fd, int bssocId,
+            InetAddress ib, int port, boolebn preferIPv6) throws IOException;
 
-    static native SocketAddress getPrimAddrOption0(int fd, int assocId)
+    stbtic nbtive SocketAddress getPrimAddrOption0(int fd, int bssocId)
             throws IOException;
 
-    /* retVals [0] maxInStreams, [1] maxOutStreams */
-    static native void getInitMsgOption0(int fd, int[] retVals) throws IOException;
+    /* retVbls [0] mbxInStrebms, [1] mbxOutStrebms */
+    stbtic nbtive void getInitMsgOption0(int fd, int[] retVbls) throws IOException;
 
-    static native void setInitMsgOption0(int fd, int arg1, int arg2)
+    stbtic nbtive void setInitMsgOption0(int fd, int brg1, int brg2)
             throws IOException;
 
-    static native void shutdown0(int fd, int assocId);
+    stbtic nbtive void shutdown0(int fd, int bssocId);
 
-    static native void init();
+    stbtic nbtive void init();
 
-    static {
+    stbtic {
         init();
     }
 }

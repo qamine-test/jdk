@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-public final class RenderCache {
-    final class Entry {
-        private SurfaceType src;
-        private CompositeType comp;
-        private SurfaceType dst;
-        private Object value;
+public finbl clbss RenderCbche {
+    finbl clbss Entry {
+        privbte SurfbceType src;
+        privbte CompositeType comp;
+        privbte SurfbceType dst;
+        privbte Object vblue;
 
-        public Entry(SurfaceType src,
+        public Entry(SurfbceType src,
                      CompositeType comp,
-                     SurfaceType dst,
-                     Object value)
+                     SurfbceType dst,
+                     Object vblue)
         {
             this.src = src;
             this.comp = comp;
             this.dst = dst;
-            this.value = value;
+            this.vblue = vblue;
         }
 
-        public boolean matches(SurfaceType src,
+        public boolebn mbtches(SurfbceType src,
                                CompositeType comp,
-                               SurfaceType dst)
+                               SurfbceType dst)
         {
-            // bug 4725045: using equals() causes different SurfaceType
-            // objects with the same strings to match in the cache, which is
-            // not the behavior we want.  Constrain the match to succeed only
-            // on object matches instead.
+            // bug 4725045: using equbls() cbuses different SurfbceType
+            // objects with the sbme strings to mbtch in the cbche, which is
+            // not the behbvior we wbnt.  Constrbin the mbtch to succeed only
+            // on object mbtches instebd.
             return ((this.src == src) &&
                     (this.comp == comp) &&
                     (this.dst == dst));
         }
 
-        public Object getValue() {
-            return value;
+        public Object getVblue() {
+            return vblue;
         }
     }
 
-    private Entry entries[];
+    privbte Entry entries[];
 
-    public RenderCache(int size) {
+    public RenderCbche(int size) {
         entries = new Entry[size];
     }
 
-    public synchronized Object get(SurfaceType src,
+    public synchronized Object get(SurfbceType src,
                       CompositeType comp,
-                      SurfaceType dst)
+                      SurfbceType dst)
     {
-        int max = entries.length - 1;
-        for (int i = max; i >= 0; i--) {
+        int mbx = entries.length - 1;
+        for (int i = mbx; i >= 0; i--) {
             Entry e = entries[i];
             if (e == null) {
-                break;
+                brebk;
             }
-            if (e.matches(src, comp, dst)) {
-                if (i < max - 4) {
-                    System.arraycopy(entries, i+1, entries, i, max - i);
-                    entries[max] = e;
+            if (e.mbtches(src, comp, dst)) {
+                if (i < mbx - 4) {
+                    System.brrbycopy(entries, i+1, entries, i, mbx - i);
+                    entries[mbx] = e;
                 }
-                return e.getValue();
+                return e.getVblue();
             }
         }
 
         return null;
     }
 
-    public synchronized void put(SurfaceType src,
+    public synchronized void put(SurfbceType src,
                     CompositeType comp,
-                    SurfaceType dst,
-                    Object value)
+                    SurfbceType dst,
+                    Object vblue)
     {
-        Entry e = new Entry(src, comp, dst, value);
+        Entry e = new Entry(src, comp, dst, vblue);
 
         int num = entries.length;
-        System.arraycopy(entries, 1, entries, 0, num - 1);
+        System.brrbycopy(entries, 1, entries, 0, num - 1);
         entries[num - 1] = e;
     }
 }

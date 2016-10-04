@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
 
 /**
- * <code>RMIClassLoaderSpi</code> is the service provider interface for
- * <code>RMIClassLoader</code>.
+ * <code>RMIClbssLobderSpi</code> is the service provider interfbce for
+ * <code>RMIClbssLobder</code>.
  *
- * In particular, an <code>RMIClassLoaderSpi</code> instance provides an
- * implementation of the following static methods of
- * <code>RMIClassLoader</code>:
+ * In pbrticulbr, bn <code>RMIClbssLobderSpi</code> instbnce provides bn
+ * implementbtion of the following stbtic methods of
+ * <code>RMIClbssLobder</code>:
  *
  * <ul>
  *
- * <li>{@link RMIClassLoader#loadClass(URL,String)}
- * <li>{@link RMIClassLoader#loadClass(String,String)}
- * <li>{@link RMIClassLoader#loadClass(String,String,ClassLoader)}
- * <li>{@link RMIClassLoader#loadProxyClass(String,String[],ClassLoader)}
- * <li>{@link RMIClassLoader#getClassLoader(String)}
- * <li>{@link RMIClassLoader#getClassAnnotation(Class)}
+ * <li>{@link RMIClbssLobder#lobdClbss(URL,String)}
+ * <li>{@link RMIClbssLobder#lobdClbss(String,String)}
+ * <li>{@link RMIClbssLobder#lobdClbss(String,String,ClbssLobder)}
+ * <li>{@link RMIClbssLobder#lobdProxyClbss(String,String[],ClbssLobder)}
+ * <li>{@link RMIClbssLobder#getClbssLobder(String)}
+ * <li>{@link RMIClbssLobder#getClbssAnnotbtion(Clbss)}
  *
  * </ul>
  *
- * When one of those methods is invoked, its behavior is to delegate
- * to a corresponding method on an instance of this class.
- * The details of how each method delegates to the provider instance is
- * described in the documentation for each particular method.
- * See the documentation for {@link RMIClassLoader} for a description
- * of how a provider instance is chosen.
+ * When one of those methods is invoked, its behbvior is to delegbte
+ * to b corresponding method on bn instbnce of this clbss.
+ * The detbils of how ebch method delegbtes to the provider instbnce is
+ * described in the documentbtion for ebch pbrticulbr method.
+ * See the documentbtion for {@link RMIClbssLobder} for b description
+ * of how b provider instbnce is chosen.
  *
- * @author      Peter Jones
- * @author      Laird Dornin
- * @see         RMIClassLoader
+ * @buthor      Peter Jones
+ * @buthor      Lbird Dornin
+ * @see         RMIClbssLobder
  * @since       1.4
  */
-public abstract class RMIClassLoaderSpi {
+public bbstrbct clbss RMIClbssLobderSpi {
 
     /**
-     * Provides the implementation for
-     * {@link RMIClassLoader#loadClass(URL,String)},
-     * {@link RMIClassLoader#loadClass(String,String)}, and
-     * {@link RMIClassLoader#loadClass(String,String,ClassLoader)}.
+     * Provides the implementbtion for
+     * {@link RMIClbssLobder#lobdClbss(URL,String)},
+     * {@link RMIClbssLobder#lobdClbss(String,String)}, bnd
+     * {@link RMIClbssLobder#lobdClbss(String,String,ClbssLobder)}.
      *
-     * Loads a class from a codebase URL path, optionally using the
-     * supplied loader.
+     * Lobds b clbss from b codebbse URL pbth, optionblly using the
+     * supplied lobder.
      *
-     * Typically, a provider implementation will attempt to
-     * resolve the named class using the given <code>defaultLoader</code>,
-     * if specified, before attempting to resolve the class from the
-     * codebase URL path.
+     * Typicblly, b provider implementbtion will bttempt to
+     * resolve the nbmed clbss using the given <code>defbultLobder</code>,
+     * if specified, before bttempting to resolve the clbss from the
+     * codebbse URL pbth.
      *
-     * <p>An implementation of this method must either return a class
-     * with the given name or throw an exception.
+     * <p>An implementbtion of this method must either return b clbss
+     * with the given nbme or throw bn exception.
      *
-     * @param   codebase the list of URLs (separated by spaces) to load
-     * the class from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (sepbrbted by spbces) to lobd
+     * the clbss from, or <code>null</code>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbme the nbme of the clbss to lobd
      *
-     * @param   defaultLoader additional contextual class loader
+     * @pbrbm   defbultLobder bdditionbl contextubl clbss lobder
      * to use, or <code>null</code>
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @return  the <code>Clbss</code> object representing the lobded clbss
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @throws  MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or
+     * if <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified location
+     * @throws  ClbssNotFoundException if b definition for the clbss
+     * could not be found bt the specified locbtion
      */
-    public abstract Class<?> loadClass(String codebase, String name,
-                                       ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException;
+    public bbstrbct Clbss<?> lobdClbss(String codebbse, String nbme,
+                                       ClbssLobder defbultLobder)
+        throws MblformedURLException, ClbssNotFoundException;
 
     /**
-     * Provides the implementation for
-     * {@link RMIClassLoader#loadProxyClass(String,String[],ClassLoader)}.
+     * Provides the implementbtion for
+     * {@link RMIClbssLobder#lobdProxyClbss(String,String[],ClbssLobder)}.
      *
-     * Loads a dynamic proxy class (see {@link java.lang.reflect.Proxy}
-     * that implements a set of interfaces with the given names
-     * from a codebase URL path, optionally using the supplied loader.
+     * Lobds b dynbmic proxy clbss (see {@link jbvb.lbng.reflect.Proxy}
+     * thbt implements b set of interfbces with the given nbmes
+     * from b codebbse URL pbth, optionblly using the supplied lobder.
      *
-     * <p>An implementation of this method must either return a proxy
-     * class that implements the named interfaces or throw an exception.
+     * <p>An implementbtion of this method must either return b proxy
+     * clbss thbt implements the nbmed interfbces or throw bn exception.
      *
-     * @param   codebase the list of URLs (space-separated) to load
-     * classes from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (spbce-sepbrbted) to lobd
+     * clbsses from, or <code>null</code>
      *
-     * @param   interfaces the names of the interfaces for the proxy class
+     * @pbrbm   interfbces the nbmes of the interfbces for the proxy clbss
      * to implement
      *
-     * @return  a dynamic proxy class that implements the named interfaces
+     * @return  b dynbmic proxy clbss thbt implements the nbmed interfbces
      *
-     * @param   defaultLoader additional contextual class loader
+     * @pbrbm   defbultLobder bdditionbl contextubl clbss lobder
      * to use, or <code>null</code>
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @throws  MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or
+     * if <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to lobd clbsses is invblid
      *
-     * @throws  ClassNotFoundException if a definition for one of
-     * the named interfaces could not be found at the specified location,
-     * or if creation of the dynamic proxy class failed (such as if
-     * {@link java.lang.reflect.Proxy#getProxyClass(ClassLoader,Class[])}
-     * would throw an <code>IllegalArgumentException</code> for the given
-     * interface list)
+     * @throws  ClbssNotFoundException if b definition for one of
+     * the nbmed interfbces could not be found bt the specified locbtion,
+     * or if crebtion of the dynbmic proxy clbss fbiled (such bs if
+     * {@link jbvb.lbng.reflect.Proxy#getProxyClbss(ClbssLobder,Clbss[])}
+     * would throw bn <code>IllegblArgumentException</code> for the given
+     * interfbce list)
      */
-    public abstract Class<?> loadProxyClass(String codebase,
-                                            String[] interfaces,
-                                            ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException;
+    public bbstrbct Clbss<?> lobdProxyClbss(String codebbse,
+                                            String[] interfbces,
+                                            ClbssLobder defbultLobder)
+        throws MblformedURLException, ClbssNotFoundException;
 
     /**
-     * Provides the implementation for
-     * {@link RMIClassLoader#getClassLoader(String)}.
+     * Provides the implementbtion for
+     * {@link RMIClbssLobder#getClbssLobder(String)}.
      *
-     * Returns a class loader that loads classes from the given codebase
-     * URL path.
+     * Returns b clbss lobder thbt lobds clbsses from the given codebbse
+     * URL pbth.
      *
-     * <p>If there is a security manger, its <code>checkPermission</code>
-     * method will be invoked with a
-     * <code>RuntimePermission("getClassLoader")</code> permission;
-     * this could result in a <code>SecurityException</code>.
-     * The implementation of this method may also perform further security
-     * checks to verify that the calling context has permission to connect
-     * to all of the URLs in the codebase URL path.
+     * <p>If there is b security mbnger, its <code>checkPermission</code>
+     * method will be invoked with b
+     * <code>RuntimePermission("getClbssLobder")</code> permission;
+     * this could result in b <code>SecurityException</code>.
+     * The implementbtion of this method mby blso perform further security
+     * checks to verify thbt the cblling context hbs permission to connect
+     * to bll of the URLs in the codebbse URL pbth.
      *
-     * @param   codebase the list of URLs (space-separated) from which
-     * the returned class loader will load classes from, or <code>null</code>
+     * @pbrbm   codebbse the list of URLs (spbce-sepbrbted) from which
+     * the returned clbss lobder will lobd clbsses from, or <code>null</code>
      *
-     * @return a class loader that loads classes from the given codebase URL
-     * path
+     * @return b clbss lobder thbt lobds clbsses from the given codebbse URL
+     * pbth
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to identify the class loader is invalid
+     * @throws  MblformedURLException if <code>codebbse</code> is
+     * non-<code>null</code> bnd contbins bn invblid URL, or
+     * if <code>codebbse</code> is <code>null</code> bnd b provider-specific
+     * URL used to identify the clbss lobder is invblid
      *
-     * @throws  SecurityException if there is a security manager and the
-     * invocation of its <code>checkPermission</code> method fails, or
-     * if the caller does not have permission to connect to all of the
-     * URLs in the codebase URL path
+     * @throws  SecurityException if there is b security mbnbger bnd the
+     * invocbtion of its <code>checkPermission</code> method fbils, or
+     * if the cbller does not hbve permission to connect to bll of the
+     * URLs in the codebbse URL pbth
      */
-    public abstract ClassLoader getClassLoader(String codebase)
-        throws MalformedURLException; // SecurityException
+    public bbstrbct ClbssLobder getClbssLobder(String codebbse)
+        throws MblformedURLException; // SecurityException
 
     /**
-     * Provides the implementation for
-     * {@link RMIClassLoader#getClassAnnotation(Class)}.
+     * Provides the implementbtion for
+     * {@link RMIClbssLobder#getClbssAnnotbtion(Clbss)}.
      *
-     * Returns the annotation string (representing a location for
-     * the class definition) that RMI will use to annotate the class
-     * descriptor when marshalling objects of the given class.
+     * Returns the bnnotbtion string (representing b locbtion for
+     * the clbss definition) thbt RMI will use to bnnotbte the clbss
+     * descriptor when mbrshblling objects of the given clbss.
      *
-     * @param   cl the class to obtain the annotation for
+     * @pbrbm   cl the clbss to obtbin the bnnotbtion for
      *
-     * @return  a string to be used to annotate the given class when
-     * it gets marshalled, or <code>null</code>
+     * @return  b string to be used to bnnotbte the given clbss when
+     * it gets mbrshblled, or <code>null</code>
      *
      * @throws  NullPointerException if <code>cl</code> is <code>null</code>
      */
-    public abstract String getClassAnnotation(Class<?> cl);
+    public bbstrbct String getClbssAnnotbtion(Clbss<?> cl);
 }

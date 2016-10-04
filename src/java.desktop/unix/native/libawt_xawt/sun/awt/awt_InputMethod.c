@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifdef HEADLESS
-    #error This file should not be included in headless library
+    #error This file should not be included in hebdless librbry
 #endif
 
 #include <stdio.h>
@@ -32,116 +32,116 @@
 #include <X11/Xlib.h>
 #include <sys/time.h>
 
-#include "awt.h"
-#include "awt_p.h"
+#include "bwt.h"
+#include "bwt_p.h"
 
-#include <sun_awt_X11InputMethod.h>
-#include <sun_awt_X11_XInputMethod.h>
+#include <sun_bwt_X11InputMethod.h>
+#include <sun_bwt_X11_XInputMethod.h>
 
 #define THROW_OUT_OF_MEMORY_ERROR() \
         JNU_ThrowOutOfMemoryError((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), NULL)
-#define SETARG(name, value)     XtSetArg(args[argc], name, value); argc++
+#define SETARG(nbme, vblue)     XtSetArg(brgs[brgc], nbme, vblue); brgc++
 
 struct X11InputMethodIDs {
-  jfieldID pData;
+  jfieldID pDbtb;
 } x11InputMethodIDs;
 
-static void PreeditStartCallback(XIC, XPointer, XPointer);
-static void PreeditDoneCallback(XIC, XPointer, XPointer);
-static void PreeditDrawCallback(XIC, XPointer,
-                                XIMPreeditDrawCallbackStruct *);
-static void PreeditCaretCallback(XIC, XPointer,
-                                 XIMPreeditCaretCallbackStruct *);
+stbtic void PreeditStbrtCbllbbck(XIC, XPointer, XPointer);
+stbtic void PreeditDoneCbllbbck(XIC, XPointer, XPointer);
+stbtic void PreeditDrbwCbllbbck(XIC, XPointer,
+                                XIMPreeditDrbwCbllbbckStruct *);
+stbtic void PreeditCbretCbllbbck(XIC, XPointer,
+                                 XIMPreeditCbretCbllbbckStruct *);
 #if defined(__linux__) || defined(MACOSX)
-static void StatusStartCallback(XIC, XPointer, XPointer);
-static void StatusDoneCallback(XIC, XPointer, XPointer);
-static void StatusDrawCallback(XIC, XPointer,
-                               XIMStatusDrawCallbackStruct *);
+stbtic void StbtusStbrtCbllbbck(XIC, XPointer, XPointer);
+stbtic void StbtusDoneCbllbbck(XIC, XPointer, XPointer);
+stbtic void StbtusDrbwCbllbbck(XIC, XPointer,
+                               XIMStbtusDrbwCbllbbckStruct *);
 #endif
 
-#define ROOT_WINDOW_STYLES      (XIMPreeditNothing | XIMStatusNothing)
-#define NO_STYLES               (XIMPreeditNone | XIMStatusNone)
+#define ROOT_WINDOW_STYLES      (XIMPreeditNothing | XIMStbtusNothing)
+#define NO_STYLES               (XIMPreeditNone | XIMStbtusNone)
 
-#define PreeditStartIndex       0
+#define PreeditStbrtIndex       0
 #define PreeditDoneIndex        1
-#define PreeditDrawIndex        2
-#define PreeditCaretIndex       3
+#define PreeditDrbwIndex        2
+#define PreeditCbretIndex       3
 #if defined(__linux__) || defined(MACOSX)
-#define StatusStartIndex        4
-#define StatusDoneIndex         5
-#define StatusDrawIndex         6
+#define StbtusStbrtIndex        4
+#define StbtusDoneIndex         5
+#define StbtusDrbwIndex         6
 #define NCALLBACKS              7
 #else
 #define NCALLBACKS              4
 #endif
 
 /*
- * Callback function pointers: the order has to match the *Index
- * values above.
+ * Cbllbbck function pointers: the order hbs to mbtch the *Index
+ * vblues bbove.
  */
-static XIMProc callback_funcs[NCALLBACKS] = {
-    (XIMProc)PreeditStartCallback,
-    (XIMProc)PreeditDoneCallback,
-    (XIMProc)PreeditDrawCallback,
-    (XIMProc)PreeditCaretCallback,
+stbtic XIMProc cbllbbck_funcs[NCALLBACKS] = {
+    (XIMProc)PreeditStbrtCbllbbck,
+    (XIMProc)PreeditDoneCbllbbck,
+    (XIMProc)PreeditDrbwCbllbbck,
+    (XIMProc)PreeditCbretCbllbbck,
 #if defined(__linux__) || defined(MACOSX)
-    (XIMProc)StatusStartCallback,
-    (XIMProc)StatusDoneCallback,
-    (XIMProc)StatusDrawCallback,
+    (XIMProc)StbtusStbrtCbllbbck,
+    (XIMProc)StbtusDoneCbllbbck,
+    (XIMProc)StbtusDrbwCbllbbck,
 #endif
 };
 
 #if defined(__linux__) || defined(MACOSX)
 #define MAX_STATUS_LEN  100
 typedef struct {
-    Window   w;                /*status window id        */
+    Window   w;                /*stbtus window id        */
     Window   root;             /*the root window id      */
-    Window   parent;           /*parent shell window     */
-    int      x, y;             /*parent's upperleft position */
-    int      width, height;    /*parent's width, height  */
+    Window   pbrent;           /*pbrent shell window     */
+    int      x, y;             /*pbrent's upperleft position */
+    int      width, height;    /*pbrent's width, height  */
     GC       lightGC;          /*gc for light border     */
     GC       dimGC;            /*gc for dim border       */
-    GC       bgGC;             /*normal painting         */
-    GC       fgGC;             /*normal painting         */
-    int      statusW, statusH; /*status window's w, h    */
+    GC       bgGC;             /*normbl pbinting         */
+    GC       fgGC;             /*normbl pbinting         */
+    int      stbtusW, stbtusH; /*stbtus window's w, h    */
     int      rootW, rootH;     /*root window's w, h    */
     int      bWidth;           /*border width            */
-    char     status[MAX_STATUS_LEN]; /*status text       */
-    XFontSet fontset;           /*fontset for drawing    */
+    chbr     stbtus[MAX_STATUS_LEN]; /*stbtus text       */
+    XFontSet fontset;           /*fontset for drbwing    */
     int      off_x, off_y;
-    Bool     on;                /*if the status window on*/
-} StatusWindow;
+    Bool     on;                /*if the stbtus window on*/
+} StbtusWindow;
 #endif
 
 /*
- * X11InputMethodData keeps per X11InputMethod instance information. A pointer
- * to this data structure is kept in an X11InputMethod object (pData).
+ * X11InputMethodDbtb keeps per X11InputMethod instbnce informbtion. A pointer
+ * to this dbtb structure is kept in bn X11InputMethod object (pDbtb).
  */
-typedef struct _X11InputMethodData {
+typedef struct _X11InputMethodDbtb {
     XIC         current_ic;     /* current X Input Context */
-    XIC         ic_active;      /* X Input Context for active clients */
-    XIC         ic_passive;     /* X Input Context for passive clients */
-    XIMCallback *callbacks;     /* callback parameters */
-    jobject     x11inputmethod; /* global ref to X11InputMethod instance */
-                                /* associated with the XIC */
+    XIC         ic_bctive;      /* X Input Context for bctive clients */
+    XIC         ic_pbssive;     /* X Input Context for pbssive clients */
+    XIMCbllbbck *cbllbbcks;     /* cbllbbck pbrbmeters */
+    jobject     x11inputmethod; /* globbl ref to X11InputMethod instbnce */
+                                /* bssocibted with the XIC */
 #if defined(__linux__) || defined(MACOSX)
-    StatusWindow *statusWindow; /* our own status window  */
+    StbtusWindow *stbtusWindow; /* our own stbtus window  */
 #endif
-    char        *lookup_buf;    /* buffer used for XmbLookupString */
+    chbr        *lookup_buf;    /* buffer used for XmbLookupString */
     int         lookup_buf_len; /* lookup buffer size in bytes */
-} X11InputMethodData;
+} X11InputMethodDbtb;
 
 /*
- * When XIC is created, a global reference is created for
- * sun.awt.X11InputMethod object so that it could be used by the XIM callback
- * functions. This could be a dangerous thing to do when the original
- * X11InputMethod object is garbage collected and as a result,
- * destroyX11InputMethodData is called to delete the global reference.
- * If any XIM callback function still holds and uses the "already deleted"
- * global reference, disaster is going to happen. So we have to maintain
- * a list for these global references which is consulted first when the
- * callback functions or any function tries to use "currentX11InputMethodObject"
- * which always refers to the global reference try to use it.
+ * When XIC is crebted, b globbl reference is crebted for
+ * sun.bwt.X11InputMethod object so thbt it could be used by the XIM cbllbbck
+ * functions. This could be b dbngerous thing to do when the originbl
+ * X11InputMethod object is gbrbbge collected bnd bs b result,
+ * destroyX11InputMethodDbtb is cblled to delete the globbl reference.
+ * If bny XIM cbllbbck function still holds bnd uses the "blrebdy deleted"
+ * globbl reference, disbster is going to hbppen. So we hbve to mbintbin
+ * b list for these globbl references which is consulted first when the
+ * cbllbbck functions or bny function tries to use "currentX11InputMethodObject"
+ * which blwbys refers to the globbl reference try to use it.
  *
  */
 typedef struct _X11InputMethodGRefNode {
@@ -149,78 +149,78 @@ typedef struct _X11InputMethodGRefNode {
     struct _X11InputMethodGRefNode* next;
 } X11InputMethodGRefNode;
 
-X11InputMethodGRefNode *x11InputMethodGRefListHead = NULL;
+X11InputMethodGRefNode *x11InputMethodGRefListHebd = NULL;
 
-/* reference to the current X11InputMethod instance, it is always
-   point to the global reference to the X11InputMethodObject since
-   it could be referenced by different threads. */
-jobject currentX11InputMethodInstance = NULL;
+/* reference to the current X11InputMethod instbnce, it is blwbys
+   point to the globbl reference to the X11InputMethodObject since
+   it could be referenced by different threbds. */
+jobject currentX11InputMethodInstbnce = NULL;
 
-Window  currentFocusWindow = 0;  /* current window that has focus for input
-                                       method. (the best place to put this
-                                       information should be
-                                       currentX11InputMethodInstance's pData) */
-static XIM X11im = NULL;
-Display * dpy = NULL;
+Window  currentFocusWindow = 0;  /* current window thbt hbs focus for input
+                                       method. (the best plbce to put this
+                                       informbtion should be
+                                       currentX11InputMethodInstbnce's pDbtb) */
+stbtic XIM X11im = NULL;
+Displby * dpy = NULL;
 
 #define GetJNIEnv() (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2)
 
-static void DestroyXIMCallback(XIM, XPointer, XPointer);
-static void OpenXIMCallback(Display *, XPointer, XPointer);
-/* Solaris XIM Extention */
-#define XNCommitStringCallback "commitStringCallback"
-static void CommitStringCallback(XIC, XPointer, XPointer);
+stbtic void DestroyXIMCbllbbck(XIM, XPointer, XPointer);
+stbtic void OpenXIMCbllbbck(Displby *, XPointer, XPointer);
+/* Solbris XIM Extention */
+#define XNCommitStringCbllbbck "commitStringCbllbbck"
+stbtic void CommitStringCbllbbck(XIC, XPointer, XPointer);
 
-static X11InputMethodData * getX11InputMethodData(JNIEnv *, jobject);
-static void setX11InputMethodData(JNIEnv *, jobject, X11InputMethodData *);
-static void destroyX11InputMethodData(JNIEnv *, X11InputMethodData *);
-static void freeX11InputMethodData(JNIEnv *, X11InputMethodData *);
+stbtic X11InputMethodDbtb * getX11InputMethodDbtb(JNIEnv *, jobject);
+stbtic void setX11InputMethodDbtb(JNIEnv *, jobject, X11InputMethodDbtb *);
+stbtic void destroyX11InputMethodDbtb(JNIEnv *, X11InputMethodDbtb *);
+stbtic void freeX11InputMethodDbtb(JNIEnv *, X11InputMethodDbtb *);
 
-#ifdef __solaris__
-/* Prototype for this function is missing in Solaris X11R6 Xlib.h */
-extern char *XSetIMValues(
-#if NeedVarargsPrototypes
+#ifdef __solbris__
+/* Prototype for this function is missing in Solbris X11R6 Xlib.h */
+extern chbr *XSetIMVblues(
+#if NeedVbrbrgsPrototypes
     XIM /* im */, ...
 #endif
 );
 #endif
 
 /*
- * This function is stolen from /src/solaris/hpi/src/system_md.c
- * It is used in setting the time in Java-level InputEvents
+ * This function is stolen from /src/solbris/hpi/src/system_md.c
+ * It is used in setting the time in Jbvb-level InputEvents
  */
 jlong
-awt_util_nowMillisUTC()
+bwt_util_nowMillisUTC()
 {
-    struct timeval t;
-    gettimeofday(&t, NULL);
+    struct timevbl t;
+    gettimeofdby(&t, NULL);
     return ((jlong)t.tv_sec) * 1000 + (jlong)(t.tv_usec/1000);
 }
 
 /*
- * Converts the wchar_t string to a multi-byte string calling wcstombs(). A
- * buffer is allocated by malloc() to store the multi-byte string. NULL is
- * returned if the given wchar_t string pointer is NULL or buffer allocation is
- * failed.
+ * Converts the wchbr_t string to b multi-byte string cblling wcstombs(). A
+ * buffer is bllocbted by mblloc() to store the multi-byte string. NULL is
+ * returned if the given wchbr_t string pointer is NULL or buffer bllocbtion is
+ * fbiled.
  */
-static char *
-wcstombsdmp(wchar_t *wcs, int len)
+stbtic chbr *
+wcstombsdmp(wchbr_t *wcs, int len)
 {
     size_t n;
-    char *mbs;
+    chbr *mbs;
 
     if (wcs == NULL)
         return NULL;
 
     n = len*MB_CUR_MAX + 1;
 
-    mbs = (char *) malloc(n * sizeof(char));
+    mbs = (chbr *) mblloc(n * sizeof(chbr));
     if (mbs == NULL) {
         THROW_OUT_OF_MEMORY_ERROR();
         return NULL;
     }
 
-    /* TODO: check return values... Handle invalid characters properly...  */
+    /* TODO: check return vblues... Hbndle invblid chbrbcters properly...  */
     if (wcstombs(mbs, wcs, n) == (size_t)-1)
         return NULL;
 
@@ -228,14 +228,14 @@ wcstombsdmp(wchar_t *wcs, int len)
 }
 
 /*
- * Returns True if the global reference is still in the list,
- * otherwise False.
+ * Returns True if the globbl reference is still in the list,
+ * otherwise Fblse.
  */
-static Bool isX11InputMethodGRefInList(jobject imGRef) {
-    X11InputMethodGRefNode *pX11InputMethodGRef = x11InputMethodGRefListHead;
+stbtic Bool isX11InputMethodGRefInList(jobject imGRef) {
+    X11InputMethodGRefNode *pX11InputMethodGRef = x11InputMethodGRefListHebd;
 
     if (imGRef == NULL) {
-        return False;
+        return Fblse;
     }
 
     while (pX11InputMethodGRef != NULL) {
@@ -245,13 +245,13 @@ static Bool isX11InputMethodGRefInList(jobject imGRef) {
         pX11InputMethodGRef = pX11InputMethodGRef->next;
     }
 
-    return False;
+    return Fblse;
 }
 
 /*
- * Add the new created global reference to the list.
+ * Add the new crebted globbl reference to the list.
  */
-static void addToX11InputMethodGRefList(jobject newX11InputMethodGRef) {
+stbtic void bddToX11InputMethodGRefList(jobject newX11InputMethodGRef) {
     X11InputMethodGRefNode *newNode = NULL;
 
     if (newX11InputMethodGRef == NULL ||
@@ -259,35 +259,35 @@ static void addToX11InputMethodGRefList(jobject newX11InputMethodGRef) {
         return;
     }
 
-    newNode = (X11InputMethodGRefNode *)malloc(sizeof(X11InputMethodGRefNode));
+    newNode = (X11InputMethodGRefNode *)mblloc(sizeof(X11InputMethodGRefNode));
 
     if (newNode == NULL) {
         return;
     } else {
         newNode->inputMethodGRef = newX11InputMethodGRef;
-        newNode->next = x11InputMethodGRefListHead;
-        x11InputMethodGRefListHead = newNode;
+        newNode->next = x11InputMethodGRefListHebd;
+        x11InputMethodGRefListHebd = newNode;
     }
 }
 
 /*
- * Remove the global reference from the list.
+ * Remove the globbl reference from the list.
  */
-static void removeX11InputMethodGRefFromList(jobject x11InputMethodGRef) {
+stbtic void removeX11InputMethodGRefFromList(jobject x11InputMethodGRef) {
      X11InputMethodGRefNode *pX11InputMethodGRef = NULL;
-     X11InputMethodGRefNode *cX11InputMethodGRef = x11InputMethodGRefListHead;
+     X11InputMethodGRefNode *cX11InputMethodGRef = x11InputMethodGRefListHebd;
 
-     if (x11InputMethodGRefListHead == NULL ||
+     if (x11InputMethodGRefListHebd == NULL ||
          x11InputMethodGRef == NULL) {
          return;
      }
 
-     /* cX11InputMethodGRef always refers to the current node while
+     /* cX11InputMethodGRef blwbys refers to the current node while
         pX11InputMethodGRef refers to the previous node.
      */
      while (cX11InputMethodGRef != NULL) {
          if (cX11InputMethodGRef->inputMethodGRef == x11InputMethodGRef) {
-             break;
+             brebk;
          }
          pX11InputMethodGRef = cX11InputMethodGRef;
          cX11InputMethodGRef = cX11InputMethodGRef->next;
@@ -297,8 +297,8 @@ static void removeX11InputMethodGRefFromList(jobject x11InputMethodGRef) {
          return; /* Not found. */
      }
 
-     if (cX11InputMethodGRef == x11InputMethodGRefListHead) {
-         x11InputMethodGRefListHead = x11InputMethodGRefListHead->next;
+     if (cX11InputMethodGRef == x11InputMethodGRefListHebd) {
+         x11InputMethodGRefListHebd = x11InputMethodGRefListHebd->next;
      } else {
          pX11InputMethodGRef->next = cX11InputMethodGRef->next;
      }
@@ -308,105 +308,105 @@ static void removeX11InputMethodGRefFromList(jobject x11InputMethodGRef) {
 }
 
 
-static X11InputMethodData * getX11InputMethodData(JNIEnv * env, jobject imInstance) {
-    X11InputMethodData *pX11IMData =
-        (X11InputMethodData *)JNU_GetLongFieldAsPtr(env, imInstance, x11InputMethodIDs.pData);
+stbtic X11InputMethodDbtb * getX11InputMethodDbtb(JNIEnv * env, jobject imInstbnce) {
+    X11InputMethodDbtb *pX11IMDbtb =
+        (X11InputMethodDbtb *)JNU_GetLongFieldAsPtr(env, imInstbnce, x11InputMethodIDs.pDbtb);
 
     /*
-     * In case the XIM server was killed somehow, reset X11InputMethodData.
+     * In cbse the XIM server wbs killed somehow, reset X11InputMethodDbtb.
      */
-    if (X11im == NULL && pX11IMData != NULL) {
-        JNU_CallMethodByName(env, NULL, pX11IMData->x11inputmethod,
+    if (X11im == NULL && pX11IMDbtb != NULL) {
+        JNU_CbllMethodByNbme(env, NULL, pX11IMDbtb->x11inputmethod,
                              "flushText",
                              "()V");
         JNU_CHECK_EXCEPTION_RETURN(env, NULL);
         /* IMPORTANT:
-           The order of the following calls is critical since "imInstance" may
-           point to the global reference itself, if "freeX11InputMethodData" is called
-           first, the global reference will be destroyed and "setX11InputMethodData"
-           will in fact fail silently. So pX11IMData will not be set to NULL.
-           This could make the original java object refers to a deleted pX11IMData
+           The order of the following cblls is criticbl since "imInstbnce" mby
+           point to the globbl reference itself, if "freeX11InputMethodDbtb" is cblled
+           first, the globbl reference will be destroyed bnd "setX11InputMethodDbtb"
+           will in fbct fbil silently. So pX11IMDbtb will not be set to NULL.
+           This could mbke the originbl jbvb object refers to b deleted pX11IMDbtb
            object.
         */
-        setX11InputMethodData(env, imInstance, NULL);
-        freeX11InputMethodData(env, pX11IMData);
-        pX11IMData = NULL;
+        setX11InputMethodDbtb(env, imInstbnce, NULL);
+        freeX11InputMethodDbtb(env, pX11IMDbtb);
+        pX11IMDbtb = NULL;
     }
 
-    return pX11IMData;
+    return pX11IMDbtb;
 }
 
-static void setX11InputMethodData(JNIEnv * env, jobject imInstance, X11InputMethodData *pX11IMData) {
-    JNU_SetLongFieldFromPtr(env, imInstance, x11InputMethodIDs.pData, pX11IMData);
+stbtic void setX11InputMethodDbtb(JNIEnv * env, jobject imInstbnce, X11InputMethodDbtb *pX11IMDbtb) {
+    JNU_SetLongFieldFromPtr(env, imInstbnce, x11InputMethodIDs.pDbtb, pX11IMDbtb);
 }
 
-/* this function should be called within AWT_LOCK() */
-static void
-destroyX11InputMethodData(JNIEnv *env, X11InputMethodData *pX11IMData)
+/* this function should be cblled within AWT_LOCK() */
+stbtic void
+destroyX11InputMethodDbtb(JNIEnv *env, X11InputMethodDbtb *pX11IMDbtb)
 {
     /*
      * Destroy XICs
      */
-    if (pX11IMData == NULL) {
+    if (pX11IMDbtb == NULL) {
         return;
     }
 
-    if (pX11IMData->ic_active != (XIC)0) {
-        XUnsetICFocus(pX11IMData->ic_active);
-        XDestroyIC(pX11IMData->ic_active);
-        if (pX11IMData->ic_active != pX11IMData->ic_passive) {
-            if (pX11IMData->ic_passive != (XIC)0) {
-                XUnsetICFocus(pX11IMData->ic_passive);
-                XDestroyIC(pX11IMData->ic_passive);
+    if (pX11IMDbtb->ic_bctive != (XIC)0) {
+        XUnsetICFocus(pX11IMDbtb->ic_bctive);
+        XDestroyIC(pX11IMDbtb->ic_bctive);
+        if (pX11IMDbtb->ic_bctive != pX11IMDbtb->ic_pbssive) {
+            if (pX11IMDbtb->ic_pbssive != (XIC)0) {
+                XUnsetICFocus(pX11IMDbtb->ic_pbssive);
+                XDestroyIC(pX11IMDbtb->ic_pbssive);
             }
-            pX11IMData->ic_passive = (XIC)0;
-            pX11IMData->current_ic = (XIC)0;
+            pX11IMDbtb->ic_pbssive = (XIC)0;
+            pX11IMDbtb->current_ic = (XIC)0;
         }
     }
 
-    freeX11InputMethodData(env, pX11IMData);
+    freeX11InputMethodDbtb(env, pX11IMDbtb);
 }
 
-static void
-freeX11InputMethodData(JNIEnv *env, X11InputMethodData *pX11IMData)
+stbtic void
+freeX11InputMethodDbtb(JNIEnv *env, X11InputMethodDbtb *pX11IMDbtb)
 {
 #if defined(__linux__) || defined(MACOSX)
-    if (pX11IMData->statusWindow != NULL){
-        StatusWindow *sw = pX11IMData->statusWindow;
-        XFreeGC(awt_display, sw->lightGC);
-        XFreeGC(awt_display, sw->dimGC);
-        XFreeGC(awt_display, sw->bgGC);
-        XFreeGC(awt_display, sw->fgGC);
+    if (pX11IMDbtb->stbtusWindow != NULL){
+        StbtusWindow *sw = pX11IMDbtb->stbtusWindow;
+        XFreeGC(bwt_displby, sw->lightGC);
+        XFreeGC(bwt_displby, sw->dimGC);
+        XFreeGC(bwt_displby, sw->bgGC);
+        XFreeGC(bwt_displby, sw->fgGC);
         if (sw->fontset != NULL) {
-            XFreeFontSet(awt_display, sw->fontset);
+            XFreeFontSet(bwt_displby, sw->fontset);
         }
-        XDestroyWindow(awt_display, sw->w);
+        XDestroyWindow(bwt_displby, sw->w);
         free((void*)sw);
     }
 #endif
 
-    if (pX11IMData->callbacks)
-        free((void *)pX11IMData->callbacks);
+    if (pX11IMDbtb->cbllbbcks)
+        free((void *)pX11IMDbtb->cbllbbcks);
 
     if (env) {
-        /* Remove the global reference from the list, so that
-           the callback function or whoever refers to it could know.
+        /* Remove the globbl reference from the list, so thbt
+           the cbllbbck function or whoever refers to it could know.
         */
-        removeX11InputMethodGRefFromList(pX11IMData->x11inputmethod);
-        (*env)->DeleteGlobalRef(env, pX11IMData->x11inputmethod);
+        removeX11InputMethodGRefFromList(pX11IMDbtb->x11inputmethod);
+        (*env)->DeleteGlobblRef(env, pX11IMDbtb->x11inputmethod);
     }
 
-    if (pX11IMData->lookup_buf) {
-        free((void *)pX11IMData->lookup_buf);
+    if (pX11IMDbtb->lookup_buf) {
+        free((void *)pX11IMDbtb->lookup_buf);
     }
 
-    free((void *)pX11IMData);
+    free((void *)pX11IMDbtb);
 }
 
 /*
  * Sets or unsets the focus to the given XIC.
  */
-static void
+stbtic void
 setXICFocus(XIC ic, unsigned short req)
 {
     if (ic == NULL) {
@@ -422,644 +422,644 @@ setXICFocus(XIC ic, unsigned short req)
 /*
  * Sets the focus window to the given XIC.
  */
-static void
+stbtic void
 setXICWindowFocus(XIC ic, Window w)
 {
     if (ic == NULL) {
         (void)fprintf(stderr, "Couldn't find X Input Context\n");
         return;
     }
-    (void) XSetICValues(ic, XNFocusWindow, w, NULL);
+    (void) XSetICVblues(ic, XNFocusWindow, w, NULL);
 }
 
 /*
  * Invokes XmbLookupString() to get something from the XIM. It invokes
- * X11InputMethod.dispatchCommittedText() if XmbLookupString() returns
- * committed text.  This function is called from handleKeyEvent in canvas.c and
- * it's under the Motif event loop thread context.
+ * X11InputMethod.dispbtchCommittedText() if XmbLookupString() returns
+ * committed text.  This function is cblled from hbndleKeyEvent in cbnvbs.c bnd
+ * it's under the Motif event loop threbd context.
  *
- * Buffer usage: There is a bug in XFree86-4.3.0 XmbLookupString implementation,
- * where it never returns XBufferOverflow.  We need to allocate the initial lookup buffer
- * big enough, so that the possibility that user encounters this problem is relatively
- * small.  When this bug gets fixed, we can make the initial buffer size smaller.
- * Note that XmbLookupString() sometimes produces a non-null-terminated string.
+ * Buffer usbge: There is b bug in XFree86-4.3.0 XmbLookupString implementbtion,
+ * where it never returns XBufferOverflow.  We need to bllocbte the initibl lookup buffer
+ * big enough, so thbt the possibility thbt user encounters this problem is relbtively
+ * smbll.  When this bug gets fixed, we cbn mbke the initibl buffer size smbller.
+ * Note thbt XmbLookupString() sometimes produces b non-null-terminbted string.
  *
- * Returns True when there is a keysym value to be handled.
+ * Returns True when there is b keysym vblue to be hbndled.
  */
 #define INITIAL_LOOKUP_BUF_SIZE 512
 
-Boolean
-awt_x11inputmethod_lookupString(XKeyPressedEvent *event, KeySym *keysymp)
+Boolebn
+bwt_x11inputmethod_lookupString(XKeyPressedEvent *event, KeySym *keysymp)
 {
     JNIEnv *env = GetJNIEnv();
-    X11InputMethodData *pX11IMData = NULL;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
     KeySym keysym = NoSymbol;
-    Status status;
+    Stbtus stbtus;
     int mblen;
-    jstring javastr;
+    jstring jbvbstr;
     XIC ic;
-    Boolean result = True;
-    static Boolean composing = False;
+    Boolebn result = True;
+    stbtic Boolebn composing = Fblse;
 
     /*
       printf("lookupString: entering...\n");
      */
 
-    if (!isX11InputMethodGRefInList(currentX11InputMethodInstance)) {
-        currentX11InputMethodInstance = NULL;
-        return False;
+    if (!isX11InputMethodGRefInList(currentX11InputMethodInstbnce)) {
+        currentX11InputMethodInstbnce = NULL;
+        return Fblse;
     }
 
-    pX11IMData = getX11InputMethodData(env, currentX11InputMethodInstance);
+    pX11IMDbtb = getX11InputMethodDbtb(env, currentX11InputMethodInstbnce);
 
-    if (pX11IMData == NULL) {
+    if (pX11IMDbtb == NULL) {
 #if defined(__linux__) || defined(MACOSX)
-        return False;
+        return Fblse;
 #else
         return result;
 #endif
     }
 
-    if ((ic = pX11IMData->current_ic) == (XIC)0){
+    if ((ic = pX11IMDbtb->current_ic) == (XIC)0){
 #if defined(__linux__) || defined(MACOSX)
-        return False;
+        return Fblse;
 #else
         return result;
 #endif
     }
 
-    /* allocate the lookup buffer at the first invocation */
-    if (pX11IMData->lookup_buf_len == 0) {
-        pX11IMData->lookup_buf = (char *)malloc(INITIAL_LOOKUP_BUF_SIZE);
-        if (pX11IMData->lookup_buf == NULL) {
+    /* bllocbte the lookup buffer bt the first invocbtion */
+    if (pX11IMDbtb->lookup_buf_len == 0) {
+        pX11IMDbtb->lookup_buf = (chbr *)mblloc(INITIAL_LOOKUP_BUF_SIZE);
+        if (pX11IMDbtb->lookup_buf == NULL) {
             THROW_OUT_OF_MEMORY_ERROR();
             return result;
         }
-        pX11IMData->lookup_buf_len = INITIAL_LOOKUP_BUF_SIZE;
+        pX11IMDbtb->lookup_buf_len = INITIAL_LOOKUP_BUF_SIZE;
     }
 
-    mblen = XmbLookupString(ic, event, pX11IMData->lookup_buf,
-                            pX11IMData->lookup_buf_len - 1, &keysym, &status);
+    mblen = XmbLookupString(ic, event, pX11IMDbtb->lookup_buf,
+                            pX11IMDbtb->lookup_buf_len - 1, &keysym, &stbtus);
 
     /*
-     * In case of overflow, a buffer is allocated and it retries
+     * In cbse of overflow, b buffer is bllocbted bnd it retries
      * XmbLookupString().
      */
-    if (status == XBufferOverflow) {
-        free((void *)pX11IMData->lookup_buf);
-        pX11IMData->lookup_buf_len = 0;
-        pX11IMData->lookup_buf = (char *)malloc(mblen + 1);
-        if (pX11IMData->lookup_buf == NULL) {
+    if (stbtus == XBufferOverflow) {
+        free((void *)pX11IMDbtb->lookup_buf);
+        pX11IMDbtb->lookup_buf_len = 0;
+        pX11IMDbtb->lookup_buf = (chbr *)mblloc(mblen + 1);
+        if (pX11IMDbtb->lookup_buf == NULL) {
             THROW_OUT_OF_MEMORY_ERROR();
             return result;
         }
-        pX11IMData->lookup_buf_len = mblen + 1;
-        mblen = XmbLookupString(ic, event, pX11IMData->lookup_buf,
-                            pX11IMData->lookup_buf_len - 1, &keysym, &status);
+        pX11IMDbtb->lookup_buf_len = mblen + 1;
+        mblen = XmbLookupString(ic, event, pX11IMDbtb->lookup_buf,
+                            pX11IMDbtb->lookup_buf_len - 1, &keysym, &stbtus);
     }
-    pX11IMData->lookup_buf[mblen] = 0;
+    pX11IMDbtb->lookup_buf[mblen] = 0;
 
-    /* Get keysym without taking modifiers into account first to map
-     * to AWT keyCode table.
+    /* Get keysym without tbking modifiers into bccount first to mbp
+     * to AWT keyCode tbble.
      */
-    switch (status) {
-    case XLookupBoth:
+    switch (stbtus) {
+    cbse XLookupBoth:
         if (!composing) {
             if (event->keycode != 0) {
                 *keysymp = keysym;
-                result = False;
-                break;
+                result = Fblse;
+                brebk;
             }
         }
-        composing = False;
+        composing = Fblse;
         /*FALLTHRU*/
-    case XLookupChars:
+    cbse XLookupChbrs:
     /*
-     printf("lookupString: status=XLookupChars, type=%d, state=%x, keycode=%x, keysym=%x\n",
-       event->type, event->state, event->keycode, keysym);
+     printf("lookupString: stbtus=XLookupChbrs, type=%d, stbte=%x, keycode=%x, keysym=%x\n",
+       event->type, event->stbte, event->keycode, keysym);
     */
-        javastr = JNU_NewStringPlatform(env, (const char *)pX11IMData->lookup_buf);
-        if (javastr != NULL) {
-            JNU_CallMethodByName(env, NULL,
-                                 currentX11InputMethodInstance,
-                                 "dispatchCommittedText",
-                                 "(Ljava/lang/String;J)V",
-                                 javastr,
+        jbvbstr = JNU_NewStringPlbtform(env, (const chbr *)pX11IMDbtb->lookup_buf);
+        if (jbvbstr != NULL) {
+            JNU_CbllMethodByNbme(env, NULL,
+                                 currentX11InputMethodInstbnce,
+                                 "dispbtchCommittedText",
+                                 "(Ljbvb/lbng/String;J)V",
+                                 jbvbstr,
                                  event->time);
         }
-        break;
+        brebk;
 
-    case XLookupKeySym:
+    cbse XLookupKeySym:
     /*
-     printf("lookupString: status=XLookupKeySym, type=%d, state=%x, keycode=%x, keysym=%x\n",
-       event->type, event->state, event->keycode, keysym);
+     printf("lookupString: stbtus=XLookupKeySym, type=%d, stbte=%x, keycode=%x, keysym=%x\n",
+       event->type, event->stbte, event->keycode, keysym);
     */
         if (keysym == XK_Multi_key)
             composing = True;
         if (! composing) {
             *keysymp = keysym;
-            result = False;
+            result = Fblse;
         }
-        break;
+        brebk;
 
-    case XLookupNone:
+    cbse XLookupNone:
     /*
-     printf("lookupString: status=XLookupNone, type=%d, state=%x, keycode=%x, keysym=%x\n",
-        event->type, event->state, event->keycode, keysym);
+     printf("lookupString: stbtus=XLookupNone, type=%d, stbte=%x, keycode=%x, keysym=%x\n",
+        event->type, event->stbte, event->keycode, keysym);
     */
-        break;
+        brebk;
     }
 
     return result;
 }
 
 #if defined(__linux__) || defined(MACOSX)
-static StatusWindow *createStatusWindow(
-                                Window parent) {
-    StatusWindow *statusWindow;
-    XSetWindowAttributes attrib;
-    unsigned long attribmask;
-    Window containerWindow;
-    Window status;
+stbtic StbtusWindow *crebteStbtusWindow(
+                                Window pbrent) {
+    StbtusWindow *stbtusWindow;
+    XSetWindowAttributes bttrib;
+    unsigned long bttribmbsk;
+    Window contbinerWindow;
+    Window stbtus;
     Window child;
-    XWindowAttributes xwa;
-    XWindowAttributes xxwa;
-    /* Variable for XCreateFontSet()*/
-    char **mclr;
+    XWindowAttributes xwb;
+    XWindowAttributes xxwb;
+    /* Vbribble for XCrebteFontSet()*/
+    chbr **mclr;
     int  mccr = 0;
-    char *dsr;
+    chbr *dsr;
     Pixel bg, fg, light, dim;
     int x, y, off_x, off_y, xx, yy;
     unsigned int w, h, bw, depth;
-    XGCValues values;
-    unsigned long valuemask = 0;  /*ignore XGCvalue and use defaults*/
+    XGCVblues vblues;
+    unsigned long vbluembsk = 0;  /*ignore XGCvblue bnd use defbults*/
     int screen = 0;
     int i;
-    AwtGraphicsConfigDataPtr adata;
-    extern int awt_numScreens;
-    /*hardcode the size right now, should get the size base on font*/
+    AwtGrbphicsConfigDbtbPtr bdbtb;
+    extern int bwt_numScreens;
+    /*hbrdcode the size right now, should get the size bbse on font*/
     int   width=80, height=22;
     Window rootWindow;
     Window *ignoreWindowPtr;
     unsigned int ignoreUnit;
 
-    XGetGeometry(dpy, parent, &rootWindow, &x, &y, &w, &h, &bw, &depth);
+    XGetGeometry(dpy, pbrent, &rootWindow, &x, &y, &w, &h, &bw, &depth);
 
-    attrib.override_redirect = True;
-    attribmask = CWOverrideRedirect;
-    for (i = 0; i < awt_numScreens; i++) {
+    bttrib.override_redirect = True;
+    bttribmbsk = CWOverrideRedirect;
+    for (i = 0; i < bwt_numScreens; i++) {
         if (RootWindow(dpy, i) == rootWindow) {
             screen = i;
-            break;
+            brebk;
         }
     }
-    adata = getDefaultConfig(screen);
-    bg    = adata->AwtColorMatch(255, 255, 255, adata);
-    fg    = adata->AwtColorMatch(0, 0, 0, adata);
-    light = adata->AwtColorMatch(195, 195, 195, adata);
-    dim   = adata->AwtColorMatch(128, 128, 128, adata);
+    bdbtb = getDefbultConfig(screen);
+    bg    = bdbtb->AwtColorMbtch(255, 255, 255, bdbtb);
+    fg    = bdbtb->AwtColorMbtch(0, 0, 0, bdbtb);
+    light = bdbtb->AwtColorMbtch(195, 195, 195, bdbtb);
+    dim   = bdbtb->AwtColorMbtch(128, 128, 128, bdbtb);
 
-    XGetWindowAttributes(dpy, parent, &xwa);
-    bw = 2; /*xwa.border_width does not have the correct value*/
+    XGetWindowAttributes(dpy, pbrent, &xwb);
+    bw = 2; /*xwb.border_width does not hbve the correct vblue*/
 
-    /*compare the size difference between parent container
-      and shell widget, the diff should be the border frame
-      and title bar height (?)*/
+    /*compbre the size difference between pbrent contbiner
+      bnd shell widget, the diff should be the border frbme
+      bnd title bbr height (?)*/
 
     XQueryTree( dpy,
-                parent,
+                pbrent,
                 &rootWindow,
-                &containerWindow,
+                &contbinerWindow,
                 &ignoreWindowPtr,
                 &ignoreUnit);
-    XGetWindowAttributes(dpy, containerWindow, &xxwa);
+    XGetWindowAttributes(dpy, contbinerWindow, &xxwb);
 
-    off_x = (xxwa.width - xwa.width) / 2;
-    off_y = xxwa.height - xwa.height - off_x; /*it's magic:-) */
+    off_x = (xxwb.width - xwb.width) / 2;
+    off_y = xxwb.height - xwb.height - off_x; /*it's mbgic:-) */
 
     /*get the size of root window*/
-    XGetWindowAttributes(dpy, rootWindow, &xxwa);
+    XGetWindowAttributes(dpy, rootWindow, &xxwb);
 
-    XTranslateCoordinates(dpy,
-                          parent, xwa.root,
-                          xwa.x, xwa.y,
+    XTrbnslbteCoordinbtes(dpy,
+                          pbrent, xwb.root,
+                          xwb.x, xwb.y,
                           &x, &y,
                           &child);
     xx = x - off_x;
-    yy = y + xwa.height - off_y;
+    yy = y + xwb.height - off_y;
     if (xx < 0 ){
         xx = 0;
     }
-    if (xx + width > xxwa.width){
-        xx = xxwa.width - width;
+    if (xx + width > xxwb.width){
+        xx = xxwb.width - width;
     }
-    if (yy + height > xxwa.height){
-        yy = xxwa.height - height;
+    if (yy + height > xxwb.height){
+        yy = xxwb.height - height;
     }
 
-    status =  XCreateWindow(dpy,
-                            xwa.root,
+    stbtus =  XCrebteWindow(dpy,
+                            xwb.root,
                             xx, yy,
                             width, height,
                             0,
-                            xwa.depth,
+                            xwb.depth,
                             InputOutput,
-                            adata->awt_visInfo.visual,
-                            attribmask, &attrib);
-    XSelectInput(dpy, status,
-                 ExposureMask | StructureNotifyMask | EnterWindowMask |
-                 LeaveWindowMask | VisibilityChangeMask);
-    statusWindow = (StatusWindow*) calloc(1, sizeof(StatusWindow));
-    if (statusWindow == NULL){
+                            bdbtb->bwt_visInfo.visubl,
+                            bttribmbsk, &bttrib);
+    XSelectInput(dpy, stbtus,
+                 ExposureMbsk | StructureNotifyMbsk | EnterWindowMbsk |
+                 LebveWindowMbsk | VisibilityChbngeMbsk);
+    stbtusWindow = (StbtusWindow*) cblloc(1, sizeof(StbtusWindow));
+    if (stbtusWindow == NULL){
         THROW_OUT_OF_MEMORY_ERROR();
         return NULL;
     }
-    statusWindow->w = status;
+    stbtusWindow->w = stbtus;
     //12-point font
-    statusWindow->fontset = XCreateFontSet(dpy,
-                                           "-*-*-medium-r-normal-*-*-120-*-*-*-*",
+    stbtusWindow->fontset = XCrebteFontSet(dpy,
+                                           "-*-*-medium-r-normbl-*-*-120-*-*-*-*",
                                            &mclr, &mccr, &dsr);
-    /* In case we didn't find the font set, release the list of missing characters */
+    /* In cbse we didn't find the font set, relebse the list of missing chbrbcters */
     if (mccr > 0) {
         XFreeStringList(mclr);
     }
-    statusWindow->parent = parent;
-    statusWindow->on  = False;
-    statusWindow->x = x;
-    statusWindow->y = y;
-    statusWindow->width = xwa.width;
-    statusWindow->height = xwa.height;
-    statusWindow->off_x = off_x;
-    statusWindow->off_y = off_y;
-    statusWindow->bWidth  = bw;
-    statusWindow->statusH = height;
-    statusWindow->statusW = width;
-    statusWindow->rootH = xxwa.height;
-    statusWindow->rootW = xxwa.width;
-    statusWindow->lightGC = XCreateGC(dpy, status, valuemask, &values);
-    XSetForeground(dpy, statusWindow->lightGC, light);
-    statusWindow->dimGC = XCreateGC(dpy, status, valuemask, &values);
-    XSetForeground(dpy, statusWindow->dimGC, dim);
-    statusWindow->fgGC = XCreateGC(dpy, status, valuemask, &values);
-    XSetForeground(dpy, statusWindow->fgGC, fg);
-    statusWindow->bgGC = XCreateGC(dpy, status, valuemask, &values);
-    XSetForeground(dpy, statusWindow->bgGC, bg);
-    return statusWindow;
+    stbtusWindow->pbrent = pbrent;
+    stbtusWindow->on  = Fblse;
+    stbtusWindow->x = x;
+    stbtusWindow->y = y;
+    stbtusWindow->width = xwb.width;
+    stbtusWindow->height = xwb.height;
+    stbtusWindow->off_x = off_x;
+    stbtusWindow->off_y = off_y;
+    stbtusWindow->bWidth  = bw;
+    stbtusWindow->stbtusH = height;
+    stbtusWindow->stbtusW = width;
+    stbtusWindow->rootH = xxwb.height;
+    stbtusWindow->rootW = xxwb.width;
+    stbtusWindow->lightGC = XCrebteGC(dpy, stbtus, vbluembsk, &vblues);
+    XSetForeground(dpy, stbtusWindow->lightGC, light);
+    stbtusWindow->dimGC = XCrebteGC(dpy, stbtus, vbluembsk, &vblues);
+    XSetForeground(dpy, stbtusWindow->dimGC, dim);
+    stbtusWindow->fgGC = XCrebteGC(dpy, stbtus, vbluembsk, &vblues);
+    XSetForeground(dpy, stbtusWindow->fgGC, fg);
+    stbtusWindow->bgGC = XCrebteGC(dpy, stbtus, vbluembsk, &vblues);
+    XSetForeground(dpy, stbtusWindow->bgGC, bg);
+    return stbtusWindow;
 }
 
-/* This method is to turn off or turn on the status window. */
-static void onoffStatusWindow(X11InputMethodData* pX11IMData,
-                                Window parent,
+/* This method is to turn off or turn on the stbtus window. */
+stbtic void onoffStbtusWindow(X11InputMethodDbtb* pX11IMDbtb,
+                                Window pbrent,
                                 Bool ON){
-    XWindowAttributes xwa;
+    XWindowAttributes xwb;
     Window child;
     int x, y;
-    StatusWindow *statusWindow = NULL;
+    StbtusWindow *stbtusWindow = NULL;
 
-    if (NULL == currentX11InputMethodInstance ||
-        NULL == pX11IMData ||
-        NULL == (statusWindow =  pX11IMData->statusWindow)){
+    if (NULL == currentX11InputMethodInstbnce ||
+        NULL == pX11IMDbtb ||
+        NULL == (stbtusWindow =  pX11IMDbtb->stbtusWindow)){
         return;
     }
 
-    if (ON == False){
-        XUnmapWindow(dpy, statusWindow->w);
-        statusWindow->on = False;
+    if (ON == Fblse){
+        XUnmbpWindow(dpy, stbtusWindow->w);
+        stbtusWindow->on = Fblse;
         return;
     }
-    parent = JNU_CallMethodByName(GetJNIEnv(), NULL, pX11IMData->x11inputmethod,
-                                  "getCurrentParentWindow",
+    pbrent = JNU_CbllMethodByNbme(GetJNIEnv(), NULL, pX11IMDbtb->x11inputmethod,
+                                  "getCurrentPbrentWindow",
                                   "()J").j;
-    if (statusWindow->parent != parent){
-        statusWindow->parent = parent;
+    if (stbtusWindow->pbrent != pbrent){
+        stbtusWindow->pbrent = pbrent;
     }
-    XGetWindowAttributes(dpy, parent, &xwa);
-    XTranslateCoordinates(dpy,
-                          parent, xwa.root,
-                          xwa.x, xwa.y,
+    XGetWindowAttributes(dpy, pbrent, &xwb);
+    XTrbnslbteCoordinbtes(dpy,
+                          pbrent, xwb.root,
+                          xwb.x, xwb.y,
                           &x, &y,
                           &child);
-    if (statusWindow->x != x
-        || statusWindow->y != y
-        || statusWindow->height != xwa.height){
-        statusWindow->x = x;
-        statusWindow->y = y;
-        statusWindow->height = xwa.height;
-        x = statusWindow->x - statusWindow->off_x;
-        y = statusWindow->y + statusWindow->height - statusWindow->off_y;
+    if (stbtusWindow->x != x
+        || stbtusWindow->y != y
+        || stbtusWindow->height != xwb.height){
+        stbtusWindow->x = x;
+        stbtusWindow->y = y;
+        stbtusWindow->height = xwb.height;
+        x = stbtusWindow->x - stbtusWindow->off_x;
+        y = stbtusWindow->y + stbtusWindow->height - stbtusWindow->off_y;
         if (x < 0 ){
             x = 0;
         }
-        if (x + statusWindow->statusW > statusWindow->rootW){
-            x = statusWindow->rootW - statusWindow->statusW;
+        if (x + stbtusWindow->stbtusW > stbtusWindow->rootW){
+            x = stbtusWindow->rootW - stbtusWindow->stbtusW;
         }
-        if (y + statusWindow->statusH > statusWindow->rootH){
-            y = statusWindow->rootH - statusWindow->statusH;
+        if (y + stbtusWindow->stbtusH > stbtusWindow->rootH){
+            y = stbtusWindow->rootH - stbtusWindow->stbtusH;
         }
-        XMoveWindow(dpy, statusWindow->w, x, y);
+        XMoveWindow(dpy, stbtusWindow->w, x, y);
     }
-    statusWindow->on = True;
-    XMapWindow(dpy, statusWindow->w);
+    stbtusWindow->on = True;
+    XMbpWindow(dpy, stbtusWindow->w);
 }
 
-void paintStatusWindow(StatusWindow *statusWindow){
-    Window  win  = statusWindow->w;
-    GC  lightgc = statusWindow->lightGC;
-    GC  dimgc = statusWindow->dimGC;
-    GC  bggc = statusWindow->bgGC;
-    GC  fggc = statusWindow->fgGC;
+void pbintStbtusWindow(StbtusWindow *stbtusWindow){
+    Window  win  = stbtusWindow->w;
+    GC  lightgc = stbtusWindow->lightGC;
+    GC  dimgc = stbtusWindow->dimGC;
+    GC  bggc = stbtusWindow->bgGC;
+    GC  fggc = stbtusWindow->fgGC;
 
-    int width = statusWindow->statusW;
-    int height = statusWindow->statusH;
-    int bwidth = statusWindow->bWidth;
-    XFillRectangle(dpy, win, bggc, 0, 0, width, height);
-    /* draw border */
-    XDrawLine(dpy, win, fggc, 0, 0, width, 0);
-    XDrawLine(dpy, win, fggc, 0, height-1, width-1, height-1);
-    XDrawLine(dpy, win, fggc, 0, 0, 0, height-1);
-    XDrawLine(dpy, win, fggc, width-1, 0, width-1, height-1);
+    int width = stbtusWindow->stbtusW;
+    int height = stbtusWindow->stbtusH;
+    int bwidth = stbtusWindow->bWidth;
+    XFillRectbngle(dpy, win, bggc, 0, 0, width, height);
+    /* drbw border */
+    XDrbwLine(dpy, win, fggc, 0, 0, width, 0);
+    XDrbwLine(dpy, win, fggc, 0, height-1, width-1, height-1);
+    XDrbwLine(dpy, win, fggc, 0, 0, 0, height-1);
+    XDrbwLine(dpy, win, fggc, width-1, 0, width-1, height-1);
 
-    XDrawLine(dpy, win, lightgc, 1, 1, width-bwidth, 1);
-    XDrawLine(dpy, win, lightgc, 1, 1, 1, height-2);
-    XDrawLine(dpy, win, lightgc, 1, height-2, width-bwidth, height-2);
-    XDrawLine(dpy, win, lightgc, width-bwidth-1, 1, width-bwidth-1, height-2);
+    XDrbwLine(dpy, win, lightgc, 1, 1, width-bwidth, 1);
+    XDrbwLine(dpy, win, lightgc, 1, 1, 1, height-2);
+    XDrbwLine(dpy, win, lightgc, 1, height-2, width-bwidth, height-2);
+    XDrbwLine(dpy, win, lightgc, width-bwidth-1, 1, width-bwidth-1, height-2);
 
-    XDrawLine(dpy, win, dimgc, 2, 2, 2, height-3);
-    XDrawLine(dpy, win, dimgc, 2, height-3, width-bwidth-1, height-3);
-    XDrawLine(dpy, win, dimgc, 2, 2, width-bwidth-2, 2);
-    XDrawLine(dpy, win, dimgc, width-bwidth, 2, width-bwidth, height-3);
-    if (statusWindow->fontset){
-        XmbDrawString(dpy, win, statusWindow->fontset, fggc,
+    XDrbwLine(dpy, win, dimgc, 2, 2, 2, height-3);
+    XDrbwLine(dpy, win, dimgc, 2, height-3, width-bwidth-1, height-3);
+    XDrbwLine(dpy, win, dimgc, 2, 2, width-bwidth-2, 2);
+    XDrbwLine(dpy, win, dimgc, width-bwidth, 2, width-bwidth, height-3);
+    if (stbtusWindow->fontset){
+        XmbDrbwString(dpy, win, stbtusWindow->fontset, fggc,
                       bwidth + 2, height - bwidth - 4,
-                      statusWindow->status,
-                      strlen(statusWindow->status));
+                      stbtusWindow->stbtus,
+                      strlen(stbtusWindow->stbtus));
     }
     else{
-        /*too bad we failed to create a fontset for this locale*/
-        XDrawString(dpy, win, fggc, bwidth + 2, height - bwidth - 4,
+        /*too bbd we fbiled to crebte b fontset for this locble*/
+        XDrbwString(dpy, win, fggc, bwidth + 2, height - bwidth - 4,
                     "[InputMethod ON]", strlen("[InputMethod ON]"));
     }
 }
 
-void statusWindowEventHandler(XEvent event){
+void stbtusWindowEventHbndler(XEvent event){
     JNIEnv *env = GetJNIEnv();
-    X11InputMethodData *pX11IMData = NULL;
-    StatusWindow *statusWindow;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
 
-    if (!isX11InputMethodGRefInList(currentX11InputMethodInstance)) {
-        currentX11InputMethodInstance = NULL;
+    if (!isX11InputMethodGRefInList(currentX11InputMethodInstbnce)) {
+        currentX11InputMethodInstbnce = NULL;
         return;
     }
 
-    if (NULL == currentX11InputMethodInstance
-        || NULL == (pX11IMData = getX11InputMethodData(env, currentX11InputMethodInstance))
-        || NULL == (statusWindow = pX11IMData->statusWindow)
-        || statusWindow->w != event.xany.window){
+    if (NULL == currentX11InputMethodInstbnce
+        || NULL == (pX11IMDbtb = getX11InputMethodDbtb(env, currentX11InputMethodInstbnce))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || stbtusWindow->w != event.xbny.window){
         return;
     }
 
     switch (event.type){
-    case Expose:
-        paintStatusWindow(statusWindow);
-        break;
-    case MapNotify:
-    case ConfigureNotify:
+    cbse Expose:
+        pbintStbtusWindow(stbtusWindow);
+        brebk;
+    cbse MbpNotify:
+    cbse ConfigureNotify:
         {
-          /*need to reset the stackMode...*/
-            XWindowChanges xwc;
-            int value_make = CWStackMode;
-            xwc.stack_mode = TopIf;
-            XConfigureWindow(dpy, statusWindow->w, value_make, &xwc);
+          /*need to reset the stbckMode...*/
+            XWindowChbnges xwc;
+            int vblue_mbke = CWStbckMode;
+            xwc.stbck_mode = TopIf;
+            XConfigureWindow(dpy, stbtusWindow->w, vblue_mbke, &xwc);
         }
-        break;
+        brebk;
         /*
-    case UnmapNotify:
-    case VisibilityNotify:
-        break;
+    cbse UnmbpNotify:
+    cbse VisibilityNotify:
+        brebk;
         */
-    default:
-        break;
+    defbult:
+        brebk;
   }
 }
 
-static void adjustStatusWindow(Window shell){
+stbtic void bdjustStbtusWindow(Window shell){
     JNIEnv *env = GetJNIEnv();
-    X11InputMethodData *pX11IMData = NULL;
-    StatusWindow *statusWindow;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
 
-    if (NULL == currentX11InputMethodInstance
-        || !isX11InputMethodGRefInList(currentX11InputMethodInstance)
-        || NULL == (pX11IMData = getX11InputMethodData(env,currentX11InputMethodInstance))
-        || NULL == (statusWindow = pX11IMData->statusWindow)
-        || !statusWindow->on) {
+    if (NULL == currentX11InputMethodInstbnce
+        || !isX11InputMethodGRefInList(currentX11InputMethodInstbnce)
+        || NULL == (pX11IMDbtb = getX11InputMethodDbtb(env,currentX11InputMethodInstbnce))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || !stbtusWindow->on) {
         return;
     }
     {
-        XWindowAttributes xwa;
+        XWindowAttributes xwb;
         int x, y;
         Window child;
-        XGetWindowAttributes(dpy, shell, &xwa);
-        XTranslateCoordinates(dpy,
-                              shell, xwa.root,
-                              xwa.x, xwa.y,
+        XGetWindowAttributes(dpy, shell, &xwb);
+        XTrbnslbteCoordinbtes(dpy,
+                              shell, xwb.root,
+                              xwb.x, xwb.y,
                               &x, &y,
                               &child);
-        if (statusWindow->x != x
-            || statusWindow->y != y
-            || statusWindow->height != xwa.height){
-          statusWindow->x = x;
-          statusWindow->y = y;
-          statusWindow->height = xwa.height;
+        if (stbtusWindow->x != x
+            || stbtusWindow->y != y
+            || stbtusWindow->height != xwb.height){
+          stbtusWindow->x = x;
+          stbtusWindow->y = y;
+          stbtusWindow->height = xwb.height;
 
-          x = statusWindow->x - statusWindow->off_x;
-          y = statusWindow->y + statusWindow->height - statusWindow->off_y;
+          x = stbtusWindow->x - stbtusWindow->off_x;
+          y = stbtusWindow->y + stbtusWindow->height - stbtusWindow->off_y;
           if (x < 0 ){
               x = 0;
           }
-          if (x + statusWindow->statusW > statusWindow->rootW){
-              x = statusWindow->rootW - statusWindow->statusW;
+          if (x + stbtusWindow->stbtusW > stbtusWindow->rootW){
+              x = stbtusWindow->rootW - stbtusWindow->stbtusW;
           }
-          if (y + statusWindow->statusH > statusWindow->rootH){
-              y = statusWindow->rootH - statusWindow->statusH;
+          if (y + stbtusWindow->stbtusH > stbtusWindow->rootH){
+              y = stbtusWindow->rootH - stbtusWindow->stbtusH;
           }
-          XMoveWindow(dpy, statusWindow->w, x, y);
+          XMoveWindow(dpy, stbtusWindow->w, x, y);
         }
     }
 }
 #endif  /* __linux__ || MACOSX */
 /*
- * Creates two XICs, one for active clients and the other for passive
- * clients. All information on those XICs are stored in the
- * X11InputMethodData given by the pX11IMData parameter.
+ * Crebtes two XICs, one for bctive clients bnd the other for pbssive
+ * clients. All informbtion on those XICs bre stored in the
+ * X11InputMethodDbtb given by the pX11IMDbtb pbrbmeter.
  *
- * For active clients: Try to use preedit callback to support
- * on-the-spot. If tc is not null, the XIC to be created will
- * share the Status Area with Motif widgets (TextComponents). If the
- * preferable styles can't be used, fallback to root-window styles. If
- * root-window styles failed, fallback to None styles.
+ * For bctive clients: Try to use preedit cbllbbck to support
+ * on-the-spot. If tc is not null, the XIC to be crebted will
+ * shbre the Stbtus Areb with Motif widgets (TextComponents). If the
+ * preferbble styles cbn't be used, fbllbbck to root-window styles. If
+ * root-window styles fbiled, fbllbbck to None styles.
  *
- * For passive clients: Try to use root-window styles. If failed,
- * fallback to None styles.
+ * For pbssive clients: Try to use root-window styles. If fbiled,
+ * fbllbbck to None styles.
  */
-static Bool
-createXIC(JNIEnv * env, X11InputMethodData *pX11IMData, Window w)
+stbtic Bool
+crebteXIC(JNIEnv * env, X11InputMethodDbtb *pX11IMDbtb, Window w)
 {
-    XIC active_ic, passive_ic;
-    XVaNestedList preedit = NULL;
-    XVaNestedList status = NULL;
-    XIMStyle on_the_spot_styles = XIMPreeditCallbacks,
-             active_styles = 0,
-             passive_styles = 0,
+    XIC bctive_ic, pbssive_ic;
+    XVbNestedList preedit = NULL;
+    XVbNestedList stbtus = NULL;
+    XIMStyle on_the_spot_styles = XIMPreeditCbllbbcks,
+             bctive_styles = 0,
+             pbssive_styles = 0,
              no_styles = 0;
-    XIMCallback *callbacks;
+    XIMCbllbbck *cbllbbcks;
     unsigned short i;
     XIMStyles *im_styles;
-    char *ret = NULL;
+    chbr *ret = NULL;
 
     if (X11im == NULL) {
-        return False;
+        return Fblse;
     }
     if (!w) {
-        return False;
+        return Fblse;
     }
 
-    ret = XGetIMValues(X11im, XNQueryInputStyle, &im_styles, NULL);
+    ret = XGetIMVblues(X11im, XNQueryInputStyle, &im_styles, NULL);
 
     if (ret != NULL) {
-        jio_fprintf(stderr,"XGetIMValues: %s\n",ret);
+        jio_fprintf(stderr,"XGetIMVblues: %s\n",ret);
         return FALSE ;
     }
 
 #if defined(__linux__) || defined(MACOSX)
-    on_the_spot_styles |= XIMStatusNothing;
+    on_the_spot_styles |= XIMStbtusNothing;
 
-    /*kinput does not support XIMPreeditCallbacks and XIMStatusArea
-      at the same time, so use StatusCallback to draw the status
+    /*kinput does not support XIMPreeditCbllbbcks bnd XIMStbtusAreb
+      bt the sbme time, so use StbtusCbllbbck to drbw the stbtus
       ourself
     */
     for (i = 0; i < im_styles->count_styles; i++) {
-        if (im_styles->supported_styles[i] == (XIMPreeditCallbacks | XIMStatusCallbacks)) {
-            on_the_spot_styles = (XIMPreeditCallbacks | XIMStatusCallbacks);
-            break;
+        if (im_styles->supported_styles[i] == (XIMPreeditCbllbbcks | XIMStbtusCbllbbcks)) {
+            on_the_spot_styles = (XIMPreeditCbllbbcks | XIMStbtusCbllbbcks);
+            brebk;
         }
     }
 #else /*! __linux__ && !MACOSX */
-    on_the_spot_styles |= XIMStatusNothing;
+    on_the_spot_styles |= XIMStbtusNothing;
 #endif /* __linux__ || MACOSX */
 
     for (i = 0; i < im_styles->count_styles; i++) {
-        active_styles |= im_styles->supported_styles[i] & on_the_spot_styles;
-        passive_styles |= im_styles->supported_styles[i] & ROOT_WINDOW_STYLES;
+        bctive_styles |= im_styles->supported_styles[i] & on_the_spot_styles;
+        pbssive_styles |= im_styles->supported_styles[i] & ROOT_WINDOW_STYLES;
         no_styles |= im_styles->supported_styles[i] & NO_STYLES;
     }
 
     XFree(im_styles);
 
-    if (active_styles != on_the_spot_styles) {
-        if (passive_styles == ROOT_WINDOW_STYLES)
-            active_styles = passive_styles;
+    if (bctive_styles != on_the_spot_styles) {
+        if (pbssive_styles == ROOT_WINDOW_STYLES)
+            bctive_styles = pbssive_styles;
         else {
             if (no_styles == NO_STYLES)
-                active_styles = passive_styles = NO_STYLES;
+                bctive_styles = pbssive_styles = NO_STYLES;
             else
-                active_styles = passive_styles = 0;
+                bctive_styles = pbssive_styles = 0;
         }
     } else {
-        if (passive_styles != ROOT_WINDOW_STYLES) {
+        if (pbssive_styles != ROOT_WINDOW_STYLES) {
             if (no_styles == NO_STYLES)
-                active_styles = passive_styles = NO_STYLES;
+                bctive_styles = pbssive_styles = NO_STYLES;
             else
-                active_styles = passive_styles = 0;
+                bctive_styles = pbssive_styles = 0;
         }
     }
 
-    if (active_styles == on_the_spot_styles) {
-        callbacks = (XIMCallback *)malloc(sizeof(XIMCallback) * NCALLBACKS);
-        if (callbacks == (XIMCallback *)NULL)
-            return False;
-        pX11IMData->callbacks = callbacks;
+    if (bctive_styles == on_the_spot_styles) {
+        cbllbbcks = (XIMCbllbbck *)mblloc(sizeof(XIMCbllbbck) * NCALLBACKS);
+        if (cbllbbcks == (XIMCbllbbck *)NULL)
+            return Fblse;
+        pX11IMDbtb->cbllbbcks = cbllbbcks;
 
-        for (i = 0; i < NCALLBACKS; i++, callbacks++) {
-            callbacks->client_data = (XPointer) pX11IMData->x11inputmethod;
-            callbacks->callback = callback_funcs[i];
+        for (i = 0; i < NCALLBACKS; i++, cbllbbcks++) {
+            cbllbbcks->client_dbtb = (XPointer) pX11IMDbtb->x11inputmethod;
+            cbllbbcks->cbllbbck = cbllbbck_funcs[i];
         }
 
-        callbacks = pX11IMData->callbacks;
-        preedit = (XVaNestedList)XVaCreateNestedList(0,
-                        XNPreeditStartCallback, &callbacks[PreeditStartIndex],
-                        XNPreeditDoneCallback,  &callbacks[PreeditDoneIndex],
-                        XNPreeditDrawCallback,  &callbacks[PreeditDrawIndex],
-                        XNPreeditCaretCallback, &callbacks[PreeditCaretIndex],
+        cbllbbcks = pX11IMDbtb->cbllbbcks;
+        preedit = (XVbNestedList)XVbCrebteNestedList(0,
+                        XNPreeditStbrtCbllbbck, &cbllbbcks[PreeditStbrtIndex],
+                        XNPreeditDoneCbllbbck,  &cbllbbcks[PreeditDoneIndex],
+                        XNPreeditDrbwCbllbbck,  &cbllbbcks[PreeditDrbwIndex],
+                        XNPreeditCbretCbllbbck, &cbllbbcks[PreeditCbretIndex],
                         NULL);
-        if (preedit == (XVaNestedList)NULL)
+        if (preedit == (XVbNestedList)NULL)
             goto err;
 #if defined(__linux__) || defined(MACOSX)
-        /*always try XIMStatusCallbacks for active client...*/
+        /*blwbys try XIMStbtusCbllbbcks for bctive client...*/
         {
-            status = (XVaNestedList)XVaCreateNestedList(0,
-                        XNStatusStartCallback, &callbacks[StatusStartIndex],
-                        XNStatusDoneCallback,  &callbacks[StatusDoneIndex],
-                        XNStatusDrawCallback, &callbacks[StatusDrawIndex],
+            stbtus = (XVbNestedList)XVbCrebteNestedList(0,
+                        XNStbtusStbrtCbllbbck, &cbllbbcks[StbtusStbrtIndex],
+                        XNStbtusDoneCbllbbck,  &cbllbbcks[StbtusDoneIndex],
+                        XNStbtusDrbwCbllbbck, &cbllbbcks[StbtusDrbwIndex],
                         NULL);
 
-            if (status == NULL)
+            if (stbtus == NULL)
                 goto err;
-            pX11IMData->statusWindow = createStatusWindow(w);
-            pX11IMData->ic_active = XCreateIC(X11im,
+            pX11IMDbtb->stbtusWindow = crebteStbtusWindow(w);
+            pX11IMDbtb->ic_bctive = XCrebteIC(X11im,
                                               XNClientWindow, w,
                                               XNFocusWindow, w,
-                                              XNInputStyle, active_styles,
+                                              XNInputStyle, bctive_styles,
                                               XNPreeditAttributes, preedit,
-                                              XNStatusAttributes, status,
+                                              XNStbtusAttributes, stbtus,
                                               NULL);
-            XFree((void *)status);
+            XFree((void *)stbtus);
             XFree((void *)preedit);
         }
 #else /* !__linux__ && !MACOSX */
-            pX11IMData->ic_active = XCreateIC(X11im,
+            pX11IMDbtb->ic_bctive = XCrebteIC(X11im,
                                               XNClientWindow, w,
                                               XNFocusWindow, w,
-                                              XNInputStyle, active_styles,
+                                              XNInputStyle, bctive_styles,
                                               XNPreeditAttributes, preedit,
                                               NULL);
         XFree((void *)preedit);
 #endif /* __linux__ || MACOSX */
-        pX11IMData->ic_passive = XCreateIC(X11im,
+        pX11IMDbtb->ic_pbssive = XCrebteIC(X11im,
                                            XNClientWindow, w,
                                            XNFocusWindow, w,
-                                           XNInputStyle, passive_styles,
+                                           XNInputStyle, pbssive_styles,
                                            NULL);
 
     } else {
-        pX11IMData->ic_active = XCreateIC(X11im,
+        pX11IMDbtb->ic_bctive = XCrebteIC(X11im,
                                           XNClientWindow, w,
                                           XNFocusWindow, w,
-                                          XNInputStyle, active_styles,
+                                          XNInputStyle, bctive_styles,
                                           NULL);
-        pX11IMData->ic_passive = pX11IMData->ic_active;
+        pX11IMDbtb->ic_pbssive = pX11IMDbtb->ic_bctive;
     }
 
-    if (pX11IMData->ic_active == (XIC)0
-        || pX11IMData->ic_passive == (XIC)0) {
-        return False;
+    if (pX11IMDbtb->ic_bctive == (XIC)0
+        || pX11IMDbtb->ic_pbssive == (XIC)0) {
+        return Fblse;
     }
 
     /*
-     * Use commit string call back if possible.
-     * This will ensure the correct order of preedit text and commit text
+     * Use commit string cbll bbck if possible.
+     * This will ensure the correct order of preedit text bnd commit text
      */
     {
-        XIMCallback cb;
-        cb.client_data = (XPointer) pX11IMData->x11inputmethod;
-        cb.callback = (XIMProc) CommitStringCallback;
-        XSetICValues (pX11IMData->ic_active, XNCommitStringCallback, &cb, NULL);
-        if (pX11IMData->ic_active != pX11IMData->ic_passive) {
-            XSetICValues (pX11IMData->ic_passive, XNCommitStringCallback, &cb, NULL);
+        XIMCbllbbck cb;
+        cb.client_dbtb = (XPointer) pX11IMDbtb->x11inputmethod;
+        cb.cbllbbck = (XIMProc) CommitStringCbllbbck;
+        XSetICVblues (pX11IMDbtb->ic_bctive, XNCommitStringCbllbbck, &cb, NULL);
+        if (pX11IMDbtb->ic_bctive != pX11IMDbtb->ic_pbssive) {
+            XSetICVblues (pX11IMDbtb->ic_pbssive, XNCommitStringCbllbbck, &cb, NULL);
         }
     }
 
-    /* Add the global reference object to X11InputMethod to the list. */
-    addToX11InputMethodGRefList(pX11IMData->x11inputmethod);
+    /* Add the globbl reference object to X11InputMethod to the list. */
+    bddToX11InputMethodGRefList(pX11IMDbtb->x11inputmethod);
 
     return True;
 
@@ -1067,300 +1067,300 @@ createXIC(JNIEnv * env, X11InputMethodData *pX11IMData, Window w)
     if (preedit)
         XFree((void *)preedit);
     THROW_OUT_OF_MEMORY_ERROR();
-    return False;
+    return Fblse;
 }
 
-static void
-PreeditStartCallback(XIC ic, XPointer client_data, XPointer call_data)
+stbtic void
+PreeditStbrtCbllbbck(XIC ic, XPointer client_dbtb, XPointer cbll_dbtb)
 {
     /*ARGSUSED*/
-    /* printf("Native: PreeditCaretCallback\n"); */
+    /* printf("Nbtive: PreeditCbretCbllbbck\n"); */
 }
 
-static void
-PreeditDoneCallback(XIC ic, XPointer client_data, XPointer call_data)
+stbtic void
+PreeditDoneCbllbbck(XIC ic, XPointer client_dbtb, XPointer cbll_dbtb)
 {
     /*ARGSUSED*/
-    /* printf("Native: StatusStartCallback\n"); */
+    /* printf("Nbtive: StbtusStbrtCbllbbck\n"); */
 }
 
 /*
- * Translate the preedit draw callback items to Java values and invoke
- * X11InputMethod.dispatchComposedText().
+ * Trbnslbte the preedit drbw cbllbbck items to Jbvb vblues bnd invoke
+ * X11InputMethod.dispbtchComposedText().
  *
- * client_data: X11InputMethod object
+ * client_dbtb: X11InputMethod object
  */
-static void
-PreeditDrawCallback(XIC ic, XPointer client_data,
-                    XIMPreeditDrawCallbackStruct *pre_draw)
+stbtic void
+PreeditDrbwCbllbbck(XIC ic, XPointer client_dbtb,
+                    XIMPreeditDrbwCbllbbckStruct *pre_drbw)
 {
     JNIEnv *env = GetJNIEnv();
-    X11InputMethodData *pX11IMData = NULL;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
     jmethodID x11imMethodID;
 
     XIMText *text;
-    jstring javastr = NULL;
-    jintArray style = NULL;
+    jstring jbvbstr = NULL;
+    jintArrby style = NULL;
 
-    /* printf("Native: PreeditDrawCallback() \n"); */
-    if (pre_draw == NULL) {
+    /* printf("Nbtive: PreeditDrbwCbllbbck() \n"); */
+    if (pre_drbw == NULL) {
         return;
     }
     AWT_LOCK();
-    if (!isX11InputMethodGRefInList((jobject)client_data)) {
-        if ((jobject)client_data == currentX11InputMethodInstance) {
-            currentX11InputMethodInstance = NULL;
+    if (!isX11InputMethodGRefInList((jobject)client_dbtb)) {
+        if ((jobject)client_dbtb == currentX11InputMethodInstbnce) {
+            currentX11InputMethodInstbnce = NULL;
         }
-        goto finally;
+        goto finblly;
     }
-    if ((pX11IMData = getX11InputMethodData(env, (jobject)client_data)) == NULL) {
-        goto finally;
+    if ((pX11IMDbtb = getX11InputMethodDbtb(env, (jobject)client_dbtb)) == NULL) {
+        goto finblly;
     }
 
-    if ((text = pre_draw->text) != NULL) {
+    if ((text = pre_drbw->text) != NULL) {
         if (text->string.multi_byte != NULL) {
-            if (pre_draw->text->encoding_is_wchar == False) {
-                javastr = JNU_NewStringPlatform(env, (const char *)text->string.multi_byte);
-                if (javastr == NULL) {
-                    goto finally;
+            if (pre_drbw->text->encoding_is_wchbr == Fblse) {
+                jbvbstr = JNU_NewStringPlbtform(env, (const chbr *)text->string.multi_byte);
+                if (jbvbstr == NULL) {
+                    goto finblly;
                 }
             } else {
-                char *mbstr = wcstombsdmp(text->string.wide_char, text->length);
+                chbr *mbstr = wcstombsdmp(text->string.wide_chbr, text->length);
                 if (mbstr == NULL) {
-                    goto finally;
+                    goto finblly;
                 }
-                javastr = JNU_NewStringPlatform(env, (const char *)mbstr);
+                jbvbstr = JNU_NewStringPlbtform(env, (const chbr *)mbstr);
                 free(mbstr);
-                if (javastr == NULL) {
-                    goto finally;
+                if (jbvbstr == NULL) {
+                    goto finblly;
                 }
             }
         }
-        if (text->feedback != NULL) {
+        if (text->feedbbck != NULL) {
             int cnt;
             jint *tmpstyle;
 
-            style = (*env)->NewIntArray(env, text->length);
+            style = (*env)->NewIntArrby(env, text->length);
             if (JNU_IsNull(env, style)) {
-                (*env)->ExceptionClear(env);
+                (*env)->ExceptionClebr(env);
                 THROW_OUT_OF_MEMORY_ERROR();
-                goto finally;
+                goto finblly;
             }
 
-            if (sizeof(XIMFeedback) == sizeof(jint)) {
+            if (sizeof(XIMFeedbbck) == sizeof(jint)) {
                 /*
-                 * Optimization to avoid copying the array
+                 * Optimizbtion to bvoid copying the brrby
                  */
-                (*env)->SetIntArrayRegion(env, style, 0,
-                                          text->length, (jint *)text->feedback);
+                (*env)->SetIntArrbyRegion(env, style, 0,
+                                          text->length, (jint *)text->feedbbck);
             } else {
-                tmpstyle  = (jint *)malloc(sizeof(jint)*(text->length));
+                tmpstyle  = (jint *)mblloc(sizeof(jint)*(text->length));
                 if (tmpstyle == (jint *) NULL) {
                     THROW_OUT_OF_MEMORY_ERROR();
-                    goto finally;
+                    goto finblly;
                 }
                 for (cnt = 0; cnt < (int)text->length; cnt++)
-                        tmpstyle[cnt] = text->feedback[cnt];
-                (*env)->SetIntArrayRegion(env, style, 0,
+                        tmpstyle[cnt] = text->feedbbck[cnt];
+                (*env)->SetIntArrbyRegion(env, style, 0,
                                           text->length, (jint *)tmpstyle);
             }
         }
     }
-    JNU_CallMethodByName(env, NULL, pX11IMData->x11inputmethod,
-                         "dispatchComposedText",
-                         "(Ljava/lang/String;[IIIIJ)V",
-                         javastr,
+    JNU_CbllMethodByNbme(env, NULL, pX11IMDbtb->x11inputmethod,
+                         "dispbtchComposedText",
+                         "(Ljbvb/lbng/String;[IIIIJ)V",
+                         jbvbstr,
                          style,
-                         (jint)pre_draw->chg_first,
-                         (jint)pre_draw->chg_length,
-                         (jint)pre_draw->caret,
-                         awt_util_nowMillisUTC());
-finally:
+                         (jint)pre_drbw->chg_first,
+                         (jint)pre_drbw->chg_length,
+                         (jint)pre_drbw->cbret,
+                         bwt_util_nowMillisUTC());
+finblly:
     AWT_UNLOCK();
     return;
 }
 
-static void
-PreeditCaretCallback(XIC ic, XPointer client_data,
-                     XIMPreeditCaretCallbackStruct *pre_caret)
+stbtic void
+PreeditCbretCbllbbck(XIC ic, XPointer client_dbtb,
+                     XIMPreeditCbretCbllbbckStruct *pre_cbret)
 {
     /*ARGSUSED*/
-    /* printf("Native: PreeditCaretCallback\n"); */
+    /* printf("Nbtive: PreeditCbretCbllbbck\n"); */
 
 }
 
 #if defined(__linux__) || defined(MACOSX)
-static void
-StatusStartCallback(XIC ic, XPointer client_data, XPointer call_data)
+stbtic void
+StbtusStbrtCbllbbck(XIC ic, XPointer client_dbtb, XPointer cbll_dbtb)
 {
     /*ARGSUSED*/
-    /*printf("StatusStartCallback:\n");  */
+    /*printf("StbtusStbrtCbllbbck:\n");  */
 
 }
 
-static void
-StatusDoneCallback(XIC ic, XPointer client_data, XPointer call_data)
+stbtic void
+StbtusDoneCbllbbck(XIC ic, XPointer client_dbtb, XPointer cbll_dbtb)
 {
     /*ARGSUSED*/
-    /*printf("StatusDoneCallback:\n"); */
+    /*printf("StbtusDoneCbllbbck:\n"); */
 
 }
 
-static void
-StatusDrawCallback(XIC ic, XPointer client_data,
-                     XIMStatusDrawCallbackStruct *status_draw)
+stbtic void
+StbtusDrbwCbllbbck(XIC ic, XPointer client_dbtb,
+                     XIMStbtusDrbwCbllbbckStruct *stbtus_drbw)
 {
     /*ARGSUSED*/
-    /*printf("StatusDrawCallback:\n"); */
+    /*printf("StbtusDrbwCbllbbck:\n"); */
     JNIEnv *env = GetJNIEnv();
-    X11InputMethodData *pX11IMData = NULL;
-    StatusWindow *statusWindow;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
+    StbtusWindow *stbtusWindow;
 
     AWT_LOCK();
 
-    if (!isX11InputMethodGRefInList((jobject)client_data)) {
-        if ((jobject)client_data == currentX11InputMethodInstance) {
-            currentX11InputMethodInstance = NULL;
+    if (!isX11InputMethodGRefInList((jobject)client_dbtb)) {
+        if ((jobject)client_dbtb == currentX11InputMethodInstbnce) {
+            currentX11InputMethodInstbnce = NULL;
         }
-        goto finally;
+        goto finblly;
     }
 
-    if (NULL == (pX11IMData = getX11InputMethodData(env, (jobject)client_data))
-        || NULL == (statusWindow = pX11IMData->statusWindow)){
-        goto finally;
+    if (NULL == (pX11IMDbtb = getX11InputMethodDbtb(env, (jobject)client_dbtb))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)){
+        goto finblly;
     }
-   currentX11InputMethodInstance = (jobject)client_data;
+   currentX11InputMethodInstbnce = (jobject)client_dbtb;
 
-    if (status_draw->type == XIMTextType){
-        XIMText *text = (status_draw->data).text;
+    if (stbtus_drbw->type == XIMTextType){
+        XIMText *text = (stbtus_drbw->dbtb).text;
         if (text != NULL){
           if (text->string.multi_byte != NULL){
-              strcpy(statusWindow->status, text->string.multi_byte);
+              strcpy(stbtusWindow->stbtus, text->string.multi_byte);
           }
           else{
-              char *mbstr = wcstombsdmp(text->string.wide_char, text->length);
-              strcpy(statusWindow->status, mbstr);
+              chbr *mbstr = wcstombsdmp(text->string.wide_chbr, text->length);
+              strcpy(stbtusWindow->stbtus, mbstr);
           }
-          statusWindow->on = True;
-          onoffStatusWindow(pX11IMData, statusWindow->parent, True);
-          paintStatusWindow(statusWindow);
+          stbtusWindow->on = True;
+          onoffStbtusWindow(pX11IMDbtb, stbtusWindow->pbrent, True);
+          pbintStbtusWindow(stbtusWindow);
         }
         else {
-            statusWindow->on = False;
-            /*just turnoff the status window
-            paintStatusWindow(statusWindow);
+            stbtusWindow->on = Fblse;
+            /*just turnoff the stbtus window
+            pbintStbtusWindow(stbtusWindow);
             */
-            onoffStatusWindow(pX11IMData, 0, False);
+            onoffStbtusWindow(pX11IMDbtb, 0, Fblse);
         }
     }
 
- finally:
+ finblly:
     AWT_UNLOCK();
 }
 #endif /* __linux__ || MACOSX */
 
-static void CommitStringCallback(XIC ic, XPointer client_data, XPointer call_data) {
+stbtic void CommitStringCbllbbck(XIC ic, XPointer client_dbtb, XPointer cbll_dbtb) {
     JNIEnv *env = GetJNIEnv();
-    XIMText * text = (XIMText *)call_data;
-    X11InputMethodData *pX11IMData = NULL;
-    jstring javastr;
+    XIMText * text = (XIMText *)cbll_dbtb;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
+    jstring jbvbstr;
 
     AWT_LOCK();
 
-    if (!isX11InputMethodGRefInList((jobject)client_data)) {
-        if ((jobject)client_data == currentX11InputMethodInstance) {
-            currentX11InputMethodInstance = NULL;
+    if (!isX11InputMethodGRefInList((jobject)client_dbtb)) {
+        if ((jobject)client_dbtb == currentX11InputMethodInstbnce) {
+            currentX11InputMethodInstbnce = NULL;
         }
-        goto finally;
+        goto finblly;
     }
 
-    if ((pX11IMData = getX11InputMethodData(env, (jobject)client_data)) == NULL) {
-        goto finally;
+    if ((pX11IMDbtb = getX11InputMethodDbtb(env, (jobject)client_dbtb)) == NULL) {
+        goto finblly;
     }
-    currentX11InputMethodInstance = (jobject)client_data;
+    currentX11InputMethodInstbnce = (jobject)client_dbtb;
 
-    if (text->encoding_is_wchar == False) {
-        javastr = JNU_NewStringPlatform(env, (const char *)text->string.multi_byte);
+    if (text->encoding_is_wchbr == Fblse) {
+        jbvbstr = JNU_NewStringPlbtform(env, (const chbr *)text->string.multi_byte);
     } else {
-        char *mbstr = wcstombsdmp(text->string.wide_char, text->length);
+        chbr *mbstr = wcstombsdmp(text->string.wide_chbr, text->length);
         if (mbstr == NULL) {
-            goto finally;
+            goto finblly;
         }
-        javastr = JNU_NewStringPlatform(env, (const char *)mbstr);
+        jbvbstr = JNU_NewStringPlbtform(env, (const chbr *)mbstr);
         free(mbstr);
     }
 
-    if (javastr != NULL) {
-        JNU_CallMethodByName(env, NULL,
-                                 pX11IMData->x11inputmethod,
-                                 "dispatchCommittedText",
-                                 "(Ljava/lang/String;J)V",
-                                 javastr,
-                                 awt_util_nowMillisUTC());
+    if (jbvbstr != NULL) {
+        JNU_CbllMethodByNbme(env, NULL,
+                                 pX11IMDbtb->x11inputmethod,
+                                 "dispbtchCommittedText",
+                                 "(Ljbvb/lbng/String;J)V",
+                                 jbvbstr,
+                                 bwt_util_nowMillisUTC());
     }
- finally:
+ finblly:
     AWT_UNLOCK();
 }
 
-static void OpenXIMCallback(Display *display, XPointer client_data, XPointer call_data) {
-    XIMCallback ximCallback;
+stbtic void OpenXIMCbllbbck(Displby *displby, XPointer client_dbtb, XPointer cbll_dbtb) {
+    XIMCbllbbck ximCbllbbck;
 
-    X11im = XOpenIM(display, NULL, NULL, NULL);
+    X11im = XOpenIM(displby, NULL, NULL, NULL);
     if (X11im == NULL) {
         return;
     }
 
-    ximCallback.callback = (XIMProc)DestroyXIMCallback;
-    ximCallback.client_data = NULL;
-    XSetIMValues(X11im, XNDestroyCallback, &ximCallback, NULL);
+    ximCbllbbck.cbllbbck = (XIMProc)DestroyXIMCbllbbck;
+    ximCbllbbck.client_dbtb = NULL;
+    XSetIMVblues(X11im, XNDestroyCbllbbck, &ximCbllbbck, NULL);
 }
 
-static void DestroyXIMCallback(XIM im, XPointer client_data, XPointer call_data) {
-    /* mark that XIM server was destroyed */
+stbtic void DestroyXIMCbllbbck(XIM im, XPointer client_dbtb, XPointer cbll_dbtb) {
+    /* mbrk thbt XIM server wbs destroyed */
     X11im = NULL;
     JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    /* free the old pX11IMData and set it to null. this also avoids crashing
-     * the jvm if the XIM server reappears */
-    X11InputMethodData *pX11IMData = getX11InputMethodData(env, currentX11InputMethodInstance);
+    /* free the old pX11IMDbtb bnd set it to null. this blso bvoids crbshing
+     * the jvm if the XIM server rebppebrs */
+    X11InputMethodDbtb *pX11IMDbtb = getX11InputMethodDbtb(env, currentX11InputMethodInstbnce);
 }
 
 /*
- * Class:     sun_awt_X11InputMethod
+ * Clbss:     sun_bwt_X11InputMethod
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 
-/* This function gets called from the static initializer for
-   X11InputMethod.java
-   to initialize the fieldIDs for fields that may be accessed from C */
+/* This function gets cblled from the stbtic initiblizer for
+   X11InputMethod.jbvb
+   to initiblize the fieldIDs for fields thbt mby be bccessed from C */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11InputMethod_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_X11InputMethod_initIDs(JNIEnv *env, jclbss cls)
 {
-    x11InputMethodIDs.pData = (*env)->GetFieldID(env, cls, "pData", "J");
+    x11InputMethodIDs.pDbtb = (*env)->GetFieldID(env, cls, "pDbtb", "J");
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11_XInputMethod_openXIMNative(JNIEnv *env,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_X11_XInputMethod_openXIMNbtive(JNIEnv *env,
                                           jobject this,
-                                          jlong display)
+                                          jlong displby)
 {
     Bool registered;
 
     AWT_LOCK();
 
-    dpy = (Display *)jlong_to_ptr(display);
+    dpy = (Displby *)jlong_to_ptr(displby);
 
-/* Use IMInstantiate call back only on Linux, as there is a bug in Solaris
+/* Use IMInstbntibte cbll bbck only on Linux, bs there is b bug in Solbris
    (4768335)
 */
 #if defined(__linux__) || defined(MACOSX)
-    registered = XRegisterIMInstantiateCallback(dpy, NULL, NULL,
-                     NULL, (XIDProc)OpenXIMCallback, NULL);
+    registered = XRegisterIMInstbntibteCbllbbck(dpy, NULL, NULL,
+                     NULL, (XIDProc)OpenXIMCbllbbck, NULL);
     if (!registered) {
-        /* directly call openXIM callback */
+        /* directly cbll openXIM cbllbbck */
 #endif
-        OpenXIMCallback(dpy, NULL, NULL);
+        OpenXIMCbllbbck(dpy, NULL, NULL);
 #if defined(__linux__) || defined(MACOSX)
     }
 #endif
@@ -1370,13 +1370,13 @@ Java_sun_awt_X11_XInputMethod_openXIMNative(JNIEnv *env,
     return JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11_XInputMethod_createXICNative(JNIEnv *env,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_X11_XInputMethod_crebteXICNbtive(JNIEnv *env,
                                                   jobject this,
                                                   jlong window)
 {
-    X11InputMethodData *pX11IMData;
-    jobject globalRef;
+    X11InputMethodDbtb *pX11IMDbtb;
+    jobject globblRef;
     XIC ic;
 
     AWT_LOCK();
@@ -1387,48 +1387,48 @@ Java_sun_awt_X11_XInputMethod_createXICNative(JNIEnv *env,
         return JNI_FALSE;
     }
 
-    pX11IMData = (X11InputMethodData *) calloc(1, sizeof(X11InputMethodData));
-    if (pX11IMData == NULL) {
+    pX11IMDbtb = (X11InputMethodDbtb *) cblloc(1, sizeof(X11InputMethodDbtb));
+    if (pX11IMDbtb == NULL) {
         THROW_OUT_OF_MEMORY_ERROR();
         AWT_UNLOCK();
         return JNI_FALSE;
     }
 
-    globalRef = (*env)->NewGlobalRef(env, this);
-    pX11IMData->x11inputmethod = globalRef;
+    globblRef = (*env)->NewGlobblRef(env, this);
+    pX11IMDbtb->x11inputmethod = globblRef;
 #if defined(__linux__) || defined(MACOSX)
-    pX11IMData->statusWindow = NULL;
+    pX11IMDbtb->stbtusWindow = NULL;
 #endif /* __linux__ || MACOSX */
 
-    pX11IMData->lookup_buf = 0;
-    pX11IMData->lookup_buf_len = 0;
+    pX11IMDbtb->lookup_buf = 0;
+    pX11IMDbtb->lookup_buf_len = 0;
 
-    if (createXIC(env, pX11IMData, (Window)window) == False) {
-        destroyX11InputMethodData((JNIEnv *) NULL, pX11IMData);
-        pX11IMData = (X11InputMethodData *) NULL;
+    if (crebteXIC(env, pX11IMDbtb, (Window)window) == Fblse) {
+        destroyX11InputMethodDbtb((JNIEnv *) NULL, pX11IMDbtb);
+        pX11IMDbtb = (X11InputMethodDbtb *) NULL;
         if ((*env)->ExceptionCheck(env)) {
-            goto finally;
+            goto finblly;
         }
     }
 
-    setX11InputMethodData(env, this, pX11IMData);
+    setX11InputMethodDbtb(env, this, pX11IMDbtb);
 
-finally:
+finblly:
     AWT_UNLOCK();
-    return (pX11IMData != NULL);
+    return (pX11IMDbtb != NULL);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XInputMethod_setXICFocusNative(JNIEnv *env,
+Jbvb_sun_bwt_X11_XInputMethod_setXICFocusNbtive(JNIEnv *env,
                                               jobject this,
                                               jlong w,
-                                              jboolean req,
-                                              jboolean active)
+                                              jboolebn req,
+                                              jboolebn bctive)
 {
-    X11InputMethodData *pX11IMData;
+    X11InputMethodDbtb *pX11IMDbtb;
     AWT_LOCK();
-    pX11IMData = getX11InputMethodData(env, this);
-    if (pX11IMData == NULL) {
+    pX11IMDbtb = getX11InputMethodDbtb(env, this);
+    if (pX11IMDbtb == NULL) {
         AWT_UNLOCK();
         return;
     }
@@ -1438,30 +1438,30 @@ Java_sun_awt_X11_XInputMethod_setXICFocusNative(JNIEnv *env,
             AWT_UNLOCK();
             return;
         }
-        pX11IMData->current_ic = active ?
-                        pX11IMData->ic_active : pX11IMData->ic_passive;
+        pX11IMDbtb->current_ic = bctive ?
+                        pX11IMDbtb->ic_bctive : pX11IMDbtb->ic_pbssive;
         /*
-         * On Solaris2.6, setXICWindowFocus() has to be invoked
+         * On Solbris2.6, setXICWindowFocus() hbs to be invoked
          * before setting focus.
          */
-        setXICWindowFocus(pX11IMData->current_ic, w);
-        setXICFocus(pX11IMData->current_ic, req);
-        currentX11InputMethodInstance = pX11IMData->x11inputmethod;
+        setXICWindowFocus(pX11IMDbtb->current_ic, w);
+        setXICFocus(pX11IMDbtb->current_ic, req);
+        currentX11InputMethodInstbnce = pX11IMDbtb->x11inputmethod;
         currentFocusWindow =  w;
 #if defined(__linux__) || defined(MACOSX)
-        if (active && pX11IMData->statusWindow && pX11IMData->statusWindow->on)
-            onoffStatusWindow(pX11IMData, w, True);
+        if (bctive && pX11IMDbtb->stbtusWindow && pX11IMDbtb->stbtusWindow->on)
+            onoffStbtusWindow(pX11IMDbtb, w, True);
 #endif
     } else {
-        currentX11InputMethodInstance = NULL;
+        currentX11InputMethodInstbnce = NULL;
         currentFocusWindow = 0;
 #if defined(__linux__) || defined(MACOSX)
-        onoffStatusWindow(pX11IMData, 0, False);
-        if (pX11IMData->current_ic != NULL)
+        onoffStbtusWindow(pX11IMDbtb, 0, Fblse);
+        if (pX11IMDbtb->current_ic != NULL)
 #endif
-        setXICFocus(pX11IMData->current_ic, req);
+        setXICFocus(pX11IMDbtb->current_ic, req);
 
-        pX11IMData->current_ic = (XIC)0;
+        pX11IMDbtb->current_ic = (XIC)0;
     }
 
     XFlush(dpy);
@@ -1469,90 +1469,90 @@ Java_sun_awt_X11_XInputMethod_setXICFocusNative(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11InputMethod_turnoffStatusWindow(JNIEnv *env,
+Jbvb_sun_bwt_X11InputMethod_turnoffStbtusWindow(JNIEnv *env,
                                                 jobject this)
 {
 #if defined(__linux__) || defined(MACOSX)
-    X11InputMethodData *pX11IMData;
-    StatusWindow *statusWindow;
+    X11InputMethodDbtb *pX11IMDbtb;
+    StbtusWindow *stbtusWindow;
 
     AWT_LOCK();
 
-    if (NULL == currentX11InputMethodInstance
-        || !isX11InputMethodGRefInList(currentX11InputMethodInstance)
-        || NULL == (pX11IMData = getX11InputMethodData(env,currentX11InputMethodInstance))
-        || NULL == (statusWindow = pX11IMData->statusWindow)
-        || !statusWindow->on ){
+    if (NULL == currentX11InputMethodInstbnce
+        || !isX11InputMethodGRefInList(currentX11InputMethodInstbnce)
+        || NULL == (pX11IMDbtb = getX11InputMethodDbtb(env,currentX11InputMethodInstbnce))
+        || NULL == (stbtusWindow = pX11IMDbtb->stbtusWindow)
+        || !stbtusWindow->on ){
         AWT_UNLOCK();
         return;
     }
-    onoffStatusWindow(pX11IMData, 0, False);
+    onoffStbtusWindow(pX11IMDbtb, 0, Fblse);
 
     AWT_UNLOCK();
 #endif
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11InputMethod_disposeXIC(JNIEnv *env,
+Jbvb_sun_bwt_X11InputMethod_disposeXIC(JNIEnv *env,
                                              jobject this)
 {
-    X11InputMethodData *pX11IMData = NULL;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
 
     AWT_LOCK();
-    pX11IMData = getX11InputMethodData(env, this);
-    if (pX11IMData == NULL) {
+    pX11IMDbtb = getX11InputMethodDbtb(env, this);
+    if (pX11IMDbtb == NULL) {
         AWT_UNLOCK();
         return;
     }
 
-    setX11InputMethodData(env, this, NULL);
+    setX11InputMethodDbtb(env, this, NULL);
 
-    if (pX11IMData->x11inputmethod == currentX11InputMethodInstance) {
-        currentX11InputMethodInstance = NULL;
+    if (pX11IMDbtb->x11inputmethod == currentX11InputMethodInstbnce) {
+        currentX11InputMethodInstbnce = NULL;
         currentFocusWindow = 0;
     }
-    destroyX11InputMethodData(env, pX11IMData);
+    destroyX11InputMethodDbtb(env, pX11IMDbtb);
     AWT_UNLOCK();
 }
 
 JNIEXPORT jstring JNICALL
-Java_sun_awt_X11InputMethod_resetXIC(JNIEnv *env,
+Jbvb_sun_bwt_X11InputMethod_resetXIC(JNIEnv *env,
                                            jobject this)
 {
-    X11InputMethodData *pX11IMData;
-    char *xText = NULL;
+    X11InputMethodDbtb *pX11IMDbtb;
+    chbr *xText = NULL;
     jstring jText = (jstring)0;
 
     AWT_LOCK();
-    pX11IMData = getX11InputMethodData(env, this);
-    if (pX11IMData == NULL) {
+    pX11IMDbtb = getX11InputMethodDbtb(env, this);
+    if (pX11IMDbtb == NULL) {
         AWT_UNLOCK();
         return jText;
     }
 
-    if (pX11IMData->current_ic)
-        xText = XmbResetIC(pX11IMData->current_ic);
+    if (pX11IMDbtb->current_ic)
+        xText = XmbResetIC(pX11IMDbtb->current_ic);
     else {
         /*
          * If there is no reference to the current XIC, try to reset both XICs.
          */
-        xText = XmbResetIC(pX11IMData->ic_active);
-        /*it may also means that the real client component does
-          not have focus -- has been deactivated... its xic should
-          not have the focus, bug#4284651 showes reset XIC for htt
-          may bring the focus back, so de-focus it again.
+        xText = XmbResetIC(pX11IMDbtb->ic_bctive);
+        /*it mby blso mebns thbt the rebl client component does
+          not hbve focus -- hbs been debctivbted... its xic should
+          not hbve the focus, bug#4284651 showes reset XIC for htt
+          mby bring the focus bbck, so de-focus it bgbin.
         */
-        setXICFocus(pX11IMData->ic_active, FALSE);
-        if (pX11IMData->ic_active != pX11IMData->ic_passive) {
-            char *tmpText = XmbResetIC(pX11IMData->ic_passive);
-            setXICFocus(pX11IMData->ic_passive, FALSE);
-            if (xText == (char *)NULL && tmpText)
+        setXICFocus(pX11IMDbtb->ic_bctive, FALSE);
+        if (pX11IMDbtb->ic_bctive != pX11IMDbtb->ic_pbssive) {
+            chbr *tmpText = XmbResetIC(pX11IMDbtb->ic_pbssive);
+            setXICFocus(pX11IMDbtb->ic_pbssive, FALSE);
+            if (xText == (chbr *)NULL && tmpText)
                 xText = tmpText;
         }
 
     }
     if (xText != NULL) {
-        jText = JNU_NewStringPlatform(env, (const char *)xText);
+        jText = JNU_NewStringPlbtform(env, (const chbr *)xText);
         XFree((void *)xText);
     }
 
@@ -1561,88 +1561,88 @@ Java_sun_awt_X11InputMethod_resetXIC(JNIEnv *env,
 }
 
 /*
- * Class:     sun_awt_X11InputMethod
- * Method:    setCompositionEnabledNative
- * Signature: (ZJ)V
+ * Clbss:     sun_bwt_X11InputMethod
+ * Method:    setCompositionEnbbledNbtive
+ * Signbture: (ZJ)V
  *
- * This method tries to set the XNPreeditState attribute associated with the current
- * XIC to the passed in 'enable' state.
+ * This method tries to set the XNPreeditStbte bttribute bssocibted with the current
+ * XIC to the pbssed in 'enbble' stbte.
  *
- * Return JNI_TRUE if XNPreeditState attribute is successfully changed to the
- * 'enable' state; Otherwise, if XSetICValues fails to set this attribute,
- * java.lang.UnsupportedOperationException will be thrown. JNI_FALSE is returned if this
- * method fails due to other reasons.
+ * Return JNI_TRUE if XNPreeditStbte bttribute is successfully chbnged to the
+ * 'enbble' stbte; Otherwise, if XSetICVblues fbils to set this bttribute,
+ * jbvb.lbng.UnsupportedOperbtionException will be thrown. JNI_FALSE is returned if this
+ * method fbils due to other rebsons.
  *
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11InputMethod_setCompositionEnabledNative
-  (JNIEnv *env, jobject this, jboolean enable)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11InputMethod_setCompositionEnbbledNbtive
+  (JNIEnv *env, jobject this, jboolebn enbble)
 {
-    X11InputMethodData *pX11IMData;
-    char * ret = NULL;
+    X11InputMethodDbtb *pX11IMDbtb;
+    chbr * ret = NULL;
 
     AWT_LOCK();
-    pX11IMData = getX11InputMethodData(env, this);
+    pX11IMDbtb = getX11InputMethodDbtb(env, this);
 
-    if ((pX11IMData == NULL) || (pX11IMData->current_ic == NULL)) {
+    if ((pX11IMDbtb == NULL) || (pX11IMDbtb->current_ic == NULL)) {
         AWT_UNLOCK();
         return JNI_FALSE;
     }
 
-    ret = XSetICValues(pX11IMData->current_ic, XNPreeditState,
-                       (enable ? XIMPreeditEnable : XIMPreeditDisable), NULL);
+    ret = XSetICVblues(pX11IMDbtb->current_ic, XNPreeditStbte,
+                       (enbble ? XIMPreeditEnbble : XIMPreeditDisbble), NULL);
     AWT_UNLOCK();
 
-    if ((ret != 0) && (strcmp(ret, XNPreeditState) == 0)) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException", "");
+    if ((ret != 0) && (strcmp(ret, XNPreeditStbte) == 0)) {
+        JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException", "");
     }
 
-    return (jboolean)(ret == 0);
+    return (jboolebn)(ret == 0);
 }
 
 /*
- * Class:     sun_awt_X11InputMethod
- * Method:    isCompositionEnabledNative
- * Signature: (J)Z
+ * Clbss:     sun_bwt_X11InputMethod
+ * Method:    isCompositionEnbbledNbtive
+ * Signbture: (J)Z
  *
- * This method tries to get the XNPreeditState attribute associated with the current XIC.
+ * This method tries to get the XNPreeditStbte bttribute bssocibted with the current XIC.
  *
- * Return JNI_TRUE if the XNPreeditState is successfully retrieved. Otherwise, if
- * XGetICValues fails to get this attribute, java.lang.UnsupportedOperationException
- * will be thrown. JNI_FALSE is returned if this method fails due to other reasons.
+ * Return JNI_TRUE if the XNPreeditStbte is successfully retrieved. Otherwise, if
+ * XGetICVblues fbils to get this bttribute, jbvb.lbng.UnsupportedOperbtionException
+ * will be thrown. JNI_FALSE is returned if this method fbils due to other rebsons.
  *
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11InputMethod_isCompositionEnabledNative
+JNIEXPORT jboolebn JNICALL Jbvb_sun_bwt_X11InputMethod_isCompositionEnbbledNbtive
   (JNIEnv *env, jobject this)
 {
-    X11InputMethodData *pX11IMData = NULL;
-    char * ret = NULL;
-    XIMPreeditState state;
+    X11InputMethodDbtb *pX11IMDbtb = NULL;
+    chbr * ret = NULL;
+    XIMPreeditStbte stbte;
 
     AWT_LOCK();
-    pX11IMData = getX11InputMethodData(env, this);
+    pX11IMDbtb = getX11InputMethodDbtb(env, this);
 
-    if ((pX11IMData == NULL) || (pX11IMData->current_ic == NULL)) {
+    if ((pX11IMDbtb == NULL) || (pX11IMDbtb->current_ic == NULL)) {
         AWT_UNLOCK();
         return JNI_FALSE;
     }
 
-    ret = XGetICValues(pX11IMData->current_ic, XNPreeditState, &state, NULL);
+    ret = XGetICVblues(pX11IMDbtb->current_ic, XNPreeditStbte, &stbte, NULL);
     AWT_UNLOCK();
 
-    if ((ret != 0) && (strcmp(ret, XNPreeditState) == 0)) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException", "");
+    if ((ret != 0) && (strcmp(ret, XNPreeditStbte) == 0)) {
+        JNU_ThrowByNbme(env, "jbvb/lbng/UnsupportedOperbtionException", "");
         return JNI_FALSE;
     }
 
-    return (jboolean)(state == XIMPreeditEnable);
+    return (jboolebn)(stbte == XIMPreeditEnbble);
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XInputMethod_adjustStatusWindow
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XInputMethod_bdjustStbtusWindow
   (JNIEnv *env, jobject this, jlong window)
 {
 #if defined(__linux__) || defined(MACOSX)
     AWT_LOCK();
-    adjustStatusWindow(window);
+    bdjustStbtusWindow(window);
     AWT_UNLOCK();
 #endif
 }

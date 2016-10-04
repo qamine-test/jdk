@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter.perf;
+pbckbge sun.mbnbgement.counter.perf;
 
-import sun.management.counter.*;
-import java.nio.*;
-import java.io.UnsupportedEncodingException;
+import sun.mbnbgement.counter.*;
+import jbvb.nio.*;
+import jbvb.io.UnsupportedEncodingException;
 
-class PerfDataEntry {
-    private class EntryFieldOffset {
-        private final static int SIZEOF_BYTE = 1;
-        private final static int SIZEOF_INT  = 4;
-        private final static int SIZEOF_LONG = 8;
+clbss PerfDbtbEntry {
+    privbte clbss EntryFieldOffset {
+        privbte finbl stbtic int SIZEOF_BYTE = 1;
+        privbte finbl stbtic int SIZEOF_INT  = 4;
+        privbte finbl stbtic int SIZEOF_LONG = 8;
 
-        private final static int ENTRY_LENGTH_SIZE    = SIZEOF_INT;
-        private final static int NAME_OFFSET_SIZE     = SIZEOF_INT;
-        private final static int VECTOR_LENGTH_SIZE   = SIZEOF_INT;
-        private final static int DATA_TYPE_SIZE       = SIZEOF_BYTE;
-        private final static int FLAGS_SIZE           = SIZEOF_BYTE;
-        private final static int DATA_UNIT_SIZE       = SIZEOF_BYTE;
-        private final static int DATA_VAR_SIZE        = SIZEOF_BYTE;
-        private final static int DATA_OFFSET_SIZE     = SIZEOF_INT;
+        privbte finbl stbtic int ENTRY_LENGTH_SIZE    = SIZEOF_INT;
+        privbte finbl stbtic int NAME_OFFSET_SIZE     = SIZEOF_INT;
+        privbte finbl stbtic int VECTOR_LENGTH_SIZE   = SIZEOF_INT;
+        privbte finbl stbtic int DATA_TYPE_SIZE       = SIZEOF_BYTE;
+        privbte finbl stbtic int FLAGS_SIZE           = SIZEOF_BYTE;
+        privbte finbl stbtic int DATA_UNIT_SIZE       = SIZEOF_BYTE;
+        privbte finbl stbtic int DATA_VAR_SIZE        = SIZEOF_BYTE;
+        privbte finbl stbtic int DATA_OFFSET_SIZE     = SIZEOF_INT;
 
-        final static int ENTRY_LENGTH  = 0;
-        final static int NAME_OFFSET   = ENTRY_LENGTH + ENTRY_LENGTH_SIZE;
-        final static int VECTOR_LENGTH = NAME_OFFSET + NAME_OFFSET_SIZE;;
-        final static int DATA_TYPE     = VECTOR_LENGTH + VECTOR_LENGTH_SIZE;
-        final static int FLAGS         = DATA_TYPE + DATA_TYPE_SIZE;
-        final static int DATA_UNIT     = FLAGS + FLAGS_SIZE;
-        final static int DATA_VAR      = DATA_UNIT + DATA_UNIT_SIZE;
-        final static int DATA_OFFSET   = DATA_VAR + DATA_VAR_SIZE;
+        finbl stbtic int ENTRY_LENGTH  = 0;
+        finbl stbtic int NAME_OFFSET   = ENTRY_LENGTH + ENTRY_LENGTH_SIZE;
+        finbl stbtic int VECTOR_LENGTH = NAME_OFFSET + NAME_OFFSET_SIZE;;
+        finbl stbtic int DATA_TYPE     = VECTOR_LENGTH + VECTOR_LENGTH_SIZE;
+        finbl stbtic int FLAGS         = DATA_TYPE + DATA_TYPE_SIZE;
+        finbl stbtic int DATA_UNIT     = FLAGS + FLAGS_SIZE;
+        finbl stbtic int DATA_VAR      = DATA_UNIT + DATA_UNIT_SIZE;
+        finbl stbtic int DATA_OFFSET   = DATA_VAR + DATA_VAR_SIZE;
     }
 
-    private String       name;
-    private int          entryStart;
-    private int          entryLength;
-    private int          vectorLength;
-    private PerfDataType dataType;
-    private int          flags;
-    private Units        unit;
-    private Variability  variability;
-    private int          dataOffset;
-    private int          dataSize;
-    private ByteBuffer   data;
+    privbte String       nbme;
+    privbte int          entryStbrt;
+    privbte int          entryLength;
+    privbte int          vectorLength;
+    privbte PerfDbtbType dbtbType;
+    privbte int          flbgs;
+    privbte Units        unit;
+    privbte Vbribbility  vbribbility;
+    privbte int          dbtbOffset;
+    privbte int          dbtbSize;
+    privbte ByteBuffer   dbtb;
 
-    PerfDataEntry(ByteBuffer b) {
-        entryStart = b.position();
+    PerfDbtbEntry(ByteBuffer b) {
+        entryStbrt = b.position();
         entryLength = b.getInt();
 
-        // check for valid entry length
+        // check for vblid entry length
         if (entryLength <= 0 || entryLength > b.limit()) {
-            throw new InstrumentationException("Invalid entry length: " +
+            throw new InstrumentbtionException("Invblid entry length: " +
                                                " entryLength = " + entryLength);
         }
-        // check if last entry occurs before the eof.
-        if ((entryStart + entryLength) > b.limit()) {
-            throw new InstrumentationException("Entry extends beyond end of buffer: " +
-                                               " entryStart = " + entryStart +
+        // check if lbst entry occurs before the eof.
+        if ((entryStbrt + entryLength) > b.limit()) {
+            throw new InstrumentbtionException("Entry extends beyond end of buffer: " +
+                                               " entryStbrt = " + entryStbrt +
                                                " entryLength = " + entryLength +
                                                " buffer limit = " + b.limit());
         }
 
-        b.position(entryStart + EntryFieldOffset.NAME_OFFSET);
-        int nameOffset = b.getInt();
+        b.position(entryStbrt + EntryFieldOffset.NAME_OFFSET);
+        int nbmeOffset = b.getInt();
 
-        if ((entryStart + nameOffset) > b.limit()) {
-            throw new InstrumentationException("Invalid name offset: " +
-                                               " entryStart = " + entryStart +
-                                               " nameOffset = " + nameOffset +
+        if ((entryStbrt + nbmeOffset) > b.limit()) {
+            throw new InstrumentbtionException("Invblid nbme offset: " +
+                                               " entryStbrt = " + entryStbrt +
+                                               " nbmeOffset = " + nbmeOffset +
                                                " buffer limit = " + b.limit());
         }
 
 
-        b.position(entryStart + EntryFieldOffset.VECTOR_LENGTH);
+        b.position(entryStbrt + EntryFieldOffset.VECTOR_LENGTH);
         vectorLength = b.getInt();
 
-        b.position(entryStart + EntryFieldOffset.DATA_TYPE);
-        dataType = PerfDataType.toPerfDataType(b.get());
+        b.position(entryStbrt + EntryFieldOffset.DATA_TYPE);
+        dbtbType = PerfDbtbType.toPerfDbtbType(b.get());
 
-        b.position(entryStart + EntryFieldOffset.FLAGS);
-        flags = b.get();
+        b.position(entryStbrt + EntryFieldOffset.FLAGS);
+        flbgs = b.get();
 
-        b.position(entryStart + EntryFieldOffset.DATA_UNIT);
+        b.position(entryStbrt + EntryFieldOffset.DATA_UNIT);
         unit = Units.toUnits(b.get());
 
-        b.position(entryStart + EntryFieldOffset.DATA_VAR);
-        variability = Variability.toVariability(b.get());
+        b.position(entryStbrt + EntryFieldOffset.DATA_VAR);
+        vbribbility = Vbribbility.toVbribbility(b.get());
 
-        b.position(entryStart + EntryFieldOffset.DATA_OFFSET);
-        dataOffset = b.getInt();
+        b.position(entryStbrt + EntryFieldOffset.DATA_OFFSET);
+        dbtbOffset = b.getInt();
 
-        // read in the perfData item name, casting bytes to chars. skip the
-        // null terminator
-        b.position(entryStart + nameOffset);
-        // calculate the length of the name
-        int nameLength = 0;
+        // rebd in the perfDbtb item nbme, cbsting bytes to chbrs. skip the
+        // null terminbtor
+        b.position(entryStbrt + nbmeOffset);
+        // cblculbte the length of the nbme
+        int nbmeLength = 0;
         byte c;
-        for (; (c = b.get()) != (byte)0; nameLength++);
+        for (; (c = b.get()) != (byte)0; nbmeLength++);
 
-        byte[] symbolBytes = new byte[nameLength];
-        b.position(entryStart + nameOffset);
-        for (int i = 0; i < nameLength; i++) {
+        byte[] symbolBytes = new byte[nbmeLength];
+        b.position(entryStbrt + nbmeOffset);
+        for (int i = 0; i < nbmeLength; i++) {
             symbolBytes[i] = b.get();
         }
 
-        // convert name into a String
+        // convert nbme into b String
         try {
-            name = new String(symbolBytes, "UTF-8");
+            nbme = new String(symbolBytes, "UTF-8");
         }
-        catch (UnsupportedEncodingException e) {
-            // should not reach here
-            // "UTF-8" is always a known encoding
-            throw new InternalError(e.getMessage(), e);
+        cbtch (UnsupportedEncodingException e) {
+            // should not rebch here
+            // "UTF-8" is blwbys b known encoding
+            throw new InternblError(e.getMessbge(), e);
         }
 
-        if (variability == Variability.INVALID) {
-            throw new InstrumentationException("Invalid variability attribute:" +
-                                               " name = " + name);
+        if (vbribbility == Vbribbility.INVALID) {
+            throw new InstrumentbtionException("Invblid vbribbility bttribute:" +
+                                               " nbme = " + nbme);
         }
         if (unit == Units.INVALID) {
-            throw new InstrumentationException("Invalid units attribute: " +
-                                               " name = " + name);
+            throw new InstrumentbtionException("Invblid units bttribute: " +
+                                               " nbme = " + nbme);
         }
 
         if (vectorLength > 0) {
-            dataSize = vectorLength * dataType.size();
+            dbtbSize = vectorLength * dbtbType.size();
         } else {
-            dataSize = dataType.size();
+            dbtbSize = dbtbType.size();
         }
 
-        // check if data beyond the eof.
-        if ((entryStart + dataOffset + dataSize) > b.limit()) {
-            throw new InstrumentationException("Data extends beyond end of buffer: " +
-                                               " entryStart = " + entryStart +
-                                               " dataOffset = " + dataOffset+
-                                               " dataSize = " + dataSize +
+        // check if dbtb beyond the eof.
+        if ((entryStbrt + dbtbOffset + dbtbSize) > b.limit()) {
+            throw new InstrumentbtionException("Dbtb extends beyond end of buffer: " +
+                                               " entryStbrt = " + entryStbrt +
+                                               " dbtbOffset = " + dbtbOffset+
+                                               " dbtbSize = " + dbtbSize +
                                                " buffer limit = " + b.limit());
         }
-        // Construct a ByteBuffer for the data
-        b.position(entryStart + dataOffset);
-        data = b.slice();
-        data.order(b.order());
-        data.limit(dataSize);
+        // Construct b ByteBuffer for the dbtb
+        b.position(entryStbrt + dbtbOffset);
+        dbtb = b.slice();
+        dbtb.order(b.order());
+        dbtb.limit(dbtbSize);
     }
 
 
@@ -171,41 +171,41 @@ class PerfDataEntry {
         return entryLength;
     }
 
-    public String name() {
-        return name;
+    public String nbme() {
+        return nbme;
     }
 
-    public PerfDataType type() {
-        return dataType;
+    public PerfDbtbType type() {
+        return dbtbType;
     }
 
     public Units units() {
         return unit;
     }
 
-    public int flags() {
-        return flags;
+    public int flbgs() {
+        return flbgs;
     }
 
     /**
-     * Returns the number of elements in the data.
+     * Returns the number of elements in the dbtb.
      */
     public int vectorLength() {
         return vectorLength;
     }
 
-    public Variability variability() {
-        return variability;
+    public Vbribbility vbribbility() {
+        return vbribbility;
     }
 
-    public ByteBuffer byteData() {
-        data.position(0);
-        assert data.remaining() == vectorLength();
-        return data.duplicate();
+    public ByteBuffer byteDbtb() {
+        dbtb.position(0);
+        bssert dbtb.rembining() == vectorLength();
+        return dbtb.duplicbte();
     }
 
-    public LongBuffer longData() {
-        LongBuffer lb = data.asLongBuffer();
+    public LongBuffer longDbtb() {
+        LongBuffer lb = dbtb.bsLongBuffer();
         return lb;
     }
 }

@@ -1,1818 +1,1818 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE supplementalData SYSTEM "../../common/dtd/ldmlSupplemental.dtd">
-<supplementalData>
+<!DOCTYPE supplementblDbtb SYSTEM "../../common/dtd/ldmlSupplementbl.dtd">
+<supplementblDbtb>
 	<version number="$Revision: 6627 $"/>
-	<generation date="$Date: 2012-03-02 15:33:49 +0900 (Fri, 02 Mar 2012) $"/>
+	<generbtion dbte="$Dbte: 2012-03-02 15:33:49 +0900 (Fri, 02 Mbr 2012) $"/>
 
-	<metaZones>
-		<metazoneInfo>
-			<timezone type="Africa/Abidjan">
-				<usesMetazone mzone="GMT"/>
+	<metbZones>
+		<metbzoneInfo>
+			<timezone type="Africb/Abidjbn">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Accra">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Accrb">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Addis_Ababa">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Africb/Addis_Abbbb">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Algiers">
-				<usesMetazone to="1977-10-20 23:00" mzone="Europe_Western"/>
-				<usesMetazone to="1979-10-25 23:00" from="1977-10-20 23:00" mzone="Europe_Central"/>
-				<usesMetazone to="1981-05-01 00:00" from="1979-10-25 23:00" mzone="Europe_Western"/>
-				<usesMetazone from="1981-05-01 00:00" mzone="Europe_Central"/>
+			<timezone type="Africb/Algiers">
+				<usesMetbzone to="1977-10-20 23:00" mzone="Europe_Western"/>
+				<usesMetbzone to="1979-10-25 23:00" from="1977-10-20 23:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone to="1981-05-01 00:00" from="1979-10-25 23:00" mzone="Europe_Western"/>
+				<usesMetbzone from="1981-05-01 00:00" mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Asmera">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Africb/Asmerb">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Bamako">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Bbmbko">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Bangui">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Bbngui">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Banjul">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Bbnjul">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Bissau">
-				<usesMetazone to="1975-01-01 01:00" mzone="Africa_FarWestern"/>
-				<usesMetazone from="1975-01-01 01:00" mzone="GMT"/>
+			<timezone type="Africb/Bissbu">
+				<usesMetbzone to="1975-01-01 01:00" mzone="Africb_FbrWestern"/>
+				<usesMetbzone from="1975-01-01 01:00" mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Blantyre">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Blbntyre">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Brazzaville">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Brbzzbville">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Bujumbura">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Bujumburb">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Cairo">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Africb/Cbiro">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Casablanca">
-				<usesMetazone to="1984-03-16 00:00" mzone="Europe_Western"/>
-				<usesMetazone to="1985-12-31 23:00" from="1984-03-16 00:00" mzone="Europe_Central"/>
-				<usesMetazone from="1985-12-31 23:00" mzone="Europe_Western"/>
+			<timezone type="Africb/Cbsbblbncb">
+				<usesMetbzone to="1984-03-16 00:00" mzone="Europe_Western"/>
+				<usesMetbzone to="1985-12-31 23:00" from="1984-03-16 00:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone from="1985-12-31 23:00" mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Africa/Ceuta">
-				<usesMetazone to="1984-03-16 00:00" mzone="Europe_Western"/>
-				<usesMetazone from="1984-03-16 00:00" mzone="Europe_Central"/>
+			<timezone type="Africb/Ceutb">
+				<usesMetbzone to="1984-03-16 00:00" mzone="Europe_Western"/>
+				<usesMetbzone from="1984-03-16 00:00" mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Conakry">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Conbkry">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Dakar">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Dbkbr">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Dar_es_Salaam">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Africb/Dbr_es_Sblbbm">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Djibouti">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Africb/Djibouti">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Douala">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Doublb">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/El_Aaiun">
-				<usesMetazone to="1976-04-14 01:00" mzone="Africa_FarWestern"/>
-				<usesMetazone from="1976-04-14 01:00" mzone="Europe_Western"/>
+			<timezone type="Africb/El_Abiun">
+				<usesMetbzone to="1976-04-14 01:00" mzone="Africb_FbrWestern"/>
+				<usesMetbzone from="1976-04-14 01:00" mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Africa/Freetown">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Freetown">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Gaborone">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Gbborone">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Harare">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Hbrbre">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Johannesburg">
-				<usesMetazone mzone="Africa_Southern"/>
+			<timezone type="Africb/Johbnnesburg">
+				<usesMetbzone mzone="Africb_Southern"/>
 			</timezone>
-			<timezone type="Africa/Juba">
-				<usesMetazone to="2000-01-15 10:00" mzone="Africa_Central"/>
-				<usesMetazone from="2000-01-15 10:00" mzone="Africa_Eastern"/>
+			<timezone type="Africb/Jubb">
+				<usesMetbzone to="2000-01-15 10:00" mzone="Africb_Centrbl"/>
+				<usesMetbzone from="2000-01-15 10:00" mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Kampala">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Africb/Kbmpblb">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Khartoum">
-				<usesMetazone to="2000-01-15 10:00" mzone="Africa_Central"/>
-				<usesMetazone from="2000-01-15 10:00" mzone="Africa_Eastern"/>
+			<timezone type="Africb/Khbrtoum">
+				<usesMetbzone to="2000-01-15 10:00" mzone="Africb_Centrbl"/>
+				<usesMetbzone from="2000-01-15 10:00" mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Kigali">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Kigbli">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Kinshasa">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Kinshbsb">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Lagos">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Lbgos">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Libreville">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Libreville">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Lome">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Lome">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Luanda">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Lubndb">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Lubumbashi">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Lubumbbshi">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Lusaka">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Lusbkb">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Malabo">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Mblbbo">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Maputo">
-				<usesMetazone mzone="Africa_Central"/>
+			<timezone type="Africb/Mbputo">
+				<usesMetbzone mzone="Africb_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Maseru">
-				<usesMetazone mzone="Africa_Southern"/>
+			<timezone type="Africb/Mbseru">
+				<usesMetbzone mzone="Africb_Southern"/>
 			</timezone>
-			<timezone type="Africa/Mbabane">
-				<usesMetazone mzone="Africa_Southern"/>
+			<timezone type="Africb/Mbbbbne">
+				<usesMetbzone mzone="Africb_Southern"/>
 			</timezone>
-			<timezone type="Africa/Mogadishu">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</timezone>
-			<timezone type="Africa/Monrovia">
-				<usesMetazone mzone="Liberia" to="1972-05-01 00:45"/>
-				<usesMetazone mzone="GMT" from="1972-05-01 00:45"/>
-			</timezone>
-			<timezone type="Africa/Nairobi">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</timezone>
-			<timezone type="Africa/Ndjamena">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Mogbdishu">
+				<usesMetbzone mzone="Africb_Ebstern"/>
+			</timezone>
+			<timezone type="Africb/Monrovib">
+				<usesMetbzone mzone="Liberib" to="1972-05-01 00:45"/>
+				<usesMetbzone mzone="GMT" from="1972-05-01 00:45"/>
+			</timezone>
+			<timezone type="Africb/Nbirobi">
+				<usesMetbzone mzone="Africb_Ebstern"/>
+			</timezone>
+			<timezone type="Africb/Ndjbmenb">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Niamey">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Nibmey">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Nouakchott">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Noubkchott">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Ouagadougou">
-				<usesMetazone mzone="GMT"/>
-			</timezone>
-			<timezone type="Africa/Porto-Novo">
-				<usesMetazone mzone="Africa_Western"/>
+			<timezone type="Africb/Oubgbdougou">
+				<usesMetbzone mzone="GMT"/>
+			</timezone>
+			<timezone type="Africb/Porto-Novo">
+				<usesMetbzone mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="Africa/Sao_Tome">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Africb/Sbo_Tome">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Africa/Tripoli">
-				<usesMetazone to="1981-12-31 22:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1990-05-03 23:00" from="1981-12-31 22:00" mzone="Europe_Central"/>
-				<usesMetazone to="1996-09-29 22:00" from="1990-05-03 23:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1997-10-03 22:00" from="1996-09-29 22:00" mzone="Europe_Central"/>
-				<usesMetazone from="1997-10-03 22:00" mzone="Europe_Eastern"/>
+			<timezone type="Africb/Tripoli">
+				<usesMetbzone to="1981-12-31 22:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone to="1990-05-03 23:00" from="1981-12-31 22:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone to="1996-09-29 22:00" from="1990-05-03 23:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone to="1997-10-03 22:00" from="1996-09-29 22:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone from="1997-10-03 22:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Africa/Tunis">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Africb/Tunis">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Africa/Windhoek">
-				<usesMetazone to="1990-03-20 22:00" mzone="Africa_Southern"/>
-				<usesMetazone to="1994-04-02 22:00" from="1990-03-20 22:00" mzone="Africa_Central"/>
-				<usesMetazone from="1994-04-02 22:00" mzone="Africa_Western"/>
+			<timezone type="Africb/Windhoek">
+				<usesMetbzone to="1990-03-20 22:00" mzone="Africb_Southern"/>
+				<usesMetbzone to="1994-04-02 22:00" from="1990-03-20 22:00" mzone="Africb_Centrbl"/>
+				<usesMetbzone from="1994-04-02 22:00" mzone="Africb_Western"/>
 			</timezone>
-			<timezone type="America/Adak">
-				<usesMetazone to="1983-10-30 12:00" mzone="Bering"/>
-				<!-- <usesMetazone to="1983-11-30 10:00"  from="1983-10-30 12:00" mzone="Alaska_Hawaii"/> -->
-				<usesMetazone from="1983-11-30 10:00" mzone="Hawaii_Aleutian"/>
+			<timezone type="Americb/Adbk">
+				<usesMetbzone to="1983-10-30 12:00" mzone="Bering"/>
+				<!-- <usesMetbzone to="1983-11-30 10:00"  from="1983-10-30 12:00" mzone="Albskb_Hbwbii"/> -->
+				<usesMetbzone from="1983-11-30 10:00" mzone="Hbwbii_Aleutibn"/>
 			</timezone>
-			<timezone type="America/Anchorage">
-				<usesMetazone to="1983-10-30 11:00" mzone="Alaska_Hawaii"/>
-				<usesMetazone to="1983-11-30 09:00" from="1983-10-30 11:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30 09:00" mzone="Alaska"/>
+			<timezone type="Americb/Anchorbge">
+				<usesMetbzone to="1983-10-30 11:00" mzone="Albskb_Hbwbii"/>
+				<usesMetbzone to="1983-11-30 09:00" from="1983-10-30 11:00" mzone="Yukon"/>
+				<usesMetbzone from="1983-11-30 09:00" mzone="Albskb"/>
 			</timezone>
-			<timezone type="America/Anguilla">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Anguillb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Antigua">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Antigub">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Araguaina">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Arbgubinb">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Argentina/La_Rioja">
-				<usesMetazone to="1991-03-01 02:00" mzone="Argentina"/>
-				<usesMetazone to="1991-05-07 04:00" from="1991-03-01 02:00" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-06-01 03:00" from="1991-05-07 04:00" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Lb_Riojb">
+				<usesMetbzone to="1991-03-01 02:00" mzone="Argentinb"/>
+				<usesMetbzone to="1991-05-07 04:00" from="1991-03-01 02:00" mzone="Argentinb_Western"/>
+				<usesMetbzone to="2004-06-01 03:00" from="1991-05-07 04:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone from="2004-06-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Argentina/Rio_Gallegos">
-				<usesMetazone to="2004-06-01 03:00" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Rio_Gbllegos">
+				<usesMetbzone to="2004-06-01 03:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone from="2004-06-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Argentina/Salta">
-				<usesMetazone to="1991-03-03 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone from="1991-10-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Sbltb">
+				<usesMetbzone to="1991-03-03 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone from="1991-10-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Argentina/San_Juan">
-				<usesMetazone to="1991-03-01 02:00" mzone="Argentina"/>
-				<usesMetazone to="1991-05-07 04:00" from="1991-03-01 02:00" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-05-31 03:00" from="1991-05-07 04:00" mzone="Argentina"/>
-				<usesMetazone to="2004-07-25 04:00" from="2004-05-31 03:00" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-07-25 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Sbn_Jubn">
+				<usesMetbzone to="1991-03-01 02:00" mzone="Argentinb"/>
+				<usesMetbzone to="1991-05-07 04:00" from="1991-03-01 02:00" mzone="Argentinb_Western"/>
+				<usesMetbzone to="2004-05-31 03:00" from="1991-05-07 04:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-07-25 04:00" from="2004-05-31 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone from="2004-07-25 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Argentina/San_Luis">
-				<usesMetazone to="1990-03-14 02:00" mzone="Argentina"/>
-				<usesMetazone to="1991-06-01 04:00" from="1990-03-14 02:00" mzone="Argentina_Western"/>
-				<usesMetazone to="1999-10-03 03:00" from="1991-06-01 04:00" mzone="Argentina"/>
-				<usesMetazone to="2000-03-03 03:00" from="1999-10-03 03:00" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-05-31 03:00" from="2000-03-03 03:00" mzone="Argentina"/>
-				<usesMetazone to="2004-07-25 04:00" from="2004-05-31 03:00" mzone="Argentina_Western"/>
-				<usesMetazone to="2008-01-21 02:00" from="2004-07-25 04:00" mzone="Argentina"/>
-				<usesMetazone from="2008-01-21 02:00" mzone="Argentina_Western"/>
+			<timezone type="Americb/Argentinb/Sbn_Luis">
+				<usesMetbzone to="1990-03-14 02:00" mzone="Argentinb"/>
+				<usesMetbzone to="1991-06-01 04:00" from="1990-03-14 02:00" mzone="Argentinb_Western"/>
+				<usesMetbzone to="1999-10-03 03:00" from="1991-06-01 04:00" mzone="Argentinb"/>
+				<usesMetbzone to="2000-03-03 03:00" from="1999-10-03 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone to="2004-05-31 03:00" from="2000-03-03 03:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-07-25 04:00" from="2004-05-31 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone to="2008-01-21 02:00" from="2004-07-25 04:00" mzone="Argentinb"/>
+				<usesMetbzone from="2008-01-21 02:00" mzone="Argentinb_Western"/>
 			</timezone>
-			<timezone type="America/Argentina/Tucuman">
-				<usesMetazone to="1991-03-03 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone to="2004-06-01 03:00" from="1991-10-20 04:00" mzone="Argentina"/>
-				<usesMetazone to="2004-06-13 04:00" from="2004-06-01 03:00" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-13 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Tucumbn">
+				<usesMetbzone to="1991-03-03 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone to="2004-06-01 03:00" from="1991-10-20 04:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-06-13 04:00" from="2004-06-01 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone from="2004-06-13 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Argentina/Ushuaia">
-				<usesMetazone to="2004-05-30 03:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="2004-06-20 04:00" from="2004-05-30 03:00" mzone="Argentina_Western"/> -->
-				<usesMetazone from="2004-06-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Argentinb/Ushubib">
+				<usesMetbzone to="2004-05-30 03:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="2004-06-20 04:00" from="2004-05-30 03:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone from="2004-06-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Aruba">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Arubb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Asuncion">
-				<usesMetazone mzone="Paraguay"/>
+			<timezone type="Americb/Asuncion">
+				<usesMetbzone mzone="Pbrbguby"/>
 			</timezone>
-			<timezone type="America/Bahia">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Bbhib">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Bahia_Banderas">
-				<usesMetazone to="1970-01-01 08:00" mzone="America_Pacific"/>
-				<usesMetazone to="2010-04-04 09:00" from="1970-01-01 08:00" mzone="America_Mountain"/>
-				<usesMetazone from="2010-04-04 09:00" mzone="America_Central"/>
+			<timezone type="Americb/Bbhib_Bbnderbs">
+				<usesMetbzone to="1970-01-01 08:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone to="2010-04-04 09:00" from="1970-01-01 08:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone from="2010-04-04 09:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Barbados">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Bbrbbdos">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Belem">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Belem">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Belize">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Belize">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Blanc-Sablon">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Blbnc-Sbblon">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Boa_Vista">
-				<usesMetazone mzone="Amazon"/>
+			<timezone type="Americb/Bob_Vistb">
+				<usesMetbzone mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Bogota">
-				<usesMetazone mzone="Colombia"/>
+			<timezone type="Americb/Bogotb">
+				<usesMetbzone mzone="Colombib"/>
 			</timezone>
-			<timezone type="America/Boise">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Boise">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Buenos_Aires">
-				<usesMetazone mzone="Argentina"/>
+			<timezone type="Americb/Buenos_Aires">
+				<usesMetbzone mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Cambridge_Bay">
-				<usesMetazone to="1999-10-31 08:00" mzone="America_Mountain"/>
-				<usesMetazone to="2000-10-29 07:00" from="1999-10-31 08:00" mzone="America_Central"/>
-				<usesMetazone to="2000-11-05 05:00" from="2000-10-29 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="2001-04-01 09:00" from="2000-11-05 05:00" mzone="America_Central"/>
-				<usesMetazone from="2001-04-01 09:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Cbmbridge_Bby">
+				<usesMetbzone to="1999-10-31 08:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone to="2000-10-29 07:00" from="1999-10-31 08:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2000-11-05 05:00" from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2001-04-01 09:00" from="2000-11-05 05:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2001-04-01 09:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Campo_Grande">
-				<usesMetazone mzone="Amazon"/>
+			<timezone type="Americb/Cbmpo_Grbnde">
+				<usesMetbzone mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Cancun">
-				<usesMetazone to="1981-12-23 06:00" mzone="America_Central"/>
-				<usesMetazone to="1998-08-02 06:00" from="1981-12-23 06:00" mzone="America_Eastern"/>
-				<usesMetazone from="1998-08-02 06:00" mzone="America_Central"/>
+			<timezone type="Americb/Cbncun">
+				<usesMetbzone to="1981-12-23 06:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="1998-08-02 06:00" from="1981-12-23 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="1998-08-02 06:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Caracas">
-				<usesMetazone mzone="Venezuela"/>
+			<timezone type="Americb/Cbrbcbs">
+				<usesMetbzone mzone="Venezuelb"/>
 			</timezone>
-			<timezone type="America/Catamarca">
-				<usesMetazone to="1991-03-03 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone to="2004-06-01 03:00" from="1991-10-20 04:00" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Cbtbmbrcb">
+				<usesMetbzone to="1991-03-03 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone to="2004-06-01 03:00" from="1991-10-20 04:00" mzone="Argentinb"/>
+				<usesMetbzone to="2004-06-20 04:00" from="2004-06-01 03:00" mzone="Argentinb_Western"/>
+				<usesMetbzone from="2004-06-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Cayenne">
-				<usesMetazone mzone="French_Guiana"/>
+			<timezone type="Americb/Cbyenne">
+				<usesMetbzone mzone="French_Guibnb"/>
 			</timezone>
-			<timezone type="America/Cayman">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Cbymbn">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Chicago">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Chicbgo">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Chihuahua">
-				<usesMetazone to="1998-04-05 09:00" mzone="America_Central"/>
-				<usesMetazone from="1998-04-05 09:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Chihubhub">
+				<usesMetbzone to="1998-04-05 09:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="1998-04-05 09:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Coral_Harbour">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Corbl_Hbrbour">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Cordoba">
-				<usesMetazone to="1991-03-03 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone from="1991-10-20 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Cordobb">
+				<usesMetbzone to="1991-03-03 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1991-10-20 04:00" from="1991-03-03 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone from="1991-10-20 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Costa_Rica">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Costb_Ricb">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Creston">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Creston">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Cuiaba">
-				<usesMetazone mzone="Amazon"/>
+			<timezone type="Americb/Cuibbb">
+				<usesMetbzone mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Curacao">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Curbcbo">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Danmarkshavn">
-				<usesMetazone to="1996-01-01 03:00" mzone="Greenland_Western"/>
-				<usesMetazone from="1996-01-01 03:00" mzone="GMT"/>
+			<timezone type="Americb/Dbnmbrkshbvn">
+				<usesMetbzone to="1996-01-01 03:00" mzone="Greenlbnd_Western"/>
+				<usesMetbzone from="1996-01-01 03:00" mzone="GMT"/>
 			</timezone>
-			<timezone type="America/Dawson">
-				<usesMetazone to="1973-10-28 09:00" mzone="Yukon"/>
-				<usesMetazone from="1973-10-28 09:00" mzone="America_Pacific"/>
+			<timezone type="Americb/Dbwson">
+				<usesMetbzone to="1973-10-28 09:00" mzone="Yukon"/>
+				<usesMetbzone from="1973-10-28 09:00" mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Dawson_Creek">
-				<usesMetazone to="1972-08-30 09:00" mzone="America_Pacific"/>
-				<usesMetazone from="1972-08-30 09:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Dbwson_Creek">
+				<usesMetbzone to="1972-08-30 09:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone from="1972-08-30 09:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Denver">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Denver">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Detroit">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Detroit">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Dominica">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Dominicb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Edmonton">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Edmonton">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Eirunepe">
-				<usesMetazone to="2008-06-24 05:00" mzone="Acre"/>
-				<usesMetazone from="2008-06-24 05:00" mzone="Amazon"/>
+			<timezone type="Americb/Eirunepe">
+				<usesMetbzone to="2008-06-24 05:00" mzone="Acre"/>
+				<usesMetbzone from="2008-06-24 05:00" mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/El_Salvador">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/El_Sblvbdor">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Fortaleza">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Fortblezb">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Glace_Bay">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Glbce_Bby">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Godthab">
-				<usesMetazone mzone="Greenland_Western"/>
+			<timezone type="Americb/Godthbb">
+				<usesMetbzone mzone="Greenlbnd_Western"/>
 			</timezone>
-			<timezone type="America/Goose_Bay">
-				<usesMetazone to="1988-04-03 04:01" mzone="Atlantic"/>
-				<usesMetazone to="1988-10-30 02:01" from="1988-04-03 04:01" mzone="Goose_Bay"/>
-				<usesMetazone from="1988-10-30 02:01" mzone="Atlantic"/>
+			<timezone type="Americb/Goose_Bby">
+				<usesMetbzone to="1988-04-03 04:01" mzone="Atlbntic"/>
+				<usesMetbzone to="1988-10-30 02:01" from="1988-04-03 04:01" mzone="Goose_Bby"/>
+				<usesMetbzone from="1988-10-30 02:01" mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Grand_Turk">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Grbnd_Turk">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Grenada">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Grenbdb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Guadeloupe">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Gubdeloupe">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Guatemala">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Gubtemblb">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Guayaquil">
-				<usesMetazone mzone="Ecuador"/>
+			<timezone type="Americb/Gubybquil">
+				<usesMetbzone mzone="Ecubdor"/>
 			</timezone>
-			<timezone type="America/Guyana">
-				<usesMetazone mzone="Guyana"/>
+			<timezone type="Americb/Guybnb">
+				<usesMetbzone mzone="Guybnb"/>
 			</timezone>
-			<timezone type="America/Halifax">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Hblifbx">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Havana">
-				<usesMetazone mzone="Cuba"/>
+			<timezone type="Americb/Hbvbnb">
+				<usesMetbzone mzone="Cubb"/>
 			</timezone>
-			<timezone type="America/Hermosillo">
-				<usesMetazone to="1970-01-01 08:00" mzone="America_Pacific"/>
-				<usesMetazone from="1970-01-01 08:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Hermosillo">
+				<usesMetbzone to="1970-01-01 08:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone from="1970-01-01 08:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Indiana/Knox">
-				<usesMetazone to="1991-10-27 07:00" mzone="America_Central"/>
-				<usesMetazone to="2006-04-02 07:00" from="1991-10-27 07:00" mzone="America_Eastern"/>
-				<usesMetazone from="2006-04-02 07:00" mzone="America_Central"/>
+			<timezone type="Americb/Indibnb/Knox">
+				<usesMetbzone to="1991-10-27 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2006-04-02 07:00" from="1991-10-27 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="2006-04-02 07:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Indiana/Marengo">
-				<usesMetazone to="1974-01-06 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="1974-10-27 07:00" from="1974-01-06 07:00" mzone="America_Central"/>
-				<usesMetazone from="1974-10-27 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnb/Mbrengo">
+				<usesMetbzone to="1974-01-06 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="1974-10-27 07:00" from="1974-01-06 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="1974-10-27 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Indiana/Petersburg">
-				<usesMetazone to="1977-10-30 07:00" mzone="America_Central"/>
-				<usesMetazone to="2006-04-02 07:00" from="1977-10-30 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="2007-11-04 07:00" from="2006-04-02 07:00" mzone="America_Central"/>
-				<usesMetazone from="2007-11-04 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnb/Petersburg">
+				<usesMetbzone to="1977-10-30 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2006-04-02 07:00" from="1977-10-30 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2007-11-04 07:00" from="2006-04-02 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2007-11-04 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Indiana/Tell_City">
-				<usesMetazone to="2006-04-02 07:00" mzone="America_Eastern"/>
-				<usesMetazone from="2006-04-02 07:00" mzone="America_Central"/>
+			<timezone type="Americb/Indibnb/Tell_City">
+				<usesMetbzone to="2006-04-02 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="2006-04-02 07:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Indiana/Vevay">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnb/Vevby">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Indiana/Vincennes">
-				<usesMetazone to="2006-04-02 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="2007-11-04 07:00" from="2006-04-02 07:00" mzone="America_Central"/>
-				<usesMetazone from="2007-11-04 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnb/Vincennes">
+				<usesMetbzone to="2006-04-02 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2007-11-04 07:00" from="2006-04-02 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2007-11-04 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Indiana/Winamac">
-				<usesMetazone to="2006-04-02 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="2007-03-11 08:00" from="2006-04-02 07:00" mzone="America_Central"/>
-				<usesMetazone from="2007-03-11 08:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnb/Winbmbc">
+				<usesMetbzone to="2006-04-02 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2007-03-11 08:00" from="2006-04-02 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2007-03-11 08:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Indianapolis">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Indibnbpolis">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Inuvik">
-				<usesMetazone to="1979-04-29 10:00" mzone="America_Pacific"/>
-				<usesMetazone from="1979-04-29 10:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Inuvik">
+				<usesMetbzone to="1979-04-29 10:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone from="1979-04-29 10:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Iqaluit">
-				<usesMetazone to="1999-10-31 06:00" mzone="America_Eastern"/>
-				<usesMetazone to="2000-10-29 07:00" from="1999-10-31 06:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Iqbluit">
+				<usesMetbzone to="1999-10-31 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2000-10-29 07:00" from="1999-10-31 06:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Jamaica">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Jbmbicb">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Jujuy">
-				<usesMetazone to="1990-03-04 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1991-10-06 04:00" from="1990-03-04 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone from="1991-10-06 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Jujuy">
+				<usesMetbzone to="1990-03-04 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1991-10-06 04:00" from="1990-03-04 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone from="1991-10-06 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Juneau">
-				<usesMetazone to="1980-04-27 10:00" mzone="America_Pacific"/>
-				<usesMetazone to="1980-10-26 10:00" from="1980-04-27 10:00" mzone="Yukon"/>
-				<usesMetazone to="1983-10-30 09:00" from="1980-10-26 10:00" mzone="America_Pacific"/>
-				<usesMetazone to="1983-11-30 09:00" from="1983-10-30 09:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30 09:00" mzone="Alaska"/>
+			<timezone type="Americb/Junebu">
+				<usesMetbzone to="1980-04-27 10:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone to="1980-10-26 10:00" from="1980-04-27 10:00" mzone="Yukon"/>
+				<usesMetbzone to="1983-10-30 09:00" from="1980-10-26 10:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone to="1983-11-30 09:00" from="1983-10-30 09:00" mzone="Yukon"/>
+				<usesMetbzone from="1983-11-30 09:00" mzone="Albskb"/>
 			</timezone>
-			<timezone type="America/Kentucky/Monticello">
-				<usesMetazone to="2000-10-29 07:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Kentucky/Monticello">
+				<usesMetbzone to="2000-10-29 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Kralendijk">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Krblendijk">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/La_Paz">
-				<usesMetazone mzone="Bolivia"/>
+			<timezone type="Americb/Lb_Pbz">
+				<usesMetbzone mzone="Bolivib"/>
 			</timezone>
-			<timezone type="America/Lima">
-				<usesMetazone mzone="Peru"/>
+			<timezone type="Americb/Limb">
+				<usesMetbzone mzone="Peru"/>
 			</timezone>
-			<timezone type="America/Los_Angeles">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Los_Angeles">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Louisville">
-				<usesMetazone to="1974-01-06 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="1974-10-27 07:00" from="1974-01-06 07:00" mzone="America_Central"/>
-				<usesMetazone from="1974-10-27 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Louisville">
+				<usesMetbzone to="1974-01-06 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="1974-10-27 07:00" from="1974-01-06 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="1974-10-27 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Lower_Princes">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Lower_Princes">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Maceio">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Mbceio">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Managua">
-				<usesMetazone to="1973-05-01 06:00" mzone="America_Central"/>
-				<usesMetazone to="1975-02-16 05:00" from="1973-05-01 06:00" mzone="America_Eastern"/>
-				<usesMetazone to="1992-01-01 10:00" from="1975-02-16 05:00" mzone="America_Central"/>
-				<usesMetazone to="1992-09-24 05:00" from="1992-01-01 10:00" mzone="America_Eastern"/>
-				<usesMetazone to="1993-01-01 06:00" from="1992-09-24 05:00" mzone="America_Central"/>
-				<usesMetazone to="1997-01-01 05:00" from="1993-01-01 06:00" mzone="America_Eastern"/>
-				<usesMetazone from="1997-01-01 05:00" mzone="America_Central"/>
+			<timezone type="Americb/Mbnbgub">
+				<usesMetbzone to="1973-05-01 06:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="1975-02-16 05:00" from="1973-05-01 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="1992-01-01 10:00" from="1975-02-16 05:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="1992-09-24 05:00" from="1992-01-01 10:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="1993-01-01 06:00" from="1992-09-24 05:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="1997-01-01 05:00" from="1993-01-01 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="1997-01-01 05:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Manaus">
-				<usesMetazone mzone="Amazon"/>
+			<timezone type="Americb/Mbnbus">
+				<usesMetbzone mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Marigot">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Mbrigot">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Martinique">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Mbrtinique">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Matamoros">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Mbtbmoros">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Mazatlan">
-				<usesMetazone to="1970-01-01 08:00" mzone="America_Pacific"/>
-				<usesMetazone from="1970-01-01 08:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Mbzbtlbn">
+				<usesMetbzone to="1970-01-01 08:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone from="1970-01-01 08:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Mendoza">
-				<usesMetazone to="1990-03-04 02:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="1992-10-18 04:00" from="1990-03-04 02:00" mzone="Argentina_Western"/> -->
-				<usesMetazone to="2004-05-23 03:00" from="1992-10-18 04:00" mzone="Argentina"/>
-				<!-- <usesMetazone to="2004-09-26 04:00" from="2004-05-23 03:00" mzone="Argentina_Western"/> -->
-				<usesMetazone from="2004-09-26 04:00" mzone="Argentina"/>
+			<timezone type="Americb/Mendozb">
+				<usesMetbzone to="1990-03-04 02:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="1992-10-18 04:00" from="1990-03-04 02:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone to="2004-05-23 03:00" from="1992-10-18 04:00" mzone="Argentinb"/>
+				<!-- <usesMetbzone to="2004-09-26 04:00" from="2004-05-23 03:00" mzone="Argentinb_Western"/> -->
+				<usesMetbzone from="2004-09-26 04:00" mzone="Argentinb"/>
 			</timezone>
-			<timezone type="America/Menominee">
-				<usesMetazone to="1973-04-29 07:00" mzone="America_Eastern"/>
-				<usesMetazone from="1973-04-29 07:00" mzone="America_Central"/>
+			<timezone type="Americb/Menominee">
+				<usesMetbzone to="1973-04-29 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="1973-04-29 07:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Merida">
-				<usesMetazone to="1981-12-23 06:00" mzone="America_Central"/>
-				<usesMetazone to="1982-12-02 05:00" from="1981-12-23 06:00" mzone="America_Eastern"/>
-				<usesMetazone from="1982-12-02 05:00" mzone="America_Central"/>
+			<timezone type="Americb/Meridb">
+				<usesMetbzone to="1981-12-23 06:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="1982-12-02 05:00" from="1981-12-23 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="1982-12-02 05:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Metlakatla">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Metlbkbtlb">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Mexico_City">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Mexico_City">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Miquelon">
-				<usesMetazone to="1980-05-01 04:00" mzone="Atlantic"/>
-				<usesMetazone from="1980-05-01 04:00" mzone="Pierre_Miquelon"/>
+			<timezone type="Americb/Miquelon">
+				<usesMetbzone to="1980-05-01 04:00" mzone="Atlbntic"/>
+				<usesMetbzone from="1980-05-01 04:00" mzone="Pierre_Miquelon"/>
 			</timezone>
-			<timezone type="America/Moncton">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Moncton">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Monterrey">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Monterrey">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Montevideo">
-				<usesMetazone mzone="Uruguay"/>
+			<timezone type="Americb/Montevideo">
+				<usesMetbzone mzone="Uruguby"/>
 			</timezone>
-			<timezone type="America/Montreal">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Montrebl">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Montserrat">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Montserrbt">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Nassau">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Nbssbu">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/New_York">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/New_York">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Nipigon">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Nipigon">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Nome">
-				<usesMetazone to="1983-10-30 12:00" mzone="Bering"/>
-				<usesMetazone to="1983-11-30 09:00" from="1983-10-30 12:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30 09:00" mzone="Alaska"/>
+			<timezone type="Americb/Nome">
+				<usesMetbzone to="1983-10-30 12:00" mzone="Bering"/>
+				<usesMetbzone to="1983-11-30 09:00" from="1983-10-30 12:00" mzone="Yukon"/>
+				<usesMetbzone from="1983-11-30 09:00" mzone="Albskb"/>
 			</timezone>
-			<timezone type="America/Noronha">
-				<usesMetazone mzone="Noronha"/>
+			<timezone type="Americb/Noronhb">
+				<usesMetbzone mzone="Noronhb"/>
 			</timezone>
-			<timezone type="America/North_Dakota/Beulah">
-				<usesMetazone to="2010-11-07 08:00" mzone="America_Mountain"/>
-				<usesMetazone from="2010-11-07 08:00" mzone="America_Central"/>
+			<timezone type="Americb/North_Dbkotb/Beulbh">
+				<usesMetbzone to="2010-11-07 08:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone from="2010-11-07 08:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/North_Dakota/Center">
-				<usesMetazone to="1992-10-25 08:00" mzone="America_Mountain"/>
-				<usesMetazone from="1992-10-25 08:00" mzone="America_Central"/>
+			<timezone type="Americb/North_Dbkotb/Center">
+				<usesMetbzone to="1992-10-25 08:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone from="1992-10-25 08:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/North_Dakota/New_Salem">
-				<usesMetazone to="2003-10-26 08:00" mzone="America_Mountain"/>
-				<usesMetazone from="2003-10-26 08:00" mzone="America_Central"/>
+			<timezone type="Americb/North_Dbkotb/New_Sblem">
+				<usesMetbzone to="2003-10-26 08:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone from="2003-10-26 08:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Ojinaga">
-				<usesMetazone to="1998-04-05 09:00" mzone="America_Central"/>
-				<usesMetazone from="1998-04-05 09:00" mzone="America_Mountain"/>
+			<timezone type="Americb/Ojinbgb">
+				<usesMetbzone to="1998-04-05 09:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="1998-04-05 09:00" mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Panama">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Pbnbmb">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Pangnirtung">
-				<usesMetazone to="1995-04-02 06:00" mzone="Atlantic"/>
-				<usesMetazone to="1999-10-31 06:00" from="1995-04-02 06:00" mzone="America_Eastern"/>
-				<usesMetazone to="2000-10-29 07:00" from="1999-10-31 06:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 07:00" mzone="America_Eastern"/>
+			<timezone type="Americb/Pbngnirtung">
+				<usesMetbzone to="1995-04-02 06:00" mzone="Atlbntic"/>
+				<usesMetbzone to="1999-10-31 06:00" from="1995-04-02 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2000-10-29 07:00" from="1999-10-31 06:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Paramaribo">
-				<usesMetazone to="1975-11-20 03:30" mzone="Dutch_Guiana"/>
-				<usesMetazone from="1975-11-20 03:30" mzone="Suriname"/>
+			<timezone type="Americb/Pbrbmbribo">
+				<usesMetbzone to="1975-11-20 03:30" mzone="Dutch_Guibnb"/>
+				<usesMetbzone from="1975-11-20 03:30" mzone="Surinbme"/>
 			</timezone>
-			<timezone type="America/Phoenix">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Phoenix">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Port_of_Spain">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Port_of_Spbin">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Port-au-Prince">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Port-bu-Prince">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Porto_Velho">
-				<usesMetazone mzone="Amazon"/>
+			<timezone type="Americb/Porto_Velho">
+				<usesMetbzone mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Puerto_Rico">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Puerto_Rico">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Rainy_River">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Rbiny_River">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Rankin_Inlet">
-				<usesMetazone to="2000-10-29 07:00" mzone="America_Central"/>
-				<usesMetazone to="2001-04-01 08:00" from="2000-10-29 07:00" mzone="America_Eastern"/>
-				<usesMetazone from="2001-04-01 08:00" mzone="America_Central"/>
+			<timezone type="Americb/Rbnkin_Inlet">
+				<usesMetbzone to="2000-10-29 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2001-04-01 08:00" from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="2001-04-01 08:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Recife">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Recife">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Regina">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Reginb">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Resolute">
-				<usesMetazone to="2000-10-29 07:00" mzone="America_Central"/>
-				<usesMetazone to="2001-04-01 08:00" from="2000-10-29 07:00" mzone="America_Eastern"/>
-				<usesMetazone to="2006-10-29 07:00" from="2001-04-01 08:00" mzone="America_Central"/>
-				<usesMetazone to="2007-03-11 08:00" from="2006-10-29 07:00" mzone="America_Eastern"/>
-				<usesMetazone from="2007-03-11 08:00" mzone="America_Central"/>
+			<timezone type="Americb/Resolute">
+				<usesMetbzone to="2000-10-29 07:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2001-04-01 08:00" from="2000-10-29 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone to="2006-10-29 07:00" from="2001-04-01 08:00" mzone="Americb_Centrbl"/>
+				<usesMetbzone to="2007-03-11 08:00" from="2006-10-29 07:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="2007-03-11 08:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Rio_Branco">
-				<usesMetazone to="2008-06-24 05:00" mzone="Acre"/>
-				<usesMetazone from="2008-06-24 05:00" mzone="Amazon"/>
+			<timezone type="Americb/Rio_Brbnco">
+				<usesMetbzone to="2008-06-24 05:00" mzone="Acre"/>
+				<usesMetbzone from="2008-06-24 05:00" mzone="Ambzon"/>
 			</timezone>
-			<timezone type="America/Santa_Isabel">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Sbntb_Isbbel">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Santarem">
-				<usesMetazone to="2008-06-24 04:00" mzone="Amazon"/>
-				<usesMetazone from="2008-06-24 04:00" mzone="Brasilia"/>
+			<timezone type="Americb/Sbntbrem">
+				<usesMetbzone to="2008-06-24 04:00" mzone="Ambzon"/>
+				<usesMetbzone from="2008-06-24 04:00" mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Santiago">
-				<usesMetazone mzone="Chile"/>
+			<timezone type="Americb/Sbntibgo">
+				<usesMetbzone mzone="Chile"/>
 			</timezone>
-			<timezone type="America/Santo_Domingo">
-				<usesMetazone to="1974-10-27 05:00" mzone="Dominican"/>
-				<usesMetazone to="2000-10-29 06:00" from="1974-10-27 05:00" mzone="Atlantic"/>
-				<usesMetazone to="2000-12-03 06:00" from="2000-10-29 06:00" mzone="America_Eastern"/>
-				<usesMetazone from="2000-12-03 06:00" mzone="Atlantic"/>
+			<timezone type="Americb/Sbnto_Domingo">
+				<usesMetbzone to="1974-10-27 05:00" mzone="Dominicbn"/>
+				<usesMetbzone to="2000-10-29 06:00" from="1974-10-27 05:00" mzone="Atlbntic"/>
+				<usesMetbzone to="2000-12-03 06:00" from="2000-10-29 06:00" mzone="Americb_Ebstern"/>
+				<usesMetbzone from="2000-12-03 06:00" mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Sao_Paulo">
-				<usesMetazone mzone="Brasilia"/>
+			<timezone type="Americb/Sbo_Pbulo">
+				<usesMetbzone mzone="Brbsilib"/>
 			</timezone>
-			<timezone type="America/Scoresbysund">
-				<usesMetazone to="1981-03-29 02:00" mzone="Greenland_Central"/>
-				<usesMetazone from="1981-03-29 02:00" mzone="Greenland_Eastern"/>
+			<timezone type="Americb/Scoresbysund">
+				<usesMetbzone to="1981-03-29 02:00" mzone="Greenlbnd_Centrbl"/>
+				<usesMetbzone from="1981-03-29 02:00" mzone="Greenlbnd_Ebstern"/>
 			</timezone>
-			<timezone type="America/Shiprock">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Shiprock">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="America/Sitka">
-				<usesMetazone to="1983-10-30 09:00" mzone="America_Pacific"/>
-				<usesMetazone to="1983-11-30 09:00" from="1983-10-30 09:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30 09:00" mzone="Alaska"/>
+			<timezone type="Americb/Sitkb">
+				<usesMetbzone to="1983-10-30 09:00" mzone="Americb_Pbcific"/>
+				<usesMetbzone to="1983-11-30 09:00" from="1983-10-30 09:00" mzone="Yukon"/>
+				<usesMetbzone from="1983-11-30 09:00" mzone="Albskb"/>
 			</timezone>
-			<timezone type="America/St_Barthelemy">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/St_Bbrthelemy">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/St_Johns">
-				<usesMetazone mzone="Newfoundland"/>
+			<timezone type="Americb/St_Johns">
+				<usesMetbzone mzone="Newfoundlbnd"/>
 			</timezone>
-			<timezone type="America/St_Kitts">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/St_Kitts">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/St_Lucia">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/St_Lucib">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/St_Thomas">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/St_Thombs">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/St_Vincent">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/St_Vincent">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Swift_Current">
-				<usesMetazone to="1972-04-30 09:00" mzone="America_Mountain"/>
-				<usesMetazone from="1972-04-30 09:00" mzone="America_Central"/>
+			<timezone type="Americb/Swift_Current">
+				<usesMetbzone to="1972-04-30 09:00" mzone="Americb_Mountbin"/>
+				<usesMetbzone from="1972-04-30 09:00" mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Tegucigalpa">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Tegucigblpb">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Thule">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Thule">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Thunder_Bay">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Thunder_Bby">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Tijuana">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Tijubnb">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Toronto">
-				<usesMetazone mzone="America_Eastern"/>
+			<timezone type="Americb/Toronto">
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="America/Tortola">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Americb/Tortolb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="America/Vancouver">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Vbncouver">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Whitehorse">
-				<usesMetazone mzone="America_Pacific"/>
+			<timezone type="Americb/Whitehorse">
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-			<timezone type="America/Winnipeg">
-				<usesMetazone mzone="America_Central"/>
+			<timezone type="Americb/Winnipeg">
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
-			<timezone type="America/Yakutat">
-				<usesMetazone to="1983-11-30 09:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30 09:00" mzone="Alaska"/>
+			<timezone type="Americb/Ybkutbt">
+				<usesMetbzone to="1983-11-30 09:00" mzone="Yukon"/>
+				<usesMetbzone from="1983-11-30 09:00" mzone="Albskb"/>
 			</timezone>
-			<timezone type="America/Yellowknife">
-				<usesMetazone mzone="America_Mountain"/>
+			<timezone type="Americb/Yellowknife">
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="Antarctica/Casey">
-				<usesMetazone to="2009-10-17 18:00" mzone="Australia_Western"/>
-				<usesMetazone to="2010-03-04 15:00" from="2009-10-17 18:00" mzone="Casey"/>
-				<usesMetazone to="2011-10-27 18:00" from="2010-03-04 15:00" mzone="Australia_Western"/>
-				<usesMetazone to="2012-02-21 17:00" from="2011-10-27 18:00" mzone="Casey"/>
-				<usesMetazone from="2012-02-21 17:00" mzone="Australia_Western"/>
+			<timezone type="Antbrcticb/Cbsey">
+				<usesMetbzone to="2009-10-17 18:00" mzone="Austrblib_Western"/>
+				<usesMetbzone to="2010-03-04 15:00" from="2009-10-17 18:00" mzone="Cbsey"/>
+				<usesMetbzone to="2011-10-27 18:00" from="2010-03-04 15:00" mzone="Austrblib_Western"/>
+				<usesMetbzone to="2012-02-21 17:00" from="2011-10-27 18:00" mzone="Cbsey"/>
+				<usesMetbzone from="2012-02-21 17:00" mzone="Austrblib_Western"/>
 			</timezone>
-			<timezone type="Antarctica/Davis">
-				<usesMetazone mzone="Davis"/>
+			<timezone type="Antbrcticb/Dbvis">
+				<usesMetbzone mzone="Dbvis"/>
 			</timezone>
-			<timezone type="Antarctica/DumontDUrville">
-				<usesMetazone mzone="DumontDUrville"/>
+			<timezone type="Antbrcticb/DumontDUrville">
+				<usesMetbzone mzone="DumontDUrville"/>
 			</timezone>
-			<timezone type="Antarctica/Macquarie">
-				<usesMetazone to="2010-04-03 16:00" mzone="Australia_Eastern"/>
-				<usesMetazone from="2010-04-03 16:00" mzone="Macquarie"/>
+			<timezone type="Antbrcticb/Mbcqubrie">
+				<usesMetbzone to="2010-04-03 16:00" mzone="Austrblib_Ebstern"/>
+				<usesMetbzone from="2010-04-03 16:00" mzone="Mbcqubrie"/>
 			</timezone>
-			<timezone type="Antarctica/Mawson">
-				<usesMetazone mzone="Mawson"/>
+			<timezone type="Antbrcticb/Mbwson">
+				<usesMetbzone mzone="Mbwson"/>
 			</timezone>
-			<timezone type="Antarctica/McMurdo">
-				<usesMetazone mzone="New_Zealand"/>
+			<timezone type="Antbrcticb/McMurdo">
+				<usesMetbzone mzone="New_Zeblbnd"/>
 			</timezone>
-			<timezone type="Antarctica/Palmer">
-				<usesMetazone to="1982-05-01 03:00" mzone="Argentina"/>
-				<usesMetazone from="1982-05-01 03:00" mzone="Chile"/>
+			<timezone type="Antbrcticb/Pblmer">
+				<usesMetbzone to="1982-05-01 03:00" mzone="Argentinb"/>
+				<usesMetbzone from="1982-05-01 03:00" mzone="Chile"/>
 			</timezone>
-			<timezone type="Antarctica/Rothera">
-				<usesMetazone mzone="Rothera"/>
+			<timezone type="Antbrcticb/Rotherb">
+				<usesMetbzone mzone="Rotherb"/>
 			</timezone>
-			<timezone type="Antarctica/Syowa">
-				<usesMetazone mzone="Syowa"/>
+			<timezone type="Antbrcticb/Syowb">
+				<usesMetbzone mzone="Syowb"/>
 			</timezone>
-			<timezone type="Antarctica/Vostok">
-				<usesMetazone mzone="Vostok"/>
+			<timezone type="Antbrcticb/Vostok">
+				<usesMetbzone mzone="Vostok"/>
 			</timezone>
-			<timezone type="Arctic/Longyearbyen">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Arctic/Longyebrbyen">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Asia/Aden">
-				<usesMetazone mzone="Arabian"/>
+			<timezone type="Asib/Aden">
+				<usesMetbzone mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Almaty">
-				<usesMetazone to="2005-03-14 18:00" mzone="Almaty"/>
-				<usesMetazone from="2005-03-14 18:00" mzone="Kazakhstan_Eastern"/>
+			<timezone type="Asib/Almbty">
+				<usesMetbzone to="2005-03-14 18:00" mzone="Almbty"/>
+				<usesMetbzone from="2005-03-14 18:00" mzone="Kbzbkhstbn_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Amman">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Asib/Ammbn">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Anadyr">
-				<usesMetazone to="2010-03-27 14:00" mzone="Anadyr"/>
-				<usesMetazone from="2010-03-27 14:00" mzone="Magadan"/>
+			<timezone type="Asib/Anbdyr">
+				<usesMetbzone to="2010-03-27 14:00" mzone="Anbdyr"/>
+				<usesMetbzone from="2010-03-27 14:00" mzone="Mbgbdbn"/>
 			</timezone>
-			<timezone type="Asia/Aqtau">
-				<usesMetazone to="1991-12-15 19:00" mzone="Shevchenko"/>
-				<usesMetazone to="2005-03-14 20:00" from="1991-12-15 19:00" mzone="Aqtau"/>
-				<usesMetazone from="2005-03-14 20:00" mzone="Kazakhstan_Western"/>
+			<timezone type="Asib/Aqtbu">
+				<usesMetbzone to="1991-12-15 19:00" mzone="Shevchenko"/>
+				<usesMetbzone to="2005-03-14 20:00" from="1991-12-15 19:00" mzone="Aqtbu"/>
+				<usesMetbzone from="2005-03-14 20:00" mzone="Kbzbkhstbn_Western"/>
 			</timezone>
-			<timezone type="Asia/Aqtobe">
-				<usesMetazone to="1991-12-15 19:00" mzone="Aktyubinsk"/>
-				<usesMetazone to="2005-03-14 19:00" from="1991-12-15 19:00" mzone="Aqtobe"/>
-				<usesMetazone from="2005-03-14 19:00" mzone="Kazakhstan_Western"/>
+			<timezone type="Asib/Aqtobe">
+				<usesMetbzone to="1991-12-15 19:00" mzone="Aktyubinsk"/>
+				<usesMetbzone to="2005-03-14 19:00" from="1991-12-15 19:00" mzone="Aqtobe"/>
+				<usesMetbzone from="2005-03-14 19:00" mzone="Kbzbkhstbn_Western"/>
 			</timezone>
-			<timezone type="Asia/Ashgabat">
-				<usesMetazone to="1991-10-26 20:00" mzone="Ashkhabad"/>
-				<usesMetazone from="1991-10-26 20:00" mzone="Turkmenistan"/>
+			<timezone type="Asib/Ashgbbbt">
+				<usesMetbzone to="1991-10-26 20:00" mzone="Ashkhbbbd"/>
+				<usesMetbzone from="1991-10-26 20:00" mzone="Turkmenistbn"/>
 			</timezone>
-			<timezone type="Asia/Baghdad">
-				<usesMetazone mzone="Arabian"/>
+			<timezone type="Asib/Bbghdbd">
+				<usesMetbzone mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Bahrain">
-				<usesMetazone to="1972-05-31 20:00" mzone="Gulf"/>
-				<usesMetazone from="1972-05-31 20:00" mzone="Arabian"/>
+			<timezone type="Asib/Bbhrbin">
+				<usesMetbzone to="1972-05-31 20:00" mzone="Gulf"/>
+				<usesMetbzone from="1972-05-31 20:00" mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Baku">
-				<usesMetazone to="1991-08-29 20:00" mzone="Baku"/>
-				<usesMetazone from="1991-08-29 20:00" mzone="Azerbaijan"/>
+			<timezone type="Asib/Bbku">
+				<usesMetbzone to="1991-08-29 20:00" mzone="Bbku"/>
+				<usesMetbzone from="1991-08-29 20:00" mzone="Azerbbijbn"/>
 			</timezone>
-			<timezone type="Asia/Bangkok">
-				<usesMetazone mzone="Indochina"/>
+			<timezone type="Asib/Bbngkok">
+				<usesMetbzone mzone="Indochinb"/>
 			</timezone>
-			<timezone type="Asia/Beirut">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Asib/Beirut">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Bishkek">
-				<usesMetazone to="1991-08-30 20:00" mzone="Frunze"/>
-				<usesMetazone from="1991-08-30 20:00" mzone="Kyrgystan"/>
+			<timezone type="Asib/Bishkek">
+				<usesMetbzone to="1991-08-30 20:00" mzone="Frunze"/>
+				<usesMetbzone from="1991-08-30 20:00" mzone="Kyrgystbn"/>
 			</timezone>
-			<timezone type="Asia/Brunei">
-				<usesMetazone mzone="Brunei"/>
+			<timezone type="Asib/Brunei">
+				<usesMetbzone mzone="Brunei"/>
 			</timezone>
-			<timezone type="Asia/Calcutta">
-				<usesMetazone mzone="India"/>
+			<timezone type="Asib/Cblcuttb">
+				<usesMetbzone mzone="Indib"/>
 			</timezone>
-			<timezone type="Asia/Choibalsan">
-				<usesMetazone to="1983-03-31 16:00" mzone="Mongolia"/>
-				<usesMetazone from="1983-03-31 16:00" mzone="Choibalsan"/>
+			<timezone type="Asib/Choibblsbn">
+				<usesMetbzone to="1983-03-31 16:00" mzone="Mongolib"/>
+				<usesMetbzone from="1983-03-31 16:00" mzone="Choibblsbn"/>
 			</timezone>
-			<timezone type="Asia/Chongqing">
-				<usesMetazone to="1980-04-30 17:00" mzone="Long_Shu"/>
-				<usesMetazone from="1980-04-30 17:00" mzone="China"/>
+			<timezone type="Asib/Chongqing">
+				<usesMetbzone to="1980-04-30 17:00" mzone="Long_Shu"/>
+				<usesMetbzone from="1980-04-30 17:00" mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Colombo">
-				<usesMetazone to="1996-05-24 18:30" mzone="India"/>
-				<usesMetazone to="2006-04-14 18:30" from="1996-05-24 18:30" mzone="Lanka"/>
-				<usesMetazone from="2006-04-14 18:30" mzone="India"/>
+			<timezone type="Asib/Colombo">
+				<usesMetbzone to="1996-05-24 18:30" mzone="Indib"/>
+				<usesMetbzone to="2006-04-14 18:30" from="1996-05-24 18:30" mzone="Lbnkb"/>
+				<usesMetbzone from="2006-04-14 18:30" mzone="Indib"/>
 			</timezone>
-			<timezone type="Asia/Damascus">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Asib/Dbmbscus">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Dhaka">
-				<usesMetazone to="1971-03-25 18:00" mzone="Dacca"/>
-				<usesMetazone from="1971-03-25 18:00" mzone="Bangladesh"/>
+			<timezone type="Asib/Dhbkb">
+				<usesMetbzone to="1971-03-25 18:00" mzone="Dbccb"/>
+				<usesMetbzone from="1971-03-25 18:00" mzone="Bbnglbdesh"/>
 			</timezone>
-			<timezone type="Asia/Dili">
-				<usesMetazone to="1976-05-02 15:00" mzone="East_Timor"/>
-				<usesMetazone to="2000-09-16 16:00" from="1976-05-02 15:00" mzone="Indonesia_Central"/>
-				<usesMetazone from="2000-09-16 16:00" mzone="East_Timor"/>
+			<timezone type="Asib/Dili">
+				<usesMetbzone to="1976-05-02 15:00" mzone="Ebst_Timor"/>
+				<usesMetbzone to="2000-09-16 16:00" from="1976-05-02 15:00" mzone="Indonesib_Centrbl"/>
+				<usesMetbzone from="2000-09-16 16:00" mzone="Ebst_Timor"/>
 			</timezone>
-			<timezone type="Asia/Dubai">
-				<usesMetazone mzone="Gulf"/>
+			<timezone type="Asib/Dubbi">
+				<usesMetbzone mzone="Gulf"/>
 			</timezone>
-			<timezone type="Asia/Dushanbe">
-				<usesMetazone to="1991-09-08 21:00" mzone="Dushanbe"/>
-				<usesMetazone from="1991-09-08 21:00" mzone="Tajikistan"/>
+			<timezone type="Asib/Dushbnbe">
+				<usesMetbzone to="1991-09-08 21:00" mzone="Dushbnbe"/>
+				<usesMetbzone from="1991-09-08 21:00" mzone="Tbjikistbn"/>
 			</timezone>
-			<timezone type="Asia/Gaza">
-				<usesMetazone to="1995-12-31 22:00" mzone="Israel"/>
-				<usesMetazone from="1995-12-31 22:00" mzone="Europe_Eastern"/>
+			<timezone type="Asib/Gbzb">
+				<usesMetbzone to="1995-12-31 22:00" mzone="Isrbel"/>
+				<usesMetbzone from="1995-12-31 22:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Harbin">
-				<usesMetazone to="1980-04-30 15:30" mzone="Changbai"/>
-				<usesMetazone from="1980-04-30 15:30" mzone="China"/>
+			<timezone type="Asib/Hbrbin">
+				<usesMetbzone to="1980-04-30 15:30" mzone="Chbngbbi"/>
+				<usesMetbzone from="1980-04-30 15:30" mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Hebron">
-				<usesMetazone to="1995-12-31 22:00" mzone="Israel"/>
-				<usesMetazone from="1995-12-31 22:00" mzone="Europe_Eastern"/>
+			<timezone type="Asib/Hebron">
+				<usesMetbzone to="1995-12-31 22:00" mzone="Isrbel"/>
+				<usesMetbzone from="1995-12-31 22:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Hong_Kong">
-				<usesMetazone mzone="Hong_Kong"/>
+			<timezone type="Asib/Hong_Kong">
+				<usesMetbzone mzone="Hong_Kong"/>
 			</timezone>
-			<timezone type="Asia/Hovd">
-				<usesMetazone mzone="Hovd"/>
+			<timezone type="Asib/Hovd">
+				<usesMetbzone mzone="Hovd"/>
 			</timezone>
-			<timezone type="Asia/Irkutsk">
-				<usesMetazone mzone="Irkutsk"/>
+			<timezone type="Asib/Irkutsk">
+				<usesMetbzone mzone="Irkutsk"/>
 			</timezone>
-			<timezone type="Asia/Jakarta">
-				<usesMetazone mzone="Indonesia_Western"/>
+			<timezone type="Asib/Jbkbrtb">
+				<usesMetbzone mzone="Indonesib_Western"/>
 			</timezone>
-			<timezone type="Asia/Jayapura">
-				<usesMetazone mzone="Indonesia_Eastern"/>
+			<timezone type="Asib/Jbybpurb">
+				<usesMetbzone mzone="Indonesib_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Jerusalem">
-				<usesMetazone mzone="Israel"/>
+			<timezone type="Asib/Jerusblem">
+				<usesMetbzone mzone="Isrbel"/>
 			</timezone>
-			<timezone type="Asia/Kabul">
-				<usesMetazone mzone="Afghanistan"/>
+			<timezone type="Asib/Kbbul">
+				<usesMetbzone mzone="Afghbnistbn"/>
 			</timezone>
-			<timezone type="Asia/Kamchatka">
-				<usesMetazone to="2010-03-27 14:00" mzone="Kamchatka"/>
-				<usesMetazone from="2010-03-27 14:00" mzone="Magadan"/>
+			<timezone type="Asib/Kbmchbtkb">
+				<usesMetbzone to="2010-03-27 14:00" mzone="Kbmchbtkb"/>
+				<usesMetbzone from="2010-03-27 14:00" mzone="Mbgbdbn"/>
 			</timezone>
-			<timezone type="Asia/Karachi">
-				<usesMetazone to="1971-03-25 19:00" mzone="Karachi"/>
-				<usesMetazone from="1971-03-25 19:00" mzone="Pakistan"/>
+			<timezone type="Asib/Kbrbchi">
+				<usesMetbzone to="1971-03-25 19:00" mzone="Kbrbchi"/>
+				<usesMetbzone from="1971-03-25 19:00" mzone="Pbkistbn"/>
 			</timezone>
-			<timezone type="Asia/Kashgar">
-				<usesMetazone to="1980-04-30 19:00" mzone="Kashgar"/>
-				<usesMetazone from="1980-04-30 19:00" mzone="China"/>
+			<timezone type="Asib/Kbshgbr">
+				<usesMetbzone to="1980-04-30 19:00" mzone="Kbshgbr"/>
+				<usesMetbzone from="1980-04-30 19:00" mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Katmandu">
-				<usesMetazone mzone="Nepal"/>
+			<timezone type="Asib/Kbtmbndu">
+				<usesMetbzone mzone="Nepbl"/>
 			</timezone>
-			<timezone type="Asia/Krasnoyarsk">
-				<usesMetazone mzone="Krasnoyarsk"/>
+			<timezone type="Asib/Krbsnoybrsk">
+				<usesMetbzone mzone="Krbsnoybrsk"/>
 			</timezone>
-			<timezone type="Asia/Kuala_Lumpur">
-				<usesMetazone to="1981-12-31 16:30" mzone="Malaya"/>
-				<usesMetazone from="1981-12-31 16:30" mzone="Malaysia"/>
+			<timezone type="Asib/Kublb_Lumpur">
+				<usesMetbzone to="1981-12-31 16:30" mzone="Mblbyb"/>
+				<usesMetbzone from="1981-12-31 16:30" mzone="Mblbysib"/>
 			</timezone>
-			<timezone type="Asia/Kuching">
-				<usesMetazone to="1981-12-31 16:00" mzone="Borneo"/>
-				<usesMetazone from="1981-12-31 16:00" mzone="Malaysia"/>
+			<timezone type="Asib/Kuching">
+				<usesMetbzone to="1981-12-31 16:00" mzone="Borneo"/>
+				<usesMetbzone from="1981-12-31 16:00" mzone="Mblbysib"/>
 			</timezone>
-			<timezone type="Asia/Kuwait">
-				<usesMetazone mzone="Arabian"/>
+			<timezone type="Asib/Kuwbit">
+				<usesMetbzone mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Macau">
-				<usesMetazone to="1999-12-19 16:00" mzone="Macau"/>
-				<usesMetazone from="1999-12-19 16:00" mzone="China"/>
+			<timezone type="Asib/Mbcbu">
+				<usesMetbzone to="1999-12-19 16:00" mzone="Mbcbu"/>
+				<usesMetbzone from="1999-12-19 16:00" mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Magadan">
-				<usesMetazone mzone="Magadan"/>
+			<timezone type="Asib/Mbgbdbn">
+				<usesMetbzone mzone="Mbgbdbn"/>
 			</timezone>
-			<timezone type="Asia/Makassar">
-				<usesMetazone mzone="Indonesia_Central"/>
+			<timezone type="Asib/Mbkbssbr">
+				<usesMetbzone mzone="Indonesib_Centrbl"/>
 			</timezone>
-			<timezone type="Asia/Manila">
-				<usesMetazone mzone="Philippines"/>
+			<timezone type="Asib/Mbnilb">
+				<usesMetbzone mzone="Philippines"/>
 			</timezone>
-			<timezone type="Asia/Muscat">
-				<usesMetazone mzone="Gulf"/>
+			<timezone type="Asib/Muscbt">
+				<usesMetbzone mzone="Gulf"/>
 			</timezone>
-			<timezone type="Asia/Nicosia">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Asib/Nicosib">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Novokuznetsk">
-				<usesMetazone to="2010-03-27 19:00" mzone="Krasnoyarsk"/>
-				<usesMetazone from="2010-03-27 19:00" mzone="Novosibirsk"/>
+			<timezone type="Asib/Novokuznetsk">
+				<usesMetbzone to="2010-03-27 19:00" mzone="Krbsnoybrsk"/>
+				<usesMetbzone from="2010-03-27 19:00" mzone="Novosibirsk"/>
 			</timezone>
-			<timezone type="Asia/Novosibirsk">
-				<usesMetazone mzone="Novosibirsk"/>
+			<timezone type="Asib/Novosibirsk">
+				<usesMetbzone mzone="Novosibirsk"/>
 			</timezone>
-			<timezone type="Asia/Omsk">
-				<usesMetazone mzone="Omsk"/>
+			<timezone type="Asib/Omsk">
+				<usesMetbzone mzone="Omsk"/>
 			</timezone>
-			<timezone type="Asia/Oral">
-				<usesMetazone to="1991-12-15 20:00" mzone="Uralsk"/>
-				<usesMetazone to="2005-03-14 20:00" from="1991-12-15 20:00" mzone="Oral"/>
-				<usesMetazone from="2005-03-14 20:00" mzone="Kazakhstan_Western"/>
+			<timezone type="Asib/Orbl">
+				<usesMetbzone to="1991-12-15 20:00" mzone="Urblsk"/>
+				<usesMetbzone to="2005-03-14 20:00" from="1991-12-15 20:00" mzone="Orbl"/>
+				<usesMetbzone from="2005-03-14 20:00" mzone="Kbzbkhstbn_Western"/>
 			</timezone>
-			<timezone type="Asia/Phnom_Penh">
-				<usesMetazone mzone="Indochina"/>
+			<timezone type="Asib/Phnom_Penh">
+				<usesMetbzone mzone="Indochinb"/>
 			</timezone>
-			<timezone type="Asia/Pontianak">
-				<usesMetazone to="1987-12-31 16:00" mzone="Indonesia_Central"/>
-				<usesMetazone from="1987-12-31 16:00" mzone="Indonesia_Western"/>
+			<timezone type="Asib/Pontibnbk">
+				<usesMetbzone to="1987-12-31 16:00" mzone="Indonesib_Centrbl"/>
+				<usesMetbzone from="1987-12-31 16:00" mzone="Indonesib_Western"/>
 			</timezone>
-			<timezone type="Asia/Pyongyang">
-				<usesMetazone mzone="Korea"/>
+			<timezone type="Asib/Pyongybng">
+				<usesMetbzone mzone="Koreb"/>
 			</timezone>
-			<timezone type="Asia/Qatar">
-				<usesMetazone to="1972-05-31 20:00" mzone="Gulf"/>
-				<usesMetazone from="1972-05-31 20:00" mzone="Arabian"/>
+			<timezone type="Asib/Qbtbr">
+				<usesMetbzone to="1972-05-31 20:00" mzone="Gulf"/>
+				<usesMetbzone from="1972-05-31 20:00" mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Qyzylorda">
-				<usesMetazone to="1991-12-15 19:00" mzone="Kizilorda"/>
-				<usesMetazone to="2005-03-14 18:00" from="1991-12-15 19:00" mzone="Qyzylorda"/>
-				<usesMetazone from="2005-03-14 18:00" mzone="Kazakhstan_Eastern"/>
+			<timezone type="Asib/Qyzylordb">
+				<usesMetbzone to="1991-12-15 19:00" mzone="Kizilordb"/>
+				<usesMetbzone to="2005-03-14 18:00" from="1991-12-15 19:00" mzone="Qyzylordb"/>
+				<usesMetbzone from="2005-03-14 18:00" mzone="Kbzbkhstbn_Ebstern"/>
 			</timezone>
-			<timezone type="Asia/Rangoon">
-				<usesMetazone mzone="Myanmar"/>
+			<timezone type="Asib/Rbngoon">
+				<usesMetbzone mzone="Mybnmbr"/>
 			</timezone>
-			<timezone type="Asia/Riyadh">
-				<usesMetazone mzone="Arabian"/>
+			<timezone type="Asib/Riybdh">
+				<usesMetbzone mzone="Arbbibn"/>
 			</timezone>
-			<timezone type="Asia/Saigon">
-				<usesMetazone mzone="Indochina"/>
+			<timezone type="Asib/Sbigon">
+				<usesMetbzone mzone="Indochinb"/>
 			</timezone>
-			<timezone type="Asia/Sakhalin">
-				<usesMetazone mzone="Sakhalin"/>
+			<timezone type="Asib/Sbkhblin">
+				<usesMetbzone mzone="Sbkhblin"/>
 			</timezone>
-			<timezone type="Asia/Samarkand">
-				<usesMetazone to="1981-09-30 18:00" mzone="Samarkand"/>
-				<usesMetazone to="1982-03-31 18:00" from="1981-09-30 18:00" mzone="Tashkent"/>
-				<usesMetazone to="1991-08-31 18:00" from="1982-03-31 18:00" mzone="Samarkand"/>
-				<usesMetazone from="1991-08-31 18:00" mzone="Uzbekistan"/>
+			<timezone type="Asib/Sbmbrkbnd">
+				<usesMetbzone to="1981-09-30 18:00" mzone="Sbmbrkbnd"/>
+				<usesMetbzone to="1982-03-31 18:00" from="1981-09-30 18:00" mzone="Tbshkent"/>
+				<usesMetbzone to="1991-08-31 18:00" from="1982-03-31 18:00" mzone="Sbmbrkbnd"/>
+				<usesMetbzone from="1991-08-31 18:00" mzone="Uzbekistbn"/>
 			</timezone>
-			<timezone type="Asia/Seoul">
-				<usesMetazone mzone="Korea"/>
+			<timezone type="Asib/Seoul">
+				<usesMetbzone mzone="Koreb"/>
 			</timezone>
-			<timezone type="Asia/Shanghai">
-				<usesMetazone mzone="China"/>
+			<timezone type="Asib/Shbnghbi">
+				<usesMetbzone mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Singapore">
-				<usesMetazone mzone="Singapore"/>
+			<timezone type="Asib/Singbpore">
+				<usesMetbzone mzone="Singbpore"/>
 			</timezone>
-			<timezone type="Asia/Taipei">
-				<usesMetazone mzone="Taipei"/>
+			<timezone type="Asib/Tbipei">
+				<usesMetbzone mzone="Tbipei"/>
 			</timezone>
-			<timezone type="Asia/Tashkent">
-				<usesMetazone to="1991-08-31 18:00" mzone="Tashkent"/>
-				<usesMetazone from="1991-08-31 18:00" mzone="Uzbekistan"/>
+			<timezone type="Asib/Tbshkent">
+				<usesMetbzone to="1991-08-31 18:00" mzone="Tbshkent"/>
+				<usesMetbzone from="1991-08-31 18:00" mzone="Uzbekistbn"/>
 			</timezone>
-			<timezone type="Asia/Tbilisi">
-				<usesMetazone to="1991-04-08 20:00" mzone="Tbilisi"/>
-				<usesMetazone from="1991-04-08 20:00" mzone="Georgia"/>
+			<timezone type="Asib/Tbilisi">
+				<usesMetbzone to="1991-04-08 20:00" mzone="Tbilisi"/>
+				<usesMetbzone from="1991-04-08 20:00" mzone="Georgib"/>
 			</timezone>
-			<timezone type="Asia/Tehran">
-				<usesMetazone mzone="Iran"/>
+			<timezone type="Asib/Tehrbn">
+				<usesMetbzone mzone="Irbn"/>
 			</timezone>
-			<timezone type="Asia/Thimphu">
-				<usesMetazone to="1987-09-30 18:30" mzone="India"/>
-				<usesMetazone from="1987-09-30 18:30" mzone="Bhutan"/>
+			<timezone type="Asib/Thimphu">
+				<usesMetbzone to="1987-09-30 18:30" mzone="Indib"/>
+				<usesMetbzone from="1987-09-30 18:30" mzone="Bhutbn"/>
 			</timezone>
-			<timezone type="Asia/Tokyo">
-				<usesMetazone mzone="Japan"/>
+			<timezone type="Asib/Tokyo">
+				<usesMetbzone mzone="Jbpbn"/>
 			</timezone>
-			<timezone type="Asia/Ulaanbaatar">
-				<usesMetazone mzone="Mongolia"/>
+			<timezone type="Asib/Ulbbnbbbtbr">
+				<usesMetbzone mzone="Mongolib"/>
 			</timezone>
-			<timezone type="Asia/Urumqi">
-				<usesMetazone to="1980-04-30 18:00" mzone="Urumqi"/>
-				<usesMetazone from="1980-04-30 18:00" mzone="China"/>
+			<timezone type="Asib/Urumqi">
+				<usesMetbzone to="1980-04-30 18:00" mzone="Urumqi"/>
+				<usesMetbzone from="1980-04-30 18:00" mzone="Chinb"/>
 			</timezone>
-			<timezone type="Asia/Vientiane">
-				<usesMetazone mzone="Indochina"/>
+			<timezone type="Asib/Vientibne">
+				<usesMetbzone mzone="Indochinb"/>
 			</timezone>
-			<timezone type="Asia/Vladivostok">
-				<usesMetazone mzone="Vladivostok"/>
+			<timezone type="Asib/Vlbdivostok">
+				<usesMetbzone mzone="Vlbdivostok"/>
 			</timezone>
-			<timezone type="Asia/Yakutsk">
-				<usesMetazone mzone="Yakutsk"/>
+			<timezone type="Asib/Ybkutsk">
+				<usesMetbzone mzone="Ybkutsk"/>
 			</timezone>
-			<timezone type="Asia/Yekaterinburg">
-				<usesMetazone to="1992-01-18 22:00" mzone="Sverdlovsk"/>
-				<usesMetazone from="1992-01-18 22:00" mzone="Yekaterinburg"/>
+			<timezone type="Asib/Yekbterinburg">
+				<usesMetbzone to="1992-01-18 22:00" mzone="Sverdlovsk"/>
+				<usesMetbzone from="1992-01-18 22:00" mzone="Yekbterinburg"/>
 			</timezone>
-			<timezone type="Asia/Yerevan">
-				<usesMetazone to="1991-09-22 20:00" mzone="Yerevan"/>
-				<usesMetazone from="1991-09-22 20:00" mzone="Armenia"/>
+			<timezone type="Asib/Yerevbn">
+				<usesMetbzone to="1991-09-22 20:00" mzone="Yerevbn"/>
+				<usesMetbzone from="1991-09-22 20:00" mzone="Armenib"/>
 			</timezone>
-			<timezone type="Atlantic/Azores">
-				<usesMetazone to="1992-09-27 02:00" mzone="Azores"/>
-				<usesMetazone to="1993-03-28 01:00" from="1992-09-27 02:00" mzone="Europe_Western"/>
-				<usesMetazone from="1993-03-28 01:00" mzone="Azores"/>
+			<timezone type="Atlbntic/Azores">
+				<usesMetbzone to="1992-09-27 02:00" mzone="Azores"/>
+				<usesMetbzone to="1993-03-28 01:00" from="1992-09-27 02:00" mzone="Europe_Western"/>
+				<usesMetbzone from="1993-03-28 01:00" mzone="Azores"/>
 			</timezone>
-			<timezone type="Atlantic/Bermuda">
-				<usesMetazone mzone="Atlantic"/>
+			<timezone type="Atlbntic/Bermudb">
+				<usesMetbzone mzone="Atlbntic"/>
 			</timezone>
-			<timezone type="Atlantic/Canary">
-				<usesMetazone mzone="Europe_Western"/>
+			<timezone type="Atlbntic/Cbnbry">
+				<usesMetbzone mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Atlantic/Cape_Verde">
-				<usesMetazone mzone="Cape_Verde"/>
+			<timezone type="Atlbntic/Cbpe_Verde">
+				<usesMetbzone mzone="Cbpe_Verde"/>
 			</timezone>
-			<timezone type="Atlantic/Faeroe">
-				<usesMetazone mzone="Europe_Western"/>
+			<timezone type="Atlbntic/Fberoe">
+				<usesMetbzone mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Atlantic/Madeira">
-				<usesMetazone mzone="Europe_Western"/>
+			<timezone type="Atlbntic/Mbdeirb">
+				<usesMetbzone mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Atlantic/Reykjavik">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Atlbntic/Reykjbvik">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Atlantic/South_Georgia">
-				<usesMetazone mzone="South_Georgia"/>
+			<timezone type="Atlbntic/South_Georgib">
+				<usesMetbzone mzone="South_Georgib"/>
 			</timezone>
-			<timezone type="Atlantic/St_Helena">
-				<usesMetazone mzone="GMT"/>
+			<timezone type="Atlbntic/St_Helenb">
+				<usesMetbzone mzone="GMT"/>
 			</timezone>
-			<timezone type="Atlantic/Stanley">
-				<usesMetazone mzone="Falkland"/>
+			<timezone type="Atlbntic/Stbnley">
+				<usesMetbzone mzone="Fblklbnd"/>
 			</timezone>
-			<timezone type="Australia/Adelaide">
-				<usesMetazone mzone="Australia_Central"/>
+			<timezone type="Austrblib/Adelbide">
+				<usesMetbzone mzone="Austrblib_Centrbl"/>
 			</timezone>
-			<timezone type="Australia/Brisbane">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Brisbbne">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
-			<timezone type="Australia/Broken_Hill">
-				<usesMetazone mzone="Australia_Central"/>
+			<timezone type="Austrblib/Broken_Hill">
+				<usesMetbzone mzone="Austrblib_Centrbl"/>
 			</timezone>
-			<timezone type="Australia/Currie">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Currie">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
-			<timezone type="Australia/Darwin">
-				<usesMetazone mzone="Australia_Central"/>
+			<timezone type="Austrblib/Dbrwin">
+				<usesMetbzone mzone="Austrblib_Centrbl"/>
 			</timezone>
-			<timezone type="Australia/Eucla">
-				<usesMetazone mzone="Australia_CentralWestern"/>
+			<timezone type="Austrblib/Euclb">
+				<usesMetbzone mzone="Austrblib_CentrblWestern"/>
 			</timezone>
-			<timezone type="Australia/Hobart">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Hobbrt">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
-			<timezone type="Australia/Lindeman">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Lindembn">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
-			<timezone type="Australia/Lord_Howe">
-				<usesMetazone to="1981-02-28 14:00" mzone="Australia_Eastern"/>
-				<usesMetazone from="1981-02-28 14:00" mzone="Lord_Howe"/>
+			<timezone type="Austrblib/Lord_Howe">
+				<usesMetbzone to="1981-02-28 14:00" mzone="Austrblib_Ebstern"/>
+				<usesMetbzone from="1981-02-28 14:00" mzone="Lord_Howe"/>
 			</timezone>
-			<timezone type="Australia/Melbourne">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Melbourne">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
-			<timezone type="Australia/Perth">
-				<usesMetazone mzone="Australia_Western"/>
+			<timezone type="Austrblib/Perth">
+				<usesMetbzone mzone="Austrblib_Western"/>
 			</timezone>
-			<timezone type="Australia/Sydney">
-				<usesMetazone mzone="Australia_Eastern"/>
+			<timezone type="Austrblib/Sydney">
+				<usesMetbzone mzone="Austrblib_Ebstern"/>
 			</timezone>
 			<timezone type="CST6CDT">
-				<usesMetazone mzone="America_Central"/>
+				<usesMetbzone mzone="Americb_Centrbl"/>
 			</timezone>
 			<timezone type="EST5EDT">
-				<usesMetazone mzone="America_Eastern"/>
+				<usesMetbzone mzone="Americb_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Amsterdam">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Amsterdbm">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Andorra">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Andorrb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Athens">
-				<usesMetazone mzone="Europe_Eastern"/>
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Belgrade">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Belgrbde">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Berlin">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Bratislava">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Brbtislbvb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Brussels">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Bucharest">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Europe/Buchbrest">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Budapest">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Budbpest">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Chisinau">
-				<usesMetazone to="1990-05-05 21:00" mzone="Moscow"/>
-				<usesMetazone from="1990-05-05 21:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Chisinbu">
+				<usesMetbzone to="1990-05-05 21:00" mzone="Moscow"/>
+				<usesMetbzone from="1990-05-05 21:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Copenhagen">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Copenhbgen">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Dublin">
-				<usesMetazone mzone="Irish" to="1971-10-31 02:00"/>
-				<usesMetazone mzone="GMT" from="1971-10-31 02:00"/>
+				<usesMetbzone mzone="Irish" to="1971-10-31 02:00"/>
+				<usesMetbzone mzone="GMT" from="1971-10-31 02:00"/>
 			</timezone>
-			<timezone type="Europe/Gibraltar">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Gibrbltbr">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Guernsey">
-				<usesMetazone mzone="British" to="1971-10-31 02:00"/>
-				<usesMetazone mzone="GMT" from="1971-10-31 02:00"/>
+				<usesMetbzone mzone="British" to="1971-10-31 02:00"/>
+				<usesMetbzone mzone="GMT" from="1971-10-31 02:00"/>
 			</timezone>
 			<timezone type="Europe/Helsinki">
-				<usesMetazone mzone="Europe_Eastern"/>
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Isle_of_Man">
-				<usesMetazone mzone="British" to="1971-10-31 02:00"/>
-				<usesMetazone mzone="GMT" from="1971-10-31 02:00"/>
+			<timezone type="Europe/Isle_of_Mbn">
+				<usesMetbzone mzone="British" to="1971-10-31 02:00"/>
+				<usesMetbzone mzone="GMT" from="1971-10-31 02:00"/>
 			</timezone>
-			<timezone type="Europe/Istanbul">
-				<usesMetazone to="1978-10-14 21:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1985-04-19 21:00" from="1978-10-14 21:00" mzone="Turkey"/>
-				<usesMetazone from="1985-04-19 21:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Istbnbul">
+				<usesMetbzone to="1978-10-14 21:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone to="1985-04-19 21:00" from="1978-10-14 21:00" mzone="Turkey"/>
+				<usesMetbzone from="1985-04-19 21:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Jersey">
-				<usesMetazone mzone="British" to="1971-10-31 02:00"/>
-				<usesMetazone mzone="GMT" from="1971-10-31 02:00"/>
+				<usesMetbzone mzone="British" to="1971-10-31 02:00"/>
+				<usesMetbzone mzone="GMT" from="1971-10-31 02:00"/>
 			</timezone>
-			<timezone type="Europe/Kaliningrad">
-				<usesMetazone to="1991-03-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="2011-03-27 00:00" from="1991-03-30 23:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Kbliningrbd">
+				<usesMetbzone to="1991-03-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="2011-03-27 00:00" from="1991-03-30 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Kiev">
-				<usesMetazone to="1990-06-30 23:00" mzone="Moscow"/>
-				<usesMetazone from="1990-06-30 23:00" mzone="Europe_Eastern"/>
+				<usesMetbzone to="1990-06-30 23:00" mzone="Moscow"/>
+				<usesMetbzone from="1990-06-30 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Lisbon">
-				<usesMetazone to="1976-09-26 00:00" mzone="Europe_Central"/>
-				<usesMetazone to="1992-09-27 01:00" from="1976-09-26 00:00" mzone="Europe_Western"/>
-				<usesMetazone to="1996-03-31 01:00" from="1992-09-27 01:00" mzone="Europe_Central"/>
-				<usesMetazone from="1996-03-31 01:00" mzone="Europe_Western"/>
+				<usesMetbzone to="1976-09-26 00:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone to="1992-09-27 01:00" from="1976-09-26 00:00" mzone="Europe_Western"/>
+				<usesMetbzone to="1996-03-31 01:00" from="1992-09-27 01:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone from="1996-03-31 01:00" mzone="Europe_Western"/>
 			</timezone>
-			<timezone type="Europe/Ljubljana">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Ljubljbnb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/London">
-				<usesMetazone mzone="British" to="1971-10-31 02:00"/>
-				<usesMetazone mzone="GMT" from="1971-10-31 02:00"/>
+				<usesMetbzone mzone="British" to="1971-10-31 02:00"/>
+				<usesMetbzone mzone="GMT" from="1971-10-31 02:00"/>
 			</timezone>
 			<timezone type="Europe/Luxembourg">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Madrid">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Mbdrid">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Malta">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Mbltb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Mariehamn">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Europe/Mbriehbmn">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Minsk">
-				<usesMetazone to="1991-03-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="2011-03-27 00:00" from="1991-03-30 23:00" mzone="Europe_Eastern"/>
+				<usesMetbzone to="1991-03-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="2011-03-27 00:00" from="1991-03-30 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Monaco">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Monbco">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Moscow">
-				<usesMetazone to="1991-03-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="1992-01-19 00:00" from="1991-03-30 23:00" mzone="Europe_Eastern"/>
-				<usesMetazone from="1992-01-19 00:00" mzone="Moscow"/>
+				<usesMetbzone to="1991-03-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="1992-01-19 00:00" from="1991-03-30 23:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone from="1992-01-19 00:00" mzone="Moscow"/>
 			</timezone>
 			<timezone type="Europe/Oslo">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Paris">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Pbris">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Podgorica">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Podgoricb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Prague">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Prbgue">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Riga">
-				<usesMetazone to="1989-03-25 23:00" mzone="Moscow"/>
-				<usesMetazone from="1989-03-25 23:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Rigb">
+				<usesMetbzone to="1989-03-25 23:00" mzone="Moscow"/>
+				<usesMetbzone from="1989-03-25 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Rome">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Samara">
-				<usesMetazone to="1991-10-20 00:00" mzone="Kuybyshev"/>
-				<usesMetazone from="1991-10-20 00:00" to="2010-03-27 22:00" mzone="Samara"/>
-				<usesMetazone from="2010-03-27 22:00" mzone="Moscow"/>
+			<timezone type="Europe/Sbmbrb">
+				<usesMetbzone to="1991-10-20 00:00" mzone="Kuybyshev"/>
+				<usesMetbzone from="1991-10-20 00:00" to="2010-03-27 22:00" mzone="Sbmbrb"/>
+				<usesMetbzone from="2010-03-27 22:00" mzone="Moscow"/>
 			</timezone>
-			<timezone type="Europe/San_Marino">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Sbn_Mbrino">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Sarajevo">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Sbrbjevo">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Simferopol">
-				<usesMetazone to="1990-06-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="1994-04-30 21:00" from="1990-06-30 23:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1997-03-30 01:00" from="1994-04-30 21:00" mzone="Moscow"/>
-				<usesMetazone from="1997-03-30 01:00" mzone="Europe_Eastern"/>
+				<usesMetbzone to="1990-06-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="1994-04-30 21:00" from="1990-06-30 23:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone to="1997-03-30 01:00" from="1994-04-30 21:00" mzone="Moscow"/>
+				<usesMetbzone from="1997-03-30 01:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Skopje">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Sofia">
-				<usesMetazone mzone="Europe_Eastern"/>
+			<timezone type="Europe/Sofib">
+				<usesMetbzone mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Stockholm">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Tallinn">
-				<usesMetazone to="1989-03-25 23:00" mzone="Moscow"/>
-				<usesMetazone from="1989-03-25 23:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Tbllinn">
+				<usesMetbzone to="1989-03-25 23:00" mzone="Moscow"/>
+				<usesMetbzone from="1989-03-25 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Tirane">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Tirbne">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Uzhgorod">
-				<usesMetazone to="1990-06-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="1991-03-31 02:00" from="1990-06-30 23:00" mzone="Europe_Central"/>
-				<usesMetazone from="1991-03-31 02:00" mzone="Europe_Eastern"/>
+				<usesMetbzone to="1990-06-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="1991-03-31 02:00" from="1990-06-30 23:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone from="1991-03-31 02:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Vaduz">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Vbduz">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Vatican">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Vbticbn">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Vienna">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Viennb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
 			<timezone type="Europe/Vilnius">
-				<usesMetazone to="1991-03-30 23:00" mzone="Moscow"/>
-				<usesMetazone to="1998-03-29 01:00" from="1991-03-30 23:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1999-10-31 01:00" from="1998-03-29 01:00" mzone="Europe_Central"/>
-				<usesMetazone from="1999-10-31 01:00" mzone="Europe_Eastern"/>
+				<usesMetbzone to="1991-03-30 23:00" mzone="Moscow"/>
+				<usesMetbzone to="1998-03-29 01:00" from="1991-03-30 23:00" mzone="Europe_Ebstern"/>
+				<usesMetbzone to="1999-10-31 01:00" from="1998-03-29 01:00" mzone="Europe_Centrbl"/>
+				<usesMetbzone from="1999-10-31 01:00" mzone="Europe_Ebstern"/>
 			</timezone>
-			<timezone type="Europe/Volgograd">
-				<usesMetazone mzone="Volgograd"/>
+			<timezone type="Europe/Volgogrbd">
+				<usesMetbzone mzone="Volgogrbd"/>
 			</timezone>
-			<timezone type="Europe/Warsaw">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Wbrsbw">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Zagreb">
-				<usesMetazone mzone="Europe_Central"/>
+			<timezone type="Europe/Zbgreb">
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Europe/Zaporozhye">
-				<usesMetazone to="1991-03-30 23:00" mzone="Moscow"/>
-				<usesMetazone from="1991-03-30 23:00" mzone="Europe_Eastern"/>
+			<timezone type="Europe/Zbporozhye">
+				<usesMetbzone to="1991-03-30 23:00" mzone="Moscow"/>
+				<usesMetbzone from="1991-03-30 23:00" mzone="Europe_Ebstern"/>
 			</timezone>
 			<timezone type="Europe/Zurich">
-				<usesMetazone mzone="Europe_Central"/>
+				<usesMetbzone mzone="Europe_Centrbl"/>
 			</timezone>
-			<timezone type="Indian/Antananarivo">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Indibn/Antbnbnbrivo">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Indian/Chagos">
-				<usesMetazone mzone="Indian_Ocean"/>
+			<timezone type="Indibn/Chbgos">
+				<usesMetbzone mzone="Indibn_Ocebn"/>
 			</timezone>
-			<timezone type="Indian/Christmas">
-				<usesMetazone mzone="Christmas"/>
+			<timezone type="Indibn/Christmbs">
+				<usesMetbzone mzone="Christmbs"/>
 			</timezone>
-			<timezone type="Indian/Cocos">
-				<usesMetazone mzone="Cocos"/>
+			<timezone type="Indibn/Cocos">
+				<usesMetbzone mzone="Cocos"/>
 			</timezone>
-			<timezone type="Indian/Comoro">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Indibn/Comoro">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Indian/Kerguelen">
-				<usesMetazone mzone="French_Southern"/>
+			<timezone type="Indibn/Kerguelen">
+				<usesMetbzone mzone="French_Southern"/>
 			</timezone>
-			<timezone type="Indian/Mahe">
-				<usesMetazone mzone="Seychelles"/>
+			<timezone type="Indibn/Mbhe">
+				<usesMetbzone mzone="Seychelles"/>
 			</timezone>
-			<timezone type="Indian/Maldives">
-				<usesMetazone mzone="Maldives"/>
+			<timezone type="Indibn/Mbldives">
+				<usesMetbzone mzone="Mbldives"/>
 			</timezone>
-			<timezone type="Indian/Mauritius">
-				<usesMetazone mzone="Mauritius"/>
+			<timezone type="Indibn/Mburitius">
+				<usesMetbzone mzone="Mburitius"/>
 			</timezone>
-			<timezone type="Indian/Mayotte">
-				<usesMetazone mzone="Africa_Eastern"/>
+			<timezone type="Indibn/Mbyotte">
+				<usesMetbzone mzone="Africb_Ebstern"/>
 			</timezone>
-			<timezone type="Indian/Reunion">
-				<usesMetazone mzone="Reunion"/>
+			<timezone type="Indibn/Reunion">
+				<usesMetbzone mzone="Reunion"/>
 			</timezone>
 			<timezone type="MST7MDT">
-				<usesMetazone mzone="America_Mountain"/>
+				<usesMetbzone mzone="Americb_Mountbin"/>
 			</timezone>
-			<timezone type="Pacific/Apia">
-				<usesMetazone to="1983-10-30 12:00" mzone="Bering"/>
-				<usesMetazone from="1983-10-30 12:00" mzone="Samoa"/>
+			<timezone type="Pbcific/Apib">
+				<usesMetbzone to="1983-10-30 12:00" mzone="Bering"/>
+				<usesMetbzone from="1983-10-30 12:00" mzone="Sbmob"/>
 			</timezone>
-			<timezone type="Pacific/Auckland">
-				<usesMetazone mzone="New_Zealand"/>
+			<timezone type="Pbcific/Aucklbnd">
+				<usesMetbzone mzone="New_Zeblbnd"/>
 			</timezone>
-			<timezone type="Pacific/Chatham">
-				<usesMetazone mzone="Chatham"/>
+			<timezone type="Pbcific/Chbthbm">
+				<usesMetbzone mzone="Chbthbm"/>
 			</timezone>
-			<timezone type="Pacific/Easter">
-				<usesMetazone mzone="Easter"/>
+			<timezone type="Pbcific/Ebster">
+				<usesMetbzone mzone="Ebster"/>
 			</timezone>
-			<timezone type="Pacific/Efate">
-				<usesMetazone mzone="Vanuatu"/>
+			<timezone type="Pbcific/Efbte">
+				<usesMetbzone mzone="Vbnubtu"/>
 			</timezone>
-			<timezone type="Pacific/Enderbury">
-				<usesMetazone mzone="Phoenix_Islands"/>
+			<timezone type="Pbcific/Enderbury">
+				<usesMetbzone mzone="Phoenix_Islbnds"/>
 			</timezone>
-			<timezone type="Pacific/Fakaofo">
-				<usesMetazone mzone="Tokelau"/>
+			<timezone type="Pbcific/Fbkbofo">
+				<usesMetbzone mzone="Tokelbu"/>
 			</timezone>
-			<timezone type="Pacific/Fiji">
-				<usesMetazone mzone="Fiji"/>
+			<timezone type="Pbcific/Fiji">
+				<usesMetbzone mzone="Fiji"/>
 			</timezone>
-			<timezone type="Pacific/Funafuti">
-				<usesMetazone mzone="Tuvalu"/>
+			<timezone type="Pbcific/Funbfuti">
+				<usesMetbzone mzone="Tuvblu"/>
 			</timezone>
-			<timezone type="Pacific/Galapagos">
-				<usesMetazone to="1986-01-01 05:00" mzone="Ecuador"/>
-				<usesMetazone from="1986-01-01 05:00" mzone="Galapagos"/>
+			<timezone type="Pbcific/Gblbpbgos">
+				<usesMetbzone to="1986-01-01 05:00" mzone="Ecubdor"/>
+				<usesMetbzone from="1986-01-01 05:00" mzone="Gblbpbgos"/>
 			</timezone>
-			<timezone type="Pacific/Gambier">
-				<usesMetazone mzone="Gambier"/>
+			<timezone type="Pbcific/Gbmbier">
+				<usesMetbzone mzone="Gbmbier"/>
 			</timezone>
-			<timezone type="Pacific/Guadalcanal">
-				<usesMetazone mzone="Solomon"/>
+			<timezone type="Pbcific/Gubdblcbnbl">
+				<usesMetbzone mzone="Solomon"/>
 			</timezone>
-			<timezone type="Pacific/Guam">
-				<usesMetazone to="2000-12-22 14:00" mzone="Guam"/>
-				<usesMetazone from="2000-12-22 14:00" mzone="Chamorro"/>
+			<timezone type="Pbcific/Gubm">
+				<usesMetbzone to="2000-12-22 14:00" mzone="Gubm"/>
+				<usesMetbzone from="2000-12-22 14:00" mzone="Chbmorro"/>
 			</timezone>
-			<timezone type="Pacific/Honolulu">
-				<usesMetazone to="1983-10-30 11:00" mzone="Alaska_Hawaii"/>
-				<usesMetazone from="1983-10-30 11:00" mzone="Hawaii_Aleutian"/>
+			<timezone type="Pbcific/Honolulu">
+				<usesMetbzone to="1983-10-30 11:00" mzone="Albskb_Hbwbii"/>
+				<usesMetbzone from="1983-10-30 11:00" mzone="Hbwbii_Aleutibn"/>
 			</timezone>
-			<timezone type="Pacific/Johnston">
-				<usesMetazone to="1983-10-30 11:00" mzone="Alaska_Hawaii"/>
-				<usesMetazone from="1983-10-30 11:00" mzone="Hawaii_Aleutian"/>
+			<timezone type="Pbcific/Johnston">
+				<usesMetbzone to="1983-10-30 11:00" mzone="Albskb_Hbwbii"/>
+				<usesMetbzone from="1983-10-30 11:00" mzone="Hbwbii_Aleutibn"/>
 			</timezone>
-			<timezone type="Pacific/Kiritimati">
-				<usesMetazone mzone="Line_Islands"/>
+			<timezone type="Pbcific/Kiritimbti">
+				<usesMetbzone mzone="Line_Islbnds"/>
 			</timezone>
-			<timezone type="Pacific/Kosrae">
-				<usesMetazone mzone="Kosrae"/>
+			<timezone type="Pbcific/Kosrbe">
+				<usesMetbzone mzone="Kosrbe"/>
 			</timezone>
-			<timezone type="Pacific/Kwajalein">
-				<usesMetazone to="1993-08-20 12:00" mzone="Kwajalein"/>
-				<usesMetazone from="1993-08-20 12:00" mzone="Marshall_Islands"/>
+			<timezone type="Pbcific/Kwbjblein">
+				<usesMetbzone to="1993-08-20 12:00" mzone="Kwbjblein"/>
+				<usesMetbzone from="1993-08-20 12:00" mzone="Mbrshbll_Islbnds"/>
 			</timezone>
-			<timezone type="Pacific/Majuro">
-				<usesMetazone mzone="Marshall_Islands"/>
+			<timezone type="Pbcific/Mbjuro">
+				<usesMetbzone mzone="Mbrshbll_Islbnds"/>
 			</timezone>
-			<timezone type="Pacific/Marquesas">
-				<usesMetazone mzone="Marquesas"/>
+			<timezone type="Pbcific/Mbrquesbs">
+				<usesMetbzone mzone="Mbrquesbs"/>
 			</timezone>
-			<timezone type="Pacific/Midway">
-				<usesMetazone to="1983-10-30 12:00" mzone="Bering"/>
-				<usesMetazone from="1983-10-30 12:00" mzone="Samoa"/>
+			<timezone type="Pbcific/Midwby">
+				<usesMetbzone to="1983-10-30 12:00" mzone="Bering"/>
+				<usesMetbzone from="1983-10-30 12:00" mzone="Sbmob"/>
 			</timezone>
-			<timezone type="Pacific/Nauru">
-				<usesMetazone mzone="Nauru"/>
+			<timezone type="Pbcific/Nburu">
+				<usesMetbzone mzone="Nburu"/>
 			</timezone>
-			<timezone type="Pacific/Niue">
-				<usesMetazone mzone="Niue"/>
+			<timezone type="Pbcific/Niue">
+				<usesMetbzone mzone="Niue"/>
 			</timezone>
-			<timezone type="Pacific/Norfolk">
-				<usesMetazone mzone="Norfolk"/>
+			<timezone type="Pbcific/Norfolk">
+				<usesMetbzone mzone="Norfolk"/>
 			</timezone>
-			<timezone type="Pacific/Noumea">
-				<usesMetazone mzone="New_Caledonia"/>
+			<timezone type="Pbcific/Noumeb">
+				<usesMetbzone mzone="New_Cbledonib"/>
 			</timezone>
-			<timezone type="Pacific/Pago_Pago">
-				<usesMetazone to="1983-10-30 12:00" mzone="Bering"/>
-				<usesMetazone from="1983-10-30 12:00" mzone="Samoa"/>
+			<timezone type="Pbcific/Pbgo_Pbgo">
+				<usesMetbzone to="1983-10-30 12:00" mzone="Bering"/>
+				<usesMetbzone from="1983-10-30 12:00" mzone="Sbmob"/>
 			</timezone>
-			<timezone type="Pacific/Palau">
-				<usesMetazone mzone="Palau"/>
+			<timezone type="Pbcific/Pblbu">
+				<usesMetbzone mzone="Pblbu"/>
 			</timezone>
-			<timezone type="Pacific/Pitcairn">
-				<usesMetazone mzone="Pitcairn"/>
+			<timezone type="Pbcific/Pitcbirn">
+				<usesMetbzone mzone="Pitcbirn"/>
 			</timezone>
-			<timezone type="Pacific/Ponape">
-				<usesMetazone mzone="Ponape"/>
+			<timezone type="Pbcific/Ponbpe">
+				<usesMetbzone mzone="Ponbpe"/>
 			</timezone>
-			<timezone type="Pacific/Port_Moresby">
-				<usesMetazone mzone="Papua_New_Guinea"/>
+			<timezone type="Pbcific/Port_Moresby">
+				<usesMetbzone mzone="Pbpub_New_Guineb"/>
 			</timezone>
-			<timezone type="Pacific/Rarotonga">
-				<usesMetazone mzone="Cook"/>
+			<timezone type="Pbcific/Rbrotongb">
+				<usesMetbzone mzone="Cook"/>
 			</timezone>
-			<timezone type="Pacific/Saipan">
-				<usesMetazone to="2000-12-22 14:00" mzone="North_Mariana"/>
-				<usesMetazone from="2000-12-22 14:00" mzone="Chamorro"/>
+			<timezone type="Pbcific/Sbipbn">
+				<usesMetbzone to="2000-12-22 14:00" mzone="North_Mbribnb"/>
+				<usesMetbzone from="2000-12-22 14:00" mzone="Chbmorro"/>
 			</timezone>
-			<timezone type="Pacific/Tahiti">
-				<usesMetazone mzone="Tahiti"/>
+			<timezone type="Pbcific/Tbhiti">
+				<usesMetbzone mzone="Tbhiti"/>
 			</timezone>
-			<timezone type="Pacific/Tarawa">
-				<usesMetazone mzone="Gilbert_Islands"/>
+			<timezone type="Pbcific/Tbrbwb">
+				<usesMetbzone mzone="Gilbert_Islbnds"/>
 			</timezone>
-			<timezone type="Pacific/Tongatapu">
-				<usesMetazone mzone="Tonga"/>
+			<timezone type="Pbcific/Tongbtbpu">
+				<usesMetbzone mzone="Tongb"/>
 			</timezone>
-			<timezone type="Pacific/Truk">
-				<usesMetazone mzone="Truk"/>
+			<timezone type="Pbcific/Truk">
+				<usesMetbzone mzone="Truk"/>
 			</timezone>
-			<timezone type="Pacific/Wake">
-				<usesMetazone mzone="Wake"/>
+			<timezone type="Pbcific/Wbke">
+				<usesMetbzone mzone="Wbke"/>
 			</timezone>
-			<timezone type="Pacific/Wallis">
-				<usesMetazone mzone="Wallis"/>
+			<timezone type="Pbcific/Wbllis">
+				<usesMetbzone mzone="Wbllis"/>
 			</timezone>
 			<timezone type="PST8PDT">
-				<usesMetazone mzone="America_Pacific"/>
+				<usesMetbzone mzone="Americb_Pbcific"/>
 			</timezone>
-		</metazoneInfo>
+		</metbzoneInfo>
 
-		<mapTimezones type="metazones" typeVersion="2011n">
-			<mapZone other="Acre" territory="001" type="America/Rio_Branco"/>
-			<mapZone other="Afghanistan" territory="001" type="Asia/Kabul"/>
-			<mapZone other="Africa_Central" territory="001" type="Africa/Maputo"/>
-			<mapZone other="Africa_Central" territory="BI" type="Africa/Bujumbura"/>
-			<mapZone other="Africa_Central" territory="BW" type="Africa/Gaborone"/>
-			<mapZone other="Africa_Central" territory="CD" type="Africa/Lubumbashi"/>
-			<mapZone other="Africa_Central" territory="MW" type="Africa/Blantyre"/>
-			<mapZone other="Africa_Central" territory="RW" type="Africa/Kigali"/>
-			<mapZone other="Africa_Central" territory="ZM" type="Africa/Lusaka"/>
-			<mapZone other="Africa_Central" territory="ZW" type="Africa/Harare"/>
-			<mapZone other="Africa_Eastern" territory="001" type="Africa/Nairobi"/>
-			<mapZone other="Africa_Eastern" territory="DJ" type="Africa/Djibouti"/>
-			<mapZone other="Africa_Eastern" territory="ER" type="Africa/Asmera"/>
-			<mapZone other="Africa_Eastern" territory="ET" type="Africa/Addis_Ababa"/>
-			<mapZone other="Africa_Eastern" territory="KM" type="Indian/Comoro"/>
-			<mapZone other="Africa_Eastern" territory="MG" type="Indian/Antananarivo"/>
-			<mapZone other="Africa_Eastern" territory="SO" type="Africa/Mogadishu"/>
-			<mapZone other="Africa_Eastern" territory="TZ" type="Africa/Dar_es_Salaam"/>
-			<mapZone other="Africa_Eastern" territory="UG" type="Africa/Kampala"/>
-			<mapZone other="Africa_Eastern" territory="YT" type="Indian/Mayotte"/>
-			<mapZone other="Africa_FarWestern" territory="001" type="Africa/El_Aaiun"/>
-			<mapZone other="Africa_Southern" territory="001" type="Africa/Johannesburg"/>
-			<mapZone other="Africa_Southern" territory="LS" type="Africa/Maseru"/>
-			<mapZone other="Africa_Southern" territory="SZ" type="Africa/Mbabane"/>
-			<mapZone other="Africa_Western" territory="001" type="Africa/Lagos"/>
-			<mapZone other="Africa_Western" territory="AO" type="Africa/Luanda"/>
-			<mapZone other="Africa_Western" territory="BJ" type="Africa/Porto-Novo"/>
-			<mapZone other="Africa_Western" territory="CD" type="Africa/Kinshasa"/>
-			<mapZone other="Africa_Western" territory="CF" type="Africa/Bangui"/>
-			<mapZone other="Africa_Western" territory="CG" type="Africa/Brazzaville"/>
-			<mapZone other="Africa_Western" territory="CM" type="Africa/Douala"/>
-			<mapZone other="Africa_Western" territory="GA" type="Africa/Libreville"/>
-			<mapZone other="Africa_Western" territory="GQ" type="Africa/Malabo"/>
-			<mapZone other="Africa_Western" territory="NE" type="Africa/Niamey"/>
-			<mapZone other="Africa_Western" territory="TD" type="Africa/Ndjamena"/>
-			<mapZone other="Aktyubinsk" territory="001" type="Asia/Aqtobe"/>
-			<mapZone other="Alaska" territory="001" type="America/Juneau"/>
-			<mapZone other="Alaska_Hawaii" territory="001" type="America/Anchorage"/>
-			<mapZone other="Almaty" territory="001" type="Asia/Almaty"/>
-			<mapZone other="Amazon" territory="001" type="America/Manaus"/>
-			<mapZone other="America_Central" territory="001" type="America/Chicago"/>
-			<mapZone other="America_Central" territory="BZ" type="America/Belize"/>
-			<mapZone other="America_Central" territory="CA" type="America/Winnipeg"/>
-			<mapZone other="America_Central" territory="CR" type="America/Costa_Rica"/>
-			<mapZone other="America_Central" territory="GT" type="America/Guatemala"/>
-			<mapZone other="America_Central" territory="HN" type="America/Tegucigalpa"/>
-			<mapZone other="America_Central" territory="MX" type="America/Mexico_City"/>
-			<mapZone other="America_Central" territory="SV" type="America/El_Salvador"/>
-			<mapZone other="America_Eastern" territory="001" type="America/New_York"/>
-			<mapZone other="America_Eastern" territory="BS" type="America/Nassau"/>
-			<mapZone other="America_Eastern" territory="CA" type="America/Toronto"/>
-			<mapZone other="America_Eastern" territory="HT" type="America/Port-au-Prince"/>
-			<mapZone other="America_Eastern" territory="JM" type="America/Jamaica"/>
-			<mapZone other="America_Eastern" territory="KY" type="America/Cayman"/>
-			<mapZone other="America_Eastern" territory="PA" type="America/Panama"/>
-			<mapZone other="America_Eastern" territory="TC" type="America/Grand_Turk"/>
-			<mapZone other="America_Mountain" territory="001" type="America/Denver"/>
-			<mapZone other="America_Mountain" territory="CA" type="America/Edmonton"/>
-			<mapZone other="America_Mountain" territory="MX" type="America/Hermosillo"/>
-			<mapZone other="America_Pacific" territory="001" type="America/Los_Angeles"/>
-			<mapZone other="America_Pacific" territory="CA" type="America/Vancouver"/>
-			<mapZone other="America_Pacific" territory="MX" type="America/Tijuana"/>
-			<mapZone other="Anadyr" territory="001" type="Asia/Anadyr"/>
-			<mapZone other="Aqtau" territory="001" type="Asia/Aqtau"/>
-			<mapZone other="Aqtobe" territory="001" type="Asia/Aqtobe"/>
-			<mapZone other="Arabian" territory="001" type="Asia/Riyadh"/>
-			<mapZone other="Arabian" territory="BH" type="Asia/Bahrain"/>
-			<mapZone other="Arabian" territory="IQ" type="Asia/Baghdad"/>
-			<mapZone other="Arabian" territory="KW" type="Asia/Kuwait"/>
-			<mapZone other="Arabian" territory="QA" type="Asia/Qatar"/>
-			<mapZone other="Arabian" territory="YE" type="Asia/Aden"/>
-			<mapZone other="Argentina" territory="001" type="America/Buenos_Aires"/>
-			<mapZone other="Argentina_Western" territory="001" type="America/Argentina/San_Luis"/>
-			<mapZone other="Armenia" territory="001" type="Asia/Yerevan"/>
-			<mapZone other="Ashkhabad" territory="001" type="Asia/Ashgabat"/>
-			<mapZone other="Atlantic" territory="001" type="America/Halifax"/>
-			<mapZone other="Atlantic" territory="AG" type="America/Antigua"/>
-			<mapZone other="Atlantic" territory="AI" type="America/Anguilla"/>
-			<mapZone other="Atlantic" territory="AN" type="America/Curacao"/>
-			<mapZone other="Atlantic" territory="AW" type="America/Aruba"/>
-			<mapZone other="Atlantic" territory="BB" type="America/Barbados"/>
-			<mapZone other="Atlantic" territory="BM" type="Atlantic/Bermuda"/>
-			<mapZone other="Atlantic" territory="BQ" type="America/Kralendijk"/>
-			<mapZone other="Atlantic" territory="DM" type="America/Dominica"/>
-			<mapZone other="Atlantic" territory="GD" type="America/Grenada"/>
-			<mapZone other="Atlantic" territory="GL" type="America/Thule"/>
-			<mapZone other="Atlantic" territory="GP" type="America/Guadeloupe"/>
-			<mapZone other="Atlantic" territory="KN" type="America/St_Kitts"/>
-			<mapZone other="Atlantic" territory="LC" type="America/St_Lucia"/>
-			<mapZone other="Atlantic" territory="MF" type="America/Marigot"/>
-			<mapZone other="Atlantic" territory="MQ" type="America/Martinique"/>
-			<mapZone other="Atlantic" territory="MS" type="America/Montserrat"/>
-			<mapZone other="Atlantic" territory="PR" type="America/Puerto_Rico"/>
-			<mapZone other="Atlantic" territory="SX" type="America/Lower_Princes"/>
-			<mapZone other="Atlantic" territory="TT" type="America/Port_of_Spain"/>
-			<mapZone other="Atlantic" territory="VC" type="America/St_Vincent"/>
-			<mapZone other="Atlantic" territory="VG" type="America/Tortola"/>
-			<mapZone other="Atlantic" territory="VI" type="America/St_Thomas"/>
-			<mapZone other="Australia_Central" territory="001" type="Australia/Adelaide"/>
-			<mapZone other="Australia_CentralWestern" territory="001" type="Australia/Eucla"/>
-			<mapZone other="Australia_Eastern" territory="001" type="Australia/Sydney"/>
-			<mapZone other="Australia_Western" territory="001" type="Australia/Perth"/>
-			<mapZone other="Azerbaijan" territory="001" type="Asia/Baku"/>
-			<mapZone other="Azores" territory="001" type="Atlantic/Azores"/>
-			<mapZone other="Baku" territory="001" type="Asia/Baku"/>
-			<mapZone other="Bangladesh" territory="001" type="Asia/Dhaka"/>
-			<mapZone other="Bering" territory="001" type="America/Adak"/>
-			<mapZone other="Bhutan" territory="001" type="Asia/Thimphu"/>
-			<mapZone other="Bolivia" territory="001" type="America/La_Paz"/>
-			<mapZone other="Borneo" territory="001" type="Asia/Kuching"/>
-			<mapZone other="Brasilia" territory="001" type="America/Sao_Paulo"/>
-			<mapZone other="British" territory="001" type="Europe/London"/>
-			<mapZone other="Brunei" territory="001" type="Asia/Brunei"/>
-			<mapZone other="Cape_Verde" territory="001" type="Atlantic/Cape_Verde"/>
-			<mapZone other="Casey" territory="001" type="Antarctica/Casey"/>
-			<mapZone other="Chamorro" territory="001" type="Pacific/Saipan"/>
-			<mapZone other="Chamorro" territory="GU" type="Pacific/Guam"/>
-			<mapZone other="Changbai" territory="001" type="Asia/Harbin"/>
-			<mapZone other="Chatham" territory="001" type="Pacific/Chatham"/>
-			<mapZone other="Chile" territory="001" type="America/Santiago"/>
-			<mapZone other="Chile" territory="AQ" type="Antarctica/Palmer"/>
-			<mapZone other="China" territory="001" type="Asia/Shanghai"/>
-			<mapZone other="China" territory="MO" type="Asia/Macau"/>
-			<mapZone other="Choibalsan" territory="001" type="Asia/Choibalsan"/>
-			<mapZone other="Christmas" territory="001" type="Indian/Christmas"/>
-			<mapZone other="Cocos" territory="001" type="Indian/Cocos"/>
-			<mapZone other="Colombia" territory="001" type="America/Bogota"/>
-			<mapZone other="Cook" territory="001" type="Pacific/Rarotonga"/>
-			<mapZone other="Cuba" territory="001" type="America/Havana"/>
-			<mapZone other="Dacca" territory="001" type="Asia/Dhaka"/>
-			<mapZone other="Davis" territory="001" type="Antarctica/Davis"/>
-			<mapZone other="Dominican" territory="001" type="America/Santo_Domingo"/>
-			<mapZone other="DumontDUrville" territory="001" type="Antarctica/DumontDUrville"/>
-			<mapZone other="Dushanbe" territory="001" type="Asia/Dushanbe"/>
-			<mapZone other="Dutch_Guiana" territory="001" type="America/Paramaribo"/>
-			<mapZone other="East_Timor" territory="001" type="Asia/Dili"/>
-			<mapZone other="Easter" territory="001" type="Pacific/Easter"/>
-			<mapZone other="Ecuador" territory="001" type="America/Guayaquil"/>
-			<mapZone other="Europe_Central" territory="001" type="Europe/Paris"/>
-			<mapZone other="Europe_Central" territory="AD" type="Europe/Andorra"/>
-			<mapZone other="Europe_Central" territory="AL" type="Europe/Tirane"/>
-			<mapZone other="Europe_Central" territory="AT" type="Europe/Vienna"/>
-			<mapZone other="Europe_Central" territory="BA" type="Europe/Sarajevo"/>
-			<mapZone other="Europe_Central" territory="BE" type="Europe/Brussels"/>
-			<mapZone other="Europe_Central" territory="CH" type="Europe/Zurich"/>
-			<mapZone other="Europe_Central" territory="CZ" type="Europe/Prague"/>
-			<mapZone other="Europe_Central" territory="DE" type="Europe/Berlin"/>
-			<mapZone other="Europe_Central" territory="DK" type="Europe/Copenhagen"/>
-			<mapZone other="Europe_Central" territory="ES" type="Europe/Madrid"/>
-			<mapZone other="Europe_Central" territory="GI" type="Europe/Gibraltar"/>
-			<mapZone other="Europe_Central" territory="HR" type="Europe/Zagreb"/>
-			<mapZone other="Europe_Central" territory="HU" type="Europe/Budapest"/>
-			<mapZone other="Europe_Central" territory="IT" type="Europe/Rome"/>
-			<mapZone other="Europe_Central" territory="LI" type="Europe/Vaduz"/>
-			<mapZone other="Europe_Central" territory="LU" type="Europe/Luxembourg"/>
-			<mapZone other="Europe_Central" territory="MC" type="Europe/Monaco"/>
-			<mapZone other="Europe_Central" territory="ME" type="Europe/Podgorica"/>
-			<mapZone other="Europe_Central" territory="MK" type="Europe/Skopje"/>
-			<mapZone other="Europe_Central" territory="MT" type="Europe/Malta"/>
-			<mapZone other="Europe_Central" territory="NL" type="Europe/Amsterdam"/>
-			<mapZone other="Europe_Central" territory="NO" type="Europe/Oslo"/>
-			<mapZone other="Europe_Central" territory="PL" type="Europe/Warsaw"/>
-			<mapZone other="Europe_Central" territory="RS" type="Europe/Belgrade"/>
-			<mapZone other="Europe_Central" territory="SE" type="Europe/Stockholm"/>
-			<mapZone other="Europe_Central" territory="SI" type="Europe/Ljubljana"/>
-			<mapZone other="Europe_Central" territory="SK" type="Europe/Bratislava"/>
-			<mapZone other="Europe_Central" territory="SM" type="Europe/San_Marino"/>
-			<mapZone other="Europe_Central" territory="TN" type="Africa/Tunis"/>
-			<mapZone other="Europe_Central" territory="VA" type="Europe/Vatican"/>
-			<mapZone other="Europe_Eastern" territory="001" type="Europe/Bucharest"/>
-			<mapZone other="Europe_Eastern" territory="AX" type="Europe/Mariehamn"/>
-			<mapZone other="Europe_Eastern" territory="BG" type="Europe/Sofia"/>
-			<mapZone other="Europe_Eastern" territory="CY" type="Asia/Nicosia"/>
-			<mapZone other="Europe_Eastern" territory="EG" type="Africa/Cairo"/>
-			<mapZone other="Europe_Eastern" territory="FI" type="Europe/Helsinki"/>
-			<mapZone other="Europe_Eastern" territory="GR" type="Europe/Athens"/>
-			<mapZone other="Europe_Eastern" territory="JO" type="Asia/Amman"/>
-			<mapZone other="Europe_Eastern" territory="LB" type="Asia/Beirut"/>
-			<mapZone other="Europe_Eastern" territory="SY" type="Asia/Damascus"/>
-			<mapZone other="Europe_Western" territory="001" type="Atlantic/Canary"/>
-			<mapZone other="Europe_Western" territory="FO" type="Atlantic/Faeroe"/>
-			<mapZone other="Falkland" territory="001" type="Atlantic/Stanley"/>
-			<mapZone other="Fiji" territory="001" type="Pacific/Fiji"/>
-			<mapZone other="French_Guiana" territory="001" type="America/Cayenne"/>
-			<mapZone other="French_Southern" territory="001" type="Indian/Kerguelen"/>
-			<mapZone other="Frunze" territory="001" type="Asia/Bishkek"/>
-			<mapZone other="Galapagos" territory="001" type="Pacific/Galapagos"/>
-			<mapZone other="Gambier" territory="001" type="Pacific/Gambier"/>
-			<mapZone other="Georgia" territory="001" type="Asia/Tbilisi"/>
-			<mapZone other="Gilbert_Islands" territory="001" type="Pacific/Tarawa"/>
-			<mapZone other="GMT" territory="001" type="Atlantic/Reykjavik"/>
-			<mapZone other="GMT" territory="BF" type="Africa/Ouagadougou"/>
-			<mapZone other="GMT" territory="CI" type="Africa/Abidjan"/>
-			<mapZone other="GMT" territory="GB" type="Europe/London"/>
-			<mapZone other="GMT" territory="GH" type="Africa/Accra"/>
-			<mapZone other="GMT" territory="GM" type="Africa/Banjul"/>
-			<mapZone other="GMT" territory="GN" type="Africa/Conakry"/>
-			<mapZone other="GMT" territory="IE" type="Europe/Dublin"/>
-			<mapZone other="GMT" territory="LR" type="Africa/Monrovia"/>
-			<mapZone other="GMT" territory="ML" type="Africa/Bamako"/>
-			<mapZone other="GMT" territory="MR" type="Africa/Nouakchott"/>
-			<mapZone other="GMT" territory="SH" type="Atlantic/St_Helena"/>
-			<mapZone other="GMT" territory="SL" type="Africa/Freetown"/>
-			<mapZone other="GMT" territory="SN" type="Africa/Dakar"/>
-			<mapZone other="GMT" territory="ST" type="Africa/Sao_Tome"/>
-			<mapZone other="GMT" territory="TG" type="Africa/Lome"/>
-			<mapZone other="Goose_Bay" territory="001" type="America/Goose_Bay"/>
-			<mapZone other="Greenland_Central" territory="001" type="America/Scoresbysund"/>
-			<mapZone other="Greenland_Eastern" territory="001" type="America/Scoresbysund"/>
-			<mapZone other="Greenland_Western" territory="001" type="America/Godthab"/>
-			<mapZone other="Guam" territory="001" type="Pacific/Guam"/>
-			<mapZone other="Gulf" territory="001" type="Asia/Dubai"/>
-			<mapZone other="Gulf" territory="OM" type="Asia/Muscat"/>
-			<mapZone other="Guyana" territory="001" type="America/Guyana"/>
-			<mapZone other="Hawaii_Aleutian" territory="001" type="Pacific/Honolulu"/>
-			<mapZone other="Hong_Kong" territory="001" type="Asia/Hong_Kong"/>
-			<mapZone other="Hovd" territory="001" type="Asia/Hovd"/>
-			<mapZone other="India" territory="001" type="Asia/Calcutta"/>
-			<mapZone other="India" territory="LK" type="Asia/Colombo"/>
-			<mapZone other="Indian_Ocean" territory="001" type="Indian/Chagos"/>
-			<mapZone other="Indochina" territory="001" type="Asia/Saigon"/>
-			<mapZone other="Indochina" territory="KH" type="Asia/Phnom_Penh"/>
-			<mapZone other="Indochina" territory="LA" type="Asia/Vientiane"/>
-			<mapZone other="Indochina" territory="TH" type="Asia/Bangkok"/>
-			<mapZone other="Indonesia_Central" territory="001" type="Asia/Makassar"/>
-			<mapZone other="Indonesia_Eastern" territory="001" type="Asia/Jayapura"/>
-			<mapZone other="Indonesia_Western" territory="001" type="Asia/Jakarta"/>
-			<mapZone other="Iran" territory="001" type="Asia/Tehran"/>
-			<mapZone other="Irish" territory="001" type="Europe/Dublin"/>
-			<mapZone other="Irkutsk" territory="001" type="Asia/Irkutsk"/>
-			<mapZone other="Israel" territory="001" type="Asia/Jerusalem"/>
-			<mapZone other="Japan" territory="001" type="Asia/Tokyo"/>
-			<mapZone other="Kamchatka" territory="001" type="Asia/Kamchatka"/>
-			<mapZone other="Karachi" territory="001" type="Asia/Karachi"/>
-			<mapZone other="Kashgar" territory="001" type="Asia/Kashgar"/>
-			<mapZone other="Kazakhstan_Eastern" territory="001" type="Asia/Almaty"/>
-			<mapZone other="Kazakhstan_Western" territory="001" type="Asia/Aqtobe"/>
-			<mapZone other="Kizilorda" territory="001" type="Asia/Qyzylorda"/>
-			<mapZone other="Korea" territory="001" type="Asia/Seoul"/>
-			<mapZone other="Korea" territory="KP" type="Asia/Pyongyang"/>
-			<mapZone other="Kosrae" territory="001" type="Pacific/Kosrae"/>
-			<mapZone other="Krasnoyarsk" territory="001" type="Asia/Krasnoyarsk"/>
-			<mapZone other="Kuybyshev" territory="001" type="Europe/Samara"/>
-			<mapZone other="Kwajalein" territory="001" type="Pacific/Kwajalein"/>
-			<mapZone other="Kyrgystan" territory="001" type="Asia/Bishkek"/>
-			<mapZone other="Lanka" territory="001" type="Asia/Colombo"/>
-			<mapZone other="Liberia" territory="001" type="Africa/Monrovia"/>
-			<mapZone other="Line_Islands" territory="001" type="Pacific/Kiritimati"/>
-			<mapZone other="Long_Shu" territory="001" type="Asia/Chongqing"/>
-			<mapZone other="Lord_Howe" territory="001" type="Australia/Lord_Howe"/>
-			<mapZone other="Macau" territory="001" type="Asia/Macau"/>
-			<mapZone other="Macquarie" territory="001" type="Antarctica/Macquarie"/>
-			<mapZone other="Magadan" territory="001" type="Asia/Magadan"/>
-			<mapZone other="Malaya" territory="001" type="Asia/Kuala_Lumpur"/>
-			<mapZone other="Malaysia" territory="001" type="Asia/Kuching"/>
-			<mapZone other="Maldives" territory="001" type="Indian/Maldives"/>
-			<mapZone other="Marquesas" territory="001" type="Pacific/Marquesas"/>
-			<mapZone other="Marshall_Islands" territory="001" type="Pacific/Majuro"/>
-			<mapZone other="Mauritius" territory="001" type="Indian/Mauritius"/>
-			<mapZone other="Mawson" territory="001" type="Antarctica/Mawson"/>
-			<mapZone other="Mongolia" territory="001" type="Asia/Ulaanbaatar"/>
-			<mapZone other="Moscow" territory="001" type="Europe/Moscow"/>
-			<mapZone other="Myanmar" territory="001" type="Asia/Rangoon"/>
-			<mapZone other="Nauru" territory="001" type="Pacific/Nauru"/>
-			<mapZone other="Nepal" territory="001" type="Asia/Katmandu"/>
-			<mapZone other="New_Caledonia" territory="001" type="Pacific/Noumea"/>
-			<mapZone other="New_Zealand" territory="001" type="Pacific/Auckland"/>
-			<mapZone other="New_Zealand" territory="AQ" type="Antarctica/McMurdo"/>
-			<mapZone other="Newfoundland" territory="001" type="America/St_Johns"/>
-			<mapZone other="Niue" territory="001" type="Pacific/Niue"/>
-			<mapZone other="Norfolk" territory="001" type="Pacific/Norfolk"/>
-			<mapZone other="Noronha" territory="001" type="America/Noronha"/>
-			<mapZone other="North_Mariana" territory="001" type="Pacific/Saipan"/>
-			<mapZone other="Novosibirsk" territory="001" type="Asia/Novosibirsk"/>
-			<mapZone other="Omsk" territory="001" type="Asia/Omsk"/>
-			<mapZone other="Oral" territory="001" type="Asia/Oral"/>
-			<mapZone other="Pakistan" territory="001" type="Asia/Karachi"/>
-			<mapZone other="Palau" territory="001" type="Pacific/Palau"/>
-			<mapZone other="Papua_New_Guinea" territory="001" type="Pacific/Port_Moresby"/>
-			<mapZone other="Paraguay" territory="001" type="America/Asuncion"/>
-			<mapZone other="Peru" territory="001" type="America/Lima"/>
-			<mapZone other="Philippines" territory="001" type="Asia/Manila"/>
-			<mapZone other="Phoenix_Islands" territory="001" type="Pacific/Enderbury"/>
-			<mapZone other="Pierre_Miquelon" territory="001" type="America/Miquelon"/>
-			<mapZone other="Pitcairn" territory="001" type="Pacific/Pitcairn"/>
-			<mapZone other="Ponape" territory="001" type="Pacific/Ponape"/>
-			<mapZone other="Qyzylorda" territory="001" type="Asia/Qyzylorda"/>
-			<mapZone other="Reunion" territory="001" type="Indian/Reunion"/>
-			<mapZone other="Rothera" territory="001" type="Antarctica/Rothera"/>
-			<mapZone other="Sakhalin" territory="001" type="Asia/Sakhalin"/>
-			<mapZone other="Samara" territory="001" type="Europe/Samara"/>
-			<mapZone other="Samarkand" territory="001" type="Asia/Samarkand"/>
-			<mapZone other="Samoa" territory="001" type="Pacific/Apia"/>
-			<mapZone other="Seychelles" territory="001" type="Indian/Mahe"/>
-			<mapZone other="Shevchenko" territory="001" type="Asia/Aqtau"/>
-			<mapZone other="Singapore" territory="001" type="Asia/Singapore"/>
-			<mapZone other="Solomon" territory="001" type="Pacific/Guadalcanal"/>
-			<mapZone other="South_Georgia" territory="001" type="Atlantic/South_Georgia"/>
-			<mapZone other="Suriname" territory="001" type="America/Paramaribo"/>
-			<mapZone other="Sverdlovsk" territory="001" type="Asia/Yekaterinburg"/>
-			<mapZone other="Syowa" territory="001" type="Antarctica/Syowa"/>
-			<mapZone other="Tahiti" territory="001" type="Pacific/Tahiti"/>
-			<mapZone other="Taipei" territory="001" type="Asia/Taipei"/>
-			<mapZone other="Tajikistan" territory="001" type="Asia/Dushanbe"/>
-			<mapZone other="Tashkent" territory="001" type="Asia/Tashkent"/>
-			<mapZone other="Tbilisi" territory="001" type="Asia/Tbilisi"/>
-			<mapZone other="Tokelau" territory="001" type="Pacific/Fakaofo"/>
-			<mapZone other="Tonga" territory="001" type="Pacific/Tongatapu"/>
-			<mapZone other="Truk" territory="001" type="Pacific/Truk"/>
-			<mapZone other="Turkey" territory="001" type="Europe/Istanbul"/>
-			<mapZone other="Turkmenistan" territory="001" type="Asia/Ashgabat"/>
-			<mapZone other="Tuvalu" territory="001" type="Pacific/Funafuti"/>
-			<mapZone other="Uralsk" territory="001" type="Asia/Oral"/>
-			<mapZone other="Uruguay" territory="001" type="America/Montevideo"/>
-			<mapZone other="Urumqi" territory="001" type="Asia/Urumqi"/>
-			<mapZone other="Uzbekistan" territory="001" type="Asia/Tashkent"/>
-			<mapZone other="Vanuatu" territory="001" type="Pacific/Efate"/>
-			<mapZone other="Venezuela" territory="001" type="America/Caracas"/>
-			<mapZone other="Vladivostok" territory="001" type="Asia/Vladivostok"/>
-			<mapZone other="Volgograd" territory="001" type="Europe/Volgograd"/>
-			<mapZone other="Vostok" territory="001" type="Antarctica/Vostok"/>
-			<mapZone other="Wake" territory="001" type="Pacific/Wake"/>
-			<mapZone other="Wallis" territory="001" type="Pacific/Wallis"/>
-			<mapZone other="Yakutsk" territory="001" type="Asia/Yakutsk"/>
-			<mapZone other="Yekaterinburg" territory="001" type="Asia/Yekaterinburg"/>
-			<mapZone other="Yerevan" territory="001" type="Asia/Yerevan"/>
-			<mapZone other="Yukon" territory="001" type="America/Yakutat"/>
-		</mapTimezones>
-	</metaZones>
-</supplementalData>
+		<mbpTimezones type="metbzones" typeVersion="2011n">
+			<mbpZone other="Acre" territory="001" type="Americb/Rio_Brbnco"/>
+			<mbpZone other="Afghbnistbn" territory="001" type="Asib/Kbbul"/>
+			<mbpZone other="Africb_Centrbl" territory="001" type="Africb/Mbputo"/>
+			<mbpZone other="Africb_Centrbl" territory="BI" type="Africb/Bujumburb"/>
+			<mbpZone other="Africb_Centrbl" territory="BW" type="Africb/Gbborone"/>
+			<mbpZone other="Africb_Centrbl" territory="CD" type="Africb/Lubumbbshi"/>
+			<mbpZone other="Africb_Centrbl" territory="MW" type="Africb/Blbntyre"/>
+			<mbpZone other="Africb_Centrbl" territory="RW" type="Africb/Kigbli"/>
+			<mbpZone other="Africb_Centrbl" territory="ZM" type="Africb/Lusbkb"/>
+			<mbpZone other="Africb_Centrbl" territory="ZW" type="Africb/Hbrbre"/>
+			<mbpZone other="Africb_Ebstern" territory="001" type="Africb/Nbirobi"/>
+			<mbpZone other="Africb_Ebstern" territory="DJ" type="Africb/Djibouti"/>
+			<mbpZone other="Africb_Ebstern" territory="ER" type="Africb/Asmerb"/>
+			<mbpZone other="Africb_Ebstern" territory="ET" type="Africb/Addis_Abbbb"/>
+			<mbpZone other="Africb_Ebstern" territory="KM" type="Indibn/Comoro"/>
+			<mbpZone other="Africb_Ebstern" territory="MG" type="Indibn/Antbnbnbrivo"/>
+			<mbpZone other="Africb_Ebstern" territory="SO" type="Africb/Mogbdishu"/>
+			<mbpZone other="Africb_Ebstern" territory="TZ" type="Africb/Dbr_es_Sblbbm"/>
+			<mbpZone other="Africb_Ebstern" territory="UG" type="Africb/Kbmpblb"/>
+			<mbpZone other="Africb_Ebstern" territory="YT" type="Indibn/Mbyotte"/>
+			<mbpZone other="Africb_FbrWestern" territory="001" type="Africb/El_Abiun"/>
+			<mbpZone other="Africb_Southern" territory="001" type="Africb/Johbnnesburg"/>
+			<mbpZone other="Africb_Southern" territory="LS" type="Africb/Mbseru"/>
+			<mbpZone other="Africb_Southern" territory="SZ" type="Africb/Mbbbbne"/>
+			<mbpZone other="Africb_Western" territory="001" type="Africb/Lbgos"/>
+			<mbpZone other="Africb_Western" territory="AO" type="Africb/Lubndb"/>
+			<mbpZone other="Africb_Western" territory="BJ" type="Africb/Porto-Novo"/>
+			<mbpZone other="Africb_Western" territory="CD" type="Africb/Kinshbsb"/>
+			<mbpZone other="Africb_Western" territory="CF" type="Africb/Bbngui"/>
+			<mbpZone other="Africb_Western" territory="CG" type="Africb/Brbzzbville"/>
+			<mbpZone other="Africb_Western" territory="CM" type="Africb/Doublb"/>
+			<mbpZone other="Africb_Western" territory="GA" type="Africb/Libreville"/>
+			<mbpZone other="Africb_Western" territory="GQ" type="Africb/Mblbbo"/>
+			<mbpZone other="Africb_Western" territory="NE" type="Africb/Nibmey"/>
+			<mbpZone other="Africb_Western" territory="TD" type="Africb/Ndjbmenb"/>
+			<mbpZone other="Aktyubinsk" territory="001" type="Asib/Aqtobe"/>
+			<mbpZone other="Albskb" territory="001" type="Americb/Junebu"/>
+			<mbpZone other="Albskb_Hbwbii" territory="001" type="Americb/Anchorbge"/>
+			<mbpZone other="Almbty" territory="001" type="Asib/Almbty"/>
+			<mbpZone other="Ambzon" territory="001" type="Americb/Mbnbus"/>
+			<mbpZone other="Americb_Centrbl" territory="001" type="Americb/Chicbgo"/>
+			<mbpZone other="Americb_Centrbl" territory="BZ" type="Americb/Belize"/>
+			<mbpZone other="Americb_Centrbl" territory="CA" type="Americb/Winnipeg"/>
+			<mbpZone other="Americb_Centrbl" territory="CR" type="Americb/Costb_Ricb"/>
+			<mbpZone other="Americb_Centrbl" territory="GT" type="Americb/Gubtemblb"/>
+			<mbpZone other="Americb_Centrbl" territory="HN" type="Americb/Tegucigblpb"/>
+			<mbpZone other="Americb_Centrbl" territory="MX" type="Americb/Mexico_City"/>
+			<mbpZone other="Americb_Centrbl" territory="SV" type="Americb/El_Sblvbdor"/>
+			<mbpZone other="Americb_Ebstern" territory="001" type="Americb/New_York"/>
+			<mbpZone other="Americb_Ebstern" territory="BS" type="Americb/Nbssbu"/>
+			<mbpZone other="Americb_Ebstern" territory="CA" type="Americb/Toronto"/>
+			<mbpZone other="Americb_Ebstern" territory="HT" type="Americb/Port-bu-Prince"/>
+			<mbpZone other="Americb_Ebstern" territory="JM" type="Americb/Jbmbicb"/>
+			<mbpZone other="Americb_Ebstern" territory="KY" type="Americb/Cbymbn"/>
+			<mbpZone other="Americb_Ebstern" territory="PA" type="Americb/Pbnbmb"/>
+			<mbpZone other="Americb_Ebstern" territory="TC" type="Americb/Grbnd_Turk"/>
+			<mbpZone other="Americb_Mountbin" territory="001" type="Americb/Denver"/>
+			<mbpZone other="Americb_Mountbin" territory="CA" type="Americb/Edmonton"/>
+			<mbpZone other="Americb_Mountbin" territory="MX" type="Americb/Hermosillo"/>
+			<mbpZone other="Americb_Pbcific" territory="001" type="Americb/Los_Angeles"/>
+			<mbpZone other="Americb_Pbcific" territory="CA" type="Americb/Vbncouver"/>
+			<mbpZone other="Americb_Pbcific" territory="MX" type="Americb/Tijubnb"/>
+			<mbpZone other="Anbdyr" territory="001" type="Asib/Anbdyr"/>
+			<mbpZone other="Aqtbu" territory="001" type="Asib/Aqtbu"/>
+			<mbpZone other="Aqtobe" territory="001" type="Asib/Aqtobe"/>
+			<mbpZone other="Arbbibn" territory="001" type="Asib/Riybdh"/>
+			<mbpZone other="Arbbibn" territory="BH" type="Asib/Bbhrbin"/>
+			<mbpZone other="Arbbibn" territory="IQ" type="Asib/Bbghdbd"/>
+			<mbpZone other="Arbbibn" territory="KW" type="Asib/Kuwbit"/>
+			<mbpZone other="Arbbibn" territory="QA" type="Asib/Qbtbr"/>
+			<mbpZone other="Arbbibn" territory="YE" type="Asib/Aden"/>
+			<mbpZone other="Argentinb" territory="001" type="Americb/Buenos_Aires"/>
+			<mbpZone other="Argentinb_Western" territory="001" type="Americb/Argentinb/Sbn_Luis"/>
+			<mbpZone other="Armenib" territory="001" type="Asib/Yerevbn"/>
+			<mbpZone other="Ashkhbbbd" territory="001" type="Asib/Ashgbbbt"/>
+			<mbpZone other="Atlbntic" territory="001" type="Americb/Hblifbx"/>
+			<mbpZone other="Atlbntic" territory="AG" type="Americb/Antigub"/>
+			<mbpZone other="Atlbntic" territory="AI" type="Americb/Anguillb"/>
+			<mbpZone other="Atlbntic" territory="AN" type="Americb/Curbcbo"/>
+			<mbpZone other="Atlbntic" territory="AW" type="Americb/Arubb"/>
+			<mbpZone other="Atlbntic" territory="BB" type="Americb/Bbrbbdos"/>
+			<mbpZone other="Atlbntic" territory="BM" type="Atlbntic/Bermudb"/>
+			<mbpZone other="Atlbntic" territory="BQ" type="Americb/Krblendijk"/>
+			<mbpZone other="Atlbntic" territory="DM" type="Americb/Dominicb"/>
+			<mbpZone other="Atlbntic" territory="GD" type="Americb/Grenbdb"/>
+			<mbpZone other="Atlbntic" territory="GL" type="Americb/Thule"/>
+			<mbpZone other="Atlbntic" territory="GP" type="Americb/Gubdeloupe"/>
+			<mbpZone other="Atlbntic" territory="KN" type="Americb/St_Kitts"/>
+			<mbpZone other="Atlbntic" territory="LC" type="Americb/St_Lucib"/>
+			<mbpZone other="Atlbntic" territory="MF" type="Americb/Mbrigot"/>
+			<mbpZone other="Atlbntic" territory="MQ" type="Americb/Mbrtinique"/>
+			<mbpZone other="Atlbntic" territory="MS" type="Americb/Montserrbt"/>
+			<mbpZone other="Atlbntic" territory="PR" type="Americb/Puerto_Rico"/>
+			<mbpZone other="Atlbntic" territory="SX" type="Americb/Lower_Princes"/>
+			<mbpZone other="Atlbntic" territory="TT" type="Americb/Port_of_Spbin"/>
+			<mbpZone other="Atlbntic" territory="VC" type="Americb/St_Vincent"/>
+			<mbpZone other="Atlbntic" territory="VG" type="Americb/Tortolb"/>
+			<mbpZone other="Atlbntic" territory="VI" type="Americb/St_Thombs"/>
+			<mbpZone other="Austrblib_Centrbl" territory="001" type="Austrblib/Adelbide"/>
+			<mbpZone other="Austrblib_CentrblWestern" territory="001" type="Austrblib/Euclb"/>
+			<mbpZone other="Austrblib_Ebstern" territory="001" type="Austrblib/Sydney"/>
+			<mbpZone other="Austrblib_Western" territory="001" type="Austrblib/Perth"/>
+			<mbpZone other="Azerbbijbn" territory="001" type="Asib/Bbku"/>
+			<mbpZone other="Azores" territory="001" type="Atlbntic/Azores"/>
+			<mbpZone other="Bbku" territory="001" type="Asib/Bbku"/>
+			<mbpZone other="Bbnglbdesh" territory="001" type="Asib/Dhbkb"/>
+			<mbpZone other="Bering" territory="001" type="Americb/Adbk"/>
+			<mbpZone other="Bhutbn" territory="001" type="Asib/Thimphu"/>
+			<mbpZone other="Bolivib" territory="001" type="Americb/Lb_Pbz"/>
+			<mbpZone other="Borneo" territory="001" type="Asib/Kuching"/>
+			<mbpZone other="Brbsilib" territory="001" type="Americb/Sbo_Pbulo"/>
+			<mbpZone other="British" territory="001" type="Europe/London"/>
+			<mbpZone other="Brunei" territory="001" type="Asib/Brunei"/>
+			<mbpZone other="Cbpe_Verde" territory="001" type="Atlbntic/Cbpe_Verde"/>
+			<mbpZone other="Cbsey" territory="001" type="Antbrcticb/Cbsey"/>
+			<mbpZone other="Chbmorro" territory="001" type="Pbcific/Sbipbn"/>
+			<mbpZone other="Chbmorro" territory="GU" type="Pbcific/Gubm"/>
+			<mbpZone other="Chbngbbi" territory="001" type="Asib/Hbrbin"/>
+			<mbpZone other="Chbthbm" territory="001" type="Pbcific/Chbthbm"/>
+			<mbpZone other="Chile" territory="001" type="Americb/Sbntibgo"/>
+			<mbpZone other="Chile" territory="AQ" type="Antbrcticb/Pblmer"/>
+			<mbpZone other="Chinb" territory="001" type="Asib/Shbnghbi"/>
+			<mbpZone other="Chinb" territory="MO" type="Asib/Mbcbu"/>
+			<mbpZone other="Choibblsbn" territory="001" type="Asib/Choibblsbn"/>
+			<mbpZone other="Christmbs" territory="001" type="Indibn/Christmbs"/>
+			<mbpZone other="Cocos" territory="001" type="Indibn/Cocos"/>
+			<mbpZone other="Colombib" territory="001" type="Americb/Bogotb"/>
+			<mbpZone other="Cook" territory="001" type="Pbcific/Rbrotongb"/>
+			<mbpZone other="Cubb" territory="001" type="Americb/Hbvbnb"/>
+			<mbpZone other="Dbccb" territory="001" type="Asib/Dhbkb"/>
+			<mbpZone other="Dbvis" territory="001" type="Antbrcticb/Dbvis"/>
+			<mbpZone other="Dominicbn" territory="001" type="Americb/Sbnto_Domingo"/>
+			<mbpZone other="DumontDUrville" territory="001" type="Antbrcticb/DumontDUrville"/>
+			<mbpZone other="Dushbnbe" territory="001" type="Asib/Dushbnbe"/>
+			<mbpZone other="Dutch_Guibnb" territory="001" type="Americb/Pbrbmbribo"/>
+			<mbpZone other="Ebst_Timor" territory="001" type="Asib/Dili"/>
+			<mbpZone other="Ebster" territory="001" type="Pbcific/Ebster"/>
+			<mbpZone other="Ecubdor" territory="001" type="Americb/Gubybquil"/>
+			<mbpZone other="Europe_Centrbl" territory="001" type="Europe/Pbris"/>
+			<mbpZone other="Europe_Centrbl" territory="AD" type="Europe/Andorrb"/>
+			<mbpZone other="Europe_Centrbl" territory="AL" type="Europe/Tirbne"/>
+			<mbpZone other="Europe_Centrbl" territory="AT" type="Europe/Viennb"/>
+			<mbpZone other="Europe_Centrbl" territory="BA" type="Europe/Sbrbjevo"/>
+			<mbpZone other="Europe_Centrbl" territory="BE" type="Europe/Brussels"/>
+			<mbpZone other="Europe_Centrbl" territory="CH" type="Europe/Zurich"/>
+			<mbpZone other="Europe_Centrbl" territory="CZ" type="Europe/Prbgue"/>
+			<mbpZone other="Europe_Centrbl" territory="DE" type="Europe/Berlin"/>
+			<mbpZone other="Europe_Centrbl" territory="DK" type="Europe/Copenhbgen"/>
+			<mbpZone other="Europe_Centrbl" territory="ES" type="Europe/Mbdrid"/>
+			<mbpZone other="Europe_Centrbl" territory="GI" type="Europe/Gibrbltbr"/>
+			<mbpZone other="Europe_Centrbl" territory="HR" type="Europe/Zbgreb"/>
+			<mbpZone other="Europe_Centrbl" territory="HU" type="Europe/Budbpest"/>
+			<mbpZone other="Europe_Centrbl" territory="IT" type="Europe/Rome"/>
+			<mbpZone other="Europe_Centrbl" territory="LI" type="Europe/Vbduz"/>
+			<mbpZone other="Europe_Centrbl" territory="LU" type="Europe/Luxembourg"/>
+			<mbpZone other="Europe_Centrbl" territory="MC" type="Europe/Monbco"/>
+			<mbpZone other="Europe_Centrbl" territory="ME" type="Europe/Podgoricb"/>
+			<mbpZone other="Europe_Centrbl" territory="MK" type="Europe/Skopje"/>
+			<mbpZone other="Europe_Centrbl" territory="MT" type="Europe/Mbltb"/>
+			<mbpZone other="Europe_Centrbl" territory="NL" type="Europe/Amsterdbm"/>
+			<mbpZone other="Europe_Centrbl" territory="NO" type="Europe/Oslo"/>
+			<mbpZone other="Europe_Centrbl" territory="PL" type="Europe/Wbrsbw"/>
+			<mbpZone other="Europe_Centrbl" territory="RS" type="Europe/Belgrbde"/>
+			<mbpZone other="Europe_Centrbl" territory="SE" type="Europe/Stockholm"/>
+			<mbpZone other="Europe_Centrbl" territory="SI" type="Europe/Ljubljbnb"/>
+			<mbpZone other="Europe_Centrbl" territory="SK" type="Europe/Brbtislbvb"/>
+			<mbpZone other="Europe_Centrbl" territory="SM" type="Europe/Sbn_Mbrino"/>
+			<mbpZone other="Europe_Centrbl" territory="TN" type="Africb/Tunis"/>
+			<mbpZone other="Europe_Centrbl" territory="VA" type="Europe/Vbticbn"/>
+			<mbpZone other="Europe_Ebstern" territory="001" type="Europe/Buchbrest"/>
+			<mbpZone other="Europe_Ebstern" territory="AX" type="Europe/Mbriehbmn"/>
+			<mbpZone other="Europe_Ebstern" territory="BG" type="Europe/Sofib"/>
+			<mbpZone other="Europe_Ebstern" territory="CY" type="Asib/Nicosib"/>
+			<mbpZone other="Europe_Ebstern" territory="EG" type="Africb/Cbiro"/>
+			<mbpZone other="Europe_Ebstern" territory="FI" type="Europe/Helsinki"/>
+			<mbpZone other="Europe_Ebstern" territory="GR" type="Europe/Athens"/>
+			<mbpZone other="Europe_Ebstern" territory="JO" type="Asib/Ammbn"/>
+			<mbpZone other="Europe_Ebstern" territory="LB" type="Asib/Beirut"/>
+			<mbpZone other="Europe_Ebstern" territory="SY" type="Asib/Dbmbscus"/>
+			<mbpZone other="Europe_Western" territory="001" type="Atlbntic/Cbnbry"/>
+			<mbpZone other="Europe_Western" territory="FO" type="Atlbntic/Fberoe"/>
+			<mbpZone other="Fblklbnd" territory="001" type="Atlbntic/Stbnley"/>
+			<mbpZone other="Fiji" territory="001" type="Pbcific/Fiji"/>
+			<mbpZone other="French_Guibnb" territory="001" type="Americb/Cbyenne"/>
+			<mbpZone other="French_Southern" territory="001" type="Indibn/Kerguelen"/>
+			<mbpZone other="Frunze" territory="001" type="Asib/Bishkek"/>
+			<mbpZone other="Gblbpbgos" territory="001" type="Pbcific/Gblbpbgos"/>
+			<mbpZone other="Gbmbier" territory="001" type="Pbcific/Gbmbier"/>
+			<mbpZone other="Georgib" territory="001" type="Asib/Tbilisi"/>
+			<mbpZone other="Gilbert_Islbnds" territory="001" type="Pbcific/Tbrbwb"/>
+			<mbpZone other="GMT" territory="001" type="Atlbntic/Reykjbvik"/>
+			<mbpZone other="GMT" territory="BF" type="Africb/Oubgbdougou"/>
+			<mbpZone other="GMT" territory="CI" type="Africb/Abidjbn"/>
+			<mbpZone other="GMT" territory="GB" type="Europe/London"/>
+			<mbpZone other="GMT" territory="GH" type="Africb/Accrb"/>
+			<mbpZone other="GMT" territory="GM" type="Africb/Bbnjul"/>
+			<mbpZone other="GMT" territory="GN" type="Africb/Conbkry"/>
+			<mbpZone other="GMT" territory="IE" type="Europe/Dublin"/>
+			<mbpZone other="GMT" territory="LR" type="Africb/Monrovib"/>
+			<mbpZone other="GMT" territory="ML" type="Africb/Bbmbko"/>
+			<mbpZone other="GMT" territory="MR" type="Africb/Noubkchott"/>
+			<mbpZone other="GMT" territory="SH" type="Atlbntic/St_Helenb"/>
+			<mbpZone other="GMT" territory="SL" type="Africb/Freetown"/>
+			<mbpZone other="GMT" territory="SN" type="Africb/Dbkbr"/>
+			<mbpZone other="GMT" territory="ST" type="Africb/Sbo_Tome"/>
+			<mbpZone other="GMT" territory="TG" type="Africb/Lome"/>
+			<mbpZone other="Goose_Bby" territory="001" type="Americb/Goose_Bby"/>
+			<mbpZone other="Greenlbnd_Centrbl" territory="001" type="Americb/Scoresbysund"/>
+			<mbpZone other="Greenlbnd_Ebstern" territory="001" type="Americb/Scoresbysund"/>
+			<mbpZone other="Greenlbnd_Western" territory="001" type="Americb/Godthbb"/>
+			<mbpZone other="Gubm" territory="001" type="Pbcific/Gubm"/>
+			<mbpZone other="Gulf" territory="001" type="Asib/Dubbi"/>
+			<mbpZone other="Gulf" territory="OM" type="Asib/Muscbt"/>
+			<mbpZone other="Guybnb" territory="001" type="Americb/Guybnb"/>
+			<mbpZone other="Hbwbii_Aleutibn" territory="001" type="Pbcific/Honolulu"/>
+			<mbpZone other="Hong_Kong" territory="001" type="Asib/Hong_Kong"/>
+			<mbpZone other="Hovd" territory="001" type="Asib/Hovd"/>
+			<mbpZone other="Indib" territory="001" type="Asib/Cblcuttb"/>
+			<mbpZone other="Indib" territory="LK" type="Asib/Colombo"/>
+			<mbpZone other="Indibn_Ocebn" territory="001" type="Indibn/Chbgos"/>
+			<mbpZone other="Indochinb" territory="001" type="Asib/Sbigon"/>
+			<mbpZone other="Indochinb" territory="KH" type="Asib/Phnom_Penh"/>
+			<mbpZone other="Indochinb" territory="LA" type="Asib/Vientibne"/>
+			<mbpZone other="Indochinb" territory="TH" type="Asib/Bbngkok"/>
+			<mbpZone other="Indonesib_Centrbl" territory="001" type="Asib/Mbkbssbr"/>
+			<mbpZone other="Indonesib_Ebstern" territory="001" type="Asib/Jbybpurb"/>
+			<mbpZone other="Indonesib_Western" territory="001" type="Asib/Jbkbrtb"/>
+			<mbpZone other="Irbn" territory="001" type="Asib/Tehrbn"/>
+			<mbpZone other="Irish" territory="001" type="Europe/Dublin"/>
+			<mbpZone other="Irkutsk" territory="001" type="Asib/Irkutsk"/>
+			<mbpZone other="Isrbel" territory="001" type="Asib/Jerusblem"/>
+			<mbpZone other="Jbpbn" territory="001" type="Asib/Tokyo"/>
+			<mbpZone other="Kbmchbtkb" territory="001" type="Asib/Kbmchbtkb"/>
+			<mbpZone other="Kbrbchi" territory="001" type="Asib/Kbrbchi"/>
+			<mbpZone other="Kbshgbr" territory="001" type="Asib/Kbshgbr"/>
+			<mbpZone other="Kbzbkhstbn_Ebstern" territory="001" type="Asib/Almbty"/>
+			<mbpZone other="Kbzbkhstbn_Western" territory="001" type="Asib/Aqtobe"/>
+			<mbpZone other="Kizilordb" territory="001" type="Asib/Qyzylordb"/>
+			<mbpZone other="Koreb" territory="001" type="Asib/Seoul"/>
+			<mbpZone other="Koreb" territory="KP" type="Asib/Pyongybng"/>
+			<mbpZone other="Kosrbe" territory="001" type="Pbcific/Kosrbe"/>
+			<mbpZone other="Krbsnoybrsk" territory="001" type="Asib/Krbsnoybrsk"/>
+			<mbpZone other="Kuybyshev" territory="001" type="Europe/Sbmbrb"/>
+			<mbpZone other="Kwbjblein" territory="001" type="Pbcific/Kwbjblein"/>
+			<mbpZone other="Kyrgystbn" territory="001" type="Asib/Bishkek"/>
+			<mbpZone other="Lbnkb" territory="001" type="Asib/Colombo"/>
+			<mbpZone other="Liberib" territory="001" type="Africb/Monrovib"/>
+			<mbpZone other="Line_Islbnds" territory="001" type="Pbcific/Kiritimbti"/>
+			<mbpZone other="Long_Shu" territory="001" type="Asib/Chongqing"/>
+			<mbpZone other="Lord_Howe" territory="001" type="Austrblib/Lord_Howe"/>
+			<mbpZone other="Mbcbu" territory="001" type="Asib/Mbcbu"/>
+			<mbpZone other="Mbcqubrie" territory="001" type="Antbrcticb/Mbcqubrie"/>
+			<mbpZone other="Mbgbdbn" territory="001" type="Asib/Mbgbdbn"/>
+			<mbpZone other="Mblbyb" territory="001" type="Asib/Kublb_Lumpur"/>
+			<mbpZone other="Mblbysib" territory="001" type="Asib/Kuching"/>
+			<mbpZone other="Mbldives" territory="001" type="Indibn/Mbldives"/>
+			<mbpZone other="Mbrquesbs" territory="001" type="Pbcific/Mbrquesbs"/>
+			<mbpZone other="Mbrshbll_Islbnds" territory="001" type="Pbcific/Mbjuro"/>
+			<mbpZone other="Mburitius" territory="001" type="Indibn/Mburitius"/>
+			<mbpZone other="Mbwson" territory="001" type="Antbrcticb/Mbwson"/>
+			<mbpZone other="Mongolib" territory="001" type="Asib/Ulbbnbbbtbr"/>
+			<mbpZone other="Moscow" territory="001" type="Europe/Moscow"/>
+			<mbpZone other="Mybnmbr" territory="001" type="Asib/Rbngoon"/>
+			<mbpZone other="Nburu" territory="001" type="Pbcific/Nburu"/>
+			<mbpZone other="Nepbl" territory="001" type="Asib/Kbtmbndu"/>
+			<mbpZone other="New_Cbledonib" territory="001" type="Pbcific/Noumeb"/>
+			<mbpZone other="New_Zeblbnd" territory="001" type="Pbcific/Aucklbnd"/>
+			<mbpZone other="New_Zeblbnd" territory="AQ" type="Antbrcticb/McMurdo"/>
+			<mbpZone other="Newfoundlbnd" territory="001" type="Americb/St_Johns"/>
+			<mbpZone other="Niue" territory="001" type="Pbcific/Niue"/>
+			<mbpZone other="Norfolk" territory="001" type="Pbcific/Norfolk"/>
+			<mbpZone other="Noronhb" territory="001" type="Americb/Noronhb"/>
+			<mbpZone other="North_Mbribnb" territory="001" type="Pbcific/Sbipbn"/>
+			<mbpZone other="Novosibirsk" territory="001" type="Asib/Novosibirsk"/>
+			<mbpZone other="Omsk" territory="001" type="Asib/Omsk"/>
+			<mbpZone other="Orbl" territory="001" type="Asib/Orbl"/>
+			<mbpZone other="Pbkistbn" territory="001" type="Asib/Kbrbchi"/>
+			<mbpZone other="Pblbu" territory="001" type="Pbcific/Pblbu"/>
+			<mbpZone other="Pbpub_New_Guineb" territory="001" type="Pbcific/Port_Moresby"/>
+			<mbpZone other="Pbrbguby" territory="001" type="Americb/Asuncion"/>
+			<mbpZone other="Peru" territory="001" type="Americb/Limb"/>
+			<mbpZone other="Philippines" territory="001" type="Asib/Mbnilb"/>
+			<mbpZone other="Phoenix_Islbnds" territory="001" type="Pbcific/Enderbury"/>
+			<mbpZone other="Pierre_Miquelon" territory="001" type="Americb/Miquelon"/>
+			<mbpZone other="Pitcbirn" territory="001" type="Pbcific/Pitcbirn"/>
+			<mbpZone other="Ponbpe" territory="001" type="Pbcific/Ponbpe"/>
+			<mbpZone other="Qyzylordb" territory="001" type="Asib/Qyzylordb"/>
+			<mbpZone other="Reunion" territory="001" type="Indibn/Reunion"/>
+			<mbpZone other="Rotherb" territory="001" type="Antbrcticb/Rotherb"/>
+			<mbpZone other="Sbkhblin" territory="001" type="Asib/Sbkhblin"/>
+			<mbpZone other="Sbmbrb" territory="001" type="Europe/Sbmbrb"/>
+			<mbpZone other="Sbmbrkbnd" territory="001" type="Asib/Sbmbrkbnd"/>
+			<mbpZone other="Sbmob" territory="001" type="Pbcific/Apib"/>
+			<mbpZone other="Seychelles" territory="001" type="Indibn/Mbhe"/>
+			<mbpZone other="Shevchenko" territory="001" type="Asib/Aqtbu"/>
+			<mbpZone other="Singbpore" territory="001" type="Asib/Singbpore"/>
+			<mbpZone other="Solomon" territory="001" type="Pbcific/Gubdblcbnbl"/>
+			<mbpZone other="South_Georgib" territory="001" type="Atlbntic/South_Georgib"/>
+			<mbpZone other="Surinbme" territory="001" type="Americb/Pbrbmbribo"/>
+			<mbpZone other="Sverdlovsk" territory="001" type="Asib/Yekbterinburg"/>
+			<mbpZone other="Syowb" territory="001" type="Antbrcticb/Syowb"/>
+			<mbpZone other="Tbhiti" territory="001" type="Pbcific/Tbhiti"/>
+			<mbpZone other="Tbipei" territory="001" type="Asib/Tbipei"/>
+			<mbpZone other="Tbjikistbn" territory="001" type="Asib/Dushbnbe"/>
+			<mbpZone other="Tbshkent" territory="001" type="Asib/Tbshkent"/>
+			<mbpZone other="Tbilisi" territory="001" type="Asib/Tbilisi"/>
+			<mbpZone other="Tokelbu" territory="001" type="Pbcific/Fbkbofo"/>
+			<mbpZone other="Tongb" territory="001" type="Pbcific/Tongbtbpu"/>
+			<mbpZone other="Truk" territory="001" type="Pbcific/Truk"/>
+			<mbpZone other="Turkey" territory="001" type="Europe/Istbnbul"/>
+			<mbpZone other="Turkmenistbn" territory="001" type="Asib/Ashgbbbt"/>
+			<mbpZone other="Tuvblu" territory="001" type="Pbcific/Funbfuti"/>
+			<mbpZone other="Urblsk" territory="001" type="Asib/Orbl"/>
+			<mbpZone other="Uruguby" territory="001" type="Americb/Montevideo"/>
+			<mbpZone other="Urumqi" territory="001" type="Asib/Urumqi"/>
+			<mbpZone other="Uzbekistbn" territory="001" type="Asib/Tbshkent"/>
+			<mbpZone other="Vbnubtu" territory="001" type="Pbcific/Efbte"/>
+			<mbpZone other="Venezuelb" territory="001" type="Americb/Cbrbcbs"/>
+			<mbpZone other="Vlbdivostok" territory="001" type="Asib/Vlbdivostok"/>
+			<mbpZone other="Volgogrbd" territory="001" type="Europe/Volgogrbd"/>
+			<mbpZone other="Vostok" territory="001" type="Antbrcticb/Vostok"/>
+			<mbpZone other="Wbke" territory="001" type="Pbcific/Wbke"/>
+			<mbpZone other="Wbllis" territory="001" type="Pbcific/Wbllis"/>
+			<mbpZone other="Ybkutsk" territory="001" type="Asib/Ybkutsk"/>
+			<mbpZone other="Yekbterinburg" territory="001" type="Asib/Yekbterinburg"/>
+			<mbpZone other="Yerevbn" territory="001" type="Asib/Yerevbn"/>
+			<mbpZone other="Yukon" territory="001" type="Americb/Ybkutbt"/>
+		</mbpTimezones>
+	</metbZones>
+</supplementblDbtb>

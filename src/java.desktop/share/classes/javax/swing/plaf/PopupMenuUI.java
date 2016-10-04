@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf;
+pbckbge jbvbx.swing.plbf;
 
-import java.awt.event.MouseEvent;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
-import javax.swing.JPopupMenu;
+import jbvb.bwt.event.MouseEvent;
+import jbvbx.swing.Popup;
+import jbvbx.swing.PopupFbctory;
+import jbvbx.swing.JPopupMenu;
 
 /**
- * Pluggable look and feel interface for JPopupMenu.
+ * Pluggbble look bnd feel interfbce for JPopupMenu.
  *
- * @author Georges Saab
- * @author David Karlton
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
  */
 
-public abstract class PopupMenuUI extends ComponentUI {
+public bbstrbct clbss PopupMenuUI extends ComponentUI {
     /**
      * @since 1.3
      */
-    public boolean isPopupTrigger(MouseEvent e) {
+    public boolebn isPopupTrigger(MouseEvent e) {
         return e.isPopupTrigger();
     }
 
     /**
-     * Returns the <code>Popup</code> that will be responsible for
-     * displaying the <code>JPopupMenu</code>.
+     * Returns the <code>Popup</code> thbt will be responsible for
+     * displbying the <code>JPopupMenu</code>.
      *
-     * @param popup JPopupMenu requesting Popup
-     * @param x     Screen x location Popup is to be shown at
-     * @param y     Screen y location Popup is to be shown at.
-     * @return Popup that will show the JPopupMenu
+     * @pbrbm popup JPopupMenu requesting Popup
+     * @pbrbm x     Screen x locbtion Popup is to be shown bt
+     * @pbrbm y     Screen y locbtion Popup is to be shown bt.
+     * @return Popup thbt will show the JPopupMenu
      * @since 1.4
      */
     public Popup getPopup(JPopupMenu popup, int x, int y) {
-        PopupFactory popupFactory = PopupFactory.getSharedInstance();
+        PopupFbctory popupFbctory = PopupFbctory.getShbredInstbnce();
 
-        return popupFactory.getPopup(popup.getInvoker(), popup, x, y);
+        return popupFbctory.getPopup(popup.getInvoker(), popup, x, y);
     }
 }

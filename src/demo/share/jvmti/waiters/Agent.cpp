@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -46,183 +46,183 @@
 #include "jni.h"
 #include "jvmti.h"
 
-#include "agent_util.h"
+#include "bgent_util.h"
 
 #include "Monitor.hpp"
-#include "Thread.hpp"
+#include "Threbd.hpp"
 #include "Agent.hpp"
 
-/* Implementation of the Agent class */
+/* Implementbtion of the Agent clbss */
 
-/* Given a jvmtiEnv* and jthread, find the Thread instance */
-Thread *
-Agent::get_thread(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Given b jvmtiEnv* bnd jthrebd, find the Threbd instbnce */
+Threbd *
+Agent::get_threbd(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
-    Thread    *t;
+    Threbd    *t;
 
-    /* This should always be in the Thread Local Storage */
+    /* This should blwbys be in the Threbd Locbl Storbge */
     t = NULL;
-    err = jvmti->GetThreadLocalStorage(thread, (void**)&t);
-    check_jvmti_error(jvmti, err, "get thread local storage");
+    err = jvmti->GetThrebdLocblStorbge(threbd, (void**)&t);
+    check_jvmti_error(jvmti, err, "get threbd locbl storbge");
     if ( t == NULL ) {
-        /* This jthread has never been seen before? */
-        stdout_message("WARNING: Never before seen jthread?\n");
-        t = new Thread(jvmti, env, thread);
-        err = jvmti->SetThreadLocalStorage(thread, (const void*)t);
-        check_jvmti_error(jvmti, err, "set thread local storage");
+        /* This jthrebd hbs never been seen before? */
+        stdout_messbge("WARNING: Never before seen jthrebd?\n");
+        t = new Threbd(jvmti, env, threbd);
+        err = jvmti->SetThrebdLocblStorbge(threbd, (const void*)t);
+        check_jvmti_error(jvmti, err, "set threbd locbl storbge");
     }
     return t;
 }
 
-/* Given a jvmtiEnv* and jobject, find the Monitor instance or create one */
+/* Given b jvmtiEnv* bnd jobject, find the Monitor instbnce or crebte one */
 Monitor *
 Agent::get_monitor(jvmtiEnv *jvmti, JNIEnv *env, jobject object)
 {
     jvmtiError err;
     Monitor   *m;
-    jlong      tag;
+    jlong      tbg;
 
     m   = NULL;
-    tag = (jlong)0;
-    err = jvmti->GetTag(object, &tag);
-    check_jvmti_error(jvmti, err, "get tag");
+    tbg = (jlong)0;
+    err = jvmti->GetTbg(object, &tbg);
+    check_jvmti_error(jvmti, err, "get tbg");
     /*LINTED*/
-    m = (Monitor *)(void *)(ptrdiff_t)tag;
+    m = (Monitor *)(void *)(ptrdiff_t)tbg;
     if ( m == NULL ) {
         m = new Monitor(jvmti, env, object);
-        /* Save monitor on list */
+        /* Sbve monitor on list */
         if (monitor_count == monitor_list_size) {
             monitor_list_size += monitor_list_grow_size;
-            monitor_list = (Monitor**)realloc((void*)monitor_list,
+            monitor_list = (Monitor**)reblloc((void*)monitor_list,
                 (monitor_list_size)*(int)sizeof(Monitor*));
         }
         monitor_list[monitor_count] = m;
         m->set_slot(monitor_count);
         monitor_count++;
         /*LINTED*/
-        tag = (jlong)(ptrdiff_t)(void *)m;
-        err = jvmti->SetTag(object, tag);
-        check_jvmti_error(jvmti, err, "set tag");
+        tbg = (jlong)(ptrdiff_t)(void *)m;
+        err = jvmti->SetTbg(object, tbg);
+        check_jvmti_error(jvmti, err, "set tbg");
     }
     return m;
 }
 
-/* VM initialization and VM death calls to Agent */
-Agent::Agent(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* VM initiblizbtion bnd VM debth cblls to Agent */
+Agent::Agent(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
 
-    stdout_message("Agent created..\n");
-    stdout_message("VMInit...\n");
-    /* Start monitor list */
+    stdout_messbge("Agent crebted..\n");
+    stdout_messbge("VMInit...\n");
+    /* Stbrt monitor list */
     monitor_count = 0;
-    monitor_list_size = initial_monitor_list_size;
+    monitor_list_size = initibl_monitor_list_size;
     monitor_list = (Monitor**)
-        malloc(monitor_list_size*(int)sizeof(Monitor*));
+        mblloc(monitor_list_size*(int)sizeof(Monitor*));
 }
 
 Agent::~Agent()
 {
-    stdout_message("Agent reclaimed..\n");
+    stdout_messbge("Agent reclbimed..\n");
 }
 
-void Agent::vm_death(jvmtiEnv *jvmti, JNIEnv *env)
+void Agent::vm_debth(jvmtiEnv *jvmti, JNIEnv *env)
 {
     jvmtiError err;
 
-    /* Delete all Monitors we allocated */
+    /* Delete bll Monitors we bllocbted */
     for ( int i = 0; i < (int)monitor_count; i++ ) {
         delete monitor_list[i];
     }
     free(monitor_list);
-    /* Print death message */
-    stdout_message("VMDeath...\n");
+    /* Print debth messbge */
+    stdout_messbge("VMDebth...\n");
 }
 
-/* Thread start event, setup a new thread */
-void Agent::thread_start(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Threbd stbrt event, setup b new threbd */
+void Agent::threbd_stbrt(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
-    Thread    *t;
+    Threbd    *t;
 
-    /* Allocate a new Thread instance, put it in the Thread Local
-     *    Storage for easy access later.
+    /* Allocbte b new Threbd instbnce, put it in the Threbd Locbl
+     *    Storbge for ebsy bccess lbter.
      */
-    t = new Thread(jvmti, env, thread);
-    err = jvmti->SetThreadLocalStorage(thread, (const void*)t);
-    check_jvmti_error(jvmti, err, "set thread local storage");
+    t = new Threbd(jvmti, env, threbd);
+    err = jvmti->SetThrebdLocblStorbge(threbd, (const void*)t);
+    check_jvmti_error(jvmti, err, "set threbd locbl storbge");
 }
 
 
-/* Thread end event, we need to reclaim the space */
-void Agent::thread_end(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Threbd end event, we need to reclbim the spbce */
+void Agent::threbd_end(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError err;
-    Thread    *t;
+    Threbd    *t;
 
-    /* Find the thread */
-    t = get_thread(jvmti, env, thread);
+    /* Find the threbd */
+    t = get_threbd(jvmti, env, threbd);
 
-    /* Clear out the Thread Local Storage */
-    err = jvmti->SetThreadLocalStorage(thread, (const void*)NULL);
-    check_jvmti_error(jvmti, err, "set thread local storage");
+    /* Clebr out the Threbd Locbl Storbge */
+    err = jvmti->SetThrebdLocblStorbge(threbd, (const void*)NULL);
+    check_jvmti_error(jvmti, err, "set threbd locbl storbge");
 
-    /* Reclaim the C++ object space */
+    /* Reclbim the C++ object spbce */
     delete t;
 }
 
-/* Monitor contention begins for a thread. */
+/* Monitor contention begins for b threbd. */
 void Agent::monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object)
+             jthrebd threbd, jobject object)
 {
     get_monitor(jvmti, env, object)->contended();
-    get_thread(jvmti, env, thread)->
-                monitor_contended_enter(jvmti, env, thread, object);
+    get_threbd(jvmti, env, threbd)->
+                monitor_contended_enter(jvmti, env, threbd, object);
 }
 
-/* Monitor contention ends for a thread. */
+/* Monitor contention ends for b threbd. */
 void Agent::monitor_contended_entered(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object)
+               jthrebd threbd, jobject object)
 {
     /* Do nothing for now */
 }
 
-/* Monitor wait begins for a thread. */
-void Agent::monitor_wait(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object, jlong timeout)
+/* Monitor wbit begins for b threbd. */
+void Agent::monitor_wbit(jvmtiEnv* jvmti, JNIEnv *env,
+             jthrebd threbd, jobject object, jlong timeout)
 {
-    get_monitor(jvmti, env, object)->waited();
-    get_thread(jvmti, env, thread)->
-                monitor_wait(jvmti, env, thread, object, timeout);
+    get_monitor(jvmti, env, object)->wbited();
+    get_threbd(jvmti, env, threbd)->
+                monitor_wbit(jvmti, env, threbd, object, timeout);
 }
 
-/* Monitor wait ends for a thread. */
-void Agent::monitor_waited(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jboolean timed_out)
+/* Monitor wbit ends for b threbd. */
+void Agent::monitor_wbited(jvmtiEnv* jvmti, JNIEnv *env,
+               jthrebd threbd, jobject object, jboolebn timed_out)
 {
     if ( timed_out ) {
         get_monitor(jvmti, env, object)->timeout();
     }
-    get_thread(jvmti, env, thread)->
-                monitor_waited(jvmti, env, thread, object, timed_out);
+    get_threbd(jvmti, env, threbd)->
+                monitor_wbited(jvmti, env, threbd, object, timed_out);
 }
 
-/* A tagged object has been freed */
-void Agent::object_free(jvmtiEnv* jvmti, jlong tag)
+/* A tbgged object hbs been freed */
+void Agent::object_free(jvmtiEnv* jvmti, jlong tbg)
 {
-    /* We just cast the tag to a C++ pointer and delete it.
-     *   we know it can only be a Monitor *.
+    /* We just cbst the tbg to b C++ pointer bnd delete it.
+     *   we know it cbn only be b Monitor *.
      */
     Monitor   *m;
     /*LINTED*/
-    m = (Monitor *)(ptrdiff_t)tag;
+    m = (Monitor *)(ptrdiff_t)tbg;
     if (monitor_count > 1) {
-        /* Move the last element to this Monitor's slot */
+        /* Move the lbst element to this Monitor's slot */
         int slot = m->get_slot();
-        Monitor *last = monitor_list[monitor_count-1];
-        monitor_list[slot] = last;
-        last->set_slot(slot);
+        Monitor *lbst = monitor_list[monitor_count-1];
+        monitor_list[slot] = lbst;
+        lbst->set_slot(slot);
     }
     monitor_count--;
     delete m;

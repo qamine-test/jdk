@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * This class allows an application to create an input stream in
- * which the bytes read are supplied by the contents of a string.
- * Applications can also read bytes from a byte array by using a
- * <code>ByteArrayInputStream</code>.
+ * This clbss bllows bn bpplicbtion to crebte bn input strebm in
+ * which the bytes rebd bre supplied by the contents of b string.
+ * Applicbtions cbn blso rebd bytes from b byte brrby by using b
+ * <code>ByteArrbyInputStrebm</code>.
  * <p>
- * Only the low eight bits of each character in the string are used by
- * this class.
+ * Only the low eight bits of ebch chbrbcter in the string bre used by
+ * this clbss.
  *
- * @author     Arthur van Hoff
- * @see        java.io.ByteArrayInputStream
- * @see        java.io.StringReader
+ * @buthor     Arthur vbn Hoff
+ * @see        jbvb.io.ByteArrbyInputStrebm
+ * @see        jbvb.io.StringRebder
  * @since      1.0
- * @deprecated This class does not properly convert characters into bytes.  As
- *             of JDK&nbsp;1.1, the preferred way to create a stream from a
- *             string is via the <code>StringReader</code> class.
+ * @deprecbted This clbss does not properly convert chbrbcters into bytes.  As
+ *             of JDK&nbsp;1.1, the preferred wby to crebte b strebm from b
+ *             string is vib the <code>StringRebder</code> clbss.
  */
-@Deprecated
+@Deprecbted
 public
-class StringBufferInputStream extends InputStream {
+clbss StringBufferInputStrebm extends InputStrebm {
     /**
-     * The string from which bytes are read.
+     * The string from which bytes bre rebd.
      */
     protected String buffer;
 
     /**
-     * The index of the next character to read from the input stream buffer.
+     * The index of the next chbrbcter to rebd from the input strebm buffer.
      *
-     * @see        java.io.StringBufferInputStream#buffer
+     * @see        jbvb.io.StringBufferInputStrebm#buffer
      */
     protected int pos;
 
     /**
-     * The number of valid characters in the input stream buffer.
+     * The number of vblid chbrbcters in the input strebm buffer.
      *
-     * @see        java.io.StringBufferInputStream#buffer
+     * @see        jbvb.io.StringBufferInputStrebm#buffer
      */
     protected int count;
 
     /**
-     * Creates a string input stream to read data from the specified string.
+     * Crebtes b string input strebm to rebd dbtb from the specified string.
      *
-     * @param      s   the underlying input buffer.
+     * @pbrbm      s   the underlying input buffer.
      */
-    public StringBufferInputStream(String s) {
+    public StringBufferInputStrebm(String s) {
         this.buffer = s;
         count = s.length();
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
+     * Rebds the next byte of dbtb from this input strebm. The vblue
+     * byte is returned bs bn <code>int</code> in the rbnge
+     * <code>0</code> to <code>255</code>. If no byte is bvbilbble
+     * becbuse the end of the strebm hbs been rebched, the vblue
      * <code>-1</code> is returned.
      * <p>
-     * The <code>read</code> method of
-     * <code>StringBufferInputStream</code> cannot block. It returns the
-     * low eight bits of the next character in this input stream's buffer.
+     * The <code>rebd</code> method of
+     * <code>StringBufferInputStrebm</code> cbnnot block. It returns the
+     * low eight bits of the next chbrbcter in this input strebm's buffer.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
      */
-    public synchronized int read() {
-        return (pos < count) ? (buffer.charAt(pos++) & 0xFF) : -1;
+    public synchronized int rebd() {
+        return (pos < count) ? (buffer.chbrAt(pos++) & 0xFF) : -1;
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this input stream
-     * into an array of bytes.
+     * Rebds up to <code>len</code> bytes of dbtb from this input strebm
+     * into bn brrby of bytes.
      * <p>
-     * The <code>read</code> method of
-     * <code>StringBufferInputStream</code> cannot block. It copies the
-     * low eight bits from the characters in this input stream's buffer into
-     * the byte array argument.
+     * The <code>rebd</code> method of
+     * <code>StringBufferInputStrebm</code> cbnnot block. It copies the
+     * low eight bits from the chbrbcters in this input strebm's buffer into
+     * the byte brrby brgument.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset of the dbtb.
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end of
+     *             the strebm hbs been rebched.
      */
-    public synchronized int read(byte b[], int off, int len) {
+    public synchronized int rebd(byte b[], int off, int len) {
         if (b == null) {
             throw new NullPointerException();
         } else if ((off < 0) || (off > b.length) || (len < 0) ||
@@ -127,18 +127,18 @@ class StringBufferInputStream extends InputStream {
         String  s = buffer;
         int cnt = len;
         while (--cnt >= 0) {
-            b[off++] = (byte)s.charAt(pos++);
+            b[off++] = (byte)s.chbrAt(pos++);
         }
 
         return len;
     }
 
     /**
-     * Skips <code>n</code> bytes of input from this input stream. Fewer
-     * bytes might be skipped if the end of the input stream is reached.
+     * Skips <code>n</code> bytes of input from this input strebm. Fewer
+     * bytes might be skipped if the end of the input strebm is rebched.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
+     * @pbrbm      n   the number of bytes to be skipped.
+     * @return     the bctubl number of bytes skipped.
      */
     public synchronized long skip(long n) {
         if (n < 0) {
@@ -152,19 +152,19 @@ class StringBufferInputStream extends InputStream {
     }
 
     /**
-     * Returns the number of bytes that can be read from the input
-     * stream without blocking.
+     * Returns the number of bytes thbt cbn be rebd from the input
+     * strebm without blocking.
      *
-     * @return     the value of <code>count&nbsp;-&nbsp;pos</code>, which is the
-     *             number of bytes remaining to be read from the input buffer.
+     * @return     the vblue of <code>count&nbsp;-&nbsp;pos</code>, which is the
+     *             number of bytes rembining to be rebd from the input buffer.
      */
-    public synchronized int available() {
+    public synchronized int bvbilbble() {
         return count - pos;
     }
 
     /**
-     * Resets the input stream to begin reading from the first character
-     * of this input stream's underlying buffer.
+     * Resets the input strebm to begin rebding from the first chbrbcter
+     * of this input strebm's underlying buffer.
      */
     public synchronized void reset() {
         pos = 0;

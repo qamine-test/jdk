@@ -1,336 +1,336 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.finder.PrimitiveWrapperMap;
+import com.sun.bebns.finder.PrimitiveWrbpperMbp;
 
-import java.awt.AWTKeyStroke;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.font.TextAttribute;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.font.TextAttribute;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.swing.Box;
-import javax.swing.JLayeredPane;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ColorUIResource;
+import jbvbx.swing.Box;
+import jbvbx.swing.JLbyeredPbne;
+import jbvbx.swing.border.MbtteBorder;
+import jbvbx.swing.plbf.ColorUIResource;
 
 import sun.swing.PrintColorUIResource;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtic sun.reflect.misc.ReflectUtil.isPbckbgeAccessible;
 
 /*
- * Like the <code>Intropector</code>, the <code>MetaData</code> class
- * contains <em>meta</em> objects that describe the way
- * classes should express their state in terms of their
+ * Like the <code>Intropector</code>, the <code>MetbDbtb</code> clbss
+ * contbins <em>metb</em> objects thbt describe the wby
+ * clbsses should express their stbte in terms of their
  * own public APIs.
  *
- * @see java.beans.Intropector
+ * @see jbvb.bebns.Intropector
  *
- * @author Philip Milne
- * @author Steve Langley
+ * @buthor Philip Milne
+ * @buthor Steve Lbngley
  */
-class MetaData {
+clbss MetbDbtb {
 
-static final class NullPersistenceDelegate extends PersistenceDelegate {
-    // Note this will be called by all classes when they reach the
-    // top of their superclass chain.
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
+stbtic finbl clbss NullPersistenceDelegbte extends PersistenceDelegbte {
+    // Note this will be cblled by bll clbsses when they rebch the
+    // top of their superclbss chbin.
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
     }
-    protected Expression instantiate(Object oldInstance, Encoder out) { return null; }
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) { return null; }
 
-    public void writeObject(Object oldInstance, Encoder out) {
-    // System.out.println("NullPersistenceDelegate:writeObject " + oldInstance);
+    public void writeObject(Object oldInstbnce, Encoder out) {
+    // System.out.println("NullPersistenceDelegbte:writeObject " + oldInstbnce);
     }
 }
 
 /**
- * The persistence delegate for <CODE>enum</CODE> classes.
+ * The persistence delegbte for <CODE>enum</CODE> clbsses.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class EnumPersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance == newInstance;
+stbtic finbl clbss EnumPersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce == newInstbnce;
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Enum<?> e = (Enum<?>) oldInstance;
-        return new Expression(e, Enum.class, "valueOf", new Object[]{e.getDeclaringClass(), e.name()});
-    }
-}
-
-static final class PrimitivePersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
-    }
-
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, oldInstance.getClass(),
-                  "new", new Object[]{oldInstance.toString()});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Enum<?> e = (Enum<?>) oldInstbnce;
+        return new Expression(e, Enum.clbss, "vblueOf", new Object[]{e.getDeclbringClbss(), e.nbme()});
     }
 }
 
-static final class ArrayPersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return (newInstance != null &&
-                oldInstance.getClass() == newInstance.getClass() && // Also ensures the subtype is correct.
-                Array.getLength(oldInstance) == Array.getLength(newInstance));
+stbtic finbl clbss PrimitivePersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
+    }
+
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        return new Expression(oldInstbnce, oldInstbnce.getClbss(),
+                  "new", new Object[]{oldInstbnce.toString()});
+    }
+}
+
+stbtic finbl clbss ArrbyPersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return (newInstbnce != null &&
+                oldInstbnce.getClbss() == newInstbnce.getClbss() && // Also ensures the subtype is correct.
+                Arrby.getLength(oldInstbnce) == Arrby.getLength(newInstbnce));
         }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        // System.out.println("instantiate: " + type + " " + oldInstance);
-        Class<?> oldClass = oldInstance.getClass();
-        return new Expression(oldInstance, Array.class, "newInstance",
-                   new Object[]{oldClass.getComponentType(),
-                                Array.getLength(oldInstance)});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        // System.out.println("instbntibte: " + type + " " + oldInstbnce);
+        Clbss<?> oldClbss = oldInstbnce.getClbss();
+        return new Expression(oldInstbnce, Arrby.clbss, "newInstbnce",
+                   new Object[]{oldClbss.getComponentType(),
+                                Arrby.getLength(oldInstbnce)});
         }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        int n = Array.getLength(oldInstance);
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        int n = Arrby.getLength(oldInstbnce);
         for (int i = 0; i < n; i++) {
             Object index = i;
-            // Expression oldGetExp = new Expression(Array.class, "get", new Object[]{oldInstance, index});
-            // Expression newGetExp = new Expression(Array.class, "get", new Object[]{newInstance, index});
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{index});
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{index});
+            // Expression oldGetExp = new Expression(Arrby.clbss, "get", new Object[]{oldInstbnce, index});
+            // Expression newGetExp = new Expression(Arrby.clbss, "get", new Object[]{newInstbnce, index});
+            Expression oldGetExp = new Expression(oldInstbnce, "get", new Object[]{index});
+            Expression newGetExp = new Expression(newInstbnce, "get", new Object[]{index});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
+                Object oldVblue = oldGetExp.getVblue();
+                Object newVblue = newGetExp.getVblue();
                 out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    // System.out.println("Not equal: " + newGetExp + " != " + actualGetExp);
-                    // invokeStatement(Array.class, "set", new Object[]{oldInstance, index, oldValue}, out);
-                    DefaultPersistenceDelegate.invokeStatement(oldInstance, "set", new Object[]{index, oldValue}, out);
+                if (!Objects.equbls(newVblue, out.get(oldVblue))) {
+                    // System.out.println("Not equbl: " + newGetExp + " != " + bctublGetExp);
+                    // invokeStbtement(Arrby.clbss, "set", new Object[]{oldInstbnce, index, oldVblue}, out);
+                    DefbultPersistenceDelegbte.invokeStbtement(oldInstbnce, "set", new Object[]{index, oldVblue}, out);
                 }
             }
-            catch (Exception e) {
-                // System.err.println("Warning:: failed to write: " + oldGetExp);
+            cbtch (Exception e) {
+                // System.err.println("Wbrning:: fbiled to write: " + oldGetExp);
                 out.getExceptionListener().exceptionThrown(e);
             }
         }
     }
 }
 
-static final class ProxyPersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Class<?> type = oldInstance.getClass();
-        java.lang.reflect.Proxy p = (java.lang.reflect.Proxy)oldInstance;
-        // This unappealing hack is not required but makes the
-        // representation of EventHandlers much more concise.
-        java.lang.reflect.InvocationHandler ih = java.lang.reflect.Proxy.getInvocationHandler(p);
-        if (ih instanceof EventHandler) {
-            EventHandler eh = (EventHandler)ih;
-            Vector<Object> args = new Vector<>();
-            args.add(type.getInterfaces()[0]);
-            args.add(eh.getTarget());
-            args.add(eh.getAction());
-            if (eh.getEventPropertyName() != null) {
-                args.add(eh.getEventPropertyName());
+stbtic finbl clbss ProxyPersistenceDelegbte extends PersistenceDelegbte {
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Clbss<?> type = oldInstbnce.getClbss();
+        jbvb.lbng.reflect.Proxy p = (jbvb.lbng.reflect.Proxy)oldInstbnce;
+        // This unbppebling hbck is not required but mbkes the
+        // representbtion of EventHbndlers much more concise.
+        jbvb.lbng.reflect.InvocbtionHbndler ih = jbvb.lbng.reflect.Proxy.getInvocbtionHbndler(p);
+        if (ih instbnceof EventHbndler) {
+            EventHbndler eh = (EventHbndler)ih;
+            Vector<Object> brgs = new Vector<>();
+            brgs.bdd(type.getInterfbces()[0]);
+            brgs.bdd(eh.getTbrget());
+            brgs.bdd(eh.getAction());
+            if (eh.getEventPropertyNbme() != null) {
+                brgs.bdd(eh.getEventPropertyNbme());
             }
-            if (eh.getListenerMethodName() != null) {
-                args.setSize(4);
-                args.add(eh.getListenerMethodName());
+            if (eh.getListenerMethodNbme() != null) {
+                brgs.setSize(4);
+                brgs.bdd(eh.getListenerMethodNbme());
             }
-            return new Expression(oldInstance,
-                                  EventHandler.class,
-                                  "create",
-                                  args.toArray());
+            return new Expression(oldInstbnce,
+                                  EventHbndler.clbss,
+                                  "crebte",
+                                  brgs.toArrby());
         }
-        return new Expression(oldInstance,
-                              java.lang.reflect.Proxy.class,
-                              "newProxyInstance",
-                              new Object[]{type.getClassLoader(),
-                                           type.getInterfaces(),
+        return new Expression(oldInstbnce,
+                              jbvb.lbng.reflect.Proxy.clbss,
+                              "newProxyInstbnce",
+                              new Object[]{type.getClbssLobder(),
+                                           type.getInterfbces(),
                                            ih});
     }
 }
 
 // Strings
-static final class java_lang_String_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) { return null; }
+stbtic finbl clbss jbvb_lbng_String_PersistenceDelegbte extends PersistenceDelegbte {
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) { return null; }
 
-    public void writeObject(Object oldInstance, Encoder out) {
-        // System.out.println("NullPersistenceDelegate:writeObject " + oldInstance);
+    public void writeObject(Object oldInstbnce, Encoder out) {
+        // System.out.println("NullPersistenceDelegbte:writeObject " + oldInstbnce);
     }
 }
 
-// Classes
-static final class java_lang_Class_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+// Clbsses
+stbtic finbl clbss jbvb_lbng_Clbss_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Class<?> c = (Class)oldInstance;
-        // As of 1.3 it is not possible to call Class.forName("int"),
-        // so we have to generate different code for primitive types.
-        // This is needed for arrays whose subtype may be primitive.
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Clbss<?> c = (Clbss)oldInstbnce;
+        // As of 1.3 it is not possible to cbll Clbss.forNbme("int"),
+        // so we hbve to generbte different code for primitive types.
+        // This is needed for brrbys whose subtype mby be primitive.
         if (c.isPrimitive()) {
             Field field = null;
             try {
-                field = PrimitiveWrapperMap.getType(c.getName()).getDeclaredField("TYPE");
-            } catch (NoSuchFieldException ex) {
+                field = PrimitiveWrbpperMbp.getType(c.getNbme()).getDeclbredField("TYPE");
+            } cbtch (NoSuchFieldException ex) {
                 System.err.println("Unknown primitive type: " + c);
             }
-            return new Expression(oldInstance, field, "get", new Object[]{null});
+            return new Expression(oldInstbnce, field, "get", new Object[]{null});
         }
-        else if (oldInstance == String.class) {
-            return new Expression(oldInstance, "", "getClass", new Object[]{});
+        else if (oldInstbnce == String.clbss) {
+            return new Expression(oldInstbnce, "", "getClbss", new Object[]{});
         }
-        else if (oldInstance == Class.class) {
-            return new Expression(oldInstance, String.class, "getClass", new Object[]{});
+        else if (oldInstbnce == Clbss.clbss) {
+            return new Expression(oldInstbnce, String.clbss, "getClbss", new Object[]{});
         }
         else {
-            Expression newInstance = new Expression(oldInstance, Class.class, "forName", new Object[] { c.getName() });
-            newInstance.loader = c.getClassLoader();
-            return newInstance;
+            Expression newInstbnce = new Expression(oldInstbnce, Clbss.clbss, "forNbme", new Object[] { c.getNbme() });
+            newInstbnce.lobder = c.getClbssLobder();
+            return newInstbnce;
         }
     }
 }
 
 // Fields
-static final class java_lang_reflect_Field_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_lbng_reflect_Field_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Field f = (Field)oldInstance;
-        return new Expression(oldInstance,
-                f.getDeclaringClass(),
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Field f = (Field)oldInstbnce;
+        return new Expression(oldInstbnce,
+                f.getDeclbringClbss(),
                 "getField",
-                new Object[]{f.getName()});
+                new Object[]{f.getNbme()});
     }
 }
 
 // Methods
-static final class java_lang_reflect_Method_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_lbng_reflect_Method_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Method m = (Method)oldInstance;
-        return new Expression(oldInstance,
-                m.getDeclaringClass(),
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Method m = (Method)oldInstbnce;
+        return new Expression(oldInstbnce,
+                m.getDeclbringClbss(),
                 "getMethod",
-                new Object[]{m.getName(), m.getParameterTypes()});
+                new Object[]{m.getNbme(), m.getPbrbmeterTypes()});
     }
 }
 
-// Dates
+// Dbtes
 
 /**
- * The persistence delegate for <CODE>java.util.Date</CODE> classes.
- * Do not extend DefaultPersistenceDelegate to improve performance and
- * to avoid problems with <CODE>java.sql.Date</CODE>,
- * <CODE>java.sql.Time</CODE> and <CODE>java.sql.Timestamp</CODE>.
+ * The persistence delegbte for <CODE>jbvb.util.Dbte</CODE> clbsses.
+ * Do not extend DefbultPersistenceDelegbte to improve performbnce bnd
+ * to bvoid problems with <CODE>jbvb.sql.Dbte</CODE>,
+ * <CODE>jbvb.sql.Time</CODE> bnd <CODE>jbvb.sql.Timestbmp</CODE>.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static class java_util_Date_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        if (!super.mutatesTo(oldInstance, newInstance)) {
-            return false;
+stbtic clbss jbvb_util_Dbte_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        if (!super.mutbtesTo(oldInstbnce, newInstbnce)) {
+            return fblse;
         }
-        Date oldDate = (Date)oldInstance;
-        Date newDate = (Date)newInstance;
+        Dbte oldDbte = (Dbte)oldInstbnce;
+        Dbte newDbte = (Dbte)newInstbnce;
 
-        return oldDate.getTime() == newDate.getTime();
+        return oldDbte.getTime() == newDbte.getTime();
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Date date = (Date)oldInstance;
-        return new Expression(date, date.getClass(), "new", new Object[] {date.getTime()});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Dbte dbte = (Dbte)oldInstbnce;
+        return new Expression(dbte, dbte.getClbss(), "new", new Object[] {dbte.getTime()});
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.sql.Timestamp</CODE> classes.
- * It supports nanoseconds.
+ * The persistence delegbte for <CODE>jbvb.sql.Timestbmp</CODE> clbsses.
+ * It supports nbnoseconds.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_sql_Timestamp_PersistenceDelegate extends java_util_Date_PersistenceDelegate {
-    private static final Method getNanosMethod = getNanosMethod();
+stbtic finbl clbss jbvb_sql_Timestbmp_PersistenceDelegbte extends jbvb_util_Dbte_PersistenceDelegbte {
+    privbte stbtic finbl Method getNbnosMethod = getNbnosMethod();
 
-    private static Method getNanosMethod() {
+    privbte stbtic Method getNbnosMethod() {
         try {
-            Class<?> c = Class.forName("java.sql.Timestamp", true, null);
-            return c.getMethod("getNanos");
-        } catch (ClassNotFoundException e) {
+            Clbss<?> c = Clbss.forNbme("jbvb.sql.Timestbmp", true, null);
+            return c.getMethod("getNbnos");
+        } cbtch (ClbssNotFoundException e) {
             return null;
-        } catch (NoSuchMethodException e) {
+        } cbtch (NoSuchMethodException e) {
             throw new AssertionError(e);
         }
     }
 
     /**
-     * Invoke Timstamp getNanos.
+     * Invoke Timstbmp getNbnos.
      */
-    private static int getNanos(Object obj) {
-        if (getNanosMethod == null)
+    privbte stbtic int getNbnos(Object obj) {
+        if (getNbnosMethod == null)
             throw new AssertionError("Should not get here");
         try {
-            return (Integer)getNanosMethod.invoke(obj);
-        } catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof RuntimeException)
-                throw (RuntimeException)cause;
-            if (cause instanceof Error)
-                throw (Error)cause;
+            return (Integer)getNbnosMethod.invoke(obj);
+        } cbtch (InvocbtionTbrgetException e) {
+            Throwbble cbuse = e.getCbuse();
+            if (cbuse instbnceof RuntimeException)
+                throw (RuntimeException)cbuse;
+            if (cbuse instbnceof Error)
+                throw (Error)cbuse;
             throw new AssertionError(e);
-        } catch (IllegalAccessException iae) {
-            throw new AssertionError(iae);
+        } cbtch (IllegblAccessException ibe) {
+            throw new AssertionError(ibe);
         }
     }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // assumes oldInstance and newInstance are Timestamps
-        int nanos = getNanos(oldInstance);
-        if (nanos != getNanos(newInstance)) {
-            out.writeStatement(new Statement(oldInstance, "setNanos", new Object[] {nanos}));
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        // bssumes oldInstbnce bnd newInstbnce bre Timestbmps
+        int nbnos = getNbnos(oldInstbnce);
+        if (nbnos != getNbnos(newInstbnce)) {
+            out.writeStbtement(new Stbtement(oldInstbnce, "setNbnos", new Object[] {nbnos}));
         }
     }
 }
@@ -338,463 +338,463 @@ static final class java_sql_Timestamp_PersistenceDelegate extends java_util_Date
 // Collections
 
 /*
-The Hashtable and AbstractMap classes have no common ancestor yet may
-be handled with a single persistence delegate: one which uses the methods
-of the Map insterface exclusively. Attatching the persistence delegates
-to the interfaces themselves is fraught however since, in the case of
-the Map, both the AbstractMap and HashMap classes are declared to
-implement the Map interface, leaving the obvious implementation prone
-to repeating their initialization. These issues and questions around
-the ordering of delegates attached to interfaces have lead us to
-ignore any delegates attached to interfaces and force all persistence
-delegates to be registered with concrete classes.
+The Hbshtbble bnd AbstrbctMbp clbsses hbve no common bncestor yet mby
+be hbndled with b single persistence delegbte: one which uses the methods
+of the Mbp insterfbce exclusively. Attbtching the persistence delegbtes
+to the interfbces themselves is frbught however since, in the cbse of
+the Mbp, both the AbstrbctMbp bnd HbshMbp clbsses bre declbred to
+implement the Mbp interfbce, lebving the obvious implementbtion prone
+to repebting their initiblizbtion. These issues bnd questions bround
+the ordering of delegbtes bttbched to interfbces hbve lebd us to
+ignore bny delegbtes bttbched to interfbces bnd force bll persistence
+delegbtes to be registered with concrete clbsses.
 */
 
 /**
- * The base class for persistence delegates for inner classes
- * that can be created using {@link Collections}.
+ * The bbse clbss for persistence delegbtes for inner clbsses
+ * thbt cbn be crebted using {@link Collections}.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-private static abstract class java_util_Collections extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        if (!super.mutatesTo(oldInstance, newInstance)) {
-            return false;
+privbte stbtic bbstrbct clbss jbvb_util_Collections extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        if (!super.mutbtesTo(oldInstbnce, newInstbnce)) {
+            return fblse;
         }
-        if ((oldInstance instanceof List) || (oldInstance instanceof Set) || (oldInstance instanceof Map)) {
-            return oldInstance.equals(newInstance);
+        if ((oldInstbnce instbnceof List) || (oldInstbnce instbnceof Set) || (oldInstbnce instbnceof Mbp)) {
+            return oldInstbnce.equbls(newInstbnce);
         }
-        Collection<?> oldC = (Collection<?>) oldInstance;
-        Collection<?> newC = (Collection<?>) newInstance;
-        return (oldC.size() == newC.size()) && oldC.containsAll(newC);
+        Collection<?> oldC = (Collection<?>) oldInstbnce;
+        Collection<?> newC = (Collection<?>) newInstbnce;
+        return (oldC.size() == newC.size()) && oldC.contbinsAll(newC);
     }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // do not initialize these custom collections in default way
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        // do not initiblize these custom collections in defbult wby
     }
 
-    static final class EmptyList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptyList", null);
-        }
-    }
-
-    static final class EmptySet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptySet", null);
+    stbtic finbl clbss EmptyList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            return new Expression(oldInstbnce, Collections.clbss, "emptyList", null);
         }
     }
 
-    static final class EmptyMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptyMap", null);
+    stbtic finbl clbss EmptySet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            return new Expression(oldInstbnce, Collections.clbss, "emptySet", null);
         }
     }
 
-    static final class SingletonList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = (List<?>) oldInstance;
-            return new Expression(oldInstance, Collections.class, "singletonList", new Object[]{list.get(0)});
+    stbtic finbl clbss EmptyMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            return new Expression(oldInstbnce, Collections.clbss, "emptyMbp", null);
         }
     }
 
-    static final class SingletonSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = (Set<?>) oldInstance;
-            return new Expression(oldInstance, Collections.class, "singleton", new Object[]{set.iterator().next()});
+    stbtic finbl clbss SingletonList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = (List<?>) oldInstbnce;
+            return new Expression(oldInstbnce, Collections.clbss, "singletonList", new Object[]{list.get(0)});
         }
     }
 
-    static final class SingletonMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = (Map<?,?>) oldInstance;
-            Object key = map.keySet().iterator().next();
-            return new Expression(oldInstance, Collections.class, "singletonMap", new Object[]{key, map.get(key)});
+    stbtic finbl clbss SingletonSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Set<?> set = (Set<?>) oldInstbnce;
+            return new Expression(oldInstbnce, Collections.clbss, "singleton", new Object[]{set.iterbtor().next()});
         }
     }
 
-    static final class UnmodifiableCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableCollection", new Object[]{list});
+    stbtic finbl clbss SingletonMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Mbp<?,?> mbp = (Mbp<?,?>) oldInstbnce;
+            Object key = mbp.keySet().iterbtor().next();
+            return new Expression(oldInstbnce, Collections.clbss, "singletonMbp", new Object[]{key, mbp.get(key)});
         }
     }
 
-    static final class UnmodifiableList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableList", new Object[]{list});
+    stbtic finbl clbss UnmodifibbleCollection_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleCollection", new Object[]{list});
         }
     }
 
-    static final class UnmodifiableRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableList", new Object[]{list});
+    stbtic finbl clbss UnmodifibbleList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new LinkedList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleList", new Object[]{list});
         }
     }
 
-    static final class UnmodifiableSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSet", new Object[]{set});
+    stbtic finbl clbss UnmodifibbleRbndomAccessList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleList", new Object[]{list});
         }
     }
 
-    static final class UnmodifiableSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSortedSet", new Object[]{set});
+    stbtic finbl clbss UnmodifibbleSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Set<?> set = new HbshSet<>((Set<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleSet", new Object[]{set});
         }
     }
 
-    static final class UnmodifiableMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableMap", new Object[]{map});
+    stbtic finbl clbss UnmodifibbleSortedSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleSortedSet", new Object[]{set});
         }
     }
 
-    static final class UnmodifiableSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSortedMap", new Object[]{map});
+    stbtic finbl clbss UnmodifibbleMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Mbp<?,?> mbp = new HbshMbp<>((Mbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleMbp", new Object[]{mbp});
         }
     }
 
-    static final class SynchronizedCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedCollection", new Object[]{list});
+    stbtic finbl clbss UnmodifibbleSortedMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            SortedMbp<?,?> mbp = new TreeMbp<>((SortedMbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "unmodifibbleSortedMbp", new Object[]{mbp});
         }
     }
 
-    static final class SynchronizedList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedList", new Object[]{list});
+    stbtic finbl clbss SynchronizedCollection_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedCollection", new Object[]{list});
         }
     }
 
-    static final class SynchronizedRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedList", new Object[]{list});
+    stbtic finbl clbss SynchronizedList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new LinkedList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedList", new Object[]{list});
         }
     }
 
-    static final class SynchronizedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSet", new Object[]{set});
+    stbtic finbl clbss SynchronizedRbndomAccessList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedList", new Object[]{list});
         }
     }
 
-    static final class SynchronizedSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSortedSet", new Object[]{set});
+    stbtic finbl clbss SynchronizedSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Set<?> set = new HbshSet<>((Set<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedSet", new Object[]{set});
         }
     }
 
-    static final class SynchronizedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedMap", new Object[]{map});
+    stbtic finbl clbss SynchronizedSortedSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedSortedSet", new Object[]{set});
         }
     }
 
-    static final class SynchronizedSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSortedMap", new Object[]{map});
+    stbtic finbl clbss SynchronizedMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Mbp<?,?> mbp = new HbshMbp<>((Mbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedMbp", new Object[]{mbp});
         }
     }
 
-    static final class CheckedCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedCollection", new Object[]{list, type});
+    stbtic finbl clbss SynchronizedSortedMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            SortedMbp<?,?> mbp = new TreeMbp<>((SortedMbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "synchronizedSortedMbp", new Object[]{mbp});
         }
     }
 
-    static final class CheckedList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedList", new Object[]{list, type});
+    stbtic finbl clbss CheckedCollection_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object type = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedCollection.type");
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedCollection", new Object[]{list, type});
         }
     }
 
-    static final class CheckedRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedList", new Object[]{list, type});
+    stbtic finbl clbss CheckedList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object type = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedCollection.type");
+            List<?> list = new LinkedList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedList", new Object[]{list, type});
         }
     }
 
-    static final class CheckedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSet", new Object[]{set, type});
+    stbtic finbl clbss CheckedRbndomAccessList_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object type = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedCollection.type");
+            List<?> list = new ArrbyList<>((Collection<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedList", new Object[]{list, type});
         }
     }
 
-    static final class CheckedSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSortedSet", new Object[]{set, type});
+    stbtic finbl clbss CheckedSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object type = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedCollection.type");
+            Set<?> set = new HbshSet<>((Set<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedSet", new Object[]{set, type});
         }
     }
 
-    static final class CheckedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object keyType   = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.keyType");
-            Object valueType = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.valueType");
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedMap", new Object[]{map, keyType, valueType});
+    stbtic finbl clbss CheckedSortedSet_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object type = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedCollection.type");
+            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedSortedSet", new Object[]{set, type});
         }
     }
 
-    static final class CheckedSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object keyType   = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.keyType");
-            Object valueType = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.valueType");
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSortedMap", new Object[]{map, keyType, valueType});
+    stbtic finbl clbss CheckedMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object keyType   = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedMbp.keyType");
+            Object vblueType = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedMbp.vblueType");
+            Mbp<?,?> mbp = new HbshMbp<>((Mbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedMbp", new Object[]{mbp, keyType, vblueType});
+        }
+    }
+
+    stbtic finbl clbss CheckedSortedMbp_PersistenceDelegbte extends jbvb_util_Collections {
+        protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+            Object keyType   = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedMbp.keyType");
+            Object vblueType = MetbDbtb.getPrivbteFieldVblue(oldInstbnce, "jbvb.util.Collections$CheckedMbp.vblueType");
+            SortedMbp<?,?> mbp = new TreeMbp<>((SortedMbp<?,?>) oldInstbnce);
+            return new Expression(oldInstbnce, Collections.clbss, "checkedSortedMbp", new Object[]{mbp, keyType, vblueType});
         }
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.util.EnumMap</CODE> classes.
+ * The persistence delegbte for <CODE>jbvb.util.EnumMbp</CODE> clbsses.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_util_EnumMap_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && (getType(oldInstance) == getType(newInstance));
+stbtic finbl clbss jbvb_util_EnumMbp_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return super.mutbtesTo(oldInstbnce, newInstbnce) && (getType(oldInstbnce) == getType(newInstbnce));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, EnumMap.class, "new", new Object[] {getType(oldInstance)});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        return new Expression(oldInstbnce, EnumMbp.clbss, "new", new Object[] {getType(oldInstbnce)});
     }
 
-    private static Object getType(Object instance) {
-        return MetaData.getPrivateFieldValue(instance, "java.util.EnumMap.keyType");
+    privbte stbtic Object getType(Object instbnce) {
+        return MetbDbtb.getPrivbteFieldVblue(instbnce, "jbvb.util.EnumMbp.keyType");
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.util.EnumSet</CODE> classes.
+ * The persistence delegbte for <CODE>jbvb.util.EnumSet</CODE> clbsses.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_util_EnumSet_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && (getType(oldInstance) == getType(newInstance));
+stbtic finbl clbss jbvb_util_EnumSet_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return super.mutbtesTo(oldInstbnce, newInstbnce) && (getType(oldInstbnce) == getType(newInstbnce));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, EnumSet.class, "noneOf", new Object[] {getType(oldInstance)});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        return new Expression(oldInstbnce, EnumSet.clbss, "noneOf", new Object[] {getType(oldInstbnce)});
     }
 
-    private static Object getType(Object instance) {
-        return MetaData.getPrivateFieldValue(instance, "java.util.EnumSet.elementType");
+    privbte stbtic Object getType(Object instbnce) {
+        return MetbDbtb.getPrivbteFieldVblue(instbnce, "jbvb.util.EnumSet.elementType");
     }
 }
 
 // Collection
-static class java_util_Collection_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        java.util.Collection<?> oldO = (java.util.Collection)oldInstance;
-        java.util.Collection<?> newO = (java.util.Collection)newInstance;
+stbtic clbss jbvb_util_Collection_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        jbvb.util.Collection<?> oldO = (jbvb.util.Collection)oldInstbnce;
+        jbvb.util.Collection<?> newO = (jbvb.util.Collection)newInstbnce;
 
         if (newO.size() != 0) {
-            invokeStatement(oldInstance, "clear", new Object[]{}, out);
+            invokeStbtement(oldInstbnce, "clebr", new Object[]{}, out);
         }
-        for (Iterator<?> i = oldO.iterator(); i.hasNext();) {
-            invokeStatement(oldInstance, "add", new Object[]{i.next()}, out);
+        for (Iterbtor<?> i = oldO.iterbtor(); i.hbsNext();) {
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{i.next()}, out);
         }
     }
 }
 
 // List
-static class java_util_List_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        java.util.List<?> oldO = (java.util.List<?>)oldInstance;
-        java.util.List<?> newO = (java.util.List<?>)newInstance;
+stbtic clbss jbvb_util_List_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        jbvb.util.List<?> oldO = (jbvb.util.List<?>)oldInstbnce;
+        jbvb.util.List<?> newO = (jbvb.util.List<?>)newInstbnce;
         int oldSize = oldO.size();
         int newSize = (newO == null) ? 0 : newO.size();
         if (oldSize < newSize) {
-            invokeStatement(oldInstance, "clear", new Object[]{}, out);
+            invokeStbtement(oldInstbnce, "clebr", new Object[]{}, out);
             newSize = 0;
         }
         for (int i = 0; i < newSize; i++) {
             Object index = i;
 
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{index});
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{index});
+            Expression oldGetExp = new Expression(oldInstbnce, "get", new Object[]{index});
+            Expression newGetExp = new Expression(newInstbnce, "get", new Object[]{index});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
+                Object oldVblue = oldGetExp.getVblue();
+                Object newVblue = newGetExp.getVblue();
                 out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    invokeStatement(oldInstance, "set", new Object[]{index, oldValue}, out);
+                if (!Objects.equbls(newVblue, out.get(oldVblue))) {
+                    invokeStbtement(oldInstbnce, "set", new Object[]{index, oldVblue}, out);
                 }
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
                 out.getExceptionListener().exceptionThrown(e);
             }
         }
         for (int i = newSize; i < oldSize; i++) {
-            invokeStatement(oldInstance, "add", new Object[]{oldO.get(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{oldO.get(i)}, out);
         }
     }
 }
 
 
-// Map
-static class java_util_Map_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // System.out.println("Initializing: " + newInstance);
-        java.util.Map<?,?> oldMap = (java.util.Map)oldInstance;
-        java.util.Map<?,?> newMap = (java.util.Map)newInstance;
+// Mbp
+stbtic clbss jbvb_util_Mbp_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        // System.out.println("Initiblizing: " + newInstbnce);
+        jbvb.util.Mbp<?,?> oldMbp = (jbvb.util.Mbp)oldInstbnce;
+        jbvb.util.Mbp<?,?> newMbp = (jbvb.util.Mbp)newInstbnce;
         // Remove the new elements.
-        // Do this first otherwise we undo the adding work.
-        if (newMap != null) {
-            for (Object newKey : newMap.keySet().toArray()) {
+        // Do this first otherwise we undo the bdding work.
+        if (newMbp != null) {
+            for (Object newKey : newMbp.keySet().toArrby()) {
                // PENDING: This "key" is not in the right environment.
-                if (!oldMap.containsKey(newKey)) {
-                    invokeStatement(oldInstance, "remove", new Object[]{newKey}, out);
+                if (!oldMbp.contbinsKey(newKey)) {
+                    invokeStbtement(oldInstbnce, "remove", new Object[]{newKey}, out);
                 }
             }
         }
         // Add the new elements.
-        for ( Object oldKey : oldMap.keySet() ) {
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{oldKey});
+        for ( Object oldKey : oldMbp.keySet() ) {
+            Expression oldGetExp = new Expression(oldInstbnce, "get", new Object[]{oldKey});
             // Pending: should use newKey.
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{oldKey});
+            Expression newGetExp = new Expression(newInstbnce, "get", new Object[]{oldKey});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
+                Object oldVblue = oldGetExp.getVblue();
+                Object newVblue = newGetExp.getVblue();
                 out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    invokeStatement(oldInstance, "put", new Object[]{oldKey, oldValue}, out);
-                } else if ((newValue == null) && !newMap.containsKey(oldKey)) {
-                    // put oldValue(=null?) if oldKey is absent in newMap
-                    invokeStatement(oldInstance, "put", new Object[]{oldKey, oldValue}, out);
+                if (!Objects.equbls(newVblue, out.get(oldVblue))) {
+                    invokeStbtement(oldInstbnce, "put", new Object[]{oldKey, oldVblue}, out);
+                } else if ((newVblue == null) && !newMbp.contbinsKey(oldKey)) {
+                    // put oldVblue(=null?) if oldKey is bbsent in newMbp
+                    invokeStbtement(oldInstbnce, "put", new Object[]{oldKey, oldVblue}, out);
                 }
             }
-            catch (Exception e) {
+            cbtch (Exception e) {
                 out.getExceptionListener().exceptionThrown(e);
             }
         }
     }
 }
 
-static final class java_util_AbstractCollection_PersistenceDelegate extends java_util_Collection_PersistenceDelegate {}
-static final class java_util_AbstractList_PersistenceDelegate extends java_util_List_PersistenceDelegate {}
-static final class java_util_AbstractMap_PersistenceDelegate extends java_util_Map_PersistenceDelegate {}
-static final class java_util_Hashtable_PersistenceDelegate extends java_util_Map_PersistenceDelegate {}
+stbtic finbl clbss jbvb_util_AbstrbctCollection_PersistenceDelegbte extends jbvb_util_Collection_PersistenceDelegbte {}
+stbtic finbl clbss jbvb_util_AbstrbctList_PersistenceDelegbte extends jbvb_util_List_PersistenceDelegbte {}
+stbtic finbl clbss jbvb_util_AbstrbctMbp_PersistenceDelegbte extends jbvb_util_Mbp_PersistenceDelegbte {}
+stbtic finbl clbss jbvb_util_Hbshtbble_PersistenceDelegbte extends jbvb_util_Mbp_PersistenceDelegbte {}
 
 
-// Beans
-static final class java_beans_beancontext_BeanContextSupport_PersistenceDelegate extends java_util_Collection_PersistenceDelegate {}
+// Bebns
+stbtic finbl clbss jbvb_bebns_bebncontext_BebnContextSupport_PersistenceDelegbte extends jbvb_util_Collection_PersistenceDelegbte {}
 
 // AWT
 
 /**
- * The persistence delegate for {@link Insets}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class does not have any properties.
+ * The persistence delegbte for {@link Insets}.
+ * It is impossible to use {@link DefbultPersistenceDelegbte}
+ * becbuse this clbss does not hbve bny properties.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_awt_Insets_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_bwt_Insets_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Insets insets = (Insets) oldInstance;
-        Object[] args = new Object[] {
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Insets insets = (Insets) oldInstbnce;
+        Object[] brgs = new Object[] {
                 insets.top,
                 insets.left,
                 insets.bottom,
                 insets.right,
         };
-        return new Expression(insets, insets.getClass(), "new", args);
+        return new Expression(insets, insets.getClbss(), "new", brgs);
     }
 }
 
 /**
- * The persistence delegate for {@link Font}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because size of the font can be float value.
+ * The persistence delegbte for {@link Font}.
+ * It is impossible to use {@link DefbultPersistenceDelegbte}
+ * becbuse size of the font cbn be flobt vblue.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_awt_Font_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_bwt_Font_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Font font = (Font) oldInstance;
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Font font = (Font) oldInstbnce;
 
         int count = 0;
-        String family = null;
+        String fbmily = null;
         int style = Font.PLAIN;
         int size = 12;
 
-        Map<TextAttribute, ?> basic = font.getAttributes();
-        Map<TextAttribute, Object> clone = new HashMap<>(basic.size());
-        for (TextAttribute key : basic.keySet()) {
-            Object value = basic.get(key);
-            if (value != null) {
-                clone.put(key, value);
+        Mbp<TextAttribute, ?> bbsic = font.getAttributes();
+        Mbp<TextAttribute, Object> clone = new HbshMbp<>(bbsic.size());
+        for (TextAttribute key : bbsic.keySet()) {
+            Object vblue = bbsic.get(key);
+            if (vblue != null) {
+                clone.put(key, vblue);
             }
             if (key == TextAttribute.FAMILY) {
-                if (value instanceof String) {
+                if (vblue instbnceof String) {
                     count++;
-                    family = (String) value;
+                    fbmily = (String) vblue;
                 }
             }
             else if (key == TextAttribute.WEIGHT) {
-                if (TextAttribute.WEIGHT_REGULAR.equals(value)) {
+                if (TextAttribute.WEIGHT_REGULAR.equbls(vblue)) {
                     count++;
-                } else if (TextAttribute.WEIGHT_BOLD.equals(value)) {
+                } else if (TextAttribute.WEIGHT_BOLD.equbls(vblue)) {
                     count++;
                     style |= Font.BOLD;
                 }
             }
             else if (key == TextAttribute.POSTURE) {
-                if (TextAttribute.POSTURE_REGULAR.equals(value)) {
+                if (TextAttribute.POSTURE_REGULAR.equbls(vblue)) {
                     count++;
-                } else if (TextAttribute.POSTURE_OBLIQUE.equals(value)) {
+                } else if (TextAttribute.POSTURE_OBLIQUE.equbls(vblue)) {
                     count++;
                     style |= Font.ITALIC;
                 }
             } else if (key == TextAttribute.SIZE) {
-                if (value instanceof Number) {
-                    Number number = (Number) value;
-                    size = number.intValue();
-                    if (size == number.floatValue()) {
+                if (vblue instbnceof Number) {
+                    Number number = (Number) vblue;
+                    size = number.intVblue();
+                    if (size == number.flobtVblue()) {
                         count++;
                     }
                 }
             }
         }
-        Class<?> type = font.getClass();
+        Clbss<?> type = font.getClbss();
         if (count == clone.size()) {
-            return new Expression(font, type, "new", new Object[]{family, style, size});
+            return new Expression(font, type, "new", new Object[]{fbmily, style, size});
         }
-        if (type == Font.class) {
+        if (type == Font.clbss) {
             return new Expression(font, type, "getFont", new Object[]{clone});
         }
         return new Expression(font, type, "new", new Object[]{Font.getFont(clone)});
@@ -802,386 +802,386 @@ static final class java_awt_Font_PersistenceDelegate extends PersistenceDelegate
 }
 
 /**
- * The persistence delegate for {@link AWTKeyStroke}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class have no public constructor.
+ * The persistence delegbte for {@link AWTKeyStroke}.
+ * It is impossible to use {@link DefbultPersistenceDelegbte}
+ * becbuse this clbss hbve no public constructor.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class java_awt_AWTKeyStroke_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_bwt_AWTKeyStroke_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        AWTKeyStroke key = (AWTKeyStroke) oldInstance;
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        AWTKeyStroke key = (AWTKeyStroke) oldInstbnce;
 
-        char ch = key.getKeyChar();
+        chbr ch = key.getKeyChbr();
         int code = key.getKeyCode();
-        int mask = key.getModifiers();
-        boolean onKeyRelease = key.isOnKeyRelease();
+        int mbsk = key.getModifiers();
+        boolebn onKeyRelebse = key.isOnKeyRelebse();
 
-        Object[] args = null;
+        Object[] brgs = null;
         if (ch == KeyEvent.CHAR_UNDEFINED) {
-            args = !onKeyRelease
-                    ? new Object[]{code, mask}
-                    : new Object[]{code, mask, onKeyRelease};
+            brgs = !onKeyRelebse
+                    ? new Object[]{code, mbsk}
+                    : new Object[]{code, mbsk, onKeyRelebse};
         } else if (code == KeyEvent.VK_UNDEFINED) {
-            if (!onKeyRelease) {
-                args = (mask == 0)
+            if (!onKeyRelebse) {
+                brgs = (mbsk == 0)
                         ? new Object[]{ch}
-                        : new Object[]{ch, mask};
-            } else if (mask == 0) {
-                args = new Object[]{ch, onKeyRelease};
+                        : new Object[]{ch, mbsk};
+            } else if (mbsk == 0) {
+                brgs = new Object[]{ch, onKeyRelebse};
             }
         }
-        if (args == null) {
-            throw new IllegalStateException("Unsupported KeyStroke: " + key);
+        if (brgs == null) {
+            throw new IllegblStbteException("Unsupported KeyStroke: " + key);
         }
-        Class<?> type = key.getClass();
-        String name = type.getName();
-        // get short name of the class
-        int index = name.lastIndexOf('.') + 1;
+        Clbss<?> type = key.getClbss();
+        String nbme = type.getNbme();
+        // get short nbme of the clbss
+        int index = nbme.lbstIndexOf('.') + 1;
         if (index > 0) {
-            name = name.substring(index);
+            nbme = nbme.substring(index);
         }
-        return new Expression( key, type, "get" + name, args );
+        return new Expression( key, type, "get" + nbme, brgs );
     }
 }
 
-static class StaticFieldsPersistenceDelegate extends PersistenceDelegate {
-    protected void installFields(Encoder out, Class<?> cls) {
-        if (Modifier.isPublic(cls.getModifiers()) && isPackageAccessible(cls)) {
+stbtic clbss StbticFieldsPersistenceDelegbte extends PersistenceDelegbte {
+    protected void instbllFields(Encoder out, Clbss<?> cls) {
+        if (Modifier.isPublic(cls.getModifiers()) && isPbckbgeAccessible(cls)) {
             Field fields[] = cls.getFields();
             for(int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
-                // Don't install primitives, their identity will not be preserved
-                // by wrapping.
-                if (Object.class.isAssignableFrom(field.getType())) {
+                // Don't instbll primitives, their identity will not be preserved
+                // by wrbpping.
+                if (Object.clbss.isAssignbbleFrom(field.getType())) {
                     out.writeExpression(new Expression(field, "get", new Object[]{null}));
                 }
             }
         }
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        throw new RuntimeException("Unrecognized instance: " + oldInstance);
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        throw new RuntimeException("Unrecognized instbnce: " + oldInstbnce);
     }
 
-    public void writeObject(Object oldInstance, Encoder out) {
+    public void writeObject(Object oldInstbnce, Encoder out) {
         if (out.getAttribute(this) == null) {
-            out.setAttribute(this, Boolean.TRUE);
-            installFields(out, oldInstance.getClass());
+            out.setAttribute(this, Boolebn.TRUE);
+            instbllFields(out, oldInstbnce.getClbss());
         }
-        super.writeObject(oldInstance, out);
+        super.writeObject(oldInstbnce, out);
     }
 }
 
 // SystemColor
-static final class java_awt_SystemColor_PersistenceDelegate extends StaticFieldsPersistenceDelegate {}
+stbtic finbl clbss jbvb_bwt_SystemColor_PersistenceDelegbte extends StbticFieldsPersistenceDelegbte {}
 
 // TextAttribute
-static final class java_awt_font_TextAttribute_PersistenceDelegate extends StaticFieldsPersistenceDelegate {}
+stbtic finbl clbss jbvb_bwt_font_TextAttribute_PersistenceDelegbte extends StbticFieldsPersistenceDelegbte {}
 
 // MenuShortcut
-static final class java_awt_MenuShortcut_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss jbvb_bwt_MenuShortcut_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        java.awt.MenuShortcut m = (java.awt.MenuShortcut)oldInstance;
-        return new Expression(oldInstance, m.getClass(), "new",
-                   new Object[]{m.getKey(), Boolean.valueOf(m.usesShiftModifier())});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        jbvb.bwt.MenuShortcut m = (jbvb.bwt.MenuShortcut)oldInstbnce;
+        return new Expression(oldInstbnce, m.getClbss(), "new",
+                   new Object[]{m.getKey(), Boolebn.vblueOf(m.usesShiftModifier())});
     }
 }
 
 // Component
-static final class java_awt_Component_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Component c = (java.awt.Component)oldInstance;
-        java.awt.Component c2 = (java.awt.Component)newInstance;
-        // The "background", "foreground" and "font" properties.
-        // The foreground and font properties of Windows change from
-        // null to defined values after the Windows are made visible -
-        // special case them for now.
-        if (!(oldInstance instanceof java.awt.Window)) {
-            Object oldBackground = c.isBackgroundSet() ? c.getBackground() : null;
-            Object newBackground = c2.isBackgroundSet() ? c2.getBackground() : null;
-            if (!Objects.equals(oldBackground, newBackground)) {
-                invokeStatement(oldInstance, "setBackground", new Object[] { oldBackground }, out);
+stbtic finbl clbss jbvb_bwt_Component_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.Component c = (jbvb.bwt.Component)oldInstbnce;
+        jbvb.bwt.Component c2 = (jbvb.bwt.Component)newInstbnce;
+        // The "bbckground", "foreground" bnd "font" properties.
+        // The foreground bnd font properties of Windows chbnge from
+        // null to defined vblues bfter the Windows bre mbde visible -
+        // specibl cbse them for now.
+        if (!(oldInstbnce instbnceof jbvb.bwt.Window)) {
+            Object oldBbckground = c.isBbckgroundSet() ? c.getBbckground() : null;
+            Object newBbckground = c2.isBbckgroundSet() ? c2.getBbckground() : null;
+            if (!Objects.equbls(oldBbckground, newBbckground)) {
+                invokeStbtement(oldInstbnce, "setBbckground", new Object[] { oldBbckground }, out);
             }
             Object oldForeground = c.isForegroundSet() ? c.getForeground() : null;
             Object newForeground = c2.isForegroundSet() ? c2.getForeground() : null;
-            if (!Objects.equals(oldForeground, newForeground)) {
-                invokeStatement(oldInstance, "setForeground", new Object[] { oldForeground }, out);
+            if (!Objects.equbls(oldForeground, newForeground)) {
+                invokeStbtement(oldInstbnce, "setForeground", new Object[] { oldForeground }, out);
             }
             Object oldFont = c.isFontSet() ? c.getFont() : null;
             Object newFont = c2.isFontSet() ? c2.getFont() : null;
-            if (!Objects.equals(oldFont, newFont)) {
-                invokeStatement(oldInstance, "setFont", new Object[] { oldFont }, out);
+            if (!Objects.equbls(oldFont, newFont)) {
+                invokeStbtement(oldInstbnce, "setFont", new Object[] { oldFont }, out);
             }
         }
 
         // Bounds
-        java.awt.Container p = c.getParent();
-        if (p == null || p.getLayout() == null) {
+        jbvb.bwt.Contbiner p = c.getPbrent();
+        if (p == null || p.getLbyout() == null) {
             // Use the most concise construct.
-            boolean locationCorrect = c.getLocation().equals(c2.getLocation());
-            boolean sizeCorrect = c.getSize().equals(c2.getSize());
-            if (!locationCorrect && !sizeCorrect) {
-                invokeStatement(oldInstance, "setBounds", new Object[]{c.getBounds()}, out);
+            boolebn locbtionCorrect = c.getLocbtion().equbls(c2.getLocbtion());
+            boolebn sizeCorrect = c.getSize().equbls(c2.getSize());
+            if (!locbtionCorrect && !sizeCorrect) {
+                invokeStbtement(oldInstbnce, "setBounds", new Object[]{c.getBounds()}, out);
             }
-            else if (!locationCorrect) {
-                invokeStatement(oldInstance, "setLocation", new Object[]{c.getLocation()}, out);
+            else if (!locbtionCorrect) {
+                invokeStbtement(oldInstbnce, "setLocbtion", new Object[]{c.getLocbtion()}, out);
             }
             else if (!sizeCorrect) {
-                invokeStatement(oldInstance, "setSize", new Object[]{c.getSize()}, out);
+                invokeStbtement(oldInstbnce, "setSize", new Object[]{c.getSize()}, out);
             }
         }
     }
 }
 
-// Container
-static final class java_awt_Container_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        // Ignore the children of a JScrollPane.
-        // Pending(milne) find a better way to do this.
-        if (oldInstance instanceof javax.swing.JScrollPane) {
+// Contbiner
+stbtic finbl clbss jbvb_bwt_Contbiner_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        // Ignore the children of b JScrollPbne.
+        // Pending(milne) find b better wby to do this.
+        if (oldInstbnce instbnceof jbvbx.swing.JScrollPbne) {
             return;
         }
-        java.awt.Container oldC = (java.awt.Container)oldInstance;
-        java.awt.Component[] oldChildren = oldC.getComponents();
-        java.awt.Container newC = (java.awt.Container)newInstance;
-        java.awt.Component[] newChildren = (newC == null) ? new java.awt.Component[0] : newC.getComponents();
+        jbvb.bwt.Contbiner oldC = (jbvb.bwt.Contbiner)oldInstbnce;
+        jbvb.bwt.Component[] oldChildren = oldC.getComponents();
+        jbvb.bwt.Contbiner newC = (jbvb.bwt.Contbiner)newInstbnce;
+        jbvb.bwt.Component[] newChildren = (newC == null) ? new jbvb.bwt.Component[0] : newC.getComponents();
 
-        BorderLayout layout = ( oldC.getLayout() instanceof BorderLayout )
-                ? ( BorderLayout )oldC.getLayout()
+        BorderLbyout lbyout = ( oldC.getLbyout() instbnceof BorderLbyout )
+                ? ( BorderLbyout )oldC.getLbyout()
                 : null;
 
-        JLayeredPane oldLayeredPane = (oldInstance instanceof JLayeredPane)
-                ? (JLayeredPane) oldInstance
+        JLbyeredPbne oldLbyeredPbne = (oldInstbnce instbnceof JLbyeredPbne)
+                ? (JLbyeredPbne) oldInstbnce
                 : null;
 
-        // Pending. Assume all the new children are unaltered.
+        // Pending. Assume bll the new children bre unbltered.
         for(int i = newChildren.length; i < oldChildren.length; i++) {
-            Object[] args = ( layout != null )
-                    ? new Object[] {oldChildren[i], layout.getConstraints( oldChildren[i] )}
-                    : (oldLayeredPane != null)
-                            ? new Object[] {oldChildren[i], oldLayeredPane.getLayer(oldChildren[i]), Integer.valueOf(-1)}
+            Object[] brgs = ( lbyout != null )
+                    ? new Object[] {oldChildren[i], lbyout.getConstrbints( oldChildren[i] )}
+                    : (oldLbyeredPbne != null)
+                            ? new Object[] {oldChildren[i], oldLbyeredPbne.getLbyer(oldChildren[i]), Integer.vblueOf(-1)}
                             : new Object[] {oldChildren[i]};
 
-            invokeStatement(oldInstance, "add", args, out);
+            invokeStbtement(oldInstbnce, "bdd", brgs, out);
         }
     }
 }
 
 // Choice
-static final class java_awt_Choice_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Choice m = (java.awt.Choice)oldInstance;
-        java.awt.Choice n = (java.awt.Choice)newInstance;
+stbtic finbl clbss jbvb_bwt_Choice_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.Choice m = (jbvb.bwt.Choice)oldInstbnce;
+        jbvb.bwt.Choice n = (jbvb.bwt.Choice)newInstbnce;
         for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{m.getItem(i)}, out);
         }
     }
 }
 
 // Menu
-static final class java_awt_Menu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Menu m = (java.awt.Menu)oldInstance;
-        java.awt.Menu n = (java.awt.Menu)newInstance;
+stbtic finbl clbss jbvb_bwt_Menu_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.Menu m = (jbvb.bwt.Menu)oldInstbnce;
+        jbvb.bwt.Menu n = (jbvb.bwt.Menu)newInstbnce;
         for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{m.getItem(i)}, out);
         }
     }
 }
 
-// MenuBar
-static final class java_awt_MenuBar_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.MenuBar m = (java.awt.MenuBar)oldInstance;
-        java.awt.MenuBar n = (java.awt.MenuBar)newInstance;
+// MenuBbr
+stbtic finbl clbss jbvb_bwt_MenuBbr_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.MenuBbr m = (jbvb.bwt.MenuBbr)oldInstbnce;
+        jbvb.bwt.MenuBbr n = (jbvb.bwt.MenuBbr)newInstbnce;
         for (int i = n.getMenuCount(); i < m.getMenuCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getMenu(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{m.getMenu(i)}, out);
         }
     }
 }
 
 // List
-static final class java_awt_List_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.List m = (java.awt.List)oldInstance;
-        java.awt.List n = (java.awt.List)newInstance;
+stbtic finbl clbss jbvb_bwt_List_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.List m = (jbvb.bwt.List)oldInstbnce;
+        jbvb.bwt.List n = (jbvb.bwt.List)newInstbnce;
         for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{m.getItem(i)}, out);
         }
     }
 }
 
 
-// LayoutManagers
+// LbyoutMbnbgers
 
-// BorderLayout
-static final class java_awt_BorderLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    private static final String[] CONSTRAINTS = {
-            BorderLayout.NORTH,
-            BorderLayout.SOUTH,
-            BorderLayout.EAST,
-            BorderLayout.WEST,
-            BorderLayout.CENTER,
-            BorderLayout.PAGE_START,
-            BorderLayout.PAGE_END,
-            BorderLayout.LINE_START,
-            BorderLayout.LINE_END,
+// BorderLbyout
+stbtic finbl clbss jbvb_bwt_BorderLbyout_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    privbte stbtic finbl String[] CONSTRAINTS = {
+            BorderLbyout.NORTH,
+            BorderLbyout.SOUTH,
+            BorderLbyout.EAST,
+            BorderLbyout.WEST,
+            BorderLbyout.CENTER,
+            BorderLbyout.PAGE_START,
+            BorderLbyout.PAGE_END,
+            BorderLbyout.LINE_START,
+            BorderLbyout.LINE_END,
     };
     @Override
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        BorderLayout oldLayout = (BorderLayout) oldInstance;
-        BorderLayout newLayout = (BorderLayout) newInstance;
-        for (String constraints : CONSTRAINTS) {
-            Object oldC = oldLayout.getLayoutComponent(constraints);
-            Object newC = newLayout.getLayoutComponent(constraints);
-            // Pending, assume any existing elements are OK.
+    protected void initiblize(Clbss<?> type, Object oldInstbnce,
+                              Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        BorderLbyout oldLbyout = (BorderLbyout) oldInstbnce;
+        BorderLbyout newLbyout = (BorderLbyout) newInstbnce;
+        for (String constrbints : CONSTRAINTS) {
+            Object oldC = oldLbyout.getLbyoutComponent(constrbints);
+            Object newC = newLbyout.getLbyoutComponent(constrbints);
+            // Pending, bssume bny existing elements bre OK.
             if (oldC != null && newC == null) {
-                invokeStatement(oldInstance, "addLayoutComponent",
-                                new Object[] { oldC, constraints }, out);
+                invokeStbtement(oldInstbnce, "bddLbyoutComponent",
+                                new Object[] { oldC, constrbints }, out);
             }
         }
     }
 }
 
-// CardLayout
-static final class java_awt_CardLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        if (getVector(newInstance).isEmpty()) {
-            for (Object card : getVector(oldInstance)) {
-                Object[] args = {MetaData.getPrivateFieldValue(card, "java.awt.CardLayout$Card.name"),
-                                 MetaData.getPrivateFieldValue(card, "java.awt.CardLayout$Card.comp")};
-                invokeStatement(oldInstance, "addLayoutComponent", args, out);
+// CbrdLbyout
+stbtic finbl clbss jbvb_bwt_CbrdLbyout_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce,
+                              Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        if (getVector(newInstbnce).isEmpty()) {
+            for (Object cbrd : getVector(oldInstbnce)) {
+                Object[] brgs = {MetbDbtb.getPrivbteFieldVblue(cbrd, "jbvb.bwt.CbrdLbyout$Cbrd.nbme"),
+                                 MetbDbtb.getPrivbteFieldVblue(cbrd, "jbvb.bwt.CbrdLbyout$Cbrd.comp")};
+                invokeStbtement(oldInstbnce, "bddLbyoutComponent", brgs, out);
             }
         }
     }
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getVector(newInstance).isEmpty();
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return super.mutbtesTo(oldInstbnce, newInstbnce) && getVector(newInstbnce).isEmpty();
     }
-    private static Vector<?> getVector(Object instance) {
-        return (Vector<?>) MetaData.getPrivateFieldValue(instance, "java.awt.CardLayout.vector");
+    privbte stbtic Vector<?> getVector(Object instbnce) {
+        return (Vector<?>) MetbDbtb.getPrivbteFieldVblue(instbnce, "jbvb.bwt.CbrdLbyout.vector");
     }
 }
 
-// GridBagLayout
-static final class java_awt_GridBagLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        if (getHashtable(newInstance).isEmpty()) {
-            for (Map.Entry<?,?> entry : getHashtable(oldInstance).entrySet()) {
-                Object[] args = {entry.getKey(), entry.getValue()};
-                invokeStatement(oldInstance, "addLayoutComponent", args, out);
+// GridBbgLbyout
+stbtic finbl clbss jbvb_bwt_GridBbgLbyout_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce,
+                              Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        if (getHbshtbble(newInstbnce).isEmpty()) {
+            for (Mbp.Entry<?,?> entry : getHbshtbble(oldInstbnce).entrySet()) {
+                Object[] brgs = {entry.getKey(), entry.getVblue()};
+                invokeStbtement(oldInstbnce, "bddLbyoutComponent", brgs, out);
             }
         }
     }
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getHashtable(newInstance).isEmpty();
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return super.mutbtesTo(oldInstbnce, newInstbnce) && getHbshtbble(newInstbnce).isEmpty();
     }
-    private static Hashtable<?,?> getHashtable(Object instance) {
-        return (Hashtable<?,?>) MetaData.getPrivateFieldValue(instance, "java.awt.GridBagLayout.comptable");
+    privbte stbtic Hbshtbble<?,?> getHbshtbble(Object instbnce) {
+        return (Hbshtbble<?,?>) MetbDbtb.getPrivbteFieldVblue(instbnce, "jbvb.bwt.GridBbgLbyout.comptbble");
     }
 }
 
 // Swing
 
-// JFrame (If we do this for Window instead of JFrame, the setVisible call
-// will be issued before we have added all the children to the JFrame and
-// will appear blank).
-static final class javax_swing_JFrame_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Window oldC = (java.awt.Window)oldInstance;
-        java.awt.Window newC = (java.awt.Window)newInstance;
-        boolean oldV = oldC.isVisible();
-        boolean newV = newC.isVisible();
+// JFrbme (If we do this for Window instebd of JFrbme, the setVisible cbll
+// will be issued before we hbve bdded bll the children to the JFrbme bnd
+// will bppebr blbnk).
+stbtic finbl clbss jbvbx_swing_JFrbme_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvb.bwt.Window oldC = (jbvb.bwt.Window)oldInstbnce;
+        jbvb.bwt.Window newC = (jbvb.bwt.Window)newInstbnce;
+        boolebn oldV = oldC.isVisible();
+        boolebn newV = newC.isVisible();
         if (newV != oldV) {
-            // false means: don't execute this statement at write time.
-            boolean executeStatements = out.executeStatements;
-            out.executeStatements = false;
-            invokeStatement(oldInstance, "setVisible", new Object[]{Boolean.valueOf(oldV)}, out);
-            out.executeStatements = executeStatements;
+            // fblse mebns: don't execute this stbtement bt write time.
+            boolebn executeStbtements = out.executeStbtements;
+            out.executeStbtements = fblse;
+            invokeStbtement(oldInstbnce, "setVisible", new Object[]{Boolebn.vblueOf(oldV)}, out);
+            out.executeStbtements = executeStbtements;
         }
     }
 }
 
 // Models
 
-// DefaultListModel
-static final class javax_swing_DefaultListModel_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
+// DefbultListModel
+stbtic finbl clbss jbvbx_swing_DefbultListModel_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
         // Note, the "size" property will be set here.
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.DefaultListModel<?> m = (javax.swing.DefaultListModel<?>)oldInstance;
-        javax.swing.DefaultListModel<?> n = (javax.swing.DefaultListModel<?>)newInstance;
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.DefbultListModel<?> m = (jbvbx.swing.DefbultListModel<?>)oldInstbnce;
+        jbvbx.swing.DefbultListModel<?> n = (jbvbx.swing.DefbultListModel<?>)newInstbnce;
         for (int i = n.getSize(); i < m.getSize(); i++) {
-            invokeStatement(oldInstance, "add", // Can also use "addElement".
+            invokeStbtement(oldInstbnce, "bdd", // Cbn blso use "bddElement".
                     new Object[]{m.getElementAt(i)}, out);
         }
     }
 }
 
-// DefaultComboBoxModel
-static final class javax_swing_DefaultComboBoxModel_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.DefaultComboBoxModel<?> m = (javax.swing.DefaultComboBoxModel<?>)oldInstance;
+// DefbultComboBoxModel
+stbtic finbl clbss jbvbx_swing_DefbultComboBoxModel_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.DefbultComboBoxModel<?> m = (jbvbx.swing.DefbultComboBoxModel<?>)oldInstbnce;
         for (int i = 0; i < m.getSize(); i++) {
-            invokeStatement(oldInstance, "addElement", new Object[]{m.getElementAt(i)}, out);
+            invokeStbtement(oldInstbnce, "bddElement", new Object[]{m.getElementAt(i)}, out);
         }
     }
 }
 
 
-// DefaultMutableTreeNode
-static final class javax_swing_tree_DefaultMutableTreeNode_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object
-                              newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.tree.DefaultMutableTreeNode m =
-            (javax.swing.tree.DefaultMutableTreeNode)oldInstance;
-        javax.swing.tree.DefaultMutableTreeNode n =
-            (javax.swing.tree.DefaultMutableTreeNode)newInstance;
+// DefbultMutbbleTreeNode
+stbtic finbl clbss jbvbx_swing_tree_DefbultMutbbleTreeNode_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object
+                              newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.tree.DefbultMutbbleTreeNode m =
+            (jbvbx.swing.tree.DefbultMutbbleTreeNode)oldInstbnce;
+        jbvbx.swing.tree.DefbultMutbbleTreeNode n =
+            (jbvbx.swing.tree.DefbultMutbbleTreeNode)newInstbnce;
         for (int i = n.getChildCount(); i < m.getChildCount(); i++) {
-            invokeStatement(oldInstance, "add", new
+            invokeStbtement(oldInstbnce, "bdd", new
                 Object[]{m.getChildAt(i)}, out);
         }
     }
 }
 
-// ToolTipManager
-static final class javax_swing_ToolTipManager_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, javax.swing.ToolTipManager.class,
-                              "sharedInstance", new Object[]{});
+// ToolTipMbnbger
+stbtic finbl clbss jbvbx_swing_ToolTipMbnbger_PersistenceDelegbte extends PersistenceDelegbte {
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        return new Expression(oldInstbnce, jbvbx.swing.ToolTipMbnbger.clbss,
+                              "shbredInstbnce", new Object[]{});
     }
 }
 
-// JTabbedPane
-static final class javax_swing_JTabbedPane_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JTabbedPane p = (javax.swing.JTabbedPane)oldInstance;
-        for (int i = 0; i < p.getTabCount(); i++) {
-            invokeStatement(oldInstance, "addTab",
+// JTbbbedPbne
+stbtic finbl clbss jbvbx_swing_JTbbbedPbne_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.JTbbbedPbne p = (jbvbx.swing.JTbbbedPbne)oldInstbnce;
+        for (int i = 0; i < p.getTbbCount(); i++) {
+            invokeStbtement(oldInstbnce, "bddTbb",
                                           new Object[]{
                                               p.getTitleAt(i),
                                               p.getIconAt(i),
@@ -1191,264 +1191,264 @@ static final class javax_swing_JTabbedPane_PersistenceDelegate extends DefaultPe
 }
 
 // Box
-static final class javax_swing_Box_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getAxis(oldInstance).equals(getAxis(newInstance));
+stbtic finbl clbss jbvbx_swing_Box_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return super.mutbtesTo(oldInstbnce, newInstbnce) && getAxis(oldInstbnce).equbls(getAxis(newInstbnce));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, oldInstance.getClass(), "new", new Object[] {getAxis(oldInstance)});
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        return new Expression(oldInstbnce, oldInstbnce.getClbss(), "new", new Object[] {getAxis(oldInstbnce)});
     }
 
-    private Integer getAxis(Object object) {
+    privbte Integer getAxis(Object object) {
         Box box = (Box) object;
-        return (Integer) MetaData.getPrivateFieldValue(box.getLayout(), "javax.swing.BoxLayout.axis");
+        return (Integer) MetbDbtb.getPrivbteFieldVblue(box.getLbyout(), "jbvbx.swing.BoxLbyout.bxis");
     }
 }
 
 // JMenu
-// Note that we do not need to state the initialiser for
+// Note thbt we do not need to stbte the initibliser for
 // JMenuItems since the getComponents() method defined in
-// Container will return all of the sub menu items that
-// need to be added to the menu item.
-// Not so for JMenu apparently.
-static final class javax_swing_JMenu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JMenu m = (javax.swing.JMenu)oldInstance;
-        java.awt.Component[] c = m.getMenuComponents();
+// Contbiner will return bll of the sub menu items thbt
+// need to be bdded to the menu item.
+// Not so for JMenu bppbrently.
+stbtic finbl clbss jbvbx_swing_JMenu_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.JMenu m = (jbvbx.swing.JMenu)oldInstbnce;
+        jbvb.bwt.Component[] c = m.getMenuComponents();
         for (int i = 0; i < c.length; i++) {
-            invokeStatement(oldInstance, "add", new Object[]{c[i]}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{c[i]}, out);
         }
     }
 }
 
 /**
- * The persistence delegate for {@link MatteBorder}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class does not have writable properties.
+ * The persistence delegbte for {@link MbtteBorder}.
+ * It is impossible to use {@link DefbultPersistenceDelegbte}
+ * becbuse this clbss does not hbve writbble properties.
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class javax_swing_border_MatteBorder_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        MatteBorder border = (MatteBorder) oldInstance;
+stbtic finbl clbss jbvbx_swing_border_MbtteBorder_PersistenceDelegbte extends PersistenceDelegbte {
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        MbtteBorder border = (MbtteBorder) oldInstbnce;
         Insets insets = border.getBorderInsets();
         Object object = border.getTileIcon();
         if (object == null) {
-            object = border.getMatteColor();
+            object = border.getMbtteColor();
         }
-        Object[] args = new Object[] {
+        Object[] brgs = new Object[] {
                 insets.top,
                 insets.left,
                 insets.bottom,
                 insets.right,
                 object,
         };
-        return new Expression(border, border.getClass(), "new", args);
+        return new Expression(border, border.getClbss(), "new", brgs);
     }
 }
 
-/* XXX - doens't seem to work. Debug later.
-static final class javax_swing_JMenu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JMenu m = (javax.swing.JMenu)oldInstance;
-        javax.swing.JMenu n = (javax.swing.JMenu)newInstance;
+/* XXX - doens't seem to work. Debug lbter.
+stbtic finbl clbss jbvbx_swing_JMenu_PersistenceDelegbte extends DefbultPersistenceDelegbte {
+    protected void initiblize(Clbss<?> type, Object oldInstbnce, Object newInstbnce, Encoder out) {
+        super.initiblize(type, oldInstbnce, newInstbnce, out);
+        jbvbx.swing.JMenu m = (jbvbx.swing.JMenu)oldInstbnce;
+        jbvbx.swing.JMenu n = (jbvbx.swing.JMenu)newInstbnce;
         for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+            invokeStbtement(oldInstbnce, "bdd", new Object[]{m.getItem(i)}, out);
         }
     }
 }
 */
 
 /**
- * The persistence delegate for {@link PrintColorUIResource}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class has special rule for serialization:
+ * The persistence delegbte for {@link PrintColorUIResource}.
+ * It is impossible to use {@link DefbultPersistenceDelegbte}
+ * becbuse this clbss hbs specibl rule for seriblizbtion:
  * it should be converted to {@link ColorUIResource}.
  *
- * @see PrintColorUIResource#writeReplace
+ * @see PrintColorUIResource#writeReplbce
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-static final class sun_swing_PrintColorUIResource_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtic finbl clbss sun_swing_PrintColorUIResource_PersistenceDelegbte extends PersistenceDelegbte {
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return oldInstbnce.equbls(newInstbnce);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Color color = (Color) oldInstance;
-        Object[] args = new Object[] {color.getRGB()};
-        return new Expression(color, ColorUIResource.class, "new", args);
+    protected Expression instbntibte(Object oldInstbnce, Encoder out) {
+        Color color = (Color) oldInstbnce;
+        Object[] brgs = new Object[] {color.getRGB()};
+        return new Expression(color, ColorUIResource.clbss, "new", brgs);
     }
 }
 
-    private static final Map<String,Field> fields = Collections.synchronizedMap(new WeakHashMap<String, Field>());
-    private static Hashtable<String, PersistenceDelegate> internalPersistenceDelegates = new Hashtable<>();
+    privbte stbtic finbl Mbp<String,Field> fields = Collections.synchronizedMbp(new WebkHbshMbp<String, Field>());
+    privbte stbtic Hbshtbble<String, PersistenceDelegbte> internblPersistenceDelegbtes = new Hbshtbble<>();
 
-    private static PersistenceDelegate nullPersistenceDelegate = new NullPersistenceDelegate();
-    private static PersistenceDelegate enumPersistenceDelegate = new EnumPersistenceDelegate();
-    private static PersistenceDelegate primitivePersistenceDelegate = new PrimitivePersistenceDelegate();
-    private static PersistenceDelegate defaultPersistenceDelegate = new DefaultPersistenceDelegate();
-    private static PersistenceDelegate arrayPersistenceDelegate;
-    private static PersistenceDelegate proxyPersistenceDelegate;
+    privbte stbtic PersistenceDelegbte nullPersistenceDelegbte = new NullPersistenceDelegbte();
+    privbte stbtic PersistenceDelegbte enumPersistenceDelegbte = new EnumPersistenceDelegbte();
+    privbte stbtic PersistenceDelegbte primitivePersistenceDelegbte = new PrimitivePersistenceDelegbte();
+    privbte stbtic PersistenceDelegbte defbultPersistenceDelegbte = new DefbultPersistenceDelegbte();
+    privbte stbtic PersistenceDelegbte brrbyPersistenceDelegbte;
+    privbte stbtic PersistenceDelegbte proxyPersistenceDelegbte;
 
-    static {
+    stbtic {
 
-        internalPersistenceDelegates.put("java.net.URI",
-                                         new PrimitivePersistenceDelegate());
+        internblPersistenceDelegbtes.put("jbvb.net.URI",
+                                         new PrimitivePersistenceDelegbte());
 
-        // it is possible because MatteBorder is assignable from MatteBorderUIResource
-        internalPersistenceDelegates.put("javax.swing.plaf.BorderUIResource$MatteBorderUIResource",
-                                         new javax_swing_border_MatteBorder_PersistenceDelegate());
+        // it is possible becbuse MbtteBorder is bssignbble from MbtteBorderUIResource
+        internblPersistenceDelegbtes.put("jbvbx.swing.plbf.BorderUIResource$MbtteBorderUIResource",
+                                         new jbvbx_swing_border_MbtteBorder_PersistenceDelegbte());
 
-        // it is possible because FontUIResource is supported by java_awt_Font_PersistenceDelegate
-        internalPersistenceDelegates.put("javax.swing.plaf.FontUIResource",
-                                         new java_awt_Font_PersistenceDelegate());
+        // it is possible becbuse FontUIResource is supported by jbvb_bwt_Font_PersistenceDelegbte
+        internblPersistenceDelegbtes.put("jbvbx.swing.plbf.FontUIResource",
+                                         new jbvb_bwt_Font_PersistenceDelegbte());
 
-        // it is possible because KeyStroke is supported by java_awt_AWTKeyStroke_PersistenceDelegate
-        internalPersistenceDelegates.put("javax.swing.KeyStroke",
-                                         new java_awt_AWTKeyStroke_PersistenceDelegate());
+        // it is possible becbuse KeyStroke is supported by jbvb_bwt_AWTKeyStroke_PersistenceDelegbte
+        internblPersistenceDelegbtes.put("jbvbx.swing.KeyStroke",
+                                         new jbvb_bwt_AWTKeyStroke_PersistenceDelegbte());
 
-        internalPersistenceDelegates.put("java.sql.Date", new java_util_Date_PersistenceDelegate());
-        internalPersistenceDelegates.put("java.sql.Time", new java_util_Date_PersistenceDelegate());
+        internblPersistenceDelegbtes.put("jbvb.sql.Dbte", new jbvb_util_Dbte_PersistenceDelegbte());
+        internblPersistenceDelegbtes.put("jbvb.sql.Time", new jbvb_util_Dbte_PersistenceDelegbte());
 
-        internalPersistenceDelegates.put("java.util.JumboEnumSet", new java_util_EnumSet_PersistenceDelegate());
-        internalPersistenceDelegates.put("java.util.RegularEnumSet", new java_util_EnumSet_PersistenceDelegate());
+        internblPersistenceDelegbtes.put("jbvb.util.JumboEnumSet", new jbvb_util_EnumSet_PersistenceDelegbte());
+        internblPersistenceDelegbtes.put("jbvb.util.RegulbrEnumSet", new jbvb_util_EnumSet_PersistenceDelegbte());
     }
 
-    @SuppressWarnings("rawtypes")
-    public synchronized static PersistenceDelegate getPersistenceDelegate(Class type) {
+    @SuppressWbrnings("rbwtypes")
+    public synchronized stbtic PersistenceDelegbte getPersistenceDelegbte(Clbss type) {
         if (type == null) {
-            return nullPersistenceDelegate;
+            return nullPersistenceDelegbte;
         }
-        if (Enum.class.isAssignableFrom(type)) {
-            return enumPersistenceDelegate;
+        if (Enum.clbss.isAssignbbleFrom(type)) {
+            return enumPersistenceDelegbte;
         }
         if (null != XMLEncoder.primitiveTypeFor(type)) {
-            return primitivePersistenceDelegate;
+            return primitivePersistenceDelegbte;
         }
-        // The persistence delegate for arrays is non-trivial; instantiate it lazily.
-        if (type.isArray()) {
-            if (arrayPersistenceDelegate == null) {
-                arrayPersistenceDelegate = new ArrayPersistenceDelegate();
+        // The persistence delegbte for brrbys is non-trivibl; instbntibte it lbzily.
+        if (type.isArrby()) {
+            if (brrbyPersistenceDelegbte == null) {
+                brrbyPersistenceDelegbte = new ArrbyPersistenceDelegbte();
             }
-            return arrayPersistenceDelegate;
+            return brrbyPersistenceDelegbte;
         }
-        // Handle proxies lazily for backward compatibility with 1.2.
+        // Hbndle proxies lbzily for bbckwbrd compbtibility with 1.2.
         try {
-            if (java.lang.reflect.Proxy.isProxyClass(type)) {
-                if (proxyPersistenceDelegate == null) {
-                    proxyPersistenceDelegate = new ProxyPersistenceDelegate();
+            if (jbvb.lbng.reflect.Proxy.isProxyClbss(type)) {
+                if (proxyPersistenceDelegbte == null) {
+                    proxyPersistenceDelegbte = new ProxyPersistenceDelegbte();
                 }
-                return proxyPersistenceDelegate;
+                return proxyPersistenceDelegbte;
             }
         }
-        catch(Exception e) {}
-        // else if (type.getDeclaringClass() != null) {
-        //     return new DefaultPersistenceDelegate(new String[]{"this$0"});
+        cbtch(Exception e) {}
+        // else if (type.getDeclbringClbss() != null) {
+        //     return new DefbultPersistenceDelegbte(new String[]{"this$0"});
         // }
 
-        String typeName = type.getName();
-        PersistenceDelegate pd = (PersistenceDelegate)getBeanAttribute(type, "persistenceDelegate");
+        String typeNbme = type.getNbme();
+        PersistenceDelegbte pd = (PersistenceDelegbte)getBebnAttribute(type, "persistenceDelegbte");
         if (pd == null) {
-            pd = internalPersistenceDelegates.get(typeName);
+            pd = internblPersistenceDelegbtes.get(typeNbme);
             if (pd != null) {
                 return pd;
             }
-            internalPersistenceDelegates.put(typeName, defaultPersistenceDelegate);
+            internblPersistenceDelegbtes.put(typeNbme, defbultPersistenceDelegbte);
             try {
-                String name =  type.getName();
-                Class c = Class.forName("java.beans.MetaData$" + name.replace('.', '_')
-                                        + "_PersistenceDelegate");
-                pd = (PersistenceDelegate)c.newInstance();
-                internalPersistenceDelegates.put(typeName, pd);
+                String nbme =  type.getNbme();
+                Clbss c = Clbss.forNbme("jbvb.bebns.MetbDbtb$" + nbme.replbce('.', '_')
+                                        + "_PersistenceDelegbte");
+                pd = (PersistenceDelegbte)c.newInstbnce();
+                internblPersistenceDelegbtes.put(typeNbme, pd);
             }
-            catch (ClassNotFoundException e) {
+            cbtch (ClbssNotFoundException e) {
                 String[] properties = getConstructorProperties(type);
                 if (properties != null) {
-                    pd = new DefaultPersistenceDelegate(properties);
-                    internalPersistenceDelegates.put(typeName, pd);
+                    pd = new DefbultPersistenceDelegbte(properties);
+                    internblPersistenceDelegbtes.put(typeNbme, pd);
                 }
             }
-            catch (Exception e) {
-                System.err.println("Internal error: " + e);
+            cbtch (Exception e) {
+                System.err.println("Internbl error: " + e);
             }
         }
 
-        return (pd != null) ? pd : defaultPersistenceDelegate;
+        return (pd != null) ? pd : defbultPersistenceDelegbte;
     }
 
-    private static String[] getConstructorProperties(Class<?> type) {
-        String[] names = null;
+    privbte stbtic String[] getConstructorProperties(Clbss<?> type) {
+        String[] nbmes = null;
         int length = 0;
         for (Constructor<?> constructor : type.getConstructors()) {
-            String[] value = getAnnotationValue(constructor);
-            if ((value != null) && (length < value.length) && isValid(constructor, value)) {
-                names = value;
-                length = value.length;
+            String[] vblue = getAnnotbtionVblue(constructor);
+            if ((vblue != null) && (length < vblue.length) && isVblid(constructor, vblue)) {
+                nbmes = vblue;
+                length = vblue.length;
             }
         }
-        return names;
+        return nbmes;
     }
 
-    private static String[] getAnnotationValue(Constructor<?> constructor) {
-        ConstructorProperties annotation = constructor.getAnnotation(ConstructorProperties.class);
-        return (annotation != null)
-                ? annotation.value()
+    privbte stbtic String[] getAnnotbtionVblue(Constructor<?> constructor) {
+        ConstructorProperties bnnotbtion = constructor.getAnnotbtion(ConstructorProperties.clbss);
+        return (bnnotbtion != null)
+                ? bnnotbtion.vblue()
                 : null;
     }
 
-    private static boolean isValid(Constructor<?> constructor, String[] names) {
-        Class<?>[] parameters = constructor.getParameterTypes();
-        if (names.length != parameters.length) {
-            return false;
+    privbte stbtic boolebn isVblid(Constructor<?> constructor, String[] nbmes) {
+        Clbss<?>[] pbrbmeters = constructor.getPbrbmeterTypes();
+        if (nbmes.length != pbrbmeters.length) {
+            return fblse;
         }
-        for (String name : names) {
-            if (name == null) {
-                return false;
+        for (String nbme : nbmes) {
+            if (nbme == null) {
+                return fblse;
             }
         }
         return true;
     }
 
-    private static Object getBeanAttribute(Class<?> type, String attribute) {
+    privbte stbtic Object getBebnAttribute(Clbss<?> type, String bttribute) {
         try {
-            return Introspector.getBeanInfo(type).getBeanDescriptor().getValue(attribute);
-        } catch (IntrospectionException exception) {
+            return Introspector.getBebnInfo(type).getBebnDescriptor().getVblue(bttribute);
+        } cbtch (IntrospectionException exception) {
             return null;
         }
     }
 
-    static Object getPrivateFieldValue(Object instance, String name) {
-        Field field = fields.get(name);
+    stbtic Object getPrivbteFieldVblue(Object instbnce, String nbme) {
+        Field field = fields.get(nbme);
         if (field == null) {
-            int index = name.lastIndexOf('.');
-            final String className = name.substring(0, index);
-            final String fieldName = name.substring(1 + index);
+            int index = nbme.lbstIndexOf('.');
+            finbl String clbssNbme = nbme.substring(0, index);
+            finbl String fieldNbme = nbme.substring(1 + index);
             field = AccessController.doPrivileged(new PrivilegedAction<Field>() {
                 public Field run() {
                     try {
-                        Field field = Class.forName(className).getDeclaredField(fieldName);
+                        Field field = Clbss.forNbme(clbssNbme).getDeclbredField(fieldNbme);
                         field.setAccessible(true);
                         return field;
                     }
-                    catch (ClassNotFoundException exception) {
-                        throw new IllegalStateException("Could not find class", exception);
+                    cbtch (ClbssNotFoundException exception) {
+                        throw new IllegblStbteException("Could not find clbss", exception);
                     }
-                    catch (NoSuchFieldException exception) {
-                        throw new IllegalStateException("Could not find field", exception);
+                    cbtch (NoSuchFieldException exception) {
+                        throw new IllegblStbteException("Could not find field", exception);
                     }
                 }
             });
-            fields.put(name, field);
+            fields.put(nbme, field);
         }
         try {
-            return field.get(instance);
+            return field.get(instbnce);
         }
-        catch (IllegalAccessException exception) {
-            throw new IllegalStateException("Could not get value of the field", exception);
+        cbtch (IllegblAccessException exception) {
+            throw new IllegblStbteException("Could not get vblue of the field", exception);
         }
     }
 }

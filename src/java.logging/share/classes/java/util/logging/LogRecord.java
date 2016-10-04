@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.logging;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.io.*;
+pbckbge jbvb.util.logging;
+import jbvb.util.*;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.io.*;
 
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import sun.misc.JbvbLbngAccess;
+import sun.misc.ShbredSecrets;
 
 /**
- * LogRecord objects are used to pass logging requests between
- * the logging framework and individual log Handlers.
+ * LogRecord objects bre used to pbss logging requests between
+ * the logging frbmework bnd individubl log Hbndlers.
  * <p>
- * When a LogRecord is passed into the logging framework it
- * logically belongs to the framework and should no longer be
- * used or updated by the client application.
+ * When b LogRecord is pbssed into the logging frbmework it
+ * logicblly belongs to the frbmework bnd should no longer be
+ * used or updbted by the client bpplicbtion.
  * <p>
- * Note that if the client application has not specified an
- * explicit source method name and source class name, then the
- * LogRecord class will infer them automatically when they are
- * first accessed (due to a call on getSourceMethodName or
- * getSourceClassName) by analyzing the call stack.  Therefore,
- * if a logging Handler wants to pass off a LogRecord to another
- * thread, or to transmit it over RMI, and if it wishes to subsequently
- * obtain method name or class name information it should call
- * one of getSourceClassName or getSourceMethodName to force
- * the values to be filled in.
+ * Note thbt if the client bpplicbtion hbs not specified bn
+ * explicit source method nbme bnd source clbss nbme, then the
+ * LogRecord clbss will infer them butombticblly when they bre
+ * first bccessed (due to b cbll on getSourceMethodNbme or
+ * getSourceClbssNbme) by bnblyzing the cbll stbck.  Therefore,
+ * if b logging Hbndler wbnts to pbss off b LogRecord to bnother
+ * threbd, or to trbnsmit it over RMI, bnd if it wishes to subsequently
+ * obtbin method nbme or clbss nbme informbtion it should cbll
+ * one of getSourceClbssNbme or getSourceMethodNbme to force
+ * the vblues to be filled in.
  * <p>
- * <b> Serialization notes:</b>
+ * <b> Seriblizbtion notes:</b>
  * <ul>
- * <li>The LogRecord class is serializable.
+ * <li>The LogRecord clbss is seriblizbble.
  *
- * <li> Because objects in the parameters array may not be serializable,
- * during serialization all objects in the parameters array are
- * written as the corresponding Strings (using Object.toString).
+ * <li> Becbuse objects in the pbrbmeters brrby mby not be seriblizbble,
+ * during seriblizbtion bll objects in the pbrbmeters brrby bre
+ * written bs the corresponding Strings (using Object.toString).
  *
- * <li> The ResourceBundle is not transmitted as part of the serialized
- * form, but the resource bundle name is, and the recipient object's
- * readObject method will attempt to locate a suitable resource bundle.
+ * <li> The ResourceBundle is not trbnsmitted bs pbrt of the seriblized
+ * form, but the resource bundle nbme is, bnd the recipient object's
+ * rebdObject method will bttempt to locbte b suitbble resource bundle.
  *
  * </ul>
  *
  * @since 1.4
  */
 
-public class LogRecord implements java.io.Serializable {
-    private static final AtomicLong globalSequenceNumber
+public clbss LogRecord implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl AtomicLong globblSequenceNumber
         = new AtomicLong(0);
 
     /**
-     * The default value of threadID will be the current thread's
-     * thread id, for ease of correlation, unless it is greater than
-     * MIN_SEQUENTIAL_THREAD_ID, in which case we try harder to keep
-     * our promise to keep threadIDs unique by avoiding collisions due
-     * to 32-bit wraparound.  Unfortunately, LogRecord.getThreadID()
-     * returns int, while Thread.getId() returns long.
+     * The defbult vblue of threbdID will be the current threbd's
+     * threbd id, for ebse of correlbtion, unless it is grebter thbn
+     * MIN_SEQUENTIAL_THREAD_ID, in which cbse we try hbrder to keep
+     * our promise to keep threbdIDs unique by bvoiding collisions due
+     * to 32-bit wrbpbround.  Unfortunbtely, LogRecord.getThrebdID()
+     * returns int, while Threbd.getId() returns long.
      */
-    private static final int MIN_SEQUENTIAL_THREAD_ID = Integer.MAX_VALUE / 2;
+    privbte stbtic finbl int MIN_SEQUENTIAL_THREAD_ID = Integer.MAX_VALUE / 2;
 
-    private static final AtomicInteger nextThreadId
+    privbte stbtic finbl AtomicInteger nextThrebdId
         = new AtomicInteger(MIN_SEQUENTIAL_THREAD_ID);
 
-    private static final ThreadLocal<Integer> threadIds = new ThreadLocal<>();
+    privbte stbtic finbl ThrebdLocbl<Integer> threbdIds = new ThrebdLocbl<>();
 
     /**
-     * @serial Logging message level
+     * @seribl Logging messbge level
      */
-    private Level level;
+    privbte Level level;
 
     /**
-     * @serial Sequence number
+     * @seribl Sequence number
      */
-    private long sequenceNumber;
+    privbte long sequenceNumber;
 
     /**
-     * @serial Class that issued logging call
+     * @seribl Clbss thbt issued logging cbll
      */
-    private String sourceClassName;
+    privbte String sourceClbssNbme;
 
     /**
-     * @serial Method that issued logging call
+     * @seribl Method thbt issued logging cbll
      */
-    private String sourceMethodName;
+    privbte String sourceMethodNbme;
 
     /**
-     * @serial Non-localized raw message text
+     * @seribl Non-locblized rbw messbge text
      */
-    private String message;
+    privbte String messbge;
 
     /**
-     * @serial Thread ID for thread that issued logging call.
+     * @seribl Threbd ID for threbd thbt issued logging cbll.
      */
-    private int threadID;
+    privbte int threbdID;
 
     /**
-     * @serial Event time in milliseconds since 1970
+     * @seribl Event time in milliseconds since 1970
      */
-    private long millis;
+    privbte long millis;
 
     /**
-     * @serial The Throwable (if any) associated with log message
+     * @seribl The Throwbble (if bny) bssocibted with log messbge
      */
-    private Throwable thrown;
+    privbte Throwbble thrown;
 
     /**
-     * @serial Name of the source Logger.
+     * @seribl Nbme of the source Logger.
      */
-    private String loggerName;
+    privbte String loggerNbme;
 
     /**
-     * @serial Resource bundle name to localized log message.
+     * @seribl Resource bundle nbme to locblized log messbge.
      */
-    private String resourceBundleName;
+    privbte String resourceBundleNbme;
 
-    private transient boolean needToInferCaller;
-    private transient Object parameters[];
-    private transient ResourceBundle resourceBundle;
+    privbte trbnsient boolebn needToInferCbller;
+    privbte trbnsient Object pbrbmeters[];
+    privbte trbnsient ResourceBundle resourceBundle;
 
     /**
-     * Returns the default value for a new LogRecord's threadID.
+     * Returns the defbult vblue for b new LogRecord's threbdID.
      */
-    private int defaultThreadID() {
-        long tid = Thread.currentThread().getId();
+    privbte int defbultThrebdID() {
+        long tid = Threbd.currentThrebd().getId();
         if (tid < MIN_SEQUENTIAL_THREAD_ID) {
             return (int) tid;
         } else {
-            Integer id = threadIds.get();
+            Integer id = threbdIds.get();
             if (id == null) {
-                id = nextThreadId.getAndIncrement();
-                threadIds.set(id);
+                id = nextThrebdId.getAndIncrement();
+                threbdIds.set(id);
             }
             return id;
         }
     }
 
     /**
-     * Construct a LogRecord with the given level and message values.
+     * Construct b LogRecord with the given level bnd messbge vblues.
      * <p>
-     * The sequence property will be initialized with a new unique value.
-     * These sequence values are allocated in increasing order within a VM.
+     * The sequence property will be initiblized with b new unique vblue.
+     * These sequence vblues bre bllocbted in increbsing order within b VM.
      * <p>
-     * The millis property will be initialized to the current time.
+     * The millis property will be initiblized to the current time.
      * <p>
-     * The thread ID property will be initialized with a unique ID for
-     * the current thread.
+     * The threbd ID property will be initiblized with b unique ID for
+     * the current threbd.
      * <p>
-     * All other properties will be initialized to "null".
+     * All other properties will be initiblized to "null".
      *
-     * @param level  a logging level value
-     * @param msg  the raw non-localized logging message (may be null)
+     * @pbrbm level  b logging level vblue
+     * @pbrbm msg  the rbw non-locblized logging messbge (mby be null)
      */
     public LogRecord(Level level, String msg) {
-        // Make sure level isn't null, by calling random method.
-        level.getClass();
+        // Mbke sure level isn't null, by cblling rbndom method.
+        level.getClbss();
         this.level = level;
-        message = msg;
-        // Assign a thread ID and a unique sequence number.
-        sequenceNumber = globalSequenceNumber.getAndIncrement();
-        threadID = defaultThreadID();
+        messbge = msg;
+        // Assign b threbd ID bnd b unique sequence number.
+        sequenceNumber = globblSequenceNumber.getAndIncrement();
+        threbdID = defbultThrebdID();
         millis = System.currentTimeMillis();
-        needToInferCaller = true;
+        needToInferCbller = true;
    }
 
     /**
-     * Get the source Logger's name.
+     * Get the source Logger's nbme.
      *
-     * @return source logger name (may be null)
+     * @return source logger nbme (mby be null)
      */
-    public String getLoggerName() {
-        return loggerName;
+    public String getLoggerNbme() {
+        return loggerNbme;
     }
 
     /**
-     * Set the source Logger's name.
+     * Set the source Logger's nbme.
      *
-     * @param name   the source logger name (may be null)
+     * @pbrbm nbme   the source logger nbme (mby be null)
      */
-    public void setLoggerName(String name) {
-        loggerName = name;
+    public void setLoggerNbme(String nbme) {
+        loggerNbme = nbme;
     }
 
     /**
-     * Get the localization resource bundle
+     * Get the locblizbtion resource bundle
      * <p>
-     * This is the ResourceBundle that should be used to localize
-     * the message string before formatting it.  The result may
-     * be null if the message is not localizable, or if no suitable
-     * ResourceBundle is available.
-     * @return the localization resource bundle
+     * This is the ResourceBundle thbt should be used to locblize
+     * the messbge string before formbtting it.  The result mby
+     * be null if the messbge is not locblizbble, or if no suitbble
+     * ResourceBundle is bvbilbble.
+     * @return the locblizbtion resource bundle
      */
     public ResourceBundle getResourceBundle() {
         return resourceBundle;
     }
 
     /**
-     * Set the localization resource bundle.
+     * Set the locblizbtion resource bundle.
      *
-     * @param bundle  localization bundle (may be null)
+     * @pbrbm bundle  locblizbtion bundle (mby be null)
      */
     public void setResourceBundle(ResourceBundle bundle) {
         resourceBundle = bundle;
     }
 
     /**
-     * Get the localization resource bundle name
+     * Get the locblizbtion resource bundle nbme
      * <p>
-     * This is the name for the ResourceBundle that should be
-     * used to localize the message string before formatting it.
-     * The result may be null if the message is not localizable.
-     * @return the localization resource bundle name
+     * This is the nbme for the ResourceBundle thbt should be
+     * used to locblize the messbge string before formbtting it.
+     * The result mby be null if the messbge is not locblizbble.
+     * @return the locblizbtion resource bundle nbme
      */
-    public String getResourceBundleName() {
-        return resourceBundleName;
+    public String getResourceBundleNbme() {
+        return resourceBundleNbme;
     }
 
     /**
-     * Set the localization resource bundle name.
+     * Set the locblizbtion resource bundle nbme.
      *
-     * @param name  localization bundle name (may be null)
+     * @pbrbm nbme  locblizbtion bundle nbme (mby be null)
      */
-    public void setResourceBundleName(String name) {
-        resourceBundleName = name;
+    public void setResourceBundleNbme(String nbme) {
+        resourceBundleNbme = nbme;
     }
 
     /**
-     * Get the logging message level, for example Level.SEVERE.
-     * @return the logging message level
+     * Get the logging messbge level, for exbmple Level.SEVERE.
+     * @return the logging messbge level
      */
     public Level getLevel() {
         return level;
     }
 
     /**
-     * Set the logging message level, for example Level.SEVERE.
-     * @param level the logging message level
+     * Set the logging messbge level, for exbmple Level.SEVERE.
+     * @pbrbm level the logging messbge level
      */
     public void setLevel(Level level) {
         if (level == null) {
@@ -269,9 +269,9 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Get the sequence number.
      * <p>
-     * Sequence numbers are normally assigned in the LogRecord
-     * constructor, which assigns unique sequence numbers to
-     * each new LogRecord in increasing order.
+     * Sequence numbers bre normblly bssigned in the LogRecord
+     * constructor, which bssigns unique sequence numbers to
+     * ebch new LogRecord in increbsing order.
      * @return the sequence number
      */
     public long getSequenceNumber() {
@@ -281,140 +281,140 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set the sequence number.
      * <p>
-     * Sequence numbers are normally assigned in the LogRecord constructor,
-     * so it should not normally be necessary to use this method.
-     * @param seq the sequence number
+     * Sequence numbers bre normblly bssigned in the LogRecord constructor,
+     * so it should not normblly be necessbry to use this method.
+     * @pbrbm seq the sequence number
      */
     public void setSequenceNumber(long seq) {
         sequenceNumber = seq;
     }
 
     /**
-     * Get the  name of the class that (allegedly) issued the logging request.
+     * Get the  nbme of the clbss thbt (bllegedly) issued the logging request.
      * <p>
-     * Note that this sourceClassName is not verified and may be spoofed.
-     * This information may either have been provided as part of the
-     * logging call, or it may have been inferred automatically by the
-     * logging framework.  In the latter case, the information may only
-     * be approximate and may in fact describe an earlier call on the
-     * stack frame.
+     * Note thbt this sourceClbssNbme is not verified bnd mby be spoofed.
+     * This informbtion mby either hbve been provided bs pbrt of the
+     * logging cbll, or it mby hbve been inferred butombticblly by the
+     * logging frbmework.  In the lbtter cbse, the informbtion mby only
+     * be bpproximbte bnd mby in fbct describe bn ebrlier cbll on the
+     * stbck frbme.
      * <p>
-     * May be null if no information could be obtained.
+     * Mby be null if no informbtion could be obtbined.
      *
-     * @return the source class name
+     * @return the source clbss nbme
      */
-    public String getSourceClassName() {
-        if (needToInferCaller) {
-            inferCaller();
+    public String getSourceClbssNbme() {
+        if (needToInferCbller) {
+            inferCbller();
         }
-        return sourceClassName;
+        return sourceClbssNbme;
     }
 
     /**
-     * Set the name of the class that (allegedly) issued the logging request.
+     * Set the nbme of the clbss thbt (bllegedly) issued the logging request.
      *
-     * @param sourceClassName the source class name (may be null)
+     * @pbrbm sourceClbssNbme the source clbss nbme (mby be null)
      */
-    public void setSourceClassName(String sourceClassName) {
-        this.sourceClassName = sourceClassName;
-        needToInferCaller = false;
+    public void setSourceClbssNbme(String sourceClbssNbme) {
+        this.sourceClbssNbme = sourceClbssNbme;
+        needToInferCbller = fblse;
     }
 
     /**
-     * Get the  name of the method that (allegedly) issued the logging request.
+     * Get the  nbme of the method thbt (bllegedly) issued the logging request.
      * <p>
-     * Note that this sourceMethodName is not verified and may be spoofed.
-     * This information may either have been provided as part of the
-     * logging call, or it may have been inferred automatically by the
-     * logging framework.  In the latter case, the information may only
-     * be approximate and may in fact describe an earlier call on the
-     * stack frame.
+     * Note thbt this sourceMethodNbme is not verified bnd mby be spoofed.
+     * This informbtion mby either hbve been provided bs pbrt of the
+     * logging cbll, or it mby hbve been inferred butombticblly by the
+     * logging frbmework.  In the lbtter cbse, the informbtion mby only
+     * be bpproximbte bnd mby in fbct describe bn ebrlier cbll on the
+     * stbck frbme.
      * <p>
-     * May be null if no information could be obtained.
+     * Mby be null if no informbtion could be obtbined.
      *
-     * @return the source method name
+     * @return the source method nbme
      */
-    public String getSourceMethodName() {
-        if (needToInferCaller) {
-            inferCaller();
+    public String getSourceMethodNbme() {
+        if (needToInferCbller) {
+            inferCbller();
         }
-        return sourceMethodName;
+        return sourceMethodNbme;
     }
 
     /**
-     * Set the name of the method that (allegedly) issued the logging request.
+     * Set the nbme of the method thbt (bllegedly) issued the logging request.
      *
-     * @param sourceMethodName the source method name (may be null)
+     * @pbrbm sourceMethodNbme the source method nbme (mby be null)
      */
-    public void setSourceMethodName(String sourceMethodName) {
-        this.sourceMethodName = sourceMethodName;
-        needToInferCaller = false;
+    public void setSourceMethodNbme(String sourceMethodNbme) {
+        this.sourceMethodNbme = sourceMethodNbme;
+        needToInferCbller = fblse;
     }
 
     /**
-     * Get the "raw" log message, before localization or formatting.
+     * Get the "rbw" log messbge, before locblizbtion or formbtting.
      * <p>
-     * May be null, which is equivalent to the empty string "".
+     * Mby be null, which is equivblent to the empty string "".
      * <p>
-     * This message may be either the final text or a localization key.
+     * This messbge mby be either the finbl text or b locblizbtion key.
      * <p>
-     * During formatting, if the source logger has a localization
-     * ResourceBundle and if that ResourceBundle has an entry for
-     * this message string, then the message string is replaced
-     * with the localized value.
+     * During formbtting, if the source logger hbs b locblizbtion
+     * ResourceBundle bnd if thbt ResourceBundle hbs bn entry for
+     * this messbge string, then the messbge string is replbced
+     * with the locblized vblue.
      *
-     * @return the raw message string
+     * @return the rbw messbge string
      */
-    public String getMessage() {
-        return message;
+    public String getMessbge() {
+        return messbge;
     }
 
     /**
-     * Set the "raw" log message, before localization or formatting.
+     * Set the "rbw" log messbge, before locblizbtion or formbtting.
      *
-     * @param message the raw message string (may be null)
+     * @pbrbm messbge the rbw messbge string (mby be null)
      */
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessbge(String messbge) {
+        this.messbge = messbge;
     }
 
     /**
-     * Get the parameters to the log message.
+     * Get the pbrbmeters to the log messbge.
      *
-     * @return the log message parameters.  May be null if
-     *                  there are no parameters.
+     * @return the log messbge pbrbmeters.  Mby be null if
+     *                  there bre no pbrbmeters.
      */
-    public Object[] getParameters() {
-        return parameters;
+    public Object[] getPbrbmeters() {
+        return pbrbmeters;
     }
 
     /**
-     * Set the parameters to the log message.
+     * Set the pbrbmeters to the log messbge.
      *
-     * @param parameters the log message parameters. (may be null)
+     * @pbrbm pbrbmeters the log messbge pbrbmeters. (mby be null)
      */
-    public void setParameters(Object parameters[]) {
-        this.parameters = parameters;
+    public void setPbrbmeters(Object pbrbmeters[]) {
+        this.pbrbmeters = pbrbmeters;
     }
 
     /**
-     * Get an identifier for the thread where the message originated.
+     * Get bn identifier for the threbd where the messbge originbted.
      * <p>
-     * This is a thread identifier within the Java VM and may or
-     * may not map to any operating system ID.
+     * This is b threbd identifier within the Jbvb VM bnd mby or
+     * mby not mbp to bny operbting system ID.
      *
-     * @return thread ID
+     * @return threbd ID
      */
-    public int getThreadID() {
-        return threadID;
+    public int getThrebdID() {
+        return threbdID;
     }
 
     /**
-     * Set an identifier for the thread where the message originated.
-     * @param threadID  the thread ID
+     * Set bn identifier for the threbd where the messbge originbted.
+     * @pbrbm threbdID  the threbd ID
      */
-    public void setThreadID(int threadID) {
-        this.threadID = threadID;
+    public void setThrebdID(int threbdID) {
+        this.threbdID = threbdID;
     }
 
     /**
@@ -429,137 +429,137 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set event time.
      *
-     * @param millis event time in millis since 1970
+     * @pbrbm millis event time in millis since 1970
      */
     public void setMillis(long millis) {
         this.millis = millis;
     }
 
     /**
-     * Get any throwable associated with the log record.
+     * Get bny throwbble bssocibted with the log record.
      * <p>
-     * If the event involved an exception, this will be the
+     * If the event involved bn exception, this will be the
      * exception object. Otherwise null.
      *
-     * @return a throwable
+     * @return b throwbble
      */
-    public Throwable getThrown() {
+    public Throwbble getThrown() {
         return thrown;
     }
 
     /**
-     * Set a throwable associated with the log event.
+     * Set b throwbble bssocibted with the log event.
      *
-     * @param thrown  a throwable (may be null)
+     * @pbrbm thrown  b throwbble (mby be null)
      */
-    public void setThrown(Throwable thrown) {
+    public void setThrown(Throwbble thrown) {
         this.thrown = thrown;
     }
 
-    private static final long serialVersionUID = 5372048053134512534L;
+    privbte stbtic finbl long seriblVersionUID = 5372048053134512534L;
 
     /**
-     * @serialData Default fields, followed by a two byte version number
-     * (major byte, followed by minor byte), followed by information on
-     * the log record parameter array.  If there is no parameter array,
-     * then -1 is written.  If there is a parameter array (possible of zero
-     * length) then the array length is written as an integer, followed
-     * by String values for each parameter.  If a parameter is null, then
-     * a null String is written.  Otherwise the output of Object.toString()
+     * @seriblDbtb Defbult fields, followed by b two byte version number
+     * (mbjor byte, followed by minor byte), followed by informbtion on
+     * the log record pbrbmeter brrby.  If there is no pbrbmeter brrby,
+     * then -1 is written.  If there is b pbrbmeter brrby (possible of zero
+     * length) then the brrby length is written bs bn integer, followed
+     * by String vblues for ebch pbrbmeter.  If b pbrbmeter is null, then
+     * b null String is written.  Otherwise the output of Object.toString()
      * is written.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // We have to call defaultWriteObject first.
-        out.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // We hbve to cbll defbultWriteObject first.
+        out.defbultWriteObject();
 
         // Write our version number.
         out.writeByte(1);
         out.writeByte(0);
-        if (parameters == null) {
+        if (pbrbmeters == null) {
             out.writeInt(-1);
             return;
         }
-        out.writeInt(parameters.length);
-        // Write string values for the parameters.
-        for (Object parameter : parameters) {
-            out.writeObject(Objects.toString(parameter, null));
+        out.writeInt(pbrbmeters.length);
+        // Write string vblues for the pbrbmeters.
+        for (Object pbrbmeter : pbrbmeters) {
+            out.writeObject(Objects.toString(pbrbmeter, null));
         }
     }
 
-    private void readObject(ObjectInputStream in)
-                        throws IOException, ClassNotFoundException {
-        // We have to call defaultReadObject first.
-        in.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm in)
+                        throws IOException, ClbssNotFoundException {
+        // We hbve to cbll defbultRebdObject first.
+        in.defbultRebdObject();
 
-        // Read version number.
-        byte major = in.readByte();
-        byte minor = in.readByte();
-        if (major != 1) {
-            throw new IOException("LogRecord: bad version: " + major + "." + minor);
+        // Rebd version number.
+        byte mbjor = in.rebdByte();
+        byte minor = in.rebdByte();
+        if (mbjor != 1) {
+            throw new IOException("LogRecord: bbd version: " + mbjor + "." + minor);
         }
-        int len = in.readInt();
+        int len = in.rebdInt();
         if (len == -1) {
-            parameters = null;
+            pbrbmeters = null;
         } else {
-            parameters = new Object[len];
-            for (int i = 0; i < parameters.length; i++) {
-                parameters[i] = in.readObject();
+            pbrbmeters = new Object[len];
+            for (int i = 0; i < pbrbmeters.length; i++) {
+                pbrbmeters[i] = in.rebdObject();
             }
         }
-        // If necessary, try to regenerate the resource bundle.
-        if (resourceBundleName != null) {
+        // If necessbry, try to regenerbte the resource bundle.
+        if (resourceBundleNbme != null) {
             try {
-                resourceBundle = ResourceBundle.getBundle(resourceBundleName);
-            } catch (MissingResourceException ex) {
-                // This is not a good place to throw an exception,
-                // so we simply leave the resourceBundle null.
+                resourceBundle = ResourceBundle.getBundle(resourceBundleNbme);
+            } cbtch (MissingResourceException ex) {
+                // This is not b good plbce to throw bn exception,
+                // so we simply lebve the resourceBundle null.
                 resourceBundle = null;
             }
         }
 
-        needToInferCaller = false;
+        needToInferCbller = fblse;
     }
 
-    // Private method to infer the caller's class and method names
-    private void inferCaller() {
-        needToInferCaller = false;
-        JavaLangAccess access = SharedSecrets.getJavaLangAccess();
-        Throwable throwable = new Throwable();
-        int depth = access.getStackTraceDepth(throwable);
+    // Privbte method to infer the cbller's clbss bnd method nbmes
+    privbte void inferCbller() {
+        needToInferCbller = fblse;
+        JbvbLbngAccess bccess = ShbredSecrets.getJbvbLbngAccess();
+        Throwbble throwbble = new Throwbble();
+        int depth = bccess.getStbckTrbceDepth(throwbble);
 
-        boolean lookingForLogger = true;
+        boolebn lookingForLogger = true;
         for (int ix = 0; ix < depth; ix++) {
-            // Calling getStackTraceElement directly prevents the VM
-            // from paying the cost of building the entire stack frame.
-            StackTraceElement frame =
-                access.getStackTraceElement(throwable, ix);
-            String cname = frame.getClassName();
-            boolean isLoggerImpl = isLoggerImplFrame(cname);
+            // Cblling getStbckTrbceElement directly prevents the VM
+            // from pbying the cost of building the entire stbck frbme.
+            StbckTrbceElement frbme =
+                bccess.getStbckTrbceElement(throwbble, ix);
+            String cnbme = frbme.getClbssNbme();
+            boolebn isLoggerImpl = isLoggerImplFrbme(cnbme);
             if (lookingForLogger) {
-                // Skip all frames until we have found the first logger frame.
+                // Skip bll frbmes until we hbve found the first logger frbme.
                 if (isLoggerImpl) {
-                    lookingForLogger = false;
+                    lookingForLogger = fblse;
                 }
             } else {
                 if (!isLoggerImpl) {
-                    // skip reflection call
-                    if (!cname.startsWith("java.lang.reflect.") && !cname.startsWith("sun.reflect.")) {
-                       // We've found the relevant frame.
-                       setSourceClassName(cname);
-                       setSourceMethodName(frame.getMethodName());
+                    // skip reflection cbll
+                    if (!cnbme.stbrtsWith("jbvb.lbng.reflect.") && !cnbme.stbrtsWith("sun.reflect.")) {
+                       // We've found the relevbnt frbme.
+                       setSourceClbssNbme(cnbme);
+                       setSourceMethodNbme(frbme.getMethodNbme());
                        return;
                     }
                 }
             }
         }
-        // We haven't found a suitable frame, so just punt.  This is
-        // OK as we are only committed to making a "best effort" here.
+        // We hbven't found b suitbble frbme, so just punt.  This is
+        // OK bs we bre only committed to mbking b "best effort" here.
     }
 
-    private boolean isLoggerImplFrame(String cname) {
-        // the log record could be created for a platform logger
-        return (cname.equals("java.util.logging.Logger") ||
-                cname.startsWith("java.util.logging.LoggingProxyImpl") ||
-                cname.startsWith("sun.util.logging."));
+    privbte boolebn isLoggerImplFrbme(String cnbme) {
+        // the log record could be crebted for b plbtform logger
+        return (cnbme.equbls("jbvb.util.logging.Logger") ||
+                cnbme.stbrtsWith("jbvb.util.logging.LoggingProxyImpl") ||
+                cnbme.stbrtsWith("sun.util.logging."));
     }
 }

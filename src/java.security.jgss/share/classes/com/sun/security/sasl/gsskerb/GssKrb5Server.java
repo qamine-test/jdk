@@ -1,364 +1,364 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl.gsskerb;
+pbckbge com.sun.security.sbsl.gsskerb;
 
-import javax.security.sasl.*;
-import java.io.*;
-import java.util.Map;
-import java.util.logging.Level;
+import jbvbx.security.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Level;
 
 // JAAS
-import javax.security.auth.callback.*;
+import jbvbx.security.buth.cbllbbck.*;
 
 // JGSS
 import org.ietf.jgss.*;
 
 /**
-  * Implements the GSSAPI SASL server mechanism for Kerberos V5.
+  * Implements the GSSAPI SASL server mechbnism for Kerberos V5.
   * (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>,
-  * <a HREF="http://www.ietf.org/internet-drafts/draft-ietf-cat-sasl-gssapi-00.txt">draft-ietf-cat-sasl-gssapi-00.txt</a>).
+  * <b HREF="http://www.ietf.org/internet-drbfts/drbft-ietf-cbt-sbsl-gssbpi-00.txt">drbft-ietf-cbt-sbsl-gssbpi-00.txt</b>).
   *
-  * Expects thread's Subject to contain server's Kerberos credentials
-  * - If not, underlying KRB5 mech will attempt to acquire Kerberos creds
-  *   by logging into Kerberos (via default TextCallbackHandler).
-  * - These creds will be used for exchange with client.
+  * Expects threbd's Subject to contbin server's Kerberos credentibls
+  * - If not, underlying KRB5 mech will bttempt to bcquire Kerberos creds
+  *   by logging into Kerberos (vib defbult TextCbllbbckHbndler).
+  * - These creds will be used for exchbnge with client.
   *
-  * Required callbacks:
-  * - AuthorizeCallback
-  *      handler must verify that authid/authzids are allowed and set
-  *      authorized ID to be the canonicalized authzid (if applicable).
+  * Required cbllbbcks:
+  * - AuthorizeCbllbbck
+  *      hbndler must verify thbt buthid/buthzids bre bllowed bnd set
+  *      buthorized ID to be the cbnonicblized buthzid (if bpplicbble).
   *
-  * Environment properties that affect behavior of implementation:
+  * Environment properties thbt bffect behbvior of implementbtion:
   *
-  * javax.security.sasl.qop
-  * - quality of protection; list of auth, auth-int, auth-conf; default is "auth"
-  * javax.security.sasl.maxbuf
-  * - max receive buffer size; default is 65536
-  * javax.security.sasl.sendmaxbuffer
-  * - max send buffer size; default is 65536; (min with client max recv size)
+  * jbvbx.security.sbsl.qop
+  * - qublity of protection; list of buth, buth-int, buth-conf; defbult is "buth"
+  * jbvbx.security.sbsl.mbxbuf
+  * - mbx receive buffer size; defbult is 65536
+  * jbvbx.security.sbsl.sendmbxbuffer
+  * - mbx send buffer size; defbult is 65536; (min with client mbx recv size)
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
-final class GssKrb5Server extends GssKrb5Base implements SaslServer {
-    private static final String MY_CLASS_NAME = GssKrb5Server.class.getName();
+finbl clbss GssKrb5Server extends GssKrb5Bbse implements SbslServer {
+    privbte stbtic finbl String MY_CLASS_NAME = GssKrb5Server.clbss.getNbme();
 
-    private int handshakeStage = 0;
-    private String peer;
-    private String me;
-    private String authzid;
-    private CallbackHandler cbh;
+    privbte int hbndshbkeStbge = 0;
+    privbte String peer;
+    privbte String me;
+    privbte String buthzid;
+    privbte CbllbbckHbndler cbh;
 
-    // When serverName is null, the server will be unbound. We need to save and
-    // check the protocol name after the context is established. This value
-    // will be null if serverName is not null.
-    private final String protocolSaved;
+    // When serverNbme is null, the server will be unbound. We need to sbve bnd
+    // check the protocol nbme bfter the context is estbblished. This vblue
+    // will be null if serverNbme is not null.
+    privbte finbl String protocolSbved;
     /**
-     * Creates a SASL mechanism with server credentials that it needs
-     * to participate in GSS-API/Kerberos v5 authentication exchange
+     * Crebtes b SASL mechbnism with server credentibls thbt it needs
+     * to pbrticipbte in GSS-API/Kerberos v5 buthenticbtion exchbnge
      * with the client.
      */
-    GssKrb5Server(String protocol, String serverName,
-        Map<String, ?> props, CallbackHandler cbh) throws SaslException {
+    GssKrb5Server(String protocol, String serverNbme,
+        Mbp<String, ?> props, CbllbbckHbndler cbh) throws SbslException {
 
         super(props, MY_CLASS_NAME);
 
         this.cbh = cbh;
 
         String service;
-        if (serverName == null) {
-            protocolSaved = protocol;
+        if (serverNbme == null) {
+            protocolSbved = protocol;
             service = null;
         } else {
-            protocolSaved = null;
-            service = protocol + "@" + serverName;
+            protocolSbved = null;
+            service = protocol + "@" + serverNbme;
         }
 
-        logger.log(Level.FINE, "KRB5SRV01:Using service name: {0}", service);
+        logger.log(Level.FINE, "KRB5SRV01:Using service nbme: {0}", service);
 
         try {
-            GSSManager mgr = GSSManager.getInstance();
+            GSSMbnbger mgr = GSSMbnbger.getInstbnce();
 
-            // Create the name for the requested service entity for Krb5 mech
-            GSSName serviceName = service == null ? null:
-                    mgr.createName(service, GSSName.NT_HOSTBASED_SERVICE, KRB5_OID);
+            // Crebte the nbme for the requested service entity for Krb5 mech
+            GSSNbme serviceNbme = service == null ? null:
+                    mgr.crebteNbme(service, GSSNbme.NT_HOSTBASED_SERVICE, KRB5_OID);
 
-            GSSCredential cred = mgr.createCredential(serviceName,
-                GSSCredential.INDEFINITE_LIFETIME,
-                KRB5_OID, GSSCredential.ACCEPT_ONLY);
+            GSSCredentibl cred = mgr.crebteCredentibl(serviceNbme,
+                GSSCredentibl.INDEFINITE_LIFETIME,
+                KRB5_OID, GSSCredentibl.ACCEPT_ONLY);
 
-            // Create a context using the server's credentials
-            secCtx = mgr.createContext(cred);
+            // Crebte b context using the server's credentibls
+            secCtx = mgr.crebteContext(cred);
 
-            if ((allQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+            if ((bllQop&INTEGRITY_ONLY_PROTECTION) != 0) {
                 // Might need integrity
                 secCtx.requestInteg(true);
             }
 
-            if ((allQop&PRIVACY_PROTECTION) != 0) {
-                // Might need privacy
+            if ((bllQop&PRIVACY_PROTECTION) != 0) {
+                // Might need privbcy
                 secCtx.requestConf(true);
             }
-        } catch (GSSException e) {
-            throw new SaslException("Failure to initialize security context", e);
+        } cbtch (GSSException e) {
+            throw new SbslException("Fbilure to initiblize security context", e);
         }
-        logger.log(Level.FINE, "KRB5SRV02:Initialization complete");
+        logger.log(Level.FINE, "KRB5SRV02:Initiblizbtion complete");
     }
 
 
     /**
-     * Processes the response data.
+     * Processes the response dbtb.
      *
-     * The client sends response data to which the server must
-     * process using GSS_accept_sec_context.
-     * As per RFC 2222, the GSS authenication completes (GSS_S_COMPLETE)
-     * we do an extra hand shake to determine the negotiated security protection
-     * and buffer sizes.
+     * The client sends response dbtb to which the server must
+     * process using GSS_bccept_sec_context.
+     * As per RFC 2222, the GSS buthenicbtion completes (GSS_S_COMPLETE)
+     * we do bn extrb hbnd shbke to determine the negotibted security protection
+     * bnd buffer sizes.
      *
-     * @param responseData A non-null but possible empty byte array containing the
-     * response data from the client.
-     * @return A non-null byte array containing the challenge to be
-     * sent to the client, or null when no more data is to be sent.
+     * @pbrbm responseDbtb A non-null but possible empty byte brrby contbining the
+     * response dbtb from the client.
+     * @return A non-null byte brrby contbining the chbllenge to be
+     * sent to the client, or null when no more dbtb is to be sent.
      */
-    public byte[] evaluateResponse(byte[] responseData) throws SaslException {
+    public byte[] evblubteResponse(byte[] responseDbtb) throws SbslException {
         if (completed) {
-            throw new SaslException(
-                "SASL authentication already complete");
+            throw new SbslException(
+                "SASL buthenticbtion blrebdy complete");
         }
 
-        if (logger.isLoggable(Level.FINER)) {
-            traceOutput(MY_CLASS_NAME, "evaluateResponse",
-                "KRB5SRV03:Response [raw]:", responseData);
+        if (logger.isLoggbble(Level.FINER)) {
+            trbceOutput(MY_CLASS_NAME, "evblubteResponse",
+                "KRB5SRV03:Response [rbw]:", responseDbtb);
         }
 
-        switch (handshakeStage) {
-        case 1:
-            return doHandshake1(responseData);
+        switch (hbndshbkeStbge) {
+        cbse 1:
+            return doHbndshbke1(responseDbtb);
 
-        case 2:
-            return doHandshake2(responseData);
+        cbse 2:
+            return doHbndshbke2(responseDbtb);
 
-        default:
-            // Security context not established yet; continue with accept
+        defbult:
+            // Security context not estbblished yet; continue with bccept
 
             try {
-                byte[] gssOutToken = secCtx.acceptSecContext(responseData,
-                    0, responseData.length);
+                byte[] gssOutToken = secCtx.bcceptSecContext(responseDbtb,
+                    0, responseDbtb.length);
 
-                if (logger.isLoggable(Level.FINER)) {
-                    traceOutput(MY_CLASS_NAME, "evaluateResponse",
-                        "KRB5SRV04:Challenge: [after acceptSecCtx]", gssOutToken);
+                if (logger.isLoggbble(Level.FINER)) {
+                    trbceOutput(MY_CLASS_NAME, "evblubteResponse",
+                        "KRB5SRV04:Chbllenge: [bfter bcceptSecCtx]", gssOutToken);
                 }
 
-                if (secCtx.isEstablished()) {
-                    handshakeStage = 1;
+                if (secCtx.isEstbblished()) {
+                    hbndshbkeStbge = 1;
 
-                    peer = secCtx.getSrcName().toString();
-                    me = secCtx.getTargName().toString();
+                    peer = secCtx.getSrcNbme().toString();
+                    me = secCtx.getTbrgNbme().toString();
 
                     logger.log(Level.FINE,
-                            "KRB5SRV05:Peer name is : {0}, my name is : {1}",
+                            "KRB5SRV05:Peer nbme is : {0}, my nbme is : {1}",
                             new Object[]{peer, me});
 
-                    // me might take the form of proto@host or proto/host
-                    if (protocolSaved != null &&
-                            !protocolSaved.equalsIgnoreCase(me.split("[/@]")[0])) {
-                        throw new SaslException(
-                                "GSS context targ name protocol error: " + me);
+                    // me might tbke the form of proto@host or proto/host
+                    if (protocolSbved != null &&
+                            !protocolSbved.equblsIgnoreCbse(me.split("[/@]")[0])) {
+                        throw new SbslException(
+                                "GSS context tbrg nbme protocol error: " + me);
                     }
 
                     if (gssOutToken == null) {
-                        return doHandshake1(EMPTY);
+                        return doHbndshbke1(EMPTY);
                     }
                 }
 
                 return gssOutToken;
-            } catch (GSSException e) {
-                throw new SaslException("GSS initiate failed", e);
+            } cbtch (GSSException e) {
+                throw new SbslException("GSS initibte fbiled", e);
             }
         }
     }
 
-    private byte[] doHandshake1(byte[] responseData) throws SaslException {
+    privbte byte[] doHbndshbke1(byte[] responseDbtb) throws SbslException {
         try {
-            // Security context already established. responseData
-            // should contain no data
-            if (responseData != null && responseData.length > 0) {
-                throw new SaslException(
-                    "Handshake expecting no response data from server");
+            // Security context blrebdy estbblished. responseDbtb
+            // should contbin no dbtb
+            if (responseDbtb != null && responseDbtb.length > 0) {
+                throw new SbslException(
+                    "Hbndshbke expecting no response dbtb from server");
             }
 
-            // Construct 4 octets of data:
-            // First octet contains bitmask specifying protections supported
-            // 2nd-4th octets contains max receive buffer of server
+            // Construct 4 octets of dbtb:
+            // First octet contbins bitmbsk specifying protections supported
+            // 2nd-4th octets contbins mbx receive buffer of server
 
             byte[] gssInToken = new byte[4];
-            gssInToken[0] = allQop;
-            intToNetworkByteOrder(recvMaxBufSize, gssInToken, 1, 3);
+            gssInToken[0] = bllQop;
+            intToNetworkByteOrder(recvMbxBufSize, gssInToken, 1, 3);
 
-            if (logger.isLoggable(Level.FINE)) {
+            if (logger.isLoggbble(Level.FINE)) {
                 logger.log(Level.FINE,
-                    "KRB5SRV06:Supported protections: {0}; recv max buf size: {1}",
-                    new Object[]{allQop,
-                                 recvMaxBufSize});
+                    "KRB5SRV06:Supported protections: {0}; recv mbx buf size: {1}",
+                    new Object[]{bllQop,
+                                 recvMbxBufSize});
             }
 
-            handshakeStage = 2;  // progress to next stage
+            hbndshbkeStbge = 2;  // progress to next stbge
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake1",
-                    "KRB5SRV07:Challenge [raw]", gssInToken);
+            if (logger.isLoggbble(Level.FINER)) {
+                trbceOutput(MY_CLASS_NAME, "doHbndshbke1",
+                    "KRB5SRV07:Chbllenge [rbw]", gssInToken);
             }
 
-            byte[] gssOutToken = secCtx.wrap(gssInToken, 0, gssInToken.length,
-                new MessageProp(0 /* gop */, false /* privacy */));
+            byte[] gssOutToken = secCtx.wrbp(gssInToken, 0, gssInToken.length,
+                new MessbgeProp(0 /* gop */, fblse /* privbcy */));
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake1",
-                    "KRB5SRV08:Challenge [after wrap]", gssOutToken);
+            if (logger.isLoggbble(Level.FINER)) {
+                trbceOutput(MY_CLASS_NAME, "doHbndshbke1",
+                    "KRB5SRV08:Chbllenge [bfter wrbp]", gssOutToken);
             }
             return gssOutToken;
 
-        } catch (GSSException e) {
-            throw new SaslException("Problem wrapping handshake1", e);
+        } cbtch (GSSException e) {
+            throw new SbslException("Problem wrbpping hbndshbke1", e);
         }
     }
 
-    private byte[] doHandshake2(byte[] responseData) throws SaslException {
+    privbte byte[] doHbndshbke2(byte[] responseDbtb) throws SbslException {
         try {
             // Expecting 4 octets from client selected protection
-            // and client's receive buffer size
-            byte[] gssOutToken = secCtx.unwrap(responseData, 0,
-                responseData.length, new MessageProp(0, false));
+            // bnd client's receive buffer size
+            byte[] gssOutToken = secCtx.unwrbp(responseDbtb, 0,
+                responseDbtb.length, new MessbgeProp(0, fblse));
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake2",
-                    "KRB5SRV09:Response [after unwrap]", gssOutToken);
+            if (logger.isLoggbble(Level.FINER)) {
+                trbceOutput(MY_CLASS_NAME, "doHbndshbke2",
+                    "KRB5SRV09:Response [bfter unwrbp]", gssOutToken);
             }
 
-            // First octet is a bit-mask specifying the selected protection
+            // First octet is b bit-mbsk specifying the selected protection
             byte selectedQop = gssOutToken[0];
-            if ((selectedQop&allQop) == 0) {
-                throw new SaslException("Client selected unsupported protection: "
+            if ((selectedQop&bllQop) == 0) {
+                throw new SbslException("Client selected unsupported protection: "
                     + selectedQop);
             }
             if ((selectedQop&PRIVACY_PROTECTION) != 0) {
-                privacy = true;
+                privbcy = true;
                 integrity = true;
             } else if ((selectedQop&INTEGRITY_ONLY_PROTECTION) != 0) {
                 integrity = true;
             }
 
-            // 2nd-4th octets specifies maximum buffer size expected by
+            // 2nd-4th octets specifies mbximum buffer size expected by
             // client (in network byte order). This is the server's send
-            // buffer maximum.
-            int clntMaxBufSize = networkByteOrderToInt(gssOutToken, 1, 3);
+            // buffer mbximum.
+            int clntMbxBufSize = networkByteOrderToInt(gssOutToken, 1, 3);
 
-            // Determine the max send buffer size based on what the
-            // client is able to receive and our specified max
-            sendMaxBufSize = (sendMaxBufSize == 0) ? clntMaxBufSize :
-                Math.min(sendMaxBufSize, clntMaxBufSize);
+            // Determine the mbx send buffer size bbsed on whbt the
+            // client is bble to receive bnd our specified mbx
+            sendMbxBufSize = (sendMbxBufSize == 0) ? clntMbxBufSize :
+                Mbth.min(sendMbxBufSize, clntMbxBufSize);
 
-            // Update context to limit size of returned buffer
-            rawSendSize = secCtx.getWrapSizeLimit(JGSS_QOP, privacy,
-                sendMaxBufSize);
+            // Updbte context to limit size of returned buffer
+            rbwSendSize = secCtx.getWrbpSizeLimit(JGSS_QOP, privbcy,
+                sendMbxBufSize);
 
-            if (logger.isLoggable(Level.FINE)) {
+            if (logger.isLoggbble(Level.FINE)) {
                 logger.log(Level.FINE,
-            "KRB5SRV10:Selected protection: {0}; privacy: {1}; integrity: {2}",
+            "KRB5SRV10:Selected protection: {0}; privbcy: {1}; integrity: {2}",
                     new Object[]{selectedQop,
-                                 Boolean.valueOf(privacy),
-                                 Boolean.valueOf(integrity)});
+                                 Boolebn.vblueOf(privbcy),
+                                 Boolebn.vblueOf(integrity)});
                 logger.log(Level.FINE,
-"KRB5SRV11:Client max recv size: {0}; server max send size: {1}; rawSendSize: {2}",
-                    new Object[] {clntMaxBufSize,
-                                  sendMaxBufSize,
-                                  rawSendSize});
+"KRB5SRV11:Client mbx recv size: {0}; server mbx send size: {1}; rbwSendSize: {2}",
+                    new Object[] {clntMbxBufSize,
+                                  sendMbxBufSize,
+                                  rbwSendSize});
             }
 
-            // Get authorization identity, if any
+            // Get buthorizbtion identity, if bny
             if (gssOutToken.length > 4) {
                 try {
-                    authzid = new String(gssOutToken, 4,
+                    buthzid = new String(gssOutToken, 4,
                         gssOutToken.length - 4, "UTF-8");
-                } catch (UnsupportedEncodingException uee) {
-                    throw new SaslException ("Cannot decode authzid", uee);
+                } cbtch (UnsupportedEncodingException uee) {
+                    throw new SbslException ("Cbnnot decode buthzid", uee);
                 }
             } else {
-                authzid = peer;
+                buthzid = peer;
             }
-            logger.log(Level.FINE, "KRB5SRV12:Authzid: {0}", authzid);
+            logger.log(Level.FINE, "KRB5SRV12:Authzid: {0}", buthzid);
 
-            AuthorizeCallback acb = new AuthorizeCallback(peer, authzid);
+            AuthorizeCbllbbck bcb = new AuthorizeCbllbbck(peer, buthzid);
 
-            // In Kerberos, realm is embedded in peer name
-            cbh.handle(new Callback[] {acb});
-            if (acb.isAuthorized()) {
-                authzid = acb.getAuthorizedID();
+            // In Kerberos, reblm is embedded in peer nbme
+            cbh.hbndle(new Cbllbbck[] {bcb});
+            if (bcb.isAuthorized()) {
+                buthzid = bcb.getAuthorizedID();
                 completed = true;
             } else {
-                // Authorization failed
-                throw new SaslException(peer +
-                    " is not authorized to connect as " + authzid);
+                // Authorizbtion fbiled
+                throw new SbslException(peer +
+                    " is not buthorized to connect bs " + buthzid);
             }
 
             return null;
-        } catch (GSSException e) {
-            throw new SaslException("Final handshake step failed", e);
-        } catch (IOException e) {
-            throw new SaslException("Problem with callback handler", e);
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("Problem with callback handler", e);
+        } cbtch (GSSException e) {
+            throw new SbslException("Finbl hbndshbke step fbiled", e);
+        } cbtch (IOException e) {
+            throw new SbslException("Problem with cbllbbck hbndler", e);
+        } cbtch (UnsupportedCbllbbckException e) {
+            throw new SbslException("Problem with cbllbbck hbndler", e);
         }
     }
 
-    public String getAuthorizationID() {
+    public String getAuthorizbtionID() {
         if (completed) {
-            return authzid;
+            return buthzid;
         } else {
-            throw new IllegalStateException("Authentication incomplete");
+            throw new IllegblStbteException("Authenticbtion incomplete");
         }
     }
 
-    public Object getNegotiatedProperty(String propName) {
+    public Object getNegotibtedProperty(String propNbme) {
         if (!completed) {
-            throw new IllegalStateException("Authentication incomplete");
+            throw new IllegblStbteException("Authenticbtion incomplete");
         }
 
         Object result;
-        switch (propName) {
-            case Sasl.BOUND_SERVER_NAME:
+        switch (propNbme) {
+            cbse Sbsl.BOUND_SERVER_NAME:
                 try {
-                    // me might take the form of proto@host or proto/host
+                    // me might tbke the form of proto@host or proto/host
                     result = me.split("[/@]")[1];
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     result = null;
                 }
-                break;
-            default:
-                result = super.getNegotiatedProperty(propName);
+                brebk;
+            defbult:
+                result = super.getNegotibtedProperty(propNbme);
         }
         return result;
     }

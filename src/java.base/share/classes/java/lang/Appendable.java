@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * An object to which <tt>char</tt> sequences and values can be appended.  The
- * <tt>Appendable</tt> interface must be implemented by any class whose
- * instances are intended to receive formatted output from a {@link
- * java.util.Formatter}.
+ * An object to which <tt>chbr</tt> sequences bnd vblues cbn be bppended.  The
+ * <tt>Appendbble</tt> interfbce must be implemented by bny clbss whose
+ * instbnces bre intended to receive formbtted output from b {@link
+ * jbvb.util.Formbtter}.
  *
- * <p> The characters to be appended should be valid Unicode characters as
- * described in <a href="Character.html#unicode">Unicode Character
- * Representation</a>.  Note that supplementary characters may be composed of
- * multiple 16-bit <tt>char</tt> values.
+ * <p> The chbrbcters to be bppended should be vblid Unicode chbrbcters bs
+ * described in <b href="Chbrbcter.html#unicode">Unicode Chbrbcter
+ * Representbtion</b>.  Note thbt supplementbry chbrbcters mby be composed of
+ * multiple 16-bit <tt>chbr</tt> vblues.
  *
- * <p> Appendables are not necessarily safe for multithreaded access.  Thread
- * safety is the responsibility of classes that extend and implement this
- * interface.
+ * <p> Appendbbles bre not necessbrily sbfe for multithrebded bccess.  Threbd
+ * sbfety is the responsibility of clbsses thbt extend bnd implement this
+ * interfbce.
  *
- * <p> Since this interface may be implemented by existing classes
- * with different styles of error handling there is no guarantee that
- * errors will be propagated to the invoker.
+ * <p> Since this interfbce mby be implemented by existing clbsses
+ * with different styles of error hbndling there is no gubrbntee thbt
+ * errors will be propbgbted to the invoker.
  *
  * @since 1.5
  */
-public interface Appendable {
+public interfbce Appendbble {
 
     /**
-     * Appends the specified character sequence to this <tt>Appendable</tt>.
+     * Appends the specified chbrbcter sequence to this <tt>Appendbble</tt>.
      *
-     * <p> Depending on which class implements the character sequence
-     * <tt>csq</tt>, the entire sequence may not be appended.  For
-     * instance, if <tt>csq</tt> is a {@link java.nio.CharBuffer} then
-     * the subsequence to append is defined by the buffer's position and limit.
+     * <p> Depending on which clbss implements the chbrbcter sequence
+     * <tt>csq</tt>, the entire sequence mby not be bppended.  For
+     * instbnce, if <tt>csq</tt> is b {@link jbvb.nio.ChbrBuffer} then
+     * the subsequence to bppend is defined by the buffer's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this Appendable.
+     * @pbrbm  csq
+     *         The chbrbcter sequence to bppend.  If <tt>csq</tt> is
+     *         <tt>null</tt>, then the four chbrbcters <tt>"null"</tt> bre
+     *         bppended to this Appendbble.
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @return  A reference to this <tt>Appendbble</tt>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    Appendable append(CharSequence csq) throws IOException;
+    Appendbble bppend(ChbrSequence csq) throws IOException;
 
     /**
-     * Appends a subsequence of the specified character sequence to this
-     * <tt>Appendable</tt>.
+     * Appends b subsequence of the specified chbrbcter sequence to this
+     * <tt>Appendbble</tt>.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>out.bppend(csq, stbrt,
+     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behbves in
+     * exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     out.append(csq.subSequence(start, end)) </pre>
+     *     out.bppend(csq.subSequence(stbrt, end)) </pre>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which b subsequence will be
+     *         bppended.  If <tt>csq</tt> is <tt>null</tt>, then chbrbcters
+     *         will be bppended bs if <tt>csq</tt> contbined the four
+     *         chbrbcters <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         The index of the first chbrbcter in the subsequence
      *
-     * @param  end
-     *         The index of the character following the last character in the
+     * @pbrbm  end
+     *         The index of the chbrbcter following the lbst chbrbcter in the
      *         subsequence
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @return  A reference to this <tt>Appendbble</tt>
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
+     *          If <tt>stbrt</tt> or <tt>end</tt> bre negbtive, <tt>stbrt</tt>
+     *          is grebter thbn <tt>end</tt>, or <tt>end</tt> is grebter thbn
      *          <tt>csq.length()</tt>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    Appendable append(CharSequence csq, int start, int end) throws IOException;
+    Appendbble bppend(ChbrSequence csq, int stbrt, int end) throws IOException;
 
     /**
-     * Appends the specified character to this <tt>Appendable</tt>.
+     * Appends the specified chbrbcter to this <tt>Appendbble</tt>.
      *
-     * @param  c
-     *         The character to append
+     * @pbrbm  c
+     *         The chbrbcter to bppend
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @return  A reference to this <tt>Appendbble</tt>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    Appendable append(char c) throws IOException;
+    Appendbble bppend(chbr c) throws IOException;
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,352 +27,352 @@
  */
 
 /*
-        Currently javac and load() method in java.util.Properties
-        supports only Latin1 encoding input.
-        But in Asian platforms programmer or message translator
-        uses the editor which support othere than latin1 encoding
-        to specify their native language string.
-        So if programmer or message translator wants to use other than
-        Latin1 character in his/her program source or properties file
-        they must convert the file to ASCII plus \udddd notation.
-        (javac/load() modification is not appropriate due to
-         time constraints for JDK1.1)
-        This utility is for the purpose of that conversion.
+        Currently jbvbc bnd lobd() method in jbvb.util.Properties
+        supports only Lbtin1 encoding input.
+        But in Asibn plbtforms progrbmmer or messbge trbnslbtor
+        uses the editor which support othere thbn lbtin1 encoding
+        to specify their nbtive lbngubge string.
+        So if progrbmmer or messbge trbnslbtor wbnts to use other thbn
+        Lbtin1 chbrbcter in his/her progrbm source or properties file
+        they must convert the file to ASCII plus \udddd notbtion.
+        (jbvbc/lobd() modificbtion is not bppropribte due to
+         time constrbints for JDK1.1)
+        This utility is for the purpose of thbt conversion.
 
     NAME
-        native2ascii - convert native encoding file to ascii file
-                       include \udddd Unicode notation
+        nbtive2bscii - convert nbtive encoding file to bscii file
+                       include \udddd Unicode notbtion
 
     SYNOPSIS
-        native2ascii [options] [inputfile [outputfile]]
+        nbtive2bscii [options] [inputfile [outputfile]]
 
     DESCRIPTION
-        If outputfile is not described standard output is used as
-        output file, and if inputfile is not also described
-        stardard input is used as input file.
+        If outputfile is not described stbndbrd output is used bs
+        output file, bnd if inputfile is not blso described
+        stbrdbrd input is used bs input file.
 
         Options
 
         -reverse
-           convert ascii with \udddd notation to native encoding
+           convert bscii with \udddd notbtion to nbtive encoding
 
-        -encoding encoding_name
-           Specify the encoding name which is used by conversion.
+        -encoding encoding_nbme
+           Specify the encoding nbme which is used by conversion.
            8859_[1 - 9], JIS, EUCJIS, SJIS is currently supported.
-           Default encoding is taken from System property "file.encoding".
+           Defbult encoding is tbken from System property "file.encoding".
 
 */
 
-package sun.tools.native2ascii;
+pbckbge sun.tools.nbtive2bscii;
 
-import java.io.*;
-import java.util.*;
-import java.text.MessageFormat;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.file.Files;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.UnsupportedCharsetException;
-import sun.tools.native2ascii.A2NFilter;
-import sun.tools.native2ascii.N2AFilter;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.text.MessbgeFormbt;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.file.Files;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
+import sun.tools.nbtive2bscii.A2NFilter;
+import sun.tools.nbtive2bscii.N2AFilter;
 
 /**
- * Main program of the native2ascii
+ * Mbin progrbm of the nbtive2bscii
  */
 
-public class Main {
+public clbss Mbin {
 
-    String inputFileName = null;
-    String outputFileName = null;
+    String inputFileNbme = null;
+    String outputFileNbme = null;
     File tempFile = null;
-    boolean reverse = false;
-    static String encodingString = null;
-    static String defaultEncoding = null;
-    static CharsetEncoder encoder = null;
+    boolebn reverse = fblse;
+    stbtic String encodingString = null;
+    stbtic String defbultEncoding = null;
+    stbtic ChbrsetEncoder encoder = null;
 
     /**
      * Run the converter
      */
-    public synchronized boolean convert(String argv[]){
-        List<String> v = new ArrayList<>(2);
+    public synchronized boolebn convert(String brgv[]){
+        List<String> v = new ArrbyList<>(2);
         File outputFile = null;
-        boolean createOutputFile = false;
+        boolebn crebteOutputFile = fblse;
 
-        // Parse arguments
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i].equals("-encoding")) {
-                if ((i + 1) < argv.length){
-                    encodingString = argv[++i];
+        // Pbrse brguments
+        for (int i = 0; i < brgv.length; i++) {
+            if (brgv[i].equbls("-encoding")) {
+                if ((i + 1) < brgv.length){
+                    encodingString = brgv[++i];
                 } else {
-                    error(getMsg("err.bad.arg"));
-                    usage();
-                    return false;
+                    error(getMsg("err.bbd.brg"));
+                    usbge();
+                    return fblse;
                 }
-            } else if (argv[i].equals("-reverse")){
+            } else if (brgv[i].equbls("-reverse")){
                 reverse = true;
             } else {
                 if (v.size() > 1) {
-                    usage();
-                    return false;
+                    usbge();
+                    return fblse;
                 }
-                v.add(argv[i]);
+                v.bdd(brgv[i]);
             }
         }
         if (encodingString == null)
-           defaultEncoding = Charset.defaultCharset().name();
+           defbultEncoding = Chbrset.defbultChbrset().nbme();
 
-        char[] lineBreak = System.getProperty("line.separator").toCharArray();
+        chbr[] lineBrebk = System.getProperty("line.sepbrbtor").toChbrArrby();
         try {
-            initializeConverter();
+            initiblizeConverter();
 
             if (v.size() == 1)
-                inputFileName = v.get(0);
+                inputFileNbme = v.get(0);
 
             if (v.size() == 2) {
-                inputFileName = v.get(0);
-                outputFileName = v.get(1);
-                createOutputFile = true;
+                inputFileNbme = v.get(0);
+                outputFileNbme = v.get(1);
+                crebteOutputFile = true;
             }
 
-            if (createOutputFile) {
-                outputFile = new File(outputFileName);
-                    if (outputFile.exists() && !outputFile.canWrite()) {
-                        throw new Exception(formatMsg("err.cannot.write", outputFileName));
+            if (crebteOutputFile) {
+                outputFile = new File(outputFileNbme);
+                    if (outputFile.exists() && !outputFile.cbnWrite()) {
+                        throw new Exception(formbtMsg("err.cbnnot.write", outputFileNbme));
                     }
             }
 
             if (reverse){
-                BufferedReader reader = getA2NInput(inputFileName);
-                Writer osw = getA2NOutput(outputFileName);
+                BufferedRebder rebder = getA2NInput(inputFileNbme);
+                Writer osw = getA2NOutput(outputFileNbme);
                 String line;
 
-                while ((line = reader.readLine()) != null) {
-                    osw.write(line.toCharArray());
-                    osw.write(lineBreak);
-                    if (outputFileName == null) { // flush stdout
+                while ((line = rebder.rebdLine()) != null) {
+                    osw.write(line.toChbrArrby());
+                    osw.write(lineBrebk);
+                    if (outputFileNbme == null) { // flush stdout
                         osw.flush();
                     }
                 }
-                reader.close();  // Close the stream.
+                rebder.close();  // Close the strebm.
                 osw.close();
             } else {
              //N2A
                 String inLine;
-                BufferedReader in = getN2AInput(inputFileName);
-                BufferedWriter out = getN2AOutput(outputFileName);
+                BufferedRebder in = getN2AInput(inputFileNbme);
+                BufferedWriter out = getN2AOutput(outputFileNbme);
 
-                while ((inLine = in.readLine()) != null) {
-                    out.write(inLine.toCharArray());
-                    out.write(lineBreak);
-                    if (outputFileName == null) { // flush stdout
+                while ((inLine = in.rebdLine()) != null) {
+                    out.write(inLine.toChbrArrby());
+                    out.write(lineBrebk);
+                    if (outputFileNbme == null) { // flush stdout
                         out.flush();
                     }
                 }
                 out.close();
             }
-            // Since we are done rename temporary file to desired output file
-            if (createOutputFile) {
+            // Since we bre done renbme temporbry file to desired output file
+            if (crebteOutputFile) {
                 if (outputFile.exists()) {
-                    // Some win32 platforms can't handle atomic
-                    // rename if source and target file paths are
-                    // identical. To make things simple we just unconditionally
-                    // delete the target file before calling renameTo()
+                    // Some win32 plbtforms cbn't hbndle btomic
+                    // renbme if source bnd tbrget file pbths bre
+                    // identicbl. To mbke things simple we just unconditionblly
+                    // delete the tbrget file before cblling renbmeTo()
                     outputFile.delete();
                 }
-                tempFile.renameTo(outputFile);
+                tempFile.renbmeTo(outputFile);
             }
 
-        } catch(Exception e){
+        } cbtch(Exception e){
             error(e.toString());
-            return false;
+            return fblse;
         }
 
         return true;
     }
 
-    private void error(String msg){
+    privbte void error(String msg){
         System.out.println(msg);
     }
 
-    private void usage(){
-        System.out.println(getMsg("usage"));
+    privbte void usbge(){
+        System.out.println(getMsg("usbge"));
     }
 
 
-    private BufferedReader getN2AInput(String inFile) throws Exception {
+    privbte BufferedRebder getN2AInput(String inFile) throws Exception {
 
-        InputStream forwardIn;
+        InputStrebm forwbrdIn;
         if (inFile == null)
-            forwardIn = System.in;
+            forwbrdIn = System.in;
         else {
             File f = new File(inFile);
-            if (!f.canRead()){
-                throw new Exception(formatMsg("err.cannot.read", f.getName()));
+            if (!f.cbnRebd()){
+                throw new Exception(formbtMsg("err.cbnnot.rebd", f.getNbme()));
             }
 
             try {
-                 forwardIn = new FileInputStream(inFile);
-            } catch (IOException e) {
-               throw new Exception(formatMsg("err.cannot.read", f.getName()));
+                 forwbrdIn = new FileInputStrebm(inFile);
+            } cbtch (IOException e) {
+               throw new Exception(formbtMsg("err.cbnnot.rebd", f.getNbme()));
             }
         }
 
-        BufferedReader r = (encodingString != null) ?
-            new BufferedReader(new InputStreamReader(forwardIn,
+        BufferedRebder r = (encodingString != null) ?
+            new BufferedRebder(new InputStrebmRebder(forwbrdIn,
                                                      encodingString)) :
-            new BufferedReader(new InputStreamReader(forwardIn));
+            new BufferedRebder(new InputStrebmRebder(forwbrdIn));
         return r;
     }
 
 
-    private BufferedWriter getN2AOutput(String outFile) throws Exception {
+    privbte BufferedWriter getN2AOutput(String outFile) throws Exception {
         Writer output;
-        BufferedWriter n2aOut;
+        BufferedWriter n2bOut;
 
         if (outFile == null)
-            output = new OutputStreamWriter(System.out,"US-ASCII");
+            output = new OutputStrebmWriter(System.out,"US-ASCII");
 
         else {
             File f = new File(outFile);
 
-            File tempDir = f.getParentFile();
+            File tempDir = f.getPbrentFile();
 
             if (tempDir == null)
                 tempDir = new File(System.getProperty("user.dir"));
 
-            tempFile = File.createTempFile("_N2A",
+            tempFile = File.crebteTempFile("_N2A",
                                            ".TMP",
                                             tempDir);
             tempFile.deleteOnExit();
 
             try {
                 output = new FileWriter(tempFile);
-            } catch (IOException e){
-                throw new Exception(formatMsg("err.cannot.write", tempFile.getName()));
+            } cbtch (IOException e){
+                throw new Exception(formbtMsg("err.cbnnot.write", tempFile.getNbme()));
             }
         }
 
-        n2aOut = new BufferedWriter(new N2AFilter(output));
-        return n2aOut;
+        n2bOut = new BufferedWriter(new N2AFilter(output));
+        return n2bOut;
     }
 
-    private BufferedReader getA2NInput(String inFile) throws Exception {
-        Reader in;
-        BufferedReader reader;
+    privbte BufferedRebder getA2NInput(String inFile) throws Exception {
+        Rebder in;
+        BufferedRebder rebder;
 
         if (inFile == null)
-            in = new InputStreamReader(System.in, "US-ASCII");
+            in = new InputStrebmRebder(System.in, "US-ASCII");
         else {
             File f = new File(inFile);
-            if (!f.canRead()){
-                throw new Exception(formatMsg("err.cannot.read", f.getName()));
+            if (!f.cbnRebd()){
+                throw new Exception(formbtMsg("err.cbnnot.rebd", f.getNbme()));
             }
 
             try {
-                 in = new FileReader(inFile);
-            } catch (Exception e) {
-               throw new Exception(formatMsg("err.cannot.read", f.getName()));
+                 in = new FileRebder(inFile);
+            } cbtch (Exception e) {
+               throw new Exception(formbtMsg("err.cbnnot.rebd", f.getNbme()));
             }
         }
 
-        reader = new BufferedReader(new A2NFilter(in));
-        return reader;
+        rebder = new BufferedRebder(new A2NFilter(in));
+        return rebder;
     }
 
-    private Writer getA2NOutput(String outFile) throws Exception {
+    privbte Writer getA2NOutput(String outFile) throws Exception {
 
-        OutputStreamWriter w = null;
-        OutputStream output = null;
+        OutputStrebmWriter w = null;
+        OutputStrebm output = null;
 
         if (outFile == null)
             output = System.out;
         else {
             File f = new File(outFile);
 
-            File tempDir = f.getParentFile();
+            File tempDir = f.getPbrentFile();
             if (tempDir == null)
                 tempDir = new File(System.getProperty("user.dir"));
-            tempFile =  File.createTempFile("_N2A",
+            tempFile =  File.crebteTempFile("_N2A",
                                             ".TMP",
                                             tempDir);
             tempFile.deleteOnExit();
 
             try {
-                output = new FileOutputStream(tempFile);
-            } catch (IOException e){
-                throw new Exception(formatMsg("err.cannot.write", tempFile.getName()));
+                output = new FileOutputStrebm(tempFile);
+            } cbtch (IOException e){
+                throw new Exception(formbtMsg("err.cbnnot.write", tempFile.getNbme()));
             }
         }
 
         w = (encodingString != null) ?
-            new OutputStreamWriter(output, encodingString) :
-            new OutputStreamWriter(output);
+            new OutputStrebmWriter(output, encodingString) :
+            new OutputStrebmWriter(output);
 
         return (w);
     }
 
-    private static Charset lookupCharset(String csName) {
-        if (Charset.isSupported(csName)) {
+    privbte stbtic Chbrset lookupChbrset(String csNbme) {
+        if (Chbrset.isSupported(csNbme)) {
            try {
-                return Charset.forName(csName);
-           } catch (UnsupportedCharsetException x) {
+                return Chbrset.forNbme(csNbme);
+           } cbtch (UnsupportedChbrsetException x) {
                 throw new Error(x);
            }
         }
         return null;
     }
 
-    public static boolean canConvert(char ch) {
-        return (encoder != null && encoder.canEncode(ch));
+    public stbtic boolebn cbnConvert(chbr ch) {
+        return (encoder != null && encoder.cbnEncode(ch));
     }
 
-    private static void initializeConverter() throws UnsupportedEncodingException {
-        Charset cs = null;
+    privbte stbtic void initiblizeConverter() throws UnsupportedEncodingException {
+        Chbrset cs = null;
 
         try {
             cs = (encodingString == null) ?
-                lookupCharset(defaultEncoding):
-                lookupCharset(encodingString);
+                lookupChbrset(defbultEncoding):
+                lookupChbrset(encodingString);
 
             encoder =  (cs != null) ?
                 cs.newEncoder() :
                 null;
-        } catch (IllegalCharsetNameException e) {
+        } cbtch (IllegblChbrsetNbmeException e) {
             throw new Error(e);
         }
     }
 
-    private static ResourceBundle rsrc;
+    privbte stbtic ResourceBundle rsrc;
 
-    static {
+    stbtic {
         try {
             rsrc = ResourceBundle.getBundle(
-                     "sun.tools.native2ascii.resources.MsgNative2ascii");
-        } catch (MissingResourceException e) {
-            throw new Error("Missing message file.");
+                     "sun.tools.nbtive2bscii.resources.MsgNbtive2bscii");
+        } cbtch (MissingResourceException e) {
+            throw new Error("Missing messbge file.");
         }
     }
 
-    private String getMsg(String key) {
+    privbte String getMsg(String key) {
         try {
             return (rsrc.getString(key));
-        } catch (MissingResourceException e) {
-            throw new Error("Error in  message file format.");
+        } cbtch (MissingResourceException e) {
+            throw new Error("Error in  messbge file formbt.");
         }
     }
 
-    private String formatMsg(String key, String arg) {
+    privbte String formbtMsg(String key, String brg) {
         String msg = getMsg(key);
-        return MessageFormat.format(msg, arg);
+        return MessbgeFormbt.formbt(msg, brg);
     }
 
 
     /**
-     * Main program
+     * Mbin progrbm
      */
-    public static void main(String argv[]){
-        Main converter = new Main();
-        System.exit(converter.convert(argv) ? 0 : 1);
+    public stbtic void mbin(String brgv[]){
+        Mbin converter = new Mbin();
+        System.exit(converter.convert(brgv) ? 0 : 1);
     }
 }

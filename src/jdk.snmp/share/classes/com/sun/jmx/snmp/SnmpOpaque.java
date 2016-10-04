@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp;
+pbckbge com.sun.jmx.snmp;
 
 
 
 /**
- * Is used to represent an SNMP value.
- * The <CODE>Opaque</CODE> type is defined in RFC 1155.
+ * Is used to represent bn SNMP vblue.
+ * The <CODE>Opbque</CODE> type is defined in RFC 1155.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public class SnmpOpaque extends SnmpString {
-    private static final long serialVersionUID = 380952213936036664L;
+public clbss SnmpOpbque extends SnmpString {
+    privbte stbtic finbl long seriblVersionUID = 380952213936036664L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpOpaque</CODE> from the specified bytes array.
-     * @param v The bytes composing the opaque value.
+     * Constructs b new <CODE>SnmpOpbque</CODE> from the specified bytes brrby.
+     * @pbrbm v The bytes composing the opbque vblue.
      */
-    public SnmpOpaque(byte[] v) {
+    public SnmpOpbque(byte[] v) {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpOpaque</CODE> with the specified <CODE>Bytes</CODE> array.
-     * @param v The <CODE>Bytes</CODE> composing the opaque value.
+     * Constructs b new <CODE>SnmpOpbque</CODE> with the specified <CODE>Bytes</CODE> brrby.
+     * @pbrbm v The <CODE>Bytes</CODE> composing the opbque vblue.
      */
-    public SnmpOpaque(Byte[] v) {
+    public SnmpOpbque(Byte[] v) {
         super(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpOpaque</CODE> from the specified <CODE>String</CODE> value.
-     * @param v The initialization value.
+     * Constructs b new <CODE>SnmpOpbque</CODE> from the specified <CODE>String</CODE> vblue.
+     * @pbrbm v The initiblizbtion vblue.
      */
-    public SnmpOpaque(String v) {
+    public SnmpOpbque(String v) {
         super(v) ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Converts the opaque to its <CODE>String</CODE> form, that is, a string of
-     * bytes expressed in hexadecimal form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Converts the opbque to its <CODE>String</CODE> form, thbt is, b string of
+     * bytes expressed in hexbdecimbl form.
+     * @return The <CODE>String</CODE> representbtion of the vblue.
      */
     public String toString() {
         StringBuilder result = new StringBuilder() ;
-        for (int i = 0 ; i < value.length ; i++) {
-            byte b = value[i] ;
+        for (int i = 0 ; i < vblue.length ; i++) {
+            byte b = vblue[i] ;
             int n = (b >= 0) ? b : b + 256 ;
-            result.append(Character.forDigit(n / 16, 16)) ;
-            result.append(Character.forDigit(n % 16, 16)) ;
+            result.bppend(Chbrbcter.forDigit(n / 16, 16)) ;
+            result.bppend(Chbrbcter.forDigit(n % 16, 16)) ;
         }
         return result.toString() ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Returns b textubl description of the type object.
+     * @return ASN.1 textubl description.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl public String getTypeNbme() {
+        return nbme ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbme of the type.
      */
-    final static String name = "Opaque" ;
+    finbl stbtic String nbme = "Opbque" ;
 }

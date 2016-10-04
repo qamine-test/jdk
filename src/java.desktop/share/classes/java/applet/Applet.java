@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.applet;
+pbckbge jbvb.bpplet;
 
-import java.awt.*;
-import java.awt.image.ColorModel;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.Hashtable;
-import java.util.Locale;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Locble;
+import jbvbx.bccessibility.*;
 
 /**
- * An applet is a small program that is intended not to be run on
- * its own, but rather to be embedded inside another application.
+ * An bpplet is b smbll progrbm thbt is intended not to be run on
+ * its own, but rbther to be embedded inside bnother bpplicbtion.
  * <p>
- * The <code>Applet</code> class must be the superclass of any
- * applet that is to be embedded in a Web page or viewed by the Java
- * Applet Viewer. The <code>Applet</code> class provides a standard
- * interface between applets and their environment.
+ * The <code>Applet</code> clbss must be the superclbss of bny
+ * bpplet thbt is to be embedded in b Web pbge or viewed by the Jbvb
+ * Applet Viewer. The <code>Applet</code> clbss provides b stbndbrd
+ * interfbce between bpplets bnd their environment.
  *
- * @author      Arthur van Hoff
- * @author      Chris Warth
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Chris Wbrth
  * @since       1.0
  */
-public class Applet extends Panel {
+public clbss Applet extends Pbnel {
 
     /**
-     * Constructs a new Applet.
+     * Constructs b new Applet.
      * <p>
-     * Note: Many methods in <code>java.applet.Applet</code>
-     * may be invoked by the applet only after the applet is
-     * fully constructed; applet should avoid calling methods
-     * in <code>java.applet.Applet</code> in the constructor.
+     * Note: Mbny methods in <code>jbvb.bpplet.Applet</code>
+     * mby be invoked by the bpplet only bfter the bpplet is
+     * fully constructed; bpplet should bvoid cblling methods
+     * in <code>jbvb.bpplet.Applet</code> in the constructor.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.4
      */
-    public Applet() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public Applet() throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
     }
 
     /**
-     * Applets can be serialized but the following conventions MUST be followed:
+     * Applets cbn be seriblized but the following conventions MUST be followed:
      *
-     * Before Serialization:
-     * An applet must be in STOPPED state.
+     * Before Seriblizbtion:
+     * An bpplet must be in STOPPED stbte.
      *
-     * After Deserialization:
-     * The applet will be restored in STOPPED state (and most clients will
-     * likely move it into RUNNING state).
-     * The stub field will be restored by the reader.
+     * After Deseriblizbtion:
+     * The bpplet will be restored in STOPPED stbte (bnd most clients will
+     * likely move it into RUNNING stbte).
+     * The stub field will be restored by the rebder.
      */
-    transient private AppletStub stub;
+    trbnsient privbte AppletStub stub;
 
-    /* version ID for serialized form. */
-    private static final long serialVersionUID = -5836846270535785031L;
+    /* version ID for seriblized form. */
+    privbte stbtic finbl long seriblVersionUID = -5836846270535785031L;
 
     /**
-     * Read an applet from an object input stream.
-     * @param  s  an object input stream.
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
+     * Rebd bn bpplet from bn object input strebm.
+     * @pbrbm  s  bn object input strebm.
+     * @exception HebdlessException if
+     * <code>GrbphicsEnvironment.isHebdless()</code> returns
      * <code>true</code>
-     * @serial
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @seribl
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since 1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException, HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        s.defaultReadObject();
+        s.defbultRebdObject();
     }
 
     /**
-     * Sets this applet's stub. This is done automatically by the system.
-     * <p>If there is a security manager, its <code> checkPermission </code>
-     * method is called with the
+     * Sets this bpplet's stub. This is done butombticblly by the system.
+     * <p>If there is b security mbnbger, its <code> checkPermission </code>
+     * method is cblled with the
      * <code>AWTPermission("setAppletStub")</code>
-     * permission if a stub has already been set.
-     * @param   stub   the new stub.
-     * @exception SecurityException if the caller cannot set the stub
+     * permission if b stub hbs blrebdy been set.
+     * @pbrbm   stub   the new stub.
+     * @exception SecurityException if the cbller cbnnot set the stub
      */
-    public final void setStub(AppletStub stub) {
+    public finbl void setStub(AppletStub stub) {
         if (this.stub != null) {
-            SecurityManager s = System.getSecurityManager();
+            SecurityMbnbger s = System.getSecurityMbnbger();
             if (s != null) {
                 s.checkPermission(new AWTPermission("setAppletStub"));
             }
@@ -122,209 +122,209 @@ public class Applet extends Panel {
     }
 
     /**
-     * Determines if this applet is active. An applet is marked active
-     * just before its <code>start</code> method is called. It becomes
-     * inactive just before its <code>stop</code> method is called.
+     * Determines if this bpplet is bctive. An bpplet is mbrked bctive
+     * just before its <code>stbrt</code> method is cblled. It becomes
+     * inbctive just before its <code>stop</code> method is cblled.
      *
-     * @return  <code>true</code> if the applet is active;
-     *          <code>false</code> otherwise.
-     * @see     java.applet.Applet#start()
-     * @see     java.applet.Applet#stop()
+     * @return  <code>true</code> if the bpplet is bctive;
+     *          <code>fblse</code> otherwise.
+     * @see     jbvb.bpplet.Applet#stbrt()
+     * @see     jbvb.bpplet.Applet#stop()
      */
-    public boolean isActive() {
+    public boolebn isActive() {
         if (stub != null) {
             return stub.isActive();
-        } else {        // If stub field not filled in, applet never active
-            return false;
+        } else {        // If stub field not filled in, bpplet never bctive
+            return fblse;
         }
     }
 
     /**
-     * Gets the URL of the document in which this applet is embedded.
-     * For example, suppose an applet is contained
+     * Gets the URL of the document in which this bpplet is embedded.
+     * For exbmple, suppose bn bpplet is contbined
      * within the document:
      * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
+     *    http://www.orbcle.com/technetwork/jbvb/index.html
      * </pre></blockquote>
-     * The document base is:
+     * The document bbse is:
      * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
+     *    http://www.orbcle.com/technetwork/jbvb/index.html
      * </pre></blockquote>
      *
-     * @return  the {@link java.net.URL} of the document that contains this
-     *          applet.
-     * @see     java.applet.Applet#getCodeBase()
+     * @return  the {@link jbvb.net.URL} of the document thbt contbins this
+     *          bpplet.
+     * @see     jbvb.bpplet.Applet#getCodeBbse()
      */
-    public URL getDocumentBase() {
-        return stub.getDocumentBase();
+    public URL getDocumentBbse() {
+        return stub.getDocumentBbse();
     }
 
     /**
-     * Gets the base URL. This is the URL of the directory which contains this applet.
+     * Gets the bbse URL. This is the URL of the directory which contbins this bpplet.
      *
-     * @return  the base {@link java.net.URL} of
-     *          the directory which contains this applet.
-     * @see     java.applet.Applet#getDocumentBase()
+     * @return  the bbse {@link jbvb.net.URL} of
+     *          the directory which contbins this bpplet.
+     * @see     jbvb.bpplet.Applet#getDocumentBbse()
      */
-    public URL getCodeBase() {
-        return stub.getCodeBase();
+    public URL getCodeBbse() {
+        return stub.getCodeBbse();
     }
 
     /**
-     * Returns the value of the named parameter in the HTML tag. For
-     * example, if this applet is specified as
+     * Returns the vblue of the nbmed pbrbmeter in the HTML tbg. For
+     * exbmple, if this bpplet is specified bs
      * <blockquote><pre>
-     * &lt;applet code="Clock" width=50 height=50&gt;
-     * &lt;param name=Color value="blue"&gt;
-     * &lt;/applet&gt;
+     * &lt;bpplet code="Clock" width=50 height=50&gt;
+     * &lt;pbrbm nbme=Color vblue="blue"&gt;
+     * &lt;/bpplet&gt;
      * </pre></blockquote>
      * <p>
-     * then a call to <code>getParameter("Color")</code> returns the
-     * value <code>"blue"</code>.
+     * then b cbll to <code>getPbrbmeter("Color")</code> returns the
+     * vblue <code>"blue"</code>.
      * <p>
-     * The <code>name</code> argument is case insensitive.
+     * The <code>nbme</code> brgument is cbse insensitive.
      *
-     * @param   name   a parameter name.
-     * @return  the value of the named parameter,
+     * @pbrbm   nbme   b pbrbmeter nbme.
+     * @return  the vblue of the nbmed pbrbmeter,
      *          or <code>null</code> if not set.
      */
-     public String getParameter(String name) {
-         return stub.getParameter(name);
+     public String getPbrbmeter(String nbme) {
+         return stub.getPbrbmeter(nbme);
      }
 
     /**
-     * Determines this applet's context, which allows the applet to
-     * query and affect the environment in which it runs.
+     * Determines this bpplet's context, which bllows the bpplet to
+     * query bnd bffect the environment in which it runs.
      * <p>
-     * This environment of an applet represents the document that
-     * contains the applet.
+     * This environment of bn bpplet represents the document thbt
+     * contbins the bpplet.
      *
-     * @return  the applet's context.
+     * @return  the bpplet's context.
      */
     public AppletContext getAppletContext() {
         return stub.getAppletContext();
     }
 
     /**
-     * Requests that this applet be resized.
+     * Requests thbt this bpplet be resized.
      *
-     * @param   width    the new requested width for the applet.
-     * @param   height   the new requested height for the applet.
+     * @pbrbm   width    the new requested width for the bpplet.
+     * @pbrbm   height   the new requested height for the bpplet.
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void resize(int width, int height) {
         Dimension d = size();
         if ((d.width != width) || (d.height != height)) {
             super.resize(width, height);
             if (stub != null) {
-                stub.appletResize(width, height);
+                stub.bppletResize(width, height);
             }
         }
     }
 
     /**
-     * Requests that this applet be resized.
+     * Requests thbt this bpplet be resized.
      *
-     * @param   d   an object giving the new width and height.
+     * @pbrbm   d   bn object giving the new width bnd height.
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public void resize(Dimension d) {
         resize(d.width, d.height);
     }
 
     /**
-     * Indicates if this container is a validate root.
+     * Indicbtes if this contbiner is b vblidbte root.
      * <p>
-     * {@code Applet} objects are the validate roots, and, therefore, they
+     * {@code Applet} objects bre the vblidbte roots, bnd, therefore, they
      * override this method to return {@code true}.
      *
      * @return {@code true}
      * @since 1.7
-     * @see java.awt.Container#isValidateRoot
+     * @see jbvb.bwt.Contbiner#isVblidbteRoot
      */
     @Override
-    public boolean isValidateRoot() {
+    public boolebn isVblidbteRoot() {
         return true;
     }
 
     /**
-     * Requests that the argument string be displayed in the
-     * "status window". Many browsers and applet viewers
-     * provide such a window, where the application can inform users of
-     * its current state.
+     * Requests thbt the brgument string be displbyed in the
+     * "stbtus window". Mbny browsers bnd bpplet viewers
+     * provide such b window, where the bpplicbtion cbn inform users of
+     * its current stbte.
      *
-     * @param   msg   a string to display in the status window.
+     * @pbrbm   msg   b string to displby in the stbtus window.
      */
-    public void showStatus(String msg) {
-        getAppletContext().showStatus(msg);
+    public void showStbtus(String msg) {
+        getAppletContext().showStbtus(msg);
     }
 
     /**
-     * Returns an <code>Image</code> object that can then be painted on
-     * the screen. The <code>url</code> that is passed as an argument
-     * must specify an absolute URL.
+     * Returns bn <code>Imbge</code> object thbt cbn then be pbinted on
+     * the screen. The <code>url</code> thbt is pbssed bs bn brgument
+     * must specify bn bbsolute URL.
      * <p>
-     * This method always returns immediately, whether or not the image
-     * exists. When this applet attempts to draw the image on the screen,
-     * the data will be loaded. The graphics primitives that draw the
-     * image will incrementally paint on the screen.
+     * This method blwbys returns immedibtely, whether or not the imbge
+     * exists. When this bpplet bttempts to drbw the imbge on the screen,
+     * the dbtb will be lobded. The grbphics primitives thbt drbw the
+     * imbge will incrementblly pbint on the screen.
      *
-     * @param   url   an absolute URL giving the location of the image.
-     * @return  the image at the specified URL.
-     * @see     java.awt.Image
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the imbge.
+     * @return  the imbge bt the specified URL.
+     * @see     jbvb.bwt.Imbge
      */
-    public Image getImage(URL url) {
-        return getAppletContext().getImage(url);
+    public Imbge getImbge(URL url) {
+        return getAppletContext().getImbge(url);
     }
 
     /**
-     * Returns an <code>Image</code> object that can then be painted on
-     * the screen. The <code>url</code> argument must specify an absolute
-     * URL. The <code>name</code> argument is a specifier that is
-     * relative to the <code>url</code> argument.
+     * Returns bn <code>Imbge</code> object thbt cbn then be pbinted on
+     * the screen. The <code>url</code> brgument must specify bn bbsolute
+     * URL. The <code>nbme</code> brgument is b specifier thbt is
+     * relbtive to the <code>url</code> brgument.
      * <p>
-     * This method always returns immediately, whether or not the image
-     * exists. When this applet attempts to draw the image on the screen,
-     * the data will be loaded. The graphics primitives that draw the
-     * image will incrementally paint on the screen.
+     * This method blwbys returns immedibtely, whether or not the imbge
+     * exists. When this bpplet bttempts to drbw the imbge on the screen,
+     * the dbtb will be lobded. The grbphics primitives thbt drbw the
+     * imbge will incrementblly pbint on the screen.
      *
-     * @param   url    an absolute URL giving the base location of the image.
-     * @param   name   the location of the image, relative to the
-     *                 <code>url</code> argument.
-     * @return  the image at the specified URL.
-     * @see     java.awt.Image
+     * @pbrbm   url    bn bbsolute URL giving the bbse locbtion of the imbge.
+     * @pbrbm   nbme   the locbtion of the imbge, relbtive to the
+     *                 <code>url</code> brgument.
+     * @return  the imbge bt the specified URL.
+     * @see     jbvb.bwt.Imbge
      */
-    public Image getImage(URL url, String name) {
+    public Imbge getImbge(URL url, String nbme) {
         try {
-            return getImage(new URL(url, name));
-        } catch (MalformedURLException e) {
+            return getImbge(new URL(url, nbme));
+        } cbtch (MblformedURLException e) {
             return null;
         }
     }
 
     /**
-     * Get an audio clip from the given URL.
+     * Get bn budio clip from the given URL.
      *
-     * @param url points to the audio clip
-     * @return the audio clip at the specified URL.
+     * @pbrbm url points to the budio clip
+     * @return the budio clip bt the specified URL.
      *
      * @since       1.2
      */
-    public final static AudioClip newAudioClip(URL url) {
-        return new sun.applet.AppletAudioClip(url);
+    public finbl stbtic AudioClip newAudioClip(URL url) {
+        return new sun.bpplet.AppletAudioClip(url);
     }
 
     /**
      * Returns the <code>AudioClip</code> object specified by the
-     * <code>URL</code> argument.
+     * <code>URL</code> brgument.
      * <p>
-     * This method always returns immediately, whether or not the audio
-     * clip exists. When this applet attempts to play the audio clip, the
-     * data will be loaded.
+     * This method blwbys returns immedibtely, whether or not the budio
+     * clip exists. When this bpplet bttempts to plby the budio clip, the
+     * dbtb will be lobded.
      *
-     * @param   url  an absolute URL giving the location of the audio clip.
-     * @return  the audio clip at the specified URL.
-     * @see     java.applet.AudioClip
+     * @pbrbm   url  bn bbsolute URL giving the locbtion of the budio clip.
+     * @return  the budio clip bt the specified URL.
+     * @see     jbvb.bpplet.AudioClip
      */
     public AudioClip getAudioClip(URL url) {
         return getAppletContext().getAudioClip(url);
@@ -332,206 +332,206 @@ public class Applet extends Panel {
 
     /**
      * Returns the <code>AudioClip</code> object specified by the
-     * <code>URL</code> and <code>name</code> arguments.
+     * <code>URL</code> bnd <code>nbme</code> brguments.
      * <p>
-     * This method always returns immediately, whether or not the audio
-     * clip exists. When this applet attempts to play the audio clip, the
-     * data will be loaded.
+     * This method blwbys returns immedibtely, whether or not the budio
+     * clip exists. When this bpplet bttempts to plby the budio clip, the
+     * dbtb will be lobded.
      *
-     * @param   url    an absolute URL giving the base location of the
-     *                 audio clip.
-     * @param   name   the location of the audio clip, relative to the
-     *                 <code>url</code> argument.
-     * @return  the audio clip at the specified URL.
-     * @see     java.applet.AudioClip
+     * @pbrbm   url    bn bbsolute URL giving the bbse locbtion of the
+     *                 budio clip.
+     * @pbrbm   nbme   the locbtion of the budio clip, relbtive to the
+     *                 <code>url</code> brgument.
+     * @return  the budio clip bt the specified URL.
+     * @see     jbvb.bpplet.AudioClip
      */
-    public AudioClip getAudioClip(URL url, String name) {
+    public AudioClip getAudioClip(URL url, String nbme) {
         try {
-            return getAudioClip(new URL(url, name));
-        } catch (MalformedURLException e) {
+            return getAudioClip(new URL(url, nbme));
+        } cbtch (MblformedURLException e) {
             return null;
         }
     }
 
     /**
-     * Returns information about this applet. An applet should override
-     * this method to return a <code>String</code> containing information
-     * about the author, version, and copyright of the applet.
+     * Returns informbtion bbout this bpplet. An bpplet should override
+     * this method to return b <code>String</code> contbining informbtion
+     * bbout the buthor, version, bnd copyright of the bpplet.
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class returns <code>null</code>.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss returns <code>null</code>.
      *
-     * @return  a string containing information about the author, version, and
-     *          copyright of the applet.
+     * @return  b string contbining informbtion bbout the buthor, version, bnd
+     *          copyright of the bpplet.
      */
     public String getAppletInfo() {
         return null;
     }
 
     /**
-     * Gets the locale of the applet. It allows the applet
-     * to maintain its own locale separated from the locale
-     * of the browser or appletviewer.
+     * Gets the locble of the bpplet. It bllows the bpplet
+     * to mbintbin its own locble sepbrbted from the locble
+     * of the browser or bppletviewer.
      *
-     * @return  the locale of the applet; if no locale has
-     *          been set, the default locale is returned.
+     * @return  the locble of the bpplet; if no locble hbs
+     *          been set, the defbult locble is returned.
      * @since   1.1
      */
-    public Locale getLocale() {
-      Locale locale = super.getLocale();
-      if (locale == null) {
-        return Locale.getDefault();
+    public Locble getLocble() {
+      Locble locble = super.getLocble();
+      if (locble == null) {
+        return Locble.getDefbult();
       }
-      return locale;
+      return locble;
     }
 
     /**
-     * Returns information about the parameters that are understood by
-     * this applet. An applet should override this method to return an
-     * array of <code>Strings</code> describing these parameters.
+     * Returns informbtion bbout the pbrbmeters thbt bre understood by
+     * this bpplet. An bpplet should override this method to return bn
+     * brrby of <code>Strings</code> describing these pbrbmeters.
      * <p>
-     * Each element of the array should be a set of three
-     * <code>Strings</code> containing the name, the type, and a
-     * description. For example:
+     * Ebch element of the brrby should be b set of three
+     * <code>Strings</code> contbining the nbme, the type, bnd b
+     * description. For exbmple:
      * <blockquote><pre>
      * String pinfo[][] = {
-     *   {"fps",    "1-10",    "frames per second"},
-     *   {"repeat", "boolean", "repeat image loop"},
-     *   {"imgs",   "url",     "images directory"}
+     *   {"fps",    "1-10",    "frbmes per second"},
+     *   {"repebt", "boolebn", "repebt imbge loop"},
+     *   {"imgs",   "url",     "imbges directory"}
      * };
      * </pre></blockquote>
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class returns <code>null</code>.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss returns <code>null</code>.
      *
-     * @return  an array describing the parameters this applet looks for.
+     * @return  bn brrby describing the pbrbmeters this bpplet looks for.
      */
-    public String[][] getParameterInfo() {
+    public String[][] getPbrbmeterInfo() {
         return null;
     }
 
     /**
-     * Plays the audio clip at the specified absolute URL. Nothing
-     * happens if the audio clip cannot be found.
+     * Plbys the budio clip bt the specified bbsolute URL. Nothing
+     * hbppens if the budio clip cbnnot be found.
      *
-     * @param   url   an absolute URL giving the location of the audio clip.
+     * @pbrbm   url   bn bbsolute URL giving the locbtion of the budio clip.
      */
-    public void play(URL url) {
+    public void plby(URL url) {
         AudioClip clip = getAudioClip(url);
         if (clip != null) {
-            clip.play();
+            clip.plby();
         }
     }
 
     /**
-     * Plays the audio clip given the URL and a specifier that is
-     * relative to it. Nothing happens if the audio clip cannot be found.
+     * Plbys the budio clip given the URL bnd b specifier thbt is
+     * relbtive to it. Nothing hbppens if the budio clip cbnnot be found.
      *
-     * @param   url    an absolute URL giving the base location of the
-     *                 audio clip.
-     * @param   name   the location of the audio clip, relative to the
-     *                 <code>url</code> argument.
+     * @pbrbm   url    bn bbsolute URL giving the bbse locbtion of the
+     *                 budio clip.
+     * @pbrbm   nbme   the locbtion of the budio clip, relbtive to the
+     *                 <code>url</code> brgument.
      */
-    public void play(URL url, String name) {
-        AudioClip clip = getAudioClip(url, name);
+    public void plby(URL url, String nbme) {
+        AudioClip clip = getAudioClip(url, nbme);
         if (clip != null) {
-            clip.play();
+            clip.plby();
         }
     }
 
     /**
-     * Called by the browser or applet viewer to inform
-     * this applet that it has been loaded into the system. It is always
-     * called before the first time that the <code>start</code> method is
-     * called.
+     * Cblled by the browser or bpplet viewer to inform
+     * this bpplet thbt it hbs been lobded into the system. It is blwbys
+     * cblled before the first time thbt the <code>stbrt</code> method is
+     * cblled.
      * <p>
-     * A subclass of <code>Applet</code> should override this method if
-     * it has initialization to perform. For example, an applet with
-     * threads would use the <code>init</code> method to create the
-     * threads and the <code>destroy</code> method to kill them.
+     * A subclbss of <code>Applet</code> should override this method if
+     * it hbs initiblizbtion to perform. For exbmple, bn bpplet with
+     * threbds would use the <code>init</code> method to crebte the
+     * threbds bnd the <code>destroy</code> method to kill them.
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class does nothing.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss does nothing.
      *
-     * @see     java.applet.Applet#destroy()
-     * @see     java.applet.Applet#start()
-     * @see     java.applet.Applet#stop()
+     * @see     jbvb.bpplet.Applet#destroy()
+     * @see     jbvb.bpplet.Applet#stbrt()
+     * @see     jbvb.bpplet.Applet#stop()
      */
     public void init() {
     }
 
     /**
-     * Called by the browser or applet viewer to inform
-     * this applet that it should start its execution. It is called after
-     * the <code>init</code> method and each time the applet is revisited
-     * in a Web page.
+     * Cblled by the browser or bpplet viewer to inform
+     * this bpplet thbt it should stbrt its execution. It is cblled bfter
+     * the <code>init</code> method bnd ebch time the bpplet is revisited
+     * in b Web pbge.
      * <p>
-     * A subclass of <code>Applet</code> should override this method if
-     * it has any operation that it wants to perform each time the Web
-     * page containing it is visited. For example, an applet with
-     * animation might want to use the <code>start</code> method to
-     * resume animation, and the <code>stop</code> method to suspend the
-     * animation.
+     * A subclbss of <code>Applet</code> should override this method if
+     * it hbs bny operbtion thbt it wbnts to perform ebch time the Web
+     * pbge contbining it is visited. For exbmple, bn bpplet with
+     * bnimbtion might wbnt to use the <code>stbrt</code> method to
+     * resume bnimbtion, bnd the <code>stop</code> method to suspend the
+     * bnimbtion.
      * <p>
-     * Note: some methods, such as <code>getLocationOnScreen</code>, can only
-     * provide meaningful results if the applet is showing.  Because
-     * <code>isShowing</code> returns <code>false</code> when the applet's
-     * <code>start</code> is first called, methods requiring
-     * <code>isShowing</code> to return <code>true</code> should be called from
-     * a <code>ComponentListener</code>.
+     * Note: some methods, such bs <code>getLocbtionOnScreen</code>, cbn only
+     * provide mebningful results if the bpplet is showing.  Becbuse
+     * <code>isShowing</code> returns <code>fblse</code> when the bpplet's
+     * <code>stbrt</code> is first cblled, methods requiring
+     * <code>isShowing</code> to return <code>true</code> should be cblled from
+     * b <code>ComponentListener</code>.
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class does nothing.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss does nothing.
      *
-     * @see     java.applet.Applet#destroy()
-     * @see     java.applet.Applet#init()
-     * @see     java.applet.Applet#stop()
-     * @see     java.awt.Component#isShowing()
-     * @see     java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+     * @see     jbvb.bpplet.Applet#destroy()
+     * @see     jbvb.bpplet.Applet#init()
+     * @see     jbvb.bpplet.Applet#stop()
+     * @see     jbvb.bwt.Component#isShowing()
+     * @see     jbvb.bwt.event.ComponentListener#componentShown(jbvb.bwt.event.ComponentEvent)
      */
-    public void start() {
+    public void stbrt() {
     }
 
     /**
-     * Called by the browser or applet viewer to inform
-     * this applet that it should stop its execution. It is called when
-     * the Web page that contains this applet has been replaced by
-     * another page, and also just before the applet is to be destroyed.
+     * Cblled by the browser or bpplet viewer to inform
+     * this bpplet thbt it should stop its execution. It is cblled when
+     * the Web pbge thbt contbins this bpplet hbs been replbced by
+     * bnother pbge, bnd blso just before the bpplet is to be destroyed.
      * <p>
-     * A subclass of <code>Applet</code> should override this method if
-     * it has any operation that it wants to perform each time the Web
-     * page containing it is no longer visible. For example, an applet
-     * with animation might want to use the <code>start</code> method to
-     * resume animation, and the <code>stop</code> method to suspend the
-     * animation.
+     * A subclbss of <code>Applet</code> should override this method if
+     * it hbs bny operbtion thbt it wbnts to perform ebch time the Web
+     * pbge contbining it is no longer visible. For exbmple, bn bpplet
+     * with bnimbtion might wbnt to use the <code>stbrt</code> method to
+     * resume bnimbtion, bnd the <code>stop</code> method to suspend the
+     * bnimbtion.
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class does nothing.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss does nothing.
      *
-     * @see     java.applet.Applet#destroy()
-     * @see     java.applet.Applet#init()
+     * @see     jbvb.bpplet.Applet#destroy()
+     * @see     jbvb.bpplet.Applet#init()
      */
     public void stop() {
     }
 
     /**
-     * Called by the browser or applet viewer to inform
-     * this applet that it is being reclaimed and that it should destroy
-     * any resources that it has allocated. The <code>stop</code> method
-     * will always be called before <code>destroy</code>.
+     * Cblled by the browser or bpplet viewer to inform
+     * this bpplet thbt it is being reclbimed bnd thbt it should destroy
+     * bny resources thbt it hbs bllocbted. The <code>stop</code> method
+     * will blwbys be cblled before <code>destroy</code>.
      * <p>
-     * A subclass of <code>Applet</code> should override this method if
-     * it has any operation that it wants to perform before it is
-     * destroyed. For example, an applet with threads would use the
-     * <code>init</code> method to create the threads and the
+     * A subclbss of <code>Applet</code> should override this method if
+     * it hbs bny operbtion thbt it wbnts to perform before it is
+     * destroyed. For exbmple, bn bpplet with threbds would use the
+     * <code>init</code> method to crebte the threbds bnd the
      * <code>destroy</code> method to kill them.
      * <p>
-     * The implementation of this method provided by the
-     * <code>Applet</code> class does nothing.
+     * The implementbtion of this method provided by the
+     * <code>Applet</code> clbss does nothing.
      *
-     * @see     java.applet.Applet#init()
-     * @see     java.applet.Applet#start()
-     * @see     java.applet.Applet#stop()
+     * @see     jbvb.bpplet.Applet#init()
+     * @see     jbvb.bpplet.Applet#stbrt()
+     * @see     jbvb.bpplet.Applet#stop()
      */
     public void destroy() {
     }
@@ -540,39 +540,39 @@ public class Applet extends Panel {
     // Accessibility support
     //
 
-    AccessibleContext accessibleContext = null;
+    AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this Applet.
-     * For applets, the AccessibleContext takes the form of an
+     * Gets the AccessibleContext bssocibted with this Applet.
+     * For bpplets, the AccessibleContext tbkes the form of bn
      * AccessibleApplet.
-     * A new AccessibleApplet instance is created if necessary.
+     * A new AccessibleApplet instbnce is crebted if necessbry.
      *
-     * @return an AccessibleApplet that serves as the
+     * @return bn AccessibleApplet thbt serves bs the
      *         AccessibleContext of this Applet
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleApplet();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleApplet();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Applet</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to applet user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Applet</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to bpplet user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleApplet extends AccessibleAWTPanel {
+    protected clbss AccessibleApplet extends AccessibleAWTPbnel {
 
-        private static final long serialVersionUID = 8127374778187708896L;
+        privbte stbtic finbl long seriblVersionUID = 8127374778187708896L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {
@@ -580,16 +580,16 @@ public class Applet extends Panel {
         }
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.ACTIVE);
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.ACTIVE);
+            return stbtes;
         }
 
     }

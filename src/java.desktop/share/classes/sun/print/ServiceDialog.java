@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Vector;
-import javax.print.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.text.NumberFormatter;
-import sun.print.SunPageSelection;
-import java.awt.event.KeyEvent;
-import java.net.URISyntaxException;
-import java.lang.reflect.Field;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.FocusListener;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.print.PrinterJob;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.net.URI;
+import jbvb.net.URL;
+import jbvb.text.DecimblFormbt;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Vector;
+import jbvbx.print.*;
+import jbvbx.print.bttribute.*;
+import jbvbx.print.bttribute.stbndbrd.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.EmptyBorder;
+import jbvbx.swing.border.TitledBorder;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.ChbngeListener;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.event.PopupMenuEvent;
+import jbvbx.swing.event.PopupMenuListener;
+import jbvbx.swing.text.NumberFormbtter;
+import sun.print.SunPbgeSelection;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.net.URISyntbxException;
+import jbvb.lbng.reflect.Field;
 
 
 /**
- * A class which implements a cross-platform print dialog.
+ * A clbss which implements b cross-plbtform print diblog.
  *
- * @author  Chris Campbell
+ * @buthor  Chris Cbmpbell
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class ServiceDialog extends JDialog implements ActionListener {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss ServiceDiblog extends JDiblog implements ActionListener {
 
     /**
-     * Waiting print status (user response pending).
+     * Wbiting print stbtus (user response pending).
      */
-    public final static int WAITING = 0;
+    public finbl stbtic int WAITING = 0;
 
     /**
-     * Approve print status (user activated "Print" or "OK").
+     * Approve print stbtus (user bctivbted "Print" or "OK").
      */
-    public final static int APPROVE = 1;
+    public finbl stbtic int APPROVE = 1;
 
     /**
-     * Cancel print status (user activated "Cancel");
+     * Cbncel print stbtus (user bctivbted "Cbncel");
      */
-    public final static int CANCEL = 2;
+    public finbl stbtic int CANCEL = 2;
 
-    private static final String strBundle = "sun.print.resources.serviceui";
-    private static final Insets panelInsets = new Insets(6, 6, 6, 6);
-    private static final Insets compInsets = new Insets(3, 6, 3, 6);
+    privbte stbtic finbl String strBundle = "sun.print.resources.serviceui";
+    privbte stbtic finbl Insets pbnelInsets = new Insets(6, 6, 6, 6);
+    privbte stbtic finbl Insets compInsets = new Insets(3, 6, 3, 6);
 
-    private static ResourceBundle messageRB;
-    private JTabbedPane tpTabs;
-    private JButton btnCancel, btnApprove;
-    private PrintService[] services;
-    private int defaultServiceIndex;
-    private PrintRequestAttributeSet asOriginal;
-    private HashPrintRequestAttributeSet asCurrent;
-    private PrintService psCurrent;
-    private DocFlavor docFlavor;
-    private int status;
+    privbte stbtic ResourceBundle messbgeRB;
+    privbte JTbbbedPbne tpTbbs;
+    privbte JButton btnCbncel, btnApprove;
+    privbte PrintService[] services;
+    privbte int defbultServiceIndex;
+    privbte PrintRequestAttributeSet bsOriginbl;
+    privbte HbshPrintRequestAttributeSet bsCurrent;
+    privbte PrintService psCurrent;
+    privbte DocFlbvor docFlbvor;
+    privbte int stbtus;
 
-    private ValidatingFileChooser jfc;
+    privbte VblidbtingFileChooser jfc;
 
-    private GeneralPanel pnlGeneral;
-    private PageSetupPanel pnlPageSetup;
-    private AppearancePanel pnlAppearance;
+    privbte GenerblPbnel pnlGenerbl;
+    privbte PbgeSetupPbnel pnlPbgeSetup;
+    privbte AppebrbncePbnel pnlAppebrbnce;
 
-    private boolean isAWT = false;
-    static {
+    privbte boolebn isAWT = fblse;
+    stbtic {
         initResource();
     }
 
 
     /**
-     * Constructor for the "standard" print dialog (containing all relevant
-     * tabs)
+     * Constructor for the "stbndbrd" print diblog (contbining bll relevbnt
+     * tbbs)
      */
-    public ServiceDialog(GraphicsConfiguration gc,
+    public ServiceDiblog(GrbphicsConfigurbtion gc,
                          int x, int y,
                          PrintService[] services,
-                         int defaultServiceIndex,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes,
-                         Dialog dialog)
+                         int defbultServiceIndex,
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes,
+                         Diblog diblog)
     {
-        super(dialog, getMsg("dialog.printtitle"), true, gc);
-        initPrintDialog(x, y, services, defaultServiceIndex,
-                        flavor, attributes);
+        super(diblog, getMsg("diblog.printtitle"), true, gc);
+        initPrintDiblog(x, y, services, defbultServiceIndex,
+                        flbvor, bttributes);
     }
 
 
 
     /**
-     * Constructor for the "standard" print dialog (containing all relevant
-     * tabs)
+     * Constructor for the "stbndbrd" print diblog (contbining bll relevbnt
+     * tbbs)
      */
-    public ServiceDialog(GraphicsConfiguration gc,
+    public ServiceDiblog(GrbphicsConfigurbtion gc,
                          int x, int y,
                          PrintService[] services,
-                         int defaultServiceIndex,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes,
-                         Frame frame)
+                         int defbultServiceIndex,
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes,
+                         Frbme frbme)
     {
-        super(frame, getMsg("dialog.printtitle"), true, gc);
-        initPrintDialog(x, y, services, defaultServiceIndex,
-                        flavor, attributes);
+        super(frbme, getMsg("diblog.printtitle"), true, gc);
+        initPrintDiblog(x, y, services, defbultServiceIndex,
+                        flbvor, bttributes);
     }
 
 
     /**
-     * Initialize print dialog.
+     * Initiblize print diblog.
      */
-    void initPrintDialog(int x, int y,
+    void initPrintDiblog(int x, int y,
                          PrintService[] services,
-                         int defaultServiceIndex,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes)
+                         int defbultServiceIndex,
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes)
     {
         this.services = services;
-        this.defaultServiceIndex = defaultServiceIndex;
-        this.asOriginal = attributes;
-        this.asCurrent = new HashPrintRequestAttributeSet(attributes);
-        this.psCurrent = services[defaultServiceIndex];
-        this.docFlavor = flavor;
-        SunPageSelection pages =
-            (SunPageSelection)attributes.get(SunPageSelection.class);
-        if (pages != null) {
+        this.defbultServiceIndex = defbultServiceIndex;
+        this.bsOriginbl = bttributes;
+        this.bsCurrent = new HbshPrintRequestAttributeSet(bttributes);
+        this.psCurrent = services[defbultServiceIndex];
+        this.docFlbvor = flbvor;
+        SunPbgeSelection pbges =
+            (SunPbgeSelection)bttributes.get(SunPbgeSelection.clbss);
+        if (pbges != null) {
             isAWT = true;
         }
 
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout());
+        Contbiner c = getContentPbne();
+        c.setLbyout(new BorderLbyout());
 
-        tpTabs = new JTabbedPane();
-        tpTabs.setBorder(new EmptyBorder(5, 5, 5, 5));
+        tpTbbs = new JTbbbedPbne();
+        tpTbbs.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        String gkey = getMsg("tab.general");
-        int gmnemonic = getVKMnemonic("tab.general");
-        pnlGeneral = new GeneralPanel();
-        tpTabs.add(gkey, pnlGeneral);
-        tpTabs.setMnemonicAt(0, gmnemonic);
+        String gkey = getMsg("tbb.generbl");
+        int gmnemonic = getVKMnemonic("tbb.generbl");
+        pnlGenerbl = new GenerblPbnel();
+        tpTbbs.bdd(gkey, pnlGenerbl);
+        tpTbbs.setMnemonicAt(0, gmnemonic);
 
-        String pkey = getMsg("tab.pagesetup");
-        int pmnemonic = getVKMnemonic("tab.pagesetup");
-        pnlPageSetup = new PageSetupPanel();
-        tpTabs.add(pkey, pnlPageSetup);
-        tpTabs.setMnemonicAt(1, pmnemonic);
+        String pkey = getMsg("tbb.pbgesetup");
+        int pmnemonic = getVKMnemonic("tbb.pbgesetup");
+        pnlPbgeSetup = new PbgeSetupPbnel();
+        tpTbbs.bdd(pkey, pnlPbgeSetup);
+        tpTbbs.setMnemonicAt(1, pmnemonic);
 
-        String akey = getMsg("tab.appearance");
-        int amnemonic = getVKMnemonic("tab.appearance");
-        pnlAppearance = new AppearancePanel();
-        tpTabs.add(akey, pnlAppearance);
-        tpTabs.setMnemonicAt(2, amnemonic);
+        String bkey = getMsg("tbb.bppebrbnce");
+        int bmnemonic = getVKMnemonic("tbb.bppebrbnce");
+        pnlAppebrbnce = new AppebrbncePbnel();
+        tpTbbs.bdd(bkey, pnlAppebrbnce);
+        tpTbbs.setMnemonicAt(2, bmnemonic);
 
-        c.add(tpTabs, BorderLayout.CENTER);
+        c.bdd(tpTbbs, BorderLbyout.CENTER);
 
-        updatePanels();
+        updbtePbnels();
 
-        JPanel pnlSouth = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        btnApprove = createExitButton("button.print", this);
-        pnlSouth.add(btnApprove);
-        getRootPane().setDefaultButton(btnApprove);
-        btnCancel = createExitButton("button.cancel", this);
-        handleEscKey(btnCancel);
-        pnlSouth.add(btnCancel);
-        c.add(pnlSouth, BorderLayout.SOUTH);
+        JPbnel pnlSouth = new JPbnel(new FlowLbyout(FlowLbyout.TRAILING));
+        btnApprove = crebteExitButton("button.print", this);
+        pnlSouth.bdd(btnApprove);
+        getRootPbne().setDefbultButton(btnApprove);
+        btnCbncel = crebteExitButton("button.cbncel", this);
+        hbndleEscKey(btnCbncel);
+        pnlSouth.bdd(btnCbncel);
+        c.bdd(pnlSouth, BorderLbyout.SOUTH);
 
-        addWindowListener(new WindowAdapter() {
+        bddWindowListener(new WindowAdbpter() {
             public void windowClosing(WindowEvent event) {
                 dispose(CANCEL);
             }
         });
 
-        getAccessibleContext().setAccessibleDescription(getMsg("dialog.printtitle"));
-        setResizable(false);
-        setLocation(x, y);
-        pack();
+        getAccessibleContext().setAccessibleDescription(getMsg("diblog.printtitle"));
+        setResizbble(fblse);
+        setLocbtion(x, y);
+        pbck();
     }
 
    /**
-     * Constructor for the solitary "page setup" dialog
+     * Constructor for the solitbry "pbge setup" diblog
      */
-    public ServiceDialog(GraphicsConfiguration gc,
+    public ServiceDiblog(GrbphicsConfigurbtion gc,
                          int x, int y,
                          PrintService ps,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes,
-                         Dialog dialog)
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes,
+                         Diblog diblog)
     {
-        super(dialog, getMsg("dialog.pstitle"), true, gc);
-        initPageDialog(x, y, ps, flavor, attributes);
+        super(diblog, getMsg("diblog.pstitle"), true, gc);
+        initPbgeDiblog(x, y, ps, flbvor, bttributes);
     }
 
     /**
-     * Constructor for the solitary "page setup" dialog
+     * Constructor for the solitbry "pbge setup" diblog
      */
-    public ServiceDialog(GraphicsConfiguration gc,
+    public ServiceDiblog(GrbphicsConfigurbtion gc,
                          int x, int y,
                          PrintService ps,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes,
-                         Frame frame)
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes,
+                         Frbme frbme)
     {
-        super(frame, getMsg("dialog.pstitle"), true, gc);
-        initPageDialog(x, y, ps, flavor, attributes);
+        super(frbme, getMsg("diblog.pstitle"), true, gc);
+        initPbgeDiblog(x, y, ps, flbvor, bttributes);
     }
 
 
     /**
-     * Initialize "page setup" dialog
+     * Initiblize "pbge setup" diblog
      */
-    void initPageDialog(int x, int y,
+    void initPbgeDiblog(int x, int y,
                          PrintService ps,
-                         DocFlavor flavor,
-                         PrintRequestAttributeSet attributes)
+                         DocFlbvor flbvor,
+                         PrintRequestAttributeSet bttributes)
     {
         this.psCurrent = ps;
-        this.docFlavor = flavor;
-        this.asOriginal = attributes;
-        this.asCurrent = new HashPrintRequestAttributeSet(attributes);
+        this.docFlbvor = flbvor;
+        this.bsOriginbl = bttributes;
+        this.bsCurrent = new HbshPrintRequestAttributeSet(bttributes);
 
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout());
+        Contbiner c = getContentPbne();
+        c.setLbyout(new BorderLbyout());
 
-        pnlPageSetup = new PageSetupPanel();
-        c.add(pnlPageSetup, BorderLayout.CENTER);
+        pnlPbgeSetup = new PbgeSetupPbnel();
+        c.bdd(pnlPbgeSetup, BorderLbyout.CENTER);
 
-        pnlPageSetup.updateInfo();
+        pnlPbgeSetup.updbteInfo();
 
-        JPanel pnlSouth = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        btnApprove = createExitButton("button.ok", this);
-        pnlSouth.add(btnApprove);
-        getRootPane().setDefaultButton(btnApprove);
-        btnCancel = createExitButton("button.cancel", this);
-        handleEscKey(btnCancel);
-        pnlSouth.add(btnCancel);
-        c.add(pnlSouth, BorderLayout.SOUTH);
+        JPbnel pnlSouth = new JPbnel(new FlowLbyout(FlowLbyout.TRAILING));
+        btnApprove = crebteExitButton("button.ok", this);
+        pnlSouth.bdd(btnApprove);
+        getRootPbne().setDefbultButton(btnApprove);
+        btnCbncel = crebteExitButton("button.cbncel", this);
+        hbndleEscKey(btnCbncel);
+        pnlSouth.bdd(btnCbncel);
+        c.bdd(pnlSouth, BorderLbyout.SOUTH);
 
-        addWindowListener(new WindowAdapter() {
+        bddWindowListener(new WindowAdbpter() {
             public void windowClosing(WindowEvent event) {
                 dispose(CANCEL);
             }
         });
 
-        getAccessibleContext().setAccessibleDescription(getMsg("dialog.pstitle"));
-        setResizable(false);
-        setLocation(x, y);
-        pack();
+        getAccessibleContext().setAccessibleDescription(getMsg("diblog.pstitle"));
+        setResizbble(fblse);
+        setLocbtion(x, y);
+        pbck();
     }
 
     /**
-     * Performs Cancel when Esc key is pressed.
+     * Performs Cbncel when Esc key is pressed.
      */
-    private void handleEscKey(JButton btnCancel) {
-        @SuppressWarnings("serial") // anonymous class
-        Action cancelKeyAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
+    privbte void hbndleEscKey(JButton btnCbncel) {
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        Action cbncelKeyAction = new AbstrbctAction() {
+            public void bctionPerformed(ActionEvent e) {
                 dispose(CANCEL);
             }
         };
-        KeyStroke cancelKeyStroke =
-            KeyStroke.getKeyStroke((char)KeyEvent.VK_ESCAPE, 0);
-        InputMap inputMap =
-            btnCancel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = btnCancel.getActionMap();
+        KeyStroke cbncelKeyStroke =
+            KeyStroke.getKeyStroke((chbr)KeyEvent.VK_ESCAPE, 0);
+        InputMbp inputMbp =
+            btnCbncel.getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMbp bctionMbp = btnCbncel.getActionMbp();
 
-        if (inputMap != null && actionMap != null) {
-            inputMap.put(cancelKeyStroke, "cancel");
-            actionMap.put("cancel", cancelKeyAction);
+        if (inputMbp != null && bctionMbp != null) {
+            inputMbp.put(cbncelKeyStroke, "cbncel");
+            bctionMbp.put("cbncel", cbncelKeyAction);
         }
     }
 
 
     /**
-     * Returns the current status of the dialog (whether the user has selected
-     * the "Print" or "Cancel" button)
+     * Returns the current stbtus of the diblog (whether the user hbs selected
+     * the "Print" or "Cbncel" button)
      */
-    public int getStatus() {
-        return status;
+    public int getStbtus() {
+        return stbtus;
     }
 
     /**
-     * Returns an AttributeSet based on whether or not the user cancelled the
-     * dialog.  If the user selected "Print" we return their new selections,
-     * otherwise we return the attributes that were passed in initially.
+     * Returns bn AttributeSet bbsed on whether or not the user cbncelled the
+     * diblog.  If the user selected "Print" we return their new selections,
+     * otherwise we return the bttributes thbt were pbssed in initiblly.
      */
     public PrintRequestAttributeSet getAttributes() {
-        if (status == APPROVE) {
-            return asCurrent;
+        if (stbtus == APPROVE) {
+            return bsCurrent;
         } else {
-            return asOriginal;
+            return bsOriginbl;
         }
     }
 
     /**
-     * Returns a PrintService based on whether or not the user cancelled the
-     * dialog.  If the user selected "Print" we return the user's selection
+     * Returns b PrintService bbsed on whether or not the user cbncelled the
+     * diblog.  If the user selected "Print" we return the user's selection
      * for the PrintService, otherwise we return null.
      */
     public PrintService getPrintService() {
-        if (status == APPROVE) {
+        if (stbtus == APPROVE) {
             return psCurrent;
         } else {
             return null;
@@ -362,54 +362,54 @@ public class ServiceDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * Sets the current status flag for the dialog and disposes it (thus
-     * returning control of the parent frame back to the user)
+     * Sets the current stbtus flbg for the diblog bnd disposes it (thus
+     * returning control of the pbrent frbme bbck to the user)
      */
-    public void dispose(int status) {
-        this.status = status;
+    public void dispose(int stbtus) {
+        this.stbtus = stbtus;
 
         super.dispose();
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void bctionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        boolean approved = false;
+        boolebn bpproved = fblse;
 
         if (source == btnApprove) {
-            approved = true;
+            bpproved = true;
 
-            if (pnlGeneral != null) {
-                if (pnlGeneral.isPrintToFileRequested()) {
-                    approved = showFileChooser();
+            if (pnlGenerbl != null) {
+                if (pnlGenerbl.isPrintToFileRequested()) {
+                    bpproved = showFileChooser();
                 } else {
-                    asCurrent.remove(Destination.class);
+                    bsCurrent.remove(Destinbtion.clbss);
                 }
             }
         }
 
-        dispose(approved ? APPROVE : CANCEL);
+        dispose(bpproved ? APPROVE : CANCEL);
     }
 
     /**
-     * Displays a JFileChooser that allows the user to select the destination
+     * Displbys b JFileChooser thbt bllows the user to select the destinbtion
      * for "Print To File"
      */
-    private boolean showFileChooser() {
-        Class<Destination> dstCategory = Destination.class;
+    privbte boolebn showFileChooser() {
+        Clbss<Destinbtion> dstCbtegory = Destinbtion.clbss;
 
-        Destination dst = (Destination)asCurrent.get(dstCategory);
+        Destinbtion dst = (Destinbtion)bsCurrent.get(dstCbtegory);
         if (dst == null) {
-            dst = (Destination)asOriginal.get(dstCategory);
+            dst = (Destinbtion)bsOriginbl.get(dstCbtegory);
             if (dst == null) {
-                dst = (Destination)psCurrent.getDefaultAttributeValue(dstCategory);
+                dst = (Destinbtion)psCurrent.getDefbultAttributeVblue(dstCbtegory);
                 // "dst" should not be null. The following code
-                // is only added to safeguard against a possible
-                // buggy implementation of a PrintService having a
-                // null default Destination.
+                // is only bdded to sbfegubrd bgbinst b possible
+                // buggy implementbtion of b PrintService hbving b
+                // null defbult Destinbtion.
                 if (dst == null) {
                     try {
-                        dst = new Destination(new URI("file:out.prn"));
-                    } catch (URISyntaxException e) {
+                        dst = new Destinbtion(new URI("file:out.prn"));
+                    } cbtch (URISyntbxException e) {
                     }
                 }
             }
@@ -419,57 +419,57 @@ public class ServiceDialog extends JDialog implements ActionListener {
         if (dst != null) {
             try {
                 fileDest = new File(dst.getURI());
-            } catch (Exception e) {
-                // all manner of runtime exceptions possible
+            } cbtch (Exception e) {
+                // bll mbnner of runtime exceptions possible
                 fileDest = new File("out.prn");
             }
         } else {
             fileDest = new File("out.prn");
         }
 
-        ValidatingFileChooser jfc = new ValidatingFileChooser();
+        VblidbtingFileChooser jfc = new VblidbtingFileChooser();
         jfc.setApproveButtonText(getMsg("button.ok"));
-        jfc.setDialogTitle(getMsg("dialog.printtofile"));
-        jfc.setDialogType(JFileChooser.SAVE_DIALOG);
+        jfc.setDiblogTitle(getMsg("diblog.printtofile"));
+        jfc.setDiblogType(JFileChooser.SAVE_DIALOG);
         jfc.setSelectedFile(fileDest);
 
-        int returnVal = jfc.showDialog(this, null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        int returnVbl = jfc.showDiblog(this, null);
+        if (returnVbl == JFileChooser.APPROVE_OPTION) {
             fileDest = jfc.getSelectedFile();
 
             try {
-                asCurrent.add(new Destination(fileDest.toURI()));
-            } catch (Exception e) {
-                asCurrent.remove(dstCategory);
+                bsCurrent.bdd(new Destinbtion(fileDest.toURI()));
+            } cbtch (Exception e) {
+                bsCurrent.remove(dstCbtegory);
             }
         } else {
-            asCurrent.remove(dstCategory);
+            bsCurrent.remove(dstCbtegory);
         }
 
-        return (returnVal == JFileChooser.APPROVE_OPTION);
+        return (returnVbl == JFileChooser.APPROVE_OPTION);
     }
 
     /**
-     * Updates each of the top level panels
+     * Updbtes ebch of the top level pbnels
      */
-    private void updatePanels() {
-        pnlGeneral.updateInfo();
-        pnlPageSetup.updateInfo();
-        pnlAppearance.updateInfo();
+    privbte void updbtePbnels() {
+        pnlGenerbl.updbteInfo();
+        pnlPbgeSetup.updbteInfo();
+        pnlAppebrbnce.updbteInfo();
     }
 
     /**
-     * Initialize ResourceBundle
+     * Initiblize ResourceBundle
      */
-    public static void initResource() {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
+    public stbtic void initResource() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
                     try {
-                        messageRB = ResourceBundle.getBundle(strBundle);
+                        messbgeRB = ResourceBundle.getBundle(strBundle);
                         return null;
-                    } catch (java.util.MissingResourceException e) {
-                        throw new Error("Fatal: Resource for ServiceUI " +
+                    } cbtch (jbvb.util.MissingResourceException e) {
+                        throw new Error("Fbtbl: Resource for ServiceUI " +
                                         "is missing");
                     }
                 }
@@ -478,18 +478,18 @@ public class ServiceDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * Returns message string from resource
+     * Returns messbge string from resource
      */
-    public static String getMsg(String key) {
+    public stbtic String getMsg(String key) {
         try {
-            return removeMnemonics(messageRB.getString(key));
-        } catch (java.util.MissingResourceException e) {
-            throw new Error("Fatal: Resource for ServiceUI is broken; " +
+            return removeMnemonics(messbgeRB.getString(key));
+        } cbtch (jbvb.util.MissingResourceException e) {
+            throw new Error("Fbtbl: Resource for ServiceUI is broken; " +
                             "there is no " + key + " key in resource");
         }
     }
 
-    private static String removeMnemonics(String s) {
+    privbte stbtic String removeMnemonics(String s) {
         int i = s.indexOf('&');
         int len = s.length();
         if (i < 0 || i == (len - 1)) {
@@ -513,58 +513,58 @@ public class ServiceDialog extends JDialog implements ActionListener {
 
 
     /**
-     * Returns mnemonic character from resource
+     * Returns mnemonic chbrbcter from resource
      */
-    private static char getMnemonic(String key) {
-        String str = messageRB.getString(key).replace("&&", "");
+    privbte stbtic chbr getMnemonic(String key) {
+        String str = messbgeRB.getString(key).replbce("&&", "");
         int index = str.indexOf('&');
         if (0 <= index && index < str.length() - 1) {
-            char c = str.charAt(index + 1);
-            return Character.toUpperCase(c);
+            chbr c = str.chbrAt(index + 1);
+            return Chbrbcter.toUpperCbse(c);
         } else {
-            return (char)0;
+            return (chbr)0;
         }
     }
 
     /**
-     * Returns the mnemonic as a KeyEvent.VK constant from the resource.
+     * Returns the mnemonic bs b KeyEvent.VK constbnt from the resource.
      */
-    static Class<?> _keyEventClazz = null;
-    private static int getVKMnemonic(String key) {
-        String s = String.valueOf(getMnemonic(key));
+    stbtic Clbss<?> _keyEventClbzz = null;
+    privbte stbtic int getVKMnemonic(String key) {
+        String s = String.vblueOf(getMnemonic(key));
         if ( s == null || s.length() != 1) {
             return 0;
         }
-        String vkString = "VK_" + s.toUpperCase();
+        String vkString = "VK_" + s.toUpperCbse();
 
         try {
-            if (_keyEventClazz == null) {
-                _keyEventClazz= Class.forName("java.awt.event.KeyEvent",
-                                 true, (ServiceDialog.class).getClassLoader());
+            if (_keyEventClbzz == null) {
+                _keyEventClbzz= Clbss.forNbme("jbvb.bwt.event.KeyEvent",
+                                 true, (ServiceDiblog.clbss).getClbssLobder());
             }
-            Field field = _keyEventClazz.getDeclaredField(vkString);
-            int value = field.getInt(null);
-            return value;
-        } catch (Exception e) {
+            Field field = _keyEventClbzz.getDeclbredField(vkString);
+            int vblue = field.getInt(null);
+            return vblue;
+        } cbtch (Exception e) {
         }
         return 0;
     }
 
     /**
-     * Returns URL for image resource
+     * Returns URL for imbge resource
      */
-    private static URL getImageResource(final String key) {
-        URL url = java.security.AccessController.doPrivileged(
-                       new java.security.PrivilegedAction<URL>() {
+    privbte stbtic URL getImbgeResource(finbl String key) {
+        URL url = jbvb.security.AccessController.doPrivileged(
+                       new jbvb.security.PrivilegedAction<URL>() {
                 public URL run() {
-                    URL url = ServiceDialog.class.getResource(
+                    URL url = ServiceDiblog.clbss.getResource(
                                                   "resources/" + key);
                     return url;
                 }
         });
 
         if (url == null) {
-            throw new Error("Fatal: Resource for ServiceUI is broken; " +
+            throw new Error("Fbtbl: Resource for ServiceUI is broken; " +
                             "there is no " + key + " key in resource");
         }
 
@@ -572,262 +572,262 @@ public class ServiceDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * Creates a new JButton and sets its text, mnemonic, and ActionListener
+     * Crebtes b new JButton bnd sets its text, mnemonic, bnd ActionListener
      */
-    private static JButton createButton(String key, ActionListener al) {
+    privbte stbtic JButton crebteButton(String key, ActionListener bl) {
         JButton btn = new JButton(getMsg(key));
         btn.setMnemonic(getMnemonic(key));
-        btn.addActionListener(al);
+        btn.bddActionListener(bl);
 
         return btn;
     }
 
     /**
-     * Creates a new JButton and sets its text, and ActionListener
+     * Crebtes b new JButton bnd sets its text, bnd ActionListener
      */
-    private static JButton createExitButton(String key, ActionListener al) {
+    privbte stbtic JButton crebteExitButton(String key, ActionListener bl) {
         String str = getMsg(key);
         JButton btn = new JButton(str);
-        btn.addActionListener(al);
+        btn.bddActionListener(bl);
         btn.getAccessibleContext().setAccessibleDescription(str);
         return btn;
     }
 
     /**
-     * Creates a new JCheckBox and sets its text, mnemonic, and ActionListener
+     * Crebtes b new JCheckBox bnd sets its text, mnemonic, bnd ActionListener
      */
-    private static JCheckBox createCheckBox(String key, ActionListener al) {
+    privbte stbtic JCheckBox crebteCheckBox(String key, ActionListener bl) {
         JCheckBox cb = new JCheckBox(getMsg(key));
         cb.setMnemonic(getMnemonic(key));
-        cb.addActionListener(al);
+        cb.bddActionListener(bl);
 
         return cb;
     }
 
     /**
-     * Creates a new JRadioButton and sets its text, mnemonic,
-     * and ActionListener
+     * Crebtes b new JRbdioButton bnd sets its text, mnemonic,
+     * bnd ActionListener
      */
-    private static JRadioButton createRadioButton(String key,
-                                                  ActionListener al)
+    privbte stbtic JRbdioButton crebteRbdioButton(String key,
+                                                  ActionListener bl)
     {
-        JRadioButton rb = new JRadioButton(getMsg(key));
+        JRbdioButton rb = new JRbdioButton(getMsg(key));
         rb.setMnemonic(getMnemonic(key));
-        rb.addActionListener(al);
+        rb.bddActionListener(bl);
 
         return rb;
     }
 
   /**
-   * Creates a  pop-up dialog for "no print service"
+   * Crebtes b  pop-up diblog for "no print service"
    */
-    public static void showNoPrintService(GraphicsConfiguration gc)
+    public stbtic void showNoPrintService(GrbphicsConfigurbtion gc)
     {
-        Frame dlgFrame = new Frame(gc);
-        JOptionPane.showMessageDialog(dlgFrame,
-                                      getMsg("dialog.noprintermsg"));
-        dlgFrame.dispose();
+        Frbme dlgFrbme = new Frbme(gc);
+        JOptionPbne.showMessbgeDiblog(dlgFrbme,
+                                      getMsg("diblog.noprintermsg"));
+        dlgFrbme.dispose();
     }
 
     /**
-     * Sets the constraints for the GridBagLayout and adds the Component
-     * to the given Container
+     * Sets the constrbints for the GridBbgLbyout bnd bdds the Component
+     * to the given Contbiner
      */
-    private static void addToGB(Component comp, Container cont,
-                                GridBagLayout gridbag,
-                                GridBagConstraints constraints)
+    privbte stbtic void bddToGB(Component comp, Contbiner cont,
+                                GridBbgLbyout gridbbg,
+                                GridBbgConstrbints constrbints)
     {
-        gridbag.setConstraints(comp, constraints);
-        cont.add(comp);
+        gridbbg.setConstrbints(comp, constrbints);
+        cont.bdd(comp);
     }
 
     /**
-     * Adds the AbstractButton to both the given ButtonGroup and Container
+     * Adds the AbstrbctButton to both the given ButtonGroup bnd Contbiner
      */
-    private static void addToBG(AbstractButton button, Container cont,
+    privbte stbtic void bddToBG(AbstrbctButton button, Contbiner cont,
                                 ButtonGroup bg)
     {
-        bg.add(button);
-        cont.add(button);
+        bg.bdd(button);
+        cont.bdd(button);
     }
 
 
 
 
     /**
-     * The "General" tab.  Includes the controls for PrintService,
-     * PageRange, and Copies/Collate.
+     * The "Generbl" tbb.  Includes the controls for PrintService,
+     * PbgeRbnge, bnd Copies/Collbte.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class GeneralPanel extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss GenerblPbnel extends JPbnel {
 
-        private PrintServicePanel pnlPrintService;
-        private PrintRangePanel pnlPrintRange;
-        private CopiesPanel pnlCopies;
+        privbte PrintServicePbnel pnlPrintService;
+        privbte PrintRbngePbnel pnlPrintRbnge;
+        privbte CopiesPbnel pnlCopies;
 
-        public GeneralPanel() {
+        public GenerblPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
+            setLbyout(gridbbg);
 
-            c.fill = GridBagConstraints.BOTH;
-            c.insets = panelInsets;
+            c.fill = GridBbgConstrbints.BOTH;
+            c.insets = pbnelInsets;
             c.weightx = 1.0;
             c.weighty = 1.0;
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlPrintService = new PrintServicePanel();
-            addToGB(pnlPrintService, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlPrintService = new PrintServicePbnel();
+            bddToGB(pnlPrintService, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            pnlPrintRange = new PrintRangePanel();
-            addToGB(pnlPrintRange, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            pnlPrintRbnge = new PrintRbngePbnel();
+            bddToGB(pnlPrintRbnge, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlCopies = new CopiesPanel();
-            addToGB(pnlCopies, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlCopies = new CopiesPbnel();
+            bddToGB(pnlCopies, this, gridbbg, c);
         }
 
-        public boolean isPrintToFileRequested() {
+        public boolebn isPrintToFileRequested() {
             return (pnlPrintService.isPrintToFileSelected());
         }
 
-        public void updateInfo() {
-            pnlPrintService.updateInfo();
-            pnlPrintRange.updateInfo();
-            pnlCopies.updateInfo();
+        public void updbteInfo() {
+            pnlPrintService.updbteInfo();
+            pnlPrintRbnge.updbteInfo();
+            pnlCopies.updbteInfo();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class PrintServicePanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss PrintServicePbnel extends JPbnel
         implements ActionListener, ItemListener, PopupMenuListener
     {
-        private final String strTitle = getMsg("border.printservice");
-        private FilePermission printToFilePermission;
-        private JButton btnProperties;
-        private JCheckBox cbPrintToFile;
-        private JComboBox<String> cbName;
-        private JLabel lblType, lblStatus, lblInfo;
-        private ServiceUIFactory uiFactory;
-        private boolean changedService = false;
-        private boolean filePermission;
+        privbte finbl String strTitle = getMsg("border.printservice");
+        privbte FilePermission printToFilePermission;
+        privbte JButton btnProperties;
+        privbte JCheckBox cbPrintToFile;
+        privbte JComboBox<String> cbNbme;
+        privbte JLbbel lblType, lblStbtus, lblInfo;
+        privbte ServiceUIFbctory uiFbctory;
+        privbte boolebn chbngedService = fblse;
+        privbte boolebn filePermission;
 
-        public PrintServicePanel() {
+        public PrintServicePbnel() {
             super();
 
-            uiFactory = psCurrent.getServiceUIFactory();
+            uiFbctory = psCurrent.getServiceUIFbctory();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            String[] psnames = new String[services.length];
-            for (int i = 0; i < psnames.length; i++) {
-                psnames[i] = services[i].getName();
+            String[] psnbmes = new String[services.length];
+            for (int i = 0; i < psnbmes.length; i++) {
+                psnbmes[i] = services[i].getNbme();
             }
-            cbName = new JComboBox<>(psnames);
-            cbName.setSelectedIndex(defaultServiceIndex);
-            cbName.addItemListener(this);
-            cbName.addPopupMenuListener(this);
+            cbNbme = new JComboBox<>(psnbmes);
+            cbNbme.setSelectedIndex(defbultServiceIndex);
+            cbNbme.bddItemListener(this);
+            cbNbme.bddPopupMenuListener(this);
 
-            c.fill = GridBagConstraints.BOTH;
+            c.fill = GridBbgConstrbints.BOTH;
             c.insets = compInsets;
 
             c.weightx = 0.0;
-            JLabel lblName = new JLabel(getMsg("label.psname"), JLabel.TRAILING);
-            lblName.setDisplayedMnemonic(getMnemonic("label.psname"));
-            lblName.setLabelFor(cbName);
-            addToGB(lblName, this, gridbag, c);
+            JLbbel lblNbme = new JLbbel(getMsg("lbbel.psnbme"), JLbbel.TRAILING);
+            lblNbme.setDisplbyedMnemonic(getMnemonic("lbbel.psnbme"));
+            lblNbme.setLbbelFor(cbNbme);
+            bddToGB(lblNbme, this, gridbbg, c);
             c.weightx = 1.0;
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            addToGB(cbName, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            bddToGB(cbNbme, this, gridbbg, c);
             c.weightx = 0.0;
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            btnProperties = createButton("button.properties", this);
-            addToGB(btnProperties, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            btnProperties = crebteButton("button.properties", this);
+            bddToGB(btnProperties, this, gridbbg, c);
 
             c.weighty = 1.0;
-            lblStatus = addLabel(getMsg("label.status"), gridbag, c);
-            lblStatus.setLabelFor(null);
+            lblStbtus = bddLbbel(getMsg("lbbel.stbtus"), gridbbg, c);
+            lblStbtus.setLbbelFor(null);
 
-            lblType = addLabel(getMsg("label.pstype"), gridbag, c);
-            lblType.setLabelFor(null);
+            lblType = bddLbbel(getMsg("lbbel.pstype"), gridbbg, c);
+            lblType.setLbbelFor(null);
 
             c.gridwidth = 1;
-            addToGB(new JLabel(getMsg("label.info"), JLabel.TRAILING),
-                    this, gridbag, c);
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            lblInfo = new JLabel();
-            lblInfo.setLabelFor(null);
+            bddToGB(new JLbbel(getMsg("lbbel.info"), JLbbel.TRAILING),
+                    this, gridbbg, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            lblInfo = new JLbbel();
+            lblInfo.setLbbelFor(null);
 
-            addToGB(lblInfo, this, gridbag, c);
+            bddToGB(lblInfo, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            cbPrintToFile = createCheckBox("checkbox.printtofile", this);
-            addToGB(cbPrintToFile, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            cbPrintToFile = crebteCheckBox("checkbox.printtofile", this);
+            bddToGB(cbPrintToFile, this, gridbbg, c);
 
-            filePermission = allowedToPrintToFile();
+            filePermission = bllowedToPrintToFile();
         }
 
-        public boolean isPrintToFileSelected() {
+        public boolebn isPrintToFileSelected() {
             return cbPrintToFile.isSelected();
         }
 
-        private JLabel addLabel(String text,
-                                GridBagLayout gridbag, GridBagConstraints c)
+        privbte JLbbel bddLbbel(String text,
+                                GridBbgLbyout gridbbg, GridBbgConstrbints c)
         {
             c.gridwidth = 1;
-            addToGB(new JLabel(text, JLabel.TRAILING), this, gridbag, c);
+            bddToGB(new JLbbel(text, JLbbel.TRAILING), this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            JLabel label = new JLabel();
-            addToGB(label, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            JLbbel lbbel = new JLbbel();
+            bddToGB(lbbel, this, gridbbg, c);
 
-            return label;
+            return lbbel;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
             if (source == btnProperties) {
-                if (uiFactory != null) {
-                    JDialog dialog = (JDialog)uiFactory.getUI(
-                                               ServiceUIFactory.MAIN_UIROLE,
-                                               ServiceUIFactory.JDIALOG_UI);
+                if (uiFbctory != null) {
+                    JDiblog diblog = (JDiblog)uiFbctory.getUI(
+                                               ServiceUIFbctory.MAIN_UIROLE,
+                                               ServiceUIFbctory.JDIALOG_UI);
 
-                    if (dialog != null) {
-                        dialog.show();
+                    if (diblog != null) {
+                        diblog.show();
                     } else {
                         DocumentPropertiesUI docPropertiesUI = null;
                         try {
                             docPropertiesUI =
-                                (DocumentPropertiesUI)uiFactory.getUI
+                                (DocumentPropertiesUI)uiFbctory.getUI
                                 (DocumentPropertiesUI.DOCUMENTPROPERTIES_ROLE,
                                  DocumentPropertiesUI.DOCPROPERTIESCLASSNAME);
-                        } catch (Exception ex) {
+                        } cbtch (Exception ex) {
                         }
                         if (docPropertiesUI != null) {
-                            PrinterJobWrapper wrapper = (PrinterJobWrapper)
-                                asCurrent.get(PrinterJobWrapper.class);
-                            if (wrapper == null) {
-                                return; // should not happen, defensive only.
+                            PrinterJobWrbpper wrbpper = (PrinterJobWrbpper)
+                                bsCurrent.get(PrinterJobWrbpper.clbss);
+                            if (wrbpper == null) {
+                                return; // should not hbppen, defensive only.
                             }
-                            PrinterJob job = wrapper.getPrinterJob();
+                            PrinterJob job = wrbpper.getPrinterJob();
                             if (job == null) {
-                                return;  // should not happen, defensive only.
+                                return;  // should not hbppen, defensive only.
                             }
                             PrintRequestAttributeSet newAttrs =
                                docPropertiesUI.showDocumentProperties
-                               (job, ServiceDialog.this, psCurrent, asCurrent);
+                               (job, ServiceDiblog.this, psCurrent, bsCurrent);
                             if (newAttrs != null) {
-                                asCurrent.addAll(newAttrs);
-                                updatePanels();
+                                bsCurrent.bddAll(newAttrs);
+                                updbtePbnels();
                             }
                         }
                     }
@@ -835,46 +835,46 @@ public class ServiceDialog extends JDialog implements ActionListener {
             }
         }
 
-        public void itemStateChanged(ItemEvent e) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                int index = cbName.getSelectedIndex();
+        public void itemStbteChbnged(ItemEvent e) {
+            if (e.getStbteChbnge() == ItemEvent.SELECTED) {
+                int index = cbNbme.getSelectedIndex();
 
                 if ((index >= 0) && (index < services.length)) {
-                    if (!services[index].equals(psCurrent)) {
+                    if (!services[index].equbls(psCurrent)) {
                         psCurrent = services[index];
-                        uiFactory = psCurrent.getServiceUIFactory();
-                        changedService = true;
+                        uiFbctory = psCurrent.getServiceUIFbctory();
+                        chbngedService = true;
 
-                        Destination dest =
-                            (Destination)asOriginal.get(Destination.class);
-                        // to preserve the state of Print To File
+                        Destinbtion dest =
+                            (Destinbtion)bsOriginbl.get(Destinbtion.clbss);
+                        // to preserve the stbte of Print To File
                         if ((dest != null || isPrintToFileSelected())
-                            && psCurrent.isAttributeCategorySupported(
-                                                        Destination.class)) {
+                            && psCurrent.isAttributeCbtegorySupported(
+                                                        Destinbtion.clbss)) {
 
                             if (dest != null) {
-                                asCurrent.add(dest);
+                                bsCurrent.bdd(dest);
                             } else {
-                                dest = (Destination)psCurrent.
-                                    getDefaultAttributeValue(Destination.class);
+                                dest = (Destinbtion)psCurrent.
+                                    getDefbultAttributeVblue(Destinbtion.clbss);
                                 // "dest" should not be null. The following code
-                                // is only added to safeguard against a possible
-                                // buggy implementation of a PrintService having a
-                                // null default Destination.
+                                // is only bdded to sbfegubrd bgbinst b possible
+                                // buggy implementbtion of b PrintService hbving b
+                                // null defbult Destinbtion.
                                 if (dest == null) {
                                     try {
                                         dest =
-                                            new Destination(new URI("file:out.prn"));
-                                    } catch (URISyntaxException ue) {
+                                            new Destinbtion(new URI("file:out.prn"));
+                                    } cbtch (URISyntbxException ue) {
                                     }
                                 }
 
                                 if (dest != null) {
-                                    asCurrent.add(dest);
+                                    bsCurrent.bdd(dest);
                                 }
                             }
                         } else {
-                            asCurrent.remove(Destination.class);
+                            bsCurrent.remove(Destinbtion.clbss);
                         }
                     }
                 }
@@ -882,420 +882,420 @@ public class ServiceDialog extends JDialog implements ActionListener {
         }
 
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            changedService = false;
+            chbngedService = fblse;
         }
 
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            if (changedService) {
-                changedService = false;
-                updatePanels();
+            if (chbngedService) {
+                chbngedService = fblse;
+                updbtePbnels();
             }
         }
 
-        public void popupMenuCanceled(PopupMenuEvent e) {
+        public void popupMenuCbnceled(PopupMenuEvent e) {
         }
 
         /**
-         * We disable the "Print To File" checkbox if this returns false
+         * We disbble the "Print To File" checkbox if this returns fblse
          */
-        private boolean allowedToPrintToFile() {
+        privbte boolebn bllowedToPrintToFile() {
             try {
                 throwPrintToFile();
                 return true;
-            } catch (SecurityException e) {
-                return false;
+            } cbtch (SecurityException e) {
+                return fblse;
             }
         }
 
         /**
-         * Break this out as it may be useful when we allow API to
-         * specify printing to a file. In that case its probably right
-         * to throw a SecurityException if the permission is not granted.
+         * Brebk this out bs it mby be useful when we bllow API to
+         * specify printing to b file. In thbt cbse its probbbly right
+         * to throw b SecurityException if the permission is not grbnted.
          */
-        private void throwPrintToFile() {
-            SecurityManager security = System.getSecurityManager();
+        privbte void throwPrintToFile() {
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 if (printToFilePermission == null) {
                     printToFilePermission =
-                        new FilePermission("<<ALL FILES>>", "read,write");
+                        new FilePermission("<<ALL FILES>>", "rebd,write");
                 }
                 security.checkPermission(printToFilePermission);
             }
         }
 
-        public void updateInfo() {
-            Class<Destination> dstCategory = Destination.class;
-            boolean dstSupported = false;
-            boolean dstSelected = false;
-            boolean dstAllowed = filePermission ?
-                allowedToPrintToFile() : false;
+        public void updbteInfo() {
+            Clbss<Destinbtion> dstCbtegory = Destinbtion.clbss;
+            boolebn dstSupported = fblse;
+            boolebn dstSelected = fblse;
+            boolebn dstAllowed = filePermission ?
+                bllowedToPrintToFile() : fblse;
 
-            // setup Destination (print-to-file) widgets
-            if (psCurrent.isAttributeCategorySupported(dstCategory)) {
+            // setup Destinbtion (print-to-file) widgets
+            if (psCurrent.isAttributeCbtegorySupported(dstCbtegory)) {
                 dstSupported = true;
             }
-            Destination dst = (Destination)asCurrent.get(dstCategory);
+            Destinbtion dst = (Destinbtion)bsCurrent.get(dstCbtegory);
             if (dst != null) {
                 dstSelected = true;
             }
-            cbPrintToFile.setEnabled(dstSupported && dstAllowed);
+            cbPrintToFile.setEnbbled(dstSupported && dstAllowed);
             cbPrintToFile.setSelected(dstSelected && dstAllowed
                                       && dstSupported);
 
-            // setup PrintService information widgets
-            Attribute type = psCurrent.getAttribute(PrinterMakeAndModel.class);
+            // setup PrintService informbtion widgets
+            Attribute type = psCurrent.getAttribute(PrinterMbkeAndModel.clbss);
             if (type != null) {
                 lblType.setText(type.toString());
             }
-            Attribute status =
-                psCurrent.getAttribute(PrinterIsAcceptingJobs.class);
-            if (status != null) {
-                lblStatus.setText(getMsg(status.toString()));
+            Attribute stbtus =
+                psCurrent.getAttribute(PrinterIsAcceptingJobs.clbss);
+            if (stbtus != null) {
+                lblStbtus.setText(getMsg(stbtus.toString()));
             }
-            Attribute info = psCurrent.getAttribute(PrinterInfo.class);
+            Attribute info = psCurrent.getAttribute(PrinterInfo.clbss);
             if (info != null) {
                 lblInfo.setText(info.toString());
             }
-            btnProperties.setEnabled(uiFactory != null);
+            btnProperties.setEnbbled(uiFbctory != null);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class PrintRangePanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss PrintRbngePbnel extends JPbnel
         implements ActionListener, FocusListener
     {
-        private final String strTitle = getMsg("border.printrange");
-        private final PageRanges prAll = new PageRanges(1, Integer.MAX_VALUE);
-        private JRadioButton rbAll, rbPages, rbSelect;
-        private JFormattedTextField tfRangeFrom, tfRangeTo;
-        private JLabel lblRangeTo;
-        private boolean prSupported;
+        privbte finbl String strTitle = getMsg("border.printrbnge");
+        privbte finbl PbgeRbnges prAll = new PbgeRbnges(1, Integer.MAX_VALUE);
+        privbte JRbdioButton rbAll, rbPbges, rbSelect;
+        privbte JFormbttedTextField tfRbngeFrom, tfRbngeTo;
+        privbte JLbbel lblRbngeTo;
+        privbte boolebn prSupported;
 
-        public PrintRangePanel() {
+        public PrintRbngePbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.BOTH;
+            c.fill = GridBbgConstrbints.BOTH;
             c.insets = compInsets;
-            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
 
             ButtonGroup bg = new ButtonGroup();
-            JPanel pnlTop = new JPanel(new FlowLayout(FlowLayout.LEADING));
-            rbAll = createRadioButton("radiobutton.rangeall", this);
+            JPbnel pnlTop = new JPbnel(new FlowLbyout(FlowLbyout.LEADING));
+            rbAll = crebteRbdioButton("rbdiobutton.rbngebll", this);
             rbAll.setSelected(true);
-            bg.add(rbAll);
-            pnlTop.add(rbAll);
-            addToGB(pnlTop, this, gridbag, c);
+            bg.bdd(rbAll);
+            pnlTop.bdd(rbAll);
+            bddToGB(pnlTop, this, gridbbg, c);
 
-            // Selection never seemed to work so I'm commenting this part.
+            // Selection never seemed to work so I'm commenting this pbrt.
             /*
             if (isAWT) {
-                JPanel pnlMiddle  =
-                    new JPanel(new FlowLayout(FlowLayout.LEADING));
+                JPbnel pnlMiddle  =
+                    new JPbnel(new FlowLbyout(FlowLbyout.LEADING));
                 rbSelect =
-                    createRadioButton("radiobutton.selection", this);
-                bg.add(rbSelect);
-                pnlMiddle.add(rbSelect);
-                addToGB(pnlMiddle, this, gridbag, c);
+                    crebteRbdioButton("rbdiobutton.selection", this);
+                bg.bdd(rbSelect);
+                pnlMiddle.bdd(rbSelect);
+                bddToGB(pnlMiddle, this, gridbbg, c);
             }
             */
 
-            JPanel pnlBottom = new JPanel(new FlowLayout(FlowLayout.LEADING));
-            rbPages = createRadioButton("radiobutton.rangepages", this);
-            bg.add(rbPages);
-            pnlBottom.add(rbPages);
-            DecimalFormat format = new DecimalFormat("####0");
-            format.setMinimumFractionDigits(0);
-            format.setMaximumFractionDigits(0);
-            format.setMinimumIntegerDigits(0);
-            format.setMaximumIntegerDigits(5);
-            format.setParseIntegerOnly(true);
-            format.setDecimalSeparatorAlwaysShown(false);
-            NumberFormatter nf = new NumberFormatter(format);
+            JPbnel pnlBottom = new JPbnel(new FlowLbyout(FlowLbyout.LEADING));
+            rbPbges = crebteRbdioButton("rbdiobutton.rbngepbges", this);
+            bg.bdd(rbPbges);
+            pnlBottom.bdd(rbPbges);
+            DecimblFormbt formbt = new DecimblFormbt("####0");
+            formbt.setMinimumFrbctionDigits(0);
+            formbt.setMbximumFrbctionDigits(0);
+            formbt.setMinimumIntegerDigits(0);
+            formbt.setMbximumIntegerDigits(5);
+            formbt.setPbrseIntegerOnly(true);
+            formbt.setDecimblSepbrbtorAlwbysShown(fblse);
+            NumberFormbtter nf = new NumberFormbtter(formbt);
             nf.setMinimum(1);
-            nf.setMaximum(Integer.MAX_VALUE);
-            nf.setAllowsInvalid(true);
-            nf.setCommitsOnValidEdit(true);
-            tfRangeFrom = new JFormattedTextField(nf);
-            tfRangeFrom.setColumns(4);
-            tfRangeFrom.setEnabled(false);
-            tfRangeFrom.addActionListener(this);
-            tfRangeFrom.addFocusListener(this);
-            tfRangeFrom.setFocusLostBehavior(
-                JFormattedTextField.PERSIST);
-            tfRangeFrom.getAccessibleContext().setAccessibleName(
-                                          getMsg("radiobutton.rangepages"));
-            pnlBottom.add(tfRangeFrom);
-            lblRangeTo = new JLabel(getMsg("label.rangeto"));
-            lblRangeTo.setEnabled(false);
-            pnlBottom.add(lblRangeTo);
-            NumberFormatter nfto;
+            nf.setMbximum(Integer.MAX_VALUE);
+            nf.setAllowsInvblid(true);
+            nf.setCommitsOnVblidEdit(true);
+            tfRbngeFrom = new JFormbttedTextField(nf);
+            tfRbngeFrom.setColumns(4);
+            tfRbngeFrom.setEnbbled(fblse);
+            tfRbngeFrom.bddActionListener(this);
+            tfRbngeFrom.bddFocusListener(this);
+            tfRbngeFrom.setFocusLostBehbvior(
+                JFormbttedTextField.PERSIST);
+            tfRbngeFrom.getAccessibleContext().setAccessibleNbme(
+                                          getMsg("rbdiobutton.rbngepbges"));
+            pnlBottom.bdd(tfRbngeFrom);
+            lblRbngeTo = new JLbbel(getMsg("lbbel.rbngeto"));
+            lblRbngeTo.setEnbbled(fblse);
+            pnlBottom.bdd(lblRbngeTo);
+            NumberFormbtter nfto;
             try {
-                nfto = (NumberFormatter)nf.clone();
-            } catch (CloneNotSupportedException e) {
-                nfto = new NumberFormatter();
+                nfto = (NumberFormbtter)nf.clone();
+            } cbtch (CloneNotSupportedException e) {
+                nfto = new NumberFormbtter();
             }
-            tfRangeTo = new JFormattedTextField(nfto);
-            tfRangeTo.setColumns(4);
-            tfRangeTo.setEnabled(false);
-            tfRangeTo.addFocusListener(this);
-            tfRangeTo.getAccessibleContext().setAccessibleName(
-                                          getMsg("label.rangeto"));
-            pnlBottom.add(tfRangeTo);
-            addToGB(pnlBottom, this, gridbag, c);
+            tfRbngeTo = new JFormbttedTextField(nfto);
+            tfRbngeTo.setColumns(4);
+            tfRbngeTo.setEnbbled(fblse);
+            tfRbngeTo.bddFocusListener(this);
+            tfRbngeTo.getAccessibleContext().setAccessibleNbme(
+                                          getMsg("lbbel.rbngeto"));
+            pnlBottom.bdd(tfRbngeTo);
+            bddToGB(pnlBottom, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
-            SunPageSelection select = SunPageSelection.ALL;
+            SunPbgeSelection select = SunPbgeSelection.ALL;
 
-            setupRangeWidgets();
+            setupRbngeWidgets();
 
             if (source == rbAll) {
-                asCurrent.add(prAll);
+                bsCurrent.bdd(prAll);
             } else if (source == rbSelect) {
-                select = SunPageSelection.SELECTION;
-            } else if (source == rbPages ||
-                       source == tfRangeFrom ||
-                       source == tfRangeTo) {
-                updateRangeAttribute();
-                select = SunPageSelection.RANGE;
+                select = SunPbgeSelection.SELECTION;
+            } else if (source == rbPbges ||
+                       source == tfRbngeFrom ||
+                       source == tfRbngeTo) {
+                updbteRbngeAttribute();
+                select = SunPbgeSelection.RANGE;
             }
 
             if (isAWT) {
-                asCurrent.add(select);
+                bsCurrent.bdd(select);
             }
         }
 
         public void focusLost(FocusEvent e) {
             Object source = e.getSource();
 
-            if ((source == tfRangeFrom) || (source == tfRangeTo)) {
-                updateRangeAttribute();
+            if ((source == tfRbngeFrom) || (source == tfRbngeTo)) {
+                updbteRbngeAttribute();
             }
         }
 
-        public void focusGained(FocusEvent e) {}
+        public void focusGbined(FocusEvent e) {}
 
-        private void setupRangeWidgets() {
-            boolean rangeEnabled = (rbPages.isSelected() && prSupported);
-            tfRangeFrom.setEnabled(rangeEnabled);
-            tfRangeTo.setEnabled(rangeEnabled);
-            lblRangeTo.setEnabled(rangeEnabled);
+        privbte void setupRbngeWidgets() {
+            boolebn rbngeEnbbled = (rbPbges.isSelected() && prSupported);
+            tfRbngeFrom.setEnbbled(rbngeEnbbled);
+            tfRbngeTo.setEnbbled(rbngeEnbbled);
+            lblRbngeTo.setEnbbled(rbngeEnbbled);
         }
 
-        private void updateRangeAttribute() {
-            String strFrom = tfRangeFrom.getText();
-            String strTo = tfRangeTo.getText();
+        privbte void updbteRbngeAttribute() {
+            String strFrom = tfRbngeFrom.getText();
+            String strTo = tfRbngeTo.getText();
 
             int min;
-            int max;
+            int mbx;
 
             try {
-                min = Integer.parseInt(strFrom);
-            } catch (NumberFormatException e) {
+                min = Integer.pbrseInt(strFrom);
+            } cbtch (NumberFormbtException e) {
                 min = 1;
             }
 
             try {
-                max = Integer.parseInt(strTo);
-            } catch (NumberFormatException e) {
-                max = min;
+                mbx = Integer.pbrseInt(strTo);
+            } cbtch (NumberFormbtException e) {
+                mbx = min;
             }
 
             if (min < 1) {
                 min = 1;
-                tfRangeFrom.setValue(1);
+                tfRbngeFrom.setVblue(1);
             }
 
-            if (max < min) {
-                max = min;
-                tfRangeTo.setValue(min);
+            if (mbx < min) {
+                mbx = min;
+                tfRbngeTo.setVblue(min);
             }
 
-            PageRanges pr = new PageRanges(min, max);
-            asCurrent.add(pr);
+            PbgeRbnges pr = new PbgeRbnges(min, mbx);
+            bsCurrent.bdd(pr);
         }
 
-        public void updateInfo() {
-            Class<PageRanges> prCategory = PageRanges.class;
-            prSupported = false;
+        public void updbteInfo() {
+            Clbss<PbgeRbnges> prCbtegory = PbgeRbnges.clbss;
+            prSupported = fblse;
 
-            if (psCurrent.isAttributeCategorySupported(prCategory) ||
+            if (psCurrent.isAttributeCbtegorySupported(prCbtegory) ||
                    isAWT) {
                 prSupported = true;
             }
 
-            SunPageSelection select = SunPageSelection.ALL;
+            SunPbgeSelection select = SunPbgeSelection.ALL;
             int min = 1;
-            int max = 1;
+            int mbx = 1;
 
-            PageRanges pr = (PageRanges)asCurrent.get(prCategory);
+            PbgeRbnges pr = (PbgeRbnges)bsCurrent.get(prCbtegory);
             if (pr != null) {
-                if (!pr.equals(prAll)) {
-                    select = SunPageSelection.RANGE;
+                if (!pr.equbls(prAll)) {
+                    select = SunPbgeSelection.RANGE;
 
                     int[][] members = pr.getMembers();
                     if ((members.length > 0) &&
                         (members[0].length > 1)) {
                         min = members[0][0];
-                        max = members[0][1];
+                        mbx = members[0][1];
                     }
                 }
             }
 
             if (isAWT) {
-                select = (SunPageSelection)asCurrent.get(
-                                                SunPageSelection.class);
+                select = (SunPbgeSelection)bsCurrent.get(
+                                                SunPbgeSelection.clbss);
             }
 
-            if (select == SunPageSelection.ALL) {
+            if (select == SunPbgeSelection.ALL) {
                 rbAll.setSelected(true);
-            } else if (select == SunPageSelection.SELECTION) {
-                // Comment this for now -  rbSelect is not initialized
-                // because Selection button is not added.
-                // See PrintRangePanel above.
+            } else if (select == SunPbgeSelection.SELECTION) {
+                // Comment this for now -  rbSelect is not initiblized
+                // becbuse Selection button is not bdded.
+                // See PrintRbngePbnel bbove.
 
                 //rbSelect.setSelected(true);
             } else { // RANGE
-                rbPages.setSelected(true);
+                rbPbges.setSelected(true);
             }
-            tfRangeFrom.setValue(min);
-            tfRangeTo.setValue(max);
-            rbAll.setEnabled(prSupported);
-            rbPages.setEnabled(prSupported);
-            setupRangeWidgets();
+            tfRbngeFrom.setVblue(min);
+            tfRbngeTo.setVblue(mbx);
+            rbAll.setEnbbled(prSupported);
+            rbPbges.setEnbbled(prSupported);
+            setupRbngeWidgets();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class CopiesPanel extends JPanel
-        implements ActionListener, ChangeListener
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss CopiesPbnel extends JPbnel
+        implements ActionListener, ChbngeListener
     {
-        private final String strTitle = getMsg("border.copies");
-        private SpinnerNumberModel snModel;
-        private JSpinner spinCopies;
-        private JLabel lblCopies;
-        private JCheckBox cbCollate;
-        private boolean scSupported;
+        privbte finbl String strTitle = getMsg("border.copies");
+        privbte SpinnerNumberModel snModel;
+        privbte JSpinner spinCopies;
+        privbte JLbbel lblCopies;
+        privbte JCheckBox cbCollbte;
+        privbte boolebn scSupported;
 
-        public CopiesPanel() {
+        public CopiesPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBbgConstrbints.HORIZONTAL;
             c.insets = compInsets;
 
-            lblCopies = new JLabel(getMsg("label.numcopies"), JLabel.TRAILING);
-            lblCopies.setDisplayedMnemonic(getMnemonic("label.numcopies"));
-            lblCopies.getAccessibleContext().setAccessibleName(
-                                             getMsg("label.numcopies"));
-            addToGB(lblCopies, this, gridbag, c);
+            lblCopies = new JLbbel(getMsg("lbbel.numcopies"), JLbbel.TRAILING);
+            lblCopies.setDisplbyedMnemonic(getMnemonic("lbbel.numcopies"));
+            lblCopies.getAccessibleContext().setAccessibleNbme(
+                                             getMsg("lbbel.numcopies"));
+            bddToGB(lblCopies, this, gridbbg, c);
 
             snModel = new SpinnerNumberModel(1, 1, 999, 1);
             spinCopies = new JSpinner(snModel);
-            lblCopies.setLabelFor(spinCopies);
+            lblCopies.setLbbelFor(spinCopies);
             // REMIND
             ((JSpinner.NumberEditor)spinCopies.getEditor()).getTextField().setColumns(3);
-            spinCopies.addChangeListener(this);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(spinCopies, this, gridbag, c);
+            spinCopies.bddChbngeListener(this);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(spinCopies, this, gridbbg, c);
 
-            cbCollate = createCheckBox("checkbox.collate", this);
-            cbCollate.setEnabled(false);
-            addToGB(cbCollate, this, gridbag, c);
+            cbCollbte = crebteCheckBox("checkbox.collbte", this);
+            cbCollbte.setEnbbled(fblse);
+            bddToGB(cbCollbte, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (cbCollate.isSelected()) {
-                asCurrent.add(SheetCollate.COLLATED);
+        public void bctionPerformed(ActionEvent e) {
+            if (cbCollbte.isSelected()) {
+                bsCurrent.bdd(SheetCollbte.COLLATED);
             } else {
-                asCurrent.add(SheetCollate.UNCOLLATED);
+                bsCurrent.bdd(SheetCollbte.UNCOLLATED);
             }
         }
 
-        public void stateChanged(ChangeEvent e) {
-            updateCollateCB();
+        public void stbteChbnged(ChbngeEvent e) {
+            updbteCollbteCB();
 
-            asCurrent.add(new Copies(snModel.getNumber().intValue()));
+            bsCurrent.bdd(new Copies(snModel.getNumber().intVblue()));
         }
 
-        private void updateCollateCB() {
-            int num = snModel.getNumber().intValue();
+        privbte void updbteCollbteCB() {
+            int num = snModel.getNumber().intVblue();
             if (isAWT) {
-                cbCollate.setEnabled(true);
+                cbCollbte.setEnbbled(true);
             } else {
-                cbCollate.setEnabled((num > 1) && scSupported);
+                cbCollbte.setEnbbled((num > 1) && scSupported);
             }
         }
 
-        public void updateInfo() {
-            Class<Copies> cpCategory = Copies.class;
-            Class<SheetCollate> scCategory = SheetCollate.class;
-            boolean cpSupported = false;
-            scSupported = false;
+        public void updbteInfo() {
+            Clbss<Copies> cpCbtegory = Copies.clbss;
+            Clbss<SheetCollbte> scCbtegory = SheetCollbte.clbss;
+            boolebn cpSupported = fblse;
+            scSupported = fblse;
 
             // setup Copies spinner
-            if (psCurrent.isAttributeCategorySupported(cpCategory)) {
+            if (psCurrent.isAttributeCbtegorySupported(cpCbtegory)) {
                 cpSupported = true;
             }
             CopiesSupported cs =
-                (CopiesSupported)psCurrent.getSupportedAttributeValues(
-                                                       cpCategory, null, null);
+                (CopiesSupported)psCurrent.getSupportedAttributeVblues(
+                                                       cpCbtegory, null, null);
             if (cs == null) {
                 cs = new CopiesSupported(1, 999);
             }
-            Copies cp = (Copies)asCurrent.get(cpCategory);
+            Copies cp = (Copies)bsCurrent.get(cpCbtegory);
             if (cp == null) {
-                cp = (Copies)psCurrent.getDefaultAttributeValue(cpCategory);
+                cp = (Copies)psCurrent.getDefbultAttributeVblue(cpCbtegory);
                 if (cp == null) {
                     cp = new Copies(1);
                 }
             }
-            spinCopies.setEnabled(cpSupported);
-            lblCopies.setEnabled(cpSupported);
+            spinCopies.setEnbbled(cpSupported);
+            lblCopies.setEnbbled(cpSupported);
 
             int[][] members = cs.getMembers();
-            int min, max;
+            int min, mbx;
             if ((members.length > 0) && (members[0].length > 0)) {
                 min = members[0][0];
-                max = members[0][1];
+                mbx = members[0][1];
             } else {
                 min = 1;
-                max = Integer.MAX_VALUE;
+                mbx = Integer.MAX_VALUE;
             }
             snModel.setMinimum(min);
-            snModel.setMaximum(max);
+            snModel.setMbximum(mbx);
 
-            int value = cp.getValue();
-            if ((value < min) || (value > max)) {
-                value = min;
+            int vblue = cp.getVblue();
+            if ((vblue < min) || (vblue > mbx)) {
+                vblue = min;
             }
-            snModel.setValue(value);
+            snModel.setVblue(vblue);
 
-            // setup Collate checkbox
-            if (psCurrent.isAttributeCategorySupported(scCategory)) {
+            // setup Collbte checkbox
+            if (psCurrent.isAttributeCbtegorySupported(scCbtegory)) {
                 scSupported = true;
             }
-            SheetCollate sc = (SheetCollate)asCurrent.get(scCategory);
+            SheetCollbte sc = (SheetCollbte)bsCurrent.get(scCbtegory);
             if (sc == null) {
-                sc = (SheetCollate)psCurrent.getDefaultAttributeValue(scCategory);
+                sc = (SheetCollbte)psCurrent.getDefbultAttributeVblue(scCbtegory);
                 if (sc == null) {
-                    sc = SheetCollate.UNCOLLATED;
+                    sc = SheetCollbte.UNCOLLATED;
                 }
             }
-            cbCollate.setSelected(sc == SheetCollate.COLLATED);
-            updateCollateCB();
+            cbCollbte.setSelected(sc == SheetCollbte.COLLATED);
+            updbteCollbteCB();
         }
     }
 
@@ -1303,260 +1303,260 @@ public class ServiceDialog extends JDialog implements ActionListener {
 
 
     /**
-     * The "Page Setup" tab.  Includes the controls for MediaSource/MediaTray,
-     * OrientationRequested, and Sides.
+     * The "Pbge Setup" tbb.  Includes the controls for MedibSource/MedibTrby,
+     * OrientbtionRequested, bnd Sides.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class PageSetupPanel extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss PbgeSetupPbnel extends JPbnel {
 
-        private MediaPanel pnlMedia;
-        private OrientationPanel pnlOrientation;
-        private MarginsPanel pnlMargins;
+        privbte MedibPbnel pnlMedib;
+        privbte OrientbtionPbnel pnlOrientbtion;
+        privbte MbrginsPbnel pnlMbrgins;
 
-        public PageSetupPanel() {
+        public PbgeSetupPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
+            setLbyout(gridbbg);
 
-            c.fill = GridBagConstraints.BOTH;
-            c.insets = panelInsets;
+            c.fill = GridBbgConstrbints.BOTH;
+            c.insets = pbnelInsets;
             c.weightx = 1.0;
             c.weighty = 1.0;
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlMedia = new MediaPanel();
-            addToGB(pnlMedia, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlMedib = new MedibPbnel();
+            bddToGB(pnlMedib, this, gridbbg, c);
 
-            pnlOrientation = new OrientationPanel();
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            addToGB(pnlOrientation, this, gridbag, c);
+            pnlOrientbtion = new OrientbtionPbnel();
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            bddToGB(pnlOrientbtion, this, gridbbg, c);
 
-            pnlMargins = new MarginsPanel();
-            pnlOrientation.addOrientationListener(pnlMargins);
-            pnlMedia.addMediaListener(pnlMargins);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(pnlMargins, this, gridbag, c);
+            pnlMbrgins = new MbrginsPbnel();
+            pnlOrientbtion.bddOrientbtionListener(pnlMbrgins);
+            pnlMedib.bddMedibListener(pnlMbrgins);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(pnlMbrgins, this, gridbbg, c);
         }
 
-        public void updateInfo() {
-            pnlMedia.updateInfo();
-            pnlOrientation.updateInfo();
-            pnlMargins.updateInfo();
+        public void updbteInfo() {
+            pnlMedib.updbteInfo();
+            pnlOrientbtion.updbteInfo();
+            pnlMbrgins.updbteInfo();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class MarginsPanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss MbrginsPbnel extends JPbnel
                                implements ActionListener, FocusListener {
 
-        private final String strTitle = getMsg("border.margins");
-        private JFormattedTextField leftMargin, rightMargin,
-                                    topMargin, bottomMargin;
-        private JLabel lblLeft, lblRight, lblTop, lblBottom;
-        private int units = MediaPrintableArea.MM;
-        // storage for the last margin values calculated, -ve is uninitialised
-        private float lmVal = -1f,rmVal = -1f, tmVal = -1f, bmVal = -1f;
-        // storage for margins as objects mapped into orientation for display
-        private Float lmObj,rmObj,tmObj,bmObj;
+        privbte finbl String strTitle = getMsg("border.mbrgins");
+        privbte JFormbttedTextField leftMbrgin, rightMbrgin,
+                                    topMbrgin, bottomMbrgin;
+        privbte JLbbel lblLeft, lblRight, lblTop, lblBottom;
+        privbte int units = MedibPrintbbleAreb.MM;
+        // storbge for the lbst mbrgin vblues cblculbted, -ve is uninitiblised
+        privbte flobt lmVbl = -1f,rmVbl = -1f, tmVbl = -1f, bmVbl = -1f;
+        // storbge for mbrgins bs objects mbpped into orientbtion for displby
+        privbte Flobt lmObj,rmObj,tmObj,bmObj;
 
-        public MarginsPanel() {
+        public MbrginsPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
-            c.fill = GridBagConstraints.HORIZONTAL;
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
+            c.fill = GridBbgConstrbints.HORIZONTAL;
             c.weightx = 1.0;
             c.weighty = 0.0;
             c.insets = compInsets;
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            String unitsKey = "label.millimetres";
-            String defaultCountry = Locale.getDefault().getCountry();
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                unitsKey = "label.inches";
-                units = MediaPrintableArea.INCH;
+            String unitsKey = "lbbel.millimetres";
+            String defbultCountry = Locble.getDefbult().getCountry();
+            if (defbultCountry != null &&
+                (defbultCountry.equbls("") ||
+                 defbultCountry.equbls(Locble.US.getCountry()) ||
+                 defbultCountry.equbls(Locble.CANADA.getCountry()))) {
+                unitsKey = "lbbel.inches";
+                units = MedibPrintbbleAreb.INCH;
             }
             String unitsMsg = getMsg(unitsKey);
 
-            DecimalFormat format;
-            if (units == MediaPrintableArea.MM) {
-                format = new DecimalFormat("###.##");
-                format.setMaximumIntegerDigits(3);
+            DecimblFormbt formbt;
+            if (units == MedibPrintbbleAreb.MM) {
+                formbt = new DecimblFormbt("###.##");
+                formbt.setMbximumIntegerDigits(3);
             } else {
-                format = new DecimalFormat("##.##");
-                format.setMaximumIntegerDigits(2);
+                formbt = new DecimblFormbt("##.##");
+                formbt.setMbximumIntegerDigits(2);
             }
 
-            format.setMinimumFractionDigits(1);
-            format.setMaximumFractionDigits(2);
-            format.setMinimumIntegerDigits(1);
-            format.setParseIntegerOnly(false);
-            format.setDecimalSeparatorAlwaysShown(true);
-            NumberFormatter nf = new NumberFormatter(format);
-            nf.setMinimum(new Float(0.0f));
-            nf.setMaximum(new Float(999.0f));
-            nf.setAllowsInvalid(true);
-            nf.setCommitsOnValidEdit(true);
+            formbt.setMinimumFrbctionDigits(1);
+            formbt.setMbximumFrbctionDigits(2);
+            formbt.setMinimumIntegerDigits(1);
+            formbt.setPbrseIntegerOnly(fblse);
+            formbt.setDecimblSepbrbtorAlwbysShown(true);
+            NumberFormbtter nf = new NumberFormbtter(formbt);
+            nf.setMinimum(new Flobt(0.0f));
+            nf.setMbximum(new Flobt(999.0f));
+            nf.setAllowsInvblid(true);
+            nf.setCommitsOnVblidEdit(true);
 
-            leftMargin = new JFormattedTextField(nf);
-            leftMargin.addFocusListener(this);
-            leftMargin.addActionListener(this);
-            leftMargin.getAccessibleContext().setAccessibleName(
-                                              getMsg("label.leftmargin"));
-            rightMargin = new JFormattedTextField(nf);
-            rightMargin.addFocusListener(this);
-            rightMargin.addActionListener(this);
-            rightMargin.getAccessibleContext().setAccessibleName(
-                                              getMsg("label.rightmargin"));
-            topMargin = new JFormattedTextField(nf);
-            topMargin.addFocusListener(this);
-            topMargin.addActionListener(this);
-            topMargin.getAccessibleContext().setAccessibleName(
-                                              getMsg("label.topmargin"));
-            topMargin = new JFormattedTextField(nf);
-            bottomMargin = new JFormattedTextField(nf);
-            bottomMargin.addFocusListener(this);
-            bottomMargin.addActionListener(this);
-            bottomMargin.getAccessibleContext().setAccessibleName(
-                                              getMsg("label.bottommargin"));
-            topMargin = new JFormattedTextField(nf);
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            lblLeft = new JLabel(getMsg("label.leftmargin") + " " + unitsMsg,
-                                 JLabel.LEADING);
-            lblLeft.setDisplayedMnemonic(getMnemonic("label.leftmargin"));
-            lblLeft.setLabelFor(leftMargin);
-            addToGB(lblLeft, this, gridbag, c);
+            leftMbrgin = new JFormbttedTextField(nf);
+            leftMbrgin.bddFocusListener(this);
+            leftMbrgin.bddActionListener(this);
+            leftMbrgin.getAccessibleContext().setAccessibleNbme(
+                                              getMsg("lbbel.leftmbrgin"));
+            rightMbrgin = new JFormbttedTextField(nf);
+            rightMbrgin.bddFocusListener(this);
+            rightMbrgin.bddActionListener(this);
+            rightMbrgin.getAccessibleContext().setAccessibleNbme(
+                                              getMsg("lbbel.rightmbrgin"));
+            topMbrgin = new JFormbttedTextField(nf);
+            topMbrgin.bddFocusListener(this);
+            topMbrgin.bddActionListener(this);
+            topMbrgin.getAccessibleContext().setAccessibleNbme(
+                                              getMsg("lbbel.topmbrgin"));
+            topMbrgin = new JFormbttedTextField(nf);
+            bottomMbrgin = new JFormbttedTextField(nf);
+            bottomMbrgin.bddFocusListener(this);
+            bottomMbrgin.bddActionListener(this);
+            bottomMbrgin.getAccessibleContext().setAccessibleNbme(
+                                              getMsg("lbbel.bottommbrgin"));
+            topMbrgin = new JFormbttedTextField(nf);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            lblLeft = new JLbbel(getMsg("lbbel.leftmbrgin") + " " + unitsMsg,
+                                 JLbbel.LEADING);
+            lblLeft.setDisplbyedMnemonic(getMnemonic("lbbel.leftmbrgin"));
+            lblLeft.setLbbelFor(leftMbrgin);
+            bddToGB(lblLeft, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            lblRight = new JLabel(getMsg("label.rightmargin") + " " + unitsMsg,
-                                  JLabel.LEADING);
-            lblRight.setDisplayedMnemonic(getMnemonic("label.rightmargin"));
-            lblRight.setLabelFor(rightMargin);
-            addToGB(lblRight, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            lblRight = new JLbbel(getMsg("lbbel.rightmbrgin") + " " + unitsMsg,
+                                  JLbbel.LEADING);
+            lblRight.setDisplbyedMnemonic(getMnemonic("lbbel.rightmbrgin"));
+            lblRight.setLbbelFor(rightMbrgin);
+            bddToGB(lblRight, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            addToGB(leftMargin, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            bddToGB(leftMbrgin, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(rightMargin, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(rightMbrgin, this, gridbbg, c);
 
-            // add an invisible spacing component.
-            addToGB(new JPanel(), this, gridbag, c);
+            // bdd bn invisible spbcing component.
+            bddToGB(new JPbnel(), this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            lblTop = new JLabel(getMsg("label.topmargin") + " " + unitsMsg,
-                                JLabel.LEADING);
-            lblTop.setDisplayedMnemonic(getMnemonic("label.topmargin"));
-            lblTop.setLabelFor(topMargin);
-            addToGB(lblTop, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            lblTop = new JLbbel(getMsg("lbbel.topmbrgin") + " " + unitsMsg,
+                                JLbbel.LEADING);
+            lblTop.setDisplbyedMnemonic(getMnemonic("lbbel.topmbrgin"));
+            lblTop.setLbbelFor(topMbrgin);
+            bddToGB(lblTop, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            lblBottom = new JLabel(getMsg("label.bottommargin") +
-                                   " " + unitsMsg, JLabel.LEADING);
-            lblBottom.setDisplayedMnemonic(getMnemonic("label.bottommargin"));
-            lblBottom.setLabelFor(bottomMargin);
-            addToGB(lblBottom, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            lblBottom = new JLbbel(getMsg("lbbel.bottommbrgin") +
+                                   " " + unitsMsg, JLbbel.LEADING);
+            lblBottom.setDisplbyedMnemonic(getMnemonic("lbbel.bottommbrgin"));
+            lblBottom.setLbbelFor(bottomMbrgin);
+            bddToGB(lblBottom, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            addToGB(topMargin, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            bddToGB(topMbrgin, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(bottomMargin, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(bottomMbrgin, this, gridbbg, c);
 
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
-            updateMargins(source);
+            updbteMbrgins(source);
         }
 
         public void focusLost(FocusEvent e) {
             Object source = e.getSource();
-            updateMargins(source);
+            updbteMbrgins(source);
         }
 
-        public void focusGained(FocusEvent e) {}
+        public void focusGbined(FocusEvent e) {}
 
-        /* Get the numbers, use to create a MPA.
-         * If its valid, accept it and update the attribute set.
-         * If its not valid, then reject it and call updateInfo()
-         * to re-establish the previous entries.
+        /* Get the numbers, use to crebte b MPA.
+         * If its vblid, bccept it bnd updbte the bttribute set.
+         * If its not vblid, then reject it bnd cbll updbteInfo()
+         * to re-estbblish the previous entries.
          */
-        public void updateMargins(Object source) {
-            if (!(source instanceof JFormattedTextField)) {
+        public void updbteMbrgins(Object source) {
+            if (!(source instbnceof JFormbttedTextField)) {
                 return;
             } else {
-                JFormattedTextField tf = (JFormattedTextField)source;
-                Float val = (Float)tf.getValue();
-                if (val == null) {
+                JFormbttedTextField tf = (JFormbttedTextField)source;
+                Flobt vbl = (Flobt)tf.getVblue();
+                if (vbl == null) {
                     return;
                 }
-                if (tf == leftMargin && val.equals(lmObj)) {
+                if (tf == leftMbrgin && vbl.equbls(lmObj)) {
                     return;
                 }
-                if (tf == rightMargin && val.equals(rmObj)) {
+                if (tf == rightMbrgin && vbl.equbls(rmObj)) {
                     return;
                 }
-                if (tf == topMargin && val.equals(tmObj)) {
+                if (tf == topMbrgin && vbl.equbls(tmObj)) {
                     return;
                 }
-                if (tf == bottomMargin && val.equals(bmObj)) {
+                if (tf == bottomMbrgin && vbl.equbls(bmObj)) {
                     return;
                 }
             }
 
-            Float lmTmpObj = (Float)leftMargin.getValue();
-            Float rmTmpObj = (Float)rightMargin.getValue();
-            Float tmTmpObj = (Float)topMargin.getValue();
-            Float bmTmpObj = (Float)bottomMargin.getValue();
+            Flobt lmTmpObj = (Flobt)leftMbrgin.getVblue();
+            Flobt rmTmpObj = (Flobt)rightMbrgin.getVblue();
+            Flobt tmTmpObj = (Flobt)topMbrgin.getVblue();
+            Flobt bmTmpObj = (Flobt)bottomMbrgin.getVblue();
 
-            float lm = lmTmpObj.floatValue();
-            float rm = rmTmpObj.floatValue();
-            float tm = tmTmpObj.floatValue();
-            float bm = bmTmpObj.floatValue();
+            flobt lm = lmTmpObj.flobtVblue();
+            flobt rm = rmTmpObj.flobtVblue();
+            flobt tm = tmTmpObj.flobtVblue();
+            flobt bm = bmTmpObj.flobtVblue();
 
-            /* adjust for orientation */
-            Class<OrientationRequested> orCategory = OrientationRequested.class;
-            OrientationRequested or =
-                (OrientationRequested)asCurrent.get(orCategory);
+            /* bdjust for orientbtion */
+            Clbss<OrientbtionRequested> orCbtegory = OrientbtionRequested.clbss;
+            OrientbtionRequested or =
+                (OrientbtionRequested)bsCurrent.get(orCbtegory);
 
             if (or == null) {
-                or = (OrientationRequested)
-                     psCurrent.getDefaultAttributeValue(orCategory);
+                or = (OrientbtionRequested)
+                     psCurrent.getDefbultAttributeVblue(orCbtegory);
             }
 
-            float tmp;
-            if (or == OrientationRequested.REVERSE_PORTRAIT) {
+            flobt tmp;
+            if (or == OrientbtionRequested.REVERSE_PORTRAIT) {
                 tmp = lm; lm = rm; rm = tmp;
                 tmp = tm; tm = bm; bm = tmp;
-            } else if (or == OrientationRequested.LANDSCAPE) {
+            } else if (or == OrientbtionRequested.LANDSCAPE) {
                 tmp = lm;
                 lm = tm;
                 tm = rm;
                 rm = bm;
                 bm = tmp;
-            } else if (or == OrientationRequested.REVERSE_LANDSCAPE) {
+            } else if (or == OrientbtionRequested.REVERSE_LANDSCAPE) {
                 tmp = lm;
                 lm = bm;
                 bm = rm;
                 rm = tm;
                 tm = tmp;
             }
-            MediaPrintableArea mpa;
-            if ((mpa = validateMargins(lm, rm, tm, bm)) != null) {
-                asCurrent.add(mpa);
-                lmVal = lm;
-                rmVal = rm;
-                tmVal = tm;
-                bmVal = bm;
+            MedibPrintbbleAreb mpb;
+            if ((mpb = vblidbteMbrgins(lm, rm, tm, bm)) != null) {
+                bsCurrent.bdd(mpb);
+                lmVbl = lm;
+                rmVbl = rm;
+                tmVbl = tm;
+                bmVbl = bm;
                 lmObj = lmTmpObj;
                 rmObj = rmTmpObj;
                 tmObj = tmTmpObj;
@@ -1566,305 +1566,305 @@ public class ServiceDialog extends JDialog implements ActionListener {
                     tmObj == null || rmObj == null) {
                     return;
                 } else {
-                    leftMargin.setValue(lmObj);
-                    rightMargin.setValue(rmObj);
-                    topMargin.setValue(tmObj);
-                    bottomMargin.setValue(bmObj);
+                    leftMbrgin.setVblue(lmObj);
+                    rightMbrgin.setVblue(rmObj);
+                    topMbrgin.setVblue(tmObj);
+                    bottomMbrgin.setVblue(bmObj);
 
                 }
             }
         }
 
         /*
-         * This method either accepts the values and creates a new
-         * MediaPrintableArea, or does nothing.
-         * It should not attempt to create a printable area from anything
-         * other than the exact values passed in.
-         * But REMIND/TBD: it would be user friendly to replace margins the
-         * user entered but are out of bounds with the minimum.
-         * At that point this method will need to take responsibility for
-         * updating the "stored" values and the UI.
+         * This method either bccepts the vblues bnd crebtes b new
+         * MedibPrintbbleAreb, or does nothing.
+         * It should not bttempt to crebte b printbble breb from bnything
+         * other thbn the exbct vblues pbssed in.
+         * But REMIND/TBD: it would be user friendly to replbce mbrgins the
+         * user entered but bre out of bounds with the minimum.
+         * At thbt point this method will need to tbke responsibility for
+         * updbting the "stored" vblues bnd the UI.
          */
-        private MediaPrintableArea validateMargins(float lm, float rm,
-                                                   float tm, float bm) {
+        privbte MedibPrintbbleAreb vblidbteMbrgins(flobt lm, flobt rm,
+                                                   flobt tm, flobt bm) {
 
-            Class<MediaPrintableArea> mpaCategory = MediaPrintableArea.class;
-            MediaPrintableArea mpa;
-            MediaPrintableArea mpaMax = null;
-            MediaSize mediaSize = null;
+            Clbss<MedibPrintbbleAreb> mpbCbtegory = MedibPrintbbleAreb.clbss;
+            MedibPrintbbleAreb mpb;
+            MedibPrintbbleAreb mpbMbx = null;
+            MedibSize medibSize = null;
 
-            Media media = (Media)asCurrent.get(Media.class);
-            if (media == null || !(media instanceof MediaSizeName)) {
-                media = (Media)psCurrent.getDefaultAttributeValue(Media.class);
+            Medib medib = (Medib)bsCurrent.get(Medib.clbss);
+            if (medib == null || !(medib instbnceof MedibSizeNbme)) {
+                medib = (Medib)psCurrent.getDefbultAttributeVblue(Medib.clbss);
             }
-            if (media != null && (media instanceof MediaSizeName)) {
-                MediaSizeName msn = (MediaSizeName)media;
-                mediaSize = MediaSize.getMediaSizeForName(msn);
+            if (medib != null && (medib instbnceof MedibSizeNbme)) {
+                MedibSizeNbme msn = (MedibSizeNbme)medib;
+                medibSize = MedibSize.getMedibSizeForNbme(msn);
             }
-            if (mediaSize == null) {
-                mediaSize = new MediaSize(8.5f, 11f, Size2DSyntax.INCH);
+            if (medibSize == null) {
+                medibSize = new MedibSize(8.5f, 11f, Size2DSyntbx.INCH);
             }
 
-            if (media != null) {
+            if (medib != null) {
                 PrintRequestAttributeSet tmpASet =
-                    new HashPrintRequestAttributeSet(asCurrent);
-                tmpASet.add(media);
+                    new HbshPrintRequestAttributeSet(bsCurrent);
+                tmpASet.bdd(medib);
 
-                Object values =
-                    psCurrent.getSupportedAttributeValues(mpaCategory,
-                                                          docFlavor,
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(mpbCbtegory,
+                                                          docFlbvor,
                                                           tmpASet);
-                if (values instanceof MediaPrintableArea[] &&
-                    ((MediaPrintableArea[])values).length > 0) {
-                    mpaMax = ((MediaPrintableArea[])values)[0];
+                if (vblues instbnceof MedibPrintbbleAreb[] &&
+                    ((MedibPrintbbleAreb[])vblues).length > 0) {
+                    mpbMbx = ((MedibPrintbbleAreb[])vblues)[0];
 
                 }
             }
-            if (mpaMax == null) {
-                mpaMax = new MediaPrintableArea(0f, 0f,
-                                                mediaSize.getX(units),
-                                                mediaSize.getY(units),
+            if (mpbMbx == null) {
+                mpbMbx = new MedibPrintbbleAreb(0f, 0f,
+                                                medibSize.getX(units),
+                                                medibSize.getY(units),
                                                 units);
             }
 
-            float wid = mediaSize.getX(units);
-            float hgt = mediaSize.getY(units);
-            float pax = lm;
-            float pay = tm;
-            float paw = wid - lm - rm;
-            float pah = hgt - tm - bm;
+            flobt wid = medibSize.getX(units);
+            flobt hgt = medibSize.getY(units);
+            flobt pbx = lm;
+            flobt pby = tm;
+            flobt pbw = wid - lm - rm;
+            flobt pbh = hgt - tm - bm;
 
-            if (paw <= 0f || pah <= 0f || pax < 0f || pay < 0f ||
-                pax < mpaMax.getX(units) || paw > mpaMax.getWidth(units) ||
-                pay < mpaMax.getY(units) || pah > mpaMax.getHeight(units)) {
+            if (pbw <= 0f || pbh <= 0f || pbx < 0f || pby < 0f ||
+                pbx < mpbMbx.getX(units) || pbw > mpbMbx.getWidth(units) ||
+                pby < mpbMbx.getY(units) || pbh > mpbMbx.getHeight(units)) {
                 return null;
             } else {
-                return new MediaPrintableArea(lm, tm, paw, pah, units);
+                return new MedibPrintbbleAreb(lm, tm, pbw, pbh, units);
             }
         }
 
-        /* This is complex as a MediaPrintableArea is valid only within
-         * a particular context of media size.
-         * So we need a MediaSize as well as a MediaPrintableArea.
-         * MediaSize can be obtained from MediaSizeName.
-         * If the application specifies a MediaPrintableArea, we accept it
-         * to the extent its valid for the Media they specify. If they
-         * don't specify a Media, then the default is assumed.
+        /* This is complex bs b MedibPrintbbleAreb is vblid only within
+         * b pbrticulbr context of medib size.
+         * So we need b MedibSize bs well bs b MedibPrintbbleAreb.
+         * MedibSize cbn be obtbined from MedibSizeNbme.
+         * If the bpplicbtion specifies b MedibPrintbbleAreb, we bccept it
+         * to the extent its vblid for the Medib they specify. If they
+         * don't specify b Medib, then the defbult is bssumed.
          *
-         * If an application doesn't define a MediaPrintableArea, we need to
-         * create a suitable one, this is created using the specified (or
-         * default) Media and default 1 inch margins. This is validated
-         * against the paper in case this is too large for tiny media.
+         * If bn bpplicbtion doesn't define b MedibPrintbbleAreb, we need to
+         * crebte b suitbble one, this is crebted using the specified (or
+         * defbult) Medib bnd defbult 1 inch mbrgins. This is vblidbted
+         * bgbinst the pbper in cbse this is too lbrge for tiny medib.
          */
-        public void updateInfo() {
+        public void updbteInfo() {
 
             if (isAWT) {
-                leftMargin.setEnabled(false);
-                rightMargin.setEnabled(false);
-                topMargin.setEnabled(false);
-                bottomMargin.setEnabled(false);
-                lblLeft.setEnabled(false);
-                lblRight.setEnabled(false);
-                lblTop.setEnabled(false);
-                lblBottom.setEnabled(false);
+                leftMbrgin.setEnbbled(fblse);
+                rightMbrgin.setEnbbled(fblse);
+                topMbrgin.setEnbbled(fblse);
+                bottomMbrgin.setEnbbled(fblse);
+                lblLeft.setEnbbled(fblse);
+                lblRight.setEnbbled(fblse);
+                lblTop.setEnbbled(fblse);
+                lblBottom.setEnbbled(fblse);
                 return;
             }
 
-            Class<MediaPrintableArea> mpaCategory = MediaPrintableArea.class;
-            MediaPrintableArea mpa =
-                 (MediaPrintableArea)asCurrent.get(mpaCategory);
-            MediaPrintableArea mpaMax = null;
-            MediaSize mediaSize = null;
+            Clbss<MedibPrintbbleAreb> mpbCbtegory = MedibPrintbbleAreb.clbss;
+            MedibPrintbbleAreb mpb =
+                 (MedibPrintbbleAreb)bsCurrent.get(mpbCbtegory);
+            MedibPrintbbleAreb mpbMbx = null;
+            MedibSize medibSize = null;
 
-            Media media = (Media)asCurrent.get(Media.class);
-            if (media == null || !(media instanceof MediaSizeName)) {
-                media = (Media)psCurrent.getDefaultAttributeValue(Media.class);
+            Medib medib = (Medib)bsCurrent.get(Medib.clbss);
+            if (medib == null || !(medib instbnceof MedibSizeNbme)) {
+                medib = (Medib)psCurrent.getDefbultAttributeVblue(Medib.clbss);
             }
-            if (media != null && (media instanceof MediaSizeName)) {
-                MediaSizeName msn = (MediaSizeName)media;
-                mediaSize = MediaSize.getMediaSizeForName(msn);
+            if (medib != null && (medib instbnceof MedibSizeNbme)) {
+                MedibSizeNbme msn = (MedibSizeNbme)medib;
+                medibSize = MedibSize.getMedibSizeForNbme(msn);
             }
-            if (mediaSize == null) {
-                mediaSize = new MediaSize(8.5f, 11f, Size2DSyntax.INCH);
+            if (medibSize == null) {
+                medibSize = new MedibSize(8.5f, 11f, Size2DSyntbx.INCH);
             }
 
-            if (media != null) {
+            if (medib != null) {
                 PrintRequestAttributeSet tmpASet =
-                    new HashPrintRequestAttributeSet(asCurrent);
-                tmpASet.add(media);
+                    new HbshPrintRequestAttributeSet(bsCurrent);
+                tmpASet.bdd(medib);
 
-                Object values =
-                    psCurrent.getSupportedAttributeValues(mpaCategory,
-                                                          docFlavor,
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(mpbCbtegory,
+                                                          docFlbvor,
                                                           tmpASet);
-                if (values instanceof MediaPrintableArea[] &&
-                    ((MediaPrintableArea[])values).length > 0) {
-                    mpaMax = ((MediaPrintableArea[])values)[0];
+                if (vblues instbnceof MedibPrintbbleAreb[] &&
+                    ((MedibPrintbbleAreb[])vblues).length > 0) {
+                    mpbMbx = ((MedibPrintbbleAreb[])vblues)[0];
 
-                } else if (values instanceof MediaPrintableArea) {
-                    mpaMax = (MediaPrintableArea)values;
+                } else if (vblues instbnceof MedibPrintbbleAreb) {
+                    mpbMbx = (MedibPrintbbleAreb)vblues;
                 }
             }
-            if (mpaMax == null) {
-                mpaMax = new MediaPrintableArea(0f, 0f,
-                                                mediaSize.getX(units),
-                                                mediaSize.getY(units),
+            if (mpbMbx == null) {
+                mpbMbx = new MedibPrintbbleAreb(0f, 0f,
+                                                medibSize.getX(units),
+                                                medibSize.getY(units),
                                                 units);
             }
 
             /*
-             * At this point we now know as best we can :-
-             * - the media size
-             * - the maximum corresponding printable area
-             * - the media printable area specified by the client, if any.
-             * The next step is to create a default MPA if none was specified.
-             * 1" margins are used unless they are disproportionately
-             * large compared to the size of the media.
+             * At this point we now know bs best we cbn :-
+             * - the medib size
+             * - the mbximum corresponding printbble breb
+             * - the medib printbble breb specified by the client, if bny.
+             * The next step is to crebte b defbult MPA if none wbs specified.
+             * 1" mbrgins bre used unless they bre disproportionbtely
+             * lbrge compbred to the size of the medib.
              */
 
-            float wid = mediaSize.getX(MediaPrintableArea.INCH);
-            float hgt = mediaSize.getY(MediaPrintableArea.INCH);
-            float maxMarginRatio = 5f;
-            float xMgn, yMgn;
-            if (wid > maxMarginRatio) {
+            flobt wid = medibSize.getX(MedibPrintbbleAreb.INCH);
+            flobt hgt = medibSize.getY(MedibPrintbbleAreb.INCH);
+            flobt mbxMbrginRbtio = 5f;
+            flobt xMgn, yMgn;
+            if (wid > mbxMbrginRbtio) {
                 xMgn = 1f;
             } else {
-                xMgn = wid / maxMarginRatio;
+                xMgn = wid / mbxMbrginRbtio;
             }
-            if (hgt > maxMarginRatio) {
+            if (hgt > mbxMbrginRbtio) {
                 yMgn = 1f;
             } else {
-                yMgn = hgt / maxMarginRatio;
+                yMgn = hgt / mbxMbrginRbtio;
             }
 
-            if (mpa == null) {
-                mpa = new MediaPrintableArea(xMgn, yMgn,
+            if (mpb == null) {
+                mpb = new MedibPrintbbleAreb(xMgn, yMgn,
                                              wid-(2*xMgn), hgt-(2*yMgn),
-                                             MediaPrintableArea.INCH);
-                asCurrent.add(mpa);
+                                             MedibPrintbbleAreb.INCH);
+                bsCurrent.bdd(mpb);
             }
-            float pax = mpa.getX(units);
-            float pay = mpa.getY(units);
-            float paw = mpa.getWidth(units);
-            float pah = mpa.getHeight(units);
-            float paxMax = mpaMax.getX(units);
-            float payMax = mpaMax.getY(units);
-            float pawMax = mpaMax.getWidth(units);
-            float pahMax = mpaMax.getHeight(units);
+            flobt pbx = mpb.getX(units);
+            flobt pby = mpb.getY(units);
+            flobt pbw = mpb.getWidth(units);
+            flobt pbh = mpb.getHeight(units);
+            flobt pbxMbx = mpbMbx.getX(units);
+            flobt pbyMbx = mpbMbx.getY(units);
+            flobt pbwMbx = mpbMbx.getWidth(units);
+            flobt pbhMbx = mpbMbx.getHeight(units);
 
 
-            boolean invalid = false;
+            boolebn invblid = fblse;
 
-            // If the paper is set to something which is too small to
-            // accommodate a specified printable area, perhaps carried
-            // over from a larger paper, the adjustment that needs to be
-            // performed should seem the most natural from a user's viewpoint.
-            // Since the user is specifying margins, then we are biased
-            // towards keeping the margins as close to what is specified as
-            // possible, shrinking or growing the printable area.
-            // But the API uses printable area, so you need to know the
-            // media size in which the margins were previously interpreted,
-            // or at least have a record of the margins.
-            // In the case that this is the creation of this UI we do not
-            // have this record, so we are somewhat reliant on the client
-            // to supply a reasonable default
-            wid = mediaSize.getX(units);
-            hgt = mediaSize.getY(units);
-            if (lmVal >= 0f) {
-                invalid = true;
+            // If the pbper is set to something which is too smbll to
+            // bccommodbte b specified printbble breb, perhbps cbrried
+            // over from b lbrger pbper, the bdjustment thbt needs to be
+            // performed should seem the most nbturbl from b user's viewpoint.
+            // Since the user is specifying mbrgins, then we bre bibsed
+            // towbrds keeping the mbrgins bs close to whbt is specified bs
+            // possible, shrinking or growing the printbble breb.
+            // But the API uses printbble breb, so you need to know the
+            // medib size in which the mbrgins were previously interpreted,
+            // or bt lebst hbve b record of the mbrgins.
+            // In the cbse thbt this is the crebtion of this UI we do not
+            // hbve this record, so we bre somewhbt relibnt on the client
+            // to supply b rebsonbble defbult
+            wid = medibSize.getX(units);
+            hgt = medibSize.getY(units);
+            if (lmVbl >= 0f) {
+                invblid = true;
 
-                if (lmVal + rmVal > wid) {
-                    // margins impossible, but maintain P.A if can
-                    if (paw > pawMax) {
-                        paw = pawMax;
+                if (lmVbl + rmVbl > wid) {
+                    // mbrgins impossible, but mbintbin P.A if cbn
+                    if (pbw > pbwMbx) {
+                        pbw = pbwMbx;
                     }
-                    // try to centre the printable area.
-                    pax = (wid - paw)/2f;
+                    // try to centre the printbble breb.
+                    pbx = (wid - pbw)/2f;
                 } else {
-                    pax = (lmVal >= paxMax) ? lmVal : paxMax;
-                    paw = wid - pax - rmVal;
+                    pbx = (lmVbl >= pbxMbx) ? lmVbl : pbxMbx;
+                    pbw = wid - pbx - rmVbl;
                 }
-                if (tmVal + bmVal > hgt) {
-                    if (pah > pahMax) {
-                        pah = pahMax;
+                if (tmVbl + bmVbl > hgt) {
+                    if (pbh > pbhMbx) {
+                        pbh = pbhMbx;
                     }
-                    pay = (hgt - pah)/2f;
+                    pby = (hgt - pbh)/2f;
                 } else {
-                    pay = (tmVal >= payMax) ? tmVal : payMax;
-                    pah = hgt - pay - bmVal;
+                    pby = (tmVbl >= pbyMbx) ? tmVbl : pbyMbx;
+                    pbh = hgt - pby - bmVbl;
                 }
             }
-            if (pax < paxMax) {
-                invalid = true;
-                pax = paxMax;
+            if (pbx < pbxMbx) {
+                invblid = true;
+                pbx = pbxMbx;
             }
-            if (pay < payMax) {
-                invalid = true;
-                pay = payMax;
+            if (pby < pbyMbx) {
+                invblid = true;
+                pby = pbyMbx;
             }
-            if (paw > pawMax) {
-                invalid = true;
-                paw = pawMax;
+            if (pbw > pbwMbx) {
+                invblid = true;
+                pbw = pbwMbx;
             }
-            if (pah > pahMax) {
-                invalid = true;
-                pah = pahMax;
-            }
-
-            if ((pax + paw > paxMax + pawMax) || (paw <= 0f)) {
-                invalid = true;
-                pax = paxMax;
-                paw = pawMax;
-            }
-            if ((pay + pah > payMax + pahMax) || (pah <= 0f)) {
-                invalid = true;
-                pay = payMax;
-                pah = pahMax;
+            if (pbh > pbhMbx) {
+                invblid = true;
+                pbh = pbhMbx;
             }
 
-            if (invalid) {
-                mpa = new MediaPrintableArea(pax, pay, paw, pah, units);
-                asCurrent.add(mpa);
+            if ((pbx + pbw > pbxMbx + pbwMbx) || (pbw <= 0f)) {
+                invblid = true;
+                pbx = pbxMbx;
+                pbw = pbwMbx;
+            }
+            if ((pby + pbh > pbyMbx + pbhMbx) || (pbh <= 0f)) {
+                invblid = true;
+                pby = pbyMbx;
+                pbh = pbhMbx;
             }
 
-            /* We now have a valid printable area.
-             * Turn it into margins, using the mediaSize
+            if (invblid) {
+                mpb = new MedibPrintbbleAreb(pbx, pby, pbw, pbh, units);
+                bsCurrent.bdd(mpb);
+            }
+
+            /* We now hbve b vblid printbble breb.
+             * Turn it into mbrgins, using the medibSize
              */
-            lmVal = pax;
-            tmVal = pay;
-            rmVal = mediaSize.getX(units) - pax - paw;
-            bmVal = mediaSize.getY(units) - pay - pah;
+            lmVbl = pbx;
+            tmVbl = pby;
+            rmVbl = medibSize.getX(units) - pbx - pbw;
+            bmVbl = medibSize.getY(units) - pby - pbh;
 
-            lmObj = new Float(lmVal);
-            rmObj = new Float(rmVal);
-            tmObj = new Float(tmVal);
-            bmObj = new Float(bmVal);
+            lmObj = new Flobt(lmVbl);
+            rmObj = new Flobt(rmVbl);
+            tmObj = new Flobt(tmVbl);
+            bmObj = new Flobt(bmVbl);
 
-            /* Now we know the values to use, we need to assign them
-             * to the fields appropriate for the orientation.
-             * Note: if orientation changes this method must be called.
+            /* Now we know the vblues to use, we need to bssign them
+             * to the fields bppropribte for the orientbtion.
+             * Note: if orientbtion chbnges this method must be cblled.
              */
-            Class<OrientationRequested> orCategory = OrientationRequested.class;
-            OrientationRequested or =
-                (OrientationRequested)asCurrent.get(orCategory);
+            Clbss<OrientbtionRequested> orCbtegory = OrientbtionRequested.clbss;
+            OrientbtionRequested or =
+                (OrientbtionRequested)bsCurrent.get(orCbtegory);
 
             if (or == null) {
-                or = (OrientationRequested)
-                     psCurrent.getDefaultAttributeValue(orCategory);
+                or = (OrientbtionRequested)
+                     psCurrent.getDefbultAttributeVblue(orCbtegory);
             }
 
-            Float tmp;
+            Flobt tmp;
 
-            if (or == OrientationRequested.REVERSE_PORTRAIT) {
+            if (or == OrientbtionRequested.REVERSE_PORTRAIT) {
                 tmp = lmObj; lmObj = rmObj; rmObj = tmp;
                 tmp = tmObj; tmObj = bmObj; bmObj = tmp;
-            }  else if (or == OrientationRequested.LANDSCAPE) {
+            }  else if (or == OrientbtionRequested.LANDSCAPE) {
                 tmp = lmObj;
                 lmObj = bmObj;
                 bmObj = rmObj;
                 rmObj = tmObj;
                 tmObj = tmp;
-            }  else if (or == OrientationRequested.REVERSE_LANDSCAPE) {
+            }  else if (or == OrientbtionRequested.REVERSE_LANDSCAPE) {
                 tmp = lmObj;
                 lmObj = tmObj;
                 tmObj = rmObj;
@@ -1872,75 +1872,75 @@ public class ServiceDialog extends JDialog implements ActionListener {
                 bmObj = tmp;
             }
 
-            leftMargin.setValue(lmObj);
-            rightMargin.setValue(rmObj);
-            topMargin.setValue(tmObj);
-            bottomMargin.setValue(bmObj);
+            leftMbrgin.setVblue(lmObj);
+            rightMbrgin.setVblue(rmObj);
+            topMbrgin.setVblue(tmObj);
+            bottomMbrgin.setVblue(bmObj);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class MediaPanel extends JPanel implements ItemListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss MedibPbnel extends JPbnel implements ItemListener {
 
-        private final String strTitle = getMsg("border.media");
-        private JLabel lblSize, lblSource;
-        private JComboBox<Object> cbSize, cbSource;
-        private Vector<MediaSizeName> sizes = new Vector<>();
-        private Vector<MediaTray> sources = new Vector<>();
-        private MarginsPanel pnlMargins = null;
+        privbte finbl String strTitle = getMsg("border.medib");
+        privbte JLbbel lblSize, lblSource;
+        privbte JComboBox<Object> cbSize, cbSource;
+        privbte Vector<MedibSizeNbme> sizes = new Vector<>();
+        privbte Vector<MedibTrby> sources = new Vector<>();
+        privbte MbrginsPbnel pnlMbrgins = null;
 
-        public MediaPanel() {
+        public MedibPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
             cbSize = new JComboBox<>();
             cbSource = new JComboBox<>();
 
-            c.fill = GridBagConstraints.BOTH;
+            c.fill = GridBbgConstrbints.BOTH;
             c.insets = compInsets;
             c.weighty = 1.0;
 
             c.weightx = 0.0;
-            lblSize = new JLabel(getMsg("label.size"), JLabel.TRAILING);
-            lblSize.setDisplayedMnemonic(getMnemonic("label.size"));
-            lblSize.setLabelFor(cbSize);
-            addToGB(lblSize, this, gridbag, c);
+            lblSize = new JLbbel(getMsg("lbbel.size"), JLbbel.TRAILING);
+            lblSize.setDisplbyedMnemonic(getMnemonic("lbbel.size"));
+            lblSize.setLbbelFor(cbSize);
+            bddToGB(lblSize, this, gridbbg, c);
             c.weightx = 1.0;
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(cbSize, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(cbSize, this, gridbbg, c);
 
             c.weightx = 0.0;
             c.gridwidth = 1;
-            lblSource = new JLabel(getMsg("label.source"), JLabel.TRAILING);
-            lblSource.setDisplayedMnemonic(getMnemonic("label.source"));
-            lblSource.setLabelFor(cbSource);
-            addToGB(lblSource, this, gridbag, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(cbSource, this, gridbag, c);
+            lblSource = new JLbbel(getMsg("lbbel.source"), JLbbel.TRAILING);
+            lblSource.setDisplbyedMnemonic(getMnemonic("lbbel.source"));
+            lblSource.setLbbelFor(cbSource);
+            bddToGB(lblSource, this, gridbbg, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(cbSource, this, gridbbg, c);
         }
 
-        private String getMediaName(String key) {
+        privbte String getMedibNbme(String key) {
             try {
-                // replace characters that would be invalid in
-                // a resource key with valid characters
-                String newkey = key.replace(' ', '-');
-                newkey = newkey.replace('#', 'n');
+                // replbce chbrbcters thbt would be invblid in
+                // b resource key with vblid chbrbcters
+                String newkey = key.replbce(' ', '-');
+                newkey = newkey.replbce('#', 'n');
 
-                return messageRB.getString(newkey);
-            } catch (java.util.MissingResourceException e) {
+                return messbgeRB.getString(newkey);
+            } cbtch (jbvb.util.MissingResourceException e) {
                 return key;
             }
         }
 
-        public void itemStateChanged(ItemEvent e) {
+        public void itemStbteChbnged(ItemEvent e) {
             Object source = e.getSource();
 
-            if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (e.getStbteChbnge() == ItemEvent.SELECTED) {
                 if (source == cbSize) {
                     int index = cbSize.getSelectedIndex();
 
@@ -1949,133 +1949,133 @@ public class ServiceDialog extends JDialog implements ActionListener {
                             (cbSource.getSelectedIndex() >= 1))
                         {
                             int src = cbSource.getSelectedIndex() - 1;
-                            MediaTray mt = sources.get(src);
-                            asCurrent.add(new SunAlternateMedia(mt));
+                            MedibTrby mt = sources.get(src);
+                            bsCurrent.bdd(new SunAlternbteMedib(mt));
                         }
-                        asCurrent.add(sizes.get(index));
+                        bsCurrent.bdd(sizes.get(index));
                     }
                 } else if (source == cbSource) {
                     int index = cbSource.getSelectedIndex();
 
                     if ((index >= 1) && (index < (sources.size() + 1))) {
-                       asCurrent.remove(SunAlternateMedia.class);
-                       MediaTray newTray = sources.get(index - 1);
-                       Media m = (Media)asCurrent.get(Media.class);
-                       if (m == null || m instanceof MediaTray) {
-                           asCurrent.add(newTray);
-                       } else if (m instanceof MediaSizeName) {
-                           MediaSizeName msn = (MediaSizeName)m;
-                           Media def = (Media)psCurrent.getDefaultAttributeValue(Media.class);
-                           if (def instanceof MediaSizeName && def.equals(msn)) {
-                               asCurrent.add(newTray);
+                       bsCurrent.remove(SunAlternbteMedib.clbss);
+                       MedibTrby newTrby = sources.get(index - 1);
+                       Medib m = (Medib)bsCurrent.get(Medib.clbss);
+                       if (m == null || m instbnceof MedibTrby) {
+                           bsCurrent.bdd(newTrby);
+                       } else if (m instbnceof MedibSizeNbme) {
+                           MedibSizeNbme msn = (MedibSizeNbme)m;
+                           Medib def = (Medib)psCurrent.getDefbultAttributeVblue(Medib.clbss);
+                           if (def instbnceof MedibSizeNbme && def.equbls(msn)) {
+                               bsCurrent.bdd(newTrby);
                            } else {
-                               /* Non-default paper size, so need to store tray
-                                * as SunAlternateMedia
+                               /* Non-defbult pbper size, so need to store trby
+                                * bs SunAlternbteMedib
                                 */
-                               asCurrent.add(new SunAlternateMedia(newTray));
+                               bsCurrent.bdd(new SunAlternbteMedib(newTrby));
                            }
                        }
                     } else if (index == 0) {
-                        asCurrent.remove(SunAlternateMedia.class);
+                        bsCurrent.remove(SunAlternbteMedib.clbss);
                         if (cbSize.getItemCount() > 0) {
                             int size = cbSize.getSelectedIndex();
-                            asCurrent.add(sizes.get(size));
+                            bsCurrent.bdd(sizes.get(size));
                         }
                     }
                 }
-            // orientation affects display of margins.
-                if (pnlMargins != null) {
-                    pnlMargins.updateInfo();
+            // orientbtion bffects displby of mbrgins.
+                if (pnlMbrgins != null) {
+                    pnlMbrgins.updbteInfo();
                 }
             }
         }
 
 
-        /* this is ad hoc to keep things simple */
-        public void addMediaListener(MarginsPanel pnl) {
-            pnlMargins = pnl;
+        /* this is bd hoc to keep things simple */
+        public void bddMedibListener(MbrginsPbnel pnl) {
+            pnlMbrgins = pnl;
         }
-        public void updateInfo() {
-            Class<Media> mdCategory = Media.class;
-            Class<SunAlternateMedia> amCategory = SunAlternateMedia.class;
-            boolean mediaSupported = false;
+        public void updbteInfo() {
+            Clbss<Medib> mdCbtegory = Medib.clbss;
+            Clbss<SunAlternbteMedib> bmCbtegory = SunAlternbteMedib.clbss;
+            boolebn medibSupported = fblse;
 
             cbSize.removeItemListener(this);
             cbSize.removeAllItems();
             cbSource.removeItemListener(this);
             cbSource.removeAllItems();
-            cbSource.addItem(getMediaName("auto-select"));
+            cbSource.bddItem(getMedibNbme("buto-select"));
 
-            sizes.clear();
-            sources.clear();
+            sizes.clebr();
+            sources.clebr();
 
-            if (psCurrent.isAttributeCategorySupported(mdCategory)) {
-                mediaSupported = true;
+            if (psCurrent.isAttributeCbtegorySupported(mdCbtegory)) {
+                medibSupported = true;
 
-                Object values =
-                    psCurrent.getSupportedAttributeValues(mdCategory,
-                                                          docFlavor,
-                                                          asCurrent);
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(mdCbtegory,
+                                                          docFlbvor,
+                                                          bsCurrent);
 
-                if (values instanceof Media[]) {
-                    Media[] media = (Media[])values;
+                if (vblues instbnceof Medib[]) {
+                    Medib[] medib = (Medib[])vblues;
 
-                    for (int i = 0; i < media.length; i++) {
-                        Media medium = media[i];
+                    for (int i = 0; i < medib.length; i++) {
+                        Medib medium = medib[i];
 
-                        if (medium instanceof MediaSizeName) {
-                            sizes.add((MediaSizeName)medium);
-                            cbSize.addItem(getMediaName(medium.toString()));
-                        } else if (medium instanceof MediaTray) {
-                            sources.add((MediaTray)medium);
-                            cbSource.addItem(getMediaName(medium.toString()));
+                        if (medium instbnceof MedibSizeNbme) {
+                            sizes.bdd((MedibSizeNbme)medium);
+                            cbSize.bddItem(getMedibNbme(medium.toString()));
+                        } else if (medium instbnceof MedibTrby) {
+                            sources.bdd((MedibTrby)medium);
+                            cbSource.bddItem(getMedibNbme(medium.toString()));
                         }
                     }
                 }
             }
 
-            boolean msSupported = (mediaSupported && (sizes.size() > 0));
-            lblSize.setEnabled(msSupported);
-            cbSize.setEnabled(msSupported);
+            boolebn msSupported = (medibSupported && (sizes.size() > 0));
+            lblSize.setEnbbled(msSupported);
+            cbSize.setEnbbled(msSupported);
 
             if (isAWT) {
-                cbSource.setEnabled(false);
-                lblSource.setEnabled(false);
+                cbSource.setEnbbled(fblse);
+                lblSource.setEnbbled(fblse);
             } else {
-                cbSource.setEnabled(mediaSupported);
+                cbSource.setEnbbled(medibSupported);
             }
 
-            if (mediaSupported) {
+            if (medibSupported) {
 
-                Media medium = (Media)asCurrent.get(mdCategory);
+                Medib medium = (Medib)bsCurrent.get(mdCbtegory);
 
-               // initialize size selection to default
-                Media defMedia = (Media)psCurrent.getDefaultAttributeValue(mdCategory);
-                if (defMedia instanceof MediaSizeName) {
-                    cbSize.setSelectedIndex(sizes.size() > 0 ? sizes.indexOf(defMedia) : -1);
+               // initiblize size selection to defbult
+                Medib defMedib = (Medib)psCurrent.getDefbultAttributeVblue(mdCbtegory);
+                if (defMedib instbnceof MedibSizeNbme) {
+                    cbSize.setSelectedIndex(sizes.size() > 0 ? sizes.indexOf(defMedib) : -1);
                 }
 
                 if (medium == null ||
-                    !psCurrent.isAttributeValueSupported(medium,
-                                                         docFlavor, asCurrent)) {
+                    !psCurrent.isAttributeVblueSupported(medium,
+                                                         docFlbvor, bsCurrent)) {
 
-                    medium = defMedia;
+                    medium = defMedib;
 
                     if (medium == null) {
                         if (sizes.size() > 0) {
-                            medium = (Media)sizes.get(0);
+                            medium = (Medib)sizes.get(0);
                         }
                     }
                     if (medium != null) {
-                        asCurrent.add(medium);
+                        bsCurrent.bdd(medium);
                     }
                 }
                 if (medium != null) {
-                    if (medium instanceof MediaSizeName) {
-                        MediaSizeName ms = (MediaSizeName)medium;
+                    if (medium instbnceof MedibSizeNbme) {
+                        MedibSizeNbme ms = (MedibSizeNbme)medium;
                         cbSize.setSelectedIndex(sizes.indexOf(ms));
-                    } else if (medium instanceof MediaTray) {
-                        MediaTray mt = (MediaTray)medium;
+                    } else if (medium instbnceof MedibTrby) {
+                        MedibTrby mt = (MedibTrby)medium;
                         cbSource.setSelectedIndex(sources.indexOf(mt) + 1);
                     }
                 } else {
@@ -2083,137 +2083,137 @@ public class ServiceDialog extends JDialog implements ActionListener {
                     cbSource.setSelectedIndex(0);
                 }
 
-                SunAlternateMedia alt = (SunAlternateMedia)asCurrent.get(amCategory);
-                if (alt != null) {
-                    Media md = alt.getMedia();
-                    if (md instanceof MediaTray) {
-                        MediaTray mt = (MediaTray)md;
+                SunAlternbteMedib blt = (SunAlternbteMedib)bsCurrent.get(bmCbtegory);
+                if (blt != null) {
+                    Medib md = blt.getMedib();
+                    if (md instbnceof MedibTrby) {
+                        MedibTrby mt = (MedibTrby)md;
                         cbSource.setSelectedIndex(sources.indexOf(mt) + 1);
                     }
                 }
 
                 int selIndex = cbSize.getSelectedIndex();
                 if ((selIndex >= 0) && (selIndex < sizes.size())) {
-                  asCurrent.add(sizes.get(selIndex));
+                  bsCurrent.bdd(sizes.get(selIndex));
                 }
 
                 selIndex = cbSource.getSelectedIndex();
                 if ((selIndex >= 1) && (selIndex < (sources.size()+1))) {
-                    MediaTray mt = sources.get(selIndex-1);
-                    if (medium instanceof MediaTray) {
-                        asCurrent.add(mt);
+                    MedibTrby mt = sources.get(selIndex-1);
+                    if (medium instbnceof MedibTrby) {
+                        bsCurrent.bdd(mt);
                     } else {
-                        asCurrent.add(new SunAlternateMedia(mt));
+                        bsCurrent.bdd(new SunAlternbteMedib(mt));
                     }
                 }
 
 
             }
-            cbSize.addItemListener(this);
-            cbSource.addItemListener(this);
+            cbSize.bddItemListener(this);
+            cbSource.bddItemListener(this);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class OrientationPanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss OrientbtionPbnel extends JPbnel
         implements ActionListener
     {
-        private final String strTitle = getMsg("border.orientation");
-        private IconRadioButton rbPortrait, rbLandscape,
-                                rbRevPortrait, rbRevLandscape;
-        private MarginsPanel pnlMargins = null;
+        privbte finbl String strTitle = getMsg("border.orientbtion");
+        privbte IconRbdioButton rbPortrbit, rbLbndscbpe,
+                                rbRevPortrbit, rbRevLbndscbpe;
+        privbte MbrginsPbnel pnlMbrgins = null;
 
-        public OrientationPanel() {
+        public OrientbtionPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.BOTH;
+            c.fill = GridBbgConstrbints.BOTH;
             c.insets = compInsets;
             c.weighty = 1.0;
-            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
 
             ButtonGroup bg = new ButtonGroup();
-            rbPortrait = new IconRadioButton("radiobutton.portrait",
-                                             "orientPortrait.png", true,
+            rbPortrbit = new IconRbdioButton("rbdiobutton.portrbit",
+                                             "orientPortrbit.png", true,
                                              bg, this);
-            rbPortrait.addActionListener(this);
-            addToGB(rbPortrait, this, gridbag, c);
-            rbLandscape = new IconRadioButton("radiobutton.landscape",
-                                              "orientLandscape.png", false,
+            rbPortrbit.bddActionListener(this);
+            bddToGB(rbPortrbit, this, gridbbg, c);
+            rbLbndscbpe = new IconRbdioButton("rbdiobutton.lbndscbpe",
+                                              "orientLbndscbpe.png", fblse,
                                               bg, this);
-            rbLandscape.addActionListener(this);
-            addToGB(rbLandscape, this, gridbag, c);
-            rbRevPortrait = new IconRadioButton("radiobutton.revportrait",
-                                                "orientRevPortrait.png", false,
+            rbLbndscbpe.bddActionListener(this);
+            bddToGB(rbLbndscbpe, this, gridbbg, c);
+            rbRevPortrbit = new IconRbdioButton("rbdiobutton.revportrbit",
+                                                "orientRevPortrbit.png", fblse,
                                                 bg, this);
-            rbRevPortrait.addActionListener(this);
-            addToGB(rbRevPortrait, this, gridbag, c);
-            rbRevLandscape = new IconRadioButton("radiobutton.revlandscape",
-                                                 "orientRevLandscape.png", false,
+            rbRevPortrbit.bddActionListener(this);
+            bddToGB(rbRevPortrbit, this, gridbbg, c);
+            rbRevLbndscbpe = new IconRbdioButton("rbdiobutton.revlbndscbpe",
+                                                 "orientRevLbndscbpe.png", fblse,
                                                  bg, this);
-            rbRevLandscape.addActionListener(this);
-            addToGB(rbRevLandscape, this, gridbag, c);
+            rbRevLbndscbpe.bddActionListener(this);
+            bddToGB(rbRevLbndscbpe, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
-            if (rbPortrait.isSameAs(source)) {
-                asCurrent.add(OrientationRequested.PORTRAIT);
-            } else if (rbLandscape.isSameAs(source)) {
-                asCurrent.add(OrientationRequested.LANDSCAPE);
-            } else if (rbRevPortrait.isSameAs(source)) {
-                asCurrent.add(OrientationRequested.REVERSE_PORTRAIT);
-            } else if (rbRevLandscape.isSameAs(source)) {
-                asCurrent.add(OrientationRequested.REVERSE_LANDSCAPE);
+            if (rbPortrbit.isSbmeAs(source)) {
+                bsCurrent.bdd(OrientbtionRequested.PORTRAIT);
+            } else if (rbLbndscbpe.isSbmeAs(source)) {
+                bsCurrent.bdd(OrientbtionRequested.LANDSCAPE);
+            } else if (rbRevPortrbit.isSbmeAs(source)) {
+                bsCurrent.bdd(OrientbtionRequested.REVERSE_PORTRAIT);
+            } else if (rbRevLbndscbpe.isSbmeAs(source)) {
+                bsCurrent.bdd(OrientbtionRequested.REVERSE_LANDSCAPE);
             }
-            // orientation affects display of margins.
-            if (pnlMargins != null) {
-                pnlMargins.updateInfo();
+            // orientbtion bffects displby of mbrgins.
+            if (pnlMbrgins != null) {
+                pnlMbrgins.updbteInfo();
             }
         }
 
-        /* This is ad hoc to keep things simple */
-        void addOrientationListener(MarginsPanel pnl) {
-            pnlMargins = pnl;
+        /* This is bd hoc to keep things simple */
+        void bddOrientbtionListener(MbrginsPbnel pnl) {
+            pnlMbrgins = pnl;
         }
 
-        public void updateInfo() {
-            Class<OrientationRequested> orCategory = OrientationRequested.class;
-            boolean pSupported = false;
-            boolean lSupported = false;
-            boolean rpSupported = false;
-            boolean rlSupported = false;
+        public void updbteInfo() {
+            Clbss<OrientbtionRequested> orCbtegory = OrientbtionRequested.clbss;
+            boolebn pSupported = fblse;
+            boolebn lSupported = fblse;
+            boolebn rpSupported = fblse;
+            boolebn rlSupported = fblse;
 
             if (isAWT) {
                 pSupported = true;
                 lSupported = true;
             } else
-            if (psCurrent.isAttributeCategorySupported(orCategory)) {
-                Object values =
-                    psCurrent.getSupportedAttributeValues(orCategory,
-                                                          docFlavor,
-                                                          asCurrent);
+            if (psCurrent.isAttributeCbtegorySupported(orCbtegory)) {
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(orCbtegory,
+                                                          docFlbvor,
+                                                          bsCurrent);
 
-                if (values instanceof OrientationRequested[]) {
-                    OrientationRequested[] ovalues =
-                        (OrientationRequested[])values;
+                if (vblues instbnceof OrientbtionRequested[]) {
+                    OrientbtionRequested[] ovblues =
+                        (OrientbtionRequested[])vblues;
 
-                    for (int i = 0; i < ovalues.length; i++) {
-                        OrientationRequested value = ovalues[i];
+                    for (int i = 0; i < ovblues.length; i++) {
+                        OrientbtionRequested vblue = ovblues[i];
 
-                        if (value == OrientationRequested.PORTRAIT) {
+                        if (vblue == OrientbtionRequested.PORTRAIT) {
                             pSupported = true;
-                        } else if (value == OrientationRequested.LANDSCAPE) {
+                        } else if (vblue == OrientbtionRequested.LANDSCAPE) {
                             lSupported = true;
-                        } else if (value == OrientationRequested.REVERSE_PORTRAIT) {
+                        } else if (vblue == OrientbtionRequested.REVERSE_PORTRAIT) {
                             rpSupported = true;
-                        } else if (value == OrientationRequested.REVERSE_LANDSCAPE) {
+                        } else if (vblue == OrientbtionRequested.REVERSE_LANDSCAPE) {
                             rlSupported = true;
                         }
                     }
@@ -2221,48 +2221,48 @@ public class ServiceDialog extends JDialog implements ActionListener {
             }
 
 
-            rbPortrait.setEnabled(pSupported);
-            rbLandscape.setEnabled(lSupported);
-            rbRevPortrait.setEnabled(rpSupported);
-            rbRevLandscape.setEnabled(rlSupported);
+            rbPortrbit.setEnbbled(pSupported);
+            rbLbndscbpe.setEnbbled(lSupported);
+            rbRevPortrbit.setEnbbled(rpSupported);
+            rbRevLbndscbpe.setEnbbled(rlSupported);
 
-            OrientationRequested or = (OrientationRequested)asCurrent.get(orCategory);
+            OrientbtionRequested or = (OrientbtionRequested)bsCurrent.get(orCbtegory);
             if (or == null ||
-                !psCurrent.isAttributeValueSupported(or, docFlavor, asCurrent)) {
+                !psCurrent.isAttributeVblueSupported(or, docFlbvor, bsCurrent)) {
 
-                or = (OrientationRequested)psCurrent.getDefaultAttributeValue(orCategory);
-                // need to validate if default is not supported
+                or = (OrientbtionRequested)psCurrent.getDefbultAttributeVblue(orCbtegory);
+                // need to vblidbte if defbult is not supported
                 if ((or != null) &&
-                   !psCurrent.isAttributeValueSupported(or, docFlavor, asCurrent)) {
+                   !psCurrent.isAttributeVblueSupported(or, docFlbvor, bsCurrent)) {
                     or = null;
-                    Object values =
-                        psCurrent.getSupportedAttributeValues(orCategory,
-                                                              docFlavor,
-                                                              asCurrent);
-                    if (values instanceof OrientationRequested[]) {
-                        OrientationRequested[] orValues =
-                                            (OrientationRequested[])values;
-                        if (orValues.length > 1) {
+                    Object vblues =
+                        psCurrent.getSupportedAttributeVblues(orCbtegory,
+                                                              docFlbvor,
+                                                              bsCurrent);
+                    if (vblues instbnceof OrientbtionRequested[]) {
+                        OrientbtionRequested[] orVblues =
+                                            (OrientbtionRequested[])vblues;
+                        if (orVblues.length > 1) {
                             // get the first in the list
-                            or = orValues[0];
+                            or = orVblues[0];
                         }
                     }
                 }
 
                 if (or == null) {
-                    or = OrientationRequested.PORTRAIT;
+                    or = OrientbtionRequested.PORTRAIT;
                 }
-                asCurrent.add(or);
+                bsCurrent.bdd(or);
             }
 
-            if (or == OrientationRequested.PORTRAIT) {
-                rbPortrait.setSelected(true);
-            } else if (or == OrientationRequested.LANDSCAPE) {
-                rbLandscape.setSelected(true);
-            } else if (or == OrientationRequested.REVERSE_PORTRAIT) {
-                rbRevPortrait.setSelected(true);
-            } else { // if (or == OrientationRequested.REVERSE_LANDSCAPE)
-                rbRevLandscape.setSelected(true);
+            if (or == OrientbtionRequested.PORTRAIT) {
+                rbPortrbit.setSelected(true);
+            } else if (or == OrientbtionRequested.LANDSCAPE) {
+                rbLbndscbpe.setSelected(true);
+            } else if (or == OrientbtionRequested.REVERSE_PORTRAIT) {
+                rbRevPortrbit.setSelected(true);
+            } else { // if (or == OrientbtionRequested.REVERSE_LANDSCAPE)
+                rbRevLbndscbpe.setSelected(true);
             }
         }
     }
@@ -2270,121 +2270,121 @@ public class ServiceDialog extends JDialog implements ActionListener {
 
 
     /**
-     * The "Appearance" tab.  Includes the controls for Chromaticity,
-     * PrintQuality, JobPriority, JobName, and other related job attributes.
+     * The "Appebrbnce" tbb.  Includes the controls for Chrombticity,
+     * PrintQublity, JobPriority, JobNbme, bnd other relbted job bttributes.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class AppearancePanel extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss AppebrbncePbnel extends JPbnel {
 
-        private ChromaticityPanel pnlChromaticity;
-        private QualityPanel pnlQuality;
-        private JobAttributesPanel pnlJobAttributes;
-        private SidesPanel pnlSides;
+        privbte ChrombticityPbnel pnlChrombticity;
+        privbte QublityPbnel pnlQublity;
+        privbte JobAttributesPbnel pnlJobAttributes;
+        privbte SidesPbnel pnlSides;
 
-        public AppearancePanel() {
+        public AppebrbncePbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
+            setLbyout(gridbbg);
 
-            c.fill = GridBagConstraints.BOTH;
-            c.insets = panelInsets;
+            c.fill = GridBbgConstrbints.BOTH;
+            c.insets = pbnelInsets;
             c.weightx = 1.0;
             c.weighty = 1.0;
 
-            c.gridwidth = GridBagConstraints.RELATIVE;
-            pnlChromaticity = new ChromaticityPanel();
-            addToGB(pnlChromaticity, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.RELATIVE;
+            pnlChrombticity = new ChrombticityPbnel();
+            bddToGB(pnlChrombticity, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlQuality = new QualityPanel();
-            addToGB(pnlQuality, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlQublity = new QublityPbnel();
+            bddToGB(pnlQublity, this, gridbbg, c);
 
             c.gridwidth = 1;
-            pnlSides = new SidesPanel();
-            addToGB(pnlSides, this, gridbag, c);
+            pnlSides = new SidesPbnel();
+            bddToGB(pnlSides, this, gridbbg, c);
 
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlJobAttributes = new JobAttributesPanel();
-            addToGB(pnlJobAttributes, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlJobAttributes = new JobAttributesPbnel();
+            bddToGB(pnlJobAttributes, this, gridbbg, c);
 
         }
 
-        public void updateInfo() {
-            pnlChromaticity.updateInfo();
-            pnlQuality.updateInfo();
-            pnlSides.updateInfo();
-            pnlJobAttributes.updateInfo();
+        public void updbteInfo() {
+            pnlChrombticity.updbteInfo();
+            pnlQublity.updbteInfo();
+            pnlSides.updbteInfo();
+            pnlJobAttributes.updbteInfo();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ChromaticityPanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss ChrombticityPbnel extends JPbnel
         implements ActionListener
     {
-        private final String strTitle = getMsg("border.chromaticity");
-        private JRadioButton rbMonochrome, rbColor;
+        privbte finbl String strTitle = getMsg("border.chrombticity");
+        privbte JRbdioButton rbMonochrome, rbColor;
 
-        public ChromaticityPanel() {
+        public ChrombticityPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.BOTH;
-            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.fill = GridBbgConstrbints.BOTH;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
             c.weighty = 1.0;
 
             ButtonGroup bg = new ButtonGroup();
-            rbMonochrome = createRadioButton("radiobutton.monochrome", this);
+            rbMonochrome = crebteRbdioButton("rbdiobutton.monochrome", this);
             rbMonochrome.setSelected(true);
-            bg.add(rbMonochrome);
-            addToGB(rbMonochrome, this, gridbag, c);
-            rbColor = createRadioButton("radiobutton.color", this);
-            bg.add(rbColor);
-            addToGB(rbColor, this, gridbag, c);
+            bg.bdd(rbMonochrome);
+            bddToGB(rbMonochrome, this, gridbbg, c);
+            rbColor = crebteRbdioButton("rbdiobutton.color", this);
+            bg.bdd(rbColor);
+            bddToGB(rbColor, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
-            // REMIND: use isSameAs if we move to a IconRB in the future
+            // REMIND: use isSbmeAs if we move to b IconRB in the future
             if (source == rbMonochrome) {
-                asCurrent.add(Chromaticity.MONOCHROME);
+                bsCurrent.bdd(Chrombticity.MONOCHROME);
             } else if (source == rbColor) {
-                asCurrent.add(Chromaticity.COLOR);
+                bsCurrent.bdd(Chrombticity.COLOR);
             }
         }
 
-        public void updateInfo() {
-            Class<Chromaticity> chCategory = Chromaticity.class;
-            boolean monoSupported = false;
-            boolean colorSupported = false;
+        public void updbteInfo() {
+            Clbss<Chrombticity> chCbtegory = Chrombticity.clbss;
+            boolebn monoSupported = fblse;
+            boolebn colorSupported = fblse;
 
             if (isAWT) {
                 monoSupported = true;
                 colorSupported = true;
             } else
-            if (psCurrent.isAttributeCategorySupported(chCategory)) {
-                Object values =
-                    psCurrent.getSupportedAttributeValues(chCategory,
-                                                          docFlavor,
-                                                          asCurrent);
+            if (psCurrent.isAttributeCbtegorySupported(chCbtegory)) {
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(chCbtegory,
+                                                          docFlbvor,
+                                                          bsCurrent);
 
-                if (values instanceof Chromaticity[]) {
-                    Chromaticity[] cvalues = (Chromaticity[])values;
+                if (vblues instbnceof Chrombticity[]) {
+                    Chrombticity[] cvblues = (Chrombticity[])vblues;
 
-                    for (int i = 0; i < cvalues.length; i++) {
-                        Chromaticity value = cvalues[i];
+                    for (int i = 0; i < cvblues.length; i++) {
+                        Chrombticity vblue = cvblues[i];
 
-                        if (value == Chromaticity.MONOCHROME) {
+                        if (vblue == Chrombticity.MONOCHROME) {
                             monoSupported = true;
-                        } else if (value == Chromaticity.COLOR) {
+                        } else if (vblue == Chrombticity.COLOR) {
                             colorSupported = true;
                         }
                     }
@@ -2392,121 +2392,121 @@ public class ServiceDialog extends JDialog implements ActionListener {
             }
 
 
-            rbMonochrome.setEnabled(monoSupported);
-            rbColor.setEnabled(colorSupported);
+            rbMonochrome.setEnbbled(monoSupported);
+            rbColor.setEnbbled(colorSupported);
 
-            Chromaticity ch = (Chromaticity)asCurrent.get(chCategory);
+            Chrombticity ch = (Chrombticity)bsCurrent.get(chCbtegory);
             if (ch == null) {
-                ch = (Chromaticity)psCurrent.getDefaultAttributeValue(chCategory);
+                ch = (Chrombticity)psCurrent.getDefbultAttributeVblue(chCbtegory);
                 if (ch == null) {
-                    ch = Chromaticity.MONOCHROME;
+                    ch = Chrombticity.MONOCHROME;
                 }
             }
 
-            if (ch == Chromaticity.MONOCHROME) {
+            if (ch == Chrombticity.MONOCHROME) {
                 rbMonochrome.setSelected(true);
-            } else { // if (ch == Chromaticity.COLOR)
+            } else { // if (ch == Chrombticity.COLOR)
                 rbColor.setSelected(true);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class QualityPanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss QublityPbnel extends JPbnel
         implements ActionListener
     {
-        private final String strTitle = getMsg("border.quality");
-        private JRadioButton rbDraft, rbNormal, rbHigh;
+        privbte finbl String strTitle = getMsg("border.qublity");
+        privbte JRbdioButton rbDrbft, rbNormbl, rbHigh;
 
-        public QualityPanel() {
+        public QublityPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.BOTH;
-            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.fill = GridBbgConstrbints.BOTH;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
             c.weighty = 1.0;
 
             ButtonGroup bg = new ButtonGroup();
-            rbDraft = createRadioButton("radiobutton.draftq", this);
-            bg.add(rbDraft);
-            addToGB(rbDraft, this, gridbag, c);
-            rbNormal = createRadioButton("radiobutton.normalq", this);
-            rbNormal.setSelected(true);
-            bg.add(rbNormal);
-            addToGB(rbNormal, this, gridbag, c);
-            rbHigh = createRadioButton("radiobutton.highq", this);
-            bg.add(rbHigh);
-            addToGB(rbHigh, this, gridbag, c);
+            rbDrbft = crebteRbdioButton("rbdiobutton.drbftq", this);
+            bg.bdd(rbDrbft);
+            bddToGB(rbDrbft, this, gridbbg, c);
+            rbNormbl = crebteRbdioButton("rbdiobutton.normblq", this);
+            rbNormbl.setSelected(true);
+            bg.bdd(rbNormbl);
+            bddToGB(rbNormbl, this, gridbbg, c);
+            rbHigh = crebteRbdioButton("rbdiobutton.highq", this);
+            bg.bdd(rbHigh);
+            bddToGB(rbHigh, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
-            if (source == rbDraft) {
-                asCurrent.add(PrintQuality.DRAFT);
-            } else if (source == rbNormal) {
-                asCurrent.add(PrintQuality.NORMAL);
+            if (source == rbDrbft) {
+                bsCurrent.bdd(PrintQublity.DRAFT);
+            } else if (source == rbNormbl) {
+                bsCurrent.bdd(PrintQublity.NORMAL);
             } else if (source == rbHigh) {
-                asCurrent.add(PrintQuality.HIGH);
+                bsCurrent.bdd(PrintQublity.HIGH);
             }
         }
 
-        public void updateInfo() {
-            Class<PrintQuality> pqCategory = PrintQuality.class;
-            boolean draftSupported = false;
-            boolean normalSupported = false;
-            boolean highSupported = false;
+        public void updbteInfo() {
+            Clbss<PrintQublity> pqCbtegory = PrintQublity.clbss;
+            boolebn drbftSupported = fblse;
+            boolebn normblSupported = fblse;
+            boolebn highSupported = fblse;
 
             if (isAWT) {
-                draftSupported = true;
-                normalSupported = true;
+                drbftSupported = true;
+                normblSupported = true;
                 highSupported = true;
             } else
-            if (psCurrent.isAttributeCategorySupported(pqCategory)) {
-                Object values =
-                    psCurrent.getSupportedAttributeValues(pqCategory,
-                                                          docFlavor,
-                                                          asCurrent);
+            if (psCurrent.isAttributeCbtegorySupported(pqCbtegory)) {
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(pqCbtegory,
+                                                          docFlbvor,
+                                                          bsCurrent);
 
-                if (values instanceof PrintQuality[]) {
-                    PrintQuality[] qvalues = (PrintQuality[])values;
+                if (vblues instbnceof PrintQublity[]) {
+                    PrintQublity[] qvblues = (PrintQublity[])vblues;
 
-                    for (int i = 0; i < qvalues.length; i++) {
-                        PrintQuality value = qvalues[i];
+                    for (int i = 0; i < qvblues.length; i++) {
+                        PrintQublity vblue = qvblues[i];
 
-                        if (value == PrintQuality.DRAFT) {
-                            draftSupported = true;
-                        } else if (value == PrintQuality.NORMAL) {
-                            normalSupported = true;
-                        } else if (value == PrintQuality.HIGH) {
+                        if (vblue == PrintQublity.DRAFT) {
+                            drbftSupported = true;
+                        } else if (vblue == PrintQublity.NORMAL) {
+                            normblSupported = true;
+                        } else if (vblue == PrintQublity.HIGH) {
                             highSupported = true;
                         }
                     }
                 }
             }
 
-            rbDraft.setEnabled(draftSupported);
-            rbNormal.setEnabled(normalSupported);
-            rbHigh.setEnabled(highSupported);
+            rbDrbft.setEnbbled(drbftSupported);
+            rbNormbl.setEnbbled(normblSupported);
+            rbHigh.setEnbbled(highSupported);
 
-            PrintQuality pq = (PrintQuality)asCurrent.get(pqCategory);
+            PrintQublity pq = (PrintQublity)bsCurrent.get(pqCbtegory);
             if (pq == null) {
-                pq = (PrintQuality)psCurrent.getDefaultAttributeValue(pqCategory);
+                pq = (PrintQublity)psCurrent.getDefbultAttributeVblue(pqCbtegory);
                 if (pq == null) {
-                    pq = PrintQuality.NORMAL;
+                    pq = PrintQublity.NORMAL;
                 }
             }
 
-            if (pq == PrintQuality.DRAFT) {
-                rbDraft.setSelected(true);
-            } else if (pq == PrintQuality.NORMAL) {
-                rbNormal.setSelected(true);
-            } else { // if (pq == PrintQuality.HIGH)
+            if (pq == PrintQublity.DRAFT) {
+                rbDrbft.setSelected(true);
+            } else if (pq == PrintQublity.NORMAL) {
+                rbNormbl.setSelected(true);
+            } else { // if (pq == PrintQublity.HIGH)
                 rbHigh.setSelected(true);
             }
         }
@@ -2514,93 +2514,93 @@ public class ServiceDialog extends JDialog implements ActionListener {
 
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SidesPanel extends JPanel
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss SidesPbnel extends JPbnel
         implements ActionListener
     {
-        private final String strTitle = getMsg("border.sides");
-        private IconRadioButton rbOneSide, rbTumble, rbDuplex;
+        privbte finbl String strTitle = getMsg("border.sides");
+        privbte IconRbdioButton rbOneSide, rbTumble, rbDuplex;
 
-        public SidesPanel() {
+        public SidesPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.BOTH;
+            c.fill = GridBbgConstrbints.BOTH;
             c.insets = compInsets;
             c.weighty = 1.0;
-            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
 
             ButtonGroup bg = new ButtonGroup();
-            rbOneSide = new IconRadioButton("radiobutton.oneside",
+            rbOneSide = new IconRbdioButton("rbdiobutton.oneside",
                                             "oneside.png", true,
                                             bg, this);
-            rbOneSide.addActionListener(this);
-            addToGB(rbOneSide, this, gridbag, c);
-            rbTumble = new IconRadioButton("radiobutton.tumble",
-                                           "tumble.png", false,
+            rbOneSide.bddActionListener(this);
+            bddToGB(rbOneSide, this, gridbbg, c);
+            rbTumble = new IconRbdioButton("rbdiobutton.tumble",
+                                           "tumble.png", fblse,
                                            bg, this);
-            rbTumble.addActionListener(this);
-            addToGB(rbTumble, this, gridbag, c);
-            rbDuplex = new IconRadioButton("radiobutton.duplex",
-                                           "duplex.png", false,
+            rbTumble.bddActionListener(this);
+            bddToGB(rbTumble, this, gridbbg, c);
+            rbDuplex = new IconRbdioButton("rbdiobutton.duplex",
+                                           "duplex.png", fblse,
                                            bg, this);
-            rbDuplex.addActionListener(this);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            addToGB(rbDuplex, this, gridbag, c);
+            rbDuplex.bddActionListener(this);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            bddToGB(rbDuplex, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
-            if (rbOneSide.isSameAs(source)) {
-                asCurrent.add(Sides.ONE_SIDED);
-            } else if (rbTumble.isSameAs(source)) {
-                asCurrent.add(Sides.TUMBLE);
-            } else if (rbDuplex.isSameAs(source)) {
-                asCurrent.add(Sides.DUPLEX);
+            if (rbOneSide.isSbmeAs(source)) {
+                bsCurrent.bdd(Sides.ONE_SIDED);
+            } else if (rbTumble.isSbmeAs(source)) {
+                bsCurrent.bdd(Sides.TUMBLE);
+            } else if (rbDuplex.isSbmeAs(source)) {
+                bsCurrent.bdd(Sides.DUPLEX);
             }
         }
 
-        public void updateInfo() {
-            Class<Sides> sdCategory = Sides.class;
-            boolean osSupported = false;
-            boolean tSupported = false;
-            boolean dSupported = false;
+        public void updbteInfo() {
+            Clbss<Sides> sdCbtegory = Sides.clbss;
+            boolebn osSupported = fblse;
+            boolebn tSupported = fblse;
+            boolebn dSupported = fblse;
 
-            if (psCurrent.isAttributeCategorySupported(sdCategory)) {
-                Object values =
-                    psCurrent.getSupportedAttributeValues(sdCategory,
-                                                          docFlavor,
-                                                          asCurrent);
+            if (psCurrent.isAttributeCbtegorySupported(sdCbtegory)) {
+                Object vblues =
+                    psCurrent.getSupportedAttributeVblues(sdCbtegory,
+                                                          docFlbvor,
+                                                          bsCurrent);
 
-                if (values instanceof Sides[]) {
-                    Sides[] svalues = (Sides[])values;
+                if (vblues instbnceof Sides[]) {
+                    Sides[] svblues = (Sides[])vblues;
 
-                    for (int i = 0; i < svalues.length; i++) {
-                        Sides value = svalues[i];
+                    for (int i = 0; i < svblues.length; i++) {
+                        Sides vblue = svblues[i];
 
-                        if (value == Sides.ONE_SIDED) {
+                        if (vblue == Sides.ONE_SIDED) {
                             osSupported = true;
-                        } else if (value == Sides.TUMBLE) {
+                        } else if (vblue == Sides.TUMBLE) {
                             tSupported = true;
-                        } else if (value == Sides.DUPLEX) {
+                        } else if (vblue == Sides.DUPLEX) {
                             dSupported = true;
                         }
                     }
                 }
             }
-            rbOneSide.setEnabled(osSupported);
-            rbTumble.setEnabled(tSupported);
-            rbDuplex.setEnabled(dSupported);
+            rbOneSide.setEnbbled(osSupported);
+            rbTumble.setEnbbled(tSupported);
+            rbDuplex.setEnbbled(dSupported);
 
-            Sides sd = (Sides)asCurrent.get(sdCategory);
+            Sides sd = (Sides)bsCurrent.get(sdCbtegory);
             if (sd == null) {
-                sd = (Sides)psCurrent.getDefaultAttributeValue(sdCategory);
+                sd = (Sides)psCurrent.getDefbultAttributeVblue(sdCbtegory);
                 if (sd == null) {
                     sd = Sides.ONE_SIDED;
                 }
@@ -2617,184 +2617,184 @@ public class ServiceDialog extends JDialog implements ActionListener {
     }
 
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class JobAttributesPanel extends JPanel
-        implements ActionListener, ChangeListener, FocusListener
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss JobAttributesPbnel extends JPbnel
+        implements ActionListener, ChbngeListener, FocusListener
     {
-        private final String strTitle = getMsg("border.jobattributes");
-        private JLabel lblPriority, lblJobName, lblUserName;
-        private JSpinner spinPriority;
-        private SpinnerNumberModel snModel;
-        private JCheckBox cbJobSheets;
-        private JTextField tfJobName, tfUserName;
+        privbte finbl String strTitle = getMsg("border.jobbttributes");
+        privbte JLbbel lblPriority, lblJobNbme, lblUserNbme;
+        privbte JSpinner spinPriority;
+        privbte SpinnerNumberModel snModel;
+        privbte JCheckBox cbJobSheets;
+        privbte JTextField tfJobNbme, tfUserNbme;
 
-        public JobAttributesPanel() {
+        public JobAttributesPbnel() {
             super();
 
-            GridBagLayout gridbag = new GridBagLayout();
-            GridBagConstraints c = new GridBagConstraints();
+            GridBbgLbyout gridbbg = new GridBbgLbyout();
+            GridBbgConstrbints c = new GridBbgConstrbints();
 
-            setLayout(gridbag);
-            setBorder(BorderFactory.createTitledBorder(strTitle));
+            setLbyout(gridbbg);
+            setBorder(BorderFbctory.crebteTitledBorder(strTitle));
 
-            c.fill = GridBagConstraints.NONE;
+            c.fill = GridBbgConstrbints.NONE;
             c.insets = compInsets;
             c.weighty = 1.0;
 
-            cbJobSheets = createCheckBox("checkbox.jobsheets", this);
-            c.anchor = GridBagConstraints.LINE_START;
-            addToGB(cbJobSheets, this, gridbag, c);
+            cbJobSheets = crebteCheckBox("checkbox.jobsheets", this);
+            c.bnchor = GridBbgConstrbints.LINE_START;
+            bddToGB(cbJobSheets, this, gridbbg, c);
 
-            JPanel pnlTop = new JPanel();
-            lblPriority = new JLabel(getMsg("label.priority"), JLabel.TRAILING);
-            lblPriority.setDisplayedMnemonic(getMnemonic("label.priority"));
+            JPbnel pnlTop = new JPbnel();
+            lblPriority = new JLbbel(getMsg("lbbel.priority"), JLbbel.TRAILING);
+            lblPriority.setDisplbyedMnemonic(getMnemonic("lbbel.priority"));
 
-            pnlTop.add(lblPriority);
+            pnlTop.bdd(lblPriority);
             snModel = new SpinnerNumberModel(1, 1, 100, 1);
             spinPriority = new JSpinner(snModel);
-            lblPriority.setLabelFor(spinPriority);
+            lblPriority.setLbbelFor(spinPriority);
             // REMIND
             ((JSpinner.NumberEditor)spinPriority.getEditor()).getTextField().setColumns(3);
-            spinPriority.addChangeListener(this);
-            pnlTop.add(spinPriority);
-            c.anchor = GridBagConstraints.LINE_END;
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            pnlTop.getAccessibleContext().setAccessibleName(
-                                       getMsg("label.priority"));
-            addToGB(pnlTop, this, gridbag, c);
+            spinPriority.bddChbngeListener(this);
+            pnlTop.bdd(spinPriority);
+            c.bnchor = GridBbgConstrbints.LINE_END;
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            pnlTop.getAccessibleContext().setAccessibleNbme(
+                                       getMsg("lbbel.priority"));
+            bddToGB(pnlTop, this, gridbbg, c);
 
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.anchor = GridBagConstraints.CENTER;
+            c.fill = GridBbgConstrbints.HORIZONTAL;
+            c.bnchor = GridBbgConstrbints.CENTER;
             c.weightx = 0.0;
             c.gridwidth = 1;
-            char jmnemonic = getMnemonic("label.jobname");
-            lblJobName = new JLabel(getMsg("label.jobname"), JLabel.TRAILING);
-            lblJobName.setDisplayedMnemonic(jmnemonic);
-            addToGB(lblJobName, this, gridbag, c);
+            chbr jmnemonic = getMnemonic("lbbel.jobnbme");
+            lblJobNbme = new JLbbel(getMsg("lbbel.jobnbme"), JLbbel.TRAILING);
+            lblJobNbme.setDisplbyedMnemonic(jmnemonic);
+            bddToGB(lblJobNbme, this, gridbbg, c);
             c.weightx = 1.0;
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            tfJobName = new JTextField();
-            lblJobName.setLabelFor(tfJobName);
-            tfJobName.addFocusListener(this);
-            tfJobName.setFocusAccelerator(jmnemonic);
-            tfJobName.getAccessibleContext().setAccessibleName(
-                                             getMsg("label.jobname"));
-            addToGB(tfJobName, this, gridbag, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            tfJobNbme = new JTextField();
+            lblJobNbme.setLbbelFor(tfJobNbme);
+            tfJobNbme.bddFocusListener(this);
+            tfJobNbme.setFocusAccelerbtor(jmnemonic);
+            tfJobNbme.getAccessibleContext().setAccessibleNbme(
+                                             getMsg("lbbel.jobnbme"));
+            bddToGB(tfJobNbme, this, gridbbg, c);
 
             c.weightx = 0.0;
             c.gridwidth = 1;
-            char umnemonic = getMnemonic("label.username");
-            lblUserName = new JLabel(getMsg("label.username"), JLabel.TRAILING);
-            lblUserName.setDisplayedMnemonic(umnemonic);
-            addToGB(lblUserName, this, gridbag, c);
-            c.gridwidth = GridBagConstraints.REMAINDER;
-            tfUserName = new JTextField();
-            lblUserName.setLabelFor(tfUserName);
-            tfUserName.addFocusListener(this);
-            tfUserName.setFocusAccelerator(umnemonic);
-            tfUserName.getAccessibleContext().setAccessibleName(
-                                             getMsg("label.username"));
-            addToGB(tfUserName, this, gridbag, c);
+            chbr umnemonic = getMnemonic("lbbel.usernbme");
+            lblUserNbme = new JLbbel(getMsg("lbbel.usernbme"), JLbbel.TRAILING);
+            lblUserNbme.setDisplbyedMnemonic(umnemonic);
+            bddToGB(lblUserNbme, this, gridbbg, c);
+            c.gridwidth = GridBbgConstrbints.REMAINDER;
+            tfUserNbme = new JTextField();
+            lblUserNbme.setLbbelFor(tfUserNbme);
+            tfUserNbme.bddFocusListener(this);
+            tfUserNbme.setFocusAccelerbtor(umnemonic);
+            tfUserNbme.getAccessibleContext().setAccessibleNbme(
+                                             getMsg("lbbel.usernbme"));
+            bddToGB(tfUserNbme, this, gridbbg, c);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (cbJobSheets.isSelected()) {
-                asCurrent.add(JobSheets.STANDARD);
+                bsCurrent.bdd(JobSheets.STANDARD);
             } else {
-                asCurrent.add(JobSheets.NONE);
+                bsCurrent.bdd(JobSheets.NONE);
             }
         }
 
-        public void stateChanged(ChangeEvent e) {
-            asCurrent.add(new JobPriority(snModel.getNumber().intValue()));
+        public void stbteChbnged(ChbngeEvent e) {
+            bsCurrent.bdd(new JobPriority(snModel.getNumber().intVblue()));
         }
 
         public void focusLost(FocusEvent e) {
             Object source = e.getSource();
 
-            if (source == tfJobName) {
-                asCurrent.add(new JobName(tfJobName.getText(),
-                                          Locale.getDefault()));
-            } else if (source == tfUserName) {
-                asCurrent.add(new RequestingUserName(tfUserName.getText(),
-                                                     Locale.getDefault()));
+            if (source == tfJobNbme) {
+                bsCurrent.bdd(new JobNbme(tfJobNbme.getText(),
+                                          Locble.getDefbult()));
+            } else if (source == tfUserNbme) {
+                bsCurrent.bdd(new RequestingUserNbme(tfUserNbme.getText(),
+                                                     Locble.getDefbult()));
             }
         }
 
-        public void focusGained(FocusEvent e) {}
+        public void focusGbined(FocusEvent e) {}
 
-        public void updateInfo() {
-            Class<JobSheets>          jsCategory = JobSheets.class;
-            Class<JobPriority>        jpCategory = JobPriority.class;
-            Class<JobName>            jnCategory = JobName.class;
-            Class<RequestingUserName> unCategory = RequestingUserName.class;
-            boolean jsSupported = false;
-            boolean jpSupported = false;
-            boolean jnSupported = false;
-            boolean unSupported = false;
+        public void updbteInfo() {
+            Clbss<JobSheets>          jsCbtegory = JobSheets.clbss;
+            Clbss<JobPriority>        jpCbtegory = JobPriority.clbss;
+            Clbss<JobNbme>            jnCbtegory = JobNbme.clbss;
+            Clbss<RequestingUserNbme> unCbtegory = RequestingUserNbme.clbss;
+            boolebn jsSupported = fblse;
+            boolebn jpSupported = fblse;
+            boolebn jnSupported = fblse;
+            boolebn unSupported = fblse;
 
             // setup JobSheets checkbox
-            if (psCurrent.isAttributeCategorySupported(jsCategory)) {
+            if (psCurrent.isAttributeCbtegorySupported(jsCbtegory)) {
                 jsSupported = true;
             }
-            JobSheets js = (JobSheets)asCurrent.get(jsCategory);
+            JobSheets js = (JobSheets)bsCurrent.get(jsCbtegory);
             if (js == null) {
-                js = (JobSheets)psCurrent.getDefaultAttributeValue(jsCategory);
+                js = (JobSheets)psCurrent.getDefbultAttributeVblue(jsCbtegory);
                 if (js == null) {
                     js = JobSheets.NONE;
                 }
             }
             cbJobSheets.setSelected(js != JobSheets.NONE);
-            cbJobSheets.setEnabled(jsSupported);
+            cbJobSheets.setEnbbled(jsSupported);
 
             // setup JobPriority spinner
-            if (!isAWT && psCurrent.isAttributeCategorySupported(jpCategory)) {
+            if (!isAWT && psCurrent.isAttributeCbtegorySupported(jpCbtegory)) {
                 jpSupported = true;
             }
-            JobPriority jp = (JobPriority)asCurrent.get(jpCategory);
+            JobPriority jp = (JobPriority)bsCurrent.get(jpCbtegory);
             if (jp == null) {
-                jp = (JobPriority)psCurrent.getDefaultAttributeValue(jpCategory);
+                jp = (JobPriority)psCurrent.getDefbultAttributeVblue(jpCbtegory);
                 if (jp == null) {
                     jp = new JobPriority(1);
                 }
             }
-            int value = jp.getValue();
-            if ((value < 1) || (value > 100)) {
-                value = 1;
+            int vblue = jp.getVblue();
+            if ((vblue < 1) || (vblue > 100)) {
+                vblue = 1;
             }
-            snModel.setValue(value);
-            lblPriority.setEnabled(jpSupported);
-            spinPriority.setEnabled(jpSupported);
+            snModel.setVblue(vblue);
+            lblPriority.setEnbbled(jpSupported);
+            spinPriority.setEnbbled(jpSupported);
 
-            // setup JobName text field
-            if (psCurrent.isAttributeCategorySupported(jnCategory)) {
+            // setup JobNbme text field
+            if (psCurrent.isAttributeCbtegorySupported(jnCbtegory)) {
                 jnSupported = true;
             }
-            JobName jn = (JobName)asCurrent.get(jnCategory);
+            JobNbme jn = (JobNbme)bsCurrent.get(jnCbtegory);
             if (jn == null) {
-                jn = (JobName)psCurrent.getDefaultAttributeValue(jnCategory);
+                jn = (JobNbme)psCurrent.getDefbultAttributeVblue(jnCbtegory);
                 if (jn == null) {
-                    jn = new JobName("", Locale.getDefault());
+                    jn = new JobNbme("", Locble.getDefbult());
                 }
             }
-            tfJobName.setText(jn.getValue());
-            tfJobName.setEnabled(jnSupported);
-            lblJobName.setEnabled(jnSupported);
+            tfJobNbme.setText(jn.getVblue());
+            tfJobNbme.setEnbbled(jnSupported);
+            lblJobNbme.setEnbbled(jnSupported);
 
-            // setup RequestingUserName text field
-            if (!isAWT && psCurrent.isAttributeCategorySupported(unCategory)) {
+            // setup RequestingUserNbme text field
+            if (!isAWT && psCurrent.isAttributeCbtegorySupported(unCbtegory)) {
                 unSupported = true;
             }
-            RequestingUserName un = (RequestingUserName)asCurrent.get(unCategory);
+            RequestingUserNbme un = (RequestingUserNbme)bsCurrent.get(unCbtegory);
             if (un == null) {
-                un = (RequestingUserName)psCurrent.getDefaultAttributeValue(unCategory);
+                un = (RequestingUserNbme)psCurrent.getDefbultAttributeVblue(unCbtegory);
                 if (un == null) {
-                    un = new RequestingUserName("", Locale.getDefault());
+                    un = new RequestingUserNbme("", Locble.getDefbult());
                 }
             }
-            tfUserName.setText(un.getValue());
-            tfUserName.setEnabled(unSupported);
-            lblUserName.setEnabled(unSupported);
+            tfUserNbme.setText(un.getVblue());
+            tfUserNbme.setEnbbled(unSupported);
+            lblUserNbme.setEnbbled(unSupported);
         }
     }
 
@@ -2802,114 +2802,114 @@ public class ServiceDialog extends JDialog implements ActionListener {
 
 
     /**
-     * A special widget that groups a JRadioButton with an associated icon,
-     * placed to the left of the radio button.
+     * A specibl widget thbt groups b JRbdioButton with bn bssocibted icon,
+     * plbced to the left of the rbdio button.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class IconRadioButton extends JPanel {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    privbte clbss IconRbdioButton extends JPbnel {
 
-        private JRadioButton rb;
-        private JLabel lbl;
+        privbte JRbdioButton rb;
+        privbte JLbbel lbl;
 
-        public IconRadioButton(String key, String img, boolean selected,
-                               ButtonGroup bg, ActionListener al)
+        public IconRbdioButton(String key, String img, boolebn selected,
+                               ButtonGroup bg, ActionListener bl)
         {
-            super(new FlowLayout(FlowLayout.LEADING));
-            final URL imgURL = getImageResource(img);
-            Icon icon = java.security.AccessController.doPrivileged(
-                                 new java.security.PrivilegedAction<Icon>() {
+            super(new FlowLbyout(FlowLbyout.LEADING));
+            finbl URL imgURL = getImbgeResource(img);
+            Icon icon = jbvb.security.AccessController.doPrivileged(
+                                 new jbvb.security.PrivilegedAction<Icon>() {
                 public Icon run() {
-                    Icon icon = new ImageIcon(imgURL);
+                    Icon icon = new ImbgeIcon(imgURL);
                     return icon;
                 }
             });
-            lbl = new JLabel(icon);
-            add(lbl);
+            lbl = new JLbbel(icon);
+            bdd(lbl);
 
-            rb = createRadioButton(key, al);
+            rb = crebteRbdioButton(key, bl);
             rb.setSelected(selected);
-            addToBG(rb, this, bg);
+            bddToBG(rb, this, bg);
         }
 
-        public void addActionListener(ActionListener al) {
-            rb.addActionListener(al);
+        public void bddActionListener(ActionListener bl) {
+            rb.bddActionListener(bl);
         }
 
-        public boolean isSameAs(Object source) {
+        public boolebn isSbmeAs(Object source) {
             return (rb == source);
         }
 
-        public void setEnabled(boolean enabled) {
-            rb.setEnabled(enabled);
-            lbl.setEnabled(enabled);
+        public void setEnbbled(boolebn enbbled) {
+            rb.setEnbbled(enbbled);
+            lbl.setEnbbled(enbbled);
         }
 
-        public boolean isSelected() {
+        public boolebn isSelected() {
             return rb.isSelected();
         }
 
-        public void setSelected(boolean selected) {
+        public void setSelected(boolebn selected) {
             rb.setSelected(selected);
         }
     }
 
     /**
-     * Similar in functionality to the default JFileChooser, except this
-     * chooser will pop up a "Do you want to overwrite..." dialog if the
-     * user selects a file that already exists.
+     * Similbr in functionblity to the defbult JFileChooser, except this
+     * chooser will pop up b "Do you wbnt to overwrite..." diblog if the
+     * user selects b file thbt blrebdy exists.
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    private class ValidatingFileChooser extends JFileChooser {
-        public void approveSelection() {
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    privbte clbss VblidbtingFileChooser extends JFileChooser {
+        public void bpproveSelection() {
             File selected = getSelectedFile();
-            boolean exists;
+            boolebn exists;
 
             try {
                 exists = selected.exists();
-            } catch (SecurityException e) {
-                exists = false;
+            } cbtch (SecurityException e) {
+                exists = fblse;
             }
 
             if (exists) {
-                int val;
-                val = JOptionPane.showConfirmDialog(this,
-                                                    getMsg("dialog.overwrite"),
-                                                    getMsg("dialog.owtitle"),
-                                                    JOptionPane.YES_NO_OPTION);
-                if (val != JOptionPane.YES_OPTION) {
+                int vbl;
+                vbl = JOptionPbne.showConfirmDiblog(this,
+                                                    getMsg("diblog.overwrite"),
+                                                    getMsg("diblog.owtitle"),
+                                                    JOptionPbne.YES_NO_OPTION);
+                if (vbl != JOptionPbne.YES_OPTION) {
                     return;
                 }
             }
 
             try {
-                if (selected.createNewFile()) {
+                if (selected.crebteNewFile()) {
                     selected.delete();
                 }
-            }  catch (IOException ioe) {
-                JOptionPane.showMessageDialog(this,
-                                   getMsg("dialog.writeerror")+" "+selected,
-                                   getMsg("dialog.owtitle"),
-                                   JOptionPane.WARNING_MESSAGE);
+            }  cbtch (IOException ioe) {
+                JOptionPbne.showMessbgeDiblog(this,
+                                   getMsg("diblog.writeerror")+" "+selected,
+                                   getMsg("diblog.owtitle"),
+                                   JOptionPbne.WARNING_MESSAGE);
                 return;
-            } catch (SecurityException se) {
-                //There is already file read/write access so at this point
-                // only delete access is denied.  Just ignore it because in
-                // most cases the file created in createNewFile gets
-                // overwritten anyway.
+            } cbtch (SecurityException se) {
+                //There is blrebdy file rebd/write bccess so bt this point
+                // only delete bccess is denied.  Just ignore it becbuse in
+                // most cbses the file crebted in crebteNewFile gets
+                // overwritten bnywby.
             }
-            File pFile = selected.getParentFile();
+            File pFile = selected.getPbrentFile();
             if ((selected.exists() &&
-                      (!selected.isFile() || !selected.canWrite())) ||
+                      (!selected.isFile() || !selected.cbnWrite())) ||
                      ((pFile != null) &&
-                      (!pFile.exists() || (pFile.exists() && !pFile.canWrite())))) {
-                JOptionPane.showMessageDialog(this,
-                                   getMsg("dialog.writeerror")+" "+selected,
-                                   getMsg("dialog.owtitle"),
-                                   JOptionPane.WARNING_MESSAGE);
+                      (!pFile.exists() || (pFile.exists() && !pFile.cbnWrite())))) {
+                JOptionPbne.showMessbgeDiblog(this,
+                                   getMsg("diblog.writeerror")+" "+selected,
+                                   getMsg("diblog.owtitle"),
+                                   JOptionPbne.WARNING_MESSAGE);
                 return;
             }
 
-            super.approveSelection();
+            super.bpproveSelection();
         }
     }
 }

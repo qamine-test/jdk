@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.InvalidKeyException;
+import jbvb.security.InvblidKeyException;
 
 /**
- * This class specifies a DES key.
+ * This clbss specifies b DES key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class DESKeySpec implements java.security.spec.KeySpec {
+public clbss DESKeySpec implements jbvb.security.spec.KeySpec {
 
     /**
-     * The constant which defines the length of a DES key in bytes.
+     * The constbnt which defines the length of b DES key in bytes.
      */
-    public static final int DES_KEY_LEN = 8;
+    public stbtic finbl int DES_KEY_LEN = 8;
 
-    private byte[] key;
+    privbte byte[] key;
 
     /*
-     * Weak/semi-weak keys copied from FIPS 74.
+     * Webk/semi-webk keys copied from FIPS 74.
      *
-     * "...The first 6 keys have duals different than themselves, hence
-     * each is both a key and a dual giving 12 keys with duals. The last
-     * four keys equal their duals, and are called self-dual keys..."
+     * "...The first 6 keys hbve dubls different thbn themselves, hence
+     * ebch is both b key bnd b dubl giving 12 keys with dubls. The lbst
+     * four keys equbl their dubls, bnd bre cblled self-dubl keys..."
      *
      * 1.   E001E001F101F101    01E001E001F101F1
      * 2.   FE1FFE1FFEOEFEOE    1FFE1FFEOEFEOEFE
@@ -61,7 +61,7 @@ public class DESKeySpec implements java.security.spec.KeySpec {
      * 9.   E0E0E0E0F1F1F1F1    E0E0E0E0F1F1F1F1
      * 10.  1F1F1F1F0E0E0E0E    1F1F1F1F0E0E0E0E
      */
-    private static final byte[][] WEAK_KEYS = {
+    privbte stbtic finbl byte[][] WEAK_KEYS = {
 
         { (byte)0x01, (byte)0x01, (byte)0x01, (byte)0x01, (byte)0x01,
           (byte)0x01, (byte)0x01, (byte)0x01 },
@@ -113,89 +113,89 @@ public class DESKeySpec implements java.security.spec.KeySpec {
     };
 
     /**
-     * Creates a DESKeySpec object using the first 8 bytes in
-     * <code>key</code> as the key material for the DES key.
+     * Crebtes b DESKeySpec object using the first 8 bytes in
+     * <code>key</code> bs the key mbteribl for the DES key.
      *
-     * <p> The bytes that constitute the DES key are those between
-     * <code>key[0]</code> and <code>key[7]</code> inclusive.
+     * <p> The bytes thbt constitute the DES key bre those between
+     * <code>key[0]</code> bnd <code>key[7]</code> inclusive.
      *
-     * @param key the buffer with the DES key material. The first 8 bytes
-     * of the buffer are copied to protect against subsequent modification.
+     * @pbrbm key the buffer with the DES key mbteribl. The first 8 bytes
+     * of the buffer bre copied to protect bgbinst subsequent modificbtion.
      *
-     * @exception NullPointerException if the given key material is
+     * @exception NullPointerException if the given key mbteribl is
      * <code>null</code>
-     * @exception InvalidKeyException if the given key material is shorter
-     * than 8 bytes.
+     * @exception InvblidKeyException if the given key mbteribl is shorter
+     * thbn 8 bytes.
      */
-    public DESKeySpec(byte[] key) throws InvalidKeyException {
+    public DESKeySpec(byte[] key) throws InvblidKeyException {
         this(key, 0);
     }
 
     /**
-     * Creates a DESKeySpec object using the first 8 bytes in
-     * <code>key</code>, beginning at <code>offset</code> inclusive,
-     * as the key material for the DES key.
+     * Crebtes b DESKeySpec object using the first 8 bytes in
+     * <code>key</code>, beginning bt <code>offset</code> inclusive,
+     * bs the key mbteribl for the DES key.
      *
-     * <p> The bytes that constitute the DES key are those between
-     * <code>key[offset]</code> and <code>key[offset+7]</code> inclusive.
+     * <p> The bytes thbt constitute the DES key bre those between
+     * <code>key[offset]</code> bnd <code>key[offset+7]</code> inclusive.
      *
-     * @param key the buffer with the DES key material. The first 8 bytes
-     * of the buffer beginning at <code>offset</code> inclusive are copied
-     * to protect against subsequent modification.
-     * @param offset the offset in <code>key</code>, where the DES key
-     * material starts.
+     * @pbrbm key the buffer with the DES key mbteribl. The first 8 bytes
+     * of the buffer beginning bt <code>offset</code> inclusive bre copied
+     * to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>key</code>, where the DES key
+     * mbteribl stbrts.
      *
-     * @exception NullPointerException if the given key material is
+     * @exception NullPointerException if the given key mbteribl is
      * <code>null</code>
-     * @exception InvalidKeyException if the given key material, starting at
-     * <code>offset</code> inclusive, is shorter than 8 bytes.
+     * @exception InvblidKeyException if the given key mbteribl, stbrting bt
+     * <code>offset</code> inclusive, is shorter thbn 8 bytes.
      */
-    public DESKeySpec(byte[] key, int offset) throws InvalidKeyException {
+    public DESKeySpec(byte[] key, int offset) throws InvblidKeyException {
         if (key.length - offset < DES_KEY_LEN) {
-            throw new InvalidKeyException("Wrong key size");
+            throw new InvblidKeyException("Wrong key size");
         }
         this.key = new byte[DES_KEY_LEN];
-        System.arraycopy(key, offset, this.key, 0, DES_KEY_LEN);
+        System.brrbycopy(key, offset, this.key, 0, DES_KEY_LEN);
     }
 
     /**
-     * Returns the DES key material.
+     * Returns the DES key mbteribl.
      *
-     * @return the DES key material. Returns a new array
-     * each time this method is called.
+     * @return the DES key mbteribl. Returns b new brrby
+     * ebch time this method is cblled.
      */
     public byte[] getKey() {
         return this.key.clone();
     }
 
     /**
-     * Checks if the given DES key material, starting at <code>offset</code>
-     * inclusive, is parity-adjusted.
+     * Checks if the given DES key mbteribl, stbrting bt <code>offset</code>
+     * inclusive, is pbrity-bdjusted.
      *
-     * @param key the buffer with the DES key material.
-     * @param offset the offset in <code>key</code>, where the DES key
-     * material starts.
+     * @pbrbm key the buffer with the DES key mbteribl.
+     * @pbrbm offset the offset in <code>key</code>, where the DES key
+     * mbteribl stbrts.
      *
-     * @return true if the given DES key material is parity-adjusted, false
+     * @return true if the given DES key mbteribl is pbrity-bdjusted, fblse
      * otherwise.
      *
-     * @exception InvalidKeyException if the given key material is
-     * <code>null</code>, or starting at <code>offset</code> inclusive, is
-     * shorter than 8 bytes.
+     * @exception InvblidKeyException if the given key mbteribl is
+     * <code>null</code>, or stbrting bt <code>offset</code> inclusive, is
+     * shorter thbn 8 bytes.
      */
-    public static boolean isParityAdjusted(byte[] key, int offset)
-        throws InvalidKeyException {
+    public stbtic boolebn isPbrityAdjusted(byte[] key, int offset)
+        throws InvblidKeyException {
             if (key == null) {
-                throw new InvalidKeyException("null key");
+                throw new InvblidKeyException("null key");
             }
             if (key.length - offset < DES_KEY_LEN) {
-                throw new InvalidKeyException("Wrong key size");
+                throw new InvblidKeyException("Wrong key size");
             }
 
             for (int i = 0; i < DES_KEY_LEN; i++) {
                 int k = Integer.bitCount(key[offset++] & 0xff);
                 if ((k & 1) == 0) {
-                    return false;
+                    return fblse;
                 }
             }
 
@@ -203,38 +203,38 @@ public class DESKeySpec implements java.security.spec.KeySpec {
     }
 
     /**
-     * Checks if the given DES key material is weak or semi-weak.
+     * Checks if the given DES key mbteribl is webk or semi-webk.
      *
-     * @param key the buffer with the DES key material.
-     * @param offset the offset in <code>key</code>, where the DES key
-     * material starts.
+     * @pbrbm key the buffer with the DES key mbteribl.
+     * @pbrbm offset the offset in <code>key</code>, where the DES key
+     * mbteribl stbrts.
      *
-     * @return true if the given DES key material is weak or semi-weak, false
+     * @return true if the given DES key mbteribl is webk or semi-webk, fblse
      * otherwise.
      *
-     * @exception InvalidKeyException if the given key material is
-     * <code>null</code>, or starting at <code>offset</code> inclusive, is
-     * shorter than 8 bytes.
+     * @exception InvblidKeyException if the given key mbteribl is
+     * <code>null</code>, or stbrting bt <code>offset</code> inclusive, is
+     * shorter thbn 8 bytes.
      */
-    public static boolean isWeak(byte[] key, int offset)
-        throws InvalidKeyException {
+    public stbtic boolebn isWebk(byte[] key, int offset)
+        throws InvblidKeyException {
         if (key == null) {
-            throw new InvalidKeyException("null key");
+            throw new InvblidKeyException("null key");
         }
         if (key.length - offset < DES_KEY_LEN) {
-            throw new InvalidKeyException("Wrong key size");
+            throw new InvblidKeyException("Wrong key size");
         }
         for (int i = 0; i < WEAK_KEYS.length; i++) {
-            boolean found = true;
+            boolebn found = true;
             for (int j = 0; j < DES_KEY_LEN && found == true; j++) {
                 if (WEAK_KEYS[i][j] != key[j+offset]) {
-                    found = false;
+                    found = fblse;
                 }
             }
             if (found == true) {
                 return found;
             }
         }
-        return false;
+        return fblse;
     }
 }

@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.Arrays;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.*;
+import jbvb.util.Arrbys;
 
-import sun.net.www.ParseUtil;
+import sun.net.www.PbrseUtil;
 
 
 /**
- * A utility class for getting a KeyStore instance from policy information.
- * In addition, a supporting getInputStream method.
+ * A utility clbss for getting b KeyStore instbnce from policy informbtion.
+ * In bddition, b supporting getInputStrebm method.
  *
  */
-public class PolicyUtil {
+public clbss PolicyUtil {
 
-    // standard PKCS11 KeyStore type
-    private static final String P11KEYSTORE = "PKCS11";
+    // stbndbrd PKCS11 KeyStore type
+    privbte stbtic finbl String P11KEYSTORE = "PKCS11";
 
     // reserved word
-    private static final String NONE = "NONE";
+    privbte stbtic finbl String NONE = "NONE";
 
     /*
-     * Fast path reading from file urls in order to avoid calling
-     * FileURLConnection.connect() which can be quite slow the first time
-     * it is called. We really should clean up FileURLConnection so that
-     * this is not a problem but in the meantime this fix helps reduce
-     * start up time noticeably for the new launcher. -- DAC
+     * Fbst pbth rebding from file urls in order to bvoid cblling
+     * FileURLConnection.connect() which cbn be quite slow the first time
+     * it is cblled. We reblly should clebn up FileURLConnection so thbt
+     * this is not b problem but in the mebntime this fix helps reduce
+     * stbrt up time noticebbly for the new lbuncher. -- DAC
      */
-    public static InputStream getInputStream(URL url) throws IOException {
-        if ("file".equals(url.getProtocol())) {
-            String path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
-            return new FileInputStream(path);
+    public stbtic InputStrebm getInputStrebm(URL url) throws IOException {
+        if ("file".equbls(url.getProtocol())) {
+            String pbth = url.getFile().replbce('/', File.sepbrbtorChbr);
+            pbth = PbrseUtil.decode(pbth);
+            return new FileInputStrebm(pbth);
         } else {
-            return url.openStream();
+            return url.openStrebm();
         }
     }
 
     /**
-     * this is intended for use by policytool and the policy parser to
-     * instantiate a KeyStore from the information in the GUI/policy file
+     * this is intended for use by policytool bnd the policy pbrser to
+     * instbntibte b KeyStore from the informbtion in the GUI/policy file
      */
-    public static KeyStore getKeyStore
+    public stbtic KeyStore getKeyStore
                 (URL policyUrl,                 // URL of policy file
-                String keyStoreName,            // input: keyStore URL
+                String keyStoreNbme,            // input: keyStore URL
                 String keyStoreType,            // input: keyStore type
                 String keyStoreProvider,        // input: keyStore provider
-                String storePassURL,            // input: keyStore password
+                String storePbssURL,            // input: keyStore pbssword
                 Debug debug)
-        throws KeyStoreException, MalformedURLException, IOException,
+        throws KeyStoreException, MblformedURLException, IOException,
                 NoSuchProviderException, NoSuchAlgorithmException,
-                java.security.cert.CertificateException {
+                jbvb.security.cert.CertificbteException {
 
-        if (keyStoreName == null) {
-            throw new IllegalArgumentException("null KeyStore name");
+        if (keyStoreNbme == null) {
+            throw new IllegblArgumentException("null KeyStore nbme");
         }
 
-        char[] keyStorePassword = null;
+        chbr[] keyStorePbssword = null;
         try {
             KeyStore ks;
             if (keyStoreType == null) {
-                keyStoreType = KeyStore.getDefaultType();
+                keyStoreType = KeyStore.getDefbultType();
             }
 
-            if (P11KEYSTORE.equalsIgnoreCase(keyStoreType) &&
-                !NONE.equals(keyStoreName)) {
-                throw new IllegalArgumentException
-                        ("Invalid value (" +
-                        keyStoreName +
+            if (P11KEYSTORE.equblsIgnoreCbse(keyStoreType) &&
+                !NONE.equbls(keyStoreNbme)) {
+                throw new IllegblArgumentException
+                        ("Invblid vblue (" +
+                        keyStoreNbme +
                         ") for keystore URL.  If the keystore type is \"" +
                         P11KEYSTORE +
                         "\", the keystore url must be \"" +
@@ -102,76 +102,76 @@ public class PolicyUtil {
             }
 
             if (keyStoreProvider != null) {
-                ks = KeyStore.getInstance(keyStoreType, keyStoreProvider);
+                ks = KeyStore.getInstbnce(keyStoreType, keyStoreProvider);
             } else {
-                ks = KeyStore.getInstance(keyStoreType);
+                ks = KeyStore.getInstbnce(keyStoreType);
             }
 
-            if (storePassURL != null) {
-                URL passURL;
+            if (storePbssURL != null) {
+                URL pbssURL;
                 try {
-                    passURL = new URL(storePassURL);
-                    // absolute URL
-                } catch (MalformedURLException e) {
-                    // relative URL
+                    pbssURL = new URL(storePbssURL);
+                    // bbsolute URL
+                } cbtch (MblformedURLException e) {
+                    // relbtive URL
                     if (policyUrl == null) {
                         throw e;
                     }
-                    passURL = new URL(policyUrl, storePassURL);
+                    pbssURL = new URL(policyUrl, storePbssURL);
                 }
 
                 if (debug != null) {
-                    debug.println("reading password"+passURL);
+                    debug.println("rebding pbssword"+pbssURL);
                 }
 
-                InputStream in = null;
+                InputStrebm in = null;
                 try {
-                    in = passURL.openStream();
-                    keyStorePassword = Password.readPassword(in);
-                } finally {
+                    in = pbssURL.openStrebm();
+                    keyStorePbssword = Pbssword.rebdPbssword(in);
+                } finblly {
                     if (in != null) {
                         in.close();
                     }
                 }
             }
 
-            if (NONE.equals(keyStoreName)) {
-                ks.load(null, keyStorePassword);
+            if (NONE.equbls(keyStoreNbme)) {
+                ks.lobd(null, keyStorePbssword);
                 return ks;
             } else {
                 /*
-                 * location of keystore is specified as absolute URL in policy
-                 * file, or is relative to URL of policy file
+                 * locbtion of keystore is specified bs bbsolute URL in policy
+                 * file, or is relbtive to URL of policy file
                  */
                 URL keyStoreUrl = null;
                 try {
-                    keyStoreUrl = new URL(keyStoreName);
-                    // absolute URL
-                } catch (MalformedURLException e) {
-                    // relative URL
+                    keyStoreUrl = new URL(keyStoreNbme);
+                    // bbsolute URL
+                } cbtch (MblformedURLException e) {
+                    // relbtive URL
                     if (policyUrl == null) {
                         throw e;
                     }
-                    keyStoreUrl = new URL(policyUrl, keyStoreName);
+                    keyStoreUrl = new URL(policyUrl, keyStoreNbme);
                 }
 
                 if (debug != null) {
-                    debug.println("reading keystore"+keyStoreUrl);
+                    debug.println("rebding keystore"+keyStoreUrl);
                 }
 
-                InputStream inStream = null;
+                InputStrebm inStrebm = null;
                 try {
-                    inStream =
-                        new BufferedInputStream(getInputStream(keyStoreUrl));
-                    ks.load(inStream, keyStorePassword);
-                } finally {
-                    inStream.close();
+                    inStrebm =
+                        new BufferedInputStrebm(getInputStrebm(keyStoreUrl));
+                    ks.lobd(inStrebm, keyStorePbssword);
+                } finblly {
+                    inStrebm.close();
                 }
                 return ks;
             }
-        } finally {
-            if (keyStorePassword != null) {
-                Arrays.fill(keyStorePassword, ' ');
+        } finblly {
+            if (keyStorePbssword != null) {
+                Arrbys.fill(keyStorePbssword, ' ');
             }
         }
     }

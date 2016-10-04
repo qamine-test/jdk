@@ -1,105 +1,105 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.security.AccessControlContext;
-import java.security.ProtectionDomain;
+import jbvb.security.AccessControlContext;
+import jbvb.security.ProtectionDombin;
 
 /**
- * A thread managed by a {@link ForkJoinPool}, which executes
- * {@link ForkJoinTask}s.
- * This class is subclassable solely for the sake of adding
- * functionality -- there are no overridable methods dealing with
- * scheduling or execution.  However, you can override initialization
- * and termination methods surrounding the main task processing loop.
- * If you do create such a subclass, you will also need to supply a
- * custom {@link ForkJoinPool.ForkJoinWorkerThreadFactory} to
- * {@linkplain ForkJoinPool#ForkJoinPool use it} in a {@code ForkJoinPool}.
+ * A threbd mbnbged by b {@link ForkJoinPool}, which executes
+ * {@link ForkJoinTbsk}s.
+ * This clbss is subclbssbble solely for the sbke of bdding
+ * functionblity -- there bre no overridbble methods debling with
+ * scheduling or execution.  However, you cbn override initiblizbtion
+ * bnd terminbtion methods surrounding the mbin tbsk processing loop.
+ * If you do crebte such b subclbss, you will blso need to supply b
+ * custom {@link ForkJoinPool.ForkJoinWorkerThrebdFbctory} to
+ * {@linkplbin ForkJoinPool#ForkJoinPool use it} in b {@code ForkJoinPool}.
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class ForkJoinWorkerThread extends Thread {
+public clbss ForkJoinWorkerThrebd extends Threbd {
     /*
-     * ForkJoinWorkerThreads are managed by ForkJoinPools and perform
-     * ForkJoinTasks. For explanation, see the internal documentation
-     * of class ForkJoinPool.
+     * ForkJoinWorkerThrebds bre mbnbged by ForkJoinPools bnd perform
+     * ForkJoinTbsks. For explbnbtion, see the internbl documentbtion
+     * of clbss ForkJoinPool.
      *
-     * This class just maintains links to its pool and WorkQueue.  The
-     * pool field is set immediately upon construction, but the
-     * workQueue field is not set until a call to registerWorker
-     * completes. This leads to a visibility race, that is tolerated
-     * by requiring that the workQueue field is only accessed by the
-     * owning thread.
+     * This clbss just mbintbins links to its pool bnd WorkQueue.  The
+     * pool field is set immedibtely upon construction, but the
+     * workQueue field is not set until b cbll to registerWorker
+     * completes. This lebds to b visibility rbce, thbt is tolerbted
+     * by requiring thbt the workQueue field is only bccessed by the
+     * owning threbd.
      *
-     * Support for (non-public) subclass InnocuousForkJoinWorkerThread
-     * requires that we break quite a lot of encapulation (via Unsafe)
-     * both here and in the subclass to access and set Thread fields.
+     * Support for (non-public) subclbss InnocuousForkJoinWorkerThrebd
+     * requires thbt we brebk quite b lot of encbpulbtion (vib Unsbfe)
+     * both here bnd in the subclbss to bccess bnd set Threbd fields.
      */
 
-    final ForkJoinPool pool;                // the pool this thread works in
-    final ForkJoinPool.WorkQueue workQueue; // work-stealing mechanics
+    finbl ForkJoinPool pool;                // the pool this threbd works in
+    finbl ForkJoinPool.WorkQueue workQueue; // work-stebling mechbnics
 
     /**
-     * Creates a ForkJoinWorkerThread operating in the given pool.
+     * Crebtes b ForkJoinWorkerThrebd operbting in the given pool.
      *
-     * @param pool the pool this thread works in
+     * @pbrbm pool the pool this threbd works in
      * @throws NullPointerException if pool is null
      */
-    protected ForkJoinWorkerThread(ForkJoinPool pool) {
-        // Use a placeholder until a useful name can be set in registerWorker
-        super("aForkJoinWorkerThread");
+    protected ForkJoinWorkerThrebd(ForkJoinPool pool) {
+        // Use b plbceholder until b useful nbme cbn be set in registerWorker
+        super("bForkJoinWorkerThrebd");
         this.pool = pool;
         this.workQueue = pool.registerWorker(this);
     }
 
     /**
-     * Version for InnocuousForkJoinWorkerThread
+     * Version for InnocuousForkJoinWorkerThrebd
      */
-    ForkJoinWorkerThread(ForkJoinPool pool, ThreadGroup threadGroup,
-                         AccessControlContext acc) {
-        super(threadGroup, null, "aForkJoinWorkerThread");
-        U.putOrderedObject(this, INHERITEDACCESSCONTROLCONTEXT, acc);
-        eraseThreadLocals(); // clear before registering
+    ForkJoinWorkerThrebd(ForkJoinPool pool, ThrebdGroup threbdGroup,
+                         AccessControlContext bcc) {
+        super(threbdGroup, null, "bForkJoinWorkerThrebd");
+        U.putOrderedObject(this, INHERITEDACCESSCONTROLCONTEXT, bcc);
+        erbseThrebdLocbls(); // clebr before registering
         this.pool = pool;
         this.workQueue = pool.registerWorker(this);
     }
 
     /**
-     * Returns the pool hosting this thread.
+     * Returns the pool hosting this threbd.
      *
      * @return the pool
      */
@@ -108,62 +108,62 @@ public class ForkJoinWorkerThread extends Thread {
     }
 
     /**
-     * Returns the unique index number of this thread in its pool.
-     * The returned value ranges from zero to the maximum number of
-     * threads (minus one) that may exist in the pool, and does not
-     * change during the lifetime of the thread.  This method may be
-     * useful for applications that track status or collect results
-     * per-worker-thread rather than per-task.
+     * Returns the unique index number of this threbd in its pool.
+     * The returned vblue rbnges from zero to the mbximum number of
+     * threbds (minus one) thbt mby exist in the pool, bnd does not
+     * chbnge during the lifetime of the threbd.  This method mby be
+     * useful for bpplicbtions thbt trbck stbtus or collect results
+     * per-worker-threbd rbther thbn per-tbsk.
      *
      * @return the index number
      */
     public int getPoolIndex() {
-        return workQueue.poolIndex >>> 1; // ignore odd/even tag bit
+        return workQueue.poolIndex >>> 1; // ignore odd/even tbg bit
     }
 
     /**
-     * Initializes internal state after construction but before
-     * processing any tasks. If you override this method, you must
-     * invoke {@code super.onStart()} at the beginning of the method.
-     * Initialization requires care: Most fields must have legal
-     * default values, to ensure that attempted accesses from other
-     * threads work correctly even before this thread starts
-     * processing tasks.
+     * Initiblizes internbl stbte bfter construction but before
+     * processing bny tbsks. If you override this method, you must
+     * invoke {@code super.onStbrt()} bt the beginning of the method.
+     * Initiblizbtion requires cbre: Most fields must hbve legbl
+     * defbult vblues, to ensure thbt bttempted bccesses from other
+     * threbds work correctly even before this threbd stbrts
+     * processing tbsks.
      */
-    protected void onStart() {
+    protected void onStbrt() {
     }
 
     /**
-     * Performs cleanup associated with termination of this worker
-     * thread.  If you override this method, you must invoke
-     * {@code super.onTermination} at the end of the overridden method.
+     * Performs clebnup bssocibted with terminbtion of this worker
+     * threbd.  If you override this method, you must invoke
+     * {@code super.onTerminbtion} bt the end of the overridden method.
      *
-     * @param exception the exception causing this thread to abort due
-     * to an unrecoverable error, or {@code null} if completed normally
+     * @pbrbm exception the exception cbusing this threbd to bbort due
+     * to bn unrecoverbble error, or {@code null} if completed normblly
      */
-    protected void onTermination(Throwable exception) {
+    protected void onTerminbtion(Throwbble exception) {
     }
 
     /**
      * This method is required to be public, but should never be
-     * called explicitly. It performs the main run loop to execute
-     * {@link ForkJoinTask}s.
+     * cblled explicitly. It performs the mbin run loop to execute
+     * {@link ForkJoinTbsk}s.
      */
     public void run() {
-        if (workQueue.array == null) { // only run once
-            Throwable exception = null;
+        if (workQueue.brrby == null) { // only run once
+            Throwbble exception = null;
             try {
-                onStart();
+                onStbrt();
                 pool.runWorker(workQueue);
-            } catch (Throwable ex) {
+            } cbtch (Throwbble ex) {
                 exception = ex;
-            } finally {
+            } finblly {
                 try {
-                    onTermination(exception);
-                } catch (Throwable ex) {
+                    onTerminbtion(exception);
+                } cbtch (Throwbble ex) {
                     if (exception == null)
                         exception = ex;
-                } finally {
+                } finblly {
                     pool.deregisterWorker(this, exception);
                 }
             }
@@ -171,105 +171,105 @@ public class ForkJoinWorkerThread extends Thread {
     }
 
     /**
-     * Erases ThreadLocals by nulling out Thread maps
+     * Erbses ThrebdLocbls by nulling out Threbd mbps
      */
-    final void eraseThreadLocals() {
+    finbl void erbseThrebdLocbls() {
         U.putObject(this, THREADLOCALS, null);
         U.putObject(this, INHERITABLETHREADLOCALS, null);
     }
 
     /**
-     * Non-public hook method for InnocuousForkJoinWorkerThread
+     * Non-public hook method for InnocuousForkJoinWorkerThrebd
      */
-    void afterTopLevelExec() {
+    void bfterTopLevelExec() {
     }
 
-    // Set up to allow setting thread fields in constructor
-    private static final sun.misc.Unsafe U;
-    private static final long THREADLOCALS;
-    private static final long INHERITABLETHREADLOCALS;
-    private static final long INHERITEDACCESSCONTROLCONTEXT;
-    static {
+    // Set up to bllow setting threbd fields in constructor
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long THREADLOCALS;
+    privbte stbtic finbl long INHERITABLETHREADLOCALS;
+    privbte stbtic finbl long INHERITEDACCESSCONTROLCONTEXT;
+    stbtic {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> tk = Thread.class;
+            U = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> tk = Threbd.clbss;
             THREADLOCALS = U.objectFieldOffset
-                (tk.getDeclaredField("threadLocals"));
+                (tk.getDeclbredField("threbdLocbls"));
             INHERITABLETHREADLOCALS = U.objectFieldOffset
-                (tk.getDeclaredField("inheritableThreadLocals"));
+                (tk.getDeclbredField("inheritbbleThrebdLocbls"));
             INHERITEDACCESSCONTROLCONTEXT = U.objectFieldOffset
-                (tk.getDeclaredField("inheritedAccessControlContext"));
+                (tk.getDeclbredField("inheritedAccessControlContext"));
 
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }
 
     /**
-     * A worker thread that has no permissions, is not a member of any
-     * user-defined ThreadGroup, and erases all ThreadLocals after
-     * running each top-level task.
+     * A worker threbd thbt hbs no permissions, is not b member of bny
+     * user-defined ThrebdGroup, bnd erbses bll ThrebdLocbls bfter
+     * running ebch top-level tbsk.
      */
-    static final class InnocuousForkJoinWorkerThread extends ForkJoinWorkerThread {
-        /** The ThreadGroup for all InnocuousForkJoinWorkerThreads */
-        private static final ThreadGroup innocuousThreadGroup =
-            createThreadGroup();
+    stbtic finbl clbss InnocuousForkJoinWorkerThrebd extends ForkJoinWorkerThrebd {
+        /** The ThrebdGroup for bll InnocuousForkJoinWorkerThrebds */
+        privbte stbtic finbl ThrebdGroup innocuousThrebdGroup =
+            crebteThrebdGroup();
 
         /** An AccessControlContext supporting no privileges */
-        private static final AccessControlContext INNOCUOUS_ACC =
+        privbte stbtic finbl AccessControlContext INNOCUOUS_ACC =
             new AccessControlContext(
-                new ProtectionDomain[] {
-                    new ProtectionDomain(null, null)
+                new ProtectionDombin[] {
+                    new ProtectionDombin(null, null)
                 });
 
-        InnocuousForkJoinWorkerThread(ForkJoinPool pool) {
-            super(pool, innocuousThreadGroup, INNOCUOUS_ACC);
+        InnocuousForkJoinWorkerThrebd(ForkJoinPool pool) {
+            super(pool, innocuousThrebdGroup, INNOCUOUS_ACC);
         }
 
-        @Override // to erase ThreadLocals
-        void afterTopLevelExec() {
-            eraseThreadLocals();
+        @Override // to erbse ThrebdLocbls
+        void bfterTopLevelExec() {
+            erbseThrebdLocbls();
         }
 
-        @Override // to always report system loader
-        public ClassLoader getContextClassLoader() {
-            return ClassLoader.getSystemClassLoader();
+        @Override // to blwbys report system lobder
+        public ClbssLobder getContextClbssLobder() {
+            return ClbssLobder.getSystemClbssLobder();
         }
 
-        @Override // to silently fail
-        public void setUncaughtExceptionHandler(UncaughtExceptionHandler x) { }
+        @Override // to silently fbil
+        public void setUncbughtExceptionHbndler(UncbughtExceptionHbndler x) { }
 
-        @Override // paranoically
-        public void setContextClassLoader(ClassLoader cl) {
-            throw new SecurityException("setContextClassLoader");
+        @Override // pbrbnoicblly
+        public void setContextClbssLobder(ClbssLobder cl) {
+            throw new SecurityException("setContextClbssLobder");
         }
 
         /**
-         * Returns a new group with the system ThreadGroup (the
-         * topmost, parentless group) as parent.  Uses Unsafe to
-         * traverse Thread group and ThreadGroup parent fields.
+         * Returns b new group with the system ThrebdGroup (the
+         * topmost, pbrentless group) bs pbrent.  Uses Unsbfe to
+         * trbverse Threbd group bnd ThrebdGroup pbrent fields.
          */
-        private static ThreadGroup createThreadGroup() {
+        privbte stbtic ThrebdGroup crebteThrebdGroup() {
             try {
-                sun.misc.Unsafe u = sun.misc.Unsafe.getUnsafe();
-                Class<?> tk = Thread.class;
-                Class<?> gk = ThreadGroup.class;
-                long tg = u.objectFieldOffset(tk.getDeclaredField("group"));
-                long gp = u.objectFieldOffset(gk.getDeclaredField("parent"));
-                ThreadGroup group = (ThreadGroup)
-                    u.getObject(Thread.currentThread(), tg);
+                sun.misc.Unsbfe u = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> tk = Threbd.clbss;
+                Clbss<?> gk = ThrebdGroup.clbss;
+                long tg = u.objectFieldOffset(tk.getDeclbredField("group"));
+                long gp = u.objectFieldOffset(gk.getDeclbredField("pbrent"));
+                ThrebdGroup group = (ThrebdGroup)
+                    u.getObject(Threbd.currentThrebd(), tg);
                 while (group != null) {
-                    ThreadGroup parent = (ThreadGroup)u.getObject(group, gp);
-                    if (parent == null)
-                        return new ThreadGroup(group,
-                                               "InnocuousForkJoinWorkerThreadGroup");
-                    group = parent;
+                    ThrebdGroup pbrent = (ThrebdGroup)u.getObject(group, gp);
+                    if (pbrent == null)
+                        return new ThrebdGroup(group,
+                                               "InnocuousForkJoinWorkerThrebdGroup");
+                    group = pbrent;
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
-            // fall through if null as cannot-happen safeguard
-            throw new Error("Cannot create ThreadGroup");
+            // fbll through if null bs cbnnot-hbppen sbfegubrd
+            throw new Error("Cbnnot crebte ThrebdGroup");
         }
     }
 

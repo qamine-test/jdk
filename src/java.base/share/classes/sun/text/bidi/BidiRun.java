@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
-/* Written by Simon Montagu, Matitiahu Allouche
- * (ported from C code written by Markus W. Scherer)
+/* Written by Simon Montbgu, Mbtitibhu Allouche
+ * (ported from C code written by Mbrkus W. Scherer)
  */
 
-package sun.text.bidi;
+pbckbge sun.text.bidi;
 
 /**
- * A BidiRun represents a sequence of characters at the same embedding level.
- * The Bidi algorithm decomposes a piece of text into sequences of characters
- * at the same embedding level, each such sequence is called a <quote>run</quote>.
+ * A BidiRun represents b sequence of chbrbcters bt the sbme embedding level.
+ * The Bidi blgorithm decomposes b piece of text into sequences of chbrbcters
+ * bt the sbme embedding level, ebch such sequence is cblled b <quote>run</quote>.
  *
- * <p>A BidiRun represents such a run by storing its essential properties,
- * but does not duplicate the characters which form the run.
+ * <p>A BidiRun represents such b run by storing its essentibl properties,
+ * but does not duplicbte the chbrbcters which form the run.
  *
- * <p>The &quot;limit&quot; of the run is the position just after the
- * last character, i.e., one more than that position.
+ * <p>The &quot;limit&quot; of the run is the position just bfter the
+ * lbst chbrbcter, i.e., one more thbn thbt position.
  *
- * <p>This class has no public constructor, and its members cannot be
+ * <p>This clbss hbs no public constructor, bnd its members cbnnot be
  * modified by users.
  *
  * @see com.ibm.icu.text.Bidi
  */
-public class BidiRun {
+public clbss BidiRun {
 
-    int start;              /* first logical position of the run */
-    int limit;              /* last visual position of the run +1 */
-    int insertRemove;       /* if >0, flags for inserting LRM/RLM before/after run,
+    int stbrt;              /* first logicbl position of the run */
+    int limit;              /* lbst visubl position of the run +1 */
+    int insertRemove;       /* if >0, flbgs for inserting LRM/RLM before/bfter run,
                                if <0, count of bidi controls within run            */
     byte level;
 
     /*
-     * Default constructor
+     * Defbult constructor
      *
-     * Note that members start and limit of a run instance have different
-     * meanings depending whether the run is part of the runs array of a Bidi
-     * object, or if it is a reference returned by getVisualRun() or
-     * getLogicalRun().
-     * For a member of the runs array of a Bidi object,
-     *   - start is the first logical position of the run in the source text.
-     *   - limit is one after the last visual position of the run.
-     * For a reference returned by getLogicalRun() or getVisualRun(),
-     *   - start is the first logical position of the run in the source text.
-     *   - limit is one after the last logical position of the run.
+     * Note thbt members stbrt bnd limit of b run instbnce hbve different
+     * mebnings depending whether the run is pbrt of the runs brrby of b Bidi
+     * object, or if it is b reference returned by getVisublRun() or
+     * getLogicblRun().
+     * For b member of the runs brrby of b Bidi object,
+     *   - stbrt is the first logicbl position of the run in the source text.
+     *   - limit is one bfter the lbst visubl position of the run.
+     * For b reference returned by getLogicblRun() or getVisublRun(),
+     *   - stbrt is the first logicbl position of the run in the source text.
+     *   - limit is one bfter the lbst logicbl position of the run.
      */
     BidiRun()
     {
@@ -85,19 +85,19 @@ public class BidiRun {
     /*
      * Constructor
      */
-    BidiRun(int start, int limit, byte embeddingLevel)
+    BidiRun(int stbrt, int limit, byte embeddingLevel)
     {
-        this.start = start;
+        this.stbrt = stbrt;
         this.limit = limit;
         this.level = embeddingLevel;
     }
 
     /*
-     * Copy the content of a BidiRun instance
+     * Copy the content of b BidiRun instbnce
      */
     void copyFrom(BidiRun run)
     {
-        this.start = run.start;
+        this.stbrt = run.stbrt;
         this.limit = run.limit;
         this.level = run.level;
         this.insertRemove = run.insertRemove;
@@ -113,10 +113,10 @@ public class BidiRun {
 
     /**
      * Check if run level is even
-     * @return true if the embedding level of this run is even, i.e. it is a
+     * @return true if the embedding level of this run is even, i.e. it is b
      *  left-to-right run.
      */
-    boolean isEvenRun()
+    boolebn isEvenRun()
     {
         return (level & 1) == 0;
     }

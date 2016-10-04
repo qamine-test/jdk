@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.beans.ConstructorProperties;
+import jbvb.bebns.ConstructorProperties;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
 
-import javax.swing.plaf.*;
-import javax.swing.event.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.event.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * An implementation of a "push" button.
+ * An implementbtion of b "push" button.
   * <p>
- * Buttons can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a button has many benefits beyond directly
- * configuring a button.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Buttons cbn be configured, bnd to some degree controlled, by
+ * <code><b href="Action.html">Action</b></code>s.  Using bn
+ * <code>Action</code> with b button hbs mbny benefits beyond directly
+ * configuring b button.  Refer to <b href="Action.html#buttonActions">
+ * Swing Components Supporting <code>Action</code></b> for more
+ * detbils, bnd you cbn find more informbtion in <b
+ * href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/bction.html">How
+ * to Use Actions</b>, b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html">How to Use Buttons, Check Boxes, and Radio Buttons</a>
- * in <em>The Java Tutorial</em>
- * for information and examples of using buttons.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/button.html">How to Use Buttons, Check Boxes, bnd Rbdio Buttons</b>
+ * in <em>The Jbvb Tutoribl</em>
+ * for informbtion bnd exbmples of using buttons.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: An implementation of a \"push\" button.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: An implementbtion of b \"push\" button.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JButton extends AbstractButton implements Accessible {
+@SuppressWbrnings("seribl")
+public clbss JButton extends AbstrbctButton implements Accessible {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ButtonUI";
+    privbte stbtic finbl String uiClbssID = "ButtonUI";
 
     /**
-     * Creates a button with no set text or icon.
+     * Crebtes b button with no set text or icon.
      */
     public JButton() {
         this(null, null);
     }
 
     /**
-     * Creates a button with an icon.
+     * Crebtes b button with bn icon.
      *
-     * @param icon  the Icon image to display on the button
+     * @pbrbm icon  the Icon imbge to displby on the button
      */
     public JButton(Icon icon) {
         this(null, icon);
     }
 
     /**
-     * Creates a button with text.
+     * Crebtes b button with text.
      *
-     * @param text  the text of the button
+     * @pbrbm text  the text of the button
      */
     @ConstructorProperties({"text"})
     public JButton(String text) {
@@ -112,161 +112,161 @@ public class JButton extends AbstractButton implements Accessible {
     }
 
     /**
-     * Creates a button where properties are taken from the
+     * Crebtes b button where properties bre tbken from the
      * <code>Action</code> supplied.
      *
-     * @param a the <code>Action</code> used to specify the new button
+     * @pbrbm b the <code>Action</code> used to specify the new button
      *
      * @since 1.3
      */
-    public JButton(Action a) {
+    public JButton(Action b) {
         this();
-        setAction(a);
+        setAction(b);
     }
 
     /**
-     * Creates a button with initial text and an icon.
+     * Crebtes b button with initibl text bnd bn icon.
      *
-     * @param text  the text of the button
-     * @param icon  the Icon image to display on the button
+     * @pbrbm text  the text of the button
+     * @pbrbm icon  the Icon imbge to displby on the button
      */
     public JButton(String text, Icon icon) {
-        // Create the model
-        setModel(new DefaultButtonModel());
+        // Crebte the model
+        setModel(new DefbultButtonModel());
 
-        // initialize
+        // initiblize
         init(text, icon);
     }
 
     /**
-     * Resets the UI property to a value from the current look and
+     * Resets the UI property to b vblue from the current look bnd
      * feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((ButtonUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ButtonUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
      * @return the string "ButtonUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class.
+     *   description: A string thbt specifies the nbme of the L&bmp;F clbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * Gets the value of the <code>defaultButton</code> property,
-     * which if <code>true</code> means that this button is the current
-     * default button for its <code>JRootPane</code>.
-     * Most look and feels render the default button
-     * differently, and may potentially provide bindings
-     * to access the default button.
+     * Gets the vblue of the <code>defbultButton</code> property,
+     * which if <code>true</code> mebns thbt this button is the current
+     * defbult button for its <code>JRootPbne</code>.
+     * Most look bnd feels render the defbult button
+     * differently, bnd mby potentiblly provide bindings
+     * to bccess the defbult button.
      *
-     * @return the value of the <code>defaultButton</code> property
-     * @see JRootPane#setDefaultButton
-     * @see #isDefaultCapable
-     * @beaninfo
-     *  description: Whether or not this button is the default button
+     * @return the vblue of the <code>defbultButton</code> property
+     * @see JRootPbne#setDefbultButton
+     * @see #isDefbultCbpbble
+     * @bebninfo
+     *  description: Whether or not this button is the defbult button
      */
-    public boolean isDefaultButton() {
-        JRootPane root = SwingUtilities.getRootPane(this);
+    public boolebn isDefbultButton() {
+        JRootPbne root = SwingUtilities.getRootPbne(this);
         if (root != null) {
-            return root.getDefaultButton() == this;
+            return root.getDefbultButton() == this;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Gets the value of the <code>defaultCapable</code> property.
+     * Gets the vblue of the <code>defbultCbpbble</code> property.
      *
-     * @return the value of the <code>defaultCapable</code> property
-     * @see #setDefaultCapable
-     * @see #isDefaultButton
-     * @see JRootPane#setDefaultButton
+     * @return the vblue of the <code>defbultCbpbble</code> property
+     * @see #setDefbultCbpbble
+     * @see #isDefbultButton
+     * @see JRootPbne#setDefbultButton
      */
-    public boolean isDefaultCapable() {
-        return defaultCapable;
+    public boolebn isDefbultCbpbble() {
+        return defbultCbpbble;
     }
 
     /**
-     * Sets the <code>defaultCapable</code> property,
-     * which determines whether this button can be
-     * made the default button for its root pane.
-     * The default value of the <code>defaultCapable</code>
+     * Sets the <code>defbultCbpbble</code> property,
+     * which determines whether this button cbn be
+     * mbde the defbult button for its root pbne.
+     * The defbult vblue of the <code>defbultCbpbble</code>
      * property is <code>true</code> unless otherwise
-     * specified by the look and feel.
+     * specified by the look bnd feel.
      *
-     * @param defaultCapable <code>true</code> if this button will be
-     *        capable of being the default button on the
-     *        <code>RootPane</code>; otherwise <code>false</code>
-     * @see #isDefaultCapable
-     * @beaninfo
+     * @pbrbm defbultCbpbble <code>true</code> if this button will be
+     *        cbpbble of being the defbult button on the
+     *        <code>RootPbne</code>; otherwise <code>fblse</code>
+     * @see #isDefbultCbpbble
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether or not this button can be the default button
+     *    bttribute: visublUpdbte true
+     *  description: Whether or not this button cbn be the defbult button
      */
-    public void setDefaultCapable(boolean defaultCapable) {
-        boolean oldDefaultCapable = this.defaultCapable;
-        this.defaultCapable = defaultCapable;
-        firePropertyChange("defaultCapable", oldDefaultCapable, defaultCapable);
+    public void setDefbultCbpbble(boolebn defbultCbpbble) {
+        boolebn oldDefbultCbpbble = this.defbultCbpbble;
+        this.defbultCbpbble = defbultCbpbble;
+        firePropertyChbnge("defbultCbpbble", oldDefbultCbpbble, defbultCbpbble);
     }
 
     /**
      * Overrides <code>JComponent.removeNotify</code> to check if
-     * this button is currently set as the default button on the
-     * <code>RootPane</code>, and if so, sets the <code>RootPane</code>'s
-     * default button to <code>null</code> to ensure the
-     * <code>RootPane</code> doesn't hold onto an invalid button reference.
+     * this button is currently set bs the defbult button on the
+     * <code>RootPbne</code>, bnd if so, sets the <code>RootPbne</code>'s
+     * defbult button to <code>null</code> to ensure the
+     * <code>RootPbne</code> doesn't hold onto bn invblid button reference.
      */
     public void removeNotify() {
-        JRootPane root = SwingUtilities.getRootPane(this);
-        if (root != null && root.getDefaultButton() == this) {
-            root.setDefaultButton(null);
+        JRootPbne root = SwingUtilities.getRootPbne(this);
+        if (root != null && root.getDefbultButton() == this) {
+            root.setDefbultButton(null);
         }
         super.removeNotify();
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JButton</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this <code>JButton</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JButton</code>
+     * @return  b string representbtion of this <code>JButton</code>
      */
-    protected String paramString() {
-        String defaultCapableString = (defaultCapable ? "true" : "false");
+    protected String pbrbmString() {
+        String defbultCbpbbleString = (defbultCbpbble ? "true" : "fblse");
 
-        return super.paramString() +
-            ",defaultCapable=" + defaultCapableString;
+        return super.pbrbmString() +
+            ",defbultCbpbble=" + defbultCbpbbleString;
     }
 
 
@@ -275,52 +275,52 @@ public class JButton extends AbstractButton implements Accessible {
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
+     * Gets the <code>AccessibleContext</code> bssocibted with this
      * <code>JButton</code>. For <code>JButton</code>s,
-     * the <code>AccessibleContext</code> takes the form of an
+     * the <code>AccessibleContext</code> tbkes the form of bn
      * <code>AccessibleJButton</code>.
-     * A new <code>AccessibleJButton</code> instance is created if necessary.
+     * A new <code>AccessibleJButton</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleJButton</code> that serves as the
+     * @return bn <code>AccessibleJButton</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this <code>JButton</code>
-     * @beaninfo
+     * @bebninfo
      *       expert: true
-     *  description: The AccessibleContext associated with this Button.
+     *  description: The AccessibleContext bssocibted with this Button.
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJButton();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJButton();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JButton</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to button user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JButton</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to button user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJButton extends AccessibleAbstractButton {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJButton extends AccessibleAbstrbctButton {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PUSH_BUTTON;
         }
-    } // inner class AccessibleJButton
+    } // inner clbss AccessibleJButton
 }

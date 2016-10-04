@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.JToggleButton;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import jbvbx.swing.AbstrbctButton;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JToggleButton;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.UIMbnbger;
 
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.CompoundBorder;
+import jbvbx.swing.border.EmptyBorder;
 
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.*;
 
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicToolBarUI;
+import jbvbx.swing.plbf.bbsic.BbsicBorders;
+import jbvbx.swing.plbf.bbsic.BbsicToolBbrUI;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
 
 
-public class WindowsToolBarUI extends BasicToolBarUI {
+public clbss WindowsToolBbrUI extends BbsicToolBbrUI {
 
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsToolBarUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new WindowsToolBbrUI();
     }
 
-    protected void installDefaults() {
+    protected void instbllDefbults() {
         if (XPStyle.getXP() != null) {
             setRolloverBorders(true);
         }
-        super.installDefaults();
+        super.instbllDefbults();
     }
 
-    protected Border createRolloverBorder() {
+    protected Border crebteRolloverBorder() {
         if (XPStyle.getXP() != null) {
             return new EmptyBorder(3, 3, 3, 3);
         } else {
-            return super.createRolloverBorder();
+            return super.crebteRolloverBorder();
         }
     }
 
-    protected Border createNonRolloverBorder() {
+    protected Border crebteNonRolloverBorder() {
         if (XPStyle.getXP() != null) {
             return new EmptyBorder(3, 3, 3, 3);
         } else {
-            return super.createNonRolloverBorder();
+            return super.crebteNonRolloverBorder();
         }
     }
 
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            xp.getSkin(c, Part.TP_TOOLBAR).paintSkin(g, 0, 0,
+            xp.getSkin(c, Pbrt.TP_TOOLBAR).pbintSkin(g, 0, 0,
                         c.getWidth(), c.getHeight(), null, true);
         } else {
-            super.paint(g, c);
+            super.pbint(g, c);
         }
     }
 
@@ -88,7 +88,7 @@ public class WindowsToolBarUI extends BasicToolBarUI {
      * {@inheritDoc}
      * @since 1.6
      */
-    protected Border getRolloverBorder(AbstractButton b) {
+    protected Border getRolloverBorder(AbstrbctButton b) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
             return xp.getBorder(b, WindowsButtonUI.getXPButtonType(b));

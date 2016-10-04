@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.io.IOException;
-import java.rmi.server.UID;
-import sun.rmi.server.MarshalOutputStream;
+import jbvb.io.IOException;
+import jbvb.rmi.server.UID;
+import sun.rmi.server.MbrshblOutputStrebm;
 
 /**
- * Special stream to keep track of refs being marshaled as return
- * results to determine whether a special ack needs to be sent
+ * Specibl strebm to keep trbck of refs being mbrshbled bs return
+ * results to determine whether b specibl bck needs to be sent
  * to the distributed collector.
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-class ConnectionOutputStream extends MarshalOutputStream {
+clbss ConnectionOutputStrebm extends MbrshblOutputStrebm {
 
-    /** connection associated with ConnectionOutputStream */
-    private final Connection conn;
-    /** indicates whether output stream is used to marshal results */
-    private final boolean resultStream;
-    /** identifier for gc ack*/
-    private final UID ackID;
+    /** connection bssocibted with ConnectionOutputStrebm */
+    privbte finbl Connection conn;
+    /** indicbtes whether output strebm is used to mbrshbl results */
+    privbte finbl boolebn resultStrebm;
+    /** identifier for gc bck*/
+    privbte finbl UID bckID;
 
-    /** to store refs to returned remote object until DGC ack is received */
-    private DGCAckHandler dgcAckHandler = null;
+    /** to store refs to returned remote object until DGC bck is received */
+    privbte DGCAckHbndler dgcAckHbndler = null;
 
     /**
-     * Constructs an marshal output stream using the underlying
-     * stream associated with the connection, the parameter c.
-     * @param c is the Connection object associated with the
-     * ConnectionOutputStream object being constructed
-     * @param resultStream indicates whether this stream is used
-     * to marshal return results
+     * Constructs bn mbrshbl output strebm using the underlying
+     * strebm bssocibted with the connection, the pbrbmeter c.
+     * @pbrbm c is the Connection object bssocibted with the
+     * ConnectionOutputStrebm object being constructed
+     * @pbrbm resultStrebm indicbtes whether this strebm is used
+     * to mbrshbl return results
      */
-    ConnectionOutputStream(Connection conn, boolean resultStream)
+    ConnectionOutputStrebm(Connection conn, boolebn resultStrebm)
         throws IOException
     {
-        super(conn.getOutputStream());
+        super(conn.getOutputStrebm());
         this.conn = conn;
-        this.resultStream = resultStream;
-        ackID = resultStream ? new UID() : null;
+        this.resultStrebm = resultStrebm;
+        bckID = resultStrebm ? new UID() : null;
     }
 
     void writeID() throws IOException {
-        assert resultStream;
-        ackID.write(this);
+        bssert resultStrebm;
+        bckID.write(this);
     }
 
     /**
-     * Returns true if this output stream is used to marshal return
-     * results; otherwise returns false.
+     * Returns true if this output strebm is used to mbrshbl return
+     * results; otherwise returns fblse.
      */
-    boolean isResultStream() {
-        return resultStream;
+    boolebn isResultStrebm() {
+        return resultStrebm;
     }
 
     /**
-     * Saves a reference to the specified object in this stream's
-     * DGCAckHandler.
+     * Sbves b reference to the specified object in this strebm's
+     * DGCAckHbndler.
      **/
-    void saveObject(Object obj) {
-        // should always be accessed from same thread
-        if (dgcAckHandler == null) {
-            dgcAckHandler = new DGCAckHandler(ackID);
+    void sbveObject(Object obj) {
+        // should blwbys be bccessed from sbme threbd
+        if (dgcAckHbndler == null) {
+            dgcAckHbndler = new DGCAckHbndler(bckID);
         }
-        dgcAckHandler.add(obj);
+        dgcAckHbndler.bdd(obj);
     }
 
     /**
-     * Returns this stream's DGCAckHandler, or null if it doesn't have
-     * one (saveObject was not invoked).  This method should only be
-     * invoked after all objects have been written to the stream,
-     * because future objects written may yet cause a DGCAckHandler to
-     * be created (by invoking saveObject).
+     * Returns this strebm's DGCAckHbndler, or null if it doesn't hbve
+     * one (sbveObject wbs not invoked).  This method should only be
+     * invoked bfter bll objects hbve been written to the strebm,
+     * becbuse future objects written mby yet cbuse b DGCAckHbndler to
+     * be crebted (by invoking sbveObject).
      **/
-    DGCAckHandler getDGCAckHandler() {
-        return dgcAckHandler;
+    DGCAckHbndler getDGCAckHbndler() {
+        return dgcAckHbndler;
     }
 
     void done() {
-        if (dgcAckHandler != null) {
-            dgcAckHandler.startTimer();
+        if (dgcAckHbndler != null) {
+            dgcAckHbndler.stbrtTimer();
         }
     }
 }

@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.awt.AWTEvent;
-import javax.swing.JInternalFrame;
+import jbvb.bwt.AWTEvent;
+import jbvbx.swing.JInternblFrbme;
 
 /**
- * An <code>AWTEvent</code> that adds support for
- * <code>JInternalFrame</code> objects as the event source.  This class has the
- * same event types as <code>WindowEvent</code>,
- * although different IDs are used.
- * Help on handling internal frame events
+ * An <code>AWTEvent</code> thbt bdds support for
+ * <code>JInternblFrbme</code> objects bs the event source.  This clbss hbs the
+ * sbme event types bs <code>WindowEvent</code>,
+ * blthough different IDs bre used.
+ * Help on hbndling internbl frbme events
  * is in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/internalframelistener.html" target="_top">How to Write an Internal Frame Listener</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/internblfrbmelistener.html" tbrget="_top">How to Write bn Internbl Frbme Listener</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see java.awt.event.WindowEvent
- * @see java.awt.event.WindowListener
- * @see JInternalFrame
- * @see InternalFrameListener
+ * @see jbvb.bwt.event.WindowEvent
+ * @see jbvb.bwt.event.WindowListener
+ * @see JInternblFrbme
+ * @see InternblFrbmeListener
  *
- * @author Thomas Ball
+ * @buthor Thombs Bbll
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class InternalFrameEvent extends AWTEvent {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss InternblFrbmeEvent extends AWTEvent {
 
     /**
-     * The first number in the range of IDs used for internal frame events.
+     * The first number in the rbnge of IDs used for internbl frbme events.
      */
-    public static final int INTERNAL_FRAME_FIRST        = 25549;
+    public stbtic finbl int INTERNAL_FRAME_FIRST        = 25549;
 
     /**
-     * The last number in the range of IDs used for internal frame events.
+     * The lbst number in the rbnge of IDs used for internbl frbme events.
      */
-    public static final int INTERNAL_FRAME_LAST         = 25555;
+    public stbtic finbl int INTERNAL_FRAME_LAST         = 25555;
 
     /**
      * The "window opened" event.  This event is delivered only
-     * the first time the internal frame is made visible.
+     * the first time the internbl frbme is mbde visible.
      *
-     * @see JInternalFrame#show
+     * @see JInternblFrbme#show
      */
-    public static final int INTERNAL_FRAME_OPENED       = INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_OPENED       = INTERNAL_FRAME_FIRST;
 
     /**
      * The "window is closing" event. This event is delivered when
-     * the user attempts to close the internal frame, such as by
-     * clicking the internal frame's close button,
-     * or when a program attempts to close the internal frame
+     * the user bttempts to close the internbl frbme, such bs by
+     * clicking the internbl frbme's close button,
+     * or when b progrbm bttempts to close the internbl frbme
      * by invoking the <code>setClosed</code> method.
      *
-     * @see JInternalFrame#setDefaultCloseOperation
-     * @see JInternalFrame#doDefaultCloseAction
-     * @see JInternalFrame#setClosed
+     * @see JInternblFrbme#setDefbultCloseOperbtion
+     * @see JInternblFrbme#doDefbultCloseAction
+     * @see JInternblFrbme#setClosed
      */
-    public static final int INTERNAL_FRAME_CLOSING      = 1 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_CLOSING      = 1 + INTERNAL_FRAME_FIRST;
 
     /**
-     * The "window closed" event. This event is delivered after
-     * the internal frame has been closed as the result of a call to
+     * The "window closed" event. This event is delivered bfter
+     * the internbl frbme hbs been closed bs the result of b cbll to
      * the <code>setClosed</code> or
      * <code>dispose</code> method.
      *
-     * @see JInternalFrame#setClosed
-     * @see JInternalFrame#dispose
+     * @see JInternblFrbme#setClosed
+     * @see JInternblFrbme#dispose
      */
-    public static final int INTERNAL_FRAME_CLOSED       = 2 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_CLOSED       = 2 + INTERNAL_FRAME_FIRST;
 
     /**
      * The "window iconified" event.
-     * This event indicates that the internal frame
-     * was shrunk down to a small icon.
+     * This event indicbtes thbt the internbl frbme
+     * wbs shrunk down to b smbll icon.
      *
-     * @see JInternalFrame#setIcon
+     * @see JInternblFrbme#setIcon
      */
-    public static final int INTERNAL_FRAME_ICONIFIED    = 3 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_ICONIFIED    = 3 + INTERNAL_FRAME_FIRST;
 
     /**
-     * The "window deiconified" event type. This event indicates that the
-     * internal frame has been restored to its normal size.
+     * The "window deiconified" event type. This event indicbtes thbt the
+     * internbl frbme hbs been restored to its normbl size.
      *
-     * @see JInternalFrame#setIcon
+     * @see JInternblFrbme#setIcon
      */
-    public static final int INTERNAL_FRAME_DEICONIFIED  = 4 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_DEICONIFIED  = 4 + INTERNAL_FRAME_FIRST;
 
     /**
-     * The "window activated" event type. This event indicates that keystrokes
-     * and mouse clicks are directed towards this internal frame.
+     * The "window bctivbted" event type. This event indicbtes thbt keystrokes
+     * bnd mouse clicks bre directed towbrds this internbl frbme.
      *
-     * @see JInternalFrame#show
-     * @see JInternalFrame#setSelected
+     * @see JInternblFrbme#show
+     * @see JInternblFrbme#setSelected
      */
-    public static final int INTERNAL_FRAME_ACTIVATED    = 5 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_ACTIVATED    = 5 + INTERNAL_FRAME_FIRST;
 
     /**
-     * The "window deactivated" event type. This event indicates that keystrokes
-     * and mouse clicks are no longer directed to the internal frame.
+     * The "window debctivbted" event type. This event indicbtes thbt keystrokes
+     * bnd mouse clicks bre no longer directed to the internbl frbme.
      *
-     * @see JInternalFrame#setSelected
+     * @see JInternblFrbme#setSelected
      */
-    public static final int INTERNAL_FRAME_DEACTIVATED  = 6 + INTERNAL_FRAME_FIRST;
+    public stbtic finbl int INTERNAL_FRAME_DEACTIVATED  = 6 + INTERNAL_FRAME_FIRST;
 
     /**
-     * Constructs an <code>InternalFrameEvent</code> object.
-     * @param source the <code>JInternalFrame</code> object that originated the event
-     * @param id     an integer indicating the type of event
+     * Constructs bn <code>InternblFrbmeEvent</code> object.
+     * @pbrbm source the <code>JInternblFrbme</code> object thbt originbted the event
+     * @pbrbm id     bn integer indicbting the type of event
      */
-    public InternalFrameEvent(JInternalFrame source, int id) {
+    public InternblFrbmeEvent(JInternblFrbme source, int id) {
         super(source, id);
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event logging and for debugging.
+     * Returns b pbrbmeter string identifying this event.
+     * This method is useful for event logging bnd for debugging.
      *
-     * @return a string identifying the event and its attributes
+     * @return b string identifying the event bnd its bttributes
      */
-    public String paramString() {
+    public String pbrbmString() {
         String typeStr;
         switch(id) {
-          case INTERNAL_FRAME_OPENED:
+          cbse INTERNAL_FRAME_OPENED:
               typeStr = "INTERNAL_FRAME_OPENED";
-              break;
-          case INTERNAL_FRAME_CLOSING:
+              brebk;
+          cbse INTERNAL_FRAME_CLOSING:
               typeStr = "INTERNAL_FRAME_CLOSING";
-              break;
-          case INTERNAL_FRAME_CLOSED:
+              brebk;
+          cbse INTERNAL_FRAME_CLOSED:
               typeStr = "INTERNAL_FRAME_CLOSED";
-              break;
-          case INTERNAL_FRAME_ICONIFIED:
+              brebk;
+          cbse INTERNAL_FRAME_ICONIFIED:
               typeStr = "INTERNAL_FRAME_ICONIFIED";
-              break;
-          case INTERNAL_FRAME_DEICONIFIED:
+              brebk;
+          cbse INTERNAL_FRAME_DEICONIFIED:
               typeStr = "INTERNAL_FRAME_DEICONIFIED";
-              break;
-          case INTERNAL_FRAME_ACTIVATED:
+              brebk;
+          cbse INTERNAL_FRAME_ACTIVATED:
               typeStr = "INTERNAL_FRAME_ACTIVATED";
-              break;
-          case INTERNAL_FRAME_DEACTIVATED:
+              brebk;
+          cbse INTERNAL_FRAME_DEACTIVATED:
               typeStr = "INTERNAL_FRAME_DEACTIVATED";
-              break;
-          default:
+              brebk;
+          defbult:
               typeStr = "unknown type";
         }
         return typeStr;
@@ -179,14 +179,14 @@ public class InternalFrameEvent extends AWTEvent {
 
 
     /**
-     * Returns the originator of the event.
+     * Returns the originbtor of the event.
      *
-     * @return the <code>JInternalFrame</code> object that originated the event
+     * @return the <code>JInternblFrbme</code> object thbt originbted the event
      * @since 1.3
      */
 
-    public JInternalFrame getInternalFrame () {
-      return (source instanceof JInternalFrame)? (JInternalFrame)source : null;
+    public JInternblFrbme getInternblFrbme () {
+      return (source instbnceof JInternblFrbme)? (JInternblFrbme)source : null;
     }
 
 

@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import com.sun.java.util.jar.pack.ConstantPool.Index;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static com.sun.java.util.jar.pack.Constants.*;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Entry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Index;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 
 /**
- * Represents an attribute in a class-file.
- * Takes care to remember where constant pool indexes occur.
- * Implements the "little language" of Pack200 for describing
- * attribute layouts.
- * @author John Rose
+ * Represents bn bttribute in b clbss-file.
+ * Tbkes cbre to remember where constbnt pool indexes occur.
+ * Implements the "little lbngubge" of Pbck200 for describing
+ * bttribute lbyouts.
+ * @buthor John Rose
  */
-class Attribute implements Comparable<Attribute> {
-    // Attribute instance fields.
+clbss Attribute implements Compbrbble<Attribute> {
+    // Attribute instbnce fields.
 
-    Layout def;     // the name and format of this attr
-    byte[] bytes;   // the actual bytes
-    Object fixups;  // reference relocations, if any are required
+    Lbyout def;     // the nbme bnd formbt of this bttr
+    byte[] bytes;   // the bctubl bytes
+    Object fixups;  // reference relocbtions, if bny bre required
 
-    public String name() { return def.name(); }
-    public Layout layout() { return def; }
+    public String nbme() { return def.nbme(); }
+    public Lbyout lbyout() { return def; }
     public byte[] bytes() { return bytes; }
     public int size() { return bytes.length; }
-    public Entry getNameRef() { return def.getNameRef(); }
+    public Entry getNbmeRef() { return def.getNbmeRef(); }
 
-    private Attribute(Attribute old) {
+    privbte Attribute(Attribute old) {
         this.def = old.def;
         this.bytes = old.bytes;
         this.fixups = old.fixups;
     }
 
-    public Attribute(Layout def, byte[] bytes, Object fixups) {
+    public Attribute(Lbyout def, byte[] bytes, Object fixups) {
         this.def = def;
         this.bytes = bytes;
         this.fixups = fixups;
         Fixups.setBytes(fixups, bytes);
     }
-    public Attribute(Layout def, byte[] bytes) {
+    public Attribute(Lbyout def, byte[] bytes) {
         this(def, bytes, null);
     }
 
-    public Attribute addContent(byte[] bytes, Object fixups) {
-        assert(isCanonical());
+    public Attribute bddContent(byte[] bytes, Object fixups) {
+        bssert(isCbnonicbl());
         if (bytes.length == 0 && fixups == null)
             return this;
         Attribute res = new Attribute(this);
@@ -84,8 +84,8 @@ class Attribute implements Comparable<Attribute> {
         Fixups.setBytes(fixups, bytes);
         return res;
     }
-    public Attribute addContent(byte[] bytes) {
-        return addContent(bytes, null);
+    public Attribute bddContent(byte[] bytes) {
+        return bddContent(bytes, null);
     }
 
     public void finishRefs(Index ix) {
@@ -95,93 +95,93 @@ class Attribute implements Comparable<Attribute> {
         }
     }
 
-    public boolean isCanonical() {
-        return this == def.canon;
+    public boolebn isCbnonicbl() {
+        return this == def.cbnon;
     }
 
     @Override
-    public int compareTo(Attribute that) {
-        return this.def.compareTo(that.def);
+    public int compbreTo(Attribute thbt) {
+        return this.def.compbreTo(thbt.def);
     }
 
-    private static final Map<List<Attribute>, List<Attribute>> canonLists = new HashMap<>();
-    private static final Map<Layout, Attribute> attributes = new HashMap<>();
-    private static final Map<Layout, Attribute> standardDefs = new HashMap<>();
+    privbte stbtic finbl Mbp<List<Attribute>, List<Attribute>> cbnonLists = new HbshMbp<>();
+    privbte stbtic finbl Mbp<Lbyout, Attribute> bttributes = new HbshMbp<>();
+    privbte stbtic finbl Mbp<Lbyout, Attribute> stbndbrdDefs = new HbshMbp<>();
 
-    // Canonicalized lists of trivial attrs (Deprecated, etc.)
-    // are used by trimToSize, in order to reduce footprint
-    // of some common cases.  (Note that Code attributes are
-    // always zero size.)
-    public static List<Attribute> getCanonList(List<Attribute> al) {
-        synchronized (canonLists) {
-            List<Attribute> cl = canonLists.get(al);
+    // Cbnonicblized lists of trivibl bttrs (Deprecbted, etc.)
+    // bre used by trimToSize, in order to reduce footprint
+    // of some common cbses.  (Note thbt Code bttributes bre
+    // blwbys zero size.)
+    public stbtic List<Attribute> getCbnonList(List<Attribute> bl) {
+        synchronized (cbnonLists) {
+            List<Attribute> cl = cbnonLists.get(bl);
             if (cl == null) {
-                cl = new ArrayList<>(al.size());
-                cl.addAll(al);
-                cl = Collections.unmodifiableList(cl);
-                canonLists.put(al, cl);
+                cl = new ArrbyList<>(bl.size());
+                cl.bddAll(bl);
+                cl = Collections.unmodifibbleList(cl);
+                cbnonLists.put(bl, cl);
             }
             return cl;
         }
     }
 
-    // Find the canonical empty attribute with the given ctype, name, layout.
-    public static Attribute find(int ctype, String name, String layout) {
-        Layout key = Layout.makeKey(ctype, name, layout);
-        synchronized (attributes) {
-            Attribute a = attributes.get(key);
-            if (a == null) {
-                a = new Layout(ctype, name, layout).canonicalInstance();
-                attributes.put(key, a);
+    // Find the cbnonicbl empty bttribute with the given ctype, nbme, lbyout.
+    public stbtic Attribute find(int ctype, String nbme, String lbyout) {
+        Lbyout key = Lbyout.mbkeKey(ctype, nbme, lbyout);
+        synchronized (bttributes) {
+            Attribute b = bttributes.get(key);
+            if (b == null) {
+                b = new Lbyout(ctype, nbme, lbyout).cbnonicblInstbnce();
+                bttributes.put(key, b);
             }
-            return a;
+            return b;
         }
     }
 
-    public static Layout keyForLookup(int ctype, String name) {
-        return Layout.makeKey(ctype, name);
+    public stbtic Lbyout keyForLookup(int ctype, String nbme) {
+        return Lbyout.mbkeKey(ctype, nbme);
     }
 
-    // Find canonical empty attribute with given ctype and name,
-    // and with the standard layout.
-    public static Attribute lookup(Map<Layout, Attribute> defs, int ctype,
-            String name) {
+    // Find cbnonicbl empty bttribute with given ctype bnd nbme,
+    // bnd with the stbndbrd lbyout.
+    public stbtic Attribute lookup(Mbp<Lbyout, Attribute> defs, int ctype,
+            String nbme) {
         if (defs == null) {
-            defs = standardDefs;
+            defs = stbndbrdDefs;
         }
-        return defs.get(Layout.makeKey(ctype, name));
+        return defs.get(Lbyout.mbkeKey(ctype, nbme));
     }
 
-    public static Attribute define(Map<Layout, Attribute> defs, int ctype,
-            String name, String layout) {
-        Attribute a = find(ctype, name, layout);
-        defs.put(Layout.makeKey(ctype, name), a);
-        return a;
+    public stbtic Attribute define(Mbp<Lbyout, Attribute> defs, int ctype,
+            String nbme, String lbyout) {
+        Attribute b = find(ctype, nbme, lbyout);
+        defs.put(Lbyout.mbkeKey(ctype, nbme), b);
+        return b;
     }
 
-    static {
-        Map<Layout, Attribute> sd = standardDefs;
-        define(sd, ATTR_CONTEXT_CLASS, "Signature", "RSH");
+    stbtic {
+        Mbp<Lbyout, Attribute> sd = stbndbrdDefs;
+        define(sd, ATTR_CONTEXT_CLASS, "Signbture", "RSH");
         define(sd, ATTR_CONTEXT_CLASS, "Synthetic", "");
-        define(sd, ATTR_CONTEXT_CLASS, "Deprecated", "");
+        define(sd, ATTR_CONTEXT_CLASS, "Deprecbted", "");
         define(sd, ATTR_CONTEXT_CLASS, "SourceFile", "RUH");
         define(sd, ATTR_CONTEXT_CLASS, "EnclosingMethod", "RCHRDNH");
-        define(sd, ATTR_CONTEXT_CLASS, "InnerClasses", "NH[RCHRCNHRUNHFH]");
-        define(sd, ATTR_CONTEXT_CLASS, "BootstrapMethods", "NH[RMHNH[KLH]]");
+        define(sd, ATTR_CONTEXT_CLASS, "InnerClbsses", "NH[RCHRCNHRUNHFH]");
+        define(sd, ATTR_CONTEXT_CLASS, "BootstrbpMethods", "NH[RMHNH[KLH]]");
 
-        define(sd, ATTR_CONTEXT_FIELD, "Signature", "RSH");
+        define(sd, ATTR_CONTEXT_FIELD, "Signbture", "RSH");
         define(sd, ATTR_CONTEXT_FIELD, "Synthetic", "");
-        define(sd, ATTR_CONTEXT_FIELD, "Deprecated", "");
-        define(sd, ATTR_CONTEXT_FIELD, "ConstantValue", "KQH");
+        define(sd, ATTR_CONTEXT_FIELD, "Deprecbted", "");
+        define(sd, ATTR_CONTEXT_FIELD, "ConstbntVblue", "KQH");
 
-        define(sd, ATTR_CONTEXT_METHOD, "Signature", "RSH");
+        define(sd, ATTR_CONTEXT_METHOD, "Signbture", "RSH");
         define(sd, ATTR_CONTEXT_METHOD, "Synthetic", "");
-        define(sd, ATTR_CONTEXT_METHOD, "Deprecated", "");
+        define(sd, ATTR_CONTEXT_METHOD, "Deprecbted", "");
         define(sd, ATTR_CONTEXT_METHOD, "Exceptions", "NH[RCH]");
-        define(sd, ATTR_CONTEXT_METHOD, "MethodParameters", "NB[RUNHFH]");
+        define(sd, ATTR_CONTEXT_METHOD, "MethodPbrbmeters", "NB[RUNHFH]");
         //define(sd, ATTR_CONTEXT_METHOD, "Code", "HHNI[B]NH[PHPOHPOHRCNH]NH[RUHNI[B]]");
 
-        define(sd, ATTR_CONTEXT_CODE, "StackMapTable",
+        define(sd, ATTR_CONTEXT_CODE, "StbckMbpTbble",
                ("[NH[(1)]]" +
                 "[TB" +
                 "(64-127)[(2)]" +
@@ -196,61 +196,61 @@ class Attribute implements Comparable<Attribute> {
                 "[H]" +
                 "[TB(7)[RCH](8)[PH]()[]]"));
 
-        define(sd, ATTR_CONTEXT_CODE, "LineNumberTable", "NH[PHH]");
-        define(sd, ATTR_CONTEXT_CODE, "LocalVariableTable", "NH[PHOHRUHRSHH]");
-        define(sd, ATTR_CONTEXT_CODE, "LocalVariableTypeTable", "NH[PHOHRUHRSHH]");
-        //define(sd, ATTR_CONTEXT_CODE, "CharacterRangeTable", "NH[PHPOHIIH]");
-        //define(sd, ATTR_CONTEXT_CODE, "CoverageTable", "NH[PHHII]");
+        define(sd, ATTR_CONTEXT_CODE, "LineNumberTbble", "NH[PHH]");
+        define(sd, ATTR_CONTEXT_CODE, "LocblVbribbleTbble", "NH[PHOHRUHRSHH]");
+        define(sd, ATTR_CONTEXT_CODE, "LocblVbribbleTypeTbble", "NH[PHOHRUHRSHH]");
+        //define(sd, ATTR_CONTEXT_CODE, "ChbrbcterRbngeTbble", "NH[PHPOHIIH]");
+        //define(sd, ATTR_CONTEXT_CODE, "CoverbgeTbble", "NH[PHHII]");
 
-        // Note:  Code and InnerClasses are special-cased elsewhere.
-        // Their layout specs. are given here for completeness.
-        // The Code spec is incomplete, in that it does not distinguish
-        // bytecode bytes or locate CP references.
-        // The BootstrapMethods attribute is also special-cased
-        // elsewhere as an appendix to the local constant pool.
+        // Note:  Code bnd InnerClbsses bre specibl-cbsed elsewhere.
+        // Their lbyout specs. bre given here for completeness.
+        // The Code spec is incomplete, in thbt it does not distinguish
+        // bytecode bytes or locbte CP references.
+        // The BootstrbpMethods bttribute is blso specibl-cbsed
+        // elsewhere bs bn bppendix to the locbl constbnt pool.
     }
 
-    // Metadata.
+    // Metbdbtb.
     //
-    // We define metadata using similar layouts
-    // for all five kinds of metadata attributes and 2 type metadata attributes
+    // We define metbdbtb using similbr lbyouts
+    // for bll five kinds of metbdbtb bttributes bnd 2 type metbdbtb bttributes
     //
-    // Regular annotations are a counted list of [RSHNH[RUH(1)]][...]
-    //   pack.method.attribute.RuntimeVisibleAnnotations=[NH[(1)]][RSHNH[RUH(1)]][TB...]
+    // Regulbr bnnotbtions bre b counted list of [RSHNH[RUH(1)]][...]
+    //   pbck.method.bttribute.RuntimeVisibleAnnotbtions=[NH[(1)]][RSHNH[RUH(1)]][TB...]
     //
-    // Parameter annotations are a counted list of regular annotations.
-    //   pack.method.attribute.RuntimeVisibleParameterAnnotations=[NB[(1)]][NH[(1)]][RSHNH[RUH(1)]][TB...]
+    // Pbrbmeter bnnotbtions bre b counted list of regulbr bnnotbtions.
+    //   pbck.method.bttribute.RuntimeVisiblePbrbmeterAnnotbtions=[NB[(1)]][NH[(1)]][RSHNH[RUH(1)]][TB...]
     //
-    // RuntimeInvisible annotations are defined similarly...
-    // Non-method annotations are defined similarly...
+    // RuntimeInvisible bnnotbtions bre defined similbrly...
+    // Non-method bnnotbtions bre defined similbrly...
     //
-    // Annotation are a simple tagged value [TB...]
-    //   pack.attribute.method.AnnotationDefault=[TB...]
+    // Annotbtion bre b simple tbgged vblue [TB...]
+    //   pbck.bttribute.method.AnnotbtionDefbult=[TB...]
 
-    static {
-        String mdLayouts[] = {
-            Attribute.normalizeLayoutString
+    stbtic {
+        String mdLbyouts[] = {
+            Attribute.normblizeLbyoutString
             (""
-             +"\n  # parameter_annotations :="
-             +"\n  [ NB[(1)] ]     # forward call to annotations"
+             +"\n  # pbrbmeter_bnnotbtions :="
+             +"\n  [ NB[(1)] ]     # forwbrd cbll to bnnotbtions"
              ),
-            Attribute.normalizeLayoutString
+            Attribute.normblizeLbyoutString
             (""
-             +"\n  # annotations :="
-             +"\n  [ NH[(1)] ]     # forward call to annotation"
+             +"\n  # bnnotbtions :="
+             +"\n  [ NH[(1)] ]     # forwbrd cbll to bnnotbtion"
              +"\n  "
             ),
-            Attribute.normalizeLayoutString
+            Attribute.normblizeLbyoutString
              (""
-             +"\n  # annotation :="
+             +"\n  # bnnotbtion :="
              +"\n  [RSH"
-             +"\n    NH[RUH (1)]   # forward call to value"
+             +"\n    NH[RUH (1)]   # forwbrd cbll to vblue"
              +"\n    ]"
              ),
-            Attribute.normalizeLayoutString
+            Attribute.normblizeLbyoutString
             (""
-             +"\n  # value :="
-             +"\n  [TB # Callable 2 encodes one tagged value."
+             +"\n  # vblue :="
+             +"\n  [TB # Cbllbble 2 encodes one tbgged vblue."
              +"\n    (\\B,\\C,\\I,\\S,\\Z)[KIH]"
              +"\n    (\\D)[KDH]"
              +"\n    (\\F)[KFH]"
@@ -258,26 +258,26 @@ class Attribute implements Comparable<Attribute> {
              +"\n    (\\c)[RSH]"
              +"\n    (\\e)[RSH RUH]"
              +"\n    (\\s)[RUH]"
-             +"\n    (\\[)[NH[(0)]] # backward self-call to value"
-             +"\n    (\\@)[RSH NH[RUH (0)]] # backward self-call to value"
+             +"\n    (\\[)[NH[(0)]] # bbckwbrd self-cbll to vblue"
+             +"\n    (\\@)[RSH NH[RUH (0)]] # bbckwbrd self-cbll to vblue"
              +"\n    ()[] ]"
              )
         };
         /*
-         * RuntimeVisibleTypeAnnotation and RuntimeInvisibleTypeAnnotatation are
-         * similar to RuntimeVisibleAnnotation and RuntimeInvisibleAnnotation,
-         * a type-annotation union  and a type-path structure precedes the
-         * annotation structure
+         * RuntimeVisibleTypeAnnotbtion bnd RuntimeInvisibleTypeAnnotbtbtion bre
+         * similbr to RuntimeVisibleAnnotbtion bnd RuntimeInvisibleAnnotbtion,
+         * b type-bnnotbtion union  bnd b type-pbth structure precedes the
+         * bnnotbtion structure
          */
-        String typeLayouts[] = {
-            Attribute.normalizeLayoutString
+        String typeLbyouts[] = {
+            Attribute.normblizeLbyoutString
             (""
-             +"\n # type-annotations :="
-             +"\n  [ NH[(1)(2)(3)] ]     # forward call to type-annotations"
+             +"\n # type-bnnotbtions :="
+             +"\n  [ NH[(1)(2)(3)] ]     # forwbrd cbll to type-bnnotbtions"
             ),
-            Attribute.normalizeLayoutString
+            Attribute.normblizeLbyoutString
             ( ""
-             +"\n  # type-annotation :="
+             +"\n  # type-bnnotbtion :="
              +"\n  [TB"
              +"\n    (0-1) [B] # {CLASS, METHOD}_TYPE_PARAMETER"
              +"\n    (16) [FH] # CLASS_EXTENDS"
@@ -291,470 +291,470 @@ class Attribute implements Comparable<Attribute> {
              +"\n    (71-75) [PHB] # CAST, {CONSTRUCTOR,METHOD}_INVOCATION_TYPE_ARGUMENT, {CONSTRUCTOR, METHOD}_REFERENCE_TYPE_ARGUMENT"
              +"\n    ()[] ]"
             ),
-            Attribute.normalizeLayoutString
+            Attribute.normblizeLbyoutString
             (""
-             +"\n # type-path"
+             +"\n # type-pbth"
              +"\n [ NB[BB] ]"
             )
         };
-        Map<Layout, Attribute> sd = standardDefs;
-        String defaultLayout     = mdLayouts[3];
-        String annotationsLayout = mdLayouts[1] + mdLayouts[2] + mdLayouts[3];
-        String paramsLayout      = mdLayouts[0] + annotationsLayout;
-        String typesLayout       = typeLayouts[0] + typeLayouts[1] +
-                                   typeLayouts[2] + mdLayouts[2] + mdLayouts[3];
+        Mbp<Lbyout, Attribute> sd = stbndbrdDefs;
+        String defbultLbyout     = mdLbyouts[3];
+        String bnnotbtionsLbyout = mdLbyouts[1] + mdLbyouts[2] + mdLbyouts[3];
+        String pbrbmsLbyout      = mdLbyouts[0] + bnnotbtionsLbyout;
+        String typesLbyout       = typeLbyouts[0] + typeLbyouts[1] +
+                                   typeLbyouts[2] + mdLbyouts[2] + mdLbyouts[3];
 
         for (int ctype = 0; ctype < ATTR_CONTEXT_LIMIT; ctype++) {
             if (ctype != ATTR_CONTEXT_CODE) {
                 define(sd, ctype,
-                       "RuntimeVisibleAnnotations",   annotationsLayout);
+                       "RuntimeVisibleAnnotbtions",   bnnotbtionsLbyout);
                 define(sd, ctype,
-                       "RuntimeInvisibleAnnotations",  annotationsLayout);
+                       "RuntimeInvisibleAnnotbtions",  bnnotbtionsLbyout);
 
                 if (ctype == ATTR_CONTEXT_METHOD) {
                     define(sd, ctype,
-                           "RuntimeVisibleParameterAnnotations",   paramsLayout);
+                           "RuntimeVisiblePbrbmeterAnnotbtions",   pbrbmsLbyout);
                     define(sd, ctype,
-                           "RuntimeInvisibleParameterAnnotations", paramsLayout);
+                           "RuntimeInvisiblePbrbmeterAnnotbtions", pbrbmsLbyout);
                     define(sd, ctype,
-                           "AnnotationDefault", defaultLayout);
+                           "AnnotbtionDefbult", defbultLbyout);
                 }
             }
             define(sd, ctype,
-                   "RuntimeVisibleTypeAnnotations", typesLayout);
+                   "RuntimeVisibleTypeAnnotbtions", typesLbyout);
             define(sd, ctype,
-                   "RuntimeInvisibleTypeAnnotations", typesLayout);
+                   "RuntimeInvisibleTypeAnnotbtions", typesLbyout);
         }
     }
 
-    public static String contextName(int ctype) {
+    public stbtic String contextNbme(int ctype) {
         switch (ctype) {
-        case ATTR_CONTEXT_CLASS: return "class";
-        case ATTR_CONTEXT_FIELD: return "field";
-        case ATTR_CONTEXT_METHOD: return "method";
-        case ATTR_CONTEXT_CODE: return "code";
+        cbse ATTR_CONTEXT_CLASS: return "clbss";
+        cbse ATTR_CONTEXT_FIELD: return "field";
+        cbse ATTR_CONTEXT_METHOD: return "method";
+        cbse ATTR_CONTEXT_CODE: return "code";
         }
         return null;
     }
 
-    /** Base class for any attributed object (Class, Field, Method, Code).
-     *  Flags are included because they are used to help transmit the
-     *  presence of attributes.  That is, flags are a mix of modifier
-     *  bits and attribute indicators.
+    /** Bbse clbss for bny bttributed object (Clbss, Field, Method, Code).
+     *  Flbgs bre included becbuse they bre used to help trbnsmit the
+     *  presence of bttributes.  Thbt is, flbgs bre b mix of modifier
+     *  bits bnd bttribute indicbtors.
      */
-    public static abstract
-    class Holder {
+    public stbtic bbstrbct
+    clbss Holder {
 
-        // We need this abstract method to interpret embedded CP refs.
-        protected abstract Entry[] getCPMap();
+        // We need this bbstrbct method to interpret embedded CP refs.
+        protected bbstrbct Entry[] getCPMbp();
 
-        protected int flags;             // defined here for convenience
-        protected List<Attribute> attributes;
+        protected int flbgs;             // defined here for convenience
+        protected List<Attribute> bttributes;
 
-        public int attributeSize() {
-            return (attributes == null) ? 0 : attributes.size();
+        public int bttributeSize() {
+            return (bttributes == null) ? 0 : bttributes.size();
         }
 
         public void trimToSize() {
-            if (attributes == null) {
+            if (bttributes == null) {
                 return;
             }
-            if (attributes.isEmpty()) {
-                attributes = null;
+            if (bttributes.isEmpty()) {
+                bttributes = null;
                 return;
             }
-            if (attributes instanceof ArrayList) {
-                ArrayList<Attribute> al = (ArrayList<Attribute>)attributes;
-                al.trimToSize();
-                boolean allCanon = true;
-                for (Attribute a : al) {
-                    if (!a.isCanonical()) {
-                        allCanon = false;
+            if (bttributes instbnceof ArrbyList) {
+                ArrbyList<Attribute> bl = (ArrbyList<Attribute>)bttributes;
+                bl.trimToSize();
+                boolebn bllCbnon = true;
+                for (Attribute b : bl) {
+                    if (!b.isCbnonicbl()) {
+                        bllCbnon = fblse;
                     }
-                    if (a.fixups != null) {
-                        assert(!a.isCanonical());
-                        a.fixups = Fixups.trimToSize(a.fixups);
+                    if (b.fixups != null) {
+                        bssert(!b.isCbnonicbl());
+                        b.fixups = Fixups.trimToSize(b.fixups);
                     }
                 }
-                if (allCanon) {
-                    // Replace private writable attribute list
-                    // with only trivial entries by public unique
-                    // immutable attribute list with the same entries.
-                    attributes = getCanonList(al);
+                if (bllCbnon) {
+                    // Replbce privbte writbble bttribute list
+                    // with only trivibl entries by public unique
+                    // immutbble bttribute list with the sbme entries.
+                    bttributes = getCbnonList(bl);
                 }
             }
         }
 
-        public void addAttribute(Attribute a) {
-            if (attributes == null)
-                attributes = new ArrayList<>(3);
-            else if (!(attributes instanceof ArrayList))
-                attributes = new ArrayList<>(attributes);  // unfreeze it
-            attributes.add(a);
+        public void bddAttribute(Attribute b) {
+            if (bttributes == null)
+                bttributes = new ArrbyList<>(3);
+            else if (!(bttributes instbnceof ArrbyList))
+                bttributes = new ArrbyList<>(bttributes);  // unfreeze it
+            bttributes.bdd(b);
         }
 
-        public Attribute removeAttribute(Attribute a) {
-            if (attributes == null)       return null;
-            if (!attributes.contains(a))  return null;
-            if (!(attributes instanceof ArrayList))
-                attributes = new ArrayList<>(attributes);  // unfreeze it
-            attributes.remove(a);
-            return a;
+        public Attribute removeAttribute(Attribute b) {
+            if (bttributes == null)       return null;
+            if (!bttributes.contbins(b))  return null;
+            if (!(bttributes instbnceof ArrbyList))
+                bttributes = new ArrbyList<>(bttributes);  // unfreeze it
+            bttributes.remove(b);
+            return b;
         }
 
         public Attribute getAttribute(int n) {
-            return attributes.get(n);
+            return bttributes.get(n);
         }
 
         protected void visitRefs(int mode, Collection<Entry> refs) {
-            if (attributes == null)  return;
-            for (Attribute a : attributes) {
-                a.visitRefs(this, mode, refs);
+            if (bttributes == null)  return;
+            for (Attribute b : bttributes) {
+                b.visitRefs(this, mode, refs);
             }
         }
 
-        static final List<Attribute> noAttributes = Arrays.asList(new Attribute[0]);
+        stbtic finbl List<Attribute> noAttributes = Arrbys.bsList(new Attribute[0]);
 
         public List<Attribute> getAttributes() {
-            if (attributes == null)
+            if (bttributes == null)
                 return noAttributes;
-            return attributes;
+            return bttributes;
         }
 
-        public void setAttributes(List<Attribute> attrList) {
-            if (attrList.isEmpty())
-                attributes = null;
+        public void setAttributes(List<Attribute> bttrList) {
+            if (bttrList.isEmpty())
+                bttributes = null;
             else
-                attributes = attrList;
+                bttributes = bttrList;
         }
 
-        public Attribute getAttribute(String attrName) {
-            if (attributes == null)  return null;
-            for (Attribute a : attributes) {
-                if (a.name().equals(attrName))
-                    return a;
+        public Attribute getAttribute(String bttrNbme) {
+            if (bttributes == null)  return null;
+            for (Attribute b : bttributes) {
+                if (b.nbme().equbls(bttrNbme))
+                    return b;
             }
             return null;
         }
 
-        public Attribute getAttribute(Layout attrDef) {
-            if (attributes == null)  return null;
-            for (Attribute a : attributes) {
-                if (a.layout() == attrDef)
-                    return a;
+        public Attribute getAttribute(Lbyout bttrDef) {
+            if (bttributes == null)  return null;
+            for (Attribute b : bttributes) {
+                if (b.lbyout() == bttrDef)
+                    return b;
             }
             return null;
         }
 
-        public Attribute removeAttribute(String attrName) {
-            return removeAttribute(getAttribute(attrName));
+        public Attribute removeAttribute(String bttrNbme) {
+            return removeAttribute(getAttribute(bttrNbme));
         }
 
-        public Attribute removeAttribute(Layout attrDef) {
-            return removeAttribute(getAttribute(attrDef));
+        public Attribute removeAttribute(Lbyout bttrDef) {
+            return removeAttribute(getAttribute(bttrDef));
         }
 
-        public void strip(String attrName) {
-            removeAttribute(getAttribute(attrName));
+        public void strip(String bttrNbme) {
+            removeAttribute(getAttribute(bttrNbme));
         }
     }
 
-    // Lightweight interface to hide details of band structure.
+    // Lightweight interfbce to hide detbils of bbnd structure.
     // Also used for testing.
-    public static abstract
-    class ValueStream {
-        public int getInt(int bandIndex) { throw undef(); }
-        public void putInt(int bandIndex, int value) { throw undef(); }
-        public Entry getRef(int bandIndex) { throw undef(); }
-        public void putRef(int bandIndex, Entry ref) { throw undef(); }
+    public stbtic bbstrbct
+    clbss VblueStrebm {
+        public int getInt(int bbndIndex) { throw undef(); }
+        public void putInt(int bbndIndex, int vblue) { throw undef(); }
+        public Entry getRef(int bbndIndex) { throw undef(); }
+        public void putRef(int bbndIndex, Entry ref) { throw undef(); }
         // Note:  decodeBCI goes w/ getInt/Ref; encodeBCI goes w/ putInt/Ref
         public int decodeBCI(int bciCode) { throw undef(); }
         public int encodeBCI(int bci) { throw undef(); }
-        public void noteBackCall(int whichCallable) { /* ignore by default */ }
-        private RuntimeException undef() {
-            return new UnsupportedOperationException("ValueStream method");
+        public void noteBbckCbll(int whichCbllbble) { /* ignore by defbult */ }
+        privbte RuntimeException undef() {
+            return new UnsupportedOperbtionException("VblueStrebm method");
         }
     }
 
     // Element kinds:
-    static final byte EK_INT  = 1;     // B H I SH etc.
-    static final byte EK_BCI  = 2;     // PH POH etc.
-    static final byte EK_BCO  = 3;     // OH etc.
-    static final byte EK_FLAG = 4;     // FH etc.
-    static final byte EK_REPL = 5;     // NH[...] etc.
-    static final byte EK_REF  = 6;     // RUH, RUNH, KQH, etc.
-    static final byte EK_UN   = 7;     // TB(...)[...] etc.
-    static final byte EK_CASE = 8;     // (...)[...] etc.
-    static final byte EK_CALL = 9;     // (0), (1), etc.
-    static final byte EK_CBLE = 10;    // [...][...] etc.
-    static final byte EF_SIGN  = 1<<0;   // INT is signed
-    static final byte EF_DELTA = 1<<1;   // BCI/BCI value is diff'ed w/ previous
-    static final byte EF_NULL  = 1<<2;   // null REF is expected/allowed
-    static final byte EF_BACK  = 1<<3;   // call, callable, case is backward
-    static final int NO_BAND_INDEX = -1;
+    stbtic finbl byte EK_INT  = 1;     // B H I SH etc.
+    stbtic finbl byte EK_BCI  = 2;     // PH POH etc.
+    stbtic finbl byte EK_BCO  = 3;     // OH etc.
+    stbtic finbl byte EK_FLAG = 4;     // FH etc.
+    stbtic finbl byte EK_REPL = 5;     // NH[...] etc.
+    stbtic finbl byte EK_REF  = 6;     // RUH, RUNH, KQH, etc.
+    stbtic finbl byte EK_UN   = 7;     // TB(...)[...] etc.
+    stbtic finbl byte EK_CASE = 8;     // (...)[...] etc.
+    stbtic finbl byte EK_CALL = 9;     // (0), (1), etc.
+    stbtic finbl byte EK_CBLE = 10;    // [...][...] etc.
+    stbtic finbl byte EF_SIGN  = 1<<0;   // INT is signed
+    stbtic finbl byte EF_DELTA = 1<<1;   // BCI/BCI vblue is diff'ed w/ previous
+    stbtic finbl byte EF_NULL  = 1<<2;   // null REF is expected/bllowed
+    stbtic finbl byte EF_BACK  = 1<<3;   // cbll, cbllbble, cbse is bbckwbrd
+    stbtic finbl int NO_BAND_INDEX = -1;
 
-    /** A "class" of attributes, characterized by a context-type, name
-     *  and format.  The formats are specified in a "little language".
+    /** A "clbss" of bttributes, chbrbcterized by b context-type, nbme
+     *  bnd formbt.  The formbts bre specified in b "little lbngubge".
      */
-    public static
-    class Layout implements Comparable<Layout> {
-        int ctype;       // attribute context type, e.g., ATTR_CONTEXT_CODE
-        String name;     // name of attribute
-        boolean hasRefs; // this kind of attr contains CP refs?
-        String layout;   // layout specification
-        int bandCount;   // total number of elems
-        Element[] elems; // tokenization of layout
-        Attribute canon; // canonical instance of this layout
+    public stbtic
+    clbss Lbyout implements Compbrbble<Lbyout> {
+        int ctype;       // bttribute context type, e.g., ATTR_CONTEXT_CODE
+        String nbme;     // nbme of bttribute
+        boolebn hbsRefs; // this kind of bttr contbins CP refs?
+        String lbyout;   // lbyout specificbtion
+        int bbndCount;   // totbl number of elems
+        Element[] elems; // tokenizbtion of lbyout
+        Attribute cbnon; // cbnonicbl instbnce of this lbyout
 
         public int ctype() { return ctype; }
-        public String name() { return name; }
-        public String layout() { return layout; }
-        public Attribute canonicalInstance() { return canon; }
+        public String nbme() { return nbme; }
+        public String lbyout() { return lbyout; }
+        public Attribute cbnonicblInstbnce() { return cbnon; }
 
-        public Entry getNameRef() {
-            return ConstantPool.getUtf8Entry(name());
+        public Entry getNbmeRef() {
+            return ConstbntPool.getUtf8Entry(nbme());
         }
 
-        public boolean isEmpty() {
-            return layout.isEmpty();
+        public boolebn isEmpty() {
+            return lbyout.isEmpty();
         }
 
-        public Layout(int ctype, String name, String layout) {
+        public Lbyout(int ctype, String nbme, String lbyout) {
             this.ctype = ctype;
-            this.name = name.intern();
-            this.layout = layout.intern();
-            assert(ctype < ATTR_CONTEXT_LIMIT);
-            boolean hasCallables = layout.startsWith("[");
+            this.nbme = nbme.intern();
+            this.lbyout = lbyout.intern();
+            bssert(ctype < ATTR_CONTEXT_LIMIT);
+            boolebn hbsCbllbbles = lbyout.stbrtsWith("[");
             try {
-                if (!hasCallables) {
-                    this.elems = tokenizeLayout(this, -1, layout);
+                if (!hbsCbllbbles) {
+                    this.elems = tokenizeLbyout(this, -1, lbyout);
                 } else {
-                    String[] bodies = splitBodies(layout);
-                    // Make the callables now, so they can be linked immediately.
+                    String[] bodies = splitBodies(lbyout);
+                    // Mbke the cbllbbles now, so they cbn be linked immedibtely.
                     Element[] lelems = new Element[bodies.length];
                     this.elems = lelems;
                     for (int i = 0; i < lelems.length; i++) {
                         Element ce = this.new Element();
                         ce.kind = EK_CBLE;
-                        ce.removeBand();
-                        ce.bandIndex = NO_BAND_INDEX;
-                        ce.layout = bodies[i];
+                        ce.removeBbnd();
+                        ce.bbndIndex = NO_BAND_INDEX;
+                        ce.lbyout = bodies[i];
                         lelems[i] = ce;
                     }
                     // Next fill them in.
                     for (int i = 0; i < lelems.length; i++) {
                         Element ce = lelems[i];
-                        ce.body = tokenizeLayout(this, i, bodies[i]);
+                        ce.body = tokenizeLbyout(this, i, bodies[i]);
                     }
-                    //System.out.println(Arrays.asList(elems));
+                    //System.out.println(Arrbys.bsList(elems));
                 }
-            } catch (StringIndexOutOfBoundsException ee) {
-                // simplest way to catch syntax errors...
-                throw new RuntimeException("Bad attribute layout: "+layout, ee);
+            } cbtch (StringIndexOutOfBoundsException ee) {
+                // simplest wby to cbtch syntbx errors...
+                throw new RuntimeException("Bbd bttribute lbyout: "+lbyout, ee);
             }
-            // Some uses do not make a fresh one for each occurrence.
-            // For example, if layout == "", we only need one attr to share.
-            canon = new Attribute(this, noBytes);
+            // Some uses do not mbke b fresh one for ebch occurrence.
+            // For exbmple, if lbyout == "", we only need one bttr to shbre.
+            cbnon = new Attribute(this, noBytes);
         }
-        private Layout() {}
-        static Layout makeKey(int ctype, String name, String layout) {
-            Layout def = new Layout();
+        privbte Lbyout() {}
+        stbtic Lbyout mbkeKey(int ctype, String nbme, String lbyout) {
+            Lbyout def = new Lbyout();
             def.ctype = ctype;
-            def.name = name.intern();
-            def.layout = layout.intern();
-            assert(ctype < ATTR_CONTEXT_LIMIT);
+            def.nbme = nbme.intern();
+            def.lbyout = lbyout.intern();
+            bssert(ctype < ATTR_CONTEXT_LIMIT);
             return def;
         }
-        static Layout makeKey(int ctype, String name) {
-            return makeKey(ctype, name, "");
+        stbtic Lbyout mbkeKey(int ctype, String nbme) {
+            return mbkeKey(ctype, nbme, "");
         }
 
-        public Attribute addContent(byte[] bytes, Object fixups) {
-            return canon.addContent(bytes, fixups);
+        public Attribute bddContent(byte[] bytes, Object fixups) {
+            return cbnon.bddContent(bytes, fixups);
         }
-        public Attribute addContent(byte[] bytes) {
-            return canon.addContent(bytes, null);
+        public Attribute bddContent(byte[] bytes) {
+            return cbnon.bddContent(bytes, null);
         }
 
         @Override
-        public boolean equals(Object x) {
-            return ( x != null) && ( x.getClass() == Layout.class ) &&
-                    equals((Layout)x);
+        public boolebn equbls(Object x) {
+            return ( x != null) && ( x.getClbss() == Lbyout.clbss ) &&
+                    equbls((Lbyout)x);
         }
-        public boolean equals(Layout that) {
-            return this.name.equals(that.name)
-                && this.layout.equals(that.layout)
-                && this.ctype == that.ctype;
+        public boolebn equbls(Lbyout thbt) {
+            return this.nbme.equbls(thbt.nbme)
+                && this.lbyout.equbls(thbt.lbyout)
+                && this.ctype == thbt.ctype;
         }
         @Override
-        public int hashCode() {
-            return (((17 + name.hashCode())
-                    * 37 + layout.hashCode())
+        public int hbshCode() {
+            return (((17 + nbme.hbshCode())
+                    * 37 + lbyout.hbshCode())
                     * 37 + ctype);
         }
         @Override
-        public int compareTo(Layout that) {
+        public int compbreTo(Lbyout thbt) {
             int r;
-            r = this.name.compareTo(that.name);
+            r = this.nbme.compbreTo(thbt.nbme);
             if (r != 0)  return r;
-            r = this.layout.compareTo(that.layout);
+            r = this.lbyout.compbreTo(thbt.lbyout);
             if (r != 0)  return r;
-            return this.ctype - that.ctype;
+            return this.ctype - thbt.ctype;
         }
         @Override
         public String toString() {
-            String str = contextName(ctype)+"."+name+"["+layout+"]";
-            // If -ea, print out more informative strings!
-            assert((str = stringForDebug()) != null);
+            String str = contextNbme(ctype)+"."+nbme+"["+lbyout+"]";
+            // If -eb, print out more informbtive strings!
+            bssert((str = stringForDebug()) != null);
             return str;
         }
-        private String stringForDebug() {
-            return contextName(ctype)+"."+name+Arrays.asList(elems);
+        privbte String stringForDebug() {
+            return contextNbme(ctype)+"."+nbme+Arrbys.bsList(elems);
         }
 
         public
-        class Element {
-            String layout;   // spelling in the little language
-            byte flags;      // EF_SIGN, etc.
+        clbss Element {
+            String lbyout;   // spelling in the little lbngubge
+            byte flbgs;      // EF_SIGN, etc.
             byte kind;       // EK_UINT, etc.
-            byte len;        // scalar length of element
+            byte len;        // scblbr length of element
             byte refKind;    // CONSTANT_String, etc.
-            int bandIndex;   // which band does this element govern?
-            int value;       // extra parameter
-            Element[] body;  // extra data (for replications, unions, calls)
+            int bbndIndex;   // which bbnd does this element govern?
+            int vblue;       // extrb pbrbmeter
+            Element[] body;  // extrb dbtb (for replicbtions, unions, cblls)
 
-            boolean flagTest(byte mask) { return (flags & mask) != 0; }
+            boolebn flbgTest(byte mbsk) { return (flbgs & mbsk) != 0; }
 
             Element() {
-                bandIndex = bandCount++;
+                bbndIndex = bbndCount++;
             }
 
-            void removeBand() {
-                --bandCount;
-                assert(bandIndex == bandCount);
-                bandIndex = NO_BAND_INDEX;
+            void removeBbnd() {
+                --bbndCount;
+                bssert(bbndIndex == bbndCount);
+                bbndIndex = NO_BAND_INDEX;
             }
 
-            public boolean hasBand() {
-                return bandIndex >= 0;
+            public boolebn hbsBbnd() {
+                return bbndIndex >= 0;
             }
             public String toString() {
-                String str = layout;
-                // If -ea, print out more informative strings!
-                assert((str = stringForDebug()) != null);
+                String str = lbyout;
+                // If -eb, print out more informbtive strings!
+                bssert((str = stringForDebug()) != null);
                 return str;
             }
-            private String stringForDebug() {
+            privbte String stringForDebug() {
                 Element[] lbody = this.body;
                 switch (kind) {
-                case EK_CALL:
+                cbse EK_CALL:
                     lbody = null;
-                    break;
-                case EK_CASE:
-                    if (flagTest(EF_BACK))
+                    brebk;
+                cbse EK_CASE:
+                    if (flbgTest(EF_BACK))
                         lbody = null;
-                    break;
+                    brebk;
                 }
-                return layout
-                    + (!hasBand()?"":"#"+bandIndex)
-                    + "<"+ (flags==0?"":""+flags)+kind+len
+                return lbyout
+                    + (!hbsBbnd()?"":"#"+bbndIndex)
+                    + "<"+ (flbgs==0?"":""+flbgs)+kind+len
                     + (refKind==0?"":""+refKind) + ">"
-                    + (value==0?"":"("+value+")")
-                    + (lbody==null?"": ""+Arrays.asList(lbody));
+                    + (vblue==0?"":"("+vblue+")")
+                    + (lbody==null?"": ""+Arrbys.bsList(lbody));
             }
         }
 
-        public boolean hasCallables() {
+        public boolebn hbsCbllbbles() {
             return (elems.length > 0 && elems[0].kind == EK_CBLE);
         }
-        static private final Element[] noElems = {};
-        public Element[] getCallables() {
-            if (hasCallables()) {
-                Element[] nelems = Arrays.copyOf(elems, elems.length);
+        stbtic privbte finbl Element[] noElems = {};
+        public Element[] getCbllbbles() {
+            if (hbsCbllbbles()) {
+                Element[] nelems = Arrbys.copyOf(elems, elems.length);
                 return nelems;
             } else
-                return noElems;  // no callables at all
+                return noElems;  // no cbllbbles bt bll
         }
         public Element[] getEntryPoint() {
-            if (hasCallables())
-                return elems[0].body;  // body of first callable
+            if (hbsCbllbbles())
+                return elems[0].body;  // body of first cbllbble
             else {
-                Element[] nelems = Arrays.copyOf(elems, elems.length);
-                return nelems;  // no callables; whole body
+                Element[] nelems = Arrbys.copyOf(elems, elems.length);
+                return nelems;  // no cbllbbles; whole body
             }
         }
 
-        /** Return a sequence of tokens from the given attribute bytes.
-         *  Sequence elements will be 1-1 correspondent with my layout tokens.
+        /** Return b sequence of tokens from the given bttribute bytes.
+         *  Sequence elements will be 1-1 correspondent with my lbyout tokens.
          */
-        public void parse(Holder holder,
-                          byte[] bytes, int pos, int len, ValueStream out) {
-            int end = parseUsing(getEntryPoint(),
+        public void pbrse(Holder holder,
+                          byte[] bytes, int pos, int len, VblueStrebm out) {
+            int end = pbrseUsing(getEntryPoint(),
                                  holder, bytes, pos, len, out);
             if (end != pos + len)
-                throw new InternalError("layout parsed "+(end-pos)+" out of "+len+" bytes");
+                throw new InternblError("lbyout pbrsed "+(end-pos)+" out of "+len+" bytes");
         }
-        /** Given a sequence of tokens, return the attribute bytes.
-         *  Sequence elements must be 1-1 correspondent with my layout tokens.
-         *  The returned object is a cookie for Fixups.finishRefs, which
-         *  must be used to harden any references into integer indexes.
+        /** Given b sequence of tokens, return the bttribute bytes.
+         *  Sequence elements must be 1-1 correspondent with my lbyout tokens.
+         *  The returned object is b cookie for Fixups.finishRefs, which
+         *  must be used to hbrden bny references into integer indexes.
          */
-        public Object unparse(ValueStream in, ByteArrayOutputStream out) {
+        public Object unpbrse(VblueStrebm in, ByteArrbyOutputStrebm out) {
             Object[] fixups = { null };
-            unparseUsing(getEntryPoint(), fixups, in, out);
-            return fixups[0]; // return ref-bearing cookie, if any
+            unpbrseUsing(getEntryPoint(), fixups, in, out);
+            return fixups[0]; // return ref-bebring cookie, if bny
         }
 
-        public String layoutForClassVersion(Package.Version vers) {
-            if (vers.lessThan(JAVA6_MAX_CLASS_VERSION)) {
-                // Disallow layout syntax in the oldest protocol version.
-                return expandCaseDashNotation(layout);
+        public String lbyoutForClbssVersion(Pbckbge.Version vers) {
+            if (vers.lessThbn(JAVA6_MAX_CLASS_VERSION)) {
+                // Disbllow lbyout syntbx in the oldest protocol version.
+                return expbndCbseDbshNotbtion(lbyout);
             }
-            return layout;
+            return lbyout;
         }
     }
 
-    public static
-    class FormatException extends IOException {
-        private static final long serialVersionUID = -2542243830788066513L;
+    public stbtic
+    clbss FormbtException extends IOException {
+        privbte stbtic finbl long seriblVersionUID = -2542243830788066513L;
 
-        private int ctype;
-        private String name;
-        String layout;
-        public FormatException(String message,
-                               int ctype, String name, String layout) {
-            super(ATTR_CONTEXT_NAME[ctype]+ " attribute \"" + name + "\"" +
-                  (message == null? "" : (": " + message)));
+        privbte int ctype;
+        privbte String nbme;
+        String lbyout;
+        public FormbtException(String messbge,
+                               int ctype, String nbme, String lbyout) {
+            super(ATTR_CONTEXT_NAME[ctype]+ " bttribute \"" + nbme + "\"" +
+                  (messbge == null? "" : (": " + messbge)));
             this.ctype = ctype;
-            this.name = name;
-            this.layout = layout;
+            this.nbme = nbme;
+            this.lbyout = lbyout;
         }
-        public FormatException(String message,
-                               int ctype, String name) {
-            this(message, ctype, name, null);
+        public FormbtException(String messbge,
+                               int ctype, String nbme) {
+            this(messbge, ctype, nbme, null);
         }
     }
 
-    void visitRefs(Holder holder, int mode, final Collection<Entry> refs) {
+    void visitRefs(Holder holder, int mode, finbl Collection<Entry> refs) {
         if (mode == VRM_CLASSIC) {
-            refs.add(getNameRef());
+            refs.bdd(getNbmeRef());
         }
-        // else the name is owned by the layout, and is processed elsewhere
+        // else the nbme is owned by the lbyout, bnd is processed elsewhere
         if (bytes.length == 0)  return;  // quick exit
-        if (!def.hasRefs)       return;  // quick exit
+        if (!def.hbsRefs)       return;  // quick exit
         if (fixups != null) {
             Fixups.visitRefs(fixups, refs);
             return;
         }
-        // References (to a local cpMap) are embedded in the bytes.
-        def.parse(holder, bytes, 0, bytes.length,
-            new ValueStream() {
+        // References (to b locbl cpMbp) bre embedded in the bytes.
+        def.pbrse(holder, bytes, 0, bytes.length,
+            new VblueStrebm() {
                 @Override
-                public void putInt(int bandIndex, int value) {
+                public void putInt(int bbndIndex, int vblue) {
                 }
                 @Override
-                public void putRef(int bandIndex, Entry ref) {
-                    refs.add(ref);
+                public void putRef(int bbndIndex, Entry ref) {
+                    refs.bdd(ref);
                 }
                 @Override
                 public int encodeBCI(int bci) {
@@ -763,11 +763,11 @@ class Attribute implements Comparable<Attribute> {
             });
     }
 
-    public void parse(Holder holder, byte[] bytes, int pos, int len, ValueStream out) {
-        def.parse(holder, bytes, pos, len, out);
+    public void pbrse(Holder holder, byte[] bytes, int pos, int len, VblueStrebm out) {
+        def.pbrse(holder, bytes, pos, len, out);
     }
-    public Object unparse(ValueStream in, ByteArrayOutputStream out) {
-        return def.unparse(in, out);
+    public Object unpbrse(VblueStrebm in, ByteArrbyOutputStrebm out) {
+        return def.unpbrse(in, out);
     }
 
     @Override
@@ -777,842 +777,842 @@ class Attribute implements Comparable<Attribute> {
             +(fixups == null? "": fixups.toString());
     }
 
-    /** Remove any informal "pretty printing" from the layout string.
-     *  Removes blanks and control chars.
+    /** Remove bny informbl "pretty printing" from the lbyout string.
+     *  Removes blbnks bnd control chbrs.
      *  Removes '#' comments (to end of line).
-     *  Replaces '\c' by the decimal code of the character c.
-     *  Replaces '0xNNN' by the decimal code of the hex number NNN.
+     *  Replbces '\c' by the decimbl code of the chbrbcter c.
+     *  Replbces '0xNNN' by the decimbl code of the hex number NNN.
      */
-    static public
-    String normalizeLayoutString(String layout) {
+    stbtic public
+    String normblizeLbyoutString(String lbyout) {
         StringBuilder buf = new StringBuilder();
-        for (int i = 0, len = layout.length(); i < len; ) {
-            char ch = layout.charAt(i++);
+        for (int i = 0, len = lbyout.length(); i < len; ) {
+            chbr ch = lbyout.chbrAt(i++);
             if (ch <= ' ') {
-                // Skip whitespace and control chars
+                // Skip whitespbce bnd control chbrs
                 continue;
             } else if (ch == '#') {
                 // Skip to end of line.
-                int end1 = layout.indexOf('\n', i);
-                int end2 = layout.indexOf('\r', i);
+                int end1 = lbyout.indexOf('\n', i);
+                int end2 = lbyout.indexOf('\r', i);
                 if (end1 < 0)  end1 = len;
                 if (end2 < 0)  end2 = len;
-                i = Math.min(end1, end2);
+                i = Mbth.min(end1, end2);
             } else if (ch == '\\') {
-                // Map a character reference to its decimal code.
-                buf.append((int) layout.charAt(i++));
-            } else if (ch == '0' && layout.startsWith("0x", i-1)) {
-                // Map a hex numeral to its decimal code.
-                int start = i-1;
-                int end = start+2;
+                // Mbp b chbrbcter reference to its decimbl code.
+                buf.bppend((int) lbyout.chbrAt(i++));
+            } else if (ch == '0' && lbyout.stbrtsWith("0x", i-1)) {
+                // Mbp b hex numerbl to its decimbl code.
+                int stbrt = i-1;
+                int end = stbrt+2;
                 while (end < len) {
-                    int dig = layout.charAt(end);
+                    int dig = lbyout.chbrAt(end);
                     if ((dig >= '0' && dig <= '9') ||
-                        (dig >= 'a' && dig <= 'f'))
+                        (dig >= 'b' && dig <= 'f'))
                         ++end;
                     else
-                        break;
+                        brebk;
                 }
-                if (end > start) {
-                    String num = layout.substring(start, end);
-                    buf.append(Integer.decode(num));
+                if (end > stbrt) {
+                    String num = lbyout.substring(stbrt, end);
+                    buf.bppend(Integer.decode(num));
                     i = end;
                 } else {
-                    buf.append(ch);
+                    buf.bppend(ch);
                 }
             } else {
-                buf.append(ch);
+                buf.bppend(ch);
             }
         }
         String result = buf.toString();
-        if (false && !result.equals(layout)) {
-            Utils.log.info("Normalizing layout string");
-            Utils.log.info("    From: "+layout);
+        if (fblse && !result.equbls(lbyout)) {
+            Utils.log.info("Normblizing lbyout string");
+            Utils.log.info("    From: "+lbyout);
             Utils.log.info("    To:   "+result);
         }
         return result;
     }
 
-    /// Subroutines for parsing and unparsing:
+    /// Subroutines for pbrsing bnd unpbrsing:
 
-    /** Parse the attribute layout language.
+    /** Pbrse the bttribute lbyout lbngubge.
 <pre>
-  attribute_layout:
-        ( layout_element )* | ( callable )+
-  layout_element:
-        ( integral | replication | union | call | reference )
+  bttribute_lbyout:
+        ( lbyout_element )* | ( cbllbble )+
+  lbyout_element:
+        ( integrbl | replicbtion | union | cbll | reference )
 
-  callable:
+  cbllbble:
         '[' body ']'
   body:
-        ( layout_element )+
+        ( lbyout_element )+
 
-  integral:
-        ( unsigned_int | signed_int | bc_index | bc_offset | flag )
+  integrbl:
+        ( unsigned_int | signed_int | bc_index | bc_offset | flbg )
   unsigned_int:
         uint_type
   signed_int:
         'S' uint_type
-  any_int:
+  bny_int:
         ( unsigned_int | signed_int )
   bc_index:
         ( 'P' uint_type | 'PO' uint_type )
   bc_offset:
-        'O' any_int
-  flag:
+        'O' bny_int
+  flbg:
         'F' uint_type
   uint_type:
         ( 'B' | 'H' | 'I' | 'V' )
 
-  replication:
+  replicbtion:
         'N' uint_type '[' body ']'
 
   union:
-        'T' any_int (union_case)* '(' ')' '[' (body)? ']'
-  union_case:
-        '(' union_case_tag (',' union_case_tag)* ')' '[' (body)? ']'
-  union_case_tag:
-        ( numeral | numeral '-' numeral )
-  call:
-        '(' numeral ')'
+        'T' bny_int (union_cbse)* '(' ')' '[' (body)? ']'
+  union_cbse:
+        '(' union_cbse_tbg (',' union_cbse_tbg)* ')' '[' (body)? ']'
+  union_cbse_tbg:
+        ( numerbl | numerbl '-' numerbl )
+  cbll:
+        '(' numerbl ')'
 
   reference:
         reference_type ( 'N' )? uint_type
   reference_type:
-        ( constant_ref | schema_ref | utf8_ref | untyped_ref )
-  constant_ref:
+        ( constbnt_ref | schemb_ref | utf8_ref | untyped_ref )
+  constbnt_ref:
         ( 'KI' | 'KJ' | 'KF' | 'KD' | 'KS' | 'KQ' | 'KM' | 'KT' | 'KL' )
-  schema_ref:
+  schemb_ref:
         ( 'RC' | 'RS' | 'RD' | 'RF' | 'RM' | 'RI' | 'RY' | 'RB' | 'RN' )
   utf8_ref:
         'RU'
   untyped_ref:
         'RQ'
 
-  numeral:
+  numerbl:
         '(' ('-')? (digit)+ ')'
   digit:
         ( '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' )
  </pre>
     */
-    static //private
-    Layout.Element[] tokenizeLayout(Layout self, int curCble, String layout) {
-        List<Layout.Element> col = new ArrayList<>(layout.length());
-        tokenizeLayout(self, curCble, layout, col);
-        Layout.Element[] res = new Layout.Element[col.size()];
-        col.toArray(res);
+    stbtic //privbte
+    Lbyout.Element[] tokenizeLbyout(Lbyout self, int curCble, String lbyout) {
+        List<Lbyout.Element> col = new ArrbyList<>(lbyout.length());
+        tokenizeLbyout(self, curCble, lbyout, col);
+        Lbyout.Element[] res = new Lbyout.Element[col.size()];
+        col.toArrby(res);
         return res;
     }
-    static //private
-    void tokenizeLayout(Layout self, int curCble, String layout, List<Layout.Element> col) {
-        boolean prevBCI = false;
-        for (int len = layout.length(), i = 0; i < len; ) {
-            int start = i;
+    stbtic //privbte
+    void tokenizeLbyout(Lbyout self, int curCble, String lbyout, List<Lbyout.Element> col) {
+        boolebn prevBCI = fblse;
+        for (int len = lbyout.length(), i = 0; i < len; ) {
+            int stbrt = i;
             int body;
-            Layout.Element e = self.new Element();
+            Lbyout.Element e = self.new Element();
             byte kind;
-            //System.out.println("at "+i+": ..."+layout.substring(i));
-            // strip a prefix
-            switch (layout.charAt(i++)) {
-            /// layout_element: integral
-            case 'B': case 'H': case 'I': case 'V': // unsigned_int
+            //System.out.println("bt "+i+": ..."+lbyout.substring(i));
+            // strip b prefix
+            switch (lbyout.chbrAt(i++)) {
+            /// lbyout_element: integrbl
+            cbse 'B': cbse 'H': cbse 'I': cbse 'V': // unsigned_int
                 kind = EK_INT;
-                --i; // reparse
-                i = tokenizeUInt(e, layout, i);
-                break;
-            case 'S': // signed_int
+                --i; // repbrse
+                i = tokenizeUInt(e, lbyout, i);
+                brebk;
+            cbse 'S': // signed_int
                 kind = EK_INT;
-                --i; // reparse
-                i = tokenizeSInt(e, layout, i);
-                break;
-            case 'P': // bc_index
+                --i; // repbrse
+                i = tokenizeSInt(e, lbyout, i);
+                brebk;
+            cbse 'P': // bc_index
                 kind = EK_BCI;
-                if (layout.charAt(i++) == 'O') {
+                if (lbyout.chbrAt(i++) == 'O') {
                     // bc_index: 'PO' tokenizeUInt
-                    e.flags |= EF_DELTA;
+                    e.flbgs |= EF_DELTA;
                     // must follow P or PO:
                     if (!prevBCI)
-                        { i = -i; continue; } // fail
-                    i++; // move forward
+                        { i = -i; continue; } // fbil
+                    i++; // move forwbrd
                 }
-                --i; // reparse
-                i = tokenizeUInt(e, layout, i);
-                break;
-            case 'O': // bc_offset
+                --i; // repbrse
+                i = tokenizeUInt(e, lbyout, i);
+                brebk;
+            cbse 'O': // bc_offset
                 kind = EK_BCO;
-                e.flags |= EF_DELTA;
+                e.flbgs |= EF_DELTA;
                 // must follow P or PO:
                 if (!prevBCI)
-                    { i = -i; continue; } // fail
-                i = tokenizeSInt(e, layout, i);
-                break;
-            case 'F': // flag
+                    { i = -i; continue; } // fbil
+                i = tokenizeSInt(e, lbyout, i);
+                brebk;
+            cbse 'F': // flbg
                 kind = EK_FLAG;
-                i = tokenizeUInt(e, layout, i);
-                break;
-            case 'N': // replication: 'N' uint '[' elem ... ']'
+                i = tokenizeUInt(e, lbyout, i);
+                brebk;
+            cbse 'N': // replicbtion: 'N' uint '[' elem ... ']'
                 kind = EK_REPL;
-                i = tokenizeUInt(e, layout, i);
-                if (layout.charAt(i++) != '[')
-                    { i = -i; continue; } // fail
-                i = skipBody(layout, body = i);
-                e.body = tokenizeLayout(self, curCble,
-                                        layout.substring(body, i++));
-                break;
-            case 'T': // union: 'T' any_int union_case* '(' ')' '[' body ']'
+                i = tokenizeUInt(e, lbyout, i);
+                if (lbyout.chbrAt(i++) != '[')
+                    { i = -i; continue; } // fbil
+                i = skipBody(lbyout, body = i);
+                e.body = tokenizeLbyout(self, curCble,
+                                        lbyout.substring(body, i++));
+                brebk;
+            cbse 'T': // union: 'T' bny_int union_cbse* '(' ')' '[' body ']'
                 kind = EK_UN;
-                i = tokenizeSInt(e, layout, i);
-                List<Layout.Element> cases = new ArrayList<>();
+                i = tokenizeSInt(e, lbyout, i);
+                List<Lbyout.Element> cbses = new ArrbyList<>();
                 for (;;) {
-                    // Keep parsing cases until we hit the default case.
-                    if (layout.charAt(i++) != '(')
-                        { i = -i; break; } // fail
+                    // Keep pbrsing cbses until we hit the defbult cbse.
+                    if (lbyout.chbrAt(i++) != '(')
+                        { i = -i; brebk; } // fbil
                     int beg = i;
-                    i = layout.indexOf(')', i);
-                    String cstr = layout.substring(beg, i++);
+                    i = lbyout.indexOf(')', i);
+                    String cstr = lbyout.substring(beg, i++);
                     int cstrlen = cstr.length();
-                    if (layout.charAt(i++) != '[')
-                        { i = -i; break; } // fail
-                    // Check for duplication.
-                    if (layout.charAt(i) == ']')
-                        body = i;  // missing body, which is legal here
+                    if (lbyout.chbrAt(i++) != '[')
+                        { i = -i; brebk; } // fbil
+                    // Check for duplicbtion.
+                    if (lbyout.chbrAt(i) == ']')
+                        body = i;  // missing body, which is legbl here
                     else
-                        i = skipBody(layout, body = i);
-                    Layout.Element[] cbody
-                        = tokenizeLayout(self, curCble,
-                                         layout.substring(body, i++));
+                        i = skipBody(lbyout, body = i);
+                    Lbyout.Element[] cbody
+                        = tokenizeLbyout(self, curCble,
+                                         lbyout.substring(body, i++));
                     if (cstrlen == 0) {
-                        Layout.Element ce = self.new Element();
+                        Lbyout.Element ce = self.new Element();
                         ce.body = cbody;
                         ce.kind = EK_CASE;
-                        ce.removeBand();
-                        cases.add(ce);
-                        break;  // done with the whole union
+                        ce.removeBbnd();
+                        cbses.bdd(ce);
+                        brebk;  // done with the whole union
                     } else {
-                        // Parse a case string.
-                        boolean firstCaseNum = true;
+                        // Pbrse b cbse string.
+                        boolebn firstCbseNum = true;
                         for (int cp = 0, endp;; cp = endp+1) {
-                            // Look for multiple case tags:
+                            // Look for multiple cbse tbgs:
                             endp = cstr.indexOf(',', cp);
                             if (endp < 0)  endp = cstrlen;
                             String cstr1 = cstr.substring(cp, endp);
                             if (cstr1.length() == 0)
-                                cstr1 = "empty";  // will fail parse
-                            int value0, value1;
-                            // Check for a case range (new in 1.6).
-                            int dash = findCaseDash(cstr1, 0);
-                            if (dash >= 0) {
-                                value0 = parseIntBefore(cstr1, dash);
-                                value1 = parseIntAfter(cstr1, dash);
-                                if (value0 >= value1)
-                                    { i = -i; break; } // fail
+                                cstr1 = "empty";  // will fbil pbrse
+                            int vblue0, vblue1;
+                            // Check for b cbse rbnge (new in 1.6).
+                            int dbsh = findCbseDbsh(cstr1, 0);
+                            if (dbsh >= 0) {
+                                vblue0 = pbrseIntBefore(cstr1, dbsh);
+                                vblue1 = pbrseIntAfter(cstr1, dbsh);
+                                if (vblue0 >= vblue1)
+                                    { i = -i; brebk; } // fbil
                             } else {
-                                value0 = value1 = Integer.parseInt(cstr1);
+                                vblue0 = vblue1 = Integer.pbrseInt(cstr1);
                             }
-                            // Add a case for each value in value0..value1
-                            for (;; value0++) {
-                                Layout.Element ce = self.new Element();
-                                ce.body = cbody;  // all cases share one body
+                            // Add b cbse for ebch vblue in vblue0..vblue1
+                            for (;; vblue0++) {
+                                Lbyout.Element ce = self.new Element();
+                                ce.body = cbody;  // bll cbses shbre one body
                                 ce.kind = EK_CASE;
-                                ce.removeBand();
-                                if (!firstCaseNum)
-                                    // "backward case" repeats a body
-                                    ce.flags |= EF_BACK;
-                                firstCaseNum = false;
-                                ce.value = value0;
-                                cases.add(ce);
-                                if (value0 == value1)  break;
+                                ce.removeBbnd();
+                                if (!firstCbseNum)
+                                    // "bbckwbrd cbse" repebts b body
+                                    ce.flbgs |= EF_BACK;
+                                firstCbseNum = fblse;
+                                ce.vblue = vblue0;
+                                cbses.bdd(ce);
+                                if (vblue0 == vblue1)  brebk;
                             }
                             if (endp == cstrlen) {
-                                break;  // done with this case
+                                brebk;  // done with this cbse
                             }
                         }
                     }
                 }
-                e.body = new Layout.Element[cases.size()];
-                cases.toArray(e.body);
+                e.body = new Lbyout.Element[cbses.size()];
+                cbses.toArrby(e.body);
                 e.kind = kind;
                 for (int j = 0; j < e.body.length-1; j++) {
-                    Layout.Element ce = e.body[j];
-                    if (matchCase(e, ce.value) != ce) {
-                        // Duplicate tag.
-                        { i = -i; break; } // fail
+                    Lbyout.Element ce = e.body[j];
+                    if (mbtchCbse(e, ce.vblue) != ce) {
+                        // Duplicbte tbg.
+                        { i = -i; brebk; } // fbil
                     }
                 }
-                break;
-            case '(': // call: '(' '-'? digit+ ')'
+                brebk;
+            cbse '(': // cbll: '(' '-'? digit+ ')'
                 kind = EK_CALL;
-                e.removeBand();
-                i = layout.indexOf(')', i);
-                String cstr = layout.substring(start+1, i++);
-                int offset = Integer.parseInt(cstr);
-                int target = curCble + offset;
-                if (!(offset+"").equals(cstr) ||
+                e.removeBbnd();
+                i = lbyout.indexOf(')', i);
+                String cstr = lbyout.substring(stbrt+1, i++);
+                int offset = Integer.pbrseInt(cstr);
+                int tbrget = curCble + offset;
+                if (!(offset+"").equbls(cstr) ||
                     self.elems == null ||
-                    target < 0 ||
-                    target >= self.elems.length)
-                    { i = -i; continue; } // fail
-                Layout.Element ce = self.elems[target];
-                assert(ce.kind == EK_CBLE);
-                e.value = target;
-                e.body = new Layout.Element[]{ ce };
-                // Is it a (recursive) backward call?
+                    tbrget < 0 ||
+                    tbrget >= self.elems.length)
+                    { i = -i; continue; } // fbil
+                Lbyout.Element ce = self.elems[tbrget];
+                bssert(ce.kind == EK_CBLE);
+                e.vblue = tbrget;
+                e.body = new Lbyout.Element[]{ ce };
+                // Is it b (recursive) bbckwbrd cbll?
                 if (offset <= 0) {
-                    // Yes.  Mark both caller and callee backward.
-                    e.flags  |= EF_BACK;
-                    ce.flags |= EF_BACK;
+                    // Yes.  Mbrk both cbller bnd cbllee bbckwbrd.
+                    e.flbgs  |= EF_BACK;
+                    ce.flbgs |= EF_BACK;
                 }
-                break;
-            case 'K':  // reference_type: constant_ref
+                brebk;
+            cbse 'K':  // reference_type: constbnt_ref
                 kind = EK_REF;
-                switch (layout.charAt(i++)) {
-                case 'I': e.refKind = CONSTANT_Integer; break;
-                case 'J': e.refKind = CONSTANT_Long; break;
-                case 'F': e.refKind = CONSTANT_Float; break;
-                case 'D': e.refKind = CONSTANT_Double; break;
-                case 'S': e.refKind = CONSTANT_String; break;
-                case 'Q': e.refKind = CONSTANT_FieldSpecific; break;
+                switch (lbyout.chbrAt(i++)) {
+                cbse 'I': e.refKind = CONSTANT_Integer; brebk;
+                cbse 'J': e.refKind = CONSTANT_Long; brebk;
+                cbse 'F': e.refKind = CONSTANT_Flobt; brebk;
+                cbse 'D': e.refKind = CONSTANT_Double; brebk;
+                cbse 'S': e.refKind = CONSTANT_String; brebk;
+                cbse 'Q': e.refKind = CONSTANT_FieldSpecific; brebk;
 
                 // new in 1.7:
-                case 'M': e.refKind = CONSTANT_MethodHandle; break;
-                case 'T': e.refKind = CONSTANT_MethodType; break;
-                case 'L': e.refKind = CONSTANT_LoadableValue; break;
-                default: { i = -i; continue; } // fail
+                cbse 'M': e.refKind = CONSTANT_MethodHbndle; brebk;
+                cbse 'T': e.refKind = CONSTANT_MethodType; brebk;
+                cbse 'L': e.refKind = CONSTANT_LobdbbleVblue; brebk;
+                defbult: { i = -i; continue; } // fbil
                 }
-                break;
-            case 'R': // schema_ref
+                brebk;
+            cbse 'R': // schemb_ref
                 kind = EK_REF;
-                switch (layout.charAt(i++)) {
-                case 'C': e.refKind = CONSTANT_Class; break;
-                case 'S': e.refKind = CONSTANT_Signature; break;
-                case 'D': e.refKind = CONSTANT_NameandType; break;
-                case 'F': e.refKind = CONSTANT_Fieldref; break;
-                case 'M': e.refKind = CONSTANT_Methodref; break;
-                case 'I': e.refKind = CONSTANT_InterfaceMethodref; break;
+                switch (lbyout.chbrAt(i++)) {
+                cbse 'C': e.refKind = CONSTANT_Clbss; brebk;
+                cbse 'S': e.refKind = CONSTANT_Signbture; brebk;
+                cbse 'D': e.refKind = CONSTANT_NbmebndType; brebk;
+                cbse 'F': e.refKind = CONSTANT_Fieldref; brebk;
+                cbse 'M': e.refKind = CONSTANT_Methodref; brebk;
+                cbse 'I': e.refKind = CONSTANT_InterfbceMethodref; brebk;
 
-                case 'U': e.refKind = CONSTANT_Utf8; break; //utf8_ref
-                case 'Q': e.refKind = CONSTANT_All; break; //untyped_ref
+                cbse 'U': e.refKind = CONSTANT_Utf8; brebk; //utf8_ref
+                cbse 'Q': e.refKind = CONSTANT_All; brebk; //untyped_ref
 
                 // new in 1.7:
-                case 'Y': e.refKind = CONSTANT_InvokeDynamic; break;
-                case 'B': e.refKind = CONSTANT_BootstrapMethod; break;
-                case 'N': e.refKind = CONSTANT_AnyMember; break;
+                cbse 'Y': e.refKind = CONSTANT_InvokeDynbmic; brebk;
+                cbse 'B': e.refKind = CONSTANT_BootstrbpMethod; brebk;
+                cbse 'N': e.refKind = CONSTANT_AnyMember; brebk;
 
-                default: { i = -i; continue; } // fail
+                defbult: { i = -i; continue; } // fbil
                 }
-                break;
-            default: { i = -i; continue; } // fail
+                brebk;
+            defbult: { i = -i; continue; } // fbil
             }
 
-            // further parsing of refs
+            // further pbrsing of refs
             if (kind == EK_REF) {
                 // reference: reference_type -><- ( 'N' )? tokenizeUInt
-                if (layout.charAt(i++) == 'N') {
-                    e.flags |= EF_NULL;
-                    i++; // move forward
+                if (lbyout.chbrAt(i++) == 'N') {
+                    e.flbgs |= EF_NULL;
+                    i++; // move forwbrd
                 }
-                --i; // reparse
-                i = tokenizeUInt(e, layout, i);
-                self.hasRefs = true;
+                --i; // repbrse
+                i = tokenizeUInt(e, lbyout, i);
+                self.hbsRefs = true;
             }
 
             prevBCI = (kind == EK_BCI);
 
             // store the new element
             e.kind = kind;
-            e.layout = layout.substring(start, i);
-            col.add(e);
+            e.lbyout = lbyout.substring(stbrt, i);
+            col.bdd(e);
         }
     }
-    static //private
-    String[] splitBodies(String layout) {
-        List<String> bodies = new ArrayList<>();
-        // Parse several independent layout bodies:  "[foo][bar]...[baz]"
-        for (int i = 0; i < layout.length(); i++) {
-            if (layout.charAt(i++) != '[')
-                layout.charAt(-i);  // throw error
+    stbtic //privbte
+    String[] splitBodies(String lbyout) {
+        List<String> bodies = new ArrbyList<>();
+        // Pbrse severbl independent lbyout bodies:  "[foo][bbr]...[bbz]"
+        for (int i = 0; i < lbyout.length(); i++) {
+            if (lbyout.chbrAt(i++) != '[')
+                lbyout.chbrAt(-i);  // throw error
             int body;
-            i = skipBody(layout, body = i);
-            bodies.add(layout.substring(body, i));
+            i = skipBody(lbyout, body = i);
+            bodies.bdd(lbyout.substring(body, i));
         }
         String[] res = new String[bodies.size()];
-        bodies.toArray(res);
+        bodies.toArrby(res);
         return res;
     }
-    static private
-    int skipBody(String layout, int i) {
-        assert(layout.charAt(i-1) == '[');
-        if (layout.charAt(i) == ']')
-            // No empty bodies, please.
+    stbtic privbte
+    int skipBody(String lbyout, int i) {
+        bssert(lbyout.chbrAt(i-1) == '[');
+        if (lbyout.chbrAt(i) == ']')
+            // No empty bodies, plebse.
             return -i;
-        // skip balanced [...[...]...]
+        // skip bblbnced [...[...]...]
         for (int depth = 1; depth > 0; ) {
-            switch (layout.charAt(i++)) {
-            case '[': depth++; break;
-            case ']': depth--; break;
+            switch (lbyout.chbrAt(i++)) {
+            cbse '[': depth++; brebk;
+            cbse ']': depth--; brebk;
             }
         }
-        --i;  // get before bracket
-        assert(layout.charAt(i) == ']');
-        return i;  // return closing bracket
+        --i;  // get before brbcket
+        bssert(lbyout.chbrAt(i) == ']');
+        return i;  // return closing brbcket
     }
-    static private
-    int tokenizeUInt(Layout.Element e, String layout, int i) {
-        switch (layout.charAt(i++)) {
-        case 'V': e.len = 0; break;
-        case 'B': e.len = 1; break;
-        case 'H': e.len = 2; break;
-        case 'I': e.len = 4; break;
-        default: return -i;
+    stbtic privbte
+    int tokenizeUInt(Lbyout.Element e, String lbyout, int i) {
+        switch (lbyout.chbrAt(i++)) {
+        cbse 'V': e.len = 0; brebk;
+        cbse 'B': e.len = 1; brebk;
+        cbse 'H': e.len = 2; brebk;
+        cbse 'I': e.len = 4; brebk;
+        defbult: return -i;
         }
         return i;
     }
-    static private
-    int tokenizeSInt(Layout.Element e, String layout, int i) {
-        if (layout.charAt(i) == 'S') {
-            e.flags |= EF_SIGN;
+    stbtic privbte
+    int tokenizeSInt(Lbyout.Element e, String lbyout, int i) {
+        if (lbyout.chbrAt(i) == 'S') {
+            e.flbgs |= EF_SIGN;
             ++i;
         }
-        return tokenizeUInt(e, layout, i);
+        return tokenizeUInt(e, lbyout, i);
     }
 
-    static private
-    boolean isDigit(char c) {
+    stbtic privbte
+    boolebn isDigit(chbr c) {
         return c >= '0' && c <= '9';
     }
 
-    /** Find an occurrence of hyphen '-' between two numerals. */
-    static //private
-    int findCaseDash(String layout, int fromIndex) {
-        if (fromIndex <= 0)  fromIndex = 1;  // minimum dash pos
-        int lastDash = layout.length() - 2;  // maximum dash pos
+    /** Find bn occurrence of hyphen '-' between two numerbls. */
+    stbtic //privbte
+    int findCbseDbsh(String lbyout, int fromIndex) {
+        if (fromIndex <= 0)  fromIndex = 1;  // minimum dbsh pos
+        int lbstDbsh = lbyout.length() - 2;  // mbximum dbsh pos
         for (;;) {
-            int dash = layout.indexOf('-', fromIndex);
-            if (dash < 0 || dash > lastDash)  return -1;
-            if (isDigit(layout.charAt(dash-1))) {
-                char afterDash = layout.charAt(dash+1);
-                if (afterDash == '-' && dash+2 < layout.length())
-                    afterDash = layout.charAt(dash+2);
-                if (isDigit(afterDash)) {
-                    // matched /[0-9]--?[0-9]/; return position of dash
-                    return dash;
+            int dbsh = lbyout.indexOf('-', fromIndex);
+            if (dbsh < 0 || dbsh > lbstDbsh)  return -1;
+            if (isDigit(lbyout.chbrAt(dbsh-1))) {
+                chbr bfterDbsh = lbyout.chbrAt(dbsh+1);
+                if (bfterDbsh == '-' && dbsh+2 < lbyout.length())
+                    bfterDbsh = lbyout.chbrAt(dbsh+2);
+                if (isDigit(bfterDbsh)) {
+                    // mbtched /[0-9]--?[0-9]/; return position of dbsh
+                    return dbsh;
                 }
             }
-            fromIndex = dash+1;
+            fromIndex = dbsh+1;
         }
     }
-    static
-    int parseIntBefore(String layout, int dash) {
-        int end = dash;
+    stbtic
+    int pbrseIntBefore(String lbyout, int dbsh) {
+        int end = dbsh;
         int beg = end;
-        while (beg > 0 && isDigit(layout.charAt(beg-1))) {
+        while (beg > 0 && isDigit(lbyout.chbrAt(beg-1))) {
             --beg;
         }
-        if (beg == end)  return Integer.parseInt("empty");
-        // skip backward over a sign
-        if (beg >= 1 && layout.charAt(beg-1) == '-')  --beg;
-        assert(beg == 0 || !isDigit(layout.charAt(beg-1)));
-        return Integer.parseInt(layout.substring(beg, end));
+        if (beg == end)  return Integer.pbrseInt("empty");
+        // skip bbckwbrd over b sign
+        if (beg >= 1 && lbyout.chbrAt(beg-1) == '-')  --beg;
+        bssert(beg == 0 || !isDigit(lbyout.chbrAt(beg-1)));
+        return Integer.pbrseInt(lbyout.substring(beg, end));
     }
-    static
-    int parseIntAfter(String layout, int dash) {
-        int beg = dash+1;
+    stbtic
+    int pbrseIntAfter(String lbyout, int dbsh) {
+        int beg = dbsh+1;
         int end = beg;
-        int limit = layout.length();
-        if (end < limit && layout.charAt(end) == '-')  ++end;
-        while (end < limit && isDigit(layout.charAt(end))) {
+        int limit = lbyout.length();
+        if (end < limit && lbyout.chbrAt(end) == '-')  ++end;
+        while (end < limit && isDigit(lbyout.chbrAt(end))) {
             ++end;
         }
-        if (beg == end)  return Integer.parseInt("empty");
-        return Integer.parseInt(layout.substring(beg, end));
+        if (beg == end)  return Integer.pbrseInt("empty");
+        return Integer.pbrseInt(lbyout.substring(beg, end));
     }
-    /** For compatibility with 1.5 pack, expand 1-5 into 1,2,3,4,5. */
-    static
-    String expandCaseDashNotation(String layout) {
-        int dash = findCaseDash(layout, 0);
-        if (dash < 0)  return layout;  // no dashes (the common case)
-        StringBuilder result = new StringBuilder(layout.length() * 3);
-        int sofar = 0;  // how far have we processed the layout?
+    /** For compbtibility with 1.5 pbck, expbnd 1-5 into 1,2,3,4,5. */
+    stbtic
+    String expbndCbseDbshNotbtion(String lbyout) {
+        int dbsh = findCbseDbsh(lbyout, 0);
+        if (dbsh < 0)  return lbyout;  // no dbshes (the common cbse)
+        StringBuilder result = new StringBuilder(lbyout.length() * 3);
+        int sofbr = 0;  // how fbr hbve we processed the lbyout?
         for (;;) {
-            // for each dash, collect everything up to the dash
-            result.append(layout.substring(sofar, dash));
-            sofar = dash+1;  // skip the dash
-            // then collect intermediate values
-            int value0 = parseIntBefore(layout, dash);
-            int value1 = parseIntAfter(layout, dash);
-            assert(value0 < value1);
-            result.append(",");  // close off value0 numeral
-            for (int i = value0+1; i < value1; i++) {
-                result.append(i);
-                result.append(",");  // close off i numeral
+            // for ebch dbsh, collect everything up to the dbsh
+            result.bppend(lbyout.substring(sofbr, dbsh));
+            sofbr = dbsh+1;  // skip the dbsh
+            // then collect intermedibte vblues
+            int vblue0 = pbrseIntBefore(lbyout, dbsh);
+            int vblue1 = pbrseIntAfter(lbyout, dbsh);
+            bssert(vblue0 < vblue1);
+            result.bppend(",");  // close off vblue0 numerbl
+            for (int i = vblue0+1; i < vblue1; i++) {
+                result.bppend(i);
+                result.bppend(",");  // close off i numerbl
             }
-            dash = findCaseDash(layout, sofar);
-            if (dash < 0)  break;
+            dbsh = findCbseDbsh(lbyout, sofbr);
+            if (dbsh < 0)  brebk;
         }
-        result.append(layout.substring(sofar));  // collect the rest
+        result.bppend(lbyout.substring(sofbr));  // collect the rest
         return result.toString();
     }
-    static {
-        assert(expandCaseDashNotation("1-5").equals("1,2,3,4,5"));
-        assert(expandCaseDashNotation("-2--1").equals("-2,-1"));
-        assert(expandCaseDashNotation("-2-1").equals("-2,-1,0,1"));
-        assert(expandCaseDashNotation("-1-0").equals("-1,0"));
+    stbtic {
+        bssert(expbndCbseDbshNotbtion("1-5").equbls("1,2,3,4,5"));
+        bssert(expbndCbseDbshNotbtion("-2--1").equbls("-2,-1"));
+        bssert(expbndCbseDbshNotbtion("-2-1").equbls("-2,-1,0,1"));
+        bssert(expbndCbseDbshNotbtion("-1-0").equbls("-1,0"));
     }
 
-    // Parse attribute bytes, putting values into bands.  Returns new pos.
-    // Used when reading a class file (local refs resolved with local cpMap).
-    // Also used for ad hoc scanning.
-    static
-    int parseUsing(Layout.Element[] elems, Holder holder,
-                   byte[] bytes, int pos, int len, ValueStream out) {
+    // Pbrse bttribute bytes, putting vblues into bbnds.  Returns new pos.
+    // Used when rebding b clbss file (locbl refs resolved with locbl cpMbp).
+    // Also used for bd hoc scbnning.
+    stbtic
+    int pbrseUsing(Lbyout.Element[] elems, Holder holder,
+                   byte[] bytes, int pos, int len, VblueStrebm out) {
         int prevBCI = 0;
         int prevRBCI = 0;
         int end = pos + len;
-        int[] buf = { 0 };  // for calls to parseInt, holds 2nd result
+        int[] buf = { 0 };  // for cblls to pbrseInt, holds 2nd result
         for (int i = 0; i < elems.length; i++) {
-            Layout.Element e = elems[i];
-            int bandIndex = e.bandIndex;
-            int value;
+            Lbyout.Element e = elems[i];
+            int bbndIndex = e.bbndIndex;
+            int vblue;
             int BCI, RBCI;
             switch (e.kind) {
-            case EK_INT:
-                pos = parseInt(e, bytes, pos, buf);
-                value = buf[0];
-                out.putInt(bandIndex, value);
-                break;
-            case EK_BCI:  // PH, POH
-                pos = parseInt(e, bytes, pos, buf);
+            cbse EK_INT:
+                pos = pbrseInt(e, bytes, pos, buf);
+                vblue = buf[0];
+                out.putInt(bbndIndex, vblue);
+                brebk;
+            cbse EK_BCI:  // PH, POH
+                pos = pbrseInt(e, bytes, pos, buf);
                 BCI = buf[0];
                 RBCI = out.encodeBCI(BCI);
-                if (!e.flagTest(EF_DELTA)) {
-                    // PH:  transmit R(bci), store bci
-                    value = RBCI;
+                if (!e.flbgTest(EF_DELTA)) {
+                    // PH:  trbnsmit R(bci), store bci
+                    vblue = RBCI;
                 } else {
-                    // POH:  transmit D(R(bci)), store bci
-                    value = RBCI - prevRBCI;
+                    // POH:  trbnsmit D(R(bci)), store bci
+                    vblue = RBCI - prevRBCI;
                 }
                 prevBCI = BCI;
                 prevRBCI = RBCI;
-                out.putInt(bandIndex, value);
-                break;
-            case EK_BCO:  // OH
-                assert(e.flagTest(EF_DELTA));
-                // OH:  transmit D(R(bci)), store D(bci)
-                pos = parseInt(e, bytes, pos, buf);
+                out.putInt(bbndIndex, vblue);
+                brebk;
+            cbse EK_BCO:  // OH
+                bssert(e.flbgTest(EF_DELTA));
+                // OH:  trbnsmit D(R(bci)), store D(bci)
+                pos = pbrseInt(e, bytes, pos, buf);
                 BCI = prevBCI + buf[0];
                 RBCI = out.encodeBCI(BCI);
-                value = RBCI - prevRBCI;
+                vblue = RBCI - prevRBCI;
                 prevBCI = BCI;
                 prevRBCI = RBCI;
-                out.putInt(bandIndex, value);
-                break;
-            case EK_FLAG:
-                pos = parseInt(e, bytes, pos, buf);
-                value = buf[0];
-                out.putInt(bandIndex, value);
-                break;
-            case EK_REPL:
-                pos = parseInt(e, bytes, pos, buf);
-                value = buf[0];
-                out.putInt(bandIndex, value);
-                for (int j = 0; j < value; j++) {
-                    pos = parseUsing(e.body, holder, bytes, pos, end-pos, out);
+                out.putInt(bbndIndex, vblue);
+                brebk;
+            cbse EK_FLAG:
+                pos = pbrseInt(e, bytes, pos, buf);
+                vblue = buf[0];
+                out.putInt(bbndIndex, vblue);
+                brebk;
+            cbse EK_REPL:
+                pos = pbrseInt(e, bytes, pos, buf);
+                vblue = buf[0];
+                out.putInt(bbndIndex, vblue);
+                for (int j = 0; j < vblue; j++) {
+                    pos = pbrseUsing(e.body, holder, bytes, pos, end-pos, out);
                 }
-                break;  // already transmitted the scalar value
-            case EK_UN:
-                pos = parseInt(e, bytes, pos, buf);
-                value = buf[0];
-                out.putInt(bandIndex, value);
-                Layout.Element ce = matchCase(e, value);
-                pos = parseUsing(ce.body, holder, bytes, pos, end-pos, out);
+                brebk;  // blrebdy trbnsmitted the scblbr vblue
+            cbse EK_UN:
+                pos = pbrseInt(e, bytes, pos, buf);
+                vblue = buf[0];
+                out.putInt(bbndIndex, vblue);
+                Lbyout.Element ce = mbtchCbse(e, vblue);
+                pos = pbrseUsing(ce.body, holder, bytes, pos, end-pos, out);
 
-                break;  // already transmitted the scalar value
-            case EK_CALL:
-                // Adjust band offset if it is a backward call.
-                assert(e.body.length == 1);
-                assert(e.body[0].kind == EK_CBLE);
-                if (e.flagTest(EF_BACK))
-                    out.noteBackCall(e.value);
-                pos = parseUsing(e.body[0].body, holder, bytes, pos, end-pos, out);
-                break;  // no additional scalar value to transmit
-            case EK_REF:
-                pos = parseInt(e, bytes, pos, buf);
-                int localRef = buf[0];
-                Entry globalRef;
-                if (localRef == 0) {
-                    globalRef = null;  // N.B. global null reference is -1
+                brebk;  // blrebdy trbnsmitted the scblbr vblue
+            cbse EK_CALL:
+                // Adjust bbnd offset if it is b bbckwbrd cbll.
+                bssert(e.body.length == 1);
+                bssert(e.body[0].kind == EK_CBLE);
+                if (e.flbgTest(EF_BACK))
+                    out.noteBbckCbll(e.vblue);
+                pos = pbrseUsing(e.body[0].body, holder, bytes, pos, end-pos, out);
+                brebk;  // no bdditionbl scblbr vblue to trbnsmit
+            cbse EK_REF:
+                pos = pbrseInt(e, bytes, pos, buf);
+                int locblRef = buf[0];
+                Entry globblRef;
+                if (locblRef == 0) {
+                    globblRef = null;  // N.B. globbl null reference is -1
                 } else {
-                    Entry[] cpMap = holder.getCPMap();
-                    globalRef = (localRef >= 0 && localRef < cpMap.length
-                                    ? cpMap[localRef]
+                    Entry[] cpMbp = holder.getCPMbp();
+                    globblRef = (locblRef >= 0 && locblRef < cpMbp.length
+                                    ? cpMbp[locblRef]
                                     : null);
-                    byte tag = e.refKind;
-                    if (globalRef != null && tag == CONSTANT_Signature
-                        && globalRef.getTag() == CONSTANT_Utf8) {
-                        // Cf. ClassReader.readSignatureRef.
-                        String typeName = globalRef.stringValue();
-                        globalRef = ConstantPool.getSignatureEntry(typeName);
+                    byte tbg = e.refKind;
+                    if (globblRef != null && tbg == CONSTANT_Signbture
+                        && globblRef.getTbg() == CONSTANT_Utf8) {
+                        // Cf. ClbssRebder.rebdSignbtureRef.
+                        String typeNbme = globblRef.stringVblue();
+                        globblRef = ConstbntPool.getSignbtureEntry(typeNbme);
                     }
-                    String got = (globalRef == null
-                        ? "invalid CP index"
-                        : "type=" + ConstantPool.tagName(globalRef.tag));
-                    if (globalRef == null || !globalRef.tagMatches(tag)) {
-                        throw new IllegalArgumentException(
-                                "Bad constant, expected type=" +
-                                ConstantPool.tagName(tag) + " got " + got);
+                    String got = (globblRef == null
+                        ? "invblid CP index"
+                        : "type=" + ConstbntPool.tbgNbme(globblRef.tbg));
+                    if (globblRef == null || !globblRef.tbgMbtches(tbg)) {
+                        throw new IllegblArgumentException(
+                                "Bbd constbnt, expected type=" +
+                                ConstbntPool.tbgNbme(tbg) + " got " + got);
                     }
                 }
-                out.putRef(bandIndex, globalRef);
-                break;
-            default: assert(false);
+                out.putRef(bbndIndex, globblRef);
+                brebk;
+            defbult: bssert(fblse);
             }
         }
         return pos;
     }
 
-    static
-    Layout.Element matchCase(Layout.Element e, int value) {
-        assert(e.kind == EK_UN);
-        int lastj = e.body.length-1;
-        for (int j = 0; j < lastj; j++) {
-            Layout.Element ce = e.body[j];
-            assert(ce.kind == EK_CASE);
-            if (value == ce.value)
+    stbtic
+    Lbyout.Element mbtchCbse(Lbyout.Element e, int vblue) {
+        bssert(e.kind == EK_UN);
+        int lbstj = e.body.length-1;
+        for (int j = 0; j < lbstj; j++) {
+            Lbyout.Element ce = e.body[j];
+            bssert(ce.kind == EK_CASE);
+            if (vblue == ce.vblue)
                 return ce;
         }
-        return e.body[lastj];
+        return e.body[lbstj];
     }
 
-    static private
-    int parseInt(Layout.Element e, byte[] bytes, int pos, int[] buf) {
-        int value = 0;
+    stbtic privbte
+    int pbrseInt(Lbyout.Element e, byte[] bytes, int pos, int[] buf) {
+        int vblue = 0;
         int loBits = e.len * 8;
-        // Read in big-endian order:
+        // Rebd in big-endibn order:
         for (int bitPos = loBits; (bitPos -= 8) >= 0; ) {
-            value += (bytes[pos++] & 0xFF) << bitPos;
+            vblue += (bytes[pos++] & 0xFF) << bitPos;
         }
-        if (loBits < 32 && e.flagTest(EF_SIGN)) {
-            // sign-extend subword value
+        if (loBits < 32 && e.flbgTest(EF_SIGN)) {
+            // sign-extend subword vblue
             int hiBits = 32 - loBits;
-            value = (value << hiBits) >> hiBits;
+            vblue = (vblue << hiBits) >> hiBits;
         }
-        buf[0] = value;
+        buf[0] = vblue;
         return pos;
     }
 
-    // Format attribute bytes, drawing values from bands.
-    // Used when emptying attribute bands into a package model.
-    // (At that point CP refs. are not yet assigned indexes.)
-    static
-    void unparseUsing(Layout.Element[] elems, Object[] fixups,
-                      ValueStream in, ByteArrayOutputStream out) {
+    // Formbt bttribute bytes, drbwing vblues from bbnds.
+    // Used when emptying bttribute bbnds into b pbckbge model.
+    // (At thbt point CP refs. bre not yet bssigned indexes.)
+    stbtic
+    void unpbrseUsing(Lbyout.Element[] elems, Object[] fixups,
+                      VblueStrebm in, ByteArrbyOutputStrebm out) {
         int prevBCI = 0;
         int prevRBCI = 0;
         for (int i = 0; i < elems.length; i++) {
-            Layout.Element e = elems[i];
-            int bandIndex = e.bandIndex;
-            int value;
-            int BCI, RBCI;  // "RBCI" is R(BCI), BCI's coded representation
+            Lbyout.Element e = elems[i];
+            int bbndIndex = e.bbndIndex;
+            int vblue;
+            int BCI, RBCI;  // "RBCI" is R(BCI), BCI's coded representbtion
             switch (e.kind) {
-            case EK_INT:
-                value = in.getInt(bandIndex);
-                unparseInt(e, value, out);
-                break;
-            case EK_BCI:  // PH, POH
-                value = in.getInt(bandIndex);
-                if (!e.flagTest(EF_DELTA)) {
-                    // PH:  transmit R(bci), store bci
-                    RBCI = value;
+            cbse EK_INT:
+                vblue = in.getInt(bbndIndex);
+                unpbrseInt(e, vblue, out);
+                brebk;
+            cbse EK_BCI:  // PH, POH
+                vblue = in.getInt(bbndIndex);
+                if (!e.flbgTest(EF_DELTA)) {
+                    // PH:  trbnsmit R(bci), store bci
+                    RBCI = vblue;
                 } else {
-                    // POH:  transmit D(R(bci)), store bci
-                    RBCI = prevRBCI + value;
+                    // POH:  trbnsmit D(R(bci)), store bci
+                    RBCI = prevRBCI + vblue;
                 }
-                assert(prevBCI == in.decodeBCI(prevRBCI));
+                bssert(prevBCI == in.decodeBCI(prevRBCI));
                 BCI = in.decodeBCI(RBCI);
-                unparseInt(e, BCI, out);
+                unpbrseInt(e, BCI, out);
                 prevBCI = BCI;
                 prevRBCI = RBCI;
-                break;
-            case EK_BCO:  // OH
-                value = in.getInt(bandIndex);
-                assert(e.flagTest(EF_DELTA));
-                // OH:  transmit D(R(bci)), store D(bci)
-                assert(prevBCI == in.decodeBCI(prevRBCI));
-                RBCI = prevRBCI + value;
+                brebk;
+            cbse EK_BCO:  // OH
+                vblue = in.getInt(bbndIndex);
+                bssert(e.flbgTest(EF_DELTA));
+                // OH:  trbnsmit D(R(bci)), store D(bci)
+                bssert(prevBCI == in.decodeBCI(prevRBCI));
+                RBCI = prevRBCI + vblue;
                 BCI = in.decodeBCI(RBCI);
-                unparseInt(e, BCI - prevBCI, out);
+                unpbrseInt(e, BCI - prevBCI, out);
                 prevBCI = BCI;
                 prevRBCI = RBCI;
-                break;
-            case EK_FLAG:
-                value = in.getInt(bandIndex);
-                unparseInt(e, value, out);
-                break;
-            case EK_REPL:
-                value = in.getInt(bandIndex);
-                unparseInt(e, value, out);
-                for (int j = 0; j < value; j++) {
-                    unparseUsing(e.body, fixups, in, out);
+                brebk;
+            cbse EK_FLAG:
+                vblue = in.getInt(bbndIndex);
+                unpbrseInt(e, vblue, out);
+                brebk;
+            cbse EK_REPL:
+                vblue = in.getInt(bbndIndex);
+                unpbrseInt(e, vblue, out);
+                for (int j = 0; j < vblue; j++) {
+                    unpbrseUsing(e.body, fixups, in, out);
                 }
-                break;
-            case EK_UN:
-                value = in.getInt(bandIndex);
-                unparseInt(e, value, out);
-                Layout.Element ce = matchCase(e, value);
-                unparseUsing(ce.body, fixups, in, out);
-                break;
-            case EK_CALL:
-                assert(e.body.length == 1);
-                assert(e.body[0].kind == EK_CBLE);
-                unparseUsing(e.body[0].body, fixups, in, out);
-                break;
-            case EK_REF:
-                Entry globalRef = in.getRef(bandIndex);
-                int localRef;
-                if (globalRef != null) {
-                    // It's a one-element array, really an lvalue.
-                    fixups[0] = Fixups.addRefWithLoc(fixups[0], out.size(), globalRef);
-                    localRef = 0; // placeholder for fixups
+                brebk;
+            cbse EK_UN:
+                vblue = in.getInt(bbndIndex);
+                unpbrseInt(e, vblue, out);
+                Lbyout.Element ce = mbtchCbse(e, vblue);
+                unpbrseUsing(ce.body, fixups, in, out);
+                brebk;
+            cbse EK_CALL:
+                bssert(e.body.length == 1);
+                bssert(e.body[0].kind == EK_CBLE);
+                unpbrseUsing(e.body[0].body, fixups, in, out);
+                brebk;
+            cbse EK_REF:
+                Entry globblRef = in.getRef(bbndIndex);
+                int locblRef;
+                if (globblRef != null) {
+                    // It's b one-element brrby, reblly bn lvblue.
+                    fixups[0] = Fixups.bddRefWithLoc(fixups[0], out.size(), globblRef);
+                    locblRef = 0; // plbceholder for fixups
                 } else {
-                    localRef = 0; // fixed null value
+                    locblRef = 0; // fixed null vblue
                 }
-                unparseInt(e, localRef, out);
-                break;
-            default: assert(false); continue;
+                unpbrseInt(e, locblRef, out);
+                brebk;
+            defbult: bssert(fblse); continue;
             }
         }
     }
 
-    static private
-    void unparseInt(Layout.Element e, int value, ByteArrayOutputStream out) {
+    stbtic privbte
+    void unpbrseInt(Lbyout.Element e, int vblue, ByteArrbyOutputStrebm out) {
         int loBits = e.len * 8;
         if (loBits == 0) {
-            // It is not stored at all ('V' layout).
+            // It is not stored bt bll ('V' lbyout).
             return;
         }
         if (loBits < 32) {
             int hiBits = 32 - loBits;
-            int codedValue;
-            if (e.flagTest(EF_SIGN))
-                codedValue = (value << hiBits) >> hiBits;
+            int codedVblue;
+            if (e.flbgTest(EF_SIGN))
+                codedVblue = (vblue << hiBits) >> hiBits;
             else
-                codedValue = (value << hiBits) >>> hiBits;
-            if (codedValue != value)
-                throw new InternalError("cannot code in "+e.len+" bytes: "+value);
+                codedVblue = (vblue << hiBits) >>> hiBits;
+            if (codedVblue != vblue)
+                throw new InternblError("cbnnot code in "+e.len+" bytes: "+vblue);
         }
-        // Write in big-endian order:
+        // Write in big-endibn order:
         for (int bitPos = loBits; (bitPos -= 8) >= 0; ) {
-            out.write((byte)(value >>> bitPos));
+            out.write((byte)(vblue >>> bitPos));
         }
     }
 
 /*
     /// Testing.
-    public static void main(String av[]) {
-        int maxVal = 12;
+    public stbtic void mbin(String bv[]) {
+        int mbxVbl = 12;
         int iters = 0;
-        boolean verbose;
-        int ap = 0;
-        while (ap < av.length) {
-            if (!av[ap].startsWith("-"))  break;
-            if (av[ap].startsWith("-m"))
-                maxVal = Integer.parseInt(av[ap].substring(2));
-            else if (av[ap].startsWith("-i"))
-                iters = Integer.parseInt(av[ap].substring(2));
+        boolebn verbose;
+        int bp = 0;
+        while (bp < bv.length) {
+            if (!bv[bp].stbrtsWith("-"))  brebk;
+            if (bv[bp].stbrtsWith("-m"))
+                mbxVbl = Integer.pbrseInt(bv[bp].substring(2));
+            else if (bv[bp].stbrtsWith("-i"))
+                iters = Integer.pbrseInt(bv[bp].substring(2));
             else
-                throw new RuntimeException("Bad option: "+av[ap]);
-            ap++;
+                throw new RuntimeException("Bbd option: "+bv[bp]);
+            bp++;
         }
         verbose = (iters == 0);
         if (iters <= 0)  iters = 1;
-        if (ap == av.length) {
-            av = new String[] {
-                "HH",         // ClassFile.version
+        if (bp == bv.length) {
+            bv = new String[] {
+                "HH",         // ClbssFile.version
                 "RUH",        // SourceFile
                 "RCHRDNH",    // EnclosingMethod
-                "KQH",        // ConstantValue
+                "KQH",        // ConstbntVblue
                 "NH[RCH]",    // Exceptions
-                "NH[PHH]",    // LineNumberTable
-                "NH[PHOHRUHRSHH]",      // LocalVariableTable
-                "NH[PHPOHIIH]",         // CharacterRangeTable
-                "NH[PHHII]",            // CoverageTable
-                "NH[RCHRCNHRUNHFH]",    // InnerClasses
-                "NH[RMHNH[KLH]]",       // BootstrapMethods
+                "NH[PHH]",    // LineNumberTbble
+                "NH[PHOHRUHRSHH]",      // LocblVbribbleTbble
+                "NH[PHPOHIIH]",         // ChbrbcterRbngeTbble
+                "NH[PHHII]",            // CoverbgeTbble
+                "NH[RCHRCNHRUNHFH]",    // InnerClbsses
+                "NH[RMHNH[KLH]]",       // BootstrbpMethods
                 "HHNI[B]NH[PHPOHPOHRCNH]NH[RUHNI[B]]", // Code
-                "=AnnotationDefault",
-                // Like metadata, but with a compact tag set:
+                "=AnnotbtionDefbult",
+                // Like metbdbtb, but with b compbct tbg set:
                 "[NH[(1)]]"
                 +"[NH[(1)]]"
                 +"[RSHNH[RUH(1)]]"
                 +"[TB(0,1,3)[KIH](2)[KDH](5)[KFH](4)[KJH](7)[RSH](8)[RSHRUH](9)[RUH](10)[(-1)](6)[NH[(0)]]()[]]",
                 ""
             };
-            ap = 0;
+            bp = 0;
         }
-        Utils.currentInstance.set(new PackerImpl());
-        final int[][] counts = new int[2][3];  // int bci ref
-        final Entry[] cpMap = new Entry[maxVal+1];
-        for (int i = 0; i < cpMap.length; i++) {
+        Utils.currentInstbnce.set(new PbckerImpl());
+        finbl int[][] counts = new int[2][3];  // int bci ref
+        finbl Entry[] cpMbp = new Entry[mbxVbl+1];
+        for (int i = 0; i < cpMbp.length; i++) {
             if (i == 0)  continue;  // 0 => null
-            cpMap[i] = ConstantPool.getLiteralEntry(new Integer(i));
+            cpMbp[i] = ConstbntPool.getLiterblEntry(new Integer(i));
         }
-        Package.Class cls = new Package().new Class("");
-        cls.cpMap = cpMap;
-        class TestValueStream extends ValueStream {
-            java.util.Random rand = new java.util.Random(0);
-            ArrayList history = new ArrayList();
+        Pbckbge.Clbss cls = new Pbckbge().new Clbss("");
+        cls.cpMbp = cpMbp;
+        clbss TestVblueStrebm extends VblueStrebm {
+            jbvb.util.Rbndom rbnd = new jbvb.util.Rbndom(0);
+            ArrbyList history = new ArrbyList();
             int ckidx = 0;
-            int maxVal;
-            boolean verbose;
-            void reset() { history.clear(); ckidx = 0; }
-            public int getInt(int bandIndex) {
+            int mbxVbl;
+            boolebn verbose;
+            void reset() { history.clebr(); ckidx = 0; }
+            public int getInt(int bbndIndex) {
                 counts[0][0]++;
-                int value = rand.nextInt(maxVal+1);
-                history.add(new Integer(bandIndex));
-                history.add(new Integer(value));
-                return value;
+                int vblue = rbnd.nextInt(mbxVbl+1);
+                history.bdd(new Integer(bbndIndex));
+                history.bdd(new Integer(vblue));
+                return vblue;
             }
-            public void putInt(int bandIndex, int token) {
+            public void putInt(int bbndIndex, int token) {
                 counts[1][0]++;
                 if (verbose)
-                    System.out.print(" "+bandIndex+":"+token);
-                // Make sure this put parallels a previous get:
-                int check0 = ((Integer)history.get(ckidx+0)).intValue();
-                int check1 = ((Integer)history.get(ckidx+1)).intValue();
-                if (check0 != bandIndex || check1 != token) {
+                    System.out.print(" "+bbndIndex+":"+token);
+                // Mbke sure this put pbrbllels b previous get:
+                int check0 = ((Integer)history.get(ckidx+0)).intVblue();
+                int check1 = ((Integer)history.get(ckidx+1)).intVblue();
+                if (check0 != bbndIndex || check1 != token) {
                     if (!verbose)
                         System.out.println(history.subList(0, ckidx));
                     System.out.println(" *** Should be "+check0+":"+check1);
-                    throw new RuntimeException("Failed test!");
+                    throw new RuntimeException("Fbiled test!");
                 }
                 ckidx += 2;
             }
-            public Entry getRef(int bandIndex) {
+            public Entry getRef(int bbndIndex) {
                 counts[0][2]++;
-                int value = getInt(bandIndex);
-                if (value < 0 || value > maxVal) {
-                    System.out.println(" *** Unexpected ref code "+value);
-                    return ConstantPool.getLiteralEntry(new Integer(value));
+                int vblue = getInt(bbndIndex);
+                if (vblue < 0 || vblue > mbxVbl) {
+                    System.out.println(" *** Unexpected ref code "+vblue);
+                    return ConstbntPool.getLiterblEntry(new Integer(vblue));
                 }
-                return cpMap[value];
+                return cpMbp[vblue];
             }
-            public void putRef(int bandIndex, Entry ref) {
+            public void putRef(int bbndIndex, Entry ref) {
                 counts[1][2]++;
                 if (ref == null) {
-                    putInt(bandIndex, 0);
+                    putInt(bbndIndex, 0);
                     return;
                 }
-                Number refValue = null;
-                if (ref instanceof ConstantPool.NumberEntry)
-                    refValue = ((ConstantPool.NumberEntry)ref).numberValue();
-                int value;
-                if (!(refValue instanceof Integer)) {
+                Number refVblue = null;
+                if (ref instbnceof ConstbntPool.NumberEntry)
+                    refVblue = ((ConstbntPool.NumberEntry)ref).numberVblue();
+                int vblue;
+                if (!(refVblue instbnceof Integer)) {
                     System.out.println(" *** Unexpected ref "+ref);
-                    value = -1;
+                    vblue = -1;
                 } else {
-                    value = ((Integer)refValue).intValue();
+                    vblue = ((Integer)refVblue).intVblue();
                 }
-                putInt(bandIndex, value);
+                putInt(bbndIndex, vblue);
             }
             public int encodeBCI(int bci) {
                 counts[1][1]++;
@@ -1620,21 +1620,21 @@ class Attribute implements Comparable<Attribute> {
                 int code = (bci >> 8) << 8;  // keep high bits
                 code += (bci & 0xFE) >> 1;
                 code += (bci & 0x01) << 7;
-                return code ^ (8<<8);  // mark it clearly as coded
+                return code ^ (8<<8);  // mbrk it clebrly bs coded
             }
             public int decodeBCI(int bciCode) {
                 counts[0][1]++;
-                bciCode ^= (8<<8);  // remove extra mark
+                bciCode ^= (8<<8);  // remove extrb mbrk
                 int bci = (bciCode >> 8) << 8;  // keep high bits
                 bci += (bciCode & 0x7F) << 1;
                 bci += (bciCode & 0x80) >> 7;
                 return bci;
             }
         }
-        TestValueStream tts = new TestValueStream();
-        tts.maxVal = maxVal;
+        TestVblueStrebm tts = new TestVblueStrebm();
+        tts.mbxVbl = mbxVbl;
         tts.verbose = verbose;
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm buf = new ByteArrbyOutputStrebm();
         for (int i = 0; i < (1 << 30); i = (i + 1) * 5) {
             int ei = tts.encodeBCI(i);
             int di = tts.decodeBCI(ei);
@@ -1643,33 +1643,33 @@ class Attribute implements Comparable<Attribute> {
                                              " di="+Integer.toHexString(di));
         }
         while (iters-- > 0) {
-            for (int i = ap; i < av.length; i++) {
-                String layout = av[i];
-                if (layout.startsWith("=")) {
-                    String name = layout.substring(1);
-                    for (Attribute a : standardDefs.values()) {
-                        if (a.name().equals(name)) {
-                            layout = a.layout().layout();
-                            break;
+            for (int i = bp; i < bv.length; i++) {
+                String lbyout = bv[i];
+                if (lbyout.stbrtsWith("=")) {
+                    String nbme = lbyout.substring(1);
+                    for (Attribute b : stbndbrdDefs.vblues()) {
+                        if (b.nbme().equbls(nbme)) {
+                            lbyout = b.lbyout().lbyout();
+                            brebk;
                         }
                     }
-                    if (layout.startsWith("=")) {
-                        System.out.println("Could not find "+name+" in "+standardDefs.values());
+                    if (lbyout.stbrtsWith("=")) {
+                        System.out.println("Could not find "+nbme+" in "+stbndbrdDefs.vblues());
                     }
                 }
-                Layout self = new Layout(0, "Foo", layout);
+                Lbyout self = new Lbyout(0, "Foo", lbyout);
                 if (verbose) {
-                    System.out.print("/"+layout+"/ => ");
-                    System.out.println(Arrays.asList(self.elems));
+                    System.out.print("/"+lbyout+"/ => ");
+                    System.out.println(Arrbys.bsList(self.elems));
                 }
                 buf.reset();
                 tts.reset();
-                Object fixups = self.unparse(tts, buf);
-                byte[] bytes = buf.toByteArray();
-                // Attach the references to the byte array.
+                Object fixups = self.unpbrse(tts, buf);
+                byte[] bytes = buf.toByteArrby();
+                // Attbch the references to the byte brrby.
                 Fixups.setBytes(fixups, bytes);
-                // Patch the references to their frozen values.
-                Fixups.finishRefs(fixups, bytes, new Index("test", cpMap));
+                // Pbtch the references to their frozen vblues.
+                Fixups.finishRefs(fixups, bytes, new Index("test", cpMbp));
                 if (verbose) {
                     System.out.print("  bytes: {");
                     for (int j = 0; j < bytes.length; j++) {
@@ -1678,16 +1678,16 @@ class Attribute implements Comparable<Attribute> {
                     System.out.println("}");
                 }
                 if (verbose) {
-                    System.out.print("  parse: {");
+                    System.out.print("  pbrse: {");
                 }
-                self.parse(cls, bytes, 0, bytes.length, tts);
+                self.pbrse(cls, bytes, 0, bytes.length, tts);
                 if (verbose) {
                     System.out.println("}");
                 }
             }
         }
         for (int j = 0; j <= 1; j++) {
-            System.out.print("values "+(j==0?"read":"written")+": {");
+            System.out.print("vblues "+(j==0?"rebd":"written")+": {");
             for (int k = 0; k < counts[j].length; k++) {
                 System.out.print(" "+counts[j][k]);
             }

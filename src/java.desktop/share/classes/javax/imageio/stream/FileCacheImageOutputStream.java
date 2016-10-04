@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.nio.file.Files;
-import com.sun.imageio.stream.StreamCloser;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.RbndomAccessFile;
+import jbvb.nio.file.Files;
+import com.sun.imbgeio.strebm.StrebmCloser;
 
 /**
- * An implementation of <code>ImageOutputStream</code> that writes its
- * output to a regular <code>OutputStream</code>.  A file is used to
- * cache data until it is flushed to the output stream.
+ * An implementbtion of <code>ImbgeOutputStrebm</code> thbt writes its
+ * output to b regulbr <code>OutputStrebm</code>.  A file is used to
+ * cbche dbtb until it is flushed to the output strebm.
  *
  */
-public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
+public clbss FileCbcheImbgeOutputStrebm extends ImbgeOutputStrebmImpl {
 
-    private OutputStream stream;
+    privbte OutputStrebm strebm;
 
-    private File cacheFile;
+    privbte File cbcheFile;
 
-    private RandomAccessFile cache;
+    privbte RbndomAccessFile cbche;
 
-    // Pos after last (rightmost) byte written
-    private long maxStreamPos = 0L;
+    // Pos bfter lbst (rightmost) byte written
+    privbte long mbxStrebmPos = 0L;
 
-    /** The CloseAction that closes the stream in
-     *  the StreamCloser's shutdown hook                     */
-    private final StreamCloser.CloseAction closeAction;
+    /** The CloseAction thbt closes the strebm in
+     *  the StrebmCloser's shutdown hook                     */
+    privbte finbl StrebmCloser.CloseAction closeAction;
 
     /**
-     * Constructs a <code>FileCacheImageOutputStream</code> that will write
-     * to a given <code>outputStream</code>.
+     * Constructs b <code>FileCbcheImbgeOutputStrebm</code> thbt will write
+     * to b given <code>outputStrebm</code>.
      *
-     * <p> A temporary file is used as a cache.  If
-     * <code>cacheDir</code>is non-<code>null</code> and is a
-     * directory, the file will be created there.  If it is
-     * <code>null</code>, the system-dependent default temporary-file
-     * directory will be used (see the documentation for
-     * <code>File.createTempFile</code> for details).
+     * <p> A temporbry file is used bs b cbche.  If
+     * <code>cbcheDir</code>is non-<code>null</code> bnd is b
+     * directory, the file will be crebted there.  If it is
+     * <code>null</code>, the system-dependent defbult temporbry-file
+     * directory will be used (see the documentbtion for
+     * <code>File.crebteTempFile</code> for detbils).
      *
-     * @param stream an <code>OutputStream</code> to write to.
-     * @param cacheDir a <code>File</code> indicating where the
-     * cache file should be created, or <code>null</code> to use the
+     * @pbrbm strebm bn <code>OutputStrebm</code> to write to.
+     * @pbrbm cbcheDir b <code>File</code> indicbting where the
+     * cbche file should be crebted, or <code>null</code> to use the
      * system directory.
      *
-     * @exception IllegalArgumentException if <code>stream</code>
+     * @exception IllegblArgumentException if <code>strebm</code>
      * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>cacheDir</code> is
-     * non-<code>null</code> but is not a directory.
-     * @exception IOException if a cache file cannot be created.
+     * @exception IllegblArgumentException if <code>cbcheDir</code> is
+     * non-<code>null</code> but is not b directory.
+     * @exception IOException if b cbche file cbnnot be crebted.
      */
-    public FileCacheImageOutputStream(OutputStream stream, File cacheDir)
+    public FileCbcheImbgeOutputStrebm(OutputStrebm strebm, File cbcheDir)
         throws IOException {
-        if (stream == null) {
-            throw new IllegalArgumentException("stream == null!");
+        if (strebm == null) {
+            throw new IllegblArgumentException("strebm == null!");
         }
-        if ((cacheDir != null) && !(cacheDir.isDirectory())) {
-            throw new IllegalArgumentException("Not a directory!");
+        if ((cbcheDir != null) && !(cbcheDir.isDirectory())) {
+            throw new IllegblArgumentException("Not b directory!");
         }
-        this.stream = stream;
-        if (cacheDir == null)
-            this.cacheFile = Files.createTempFile("imageio", ".tmp").toFile();
+        this.strebm = strebm;
+        if (cbcheDir == null)
+            this.cbcheFile = Files.crebteTempFile("imbgeio", ".tmp").toFile();
         else
-            this.cacheFile = Files.createTempFile(cacheDir.toPath(), "imageio", ".tmp")
+            this.cbcheFile = Files.crebteTempFile(cbcheDir.toPbth(), "imbgeio", ".tmp")
                                   .toFile();
-        this.cache = new RandomAccessFile(cacheFile, "rw");
+        this.cbche = new RbndomAccessFile(cbcheFile, "rw");
 
-        this.closeAction = StreamCloser.createCloseAction(this);
-        StreamCloser.addToQueue(closeAction);
+        this.closeAction = StrebmCloser.crebteCloseAction(this);
+        StrebmCloser.bddToQueue(closeAction);
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         checkClosed();
         bitOffset = 0;
-        int val =  cache.read();
-        if (val != -1) {
-            ++streamPos;
+        int vbl =  cbche.rebd();
+        if (vbl != -1) {
+            ++strebmPos;
         }
-        return val;
+        return vbl;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
         if (b == null) {
@@ -122,46 +122,46 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
             return 0;
         }
 
-        int nbytes = cache.read(b, off, len);
+        int nbytes = cbche.rebd(b, off, len);
         if (nbytes != -1) {
-            streamPos += nbytes;
+            strebmPos += nbytes;
         }
         return nbytes;
     }
 
     public void write(int b) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        cache.write(b);
-        ++streamPos;
-        maxStreamPos = Math.max(maxStreamPos, streamPos);
+        flushBits(); // this will cbll checkClosed() for us
+        cbche.write(b);
+        ++strebmPos;
+        mbxStrebmPos = Mbth.mbx(mbxStrebmPos, strebmPos);
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        cache.write(b, off, len);
-        streamPos += len;
-        maxStreamPos = Math.max(maxStreamPos, streamPos);
+        flushBits(); // this will cbll checkClosed() for us
+        cbche.write(b, off, len);
+        strebmPos += len;
+        mbxStrebmPos = Mbth.mbx(mbxStrebmPos, strebmPos);
     }
 
     public long length() {
         try {
             checkClosed();
-            return cache.length();
-        } catch (IOException e) {
+            return cbche.length();
+        } cbtch (IOException e) {
             return -1L;
         }
     }
 
     /**
-     * Sets the current stream position and resets the bit offset to
-     * 0.  It is legal to seek past the end of the file; an
-     * <code>EOFException</code> will be thrown only if a read is
-     * performed.  The file length will not be increased until a write
+     * Sets the current strebm position bnd resets the bit offset to
+     * 0.  It is legbl to seek pbst the end of the file; bn
+     * <code>EOFException</code> will be thrown only if b rebd is
+     * performed.  The file length will not be increbsed until b write
      * is performed.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> is smaller
-     * than the flushed position.
-     * @exception IOException if any other I/O error occurs.
+     * @exception IndexOutOfBoundsException if <code>pos</code> is smbller
+     * thbn the flushed position.
+     * @exception IOException if bny other I/O error occurs.
      */
     public void seek(long pos) throws IOException {
         checkClosed();
@@ -170,92 +170,92 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
             throw new IndexOutOfBoundsException();
         }
 
-        cache.seek(pos);
-        this.streamPos = cache.getFilePointer();
-        maxStreamPos = Math.max(maxStreamPos, streamPos);
+        cbche.seek(pos);
+        this.strebmPos = cbche.getFilePointer();
+        mbxStrebmPos = Mbth.mbx(mbxStrebmPos, strebmPos);
         this.bitOffset = 0;
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageOutputStream</code> caches data in order to allow
-     * seeking backwards.
+     * <code>ImbgeOutputStrebm</code> cbches dbtb in order to bllow
+     * seeking bbckwbrds.
      *
      * @return <code>true</code>.
      *
-     * @see #isCachedMemory
-     * @see #isCachedFile
+     * @see #isCbchedMemory
+     * @see #isCbchedFile
      */
-    public boolean isCached() {
+    public boolebn isCbched() {
         return true;
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageOutputStream</code> maintains a file cache.
+     * <code>ImbgeOutputStrebm</code> mbintbins b file cbche.
      *
      * @return <code>true</code>.
      *
-     * @see #isCached
-     * @see #isCachedMemory
+     * @see #isCbched
+     * @see #isCbchedMemory
      */
-    public boolean isCachedFile() {
+    public boolebn isCbchedFile() {
         return true;
     }
 
     /**
-     * Returns <code>false</code> since this
-     * <code>ImageOutputStream</code> does not maintain a main memory
-     * cache.
+     * Returns <code>fblse</code> since this
+     * <code>ImbgeOutputStrebm</code> does not mbintbin b mbin memory
+     * cbche.
      *
-     * @return <code>false</code>.
+     * @return <code>fblse</code>.
      *
-     * @see #isCached
-     * @see #isCachedFile
+     * @see #isCbched
+     * @see #isCbchedFile
      */
-    public boolean isCachedMemory() {
-        return false;
+    public boolebn isCbchedMemory() {
+        return fblse;
     }
 
     /**
-     * Closes this <code>FileCacheImageOutputStream</code>.  All
-     * pending data is flushed to the output, and the cache file
-     * is closed and removed.  The destination <code>OutputStream</code>
+     * Closes this <code>FileCbcheImbgeOutputStrebm</code>.  All
+     * pending dbtb is flushed to the output, bnd the cbche file
+     * is closed bnd removed.  The destinbtion <code>OutputStrebm</code>
      * is not closed.
      *
-     * @exception IOException if an error occurs.
+     * @exception IOException if bn error occurs.
      */
     public void close() throws IOException {
-        maxStreamPos = cache.length();
+        mbxStrebmPos = cbche.length();
 
-        seek(maxStreamPos);
-        flushBefore(maxStreamPos);
+        seek(mbxStrebmPos);
+        flushBefore(mbxStrebmPos);
         super.close();
-        cache.close();
-        cache = null;
-        cacheFile.delete();
-        cacheFile = null;
-        stream.flush();
-        stream = null;
-        StreamCloser.removeFromQueue(closeAction);
+        cbche.close();
+        cbche = null;
+        cbcheFile.delete();
+        cbcheFile = null;
+        strebm.flush();
+        strebm = null;
+        StrebmCloser.removeFromQueue(closeAction);
     }
 
     public void flushBefore(long pos) throws IOException {
         long oFlushedPos = flushedPos;
-        super.flushBefore(pos); // this will call checkClosed() for us
+        super.flushBefore(pos); // this will cbll checkClosed() for us
 
         long flushBytes = flushedPos - oFlushedPos;
         if (flushBytes > 0) {
             int bufLen = 512;
             byte[] buf = new byte[bufLen];
-            cache.seek(oFlushedPos);
+            cbche.seek(oFlushedPos);
             while (flushBytes > 0) {
-                int len = (int)Math.min(flushBytes, bufLen);
-                cache.readFully(buf, 0, len);
-                stream.write(buf, 0, len);
+                int len = (int)Mbth.min(flushBytes, bufLen);
+                cbche.rebdFully(buf, 0, len);
+                strebm.write(buf, 0, len);
                 flushBytes -= len;
             }
-            stream.flush();
+            strebm.flush();
         }
     }
 }

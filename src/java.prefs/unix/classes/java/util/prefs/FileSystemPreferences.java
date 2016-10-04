@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
-import java.util.*;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+pbckbge jbvb.util.prefs;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * Preferences implementation for Unix.  Preferences are stored in the file
+ * Preferences implementbtion for Unix.  Preferences bre stored in the file
  * system, with one directory per preferences node.  All of the preferences
- * at each node are stored in a single file.  Atomic file system operations
- * (e.g. File.renameTo) are used to ensure integrity.  An in-memory cache of
- * the "explored" portion of the tree is maintained for performance, and
- * written back to the disk periodically.  File-locking is used to ensure
- * reasonable behavior when multiple VMs are running at the same time.
- * (The file lock is obtained only for sync(), flush() and removeNode().)
+ * bt ebch node bre stored in b single file.  Atomic file system operbtions
+ * (e.g. File.renbmeTo) bre used to ensure integrity.  An in-memory cbche of
+ * the "explored" portion of the tree is mbintbined for performbnce, bnd
+ * written bbck to the disk periodicblly.  File-locking is used to ensure
+ * rebsonbble behbvior when multiple VMs bre running bt the sbme time.
+ * (The file lock is obtbined only for sync(), flush() bnd removeNode().)
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see     Preferences
  * @since   1.4
  */
-class FileSystemPreferences extends AbstractPreferences {
+clbss FileSystemPreferences extends AbstrbctPreferences {
 
-    static {
-        PrivilegedAction<Void> load = () -> {
-            System.loadLibrary("prefs");
+    stbtic {
+        PrivilegedAction<Void> lobd = () -> {
+            System.lobdLibrbry("prefs");
             return null;
         };
-        AccessController.doPrivileged(load);
+        AccessController.doPrivileged(lobd);
     }
 
     /**
-     * Sync interval in seconds.
+     * Sync intervbl in seconds.
      */
-    private static final int SYNC_INTERVAL = Math.max(1,
+    privbte stbtic finbl int SYNC_INTERVAL = Mbth.mbx(1,
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-             Integer.getInteger("java.util.prefs.syncInterval", 30)));
+             Integer.getInteger("jbvb.util.prefs.syncIntervbl", 30)));
 
     /**
-     * Returns logger for error messages. Backing store exceptions are logged at
+     * Returns logger for error messbges. Bbcking store exceptions bre logged bt
      * WARNING level.
      */
-    private static PlatformLogger getLogger() {
-        return PlatformLogger.getLogger("java.util.prefs");
+    privbte stbtic PlbtformLogger getLogger() {
+        return PlbtformLogger.getLogger("jbvb.util.prefs");
     }
 
     /**
      * Directory for system preferences.
      */
-    private static File systemRootDir;
+    privbte stbtic File systemRootDir;
 
     /*
-     * Flag, indicating whether systemRoot  directory is writable
+     * Flbg, indicbting whether systemRoot  directory is writbble
      */
-    private static boolean isSystemRootWritable;
+    privbte stbtic boolebn isSystemRootWritbble;
 
     /**
      * Directory for user preferences.
      */
-    private static File userRootDir;
+    privbte stbtic File userRootDir;
 
     /*
-     * Flag, indicating whether userRoot  directory is writable
+     * Flbg, indicbting whether userRoot  directory is writbble
      */
-    private static boolean isUserRootWritable;
+    privbte stbtic boolebn isUserRootWritbble;
 
    /**
      * The user root.
      */
-    static Preferences userRoot = null;
+    stbtic Preferences userRoot = null;
 
-    static synchronized Preferences getUserRoot() {
+    stbtic synchronized Preferences getUserRoot() {
         if (userRoot == null) {
             setupUserRoot();
             userRoot = new FileSystemPreferences(true);
@@ -105,48 +105,48 @@ class FileSystemPreferences extends AbstractPreferences {
         return userRoot;
     }
 
-    private static void setupUserRoot() {
+    privbte stbtic void setupUserRoot() {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
                 userRootDir =
-                      new File(System.getProperty("java.util.prefs.userRoot",
-                      System.getProperty("user.home")), ".java/.userPrefs");
-                // Attempt to create root dir if it does not yet exist.
+                      new File(System.getProperty("jbvb.util.prefs.userRoot",
+                      System.getProperty("user.home")), ".jbvb/.userPrefs");
+                // Attempt to crebte root dir if it does not yet exist.
                 if (!userRootDir.exists()) {
                     if (userRootDir.mkdirs()) {
                         try {
-                            chmod(userRootDir.getCanonicalPath(), USER_RWX);
-                        } catch (IOException e) {
-                            getLogger().warning("Could not change permissions" +
+                            chmod(userRootDir.getCbnonicblPbth(), USER_RWX);
+                        } cbtch (IOException e) {
+                            getLogger().wbrning("Could not chbnge permissions" +
                                 " on userRoot directory. ");
                         }
-                        getLogger().info("Created user preferences directory.");
+                        getLogger().info("Crebted user preferences directory.");
                     }
                     else
-                        getLogger().warning("Couldn't create user preferences" +
-                        " directory. User preferences are unusable.");
+                        getLogger().wbrning("Couldn't crebte user preferences" +
+                        " directory. User preferences bre unusbble.");
                 }
-                isUserRootWritable = userRootDir.canWrite();
-                String USER_NAME = System.getProperty("user.name");
+                isUserRootWritbble = userRootDir.cbnWrite();
+                String USER_NAME = System.getProperty("user.nbme");
                 userLockFile = new File (userRootDir,".user.lock." + USER_NAME);
                 userRootModFile = new File (userRootDir,
                                                ".userRootModFile." + USER_NAME);
                 if (!userRootModFile.exists())
                 try {
-                    // create if does not exist.
-                    userRootModFile.createNewFile();
-                    // Only user can read/write userRootModFile.
-                    int result = chmod(userRootModFile.getCanonicalPath(),
+                    // crebte if does not exist.
+                    userRootModFile.crebteNewFile();
+                    // Only user cbn rebd/write userRootModFile.
+                    int result = chmod(userRootModFile.getCbnonicblPbth(),
                                                                USER_READ_WRITE);
                     if (result !=0)
-                        getLogger().warning("Problem creating userRoot " +
-                            "mod file. Chmod failed on " +
-                             userRootModFile.getCanonicalPath() +
+                        getLogger().wbrning("Problem crebting userRoot " +
+                            "mod file. Chmod fbiled on " +
+                             userRootModFile.getCbnonicblPbth() +
                              " Unix error code " + result);
-                } catch (IOException e) {
-                    getLogger().warning(e.toString());
+                } cbtch (IOException e) {
+                    getLogger().wbrning(e.toString());
                 }
-                userRootModTime = userRootModFile.lastModified();
+                userRootModTime = userRootModFile.lbstModified();
                 return null;
             }
         });
@@ -156,64 +156,64 @@ class FileSystemPreferences extends AbstractPreferences {
     /**
      * The system root.
      */
-    static Preferences systemRoot;
+    stbtic Preferences systemRoot;
 
-    static synchronized Preferences getSystemRoot() {
+    stbtic synchronized Preferences getSystemRoot() {
         if (systemRoot == null) {
             setupSystemRoot();
-            systemRoot = new FileSystemPreferences(false);
+            systemRoot = new FileSystemPreferences(fblse);
         }
         return systemRoot;
     }
 
-    private static void setupSystemRoot() {
+    privbte stbtic void setupSystemRoot() {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                String systemPrefsDirName =
-                  System.getProperty("java.util.prefs.systemRoot","/etc/.java");
+                String systemPrefsDirNbme =
+                  System.getProperty("jbvb.util.prefs.systemRoot","/etc/.jbvb");
                 systemRootDir =
-                     new File(systemPrefsDirName, ".systemPrefs");
-                // Attempt to create root dir if it does not yet exist.
+                     new File(systemPrefsDirNbme, ".systemPrefs");
+                // Attempt to crebte root dir if it does not yet exist.
                 if (!systemRootDir.exists()) {
-                    // system root does not exist in /etc/.java
-                    // Switching  to java.home
+                    // system root does not exist in /etc/.jbvb
+                    // Switching  to jbvb.home
                     systemRootDir =
-                                  new File(System.getProperty("java.home"),
+                                  new File(System.getProperty("jbvb.home"),
                                                             ".systemPrefs");
                     if (!systemRootDir.exists()) {
                         if (systemRootDir.mkdirs()) {
                             getLogger().info(
-                                "Created system preferences directory "
-                                + "in java.home.");
+                                "Crebted system preferences directory "
+                                + "in jbvb.home.");
                             try {
-                                chmod(systemRootDir.getCanonicalPath(),
+                                chmod(systemRootDir.getCbnonicblPbth(),
                                                           USER_RWX_ALL_RX);
-                            } catch (IOException e) {
+                            } cbtch (IOException e) {
                             }
                         } else {
-                            getLogger().warning("Could not create "
+                            getLogger().wbrning("Could not crebte "
                                 + "system preferences directory. System "
-                                + "preferences are unusable.");
+                                + "preferences bre unusbble.");
                         }
                     }
                 }
-                isSystemRootWritable = systemRootDir.canWrite();
+                isSystemRootWritbble = systemRootDir.cbnWrite();
                 systemLockFile = new File(systemRootDir, ".system.lock");
                 systemRootModFile =
                                new File (systemRootDir,".systemRootModFile");
-                if (!systemRootModFile.exists() && isSystemRootWritable)
+                if (!systemRootModFile.exists() && isSystemRootWritbble)
                 try {
-                    // create if does not exist.
-                    systemRootModFile.createNewFile();
-                    int result = chmod(systemRootModFile.getCanonicalPath(),
+                    // crebte if does not exist.
+                    systemRootModFile.crebteNewFile();
+                    int result = chmod(systemRootModFile.getCbnonicblPbth(),
                                                           USER_RW_ALL_READ);
                     if (result !=0)
-                        getLogger().warning("Chmod failed on " +
-                               systemRootModFile.getCanonicalPath() +
+                        getLogger().wbrning("Chmod fbiled on " +
+                               systemRootModFile.getCbnonicblPbth() +
                               " Unix error code " + result);
-                } catch (IOException e) { getLogger().warning(e.toString());
+                } cbtch (IOException e) { getLogger().wbrning(e.toString());
                 }
-                systemRootModTime = systemRootModFile.lastModified();
+                systemRootModTime = systemRootModFile.lbstModified();
                 return null;
             }
         });
@@ -221,231 +221,231 @@ class FileSystemPreferences extends AbstractPreferences {
 
 
     /**
-     * Unix user write/read permission
+     * Unix user write/rebd permission
      */
-    private static final int USER_READ_WRITE = 0600;
+    privbte stbtic finbl int USER_READ_WRITE = 0600;
 
-    private static final int USER_RW_ALL_READ = 0644;
+    privbte stbtic finbl int USER_RW_ALL_READ = 0644;
 
 
-    private static final int USER_RWX_ALL_RX = 0755;
+    privbte stbtic finbl int USER_RWX_ALL_RX = 0755;
 
-    private static final int USER_RWX = 0700;
+    privbte stbtic finbl int USER_RWX = 0700;
 
     /**
      * The lock file for the user tree.
      */
-    static File userLockFile;
+    stbtic File userLockFile;
 
 
 
     /**
      * The lock file for the system tree.
      */
-    static File systemLockFile;
+    stbtic File systemLockFile;
 
     /**
-     * Unix lock handle for userRoot.
+     * Unix lock hbndle for userRoot.
      * Zero, if unlocked.
      */
 
-    private static int userRootLockHandle = 0;
+    privbte stbtic int userRootLockHbndle = 0;
 
     /**
-     * Unix lock handle for systemRoot.
+     * Unix lock hbndle for systemRoot.
      * Zero, if unlocked.
      */
 
-    private static int systemRootLockHandle = 0;
+    privbte stbtic int systemRootLockHbndle = 0;
 
     /**
-     * The directory representing this preference node.  There is no guarantee
-     * that this directory exits, as another VM can delete it at any time
-     * that it (the other VM) holds the file-lock.  While the root node cannot
-     * be deleted, it may not yet have been created, or the underlying
-     * directory could have been deleted accidentally.
+     * The directory representing this preference node.  There is no gubrbntee
+     * thbt this directory exits, bs bnother VM cbn delete it bt bny time
+     * thbt it (the other VM) holds the file-lock.  While the root node cbnnot
+     * be deleted, it mby not yet hbve been crebted, or the underlying
+     * directory could hbve been deleted bccidentblly.
      */
-    private final File dir;
+    privbte finbl File dir;
 
     /**
      * The file representing this preference node's preferences.
-     * The file format is undocumented, and subject to change
-     * from release to release, but I'm sure that you can figure
-     * it out if you try real hard.
+     * The file formbt is undocumented, bnd subject to chbnge
+     * from relebse to relebse, but I'm sure thbt you cbn figure
+     * it out if you try rebl hbrd.
      */
-    private final File prefsFile;
+    privbte finbl File prefsFile;
 
     /**
-     * A temporary file used for saving changes to preferences.  As part of
-     * the sync operation, changes are first saved into this file, and then
-     * atomically renamed to prefsFile.  This results in an atomic state
-     * change from one valid set of preferences to another.  The
-     * the file-lock is held for the duration of this transformation.
+     * A temporbry file used for sbving chbnges to preferences.  As pbrt of
+     * the sync operbtion, chbnges bre first sbved into this file, bnd then
+     * btomicblly renbmed to prefsFile.  This results in bn btomic stbte
+     * chbnge from one vblid set of preferences to bnother.  The
+     * the file-lock is held for the durbtion of this trbnsformbtion.
      */
-    private final File tmpFile;
+    privbte finbl File tmpFile;
 
     /**
-     * File, which keeps track of global modifications of userRoot.
+     * File, which keeps trbck of globbl modificbtions of userRoot.
      */
-    private static  File userRootModFile;
+    privbte stbtic  File userRootModFile;
 
     /**
-     * Flag, which indicated whether userRoot was modified by another VM
+     * Flbg, which indicbted whether userRoot wbs modified by bnother VM
      */
-    private static boolean isUserRootModified = false;
+    privbte stbtic boolebn isUserRootModified = fblse;
 
     /**
-     * Keeps track of userRoot modification time. This time is reset to
-     * zero after UNIX reboot, and is increased by 1 second each time
+     * Keeps trbck of userRoot modificbtion time. This time is reset to
+     * zero bfter UNIX reboot, bnd is increbsed by 1 second ebch time
      * userRoot is modified.
      */
-    private static long userRootModTime;
+    privbte stbtic long userRootModTime;
 
 
     /*
-     * File, which keeps track of global modifications of systemRoot
+     * File, which keeps trbck of globbl modificbtions of systemRoot
      */
-    private static File systemRootModFile;
+    privbte stbtic File systemRootModFile;
     /*
-     * Flag, which indicates whether systemRoot was modified by another VM
+     * Flbg, which indicbtes whether systemRoot wbs modified by bnother VM
      */
-    private static boolean isSystemRootModified = false;
+    privbte stbtic boolebn isSystemRootModified = fblse;
 
     /**
-     * Keeps track of systemRoot modification time. This time is reset to
-     * zero after system reboot, and is increased by 1 second each time
+     * Keeps trbck of systemRoot modificbtion time. This time is reset to
+     * zero bfter system reboot, bnd is increbsed by 1 second ebch time
      * systemRoot is modified.
      */
-    private static long systemRootModTime;
+    privbte stbtic long systemRootModTime;
 
     /**
-     * Locally cached preferences for this node (includes uncommitted
-     * changes).  This map is initialized with from disk when the first get or
-     * put operation occurs on this node.  It is synchronized with the
-     * corresponding disk file (prefsFile) by the sync operation.  The initial
-     * value is read *without* acquiring the file-lock.
+     * Locblly cbched preferences for this node (includes uncommitted
+     * chbnges).  This mbp is initiblized with from disk when the first get or
+     * put operbtion occurs on this node.  It is synchronized with the
+     * corresponding disk file (prefsFile) by the sync operbtion.  The initibl
+     * vblue is rebd *without* bcquiring the file-lock.
      */
-    private Map<String, String> prefsCache = null;
+    privbte Mbp<String, String> prefsCbche = null;
 
     /**
-     * The last modification time of the file backing this node at the time
-     * that prefCache was last synchronized (or initially read).  This
-     * value is set *before* reading the file, so it's conservative; the
-     * actual timestamp could be (slightly) higher.  A value of zero indicates
-     * that we were unable to initialize prefsCache from the disk, or
-     * have not yet attempted to do so.  (If prefsCache is non-null, it
-     * indicates the former; if it's null, the latter.)
+     * The lbst modificbtion time of the file bbcking this node bt the time
+     * thbt prefCbche wbs lbst synchronized (or initiblly rebd).  This
+     * vblue is set *before* rebding the file, so it's conservbtive; the
+     * bctubl timestbmp could be (slightly) higher.  A vblue of zero indicbtes
+     * thbt we were unbble to initiblize prefsCbche from the disk, or
+     * hbve not yet bttempted to do so.  (If prefsCbche is non-null, it
+     * indicbtes the former; if it's null, the lbtter.)
      */
-    private long lastSyncTime = 0;
+    privbte long lbstSyncTime = 0;
 
    /**
     * Unix error code for locked file.
     */
-    private static final int EAGAIN = 11;
+    privbte stbtic finbl int EAGAIN = 11;
 
    /**
-    * Unix error code for denied access.
+    * Unix error code for denied bccess.
     */
-    private static final int EACCES = 13;
+    privbte stbtic finbl int EACCES = 13;
 
-    /* Used to interpret results of native functions */
-    private static final int LOCK_HANDLE = 0;
-    private static final int ERROR_CODE = 1;
+    /* Used to interpret results of nbtive functions */
+    privbte stbtic finbl int LOCK_HANDLE = 0;
+    privbte stbtic finbl int ERROR_CODE = 1;
 
     /**
-     * A list of all uncommitted preference changes.  The elements in this
-     * list are of type PrefChange.  If this node is concurrently modified on
-     * disk by another VM, the two sets of changes are merged when this node
-     * is sync'ed by overwriting our prefsCache with the preference map last
-     * written out to disk (by the other VM), and then replaying this change
-     * log against that map.  The resulting map is then written back
+     * A list of bll uncommitted preference chbnges.  The elements in this
+     * list bre of type PrefChbnge.  If this node is concurrently modified on
+     * disk by bnother VM, the two sets of chbnges bre merged when this node
+     * is sync'ed by overwriting our prefsCbche with the preference mbp lbst
+     * written out to disk (by the other VM), bnd then replbying this chbnge
+     * log bgbinst thbt mbp.  The resulting mbp is then written bbck
      * to the disk.
      */
-    final List<Change> changeLog = new ArrayList<>();
+    finbl List<Chbnge> chbngeLog = new ArrbyList<>();
 
     /**
-     * Represents a change to a preference.
+     * Represents b chbnge to b preference.
      */
-    private abstract class Change {
+    privbte bbstrbct clbss Chbnge {
         /**
-         * Reapplies the change to prefsCache.
+         * Rebpplies the chbnge to prefsCbche.
          */
-        abstract void replay();
+        bbstrbct void replby();
     };
 
     /**
-     * Represents a preference put.
+     * Represents b preference put.
      */
-    private class Put extends Change {
-        String key, value;
+    privbte clbss Put extends Chbnge {
+        String key, vblue;
 
-        Put(String key, String value) {
+        Put(String key, String vblue) {
             this.key = key;
-            this.value = value;
+            this.vblue = vblue;
         }
 
-        void replay() {
-            prefsCache.put(key, value);
+        void replby() {
+            prefsCbche.put(key, vblue);
         }
     }
 
     /**
-     * Represents a preference remove.
+     * Represents b preference remove.
      */
-    private class Remove extends Change {
+    privbte clbss Remove extends Chbnge {
         String key;
 
         Remove(String key) {
             this.key = key;
         }
 
-        void replay() {
-            prefsCache.remove(key);
+        void replby() {
+            prefsCbche.remove(key);
         }
     }
 
     /**
-     * Represents the creation of this node.
+     * Represents the crebtion of this node.
      */
-    private class NodeCreate extends Change {
+    privbte clbss NodeCrebte extends Chbnge {
         /**
-         * Performs no action, but the presence of this object in changeLog
-         * will force the node and its ancestors to be made permanent at the
+         * Performs no bction, but the presence of this object in chbngeLog
+         * will force the node bnd its bncestors to be mbde permbnent bt the
          * next sync.
          */
-        void replay() {
+        void replby() {
         }
     }
 
     /**
-     * NodeCreate object for this node.
+     * NodeCrebte object for this node.
      */
-    NodeCreate nodeCreate = null;
+    NodeCrebte nodeCrebte = null;
 
     /**
-     * Replay changeLog against prefsCache.
+     * Replby chbngeLog bgbinst prefsCbche.
      */
-    private void replayChanges() {
-        for (int i = 0, n = changeLog.size(); i<n; i++)
-            changeLog.get(i).replay();
+    privbte void replbyChbnges() {
+        for (int i = 0, n = chbngeLog.size(); i<n; i++)
+            chbngeLog.get(i).replby();
     }
 
-    private static Timer syncTimer = new Timer(true); // Daemon Thread
+    privbte stbtic Timer syncTimer = new Timer(true); // Dbemon Threbd
 
-    static {
-        // Add periodic timer task to periodically sync cached prefs
-        syncTimer.schedule(new TimerTask() {
+    stbtic {
+        // Add periodic timer tbsk to periodicblly sync cbched prefs
+        syncTimer.schedule(new TimerTbsk() {
             public void run() {
                 syncWorld();
             }
         }, SYNC_INTERVAL*1000, SYNC_INTERVAL*1000);
 
-        // Add shutdown hook to flush cached prefs on normal termination
+        // Add shutdown hook to flush cbched prefs on normbl terminbtion
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                Runtime.getRuntime().addShutdownHook(new Thread() {
+                Runtime.getRuntime().bddShutdownHook(new Threbd() {
                     public void run() {
-                        syncTimer.cancel();
+                        syncTimer.cbncel();
                         syncWorld();
                     }
                 });
@@ -454,14 +454,14 @@ class FileSystemPreferences extends AbstractPreferences {
         });
     }
 
-    private static void syncWorld() {
+    privbte stbtic void syncWorld() {
         /*
-         * Synchronization necessary because userRoot and systemRoot are
-         * lazily initialized.
+         * Synchronizbtion necessbry becbuse userRoot bnd systemRoot bre
+         * lbzily initiblized.
          */
         Preferences userRt;
         Preferences systemRt;
-        synchronized(FileSystemPreferences.class) {
+        synchronized(FileSystemPreferences.clbss) {
             userRt   = userRoot;
             systemRt = systemRoot;
         }
@@ -469,25 +469,25 @@ class FileSystemPreferences extends AbstractPreferences {
         try {
             if (userRt != null)
                 userRt.flush();
-        } catch(BackingStoreException e) {
-            getLogger().warning("Couldn't flush user prefs: " + e);
+        } cbtch(BbckingStoreException e) {
+            getLogger().wbrning("Couldn't flush user prefs: " + e);
         }
 
         try {
             if (systemRt != null)
                 systemRt.flush();
-        } catch(BackingStoreException e) {
-            getLogger().warning("Couldn't flush system prefs: " + e);
+        } cbtch(BbckingStoreException e) {
+            getLogger().wbrning("Couldn't flush system prefs: " + e);
         }
     }
 
-    private final boolean isUserNode;
+    privbte finbl boolebn isUserNode;
 
     /**
-     * Special constructor for roots (both user and system).  This constructor
-     * will only be called twice, by the static initializer.
+     * Specibl constructor for roots (both user bnd system).  This constructor
+     * will only be cblled twice, by the stbtic initiblizer.
      */
-    private FileSystemPreferences(boolean user) {
+    privbte FileSystemPreferences(boolebn user) {
         super(null, "");
         isUserNode = user;
         dir = (user ? userRootDir: systemRootDir);
@@ -496,14 +496,14 @@ class FileSystemPreferences extends AbstractPreferences {
     }
 
     /**
-     * Construct a new FileSystemPreferences instance with the specified
-     * parent node and name.  This constructor, called from childSpi,
-     * is used to make every node except for the two //roots.
+     * Construct b new FileSystemPreferences instbnce with the specified
+     * pbrent node bnd nbme.  This constructor, cblled from childSpi,
+     * is used to mbke every node except for the two //roots.
      */
-    private FileSystemPreferences(FileSystemPreferences parent, String name) {
-        super(parent, name);
-        isUserNode = parent.isUserNode;
-        dir  = new File(parent.dir, dirName(name));
+    privbte FileSystemPreferences(FileSystemPreferences pbrent, String nbme) {
+        super(pbrent, nbme);
+        isUserNode = pbrent.isUserNode;
+        dir  = new File(pbrent.dir, dirNbme(nbme));
         prefsFile = new File(dir, "prefs.xml");
         tmpFile  = new File(dir, "prefs.tmp");
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
@@ -513,188 +513,188 @@ class FileSystemPreferences extends AbstractPreferences {
             }
         });
         if (newNode) {
-            // These 2 things guarantee node will get wrtten at next flush/sync
-            prefsCache = new TreeMap<>();
-            nodeCreate = new NodeCreate();
-            changeLog.add(nodeCreate);
+            // These 2 things gubrbntee node will get wrtten bt next flush/sync
+            prefsCbche = new TreeMbp<>();
+            nodeCrebte = new NodeCrebte();
+            chbngeLog.bdd(nodeCrebte);
         }
     }
 
-    public boolean isUserNode() {
+    public boolebn isUserNode() {
         return isUserNode;
     }
 
-    protected void putSpi(String key, String value) {
-        initCacheIfNecessary();
-        changeLog.add(new Put(key, value));
-        prefsCache.put(key, value);
+    protected void putSpi(String key, String vblue) {
+        initCbcheIfNecessbry();
+        chbngeLog.bdd(new Put(key, vblue));
+        prefsCbche.put(key, vblue);
     }
 
     protected String getSpi(String key) {
-        initCacheIfNecessary();
-        return prefsCache.get(key);
+        initCbcheIfNecessbry();
+        return prefsCbche.get(key);
     }
 
     protected void removeSpi(String key) {
-        initCacheIfNecessary();
-        changeLog.add(new Remove(key));
-        prefsCache.remove(key);
+        initCbcheIfNecessbry();
+        chbngeLog.bdd(new Remove(key));
+        prefsCbche.remove(key);
     }
 
     /**
-     * Initialize prefsCache if it has yet to be initialized.  When this method
-     * returns, prefsCache will be non-null.  If the data was successfully
-     * read from the file, lastSyncTime will be updated.  If prefsCache was
-     * null, but it was impossible to read the file (because it didn't
-     * exist or for any other reason) prefsCache will be initialized to an
-     * empty, modifiable Map, and lastSyncTime remain zero.
+     * Initiblize prefsCbche if it hbs yet to be initiblized.  When this method
+     * returns, prefsCbche will be non-null.  If the dbtb wbs successfully
+     * rebd from the file, lbstSyncTime will be updbted.  If prefsCbche wbs
+     * null, but it wbs impossible to rebd the file (becbuse it didn't
+     * exist or for bny other rebson) prefsCbche will be initiblized to bn
+     * empty, modifibble Mbp, bnd lbstSyncTime rembin zero.
      */
-    private void initCacheIfNecessary() {
-        if (prefsCache != null)
+    privbte void initCbcheIfNecessbry() {
+        if (prefsCbche != null)
             return;
 
         try {
-            loadCache();
-        } catch(Exception e) {
-            // assert lastSyncTime == 0;
-            prefsCache = new TreeMap<>();
+            lobdCbche();
+        } cbtch(Exception e) {
+            // bssert lbstSyncTime == 0;
+            prefsCbche = new TreeMbp<>();
         }
     }
 
     /**
-     * Attempt to load prefsCache from the backing store.  If the attempt
-     * succeeds, lastSyncTime will be updated (the new value will typically
-     * correspond to the data loaded into the map, but it may be less,
-     * if another VM is updating this node concurrently).  If the attempt
-     * fails, a BackingStoreException is thrown and both prefsCache and
-     * lastSyncTime are unaffected by the call.
+     * Attempt to lobd prefsCbche from the bbcking store.  If the bttempt
+     * succeeds, lbstSyncTime will be updbted (the new vblue will typicblly
+     * correspond to the dbtb lobded into the mbp, but it mby be less,
+     * if bnother VM is updbting this node concurrently).  If the bttempt
+     * fbils, b BbckingStoreException is thrown bnd both prefsCbche bnd
+     * lbstSyncTime bre unbffected by the cbll.
      */
-    private void loadCache() throws BackingStoreException {
+    privbte void lobdCbche() throws BbckingStoreException {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
-                public Void run() throws BackingStoreException {
-                    Map<String, String> m = new TreeMap<>();
-                    long newLastSyncTime = 0;
+                public Void run() throws BbckingStoreException {
+                    Mbp<String, String> m = new TreeMbp<>();
+                    long newLbstSyncTime = 0;
                     try {
-                        newLastSyncTime = prefsFile.lastModified();
-                        try (FileInputStream fis = new FileInputStream(prefsFile)) {
-                            XmlSupport.importMap(fis, m);
+                        newLbstSyncTime = prefsFile.lbstModified();
+                        try (FileInputStrebm fis = new FileInputStrebm(prefsFile)) {
+                            XmlSupport.importMbp(fis, m);
                         }
-                    } catch(Exception e) {
-                        if (e instanceof InvalidPreferencesFormatException) {
-                            getLogger().warning("Invalid preferences format in "
-                                                        +  prefsFile.getPath());
-                            prefsFile.renameTo( new File(
-                                                    prefsFile.getParentFile(),
-                                                  "IncorrectFormatPrefs.xml"));
-                            m = new TreeMap<>();
-                        } else if (e instanceof FileNotFoundException) {
-                        getLogger().warning("Prefs file removed in background "
-                                           + prefsFile.getPath());
+                    } cbtch(Exception e) {
+                        if (e instbnceof InvblidPreferencesFormbtException) {
+                            getLogger().wbrning("Invblid preferences formbt in "
+                                                        +  prefsFile.getPbth());
+                            prefsFile.renbmeTo( new File(
+                                                    prefsFile.getPbrentFile(),
+                                                  "IncorrectFormbtPrefs.xml"));
+                            m = new TreeMbp<>();
+                        } else if (e instbnceof FileNotFoundException) {
+                        getLogger().wbrning("Prefs file removed in bbckground "
+                                           + prefsFile.getPbth());
                         } else {
-                            throw new BackingStoreException(e);
+                            throw new BbckingStoreException(e);
                         }
                     }
-                    // Attempt succeeded; update state
-                    prefsCache = m;
-                    lastSyncTime = newLastSyncTime;
+                    // Attempt succeeded; updbte stbte
+                    prefsCbche = m;
+                    lbstSyncTime = newLbstSyncTime;
                     return null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw (BackingStoreException) e.getException();
+        } cbtch (PrivilegedActionException e) {
+            throw (BbckingStoreException) e.getException();
         }
     }
 
     /**
-     * Attempt to write back prefsCache to the backing store.  If the attempt
-     * succeeds, lastSyncTime will be updated (the new value will correspond
-     * exactly to the data thust written back, as we hold the file lock, which
-     * prevents a concurrent write.  If the attempt fails, a
-     * BackingStoreException is thrown and both the backing store (prefsFile)
-     * and lastSyncTime will be unaffected by this call.  This call will
-     * NEVER leave prefsFile in a corrupt state.
+     * Attempt to write bbck prefsCbche to the bbcking store.  If the bttempt
+     * succeeds, lbstSyncTime will be updbted (the new vblue will correspond
+     * exbctly to the dbtb thust written bbck, bs we hold the file lock, which
+     * prevents b concurrent write.  If the bttempt fbils, b
+     * BbckingStoreException is thrown bnd both the bbcking store (prefsFile)
+     * bnd lbstSyncTime will be unbffected by this cbll.  This cbll will
+     * NEVER lebve prefsFile in b corrupt stbte.
      */
-    private void writeBackCache() throws BackingStoreException {
+    privbte void writeBbckCbche() throws BbckingStoreException {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
-                public Void run() throws BackingStoreException {
+                public Void run() throws BbckingStoreException {
                     try {
                         if (!dir.exists() && !dir.mkdirs())
-                            throw new BackingStoreException(dir +
-                                                             " create failed.");
-                        try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
-                            XmlSupport.exportMap(fos, prefsCache);
+                            throw new BbckingStoreException(dir +
+                                                             " crebte fbiled.");
+                        try (FileOutputStrebm fos = new FileOutputStrebm(tmpFile)) {
+                            XmlSupport.exportMbp(fos, prefsCbche);
                         }
-                        if (!tmpFile.renameTo(prefsFile))
-                            throw new BackingStoreException("Can't rename " +
+                        if (!tmpFile.renbmeTo(prefsFile))
+                            throw new BbckingStoreException("Cbn't renbme " +
                             tmpFile + " to " + prefsFile);
-                    } catch(Exception e) {
-                        if (e instanceof BackingStoreException)
-                            throw (BackingStoreException)e;
-                        throw new BackingStoreException(e);
+                    } cbtch(Exception e) {
+                        if (e instbnceof BbckingStoreException)
+                            throw (BbckingStoreException)e;
+                        throw new BbckingStoreException(e);
                     }
                     return null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw (BackingStoreException) e.getException();
+        } cbtch (PrivilegedActionException e) {
+            throw (BbckingStoreException) e.getException();
         }
     }
 
     protected String[] keysSpi() {
-        initCacheIfNecessary();
-        return prefsCache.keySet().toArray(new String[prefsCache.size()]);
+        initCbcheIfNecessbry();
+        return prefsCbche.keySet().toArrby(new String[prefsCbche.size()]);
     }
 
-    protected String[] childrenNamesSpi() {
+    protected String[] childrenNbmesSpi() {
         return AccessController.doPrivileged(
             new PrivilegedAction<String[]>() {
                 public String[] run() {
-                    List<String> result = new ArrayList<>();
+                    List<String> result = new ArrbyList<>();
                     File[] dirContents = dir.listFiles();
                     if (dirContents != null) {
                         for (int i = 0; i < dirContents.length; i++)
                             if (dirContents[i].isDirectory())
-                                result.add(nodeName(dirContents[i].getName()));
+                                result.bdd(nodeNbme(dirContents[i].getNbme()));
                     }
-                    return result.toArray(EMPTY_STRING_ARRAY);
+                    return result.toArrby(EMPTY_STRING_ARRAY);
                }
             });
     }
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    privbte stbtic finbl String[] EMPTY_STRING_ARRAY = new String[0];
 
-    protected AbstractPreferences childSpi(String name) {
-        return new FileSystemPreferences(this, name);
+    protected AbstrbctPreferences childSpi(String nbme) {
+        return new FileSystemPreferences(this, nbme);
     }
 
-    public void removeNode() throws BackingStoreException {
+    public void removeNode() throws BbckingStoreException {
         synchronized (isUserNode()? userLockFile: systemLockFile) {
-            // to remove a node we need an exclusive lock
-            if (!lockFile(false))
-                throw(new BackingStoreException("Couldn't get file lock."));
+            // to remove b node we need bn exclusive lock
+            if (!lockFile(fblse))
+                throw(new BbckingStoreException("Couldn't get file lock."));
            try {
                 super.removeNode();
-           } finally {
+           } finblly {
                 unlockFile();
            }
         }
     }
 
     /**
-     * Called with file lock held (in addition to node locks).
+     * Cblled with file lock held (in bddition to node locks).
      */
-    protected void removeNodeSpi() throws BackingStoreException {
+    protected void removeNodeSpi() throws BbckingStoreException {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
-                public Void run() throws BackingStoreException {
-                    if (changeLog.contains(nodeCreate)) {
-                        changeLog.remove(nodeCreate);
-                        nodeCreate = null;
+                public Void run() throws BbckingStoreException {
+                    if (chbngeLog.contbins(nodeCrebte)) {
+                        chbngeLog.remove(nodeCrebte);
+                        nodeCrebte = null;
                         return null;
                     }
                     if (!dir.exists())
@@ -704,47 +704,47 @@ class FileSystemPreferences extends AbstractPreferences {
                     // dir should be empty now.  If it's not, empty it
                     File[] junk = dir.listFiles();
                     if (junk.length != 0) {
-                        getLogger().warning(
-                           "Found extraneous files when removing node: "
-                            + Arrays.asList(junk));
+                        getLogger().wbrning(
+                           "Found extrbneous files when removing node: "
+                            + Arrbys.bsList(junk));
                         for (int i=0; i<junk.length; i++)
                             junk[i].delete();
                     }
                     if (!dir.delete())
-                        throw new BackingStoreException("Couldn't delete dir: "
+                        throw new BbckingStoreException("Couldn't delete dir: "
                                                                          + dir);
                     return null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw (BackingStoreException) e.getException();
+        } cbtch (PrivilegedActionException e) {
+            throw (BbckingStoreException) e.getException();
         }
     }
 
-    public synchronized void sync() throws BackingStoreException {
-        boolean userNode = isUserNode();
-        boolean shared;
+    public synchronized void sync() throws BbckingStoreException {
+        boolebn userNode = isUserNode();
+        boolebn shbred;
 
         if (userNode) {
-            shared = false; /* use exclusive lock for user prefs */
+            shbred = fblse; /* use exclusive lock for user prefs */
         } else {
-            /* if can write to system root, use exclusive lock.
-               otherwise use shared lock. */
-            shared = !isSystemRootWritable;
+            /* if cbn write to system root, use exclusive lock.
+               otherwise use shbred lock. */
+            shbred = !isSystemRootWritbble;
         }
         synchronized (isUserNode()? userLockFile:systemLockFile) {
-           if (!lockFile(shared))
-               throw(new BackingStoreException("Couldn't get file lock."));
-           final Long newModTime =
+           if (!lockFile(shbred))
+               throw(new BbckingStoreException("Couldn't get file lock."));
+           finbl Long newModTime =
                 AccessController.doPrivileged(
                     new PrivilegedAction<Long>() {
                public Long run() {
                    long nmt;
                    if (isUserNode()) {
-                       nmt = userRootModFile.lastModified();
+                       nmt = userRootModFile.lbstModified();
                        isUserRootModified = userRootModTime == nmt;
                    } else {
-                       nmt = systemRootModFile.lastModified();
+                       nmt = systemRootModFile.lbstModified();
                        isSystemRootModified = systemRootModTime == nmt;
                    }
                    return nmt;
@@ -755,118 +755,118 @@ class FileSystemPreferences extends AbstractPreferences {
                AccessController.doPrivileged(new PrivilegedAction<Void>() {
                    public Void run() {
                    if (isUserNode()) {
-                       userRootModTime = newModTime.longValue() + 1000;
-                       userRootModFile.setLastModified(userRootModTime);
+                       userRootModTime = newModTime.longVblue() + 1000;
+                       userRootModFile.setLbstModified(userRootModTime);
                    } else {
-                       systemRootModTime = newModTime.longValue() + 1000;
-                       systemRootModFile.setLastModified(systemRootModTime);
+                       systemRootModTime = newModTime.longVblue() + 1000;
+                       systemRootModFile.setLbstModified(systemRootModTime);
                    }
                    return null;
                    }
                });
-           } finally {
+           } finblly {
                 unlockFile();
            }
         }
     }
 
-    protected void syncSpi() throws BackingStoreException {
+    protected void syncSpi() throws BbckingStoreException {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
-                public Void run() throws BackingStoreException {
+                public Void run() throws BbckingStoreException {
                     syncSpiPrivileged();
                     return null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw (BackingStoreException) e.getException();
+        } cbtch (PrivilegedActionException e) {
+            throw (BbckingStoreException) e.getException();
         }
     }
-    private void syncSpiPrivileged() throws BackingStoreException {
+    privbte void syncSpiPrivileged() throws BbckingStoreException {
         if (isRemoved())
-            throw new IllegalStateException("Node has been removed");
-        if (prefsCache == null)
+            throw new IllegblStbteException("Node hbs been removed");
+        if (prefsCbche == null)
             return;  // We've never been used, don't bother syncing
-        long lastModifiedTime;
+        long lbstModifiedTime;
         if ((isUserNode() ? isUserRootModified : isSystemRootModified)) {
-            lastModifiedTime = prefsFile.lastModified();
-            if (lastModifiedTime  != lastSyncTime) {
-                // Prefs at this node were externally modified; read in node and
-                // playback any local mods since last sync
-                loadCache();
-                replayChanges();
-                lastSyncTime = lastModifiedTime;
+            lbstModifiedTime = prefsFile.lbstModified();
+            if (lbstModifiedTime  != lbstSyncTime) {
+                // Prefs bt this node were externblly modified; rebd in node bnd
+                // plbybbck bny locbl mods since lbst sync
+                lobdCbche();
+                replbyChbnges();
+                lbstSyncTime = lbstModifiedTime;
             }
-        } else if (lastSyncTime != 0 && !dir.exists()) {
-            // This node was removed in the background.  Playback any changes
-            // against a virgin (empty) Map.
-            prefsCache = new TreeMap<>();
-            replayChanges();
+        } else if (lbstSyncTime != 0 && !dir.exists()) {
+            // This node wbs removed in the bbckground.  Plbybbck bny chbnges
+            // bgbinst b virgin (empty) Mbp.
+            prefsCbche = new TreeMbp<>();
+            replbyChbnges();
         }
-        if (!changeLog.isEmpty()) {
-            writeBackCache();  // Creates directory & file if necessary
+        if (!chbngeLog.isEmpty()) {
+            writeBbckCbche();  // Crebtes directory & file if necessbry
            /*
-            * Attempt succeeded; it's barely possible that the call to
-            * lastModified might fail (i.e., return 0), but this would not
-            * be a disaster, as lastSyncTime is allowed to lag.
+            * Attempt succeeded; it's bbrely possible thbt the cbll to
+            * lbstModified might fbil (i.e., return 0), but this would not
+            * be b disbster, bs lbstSyncTime is bllowed to lbg.
             */
-            lastModifiedTime = prefsFile.lastModified();
-            /* If lastSyncTime did not change, or went back
+            lbstModifiedTime = prefsFile.lbstModified();
+            /* If lbstSyncTime did not chbnge, or went bbck
              * increment by 1 second. Since we hold the lock
-             * lastSyncTime always monotonically encreases in the
-             * atomic sense.
+             * lbstSyncTime blwbys monotonicblly encrebses in the
+             * btomic sense.
              */
-            if (lastSyncTime <= lastModifiedTime) {
-                lastSyncTime = lastModifiedTime + 1000;
-                prefsFile.setLastModified(lastSyncTime);
+            if (lbstSyncTime <= lbstModifiedTime) {
+                lbstSyncTime = lbstModifiedTime + 1000;
+                prefsFile.setLbstModified(lbstSyncTime);
             }
-            changeLog.clear();
+            chbngeLog.clebr();
         }
     }
 
-    public void flush() throws BackingStoreException {
+    public void flush() throws BbckingStoreException {
         if (isRemoved())
             return;
         sync();
     }
 
-    protected void flushSpi() throws BackingStoreException {
-        // assert false;
+    protected void flushSpi() throws BbckingStoreException {
+        // bssert fblse;
     }
 
     /**
-     * Returns true if the specified character is appropriate for use in
-     * Unix directory names.  A character is appropriate if it's a printable
-     * ASCII character (> 0x1f && < 0x7f) and unequal to slash ('/', 0x2f),
+     * Returns true if the specified chbrbcter is bppropribte for use in
+     * Unix directory nbmes.  A chbrbcter is bppropribte if it's b printbble
+     * ASCII chbrbcter (> 0x1f && < 0x7f) bnd unequbl to slbsh ('/', 0x2f),
      * dot ('.', 0x2e), or underscore ('_', 0x5f).
      */
-    private static boolean isDirChar(char ch) {
+    privbte stbtic boolebn isDirChbr(chbr ch) {
         return ch > 0x1f && ch < 0x7f && ch != '/' && ch != '.' && ch != '_';
     }
 
     /**
-     * Returns the directory name corresponding to the specified node name.
-     * Generally, this is just the node name.  If the node name includes
-     * inappropriate characters (as per isDirChar) it is translated to Base64.
-     * with the underscore  character ('_', 0x5f) prepended.
+     * Returns the directory nbme corresponding to the specified node nbme.
+     * Generblly, this is just the node nbme.  If the node nbme includes
+     * inbppropribte chbrbcters (bs per isDirChbr) it is trbnslbted to Bbse64.
+     * with the underscore  chbrbcter ('_', 0x5f) prepended.
      */
-    private static String dirName(String nodeName) {
-        for (int i=0, n=nodeName.length(); i < n; i++)
-            if (!isDirChar(nodeName.charAt(i)))
-                return "_" + Base64.byteArrayToAltBase64(byteArray(nodeName));
-        return nodeName;
+    privbte stbtic String dirNbme(String nodeNbme) {
+        for (int i=0, n=nodeNbme.length(); i < n; i++)
+            if (!isDirChbr(nodeNbme.chbrAt(i)))
+                return "_" + Bbse64.byteArrbyToAltBbse64(byteArrby(nodeNbme));
+        return nodeNbme;
     }
 
     /**
-     * Translate a string into a byte array by translating each character
-     * into two bytes, high-byte first ("big-endian").
+     * Trbnslbte b string into b byte brrby by trbnslbting ebch chbrbcter
+     * into two bytes, high-byte first ("big-endibn").
      */
-    private static byte[] byteArray(String s) {
+    privbte stbtic byte[] byteArrby(String s) {
         int len = s.length();
         byte[] result = new byte[2*len];
         for (int i=0, j=0; i<len; i++) {
-            char c = s.charAt(i);
+            chbr c = s.chbrAt(i);
             result[j++] = (byte) (c>>8);
             result[j++] = (byte) c;
         }
@@ -874,31 +874,31 @@ class FileSystemPreferences extends AbstractPreferences {
     }
 
     /**
-     * Returns the node name corresponding to the specified directory name.
-     * (Inverts the transformation of dirName(String).
+     * Returns the node nbme corresponding to the specified directory nbme.
+     * (Inverts the trbnsformbtion of dirNbme(String).
      */
-    private static String nodeName(String dirName) {
-        if (dirName.charAt(0) != '_')
-            return dirName;
-        byte a[] = Base64.altBase64ToByteArray(dirName.substring(1));
-        StringBuffer result = new StringBuffer(a.length/2);
-        for (int i = 0; i < a.length; ) {
-            int highByte = a[i++] & 0xff;
-            int lowByte =  a[i++] & 0xff;
-            result.append((char) ((highByte << 8) | lowByte));
+    privbte stbtic String nodeNbme(String dirNbme) {
+        if (dirNbme.chbrAt(0) != '_')
+            return dirNbme;
+        byte b[] = Bbse64.bltBbse64ToByteArrby(dirNbme.substring(1));
+        StringBuffer result = new StringBuffer(b.length/2);
+        for (int i = 0; i < b.length; ) {
+            int highByte = b[i++] & 0xff;
+            int lowByte =  b[i++] & 0xff;
+            result.bppend((chbr) ((highByte << 8) | lowByte));
         }
         return result.toString();
     }
 
     /**
-     * Try to acquire the appropriate file lock (user or system).  If
-     * the initial attempt fails, several more attempts are made using
-     * an exponential backoff strategy.  If all attempts fail, this method
-     * returns false.
-     * @throws SecurityException if file access denied.
+     * Try to bcquire the bppropribte file lock (user or system).  If
+     * the initibl bttempt fbils, severbl more bttempts bre mbde using
+     * bn exponentibl bbckoff strbtegy.  If bll bttempts fbil, this method
+     * returns fblse.
+     * @throws SecurityException if file bccess denied.
      */
-    private boolean lockFile(boolean shared) throws SecurityException{
-        boolean usernode = isUserNode();
+    privbte boolebn lockFile(boolebn shbred) throws SecurityException{
+        boolebn usernode = isUserNode();
         int[] result;
         int errorCode = 0;
         File lockFile = (usernode ? userLockFile : systemLockFile);
@@ -906,108 +906,108 @@ class FileSystemPreferences extends AbstractPreferences {
         for (int i = 0; i < MAX_ATTEMPTS; i++) {
             try {
                   int perm = (usernode? USER_READ_WRITE: USER_RW_ALL_READ);
-                  result = lockFile0(lockFile.getCanonicalPath(), perm, shared);
+                  result = lockFile0(lockFile.getCbnonicblPbth(), perm, shbred);
 
                   errorCode = result[ERROR_CODE];
                   if (result[LOCK_HANDLE] != 0) {
                      if (usernode) {
-                         userRootLockHandle = result[LOCK_HANDLE];
+                         userRootLockHbndle = result[LOCK_HANDLE];
                      } else {
-                         systemRootLockHandle = result[LOCK_HANDLE];
+                         systemRootLockHbndle = result[LOCK_HANDLE];
                      }
                      return true;
                   }
-            } catch(IOException e) {
-//                // If at first, you don't succeed...
+            } cbtch(IOException e) {
+//                // If bt first, you don't succeed...
             }
 
             try {
-                Thread.sleep(sleepTime);
-            } catch(InterruptedException e) {
+                Threbd.sleep(sleepTime);
+            } cbtch(InterruptedException e) {
                 checkLockFile0ErrorCode(errorCode);
-                return false;
+                return fblse;
             }
             sleepTime *= 2;
         }
         checkLockFile0ErrorCode(errorCode);
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks if unlockFile0() returned an error. Throws a SecurityException,
-     * if access denied. Logs a warning otherwise.
+     * Checks if unlockFile0() returned bn error. Throws b SecurityException,
+     * if bccess denied. Logs b wbrning otherwise.
      */
-    private void checkLockFile0ErrorCode (int errorCode)
+    privbte void checkLockFile0ErrorCode (int errorCode)
                                                       throws SecurityException {
         if (errorCode == EACCES)
             throw new SecurityException("Could not lock " +
             (isUserNode()? "User prefs." : "System prefs.") +
-             " Lock file access denied.");
+             " Lock file bccess denied.");
         if (errorCode != EAGAIN)
-            getLogger().warning("Could not lock " +
+            getLogger().wbrning("Could not lock " +
                              (isUserNode()? "User prefs. " : "System prefs.") +
                              " Unix error code " + errorCode + ".");
     }
 
     /**
      * Locks file using UNIX file locking.
-     * @param fileName Absolute file name of the lock file.
-     * @return Returns a lock handle, used to unlock the file.
+     * @pbrbm fileNbme Absolute file nbme of the lock file.
+     * @return Returns b lock hbndle, used to unlock the file.
      */
-    private static native int[]
-            lockFile0(String fileName, int permission, boolean shared);
+    privbte stbtic nbtive int[]
+            lockFile0(String fileNbme, int permission, boolebn shbred);
 
     /**
      * Unlocks file previously locked by lockFile0().
-     * @param lockHandle Handle to the file lock.
-     * @return Returns zero if OK, UNIX error code if failure.
+     * @pbrbm lockHbndle Hbndle to the file lock.
+     * @return Returns zero if OK, UNIX error code if fbilure.
      */
-    private  static native int unlockFile0(int lockHandle);
+    privbte  stbtic nbtive int unlockFile0(int lockHbndle);
 
     /**
-     * Changes UNIX file permissions.
+     * Chbnges UNIX file permissions.
      */
-    private static native int chmod(String fileName, int permission);
+    privbte stbtic nbtive int chmod(String fileNbme, int permission);
 
     /**
-     * Initial time between lock attempts, in ms.  The time is doubled
-     * after each failing attempt (except the first).
+     * Initibl time between lock bttempts, in ms.  The time is doubled
+     * bfter ebch fbiling bttempt (except the first).
      */
-    private static int INIT_SLEEP_TIME = 50;
+    privbte stbtic int INIT_SLEEP_TIME = 50;
 
     /**
-     * Maximum number of lock attempts.
+     * Mbximum number of lock bttempts.
      */
-    private static int MAX_ATTEMPTS = 5;
+    privbte stbtic int MAX_ATTEMPTS = 5;
 
     /**
-     * Release the the appropriate file lock (user or system).
-     * @throws SecurityException if file access denied.
+     * Relebse the the bppropribte file lock (user or system).
+     * @throws SecurityException if file bccess denied.
      */
-    private void unlockFile() {
+    privbte void unlockFile() {
         int result;
-        boolean usernode = isUserNode();
+        boolebn usernode = isUserNode();
         File lockFile = (usernode ? userLockFile : systemLockFile);
-        int lockHandle = ( usernode ? userRootLockHandle:systemRootLockHandle);
-        if (lockHandle == 0) {
-            getLogger().warning("Unlock: zero lockHandle for " +
+        int lockHbndle = ( usernode ? userRootLockHbndle:systemRootLockHbndle);
+        if (lockHbndle == 0) {
+            getLogger().wbrning("Unlock: zero lockHbndle for " +
                            (usernode ? "user":"system") + " preferences.)");
             return;
         }
-        result = unlockFile0(lockHandle);
+        result = unlockFile0(lockHbndle);
         if (result != 0) {
-            getLogger().warning("Could not drop file-lock on " +
+            getLogger().wbrning("Could not drop file-lock on " +
             (isUserNode() ? "user" : "system") + " preferences." +
             " Unix error code " + result + ".");
             if (result == EACCES)
                 throw new SecurityException("Could not unlock" +
                 (isUserNode()? "User prefs." : "System prefs.") +
-                " Lock file access denied.");
+                " Lock file bccess denied.");
         }
         if (isUserNode()) {
-            userRootLockHandle = 0;
+            userRootLockHbndle = 0;
         } else {
-            systemRootLockHandle = 0;
+            systemRootLockHbndle = 0;
         }
     }
 }

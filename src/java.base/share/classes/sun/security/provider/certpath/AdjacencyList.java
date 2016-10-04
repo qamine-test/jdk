@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 /**
- * An AdjacencyList is used to store the history of certification paths
- * attempted in constructing a path from an initiator to a target. The
- * AdjacencyList is initialized with a <code>List</code> of
- * <code>List</code>s, where each sub-<code>List</code> contains objects of
+ * An AdjbcencyList is used to store the history of certificbtion pbths
+ * bttempted in constructing b pbth from bn initibtor to b tbrget. The
+ * AdjbcencyList is initiblized with b <code>List</code> of
+ * <code>List</code>s, where ebch sub-<code>List</code> contbins objects of
  * type <code>Vertex</code>. A <code>Vertex</code> describes one possible or
- * actual step in the chain building process, and the associated
- * <code>Certificate</code>. Specifically, a <code>Vertex</code> object
- * contains a <code>Certificate</code> and an index value referencing the
- * next sub-list in the process. If the index value is -1 then this
- * <code>Vertex</code> doesn't continue the attempted build path.
+ * bctubl step in the chbin building process, bnd the bssocibted
+ * <code>Certificbte</code>. Specificblly, b <code>Vertex</code> object
+ * contbins b <code>Certificbte</code> bnd bn index vblue referencing the
+ * next sub-list in the process. If the index vblue is -1 then this
+ * <code>Vertex</code> doesn't continue the bttempted build pbth.
  * <p>
- * Example:
+ * Exbmple:
  * <p>
- * Attempted Paths:<ul>
+ * Attempted Pbths:<ul>
  * <li>C1-&gt;C2-&gt;C3
  * <li>C1-&gt;C4-&gt;C5
  * <li>C1-&gt;C4-&gt;C6
@@ -52,7 +52,7 @@ import java.util.List;
  * <li>C1-&gt;C10-&gt;C11
  * </ul>
  * <p>
- * AdjacencyList structure:<ul>
+ * AdjbcencyList structure:<ul>
  * <li>AL[0] = C1,1
  * <li>AL[1] = C2,2   =&gt;C4,3   =&gt;C8,4     =&gt;C10,5
  * <li>AL[2] = C3,-1
@@ -61,183 +61,183 @@ import java.util.List;
  * <li>AL[5] = C11,-1
  * </ul>
  * <p>
- * The iterator method returns objects of type <code>BuildStep</code>, not
+ * The iterbtor method returns objects of type <code>BuildStep</code>, not
  * objects of type <code>Vertex</code>.
- * A <code>BuildStep</code> contains a <code>Vertex</code> and a result code,
- * accessible via getResult method. There are five result values.
- * <code>POSSIBLE</code> denotes that the current step represents a
- * <code>Certificate</code> that the builder is considering at this point in
- * the build. <code>FOLLOW</code> denotes a <code>Certificate</code> (one of
- * those noted as <code>POSSIBLE</code>) that the builder is using to try
- * extending the chain. <code>BACK</code> represents that a
- * <code>FOLLOW</code> was incorrect, and is being removed from the chain.
- * There is exactly one <code>FOLLOW</code> for each <code>BACK</code>. The
- * values <code>SUCCEED</code> and <code>FAIL</code> mean that we've come to
- * the end of the build process, and there will not be any more entries in
+ * A <code>BuildStep</code> contbins b <code>Vertex</code> bnd b result code,
+ * bccessible vib getResult method. There bre five result vblues.
+ * <code>POSSIBLE</code> denotes thbt the current step represents b
+ * <code>Certificbte</code> thbt the builder is considering bt this point in
+ * the build. <code>FOLLOW</code> denotes b <code>Certificbte</code> (one of
+ * those noted bs <code>POSSIBLE</code>) thbt the builder is using to try
+ * extending the chbin. <code>BACK</code> represents thbt b
+ * <code>FOLLOW</code> wbs incorrect, bnd is being removed from the chbin.
+ * There is exbctly one <code>FOLLOW</code> for ebch <code>BACK</code>. The
+ * vblues <code>SUCCEED</code> bnd <code>FAIL</code> mebn thbt we've come to
+ * the end of the build process, bnd there will not be bny more entries in
  * the list.
  * <p>
- * @see sun.security.provider.certpath.BuildStep
- * @see sun.security.provider.certpath.Vertex
+ * @see sun.security.provider.certpbth.BuildStep
+ * @see sun.security.provider.certpbth.Vertex
  * <p>
- * @author  seth proctor
+ * @buthor  seth proctor
  * @since   1.4
  */
-public class AdjacencyList {
+public clbss AdjbcencyList {
 
-    // the actual set of steps the AdjacencyList represents
-    private ArrayList<BuildStep> mStepList;
+    // the bctubl set of steps the AdjbcencyList represents
+    privbte ArrbyList<BuildStep> mStepList;
 
-    // the original list, just for the toString method
-    private List<List<Vertex>> mOrigList;
+    // the originbl list, just for the toString method
+    privbte List<List<Vertex>> mOrigList;
 
     /**
-     * Constructs a new <code>AdjacencyList</code> based on the specified
-     * <code>List</code>. See the example above.
+     * Constructs b new <code>AdjbcencyList</code> bbsed on the specified
+     * <code>List</code>. See the exbmple bbove.
      *
-     * @param list a <code>List</code> of <code>List</code>s of
+     * @pbrbm list b <code>List</code> of <code>List</code>s of
      *             <code>Vertex</code> objects
      */
-    public AdjacencyList(List<List<Vertex>> list) {
-        mStepList = new ArrayList<BuildStep>();
+    public AdjbcencyList(List<List<Vertex>> list) {
+        mStepList = new ArrbyList<BuildStep>();
         mOrigList = list;
         buildList(list, 0, null);
     }
 
     /**
-     * Gets an <code>Iterator</code> to iterate over the set of
-     * <code>BuildStep</code>s in build-order. Any attempts to change
-     * the list through the remove method will fail.
+     * Gets bn <code>Iterbtor</code> to iterbte over the set of
+     * <code>BuildStep</code>s in build-order. Any bttempts to chbnge
+     * the list through the remove method will fbil.
      *
-     * @return an <code>Iterator</code> over the <code>BuildStep</code>s
+     * @return bn <code>Iterbtor</code> over the <code>BuildStep</code>s
      */
-    public Iterator<BuildStep> iterator() {
-        return Collections.unmodifiableList(mStepList).iterator();
+    public Iterbtor<BuildStep> iterbtor() {
+        return Collections.unmodifibbleList(mStepList).iterbtor();
     }
 
     /**
-     * Recursive, private method which actually builds the step list from
-     * the given adjacency list. <code>Follow</code> is the parent BuildStep
-     * that we followed to get here, and if it's null, it means that we're
-     * at the start.
+     * Recursive, privbte method which bctublly builds the step list from
+     * the given bdjbcency list. <code>Follow</code> is the pbrent BuildStep
+     * thbt we followed to get here, bnd if it's null, it mebns thbt we're
+     * bt the stbrt.
      */
-    private boolean buildList(List<List<Vertex>> theList, int index,
+    privbte boolebn buildList(List<List<Vertex>> theList, int index,
                               BuildStep follow) {
 
-        // Each time this method is called, we're examining a new list
-        // from the global list. So, we have to start by getting the list
-        // that contains the set of Vertexes we're considering.
+        // Ebch time this method is cblled, we're exbmining b new list
+        // from the globbl list. So, we hbve to stbrt by getting the list
+        // thbt contbins the set of Vertexes we're considering.
         List<Vertex> l = theList.get(index);
 
-        // we're interested in the case where all indexes are -1...
-        boolean allNegOne = true;
-        // ...and in the case where every entry has a Throwable
-        boolean allXcps = true;
+        // we're interested in the cbse where bll indexes bre -1...
+        boolebn bllNegOne = true;
+        // ...bnd in the cbse where every entry hbs b Throwbble
+        boolebn bllXcps = true;
 
         for (Vertex v : l) {
             if (v.getIndex() != -1) {
-                // count an empty list the same as an index of -1...this
-                // is to patch a bug somewhere in the builder
+                // count bn empty list the sbme bs bn index of -1...this
+                // is to pbtch b bug somewhere in the builder
                 if (theList.get(v.getIndex()).size() != 0)
-                    allNegOne = false;
+                    bllNegOne = fblse;
             } else {
-                if (v.getThrowable() == null)
-                    allXcps = false;
+                if (v.getThrowbble() == null)
+                    bllXcps = fblse;
             }
-            // every entry, regardless of the final use for it, is always
-            // entered as a possible step before we take any actions
-            mStepList.add(new BuildStep(v, BuildStep.POSSIBLE));
+            // every entry, regbrdless of the finbl use for it, is blwbys
+            // entered bs b possible step before we tbke bny bctions
+            mStepList.bdd(new BuildStep(v, BuildStep.POSSIBLE));
         }
 
-        if (allNegOne) {
-            // There are two cases that we could be looking at here. We
-            // may need to back up, or the build may have succeeded at
-            // this point. This is based on whether or not any
+        if (bllNegOne) {
+            // There bre two cbses thbt we could be looking bt here. We
+            // mby need to bbck up, or the build mby hbve succeeded bt
+            // this point. This is bbsed on whether or not bny
             // exceptions were found in the list.
-            if (allXcps) {
-                // we need to go back...see if this is the last one
+            if (bllXcps) {
+                // we need to go bbck...see if this is the lbst one
                 if (follow == null)
-                    mStepList.add(new BuildStep(null, BuildStep.FAIL));
+                    mStepList.bdd(new BuildStep(null, BuildStep.FAIL));
                 else
-                    mStepList.add(new BuildStep(follow.getVertex(),
+                    mStepList.bdd(new BuildStep(follow.getVertex(),
                                                 BuildStep.BACK));
 
-                return false;
+                return fblse;
             } else {
                 // we succeeded...now the only question is which is the
                 // successful step? If there's only one entry without
-                // a throwable, then that's the successful step. Otherwise,
-                // we'll have to make some guesses...
-                List<Vertex> possibles = new ArrayList<>();
+                // b throwbble, then thbt's the successful step. Otherwise,
+                // we'll hbve to mbke some guesses...
+                List<Vertex> possibles = new ArrbyList<>();
                 for (Vertex v : l) {
-                    if (v.getThrowable() == null)
-                        possibles.add(v);
+                    if (v.getThrowbble() == null)
+                        possibles.bdd(v);
                 }
 
                 if (possibles.size() == 1) {
-                    // real easy...we've found the final Vertex
-                    mStepList.add(new BuildStep(possibles.get(0),
+                    // rebl ebsy...we've found the finbl Vertex
+                    mStepList.bdd(new BuildStep(possibles.get(0),
                                                 BuildStep.SUCCEED));
                 } else {
-                    // ok...at this point, there is more than one Cert
+                    // ok...bt this point, there is more thbn one Cert
                     // which might be the succeed step...how do we know
-                    // which it is? I'm going to assume that our builder
-                    // algorithm is good enough to know which is the
-                    // correct one, and put it first...but a FIXME goes
-                    // here anyway, and we should be comparing to the
-                    // target/initiator Cert...
-                    mStepList.add(new BuildStep(possibles.get(0),
+                    // which it is? I'm going to bssume thbt our builder
+                    // blgorithm is good enough to know which is the
+                    // correct one, bnd put it first...but b FIXME goes
+                    // here bnywby, bnd we should be compbring to the
+                    // tbrget/initibtor Cert...
+                    mStepList.bdd(new BuildStep(possibles.get(0),
                                                 BuildStep.SUCCEED));
                 }
 
                 return true;
             }
         } else {
-            // There's at least one thing that we can try before we give
-            // up and go back. Run through the list now, and enter a new
-            // BuildStep for each path that we try to follow. If none of
-            // the paths we try produce a successful end, we're going to
-            // have to back out ourselves.
-            boolean success = false;
+            // There's bt lebst one thing thbt we cbn try before we give
+            // up bnd go bbck. Run through the list now, bnd enter b new
+            // BuildStep for ebch pbth thbt we try to follow. If none of
+            // the pbths we try produce b successful end, we're going to
+            // hbve to bbck out ourselves.
+            boolebn success = fblse;
 
             for (Vertex v : l) {
 
-                // Note that we'll only find a SUCCEED case when we're
-                // looking at the last possible path, so we don't need to
+                // Note thbt we'll only find b SUCCEED cbse when we're
+                // looking bt the lbst possible pbth, so we don't need to
                 // consider success in the while loop
 
                 if (v.getIndex() != -1) {
                     if (theList.get(v.getIndex()).size() != 0) {
-                        // If the entry we're looking at doesn't have an
-                        // index of -1, and doesn't lead to an empty list,
+                        // If the entry we're looking bt doesn't hbve bn
+                        // index of -1, bnd doesn't lebd to bn empty list,
                         // then it's something we follow!
                         BuildStep bs = new BuildStep(v, BuildStep.FOLLOW);
-                        mStepList.add(bs);
+                        mStepList.bdd(bs);
                         success = buildList(theList, v.getIndex(), bs);
                     }
                 }
             }
 
             if (success) {
-                // We're already finished!
+                // We're blrebdy finished!
                 return true;
             } else {
-                // We failed, and we've exhausted all the paths that we
-                // could take. The only choice is to back ourselves out.
+                // We fbiled, bnd we've exhbusted bll the pbths thbt we
+                // could tbke. The only choice is to bbck ourselves out.
                 if (follow == null)
-                    mStepList.add(new BuildStep(null, BuildStep.FAIL));
+                    mStepList.bdd(new BuildStep(null, BuildStep.FAIL));
                 else
-                    mStepList.add(new BuildStep(follow.getVertex(),
+                    mStepList.bdd(new BuildStep(follow.getVertex(),
                                                 BuildStep.BACK));
 
-                return false;
+                return fblse;
             }
         }
     }
 
     /**
-     * Prints out a string representation of this AdjacencyList.
+     * Prints out b string representbtion of this AdjbcencyList.
      *
-     * @return String representation
+     * @return String representbtion
      */
     @Override
     public String toString() {
@@ -245,13 +245,13 @@ public class AdjacencyList {
 
         int i = 0;
         for (List<Vertex> l : mOrigList) {
-            sb.append("LinkedList[").append(i++).append("]:\n");
+            sb.bppend("LinkedList[").bppend(i++).bppend("]:\n");
 
             for (Vertex step : l) {
-                sb.append(step.toString()).append("\n");
+                sb.bppend(step.toString()).bppend("\n");
             }
         }
-        sb.append("]\n");
+        sb.bppend("]\n");
 
         return sb.toString();
     }

@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.Krb5;
+import sun.security.krb5.internbl.Krb5;
 import sun.security.util.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import sun.security.krb5.internal.util.KerberosString;
+import sun.security.krb5.internbl.util.KerberosString;
 
 /**
- * Implements the ASN.1 Realm type.
+ * Implements the ASN.1 Reblm type.
  *
  * <xmp>
- * Realm ::= GeneralString
+ * Reblm ::= GenerblString
  * </xmp>
- * This class is immutable.
+ * This clbss is immutbble.
  */
-public class Realm implements Cloneable {
-    private final String realm; // not null nor empty
+public clbss Reblm implements Clonebble {
+    privbte finbl String reblm; // not null nor empty
 
-    public Realm(String name) throws RealmException {
-        realm = parseRealm(name);
+    public Reblm(String nbme) throws ReblmException {
+        reblm = pbrseReblm(nbme);
     }
 
-    public static Realm getDefault() throws RealmException {
+    public stbtic Reblm getDefbult() throws ReblmException {
         try {
-            return new Realm(Config.getInstance().getDefaultRealm());
-        } catch (RealmException re) {
+            return new Reblm(Config.getInstbnce().getDefbultReblm());
+        } cbtch (ReblmException re) {
             throw re;
-        } catch (KrbException ke) {
-            throw new RealmException(ke);
+        } cbtch (KrbException ke) {
+            throw new ReblmException(ke);
         }
     }
 
-    // Immutable class, no need to clone
+    // Immutbble clbss, no need to clone
     public Object clone() {
         return this;
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Realm)) {
-            return false;
+        if (!(obj instbnceof Reblm)) {
+            return fblse;
         }
 
-        Realm that = (Realm)obj;
-        return this.realm.equals(that.realm);
+        Reblm thbt = (Reblm)obj;
+        return this.reblm.equbls(thbt.reblm);
     }
 
-    public int hashCode() {
-        return realm.hashCode();
+    public int hbshCode() {
+        return reblm.hbshCode();
     }
 
     /**
-     * Constructs a Realm object.
-     * @param encoding a Der-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Constructs b Reblm object.
+     * @pbrbm encoding b Der-encoded dbtb.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception ReblmException if bn error occurs while pbrsing b Reblm object.
      */
-    public Realm(DerValue encoding)
-        throws Asn1Exception, RealmException, IOException {
+    public Reblm(DerVblue encoding)
+        throws Asn1Exception, ReblmException, IOException {
         if (encoding == null) {
-            throw new IllegalArgumentException("encoding can not be null");
+            throw new IllegblArgumentException("encoding cbn not be null");
         }
-        realm = new KerberosString(encoding).toString();
-        if (realm == null || realm.length() == 0)
-            throw new RealmException(Krb5.REALM_NULL);
-        if (!isValidRealmString(realm))
-            throw new RealmException(Krb5.REALM_ILLCHAR);
+        reblm = new KerberosString(encoding).toString();
+        if (reblm == null || reblm.length() == 0)
+            throw new ReblmException(Krb5.REALM_NULL);
+        if (!isVblidReblmString(reblm))
+            throw new ReblmException(Krb5.REALM_ILLCHAR);
     }
 
     public String toString() {
-        return realm;
+        return reblm;
     }
 
-    // Extract realm from a string like dummy@REALM
-    public static String parseRealmAtSeparator(String name)
-        throws RealmException {
-        if (name == null) {
-            throw new IllegalArgumentException
-                ("null input name is not allowed");
+    // Extrbct reblm from b string like dummy@REALM
+    public stbtic String pbrseReblmAtSepbrbtor(String nbme)
+        throws ReblmException {
+        if (nbme == null) {
+            throw new IllegblArgumentException
+                ("null input nbme is not bllowed");
         }
-        String temp = new String(name);
+        String temp = new String(nbme);
         String result = null;
         int i = 0;
         while (i < temp.length()) {
-            if (temp.charAt(i) == PrincipalName.NAME_REALM_SEPARATOR) {
-                if (i == 0 || temp.charAt(i - 1) != '\\') {
+            if (temp.chbrAt(i) == PrincipblNbme.NAME_REALM_SEPARATOR) {
+                if (i == 0 || temp.chbrAt(i - 1) != '\\') {
                     if (i + 1 < temp.length()) {
                         result = temp.substring(i + 1, temp.length());
                     } else {
-                        throw new IllegalArgumentException
-                                ("empty realm part not allowed");
+                        throw new IllegblArgumentException
+                                ("empty reblm pbrt not bllowed");
                     }
-                    break;
+                    brebk;
                 }
             }
             i++;
         }
         if (result != null) {
             if (result.length() == 0)
-                throw new RealmException(Krb5.REALM_NULL);
-            if (!isValidRealmString(result))
-                throw new RealmException(Krb5.REALM_ILLCHAR);
+                throw new ReblmException(Krb5.REALM_NULL);
+            if (!isVblidReblmString(result))
+                throw new ReblmException(Krb5.REALM_ILLCHAR);
         }
         return result;
     }
 
-    public static String parseRealmComponent(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException
-                ("null input name is not allowed");
+    public stbtic String pbrseReblmComponent(String nbme) {
+        if (nbme == null) {
+            throw new IllegblArgumentException
+                ("null input nbme is not bllowed");
         }
-        String temp = new String(name);
+        String temp = new String(nbme);
         String result = null;
         int i = 0;
         while (i < temp.length()) {
-            if (temp.charAt(i) == PrincipalName.REALM_COMPONENT_SEPARATOR) {
-                if (i == 0 || temp.charAt(i - 1) != '\\') {
+            if (temp.chbrAt(i) == PrincipblNbme.REALM_COMPONENT_SEPARATOR) {
+                if (i == 0 || temp.chbrAt(i - 1) != '\\') {
                     if (i + 1 < temp.length())
                         result = temp.substring(i + 1, temp.length());
-                    break;
+                    brebk;
                 }
             }
             i++;
@@ -162,207 +162,207 @@ public class Realm implements Cloneable {
         return result;
     }
 
-    protected static String parseRealm(String name) throws RealmException {
-        String result = parseRealmAtSeparator(name);
+    protected stbtic String pbrseReblm(String nbme) throws ReblmException {
+        String result = pbrseReblmAtSepbrbtor(nbme);
         if (result == null)
-            result = name;
+            result = nbme;
         if (result == null || result.length() == 0)
-            throw new RealmException(Krb5.REALM_NULL);
-        if (!isValidRealmString(result))
-            throw new RealmException(Krb5.REALM_ILLCHAR);
+            throw new ReblmException(Krb5.REALM_NULL);
+        if (!isVblidReblmString(result))
+            throw new ReblmException(Krb5.REALM_ILLCHAR);
         return result;
     }
 
-    // This is protected because the definition of a realm
+    // This is protected becbuse the definition of b reblm
     // string is fixed
-    protected static boolean isValidRealmString(String name) {
-        if (name == null)
-            return false;
-        if (name.length() == 0)
-            return false;
-        for (int i = 0; i < name.length(); i++) {
-            if (name.charAt(i) == '/' ||
-                name.charAt(i) == ':' ||
-                name.charAt(i) == '\0') {
-                return false;
+    protected stbtic boolebn isVblidReblmString(String nbme) {
+        if (nbme == null)
+            return fblse;
+        if (nbme.length() == 0)
+            return fblse;
+        for (int i = 0; i < nbme.length(); i++) {
+            if (nbme.chbrAt(i) == '/' ||
+                nbme.chbrAt(i) == ':' ||
+                nbme.chbrAt(i) == '\0') {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Encodes a Realm object.
-     * @return the byte array of encoded KrbCredInfo object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes b Reblm object.
+     * @return the byte brrby of encoded KrbCredInfo object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream out = new DerOutputStream();
-        out.putDerValue(new KerberosString(this.realm).toDerValue());
-        return out.toByteArray();
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm out = new DerOutputStrebm();
+        out.putDerVblue(new KerberosString(this.reblm).toDerVblue());
+        return out.toByteArrby();
     }
 
 
     /**
-     * Parse (unmarshal) a realm from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrse (unmbrshbl) b reblm from b DER input strebm.  This form
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+     * b constructed sequence bnd uses explicitly tbgged type.
      *
      * @exception Asn1Exception on error.
-     * @param data the Der input stream value, which contains one or more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicate if this data field is optional
-     * @return an instance of Realm.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or more mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbte if this dbtb field is optionbl
+     * @return bn instbnce of Reblm.
      *
      */
-    public static Realm parse(DerInputStream data, byte explicitTag, boolean optional)
-            throws Asn1Exception, IOException, RealmException {
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F) != explicitTag)) {
+    public stbtic Reblm pbrse(DerInputStrebm dbtb, byte explicitTbg, boolebn optionbl)
+            throws Asn1Exception, IOException, ReblmException {
+        if ((optionbl) && (((byte)dbtb.peekByte() & (byte)0x1F) != explicitTbg)) {
             return null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F))  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         } else {
-            DerValue subDer = der.getData().getDerValue();
-            return new Realm(subDer);
+            DerVblue subDer = der.getDbtb().getDerVblue();
+            return new Reblm(subDer);
         }
     }
 
     /**
-     * Returns an array of realms that may be traversed to obtain
-     * a TGT from the initiating realm cRealm to the target realm
-     * sRealm.
+     * Returns bn brrby of reblms thbt mby be trbversed to obtbin
+     * b TGT from the initibting reblm cReblm to the tbrget reblm
+     * sReblm.
      * <br>
-     * This method would read [capaths] to create a path, or generate a
-     * hierarchical path if [capaths] does not contain a sub-stanza for cRealm
-     * or the sub-stanza does not contain a tag for sRealm.
+     * This method would rebd [cbpbths] to crebte b pbth, or generbte b
+     * hierbrchicbl pbth if [cbpbths] does not contbin b sub-stbnzb for cReblm
+     * or the sub-stbnzb does not contbin b tbg for sReblm.
      * <br>
-     * The returned list would never be null, and it always contains
-     * cRealm as the head entry. sRealm is not included as the tail.
+     * The returned list would never be null, bnd it blwbys contbins
+     * cReblm bs the hebd entry. sReblm is not included bs the tbil.
      *
-     * @param cRealm the initiating realm, not null
-     * @param sRealm the target realm, not null, not equals to cRealm
-     * @returns array of realms including at least cRealm as the first
+     * @pbrbm cReblm the initibting reblm, not null
+     * @pbrbm sReblm the tbrget reblm, not null, not equbls to cReblm
+     * @returns brrby of reblms including bt lebst cReblm bs the first
      *          element
      */
-    public static String[] getRealmsList(String cRealm, String sRealm) {
+    public stbtic String[] getReblmsList(String cReblm, String sReblm) {
         try {
-            // Try [capaths]
-            return parseCapaths(cRealm, sRealm);
-        } catch (KrbException ke) {
-            // Now assume the realms are organized hierarchically.
-            return parseHierarchy(cRealm, sRealm);
+            // Try [cbpbths]
+            return pbrseCbpbths(cReblm, sReblm);
+        } cbtch (KrbException ke) {
+            // Now bssume the reblms bre orgbnized hierbrchicblly.
+            return pbrseHierbrchy(cReblm, sReblm);
         }
     }
 
     /**
-     * Parses the [capaths] stanza of the configuration file for a
-     * list of realms to traverse to obtain credentials from the
-     * initiating realm cRealm to the target realm sRealm.
+     * Pbrses the [cbpbths] stbnzb of the configurbtion file for b
+     * list of reblms to trbverse to obtbin credentibls from the
+     * initibting reblm cReblm to the tbrget reblm sReblm.
      *
-     * For a given client realm C there is a tag C in [capaths] whose
-     * subtag S has a value which is a (possibly partial) path from C
-     * to S. When the path is partial, it contains only the tail of the
-     * full path. Values of other subtags will be used to build the full
-     * path. The value "." means a direct path from C to S. If realm S
-     * does not appear as a subtag, there is no path defined here.
+     * For b given client reblm C there is b tbg C in [cbpbths] whose
+     * subtbg S hbs b vblue which is b (possibly pbrtibl) pbth from C
+     * to S. When the pbth is pbrtibl, it contbins only the tbil of the
+     * full pbth. Vblues of other subtbgs will be used to build the full
+     * pbth. The vblue "." mebns b direct pbth from C to S. If reblm S
+     * does not bppebr bs b subtbg, there is no pbth defined here.
      *
-     * The implementation ignores all values which equals to C or S, or
-     * a "." in multiple values, or any duplicated realm names.
+     * The implementbtion ignores bll vblues which equbls to C or S, or
+     * b "." in multiple vblues, or bny duplicbted reblm nbmes.
      *
-     * When a path value has more than two realms, they can be specified
-     * with multiple key-value pairs each having a single value, but the
-     * order must not change.
+     * When b pbth vblue hbs more thbn two reblms, they cbn be specified
+     * with multiple key-vblue pbirs ebch hbving b single vblue, but the
+     * order must not chbnge.
      *
-     * For example:
+     * For exbmple:
      *
-     * [capaths]
+     * [cbpbths]
      *    TIVOLI.COM = {
      *        IBM.COM = IBM_LDAPCENTRAL.COM MOONLITE.ORG
      *        IBM_LDAPCENTRAL.COM = LDAPCENTRAL.NET
      *        LDAPCENTRAL.NET = .
      *    }
      *
-     * TIVOLI.COM has a direct path to LDAPCENTRAL.NET, which has a direct
-     * path to IBM_LDAPCENTRAL.COM. It also has a partial path to IBM.COM
+     * TIVOLI.COM hbs b direct pbth to LDAPCENTRAL.NET, which hbs b direct
+     * pbth to IBM_LDAPCENTRAL.COM. It blso hbs b pbrtibl pbth to IBM.COM
      * being "IBM_LDAPCENTRAL.COM MOONLITE.ORG". Merging these info together,
-     * a full path from TIVOLI.COM to IBM.COM will be
+     * b full pbth from TIVOLI.COM to IBM.COM will be
      *
      *   TIVOLI.COM -> LDAPCENTRAL.NET -> IBM_LDAPCENTRAL.COM
      *              -> IBM_LDAPCENTRAL.COM -> MOONLITE.ORG
      *
-     * Please note the sRealm IBM.COM does not appear in the path.
+     * Plebse note the sReblm IBM.COM does not bppebr in the pbth.
      *
-     * @param cRealm the initiating realm
-     * @param sRealm the target realm, not the same as cRealm
-     * @returns array of realms including at least cRealm as the first
+     * @pbrbm cReblm the initibting reblm
+     * @pbrbm sReblm the tbrget reblm, not the sbme bs cReblm
+     * @returns brrby of reblms including bt lebst cReblm bs the first
      *          element
-     * @throws KrbException if the config does not contain a sub-stanza
-     *          for cRealm in [capaths] or the sub-stanza does not contain
-     *          sRealm as a tag
+     * @throws KrbException if the config does not contbin b sub-stbnzb
+     *          for cReblm in [cbpbths] or the sub-stbnzb does not contbin
+     *          sReblm bs b tbg
      */
-    private static String[] parseCapaths(String cRealm, String sRealm)
+    privbte stbtic String[] pbrseCbpbths(String cReblm, String sReblm)
             throws KrbException {
 
-        // This line could throw a KrbException
-        Config cfg = Config.getInstance();
+        // This line could throw b KrbException
+        Config cfg = Config.getInstbnce();
 
-        if (!cfg.exists("capaths", cRealm, sRealm)) {
+        if (!cfg.exists("cbpbths", cReblm, sReblm)) {
             throw new KrbException("No conf");
         }
 
-        LinkedList<String> path = new LinkedList<>();
+        LinkedList<String> pbth = new LinkedList<>();
 
-        String head = sRealm;
+        String hebd = sReblm;
         while (true) {
-            String value = cfg.getAll("capaths", cRealm, head);
-            if (value == null) {
-                break;
+            String vblue = cfg.getAll("cbpbths", cReblm, hebd);
+            if (vblue == null) {
+                brebk;
             }
-            String[] more = value.split("\\s+");
-            boolean changed = false;
+            String[] more = vblue.split("\\s+");
+            boolebn chbnged = fblse;
             for (int i=more.length-1; i>=0; i--) {
-                if (path.contains(more[i])
-                        || more[i].equals(".")
-                        || more[i].equals(cRealm)
-                        || more[i].equals(sRealm)
-                        || more[i].equals(head)) {
-                    // Ignore invalid values
+                if (pbth.contbins(more[i])
+                        || more[i].equbls(".")
+                        || more[i].equbls(cReblm)
+                        || more[i].equbls(sReblm)
+                        || more[i].equbls(hebd)) {
+                    // Ignore invblid vblues
                     continue;
                 }
-                changed = true;
-                path.addFirst(more[i]);
+                chbnged = true;
+                pbth.bddFirst(more[i]);
             }
-            if (!changed) break;
-            head = path.getFirst();
+            if (!chbnged) brebk;
+            hebd = pbth.getFirst();
         }
-        path.addFirst(cRealm);
-        return path.toArray(new String[path.size()]);
+        pbth.bddFirst(cReblm);
+        return pbth.toArrby(new String[pbth.size()]);
    }
 
     /**
-     * Build a list of realm that can be traversed
-     * to obtain credentials from the initiating realm cRealm
-     * for a service in the target realm sRealm.
-     * @param cRealm the initiating realm
-     * @param sRealm the target realm, not the same as cRealm
-     * @returns array of realms including cRealm as the first element
+     * Build b list of reblm thbt cbn be trbversed
+     * to obtbin credentibls from the initibting reblm cReblm
+     * for b service in the tbrget reblm sReblm.
+     * @pbrbm cReblm the initibting reblm
+     * @pbrbm sReblm the tbrget reblm, not the sbme bs cReblm
+     * @returns brrby of reblms including cReblm bs the first element
      */
-    private static String[] parseHierarchy(String cRealm, String sRealm) {
+    privbte stbtic String[] pbrseHierbrchy(String cReblm, String sReblm) {
 
-        String[] cComponents = cRealm.split("\\.");
-        String[] sComponents = sRealm.split("\\.");
+        String[] cComponents = cReblm.split("\\.");
+        String[] sComponents = sReblm.split("\\.");
 
         int cPos = cComponents.length;
         int sPos = sComponents.length;
 
-        boolean hasCommon = false;
+        boolebn hbsCommon = fblse;
         for (sPos--, cPos--; sPos >=0 && cPos >= 0 &&
-                sComponents[sPos].equals(cComponents[cPos]);
+                sComponents[sPos].equbls(cComponents[cPos]);
                 sPos--, cPos--) {
-            hasCommon = true;
+            hbsCommon = true;
         }
 
         // For those with common components:
@@ -375,39 +375,39 @@ public class Realm implements Cloneable {
         // DEVEL.EXAMPLE.COM   3       2
         // PROD.EXAMPLE.ORG    3       2
 
-        LinkedList<String> path = new LinkedList<>();
+        LinkedList<String> pbth = new LinkedList<>();
 
         // Un-common ones for client side
         for (int i=0; i<=cPos; i++) {
-            path.addLast(subStringFrom(cComponents, i));
+            pbth.bddLbst(subStringFrom(cComponents, i));
         }
 
         // Common one
-        if (hasCommon) {
-            path.addLast(subStringFrom(cComponents, cPos+1));
+        if (hbsCommon) {
+            pbth.bddLbst(subStringFrom(cComponents, cPos+1));
         }
 
         // Un-common ones for server side
         for (int i=sPos; i>=0; i--) {
-            path.addLast(subStringFrom(sComponents, i));
+            pbth.bddLbst(subStringFrom(sComponents, i));
         }
 
-        // Remove sRealm from path. Note that it might be added at last loop
-        // or as a common component, if sRealm is a parent of cRealm
-        path.removeLast();
+        // Remove sReblm from pbth. Note thbt it might be bdded bt lbst loop
+        // or bs b common component, if sReblm is b pbrent of cReblm
+        pbth.removeLbst();
 
-        return path.toArray(new String[path.size()]);
+        return pbth.toArrby(new String[pbth.size()]);
     }
 
     /**
-     * Creates a realm name using components from the given position.
-     * For example, subStringFrom({"A", "B", "C"}, 1) is "B.C".
+     * Crebtes b reblm nbme using components from the given position.
+     * For exbmple, subStringFrom({"A", "B", "C"}, 1) is "B.C".
      */
-    private static String subStringFrom(String[] components, int from) {
+    privbte stbtic String subStringFrom(String[] components, int from) {
         StringBuilder sb = new StringBuilder();
         for (int i=from; i<components.length; i++) {
-            if (sb.length() != 0) sb.append('.');
-            sb.append(components[i]);
+            if (sb.length() != 0) sb.bppend('.');
+            sb.bppend(components[i]);
         }
         return sb.toString();
     }

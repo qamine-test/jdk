@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,115 +27,115 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
 /*
  **********************************************************************
- * Author: Alan Liu
- * Created: September 23 2003
+ * Author: Albn Liu
+ * Crebted: September 23 2003
  * Since: ICU 2.8
  **********************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.text.ParsePosition;
+import jbvb.text.PbrsePosition;
 
 /**
- * An iterator that returns 32-bit code points.  This class is deliberately
- * <em>not</em> related to any of the JDK or ICU4J character iterator classes
+ * An iterbtor thbt returns 32-bit code points.  This clbss is deliberbtely
+ * <em>not</em> relbted to bny of the JDK or ICU4J chbrbcter iterbtor clbsses
  * in order to minimize complexity.
- * @author Alan Liu
+ * @buthor Albn Liu
  * @since ICU 2.8
  */
-public class RuleCharacterIterator {
+public clbss RuleChbrbcterIterbtor {
 
-    // TODO: Ideas for later.  (Do not implement if not needed, lest the
-    // code coverage numbers go down due to unused methods.)
-    // 1. Add a copy constructor, equals() method, clone() method.
-    // 2. Rather than return DONE, throw an exception if the end
-    // is reached -- this is an alternate usage model, probably not useful.
-    // 3. Return isEscaped from next().  If this happens,
-    // don't keep an isEscaped member variable.
+    // TODO: Idebs for lbter.  (Do not implement if not needed, lest the
+    // code coverbge numbers go down due to unused methods.)
+    // 1. Add b copy constructor, equbls() method, clone() method.
+    // 2. Rbther thbn return DONE, throw bn exception if the end
+    // is rebched -- this is bn blternbte usbge model, probbbly not useful.
+    // 3. Return isEscbped from next().  If this hbppens,
+    // don't keep bn isEscbped member vbribble.
 
     /**
-     * Text being iterated.
+     * Text being iterbted.
      */
-    private String text;
+    privbte String text;
 
     /**
-     * Position of iterator.
+     * Position of iterbtor.
      */
-    private ParsePosition pos;
+    privbte PbrsePosition pos;
 
     /**
-     * Symbol table used to parse and dereference variables.  May be null.
+     * Symbol tbble used to pbrse bnd dereference vbribbles.  Mby be null.
      */
-    private SymbolTable sym;
+    privbte SymbolTbble sym;
 
     /**
-     * Current variable expansion, or null if none.
+     * Current vbribble expbnsion, or null if none.
      */
-    private char[] buf;
+    privbte chbr[] buf;
 
     /**
-     * Position within buf[].  Meaningless if buf == null.
+     * Position within buf[].  Mebningless if buf == null.
      */
-    private int bufPos;
+    privbte int bufPos;
 
     /**
-     * Flag indicating whether the last character was parsed from an escape.
+     * Flbg indicbting whether the lbst chbrbcter wbs pbrsed from bn escbpe.
      */
-    private boolean isEscaped;
+    privbte boolebn isEscbped;
 
     /**
-     * Value returned when there are no more characters to iterate.
+     * Vblue returned when there bre no more chbrbcters to iterbte.
      */
-    public static final int DONE = -1;
+    public stbtic finbl int DONE = -1;
 
     /**
-     * Bitmask option to enable parsing of variable names.  If (options &
-     * PARSE_VARIABLES) != 0, then an embedded variable will be expanded to
-     * its value.  Variables are parsed using the SymbolTable API.
+     * Bitmbsk option to enbble pbrsing of vbribble nbmes.  If (options &
+     * PARSE_VARIABLES) != 0, then bn embedded vbribble will be expbnded to
+     * its vblue.  Vbribbles bre pbrsed using the SymbolTbble API.
      */
-    public static final int PARSE_VARIABLES = 1;
+    public stbtic finbl int PARSE_VARIABLES = 1;
 
     /**
-     * Bitmask option to enable parsing of escape sequences.  If (options &
-     * PARSE_ESCAPES) != 0, then an embedded escape sequence will be expanded
-     * to its value.  Escapes are parsed using Utility.unescapeAt().
+     * Bitmbsk option to enbble pbrsing of escbpe sequences.  If (options &
+     * PARSE_ESCAPES) != 0, then bn embedded escbpe sequence will be expbnded
+     * to its vblue.  Escbpes bre pbrsed using Utility.unescbpeAt().
      */
-    public static final int PARSE_ESCAPES   = 2;
+    public stbtic finbl int PARSE_ESCAPES   = 2;
 
     /**
-     * Bitmask option to enable skipping of whitespace.  If (options &
-     * SKIP_WHITESPACE) != 0, then whitespace characters will be silently
-     * skipped, as if they were not present in the input.  Whitespace
-     * characters are defined by UCharacterProperty.isRuleWhiteSpace().
+     * Bitmbsk option to enbble skipping of whitespbce.  If (options &
+     * SKIP_WHITESPACE) != 0, then whitespbce chbrbcters will be silently
+     * skipped, bs if they were not present in the input.  Whitespbce
+     * chbrbcters bre defined by UChbrbcterProperty.isRuleWhiteSpbce().
      */
-    public static final int SKIP_WHITESPACE = 4;
+    public stbtic finbl int SKIP_WHITESPACE = 4;
 
     /**
-     * Constructs an iterator over the given text, starting at the given
+     * Constructs bn iterbtor over the given text, stbrting bt the given
      * position.
-     * @param text the text to be iterated
-     * @param sym the symbol table, or null if there is none.  If sym is null,
-     * then variables will not be deferenced, even if the PARSE_VARIABLES
+     * @pbrbm text the text to be iterbted
+     * @pbrbm sym the symbol tbble, or null if there is none.  If sym is null,
+     * then vbribbles will not be deferenced, even if the PARSE_VARIABLES
      * option is set.
-     * @param pos upon input, the index of the next character to return.  If a
-     * variable has been dereferenced, then pos will <em>not</em> increment as
-     * characters of the variable value are iterated.
+     * @pbrbm pos upon input, the index of the next chbrbcter to return.  If b
+     * vbribble hbs been dereferenced, then pos will <em>not</em> increment bs
+     * chbrbcters of the vbribble vblue bre iterbted.
      */
-    public RuleCharacterIterator(String text, SymbolTable sym,
-                                 ParsePosition pos) {
+    public RuleChbrbcterIterbtor(String text, SymbolTbble sym,
+                                 PbrsePosition pos) {
         if (text == null || pos.getIndex() > text.length()) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         this.text = text;
         this.sym = sym;
@@ -144,43 +144,43 @@ public class RuleCharacterIterator {
     }
 
     /**
-     * Returns true if this iterator has no more characters to return.
+     * Returns true if this iterbtor hbs no more chbrbcters to return.
      */
-    public boolean atEnd() {
+    public boolebn btEnd() {
         return buf == null && pos.getIndex() == text.length();
     }
 
     /**
-     * Returns the next character using the given options, or DONE if there
-     * are no more characters, and advance the position to the next
-     * character.
-     * @param options one or more of the following options, bitwise-OR-ed
+     * Returns the next chbrbcter using the given options, or DONE if there
+     * bre no more chbrbcters, bnd bdvbnce the position to the next
+     * chbrbcter.
+     * @pbrbm options one or more of the following options, bitwise-OR-ed
      * together: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
      * @return the current 32-bit code point, or DONE
      */
     public int next(int options) {
         int c = DONE;
-        isEscaped = false;
+        isEscbped = fblse;
 
         for (;;) {
             c = _current();
-            _advance(UTF16.getCharCount(c));
+            _bdvbnce(UTF16.getChbrCount(c));
 
-            if (c == SymbolTable.SYMBOL_REF && buf == null &&
+            if (c == SymbolTbble.SYMBOL_REF && buf == null &&
                 (options & PARSE_VARIABLES) != 0 && sym != null) {
-                String name = sym.parseReference(text, pos, text.length());
-                // If name == null there was an isolated SYMBOL_REF;
-                // return it.  Caller must be prepared for this.
-                if (name == null) {
-                    break;
+                String nbme = sym.pbrseReference(text, pos, text.length());
+                // If nbme == null there wbs bn isolbted SYMBOL_REF;
+                // return it.  Cbller must be prepbred for this.
+                if (nbme == null) {
+                    brebk;
                 }
                 bufPos = 0;
-                buf = sym.lookup(name);
+                buf = sym.lookup(nbme);
                 if (buf == null) {
-                    throw new IllegalArgumentException(
-                                "Undefined variable: " + name);
+                    throw new IllegblArgumentException(
+                                "Undefined vbribble: " + nbme);
                 }
-                // Handle empty variable value
+                // Hbndle empty vbribble vblue
                 if (buf.length == 0) {
                     buf = null;
                 }
@@ -188,118 +188,118 @@ public class RuleCharacterIterator {
             }
 
             if ((options & SKIP_WHITESPACE) != 0 &&
-                UCharacterProperty.isRuleWhiteSpace(c)) {
+                UChbrbcterProperty.isRuleWhiteSpbce(c)) {
                 continue;
             }
 
             if (c == '\\' && (options & PARSE_ESCAPES) != 0) {
                 int offset[] = new int[] { 0 };
-                c = Utility.unescapeAt(lookahead(), offset);
-                jumpahead(offset[0]);
-                isEscaped = true;
+                c = Utility.unescbpeAt(lookbhebd(), offset);
+                jumpbhebd(offset[0]);
+                isEscbped = true;
                 if (c < 0) {
-                    throw new IllegalArgumentException("Invalid escape");
+                    throw new IllegblArgumentException("Invblid escbpe");
                 }
             }
 
-            break;
+            brebk;
         }
 
         return c;
     }
 
     /**
-     * Returns true if the last character returned by next() was
-     * escaped.  This will only be the case if the option passed in to
-     * next() included PARSE_ESCAPED and the next character was an
-     * escape sequence.
+     * Returns true if the lbst chbrbcter returned by next() wbs
+     * escbped.  This will only be the cbse if the option pbssed in to
+     * next() included PARSE_ESCAPED bnd the next chbrbcter wbs bn
+     * escbpe sequence.
      */
-    public boolean isEscaped() {
-        return isEscaped;
+    public boolebn isEscbped() {
+        return isEscbped;
     }
 
     /**
-     * Returns true if this iterator is currently within a variable expansion.
+     * Returns true if this iterbtor is currently within b vbribble expbnsion.
      */
-    public boolean inVariable() {
+    public boolebn inVbribble() {
         return buf != null;
     }
 
     /**
-     * Returns an object which, when later passed to setPos(), will
-     * restore this iterator's position.  Usage idiom:
+     * Returns bn object which, when lbter pbssed to setPos(), will
+     * restore this iterbtor's position.  Usbge idiom:
      *
-     * RuleCharacterIterator iterator = ...;
-     * Object pos = iterator.getPos(null); // allocate position object
+     * RuleChbrbcterIterbtor iterbtor = ...;
+     * Object pos = iterbtor.getPos(null); // bllocbte position object
      * for (;;) {
-     *   pos = iterator.getPos(pos); // reuse position object
-     *   int c = iterator.next(...);
+     *   pos = iterbtor.getPos(pos); // reuse position object
+     *   int c = iterbtor.next(...);
      *   ...
      * }
-     * iterator.setPos(pos);
+     * iterbtor.setPos(pos);
      *
-     * @param p a position object previously returned by getPos(),
-     * or null.  If not null, it will be updated and returned.  If
-     * null, a new position object will be allocated and returned.
-     * @return a position object which may be passed to setPos(),
-     * either `p,' or if `p' == null, a newly-allocated object
+     * @pbrbm p b position object previously returned by getPos(),
+     * or null.  If not null, it will be updbted bnd returned.  If
+     * null, b new position object will be bllocbted bnd returned.
+     * @return b position object which mby be pbssed to setPos(),
+     * either `p,' or if `p' == null, b newly-bllocbted object
      */
     public Object getPos(Object p) {
         if (p == null) {
             return new Object[] {buf, new int[] {pos.getIndex(), bufPos}};
         }
-        Object[] a = (Object[]) p;
-        a[0] = buf;
-        int[] v = (int[]) a[1];
+        Object[] b = (Object[]) p;
+        b[0] = buf;
+        int[] v = (int[]) b[1];
         v[0] = pos.getIndex();
         v[1] = bufPos;
         return p;
     }
 
     /**
-     * Restores this iterator to the position it had when getPos()
+     * Restores this iterbtor to the position it hbd when getPos()
      * returned the given object.
-     * @param p a position object previously returned by getPos()
+     * @pbrbm p b position object previously returned by getPos()
      */
     public void setPos(Object p) {
-        Object[] a = (Object[]) p;
-        buf = (char[]) a[0];
-        int[] v = (int[]) a[1];
+        Object[] b = (Object[]) p;
+        buf = (chbr[]) b[0];
+        int[] v = (int[]) b[1];
         pos.setIndex(v[0]);
         bufPos = v[1];
     }
 
     /**
-     * Skips ahead past any ignored characters, as indicated by the given
-     * options.  This is useful in conjunction with the lookahead() method.
+     * Skips bhebd pbst bny ignored chbrbcters, bs indicbted by the given
+     * options.  This is useful in conjunction with the lookbhebd() method.
      *
-     * Currently, this only has an effect for SKIP_WHITESPACE.
-     * @param options one or more of the following options, bitwise-OR-ed
+     * Currently, this only hbs bn effect for SKIP_WHITESPACE.
+     * @pbrbm options one or more of the following options, bitwise-OR-ed
      * together: PARSE_VARIABLES, PARSE_ESCAPES, SKIP_WHITESPACE.
      */
     public void skipIgnored(int options) {
         if ((options & SKIP_WHITESPACE) != 0) {
             for (;;) {
-                int a = _current();
-                if (!UCharacterProperty.isRuleWhiteSpace(a)) break;
-                _advance(UTF16.getCharCount(a));
+                int b = _current();
+                if (!UChbrbcterProperty.isRuleWhiteSpbce(b)) brebk;
+                _bdvbnce(UTF16.getChbrCount(b));
             }
         }
     }
 
     /**
-     * Returns a string containing the remainder of the characters to be
-     * returned by this iterator, without any option processing.  If the
-     * iterator is currently within a variable expansion, this will only
-     * extend to the end of the variable expansion.  This method is provided
-     * so that iterators may interoperate with string-based APIs.  The typical
-     * sequence of calls is to call skipIgnored(), then call lookahead(), then
-     * parse the string returned by lookahead(), then call jumpahead() to
-     * resynchronize the iterator.
-     * @return a string containing the characters to be returned by future
-     * calls to next()
+     * Returns b string contbining the rembinder of the chbrbcters to be
+     * returned by this iterbtor, without bny option processing.  If the
+     * iterbtor is currently within b vbribble expbnsion, this will only
+     * extend to the end of the vbribble expbnsion.  This method is provided
+     * so thbt iterbtors mby interoperbte with string-bbsed APIs.  The typicbl
+     * sequence of cblls is to cbll skipIgnored(), then cbll lookbhebd(), then
+     * pbrse the string returned by lookbhebd(), then cbll jumpbhebd() to
+     * resynchronize the iterbtor.
+     * @return b string contbining the chbrbcters to be returned by future
+     * cblls to next()
      */
-    public String lookahead() {
+    public String lookbhebd() {
         if (buf != null) {
             return new String(buf, bufPos, buf.length - bufPos);
         } else {
@@ -308,18 +308,18 @@ public class RuleCharacterIterator {
     }
 
     /**
-     * Advances the position by the given number of 16-bit code units.
-     * This is useful in conjunction with the lookahead() method.
-     * @param count the number of 16-bit code units to jump over
+     * Advbnces the position by the given number of 16-bit code units.
+     * This is useful in conjunction with the lookbhebd() method.
+     * @pbrbm count the number of 16-bit code units to jump over
      */
-    public void jumpahead(int count) {
+    public void jumpbhebd(int count) {
         if (count < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         if (buf != null) {
             bufPos += count;
             if (bufPos > buf.length) {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
             if (bufPos == buf.length) {
                 buf = null;
@@ -328,30 +328,30 @@ public class RuleCharacterIterator {
             int i = pos.getIndex() + count;
             pos.setIndex(i);
             if (i > text.length()) {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
         }
     }
 
     /**
-     * Returns the current 32-bit code point without parsing escapes, parsing
-     * variables, or skipping whitespace.
+     * Returns the current 32-bit code point without pbrsing escbpes, pbrsing
+     * vbribbles, or skipping whitespbce.
      * @return the current 32-bit code point
      */
-    private int _current() {
+    privbte int _current() {
         if (buf != null) {
-            return UTF16.charAt(buf, 0, buf.length, bufPos);
+            return UTF16.chbrAt(buf, 0, buf.length, bufPos);
         } else {
             int i = pos.getIndex();
-            return (i < text.length()) ? UTF16.charAt(text, i) : DONE;
+            return (i < text.length()) ? UTF16.chbrAt(text, i) : DONE;
         }
     }
 
     /**
-     * Advances the position by the given amount.
-     * @param count the number of 16-bit code units to advance past
+     * Advbnces the position by the given bmount.
+     * @pbrbm count the number of 16-bit code units to bdvbnce pbst
      */
-    private void _advance(int count) {
+    privbte void _bdvbnce(int count) {
         if (buf != null) {
             bufPos += count;
             if (bufPos == buf.length) {

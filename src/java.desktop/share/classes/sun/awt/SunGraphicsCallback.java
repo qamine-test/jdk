@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-public abstract class SunGraphicsCallback {
-    public static final int HEAVYWEIGHTS = 0x1;
-    public static final int LIGHTWEIGHTS = 0x2;
-    public static final int TWO_PASSES = 0x4;
+public bbstrbct clbss SunGrbphicsCbllbbck {
+    public stbtic finbl int HEAVYWEIGHTS = 0x1;
+    public stbtic finbl int LIGHTWEIGHTS = 0x2;
+    public stbtic finbl int TWO_PASSES = 0x4;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.SunGraphicsCallback");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.SunGrbphicsCbllbbck");
 
-    public abstract void run(Component comp, Graphics cg);
+    public bbstrbct void run(Component comp, Grbphics cg);
 
-    protected void constrainGraphics(Graphics g, Rectangle bounds) {
-        if (g instanceof ConstrainableGraphics) {
-            ((ConstrainableGraphics)g).constrain(bounds.x, bounds.y, bounds.width, bounds.height);
+    protected void constrbinGrbphics(Grbphics g, Rectbngle bounds) {
+        if (g instbnceof ConstrbinbbleGrbphics) {
+            ((ConstrbinbbleGrbphics)g).constrbin(bounds.x, bounds.y, bounds.width, bounds.height);
         } else {
-            g.translate(bounds.x, bounds.y);
+            g.trbnslbte(bounds.x, bounds.y);
         }
         g.clipRect(0, 0, bounds.width, bounds.height);
     }
 
-    @SuppressWarnings("deprecation")
-    public final void runOneComponent(Component comp, Rectangle bounds,
-                                      Graphics g, Shape clip,
-                                      int weightFlags) {
+    @SuppressWbrnings("deprecbtion")
+    public finbl void runOneComponent(Component comp, Rectbngle bounds,
+                                      Grbphics g, Shbpe clip,
+                                      int weightFlbgs) {
         if (comp == null || comp.getPeer() == null || !comp.isVisible()) {
             return;
         }
-        boolean lightweight = comp.isLightweight();
-        if ((lightweight && (weightFlags & LIGHTWEIGHTS) == 0) ||
-            (!lightweight && (weightFlags & HEAVYWEIGHTS) == 0)) {
+        boolebn lightweight = comp.isLightweight();
+        if ((lightweight && (weightFlbgs & LIGHTWEIGHTS) == 0) ||
+            (!lightweight && (weightFlbgs & HEAVYWEIGHTS) == 0)) {
             return;
         }
 
@@ -65,46 +65,46 @@ public abstract class SunGraphicsCallback {
         }
 
         if (clip == null || clip.intersects(bounds)) {
-            Graphics cg = g.create();
+            Grbphics cg = g.crebte();
             try {
-                constrainGraphics(cg, bounds);
+                constrbinGrbphics(cg, bounds);
                 cg.setFont(comp.getFont());
                 cg.setColor(comp.getForeground());
-                if (cg instanceof Graphics2D) {
-                    ((Graphics2D)cg).setBackground(comp.getBackground());
-                } else if (cg instanceof Graphics2Delegate) {
-                    ((Graphics2Delegate)cg).setBackground(
-                        comp.getBackground());
+                if (cg instbnceof Grbphics2D) {
+                    ((Grbphics2D)cg).setBbckground(comp.getBbckground());
+                } else if (cg instbnceof Grbphics2Delegbte) {
+                    ((Grbphics2Delegbte)cg).setBbckground(
+                        comp.getBbckground());
                 }
                 run(comp, cg);
-            } finally {
+            } finblly {
                 cg.dispose();
             }
         }
     }
 
-    public final void runComponents(Component[] comps, Graphics g,
-                                    int weightFlags) {
+    public finbl void runComponents(Component[] comps, Grbphics g,
+                                    int weightFlbgs) {
         int ncomponents = comps.length;
-        Shape clip = g.getClip();
+        Shbpe clip = g.getClip();
 
-        if (log.isLoggable(PlatformLogger.Level.FINER) && (clip != null)) {
-            Rectangle newrect = clip.getBounds();
+        if (log.isLoggbble(PlbtformLogger.Level.FINER) && (clip != null)) {
+            Rectbngle newrect = clip.getBounds();
             log.finer("x = " + newrect.x + ", y = " + newrect.y +
                       ", width = " + newrect.width +
                       ", height = " + newrect.height);
         }
 
-        // A seriously sad hack--
-        // Lightweight components always paint behind peered components,
-        // even if they are at the top of the Z order. We emulate this
-        // behavior by making two printing passes: the first for lightweights;
-        // the second for heavyweights.
+        // A seriously sbd hbck--
+        // Lightweight components blwbys pbint behind peered components,
+        // even if they bre bt the top of the Z order. We emulbte this
+        // behbvior by mbking two printing pbsses: the first for lightweights;
+        // the second for hebvyweights.
         //
-        // ToDo(dpm): Either build a list of heavyweights during the
-        // lightweight pass, or redesign the components array to keep
-        // lightweights and heavyweights separate.
-        if ((weightFlags & TWO_PASSES) != 0) {
+        // ToDo(dpm): Either build b list of hebvyweights during the
+        // lightweight pbss, or redesign the components brrby to keep
+        // lightweights bnd hebvyweights sepbrbte.
+        if ((weightFlbgs & TWO_PASSES) != 0) {
             for (int i = ncomponents - 1; i >= 0; i--) {
                 runOneComponent(comps[i], null, g, clip, LIGHTWEIGHTS);
             }
@@ -113,47 +113,47 @@ public abstract class SunGraphicsCallback {
             }
         } else {
             for (int i = ncomponents - 1; i >= 0; i--) {
-                runOneComponent(comps[i], null, g, clip, weightFlags);
+                runOneComponent(comps[i], null, g, clip, weightFlbgs);
             }
         }
     }
 
-    public static final class PaintHeavyweightComponentsCallback
-        extends SunGraphicsCallback
+    public stbtic finbl clbss PbintHebvyweightComponentsCbllbbck
+        extends SunGrbphicsCbllbbck
     {
-        private static PaintHeavyweightComponentsCallback instance =
-            new PaintHeavyweightComponentsCallback();
+        privbte stbtic PbintHebvyweightComponentsCbllbbck instbnce =
+            new PbintHebvyweightComponentsCbllbbck();
 
-        private PaintHeavyweightComponentsCallback() {}
-        public void run(Component comp, Graphics cg) {
+        privbte PbintHebvyweightComponentsCbllbbck() {}
+        public void run(Component comp, Grbphics cg) {
             if (!comp.isLightweight()) {
-                comp.paintAll(cg);
-            } else if (comp instanceof Container) {
-                runComponents(((Container)comp).getComponents(), cg,
+                comp.pbintAll(cg);
+            } else if (comp instbnceof Contbiner) {
+                runComponents(((Contbiner)comp).getComponents(), cg,
                               LIGHTWEIGHTS | HEAVYWEIGHTS);
             }
         }
-        public static PaintHeavyweightComponentsCallback getInstance() {
-            return instance;
+        public stbtic PbintHebvyweightComponentsCbllbbck getInstbnce() {
+            return instbnce;
         }
     }
-    public static final class PrintHeavyweightComponentsCallback
-        extends SunGraphicsCallback
+    public stbtic finbl clbss PrintHebvyweightComponentsCbllbbck
+        extends SunGrbphicsCbllbbck
     {
-        private static PrintHeavyweightComponentsCallback instance =
-            new PrintHeavyweightComponentsCallback();
+        privbte stbtic PrintHebvyweightComponentsCbllbbck instbnce =
+            new PrintHebvyweightComponentsCbllbbck();
 
-        private PrintHeavyweightComponentsCallback() {}
-        public void run(Component comp, Graphics cg) {
+        privbte PrintHebvyweightComponentsCbllbbck() {}
+        public void run(Component comp, Grbphics cg) {
             if (!comp.isLightweight()) {
                 comp.printAll(cg);
-            } else if (comp instanceof Container) {
-                runComponents(((Container)comp).getComponents(), cg,
+            } else if (comp instbnceof Contbiner) {
+                runComponents(((Contbiner)comp).getComponents(), cg,
                               LIGHTWEIGHTS | HEAVYWEIGHTS);
             }
         }
-        public static PrintHeavyweightComponentsCallback getInstance() {
-            return instance;
+        public stbtic PrintHebvyweightComponentsCbllbbck getInstbnce() {
+            return instbnce;
         }
     }
 }

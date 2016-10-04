@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.net.URL;
+import jbvb.net.MblformedURLException;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.text.html.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.border.*;
 
 
 /**
- * Provides the look and feel for a JEditorPane.
+ * Provides the look bnd feel for b JEditorPbne.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicEditorPaneUI extends BasicTextUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicEditorPbneUI extends BbsicTextUI {
 
     /**
-     * Creates a UI for the JTextPane.
+     * Crebtes b UI for the JTextPbne.
      *
-     * @param c the JTextPane component
+     * @pbrbm c the JTextPbne component
      * @return the UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicEditorPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new BbsicEditorPbneUI();
     }
 
     /**
-     * Creates a new BasicEditorPaneUI.
+     * Crebtes b new BbsicEditorPbneUI.
      */
-    public BasicEditorPaneUI() {
+    public BbsicEditorPbneUI() {
         super();
     }
 
     /**
-     * Fetches the name used as a key to lookup properties through the
-     * UIManager.  This is used as a prefix to all the standard
+     * Fetches the nbme used bs b key to lookup properties through the
+     * UIMbnbger.  This is used bs b prefix to bll the stbndbrd
      * text properties.
      *
-     * @return the name ("EditorPane")
+     * @return the nbme ("EditorPbne")
      */
     protected String getPropertyPrefix() {
-        return "EditorPane";
+        return "EditorPbne";
     }
 
     /**
@@ -86,9 +86,9 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @since 1.5
      */
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        updateDisplayProperties(c.getFont(),
+    public void instbllUI(JComponent c) {
+        super.instbllUI(c);
+        updbteDisplbyProperties(c.getFont(),
                                 c.getForeground());
     }
 
@@ -97,102 +97,102 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @since 1.5
      */
-    public void uninstallUI(JComponent c) {
-        cleanDisplayProperties();
-        super.uninstallUI(c);
+    public void uninstbllUI(JComponent c) {
+        clebnDisplbyProperties();
+        super.uninstbllUI(c);
     }
 
     /**
-     * Fetches the EditorKit for the UI.  This is whatever is
-     * currently set in the associated JEditorPane.
+     * Fetches the EditorKit for the UI.  This is whbtever is
+     * currently set in the bssocibted JEditorPbne.
      *
-     * @return the editor capabilities
+     * @return the editor cbpbbilities
      * @see TextUI#getEditorKit
      */
     public EditorKit getEditorKit(JTextComponent tc) {
-        JEditorPane pane = (JEditorPane) getComponent();
-        return pane.getEditorKit();
+        JEditorPbne pbne = (JEditorPbne) getComponent();
+        return pbne.getEditorKit();
     }
 
     /**
-     * Fetch an action map to use.  The map for a JEditorPane
-     * is not shared because it changes with the EditorKit.
+     * Fetch bn bction mbp to use.  The mbp for b JEditorPbne
+     * is not shbred becbuse it chbnges with the EditorKit.
      */
-    ActionMap getActionMap() {
-        ActionMap am = new ActionMapUIResource();
-        am.put("requestFocus", new FocusAction());
+    ActionMbp getActionMbp() {
+        ActionMbp bm = new ActionMbpUIResource();
+        bm.put("requestFocus", new FocusAction());
         EditorKit editorKit = getEditorKit(getComponent());
         if (editorKit != null) {
-            Action[] actions = editorKit.getActions();
-            if (actions != null) {
-                addActions(am, actions);
+            Action[] bctions = editorKit.getActions();
+            if (bctions != null) {
+                bddActions(bm, bctions);
             }
         }
-        am.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        am.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        am.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
-        return am;
+        bm.put(TrbnsferHbndler.getCutAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCutAction());
+        bm.put(TrbnsferHbndler.getCopyAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCopyAction());
+        bm.put(TrbnsferHbndler.getPbsteAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getPbsteAction());
+        return bm;
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * This is implemented to rebuild the ActionMap based upon an
-     * EditorKit change.
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
+     * This is implemented to rebuild the ActionMbp bbsed upon bn
+     * EditorKit chbnge.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-        String name = evt.getPropertyName();
-        if ("editorKit".equals(name)) {
-            ActionMap map = SwingUtilities.getUIActionMap(getComponent());
-            if (map != null) {
-                Object oldValue = evt.getOldValue();
-                if (oldValue instanceof EditorKit) {
-                    Action[] actions = ((EditorKit)oldValue).getActions();
-                    if (actions != null) {
-                        removeActions(map, actions);
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        super.propertyChbnge(evt);
+        String nbme = evt.getPropertyNbme();
+        if ("editorKit".equbls(nbme)) {
+            ActionMbp mbp = SwingUtilities.getUIActionMbp(getComponent());
+            if (mbp != null) {
+                Object oldVblue = evt.getOldVblue();
+                if (oldVblue instbnceof EditorKit) {
+                    Action[] bctions = ((EditorKit)oldVblue).getActions();
+                    if (bctions != null) {
+                        removeActions(mbp, bctions);
                     }
                 }
-                Object newValue = evt.getNewValue();
-                if (newValue instanceof EditorKit) {
-                    Action[] actions = ((EditorKit)newValue).getActions();
-                    if (actions != null) {
-                        addActions(map, actions);
+                Object newVblue = evt.getNewVblue();
+                if (newVblue instbnceof EditorKit) {
+                    Action[] bctions = ((EditorKit)newVblue).getActions();
+                    if (bctions != null) {
+                        bddActions(mbp, bctions);
                     }
                 }
             }
-            updateFocusTraversalKeys();
-        } else if ("editable".equals(name)) {
-            updateFocusTraversalKeys();
-        } else if ("foreground".equals(name)
-                   || "font".equals(name)
-                   || "document".equals(name)
-                   || JEditorPane.W3C_LENGTH_UNITS.equals(name)
-                   || JEditorPane.HONOR_DISPLAY_PROPERTIES.equals(name)
+            updbteFocusTrbversblKeys();
+        } else if ("editbble".equbls(nbme)) {
+            updbteFocusTrbversblKeys();
+        } else if ("foreground".equbls(nbme)
+                   || "font".equbls(nbme)
+                   || "document".equbls(nbme)
+                   || JEditorPbne.W3C_LENGTH_UNITS.equbls(nbme)
+                   || JEditorPbne.HONOR_DISPLAY_PROPERTIES.equbls(nbme)
                    ) {
             JComponent c = getComponent();
-            updateDisplayProperties(c.getFont(), c.getForeground());
-            if ( JEditorPane.W3C_LENGTH_UNITS.equals(name)
-                 || JEditorPane.HONOR_DISPLAY_PROPERTIES.equals(name) ) {
-                modelChanged();
+            updbteDisplbyProperties(c.getFont(), c.getForeground());
+            if ( JEditorPbne.W3C_LENGTH_UNITS.equbls(nbme)
+                 || JEditorPbne.HONOR_DISPLAY_PROPERTIES.equbls(nbme) ) {
+                modelChbnged();
             }
-            if ("foreground".equals(name)) {
-                Object honorDisplayPropertiesObject = c.
-                    getClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES);
-                boolean honorDisplayProperties = false;
-                if (honorDisplayPropertiesObject instanceof Boolean) {
-                    honorDisplayProperties =
-                        ((Boolean)honorDisplayPropertiesObject).booleanValue();
+            if ("foreground".equbls(nbme)) {
+                Object honorDisplbyPropertiesObject = c.
+                    getClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES);
+                boolebn honorDisplbyProperties = fblse;
+                if (honorDisplbyPropertiesObject instbnceof Boolebn) {
+                    honorDisplbyProperties =
+                        ((Boolebn)honorDisplbyPropertiesObject).boolebnVblue();
                 }
-                if (honorDisplayProperties) {
-                    modelChanged();
+                if (honorDisplbyProperties) {
+                    modelChbnged();
                 }
             }
 
@@ -200,89 +200,89 @@ public class BasicEditorPaneUI extends BasicTextUI {
         }
     }
 
-    void removeActions(ActionMap map, Action[] actions) {
-        int n = actions.length;
+    void removeActions(ActionMbp mbp, Action[] bctions) {
+        int n = bctions.length;
         for (int i = 0; i < n; i++) {
-            Action a = actions[i];
-            map.remove(a.getValue(Action.NAME));
+            Action b = bctions[i];
+            mbp.remove(b.getVblue(Action.NAME));
         }
     }
 
-    void addActions(ActionMap map, Action[] actions) {
-        int n = actions.length;
+    void bddActions(ActionMbp mbp, Action[] bctions) {
+        int n = bctions.length;
         for (int i = 0; i < n; i++) {
-            Action a = actions[i];
-            map.put(a.getValue(Action.NAME), a);
+            Action b = bctions[i];
+            mbp.put(b.getVblue(Action.NAME), b);
         }
     }
 
-    void updateDisplayProperties(Font font, Color fg) {
+    void updbteDisplbyProperties(Font font, Color fg) {
         JComponent c = getComponent();
-        Object honorDisplayPropertiesObject = c.
-            getClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES);
-        boolean honorDisplayProperties = false;
-        Object w3cLengthUnitsObject = c.getClientProperty(JEditorPane.
+        Object honorDisplbyPropertiesObject = c.
+            getClientProperty(JEditorPbne.HONOR_DISPLAY_PROPERTIES);
+        boolebn honorDisplbyProperties = fblse;
+        Object w3cLengthUnitsObject = c.getClientProperty(JEditorPbne.
                                                           W3C_LENGTH_UNITS);
-        boolean w3cLengthUnits = false;
-        if (honorDisplayPropertiesObject instanceof Boolean) {
-            honorDisplayProperties =
-                ((Boolean)honorDisplayPropertiesObject).booleanValue();
+        boolebn w3cLengthUnits = fblse;
+        if (honorDisplbyPropertiesObject instbnceof Boolebn) {
+            honorDisplbyProperties =
+                ((Boolebn)honorDisplbyPropertiesObject).boolebnVblue();
         }
-        if (w3cLengthUnitsObject instanceof Boolean) {
-            w3cLengthUnits = ((Boolean)w3cLengthUnitsObject).booleanValue();
+        if (w3cLengthUnitsObject instbnceof Boolebn) {
+            w3cLengthUnits = ((Boolebn)w3cLengthUnitsObject).boolebnVblue();
         }
-        if (this instanceof BasicTextPaneUI
-            || honorDisplayProperties) {
-             //using equals because can not use UIResource for Boolean
+        if (this instbnceof BbsicTextPbneUI
+            || honorDisplbyProperties) {
+             //using equbls becbuse cbn not use UIResource for Boolebn
             Document doc = getComponent().getDocument();
-            if (doc instanceof StyledDocument) {
-                if (doc instanceof HTMLDocument
-                    && honorDisplayProperties) {
-                    updateCSS(font, fg);
+            if (doc instbnceof StyledDocument) {
+                if (doc instbnceof HTMLDocument
+                    && honorDisplbyProperties) {
+                    updbteCSS(font, fg);
                 } else {
-                    updateStyle(font, fg);
+                    updbteStyle(font, fg);
                 }
             }
         } else {
-            cleanDisplayProperties();
+            clebnDisplbyProperties();
         }
         if ( w3cLengthUnits ) {
             Document doc = getComponent().getDocument();
-            if (doc instanceof HTMLDocument) {
+            if (doc instbnceof HTMLDocument) {
                 StyleSheet documentStyleSheet =
                     ((HTMLDocument)doc).getStyleSheet();
-                documentStyleSheet.addRule("W3C_LENGTH_UNITS_ENABLE");
+                documentStyleSheet.bddRule("W3C_LENGTH_UNITS_ENABLE");
             }
         } else {
             Document doc = getComponent().getDocument();
-            if (doc instanceof HTMLDocument) {
+            if (doc instbnceof HTMLDocument) {
                 StyleSheet documentStyleSheet =
                     ((HTMLDocument)doc).getStyleSheet();
-                documentStyleSheet.addRule("W3C_LENGTH_UNITS_DISABLE");
+                documentStyleSheet.bddRule("W3C_LENGTH_UNITS_DISABLE");
             }
 
         }
     }
 
     /**
-     * Attribute key to reference the default font.
-     * used in javax.swing.text.StyleContext.getFont
-     * to resolve the default font.
+     * Attribute key to reference the defbult font.
+     * used in jbvbx.swing.text.StyleContext.getFont
+     * to resolve the defbult font.
      */
-    private static final String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
+    privbte stbtic finbl String FONT_ATTRIBUTE_KEY = "FONT_ATTRIBUTE_KEY";
 
-    void cleanDisplayProperties() {
+    void clebnDisplbyProperties() {
         Document document = getComponent().getDocument();
-        if (document instanceof HTMLDocument) {
+        if (document instbnceof HTMLDocument) {
             StyleSheet documentStyleSheet =
                 ((HTMLDocument)document).getStyleSheet();
             StyleSheet[] styleSheets = documentStyleSheet.getStyleSheets();
             if (styleSheets != null) {
                 for (StyleSheet s : styleSheets) {
-                    if (s instanceof StyleSheetUIResource) {
+                    if (s instbnceof StyleSheetUIResource) {
                         documentStyleSheet.removeStyleSheet(s);
-                        documentStyleSheet.addRule("BASE_SIZE_DISABLE");
-                        break;
+                        documentStyleSheet.bddRule("BASE_SIZE_DISABLE");
+                        brebk;
                     }
                 }
             }
@@ -293,50 +293,50 @@ public class BasicEditorPaneUI extends BasicTextUI {
         }
     }
 
-    static class StyleSheetUIResource extends StyleSheet implements UIResource {
+    stbtic clbss StyleSheetUIResource extends StyleSheet implements UIResource {
     }
 
-    private void updateCSS(Font font, Color fg) {
+    privbte void updbteCSS(Font font, Color fg) {
         JTextComponent component = getComponent();
         Document document = component.getDocument();
-        if (document instanceof HTMLDocument) {
+        if (document instbnceof HTMLDocument) {
             StyleSheet styleSheet = new StyleSheetUIResource();
             StyleSheet documentStyleSheet =
                 ((HTMLDocument)document).getStyleSheet();
             StyleSheet[] styleSheets = documentStyleSheet.getStyleSheets();
             if (styleSheets != null) {
                 for (StyleSheet s : styleSheets) {
-                    if (s instanceof StyleSheetUIResource) {
+                    if (s instbnceof StyleSheetUIResource) {
                         documentStyleSheet.removeStyleSheet(s);
                     }
                 }
             }
             String cssRule = sun.swing.
-                SwingUtilities2.displayPropertiesToCSS(font,
+                SwingUtilities2.displbyPropertiesToCSS(font,
                                                        fg);
-            styleSheet.addRule(cssRule);
-            documentStyleSheet.addStyleSheet(styleSheet);
-            documentStyleSheet.addRule("BASE_SIZE " +
+            styleSheet.bddRule(cssRule);
+            documentStyleSheet.bddStyleSheet(styleSheet);
+            documentStyleSheet.bddRule("BASE_SIZE " +
                                        component.getFont().getSize());
             Style style = ((StyledDocument) document).getStyle(StyleContext.DEFAULT_STYLE);
-            if (! font.equals(style.getAttribute(FONT_ATTRIBUTE_KEY))) {
-                style.addAttribute(FONT_ATTRIBUTE_KEY, font);
+            if (! font.equbls(style.getAttribute(FONT_ATTRIBUTE_KEY))) {
+                style.bddAttribute(FONT_ATTRIBUTE_KEY, font);
             }
         }
     }
 
-    private void updateStyle(Font font, Color fg) {
-        updateFont(font);
-        updateForeground(fg);
+    privbte void updbteStyle(Font font, Color fg) {
+        updbteFont(font);
+        updbteForeground(fg);
     }
 
     /**
-     * Update the color in the default style of the document.
+     * Updbte the color in the defbult style of the document.
      *
-     * @param color the new color to use or null to remove the color attribute
+     * @pbrbm color the new color to use or null to remove the color bttribute
      *              from the document's style
      */
-    private void updateForeground(Color color) {
+    privbte void updbteForeground(Color color) {
         StyledDocument doc = (StyledDocument)getComponent().getDocument();
         Style style = doc.getStyle(StyleContext.DEFAULT_STYLE);
 
@@ -345,23 +345,23 @@ public class BasicEditorPaneUI extends BasicTextUI {
         }
 
         if (color == null) {
-            if (style.getAttribute(StyleConstants.Foreground) != null) {
-                style.removeAttribute(StyleConstants.Foreground);
+            if (style.getAttribute(StyleConstbnts.Foreground) != null) {
+                style.removeAttribute(StyleConstbnts.Foreground);
             }
         } else {
-            if (! color.equals(StyleConstants.getForeground(style))) {
-                StyleConstants.setForeground(style, color);
+            if (! color.equbls(StyleConstbnts.getForeground(style))) {
+                StyleConstbnts.setForeground(style, color);
             }
         }
     }
 
     /**
-     * Update the font in the default style of the document.
+     * Updbte the font in the defbult style of the document.
      *
-     * @param font the new font to use or null to remove the font attribute
+     * @pbrbm font the new font to use or null to remove the font bttribute
      *             from the document's style
      */
-    private void updateFont(Font font) {
+    privbte void updbteFont(Font font) {
         StyledDocument doc = (StyledDocument)getComponent().getDocument();
         Style style = doc.getStyle(StyleContext.DEFAULT_STYLE);
 
@@ -369,45 +369,45 @@ public class BasicEditorPaneUI extends BasicTextUI {
             return;
         }
 
-        String fontFamily = (String) style.getAttribute(StyleConstants.FontFamily);
-        Integer fontSize = (Integer) style.getAttribute(StyleConstants.FontSize);
-        Boolean isBold = (Boolean) style.getAttribute(StyleConstants.Bold);
-        Boolean isItalic = (Boolean) style.getAttribute(StyleConstants.Italic);
+        String fontFbmily = (String) style.getAttribute(StyleConstbnts.FontFbmily);
+        Integer fontSize = (Integer) style.getAttribute(StyleConstbnts.FontSize);
+        Boolebn isBold = (Boolebn) style.getAttribute(StyleConstbnts.Bold);
+        Boolebn isItblic = (Boolebn) style.getAttribute(StyleConstbnts.Itblic);
         Font  fontAttribute = (Font) style.getAttribute(FONT_ATTRIBUTE_KEY);
         if (font == null) {
-            if (fontFamily != null) {
-                style.removeAttribute(StyleConstants.FontFamily);
+            if (fontFbmily != null) {
+                style.removeAttribute(StyleConstbnts.FontFbmily);
             }
             if (fontSize != null) {
-                style.removeAttribute(StyleConstants.FontSize);
+                style.removeAttribute(StyleConstbnts.FontSize);
             }
             if (isBold != null) {
-                style.removeAttribute(StyleConstants.Bold);
+                style.removeAttribute(StyleConstbnts.Bold);
             }
-            if (isItalic != null) {
-                style.removeAttribute(StyleConstants.Italic);
+            if (isItblic != null) {
+                style.removeAttribute(StyleConstbnts.Itblic);
             }
             if (fontAttribute != null) {
                 style.removeAttribute(FONT_ATTRIBUTE_KEY);
            }
         } else {
-            if (! font.getName().equals(fontFamily)) {
-                StyleConstants.setFontFamily(style, font.getName());
+            if (! font.getNbme().equbls(fontFbmily)) {
+                StyleConstbnts.setFontFbmily(style, font.getNbme());
             }
             if (fontSize == null
-                  || fontSize.intValue() != font.getSize()) {
-                StyleConstants.setFontSize(style, font.getSize());
+                  || fontSize.intVblue() != font.getSize()) {
+                StyleConstbnts.setFontSize(style, font.getSize());
             }
             if (isBold == null
-                  || isBold.booleanValue() != font.isBold()) {
-                StyleConstants.setBold(style, font.isBold());
+                  || isBold.boolebnVblue() != font.isBold()) {
+                StyleConstbnts.setBold(style, font.isBold());
             }
-            if (isItalic == null
-                  || isItalic.booleanValue() != font.isItalic()) {
-                StyleConstants.setItalic(style, font.isItalic());
+            if (isItblic == null
+                  || isItblic.boolebnVblue() != font.isItblic()) {
+                StyleConstbnts.setItblic(style, font.isItblic());
             }
-            if (! font.equals(fontAttribute)) {
-                style.addAttribute(FONT_ATTRIBUTE_KEY, font);
+            if (! font.equbls(fontAttribute)) {
+                style.bddAttribute(FONT_ATTRIBUTE_KEY, font);
             }
         }
     }

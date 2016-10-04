@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
 
 /**
- * Storage for files. A {@code FileStore} represents a storage pool, device,
- * partition, volume, concrete file system or other implementation specific means
- * of file storage. The {@code FileStore} for where a file is stored is obtained
- * by invoking the {@link Files#getFileStore getFileStore} method, or all file
- * stores can be enumerated by invoking the {@link FileSystem#getFileStores
+ * Storbge for files. A {@code FileStore} represents b storbge pool, device,
+ * pbrtition, volume, concrete file system or other implementbtion specific mebns
+ * of file storbge. The {@code FileStore} for where b file is stored is obtbined
+ * by invoking the {@link Files#getFileStore getFileStore} method, or bll file
+ * stores cbn be enumerbted by invoking the {@link FileSystem#getFileStores
  * getFileStores} method.
  *
- * <p> In addition to the methods defined by this class, a file store may support
- * one or more {@link FileStoreAttributeView FileStoreAttributeView} classes
- * that provide a read-only or updatable view of a set of file store attributes.
+ * <p> In bddition to the methods defined by this clbss, b file store mby support
+ * one or more {@link FileStoreAttributeView FileStoreAttributeView} clbsses
+ * thbt provide b rebd-only or updbtbble view of b set of file store bttributes.
  *
  * @since 1.7
  */
 
-public abstract class FileStore {
+public bbstrbct clbss FileStore {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
     protected FileStore() {
     }
 
     /**
-     * Returns the name of this file store. The format of the name is highly
-     * implementation specific. It will typically be the name of the storage
+     * Returns the nbme of this file store. The formbt of the nbme is highly
+     * implementbtion specific. It will typicblly be the nbme of the storbge
      * pool or volume.
      *
-     * <p> The string returned by this method may differ from the string
+     * <p> The string returned by this method mby differ from the string
      * returned by the {@link Object#toString() toString} method.
      *
-     * @return  the name of this file store
+     * @return  the nbme of this file store
      */
-    public abstract String name();
+    public bbstrbct String nbme();
 
     /**
-     * Returns the <em>type</em> of this file store. The format of the string
-     * returned by this method is highly implementation specific. It may
-     * indicate, for example, the format used or if the file store is local
+     * Returns the <em>type</em> of this file store. The formbt of the string
+     * returned by this method is highly implementbtion specific. It mby
+     * indicbte, for exbmple, the formbt used or if the file store is locbl
      * or remote.
      *
-     * @return  a string representing the type of this file store
+     * @return  b string representing the type of this file store
      */
-    public abstract String type();
+    public bbstrbct String type();
 
     /**
-     * Tells whether this file store is read-only. A file store is read-only if
-     * it does not support write operations or other changes to files. Any
-     * attempt to create a file, open an existing file for writing etc. causes
-     * an {@code IOException} to be thrown.
+     * Tells whether this file store is rebd-only. A file store is rebd-only if
+     * it does not support write operbtions or other chbnges to files. Any
+     * bttempt to crebte b file, open bn existing file for writing etc. cbuses
+     * bn {@code IOException} to be thrown.
      *
-     * @return  {@code true} if, and only if, this file store is read-only
+     * @return  {@code true} if, bnd only if, this file store is rebd-only
      */
-    public abstract boolean isReadOnly();
+    public bbstrbct boolebn isRebdOnly();
 
     /**
      * Returns the size, in bytes, of the file store.
@@ -89,133 +89,133 @@ public abstract class FileStore {
      * @return  the size of the file store, in bytes
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      */
-    public abstract long getTotalSpace() throws IOException;
+    public bbstrbct long getTotblSpbce() throws IOException;
 
     /**
-     * Returns the number of bytes available to this Java virtual machine on the
+     * Returns the number of bytes bvbilbble to this Jbvb virtubl mbchine on the
      * file store.
      *
-     * <p> The returned number of available bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of usable bytes is most likely to be accurate immediately
-     * after the space attributes are obtained. It is likely to be made inaccurate
-     * by any external I/O operations including those made on the system outside
-     * of this Java virtual machine.
+     * <p> The returned number of bvbilbble bytes is b hint, but not b
+     * gubrbntee, thbt it is possible to use most or bny of these bytes.  The
+     * number of usbble bytes is most likely to be bccurbte immedibtely
+     * bfter the spbce bttributes bre obtbined. It is likely to be mbde inbccurbte
+     * by bny externbl I/O operbtions including those mbde on the system outside
+     * of this Jbvb virtubl mbchine.
      *
-     * @return  the number of bytes available
-     *
-     * @throws  IOException
-     *          if an I/O error occurs
-     */
-    public abstract long getUsableSpace() throws IOException;
-
-    /**
-     * Returns the number of unallocated bytes in the file store.
-     *
-     * <p> The returned number of unallocated bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of unallocated bytes is most likely to be accurate immediately
-     * after the space attributes are obtained. It is likely to be
-     * made inaccurate by any external I/O operations including those made on
-     * the system outside of this virtual machine.
-     *
-     * @return  the number of unallocated bytes
+     * @return  the number of bytes bvbilbble
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      */
-    public abstract long getUnallocatedSpace() throws IOException;
+    public bbstrbct long getUsbbleSpbce() throws IOException;
 
     /**
-     * Tells whether or not this file store supports the file attributes
-     * identified by the given file attribute view.
+     * Returns the number of unbllocbted bytes in the file store.
+     *
+     * <p> The returned number of unbllocbted bytes is b hint, but not b
+     * gubrbntee, thbt it is possible to use most or bny of these bytes.  The
+     * number of unbllocbted bytes is most likely to be bccurbte immedibtely
+     * bfter the spbce bttributes bre obtbined. It is likely to be
+     * mbde inbccurbte by bny externbl I/O operbtions including those mbde on
+     * the system outside of this virtubl mbchine.
+     *
+     * @return  the number of unbllocbted bytes
+     *
+     * @throws  IOException
+     *          if bn I/O error occurs
+     */
+    public bbstrbct long getUnbllocbtedSpbce() throws IOException;
+
+    /**
+     * Tells whether or not this file store supports the file bttributes
+     * identified by the given file bttribute view.
      *
      * <p> Invoking this method to test if the file store supports {@link
-     * BasicFileAttributeView} will always return {@code true}. In the case of
-     * the default provider, this method cannot guarantee to give the correct
-     * result when the file store is not a local storage device. The reasons for
-     * this are implementation specific and therefore unspecified.
+     * BbsicFileAttributeView} will blwbys return {@code true}. In the cbse of
+     * the defbult provider, this method cbnnot gubrbntee to give the correct
+     * result when the file store is not b locbl storbge device. The rebsons for
+     * this bre implementbtion specific bnd therefore unspecified.
      *
-     * @param   type
-     *          the file attribute view type
+     * @pbrbm   type
+     *          the file bttribute view type
      *
-     * @return  {@code true} if, and only if, the file attribute view is
+     * @return  {@code true} if, bnd only if, the file bttribute view is
      *          supported
      */
-    public abstract boolean supportsFileAttributeView(Class<? extends FileAttributeView> type);
+    public bbstrbct boolebn supportsFileAttributeView(Clbss<? extends FileAttributeView> type);
 
     /**
-     * Tells whether or not this file store supports the file attributes
-     * identified by the given file attribute view.
+     * Tells whether or not this file store supports the file bttributes
+     * identified by the given file bttribute view.
      *
      * <p> Invoking this method to test if the file store supports {@link
-     * BasicFileAttributeView}, identified by the name "{@code basic}" will
-     * always return {@code true}. In the case of the default provider, this
-     * method cannot guarantee to give the correct result when the file store is
-     * not a local storage device. The reasons for this are implementation
-     * specific and therefore unspecified.
+     * BbsicFileAttributeView}, identified by the nbme "{@code bbsic}" will
+     * blwbys return {@code true}. In the cbse of the defbult provider, this
+     * method cbnnot gubrbntee to give the correct result when the file store is
+     * not b locbl storbge device. The rebsons for this bre implementbtion
+     * specific bnd therefore unspecified.
      *
-     * @param   name
-     *          the {@link FileAttributeView#name name} of file attribute view
+     * @pbrbm   nbme
+     *          the {@link FileAttributeView#nbme nbme} of file bttribute view
      *
-     * @return  {@code true} if, and only if, the file attribute view is
+     * @return  {@code true} if, bnd only if, the file bttribute view is
      *          supported
      */
-    public abstract boolean supportsFileAttributeView(String name);
+    public bbstrbct boolebn supportsFileAttributeView(String nbme);
 
     /**
-     * Returns a {@code FileStoreAttributeView} of the given type.
+     * Returns b {@code FileStoreAttributeView} of the given type.
      *
-     * <p> This method is intended to be used where the file store attribute
-     * view defines type-safe methods to read or update the file store attributes.
-     * The {@code type} parameter is the type of the attribute view required and
-     * the method returns an instance of that type if supported.
+     * <p> This method is intended to be used where the file store bttribute
+     * view defines type-sbfe methods to rebd or updbte the file store bttributes.
+     * The {@code type} pbrbmeter is the type of the bttribute view required bnd
+     * the method returns bn instbnce of thbt type if supported.
      *
-     * @param   <V>
+     * @pbrbm   <V>
      *          The {@code FileStoreAttributeView} type
-     * @param   type
-     *          the {@code Class} object corresponding to the attribute view
+     * @pbrbm   type
+     *          the {@code Clbss} object corresponding to the bttribute view
      *
-     * @return  a file store attribute view of the specified type or
-     *          {@code null} if the attribute view is not available
+     * @return  b file store bttribute view of the specified type or
+     *          {@code null} if the bttribute view is not bvbilbble
      */
-    public abstract <V extends FileStoreAttributeView> V
-        getFileStoreAttributeView(Class<V> type);
+    public bbstrbct <V extends FileStoreAttributeView> V
+        getFileStoreAttributeView(Clbss<V> type);
 
     /**
-     * Reads the value of a file store attribute.
+     * Rebds the vblue of b file store bttribute.
      *
-     * <p> The {@code attribute} parameter identifies the attribute to be read
-     * and takes the form:
+     * <p> The {@code bttribute} pbrbmeter identifies the bttribute to be rebd
+     * bnd tbkes the form:
      * <blockquote>
-     * <i>view-name</i><b>:</b><i>attribute-name</i>
+     * <i>view-nbme</i><b>:</b><i>bttribute-nbme</i>
      * </blockquote>
-     * where the character {@code ':'} stands for itself.
+     * where the chbrbcter {@code ':'} stbnds for itself.
      *
-     * <p> <i>view-name</i> is the {@link FileStoreAttributeView#name name} of
-     * a {@link FileStore AttributeView} that identifies a set of file attributes.
-     * <i>attribute-name</i> is the name of the attribute.
+     * <p> <i>view-nbme</i> is the {@link FileStoreAttributeView#nbme nbme} of
+     * b {@link FileStore AttributeView} thbt identifies b set of file bttributes.
+     * <i>bttribute-nbme</i> is the nbme of the bttribute.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we want to know if ZFS compression is enabled (assuming the "zfs"
+     * <p> <b>Usbge Exbmple:</b>
+     * Suppose we wbnt to know if ZFS compression is enbbled (bssuming the "zfs"
      * view is supported):
      * <pre>
-     *    boolean compression = (Boolean)fs.getAttribute("zfs:compression");
+     *    boolebn compression = (Boolebn)fs.getAttribute("zfs:compression");
      * </pre>
      *
-     * @param   attribute
-     *          the attribute to read
+     * @pbrbm   bttribute
+     *          the bttribute to rebd
 
-     * @return  the attribute value; {@code null} may be a valid valid for some
-     *          attributes
+     * @return  the bttribute vblue; {@code null} mby be b vblid vblid for some
+     *          bttributes
      *
-     * @throws  UnsupportedOperationException
-     *          if the attribute view is not available or it does not support
-     *          reading the attribute
+     * @throws  UnsupportedOperbtionException
+     *          if the bttribute view is not bvbilbble or it does not support
+     *          rebding the bttribute
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      */
-    public abstract Object getAttribute(String attribute) throws IOException;
+    public bbstrbct Object getAttribute(String bttribute) throws IOException;
 }

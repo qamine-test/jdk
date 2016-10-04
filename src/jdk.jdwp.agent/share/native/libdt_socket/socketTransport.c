@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <stdio.h>
@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "jdwpTransport.h"
+#include "jdwpTrbnsport.h"
 #include "sysSocket.h"
 
 #ifdef _WIN32
@@ -37,24 +37,24 @@
 #endif
 
 /*
- * The Socket Transport Library.
+ * The Socket Trbnsport Librbry.
  *
- * This module is an implementation of the Java Debug Wire Protocol Transport
- * Service Provider Interface - see src/share/javavm/export/jdwpTransport.h.
+ * This module is bn implementbtion of the Jbvb Debug Wire Protocol Trbnsport
+ * Service Provider Interfbce - see src/shbre/jbvbvm/export/jdwpTrbnsport.h.
  */
 
-static int serverSocketFD;
-static int socketFD = -1;
-static jdwpTransportCallback *callback;
-static JavaVM *jvm;
-static int tlsIndex;
-static jboolean initialized;
-static struct jdwpTransportNativeInterface_ interface;
-static jdwpTransportEnv single_env = (jdwpTransportEnv)&interface;
+stbtic int serverSocketFD;
+stbtic int socketFD = -1;
+stbtic jdwpTrbnsportCbllbbck *cbllbbck;
+stbtic JbvbVM *jvm;
+stbtic int tlsIndex;
+stbtic jboolebn initiblized;
+stbtic struct jdwpTrbnsportNbtiveInterfbce_ interfbce;
+stbtic jdwpTrbnsportEnv single_env = (jdwpTrbnsportEnv)&interfbce;
 
 #define RETURN_ERROR(err, msg) \
         if (1==1) { \
-            setLastError(err, msg); \
+            setLbstError(err, msg); \
             return err; \
         }
 
@@ -62,7 +62,7 @@ static jdwpTransportEnv single_env = (jdwpTransportEnv)&interface;
 
 #define RETURN_RECV_ERROR(n) \
         if (n == 0) { \
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, "premature EOF"); \
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, "prembture EOF"); \
         } else { \
             RETURN_IO_ERROR("recv error"); \
         }
@@ -70,39 +70,39 @@ static jdwpTransportEnv single_env = (jdwpTransportEnv)&interface;
 #define HEADER_SIZE     11
 #define MAX_DATA_SIZE 1000
 
-static jint recv_fully(int, char *, int);
-static jint send_fully(int, char *, int);
+stbtic jint recv_fully(int, chbr *, int);
+stbtic jint send_fully(int, chbr *, int);
 
 /*
- * Record the last error for this thread.
+ * Record the lbst error for this threbd.
  */
-static void
-setLastError(jdwpTransportError err, char *newmsg) {
-    char buf[255];
-    char *msg;
+stbtic void
+setLbstError(jdwpTrbnsportError err, chbr *newmsg) {
+    chbr buf[255];
+    chbr *msg;
 
-    /* get any I/O first in case any system calls override errno */
+    /* get bny I/O first in cbse bny system cblls override errno */
     if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        dbgsysGetLastIOError(buf, sizeof(buf));
+        dbgsysGetLbstIOError(buf, sizeof(buf));
     }
 
-    msg = (char *)dbgsysTlsGet(tlsIndex);
+    msg = (chbr *)dbgsysTlsGet(tlsIndex);
     if (msg != NULL) {
-        (*callback->free)(msg);
+        (*cbllbbck->free)(msg);
     }
 
     if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        char *join_str = ": ";
+        chbr *join_str = ": ";
         int msg_len = (int)strlen(newmsg) + (int)strlen(join_str) +
                       (int)strlen(buf) + 3;
-        msg = (*callback->alloc)(msg_len);
+        msg = (*cbllbbck->blloc)(msg_len);
         if (msg != NULL) {
             strcpy(msg, newmsg);
-            strcat(msg, join_str);
-            strcat(msg, buf);
+            strcbt(msg, join_str);
+            strcbt(msg, buf);
         }
     } else {
-        msg = (*callback->alloc)((int)strlen(newmsg)+1);
+        msg = (*cbllbbck->blloc)((int)strlen(newmsg)+1);
         if (msg != NULL) {
             strcpy(msg, newmsg);
         }
@@ -112,38 +112,38 @@ setLastError(jdwpTransportError err, char *newmsg) {
 }
 
 /*
- * Return the last error for this thread (may be NULL)
+ * Return the lbst error for this threbd (mby be NULL)
  */
-static char*
-getLastError() {
-    return (char *)dbgsysTlsGet(tlsIndex);
+stbtic chbr*
+getLbstError() {
+    return (chbr *)dbgsysTlsGet(tlsIndex);
 }
 
-static jdwpTransportError
+stbtic jdwpTrbnsportError
 setOptions(int fd)
 {
-    jvalue dontcare;
+    jvblue dontcbre;
     int err;
 
-    dontcare.i = 0;  /* keep compiler happy */
+    dontcbre.i = 0;  /* keep compiler hbppy */
 
-    err = dbgsysSetSocketOption(fd, SO_REUSEADDR, JNI_TRUE, dontcare);
+    err = dbgsysSetSocketOption(fd, SO_REUSEADDR, JNI_TRUE, dontcbre);
     if (err < 0) {
-        RETURN_IO_ERROR("setsockopt SO_REUSEADDR failed");
+        RETURN_IO_ERROR("setsockopt SO_REUSEADDR fbiled");
     }
 
-    err = dbgsysSetSocketOption(fd, TCP_NODELAY, JNI_TRUE, dontcare);
+    err = dbgsysSetSocketOption(fd, TCP_NODELAY, JNI_TRUE, dontcbre);
     if (err < 0) {
-        RETURN_IO_ERROR("setsockopt TCPNODELAY failed");
+        RETURN_IO_ERROR("setsockopt TCPNODELAY fbiled");
     }
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError
-handshake(int fd, jlong timeout) {
-    const char *hello = "JDWP-Handshake";
-    char b[16];
+stbtic jdwpTrbnsportError
+hbndshbke(int fd, jlong timeout) {
+    const chbr *hello = "JDWP-Hbndshbke";
+    chbr b[16];
     int rv, helloLen, received;
 
     if (timeout > 0) {
@@ -153,11 +153,11 @@ handshake(int fd, jlong timeout) {
     received = 0;
     while (received < helloLen) {
         int n;
-        char *buf;
+        chbr *buf;
         if (timeout > 0) {
             rv = dbgsysPoll(fd, JNI_TRUE, JNI_FALSE, (long)timeout);
             if (rv <= 0) {
-                setLastError(0, "timeout during handshake");
+                setLbstError(0, "timeout during hbndshbke");
                 return JDWPTRANSPORT_ERROR_IO_ERROR;
             }
         }
@@ -165,11 +165,11 @@ handshake(int fd, jlong timeout) {
         buf += received;
         n = recv_fully(fd, buf, helloLen-received);
         if (n == 0) {
-            setLastError(0, "handshake failed - connection prematurally closed");
+            setLbstError(0, "hbndshbke fbiled - connection prembturblly closed");
             return JDWPTRANSPORT_ERROR_IO_ERROR;
         }
         if (n < 0) {
-            RETURN_IO_ERROR("recv failed during handshake");
+            RETURN_IO_ERROR("recv fbiled during hbndshbke");
         }
         received += n;
     }
@@ -177,177 +177,177 @@ handshake(int fd, jlong timeout) {
         dbgsysConfigureBlocking(fd, JNI_TRUE);
     }
     if (strncmp(b, hello, received) != 0) {
-        char msg[80+2*16];
+        chbr msg[80+2*16];
         b[received] = '\0';
         /*
-         * We should really use snprintf here but it's not available on Windows.
-         * We can't use jio_snprintf without linking the transport against the VM.
+         * We should reblly use snprintf here but it's not bvbilbble on Windows.
+         * We cbn't use jio_snprintf without linking the trbnsport bgbinst the VM.
          */
-        sprintf(msg, "handshake failed - received >%s< - expected >%s<", b, hello);
-        setLastError(0, msg);
+        sprintf(msg, "hbndshbke fbiled - received >%s< - expected >%s<", b, hello);
+        setLbstError(0, msg);
         return JDWPTRANSPORT_ERROR_IO_ERROR;
     }
 
-    if (send_fully(fd, (char*)hello, helloLen) != helloLen) {
-        RETURN_IO_ERROR("send failed during handshake");
+    if (send_fully(fd, (chbr*)hello, helloLen) != helloLen) {
+        RETURN_IO_ERROR("send fbiled during hbndshbke");
     }
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static uint32_t
-getLocalHostAddress() {
-    // Simple routine to guess localhost address.
-    // it looks up "localhost" and returns 127.0.0.1 if lookup
-    // fails.
-    struct addrinfo hints, *res = NULL;
+stbtic uint32_t
+getLocblHostAddress() {
+    // Simple routine to guess locblhost bddress.
+    // it looks up "locblhost" bnd returns 127.0.0.1 if lookup
+    // fbils.
+    struct bddrinfo hints, *res = NULL;
     int err;
 
-    // Use portable way to initialize the structure
+    // Use portbble wby to initiblize the structure
     memset((void *)&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET;
+    hints.bi_fbmily = AF_INET;
 
-    err = getaddrinfo("localhost", NULL, &hints, &res);
+    err = getbddrinfo("locblhost", NULL, &hints, &res);
     if (err < 0 || res == NULL) {
         return dbgsysHostToNetworkLong(INADDR_LOOPBACK);
     }
 
-    // getaddrinfo might return more than one address
-    // but we are using first one only
-    return ((struct sockaddr_in *)(res->ai_addr))->sin_addr.s_addr;
+    // getbddrinfo might return more thbn one bddress
+    // but we bre using first one only
+    return ((struct sockbddr_in *)(res->bi_bddr))->sin_bddr.s_bddr;
 }
 
-static int
-getPortNumber(const char *s_port) {
+stbtic int
+getPortNumber(const chbr *s_port) {
     u_long n;
-    char *eptr;
+    chbr *eptr;
 
     if (*s_port == 0) {
-        // bad address - colon with no port number in parameters
+        // bbd bddress - colon with no port number in pbrbmeters
         return -1;
     }
 
     n = strtoul(s_port, &eptr, 10);
     if (eptr != s_port + strlen(s_port)) {
-        // incomplete conversion - port number contains non-digit
+        // incomplete conversion - port number contbins non-digit
         return -1;
     }
 
     if (n > (u_short) -1) {
-        // check that value supplied by user is less than
-        // maximum possible u_short value (65535) and
-        // will not be truncated later.
+        // check thbt vblue supplied by user is less thbn
+        // mbximum possible u_short vblue (65535) bnd
+        // will not be truncbted lbter.
         return -1;
     }
 
     return n;
 }
 
-static jdwpTransportError
-parseAddress(const char *address, struct sockaddr_in *sa) {
-    char *colon;
+stbtic jdwpTrbnsportError
+pbrseAddress(const chbr *bddress, struct sockbddr_in *sb) {
+    chbr *colon;
     int port;
 
-    memset((void *)sa,0,sizeof(struct sockaddr_in));
-    sa->sin_family = AF_INET;
+    memset((void *)sb,0,sizeof(struct sockbddr_in));
+    sb->sin_fbmily = AF_INET;
 
     /* check for host:port or port */
-    colon = strchr(address, ':');
-    port = getPortNumber((colon == NULL) ? address : colon +1);
+    colon = strchr(bddress, ':');
+    port = getPortNumber((colon == NULL) ? bddress : colon +1);
     if (port < 0) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invalid port number specified");
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid port number specified");
     }
-    sa->sin_port = dbgsysHostToNetworkShort((u_short)port);
+    sb->sin_port = dbgsysHostToNetworkShort((u_short)port);
 
     if (colon == NULL) {
-        // bind to localhost only if no address specified
-        sa->sin_addr.s_addr = getLocalHostAddress();
-    } else if (strncmp(address,"localhost:",10) == 0) {
-        // optimize for common case
-        sa->sin_addr.s_addr = getLocalHostAddress();
-    } else if (*address == '*' && *(address+1) == ':') {
-        // we are explicitly asked to bind server to all available IP addresses
-        // has no meaning for client.
-        sa->sin_addr.s_addr = dbgsysHostToNetworkLong(INADDR_ANY);
+        // bind to locblhost only if no bddress specified
+        sb->sin_bddr.s_bddr = getLocblHostAddress();
+    } else if (strncmp(bddress,"locblhost:",10) == 0) {
+        // optimize for common cbse
+        sb->sin_bddr.s_bddr = getLocblHostAddress();
+    } else if (*bddress == '*' && *(bddress+1) == ':') {
+        // we bre explicitly bsked to bind server to bll bvbilbble IP bddresses
+        // hbs no mebning for client.
+        sb->sin_bddr.s_bddr = dbgsysHostToNetworkLong(INADDR_ANY);
      } else {
-        char *buf;
-        char *hostname;
-        uint32_t addr;
+        chbr *buf;
+        chbr *hostnbme;
+        uint32_t bddr;
 
-        buf = (*callback->alloc)((int)strlen(address)+1);
+        buf = (*cbllbbck->blloc)((int)strlen(bddress)+1);
         if (buf == NULL) {
             RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
         }
-        strcpy(buf, address);
-        buf[colon - address] = '\0';
-        hostname = buf;
+        strcpy(buf, bddress);
+        buf[colon - bddress] = '\0';
+        hostnbme = buf;
 
         /*
-         * First see if the host is a literal IP address.
+         * First see if the host is b literbl IP bddress.
          * If not then try to resolve it.
          */
-        addr = dbgsysInetAddr(hostname);
-        if (addr == 0xffffffff) {
-            struct hostent *hp = dbgsysGetHostByName(hostname);
+        bddr = dbgsysInetAddr(hostnbme);
+        if (bddr == 0xffffffff) {
+            struct hostent *hp = dbgsysGetHostByNbme(hostnbme);
             if (hp == NULL) {
-                /* don't use RETURN_IO_ERROR as unknown host is normal */
-                setLastError(0, "gethostbyname: unknown host");
-                (*callback->free)(buf);
+                /* don't use RETURN_IO_ERROR bs unknown host is normbl */
+                setLbstError(0, "gethostbynbme: unknown host");
+                (*cbllbbck->free)(buf);
                 return JDWPTRANSPORT_ERROR_IO_ERROR;
             }
 
-            /* lookup was successful */
-            memcpy(&(sa->sin_addr), hp->h_addr_list[0], hp->h_length);
+            /* lookup wbs successful */
+            memcpy(&(sb->sin_bddr), hp->h_bddr_list[0], hp->h_length);
         } else {
-            sa->sin_addr.s_addr = addr;
+            sb->sin_bddr.s_bddr = bddr;
         }
 
-        (*callback->free)(buf);
+        (*cbllbbck->free)(buf);
     }
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
 
-static jdwpTransportError JNICALL
-socketTransport_getCapabilities(jdwpTransportEnv* env,
-        JDWPTransportCapabilities* capabilitiesPtr)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_getCbpbbilities(jdwpTrbnsportEnv* env,
+        JDWPTrbnsportCbpbbilities* cbpbbilitiesPtr)
 {
-    JDWPTransportCapabilities result;
+    JDWPTrbnsportCbpbbilities result;
 
     memset(&result, 0, sizeof(result));
-    result.can_timeout_attach = JNI_TRUE;
-    result.can_timeout_accept = JNI_TRUE;
-    result.can_timeout_handshake = JNI_TRUE;
+    result.cbn_timeout_bttbch = JNI_TRUE;
+    result.cbn_timeout_bccept = JNI_TRUE;
+    result.cbn_timeout_hbndshbke = JNI_TRUE;
 
-    *capabilitiesPtr = result;
+    *cbpbbilitiesPtr = result;
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
 
-static jdwpTransportError JNICALL
-socketTransport_startListening(jdwpTransportEnv* env, const char* address,
-                               char** actualAddress)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_stbrtListening(jdwpTrbnsportEnv* env, const chbr* bddress,
+                               chbr** bctublAddress)
 {
-    struct sockaddr_in sa;
+    struct sockbddr_in sb;
     int err;
 
-    memset((void *)&sa,0,sizeof(struct sockaddr_in));
-    sa.sin_family = AF_INET;
+    memset((void *)&sb,0,sizeof(struct sockbddr_in));
+    sb.sin_fbmily = AF_INET;
 
-    /* no address provided */
-    if ((address == NULL) || (address[0] == '\0')) {
-        address = "0";
+    /* no bddress provided */
+    if ((bddress == NULL) || (bddress[0] == '\0')) {
+        bddress = "0";
     }
 
-    err = parseAddress(address, &sa);
+    err = pbrseAddress(bddress, &sb);
     if (err != JDWPTRANSPORT_ERROR_NONE) {
         return err;
     }
 
     serverSocketFD = dbgsysSocket(AF_INET, SOCK_STREAM, 0);
     if (serverSocketFD < 0) {
-        RETURN_IO_ERROR("socket creation failed");
+        RETURN_IO_ERROR("socket crebtion fbiled");
     }
 
     err = setOptions(serverSocketFD);
@@ -355,70 +355,70 @@ socketTransport_startListening(jdwpTransportEnv* env, const char* address,
         return err;
     }
 
-    err = dbgsysBind(serverSocketFD, (struct sockaddr *)&sa, sizeof(sa));
+    err = dbgsysBind(serverSocketFD, (struct sockbddr *)&sb, sizeof(sb));
     if (err < 0) {
-        RETURN_IO_ERROR("bind failed");
+        RETURN_IO_ERROR("bind fbiled");
     }
 
     err = dbgsysListen(serverSocketFD, 1);
     if (err < 0) {
-        RETURN_IO_ERROR("listen failed");
+        RETURN_IO_ERROR("listen fbiled");
     }
 
     {
-        char buf[20];
-        socklen_t len = sizeof(sa);
+        chbr buf[20];
+        socklen_t len = sizeof(sb);
         jint portNum;
-        err = dbgsysGetSocketName(serverSocketFD,
-                               (struct sockaddr *)&sa, &len);
-        portNum = dbgsysNetworkToHostShort(sa.sin_port);
+        err = dbgsysGetSocketNbme(serverSocketFD,
+                               (struct sockbddr *)&sb, &len);
+        portNum = dbgsysNetworkToHostShort(sb.sin_port);
         sprintf(buf, "%d", portNum);
-        *actualAddress = (*callback->alloc)((int)strlen(buf) + 1);
-        if (*actualAddress == NULL) {
+        *bctublAddress = (*cbllbbck->blloc)((int)strlen(buf) + 1);
+        if (*bctublAddress == NULL) {
             RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
         } else {
-            strcpy(*actualAddress, buf);
+            strcpy(*bctublAddress, buf);
         }
     }
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_accept(jdwpTransportEnv* env, jlong acceptTimeout, jlong handshakeTimeout)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_bccept(jdwpTrbnsportEnv* env, jlong bcceptTimeout, jlong hbndshbkeTimeout)
 {
     socklen_t socketLen;
     int err;
-    struct sockaddr_in socket;
-    jlong startTime = (jlong)0;
+    struct sockbddr_in socket;
+    jlong stbrtTime = (jlong)0;
 
     /*
-     * Use a default handshake timeout if not specified - this avoids an indefinite
-     * hang in cases where something other than a debugger connects to our port.
+     * Use b defbult hbndshbke timeout if not specified - this bvoids bn indefinite
+     * hbng in cbses where something other thbn b debugger connects to our port.
      */
-    if (handshakeTimeout == 0) {
-        handshakeTimeout = 2000;
+    if (hbndshbkeTimeout == 0) {
+        hbndshbkeTimeout = 2000;
     }
 
     do {
         /*
-         * If there is an accept timeout then we put the socket in non-blocking
-         * mode and poll for a connection.
+         * If there is bn bccept timeout then we put the socket in non-blocking
+         * mode bnd poll for b connection.
          */
-        if (acceptTimeout > 0) {
+        if (bcceptTimeout > 0) {
             int rv;
             dbgsysConfigureBlocking(serverSocketFD, JNI_FALSE);
-            startTime = dbgsysCurrentTimeMillis();
-            rv = dbgsysPoll(serverSocketFD, JNI_TRUE, JNI_FALSE, (long)acceptTimeout);
+            stbrtTime = dbgsysCurrentTimeMillis();
+            rv = dbgsysPoll(serverSocketFD, JNI_TRUE, JNI_FALSE, (long)bcceptTimeout);
             if (rv <= 0) {
-                /* set the last error here as could be overridden by configureBlocking */
+                /* set the lbst error here bs could be overridden by configureBlocking */
                 if (rv == 0) {
-                    setLastError(JDWPTRANSPORT_ERROR_IO_ERROR, "poll failed");
+                    setLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "poll fbiled");
                 }
-                /* restore blocking state */
+                /* restore blocking stbte */
                 dbgsysConfigureBlocking(serverSocketFD, JNI_TRUE);
                 if (rv == 0) {
-                    RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "timed out waiting for connection");
+                    RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "timed out wbiting for connection");
                 } else {
                     return JDWPTRANSPORT_ERROR_IO_ERROR;
                 }
@@ -428,45 +428,45 @@ socketTransport_accept(jdwpTransportEnv* env, jlong acceptTimeout, jlong handsha
         /*
          * Accept the connection
          */
-        memset((void *)&socket,0,sizeof(struct sockaddr_in));
+        memset((void *)&socket,0,sizeof(struct sockbddr_in));
         socketLen = sizeof(socket);
         socketFD = dbgsysAccept(serverSocketFD,
-                                (struct sockaddr *)&socket,
+                                (struct sockbddr *)&socket,
                                 &socketLen);
-        /* set the last error here as could be overridden by configureBlocking */
+        /* set the lbst error here bs could be overridden by configureBlocking */
         if (socketFD < 0) {
-            setLastError(JDWPTRANSPORT_ERROR_IO_ERROR, "accept failed");
+            setLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "bccept fbiled");
         }
         /*
-         * Restore the blocking state - note that the accepted socket may be in
-         * blocking or non-blocking mode (platform dependent). However as there
-         * is a handshake timeout set then it will go into non-blocking mode
-         * anyway for the handshake.
+         * Restore the blocking stbte - note thbt the bccepted socket mby be in
+         * blocking or non-blocking mode (plbtform dependent). However bs there
+         * is b hbndshbke timeout set then it will go into non-blocking mode
+         * bnywby for the hbndshbke.
          */
-        if (acceptTimeout > 0) {
+        if (bcceptTimeout > 0) {
             dbgsysConfigureBlocking(serverSocketFD, JNI_TRUE);
         }
         if (socketFD < 0) {
             return JDWPTRANSPORT_ERROR_IO_ERROR;
         }
 
-        /* handshake with the debugger */
-        err = handshake(socketFD, handshakeTimeout);
+        /* hbndshbke with the debugger */
+        err = hbndshbke(socketFD, hbndshbkeTimeout);
 
         /*
-         * If the handshake fails then close the connection. If there if an accept
-         * timeout then we must adjust the timeout for the next poll.
+         * If the hbndshbke fbils then close the connection. If there if bn bccept
+         * timeout then we must bdjust the timeout for the next poll.
          */
         if (err) {
-            fprintf(stderr, "Debugger failed to attach: %s\n", getLastError());
+            fprintf(stderr, "Debugger fbiled to bttbch: %s\n", getLbstError());
             dbgsysSocketClose(socketFD);
             socketFD = -1;
-            if (acceptTimeout > 0) {
+            if (bcceptTimeout > 0) {
                 long endTime = dbgsysCurrentTimeMillis();
-                acceptTimeout -= (endTime - startTime);
-                if (acceptTimeout <= 0) {
-                    setLastError(JDWPTRANSPORT_ERROR_IO_ERROR,
-                        "timeout waiting for debugger to connect");
+                bcceptTimeout -= (endTime - stbrtTime);
+                if (bcceptTimeout <= 0) {
+                    setLbstError(JDWPTRANSPORT_ERROR_IO_ERROR,
+                        "timeout wbiting for debugger to connect");
                     return JDWPTRANSPORT_ERROR_IO_ERROR;
                 }
             }
@@ -476,38 +476,38 @@ socketTransport_accept(jdwpTransportEnv* env, jlong acceptTimeout, jlong handsha
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_stopListening(jdwpTransportEnv *env)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_stopListening(jdwpTrbnsportEnv *env)
 {
     if (serverSocketFD < 0) {
         RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "connection not open");
     }
     if (dbgsysSocketClose(serverSocketFD) < 0) {
-        RETURN_IO_ERROR("close failed");
+        RETURN_IO_ERROR("close fbiled");
     }
     serverSocketFD = -1;
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_attach(jdwpTransportEnv* env, const char* addressString, jlong attachTimeout,
-                       jlong handshakeTimeout)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_bttbch(jdwpTrbnsportEnv* env, const chbr* bddressString, jlong bttbchTimeout,
+                       jlong hbndshbkeTimeout)
 {
-    struct sockaddr_in sa;
+    struct sockbddr_in sb;
     int err;
 
-    if (addressString == NULL || addressString[0] == '\0') {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "address is missing");
+    if (bddressString == NULL || bddressString[0] == '\0') {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "bddress is missing");
     }
 
-    err = parseAddress(addressString, &sa);
+    err = pbrseAddress(bddressString, &sb);
     if (err != JDWPTRANSPORT_ERROR_NONE) {
         return err;
     }
 
     socketFD = dbgsysSocket(AF_INET, SOCK_STREAM, 0);
     if (socketFD < 0) {
-        RETURN_IO_ERROR("unable to create socket");
+        RETURN_IO_ERROR("unbble to crebte socket");
     }
 
     err = setOptions(socketFD);
@@ -516,16 +516,16 @@ socketTransport_attach(jdwpTransportEnv* env, const char* addressString, jlong a
     }
 
     /*
-     * To do a timed connect we make the socket non-blocking
-     * and poll with a timeout;
+     * To do b timed connect we mbke the socket non-blocking
+     * bnd poll with b timeout;
      */
-    if (attachTimeout > 0) {
+    if (bttbchTimeout > 0) {
         dbgsysConfigureBlocking(socketFD, JNI_FALSE);
     }
 
-    err = dbgsysConnect(socketFD, (struct sockaddr *)&sa, sizeof(sa));
-    if (err == DBG_EINPROGRESS && attachTimeout > 0) {
-        err = dbgsysFinishConnect(socketFD, (long)attachTimeout);
+    err = dbgsysConnect(socketFD, (struct sockbddr *)&sb, sizeof(sb));
+    if (err == DBG_EINPROGRESS && bttbchTimeout > 0) {
+        err = dbgsysFinishConnect(socketFD, (long)bttbchTimeout);
 
         if (err == DBG_ETIMEOUT) {
             dbgsysConfigureBlocking(socketFD, JNI_TRUE);
@@ -534,14 +534,14 @@ socketTransport_attach(jdwpTransportEnv* env, const char* addressString, jlong a
     }
 
     if (err < 0) {
-        RETURN_IO_ERROR("connect failed");
+        RETURN_IO_ERROR("connect fbiled");
     }
 
-    if (attachTimeout > 0) {
+    if (bttbchTimeout > 0) {
         dbgsysConfigureBlocking(socketFD, JNI_TRUE);
     }
 
-    err = handshake(socketFD, handshakeTimeout);
+    err = hbndshbke(socketFD, hbndshbkeTimeout);
     if (err) {
         dbgsysSocketClose(socketFD);
         socketFD = -1;
@@ -551,8 +551,8 @@ socketTransport_attach(jdwpTransportEnv* env, const char* addressString, jlong a
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jboolean JNICALL
-socketTransport_isOpen(jdwpTransportEnv* env)
+stbtic jboolebn JNICALL
+socketTrbnsport_isOpen(jdwpTrbnsportEnv* env)
 {
     if (socketFD >= 0) {
         return JNI_TRUE;
@@ -561,8 +561,8 @@ socketTransport_isOpen(jdwpTransportEnv* env)
     }
 }
 
-static jdwpTransportError JNICALL
-socketTransport_close(jdwpTransportEnv* env)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_close(jdwpTrbnsportEnv* env)
 {
     int fd = socketFD;
     socketFD = -1;
@@ -571,92 +571,92 @@ socketTransport_close(jdwpTransportEnv* env)
     }
 #ifdef _AIX
     /*
-      AIX needs a workaround for I/O cancellation, see:
-      http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.basetechref/doc/basetrf1/close.htm
+      AIX needs b workbround for I/O cbncellbtion, see:
+      http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.bix.bbsetechref/doc/bbsetrf1/close.htm
       ...
-      The close subroutine is blocked until all subroutines which use the file
-      descriptor return to usr space. For example, when a thread is calling close
-      and another thread is calling select with the same file descriptor, the
-      close subroutine does not return until the select call returns.
+      The close subroutine is blocked until bll subroutines which use the file
+      descriptor return to usr spbce. For exbmple, when b threbd is cblling close
+      bnd bnother threbd is cblling select with the sbme file descriptor, the
+      close subroutine does not return until the select cbll returns.
       ...
     */
     shutdown(fd, 2);
 #endif
     if (dbgsysSocketClose(fd) < 0) {
         /*
-         * close failed - it's pointless to restore socketFD here because
-         * any subsequent close will likely fail as well.
+         * close fbiled - it's pointless to restore socketFD here becbuse
+         * bny subsequent close will likely fbil bs well.
          */
-        RETURN_IO_ERROR("close failed");
+        RETURN_IO_ERROR("close fbiled");
     }
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_writePacket(jdwpTransportEnv* env, const jdwpPacket *packet)
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_writePbcket(jdwpTrbnsportEnv* env, const jdwpPbcket *pbcket)
 {
-    jint len, data_len, id;
+    jint len, dbtb_len, id;
     /*
-     * room for header and up to MAX_DATA_SIZE data bytes
+     * room for hebder bnd up to MAX_DATA_SIZE dbtb bytes
      */
-    char header[HEADER_SIZE + MAX_DATA_SIZE];
-    jbyte *data;
+    chbr hebder[HEADER_SIZE + MAX_DATA_SIZE];
+    jbyte *dbtb;
 
-    /* packet can't be null */
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is NULL");
+    /* pbcket cbn't be null */
+    if (pbcket == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbcket is NULL");
     }
 
-    len = packet->type.cmd.len;         /* includes header */
-    data_len = len - HEADER_SIZE;
+    len = pbcket->type.cmd.len;         /* includes hebder */
+    dbtb_len = len - HEADER_SIZE;
 
-    /* bad packet */
-    if (data_len < 0) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invalid length");
+    /* bbd pbcket */
+    if (dbtb_len < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid length");
     }
 
-    /* prepare the header for transmission */
+    /* prepbre the hebder for trbnsmission */
     len = (jint)dbgsysHostToNetworkLong(len);
-    id = (jint)dbgsysHostToNetworkLong(packet->type.cmd.id);
+    id = (jint)dbgsysHostToNetworkLong(pbcket->type.cmd.id);
 
-    memcpy(header + 0, &len, 4);
-    memcpy(header + 4, &id, 4);
-    header[8] = packet->type.cmd.flags;
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
+    memcpy(hebder + 0, &len, 4);
+    memcpy(hebder + 4, &id, 4);
+    hebder[8] = pbcket->type.cmd.flbgs;
+    if (pbcket->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
         jshort errorCode =
-            dbgsysHostToNetworkShort(packet->type.reply.errorCode);
-        memcpy(header + 9, &errorCode, 2);
+            dbgsysHostToNetworkShort(pbcket->type.reply.errorCode);
+        memcpy(hebder + 9, &errorCode, 2);
     } else {
-        header[9] = packet->type.cmd.cmdSet;
-        header[10] = packet->type.cmd.cmd;
+        hebder[9] = pbcket->type.cmd.cmdSet;
+        hebder[10] = pbcket->type.cmd.cmd;
     }
 
-    data = packet->type.cmd.data;
-    /* Do one send for short packets, two for longer ones */
-    if (data_len <= MAX_DATA_SIZE) {
-        memcpy(header + HEADER_SIZE, data, data_len);
-        if (send_fully(socketFD, (char *)&header, HEADER_SIZE + data_len) !=
-            HEADER_SIZE + data_len) {
-            RETURN_IO_ERROR("send failed");
+    dbtb = pbcket->type.cmd.dbtb;
+    /* Do one send for short pbckets, two for longer ones */
+    if (dbtb_len <= MAX_DATA_SIZE) {
+        memcpy(hebder + HEADER_SIZE, dbtb, dbtb_len);
+        if (send_fully(socketFD, (chbr *)&hebder, HEADER_SIZE + dbtb_len) !=
+            HEADER_SIZE + dbtb_len) {
+            RETURN_IO_ERROR("send fbiled");
         }
     } else {
-        memcpy(header + HEADER_SIZE, data, MAX_DATA_SIZE);
-        if (send_fully(socketFD, (char *)&header, HEADER_SIZE + MAX_DATA_SIZE) !=
+        memcpy(hebder + HEADER_SIZE, dbtb, MAX_DATA_SIZE);
+        if (send_fully(socketFD, (chbr *)&hebder, HEADER_SIZE + MAX_DATA_SIZE) !=
             HEADER_SIZE + MAX_DATA_SIZE) {
-            RETURN_IO_ERROR("send failed");
+            RETURN_IO_ERROR("send fbiled");
         }
-        /* Send the remaining data bytes right out of the data area. */
-        if (send_fully(socketFD, (char *)data + MAX_DATA_SIZE,
-                       data_len - MAX_DATA_SIZE) != data_len - MAX_DATA_SIZE) {
-            RETURN_IO_ERROR("send failed");
+        /* Send the rembining dbtb bytes right out of the dbtb breb. */
+        if (send_fully(socketFD, (chbr *)dbtb + MAX_DATA_SIZE,
+                       dbtb_len - MAX_DATA_SIZE) != dbtb_len - MAX_DATA_SIZE) {
+            RETURN_IO_ERROR("send fbiled");
         }
     }
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jint
-recv_fully(int f, char *buf, int len)
+stbtic jint
+recv_fully(int f, chbr *buf, int len)
 {
     int nbytes = 0;
     while (nbytes < len) {
@@ -664,7 +664,7 @@ recv_fully(int f, char *buf, int len)
         if (res < 0) {
             return res;
         } else if (res == 0) {
-            break; /* eof, return nbytes which is less than len */
+            brebk; /* eof, return nbytes which is less thbn len */
         }
         nbytes += res;
     }
@@ -672,7 +672,7 @@ recv_fully(int f, char *buf, int len)
 }
 
 jint
-send_fully(int f, char *buf, int len)
+send_fully(int f, chbr *buf, int len)
 {
     int nbytes = 0;
     while (nbytes < len) {
@@ -680,29 +680,29 @@ send_fully(int f, char *buf, int len)
         if (res < 0) {
             return res;
         } else if (res == 0) {
-            break; /* eof, return nbytes which is less than len */
+            brebk; /* eof, return nbytes which is less thbn len */
         }
         nbytes += res;
     }
     return nbytes;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_readPacket(jdwpTransportEnv* env, jdwpPacket* packet) {
-    jint length, data_len;
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_rebdPbcket(jdwpTrbnsportEnv* env, jdwpPbcket* pbcket) {
+    jint length, dbtb_len;
     jint n;
 
-    /* packet can't be null */
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is null");
+    /* pbcket cbn't be null */
+    if (pbcket == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbcket is null");
     }
 
-    /* read the length field */
-    n = recv_fully(socketFD, (char *)&length, sizeof(jint));
+    /* rebd the length field */
+    n = recv_fully(socketFD, (chbr *)&length, sizeof(jint));
 
     /* check for EOF */
     if (n == 0) {
-        packet->type.cmd.len = 0;
+        pbcket->type.cmd.len = 0;
         return JDWPTRANSPORT_ERROR_NONE;
     }
     if (n != sizeof(jint)) {
@@ -710,23 +710,23 @@ socketTransport_readPacket(jdwpTransportEnv* env, jdwpPacket* packet) {
     }
 
     length = (jint)dbgsysNetworkToHostLong(length);
-    packet->type.cmd.len = length;
+    pbcket->type.cmd.len = length;
 
 
-    n = recv_fully(socketFD,(char *)&(packet->type.cmd.id),sizeof(jint));
+    n = recv_fully(socketFD,(chbr *)&(pbcket->type.cmd.id),sizeof(jint));
     if (n < (int)sizeof(jint)) {
         RETURN_RECV_ERROR(n);
     }
 
-    packet->type.cmd.id = (jint)dbgsysNetworkToHostLong(packet->type.cmd.id);
+    pbcket->type.cmd.id = (jint)dbgsysNetworkToHostLong(pbcket->type.cmd.id);
 
-    n = recv_fully(socketFD,(char *)&(packet->type.cmd.flags),sizeof(jbyte));
+    n = recv_fully(socketFD,(chbr *)&(pbcket->type.cmd.flbgs),sizeof(jbyte));
     if (n < (int)sizeof(jbyte)) {
         RETURN_RECV_ERROR(n);
     }
 
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        n = recv_fully(socketFD,(char *)&(packet->type.reply.errorCode),sizeof(jbyte));
+    if (pbcket->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        n = recv_fully(socketFD,(chbr *)&(pbcket->type.reply.errorCode),sizeof(jbyte));
         if (n < (int)sizeof(jshort)) {
             RETURN_RECV_ERROR(n);
         }
@@ -735,34 +735,34 @@ socketTransport_readPacket(jdwpTransportEnv* env, jdwpPacket* packet) {
 
 
     } else {
-        n = recv_fully(socketFD,(char *)&(packet->type.cmd.cmdSet),sizeof(jbyte));
+        n = recv_fully(socketFD,(chbr *)&(pbcket->type.cmd.cmdSet),sizeof(jbyte));
         if (n < (int)sizeof(jbyte)) {
             RETURN_RECV_ERROR(n);
         }
 
-        n = recv_fully(socketFD,(char *)&(packet->type.cmd.cmd),sizeof(jbyte));
+        n = recv_fully(socketFD,(chbr *)&(pbcket->type.cmd.cmd),sizeof(jbyte));
         if (n < (int)sizeof(jbyte)) {
             RETURN_RECV_ERROR(n);
         }
     }
 
-    data_len = length - ((sizeof(jint) * 2) + (sizeof(jbyte) * 3));
+    dbtb_len = length - ((sizeof(jint) * 2) + (sizeof(jbyte) * 3));
 
-    if (data_len < 0) {
-        setLastError(0, "Badly formed packet received - invalid length");
+    if (dbtb_len < 0) {
+        setLbstError(0, "Bbdly formed pbcket received - invblid length");
         return JDWPTRANSPORT_ERROR_IO_ERROR;
-    } else if (data_len == 0) {
-        packet->type.cmd.data = NULL;
+    } else if (dbtb_len == 0) {
+        pbcket->type.cmd.dbtb = NULL;
     } else {
-        packet->type.cmd.data= (*callback->alloc)(data_len);
+        pbcket->type.cmd.dbtb= (*cbllbbck->blloc)(dbtb_len);
 
-        if (packet->type.cmd.data == NULL) {
+        if (pbcket->type.cmd.dbtb == NULL) {
             RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
         }
 
-        n = recv_fully(socketFD,(char *)packet->type.cmd.data, data_len);
-        if (n < data_len) {
-            (*callback->free)(packet->type.cmd.data);
+        n = recv_fully(socketFD,(chbr *)pbcket->type.cmd.dbtb, dbtb_len);
+        if (n < dbtb_len) {
+            (*cbllbbck->free)(pbcket->type.cmd.dbtb);
             RETURN_RECV_ERROR(n);
         }
     }
@@ -770,13 +770,13 @@ socketTransport_readPacket(jdwpTransportEnv* env, jdwpPacket* packet) {
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-socketTransport_getLastError(jdwpTransportEnv* env, char** msgP) {
-    char *msg = (char *)dbgsysTlsGet(tlsIndex);
+stbtic jdwpTrbnsportError JNICALL
+socketTrbnsport_getLbstError(jdwpTrbnsportEnv* env, chbr** msgP) {
+    chbr *msg = (chbr *)dbgsysTlsGet(tlsIndex);
     if (msg == NULL) {
         return JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
     }
-    *msgP = (*callback->alloc)((int)strlen(msg)+1);
+    *msgP = (*cbllbbck->blloc)((int)strlen(msg)+1);
     if (*msgP == NULL) {
         return JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
     }
@@ -785,36 +785,36 @@ socketTransport_getLastError(jdwpTransportEnv* env, char** msgP) {
 }
 
 JNIEXPORT jint JNICALL
-jdwpTransport_OnLoad(JavaVM *vm, jdwpTransportCallback* cbTablePtr,
-                     jint version, jdwpTransportEnv** result)
+jdwpTrbnsport_OnLobd(JbvbVM *vm, jdwpTrbnsportCbllbbck* cbTbblePtr,
+                     jint version, jdwpTrbnsportEnv** result)
 {
     if (version != JDWPTRANSPORT_VERSION_1_0) {
         return JNI_EVERSION;
     }
-    if (initialized) {
+    if (initiblized) {
         /*
-         * This library doesn't support multiple environments (yet)
+         * This librbry doesn't support multiple environments (yet)
          */
         return JNI_EEXIST;
     }
-    initialized = JNI_TRUE;
+    initiblized = JNI_TRUE;
     jvm = vm;
-    callback = cbTablePtr;
+    cbllbbck = cbTbblePtr;
 
-    /* initialize interface table */
-    interface.GetCapabilities = &socketTransport_getCapabilities;
-    interface.Attach = &socketTransport_attach;
-    interface.StartListening = &socketTransport_startListening;
-    interface.StopListening = &socketTransport_stopListening;
-    interface.Accept = &socketTransport_accept;
-    interface.IsOpen = &socketTransport_isOpen;
-    interface.Close = &socketTransport_close;
-    interface.ReadPacket = &socketTransport_readPacket;
-    interface.WritePacket = &socketTransport_writePacket;
-    interface.GetLastError = &socketTransport_getLastError;
+    /* initiblize interfbce tbble */
+    interfbce.GetCbpbbilities = &socketTrbnsport_getCbpbbilities;
+    interfbce.Attbch = &socketTrbnsport_bttbch;
+    interfbce.StbrtListening = &socketTrbnsport_stbrtListening;
+    interfbce.StopListening = &socketTrbnsport_stopListening;
+    interfbce.Accept = &socketTrbnsport_bccept;
+    interfbce.IsOpen = &socketTrbnsport_isOpen;
+    interfbce.Close = &socketTrbnsport_close;
+    interfbce.RebdPbcket = &socketTrbnsport_rebdPbcket;
+    interfbce.WritePbcket = &socketTrbnsport_writePbcket;
+    interfbce.GetLbstError = &socketTrbnsport_getLbstError;
     *result = &single_env;
 
-    /* initialized TLS */
+    /* initiblized TLS */
     tlsIndex = dbgsysTlsAlloc();
     return JNI_OK;
 }

@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.io.*;
-import java.security.*;
-import java.security.spec.*;
+import jbvb.io.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 import sun.security.x509.AlgorithmId;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * This class implements the <code>EncryptedPrivateKeyInfo</code> type
- * as defined in PKCS #8.
- * <p>Its ASN.1 definition is as follows:
+ * This clbss implements the <code>EncryptedPrivbteKeyInfo</code> type
+ * bs defined in PKCS #8.
+ * <p>Its ASN.1 definition is bs follows:
  *
  * <pre>
- * EncryptedPrivateKeyInfo ::=  SEQUENCE {
+ * EncryptedPrivbteKeyInfo ::=  SEQUENCE {
  *     encryptionAlgorithm   AlgorithmIdentifier,
- *     encryptedData   OCTET STRING }
+ *     encryptedDbtb   OCTET STRING }
  *
  * AlgorithmIdentifier  ::=  SEQUENCE  {
- *     algorithm              OBJECT IDENTIFIER,
- *     parameters             ANY DEFINED BY algorithm OPTIONAL  }
+ *     blgorithm              OBJECT IDENTIFIER,
+ *     pbrbmeters             ANY DEFINED BY blgorithm OPTIONAL  }
  * </pre>
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
- * @see java.security.spec.PKCS8EncodedKeySpec
+ * @see jbvb.security.spec.PKCS8EncodedKeySpec
  *
  * @since 1.4
  */
 
-public class EncryptedPrivateKeyInfo {
+public clbss EncryptedPrivbteKeyInfo {
 
     // the "encryptionAlgorithm" field
-    private AlgorithmId algid;
+    privbte AlgorithmId blgid;
 
-    // the "encryptedData" field
-    private byte[] encryptedData;
+    // the "encryptedDbtb" field
+    privbte byte[] encryptedDbtb;
 
-    // the ASN.1 encoded contents of this class
-    private byte[] encoded = null;
+    // the ASN.1 encoded contents of this clbss
+    privbte byte[] encoded = null;
 
     /**
-     * Constructs (i.e., parses) an <code>EncryptedPrivateKeyInfo</code> from
+     * Constructs (i.e., pbrses) bn <code>EncryptedPrivbteKeyInfo</code> from
      * its ASN.1 encoding.
-     * @param encoded the ASN.1 encoding of this object. The contents of
-     * the array are copied to protect against subsequent modification.
+     * @pbrbm encoded the ASN.1 encoding of this object. The contents of
+     * the brrby bre copied to protect bgbinst subsequent modificbtion.
      * @exception NullPointerException if the <code>encoded</code> is null.
-     * @exception IOException if error occurs when parsing the ASN.1 encoding.
+     * @exception IOException if error occurs when pbrsing the ASN.1 encoding.
      */
-    public EncryptedPrivateKeyInfo(byte[] encoded)
+    public EncryptedPrivbteKeyInfo(byte[] encoded)
         throws IOException {
         if (encoded == null) {
-            throw new NullPointerException("the encoded parameter " +
+            throw new NullPointerException("the encoded pbrbmeter " +
                                            "must be non-null");
         }
         this.encoded = encoded.clone();
-        DerValue val = new DerValue(this.encoded);
+        DerVblue vbl = new DerVblue(this.encoded);
 
-        DerValue[] seq = new DerValue[2];
+        DerVblue[] seq = new DerVblue[2];
 
-        seq[0] = val.data.getDerValue();
-        seq[1] = val.data.getDerValue();
+        seq[0] = vbl.dbtb.getDerVblue();
+        seq[1] = vbl.dbtb.getDerVblue();
 
-        if (val.data.available() != 0) {
-            throw new IOException("overrun, bytes = " + val.data.available());
+        if (vbl.dbtb.bvbilbble() != 0) {
+            throw new IOException("overrun, bytes = " + vbl.dbtb.bvbilbble());
         }
 
-        this.algid = AlgorithmId.parse(seq[0]);
-        if (seq[0].data.available() != 0) {
+        this.blgid = AlgorithmId.pbrse(seq[0]);
+        if (seq[0].dbtb.bvbilbble() != 0) {
             throw new IOException("encryptionAlgorithm field overrun");
         }
 
-        this.encryptedData = seq[1].getOctetString();
-        if (seq[1].data.available() != 0) {
-            throw new IOException("encryptedData field overrun");
+        this.encryptedDbtb = seq[1].getOctetString();
+        if (seq[1].dbtb.bvbilbble() != 0) {
+            throw new IOException("encryptedDbtb field overrun");
         }
     }
 
     /**
-     * Constructs an <code>EncryptedPrivateKeyInfo</code> from the
-     * encryption algorithm name and the encrypted data.
+     * Constructs bn <code>EncryptedPrivbteKeyInfo</code> from the
+     * encryption blgorithm nbme bnd the encrypted dbtb.
      *
-     * <p>Note: This constructor will use null as the value of the
-     * algorithm parameters. If the encryption algorithm has
-     * parameters whose value is not null, a different constructor,
-     * e.g. EncryptedPrivateKeyInfo(AlgorithmParameters, byte[]),
+     * <p>Note: This constructor will use null bs the vblue of the
+     * blgorithm pbrbmeters. If the encryption blgorithm hbs
+     * pbrbmeters whose vblue is not null, b different constructor,
+     * e.g. EncryptedPrivbteKeyInfo(AlgorithmPbrbmeters, byte[]),
      * should be used.
      *
-     * @param algName encryption algorithm name. See Appendix A in the
-     * <a href=
+     * @pbrbm blgNbme encryption blgorithm nbme. See Appendix A in the
+     * <b href=
      *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture Reference Guide</a>
-     * for information about standard Cipher algorithm names.
-     * @param encryptedData encrypted data. The contents of
-     * <code>encrypedData</code> are copied to protect against subsequent
-     * modification when constructing this object.
-     * @exception NullPointerException if <code>algName</code> or
-     * <code>encryptedData</code> is null.
-     * @exception IllegalArgumentException if <code>encryptedData</code>
+     * Jbvb Cryptogrbphy Architecture Reference Guide</b>
+     * for informbtion bbout stbndbrd Cipher blgorithm nbmes.
+     * @pbrbm encryptedDbtb encrypted dbtb. The contents of
+     * <code>encrypedDbtb</code> bre copied to protect bgbinst subsequent
+     * modificbtion when constructing this object.
+     * @exception NullPointerException if <code>blgNbme</code> or
+     * <code>encryptedDbtb</code> is null.
+     * @exception IllegblArgumentException if <code>encryptedDbtb</code>
      * is empty, i.e. 0-length.
-     * @exception NoSuchAlgorithmException if the specified algName is
+     * @exception NoSuchAlgorithmException if the specified blgNbme is
      * not supported.
      */
-    public EncryptedPrivateKeyInfo(String algName, byte[] encryptedData)
+    public EncryptedPrivbteKeyInfo(String blgNbme, byte[] encryptedDbtb)
         throws NoSuchAlgorithmException {
 
-        if (algName == null)
-                throw new NullPointerException("the algName parameter " +
+        if (blgNbme == null)
+                throw new NullPointerException("the blgNbme pbrbmeter " +
                                                "must be non-null");
-        this.algid = AlgorithmId.get(algName);
+        this.blgid = AlgorithmId.get(blgNbme);
 
-        if (encryptedData == null) {
-            throw new NullPointerException("the encryptedData " +
-                                           "parameter must be non-null");
-        } else if (encryptedData.length == 0) {
-            throw new IllegalArgumentException("the encryptedData " +
-                                                "parameter must not be empty");
+        if (encryptedDbtb == null) {
+            throw new NullPointerException("the encryptedDbtb " +
+                                           "pbrbmeter must be non-null");
+        } else if (encryptedDbtb.length == 0) {
+            throw new IllegblArgumentException("the encryptedDbtb " +
+                                                "pbrbmeter must not be empty");
         } else {
-            this.encryptedData = encryptedData.clone();
+            this.encryptedDbtb = encryptedDbtb.clone();
         }
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
+        // delby the generbtion of ASN.1 encoding until
+        // getEncoded() is cblled
         this.encoded = null;
     }
 
     /**
-     * Constructs an <code>EncryptedPrivateKeyInfo</code> from the
-     * encryption algorithm parameters and the encrypted data.
+     * Constructs bn <code>EncryptedPrivbteKeyInfo</code> from the
+     * encryption blgorithm pbrbmeters bnd the encrypted dbtb.
      *
-     * @param algParams the algorithm parameters for the encryption
-     * algorithm. <code>algParams.getEncoded()</code> should return
-     * the ASN.1 encoded bytes of the <code>parameters</code> field
+     * @pbrbm blgPbrbms the blgorithm pbrbmeters for the encryption
+     * blgorithm. <code>blgPbrbms.getEncoded()</code> should return
+     * the ASN.1 encoded bytes of the <code>pbrbmeters</code> field
      * of the <code>AlgorithmIdentifer</code> component of the
-     * <code>EncryptedPrivateKeyInfo</code> type.
-     * @param encryptedData encrypted data. The contents of
-     * <code>encrypedData</code> are copied to protect against
-     * subsequent modification when constructing this object.
-     * @exception NullPointerException if <code>algParams</code> or
-     * <code>encryptedData</code> is null.
-     * @exception IllegalArgumentException if <code>encryptedData</code>
+     * <code>EncryptedPrivbteKeyInfo</code> type.
+     * @pbrbm encryptedDbtb encrypted dbtb. The contents of
+     * <code>encrypedDbtb</code> bre copied to protect bgbinst
+     * subsequent modificbtion when constructing this object.
+     * @exception NullPointerException if <code>blgPbrbms</code> or
+     * <code>encryptedDbtb</code> is null.
+     * @exception IllegblArgumentException if <code>encryptedDbtb</code>
      * is empty, i.e. 0-length.
-     * @exception NoSuchAlgorithmException if the specified algName of
-     * the specified <code>algParams</code> parameter is not supported.
+     * @exception NoSuchAlgorithmException if the specified blgNbme of
+     * the specified <code>blgPbrbms</code> pbrbmeter is not supported.
      */
-    public EncryptedPrivateKeyInfo(AlgorithmParameters algParams,
-        byte[] encryptedData) throws NoSuchAlgorithmException {
+    public EncryptedPrivbteKeyInfo(AlgorithmPbrbmeters blgPbrbms,
+        byte[] encryptedDbtb) throws NoSuchAlgorithmException {
 
-        if (algParams == null) {
-            throw new NullPointerException("algParams must be non-null");
+        if (blgPbrbms == null) {
+            throw new NullPointerException("blgPbrbms must be non-null");
         }
-        this.algid = AlgorithmId.get(algParams);
+        this.blgid = AlgorithmId.get(blgPbrbms);
 
-        if (encryptedData == null) {
-            throw new NullPointerException("encryptedData must be non-null");
-        } else if (encryptedData.length == 0) {
-            throw new IllegalArgumentException("the encryptedData " +
-                                                "parameter must not be empty");
+        if (encryptedDbtb == null) {
+            throw new NullPointerException("encryptedDbtb must be non-null");
+        } else if (encryptedDbtb.length == 0) {
+            throw new IllegblArgumentException("the encryptedDbtb " +
+                                                "pbrbmeter must not be empty");
         } else {
-            this.encryptedData = encryptedData.clone();
+            this.encryptedDbtb = encryptedDbtb.clone();
         }
 
-        // delay the generation of ASN.1 encoding until
-        // getEncoded() is called
+        // delby the generbtion of ASN.1 encoding until
+        // getEncoded() is cblled
         this.encoded = null;
     }
 
 
     /**
-     * Returns the encryption algorithm.
-     * <p>Note: Standard name is returned instead of the specified one
-     * in the constructor when such mapping is available.
+     * Returns the encryption blgorithm.
+     * <p>Note: Stbndbrd nbme is returned instebd of the specified one
+     * in the constructor when such mbpping is bvbilbble.
      * See Appendix A in the
-     * <a href=
+     * <b href=
      *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture Reference Guide</a>
-     * for information about standard Cipher algorithm names.
+     * Jbvb Cryptogrbphy Architecture Reference Guide</b>
+     * for informbtion bbout stbndbrd Cipher blgorithm nbmes.
      *
-     * @return the encryption algorithm name.
+     * @return the encryption blgorithm nbme.
      */
-    public String getAlgName() {
-        return this.algid.getName();
+    public String getAlgNbme() {
+        return this.blgid.getNbme();
     }
 
     /**
-     * Returns the algorithm parameters used by the encryption algorithm.
-     * @return the algorithm parameters.
+     * Returns the blgorithm pbrbmeters used by the encryption blgorithm.
+     * @return the blgorithm pbrbmeters.
      */
-    public AlgorithmParameters getAlgParameters() {
-        return this.algid.getParameters();
+    public AlgorithmPbrbmeters getAlgPbrbmeters() {
+        return this.blgid.getPbrbmeters();
     }
 
     /**
-     * Returns the encrypted data.
-     * @return the encrypted data. Returns a new array
-     * each time this method is called.
+     * Returns the encrypted dbtb.
+     * @return the encrypted dbtb. Returns b new brrby
+     * ebch time this method is cblled.
      */
-    public byte[] getEncryptedData() {
-        return this.encryptedData.clone();
+    public byte[] getEncryptedDbtb() {
+        return this.encryptedDbtb.clone();
     }
 
     /**
-     * Extract the enclosed PKCS8EncodedKeySpec object from the
-     * encrypted data and return it.
+     * Extrbct the enclosed PKCS8EncodedKeySpec object from the
+     * encrypted dbtb bnd return it.
      * <br>Note: In order to successfully retrieve the enclosed
      * PKCS8EncodedKeySpec object, <code>cipher</code> needs
-     * to be initialized to either Cipher.DECRYPT_MODE or
-     * Cipher.UNWRAP_MODE, with the same key and parameters used
-     * for generating the encrypted data.
+     * to be initiblized to either Cipher.DECRYPT_MODE or
+     * Cipher.UNWRAP_MODE, with the sbme key bnd pbrbmeters used
+     * for generbting the encrypted dbtb.
      *
-     * @param cipher the initialized cipher object which will be
-     * used for decrypting the encrypted data.
+     * @pbrbm cipher the initiblized cipher object which will be
+     * used for decrypting the encrypted dbtb.
      * @return the PKCS8EncodedKeySpec object.
      * @exception NullPointerException if <code>cipher</code>
      * is null.
-     * @exception InvalidKeySpecException if the given cipher is
-     * inappropriate for the encrypted data or the encrypted
-     * data is corrupted and cannot be decrypted.
+     * @exception InvblidKeySpecException if the given cipher is
+     * inbppropribte for the encrypted dbtb or the encrypted
+     * dbtb is corrupted bnd cbnnot be decrypted.
      */
     public PKCS8EncodedKeySpec getKeySpec(Cipher cipher)
-        throws InvalidKeySpecException {
+        throws InvblidKeySpecException {
         byte[] encoded = null;
         try {
-            encoded = cipher.doFinal(encryptedData);
+            encoded = cipher.doFinbl(encryptedDbtb);
             checkPKCS8Encoding(encoded);
-        } catch (GeneralSecurityException |
+        } cbtch (GenerblSecurityException |
                  IOException |
-                 IllegalStateException ex) {
-            throw new InvalidKeySpecException(
-                    "Cannot retrieve the PKCS8EncodedKeySpec", ex);
+                 IllegblStbteException ex) {
+            throw new InvblidKeySpecException(
+                    "Cbnnot retrieve the PKCS8EncodedKeySpec", ex);
         }
         return new PKCS8EncodedKeySpec(encoded);
     }
 
-    private PKCS8EncodedKeySpec getKeySpecImpl(Key decryptKey,
+    privbte PKCS8EncodedKeySpec getKeySpecImpl(Key decryptKey,
         Provider provider) throws NoSuchAlgorithmException,
-        InvalidKeyException {
+        InvblidKeyException {
         byte[] encoded = null;
         Cipher c;
         try {
             if (provider == null) {
                 // use the most preferred one
-                c = Cipher.getInstance(algid.getName());
+                c = Cipher.getInstbnce(blgid.getNbme());
             } else {
-                c = Cipher.getInstance(algid.getName(), provider);
+                c = Cipher.getInstbnce(blgid.getNbme(), provider);
             }
-            c.init(Cipher.DECRYPT_MODE, decryptKey, algid.getParameters());
-            encoded = c.doFinal(encryptedData);
+            c.init(Cipher.DECRYPT_MODE, decryptKey, blgid.getPbrbmeters());
+            encoded = c.doFinbl(encryptedDbtb);
             checkPKCS8Encoding(encoded);
-        } catch (NoSuchAlgorithmException nsae) {
+        } cbtch (NoSuchAlgorithmException nsbe) {
             // rethrow
-            throw nsae;
-        } catch (GeneralSecurityException | IOException ex) {
-            throw new InvalidKeyException(
-                    "Cannot retrieve the PKCS8EncodedKeySpec", ex);
+            throw nsbe;
+        } cbtch (GenerblSecurityException | IOException ex) {
+            throw new InvblidKeyException(
+                    "Cbnnot retrieve the PKCS8EncodedKeySpec", ex);
         }
         return new PKCS8EncodedKeySpec(encoded);
     }
 
     /**
-     * Extract the enclosed PKCS8EncodedKeySpec object from the
-     * encrypted data and return it.
-     * @param decryptKey key used for decrypting the encrypted data.
+     * Extrbct the enclosed PKCS8EncodedKeySpec object from the
+     * encrypted dbtb bnd return it.
+     * @pbrbm decryptKey key used for decrypting the encrypted dbtb.
      * @return the PKCS8EncodedKeySpec object.
      * @exception NullPointerException if <code>decryptKey</code>
      * is null.
-     * @exception NoSuchAlgorithmException if cannot find appropriate
-     * cipher to decrypt the encrypted data.
-     * @exception InvalidKeyException if <code>decryptKey</code>
-     * cannot be used to decrypt the encrypted data or the decryption
-     * result is not a valid PKCS8KeySpec.
+     * @exception NoSuchAlgorithmException if cbnnot find bppropribte
+     * cipher to decrypt the encrypted dbtb.
+     * @exception InvblidKeyException if <code>decryptKey</code>
+     * cbnnot be used to decrypt the encrypted dbtb or the decryption
+     * result is not b vblid PKCS8KeySpec.
      *
      * @since 1.5
      */
     public PKCS8EncodedKeySpec getKeySpec(Key decryptKey)
-        throws NoSuchAlgorithmException, InvalidKeyException {
+        throws NoSuchAlgorithmException, InvblidKeyException {
         if (decryptKey == null) {
             throw new NullPointerException("decryptKey is null");
         }
@@ -307,61 +307,61 @@ public class EncryptedPrivateKeyInfo {
     }
 
     /**
-     * Extract the enclosed PKCS8EncodedKeySpec object from the
-     * encrypted data and return it.
-     * @param decryptKey key used for decrypting the encrypted data.
-     * @param providerName the name of provider whose Cipher
-     * implementation will be used.
+     * Extrbct the enclosed PKCS8EncodedKeySpec object from the
+     * encrypted dbtb bnd return it.
+     * @pbrbm decryptKey key used for decrypting the encrypted dbtb.
+     * @pbrbm providerNbme the nbme of provider whose Cipher
+     * implementbtion will be used.
      * @return the PKCS8EncodedKeySpec object.
      * @exception NullPointerException if <code>decryptKey</code>
-     * or <code>providerName</code> is null.
+     * or <code>providerNbme</code> is null.
      * @exception NoSuchProviderException if no provider
-     * <code>providerName</code> is registered.
-     * @exception NoSuchAlgorithmException if cannot find appropriate
-     * cipher to decrypt the encrypted data.
-     * @exception InvalidKeyException if <code>decryptKey</code>
-     * cannot be used to decrypt the encrypted data or the decryption
-     * result is not a valid PKCS8KeySpec.
+     * <code>providerNbme</code> is registered.
+     * @exception NoSuchAlgorithmException if cbnnot find bppropribte
+     * cipher to decrypt the encrypted dbtb.
+     * @exception InvblidKeyException if <code>decryptKey</code>
+     * cbnnot be used to decrypt the encrypted dbtb or the decryption
+     * result is not b vblid PKCS8KeySpec.
      *
      * @since 1.5
      */
     public PKCS8EncodedKeySpec getKeySpec(Key decryptKey,
-        String providerName) throws NoSuchProviderException,
-        NoSuchAlgorithmException, InvalidKeyException {
+        String providerNbme) throws NoSuchProviderException,
+        NoSuchAlgorithmException, InvblidKeyException {
         if (decryptKey == null) {
             throw new NullPointerException("decryptKey is null");
         }
-        if (providerName == null) {
+        if (providerNbme == null) {
             throw new NullPointerException("provider is null");
         }
-        Provider provider = Security.getProvider(providerName);
+        Provider provider = Security.getProvider(providerNbme);
         if (provider == null) {
             throw new NoSuchProviderException("provider " +
-                providerName + " not found");
+                providerNbme + " not found");
         }
         return getKeySpecImpl(decryptKey, provider);
     }
 
     /**
-     * Extract the enclosed PKCS8EncodedKeySpec object from the
-     * encrypted data and return it.
-     * @param decryptKey key used for decrypting the encrypted data.
-     * @param provider the name of provider whose Cipher implementation
+     * Extrbct the enclosed PKCS8EncodedKeySpec object from the
+     * encrypted dbtb bnd return it.
+     * @pbrbm decryptKey key used for decrypting the encrypted dbtb.
+     * @pbrbm provider the nbme of provider whose Cipher implementbtion
      * will be used.
      * @return the PKCS8EncodedKeySpec object.
      * @exception NullPointerException if <code>decryptKey</code>
      * or <code>provider</code> is null.
-     * @exception NoSuchAlgorithmException if cannot find appropriate
-     * cipher to decrypt the encrypted data in <code>provider</code>.
-     * @exception InvalidKeyException if <code>decryptKey</code>
-     * cannot be used to decrypt the encrypted data or the decryption
-     * result is not a valid PKCS8KeySpec.
+     * @exception NoSuchAlgorithmException if cbnnot find bppropribte
+     * cipher to decrypt the encrypted dbtb in <code>provider</code>.
+     * @exception InvblidKeyException if <code>decryptKey</code>
+     * cbnnot be used to decrypt the encrypted dbtb or the decryption
+     * result is not b vblid PKCS8KeySpec.
      *
      * @since 1.5
      */
     public PKCS8EncodedKeySpec getKeySpec(Key decryptKey,
         Provider provider) throws NoSuchAlgorithmException,
-        InvalidKeyException {
+        InvblidKeyException {
         if (decryptKey == null) {
             throw new NullPointerException("decryptKey is null");
         }
@@ -373,58 +373,58 @@ public class EncryptedPrivateKeyInfo {
 
     /**
      * Returns the ASN.1 encoding of this object.
-     * @return the ASN.1 encoding. Returns a new array
-     * each time this method is called.
+     * @return the ASN.1 encoding. Returns b new brrby
+     * ebch time this method is cblled.
      * @exception IOException if error occurs when constructing its
      * ASN.1 encoding.
      */
     public byte[] getEncoded() throws IOException {
         if (this.encoded == null) {
-            DerOutputStream out = new DerOutputStream();
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm out = new DerOutputStrebm();
+            DerOutputStrebm tmp = new DerOutputStrebm();
 
-            // encode encryption algorithm
-            algid.encode(tmp);
+            // encode encryption blgorithm
+            blgid.encode(tmp);
 
-            // encode encrypted data
-            tmp.putOctetString(encryptedData);
+            // encode encrypted dbtb
+            tmp.putOctetString(encryptedDbtb);
 
-            // wrap everything into a SEQUENCE
-            out.write(DerValue.tag_Sequence, tmp);
-            this.encoded = out.toByteArray();
+            // wrbp everything into b SEQUENCE
+            out.write(DerVblue.tbg_Sequence, tmp);
+            this.encoded = out.toByteArrby();
         }
         return this.encoded.clone();
     }
 
-    private static void checkTag(DerValue val, byte tag, String valName)
+    privbte stbtic void checkTbg(DerVblue vbl, byte tbg, String vblNbme)
         throws IOException {
-        if (val.getTag() != tag) {
-            throw new IOException("invalid key encoding - wrong tag for " +
-                                  valName);
+        if (vbl.getTbg() != tbg) {
+            throw new IOException("invblid key encoding - wrong tbg for " +
+                                  vblNbme);
         }
     }
 
-    @SuppressWarnings("fallthrough")
-    private static void checkPKCS8Encoding(byte[] encodedKey)
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic void checkPKCS8Encoding(byte[] encodedKey)
         throws IOException {
-        DerInputStream in = new DerInputStream(encodedKey);
-        DerValue[] values = in.getSequence(3);
+        DerInputStrebm in = new DerInputStrebm(encodedKey);
+        DerVblue[] vblues = in.getSequence(3);
 
-        switch (values.length) {
-        case 4:
-            checkTag(values[3], DerValue.TAG_CONTEXT, "attributes");
-            /* fall through */
-        case 3:
-            checkTag(values[0], DerValue.tag_Integer, "version");
-            DerInputStream algid = values[1].toDerInputStream();
-            algid.getOID();
-            if (algid.available() != 0) {
-                algid.getDerValue();
+        switch (vblues.length) {
+        cbse 4:
+            checkTbg(vblues[3], DerVblue.TAG_CONTEXT, "bttributes");
+            /* fbll through */
+        cbse 3:
+            checkTbg(vblues[0], DerVblue.tbg_Integer, "version");
+            DerInputStrebm blgid = vblues[1].toDerInputStrebm();
+            blgid.getOID();
+            if (blgid.bvbilbble() != 0) {
+                blgid.getDerVblue();
             }
-            checkTag(values[2], DerValue.tag_OctetString, "privateKey");
-            break;
-        default:
-            throw new IOException("invalid key encoding");
+            checkTbg(vblues[2], DerVblue.tbg_OctetString, "privbteKey");
+            brebk;
+        defbult:
+            throw new IOException("invblid key encoding");
         }
     }
 }

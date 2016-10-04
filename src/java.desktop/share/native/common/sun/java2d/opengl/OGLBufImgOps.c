@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,723 +30,723 @@
 #include "OGLBufImgOps.h"
 #include "OGLContext.h"
 #include "OGLRenderQueue.h"
-#include "OGLSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "OGLSurfbceDbtb.h"
+#include "GrbphicsPrimitiveMgr.h"
 
-/** Evaluates to true if the given bit is set on the local flags variable. */
-#define IS_SET(flagbit) \
-    (((flags) & (flagbit)) != 0)
+/** Evblubtes to true if the given bit is set on the locbl flbgs vbribble. */
+#define IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
 
 /**************************** ConvolveOp support ****************************/
 
 /**
- * The ConvolveOp shader is fairly straightforward.  For each texel in
- * the source texture, the shader samples the MxN texels in the surrounding
- * area, multiplies each by its corresponding kernel value, and then sums
- * them all together to produce a single color result.  Finally, the
- * resulting value is multiplied by the current OpenGL color, which contains
- * the extra alpha value.
+ * The ConvolveOp shbder is fbirly strbightforwbrd.  For ebch texel in
+ * the source texture, the shbder sbmples the MxN texels in the surrounding
+ * breb, multiplies ebch by its corresponding kernel vblue, bnd then sums
+ * them bll together to produce b single color result.  Finblly, the
+ * resulting vblue is multiplied by the current OpenGL color, which contbins
+ * the extrb blphb vblue.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * 3x3, one for 5x5, and so on) simply by filling in these "holes" with
- * a call to sprintf().  See the OGLBufImgOps_CreateConvolveProgram() method
- * for more details.
+ * Note thbt this shbder source code includes some "holes" mbrked by "%s".
+ * This bllows us to build different shbder progrbms (e.g. one for
+ * 3x3, one for 5x5, bnd so on) simply by filling in these "holes" with
+ * b cbll to sprintf().  See the OGLBufImgOps_CrebteConvolveProgrbm() method
+ * for more detbils.
  *
- * REMIND: Currently this shader (and the supporting code in the
- *         EnableConvolveOp() method) only supports 3x3 and 5x5 filters.
- *         Early shader-level hardware did not support non-constant sized
- *         arrays but modern hardware should support them (although I
- *         don't know of any simple way to find out, other than to compile
- *         the shader at runtime and see if the drivers complain).
+ * REMIND: Currently this shbder (bnd the supporting code in the
+ *         EnbbleConvolveOp() method) only supports 3x3 bnd 5x5 filters.
+ *         Ebrly shbder-level hbrdwbre did not support non-constbnt sized
+ *         brrbys but modern hbrdwbre should support them (blthough I
+ *         don't know of bny simple wby to find out, other thbn to compile
+ *         the shbder bt runtime bnd see if the drivers complbin).
  */
-static const char *convolveShaderSource =
-    // maximum size supported by this shader
+stbtic const chbr *convolveShbderSource =
+    // mbximum size supported by this shbder
     "const int MAX_KERNEL_SIZE = %s;"
-    // image to be convolved
-    "uniform sampler%s baseImage;"
-    // image edge limits:
-    //   imgEdge.xy = imgMin.xy (anything < will be treated as edge case)
-    //   imgEdge.zw = imgMax.xy (anything > will be treated as edge case)
+    // imbge to be convolved
+    "uniform sbmpler%s bbseImbge;"
+    // imbge edge limits:
+    //   imgEdge.xy = imgMin.xy (bnything < will be trebted bs edge cbse)
+    //   imgEdge.zw = imgMbx.xy (bnything > will be trebted bs edge cbse)
     "uniform vec4 imgEdge;"
-    // value for each location in the convolution kernel:
-    //   kernelVals[i].x = offsetX[i]
-    //   kernelVals[i].y = offsetY[i]
-    //   kernelVals[i].z = kernel[i]
-    "uniform vec3 kernelVals[MAX_KERNEL_SIZE];"
+    // vblue for ebch locbtion in the convolution kernel:
+    //   kernelVbls[i].x = offsetX[i]
+    //   kernelVbls[i].y = offsetY[i]
+    //   kernelVbls[i].z = kernel[i]
+    "uniform vec3 kernelVbls[MAX_KERNEL_SIZE];"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
     "    int i;"
     "    vec4 sum;"
     ""
-    "    if (any(lessThan(gl_TexCoord[0].st, imgEdge.xy)) ||"
-    "        any(greaterThan(gl_TexCoord[0].st, imgEdge.zw)))"
+    "    if (bny(lessThbn(gl_TexCoord[0].st, imgEdge.xy)) ||"
+    "        bny(grebterThbn(gl_TexCoord[0].st, imgEdge.zw)))"
     "    {"
-             // (placeholder for edge condition code)
+             // (plbceholder for edge condition code)
     "        %s"
     "    } else {"
     "        sum = vec4(0.0);"
     "        for (i = 0; i < MAX_KERNEL_SIZE; i++) {"
     "            sum +="
-    "                kernelVals[i].z *"
-    "                texture%s(baseImage,"
-    "                          gl_TexCoord[0].st + kernelVals[i].xy);"
+    "                kernelVbls[i].z *"
+    "                texture%s(bbseImbge,"
+    "                          gl_TexCoord[0].st + kernelVbls[i].xy);"
     "        }"
     "    }"
     ""
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = sum * gl_Color;"
+         // modulbte with gl_Color in order to bpply extrb blphb
+    "    gl_FrbgColor = sum * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs thbt cbn be bitwise-or'ed together to control how the shbder
+ * source code is generbted.
  */
 #define CONVOLVE_RECT            (1 << 0)
 #define CONVOLVE_EDGE_ZERO_FILL  (1 << 1)
 #define CONVOLVE_5X5             (1 << 2)
 
 /**
- * The handles to the ConvolveOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the CONVOLVE_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * The hbndles to the ConvolveOp frbgment progrbm objects.  The index to
+ * the brrby should be b bitwise-or'ing of the CONVOLVE_* flbgs defined
+ * bbove.  Note thbt most bpplicbtions will likely need to initiblize one
+ * or two of these elements, so the brrby is usublly spbrsely populbted.
  */
-static GLhandleARB convolvePrograms[8];
+stbtic GLhbndleARB convolveProgrbms[8];
 
 /**
- * The maximum kernel size supported by the ConvolveOp shader.
+ * The mbximum kernel size supported by the ConvolveOp shbder.
  */
 #define MAX_KERNEL_SIZE 25
 
 /**
- * Compiles and links the ConvolveOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
+ * Compiles bnd links the ConvolveOp shbder progrbm.  If successful, this
+ * function returns b hbndle to the newly crebted shbder progrbm; otherwise
  * returns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateConvolveProgram(jint flags)
+stbtic GLhbndleARB
+OGLBufImgOps_CrebteConvolveProgrbm(jint flbgs)
 {
-    GLhandleARB convolveProgram;
+    GLhbndleARB convolveProgrbm;
     GLint loc;
-    char *kernelMax = IS_SET(CONVOLVE_5X5) ? "25" : "9";
-    char *target = IS_SET(CONVOLVE_RECT) ? "2DRect" : "2D";
-    char edge[100];
-    char finalSource[2000];
+    chbr *kernelMbx = IS_SET(CONVOLVE_5X5) ? "25" : "9";
+    chbr *tbrget = IS_SET(CONVOLVE_RECT) ? "2DRect" : "2D";
+    chbr edge[100];
+    chbr finblSource[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateConvolveProgram: flags=%d",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrebteConvolveProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(CONVOLVE_EDGE_ZERO_FILL)) {
-        // EDGE_ZERO_FILL: fill in zero at the edges
+        // EDGE_ZERO_FILL: fill in zero bt the edges
         sprintf(edge, "sum = vec4(0.0);");
     } else {
-        // EDGE_NO_OP: use the source pixel color at the edges
+        // EDGE_NO_OP: use the source pixel color bt the edges
         sprintf(edge,
-                "sum = texture%s(baseImage, gl_TexCoord[0].st);",
-                target);
+                "sum = texture%s(bbseImbge, gl_TexCoord[0].st);",
+                tbrget);
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, convolveShaderSource,
-            kernelMax, target, edge, target);
+    // compose the finbl source code string from the vbrious pieces
+    sprintf(finblSource, convolveShbderSource,
+            kernelMbx, tbrget, edge, tbrget);
 
-    convolveProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (convolveProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateConvolveProgram: error creating program");
+    convolveProgrbm = OGLContext_CrebteFrbgmentProgrbm(finblSource);
+    if (convolveProgrbm == 0) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrebteConvolveProgrbm: error crebting progrbm");
         return 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(convolveProgram);
+    // "use" the progrbm object temporbrily so thbt we cbn set the uniforms
+    j2d_glUseProgrbmObjectARB(convolveProgrbm);
 
     // set the "uniform" texture unit binding
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "baseImage");
+    loc = j2d_glGetUniformLocbtionARB(convolveProgrbm, "bbseImbge");
     j2d_glUniform1iARB(loc, 0); // texture unit 0
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unuse" the progrbm object; it will be re-bound lbter bs needed
+    j2d_glUseProgrbmObjectARB(0);
 
-    return convolveProgram;
+    return convolveProgrbm;
 }
 
 void
-OGLBufImgOps_EnableConvolveOp(OGLContext *oglc, jlong pSrcOps,
-                              jboolean edgeZeroFill,
+OGLBufImgOps_EnbbleConvolveOp(OGLContext *oglc, jlong pSrcOps,
+                              jboolebn edgeZeroFill,
                               jint kernelWidth, jint kernelHeight,
-                              unsigned char *kernel)
+                              unsigned chbr *kernel)
 {
     OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
     jint kernelSize = kernelWidth * kernelHeight;
-    GLhandleARB convolveProgram;
-    GLfloat xoff, yoff;
-    GLfloat edgeX, edgeY, minX, minY, maxX, maxY;
-    GLfloat kernelVals[MAX_KERNEL_SIZE*3];
+    GLhbndleARB convolveProgrbm;
+    GLflobt xoff, yoff;
+    GLflobt edgeX, edgeY, minX, minY, mbxX, mbxY;
+    GLflobt kernelVbls[MAX_KERNEL_SIZE*3];
     jint i, j, kIndex;
     GLint loc;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "OGLBufImgOps_EnableConvolveOp: kernelW=%d kernelH=%d",
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbbleConvolveOp: kernelW=%d kernelH=%d",
                 kernelWidth, kernelHeight);
 
     RETURN_IF_NULL(oglc);
     RETURN_IF_NULL(srcOps);
     RESET_PREVIOUS_OP();
 
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= CONVOLVE_RECT;
+    if (srcOps->textureTbrget == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= CONVOLVE_RECT;
 
-        // for GL_TEXTURE_RECTANGLE_ARB, texcoords are specified in the
-        // range [0,srcw] and [0,srch], so to achieve an x/y offset of
-        // exactly one pixel we simply use the value 1 here
+        // for GL_TEXTURE_RECTANGLE_ARB, texcoords bre specified in the
+        // rbnge [0,srcw] bnd [0,srch], so to bchieve bn x/y offset of
+        // exbctly one pixel we simply use the vblue 1 here
         xoff = 1.0f;
         yoff = 1.0f;
     } else {
-        // for GL_TEXTURE_2D, texcoords are specified in the range [0,1],
-        // so to achieve an x/y offset of approximately one pixel we have
-        // to normalize to that range here
+        // for GL_TEXTURE_2D, texcoords bre specified in the rbnge [0,1],
+        // so to bchieve bn x/y offset of bpproximbtely one pixel we hbve
+        // to normblize to thbt rbnge here
         xoff = 1.0f / srcOps->textureWidth;
         yoff = 1.0f / srcOps->textureHeight;
     }
     if (edgeZeroFill) {
-        flags |= CONVOLVE_EDGE_ZERO_FILL;
+        flbgs |= CONVOLVE_EDGE_ZERO_FILL;
     }
     if (kernelWidth == 5 && kernelHeight == 5) {
-        flags |= CONVOLVE_5X5;
+        flbgs |= CONVOLVE_5X5;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (convolvePrograms[flags] == 0) {
-        convolvePrograms[flags] = OGLBufImgOps_CreateConvolveProgram(flags);
-        if (convolvePrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
+    // locbte/initiblize the shbder progrbm for the given flbgs
+    if (convolveProgrbms[flbgs] == 0) {
+        convolveProgrbms[flbgs] = OGLBufImgOps_CrebteConvolveProgrbm(flbgs);
+        if (convolveProgrbms[flbgs] == 0) {
+            // shouldn't hbppen, but just in cbse...
             return;
         }
     }
-    convolveProgram = convolvePrograms[flags];
+    convolveProgrbm = convolveProgrbms[flbgs];
 
-    // enable the convolve shader
-    j2d_glUseProgramObjectARB(convolveProgram);
+    // enbble the convolve shbder
+    j2d_glUseProgrbmObjectARB(convolveProgrbm);
 
-    // update the "uniform" image min/max values
+    // updbte the "uniform" imbge min/mbx vblues
     edgeX = (kernelWidth/2) * xoff;
     edgeY = (kernelHeight/2) * yoff;
     minX = edgeX;
     minY = edgeY;
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        // texcoords are in the range [0,srcw] and [0,srch]
-        maxX = ((GLfloat)srcOps->width)  - edgeX;
-        maxY = ((GLfloat)srcOps->height) - edgeY;
+    if (srcOps->textureTbrget == GL_TEXTURE_RECTANGLE_ARB) {
+        // texcoords bre in the rbnge [0,srcw] bnd [0,srch]
+        mbxX = ((GLflobt)srcOps->width)  - edgeX;
+        mbxY = ((GLflobt)srcOps->height) - edgeY;
     } else {
-        // texcoords are in the range [0,1]
-        maxX = (((GLfloat)srcOps->width) / srcOps->textureWidth) - edgeX;
-        maxY = (((GLfloat)srcOps->height) / srcOps->textureHeight) - edgeY;
+        // texcoords bre in the rbnge [0,1]
+        mbxX = (((GLflobt)srcOps->width) / srcOps->textureWidth) - edgeX;
+        mbxY = (((GLflobt)srcOps->height) / srcOps->textureHeight) - edgeY;
     }
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "imgEdge");
-    j2d_glUniform4fARB(loc, minX, minY, maxX, maxY);
+    loc = j2d_glGetUniformLocbtionARB(convolveProgrbm, "imgEdge");
+    j2d_glUniform4fARB(loc, minX, minY, mbxX, mbxY);
 
-    // update the "uniform" kernel offsets and values
-    loc = j2d_glGetUniformLocationARB(convolveProgram, "kernelVals");
+    // updbte the "uniform" kernel offsets bnd vblues
+    loc = j2d_glGetUniformLocbtionARB(convolveProgrbm, "kernelVbls");
     kIndex = 0;
     for (i = -kernelHeight/2; i < kernelHeight/2+1; i++) {
         for (j = -kernelWidth/2; j < kernelWidth/2+1; j++) {
-            kernelVals[kIndex+0] = j*xoff;
-            kernelVals[kIndex+1] = i*yoff;
-            kernelVals[kIndex+2] = NEXT_FLOAT(kernel);
+            kernelVbls[kIndex+0] = j*xoff;
+            kernelVbls[kIndex+1] = i*yoff;
+            kernelVbls[kIndex+2] = NEXT_FLOAT(kernel);
             kIndex += 3;
         }
     }
-    j2d_glUniform3fvARB(loc, kernelSize, kernelVals);
+    j2d_glUniform3fvARB(loc, kernelSize, kernelVbls);
 }
 
 void
-OGLBufImgOps_DisableConvolveOp(OGLContext *oglc)
+OGLBufImgOps_DisbbleConvolveOp(OGLContext *oglc)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableConvolveOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbbleConvolveOp");
 
     RETURN_IF_NULL(oglc);
 
-    // disable the ConvolveOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbble the ConvolveOp shbder
+    j2d_glUseProgrbmObjectARB(0);
 }
 
-/**************************** RescaleOp support *****************************/
+/**************************** RescbleOp support *****************************/
 
 /**
- * The RescaleOp shader is one of the simplest possible.  Each fragment
- * from the source image is multiplied by the user's scale factor and added
- * to the user's offset value (these are component-wise operations).
- * Finally, the resulting value is multiplied by the current OpenGL color,
- * which contains the extra alpha value.
+ * The RescbleOp shbder is one of the simplest possible.  Ebch frbgment
+ * from the source imbge is multiplied by the user's scble fbctor bnd bdded
+ * to the user's offset vblue (these bre component-wise operbtions).
+ * Finblly, the resulting vblue is multiplied by the current OpenGL color,
+ * which contbins the extrb blphb vblue.
  *
- * The RescaleOp spec says that the operation is performed regardless of
- * whether the source data is premultiplied or non-premultiplied.  This is
- * a problem for the OpenGL pipeline in that a non-premultiplied
- * BufferedImage will have already been converted into premultiplied
- * when uploaded to an OpenGL texture.  Therefore, we have a special mode
- * called RESCALE_NON_PREMULT (used only for source images that were
- * originally non-premultiplied) that un-premultiplies the source color
- * prior to the rescale operation, then re-premultiplies the resulting
- * color before returning from the fragment shader.
+ * The RescbleOp spec sbys thbt the operbtion is performed regbrdless of
+ * whether the source dbtb is premultiplied or non-premultiplied.  This is
+ * b problem for the OpenGL pipeline in thbt b non-premultiplied
+ * BufferedImbge will hbve blrebdy been converted into premultiplied
+ * when uplobded to bn OpenGL texture.  Therefore, we hbve b specibl mode
+ * cblled RESCALE_NON_PREMULT (used only for source imbges thbt were
+ * originblly non-premultiplied) thbt un-premultiplies the source color
+ * prior to the rescble operbtion, then re-premultiplies the resulting
+ * color before returning from the frbgment shbder.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * GL_TEXTURE_2D targets, one for GL_TEXTURE_RECTANGLE_ARB targets, and so on)
- * simply by filling in these "holes" with a call to sprintf().  See the
- * OGLBufImgOps_CreateRescaleProgram() method for more details.
+ * Note thbt this shbder source code includes some "holes" mbrked by "%s".
+ * This bllows us to build different shbder progrbms (e.g. one for
+ * GL_TEXTURE_2D tbrgets, one for GL_TEXTURE_RECTANGLE_ARB tbrgets, bnd so on)
+ * simply by filling in these "holes" with b cbll to sprintf().  See the
+ * OGLBufImgOps_CrebteRescbleProgrbm() method for more detbils.
  */
-static const char *rescaleShaderSource =
-    // image to be rescaled
-    "uniform sampler%s baseImage;"
-    // vector containing scale factors
-    "uniform vec4 scaleFactors;"
-    // vector containing offsets
+stbtic const chbr *rescbleShbderSource =
+    // imbge to be rescbled
+    "uniform sbmpler%s bbseImbge;"
+    // vector contbining scble fbctors
+    "uniform vec4 scbleFbctors;"
+    // vector contbining offsets
     "uniform vec4 offsets;"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    vec4 srcColor = texture%s(baseImage, gl_TexCoord[0].st);"
-         // (placeholder for un-premult code)
+    "    vec4 srcColor = texture%s(bbseImbge, gl_TexCoord[0].st);"
+         // (plbceholder for un-premult code)
     "    %s"
-         // rescale source value
-    "    vec4 result = (srcColor * scaleFactors) + offsets;"
-         // (placeholder for re-premult code)
+         // rescble source vblue
+    "    vec4 result = (srcColor * scbleFbctors) + offsets;"
+         // (plbceholder for re-premult code)
     "    %s"
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbte with gl_Color in order to bpply extrb blphb
+    "    gl_FrbgColor = result * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs thbt cbn be bitwise-or'ed together to control how the shbder
+ * source code is generbted.
  */
 #define RESCALE_RECT        (1 << 0)
 #define RESCALE_NON_PREMULT (1 << 1)
 
 /**
- * The handles to the RescaleOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the RESCALE_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * The hbndles to the RescbleOp frbgment progrbm objects.  The index to
+ * the brrby should be b bitwise-or'ing of the RESCALE_* flbgs defined
+ * bbove.  Note thbt most bpplicbtions will likely need to initiblize one
+ * or two of these elements, so the brrby is usublly spbrsely populbted.
  */
-static GLhandleARB rescalePrograms[4];
+stbtic GLhbndleARB rescbleProgrbms[4];
 
 /**
- * Compiles and links the RescaleOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
+ * Compiles bnd links the RescbleOp shbder progrbm.  If successful, this
+ * function returns b hbndle to the newly crebted shbder progrbm; otherwise
  * returns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateRescaleProgram(jint flags)
+stbtic GLhbndleARB
+OGLBufImgOps_CrebteRescbleProgrbm(jint flbgs)
 {
-    GLhandleARB rescaleProgram;
+    GLhbndleARB rescbleProgrbm;
     GLint loc;
-    char *target = IS_SET(RESCALE_RECT) ? "2DRect" : "2D";
-    char *preRescale = "";
-    char *postRescale = "";
-    char finalSource[2000];
+    chbr *tbrget = IS_SET(RESCALE_RECT) ? "2DRect" : "2D";
+    chbr *preRescble = "";
+    chbr *postRescble = "";
+    chbr finblSource[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateRescaleProgram: flags=%d",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrebteRescbleProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(RESCALE_NON_PREMULT)) {
-        preRescale  = "srcColor.rgb /= srcColor.a;";
-        postRescale = "result.rgb *= result.a;";
+        preRescble  = "srcColor.rgb /= srcColor.b;";
+        postRescble = "result.rgb *= result.b;";
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, rescaleShaderSource,
-            target, target, preRescale, postRescale);
+    // compose the finbl source code string from the vbrious pieces
+    sprintf(finblSource, rescbleShbderSource,
+            tbrget, tbrget, preRescble, postRescble);
 
-    rescaleProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (rescaleProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateRescaleProgram: error creating program");
+    rescbleProgrbm = OGLContext_CrebteFrbgmentProgrbm(finblSource);
+    if (rescbleProgrbm == 0) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrebteRescbleProgrbm: error crebting progrbm");
         return 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(rescaleProgram);
+    // "use" the progrbm object temporbrily so thbt we cbn set the uniforms
+    j2d_glUseProgrbmObjectARB(rescbleProgrbm);
 
-    // set the "uniform" values
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "baseImage");
+    // set the "uniform" vblues
+    loc = j2d_glGetUniformLocbtionARB(rescbleProgrbm, "bbseImbge");
     j2d_glUniform1iARB(loc, 0); // texture unit 0
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unuse" the progrbm object; it will be re-bound lbter bs needed
+    j2d_glUseProgrbmObjectARB(0);
 
-    return rescaleProgram;
+    return rescbleProgrbm;
 }
 
 void
-OGLBufImgOps_EnableRescaleOp(OGLContext *oglc, jlong pSrcOps,
-                             jboolean nonPremult,
-                             unsigned char *scaleFactors,
-                             unsigned char *offsets)
+OGLBufImgOps_EnbbleRescbleOp(OGLContext *oglc, jlong pSrcOps,
+                             jboolebn nonPremult,
+                             unsigned chbr *scbleFbctors,
+                             unsigned chbr *offsets)
 {
     OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    GLhandleARB rescaleProgram;
+    GLhbndleARB rescbleProgrbm;
     GLint loc;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_EnableRescaleOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLBufImgOps_EnbbleRescbleOp");
 
     RETURN_IF_NULL(oglc);
     RETURN_IF_NULL(srcOps);
     RESET_PREVIOUS_OP();
 
-    // choose the appropriate shader, depending on the source texture target
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= RESCALE_RECT;
+    // choose the bppropribte shbder, depending on the source texture tbrget
+    if (srcOps->textureTbrget == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= RESCALE_RECT;
     }
     if (nonPremult) {
-        flags |= RESCALE_NON_PREMULT;
+        flbgs |= RESCALE_NON_PREMULT;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (rescalePrograms[flags] == 0) {
-        rescalePrograms[flags] = OGLBufImgOps_CreateRescaleProgram(flags);
-        if (rescalePrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
+    // locbte/initiblize the shbder progrbm for the given flbgs
+    if (rescbleProgrbms[flbgs] == 0) {
+        rescbleProgrbms[flbgs] = OGLBufImgOps_CrebteRescbleProgrbm(flbgs);
+        if (rescbleProgrbms[flbgs] == 0) {
+            // shouldn't hbppen, but just in cbse...
             return;
         }
     }
-    rescaleProgram = rescalePrograms[flags];
+    rescbleProgrbm = rescbleProgrbms[flbgs];
 
-    // enable the rescale shader
-    j2d_glUseProgramObjectARB(rescaleProgram);
+    // enbble the rescble shbder
+    j2d_glUseProgrbmObjectARB(rescbleProgrbm);
 
-    // update the "uniform" scale factor values (note that the Java-level
-    // dispatching code always passes down 4 values here, regardless of
-    // the original source image type)
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "scaleFactors");
+    // updbte the "uniform" scble fbctor vblues (note thbt the Jbvb-level
+    // dispbtching code blwbys pbsses down 4 vblues here, regbrdless of
+    // the originbl source imbge type)
+    loc = j2d_glGetUniformLocbtionARB(rescbleProgrbm, "scbleFbctors");
     {
-        GLfloat sf1 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf2 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf3 = NEXT_FLOAT(scaleFactors);
-        GLfloat sf4 = NEXT_FLOAT(scaleFactors);
+        GLflobt sf1 = NEXT_FLOAT(scbleFbctors);
+        GLflobt sf2 = NEXT_FLOAT(scbleFbctors);
+        GLflobt sf3 = NEXT_FLOAT(scbleFbctors);
+        GLflobt sf4 = NEXT_FLOAT(scbleFbctors);
         j2d_glUniform4fARB(loc, sf1, sf2, sf3, sf4);
     }
 
-    // update the "uniform" offset values (note that the Java-level
-    // dispatching code always passes down 4 values here, and that the
-    // offsets will have already been normalized to the range [0,1])
-    loc = j2d_glGetUniformLocationARB(rescaleProgram, "offsets");
+    // updbte the "uniform" offset vblues (note thbt the Jbvb-level
+    // dispbtching code blwbys pbsses down 4 vblues here, bnd thbt the
+    // offsets will hbve blrebdy been normblized to the rbnge [0,1])
+    loc = j2d_glGetUniformLocbtionARB(rescbleProgrbm, "offsets");
     {
-        GLfloat off1 = NEXT_FLOAT(offsets);
-        GLfloat off2 = NEXT_FLOAT(offsets);
-        GLfloat off3 = NEXT_FLOAT(offsets);
-        GLfloat off4 = NEXT_FLOAT(offsets);
+        GLflobt off1 = NEXT_FLOAT(offsets);
+        GLflobt off2 = NEXT_FLOAT(offsets);
+        GLflobt off3 = NEXT_FLOAT(offsets);
+        GLflobt off4 = NEXT_FLOAT(offsets);
         j2d_glUniform4fARB(loc, off1, off2, off3, off4);
     }
 }
 
 void
-OGLBufImgOps_DisableRescaleOp(OGLContext *oglc)
+OGLBufImgOps_DisbbleRescbleOp(OGLContext *oglc)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableRescaleOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbbleRescbleOp");
 
     RETURN_IF_NULL(oglc);
 
-    // disable the RescaleOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbble the RescbleOp shbder
+    j2d_glUseProgrbmObjectARB(0);
 }
 
 /**************************** LookupOp support ******************************/
 
 /**
- * The LookupOp shader takes a fragment color (from the source texture) as
- * input, subtracts the optional user offset value, and then uses the
- * resulting value to index into the lookup table texture to provide
- * a new color result.  Finally, the resulting value is multiplied by
- * the current OpenGL color, which contains the extra alpha value.
+ * The LookupOp shbder tbkes b frbgment color (from the source texture) bs
+ * input, subtrbcts the optionbl user offset vblue, bnd then uses the
+ * resulting vblue to index into the lookup tbble texture to provide
+ * b new color result.  Finblly, the resulting vblue is multiplied by
+ * the current OpenGL color, which contbins the extrb blphb vblue.
  *
- * The lookup step requires 3 texture accesses (or 4, when alpha is included),
- * which is somewhat unfortunate because it's not ideal from a performance
- * standpoint, but that sort of thing is getting faster with newer hardware.
- * In the 3-band case, we could consider using a three-dimensional texture
- * and performing the lookup with a single texture access step.  We already
- * use this approach in the LCD text shader, and it works well, but for the
- * purposes of this LookupOp shader, it's probably overkill.  Also, there's
- * a difference in that the LCD text shader only needs to populate the 3D LUT
- * once, but here we would need to populate it on every invocation, which
- * would likely be a waste of VRAM and CPU/GPU cycles.
+ * The lookup step requires 3 texture bccesses (or 4, when blphb is included),
+ * which is somewhbt unfortunbte becbuse it's not idebl from b performbnce
+ * stbndpoint, but thbt sort of thing is getting fbster with newer hbrdwbre.
+ * In the 3-bbnd cbse, we could consider using b three-dimensionbl texture
+ * bnd performing the lookup with b single texture bccess step.  We blrebdy
+ * use this bpprobch in the LCD text shbder, bnd it works well, but for the
+ * purposes of this LookupOp shbder, it's probbbly overkill.  Also, there's
+ * b difference in thbt the LCD text shbder only needs to populbte the 3D LUT
+ * once, but here we would need to populbte it on every invocbtion, which
+ * would likely be b wbste of VRAM bnd CPU/GPU cycles.
  *
- * The LUT texture is currently hardcoded as 4 rows/bands, each containing
- * 256 elements.  This means that we currently only support user-provided
- * tables with no more than 256 elements in each band (this is checked at
- * at the Java level).  If the user provides a table with less than 256
- * elements per band, our shader will still work fine, but if elements are
- * accessed with an index >= the size of the LUT, then the shader will simply
- * produce undefined values.  Typically the user would provide an offset
- * value that would prevent this from happening, but it's worth pointing out
- * this fact because the software LookupOp implementation would usually
- * throw an ArrayIndexOutOfBoundsException in this scenario (although it is
- * not something demanded by the spec).
+ * The LUT texture is currently hbrdcoded bs 4 rows/bbnds, ebch contbining
+ * 256 elements.  This mebns thbt we currently only support user-provided
+ * tbbles with no more thbn 256 elements in ebch bbnd (this is checked bt
+ * bt the Jbvb level).  If the user provides b tbble with less thbn 256
+ * elements per bbnd, our shbder will still work fine, but if elements bre
+ * bccessed with bn index >= the size of the LUT, then the shbder will simply
+ * produce undefined vblues.  Typicblly the user would provide bn offset
+ * vblue thbt would prevent this from hbppening, but it's worth pointing out
+ * this fbct becbuse the softwbre LookupOp implementbtion would usublly
+ * throw bn ArrbyIndexOutOfBoundsException in this scenbrio (blthough it is
+ * not something dembnded by the spec).
  *
- * The LookupOp spec says that the operation is performed regardless of
- * whether the source data is premultiplied or non-premultiplied.  This is
- * a problem for the OpenGL pipeline in that a non-premultiplied
- * BufferedImage will have already been converted into premultiplied
- * when uploaded to an OpenGL texture.  Therefore, we have a special mode
- * called LOOKUP_NON_PREMULT (used only for source images that were
- * originally non-premultiplied) that un-premultiplies the source color
- * prior to the lookup operation, then re-premultiplies the resulting
- * color before returning from the fragment shader.
+ * The LookupOp spec sbys thbt the operbtion is performed regbrdless of
+ * whether the source dbtb is premultiplied or non-premultiplied.  This is
+ * b problem for the OpenGL pipeline in thbt b non-premultiplied
+ * BufferedImbge will hbve blrebdy been converted into premultiplied
+ * when uplobded to bn OpenGL texture.  Therefore, we hbve b specibl mode
+ * cblled LOOKUP_NON_PREMULT (used only for source imbges thbt were
+ * originblly non-premultiplied) thbt un-premultiplies the source color
+ * prior to the lookup operbtion, then re-premultiplies the resulting
+ * color before returning from the frbgment shbder.
  *
- * Note that this shader source code includes some "holes" marked by "%s".
- * This allows us to build different shader programs (e.g. one for
- * GL_TEXTURE_2D targets, one for GL_TEXTURE_RECTANGLE_ARB targets, and so on)
- * simply by filling in these "holes" with a call to sprintf().  See the
- * OGLBufImgOps_CreateLookupProgram() method for more details.
+ * Note thbt this shbder source code includes some "holes" mbrked by "%s".
+ * This bllows us to build different shbder progrbms (e.g. one for
+ * GL_TEXTURE_2D tbrgets, one for GL_TEXTURE_RECTANGLE_ARB tbrgets, bnd so on)
+ * simply by filling in these "holes" with b cbll to sprintf().  See the
+ * OGLBufImgOps_CrebteLookupProgrbm() method for more detbils.
  */
-static const char *lookupShaderSource =
-    // source image (bound to texture unit 0)
-    "uniform sampler%s baseImage;"
-    // lookup table (bound to texture unit 1)
-    "uniform sampler2D lookupTable;"
-    // offset subtracted from source index prior to lookup step
+stbtic const chbr *lookupShbderSource =
+    // source imbge (bound to texture unit 0)
+    "uniform sbmpler%s bbseImbge;"
+    // lookup tbble (bound to texture unit 1)
+    "uniform sbmpler2D lookupTbble;"
+    // offset subtrbcted from source index prior to lookup step
     "uniform vec4 offset;"
     ""
-    "void main(void)"
+    "void mbin(void)"
     "{"
-    "    vec4 srcColor = texture%s(baseImage, gl_TexCoord[0].st);"
-         // (placeholder for un-premult code)
+    "    vec4 srcColor = texture%s(bbseImbge, gl_TexCoord[0].st);"
+         // (plbceholder for un-premult code)
     "    %s"
-         // subtract offset from original index
+         // subtrbct offset from originbl index
     "    vec4 srcIndex = srcColor - offset;"
-         // use source value as input to lookup table (note that
-         // "v" texcoords are hardcoded to hit texel centers of
-         // each row/band in texture)
+         // use source vblue bs input to lookup tbble (note thbt
+         // "v" texcoords bre hbrdcoded to hit texel centers of
+         // ebch row/bbnd in texture)
     "    vec4 result;"
-    "    result.r = texture2D(lookupTable, vec2(srcIndex.r, 0.125)).r;"
-    "    result.g = texture2D(lookupTable, vec2(srcIndex.g, 0.375)).r;"
-    "    result.b = texture2D(lookupTable, vec2(srcIndex.b, 0.625)).r;"
-         // (placeholder for alpha store code)
+    "    result.r = texture2D(lookupTbble, vec2(srcIndex.r, 0.125)).r;"
+    "    result.g = texture2D(lookupTbble, vec2(srcIndex.g, 0.375)).r;"
+    "    result.b = texture2D(lookupTbble, vec2(srcIndex.b, 0.625)).r;"
+         // (plbceholder for blphb store code)
     "    %s"
-         // (placeholder for re-premult code)
+         // (plbceholder for re-premult code)
     "    %s"
-         // modulate with gl_Color in order to apply extra alpha
-    "    gl_FragColor = result * gl_Color;"
+         // modulbte with gl_Color in order to bpply extrb blphb
+    "    gl_FrbgColor = result * gl_Color;"
     "}";
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs thbt cbn be bitwise-or'ed together to control how the shbder
+ * source code is generbted.
  */
 #define LOOKUP_RECT          (1 << 0)
 #define LOOKUP_USE_SRC_ALPHA (1 << 1)
 #define LOOKUP_NON_PREMULT   (1 << 2)
 
 /**
- * The handles to the LookupOp fragment program objects.  The index to
- * the array should be a bitwise-or'ing of the LOOKUP_* flags defined
- * above.  Note that most applications will likely need to initialize one
- * or two of these elements, so the array is usually sparsely populated.
+ * The hbndles to the LookupOp frbgment progrbm objects.  The index to
+ * the brrby should be b bitwise-or'ing of the LOOKUP_* flbgs defined
+ * bbove.  Note thbt most bpplicbtions will likely need to initiblize one
+ * or two of these elements, so the brrby is usublly spbrsely populbted.
  */
-static GLhandleARB lookupPrograms[8];
+stbtic GLhbndleARB lookupProgrbms[8];
 
 /**
- * The handle to the lookup table texture object used by the shader.
+ * The hbndle to the lookup tbble texture object used by the shbder.
  */
-static GLuint lutTextureID = 0;
+stbtic GLuint lutTextureID = 0;
 
 /**
- * Compiles and links the LookupOp shader program.  If successful, this
- * function returns a handle to the newly created shader program; otherwise
+ * Compiles bnd links the LookupOp shbder progrbm.  If successful, this
+ * function returns b hbndle to the newly crebted shbder progrbm; otherwise
  * returns 0.
  */
-static GLhandleARB
-OGLBufImgOps_CreateLookupProgram(jint flags)
+stbtic GLhbndleARB
+OGLBufImgOps_CrebteLookupProgrbm(jint flbgs)
 {
-    GLhandleARB lookupProgram;
+    GLhbndleARB lookupProgrbm;
     GLint loc;
-    char *target = IS_SET(LOOKUP_RECT) ? "2DRect" : "2D";
-    char *alpha;
-    char *preLookup = "";
-    char *postLookup = "";
-    char finalSource[2000];
+    chbr *tbrget = IS_SET(LOOKUP_RECT) ? "2DRect" : "2D";
+    chbr *blphb;
+    chbr *preLookup = "";
+    chbr *postLookup = "";
+    chbr finblSource[2000];
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "OGLBufImgOps_CreateLookupProgram: flags=%d",
-                flags);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrebteLookupProgrbm: flbgs=%d",
+                flbgs);
 
     if (IS_SET(LOOKUP_USE_SRC_ALPHA)) {
-        // when numComps is 1 or 3, the alpha is not looked up in the table;
-        // just keep the alpha from the source fragment
-        alpha = "result.a = srcColor.a;";
+        // when numComps is 1 or 3, the blphb is not looked up in the tbble;
+        // just keep the blphb from the source frbgment
+        blphb = "result.b = srcColor.b;";
     } else {
-        // when numComps is 4, the alpha is looked up in the table, just
-        // like the other color components from the source fragment
-        alpha =
-            "result.a = texture2D(lookupTable, vec2(srcIndex.a, 0.875)).r;";
+        // when numComps is 4, the blphb is looked up in the tbble, just
+        // like the other color components from the source frbgment
+        blphb =
+            "result.b = texture2D(lookupTbble, vec2(srcIndex.b, 0.875)).r;";
     }
     if (IS_SET(LOOKUP_NON_PREMULT)) {
-        preLookup  = "srcColor.rgb /= srcColor.a;";
-        postLookup = "result.rgb *= result.a;";
+        preLookup  = "srcColor.rgb /= srcColor.b;";
+        postLookup = "result.rgb *= result.b;";
     }
 
-    // compose the final source code string from the various pieces
-    sprintf(finalSource, lookupShaderSource,
-            target, target, preLookup, alpha, postLookup);
+    // compose the finbl source code string from the vbrious pieces
+    sprintf(finblSource, lookupShbderSource,
+            tbrget, tbrget, preLookup, blphb, postLookup);
 
-    lookupProgram = OGLContext_CreateFragmentProgram(finalSource);
-    if (lookupProgram == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "OGLBufImgOps_CreateLookupProgram: error creating program");
+    lookupProgrbm = OGLContext_CrebteFrbgmentProgrbm(finblSource);
+    if (lookupProgrbm == 0) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrebteLookupProgrbm: error crebting progrbm");
         return 0;
     }
 
-    // "use" the program object temporarily so that we can set the uniforms
-    j2d_glUseProgramObjectARB(lookupProgram);
+    // "use" the progrbm object temporbrily so thbt we cbn set the uniforms
+    j2d_glUseProgrbmObjectARB(lookupProgrbm);
 
-    // set the "uniform" values
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "baseImage");
+    // set the "uniform" vblues
+    loc = j2d_glGetUniformLocbtionARB(lookupProgrbm, "bbseImbge");
     j2d_glUniform1iARB(loc, 0); // texture unit 0
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "lookupTable");
+    loc = j2d_glGetUniformLocbtionARB(lookupProgrbm, "lookupTbble");
     j2d_glUniform1iARB(loc, 1); // texture unit 1
 
-    // "unuse" the program object; it will be re-bound later as needed
-    j2d_glUseProgramObjectARB(0);
+    // "unuse" the progrbm object; it will be re-bound lbter bs needed
+    j2d_glUseProgrbmObjectARB(0);
 
-    return lookupProgram;
+    return lookupProgrbm;
 }
 
 void
-OGLBufImgOps_EnableLookupOp(OGLContext *oglc, jlong pSrcOps,
-                            jboolean nonPremult, jboolean shortData,
-                            jint numBands, jint bandLength, jint offset,
-                            void *tableValues)
+OGLBufImgOps_EnbbleLookupOp(OGLContext *oglc, jlong pSrcOps,
+                            jboolebn nonPremult, jboolebn shortDbtb,
+                            jint numBbnds, jint bbndLength, jint offset,
+                            void *tbbleVblues)
 {
     OGLSDOps *srcOps = (OGLSDOps *)jlong_to_ptr(pSrcOps);
-    int bytesPerElem = (shortData ? 2 : 1);
-    GLhandleARB lookupProgram;
-    GLfloat foff;
+    int bytesPerElem = (shortDbtb ? 2 : 1);
+    GLhbndleARB lookupProgrbm;
+    GLflobt foff;
     GLint loc;
-    void *bands[4];
+    void *bbnds[4];
     int i;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "OGLBufImgOps_EnableLookupOp: short=%d num=%d len=%d off=%d",
-                shortData, numBands, bandLength, offset);
+    J2dTrbceLn4(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbbleLookupOp: short=%d num=%d len=%d off=%d",
+                shortDbtb, numBbnds, bbndLength, offset);
 
     for (i = 0; i < 4; i++) {
-        bands[i] = NULL;
+        bbnds[i] = NULL;
     }
     RETURN_IF_NULL(oglc);
     RETURN_IF_NULL(srcOps);
     RESET_PREVIOUS_OP();
 
-    // choose the appropriate shader, depending on the source texture target
-    // and the number of bands involved
-    if (srcOps->textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
-        flags |= LOOKUP_RECT;
+    // choose the bppropribte shbder, depending on the source texture tbrget
+    // bnd the number of bbnds involved
+    if (srcOps->textureTbrget == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= LOOKUP_RECT;
     }
-    if (numBands != 4) {
-        flags |= LOOKUP_USE_SRC_ALPHA;
+    if (numBbnds != 4) {
+        flbgs |= LOOKUP_USE_SRC_ALPHA;
     }
     if (nonPremult) {
-        flags |= LOOKUP_NON_PREMULT;
+        flbgs |= LOOKUP_NON_PREMULT;
     }
 
-    // locate/initialize the shader program for the given flags
-    if (lookupPrograms[flags] == 0) {
-        lookupPrograms[flags] = OGLBufImgOps_CreateLookupProgram(flags);
-        if (lookupPrograms[flags] == 0) {
-            // shouldn't happen, but just in case...
+    // locbte/initiblize the shbder progrbm for the given flbgs
+    if (lookupProgrbms[flbgs] == 0) {
+        lookupProgrbms[flbgs] = OGLBufImgOps_CrebteLookupProgrbm(flbgs);
+        if (lookupProgrbms[flbgs] == 0) {
+            // shouldn't hbppen, but just in cbse...
             return;
         }
     }
-    lookupProgram = lookupPrograms[flags];
+    lookupProgrbm = lookupProgrbms[flbgs];
 
-    // enable the lookup shader
-    j2d_glUseProgramObjectARB(lookupProgram);
+    // enbble the lookup shbder
+    j2d_glUseProgrbmObjectARB(lookupProgrbm);
 
-    // update the "uniform" offset value
-    loc = j2d_glGetUniformLocationARB(lookupProgram, "offset");
+    // updbte the "uniform" offset vblue
+    loc = j2d_glGetUniformLocbtionARB(lookupProgrbm, "offset");
     foff = offset / 255.0f;
     j2d_glUniform4fARB(loc, foff, foff, foff, foff);
 
-    // bind the lookup table to texture unit 1 and enable texturing
+    // bind the lookup tbble to texture unit 1 bnd enbble texturing
     j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
     if (lutTextureID == 0) {
         /*
-         * Create the lookup table texture with 4 rows (one band per row)
-         * and 256 columns (one LUT band element per column) and with an
-         * internal format of 16-bit luminance values, which will be
-         * sufficient for either byte or short LUT data.  Note that the
-         * texture wrap mode will be set to the default of GL_CLAMP_TO_EDGE,
-         * which means that out-of-range index value will be clamped
-         * appropriately.
+         * Crebte the lookup tbble texture with 4 rows (one bbnd per row)
+         * bnd 256 columns (one LUT bbnd element per column) bnd with bn
+         * internbl formbt of 16-bit luminbnce vblues, which will be
+         * sufficient for either byte or short LUT dbtb.  Note thbt the
+         * texture wrbp mode will be set to the defbult of GL_CLAMP_TO_EDGE,
+         * which mebns thbt out-of-rbnge index vblue will be clbmped
+         * bppropribtely.
          */
         lutTextureID =
-            OGLContext_CreateBlitTexture(GL_LUMINANCE16, GL_LUMINANCE,
+            OGLContext_CrebteBlitTexture(GL_LUMINANCE16, GL_LUMINANCE,
                                          256, 4);
         if (lutTextureID == 0) {
-            // should never happen, but just to be safe...
+            // should never hbppen, but just to be sbfe...
             return;
         }
     }
     j2d_glBindTexture(GL_TEXTURE_2D, lutTextureID);
-    j2d_glEnable(GL_TEXTURE_2D);
+    j2d_glEnbble(GL_TEXTURE_2D);
 
-    // update the lookup table with the user-provided values
-    if (numBands == 1) {
-        // replicate the single band for R/G/B; alpha band is unused
+    // updbte the lookup tbble with the user-provided vblues
+    if (numBbnds == 1) {
+        // replicbte the single bbnd for R/G/B; blphb bbnd is unused
         for (i = 0; i < 3; i++) {
-            bands[i] = tableValues;
+            bbnds[i] = tbbleVblues;
         }
-        bands[3] = NULL;
-    } else if (numBands == 3) {
-        // user supplied band for each of R/G/B; alpha band is unused
+        bbnds[3] = NULL;
+    } else if (numBbnds == 3) {
+        // user supplied bbnd for ebch of R/G/B; blphb bbnd is unused
         for (i = 0; i < 3; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytes(tbbleVblues, i*bbndLength*bytesPerElem);
         }
-        bands[3] = NULL;
-    } else if (numBands == 4) {
-        // user supplied band for each of R/G/B/A
+        bbnds[3] = NULL;
+    } else if (numBbnds == 4) {
+        // user supplied bbnd for ebch of R/G/B/A
         for (i = 0; i < 4; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytes(tbbleVblues, i*bbndLength*bytesPerElem);
         }
     }
 
-    // upload the bands one row at a time into our lookup table texture
+    // uplobd the bbnds one row bt b time into our lookup tbble texture
     for (i = 0; i < 4; i++) {
-        if (bands[i] == NULL) {
+        if (bbnds[i] == NULL) {
             continue;
         }
-        j2d_glTexSubImage2D(GL_TEXTURE_2D, 0,
-                            0, i, bandLength, 1,
+        j2d_glTexSubImbge2D(GL_TEXTURE_2D, 0,
+                            0, i, bbndLength, 1,
                             GL_LUMINANCE,
-                            shortData ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE,
-                            bands[i]);
+                            shortDbtb ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE,
+                            bbnds[i]);
     }
 
-    // restore texture unit 0 (the default) as the active one since
-    // the OGLBlitTextureToSurface() method is responsible for binding the
-    // source image texture, which will happen later
+    // restore texture unit 0 (the defbult) bs the bctive one since
+    // the OGLBlitTextureToSurfbce() method is responsible for binding the
+    // source imbge texture, which will hbppen lbter
     j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
 }
 
 void
-OGLBufImgOps_DisableLookupOp(OGLContext *oglc)
+OGLBufImgOps_DisbbleLookupOp(OGLContext *oglc)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisableLookupOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbbleLookupOp");
 
     RETURN_IF_NULL(oglc);
 
-    // disable the LookupOp shader
-    j2d_glUseProgramObjectARB(0);
+    // disbble the LookupOp shbder
+    j2d_glUseProgrbmObjectARB(0);
 
-    // disable the lookup table on texture unit 1
+    // disbble the lookup tbble on texture unit 1
     j2d_glActiveTextureARB(GL_TEXTURE1_ARB);
-    j2d_glDisable(GL_TEXTURE_2D);
+    j2d_glDisbble(GL_TEXTURE_2D);
     j2d_glActiveTextureARB(GL_TEXTURE0_ARB);
 }
 

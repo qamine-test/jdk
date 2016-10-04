@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.security.MessageDigest;
-import java.util.Arrays;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.security.MessbgeDigest;
+import jbvb.util.Arrbys;
 
 /**
- * This class is a base class for new GSS token definitions, as defined
- * in RFC 4121, that pertain to per-message GSS-API calls. Conceptually
- * GSS-API has two types of per-message tokens: WrapToken and MicToken.
- * They differ in the respect that a WrapToken carries additional plaintext
- * or ciphertext application data besides just the sequence number and
- * checksum. This class encapsulates the commonality in the structure of
- * the WrapToken and the MicToken. This structure can be represented as:
+ * This clbss is b bbse clbss for new GSS token definitions, bs defined
+ * in RFC 4121, thbt pertbin to per-messbge GSS-API cblls. Conceptublly
+ * GSS-API hbs two types of per-messbge tokens: WrbpToken bnd MicToken.
+ * They differ in the respect thbt b WrbpToken cbrries bdditionbl plbintext
+ * or ciphertext bpplicbtion dbtb besides just the sequence number bnd
+ * checksum. This clbss encbpsulbtes the commonblity in the structure of
+ * the WrbpToken bnd the MicToken. This structure cbn be represented bs:
  * <p>
  * <pre>
- * Wrap Tokens
+ * Wrbp Tokens
  *
- *     Octet no   Name        Description
+ *     Octet no   Nbme        Description
  *    ---------------------------------------------------------------
- *      0..1     TOK_ID     Identification field.  Tokens emitted by
- *                          GSS_Wrap() contain the hex value 05 04
- *                          expressed in big-endian order in this field.
- *      2        Flags      Attributes field, as described in section
+ *      0..1     TOK_ID     Identificbtion field.  Tokens emitted by
+ *                          GSS_Wrbp() contbin the hex vblue 05 04
+ *                          expressed in big-endibn order in this field.
+ *      2        Flbgs      Attributes field, bs described in section
  *                          4.2.2.
- *      3        Filler     Contains the hex value FF.
- *      4..5     EC         Contains the "extra count" field, in big-
- *                          endian order as described in section 4.2.3.
- *      6..7     RRC        Contains the "right rotation count" in big
- *                          endian order, as described in section 4.2.5.
- *      8..15    SND_SEQ    Sequence number field in clear text,
- *                          expressed in big-endian order.
- *      16..last Data       Encrypted data for Wrap tokens with
- *                          confidentiality, or plaintext data followed
- *                          by the checksum for Wrap tokens without
- *                          confidentiality, as described in section
+ *      3        Filler     Contbins the hex vblue FF.
+ *      4..5     EC         Contbins the "extrb count" field, in big-
+ *                          endibn order bs described in section 4.2.3.
+ *      6..7     RRC        Contbins the "right rotbtion count" in big
+ *                          endibn order, bs described in section 4.2.5.
+ *      8..15    SND_SEQ    Sequence number field in clebr text,
+ *                          expressed in big-endibn order.
+ *      16..lbst Dbtb       Encrypted dbtb for Wrbp tokens with
+ *                          confidentiblity, or plbintext dbtb followed
+ *                          by the checksum for Wrbp tokens without
+ *                          confidentiblity, bs described in section
  *                          4.2.4.
  * MIC Tokens
  *
- *     Octet no   Name        Description
+ *     Octet no   Nbme        Description
  *     -----------------------------------------------------------------
- *      0..1     TOK_ID     Identification field.  Tokens emitted by
- *                          GSS_GetMIC() contain the hex value 04 04
- *                          expressed in big-endian order in this field.
- *      2        Flags      Attributes field, as described in section
+ *      0..1     TOK_ID     Identificbtion field.  Tokens emitted by
+ *                          GSS_GetMIC() contbin the hex vblue 04 04
+ *                          expressed in big-endibn order in this field.
+ *      2        Flbgs      Attributes field, bs described in section
  *                          4.2.2.
- *      3..7     Filler     Contains five octets of hex value FF.
- *      8..15    SND_SEQ    Sequence number field in clear text,
- *                          expressed in big-endian order.
- *      16..last SGN_CKSUM  Checksum of the "to-be-signed" data and
- *                          octet 0..15, as described in section 4.2.4.
+ *      3..7     Filler     Contbins five octets of hex vblue FF.
+ *      8..15    SND_SEQ    Sequence number field in clebr text,
+ *                          expressed in big-endibn order.
+ *      16..lbst SGN_CKSUM  Checksum of the "to-be-signed" dbtb bnd
+ *                          octet 0..15, bs described in section 4.2.4.
  *
  * </pre>
  * <p>
- * This class is the super class of WrapToken_v2 and MicToken_v2. The token's
- * header (bytes[0..15]) and data (byte[16..]) are saved in tokenHeader and
- * tokenData fields. Since there is no easy way to find out the exact length
- * of a WrapToken_v2 token from any header info, in the case of reading from
- * stream, we read all available() bytes into the token.
+ * This clbss is the super clbss of WrbpToken_v2 bnd MicToken_v2. The token's
+ * hebder (bytes[0..15]) bnd dbtb (byte[16..]) bre sbved in tokenHebder bnd
+ * tokenDbtb fields. Since there is no ebsy wby to find out the exbct length
+ * of b WrbpToken_v2 token from bny hebder info, in the cbse of rebding from
+ * strebm, we rebd bll bvbilbble() bytes into the token.
  * <p>
- * All read actions are performed in this super class. On the write part, the
- * super class only write the tokenHeader, and the content writing is inside
- * child classes.
+ * All rebd bctions bre performed in this super clbss. On the write pbrt, the
+ * super clbss only write the tokenHebder, bnd the content writing is inside
+ * child clbsses.
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  */
 
-abstract class MessageToken_v2 extends Krb5Token {
+bbstrbct clbss MessbgeToken_v2 extends Krb5Token {
 
-    protected static final int TOKEN_HEADER_SIZE = 16;
-    private static final int TOKEN_ID_POS = 0;
-    private static final int TOKEN_FLAG_POS = 2;
-    private static final int TOKEN_EC_POS = 4;
-    private static final int TOKEN_RRC_POS = 6;
+    protected stbtic finbl int TOKEN_HEADER_SIZE = 16;
+    privbte stbtic finbl int TOKEN_ID_POS = 0;
+    privbte stbtic finbl int TOKEN_FLAG_POS = 2;
+    privbte stbtic finbl int TOKEN_EC_POS = 4;
+    privbte stbtic finbl int TOKEN_RRC_POS = 6;
 
     /**
-     * The size of the random confounder used in a WrapToken.
+     * The size of the rbndom confounder used in b WrbpToken.
      */
-    protected static final int CONFOUNDER_SIZE = 16;
+    protected stbtic finbl int CONFOUNDER_SIZE = 16;
 
-    // RFC 4121, key usage values
-    static final int KG_USAGE_ACCEPTOR_SEAL = 22;
-    static final int KG_USAGE_ACCEPTOR_SIGN = 23;
-    static final int KG_USAGE_INITIATOR_SEAL = 24;
-    static final int KG_USAGE_INITIATOR_SIGN = 25;
+    // RFC 4121, key usbge vblues
+    stbtic finbl int KG_USAGE_ACCEPTOR_SEAL = 22;
+    stbtic finbl int KG_USAGE_ACCEPTOR_SIGN = 23;
+    stbtic finbl int KG_USAGE_INITIATOR_SEAL = 24;
+    stbtic finbl int KG_USAGE_INITIATOR_SIGN = 25;
 
-    // RFC 4121, Flags Field
-    private static final int FLAG_SENDER_IS_ACCEPTOR = 1;
-    private static final int FLAG_WRAP_CONFIDENTIAL  = 2;
-    private static final int FLAG_ACCEPTOR_SUBKEY    = 4;
-    private static final int FILLER = 0xff;
+    // RFC 4121, Flbgs Field
+    privbte stbtic finbl int FLAG_SENDER_IS_ACCEPTOR = 1;
+    privbte stbtic finbl int FLAG_WRAP_CONFIDENTIAL  = 2;
+    privbte stbtic finbl int FLAG_ACCEPTOR_SUBKEY    = 4;
+    privbte stbtic finbl int FILLER = 0xff;
 
-    private MessageTokenHeader tokenHeader = null;
+    privbte MessbgeTokenHebder tokenHebder = null;
 
     // Common field
-    private int tokenId = 0;
-    private int seqNumber;
-    protected byte[] tokenData; // content of token, without the header
-    protected int tokenDataLen;
+    privbte int tokenId = 0;
+    privbte int seqNumber;
+    protected byte[] tokenDbtb; // content of token, without the hebder
+    protected int tokenDbtbLen;
 
-    // Key usage number for crypto action
-    private int key_usage = 0;
+    // Key usbge number for crypto bction
+    privbte int key_usbge = 0;
 
-    // EC and RRC fields, WrapToken only
-    private int ec = 0;
-    private int rrc = 0;
+    // EC bnd RRC fields, WrbpToken only
+    privbte int ec = 0;
+    privbte int rrc = 0;
 
-    // Checksum. Always in MicToken, might be in WrapToken
+    // Checksum. Alwbys in MicToken, might be in WrbpToken
     byte[] checksum = null;
 
     // Context properties
-    private boolean confState = true;
-    private boolean initiator = true;
-    private boolean have_acceptor_subkey = false;
+    privbte boolebn confStbte = true;
+    privbte boolebn initibtor = true;
+    privbte boolebn hbve_bcceptor_subkey = fblse;
 
-    /* cipher instance used by the corresponding GSSContext */
+    /* cipher instbnce used by the corresponding GSSContext */
     CipherHelper cipherHelper = null;
 
     /**
-     * Constructs a MessageToken from a byte array.
+     * Constructs b MessbgeToken from b byte brrby.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param tokenBytes the byte array containing the token
-     * @param tokenOffset the offset where the token begins
-     * @param tokenLen the length of the token
-     * @param prop the MessageProp structure in which the properties of the
+     * @pbrbm tokenId the token id thbt should be contbined in this token bs
+     * it is rebd.
+     * @pbrbm context the Kerberos context bssocibted with this token
+     * @pbrbm tokenBytes the byte brrby contbining the token
+     * @pbrbm tokenOffset the offset where the token begins
+     * @pbrbm tokenLen the length of the token
+     * @pbrbm prop the MessbgeProp structure in which the properties of the
      * token should be stored.
-     * @throws GSSException if there is a problem parsing the token
+     * @throws GSSException if there is b problem pbrsing the token
      */
-    MessageToken_v2(int tokenId, Krb5Context context,
+    MessbgeToken_v2(int tokenId, Krb5Context context,
                  byte[] tokenBytes, int tokenOffset, int tokenLen,
-                 MessageProp prop) throws GSSException {
+                 MessbgeProp prop) throws GSSException {
         this(tokenId, context,
-             new ByteArrayInputStream(tokenBytes, tokenOffset, tokenLen),
+             new ByteArrbyInputStrebm(tokenBytes, tokenOffset, tokenLen),
              prop);
     }
 
     /**
-     * Constructs a MessageToken from an InputStream. Bytes will be read on
-     * demand and the thread might block if there are not enough bytes to
-     * complete the token. Please note there is no accurate way to find out
-     * the size of a token, but we try our best to make sure there is
+     * Constructs b MessbgeToken from bn InputStrebm. Bytes will be rebd on
+     * dembnd bnd the threbd might block if there bre not enough bytes to
+     * complete the token. Plebse note there is no bccurbte wby to find out
+     * the size of b token, but we try our best to mbke sure there is
      * enough bytes to construct one.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param is the InputStream from which to read
-     * @param prop the MessageProp structure in which the properties of the
+     * @pbrbm tokenId the token id thbt should be contbined in this token bs
+     * it is rebd.
+     * @pbrbm context the Kerberos context bssocibted with this token
+     * @pbrbm is the InputStrebm from which to rebd
+     * @pbrbm prop the MessbgeProp structure in which the properties of the
      * token should be stored.
-     * @throws GSSException if there is a problem reading from the
-     * InputStream or parsing the token
+     * @throws GSSException if there is b problem rebding from the
+     * InputStrebm or pbrsing the token
      */
-    MessageToken_v2(int tokenId, Krb5Context context, InputStream is,
-                 MessageProp prop) throws GSSException {
+    MessbgeToken_v2(int tokenId, Krb5Context context, InputStrebm is,
+                 MessbgeProp prop) throws GSSException {
         init(tokenId, context);
 
         try {
-            if (!confState) {
-                prop.setPrivacy(false);
+            if (!confStbte) {
+                prop.setPrivbcy(fblse);
             }
-            tokenHeader = new MessageTokenHeader(is, prop, tokenId);
+            tokenHebder = new MessbgeTokenHebder(is, prop, tokenId);
 
-            // set key_usage
+            // set key_usbge
             if (tokenId == Krb5Token.WRAP_ID_v2) {
-                key_usage = (!initiator ? KG_USAGE_INITIATOR_SEAL
+                key_usbge = (!initibtor ? KG_USAGE_INITIATOR_SEAL
                                 : KG_USAGE_ACCEPTOR_SEAL);
             } else if (tokenId == Krb5Token.MIC_ID_v2) {
-                key_usage = (!initiator ? KG_USAGE_INITIATOR_SIGN
+                key_usbge = (!initibtor ? KG_USAGE_INITIATOR_SIGN
                                 : KG_USAGE_ACCEPTOR_SIGN);
             }
 
-            int minSize = 0;    // minimal size for token data
-            if (tokenId == Krb5Token.WRAP_ID_v2 && prop.getPrivacy()) {
+            int minSize = 0;    // minimbl size for token dbtb
+            if (tokenId == Krb5Token.WRAP_ID_v2 && prop.getPrivbcy()) {
                 minSize = CONFOUNDER_SIZE +
                         TOKEN_HEADER_SIZE + cipherHelper.getChecksumLength();
             } else {
                 minSize = cipherHelper.getChecksumLength();
             }
 
-            // Read token data
+            // Rebd token dbtb
             if (tokenId == Krb5Token.MIC_ID_v2) {
-                // The only case we can precisely predict the token data length
-                tokenDataLen = minSize;
-                tokenData = new byte[minSize];
-                readFully(is, tokenData);
+                // The only cbse we cbn precisely predict the token dbtb length
+                tokenDbtbLen = minSize;
+                tokenDbtb = new byte[minSize];
+                rebdFully(is, tokenDbtb);
             } else {
-                tokenDataLen = is.available();
-                if (tokenDataLen >= minSize) {  // read in one shot
-                    tokenData = new byte[tokenDataLen];
-                    readFully(is, tokenData);
+                tokenDbtbLen = is.bvbilbble();
+                if (tokenDbtbLen >= minSize) {  // rebd in one shot
+                    tokenDbtb = new byte[tokenDbtbLen];
+                    rebdFully(is, tokenDbtb);
                 } else {
                     byte[] tmp = new byte[minSize];
-                    readFully(is, tmp);
-                    // Hope while blocked in the read above, more data would
-                    // come and is.available() below contains the whole token.
-                    int more = is.available();
-                    tokenDataLen = minSize + more;
-                    tokenData = Arrays.copyOf(tmp, tokenDataLen);
-                    readFully(is, tokenData, minSize, more);
+                    rebdFully(is, tmp);
+                    // Hope while blocked in the rebd bbove, more dbtb would
+                    // come bnd is.bvbilbble() below contbins the whole token.
+                    int more = is.bvbilbble();
+                    tokenDbtbLen = minSize + more;
+                    tokenDbtb = Arrbys.copyOf(tmp, tokenDbtbLen);
+                    rebdFully(is, tokenDbtb, minSize, more);
                 }
             }
 
             if (tokenId == Krb5Token.WRAP_ID_v2) {
-                rotate();
+                rotbte();
             }
 
             if (tokenId == Krb5Token.MIC_ID_v2 ||
-                    (tokenId == Krb5Token.WRAP_ID_v2 && !prop.getPrivacy())) {
-                // Read checksum
+                    (tokenId == Krb5Token.WRAP_ID_v2 && !prop.getPrivbcy())) {
+                // Rebd checksum
                 int chkLen = cipherHelper.getChecksumLength();
                 checksum = new byte[chkLen];
-                System.arraycopy(tokenData, tokenDataLen-chkLen,
+                System.brrbycopy(tokenDbtb, tokenDbtbLen-chkLen,
                         checksum, 0, chkLen);
 
-                // validate EC for Wrap tokens without confidentiality
-                if (tokenId == Krb5Token.WRAP_ID_v2 && !prop.getPrivacy()) {
+                // vblidbte EC for Wrbp tokens without confidentiblity
+                if (tokenId == Krb5Token.WRAP_ID_v2 && !prop.getPrivbcy()) {
                     if (chkLen != ec) {
                         throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                            getTokenName(tokenId) + ":" + "EC incorrect!");
+                            getTokenNbme(tokenId) + ":" + "EC incorrect!");
                     }
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                getTokenName(tokenId) + ":" + e.getMessage());
+                getTokenNbme(tokenId) + ":" + e.getMessbge());
         }
     }
 
     /**
-     * Used to obtain the token id that was contained in this token.
+     * Used to obtbin the token id thbt wbs contbined in this token.
      * @return the token id in the token
      */
-    public final int getTokenId() {
+    public finbl int getTokenId() {
         return tokenId;
     }
 
     /**
-     * Used to obtain the key_usage type for this token.
-     * @return the key_usage for the token
+     * Used to obtbin the key_usbge type for this token.
+     * @return the key_usbge for the token
      */
-    public final int getKeyUsage() {
-        return key_usage;
+    public finbl int getKeyUsbge() {
+        return key_usbge;
     }
 
     /**
-     * Used to determine if this token contains any encrypted data.
-     * @return true if it contains any encrypted data, false if there is only
-     * plaintext data or if there is no data.
+     * Used to determine if this token contbins bny encrypted dbtb.
+     * @return true if it contbins bny encrypted dbtb, fblse if there is only
+     * plbintext dbtb or if there is no dbtb.
      */
-    public final boolean getConfState() {
-        return confState;
+    public finbl boolebn getConfStbte() {
+        return confStbte;
     }
 
     /**
-     * Generates the checksum field and the sequence number field.
+     * Generbtes the checksum field bnd the sequence number field.
      *
-     * @param prop the MessageProp structure
-     * @param data the application data to checksum
-     * @param offset the offset where the data starts
-     * @param len the length of the data
+     * @pbrbm prop the MessbgeProp structure
+     * @pbrbm dbtb the bpplicbtion dbtb to checksum
+     * @pbrbm offset the offset where the dbtb stbrts
+     * @pbrbm len the length of the dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation or
-     * sequence number calculation.
+     * @throws GSSException if bn error occurs in the checksum cblculbtion or
+     * sequence number cblculbtion.
      */
-    public void genSignAndSeqNumber(MessageProp prop,
-                                    byte[] data, int offset, int len)
+    public void genSignAndSeqNumber(MessbgeProp prop,
+                                    byte[] dbtb, int offset, int len)
         throws GSSException {
 
-        //    debug("Inside MessageToken.genSignAndSeqNumber:\n");
+        //    debug("Inside MessbgeToken.genSignAndSeqNumber:\n");
 
         int qop = prop.getQOP();
         if (qop != 0) {
@@ -307,141 +307,141 @@ abstract class MessageToken_v2 extends Krb5Token {
             prop.setQOP(qop);
         }
 
-        if (!confState) {
-            prop.setPrivacy(false);
+        if (!confStbte) {
+            prop.setPrivbcy(fblse);
         }
 
-        // Create a new gss token header as defined in RFC 4121
-        tokenHeader = new MessageTokenHeader(tokenId, prop.getPrivacy());
-        // debug("\n\t Message Header = " +
-        // getHexBytes(tokenHeader.getBytes(), tokenHeader.getBytes().length));
+        // Crebte b new gss token hebder bs defined in RFC 4121
+        tokenHebder = new MessbgeTokenHebder(tokenId, prop.getPrivbcy());
+        // debug("\n\t Messbge Hebder = " +
+        // getHexBytes(tokenHebder.getBytes(), tokenHebder.getBytes().length));
 
-        // set key_usage
+        // set key_usbge
         if (tokenId == Krb5Token.WRAP_ID_v2) {
-            key_usage = (initiator ? KG_USAGE_INITIATOR_SEAL
+            key_usbge = (initibtor ? KG_USAGE_INITIATOR_SEAL
                                 : KG_USAGE_ACCEPTOR_SEAL);
         } else if (tokenId == Krb5Token.MIC_ID_v2) {
-            key_usage = (initiator ? KG_USAGE_INITIATOR_SIGN
+            key_usbge = (initibtor ? KG_USAGE_INITIATOR_SIGN
                                 : KG_USAGE_ACCEPTOR_SIGN);
         }
 
-        // Calculate SGN_CKSUM
+        // Cblculbte SGN_CKSUM
         if ((tokenId == MIC_ID_v2) ||
-            (!prop.getPrivacy() && (tokenId == WRAP_ID_v2))) {
-           checksum = getChecksum(data, offset, len);
-           // debug("\n\tCalc checksum=" +
+            (!prop.getPrivbcy() && (tokenId == WRAP_ID_v2))) {
+           checksum = getChecksum(dbtb, offset, len);
+           // debug("\n\tCblc checksum=" +
            //  getHexBytes(checksum, checksum.length));
         }
 
-        // In Wrap tokens without confidentiality, the EC field SHALL be used
-        // to encode the number of octets in the trailing checksum
-        if (!prop.getPrivacy() && (tokenId == WRAP_ID_v2)) {
-            byte[] tok_header = tokenHeader.getBytes();
-            tok_header[4] = (byte) (checksum.length >>> 8);
-            tok_header[5] = (byte) (checksum.length);
+        // In Wrbp tokens without confidentiblity, the EC field SHALL be used
+        // to encode the number of octets in the trbiling checksum
+        if (!prop.getPrivbcy() && (tokenId == WRAP_ID_v2)) {
+            byte[] tok_hebder = tokenHebder.getBytes();
+            tok_hebder[4] = (byte) (checksum.length >>> 8);
+            tok_hebder[5] = (byte) (checksum.length);
         }
     }
 
     /**
-     * Verifies the validity of checksum field
+     * Verifies the vblidity of checksum field
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb the bpplicbtion dbtb
+     * @pbrbm offset the offset where the dbtb begins
+     * @pbrbm len the length of the bpplicbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation
+     * @throws GSSException if bn error occurs in the checksum cblculbtion
      */
-    public final boolean verifySign(byte[] data, int offset, int len)
+    public finbl boolebn verifySign(byte[] dbtb, int offset, int len)
         throws GSSException {
 
         // debug("\t====In verifySign:====\n");
         // debug("\t\t checksum:   [" + getHexBytes(checksum) + "]\n");
-        // debug("\t\t data = [" + getHexBytes(data) + "]\n");
+        // debug("\t\t dbtb = [" + getHexBytes(dbtb) + "]\n");
 
-        byte[] myChecksum = getChecksum(data, offset, len);
+        byte[] myChecksum = getChecksum(dbtb, offset, len);
         // debug("\t\t mychecksum: [" + getHexBytes(myChecksum) +"]\n");
 
-        if (MessageDigest.isEqual(checksum, myChecksum)) {
+        if (MessbgeDigest.isEqubl(checksum, myChecksum)) {
             // debug("\t\t====Checksum PASS:====\n");
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Rotate bytes as per the "RRC" (Right Rotation Count) received.
-     * Our implementation does not do any rotates when sending, only
-     * when receiving, we rotate left as per the RRC count, to revert it.
+     * Rotbte bytes bs per the "RRC" (Right Rotbtion Count) received.
+     * Our implementbtion does not do bny rotbtes when sending, only
+     * when receiving, we rotbte left bs per the RRC count, to revert it.
      */
-    private void rotate() {
-        if (rrc % tokenDataLen != 0) {
-           rrc = rrc % tokenDataLen;
-           byte[] newBytes = new byte[tokenDataLen];
+    privbte void rotbte() {
+        if (rrc % tokenDbtbLen != 0) {
+           rrc = rrc % tokenDbtbLen;
+           byte[] newBytes = new byte[tokenDbtbLen];
 
-           System.arraycopy(tokenData, rrc, newBytes, 0, tokenDataLen-rrc);
-           System.arraycopy(tokenData, 0, newBytes, tokenDataLen-rrc, rrc);
+           System.brrbycopy(tokenDbtb, rrc, newBytes, 0, tokenDbtbLen-rrc);
+           System.brrbycopy(tokenDbtb, 0, newBytes, tokenDbtbLen-rrc, rrc);
 
-           tokenData = newBytes;
+           tokenDbtb = newBytes;
         }
     }
 
-    public final int getSequenceNumber() {
+    public finbl int getSequenceNumber() {
         return seqNumber;
     }
 
     /**
-     * Computes the checksum based on the algorithm stored in the
-     * tokenHeader.
+     * Computes the checksum bbsed on the blgorithm stored in the
+     * tokenHebder.
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb the bpplicbtion dbtb
+     * @pbrbm offset the offset where the dbtb begins
+     * @pbrbm len the length of the bpplicbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation.
+     * @throws GSSException if bn error occurs in the checksum cblculbtion.
      */
-    byte[] getChecksum(byte[] data, int offset, int len)
+    byte[] getChecksum(byte[] dbtb, int offset, int len)
         throws GSSException {
 
         //      debug("Will do getChecksum:\n");
 
         /*
-         * For checksum calculation the token header bytes i.e., the first 16
-         * bytes following the GSSHeader, are logically prepended to the
-         * application data to bind the data to this particular token.
+         * For checksum cblculbtion the token hebder bytes i.e., the first 16
+         * bytes following the GSSHebder, bre logicblly prepended to the
+         * bpplicbtion dbtb to bind the dbtb to this pbrticulbr token.
          *
-         * Note: There is no such requirement wrt adding padding to the
-         * application data for checksumming, although the cryptographic
-         * algorithm used might itself apply some padding.
+         * Note: There is no such requirement wrt bdding pbdding to the
+         * bpplicbtion dbtb for checksumming, blthough the cryptogrbphic
+         * blgorithm used might itself bpply some pbdding.
          */
 
-        byte[] tokenHeaderBytes = tokenHeader.getBytes();
+        byte[] tokenHebderBytes = tokenHebder.getBytes();
 
-        // check confidentiality
-        int conf_flag = tokenHeaderBytes[TOKEN_FLAG_POS] &
+        // check confidentiblity
+        int conf_flbg = tokenHebderBytes[TOKEN_FLAG_POS] &
                                 FLAG_WRAP_CONFIDENTIAL;
 
-        // clear EC and RRC in token header for checksum calculation
-        if ((conf_flag == 0) && (tokenId == WRAP_ID_v2)) {
-            tokenHeaderBytes[4] = 0;
-            tokenHeaderBytes[5] = 0;
-            tokenHeaderBytes[6] = 0;
-            tokenHeaderBytes[7] = 0;
+        // clebr EC bnd RRC in token hebder for checksum cblculbtion
+        if ((conf_flbg == 0) && (tokenId == WRAP_ID_v2)) {
+            tokenHebderBytes[4] = 0;
+            tokenHebderBytes[5] = 0;
+            tokenHebderBytes[6] = 0;
+            tokenHebderBytes[7] = 0;
         }
-        return cipherHelper.calculateChecksum(tokenHeaderBytes, data,
-                                                offset, len, key_usage);
+        return cipherHelper.cblculbteChecksum(tokenHebderBytes, dbtb,
+                                                offset, len, key_usbge);
     }
 
 
     /**
-     * Constructs an empty MessageToken for the local context to send to
-     * the peer. It also increments the local sequence number in the
-     * Krb5Context instance it uses after obtaining the object lock for
+     * Constructs bn empty MessbgeToken for the locbl context to send to
+     * the peer. It blso increments the locbl sequence number in the
+     * Krb5Context instbnce it uses bfter obtbining the object lock for
      * it.
      *
-     * @param tokenId the token id that should be contained in this token
-     * @param context the Kerberos context associated with this token
+     * @pbrbm tokenId the token id thbt should be contbined in this token
+     * @pbrbm context the Kerberos context bssocibted with this token
      */
-    MessageToken_v2(int tokenId, Krb5Context context) throws GSSException {
+    MessbgeToken_v2(int tokenId, Krb5Context context) throws GSSException {
         /*
           debug("\n============================");
           debug("\nMySessionKey=" +
@@ -454,39 +454,39 @@ abstract class MessageToken_v2 extends Krb5Token {
         this.seqNumber = context.incrementMySequenceNumber();
     }
 
-    private void init(int tokenId, Krb5Context context) throws GSSException {
+    privbte void init(int tokenId, Krb5Context context) throws GSSException {
         this.tokenId = tokenId;
-        // Just for consistency check in Wrap
-        this.confState = context.getConfState();
+        // Just for consistency check in Wrbp
+        this.confStbte = context.getConfStbte();
 
-        this.initiator = context.isInitiator();
+        this.initibtor = context.isInitibtor();
 
-        this.have_acceptor_subkey = context.getKeySrc() == Krb5Context.ACCEPTOR_SUBKEY;
+        this.hbve_bcceptor_subkey = context.getKeySrc() == Krb5Context.ACCEPTOR_SUBKEY;
 
         this.cipherHelper = context.getCipherHelper(null);
-        //    debug("In MessageToken.Cons");
+        //    debug("In MessbgeToken.Cons");
     }
 
     /**
-     * Encodes a MessageTokenHeader onto an OutputStream.
+     * Encodes b MessbgeTokenHebder onto bn OutputStrebm.
      *
-     * @param os the OutputStream to which this should be written
-     * @throws IOException is an error occurs while writing to the OutputStream
+     * @pbrbm os the OutputStrebm to which this should be written
+     * @throws IOException is bn error occurs while writing to the OutputStrebm
      */
-    protected void encodeHeader(OutputStream os) throws IOException {
-        tokenHeader.encode(os);
+    protected void encodeHebder(OutputStrebm os) throws IOException {
+        tokenHebder.encode(os);
     }
 
     /**
-     * Encodes a MessageToken_v2 onto an OutputStream.
+     * Encodes b MessbgeToken_v2 onto bn OutputStrebm.
      *
-     * @param os the OutputStream to which this should be written
-     * @throws IOException is an error occurs while encoding the token
+     * @pbrbm os the OutputStrebm to which this should be written
+     * @throws IOException is bn error occurs while encoding the token
      */
-    public abstract void encode(OutputStream os) throws IOException;
+    public bbstrbct void encode(OutputStrebm os) throws IOException;
 
-    protected final byte[] getTokenHeader() {
-        return (tokenHeader.getBytes());
+    protected finbl byte[] getTokenHebder() {
+        return (tokenHebder.getBytes());
     }
 
     // ******************************************* //
@@ -494,29 +494,29 @@ abstract class MessageToken_v2 extends Krb5Token {
     // ******************************************* //
 
     /**
-     * This inner class represents the initial portion of the message token.
-     * It constitutes the first 16 bytes of the message token.
+     * This inner clbss represents the initibl portion of the messbge token.
+     * It constitutes the first 16 bytes of the messbge token.
      */
-    class MessageTokenHeader {
+    clbss MessbgeTokenHebder {
 
-         private int tokenId;
-         private byte[] bytes = new byte[TOKEN_HEADER_SIZE];
+         privbte int tokenId;
+         privbte byte[] bytes = new byte[TOKEN_HEADER_SIZE];
 
-         // Writes a new token header
-         public MessageTokenHeader(int tokenId, boolean conf) throws GSSException {
+         // Writes b new token hebder
+         public MessbgeTokenHebder(int tokenId, boolebn conf) throws GSSException {
 
             this.tokenId = tokenId;
 
             bytes[0] = (byte) (tokenId >>> 8);
             bytes[1] = (byte) (tokenId);
 
-            // Flags (Note: MIT impl requires subkey)
-            int flags = 0;
-            flags = (initiator ? 0 : FLAG_SENDER_IS_ACCEPTOR) |
+            // Flbgs (Note: MIT impl requires subkey)
+            int flbgs = 0;
+            flbgs = (initibtor ? 0 : FLAG_SENDER_IS_ACCEPTOR) |
                      ((conf && tokenId != MIC_ID_v2) ?
                                 FLAG_WRAP_CONFIDENTIAL : 0) |
-                     (have_acceptor_subkey ? FLAG_ACCEPTOR_SUBKEY : 0);
-            bytes[2] = (byte) flags;
+                     (hbve_bcceptor_subkey ? FLAG_ACCEPTOR_SUBKEY : 0);
+            bytes[2] = (byte) flbgs;
 
             // filler
             bytes[3] = (byte) FILLER;
@@ -535,109 +535,109 @@ abstract class MessageToken_v2 extends Krb5Token {
                 }
             }
 
-            // Calculate SND_SEQ, only write 4 bytes from the 12th position
-            writeBigEndian(seqNumber, bytes, 12);
+            // Cblculbte SND_SEQ, only write 4 bytes from the 12th position
+            writeBigEndibn(seqNumber, bytes, 12);
         }
 
         /**
-         * Reads a MessageTokenHeader from an InputStream and sets the
-         * appropriate confidentiality and quality of protection
-         * values in a MessageProp structure.
+         * Rebds b MessbgeTokenHebder from bn InputStrebm bnd sets the
+         * bppropribte confidentiblity bnd qublity of protection
+         * vblues in b MessbgeProp structure.
          *
-         * @param is the InputStream to read from
-         * @param prop the MessageProp to populate
-         * @throws IOException is an error occurs while reading from the
-         * InputStream
+         * @pbrbm is the InputStrebm to rebd from
+         * @pbrbm prop the MessbgeProp to populbte
+         * @throws IOException is bn error occurs while rebding from the
+         * InputStrebm
          */
-        public MessageTokenHeader(InputStream is, MessageProp prop, int tokId)
+        public MessbgeTokenHebder(InputStrebm is, MessbgeProp prop, int tokId)
             throws IOException, GSSException {
 
-            readFully(is, bytes, 0, TOKEN_HEADER_SIZE);
-            tokenId = readInt(bytes, TOKEN_ID_POS);
+            rebdFully(is, bytes, 0, TOKEN_HEADER_SIZE);
+            tokenId = rebdInt(bytes, TOKEN_ID_POS);
 
-            // validate Token ID
+            // vblidbte Token ID
             if (tokenId != tokId) {
                 throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                    getTokenName(tokenId) + ":" + "Defective Token ID!");
+                    getTokenNbme(tokenId) + ":" + "Defective Token ID!");
             }
 
             /*
-             * Validate new GSS TokenHeader
+             * Vblidbte new GSS TokenHebder
              */
 
-            // valid acceptor_flag
-            // If I am initiator, the received token should have ACCEPTOR on
-            int acceptor_flag = (initiator ? FLAG_SENDER_IS_ACCEPTOR : 0);
-            int flag = bytes[TOKEN_FLAG_POS] & FLAG_SENDER_IS_ACCEPTOR;
-            if (flag != acceptor_flag) {
+            // vblid bcceptor_flbg
+            // If I bm initibtor, the received token should hbve ACCEPTOR on
+            int bcceptor_flbg = (initibtor ? FLAG_SENDER_IS_ACCEPTOR : 0);
+            int flbg = bytes[TOKEN_FLAG_POS] & FLAG_SENDER_IS_ACCEPTOR;
+            if (flbg != bcceptor_flbg) {
                 throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                        getTokenName(tokenId) + ":" + "Acceptor Flag Error!");
+                        getTokenNbme(tokenId) + ":" + "Acceptor Flbg Error!");
             }
 
-            // check for confidentiality
-            int conf_flag = bytes[TOKEN_FLAG_POS] & FLAG_WRAP_CONFIDENTIAL;
-            if ((conf_flag == FLAG_WRAP_CONFIDENTIAL) &&
+            // check for confidentiblity
+            int conf_flbg = bytes[TOKEN_FLAG_POS] & FLAG_WRAP_CONFIDENTIAL;
+            if ((conf_flbg == FLAG_WRAP_CONFIDENTIAL) &&
                 (tokenId == WRAP_ID_v2)) {
-                prop.setPrivacy(true);
+                prop.setPrivbcy(true);
             } else {
-                prop.setPrivacy(false);
+                prop.setPrivbcy(fblse);
             }
 
             if (tokenId == WRAP_ID_v2) {
-                // validate filler
+                // vblidbte filler
                 if ((bytes[3] & 0xff) != FILLER) {
                     throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                        getTokenName(tokenId) + ":" + "Defective Token Filler!");
+                        getTokenNbme(tokenId) + ":" + "Defective Token Filler!");
                 }
 
-                // read EC field
-                ec = readBigEndian(bytes, TOKEN_EC_POS, 2);
+                // rebd EC field
+                ec = rebdBigEndibn(bytes, TOKEN_EC_POS, 2);
 
-                // read RRC field
-                rrc = readBigEndian(bytes, TOKEN_RRC_POS, 2);
+                // rebd RRC field
+                rrc = rebdBigEndibn(bytes, TOKEN_RRC_POS, 2);
             } else if (tokenId == MIC_ID_v2) {
                 for (int i = 3; i < 8; i++) {
                     if ((bytes[i] & 0xff) != FILLER) {
                         throw new GSSException(GSSException.DEFECTIVE_TOKEN,
-                                -1, getTokenName(tokenId) + ":" +
+                                -1, getTokenNbme(tokenId) + ":" +
                                 "Defective Token Filler!");
                     }
                 }
             }
 
-            // set default QOP
+            // set defbult QOP
             prop.setQOP(0);
 
             // sequence number
-            seqNumber = readBigEndian(bytes, 0, 8);
+            seqNumber = rebdBigEndibn(bytes, 0, 8);
         }
 
         /**
-         * Encodes this MessageTokenHeader onto an OutputStream
-         * @param os the OutputStream to write to
-         * @throws IOException is an error occurs while writing
+         * Encodes this MessbgeTokenHebder onto bn OutputStrebm
+         * @pbrbm os the OutputStrebm to write to
+         * @throws IOException is bn error occurs while writing
          */
-        public final void encode(OutputStream os) throws IOException {
+        public finbl void encode(OutputStrebm os) throws IOException {
             os.write(bytes);
         }
 
 
         /**
-         * Returns the token id for the message token.
+         * Returns the token id for the messbge token.
          * @return the token id
          * @see sun.security.jgss.krb5.Krb5Token#MIC_ID_v2
          * @see sun.security.jgss.krb5.Krb5Token#WRAP_ID_v2
          */
-        public final int getTokenId() {
+        public finbl int getTokenId() {
             return tokenId;
         }
 
         /**
-         * Returns the bytes of this header.
-         * @return 8 bytes that form this header
+         * Returns the bytes of this hebder.
+         * @return 8 bytes thbt form this hebder
          */
-        public final byte[] getBytes() {
+        public finbl byte[] getBytes() {
             return bytes;
         }
-    } // end of class MessageTokenHeader
+    } // end of clbss MessbgeTokenHebder
 }

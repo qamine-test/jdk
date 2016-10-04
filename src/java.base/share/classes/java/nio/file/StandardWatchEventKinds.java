@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
 /**
- * Defines the <em>standard</em> event kinds.
+ * Defines the <em>stbndbrd</em> event kinds.
  *
  * @since 1.7
  */
 
-public final class StandardWatchEventKinds {
-    private StandardWatchEventKinds() { }
+public finbl clbss StbndbrdWbtchEventKinds {
+    privbte StbndbrdWbtchEventKinds() { }
 
     /**
-     * A special event to indicate that events may have been lost or
-     * discarded.
+     * A specibl event to indicbte thbt events mby hbve been lost or
+     * discbrded.
      *
-     * <p> The {@link WatchEvent#context context} for this event is
-     * implementation specific and may be {@code null}. The event {@link
-     * WatchEvent#count count} may be greater than {@code 1}.
+     * <p> The {@link WbtchEvent#context context} for this event is
+     * implementbtion specific bnd mby be {@code null}. The event {@link
+     * WbtchEvent#count count} mby be grebter thbn {@code 1}.
      *
-     * @see WatchService
+     * @see WbtchService
      */
-    public static final WatchEvent.Kind<Object> OVERFLOW =
-        new StdWatchEventKind<Object>("OVERFLOW", Object.class);
+    public stbtic finbl WbtchEvent.Kind<Object> OVERFLOW =
+        new StdWbtchEventKind<Object>("OVERFLOW", Object.clbss);
 
     /**
-     * Directory entry created.
+     * Directory entry crebted.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry is created in the directory
-     * or renamed into the directory. The event {@link WatchEvent#count count}
-     * for this event is always {@code 1}.
+     * <p> When b directory is registered for this event then the {@link WbtchKey}
+     * is queued when it is observed thbt bn entry is crebted in the directory
+     * or renbmed into the directory. The event {@link WbtchEvent#count count}
+     * for this event is blwbys {@code 1}.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_CREATE =
-        new StdWatchEventKind<Path>("ENTRY_CREATE", Path.class);
+    public stbtic finbl WbtchEvent.Kind<Pbth> ENTRY_CREATE =
+        new StdWbtchEventKind<Pbth>("ENTRY_CREATE", Pbth.clbss);
 
     /**
      * Directory entry deleted.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry is deleted or renamed out of
-     * the directory. The event {@link WatchEvent#count count} for this event
-     * is always {@code 1}.
+     * <p> When b directory is registered for this event then the {@link WbtchKey}
+     * is queued when it is observed thbt bn entry is deleted or renbmed out of
+     * the directory. The event {@link WbtchEvent#count count} for this event
+     * is blwbys {@code 1}.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_DELETE =
-        new StdWatchEventKind<Path>("ENTRY_DELETE", Path.class);
+    public stbtic finbl WbtchEvent.Kind<Pbth> ENTRY_DELETE =
+        new StdWbtchEventKind<Pbth>("ENTRY_DELETE", Pbth.clbss);
 
     /**
      * Directory entry modified.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry in the directory has been
-     * modified. The event {@link WatchEvent#count count} for this event is
-     * {@code 1} or greater.
+     * <p> When b directory is registered for this event then the {@link WbtchKey}
+     * is queued when it is observed thbt bn entry in the directory hbs been
+     * modified. The event {@link WbtchEvent#count count} for this event is
+     * {@code 1} or grebter.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_MODIFY =
-        new StdWatchEventKind<Path>("ENTRY_MODIFY", Path.class);
+    public stbtic finbl WbtchEvent.Kind<Pbth> ENTRY_MODIFY =
+        new StdWbtchEventKind<Pbth>("ENTRY_MODIFY", Pbth.clbss);
 
-    private static class StdWatchEventKind<T> implements WatchEvent.Kind<T> {
-        private final String name;
-        private final Class<T> type;
-        StdWatchEventKind(String name, Class<T> type) {
-            this.name = name;
+    privbte stbtic clbss StdWbtchEventKind<T> implements WbtchEvent.Kind<T> {
+        privbte finbl String nbme;
+        privbte finbl Clbss<T> type;
+        StdWbtchEventKind(String nbme, Clbss<T> type) {
+            this.nbme = nbme;
             this.type = type;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Override public String nbme() { return nbme; }
+        @Override public Clbss<T> type() { return type; }
+        @Override public String toString() { return nbme; }
     }
 }

@@ -1,280 +1,280 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.lang.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationSupport;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import sun.reflect.bnnotbtion.AnnotbtionSupport;
 
 /**
- * Information about method parameters.
+ * Informbtion bbout method pbrbmeters.
  *
- * A {@code Parameter} provides information about method parameters,
- * including its name and modifiers.  It also provides an alternate
- * means of obtaining attributes for the parameter.
+ * A {@code Pbrbmeter} provides informbtion bbout method pbrbmeters,
+ * including its nbme bnd modifiers.  It blso provides bn blternbte
+ * mebns of obtbining bttributes for the pbrbmeter.
  *
  * @since 1.8
  */
-public final class Parameter implements AnnotatedElement {
+public finbl clbss Pbrbmeter implements AnnotbtedElement {
 
-    private final String name;
-    private final int modifiers;
-    private final Executable executable;
-    private final int index;
+    privbte finbl String nbme;
+    privbte finbl int modifiers;
+    privbte finbl Executbble executbble;
+    privbte finbl int index;
 
     /**
-     * Package-private constructor for {@code Parameter}.
+     * Pbckbge-privbte constructor for {@code Pbrbmeter}.
      *
-     * If method parameter data is present in the classfile, then the
-     * JVM creates {@code Parameter} objects directly.  If it is
-     * absent, however, then {@code Executable} uses this constructor
+     * If method pbrbmeter dbtb is present in the clbssfile, then the
+     * JVM crebtes {@code Pbrbmeter} objects directly.  If it is
+     * bbsent, however, then {@code Executbble} uses this constructor
      * to synthesize them.
      *
-     * @param name The name of the parameter.
-     * @param modifiers The modifier flags for the parameter.
-     * @param executable The executable which defines this parameter.
-     * @param index The index of the parameter.
+     * @pbrbm nbme The nbme of the pbrbmeter.
+     * @pbrbm modifiers The modifier flbgs for the pbrbmeter.
+     * @pbrbm executbble The executbble which defines this pbrbmeter.
+     * @pbrbm index The index of the pbrbmeter.
      */
-    Parameter(String name,
+    Pbrbmeter(String nbme,
               int modifiers,
-              Executable executable,
+              Executbble executbble,
               int index) {
-        this.name = name;
+        this.nbme = nbme;
         this.modifiers = modifiers;
-        this.executable = executable;
+        this.executbble = executbble;
         this.index = index;
     }
 
     /**
-     * Compares based on the executable and the index.
+     * Compbres bbsed on the executbble bnd the index.
      *
-     * @param obj The object to compare.
-     * @return Whether or not this is equal to the argument.
+     * @pbrbm obj The object to compbre.
+     * @return Whether or not this is equbl to the brgument.
      */
-    public boolean equals(Object obj) {
-        if(obj instanceof Parameter) {
-            Parameter other = (Parameter)obj;
-            return (other.executable.equals(executable) &&
+    public boolebn equbls(Object obj) {
+        if(obj instbnceof Pbrbmeter) {
+            Pbrbmeter other = (Pbrbmeter)obj;
+            return (other.executbble.equbls(executbble) &&
                     other.index == index);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code based on the executable's hash code and the
+     * Returns b hbsh code bbsed on the executbble's hbsh code bnd the
      * index.
      *
-     * @return A hash code based on the executable's hash code.
+     * @return A hbsh code bbsed on the executbble's hbsh code.
      */
-    public int hashCode() {
-        return executable.hashCode() ^ index;
+    public int hbshCode() {
+        return executbble.hbshCode() ^ index;
     }
 
     /**
-     * Returns true if the parameter has a name according to the class
-     * file; returns false otherwise. Whether a parameter has a name
-     * is determined by the {@literal MethodParameters} attribute of
-     * the method which declares the parameter.
+     * Returns true if the pbrbmeter hbs b nbme bccording to the clbss
+     * file; returns fblse otherwise. Whether b pbrbmeter hbs b nbme
+     * is determined by the {@literbl MethodPbrbmeters} bttribute of
+     * the method which declbres the pbrbmeter.
      *
-     * @return true if and only if the parameter has a name according
-     * to the class file.
+     * @return true if bnd only if the pbrbmeter hbs b nbme bccording
+     * to the clbss file.
      */
-    public boolean isNamePresent() {
-        return executable.hasRealParameterData() && name != null;
+    public boolebn isNbmePresent() {
+        return executbble.hbsReblPbrbmeterDbtb() && nbme != null;
     }
 
     /**
-     * Returns a string describing this parameter.  The format is the
-     * modifiers for the parameter, if any, in canonical order as
-     * recommended by <cite>The Java&trade; Language
-     * Specification</cite>, followed by the fully- qualified type of
-     * the parameter (excluding the last [] if the parameter is
-     * variable arity), followed by "..." if the parameter is variable
-     * arity, followed by a space, followed by the name of the
-     * parameter.
+     * Returns b string describing this pbrbmeter.  The formbt is the
+     * modifiers for the pbrbmeter, if bny, in cbnonicbl order bs
+     * recommended by <cite>The Jbvb&trbde; Lbngubge
+     * Specificbtion</cite>, followed by the fully- qublified type of
+     * the pbrbmeter (excluding the lbst [] if the pbrbmeter is
+     * vbribble brity), followed by "..." if the pbrbmeter is vbribble
+     * brity, followed by b spbce, followed by the nbme of the
+     * pbrbmeter.
      *
-     * @return A string representation of the parameter and associated
-     * information.
+     * @return A string representbtion of the pbrbmeter bnd bssocibted
+     * informbtion.
      */
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        final Type type = getParameterizedType();
-        final String typename = type.getTypeName();
+        finbl StringBuilder sb = new StringBuilder();
+        finbl Type type = getPbrbmeterizedType();
+        finbl String typenbme = type.getTypeNbme();
 
-        sb.append(Modifier.toString(getModifiers()));
+        sb.bppend(Modifier.toString(getModifiers()));
 
         if(0 != modifiers)
-            sb.append(' ');
+            sb.bppend(' ');
 
-        if(isVarArgs())
-            sb.append(typename.replaceFirst("\\[\\]$", "..."));
+        if(isVbrArgs())
+            sb.bppend(typenbme.replbceFirst("\\[\\]$", "..."));
         else
-            sb.append(typename);
+            sb.bppend(typenbme);
 
-        sb.append(' ');
-        sb.append(getName());
+        sb.bppend(' ');
+        sb.bppend(getNbme());
 
         return sb.toString();
     }
 
     /**
-     * Return the {@code Executable} which declares this parameter.
+     * Return the {@code Executbble} which declbres this pbrbmeter.
      *
-     * @return The {@code Executable} declaring this parameter.
+     * @return The {@code Executbble} declbring this pbrbmeter.
      */
-    public Executable getDeclaringExecutable() {
-        return executable;
+    public Executbble getDeclbringExecutbble() {
+        return executbble;
     }
 
     /**
-     * Get the modifier flags for this the parameter represented by
-     * this {@code Parameter} object.
+     * Get the modifier flbgs for this the pbrbmeter represented by
+     * this {@code Pbrbmeter} object.
      *
-     * @return The modifier flags for this parameter.
+     * @return The modifier flbgs for this pbrbmeter.
      */
     public int getModifiers() {
         return modifiers;
     }
 
     /**
-     * Returns the name of the parameter.  If the parameter's name is
-     * {@linkplain #isNamePresent() present}, then this method returns
-     * the name provided by the class file. Otherwise, this method
-     * synthesizes a name of the form argN, where N is the index of
-     * the parameter in the descriptor of the method which declares
-     * the parameter.
+     * Returns the nbme of the pbrbmeter.  If the pbrbmeter's nbme is
+     * {@linkplbin #isNbmePresent() present}, then this method returns
+     * the nbme provided by the clbss file. Otherwise, this method
+     * synthesizes b nbme of the form brgN, where N is the index of
+     * the pbrbmeter in the descriptor of the method which declbres
+     * the pbrbmeter.
      *
-     * @return The name of the parameter, either provided by the class
-     *         file or synthesized if the class file does not provide
-     *         a name.
+     * @return The nbme of the pbrbmeter, either provided by the clbss
+     *         file or synthesized if the clbss file does not provide
+     *         b nbme.
      */
-    public String getName() {
-        // Note: empty strings as paramete names are now outlawed.
-        // The .equals("") is for compatibility with current JVM
-        // behavior.  It may be removed at some point.
-        if(name == null || name.equals(""))
-            return "arg" + index;
+    public String getNbme() {
+        // Note: empty strings bs pbrbmete nbmes bre now outlbwed.
+        // The .equbls("") is for compbtibility with current JVM
+        // behbvior.  It mby be removed bt some point.
+        if(nbme == null || nbme.equbls(""))
+            return "brg" + index;
         else
-            return name;
+            return nbme;
     }
 
-    // Package-private accessor to the real name field.
-    String getRealName() {
-        return name;
+    // Pbckbge-privbte bccessor to the rebl nbme field.
+    String getReblNbme() {
+        return nbme;
     }
 
     /**
-     * Returns a {@code Type} object that identifies the parameterized
-     * type for the parameter represented by this {@code Parameter}
+     * Returns b {@code Type} object thbt identifies the pbrbmeterized
+     * type for the pbrbmeter represented by this {@code Pbrbmeter}
      * object.
      *
-     * @return a {@code Type} object identifying the parameterized
-     * type of the parameter represented by this object
+     * @return b {@code Type} object identifying the pbrbmeterized
+     * type of the pbrbmeter represented by this object
      */
-    public Type getParameterizedType() {
-        Type tmp = parameterTypeCache;
+    public Type getPbrbmeterizedType() {
+        Type tmp = pbrbmeterTypeCbche;
         if (null == tmp) {
-            tmp = executable.getGenericParameterTypes()[index];
-            parameterTypeCache = tmp;
+            tmp = executbble.getGenericPbrbmeterTypes()[index];
+            pbrbmeterTypeCbche = tmp;
         }
 
         return tmp;
     }
 
-    private transient volatile Type parameterTypeCache = null;
+    privbte trbnsient volbtile Type pbrbmeterTypeCbche = null;
 
     /**
-     * Returns a {@code Class} object that identifies the
-     * declared type for the parameter represented by this
-     * {@code Parameter} object.
+     * Returns b {@code Clbss} object thbt identifies the
+     * declbred type for the pbrbmeter represented by this
+     * {@code Pbrbmeter} object.
      *
-     * @return a {@code Class} object identifying the declared
-     * type of the parameter represented by this object
+     * @return b {@code Clbss} object identifying the declbred
+     * type of the pbrbmeter represented by this object
      */
-    public Class<?> getType() {
-        Class<?> tmp = parameterClassCache;
+    public Clbss<?> getType() {
+        Clbss<?> tmp = pbrbmeterClbssCbche;
         if (null == tmp) {
-            tmp = executable.getParameterTypes()[index];
-            parameterClassCache = tmp;
+            tmp = executbble.getPbrbmeterTypes()[index];
+            pbrbmeterClbssCbche = tmp;
         }
         return tmp;
     }
 
     /**
-     * Returns an AnnotatedType object that represents the use of a type to
-     * specify the type of the formal parameter represented by this Parameter.
+     * Returns bn AnnotbtedType object thbt represents the use of b type to
+     * specify the type of the formbl pbrbmeter represented by this Pbrbmeter.
      *
-     * @return an {@code AnnotatedType} object representing the use of a type
-     *         to specify the type of the formal parameter represented by this
-     *         Parameter
+     * @return bn {@code AnnotbtedType} object representing the use of b type
+     *         to specify the type of the formbl pbrbmeter represented by this
+     *         Pbrbmeter
      */
-    public AnnotatedType getAnnotatedType() {
-        // no caching for now
-        return executable.getAnnotatedParameterTypes()[index];
+    public AnnotbtedType getAnnotbtedType() {
+        // no cbching for now
+        return executbble.getAnnotbtedPbrbmeterTypes()[index];
     }
 
-    private transient volatile Class<?> parameterClassCache = null;
+    privbte trbnsient volbtile Clbss<?> pbrbmeterClbssCbche = null;
 
     /**
-     * Returns {@code true} if this parameter is implicitly declared
-     * in source code; returns {@code false} otherwise.
+     * Returns {@code true} if this pbrbmeter is implicitly declbred
+     * in source code; returns {@code fblse} otherwise.
      *
-     * @return true if and only if this parameter is implicitly
-     * declared as defined by <cite>The Java&trade; Language
-     * Specification</cite>.
+     * @return true if bnd only if this pbrbmeter is implicitly
+     * declbred bs defined by <cite>The Jbvb&trbde; Lbngubge
+     * Specificbtion</cite>.
      */
-    public boolean isImplicit() {
-        return Modifier.isMandated(getModifiers());
+    public boolebn isImplicit() {
+        return Modifier.isMbndbted(getModifiers());
     }
 
     /**
-     * Returns {@code true} if this parameter is neither implicitly
-     * nor explicitly declared in source code; returns {@code false}
+     * Returns {@code true} if this pbrbmeter is neither implicitly
+     * nor explicitly declbred in source code; returns {@code fblse}
      * otherwise.
      *
-     * @jls 13.1 The Form of a Binary
-     * @return true if and only if this parameter is a synthetic
-     * construct as defined by
-     * <cite>The Java&trade; Language Specification</cite>.
+     * @jls 13.1 The Form of b Binbry
+     * @return true if bnd only if this pbrbmeter is b synthetic
+     * construct bs defined by
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      */
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return Modifier.isSynthetic(getModifiers());
     }
 
     /**
-     * Returns {@code true} if this parameter represents a variable
-     * argument list; returns {@code false} otherwise.
+     * Returns {@code true} if this pbrbmeter represents b vbribble
+     * brgument list; returns {@code fblse} otherwise.
      *
-     * @return {@code true} if an only if this parameter represents a
-     * variable argument list.
+     * @return {@code true} if bn only if this pbrbmeter represents b
+     * vbribble brgument list.
      */
-    public boolean isVarArgs() {
-        return executable.isVarArgs() &&
-            index == executable.getParameterCount() - 1;
+    public boolebn isVbrArgs() {
+        return executbble.isVbrArgs() &&
+            index == executbble.getPbrbmeterCount() - 1;
     }
 
 
@@ -282,9 +282,9 @@ public final class Parameter implements AnnotatedElement {
      * {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return annotationClass.cast(declaredAnnotations().get(annotationClass));
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
+        return bnnotbtionClbss.cbst(declbredAnnotbtions().get(bnnotbtionClbss));
     }
 
     /**
@@ -292,56 +292,56 @@ public final class Parameter implements AnnotatedElement {
      * @throws NullPointerException {@inheritDoc}
      */
     @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    public <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        Objects.requireNonNull(bnnotbtionClbss);
 
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(declaredAnnotations(), annotationClass);
+        return AnnotbtionSupport.getDirectlyAndIndirectlyPresent(declbredAnnotbtions(), bnnotbtionClbss);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Annotation[] getDeclaredAnnotations() {
-        return executable.getParameterAnnotations()[index];
+    public Annotbtion[] getDeclbredAnnotbtions() {
+        return executbble.getPbrbmeterAnnotbtions()[index];
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      */
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotation is the same as
-        // getAnnotation.
-        return getAnnotation(annotationClass);
+    public <T extends Annotbtion> T getDeclbredAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on clbsses bre inherited, for bll other
+        // objects getDeclbredAnnotbtion is the sbme bs
+        // getAnnotbtion.
+        return getAnnotbtion(bnnotbtionClbss);
     }
 
     /**
      * @throws NullPointerException {@inheritDoc}
      */
     @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotations is the same as
-        // getAnnotations.
-        return getAnnotationsByType(annotationClass);
+    public <T extends Annotbtion> T[] getDeclbredAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on clbsses bre inherited, for bll other
+        // objects getDeclbredAnnotbtions is the sbme bs
+        // getAnnotbtions.
+        return getAnnotbtionsByType(bnnotbtionClbss);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Annotation[] getAnnotations() {
-        return getDeclaredAnnotations();
+    public Annotbtion[] getAnnotbtions() {
+        return getDeclbredAnnotbtions();
     }
 
-    private transient Map<Class<? extends Annotation>, Annotation> declaredAnnotations;
+    privbte trbnsient Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions;
 
-    private synchronized Map<Class<? extends Annotation>, Annotation> declaredAnnotations() {
-        if(null == declaredAnnotations) {
-            declaredAnnotations = new HashMap<>();
-            for (Annotation a : getDeclaredAnnotations())
-                declaredAnnotations.put(a.annotationType(), a);
+    privbte synchronized Mbp<Clbss<? extends Annotbtion>, Annotbtion> declbredAnnotbtions() {
+        if(null == declbredAnnotbtions) {
+            declbredAnnotbtions = new HbshMbp<>();
+            for (Annotbtion b : getDeclbredAnnotbtions())
+                declbredAnnotbtions.put(b.bnnotbtionType(), b);
         }
-        return declaredAnnotations;
+        return declbredAnnotbtions;
    }
 
 }

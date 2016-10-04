@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Troubleshooting Tools
 .\"     Title: jinfo.1
 .\"
 .if n .pl 99999
 .TH jinfo 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jinfo \- Generates configuration information\&. This command is experimental and unsupported\&.
+jinfo \- Generbtes configurbtion informbtion\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -59,74 +59,74 @@ jinfo \- Generates configuration information\&. This command is experimental and
 .fi     
 .nf     
 
-\fBjinfo\fR [ \fIoption \fR] \fIexecutable core\fR
+\fBjinfo\fR [ \fIoption \fR] \fIexecutbble core\fR
 .fi     
 .nf     
 
-\fBjinfo\fR [ \fIoption \fR] \fI[ servier\-id ] remote\-hostname\-or\-IP\fR
+\fBjinfo\fR [ \fIoption \fR] \fI[ servier\-id ] remote\-hostnbme\-or\-IP\fR
 .fi     
 .sp     
 .TP     
 \fIoption\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
 \fIpid\fR
-The process ID for which the configuration information is to be printed\&. The process must be a Java process\&. To get a list of Java processes running on a machine, use the jps(1) command\&.
+The process ID for which the configurbtion informbtion is to be printed\&. The process must be b Jbvb process\&. To get b list of Jbvb processes running on b mbchine, use the jps(1) commbnd\&.
 .TP     
-\fIexecutable\fR
-The Java executable from which the core dump was produced\&.
+\fIexecutbble\fR
+The Jbvb executbble from which the core dump wbs produced\&.
 .TP     
 \fIcore\fR
-The core file for which the configuration information is to be printed\&.
+The core file for which the configurbtion informbtion is to be printed\&.
 .TP     
-\fIremote-hostname-or-IP\fR
-The remote debug server \f3hostname\fR or \f3IP\fR address\&. See jsadebugd(1)\&.
+\fIremote-hostnbme-or-IP\fR
+The remote debug server \f3hostnbme\fR or \f3IP\fR bddress\&. See jsbdebugd(1)\&.
 .TP     
 \fIserver-id\fR
-An optional unique ID to use when multiple debug servers are running on the same remote host\&.
+An optionbl unique ID to use when multiple debug servers bre running on the sbme remote host\&.
 .SH DESCRIPTION    
-The \f3jinfo\fR command prints Java configuration information for a specified Java process or core file or a remote debug server\&. The configuration information includes Java system properties and Java Virtual Machine (JVM) command-line flags\&. If the specified process is running on a 64-bit JVM, then you might need to specify the \f3-J-d64\fR option, for example: \f3jinfo\fR\f3-J-d64 -sysprops pid\fR\&.
+The \f3jinfo\fR commbnd prints Jbvb configurbtion informbtion for b specified Jbvb process or core file or b remote debug server\&. The configurbtion informbtion includes Jbvb system properties bnd Jbvb Virtubl Mbchine (JVM) commbnd-line flbgs\&. If the specified process is running on b 64-bit JVM, then you might need to specify the \f3-J-d64\fR option, for exbmple: \f3jinfo\fR\f3-J-d64 -sysprops pid\fR\&.
 .PP
-This utility is unsupported and might not be available in future releases of the JDK\&. In Windows Systems where \f3dbgeng\&.dll\fR is not present, Debugging Tools For Windows must be installed to have these tools working\&. The \f3PATH\fR environment variable should contain the location of the jvm\&.dll that is used by the target process or the location from which the crash dump file was produced\&. For example, \f3set PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR \&.
+This utility is unsupported bnd might not be bvbilbble in future relebses of the JDK\&. In Windows Systems where \f3dbgeng\&.dll\fR is not present, Debugging Tools For Windows must be instblled to hbve these tools working\&. The \f3PATH\fR environment vbribble should contbin the locbtion of the jvm\&.dll thbt is used by the tbrget process or the locbtion from which the crbsh dump file wbs produced\&. For exbmple, \f3set PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR \&.
 .SH OPTIONS    
 .TP     
 no-option
-Prints both command-line flags and system property name-value pairs\&.
+Prints both commbnd-line flbgs bnd system property nbme-vblue pbirs\&.
 .TP
--flag \fIname\fR
+-flbg \fInbme\fR
 .br
-Prints the name and value of the specified command-line flag\&.
+Prints the nbme bnd vblue of the specified commbnd-line flbg\&.
 .TP
--flag \fI[+|-]name\fR
+-flbg \fI[+|-]nbme\fR
 .br
-enables or disables the specified Boolean command-line flag\&.
+enbbles or disbbles the specified Boolebn commbnd-line flbg\&.
 .TP
--flag \fIname=value\fR
+-flbg \fInbme=vblue\fR
 .br
-Sets the specified command-line flag to the specified value\&.
+Sets the specified commbnd-line flbg to the specified vblue\&.
 .TP
--flags
+-flbgs
 .br
-Prints command-line flags passed to the JVM\&.
+Prints commbnd-line flbgs pbssed to the JVM\&.
 .TP
 -sysprops
 .br
-Prints Java system properties as name-value pairs\&.
+Prints Jbvb system properties bs nbme-vblue pbirs\&.
 .TP
 -h
 .br
-Prints a help message\&.
+Prints b help messbge\&.
 .TP
 -help
 .br
-Prints a help message\&.
+Prints b help messbge\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jsadebugd(1)
+jsbdebugd(1)
 .RE
 .br
 'pl 8.5i

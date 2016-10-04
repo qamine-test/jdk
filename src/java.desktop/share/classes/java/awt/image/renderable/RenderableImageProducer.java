@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.util.Enumeration;
-import java.util.Vector;
+pbckbge jbvb.bwt.imbge.renderbble;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
 /**
- * An adapter class that implements ImageProducer to allow the
- * asynchronous production of a RenderableImage.  The size of the
- * ImageConsumer is determined by the scale factor of the usr2dev
- * transform in the RenderContext.  If the RenderContext is null, the
- * default rendering of the RenderableImage is used.  This class
- * implements an asynchronous production that produces the image in
- * one thread at one resolution.  This class may be subclassed to
- * implement versions that will render the image using several
- * threads.  These threads could render either the same image at
- * progressively better quality, or different sections of the image at
- * a single resolution.
+ * An bdbpter clbss thbt implements ImbgeProducer to bllow the
+ * bsynchronous production of b RenderbbleImbge.  The size of the
+ * ImbgeConsumer is determined by the scble fbctor of the usr2dev
+ * trbnsform in the RenderContext.  If the RenderContext is null, the
+ * defbult rendering of the RenderbbleImbge is used.  This clbss
+ * implements bn bsynchronous production thbt produces the imbge in
+ * one threbd bt one resolution.  This clbss mby be subclbssed to
+ * implement versions thbt will render the imbge using severbl
+ * threbds.  These threbds could render either the sbme imbge bt
+ * progressively better qublity, or different sections of the imbge bt
+ * b single resolution.
  */
-public class RenderableImageProducer implements ImageProducer, Runnable {
+public clbss RenderbbleImbgeProducer implements ImbgeProducer, Runnbble {
 
-    /** The RenderableImage source for the producer. */
-    RenderableImage rdblImage;
+    /** The RenderbbleImbge source for the producer. */
+    RenderbbleImbge rdblImbge;
 
-    /** The RenderContext to use for producing the image. */
+    /** The RenderContext to use for producing the imbge. */
     RenderContext rc;
 
-    /** A Vector of image consumers. */
-    Vector<ImageConsumer> ics = new Vector<>();
+    /** A Vector of imbge consumers. */
+    Vector<ImbgeConsumer> ics = new Vector<>();
 
     /**
-     * Constructs a new RenderableImageProducer from a RenderableImage
-     * and a RenderContext.
+     * Constructs b new RenderbbleImbgeProducer from b RenderbbleImbge
+     * bnd b RenderContext.
      *
-     * @param rdblImage the RenderableImage to be rendered.
-     * @param rc the RenderContext to use for producing the pixels.
+     * @pbrbm rdblImbge the RenderbbleImbge to be rendered.
+     * @pbrbm rc the RenderContext to use for producing the pixels.
      */
-    public RenderableImageProducer(RenderableImage rdblImage,
+    public RenderbbleImbgeProducer(RenderbbleImbge rdblImbge,
                                    RenderContext rc) {
-        this.rdblImage = rdblImage;
+        this.rdblImbge = rdblImbge;
         this.rc = rc;
     }
 
     /**
-     * Sets a new RenderContext to use for the next startProduction() call.
+     * Sets b new RenderContext to use for the next stbrtProduction() cbll.
      *
-     * @param rc the new RenderContext.
+     * @pbrbm rc the new RenderContext.
      */
     public synchronized void setRenderContext(RenderContext rc) {
         this.rc = rc;
     }
 
    /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image.
+     * Adds bn ImbgeConsumer to the list of consumers interested in
+     * dbtb for this imbge.
      *
-     * @param ic an ImageConsumer to be added to the interest list.
+     * @pbrbm ic bn ImbgeConsumer to be bdded to the interest list.
      */
-    public synchronized void addConsumer(ImageConsumer ic) {
-        if (!ics.contains(ic)) {
-            ics.addElement(ic);
+    public synchronized void bddConsumer(ImbgeConsumer ic) {
+        if (!ics.contbins(ic)) {
+            ics.bddElement(ic);
         }
     }
 
     /**
-     * Determine if an ImageConsumer is on the list of consumers
-     * currently interested in data for this image.
+     * Determine if bn ImbgeConsumer is on the list of consumers
+     * currently interested in dbtb for this imbge.
      *
-     * @param ic the ImageConsumer to be checked.
-     * @return true if the ImageConsumer is on the list; false otherwise.
+     * @pbrbm ic the ImbgeConsumer to be checked.
+     * @return true if the ImbgeConsumer is on the list; fblse otherwise.
      */
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return ics.contains(ic);
+    public synchronized boolebn isConsumer(ImbgeConsumer ic) {
+        return ics.contbins(ic);
     }
 
     /**
-     * Remove an ImageConsumer from the list of consumers interested in
-     * data for this image.
+     * Remove bn ImbgeConsumer from the list of consumers interested in
+     * dbtb for this imbge.
      *
-     * @param ic the ImageConsumer to be removed.
+     * @pbrbm ic the ImbgeConsumer to be removed.
      */
-    public synchronized void removeConsumer(ImageConsumer ic) {
+    public synchronized void removeConsumer(ImbgeConsumer ic) {
         ics.removeElement(ic);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image, and immediately starts delivery of the
-     * image data through the ImageConsumer interface.
+     * Adds bn ImbgeConsumer to the list of consumers interested in
+     * dbtb for this imbge, bnd immedibtely stbrts delivery of the
+     * imbge dbtb through the ImbgeConsumer interfbce.
      *
-     * @param ic the ImageConsumer to be added to the list of consumers.
+     * @pbrbm ic the ImbgeConsumer to be bdded to the list of consumers.
      */
-    public synchronized void startProduction(ImageConsumer ic) {
-        addConsumer(ic);
-        // Need to build a runnable object for the Thread.
-        Thread thread = new Thread(this, "RenderableImageProducer Thread");
-        thread.start();
+    public synchronized void stbrtProduction(ImbgeConsumer ic) {
+        bddConsumer(ic);
+        // Need to build b runnbble object for the Threbd.
+        Threbd threbd = new Threbd(this, "RenderbbleImbgeProducer Threbd");
+        threbd.stbrt();
     }
 
     /**
-     * Requests that a given ImageConsumer have the image data delivered
+     * Requests thbt b given ImbgeConsumer hbve the imbge dbtb delivered
      * one more time in top-down, left-right order.
      *
-     * @param ic the ImageConsumer requesting the resend.
+     * @pbrbm ic the ImbgeConsumer requesting the resend.
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
-        // So far, all pixels are already sent in TDLR order
+    public void requestTopDownLeftRightResend(ImbgeConsumer ic) {
+        // So fbr, bll pixels bre blrebdy sent in TDLR order
     }
 
     /**
-     * The runnable method for this class. This will produce an image using
-     * the current RenderableImage and RenderContext and send it to all the
-     * ImageConsumer currently registered with this class.
+     * The runnbble method for this clbss. This will produce bn imbge using
+     * the current RenderbbleImbge bnd RenderContext bnd send it to bll the
+     * ImbgeConsumer currently registered with this clbss.
      */
     public void run() {
-        // First get the rendered image
-        RenderedImage rdrdImage;
+        // First get the rendered imbge
+        RenderedImbge rdrdImbge;
         if (rc != null) {
-            rdrdImage = rdblImage.createRendering(rc);
+            rdrdImbge = rdblImbge.crebteRendering(rc);
         } else {
-            rdrdImage = rdblImage.createDefaultRendering();
+            rdrdImbge = rdblImbge.crebteDefbultRendering();
         }
 
         // And its ColorModel
-        ColorModel colorModel = rdrdImage.getColorModel();
-        Raster raster = rdrdImage.getData();
-        SampleModel sampleModel = raster.getSampleModel();
-        DataBuffer dataBuffer = raster.getDataBuffer();
+        ColorModel colorModel = rdrdImbge.getColorModel();
+        Rbster rbster = rdrdImbge.getDbtb();
+        SbmpleModel sbmpleModel = rbster.getSbmpleModel();
+        DbtbBuffer dbtbBuffer = rbster.getDbtbBuffer();
 
         if (colorModel == null) {
-            colorModel = ColorModel.getRGBdefault();
+            colorModel = ColorModel.getRGBdefbult();
         }
-        int minX = raster.getMinX();
-        int minY = raster.getMinY();
-        int width = raster.getWidth();
-        int height = raster.getHeight();
+        int minX = rbster.getMinX();
+        int minY = rbster.getMinY();
+        int width = rbster.getWidth();
+        int height = rbster.getHeight();
 
-        Enumeration<ImageConsumer> icList;
-        ImageConsumer ic;
-        // Set up the ImageConsumers
+        Enumerbtion<ImbgeConsumer> icList;
+        ImbgeConsumer ic;
+        // Set up the ImbgeConsumers
         icList = ics.elements();
-        while (icList.hasMoreElements()) {
+        while (icList.hbsMoreElements()) {
             ic = icList.nextElement();
             ic.setDimensions(width,height);
-            ic.setHints(ImageConsumer.TOPDOWNLEFTRIGHT |
-                        ImageConsumer.COMPLETESCANLINES |
-                        ImageConsumer.SINGLEPASS |
-                        ImageConsumer.SINGLEFRAME);
+            ic.setHints(ImbgeConsumer.TOPDOWNLEFTRIGHT |
+                        ImbgeConsumer.COMPLETESCANLINES |
+                        ImbgeConsumer.SINGLEPASS |
+                        ImbgeConsumer.SINGLEFRAME);
         }
 
-        // Get RGB pixels from the raster scanline by scanline and
+        // Get RGB pixels from the rbster scbnline by scbnline bnd
         // send to consumers.
         int pix[] = new int[width];
         int i,j;
-        int numBands = sampleModel.getNumBands();
-        int tmpPixel[] = new int[numBands];
+        int numBbnds = sbmpleModel.getNumBbnds();
+        int tmpPixel[] = new int[numBbnds];
         for (j = 0; j < height; j++) {
             for(i = 0; i < width; i++) {
-                sampleModel.getPixel(i, j, tmpPixel, dataBuffer);
-                pix[i] = colorModel.getDataElement(tmpPixel, 0);
+                sbmpleModel.getPixel(i, j, tmpPixel, dbtbBuffer);
+                pix[i] = colorModel.getDbtbElement(tmpPixel, 0);
             }
-            // Now send the scanline to the Consumers
+            // Now send the scbnline to the Consumers
             icList = ics.elements();
-            while (icList.hasMoreElements()) {
+            while (icList.hbsMoreElements()) {
                 ic = icList.nextElement();
                 ic.setPixels(0, j, width, 1, colorModel, pix, 0, width);
             }
@@ -211,9 +211,9 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
 
         // Now tell the consumers we're done.
         icList = ics.elements();
-        while (icList.hasMoreElements()) {
+        while (icList.hbsMoreElements()) {
             ic = icList.nextElement();
-            ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
+            ic.imbgeComplete(ImbgeConsumer.STATICIMAGEDONE);
         }
     }
 }

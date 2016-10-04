@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.security.AccessController;
-import java.util.Locale;
-import sun.security.action.GetPropertyAction;
+import jbvb.security.AccessController;
+import jbvb.util.Locble;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Unicode-aware FileSystem for Windows NT/2000.
+ * Unicode-bwbre FileSystem for Windows NT/2000.
  *
- * @author Konstantin Kladko
+ * @buthor Konstbntin Klbdko
  * @since 1.4
  */
-class WinNTFileSystem extends FileSystem {
+clbss WinNTFileSystem extends FileSystem {
 
-    private final char slash;
-    private final char altSlash;
-    private final char semicolon;
+    privbte finbl chbr slbsh;
+    privbte finbl chbr bltSlbsh;
+    privbte finbl chbr semicolon;
 
     public WinNTFileSystem() {
-        slash = AccessController.doPrivileged(
-            new GetPropertyAction("file.separator")).charAt(0);
+        slbsh = AccessController.doPrivileged(
+            new GetPropertyAction("file.sepbrbtor")).chbrAt(0);
         semicolon = AccessController.doPrivileged(
-            new GetPropertyAction("path.separator")).charAt(0);
-        altSlash = (this.slash == '\\') ? '/' : '\\';
+            new GetPropertyAction("pbth.sepbrbtor")).chbrAt(0);
+        bltSlbsh = (this.slbsh == '\\') ? '/' : '\\';
     }
 
-    private boolean isSlash(char c) {
+    privbte boolebn isSlbsh(chbr c) {
         return (c == '\\') || (c == '/');
     }
 
-    private boolean isLetter(char c) {
-        return ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'));
+    privbte boolebn isLetter(chbr c) {
+        return ((c >= 'b') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'));
     }
 
-    private String slashify(String p) {
-        if ((p.length() > 0) && (p.charAt(0) != slash)) return slash + p;
+    privbte String slbshify(String p) {
+        if ((p.length() > 0) && (p.chbrAt(0) != slbsh)) return slbsh + p;
         else return p;
     }
 
-    /* -- Normalization and construction -- */
+    /* -- Normblizbtion bnd construction -- */
 
     @Override
-    public char getSeparator() {
-        return slash;
+    public chbr getSepbrbtor() {
+        return slbsh;
     }
 
     @Override
-    public char getPathSeparator() {
+    public chbr getPbthSepbrbtor() {
         return semicolon;
     }
 
-    /* Check that the given pathname is normal.  If not, invoke the real
-       normalizer on the part of the pathname that requires normalization.
-       This way we iterate through the whole pathname string only once. */
+    /* Check thbt the given pbthnbme is normbl.  If not, invoke the rebl
+       normblizer on the pbrt of the pbthnbme thbt requires normblizbtion.
+       This wby we iterbte through the whole pbthnbme string only once. */
     @Override
-    public String normalize(String path) {
-        int n = path.length();
-        char slash = this.slash;
-        char altSlash = this.altSlash;
-        char prev = 0;
+    public String normblize(String pbth) {
+        int n = pbth.length();
+        chbr slbsh = this.slbsh;
+        chbr bltSlbsh = this.bltSlbsh;
+        chbr prev = 0;
         for (int i = 0; i < n; i++) {
-            char c = path.charAt(i);
-            if (c == altSlash)
-                return normalize(path, n, (prev == slash) ? i - 1 : i);
-            if ((c == slash) && (prev == slash) && (i > 1))
-                return normalize(path, n, i - 1);
+            chbr c = pbth.chbrAt(i);
+            if (c == bltSlbsh)
+                return normblize(pbth, n, (prev == slbsh) ? i - 1 : i);
+            if ((c == slbsh) && (prev == slbsh) && (i > 1))
+                return normblize(pbth, n, i - 1);
             if ((c == ':') && (i > 1))
-                return normalize(path, n, 0);
+                return normblize(pbth, n, 0);
             prev = c;
         }
-        if (prev == slash) return normalize(path, n, n - 1);
-        return path;
+        if (prev == slbsh) return normblize(pbth, n, n - 1);
+        return pbth;
     }
 
-    /* Normalize the given pathname, whose length is len, starting at the given
-       offset; everything before this offset is already normal. */
-    private String normalize(String path, int len, int off) {
-        if (len == 0) return path;
-        if (off < 3) off = 0;   /* Avoid fencepost cases with UNC pathnames */
+    /* Normblize the given pbthnbme, whose length is len, stbrting bt the given
+       offset; everything before this offset is blrebdy normbl. */
+    privbte String normblize(String pbth, int len, int off) {
+        if (len == 0) return pbth;
+        if (off < 3) off = 0;   /* Avoid fencepost cbses with UNC pbthnbmes */
         int src;
-        char slash = this.slash;
+        chbr slbsh = this.slbsh;
         StringBuffer sb = new StringBuffer(len);
 
         if (off == 0) {
-            /* Complete normalization, including prefix */
-            src = normalizePrefix(path, len, sb);
+            /* Complete normblizbtion, including prefix */
+            src = normblizePrefix(pbth, len, sb);
         } else {
-            /* Partial normalization */
+            /* Pbrtibl normblizbtion */
             src = off;
-            sb.append(path.substring(0, off));
+            sb.bppend(pbth.substring(0, off));
         }
 
-        /* Remove redundant slashes from the remainder of the path, forcing all
-           slashes into the preferred slash */
+        /* Remove redundbnt slbshes from the rembinder of the pbth, forcing bll
+           slbshes into the preferred slbsh */
         while (src < len) {
-            char c = path.charAt(src++);
-            if (isSlash(c)) {
-                while ((src < len) && isSlash(path.charAt(src))) src++;
+            chbr c = pbth.chbrAt(src++);
+            if (isSlbsh(c)) {
+                while ((src < len) && isSlbsh(pbth.chbrAt(src))) src++;
                 if (src == len) {
-                    /* Check for trailing separator */
+                    /* Check for trbiling sepbrbtor */
                     int sn = sb.length();
-                    if ((sn == 2) && (sb.charAt(1) == ':')) {
+                    if ((sn == 2) && (sb.chbrAt(1) == ':')) {
                         /* "z:\\" */
-                        sb.append(slash);
-                        break;
+                        sb.bppend(slbsh);
+                        brebk;
                     }
                     if (sn == 0) {
                         /* "\\" */
-                        sb.append(slash);
-                        break;
+                        sb.bppend(slbsh);
+                        brebk;
                     }
-                    if ((sn == 1) && (isSlash(sb.charAt(0)))) {
-                        /* "\\\\" is not collapsed to "\\" because "\\\\" marks
-                           the beginning of a UNC pathname.  Even though it is
-                           not, by itself, a valid UNC pathname, we leave it as
+                    if ((sn == 1) && (isSlbsh(sb.chbrAt(0)))) {
+                        /* "\\\\" is not collbpsed to "\\" becbuse "\\\\" mbrks
+                           the beginning of b UNC pbthnbme.  Even though it is
+                           not, by itself, b vblid UNC pbthnbme, we lebve it bs
                            is in order to be consistent with the win32 APIs,
-                           which treat this case as an invalid UNC pathname
-                           rather than as an alias for the root directory of
+                           which trebt this cbse bs bn invblid UNC pbthnbme
+                           rbther thbn bs bn blibs for the root directory of
                            the current drive. */
-                        sb.append(slash);
-                        break;
+                        sb.bppend(slbsh);
+                        brebk;
                     }
-                    /* Path does not denote a root directory, so do not append
-                       trailing slash */
-                    break;
+                    /* Pbth does not denote b root directory, so do not bppend
+                       trbiling slbsh */
+                    brebk;
                 } else {
-                    sb.append(slash);
+                    sb.bppend(slbsh);
                 }
             } else {
-                sb.append(c);
+                sb.bppend(c);
             }
         }
 
@@ -160,122 +160,122 @@ class WinNTFileSystem extends FileSystem {
         return rv;
     }
 
-    /* A normal Win32 pathname contains no duplicate slashes, except possibly
-       for a UNC prefix, and does not end with a slash.  It may be the empty
-       string.  Normalized Win32 pathnames have the convenient property that
-       the length of the prefix almost uniquely identifies the type of the path
-       and whether it is absolute or relative:
+    /* A normbl Win32 pbthnbme contbins no duplicbte slbshes, except possibly
+       for b UNC prefix, bnd does not end with b slbsh.  It mby be the empty
+       string.  Normblized Win32 pbthnbmes hbve the convenient property thbt
+       the length of the prefix blmost uniquely identifies the type of the pbth
+       bnd whether it is bbsolute or relbtive:
 
-           0  relative to both drive and directory
-           1  drive-relative (begins with '\\')
-           2  absolute UNC (if first char is '\\'),
-                else directory-relative (has form "z:foo")
-           3  absolute local pathname (begins with "z:\\")
+           0  relbtive to both drive bnd directory
+           1  drive-relbtive (begins with '\\')
+           2  bbsolute UNC (if first chbr is '\\'),
+                else directory-relbtive (hbs form "z:foo")
+           3  bbsolute locbl pbthnbme (begins with "z:\\")
      */
-    private int normalizePrefix(String path, int len, StringBuffer sb) {
+    privbte int normblizePrefix(String pbth, int len, StringBuffer sb) {
         int src = 0;
-        while ((src < len) && isSlash(path.charAt(src))) src++;
-        char c;
+        while ((src < len) && isSlbsh(pbth.chbrAt(src))) src++;
+        chbr c;
         if ((len - src >= 2)
-            && isLetter(c = path.charAt(src))
-            && path.charAt(src + 1) == ':') {
-            /* Remove leading slashes if followed by drive specifier.
-               This hack is necessary to support file URLs containing drive
-               specifiers (e.g., "file://c:/path").  As a side effect,
-               "/c:/path" can be used as an alternative to "c:/path". */
-            sb.append(c);
-            sb.append(':');
+            && isLetter(c = pbth.chbrAt(src))
+            && pbth.chbrAt(src + 1) == ':') {
+            /* Remove lebding slbshes if followed by drive specifier.
+               This hbck is necessbry to support file URLs contbining drive
+               specifiers (e.g., "file://c:/pbth").  As b side effect,
+               "/c:/pbth" cbn be used bs bn blternbtive to "c:/pbth". */
+            sb.bppend(c);
+            sb.bppend(':');
             src += 2;
         } else {
             src = 0;
             if ((len >= 2)
-                && isSlash(path.charAt(0))
-                && isSlash(path.charAt(1))) {
-                /* UNC pathname: Retain first slash; leave src pointed at
-                   second slash so that further slashes will be collapsed
-                   into the second slash.  The result will be a pathname
-                   beginning with "\\\\" followed (most likely) by a host
-                   name. */
+                && isSlbsh(pbth.chbrAt(0))
+                && isSlbsh(pbth.chbrAt(1))) {
+                /* UNC pbthnbme: Retbin first slbsh; lebve src pointed bt
+                   second slbsh so thbt further slbshes will be collbpsed
+                   into the second slbsh.  The result will be b pbthnbme
+                   beginning with "\\\\" followed (most likely) by b host
+                   nbme. */
                 src = 1;
-                sb.append(slash);
+                sb.bppend(slbsh);
             }
         }
         return src;
     }
 
     @Override
-    public int prefixLength(String path) {
-        char slash = this.slash;
-        int n = path.length();
+    public int prefixLength(String pbth) {
+        chbr slbsh = this.slbsh;
+        int n = pbth.length();
         if (n == 0) return 0;
-        char c0 = path.charAt(0);
-        char c1 = (n > 1) ? path.charAt(1) : 0;
-        if (c0 == slash) {
-            if (c1 == slash) return 2;  /* Absolute UNC pathname "\\\\foo" */
-            return 1;                   /* Drive-relative "\\foo" */
+        chbr c0 = pbth.chbrAt(0);
+        chbr c1 = (n > 1) ? pbth.chbrAt(1) : 0;
+        if (c0 == slbsh) {
+            if (c1 == slbsh) return 2;  /* Absolute UNC pbthnbme "\\\\foo" */
+            return 1;                   /* Drive-relbtive "\\foo" */
         }
         if (isLetter(c0) && (c1 == ':')) {
-            if ((n > 2) && (path.charAt(2) == slash))
-                return 3;               /* Absolute local pathname "z:\\foo" */
-            return 2;                   /* Directory-relative "z:foo" */
+            if ((n > 2) && (pbth.chbrAt(2) == slbsh))
+                return 3;               /* Absolute locbl pbthnbme "z:\\foo" */
+            return 2;                   /* Directory-relbtive "z:foo" */
         }
-        return 0;                       /* Completely relative */
+        return 0;                       /* Completely relbtive */
     }
 
     @Override
-    public String resolve(String parent, String child) {
-        int pn = parent.length();
+    public String resolve(String pbrent, String child) {
+        int pn = pbrent.length();
         if (pn == 0) return child;
         int cn = child.length();
-        if (cn == 0) return parent;
+        if (cn == 0) return pbrent;
 
         String c = child;
-        int childStart = 0;
-        int parentEnd = pn;
+        int childStbrt = 0;
+        int pbrentEnd = pn;
 
-        if ((cn > 1) && (c.charAt(0) == slash)) {
-            if (c.charAt(1) == slash) {
-                /* Drop prefix when child is a UNC pathname */
-                childStart = 2;
+        if ((cn > 1) && (c.chbrAt(0) == slbsh)) {
+            if (c.chbrAt(1) == slbsh) {
+                /* Drop prefix when child is b UNC pbthnbme */
+                childStbrt = 2;
             } else {
-                /* Drop prefix when child is drive-relative */
-                childStart = 1;
+                /* Drop prefix when child is drive-relbtive */
+                childStbrt = 1;
 
             }
-            if (cn == childStart) { // Child is double slash
-                if (parent.charAt(pn - 1) == slash)
-                    return parent.substring(0, pn - 1);
-                return parent;
+            if (cn == childStbrt) { // Child is double slbsh
+                if (pbrent.chbrAt(pn - 1) == slbsh)
+                    return pbrent.substring(0, pn - 1);
+                return pbrent;
             }
         }
 
-        if (parent.charAt(pn - 1) == slash)
-            parentEnd--;
+        if (pbrent.chbrAt(pn - 1) == slbsh)
+            pbrentEnd--;
 
-        int strlen = parentEnd + cn - childStart;
-        char[] theChars = null;
-        if (child.charAt(childStart) == slash) {
-            theChars = new char[strlen];
-            parent.getChars(0, parentEnd, theChars, 0);
-            child.getChars(childStart, cn, theChars, parentEnd);
+        int strlen = pbrentEnd + cn - childStbrt;
+        chbr[] theChbrs = null;
+        if (child.chbrAt(childStbrt) == slbsh) {
+            theChbrs = new chbr[strlen];
+            pbrent.getChbrs(0, pbrentEnd, theChbrs, 0);
+            child.getChbrs(childStbrt, cn, theChbrs, pbrentEnd);
         } else {
-            theChars = new char[strlen + 1];
-            parent.getChars(0, parentEnd, theChars, 0);
-            theChars[parentEnd] = slash;
-            child.getChars(childStart, cn, theChars, parentEnd + 1);
+            theChbrs = new chbr[strlen + 1];
+            pbrent.getChbrs(0, pbrentEnd, theChbrs, 0);
+            theChbrs[pbrentEnd] = slbsh;
+            child.getChbrs(childStbrt, cn, theChbrs, pbrentEnd + 1);
         }
-        return new String(theChars);
+        return new String(theChbrs);
     }
 
     @Override
-    public String getDefaultParent() {
-        return ("" + slash);
+    public String getDefbultPbrent() {
+        return ("" + slbsh);
     }
 
     @Override
-    public String fromURIPath(String path) {
-        String p = path;
-        if ((p.length() > 2) && (p.charAt(2) == ':')) {
+    public String fromURIPbth(String pbth) {
+        String p = pbth;
+        if ((p.length() > 2) && (p.chbrAt(2) == ':')) {
             // "/c:/foo" --> "c:/foo"
             p = p.substring(1);
             // "c:/foo/" --> "c:/foo", but "c:/" --> "c:/"
@@ -288,151 +288,151 @@ class WinNTFileSystem extends FileSystem {
         return p;
     }
 
-    /* -- Path operations -- */
+    /* -- Pbth operbtions -- */
 
     @Override
-    public boolean isAbsolute(File f) {
+    public boolebn isAbsolute(File f) {
         int pl = f.getPrefixLength();
-        return (((pl == 2) && (f.getPath().charAt(0) == slash))
+        return (((pl == 2) && (f.getPbth().chbrAt(0) == slbsh))
                 || (pl == 3));
     }
 
     @Override
     public String resolve(File f) {
-        String path = f.getPath();
+        String pbth = f.getPbth();
         int pl = f.getPrefixLength();
-        if ((pl == 2) && (path.charAt(0) == slash))
-            return path;                        /* UNC */
+        if ((pl == 2) && (pbth.chbrAt(0) == slbsh))
+            return pbth;                        /* UNC */
         if (pl == 3)
-            return path;                        /* Absolute local */
+            return pbth;                        /* Absolute locbl */
         if (pl == 0)
-            return getUserPath() + slashify(path); /* Completely relative */
-        if (pl == 1) {                          /* Drive-relative */
-            String up = getUserPath();
+            return getUserPbth() + slbshify(pbth); /* Completely relbtive */
+        if (pl == 1) {                          /* Drive-relbtive */
+            String up = getUserPbth();
             String ud = getDrive(up);
-            if (ud != null) return ud + path;
-            return up + path;                   /* User dir is a UNC path */
+            if (ud != null) return ud + pbth;
+            return up + pbth;                   /* User dir is b UNC pbth */
         }
-        if (pl == 2) {                          /* Directory-relative */
-            String up = getUserPath();
+        if (pl == 2) {                          /* Directory-relbtive */
+            String up = getUserPbth();
             String ud = getDrive(up);
-            if ((ud != null) && path.startsWith(ud))
-                return up + slashify(path.substring(2));
-            char drive = path.charAt(0);
+            if ((ud != null) && pbth.stbrtsWith(ud))
+                return up + slbshify(pbth.substring(2));
+            chbr drive = pbth.chbrAt(0);
             String dir = getDriveDirectory(drive);
             String np;
             if (dir != null) {
-                /* When resolving a directory-relative path that refers to a
-                   drive other than the current drive, insist that the caller
-                   have read permission on the result */
-                String p = drive + (':' + dir + slashify(path.substring(2)));
-                SecurityManager security = System.getSecurityManager();
+                /* When resolving b directory-relbtive pbth thbt refers to b
+                   drive other thbn the current drive, insist thbt the cbller
+                   hbve rebd permission on the result */
+                String p = drive + (':' + dir + slbshify(pbth.substring(2)));
+                SecurityMbnbger security = System.getSecurityMbnbger();
                 try {
-                    if (security != null) security.checkRead(p);
-                } catch (SecurityException x) {
+                    if (security != null) security.checkRebd(p);
+                } cbtch (SecurityException x) {
                     /* Don't disclose the drive's directory in the exception */
-                    throw new SecurityException("Cannot resolve path " + path);
+                    throw new SecurityException("Cbnnot resolve pbth " + pbth);
                 }
                 return p;
             }
-            return drive + ":" + slashify(path.substring(2)); /* fake it */
+            return drive + ":" + slbshify(pbth.substring(2)); /* fbke it */
         }
-        throw new InternalError("Unresolvable path: " + path);
+        throw new InternblError("Unresolvbble pbth: " + pbth);
     }
 
-    private String getUserPath() {
-        /* For both compatibility and security,
+    privbte String getUserPbth() {
+        /* For both compbtibility bnd security,
            we must look this up every time */
-        return normalize(System.getProperty("user.dir"));
+        return normblize(System.getProperty("user.dir"));
     }
 
-    private String getDrive(String path) {
-        int pl = prefixLength(path);
-        return (pl == 3) ? path.substring(0, 2) : null;
+    privbte String getDrive(String pbth) {
+        int pl = prefixLength(pbth);
+        return (pl == 3) ? pbth.substring(0, 2) : null;
     }
 
-    private static String[] driveDirCache = new String[26];
+    privbte stbtic String[] driveDirCbche = new String[26];
 
-    private static int driveIndex(char d) {
-        if ((d >= 'a') && (d <= 'z')) return d - 'a';
+    privbte stbtic int driveIndex(chbr d) {
+        if ((d >= 'b') && (d <= 'z')) return d - 'b';
         if ((d >= 'A') && (d <= 'Z')) return d - 'A';
         return -1;
     }
 
-    private native String getDriveDirectory(int drive);
+    privbte nbtive String getDriveDirectory(int drive);
 
-    private String getDriveDirectory(char drive) {
+    privbte String getDriveDirectory(chbr drive) {
         int i = driveIndex(drive);
         if (i < 0) return null;
-        String s = driveDirCache[i];
+        String s = driveDirCbche[i];
         if (s != null) return s;
         s = getDriveDirectory(i + 1);
-        driveDirCache[i] = s;
+        driveDirCbche[i] = s;
         return s;
     }
 
-    // Caches for canonicalization results to improve startup performance.
-    // The first cache handles repeated canonicalizations of the same path
-    // name. The prefix cache handles repeated canonicalizations within the
-    // same directory, and must not create results differing from the true
-    // canonicalization algorithm in canonicalize_md.c. For this reason the
-    // prefix cache is conservative and is not used for complex path names.
-    private ExpiringCache cache       = new ExpiringCache();
-    private ExpiringCache prefixCache = new ExpiringCache();
+    // Cbches for cbnonicblizbtion results to improve stbrtup performbnce.
+    // The first cbche hbndles repebted cbnonicblizbtions of the sbme pbth
+    // nbme. The prefix cbche hbndles repebted cbnonicblizbtions within the
+    // sbme directory, bnd must not crebte results differing from the true
+    // cbnonicblizbtion blgorithm in cbnonicblize_md.c. For this rebson the
+    // prefix cbche is conservbtive bnd is not used for complex pbth nbmes.
+    privbte ExpiringCbche cbche       = new ExpiringCbche();
+    privbte ExpiringCbche prefixCbche = new ExpiringCbche();
 
     @Override
-    public String canonicalize(String path) throws IOException {
-        // If path is a drive letter only then skip canonicalization
-        int len = path.length();
+    public String cbnonicblize(String pbth) throws IOException {
+        // If pbth is b drive letter only then skip cbnonicblizbtion
+        int len = pbth.length();
         if ((len == 2) &&
-            (isLetter(path.charAt(0))) &&
-            (path.charAt(1) == ':')) {
-            char c = path.charAt(0);
+            (isLetter(pbth.chbrAt(0))) &&
+            (pbth.chbrAt(1) == ':')) {
+            chbr c = pbth.chbrAt(0);
             if ((c >= 'A') && (c <= 'Z'))
-                return path;
-            return "" + ((char) (c-32)) + ':';
+                return pbth;
+            return "" + ((chbr) (c-32)) + ':';
         } else if ((len == 3) &&
-                   (isLetter(path.charAt(0))) &&
-                   (path.charAt(1) == ':') &&
-                   (path.charAt(2) == '\\')) {
-            char c = path.charAt(0);
+                   (isLetter(pbth.chbrAt(0))) &&
+                   (pbth.chbrAt(1) == ':') &&
+                   (pbth.chbrAt(2) == '\\')) {
+            chbr c = pbth.chbrAt(0);
             if ((c >= 'A') && (c <= 'Z'))
-                return path;
-            return "" + ((char) (c-32)) + ':' + '\\';
+                return pbth;
+            return "" + ((chbr) (c-32)) + ':' + '\\';
         }
-        if (!useCanonCaches) {
-            return canonicalize0(path);
+        if (!useCbnonCbches) {
+            return cbnonicblize0(pbth);
         } else {
-            String res = cache.get(path);
+            String res = cbche.get(pbth);
             if (res == null) {
                 String dir = null;
                 String resDir = null;
-                if (useCanonPrefixCache) {
-                    dir = parentOrNull(path);
+                if (useCbnonPrefixCbche) {
+                    dir = pbrentOrNull(pbth);
                     if (dir != null) {
-                        resDir = prefixCache.get(dir);
+                        resDir = prefixCbche.get(dir);
                         if (resDir != null) {
                             /*
-                             * Hit only in prefix cache; full path is canonical,
-                             * but we need to get the canonical name of the file
-                             * in this directory to get the appropriate
-                             * capitalization
+                             * Hit only in prefix cbche; full pbth is cbnonicbl,
+                             * but we need to get the cbnonicbl nbme of the file
+                             * in this directory to get the bppropribte
+                             * cbpitblizbtion
                              */
-                            String filename = path.substring(1 + dir.length());
-                            res = canonicalizeWithPrefix(resDir, filename);
-                            cache.put(dir + File.separatorChar + filename, res);
+                            String filenbme = pbth.substring(1 + dir.length());
+                            res = cbnonicblizeWithPrefix(resDir, filenbme);
+                            cbche.put(dir + File.sepbrbtorChbr + filenbme, res);
                         }
                     }
                 }
                 if (res == null) {
-                    res = canonicalize0(path);
-                    cache.put(path, res);
-                    if (useCanonPrefixCache && dir != null) {
-                        resDir = parentOrNull(res);
+                    res = cbnonicblize0(pbth);
+                    cbche.put(pbth, res);
+                    if (useCbnonPrefixCbche && dir != null) {
+                        resDir = pbrentOrNull(res);
                         if (resDir != null) {
                             File f = new File(res);
                             if (f.exists() && !f.isDirectory()) {
-                                prefixCache.put(dir, resDir);
+                                prefixCbche.put(dir, resDir);
                             }
                         }
                     }
@@ -442,144 +442,144 @@ class WinNTFileSystem extends FileSystem {
         }
     }
 
-    private native String canonicalize0(String path)
+    privbte nbtive String cbnonicblize0(String pbth)
             throws IOException;
 
-    private String canonicalizeWithPrefix(String canonicalPrefix,
-            String filename) throws IOException
+    privbte String cbnonicblizeWithPrefix(String cbnonicblPrefix,
+            String filenbme) throws IOException
     {
-        return canonicalizeWithPrefix0(canonicalPrefix,
-                canonicalPrefix + File.separatorChar + filename);
+        return cbnonicblizeWithPrefix0(cbnonicblPrefix,
+                cbnonicblPrefix + File.sepbrbtorChbr + filenbme);
     }
 
-    // Run the canonicalization operation assuming that the prefix
-    // (everything up to the last filename) is canonical; just gets
-    // the canonical name of the last element of the path
-    private native String canonicalizeWithPrefix0(String canonicalPrefix,
-            String pathWithCanonicalPrefix)
+    // Run the cbnonicblizbtion operbtion bssuming thbt the prefix
+    // (everything up to the lbst filenbme) is cbnonicbl; just gets
+    // the cbnonicbl nbme of the lbst element of the pbth
+    privbte nbtive String cbnonicblizeWithPrefix0(String cbnonicblPrefix,
+            String pbthWithCbnonicblPrefix)
             throws IOException;
 
-    // Best-effort attempt to get parent of this path; used for
-    // optimization of filename canonicalization. This must return null for
-    // any cases where the code in canonicalize_md.c would throw an
-    // exception or otherwise deal with non-simple pathnames like handling
-    // of "." and "..". It may conservatively return null in other
-    // situations as well. Returning null will cause the underlying
-    // (expensive) canonicalization routine to be called.
-    private static String parentOrNull(String path) {
-        if (path == null) return null;
-        char sep = File.separatorChar;
-        char altSep = '/';
-        int last = path.length() - 1;
-        int idx = last;
-        int adjacentDots = 0;
+    // Best-effort bttempt to get pbrent of this pbth; used for
+    // optimizbtion of filenbme cbnonicblizbtion. This must return null for
+    // bny cbses where the code in cbnonicblize_md.c would throw bn
+    // exception or otherwise debl with non-simple pbthnbmes like hbndling
+    // of "." bnd "..". It mby conservbtively return null in other
+    // situbtions bs well. Returning null will cbuse the underlying
+    // (expensive) cbnonicblizbtion routine to be cblled.
+    privbte stbtic String pbrentOrNull(String pbth) {
+        if (pbth == null) return null;
+        chbr sep = File.sepbrbtorChbr;
+        chbr bltSep = '/';
+        int lbst = pbth.length() - 1;
+        int idx = lbst;
+        int bdjbcentDots = 0;
         int nonDotCount = 0;
         while (idx > 0) {
-            char c = path.charAt(idx);
+            chbr c = pbth.chbrAt(idx);
             if (c == '.') {
-                if (++adjacentDots >= 2) {
-                    // Punt on pathnames containing . and ..
+                if (++bdjbcentDots >= 2) {
+                    // Punt on pbthnbmes contbining . bnd ..
                     return null;
                 }
                 if (nonDotCount == 0) {
-                    // Punt on pathnames ending in a .
+                    // Punt on pbthnbmes ending in b .
                     return null;
                 }
             } else if (c == sep) {
-                if (adjacentDots == 1 && nonDotCount == 0) {
-                    // Punt on pathnames containing . and ..
+                if (bdjbcentDots == 1 && nonDotCount == 0) {
+                    // Punt on pbthnbmes contbining . bnd ..
                     return null;
                 }
                 if (idx == 0 ||
-                    idx >= last - 1 ||
-                    path.charAt(idx - 1) == sep ||
-                    path.charAt(idx - 1) == altSep) {
-                    // Punt on pathnames containing adjacent slashes
-                    // toward the end
+                    idx >= lbst - 1 ||
+                    pbth.chbrAt(idx - 1) == sep ||
+                    pbth.chbrAt(idx - 1) == bltSep) {
+                    // Punt on pbthnbmes contbining bdjbcent slbshes
+                    // towbrd the end
                     return null;
                 }
-                return path.substring(0, idx);
-            } else if (c == altSep) {
-                // Punt on pathnames containing both backward and
-                // forward slashes
+                return pbth.substring(0, idx);
+            } else if (c == bltSep) {
+                // Punt on pbthnbmes contbining both bbckwbrd bnd
+                // forwbrd slbshes
                 return null;
             } else if (c == '*' || c == '?') {
-                // Punt on pathnames containing wildcards
+                // Punt on pbthnbmes contbining wildcbrds
                 return null;
             } else {
                 ++nonDotCount;
-                adjacentDots = 0;
+                bdjbcentDots = 0;
             }
             --idx;
         }
         return null;
     }
 
-    /* -- Attribute accessors -- */
+    /* -- Attribute bccessors -- */
 
     @Override
-    public native int getBooleanAttributes(File f);
+    public nbtive int getBoolebnAttributes(File f);
 
     @Override
-    public native boolean checkAccess(File f, int access);
+    public nbtive boolebn checkAccess(File f, int bccess);
 
     @Override
-    public native long getLastModifiedTime(File f);
+    public nbtive long getLbstModifiedTime(File f);
 
     @Override
-    public native long getLength(File f);
+    public nbtive long getLength(File f);
 
     @Override
-    public native boolean setPermission(File f, int access, boolean enable,
-            boolean owneronly);
+    public nbtive boolebn setPermission(File f, int bccess, boolebn enbble,
+            boolebn owneronly);
 
-    /* -- File operations -- */
+    /* -- File operbtions -- */
 
     @Override
-    public native boolean createFileExclusively(String path)
+    public nbtive boolebn crebteFileExclusively(String pbth)
             throws IOException;
 
     @Override
-    public native String[] list(File f);
+    public nbtive String[] list(File f);
 
     @Override
-    public native boolean createDirectory(File f);
+    public nbtive boolebn crebteDirectory(File f);
 
     @Override
-    public native boolean setLastModifiedTime(File f, long time);
+    public nbtive boolebn setLbstModifiedTime(File f, long time);
 
     @Override
-    public native boolean setReadOnly(File f);
+    public nbtive boolebn setRebdOnly(File f);
 
     @Override
-    public boolean delete(File f) {
-        // Keep canonicalization caches in sync after file deletion
-        // and renaming operations. Could be more clever than this
-        // (i.e., only remove/update affected entries) but probably
-        // not worth it since these entries expire after 30 seconds
-        // anyway.
-        cache.clear();
-        prefixCache.clear();
+    public boolebn delete(File f) {
+        // Keep cbnonicblizbtion cbches in sync bfter file deletion
+        // bnd renbming operbtions. Could be more clever thbn this
+        // (i.e., only remove/updbte bffected entries) but probbbly
+        // not worth it since these entries expire bfter 30 seconds
+        // bnywby.
+        cbche.clebr();
+        prefixCbche.clebr();
         return delete0(f);
     }
 
-    private native boolean delete0(File f);
+    privbte nbtive boolebn delete0(File f);
 
     @Override
-    public boolean rename(File f1, File f2) {
-        // Keep canonicalization caches in sync after file deletion
-        // and renaming operations. Could be more clever than this
-        // (i.e., only remove/update affected entries) but probably
-        // not worth it since these entries expire after 30 seconds
-        // anyway.
-        cache.clear();
-        prefixCache.clear();
-        return rename0(f1, f2);
+    public boolebn renbme(File f1, File f2) {
+        // Keep cbnonicblizbtion cbches in sync bfter file deletion
+        // bnd renbming operbtions. Could be more clever thbn this
+        // (i.e., only remove/updbte bffected entries) but probbbly
+        // not worth it since these entries expire bfter 30 seconds
+        // bnywby.
+        cbche.clebr();
+        prefixCbche.clebr();
+        return renbme0(f1, f2);
     }
 
-    private native boolean rename0(File f1, File f2);
+    privbte nbtive boolebn renbme0(File f1, File f2);
 
-    /* -- Filesystem interface -- */
+    /* -- Filesystem interfbce -- */
 
     @Override
     public File[] listRoots() {
@@ -587,7 +587,7 @@ class WinNTFileSystem extends FileSystem {
         int n = 0;
         for (int i = 0; i < 26; i++) {
             if (((ds >> i) & 1) != 0) {
-                if (!access((char)('A' + i) + ":" + slash))
+                if (!bccess((chbr)('A' + i) + ":" + slbsh))
                     ds &= ~(1 << i);
                 else
                     n++;
@@ -595,54 +595,54 @@ class WinNTFileSystem extends FileSystem {
         }
         File[] fs = new File[n];
         int j = 0;
-        char slash = this.slash;
+        chbr slbsh = this.slbsh;
         for (int i = 0; i < 26; i++) {
             if (((ds >> i) & 1) != 0)
-                fs[j++] = new File((char)('A' + i) + ":" + slash);
+                fs[j++] = new File((chbr)('A' + i) + ":" + slbsh);
         }
         return fs;
     }
 
-    private static native int listRoots0();
+    privbte stbtic nbtive int listRoots0();
 
-    private boolean access(String path) {
+    privbte boolebn bccess(String pbth) {
         try {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) security.checkRead(path);
+            SecurityMbnbger security = System.getSecurityMbnbger();
+            if (security != null) security.checkRebd(pbth);
             return true;
-        } catch (SecurityException x) {
-            return false;
+        } cbtch (SecurityException x) {
+            return fblse;
         }
     }
 
-    /* -- Disk usage -- */
+    /* -- Disk usbge -- */
 
     @Override
-    public long getSpace(File f, int t) {
+    public long getSpbce(File f, int t) {
         if (f.exists()) {
-            return getSpace0(f, t);
+            return getSpbce0(f, t);
         }
         return 0;
     }
 
-    private native long getSpace0(File f, int t);
+    privbte nbtive long getSpbce0(File f, int t);
 
-    /* -- Basic infrastructure -- */
+    /* -- Bbsic infrbstructure -- */
 
     @Override
-    public int compare(File f1, File f2) {
-        return f1.getPath().compareToIgnoreCase(f2.getPath());
+    public int compbre(File f1, File f2) {
+        return f1.getPbth().compbreToIgnoreCbse(f2.getPbth());
     }
 
     @Override
-    public int hashCode(File f) {
-        /* Could make this more efficient: String.hashCodeIgnoreCase */
-        return f.getPath().toLowerCase(Locale.ENGLISH).hashCode() ^ 1234321;
+    public int hbshCode(File f) {
+        /* Could mbke this more efficient: String.hbshCodeIgnoreCbse */
+        return f.getPbth().toLowerCbse(Locble.ENGLISH).hbshCode() ^ 1234321;
     }
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
+    stbtic {
         initIDs();
     }
 }

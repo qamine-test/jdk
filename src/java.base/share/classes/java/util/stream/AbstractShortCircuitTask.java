@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Spliterator;
-import java.util.concurrent.atomic.AtomicReference;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.btomic.AtomicReference;
 
 /**
- * Abstract class for fork-join tasks used to implement short-circuiting
- * stream ops, which can produce a result without processing all elements of the
- * stream.
+ * Abstrbct clbss for fork-join tbsks used to implement short-circuiting
+ * strebm ops, which cbn produce b result without processing bll elements of the
+ * strebm.
  *
- * @param <P_IN> type of input elements to the pipeline
- * @param <P_OUT> type of output elements from the pipeline
- * @param <R> type of intermediate result, may be different from operation
+ * @pbrbm <P_IN> type of input elements to the pipeline
+ * @pbrbm <P_OUT> type of output elements from the pipeline
+ * @pbrbm <R> type of intermedibte result, mby be different from operbtion
  *        result type
- * @param <K> type of child and sibling tasks
+ * @pbrbm <K> type of child bnd sibling tbsks
  * @since 1.8
  */
-@SuppressWarnings("serial")
-abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
-                                        K extends AbstractShortCircuitTask<P_IN, P_OUT, R, K>>
-        extends AbstractTask<P_IN, P_OUT, R, K> {
+@SuppressWbrnings("seribl")
+bbstrbct clbss AbstrbctShortCircuitTbsk<P_IN, P_OUT, R,
+                                        K extends AbstrbctShortCircuitTbsk<P_IN, P_OUT, R, K>>
+        extends AbstrbctTbsk<P_IN, P_OUT, R, K> {
     /**
-     * The result for this computation; this is shared among all tasks and set
-     * exactly once
+     * The result for this computbtion; this is shbred bmong bll tbsks bnd set
+     * exbctly once
      */
-    protected final AtomicReference<R> sharedResult;
+    protected finbl AtomicReference<R> shbredResult;
 
     /**
-     * Indicates whether this task has been canceled.  Tasks may cancel other
-     * tasks in the computation under various conditions, such as in a
-     * find-first operation, a task that finds a value will cancel all tasks
-     * that are later in the encounter order.
+     * Indicbtes whether this tbsk hbs been cbnceled.  Tbsks mby cbncel other
+     * tbsks in the computbtion under vbrious conditions, such bs in b
+     * find-first operbtion, b tbsk thbt finds b vblue will cbncel bll tbsks
+     * thbt bre lbter in the encounter order.
      */
-    protected volatile boolean canceled;
+    protected volbtile boolebn cbnceled;
 
     /**
-     * Constructor for root tasks.
+     * Constructor for root tbsks.
      *
-     * @param helper the {@code PipelineHelper} describing the stream pipeline
-     *               up to this operation
-     * @param spliterator the {@code Spliterator} describing the source for this
+     * @pbrbm helper the {@code PipelineHelper} describing the strebm pipeline
+     *               up to this operbtion
+     * @pbrbm spliterbtor the {@code Spliterbtor} describing the source for this
      *                    pipeline
      */
-    protected AbstractShortCircuitTask(PipelineHelper<P_OUT> helper,
-                                       Spliterator<P_IN> spliterator) {
-        super(helper, spliterator);
-        sharedResult = new AtomicReference<>(null);
+    protected AbstrbctShortCircuitTbsk(PipelineHelper<P_OUT> helper,
+                                       Spliterbtor<P_IN> spliterbtor) {
+        super(helper, spliterbtor);
+        shbredResult = new AtomicReference<>(null);
     }
 
     /**
      * Constructor for non-root nodes.
      *
-     * @param parent parent task in the computation tree
-     * @param spliterator the {@code Spliterator} for the portion of the
-     *                    computation tree described by this task
+     * @pbrbm pbrent pbrent tbsk in the computbtion tree
+     * @pbrbm spliterbtor the {@code Spliterbtor} for the portion of the
+     *                    computbtion tree described by this tbsk
      */
-    protected AbstractShortCircuitTask(K parent,
-                                       Spliterator<P_IN> spliterator) {
-        super(parent, spliterator);
-        sharedResult = parent.sharedResult;
+    protected AbstrbctShortCircuitTbsk(K pbrent,
+                                       Spliterbtor<P_IN> spliterbtor) {
+        super(pbrent, spliterbtor);
+        shbredResult = pbrent.shbredResult;
     }
 
     /**
-     * Returns the value indicating the computation completed with no task
-     * finding a short-circuitable result.  For example, for a "find" operation,
-     * this might be null or an empty {@code Optional}.
+     * Returns the vblue indicbting the computbtion completed with no tbsk
+     * finding b short-circuitbble result.  For exbmple, for b "find" operbtion,
+     * this might be null or bn empty {@code Optionbl}.
      *
-     * @return the result to return when no task finds a result
+     * @return the result to return when no tbsk finds b result
      */
-    protected abstract R getEmptyResult();
+    protected bbstrbct R getEmptyResult();
 
     /**
-     * Overrides AbstractTask version to include checks for early
+     * Overrides AbstrbctTbsk version to include checks for ebrly
      * exits while splitting or computing.
      */
     @Override
     public void compute() {
-        Spliterator<P_IN> rs = spliterator, ls;
-        long sizeEstimate = rs.estimateSize();
-        long sizeThreshold = getTargetSize(sizeEstimate);
-        boolean forkRight = false;
-        @SuppressWarnings("unchecked") K task = (K) this;
-        AtomicReference<R> sr = sharedResult;
+        Spliterbtor<P_IN> rs = spliterbtor, ls;
+        long sizeEstimbte = rs.estimbteSize();
+        long sizeThreshold = getTbrgetSize(sizeEstimbte);
+        boolebn forkRight = fblse;
+        @SuppressWbrnings("unchecked") K tbsk = (K) this;
+        AtomicReference<R> sr = shbredResult;
         R result;
         while ((result = sr.get()) == null) {
-            if (task.taskCanceled()) {
-                result = task.getEmptyResult();
-                break;
+            if (tbsk.tbskCbnceled()) {
+                result = tbsk.getEmptyResult();
+                brebk;
             }
-            if (sizeEstimate <= sizeThreshold || (ls = rs.trySplit()) == null) {
-                result = task.doLeaf();
-                break;
+            if (sizeEstimbte <= sizeThreshold || (ls = rs.trySplit()) == null) {
+                result = tbsk.doLebf();
+                brebk;
             }
-            K leftChild, rightChild, taskToFork;
-            task.leftChild  = leftChild = task.makeChild(ls);
-            task.rightChild = rightChild = task.makeChild(rs);
-            task.setPendingCount(1);
+            K leftChild, rightChild, tbskToFork;
+            tbsk.leftChild  = leftChild = tbsk.mbkeChild(ls);
+            tbsk.rightChild = rightChild = tbsk.mbkeChild(rs);
+            tbsk.setPendingCount(1);
             if (forkRight) {
-                forkRight = false;
+                forkRight = fblse;
                 rs = ls;
-                task = leftChild;
-                taskToFork = rightChild;
+                tbsk = leftChild;
+                tbskToFork = rightChild;
             }
             else {
                 forkRight = true;
-                task = rightChild;
-                taskToFork = leftChild;
+                tbsk = rightChild;
+                tbskToFork = leftChild;
             }
-            taskToFork.fork();
-            sizeEstimate = rs.estimateSize();
+            tbskToFork.fork();
+            sizeEstimbte = rs.estimbteSize();
         }
-        task.setLocalResult(result);
-        task.tryComplete();
+        tbsk.setLocblResult(result);
+        tbsk.tryComplete();
     }
 
 
     /**
-     * Declares that a globally valid result has been found.  If another task has
-     * not already found the answer, the result is installed in
-     * {@code sharedResult}.  The {@code compute()} method will check
-     * {@code sharedResult} before proceeding with computation, so this causes
-     * the computation to terminate early.
+     * Declbres thbt b globblly vblid result hbs been found.  If bnother tbsk hbs
+     * not blrebdy found the bnswer, the result is instblled in
+     * {@code shbredResult}.  The {@code compute()} method will check
+     * {@code shbredResult} before proceeding with computbtion, so this cbuses
+     * the computbtion to terminbte ebrly.
      *
-     * @param result the result found
+     * @pbrbm result the result found
      */
     protected void shortCircuit(R result) {
         if (result != null)
-            sharedResult.compareAndSet(null, result);
+            shbredResult.compbreAndSet(null, result);
     }
 
     /**
-     * Sets a local result for this task.  If this task is the root, set the
-     * shared result instead (if not already set).
+     * Sets b locbl result for this tbsk.  If this tbsk is the root, set the
+     * shbred result instebd (if not blrebdy set).
      *
-     * @param localResult The result to set for this task
+     * @pbrbm locblResult The result to set for this tbsk
      */
     @Override
-    protected void setLocalResult(R localResult) {
+    protected void setLocblResult(R locblResult) {
         if (isRoot()) {
-            if (localResult != null)
-                sharedResult.compareAndSet(null, localResult);
+            if (locblResult != null)
+                shbredResult.compbreAndSet(null, locblResult);
         }
         else
-            super.setLocalResult(localResult);
+            super.setLocblResult(locblResult);
     }
 
     /**
-     * Retrieves the local result for this task
+     * Retrieves the locbl result for this tbsk
      */
     @Override
-    public R getRawResult() {
-        return getLocalResult();
+    public R getRbwResult() {
+        return getLocblResult();
     }
 
     /**
-     * Retrieves the local result for this task.  If this task is the root,
-     * retrieves the shared result instead.
+     * Retrieves the locbl result for this tbsk.  If this tbsk is the root,
+     * retrieves the shbred result instebd.
      */
     @Override
-    public R getLocalResult() {
+    public R getLocblResult() {
         if (isRoot()) {
-            R answer = sharedResult.get();
-            return (answer == null) ? getEmptyResult() : answer;
+            R bnswer = shbredResult.get();
+            return (bnswer == null) ? getEmptyResult() : bnswer;
         }
         else
-            return super.getLocalResult();
+            return super.getLocblResult();
     }
 
     /**
-     * Mark this task as canceled
+     * Mbrk this tbsk bs cbnceled
      */
-    protected void cancel() {
-        canceled = true;
+    protected void cbncel() {
+        cbnceled = true;
     }
 
     /**
-     * Queries whether this task is canceled.  A task is considered canceled if
-     * it or any of its parents have been canceled.
+     * Queries whether this tbsk is cbnceled.  A tbsk is considered cbnceled if
+     * it or bny of its pbrents hbve been cbnceled.
      *
-     * @return {@code true} if this task or any parent is canceled.
+     * @return {@code true} if this tbsk or bny pbrent is cbnceled.
      */
-    protected boolean taskCanceled() {
-        boolean cancel = canceled;
-        if (!cancel) {
-            for (K parent = getParent(); !cancel && parent != null; parent = parent.getParent())
-                cancel = parent.canceled;
+    protected boolebn tbskCbnceled() {
+        boolebn cbncel = cbnceled;
+        if (!cbncel) {
+            for (K pbrent = getPbrent(); !cbncel && pbrent != null; pbrent = pbrent.getPbrent())
+                cbncel = pbrent.cbnceled;
         }
 
-        return cancel;
+        return cbncel;
     }
 
     /**
-     * Cancels all tasks which succeed this one in the encounter order.  This
-     * includes canceling all the current task's right sibling, as well as the
-     * later right siblings of all its parents.
+     * Cbncels bll tbsks which succeed this one in the encounter order.  This
+     * includes cbnceling bll the current tbsk's right sibling, bs well bs the
+     * lbter right siblings of bll its pbrents.
      */
-    protected void cancelLaterNodes() {
-        // Go up the tree, cancel right siblings of this node and all parents
-        for (@SuppressWarnings("unchecked") K parent = getParent(), node = (K) this;
-             parent != null;
-             node = parent, parent = parent.getParent()) {
-            // If node is a left child of parent, then has a right sibling
-            if (parent.leftChild == node) {
-                K rightSibling = parent.rightChild;
-                if (!rightSibling.canceled)
-                    rightSibling.cancel();
+    protected void cbncelLbterNodes() {
+        // Go up the tree, cbncel right siblings of this node bnd bll pbrents
+        for (@SuppressWbrnings("unchecked") K pbrent = getPbrent(), node = (K) this;
+             pbrent != null;
+             node = pbrent, pbrent = pbrent.getPbrent()) {
+            // If node is b left child of pbrent, then hbs b right sibling
+            if (pbrent.leftChild == node) {
+                K rightSibling = pbrent.rightChild;
+                if (!rightSibling.cbnceled)
+                    rightSibling.cbncel();
             }
         }
     }

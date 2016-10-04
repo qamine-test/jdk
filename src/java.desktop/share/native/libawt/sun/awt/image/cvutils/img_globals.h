@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file provides some global definitions needed by the image
- * conversion package.
+ * This file provides some globbl definitions needed by the imbge
+ * conversion pbckbge.
  */
 
 #ifndef IMAGE_GLOBALS_H
 #define IMAGE_GLOBALS_H
 
 
-/* Image Conversion function return codes. */
+/* Imbge Conversion function return codes. */
 #define SCALEFAILURE    -1
 #define SCALENOOP       0
 #define SCALESUCCESS    1
 
 /*
- * The constants needed to choose from among the many variants of image
- * conversion functions that can be constructed with the standard header
- * files.  The types of input for the image conversion functions are
- * broken down into 5 different attributes each with 2 to 4 different
- * variants:
+ * The constbnts needed to choose from bmong the mbny vbribnts of imbge
+ * conversion functions thbt cbn be constructed with the stbndbrd hebder
+ * files.  The types of input for the imbge conversion functions bre
+ * broken down into 5 different bttributes ebch with 2 to 4 different
+ * vbribnts:
  *
  *      SCALING:        SCALED or UNSCALED
  *      INPUT SIZE:     BYTEIN (8-bit) or INTIN (32-bit)
  *      ALPHA:          OPAQUE or ALPHA
  *      ORDER:          TDLR or RANDOM
- *      COLORMODEL:     ICM, DCM, DCM8 (8-bits for each component) or ANY
+ *      COLORMODEL:     ICM, DCM, DCM8 (8-bits for ebch component) or ANY
  *
- * For each attribute, a mask is defined with the "BITS" suffix which
- * identifies which bits contain the variation information for that
- * particular attribute.  The input information should be analyzed and
- * characterized for each of the above categories and the appropriate
- * bit constants OR'd together to produce a unique constant that
- * identifies which conversion function is needed.  The reason that
- * attributes of the output space are not indicated in the masks is
- * that typically only a single output device type needs to be supported
- * at a time and so a vector of the functions specific to the necessary
- * output device can be constructed at AWT initialization time and then
- * indexed into with the constant identifier that characterizes the
- * input data, which is only known and constantly varies at run-time.
+ * For ebch bttribute, b mbsk is defined with the "BITS" suffix which
+ * identifies which bits contbin the vbribtion informbtion for thbt
+ * pbrticulbr bttribute.  The input informbtion should be bnblyzed bnd
+ * chbrbcterized for ebch of the bbove cbtegories bnd the bppropribte
+ * bit constbnts OR'd together to produce b unique constbnt thbt
+ * identifies which conversion function is needed.  The rebson thbt
+ * bttributes of the output spbce bre not indicbted in the mbsks is
+ * thbt typicblly only b single output device type needs to be supported
+ * bt b time bnd so b vector of the functions specific to the necessbry
+ * output device cbn be constructed bt AWT initiblizbtion time bnd then
+ * indexed into with the constbnt identifier thbt chbrbcterizes the
+ * input dbtb, which is only known bnd constbntly vbries bt run-time.
  */
 #define IMGCV_UNSCALED          (0 << 0)
 #define IMGCV_SCALED            (1 << 0)
@@ -81,45 +81,45 @@
 #define IMGCV_ANYCM             (3 << 4)
 #define IMGCV_CMBITS            (3 << 4)
 
-#define NUM_IMGCV               (1 << 6)        /* total # of IMGCV variants */
+#define NUM_IMGCV               (1 << 6)        /* totbl # of IMGCV vbribnts */
 
 /*
- * The structure which holds the image conversion data.
+ * The structure which holds the imbge conversion dbtb.
  */
 typedef struct {
     void *outbuf;
-    void *maskbuf;
+    void *mbskbuf;
     void *fserrors;
-} ImgConvertData;
+} ImgConvertDbtb;
 
 /*
- * The standard structure which holds information about the pixels
+ * The stbndbrd structure which holds informbtion bbout the pixels
  * used in the output device.
  */
 typedef struct {
-    int grayscale;
+    int grbyscble;
     int bitsperpixel;
     int rOff;
     int gOff;
     int bOff;
-    int rScale;
-    int gScale;
-    int bScale;
-} ImgColorData;
+    int rScble;
+    int gScble;
+    int bScble;
+} ImgColorDbtb;
 
 /*
- * The private data member attached to a ColorModel which caches
- * the information needed to characterize and use a ColorModel
+ * The privbte dbtb member bttbched to b ColorModel which cbches
+ * the informbtion needed to chbrbcterize bnd use b ColorModel
  * object on the fly.
  */
 typedef struct {
     int type;
     struct methodblock *mb;
-} ImgCMData;
+} ImgCMDbtb;
 
 /*
- * The standard signature of all of the image conversion functions
- * that can be produced with this package of include files.
+ * The stbndbrd signbture of bll of the imbge conversion functions
+ * thbt cbn be produced with this pbckbge of include files.
  */
 
 /*
@@ -127,32 +127,32 @@ typedef struct {
  */
 typedef int ImgConvertFcn(void *colormodel,
                           int srcOX, int srcOY, int srcW, int srcH,
-                          void *srcpix, int srcOff, int srcBPP, int srcScan,
-                          int srcTotalWidth, int srcTotalHeight,
-                          int dstTotalWidth, int dstTotalHeight,
-                          ImgConvertData *cvdata, ImgColorData *clrdata);
+                          void *srcpix, int srcOff, int srcBPP, int srcScbn,
+                          int srcTotblWidth, int srcTotblHeight,
+                          int dstTotblWidth, int dstTotblHeight,
+                          ImgConvertDbtb *cvdbtb, ImgColorDbtb *clrdbtb);
 
 /*
- * The type of the error matrix used in the ordered dithering code.
+ * The type of the error mbtrix used in the ordered dithering code.
  */
-typedef unsigned char uns_ordered_dither_array[8][8];
-typedef char sgn_ordered_dither_array[8][8];
+typedef unsigned chbr uns_ordered_dither_brrby[8][8];
+typedef chbr sgn_ordered_dither_brrby[8][8];
 
 /*
  * The function provided for constructing the ordered dithering error
- * matrices based on a given quantum (i.e. the amplitude of the maximum
- * error values appearing in the matrix which should be the same as the
- * distance between adjacent allocated component values in the color cube).
+ * mbtrices bbsed on b given qubntum (i.e. the bmplitude of the mbximum
+ * error vblues bppebring in the mbtrix which should be the sbme bs the
+ * distbnce between bdjbcent bllocbted component vblues in the color cube).
  */
-extern void make_uns_ordered_dither_array(uns_ordered_dither_array oda,
-                                          int quantum);
-extern void make_sgn_ordered_dither_array(char* oda, int errmin, int errmax);
+extern void mbke_uns_ordered_dither_brrby(uns_ordered_dither_brrby odb,
+                                          int qubntum);
+extern void mbke_sgn_ordered_dither_brrby(chbr* odb, int errmin, int errmbx);
 
 /*
- * The function provided for calculating the contents of the ImgCMData
- * structure which can be attached to ColorModels to simplify the
- * work of characterizing their data.
+ * The function provided for cblculbting the contents of the ImgCMDbtb
+ * structure which cbn be bttbched to ColorModels to simplify the
+ * work of chbrbcterizing their dbtb.
  */
-extern ImgCMData *img_getCMData(void *cmh);
+extern ImgCMDbtb *img_getCMDbtb(void *cmh);
 
 #endif /* IMAGE_GLOBALS_H */

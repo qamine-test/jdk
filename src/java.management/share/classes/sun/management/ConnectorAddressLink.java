@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
 import sun.misc.Perf;
-import sun.management.counter.Units;
-import sun.management.counter.Counter;
-import sun.management.counter.perf.PerfInstrumentation;
+import sun.mbnbgement.counter.Units;
+import sun.mbnbgement.counter.Counter;
+import sun.mbnbgement.counter.perf.PerfInstrumentbtion;
 
 /**
- * A utility class to support the exporting and importing of the address
- * of a connector server using the instrumentation buffer.
+ * A utility clbss to support the exporting bnd importing of the bddress
+ * of b connector server using the instrumentbtion buffer.
  *
  * @since 1.5
  */
-public class ConnectorAddressLink {
+public clbss ConnectorAddressLink {
 
-    private static final String CONNECTOR_ADDRESS_COUNTER =
-            "sun.management.JMXConnectorServer.address";
+    privbte stbtic finbl String CONNECTOR_ADDRESS_COUNTER =
+            "sun.mbnbgement.JMXConnectorServer.bddress";
 
     /*
-     * The format of the jvmstat counters representing the properties of
-     * a given out-of-the-box JMX remote connector will be as follows:
+     * The formbt of the jvmstbt counters representing the properties of
+     * b given out-of-the-box JMX remote connector will be bs follows:
      *
-     * sun.management.JMXConnectorServer.<counter>.<key>=<value>
+     * sun.mbnbgement.JMXConnectorServer.<counter>.<key>=<vblue>
      *
      * where:
      *
-     *     counter = index computed by this class which uniquely identifies
-     *               an out-of-the-box JMX remote connector running in this
-     *               Java virtual machine.
-     *     key/value = a given key/value pair in the map supplied to the
+     *     counter = index computed by this clbss which uniquely identifies
+     *               bn out-of-the-box JMX remote connector running in this
+     *               Jbvb virtubl mbchine.
+     *     key/vblue = b given key/vblue pbir in the mbp supplied to the
      *                 exportRemote() method.
      *
-     * For example,
+     * For exbmple,
      *
-     * sun.management.JMXConnectorServer.0.remoteAddress=service:jmx:rmi:///jndi/rmi://myhost:5000/jmxrmi
-     * sun.management.JMXConnectorServer.0.authenticate=false
-     * sun.management.JMXConnectorServer.0.ssl=false
-     * sun.management.JMXConnectorServer.0.sslRegistry=false
-     * sun.management.JMXConnectorServer.0.sslNeedClientAuth=false
+     * sun.mbnbgement.JMXConnectorServer.0.remoteAddress=service:jmx:rmi:///jndi/rmi://myhost:5000/jmxrmi
+     * sun.mbnbgement.JMXConnectorServer.0.buthenticbte=fblse
+     * sun.mbnbgement.JMXConnectorServer.0.ssl=fblse
+     * sun.mbnbgement.JMXConnectorServer.0.sslRegistry=fblse
+     * sun.mbnbgement.JMXConnectorServer.0.sslNeedClientAuth=fblse
      */
-    private static final String REMOTE_CONNECTOR_COUNTER_PREFIX =
-            "sun.management.JMXConnectorServer.";
+    privbte stbtic finbl String REMOTE_CONNECTOR_COUNTER_PREFIX =
+            "sun.mbnbgement.JMXConnectorServer.";
 
     /*
      * JMX remote connector counter (it will be incremented every
-     * time a new out-of-the-box JMX remote connector is created).
+     * time b new out-of-the-box JMX remote connector is crebted).
      */
-    private static AtomicInteger counter = new AtomicInteger();
+    privbte stbtic AtomicInteger counter = new AtomicInteger();
 
     /**
-     * Exports the specified connector address to the instrumentation buffer
-     * so that it can be read by this or other Java virtual machines running
-     * on the same system.
+     * Exports the specified connector bddress to the instrumentbtion buffer
+     * so thbt it cbn be rebd by this or other Jbvb virtubl mbchines running
+     * on the sbme system.
      *
-     * @param address The connector address.
+     * @pbrbm bddress The connector bddress.
      */
-    public static void export(String address) {
-        if (address == null || address.length() == 0) {
-            throw new IllegalArgumentException("address not specified");
+    public stbtic void export(String bddress) {
+        if (bddress == null || bddress.length() == 0) {
+            throw new IllegblArgumentException("bddress not specified");
         }
         Perf perf = Perf.getPerf();
-        perf.createString(
-                CONNECTOR_ADDRESS_COUNTER, 1, Units.STRING.intValue(), address);
+        perf.crebteString(
+                CONNECTOR_ADDRESS_COUNTER, 1, Units.STRING.intVblue(), bddress);
     }
 
     /**
-     * Imports the connector address from the instrument buffer
-     * of the specified Java virtual machine.
+     * Imports the connector bddress from the instrument buffer
+     * of the specified Jbvb virtubl mbchine.
      *
-     * @param vmid an identifier that uniquely identifies a local Java virtual
-     * machine, or <code>0</code> to indicate the current Java virtual machine.
+     * @pbrbm vmid bn identifier thbt uniquely identifies b locbl Jbvb virtubl
+     * mbchine, or <code>0</code> to indicbte the current Jbvb virtubl mbchine.
      *
-     * @return the value of the connector address, or <code>null</code> if the
-     * target VM has not exported a connector address.
+     * @return the vblue of the connector bddress, or <code>null</code> if the
+     * tbrget VM hbs not exported b connector bddress.
      *
-     * @throws IOException An I/O error occurred while trying to acquire the
-     * instrumentation buffer.
+     * @throws IOException An I/O error occurred while trying to bcquire the
+     * instrumentbtion buffer.
      */
-    public static String importFrom(int vmid) throws IOException {
+    public stbtic String importFrom(int vmid) throws IOException {
         Perf perf = Perf.getPerf();
         ByteBuffer bb;
         try {
-            bb = perf.attach(vmid, "r");
-        } catch (IllegalArgumentException iae) {
-            throw new IOException(iae.getMessage());
+            bb = perf.bttbch(vmid, "r");
+        } cbtch (IllegblArgumentException ibe) {
+            throw new IOException(ibe.getMessbge());
         }
         List<Counter> counters =
-                new PerfInstrumentation(bb).findByPattern(CONNECTOR_ADDRESS_COUNTER);
-        Iterator<Counter> i = counters.iterator();
-        if (i.hasNext()) {
+                new PerfInstrumentbtion(bb).findByPbttern(CONNECTOR_ADDRESS_COUNTER);
+        Iterbtor<Counter> i = counters.iterbtor();
+        if (i.hbsNext()) {
             Counter c = i.next();
-            return (String) c.getValue();
+            return (String) c.getVblue();
         } else {
             return null;
         }
     }
 
     /**
-     * Exports the specified remote connector address and associated
-     * configuration properties to the instrumentation buffer so that
-     * it can be read by this or other Java virtual machines running
-     * on the same system.
+     * Exports the specified remote connector bddress bnd bssocibted
+     * configurbtion properties to the instrumentbtion buffer so thbt
+     * it cbn be rebd by this or other Jbvb virtubl mbchines running
+     * on the sbme system.
      *
-     * @param properties The remote connector address properties.
+     * @pbrbm properties The remote connector bddress properties.
      */
-    public static void exportRemote(Map<String, String> properties) {
-        final int index = counter.getAndIncrement();
+    public stbtic void exportRemote(Mbp<String, String> properties) {
+        finbl int index = counter.getAndIncrement();
         Perf perf = Perf.getPerf();
-        for (Map.Entry<String, String> entry : properties.entrySet()) {
-            perf.createString(REMOTE_CONNECTOR_COUNTER_PREFIX + index + "." +
-                    entry.getKey(), 1, Units.STRING.intValue(), entry.getValue());
+        for (Mbp.Entry<String, String> entry : properties.entrySet()) {
+            perf.crebteString(REMOTE_CONNECTOR_COUNTER_PREFIX + index + "." +
+                    entry.getKey(), 1, Units.STRING.intVblue(), entry.getVblue());
         }
     }
 
     /**
-     * Imports the remote connector address and associated
-     * configuration properties from the instrument buffer
-     * of the specified Java virtual machine.
+     * Imports the remote connector bddress bnd bssocibted
+     * configurbtion properties from the instrument buffer
+     * of the specified Jbvb virtubl mbchine.
      *
-     * @param vmid an identifier that uniquely identifies a local Java virtual
-     * machine, or <code>0</code> to indicate the current Java virtual machine.
+     * @pbrbm vmid bn identifier thbt uniquely identifies b locbl Jbvb virtubl
+     * mbchine, or <code>0</code> to indicbte the current Jbvb virtubl mbchine.
      *
-     * @return a map containing the remote connector's properties, or an empty
-     * map if the target VM has not exported the remote connector's properties.
+     * @return b mbp contbining the remote connector's properties, or bn empty
+     * mbp if the tbrget VM hbs not exported the remote connector's properties.
      *
-     * @throws IOException An I/O error occurred while trying to acquire the
-     * instrumentation buffer.
+     * @throws IOException An I/O error occurred while trying to bcquire the
+     * instrumentbtion buffer.
      */
-    public static Map<String, String> importRemoteFrom(int vmid) throws IOException {
+    public stbtic Mbp<String, String> importRemoteFrom(int vmid) throws IOException {
         Perf perf = Perf.getPerf();
         ByteBuffer bb;
         try {
-            bb = perf.attach(vmid, "r");
-        } catch (IllegalArgumentException iae) {
-            throw new IOException(iae.getMessage());
+            bb = perf.bttbch(vmid, "r");
+        } cbtch (IllegblArgumentException ibe) {
+            throw new IOException(ibe.getMessbge());
         }
-        List<Counter> counters = new PerfInstrumentation(bb).getAllCounters();
-        Map<String, String> properties = new HashMap<>();
+        List<Counter> counters = new PerfInstrumentbtion(bb).getAllCounters();
+        Mbp<String, String> properties = new HbshMbp<>();
         for (Counter c : counters) {
-            String name =  c.getName();
-            if (name.startsWith(REMOTE_CONNECTOR_COUNTER_PREFIX) &&
-                    !name.equals(CONNECTOR_ADDRESS_COUNTER)) {
-                properties.put(name, c.getValue().toString());
+            String nbme =  c.getNbme();
+            if (nbme.stbrtsWith(REMOTE_CONNECTOR_COUNTER_PREFIX) &&
+                    !nbme.equbls(CONNECTOR_ADDRESS_COUNTER)) {
+                properties.put(nbme, c.getVblue().toString());
             }
         }
         return properties;

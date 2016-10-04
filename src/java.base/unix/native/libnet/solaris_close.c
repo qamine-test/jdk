@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,7 +28,7 @@
 #include <stropts.h>
 #include <unistd.h>
 
-/* Support for restartable system calls on Solaris. */
+/* Support for restbrtbble system cblls on Solbris. */
 
 #define RESTARTABLE_RETURN_INT(_cmd) do {             \
     int _result;                                      \
@@ -40,38 +40,38 @@
     }                                                 \
 } while(0)
 
-int NET_Read(int s, void* buf, size_t len) {
+int NET_Rebd(int s, void* buf, size_t len) {
     RESTARTABLE_RETURN_INT(recv(s, buf, len, 0));
 }
 
-int NET_RecvFrom(int s, void *buf, int len, unsigned int flags,
-                 struct sockaddr *from, socklen_t *fromlen) {
-    RESTARTABLE_RETURN_INT(recvfrom(s, buf, len, flags, from, fromlen));
+int NET_RecvFrom(int s, void *buf, int len, unsigned int flbgs,
+                 struct sockbddr *from, socklen_t *fromlen) {
+    RESTARTABLE_RETURN_INT(recvfrom(s, buf, len, flbgs, from, fromlen));
 }
 
-int NET_ReadV(int s, const struct iovec * vector, int count) {
-    RESTARTABLE_RETURN_INT(readv(s, vector, count));
+int NET_RebdV(int s, const struct iovec * vector, int count) {
+    RESTARTABLE_RETURN_INT(rebdv(s, vector, count));
 }
 
 int NET_WriteV(int s, const struct iovec * vector, int count) {
     RESTARTABLE_RETURN_INT(writev(s, vector, count));
 }
 
-int NET_Send(int s, void *msg, int len, unsigned int flags) {
-    RESTARTABLE_RETURN_INT(send(s, msg, len, flags));
+int NET_Send(int s, void *msg, int len, unsigned int flbgs) {
+    RESTARTABLE_RETURN_INT(send(s, msg, len, flbgs));
 }
 
-int NET_SendTo(int s, const void *msg, int len,  unsigned  int flags,
-               const struct sockaddr *to, int tolen) {
-    RESTARTABLE_RETURN_INT(sendto(s, msg, len, flags, to, tolen));
+int NET_SendTo(int s, const void *msg, int len,  unsigned  int flbgs,
+               const struct sockbddr *to, int tolen) {
+    RESTARTABLE_RETURN_INT(sendto(s, msg, len, flbgs, to, tolen));
 }
 
-int NET_Connect(int s, struct sockaddr *addr, int addrlen) {
-    RESTARTABLE_RETURN_INT(connect(s, addr, addrlen));
+int NET_Connect(int s, struct sockbddr *bddr, int bddrlen) {
+    RESTARTABLE_RETURN_INT(connect(s, bddr, bddrlen));
 }
 
-int NET_Accept(int s, struct sockaddr *addr, socklen_t *addrlen) {
-    RESTARTABLE_RETURN_INT(accept(s, addr, addrlen));
+int NET_Accept(int s, struct sockbddr *bddr, socklen_t *bddrlen) {
+    RESTARTABLE_RETURN_INT(bccept(s, bddr, bddrlen));
 }
 
 int NET_SocketClose(int fd) {
@@ -88,14 +88,14 @@ int NET_Poll(struct pollfd *ufds, unsigned int nfds, int timeout) {
 
 int NET_Timeout(int s, long timeout) {
     int result;
-    struct timeval t;
+    struct timevbl t;
     long prevtime, newtime;
     struct pollfd pfd;
     pfd.fd = s;
     pfd.events = POLLIN;
 
     if (timeout > 0) {
-        gettimeofday(&t, NULL);
+        gettimeofdby(&t, NULL);
         prevtime = (t.tv_sec * 1000)  +  t.tv_usec / 1000;
     }
 
@@ -103,7 +103,7 @@ int NET_Timeout(int s, long timeout) {
         result = poll(&pfd, 1, timeout);
         if (result < 0 && errno == EINTR) {
             if (timeout > 0) {
-                gettimeofday(&t, NULL);
+                gettimeofdby(&t, NULL);
                 newtime = (t.tv_sec * 1000)  +  t.tv_usec /1000;
                 timeout -= newtime - prevtime;
                 if (timeout <= 0)

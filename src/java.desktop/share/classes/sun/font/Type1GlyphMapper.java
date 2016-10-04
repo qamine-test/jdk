@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
 /*
- * This isn't a critical performance case, so don't do any
- * char->glyph map caching for Type1 fonts. The ones that are used
- * in composites will be cached there.
+ * This isn't b criticbl performbnce cbse, so don't do bny
+ * chbr->glyph mbp cbching for Type1 fonts. The ones thbt bre used
+ * in composites will be cbched there.
  */
 
-public final class Type1GlyphMapper extends CharToGlyphMapper {
+public finbl clbss Type1GlyphMbpper extends ChbrToGlyphMbpper {
 
     Type1Font font;
-    FontScaler scaler;
+    FontScbler scbler;
 
-    public Type1GlyphMapper(Type1Font font) {
+    public Type1GlyphMbpper(Type1Font font) {
         this.font = font;
-        initMapper();
+        initMbpper();
     }
 
-    private void initMapper() {
-        scaler = font.getScaler();
+    privbte void initMbpper() {
+        scbler = font.getScbler();
         try {
-          missingGlyph = scaler.getMissingGlyphCode();
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
+          missingGlyph = scbler.getMissingGlyphCode();
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
             try {
-                missingGlyph = scaler.getMissingGlyphCode();
-            } catch (FontScalerException e) { //should not happen
+                missingGlyph = scbler.getMissingGlyphCode();
+            } cbtch (FontScblerException e) { //should not hbppen
                 missingGlyph = 0;
             }
         }
@@ -57,9 +57,9 @@ public final class Type1GlyphMapper extends CharToGlyphMapper {
 
     public int getNumGlyphs() {
         try {
-            return scaler.getNumGlyphs();
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
+            return scbler.getNumGlyphs();
+        } cbtch (FontScblerException e) {
+            scbler = FontScbler.getNullScbler();
             return getNumGlyphs();
         }
     }
@@ -68,48 +68,48 @@ public final class Type1GlyphMapper extends CharToGlyphMapper {
         return missingGlyph;
     }
 
-    public boolean canDisplay(char ch) {
+    public boolebn cbnDisplby(chbr ch) {
         try {
-            return scaler.getGlyphCode(ch) != missingGlyph;
-        } catch(FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return canDisplay(ch);
+            return scbler.getGlyphCode(ch) != missingGlyph;
+        } cbtch(FontScblerException e) {
+            scbler = FontScbler.getNullScbler();
+            return cbnDisplby(ch);
         }
     }
 
-    public int charToGlyph(char ch) {
+    public int chbrToGlyph(chbr ch) {
         try {
-            return scaler.getGlyphCode(ch);
-        } catch (FontScalerException e) {
-            scaler = FontScaler.getNullScaler();
-            return charToGlyph(ch);
+            return scbler.getGlyphCode(ch);
+        } cbtch (FontScblerException e) {
+            scbler = FontScbler.getNullScbler();
+            return chbrToGlyph(ch);
         }
     }
 
-    public int charToGlyph(int ch) {
+    public int chbrToGlyph(int ch) {
         if (ch < 0 || ch > 0xffff) {
             return missingGlyph;
         } else {
             try {
-                return scaler.getGlyphCode((char)ch);
-            } catch (FontScalerException e) {
-                scaler = FontScaler.getNullScaler();
-                return charToGlyph(ch);
+                return scbler.getGlyphCode((chbr)ch);
+            } cbtch (FontScblerException e) {
+                scbler = FontScbler.getNullScbler();
+                return chbrToGlyph(ch);
             }
         }
     }
 
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        /* The conversion into surrogates is misleading.
-         * The Type1 glyph mapper only accepts 16 bit unsigned shorts.
-         * If its > not in the range it can use assign the missing glyph.
+    public void chbrsToGlyphs(int count, chbr[] unicodes, int[] glyphs) {
+        /* The conversion into surrogbtes is mislebding.
+         * The Type1 glyph mbpper only bccepts 16 bit unsigned shorts.
+         * If its > not in the rbnge it cbn use bssign the missing glyph.
          */
         for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+            int code = unicodes[i]; // chbr is unsigned.
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
@@ -118,37 +118,37 @@ public final class Type1GlyphMapper extends CharToGlyphMapper {
                     glyphs[i + 1] = 0xFFFF; // invisible glyph
                 }
             }
-            glyphs[i] = charToGlyph(code);
+            glyphs[i] = chbrToGlyph(code);
             if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+                i += 1; // Empty glyph slot bfter surrogbte
             }
         }
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        /* I believe this code path is never exercised. Its there mainly
-         * for surrogates and/or the opentype engine which aren't likely
-         * to be an issue for Type1 fonts. So no need to optimise it.
+    public void chbrsToGlyphs(int count, int[] unicodes, int[] glyphs) {
+        /* I believe this code pbth is never exercised. Its there mbinly
+         * for surrogbtes bnd/or the opentype engine which bren't likely
+         * to be bn issue for Type1 fonts. So no need to optimise it.
          */
         for (int i=0; i<count; i++) {
-            glyphs[i] = charToGlyph(unicodes[i]);
+            glyphs[i] = chbrToGlyph(unicodes[i]);
         }
     }
 
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* This vbribnt checks if shbping is needed bnd immedibtely
+     * returns true if it does. A cbller of this method should be expecting
+     * to check the return type becbuse it needs to know how to hbndle
+     * the chbrbcter dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    public boolebn chbrsToGlyphsNS(int count, chbr[] unicodes, int[] glyphs) {
 
         for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+            int code = unicodes[i]; // chbr is unsigned.
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
@@ -158,20 +158,20 @@ public final class Type1GlyphMapper extends CharToGlyphMapper {
                 }
             }
 
-            glyphs[i] = charToGlyph(code);
+            glyphs[i] = chbrToGlyph(code);
 
             if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
                 continue;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
+            else if (FontUtilities.isComplexChbrCode(code)) {
                 return true;
             }
             else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+                i += 1; // Empty glyph slot bfter surrogbte
                 continue;
             }
         }
 
-        return false;
+        return fblse;
     }
 }

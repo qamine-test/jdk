@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.nio.ByteBuffer;
-import java.util.Locale;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.Locble;
 
-public class TrueTypeGlyphMapper extends CharToGlyphMapper {
+public clbss TrueTypeGlyphMbpper extends ChbrToGlyphMbpper {
 
-    static final char REVERSE_SOLIDUS = 0x005c; // the backslash char.
-    static final char JA_YEN = 0x00a5;
-    static final char JA_FULLWIDTH_TILDE_CHAR = 0xff5e;
-    static final char JA_WAVE_DASH_CHAR = 0x301c;
+    stbtic finbl chbr REVERSE_SOLIDUS = 0x005c; // the bbckslbsh chbr.
+    stbtic finbl chbr JA_YEN = 0x00b5;
+    stbtic finbl chbr JA_FULLWIDTH_TILDE_CHAR = 0xff5e;
+    stbtic finbl chbr JA_WAVE_DASH_CHAR = 0x301c;
 
-    /* if running on Solaris and default Locale is ja_JP then
-     * we map need to remap reverse solidus (backslash) to Yen as
-     * apparently expected there.
+    /* if running on Solbris bnd defbult Locble is jb_JP then
+     * we mbp need to rembp reverse solidus (bbckslbsh) to Yen bs
+     * bppbrently expected there.
      */
-    static final boolean isJAlocale = Locale.JAPAN.equals(Locale.getDefault());
-    private final boolean needsJAremapping;
-    private boolean remapJAWaveDash;
+    stbtic finbl boolebn isJAlocble = Locble.JAPAN.equbls(Locble.getDefbult());
+    privbte finbl boolebn needsJArembpping;
+    privbte boolebn rembpJAWbveDbsh;
 
     TrueTypeFont font;
-    CMap cmap;
+    CMbp cmbp;
     int numGlyphs;
 
-    public TrueTypeGlyphMapper(TrueTypeFont font) {
+    public TrueTypeGlyphMbpper(TrueTypeFont font) {
         this.font = font;
         try {
-            cmap = CMap.initialize(font);
-        } catch (Exception e) {
-            cmap = null;
+            cmbp = CMbp.initiblize(font);
+        } cbtch (Exception e) {
+            cmbp = null;
         }
-        if (cmap == null) {
-            handleBadCMAP();
+        if (cmbp == null) {
+            hbndleBbdCMAP();
         }
-        missingGlyph = 0; /* standard for TrueType fonts */
-        ByteBuffer buffer = font.getTableBuffer(TrueTypeFont.maxpTag);
-        numGlyphs = buffer.getChar(4); // offset 4 bytes in MAXP table.
-        if (FontUtilities.isSolaris && isJAlocale && font.supportsJA()) {
-            needsJAremapping = true;
-            if (FontUtilities.isSolaris8 &&
+        missingGlyph = 0; /* stbndbrd for TrueType fonts */
+        ByteBuffer buffer = font.getTbbleBuffer(TrueTypeFont.mbxpTbg);
+        numGlyphs = buffer.getChbr(4); // offset 4 bytes in MAXP tbble.
+        if (FontUtilities.isSolbris && isJAlocble && font.supportsJA()) {
+            needsJArembpping = true;
+            if (FontUtilities.isSolbris8 &&
                 getGlyphFromCMAP(JA_WAVE_DASH_CHAR) == missingGlyph) {
-                remapJAWaveDash = true;
+                rembpJAWbveDbsh = true;
             }
         } else {
-            needsJAremapping = false;
+            needsJArembpping = fblse;
         }
     }
 
@@ -75,120 +75,120 @@ public class TrueTypeGlyphMapper extends CharToGlyphMapper {
         return numGlyphs;
     }
 
-    private char getGlyphFromCMAP(int charCode) {
+    privbte chbr getGlyphFromCMAP(int chbrCode) {
         try {
-            char glyphCode = cmap.getGlyph(charCode);
+            chbr glyphCode = cmbp.getGlyph(chbrCode);
             if (glyphCode < numGlyphs ||
                 glyphCode >= FileFontStrike.INVISIBLE_GLYPHS) {
                 return glyphCode;
             } else {
                 if (FontUtilities.isLogging()) {
-                    FontUtilities.getLogger().warning
-                        (font + " out of range glyph id=" +
+                    FontUtilities.getLogger().wbrning
+                        (font + " out of rbnge glyph id=" +
                          Integer.toHexString((int)glyphCode) +
-                         " for char " + Integer.toHexString(charCode));
+                         " for chbr " + Integer.toHexString(chbrCode));
                 }
-                return (char)missingGlyph;
+                return (chbr)missingGlyph;
             }
-        } catch(Exception e) {
-            handleBadCMAP();
-            return (char) missingGlyph;
+        } cbtch(Exception e) {
+            hbndleBbdCMAP();
+            return (chbr) missingGlyph;
         }
     }
 
-    private void handleBadCMAP() {
+    privbte void hbndleBbdCMAP() {
         if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().severe("Null Cmap for " + font +
+            FontUtilities.getLogger().severe("Null Cmbp for " + font +
                                       "substituting for this font");
         }
-        SunFontManager.getInstance().deRegisterBadFont(font);
-        /* The next line is not really a solution, but might
+        SunFontMbnbger.getInstbnce().deRegisterBbdFont(font);
+        /* The next line is not reblly b solution, but might
          * reduce the exceptions until references to this font2D
-         * are gone.
+         * bre gone.
          */
-        cmap = CMap.theNullCmap;
+        cmbp = CMbp.theNullCmbp;
     }
 
-    @SuppressWarnings("fallthrough")
-    private final char remapJAChar(char unicode) {
+    @SuppressWbrnings("fbllthrough")
+    privbte finbl chbr rembpJAChbr(chbr unicode) {
         switch (unicode) {
-        case REVERSE_SOLIDUS:
+        cbse REVERSE_SOLIDUS:
             return JA_YEN;
-            /* This is a workaround for bug 4533422.
-             * Japanese wave dash missing from Solaris JA TrueType fonts.
+            /* This is b workbround for bug 4533422.
+             * Jbpbnese wbve dbsh missing from Solbris JA TrueType fonts.
              */
-        case JA_WAVE_DASH_CHAR:
-            if (remapJAWaveDash) {
+        cbse JA_WAVE_DASH_CHAR:
+            if (rembpJAWbveDbsh) {
                 return JA_FULLWIDTH_TILDE_CHAR;
             }
-        default: return unicode;
+        defbult: return unicode;
         }
     }
-    @SuppressWarnings("fallthrough")
-    private final int remapJAIntChar(int unicode) {
+    @SuppressWbrnings("fbllthrough")
+    privbte finbl int rembpJAIntChbr(int unicode) {
         switch (unicode) {
-        case REVERSE_SOLIDUS:
+        cbse REVERSE_SOLIDUS:
             return JA_YEN;
-            /* This is a workaround for bug 4533422.
-             * Japanese wave dash missing from Solaris JA TrueType fonts.
+            /* This is b workbround for bug 4533422.
+             * Jbpbnese wbve dbsh missing from Solbris JA TrueType fonts.
              */
-        case JA_WAVE_DASH_CHAR:
-            if (remapJAWaveDash) {
+        cbse JA_WAVE_DASH_CHAR:
+            if (rembpJAWbveDbsh) {
                 return JA_FULLWIDTH_TILDE_CHAR;
             }
-        default: return unicode;
+        defbult: return unicode;
         }
     }
 
-    public int charToGlyph(char unicode) {
-        if (needsJAremapping) {
-            unicode = remapJAChar(unicode);
+    public int chbrToGlyph(chbr unicode) {
+        if (needsJArembpping) {
+            unicode = rembpJAChbr(unicode);
         }
         int glyph = getGlyphFromCMAP(unicode);
-        if (font.checkUseNatives() && glyph < font.glyphToCharMap.length) {
-            font.glyphToCharMap[glyph] = unicode;
+        if (font.checkUseNbtives() && glyph < font.glyphToChbrMbp.length) {
+            font.glyphToChbrMbp[glyph] = unicode;
         }
         return glyph;
     }
 
-    public int charToGlyph(int unicode) {
-        if (needsJAremapping) {
-            unicode = remapJAIntChar(unicode);
+    public int chbrToGlyph(int unicode) {
+        if (needsJArembpping) {
+            unicode = rembpJAIntChbr(unicode);
         }
         int glyph = getGlyphFromCMAP(unicode);
-        if (font.checkUseNatives() && glyph < font.glyphToCharMap.length) {
-            font.glyphToCharMap[glyph] = (char)unicode;
+        if (font.checkUseNbtives() && glyph < font.glyphToChbrMbp.length) {
+            font.glyphToChbrMbp[glyph] = (chbr)unicode;
         }
         return glyph;
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
+    public void chbrsToGlyphs(int count, int[] unicodes, int[] glyphs) {
         for (int i=0;i<count;i++) {
-            if (needsJAremapping) {
-                glyphs[i] = getGlyphFromCMAP(remapJAIntChar(unicodes[i]));
+            if (needsJArembpping) {
+                glyphs[i] = getGlyphFromCMAP(rembpJAIntChbr(unicodes[i]));
             } else {
                 glyphs[i] = getGlyphFromCMAP(unicodes[i]);
             }
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)unicodes[i];
+            if (font.checkUseNbtives() &&
+                glyphs[i] < font.glyphToChbrMbp.length) {
+                font.glyphToChbrMbp[glyphs[i]] = (chbr)unicodes[i];
             }
         }
     }
 
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
+    public void chbrsToGlyphs(int count, chbr[] unicodes, int[] glyphs) {
 
         for (int i=0; i<count; i++) {
             int code;
-            if (needsJAremapping) {
-                code = remapJAChar(unicodes[i]);
+            if (needsJArembpping) {
+                code = rembpJAChbr(unicodes[i]);
             } else {
-                code = unicodes[i]; // char is unsigned.
+                code = unicodes[i]; // chbr is unsigned.
             }
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
@@ -196,39 +196,39 @@ public class TrueTypeGlyphMapper extends CharToGlyphMapper {
                         0x400 + low - LO_SURROGATE_START + 0x10000;
 
                     glyphs[i] = getGlyphFromCMAP(code);
-                    i += 1; // Empty glyph slot after surrogate
+                    i += 1; // Empty glyph slot bfter surrogbte
                     glyphs[i] = INVISIBLE_GLYPH_ID;
                     continue;
                 }
             }
             glyphs[i] = getGlyphFromCMAP(code);
 
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)code;
+            if (font.checkUseNbtives() &&
+                glyphs[i] < font.glyphToChbrMbp.length) {
+                font.glyphToChbrMbp[glyphs[i]] = (chbr)code;
             }
 
         }
     }
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* This vbribnt checks if shbping is needed bnd immedibtely
+     * returns true if it does. A cbller of this method should be expecting
+     * to check the return type becbuse it needs to know how to hbndle
+     * the chbrbcter dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    public boolebn chbrsToGlyphsNS(int count, chbr[] unicodes, int[] glyphs) {
 
         for (int i=0; i<count; i++) {
             int code;
-            if (needsJAremapping) {
-                code = remapJAChar(unicodes[i]);
+            if (needsJArembpping) {
+                code = rembpJAChbr(unicodes[i]);
             } else {
-                code = unicodes[i]; // char is unsigned.
+                code = unicodes[i]; // chbr is unsigned.
             }
 
             if (code >= HI_SURROGATE_START &&
                 code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+                chbr low = unicodes[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
@@ -239,33 +239,33 @@ public class TrueTypeGlyphMapper extends CharToGlyphMapper {
             }
 
             glyphs[i] = getGlyphFromCMAP(code);
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)code;
+            if (font.checkUseNbtives() &&
+                glyphs[i] < font.glyphToChbrMbp.length) {
+                font.glyphToChbrMbp[glyphs[i]] = (chbr)code;
             }
 
             if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
                 continue;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
+            else if (FontUtilities.isComplexChbrCode(code)) {
                 return true;
             }
             else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
+                i += 1; // Empty glyph slot bfter surrogbte
                 continue;
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    /* A pretty good heuristic is that the cmap we are using
-     * supports 32 bit character codes.
+    /* A pretty good heuristic is thbt the cmbp we bre using
+     * supports 32 bit chbrbcter codes.
      */
-    boolean hasSupplementaryChars() {
+    boolebn hbsSupplementbryChbrs() {
         return
-            cmap instanceof CMap.CMapFormat8 ||
-            cmap instanceof CMap.CMapFormat10 ||
-            cmap instanceof CMap.CMapFormat12;
+            cmbp instbnceof CMbp.CMbpFormbt8 ||
+            cmbp instbnceof CMbp.CMbpFormbt10 ||
+            cmbp instbnceof CMbp.CMbpFormbt12;
     }
 }

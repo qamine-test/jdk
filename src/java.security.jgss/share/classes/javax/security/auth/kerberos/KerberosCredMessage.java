@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import javax.security.auth.Destroyable;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Objects;
+import jbvbx.security.buth.Destroybble;
+import jbvb.util.Arrbys;
+import jbvb.util.Bbse64;
+import jbvb.util.Objects;
 
 /**
- * This class encapsulates a Kerberos 5 KRB_CRED message which can be used to
- * send Kerberos credentials from one principal to another.<p>
+ * This clbss encbpsulbtes b Kerberos 5 KRB_CRED messbge which cbn be used to
+ * send Kerberos credentibls from one principbl to bnother.<p>
  *
- * A KRB_CRED message is defined in Section 5.8.1 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
+ * A KRB_CRED messbge is defined in Section 5.8.1 of the Kerberos Protocol
+ * Specificbtion (<b href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</b>) bs:
  * <pre>
  *    KRB-CRED        ::= [APPLICATION 22] SEQUENCE {
  *            pvno            [0] INTEGER (5),
  *            msg-type        [1] INTEGER (22),
  *            tickets         [2] SEQUENCE OF Ticket,
- *            enc-part        [3] EncryptedData -- EncKrbCredPart
+ *            enc-pbrt        [3] EncryptedDbtb -- EncKrbCredPbrt
  *    }
  * </pre><p>
  *
  * @since 1.9
  */
-public final class KerberosCredMessage implements Destroyable {
+public finbl clbss KerberosCredMessbge implements Destroybble {
 
-    final private KerberosPrincipal sender;
-    final private KerberosPrincipal recipient;
-    final private byte[] message;
+    finbl privbte KerberosPrincipbl sender;
+    finbl privbte KerberosPrincipbl recipient;
+    finbl privbte byte[] messbge;
 
-    private boolean destroyed = false;
+    privbte boolebn destroyed = fblse;
 
     /**
-     * Constructs a {@code KerberosCredMessage} object.
+     * Constructs b {@code KerberosCredMessbge} object.
      * <p>
-     * The contents of the {@code message} argument are copied; subsequent
-     * modification of the byte array does not affect the newly created object.
+     * The contents of the {@code messbge} brgument bre copied; subsequent
+     * modificbtion of the byte brrby does not bffect the newly crebted object.
      *
-     * @param sender the sender of the message
-     * @param recipient the recipient of the message
-     * @param message the DER encoded KRB_CRED message
-     * @throws NullPointerException if any of sender, recipient
-     *                              or message is null
+     * @pbrbm sender the sender of the messbge
+     * @pbrbm recipient the recipient of the messbge
+     * @pbrbm messbge the DER encoded KRB_CRED messbge
+     * @throws NullPointerException if bny of sender, recipient
+     *                              or messbge is null
      */
-    public KerberosCredMessage(KerberosPrincipal sender,
-                               KerberosPrincipal recipient,
-                               byte[] message) {
+    public KerberosCredMessbge(KerberosPrincipbl sender,
+                               KerberosPrincipbl recipient,
+                               byte[] messbge) {
         this.sender = Objects.requireNonNull(sender);
         this.recipient = Objects.requireNonNull(recipient);
-        this.message = Objects.requireNonNull(message).clone();
+        this.messbge = Objects.requireNonNull(messbge).clone();
     }
 
     /**
-     * Returns the DER encoded form of the KRB_CRED message.
+     * Returns the DER encoded form of the KRB_CRED messbge.
      *
-     * @return a newly allocated byte array that contains the encoded form
-     * @throws IllegalStateException if the object is destroyed
+     * @return b newly bllocbted byte brrby thbt contbins the encoded form
+     * @throws IllegblStbteException if the object is destroyed
      */
     public byte[] getEncoded() {
         if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+            throw new IllegblStbteException("This object is no longer vblid");
         }
-        return message.clone();
+        return messbge.clone();
     }
 
     /**
-     * Returns the sender of this message.
+     * Returns the sender of this messbge.
      *
      * @return the sender
-     * @throws IllegalStateException if the object is destroyed
+     * @throws IllegblStbteException if the object is destroyed
      */
-    public KerberosPrincipal getSender() {
+    public KerberosPrincipbl getSender() {
         if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+            throw new IllegblStbteException("This object is no longer vblid");
         }
         return sender;
     }
 
     /**
-     * Returns the recipient of this message.
+     * Returns the recipient of this messbge.
      *
      * @return the recipient
-     * @throws IllegalStateException if the object is destroyed
+     * @throws IllegblStbteException if the object is destroyed
      */
-    public KerberosPrincipal getRecipient() {
+    public KerberosPrincipbl getRecipient() {
         if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+            throw new IllegblStbteException("This object is no longer vblid");
         }
         return recipient;
     }
 
     /**
-     * Destroys this object by clearing out the message.
+     * Destroys this object by clebring out the messbge.
      */
     @Override
     public void destroy() {
         if (!destroyed) {
-            Arrays.fill(message, (byte)0);
+            Arrbys.fill(messbge, (byte)0);
             destroyed = true;
         }
     }
 
     @Override
-    public boolean isDestroyed() {
+    public boolebn isDestroyed() {
         return destroyed;
     }
 
     @Override
     public String toString() {
         if (destroyed) {
-            return "Destroyed KerberosCredMessage";
+            return "Destroyed KerberosCredMessbge";
         } else {
             return "KRB_CRED from " + sender + " to " + recipient + ":\n"
-                    + Base64.getUrlEncoder().encodeToString(message);
+                    + Bbse64.getUrlEncoder().encodeToString(messbge);
         }
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         if (isDestroyed()) {
             return -1;
         } else {
-            return Objects.hash(sender, recipient, Arrays.hashCode(message));
+            return Objects.hbsh(sender, recipient, Arrbys.hbshCode(messbge));
         }
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (other == this) {
             return true;
         }
 
-        if (! (other instanceof KerberosCredMessage)) {
-            return false;
+        if (! (other instbnceof KerberosCredMessbge)) {
+            return fblse;
         }
 
-        KerberosCredMessage otherMessage = ((KerberosCredMessage) other);
-        if (isDestroyed() || otherMessage.isDestroyed()) {
-            return false;
+        KerberosCredMessbge otherMessbge = ((KerberosCredMessbge) other);
+        if (isDestroyed() || otherMessbge.isDestroyed()) {
+            return fblse;
         }
 
-        return Objects.equals(sender, otherMessage.sender)
-                && Objects.equals(recipient, otherMessage.recipient)
-                && Arrays.equals(message, otherMessage.message);
+        return Objects.equbls(sender, otherMessbge.sender)
+                && Objects.equbls(recipient, otherMessbge.recipient)
+                && Arrbys.equbls(messbge, otherMessbge.messbge);
     }
 }

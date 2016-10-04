@@ -1,582 +1,582 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.login;
+pbckbge jbvbx.security.buth.login;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.HashMap;
-import java.text.MessageFormat;
-import javax.security.auth.Subject;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.callback.*;
-import java.security.AccessController;
-import java.security.AccessControlContext;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.LinkedList;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.text.MessbgeFormbt;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.AuthPermission;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
 import sun.security.util.PendingException;
 import sun.security.util.ResourcesMgr;
 
 /**
- * <p> The {@code LoginContext} class describes the basic methods used
- * to authenticate Subjects and provides a way to develop an
- * application independent of the underlying authentication technology.
- * A {@code Configuration} specifies the authentication technology, or
- * {@code LoginModule}, to be used with a particular application.
- * Different LoginModules can be plugged in under an application
- * without requiring any modifications to the application itself.
+ * <p> The {@code LoginContext} clbss describes the bbsic methods used
+ * to buthenticbte Subjects bnd provides b wby to develop bn
+ * bpplicbtion independent of the underlying buthenticbtion technology.
+ * A {@code Configurbtion} specifies the buthenticbtion technology, or
+ * {@code LoginModule}, to be used with b pbrticulbr bpplicbtion.
+ * Different LoginModules cbn be plugged in under bn bpplicbtion
+ * without requiring bny modificbtions to the bpplicbtion itself.
  *
- * <p> In addition to supporting <i>pluggable</i> authentication, this class
- * also supports the notion of <i>stacked</i> authentication.
- * Applications may be configured to use more than one
- * LoginModule.  For example, one could
- * configure both a Kerberos LoginModule and a smart card
- * LoginModule under an application.
+ * <p> In bddition to supporting <i>pluggbble</i> buthenticbtion, this clbss
+ * blso supports the notion of <i>stbcked</i> buthenticbtion.
+ * Applicbtions mby be configured to use more thbn one
+ * LoginModule.  For exbmple, one could
+ * configure both b Kerberos LoginModule bnd b smbrt cbrd
+ * LoginModule under bn bpplicbtion.
  *
- * <p> A typical caller instantiates a LoginContext with
- * a <i>name</i> and a {@code CallbackHandler}.
- * LoginContext uses the <i>name</i> as the index into a
- * Configuration to determine which LoginModules should be used,
- * and which ones must succeed in order for the overall authentication to
- * succeed.  The {@code CallbackHandler} is passed to the underlying
- * LoginModules so they may communicate and interact with users
- * (prompting for a username and password via a graphical user interface,
- * for example).
+ * <p> A typicbl cbller instbntibtes b LoginContext with
+ * b <i>nbme</i> bnd b {@code CbllbbckHbndler}.
+ * LoginContext uses the <i>nbme</i> bs the index into b
+ * Configurbtion to determine which LoginModules should be used,
+ * bnd which ones must succeed in order for the overbll buthenticbtion to
+ * succeed.  The {@code CbllbbckHbndler} is pbssed to the underlying
+ * LoginModules so they mby communicbte bnd interbct with users
+ * (prompting for b usernbme bnd pbssword vib b grbphicbl user interfbce,
+ * for exbmple).
  *
- * <p> Once the caller has instantiated a LoginContext,
- * it invokes the {@code login} method to authenticate
- * a {@code Subject}.  The {@code login} method invokes
- * the configured modules to perform their respective types of authentication
- * (username/password, smart card pin verification, etc.).
- * Note that the LoginModules will not attempt authentication retries nor
- * introduce delays if the authentication fails.
- * Such tasks belong to the LoginContext caller.
+ * <p> Once the cbller hbs instbntibted b LoginContext,
+ * it invokes the {@code login} method to buthenticbte
+ * b {@code Subject}.  The {@code login} method invokes
+ * the configured modules to perform their respective types of buthenticbtion
+ * (usernbme/pbssword, smbrt cbrd pin verificbtion, etc.).
+ * Note thbt the LoginModules will not bttempt buthenticbtion retries nor
+ * introduce delbys if the buthenticbtion fbils.
+ * Such tbsks belong to the LoginContext cbller.
  *
  * <p> If the {@code login} method returns without
- * throwing an exception, then the overall authentication succeeded.
- * The caller can then retrieve
- * the newly authenticated Subject by invoking the
- * {@code getSubject} method.  Principals and Credentials associated
- * with the Subject may be retrieved by invoking the Subject's
- * respective {@code getPrincipals}, {@code getPublicCredentials},
- * and {@code getPrivateCredentials} methods.
+ * throwing bn exception, then the overbll buthenticbtion succeeded.
+ * The cbller cbn then retrieve
+ * the newly buthenticbted Subject by invoking the
+ * {@code getSubject} method.  Principbls bnd Credentibls bssocibted
+ * with the Subject mby be retrieved by invoking the Subject's
+ * respective {@code getPrincipbls}, {@code getPublicCredentibls},
+ * bnd {@code getPrivbteCredentibls} methods.
  *
- * <p> To logout the Subject, the caller calls
+ * <p> To logout the Subject, the cbller cblls
  * the {@code logout} method.  As with the {@code login}
  * method, this {@code logout} method invokes the {@code logout}
  * method for the configured modules.
  *
- * <p> A LoginContext should not be used to authenticate
- * more than one Subject.  A separate LoginContext
- * should be used to authenticate each different Subject.
+ * <p> A LoginContext should not be used to buthenticbte
+ * more thbn one Subject.  A sepbrbte LoginContext
+ * should be used to buthenticbte ebch different Subject.
  *
- * <p> The following documentation applies to all LoginContext constructors:
+ * <p> The following documentbtion bpplies to bll LoginContext constructors:
  * <ol>
  *
  * <li> {@code Subject}
  * <ul>
- * <li> If the constructor has a Subject
- * input parameter, the LoginContext uses the caller-specified
+ * <li> If the constructor hbs b Subject
+ * input pbrbmeter, the LoginContext uses the cbller-specified
  * Subject object.
  *
- * <li> If the caller specifies a {@code null} Subject
- * and a {@code null} value is permitted,
- * the LoginContext instantiates a new Subject.
+ * <li> If the cbller specifies b {@code null} Subject
+ * bnd b {@code null} vblue is permitted,
+ * the LoginContext instbntibtes b new Subject.
  *
- * <li> If the constructor does <b>not</b> have a Subject
- * input parameter, the LoginContext instantiates a new Subject.
+ * <li> If the constructor does <b>not</b> hbve b Subject
+ * input pbrbmeter, the LoginContext instbntibtes b new Subject.
  * <p>
  * </ul>
  *
- * <li> {@code Configuration}
+ * <li> {@code Configurbtion}
  * <ul>
- * <li> If the constructor has a Configuration
- * input parameter and the caller specifies a non-null Configuration,
- * the LoginContext uses the caller-specified Configuration.
+ * <li> If the constructor hbs b Configurbtion
+ * input pbrbmeter bnd the cbller specifies b non-null Configurbtion,
+ * the LoginContext uses the cbller-specified Configurbtion.
  * <p>
- * If the constructor does <b>not</b> have a Configuration
- * input parameter, or if the caller specifies a {@code null}
- * Configuration object, the constructor uses the following call to
- * get the installed Configuration:
+ * If the constructor does <b>not</b> hbve b Configurbtion
+ * input pbrbmeter, or if the cbller specifies b {@code null}
+ * Configurbtion object, the constructor uses the following cbll to
+ * get the instblled Configurbtion:
  * <pre>
- *      config = Configuration.getConfiguration();
+ *      config = Configurbtion.getConfigurbtion();
  * </pre>
- * For both cases,
- * the <i>name</i> argument given to the constructor is passed to the
- * {@code Configuration.getAppConfigurationEntry} method.
- * If the Configuration has no entries for the specified <i>name</i>,
- * then the {@code LoginContext} calls
- * {@code getAppConfigurationEntry} with the name, "<i>other</i>"
- * (the default entry name).  If there is no entry for "<i>other</i>",
- * then a {@code LoginException} is thrown.
+ * For both cbses,
+ * the <i>nbme</i> brgument given to the constructor is pbssed to the
+ * {@code Configurbtion.getAppConfigurbtionEntry} method.
+ * If the Configurbtion hbs no entries for the specified <i>nbme</i>,
+ * then the {@code LoginContext} cblls
+ * {@code getAppConfigurbtionEntry} with the nbme, "<i>other</i>"
+ * (the defbult entry nbme).  If there is no entry for "<i>other</i>",
+ * then b {@code LoginException} is thrown.
  *
- * <li> When LoginContext uses the installed Configuration, the caller
- * requires the createLoginContext.<em>name</em> and possibly
- * createLoginContext.other AuthPermissions. Furthermore, the
- * LoginContext will invoke configured modules from within an
- * {@code AccessController.doPrivileged} call so that modules that
- * perform security-sensitive tasks (such as connecting to remote hosts,
- * and updating the Subject) will require the respective permissions, but
- * the callers of the LoginContext will not require those permissions.
+ * <li> When LoginContext uses the instblled Configurbtion, the cbller
+ * requires the crebteLoginContext.<em>nbme</em> bnd possibly
+ * crebteLoginContext.other AuthPermissions. Furthermore, the
+ * LoginContext will invoke configured modules from within bn
+ * {@code AccessController.doPrivileged} cbll so thbt modules thbt
+ * perform security-sensitive tbsks (such bs connecting to remote hosts,
+ * bnd updbting the Subject) will require the respective permissions, but
+ * the cbllers of the LoginContext will not require those permissions.
  *
- * <li> When LoginContext uses a caller-specified Configuration, the caller
- * does not require any createLoginContext AuthPermission.  The LoginContext
- * saves the {@code AccessControlContext} for the caller,
- * and invokes the configured modules from within an
- * {@code AccessController.doPrivileged} call constrained by that context.
- * This means the caller context (stored when the LoginContext was created)
- * must have sufficient permissions to perform any security-sensitive tasks
- * that the modules may perform.
+ * <li> When LoginContext uses b cbller-specified Configurbtion, the cbller
+ * does not require bny crebteLoginContext AuthPermission.  The LoginContext
+ * sbves the {@code AccessControlContext} for the cbller,
+ * bnd invokes the configured modules from within bn
+ * {@code AccessController.doPrivileged} cbll constrbined by thbt context.
+ * This mebns the cbller context (stored when the LoginContext wbs crebted)
+ * must hbve sufficient permissions to perform bny security-sensitive tbsks
+ * thbt the modules mby perform.
  * <p>
  * </ul>
  *
- * <li> {@code CallbackHandler}
+ * <li> {@code CbllbbckHbndler}
  * <ul>
- * <li> If the constructor has a CallbackHandler
- * input parameter, the LoginContext uses the caller-specified
- * CallbackHandler object.
+ * <li> If the constructor hbs b CbllbbckHbndler
+ * input pbrbmeter, the LoginContext uses the cbller-specified
+ * CbllbbckHbndler object.
  *
- * <li> If the constructor does <b>not</b> have a CallbackHandler
- * input parameter, or if the caller specifies a {@code null}
- * CallbackHandler object (and a {@code null} value is permitted),
+ * <li> If the constructor does <b>not</b> hbve b CbllbbckHbndler
+ * input pbrbmeter, or if the cbller specifies b {@code null}
+ * CbllbbckHbndler object (bnd b {@code null} vblue is permitted),
  * the LoginContext queries the
- * {@code auth.login.defaultCallbackHandler} security property for the
- * fully qualified class name of a default handler
- * implementation. If the security property is not set,
- * then the underlying modules will not have a
- * CallbackHandler for use in communicating
- * with users.  The caller thus assumes that the configured
- * modules have alternative means for authenticating the user.
+ * {@code buth.login.defbultCbllbbckHbndler} security property for the
+ * fully qublified clbss nbme of b defbult hbndler
+ * implementbtion. If the security property is not set,
+ * then the underlying modules will not hbve b
+ * CbllbbckHbndler for use in communicbting
+ * with users.  The cbller thus bssumes thbt the configured
+ * modules hbve blternbtive mebns for buthenticbting the user.
  *
  *
- * <li> When the LoginContext uses the installed Configuration (instead of
- * a caller-specified Configuration, see above),
- * then this LoginContext must wrap any
- * caller-specified or default CallbackHandler implementation
- * in a new CallbackHandler implementation
- * whose {@code handle} method implementation invokes the
- * specified CallbackHandler's {@code handle} method in a
- * {@code java.security.AccessController.doPrivileged} call
- * constrained by the caller's current {@code AccessControlContext}.
+ * <li> When the LoginContext uses the instblled Configurbtion (instebd of
+ * b cbller-specified Configurbtion, see bbove),
+ * then this LoginContext must wrbp bny
+ * cbller-specified or defbult CbllbbckHbndler implementbtion
+ * in b new CbllbbckHbndler implementbtion
+ * whose {@code hbndle} method implementbtion invokes the
+ * specified CbllbbckHbndler's {@code hbndle} method in b
+ * {@code jbvb.security.AccessController.doPrivileged} cbll
+ * constrbined by the cbller's current {@code AccessControlContext}.
  * </ul>
  * </ol>
  *
- * @see java.security.Security
- * @see javax.security.auth.AuthPermission
- * @see javax.security.auth.Subject
- * @see javax.security.auth.callback.CallbackHandler
- * @see javax.security.auth.login.Configuration
- * @see javax.security.auth.spi.LoginModule
- * @see java.security.Security security properties
+ * @see jbvb.security.Security
+ * @see jbvbx.security.buth.AuthPermission
+ * @see jbvbx.security.buth.Subject
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
+ * @see jbvbx.security.buth.login.Configurbtion
+ * @see jbvbx.security.buth.spi.LoginModule
+ * @see jbvb.security.Security security properties
  */
-public class LoginContext {
+public clbss LoginContext {
 
-    private static final String INIT_METHOD             = "initialize";
-    private static final String LOGIN_METHOD            = "login";
-    private static final String COMMIT_METHOD           = "commit";
-    private static final String ABORT_METHOD            = "abort";
-    private static final String LOGOUT_METHOD           = "logout";
-    private static final String OTHER                   = "other";
-    private static final String DEFAULT_HANDLER         =
-                                "auth.login.defaultCallbackHandler";
-    private Subject subject = null;
-    private boolean subjectProvided = false;
-    private boolean loginSucceeded = false;
-    private CallbackHandler callbackHandler;
-    private Map<String,?> state = new HashMap<String,Object>();
+    privbte stbtic finbl String INIT_METHOD             = "initiblize";
+    privbte stbtic finbl String LOGIN_METHOD            = "login";
+    privbte stbtic finbl String COMMIT_METHOD           = "commit";
+    privbte stbtic finbl String ABORT_METHOD            = "bbort";
+    privbte stbtic finbl String LOGOUT_METHOD           = "logout";
+    privbte stbtic finbl String OTHER                   = "other";
+    privbte stbtic finbl String DEFAULT_HANDLER         =
+                                "buth.login.defbultCbllbbckHbndler";
+    privbte Subject subject = null;
+    privbte boolebn subjectProvided = fblse;
+    privbte boolebn loginSucceeded = fblse;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String,?> stbte = new HbshMbp<String,Object>();
 
-    private Configuration config;
-    private AccessControlContext creatorAcc = null;  // customized config only
-    private ModuleInfo[] moduleStack;
-    private ClassLoader contextClassLoader = null;
-    private static final Class<?>[] PARAMS = { };
+    privbte Configurbtion config;
+    privbte AccessControlContext crebtorAcc = null;  // customized config only
+    privbte ModuleInfo[] moduleStbck;
+    privbte ClbssLobder contextClbssLobder = null;
+    privbte stbtic finbl Clbss<?>[] PARAMS = { };
 
-    // state saved in the event a user-specified asynchronous exception
-    // was specified and thrown
+    // stbte sbved in the event b user-specified bsynchronous exception
+    // wbs specified bnd thrown
 
-    private int moduleIndex = 0;
-    private LoginException firstError = null;
-    private LoginException firstRequiredError = null;
-    private boolean success = false;
+    privbte int moduleIndex = 0;
+    privbte LoginException firstError = null;
+    privbte LoginException firstRequiredError = null;
+    privbte boolebn success = fblse;
 
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("logincontext", "\t[LoginContext]");
+    privbte stbtic finbl sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce("logincontext", "\t[LoginContext]");
 
-    private void init(String name) throws LoginException {
+    privbte void init(String nbme) throws LoginException {
 
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null && creatorAcc == null) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
+        if (sm != null && crebtorAcc == null) {
             sm.checkPermission(new AuthPermission
-                                ("createLoginContext." + name));
+                                ("crebteLoginContext." + nbme));
         }
 
-        if (name == null)
+        if (nbme == null)
             throw new LoginException
-                (ResourcesMgr.getString("Invalid.null.input.name"));
+                (ResourcesMgr.getString("Invblid.null.input.nbme"));
 
-        // get the Configuration
+        // get the Configurbtion
         if (config == null) {
-            config = java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction<Configuration>() {
-                public Configuration run() {
-                    return Configuration.getConfiguration();
+            config = jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedAction<Configurbtion>() {
+                public Configurbtion run() {
+                    return Configurbtion.getConfigurbtion();
                 }
             });
         }
 
-        // get the LoginModules configured for this application
-        AppConfigurationEntry[] entries = config.getAppConfigurationEntry(name);
+        // get the LoginModules configured for this bpplicbtion
+        AppConfigurbtionEntry[] entries = config.getAppConfigurbtionEntry(nbme);
         if (entries == null) {
 
-            if (sm != null && creatorAcc == null) {
+            if (sm != null && crebtorAcc == null) {
                 sm.checkPermission(new AuthPermission
-                                ("createLoginContext." + OTHER));
+                                ("crebteLoginContext." + OTHER));
             }
 
-            entries = config.getAppConfigurationEntry(OTHER);
+            entries = config.getAppConfigurbtionEntry(OTHER);
             if (entries == null) {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                        ("No.LoginModules.configured.for.name"));
-                Object[] source = {name};
-                throw new LoginException(form.format(source));
+                MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                        ("No.LoginModules.configured.for.nbme"));
+                Object[] source = {nbme};
+                throw new LoginException(form.formbt(source));
             }
         }
-        moduleStack = new ModuleInfo[entries.length];
+        moduleStbck = new ModuleInfo[entries.length];
         for (int i = 0; i < entries.length; i++) {
-            // clone returned array
-            moduleStack[i] = new ModuleInfo
-                                (new AppConfigurationEntry
-                                        (entries[i].getLoginModuleName(),
-                                        entries[i].getControlFlag(),
+            // clone returned brrby
+            moduleStbck[i] = new ModuleInfo
+                                (new AppConfigurbtionEntry
+                                        (entries[i].getLoginModuleNbme(),
+                                        entries[i].getControlFlbg(),
                                         entries[i].getOptions()),
                                 null);
         }
 
-        contextClassLoader = java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    ClassLoader loader =
-                            Thread.currentThread().getContextClassLoader();
-                    if (loader == null) {
-                        // Don't use bootstrap class loader directly to ensure
-                        // proper package access control!
-                        loader = ClassLoader.getSystemClassLoader();
+        contextClbssLobder = jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedAction<ClbssLobder>() {
+                public ClbssLobder run() {
+                    ClbssLobder lobder =
+                            Threbd.currentThrebd().getContextClbssLobder();
+                    if (lobder == null) {
+                        // Don't use bootstrbp clbss lobder directly to ensure
+                        // proper pbckbge bccess control!
+                        lobder = ClbssLobder.getSystemClbssLobder();
                     }
 
-                    return loader;
+                    return lobder;
                 }
         });
     }
 
-    private void loadDefaultCallbackHandler() throws LoginException {
+    privbte void lobdDefbultCbllbbckHbndler() throws LoginException {
 
-        // get the default handler class
+        // get the defbult hbndler clbss
         try {
 
-            final ClassLoader finalLoader = contextClassLoader;
+            finbl ClbssLobder finblLobder = contextClbssLobder;
 
-            this.callbackHandler = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<CallbackHandler>() {
-                public CallbackHandler run() throws Exception {
-                    String defaultHandler = java.security.Security.getProperty
+            this.cbllbbckHbndler = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedExceptionAction<CbllbbckHbndler>() {
+                public CbllbbckHbndler run() throws Exception {
+                    String defbultHbndler = jbvb.security.Security.getProperty
                         (DEFAULT_HANDLER);
-                    if (defaultHandler == null || defaultHandler.length() == 0)
+                    if (defbultHbndler == null || defbultHbndler.length() == 0)
                         return null;
-                    Class<? extends CallbackHandler> c = Class.forName(
-                            defaultHandler, true,
-                            finalLoader).asSubclass(CallbackHandler.class);
-                    return c.newInstance();
+                    Clbss<? extends CbllbbckHbndler> c = Clbss.forNbme(
+                            defbultHbndler, true,
+                            finblLobder).bsSubclbss(CbllbbckHbndler.clbss);
+                    return c.newInstbnce();
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw new LoginException(pae.getException().toString());
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw new LoginException(pbe.getException().toString());
         }
 
-        // secure it with the caller's ACC
-        if (this.callbackHandler != null && creatorAcc == null) {
-            this.callbackHandler = new SecureCallbackHandler
-                                (java.security.AccessController.getContext(),
-                                this.callbackHandler);
+        // secure it with the cbller's ACC
+        if (this.cbllbbckHbndler != null && crebtorAcc == null) {
+            this.cbllbbckHbndler = new SecureCbllbbckHbndler
+                                (jbvb.security.AccessController.getContext(),
+                                this.cbllbbckHbndler);
         }
     }
 
     /**
-     * Instantiate a new {@code LoginContext} object with a name.
+     * Instbntibte b new {@code LoginContext} object with b nbme.
      *
-     * @param name the name used as the index into the
-     *          {@code Configuration}.
+     * @pbrbm nbme the nbme used bs the index into the
+     *          {@code Configurbtion}.
      *
-     * @exception LoginException if the caller-specified {@code name}
-     *          does not appear in the {@code Configuration}
-     *          and there is no {@code Configuration} entry
+     * @exception LoginException if the cbller-specified {@code nbme}
+     *          does not bppebr in the {@code Configurbtion}
+     *          bnd there is no {@code Configurbtion} entry
      *          for "<i>other</i>", or if the
-     *          <i>auth.login.defaultCallbackHandler</i>
-     *          security property was set, but the implementation
-     *          class could not be loaded.
+     *          <i>buth.login.defbultCbllbbckHbndler</i>
+     *          security property wbs set, but the implementbtion
+     *          clbss could not be lobded.
      *          <p>
-     * @exception SecurityException if a SecurityManager is set and
-     *          the caller does not have
-     *          AuthPermission("createLoginContext.<i>name</i>"),
-     *          or if a configuration entry for <i>name</i> does not exist and
-     *          the caller does not additionally have
-     *          AuthPermission("createLoginContext.other")
+     * @exception SecurityException if b SecurityMbnbger is set bnd
+     *          the cbller does not hbve
+     *          AuthPermission("crebteLoginContext.<i>nbme</i>"),
+     *          or if b configurbtion entry for <i>nbme</i> does not exist bnd
+     *          the cbller does not bdditionblly hbve
+     *          AuthPermission("crebteLoginContext.other")
      */
-    public LoginContext(String name) throws LoginException {
-        init(name);
-        loadDefaultCallbackHandler();
+    public LoginContext(String nbme) throws LoginException {
+        init(nbme);
+        lobdDefbultCbllbbckHbndler();
     }
 
     /**
-     * Instantiate a new {@code LoginContext} object with a name
-     * and a {@code Subject} object.
+     * Instbntibte b new {@code LoginContext} object with b nbme
+     * bnd b {@code Subject} object.
      *
      * <p>
      *
-     * @param name the name used as the index into the
-     *          {@code Configuration}. <p>
+     * @pbrbm nbme the nbme used bs the index into the
+     *          {@code Configurbtion}. <p>
      *
-     * @param subject the {@code Subject} to authenticate.
+     * @pbrbm subject the {@code Subject} to buthenticbte.
      *
-     * @exception LoginException if the caller-specified {@code name}
-     *          does not appear in the {@code Configuration}
-     *          and there is no {@code Configuration} entry
-     *          for "<i>other</i>", if the caller-specified {@code subject}
+     * @exception LoginException if the cbller-specified {@code nbme}
+     *          does not bppebr in the {@code Configurbtion}
+     *          bnd there is no {@code Configurbtion} entry
+     *          for "<i>other</i>", if the cbller-specified {@code subject}
      *          is {@code null}, or if the
-     *          <i>auth.login.defaultCallbackHandler</i>
-     *          security property was set, but the implementation
-     *          class could not be loaded.
+     *          <i>buth.login.defbultCbllbbckHbndler</i>
+     *          security property wbs set, but the implementbtion
+     *          clbss could not be lobded.
      *          <p>
-     * @exception SecurityException if a SecurityManager is set and
-     *          the caller does not have
-     *          AuthPermission("createLoginContext.<i>name</i>"),
-     *          or if a configuration entry for <i>name</i> does not exist and
-     *          the caller does not additionally have
-     *          AuthPermission("createLoginContext.other")
+     * @exception SecurityException if b SecurityMbnbger is set bnd
+     *          the cbller does not hbve
+     *          AuthPermission("crebteLoginContext.<i>nbme</i>"),
+     *          or if b configurbtion entry for <i>nbme</i> does not exist bnd
+     *          the cbller does not bdditionblly hbve
+     *          AuthPermission("crebteLoginContext.other")
      */
-    public LoginContext(String name, Subject subject)
+    public LoginContext(String nbme, Subject subject)
     throws LoginException {
-        init(name);
+        init(nbme);
         if (subject == null)
             throw new LoginException
-                (ResourcesMgr.getString("invalid.null.Subject.provided"));
+                (ResourcesMgr.getString("invblid.null.Subject.provided"));
         this.subject = subject;
         subjectProvided = true;
-        loadDefaultCallbackHandler();
+        lobdDefbultCbllbbckHbndler();
     }
 
     /**
-     * Instantiate a new {@code LoginContext} object with a name
-     * and a {@code CallbackHandler} object.
+     * Instbntibte b new {@code LoginContext} object with b nbme
+     * bnd b {@code CbllbbckHbndler} object.
      *
      * <p>
      *
-     * @param name the name used as the index into the
-     *          {@code Configuration}. <p>
+     * @pbrbm nbme the nbme used bs the index into the
+     *          {@code Configurbtion}. <p>
      *
-     * @param callbackHandler the {@code CallbackHandler} object used by
-     *          LoginModules to communicate with the user.
+     * @pbrbm cbllbbckHbndler the {@code CbllbbckHbndler} object used by
+     *          LoginModules to communicbte with the user.
      *
-     * @exception LoginException if the caller-specified {@code name}
-     *          does not appear in the {@code Configuration}
-     *          and there is no {@code Configuration} entry
-     *          for "<i>other</i>", or if the caller-specified
-     *          {@code callbackHandler} is {@code null}.
+     * @exception LoginException if the cbller-specified {@code nbme}
+     *          does not bppebr in the {@code Configurbtion}
+     *          bnd there is no {@code Configurbtion} entry
+     *          for "<i>other</i>", or if the cbller-specified
+     *          {@code cbllbbckHbndler} is {@code null}.
      *          <p>
-     * @exception SecurityException if a SecurityManager is set and
-     *          the caller does not have
-     *          AuthPermission("createLoginContext.<i>name</i>"),
-     *          or if a configuration entry for <i>name</i> does not exist and
-     *          the caller does not additionally have
-     *          AuthPermission("createLoginContext.other")
+     * @exception SecurityException if b SecurityMbnbger is set bnd
+     *          the cbller does not hbve
+     *          AuthPermission("crebteLoginContext.<i>nbme</i>"),
+     *          or if b configurbtion entry for <i>nbme</i> does not exist bnd
+     *          the cbller does not bdditionblly hbve
+     *          AuthPermission("crebteLoginContext.other")
      */
-    public LoginContext(String name, CallbackHandler callbackHandler)
+    public LoginContext(String nbme, CbllbbckHbndler cbllbbckHbndler)
     throws LoginException {
-        init(name);
-        if (callbackHandler == null)
+        init(nbme);
+        if (cbllbbckHbndler == null)
             throw new LoginException(ResourcesMgr.getString
-                                ("invalid.null.CallbackHandler.provided"));
-        this.callbackHandler = new SecureCallbackHandler
-                                (java.security.AccessController.getContext(),
-                                callbackHandler);
+                                ("invblid.null.CbllbbckHbndler.provided"));
+        this.cbllbbckHbndler = new SecureCbllbbckHbndler
+                                (jbvb.security.AccessController.getContext(),
+                                cbllbbckHbndler);
     }
 
     /**
-     * Instantiate a new {@code LoginContext} object with a name,
-     * a {@code Subject} to be authenticated, and a
-     * {@code CallbackHandler} object.
+     * Instbntibte b new {@code LoginContext} object with b nbme,
+     * b {@code Subject} to be buthenticbted, bnd b
+     * {@code CbllbbckHbndler} object.
      *
      * <p>
      *
-     * @param name the name used as the index into the
-     *          {@code Configuration}. <p>
+     * @pbrbm nbme the nbme used bs the index into the
+     *          {@code Configurbtion}. <p>
      *
-     * @param subject the {@code Subject} to authenticate. <p>
+     * @pbrbm subject the {@code Subject} to buthenticbte. <p>
      *
-     * @param callbackHandler the {@code CallbackHandler} object used by
-     *          LoginModules to communicate with the user.
+     * @pbrbm cbllbbckHbndler the {@code CbllbbckHbndler} object used by
+     *          LoginModules to communicbte with the user.
      *
-     * @exception LoginException if the caller-specified {@code name}
-     *          does not appear in the {@code Configuration}
-     *          and there is no {@code Configuration} entry
-     *          for "<i>other</i>", or if the caller-specified
+     * @exception LoginException if the cbller-specified {@code nbme}
+     *          does not bppebr in the {@code Configurbtion}
+     *          bnd there is no {@code Configurbtion} entry
+     *          for "<i>other</i>", or if the cbller-specified
      *          {@code subject} is {@code null},
-     *          or if the caller-specified
-     *          {@code callbackHandler} is {@code null}.
+     *          or if the cbller-specified
+     *          {@code cbllbbckHbndler} is {@code null}.
      *          <p>
-     * @exception SecurityException if a SecurityManager is set and
-     *          the caller does not have
-     *          AuthPermission("createLoginContext.<i>name</i>"),
-     *          or if a configuration entry for <i>name</i> does not exist and
-     *          the caller does not additionally have
-     *          AuthPermission("createLoginContext.other")
+     * @exception SecurityException if b SecurityMbnbger is set bnd
+     *          the cbller does not hbve
+     *          AuthPermission("crebteLoginContext.<i>nbme</i>"),
+     *          or if b configurbtion entry for <i>nbme</i> does not exist bnd
+     *          the cbller does not bdditionblly hbve
+     *          AuthPermission("crebteLoginContext.other")
      */
-    public LoginContext(String name, Subject subject,
-                        CallbackHandler callbackHandler) throws LoginException {
-        this(name, subject);
-        if (callbackHandler == null)
+    public LoginContext(String nbme, Subject subject,
+                        CbllbbckHbndler cbllbbckHbndler) throws LoginException {
+        this(nbme, subject);
+        if (cbllbbckHbndler == null)
             throw new LoginException(ResourcesMgr.getString
-                                ("invalid.null.CallbackHandler.provided"));
-        this.callbackHandler = new SecureCallbackHandler
-                                (java.security.AccessController.getContext(),
-                                callbackHandler);
+                                ("invblid.null.CbllbbckHbndler.provided"));
+        this.cbllbbckHbndler = new SecureCbllbbckHbndler
+                                (jbvb.security.AccessController.getContext(),
+                                cbllbbckHbndler);
     }
 
     /**
-     * Instantiate a new {@code LoginContext} object with a name,
-     * a {@code Subject} to be authenticated,
-     * a {@code CallbackHandler} object, and a login
-     * {@code Configuration}.
+     * Instbntibte b new {@code LoginContext} object with b nbme,
+     * b {@code Subject} to be buthenticbted,
+     * b {@code CbllbbckHbndler} object, bnd b login
+     * {@code Configurbtion}.
      *
      * <p>
      *
-     * @param name the name used as the index into the caller-specified
-     *          {@code Configuration}. <p>
+     * @pbrbm nbme the nbme used bs the index into the cbller-specified
+     *          {@code Configurbtion}. <p>
      *
-     * @param subject the {@code Subject} to authenticate,
+     * @pbrbm subject the {@code Subject} to buthenticbte,
      *          or {@code null}. <p>
      *
-     * @param callbackHandler the {@code CallbackHandler} object used by
-     *          LoginModules to communicate with the user, or {@code null}.
+     * @pbrbm cbllbbckHbndler the {@code CbllbbckHbndler} object used by
+     *          LoginModules to communicbte with the user, or {@code null}.
      *          <p>
      *
-     * @param config the {@code Configuration} that lists the
-     *          login modules to be called to perform the authentication,
+     * @pbrbm config the {@code Configurbtion} thbt lists the
+     *          login modules to be cblled to perform the buthenticbtion,
      *          or {@code null}.
      *
-     * @exception LoginException if the caller-specified {@code name}
-     *          does not appear in the {@code Configuration}
-     *          and there is no {@code Configuration} entry
+     * @exception LoginException if the cbller-specified {@code nbme}
+     *          does not bppebr in the {@code Configurbtion}
+     *          bnd there is no {@code Configurbtion} entry
      *          for "<i>other</i>".
      *          <p>
-     * @exception SecurityException if a SecurityManager is set,
+     * @exception SecurityException if b SecurityMbnbger is set,
      *          <i>config</i> is {@code null},
-     *          and either the caller does not have
-     *          AuthPermission("createLoginContext.<i>name</i>"),
-     *          or if a configuration entry for <i>name</i> does not exist and
-     *          the caller does not additionally have
-     *          AuthPermission("createLoginContext.other")
+     *          bnd either the cbller does not hbve
+     *          AuthPermission("crebteLoginContext.<i>nbme</i>"),
+     *          or if b configurbtion entry for <i>nbme</i> does not exist bnd
+     *          the cbller does not bdditionblly hbve
+     *          AuthPermission("crebteLoginContext.other")
      *
      * @since 1.5
      */
-    public LoginContext(String name, Subject subject,
-                        CallbackHandler callbackHandler,
-                        Configuration config) throws LoginException {
+    public LoginContext(String nbme, Subject subject,
+                        CbllbbckHbndler cbllbbckHbndler,
+                        Configurbtion config) throws LoginException {
         this.config = config;
         if (config != null) {
-            creatorAcc = java.security.AccessController.getContext();
+            crebtorAcc = jbvb.security.AccessController.getContext();
         }
 
-        init(name);
+        init(nbme);
         if (subject != null) {
             this.subject = subject;
             subjectProvided = true;
         }
-        if (callbackHandler == null) {
-            loadDefaultCallbackHandler();
-        } else if (creatorAcc == null) {
-            this.callbackHandler = new SecureCallbackHandler
-                                (java.security.AccessController.getContext(),
-                                callbackHandler);
+        if (cbllbbckHbndler == null) {
+            lobdDefbultCbllbbckHbndler();
+        } else if (crebtorAcc == null) {
+            this.cbllbbckHbndler = new SecureCbllbbckHbndler
+                                (jbvb.security.AccessController.getContext(),
+                                cbllbbckHbndler);
         } else {
-            this.callbackHandler = callbackHandler;
+            this.cbllbbckHbndler = cbllbbckHbndler;
         }
     }
 
     /**
-     * Perform the authentication.
+     * Perform the buthenticbtion.
      *
-     * <p> This method invokes the {@code login} method for each
-     * LoginModule configured for the <i>name</i> specified to the
-     * {@code LoginContext} constructor, as determined by the login
-     * {@code Configuration}.  Each {@code LoginModule}
-     * then performs its respective type of authentication
-     * (username/password, smart card pin verification, etc.).
+     * <p> This method invokes the {@code login} method for ebch
+     * LoginModule configured for the <i>nbme</i> specified to the
+     * {@code LoginContext} constructor, bs determined by the login
+     * {@code Configurbtion}.  Ebch {@code LoginModule}
+     * then performs its respective type of buthenticbtion
+     * (usernbme/pbssword, smbrt cbrd pin verificbtion, etc.).
      *
-     * <p> This method completes a 2-phase authentication process by
-     * calling each configured LoginModule's {@code commit} method
-     * if the overall authentication succeeded (the relevant REQUIRED,
-     * REQUISITE, SUFFICIENT, and OPTIONAL LoginModules succeeded),
-     * or by calling each configured LoginModule's {@code abort} method
-     * if the overall authentication failed.  If authentication succeeded,
-     * each successful LoginModule's {@code commit} method associates
-     * the relevant Principals and Credentials with the {@code Subject}.
-     * If authentication failed, each LoginModule's {@code abort} method
-     * removes/destroys any previously stored state.
+     * <p> This method completes b 2-phbse buthenticbtion process by
+     * cblling ebch configured LoginModule's {@code commit} method
+     * if the overbll buthenticbtion succeeded (the relevbnt REQUIRED,
+     * REQUISITE, SUFFICIENT, bnd OPTIONAL LoginModules succeeded),
+     * or by cblling ebch configured LoginModule's {@code bbort} method
+     * if the overbll buthenticbtion fbiled.  If buthenticbtion succeeded,
+     * ebch successful LoginModule's {@code commit} method bssocibtes
+     * the relevbnt Principbls bnd Credentibls with the {@code Subject}.
+     * If buthenticbtion fbiled, ebch LoginModule's {@code bbort} method
+     * removes/destroys bny previously stored stbte.
      *
-     * <p> If the {@code commit} phase of the authentication process
-     * fails, then the overall authentication fails and this method
-     * invokes the {@code abort} method for each configured
+     * <p> If the {@code commit} phbse of the buthenticbtion process
+     * fbils, then the overbll buthenticbtion fbils bnd this method
+     * invokes the {@code bbort} method for ebch configured
      * {@code LoginModule}.
      *
-     * <p> If the {@code abort} phase
-     * fails for any reason, then this method propagates the
-     * original exception thrown either during the {@code login} phase
-     * or the {@code commit} phase.  In either case, the overall
-     * authentication fails.
+     * <p> If the {@code bbort} phbse
+     * fbils for bny rebson, then this method propbgbtes the
+     * originbl exception thrown either during the {@code login} phbse
+     * or the {@code commit} phbse.  In either cbse, the overbll
+     * buthenticbtion fbils.
      *
-     * <p> In the case where multiple LoginModules fail,
-     * this method propagates the exception raised by the first
-     * {@code LoginModule} which failed.
+     * <p> In the cbse where multiple LoginModules fbil,
+     * this method propbgbtes the exception rbised by the first
+     * {@code LoginModule} which fbiled.
      *
-     * <p> Note that if this method enters the {@code abort} phase
-     * (either the {@code login} or {@code commit} phase failed),
-     * this method invokes all LoginModules configured for the
-     * application regardless of their respective {@code Configuration}
-     * flag parameters.  Essentially this means that {@code Requisite}
-     * and {@code Sufficient} semantics are ignored during the
-     * {@code abort} phase.  This guarantees that proper cleanup
-     * and state restoration can take place.
+     * <p> Note thbt if this method enters the {@code bbort} phbse
+     * (either the {@code login} or {@code commit} phbse fbiled),
+     * this method invokes bll LoginModules configured for the
+     * bpplicbtion regbrdless of their respective {@code Configurbtion}
+     * flbg pbrbmeters.  Essentiblly this mebns thbt {@code Requisite}
+     * bnd {@code Sufficient} sembntics bre ignored during the
+     * {@code bbort} phbse.  This gubrbntees thbt proper clebnup
+     * bnd stbte restorbtion cbn tbke plbce.
      *
      * <p>
      *
-     * @exception LoginException if the authentication fails.
+     * @exception LoginException if the buthenticbtion fbils.
      */
     public void login() throws LoginException {
 
-        loginSucceeded = false;
+        loginSucceeded = fblse;
 
         if (subject == null) {
             subject = new Subject();
@@ -587,10 +587,10 @@ public class LoginContext {
             invokePriv(LOGIN_METHOD);
             invokePriv(COMMIT_METHOD);
             loginSucceeded = true;
-        } catch (LoginException le) {
+        } cbtch (LoginException le) {
             try {
                 invokePriv(ABORT_METHOD);
-            } catch (LoginException le2) {
+            } cbtch (LoginException le2) {
                 throw le;
             }
             throw le;
@@ -600,28 +600,28 @@ public class LoginContext {
     /**
      * Logout the {@code Subject}.
      *
-     * <p> This method invokes the {@code logout} method for each
+     * <p> This method invokes the {@code logout} method for ebch
      * {@code LoginModule} configured for this {@code LoginContext}.
-     * Each {@code LoginModule} performs its respective logout procedure
-     * which may include removing/destroying
-     * {@code Principal} and {@code Credential} information
-     * from the {@code Subject} and state cleanup.
+     * Ebch {@code LoginModule} performs its respective logout procedure
+     * which mby include removing/destroying
+     * {@code Principbl} bnd {@code Credentibl} informbtion
+     * from the {@code Subject} bnd stbte clebnup.
      *
-     * <p> Note that this method invokes all LoginModules configured for the
-     * application regardless of their respective
-     * {@code Configuration} flag parameters.  Essentially this means
-     * that {@code Requisite} and {@code Sufficient} semantics are
-     * ignored for this method.  This guarantees that proper cleanup
-     * and state restoration can take place.
+     * <p> Note thbt this method invokes bll LoginModules configured for the
+     * bpplicbtion regbrdless of their respective
+     * {@code Configurbtion} flbg pbrbmeters.  Essentiblly this mebns
+     * thbt {@code Requisite} bnd {@code Sufficient} sembntics bre
+     * ignored for this method.  This gubrbntees thbt proper clebnup
+     * bnd stbte restorbtion cbn tbke plbce.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @exception LoginException if the logout fbils.
      */
     public void logout() throws LoginException {
         if (subject == null) {
             throw new LoginException(ResourcesMgr.getString
-                ("null.subject.logout.called.before.login"));
+                ("null.subject.logout.cblled.before.login"));
         }
 
         // module invoked in doPrivileged
@@ -629,18 +629,18 @@ public class LoginContext {
     }
 
     /**
-     * Return the authenticated Subject.
+     * Return the buthenticbted Subject.
      *
      * <p>
      *
-     * @return the authenticated Subject.  If the caller specified a
+     * @return the buthenticbted Subject.  If the cbller specified b
      *          Subject to this LoginContext's constructor,
-     *          this method returns the caller-specified Subject.
-     *          If a Subject was not specified and authentication succeeds,
-     *          this method returns the Subject instantiated and used for
-     *          authentication by this LoginContext.
-     *          If a Subject was not specified, and authentication fails or
-     *          has not been attempted, this method returns null.
+     *          this method returns the cbller-specified Subject.
+     *          If b Subject wbs not specified bnd buthenticbtion succeeds,
+     *          this method returns the Subject instbntibted bnd used for
+     *          buthenticbtion by this LoginContext.
+     *          If b Subject wbs not specified, bnd buthenticbtion fbils or
+     *          hbs not been bttempted, this method returns null.
      */
     public Subject getSubject() {
         if (!loginSucceeded && !subjectProvided)
@@ -648,317 +648,317 @@ public class LoginContext {
         return subject;
     }
 
-    private void clearState() {
+    privbte void clebrStbte() {
         moduleIndex = 0;
         firstError = null;
         firstRequiredError = null;
-        success = false;
+        success = fblse;
     }
 
-    private void throwException(LoginException originalError, LoginException le)
+    privbte void throwException(LoginException originblError, LoginException le)
     throws LoginException {
 
-        // first clear state
-        clearState();
+        // first clebr stbte
+        clebrStbte();
 
         // throw the exception
-        LoginException error = (originalError != null) ? originalError : le;
+        LoginException error = (originblError != null) ? originblError : le;
         throw error;
     }
 
     /**
-     * Invokes the login, commit, and logout methods
-     * from a LoginModule inside a doPrivileged block restricted
-     * by creatorAcc (may be null).
+     * Invokes the login, commit, bnd logout methods
+     * from b LoginModule inside b doPrivileged block restricted
+     * by crebtorAcc (mby be null).
      *
-     * This version is called if the caller did not instantiate
-     * the LoginContext with a Configuration object.
+     * This version is cblled if the cbller did not instbntibte
+     * the LoginContext with b Configurbtion object.
      */
-    private void invokePriv(final String methodName) throws LoginException {
+    privbte void invokePriv(finbl String methodNbme) throws LoginException {
         try {
-            java.security.AccessController.doPrivileged
-                (new java.security.PrivilegedExceptionAction<Void>() {
+            jbvb.security.AccessController.doPrivileged
+                (new jbvb.security.PrivilegedExceptionAction<Void>() {
                 public Void run() throws LoginException {
-                    invoke(methodName);
+                    invoke(methodNbme);
                     return null;
                 }
-            }, creatorAcc);
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (LoginException)pae.getException();
+            }, crebtorAcc);
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw (LoginException)pbe.getException();
         }
     }
 
-    private void invoke(String methodName) throws LoginException {
+    privbte void invoke(String methodNbme) throws LoginException {
 
-        // start at moduleIndex
-        // - this can only be non-zero if methodName is LOGIN_METHOD
+        // stbrt bt moduleIndex
+        // - this cbn only be non-zero if methodNbme is LOGIN_METHOD
 
-        for (int i = moduleIndex; i < moduleStack.length; i++, moduleIndex++) {
+        for (int i = moduleIndex; i < moduleStbck.length; i++, moduleIndex++) {
             try {
 
                 int mIndex = 0;
                 Method[] methods = null;
 
-                if (moduleStack[i].module != null) {
-                    methods = moduleStack[i].module.getClass().getMethods();
+                if (moduleStbck[i].module != null) {
+                    methods = moduleStbck[i].module.getClbss().getMethods();
                 } else {
 
-                    // instantiate the LoginModule
+                    // instbntibte the LoginModule
                     //
-                    // Allow any object to be a LoginModule as long as it
-                    // conforms to the interface.
-                    Class<?> c = Class.forName(
-                                moduleStack[i].entry.getLoginModuleName(),
+                    // Allow bny object to be b LoginModule bs long bs it
+                    // conforms to the interfbce.
+                    Clbss<?> c = Clbss.forNbme(
+                                moduleStbck[i].entry.getLoginModuleNbme(),
                                 true,
-                                contextClassLoader);
+                                contextClbssLobder);
 
                     Constructor<?> constructor = c.getConstructor(PARAMS);
-                    Object[] args = { };
-                    moduleStack[i].module = constructor.newInstance(args);
+                    Object[] brgs = { };
+                    moduleStbck[i].module = constructor.newInstbnce(brgs);
 
-                    // call the LoginModule's initialize method
-                    methods = moduleStack[i].module.getClass().getMethods();
+                    // cbll the LoginModule's initiblize method
+                    methods = moduleStbck[i].module.getClbss().getMethods();
                     for (mIndex = 0; mIndex < methods.length; mIndex++) {
-                        if (methods[mIndex].getName().equals(INIT_METHOD)) {
-                            break;
+                        if (methods[mIndex].getNbme().equbls(INIT_METHOD)) {
+                            brebk;
                         }
                     }
 
                     Object[] initArgs = {subject,
-                                        callbackHandler,
-                                        state,
-                                        moduleStack[i].entry.getOptions() };
-                    // invoke the LoginModule initialize method
+                                        cbllbbckHbndler,
+                                        stbte,
+                                        moduleStbck[i].entry.getOptions() };
+                    // invoke the LoginModule initiblize method
                     //
-                    // Throws ArrayIndexOutOfBoundsException if no such
-                    // method defined.  May improve to use LoginException in
+                    // Throws ArrbyIndexOutOfBoundsException if no such
+                    // method defined.  Mby improve to use LoginException in
                     // the future.
-                    methods[mIndex].invoke(moduleStack[i].module, initArgs);
+                    methods[mIndex].invoke(moduleStbck[i].module, initArgs);
                 }
 
                 // find the requested method in the LoginModule
                 for (mIndex = 0; mIndex < methods.length; mIndex++) {
-                    if (methods[mIndex].getName().equals(methodName)) {
-                        break;
+                    if (methods[mIndex].getNbme().equbls(methodNbme)) {
+                        brebk;
                     }
                 }
 
-                // set up the arguments to be passed to the LoginModule method
-                Object[] args = { };
+                // set up the brguments to be pbssed to the LoginModule method
+                Object[] brgs = { };
 
                 // invoke the LoginModule method
                 //
-                // Throws ArrayIndexOutOfBoundsException if no such
-                // method defined.  May improve to use LoginException in
+                // Throws ArrbyIndexOutOfBoundsException if no such
+                // method defined.  Mby improve to use LoginException in
                 // the future.
-                boolean status = ((Boolean)methods[mIndex].invoke
-                                (moduleStack[i].module, args)).booleanValue();
+                boolebn stbtus = ((Boolebn)methods[mIndex].invoke
+                                (moduleStbck[i].module, brgs)).boolebnVblue();
 
-                if (status == true) {
+                if (stbtus == true) {
 
                     // if SUFFICIENT, return if no prior REQUIRED errors
-                    if (!methodName.equals(ABORT_METHOD) &&
-                        !methodName.equals(LOGOUT_METHOD) &&
-                        moduleStack[i].entry.getControlFlag() ==
-                    AppConfigurationEntry.LoginModuleControlFlag.SUFFICIENT &&
+                    if (!methodNbme.equbls(ABORT_METHOD) &&
+                        !methodNbme.equbls(LOGOUT_METHOD) &&
+                        moduleStbck[i].entry.getControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModuleControlFlbg.SUFFICIENT &&
                         firstRequiredError == null) {
 
-                        // clear state
-                        clearState();
+                        // clebr stbte
+                        clebrStbte();
 
                         if (debug != null)
-                            debug.println(methodName + " SUFFICIENT success");
+                            debug.println(methodNbme + " SUFFICIENT success");
                         return;
                     }
 
                     if (debug != null)
-                        debug.println(methodName + " success");
+                        debug.println(methodNbme + " success");
                     success = true;
                 } else {
                     if (debug != null)
-                        debug.println(methodName + " ignored");
+                        debug.println(methodNbme + " ignored");
                 }
 
-            } catch (NoSuchMethodException nsme) {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                        ("unable.to.instantiate.LoginModule.module.because.it.does.not.provide.a.no.argument.constructor"));
-                Object[] source = {moduleStack[i].entry.getLoginModuleName()};
-                throwException(null, new LoginException(form.format(source)));
-            } catch (InstantiationException ie) {
+            } cbtch (NoSuchMethodException nsme) {
+                MessbgeFormbt form = new MessbgeFormbt(ResourcesMgr.getString
+                        ("unbble.to.instbntibte.LoginModule.module.becbuse.it.does.not.provide.b.no.brgument.constructor"));
+                Object[] source = {moduleStbck[i].entry.getLoginModuleNbme()};
+                throwException(null, new LoginException(form.formbt(source)));
+            } cbtch (InstbntibtionException ie) {
                 throwException(null, new LoginException(ResourcesMgr.getString
-                        ("unable.to.instantiate.LoginModule.") +
-                        ie.getMessage()));
-            } catch (ClassNotFoundException cnfe) {
+                        ("unbble.to.instbntibte.LoginModule.") +
+                        ie.getMessbge()));
+            } cbtch (ClbssNotFoundException cnfe) {
                 throwException(null, new LoginException(ResourcesMgr.getString
-                        ("unable.to.find.LoginModule.class.") +
-                        cnfe.getMessage()));
-            } catch (IllegalAccessException iae) {
+                        ("unbble.to.find.LoginModule.clbss.") +
+                        cnfe.getMessbge()));
+            } cbtch (IllegblAccessException ibe) {
                 throwException(null, new LoginException(ResourcesMgr.getString
-                        ("unable.to.access.LoginModule.") +
-                        iae.getMessage()));
-            } catch (InvocationTargetException ite) {
+                        ("unbble.to.bccess.LoginModule.") +
+                        ibe.getMessbge()));
+            } cbtch (InvocbtionTbrgetException ite) {
 
-                // failure cases
+                // fbilure cbses
 
                 LoginException le;
 
-                if (ite.getCause() instanceof PendingException &&
-                    methodName.equals(LOGIN_METHOD)) {
+                if (ite.getCbuse() instbnceof PendingException &&
+                    methodNbme.equbls(LOGIN_METHOD)) {
 
                     // XXX
                     //
-                    // if a module's LOGIN_METHOD threw a PendingException
-                    // then immediately throw it.
+                    // if b module's LOGIN_METHOD threw b PendingException
+                    // then immedibtely throw it.
                     //
-                    // when LoginContext is called again,
-                    // the module that threw the exception is invoked first
-                    // (the module list is not invoked from the start).
-                    // previously thrown exception state is still present.
+                    // when LoginContext is cblled bgbin,
+                    // the module thbt threw the exception is invoked first
+                    // (the module list is not invoked from the stbrt).
+                    // previously thrown exception stbte is still present.
                     //
-                    // it is assumed that the module which threw
-                    // the exception can have its
-                    // LOGIN_METHOD invoked twice in a row
-                    // without any commit/abort in between.
+                    // it is bssumed thbt the module which threw
+                    // the exception cbn hbve its
+                    // LOGIN_METHOD invoked twice in b row
+                    // without bny commit/bbort in between.
                     //
-                    // in all cases when LoginContext returns
-                    // (either via natural return or by throwing an exception)
-                    // we need to call clearState before returning.
-                    // the only time that is not true is in this case -
-                    // do not call throwException here.
+                    // in bll cbses when LoginContext returns
+                    // (either vib nbturbl return or by throwing bn exception)
+                    // we need to cbll clebrStbte before returning.
+                    // the only time thbt is not true is in this cbse -
+                    // do not cbll throwException here.
 
-                    throw (PendingException)ite.getCause();
+                    throw (PendingException)ite.getCbuse();
 
-                } else if (ite.getCause() instanceof LoginException) {
+                } else if (ite.getCbuse() instbnceof LoginException) {
 
-                    le = (LoginException)ite.getCause();
+                    le = (LoginException)ite.getCbuse();
 
-                } else if (ite.getCause() instanceof SecurityException) {
+                } else if (ite.getCbuse() instbnceof SecurityException) {
 
-                    // do not want privacy leak
-                    // (e.g., sensitive file path in exception msg)
+                    // do not wbnt privbcy lebk
+                    // (e.g., sensitive file pbth in exception msg)
 
                     le = new LoginException("Security Exception");
-                    le.initCause(new SecurityException());
+                    le.initCbuse(new SecurityException());
                     if (debug != null) {
                         debug.println
-                            ("original security exception with detail msg " +
-                            "replaced by new exception with empty detail msg");
-                        debug.println("original security exception: " +
-                                ite.getCause().toString());
+                            ("originbl security exception with detbil msg " +
+                            "replbced by new exception with empty detbil msg");
+                        debug.println("originbl security exception: " +
+                                ite.getCbuse().toString());
                     }
                 } else {
 
-                    // capture an unexpected LoginModule exception
-                    java.io.StringWriter sw = new java.io.StringWriter();
-                    ite.getCause().printStackTrace
-                                                (new java.io.PrintWriter(sw));
+                    // cbpture bn unexpected LoginModule exception
+                    jbvb.io.StringWriter sw = new jbvb.io.StringWriter();
+                    ite.getCbuse().printStbckTrbce
+                                                (new jbvb.io.PrintWriter(sw));
                     sw.flush();
                     le = new LoginException(sw.toString());
                 }
 
-                if (moduleStack[i].entry.getControlFlag() ==
-                    AppConfigurationEntry.LoginModuleControlFlag.REQUISITE) {
+                if (moduleStbck[i].entry.getControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModuleControlFlbg.REQUISITE) {
 
                     if (debug != null)
-                        debug.println(methodName + " REQUISITE failure");
+                        debug.println(methodNbme + " REQUISITE fbilure");
 
-                    // if REQUISITE, then immediately throw an exception
-                    if (methodName.equals(ABORT_METHOD) ||
-                        methodName.equals(LOGOUT_METHOD)) {
+                    // if REQUISITE, then immedibtely throw bn exception
+                    if (methodNbme.equbls(ABORT_METHOD) ||
+                        methodNbme.equbls(LOGOUT_METHOD)) {
                         if (firstRequiredError == null)
                             firstRequiredError = le;
                     } else {
                         throwException(firstRequiredError, le);
                     }
 
-                } else if (moduleStack[i].entry.getControlFlag() ==
-                    AppConfigurationEntry.LoginModuleControlFlag.REQUIRED) {
+                } else if (moduleStbck[i].entry.getControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModuleControlFlbg.REQUIRED) {
 
                     if (debug != null)
-                        debug.println(methodName + " REQUIRED failure");
+                        debug.println(methodNbme + " REQUIRED fbilure");
 
-                    // mark down that a REQUIRED module failed
+                    // mbrk down thbt b REQUIRED module fbiled
                     if (firstRequiredError == null)
                         firstRequiredError = le;
 
                 } else {
 
                     if (debug != null)
-                        debug.println(methodName + " OPTIONAL failure");
+                        debug.println(methodNbme + " OPTIONAL fbilure");
 
-                    // mark down that an OPTIONAL module failed
+                    // mbrk down thbt bn OPTIONAL module fbiled
                     if (firstError == null)
                         firstError = le;
                 }
             }
         }
 
-        // we went thru all the LoginModules.
+        // we went thru bll the LoginModules.
         if (firstRequiredError != null) {
-            // a REQUIRED module failed -- return the error
+            // b REQUIRED module fbiled -- return the error
             throwException(firstRequiredError, null);
-        } else if (success == false && firstError != null) {
+        } else if (success == fblse && firstError != null) {
             // no module succeeded -- return the first error
             throwException(firstError, null);
-        } else if (success == false) {
-            // no module succeeded -- all modules were IGNORED
+        } else if (success == fblse) {
+            // no module succeeded -- bll modules were IGNORED
             throwException(new LoginException
-                (ResourcesMgr.getString("Login.Failure.all.modules.ignored")),
+                (ResourcesMgr.getString("Login.Fbilure.bll.modules.ignored")),
                 null);
         } else {
             // success
 
-            clearState();
+            clebrStbte();
             return;
         }
     }
 
     /**
-     * Wrap the caller-specified CallbackHandler in our own
-     * and invoke it within a privileged block, constrained by
-     * the caller's AccessControlContext.
+     * Wrbp the cbller-specified CbllbbckHbndler in our own
+     * bnd invoke it within b privileged block, constrbined by
+     * the cbller's AccessControlContext.
      */
-    private static class SecureCallbackHandler implements CallbackHandler {
+    privbte stbtic clbss SecureCbllbbckHbndler implements CbllbbckHbndler {
 
-        private final java.security.AccessControlContext acc;
-        private final CallbackHandler ch;
+        privbte finbl jbvb.security.AccessControlContext bcc;
+        privbte finbl CbllbbckHbndler ch;
 
-        SecureCallbackHandler(java.security.AccessControlContext acc,
-                        CallbackHandler ch) {
-            this.acc = acc;
+        SecureCbllbbckHbndler(jbvb.security.AccessControlContext bcc,
+                        CbllbbckHbndler ch) {
+            this.bcc = bcc;
             this.ch = ch;
         }
 
-        public void handle(final Callback[] callbacks)
-                throws java.io.IOException, UnsupportedCallbackException {
+        public void hbndle(finbl Cbllbbck[] cbllbbcks)
+                throws jbvb.io.IOException, UnsupportedCbllbbckException {
             try {
-                java.security.AccessController.doPrivileged
-                    (new java.security.PrivilegedExceptionAction<Void>() {
-                    public Void run() throws java.io.IOException,
-                                        UnsupportedCallbackException {
-                        ch.handle(callbacks);
+                jbvb.security.AccessController.doPrivileged
+                    (new jbvb.security.PrivilegedExceptionAction<Void>() {
+                    public Void run() throws jbvb.io.IOException,
+                                        UnsupportedCbllbbckException {
+                        ch.hbndle(cbllbbcks);
                         return null;
                     }
-                }, acc);
-            } catch (java.security.PrivilegedActionException pae) {
-                if (pae.getException() instanceof java.io.IOException) {
-                    throw (java.io.IOException)pae.getException();
+                }, bcc);
+            } cbtch (jbvb.security.PrivilegedActionException pbe) {
+                if (pbe.getException() instbnceof jbvb.io.IOException) {
+                    throw (jbvb.io.IOException)pbe.getException();
                 } else {
-                    throw (UnsupportedCallbackException)pae.getException();
+                    throw (UnsupportedCbllbbckException)pbe.getException();
                 }
             }
         }
     }
 
     /**
-     * LoginModule information -
-     *          incapsulates Configuration info and actual module instances
+     * LoginModule informbtion -
+     *          incbpsulbtes Configurbtion info bnd bctubl module instbnces
      */
-    private static class ModuleInfo {
-        AppConfigurationEntry entry;
+    privbte stbtic clbss ModuleInfo {
+        AppConfigurbtionEntry entry;
         Object module;
 
-        ModuleInfo(AppConfigurationEntry newEntry, Object newModule) {
+        ModuleInfo(AppConfigurbtionEntry newEntry, Object newModule) {
             this.entry = newEntry;
             this.module = newModule;
         }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion, bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.nio.file.FileSystem;
+import jbvb.nio.file.FileSystems;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbths;
 
 /**
- * Prints data of the specified file to standard output from a zip archive.
+ * Prints dbtb of the specified file to stbndbrd output from b zip brchive.
  */
-public class ZipCat {
+public clbss ZipCbt {
 
     /**
-     * The main method for the ZipCat program. Run the program with an empty
-     * argument list to see possible arguments.
+     * The mbin method for the ZipCbt progrbm. Run the progrbm with bn empty
+     * brgument list to see possible brguments.
      *
-     * @param args the argument list for ZipCat
+     * @pbrbm brgs the brgument list for ZipCbt
      */
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: ZipCat zipfile fileToPrint");
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length != 2) {
+            System.out.println("Usbge: ZipCbt zipfile fileToPrint");
         }
         /*
-         * Creates AutoCloseable FileSystem and BufferedReader.
-         * They will be closed automatically after the try block.
-         * If reader initialization fails, then zipFileSystem will be closed
-         * automatically.
+         * Crebtes AutoClosebble FileSystem bnd BufferedRebder.
+         * They will be closed butombticblly bfter the try block.
+         * If rebder initiblizbtion fbils, then zipFileSystem will be closed
+         * butombticblly.
          */
         try (FileSystem zipFileSystem
-                = FileSystems.newFileSystem(Paths.get(args[0]),null);
-                InputStream input
-                = Files.newInputStream(zipFileSystem.getPath(args[1]))) {
+                = FileSystems.newFileSystem(Pbths.get(brgs[0]),null);
+                InputStrebm input
+                = Files.newInputStrebm(zipFileSystem.getPbth(brgs[1]))) {
                     byte[] buffer = new byte[1024];
                     int len;
-                    while ((len = input.read(buffer)) != -1) {
+                    while ((len = input.rebd(buffer)) != -1) {
                         System.out.write(buffer, 0, len);
                     }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } cbtch (IOException e) {
+            e.printStbckTrbce();
             System.exit(1);
         }
     }

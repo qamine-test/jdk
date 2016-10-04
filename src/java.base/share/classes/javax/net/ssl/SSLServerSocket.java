@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 
 /**
- * This class extends <code>ServerSocket</code>s and
- * provides secure server sockets using protocols such as the Secure
- * Sockets Layer (SSL) or Transport Layer Security (TLS) protocols.
+ * This clbss extends <code>ServerSocket</code>s bnd
+ * provides secure server sockets using protocols such bs the Secure
+ * Sockets Lbyer (SSL) or Trbnsport Lbyer Security (TLS) protocols.
  * <P>
- * Instances of this class are generally created using a
- * <code>SSLServerSocketFactory</code>.  The primary function
+ * Instbnces of this clbss bre generblly crebted using b
+ * <code>SSLServerSocketFbctory</code>.  The primbry function
  * of <code>SSLServerSocket</code>s
- * is to create <code>SSLSocket</code>s by <code>accept</code>ing
+ * is to crebte <code>SSLSocket</code>s by <code>bccept</code>ing
  * connections.
  * <P>
- * <code>SSLServerSocket</code>s contain several pieces of state data
- * which are inherited by the <code>SSLSocket</code> at
- * socket creation.  These include the enabled cipher
- * suites and protocols, whether client
- * authentication is necessary, and whether created sockets should
- * begin handshaking in client or server mode.  The state
- * inherited by the created <code>SSLSocket</code> can be
- * overriden by calling the appropriate methods.
+ * <code>SSLServerSocket</code>s contbin severbl pieces of stbte dbtb
+ * which bre inherited by the <code>SSLSocket</code> bt
+ * socket crebtion.  These include the enbbled cipher
+ * suites bnd protocols, whether client
+ * buthenticbtion is necessbry, bnd whether crebted sockets should
+ * begin hbndshbking in client or server mode.  The stbte
+ * inherited by the crebted <code>SSLSocket</code> cbn be
+ * overriden by cblling the bppropribte methods.
  *
- * @see java.net.ServerSocket
+ * @see jbvb.net.ServerSocket
  * @see SSLSocket
  *
  * @since 1.4
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-public abstract class SSLServerSocket extends ServerSocket {
+public bbstrbct clbss SSLServerSocket extends ServerSocket {
 
     /**
-     * Used only by subclasses.
+     * Used only by subclbsses.
      * <P>
-     * Create an unbound TCP server socket using the default authentication
+     * Crebte bn unbound TCP server socket using the defbult buthenticbtion
      * context.
      *
-     * @throws IOException if an I/O error occurs when creating the socket
+     * @throws IOException if bn I/O error occurs when crebting the socket
      */
     protected SSLServerSocket()
     throws IOException
@@ -72,28 +72,28 @@ public abstract class SSLServerSocket extends ServerSocket {
 
 
     /**
-     * Used only by subclasses.
+     * Used only by subclbsses.
      * <P>
-     * Create a TCP server socket on a port, using the default
-     * authentication context.  The connection backlog defaults to
-     * fifty connections queued up before the system starts to
+     * Crebte b TCP server socket on b port, using the defbult
+     * buthenticbtion context.  The connection bbcklog defbults to
+     * fifty connections queued up before the system stbrts to
      * reject new connection requests.
      * <P>
-     * A port number of <code>0</code> creates a socket on any free port.
+     * A port number of <code>0</code> crebtes b socket on bny free port.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      *
-     * @param port the port on which to listen
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @pbrbm port the port on which to listen
+     * @throws IOException if bn I/O error occurs when crebting the socket
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
+     * @see    SecurityMbnbger#checkListen
      */
     protected SSLServerSocket(int port)
     throws IOException
@@ -101,430 +101,430 @@ public abstract class SSLServerSocket extends ServerSocket {
 
 
     /**
-     * Used only by subclasses.
+     * Used only by subclbsses.
      * <P>
-     * Create a TCP server socket on a port, using the default
-     * authentication context and a specified backlog of connections.
+     * Crebte b TCP server socket on b port, using the defbult
+     * buthenticbtion context bnd b specified bbcklog of connections.
      * <P>
-     * A port number of <code>0</code> creates a socket on any free port.
+     * A port number of <code>0</code> crebtes b socket on bny free port.
      * <P>
-     * The <code>backlog</code> argument is the requested maximum number of
-     * pending connections on the socket. Its exact semantics are implementation
-     * specific. In particular, an implementation may impose a maximum length
-     * or may choose to ignore the parameter altogther. The value provided
-     * should be greater than <code>0</code>. If it is less than or equal to
-     * <code>0</code>, then an implementation specific default will be used.
+     * The <code>bbcklog</code> brgument is the requested mbximum number of
+     * pending connections on the socket. Its exbct sembntics bre implementbtion
+     * specific. In pbrticulbr, bn implementbtion mby impose b mbximum length
+     * or mby choose to ignore the pbrbmeter bltogther. The vblue provided
+     * should be grebter thbn <code>0</code>. If it is less thbn or equbl to
+     * <code>0</code>, then bn implementbtion specific defbult will be used.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      *
-     * @param port the port on which to listen
-     * @param backlog  requested maximum length of the queue of incoming
+     * @pbrbm port the port on which to listen
+     * @pbrbm bbcklog  requested mbximum length of the queue of incoming
      *                  connections.
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @throws IOException if bn I/O error occurs when crebting the socket
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
+     * @see    SecurityMbnbger#checkListen
      */
-    protected SSLServerSocket(int port, int backlog)
+    protected SSLServerSocket(int port, int bbcklog)
     throws IOException
-        { super(port, backlog); }
+        { super(port, bbcklog); }
 
 
     /**
-     * Used only by subclasses.
+     * Used only by subclbsses.
      * <P>
-     * Create a TCP server socket on a port, using the default
-     * authentication context and a specified backlog of connections
-     * as well as a particular specified network interface.  This
-     * constructor is used on multihomed hosts, such as those used
-     * for firewalls or as routers, to control through which interface
-     * a network service is provided.
+     * Crebte b TCP server socket on b port, using the defbult
+     * buthenticbtion context bnd b specified bbcklog of connections
+     * bs well bs b pbrticulbr specified network interfbce.  This
+     * constructor is used on multihomed hosts, such bs those used
+     * for firewblls or bs routers, to control through which interfbce
+     * b network service is provided.
      * <P>
-     * If there is a security manager, its <code>checkListen</code>
-     * method is called with the <code>port</code> argument as its
-     * argument to ensure the operation is allowed. This could result
-     * in a SecurityException.
+     * If there is b security mbnbger, its <code>checkListen</code>
+     * method is cblled with the <code>port</code> brgument bs its
+     * brgument to ensure the operbtion is bllowed. This could result
+     * in b SecurityException.
      * <P>
-     * A port number of <code>0</code> creates a socket on any free port.
+     * A port number of <code>0</code> crebtes b socket on bny free port.
      * <P>
-     * The <code>backlog</code> argument is the requested maximum number of
-     * pending connections on the socket. Its exact semantics are implementation
-     * specific. In particular, an implementation may impose a maximum length
-     * or may choose to ignore the parameter altogther. The value provided
-     * should be greater than <code>0</code>. If it is less than or equal to
-     * <code>0</code>, then an implementation specific default will be used.
+     * The <code>bbcklog</code> brgument is the requested mbximum number of
+     * pending connections on the socket. Its exbct sembntics bre implementbtion
+     * specific. In pbrticulbr, bn implementbtion mby impose b mbximum length
+     * or mby choose to ignore the pbrbmeter bltogther. The vblue provided
+     * should be grebter thbn <code>0</code>. If it is less thbn or equbl to
+     * <code>0</code>, then bn implementbtion specific defbult will be used.
      * <P>
-     * If <i>address</i> is null, it will default accepting connections
-     * on any/all local addresses.
+     * If <i>bddress</i> is null, it will defbult bccepting connections
+     * on bny/bll locbl bddresses.
      *
-     * @param port the port on which to listen
-     * @param backlog  requested maximum length of the queue of incoming
+     * @pbrbm port the port on which to listen
+     * @pbrbm bbcklog  requested mbximum length of the queue of incoming
      *                  connections.
-     * @param address the address of the network interface through
-     *          which connections will be accepted
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkListen</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
+     * @pbrbm bddress the bddress of the network interfbce through
+     *          which connections will be bccepted
+     * @throws IOException if bn I/O error occurs when crebting the socket
+     * @throws SecurityException if b security mbnbger exists bnd its
+     *         <code>checkListen</code> method doesn't bllow the operbtion.
+     * @throws IllegblArgumentException if the port pbrbmeter is outside the
+     *         specified rbnge of vblid port vblues, which is between 0 bnd
      *         65535, inclusive.
-     * @see    SecurityManager#checkListen
+     * @see    SecurityMbnbger#checkListen
      */
-    protected SSLServerSocket(int port, int backlog, InetAddress address)
+    protected SSLServerSocket(int port, int bbcklog, InetAddress bddress)
     throws IOException
-        { super(port, backlog, address); }
+        { super(port, bbcklog, bddress); }
 
 
 
     /**
-     * Returns the list of cipher suites which are currently enabled
-     * for use by newly accepted connections.
+     * Returns the list of cipher suites which bre currently enbbled
+     * for use by newly bccepted connections.
      * <P>
-     * If this list has not been explicitly modified, a system-provided
-     * default guarantees a minimum quality of service in all enabled
+     * If this list hbs not been explicitly modified, b system-provided
+     * defbult gubrbntees b minimum qublity of service in bll enbbled
      * cipher suites.
      * <P>
-     * There are several reasons why an enabled cipher suite might
-     * not actually be used.  For example:  the server socket might
-     * not have appropriate private keys available to it or the cipher
-     * suite might be anonymous, precluding the use of client authentication,
-     * while the server socket has been told to require that sort of
-     * authentication.
+     * There bre severbl rebsons why bn enbbled cipher suite might
+     * not bctublly be used.  For exbmple:  the server socket might
+     * not hbve bppropribte privbte keys bvbilbble to it or the cipher
+     * suite might be bnonymous, precluding the use of client buthenticbtion,
+     * while the server socket hbs been told to require thbt sort of
+     * buthenticbtion.
      *
-     * @return an array of cipher suites enabled
+     * @return bn brrby of cipher suites enbbled
      * @see #getSupportedCipherSuites()
-     * @see #setEnabledCipherSuites(String [])
+     * @see #setEnbbledCipherSuites(String [])
      */
-    public abstract String [] getEnabledCipherSuites();
+    public bbstrbct String [] getEnbbledCipherSuites();
 
 
     /**
-     * Sets the cipher suites enabled for use by accepted connections.
+     * Sets the cipher suites enbbled for use by bccepted connections.
      * <P>
-     * The cipher suites must have been listed by getSupportedCipherSuites()
-     * as being supported.  Following a successful call to this method,
-     * only suites listed in the <code>suites</code> parameter are enabled
+     * The cipher suites must hbve been listed by getSupportedCipherSuites()
+     * bs being supported.  Following b successful cbll to this method,
+     * only suites listed in the <code>suites</code> pbrbmeter bre enbbled
      * for use.
      * <P>
-     * Suites that require authentication information which is not available
-     * in this ServerSocket's authentication context will not be used
-     * in any case, even if they are enabled.
+     * Suites thbt require buthenticbtion informbtion which is not bvbilbble
+     * in this ServerSocket's buthenticbtion context will not be used
+     * in bny cbse, even if they bre enbbled.
      * <P>
-     * <code>SSLSocket</code>s returned from <code>accept()</code>
+     * <code>SSLSocket</code>s returned from <code>bccept()</code>
      * inherit this setting.
      *
-     * @param suites Names of all the cipher suites to enable
-     * @exception IllegalArgumentException when one or more of ciphers
-     *          named by the parameter is not supported, or when
-     *          the parameter is null.
+     * @pbrbm suites Nbmes of bll the cipher suites to enbble
+     * @exception IllegblArgumentException when one or more of ciphers
+     *          nbmed by the pbrbmeter is not supported, or when
+     *          the pbrbmeter is null.
      * @see #getSupportedCipherSuites()
-     * @see #getEnabledCipherSuites()
+     * @see #getEnbbledCipherSuites()
      */
-    public abstract void setEnabledCipherSuites(String suites []);
+    public bbstrbct void setEnbbledCipherSuites(String suites []);
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.
      * <P>
-     * Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites are useful in specialized applications.
+     * Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not meet qublity of service requirements for those defbults.  Such
+     * cipher suites bre useful in speciblized bpplicbtions.
      *
-     * @return an array of cipher suite names
-     * @see #getEnabledCipherSuites()
-     * @see #setEnabledCipherSuites(String [])
+     * @return bn brrby of cipher suite nbmes
+     * @see #getEnbbledCipherSuites()
+     * @see #setEnbbledCipherSuites(String [])
      */
-    public abstract String [] getSupportedCipherSuites();
+    public bbstrbct String [] getSupportedCipherSuites();
 
 
     /**
-     * Returns the names of the protocols which could be enabled for use.
+     * Returns the nbmes of the protocols which could be enbbled for use.
      *
-     * @return an array of protocol names supported
-     * @see #getEnabledProtocols()
-     * @see #setEnabledProtocols(String [])
+     * @return bn brrby of protocol nbmes supported
+     * @see #getEnbbledProtocols()
+     * @see #setEnbbledProtocols(String [])
      */
-    public abstract String [] getSupportedProtocols();
+    public bbstrbct String [] getSupportedProtocols();
 
 
     /**
-     * Returns the names of the protocols which are currently
-     * enabled for use by the newly accepted connections.
+     * Returns the nbmes of the protocols which bre currently
+     * enbbled for use by the newly bccepted connections.
      *
-     * @return an array of protocol names
+     * @return bn brrby of protocol nbmes
      * @see #getSupportedProtocols()
-     * @see #setEnabledProtocols(String [])
+     * @see #setEnbbledProtocols(String [])
      */
-    public abstract String [] getEnabledProtocols();
+    public bbstrbct String [] getEnbbledProtocols();
 
 
     /**
-     * Controls which particular protocols are enabled for use by
-     * accepted connections.
+     * Controls which pbrticulbr protocols bre enbbled for use by
+     * bccepted connections.
      * <P>
-     * The protocols must have been listed by
-     * getSupportedProtocols() as being supported.
-     * Following a successful call to this method, only protocols listed
-     * in the <code>protocols</code> parameter are enabled for use.
+     * The protocols must hbve been listed by
+     * getSupportedProtocols() bs being supported.
+     * Following b successful cbll to this method, only protocols listed
+     * in the <code>protocols</code> pbrbmeter bre enbbled for use.
      * <P>
-     * <code>SSLSocket</code>s returned from <code>accept()</code>
+     * <code>SSLSocket</code>s returned from <code>bccept()</code>
      * inherit this setting.
      *
-     * @param protocols Names of all the protocols to enable.
-     * @exception IllegalArgumentException when one or more of
-     *            the protocols named by the parameter is not supported or
-     *            when the protocols parameter is null.
-     * @see #getEnabledProtocols()
+     * @pbrbm protocols Nbmes of bll the protocols to enbble.
+     * @exception IllegblArgumentException when one or more of
+     *            the protocols nbmed by the pbrbmeter is not supported or
+     *            when the protocols pbrbmeter is null.
+     * @see #getEnbbledProtocols()
      * @see #getSupportedProtocols()
      */
-    public abstract void setEnabledProtocols(String protocols[]);
+    public bbstrbct void setEnbbledProtocols(String protocols[]);
 
 
     /**
-     * Controls whether <code>accept</code>ed server-mode
-     * <code>SSLSockets</code> will be initially configured to
-     * <i>require</i> client authentication.
+     * Controls whether <code>bccept</code>ed server-mode
+     * <code>SSLSockets</code> will be initiblly configured to
+     * <i>require</i> client buthenticbtion.
      * <P>
-     * A socket's client authentication setting is one of the following:
+     * A socket's client buthenticbtion setting is one of the following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> client buthenticbtion required
+     * <li> client buthenticbtion requested
+     * <li> no client buthenticbtion desired
      * </ul>
      * <P>
-     * Unlike {@link #setWantClientAuth(boolean)}, if the accepted
-     * socket's option is set and the client chooses not to provide
-     * authentication information about itself, <i>the negotiations
-     * will stop and the connection will be dropped</i>.
+     * Unlike {@link #setWbntClientAuth(boolebn)}, if the bccepted
+     * socket's option is set bnd the client chooses not to provide
+     * buthenticbtion informbtion bbout itself, <i>the negotibtions
+     * will stop bnd the connection will be dropped</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setWantClientAuth(boolean)}.
+     * Cblling this method overrides bny previous setting mbde by
+     * this method or {@link #setWbntClientAuth(boolebn)}.
      * <P>
-     * The initial inherited setting may be overridden by calling
-     * {@link SSLSocket#setNeedClientAuth(boolean)} or
-     * {@link SSLSocket#setWantClientAuth(boolean)}.
+     * The initibl inherited setting mby be overridden by cblling
+     * {@link SSLSocket#setNeedClientAuth(boolebn)} or
+     * {@link SSLSocket#setWbntClientAuth(boolebn)}.
      *
-     * @param   need set to true if client authentication is required,
-     *          or false if no client authentication is desired.
+     * @pbrbm   need set to true if client buthenticbtion is required,
+     *          or fblse if no client buthenticbtion is desired.
      * @see #getNeedClientAuth()
-     * @see #setWantClientAuth(boolean)
-     * @see #getWantClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @see #setWbntClientAuth(boolebn)
+     * @see #getWbntClientAuth()
+     * @see #setUseClientMode(boolebn)
      */
-    public abstract void setNeedClientAuth(boolean need);
+    public bbstrbct void setNeedClientAuth(boolebn need);
 
 
     /**
-     * Returns true if client authentication will be <i>required</i> on
-     * newly <code>accept</code>ed server-mode <code>SSLSocket</code>s.
+     * Returns true if client buthenticbtion will be <i>required</i> on
+     * newly <code>bccept</code>ed server-mode <code>SSLSocket</code>s.
      * <P>
-     * The initial inherited setting may be overridden by calling
-     * {@link SSLSocket#setNeedClientAuth(boolean)} or
-     * {@link SSLSocket#setWantClientAuth(boolean)}.
+     * The initibl inherited setting mby be overridden by cblling
+     * {@link SSLSocket#setNeedClientAuth(boolebn)} or
+     * {@link SSLSocket#setWbntClientAuth(boolebn)}.
      *
-     * @return  true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see #setNeedClientAuth(boolean)
-     * @see #setWantClientAuth(boolean)
-     * @see #getWantClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @return  true if client buthenticbtion is required,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see #setNeedClientAuth(boolebn)
+     * @see #setWbntClientAuth(boolebn)
+     * @see #getWbntClientAuth()
+     * @see #setUseClientMode(boolebn)
      */
-    public abstract boolean getNeedClientAuth();
+    public bbstrbct boolebn getNeedClientAuth();
 
 
     /**
-     * Controls whether <code>accept</code>ed server-mode
-     * <code>SSLSockets</code> will be initially configured to
-     * <i>request</i> client authentication.
+     * Controls whether <code>bccept</code>ed server-mode
+     * <code>SSLSockets</code> will be initiblly configured to
+     * <i>request</i> client buthenticbtion.
      * <P>
-     * A socket's client authentication setting is one of the following:
+     * A socket's client buthenticbtion setting is one of the following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> client buthenticbtion required
+     * <li> client buthenticbtion requested
+     * <li> no client buthenticbtion desired
      * </ul>
      * <P>
-     * Unlike {@link #setNeedClientAuth(boolean)}, if the accepted
-     * socket's option is set and the client chooses not to provide
-     * authentication information about itself, <i>the negotiations
+     * Unlike {@link #setNeedClientAuth(boolebn)}, if the bccepted
+     * socket's option is set bnd the client chooses not to provide
+     * buthenticbtion informbtion bbout itself, <i>the negotibtions
      * will continue</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setNeedClientAuth(boolean)}.
+     * Cblling this method overrides bny previous setting mbde by
+     * this method or {@link #setNeedClientAuth(boolebn)}.
      * <P>
-     * The initial inherited setting may be overridden by calling
-     * {@link SSLSocket#setNeedClientAuth(boolean)} or
-     * {@link SSLSocket#setWantClientAuth(boolean)}.
+     * The initibl inherited setting mby be overridden by cblling
+     * {@link SSLSocket#setNeedClientAuth(boolebn)} or
+     * {@link SSLSocket#setWbntClientAuth(boolebn)}.
      *
-     * @param   want set to true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see #getWantClientAuth()
-     * @see #setNeedClientAuth(boolean)
+     * @pbrbm   wbnt set to true if client buthenticbtion is requested,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see #getWbntClientAuth()
+     * @see #setNeedClientAuth(boolebn)
      * @see #getNeedClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @see #setUseClientMode(boolebn)
      */
-    public abstract void setWantClientAuth(boolean want);
+    public bbstrbct void setWbntClientAuth(boolebn wbnt);
 
 
     /**
-     * Returns true if client authentication will be <i>requested</i> on
-     * newly accepted server-mode connections.
+     * Returns true if client buthenticbtion will be <i>requested</i> on
+     * newly bccepted server-mode connections.
      * <P>
-     * The initial inherited setting may be overridden by calling
-     * {@link SSLSocket#setNeedClientAuth(boolean)} or
-     * {@link SSLSocket#setWantClientAuth(boolean)}.
+     * The initibl inherited setting mby be overridden by cblling
+     * {@link SSLSocket#setNeedClientAuth(boolebn)} or
+     * {@link SSLSocket#setWbntClientAuth(boolebn)}.
      *
-     * @return  true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see #setWantClientAuth(boolean)
-     * @see #setNeedClientAuth(boolean)
+     * @return  true if client buthenticbtion is requested,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see #setWbntClientAuth(boolebn)
+     * @see #setNeedClientAuth(boolebn)
      * @see #getNeedClientAuth()
-     * @see #setUseClientMode(boolean)
+     * @see #setUseClientMode(boolebn)
      */
-    public abstract boolean getWantClientAuth();
+    public bbstrbct boolebn getWbntClientAuth();
 
 
     /**
-     * Controls whether accepted connections are in the (default) SSL
+     * Controls whether bccepted connections bre in the (defbult) SSL
      * server mode, or the SSL client mode.
      * <P>
-     * Servers normally authenticate themselves, and clients are not
+     * Servers normblly buthenticbte themselves, bnd clients bre not
      * required to do so.
      * <P>
-     * In rare cases, TCP servers
-     * need to act in the SSL client mode on newly accepted
-     * connections. For example, FTP clients acquire server sockets
-     * and listen there for reverse connections from the server. An
-     * FTP client would use an SSLServerSocket in "client" mode to
-     * accept the reverse connection while the FTP server uses an
-     * SSLSocket with "client" mode disabled to initiate the
-     * connection. During the resulting handshake, existing SSL
-     * sessions may be reused.
+     * In rbre cbses, TCP servers
+     * need to bct in the SSL client mode on newly bccepted
+     * connections. For exbmple, FTP clients bcquire server sockets
+     * bnd listen there for reverse connections from the server. An
+     * FTP client would use bn SSLServerSocket in "client" mode to
+     * bccept the reverse connection while the FTP server uses bn
+     * SSLSocket with "client" mode disbbled to initibte the
+     * connection. During the resulting hbndshbke, existing SSL
+     * sessions mby be reused.
      * <P>
-     * <code>SSLSocket</code>s returned from <code>accept()</code>
+     * <code>SSLSocket</code>s returned from <code>bccept()</code>
      * inherit this setting.
      *
-     * @param mode true if newly accepted connections should use SSL
+     * @pbrbm mode true if newly bccepted connections should use SSL
      *          client mode.
      * @see #getUseClientMode()
      */
-    public abstract void setUseClientMode(boolean mode);
+    public bbstrbct void setUseClientMode(boolebn mode);
 
 
     /**
-     * Returns true if accepted connections will be in SSL client mode.
+     * Returns true if bccepted connections will be in SSL client mode.
      *
-     * @see #setUseClientMode(boolean)
+     * @see #setUseClientMode(boolebn)
      * @return true if the connection should use SSL client mode.
      */
-    public abstract boolean getUseClientMode();
+    public bbstrbct boolebn getUseClientMode();
 
 
     /**
-     * Controls whether new SSL sessions may be established by the
-     * sockets which are created from this server socket.
+     * Controls whether new SSL sessions mby be estbblished by the
+     * sockets which bre crebted from this server socket.
      * <P>
-     * <code>SSLSocket</code>s returned from <code>accept()</code>
+     * <code>SSLSocket</code>s returned from <code>bccept()</code>
      * inherit this setting.
      *
-     * @param flag true indicates that sessions may be created; this
-     *          is the default. false indicates that an existing session
+     * @pbrbm flbg true indicbtes thbt sessions mby be crebted; this
+     *          is the defbult. fblse indicbtes thbt bn existing session
      *          must be resumed.
-     * @see #getEnableSessionCreation()
+     * @see #getEnbbleSessionCrebtion()
      */
-    public abstract void setEnableSessionCreation(boolean flag);
+    public bbstrbct void setEnbbleSessionCrebtion(boolebn flbg);
 
 
     /**
-     * Returns true if new SSL sessions may be established by the
-     * sockets which are created from this server socket.
+     * Returns true if new SSL sessions mby be estbblished by the
+     * sockets which bre crebted from this server socket.
      *
-     * @return true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing
+     * @return true indicbtes thbt sessions mby be crebted; this
+     *          is the defbult.  fblse indicbtes thbt bn existing
      *          session must be resumed
-     * @see #setEnableSessionCreation(boolean)
+     * @see #setEnbbleSessionCrebtion(boolebn)
      */
-    public abstract boolean getEnableSessionCreation();
+    public bbstrbct boolebn getEnbbleSessionCrebtion();
 
     /**
-     * Returns the SSLParameters in effect for newly accepted connections.
-     * The ciphersuites and protocols of the returned SSLParameters
-     * are always non-null.
+     * Returns the SSLPbrbmeters in effect for newly bccepted connections.
+     * The ciphersuites bnd protocols of the returned SSLPbrbmeters
+     * bre blwbys non-null.
      *
-     * @return the SSLParameters in effect for newly accepted connections
+     * @return the SSLPbrbmeters in effect for newly bccepted connections
      *
-     * @see #setSSLParameters(SSLParameters)
+     * @see #setSSLPbrbmeters(SSLPbrbmeters)
      *
      * @since 1.7
      */
-    public SSLParameters getSSLParameters() {
-        SSLParameters parameters = new SSLParameters();
+    public SSLPbrbmeters getSSLPbrbmeters() {
+        SSLPbrbmeters pbrbmeters = new SSLPbrbmeters();
 
-        parameters.setCipherSuites(getEnabledCipherSuites());
-        parameters.setProtocols(getEnabledProtocols());
+        pbrbmeters.setCipherSuites(getEnbbledCipherSuites());
+        pbrbmeters.setProtocols(getEnbbledProtocols());
         if (getNeedClientAuth()) {
-            parameters.setNeedClientAuth(true);
-        } else if (getWantClientAuth()) {
-            parameters.setWantClientAuth(true);
+            pbrbmeters.setNeedClientAuth(true);
+        } else if (getWbntClientAuth()) {
+            pbrbmeters.setWbntClientAuth(true);
         }
 
-        return parameters;
+        return pbrbmeters;
     }
 
     /**
-     * Applies SSLParameters to newly accepted connections.
+     * Applies SSLPbrbmeters to newly bccepted connections.
      *
-     * <p>This means:
+     * <p>This mebns:
      * <ul>
-     * <li>If {@code params.getCipherSuites()} is non-null,
-     *   {@code setEnabledCipherSuites()} is called with that value.</li>
-     * <li>If {@code params.getProtocols()} is non-null,
-     *   {@code setEnabledProtocols()} is called with that value.</li>
-     * <li>If {@code params.getNeedClientAuth()} or
-     *   {@code params.getWantClientAuth()} return {@code true},
-     *   {@code setNeedClientAuth(true)} and
-     *   {@code setWantClientAuth(true)} are called, respectively;
-     *   otherwise {@code setWantClientAuth(false)} is called.</li>
-     * <li>If {@code params.getServerNames()} is non-null, the socket will
-     *   configure its server names with that value.</li>
-     * <li>If {@code params.getSNIMatchers()} is non-null, the socket will
-     *   configure its SNI matchers with that value.</li>
+     * <li>If {@code pbrbms.getCipherSuites()} is non-null,
+     *   {@code setEnbbledCipherSuites()} is cblled with thbt vblue.</li>
+     * <li>If {@code pbrbms.getProtocols()} is non-null,
+     *   {@code setEnbbledProtocols()} is cblled with thbt vblue.</li>
+     * <li>If {@code pbrbms.getNeedClientAuth()} or
+     *   {@code pbrbms.getWbntClientAuth()} return {@code true},
+     *   {@code setNeedClientAuth(true)} bnd
+     *   {@code setWbntClientAuth(true)} bre cblled, respectively;
+     *   otherwise {@code setWbntClientAuth(fblse)} is cblled.</li>
+     * <li>If {@code pbrbms.getServerNbmes()} is non-null, the socket will
+     *   configure its server nbmes with thbt vblue.</li>
+     * <li>If {@code pbrbms.getSNIMbtchers()} is non-null, the socket will
+     *   configure its SNI mbtchers with thbt vblue.</li>
      * </ul>
      *
-     * @param params the parameters
-     * @throws IllegalArgumentException if the setEnabledCipherSuites() or
-     *    the setEnabledProtocols() call fails
+     * @pbrbm pbrbms the pbrbmeters
+     * @throws IllegblArgumentException if the setEnbbledCipherSuites() or
+     *    the setEnbbledProtocols() cbll fbils
      *
-     * @see #getSSLParameters()
+     * @see #getSSLPbrbmeters()
      *
      * @since 1.7
      */
-    public void setSSLParameters(SSLParameters params) {
+    public void setSSLPbrbmeters(SSLPbrbmeters pbrbms) {
         String[] s;
-        s = params.getCipherSuites();
+        s = pbrbms.getCipherSuites();
         if (s != null) {
-            setEnabledCipherSuites(s);
+            setEnbbledCipherSuites(s);
         }
 
-        s = params.getProtocols();
+        s = pbrbms.getProtocols();
         if (s != null) {
-            setEnabledProtocols(s);
+            setEnbbledProtocols(s);
         }
 
-        if (params.getNeedClientAuth()) {
+        if (pbrbms.getNeedClientAuth()) {
             setNeedClientAuth(true);
-        } else if (params.getWantClientAuth()) {
-            setWantClientAuth(true);
+        } else if (pbrbms.getWbntClientAuth()) {
+            setWbntClientAuth(true);
         } else {
-            setWantClientAuth(false);
+            setWbntClientAuth(fblse);
         }
     }
 

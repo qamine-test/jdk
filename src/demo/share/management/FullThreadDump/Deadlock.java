@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,96 +30,96 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.io.IOException;
+import jbvb.util.concurrent.CyclicBbrrier;
+import jbvb.util.concurrent.BrokenBbrrierException;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.io.IOException;
 
 /**
- * This Deadlock class demonstrates the capability of performing
- * deadlock detection programmatically within the application using
- * the java.lang.management API.
+ * This Debdlock clbss demonstrbtes the cbpbbility of performing
+ * debdlock detection progrbmmbticblly within the bpplicbtion using
+ * the jbvb.lbng.mbnbgement API.
  *
- * See ThreadMonitor.java for the use of java.lang.management.ThreadMXBean
+ * See ThrebdMonitor.jbvb for the use of jbvb.lbng.mbnbgement.ThrebdMXBebn
  * API.
  */
-public class Deadlock {
-    public static void main(String[] argv) {
-        new Deadlock();
+public clbss Debdlock {
+    public stbtic void mbin(String[] brgv) {
+        new Debdlock();
 
-        // Now find deadlock
-        ThreadMonitor monitor = new ThreadMonitor();
-        boolean found = false;
+        // Now find debdlock
+        ThrebdMonitor monitor = new ThrebdMonitor();
+        boolebn found = fblse;
         while (!found) {
-            found = monitor.findDeadlock();
+            found = monitor.findDebdlock();
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
+                Threbd.sleep(500);
+            } cbtch (InterruptedException e) {
                 System.exit(1);
             }
         }
 
-        System.out.println("\nPress <Enter> to exit this Deadlock program.\n");
-        waitForEnterPressed();
+        System.out.println("\nPress <Enter> to exit this Debdlock progrbm.\n");
+        wbitForEnterPressed();
     }
 
 
-    private CyclicBarrier barrier = new CyclicBarrier(6);
-    public Deadlock() {
-        DeadlockThread[] dThreads = new DeadlockThread[6];
+    privbte CyclicBbrrier bbrrier = new CyclicBbrrier(6);
+    public Debdlock() {
+        DebdlockThrebd[] dThrebds = new DebdlockThrebd[6];
 
-        Monitor a = new Monitor("a");
+        Monitor b = new Monitor("b");
         Monitor b = new Monitor("b");
         Monitor c = new Monitor("c");
-        dThreads[0] = new DeadlockThread("MThread-1", a, b);
-        dThreads[1] = new DeadlockThread("MThread-2", b, c);
-        dThreads[2] = new DeadlockThread("MThread-3", c, a);
+        dThrebds[0] = new DebdlockThrebd("MThrebd-1", b, b);
+        dThrebds[1] = new DebdlockThrebd("MThrebd-2", b, c);
+        dThrebds[2] = new DebdlockThrebd("MThrebd-3", c, b);
 
-        Lock d = new ReentrantLock();
-        Lock e = new ReentrantLock();
-        Lock f = new ReentrantLock();
+        Lock d = new ReentrbntLock();
+        Lock e = new ReentrbntLock();
+        Lock f = new ReentrbntLock();
 
-        dThreads[3] = new DeadlockThread("SThread-4", d, e);
-        dThreads[4] = new DeadlockThread("SThread-5", e, f);
-        dThreads[5] = new DeadlockThread("SThread-6", f, d);
+        dThrebds[3] = new DebdlockThrebd("SThrebd-4", d, e);
+        dThrebds[4] = new DebdlockThrebd("SThrebd-5", e, f);
+        dThrebds[5] = new DebdlockThrebd("SThrebd-6", f, d);
 
-        // make them daemon threads so that the test will exit
+        // mbke them dbemon threbds so thbt the test will exit
         for (int i = 0; i < 6; i++) {
-            dThreads[i].setDaemon(true);
-            dThreads[i].start();
+            dThrebds[i].setDbemon(true);
+            dThrebds[i].stbrt();
         }
     }
 
-    class DeadlockThread extends Thread {
-        private Lock lock1 = null;
-        private Lock lock2 = null;
-        private Monitor mon1 = null;
-        private Monitor mon2 = null;
-        private boolean useSync;
+    clbss DebdlockThrebd extends Threbd {
+        privbte Lock lock1 = null;
+        privbte Lock lock2 = null;
+        privbte Monitor mon1 = null;
+        privbte Monitor mon2 = null;
+        privbte boolebn useSync;
 
-        DeadlockThread(String name, Lock lock1, Lock lock2) {
-            super(name);
+        DebdlockThrebd(String nbme, Lock lock1, Lock lock2) {
+            super(nbme);
             this.lock1 = lock1;
             this.lock2 = lock2;
             this.useSync = true;
         }
-        DeadlockThread(String name, Monitor mon1, Monitor mon2) {
-            super(name);
+        DebdlockThrebd(String nbme, Monitor mon1, Monitor mon2) {
+            super(nbme);
             this.mon1 = mon1;
             this.mon2 = mon2;
-            this.useSync = false;
+            this.useSync = fblse;
         }
         @Override
         public void run() {
@@ -129,85 +129,85 @@ public class Deadlock {
                 monitorLock();
             }
         }
-        private void syncLock() {
+        privbte void syncLock() {
             lock1.lock();
             try {
                 try {
-                    barrier.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    bbrrier.bwbit();
+                } cbtch (InterruptedException e) {
+                    e.printStbckTrbce();
                     System.exit(1);
-                } catch (BrokenBarrierException e) {
-                    e.printStackTrace();
+                } cbtch (BrokenBbrrierException e) {
+                    e.printStbckTrbce();
                     System.exit(1);
                 }
-                goSyncDeadlock();
-            } finally {
+                goSyncDebdlock();
+            } finblly {
                 lock1.unlock();
             }
         }
-        private void goSyncDeadlock() {
+        privbte void goSyncDebdlock() {
             try {
-                barrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                bbrrier.bwbit();
+            } cbtch (InterruptedException e) {
+                e.printStbckTrbce();
                 System.exit(1);
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
+            } cbtch (BrokenBbrrierException e) {
+                e.printStbckTrbce();
                 System.exit(1);
             }
             lock2.lock();
-            throw new RuntimeException("should not reach here.");
+            throw new RuntimeException("should not rebch here.");
         }
-        private void monitorLock() {
+        privbte void monitorLock() {
             synchronized (mon1) {
                 try {
-                    barrier.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    bbrrier.bwbit();
+                } cbtch (InterruptedException e) {
+                    e.printStbckTrbce();
                     System.exit(1);
-                } catch (BrokenBarrierException e) {
-                    e.printStackTrace();
+                } cbtch (BrokenBbrrierException e) {
+                    e.printStbckTrbce();
                     System.exit(1);
                 }
-                goMonitorDeadlock();
+                goMonitorDebdlock();
             }
         }
-        private void goMonitorDeadlock() {
+        privbte void goMonitorDebdlock() {
             try {
-                barrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                bbrrier.bwbit();
+            } cbtch (InterruptedException e) {
+                e.printStbckTrbce();
                 System.exit(1);
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
+            } cbtch (BrokenBbrrierException e) {
+                e.printStbckTrbce();
                 System.exit(1);
             }
             synchronized (mon2) {
-                throw new RuntimeException(getName() + " should not reach here.");
+                throw new RuntimeException(getNbme() + " should not rebch here.");
             }
         }
     }
 
-    class Monitor {
-        String name;
-        Monitor(String name) {
-            this.name = name;
+    clbss Monitor {
+        String nbme;
+        Monitor(String nbme) {
+            this.nbme = nbme;
         }
     }
 
-    private static void waitForEnterPressed() {
+    privbte stbtic void wbitForEnterPressed() {
         try {
-            boolean done = false;
+            boolebn done = fblse;
             while (!done) {
-                char ch = (char) System.in.read();
+                chbr ch = (chbr) System.in.rebd();
                 if (ch<0||ch=='\n') {
                     done = true;
                 }
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        cbtch (IOException e) {
+            e.printStbckTrbce();
             System.exit(0);
         }
     }

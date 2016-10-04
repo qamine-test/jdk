@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.spec;
+pbckbge jbvb.security.spec;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
 /**
- * This class specifies an RSA multi-prime private key, as defined in the
- * PKCS#1 v2.1, using the Chinese Remainder Theorem (CRT) information
- * values for efficiency.
+ * This clbss specifies bn RSA multi-prime privbte key, bs defined in the
+ * PKCS#1 v2.1, using the Chinese Rembinder Theorem (CRT) informbtion
+ * vblues for efficiency.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  *
- * @see java.security.Key
- * @see java.security.KeyFactory
+ * @see jbvb.security.Key
+ * @see jbvb.security.KeyFbctory
  * @see KeySpec
  * @see PKCS8EncodedKeySpec
- * @see RSAPrivateKeySpec
+ * @see RSAPrivbteKeySpec
  * @see RSAPublicKeySpec
  * @see RSAOtherPrimeInfo
  *
  * @since 1.4
  */
 
-public class RSAMultiPrimePrivateCrtKeySpec extends RSAPrivateKeySpec {
+public clbss RSAMultiPrimePrivbteCrtKeySpec extends RSAPrivbteKeySpec {
 
-    private final BigInteger publicExponent;
-    private final BigInteger primeP;
-    private final BigInteger primeQ;
-    private final BigInteger primeExponentP;
-    private final BigInteger primeExponentQ;
-    private final BigInteger crtCoefficient;
-    private final RSAOtherPrimeInfo otherPrimeInfo[];
+    privbte finbl BigInteger publicExponent;
+    privbte finbl BigInteger primeP;
+    privbte finbl BigInteger primeQ;
+    privbte finbl BigInteger primeExponentP;
+    privbte finbl BigInteger primeExponentQ;
+    privbte finbl BigInteger crtCoefficient;
+    privbte finbl RSAOtherPrimeInfo otherPrimeInfo[];
 
    /**
-    * Creates a new {@code RSAMultiPrimePrivateCrtKeySpec}
-    * given the modulus, publicExponent, privateExponent,
+    * Crebtes b new {@code RSAMultiPrimePrivbteCrtKeySpec}
+    * given the modulus, publicExponent, privbteExponent,
     * primeP, primeQ, primeExponentP, primeExponentQ,
-    * crtCoefficient, and otherPrimeInfo as defined in PKCS#1 v2.1.
+    * crtCoefficient, bnd otherPrimeInfo bs defined in PKCS#1 v2.1.
     *
-    * <p>Note that the contents of {@code otherPrimeInfo}
-    * are copied to protect against subsequent modification when
+    * <p>Note thbt the contents of {@code otherPrimeInfo}
+    * bre copied to protect bgbinst subsequent modificbtion when
     * constructing this object.
     *
-    * @param modulus the modulus n.
-    * @param publicExponent the public exponent e.
-    * @param privateExponent the private exponent d.
-    * @param primeP the prime factor p of n.
-    * @param primeQ the prime factor q of n.
-    * @param primeExponentP this is d mod (p-1).
-    * @param primeExponentQ this is d mod (q-1).
-    * @param crtCoefficient the Chinese Remainder Theorem
+    * @pbrbm modulus the modulus n.
+    * @pbrbm publicExponent the public exponent e.
+    * @pbrbm privbteExponent the privbte exponent d.
+    * @pbrbm primeP the prime fbctor p of n.
+    * @pbrbm primeQ the prime fbctor q of n.
+    * @pbrbm primeExponentP this is d mod (p-1).
+    * @pbrbm primeExponentQ this is d mod (q-1).
+    * @pbrbm crtCoefficient the Chinese Rembinder Theorem
     * coefficient q-1 mod p.
-    * @param otherPrimeInfo triplets of the rest of primes, null can be
-    * specified if there are only two prime factors (p and q).
-    * @exception NullPointerException if any of the parameters, i.e.
+    * @pbrbm otherPrimeInfo triplets of the rest of primes, null cbn be
+    * specified if there bre only two prime fbctors (p bnd q).
+    * @exception NullPointerException if bny of the pbrbmeters, i.e.
     * {@code modulus},
-    * {@code publicExponent}, {@code privateExponent},
+    * {@code publicExponent}, {@code privbteExponent},
     * {@code primeP}, {@code primeQ},
     * {@code primeExponentP}, {@code primeExponentQ},
     * {@code crtCoefficient}, is null.
-    * @exception IllegalArgumentException if an empty, i.e. 0-length,
+    * @exception IllegblArgumentException if bn empty, i.e. 0-length,
     * {@code otherPrimeInfo} is specified.
     */
-    public RSAMultiPrimePrivateCrtKeySpec(BigInteger modulus,
+    public RSAMultiPrimePrivbteCrtKeySpec(BigInteger modulus,
                                 BigInteger publicExponent,
-                                BigInteger privateExponent,
+                                BigInteger privbteExponent,
                                 BigInteger primeP,
                                 BigInteger primeQ,
                                 BigInteger primeExponentP,
                                 BigInteger primeExponentQ,
                                 BigInteger crtCoefficient,
                                 RSAOtherPrimeInfo[] otherPrimeInfo) {
-        super(modulus, privateExponent);
+        super(modulus, privbteExponent);
         if (modulus == null) {
-            throw new NullPointerException("the modulus parameter must be " +
+            throw new NullPointerException("the modulus pbrbmeter must be " +
                                             "non-null");
         }
         if (publicExponent == null) {
-            throw new NullPointerException("the publicExponent parameter " +
+            throw new NullPointerException("the publicExponent pbrbmeter " +
                                             "must be non-null");
         }
-        if (privateExponent == null) {
-            throw new NullPointerException("the privateExponent parameter " +
+        if (privbteExponent == null) {
+            throw new NullPointerException("the privbteExponent pbrbmeter " +
                                             "must be non-null");
         }
         if (primeP == null) {
-            throw new NullPointerException("the primeP parameter " +
+            throw new NullPointerException("the primeP pbrbmeter " +
                                             "must be non-null");
         }
         if (primeQ == null) {
-            throw new NullPointerException("the primeQ parameter " +
+            throw new NullPointerException("the primeQ pbrbmeter " +
                                             "must be non-null");
         }
         if (primeExponentP == null) {
-            throw new NullPointerException("the primeExponentP parameter " +
+            throw new NullPointerException("the primeExponentP pbrbmeter " +
                                             "must be non-null");
         }
         if (primeExponentQ == null) {
-            throw new NullPointerException("the primeExponentQ parameter " +
+            throw new NullPointerException("the primeExponentQ pbrbmeter " +
                                             "must be non-null");
         }
         if (crtCoefficient == null) {
-            throw new NullPointerException("the crtCoefficient parameter " +
+            throw new NullPointerException("the crtCoefficient pbrbmeter " +
                                             "must be non-null");
         }
         this.publicExponent = publicExponent;
@@ -137,8 +137,8 @@ public class RSAMultiPrimePrivateCrtKeySpec extends RSAPrivateKeySpec {
         if (otherPrimeInfo == null)  {
             this.otherPrimeInfo = null;
         } else if (otherPrimeInfo.length == 0) {
-            throw new IllegalArgumentException("the otherPrimeInfo " +
-                                                "parameter must not be empty");
+            throw new IllegblArgumentException("the otherPrimeInfo " +
+                                                "pbrbmeter must not be empty");
         } else {
             this.otherPrimeInfo = otherPrimeInfo.clone();
         }
@@ -199,11 +199,11 @@ public class RSAMultiPrimePrivateCrtKeySpec extends RSAPrivateKeySpec {
     }
 
     /**
-     * Returns a copy of the otherPrimeInfo or null if there are
-     * only two prime factors (p and q).
+     * Returns b copy of the otherPrimeInfo or null if there bre
+     * only two prime fbctors (p bnd q).
      *
-     * @return the otherPrimeInfo. Returns a new array each
-     * time this method is called.
+     * @return the otherPrimeInfo. Returns b new brrby ebch
+     * time this method is cblled.
      */
     public RSAOtherPrimeInfo[] getOtherPrimeInfo() {
         if (otherPrimeInfo == null) return null;

@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "jni_util.h"
 #import "LWCToolkit.h"
@@ -33,62 +33,62 @@
 #define MAX_DISPLAYS 64
 
 /*
- * Class:     sun_awt_CGraphicsEnvironment
- * Method:    getDisplayIDs
- * Signature: ()[I
+ * Clbss:     sun_bwt_CGrbphicsEnvironment
+ * Method:    getDisplbyIDs
+ * Signbture: ()[I
  */
-JNIEXPORT jintArray JNICALL
-Java_sun_awt_CGraphicsEnvironment_getDisplayIDs
-(JNIEnv *env, jclass class)
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_bwt_CGrbphicsEnvironment_getDisplbyIDs
+(JNIEnv *env, jclbss clbss)
 {
-    jintArray ret = NULL;
+    jintArrby ret = NULL;
 
 JNF_COCOA_ENTER(env);
 
     /* Get the count */
-    CGDisplayCount displayCount;
-    if (CGGetOnlineDisplayList(MAX_DISPLAYS, NULL, &displayCount) != kCGErrorSuccess) {
-        [JNFException raise:env
-                         as:kInternalError
-                     reason:"CGGetOnlineDisplayList() failed to get display count"];
+    CGDisplbyCount displbyCount;
+    if (CGGetOnlineDisplbyList(MAX_DISPLAYS, NULL, &displbyCount) != kCGErrorSuccess) {
+        [JNFException rbise:env
+                         bs:kInternblError
+                     rebson:"CGGetOnlineDisplbyList() fbiled to get displby count"];
         return NULL;
     }
 
-    /* Allocate an array and get the size list of display Ids */
-    CGDirectDisplayID displays[MAX_DISPLAYS];
-    if (CGGetOnlineDisplayList(displayCount, displays, &displayCount) != kCGErrorSuccess) {
-        [JNFException raise:env
-                         as:kInternalError
-                     reason:"CGGetOnlineDisplayList() failed to get display list"];
+    /* Allocbte bn brrby bnd get the size list of displby Ids */
+    CGDirectDisplbyID displbys[MAX_DISPLAYS];
+    if (CGGetOnlineDisplbyList(displbyCount, displbys, &displbyCount) != kCGErrorSuccess) {
+        [JNFException rbise:env
+                         bs:kInternblError
+                     rebson:"CGGetOnlineDisplbyList() fbiled to get displby list"];
         return NULL;
     }
 
-    CGDisplayCount i;
-    CGDisplayCount displayActiveCount = 0; //Active and sleeping.
-    for (i = 0; i < displayCount; ++i) {
-        if (CGDisplayMirrorsDisplay(displays[i]) == kCGNullDirectDisplay) {
-            ++displayActiveCount;
+    CGDisplbyCount i;
+    CGDisplbyCount displbyActiveCount = 0; //Active bnd sleeping.
+    for (i = 0; i < displbyCount; ++i) {
+        if (CGDisplbyMirrorsDisplby(displbys[i]) == kCGNullDirectDisplby) {
+            ++displbyActiveCount;
         } else {
-            displays[i] = kCGNullDirectDisplay;
+            displbys[i] = kCGNullDirectDisplby;
         }
     }
 
-    /* Allocate a java array for display identifiers */
-    ret = JNFNewIntArray(env, displayActiveCount);
+    /* Allocbte b jbvb brrby for displby identifiers */
+    ret = JNFNewIntArrby(env, displbyActiveCount);
 
-    /* Initialize and return the backing int array */
-    assert(sizeof(jint) >= sizeof(CGDirectDisplayID));
-    jint *elems = (*env)->GetIntArrayElements(env, ret, 0);
+    /* Initiblize bnd return the bbcking int brrby */
+    bssert(sizeof(jint) >= sizeof(CGDirectDisplbyID));
+    jint *elems = (*env)->GetIntArrbyElements(env, ret, 0);
     CHECK_NULL_RETURN(elems, NULL);
 
-    /* Filter out the mirrored displays */
-    for (i = 0; i < displayCount; ++i) {
-        if (displays[i] != kCGNullDirectDisplay) {
-            elems[--displayActiveCount] = displays[i];
+    /* Filter out the mirrored displbys */
+    for (i = 0; i < displbyCount; ++i) {
+        if (displbys[i] != kCGNullDirectDisplby) {
+            elems[--displbyActiveCount] = displbys[i];
         }
     }
 
-    (*env)->ReleaseIntArrayElements(env, ret, elems, 0);
+    (*env)->RelebseIntArrbyElements(env, ret, elems, 0);
 
 JNF_COCOA_EXIT(env);
 
@@ -96,62 +96,62 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_awt_CGraphicsEnvironment
- * Method:    getMainDisplayID
- * Signature: ()I
+ * Clbss:     sun_bwt_CGrbphicsEnvironment
+ * Method:    getMbinDisplbyID
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_CGraphicsEnvironment_getMainDisplayID
-(JNIEnv *env, jclass class)
+Jbvb_sun_bwt_CGrbphicsEnvironment_getMbinDisplbyID
+(JNIEnv *env, jclbss clbss)
 {
-    return CGMainDisplayID();
+    return CGMbinDisplbyID();
 }
 
 /*
- * Post the display reconfiguration event.
+ * Post the displby reconfigurbtion event.
  */
-static void displaycb_handle
-(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void *userInfo)
+stbtic void displbycb_hbndle
+(CGDirectDisplbyID displby, CGDisplbyChbngeSummbryFlbgs flbgs, void *userInfo)
 {
-    if (flags == kCGDisplayBeginConfigurationFlag) return;
+    if (flbgs == kCGDisplbyBeginConfigurbtionFlbg) return;
 
-    JNFPerformEnvBlock(JNFThreadDetachImmediately, ^(JNIEnv *env) {
-        JNFWeakJObjectWrapper *wrapper = (JNFWeakJObjectWrapper *)userInfo;
+    JNFPerformEnvBlock(JNFThrebdDetbchImmedibtely, ^(JNIEnv *env) {
+        JNFWebkJObjectWrbpper *wrbpper = (JNFWebkJObjectWrbpper *)userInfo;
 
-        jobject graphicsEnv = [wrapper jObjectWithEnv:env];
-        if (graphicsEnv == NULL) return; // ref already GC'd
-        static JNF_CLASS_CACHE(jc_CGraphicsEnvironment, "sun/awt/CGraphicsEnvironment");
-        static JNF_MEMBER_CACHE(jm_displayReconfiguration, jc_CGraphicsEnvironment, "_displayReconfiguration", "(IZ)V");
-        JNFCallVoidMethod(env, graphicsEnv, jm_displayReconfiguration,
-                            (jint) display, 
-                            (jboolean) flags & kCGDisplayRemoveFlag);
+        jobject grbphicsEnv = [wrbpper jObjectWithEnv:env];
+        if (grbphicsEnv == NULL) return; // ref blrebdy GC'd
+        stbtic JNF_CLASS_CACHE(jc_CGrbphicsEnvironment, "sun/bwt/CGrbphicsEnvironment");
+        stbtic JNF_MEMBER_CACHE(jm_displbyReconfigurbtion, jc_CGrbphicsEnvironment, "_displbyReconfigurbtion", "(IZ)V");
+        JNFCbllVoidMethod(env, grbphicsEnv, jm_displbyReconfigurbtion,
+                            (jint) displby, 
+                            (jboolebn) flbgs & kCGDisplbyRemoveFlbg);
     });
 }
 
 /*
- * Class:     sun_awt_CGraphicsEnvironment
- * Method:    registerDisplayReconfiguration
- * Signature: ()J
+ * Clbss:     sun_bwt_CGrbphicsEnvironment
+ * Method:    registerDisplbyReconfigurbtion
+ * Signbture: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_CGraphicsEnvironment_registerDisplayReconfiguration
+Jbvb_sun_bwt_CGrbphicsEnvironment_registerDisplbyReconfigurbtion
 (JNIEnv *env, jobject this)
 {
     jlong ret = 0L;
 
 JNF_COCOA_ENTER(env);
 
-    JNFWeakJObjectWrapper *wrapper = [[JNFWeakJObjectWrapper wrapperWithJObject:this withEnv:env] retain];
+    JNFWebkJObjectWrbpper *wrbpper = [[JNFWebkJObjectWrbpper wrbpperWithJObject:this withEnv:env] retbin];
 
-    /* Register the callback */
-    if (CGDisplayRegisterReconfigurationCallback(&displaycb_handle, wrapper) != kCGErrorSuccess) {
-        [JNFException raise:env
-                         as:kInternalError
-                     reason:"CGDisplayRegisterReconfigurationCallback() failed"];
+    /* Register the cbllbbck */
+    if (CGDisplbyRegisterReconfigurbtionCbllbbck(&displbycb_hbndle, wrbpper) != kCGErrorSuccess) {
+        [JNFException rbise:env
+                         bs:kInternblError
+                     rebson:"CGDisplbyRegisterReconfigurbtionCbllbbck() fbiled"];
         return 0L;
     }
 
-    ret = ptr_to_jlong(wrapper);
+    ret = ptr_to_jlong(wrbpper);
 
 JNF_COCOA_EXIT(env);
 
@@ -159,29 +159,29 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_awt_CGraphicsEnvironment
- * Method:    deregisterDisplayReconfiguration
- * Signature: (J)V
+ * Clbss:     sun_bwt_CGrbphicsEnvironment
+ * Method:    deregisterDisplbyReconfigurbtion
+ * Signbture: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_CGraphicsEnvironment_deregisterDisplayReconfiguration
+Jbvb_sun_bwt_CGrbphicsEnvironment_deregisterDisplbyReconfigurbtion
 (JNIEnv *env, jobject this, jlong p)
 {
 JNF_COCOA_ENTER(env);
 
-    JNFWeakJObjectWrapper *wrapper = (JNFWeakJObjectWrapper *)jlong_to_ptr(p);
-    if (!wrapper) return;
+    JNFWebkJObjectWrbpper *wrbpper = (JNFWebkJObjectWrbpper *)jlong_to_ptr(p);
+    if (!wrbpper) return;
 
-    /* Remove the registration */
-    if (CGDisplayRemoveReconfigurationCallback(&displaycb_handle, wrapper) != kCGErrorSuccess) {
-        [JNFException raise:env
-                         as:kInternalError
-                     reason:"CGDisplayRemoveReconfigurationCallback() failed, leaking the callback context!"];
+    /* Remove the registrbtion */
+    if (CGDisplbyRemoveReconfigurbtionCbllbbck(&displbycb_hbndle, wrbpper) != kCGErrorSuccess) {
+        [JNFException rbise:env
+                         bs:kInternblError
+                     rebson:"CGDisplbyRemoveReconfigurbtionCbllbbck() fbiled, lebking the cbllbbck context!"];
         return;
     }
 
-    [wrapper setJObject:NULL withEnv:env]; // more efficiant to pre-clear
-    [wrapper release];
+    [wrbpper setJObject:NULL withEnv:env]; // more efficibnt to pre-clebr
+    [wrbpper relebse];
 
 JNF_COCOA_EXIT(env);
 }

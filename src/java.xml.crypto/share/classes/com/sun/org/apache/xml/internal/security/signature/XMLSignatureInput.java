@@ -3,192 +3,192 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.CanonicalizerBase;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315OmitComments;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityRuntimeException;
-import com.sun.org.apache.xml.internal.security.utils.JavaUtils;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.CbnonicblizerBbse;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer20010315OmitComments;
+import com.sun.org.bpbche.xml.internbl.security.c14n.implementbtions.Cbnonicblizer11_OmitComments;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityRuntimeException;
+import com.sun.org.bpbche.xml.internbl.security.utils.JbvbUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Class XMLSignatureInput
+ * Clbss XMLSignbtureInput
  *
- * @author Christian Geuer-Pollmann
- * $todo$ check whether an XMLSignatureInput can be _both_, octet stream _and_ node set?
+ * @buthor Christibn Geuer-Pollmbnn
+ * $todo$ check whether bn XMLSignbtureInput cbn be _both_, octet strebm _bnd_ node set?
  */
-public class XMLSignatureInput {
+public clbss XMLSignbtureInput {
     /*
-     * The XMLSignature Input can be either:
-     *   A byteArray like with/or without InputStream.
-     *   Or a nodeSet like defined either:
-     *       * as a collection of nodes
-     *       * or as subnode excluding or not comments and excluding or
+     * The XMLSignbture Input cbn be either:
+     *   A byteArrby like with/or without InputStrebm.
+     *   Or b nodeSet like defined either:
+     *       * bs b collection of nodes
+     *       * or bs subnode excluding or not comments bnd excluding or
      *         not other nodes.
      */
 
     /**
-     * Some InputStreams do not support the {@link java.io.InputStream#reset}
-     * method, so we read it in completely and work on our Proxy.
+     * Some InputStrebms do not support the {@link jbvb.io.InputStrebm#reset}
+     * method, so we rebd it in completely bnd work on our Proxy.
      */
-    private InputStream inputOctetStreamProxy = null;
+    privbte InputStrebm inputOctetStrebmProxy = null;
     /**
-     * The original NodeSet for this XMLSignatureInput
+     * The originbl NodeSet for this XMLSignbtureInput
      */
-    private Set<Node> inputNodeSet = null;
+    privbte Set<Node> inputNodeSet = null;
     /**
-     * The original Element
+     * The originbl Element
      */
-    private Node subNode = null;
+    privbte Node subNode = null;
     /**
-     * Exclude Node *for enveloped transformations*
+     * Exclude Node *for enveloped trbnsformbtions*
      */
-    private Node excludeNode = null;
+    privbte Node excludeNode = null;
     /**
      *
      */
-    private boolean excludeComments = false;
+    privbte boolebn excludeComments = fblse;
 
-    private boolean isNodeSet = false;
+    privbte boolebn isNodeSet = fblse;
     /**
-     * A cached bytes
+     * A cbched bytes
      */
-    private byte[] bytes = null;
+    privbte byte[] bytes = null;
 
     /**
-     * Some Transforms may require explicit MIME type, charset (IANA registered
-     * "character set"), or other such information concerning the data they are
-     * receiving from an earlier Transform or the source data, although no
-     * Transform algorithm specified in this document needs such explicit
-     * information. Such data characteristics are provided as parameters to the
-     * Transform algorithm and should be described in the specification for the
-     * algorithm.
+     * Some Trbnsforms mby require explicit MIME type, chbrset (IANA registered
+     * "chbrbcter set"), or other such informbtion concerning the dbtb they bre
+     * receiving from bn ebrlier Trbnsform or the source dbtb, blthough no
+     * Trbnsform blgorithm specified in this document needs such explicit
+     * informbtion. Such dbtb chbrbcteristics bre provided bs pbrbmeters to the
+     * Trbnsform blgorithm bnd should be described in the specificbtion for the
+     * blgorithm.
      */
-    private String mimeType = null;
+    privbte String mimeType = null;
 
     /**
      * Field sourceURI
      */
-    private String sourceURI = null;
+    privbte String sourceURI = null;
 
     /**
      * Node Filter list.
      */
-    private List<NodeFilter> nodeFilters = new ArrayList<NodeFilter>();
+    privbte List<NodeFilter> nodeFilters = new ArrbyList<NodeFilter>();
 
-    private boolean needsToBeExpanded = false;
-    private OutputStream outputStream = null;
+    privbte boolebn needsToBeExpbnded = fblse;
+    privbte OutputStrebm outputStrebm = null;
 
-    private DocumentBuilderFactory dfactory;
+    privbte DocumentBuilderFbctory dfbctory;
 
     /**
-     * Construct a XMLSignatureInput from an octet array.
+     * Construct b XMLSignbtureInput from bn octet brrby.
      * <p>
-     * This is a comfort method, which internally converts the byte[] array into
-     * an InputStream
+     * This is b comfort method, which internblly converts the byte[] brrby into
+     * bn InputStrebm
      * <p>NOTE: no defensive copy</p>
-     * @param inputOctets an octet array which including XML document or node
+     * @pbrbm inputOctets bn octet brrby which including XML document or node
      */
-    public XMLSignatureInput(byte[] inputOctets) {
+    public XMLSignbtureInput(byte[] inputOctets) {
         // NO defensive copy
         this.bytes = inputOctets;
     }
 
     /**
-     * Constructs a <code>XMLSignatureInput</code> from an octet stream. The
-     * stream is directly read.
+     * Constructs b <code>XMLSignbtureInput</code> from bn octet strebm. The
+     * strebm is directly rebd.
      *
-     * @param inputOctetStream
+     * @pbrbm inputOctetStrebm
      */
-    public XMLSignatureInput(InputStream inputOctetStream)  {
-        this.inputOctetStreamProxy = inputOctetStream;
+    public XMLSignbtureInput(InputStrebm inputOctetStrebm)  {
+        this.inputOctetStrebmProxy = inputOctetStrebm;
     }
 
     /**
-     * Construct a XMLSignatureInput from a subtree rooted by rootNode. This
-     * method included the node and <I>all</I> his descendants in the output.
+     * Construct b XMLSignbtureInput from b subtree rooted by rootNode. This
+     * method included the node bnd <I>bll</I> his descendbnts in the output.
      *
-     * @param rootNode
+     * @pbrbm rootNode
      */
-    public XMLSignatureInput(Node rootNode) {
+    public XMLSignbtureInput(Node rootNode) {
         this.subNode = rootNode;
     }
 
     /**
-     * Constructor XMLSignatureInput
+     * Constructor XMLSignbtureInput
      *
-     * @param inputNodeSet
+     * @pbrbm inputNodeSet
      */
-    public XMLSignatureInput(Set<Node> inputNodeSet) {
+    public XMLSignbtureInput(Set<Node> inputNodeSet) {
         this.inputNodeSet = inputNodeSet;
     }
 
     /**
-     * Check if the structure needs to be expanded.
+     * Check if the structure needs to be expbnded.
      * @return true if so.
      */
-    public boolean isNeedsToBeExpanded() {
-        return needsToBeExpanded;
+    public boolebn isNeedsToBeExpbnded() {
+        return needsToBeExpbnded;
     }
 
     /**
-     * Set if the structure needs to be expanded.
-     * @param needsToBeExpanded true if so.
+     * Set if the structure needs to be expbnded.
+     * @pbrbm needsToBeExpbnded true if so.
      */
-    public void setNeedsToBeExpanded(boolean needsToBeExpanded) {
-        this.needsToBeExpanded = needsToBeExpanded;
+    public void setNeedsToBeExpbnded(boolebn needsToBeExpbnded) {
+        this.needsToBeExpbnded = needsToBeExpbnded;
     }
 
     /**
-     * Returns the node set from input which was specified as the parameter of
-     * {@link XMLSignatureInput} constructor
+     * Returns the node set from input which wbs specified bs the pbrbmeter of
+     * {@link XMLSignbtureInput} constructor
      *
      * @return the node set
      * @throws SAXException
      * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws CanonicalizationException
+     * @throws PbrserConfigurbtionException
+     * @throws CbnonicblizbtionException
      */
-    public Set<Node> getNodeSet() throws CanonicalizationException, ParserConfigurationException,
+    public Set<Node> getNodeSet() throws CbnonicblizbtionException, PbrserConfigurbtionException,
         IOException, SAXException {
-        return getNodeSet(false);
+        return getNodeSet(fblse);
     }
 
     /**
@@ -200,143 +200,143 @@ public class XMLSignatureInput {
     }
 
     /**
-     * Returns the node set from input which was specified as the parameter of
-     * {@link XMLSignatureInput} constructor
-     * @param circumvent
+     * Returns the node set from input which wbs specified bs the pbrbmeter of
+     * {@link XMLSignbtureInput} constructor
+     * @pbrbm circumvent
      *
      * @return the node set
      * @throws SAXException
      * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws CanonicalizationException
+     * @throws PbrserConfigurbtionException
+     * @throws CbnonicblizbtionException
      */
-    public Set<Node> getNodeSet(boolean circumvent) throws ParserConfigurationException,
-        IOException, SAXException, CanonicalizationException {
+    public Set<Node> getNodeSet(boolebn circumvent) throws PbrserConfigurbtionException,
+        IOException, SAXException, CbnonicblizbtionException {
         if (inputNodeSet != null) {
             return inputNodeSet;
         }
-        if (inputOctetStreamProxy == null && subNode != null) {
+        if (inputOctetStrebmProxy == null && subNode != null) {
             if (circumvent) {
                 XMLUtils.circumventBug2650(XMLUtils.getOwnerDocument(subNode));
             }
-            inputNodeSet = new LinkedHashSet<Node>();
+            inputNodeSet = new LinkedHbshSet<Node>();
             XMLUtils.getSet(subNode, inputNodeSet, excludeNode, excludeComments);
             return inputNodeSet;
-        } else if (isOctetStream()) {
+        } else if (isOctetStrebm()) {
             convertToNodes();
-            Set<Node> result = new LinkedHashSet<Node>();
-            XMLUtils.getSet(subNode, result, null, false);
+            Set<Node> result = new LinkedHbshSet<Node>();
+            XMLUtils.getSet(subNode, result, null, fblse);
             return result;
         }
 
-        throw new RuntimeException("getNodeSet() called but no input data present");
+        throw new RuntimeException("getNodeSet() cblled but no input dbtb present");
     }
 
     /**
-     * Returns the Octet stream(byte Stream) from input which was specified as
-     * the parameter of {@link XMLSignatureInput} constructor
+     * Returns the Octet strebm(byte Strebm) from input which wbs specified bs
+     * the pbrbmeter of {@link XMLSignbtureInput} constructor
      *
-     * @return the Octet stream(byte Stream) from input which was specified as
-     * the parameter of {@link XMLSignatureInput} constructor
+     * @return the Octet strebm(byte Strebm) from input which wbs specified bs
+     * the pbrbmeter of {@link XMLSignbtureInput} constructor
      * @throws IOException
      */
-    public InputStream getOctetStream() throws IOException  {
-        if (inputOctetStreamProxy != null) {
-            return inputOctetStreamProxy;
+    public InputStrebm getOctetStrebm() throws IOException  {
+        if (inputOctetStrebmProxy != null) {
+            return inputOctetStrebmProxy;
         }
 
         if (bytes != null) {
-            inputOctetStreamProxy = new ByteArrayInputStream(bytes);
-            return inputOctetStreamProxy;
+            inputOctetStrebmProxy = new ByteArrbyInputStrebm(bytes);
+            return inputOctetStrebmProxy;
         }
 
         return null;
     }
 
     /**
-     * @return real octet stream
+     * @return rebl octet strebm
      */
-    public InputStream getOctetStreamReal() {
-        return inputOctetStreamProxy;
+    public InputStrebm getOctetStrebmRebl() {
+        return inputOctetStrebmProxy;
     }
 
     /**
-     * Returns the byte array from input which was specified as the parameter of
-     * {@link XMLSignatureInput} constructor
+     * Returns the byte brrby from input which wbs specified bs the pbrbmeter of
+     * {@link XMLSignbtureInput} constructor
      *
-     * @return the byte[] from input which was specified as the parameter of
-     * {@link XMLSignatureInput} constructor
+     * @return the byte[] from input which wbs specified bs the pbrbmeter of
+     * {@link XMLSignbtureInput} constructor
      *
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      * @throws IOException
      */
-    public byte[] getBytes() throws IOException, CanonicalizationException {
-        byte[] inputBytes = getBytesFromInputStream();
+    public byte[] getBytes() throws IOException, CbnonicblizbtionException {
+        byte[] inputBytes = getBytesFromInputStrebm();
         if (inputBytes != null) {
             return inputBytes;
         }
-        Canonicalizer20010315OmitComments c14nizer = new Canonicalizer20010315OmitComments();
-        bytes = c14nizer.engineCanonicalize(this);
+        Cbnonicblizer20010315OmitComments c14nizer = new Cbnonicblizer20010315OmitComments();
+        bytes = c14nizer.engineCbnonicblize(this);
         return bytes;
     }
 
     /**
-     * Determines if the object has been set up with a Node set
+     * Determines if the object hbs been set up with b Node set
      *
-     * @return true if the object has been set up with a Node set
+     * @return true if the object hbs been set up with b Node set
      */
-    public boolean isNodeSet() {
-        return ((inputOctetStreamProxy == null
+    public boolebn isNodeSet() {
+        return ((inputOctetStrebmProxy == null
             && inputNodeSet != null) || isNodeSet);
     }
 
     /**
-     * Determines if the object has been set up with an Element
+     * Determines if the object hbs been set up with bn Element
      *
-     * @return true if the object has been set up with an Element
+     * @return true if the object hbs been set up with bn Element
      */
-    public boolean isElement() {
-        return (inputOctetStreamProxy == null && subNode != null
+    public boolebn isElement() {
+        return (inputOctetStrebmProxy == null && subNode != null
             && inputNodeSet == null && !isNodeSet);
     }
 
     /**
-     * Determines if the object has been set up with an octet stream
+     * Determines if the object hbs been set up with bn octet strebm
      *
-     * @return true if the object has been set up with an octet stream
+     * @return true if the object hbs been set up with bn octet strebm
      */
-    public boolean isOctetStream() {
-        return ((inputOctetStreamProxy != null || bytes != null)
+    public boolebn isOctetStrebm() {
+        return ((inputOctetStrebmProxy != null || bytes != null)
           && (inputNodeSet == null && subNode == null));
     }
 
     /**
-     * Determines if {@link #setOutputStream} has been called with a
-     * non-null OutputStream.
+     * Determines if {@link #setOutputStrebm} hbs been cblled with b
+     * non-null OutputStrebm.
      *
-     * @return true if {@link #setOutputStream} has been called with a
-     * non-null OutputStream
+     * @return true if {@link #setOutputStrebm} hbs been cblled with b
+     * non-null OutputStrebm
      */
-    public boolean isOutputStreamSet() {
-        return outputStream != null;
+    public boolebn isOutputStrebmSet() {
+        return outputStrebm != null;
     }
 
     /**
-     * Determines if the object has been set up with a ByteArray
+     * Determines if the object hbs been set up with b ByteArrby
      *
-     * @return true is the object has been set up with an octet stream
+     * @return true is the object hbs been set up with bn octet strebm
      */
-    public boolean isByteArray() {
+    public boolebn isByteArrby() {
         return (bytes != null && (this.inputNodeSet == null && subNode == null));
     }
 
     /**
      * Is the object correctly set up?
      *
-     * @return true if the object has been set up correctly
+     * @return true if the object hbs been set up correctly
      */
-    public boolean isInitialized() {
-        return isOctetStream() || isNodeSet();
+    public boolebn isInitiblized() {
+        return isOctetStrebm() || isNodeSet();
     }
 
     /**
@@ -351,7 +351,7 @@ public class XMLSignatureInput {
     /**
      * Sets mimeType
      *
-     * @param mimeType
+     * @pbrbm mimeType
      */
     public void setMIMEType(String mimeType) {
         this.mimeType = mimeType;
@@ -369,7 +369,7 @@ public class XMLSignatureInput {
     /**
      * Sets SourceURI
      *
-     * @param sourceURI
+     * @pbrbm sourceURI
      */
     public void setSourceURI(String sourceURI) {
         this.sourceURI = sourceURI;
@@ -381,51 +381,51 @@ public class XMLSignatureInput {
      */
     public String toString() {
         if (isNodeSet()) {
-            return "XMLSignatureInput/NodeSet/" + inputNodeSet.size()
+            return "XMLSignbtureInput/NodeSet/" + inputNodeSet.size()
                    + " nodes/" + getSourceURI();
         }
         if (isElement()) {
-            return "XMLSignatureInput/Element/" + subNode
+            return "XMLSignbtureInput/Element/" + subNode
                 + " exclude "+ excludeNode + " comments:"
                 + excludeComments +"/" + getSourceURI();
         }
         try {
-            return "XMLSignatureInput/OctetStream/" + getBytes().length
+            return "XMLSignbtureInput/OctetStrebm/" + getBytes().length
                    + " octets/" + getSourceURI();
-        } catch (IOException iex) {
-            return "XMLSignatureInput/OctetStream//" + getSourceURI();
-        } catch (CanonicalizationException cex) {
-            return "XMLSignatureInput/OctetStream//" + getSourceURI();
+        } cbtch (IOException iex) {
+            return "XMLSignbtureInput/OctetStrebm//" + getSourceURI();
+        } cbtch (CbnonicblizbtionException cex) {
+            return "XMLSignbtureInput/OctetStrebm//" + getSourceURI();
         }
     }
 
     /**
-     * Method getHTMLRepresentation
+     * Method getHTMLRepresentbtion
      *
-     * @throws XMLSignatureException
-     * @return The HTML representation for this XMLSignature
+     * @throws XMLSignbtureException
+     * @return The HTML representbtion for this XMLSignbture
      */
-    public String getHTMLRepresentation() throws XMLSignatureException {
-        XMLSignatureInputDebugger db = new XMLSignatureInputDebugger(this);
-        return db.getHTMLRepresentation();
+    public String getHTMLRepresentbtion() throws XMLSignbtureException {
+        XMLSignbtureInputDebugger db = new XMLSignbtureInputDebugger(this);
+        return db.getHTMLRepresentbtion();
     }
 
     /**
-     * Method getHTMLRepresentation
+     * Method getHTMLRepresentbtion
      *
-     * @param inclusiveNamespaces
-     * @throws XMLSignatureException
-     * @return The HTML representation for this XMLSignature
+     * @pbrbm inclusiveNbmespbces
+     * @throws XMLSignbtureException
+     * @return The HTML representbtion for this XMLSignbture
      */
-    public String getHTMLRepresentation(Set<String> inclusiveNamespaces)
-       throws XMLSignatureException {
-        XMLSignatureInputDebugger db =
-            new XMLSignatureInputDebugger(this, inclusiveNamespaces);
-        return db.getHTMLRepresentation();
+    public String getHTMLRepresentbtion(Set<String> inclusiveNbmespbces)
+       throws XMLSignbtureException {
+        XMLSignbtureInputDebugger db =
+            new XMLSignbtureInputDebugger(this, inclusiveNbmespbces);
+        return db.getHTMLRepresentbtion();
     }
 
     /**
-     * Gets the exclude node of this XMLSignatureInput
+     * Gets the exclude node of this XMLSignbtureInput
      * @return Returns the excludeNode.
      */
     public Node getExcludeNode() {
@@ -433,15 +433,15 @@ public class XMLSignatureInput {
     }
 
     /**
-     * Sets the exclude node of this XMLSignatureInput
-     * @param excludeNode The excludeNode to set.
+     * Sets the exclude node of this XMLSignbtureInput
+     * @pbrbm excludeNode The excludeNode to set.
      */
     public void setExcludeNode(Node excludeNode) {
         this.excludeNode = excludeNode;
     }
 
     /**
-     * Gets the node of this XMLSignatureInput
+     * Gets the node of this XMLSignbtureInput
      * @return The excludeNode set.
      */
     public Node getSubNode() {
@@ -451,93 +451,93 @@ public class XMLSignatureInput {
     /**
      * @return Returns the excludeComments.
      */
-    public boolean isExcludeComments() {
+    public boolebn isExcludeComments() {
         return excludeComments;
     }
 
     /**
-     * @param excludeComments The excludeComments to set.
+     * @pbrbm excludeComments The excludeComments to set.
      */
-    public void setExcludeComments(boolean excludeComments) {
+    public void setExcludeComments(boolebn excludeComments) {
         this.excludeComments = excludeComments;
     }
 
     /**
-     * @param diOs
+     * @pbrbm diOs
      * @throws IOException
-     * @throws CanonicalizationException
+     * @throws CbnonicblizbtionException
      */
-    public void updateOutputStream(OutputStream diOs)
-        throws CanonicalizationException, IOException {
-        updateOutputStream(diOs, false);
+    public void updbteOutputStrebm(OutputStrebm diOs)
+        throws CbnonicblizbtionException, IOException {
+        updbteOutputStrebm(diOs, fblse);
     }
 
-    public void updateOutputStream(OutputStream diOs, boolean c14n11)
-        throws CanonicalizationException, IOException {
-        if (diOs == outputStream) {
+    public void updbteOutputStrebm(OutputStrebm diOs, boolebn c14n11)
+        throws CbnonicblizbtionException, IOException {
+        if (diOs == outputStrebm) {
             return;
         }
         if (bytes != null) {
             diOs.write(bytes);
-        } else if (inputOctetStreamProxy == null) {
-            CanonicalizerBase c14nizer = null;
+        } else if (inputOctetStrebmProxy == null) {
+            CbnonicblizerBbse c14nizer = null;
             if (c14n11) {
-                c14nizer = new Canonicalizer11_OmitComments();
+                c14nizer = new Cbnonicblizer11_OmitComments();
             } else {
-                c14nizer = new Canonicalizer20010315OmitComments();
+                c14nizer = new Cbnonicblizer20010315OmitComments();
             }
             c14nizer.setWriter(diOs);
-            c14nizer.engineCanonicalize(this);
+            c14nizer.engineCbnonicblize(this);
         } else {
             byte[] buffer = new byte[4 * 1024];
-            int bytesread = 0;
+            int bytesrebd = 0;
             try {
-                while ((bytesread = inputOctetStreamProxy.read(buffer)) != -1) {
-                    diOs.write(buffer, 0, bytesread);
+                while ((bytesrebd = inputOctetStrebmProxy.rebd(buffer)) != -1) {
+                    diOs.write(buffer, 0, bytesrebd);
                 }
-            } catch (IOException ex) {
-                inputOctetStreamProxy.close();
+            } cbtch (IOException ex) {
+                inputOctetStrebmProxy.close();
                 throw ex;
             }
         }
     }
 
     /**
-     * @param os
+     * @pbrbm os
      */
-    public void setOutputStream(OutputStream os) {
-        outputStream = os;
+    public void setOutputStrebm(OutputStrebm os) {
+        outputStrebm = os;
     }
 
-    private byte[] getBytesFromInputStream() throws IOException {
+    privbte byte[] getBytesFromInputStrebm() throws IOException {
         if (bytes != null) {
             return bytes;
         }
-        if (inputOctetStreamProxy == null) {
+        if (inputOctetStrebmProxy == null) {
             return null;
         }
         try {
-            bytes = JavaUtils.getBytesFromStream(inputOctetStreamProxy);
-        } finally {
-            inputOctetStreamProxy.close();
+            bytes = JbvbUtils.getBytesFromStrebm(inputOctetStrebmProxy);
+        } finblly {
+            inputOctetStrebmProxy.close();
         }
         return bytes;
     }
 
     /**
-     * @param filter
+     * @pbrbm filter
      */
-    public void addNodeFilter(NodeFilter filter) {
-        if (isOctetStream()) {
+    public void bddNodeFilter(NodeFilter filter) {
+        if (isOctetStrebm()) {
             try {
                 convertToNodes();
-            } catch (Exception e) {
+            } cbtch (Exception e) {
                 throw new XMLSecurityRuntimeException(
-                    "signature.XMLSignatureInput.nodesetReference", e
+                    "signbture.XMLSignbtureInput.nodesetReference", e
                 );
             }
         }
-        nodeFilters.add(filter);
+        nodeFilters.bdd(filter);
     }
 
     /**
@@ -548,43 +548,43 @@ public class XMLSignatureInput {
     }
 
     /**
-     * @param b
+     * @pbrbm b
      */
-    public void setNodeSet(boolean b) {
+    public void setNodeSet(boolebn b) {
         isNodeSet = b;
     }
 
-    void convertToNodes() throws CanonicalizationException,
-        ParserConfigurationException, IOException, SAXException {
-        if (dfactory == null) {
-            dfactory = DocumentBuilderFactory.newInstance();
-            dfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-            dfactory.setValidating(false);
-            dfactory.setNamespaceAware(true);
+    void convertToNodes() throws CbnonicblizbtionException,
+        PbrserConfigurbtionException, IOException, SAXException {
+        if (dfbctory == null) {
+            dfbctory = DocumentBuilderFbctory.newInstbnce();
+            dfbctory.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
+            dfbctory.setVblidbting(fblse);
+            dfbctory.setNbmespbceAwbre(true);
         }
-        DocumentBuilder db = dfactory.newDocumentBuilder();
-        // select all nodes, also the comments.
+        DocumentBuilder db = dfbctory.newDocumentBuilder();
+        // select bll nodes, blso the comments.
         try {
-            db.setErrorHandler(new com.sun.org.apache.xml.internal.security.utils.IgnoreAllErrorHandler());
+            db.setErrorHbndler(new com.sun.org.bpbche.xml.internbl.security.utils.IgnoreAllErrorHbndler());
 
-            Document doc = db.parse(this.getOctetStream());
+            Document doc = db.pbrse(this.getOctetStrebm());
             this.subNode = doc;
-        } catch (SAXException ex) {
-            // if a not-wellformed nodeset exists, put a container around it...
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        } cbtch (SAXException ex) {
+            // if b not-wellformed nodeset exists, put b contbiner bround it...
+            ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
 
-            baos.write("<container>".getBytes("UTF-8"));
-            baos.write(this.getBytes());
-            baos.write("</container>".getBytes("UTF-8"));
+            bbos.write("<contbiner>".getBytes("UTF-8"));
+            bbos.write(this.getBytes());
+            bbos.write("</contbiner>".getBytes("UTF-8"));
 
-            byte result[] = baos.toByteArray();
-            Document document = db.parse(new ByteArrayInputStream(result));
+            byte result[] = bbos.toByteArrby();
+            Document document = db.pbrse(new ByteArrbyInputStrebm(result));
             this.subNode = document.getDocumentElement().getFirstChild().getFirstChild();
-        } finally {
-            if (this.inputOctetStreamProxy != null) {
-                this.inputOctetStreamProxy.close();
+        } finblly {
+            if (this.inputOctetStrebmProxy != null) {
+                this.inputOctetStrebmProxy.close();
             }
-            this.inputOctetStreamProxy = null;
+            this.inputOctetStrebmProxy = null;
             this.bytes = null;
         }
     }

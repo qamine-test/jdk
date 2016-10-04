@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FilePermission;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.MalformedURLException;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.HashSet;
-import java.util.StringTokenizer;
-import java.util.Set;
-import java.util.Vector;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.AccessControlContext;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Permission;
-import java.security.ProtectionDomain;
-import java.security.CodeSource;
-import sun.security.util.SecurityConstants;
-import sun.net.www.ParseUtil;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.FilePermission;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URLStrebmHbndler;
+import jbvb.net.URLStrebmHbndlerFbctory;
+import jbvb.util.HbshSet;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Set;
+import jbvb.util.Vector;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Permissions;
+import jbvb.security.Permission;
+import jbvb.security.ProtectionDombin;
+import jbvb.security.CodeSource;
+import sun.security.util.SecurityConstbnts;
+import sun.net.www.PbrseUtil;
 
 /**
- * This class is used by the system to launch the main application.
-Launcher */
-public class Launcher {
-    private static URLStreamHandlerFactory factory = new Factory();
-    private static Launcher launcher = new Launcher();
-    private static String bootClassPath =
-        System.getProperty("sun.boot.class.path");
+ * This clbss is used by the system to lbunch the mbin bpplicbtion.
+Lbuncher */
+public clbss Lbuncher {
+    privbte stbtic URLStrebmHbndlerFbctory fbctory = new Fbctory();
+    privbte stbtic Lbuncher lbuncher = new Lbuncher();
+    privbte stbtic String bootClbssPbth =
+        System.getProperty("sun.boot.clbss.pbth");
 
-    public static Launcher getLauncher() {
-        return launcher;
+    public stbtic Lbuncher getLbuncher() {
+        return lbuncher;
     }
 
-    private ClassLoader loader;
+    privbte ClbssLobder lobder;
 
-    public Launcher() {
-        // Create the extension class loader
-        ClassLoader extcl;
+    public Lbuncher() {
+        // Crebte the extension clbss lobder
+        ClbssLobder extcl;
         try {
-            extcl = ExtClassLoader.getExtClassLoader();
-        } catch (IOException e) {
-            throw new InternalError(
-                "Could not create extension class loader", e);
+            extcl = ExtClbssLobder.getExtClbssLobder();
+        } cbtch (IOException e) {
+            throw new InternblError(
+                "Could not crebte extension clbss lobder", e);
         }
 
-        // Now create the class loader to use to launch the application
+        // Now crebte the clbss lobder to use to lbunch the bpplicbtion
         try {
-            loader = AppClassLoader.getAppClassLoader(extcl);
-        } catch (IOException e) {
-            throw new InternalError(
-                "Could not create application class loader", e);
+            lobder = AppClbssLobder.getAppClbssLobder(extcl);
+        } cbtch (IOException e) {
+            throw new InternblError(
+                "Could not crebte bpplicbtion clbss lobder", e);
         }
 
-        // Also set the context class loader for the primordial thread.
-        Thread.currentThread().setContextClassLoader(loader);
+        // Also set the context clbss lobder for the primordibl threbd.
+        Threbd.currentThrebd().setContextClbssLobder(lobder);
 
-        // Finally, install a security manager if requested
-        String s = System.getProperty("java.security.manager");
+        // Finblly, instbll b security mbnbger if requested
+        String s = System.getProperty("jbvb.security.mbnbger");
         if (s != null) {
-            SecurityManager sm = null;
-            if ("".equals(s) || "default".equals(s)) {
-                sm = new java.lang.SecurityManager();
+            SecurityMbnbger sm = null;
+            if ("".equbls(s) || "defbult".equbls(s)) {
+                sm = new jbvb.lbng.SecurityMbnbger();
             } else {
                 try {
-                    sm = (SecurityManager)loader.loadClass(s).newInstance();
-                } catch (IllegalAccessException e) {
-                } catch (InstantiationException e) {
-                } catch (ClassNotFoundException e) {
-                } catch (ClassCastException e) {
+                    sm = (SecurityMbnbger)lobder.lobdClbss(s).newInstbnce();
+                } cbtch (IllegblAccessException e) {
+                } cbtch (InstbntibtionException e) {
+                } cbtch (ClbssNotFoundException e) {
+                } cbtch (ClbssCbstException e) {
                 }
             }
             if (sm != null) {
-                System.setSecurityManager(sm);
+                System.setSecurityMbnbger(sm);
             } else {
-                throw new InternalError(
-                    "Could not create SecurityManager: " + s);
+                throw new InternblError(
+                    "Could not crebte SecurityMbnbger: " + s);
             }
         }
     }
 
     /*
-     * Returns the class loader used to launch the main application.
+     * Returns the clbss lobder used to lbunch the mbin bpplicbtion.
      */
-    public ClassLoader getClassLoader() {
-        return loader;
+    public ClbssLobder getClbssLobder() {
+        return lobder;
     }
 
     /*
-     * The class loader used for loading installed extensions.
+     * The clbss lobder used for lobding instblled extensions.
      */
-    static class ExtClassLoader extends URLClassLoader {
+    stbtic clbss ExtClbssLobder extends URLClbssLobder {
 
-        static {
-            ClassLoader.registerAsParallelCapable();
+        stbtic {
+            ClbssLobder.registerAsPbrbllelCbpbble();
         }
 
         /**
-         * create an ExtClassLoader. The ExtClassLoader is created
-         * within a context that limits which files it can read
+         * crebte bn ExtClbssLobder. The ExtClbssLobder is crebted
+         * within b context thbt limits which files it cbn rebd
          */
-        public static ExtClassLoader getExtClassLoader() throws IOException
+        public stbtic ExtClbssLobder getExtClbssLobder() throws IOException
         {
-            final File[] dirs = getExtDirs();
+            finbl File[] dirs = getExtDirs();
 
             try {
-                // Prior implementations of this doPrivileged() block supplied
-                // aa synthesized ACC via a call to the private method
-                // ExtClassLoader.getContext().
+                // Prior implementbtions of this doPrivileged() block supplied
+                // bb synthesized ACC vib b cbll to the privbte method
+                // ExtClbssLobder.getContext().
 
                 return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<ExtClassLoader>() {
-                        public ExtClassLoader run() throws IOException {
+                    new PrivilegedExceptionAction<ExtClbssLobder>() {
+                        public ExtClbssLobder run() throws IOException {
                             int len = dirs.length;
                             for (int i = 0; i < len; i++) {
-                                MetaIndex.registerDirectory(dirs[i]);
+                                MetbIndex.registerDirectory(dirs[i]);
                             }
-                            return new ExtClassLoader(dirs);
+                            return new ExtClbssLobder(dirs);
                         }
                     });
-            } catch (java.security.PrivilegedActionException e) {
+            } cbtch (jbvb.security.PrivilegedActionException e) {
                 throw (IOException) e.getException();
             }
         }
 
-        void addExtURL(URL url) {
-            super.addURL(url);
+        void bddExtURL(URL url) {
+            super.bddURL(url);
         }
 
         /*
-         * Creates a new ExtClassLoader for the specified directories.
+         * Crebtes b new ExtClbssLobder for the specified directories.
          */
-        public ExtClassLoader(File[] dirs) throws IOException {
-            super(getExtURLs(dirs), null, factory);
+        public ExtClbssLobder(File[] dirs) throws IOException {
+            super(getExtURLs(dirs), null, fbctory);
         }
 
-        private static File[] getExtDirs() {
-            String s = System.getProperty("java.ext.dirs");
+        privbte stbtic File[] getExtDirs() {
+            String s = System.getProperty("jbvb.ext.dirs");
             File[] dirs;
             if (s != null) {
                 StringTokenizer st =
-                    new StringTokenizer(s, File.pathSeparator);
+                    new StringTokenizer(s, File.pbthSepbrbtor);
                 int count = st.countTokens();
                 dirs = new File[count];
                 for (int i = 0; i < count; i++) {
@@ -181,61 +181,61 @@ public class Launcher {
             return dirs;
         }
 
-        private static URL[] getExtURLs(File[] dirs) throws IOException {
+        privbte stbtic URL[] getExtURLs(File[] dirs) throws IOException {
             Vector<URL> urls = new Vector<URL>();
             for (int i = 0; i < dirs.length; i++) {
                 String[] files = dirs[i].list();
                 if (files != null) {
                     for (int j = 0; j < files.length; j++) {
-                        if (!files[j].equals("meta-index")) {
+                        if (!files[j].equbls("metb-index")) {
                             File f = new File(dirs[i], files[j]);
-                            urls.add(getFileURL(f));
+                            urls.bdd(getFileURL(f));
                         }
                     }
                 }
             }
-            URL[] ua = new URL[urls.size()];
-            urls.copyInto(ua);
-            return ua;
+            URL[] ub = new URL[urls.size()];
+            urls.copyInto(ub);
+            return ub;
         }
 
         /*
-         * Searches the installed extension directories for the specified
-         * library name. For each extension directory, we first look for
-         * the native library in the subdirectory whose name is the value
-         * of the system property <code>os.arch</code>. Failing that, we
+         * Sebrches the instblled extension directories for the specified
+         * librbry nbme. For ebch extension directory, we first look for
+         * the nbtive librbry in the subdirectory whose nbme is the vblue
+         * of the system property <code>os.brch</code>. Fbiling thbt, we
          * look in the extension directory itself.
          */
-        public String findLibrary(String name) {
-            final String libname = System.mapLibraryName(name);
+        public String findLibrbry(String nbme) {
+            finbl String libnbme = System.mbpLibrbryNbme(nbme);
             URL[] urls = super.getURLs();
             File prevDir = null;
             for (int i = 0; i < urls.length; i++) {
                 // Get the ext directory from the URL
-                File dir = new File(urls[i].getPath()).getParentFile();
-                if (dir != null && !dir.equals(prevDir)) {
-                    // Look in architecture-specific subdirectory first
-                    // Read from the saved system properties to avoid deadlock
-                    final String arch = VM.getSavedProperty("os.arch");
-                    String pathname = AccessController.doPrivileged(
+                File dir = new File(urls[i].getPbth()).getPbrentFile();
+                if (dir != null && !dir.equbls(prevDir)) {
+                    // Look in brchitecture-specific subdirectory first
+                    // Rebd from the sbved system properties to bvoid debdlock
+                    finbl String brch = VM.getSbvedProperty("os.brch");
+                    String pbthnbme = AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
                             public String run() {
-                                if (arch != null) {
-                                    File file = new File(new File(dir, arch), libname);
+                                if (brch != null) {
+                                    File file = new File(new File(dir, brch), libnbme);
                                     if (file.exists()) {
-                                        return file.getAbsolutePath();
+                                        return file.getAbsolutePbth();
                                     }
                                 }
                                 // Then check the extension directory
-                                File file = new File(dir, libname);
+                                File file = new File(dir, libnbme);
                                 if (file.exists()) {
-                                    return file.getAbsolutePath();
+                                    return file.getAbsolutePbth();
                                 }
                                 return null;
                             }
                         });
-                    if (pathname != null) {
-                        return pathname;
+                    if (pbthnbme != null) {
+                        return pbthnbme;
                     }
                 }
                 prevDir = dir;
@@ -243,170 +243,170 @@ public class Launcher {
             return null;
         }
 
-        private static AccessControlContext getContext(File[] dirs)
+        privbte stbtic AccessControlContext getContext(File[] dirs)
             throws IOException
         {
-            PathPermissions perms =
-                new PathPermissions(dirs);
+            PbthPermissions perms =
+                new PbthPermissions(dirs);
 
-            ProtectionDomain domain = new ProtectionDomain(
-                new CodeSource(perms.getCodeBase(),
-                    (java.security.cert.Certificate[]) null),
+            ProtectionDombin dombin = new ProtectionDombin(
+                new CodeSource(perms.getCodeBbse(),
+                    (jbvb.security.cert.Certificbte[]) null),
                 perms);
 
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { domain });
+            AccessControlContext bcc =
+                new AccessControlContext(new ProtectionDombin[] { dombin });
 
-            return acc;
+            return bcc;
         }
     }
 
     /**
-     * The class loader used for loading from java.class.path.
-     * runs in a restricted security context.
+     * The clbss lobder used for lobding from jbvb.clbss.pbth.
+     * runs in b restricted security context.
      */
-    static class AppClassLoader extends URLClassLoader {
+    stbtic clbss AppClbssLobder extends URLClbssLobder {
 
-        static {
-            ClassLoader.registerAsParallelCapable();
+        stbtic {
+            ClbssLobder.registerAsPbrbllelCbpbble();
         }
 
-        public static ClassLoader getAppClassLoader(final ClassLoader extcl)
+        public stbtic ClbssLobder getAppClbssLobder(finbl ClbssLobder extcl)
             throws IOException
         {
-            final String s = System.getProperty("java.class.path");
-            final File[] path = (s == null) ? new File[0] : getClassPath(s, true);
+            finbl String s = System.getProperty("jbvb.clbss.pbth");
+            finbl File[] pbth = (s == null) ? new File[0] : getClbssPbth(s, true);
 
             // Note: on bugid 4256530
-            // Prior implementations of this doPrivileged() block supplied
-            // a rather restrictive ACC via a call to the private method
-            // AppClassLoader.getContext(). This proved overly restrictive
-            // when loading  classes. Specifically it prevent
-            // accessClassInPackage.sun.* grants from being honored.
+            // Prior implementbtions of this doPrivileged() block supplied
+            // b rbther restrictive ACC vib b cbll to the privbte method
+            // AppClbssLobder.getContext(). This proved overly restrictive
+            // when lobding  clbsses. Specificblly it prevent
+            // bccessClbssInPbckbge.sun.* grbnts from being honored.
             //
             return AccessController.doPrivileged(
-                new PrivilegedAction<AppClassLoader>() {
-                    public AppClassLoader run() {
+                new PrivilegedAction<AppClbssLobder>() {
+                    public AppClbssLobder run() {
                     URL[] urls =
-                        (s == null) ? new URL[0] : pathToURLs(path);
-                    return new AppClassLoader(urls, extcl);
+                        (s == null) ? new URL[0] : pbthToURLs(pbth);
+                    return new AppClbssLobder(urls, extcl);
                 }
             });
         }
 
         /*
-         * Creates a new AppClassLoader
+         * Crebtes b new AppClbssLobder
          */
-        AppClassLoader(URL[] urls, ClassLoader parent) {
-            super(urls, parent, factory);
+        AppClbssLobder(URL[] urls, ClbssLobder pbrent) {
+            super(urls, pbrent, fbctory);
         }
 
         /**
-         * Override loadClass so we can checkPackageAccess.
+         * Override lobdClbss so we cbn checkPbckbgeAccess.
          */
-        public Class<?> loadClass(String name, boolean resolve)
-            throws ClassNotFoundException
+        public Clbss<?> lobdClbss(String nbme, boolebn resolve)
+            throws ClbssNotFoundException
         {
-            int i = name.lastIndexOf('.');
+            int i = nbme.lbstIndexOf('.');
             if (i != -1) {
-                SecurityManager sm = System.getSecurityManager();
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
-                    sm.checkPackageAccess(name.substring(0, i));
+                    sm.checkPbckbgeAccess(nbme.substring(0, i));
                 }
             }
-            return (super.loadClass(name, resolve));
+            return (super.lobdClbss(nbme, resolve));
         }
 
         /**
-         * allow any classes loaded from classpath to exit the VM.
+         * bllow bny clbsses lobded from clbsspbth to exit the VM.
          */
         protected PermissionCollection getPermissions(CodeSource codesource)
         {
             PermissionCollection perms = super.getPermissions(codesource);
-            perms.add(new RuntimePermission("exitVM"));
+            perms.bdd(new RuntimePermission("exitVM"));
             return perms;
         }
 
         /**
-         * This class loader supports dynamic additions to the class path
-         * at runtime.
+         * This clbss lobder supports dynbmic bdditions to the clbss pbth
+         * bt runtime.
          *
-         * @see java.lang.instrument.Instrumentation#appendToSystemClassLoaderSearch
+         * @see jbvb.lbng.instrument.Instrumentbtion#bppendToSystemClbssLobderSebrch
          */
-        private void appendToClassPathForInstrumentation(String path) {
-            assert(Thread.holdsLock(this));
+        privbte void bppendToClbssPbthForInstrumentbtion(String pbth) {
+            bssert(Threbd.holdsLock(this));
 
-            // addURL is a no-op if path already contains the URL
-            super.addURL( getFileURL(new File(path)) );
+            // bddURL is b no-op if pbth blrebdy contbins the URL
+            super.bddURL( getFileURL(new File(pbth)) );
         }
 
         /**
-         * create a context that can read any directories (recursively)
-         * mentioned in the class path. In the case of a jar, it has to
-         * be the directory containing the jar, not just the jar, as jar
-         * files might refer to other jar files.
+         * crebte b context thbt cbn rebd bny directories (recursively)
+         * mentioned in the clbss pbth. In the cbse of b jbr, it hbs to
+         * be the directory contbining the jbr, not just the jbr, bs jbr
+         * files might refer to other jbr files.
          */
 
-        private static AccessControlContext getContext(File[] cp)
-            throws java.net.MalformedURLException
+        privbte stbtic AccessControlContext getContext(File[] cp)
+            throws jbvb.net.MblformedURLException
         {
-            PathPermissions perms =
-                new PathPermissions(cp);
+            PbthPermissions perms =
+                new PbthPermissions(cp);
 
-            ProtectionDomain domain =
-                new ProtectionDomain(new CodeSource(perms.getCodeBase(),
-                    (java.security.cert.Certificate[]) null),
+            ProtectionDombin dombin =
+                new ProtectionDombin(new CodeSource(perms.getCodeBbse(),
+                    (jbvb.security.cert.Certificbte[]) null),
                 perms);
 
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { domain });
+            AccessControlContext bcc =
+                new AccessControlContext(new ProtectionDombin[] { dombin });
 
-            return acc;
+            return bcc;
         }
     }
 
-    private static class BootClassPathHolder {
-        static final URLClassPath bcp;
-        static {
+    privbte stbtic clbss BootClbssPbthHolder {
+        stbtic finbl URLClbssPbth bcp;
+        stbtic {
             URL[] urls;
-            if (bootClassPath != null) {
+            if (bootClbssPbth != null) {
                 urls = AccessController.doPrivileged(
                     new PrivilegedAction<URL[]>() {
                         public URL[] run() {
-                            // Skip empty path in boot class path i.e. not default to use CWD
-                            File[] classPath = getClassPath(bootClassPath, false);
-                            int len = classPath.length;
-                            Set<File> seenDirs = new HashSet<File>();
+                            // Skip empty pbth in boot clbss pbth i.e. not defbult to use CWD
+                            File[] clbssPbth = getClbssPbth(bootClbssPbth, fblse);
+                            int len = clbssPbth.length;
+                            Set<File> seenDirs = new HbshSet<File>();
                             for (int i = 0; i < len; i++) {
-                                File curEntry = classPath[i];
-                                // Negative test used to properly handle
-                                // nonexistent jars on boot class path
+                                File curEntry = clbssPbth[i];
+                                // Negbtive test used to properly hbndle
+                                // nonexistent jbrs on boot clbss pbth
                                 if (!curEntry.isDirectory()) {
-                                    curEntry = curEntry.getParentFile();
+                                    curEntry = curEntry.getPbrentFile();
                                 }
-                                if (curEntry != null && seenDirs.add(curEntry)) {
-                                    MetaIndex.registerDirectory(curEntry);
+                                if (curEntry != null && seenDirs.bdd(curEntry)) {
+                                    MetbIndex.registerDirectory(curEntry);
                                 }
                             }
-                            return pathToURLs(classPath);
+                            return pbthToURLs(clbssPbth);
                         }
                     }
                 );
             } else {
                 urls = new URL[0];
             }
-            bcp = new URLClassPath(urls, factory);
+            bcp = new URLClbssPbth(urls, fbctory);
         }
     }
 
-    public static URLClassPath getBootstrapClassPath() {
-        return BootClassPathHolder.bcp;
+    public stbtic URLClbssPbth getBootstrbpClbssPbth() {
+        return BootClbssPbthHolder.bcp;
     }
 
-    private static URL[] pathToURLs(File[] path) {
-        URL[] urls = new URL[path.length];
-        for (int i = 0; i < path.length; i++) {
-            urls[i] = getFileURL(path[i]);
+    privbte stbtic URL[] pbthToURLs(File[] pbth) {
+        URL[] urls = new URL[pbth.length];
+        for (int i = 0; i < pbth.length; i++) {
+            urls[i] = getFileURL(pbth[i]);
         }
         // DEBUG
         //for (int i = 0; i < urls.length; i++) {
@@ -415,151 +415,151 @@ public class Launcher {
         return urls;
     }
 
-    private static File[] getClassPath(String cp, boolean defaultToCwd) {
-        File[] path;
+    privbte stbtic File[] getClbssPbth(String cp, boolebn defbultToCwd) {
+        File[] pbth;
         if (cp != null) {
-            int count = 0, maxCount = 1;
-            int pos = 0, lastPos = 0;
-            // Count the number of separators first
-            while ((pos = cp.indexOf(File.pathSeparator, lastPos)) != -1) {
-                maxCount++;
-                lastPos = pos + 1;
+            int count = 0, mbxCount = 1;
+            int pos = 0, lbstPos = 0;
+            // Count the number of sepbrbtors first
+            while ((pos = cp.indexOf(File.pbthSepbrbtor, lbstPos)) != -1) {
+                mbxCount++;
+                lbstPos = pos + 1;
             }
-            path = new File[maxCount];
-            lastPos = pos = 0;
-            // Now scan for each path component
-            while ((pos = cp.indexOf(File.pathSeparator, lastPos)) != -1) {
-                if (pos > lastPos) {
-                    path[count++] = new File(cp.substring(lastPos, pos));
-                } else if (defaultToCwd) {
-                    // empty path component translates to "."
-                    path[count++] = new File(".");
+            pbth = new File[mbxCount];
+            lbstPos = pos = 0;
+            // Now scbn for ebch pbth component
+            while ((pos = cp.indexOf(File.pbthSepbrbtor, lbstPos)) != -1) {
+                if (pos > lbstPos) {
+                    pbth[count++] = new File(cp.substring(lbstPos, pos));
+                } else if (defbultToCwd) {
+                    // empty pbth component trbnslbtes to "."
+                    pbth[count++] = new File(".");
                 }
-                lastPos = pos + 1;
+                lbstPos = pos + 1;
             }
-            // Make sure we include the last path component
-            if (lastPos < cp.length()) {
-                path[count++] = new File(cp.substring(lastPos));
-            } else if (defaultToCwd) {
-                path[count++] = new File(".");
+            // Mbke sure we include the lbst pbth component
+            if (lbstPos < cp.length()) {
+                pbth[count++] = new File(cp.substring(lbstPos));
+            } else if (defbultToCwd) {
+                pbth[count++] = new File(".");
             }
-            // Trim array to correct size
-            if (count != maxCount) {
+            // Trim brrby to correct size
+            if (count != mbxCount) {
                 File[] tmp = new File[count];
-                System.arraycopy(path, 0, tmp, 0, count);
-                path = tmp;
+                System.brrbycopy(pbth, 0, tmp, 0, count);
+                pbth = tmp;
             }
         } else {
-            path = new File[0];
+            pbth = new File[0];
         }
         // DEBUG
-        //for (int i = 0; i < path.length; i++) {
-        //  System.out.println("path[" + i + "] = " + '"' + path[i] + '"');
+        //for (int i = 0; i < pbth.length; i++) {
+        //  System.out.println("pbth[" + i + "] = " + '"' + pbth[i] + '"');
         //}
-        return path;
+        return pbth;
     }
 
-    private static URLStreamHandler fileHandler;
+    privbte stbtic URLStrebmHbndler fileHbndler;
 
-    static URL getFileURL(File file) {
+    stbtic URL getFileURL(File file) {
         try {
-            file = file.getCanonicalFile();
-        } catch (IOException e) {}
+            file = file.getCbnonicblFile();
+        } cbtch (IOException e) {}
 
         try {
-            return ParseUtil.fileToEncodedURL(file);
-        } catch (MalformedURLException e) {
-            // Should never happen since we specify the protocol...
-            throw new InternalError(e);
+            return PbrseUtil.fileToEncodedURL(file);
+        } cbtch (MblformedURLException e) {
+            // Should never hbppen since we specify the protocol...
+            throw new InternblError(e);
         }
     }
 
     /*
-     * The stream handler factory for loading system protocol handlers.
+     * The strebm hbndler fbctory for lobding system protocol hbndlers.
      */
-    private static class Factory implements URLStreamHandlerFactory {
-        private static String PREFIX = "sun.net.www.protocol";
+    privbte stbtic clbss Fbctory implements URLStrebmHbndlerFbctory {
+        privbte stbtic String PREFIX = "sun.net.www.protocol";
 
-        public URLStreamHandler createURLStreamHandler(String protocol) {
-            String name = PREFIX + "." + protocol + ".Handler";
+        public URLStrebmHbndler crebteURLStrebmHbndler(String protocol) {
+            String nbme = PREFIX + "." + protocol + ".Hbndler";
             try {
-                Class<?> c = Class.forName(name);
-                return (URLStreamHandler)c.newInstance();
-            } catch (ReflectiveOperationException e) {
-                throw new InternalError("could not load " + protocol +
-                                        "system protocol handler", e);
+                Clbss<?> c = Clbss.forNbme(nbme);
+                return (URLStrebmHbndler)c.newInstbnce();
+            } cbtch (ReflectiveOperbtionException e) {
+                throw new InternblError("could not lobd " + protocol +
+                                        "system protocol hbndler", e);
             }
         }
     }
 }
 
-class PathPermissions extends PermissionCollection {
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = 8133287259134945693L;
+clbss PbthPermissions extends PermissionCollection {
+    // use seriblVersionUID from JDK 1.2.2 for interoperbbility
+    privbte stbtic finbl long seriblVersionUID = 8133287259134945693L;
 
-    private File path[];
-    private Permissions perms;
+    privbte File pbth[];
+    privbte Permissions perms;
 
-    URL codeBase;
+    URL codeBbse;
 
-    PathPermissions(File path[])
+    PbthPermissions(File pbth[])
     {
-        this.path = path;
+        this.pbth = pbth;
         this.perms = null;
-        this.codeBase = null;
+        this.codeBbse = null;
     }
 
-    URL getCodeBase()
+    URL getCodeBbse()
     {
-        return codeBase;
+        return codeBbse;
     }
 
-    public void add(java.security.Permission permission) {
-        throw new SecurityException("attempt to add a permission");
+    public void bdd(jbvb.security.Permission permission) {
+        throw new SecurityException("bttempt to bdd b permission");
     }
 
-    private synchronized void init()
+    privbte synchronized void init()
     {
         if (perms != null)
             return;
 
         perms = new Permissions();
 
-        // this is needed to be able to create the classloader itself!
-        perms.add(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+        // this is needed to be bble to crebte the clbsslobder itself!
+        perms.bdd(SecurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
 
-        // add permission to read any "java.*" property
-        perms.add(new java.util.PropertyPermission("java.*",
-            SecurityConstants.PROPERTY_READ_ACTION));
+        // bdd permission to rebd bny "jbvb.*" property
+        perms.bdd(new jbvb.util.PropertyPermission("jbvb.*",
+            SecurityConstbnts.PROPERTY_READ_ACTION));
 
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                for (int i=0; i < path.length; i++) {
-                    File f = path[i];
-                    String path;
+                for (int i=0; i < pbth.length; i++) {
+                    File f = pbth[i];
+                    String pbth;
                     try {
-                        path = f.getCanonicalPath();
-                    } catch (IOException ioe) {
-                        path = f.getAbsolutePath();
+                        pbth = f.getCbnonicblPbth();
+                    } cbtch (IOException ioe) {
+                        pbth = f.getAbsolutePbth();
                     }
                     if (i == 0) {
-                        codeBase = Launcher.getFileURL(new File(path));
+                        codeBbse = Lbuncher.getFileURL(new File(pbth));
                     }
                     if (f.isDirectory()) {
-                        if (path.endsWith(File.separator)) {
-                            perms.add(new FilePermission(path+"-",
-                                SecurityConstants.FILE_READ_ACTION));
+                        if (pbth.endsWith(File.sepbrbtor)) {
+                            perms.bdd(new FilePermission(pbth+"-",
+                                SecurityConstbnts.FILE_READ_ACTION));
                         } else {
-                            perms.add(new FilePermission(
-                                path + File.separator+"-",
-                                SecurityConstants.FILE_READ_ACTION));
+                            perms.bdd(new FilePermission(
+                                pbth + File.sepbrbtor+"-",
+                                SecurityConstbnts.FILE_READ_ACTION));
                         }
                     } else {
-                        int endIndex = path.lastIndexOf(File.separatorChar);
+                        int endIndex = pbth.lbstIndexOf(File.sepbrbtorChbr);
                         if (endIndex != -1) {
-                            path = path.substring(0, endIndex+1) + "-";
-                            perms.add(new FilePermission(path,
-                                SecurityConstants.FILE_READ_ACTION));
+                            pbth = pbth.substring(0, endIndex+1) + "-";
+                            perms.bdd(new FilePermission(pbth,
+                                SecurityConstbnts.FILE_READ_ACTION));
                         } else {
                             // XXX?
                         }
@@ -570,13 +570,13 @@ class PathPermissions extends PermissionCollection {
         });
     }
 
-    public boolean implies(java.security.Permission permission) {
+    public boolebn implies(jbvb.security.Permission permission) {
         if (perms == null)
             init();
         return perms.implies(permission);
     }
 
-    public java.util.Enumeration<Permission> elements() {
+    public jbvb.util.Enumerbtion<Permission> elements() {
         if (perms == null)
             init();
         synchronized (perms) {

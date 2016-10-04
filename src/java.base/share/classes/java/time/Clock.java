@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,394 +59,394 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.LocalTime.NANOS_PER_MINUTE;
-import static java.time.LocalTime.NANOS_PER_SECOND;
+import stbtic jbvb.time.LocblTime.NANOS_PER_MINUTE;
+import stbtic jbvb.time.LocblTime.NANOS_PER_SECOND;
 
-import java.io.Serializable;
-import java.util.Objects;
-import java.util.TimeZone;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Objects;
+import jbvb.util.TimeZone;
 
 /**
- * A clock providing access to the current instant, date and time using a time-zone.
+ * A clock providing bccess to the current instbnt, dbte bnd time using b time-zone.
  * <p>
- * Instances of this class are used to find the current instant, which can be
- * interpreted using the stored time-zone to find the current date and time.
- * As such, a clock can be used instead of {@link System#currentTimeMillis()}
- * and {@link TimeZone#getDefault()}.
+ * Instbnces of this clbss bre used to find the current instbnt, which cbn be
+ * interpreted using the stored time-zone to find the current dbte bnd time.
+ * As such, b clock cbn be used instebd of {@link System#currentTimeMillis()}
+ * bnd {@link TimeZone#getDefbult()}.
  * <p>
- * Use of a {@code Clock} is optional. All key date-time classes also have a
- * {@code now()} factory method that uses the system clock in the default time zone.
- * The primary purpose of this abstraction is to allow alternate clocks to be
- * plugged in as and when required. Applications use an object to obtain the
- * current time rather than a static method. This can simplify testing.
+ * Use of b {@code Clock} is optionbl. All key dbte-time clbsses blso hbve b
+ * {@code now()} fbctory method thbt uses the system clock in the defbult time zone.
+ * The primbry purpose of this bbstrbction is to bllow blternbte clocks to be
+ * plugged in bs bnd when required. Applicbtions use bn object to obtbin the
+ * current time rbther thbn b stbtic method. This cbn simplify testing.
  * <p>
- * Best practice for applications is to pass a {@code Clock} into any method
- * that requires the current instant. A dependency injection framework is one
- * way to achieve this:
+ * Best prbctice for bpplicbtions is to pbss b {@code Clock} into bny method
+ * thbt requires the current instbnt. A dependency injection frbmework is one
+ * wby to bchieve this:
  * <pre>
- *  public class MyBean {
- *    private Clock clock;  // dependency inject
+ *  public clbss MyBebn {
+ *    privbte Clock clock;  // dependency inject
  *    ...
- *    public void process(LocalDate eventDate) {
- *      if (eventDate.isBefore(LocalDate.now(clock)) {
+ *    public void process(LocblDbte eventDbte) {
+ *      if (eventDbte.isBefore(LocblDbte.now(clock)) {
  *        ...
  *      }
  *    }
  *  }
  * </pre>
- * This approach allows an alternate clock, such as {@link #fixed(Instant, ZoneId) fixed}
- * or {@link #offset(Clock, Duration) offset} to be used during testing.
+ * This bpprobch bllows bn blternbte clock, such bs {@link #fixed(Instbnt, ZoneId) fixed}
+ * or {@link #offset(Clock, Durbtion) offset} to be used during testing.
  * <p>
- * The {@code system} factory methods provide clocks based on the best available
- * system clock This may use {@link System#currentTimeMillis()}, or a higher
- * resolution clock if one is available.
+ * The {@code system} fbctory methods provide clocks bbsed on the best bvbilbble
+ * system clock This mby use {@link System#currentTimeMillis()}, or b higher
+ * resolution clock if one is bvbilbble.
  *
  * @implSpec
- * This abstract class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
+ * This bbstrbct clbss must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
  * <p>
- * The principal methods are defined to allow the throwing of an exception.
- * In normal use, no exceptions will be thrown, however one possible implementation would be to
- * obtain the time from a central time server across the network. Obviously, in this case the
- * lookup could fail, and so the method is permitted to throw an exception.
+ * The principbl methods bre defined to bllow the throwing of bn exception.
+ * In normbl use, no exceptions will be thrown, however one possible implementbtion would be to
+ * obtbin the time from b centrbl time server bcross the network. Obviously, in this cbse the
+ * lookup could fbil, bnd so the method is permitted to throw bn exception.
  * <p>
- * The returned instants from {@code Clock} work on a time-scale that ignores leap seconds,
- * as described in {@link Instant}. If the implementation wraps a source that provides leap
- * second information, then a mechanism should be used to "smooth" the leap second.
- * The Java Time-Scale mandates the use of UTC-SLS, however clock implementations may choose
- * how accurate they are with the time-scale so long as they document how they work.
- * Implementations are therefore not required to actually perform the UTC-SLS slew or to
- * otherwise be aware of leap seconds.
+ * The returned instbnts from {@code Clock} work on b time-scble thbt ignores lebp seconds,
+ * bs described in {@link Instbnt}. If the implementbtion wrbps b source thbt provides lebp
+ * second informbtion, then b mechbnism should be used to "smooth" the lebp second.
+ * The Jbvb Time-Scble mbndbtes the use of UTC-SLS, however clock implementbtions mby choose
+ * how bccurbte they bre with the time-scble so long bs they document how they work.
+ * Implementbtions bre therefore not required to bctublly perform the UTC-SLS slew or to
+ * otherwise be bwbre of lebp seconds.
  * <p>
- * Implementations should implement {@code Serializable} wherever possible and must
- * document whether or not they do support serialization.
+ * Implementbtions should implement {@code Seriblizbble} wherever possible bnd must
+ * document whether or not they do support seriblizbtion.
  *
  * @implNote
- * The clock implementation provided here is based on {@link System#currentTimeMillis()}.
- * That method provides little to no guarantee about the accuracy of the clock.
- * Applications requiring a more accurate clock must implement this abstract class
- * themselves using a different external clock, such as an NTP server.
+ * The clock implementbtion provided here is bbsed on {@link System#currentTimeMillis()}.
+ * Thbt method provides little to no gubrbntee bbout the bccurbcy of the clock.
+ * Applicbtions requiring b more bccurbte clock must implement this bbstrbct clbss
+ * themselves using b different externbl clock, such bs bn NTP server.
  *
  * @since 1.8
  */
-public abstract class Clock {
+public bbstrbct clbss Clock {
 
     /**
-     * Obtains a clock that returns the current instant using the best available
-     * system clock, converting to date and time using the UTC time-zone.
+     * Obtbins b clock thbt returns the current instbnt using the best bvbilbble
+     * system clock, converting to dbte bnd time using the UTC time-zone.
      * <p>
-     * This clock, rather than {@link #systemDefaultZone()}, should be used when
-     * you need the current instant without the date or time.
+     * This clock, rbther thbn {@link #systemDefbultZone()}, should be used when
+     * you need the current instbnt without the dbte or time.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * This clock is bbsed on the best bvbilbble system clock.
+     * This mby use {@link System#currentTimeMillis()}, or b higher resolution
+     * clock if one is bvbilbble.
      * <p>
-     * Conversion from instant to date or time uses the {@linkplain ZoneOffset#UTC UTC time-zone}.
+     * Conversion from instbnt to dbte or time uses the {@linkplbin ZoneOffset#UTC UTC time-zone}.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code system(ZoneOffset.UTC)}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
+     * It is equivblent to {@code system(ZoneOffset.UTC)}.
      *
-     * @return a clock that uses the best available system clock in the UTC zone, not null
+     * @return b clock thbt uses the best bvbilbble system clock in the UTC zone, not null
      */
-    public static Clock systemUTC() {
+    public stbtic Clock systemUTC() {
         return new SystemClock(ZoneOffset.UTC);
     }
 
     /**
-     * Obtains a clock that returns the current instant using the best available
-     * system clock, converting to date and time using the default time-zone.
+     * Obtbins b clock thbt returns the current instbnt using the best bvbilbble
+     * system clock, converting to dbte bnd time using the defbult time-zone.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * This clock is bbsed on the best bvbilbble system clock.
+     * This mby use {@link System#currentTimeMillis()}, or b higher resolution
+     * clock if one is bvbilbble.
      * <p>
-     * Using this method hard codes a dependency to the default time-zone into your application.
-     * It is recommended to avoid this and use a specific time-zone whenever possible.
-     * The {@link #systemUTC() UTC clock} should be used when you need the current instant
-     * without the date or time.
+     * Using this method hbrd codes b dependency to the defbult time-zone into your bpplicbtion.
+     * It is recommended to bvoid this bnd use b specific time-zone whenever possible.
+     * The {@link #systemUTC() UTC clock} should be used when you need the current instbnt
+     * without the dbte or time.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code system(ZoneId.systemDefault())}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
+     * It is equivblent to {@code system(ZoneId.systemDefbult())}.
      *
-     * @return a clock that uses the best available system clock in the default zone, not null
-     * @see ZoneId#systemDefault()
+     * @return b clock thbt uses the best bvbilbble system clock in the defbult zone, not null
+     * @see ZoneId#systemDefbult()
      */
-    public static Clock systemDefaultZone() {
-        return new SystemClock(ZoneId.systemDefault());
+    public stbtic Clock systemDefbultZone() {
+        return new SystemClock(ZoneId.systemDefbult());
     }
 
     /**
-     * Obtains a clock that returns the current instant using best available
+     * Obtbins b clock thbt returns the current instbnt using best bvbilbble
      * system clock.
      * <p>
-     * This clock is based on the best available system clock.
-     * This may use {@link System#currentTimeMillis()}, or a higher resolution
-     * clock if one is available.
+     * This clock is bbsed on the best bvbilbble system clock.
+     * This mby use {@link System#currentTimeMillis()}, or b higher resolution
+     * clock if one is bvbilbble.
      * <p>
-     * Conversion from instant to date or time uses the specified time-zone.
+     * Conversion from instbnt to dbte or time uses the specified time-zone.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that uses the best available system clock in the specified zone, not null
+     * @pbrbm zone  the time-zone to use to convert the instbnt to dbte-time, not null
+     * @return b clock thbt uses the best bvbilbble system clock in the specified zone, not null
      */
-    public static Clock system(ZoneId zone) {
+    public stbtic Clock system(ZoneId zone) {
         Objects.requireNonNull(zone, "zone");
         return new SystemClock(zone);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains a clock that returns the current instant ticking in whole seconds
-     * using best available system clock.
+     * Obtbins b clock thbt returns the current instbnt ticking in whole seconds
+     * using best bvbilbble system clock.
      * <p>
-     * This clock will always have the nano-of-second field set to zero.
-     * This ensures that the visible time ticks in whole seconds.
-     * The underlying clock is the best available system clock, equivalent to
+     * This clock will blwbys hbve the nbno-of-second field set to zero.
+     * This ensures thbt the visible time ticks in whole seconds.
+     * The underlying clock is the best bvbilbble system clock, equivblent to
      * using {@link #system(ZoneId)}.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the second observed via this
-     * clock will be later than that observed directly via the underlying clock.
+     * Implementbtions mby use b cbching strbtegy for performbnce rebsons.
+     * As such, it is possible thbt the stbrt of the second observed vib this
+     * clock will be lbter thbn thbt observed directly vib the underlying clock.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code tick(system(zone), Duration.ofSeconds(1))}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
+     * It is equivblent to {@code tick(system(zone), Durbtion.ofSeconds(1))}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that ticks in whole seconds using the specified zone, not null
+     * @pbrbm zone  the time-zone to use to convert the instbnt to dbte-time, not null
+     * @return b clock thbt ticks in whole seconds using the specified zone, not null
      */
-    public static Clock tickSeconds(ZoneId zone) {
+    public stbtic Clock tickSeconds(ZoneId zone) {
         return new TickClock(system(zone), NANOS_PER_SECOND);
     }
 
     /**
-     * Obtains a clock that returns the current instant ticking in whole minutes
-     * using best available system clock.
+     * Obtbins b clock thbt returns the current instbnt ticking in whole minutes
+     * using best bvbilbble system clock.
      * <p>
-     * This clock will always have the nano-of-second and second-of-minute fields set to zero.
-     * This ensures that the visible time ticks in whole minutes.
-     * The underlying clock is the best available system clock, equivalent to
+     * This clock will blwbys hbve the nbno-of-second bnd second-of-minute fields set to zero.
+     * This ensures thbt the visible time ticks in whole minutes.
+     * The underlying clock is the best bvbilbble system clock, equivblent to
      * using {@link #system(ZoneId)}.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the minute observed via this
-     * clock will be later than that observed directly via the underlying clock.
+     * Implementbtions mby use b cbching strbtegy for performbnce rebsons.
+     * As such, it is possible thbt the stbrt of the minute observed vib this
+     * clock will be lbter thbn thbt observed directly vib the underlying clock.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
-     * It is equivalent to {@code tick(system(zone), Duration.ofMinutes(1))}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
+     * It is equivblent to {@code tick(system(zone), Durbtion.ofMinutes(1))}.
      *
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that ticks in whole minutes using the specified zone, not null
+     * @pbrbm zone  the time-zone to use to convert the instbnt to dbte-time, not null
+     * @return b clock thbt ticks in whole minutes using the specified zone, not null
      */
-    public static Clock tickMinutes(ZoneId zone) {
+    public stbtic Clock tickMinutes(ZoneId zone) {
         return new TickClock(system(zone), NANOS_PER_MINUTE);
     }
 
     /**
-     * Obtains a clock that returns instants from the specified clock truncated
-     * to the nearest occurrence of the specified duration.
+     * Obtbins b clock thbt returns instbnts from the specified clock truncbted
+     * to the nebrest occurrence of the specified durbtion.
      * <p>
-     * This clock will only tick as per the specified duration. Thus, if the duration
-     * is half a second, the clock will return instants truncated to the half second.
+     * This clock will only tick bs per the specified durbtion. Thus, if the durbtion
+     * is hblf b second, the clock will return instbnts truncbted to the hblf second.
      * <p>
-     * The tick duration must be positive. If it has a part smaller than a whole
-     * millisecond, then the whole duration must divide into one second without
-     * leaving a remainder. All normal tick durations will match these criteria,
-     * including any multiple of hours, minutes, seconds and milliseconds, and
-     * sensible nanosecond durations, such as 20ns, 250,000ns and 500,000ns.
+     * The tick durbtion must be positive. If it hbs b pbrt smbller thbn b whole
+     * millisecond, then the whole durbtion must divide into one second without
+     * lebving b rembinder. All normbl tick durbtions will mbtch these criterib,
+     * including bny multiple of hours, minutes, seconds bnd milliseconds, bnd
+     * sensible nbnosecond durbtions, such bs 20ns, 250,000ns bnd 500,000ns.
      * <p>
-     * A duration of zero or one nanosecond would have no truncation effect.
-     * Passing one of these will return the underlying clock.
+     * A durbtion of zero or one nbnosecond would hbve no truncbtion effect.
+     * Pbssing one of these will return the underlying clock.
      * <p>
-     * Implementations may use a caching strategy for performance reasons.
-     * As such, it is possible that the start of the requested duration observed
-     * via this clock will be later than that observed directly via the underlying clock.
+     * Implementbtions mby use b cbching strbtegy for performbnce rebsons.
+     * As such, it is possible thbt the stbrt of the requested durbtion observed
+     * vib this clock will be lbter thbn thbt observed directly vib the underlying clock.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}
-     * providing that the base clock is.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}
+     * providing thbt the bbse clock is.
      *
-     * @param baseClock  the base clock to base the ticking clock on, not null
-     * @param tickDuration  the duration of each visible tick, not negative, not null
-     * @return a clock that ticks in whole units of the duration, not null
-     * @throws IllegalArgumentException if the duration is negative, or has a
-     *  part smaller than a whole millisecond such that the whole duration is not
+     * @pbrbm bbseClock  the bbse clock to bbse the ticking clock on, not null
+     * @pbrbm tickDurbtion  the durbtion of ebch visible tick, not negbtive, not null
+     * @return b clock thbt ticks in whole units of the durbtion, not null
+     * @throws IllegblArgumentException if the durbtion is negbtive, or hbs b
+     *  pbrt smbller thbn b whole millisecond such thbt the whole durbtion is not
      *  divisible into one second
-     * @throws ArithmeticException if the duration is too large to be represented as nanos
+     * @throws ArithmeticException if the durbtion is too lbrge to be represented bs nbnos
      */
-    public static Clock tick(Clock baseClock, Duration tickDuration) {
-        Objects.requireNonNull(baseClock, "baseClock");
-        Objects.requireNonNull(tickDuration, "tickDuration");
-        if (tickDuration.isNegative()) {
-            throw new IllegalArgumentException("Tick duration must not be negative");
+    public stbtic Clock tick(Clock bbseClock, Durbtion tickDurbtion) {
+        Objects.requireNonNull(bbseClock, "bbseClock");
+        Objects.requireNonNull(tickDurbtion, "tickDurbtion");
+        if (tickDurbtion.isNegbtive()) {
+            throw new IllegblArgumentException("Tick durbtion must not be negbtive");
         }
-        long tickNanos = tickDuration.toNanos();
-        if (tickNanos % 1000_000 == 0) {
-            // ok, no fraction of millisecond
-        } else if (1000_000_000 % tickNanos == 0) {
-            // ok, divides into one second without remainder
+        long tickNbnos = tickDurbtion.toNbnos();
+        if (tickNbnos % 1000_000 == 0) {
+            // ok, no frbction of millisecond
+        } else if (1000_000_000 % tickNbnos == 0) {
+            // ok, divides into one second without rembinder
         } else {
-            throw new IllegalArgumentException("Invalid tick duration");
+            throw new IllegblArgumentException("Invblid tick durbtion");
         }
-        if (tickNanos <= 1) {
-            return baseClock;
+        if (tickNbnos <= 1) {
+            return bbseClock;
         }
-        return new TickClock(baseClock, tickNanos);
+        return new TickClock(bbseClock, tickNbnos);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a clock that always returns the same instant.
+     * Obtbins b clock thbt blwbys returns the sbme instbnt.
      * <p>
-     * This clock simply returns the specified instant.
-     * As such, it is not a clock in the conventional sense.
-     * The main use case for this is in testing, where the fixed clock ensures
-     * tests are not dependent on the current clock.
+     * This clock simply returns the specified instbnt.
+     * As such, it is not b clock in the conventionbl sense.
+     * The mbin use cbse for this is in testing, where the fixed clock ensures
+     * tests bre not dependent on the current clock.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}.
      *
-     * @param fixedInstant  the instant to use as the clock, not null
-     * @param zone  the time-zone to use to convert the instant to date-time, not null
-     * @return a clock that always returns the same instant, not null
+     * @pbrbm fixedInstbnt  the instbnt to use bs the clock, not null
+     * @pbrbm zone  the time-zone to use to convert the instbnt to dbte-time, not null
+     * @return b clock thbt blwbys returns the sbme instbnt, not null
      */
-    public static Clock fixed(Instant fixedInstant, ZoneId zone) {
-        Objects.requireNonNull(fixedInstant, "fixedInstant");
+    public stbtic Clock fixed(Instbnt fixedInstbnt, ZoneId zone) {
+        Objects.requireNonNull(fixedInstbnt, "fixedInstbnt");
         Objects.requireNonNull(zone, "zone");
-        return new FixedClock(fixedInstant, zone);
+        return new FixedClock(fixedInstbnt, zone);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains a clock that returns instants from the specified clock with the
-     * specified duration added
+     * Obtbins b clock thbt returns instbnts from the specified clock with the
+     * specified durbtion bdded
      * <p>
-     * This clock wraps another clock, returning instants that are later by the
-     * specified duration. If the duration is negative, the instants will be
-     * earlier than the current date and time.
-     * The main use case for this is to simulate running in the future or in the past.
+     * This clock wrbps bnother clock, returning instbnts thbt bre lbter by the
+     * specified durbtion. If the durbtion is negbtive, the instbnts will be
+     * ebrlier thbn the current dbte bnd time.
+     * The mbin use cbse for this is to simulbte running in the future or in the pbst.
      * <p>
-     * A duration of zero would have no offsetting effect.
-     * Passing zero will return the underlying clock.
+     * A durbtion of zero would hbve no offsetting effect.
+     * Pbssing zero will return the underlying clock.
      * <p>
-     * The returned implementation is immutable, thread-safe and {@code Serializable}
-     * providing that the base clock is.
+     * The returned implementbtion is immutbble, threbd-sbfe bnd {@code Seriblizbble}
+     * providing thbt the bbse clock is.
      *
-     * @param baseClock  the base clock to add the duration to, not null
-     * @param offsetDuration  the duration to add, not null
-     * @return a clock based on the base clock with the duration added, not null
+     * @pbrbm bbseClock  the bbse clock to bdd the durbtion to, not null
+     * @pbrbm offsetDurbtion  the durbtion to bdd, not null
+     * @return b clock bbsed on the bbse clock with the durbtion bdded, not null
      */
-    public static Clock offset(Clock baseClock, Duration offsetDuration) {
-        Objects.requireNonNull(baseClock, "baseClock");
-        Objects.requireNonNull(offsetDuration, "offsetDuration");
-        if (offsetDuration.equals(Duration.ZERO)) {
-            return baseClock;
+    public stbtic Clock offset(Clock bbseClock, Durbtion offsetDurbtion) {
+        Objects.requireNonNull(bbseClock, "bbseClock");
+        Objects.requireNonNull(offsetDurbtion, "offsetDurbtion");
+        if (offsetDurbtion.equbls(Durbtion.ZERO)) {
+            return bbseClock;
         }
-        return new OffsetClock(baseClock, offsetDuration);
+        return new OffsetClock(bbseClock, offsetDurbtion);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Constructor accessible by subclasses.
+     * Constructor bccessible by subclbsses.
      */
     protected Clock() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the time-zone being used to create dates and times.
+     * Gets the time-zone being used to crebte dbtes bnd times.
      * <p>
-     * A clock will typically obtain the current instant and then convert that
-     * to a date or time using a time-zone. This method returns the time-zone used.
+     * A clock will typicblly obtbin the current instbnt bnd then convert thbt
+     * to b dbte or time using b time-zone. This method returns the time-zone used.
      *
-     * @return the time-zone being used to interpret instants, not null
+     * @return the time-zone being used to interpret instbnts, not null
      */
-    public abstract ZoneId getZone();
+    public bbstrbct ZoneId getZone();
 
     /**
-     * Returns a copy of this clock with a different time-zone.
+     * Returns b copy of this clock with b different time-zone.
      * <p>
-     * A clock will typically obtain the current instant and then convert that
-     * to a date or time using a time-zone. This method returns a clock with
-     * similar properties but using a different time-zone.
+     * A clock will typicblly obtbin the current instbnt bnd then convert thbt
+     * to b dbte or time using b time-zone. This method returns b clock with
+     * similbr properties but using b different time-zone.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a clock based on this clock with the specified time-zone, not null
+     * @pbrbm zone  the time-zone to chbnge to, not null
+     * @return b clock bbsed on this clock with the specified time-zone, not null
      */
-    public abstract Clock withZone(ZoneId zone);
+    public bbstrbct Clock withZone(ZoneId zone);
 
     //-------------------------------------------------------------------------
     /**
-     * Gets the current millisecond instant of the clock.
+     * Gets the current millisecond instbnt of the clock.
      * <p>
-     * This returns the millisecond-based instant, measured from 1970-01-01T00:00Z (UTC).
-     * This is equivalent to the definition of {@link System#currentTimeMillis()}.
+     * This returns the millisecond-bbsed instbnt, mebsured from 1970-01-01T00:00Z (UTC).
+     * This is equivblent to the definition of {@link System#currentTimeMillis()}.
      * <p>
-     * Most applications should avoid this method and use {@link Instant} to represent
-     * an instant on the time-line rather than a raw millisecond value.
-     * This method is provided to allow the use of the clock in high performance use cases
-     * where the creation of an object would be unacceptable.
+     * Most bpplicbtions should bvoid this method bnd use {@link Instbnt} to represent
+     * bn instbnt on the time-line rbther thbn b rbw millisecond vblue.
+     * This method is provided to bllow the use of the clock in high performbnce use cbses
+     * where the crebtion of bn object would be unbcceptbble.
      * <p>
-     * The default implementation currently calls {@link #instant}.
+     * The defbult implementbtion currently cblls {@link #instbnt}.
      *
-     * @return the current millisecond instant from this clock, measured from
-     *  the Java epoch of 1970-01-01T00:00Z (UTC), not null
-     * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
+     * @return the current millisecond instbnt from this clock, mebsured from
+     *  the Jbvb epoch of 1970-01-01T00:00Z (UTC), not null
+     * @throws DbteTimeException if the instbnt cbnnot be obtbined, not thrown by most implementbtions
      */
     public long millis() {
-        return instant().toEpochMilli();
+        return instbnt().toEpochMilli();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the current instant of the clock.
+     * Gets the current instbnt of the clock.
      * <p>
-     * This returns an instant representing the current instant as defined by the clock.
+     * This returns bn instbnt representing the current instbnt bs defined by the clock.
      *
-     * @return the current instant from this clock, not null
-     * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
+     * @return the current instbnt from this clock, not null
+     * @throws DbteTimeException if the instbnt cbnnot be obtbined, not thrown by most implementbtions
      */
-    public abstract Instant instant();
+    public bbstrbct Instbnt instbnt();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this clock is equal to another clock.
+     * Checks if this clock is equbl to bnother clock.
      * <p>
-     * Clocks should override this method to compare equals based on
-     * their state and to meet the contract of {@link Object#equals}.
-     * If not overridden, the behavior is defined by {@link Object#equals}
+     * Clocks should override this method to compbre equbls bbsed on
+     * their stbte bnd to meet the contrbct of {@link Object#equbls}.
+     * If not overridden, the behbvior is defined by {@link Object#equbls}
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other clock
-     */
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    /**
-     * A hash code for this clock.
-     * <p>
-     * Clocks should override this method based on
-     * their state and to meet the contract of {@link Object#hashCode}.
-     * If not overridden, the behavior is defined by {@link Object#hashCode}
-     *
-     * @return a suitable hash code
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other clock
      */
     @Override
-    public  int hashCode() {
-        return super.hashCode();
+    public boolebn equbls(Object obj) {
+        return super.equbls(obj);
+    }
+
+    /**
+     * A hbsh code for this clock.
+     * <p>
+     * Clocks should override this method bbsed on
+     * their stbte bnd to meet the contrbct of {@link Object#hbshCode}.
+     * If not overridden, the behbvior is defined by {@link Object#hbshCode}
+     *
+     * @return b suitbble hbsh code
+     */
+    @Override
+    public  int hbshCode() {
+        return super.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that always returns the latest time from
+     * Implementbtion of b clock thbt blwbys returns the lbtest time from
      * {@link System#currentTimeMillis()}.
      */
-    static final class SystemClock extends Clock implements Serializable {
-        private static final long serialVersionUID = 6740630888130243051L;
-        private final ZoneId zone;
+    stbtic finbl clbss SystemClock extends Clock implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 6740630888130243051L;
+        privbte finbl ZoneId zone;
 
         SystemClock(ZoneId zone) {
             this.zone = zone;
@@ -457,7 +457,7 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
-            if (zone.equals(this.zone)) {  // intentional NPE
+            if (zone.equbls(this.zone)) {  // intentionbl NPE
                 return this;
             }
             return new SystemClock(zone);
@@ -467,19 +467,19 @@ public abstract class Clock {
             return System.currentTimeMillis();
         }
         @Override
-        public Instant instant() {
-            return Instant.ofEpochMilli(millis());
+        public Instbnt instbnt() {
+            return Instbnt.ofEpochMilli(millis());
         }
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof SystemClock) {
-                return zone.equals(((SystemClock) obj).zone);
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof SystemClock) {
+                return zone.equbls(((SystemClock) obj).zone);
             }
-            return false;
+            return fblse;
         }
         @Override
-        public int hashCode() {
-            return zone.hashCode() + 1;
+        public int hbshCode() {
+            return zone.hbshCode() + 1;
         }
         @Override
         public String toString() {
@@ -489,16 +489,16 @@ public abstract class Clock {
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that always returns the same instant.
-     * This is typically used for testing.
+     * Implementbtion of b clock thbt blwbys returns the sbme instbnt.
+     * This is typicblly used for testing.
      */
-    static final class FixedClock extends Clock implements Serializable {
-       private static final long serialVersionUID = 7430389292664866958L;
-        private final Instant instant;
-        private final ZoneId zone;
+    stbtic finbl clbss FixedClock extends Clock implements Seriblizbble {
+       privbte stbtic finbl long seriblVersionUID = 7430389292664866958L;
+        privbte finbl Instbnt instbnt;
+        privbte finbl ZoneId zone;
 
-        FixedClock(Instant fixedInstant, ZoneId zone) {
-            this.instant = fixedInstant;
+        FixedClock(Instbnt fixedInstbnt, ZoneId zone) {
+            this.instbnt = fixedInstbnt;
             this.zone = zone;
         }
         @Override
@@ -507,142 +507,142 @@ public abstract class Clock {
         }
         @Override
         public Clock withZone(ZoneId zone) {
-            if (zone.equals(this.zone)) {  // intentional NPE
+            if (zone.equbls(this.zone)) {  // intentionbl NPE
                 return this;
             }
-            return new FixedClock(instant, zone);
+            return new FixedClock(instbnt, zone);
         }
         @Override
         public long millis() {
-            return instant.toEpochMilli();
+            return instbnt.toEpochMilli();
         }
         @Override
-        public Instant instant() {
-            return instant;
+        public Instbnt instbnt() {
+            return instbnt;
         }
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof FixedClock) {
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof FixedClock) {
                 FixedClock other = (FixedClock) obj;
-                return instant.equals(other.instant) && zone.equals(other.zone);
+                return instbnt.equbls(other.instbnt) && zone.equbls(other.zone);
             }
-            return false;
+            return fblse;
         }
         @Override
-        public int hashCode() {
-            return instant.hashCode() ^ zone.hashCode();
+        public int hbshCode() {
+            return instbnt.hbshCode() ^ zone.hbshCode();
         }
         @Override
         public String toString() {
-            return "FixedClock[" + instant + "," + zone + "]";
+            return "FixedClock[" + instbnt + "," + zone + "]";
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that adds an offset to an underlying clock.
+     * Implementbtion of b clock thbt bdds bn offset to bn underlying clock.
      */
-    static final class OffsetClock extends Clock implements Serializable {
-       private static final long serialVersionUID = 2007484719125426256L;
-        private final Clock baseClock;
-        private final Duration offset;
+    stbtic finbl clbss OffsetClock extends Clock implements Seriblizbble {
+       privbte stbtic finbl long seriblVersionUID = 2007484719125426256L;
+        privbte finbl Clock bbseClock;
+        privbte finbl Durbtion offset;
 
-        OffsetClock(Clock baseClock, Duration offset) {
-            this.baseClock = baseClock;
+        OffsetClock(Clock bbseClock, Durbtion offset) {
+            this.bbseClock = bbseClock;
             this.offset = offset;
         }
         @Override
         public ZoneId getZone() {
-            return baseClock.getZone();
+            return bbseClock.getZone();
         }
         @Override
         public Clock withZone(ZoneId zone) {
-            if (zone.equals(baseClock.getZone())) {  // intentional NPE
+            if (zone.equbls(bbseClock.getZone())) {  // intentionbl NPE
                 return this;
             }
-            return new OffsetClock(baseClock.withZone(zone), offset);
+            return new OffsetClock(bbseClock.withZone(zone), offset);
         }
         @Override
         public long millis() {
-            return Math.addExact(baseClock.millis(), offset.toMillis());
+            return Mbth.bddExbct(bbseClock.millis(), offset.toMillis());
         }
         @Override
-        public Instant instant() {
-            return baseClock.instant().plus(offset);
+        public Instbnt instbnt() {
+            return bbseClock.instbnt().plus(offset);
         }
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof OffsetClock) {
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof OffsetClock) {
                 OffsetClock other = (OffsetClock) obj;
-                return baseClock.equals(other.baseClock) && offset.equals(other.offset);
+                return bbseClock.equbls(other.bbseClock) && offset.equbls(other.offset);
             }
-            return false;
+            return fblse;
         }
         @Override
-        public int hashCode() {
-            return baseClock.hashCode() ^ offset.hashCode();
+        public int hbshCode() {
+            return bbseClock.hbshCode() ^ offset.hbshCode();
         }
         @Override
         public String toString() {
-            return "OffsetClock[" + baseClock + "," + offset + "]";
+            return "OffsetClock[" + bbseClock + "," + offset + "]";
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of a clock that adds an offset to an underlying clock.
+     * Implementbtion of b clock thbt bdds bn offset to bn underlying clock.
      */
-    static final class TickClock extends Clock implements Serializable {
-        private static final long serialVersionUID = 6504659149906368850L;
-        private final Clock baseClock;
-        private final long tickNanos;
+    stbtic finbl clbss TickClock extends Clock implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 6504659149906368850L;
+        privbte finbl Clock bbseClock;
+        privbte finbl long tickNbnos;
 
-        TickClock(Clock baseClock, long tickNanos) {
-            this.baseClock = baseClock;
-            this.tickNanos = tickNanos;
+        TickClock(Clock bbseClock, long tickNbnos) {
+            this.bbseClock = bbseClock;
+            this.tickNbnos = tickNbnos;
         }
         @Override
         public ZoneId getZone() {
-            return baseClock.getZone();
+            return bbseClock.getZone();
         }
         @Override
         public Clock withZone(ZoneId zone) {
-            if (zone.equals(baseClock.getZone())) {  // intentional NPE
+            if (zone.equbls(bbseClock.getZone())) {  // intentionbl NPE
                 return this;
             }
-            return new TickClock(baseClock.withZone(zone), tickNanos);
+            return new TickClock(bbseClock.withZone(zone), tickNbnos);
         }
         @Override
         public long millis() {
-            long millis = baseClock.millis();
-            return millis - Math.floorMod(millis, tickNanos / 1000_000L);
+            long millis = bbseClock.millis();
+            return millis - Mbth.floorMod(millis, tickNbnos / 1000_000L);
         }
         @Override
-        public Instant instant() {
-            if ((tickNanos % 1000_000) == 0) {
-                long millis = baseClock.millis();
-                return Instant.ofEpochMilli(millis - Math.floorMod(millis, tickNanos / 1000_000L));
+        public Instbnt instbnt() {
+            if ((tickNbnos % 1000_000) == 0) {
+                long millis = bbseClock.millis();
+                return Instbnt.ofEpochMilli(millis - Mbth.floorMod(millis, tickNbnos / 1000_000L));
             }
-            Instant instant = baseClock.instant();
-            long nanos = instant.getNano();
-            long adjust = Math.floorMod(nanos, tickNanos);
-            return instant.minusNanos(adjust);
+            Instbnt instbnt = bbseClock.instbnt();
+            long nbnos = instbnt.getNbno();
+            long bdjust = Mbth.floorMod(nbnos, tickNbnos);
+            return instbnt.minusNbnos(bdjust);
         }
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof TickClock) {
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof TickClock) {
                 TickClock other = (TickClock) obj;
-                return baseClock.equals(other.baseClock) && tickNanos == other.tickNanos;
+                return bbseClock.equbls(other.bbseClock) && tickNbnos == other.tickNbnos;
             }
-            return false;
+            return fblse;
         }
         @Override
-        public int hashCode() {
-            return baseClock.hashCode() ^ ((int) (tickNanos ^ (tickNanos >>> 32)));
+        public int hbshCode() {
+            return bbseClock.hbshCode() ^ ((int) (tickNbnos ^ (tickNbnos >>> 32)));
         }
         @Override
         public String toString() {
-            return "TickClock[" + baseClock + "," + Duration.ofNanos(tickNanos) + "]";
+            return "TickClock[" + bbseClock + "," + Durbtion.ofNbnos(tickNbnos) + "]";
         }
     }
 

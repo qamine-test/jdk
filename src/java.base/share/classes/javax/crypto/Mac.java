@@ -1,268 +1,268 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.Provider.Service;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
 import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * This class provides the functionality of a "Message Authentication Code"
- * (MAC) algorithm.
+ * This clbss provides the functionblity of b "Messbge Authenticbtion Code"
+ * (MAC) blgorithm.
  *
- * <p> A MAC provides a way to check
- * the integrity of information transmitted over or stored in an unreliable
- * medium, based on a secret key. Typically, message
- * authentication codes are used between two parties that share a secret
- * key in order to validate information transmitted between these
- * parties.
+ * <p> A MAC provides b wby to check
+ * the integrity of informbtion trbnsmitted over or stored in bn unrelibble
+ * medium, bbsed on b secret key. Typicblly, messbge
+ * buthenticbtion codes bre used between two pbrties thbt shbre b secret
+ * key in order to vblidbte informbtion trbnsmitted between these
+ * pbrties.
  *
- * <p> A MAC mechanism that is based on cryptographic hash functions is
- * referred to as HMAC. HMAC can be used with any cryptographic hash function,
- * e.g., MD5 or SHA-1, in combination with a secret shared key. HMAC is
+ * <p> A MAC mechbnism thbt is bbsed on cryptogrbphic hbsh functions is
+ * referred to bs HMAC. HMAC cbn be used with bny cryptogrbphic hbsh function,
+ * e.g., MD5 or SHA-1, in combinbtion with b secret shbred key. HMAC is
  * specified in RFC 2104.
  *
- * <p> Every implementation of the Java platform is required to support
- * the following standard <code>Mac</code> algorithms:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support
+ * the following stbndbrd <code>Mbc</code> blgorithms:
  * <ul>
- * <li><tt>HmacMD5</tt></li>
- * <li><tt>HmacSHA1</tt></li>
- * <li><tt>HmacSHA256</tt></li>
+ * <li><tt>HmbcMD5</tt></li>
+ * <li><tt>HmbcSHA1</tt></li>
+ * <li><tt>HmbcSHA256</tt></li>
  * </ul>
- * These algorithms are described in the
- * <a href="{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
- * Mac section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * These blgorithms bre described in the
+ * <b href="{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Mbc">
+ * Mbc section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
 
-public class Mac implements Cloneable {
+public clbss Mbc implements Clonebble {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "Mac");
+    privbte stbtic finbl Debug debug =
+                        Debug.getInstbnce("jcb", "Mbc");
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private MacSpi spi;
+    // The provider implementbtion (delegbte)
+    privbte MbcSpi spi;
 
-    // The name of the MAC algorithm.
-    private final String algorithm;
+    // The nbme of the MAC blgorithm.
+    privbte finbl String blgorithm;
 
-    // Has this object been initialized?
-    private boolean initialized = false;
+    // Hbs this object been initiblized?
+    privbte boolebn initiblized = fblse;
 
     // next service to try in provider selection
     // null once provider is selected
-    private Service firstService;
+    privbte Service firstService;
 
-    // remaining services to try in provider selection
+    // rembining services to try in provider selection
     // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    privbte Iterbtor<Service> serviceIterbtor;
 
-    private final Object lock;
+    privbte finbl Object lock;
 
     /**
-     * Creates a MAC object.
+     * Crebtes b MAC object.
      *
-     * @param macSpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm mbcSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
-    protected Mac(MacSpi macSpi, Provider provider, String algorithm) {
-        this.spi = macSpi;
+    protected Mbc(MbcSpi mbcSpi, Provider provider, String blgorithm) {
+        this.spi = mbcSpi;
         this.provider = provider;
-        this.algorithm = algorithm;
-        serviceIterator = null;
+        this.blgorithm = blgorithm;
+        serviceIterbtor = null;
         lock = null;
     }
 
-    private Mac(Service s, Iterator<Service> t, String algorithm) {
+    privbte Mbc(Service s, Iterbtor<Service> t, String blgorithm) {
         firstService = s;
-        serviceIterator = t;
-        this.algorithm = algorithm;
+        serviceIterbtor = t;
+        this.blgorithm = blgorithm;
         lock = new Object();
     }
 
     /**
-     * Returns the algorithm name of this <code>Mac</code> object.
+     * Returns the blgorithm nbme of this <code>Mbc</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>Mac</code> object.
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
+     * <code>Mbc</code> object.
      *
-     * @return the algorithm name of this <code>Mac</code> object.
+     * @return the blgorithm nbme of this <code>Mbc</code> object.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Returns b <code>Mbc</code> object thbt implements the
+     * specified MAC blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new Mac object encapsulating the
-     * MacSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new Mbc object encbpsulbting the
+     * MbcSpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested MAC blgorithm.
+     * See the Mbc section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Mbc">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new <code>Mac</code> object.
+     * @return the new <code>Mbc</code> object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          MacSpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          MbcSpi implementbtion for the
+     *          specified blgorithm.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Mac getInstance(String algorithm)
+    public stbtic finbl Mbc getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
-        List<Service> services = GetInstance.getServices("Mac", algorithm);
-        // make sure there is at least one service from a signed provider
-        Iterator<Service> t = services.iterator();
-        while (t.hasNext()) {
+        List<Service> services = GetInstbnce.getServices("Mbc", blgorithm);
+        // mbke sure there is bt lebst one service from b signed provider
+        Iterbtor<Service> t = services.iterbtor();
+        while (t.hbsNext()) {
             Service s = t.next();
-            if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+            if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                 continue;
             }
-            return new Mac(s, t, algorithm);
+            return new Mbc(s, t, blgorithm);
         }
         throw new NoSuchAlgorithmException
-                                ("Algorithm " + algorithm + " not available");
+                                ("Algorithm " + blgorithm + " not bvbilbble");
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Returns b <code>Mbc</code> object thbt implements the
+     * specified MAC blgorithm.
      *
-     * <p> A new Mac object encapsulating the
-     * MacSpi implementation from the specified provider
+     * <p> A new Mbc object encbpsulbting the
+     * MbcSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested MAC blgorithm.
+     * See the Mbc section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Mbc">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return the new <code>Mac</code> object.
+     * @return the new <code>Mbc</code> object.
      *
-     * @exception NoSuchAlgorithmException if a MacSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if b MbcSpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null or empty.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Mac getInstance(String algorithm, String provider)
+    public stbtic finbl Mbc getInstbnce(String blgorithm, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = JceSecurity.getInstance
-                ("Mac", MacSpi.class, algorithm, provider);
-        return new Mac((MacSpi)instance.impl, instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce
+                ("Mbc", MbcSpi.clbss, blgorithm, provider);
+        return new Mbc((MbcSpi)instbnce.impl, instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Returns b <code>Mbc</code> object thbt implements the
+     * specified MAC blgorithm.
      *
-     * <p> A new Mac object encapsulating the
-     * MacSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new Mbc object encbpsulbting the
+     * MbcSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the stbndbrd nbme of the requested MAC blgorithm.
+     * See the Mbc section in the <b href=
+     *   "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Mbc">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return the new <code>Mac</code> object.
+     * @return the new <code>Mbc</code> object.
      *
-     * @exception NoSuchAlgorithmException if a MacSpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if b MbcSpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @exception IllegblArgumentException if the <code>provider</code>
      *          is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static final Mac getInstance(String algorithm, Provider provider)
+    public stbtic finbl Mbc getInstbnce(String blgorithm, Provider provider)
             throws NoSuchAlgorithmException {
-        Instance instance = JceSecurity.getInstance
-                ("Mac", MacSpi.class, algorithm, provider);
-        return new Mac((MacSpi)instance.impl, instance.provider, algorithm);
+        Instbnce instbnce = JceSecurity.getInstbnce
+                ("Mbc", MbcSpi.clbss, blgorithm, provider);
+        return new Mbc((MbcSpi)instbnce.impl, instbnce.provider, blgorithm);
     }
 
-    // max number of debug warnings to print from chooseFirstProvider()
-    private static int warnCount = 10;
+    // mbx number of debug wbrnings to print from chooseFirstProvider()
+    privbte stbtic int wbrnCount = 10;
 
     /**
-     * Choose the Spi from the first provider available. Used if
-     * delayed provider selection is not possible because init()
-     * is not the first method called.
+     * Choose the Spi from the first provider bvbilbble. Used if
+     * delbyed provider selection is not possible becbuse init()
+     * is not the first method cblled.
      */
     void chooseFirstProvider() {
-        if ((spi != null) || (serviceIterator == null)) {
+        if ((spi != null) || (serviceIterbtor == null)) {
             return;
         }
         synchronized (lock) {
@@ -270,116 +270,116 @@ public class Mac implements Cloneable {
                 return;
             }
             if (debug != null) {
-                int w = --warnCount;
+                int w = --wbrnCount;
                 if (w >= 0) {
-                    debug.println("Mac.init() not first method "
-                        + "called, disabling delayed provider selection");
+                    debug.println("Mbc.init() not first method "
+                        + "cblled, disbbling delbyed provider selection");
                     if (w == 0) {
-                        debug.println("Further warnings of this type will "
+                        debug.println("Further wbrnings of this type will "
                             + "be suppressed");
                     }
-                    new Exception("Call trace").printStackTrace();
+                    new Exception("Cbll trbce").printStbckTrbce();
                 }
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 if (firstService != null) {
                     s = firstService;
                     firstService = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
                 try {
-                    Object obj = s.newInstance(null);
-                    if (obj instanceof MacSpi == false) {
+                    Object obj = s.newInstbnce(null);
+                    if (obj instbnceof MbcSpi == fblse) {
                         continue;
                     }
-                    spi = (MacSpi)obj;
+                    spi = (MbcSpi)obj;
                     provider = s.getProvider();
-                    // not needed any more
+                    // not needed bny more
                     firstService = null;
-                    serviceIterator = null;
+                    serviceIterbtor = null;
                     return;
-                } catch (NoSuchAlgorithmException e) {
-                    lastException = e;
+                } cbtch (NoSuchAlgorithmException e) {
+                    lbstException = e;
                 }
             }
             ProviderException e = new ProviderException
-                    ("Could not construct MacSpi instance");
-            if (lastException != null) {
-                e.initCause(lastException);
+                    ("Could not construct MbcSpi instbnce");
+            if (lbstException != null) {
+                e.initCbuse(lbstException);
             }
             throw e;
         }
     }
 
-    private void chooseProvider(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    privbte void chooseProvider(Key key, AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         synchronized (lock) {
             if (spi != null) {
-                spi.engineInit(key, params);
+                spi.engineInit(key, pbrbms);
                 return;
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
+            Exception lbstException = null;
+            while ((firstService != null) || serviceIterbtor.hbsNext()) {
                 Service s;
                 if (firstService != null) {
                     s = firstService;
                     firstService = null;
                 } else {
-                    s = serviceIterator.next();
+                    s = serviceIterbtor.next();
                 }
-                // if provider says it does not support this key, ignore it
-                if (s.supportsParameter(key) == false) {
+                // if provider sbys it does not support this key, ignore it
+                if (s.supportsPbrbmeter(key) == fblse) {
                     continue;
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
+                if (JceSecurity.cbnUseProvider(s.getProvider()) == fblse) {
                     continue;
                 }
                 try {
-                    MacSpi spi = (MacSpi)s.newInstance(null);
-                    spi.engineInit(key, params);
+                    MbcSpi spi = (MbcSpi)s.newInstbnce(null);
+                    spi.engineInit(key, pbrbms);
                     provider = s.getProvider();
                     this.spi = spi;
                     firstService = null;
-                    serviceIterator = null;
+                    serviceIterbtor = null;
                     return;
-                } catch (Exception e) {
-                    // NoSuchAlgorithmException from newInstance()
-                    // InvalidKeyException from init()
+                } cbtch (Exception e) {
+                    // NoSuchAlgorithmException from newInstbnce()
+                    // InvblidKeyException from init()
                     // RuntimeException (ProviderException) from init()
-                    if (lastException == null) {
-                        lastException = e;
+                    if (lbstException == null) {
+                        lbstException = e;
                     }
                 }
             }
-            // no working provider found, fail
-            if (lastException instanceof InvalidKeyException) {
-                throw (InvalidKeyException)lastException;
+            // no working provider found, fbil
+            if (lbstException instbnceof InvblidKeyException) {
+                throw (InvblidKeyException)lbstException;
             }
-            if (lastException instanceof InvalidAlgorithmParameterException) {
-                throw (InvalidAlgorithmParameterException)lastException;
+            if (lbstException instbnceof InvblidAlgorithmPbrbmeterException) {
+                throw (InvblidAlgorithmPbrbmeterException)lbstException;
             }
-            if (lastException instanceof RuntimeException) {
-                throw (RuntimeException)lastException;
+            if (lbstException instbnceof RuntimeException) {
+                throw (RuntimeException)lbstException;
             }
-            String kName = (key != null) ? key.getClass().getName() : "(null)";
-            throw new InvalidKeyException
-                ("No installed provider supports this key: "
-                + kName, lastException);
+            String kNbme = (key != null) ? key.getClbss().getNbme() : "(null)";
+            throw new InvblidKeyException
+                ("No instblled provider supports this key: "
+                + kNbme, lbstException);
         }
     }
 
     /**
-     * Returns the provider of this <code>Mac</code> object.
+     * Returns the provider of this <code>Mbc</code> object.
      *
-     * @return the provider of this <code>Mac</code> object.
+     * @return the provider of this <code>Mbc</code> object.
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         chooseFirstProvider();
         return this.provider;
     }
@@ -389,269 +389,269 @@ public class Mac implements Cloneable {
      *
      * @return the MAC length in bytes.
      */
-    public final int getMacLength() {
+    public finbl int getMbcLength() {
         chooseFirstProvider();
-        return spi.engineGetMacLength();
+        return spi.engineGetMbcLength();
     }
 
     /**
-     * Initializes this <code>Mac</code> object with the given key.
+     * Initiblizes this <code>Mbc</code> object with the given key.
      *
-     * @param key the key.
+     * @pbrbm key the key.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this MAC.
      */
-    public final void init(Key key) throws InvalidKeyException {
+    public finbl void init(Key key) throws InvblidKeyException {
         try {
             if (spi != null) {
                 spi.engineInit(key, null);
             } else {
                 chooseProvider(key, null);
             }
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new InvalidKeyException("init() failed", e);
+        } cbtch (InvblidAlgorithmPbrbmeterException e) {
+            throw new InvblidKeyException("init() fbiled", e);
         }
-        initialized = true;
+        initiblized = true;
     }
 
     /**
-     * Initializes this <code>Mac</code> object with the given key and
-     * algorithm parameters.
+     * Initiblizes this <code>Mbc</code> object with the given key bnd
+     * blgorithm pbrbmeters.
      *
-     * @param key the key.
-     * @param params the algorithm parameters.
+     * @pbrbm key the key.
+     * @pbrbm pbrbms the blgorithm pbrbmeters.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this MAC.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this MAC.
      */
-    public final void init(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    public finbl void init(Key key, AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         if (spi != null) {
-            spi.engineInit(key, params);
+            spi.engineInit(key, pbrbms);
         } else {
-            chooseProvider(key, params);
+            chooseProvider(key, pbrbms);
         }
-        initialized = true;
+        initiblized = true;
     }
 
     /**
      * Processes the given byte.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input the input byte to be processed.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final void update(byte input) throws IllegalStateException {
+    public finbl void updbte(byte input) throws IllegblStbteException {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
-        spi.engineUpdate(input);
+        spi.engineUpdbte(input);
     }
 
     /**
-     * Processes the given array of bytes.
+     * Processes the given brrby of bytes.
      *
-     * @param input the array of bytes to be processed.
+     * @pbrbm input the brrby of bytes to be processed.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final void update(byte[] input) throws IllegalStateException {
+    public finbl void updbte(byte[] input) throws IllegblStbteException {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
         if (input != null) {
-            spi.engineUpdate(input, 0, input.length);
+            spi.engineUpdbte(input, 0, input.length);
         }
     }
 
     /**
      * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code> inclusive.
+     * stbrting bt <code>offset</code> inclusive.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input the input buffer.
+     * @pbrbm offset the offset in <code>input</code> where the input stbrts.
+     * @pbrbm len the number of bytes to process.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final void update(byte[] input, int offset, int len)
-            throws IllegalStateException {
+    public finbl void updbte(byte[] input, int offset, int len)
+            throws IllegblStbteException {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
 
         if (input != null) {
             if ((offset < 0) || (len > (input.length - offset)) || (len < 0))
-                throw new IllegalArgumentException("Bad arguments");
-            spi.engineUpdate(input, offset, len);
+                throw new IllegblArgumentException("Bbd brguments");
+            spi.engineUpdbte(input, offset, len);
         }
     }
 
     /**
-     * Processes <code>input.remaining()</code> bytes in the ByteBuffer
-     * <code>input</code>, starting at <code>input.position()</code>.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Processes <code>input.rembining()</code> bytes in the ByteBuffer
+     * <code>input</code>, stbrting bt <code>input.position()</code>.
+     * Upon return, the buffer's position will be equbl to its limit;
+     * its limit will not hbve chbnged.
      *
-     * @param input the ByteBuffer
+     * @pbrbm input the ByteBuffer
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      * @since 1.5
      */
-    public final void update(ByteBuffer input) {
+    public finbl void updbte(ByteBuffer input) {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
         if (input == null) {
-            throw new IllegalArgumentException("Buffer must not be null");
+            throw new IllegblArgumentException("Buffer must not be null");
         }
-        spi.engineUpdate(input);
+        spi.engineUpdbte(input);
     }
 
     /**
-     * Finishes the MAC operation.
+     * Finishes the MAC operbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
+     * <p>A cbll to this method resets this <code>Mbc</code> object to the
+     * stbte it wbs in when previously initiblized vib b cbll to
      * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
+     * Thbt is, the object is reset bnd bvbilbble to generbte bnother MAC from
+     * the sbme key, if desired, vib new cblls to <code>updbte</code> bnd
+     * <code>doFinbl</code>.
+     * (In order to reuse this <code>Mbc</code> object with b different key,
+     * it must be reinitiblized vib b cbll to <code>init(Key)</code> or
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
      *
      * @return the MAC result.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final byte[] doFinal() throws IllegalStateException {
+    public finbl byte[] doFinbl() throws IllegblStbteException {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
-        byte[] mac = spi.engineDoFinal();
+        byte[] mbc = spi.engineDoFinbl();
         spi.engineReset();
-        return mac;
+        return mbc;
     }
 
     /**
-     * Finishes the MAC operation.
+     * Finishes the MAC operbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
+     * <p>A cbll to this method resets this <code>Mbc</code> object to the
+     * stbte it wbs in when previously initiblized vib b cbll to
      * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
+     * Thbt is, the object is reset bnd bvbilbble to generbte bnother MAC from
+     * the sbme key, if desired, vib new cblls to <code>updbte</code> bnd
+     * <code>doFinbl</code>.
+     * (In order to reuse this <code>Mbc</code> object with b different key,
+     * it must be reinitiblized vib b cbll to <code>init(Key)</code> or
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
      *
-     * <p>The MAC result is stored in <code>output</code>, starting at
+     * <p>The MAC result is stored in <code>output</code>, stbrting bt
      * <code>outOffset</code> inclusive.
      *
-     * @param output the buffer where the MAC result is stored
-     * @param outOffset the offset in <code>output</code> where the MAC is
+     * @pbrbm output the buffer where the MAC result is stored
+     * @pbrbm outOffset the offset in <code>output</code> where the MAC is
      * stored
      *
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final void doFinal(byte[] output, int outOffset)
-        throws ShortBufferException, IllegalStateException
+    public finbl void doFinbl(byte[] output, int outOffset)
+        throws ShortBufferException, IllegblStbteException
     {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
-        int macLen = getMacLength();
-        if (output == null || output.length-outOffset < macLen) {
+        int mbcLen = getMbcLength();
+        if (output == null || output.length-outOffset < mbcLen) {
             throw new ShortBufferException
-                ("Cannot store MAC in output buffer");
+                ("Cbnnot store MAC in output buffer");
         }
-        byte[] mac = doFinal();
-        System.arraycopy(mac, 0, output, outOffset, macLen);
+        byte[] mbc = doFinbl();
+        System.brrbycopy(mbc, 0, output, outOffset, mbcLen);
         return;
     }
 
     /**
-     * Processes the given array of bytes and finishes the MAC operation.
+     * Processes the given brrby of bytes bnd finishes the MAC operbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
+     * <p>A cbll to this method resets this <code>Mbc</code> object to the
+     * stbte it wbs in when previously initiblized vib b cbll to
      * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
+     * Thbt is, the object is reset bnd bvbilbble to generbte bnother MAC from
+     * the sbme key, if desired, vib new cblls to <code>updbte</code> bnd
+     * <code>doFinbl</code>.
+     * (In order to reuse this <code>Mbc</code> object with b different key,
+     * it must be reinitiblized vib b cbll to <code>init(Key)</code> or
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
      *
-     * @param input data in bytes
+     * @pbrbm input dbtb in bytes
      * @return the MAC result.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @exception IllegblStbteException if this <code>Mbc</code> hbs not been
+     * initiblized.
      */
-    public final byte[] doFinal(byte[] input) throws IllegalStateException
+    public finbl byte[] doFinbl(byte[] input) throws IllegblStbteException
     {
         chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        if (initiblized == fblse) {
+            throw new IllegblStbteException("MAC not initiblized");
         }
-        update(input);
-        return doFinal();
+        updbte(input);
+        return doFinbl();
     }
 
     /**
-     * Resets this <code>Mac</code> object.
+     * Resets this <code>Mbc</code> object.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
+     * <p>A cbll to this method resets this <code>Mbc</code> object to the
+     * stbte it wbs in when previously initiblized vib b cbll to
      * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
+     * Thbt is, the object is reset bnd bvbilbble to generbte bnother MAC from
+     * the sbme key, if desired, vib new cblls to <code>updbte</code> bnd
+     * <code>doFinbl</code>.
+     * (In order to reuse this <code>Mbc</code> object with b different key,
+     * it must be reinitiblized vib b cbll to <code>init(Key)</code> or
+     * <code>init(Key, AlgorithmPbrbmeterSpec)</code>.
      */
-    public final void reset() {
+    public finbl void reset() {
         chooseFirstProvider();
         spi.engineReset();
     }
 
     /**
-     * Returns a clone if the provider implementation is cloneable.
+     * Returns b clone if the provider implementbtion is clonebble.
      *
-     * @return a clone if the provider implementation is cloneable.
+     * @return b clone if the provider implementbtion is clonebble.
      *
-     * @exception CloneNotSupportedException if this is called on a
-     * delegate that does not support <code>Cloneable</code>.
+     * @exception CloneNotSupportedException if this is cblled on b
+     * delegbte thbt does not support <code>Clonebble</code>.
      */
-    public final Object clone() throws CloneNotSupportedException {
+    public finbl Object clone() throws CloneNotSupportedException {
         chooseFirstProvider();
-        Mac that = (Mac)super.clone();
-        that.spi = (MacSpi)this.spi.clone();
-        return that;
+        Mbc thbt = (Mbc)super.clone();
+        thbt.spi = (MbcSpi)this.spi.clone();
+        return thbt;
     }
 }

@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * The <code>DropTargetDragEvent</code> is delivered to a
- * <code>DropTargetListener</code> via its
- * dragEnter() and dragOver() methods.
+ * The <code>DropTbrgetDrbgEvent</code> is delivered to b
+ * <code>DropTbrgetListener</code> vib its
+ * drbgEnter() bnd drbgOver() methods.
  * <p>
- * The <code>DropTargetDragEvent</code> reports the <i>source drop actions</i>
- * and the <i>user drop action</i> that reflect the current state of
- * the drag operation.
+ * The <code>DropTbrgetDrbgEvent</code> reports the <i>source drop bctions</i>
+ * bnd the <i>user drop bction</i> thbt reflect the current stbte of
+ * the drbg operbtion.
  * <p>
- * <i>Source drop actions</i> is a bitwise mask of <code>DnDConstants</code>
- * that represents the set of drop actions supported by the drag source for
- * this drag operation.
+ * <i>Source drop bctions</i> is b bitwise mbsk of <code>DnDConstbnts</code>
+ * thbt represents the set of drop bctions supported by the drbg source for
+ * this drbg operbtion.
  * <p>
- * <i>User drop action</i> depends on the drop actions supported by the drag
- * source and the drop action selected by the user. The user can select a drop
- * action by pressing modifier keys during the drag operation:
+ * <i>User drop bction</i> depends on the drop bctions supported by the drbg
+ * source bnd the drop bction selected by the user. The user cbn select b drop
+ * bction by pressing modifier keys during the drbg operbtion:
  * <pre>
  *   Ctrl + Shift -&gt; ACTION_LINK
  *   Ctrl         -&gt; ACTION_COPY
  *   Shift        -&gt; ACTION_MOVE
  * </pre>
- * If the user selects a drop action, the <i>user drop action</i> is one of
- * <code>DnDConstants</code> that represents the selected drop action if this
- * drop action is supported by the drag source or
- * <code>DnDConstants.ACTION_NONE</code> if this drop action is not supported
- * by the drag source.
+ * If the user selects b drop bction, the <i>user drop bction</i> is one of
+ * <code>DnDConstbnts</code> thbt represents the selected drop bction if this
+ * drop bction is supported by the drbg source or
+ * <code>DnDConstbnts.ACTION_NONE</code> if this drop bction is not supported
+ * by the drbg source.
  * <p>
- * If the user doesn't select a drop action, the set of
- * <code>DnDConstants</code> that represents the set of drop actions supported
- * by the drag source is searched for <code>DnDConstants.ACTION_MOVE</code>,
- * then for <code>DnDConstants.ACTION_COPY</code>, then for
- * <code>DnDConstants.ACTION_LINK</code> and the <i>user drop action</i> is the
- * first constant found. If no constant is found the <i>user drop action</i>
- * is <code>DnDConstants.ACTION_NONE</code>.
+ * If the user doesn't select b drop bction, the set of
+ * <code>DnDConstbnts</code> thbt represents the set of drop bctions supported
+ * by the drbg source is sebrched for <code>DnDConstbnts.ACTION_MOVE</code>,
+ * then for <code>DnDConstbnts.ACTION_COPY</code>, then for
+ * <code>DnDConstbnts.ACTION_LINK</code> bnd the <i>user drop bction</i> is the
+ * first constbnt found. If no constbnt is found the <i>user drop bction</i>
+ * is <code>DnDConstbnts.ACTION_NONE</code>.
  *
  * @since 1.2
  */
 
-public class DropTargetDragEvent extends DropTargetEvent {
+public clbss DropTbrgetDrbgEvent extends DropTbrgetEvent {
 
-    private static final long serialVersionUID = -8422265619058953682L;
+    privbte stbtic finbl long seriblVersionUID = -8422265619058953682L;
 
     /**
-     * Construct a <code>DropTargetDragEvent</code> given the
-     * <code>DropTargetContext</code> for this operation,
-     * the location of the "Drag" <code>Cursor</code>'s hotspot
-     * in the <code>Component</code>'s coordinates, the
-     * user drop action, and the source drop actions.
+     * Construct b <code>DropTbrgetDrbgEvent</code> given the
+     * <code>DropTbrgetContext</code> for this operbtion,
+     * the locbtion of the "Drbg" <code>Cursor</code>'s hotspot
+     * in the <code>Component</code>'s coordinbtes, the
+     * user drop bction, bnd the source drop bctions.
      *
-     * @param dtc        The DropTargetContext for this operation
-     * @param cursorLocn The location of the "Drag" Cursor's
-     * hotspot in Component coordinates
-     * @param dropAction The user drop action
-     * @param srcActions The source drop actions
+     * @pbrbm dtc        The DropTbrgetContext for this operbtion
+     * @pbrbm cursorLocn The locbtion of the "Drbg" Cursor's
+     * hotspot in Component coordinbtes
+     * @pbrbm dropAction The user drop bction
+     * @pbrbm srcActions The source drop bctions
      *
      * @throws NullPointerException if cursorLocn is null
-     * @throws IllegalArgumentException if dropAction is not one of
-     *         <code>DnDConstants</code>.
-     * @throws IllegalArgumentException if srcActions is not
-     *         a bitwise mask of <code>DnDConstants</code>.
-     * @throws IllegalArgumentException if dtc is <code>null</code>.
+     * @throws IllegblArgumentException if dropAction is not one of
+     *         <code>DnDConstbnts</code>.
+     * @throws IllegblArgumentException if srcActions is not
+     *         b bitwise mbsk of <code>DnDConstbnts</code>.
+     * @throws IllegblArgumentException if dtc is <code>null</code>.
      */
 
-    public DropTargetDragEvent(DropTargetContext dtc, Point cursorLocn, int dropAction, int srcActions)  {
+    public DropTbrgetDrbgEvent(DropTbrgetContext dtc, Point cursorLocn, int dropAction, int srcActions)  {
         super(dtc);
 
         if (cursorLocn == null) throw new NullPointerException("cursorLocn");
 
-        if (dropAction != DnDConstants.ACTION_NONE &&
-            dropAction != DnDConstants.ACTION_COPY &&
-            dropAction != DnDConstants.ACTION_MOVE &&
-            dropAction != DnDConstants.ACTION_LINK
-        ) throw new IllegalArgumentException("dropAction" + dropAction);
+        if (dropAction != DnDConstbnts.ACTION_NONE &&
+            dropAction != DnDConstbnts.ACTION_COPY &&
+            dropAction != DnDConstbnts.ACTION_MOVE &&
+            dropAction != DnDConstbnts.ACTION_LINK
+        ) throw new IllegblArgumentException("dropAction" + dropAction);
 
-        if ((srcActions & ~(DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK)) != 0) throw new IllegalArgumentException("srcActions");
+        if ((srcActions & ~(DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK)) != 0) throw new IllegblArgumentException("srcActions");
 
-        location        = cursorLocn;
-        actions         = srcActions;
+        locbtion        = cursorLocn;
+        bctions         = srcActions;
         this.dropAction = dropAction;
     }
 
     /**
-     * This method returns a <code>Point</code>
-     * indicating the <code>Cursor</code>'s current
-     * location within the <code>Component'</code>s
-     * coordinates.
+     * This method returns b <code>Point</code>
+     * indicbting the <code>Cursor</code>'s current
+     * locbtion within the <code>Component'</code>s
+     * coordinbtes.
      *
-     * @return the current cursor location in
+     * @return the current cursor locbtion in
      * <code>Component</code>'s coords.
      */
 
-    public Point getLocation() {
-        return location;
+    public Point getLocbtion() {
+        return locbtion;
     }
 
 
     /**
-     * This method returns the current <code>DataFlavor</code>s from the
-     * <code>DropTargetContext</code>.
+     * This method returns the current <code>DbtbFlbvor</code>s from the
+     * <code>DropTbrgetContext</code>.
      *
-     * @return current DataFlavors from the DropTargetContext
+     * @return current DbtbFlbvors from the DropTbrgetContext
      */
 
-    public DataFlavor[] getCurrentDataFlavors() {
-        return getDropTargetContext().getCurrentDataFlavors();
+    public DbtbFlbvor[] getCurrentDbtbFlbvors() {
+        return getDropTbrgetContext().getCurrentDbtbFlbvors();
     }
 
     /**
-     * This method returns the current <code>DataFlavor</code>s
-     * as a <code>java.util.List</code>
+     * This method returns the current <code>DbtbFlbvor</code>s
+     * bs b <code>jbvb.util.List</code>
      *
-     * @return a <code>java.util.List</code> of the Current <code>DataFlavor</code>s
+     * @return b <code>jbvb.util.List</code> of the Current <code>DbtbFlbvor</code>s
      */
 
-    public List<DataFlavor> getCurrentDataFlavorsAsList() {
-        return getDropTargetContext().getCurrentDataFlavorsAsList();
+    public List<DbtbFlbvor> getCurrentDbtbFlbvorsAsList() {
+        return getDropTbrgetContext().getCurrentDbtbFlbvorsAsList();
     }
 
     /**
-     * This method returns a <code>boolean</code> indicating
-     * if the specified <code>DataFlavor</code> is supported.
+     * This method returns b <code>boolebn</code> indicbting
+     * if the specified <code>DbtbFlbvor</code> is supported.
      *
-     * @param df the <code>DataFlavor</code> to test
+     * @pbrbm df the <code>DbtbFlbvor</code> to test
      *
-     * @return if a particular DataFlavor is supported
+     * @return if b pbrticulbr DbtbFlbvor is supported
      */
 
-    public boolean isDataFlavorSupported(DataFlavor df) {
-        return getDropTargetContext().isDataFlavorSupported(df);
+    public boolebn isDbtbFlbvorSupported(DbtbFlbvor df) {
+        return getDropTbrgetContext().isDbtbFlbvorSupported(df);
     }
 
     /**
-     * This method returns the source drop actions.
+     * This method returns the source drop bctions.
      *
-     * @return the source drop actions
+     * @return the source drop bctions
      */
-    public int getSourceActions() { return actions; }
+    public int getSourceActions() { return bctions; }
 
     /**
-     * This method returns the user drop action.
+     * This method returns the user drop bction.
      *
-     * @return the user drop action
+     * @return the user drop bction
      */
     public int getDropAction() { return dropAction; }
 
     /**
-     * This method returns the Transferable object that represents
-     * the data associated with the current drag operation.
+     * This method returns the Trbnsferbble object thbt represents
+     * the dbtb bssocibted with the current drbg operbtion.
      *
-     * @return the Transferable associated with the drag operation
-     * @throws InvalidDnDOperationException if the data associated with the drag
-     *         operation is not available
+     * @return the Trbnsferbble bssocibted with the drbg operbtion
+     * @throws InvblidDnDOperbtionException if the dbtb bssocibted with the drbg
+     *         operbtion is not bvbilbble
      *
      * @since 1.5
      */
-    public Transferable getTransferable() {
-        return getDropTargetContext().getTransferable();
+    public Trbnsferbble getTrbnsferbble() {
+        return getDropTbrgetContext().getTrbnsferbble();
     }
 
     /**
-     * Accepts the drag.
+     * Accepts the drbg.
      *
-     * This method should be called from a
-     * <code>DropTargetListeners</code> <code>dragEnter</code>,
-     * <code>dragOver</code>, and <code>dropActionChanged</code>
-     * methods if the implementation wishes to accept an operation
-     * from the srcActions other than the one selected by
-     * the user as represented by the <code>dropAction</code>.
+     * This method should be cblled from b
+     * <code>DropTbrgetListeners</code> <code>drbgEnter</code>,
+     * <code>drbgOver</code>, bnd <code>dropActionChbnged</code>
+     * methods if the implementbtion wishes to bccept bn operbtion
+     * from the srcActions other thbn the one selected by
+     * the user bs represented by the <code>dropAction</code>.
      *
-     * @param dragOperation the operation accepted by the target
+     * @pbrbm drbgOperbtion the operbtion bccepted by the tbrget
      */
-    public void acceptDrag(int dragOperation) {
-        getDropTargetContext().acceptDrag(dragOperation);
+    public void bcceptDrbg(int drbgOperbtion) {
+        getDropTbrgetContext().bcceptDrbg(drbgOperbtion);
     }
 
     /**
-     * Rejects the drag as a result of examining either the
-     * <code>dropAction</code> or the available <code>DataFlavor</code>
+     * Rejects the drbg bs b result of exbmining either the
+     * <code>dropAction</code> or the bvbilbble <code>DbtbFlbvor</code>
      * types.
      */
-    public void rejectDrag() {
-        getDropTargetContext().rejectDrag();
+    public void rejectDrbg() {
+        getDropTbrgetContext().rejectDrbg();
     }
 
     /*
@@ -221,23 +221,23 @@ public class DropTargetDragEvent extends DropTargetEvent {
      */
 
     /**
-     * The location of the drag cursor's hotspot in Component coordinates.
+     * The locbtion of the drbg cursor's hotspot in Component coordinbtes.
      *
-     * @serial
+     * @seribl
      */
-    private Point               location;
+    privbte Point               locbtion;
 
     /**
-     * The source drop actions.
+     * The source drop bctions.
      *
-     * @serial
+     * @seribl
      */
-    private int                 actions;
+    privbte int                 bctions;
 
     /**
-     * The user drop action.
+     * The user drop bction.
      *
-     * @serial
+     * @seribl
      */
-    private int                 dropAction;
+    privbte int                 dropAction;
 }

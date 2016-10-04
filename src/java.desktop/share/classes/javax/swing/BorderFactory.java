@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Paint;
-import javax.swing.border.*;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Pbint;
+import jbvbx.swing.border.*;
 
 /**
- * Factory class for vending standard <code>Border</code> objects.  Wherever
- * possible, this factory will hand out references to shared
- * <code>Border</code> instances.
- * For further information and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/border.htmll">How
- to Use Borders</a>,
- * a section in <em>The Java Tutorial</em>.
+ * Fbctory clbss for vending stbndbrd <code>Border</code> objects.  Wherever
+ * possible, this fbctory will hbnd out references to shbred
+ * <code>Border</code> instbnces.
+ * For further informbtion bnd exbmples see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/border.htmll">How
+ to Use Borders</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-public class BorderFactory
+public clbss BorderFbctory
 {
 
-    /** Don't let anyone instantiate this class */
-    private BorderFactory() {
+    /** Don't let bnyone instbntibte this clbss */
+    privbte BorderFbctory() {
     }
 
 
 //// LineBorder ///////////////////////////////////////////////////////////////
     /**
-     * Creates a line border withe the specified color.
+     * Crebtes b line border withe the specified color.
      *
-     * @param color  a <code>Color</code> to use for the line
+     * @pbrbm color  b <code>Color</code> to use for the line
      * @return the <code>Border</code> object
      */
-    public static Border createLineBorder(Color color) {
+    public stbtic Border crebteLineBorder(Color color) {
         return new LineBorder(color, 1);
     }
 
     /**
-     * Creates a line border with the specified color
-     * and width. The width applies to all four sides of the
-     * border. To specify widths individually for the top,
-     * bottom, left, and right, use
-     * {@link #createMatteBorder(int,int,int,int,Color)}.
+     * Crebtes b line border with the specified color
+     * bnd width. The width bpplies to bll four sides of the
+     * border. To specify widths individublly for the top,
+     * bottom, left, bnd right, use
+     * {@link #crebteMbtteBorder(int,int,int,int,Color)}.
      *
-     * @param color  a <code>Color</code> to use for the line
-     * @param thickness  an integer specifying the width in pixels
+     * @pbrbm color  b <code>Color</code> to use for the line
+     * @pbrbm thickness  bn integer specifying the width in pixels
      * @return the <code>Border</code> object
      */
-    public static Border createLineBorder(Color color, int thickness)  {
+    public stbtic Border crebteLineBorder(Color color, int thickness)  {
         return new LineBorder(color, thickness);
     }
 
     /**
-     * Creates a line border with the specified color, thickness, and corner shape.
+     * Crebtes b line border with the specified color, thickness, bnd corner shbpe.
      *
-     * @param color      the color of the border
-     * @param thickness  the thickness of the border
-     * @param rounded    whether or not border corners should be round
+     * @pbrbm color      the color of the border
+     * @pbrbm thickness  the thickness of the border
+     * @pbrbm rounded    whether or not border corners should be round
      * @return the {@code Border} object
      *
-     * @see LineBorder#LineBorder(Color, int, boolean)
+     * @see LineBorder#LineBorder(Color, int, boolebn)
      * @since 1.7
      */
-    public static Border createLineBorder(Color color, int thickness, boolean rounded) {
+    public stbtic Border crebteLineBorder(Color color, int thickness, boolebn rounded) {
         return new LineBorder(color, thickness, rounded);
     }
 
 //// BevelBorder /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-    static final Border sharedRaisedBevel = new BevelBorder(BevelBorder.RAISED);
-    static final Border sharedLoweredBevel = new BevelBorder(BevelBorder.LOWERED);
+    stbtic finbl Border shbredRbisedBevel = new BevelBorder(BevelBorder.RAISED);
+    stbtic finbl Border shbredLoweredBevel = new BevelBorder(BevelBorder.LOWERED);
 
     /**
-     * Creates a border with a raised beveled edge, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a raised border, highlights are on top and shadows
-     *  are underneath.)
+     * Crebtes b border with b rbised beveled edge, using
+     * brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
+     * (In b rbised border, highlights bre on top bnd shbdows
+     *  bre undernebth.)
      *
      * @return the <code>Border</code> object
      */
-    public static Border createRaisedBevelBorder() {
-        return createSharedBevel(BevelBorder.RAISED);
+    public stbtic Border crebteRbisedBevelBorder() {
+        return crebteShbredBevel(BevelBorder.RAISED);
     }
 
     /**
-     * Creates a border with a lowered beveled edge, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a lowered border, shadows are on top and highlights
-     *  are underneath.)
+     * Crebtes b border with b lowered beveled edge, using
+     * brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
+     * (In b lowered border, shbdows bre on top bnd highlights
+     *  bre undernebth.)
      *
      * @return the <code>Border</code> object
      */
-    public static Border createLoweredBevelBorder() {
-        return createSharedBevel(BevelBorder.LOWERED);
+    public stbtic Border crebteLoweredBevelBorder() {
+        return crebteShbredBevel(BevelBorder.LOWERED);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a lowered border, shadows are on top and highlights
-     *  are underneath.)
+     * Crebtes b beveled border of the specified type, using
+     * brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
+     * (In b lowered border, shbdows bre on top bnd highlights
+     *  bre undernebth.)
      *
-     * @param type  an integer specifying either
+     * @pbrbm type  bn integer specifying either
      *                  <code>BevelBorder.LOWERED</code> or
      *                  <code>BevelBorder.RAISED</code>
      * @return the <code>Border</code> object
      */
-    public static Border createBevelBorder(int type) {
-        return createSharedBevel(type);
+    public stbtic Border crebteBevelBorder(int type) {
+        return crebteShbredBevel(type);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * the specified highlighting and shadowing. The outer
-     * edge of the highlighted area uses a brighter shade of
-     * the highlight color. The inner edge of the shadow area
-     * uses a brighter shade of the shadow color.
+     * Crebtes b beveled border of the specified type, using
+     * the specified highlighting bnd shbdowing. The outer
+     * edge of the highlighted breb uses b brighter shbde of
+     * the highlight color. The inner edge of the shbdow breb
+     * uses b brighter shbde of the shbdow color.
      *
-     * @param type  an integer specifying either
+     * @pbrbm type  bn integer specifying either
      *                  <code>BevelBorder.LOWERED</code> or
      *                  <code>BevelBorder.RAISED</code>
-     * @param highlight  a <code>Color</code> object for highlights
-     * @param shadow     a <code>Color</code> object for shadows
+     * @pbrbm highlight  b <code>Color</code> object for highlights
+     * @pbrbm shbdow     b <code>Color</code> object for shbdows
      * @return the <code>Border</code> object
      */
-    public static Border createBevelBorder(int type, Color highlight, Color shadow) {
-        return new BevelBorder(type, highlight, shadow);
+    public stbtic Border crebteBevelBorder(int type, Color highlight, Color shbdow) {
+        return new BevelBorder(type, highlight, shbdow);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * the specified colors for the inner and outer highlight
-     * and shadow areas.
+     * Crebtes b beveled border of the specified type, using
+     * the specified colors for the inner bnd outer highlight
+     * bnd shbdow brebs.
      *
-     * @param type  an integer specifying either
+     * @pbrbm type  bn integer specifying either
      *          <code>BevelBorder.LOWERED</code> or
      *          <code>BevelBorder.RAISED</code>
-     * @param highlightOuter  a <code>Color</code> object for the
-     *                  outer edge of the highlight area
-     * @param highlightInner  a <code>Color</code> object for the
-     *                  inner edge of the highlight area
-     * @param shadowOuter     a <code>Color</code> object for the
-     *                  outer edge of the shadow area
-     * @param shadowInner     a <code>Color</code> object for the
-     *                  inner edge of the shadow area
+     * @pbrbm highlightOuter  b <code>Color</code> object for the
+     *                  outer edge of the highlight breb
+     * @pbrbm highlightInner  b <code>Color</code> object for the
+     *                  inner edge of the highlight breb
+     * @pbrbm shbdowOuter     b <code>Color</code> object for the
+     *                  outer edge of the shbdow breb
+     * @pbrbm shbdowInner     b <code>Color</code> object for the
+     *                  inner edge of the shbdow breb
      * @return the <code>Border</code> object
      */
-    public static Border createBevelBorder(int type,
+    public stbtic Border crebteBevelBorder(int type,
                         Color highlightOuter, Color highlightInner,
-                        Color shadowOuter, Color shadowInner) {
+                        Color shbdowOuter, Color shbdowInner) {
         return new BevelBorder(type, highlightOuter, highlightInner,
-                                        shadowOuter, shadowInner);
+                                        shbdowOuter, shbdowInner);
     }
 
-    static Border createSharedBevel(int type)   {
+    stbtic Border crebteShbredBevel(int type)   {
         if(type == BevelBorder.RAISED) {
-            return sharedRaisedBevel;
+            return shbredRbisedBevel;
         } else if(type == BevelBorder.LOWERED) {
-            return sharedLoweredBevel;
+            return shbredLoweredBevel;
         }
         return null;
     }
@@ -193,235 +193,235 @@ public class BorderFactory
 //// SoftBevelBorder ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    private static Border sharedSoftRaisedBevel;
-    private static Border sharedSoftLoweredBevel;
+    privbte stbtic Border shbredSoftRbisedBevel;
+    privbte stbtic Border shbredSoftLoweredBevel;
 
     /**
-     * Creates a beveled border with a raised edge and softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * In a raised border, highlights are on top and shadows are underneath.
+     * Crebtes b beveled border with b rbised edge bnd softened corners,
+     * using brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
+     * In b rbised border, highlights bre on top bnd shbdows bre undernebth.
      *
      * @return the {@code Border} object
      *
      * @since 1.7
      */
-    public static Border createRaisedSoftBevelBorder() {
-        if (sharedSoftRaisedBevel == null) {
-            sharedSoftRaisedBevel = new SoftBevelBorder(BevelBorder.RAISED);
+    public stbtic Border crebteRbisedSoftBevelBorder() {
+        if (shbredSoftRbisedBevel == null) {
+            shbredSoftRbisedBevel = new SoftBevelBorder(BevelBorder.RAISED);
         }
-        return sharedSoftRaisedBevel;
+        return shbredSoftRbisedBevel;
     }
 
     /**
-     * Creates a beveled border with a lowered edge and softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * In a lowered border, shadows are on top and highlights are underneath.
+     * Crebtes b beveled border with b lowered edge bnd softened corners,
+     * using brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
+     * In b lowered border, shbdows bre on top bnd highlights bre undernebth.
      *
      * @return the {@code Border} object
      *
      * @since 1.7
      */
-    public static Border createLoweredSoftBevelBorder() {
-        if (sharedSoftLoweredBevel == null) {
-            sharedSoftLoweredBevel = new SoftBevelBorder(BevelBorder.LOWERED);
+    public stbtic Border crebteLoweredSoftBevelBorder() {
+        if (shbredSoftLoweredBevel == null) {
+            shbredSoftLoweredBevel = new SoftBevelBorder(BevelBorder.LOWERED);
         }
-        return sharedSoftLoweredBevel;
+        return shbredSoftLoweredBevel;
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
+     * Crebtes b beveled border of the specified type with softened corners,
+     * using brighter shbdes of the component's current bbckground color
+     * for highlighting, bnd dbrker shbding for shbdows.
      * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
      *
-     * @param type  a type of a bevel
+     * @pbrbm type  b type of b bevel
      * @return the {@code Border} object or {@code null}
-     *         if the specified type is not valid
+     *         if the specified type is not vblid
      *
      * @see BevelBorder#BevelBorder(int)
      * @since 1.7
      */
-    public static Border createSoftBevelBorder(int type) {
+    public stbtic Border crebteSoftBevelBorder(int type) {
         if (type == BevelBorder.RAISED) {
-            return createRaisedSoftBevelBorder();
+            return crebteRbisedSoftBevelBorder();
         }
         if (type == BevelBorder.LOWERED) {
-            return createLoweredSoftBevelBorder();
+            return crebteLoweredSoftBevelBorder();
         }
         return null;
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using the specified highlighting and shadowing.
+     * Crebtes b beveled border of the specified type with softened corners,
+     * using the specified highlighting bnd shbdowing.
      * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
-     * The outer edge of the highlight area uses
-     * a brighter shade of the {@code highlight} color.
-     * The inner edge of the shadow area uses
-     * a brighter shade of the {@code shadow} color.
+     * The outer edge of the highlight breb uses
+     * b brighter shbde of the {@code highlight} color.
+     * The inner edge of the shbdow breb uses
+     * b brighter shbde of the {@code shbdow} color.
      *
-     * @param type       a type of a bevel
-     * @param highlight  a basic color of the highlight area
-     * @param shadow     a basic color of the shadow area
+     * @pbrbm type       b type of b bevel
+     * @pbrbm highlight  b bbsic color of the highlight breb
+     * @pbrbm shbdow     b bbsic color of the shbdow breb
      * @return the {@code Border} object
      *
      * @see BevelBorder#BevelBorder(int, Color, Color)
      * @since 1.7
      */
-    public static Border createSoftBevelBorder(int type, Color highlight, Color shadow) {
-        return new SoftBevelBorder(type, highlight, shadow);
+    public stbtic Border crebteSoftBevelBorder(int type, Color highlight, Color shbdow) {
+        return new SoftBevelBorder(type, highlight, shbdow);
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using the specified colors for the inner and outer edges
-     * of the highlight and the shadow areas.
+     * Crebtes b beveled border of the specified type with softened corners,
+     * using the specified colors for the inner bnd outer edges
+     * of the highlight bnd the shbdow brebs.
      * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
-     * Note: The shadow inner and outer colors are switched
-     * for a lowered bevel border.
+     * Note: The shbdow inner bnd outer colors bre switched
+     * for b lowered bevel border.
      *
-     * @param type            a type of a bevel
-     * @param highlightOuter  a color of the outer edge of the highlight area
-     * @param highlightInner  a color of the inner edge of the highlight area
-     * @param shadowOuter     a color of the outer edge of the shadow area
-     * @param shadowInner     a color of the inner edge of the shadow area
+     * @pbrbm type            b type of b bevel
+     * @pbrbm highlightOuter  b color of the outer edge of the highlight breb
+     * @pbrbm highlightInner  b color of the inner edge of the highlight breb
+     * @pbrbm shbdowOuter     b color of the outer edge of the shbdow breb
+     * @pbrbm shbdowInner     b color of the inner edge of the shbdow breb
      * @return the {@code Border} object
      *
      * @see BevelBorder#BevelBorder(int, Color, Color, Color, Color)
      * @since 1.7
      */
-    public static Border createSoftBevelBorder(int type, Color highlightOuter, Color highlightInner, Color shadowOuter, Color shadowInner) {
-        return new SoftBevelBorder(type, highlightOuter, highlightInner, shadowOuter, shadowInner);
+    public stbtic Border crebteSoftBevelBorder(int type, Color highlightOuter, Color highlightInner, Color shbdowOuter, Color shbdowInner) {
+        return new SoftBevelBorder(type, highlightOuter, highlightInner, shbdowOuter, shbdowInner);
     }
 
 //// EtchedBorder ///////////////////////////////////////////////////////////
 
-    static final Border sharedEtchedBorder = new EtchedBorder();
-    private static Border sharedRaisedEtchedBorder;
+    stbtic finbl Border shbredEtchedBorder = new EtchedBorder();
+    privbte stbtic Border shbredRbisedEtchedBorder;
 
     /**
-     * Creates a border with an "etched" look using
-     * the component's current background color for
-     * highlighting and shading.
+     * Crebtes b border with bn "etched" look using
+     * the component's current bbckground color for
+     * highlighting bnd shbding.
      *
      * @return the <code>Border</code> object
      */
-    public static Border createEtchedBorder()    {
-        return sharedEtchedBorder;
+    public stbtic Border crebteEtchedBorder()    {
+        return shbredEtchedBorder;
     }
 
     /**
-     * Creates a border with an "etched" look using
-     * the specified highlighting and shading colors.
+     * Crebtes b border with bn "etched" look using
+     * the specified highlighting bnd shbding colors.
      *
-     * @param highlight  a <code>Color</code> object for the border highlights
-     * @param shadow     a <code>Color</code> object for the border shadows
+     * @pbrbm highlight  b <code>Color</code> object for the border highlights
+     * @pbrbm shbdow     b <code>Color</code> object for the border shbdows
      * @return the <code>Border</code> object
      */
-    public static Border createEtchedBorder(Color highlight, Color shadow)    {
-        return new EtchedBorder(highlight, shadow);
+    public stbtic Border crebteEtchedBorder(Color highlight, Color shbdow)    {
+        return new EtchedBorder(highlight, shbdow);
     }
 
     /**
-     * Creates a border with an "etched" look using
-     * the component's current background color for
-     * highlighting and shading.
+     * Crebtes b border with bn "etched" look using
+     * the component's current bbckground color for
+     * highlighting bnd shbding.
      *
-     * @param type      one of <code>EtchedBorder.RAISED</code>, or
+     * @pbrbm type      one of <code>EtchedBorder.RAISED</code>, or
      *                  <code>EtchedBorder.LOWERED</code>
      * @return the <code>Border</code> object
-     * @exception IllegalArgumentException if type is not either
+     * @exception IllegblArgumentException if type is not either
      *                  <code>EtchedBorder.RAISED</code> or
      *                  <code>EtchedBorder.LOWERED</code>
      * @since 1.3
      */
-    public static Border createEtchedBorder(int type)    {
+    public stbtic Border crebteEtchedBorder(int type)    {
         switch (type) {
-        case EtchedBorder.RAISED:
-            if (sharedRaisedEtchedBorder == null) {
-                sharedRaisedEtchedBorder = new EtchedBorder
+        cbse EtchedBorder.RAISED:
+            if (shbredRbisedEtchedBorder == null) {
+                shbredRbisedEtchedBorder = new EtchedBorder
                                            (EtchedBorder.RAISED);
             }
-            return sharedRaisedEtchedBorder;
-        case EtchedBorder.LOWERED:
-            return sharedEtchedBorder;
-        default:
-            throw new IllegalArgumentException("type must be one of EtchedBorder.RAISED or EtchedBorder.LOWERED");
+            return shbredRbisedEtchedBorder;
+        cbse EtchedBorder.LOWERED:
+            return shbredEtchedBorder;
+        defbult:
+            throw new IllegblArgumentException("type must be one of EtchedBorder.RAISED or EtchedBorder.LOWERED");
         }
     }
 
     /**
-     * Creates a border with an "etched" look using
-     * the specified highlighting and shading colors.
+     * Crebtes b border with bn "etched" look using
+     * the specified highlighting bnd shbding colors.
      *
-     * @param type      one of <code>EtchedBorder.RAISED</code>, or
+     * @pbrbm type      one of <code>EtchedBorder.RAISED</code>, or
      *                  <code>EtchedBorder.LOWERED</code>
-     * @param highlight  a <code>Color</code> object for the border highlights
-     * @param shadow     a <code>Color</code> object for the border shadows
+     * @pbrbm highlight  b <code>Color</code> object for the border highlights
+     * @pbrbm shbdow     b <code>Color</code> object for the border shbdows
      * @return the <code>Border</code> object
      * @since 1.3
      */
-    public static Border createEtchedBorder(int type, Color highlight,
-                                            Color shadow)    {
-        return new EtchedBorder(type, highlight, shadow);
+    public stbtic Border crebteEtchedBorder(int type, Color highlight,
+                                            Color shbdow)    {
+        return new EtchedBorder(type, highlight, shbdow);
     }
 
 //// TitledBorder ////////////////////////////////////////////////////////////
     /**
-     * Creates a new titled border with the specified title,
-     * the default border type (determined by the current look and feel),
-     * the default text position (determined by the current look and feel),
-     * the default justification (leading), and the default
-     * font and text color (determined by the current look and feel).
+     * Crebtes b new titled border with the specified title,
+     * the defbult border type (determined by the current look bnd feel),
+     * the defbult text position (determined by the current look bnd feel),
+     * the defbult justificbtion (lebding), bnd the defbult
+     * font bnd text color (determined by the current look bnd feel).
      *
-     * @param title      a <code>String</code> containing the text of the title
+     * @pbrbm title      b <code>String</code> contbining the text of the title
      * @return the <code>TitledBorder</code> object
      */
-    public static TitledBorder createTitledBorder(String title)     {
+    public stbtic TitledBorder crebteTitledBorder(String title)     {
         return new TitledBorder(title);
     }
 
     /**
-     * Creates a new titled border with an empty title,
+     * Crebtes b new titled border with bn empty title,
      * the specified border object,
-     * the default text position (determined by the current look and feel),
-     * the default justification (leading), and the default
-     * font and text color (determined by the current look and feel).
+     * the defbult text position (determined by the current look bnd feel),
+     * the defbult justificbtion (lebding), bnd the defbult
+     * font bnd text color (determined by the current look bnd feel).
      *
-     * @param border     the <code>Border</code> object to add the title to; if
+     * @pbrbm border     the <code>Border</code> object to bdd the title to; if
      *                   <code>null</code> the <code>Border</code> is determined
-     *                   by the current look and feel.
+     *                   by the current look bnd feel.
      * @return the <code>TitledBorder</code> object
      */
-    public static TitledBorder createTitledBorder(Border border)       {
+    public stbtic TitledBorder crebteTitledBorder(Border border)       {
         return new TitledBorder(border);
     }
 
     /**
-     * Adds a title to an existing border,
-     * with default positioning (determined by the current look and feel),
-     * default justification (leading) and the default
-     * font and text color (determined by the current look and feel).
+     * Adds b title to bn existing border,
+     * with defbult positioning (determined by the current look bnd feel),
+     * defbult justificbtion (lebding) bnd the defbult
+     * font bnd text color (determined by the current look bnd feel).
      *
-     * @param border     the <code>Border</code> object to add the title to
-     * @param title      a <code>String</code> containing the text of the title
+     * @pbrbm border     the <code>Border</code> object to bdd the title to
+     * @pbrbm title      b <code>String</code> contbining the text of the title
      * @return the <code>TitledBorder</code> object
      */
-    public static TitledBorder createTitledBorder(Border border,
+    public stbtic TitledBorder crebteTitledBorder(Border border,
                                                    String title) {
         return new TitledBorder(border, title);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning and using the default
-     * font and text color (determined by the current look and feel).
+     * Adds b title to bn existing border, with the specified
+     * positioning bnd using the defbult
+     * font bnd text color (determined by the current look bnd feel).
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
+     * @pbrbm border      the <code>Border</code> object to bdd the title to
+     * @pbrbm title       b <code>String</code> contbining the text of the title
+     * @pbrbm titleJustificbtion  bn integer specifying the justificbtion
      *        of the title -- one of the following:
      *<ul>
      *<li><code>TitledBorder.LEFT</code>
@@ -429,10 +429,10 @@ public class BorderFactory
      *<li><code>TitledBorder.RIGHT</code>
      *<li><code>TitledBorder.LEADING</code>
      *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (lebding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlePosition       bn integer specifying the verticbl position of
+     *        the text in relbtion to the border -- one of the following:
      *<ul>
      *<li><code> TitledBorder.ABOVE_TOP</code>
      *<li><code>TitledBorder.TOP</code> (sitting on the top line)
@@ -441,26 +441,26 @@ public class BorderFactory
      *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
      *<li><code>TitledBorder.BELOW_BOTTOM</code>
      *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *  is determined by the current look bnd feel)
      *</ul>
      * @return the <code>TitledBorder</code> object
      */
-    public static TitledBorder createTitledBorder(Border border,
+    public stbtic TitledBorder crebteTitledBorder(Border border,
                         String title,
-                        int titleJustification,
+                        int titleJustificbtion,
                         int titlePosition)      {
-        return new TitledBorder(border, title, titleJustification,
+        return new TitledBorder(border, title, titleJustificbtion,
                         titlePosition);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning and font, and using the default text color
-     * (determined by the current look and feel).
+     * Adds b title to bn existing border, with the specified
+     * positioning bnd font, bnd using the defbult text color
+     * (determined by the current look bnd feel).
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
+     * @pbrbm border      the <code>Border</code> object to bdd the title to
+     * @pbrbm title       b <code>String</code> contbining the text of the title
+     * @pbrbm titleJustificbtion  bn integer specifying the justificbtion
      *        of the title -- one of the following:
      *<ul>
      *<li><code>TitledBorder.LEFT</code>
@@ -468,10 +468,10 @@ public class BorderFactory
      *<li><code>TitledBorder.RIGHT</code>
      *<li><code>TitledBorder.LEADING</code>
      *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (lebding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlePosition       bn integer specifying the verticbl position of
+     *        the text in relbtion to the border -- one of the following:
      *<ul>
      *<li><code> TitledBorder.ABOVE_TOP</code>
      *<li><code>TitledBorder.TOP</code> (sitting on the top line)
@@ -480,27 +480,27 @@ public class BorderFactory
      *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
      *<li><code>TitledBorder.BELOW_BOTTOM</code>
      *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *  is determined by the current look bnd feel)
      *</ul>
-     * @param titleFont           a Font object specifying the title font
+     * @pbrbm titleFont           b Font object specifying the title font
      * @return the TitledBorder object
      */
-    public static TitledBorder createTitledBorder(Border border,
+    public stbtic TitledBorder crebteTitledBorder(Border border,
                         String title,
-                        int titleJustification,
+                        int titleJustificbtion,
                         int titlePosition,
                         Font titleFont) {
-        return new TitledBorder(border, title, titleJustification,
+        return new TitledBorder(border, title, titleJustificbtion,
                         titlePosition, titleFont);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning, font and color.
+     * Adds b title to bn existing border, with the specified
+     * positioning, font bnd color.
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
+     * @pbrbm border      the <code>Border</code> object to bdd the title to
+     * @pbrbm title       b <code>String</code> contbining the text of the title
+     * @pbrbm titleJustificbtion  bn integer specifying the justificbtion
      *        of the title -- one of the following:
      *<ul>
      *<li><code>TitledBorder.LEFT</code>
@@ -508,10 +508,10 @@ public class BorderFactory
      *<li><code>TitledBorder.RIGHT</code>
      *<li><code>TitledBorder.LEADING</code>
      *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (lebding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlePosition       bn integer specifying the verticbl position of
+     *        the text in relbtion to the border -- one of the following:
      *<ul>
      *<li><code> TitledBorder.ABOVE_TOP</code>
      *<li><code>TitledBorder.TOP</code> (sitting on the top line)
@@ -520,243 +520,243 @@ public class BorderFactory
      *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
      *<li><code>TitledBorder.BELOW_BOTTOM</code>
      *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *  is determined by the current look bnd feel)
      *</ul>
-     * @param titleFont   a <code>Font</code> object specifying the title font
-     * @param titleColor  a <code>Color</code> object specifying the title color
+     * @pbrbm titleFont   b <code>Font</code> object specifying the title font
+     * @pbrbm titleColor  b <code>Color</code> object specifying the title color
      * @return the <code>TitledBorder</code> object
      */
-    public static TitledBorder createTitledBorder(Border border,
+    public stbtic TitledBorder crebteTitledBorder(Border border,
                         String title,
-                        int titleJustification,
+                        int titleJustificbtion,
                         int titlePosition,
                         Font titleFont,
                         Color titleColor)       {
-        return new TitledBorder(border, title, titleJustification,
+        return new TitledBorder(border, title, titleJustificbtion,
                         titlePosition, titleFont, titleColor);
     }
 //// EmptyBorder ///////////////////////////////////////////////////////////
-    final static Border emptyBorder = new EmptyBorder(0, 0, 0, 0);
+    finbl stbtic Border emptyBorder = new EmptyBorder(0, 0, 0, 0);
 
     /**
-     * Creates an empty border that takes up no space. (The width
-     * of the top, bottom, left, and right sides are all zero.)
+     * Crebtes bn empty border thbt tbkes up no spbce. (The width
+     * of the top, bottom, left, bnd right sides bre bll zero.)
      *
      * @return the <code>Border</code> object
      */
-    public static Border createEmptyBorder() {
+    public stbtic Border crebteEmptyBorder() {
         return emptyBorder;
     }
 
     /**
-     * Creates an empty border that takes up space but which does
-     * no drawing, specifying the width of the top, left, bottom, and
+     * Crebtes bn empty border thbt tbkes up spbce but which does
+     * no drbwing, specifying the width of the top, left, bottom, bnd
      * right sides.
      *
-     * @param top     an integer specifying the width of the top,
+     * @pbrbm top     bn integer specifying the width of the top,
      *                  in pixels
-     * @param left    an integer specifying the width of the left side,
+     * @pbrbm left    bn integer specifying the width of the left side,
      *                  in pixels
-     * @param bottom  an integer specifying the width of the bottom,
+     * @pbrbm bottom  bn integer specifying the width of the bottom,
      *                  in pixels
-     * @param right   an integer specifying the width of the right side,
+     * @pbrbm right   bn integer specifying the width of the right side,
      *                  in pixels
      * @return the <code>Border</code> object
      */
-    public static Border createEmptyBorder(int top, int left,
+    public stbtic Border crebteEmptyBorder(int top, int left,
                                                 int bottom, int right) {
         return new EmptyBorder(top, left, bottom, right);
     }
 
 //// CompoundBorder ////////////////////////////////////////////////////////
     /**
-     * Creates a compound border with a <code>null</code> inside edge and a
+     * Crebtes b compound border with b <code>null</code> inside edge bnd b
      * <code>null</code> outside edge.
      *
      * @return the <code>CompoundBorder</code> object
      */
-    public static CompoundBorder createCompoundBorder() {
+    public stbtic CompoundBorder crebteCompoundBorder() {
         return new CompoundBorder();
     }
 
     /**
-     * Creates a compound border specifying the border objects to use
-     * for the outside and inside edges.
+     * Crebtes b compound border specifying the border objects to use
+     * for the outside bnd inside edges.
      *
-     * @param outsideBorder  a <code>Border</code> object for the outer
+     * @pbrbm outsideBorder  b <code>Border</code> object for the outer
      *                          edge of the compound border
-     * @param insideBorder   a <code>Border</code> object for the inner
+     * @pbrbm insideBorder   b <code>Border</code> object for the inner
      *                          edge of the compound border
      * @return the <code>CompoundBorder</code> object
      */
-    public static CompoundBorder createCompoundBorder(Border outsideBorder,
+    public stbtic CompoundBorder crebteCompoundBorder(Border outsideBorder,
                                                 Border insideBorder) {
         return new CompoundBorder(outsideBorder, insideBorder);
     }
 
-//// MatteBorder ////////////////////////////////////////////////////////
+//// MbtteBorder ////////////////////////////////////////////////////////
     /**
-     * Creates a matte-look border using a solid color. (The difference between
-     * this border and a line border is that you can specify the individual
+     * Crebtes b mbtte-look border using b solid color. (The difference between
+     * this border bnd b line border is thbt you cbn specify the individubl
      * border dimensions.)
      *
-     * @param top     an integer specifying the width of the top,
+     * @pbrbm top     bn integer specifying the width of the top,
      *                          in pixels
-     * @param left    an integer specifying the width of the left side,
+     * @pbrbm left    bn integer specifying the width of the left side,
      *                          in pixels
-     * @param bottom  an integer specifying the width of the right side,
+     * @pbrbm bottom  bn integer specifying the width of the right side,
      *                          in pixels
-     * @param right   an integer specifying the width of the bottom,
+     * @pbrbm right   bn integer specifying the width of the bottom,
      *                          in pixels
-     * @param color   a <code>Color</code> to use for the border
-     * @return the <code>MatteBorder</code> object
+     * @pbrbm color   b <code>Color</code> to use for the border
+     * @return the <code>MbtteBorder</code> object
      */
-    public static MatteBorder createMatteBorder(int top, int left, int bottom, int right,
+    public stbtic MbtteBorder crebteMbtteBorder(int top, int left, int bottom, int right,
                                                 Color color) {
-        return new MatteBorder(top, left, bottom, right, color);
+        return new MbtteBorder(top, left, bottom, right, color);
     }
 
     /**
-     * Creates a matte-look border that consists of multiple tiles of a
-     * specified icon. Multiple copies of the icon are placed side-by-side
-     * to fill up the border area.
+     * Crebtes b mbtte-look border thbt consists of multiple tiles of b
+     * specified icon. Multiple copies of the icon bre plbced side-by-side
+     * to fill up the border breb.
      * <p>
      * Note:<br>
-     * If the icon doesn't load, the border area is painted gray.
+     * If the icon doesn't lobd, the border breb is pbinted grby.
      *
-     * @param top     an integer specifying the width of the top,
+     * @pbrbm top     bn integer specifying the width of the top,
      *                          in pixels
-     * @param left    an integer specifying the width of the left side,
+     * @pbrbm left    bn integer specifying the width of the left side,
      *                          in pixels
-     * @param bottom  an integer specifying the width of the right side,
+     * @pbrbm bottom  bn integer specifying the width of the right side,
      *                          in pixels
-     * @param right   an integer specifying the width of the bottom,
+     * @pbrbm right   bn integer specifying the width of the bottom,
      *                          in pixels
-     * @param tileIcon  the <code>Icon</code> object used for the border tiles
-     * @return the <code>MatteBorder</code> object
+     * @pbrbm tileIcon  the <code>Icon</code> object used for the border tiles
+     * @return the <code>MbtteBorder</code> object
      */
-    public static MatteBorder createMatteBorder(int top, int left, int bottom, int right,
+    public stbtic MbtteBorder crebteMbtteBorder(int top, int left, int bottom, int right,
                                                 Icon tileIcon) {
-        return new MatteBorder(top, left, bottom, right, tileIcon);
+        return new MbtteBorder(top, left, bottom, right, tileIcon);
     }
 
 //// StrokeBorder //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Creates a border of the specified {@code stroke}.
+     * Crebtes b border of the specified {@code stroke}.
      * The component's foreground color will be used to render the border.
      *
-     * @param stroke  the {@link BasicStroke} object used to stroke a shape
+     * @pbrbm stroke  the {@link BbsicStroke} object used to stroke b shbpe
      * @return the {@code Border} object
      *
      * @throws NullPointerException if the specified {@code stroke} is {@code null}
      *
      * @since 1.7
      */
-    public static Border createStrokeBorder(BasicStroke stroke) {
+    public stbtic Border crebteStrokeBorder(BbsicStroke stroke) {
         return new StrokeBorder(stroke);
     }
 
     /**
-     * Creates a border of the specified {@code stroke} and {@code paint}.
-     * If the specified {@code paint} is {@code null},
+     * Crebtes b border of the specified {@code stroke} bnd {@code pbint}.
+     * If the specified {@code pbint} is {@code null},
      * the component's foreground color will be used to render the border.
      *
-     * @param stroke  the {@link BasicStroke} object used to stroke a shape
-     * @param paint   the {@link Paint} object used to generate a color
+     * @pbrbm stroke  the {@link BbsicStroke} object used to stroke b shbpe
+     * @pbrbm pbint   the {@link Pbint} object used to generbte b color
      * @return the {@code Border} object
      *
      * @throws NullPointerException if the specified {@code stroke} is {@code null}
      *
      * @since 1.7
      */
-    public static Border createStrokeBorder(BasicStroke stroke, Paint paint) {
-        return new StrokeBorder(stroke, paint);
+    public stbtic Border crebteStrokeBorder(BbsicStroke stroke, Pbint pbint) {
+        return new StrokeBorder(stroke, pbint);
     }
 
-//// DashedBorder //////////////////////////////////////////////////////////////
+//// DbshedBorder //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    private static Border sharedDashedBorder;
+    privbte stbtic Border shbredDbshedBorder;
 
     /**
-     * Creates a dashed border of the specified {@code paint}.
-     * If the specified {@code paint} is {@code null},
+     * Crebtes b dbshed border of the specified {@code pbint}.
+     * If the specified {@code pbint} is {@code null},
      * the component's foreground color will be used to render the border.
-     * The width of a dash line is equal to {@code 1}.
-     * The relative length of a dash line and
-     * the relative spacing between dash lines are equal to {@code 1}.
-     * A dash line is not rounded.
+     * The width of b dbsh line is equbl to {@code 1}.
+     * The relbtive length of b dbsh line bnd
+     * the relbtive spbcing between dbsh lines bre equbl to {@code 1}.
+     * A dbsh line is not rounded.
      *
-     * @param paint  the {@link Paint} object used to generate a color
+     * @pbrbm pbint  the {@link Pbint} object used to generbte b color
      * @return the {@code Border} object
      *
      * @since 1.7
      */
-    public static Border createDashedBorder(Paint paint) {
-        return createDashedBorder(paint, 1.0f, 1.0f, 1.0f, false);
+    public stbtic Border crebteDbshedBorder(Pbint pbint) {
+        return crebteDbshedBorder(pbint, 1.0f, 1.0f, 1.0f, fblse);
     }
 
     /**
-     * Creates a dashed border of the specified {@code paint},
-     * relative {@code length}, and relative {@code spacing}.
-     * If the specified {@code paint} is {@code null},
+     * Crebtes b dbshed border of the specified {@code pbint},
+     * relbtive {@code length}, bnd relbtive {@code spbcing}.
+     * If the specified {@code pbint} is {@code null},
      * the component's foreground color will be used to render the border.
-     * The width of a dash line is equal to {@code 1}.
-     * A dash line is not rounded.
+     * The width of b dbsh line is equbl to {@code 1}.
+     * A dbsh line is not rounded.
      *
-     * @param paint    the {@link Paint} object used to generate a color
-     * @param length   the relative length of a dash line
-     * @param spacing  the relative spacing between dash lines
+     * @pbrbm pbint    the {@link Pbint} object used to generbte b color
+     * @pbrbm length   the relbtive length of b dbsh line
+     * @pbrbm spbcing  the relbtive spbcing between dbsh lines
      * @return the {@code Border} object
      *
-     * @throws IllegalArgumentException if the specified {@code length} is less than {@code 1}, or
-     *                                  if the specified {@code spacing} is less than {@code 0}
+     * @throws IllegblArgumentException if the specified {@code length} is less thbn {@code 1}, or
+     *                                  if the specified {@code spbcing} is less thbn {@code 0}
      * @since 1.7
      */
-    public static Border createDashedBorder(Paint paint, float length, float spacing) {
-        return createDashedBorder(paint, 1.0f, length, spacing, false);
+    public stbtic Border crebteDbshedBorder(Pbint pbint, flobt length, flobt spbcing) {
+        return crebteDbshedBorder(pbint, 1.0f, length, spbcing, fblse);
     }
 
     /**
-     * Creates a dashed border of the specified {@code paint}, {@code thickness},
-     * line shape, relative {@code length}, and relative {@code spacing}.
-     * If the specified {@code paint} is {@code null},
+     * Crebtes b dbshed border of the specified {@code pbint}, {@code thickness},
+     * line shbpe, relbtive {@code length}, bnd relbtive {@code spbcing}.
+     * If the specified {@code pbint} is {@code null},
      * the component's foreground color will be used to render the border.
      *
-     * @param paint      the {@link Paint} object used to generate a color
-     * @param thickness  the width of a dash line
-     * @param length     the relative length of a dash line
-     * @param spacing    the relative spacing between dash lines
-     * @param rounded    whether or not line ends should be round
+     * @pbrbm pbint      the {@link Pbint} object used to generbte b color
+     * @pbrbm thickness  the width of b dbsh line
+     * @pbrbm length     the relbtive length of b dbsh line
+     * @pbrbm spbcing    the relbtive spbcing between dbsh lines
+     * @pbrbm rounded    whether or not line ends should be round
      * @return the {@code Border} object
      *
-     * @throws IllegalArgumentException if the specified {@code thickness} is less than {@code 1}, or
-     *                                  if the specified {@code length} is less than {@code 1}, or
-     *                                  if the specified {@code spacing} is less than {@code 0}
+     * @throws IllegblArgumentException if the specified {@code thickness} is less thbn {@code 1}, or
+     *                                  if the specified {@code length} is less thbn {@code 1}, or
+     *                                  if the specified {@code spbcing} is less thbn {@code 0}
      * @since 1.7
      */
-    public static Border createDashedBorder(Paint paint, float thickness, float length, float spacing, boolean rounded) {
-        boolean shared = !rounded && (paint == null) && (thickness == 1.0f) && (length == 1.0f) && (spacing == 1.0f);
-        if (shared && (sharedDashedBorder != null)) {
-            return sharedDashedBorder;
+    public stbtic Border crebteDbshedBorder(Pbint pbint, flobt thickness, flobt length, flobt spbcing, boolebn rounded) {
+        boolebn shbred = !rounded && (pbint == null) && (thickness == 1.0f) && (length == 1.0f) && (spbcing == 1.0f);
+        if (shbred && (shbredDbshedBorder != null)) {
+            return shbredDbshedBorder;
         }
         if (thickness < 1.0f) {
-            throw new IllegalArgumentException("thickness is less than 1");
+            throw new IllegblArgumentException("thickness is less thbn 1");
         }
         if (length < 1.0f) {
-            throw new IllegalArgumentException("length is less than 1");
+            throw new IllegblArgumentException("length is less thbn 1");
         }
-        if (spacing < 0.0f) {
-            throw new IllegalArgumentException("spacing is less than 0");
+        if (spbcing < 0.0f) {
+            throw new IllegblArgumentException("spbcing is less thbn 0");
         }
-        int cap = rounded ? BasicStroke.CAP_ROUND : BasicStroke.CAP_SQUARE;
-        int join = rounded ? BasicStroke.JOIN_ROUND : BasicStroke.JOIN_MITER;
-        float[] array = { thickness * (length - 1.0f), thickness * (spacing + 1.0f) };
-        Border border = createStrokeBorder(new BasicStroke(thickness, cap, join, thickness * 2.0f, array, 0.0f), paint);
-        if (shared) {
-            sharedDashedBorder = border;
+        int cbp = rounded ? BbsicStroke.CAP_ROUND : BbsicStroke.CAP_SQUARE;
+        int join = rounded ? BbsicStroke.JOIN_ROUND : BbsicStroke.JOIN_MITER;
+        flobt[] brrby = { thickness * (length - 1.0f), thickness * (spbcing + 1.0f) };
+        Border border = crebteStrokeBorder(new BbsicStroke(thickness, cbp, join, thickness * 2.0f, brrby, 0.0f), pbint);
+        if (shbred) {
+            shbredDbshedBorder = border;
         }
         return border;
     }

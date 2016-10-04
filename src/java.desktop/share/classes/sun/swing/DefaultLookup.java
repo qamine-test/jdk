@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.Color;
-import java.awt.Insets;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.ComponentUI;
-import sun.awt.AppContext;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insets;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.ComponentUI;
+import sun.bwt.AppContext;
 
 /**
- * DefaultLookup provides a way to customize the lookup done by the
- * UIManager. The default implementation of DefaultLookup forwards
- * the call to the UIManager.
+ * DefbultLookup provides b wby to customize the lookup done by the
+ * UIMbnbger. The defbult implementbtion of DefbultLookup forwbrds
+ * the cbll to the UIMbnbger.
  * <p>
- * <b>WARNING:</b> While this class is public, it should not be treated as
- * public API and its API may change in incompatable ways between dot dot
- * releases and even patch releases. You should not rely on this class even
+ * <b>WARNING:</b> While this clbss is public, it should not be trebted bs
+ * public API bnd its API mby chbnge in incompbtbble wbys between dot dot
+ * relebses bnd even pbtch relebses. You should not rely on this clbss even
  * existing.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class DefaultLookup {
+public clbss DefbultLookup {
     /**
-     * Key used to store DefaultLookup for AppContext.
+     * Key used to store DefbultLookup for AppContext.
      */
-    private static final Object DEFAULT_LOOKUP_KEY = new
-                                        StringBuffer("DefaultLookup");
+    privbte stbtic finbl Object DEFAULT_LOOKUP_KEY = new
+                                        StringBuffer("DefbultLookup");
     /**
-     * Thread that last asked for a default.
+     * Threbd thbt lbst bsked for b defbult.
      */
-    private static Thread currentDefaultThread;
+    privbte stbtic Threbd currentDefbultThrebd;
     /**
-     * DefaultLookup for last thread.
+     * DefbultLookup for lbst threbd.
      */
-    private static DefaultLookup currentDefaultLookup;
+    privbte stbtic DefbultLookup currentDefbultLookup;
 
     /**
-     * If true, a custom DefaultLookup has been set.
+     * If true, b custom DefbultLookup hbs been set.
      */
-    private static boolean isLookupSet;
+    privbte stbtic boolebn isLookupSet;
 
 
     /**
-     * Sets the DefaultLookup instance to use for the current
-     * <code>AppContext</code>. Null implies the UIManager should be
+     * Sets the DefbultLookup instbnce to use for the current
+     * <code>AppContext</code>. Null implies the UIMbnbger should be
      * used.
      */
-    public static void setDefaultLookup(DefaultLookup lookup) {
-        synchronized(DefaultLookup.class) {
+    public stbtic void setDefbultLookup(DefbultLookup lookup) {
+        synchronized(DefbultLookup.clbss) {
             if (!isLookupSet && lookup == null) {
-                // Null was passed in, and no one has invoked setDefaultLookup
-                // with a non-null value, we don't need to do anything.
+                // Null wbs pbssed in, bnd no one hbs invoked setDefbultLookup
+                // with b non-null vblue, we don't need to do bnything.
                 return;
             }
             else if (lookup == null) {
-                // null was passed in, but someone has invoked setDefaultLookup
-                // with a non-null value, use an instance of DefautLookup
-                // which will fallback to UIManager.
-                lookup = new DefaultLookup();
+                // null wbs pbssed in, but someone hbs invoked setDefbultLookup
+                // with b non-null vblue, use bn instbnce of DefbutLookup
+                // which will fbllbbck to UIMbnbger.
+                lookup = new DefbultLookup();
             }
             isLookupSet = true;
             AppContext.getAppContext().put(DEFAULT_LOOKUP_KEY, lookup);
-            currentDefaultThread = Thread.currentThread();
-            currentDefaultLookup = lookup;
+            currentDefbultThrebd = Threbd.currentThrebd();
+            currentDefbultLookup = lookup;
         }
     }
 
-    public static Object get(JComponent c, ComponentUI ui, String key) {
-        boolean lookupSet;
-        synchronized(DefaultLookup.class) {
+    public stbtic Object get(JComponent c, ComponentUI ui, String key) {
+        boolebn lookupSet;
+        synchronized(DefbultLookup.clbss) {
             lookupSet = isLookupSet;
         }
         if (!lookupSet) {
-            // No one has set a valid DefaultLookup, use UIManager.
-            return UIManager.get(key, c.getLocale());
+            // No one hbs set b vblid DefbultLookup, use UIMbnbger.
+            return UIMbnbger.get(key, c.getLocble());
         }
-        Thread thisThread = Thread.currentThread();
-        DefaultLookup lookup;
-        synchronized(DefaultLookup.class) {
-            // See if we've already cached the DefaultLookup for this thread,
-            // and use it if we have.
-            if (thisThread == currentDefaultThread) {
-                // It is cached, use it.
-                lookup = currentDefaultLookup;
+        Threbd thisThrebd = Threbd.currentThrebd();
+        DefbultLookup lookup;
+        synchronized(DefbultLookup.clbss) {
+            // See if we've blrebdy cbched the DefbultLookup for this threbd,
+            // bnd use it if we hbve.
+            if (thisThrebd == currentDefbultThrebd) {
+                // It is cbched, use it.
+                lookup = currentDefbultLookup;
             }
             else {
-                // Not cached, get the DefaultLookup to use from the AppContext
-                lookup = (DefaultLookup)AppContext.getAppContext().get(
+                // Not cbched, get the DefbultLookup to use from the AppContext
+                lookup = (DefbultLookup)AppContext.getAppContext().get(
                                                    DEFAULT_LOOKUP_KEY);
                 if (lookup == null) {
-                    // Fallback to DefaultLookup, which will redirect to the
-                    // UIManager.
-                    lookup = new DefaultLookup();
+                    // Fbllbbck to DefbultLookup, which will redirect to the
+                    // UIMbnbger.
+                    lookup = new DefbultLookup();
                     AppContext.getAppContext().put(DEFAULT_LOOKUP_KEY, lookup);
                 }
-                // Cache the values to make the next lookup easier.
-                currentDefaultThread = thisThread;
-                currentDefaultLookup = lookup;
+                // Cbche the vblues to mbke the next lookup ebsier.
+                currentDefbultThrebd = thisThrebd;
+                currentDefbultLookup = lookup;
             }
         }
-        return lookup.getDefault(c, ui, key);
+        return lookup.getDefbult(c, ui, key);
     }
 
     //
-    // The following are convenience method that all use getDefault.
+    // The following bre convenience method thbt bll use getDefbult.
     //
-    public static int getInt(JComponent c, ComponentUI ui, String key,
-                             int defaultValue) {
-        Object iValue = get(c, ui, key);
+    public stbtic int getInt(JComponent c, ComponentUI ui, String key,
+                             int defbultVblue) {
+        Object iVblue = get(c, ui, key);
 
-        if (iValue == null || !(iValue instanceof Number)) {
-            return defaultValue;
+        if (iVblue == null || !(iVblue instbnceof Number)) {
+            return defbultVblue;
         }
-        return ((Number)iValue).intValue();
+        return ((Number)iVblue).intVblue();
     }
 
-    public static int getInt(JComponent c, ComponentUI ui, String key) {
+    public stbtic int getInt(JComponent c, ComponentUI ui, String key) {
         return getInt(c, ui, key, -1);
     }
 
-    public static Insets getInsets(JComponent c, ComponentUI ui, String key,
-                                   Insets defaultValue) {
-        Object iValue = get(c, ui, key);
+    public stbtic Insets getInsets(JComponent c, ComponentUI ui, String key,
+                                   Insets defbultVblue) {
+        Object iVblue = get(c, ui, key);
 
-        if (iValue == null || !(iValue instanceof Insets)) {
-            return defaultValue;
+        if (iVblue == null || !(iVblue instbnceof Insets)) {
+            return defbultVblue;
         }
-        return (Insets)iValue;
+        return (Insets)iVblue;
     }
 
-    public static Insets getInsets(JComponent c, ComponentUI ui, String key) {
+    public stbtic Insets getInsets(JComponent c, ComponentUI ui, String key) {
         return getInsets(c, ui, key, null);
     }
 
-    public static boolean getBoolean(JComponent c, ComponentUI ui, String key,
-                                     boolean defaultValue) {
-        Object iValue = get(c, ui, key);
+    public stbtic boolebn getBoolebn(JComponent c, ComponentUI ui, String key,
+                                     boolebn defbultVblue) {
+        Object iVblue = get(c, ui, key);
 
-        if (iValue == null || !(iValue instanceof Boolean)) {
-            return defaultValue;
+        if (iVblue == null || !(iVblue instbnceof Boolebn)) {
+            return defbultVblue;
         }
-        return ((Boolean)iValue).booleanValue();
+        return ((Boolebn)iVblue).boolebnVblue();
     }
 
-    public static boolean getBoolean(JComponent c, ComponentUI ui, String key) {
-        return getBoolean(c, ui, key, false);
+    public stbtic boolebn getBoolebn(JComponent c, ComponentUI ui, String key) {
+        return getBoolebn(c, ui, key, fblse);
     }
 
-    public static Color getColor(JComponent c, ComponentUI ui, String key,
-                                 Color defaultValue) {
-        Object iValue = get(c, ui, key);
+    public stbtic Color getColor(JComponent c, ComponentUI ui, String key,
+                                 Color defbultVblue) {
+        Object iVblue = get(c, ui, key);
 
-        if (iValue == null || !(iValue instanceof Color)) {
-            return defaultValue;
+        if (iVblue == null || !(iVblue instbnceof Color)) {
+            return defbultVblue;
         }
-        return (Color)iValue;
+        return (Color)iVblue;
     }
 
-    public static Color getColor(JComponent c, ComponentUI ui, String key) {
+    public stbtic Color getColor(JComponent c, ComponentUI ui, String key) {
         return getColor(c, ui, key, null);
     }
 
-    public static Icon getIcon(JComponent c, ComponentUI ui, String key,
-            Icon defaultValue) {
-        Object iValue = get(c, ui, key);
-        if (iValue == null || !(iValue instanceof Icon)) {
-            return defaultValue;
+    public stbtic Icon getIcon(JComponent c, ComponentUI ui, String key,
+            Icon defbultVblue) {
+        Object iVblue = get(c, ui, key);
+        if (iVblue == null || !(iVblue instbnceof Icon)) {
+            return defbultVblue;
         }
-        return (Icon)iValue;
+        return (Icon)iVblue;
     }
 
-    public static Icon getIcon(JComponent c, ComponentUI ui, String key) {
+    public stbtic Icon getIcon(JComponent c, ComponentUI ui, String key) {
         return getIcon(c, ui, key, null);
     }
 
-    public static Border getBorder(JComponent c, ComponentUI ui, String key,
-            Border defaultValue) {
-        Object iValue = get(c, ui, key);
-        if (iValue == null || !(iValue instanceof Border)) {
-            return defaultValue;
+    public stbtic Border getBorder(JComponent c, ComponentUI ui, String key,
+            Border defbultVblue) {
+        Object iVblue = get(c, ui, key);
+        if (iVblue == null || !(iVblue instbnceof Border)) {
+            return defbultVblue;
         }
-        return (Border)iValue;
+        return (Border)iVblue;
     }
 
-    public static Border getBorder(JComponent c, ComponentUI ui, String key) {
+    public stbtic Border getBorder(JComponent c, ComponentUI ui, String key) {
         return getBorder(c, ui, key, null);
     }
 
-    public Object getDefault(JComponent c, ComponentUI ui, String key) {
-        // basic
-        return UIManager.get(key, c.getLocale());
+    public Object getDefbult(JComponent c, ComponentUI ui, String key) {
+        // bbsic
+        return UIMbnbger.get(key, c.getLocble());
     }
 }

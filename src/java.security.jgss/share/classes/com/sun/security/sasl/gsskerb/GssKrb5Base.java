@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.security.sasl.gsskerb;
+pbckbge com.sun.security.sbsl.gsskerb;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.AbstractSaslImpl;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Level;
+import jbvbx.security.sbsl.*;
+import com.sun.security.sbsl.util.AbstrbctSbslImpl;
 import org.ietf.jgss.*;
 import com.sun.security.jgss.ExtendedGSSContext;
 import com.sun.security.jgss.InquireType;
 
-abstract class GssKrb5Base extends AbstractSaslImpl {
+bbstrbct clbss GssKrb5Bbse extends AbstrbctSbslImpl {
 
-    private static final String KRB5_OID_STR = "1.2.840.113554.1.2.2";
-    protected static Oid KRB5_OID;
-    protected static final byte[] EMPTY = new byte[0];
+    privbte stbtic finbl String KRB5_OID_STR = "1.2.840.113554.1.2.2";
+    protected stbtic Oid KRB5_OID;
+    protected stbtic finbl byte[] EMPTY = new byte[0];
 
-    static {
+    stbtic {
         try {
             KRB5_OID = new Oid(KRB5_OID_STR);
-        } catch (GSSException ignore) {}
+        } cbtch (GSSException ignore) {}
     }
 
     protected GSSContext secCtx = null;
-    protected static final int JGSS_QOP = 0;    // unrelated to SASL QOP mask
+    protected stbtic finbl int JGSS_QOP = 0;    // unrelbted to SASL QOP mbsk
 
-    protected GssKrb5Base(Map<String, ?> props, String className)
-        throws SaslException {
-        super(props, className);
+    protected GssKrb5Bbse(Mbp<String, ?> props, String clbssNbme)
+        throws SbslException {
+        super(props, clbssNbme);
     }
 
     /**
-     * Retrieves this mechanism's name.
+     * Retrieves this mechbnism's nbme.
      *
      * @return  The string "GSSAPI".
      */
-    public String getMechanismName() {
+    public String getMechbnismNbme() {
         return "GSSAPI";
     }
 
     @Override
-    public Object getNegotiatedProperty(String propName) {
+    public Object getNegotibtedProperty(String propNbme) {
         if (!completed) {
-            throw new IllegalStateException("Authentication incomplete");
+            throw new IllegblStbteException("Authenticbtion incomplete");
         }
         String xprefix = "com.sun.security.jgss.inquiretype.";
-        if (propName.startsWith(xprefix)) {
-            String type = propName.substring(xprefix.length());
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.logp(Level.FINE, "GssKrb5Base",
-                        "getNegotiatedProperty", propName);
+        if (propNbme.stbrtsWith(xprefix)) {
+            String type = propNbme.substring(xprefix.length());
+            if (logger.isLoggbble(Level.FINEST)) {
+                logger.logp(Level.FINE, "GssKrb5Bbse",
+                        "getNegotibtedProperty", propNbme);
             }
-            for (InquireType t: InquireType.values()) {
-                if (t.name().toLowerCase(Locale.US).equals(type)) {
+            for (InquireType t: InquireType.vblues()) {
+                if (t.nbme().toLowerCbse(Locble.US).equbls(type)) {
                     try {
                         return ((ExtendedGSSContext)secCtx).inquireSecContext(t);
-                    } catch (GSSException e) {
-                        if (logger.isLoggable(Level.FINEST)) {
+                    } cbtch (GSSException e) {
+                        if (logger.isLoggbble(Level.FINEST)) {
                             logger.log(Level.WARNING, "inquireSecContext error", e);
                         }
                         return null;
@@ -89,76 +89,76 @@ abstract class GssKrb5Base extends AbstractSaslImpl {
                 }
             }
             // No such InquireType. Although not likely to be defined
-            // as a property in a parent class, still try it.
+            // bs b property in b pbrent clbss, still try it.
         }
-        return super.getNegotiatedProperty(propName);
+        return super.getNegotibtedProperty(propNbme);
     }
 
-    public byte[] unwrap(byte[] incoming, int start, int len)
-        throws SaslException {
+    public byte[] unwrbp(byte[] incoming, int stbrt, int len)
+        throws SbslException {
         if (!completed) {
-            throw new IllegalStateException("GSSAPI authentication not completed");
+            throw new IllegblStbteException("GSSAPI buthenticbtion not completed");
         }
 
-        // integrity will be true if either privacy or integrity negotiated
+        // integrity will be true if either privbcy or integrity negotibted
         if (!integrity) {
-            throw new IllegalStateException("No security layer negotiated");
+            throw new IllegblStbteException("No security lbyer negotibted");
         }
 
         try {
-            MessageProp msgProp = new MessageProp(JGSS_QOP, privacy);
-            byte[] answer = secCtx.unwrap(incoming, start, len, msgProp);
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(myClassName, "KRB501:Unwrap", "incoming: ",
-                    incoming, start, len);
-                traceOutput(myClassName, "KRB502:Unwrap", "unwrapped: ",
-                    answer, 0, answer.length);
+            MessbgeProp msgProp = new MessbgeProp(JGSS_QOP, privbcy);
+            byte[] bnswer = secCtx.unwrbp(incoming, stbrt, len, msgProp);
+            if (logger.isLoggbble(Level.FINEST)) {
+                trbceOutput(myClbssNbme, "KRB501:Unwrbp", "incoming: ",
+                    incoming, stbrt, len);
+                trbceOutput(myClbssNbme, "KRB502:Unwrbp", "unwrbpped: ",
+                    bnswer, 0, bnswer.length);
             }
-            return answer;
-        } catch (GSSException e) {
-            throw new SaslException("Problems unwrapping SASL buffer", e);
+            return bnswer;
+        } cbtch (GSSException e) {
+            throw new SbslException("Problems unwrbpping SASL buffer", e);
         }
     }
 
-    public byte[] wrap(byte[] outgoing, int start, int len) throws SaslException {
+    public byte[] wrbp(byte[] outgoing, int stbrt, int len) throws SbslException {
         if (!completed) {
-            throw new IllegalStateException("GSSAPI authentication not completed");
+            throw new IllegblStbteException("GSSAPI buthenticbtion not completed");
         }
 
-        // integrity will be true if either privacy or integrity negotiated
+        // integrity will be true if either privbcy or integrity negotibted
         if (!integrity) {
-            throw new IllegalStateException("No security layer negotiated");
+            throw new IllegblStbteException("No security lbyer negotibted");
         }
 
-        // Generate GSS token
+        // Generbte GSS token
         try {
-            MessageProp msgProp = new MessageProp(JGSS_QOP, privacy);
-            byte[] answer = secCtx.wrap(outgoing, start, len, msgProp);
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(myClassName, "KRB503:Wrap", "outgoing: ",
-                    outgoing, start, len);
-                traceOutput(myClassName, "KRB504:Wrap", "wrapped: ",
-                    answer, 0, answer.length);
+            MessbgeProp msgProp = new MessbgeProp(JGSS_QOP, privbcy);
+            byte[] bnswer = secCtx.wrbp(outgoing, stbrt, len, msgProp);
+            if (logger.isLoggbble(Level.FINEST)) {
+                trbceOutput(myClbssNbme, "KRB503:Wrbp", "outgoing: ",
+                    outgoing, stbrt, len);
+                trbceOutput(myClbssNbme, "KRB504:Wrbp", "wrbpped: ",
+                    bnswer, 0, bnswer.length);
             }
-            return answer;
+            return bnswer;
 
-        } catch (GSSException e) {
-            throw new SaslException("Problem performing GSS wrap", e);
+        } cbtch (GSSException e) {
+            throw new SbslException("Problem performing GSS wrbp", e);
         }
     }
 
-    public void dispose() throws SaslException {
+    public void dispose() throws SbslException {
         if (secCtx != null) {
             try {
                 secCtx.dispose();
-            } catch (GSSException e) {
-                throw new SaslException("Problem disposing GSS context", e);
+            } cbtch (GSSException e) {
+                throw new SbslException("Problem disposing GSS context", e);
             }
             secCtx = null;
         }
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         dispose();
     }
 }
